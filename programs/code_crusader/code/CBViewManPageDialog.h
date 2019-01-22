@@ -31,7 +31,7 @@ public:
 
 	// called by CBManPageDocument
 
-	void	AddToHistory(const JString& pageName, const JUtf8Byte pageIndex,
+	void	AddToHistory(const JString& pageName, const JString& pageIndex,
 						 const JBoolean apropos);
 
 protected:
@@ -51,8 +51,8 @@ private:
 	JXTextCheckbox*      itsAproposCheckbox;
 	JXTextButton*        itsHelpButton;
 	JXStringHistoryMenu* itsFnHistoryMenu;
-	JXCharInput*         itsManIndex;
 	JXTextCheckbox*      itsStayOpenCB;
+	JXInputField*        itsManIndex;
 
 // end JXLayout
 

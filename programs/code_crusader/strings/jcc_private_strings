@@ -783,3 +783,34 @@ SaveMacroListPrompt::CBMacroTable	"Save macros as:"
 WindowTitle::CBSubprojectConfigDialog		"Sub-project Configuration"
 ChooseProjectFile::CBSubprojectConfigDialog	"Select the project file that builds the library."
 NotProjectFile::CBSubprojectConfigDialog	"That is not a project file."
+
+# CBFileListDirector
+
+WindowTitleSuffix::CBFileListDirector	" Files"
+ListMenuTitle::CBFileListDirector		"List"
+
+# CBCtagsUser
+
+FunctionsMenuTitle::CBCtagsUser		"Functions"
+IdsMenuTitle::CBCtagsUser			"Ids"
+LabelsMenuTitle::CBCtagsUser		"Labels"
+ParagraphsMenuTitle::CBCtagsUser	"Paragraphs"
+SubroutinesMenuTitle::CBCtagsUser	"Subroutines"
+ProceduresMenuTitle::CBCtagsUser	"Procedures"
+TargetsMenuTitle::CBCtagsUser		"Targets"
+StatesMenuTitle::CBCtagsUser		"States"
+SymbolsMenuTitle::CBCtagsUser		"Symbols"
+FragmentsMenuTitle::CBCtagsUser		"Fragments"
+ObjectsMenuTitle::CBCtagsUser		"Objects"
+FeaturesMenuTitle::CBCtagsUser		"Features"
+
+ctagsFailure::CBCtagsUser
+"ctags is not responding correctly, so some features will not work."
+
+# CBFindFileDialog
+
+WindowTitle::CBFindFileDialog	"Find file"
+
+# CBViewManPageDialog
+
+WindowTitle::CBViewManPageDialog	"Man pages"

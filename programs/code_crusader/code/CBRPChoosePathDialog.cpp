@@ -33,10 +33,10 @@ CBRPChoosePathDialog::Create
 	(
 	JXDirector*						supervisor,
 	JDirInfo*						dirInfo,
-	const JCharacter*				fileFilter,
+	const JString&					fileFilter,
 	const JBoolean					selectOnlyWritable,
 	const CBRelPathCSF::PathType	pathType,
-	const JCharacter*				message
+	const JString&					message
 	)
 {
 	CBRPChoosePathDialog* dlog =
@@ -53,10 +53,10 @@ CBRPChoosePathDialog::Create
 
 CBRPChoosePathDialog::CBRPChoosePathDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		selectOnlyWritable
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	selectOnlyWritable
 	)
 	:
 	JXChoosePathDialog(supervisor, dirInfo, fileFilter, selectOnlyWritable)
@@ -93,7 +93,7 @@ void
 CBRPChoosePathDialog::BuildWindow
 	(
 	const CBRelPathCSF::PathType	pathType,
-	const JCharacter*				message
+	const JString&					message
 	)
 {
 // begin JXLayout
@@ -161,12 +161,12 @@ CBRPChoosePathDialog::BuildWindow
 	explanText->SetToLabel();
 
 	JXPathHistoryMenu* pathHistory =
-		jnew JXPathHistoryMenu(1, "", window,
+		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != nullptr );
 
 	JXStringHistoryMenu* filterHistory =
-		jnew JXStringHistoryMenu(1, "", window,
+		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != nullptr );
 
@@ -201,7 +201,7 @@ CBRPChoosePathDialog::BuildWindow
 	assert( homeDirRB != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu("/", window,
+		jnew JXCurrentPathMenu(JString("/", kJFalse), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 

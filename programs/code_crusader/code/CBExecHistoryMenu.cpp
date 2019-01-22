@@ -23,7 +23,7 @@
 CBExecHistoryMenu::CBExecHistoryMenu
 	(
 	const JSize			historyLength,
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,

@@ -2536,7 +2536,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsFileHistoryMenu
 callback: 
-argument: kHistoryLength, ""
+argument: kHistoryLength, JString::empty
 
 --------------------
 class: FL_CHECKBUTTON
@@ -2740,25 +2740,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsFnHistoryMenu
 callback: 
-argument: kHistoryLength, ""
-
---------------------
-class: FL_BOX
-type: FL_NO_BOX
-box: 110 80 30 20
-boxtype: FL_NO_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: JXCharInput
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
-name: itsManIndex
-callback: 
-argument: 
+argument: kHistoryLength, JString::empty
 
 --------------------
 class: FL_CHECKBUTTON
@@ -2775,6 +2757,24 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsStayOpenCB
+callback: 
+argument: 
+
+--------------------
+class: FL_INPUT
+type: FL_NORMAL_INPUT
+box: 110 80 50 20
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: itsManIndex
 callback: 
 argument: 
 
@@ -6532,7 +6532,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_SouthEast FL_NoGravity
 name: (pathHistory)
 callback: 
-argument: 1, ""
+argument: 1, JString::empty
 
 --------------------
 class: FL_BOX
@@ -6550,7 +6550,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_SouthEast FL_NoGravity
 name: (filterHistory)
 callback: 
-argument: 1, ""
+argument: 1, JString::empty
 
 --------------------
 class: FL_BUTTON
@@ -6676,7 +6676,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_South FL_NoGravity
 name: (currPathMenu)
 callback: 
-argument: "/"
+argument: JString("/", kJFalse)
 
 --------------------
 class: FL_BUTTON
@@ -6934,7 +6934,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_SouthEast FL_NoGravity
 name: (pathHistory)
 callback: 
-argument: 1, ""
+argument: 1, JString::empty
 
 --------------------
 class: FL_BOX
@@ -6952,7 +6952,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_SouthEast FL_NoGravity
 name: (filterHistory)
 callback: 
-argument: 1, ""
+argument: 1, JString::empty
 
 --------------------
 class: FL_BUTTON
@@ -7078,7 +7078,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_South FL_NoGravity
 name: (currPathMenu)
 callback: 
-argument: "/"
+argument: JString("/", kJFalse)
 
 --------------------
 class: FL_BUTTON

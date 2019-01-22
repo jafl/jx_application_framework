@@ -20,7 +20,7 @@
 #include <strstream>
 #include <jAssert.h>
 
-static const JCharacter* kCtagsArgs =
+static const JUtf8Byte* kCtagsArgs =
 	"--format=2 --excmd=number --sort=no --java-kinds=me";
 
 /******************************************************************************
@@ -148,8 +148,8 @@ CBJavaTree::UpdateFinished
 void
 CBJavaTree::ParseFile
 	(
-	const JCharacter*	fileName,
-	const JFAID_t		id
+	const JString&	fileName,
+	const JFAID_t	id
 	)
 {
 	if (itsClassNameLexer == nullptr)

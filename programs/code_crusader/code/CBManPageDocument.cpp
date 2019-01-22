@@ -13,6 +13,7 @@
 #include "cbGlobals.h"
 #include <JXWindow.h>
 #include <JProcess.h>
+#include <jTextUtil.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
 #include <JPtrArray-JString.h>
@@ -35,8 +36,8 @@ JBoolean
 CBManPageDocument::Create
 	(
 	CBManPageDocument**	returnDoc,
-	const JCharacter*	origPageName,
-	const JCharacter	pageIndex,
+	const JString&		origPageName,
+	const JString&		pageIndex,
 	const JBoolean		apropos
 	)
 {
@@ -123,8 +124,8 @@ CBManPageDocument::Create
 
 CBManPageDocument::CBManPageDocument
 	(
-	const JCharacter*	pageName,
-	const JCharacter	pageIndex,
+	const JString&		pageName,
+	const JString&		pageIndex,
 	const JBoolean		apropos,
 	CBManPageDocument**	trueDoc
 	)
@@ -163,16 +164,9 @@ CBManPageDocument::CBManPageDocument
 			JString tempName;
 			if (JConvertToStream(fromFD, &input, &tempName))
 				{
-				if (GetTextEditor()->ReadUNIXManOutput(input, kJTrue))
-					{
-					p->WaitUntilFinished();
-					success = p->SuccessfulFinish();
-					}
-				else
-					{
-					p->Kill();
-					success = kJTrue;	// we started reading, but user cancelled
-					}
+				JReadUNIXManOutput(input, GetTextEditor()->GetText());
+				p->WaitUntilFinished();
+				success = p->SuccessfulFinish();
 
 				input.close();
 				JRemoveFile(tempName);
@@ -237,7 +231,7 @@ CBManPageDocument::CBManPageDocument
 			jdelete p;
 //			if (success)
 //				{
-				GetTextEditor()->SetText(text);
+				GetTextEditor()->GetText()->SetText(text);
 //				}
 /*			else
 				{
@@ -324,19 +318,18 @@ CBManPageDocument::RemoveFromManPageList
 JString
 CBManPageDocument::GetCmd1
 	(
-	const JCharacter*	pageName,
-	const JCharacter	pageIndex
+	const JString&	pageName,
+	const JString&	pageIndex
 	)
 {
-	JString cmd = "man ";
-	if (pageIndex != ' ')
+	JString cmd("man ");
+	if (!pageIndex.IsEmpty())
 		{
 		#ifdef _J_MAN_SECTION_VIA_DASH_S
 		cmd += "-s ";
 		#endif
 
-		const JCharacter pageIndexStr[] = { pageIndex, ' ', '\0' };
-		cmd += pageIndexStr;
+		cmd += JPrepArgForExec(pageIndex);
 		}
 	cmd += JPrepArgForExec(pageName);
 	return cmd;
@@ -350,10 +343,10 @@ CBManPageDocument::GetCmd1
 JString
 CBManPageDocument::GetCmd2
 	(
-	const JCharacter* pageName
+	const JString& pageName
 	)
 {
-	JString cmd = "man -k ";
+	JString cmd("man -k ");
 	cmd += JPrepArgForExec(pageName);
 	return cmd;
 }

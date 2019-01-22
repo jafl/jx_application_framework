@@ -259,7 +259,7 @@ public:
 	static JBoolean	IsParsed(const CBTextFileType type);
 	static JBoolean	IsParsedForFunctionMenu(const CBTextFileType type);
 
-	static const JUtf8Byte*	GetFunctionMenuTitle(const CBTextFileType type);
+	static const JString&	GetFunctionMenuTitle(const CBTextFileType type);
 
 	// Type groups
 

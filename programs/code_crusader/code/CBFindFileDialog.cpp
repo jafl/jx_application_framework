@@ -110,7 +110,7 @@ CBFindFileDialog::BuildWindow()
 	nameLabel->SetToLabel();
 
 	itsFileHistoryMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, "", window,
+		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 240,40, 30,20);
 	assert( itsFileHistoryMenu != nullptr );
 
@@ -127,7 +127,7 @@ CBFindFileDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Find file");
+	window->SetTitle(JGetString("WindowTitle::CBFindFileDialog"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
@@ -137,9 +137,8 @@ CBFindFileDialog::BuildWindow()
 	ListenTo(itsCloseButton);
 	ListenTo(itsFileHistoryMenu);
 
-	itsFileName->ShouldBroadcastAllTextChanged(kJTrue);
-	itsFileName->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsFileName);
+	itsFileName->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	ListenTo(itsFileName->GetText());
 
 	itsIgnoreCaseCB->SetState(kJTrue);
 	itsStayOpenCB->SetState(kJTrue);
@@ -147,7 +146,7 @@ CBFindFileDialog::BuildWindow()
 	// create hidden JXDocument so Meta-# shortcuts work
 
 	JXDocumentMenu* fileListMenu =
-		jnew JXDocumentMenu("", window,
+		jnew JXDocumentMenu(JString::empty, window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != nullptr );
 
@@ -162,7 +161,7 @@ CBFindFileDialog::BuildWindow()
 void
 CBFindFileDialog::UpdateDisplay()
 {
-	if (itsFileName->IsEmpty())
+	if (itsFileName->GetText()->IsEmpty())
 		{
 		itsFindButton->Deactivate();
 		}
@@ -203,8 +202,8 @@ CBFindFileDialog::Receive
 		}
 
 	else if (sender == itsFileName &&
-			 (message.Is(JTextEditor::kTextSet) ||
-			  message.Is(JTextEditor::kTextChanged)))
+			 (message.Is(JStyledText::kTextSet) ||
+			  message.Is(JStyledText::kTextChanged)))
 		{
 		UpdateDisplay();
 		}
@@ -223,12 +222,12 @@ CBFindFileDialog::Receive
 JBoolean
 CBFindFileDialog::FindFile()
 {
-	JString fileName = itsFileName->GetText();
+	JString fileName = itsFileName->GetText()->GetText();
 	fileName.TrimWhitespace();
-	itsFileName->SetText(fileName);
+	itsFileName->GetText()->SetText(fileName);
 
 	JIndexRange lineRange;
-	JExtractFileAndLine(itsFileName->GetText(), &fileName,
+	JExtractFileAndLine(itsFileName->GetText()->GetText(), &fileName,
 						&(lineRange.first), &(lineRange.last));
 	if (itsFileName->InputValid() &&
 		(CBGetApplication())->FindAndViewFile(fileName, lineRange,
@@ -268,13 +267,13 @@ CBFindFileDialog::ReadPrefs
 	itsFileHistoryMenu->ReadSetup(input);
 
 	JBoolean ignoreCase;
-	input >> ignoreCase;
+	input >> JBoolFromString(ignoreCase);
 	itsIgnoreCaseCB->SetState(ignoreCase);
 
 	if (vers >= 1)
 		{
 		JBoolean stayOpen;
-		input >> stayOpen;
+		input >> JBoolFromString(stayOpen);
 		itsStayOpenCB->SetState(stayOpen);
 		}
 }
@@ -299,7 +298,7 @@ CBFindFileDialog::WritePrefs
 	output << ' ';
 	itsFileHistoryMenu->WriteSetup(output);
 
-	output << ' ' << itsIgnoreCaseCB->IsChecked();
-	output << ' ' << itsStayOpenCB->IsChecked();
+	output << ' ' << JBoolToString(itsIgnoreCaseCB->IsChecked())
+				  << JBoolToString(itsStayOpenCB->IsChecked());
 	output << ' ';
 }

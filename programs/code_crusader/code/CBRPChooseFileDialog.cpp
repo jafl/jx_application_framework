@@ -32,11 +32,11 @@ CBRPChooseFileDialog::Create
 	(
 	JXDirector*						supervisor,
 	JDirInfo*						dirInfo,
-	const JCharacter*				fileFilter,
+	const JString&					fileFilter,
 	const JBoolean					allowSelectMultiple,
 	const CBRelPathCSF::PathType	pathType,
-	const JCharacter*				origName,
-	const JCharacter*				message
+	const JString&					origName,
+	const JString&					message
 	)
 {
 	CBRPChooseFileDialog* dlog =
@@ -53,10 +53,10 @@ CBRPChooseFileDialog::Create
 
 CBRPChooseFileDialog::CBRPChooseFileDialog
 	(
-	JXDirector*			supervisor,
-	JDirInfo*			dirInfo,
-	const JCharacter*	fileFilter,
-	const JBoolean		allowSelectMultiple
+	JXDirector*		supervisor,
+	JDirInfo*		dirInfo,
+	const JString&	fileFilter,
+	const JBoolean	allowSelectMultiple
 	)
 	:
 	JXChooseFileDialog(supervisor, dirInfo, fileFilter, allowSelectMultiple)
@@ -93,8 +93,8 @@ void
 CBRPChooseFileDialog::BuildWindow
 	(
 	const CBRelPathCSF::PathType	pathType,
-	const JCharacter*				origName,
-	const JCharacter*				message
+	const JString&					origName,
+	const JString&					message
 	)
 {
 // begin JXLayout
@@ -151,12 +151,12 @@ CBRPChooseFileDialog::BuildWindow
 	assert( filterInput != nullptr );
 
 	JXPathHistoryMenu* pathHistory =
-		jnew JXPathHistoryMenu(1, "", window,
+		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != nullptr );
 
 	JXStringHistoryMenu* filterHistory =
-		jnew JXStringHistoryMenu(1, "", window,
+		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != nullptr );
 
@@ -191,7 +191,7 @@ CBRPChooseFileDialog::BuildWindow
 	assert( homeDirRB != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu("/", window,
+		jnew JXCurrentPathMenu(JString("/", kJFalse), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 

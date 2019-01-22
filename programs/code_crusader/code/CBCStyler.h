@@ -24,15 +24,15 @@ protected:
 
 	CBCStyler();
 
-	virtual void	Scan(std::istream& input, const TokenExtra& initData);
+	virtual void	Scan(std::istream& input, const TokenExtra& initData) override;
 	virtual void	PreexpandCheckRange(const JString& text,
 										const JRunArray<JFont>& styles,
-										const JIndexRange& modifiedRange,
+										const JCharacterRange& modifiedRange,
 										const JBoolean deletion,
-										JIndexRange* checkRange);
+										JCharacterRange* checkRange) override;
 
 	virtual void	UpgradeTypeList(const JFileVersion vers,
-									JArray<JFontStyle>* typeStyles);
+									JArray<JFontStyle>* typeStyles) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

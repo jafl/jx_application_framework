@@ -33,7 +33,7 @@
 
 // shared prefs
 
-static const JCharacter* kSharedPrefsFileName = ".jxcb/medic_shared_prefs";
+static const JString kSharedPrefsFileName(".jxcb/medic_shared_prefs");
 
 const JFileVersion kCurrentSharedPrefsVersion = 6;
 
@@ -71,7 +71,7 @@ JIndex i;
 
 	if (!replace && JFileExists(fileName))
 		{
-		std::ifstream input(fileName);
+		std::ifstream input(fileName.GetBytes());
 
 		JFileVersion vers;
 		input >> vers;
@@ -92,7 +92,7 @@ JIndex i;
 
 	if (JFileExists(fileName))
 		{
-		std::ifstream input(fileName);
+		std::ifstream input(fileName.GetBytes());
 		JFileVersion vers;
 		input >> vers;
 		if (vers > kCurrentSharedPrefsVersion)
@@ -101,7 +101,7 @@ JIndex i;
 			}
 		}
 
-	std::ofstream output(fileName);
+	std::ofstream output(fileName.GetBytes());
 	output << kCurrentSharedPrefsVersion;
 
 	// font
@@ -134,10 +134,9 @@ JIndex i;
 
 	output << ' ' << (long) CBPrefsManager::kColorCount;
 
-	JXColorManager* colormap = (JXGetApplication()->GetCurrentDisplay())->GetColormap();
 	for (i=1; i<=CBPrefsManager::kColorCount; i++)
 		{
-		output << ' ' << colormap->GetRGB(prefsMgr->GetColor(i));
+		output << ' ' << JColorManager::GetRGB(prefsMgr->GetColor(i));
 		}
 
 	// stylers
@@ -381,7 +380,7 @@ CBMParseEditorOptions
 
 	{
 	editorconfig_handle eh = editorconfig_handle_init();
-	if (editorconfig_parse(fullName, eh) == 0)
+	if (editorconfig_parse(fullName.GetBytes(), eh) == 0)
 		{
 		const JUtf8Byte *name, *value;
 
@@ -493,7 +492,7 @@ CBMScrollForDefinition
 	const CBLanguage	lang
 	)
 {
-	const JString& text         = te->GetText();
+	const JString& text         = te->GetText()->GetText();
 	const JIndex startIndex     = te->GetInsertionIndex();
 	const JIndex startLineIndex = te->GetLineForChar(startIndex);
 

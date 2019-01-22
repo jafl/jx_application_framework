@@ -28,10 +28,6 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kParsingFilesID = "ParsingFiles::CBFileListTable";
-
 /******************************************************************************
  Constructor
 
@@ -200,7 +196,7 @@ CBFileListTable::ScanAll
 	const JSize dirCount = dirList.GetElementCount();
 	if (dirCount > 0 || (fileTree->GetProjectRoot())->HasChildren())
 		{
-		pg.VariableLengthProcessBeginning(JGetString(kParsingFilesID), kJFalse, kJTrue);
+		pg.VariableLengthProcessBeginning(JGetString("ParsingFiles::CBFileListTable"), kJFalse, kJTrue);
 
 		JPtrArray<JString> allSuffixList(JPtrArrayT::kDeleteAll);
 		CBGetPrefsManager()->GetAllFileSuffixes(&allSuffixList);
@@ -343,7 +339,7 @@ CBFileListTable::ParseFile
 JBoolean
 CBFileListTable::AddFile
 	(
-	const JCharacter*		fullName,
+	const JString&			fullName,
 	const CBTextFileType	fileType,
 	const time_t			modTime,
 	JFAID_t*				id
@@ -417,8 +413,8 @@ CBFileListTable::GetFileName
 JBoolean
 CBFileListTable::GetFileID
 	(
-	const JCharacter*	trueName,
-	JFAID_t*			id
+	const JString&	trueName,
+	JFAID_t*		id
 	)
 	const
 {
@@ -582,10 +578,10 @@ CBFileListTable::Receive
 		const JListT::ElementMoved* info =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != nullptr );
-		itsFileInfo->MoveElementToIndexWithMsg(*info);
+		itsFileInfo->MoveElementToIndex(*info);
 		if (itsFileUsage != nullptr)
 			{
-			itsFileUsage->MoveElementToIndexWithMsg(*info);
+			itsFileUsage->MoveElementToIndex(*info);
 			}
 		}
 	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementsSwapped))
@@ -593,10 +589,10 @@ CBFileListTable::Receive
 		const JListT::ElementsSwapped* info =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != nullptr );
-		itsFileInfo->SwapElementsWithMsg(*info);
+		itsFileInfo->SwapElements(*info);
 		if (itsFileUsage != nullptr)
 			{
-			itsFileUsage->SwapElementsWithMsg(*info);
+			itsFileUsage->SwapElements(*info);
 			}
 		}
 	else if (sender == GetFullNameDataList() && message.Is(JListT::kSorted))

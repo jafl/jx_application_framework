@@ -31,16 +31,16 @@ CBCtagsUser::CtagsStatus CBCtagsUser::itsHasExuberantCtagsFlag =
 	CBCtagsUser::kUntested;
 	#endif
 
-static const JCharacter* kCheckVersionCmd = "ctags --version";
+static const JString kCheckVersionCmd("ctags --version");
 static const JRegex versionPattern =
 	"^Exuberant Ctags [^0-9]*([0-9]+)(\\.[0-9]+)(\\.[0-9]+)?(pre[0-9]+)?";
 
 static const JUInt kMinVersion[] = { 5, 8, 0, /* pre */ 0 };
 
-static const JCharacter* kBaseExecCmd =
+static const JUtf8Byte* kBaseExecCmd =
 	"ctags --filter=yes --filter-terminator=\\\f --fields=kzafimsS ";
 
-const JCharacter kDelimiter = '\f';
+const JUtf8Byte kDelimiter = '\f';
 
 // language specific information
 
@@ -48,77 +48,76 @@ struct FTInfo
 {
 	CBTextFileType		fileType;
 	CBLanguage			lang;
-	const JCharacter*	cmd;
-	const JCharacter*	fnTitle;
+	const JUtf8Byte*	cmd;
+	const JUtf8Byte*	fnTitleID;
 };
 
-static const JCharacter* kOtherLangCmd = "--languages=all";
-static const JCharacter* kDefFnTitle   = "Not parsed";
+static const JUtf8Byte* kOtherLangCmd = "--languages=all";
 
 static const FTInfo kFTInfo[] =		// index on CBTextFileType
 {
-	{ kCBUnknownFT,          kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBCSourceFT,          kCBCLang,           "--language-force=c++"        , "Functions"   },
-	{ kCBCHeaderFT,          kCBCLang,           "--language-force=c++"        , "Functions"   },
-	{ kCBOtherSourceFT,      kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBDocumentationFT,    kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBHTMLFT,             kCBHTMLLang,        "--language-force=jhtml"      , "Ids"         },
-	{ kCBEiffelFT,           kCBEiffelLang,      "--language-force=eiffel"     , "Features"    },
-	{ kCBFortranFT,          kCBFortranLang,     "--language-force=fortran"    , "Functions"   },
-	{ kCBJavaSourceFT,       kCBJavaLang,        "--language-force=java"       , "Functions"   },
-	{ kCBStaticLibraryFT,    kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBSharedLibraryFT,    kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBExecOutputFT,       kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBManPageFT,          kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBDiffOutputFT,       kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBAssemblyFT,         kCBAssemblyLang,    "--language-force=asm"        , "Labels"      },
-	{ kCBPascalFT,           kCBPascalLang,      "--language-force=pascal"     , "Functions"   },
-	{ kCBRatforFT,           kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBExternalFT,         kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBBinaryFT,           kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBModula2ModuleFT,    kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBModula2InterfaceFT, kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBModula3ModuleFT,    kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBModula3InterfaceFT, kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBAWKFT,              kCBAWKLang,         "--language-force=awk"        , "Functions"   },
-	{ kCBCobolFT,            kCBCobolLang,       "--language-force=cobol"      , "Paragraphs"  },
-	{ kCBLispFT,             kCBLispLang,        "--language-force=lisp"       , "Functions"   },
-	{ kCBPerlFT,             kCBPerlLang,        "--language-force=perl"       , "Subroutines" },
-	{ kCBPythonFT,           kCBPythonLang,      "--language-force=python"     , "Functions"   },
-	{ kCBSchemeFT,           kCBSchemeLang,      "--language-force=scheme"     , "Functions"   },
-	{ kCBBourneShellFT,      kCBBourneShellLang, "--language-force=sh"         , "Functions"   },
-	{ kCBTCLFT,              kCBTCLLang,         "--language-force=tcl"        , "Procedures"  },
-	{ kCBVimFT,              kCBVimLang,         "--language-force=vim"        , "Functions"   },
-	{ kCBJavaArchiveFT,      kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBPHPFT,              kCBPHPLang,         "--language-force=php"        , "Functions"   },
-	{ kCBASPFT,              kCBASPLang,         "--language-force=asp"        , "Functions"   },
-	{ kCBSearchOutputFT,     kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBMakeFT,             kCBMakeLang,        "--language-force=jmake"      , "Targets"     },
-	{ kCBREXXFT,             kCBREXXLang,        "--language-force=rexx"       , "Subroutines" },
-	{ kCBRubyFT,             kCBRubyLang,        "--language-force=ruby"       , "Functions"   },
-	{ kCBLexFT,              kCBLexLang,         "--language-force=jlex"       , "States"      },
-	{ kCBCShellFT,           kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBBisonFT,            kCBBisonLang,       "--language-force=jbison"     , "Symbols"     },
-	{ kCBBetaFT,             kCBBetaLang,        "--language-force=beta"       , "Fragments"   },
-	{ kCBLuaFT,              kCBLuaLang,         "--language-force=lua"        , "Functions"   },
-	{ kCBSLangFT,            kCBSLangLang,       "--language-force=slang"      , "Functions"   },
-	{ kCBSQLFT,              kCBSQLLang,         "--language-force=sql"        , "Objects"     },
-	{ kCBVeraSourceFT,       kCBVeraLang,        "--language-force=vera"       , "Functions"   },
-	{ kCBVeraHeaderFT,       kCBVeraLang,        "--language-force=vera"       , "Functions"   },
-	{ kCBVerilogFT,          kCBVerilogLang,     "--language-force=verilog"    , "Functions"   },
-	{ kCBCSharpFT,           kCBCSharpLang,      "--language-force=c#"         , "Functions"   },
-	{ kCBErlangFT,           kCBErlangLang,      "--language-force=erlang"     , "Functions"   },
-	{ kCBSMLFT,              kCBSMLLang,         "--language-force=sml"        , "Functions"   },
-	{ kCBJavaScriptFT,       kCBJavaScriptLang,  "--language-force=javascript" , "Functions"   },
-	{ kCBAntFT,              kCBAntLang,         "--language-force=ant"        , "Targets"     },
-	{ kCBJSPFT,              kCBJSPLang,         "--language-force=javascript" , "Functions"   },
-	{ kCBXMLFT,              kCBXMLLang,         kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBBasicFT,            kCBBasicLang,       "--language-force=basic"      , "Functions"   },
-	{ kCBShellOutputFT,      kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBMatlabFT,           kCBMatlabLang,      "--language-force=matlab"     , "Functions"   },
-	{ kCBAdobeFlexFT,        kCBAdobeFlexLang,   "--language-force=flex"       , "Functions"   },
-	{ kCBINIFT,              kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
-	{ kCBPropertiesFT,       kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
+	{ kCBUnknownFT,          kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBCSourceFT,          kCBCLang,           "--language-force=c++"        , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBCHeaderFT,          kCBCLang,           "--language-force=c++"        , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBOtherSourceFT,      kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBDocumentationFT,    kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBHTMLFT,             kCBHTMLLang,        "--language-force=jhtml"      , "IdsMenuTitle::CBCtagsUser"         },
+	{ kCBEiffelFT,           kCBEiffelLang,      "--language-force=eiffel"     , "FeaturesMenuTitle::CBCtagsUser"    },
+	{ kCBFortranFT,          kCBFortranLang,     "--language-force=fortran"    , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBJavaSourceFT,       kCBJavaLang,        "--language-force=java"       , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBStaticLibraryFT,    kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBSharedLibraryFT,    kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBExecOutputFT,       kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBManPageFT,          kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBDiffOutputFT,       kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBAssemblyFT,         kCBAssemblyLang,    "--language-force=asm"        , "LabelsMenuTitle::CBCtagsUser"      },
+	{ kCBPascalFT,           kCBPascalLang,      "--language-force=pascal"     , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBRatforFT,           kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBExternalFT,         kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBBinaryFT,           kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBModula2ModuleFT,    kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBModula2InterfaceFT, kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBModula3ModuleFT,    kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBModula3InterfaceFT, kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBAWKFT,              kCBAWKLang,         "--language-force=awk"        , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBCobolFT,            kCBCobolLang,       "--language-force=cobol"      , "ParagraphsMenuTitle::CBCtagsUser"  },
+	{ kCBLispFT,             kCBLispLang,        "--language-force=lisp"       , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBPerlFT,             kCBPerlLang,        "--language-force=perl"       , "SubroutinesMenuTitle::CBCtagsUser" },
+	{ kCBPythonFT,           kCBPythonLang,      "--language-force=python"     , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBSchemeFT,           kCBSchemeLang,      "--language-force=scheme"     , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBBourneShellFT,      kCBBourneShellLang, "--language-force=sh"         , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBTCLFT,              kCBTCLLang,         "--language-force=tcl"        , "ProceduresMenuTitle::CBCtagsUser"  },
+	{ kCBVimFT,              kCBVimLang,         "--language-force=vim"        , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBJavaArchiveFT,      kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBPHPFT,              kCBPHPLang,         "--language-force=php"        , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBASPFT,              kCBASPLang,         "--language-force=asp"        , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBSearchOutputFT,     kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBMakeFT,             kCBMakeLang,        "--language-force=jmake"      , "TargetsMenuTitle::CBCtagsUser"     },
+	{ kCBREXXFT,             kCBREXXLang,        "--language-force=rexx"       , "SubroutinesMenuTitle::CBCtagsUser" },
+	{ kCBRubyFT,             kCBRubyLang,        "--language-force=ruby"       , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBLexFT,              kCBLexLang,         "--language-force=jlex"       , "StatesMenuTitle::CBCtagsUser"      },
+	{ kCBCShellFT,           kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBBisonFT,            kCBBisonLang,       "--language-force=jbison"     , "SymbolsMenuTitle::CBCtagsUser"     },
+	{ kCBBetaFT,             kCBBetaLang,        "--language-force=beta"       , "FragmentsMenuTitle::CBCtagsUser"   },
+	{ kCBLuaFT,              kCBLuaLang,         "--language-force=lua"        , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBSLangFT,            kCBSLangLang,       "--language-force=slang"      , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBSQLFT,              kCBSQLLang,         "--language-force=sql"        , "ObjectsMenuTitle::CBCtagsUser"     },
+	{ kCBVeraSourceFT,       kCBVeraLang,        "--language-force=vera"       , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBVeraHeaderFT,       kCBVeraLang,        "--language-force=vera"       , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBVerilogFT,          kCBVerilogLang,     "--language-force=verilog"    , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBCSharpFT,           kCBCSharpLang,      "--language-force=c#"         , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBErlangFT,           kCBErlangLang,      "--language-force=erlang"     , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBSMLFT,              kCBSMLLang,         "--language-force=sml"        , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBJavaScriptFT,       kCBJavaScriptLang,  "--language-force=javascript" , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBAntFT,              kCBAntLang,         "--language-force=ant"        , "TargetsMenuTitle::CBCtagsUser"     },
+	{ kCBJSPFT,              kCBJSPLang,         "--language-force=javascript" , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBXMLFT,              kCBXMLLang,         kOtherLangCmd                 , nullptr                             },
+	{ kCBBasicFT,            kCBBasicLang,       "--language-force=basic"      , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBShellOutputFT,      kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBMatlabFT,           kCBMatlabLang,      "--language-force=matlab"     , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBAdobeFlexFT,        kCBAdobeFlexLang,   "--language-force=flex"       , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBINIFT,              kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
+	{ kCBPropertiesFT,       kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
 };
 
 const JSize kFTCount = sizeof(kFTInfo) / sizeof(FTInfo);
@@ -130,7 +129,7 @@ const JSize kFTCount = sizeof(kFTInfo) / sizeof(FTInfo);
 
 CBCtagsUser::CBCtagsUser
 	(
-	const JCharacter* args
+	const JUtf8Byte* args
 	)
 	:
 	itsProcess(nullptr),
@@ -162,7 +161,7 @@ CBCtagsUser::~CBCtagsUser()
 void
 CBCtagsUser::SetCtagsArgs
 	(
-	const JCharacter* args
+	const JUtf8Byte* args
 	)
 {
 	itsArgs = args;
@@ -179,7 +178,7 @@ CBCtagsUser::SetCtagsArgs
 JBoolean
 CBCtagsUser::ProcessFile
 	(
-	const JCharacter*		fileName,
+	const JString&			fileName,
 	const CBTextFileType	fileType,
 	JString*				result,
 	CBLanguage*				lang
@@ -215,9 +214,7 @@ CBCtagsUser::ProcessFile
 
 		if (!CBInUpdateThread())
 			{
-			JGetUserNotification()->ReportError(
-				"ctags is not responding correctly, "
-				"so some features will not work.");
+			JGetUserNotification()->ReportError(JGetString("ctagsFailure::CBCtagsUser"));
 			}
 
 		return kJFalse;
@@ -240,7 +237,7 @@ CBCtagsUser::StartProcess
 
 	if (itsIsActiveFlag && itsProcess == nullptr)
 		{
-		JString cmd = kBaseExecCmd;
+		JString cmd(kBaseExecCmd);
 		cmd += itsArgs;
 
 		int toFD, fromFD;
@@ -323,7 +320,7 @@ CBCtagsUser::DeleteProcess()
 void
 CBCtagsUser::ReadExtensionFlags
 	(
-	std::istream&				input,
+	std::istream&			input,
 	JStringPtrMap<JString>*	flags
 	)
 	const
@@ -332,8 +329,9 @@ CBCtagsUser::ReadExtensionFlags
 
 	JIgnoreUntil(input, ";\"\t");			// fluff
 
+	JPtrArray<JString> split(JPtrArrayT::kDeleteAll);
 	JString data, key;
-	JCharacter delimiter = '\t';
+	JUtf8Byte delimiter = '\t';
 	while (delimiter != '\n')
 		{
 		if (!JReadUntil(input, 2, "\t\n", &data, &delimiter))
@@ -344,22 +342,11 @@ CBCtagsUser::ReadExtensionFlags
 		JString* value = jnew JString;
 		assert( value != nullptr );
 
-		JIndex colonIndex;
-		if (data.LocateSubstring(":", &colonIndex))
+		if (data.Contains(":"))
 			{
-			if (colonIndex > 1)
-				{
-				key = data.GetSubstring(1, colonIndex-1);
-				}
-			else
-				{
-				key.Clear();
-				}
-
-			if (colonIndex < data.GetLength())
-				{
-				*value = data.GetSubstring(colonIndex+1, data.GetLength());
-				}
+			data.Split(":", &split, 2);
+			key    = *split.GetElement(1);
+			*value = *split.GetElement(2);
 			}
 		else
 			{
@@ -367,7 +354,14 @@ CBCtagsUser::ReadExtensionFlags
 			*value = data;
 			}
 
-		flags->SetElement(key, value, JPtrArrayT::kDelete);
+		if (!key.IsEmpty() && !value->IsEmpty())
+			{
+			flags->SetElement(key, value, JPtrArrayT::kDelete);
+			}
+		else
+			{
+			jdelete value;
+			}
 		}
 }
 
@@ -639,7 +633,7 @@ CBCtagsUser::Type
 CBCtagsUser::DecodeSymbolType
 	(
 	const CBLanguage	lang,
-	const JCharacter	c
+	const JUtf8Byte		c
 	)
 	const
 {
@@ -1239,7 +1233,7 @@ CBCtagsUser::IsParsedForFunctionMenu
 {
 	assert( kFTCount == kCBFTCount && kFTInfo[type].fileType == type );
 
-	return JI2B( kFTInfo[type].fnTitle != kDefFnTitle );
+	return JI2B( kFTInfo[type].fnTitleID != nullptr );
 }
 
 /******************************************************************************
@@ -1247,7 +1241,7 @@ CBCtagsUser::IsParsedForFunctionMenu
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 CBCtagsUser::GetFunctionMenuTitle
 	(
 	const CBTextFileType type
@@ -1255,5 +1249,5 @@ CBCtagsUser::GetFunctionMenuTitle
 {
 	assert( kFTCount == kCBFTCount && kFTInfo[type].fileType == type );
 
-	return kFTInfo[type].fnTitle;
+	return JGetString(kFTInfo[type].fnTitleID);
 }

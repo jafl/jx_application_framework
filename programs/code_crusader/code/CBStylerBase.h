@@ -8,14 +8,14 @@
 #ifndef _H_CBStylerBase
 #define _H_CBStylerBase
 
-#include <JTEStyler.h>
+#include <JSTStyler.h>
 #include <JPrefObject.h>
 #include <JStringMap.h>
 #include "CBTextFileType.h"
 
 class CBEditStylerDialog;
 
-class CBStylerBase : public JTEStyler, public JPrefObject, virtual public JBroadcaster
+class CBStylerBase : public JSTStyler, public JPrefObject, virtual public JBroadcaster
 {
 public:
 
@@ -24,15 +24,14 @@ public:
 public:
 
 	CBStylerBase(const JSize typeVersion,
-				 const JSize typeCount, const JCharacter** typeNames,
-				 const JCharacter* editDialogTitle, const JPrefID& prefID,
+				 const JSize typeCount, const JUtf8Byte** typeNames,
+				 const JString& editDialogTitle, const JPrefID& prefID,
 				 const CBTextFileType fileType);
 
 	virtual ~CBStylerBase();
 
 	void	EditStyles();
 
-	JXColorManager*						GetColormap() const;
 	const JStringMap<JFontStyle>&	GetWordList() const;
 
 	void	ReadFromSharedPrefs(std::istream& input);
@@ -46,11 +45,11 @@ protected:
 	void		SetTypeStyle(const JIndex index, const JFontStyle& style);
 
 	JBoolean	GetWordStyle(const JString& word, JFontStyle* style) const;
-	void		SetWordStyle(const JCharacter* word, const JFontStyle& style);
-	void		RemoveWordStyle(const JCharacter* word);
+	void		SetWordStyle(const JString& word, const JFontStyle& style);
+	void		RemoveWordStyle(const JString& word);
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	UpgradeTypeList(const JFileVersion vers,
 									JArray<JFontStyle>* typeStyles) = 0;
@@ -59,18 +58,17 @@ protected:
 
 private:
 
-	JXColorManager*				itsColormap;			// not owned
 	JColorID				itsDefColor;
 
 	const JFileVersion		itsTypeNameVersion;
 	const JSize				itsTypeNameCount;
-	const JCharacter**		itsTypeNames;			// not owned
+	const JUtf8Byte**		itsTypeNames;			// not owned
 	JArray<JFontStyle>*		itsTypeStyles;
 	const CBTextFileType	itsFileType;			// only use for IsCharInWord() !!
 
 	JStringMap<JFontStyle>*	itsWordStyles;
 
-	const JCharacter*		itsDialogTitle;			// not owned
+	const JString&			itsDialogTitle;
 	CBEditStylerDialog*		itsEditDialog;			// can be nullptr
 	JString					itsDialogGeom;
 
@@ -101,7 +99,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kWordListChanged;
+	static const JUtf8Byte* kWordListChanged;
 
 	class WordListChanged : public JBroadcaster::Message
 		{
@@ -136,18 +134,6 @@ CBStylerBase::GetWordList()
 	const
 {
 	return *itsWordStyles;
-}
-
-/******************************************************************************
- GetColormap
-
- ******************************************************************************/
-
-inline JXColorManager*
-CBStylerBase::GetColormap()
-	const
-{
-	return itsColormap;
 }
 
 /******************************************************************************
@@ -194,7 +180,7 @@ CBStylerBase::GetWordStyle
 inline void
 CBStylerBase::SetWordStyle
 	(
-	const JCharacter*	word,
+	const JString&		word,
 	const JFontStyle&	style
 	)
 {
@@ -204,7 +190,7 @@ CBStylerBase::SetWordStyle
 inline void
 CBStylerBase::RemoveWordStyle
 	(
-	const JCharacter* word
+	const JString& word
 	)
 {
 	itsWordStyles->RemoveElement(word);

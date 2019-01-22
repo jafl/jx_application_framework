@@ -37,12 +37,9 @@
 #include <JString.h>
 #include <jAssert.h>
 
-static const JCharacter* kWindowTitleSuffix = " Files";
-
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    New text file                  %k Meta-N       %i" kCBNewTextFileAction
 	"  | New text file from template... %k Meta-Shift-N %i" kCBNewTextFileFromTmplAction
 	"  | New project...                                 %i" kCBNewProjectAction
@@ -63,8 +60,7 @@ enum
 
 // List menu
 
-static const JCharacter* kListMenuTitleStr = "List";
-static const JCharacter* kListMenuStr =
+static const JUtf8Byte* kListMenuStr =
 	"    Open selected files                 %k Return.     %i" kCBOpenSelectedFilesAction
 	"  | Show selected files in file manager %k Meta-Return %i" kCBOpenSelectedFileLocationsAction
 	"  | Update                              %k Meta-U      %i" kCBUpdateClassTreeAction
@@ -79,8 +75,7 @@ enum
 
 // Project menu
 
-static const JCharacter* kProjectMenuTitleStr = "Project";
-static const JCharacter* kProjectMenuStr =
+static const JUtf8Byte* kProjectMenuStr =
 	"    Show symbol browser %k Ctrl-F12     %i" kCBShowSymbolBrowserAction
 	"  | Show C++ class tree                 %i" kCBShowCPPClassTreeAction
 	"  | Show Java class tree                %i" kCBShowJavaClassTreeAction
@@ -101,14 +96,9 @@ enum
 	kSaveAllTextCmd, kCloseAllTextCmd
 };
 
-// Windows menu
-
-static const JCharacter* kFileListMenuTitleStr = "Windows";
-
 // Preferences menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    Toolbar buttons..."
 	"  | File types..."
 	"  | External editors..."
@@ -172,7 +162,7 @@ CBFileListDirector::CBFileListDirector
 			JBoolean active = kJFalse;
 			if (projVers >= 50)
 				{
-				projInput >> active;
+				projInput >> JBoolFromString(active);
 				}
 			if (useProjData && active && !subProject)
 				{
@@ -187,7 +177,7 @@ CBFileListDirector::CBFileListDirector
 			GetWindow()->ReadGeometry(*setInput);
 
 			JBoolean active;
-			*setInput >> active;
+			*setInput >> JBoolFromString(active);
 			if (active && !subProject)
 				{
 				Activate();
@@ -241,7 +231,7 @@ CBFileListDirector::StreamOut
 		{
 		*setOutput << ' ';
 		GetWindow()->WriteGeometry(*setOutput);
-		*setOutput << ' ' << IsActive();
+		*setOutput << ' ' << JBoolToString(IsActive());
 		*setOutput << ' ';
 		itsFLSet->WriteSetup(*setOutput);
 		*setOutput << ' ';
@@ -323,7 +313,7 @@ CBFileListDirector::BuildWindow()
 	itsFLSet->SetTable(itsFLTable);
 	ListenTo(itsFLTable);
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CBFileListDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -341,7 +331,7 @@ CBFileListDirector::BuildWindow()
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
 	assert( recentTextMenu != nullptr );
 
-	itsListMenu = menuBar->AppendTextMenu(kListMenuTitleStr);
+	itsListMenu = menuBar->AppendTextMenu(JGetString("ListMenuTitle::CBFileListDirector"));
 	itsListMenu->SetMenuItems(kListMenuStr, "CBFileListDirector");
 	itsListMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsListMenu);
@@ -351,7 +341,7 @@ CBFileListDirector::BuildWindow()
 
 	itsFLSet->AppendEditMenu(menuBar);
 
-	itsProjectMenu = menuBar->AppendTextMenu(kProjectMenuTitleStr);
+	itsProjectMenu = menuBar->AppendTextMenu(JGetString("ProjectMenuTitle::CBProjectDocument"));
 	itsProjectMenu->SetMenuItems(kProjectMenuStr, "CBFileListDirector");
 	itsProjectMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsProjectMenu);
@@ -373,12 +363,12 @@ CBFileListDirector::BuildWindow()
 	ListenTo(itsCmdMenu);
 
 	CBDocumentMenu* fileListMenu =
-		jnew CBDocumentMenu(kFileListMenuTitleStr, menuBar,
+		jnew CBDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != nullptr );
 	menuBar->AppendMenu(fileListMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "CBFileListDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
@@ -411,7 +401,7 @@ CBFileListDirector::BuildWindow()
 void
 CBFileListDirector::AdjustWindowTitle()
 {
-	const JString title = itsProjDoc->GetName() + kWindowTitleSuffix;
+	const JString title = itsProjDoc->GetName() + JGetString("WindowTitleSuffix::CBFileListDirector");
 	GetWindow()->SetTitle(title);
 }
 

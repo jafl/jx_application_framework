@@ -129,23 +129,23 @@ CBViewManPageDialog::BuildWindow()
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBViewManPageDialog::shortcuts::JXLayout"));
 
 	itsFnHistoryMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, "", window,
+		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,40, 30,20);
 	assert( itsFnHistoryMenu != nullptr );
-
-	itsManIndex =
-		jnew JXCharInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,80, 30,20);
-	assert( itsManIndex != nullptr );
 
 	itsStayOpenCB =
 		jnew JXTextCheckbox(JGetString("itsStayOpenCB::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,120, 90,20);
 	assert( itsStayOpenCB != nullptr );
 
+	itsManIndex =
+		jnew JXInputField(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,80, 50,20);
+	assert( itsManIndex != nullptr );
+
 // end JXLayout
 
-	window->SetTitle("Man pages");
+	window->SetTitle(JGetString("WindowTitle::CBViewManPageDialog"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
@@ -156,9 +156,8 @@ CBViewManPageDialog::BuildWindow()
 	ListenTo(itsHelpButton);
 	ListenTo(itsFnHistoryMenu);
 
-	itsFnName->ShouldBroadcastAllTextChanged(kJTrue);
-	itsFnName->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsFnName);
+	itsFnName->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	ListenTo(itsFnName->GetText());
 
 	itsManIndex->SetIsRequired(kJFalse);
 	itsStayOpenCB->SetState(kJTrue);
@@ -166,7 +165,7 @@ CBViewManPageDialog::BuildWindow()
 	// create hidden JXDocument so Meta-# shortcuts work
 
 	JXDocumentMenu* fileListMenu =
-		jnew JXDocumentMenu("", window,
+		jnew JXDocumentMenu(JString::empty, window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != nullptr );
 
@@ -181,7 +180,7 @@ CBViewManPageDialog::BuildWindow()
 void
 CBViewManPageDialog::UpdateDisplay()
 {
-	if (itsFnName->IsEmpty())
+	if (itsFnName->GetText()->IsEmpty())
 		{
 		itsViewButton->Deactivate();
 		}
@@ -227,8 +226,8 @@ CBViewManPageDialog::Receive
 		}
 
 	else if (sender == itsFnName &&
-			 (message.Is(JTextEditor::kTextSet) ||
-			  message.Is(JTextEditor::kTextChanged)))
+			 (message.Is(JStyledText::kTextSet) ||
+			  message.Is(JStyledText::kTextChanged)))
 		{
 		UpdateDisplay();
 		}
@@ -247,17 +246,17 @@ CBViewManPageDialog::Receive
 void
 CBViewManPageDialog::ViewManPage()
 {
-	itsFnName->DeactivateCurrentUndo();
+	itsFnName->GetText()->DeactivateCurrentUndo();
 
 	if (itsFnName->InputValid() && itsManIndex->InputValid())
 		{
-		JCharacter manIndex = ' ';
-		if (!itsManIndex->IsEmpty())
+		JString manIndex;
+		if (!itsManIndex->GetText()->IsEmpty())
 			{
-			manIndex = (itsManIndex->GetText()).GetFirstCharacter();
+			manIndex = itsManIndex->GetText()->GetText();
 			}
 
-		CBManPageDocument::Create(nullptr, itsFnName->GetText(), manIndex,
+		CBManPageDocument::Create(nullptr, itsFnName->GetText()->GetText(), manIndex,
 								  itsAproposCheckbox->IsChecked());
 		}
 }
@@ -273,9 +272,9 @@ CBViewManPageDialog::ViewManPage()
 void
 CBViewManPageDialog::AddToHistory
 	(
-	const JCharacter*	pageName,
-	const JCharacter	pageIndex,
-	const JBoolean		apropos
+	const JString&	pageName,
+	const JString&	pageIndex,
+	const JBoolean	apropos
 	)
 {
 	JString historyStr = pageName;
@@ -283,12 +282,11 @@ CBViewManPageDialog::AddToHistory
 		{
 		historyStr += " (*)";
 		}
-	else if (pageIndex != ' ')
+	else if (!pageIndex.IsEmpty())
 		{
-		historyStr.AppendCharacter(' ');
-		historyStr.AppendCharacter('(');
-		historyStr.AppendCharacter(pageIndex);
-		historyStr.AppendCharacter(')');
+		historyStr += " (";
+		historyStr += pageIndex;
+		historyStr += ")";
 		}
 
 	itsFnHistoryMenu->AddString(historyStr);
@@ -302,21 +300,21 @@ CBViewManPageDialog::AddToHistory
 void
 CBViewManPageDialog::SetFunction
 	(
-	const JCharacter* historyStr
+	const JString& historyStr
 	)
 {
 	JString fnName = historyStr;
 
-	JCharacter manIndex[] = { '\0', '\0' };
+	JString manIndex;
 	if (fnName.GetLastCharacter() == ')')
 		{
-		manIndex[0] = fnName.GetCharacter(fnName.GetLength()-1);
+		manIndex = fnName.GetCharacter(fnName.GetLength()-1);
 		fnName.RemoveSubstring(fnName.GetLength()-3, fnName.GetLength());
 		}
 
-	if (manIndex[0] == '*')
+	if (manIndex == "*")
 		{
-		manIndex[0] = '\0';
+		manIndex.Clear();
 		itsAproposCheckbox->SetState(kJTrue);
 		}
 	else
@@ -324,8 +322,8 @@ CBViewManPageDialog::SetFunction
 		itsAproposCheckbox->SetState(kJFalse);
 		}
 
-	itsFnName->SetText(fnName);
-	itsManIndex->SetText(manIndex);
+	itsFnName->GetText()->SetText(fnName);
+	itsManIndex->GetText()->SetText(manIndex);
 }
 
 /******************************************************************************
@@ -355,7 +353,7 @@ CBViewManPageDialog::ReadPrefs
 	if (vers >= 1)
 		{
 		JBoolean stayOpen;
-		input >> stayOpen;
+		input >> JBoolFromString(stayOpen);
 		itsStayOpenCB->SetState(stayOpen);
 		}
 }
@@ -380,6 +378,6 @@ CBViewManPageDialog::WritePrefs
 	output << ' ';
 	itsFnHistoryMenu->WriteSetup(output);
 
-	output << ' ' << itsStayOpenCB->IsChecked();
+	output << ' ' << JBoolToString(itsStayOpenCB->IsChecked());
 	output << ' ';
 }
