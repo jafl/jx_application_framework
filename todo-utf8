@@ -6,6 +6,9 @@ JStyledText
 	AutoIndent
 	CleanRightMargin
 
+	optimize SetFont*() to operate on runs, not characters
+		test with /opt/X11/share/X11/locale/en_US.UTF-8/Compose
+
 jcc
 	unit test CBSearch classes - split CBSearchProcess out from CBSearchDocument
 
