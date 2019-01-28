@@ -42,22 +42,22 @@ void
 JReadFile
 	(
 	std::ifstream&	input,
-	JString*	str
+	JString*		str
 	)
 {
-	const JSize charCount = JGetFStreamLength(input) - JTellg(input);
-	str->Read(input, charCount);
+	const JSize byteCount = JGetFStreamLength(input) - JTellg(input);
+	str->Read(input, byteCount);	// ok to stop early, if fewer characters than bytes
 }
 
 void
 JReadFile
 	(
 	std::fstream&	input,
-	JString*	str
+	JString*		str
 	)
 {
-	const JSize charCount = JGetFStreamLength(input) - JTellg(input);
-	str->Read(input, charCount);
+	const JSize byteCount = JGetFStreamLength(input) - JTellg(input);
+	str->Read(input, byteCount);	// ok to stop early, if fewer characters than bytes
 }
 
 /******************************************************************************
