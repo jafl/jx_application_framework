@@ -17,6 +17,7 @@
 #include <JXTextButton.h>
 #include <JXStaticText.h>
 #include <JOutPipeStream.h>
+#include <jTextUtil.h>
 #include <jDirUtil.h>
 #include <jSignal.h>
 #include <jTime.h>
@@ -25,9 +26,11 @@
 
 const JSize kMenuButtonWidth = 60;
 
+static const JString kNewLine("\n", kJFalse);
+
 // JBroadcaster message types
 
-const JCharacter* CBExecOutputDocument::kFinished = "Finished::CBExecOutputDocument";
+const JUtf8Byte* CBExecOutputDocument::kFinished = "Finished::CBExecOutputDocument";
 
 /******************************************************************************
  Constructor
@@ -37,7 +40,7 @@ const JCharacter* CBExecOutputDocument::kFinished = "Finished::CBExecOutputDocum
 CBExecOutputDocument::CBExecOutputDocument
 	(
 	const CBTextFileType	fileType,
-	const JCharacter*		helpSectionName,
+	const JUtf8Byte*		helpSectionName,
 	const JBoolean			focusToCmd,
 	const JBoolean			allowStop
 	)
@@ -71,7 +74,7 @@ CBExecOutputDocument::CBExecOutputDocument
 						  rect.right - x,0, kMenuButtonWidth,h);
 	assert( itsPauseButton != nullptr );
 	ListenTo(itsPauseButton);
-	itsPauseButton->SetShortcuts("^Z");
+	itsPauseButton->SetShortcuts(JString("^Z", kJFalse));
 	itsPauseButton->SetHint(JGetString("PauseButtonHint::CBExecOutputDocument"));
 
 	if (allowStop)
@@ -82,7 +85,7 @@ CBExecOutputDocument::CBExecOutputDocument
 							  rect.right - 2*kMenuButtonWidth,0, kMenuButtonWidth,h);
 		assert( itsStopButton != nullptr );
 		ListenTo(itsStopButton);
-		itsStopButton->SetShortcuts("^C#.");
+		itsStopButton->SetShortcuts(JString("^C#.", kJFalse));
 		itsStopButton->SetHint(JGetString("StopButtonHint::CBExecOutputDocument"));
 		}
 	else
@@ -99,7 +102,7 @@ CBExecOutputDocument::CBExecOutputDocument
 
 	if (!allowStop)
 		{
-		itsKillButton->SetShortcuts("^C#.");
+		itsKillButton->SetShortcuts(JString("^C#.", kJFalse));
 		itsKillButton->SetHint(JGetString("StopButtonHint::CBExecOutputDocument"));
 		}
 
@@ -131,7 +134,7 @@ CBExecOutputDocument::CBExecOutputDocument
 						  JXWidget::kFixedRight, vSizing,
 						  -1000, -1000, 500, 500);
 	assert( itsEOFButton != nullptr );
-	itsEOFButton->SetShortcuts("^D");
+	itsEOFButton->SetShortcuts(JString("^D", kJFalse));
 	itsEOFButton->Hide();
 	ListenTo(itsEOFButton);
 
@@ -185,7 +188,7 @@ CBExecOutputDocument::PlaceCmdLineWidgets()
 	const JCoordinate promptWidth = itsCmdPrompt->GetFrameWidth();
 
 	const JCoordinate eofWidth =
-		itsEOFButton->GetFont().GetStringWidth(itsEOFButton->GetLabel()) +
+		itsEOFButton->GetFont().GetStringWidth(GetDisplay()->GetFontManager(), itsEOFButton->GetLabel()) +
 		2 * itsEOFButton->GetPadding().x +
 		2 * itsEOFButton->GetBorderWidth();
 
@@ -280,14 +283,14 @@ CBExecOutputDocument::DecrementUseCount()
 void
 CBExecOutputDocument::SetConnection
 	(
-	JProcess*			p,
-	const int			inFD,
-	const int			outFD,
-	const JCharacter*	windowTitle,
-	const JCharacter*	dontCloseMsg,
-	const JCharacter*	execDir,
-	const JCharacter*	execCmd,
-	const JBoolean		showPID
+	JProcess*		p,
+	const int		inFD,
+	const int		outFD,
+	const JString&	windowTitle,
+	const JString&	dontCloseMsg,
+	const JString&	execDir,
+	const JString&	execCmd,
+	const JBoolean	showPID
 	)
 {
 	assert( !ProcessRunning() && itsRecordLink == nullptr && itsDataLink == nullptr );
@@ -317,11 +320,11 @@ CBExecOutputDocument::SetConnection
 	CBTextEditor* te = GetTextEditor();
 	if (itsClearWhenStartFlag)
 		{
-		te->SetText("");
+		te->GetText()->SetText(JString::empty);
 		}
-	else if (!te->IsEmpty())
+	else if (!te->GetText()->IsEmpty())
 		{
-		const JString& text = te->GetText();
+		const JString& text = te->GetText()->GetText();
 		JIndex i            = text.GetLength()+1;
 		while (i > 1 && text.GetCharacter(i-1) == '\n')
 			{
@@ -329,11 +332,11 @@ CBExecOutputDocument::SetConnection
 			}
 		if (text.IndexValid(i))
 			{
-			te->SetSelection(i, text.GetLength());
+			te->SetSelection(i, text.GetCharacterCount());
 			}
 
-		te->Paste("\n\n----------\n\n");
-		te->ClearUndo();
+		te->Paste(JString("\n\n----------\n\n", kJFalse));
+		te->GetText()->ClearUndo();
 		}
 
 	if (execCmd != nullptr)
@@ -341,20 +344,21 @@ CBExecOutputDocument::SetConnection
 		const JString timeStamp = JGetTimeStamp();
 
 		te->Paste(timeStamp);
-		te->Paste("\n");
+		te->Paste(kNewLine);
 		te->Paste(execDir);
-		te->Paste("\n");
+		te->Paste(kNewLine);
 		te->Paste(execCmd);
 
 		if (showPID)
 			{
-			te->Paste("\n");
+			te->Paste(kNewLine);
 			te->Paste(JGetString("ProcessID::CBExecOutputDocument"));
 			te->Paste(JString((JUInt64) p->GetPID()));
 			}
 
-		te->Paste("\n\n");
-		te->ClearUndo();
+		te->Paste(kNewLine);
+		te->Paste(kNewLine);
+		te->GetText()->ClearUndo();
 		}
 
 	itsPath              = execDir;
@@ -365,7 +369,7 @@ CBExecOutputDocument::SetConnection
 
 	UpdateButtons();
 	te->SetWritable(kJFalse);
-	itsCmdInput->SetText("");
+	itsCmdInput->GetText()->SetText(JString::empty);
 }
 
 /******************************************************************************
@@ -376,18 +380,18 @@ CBExecOutputDocument::SetConnection
 void
 CBExecOutputDocument::SendText
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 	if (ProcessRunning() && itsCmdStream != nullptr)
 		{
-		*itsCmdStream << text;
+		text.Print(*itsCmdStream);
 		itsCmdStream->flush();
 
 		CBTextEditor* te = GetTextEditor();
-		te->SetCaretLocation(te->GetTextLength()+1);
+		te->SetCaretLocation(te->GetText()->GetBeyondEnd());
 
-		if (text[0] != '\0' && text[0] != '\n' &&
+		if (text.GetFirstCharacter() != '\0' && text.GetFirstCharacter() != '\n' &&
 			itsRecordLink != nullptr &&
 			itsRecordLink->PeekPartialMessage(&itsLastPrompt))
 			{
@@ -454,9 +458,10 @@ CBExecOutputDocument::Receive
 
 	else if (sender == itsEOFButton && message.Is(JXButton::kPushed))
 		{
-		if (!(itsCmdInput->GetText()).IsEmpty())
+		if (!itsCmdInput->GetText()->IsEmpty())
 			{
-			itsCmdInput->HandleKeyPress(kJReturnKey, JXKeyModifiers(GetDisplay()));
+			itsCmdInput->HandleKeyPress(
+				JUtf8Character(kJReturnKey), 0, JXKeyModifiers(GetDisplay()));
 			}
 		CloseOutFD();
 		UpdateButtons();
@@ -493,7 +498,7 @@ CBExecOutputDocument::ReceiveRecord()
 	const JXTEBase::DisplayState state = GetTextEditor()->SaveDisplayState();
 
 	AppendText(text);
-	GetTextEditor()->ClearUndo();
+	GetTextEditor()->GetText()->ClearUndo();
 
 	if (!itsReceivedDataFlag)
 		{
@@ -522,9 +527,8 @@ CBExecOutputDocument::AppendText
 	)
 {
 	CBTextEditor* te = GetTextEditor();
-	te->SetCaretLocation(te->GetTextLength()+1);
-	te->PasteUNIXTerminalOutput(text);
-	te->Paste("\n");
+	JPasteUNIXTerminalOutput(text, te->GetText()->GetBeyondEnd(), te->GetText());
+	te->Paste(kNewLine);
 }
 
 /******************************************************************************
@@ -545,9 +549,8 @@ CBExecOutputDocument::ReceiveData
 	CBTextEditor* te                   = GetTextEditor();
 	const JXTEBase::DisplayState state = te->SaveDisplayState();
 
-	te->SetCaretLocation(te->GetTextLength()+1);
-	te->PasteUNIXTerminalOutput(info->GetData());
-	te->ClearUndo();
+	JPasteUNIXTerminalOutput(info->GetData(), te->GetText()->GetBeyondEnd(), te->GetText());
+	te->GetText()->ClearUndo();
 
 	if (!itsReceivedDataFlag)
 		{
@@ -689,7 +692,7 @@ CBExecOutputDocument::ProcessFinished
 		(reason == kJChildSignalled && result == SIGKILL))
 		{
 		DataReverted();
-		te->ClearUndo();
+		te->GetText()->ClearUndo();
 		if (!IsActive())
 			{
 			stayOpen = kJFalse;
@@ -698,28 +701,28 @@ CBExecOutputDocument::ProcessFinished
 			{
 			const JString reasonStr = JPrintChildExitReason(reason, result);
 
-			te->Paste("\n");
+			te->Paste(kNewLine);
 			te->Paste(reasonStr);
-			te->Paste("\n");
+			te->Paste(kNewLine);
 
 			DataReverted();
-			te->ClearUndo();
+			te->GetText()->ClearUndo();
 			}
 		}
 	else
 		{
 		const JString reasonStr = JPrintChildExitReason(reason, result);
 
-		te->Paste("\n");
+		te->Paste(kNewLine);
 		te->Paste(reasonStr);
-		te->Paste("\n");
+		te->Paste(kNewLine);
 
 		if (reason != kJChildFinished)
 			{
 			#ifdef _J_OSX
-			const JCharacter* path = "/cores/";
+			const JString path("/cores/", kJFalse);
 			#else
-			const JCharacter* path = itsPath;
+			const JString path = itsPath;
 			#endif
 
 			const JString coreName = "core." + JString((JUInt64) pid);
@@ -733,18 +736,18 @@ CBExecOutputDocument::ProcessFinished
 				}
 			else
 				{
-				const JCharacter* map[] =
+				const JUtf8Byte* map[] =
 					{
-					"name", coreName
+					"name", coreName.GetBytes()
 					};
 				const JString msg = JGetString("CoreName::CBExecOutputDocument", map, sizeof(map));
 				te->Paste(msg);
 				}
-			te->Paste("\n");
+			te->Paste(kNewLine);
 			}
 
 		DataReverted();
-		te->ClearUndo();
+		te->GetText()->ClearUndo();
 		if (!IsActive() || GetWindow()->IsIconified())	// don't raise if active
 			{
 			Activate();

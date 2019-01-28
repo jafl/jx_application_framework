@@ -51,18 +51,19 @@ CBCmdLineInput::~CBCmdLineInput()
 void
 CBCmdLineInput::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == kJReturnKey)
+	if (c == kJReturnKey)
 		{
-		itsDoc->SendText(GetText());
-		itsDoc->SendText("\n");
-		SetText("");
+		itsDoc->SendText(GetText()->GetText());
+		itsDoc->SendText(JString("\n", kJFalse));
+		GetText()->SetText(JString::empty);
 		}
 	else
 		{
-		JXInputField::HandleKeyPress(key, modifiers);
+		JXInputField::HandleKeyPress(c, keySym, modifiers);
 		}
 }

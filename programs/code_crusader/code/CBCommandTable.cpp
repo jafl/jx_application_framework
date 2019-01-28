@@ -21,6 +21,7 @@
 #include <JTableSelection.h>
 #include <JFontManager.h>
 #include <JRegex.h>
+#include <JStringIterator.h>
 #include <jStreamUtil.h>
 #include <jMouseUtil.h>
 #include <jASCIIConstants.h>
@@ -45,7 +46,7 @@ const JCoordinate kInitColWidth[] =
 	100, 80, 80, 200, 50, 80
 };
 
-static const JCharacter* kColTitle[] =
+static const JUtf8Byte* kColTitle[] =
 {
 	"Menu text",
 	"Menu shortcut",
@@ -60,7 +61,7 @@ const JSize kColCount = sizeof(kInitColWidth) / sizeof(JCoordinate);
 // geometry information
 
 const JFileVersion kCurrentGeometryDataVersion = 0;
-const JCharacter kGeometryDataEndDelimiter     = '\1';
+const JUtf8Byte kGeometryDataEndDelimiter      = '\1';
 
 // Options menu
 
@@ -88,7 +89,7 @@ enum
 
 // import/export
 
-static const JCharacter* kCommandFileSignature = "jx_browser_commands";
+static const JUtf8Byte* kCommandFileSignature = "jx_browser_commands";
 
 /******************************************************************************
  Constructor
@@ -131,8 +132,8 @@ CBCommandTable::CBCommandTable
 	itsFont.Set(fontName, fontSize);
 
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		GetFontManager()->GetDefaultFont().GetLineHeight(),
-		itsFont.GetLineHeight());
+		GetFontManager()->GetDefaultFont().GetLineHeight(GetFontManager()),
+		itsFont.GetLineHeight(GetFontManager()));
 	SetDefaultRowHeight(rowHeight);
 
 	// buttons
@@ -155,7 +156,7 @@ CBCommandTable::CBCommandTable
 
 	// type menu
 
-	itsOptionsMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsOptionsMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsOptionsMenu != nullptr );
 	itsOptionsMenu->SetToHiddenPopupMenu();
 	itsOptionsMenu->SetMenuItems(kOptionsMenuStr);
@@ -341,7 +342,8 @@ CBCommandTable::TableDrawCell
 			{
 			if (s.GetFirstCharacter() == ',')
 				{
-				s.RemoveSubstring(1,1);
+				JStringIterator iter(&s);
+				iter.RemoveNext();
 				}
 			p.String(rect, s, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 			}
@@ -370,7 +372,7 @@ CBCommandTable::TableDrawCell
 			{
 			s = info.path;
 			style.color =
-				CBCommandPathInput::GetTextColor(*s, itsBasePath, kJFalse, p.GetColormap());
+				CBCommandPathInput::GetTextColor(*s, itsBasePath, kJFalse);
 			}
 		assert( s != nullptr );
 
@@ -681,12 +683,13 @@ CBCommandTable::HandleDNDDrop
 void
 CBCommandTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
 	JBoolean cleared = kJFalse;
-	if (key == kJDeleteKey || key == kJForwardDeleteKey)
+	if (c == kJDeleteKey || c == kJForwardDeleteKey)
 		{
 		JTableSelection& s = GetTableSelection();
 		JPoint cell;
@@ -717,11 +720,11 @@ CBCommandTable::HandleKeyPress
 		}
 	else if (IsEditing())
 		{
-		JXEditTable::HandleKeyPress(key, modifiers);
+		JXEditTable::HandleKeyPress(c, keySym, modifiers);
 		}
 	else
 		{
-		HandleSelectionKeyPress(key, modifiers);
+		HandleSelectionKeyPress(c, modifiers);
 		}
 }
 
@@ -799,7 +802,7 @@ CBCommandTable::CreateXInputField
 		}
 	assert( text != nullptr );
 
-	itsTextInput->SetText(*text);
+	itsTextInput->GetText()->SetText(*text);
 	itsTextInput->SetFont(itsFont);
 	return itsTextInput;
 }
@@ -821,7 +824,7 @@ CBCommandTable::ExtractInputData
 
 	CBCommandManager::CmdInfo info = itsCmdList->GetElement(cell.y);
 
-	const JString& text = itsTextInput->GetText();
+	const JString& text = itsTextInput->GetText()->GetText();
 
 	JString* s = nullptr;
 	if (cell.x == kMenuTextColumn)
@@ -1000,23 +1003,24 @@ CBCommandTable::ExportAllCommands()
 {
 	JString origName, newName;
 	if (!EndEditing() ||
-		!itsCSF->SaveFile(JGetString("ExportPrompt::CBCommandTable"), nullptr, JGetString("ExportFileName::CBCommandTable"), &newName))
+		!itsCSF->SaveFile(JGetString("ExportPrompt::CBCommandTable"), JString::empty,
+						  JGetString("ExportFileName::CBCommandTable"), &newName))
 		{
 		return;
 		}
 
-	std::ofstream output(newName);
+	std::ofstream output(newName.GetBytes());
 	output << kCommandFileSignature << '\n';
 	output << CBCommandManager::GetCurrentCmdInfoFileVersion() << '\n';
 
 	const JSize count = itsCmdList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		output << kJTrue;
+		output << JBoolToString(kJTrue);
 		CBCommandManager::WriteCmdInfo(output, itsCmdList->GetElement(i));
 		}
 
-	output << kJFalse << '\n';
+	output << JBoolToString(kJFalse) << '\n';
 }
 
 /******************************************************************************
@@ -1029,14 +1033,16 @@ CBCommandTable::ImportCommands()
 {
 	JString fileName;
 	if (!EndEditing() ||
-		!itsCSF->ChooseFile("", nullptr, JGetString("ImportFilter::CBCommandTable"), nullptr, &fileName))
+		!itsCSF->ChooseFile(JString::empty, JString::empty,
+							JGetString("ImportFilter::CBCommandTable"),
+							JString::empty, &fileName))
 		{
 		return;
 		}
 
 	// read file
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 
 	CBCommandManager::CmdList cmdList;
 	if (CBProjectDocument::ReadTasksFromProjectFile(input, &cmdList))
@@ -1077,7 +1083,7 @@ CBCommandTable::ImportCommands()
 		while (1)
 			{
 			JBoolean keepGoing;
-			input >> keepGoing;
+			input >> JBoolFromString(keepGoing);
 			if (input.fail() || !keepGoing)
 				{
 				break;
@@ -1333,6 +1339,6 @@ CBCommandTable::SetColTitles
 {
 	for (JIndex i=1; i<=kColCount; i++)
 		{
-		widget->SetColTitle(i, kColTitle[i-1]);
+		widget->SetColTitle(i, JString(kColTitle[i-1], kJFalse));
 		}
 }

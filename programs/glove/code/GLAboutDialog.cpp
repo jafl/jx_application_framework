@@ -123,7 +123,7 @@ GLAboutDialog::BuildWindow
 			"vers", prevVersStr.GetBytes()
 			};
 		text += JGetString("UpgradeNotice::GLAboutDialog");
-		(JGetStringManager())->Replace(&text, map, sizeof(map));
+		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::GLAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}

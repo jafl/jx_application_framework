@@ -159,5 +159,5 @@ SVNApp::GetAppSignature()
 void
 SVNApp::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, kSVNDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kSVNDefaultStringData);
 }

@@ -2809,7 +2809,7 @@ SyGFileTreeTable::CreateNewDirectory()
 		}
 	else
 		{
-		(JGetStringManager())->ReportError("CreateFolderError::SyGFileTreeTable", err);
+		JGetStringManager()->ReportError("CreateFolderError::SyGFileTreeTable", err);
 		}
 }
 
@@ -3128,7 +3128,7 @@ SyGFileTreeTable::MakeLinkToFile
 		}
 	else
 		{
-		(JGetStringManager())->ReportError("CreateAliasError::SyGFileTreeTable", err);
+		JGetStringManager()->ReportError("CreateAliasError::SyGFileTreeTable", err);
 		}
 }
 
@@ -5135,7 +5135,7 @@ SyGFileTreeTable::ExtractInputData
 	input                 = nullptr;				// nodes sorted => CancelEditing()
 	if (!err.OK())
 		{
-		(JGetStringManager())->ReportError("RenameError::SyGFileTreeTable", err);
+		JGetStringManager()->ReportError("RenameError::SyGFileTreeTable", err);
 		}
 	else if (sort)
 		{

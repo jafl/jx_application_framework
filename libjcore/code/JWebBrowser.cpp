@@ -187,7 +187,7 @@ JWebBrowser::ShowFileLocation
 			s += kFileVarName;
 			s += "'";
 			}
-		(JGetStringManager())->Replace(&s, map, sizeof(map));
+		JGetStringManager()->Replace(&s, map, sizeof(map));
 		JSimpleProcess::Create(s, kJTrue);
 		}
 }
@@ -228,7 +228,7 @@ JWebBrowser::Exec
 			};
 
 		JString s = cmd;
-		(JGetStringManager())->Replace(&s, map, sizeof(map));
+		JGetStringManager()->Replace(&s, map, sizeof(map));
 		JSimpleProcess::Create(s, kJTrue);
 		}
 }

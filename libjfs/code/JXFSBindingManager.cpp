@@ -499,7 +499,7 @@ JXFSBindingManager::BuildCommand
 			"qf", qf.GetBytes(),
 			"uf", uf.GetBytes()
 			};
-		(JGetStringManager())->Replace(cmd, map, sizeof(map));
+		JGetStringManager()->Replace(cmd, map, sizeof(map));
 		}
 	else
 		{

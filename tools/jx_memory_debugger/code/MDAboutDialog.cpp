@@ -111,7 +111,7 @@ MDAboutDialog::BuildWindow
 			"vers", prevVersStr.GetBytes()
 			};
 		text += JGetString("UpgradeNotice::MDAboutDialog");
-		(JGetStringManager())->Replace(&text, map, sizeof(map));
+		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::MDAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}

@@ -199,5 +199,5 @@ CMApp::GetAppSignature()
 void
 CMApp::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, kCMDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kCMDefaultStringData);
 }

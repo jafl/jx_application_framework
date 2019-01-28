@@ -117,7 +117,7 @@ SVNAboutDialog::BuildWindow
 			"vers", prevVersStr.GetBytes()
 			};
 		text += JGetString("UpgradeNotice::SVNAboutDialog");
-		(JGetStringManager())->Replace(&text, map, sizeof(map));
+		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::SVNAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}

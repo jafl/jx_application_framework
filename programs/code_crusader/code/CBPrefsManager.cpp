@@ -2822,7 +2822,7 @@ CBPrefsManager::EditWithOtherProgram
 			{
 			"f", fileName.GetBytes()
 			};
-		(JGetStringManager())->Replace(cmd, map, sizeof(map));
+		JGetStringManager()->Replace(cmd, map, sizeof(map));
 		return kJTrue;
 		}
 	else

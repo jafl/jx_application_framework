@@ -151,5 +151,5 @@ GFGApp::GetAppSignature()
 void
 GFGApp::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, kGFGDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kGFGDefaultStringData);
 }

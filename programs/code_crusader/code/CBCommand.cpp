@@ -28,7 +28,7 @@
 
 // JBroadcaster message types
 
-const JCharacter* CBCommand::kFinished = "Finished::CBCommand";
+const JUtf8Byte* CBCommand::kFinished = "Finished::CBCommand";
 
 /******************************************************************************
  Constructor
@@ -171,14 +171,14 @@ CBCommand::Add
 	CBFunctionStack*			fnStack
 	)
 {
-	const JString* firstArg = cmdArgs.FirstElement();
+	const JString* firstArg = cmdArgs.GetFirstElement();
 	if (firstArg->GetFirstCharacter() == '&')
 		{
 		assert( fnStack != nullptr );
 
 		// check for re-used command name
 
-		const JCharacter* cmdName = firstArg->GetCString()+1;
+		const JUtf8Byte* cmdName = firstArg->GetBytes()+1;
 
 		const JSize cmdCount = fnStack->GetElementCount();
 		for (JIndex j=1; j<=cmdCount; j++)
@@ -198,7 +198,7 @@ CBCommand::Add
 			(itsProjDoc != nullptr ? itsProjDoc->GetCommandManager() : CBGetCommandManager());
 		CBCommand* cmdObj;
 		CBCommandManager::CmdInfo* cmdInfo;
-		if (mgr->Prepare(cmdName, itsProjDoc, fullNameList, lineIndexList,
+		if (mgr->Prepare(JString(cmdName, kJFalse), itsProjDoc, fullNameList, lineIndexList,
 						 &cmdObj, &cmdInfo, fnStack))
 			{
 			cmdObj->SetParent(this);
@@ -256,7 +256,6 @@ CBCommand::ReportInfiniteLoop
 	const JIndex			startIndex
 	)
 {
-	const JSize cmdCount = fnStack.GetElementCount();
 	JString loop;
 	for (JIndex i=startIndex; i>=1; i--)
 		{
@@ -269,9 +268,9 @@ CBCommand::ReportInfiniteLoop
 	loop += " \xE2\x86\x92 ";
 	loop += fnStack.Peek(startIndex);
 
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"loop", loop.GetCString()
+		"loop", loop.GetBytes()
 		};
 	const JString msg = JGetString("InfiniteLoop::CBCommand", map, sizeof(map));
 	JGetUserNotification()->ReportError(msg);

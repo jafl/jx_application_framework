@@ -327,7 +327,7 @@ GFGLink::StartCTags()
 		}
 	else
 		{
-		(JGetStringManager())->ReportError("UnableToStartCTags::GFGLink", err);
+		JGetStringManager()->ReportError("UnableToStartCTags::GFGLink", err);
 		return kJFalse;
 		}
 }

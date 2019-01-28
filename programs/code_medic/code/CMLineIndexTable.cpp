@@ -538,7 +538,7 @@ CMLineIndexTable::OpenLineMenu
 			};
 
 		JString s = kBreakpointMenuStr;
-		(JGetStringManager())->Replace(&s, map, sizeof(map));
+		JGetStringManager()->Replace(&s, map, sizeof(map));
 
 		itsLineMenu->AppendMenuItems(s);
 

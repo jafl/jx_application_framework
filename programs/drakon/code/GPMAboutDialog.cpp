@@ -120,7 +120,7 @@ GPMAboutDialog::BuildWindow
 			"vers", prevVersStr.GetBytes()
 			};
 		text += JGetString("UpgradeNotice::GPMAboutDialog");
-		(JGetStringManager())->Replace(&text, map, sizeof(map));
+		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::GPMAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}

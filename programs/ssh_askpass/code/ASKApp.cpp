@@ -51,5 +51,5 @@ ASKApp::~ASKApp()
 void
 ASKApp::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, kASKDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kASKDefaultStringData);
 }

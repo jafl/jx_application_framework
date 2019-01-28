@@ -111,7 +111,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kFinished;
+	static const JUtf8Byte* kFinished;
 
 	class Finished : public JBroadcaster::Message
 		{

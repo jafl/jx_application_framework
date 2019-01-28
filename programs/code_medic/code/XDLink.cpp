@@ -1288,7 +1288,7 @@ XDLink::Build1DArrayExpression
 			{
 			"i", indexStr.GetCString()
 			};
-		(JGetStringManager())->Replace(&expr, map, sizeof(map));
+		JGetStringManager()->Replace(&expr, map, sizeof(map));
 		}
 	else
 		{
@@ -1342,7 +1342,7 @@ XDLink::Build2DArrayExpression
 			"i", iStr.GetCString(),
 			"j", jStr.GetCString()
 			};
-		(JGetStringManager())->Replace(&expr, map, sizeof(map));
+		JGetStringManager()->Replace(&expr, map, sizeof(map));
 		}
 
 	if (!usesI || !usesJ)

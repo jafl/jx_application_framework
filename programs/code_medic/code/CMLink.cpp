@@ -528,7 +528,7 @@ CMLink::Build1DArrayExpressionForCFamilyLanguage
 			{
 			"i", indexStr.GetCString()
 			};
-		(JGetStringManager())->Replace(&expr, map, sizeof(map));
+		JGetStringManager()->Replace(&expr, map, sizeof(map));
 		}
 	else
 		{
@@ -576,7 +576,7 @@ CMLink::Build2DArrayExpressionForCFamilyLanguage
 			"i", iStr.GetCString(),
 			"j", jStr.GetCString()
 			};
-		(JGetStringManager())->Replace(&expr, map, sizeof(map));
+		JGetStringManager()->Replace(&expr, map, sizeof(map));
 		}
 
 	if (!usesI || !usesJ)

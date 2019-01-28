@@ -91,5 +91,5 @@ JXWApp::GetAppSignature()
 void
 JXWApp::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, kJXWDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kJXWDefaultStringData);
 }

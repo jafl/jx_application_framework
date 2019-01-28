@@ -147,5 +147,5 @@ TestApp::GetAppSignature()
 void
 TestApp::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, kDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kDefaultStringData);
 }

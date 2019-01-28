@@ -289,13 +289,13 @@ CBProjectDocument::Create
 			"path", path.GetBytes(),
 			"name", name.GetBytes()
 			};
-		(JGetStringManager())->Replace(&cmd, map, sizeof(map));
+		JGetStringManager()->Replace(&cmd, map, sizeof(map));
 
 		pid_t pid;
 		const JError err = JExecute(cmd, &pid);
 		if (!err.OK())
 			{
-			(JGetStringManager())->ReportError("WizardExecError::CBProjectDocument", err);
+			JGetStringManager()->ReportError("WizardExecError::CBProjectDocument", err);
 			}
 		return kJFalse;
 		}

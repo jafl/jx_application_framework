@@ -44,7 +44,7 @@ public:
 									 const JBoolean requireRead, const JBoolean requireWrite,
 									 const JBoolean requireExec);
 
-private:
+protected:
 
 	class StyledText : public JXFSInputBase::StyledText
 	{

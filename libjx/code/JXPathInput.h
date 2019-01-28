@@ -39,7 +39,7 @@ public:
 	static JColorID		GetTextColor(const JString& path, const JString& base,
 									 const JBoolean requireWrite);
 
-private:
+protected:
 
 	class StyledText : public JXFSInputBase::StyledText
 	{

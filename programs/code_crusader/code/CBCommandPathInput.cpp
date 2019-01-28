@@ -80,7 +80,7 @@ CBCommandPathInput::GetPath
 JBoolean
 CBCommandPathInput::InputValid()
 {
-	if (GetText().GetText() == "@")
+	if (GetText()->GetText() == "@")
 		{
 		return kJTrue;
 		}
@@ -142,13 +142,13 @@ CBCommandPathInput::GetTextColor
 	const JBoolean	requireWrite
 	)
 {
-	if (*path == '@')
+	if (path.GetFirstCharacter() == '@')
 		{
 		return JColorManager::GetBlackColor();
 		}
 	else
 		{
-		return JXPathInput::GetTextColor(path, base, requireWrite, colormap);
+		return JXPathInput::GetTextColor(path, base, requireWrite);
 		}
 }
 
@@ -163,7 +163,7 @@ JString
 CBCommandPathInput::GetTextForChoosePath()
 	const
 {
-	if (!GetText().IsEmpty() && GetText().GetFirstCharacter() == '@')
+	if (!GetText().IsEmpty() && GetText().GetText().GetFirstCharacter() == '@')
 		{
 		JString s;
 		if (!GetBasePath(&s) &&

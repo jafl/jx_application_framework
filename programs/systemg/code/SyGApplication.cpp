@@ -972,7 +972,7 @@ SyGApplication::GetAppSignature()
 void
 SyGApplication::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, kSyGDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kSyGDefaultStringData);
 }
 
 /******************************************************************************

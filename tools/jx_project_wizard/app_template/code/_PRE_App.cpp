@@ -123,5 +123,5 @@ const JCharacter*
 void
 <PRE>App::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, k<PRE>DefaultStringData);
+	JGetStringManager()->Register(kAppSignature, k<PRE>DefaultStringData);
 }

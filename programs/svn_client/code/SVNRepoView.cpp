@@ -664,7 +664,7 @@ SVNRepoView::ExtractInputData
 	input                 = nullptr;				// nodes sorted => CancelEditing()
 	if (!err.OK())
 		{
-		(JGetStringManager())->ReportError("RenameError::SVNRepoView", err);
+		JGetStringManager()->ReportError("RenameError::SVNRepoView", err);
 		}
 	else if (sort)
 		{

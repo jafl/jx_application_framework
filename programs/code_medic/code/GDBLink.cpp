@@ -2462,7 +2462,7 @@ GDBLink::StartDebugger()
 		}
 	else
 		{
-		(JGetStringManager())->ReportError("UnableToStartDebugger::GDBLink", err);
+		JGetStringManager()->ReportError("UnableToStartDebugger::GDBLink", err);
 		return kJFalse;
 		}
 }

@@ -274,7 +274,8 @@ JRenameVCS
 
 	if (tryPlain && JProgramAvailable(kMoveFileCmd))
 		{
-		cmd  = "mv ";
+		cmd  = kMoveFileCmd;
+		cmd += " ";
 		cmd += JPrepArgForExec(oldFullName);
 		cmd += " ";
 		cmd += JPrepArgForExec(newFullName);

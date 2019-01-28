@@ -116,7 +116,7 @@ THXAboutDialog::BuildWindow
 			"vers", prevVersStr.GetBytes()
 			};
 		text += JGetString("UpgradeNotice::THXAboutDialog");
-		(JGetStringManager())->Replace(&text, map, sizeof(map));
+		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::THXAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}

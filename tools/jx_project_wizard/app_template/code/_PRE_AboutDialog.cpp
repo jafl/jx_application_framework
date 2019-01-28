@@ -115,7 +115,7 @@ void
 			"vers", prevVersStr
 			};
 		text += JGetString(kUpgradeNoticeID);
-		(JGetStringManager())->Replace(&text, map, sizeof(map));
+		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString(kChangeButtonLabelID));
 		itsIsUpgradeFlag = kJTrue;
 		}

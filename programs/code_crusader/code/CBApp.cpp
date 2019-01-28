@@ -672,5 +672,5 @@ CBApp::GetAppSignature()
 void
 CBApp::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, kCBDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kCBDefaultStringData);
 }

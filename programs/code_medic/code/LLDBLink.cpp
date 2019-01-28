@@ -1996,7 +1996,7 @@ LLDBLink::StartDebugger
 		}
 	else
 		{
-		(JGetStringManager())->ReportError("UnableToStartDebugger::LLDBLink", "");
+		JGetStringManager()->ReportError("UnableToStartDebugger::LLDBLink", "");
 		return kJFalse;
 		}
 }

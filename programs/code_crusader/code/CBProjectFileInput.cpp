@@ -11,7 +11,8 @@
 
 #include "CBProjectFileInput.h"
 #include "CBProjectDocument.h"
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -44,52 +45,40 @@ CBProjectFileInput::~CBProjectFileInput()
 }
 
 /******************************************************************************
- AdjustStylesBeforeRecalc (virtual protected)
+ ComputeErrorLength (virtual protected)
 
 	Draw the file in red if it is not a project file.
 
  ******************************************************************************/
 
-void
-CBProjectFileInput::xAdjustStylesBeforeRecalc
+JSize
+CBProjectFileInput::StyledText::ComputeErrorLength
 	(
-	const JString&		buffer,
-	JRunArray<JFont>*	styles,
-	JIndexRange*		recalcRange,
-	JIndexRange*		redrawRange,
-	const JBoolean		deletion
+	JXFSInputBase*	field,
+	const JSize		totalLength,	// original character count
+	const JString&	fullName		// modified path
 	)
+	const
 {
-	JString fullName;
-	if (GetFile(&fullName) &&
-		CBProjectDocument::CanReadFile(fullName) != JXFileDocument::kFileReadable)
+	if (fullName.IsEmpty())
 		{
-		JIndex okLength;
-		if (!buffer.LocateLastSubstring(ACE_DIRECTORY_SEPARATOR_STR, &okLength))
-			{
-			okLength = 0;
-			}
+		return totalLength;
+		}
 
-		const JSize totalLength = buffer.GetLength();
-		JFont f                 = styles->GetFirstElement();
-
-		styles->RemoveAll();
-		if (okLength > 0)
+	if (CBProjectDocument::CanReadFile(fullName) != JXFileDocument::kFileReadable)
+		{
+		JStringIterator iter(fullName, kJIteratorStartAtEnd);
+		if (iter.Prev(ACE_DIRECTORY_SEPARATOR_STR))
 			{
-			f.SetColor(JColorManager::GetBlackColor());
-			styles->AppendElements(f, okLength);
+			return fullName.GetCharacterCount() - iter.GetNextCharacterIndex();
 			}
-		if (okLength < totalLength)
+		else
 			{
-			f.SetColor(JColorManager::GetRedColor());
-			styles->AppendElements(f, totalLength - okLength);
+			return totalLength;
 			}
-
-		*redrawRange += JIndexRange(1, totalLength);
 		}
 	else
 		{
-		JXFileInput::AdjustStylesBeforeRecalc(buffer, styles, recalcRange,
-											  redrawRange, deletion);
+		return JXFileInput::StyledText::ComputeErrorLength(field, totalLength, fullName);
 		}
 }

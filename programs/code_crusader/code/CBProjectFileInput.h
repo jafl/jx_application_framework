@@ -23,9 +23,21 @@ public:
 
 protected:
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
-											 JIndexRange* recalcRange, JIndexRange* redrawRange,
-											 const JBoolean deletion);
+	class StyledText : public JXFileInput::StyledText
+	{
+		public:
+
+		StyledText(CBProjectFileInput* field, JFontManager* fontManager)
+			:
+			JXFileInput::StyledText(field, fontManager)
+		{ };
+
+		protected:
+
+		virtual JSize	ComputeErrorLength(JXFSInputBase* field,
+										   const JSize totalLength,
+										   const JString& fullName) const override;
+	};
 
 private:
 

@@ -125,5 +125,5 @@ GPMApp::GetAppSignature()
 void
 GPMApp::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, kGPMDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kGPMDefaultStringData);
 }

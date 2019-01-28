@@ -294,7 +294,7 @@ JXFileDocument::OKToClose()
 		{
 		"name", itsFileName.GetBytes()
 		};
-	(JGetStringManager())->Replace(&msg, map, sizeof(map));
+	JGetStringManager()->Replace(&msg, map, sizeof(map));
 
 	const JUserNotification::CloseAction action =
 		itsAskOKToCloseFlag ? JGetUserNotification()->OKToClose(msg) :
@@ -349,7 +349,7 @@ JXFileDocument::OKToRevert()
 			{
 			"name", itsFileName.GetBytes()
 			};
-		(JGetStringManager())->Replace(&msg, map, sizeof(map));
+		JGetStringManager()->Replace(&msg, map, sizeof(map));
 		return JGetUserNotification()->AskUserYes(msg);
 		}
 
@@ -685,7 +685,7 @@ JXFileDocument::SaveInCurrentFile()
 				const JError err   = JSetPermissions(fullName, perms);
 				if (!err.OK())
 					{
-					(JGetStringManager())->ReportError("NoRestoreWriteProtectError::JXFileDocument", err);
+					JGetStringManager()->ReportError("NoRestoreWriteProtectError::JXFileDocument", err);
 					}
 				if (ok2)
 					{
@@ -793,7 +793,7 @@ JXFileDocument::SaveInCurrentFile()
 				const JError err = JSetPermissions(fullName, filePerms);
 				if (!err.OK())
 					{
-					(JGetStringManager())->ReportError("NoRestoreFilePermsError::JXFileDocument", err);
+					JGetStringManager()->ReportError("NoRestoreFilePermsError::JXFileDocument", err);
 					}
 				}
 
@@ -802,7 +802,7 @@ JXFileDocument::SaveInCurrentFile()
 				const JError err = JSetOwner(fullName, ownerID, groupID);
 				if (!err.OK())
 					{
-					(JGetStringManager())->ReportError("NoRestoreFileOwnerError::JXFileDocument", err);
+					JGetStringManager()->ReportError("NoRestoreFileOwnerError::JXFileDocument", err);
 					}
 				}
 

@@ -25,7 +25,7 @@
 #include <jFileUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kDefaultMakeDependCmd = "echo Makefile must be updated manually";
+static const JUtf8Byte* kDefaultMakeDependCmd = "echo Makefile must be updated manually";
 JPtrArray<CBTextDocument> CBCommandManager::theExecDocList(JPtrArrayT::kForgetAll);
 
 // setup information
@@ -39,7 +39,7 @@ const JFileVersion kCurrentSetupVersion = 4;
 
 // JBroadcaster message types
 
-const JCharacter* CBCommandManager::kUpdateCommandMenu = "UpdateCommandMenu::CBCommandManager";
+const JUtf8Byte* CBCommandManager::kUpdateCommandMenu = "UpdateCommandMenu::CBCommandManager";
 
 /******************************************************************************
  Constructor
@@ -112,7 +112,7 @@ CBCommandManager::Substitute
 {
 	assert( projDoc != nullptr );
 
-	return Substitute(cmdStr, projDoc, "", 0, reportError);
+	return Substitute(cmdStr, projDoc, JString::empty, 0, reportError);
 }
 
 /******************************************************************************
@@ -284,9 +284,9 @@ CBCommandManager::Prepare
 		}
 	else
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"cmd", cmdName.GetCString()
+			"cmd", cmdName.GetBytes()
 			};
 		const JString msg = JGetString("UnknownCmd::CBCommandManager", map, sizeof(map));
 		JGetUserNotification()->ReportError(msg);
@@ -336,7 +336,6 @@ CBCommandManager::Prepare
 		{
 		const JSize count = fullNameList.GetElementCount();
 		JString cmdPath;
-		JPtrArray<JString>* cmdArgs = nullptr;
 		for (JIndex i=1; i<=count; i++)
 			{
 			cmdPath = *info.path;
@@ -405,7 +404,7 @@ CBCommandManager::Prepare
 					}
 				}
 
-			if (BuildCmdPath(&cmdPath, projDoc, *samePathNameList.FirstElement(), kJTrue) &&
+			if (BuildCmdPath(&cmdPath, projDoc, *samePathNameList.GetFirstElement(), kJTrue) &&
 				ProcessCmdQueue(cmdPath, cmdQueue, info, projDoc,
 								samePathNameList, samePathLineList,
 								kJTrue, cmd, fnStack))
@@ -423,7 +422,7 @@ CBCommandManager::Prepare
 	else
 		{
 		JString cmdPath = *info.path;
-		if (BuildCmdPath(&cmdPath, projDoc, "", kJTrue))
+		if (BuildCmdPath(&cmdPath, projDoc, JString::empty, kJTrue))
 			{
 			ProcessCmdQueue(cmdPath, cmdQueue, info, projDoc,
 							fullNameList, lineIndexList,
@@ -457,16 +456,16 @@ CBCommandManager::Parse
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 	JParseArgsForExec(origCmd, &argList);
 
-	if (!argList.IsEmpty() && *(argList.LastElement()) != ";")
+	if (!argList.IsEmpty() && *argList.GetLastElement() != ";")
 		{
-		argList.Append(";");	// catch all commands inside loop
+		argList.Append(JString(";", kJFalse));	// catch all commands inside loop
 		}
 
 	JPtrArray<JString> cmdArgs(JPtrArrayT::kDeleteAll);
 
 	while (!argList.IsEmpty())
 		{
-		JString* arg = argList.FirstElement();
+		JString* arg = argList.GetFirstElement();
 		if (*arg == ";")
 			{
 			if (!cmdArgs.IsEmpty())
@@ -552,7 +551,7 @@ CBCommandManager::ProcessCmdQueue
 				JString* arg = jnew JString(*cmdArg);
 				assert( arg != nullptr );
 
-				if (!Substitute(arg, projDoc, "", 0, reportError))
+				if (!Substitute(arg, projDoc, JString::empty, 0, reportError))
 					{
 					jdelete *cmd;
 					*cmd = nullptr;
@@ -692,7 +691,7 @@ CBCommandManager::BuildCmdPath
 		}
 	else
 		{
-		const JCharacter* basePath = nullptr;
+		JString basePath;
 		if (projDoc != nullptr)
 			{
 			basePath = projDoc->GetFilePath();
@@ -704,9 +703,9 @@ CBCommandManager::BuildCmdPath
 			{
 			if (reportError)
 				{
-				const JCharacter* map[] =
+				const JUtf8Byte* map[] =
 					{
-					"path", cmdPath->GetCString()
+					"path", cmdPath->GetBytes()
 					};
 				const JString msg = JGetString("InvalidPath::CBCommandManager", map, sizeof(map));
 				JGetUserNotification()->ReportError(msg);
@@ -782,33 +781,33 @@ CBCommandManager::Substitute
 
 		if (JSplitRootAndSuffix(fileName, &fileNameRoot, &fileNameSuffix))
 			{
-			fileNameSuffix.PrependCharacter('.');
+			fileNameSuffix.Prepend(".");
 			}
 		}
 
 	const JString lineIndexStr(lineIndex, 0);
 
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"project_path",     projectPath.GetCString(),
-		"project_name",     projectName.GetCString(),
-		"program",          programName.GetCString(),
+		"project_path",     projectPath.GetBytes(),
+		"project_name",     projectName.GetBytes(),
+		"program",          programName.GetBytes(),
 
 		// remember to update check in Exec()
 
-		"full_name",        fullName,
-		"relative_name",    relativeName.GetCString(),
-		"file_name",        fileName.GetCString(),
-		"file_name_root",   fileNameRoot.GetCString(),
-		"file_name_suffix", fileNameSuffix.GetCString(),
+		"full_name",        fullName.GetBytes(),
+		"relative_name",    relativeName.GetBytes(),
+		"file_name",        fileName.GetBytes(),
+		"file_name_root",   fileNameRoot.GetBytes(),
+		"file_name_suffix", fileNameSuffix.GetBytes(),
 
-		"full_path",        fullPath.GetCString(),
-		"relative_path",    relativePath.GetCString(),
+		"full_path",        fullPath.GetBytes(),
+		"relative_path",    relativePath.GetBytes(),
 
-		"line",             lineIndexStr.GetCString()
+		"line",             lineIndexStr.GetBytes()
 		};
 
-	(JGetStringManager())->Replace(arg, map, sizeof(map));
+	JGetStringManager()->Replace(arg, map, sizeof(map));
 	return kJTrue;
 }
 
@@ -1020,7 +1019,7 @@ CBCommandManager::ReadCommands
 		while (1)
 			{
 			JBoolean keepGoing;
-			input >> keepGoing;
+			input >> JBoolFromString(keepGoing);
 			if (input.fail() || !keepGoing)
 				{
 				break;
@@ -1065,17 +1064,21 @@ CBCommandManager::ReadCmdInfo
 
 	JBoolean isMake, saveAll, oneAtATime, useWindow, raise, beep;
 	JBoolean isVCS = kJFalse;
-	input >> isMake;
+	input >> JBoolFromString(isMake);
 	if (vers >= 3)
 		{
-		input >> isVCS;
+		input >> JBoolFromString(isVCS);
 		}
 	if (vers == 0)
 		{
 		JBoolean makeDepend;
-		input >> makeDepend;
+		input >> JBoolFromString(makeDepend);
 		}
-	input >> saveAll >> oneAtATime >> useWindow >> raise >> beep;
+	input >> JBoolFromString(saveAll)
+		  >> JBoolFromString(oneAtATime)
+		  >> JBoolFromString(useWindow)
+		  >> JBoolFromString(raise)
+		  >> JBoolFromString(beep);
 
 	JString* menuText = jnew JString;
 	assert( menuText != nullptr );
@@ -1093,7 +1096,7 @@ CBCommandManager::ReadCmdInfo
 		}
 
 	JBoolean separator;
-	input >> separator;
+	input >> JBoolFromString(separator);
 
 	return CmdInfo(path, cmd, cmdName,
 				   isMake, isVCS, saveAll, oneAtATime,
@@ -1119,11 +1122,11 @@ CBCommandManager::WriteSetup
 	const JSize count = itsCmdList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		output << kJTrue;
+		output << JBoolToString(kJTrue);
 		WriteCmdInfo(output, itsCmdList->GetElement(i));
 		}
 
-	output << kJFalse << '\n';
+	output << JBoolToString(kJFalse) << '\n';
 }
 
 /******************************************************************************
@@ -1142,18 +1145,18 @@ CBCommandManager::WriteCmdInfo
 	output << ' ' << *info.cmd;
 	output << ' ' << *info.name;
 
-	output << ' ' << info.isMake;
-	output << ' ' << info.isVCS;
-	output << ' ' << info.saveAll;
-	output << ' ' << info.oneAtATime;
-	output << ' ' << info.useWindow;
-	output << ' ' << info.raiseWindowWhenStart;
-	output << ' ' << info.beepWhenFinished;
+	output << ' ' << JBoolToString(info.isMake)
+				  << JBoolToString(info.isVCS)
+				  << JBoolToString(info.saveAll)
+				  << JBoolToString(info.oneAtATime)
+				  << JBoolToString(info.useWindow)
+				  << JBoolToString(info.raiseWindowWhenStart)
+				  << JBoolToString(info.beepWhenFinished);
 
 	output << ' ' << *info.menuText;
 	output << ' ' << *info.menuShortcut;
 	output << ' ' << *info.menuID;
-	output << ' ' << info.separator;
+	output << ' ' << JBoolToString(info.separator);
 	output << '\n';
 }
 
@@ -1191,6 +1194,8 @@ CBCommandManager::WritePrefs
 
  ******************************************************************************/
 
+static const JString svnClient("nps_svn_client", kJFalse);
+
 static const JRegex svnChangeFullPathPattern =
 	"\\bsvn (resolved|revert|commit|add|remove) \\$full_name\\b";
 
@@ -1203,43 +1208,43 @@ CBCommandManager::UpgradeCommand
 	CmdInfo* info
 	)
 {
-	if (JProgramAvailable("nps_svn_client") &&
-		!info->cmd->Contains("nps_svn_client"))
+	if (JProgramAvailable(svnClient) &&
+		!info->cmd->Contains(svnClient))
 		{
-		if (*(info->cmd) == "svn info $file_name; svn log $file_name" ||
-			*(info->cmd) == "svn info $file_name"                     ||
-			*(info->cmd) == "svn log $file_name"                      ||
-			*(info->cmd) == "svn info $full_name; svn log $full_name" ||
-			*(info->cmd) == "svn info $full_name"                     ||
-			*(info->cmd) == "svn log $full_name")
+		if (*info->cmd == "svn info $file_name; svn log $file_name" ||
+			*info->cmd == "svn info $file_name"                     ||
+			*info->cmd == "svn log $file_name"                      ||
+			*info->cmd == "svn info $full_name; svn log $full_name" ||
+			*info->cmd == "svn info $full_name"                     ||
+			*info->cmd == "svn log $full_name")
 			{
-			*(info->cmd)               = "nps_svn_client --info-log $file_name";
-			*(info->path)              = "@";
+			*info->cmd                 = "nps_svn_client --info-log $file_name";
+			*info->path                = "@";
 			info->oneAtATime           = kJTrue;
 			info->useWindow            = kJFalse;
 			info->raiseWindowWhenStart = kJFalse;
 			info->beepWhenFinished     = kJFalse;
 			}
-		else if (svnChangeFullPathPattern.Match(*(info->cmd)))
+		else if (svnChangeFullPathPattern.Match(*info->cmd))
 			{
-			*(info->cmd) += "; nps_svn_client --refresh-status $full_path";
+			*info->cmd += "; nps_svn_client --refresh-status $full_path";
 			}
-		else if (svnChangeRelativePathPattern.Match(*(info->cmd)))
+		else if (svnChangeRelativePathPattern.Match(*info->cmd))
 			{
-			*(info->cmd) += "; nps_svn_client --refresh-status .";
+			*info->cmd += "; nps_svn_client --refresh-status .";
 			}
-		else if (*(info->cmd) == "svn update; jcc --reload-open" &&
-				 (*(info->path) == "." || *(info->path) == "./"))
+		else if (*info->cmd == "svn update; jcc --reload-open" &&
+				 (*info->path == "." || *info->path == "./"))
 			{
-			*(info->cmd)               = "nps_svn_client --update .";
+			*info->cmd                 = "nps_svn_client --update .";
 			info->useWindow            = kJFalse;
 			info->raiseWindowWhenStart = kJFalse;
 			info->beepWhenFinished     = kJFalse;
 			}
-		else if (*(info->cmd) == "svn status" &&
-				 (*(info->path) == "." || *(info->path) == "./"))
+		else if (*info->cmd == "svn status" &&
+				 (*info->path == "." || *(info->path) == "./"))
 			{
-			*(info->cmd)               = "nps_svn_client --status .";
+			*info->cmd                 = "nps_svn_client --status .";
 			info->useWindow            = kJFalse;
 			info->raiseWindowWhenStart = kJFalse;
 			info->beepWhenFinished     = kJFalse;
@@ -1288,9 +1293,9 @@ CBCommandManager::WriteTemplate
 
 struct DefCmd
 {
-	const JCharacter*	path;
-	const JCharacter*	cmd;
-	const JCharacter*	name;
+	const JUtf8Byte*	path;
+	const JUtf8Byte*	cmd;
+	const JUtf8Byte*	name;
 	JBoolean			isMake;
 	JBoolean			isVCS;
 	JBoolean			saveAll;
@@ -1298,8 +1303,8 @@ struct DefCmd
 	JBoolean			useWindow;
 	JBoolean			raiseWindowWhenStart;
 	JBoolean			beepWhenFinished;
-	const JCharacter*	menuTextID;
-	const JCharacter*	menuShortcutID;
+	const JUtf8Byte*	menuTextID;
+	const JUtf8Byte*	menuShortcutID;
 	JBoolean			separator;
 };
 
@@ -1537,7 +1542,9 @@ CBCommandManager::InitCommandList()
 {
 	for (JUnsignedOffset i=0; i<kDefCmdCount; i++)
 		{
-		AppendCommand(kDefCmd[i].path, kDefCmd[i].cmd, kDefCmd[i].name,
+		AppendCommand(JString(kDefCmd[i].path, kJFalse),
+					  JString(kDefCmd[i].cmd, kJFalse),
+					  JString(kDefCmd[i].name, kJFalse),
 					  kDefCmd[i].isMake, kDefCmd[i].isVCS, kDefCmd[i].saveAll,
 					  kDefCmd[i].oneAtATime, kDefCmd[i].useWindow,
 					  kDefCmd[i].raiseWindowWhenStart,
@@ -1589,7 +1596,7 @@ CBCommandManager::GetUniqueMenuID()
 
 		for (JIndex i=1; i<=20; i++)
 			{
-			id.InsertCharacter((JCharacter) r.UniformLong(32, 126), 1);
+			id.Prepend(JUtf8Character(r.UniformLong(32, 126)));
 			}
 
 		JBoolean found = kJFalse;
@@ -1657,7 +1664,7 @@ CBCommandManager::ConvertCompileDialog
 		JXHistoryMenuBase::ReadSetup(input, &itemList, &nmShortcutList);
 
 		JBoolean makeDepend;
-		input >> makeDepend;
+		input >> JBoolFromString(makeDepend);
 		}
 
 	// make command -- at top of menu
@@ -1675,12 +1682,12 @@ CBCommandManager::ConvertCompileDialog
 	JXHistoryMenuBase::ReadSetup(input, &compileList, &nmShortcutList);
 
 	JBoolean saveAll;
-	input >> saveAll;
+	input >> JBoolFromString(saveAll);
 
 	if (vers >= 29)
 		{
 		JBoolean doubleSpace;
-		input >> doubleSpace;
+		input >> JBoolFromString(doubleSpace);
 		}
 
 	buildMgr->ConvertCompileDialog(input, vers);
@@ -1693,18 +1700,18 @@ CBCommandManager::ConvertCompileDialog
 	for (JIndex i=1; i<=count; i++)
 		{
 		UpdateFileMarkers(JI2B(vers < 26), makeList.GetElement(i));
-		AppendCommand(path, *(makeList.GetElement(i)), "",
+		AppendCommand(path, *makeList.GetElement(i), JString::empty,
 					  kJTrue, kJFalse, kJTrue, kJFalse, kJTrue, kJFalse, kJTrue,
-					  "", "", JI2B(i == count));
+					  JString::empty, JString::empty, JI2B(i == count));
 		}
 
 	count = compileList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		UpdateFileMarkers(JI2B(vers < 26), compileList.GetElement(i));
-		AppendCommand(path, *(compileList.GetElement(i)), "",
+		AppendCommand(path, *compileList.GetElement(i), JString::empty,
 					  kJTrue, kJFalse, kJTrue, kJTrue, kJTrue, kJTrue, kJFalse,
-					  "", "", JI2B(i == count));
+					  JString::empty, JString::empty, JI2B(i == count));
 		}
 }
 
@@ -1759,12 +1766,12 @@ CBCommandManager::ConvertRunDialog
 	JXHistoryMenuBase::ReadSetup(input, &debugList, &nmShortcutList);
 
 	JBoolean makeBeforeRun;
-	input >> makeBeforeRun;
+	input >> JBoolFromString(makeBeforeRun);
 
 	if (vers >= 39)
 		{
 		JBoolean useOutputDoc;
-		input >> useOutputDoc;
+		input >> JBoolFromString(useOutputDoc);
 		}
 
 	// save commands in menu
@@ -1773,18 +1780,18 @@ CBCommandManager::ConvertRunDialog
 	for (JIndex i=1; i<=count; i++)
 		{
 		UpdateFileMarkers(JI2B(vers < 26), runList.GetElement(i));
-		AppendCommand(path, *runList.GetElement(i), "",
+		AppendCommand(path, *runList.GetElement(i), JString::empty,
 					  kJFalse, kJFalse, kJFalse, kJFalse, kJTrue, kJTrue, kJFalse,
-					  "", "", JI2B(i == count));
+					  JString::empty, JString::empty, JI2B(i == count));
 		}
 
 	count = debugList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		UpdateFileMarkers(JI2B(vers < 26), debugList.GetElement(i));
-		AppendCommand(path, *debugList.GetElement(i), "",
+		AppendCommand(path, *debugList.GetElement(i), JString::empty,
 					  kJFalse, kJFalse, kJFalse, kJTrue, kJFalse, kJFalse, kJFalse,
-					  "", "", JI2B(i == count));
+					  JString::empty, JString::empty, JI2B(i == count));
 		}
 }
 
@@ -1795,14 +1802,14 @@ CBCommandManager::ConvertRunDialog
 
  ******************************************************************************/
 
-static const JCharacter* kVarNameList = "fpnrl";
+static const JUtf8Byte* kVarNameList = "fpnrl";
 
-static const JCharacter* kOldVar[] =
+static const JUtf8Byte* kOldVar[] =
 {
 	"$f", "$p", "$n", "$r", "$l"
 };
 
-static const JCharacter* kNewVar[] =
+static const JUtf8Byte* kNewVar[] =
 {
 	"$full_name", "$full_path", "$file_name", "$file_name_root", "$line"
 };

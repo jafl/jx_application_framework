@@ -155,5 +155,5 @@ MDApp::GetAppSignature()
 void
 MDApp::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, kMDDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kMDDefaultStringData);
 }

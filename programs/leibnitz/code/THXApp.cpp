@@ -755,5 +755,5 @@ THXApp::GetAppSignature()
 void
 THXApp::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, kTHXDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kTHXDefaultStringData);
 }

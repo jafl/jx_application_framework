@@ -660,5 +660,5 @@ GLPlotApp::GetAppSignature()
 void
 GLPlotApp::InitStrings()
 {
-	(JGetStringManager())->Register(kAppSignature, kGLDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kGLDefaultStringData);
 }

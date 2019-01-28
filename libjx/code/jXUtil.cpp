@@ -462,7 +462,7 @@ JXReportUnreachableHosts
 			first  = kJFalse;
 			}
 
-		(JGetStringManager())->ReportError(kUnreachableHostsID, hosts);
+		JGetStringManager()->ReportError(kUnreachableHostsID, hosts);
 		}
 }
 

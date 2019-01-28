@@ -456,7 +456,7 @@ JXWMainDialog::WriteTemplate()
 	const JError err = JCreateDirectory(projectDir);
 	if (!err.OK())
 		{
-		(JGetStringManager())->ReportError("UnableToCreateProjDir::JXWMainDialog", err);
+		JGetStringManager()->ReportError("UnableToCreateProjDir::JXWMainDialog", err);
 		return kJFalse;
 		}
 
