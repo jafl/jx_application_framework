@@ -1604,7 +1604,13 @@ JString::Read
 		}
 	*p = 0;
 
-	itsByteCount      = p - itsBytes;
+	JUtf8Byte* normalizedBytes;
+	itsByteCount = Normalize(itsBytes, p - itsBytes, &normalizedBytes);
+	assert( itsByteCount <= maxByteCount );
+	memcpy(itsBytes, normalizedBytes, itsByteCount+1);
+	jdelete [] normalizedBytes;
+	normalizedBytes = nullptr;
+
 	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 
 	if (itsIterator != nullptr)
