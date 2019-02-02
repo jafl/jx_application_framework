@@ -85,3 +85,10 @@ include ${JX_ROOT}/include/make/jx_config_common
 
 J_IMG_LIBS := ${J_X11_LIB_DIR} ${J_IMG_LIBS}
 J_STD_LIBS := ${J_X11_LIB_DIR} ${J_STD_LIBS}
+
+# generate coverage
+
+ifdef LGTM_SRC
+	J_RUN_GCOV              := 1
+	J_COMPILER_DEPEND_FLAGS += -coverage -O0
+endif
