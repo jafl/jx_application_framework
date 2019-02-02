@@ -88,7 +88,7 @@ J_STD_LIBS := ${J_X11_LIB_DIR} ${J_STD_LIBS}
 
 # generate coverage
 
-ifdef LGTM_SRC
+ifdef TRAVIS
 	J_RUN_GCOV              := 1
 	J_COMPILER_DEPEND_FLAGS += -coverage -O0
 endif
