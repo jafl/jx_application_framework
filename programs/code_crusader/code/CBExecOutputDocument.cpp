@@ -17,6 +17,7 @@
 #include <JXTextButton.h>
 #include <JXStaticText.h>
 #include <JOutPipeStream.h>
+#include <JStringIterator.h>
 #include <jTextUtil.h>
 #include <jDirUtil.h>
 #include <jSignal.h>
@@ -325,14 +326,14 @@ CBExecOutputDocument::SetConnection
 	else if (!te->GetText()->IsEmpty())
 		{
 		const JString& text = te->GetText()->GetText();
-		JIndex i            = text.GetLength()+1;
-		while (i > 1 && text.GetCharacter(i-1) == '\n')
+		JStringIterator iter(text, kJIteratorStartAtEnd);
+		JUtf8Character c;
+		while (iter.Prev(&c) && c == '\n') {}
+
+		if (!iter.AtEnd())
 			{
-			i--;
-			}
-		if (text.IndexValid(i))
-			{
-			te->SetSelection(i, text.GetCharacterCount());
+			te->SetSelection(JCharacterRange(
+				iter.GetNextCharacterIndex(), text.GetCharacterCount()));
 			}
 
 		te->Paste(JString("\n\n----------\n\n", kJFalse));
@@ -389,7 +390,7 @@ CBExecOutputDocument::SendText
 		itsCmdStream->flush();
 
 		CBTextEditor* te = GetTextEditor();
-		te->SetCaretLocation(te->GetText()->GetBeyondEnd());
+		te->SetCaretLocation(te->GetText()->GetText().GetCharacterCount() + 1);
 
 		if (text.GetFirstCharacter() != '\0' && text.GetFirstCharacter() != '\n' &&
 			itsRecordLink != nullptr &&
@@ -491,7 +492,8 @@ CBExecOutputDocument::ReceiveRecord()
 
 	if (!itsLastPrompt.IsEmpty() && text.BeginsWith(itsLastPrompt))
 		{
-		text.RemoveSubstring(1, itsLastPrompt.GetLength());
+		JStringIterator iter(&text, kJIteratorStartAfter, itsLastPrompt.GetCharacterCount());
+		iter.RemoveAllPrev();
 		}
 	itsLastPrompt.Clear();
 
@@ -681,7 +683,7 @@ CBExecOutputDocument::ProcessFinished
 	CBTextEditor* te                   = GetTextEditor();
 	const JXTEBase::DisplayState state = te->SaveDisplayState();
 
-	te->SetCaretLocation(te->GetTextLength()+1);
+	te->SetCaretLocation(te->GetText()->GetText().GetCharacterCount()+1);
 
 	JBoolean stayOpen = kJTrue;
 

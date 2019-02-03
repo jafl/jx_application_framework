@@ -30,7 +30,8 @@ CBCommandPathInput::CBCommandPathInput
 	const JCoordinate	h
 	)
 	:
-	JXPathInput(enclosure, hSizing, vSizing, x,y, w,h)
+	JXPathInput(jnew StyledText(this, enclosure->GetFontManager()),
+				enclosure, hSizing, vSizing, x,y, w,h)
 {
 }
 
@@ -91,35 +92,38 @@ CBCommandPathInput::InputValid()
 }
 
 /******************************************************************************
- AdjustStylesBeforeRecalc (virtual protected)
+ AdjustStylesBeforeBroadcast (virtual protected)
 
-	Accept "@"
+	Accept paths starting with "@"
 
  ******************************************************************************/
 
 void
-CBCommandPathInput::xAdjustStylesBeforeRecalc
+CBCommandPathInput::StyledText::AdjustStylesBeforeBroadcast
 	(
-	const JString&		buffer,
-	JRunArray<JFont>*	styles,
-	JIndexRange*		recalcRange,
-	JIndexRange*		redrawRange,
-	const JBoolean		deletion
+	const JString&			text,
+	JRunArray<JFont>*		styles,
+	JStyledText::TextRange*	recalcRange,
+	JStyledText::TextRange*	redrawRange,
+	const JBoolean			deletion
 	)
 {
-	if (!buffer.IsEmpty() && buffer.GetFirstCharacter() == '@')
+	if (!text.IsEmpty() && text.GetFirstCharacter() == '@')
 		{
-		const JSize totalLength = buffer.GetLength();
+		const JSize totalLength = text.GetCharacterCount();
 		JFont f                 = styles->GetFirstElement();
 		styles->RemoveAll();
 		f.SetColor(JColorManager::GetBlackColor());
 		styles->AppendElements(f, totalLength);
-		*redrawRange += JIndexRange(1, totalLength);
+
+		*recalcRange = *redrawRange = JStyledText::TextRange(
+			JCharacterRange(1, totalLength),
+			JUtf8ByteRange(1, text.GetByteCount()));
 		}
 	else
 		{
-		return JXPathInput::AdjustStylesBeforeRecalc(buffer, styles, recalcRange,
-													 redrawRange, deletion);
+		return JXPathInput::StyledText::AdjustStylesBeforeBroadcast(
+			text, styles, recalcRange, redrawRange, deletion);
 		}
 }
 

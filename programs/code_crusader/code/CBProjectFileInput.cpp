@@ -31,7 +31,8 @@ CBProjectFileInput::CBProjectFileInput
 	const JCoordinate	h
 	)
 	:
-	JXFileInput(enclosure, hSizing, vSizing, x,y, w,h)
+	JXFileInput(jnew StyledText(this, enclosure->GetFontManager()),
+				enclosure, hSizing, vSizing, x,y, w,h)
 {
 }
 
