@@ -62,6 +62,13 @@ protected:
 										   const JString& fullName) const;
 	};
 
+protected:
+
+	JXFileInput(StyledText* text, JXContainer* enclosure,
+				const HSizingOption hSizing, const VSizingOption vSizing,
+				const JCoordinate x, const JCoordinate y,
+				const JCoordinate w, const JCoordinate h);
+
 private:
 
 	JBoolean	itsAllowInvalidFileFlag;
@@ -70,6 +77,8 @@ private:
 	JBoolean	itsRequireExecFlag;
 
 private:
+
+	void JXFileInputX();
 
 	// not allowed
 

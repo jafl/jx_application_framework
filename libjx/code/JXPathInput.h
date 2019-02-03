@@ -57,6 +57,13 @@ protected:
 										   const JString& fullName) const;
 	};
 
+protected:
+
+	JXPathInput(StyledText* text, JXContainer* enclosure,
+				const HSizingOption hSizing, const VSizingOption vSizing,
+				const JCoordinate x, const JCoordinate y,
+				const JCoordinate w, const JCoordinate h);
+
 private:
 
 	JBoolean	itsAllowInvalidPathFlag;
@@ -64,6 +71,8 @@ private:
 	JBoolean	itsExpectURLDropFlag;
 
 private:
+
+	void JXPathInputX();
 
 	// not allowed
 

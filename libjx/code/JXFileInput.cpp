@@ -35,6 +35,34 @@ JXFileInput::JXFileInput
 				  kJTrue, "Hint::JXFileInput",
 				  enclosure, hSizing, vSizing, x,y, w,h)
 {
+	JXFileInputX();
+}
+
+// protected
+
+JXFileInput::JXFileInput
+	(
+	StyledText*			text,
+	JXContainer*		enclosure,
+	const HSizingOption	hSizing,
+	const VSizingOption	vSizing,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
+	)
+	:
+	JXFSInputBase(text, kJTrue, "Hint::JXFileInput",
+				  enclosure, hSizing, vSizing, x,y, w,h)
+{
+	JXFileInputX();
+}
+
+// private
+
+void
+JXFileInput::JXFileInputX()
+{
 	itsAllowInvalidFileFlag = kJFalse;
 	itsRequireReadFlag      = kJTrue;
 	itsRequireWriteFlag     = kJTrue;

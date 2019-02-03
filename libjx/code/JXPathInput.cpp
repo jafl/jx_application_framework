@@ -36,6 +36,34 @@ JXPathInput::JXPathInput
 				  kJFalse, "Hint::JXPathInput",
 				  enclosure, hSizing, vSizing, x,y, w,h)
 {
+	JXPathInputX();
+}
+
+// protected
+
+JXPathInput::JXPathInput
+	(
+	StyledText*			text,
+	JXContainer*		enclosure,
+	const HSizingOption	hSizing,
+	const VSizingOption	vSizing,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
+	)
+	:
+	JXFSInputBase(text, kJFalse, "Hint::JXPathInput",
+				  enclosure, hSizing, vSizing, x,y, w,h)
+{
+	JXPathInputX();
+}
+
+// private
+
+void
+JXPathInput::JXPathInputX()
+{
 	itsAllowInvalidPathFlag = kJFalse;
 	itsRequireWriteFlag     = kJFalse;
 }
