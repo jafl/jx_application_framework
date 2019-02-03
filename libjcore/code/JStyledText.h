@@ -987,4 +987,12 @@ JStyledText::TextCount::operator+=
 	return *this;
 }
 
+/******************************************************************************
+ Catch attempts to stream JStyledText instead of JString (link error)
+
+ ******************************************************************************/
+
+std::istream& operator>>(std::istream& input, JStyledText* text);
+std::ostream& operator<<(std::ostream& input, const JStyledText* text);
+
 #endif

@@ -2095,3 +2095,14 @@ JTEST(AdjustTextIndex)
 	JAssertEqual(4, index.charIndex);
 	JAssertEqual(4, index.byteIndex);
 }
+
+// generates link errors - prevents accidentally writing out JStyledText* instead of JString
+/*
+JTEST(Streaming)
+{
+	StyledText text;
+	std::fstream f;
+	f << &text;
+	f >> &text;
+}
+*/
