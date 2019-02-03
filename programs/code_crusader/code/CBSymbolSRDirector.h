@@ -25,11 +25,11 @@ public:
 
 	CBSymbolSRDirector(CBSymbolDirector* mainSym, CBProjectDocument* projDoc,
 					   CBSymbolList* symbolList,
-					   const JCharacter* filterStr, const JBoolean isRegex,
+					   const JString& filterStr, const JBoolean isRegex,
 					   JError* err);
 	CBSymbolSRDirector(CBSymbolDirector* mainSym, CBProjectDocument* projDoc,
 					   CBSymbolList* symbolList,
-					   const JArray<JIndex>& displayList, const JCharacter* searchStr);
+					   const JArray<JIndex>& displayList, const JString& searchStr);
 
 	virtual ~CBSymbolSRDirector();
 

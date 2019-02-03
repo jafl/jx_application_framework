@@ -41,14 +41,15 @@ public:
 										 JArray<JIndex>* lineIndexList) const;
 
 	void	ShowAll();
-	JError	SetNameFilter(const JCharacter* filterStr, const JBoolean isRegex);
+	JError	SetNameFilter(const JString& filterStr, const JBoolean isRegex);
 	void	SetDisplayList(const JArray<JIndex>& list);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c,
+								   const int keySym, const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,

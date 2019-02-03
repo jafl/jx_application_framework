@@ -814,3 +814,22 @@ WindowTitle::CBFindFileDialog	"Find file"
 # CBViewManPageDialog
 
 WindowTitle::CBViewManPageDialog	"Man pages"
+
+# CBProjectConfigDialog
+
+WindowTitle::CBProjectConfigDialog	"Project Configuration"
+
+# CBSymbolDirector
+
+WindowTitleSuffix::CBSymbolDirector	" Symbols"
+SymbolMenuTitle::CBSymbolDirector	"Symbol"
+ProjectMenuTitle::CBSymbolDirector	"Project"
+
+# CBSymbolSRDirector
+
+WindowTitlePrefix::CBSymbolSRDirector	"Symbols: "
+ActionsMenuTitle::CBSymbolSRDirector	"Actions"
+
+# CBEditSymbolPrefsDialog
+
+WindowTitle::CBEditSymbolPrefsDialog	"Symbol Preferences"

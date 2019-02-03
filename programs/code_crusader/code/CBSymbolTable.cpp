@@ -38,10 +38,6 @@ const JCoordinate kTextPadding  = 5;
 const JCoordinate kHMarginWidth = 3;
 const JCoordinate kVMarginWidth = 1;
 
-// string ID's
-
-static const JCharacter* kMissingFilesID = "MissingFiles::CBSymbolTable";
-
 /******************************************************************************
  Constructor
 
@@ -74,12 +70,12 @@ CBSymbolTable::CBSymbolTable
 	itsNameFilter            = nullptr;
 	itsNameLiteral           = nullptr;
 
-	const JIndex blackColor = GetColormap()->GetBlackColor();
+	const JIndex blackColor = JColorManager::GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
 	SetColBorderInfo(0, blackColor);
 
 	AppendCols(1);
-	SetDefaultRowHeight(GetFontManager()->GetDefaultFont().GetLineHeight() +
+	SetDefaultRowHeight(GetFontManager()->GetDefaultFont().GetLineHeight(GetFontManager()) +
 						2*kVMarginWidth);
 
 	SetSelectionBehavior(kJTrue, kJTrue);
@@ -186,11 +182,11 @@ CBSymbolTable::DisplaySelectedSymbols()
 
 		if (!missingFiles.IsEmpty())
 			{
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"list", missingFiles
+				"list", missingFiles.GetBytes()
 				};
-			const JString msg = JGetString(kMissingFilesID, map, sizeof(map));
+			const JString msg = JGetString("MissingFiles::CBSymbolTable", map, sizeof(map));
 			JGetUserNotification()->ReportError(msg);
 			}
 		}
@@ -220,7 +216,7 @@ CBSymbolTable::FindSelectedSymbols
 			CBLanguage lang;
 			CBSymbolList::Type type;
 			const JString& name = itsSymbolList->GetSymbol(CellToSymbolIndex(cell), &lang, &type);
-			itsSymbolDirector->FindSymbol(name, "", button);
+			itsSymbolDirector->FindSymbol(name, JString::empty, button);
 			}
 		}
 }
@@ -321,8 +317,8 @@ CBSymbolTable::ShowAll()
 JError
 CBSymbolTable::SetNameFilter
 	(
-	const JCharacter*	filterStr,
-	const JBoolean		isRegex
+	const JString&	filterStr,
+	const JBoolean	isRegex
 	)
 {
 	jdelete itsNameFilter;
@@ -426,7 +422,7 @@ CBSymbolTable::TableDrawCell
 
 	if (signature != nullptr)
 		{
-		r.left += GetFontManager()->GetDefaultFont().GetStringWidth(symbolName);
+		r.left += GetFontManager()->GetDefaultFont().GetStringWidth(GetFontManager(), symbolName);
 		p.String(r, *signature, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 		}
 }
@@ -536,7 +532,8 @@ CBSymbolTable::HandleFocusEvent()
 void
 CBSymbolTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -544,12 +541,12 @@ CBSymbolTable::HandleKeyPress
 	JTableSelection& s          = GetTableSelection();
 	const JBoolean hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
-	if (key == ' ')
+	if (c == ' ')
 		{
 		ClearSelection();
 		}
 
-	else if (key == kJReturnKey)
+	else if (c == kJReturnKey)
 		{
 		DisplaySelectedSymbols();
 		if (modifiers.meta() && modifiers.control())
@@ -559,27 +556,27 @@ CBSymbolTable::HandleKeyPress
 			}
 		}
 
-	else if (key == kJUpArrow || key == kJDownArrow)
+	else if (c == kJUpArrow || c == kJDownArrow)
 		{
 		itsKeyBuffer.Clear();
-		if (!hadSelection && key == kJUpArrow && GetRowCount() > 0)
+		if (!hadSelection && c == kJUpArrow && GetRowCount() > 0)
 			{
 			SelectSingleEntry(GetRowCount());
 			}
 		else
 			{
-			HandleSelectionKeyPress(key, modifiers);
+			HandleSelectionKeyPress(c, modifiers);
 			}
 		}
 
-	else if ((key == 'c' || key == 'C') && modifiers.meta() && !modifiers.shift())
+	else if ((c == 'c' || c == 'C') && modifiers.meta() && !modifiers.shift())
 		{
 		CopySelectedSymbolNames();
 		}
 
-	else if (JXIsPrint(key) && !modifiers.control() && !modifiers.meta())
+	else if (c.IsPrint() && !modifiers.control() && !modifiers.meta())
 		{
-		itsKeyBuffer.AppendCharacter(key);
+		itsKeyBuffer.Append(c);
 
 		JIndex index;
 		if (itsSymbolList->ClosestMatch(itsKeyBuffer, *itsVisibleList, &index))
@@ -592,7 +589,7 @@ CBSymbolTable::HandleKeyPress
 
 	else
 		{
-		JXTable::HandleKeyPress(key, modifiers);
+		JXTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -727,11 +724,11 @@ CBSymbolTable::CalcColWidths
 	const JString* signature
 	)
 {
-	JSize w = GetFontManager()->GetDefaultFont().GetStringWidth(symbolName);
+	JSize w = GetFontManager()->GetDefaultFont().GetStringWidth(GetFontManager(), symbolName);
 
 	if (signature != nullptr)
 		{
-		w += GetFontManager()->GetDefaultFont().GetStringWidth(*signature);
+		w += GetFontManager()->GetDefaultFont().GetStringWidth(GetFontManager(), *signature);
 		}
 
 	if (w > itsMaxStringWidth)

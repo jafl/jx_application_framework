@@ -42,13 +42,13 @@ public:
 
 	CBTree*	GetTree() const;
 
-	JBoolean	FindClass(const JCharacter* name,
+	JBoolean	FindClass(const JString& name,
 						  const JXMouseButton button = kJXRightButton,
 						  const JBoolean raiseTreeWindow = kJFalse,
 						  const JBoolean reportNotFound = kJTrue,
 						  const JBoolean openFileIfSingleMatch = kJTrue,
 						  const JBoolean deselectAll = kJTrue) const;
-	JBoolean	FindFunction(const JCharacter* fnName,
+	JBoolean	FindFunction(const JString& fnName,
 							 const JBoolean caseSensitive,
 							 const JXMouseButton button = kJXRightButton,
 							 const JBoolean raiseTreeWindow = kJFalse,
@@ -65,7 +65,8 @@ public:
 	static JBoolean	WillRaiseWindowWhenSingleMatch();
 	static void		ShouldRaiseWindowWhenSingleMatch(const JBoolean raise);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c,
+								   const int keySym, const JXKeyModifiers& modifiers) override;
 
 	JXImage*	GetQtSignalImage() const;
 	JXImage*	GetQtSlotImage() const;
@@ -83,7 +84,7 @@ protected:
 	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	virtual void	GetSelectionData(JXSelectionData* data,
-									 const JCharacter* id) override;
+									 const JString& id) override;
 	virtual Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
 								 const JXKeyModifiers& modifiers) override;

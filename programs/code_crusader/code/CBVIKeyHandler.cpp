@@ -26,9 +26,9 @@ CBVIKeyHandler::CBVIKeyHandler
 	CBTextEditor* te
 	)
 	:
-	JXVIKeyHandler(te),
 	itsCBTE(te)
 {
+	Initialize(te);
 }
 
 /******************************************************************************
@@ -48,7 +48,7 @@ CBVIKeyHandler::~CBVIKeyHandler()
 JBoolean
 CBVIKeyHandler::HandleKeyPress
 	(
-	const JCharacter				key,
+	const JUtf8Character&			key,
 	const JBoolean					selectText,
 	const JTextEditor::CaretMotion	motion,
 	const JBoolean					deleteToTabStop
@@ -66,13 +66,12 @@ CBVIKeyHandler::HandleKeyPress
 		return kJTrue;
 		}
 	else if (GetMode() == kCommandLineMode && GetCommandLine().IsEmpty() &&
-			 isdigit(key) && key != '0')
+			 key.IsDigit() && key != '0')
 		{
 		CBTELineIndexInput* field = itsCBTE->GetLineInput();
 		field->Focus();
 
-		const JCharacter s[2] = { key, '\0' };
-		field->SetText(s);
+		field->GetText()->SetText(JString(key));
 		field->GoToEndOfLine();
 
 		SetMode(kCommandMode);
@@ -88,7 +87,7 @@ CBVIKeyHandler::HandleKeyPress
 			}
 		else if (buf == "$")
 			{
-			itsCBTE->SetCaretLocation(itsCBTE->GetTextLength()+1);
+			itsCBTE->SetCaretLocation(itsCBTE->GetText()->GetText().GetCharacterCount()+1);
 			}
 		else if (buf == "w" || buf == "w!")
 			{

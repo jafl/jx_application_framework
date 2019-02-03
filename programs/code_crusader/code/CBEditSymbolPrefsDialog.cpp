@@ -83,7 +83,7 @@ CBEditSymbolPrefsDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Symbol Preferences");
+	window->SetTitle(JGetString("WindowTitle::CBEditSymbolPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
 	ListenTo(itsHelpButton);

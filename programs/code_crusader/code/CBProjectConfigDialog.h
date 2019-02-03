@@ -22,10 +22,10 @@ public:
 
 	CBProjectConfigDialog(JXDirector* supervisor,
 						   const CBBuildManager::MakefileMethod method,
-						   const JCharacter* targetName,
-						   const JCharacter* depListExpr,
-						   const JCharacter* updateMakefileCmd,
-						   const JCharacter* subProjectBuildCmd);
+						   const JString& targetName,
+						   const JString& depListExpr,
+						   const JString& updateMakefileCmd,
+						   const JString& subProjectBuildCmd);
 
 	virtual ~CBProjectConfigDialog();
 
@@ -55,10 +55,10 @@ private:
 private:
 
 	void	BuildWindow(const CBBuildManager::MakefileMethod method,
-						const JCharacter* targetName,
-						const JCharacter* depListExpr,
-						const JCharacter* updateMakefileCmd,
-						const JCharacter* subProjectBuildCmd);
+						const JString& targetName,
+						const JString& depListExpr,
+						const JString& updateMakefileCmd,
+						const JString& subProjectBuildCmd);
 
 	void	UpdateDisplay();
 

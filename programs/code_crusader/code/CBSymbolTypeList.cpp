@@ -21,8 +21,8 @@ const JFileVersion kCurrentSetupVersion = 0;
 
 // JBroadcaster message types
 
-const JCharacter* CBSymbolTypeList::kVisibilityChanged = "VisibilityChanged::CBSymbolTypeList";
-const JCharacter* CBSymbolTypeList::kStyleChanged      = "StyleChanged::CBSymbolTypeList";
+const JUtf8Byte* CBSymbolTypeList::kVisibilityChanged = "VisibilityChanged::CBSymbolTypeList";
+const JUtf8Byte* CBSymbolTypeList::kStyleChanged      = "StyleChanged::CBSymbolTypeList";
 
 /******************************************************************************
  Constructor
@@ -51,7 +51,6 @@ CBSymbolTypeList::~CBSymbolTypeList()
 {
 	JPrefObject::WritePrefs();
 
-	DeleteIcons();
 	jdelete itsSymbolTypeList;
 }
 
@@ -91,13 +90,13 @@ CBSymbolTypeList::SkipSetup
 			input >> type;
 
 			JBoolean visible;
-			input >> visible;
+			input >> JBoolFromString(visible);
 
 			JFontStyle style;
-			input >> style.bold;
-			input >> style.italic;
+			input >> JBoolFromString(style.bold);
+			input >> JBoolFromString(style.italic);
 			input >> style.underlineCount;
-			input >> style.strike;
+			input >> JBoolFromString(style.strike);
 
 			JRGB color;
 			input >> color;
@@ -108,7 +107,7 @@ CBSymbolTypeList::SkipSetup
 		while (1)
 			{
 			JBoolean keepGoing;
-			input >> keepGoing;
+			input >> JBoolFromString(keepGoing);
 			if (!keepGoing)
 				{
 				break;
@@ -151,15 +150,15 @@ CBSymbolTypeList::ReadPrefs
 		const JIndex j      = FindType((CBSymbolList::Type) type);
 		SymbolTypeInfo info = itsSymbolTypeList->GetElement(j);
 
-		input >> info.visible;
-		input >> info.style.bold;
-		input >> info.style.italic;
+		input >> JBoolFromString(info.visible);
+		input >> JBoolFromString(info.style.bold);
+		input >> JBoolFromString(info.style.italic);
 		input >> info.style.underlineCount;
-		input >> info.style.strike;
+		input >> JBoolFromString(info.style.strike);
 
 		JRGB color;
 		input >> color;
-		info.style.color = JColorManager::GetColor(color);
+		info.style.color = JColorManager::GetColorID(color);
 
 		itsSymbolTypeList->SetElement(j, info);
 		}
@@ -186,12 +185,12 @@ CBSymbolTypeList::WritePrefs
 		{
 		const SymbolTypeInfo info = itsSymbolTypeList->GetElement(i);
 		output << ' ' << (long) info.type;
-		output << ' ' << info.visible;
+		output << ' ' << JBoolToString(info.visible);
 
-		output << ' ' << info.style.bold;
-		output << ' ' << info.style.italic;
+		output << ' ' << JBoolToString(info.style.bold);
+		output << ' ' << JBoolToString(info.style.italic);
 		output << ' ' << info.style.underlineCount;
-		output << ' ' << info.style.strike;
+		output << ' ' << JBoolToString(info.style.strike);
 		output << ' ' << JColorManager::GetRGB(info.style.color);
 		}
 }
@@ -252,7 +251,7 @@ CBSymbolTypeList::CreateSymTypeList
 	JXDisplay* display
 	)
 {
-	CreateIcons(display);
+	LoadIcons(display);
 
 	const JFontStyle bold(kJTrue, kJFalse, 0, kJFalse),
 					 italic(kJFalse, kJTrue, 0, kJFalse),
@@ -480,7 +479,7 @@ CBSymbolTypeList::CreateSymTypeList
 }
 
 /******************************************************************************
- CreateIcons (private)
+ LoadIcons (private)
 
  ******************************************************************************/
 
@@ -515,7 +514,7 @@ CBSymbolTypeList::CreateSymTypeList
 #include "jcc_sym_member.xpm"
 
 void
-CBSymbolTypeList::CreateIcons
+CBSymbolTypeList::LoadIcons
 	(
 	JXDisplay* display
 	)
@@ -583,14 +582,4 @@ CBSymbolTypeList::CreateIcons
 	itsFunctionIcon  = c->GetImage(jcc_sym_function);
 	itsVariableIcon  = c->GetImage(jcc_sym_variable);
 	itsMemberIcon    = c->GetImage(jcc_sym_member);
-}
-
-/******************************************************************************
- DeleteIcons (private)
-
- ******************************************************************************/
-
-void
-CBSymbolTypeList::DeleteIcons()
-{
 }

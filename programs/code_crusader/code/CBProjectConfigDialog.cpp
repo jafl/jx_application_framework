@@ -18,6 +18,7 @@
 #include <JXChooseSaveFile.h>
 #include <JXHelpManager.h>
 #include <jXGlobals.h>
+#include <JFontManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -29,10 +30,10 @@ CBProjectConfigDialog::CBProjectConfigDialog
 	(
 	JXDirector*								supervisor,
 	const CBBuildManager::MakefileMethod	method,
-	const JCharacter*						targetName,
-	const JCharacter*						depListExpr,
-	const JCharacter*						updateMakefileCmd,
-	const JCharacter*						subProjectBuildCmd
+	const JString&							targetName,
+	const JString&							depListExpr,
+	const JString&							updateMakefileCmd,
+	const JString&							subProjectBuildCmd
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -58,10 +59,10 @@ void
 CBProjectConfigDialog::BuildWindow
 	(
 	const CBBuildManager::MakefileMethod	method,
-	const JCharacter*						targetName,
-	const JCharacter*						depListExpr,
-	const JCharacter*						updateMakefileCmd,
-	const JCharacter*						subProjectBuildCmd
+	const JString&							targetName,
+	const JString&							depListExpr,
+	const JString&							updateMakefileCmd,
+	const JString&							subProjectBuildCmd
 	)
 {
 // begin JXLayout
@@ -163,7 +164,7 @@ CBProjectConfigDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Project Configuration");
+	window->SetTitle(JGetString("WindowTitle::CBProjectConfigDialog"));
 	SetButtons(okButton, cancelButton);
 
 	ListenTo(itsHelpButton);
@@ -173,18 +174,18 @@ CBProjectConfigDialog::BuildWindow
 	itsCurrentMethod = method;
 	itsMethodRG->SelectItem(method);
 
-	itsTargetName->SetText(targetName);
-	itsTargetName->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsTargetName->GetText()->SetText(targetName);
+	itsTargetName->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 
-	itsDepListExpr->SetText(depListExpr);
-	itsDepListExpr->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsDepListExpr->GetText()->SetText(depListExpr);
+	itsDepListExpr->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 
-	itsUpdateMakefileCmd->SetText(updateMakefileCmd);
-	itsUpdateMakefileCmd->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsUpdateMakefileCmd->GetText()->SetText(updateMakefileCmd);
+	itsUpdateMakefileCmd->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	itsUpdateMakefileCmd->SetIsRequired();
 
-	itsSubProjectBuildCmd->SetText(subProjectBuildCmd);
-	itsSubProjectBuildCmd->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsSubProjectBuildCmd->GetText()->SetText(subProjectBuildCmd);
+	itsSubProjectBuildCmd->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	itsSubProjectBuildCmd->SetIsRequired();
 
 	UpdateDisplay();
@@ -208,10 +209,10 @@ CBProjectConfigDialog::GetConfig
 	const
 {
 	*method             = (CBBuildManager::MakefileMethod) itsMethodRG->GetSelectedItem();
-	*targetName         = itsTargetName->GetText();
-	*depListExpr        = itsDepListExpr->GetText();
-	*updateMakefileCmd  = itsUpdateMakefileCmd->GetText();
-	*subProjectBuildCmd = itsSubProjectBuildCmd->GetText();
+	*targetName         = itsTargetName->GetText()->GetText();
+	*depListExpr        = itsDepListExpr->GetText()->GetText();
+	*updateMakefileCmd  = itsUpdateMakefileCmd->GetText()->GetText();
+	*subProjectBuildCmd = itsSubProjectBuildCmd->GetText()->GetText();
 }
 
 /******************************************************************************
@@ -254,7 +255,7 @@ CBProjectConfigDialog::UpdateDisplay()
 	JString newCmd;
 	if (CBBuildManager::UpdateMakeDependCmd(itsCurrentMethod, method, &newCmd))
 		{
-		itsUpdateMakefileCmd->SetText(newCmd);
+		itsUpdateMakefileCmd->GetText()->SetText(newCmd);
 		}
 	itsCurrentMethod = method;
 

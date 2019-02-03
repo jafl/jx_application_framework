@@ -138,7 +138,7 @@ private:
 	void		PrepareJavaContextNamespaceList(JPtrArray<JString>* contextNamespace) const;
 	void		PreparePHPContextNamespaceList(JPtrArray<JString>* contextNamespace) const;
 	void		PrepareContextNamespaceList(JPtrArray<JString>* contextNamespace,
-											const JString& namespaceOp) const;
+											const JUtf8Byte* namespaceOp) const;
 	JBoolean	InContext(const JString& fullName,
 						  const JPtrArray<JString>& contextNamespace,
 						  const JBoolean caseSensitive) const;

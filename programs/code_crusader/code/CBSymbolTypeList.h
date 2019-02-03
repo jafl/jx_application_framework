@@ -11,6 +11,7 @@
 #include "CBSymbolList.h"
 #include <JPrefObject.h>
 
+class JXDisplay;
 class JXImage;
 
 class CBSymbolTypeList : public JContainer, public JPrefObject
@@ -92,9 +93,8 @@ private:
 
 private:
 
-	void	CreateSymTypeList();
-	void	CreateIcons();
-	void	DeleteIcons();
+	void	CreateSymTypeList(JXDisplay* display);
+	void	LoadIcons(JXDisplay* display);
 
 	JIndex	FindType(const CBSymbolList::Type type) const;
 

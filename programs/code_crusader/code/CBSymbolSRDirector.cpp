@@ -26,12 +26,9 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-static const JCharacter* kTitlePrefix = "Symbols: ";
-
 // Actions menu
 
-static const JCharacter* kActionsMenuTitleStr = "Actions";
-static const JCharacter* kActionsMenuStr =
+static const JUtf8Byte* kActionsMenuStr =
 	"    Copy selected names  %k Meta-C"
 	"%l| Update               %k Meta-U"
 	"  | Show C++ class tree  %k Meta-Shift-C"
@@ -57,7 +54,7 @@ CBSymbolSRDirector::CBSymbolSRDirector
 	CBSymbolDirector*	mainSym,
 	CBProjectDocument*	projDoc,
 	CBSymbolList*		symbolList,
-	const JCharacter*	filterStr,
+	const JString&		filterStr,
 	const JBoolean		isRegex,
 	JError*				err
 	)
@@ -68,7 +65,7 @@ CBSymbolSRDirector::CBSymbolSRDirector
 
 	*err = itsSymbolTable->SetNameFilter(filterStr, isRegex);
 
-	JString title = kTitlePrefix;
+	JString title = JGetString("WindowTitlePrefix::CBSymbolSRDirector");
 	title += filterStr;
 	GetWindow()->SetTitle(title);
 }
@@ -79,7 +76,7 @@ CBSymbolSRDirector::CBSymbolSRDirector
 	CBProjectDocument*		projDoc,
 	CBSymbolList*			symbolList,
 	const JArray<JIndex>&	displayList,
-	const JCharacter*		searchStr
+	const JString&			searchStr
 	)
 	:
 	JXWindowDirector(projDoc)
@@ -88,7 +85,7 @@ CBSymbolSRDirector::CBSymbolSRDirector
 
 	itsSymbolTable->SetDisplayList(displayList);
 
-	JString title = kTitlePrefix;
+	JString title = JGetString("WindowTitlePrefix::CBSymbolSRDirector");;
 	title += searchStr;
 	GetWindow()->SetTitle(title);
 }
@@ -168,7 +165,7 @@ CBSymbolSRDirector::BuildWindow
 	assert( itsSymbolTable != nullptr );
 	itsSymbolTable->FitToEnclosure();
 
-	itsActionsMenu = menuBar->AppendTextMenu(kActionsMenuTitleStr);
+	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::CBSymbolSRDirector"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr, "CBSymbolSRDirector");
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsActionsMenu);

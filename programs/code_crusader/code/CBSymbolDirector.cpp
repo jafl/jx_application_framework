@@ -46,16 +46,13 @@
 #include <jFileUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kWindowTitleSuffix = " Symbols";
-
 // setup information
 
 const JFileVersion kCurrentPrefsVersion = 0;
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    New text file                  %k Meta-N       %i" kCBNewTextFileAction
 	"  | New text file from template... %k Meta-Shift-N %i" kCBNewTextFileFromTmplAction
 	"  | New project...                                 %i" kCBNewProjectAction
@@ -76,8 +73,7 @@ enum
 
 // Symbol menu
 
-static const JCharacter* kSymbolMenuTitleStr = "Symbol";
-static const JCharacter* kSymbolMenuStr =
+static const JUtf8Byte* kSymbolMenuStr =
 	"    Edit search paths...                               %i" kCBEditSearchPathsAction
 	"  | Update                 %k Meta-U                   %i" kCBUpdateClassTreeAction
 	"%l| Open file              %k Left-dbl-click or Return %i" kCBOpenSelectedFilesAction
@@ -97,8 +93,7 @@ enum
 
 // Project menu
 
-static const JCharacter* kProjectMenuTitleStr = "Project";
-static const JCharacter* kProjectMenuStr =
+static const JUtf8Byte* kProjectMenuStr =
 	"    Show C++ class tree                 %i" kCBShowCPPClassTreeAction
 	"  | Show Java class tree                %i" kCBShowJavaClassTreeAction
 	"  | Show PHP class tree                 %i" kCBShowPHPClassTreeAction
@@ -117,14 +112,9 @@ enum
 	kSaveAllTextCmd, kCloseAllTextCmd
 };
 
-// Windows menu
-
-static const JCharacter* kFileListMenuTitleStr = "Windows";
-
 // Preferences menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    Symbols..."
 	"  | Toolbar buttons..."
 	"  | File types..."
@@ -180,7 +170,7 @@ CBSymbolDirector::CBSymbolDirector
 		// put SR windows on top of main window
 
 		JBoolean active;
-		*setInput >> active;
+		*setInput >> JBoolFromString(active);
 		if (active && !subProject)
 			{
 			Activate();
@@ -210,7 +200,7 @@ CBSymbolDirector::CBSymbolDirector
 		JBoolean active = kJFalse;
 		if (47 <= projVers && projVers < 71)
 			{
-			projInput >> active;
+			projInput >> JBoolFromString(active);
 			}
 		if (useProjData && active && !subProject)
 			{
@@ -263,7 +253,7 @@ CBSymbolDirector::~CBSymbolDirector()
 void
 CBSymbolDirector::ReadSetup
 	(
-	std::istream&			symInput,
+	std::istream&		symInput,
 	const JFileVersion	symVers
 	)
 {
@@ -289,7 +279,7 @@ CBSymbolDirector::StreamOut
 		{
 		*setOutput << ' ';
 		GetWindow()->WriteGeometry(*setOutput);
-		*setOutput << ' ' << IsActive() << ' ';
+		*setOutput << ' ' << JBoolToString(IsActive()) << ' ';
 		}
 
 	itsSymbolList->WriteSetup(projOutput, symOutput);
@@ -313,7 +303,7 @@ CBSymbolDirector::ReadPrefs
 		return;
 		}
 
-	input >> itsRaiseTreeOnRightClickFlag;
+	input >> JBoolFromString(itsRaiseTreeOnRightClickFlag);
 }
 
 /******************************************************************************
@@ -329,7 +319,7 @@ CBSymbolDirector::WritePrefs
 	const
 {
 	output << kCurrentPrefsVersion;
-	output << ' ' << itsRaiseTreeOnRightClickFlag;
+	output << ' ' << JBoolToString(itsRaiseTreeOnRightClickFlag);
 }
 
 /******************************************************************************
@@ -343,7 +333,7 @@ CBSymbolDirector::CloseSymbolBrowsers()
 	const JSize count = itsSRList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsSRList->LastElement())->Close();
+		itsSRList->GetLastElement()->Close();
 		}
 }
 
@@ -421,8 +411,8 @@ CBSymbolDirector::ListUpdateFinished
 JBoolean
 CBSymbolDirector::FindSymbol
 	(
-	const JCharacter*	name,
-	const JCharacter*	fileName,
+	const JString&		name,
+	const JString&		fileName,
 	const JXMouseButton	button
 	)
 {
@@ -438,7 +428,7 @@ CBSymbolDirector::FindSymbol
 	JPtrArray<JString> cContextNamespaceList(JPtrArrayT::kDeleteAll);
 	JPtrArray<JString> javaContextNamespaceList(JPtrArrayT::kDeleteAll);
 	JPtrArray<JString> phpContextNamespaceList(JPtrArrayT::kDeleteAll);
-	if (!JString::IsEmpty(fileName))
+	if (!fileName.IsEmpty())
 		{
 		(itsProjDoc->GetAllFileList())->GetFileID(fileName, &contextFileID);
 
@@ -627,7 +617,7 @@ CBSymbolDirector::BuildWindow
 		window->SetSize(w,h);
 		}
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CBSymbolDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -645,11 +635,11 @@ CBSymbolDirector::BuildWindow
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
 	assert( recentTextMenu != nullptr );
 
-	itsSymbolMenu = menuBar->AppendTextMenu(kSymbolMenuTitleStr);
+	itsSymbolMenu = menuBar->AppendTextMenu(JGetString("SymbolMenuTitle::CBSymbolDirector"));
 	itsSymbolMenu->SetMenuItems(kSymbolMenuStr, "CBSymbolDirector");
 	ListenTo(itsSymbolMenu);
 
-	itsProjectMenu = menuBar->AppendTextMenu(kProjectMenuTitleStr);
+	itsProjectMenu = menuBar->AppendTextMenu(JGetString("ProjectMenuTitle::CBSymbolDirector"));
 	itsProjectMenu->SetMenuItems(kProjectMenuStr, "CBSymbolDirector");
 	itsProjectMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsProjectMenu);
@@ -671,12 +661,12 @@ CBSymbolDirector::BuildWindow
 	ListenTo(itsCmdMenu);
 
 	CBDocumentMenu* fileListMenu =
-		jnew CBDocumentMenu(kFileListMenuTitleStr, menuBar,
+		jnew CBDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != nullptr );
 	menuBar->AppendMenu(fileListMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "CBSymbolDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
@@ -706,7 +696,7 @@ CBSymbolDirector::BuildWindow
 void
 CBSymbolDirector::AdjustWindowTitle()
 {
-	const JString title = itsProjDoc->GetName() + kWindowTitleSuffix;
+	const JString title = itsProjDoc->GetName() + JGetString("WindowTitleSuffix::CBSymbolDirector");
 	GetWindow()->SetTitle(title);
 }
 

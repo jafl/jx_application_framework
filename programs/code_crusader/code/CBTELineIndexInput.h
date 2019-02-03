@@ -25,13 +25,14 @@ public:
 
 	void	SetTE(JXTEBase* te, CBTECaretInputBase* colInput);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c,
+								   const int keySym, const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual void	Act(JXTEBase* te, const JIndex value);
-	virtual JIndex	GetValue(JXTEBase* te) const;
-	virtual JIndex	GetValue(const JTextEditor::CaretLocationChanged& info) const;
+	virtual void	Act(JXTEBase* te, const JIndex value) override;
+	virtual JIndex	GetValue(JXTEBase* te) const override;
+	virtual JIndex	GetValue(const JTextEditor::CaretLocationChanged& info) const override;
 
 private:
 

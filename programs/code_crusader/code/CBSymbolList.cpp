@@ -22,7 +22,7 @@
 #include <strstream>
 #include <jAssert.h>
 
-static const JCharacter* kCtagsArgs =
+static const JUtf8Byte* kCtagsArgs =
 	"--format=2 --excmd=number --sort=no --extra=q "
 	"--c-kinds=+p --php-kinds=-v --ant-kinds=t "
 	CBCtagsBisonDef
@@ -38,11 +38,7 @@ static const JCharacter* kCtagsArgs =
 
 // JBroadcaster message types
 
-const JCharacter* CBSymbolList::kChanged = "Changed::CBSymbolList";
-
-// string ID's
-
-static const JCharacter* kCleaningUpID = "CleaningUp::CBSymbolList";
+const JUtf8Byte* CBSymbolList::kChanged = "Changed::CBSymbolList";
 
 /******************************************************************************
  Constructor
@@ -138,8 +134,8 @@ CBSymbolList::GetFile
 JBoolean
 CBSymbolList::IsUniqueClassName
 	(
-	const JCharacter*	name,
-	CBLanguage*			lang
+	const JString&	name,
+	CBLanguage*		lang
 	)
 	const
 {
@@ -213,7 +209,7 @@ private:
 JBoolean
 CBSymbolList::FindSymbol
 	(
-	const JCharacter*	name,
+	const JString&		name,
 	const JFAID_t		contextFileID,
 	const JString&		contextNamespace,
 	const CBLanguage	contextLang,
@@ -479,7 +475,7 @@ void
 CBSymbolList::PrepareContextNamespaceList
 	(
 	JPtrArray<JString>*	contextNamespace,
-	const JCharacter*	namespaceOp
+	const JUtf8Byte*	namespaceOp
 	)
 	const
 {
@@ -687,7 +683,7 @@ CBSymbolList::UpdateFinished
 	const JSize fileCount = deadFileList.GetElementCount();
 	if (fileCount > 0)
 		{
-		pg.FixedLengthProcessBeginning(fileCount, JGetString(kCleaningUpID), kJFalse, kJTrue);
+		pg.FixedLengthProcessBeginning(fileCount, JGetString("CleaningUp::CBSymbolList"), kJFalse, kJTrue);
 
 		for (JIndex i=1; i<=fileCount; i++)
 			{
@@ -760,7 +756,7 @@ CBSymbolList::RemoveFile
 void
 CBSymbolList::FileChanged
 	(
-	const JCharacter*		fileName,
+	const JString&			fileName,
 	const CBTextFileType	fileType,
 	const JFAID_t			id
 	)
@@ -785,7 +781,7 @@ CBSymbolList::FileChanged
 void
 CBSymbolList::ParseFile
 	(
-	const JCharacter*		fileName,
+	const JString&			fileName,
 	const CBTextFileType	fileType,
 	const JFAID_t			id
 	)
@@ -794,7 +790,7 @@ CBSymbolList::ParseFile
 	CBLanguage lang;
 	if (ProcessFile(fileName, fileType, &data, &lang))
 		{
-		std::istrstream input(data.GetCString(), data.GetLength());
+		std::istrstream input(data.GetBytes(), data.GetByteCount());
 		ReadSymbolList(input, lang, fileName, id);
 		itsChangedDuringParseFlag = kJTrue;
 		}
@@ -827,7 +823,7 @@ CBSymbolList::ReadSymbolList
 	(
 	std::istream&		input,
 	const CBLanguage	lang,
-	const JCharacter*	fullName,
+	const JString&		fullName,
 	const JFAID_t		fileID
 	)
 {
@@ -862,7 +858,7 @@ CBSymbolList::ReadSymbolList
 
 		ReadExtensionFlags(input, &flags);
 
-		JCharacter typeChar = ' ';
+		JUtf8Character typeChar(' ');
 		JString* value;
 		if (flags.GetElement("kind", &value) && !value->IsEmpty())
 			{
@@ -874,7 +870,7 @@ CBSymbolList::ReadSymbolList
 			{
 			signature = jnew JString(*value);
 			assert( signature != nullptr );
-			signature->PrependCharacter(' ');
+			signature->Prepend(" ");
 			}
 
 		if (IgnoreSymbol(*name))
@@ -883,7 +879,7 @@ CBSymbolList::ReadSymbolList
 			}
 		else
 			{
-			const Type type = DecodeSymbolType(lang, typeChar);
+			const Type type = DecodeSymbolType(lang, typeChar.GetBytes()[0]);
 			if (signature == nullptr &&
 				(IsFunction(type) || IsPrototype(type)))
 				{
@@ -976,7 +972,7 @@ CBSymbolList::ReadSetup
 		JBoolean fullyQualifiedFileScope = kJFalse;
 		if (vers >= 54)
 			{
-			input >> fullyQualifiedFileScope;
+			input >> JBoolFromString(fullyQualifiedFileScope);
 			}
 
 		JFAID_t fileID;
@@ -987,7 +983,7 @@ CBSymbolList::ReadSetup
 		if (vers > 63)
 			{
 			JBoolean hasSignature;
-			input >> hasSignature;
+			input >> JBoolFromString(hasSignature);
 
 			if (hasSignature)
 				{
@@ -1038,18 +1034,18 @@ CBSymbolList::WriteSetup
 			*symOutput << ' ' << *(info.name);
 			*symOutput << ' ' << (long) info.lang;
 			*symOutput << ' ' << (long) info.type;
-			*symOutput << ' ' << info.fullyQualifiedFileScope;
+			*symOutput << ' ' << JBoolToString(info.fullyQualifiedFileScope);
 			*symOutput << ' ' << info.fileID;
 			*symOutput << ' ' << info.lineIndex;
 
 			if (info.signature != nullptr)
 				{
-				*symOutput << ' ' << kJTrue;
+				*symOutput << ' ' << JBoolToString(kJTrue);
 				*symOutput << ' ' << *(info.signature);
 				}
 			else
 				{
-				*symOutput << ' ' << kJFalse;
+				*symOutput << ' ' << JBoolToString(kJFalse);
 				}
 			}
 
