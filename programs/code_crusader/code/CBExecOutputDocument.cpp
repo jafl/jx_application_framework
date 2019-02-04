@@ -328,7 +328,10 @@ CBExecOutputDocument::SetConnection
 		const JString& text = te->GetText()->GetText();
 		JStringIterator iter(text, kJIteratorStartAtEnd);
 		JUtf8Character c;
-		while (iter.Prev(&c) && c == '\n') {}
+		while (iter.Prev(&c, kJFalse) && c == '\n')
+			{
+			iter.SkipPrev();
+			}
 
 		if (!iter.AtEnd())
 			{
