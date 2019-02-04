@@ -1,7 +1,8 @@
 [![Build Status](https://travis-ci.org/jafl/jx_application_framework.svg?branch=utf8)](http://travis-ci.org/jafl/jx_application_framework)
-[![Code coverage](https://img.shields.io/codecov/c/github/jafl/jx_application_framework/utf8.svg?style=flat)](https://codecov.io/gh/jafl/jx_application_framework)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/jafl/jx_application_framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jafl/jx_application_framework/alerts/)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/jafl/jx_application_framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jafl/jx_application_framework/context:cpp)
+
+libjcore: [![Code coverage](https://img.shields.io/codecov/c/github/jafl/jx_application_framework/utf8.svg?style=flat)](https://codecov.io/gh/jafl/jx_application_framework)
 
 This repository contains all the New Planet Software tools and applications:
 
