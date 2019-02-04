@@ -25,55 +25,27 @@
 
 JBoolean CBBuildManager::itsRebuildMakefileDailyFlag = kJTrue;
 
-static const JCharacter* kMakeHeaderName = "Make.header";
-static const JCharacter* kMakeFilesName  = "Make.files";
+static const JString kMakeHeaderName("Make.header", kJFalse);
+static const JString kMakeFilesName("Make.files", kJFalse);
 
-static const JCharacter* kCMakeHeaderName = "CMake.header";
-static const JCharacter* kCMakeInputName  = "CMakeLists.txt";
+static const JString kCMakeHeaderName("CMake.header", kJFalse);
+static const JString kCMakeInputName("CMakeLists.txt", kJFalse);
 
-static const JCharacter* kQMakeHeaderName      = "QMake.header";
-static const JCharacter* kQMakeInputFileSuffix = ".pro";
+static const JString kQMakeHeaderName("QMake.header", kJFalse);
+static const JString kQMakeInputFileSuffix(".pro", kJFalse);
 
-static const JCharacter* kDefaultSubProjectBuildCmd = "make -k all";
-static const JCharacter* kSubProjectBuildSuffix     = ".jmk";
+static const JString kDefaultSubProjectBuildCmd("make -k all", kJFalse);
+static const JString kSubProjectBuildSuffix(".jmk", kJFalse);
 
-static const JCharacter* kMakefileName[] =
+static const JUtf8Byte* kMakefileName[] =
 {
 	"m3makefile", "Makefile", "makefile"
 };
 
 const JIndex kFirstDefaultMakefileIndex = 2;	// first one that makemake can overwrite
-const JSize kMakefileNameCount          = sizeof(kMakefileName) / sizeof(JCharacter*);
+const JSize kMakefileNameCount          = sizeof(kMakefileName) / sizeof(JUtf8Byte*);
 
 const time_t kUpdateMakefileInterval = 24*3600;	// 1 day (seconds)
-
-// string ID's
-
-static const JCharacter* kNoMakeFileID = "NoMakeFile::CBBuildManager";
-
-static const JCharacter* kSubProjectBuildInitTextID  = "SubProjectBuildInitText::CBBuildManager";
-
-static const JCharacter* kMakeHeaderInitTextID         = "MakeHeaderInitText::CBBuildManager";
-static const JCharacter* kMakeFilesInitTextID          = "MakeFilesInitText::CBBuildManager";
-static const JCharacter* kDefaultMakemakeDependCmdID   = "DefaultMakemakeDependCmd::CBBuildManager";
-static const JCharacter* kMakeHeaderMarkerID           = "MakeHeaderMarker::CBBuildManager";
-static const JCharacter* kMakeHeaderLibTargetWarningID = "MakeHeaderLibTargetWarning::CBBuildManager";
-static const JCharacter* kMakeHeaderLibTargetID        = "MakeHeaderLibTarget::CBBuildManager";
-
-static const JCharacter* kCMakeHeaderInitTextID   = "CMakeHeaderInitText::CBBuildManager";
-static const JCharacter* kDefaultCMakeDependCmdID = "DefaultCMakeDependCmd::CBBuildManager";
-static const JCharacter* kCMakeInsertMarkerID     = "CMakeInsertMarker::CBBuildManager";
-static const JCharacter* kCMakeDataID             = "CMakeData::CBBuildManager";
-
-static const JCharacter* kQMakeHeaderInitTextID   = "QMakeHeaderInitText::CBBuildManager";
-static const JCharacter* kDefaultQMakeDependCmdID = "DefaultQMakeDependCmd::CBBuildManager";
-static const JCharacter* kQMakeInsertMarkerID     = "QMakeInsertMarker::CBBuildManager";
-static const JCharacter* kQMakeDataID             = "QMakeData::CBBuildManager";
-
-static const JCharacter* kMissingBuildTargetID = "MissingBuildTarget::CBBuildManager";
-static const JCharacter* kMissingSourceFilesID = "MissingSourceFiles::CBBuildManager";
-static const JCharacter* kNoSourceFilesID      = "NoSourceFiles::CBBuildManager";
-static const JCharacter* kMakeFilesWarningID   = "MakeFilesWarning::CBBuildManager";
 
 /******************************************************************************
  Constructor
@@ -85,8 +57,8 @@ CBBuildManager::CBBuildManager
 	CBProjectDocument*		doc,
 	const MakefileMethod	method,
 	const JBoolean			needWriteMakeFiles,
-	const JCharacter*		targetName,
-	const JCharacter*		depListExpr
+	const JString&			targetName,
+	const JString&			depListExpr
 	)
 	:
 	itsMakefileMethod(method),
@@ -262,7 +234,7 @@ CBBuildManager::UpdateMakeFiles
 		{
 		if (reportError)
 			{
-			JGetUserNotification()->ReportError(JGetString(kMissingBuildTargetID));
+			JGetUserNotification()->ReportError(JGetString("MissingBuildTarget::CBBuildManager"));
 			EditProjectConfig();
 			}
 		return kJFalse;
@@ -306,7 +278,7 @@ CBBuildManager::UpdateMakeFiles
 			CBProjectTable*	fileTable = itsProjDoc->GetFileTable();
 			fileTable->ClearSelection();
 			fileTable->SelectFileNodes(invalidList);
-			JGetUserNotification()->ReportError(JGetString(kMissingSourceFilesID));
+			JGetUserNotification()->ReportError(JGetString("MissingSourceFiles::CBBuildManager"));
 			itsProjDoc->Activate();
 			}
 		return kJFalse;
@@ -315,7 +287,7 @@ CBBuildManager::UpdateMakeFiles
 		{
 		if (reportError)
 			{
-			JGetUserNotification()->ReportError(JGetString(kNoSourceFilesID));
+			JGetUserNotification()->ReportError(JGetString("NoSourceFiles::CBBuildManager"));
 			itsProjDoc->Activate();
 			}
 		return kJFalse;
@@ -330,7 +302,7 @@ CBBuildManager::UpdateMakeFiles
 void
 CBBuildManager::UpdateMakeHeader
 	(
-	const JCharacter*			fileName,
+	const JString&				fileName,
 	const JPtrArray<JString>&	libFileList,
 	const JPtrArray<JString>&	libProjPathList
 	)
@@ -345,12 +317,12 @@ CBBuildManager::UpdateMakeHeader
 
 	std::ostringstream output;
 
-	const JString& marker = JGetString(kMakeHeaderMarkerID);
+	const JString& marker = JGetString("MakeHeaderMarker::CBBuildManager");
 	JIndex i;
 	const JBoolean foundMarker = text.LocateSubstring(marker, &i);
 	if (foundMarker)
 		{
-		output.write(text, i-1);
+		output.write(text.GetBytes(), i-1);
 		}
 	else
 		{
@@ -362,18 +334,18 @@ CBBuildManager::UpdateMakeHeader
 	marker.Print(output);
 	output << "\n\n";
 
-	(JGetString(kMakeHeaderLibTargetWarningID)).Print(output);
+	JGetString("MakeHeaderLibTargetWarning::CBBuildManager").Print(output);
 
 	const JSize libCount = libFileList.GetElementCount();
 	JString libPath, libName;
 	for (JIndex i=1; i<=libCount; i++)
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"lib_full_name", (libFileList.GetElement(i))->GetCString(),
-			"lib_proj_path", (libProjPathList.GetElement(i))->GetCString(),
+			"lib_full_name", libFileList.GetElement(i)->GetBytes(),
+			"lib_proj_path", libProjPathList.GetElement(i)->GetBytes(),
 			};
-		const JString target = JGetString(kMakeHeaderLibTargetID, map, sizeof(map));
+		const JString target = JGetString("MakeHeaderLibTarget::CBBuildManager", map, sizeof(map));
 		target.Print(output);
 		}
 
@@ -384,7 +356,7 @@ CBBuildManager::UpdateMakeHeader
 	if (foundMarker && text.LocateNextSubstring(marker, &i))
 		{
 		const JSize offset = i-1 + marker.GetLength();
-		output.write(text.GetCString() + offset, text.GetLength() - offset);
+		output.write(text.GetBytes() + offset, text.GetLength() - offset);
 		}
 	else
 		{
@@ -397,7 +369,7 @@ CBBuildManager::UpdateMakeHeader
 	if (s.c_str() != text)
 		{
 		JEditVCS(fileName);
-		std::ofstream f(fileName);
+		std::ofstream f(fileName.GetBytes());
 		f << s.c_str();
 		f.close();
 
@@ -419,13 +391,13 @@ CBBuildManager::UpdateMakeHeader
 void
 CBBuildManager::UpdateMakeFiles
 	(
-	const JCharacter* fileName,
-	const JCharacter* text
+	const JString& fileName,
+	const JString& text
 	)
 	const
 {
 	std::ostringstream data;
-	(JGetString(kMakeFilesWarningID)).Print(data);
+	JGetString("MakeFilesWarning::CBBuildManager").Print(data);
 	PrintTargetName(data);
 	data << '\n';
 	data << text;
@@ -443,7 +415,7 @@ CBBuildManager::UpdateMakeFiles
 	if (s.c_str() != origText)
 		{
 		JEditVCS(fileName);
-		std::ofstream output(fileName);
+		std::ofstream output(fileName.GetBytes());
 		output << s.c_str();
 		}
 }
@@ -456,24 +428,24 @@ CBBuildManager::UpdateMakeFiles
 void
 CBBuildManager::WriteCMakeInput
 	(
-	const JCharacter* inputFileName,
-	const JCharacter* src,
-	const JCharacter* hdr,
-	const JCharacter* outputFileName
+	const JString& inputFileName,
+	const JString& src,
+	const JString& hdr,
+	const JString& outputFileName
 	)
 	const
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"t", itsTargetName.GetCString(),
-		"s", src,
-		"h", hdr
+		"t", itsTargetName.GetBytes(),
+		"s", src.GetBytes(),
+		"h", hdr.GetBytes()
 		};
-	const JString cmakeData = JGetString(kCMakeDataID, map, sizeof(map));
+	const JString cmakeData = JGetString("CMakeData::CBBuildManager", map, sizeof(map));
 
 	JString cmakeHeader;
 	JReadFile(inputFileName, &cmakeHeader);
-	const JCharacter* marker = JGetString(kCMakeInsertMarkerID);
+	const JString& marker = JGetString("CMakeInsertMarker::CBBuildManager");
 	JIndex i;
 	if (cmakeHeader.LocateSubstring(marker, &i))
 		{
@@ -485,8 +457,8 @@ CBBuildManager::WriteCMakeInput
 		}
 
 	JEditVCS(outputFileName);
-	std::ofstream output(outputFileName);
-	(JGetString(kMakeFilesWarningID)).Print(output);
+	std::ofstream output(outputFileName.GetBytes());
+	JGetString("MakeFilesWarning::CBBuildManager").Print(output);
 	cmakeHeader.Print(output);
 }
 
@@ -498,24 +470,24 @@ CBBuildManager::WriteCMakeInput
 void
 CBBuildManager::WriteQMakeInput
 	(
-	const JCharacter* inputFileName,
-	const JCharacter* src,
-	const JCharacter* hdr,
-	const JCharacter* outputFileName
+	const JString& inputFileName,
+	const JString& src,
+	const JString& hdr,
+	const JString& outputFileName
 	)
 	const
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"t", itsTargetName.GetCString(),
-		"s", src,
-		"h", hdr
+		"t", itsTargetName.GetBytes(),
+		"s", src.GetBytes(),
+		"h", hdr.GetBytes()
 		};
-	const JString qmakeData = JGetString(kQMakeDataID, map, sizeof(map));
+	const JString qmakeData = JGetString("QMakeData::CBBuildManager", map, sizeof(map));
 
 	JString qmakeHeader;
 	JReadFile(inputFileName, &qmakeHeader);
-	const JCharacter* marker = JGetString(kQMakeInsertMarkerID);
+	const JString& marker = JGetString("QMakeInsertMarker::CBBuildManager");
 	JIndex i;
 	if (qmakeHeader.LocateSubstring(marker, &i))
 		{
@@ -527,8 +499,8 @@ CBBuildManager::WriteQMakeInput
 		}
 
 	JEditVCS(outputFileName);
-	std::ofstream output(outputFileName);
-	(JGetString(kMakeFilesWarningID)).Print(output);
+	std::ofstream output(outputFileName.GetBytes());
+	JGetString("MakeFilesWarning::CBBuildManager").Print(output);
 	qmakeHeader.Print(output);
 }
 
@@ -574,7 +546,7 @@ CBBuildManager::PrintTargetName
 JBoolean
 CBBuildManager::SaveOpenFile
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	JXFileDocument* doc;
@@ -719,17 +691,17 @@ CBBuildManager::UpdateMakeDependCmd
 
 	if (newMethod == kMakemake)
 		{
-		*cmd = JGetString(kDefaultMakemakeDependCmdID);
+		*cmd = JGetString("DefaultMakemakeDependCmd::CBBuildManager");
 		return kJTrue;
 		}
 	else if (newMethod == kCMake)
 		{
-		*cmd = JGetString(kDefaultCMakeDependCmdID);
+		*cmd = JGetString("DefaultCMakeDependCmd::CBBuildManager");
 		return kJTrue;
 		}
 	else if (newMethod == kQMake)
 		{
-		*cmd = JGetString(kDefaultQMakeDependCmdID);
+		*cmd = JGetString("DefaultQMakeDependCmd::CBBuildManager");
 		return kJTrue;
 		}
 	// if manual, leave as is, since input files for other methods will still exist
@@ -786,8 +758,8 @@ CBBuildManager::EditMakeConfig()
 	GetMakefileNames(&makefileNameList);
 	makefileNameList.Prepend(cmakeInputName);
 	makefileNameList.Prepend(qmakeInputName);
-	makefileNameList.Append(JCombinePathAndName(itsProjDoc->GetFilePath(), "pom.xml"));		// Maven
-	makefileNameList.Append(JCombinePathAndName(itsProjDoc->GetFilePath(), "build.xml"));	// ant
+	makefileNameList.Append(JCombinePathAndName(itsProjDoc->GetFilePath(), JString("pom.xml", kJFalse)));	// Maven
+	makefileNameList.Append(JCombinePathAndName(itsProjDoc->GetFilePath(), JString("build.xml", kJFalse)));	// ant
 
 	const JSize count = makefileNameList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -808,7 +780,7 @@ CBBuildManager::EditMakeConfig()
 			}
 		}
 
-	JGetUserNotification()->ReportError(JGetString(kNoMakeFileID));
+	JGetUserNotification()->ReportError(JGetString("NoMakeFile::CBBuildManager"));
 	return kJFalse;
 }
 
@@ -820,11 +792,11 @@ CBBuildManager::EditMakeConfig()
 void
 CBBuildManager::ReadSetup
 	(
-	std::istream&			projInput,
+	std::istream&		projInput,
 	const JFileVersion	projVers,
-	std::istream*			setInput,
+	std::istream*		setInput,
 	const JFileVersion	setVers,
-	const JCharacter*	projPath
+	const JString&		projPath
 	)
 {
 	if (projVers < 62)
@@ -833,13 +805,15 @@ CBBuildManager::ReadSetup
 
 		if (projVers >= 57)
 			{
-			projInput >> itsMakefileMethod >> itsNeedWriteMakeFilesFlag;
+			projInput >> itsMakefileMethod;
+			projInput >> JBoolFromString(itsNeedWriteMakeFilesFlag);
 			projInput >> itsTargetName;
 			}
 		else if (projVers >= 35)
 			{
 			JBoolean shouldWriteMakeFilesFlag;
-			projInput >> shouldWriteMakeFilesFlag >> itsNeedWriteMakeFilesFlag;
+			projInput >> JBoolFromString(shouldWriteMakeFilesFlag);
+			projInput >> JBoolFromString(itsNeedWriteMakeFilesFlag);
 			projInput >> itsTargetName;
 
 			itsMakefileMethod = (shouldWriteMakeFilesFlag ? CBBuildManager::kMakemake :
@@ -850,7 +824,7 @@ CBBuildManager::ReadSetup
 			{
 			JString origPath;
 			projInput >> origPath;
-			if (JString::IsEmpty(projPath) || origPath != projPath)
+			if (projPath.IsEmpty() || origPath != projPath)
 				{
 				itsNeedWriteMakeFilesFlag = kJTrue;
 				}
@@ -870,7 +844,7 @@ CBBuildManager::ReadSetup
 			}
 
 		projInput >> itsMakefileMethod;
-		projInput >> itsNeedWriteMakeFilesFlag;
+		projInput >> JBoolFromString(itsNeedWriteMakeFilesFlag);
 		projInput >> itsTargetName;
 		projInput >> itsDepListExpr;
 
@@ -961,12 +935,12 @@ CBBuildManager::StreamOut
 void
 CBBuildManager::ReadTemplate
 	(
-	std::istream&				input,
+	std::istream&			input,
 	const JFileVersion		tmplVers,
 	const JFileVersion		projVers,
 	const MakefileMethod	method,
-	const JCharacter*		targetName,
-	const JCharacter*		depListExpr
+	const JString&			targetName,
+	const JString&			depListExpr
 	)
 {
 	itsMakefileMethod = method;
@@ -975,7 +949,7 @@ CBBuildManager::ReadTemplate
 
 	if (projVers >= 62)
 		{
-		ReadSetup(input, projVers, nullptr, 0, nullptr);
+		ReadSetup(input, projVers, nullptr, 0, JString::empty);
 		}
 	else
 		{
@@ -988,7 +962,7 @@ CBBuildManager::ReadTemplate
 	JString makeHeaderText, makeFilesText, cmakeHeaderText, qmakeHeaderText;
 	if (tmplVers > 0)
 		{
-		input >> hasMakeHeader;
+		input >> JBoolFromString(hasMakeHeader);
 		}
 	if (hasMakeHeader)
 		{
@@ -996,7 +970,7 @@ CBBuildManager::ReadTemplate
 		}
 	if (tmplVers > 0)
 		{
-		input >> hasMakeFiles;
+		input >> JBoolFromString(hasMakeFiles);
 		}
 	if (hasMakeFiles)
 		{
@@ -1005,7 +979,7 @@ CBBuildManager::ReadTemplate
 
 	if (tmplVers >= 4)
 		{
-		input >> hasCMakeHeader;
+		input >> JBoolFromString(hasCMakeHeader);
 		if (hasCMakeHeader)
 			{
 			input >> cmakeHeaderText;
@@ -1014,14 +988,14 @@ CBBuildManager::ReadTemplate
 
 	if (tmplVers >= 2)
 		{
-		input >> hasQMakeHeader;
+		input >> JBoolFromString(hasQMakeHeader);
 		if (hasQMakeHeader)
 			{
 			input >> qmakeHeaderText;
 			}
 
 		JBoolean hasOtherFiles;
-		input >> hasOtherFiles;
+		input >> JBoolFromString(hasOtherFiles);
 		if (hasOtherFiles)
 			{
 			JSize fileCount;
@@ -1031,7 +1005,7 @@ CBBuildManager::ReadTemplate
 			JBoolean hasFile;
 			for (JIndex i=1; i<=fileCount; i++)
 				{
-				input >> fileName >> hasFile;
+				input >> fileName >> JBoolFromString(hasFile);
 				if (hasFile)
 					{
 					input >> text;
@@ -1039,7 +1013,7 @@ CBBuildManager::ReadTemplate
 					fullName = JCombinePathAndName(itsProjDoc->GetFilePath(), fileName);
 					if (!JNameUsed(fullName))
 						{
-						std::ofstream output(fullName);
+						std::ofstream output(fullName.GetBytes());
 						text.Print(output);
 						}
 					}
@@ -1074,8 +1048,8 @@ CBBuildManager::ReadTemplate
 inline void
 cbSaveFile
 	(
-	std::ostream&			output,
-	const JCharacter*	fileName
+	std::ostream&	output,
+	const JString&	fileName
 	)
 {
 	if (JFileExists(fileName))
@@ -1098,8 +1072,6 @@ CBBuildManager::WriteTemplate
 	const
 {
 	StreamOut(output, nullptr);
-
-	JBoolean saveMakefile = kJTrue;
 
 	JString makeHeaderName, makeFilesName;
 	GetMakemakeFileNames(&makeHeaderName, &makeFilesName);
@@ -1185,16 +1157,16 @@ CBBuildManager::CreateMakeFiles
 
 	if (itsMakefileMethod == kMakemake)
 		{
-		CreateMakemakeFiles(JGetString(kMakeHeaderInitTextID),
-							JGetString(kMakeFilesInitTextID), kJFalse);
+		CreateMakemakeFiles(JGetString("MakeHeaderInitText::CBBuildManager"),
+							JGetString("MakeFilesInitText::CBBuildManager"), kJFalse);
 		}
 	else if (itsMakefileMethod == kCMake)
 		{
-		CreateCMakeFiles(JGetString(kCMakeHeaderInitTextID), kJFalse);
+		CreateCMakeFiles(JGetString("CMakeHeaderInitText::CBBuildManager"), kJFalse);
 		}
 	else if (itsMakefileMethod == kQMake)
 		{
-		CreateQMakeFiles(JGetString(kQMakeHeaderInitTextID), kJFalse);
+		CreateQMakeFiles(JGetString("QMakeHeaderInitText::CBBuildManager"), kJFalse);
 		}
 }
 
@@ -1203,9 +1175,9 @@ CBBuildManager::CreateMakeFiles
 void
 CBBuildManager::CreateMakemakeFiles
 	(
-	const JCharacter*	makeHeaderText,
-	const JCharacter*	makeFilesText,
-	const JBoolean		readingTemplate
+	const JString&	makeHeaderText,
+	const JString&	makeFilesText,
+	const JBoolean	readingTemplate
 	)
 {
 	// don't overwrite existing Make.files or Make.header
@@ -1214,17 +1186,17 @@ CBBuildManager::CreateMakemakeFiles
 	GetMakemakeFileNames(&makeHeaderName, &makeFilesName);
 	if (!JFileExists(makeHeaderName) && !JFileExists(makeFilesName))
 		{
-		std::ofstream output1(makeHeaderName);
+		std::ofstream output1(makeHeaderName.GetBytes());
 		output1 << makeHeaderText;
 
-		std::ofstream output2(makeFilesName);
+		std::ofstream output2(makeFilesName.GetBytes());
 		output2 << makeFilesText;
 		}
 
 	if (!readingTemplate)
 		{
-		(itsProjDoc->GetCommandManager())->SetMakeDependCommand(
-			JGetString(kDefaultMakemakeDependCmdID));
+		itsProjDoc->GetCommandManager()->SetMakeDependCommand(
+			JGetString("DefaultMakemakeDependCmd::CBBuildManager"));
 		}
 
 	itsModTime = SaveMakeFileModTimes();
@@ -1233,8 +1205,8 @@ CBBuildManager::CreateMakemakeFiles
 void
 CBBuildManager::CreateCMakeFiles
 	(
-	const JCharacter*	cmakeHeaderText,
-	const JBoolean		readingTemplate
+	const JString&	cmakeHeaderText,
+	const JBoolean	readingTemplate
 	)
 {
 	// don't overwrite existing CMake.header file
@@ -1243,14 +1215,14 @@ CBBuildManager::CreateCMakeFiles
 	GetCMakeFileNames(&cmakeHeaderName, &cmakeInputName);
 	if (!JFileExists(cmakeHeaderName))
 		{
-		std::ofstream output(cmakeHeaderName);
+		std::ofstream output(cmakeHeaderName.GetBytes());
 		output << cmakeHeaderText;
 		}
 
 	if (!readingTemplate)
 		{
-		(itsProjDoc->GetCommandManager())->SetMakeDependCommand(
-			JGetString(kDefaultCMakeDependCmdID));
+		itsProjDoc->GetCommandManager()->SetMakeDependCommand(
+			JGetString("DefaultCMakeDependCmd::CBBuildManager"));
 		}
 
 	itsModTime = SaveMakeFileModTimes();
@@ -1259,8 +1231,8 @@ CBBuildManager::CreateCMakeFiles
 void
 CBBuildManager::CreateQMakeFiles
 	(
-	const JCharacter*	qmakeHeaderText,
-	const JBoolean		readingTemplate
+	const JString&	qmakeHeaderText,
+	const JBoolean	readingTemplate
 	)
 {
 	// don't overwrite existing QMake.header file
@@ -1269,14 +1241,14 @@ CBBuildManager::CreateQMakeFiles
 	GetQMakeFileNames(&qmakeHeaderName, &qmakeInputName);
 	if (!JFileExists(qmakeHeaderName))
 		{
-		std::ofstream output(qmakeHeaderName);
+		std::ofstream output(qmakeHeaderName.GetBytes());
 		output << qmakeHeaderText;
 		}
 
 	if (!readingTemplate)
 		{
-		(itsProjDoc->GetCommandManager())->SetMakeDependCommand(
-			JGetString(kDefaultQMakeDependCmdID));
+		itsProjDoc->GetCommandManager()->SetMakeDependCommand(
+			JGetString("DefaultQMakeDependCmd::CBBuildManager"));
 		}
 
 	itsModTime = SaveMakeFileModTimes();
@@ -1298,8 +1270,8 @@ CBBuildManager::RecreateMakeHeaderFile()
 		GetMakemakeFileNames(&makeHeaderName, &makeFilesName);
 		if (!JFileExists(makeHeaderName))
 			{
-			std::ofstream output(makeHeaderName);
-			(JGetString(kMakeHeaderInitTextID)).Print(output);
+			std::ofstream output(makeHeaderName.GetBytes());
+			JGetString("MakeHeaderInitText::CBBuildManager").Print(output);
 			}
 		}
 	else if (itsMakefileMethod == kCMake)
@@ -1308,8 +1280,8 @@ CBBuildManager::RecreateMakeHeaderFile()
 		GetCMakeFileNames(&cmakeHeaderName, &cmakeInputName);
 		if (!JFileExists(cmakeHeaderName))
 			{
-			std::ofstream output(cmakeHeaderName);
-			(JGetString(kCMakeHeaderInitTextID)).Print(output);
+			std::ofstream output(cmakeHeaderName.GetBytes());
+			JGetString("CMakeHeaderInitText::CBBuildManager").Print(output);
 			}
 		}
 	else if (itsMakefileMethod == kQMake)
@@ -1318,8 +1290,8 @@ CBBuildManager::RecreateMakeHeaderFile()
 		GetQMakeFileNames(&qmakeHeaderName, &qmakeInputName);
 		if (!JFileExists(qmakeHeaderName))
 			{
-			std::ofstream output(qmakeHeaderName);
-			(JGetString(kQMakeHeaderInitTextID)).Print(output);
+			std::ofstream output(qmakeHeaderName.GetBytes());
+			JGetString("QMakeHeaderInitText::CBBuildManager").Print(output);
 			}
 		}
 }
@@ -1357,12 +1329,12 @@ CBBuildManager::WriteSubProjectBuildFile
 		return kJFalse;
 		}
 
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"update_cmd", updateCmd.GetCString(),
-		"build_cmd",  buildCmd.GetCString(),
+		"update_cmd", updateCmd.GetBytes(),
+		"build_cmd",  buildCmd.GetBytes(),
 		};
-	const JString data = JGetString(kSubProjectBuildInitTextID, map, sizeof(map));
+	const JString data = JGetString("SubProjectBuildInitText::CBBuildManager", map, sizeof(map));
 
 	JString fileName = JCombinePathAndName(itsProjDoc->GetFilePath(),
 										   itsProjDoc->GetName());
@@ -1373,7 +1345,7 @@ CBBuildManager::WriteSubProjectBuildFile
 	if (origData != data)
 		{
 		JEditVCS(fileName);
-		std::ofstream output(fileName);
+		std::ofstream output(fileName.GetBytes());
 		data.Print(output);
 		}
 
@@ -1392,7 +1364,7 @@ CBBuildManager::WriteSubProjectBuildFile
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 CBBuildManager::GetSubProjectBuildSuffix()
 {
 	return kSubProjectBuildSuffix;
@@ -1544,7 +1516,7 @@ CBBuildManager::GetMakemakeFileNames
 JString
 CBBuildManager::GetMakeFilesName
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	return JCombinePathAndName(path, kMakeFilesName);
@@ -1575,8 +1547,8 @@ CBBuildManager::GetCMakeFileNames
 JString
 CBBuildManager::GetCMakeInputName
 	(
-	const JCharacter* path,
-	const JCharacter* projName
+	const JString& path,
+	const JString& projName
 	)
 {
 	return JCombinePathAndName(path, kCMakeInputName);
@@ -1610,8 +1582,8 @@ CBBuildManager::GetQMakeFileNames
 JString
 CBBuildManager::GetQMakeInputName
 	(
-	const JCharacter* path,
-	const JCharacter* projName
+	const JString& path,
+	const JString& projName
 	)
 {
 	JString qmakeInputName = JCombinePathAndName(path, projName);
@@ -1640,14 +1612,14 @@ CBBuildManager::GetMakefileNames
 void
 CBBuildManager::GetMakefileNames
 	(
-	const JCharacter*	path,
+	const JString&		path,
 	JPtrArray<JString>*	list
 	)
 {
 	JString name;
 	for (JUnsignedOffset i=0; i<kMakefileNameCount; i++)
 		{
-		name = JCombinePathAndName(path, kMakefileName[i]);
+		name = JCombinePathAndName(path, JString(kMakefileName[i], kJFalse));
 		list->Append(name);
 		}
 }
@@ -1679,7 +1651,7 @@ CBBuildManager::MakefileExists()
 
  ******************************************************************************/
 
-static const JCharacter* kMakefileMethodName[] =
+static const JUtf8Byte* kMakefileMethodName[] =
 {
 	"manual",
 	"makemake",
@@ -1687,7 +1659,7 @@ static const JCharacter* kMakefileMethodName[] =
 	"CMake"
 };
 
-const JCharacter*
+const JUtf8Byte*
 CBBuildManager::GetMakefileMethodName
 	(
 	const MakefileMethod method

@@ -84,7 +84,7 @@ public:
 
 	// called by CBNewProjectSaveFileDialog
 
-	static const JString&	GetMakefileMethodName(const MakefileMethod method);
+	static const JUtf8Byte*	GetMakefileMethodName(const MakefileMethod method);
 
 	static JString	GetMakeFilesName(const JString& path);
 	static JString	GetCMakeInputName(const JString& path, const JString& projName);
