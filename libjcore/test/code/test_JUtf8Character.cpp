@@ -140,6 +140,9 @@ JTEST(IsCompleteCharacter)
 
 	JAssertTrue(JUtf8Character::IsCompleteCharacter("\xE2\x9C\x94", 3, &byteCount));
 	JAssertEqual(3, byteCount);
+
+	JAssertTrue(JUtf8Character::IsCompleteCharacter("\xF0\xA0\x9D\xB9", 4, &byteCount));
+	JAssertEqual(4, byteCount);
 }
 
 JTEST(CharacterByteCount)
@@ -214,6 +217,10 @@ JTEST(Utf8ToUtf32)
 	JAssertEqual(1154, JUtf8Character("\xD2\x82").GetUtf32());
 	JAssertEqual(12328, JUtf8Character("\xE3\x80\xA8").GetUtf32());
 	JAssertEqual(195031, JUtf8Character("\xF0\xAF\xA7\x97").GetUtf32());
+
+	std::cout << "expect invalid: fe" << std::endl;
+
+	JAssertEqual(65533, JUtf8Character("\xFE\xAF\xFF\x97").GetUtf32());
 }
 
 JTEST(IsPrint)
@@ -291,6 +298,13 @@ JTEST(IsSpace)
 	JAssertTrue(JUtf8Character(' ').IsSpace());
 	JAssertTrue(JUtf8Character('\n').IsSpace());
 	JAssertFalse(JUtf8Character('5').IsSpace());
+}
+
+JTEST(IsControl)
+{
+	JAssertTrue(JUtf8Character('\b').IsControl());
+	JAssertFalse(JUtf8Character(' ').IsControl());
+	JAssertFalse(JUtf8Character('5').IsControl());
 }
 
 JTEST(ToLower)
