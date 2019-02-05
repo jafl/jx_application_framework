@@ -98,7 +98,7 @@ lib:
 .PHONY : test
 test: install_pre install_libs
 ifeq (${J_RUN_GCOV},1)
-	@cd ..; gcov libjcore/code/*.cpp
+	@cd ..; gcov libjcore/code/*.cpp; mv libjcore/code/*.gcno .
 endif
 
 #
