@@ -331,6 +331,15 @@ JTEST(ToUpper)
 	JAssertEqual(JUtf8Character("\xCE\xA3"), JUtf8Character("\xCF\x83").ToUpper());	// sigma
 }
 
+JTEST(PrintHex)
+{
+	JUtf8Character c("\xC3\x86");
+
+	std::ostringstream output;
+	c.PrintHex(output);
+	JAssertStringsEqual("c3 86 ", output.str().c_str());
+}
+
 JTEST(AllocateNullTerminatedBytes)
 {
 	JUtf8Byte* s = JUtf8Character('{').AllocateBytes();
