@@ -354,3 +354,34 @@ JTEST(AllocateNullTerminatedBytes)
 	JAssertStringsEqual("\xF0\xAF\xA7\x97", s);
 	jdelete [] s;
 }
+
+JTEST(Stream)
+{
+	std::ostringstream output;
+	output << JUtf8Character()
+		   << JUtf8Character("1")
+		   << JUtf8Character("\xC2\xA9")
+		   << JUtf8Character("\xE2\x9C\x94")
+		   << JUtf8Character("\xF0\xAF\xA7\x97");
+	output.write("\xC2\x0A", 2);
+
+	std::istringstream input(output.str());
+
+	JUtf8Character c;
+	input >> c;
+	JAssertStringsEqual("1", c.GetBytes());
+
+	input >> c;
+	JAssertStringsEqual("\xC2\xA9", c.GetBytes());
+
+	input >> c;
+	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
+
+	input >> c;
+	JAssertStringsEqual("\xF0\xAF\xA7\x97", c.GetBytes());
+
+	std::cout << "expect invalid: c2" << std::endl;
+
+	input >> c;
+	JAssertStringsEqual("\xEF\xBF\xBD", c.GetBytes());
+}
