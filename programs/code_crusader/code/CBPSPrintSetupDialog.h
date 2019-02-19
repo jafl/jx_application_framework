@@ -18,7 +18,7 @@ public:
 
 	static CBPSPrintSetupDialog*
 		Create(const JXPSPrinter::Destination dest,
-			   const JCharacter* printCmd, const JCharacter* fileName,
+			   const JString& printCmd, const JString& fileName,
 			   const JBoolean collate, const JBoolean bw,
 			   const JSize fontSize,
 			   const JBoolean printHeader);
@@ -43,7 +43,7 @@ private:
 private:
 
 	void	BuildWindow(const JXPSPrinter::Destination dest,
-						const JCharacter* printCmd, const JCharacter* fileName,
+						const JString& printCmd, const JString& fileName,
 						const JBoolean collate, const JBoolean bw,
 						const JSize fontSize,
 						const JBoolean printHeader);

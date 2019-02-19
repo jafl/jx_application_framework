@@ -9,6 +9,7 @@
 
 #include "CBShellEditor.h"
 #include "CBShellDocument.h"
+#include <JStringIterator.h>
 #include <JFontManager.h>
 #include <jTextUtil.h>
 #include <jASCIIConstants.h>
@@ -113,7 +114,7 @@ CBShellEditor::HandleKeyPress
 		(c == JXCtrl('A') && controlOn && !metaOn && !shiftOn))
 		{
 		const JIndex index            = GetInsertionIndex();
-		const JRunArray<JFont>& styles = GetStyles();
+		const JRunArray<JFont>& styles = GetText()->GetStyles();
 		if (index > 1 && styles.GetElement(index-1) == GetDefaultFont())
 			{
 			JIndex runIndex, firstIndexInRun;
@@ -152,19 +153,27 @@ CBShellEditor::HandleKeyPress
 
 			if (cmd.BeginsWith("man "))
 				{
-				cmd.ReplaceSubstring(1, 4, "jcc --man ");
+				JStringIterator iter(&cmd);
+				iter.RemoveNext(3);
+				cmd.Prepend("jcc --man");
 				}
 			else if (cmd.BeginsWith("apropos "))
 				{
-				cmd.ReplaceSubstring(1, 8, "jcc --apropos ");
+				JStringIterator iter(&cmd);
+				iter.RemoveNext(7);
+				cmd.Prepend("jcc --apropos");
 				}
 			else if (cmd.BeginsWith("vi "))
 				{
-				cmd.ReplaceSubstring(1, 3, "jcc ");
+				JStringIterator iter(&cmd);
+				iter.RemoveNext(2);
+				cmd.Prepend("jcc");
 				}
 			else if (cmd.BeginsWith("less ") || cmd.BeginsWith("more "))
 				{
-				cmd.ReplaceSubstring(1, 5, "jcc ");
+				JStringIterator iter(&cmd);
+				iter.RemoveNext(4);
+				cmd.Prepend("jcc");
 				}
 			else if (cmd == "more" || cmd == "less" || cmd == "vi")
 				{

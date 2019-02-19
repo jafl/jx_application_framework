@@ -59,8 +59,8 @@ JXPTPrintSetupDialog*
 CBPTPrinter::CreatePrintSetupDialog
 	(
 	const Destination	destination,
-	const JCharacter*	printCmd,
-	const JCharacter*	fileName,
+	const JString&		printCmd,
+	const JString&		fileName,
 	const JBoolean		printLineNumbers
 	)
 {
@@ -141,7 +141,7 @@ CBPTPrinter::PrintHeader
 
 		dateStr.Print(output);
 		const JInteger spaceCount =
-			GetPageWidth() - dateStr.GetLength() - pageStr.GetLength();
+			GetPageWidth() - dateStr.GetCharacterCount() - pageStr.GetCharacterCount();
 		for (JInteger i=1; i<=spaceCount; i++)
 			{
 			output << ' ';
@@ -176,7 +176,7 @@ CBPTPrinter::ReadPrefs
 		}
 	else if (vers <= kCurrentSetupVersion)
 		{
-		input >> itsPrintHeaderFlag;
+		input >> JBoolFromString(itsPrintHeaderFlag);
 		JXPTPrinter::ReadXPTSetup(input);
 		}
 }
@@ -194,7 +194,7 @@ CBPTPrinter::WritePrefs
 	const
 {
 	output << ' ' << kCurrentSetupVersion;
-	output << ' ' << itsPrintHeaderFlag;
+	output << ' ' << JBoolToString(itsPrintHeaderFlag);
 
 	output << ' ';
 	JXPTPrinter::WriteXPTSetup(output);

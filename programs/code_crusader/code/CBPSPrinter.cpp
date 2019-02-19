@@ -66,8 +66,8 @@ JXPSPrintSetupDialog*
 CBPSPrinter::CreatePrintSetupDialog
 	(
 	const Destination	destination,
-	const JCharacter*	printCmd,
-	const JCharacter*	fileName,
+	const JString&		printCmd,
+	const JString&		fileName,
 	const JBoolean		collate,
 	const JBoolean		bw
 	)
@@ -79,10 +79,10 @@ CBPSPrinter::CreatePrintSetupDialog
 		JString fontName;
 		CBGetPrefsManager()->GetDefaultFont(&fontName, &itsFontSize);
 
-		JArray<JIndexRange> matchList;
-		if (nxmRegex.Match(fontName, &matchList))
+		const JStringMatch m = nxmRegex.Match(fontName, kJTrue);
+		if (!m.IsEmpty())
 			{
-			const JString hStr = fontName.GetSubstring(matchList.GetElement(2));
+			const JString hStr = m.GetSubstring(1);
 			const JBoolean ok  = hStr.ConvertToUInt(&itsFontSize);
 			assert( ok );
 			itsFontSize--;
@@ -92,7 +92,7 @@ CBPSPrinter::CreatePrintSetupDialog
 	itsCBPrintSetupDialog =
 		CBPSPrintSetupDialog::Create(destination, printCmd, fileName,
 									 collate, bw, itsFontSize,
-									 (CBGetPTTextPrinter())->WillPrintHeader());
+									 CBGetPTTextPrinter()->WillPrintHeader());
 	return itsCBPrintSetupDialog;
 }
 
@@ -122,10 +122,10 @@ CBPSPrinter::EndUserPrintSetup
 
 		*changed = JI2B(*changed ||
 			fontSize    != itsFontSize ||
-			printHeader != (CBGetPTTextPrinter())->WillPrintHeader());
+			printHeader != CBGetPTTextPrinter()->WillPrintHeader());
 
 		itsFontSize = fontSize;
-		(CBGetPTTextPrinter())->ShouldPrintHeader(printHeader);
+		CBGetPTTextPrinter()->ShouldPrintHeader(printHeader);
 		}
 
 	itsCBPrintSetupDialog = nullptr;

@@ -22,14 +22,13 @@ class CBStringCompleter : virtual public JBroadcaster
 public:
 
 	CBStringCompleter(const CBLanguage lang,
-					  const JSize keywordCount, const JCharacter** keywordList,
+					  const JSize keywordCount, const JUtf8Byte** keywordList,
 					  const JBoolean caseSensitive);
 
 	virtual ~CBStringCompleter();
 
 	void	Reset();
-	void	Add(const JCharacter* str);
-//	void	Remove(const JCharacter* str);
+	void	Add(const JString& str);
 	void	RemoveAll();
 
 	JBoolean	Complete(JTextEditor* te, JXStringCompletionMenu* menu);
@@ -40,7 +39,7 @@ protected:
 	void			CopyWordsFromStyler(CBStylerBase* styler);
 	void			CopySymbolsForLanguage(const CBLanguage lang);
 
-	virtual JBoolean	IsWordCharacter(const JString& s, const JIndex index,
+	virtual JBoolean	IsWordCharacter(const JUtf8Character& c,
 										const JBoolean includeNS) const = 0;
 	virtual void		MatchCase(const JString& source, JString* target) const;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
@@ -49,7 +48,7 @@ private:
 
 	const CBLanguage	itsLanguage;
 	const JSize			itsPredefKeywordCount;
-	const JCharacter**	itsPrefefKeywordList;
+	const JUtf8Byte**	itsPrefefKeywordList;
 	const JBoolean		itsCaseSensitiveFlag;
 	JPtrArray<JString>*	itsStringList;	// contents not owned
 	JPtrArray<JString>*	itsOwnedList;

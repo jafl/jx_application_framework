@@ -6178,7 +6178,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
 name: itsFontSizeMenu
 callback: 
-argument: JGetMonospaceFontName(), "Font size:"
+argument: JFontManager::GetDefaultMonospaceFontName(), JGetString("FontSizeMenuTitle::CBPSPrintSetupDialog")
 
 =============== FORM ===============
 Name: CBProjectDocument
@@ -7912,7 +7912,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsCommonStyleMenu
 callback: 
-argument: "Shared text style"
+argument: JGetString("SharedStyleMenuTitle::CBDiffDialog")
 
 --------------------
 class: FL_CHECKBUTTON
@@ -9592,7 +9592,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsPlainOnly1StyleMenu
 callback: 
-argument: "Style"
+argument: JGetString("Title::JXStyleMenu")
 
 --------------------
 class: FL_BOX
@@ -9610,7 +9610,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsPlainOnly2StyleMenu
 callback: 
-argument: "Style"
+argument: JGetString("Title::JXStyleMenu")
 
 --------------------
 class: FL_BOX
@@ -9760,7 +9760,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsCVSOnly1StyleMenu
 callback: 
-argument: "Style"
+argument: JGetString("Title::JXStyleMenu")
 
 --------------------
 class: FL_BOX
@@ -9778,7 +9778,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsCVSOnly2StyleMenu
 callback: 
-argument: "Style"
+argument: JGetString("Title::JXStyleMenu")
 
 --------------------
 class: FL_BUTTON
@@ -9946,7 +9946,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsSVNOnly1StyleMenu
 callback: 
-argument: "Style"
+argument: JGetString("Title::JXStyleMenu")
 
 --------------------
 class: FL_BOX
@@ -9964,7 +9964,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsSVNOnly2StyleMenu
 callback: 
-argument: "Style"
+argument: JGetString("Title::JXStyleMenu")
 
 --------------------
 class: FL_BUTTON
@@ -10132,7 +10132,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsGitOnly1StyleMenu
 callback: 
-argument: "Style"
+argument: JGetString("Title::JXStyleMenu")
 
 --------------------
 class: FL_BOX
@@ -10150,7 +10150,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsGitOnly2StyleMenu
 callback: 
-argument: "Style"
+argument: JGetString("Title::JXStyleMenu")
 
 --------------------
 class: FL_BUTTON

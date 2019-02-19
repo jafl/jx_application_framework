@@ -14,11 +14,11 @@
 
 CBBisonCompleter* CBBisonCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -88,14 +88,12 @@ CBBisonCompleter::~CBBisonCompleter()
 JBoolean
 CBBisonCompleter::IsWordCharacter
 	(
-	const JString&	s,
-	const JIndex	index,
-	const JBoolean	includeNS
+	const JUtf8Character&	c,
+	const JBoolean			includeNS
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '_' || (includeNS && c == ':'));
+	return JI2B(c.IsAlnum() || c == '_' || (includeNS && c == ':'));
 }
 
 /******************************************************************************
@@ -132,11 +130,11 @@ CBBisonCompleter::UpdateWordList()
 
 	// include C words
 
-	const JCharacter** cWordList;
+	const JUtf8Byte** cWordList;
 	const JSize count = CBCCompleter::GetDefaultWordList(&cWordList);
 	for (JUnsignedOffset i=0; i<count; i++)
 		{
-		Add(cWordList[i]);
+		Add(JString(cWordList[i], kJFalse));
 		}
 
 	CopySymbolsForLanguage(kCBCLang);

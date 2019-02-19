@@ -12,7 +12,7 @@
  ******************************************************************************/
 
 #include "CBDiffStyleMenu.h"
-#include <JXColorManager.h>
+#include <JColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -22,7 +22,7 @@
 
 CBDiffStyleMenu::CBDiffStyleMenu
 	(
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -84,12 +84,14 @@ CBDiffStyleMenu::ReadStyle
 	std::istream& input
 	)
 {
-	input >> itsStyle.bold >> itsStyle.italic >> itsStyle.strike;
+	input >> JBoolFromString(itsStyle.bold)
+		  >> JBoolFromString(itsStyle.italic)
+		  >> JBoolFromString(itsStyle.strike);
 	input >> itsStyle.underlineCount;
 
 	JRGB color;
 	input >> color;
-	itsStyle.color = GetColormap()->JXColorManager::GetColor(color);
+	itsStyle.color = JColorManager::GetColorID(color);
 }
 
 /******************************************************************************
@@ -103,7 +105,9 @@ CBDiffStyleMenu::WriteStyle
 	std::ostream& output
 	)
 {
-	output << ' ' << itsStyle.bold << itsStyle.italic << itsStyle.strike;
+	output << ' ' << JBoolToString(itsStyle.bold)
+				  << JBoolToString(itsStyle.italic)
+				  << JBoolToString(itsStyle.strike);
 	output << ' ' << itsStyle.underlineCount;
-	output << ' ' << GetColormap()->JXColorManager::GetRGB(itsStyle.color);
+	output << ' ' << JColorManager::GetRGB(itsStyle.color);
 }

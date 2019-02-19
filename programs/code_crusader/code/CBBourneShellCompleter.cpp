@@ -12,7 +12,7 @@
 
 CBBourneShellCompleter* CBBourneShellCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	"case", "do", "done", "elif", "else", "esac", "fi", "for", "function",
 	"if", "in", "select", "then", "until", "while",
@@ -26,7 +26,7 @@ static const JCharacter* kKeywordList[] =
 	"unalias", "unset", "wait"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -91,12 +91,10 @@ CBBourneShellCompleter::~CBBourneShellCompleter()
 JBoolean
 CBBourneShellCompleter::IsWordCharacter
 	(
-	const JString&	s,
-	const JIndex	index,
-	const JBoolean	includeNS
+	const JUtf8Character&	c,
+	const JBoolean			includeNS
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '_');
+	return JI2B(c.IsAlnum() || c == '_');
 }

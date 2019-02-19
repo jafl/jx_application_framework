@@ -219,7 +219,7 @@ private:
 	JBoolean	GetLatestGitRevisions(const JString& fullName,
 									  JString* rev1, JString* rev2);
 	JBoolean	GetBestCommonGitAncestor(const JString& path,
-										 JString* rev1, const JString& rev2);
+										 JString* rev1, const JUtf8Byte* rev2);
 
 	JString	GetSmartDiffInfo(const JString& origFileName,
 							 JBoolean* isSafetySave, JBoolean* isBackup) const;

@@ -106,9 +106,8 @@ CBPascalCompleter::~CBPascalCompleter()
 JBoolean
 CBPascalCompleter::IsWordCharacter
 	(
-	const JString&	s,
-	const JIndex	index,
-	const JBoolean	includeNS
+	const JUtf8Character&	c,
+	const JBoolean			includeNS
 	)
 	const
 {

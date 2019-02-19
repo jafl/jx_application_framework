@@ -16,7 +16,7 @@ class CBDiffStyleMenu : public JXStyleMenu
 {
 public:
 
-	CBDiffStyleMenu(const JCharacter* title, JXContainer* enclosure,
+	CBDiffStyleMenu(const JString& title, JXContainer* enclosure,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);

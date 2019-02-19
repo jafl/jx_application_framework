@@ -12,7 +12,7 @@
 
 CBEiffelCompleter* CBEiffelCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	// keywords
 
@@ -31,7 +31,7 @@ static const JCharacter* kKeywordList[] =
 	"REAL", "STRING"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -99,14 +99,12 @@ CBEiffelCompleter::~CBEiffelCompleter()
 JBoolean
 CBEiffelCompleter::IsWordCharacter
 	(
-	const JString&	s,
-	const JIndex	index,
-	const JBoolean	includeNS
+	const JUtf8Character&	c,
+	const JBoolean			includeNS
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '_' || (includeNS && c == '.'));
+	return JI2B(c.IsAlnum() || c == '_' || (includeNS && c == '.'));
 }
 
 /******************************************************************************

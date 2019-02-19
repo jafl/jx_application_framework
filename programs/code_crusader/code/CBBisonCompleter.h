@@ -23,9 +23,9 @@ protected:
 
 	CBBisonCompleter();
 
-	virtual JBoolean	IsWordCharacter(const JString& s, const JIndex index,
-										const JBoolean includeNS) const;
-	virtual void		UpdateWordList();
+	virtual JBoolean	IsWordCharacter(const JUtf8Character& c,
+										const JBoolean includeNS) const override;
+	virtual void		UpdateWordList() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

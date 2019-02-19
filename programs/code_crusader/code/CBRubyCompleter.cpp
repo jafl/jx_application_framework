@@ -120,9 +120,8 @@ CBRubyCompleter::~CBRubyCompleter()
 JBoolean
 CBRubyCompleter::IsWordCharacter
 	(
-	const JString&	s,
-	const JIndex	index,
-	const JBoolean	includeNS
+	const JUtf8Character&	c,
+	const JBoolean			includeNS
 	)
 	const
 {

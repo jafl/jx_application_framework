@@ -16,7 +16,7 @@
 #include <JXRadioGroup.h>
 #include <JXTextRadioButton.h>
 #include <JXFontSizeMenu.h>
-#include <JString.h>
+#include <JFontManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -29,8 +29,8 @@ CBPSPrintSetupDialog*
 CBPSPrintSetupDialog::Create
 	(
 	const JXPSPrinter::Destination	dest,
-	const JCharacter*				printCmd,
-	const JCharacter*				fileName,
+	const JString&					printCmd,
+	const JString&					fileName,
 	const JBoolean					collate,
 	const JBoolean					bw,
 	const JSize						fontSize,
@@ -89,8 +89,8 @@ void
 CBPSPrintSetupDialog::BuildWindow
 	(
 	const JXPSPrinter::Destination	dest,
-	const JCharacter*				printCmd,
-	const JCharacter*				fileName,
+	const JString&					printCmd,
+	const JString&					fileName,
 	const JBoolean					collate,
 	const JBoolean					bw,
 	const JSize						fontSize,
@@ -207,7 +207,7 @@ CBPSPrintSetupDialog::BuildWindow
 	itsPrintHeaderCB->SetShortcuts(JGetString("itsPrintHeaderCB::CBPSPrintSetupDialog::shortcuts::JXLayout"));
 
 	itsFontSizeMenu =
-		jnew JXFontSizeMenu(JGetMonospaceFontName(), "Font size:", window,
+		jnew JXFontSizeMenu(JFontManager::GetDefaultMonospaceFontName(), JGetString("FontSizeMenuTitle::CBPSPrintSetupDialog"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 120,220, 170,30);
 	assert( itsFontSizeMenu != nullptr );
 

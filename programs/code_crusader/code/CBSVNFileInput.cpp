@@ -10,7 +10,7 @@
  ******************************************************************************/
 
 #include "CBSVNFileInput.h"
-#include <JXColorManager.h>
+#include <JColorManager.h>
 #include <jWebUtil.h>
 #include <jAssert.h>
 
@@ -44,33 +44,37 @@ CBSVNFileInput::~CBSVNFileInput()
 }
 
 /******************************************************************************
- AdjustStylesBeforeRecalc (virtual protected)
+ AdjustStylesBeforeBroadcast (virtual protected)
 
-	Draw the file in red if it is not a project file.
+	Accept urls
 
  ******************************************************************************/
 
 void
-CBSVNFileInput::xAdjustStylesBeforeRecalc
+CBSVNFileInput::StyledText::AdjustStylesBeforeBroadcast
 	(
-	const JString&		buffer,
-	JRunArray<JFont>*	styles,
-	JIndexRange*		recalcRange,
-	JIndexRange*		redrawRange,
-	const JBoolean		deletion
+	const JString&			text,
+	JRunArray<JFont>*		styles,
+	JStyledText::TextRange*	recalcRange,
+	JStyledText::TextRange*	redrawRange,
+	const JBoolean			deletion
 	)
 {
-	if (JIsURL(buffer))
+	if (JIsURL(text))
 		{
-		JFont f = styles->GetFirstElement();
+		const JSize totalLength = text.GetCharacterCount();
+		JFont f                 = styles->GetFirstElement();
 		styles->RemoveAll();
-		f.SetColor(GetColormap()->GetBlackColor());
-		styles->AppendElements(f, buffer.GetLength());
-		*redrawRange += JIndexRange(1, totalLength);
+		f.SetColor(JColorManager::GetBlackColor());
+		styles->AppendElements(f, totalLength);
+
+		*recalcRange = *redrawRange = JStyledText::TextRange(
+			JCharacterRange(1, totalLength),
+			JUtf8ByteRange(1, text.GetByteCount()));
 		}
 	else
 		{
-		JXFileInput::AdjustStylesBeforeRecalc(buffer, styles, recalcRange,
-											  redrawRange, deletion);
+		return JXFileInput::StyledText::AdjustStylesBeforeBroadcast(
+			text, styles, recalcRange, redrawRange, deletion);
 		}
 }

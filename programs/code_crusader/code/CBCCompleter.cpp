@@ -12,7 +12,7 @@
 
 CBCCompleter* CBCCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	// C
 
@@ -41,7 +41,7 @@ static const JCharacter* kKeywordList[] =
 	"else", "elif", "endif", "line", "pragma", "error"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -109,14 +109,12 @@ CBCCompleter::~CBCCompleter()
 JBoolean
 CBCCompleter::IsWordCharacter
 	(
-	const JString&	s,
-	const JIndex	index,
-	const JBoolean	includeNS
+	const JUtf8Character&	c,
+	const JBoolean			includeNS
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '_' || (includeNS && c == ':'));
+	return JI2B(c.IsAlnum() || c == '_' || (includeNS && c == ':'));
 }
 
 /******************************************************************************
@@ -129,7 +127,7 @@ CBCCompleter::IsWordCharacter
 JSize
 CBCCompleter::GetDefaultWordList
 	(
-	const JCharacter*** list
+	const JUtf8Byte*** list
 	)
 {
 	*list = kKeywordList;

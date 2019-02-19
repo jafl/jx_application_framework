@@ -15,6 +15,7 @@
 #include "cbGlobals.h"
 #include <JXStringCompletionMenu.h>
 #include <JTextEditor.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -26,7 +27,7 @@ CBStringCompleter::CBStringCompleter
 	(
 	const CBLanguage	lang,
 	const JSize			keywordCount,
-	const JCharacter**	keywordList,
+	const JUtf8Byte**	keywordList,
 	const JBoolean		caseSensitive
 	)
 	:
@@ -99,7 +100,7 @@ CBStringCompleter::Reset()
 
 	for (JUnsignedOffset i=0; i<itsPredefKeywordCount; i++)
 		{
-		Add(itsPrefefKeywordList[i]);
+		Add(JString(itsPrefefKeywordList[i], kJFalse));
 		}
 }
 
@@ -111,7 +112,7 @@ CBStringCompleter::Reset()
 void
 CBStringCompleter::Add
 	(
-	const JCharacter* str
+	const JString& str
 	)
 {
 	JString* s = jnew JString(str);
@@ -137,25 +138,6 @@ CBStringCompleter::Add
 	itsStringList->InsertSorted(s, kJFalse);
 }
 
-/******************************************************************************
- Remove
-
- ******************************************************************************/
-/*
-void
-CBStringCompleter::Remove
-	(
-	const JCharacter* str
-	)
-{
-	JString target = str;
-	JIndex i;
-	if (itsStringList->SearchSorted(&target, JListT::kAnyMatch, &i))
-		{
-		itsStringList->RemoveElement(i);
-		}
-}
-*/
 /******************************************************************************
  RemoveAll
 
@@ -203,32 +185,36 @@ CBStringCompleter::Complete
 		return kJFalse;
 		}
 
-	const JString& text = te->GetText();
-	JIndex i            = caretIndex;
-	while (i > 1 && IsWordCharacter(text, i-1, includeNS))
+	const JString& text = te->GetText()->GetText();
+
+	JStringIterator iter(text, kJIteratorStartBefore, caretIndex);
+	iter.BeginMatch();
+	JUtf8Character c;
+	while (iter.Prev(&c, kJFalse) && IsWordCharacter(c, includeNS))
 		{
-		i--;
+		iter.SkipPrev();
 		}
 
-	if (i == caretIndex)
+	if (iter.GetNextCharacterIndex() == caretIndex)
 		{
 		return kJFalse;
 		}
 
+	const JStringMatch& m   = iter.FinishMatch();
+	const JSize matchLength = m.GetCharacterRange().GetCount();
+
 	JString s;
-	const JString prefix   = text.GetSubstring(i, caretIndex-1);
-	const JSize matchCount = Complete(prefix, &s, menu);
+	const JSize matchCount = Complete(m.GetString(), &s, menu);
 	if (matchCount > 0 &&
-		s.GetLength() > prefix.GetLength())
+		s.GetCharacterCount() > matchLength)
 		{
-		s.RemoveSubstring(1, prefix.GetLength());
-		te->Paste(s);
+		te->Paste(JString(s.GetBytes() + m.GetUtf8ByteRange().GetCount(), kJFalse));
 		menu->ClearRequestCount();
 		return kJTrue;
 		}
 	else if (matchCount > 1)
 		{
-		menu->CompletionRequested(prefix.GetLength());
+		menu->CompletionRequested(matchLength);
 		return kJTrue;
 		}
 	else if (matchCount == 0 && includeNS)
@@ -293,11 +279,12 @@ CBStringCompleter::Complete
 
 		if (matchCount > 0)
 			{
-			const JSize matchLength  = JCalcMatchLength(*maxPrefix, *s, itsCaseSensitiveFlag);
-			const JSize prefixLength = maxPrefix->GetLength();
+			const JSize matchLength  = JString::CalcCharacterMatchLength(*maxPrefix, *s, itsCaseSensitiveFlag);
+			const JSize prefixLength = maxPrefix->GetCharacterCount();
 			if (matchLength < prefixLength)
 				{
-				maxPrefix->RemoveSubstring(matchLength+1, prefixLength);
+				JStringIterator iter(maxPrefix, kJIteratorStartAtEnd);
+				iter.RemovePrev(prefixLength - matchLength);
 				}
 			}
 

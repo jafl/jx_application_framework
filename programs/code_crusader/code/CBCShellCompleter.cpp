@@ -12,7 +12,7 @@
 
 CBCShellCompleter* CBCShellCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	"break", "breaksw", "case", "continue", "default", "else", "end",
 	"endif", "endsw", "foreach", "if", "then", "repeat", "switch", "while",
@@ -29,7 +29,7 @@ static const JCharacter* kKeywordList[] =
 	"wait", "warp", "watchlog", "where", "which"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -94,12 +94,10 @@ CBCShellCompleter::~CBCShellCompleter()
 JBoolean
 CBCShellCompleter::IsWordCharacter
 	(
-	const JString&	s,
-	const JIndex	index,
-	const JBoolean	includeNS
+	const JUtf8Character&	c,
+	const JBoolean			includeNS
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '_');
+	return JI2B(c.IsAlnum() || c == '_');
 }

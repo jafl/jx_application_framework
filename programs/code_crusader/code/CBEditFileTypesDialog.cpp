@@ -127,7 +127,7 @@ CBEditFileTypesDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Edit File Types");
+	window->SetTitle(JGetString("WindowTitle::CBEditFileTypesDialog"));
 	SetButtons(okButton, cancelButton);
 	UseModalPlacement(kJFalse);
 	window->PlaceAsDialogWindow();

@@ -1,4 +1,4 @@
-0
+1
 
 # Copyright (C) 2000-14 by John Lindal.
 
@@ -675,6 +675,13 @@ CleaningUp::CBSymbolList	"Cleaning up:"
 
 # CBDiffFileDialog
 
+WindowTitle::CBDiffFileDialog			"Compare files"
+PlainTabLabel::CBDiffFileDialog			"Normal"
+CVSTabLabel::CBDiffFileDialog			"  CVS  "
+SVNTabLabel::CBDiffFileDialog			"Subversion"
+GitTabLabel::CBDiffFileDialog			"    Git    "
+SharedStyleMenuTitle::CBDiffFileDialog	"Shared text style"
+
 DiffBackupItemText::CBDiffFileDialog	"Compare with backup"
 DiffNewItemText::CBDiffFileDialog		"Compare with new version"
 DiffSavedItemText::CBDiffFileDialog		"Compare with saved version"
@@ -833,3 +840,23 @@ ActionsMenuTitle::CBSymbolSRDirector	"Actions"
 # CBEditSymbolPrefsDialog
 
 WindowTitle::CBEditSymbolPrefsDialog	"Symbol Preferences"
+
+# CBEditFileTypesDialog
+
+WindowTitle::CBEditFileTypesDialog	"Edit File Types"
+
+# CBPSPrintSetupDialog
+
+FontSizeMenuTitle::CBPSPrintSetupDialog	"Font size:"
+
+# CBDiffDocument
+
+WindowTitle::CBDiffDocument		"Diff: $name1 → $name2"
+DiffMenuTitle::CBDiffDocument	"Differences"
+NoDiff::CBDiffDocument			"The files are identical."
+RedoDiffLabel::CBDiffDocument	"Redo diff"
+
+DiffFailed::CBDiffDocument
+"Unable to difference the two files because:
+
+$err"

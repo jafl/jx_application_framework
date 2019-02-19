@@ -88,9 +88,8 @@ CBPythonCompleter::~CBPythonCompleter()
 JBoolean
 CBPythonCompleter::IsWordCharacter
 	(
-	const JString&	s,
-	const JIndex	index,
-	const JBoolean	includeNS
+	const JUtf8Character&	c,
+	const JBoolean			includeNS
 	)
 	const
 {

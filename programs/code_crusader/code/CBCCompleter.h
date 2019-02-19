@@ -19,14 +19,14 @@ public:
 
 	virtual ~CBCCompleter();
 
-	static JSize	GetDefaultWordList(const JCharacter*** list);
+	static JSize	GetDefaultWordList(const JUtf8Byte*** list);
 
 protected:
 
 	CBCCompleter();
 
-	virtual JBoolean	IsWordCharacter(const JString& s, const JIndex index,
-										const JBoolean includeNS) const;
+	virtual JBoolean	IsWordCharacter(const JUtf8Character& c,
+										const JBoolean includeNS) const override;
 
 private:
 

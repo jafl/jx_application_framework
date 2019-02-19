@@ -16,7 +16,7 @@ public:
 
 	static CBPTPrintSetupDialog*
 		Create(const JXPTPrinter::Destination dest,
-			   const JCharacter* printCmd, const JCharacter* fileName,
+			   const JString& printCmd, const JString& fileName,
 			   const JBoolean printLineNumbers, const JBoolean printHeader);
 
 	virtual ~CBPTPrintSetupDialog();
@@ -38,7 +38,7 @@ private:
 private:
 
 	void	BuildWindow(const JXPTPrinter::Destination dest,
-						const JCharacter* printCmd, const JCharacter* fileName,
+						const JString& printCmd, const JString& fileName,
 						const JBoolean printLineNumbers, const JBoolean printHeader);
 
 	// not allowed

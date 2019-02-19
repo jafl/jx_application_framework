@@ -23,9 +23,23 @@ public:
 
 protected:
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
-											 JIndexRange* recalcRange, JIndexRange* redrawRange,
-											 const JBoolean deletion);
+	class StyledText : public JXFileInput::StyledText
+	{
+		public:
+
+		StyledText(CBSVNFileInput* field, JFontManager* fontManager)
+			:
+			JXFileInput::StyledText(field, fontManager)
+		{ };
+
+		protected:
+
+		virtual void	AdjustStylesBeforeBroadcast(
+							const JString& text, JRunArray<JFont>* styles,
+							JStyledText::TextRange* recalcRange,
+							JStyledText::TextRange* redrawRange,
+							const JBoolean deletion) override;
+	};
 
 private:
 

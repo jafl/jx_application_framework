@@ -27,6 +27,8 @@
 #include <JXChooseSaveFile.h>
 #include <JProcess.h>
 #include <JRegex.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jFileUtil.h>
 #include <jVCSUtil.h>
 #include <jWebUtil.h>
@@ -35,19 +37,21 @@
 #include <strstream>
 #include <jAssert.h>
 
-static const JCharacter* kCVSRev1MenuStr =
+static JString kDot(".", kJFalse);
+
+static const JUtf8Byte* kCVSRev1MenuStr =
 	"  Current  %r"
 	"| Previous %r"
 	"| Tag      %r"
 	"| Date     %r";
 
-static const JCharacter* kCVSRev2MenuStr =
+static const JUtf8Byte* kCVSRev2MenuStr =
 	"  Edited  %r"
 	"| Current %r"
 	"| Tag     %r"
 	"| Date    %r";
 
-static const JCharacter* kSVNRev1MenuStr =
+static const JUtf8Byte* kSVNRev1MenuStr =
 	"    Current      %r"
 	"  | Previous     %r"
 	"  | Revision     %r"
@@ -56,7 +60,7 @@ static const JCharacter* kSVNRev1MenuStr =
 	"  | Branch       %r"
 	"  | Tag          %r";
 
-static const JCharacter* kSVNRev2MenuStr =
+static const JUtf8Byte* kSVNRev2MenuStr =
 	"    Edited       %r"
 	"  | Current      %r"
 	"  | Revision     %r"
@@ -65,7 +69,7 @@ static const JCharacter* kSVNRev2MenuStr =
 	"  | Branch       %r"
 	"  | Tag          %r";
 
-static const JCharacter* kGitRev1MenuStr =
+static const JUtf8Byte* kGitRev1MenuStr =
 	"    Current  %r"
 	"  | Previous %r"
 	"  | Commit   %r"
@@ -73,7 +77,7 @@ static const JCharacter* kGitRev1MenuStr =
 	"  | Branch   %r"
 	"  | Common ancestor of %r";
 
-static const JCharacter* kGitRev2MenuStr =
+static const JUtf8Byte* kGitRev2MenuStr =
 	"    Edited  %r"
 	"  | Current %r"
 	"  | Commit  %r"
@@ -170,11 +174,11 @@ CBDiffFileDialog::~CBDiffFileDialog()
 void
 CBDiffFileDialog::SetFile1
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	itsTabGroup->ShowTab(kPlainDiffTabIndex);
-	itsPlainFile1Input->SetText(fullName);
+	itsPlainFile1Input->GetText()->SetText(fullName);
 	Activate();
 	itsPlainFile1Input->Focus();
 }
@@ -182,11 +186,11 @@ CBDiffFileDialog::SetFile1
 void
 CBDiffFileDialog::SetFile2
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	itsTabGroup->ShowTab(kPlainDiffTabIndex);
-	itsPlainFile2Input->SetText(fullName);
+	itsPlainFile2Input->GetText()->SetText(fullName);
 	Activate();
 	itsPlainFile2Input->Focus();
 }
@@ -194,11 +198,11 @@ CBDiffFileDialog::SetFile2
 void
 CBDiffFileDialog::SetCVSFile
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	itsTabGroup->ShowTab(kCVSDiffTabIndex);
-	itsCVSFileInput->SetText(fullName);
+	itsCVSFileInput->GetText()->SetText(fullName);
 	Activate();
 	itsCVSFileInput->Focus();
 }
@@ -206,11 +210,11 @@ CBDiffFileDialog::SetCVSFile
 void
 CBDiffFileDialog::SetSVNFile
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	itsTabGroup->ShowTab(kSVNDiffTabIndex);
-	itsSVNFileInput->SetText(fullName);
+	itsSVNFileInput->GetText()->SetText(fullName);
 	Activate();
 	itsSVNFileInput->Focus();
 }
@@ -218,11 +222,11 @@ CBDiffFileDialog::SetSVNFile
 void
 CBDiffFileDialog::SetGitFile
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	itsTabGroup->ShowTab(kGitDiffTabIndex);
-	itsGitFileInput->SetText(fullName);
+	itsGitFileInput->GetText()->SetText(fullName);
 	Activate();
 	itsGitFileInput->Focus();
 }
@@ -259,7 +263,7 @@ CBDiffFileDialog::BuildWindow()
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBDiffFileDialog::shortcuts::JXLayout"));
 
 	itsCommonStyleMenu =
-		jnew CBDiffStyleMenu("Shared text style", window,
+		jnew CBDiffStyleMenu(JGetString("SharedStyleMenuTitle::CBDiffDialog"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,170, 140,30);
 	assert( itsCommonStyleMenu != nullptr );
 
@@ -285,10 +289,10 @@ CBDiffFileDialog::BuildWindow()
 
 // end JXLayout
 
-	JXContainer* plainCard = itsTabGroup->AppendTab("Normal");
-	JXContainer* cvsCard   = itsTabGroup->AppendTab("  CVS  ");
-	JXContainer* svnCard   = itsTabGroup->AppendTab("Subversion");
-	JXContainer* gitCard   = itsTabGroup->AppendTab("    Git    ");
+	JXContainer* plainCard = itsTabGroup->AppendTab(JGetString("PlainTabLabel::CBDiffFileDialog"));
+	JXContainer* cvsCard   = itsTabGroup->AppendTab(JGetString("CVSTabLabel::CBDiffFileDialog"));
+	JXContainer* svnCard   = itsTabGroup->AppendTab(JGetString("SVNTabLabel::CBDiffFileDialog"));
+	JXContainer* gitCard   = itsTabGroup->AppendTab(JGetString("GitTabLabel::CBDiffFileDialog"));
 
 // begin plainLayout
 
@@ -303,12 +307,12 @@ CBDiffFileDialog::BuildWindow()
 	file1Label->SetToLabel();
 
 	itsPlainOnly1StyleMenu =
-		jnew CBDiffStyleMenu("Style", plainCard,
+		jnew CBDiffStyleMenu(JGetString("Title::JXStyleMenu"), plainCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,10, 70,20);
 	assert( itsPlainOnly1StyleMenu != nullptr );
 
 	itsPlainOnly2StyleMenu =
-		jnew CBDiffStyleMenu("Style", plainCard,
+		jnew CBDiffStyleMenu(JGetString("Title::JXStyleMenu"), plainCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,40, 70,20);
 	assert( itsPlainOnly2StyleMenu != nullptr );
 
@@ -354,12 +358,12 @@ CBDiffFileDialog::BuildWindow()
 	assert( itsCVSFileInput != nullptr );
 
 	itsCVSOnly1StyleMenu =
-		jnew CBDiffStyleMenu("Style", cvsCard,
+		jnew CBDiffStyleMenu(JGetString("Title::JXStyleMenu"), cvsCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 70,20);
 	assert( itsCVSOnly1StyleMenu != nullptr );
 
 	itsCVSOnly2StyleMenu =
-		jnew CBDiffStyleMenu("Style", cvsCard,
+		jnew CBDiffStyleMenu(JGetString("Title::JXStyleMenu"), cvsCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,60, 70,20);
 	assert( itsCVSOnly2StyleMenu != nullptr );
 
@@ -409,12 +413,12 @@ CBDiffFileDialog::BuildWindow()
 	assert( itsSVNFileInput != nullptr );
 
 	itsSVNOnly1StyleMenu =
-		jnew CBDiffStyleMenu("Style", svnCard,
+		jnew CBDiffStyleMenu(JGetString("Title::JXStyleMenu"), svnCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 70,20);
 	assert( itsSVNOnly1StyleMenu != nullptr );
 
 	itsSVNOnly2StyleMenu =
-		jnew CBDiffStyleMenu("Style", svnCard,
+		jnew CBDiffStyleMenu(JGetString("Title::JXStyleMenu"), svnCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,60, 70,20);
 	assert( itsSVNOnly2StyleMenu != nullptr );
 
@@ -464,12 +468,12 @@ CBDiffFileDialog::BuildWindow()
 	assert( itsGitFileInput != nullptr );
 
 	itsGitOnly1StyleMenu =
-		jnew CBDiffStyleMenu("Style", gitCard,
+		jnew CBDiffStyleMenu(JGetString("Title::JXStyleMenu"), gitCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 70,20);
 	assert( itsGitOnly1StyleMenu != nullptr );
 
 	itsGitOnly2StyleMenu =
-		jnew CBDiffStyleMenu("Style", gitCard,
+		jnew CBDiffStyleMenu(JGetString("Title::JXStyleMenu"), gitCard,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,60, 70,20);
 	assert( itsGitOnly2StyleMenu != nullptr );
 
@@ -507,7 +511,7 @@ CBDiffFileDialog::BuildWindow()
 
 // end gitLayout
 
-	window->SetTitle("Compare files");
+	window->SetTitle(JGetString("WindowTitle::CBDiffFileDialog"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
@@ -537,23 +541,20 @@ CBDiffFileDialog::BuildWindow()
 
 	itsPlainFile1Input->ShouldAllowInvalidFile(kJTrue);
 	itsPlainFile1Input->ShouldRequireWritable(kJFalse);
-	itsPlainFile1Input->ShouldBroadcastAllTextChanged(kJTrue);
-	itsPlainFile1Input->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsPlainFile1Input);
+	itsPlainFile1Input->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	ListenTo(itsPlainFile1Input->GetText());
 
 	itsPlainFile2Input->ShouldAllowInvalidFile(kJTrue);
 	itsPlainFile2Input->ShouldRequireWritable(kJFalse);
-	itsPlainFile2Input->ShouldBroadcastAllTextChanged(kJTrue);
-	itsPlainFile2Input->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsPlainFile2Input);
+	itsPlainFile2Input->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	ListenTo(itsPlainFile2Input->GetText());
 
-	JXColorManager* cmap = GetColormap();
 	itsPlainOnly1StyleMenu->SetStyle(
-		JFontStyle(kJFalse, kJFalse, 0, kJTrue, cmap->GetRedColor()));
+		JFontStyle(kJFalse, kJFalse, 0, kJTrue, JColorManager::GetRedColor()));
 	itsPlainOnly2StyleMenu->SetStyle(
-		JFontStyle(kJFalse, kJFalse, 0, kJFalse, cmap->GetBlueColor()));
+		JFontStyle(kJFalse, kJFalse, 0, kJFalse, JColorManager::GetBlueColor()));
 	itsCommonStyleMenu->SetStyle(
-		JFontStyle(kJFalse, kJFalse, 0, kJFalse, cmap->GetGrayColor(50)));
+		JFontStyle(kJFalse, kJFalse, 0, kJFalse, JColorManager::GetGrayColor(50)));
 
 	// CVS
 
@@ -568,21 +569,17 @@ CBDiffFileDialog::BuildWindow()
 	ListenTo(itsCVSRev2Menu);
 
 	itsCVSOnly1StyleMenu->SetStyle(
-		JFontStyle(kJFalse, kJFalse, 0, kJTrue, cmap->GetRedColor()));
+		JFontStyle(kJFalse, kJFalse, 0, kJTrue, JColorManager::GetRedColor()));
 	itsCVSOnly2StyleMenu->SetStyle(
-		JFontStyle(kJFalse, kJFalse, 0, kJFalse, cmap->GetBlueColor()));
+		JFontStyle(kJFalse, kJFalse, 0, kJFalse, JColorManager::GetBlueColor()));
 
-	itsCVSRev1Input->ShouldBroadcastAllTextChanged(kJTrue);
-	ListenTo(itsCVSRev1Input);
-
-	itsCVSRev2Input->ShouldBroadcastAllTextChanged(kJTrue);
-	ListenTo(itsCVSRev2Input);
+	ListenTo(itsCVSRev1Input->GetText());
+	ListenTo(itsCVSRev2Input->GetText());
 
 	itsCVSFileInput->ShouldAllowInvalidFile(kJTrue);
 	itsCVSFileInput->ShouldRequireWritable(kJFalse);
-	itsCVSFileInput->ShouldBroadcastAllTextChanged(kJTrue);
-	itsCVSFileInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsCVSFileInput);
+	itsCVSFileInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	ListenTo(itsCVSFileInput->GetText());
 
 	itsCVSChooseButton->SetHint(JGetString("ChoseButtonHint::CBDiffFileDialog"));
 
@@ -599,21 +596,17 @@ CBDiffFileDialog::BuildWindow()
 	ListenTo(itsSVNRev2Menu);
 
 	itsSVNOnly1StyleMenu->SetStyle(
-		JFontStyle(kJFalse, kJFalse, 0, kJTrue, cmap->GetRedColor()));
+		JFontStyle(kJFalse, kJFalse, 0, kJTrue, JColorManager::GetRedColor()));
 	itsSVNOnly2StyleMenu->SetStyle(
-		JFontStyle(kJFalse, kJFalse, 0, kJFalse, cmap->GetBlueColor()));
+		JFontStyle(kJFalse, kJFalse, 0, kJFalse, JColorManager::GetBlueColor()));
 
-	itsSVNRev1Input->ShouldBroadcastAllTextChanged(kJTrue);
-	ListenTo(itsSVNRev1Input);
-
-	itsSVNRev2Input->ShouldBroadcastAllTextChanged(kJTrue);
-	ListenTo(itsSVNRev2Input);
+	ListenTo(itsSVNRev1Input->GetText());
+	ListenTo(itsSVNRev2Input->GetText());
 
 	itsSVNFileInput->ShouldAllowInvalidFile(kJTrue);
 	itsSVNFileInput->ShouldRequireWritable(kJFalse);
-	itsSVNFileInput->ShouldBroadcastAllTextChanged(kJTrue);
-	itsSVNFileInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsSVNFileInput);
+	itsSVNFileInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	ListenTo(itsSVNFileInput->GetText());
 
 	itsSVNChooseButton->SetHint(JGetString("ChoseButtonHint::CBDiffFileDialog"));
 
@@ -630,21 +623,17 @@ CBDiffFileDialog::BuildWindow()
 	ListenTo(itsGitRev2Menu);
 
 	itsGitOnly1StyleMenu->SetStyle(
-		JFontStyle(kJFalse, kJFalse, 0, kJTrue, cmap->GetRedColor()));
+		JFontStyle(kJFalse, kJFalse, 0, kJTrue, JColorManager::GetRedColor()));
 	itsGitOnly2StyleMenu->SetStyle(
-		JFontStyle(kJFalse, kJFalse, 0, kJFalse, cmap->GetBlueColor()));
+		JFontStyle(kJFalse, kJFalse, 0, kJFalse, JColorManager::GetBlueColor()));
 
-	itsGitRev1Input->ShouldBroadcastAllTextChanged(kJTrue);
-	ListenTo(itsGitRev1Input);
-
-	itsGitRev2Input->ShouldBroadcastAllTextChanged(kJTrue);
-	ListenTo(itsGitRev2Input);
+	ListenTo(itsGitRev1Input->GetText());
+	ListenTo(itsGitRev2Input->GetText());
 
 	itsGitFileInput->ShouldAllowInvalidFile(kJTrue);
 	itsGitFileInput->ShouldRequireWritable(kJFalse);
-	itsGitFileInput->ShouldBroadcastAllTextChanged(kJTrue);
-	itsGitFileInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsGitFileInput);
+	itsGitFileInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	ListenTo(itsGitFileInput->GetText());
 
 	itsGitChooseButton->SetHint(JGetString("ChoseButtonHint::CBDiffFileDialog"));
 
@@ -658,7 +647,7 @@ CBDiffFileDialog::BuildWindow()
 	// create hidden JXDocument so Meta-# shortcuts work
 
 	JXDocumentMenu* fileListMenu =
-		jnew JXDocumentMenu("", window,
+		jnew JXDocumentMenu(JString::empty, window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != nullptr );
 
@@ -683,8 +672,8 @@ CBDiffFileDialog::UpdateDisplay()
 		{
 		itsViewButton->SetActive(JI2B(
 			CheckVCSFileOrPath(itsCVSFileInput, kJFalse, nullptr) &&
-			(cbIsFixedRevCmd(itsCVSRev1Cmd) || !itsCVSRev1Input->IsEmpty()) &&
-			(cbIsFixedRevCmd(itsCVSRev2Cmd) || !itsCVSRev2Input->IsEmpty())));
+			(cbIsFixedRevCmd(itsCVSRev1Cmd) || !itsCVSRev1Input->GetText()->IsEmpty()) &&
+			(cbIsFixedRevCmd(itsCVSRev2Cmd) || !itsCVSRev2Input->GetText()->IsEmpty())));
 
 		itsCVSRev1Input->SetActive(!cbIsFixedRevCmd(itsCVSRev1Cmd));
 		itsCVSRev2Menu->SetActive(JI2B(itsCVSRev1Cmd != kCurrentRevCmd));
@@ -694,8 +683,8 @@ CBDiffFileDialog::UpdateDisplay()
 		{
 		itsViewButton->SetActive(JI2B(
 			CheckSVNFileOrPath(itsSVNFileInput, kJFalse, nullptr) &&
-			(cbIsSVNFixedRevCmd(itsSVNRev1Cmd) || !itsSVNRev1Input->IsEmpty()) &&
-			(cbIsSVNFixedRevCmd(itsSVNRev2Cmd) || !itsSVNRev2Input->IsEmpty())));
+			(cbIsSVNFixedRevCmd(itsSVNRev1Cmd) || !itsSVNRev1Input->GetText()->IsEmpty()) &&
+			(cbIsSVNFixedRevCmd(itsSVNRev2Cmd) || !itsSVNRev2Input->GetText()->IsEmpty())));
 
 		itsSVNRev1Input->SetActive(!cbIsSVNFixedRevCmd(itsSVNRev1Cmd));
 		itsSVNRev2Menu->SetActive(JI2B(itsSVNRev1Cmd != kCurrentRevCmd));
@@ -707,8 +696,8 @@ CBDiffFileDialog::UpdateDisplay()
 
 		itsViewButton->SetActive(JI2B(
 			CheckVCSFileOrPath(itsGitFileInput, kJFalse, nullptr) &&
-			(cbIsFixedRevCmd(itsGitRev1Cmd) || !itsGitRev1Input->IsEmpty()) &&
-			(cbIsFixedRevCmd(itsGitRev2Cmd) || !itsGitRev2Input->IsEmpty())));
+			(cbIsFixedRevCmd(itsGitRev1Cmd) || !itsGitRev1Input->GetText()->IsEmpty()) &&
+			(cbIsFixedRevCmd(itsGitRev2Cmd) || !itsGitRev2Input->GetText()->IsEmpty())));
 
 		itsGitRev1Input->SetActive(!cbIsFixedRevCmd(itsGitRev1Cmd));
 		itsGitRev2Menu->SetActive(JI2B(itsGitRev1Cmd != kCurrentRevCmd));
@@ -764,8 +753,8 @@ CBDiffFileDialog::Receive
 			  sender == itsGitFileInput    ||
 			  sender == itsGitRev1Input    ||
 			  sender == itsGitRev2Input) &&
-			 (message.Is(JTextEditor::kTextSet) ||
-			  message.Is(JTextEditor::kTextChanged)))
+			 (message.Is(JStyledText::kTextSet) ||
+			  message.Is(JStyledText::kTextChanged)))
 		{
 		UpdateDisplay();
 		}
@@ -929,8 +918,8 @@ CBDiffFileDialog::ViewDiffs()
 		CheckFile(itsPlainFile1Input) &&
 		CheckFile(itsPlainFile2Input))
 		{
-		itsPlainFile1Input->DeactivateCurrentUndo();		// undo from latest button press
-		itsPlainFile2Input->DeactivateCurrentUndo();
+		itsPlainFile1Input->GetText()->DeactivateCurrentUndo();		// undo from latest button press
+		itsPlainFile2Input->GetText()->DeactivateCurrentUndo();
 
 		JString file1, file2;
 		JBoolean ok = itsPlainFile1Input->GetFile(&file1);
@@ -944,19 +933,20 @@ CBDiffFileDialog::ViewDiffs()
 	else if (tabIndex == kCVSDiffTabIndex &&
 			 CheckVCSFileOrPath(itsCVSFileInput, kJTrue, &fullName))
 		{
-		itsCVSFileInput->DeactivateCurrentUndo();			// undo from latest button press
-		itsCVSRev1Input->DeactivateCurrentUndo();
-		itsCVSRev2Input->DeactivateCurrentUndo();
+		itsCVSFileInput->GetText()->DeactivateCurrentUndo();			// undo from latest button press
+		itsCVSRev1Input->GetText()->DeactivateCurrentUndo();
+		itsCVSRev2Input->GetText()->DeactivateCurrentUndo();
 
 		if (JDirectoryExists(fullName))
 			{
-			DiffDirectory(fullName, "cvs -f diff", itsCVSSummaryCB, " --brief");
+			DiffDirectory(fullName, JString("cvs -f diff", kJFalse),
+						  itsCVSSummaryCB, JString(" --brief", kJFalse));
 			}
 		else
 			{
 			JString getCmd, diffCmd, name1, name2;
-			if (BuildCVSDiffCmd(fullName, itsCVSRev1Cmd, itsCVSRev1Input->GetText(),
-								itsCVSRev2Cmd, itsCVSRev2Input->GetText(),
+			if (BuildCVSDiffCmd(fullName, itsCVSRev1Cmd, itsCVSRev1Input->GetText()->GetText(),
+								itsCVSRev2Cmd, itsCVSRev2Input->GetText()->GetText(),
 								&getCmd, &diffCmd, &name1, &name2, kJFalse))
 				{
 				const JError err =
@@ -973,28 +963,28 @@ CBDiffFileDialog::ViewDiffs()
 	else if (tabIndex == kSVNDiffTabIndex &&
 			 CheckSVNFileOrPath(itsSVNFileInput, kJTrue, &fullName))
 		{
-		itsSVNFileInput->DeactivateCurrentUndo();			// undo from latest button press
-		itsSVNRev1Input->DeactivateCurrentUndo();
-		itsSVNRev2Input->DeactivateCurrentUndo();
+		itsSVNFileInput->GetText()->DeactivateCurrentUndo();			// undo from latest button press
+		itsSVNRev1Input->GetText()->DeactivateCurrentUndo();
+		itsSVNRev2Input->GetText()->DeactivateCurrentUndo();
 
 		if (JDirectoryExists(fullName))
 			{
-			const JString s = JCombinePathAndName(fullName, ".") + ".";
+			const JString s = JCombinePathAndName(fullName, kDot) + kDot;
 			JString getCmd, diffCmd, name1, name2;
 			if (BuildSVNDiffCmd(s,
-								itsSVNRev1Cmd, itsSVNRev1Input->GetText(),
-								itsSVNRev2Cmd, itsSVNRev2Input->GetText(),
+								itsSVNRev1Cmd, itsSVNRev1Input->GetText()->GetText(),
+								itsSVNRev2Cmd, itsSVNRev2Input->GetText()->GetText(),
 								&getCmd, &diffCmd, &name1, &name2, kJFalse, kJTrue))
 				{
-				DiffDirectory(fullName, diffCmd, itsSVNSummaryCB, " --diff-cmd diff -x --brief");
+				DiffDirectory(fullName, diffCmd, itsSVNSummaryCB, JString(" --diff-cmd diff -x --brief", kJFalse));
 				}
 			}
 		else
 			{
 			JString getCmd, diffCmd, name1, name2;
 			if (BuildSVNDiffCmd(fullName,
-								itsSVNRev1Cmd, itsSVNRev1Input->GetText(),
-								itsSVNRev2Cmd, itsSVNRev2Input->GetText(),
+								itsSVNRev1Cmd, itsSVNRev1Input->GetText()->GetText(),
+								itsSVNRev2Cmd, itsSVNRev2Input->GetText()->GetText(),
 								&getCmd, &diffCmd, &name1, &name2, kJFalse))
 				{
 				const JError err =
@@ -1011,16 +1001,16 @@ CBDiffFileDialog::ViewDiffs()
 	else if (tabIndex == kGitDiffTabIndex &&
 			 CheckVCSFileOrPath(itsGitFileInput, kJTrue, &fullName))
 		{
-		itsGitFileInput->DeactivateCurrentUndo();			// undo from latest button press
-		itsGitRev1Input->DeactivateCurrentUndo();
-		itsGitRev2Input->DeactivateCurrentUndo();
+		itsGitFileInput->GetText()->DeactivateCurrentUndo();			// undo from latest button press
+		itsGitRev1Input->GetText()->DeactivateCurrentUndo();
+		itsGitRev2Input->GetText()->DeactivateCurrentUndo();
 
 		if (JDirectoryExists(fullName))
 			{
 			JString diffCmd;
 			if (BuildGitDiffDirectoryCmd(fullName,
-										 itsGitRev1Cmd, itsGitRev1Input->GetText(),
-										 itsGitRev2Cmd, itsGitRev2Input->GetText(),
+										 itsGitRev1Cmd, itsGitRev1Input->GetText()->GetText(),
+										 itsGitRev2Cmd, itsGitRev2Input->GetText()->GetText(),
 										 &diffCmd))
 				{
 				if (itsGitSummaryCB->IsChecked())
@@ -1028,15 +1018,15 @@ CBDiffFileDialog::ViewDiffs()
 					diffCmd += " --summary --stat";
 					}
 				diffCmd += " .";	// force selected directory
-				DiffDirectory(fullName, diffCmd, itsGitSummaryCB, "");
+				DiffDirectory(fullName, diffCmd, itsGitSummaryCB, JString::empty);
 				}
 			}
 		else
 			{
 			JString get1Cmd, get2Cmd, diffCmd, name1, name2;
 			if (BuildGitDiffCmd(fullName,
-								itsGitRev1Cmd, itsGitRev1Input->GetText(),
-								itsGitRev2Cmd, itsGitRev2Input->GetText(),
+								itsGitRev1Cmd, itsGitRev1Input->GetText()->GetText(),
+								itsGitRev2Cmd, itsGitRev2Input->GetText()->GetText(),
 								&get1Cmd, &get2Cmd, &diffCmd, &name1, &name2, kJFalse))
 				{
 				const JError err =
@@ -1064,10 +1054,10 @@ CBDiffFileDialog::ViewDiffs()
 void
 CBDiffFileDialog::DiffDirectory
 	(
-	const JCharacter*	fullName,
-	const JCharacter*	diffCmd,
-	JXCheckbox*			summaryCB,
-	const JCharacter*	summaryArgs
+	const JString&	fullName,
+	const JString&	diffCmd,
+	JXCheckbox*		summaryCB,
+	const JString&	summaryArgs
 	)
 {
 	const JPtrArray<JString> fullNameList(JPtrArrayT::kDeleteAll);
@@ -1112,9 +1102,9 @@ CBDiffFileDialog::DiffDirectory
 void
 CBDiffFileDialog::ViewDiffs
 	(
-	const JCharacter*	fullName1,
-	const JCharacter*	fullName2,
-	const JBoolean		silent
+	const JString&	fullName1,
+	const JString&	fullName2,
+	const JBoolean	silent
 	)
 {
 	if (CBDocumentManager::WarnFileSize(fullName1) &&
@@ -1153,7 +1143,7 @@ CBDiffFileDialog::ViewDiffs
 JString
 CBDiffFileDialog::BuildDiffCmd()
 {
-	JString cmd = "diff ";
+	JString cmd("diff ");
 	if (itsIgnoreSpaceChangeCB->IsChecked())
 		{
 		cmd += "-b ";		// --ignore-space-change is GNU specific
@@ -1174,8 +1164,8 @@ CBDiffFileDialog::BuildDiffCmd()
 void
 CBDiffFileDialog::ViewVCSDiffs
 	(
-	const JCharacter*	fullName,
-	const JBoolean		silent
+	const JString&	fullName,
+	const JBoolean	silent
 	)
 {
 	if (!CBDocumentManager::WarnFileSize(fullName))
@@ -1206,14 +1196,15 @@ CBDiffFileDialog::ViewVCSDiffs
 void
 CBDiffFileDialog::ViewCVSDiffs
 	(
-	const JCharacter*	fullName,
-	const JBoolean		silent
+	const JString&	fullName,
+	const JBoolean	silent
 	)
 {
 	itsTabGroup->ShowTab(kCVSDiffTabIndex);
 
 	JString getCmd, diffCmd, name1, name2;
-	if (!BuildCVSDiffCmd(fullName, kCurrentRevCmd, nullptr, kCurrentRevCmd, nullptr,
+	if (!BuildCVSDiffCmd(fullName, kCurrentRevCmd, JString::empty,
+						 kCurrentRevCmd, JString::empty,
 						 &getCmd, &diffCmd, &name1, &name2, silent))
 		{
 		return;
@@ -1239,10 +1230,10 @@ CBDiffFileDialog::ViewCVSDiffs
 void
 CBDiffFileDialog::ViewCVSDiffs
 	(
-	const JCharacter*	fullName,
-	const JCharacter*	rev1,
-	const JCharacter*	rev2,
-	const JBoolean		silent
+	const JString&	fullName,
+	const JString&	rev1,
+	const JString&	rev2,
+	const JBoolean	silent
 	)
 {
 	if (!CBDocumentManager::WarnFileSize(fullName))
@@ -1251,11 +1242,11 @@ CBDiffFileDialog::ViewCVSDiffs
 		}
 
 	JIndex rev1Cmd = kRevisionNumberCmd, rev2Cmd = kRevisionNumberCmd;
-	if (JString::IsEmpty(rev1))
+	if (rev1.IsEmpty())
 		{
 		rev1Cmd = rev2Cmd = kCurrentRevCmd;
 		}
-	else if (JString::IsEmpty(rev2))
+	else if (rev2.IsEmpty())
 		{
 		rev2Cmd = kCurrentRevCmd;
 		}
@@ -1282,23 +1273,23 @@ CBDiffFileDialog::ViewCVSDiffs
 JBoolean
 CBDiffFileDialog::BuildCVSDiffCmd
 	(
-	const JCharacter*	fullName,
-	const JIndex		rev1Cmd,
-	const JCharacter*	origRev1,
-	const JIndex		rev2Cmd,
-	const JCharacter*	origRev2,
-	JString*			getCmd,
-	JString*			diffCmd,
-	JString*			name1,
-	JString*			name2,
-	const JBoolean		silent
+	const JString&	fullName,
+	const JIndex	rev1Cmd,
+	const JString&	origRev1,
+	const JIndex	rev2Cmd,
+	const JString&	origRev2,
+	JString*		getCmd,
+	JString*		diffCmd,
+	JString*		name1,
+	JString*		name2,
+	const JBoolean	silent
 	)
 {
 	JString path, name, cvsRoot;
 	JSplitPathAndName(fullName, &path, &name);
 
-	cvsRoot = JCombinePathAndName(path, "CVS");
-	cvsRoot = JCombinePathAndName(cvsRoot, "Root");
+	cvsRoot = JCombinePathAndName(path, JString("CVS", kJFalse));
+	cvsRoot = JCombinePathAndName(cvsRoot, JString("Root", kJFalse));
 	JReadFile(cvsRoot, &cvsRoot);
 	cvsRoot.TrimWhitespace();
 
@@ -1308,7 +1299,7 @@ CBDiffFileDialog::BuildCVSDiffCmd
 	*getCmd  = "cvs -d " + JPrepArgForExec(cvsRoot) + " get ";
 	*diffCmd = "cvs -f diff ";
 	if ((rev1Cmd == kPreviousRevCmd && origRev1 != nullptr) ||
-		(!cbIsFixedRevCmd(rev1Cmd) && !JString::IsEmpty(origRev1)))
+		(!cbIsFixedRevCmd(rev1Cmd) && !origRev1.IsEmpty()))
 		{
 		JIndex cmd1  = rev1Cmd;
 		JString rev1 = origRev1;
@@ -1346,7 +1337,7 @@ CBDiffFileDialog::BuildCVSDiffCmd
 
 		*name1 += rev1;
 
-		if (cmd2 != kCurrentRevCmd && !JString::IsEmpty(rev2))
+		if (cmd2 != kCurrentRevCmd && !rev2.IsEmpty())
 			{
 			*diffCmd += (cmd2 == kRevisionNumberCmd ? "-r " : "-D ");
 			*diffCmd += JPrepArgForExec(rev2);
@@ -1394,22 +1385,22 @@ CBDiffFileDialog::BuildCVSDiffCmd
 JBoolean
 CBDiffFileDialog::GetCurrentCVSRevision
 	(
-	const JCharacter*	fullName,
-	JString*			rev
+	const JString&	fullName,
+	JString*		rev
 	)
 {
 	JString path, name, data, pattern;
 	JSplitPathAndName(fullName, &path, &name);
 	pattern = "^[^/]*/" + JRegex::BackslashForLiteral(name) + "/([0-9.]+)/";
-	name    = JCombinePathAndName(path, "CVS");
-	name    = JCombinePathAndName(name, "Entries");
+	name    = JCombinePathAndName(path, JString("CVS", kJFalse));
+	name    = JCombinePathAndName(name, JString("Entries", kJFalse));
 	JReadFile(name, &data);
 
 	JRegex r(pattern);
-	JArray<JIndexRange> matchList;
-	if (r.Match(data, &matchList))
+	const JStringMatch m = r.Match(data, kJTrue);
+	if (!m.IsEmpty())
 		{
-		*rev = data.GetSubstring(matchList.GetElement(2));
+		*rev = m.GetSubstring(1);
 		return kJTrue;
 		}
 	else
@@ -1427,8 +1418,8 @@ CBDiffFileDialog::GetCurrentCVSRevision
 JBoolean
 CBDiffFileDialog::GetPreviousCVSRevision
 	(
-	const JCharacter*	fullName,
-	JString*			rev
+	const JString&	fullName,
+	JString*		rev
 	)
 {
 	if (!GetCurrentCVSRevision(fullName, rev))
@@ -1436,27 +1427,39 @@ CBDiffFileDialog::GetPreviousCVSRevision
 		return kJFalse;
 		}
 
-	JIndex i;
-	if (!rev->LocateLastSubstring(".", &i) || i == rev->GetLength())
+	JStringIterator iter(rev, kJIteratorStartAtEnd);
+	iter.BeginMatch();
+	if (!iter.Prev("."))
 		{
 		return kJFalse;
 		}
 
-	JIndex j = atoi(((const JCharacter*) *rev) + i);
-	if (j > 1)
+	const JStringMatch& m = iter.FinishMatch();
+	if (m.IsEmpty())
 		{
-		rev->RemoveSubstring(i+1, rev->GetLength());
+		return kJFalse;
+		}
+
+	JUInt j;
+	if (!m.GetString().ConvertToUInt(&j))
+		{
+		return kJFalse;
+		}
+	else if (j > 1)
+		{
+		iter.RemoveAllNext();
+
 		*rev += JString((JUInt64) j-1);
 		return kJTrue;
 		}
 
-	i--;
-	if (!rev->LocatePrevSubstring(".", &i))
+	iter.BeginMatch();
+	if (!iter.Prev("."))
 		{
 		return kJFalse;
 		}
 
-	rev->RemoveSubstring(i+1, rev->GetLength());
+	iter.RemoveAllNext();
 	return kJTrue;
 }
 
@@ -1468,14 +1471,14 @@ CBDiffFileDialog::GetPreviousCVSRevision
 void
 CBDiffFileDialog::ViewSVNDiffs
 	(
-	const JCharacter*	fullName,
-	const JBoolean		silent
+	const JString&	fullName,
+	const JBoolean	silent
 	)
 {
 	itsTabGroup->ShowTab(kSVNDiffTabIndex);
 
 	JString getCmd, diffCmd, name1, name2;
-	if (!BuildSVNDiffCmd(fullName, kCurrentRevCmd, nullptr, kCurrentRevCmd, nullptr,
+	if (!BuildSVNDiffCmd(fullName, kCurrentRevCmd, JString::empty, kCurrentRevCmd, JString::empty,
 						 &getCmd, &diffCmd, &name1, &name2, silent))
 		{
 		return;
@@ -1501,10 +1504,10 @@ CBDiffFileDialog::ViewSVNDiffs
 void
 CBDiffFileDialog::ViewSVNDiffs
 	(
-	const JCharacter*	fullName,
-	const JCharacter*	rev1,
-	const JCharacter*	rev2,
-	const JBoolean		silent
+	const JString&	fullName,
+	const JString&	rev1,
+	const JString&	rev2,
+	const JBoolean	silent
 	)
 {
 	if (!CBDocumentManager::WarnFileSize(fullName))
@@ -1513,11 +1516,11 @@ CBDiffFileDialog::ViewSVNDiffs
 		}
 
 	JIndex rev1Cmd = kRevisionNumberCmd, rev2Cmd = kRevisionNumberCmd;
-	if (JString::IsEmpty(rev1))
+	if (rev1.IsEmpty())
 		{
 		rev1Cmd = rev2Cmd = kCurrentRevCmd;
 		}
-	else if (JString::IsEmpty(rev2))
+	else if (rev2.IsEmpty())
 		{
 		rev2Cmd = kCurrentRevCmd;
 		}
@@ -1544,17 +1547,17 @@ CBDiffFileDialog::ViewSVNDiffs
 JBoolean
 CBDiffFileDialog::BuildSVNDiffCmd
 	(
-	const JCharacter*	fullName,
-	const JIndex		rev1Cmd,
-	const JCharacter*	origRev1,
-	const JIndex		rev2Cmd,
-	const JCharacter*	origRev2,
-	JString*			getCmd,
-	JString*			diffCmd,
-	JString*			name1,
-	JString*			name2,
-	const JBoolean		silent,
-	const JBoolean		forDirectory
+	const JString&	fullName,
+	const JIndex	rev1Cmd,
+	const JString&	origRev1,
+	const JIndex	rev2Cmd,
+	const JString&	origRev2,
+	JString*		getCmd,
+	JString*		diffCmd,
+	JString*		name1,
+	JString*		name2,
+	const JBoolean	silent,
+	const JBoolean	forDirectory
 	)
 {
 	JString path, name;
@@ -1570,7 +1573,7 @@ CBDiffFileDialog::BuildSVNDiffCmd
 	*diffCmd = (forDirectory ? "svn diff " : "svn diff --diff-cmd diff -x --normal ");
 	if ((rev1Cmd == kPreviousRevCmd && origRev1 != nullptr) ||		// PREV from dialog
 		(rev1Cmd == kTrunkCmd && origRev1 != nullptr) ||			// TRUNK from dialog
-		(!cbIsSVNFixedRevCmd(rev1Cmd) && !JString::IsEmpty(origRev1)))
+		(!cbIsSVNFixedRevCmd(rev1Cmd) && !origRev1.IsEmpty()))
 		{
 		JIndex cmd1    = rev1Cmd;
 		JString rev1   = origRev1;
@@ -1649,7 +1652,7 @@ CBDiffFileDialog::BuildSVNDiffCmd
 		*diffCmd += "-r ";
 		*diffCmd += JPrepArgForExec(rev1);
 
-		if (cmd2 != kCurrentRevCmd && !JString::IsEmpty(rev2))
+		if (cmd2 != kCurrentRevCmd && !rev2.IsEmpty())
 			{
 			*diffCmd += ":";
 			*diffCmd += JPrepArgForExec(rev2);
@@ -1698,11 +1701,11 @@ static const JRegex theBranchPattern = "(?<=/)(trunk($|(?=/))|(branches|tags)/[^
 JBoolean
 CBDiffFileDialog::BuildSVNRepositoryPath
 	(
-	JString*			fullName,
-	const JIndex		cmd,
-	const JCharacter*	rev,
-	JString*			name,
-	const JBoolean		silent
+	JString*		fullName,
+	const JIndex	cmd,
+	const JString&	rev,
+	JString*		name,
+	const JBoolean	silent
 	)
 {
 	JString repoPath;
@@ -1715,8 +1718,8 @@ CBDiffFileDialog::BuildSVNRepositoryPath
 		return kJFalse;
 		}
 
-	JIndexRange r;
-	if (!theBranchPattern.Match(repoPath, &r))
+	JStringIterator iter(&repoPath);
+	if (!iter.Next(theBranchPattern))
 		{
 		if (!silent)
 			{
@@ -1742,7 +1745,7 @@ CBDiffFileDialog::BuildSVNRepositoryPath
 		}
 	assert( !name->IsEmpty() );
 
-	repoPath.ReplaceSubstring(r, *name, nullptr);
+	iter.ReplaceLastMatch(*name);
 	*fullName = repoPath;
 	return kJTrue;
 }
@@ -1755,14 +1758,14 @@ CBDiffFileDialog::BuildSVNRepositoryPath
 void
 CBDiffFileDialog::ViewGitDiffs
 	(
-	const JCharacter*	fullName,
-	const JBoolean		silent
+	const JString&	fullName,
+	const JBoolean	silent
 	)
 {
 	itsTabGroup->ShowTab(kGitDiffTabIndex);
 
 	JString get1Cmd, get2Cmd, diffCmd, name1, name2;
-	if (!BuildGitDiffCmd(fullName, kCurrentRevCmd, nullptr, kCurrentRevCmd, nullptr,
+	if (!BuildGitDiffCmd(fullName, kCurrentRevCmd, JString::empty, kCurrentRevCmd, JString::empty,
 						 &get1Cmd, &get2Cmd, &diffCmd, &name1, &name2, silent))
 		{
 		return;
@@ -1788,10 +1791,10 @@ CBDiffFileDialog::ViewGitDiffs
 void
 CBDiffFileDialog::ViewGitDiffs
 	(
-	const JCharacter*	fullName,
-	const JCharacter*	rev1,
-	const JCharacter*	rev2,
-	const JBoolean		silent
+	const JString&	fullName,
+	const JString&	rev1,
+	const JString&	rev2,
+	const JBoolean	silent
 	)
 {
 	if (!CBDocumentManager::WarnFileSize(fullName))
@@ -1800,12 +1803,12 @@ CBDiffFileDialog::ViewGitDiffs
 		}
 
 	JIndex rev1Cmd = kRevisionNumberCmd, rev2Cmd = kRevisionNumberCmd;
-	if (JString::IsEmpty(rev1))
+	if (rev1.IsEmpty())
 		{
 		rev1Cmd = kCurrentRevCmd;
 		rev2Cmd = kCurrentRevCmd;
 		}
-	else if (JString::IsEmpty(rev2))
+	else if (rev2.IsEmpty())
 		{
 		rev2Cmd = kCurrentRevCmd;
 		}
@@ -1832,17 +1835,17 @@ CBDiffFileDialog::ViewGitDiffs
 JBoolean
 CBDiffFileDialog::BuildGitDiffCmd
 	(
-	const JCharacter*	fullName,
-	const JIndex		rev1Cmd,
-	const JCharacter*	rev1,
-	const JIndex		rev2Cmd,
-	const JCharacter*	rev2,
-	JString*			get1Cmd,
-	JString*			get2Cmd,
-	JString*			diffCmd,
-	JString*			name1,
-	JString*			name2,
-	const JBoolean		silent
+	const JString&	fullName,
+	const JIndex	rev1Cmd,
+	const JString&	rev1,
+	const JIndex	rev2Cmd,
+	const JString&	rev2,
+	JString*		get1Cmd,
+	JString*		get2Cmd,
+	JString*		diffCmd,
+	JString*		name1,
+	JString*		name2,
+	const JBoolean	silent
 	)
 {
 	JString trueName;
@@ -1865,7 +1868,8 @@ CBDiffFileDialog::BuildGitDiffCmd
 	JString gitFile = JConvertToRelativePath(trueName, gitRoot);
 	if (gitFile.BeginsWith("." ACE_DIRECTORY_SEPARATOR_STR))
 		{
-		gitFile.RemoveSubstring(1, 2);	// ACE_DIRECTORY_SEPARATOR_CHAR guarantees length 1
+		JStringIterator iter(&gitFile);
+		iter.RemoveNext(2);		// ACE_DIRECTORY_SEPARATOR_CHAR guarantees length 1
 		}
 
 	*name1  = name;
@@ -1874,7 +1878,7 @@ CBDiffFileDialog::BuildGitDiffCmd
 	get1Cmd->Clear();
 	get2Cmd->Clear();
 	if ((rev1Cmd == kPreviousRevCmd && rev1 != nullptr) ||		// PREV from dialog
-		(!cbIsFixedRevCmd(rev1Cmd) && !JString::IsEmpty(rev1)))
+		(!cbIsFixedRevCmd(rev1Cmd) && !rev1.IsEmpty()))
 		{
 		JString get1Rev;
 		if (rev1Cmd == kPreviousRevCmd)
@@ -1933,7 +1937,7 @@ CBDiffFileDialog::BuildGitDiffCmd
 		if (rev1Cmd == kGit1AncestorCmd)
 			{
 			get1Rev = rev1;
-			if (!GetBestCommonGitAncestor(path, &get1Rev, get2Rev))
+			if (!GetBestCommonGitAncestor(path, &get1Rev, get2Rev.GetBytes()))
 				{
 				if (!silent)
 					{
@@ -1984,12 +1988,12 @@ CBDiffFileDialog::BuildGitDiffCmd
 JBoolean
 CBDiffFileDialog::BuildGitDiffDirectoryCmd
 	(
-	const JCharacter*	path,
-	const JIndex		rev1Cmd,
-	const JCharacter*	rev1,
-	const JIndex		rev2Cmd,
-	const JCharacter*	rev2,
-	JString*			diffCmd
+	const JString&	path,
+	const JIndex	rev1Cmd,
+	const JString&	rev1,
+	const JIndex	rev2Cmd,
+	const JString&	rev2,
+	JString*		diffCmd
 	)
 {
 	JString trueName;
@@ -2013,12 +2017,12 @@ CBDiffFileDialog::BuildGitDiffDirectoryCmd
 		}
 
 	if ((rev1Cmd == kPreviousRevCmd && rev1 != nullptr) ||		// PREV from dialog
-		(!cbIsFixedRevCmd(rev1Cmd) && !JString::IsEmpty(rev1)))
+		(!cbIsFixedRevCmd(rev1Cmd) && !rev1.IsEmpty()))
 		{
 		JString get1Rev;
 		if (rev1Cmd == kPreviousRevCmd)
 			{
-			const JString s = JCombinePathAndName(trueName, ".") + ".";
+			const JString s = JCombinePathAndName(trueName, kDot) + kDot;
 			if (!GetPreviousGitRevision(s, &get1Rev))
 				{
 				JGetUserNotification()->ReportError(JGetString("VCSNoPreviousRevision::CBDiffFileDialog"));
@@ -2046,7 +2050,7 @@ CBDiffFileDialog::BuildGitDiffDirectoryCmd
 			}
 		else if (rev2Cmd == kPreviousRevCmd)
 			{
-			const JString s = JCombinePathAndName(trueName, ".") + ".";
+			const JString s = JCombinePathAndName(trueName, kDot) + kDot;
 			if (!GetCurrentGitRevision(s, &get1Rev))
 				{
 				JGetUserNotification()->ReportError(JGetString("VCSNoCurrentRevision::CBDiffFileDialog"));
@@ -2078,8 +2082,8 @@ CBDiffFileDialog::BuildGitDiffDirectoryCmd
 JBoolean
 CBDiffFileDialog::GetCurrentGitRevision
 	(
-	const JCharacter*	fullName,
-	JString*			rev
+	const JString&	fullName,
+	JString*		rev
 	)
 {
 	JString s;
@@ -2094,8 +2098,8 @@ CBDiffFileDialog::GetCurrentGitRevision
 JBoolean
 CBDiffFileDialog::GetPreviousGitRevision
 	(
-	const JCharacter*	fullName,
-	JString*			rev
+	const JString&	fullName,
+	JString*		rev
 	)
 {
 	JString s;
@@ -2110,16 +2114,16 @@ CBDiffFileDialog::GetPreviousGitRevision
 JBoolean
 CBDiffFileDialog::GetLatestGitRevisions
 	(
-	const JCharacter*	fullName,
-	JString*			rev1,
-	JString*			rev2
+	const JString&	fullName,
+	JString*		rev1,
+	JString*		rev2
 	)
 {
 	JString path, name;
 	JSplitPathAndName(fullName, &path, &name);
 
-	const JCharacter* args[] =
-		{ "git", "log", "-2", "--format=oneline", name, nullptr };
+	const JUtf8Byte* args[] =
+		{ "git", "log", "-2", "--format=oneline", name.GetBytes(), nullptr };
 
 	JProcess* p;
 	int fromFD;
@@ -2151,9 +2155,9 @@ CBDiffFileDialog::GetLatestGitRevisions
 JBoolean
 CBDiffFileDialog::GetBestCommonGitAncestor
 	(
-	const JCharacter*	path,
+	const JString&		path,
 	JString*			rev1,
-	const JCharacter*	rev2
+	const JUtf8Byte*	rev2
 	)
 {
 	if (JString::IsEmpty(rev2))
@@ -2161,8 +2165,8 @@ CBDiffFileDialog::GetBestCommonGitAncestor
 		rev2 = "HEAD";
 		}
 
-	const JCharacter* args[] =
-		{ "git", "merge-base", rev1->GetCString(), rev2, nullptr };
+	const JUtf8Byte* args[] =
+		{ "git", "merge-base", rev1->GetBytes(), rev2, nullptr };
 
 	JProcess* p;
 	int fromFD;
@@ -2192,12 +2196,12 @@ CBDiffFileDialog::GetBestCommonGitAncestor
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 CBDiffFileDialog::GetSmartDiffItemText
 	(
-	const JBoolean		onDisk,
-	const JCharacter*	fullName,
-	JBoolean*			enable
+	const JBoolean	onDisk,
+	const JString&	fullName,
+	JBoolean*		enable
 	)
 	const
 {
@@ -2213,7 +2217,7 @@ CBDiffFileDialog::GetSmartDiffItemText
 	JBoolean isSafetySave, isBackup;
 	JString fileName = GetSmartDiffInfo(origFileName, &isSafetySave, &isBackup);
 
-	const JCharacter* id = nullptr;
+	const JUtf8Byte* id = nullptr;
 	if (isSafetySave)
 		{
 		const JString savedName = JCombinePathAndName(path, fileName);
@@ -2229,7 +2233,7 @@ CBDiffFileDialog::GetSmartDiffItemText
 	else
 		{
 		JString backupName = fullName;
-		backupName.AppendCharacter('~');
+		backupName.Append("~");
 		*enable = JFileReadable(backupName);
 		id      = "DiffBackupItemText::CBDiffFileDialog";
 		}
@@ -2247,9 +2251,9 @@ CBDiffFileDialog::GetSmartDiffItemText
 void
 CBDiffFileDialog::ViewDiffs
 	(
-	const JBoolean		onDisk,
-	const JCharacter*	fullName,
-	const JBoolean		silent
+	const JBoolean	onDisk,
+	const JString&	fullName,
+	const JBoolean	silent
 	)
 {
 	if (!onDisk)
@@ -2276,7 +2280,7 @@ CBDiffFileDialog::ViewDiffs
 	else
 		{
 		JString backupName = fullName;
-		backupName.AppendCharacter('~');
+		backupName.Append("~");
 		if (JFileExists(backupName))
 			{
 			ViewDiffs(backupName, fullName, silent);
@@ -2294,26 +2298,34 @@ CBDiffFileDialog::ViewDiffs
 JString
 CBDiffFileDialog::GetSmartDiffInfo
 	(
-	const JCharacter*	origFileName,
-	JBoolean*			isSafetySave,
-	JBoolean*			isBackup
+	const JString&	origFileName,
+	JBoolean*		isSafetySave,
+	JBoolean*		isBackup
 	)
 	const
 {
 	JString fileName = origFileName;
 
+	JStringIterator iter(&fileName);
+
 	*isSafetySave = kJFalse;
 	while (fileName.BeginsWith("#") && fileName.EndsWith("#"))
 		{
-		fileName.RemoveSubstring(1,1);
-		fileName.RemoveSubstring(fileName.GetLength(), fileName.GetLength());
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		iter.RemoveNext();
+
+		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.RemovePrev();
+
 		*isSafetySave = kJTrue;
 		}
+
+	iter.MoveTo(kJIteratorStartAtEnd, 0);
 
 	*isBackup = kJFalse;
 	while (!(*isSafetySave) && fileName.EndsWith("~"))		// don't strip if safety save
 		{
-		fileName.RemoveSubstring(fileName.GetLength(), fileName.GetLength());
+		iter.RemovePrev();
 		*isBackup = kJTrue;
 		}
 
@@ -2355,10 +2367,10 @@ CBDiffFileDialog::ChooseFile
 {
 	const JString origName = widget->GetTextForChooseFile();
 	JString newName;
-	if (JGetChooseSaveFile()->ChooseFile("", nullptr, origName, &newName))
+	if (JGetChooseSaveFile()->ChooseFile(JString::empty, JString::empty, origName, &newName))
 		{
 		widget->Focus();
-		widget->SetText(newName);
+		widget->GetText()->SetText(newName);
 		}
 }
 
@@ -2375,10 +2387,10 @@ CBDiffFileDialog::ChoosePath
 {
 	const JString origPath = widget->GetTextForChooseFile();
 	JString newPath;
-	if (JGetChooseSaveFile()->ChooseRPath("", nullptr, origPath, &newPath))
+	if (JGetChooseSaveFile()->ChooseRPath(JString::empty, JString::empty, origPath, &newPath))
 		{
 		widget->Focus();
-		widget->SetText(newPath);
+		widget->GetText()->SetText(newPath);
 		}
 }
 
@@ -2396,7 +2408,7 @@ CBDiffFileDialog::CheckVCSFileOrPath
 	)
 	const
 {
-	const JString& text = widget->GetText();
+	const JString& text = widget->GetText()->GetText();
 	if (!text.IsEmpty())
 		{
 		JString basePath, s;
@@ -2479,7 +2491,7 @@ CBDiffFileDialog::CheckSVNFileOrPath
 	)
 	const
 {
-	const JString& text = widget->GetText();
+	const JString& text = widget->GetText()->GetText();
 	if (!text.IsEmpty())
 		{
 		if (JIsURL(text))
@@ -2633,7 +2645,8 @@ CBDiffFileDialog::ReadPrefs
 	if (vers >= 2)
 		{
 		JBoolean ignoreSpaceChange, ignoreBlankLines;
-		input >> ignoreSpaceChange >> ignoreBlankLines;
+		input >> JBoolFromString(ignoreSpaceChange)
+			  >> JBoolFromString(ignoreBlankLines);
 		itsIgnoreSpaceChangeCB->SetState(ignoreSpaceChange);
 		itsIgnoreBlankLinesCB->SetState(ignoreBlankLines);
 		}
@@ -2641,7 +2654,7 @@ CBDiffFileDialog::ReadPrefs
 	if (vers >= 1)
 		{
 		JBoolean stayOpen;
-		input >> stayOpen;
+		input >> JBoolFromString(stayOpen);
 		itsStayOpenCB->SetState(stayOpen);
 		}
 }
@@ -2697,9 +2710,8 @@ CBDiffFileDialog::WritePrefs
 		itsGitOnly2StyleMenu->WriteStyle(output);
 		}
 
-	output << ' ' << itsIgnoreSpaceChangeCB->IsChecked();
-	output << ' ' << itsIgnoreBlankLinesCB->IsChecked();
-
-	output << ' ' << itsStayOpenCB->IsChecked();
+	output << ' ' << JBoolToString(itsIgnoreSpaceChangeCB->IsChecked())
+				  << JBoolToString(itsIgnoreBlankLinesCB->IsChecked())
+				  << JBoolToString(itsStayOpenCB->IsChecked());
 	output << ' ';
 }

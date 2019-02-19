@@ -33,7 +33,7 @@ CBCtagsUser::CtagsStatus CBCtagsUser::itsHasExuberantCtagsFlag =
 
 static const JString kCheckVersionCmd("ctags --version");
 static const JRegex versionPattern =
-	"^Exuberant Ctags [^0-9]*([0-9]+)(\\.[0-9]+)(\\.[0-9]+)?(pre[0-9]+)?";
+	"^Exuberant Ctags [^0-9]*([0-9]+)(?:\\.([0-9]+))(?:\\.([0-9]+))?(?:pre([0-9]+))?";
 
 static const JUInt kMinVersion[] = { 5, 8, 0, /* pre */ 0 };
 
@@ -1159,24 +1159,17 @@ CBCtagsUser::HasExuberantCtags()
 			JString vers;
 			JReadAll(fromFD, &vers);
 
-			JArray<JIndexRange> matchList;
-			if (versionPattern.Match(vers, &matchList))
+			const JStringMatch m = versionPattern.Match(vers, kJTrue);
+			if (!m.IsEmpty())
 				{
-				matchList.RemoveElement(1);
-
-				const JSize count = matchList.GetElementCount();
+				const JSize count = m.GetSubstringCount();
 				JString s;
 				for (JIndex i=1; i<=count; i++)
 					{
 					JUInt v = 0;
-					const JIndexRange r = matchList.GetElement(i);
-					if (!r.IsEmpty())
+					s       = m.GetSubstring(i);
+					if (!s.IsEmpty())
 						{
-						s = vers.GetSubstring(r);
-						while (!isdigit(s.GetFirstCharacter()))
-							{
-							s.RemoveSubstring(1, 1);
-							}
 						const JBoolean ok = s.ConvertToUInt(&v);
 						assert( ok );
 						}

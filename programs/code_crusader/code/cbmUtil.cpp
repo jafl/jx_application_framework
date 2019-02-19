@@ -417,32 +417,53 @@ CBMParseEditorOptions
 	editorconfig_handle_destroy(eh);
 	}
 
-	JArray<JIndexRange> matchList;
-	if (emacsTopTabWidthOption.Match(text, &matchList) ||
-		emacsTabWidthOption.Match(text, &matchList)    ||
-		viTabWidthOption.Match(text, &matchList))
+	const JStringMatch
+		emacsTopTabWidthMatch = emacsTopTabWidthOption.Match(text, kJTrue),
+		emacsTabWidthMatch    = emacsTabWidthOption.Match(text, kJTrue),
+		viTabWidthMatch       = viTabWidthOption.Match(text, kJTrue),
+		emacsTopTabModeMatch  = emacsTopTabModeOption.Match(text, kJTrue),
+		emacsTabModeMatch     = emacsTabModeOption.Match(text, kJTrue),
+		viTabModeMatch        = viTabModeOption.Match(text, kJTrue),
+		viAutoIndentMatch     = viAutoIndentOption.Match(text, kJTrue);
+
+	if (!emacsTopTabWidthMatch.IsEmpty())
 		{
-		const JString s = text.GetSubstring(matchList.GetElement(2));
+		const JString s = emacsTopTabWidthMatch.GetSubstring(1);
+		*setTabWidth    = s.ConvertToUInt(tabWidth);
+		}
+	else if (!emacsTabWidthMatch.IsEmpty())
+		{
+		const JString s = emacsTabWidthMatch.GetSubstring(1);
+		*setTabWidth    = s.ConvertToUInt(tabWidth);
+		}
+	else if (!viTabWidthMatch.IsEmpty())
+		{
+		const JString s = viTabWidthMatch.GetSubstring(1);
 		*setTabWidth    = s.ConvertToUInt(tabWidth);
 		}
 
-	if (emacsTopTabModeOption.Match(text, &matchList) ||
-		emacsTabModeOption.Match(text, &matchList))
+	if (!emacsTopTabModeMatch.IsEmpty())
 		{
-		const JString s   = text.GetSubstring(matchList.GetElement(2));
+		const JString s   = emacsTopTabModeMatch.GetSubstring(1);
 		*setTabMode       = kJTrue;
 		*tabInsertsSpaces = JI2B(s == "nil");
 		}
-	else if (viTabModeOption.Match(text, &matchList))
+	else if (!emacsTabModeMatch.IsEmpty())
 		{
-		const JString s   = text.GetSubstring(matchList.GetElement(2));
+		const JString s   = emacsTabModeMatch.GetSubstring(1);
+		*setTabMode       = kJTrue;
+		*tabInsertsSpaces = JI2B(s == "nil");
+		}
+	else if (!viTabModeMatch.IsEmpty())
+		{
+		const JString s   = viTabModeMatch.GetSubstring(1);
 		*setTabMode       = kJTrue;
 		*tabInsertsSpaces = JI2B(s == "s");
 		}
 
-	if (viAutoIndentOption.Match(text, &matchList))
+	if (!viAutoIndentMatch.IsEmpty())
 		{
-		const JString s = text.GetSubstring(matchList.GetElement(2));
+		const JString s = viAutoIndentMatch.GetSubstring(1);
 		*setAutoIndent  = kJTrue;
 		*autoIndent     = !s.BeginsWith("no");
 		}
@@ -470,7 +491,7 @@ CBMIncludeScriptComments
 	JIndex*			charIndex
 	)
 {
-	const JString& text = te->GetText();
+	const JString& text = te->GetText()->GetText();
 	while (*charIndex > 1)
 		{
 		const JIndex line = te->GetLineForChar(*charIndex-1);
@@ -513,7 +534,7 @@ CBMScrollForDefinition
 
 		while (charIndex > 1)
 			{
-			const JCharacter c = text.GetCharacter(charIndex);
+			const JUtf8Character c = text.GetCharacter(charIndex);
 			if (c == '}' || c == ';')
 				{
 				break;

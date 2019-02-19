@@ -642,9 +642,8 @@ CBFortranCompleter::~CBFortranCompleter()
 JBoolean
 CBFortranCompleter::IsWordCharacter
 	(
-	const JString&	s,
-	const JIndex	index,
-	const JBoolean	includeNS
+	const JUtf8Character&	c,
+	const JBoolean			includeNS
 	)
 	const
 {
