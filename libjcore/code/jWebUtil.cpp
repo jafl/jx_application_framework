@@ -10,7 +10,6 @@
 #include "jWebUtil.h"
 #include "JVersionSocket.h"
 #include "JRegex.h"
-#include "JStringIterator.h"
 #include "JStringMatch.h"
 #include "JWebBrowser.h"
 #include "jGlobals.h"
@@ -32,8 +31,7 @@ JIsURL
 	const JString& s
 	)
 {
-	JStringIterator iter(s);
-	return iter.Next("://");
+	return s.Contains("://");
 }
 
 /******************************************************************************
@@ -61,11 +59,9 @@ JParseURL
 {
 	*path = url;
 
-	JStringIterator iter(url);
-	if (iter.Next(urlPattern))
+	const JStringMatch m = urlPattern.Match(url, kJTrue);
+	if (!m.IsEmpty())
 		{
-		const JStringMatch& m = iter.GetLastMatch();
-
 		protocol->Set(m.GetSubstring(1));
 		host->Set(m.GetSubstring(2));
 
