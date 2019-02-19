@@ -16,7 +16,7 @@
 
 CBPHPCompleter* CBPHPCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	#include "cbPHPFunctionList.h"
 
@@ -42,7 +42,7 @@ static const JCharacter* kKeywordList[] =
 	"xor"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -118,8 +118,7 @@ CBPHPCompleter::IsWordCharacter
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '_' || (includeNS && c == ':'));
+	return JI2B(c.IsAlnum() || c == '_' || (includeNS && c == ':'));
 }
 
 /******************************************************************************
@@ -158,22 +157,22 @@ CBPHPCompleter::UpdateWordList()
 
 	// include HTML words
 
-	const JCharacter** htmlWordList;
+	const JUtf8Byte** htmlWordList;
 	JSize count = CBHTMLCompleter::GetDefaultWordList(&htmlWordList);
 	for (JUnsignedOffset i=0; i<count; i++)
 		{
-		Add(htmlWordList[i]);
+		Add(JString(htmlWordList[i], kJFalse));
 		}
 
 	CopyWordsFromStyler(CBHTMLStyler::Instance());
 
 	// include JavaScript words
 
-	const JCharacter** jsWordList;
+	const JUtf8Byte** jsWordList;
 	count = CBJavaScriptCompleter::GetDefaultWordList(&jsWordList);
 	for (JUnsignedOffset i=0; i<count; i++)
 		{
-		Add(jsWordList[i]);
+		Add(JString(jsWordList[i], kJFalse));
 		}
 
 	CopyWordsFromStyler(CBJavaScriptStyler::Instance());

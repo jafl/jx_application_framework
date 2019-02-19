@@ -16,7 +16,7 @@ This scanner reads a Perl file and returns CBPerlScanner::Tokens.
 inline JBoolean
 isquote
 	(
-	const JCharacter c
+	const JUtf8Character& c
 	)
 {
 	return JI2B(c == '\'' || c == '"' || c == '`');
@@ -685,7 +685,7 @@ __DATA__ {
 	itsHereDocTag.TrimWhitespace();
 	itsHereDocType = kDoubleQuoteString;
 
-	const JCharacter c = itsHereDocTag.GetFirstCharacter();
+	const JUtf8Character c = itsHereDocTag.GetFirstCharacter();
 	if (isquote(c))
 		{
 		if (c == '\'')

@@ -19,7 +19,7 @@ public:
 
 	virtual ~CBHTMLCompleter();
 
-	static JSize	GetDefaultWordList(const JCharacter*** list);
+	static JSize	GetDefaultWordList(const JUtf8Byte*** list);
 
 protected:
 

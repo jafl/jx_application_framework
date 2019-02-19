@@ -128,7 +128,7 @@ private:
 	void	ContinueToken();
 	Token	ThisToken(const TokenType type);
 
-	JBoolean	SlurpQuoted(const JSize count, const JCharacter* suffixList);
+	JBoolean	SlurpQuoted(const JSize count, const JUtf8Byte* suffixList);
 
 	void	SavePPNameRange();
 

@@ -38,7 +38,7 @@ CBStylerTableMenu::CBStylerTableMenu
 	const JSize count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		SetItemNMShortcut(i, nullptr);
+		SetItemNMShortcut(i, JString::empty);
 		}
 
 	SetUpdateAction(kDisableNone);

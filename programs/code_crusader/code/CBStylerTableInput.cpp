@@ -41,7 +41,10 @@ CBStylerTableInput::CBStylerTableInput
 	SetSelectionColor(prefsMgr->GetColor(CBMPrefsManager::kSelColorIndex));
 	SetSelectionOutlineColor(prefsMgr->GetColor(CBMPrefsManager::kSelLineColorIndex));
 
-	SetCharacterInWordFunction(CBMIsCharacterInWord);
+	GetText()->SetCharacterInWordFunction([this] (const JUtf8Character& c)
+	{
+		return JI2B( CBMIsCharacterInWord(c) || CBIsCharacterInWord(this->itsFileType, c) );
+	});
 }
 
 /******************************************************************************
@@ -81,21 +84,4 @@ CBStylerTableInput::HandleMouseDown
 		JXInputField::HandleMouseDown(pt, button, clickCount,
 									  buttonStates, modifiers);
 		}
-}
-
-/******************************************************************************
- VIsCharacterInWord (virtual protected)
-
- ******************************************************************************/
-
-JBoolean
-CBStylerTableInput::VIsCharacterInWord
-	(
-	const JString&	text,
-	const JIndex	charIndex
-	)
-	const
-{
-	return JI2B(JXTEBase::VIsCharacterInWord(text, charIndex) ||
-				CBIsCharacterInWord(itsFileType, text, charIndex));
 }

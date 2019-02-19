@@ -12,7 +12,7 @@
 
 CBPascalCompleter* CBPascalCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	// keywords
 
@@ -41,7 +41,7 @@ static const JCharacter* kKeywordList[] =
 	"pack", "unpack"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -111,6 +111,5 @@ CBPascalCompleter::IsWordCharacter
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '_');
+	return JI2B(c.IsAlnum() || c == '_');
 }

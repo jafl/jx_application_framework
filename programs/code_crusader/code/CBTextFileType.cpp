@@ -70,11 +70,9 @@ JBoolean
 CBIsCharacterInWord
 	(
 	const CBTextFileType	type,
-	const JString&			text,
-	const JIndex			charIndex
+	const JUtf8Character&	c
 	)
 {
-	const JCharacter c = text.GetCharacter(charIndex);
 	if (type == kCBPerlFT)
 		{
 		return JI2B(c == '$' || c == '%' || c == '@');

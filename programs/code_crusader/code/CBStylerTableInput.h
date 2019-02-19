@@ -33,9 +33,6 @@ protected:
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	VIsCharacterInWord(const JString& text,
-										   const JIndex charIndex) const;
-
 private:
 
 	CBStylerTable*	itsStylerTable;		// the table owns us

@@ -12,7 +12,7 @@
 
 CBJavaScriptCompleter* CBJavaScriptCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	// keywords
 
@@ -54,7 +54,7 @@ static const JCharacter* kKeywordList[] =
 	"window"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -127,8 +127,7 @@ CBJavaScriptCompleter::IsWordCharacter
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '_' || (includeNS && c == '.'));
+	return JI2B(c.IsAlnum() || c == '_' || (includeNS && c == '.'));
 }
 
 /******************************************************************************
@@ -145,7 +144,7 @@ CBJavaScriptCompleter::MatchCase
 	const
 {
 	target->ToLower();
-	target->MatchCase(source, JIndexRange(1, source.GetLength()));
+	target->MatchCase(source, JCharacterRange(1, source.GetCharacterCount()));
 }
 
 /******************************************************************************
@@ -158,7 +157,7 @@ CBJavaScriptCompleter::MatchCase
 JSize
 CBJavaScriptCompleter::GetDefaultWordList
 	(
-	const JCharacter*** list
+	const JUtf8Byte*** list
 	)
 {
 	*list = kKeywordList;

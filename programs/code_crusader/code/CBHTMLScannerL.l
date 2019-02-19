@@ -533,7 +533,7 @@ JS_BADHEX     (0[xX][0-9A-Fa-f]{9,})
 	JString s(yytext+1, yyleng - (yytext[yyleng-1] == ';' ? 2 : 1));
 	if (s.GetFirstCharacter() == 'x' || s.GetFirstCharacter() == 'X')
 		{
-		s.PrependCharacter('0');
+		s.Prepend("0");
 		}
 //	JInteger v;
 	const Token t = ThisToken(// s.ConvertToInteger(&v) && 0 <= v && v <= JInteger(UCHAR_MAX) ?
@@ -1139,7 +1139,7 @@ euro;?     {
 ^.+\n {
 	ContinueToken();
 	if (JString::Compare(yytext, yyleng - (yytext[yyleng-2] == ';' ? 2 : 1),
-					   itsPHPHereDocTag, itsPHPHereDocTag.GetLength()) == 0)
+					   itsPHPHereDocTag.GetBytes(), itsPHPHereDocTag.GetByteCount()) == 0)
 		{
 		BEGIN(PHP_STATE);
 		return ThisToken(kPHPHereDocString);

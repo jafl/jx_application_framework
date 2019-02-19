@@ -14,7 +14,7 @@
 
 CBRubyCompleter* CBRubyCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	"BEGIN", "END",
 	"alias", "and",
@@ -51,7 +51,7 @@ static const JCharacter* kKeywordList[] =
 	"untrace_var"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -125,7 +125,6 @@ CBRubyCompleter::IsWordCharacter
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '_' || c == '$' || c == '@' ||
+	return JI2B(c.IsAlnum() || c == '_' || c == '$' || c == '@' ||
 				(includeNS && (c == '.' || c == ':')));
 }

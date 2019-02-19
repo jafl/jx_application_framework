@@ -109,7 +109,7 @@ private:
 	void	ContinueToken();
 	Token	ThisToken(const TokenType type);
 
-	JBoolean	SlurpQuoted(const JCharacter* suffixList);
+	JBoolean	SlurpQuoted(const JUtf8Byte* suffixList);
 
 	// not allowed
 

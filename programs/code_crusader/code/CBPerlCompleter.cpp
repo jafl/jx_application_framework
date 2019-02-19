@@ -12,7 +12,7 @@
 
 CBPerlCompleter* CBPerlCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	"continue", "do", "else", "elsif", "for", "foreach", "goto", "if", "last",
 	"next", "redo", "unless", "until", "while",
@@ -48,7 +48,7 @@ static const JCharacter* kKeywordList[] =
 	"write"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -121,6 +121,5 @@ CBPerlCompleter::IsWordCharacter
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '_' || (includeNS && c == ':'));
+	return JI2B(c.IsAlnum() || c == '_' || (includeNS && c == ':'));
 }

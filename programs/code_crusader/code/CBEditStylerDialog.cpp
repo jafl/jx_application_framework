@@ -21,8 +21,6 @@
 
 const JCoordinate kMaxTypeRowCount = 10;
 
-static const JCharacter* kInstructionsID = "Instructions::CBEditStylerDialog";
-
 /******************************************************************************
  Constructor
 
@@ -30,9 +28,9 @@ static const JCharacter* kInstructionsID = "Instructions::CBEditStylerDialog";
 
 CBEditStylerDialog::CBEditStylerDialog
 	(
-	const JCharacter*						windowTitle,
+	const JString&							windowTitle,
 	const JBoolean							active,
-	const JCharacter**						typeNames,
+	const JUtf8Byte**						typeNames,
 	const JArray<JFontStyle>&				typeStyles,
 	const JArray<CBStylerBase::WordStyle>&	wordList,
 	const CBTextFileType					fileType
@@ -60,9 +58,9 @@ CBEditStylerDialog::~CBEditStylerDialog()
 void
 CBEditStylerDialog::BuildWindow
 	(
-	const JCharacter*						windowTitle,
+	const JString&							windowTitle,
 	const JBoolean							active,
-	const JCharacter**						typeNames,
+	const JUtf8Byte**						typeNames,
 	const JArray<JFontStyle>&				typeStyles,
 	const JArray<CBStylerBase::WordStyle>&	wordList,
 	const CBTextFileType					fileType
@@ -127,7 +125,7 @@ CBEditStylerDialog::BuildWindow
 	SetButtons(okButton, cancelButton);
 
 	itsActiveCB->SetState(active);
-	instrText->SetText(JGetString(kInstructionsID));
+	instrText->GetText()->SetText(JGetString("Instructions::CBEditStylerDialog"));
 	ListenTo(itsHelpButton);
 
 	// create tables

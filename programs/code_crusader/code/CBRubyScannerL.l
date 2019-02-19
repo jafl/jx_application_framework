@@ -16,7 +16,7 @@ This scanner reads a Ruby file and returns CBRubyScanner::Tokens.
 inline JBoolean
 isquote
 	(
-	const JCharacter c
+	const JUtf8Character& c
 	)
 {
 	return JI2B(c == '\'' || c == '"' || c == '`');
@@ -418,7 +418,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	itsHereDocTag.TrimWhitespace();
 	itsHereDocType = kDoubleQuoteString;
 
-	const JCharacter c = itsHereDocTag.GetFirstCharacter();
+	const JUtf8Character c = itsHereDocTag.GetFirstCharacter();
 	if (isquote(c))
 		{
 		if (c == '\'')

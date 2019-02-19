@@ -68,7 +68,7 @@ CBRubyScanner::BeginScan
 JBoolean
 CBRubyScanner::SlurpQuoted
 	(
-	const JCharacter* suffixList
+	const JUtf8Byte* suffixList
 	)
 {
 	const int startChar = yyinput();

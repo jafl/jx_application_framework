@@ -96,8 +96,7 @@ std::ostream& operator<<(std::ostream& output, const CBTextFileType type);
 JBoolean			CBGetComplementType(const CBTextFileType inputType, CBTextFileType* outputType);
 const JUtf8Byte*	CBGetComplementFileTypeName(const CBTextFileType type);
 
-JBoolean	CBIsCharacterInWord(const CBTextFileType type,
-								const JString& text, const JIndex charIndex);
+JBoolean	CBIsCharacterInWord(const CBTextFileType type, const JUtf8Character& c);
 
 inline JBoolean
 CBHasComplementType

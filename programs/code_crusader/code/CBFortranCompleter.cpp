@@ -12,7 +12,7 @@
 
 CBFortranCompleter* CBFortranCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 "abs",
 "accept",
@@ -577,7 +577,7 @@ static const JCharacter* kKeywordList[] =
 "zsqrt"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -647,8 +647,7 @@ CBFortranCompleter::IsWordCharacter
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c));
+	return c.IsAlnum();
 }
 
 /******************************************************************************
@@ -665,5 +664,5 @@ CBFortranCompleter::MatchCase
 	const
 {
 	target->ToLower();
-	target->MatchCase(source, JIndexRange(1, source.GetLength()));
+	target->MatchCase(source, JCharacterRange(1, source.GetCharacterCount()));
 }

@@ -14,7 +14,7 @@
 
 CBREXXCompleter* CBREXXCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	"ABBREV", "ABS", "ADDRESS", "ARG",
 	"BITAND", "BITOR", "BITXOR", "B2X", 
@@ -42,7 +42,7 @@ static const JCharacter* kKeywordList[] =
 	"RC", "RESULT", "SIGL"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -112,7 +112,6 @@ CBREXXCompleter::IsWordCharacter
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '@' || c == '#' || c == '$' ||
+	return JI2B(c.IsAlnum() || c == '@' || c == '#' || c == '$' ||
 				c == '\\' || c == '.' || c == '!' || c == '?' || c == '_');
 }

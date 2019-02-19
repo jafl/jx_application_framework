@@ -26,7 +26,7 @@
 
 CBStylerTable::CBStylerTable
 	(
-	const JCharacter**			typeNames,
+	const JUtf8Byte**			typeNames,
 	const JArray<JFontStyle>&	typeStyles,
 	JXScrollbarSet*				scrollbarSet,
 	JXContainer*				enclosure,
@@ -46,13 +46,11 @@ CBStylerTable::CBStylerTable
 	JStringTableData* data = GetStringData();
 	data->AppendCols(1);
 
-	JString s;
 	const JSize count = typeStyles.GetElementCount();
 	data->AppendRows(count);
 	for (JIndex i=1; i<=count; i++)
 		{
-		s = typeNames[i-1];
-		data->SetString(i,1, s);
+		data->SetString(i,1, JString(typeNames[i-1], kJFalse));
 
 		SetCellStyle(JPoint(1,i), typeStyles.GetElement(i));
 		}
@@ -82,15 +80,12 @@ CBStylerTable::CBStylerTable
 	JStringTableData* data = GetStringData();
 	data->AppendCols(1);
 
-	JString s;
 	const JSize count = wordList.GetElementCount();
 	data->AppendRows(count);
 	for (JIndex i=1; i<=count; i++)
 		{
 		const CBStylerBase::WordStyle info = wordList.GetElement(i);
-
-		s = info.key;
-		data->SetString(i,1, s);
+		data->SetString(i,1, *info.key);
 
 		SetCellStyle(JPoint(1,i), info.value);
 		}
@@ -304,7 +299,8 @@ CBStylerTable::DisplayFontMenu
 void
 CBStylerTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -312,7 +308,7 @@ CBStylerTable::HandleKeyPress
 	JTableSelection& s          = GetTableSelection();
 	const JBoolean hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
-	if (key == kJReturnKey && !IsEditing())
+	if (c == kJReturnKey && !IsEditing())
 		{
 		if (itsAllowEditFlag &&
 			hadSelection && s.GetSelectedCellCount() == 1)
@@ -321,26 +317,26 @@ CBStylerTable::HandleKeyPress
 			}
 		}
 
-	else if ((key == kJUpArrow || key == kJDownArrow) && !IsEditing())
+	else if ((c == kJUpArrow || c == kJDownArrow) && !IsEditing())
 		{
-		if (!hadSelection && key == kJUpArrow && GetRowCount() > 0)
+		if (!hadSelection && c == kJUpArrow && GetRowCount() > 0)
 			{
 			SelectSingleCell(JPoint(1, GetRowCount()));
 			}
 		else
 			{
-			HandleSelectionKeyPress(key, modifiers);
+			HandleSelectionKeyPress(c, modifiers);
 			}
 		}
 
-	else if ((key == 'a' || key == 'A') && modifiers.meta() && !modifiers.shift())
+	else if ((c == 'a' || c == 'A') && modifiers.meta() && !modifiers.shift())
 		{
 		s.SelectAll();
 		}
 
 	else
 		{
-		JXStringTable::HandleKeyPress(key, modifiers);
+		JXStringTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 

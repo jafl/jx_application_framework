@@ -12,7 +12,7 @@
 
 CBHTMLCompleter* CBHTMLCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	// can't add tags because it is an open-ended list
 
@@ -59,7 +59,7 @@ static const JCharacter* kKeywordList[] =
 	"permil;", "lsaquo;", "rsaquo;", "euro;"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -129,8 +129,7 @@ CBHTMLCompleter::IsWordCharacter
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JNegate(c == '<' || c == '>' || c == '&' || c == '=' || isspace(c));
+	return JNegate(c == '<' || c == '>' || c == '&' || c == '=' || c.IsSpace());
 }
 
 /******************************************************************************
@@ -143,7 +142,7 @@ CBHTMLCompleter::IsWordCharacter
 JSize
 CBHTMLCompleter::GetDefaultWordList
 	(
-	const JCharacter*** list
+	const JUtf8Byte*** list
 	)
 {
 	*list = kKeywordList;

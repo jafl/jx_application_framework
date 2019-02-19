@@ -12,7 +12,7 @@
 
 CBMakeCompleter* CBMakeCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	"addprefix", "addsuffix",
 	"basename",
@@ -30,7 +30,7 @@ static const JCharacter* kKeywordList[] =
 	"warning", "wildcard", "word", "wordlist", "words"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -100,6 +100,5 @@ CBMakeCompleter::IsWordCharacter
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '_');
+	return JI2B(c.IsAlnum() || c == '_');
 }

@@ -8,6 +8,8 @@
  ******************************************************************************/
 
 #include "CBEiffelCompleter.h"
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jAssert.h>
 
 CBEiffelCompleter* CBEiffelCompleter::itsSelf = nullptr;
@@ -124,22 +126,16 @@ CBEiffelCompleter::MatchCase
 {
 	target->ToLower();
 
-	JIndexRange r(1,1);
-	while (source.LocateNextSubstring(".", &(r.last)))
+	JStringIterator iter(source);
+	iter.BeginMatch();
+	while (iter.Next("."))
 		{
-		target->MatchCase(source, r, r);
-		(r.last)++;
-		r.first = r.last;
+		const JStringMatch& m = iter.FinishMatch();
+		target->MatchCase(source, m.GetCharacterRange(), m.GetCharacterRange());
+		iter.BeginMatch();
 		}
 
-	JIndexRange r1 = r;
-	r1.last = source.GetLength();
-
-	r.last = r.first;
-	if (!target->LocateNextSubstring(".", &(r.last)))
-		{
-		r.last = target->GetLength();
-		}
-
-	target->MatchCase(source, r1, r);
+	const JStringMatch& m = iter.FinishMatch();
+	const JCharacterRange r(m.GetCharacterRange().first, source.GetCharacterCount());
+	target->MatchCase(source, r, m.GetCharacterRange());
 }

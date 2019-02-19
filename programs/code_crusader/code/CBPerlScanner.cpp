@@ -70,7 +70,7 @@ JBoolean
 CBPerlScanner::SlurpQuoted
 	(
 	const JSize			count,
-	const JCharacter*	suffixList
+	const JUtf8Byte*	suffixList
 	)
 {
 	assert( count > 0 );

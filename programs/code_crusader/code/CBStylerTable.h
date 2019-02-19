@@ -21,7 +21,7 @@ class CBStylerTable : public JXStringTable
 {
 public:
 
-	CBStylerTable(const JCharacter** typeNames,
+	CBStylerTable(const JUtf8Byte** typeNames,
 				  const JArray<JFontStyle>& typeStyles,
 				  JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				  const HSizingOption hSizing, const VSizingOption vSizing,
@@ -41,7 +41,8 @@ public:
 	void	GetData(JArray<JFontStyle>* typeStyles) const;
 	void	GetData(JStringMap<JFontStyle>* wordStyles) const;
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c,
+								   const int keySym, const JXKeyModifiers& modifiers) override;
 
 	// called by CBStylerTableInput
 
@@ -65,7 +66,7 @@ protected:
 		CreateStringTableInput(const JPoint& cell, JXContainer* enclosure,
 							   const HSizingOption hSizing, const VSizingOption vSizing,
 							   const JCoordinate x, const JCoordinate y,
-							   const JCoordinate w, const JCoordinate h);
+							   const JCoordinate w, const JCoordinate h) override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;

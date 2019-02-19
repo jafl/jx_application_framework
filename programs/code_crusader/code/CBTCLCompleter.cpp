@@ -12,7 +12,7 @@
 
 CBTCLCompleter* CBTCLCompleter::itsSelf = nullptr;
 
-static const JCharacter* kKeywordList[] =
+static const JUtf8Byte* kKeywordList[] =
 {
 	// TCL
 
@@ -97,7 +97,7 @@ static const JCharacter* kKeywordList[] =
 	"winfo", "wm"
 };
 
-const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JCharacter*);
+const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -170,6 +170,5 @@ CBTCLCompleter::IsWordCharacter
 	)
 	const
 {
-	const JCharacter c = s.GetCharacter(index);
-	return JI2B(isalnum(c) || c == '_' || (includeNS && c == ':'));
+	return JI2B(c.IsAlnum() || c == '_' || (includeNS && c == ':'));
 }
