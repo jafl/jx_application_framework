@@ -18,6 +18,7 @@
 #include "JXUrgentTask.h"		// for Windows template compile
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <mutex>
 
 class JXWindow;
 
@@ -136,6 +137,8 @@ private:
 	JPtrArray<JXUrgentTask>*	itsRunningUrgentTasks;	// usually nullptr; not owned
 	JBoolean					itsHasBlockingWindowFlag;
 	JBoolean					itsHadBlockingWindowFlag;
+
+	std::recursive_mutex*	itsMutex;
 
 	JString		itsSignature;
 	JString		itsRestartCmd;		// for session managers

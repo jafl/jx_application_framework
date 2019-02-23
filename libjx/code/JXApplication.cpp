@@ -79,6 +79,9 @@ JXApplication::JXApplication
 	std::cout << std::boolalpha;	// since it will only be used for debugging
 	std::cerr << std::boolalpha;
 
+	itsMutex = jnew std::recursive_mutex;
+	assert( itsMutex != nullptr );
+
 	JString displayName;
 	ParseBaseOptions(argc, argv, &displayName);
 
@@ -184,6 +187,7 @@ JXApplication::~JXApplication()
 	jdelete itsIdleTaskStack;
 	jdelete itsIdleTasks;
 	jdelete itsUrgentTasks;
+	jdelete itsMutex;
 
 	JXDeleteGlobals2();
 }
@@ -608,11 +612,13 @@ JXApplication::HandleOneEventForWindow
 	itsHasBlockingWindowFlag = kJTrue;
 	itsHadBlockingWindowFlag = kJFalse;		// req'd by JXWindow
 
+	{
+	std::lock_guard lock(*itsMutex);
 	if (itsIdleTaskStack->IsEmpty())
 		{
 		PushIdleTaskStack();
 		}
-
+	}
 	UpdateCurrentTime();
 	const JBoolean allowSleep =
 		JI2B(origAllowSleep && HandleCustomEventWhileBlocking());
@@ -886,6 +892,8 @@ JXApplication::InstallIdleTask
 	JXIdleTask* newTask
 	)
 {
+	std::lock_guard lock(*itsMutex);
+
 	if (!itsIdleTasks->Includes(newTask))
 		{
 		itsIdleTasks->Prepend(newTask);
@@ -913,6 +921,8 @@ JXApplication::RemoveIdleTask
 {
 	if (!itsIgnoreTaskDeletedFlag)
 		{
+		std::lock_guard lock(*itsMutex);
+
 		itsIdleTasks->Remove(task);
 
 		for (JPtrArray<JXIdleTask>* list : *itsIdleTaskStack)
@@ -930,6 +940,8 @@ JXApplication::RemoveIdleTask
 void
 JXApplication::PushIdleTaskStack()
 {
+	std::lock_guard lock(*itsMutex);
+
 	itsIdleTaskStack->Append(itsIdleTasks);
 
 	itsIdleTasks = jnew JPtrArray<JXIdleTask>(JPtrArrayT::kDeleteAll);
@@ -948,6 +960,8 @@ JXApplication::PushIdleTaskStack()
 void
 JXApplication::PopIdleTaskStack()
 {
+	std::lock_guard lock(*itsMutex);
+
 	if (!itsIdleTaskStack->IsEmpty())
 		{
 		JPtrArray<JXIdleTask>* list = itsIdleTasks;
@@ -971,6 +985,8 @@ JXApplication::PopIdleTaskStack()
 void
 JXApplication::PopAllIdleTaskStack()
 {
+	std::lock_guard lock(*itsMutex);
+
 	while (!itsIdleTaskStack->IsEmpty())
 		{
 		PopIdleTaskStack();
@@ -986,6 +1002,8 @@ void
 JXApplication::PerformIdleTasks()
 {
 	itsMaxSleepTime = kMaxSleepTime;
+	{
+	std::lock_guard lock(*itsMutex);
 
 	if (!itsIdleTasks->IsEmpty())		// avoid constructing iterator
 		{
@@ -1002,6 +1020,7 @@ JXApplication::PerformIdleTasks()
 				}
 			}
 		}
+	}
 
 	if (!itsHasBlockingWindowFlag)
 		{
@@ -1062,6 +1081,8 @@ JXApplication::InstallUrgentTask
 	JXUrgentTask* newTask
 	)
 {
+	std::lock_guard lock(*itsMutex);
+
 	if (!itsUrgentTasks->Includes(newTask))
 		{
 		itsUrgentTasks->Append(newTask);
@@ -1081,6 +1102,8 @@ JXApplication::RemoveUrgentTask
 {
 	if (!itsIgnoreTaskDeletedFlag)
 		{
+		std::lock_guard lock(*itsMutex);
+
 		itsUrgentTasks->Remove(task);
 
 		if (itsRunningUrgentTasks != nullptr)
@@ -1098,6 +1121,9 @@ JXApplication::RemoveUrgentTask
 void
 JXApplication::PerformUrgentTasks()
 {
+	{
+	std::lock_guard lock(*itsMutex);
+
 	if (!itsUrgentTasks->IsEmpty())
 		{
 		// clear out itsUrgentTasks so new ones can safely be added
@@ -1119,6 +1145,7 @@ JXApplication::PerformUrgentTasks()
 		jdelete iter;
 		itsRunningUrgentTasks = nullptr;
 		}
+	}
 
 	JXDisplay::CheckForXErrors();
 
