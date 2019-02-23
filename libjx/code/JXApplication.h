@@ -138,7 +138,7 @@ private:
 	JBoolean					itsHasBlockingWindowFlag;
 	JBoolean					itsHadBlockingWindowFlag;
 
-	std::recursive_mutex*	itsMutex;
+	std::recursive_mutex*	itsTaskMutex;
 
 	JString		itsSignature;
 	JString		itsRestartCmd;		// for session managers

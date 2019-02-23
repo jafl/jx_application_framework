@@ -79,8 +79,8 @@ JXApplication::JXApplication
 	std::cout << std::boolalpha;	// since it will only be used for debugging
 	std::cerr << std::boolalpha;
 
-	itsMutex = jnew std::recursive_mutex;
-	assert( itsMutex != nullptr );
+	itsTaskMutex = jnew std::recursive_mutex;
+	assert( itsTaskMutex != nullptr );
 
 	JString displayName;
 	ParseBaseOptions(argc, argv, &displayName);
@@ -187,7 +187,7 @@ JXApplication::~JXApplication()
 	jdelete itsIdleTaskStack;
 	jdelete itsIdleTasks;
 	jdelete itsUrgentTasks;
-	jdelete itsMutex;
+	jdelete itsTaskMutex;
 
 	JXDeleteGlobals2();
 }
@@ -613,7 +613,7 @@ JXApplication::HandleOneEventForWindow
 	itsHadBlockingWindowFlag = kJFalse;		// req'd by JXWindow
 
 	{
-	std::lock_guard lock(*itsMutex);
+	std::lock_guard lock(*itsTaskMutex);
 	if (itsIdleTaskStack->IsEmpty())
 		{
 		PushIdleTaskStack();
@@ -892,7 +892,7 @@ JXApplication::InstallIdleTask
 	JXIdleTask* newTask
 	)
 {
-	std::lock_guard lock(*itsMutex);
+	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsIdleTasks->Includes(newTask))
 		{
@@ -921,7 +921,7 @@ JXApplication::RemoveIdleTask
 {
 	if (!itsIgnoreTaskDeletedFlag)
 		{
-		std::lock_guard lock(*itsMutex);
+		std::lock_guard lock(*itsTaskMutex);
 
 		itsIdleTasks->Remove(task);
 
@@ -940,7 +940,7 @@ JXApplication::RemoveIdleTask
 void
 JXApplication::PushIdleTaskStack()
 {
-	std::lock_guard lock(*itsMutex);
+	std::lock_guard lock(*itsTaskMutex);
 
 	itsIdleTaskStack->Append(itsIdleTasks);
 
@@ -960,7 +960,7 @@ JXApplication::PushIdleTaskStack()
 void
 JXApplication::PopIdleTaskStack()
 {
-	std::lock_guard lock(*itsMutex);
+	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsIdleTaskStack->IsEmpty())
 		{
@@ -985,7 +985,7 @@ JXApplication::PopIdleTaskStack()
 void
 JXApplication::PopAllIdleTaskStack()
 {
-	std::lock_guard lock(*itsMutex);
+	std::lock_guard lock(*itsTaskMutex);
 
 	while (!itsIdleTaskStack->IsEmpty())
 		{
@@ -1003,7 +1003,7 @@ JXApplication::PerformIdleTasks()
 {
 	itsMaxSleepTime = kMaxSleepTime;
 	{
-	std::lock_guard lock(*itsMutex);
+	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsIdleTasks->IsEmpty())		// avoid constructing iterator
 		{
@@ -1081,7 +1081,7 @@ JXApplication::InstallUrgentTask
 	JXUrgentTask* newTask
 	)
 {
-	std::lock_guard lock(*itsMutex);
+	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsUrgentTasks->Includes(newTask))
 		{
@@ -1102,7 +1102,7 @@ JXApplication::RemoveUrgentTask
 {
 	if (!itsIgnoreTaskDeletedFlag)
 		{
-		std::lock_guard lock(*itsMutex);
+		std::lock_guard lock(*itsTaskMutex);
 
 		itsUrgentTasks->Remove(task);
 
@@ -1122,7 +1122,7 @@ void
 JXApplication::PerformUrgentTasks()
 {
 	{
-	std::lock_guard lock(*itsMutex);
+	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsUrgentTasks->IsEmpty())
 		{
