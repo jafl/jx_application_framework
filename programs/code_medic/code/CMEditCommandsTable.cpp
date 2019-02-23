@@ -77,7 +77,7 @@ CMEditCommandsTable::SyncWithData()
 	RemoveAllRows();
 	AppendRows(count, kDefRowHeight);
 
-	const JSize fontHeight = GetFontManager()->GetDefaultFont().GetLineHeight();
+	const JSize fontHeight = JFontManager::GetDefaultFont().GetLineHeight(GetFontManager());
 	const JCoordinate rowHeight = fontHeight + 2*kVMarginWidth;
 	SetDefaultRowHeight(rowHeight);
 	SetAllRowHeights(rowHeight);

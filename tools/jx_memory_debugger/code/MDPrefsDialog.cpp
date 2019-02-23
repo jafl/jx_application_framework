@@ -94,7 +94,7 @@ MDPrefsDialog::BuildWindow
 
 	itsOpenFileInput->GetText()->SetText(openCmd);
 	itsOpenFileInput->SetIsRequired();
-	itsOpenFileInput->SetFont(window->GetFontManager()->GetDefaultMonospaceFont());
+	itsOpenFileInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 }
 
 /******************************************************************************

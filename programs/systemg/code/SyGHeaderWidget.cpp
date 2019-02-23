@@ -86,7 +86,7 @@ SyGHeaderWidget::TableDrawCell
 	const JRect&	rect
 	)
 {
-	JFont font = GetFontManager()->GetDefaultFont();
+	JFont font = JFontManager::GetDefaultFont();
 	if (itsTable->IsCurrentCol(cell.x))
 		{
 		font.SetUnderlineCount(1);

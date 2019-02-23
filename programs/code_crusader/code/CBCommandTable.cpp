@@ -116,7 +116,7 @@ CBCommandTable::CBCommandTable
 	)
 	:
 	JXEditTable(1,1, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
-	itsFont(GetFontManager()->GetDefaultFont())
+	itsFont(JFontManager::GetDefaultFont())
 {
 	itsTextInput   = nullptr;
 	itsDNDRowIndex = 0;
@@ -132,7 +132,7 @@ CBCommandTable::CBCommandTable
 	itsFont.Set(fontName, fontSize);
 
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		GetFontManager()->GetDefaultFont().GetLineHeight(GetFontManager()),
+		JFontManager::GetDefaultFont().GetLineHeight(GetFontManager()),
 		itsFont.GetLineHeight(GetFontManager()));
 	SetDefaultRowHeight(rowHeight);
 

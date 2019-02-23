@@ -88,7 +88,7 @@ CMBreakpointTable::CMBreakpointTable
 	JPrefObject(CMGetPrefsManager(), kBreakpointTableID),
 	itsDir(dir),
 	itsTextInput(nullptr),
-	itsFont(GetFontManager()->GetDefaultFont())
+	itsFont(JFontManager::GetDefaultFont())
 {
 	itsBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kForgetAll);
 	assert(itsBPList != nullptr);
@@ -100,7 +100,7 @@ CMBreakpointTable::CMBreakpointTable
 	JString fontName;
 	JSize fontSize;
 	CMGetPrefsManager()->GetDefaultFont(&fontName, &fontSize);
-	itsFont = GetFontManager()->GetFont(fontName, fontSize);
+	itsFont = JFontManager::GetFont(fontName, fontSize);
 
 	const JSize rowHeight = 2*kVMarginWidth + itsFont.GetLineHeight();
 	SetDefaultRowHeight(rowHeight);

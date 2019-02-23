@@ -24,12 +24,12 @@ protected:
 
 	CBHTMLStyler();
 
-	virtual void		Scan(std::istream& input, const TokenExtra& initData);
-	virtual TokenExtra	GetFirstTokenExtraData() const;
+	virtual void		Scan(std::istream& input, const TokenExtra& initData) override;
+	virtual TokenExtra	GetFirstTokenExtraData() const override;
 	virtual void		UpgradeTypeList(const JFileVersion vers,
-										JArray<JFontStyle>* typeStyles);
+										JArray<JFontStyle>* typeStyles) override;
 
-	virtual const JString&	GetScannedText() const;
+	virtual const JString&	GetScannedText() const override;
 
 private:
 

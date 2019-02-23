@@ -230,7 +230,7 @@ CMEditPrefsDialog::BuildWindow
 	itsJDBCmd->SetIsRequired();
 	itsJDBCmd->ShouldRequireExecutable();
 
-	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 
 	itsEditFileCmdInput->SetText(editFileCmd);
 	itsEditFileCmdInput->SetIsRequired();

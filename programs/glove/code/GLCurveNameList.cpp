@@ -314,7 +314,7 @@ GLCurveNameList::Receive
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth +
-			GetFontManager()->GetDefaultFont().GetStringWidth(GetFontManager(), *str);
+			JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), *str);
 		if (width > itsMinColWidth)
 			{
 			itsMinColWidth = width;

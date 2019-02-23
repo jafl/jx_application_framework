@@ -365,7 +365,7 @@ CBFileTypeTable::CBFileTypeTable
 	JXEditTable(1,1, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	itsMacroList(macroList),
 	itsCRMList(crmList),
-	itsFont(GetFontManager()->GetDefaultFont())
+	itsFont(JFontManager::GetDefaultFont())
 {
 	itsTextInput    = nullptr;
 	itsNewDirDialog = nullptr;
@@ -378,7 +378,7 @@ CBFileTypeTable::CBFileTypeTable
 	itsFont.Set(fontName, fontSize);
 
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		GetFontManager()->GetDefaultFont().GetLineHeight(),
+		JFontManager::GetDefaultFont().GetLineHeight(),
 		itsFont.GetLineHeight());
 	SetDefaultRowHeight(rowHeight);
 
@@ -577,7 +577,7 @@ CBFileTypeTable::TableDrawCell
 		r.left += kHMarginWidth;
 		p.String(r, *(info.suffix), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
-		p.SetFont(GetFontManager()->GetDefaultFont());
+		p.SetFont(JFontManager::GetDefaultFont());
 		}
 	else if (cell.x == kTypeColumn)
 		{
@@ -622,7 +622,7 @@ CBFileTypeTable::TableDrawCell
 		r.left += kHMarginWidth;
 		p.String(r, *(info.editCmd), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
-		p.SetFont(GetFontManager()->GetDefaultFont());
+		p.SetFont(JFontManager::GetDefaultFont());
 		}
 }
 

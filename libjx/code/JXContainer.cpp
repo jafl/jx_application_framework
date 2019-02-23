@@ -1656,7 +1656,7 @@ JFontManager*
 JXContainer::GetFontManager()
 	const
 {
-	return (itsWindow->GetDisplay())->GetFontManager();
+	return itsWindow->GetDisplay()->GetFontManager();
 }
 
 /******************************************************************************
@@ -1668,7 +1668,7 @@ JXFontManager*
 JXContainer::GetXFontManager()
 	const
 {
-	return (itsWindow->GetDisplay())->GetXFontManager();
+	return itsWindow->GetDisplay()->GetXFontManager();
 }
 
 /******************************************************************************
@@ -1680,7 +1680,7 @@ JXSelectionManager*
 JXContainer::GetSelectionManager()
 	const
 {
-	return (itsWindow->GetDisplay())->GetSelectionManager();
+	return itsWindow->GetDisplay()->GetSelectionManager();
 }
 
 /******************************************************************************
@@ -1692,7 +1692,7 @@ JXDNDManager*
 JXContainer::GetDNDManager()
 	const
 {
-	return (itsWindow->GetDisplay())->GetDNDManager();
+	return itsWindow->GetDisplay()->GetDNDManager();
 }
 
 /******************************************************************************
@@ -1704,7 +1704,7 @@ JXMenuManager*
 JXContainer::GetMenuManager()
 	const
 {
-	return (itsWindow->GetDisplay())->GetMenuManager();
+	return itsWindow->GetDisplay()->GetMenuManager();
 }
 
 /******************************************************************************

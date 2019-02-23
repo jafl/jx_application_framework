@@ -142,7 +142,7 @@ CMChooseProcessDialog::BuildWindow()
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsText != nullptr );
 	itsText->FitToEnclosure();
-	itsText->SetDefaultFont(window->GetFontManager()->GetDefaultMonospaceFont());
+	itsText->SetDefaultFont(JFontManager::GetDefaultMonospaceFont());
 }
 
 /******************************************************************************

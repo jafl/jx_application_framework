@@ -218,7 +218,7 @@ JXRowHeaderWidget::TableDrawCell
 		str = JString((JUInt64) cell.y);
 		}
 
-	const JFont font = GetFontManager()->GetFont(
+	const JFont font = JFontManager::GetFont(
 			JFontManager::GetDefaultFontName(),
 			JFontManager::GetDefaultRowColHeaderFontSize(),
 			JFontStyle(kJTrue, kJFalse, 0, kJFalse));

@@ -133,5 +133,5 @@ JXFSRunScriptDialog::BuildWindow
 	s.Append(" ");
 	itsCmdInput->GetText()->SetText(s);
 	itsCmdInput->SetIsRequired();
-	itsCmdInput->SetFont(window->GetFontManager()->GetDefaultMonospaceFont());
+	itsCmdInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 }

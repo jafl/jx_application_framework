@@ -136,7 +136,7 @@ void SyGTreeSet::SyGTreeSetX
 	itsMenuBar     = menuBar;
 	itsEmptyButton = nullptr;
 
-	const JFont& font              = GetFontManager()->GetDefaultMonospaceFont();
+	const JFont& font              = JFontManager::GetDefaultMonospaceFont();
 	const JCoordinate filterHeight = font.GetLineHeight(GetFontManager());
 	const JCoordinate headerHeight = SyGHeaderWidget::GetPreferredHeight(GetFontManager());
 

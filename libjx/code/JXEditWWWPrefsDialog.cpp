@@ -147,7 +147,7 @@ JXEditWWWPrefsDialog::BuildWindow
 	window->SetTitle(JGetString("WindowTitle::JXEditWWWPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
-	const JFont& font = (window->GetFontManager())->GetDefaultMonospaceFont();
+	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 
 	itsShowURLCmdInput->GetText()->SetText(showURLCmd);
 	itsShowURLCmdInput->SetIsRequired();

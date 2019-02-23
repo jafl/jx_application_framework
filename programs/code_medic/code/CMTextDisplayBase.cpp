@@ -79,7 +79,7 @@ CMTextDisplayBase::AdjustFont
 	JSize size;
 	CMGetPrefsManager()->GetDefaultFont(&name, &size);
 	te->SetDefaultFont(
-		fontMgr->GetFont(name, size, CMGetPrefsManager()->GetColor(CMPrefsManager::kTextColorIndex)));
+		JFontManager::GetFont(name, size, CMGetPrefsManager()->GetColor(CMPrefsManager::kTextColorIndex)));
 
 	// colors
 

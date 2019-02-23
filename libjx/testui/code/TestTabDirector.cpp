@@ -229,5 +229,5 @@ TestTabDirector::UpdateFontSample()
 	JString name;
 	JSize size;
 	itsMonoFont->GetFont(&name, &size);
-	itsMonoFontSample->SetFont(GetWindow()->GetFontManager()->GetFont(name, size));
+	itsMonoFontSample->SetFont(JFontManager::GetFont(name, size));
 }

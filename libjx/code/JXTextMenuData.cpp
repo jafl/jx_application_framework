@@ -719,7 +719,7 @@ JXTextMenuData::GetNMShortcut
 	else
 		{
 		*str = nullptr;
-		*font = itsMenu->GetFontManager()->GetDefaultFont();
+		*font = JFontManager::GetDefaultFont();
 		return kJFalse;
 		}
 }

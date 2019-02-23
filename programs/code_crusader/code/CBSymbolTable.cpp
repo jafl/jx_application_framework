@@ -75,7 +75,7 @@ CBSymbolTable::CBSymbolTable
 	SetColBorderInfo(0, blackColor);
 
 	AppendCols(1);
-	SetDefaultRowHeight(GetFontManager()->GetDefaultFont().GetLineHeight(GetFontManager()) +
+	SetDefaultRowHeight(JFontManager::GetDefaultFont().GetLineHeight(GetFontManager()) +
 						2*kVMarginWidth);
 
 	SetSelectionBehavior(kJTrue, kJTrue);
@@ -422,7 +422,7 @@ CBSymbolTable::TableDrawCell
 
 	if (signature != nullptr)
 		{
-		r.left += GetFontManager()->GetDefaultFont().GetStringWidth(GetFontManager(), symbolName);
+		r.left += JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), symbolName);
 		p.String(r, *signature, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 		}
 }
@@ -724,11 +724,11 @@ CBSymbolTable::CalcColWidths
 	const JString* signature
 	)
 {
-	JSize w = GetFontManager()->GetDefaultFont().GetStringWidth(GetFontManager(), symbolName);
+	JSize w = JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), symbolName);
 
 	if (signature != nullptr)
 		{
-		w += GetFontManager()->GetDefaultFont().GetStringWidth(GetFontManager(), *signature);
+		w += JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), *signature);
 		}
 
 	if (w > itsMaxStringWidth)

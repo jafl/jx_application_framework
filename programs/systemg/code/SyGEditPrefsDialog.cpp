@@ -195,7 +195,7 @@ SyGEditPrefsDialog::BuildWindow
 	window->SetTitle(JGetString("WindowTitle::SyGEditPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
-	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 
 	itsManInput->GetText()->SetText(manViewCmd);
 	itsManInput->SetIsRequired();

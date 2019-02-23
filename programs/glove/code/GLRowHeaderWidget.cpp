@@ -73,7 +73,7 @@ GLRowHeaderWidget::TableDrawCell
 {
 	JXDrawUpFrame(p, rect, kCellFrameWidth);
 
-	const JFont font = GetFontManager()->GetFont(
+	const JFont font = JFontManager::GetFont(
 		JFontManager::GetDefaultFontName(), 10,
 		JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetBlackColor()));
 	p.SetFont(font);

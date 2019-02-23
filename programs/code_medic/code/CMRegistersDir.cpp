@@ -178,7 +178,7 @@ CMRegistersDir::BuildWindow()
 	JString name;
 	JSize size;
 	CMGetPrefsManager()->GetDefaultFont(&name, &size);
-	itsWidget->SetFont(window->GetFontManager()->GetFont(name, size));
+	itsWidget->SetFont(JFontManager::GetFont(name, size));
 
 	// menus
 

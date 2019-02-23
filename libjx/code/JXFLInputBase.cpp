@@ -41,7 +41,7 @@ JXFLInputBase::JXFLInputBase
 	itsFLSet(flSet),
 	itsHistoryMenu(historyMenu)
 {
-	const JFont& font = GetFontManager()->GetDefaultMonospaceFont();
+	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 	SetFont(font);
 	itsHistoryMenu->SetDefaultFont(font, kJTrue);
 	ListenTo(itsHistoryMenu);

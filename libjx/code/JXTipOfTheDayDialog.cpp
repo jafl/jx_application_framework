@@ -144,7 +144,7 @@ JXTipOfTheDayDialog::BuildWindow
 	title->TESetLeftMarginWidth(5);
 	title->SetBackColor(title->GetFocusColor());
 	title->GetText()->SetFont(title->GetText()->SelectAll(),
-		(window->GetFontManager())->GetFont(
+		JFontManager::GetFont(
 			JGetString("FontName::JXTipOfTheDayDialog"), 18,
 			JFontStyle(kJTrue, kJFalse, 0, kJFalse)),
 		kJTrue);

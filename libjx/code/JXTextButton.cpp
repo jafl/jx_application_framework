@@ -37,7 +37,7 @@ JXTextButton::JXTextButton
 	:
 	JXButton(enclosure, hSizing, vSizing, x,y, w,h),
 	itsLabel(label),
-	itsFont(GetFontManager()->GetDefaultFont())
+	itsFont(JFontManager::GetDefaultFont())
 {
 	itsShortcuts = nullptr;
 	itsULIndex   = 0;

@@ -414,7 +414,7 @@ CBSearchTextDialog::BuildWindow()
 	ListenTo(itsFileFilterHistory);
 	ListenTo(itsPathFilterHistory);
 
-	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 
 	itsDirInput->ShouldAllowInvalidPath();
 	itsDirHistory->SetDefaultFont(font, kJTrue);

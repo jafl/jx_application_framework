@@ -76,7 +76,7 @@ GLFitParmsTable::TableDrawCell
 	)
 {
 	JString* str;
-	p.SetFont(GetFontManager()->GetDefaultFont());
+	p.SetFont(JFontManager::GetDefaultFont());
 	JRect r = rect;
 	if (cell.x == 1)
 		{

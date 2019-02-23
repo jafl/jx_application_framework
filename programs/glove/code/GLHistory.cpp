@@ -175,7 +175,7 @@ GLHistory::AdjustFont()
 
 	if (itsFontMenu != nullptr)
 		{
-		JFont font = GetFontManager()->GetFont(itsFontMenu->GetFontName());
+		JFont font = JFontManager::GetFont(itsFontMenu->GetFontName());
 		SetCurrentFont(font);
 		GetText()->SetDefaultFont(font);
 		}

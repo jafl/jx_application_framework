@@ -49,7 +49,7 @@ JXToolBarButton::JXToolBarButton
 	itsMenuItemID(itemID),
 	itsIsCheckedFlag(kJFalse),
 	itsType(type),
-	itsFont(GetFontManager()->GetDefaultFont()),
+	itsFont(JFontManager::GetDefaultFont()),
 	itsImage(nullptr)
 {
 	JBoolean invalid;

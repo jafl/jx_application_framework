@@ -345,7 +345,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsAltRowColor = GetDisplay()->GetColorManager()->GetGrayColor(95);
 
 	itsPermCharWidth =
-		GetFontManager()->GetDefaultFont().GetCharWidth(GetFontManager(), kPermTestChar);
+		JFontManager::GetDefaultFont().GetCharWidth(GetFontManager(), kPermTestChar);
 
 	// menus
 

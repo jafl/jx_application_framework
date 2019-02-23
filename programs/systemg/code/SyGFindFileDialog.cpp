@@ -183,7 +183,7 @@ SyGFindFileDialog::BuildWindow()
 
 	itsPathInput->ShouldAllowInvalidPath();
 
-	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 
 	itsFileInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	itsFileInput->SetFont(font);

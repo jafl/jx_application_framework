@@ -491,7 +491,7 @@ JIndex i;
 			 its3Rect.height(), JPainter::kVAlignCenter);
 
 	p.SetLineWidth(1);
-	p.SetFont(GetFontManager()->GetDefaultFont());
+	p.SetFont(JFontManager::GetDefaultFont());
 
 	p.ShiftOrigin(10,10);
 

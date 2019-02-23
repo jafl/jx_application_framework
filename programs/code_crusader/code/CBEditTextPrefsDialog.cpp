@@ -797,7 +797,7 @@ CBEditTextPrefsDialog::UpdateSampleText()
 	JSize size;
 	itsFontMenu->GetFont(&name, &size);
 	itsSampleText->SetFont(
-		GetWindow()->GetFontManager()->GetFont(name, size,
+		JFontManager::GetFont(name, size,
 			JFontStyle(itsColor [ CBPrefsManager::kTextColorIndex-1 ])));
 
 	itsSampleText->SetBackColor(itsColor [ CBPrefsManager::kBackColorIndex-1 ] );

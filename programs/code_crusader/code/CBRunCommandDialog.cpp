@@ -264,7 +264,7 @@ CBRunCommandDialog::BuildWindow()
 	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsCmdInput->GetText());
 
-	itsCmdInput->SetFont(window->GetFontManager()->GetDefaultMonospaceFont());
+	itsCmdInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 
 	itsSaveCmdMenu->SetMenuItems(kSaveCmdMenuStr, "CBRunCommandDialog");
 	ListenTo(itsSaveCmdMenu);

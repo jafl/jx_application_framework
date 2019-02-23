@@ -92,7 +92,7 @@ JXTabGroup::JXTabGroup
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsEdge(kTop),
-	itsFont(GetFontManager()->GetDefaultFont()),
+	itsFont(JFontManager::GetDefaultFont()),
 	itsCanScrollUpFlag(kJFalse),
 	itsCanScrollDownFlag(kJFalse),
 	itsFirstDrawIndex(1),

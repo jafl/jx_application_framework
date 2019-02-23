@@ -220,7 +220,7 @@ JXFSRunCommandDialog::BuildWindow()
 	itsPathInput->ShouldAllowInvalidPath();
 	ListenTo(itsPathInput->GetText());
 
-	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 	itsPathHistoryMenu->SetDefaultFont(font, kJTrue);
 
 	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);

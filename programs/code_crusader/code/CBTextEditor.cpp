@@ -1695,7 +1695,7 @@ CBTextEditor::SetFont
 {
 	PrivateSetTabCharCount(tabCharCount);
 	SetAllFontNameAndSize(name, size,
-		CalcTabWidth(TEGetFontManager()->GetFont(name, size), tabCharCount),
+		CalcTabWidth(JFontManager::GetFont(name, size), tabCharCount),
 		breakCROnly, kJFalse);
 }
 

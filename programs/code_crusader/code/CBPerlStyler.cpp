@@ -265,9 +265,9 @@ CBPerlStyler::PreexpandCheckRange
 	(
 	const JString&			text,
 	const JRunArray<JFont>&	styles,
-	const JIndexRange&		modifiedRange,
+	const JCharacterRange&	modifiedRange,
 	const JBoolean			deletion,
-	JIndexRange*			checkRange
+	JCharacterRange*		checkRange
 	)
 {
 	// We have to extend past any whitespace to include the next

@@ -184,23 +184,23 @@ JXFSBindingTable::TableDrawCell
 
 	if (cell.x == kPatternColumn)
 		{
-		p.SetFont(GetFontManager()->GetDefaultMonospaceFont());
+		p.SetFont(JFontManager::GetDefaultMonospaceFont());
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
 		p.String(r, b->GetPattern(), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
-		p.SetFont(GetFontManager()->GetDefaultFont());
+		p.SetFont(JFontManager::GetDefaultFont());
 		}
 	else if (cell.x == kCommandColumn)
 		{
-		p.SetFont(GetFontManager()->GetDefaultMonospaceFont());
+		p.SetFont(JFontManager::GetDefaultMonospaceFont());
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
 		p.String(r, cmd, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
-		p.SetFont(GetFontManager()->GetDefaultFont());
+		p.SetFont(JFontManager::GetDefaultFont());
 		}
 	else if (cell.x == kTypeColumn)
 		{
@@ -350,7 +350,7 @@ JXFSBindingTable::CreateXInputField
 		itsTextInput->GetText()->SetText(cmd);
 		}
 
-	itsTextInput->SetFont(GetFontManager()->GetDefaultMonospaceFont());
+	itsTextInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 	itsTextInput->SetIsRequired();
 	ListenTo(itsTextInput->GetText());
 	return itsTextInput;

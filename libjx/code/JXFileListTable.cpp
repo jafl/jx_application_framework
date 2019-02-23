@@ -98,7 +98,7 @@ JXFileListTable::JXFileListTable
 	SetColBorderInfo(0, blackColor);
 
 	AppendCols(1);
-	SetDefaultRowHeight((JFontManager::GetDefaultFont()).GetLineHeight(GetFontManager()) +
+	SetDefaultRowHeight(JFontManager::GetDefaultFont().GetLineHeight(GetFontManager()) +
 						2*kVMarginWidth);
 
 	SetSelectionBehavior(kJTrue, kJTrue);
@@ -452,7 +452,7 @@ JXFileListTable::FilterFile
 			const JString drawStr = JString(
 				(itsFileList->GetElement(info.fileIndex))->GetBytes() + info.drawIndex-1,
 				0, kJFalse);
-			const JSize w = (JFontManager::GetDefaultFont()).GetStringWidth(GetFontManager(), drawStr);
+			const JSize w = JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), drawStr);
 			if (w > itsMaxStringWidth)
 				{
 				itsMaxStringWidth = w;

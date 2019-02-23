@@ -218,8 +218,8 @@ JXFSRunFileDialog::BuildWindow
 	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsCmdInput->GetText());
 
-	itsCmdInput->SetFont(window->GetFontManager()->GetDefaultMonospaceFont());
-	itsCmdHistoryMenu->SetDefaultFont(window->GetFontManager()->GetDefaultMonospaceFont(), kJTrue);
+	itsCmdInput->SetFont(JFontManager::GetDefaultMonospaceFont());
+	itsCmdHistoryMenu->SetDefaultFont(JFontManager::GetDefaultMonospaceFont(), kJTrue);
 
 	// check for suffix
 

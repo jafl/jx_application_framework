@@ -28,10 +28,13 @@ SyGBeginEditingTask::SyGBeginEditingTask
 	:
 	JXIdleTask(kJXDoubleClickTime),
 	itsTable(table),
-	itsNode((table->GetFileTreeList())->GetSyGNode(cell.y))
+	itsNode(table->GetFileTreeList()->GetSyGNode(cell.y))
 {
 	ClearWhenGoingAway(itsNode, &itsNode);
 	ClearWhenGoingAway(itsNode, &(itsTable->itsEditTask));
+
+	ClearWhenGoingAway(itsTable, &itsNode);
+	ClearWhenGoingAway(itsTable, &itsTable);
 }
 
 /******************************************************************************
@@ -51,14 +54,17 @@ SyGBeginEditingTask::~SyGBeginEditingTask()
 void
 SyGBeginEditingTask::Perform()
 {
-	itsTable->itsEditTask = nullptr;	// first action:  allows it to create another one, if necessary
-
-	JPoint cell;
-	if ((itsTable->GetTableSelection()).GetSingleSelectedCell(&cell) &&
-		(itsTable->GetFileTreeList())->GetSyGNode(cell.y) == itsNode)
+	if (itsTable != nullptr)
 		{
-		itsTable->BeginEditing(cell);
-		itsTable->TableScrollToCell(JPoint(itsTable->GetToggleOpenColIndex(), cell.y));
+		itsTable->itsEditTask = nullptr;	// first action:  allows it to create another one, if necessary
+
+		JPoint cell;
+		if (itsTable->GetTableSelection().GetSingleSelectedCell(&cell) &&
+			itsTable->GetFileTreeList()->GetSyGNode(cell.y) == itsNode)
+			{
+			itsTable->BeginEditing(cell);
+			itsTable->TableScrollToCell(JPoint(itsTable->GetToggleOpenColIndex(), cell.y));
+			}
 		}
 
 	jdelete this;

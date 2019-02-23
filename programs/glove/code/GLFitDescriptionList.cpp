@@ -382,7 +382,7 @@ GLFitDescriptionList::SyncWithManager()
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth + kIconWidth + 
-			GetFontManager()->GetDefaultFont().GetStringWidth(GetFontManager(), *str);
+			JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), *str);
 		if (width > itsMinColWidth)
 			{
 			itsMinColWidth = width;

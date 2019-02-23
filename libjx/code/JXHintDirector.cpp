@@ -100,7 +100,7 @@ JXHintDirector::BuildWindow
 	JCoordinate ascent = 0, descent = 0;
 	if (!text.IsEmpty())
 		{
-		(textWidget->GetText()->GetFont(1)).GetLineHeight(window->GetFontManager(), &ascent, &descent);
+		textWidget->GetText()->GetFont(1).GetLineHeight(window->GetFontManager(), &ascent, &descent);
 		}
 
 	const JCoordinate w = 2*kHMargin + textWidget->GetFrameWidth();

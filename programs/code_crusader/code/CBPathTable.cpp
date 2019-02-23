@@ -64,7 +64,7 @@ CBPathTable::CBPathTable
 	itsBasePath(pathList.GetBasePath())
 {
 	const JSize rowHeight = 2*kVMarginWidth +
-		GetFontManager()->GetDefaultMonospaceFont().GetLineHeight(GetFontManager());
+		JFontManager::GetDefaultMonospaceFont().GetLineHeight(GetFontManager());
 	SetDefaultRowHeight(rowHeight);
 
 	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);
@@ -102,7 +102,7 @@ CBPathTable::CBPathTable
 	SetTableData(itsData);
 
 	const JSize flagColWidth = 2*kHMarginWidth +
-		GetFontManager()->GetDefaultFont().GetStringWidth(GetFontManager(), kFlagOnStr);
+		JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), kFlagOnStr);
 
 	SetColBorderInfo(0, JColorManager::GetBlackColor());
 	SetColWidth(kRecurseColumn, flagColWidth);

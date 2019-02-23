@@ -240,9 +240,9 @@ CBCStyler::PreexpandCheckRange
 	(
 	const JString&			text,
 	const JRunArray<JFont>&	styles,
-	const JIndexRange&		modifiedRange,
+	const JCharacterRange&	modifiedRange,
 	const JBoolean			deletion,
-	JIndexRange*			checkRange
+	JCharacterRange*		checkRange
 	)
 {
 	JIndex i = checkRange->first - 1;

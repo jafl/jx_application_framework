@@ -501,7 +501,7 @@ JXDirTable::TableDrawCell
 		color = JColorManager::GetGrayColor(40);
 		}
 
-	JFont font = GetWindow()->GetFontManager()->GetDefaultFont();
+	JFont font = JFontManager::GetDefaultFont();
 	font.SetStyle(JFontStyle(kJFalse, italic, 0, kJFalse, color));
 	p.SetFont(font);
 

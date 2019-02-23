@@ -312,7 +312,7 @@ JXCSFDialogBase::SetObjects
 	itsPathHistory->SetHistoryLength(kHistoryLength);
 	itsFilterHistory->SetHistoryLength(kHistoryLength);
 
-	const JFont& font = (GetWindow()->GetFontManager())->GetDefaultMonospaceFont();
+	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 	itsFilterInput->SetFont(font);
 	itsFilterHistory->SetDefaultFont(font, kJTrue);
 

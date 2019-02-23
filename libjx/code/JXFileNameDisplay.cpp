@@ -35,7 +35,7 @@ JXFileNameDisplay::JXFileNameDisplay
 	JXStaticText(text, kJFalse, kJFalse, nullptr,
 				 enclosure, hSizing, vSizing, x,y, w,h)
 {
-	SetFont(GetFontManager()->GetDefaultMonospaceFont());
+	SetFont(JFontManager::GetDefaultMonospaceFont());
 	SetBorderWidth(1);
 	GoToEndOfLine();
 	ListenTo(GetText());

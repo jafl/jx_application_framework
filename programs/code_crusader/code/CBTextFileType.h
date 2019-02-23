@@ -8,7 +8,7 @@
 #ifndef _H_CBTextFileType
 #define _H_CBTextFileType
 
-#include <jTypes.h>
+#include <JUtf8Character.h>
 
 class JString;
 class CBStylerBase;

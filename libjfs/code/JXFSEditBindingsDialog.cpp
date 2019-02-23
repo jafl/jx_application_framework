@@ -287,7 +287,7 @@ JXFSEditBindingsDialog::BuildWindow()
 
 	// other information
 
-	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 
 	itsDefCmd->SetFont(font);
 	itsDefCmd->SetIsRequired();

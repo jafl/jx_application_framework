@@ -358,14 +358,14 @@ CMArray2DDir::BuildWindow()
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
-	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 
 	JIndex i;
-	if ((rowIndexLabel->GetText()).LocateSubstring("$i", &i))
+	if (rowIndexLabel->GetText().LocateSubstring("$i", &i))
 		{
 		rowIndexLabel->JTextEditor::SetFont(i,i+1, font, kJTrue);
 		}
-	if ((colIndexLabel->GetText()).LocateSubstring("$j", &i))
+	if (colIndexLabel->GetText().LocateSubstring("$j", &i))
 		{
 		colIndexLabel->JTextEditor::SetFont(i,i+1, font, kJTrue);
 		}

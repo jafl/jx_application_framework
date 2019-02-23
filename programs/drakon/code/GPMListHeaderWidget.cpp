@@ -86,7 +86,7 @@ GPMListHeaderWidget::TableDrawCell
 		underLines = 1;
 		}
 
-	const JFont font = GetFontManager()->GetFont(
+	const JFont font = JFontManager::GetFont(
 		JFontManager::GetDefaultFontName(), JFontManager::GetDefaultRowColHeaderFontSize(),
 		JFontStyle(kJTrue, kJFalse, underLines, kJFalse, JColorManager::GetBlackColor()));
 	p.SetFont(font);

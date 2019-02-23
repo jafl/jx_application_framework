@@ -42,7 +42,7 @@ GLVarTable::GLVarTable
 	:
 	JXEditTable(1,1, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	const JSize rowHeight = 2*kVMarginWidth + GetFontManager()->GetDefaultFont().GetLineHeight(GetFontManager());
+	const JSize rowHeight = 2*kVMarginWidth + JFontManager::GetDefaultFont().GetLineHeight(GetFontManager());
 	SetDefaultRowHeight(rowHeight);
 
 	itsVarList   = varList;

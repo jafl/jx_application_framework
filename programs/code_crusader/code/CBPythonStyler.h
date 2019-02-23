@@ -24,10 +24,9 @@ protected:
 
 	CBPythonStyler();
 
-	virtual void	Scan(std::istream& input, const TokenExtra& initData);
-
+	virtual void	Scan(std::istream& input, const TokenExtra& initData) override;
 	virtual void	UpgradeTypeList(const JFileVersion vers,
-									JArray<JFontStyle>* typeStyles);
+									JArray<JFontStyle>* typeStyles) override;
 
 private:
 

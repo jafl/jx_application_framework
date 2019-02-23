@@ -243,7 +243,7 @@ GFGFunctionTable::TableDrawCell
 	r.left  += kHMarginWidth;
 	r.right -= kHMarginWidth;
 
-	JFont font = GetFontManager()->GetDefaultMonospaceFont();
+	JFont font = JFontManager::GetDefaultMonospaceFont();
 	font.SetStyle(style);
 	p.SetFont(font);
 	p.JPainter::String(r, str, halign, JPainter::kVAlignCenter);
@@ -287,7 +287,7 @@ GFGFunctionTable::AdjustColumnWidths()
 	itsNeedsAdjustment = kJFalse;
 
 	JFontManager* fontMgr = GetFontManager();
-	const JFont& font     = fontMgr->GetDefaultMonospaceFont();
+	const JFont& font     = JFontManager::GetDefaultMonospaceFont();
 
 	const JSize count	= itsList->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
