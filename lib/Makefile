@@ -72,9 +72,9 @@ install_libs:
 	@cd ../libjcore; ${MAKE} COMPILE_STRINGS=0 default
 	@cd ../tools/compile_jstrings; ${MAKE} jxinstall
 	@cd ../libjcore; ${MAKE} jx.test.skip=true
-#	@for dir in libjx libjfs libjexpr libj2dplot; do \
-#       if ! ( cd ../$$dir; ${MAKE} default; ); then exit 1; fi \
-#     done;
+	@for dir in libjx libjfs libjexpr libj2dplot; do \
+       if ! ( cd ../$$dir; ${MAKE} default; ); then exit 1; fi \
+     done;
 
 .PHONY: install_apps
 install_apps:
@@ -97,10 +97,6 @@ lib:
 
 .PHONY : test
 test: install_pre install_libs
-ifeq (${J_RUN_GCOV},1)
-#	@${RM} ../libjcore/test/code/*.gcda ../libjcore/test/code/*.gcno
-#	@cd ../libjcore/code; gcov *.cpp *.h
-endif
 
 #
 # build all for ~/bin
