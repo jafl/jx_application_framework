@@ -479,7 +479,7 @@ SyGApplication::GetNMShortcut
 	if (*i <= kShortcutKeyCount)
 		{
 		JString s = kShortcutPrefix;
-		s += kShortcutKey[*i++ - 1];
+		s += kShortcutKey[(*i)++ - 1];
 		return s;
 		}
 	else
