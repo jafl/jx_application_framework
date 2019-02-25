@@ -115,15 +115,6 @@ if [[ $SYS == Darwin ]]; then
 
 	brew bundle;
 
-	if [[ -n $TRAVIS ]]; then
-		eval "$(pyenv init -)";
-		pyenv install 2.7.6;
-		pyenv global 2.7.6;
-		pyenv rehash;
-		pip install cpp-coveralls;
-		pyenv rehash;
-	fi
-
 	if [[ ! -L ACE/ACE_wrappers ]]; then
 		rm -rf ACE/ACE_wrappers;
 		ln -sf /usr/local/include ACE/ACE_wrappers;

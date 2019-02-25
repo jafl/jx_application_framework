@@ -20,6 +20,8 @@ matrix:
 
 before_install:
   - eval "${MATRIX_EVAL}"
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; brew update; brew upgrade pyenv; eval "$(pyenv init -)"; pyenv install 2.7.6; pyenv global 2.7.6; pyenv rehash; pip install cpp-coveralls; pyenv rehash; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; pip install --user cpp-coveralls; fi
 
 after_success:
   - #bash <(curl -s https://codecov.io/bash)
