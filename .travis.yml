@@ -24,5 +24,5 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pip install --user cpp-coveralls; fi
 
 after_success:
-  - #bash <(curl -s https://codecov.io/bash) -R libjcore -p libjcore -g test -a '\-lp'
-  - coveralls --root libjcore --build-root libjcore --exclude test --gcov-options '\-lp'
+  - bash <(curl -s https://codecov.io/bash) -R libjcore -p libjcore -g test -a '\-lp'
+  - #coveralls --root libjcore --build-root libjcore --exclude test --gcov-options '\-lp'
