@@ -1147,10 +1147,20 @@ JTextEditor::TabSelectionLeft
 		return;
 		}
 
-	TextRange r(
-		itsText->GetParagraphStart(itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetFirst()),
-		itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetAfter());
+	const TextIndex start = itsText->GetParagraphStart(
+		itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetFirst());
 
+	TextIndex beyondEnd = itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetAfter();
+	if (beyondEnd.charIndex == start.charIndex)
+		{
+		if (GetCharacter(start) == '\n')
+			{
+			return;
+			}
+		beyondEnd = itsText->AdjustTextIndex(beyondEnd, +1);
+		}
+
+	TextRange r(start, beyondEnd);
 	r = itsText->Outdent(r, tabCount, force);
 	if (!r.IsEmpty())
 		{
@@ -1177,10 +1187,20 @@ JTextEditor::TabSelectionRight
 		return;
 		}
 
-	TextRange r(
-		itsText->GetParagraphStart(itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetFirst()),
-		itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetAfter());
+	const TextIndex start = itsText->GetParagraphStart(
+		itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetFirst());
 
+	TextIndex beyondEnd = itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetAfter();
+	if (beyondEnd.charIndex == start.charIndex)
+		{
+		if (GetCharacter(start) == '\n')
+			{
+			return;
+			}
+		beyondEnd = itsText->AdjustTextIndex(beyondEnd, +1);
+		}
+
+	TextRange r(start, beyondEnd);
 	r = itsText->Indent(r, tabCount);
 	SetSelection(r);
 }

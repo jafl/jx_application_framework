@@ -1,10 +1,16 @@
+render as many characters as possible via fallback fonts
+	if (!HasGlyphsForString)
+		JXFontManager:
+			compute string width in chunks
+			compute separate char width if substitution
+		JXWindowPainter:
+			draw string in chunks
+
+	menu: remove custom font for menu shortcuts
+
+	test with plot labels, testjx file list, file chooser, systemg, menu shortcuts
+
 JStyledText
-	outdent should select resulting lines
-
-	undo outdent doesn't work correctly when:
-		outdent, press return to move to next line, (repeat)
-	need smarter update during indent/outdent, to maintain caret location
-
 	AutoIndent
 	CleanRightMargin
 
@@ -42,18 +48,6 @@ jcc
 
 -----
 
-render as many characters as possible via fallback fonts
-	if (!HasGlyphsForString)
-		JXFontManager:
-			compute string width in chunks
-			compute separate char width if substitution
-		JXWindowPainter:
-			draw string in chunks
-
-	menu: remove custom font for menu shortcuts
-
-	test with plot labels, testjx file list, file chooser, systemg, menu shortcuts
-
 unit test
 	JStyledText - every usage of JRunArrayIterator
 	JTextEditor - every usage of JRunArrayIterator
@@ -68,6 +62,9 @@ unit test
 JTextEditor:
 	don't change insertion font when glyphs are rendered with different font
 		use isExact to tell which glyphs are substitutions?
+
+	need smarter update during indent/outdent, to maintain caret location
+		when caret in another view is inside the affected range
 
 jcc
 	menu of supported text formats in "open text file" dialog

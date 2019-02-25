@@ -878,6 +878,27 @@ JTEST(TabSelection)
 
 	te.TabSelectionLeft(2, kJTrue);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
+
+	// edge cases
+
+	text.SetText(JString("abc\n\n\t\txyz", kJFalse));
+
+	te.SetCaretLocation(5);
+	te.TabSelectionLeft();
+	JAssertStringsEqual("abc\n\n\t\txyz", text.GetText());
+	JAssertFalse(te.GetSelection(&r));
+
+	te.TabSelectionRight();
+	JAssertStringsEqual("abc\n\n\t\txyz", text.GetText());
+	JAssertFalse(te.GetSelection(&r));
+
+	te.SetCaretLocation(6);
+	te.TabSelectionLeft();
+	JAssertStringsEqual("abc\n\n\txyz", text.GetText());
+
+	JAssertTrue(te.GetSelection(&r));
+	JAssertEqual(6, r.first);
+	JAssertEqual(9, r.last);
 }
 
 JTEST(TabSelectionMixed)
