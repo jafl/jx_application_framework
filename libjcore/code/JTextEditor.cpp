@@ -4566,14 +4566,7 @@ JTextEditor::GetCharacter
 	)
 	const
 {
-	JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, index);
-
-	JUtf8Character c;
-	const JBoolean ok = iter->Next(&c);
-	assert( ok );
-
-	itsText->DisposeConstIterator(iter);
-	return c;
+	return JUtf8Character(itsText->GetText().GetBytes() + index.byteIndex - 1);
 }
 
 /******************************************************************************
