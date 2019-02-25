@@ -116,7 +116,6 @@ if [[ $SYS == Darwin ]]; then
 	brew bundle;
 
 	if [[ -n $TRAVIS ]]; then
-		brew install pyenv;
 		eval "$(pyenv init -)";
 		pyenv install 2.7.6;
 		pyenv global 2.7.6;
