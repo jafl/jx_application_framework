@@ -25,7 +25,4 @@ before_install:
 
 after_success:
   - #bash <(curl -s https://codecov.io/bash)
-  - python -c 'help("modules")'
-  - python -c 'help("coveralls")'
-  - python -c 'help("cpp-coveralls")'
-  - coveralls --build-root libjcore --exclude test --gcov-options '\-lp'
+  - coveralls --root libjcore --build-root libjcore --exclude test --gcov-options '\-lp'
