@@ -23,102 +23,6 @@ static JComplexDisplayMode theDisplayMode = kDisplayRealAndImag;
 static JBoolean theUseEEImagFlag          = kJFalse;
 
 /******************************************************************************
- JASin
-
-	Complex inverse sine.
-
- ******************************************************************************/
-
-JComplex
-JASin
-	(
-	const JComplex& z
-	)
-{
-	return JComplex(0,-1) * log(JComplex(0,1) * z + sqrt(1.0 - z*z));
-}
-
-/******************************************************************************
- JACos
-
-	Complex inverse cosine.
-
- ******************************************************************************/
-
-JComplex
-JACos
-	(
-	const JComplex& z
-	)
-{
-	return JComplex(0,-1) * log(z + JComplex(0,1) * sqrt(1.0 - z*z));
-}
-
-/******************************************************************************
- JATan
-
-	Complex inverse tangent.
-
- ******************************************************************************/
-
-JComplex
-JATan
-	(
-	const JComplex& z
-	)
-{
-	return JComplex(0,-0.5) * log((1.0 + JComplex(0,1) * z) / (1.0 - JComplex(0,1) * z));
-}
-
-/******************************************************************************
- JASinh
-
-	Complex inverse hyperbolic sine.
-
- ******************************************************************************/
-
-JComplex
-JASinh
-	(
-	const JComplex& z
-	)
-{
-	return log(z + sqrt(z*z + 1.0));
-}
-
-/******************************************************************************
- JACosh
-
-	Principal value of the complex inverse hyperbolic cosine.
-
- ******************************************************************************/
-
-JComplex
-JACosh
-	(
-	const JComplex& z
-	)
-{
-	return log(z + sqrt(z*z - 1.0));
-}
-
-/******************************************************************************
- JATanh
-
-	Complex inverse hyperbolic tangent.
-
- ******************************************************************************/
-
-JComplex
-JATanh
-	(
-	const JComplex& z
-	)
-{
-	return 0.5 * log((1.0 + z) / (1.0 - z));
-}
-
-/******************************************************************************
  Flag to set display mode
 
  ******************************************************************************/
@@ -235,7 +139,7 @@ JPrintComplexNumber
 			{
 			if (i == -1.0)
 				{
-				str = "- ";
+				str = "-";
 				}
 			else if (i != 1.0)
 				{
@@ -280,7 +184,7 @@ JPrintComplexNumber
 			{
 			str = "0";
 			}
-		else if (i == 0.0)
+		else if (i == 0.0 && real(value) > 0.0)
 			{
 			str = JString(mag);
 			}

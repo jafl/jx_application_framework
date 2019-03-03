@@ -97,6 +97,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	jVCSUtil:
 //		*** Removed unecessary "deepInspection" argument from JGetVCSType().
 //		*** Removed obsolete JGetCurrentSVNRevision().
+//	JComplex:
+//		*** Removed inverse trigonometric and hyperbolic functions, because
+//			they are now provided by std::complex.
 
 // version 3.2.0:
 //	jMountUtil:

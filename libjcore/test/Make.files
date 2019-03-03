@@ -12,8 +12,16 @@ literal: ${LIB_DEPS}
 ${CODEDIR}/test_JBroadcaster
 literal: ${LIB_DEPS}
 
+@test_jColor
+${CODEDIR}/test_jColor
+literal: ${LIB_DEPS}
+
 @test_JColorManager
 ${CODEDIR}/test_JColorManager
+literal: ${LIB_DEPS}
+
+@test_JComplex
+${CODEDIR}/test_JComplex
 literal: ${LIB_DEPS}
 
 @test_JDirInfo
@@ -81,6 +89,10 @@ literal: ${LIB_DEPS}
 ${CODEDIR}/test_JPipe
 literal: ${LIB_DEPS}
 
+@test_JPoint
+${CODEDIR}/test_JPoint
+literal: ${LIB_DEPS}
+
 @test_JPTPrinter
 ${CODEDIR}/test_JPTPrinter
 ${CODEDIR}/TestPTPrinter
@@ -110,6 +122,10 @@ literal: ${LIB_DEPS}
 
 @test_JQueue
 ${CODEDIR}/test_JQueue
+literal: ${LIB_DEPS}
+
+@test_JRect
+${CODEDIR}/test_JRect
 literal: ${LIB_DEPS}
 
 @test_JRegex

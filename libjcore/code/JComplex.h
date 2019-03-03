@@ -17,14 +17,6 @@ typedef std::complex<double>	JComplex;
 
 class JString;
 
-JComplex JASin(const JComplex&);
-JComplex JACos(const JComplex&);
-JComplex JATan(const JComplex&);
-
-JComplex JASinh(const JComplex&);
-JComplex JACosh(const JComplex&);
-JComplex JATanh(const JComplex&);
-
 enum JComplexDisplayMode
 {
 	kDisplayRealAndImag,

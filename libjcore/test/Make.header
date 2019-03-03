@@ -45,14 +45,15 @@ endif
 # tests
 
 TESTS := \
-  test_JBoolean test_JUtf8Character test_JString \
+  test_JBoolean test_JPoint test_JRect \
+  test_JUtf8Character test_JString \
   test_JStringMatch test_JStringIterator test_JRegex \
   test_JSubstitute test_JInterpolate \
-  test_JBroadcaster \
+  test_JBroadcaster test_JComplex \
   test_JArray test_JLinkedList test_JPtrArray test_JRunArray \
   test_JStack test_JQueue test_JVector test_JMatrix \
   test_JListUtil test_JPtrArrayJString \
-  test_JColorManager test_JFontManager \
+  test_jColor test_JColorManager test_JFontManager \
   test_JKLRand test_jHashFunctions \
   test_JHashTable test_JStringMap test_JStringPtrMap \
   test_JMemoryManager \

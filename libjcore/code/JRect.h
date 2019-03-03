@@ -177,8 +177,7 @@ public:
 		)
 		const
 	{
-		return JConvertToBoolean( left <= p.x && p.x < right &&
-								  top  <= p.y && p.y < bottom );
+		return Contains(p.x, p.y);
 	};
 
 	JBoolean
@@ -212,10 +211,7 @@ public:
 		const JPoint delta
 		)
 	{
-		top    += delta.y;
-		bottom += delta.y;
-		left   += delta.x;
-		right  += delta.x;
+		Shift(delta.x, delta.y);
 	};
 
 	void
