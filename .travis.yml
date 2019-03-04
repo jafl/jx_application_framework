@@ -25,5 +25,5 @@ before_install:
 
 after_success:
   - #find . \( -name '*.gcno' -or -name '*.___gcda?_______' \) -and -not -path '*/libjcore/*' -exec rm -f '{}' +
-  - coveralls --build-root libjcore --gcov-options '\-lp'
+  - #coveralls --build-root libjcore --gcov-options '\-lp'
   - bash <(curl -s https://codecov.io/bash) -p libjcore
