@@ -99,7 +99,7 @@ lib:
 test: install_pre install_libs
 ifeq (${J_RUN_GCOV},1)
 	@find .. \( -name '*.gcno' -or -name '*.gcda' \) -and -not -path '*/libjcore/*' -exec rm -f '{}' +
-	@cd ../libjcore; p=`pwd`; \
+	@cd ../libjcore; rm test/code/*.gcno test/code/*.gcda; p=`pwd`; \
      for f in `find . -name '*.gcno'`; do \
          root=$$p/$${f%/*}; \
          gcov -lp --object-directory $$root $$p/$${f%.*}.o; \
