@@ -72,9 +72,9 @@ install_libs:
 	@cd ../libjcore; ${MAKE} COMPILE_STRINGS=0 default
 	@cd ../tools/compile_jstrings; ${MAKE} jxinstall
 	@cd ../libjcore; ${MAKE} jx.test.skip=true
-#	@for dir in libjx libjfs libjexpr libj2dplot; do \
-#       if ! ( cd ../$$dir; ${MAKE} default; ); then exit 1; fi \
-#     done;
+	@for dir in libjx libjfs libjexpr libj2dplot; do \
+       if ! ( cd ../$$dir; ${MAKE} default; ); then exit 1; fi \
+     done;
 
 .PHONY: install_apps
 install_apps:
@@ -98,8 +98,8 @@ lib:
 .PHONY : test
 test: install_pre install_libs
 ifeq (${J_RUN_GCOV},1)
-	@find .. \( -name '*.gcno' -or -name '*.gcda' \) -and -not -path '*/libjcore/*' -exec rm -f '{}' +
-	@cd ../libjcore; rm test/code/*.gcno test/code/*.gcda; p=`pwd`; \
+	@find .. \( -name '*.gcno' -or -name '*.gcda' \) -and -not -path '*/libjcore/code/*' -exec rm -f '{}' +
+	@cd ../libjcore; p=`pwd`; \
      for f in `find . -name '*.gcno'`; do \
          root=$$p/$${f%/*}; \
          gcov -lp --object-directory $$root $$p/$${f%.*}.o; \

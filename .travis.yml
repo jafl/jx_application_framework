@@ -20,9 +20,6 @@ matrix:
 
 before_install:
   - eval "${MATRIX_EVAL}"
-  - #if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then eval "$(pyenv init -)"; pyenv install 2.7.6; pyenv global 2.7.6; pyenv rehash; pip install cpp-coveralls; pyenv rehash; fi
-  - #if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pip install --user cpp-coveralls; fi
 
 after_success:
-  - #coveralls --build-root libjcore --gcov-options '\-lp'
   - bash <(curl -s https://codecov.io/bash) -p libjcore
