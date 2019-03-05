@@ -103,6 +103,6 @@ JArcTangent::Evaluate
 		return kJFalse;
 		}
 	jclear_errno();
-	*result = JATan(argValue);
+	*result = atan(argValue);
 	return jerrno_is_clear();
 }

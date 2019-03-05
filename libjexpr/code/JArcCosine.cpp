@@ -103,6 +103,6 @@ JArcCosine::Evaluate
 		return kJFalse;
 		}
 	jclear_errno();
-	*result = JACos(argValue);
+	*result = acos(argValue);
 	return jerrno_is_clear();
 }

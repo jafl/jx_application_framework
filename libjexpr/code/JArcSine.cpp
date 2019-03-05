@@ -103,6 +103,6 @@ JArcSine::Evaluate
 		return kJFalse;
 		}
 	jclear_errno();
-	*result = JASin(argValue);
+	*result = asin(argValue);
 	return jerrno_is_clear();
 }

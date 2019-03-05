@@ -84,7 +84,7 @@ JArcHypCosine::Evaluate
 		return kJFalse;
 		}
 	jclear_errno();
-	*result = JACosh(argValue);
+	*result = acosh(argValue);
 	return jerrno_is_clear();
 }
 
@@ -101,6 +101,6 @@ JArcHypCosine::Evaluate
 		return kJFalse;
 		}
 	jclear_errno();
-	*result = JACosh(argValue);
+	*result = acosh(argValue);
 	return jerrno_is_clear();
 }

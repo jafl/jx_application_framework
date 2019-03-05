@@ -84,7 +84,7 @@ JArcHypTangent::Evaluate
 		return kJFalse;
 		}
 	jclear_errno();
-	*result = JATanh(argValue);
+	*result = atanh(argValue);
 	return jerrno_is_clear();
 }
 
@@ -101,6 +101,6 @@ JArcHypTangent::Evaluate
 		return kJFalse;
 		}
 	jclear_errno();
-	*result = JATanh(argValue);
+	*result = atanh(argValue);
 	return jerrno_is_clear();
 }

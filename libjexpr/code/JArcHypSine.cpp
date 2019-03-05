@@ -84,7 +84,7 @@ JArcHypSine::Evaluate
 		return kJFalse;
 		}
 	jclear_errno();
-	*result = JASinh(argValue);
+	*result = asinh(argValue);
 	return jerrno_is_clear();
 }
 
@@ -101,6 +101,6 @@ JArcHypSine::Evaluate
 		return kJFalse;
 		}
 	jclear_errno();
-	*result = JASinh(argValue);
+	*result = asinh(argValue);
 	return jerrno_is_clear();
 }
