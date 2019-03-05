@@ -101,9 +101,9 @@ ifeq (${J_RUN_GCOV},1)
 	@find .. \( -name '*.gcno' -or -name '*.gcda' \) -and -not -path '*/libjcore/*' -exec rm -f '{}' +
 	@cd ../libjcore; p=`pwd`; \
      for f in `find . -name '*.gcno'`; do \
-         root=$p/${f%/*}; \
-         gcov -lp --object-directory $root $p/${f%.*}.o; \
-         mv *.gcov $root; \
+         root=$$p/$${f%/*}; \
+         gcov -lp --object-directory $$root $$p/$${f%.*}.o; \
+         mv *.gcov $$root; \
      done
 endif
 
