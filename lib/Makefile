@@ -103,7 +103,7 @@ ifeq (${J_RUN_GCOV},1)
      for f in `find . -name '*.gcno'`; do \
          root=$$p/$${f%/*}; \
          gcov -lp --object-directory $$root $$p/$${f%.*}.o &> /dev/null; \
-         mv *.gcov $$root; \
+         mv -f *.gcov $$root &> /dev/null; \
      done
 endif
 
