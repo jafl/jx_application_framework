@@ -1,3 +1,6 @@
+testjx
+	type one character doesn't mark document as unsaved
+
 render as many characters as possible via fallback fonts
 	if (!HasGlyphsForString)
 		JXFontManager:

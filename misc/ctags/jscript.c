@@ -24,15 +24,15 @@
 
 static void installJavaScriptRegex (const langType language)
 {
-	addTagRegex (language, "^[ \t]*function[ \t]*([A-Za-z0-9_\x7f-\xff]+)[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*(?:async[ \t]+)?function[ \t]*([A-Za-z0-9_\x7f-\xff]+)[ \t]*\\(",
 		"\\1", "f,function,functions", NULL);
-	addTagRegex (language, "^[ \t]*var[ \t]*([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*var[ \t]*([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*(?:async[ \t]+)?function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
 		"\\1", "f,function,functions", NULL);
-	addTagRegex (language, "^[ \t]*([A-Za-z0-9_\x7f-\xff]+)[ \t]*[=:][ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*([A-Za-z0-9_\x7f-\xff]+)[ \t]*[=:][ \t]*(?:async[ \t]+)?function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
 		"\\1", "f,function,functions", NULL);
-	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.\x7f-\xff]+)\\.([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.\x7f-\xff]+)\\.([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*(?:async[ \t]+)?function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
 		"\\1.\\2", "f,function,functions", NULL);
-	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.\x7f-\xff]+)\\.([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.\x7f-\xff]+)\\.([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*(?:async[ \t]+)?function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
 		"\\2", "f,function,functions", NULL);
 }
 
