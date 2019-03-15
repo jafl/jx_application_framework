@@ -318,7 +318,8 @@ CBCommandManager::Prepare
 		info.cmd->Contains("$file_name_suffix") ||
 		info.cmd->Contains("$full_path")        ||
 		info.cmd->Contains("$relative_path")    ||
-		info.cmd->Contains("$line"));
+		info.cmd->Contains("$line")             ||
+		info.path->GetFirstCharacter() == '@');
 
 	if (usesFiles && fullNameList.IsEmpty())
 		{
