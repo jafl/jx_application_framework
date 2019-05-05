@@ -4,7 +4,7 @@
 	Class to let user select and save files using the console.
 
 	*** Security note:
-		The user is allowed to execute *any* command via /bin/sh by starting
+		The user is allowed to execute *any* command via system() by starting
 		the line with an exclamation point.  Never call JTextChooseSaveFile
 		objects while in suid root mode.
 

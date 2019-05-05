@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # With no arguments, this script must install from an unpacked tgz.
 
@@ -11,10 +11,8 @@ LIB=$PRE/usr/lib/drakon
 APP=$PRE/usr/share/applications
 ICON=$PRE/usr/share/pixmaps
 
-if { test ! -z $PRE; } then
-	{
+if [[ ! -z $PRE ]]; then
 	mkdir -p $BIN $APP $ICON;
-	}
 fi
 
 # drakon
@@ -33,10 +31,8 @@ cp desktop/drakon.xpm     $ICON/
 
 # post
 
-if { test -z "$ZIP"; } then
-	{
+if [[ -z $ZIP ]]; then
 	gunzip $LIB/*.gz;
-	}
 fi
 
 # ignore gzip errors

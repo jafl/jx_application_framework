@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 rm -f  /usr/bin/<Binary>;
 rm -rf /usr/lib/<Binary>;

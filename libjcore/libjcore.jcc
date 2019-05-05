@@ -791,7 +791,7 @@ F
 F
 # build settings
 1
-F
+T
 "libjcore-${JX_LIB_VERSION}.a,libjcore-${JX_LIB_VERSION}.so"
 ""
 "make -k all"

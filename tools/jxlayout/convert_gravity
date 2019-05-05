@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if { test $# -lt 1; } then
 	echo "usage: $0 fdesign_file fdesign_file ...";

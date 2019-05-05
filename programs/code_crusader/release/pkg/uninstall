@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 rm -f  /usr/bin/jcc;
 rm -f  /usr/bin/code_crusader;

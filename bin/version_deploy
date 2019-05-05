@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [[ ! -d libjcore ]]; then
 	echo "must be run in JX root";

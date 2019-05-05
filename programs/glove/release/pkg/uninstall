@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 rm -f  /usr/bin/glove;
 rm -rf /usr/lib/glove;

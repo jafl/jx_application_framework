@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # With no arguments, this script must install from an unpacked tgz.
 
@@ -9,10 +9,8 @@ BIN=$PRE/usr/bin
 DOC=$PRE/usr/share/doc/nps-ssh-askpass
 LIB=$PRE/usr/lib/nps-ssh-askpass
 
-if { test ! -z $PRE; } then
-	{
+if [[ ! -z $PRE ]]; then
 	mkdir -p $BIN;
-	}
 fi
 
 # nps-ssh-askpass
@@ -27,10 +25,8 @@ cp README COPYING $DOC
 
 # post
 
-if { test -z "$ZIP"; } then
-	{
+if [[ -z $ZIP ]]; then
 	gunzip $LIB/*.gz;
-	}
 fi
 
 # ignore gzip errors

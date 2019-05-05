@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 rm -f  /usr/bin/nps_svn_client;
 rm -rf /usr/lib/nps_svn_client;

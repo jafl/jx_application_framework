@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 makemake -if Make.files.test -of Makefile.test --no-parse .x --suffix-map .x.y --search-path test --define VAR1=value1 --define VAR2=value2
 jcc test/Make.files.test Makefile.test

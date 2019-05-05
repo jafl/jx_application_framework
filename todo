@@ -1,3 +1,7 @@
+JXDialogDirector
+	systemg: "Add remote..." doesn't validate emtpy second field
+	Only validates input with focus!
+
 jx_memory_debugger:  filtered histogram of allocation sizes
 	would "static string" optimzation help?
 

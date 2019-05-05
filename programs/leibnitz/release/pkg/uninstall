@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 rm -f  /usr/bin/leibnitz;
 rm -rf /usr/lib/leibnitz;
