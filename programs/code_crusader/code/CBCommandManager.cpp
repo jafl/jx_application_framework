@@ -1377,7 +1377,7 @@ static const DefCmd kDefCmd[] =
 		kJFalse, kJTrue, kJFalse, kJTrue, kJTrue, kJTrue, kJFalse,
 		"DefCmdGitInfoText::CBCommandManager", "DefCmdVCSInfoShortcut::CBCommandManager",
 		kJFalse },
-	{ "@", "git checkout $file_name; jcc --reload-open",
+	{ "@", "git checkout -q $file_name; jcc --reload-open",
 		"",
 		kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse,
 		"DefCmdGitRevertText::CBCommandManager", "DefCmdVCSRevertShortcut::CBCommandManager",
