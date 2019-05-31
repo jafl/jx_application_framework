@@ -1,7 +1,7 @@
 language: cpp
 
 script:
-  - ./configure && make test
+  - # ./configure && make test
   - sonar-scanner
 
 matrix:
