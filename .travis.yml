@@ -1,5 +1,9 @@
 language: cpp
-script: ./configure && make test
+
+script:
+  - ./configure && make test
+  - sonar-scanner
+
 matrix:
   include:
     - os: osx
@@ -17,6 +21,10 @@ matrix:
             - g++-7
       env:
         - MATRIX_EVAL="export CC=gcc-7 && export CXX=g++-7"
+
+addons:
+  sonarcloud:
+    organization: "jafl-github"
 
 before_install:
   - eval "${MATRIX_EVAL}"
