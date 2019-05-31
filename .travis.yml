@@ -1,7 +1,9 @@
 language: cpp
 
 script:
-  - # ./configure && make test
+  - curl -O http://sonarcloud.io/static/cpp/build-wrapper-macosx-x86.zip
+  - unzip build-wrapper-macosx-x86.zip
+  - ./configure && ./build-wrapper-macosx-x86/build-wrapper-macosx-x86 make test
   - sonar-scanner
 
 matrix:
