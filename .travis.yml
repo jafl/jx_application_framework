@@ -1,11 +1,5 @@
 language: cpp
-
-script:
-  - curl -O -L http://sonarcloud.io/static/cpp/build-wrapper-macosx-x86.zip
-  - unzip build-wrapper-macosx-x86.zip
-  - ./configure && ./build-wrapper-macosx-x86/build-wrapper-macosx-x86 --out-dir bw_output make test
-  - sonar-scanner
-
+script: ./configure && make test
 matrix:
   include:
     - os: osx
@@ -23,10 +17,6 @@ matrix:
             - g++-7
       env:
         - MATRIX_EVAL="export CC=gcc-7 && export CXX=g++-7"
-
-addons:
-  sonarcloud:
-    organization: "jafl-github"
 
 before_install:
   - eval "${MATRIX_EVAL}"
