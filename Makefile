@@ -13,6 +13,12 @@ default:
 test:
 	@cd lib; ${JMAKE} test
 
+.PHONY : sonar
+sonar:
+	@make tidy; rm -rf sonar_output
+	@-build-wrapper-macosx-x86 --out-dir sonar_output ${JMAKE}
+	@sonar-scanner -Dsonar.login=${SONAR_TOKEN}
+
 #
 # print ACE version
 #

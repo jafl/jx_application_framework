@@ -15,6 +15,8 @@ Mesa
 misc/Mesa.tgz
 misc/aspell*
 doc/api
+sonar_output
+.scannerwork
 
 programs/*/code/*StringData.h
 programs/*/Makefile
