@@ -48,8 +48,6 @@ J_HAS_SYSCTL := yes
 # Nothing below this line should ever need to be changed.
 #
 
-PKG_CONFIG_PATH := /usr/local/opt/icu4c/lib/pkgconfig
-
 # makemake variables
 
 LINKER := clang++
