@@ -48,6 +48,10 @@ J_HAS_SYSCTL := yes
 # Nothing below this line should ever need to be changed.
 #
 
+ifdef TRAVIS
+  PKG_CONFIG_PATH := /usr/local/opt/icu4c/lib/pkgconfig
+endif
+
 # makemake variables
 
 LINKER := clang++
@@ -73,8 +77,8 @@ J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lXext -lXft -lfontconfig -lXpm
 # generate coverage part 1: ensure that all uses of J_GCC_LIBS are consistent
 
 ifdef TRAVIS
-	J_RUN_GCOV := 1
-	J_GCC_LIBS += -coverage
+  J_RUN_GCOV := 1
+  J_GCC_LIBS += -coverage
 endif
 
 # lldb
@@ -94,5 +98,5 @@ J_STD_LIBS := ${J_X11_LIB_DIR} ${J_STD_LIBS}
 # generate coverage part 2: update compiler flags after the variable is defined
 
 ifdef TRAVIS
-	J_COMPILER_DEPEND_FLAGS += -coverage -O0
+  J_COMPILER_DEPEND_FLAGS += -coverage -O0
 endif
