@@ -77,7 +77,7 @@ JXVIKeyHandler::HandleKeyPress
 		JXScrollbar *h, *v;
 		if (itsJXTE->GetScrollbars(&h, &v))
 			{
-			JSize lineCount = JRound(v->GetPageStepSize() / (JFloat) v->GetStepSize()) / 2;
+			JInteger lineCount = JRound(v->GetPageStepSize() / (JFloat) v->GetStepSize()) / 2;
 			if (key == JXCtrl('U'))
 				{
 				lineCount = -lineCount;

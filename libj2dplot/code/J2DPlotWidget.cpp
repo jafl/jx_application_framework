@@ -723,7 +723,7 @@ J2DPlotWidget::UpdateScale()
 void
 J2DPlotWidget::Zoom
 	(
-	const JRect		zRect,
+	const JRect&	zRect,
 	const JBoolean	clean
 	)
 {
@@ -991,13 +991,11 @@ J2DPlotWidget::GetMinimumPositiveValue
 				value = errValue;
 				}
 
-			if (value > 0.0 && (linearOther || other > 0.0))
+			if (value > 0.0 && (linearOther || other > 0.0) &&
+				((foundPMin && value < *min) || !foundPMin))
 				{
-				if ((foundPMin && value < *min) || !foundPMin)
-					{
-					*min      = value;
-					foundPMin = kJTrue;
-					}
+				*min      = value;
+				foundPMin = kJTrue;
 				}
 			}
 		}
@@ -2717,7 +2715,7 @@ J2DPlotWidget::GetLogTicks
 	for (JFloat i = tStart; i <= tEnd; i += inc)
 		{
 		JFloat pIndex = pow(10, i);
-		for (JFloat index = 1; index <= 9; index++)
+		for (JIndex index = 1; index <= 9; index++)
 			{
 			JFloat value = pIndex * index;
 			if ((value >= rStart) &&

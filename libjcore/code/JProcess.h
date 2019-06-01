@@ -111,7 +111,7 @@ public:
 
 private:
 
-	pid_t		itsPID;
+	const pid_t	itsPID;
 	JBoolean	itsIsFinishedFlag;
 	int			itsFinishedStatus;
 	JBoolean	itsAutoDeleteFlag;	// kJTrue => delete when process is finished

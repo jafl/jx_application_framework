@@ -106,8 +106,8 @@ JXFSBindingTable::JXFSBindingTable
 	JFontManager* fontMgr = GetFontManager();
 
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		fontMgr->GetDefaultFont().GetLineHeight(fontMgr),
-		fontMgr->GetDefaultMonospaceFont().GetLineHeight(fontMgr));
+		JFontManager::GetDefaultFont().GetLineHeight(fontMgr),
+		JFontManager::GetDefaultMonospaceFont().GetLineHeight(fontMgr));
 	SetDefaultRowHeight(rowHeight);
 
 	// buttons
@@ -133,9 +133,9 @@ JXFSBindingTable::JXFSBindingTable
 
 	// data
 
-	for (const JCoordinate w : kInitColWidth)
+	for (const JCoordinate w1 : kInitColWidth)
 		{
-		AppendCols(1, w);
+		AppendCols(1, w1);
 		}
 	UpdateColWidths();
 
@@ -387,9 +387,9 @@ JXFSBindingTable::ExtractInputData
 		JIndex newIndex;
 		if (ok && changed && itsBindingList->SetPattern(cell.y, s, &newIndex))
 			{
-			JTableSelection& s = GetTableSelection();
-			s.ClearSelection();
-			s.SelectCell(newIndex, kPatternColumn);
+			JTableSelection& sel = GetTableSelection();
+			sel.ClearSelection();
+			sel.SelectCell(newIndex, kPatternColumn);
 			Broadcast(DataChanged());
 			}
 		else if (ok && changed)

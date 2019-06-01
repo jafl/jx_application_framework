@@ -164,7 +164,7 @@ public:
 	void			ResetScale();
 
 	JBoolean		IsZoomed() const;
-	void			Zoom(const JRect rect, const JBoolean clean);
+	void			Zoom(const JRect& rect, const JBoolean clean);
 
 	void			GetXScale(JFloat* min, JFloat* max, JFloat* inc) const;
 	void			SetXScale(const JFloat min, const JFloat max, const JFloat inc, const JBoolean linear);

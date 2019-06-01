@@ -119,7 +119,7 @@ JMMTable::SetRecordDeleted
 void
 JMMTable::BeginRecursiveBlock()
 {
-	itsManager->BeginRecursiveBlock();
+	JMemoryManager::BeginRecursiveBlock();
 }
 
 /******************************************************************************
@@ -130,7 +130,7 @@ JMMTable::BeginRecursiveBlock()
 void
 JMMTable::EndRecursiveBlock()
 {
-	itsManager->EndRecursiveBlock();
+	JMemoryManager::EndRecursiveBlock();
 }
 
 /******************************************************************************

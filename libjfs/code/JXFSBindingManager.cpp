@@ -269,8 +269,8 @@ JXFSBindingManager::ProcessFiles()
 		if (!itsIgnoreBindingsFlag &&
 			cmd.IsEmpty() && itsBindingList->GetBinding(fileName, &b))
 			{
-			const JString& cmd = b->GetCommand(&type, &singleFile);
-			f->SetCommand(cmd, type, singleFile);
+			const JString& c = b->GetCommand(&type, &singleFile);
+			f->SetCommand(c, type, singleFile);
 			}
 		else if (cmd.IsEmpty())
 			{

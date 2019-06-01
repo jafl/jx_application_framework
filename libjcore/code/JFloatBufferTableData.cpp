@@ -27,9 +27,9 @@ JFloatBufferTableData::JFloatBufferTableData
 	)
 	:
 	JStringTableData(),
+	itsFloatData(floatData),
 	itsPrecision(precision)
 {
-	itsFloatData = floatData;
 	ListenTo(itsFloatData);
 }
 

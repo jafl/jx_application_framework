@@ -218,12 +218,12 @@ JProcess::JProcess
 	(
 	const pid_t pid
 	)
+	:
+	itsPID(pid),
+	itsIsFinishedFlag(kJFalse),
+	itsFinishedStatus(0),
+	itsAutoDeleteFlag(kJFalse)
 {
-	itsPID            = pid;
-	itsIsFinishedFlag = kJFalse;
-	itsFinishedStatus = 0;
-	itsAutoDeleteFlag = kJFalse;
-
 	theProcessList.SetCompareFunction(ComparePID);
 	theProcessList.InsertSorted(this, kJTrue);
 
@@ -238,8 +238,9 @@ JProcess::JProcess
 	const pid_t	pid,
 	const int	x
 	)
+	:
+	itsPID(pid)
 {
-	itsPID = pid;
 }
 
 /******************************************************************************

@@ -27,10 +27,10 @@ public:
 
 protected:
 
-	virtual void SetError(const JError error);
+	virtual void SetError(const JError& error);
 
 	virtual void MutableClearError() const; // Nasty!
-	virtual void MutableSetError(const JError error) const; // Nasty!
+	virtual void MutableSetError(const JError& error) const; // Nasty!
 
 private:
 

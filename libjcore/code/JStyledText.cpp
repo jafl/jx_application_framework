@@ -97,7 +97,7 @@ JStyledText::JStyledText
 	:
 	itsPasteStyledTextFlag(pasteStyledText),
 	itsDefaultFont(JFontManager::GetDefaultFont()),
-	itsCharInWordFn(DefaultIsCharacterInWord)
+	itsCharInWordFn(&DefaultIsCharacterInWord)
 {
 	itsStyles = jnew JRunArray<JFont>;
 	assert( itsStyles != nullptr );
@@ -2307,8 +2307,8 @@ JStyledText::BackwardDelete
 	JSTUndoTyping* typingUndo = GetTypingUndo(caretIndex, &isNew);
 	typingUndo->HandleDelete(match);
 
-	const JInteger charDelta = - r.GetCount(),
-				   byteDelta = - match.GetUtf8ByteRange().GetCount();
+	const JInteger charDelta = - (JInteger) r.GetCount(),
+				   byteDelta = - (JInteger) match.GetUtf8ByteRange().GetCount();
 
 	FontIterator styleIter(itsStyles, kJIteratorStartBefore, r.first);
 	styleIter.RemoveNext(r.GetCount());
@@ -2422,8 +2422,8 @@ JStyledText::ForwardDelete
 	JSTUndoTyping* typingUndo = GetTypingUndo(caretIndex, &isNew);
 	typingUndo->HandleFwdDelete(match);
 
-	const JInteger charDelta = - r.GetCount(),
-				   byteDelta = - match.GetUtf8ByteRange().GetCount();
+	const JInteger charDelta = - (JInteger) r.GetCount(),
+				   byteDelta = - (JInteger) match.GetUtf8ByteRange().GetCount();
 
 	FontIterator styleIter(itsStyles, kJIteratorStartBefore, r.first);
 	styleIter.RemoveNext(r.GetCount());

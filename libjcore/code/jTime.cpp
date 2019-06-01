@@ -145,7 +145,7 @@ JGetTimezoneOffset()
 		tm tmp;
 		time_t t  = time(nullptr);
 		time_t t1 = mktime(gmtime_r(&t, &tmp));
-		time_t t2 = mktime(localtime(&t));
+		time_t t2 = mktime(localtime_r(&t, &tmp));
 		delta     = t2 - t1;
 		}
 

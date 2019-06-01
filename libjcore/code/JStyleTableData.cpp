@@ -73,7 +73,7 @@ JStyleTableData::SetFont
 	const JSize		size
 	)
 {
-	SetFont(itsFontManager->GetFont(name, size));
+	SetFont(JFontManager::GetFont(name, size));
 }
 
 /******************************************************************************

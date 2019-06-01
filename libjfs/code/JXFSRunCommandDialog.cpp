@@ -346,7 +346,7 @@ JXFSRunCommandDialog::Exec()
 								   itsUseWindowCB->IsChecked());
 
 	const JError err =
-		(JXFSBindingManager::Instance())->Exec(path, itsCmdInput->GetText()->GetText(), type);
+		JXFSBindingManager::Exec(path, itsCmdInput->GetText()->GetText(), type);
 
 	if (err.OK())
 		{

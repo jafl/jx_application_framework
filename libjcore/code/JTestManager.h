@@ -130,7 +130,7 @@ JAreEqual
 		  << "  Expected " << expectedValue
 		  << " but got " << actualValue;
 
-		JTestManager::Instance()->ReportFailure(s.str().c_str(), file, line);
+		JTestManager::ReportFailure(s.str().c_str(), file, line);
 		return kJFalse;
 		}
 }
@@ -180,7 +180,7 @@ JAreWithin
 	  << "  Expected " << expectedValue
 	  << " but got " << actualValue;
 
-	JTestManager::Instance()->ReportFailure(s.str().c_str(), file, line);
+	JTestManager::ReportFailure(s.str().c_str(), file, line);
 	return kJFalse;
 }
 

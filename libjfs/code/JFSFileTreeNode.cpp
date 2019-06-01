@@ -495,14 +495,12 @@ JFSFileTreeNode::Update
 			changed = kJTrue;
 			}
 
-		if (force || updateNode == nullptr || *updateNode == nullptr)
-			{
-			// check if subdirectories need updating
+		// check if subdirectories need updating
 
-			if (JFSFileTreeNodeBase::Update(force, updateNode))
-				{
-				changed = kJTrue;
-				}
+		if ((force || updateNode == nullptr || *updateNode == nullptr) &&
+			JFSFileTreeNodeBase::Update(force, updateNode))
+			{
+			changed = kJTrue;
 			}
 		}
 	else if (!canHaveChildren)

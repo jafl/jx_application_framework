@@ -69,6 +69,9 @@ JPartition::JPartition
 	const JIndex				elasticIndex,
 	const JArray<JCoordinate>&	minSizes
 	)
+	:
+	itsElasticIndex(elasticIndex),
+	itsDragIndex(0)
 {
 	const JSize compartmentCount = sizes.GetElementCount();
 	assert( compartmentCount == minSizes.GetElementCount() );
@@ -79,9 +82,6 @@ JPartition::JPartition
 
 	itsMinSizes = jnew JArray<JCoordinate>(minSizes);
 	assert( itsMinSizes != nullptr );
-
-	itsElasticIndex = elasticIndex;
-	itsDragIndex    = 0;
 }
 
 /******************************************************************************

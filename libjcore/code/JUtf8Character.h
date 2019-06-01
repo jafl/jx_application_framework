@@ -167,6 +167,11 @@ JUtf8Character::operator=
 	const JUtf8Character& source
 	)
 {
+	if (this == &source)
+		{
+		return *this;
+		}
+
 	Set(source);
 	return *this;
 }

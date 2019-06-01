@@ -107,7 +107,7 @@ JErrorState::ClearError()
 void
 JErrorState::SetError
 	(
-	const JError error
+	const JError& error
 	)
 {
 	itsError = error;
@@ -140,7 +140,7 @@ JErrorState::MutableClearError()
 void
 JErrorState::MutableSetError
 	(
-	const JError error
+	const JError& error
 	)
 	const // Nasty!
 {
