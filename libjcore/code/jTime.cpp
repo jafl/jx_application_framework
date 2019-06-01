@@ -121,8 +121,9 @@ JCheckExpirationDate
 		}
 	else if (t > expireTime - 14*24*3600)
 		{
+		tm tmp;
 		JUtf8Byte date[100];
-		strftime(date, 100, "%B %e, %Y", localtime(&expireTime));
+		strftime(date, 100, "%B %e, %Y", localtime_r(&expireTime, &tmp));
 		map[1] = date;
 		const JString msg = JGetString("WarnExpire::jTime", map, size);
 		JGetUserNotification()->DisplayMessage(msg);
