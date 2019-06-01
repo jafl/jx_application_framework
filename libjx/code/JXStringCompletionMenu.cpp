@@ -112,7 +112,7 @@ JXStringCompletionMenu::AddString
 		{
 		AppendItem(JGetString("TruncationMarker::JXStringCompletionMenu"));
 
-		JFont font = GetFontManager()->GetDefaultFont();
+		JFont font = JFontManager::GetDefaultFont();
 		font.SetItalic(kJTrue);
 		SetItemFont(i, font);
 		return kJFalse;

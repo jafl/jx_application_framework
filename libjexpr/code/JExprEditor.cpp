@@ -2545,7 +2545,7 @@ JExprEditor::GetLineHeight
 	)
 	const
 {
-	const JFont font = itsFontManager->GetFont(JFontManager::GetDefaultFontName(), fontSize, itsDefaultStyle);
+	const JFont font = JFontManager::GetFont(JFontManager::GetDefaultFontName(), fontSize, itsDefaultStyle);
 	return font.GetLineHeight(itsFontManager);
 }
 

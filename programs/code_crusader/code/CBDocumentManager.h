@@ -302,7 +302,7 @@ public:
 				{ };
 
 			FileHistoryType
-			GetType() const
+			GetFileHistoryType() const
 			{
 				return itsType;
 			}

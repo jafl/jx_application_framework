@@ -146,7 +146,7 @@ CBFileHistoryMenu::Receive
 		const CBDocumentManager::AddFileToHistory* info =
 			dynamic_cast<const CBDocumentManager::AddFileToHistory*>(&message);
 		assert( info != nullptr );
-		if (itsDocType == info->GetType())
+		if (itsDocType == info->GetFileHistoryType())
 			{
 			AddFile(info->GetFullName());
 			}
