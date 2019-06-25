@@ -105,6 +105,8 @@ DiffCVSMenuText::CBTextDocument	"Compare with CVS"
 DiffSVNMenuText::CBTextDocument	"Compare with Subversion"
 DiffGitMenuText::CBTextDocument	"Compare with Git"
 
+ChangeSpacesPerTabMenuItem::CBTextDocument	"Change spaces per tab ($n)..."
+
 # CBTextEditor
 
 EmptyScriptMenu::CBTextEditor	"No scripts"
