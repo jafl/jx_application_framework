@@ -1908,6 +1908,15 @@ CBTextDocument::HandlePrefsStylesMenu
 void
 CBTextDocument::UpdateSettingsMenu()
 {
+	const JString tabWidth(itsTextEditor->GetTabCharCount(), JString::kBase10);
+
+	const JCharacter* map[] =
+	{
+		"n", tabWidth.GetCString()
+	};
+	const JString text = JGetString("ChangeSpacesPerTabMenuItem::CBTextDocument", map, sizeof(map));
+	itsSettingsMenu->SetItemText(kTabWidthCmd, text);
+
 	if (itsTextEditor->WillAutoIndent())
 		{
 		itsSettingsMenu->CheckItem(kToggleAutoIndentCmd);
