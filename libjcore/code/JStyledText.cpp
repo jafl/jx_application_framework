@@ -2192,10 +2192,17 @@ JStyledText::InsertCharacter
 	JRunArray<JFont> style;
 	style.AppendElement(font);
 
-	const TextCount pasteCount = InsertText(&textIter, &styleIter, text, style);
+	TextCount pasteCount = InsertText(&textIter, &styleIter, text, style);
 	assert( pasteCount.charCount == 1 );
 
 	textIter.Invalidate();
+
+	if (key == '\n' && itsAutoIndentFlag)
+		{
+		AutoIndent(typingUndo, &pasteCount);
+		}
+
+	NewUndo(typingUndo, isNew);
 
 	const JInteger charDelta = pasteCount.charCount - replaceRange.charRange.GetCount(),
 				   byteDelta = pasteCount.byteCount - replaceRange.byteRange.GetCount();
@@ -2204,13 +2211,6 @@ JStyledText::InsertCharacter
 		TextRange(replaceRange.GetFirst(), pasteCount),
 		charDelta, byteDelta,
 		!replaceRange.IsEmpty());
-
-	if (key == '\n' && itsAutoIndentFlag)
-		{
-		AutoIndent(typingUndo);
-		}
-
-	NewUndo(typingUndo, isNew);
 
 	return typingUndo;
 }
@@ -3725,7 +3725,8 @@ JStyledText::GetMoveUndo
 void
 JStyledText::AutoIndent
 	(
-	JSTUndoTyping* typingUndo
+	JSTUndoTyping*	typingUndo,
+	TextCount*		count
 	)
 {
 #if 0

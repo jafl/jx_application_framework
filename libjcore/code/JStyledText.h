@@ -476,7 +476,7 @@ private:
 	static TextRange	CharToTextRange(const JCharacterRange& charRange,
 										JStringIterator* iter);
 
-	void	AutoIndent(JSTUndoTyping* typingUndo);
+	void	AutoIndent(JSTUndoTyping* typingUndo, TextCount* count);
 
 	static JBoolean	DefaultIsCharacterInWord(const JUtf8Character& c);
 
