@@ -45,7 +45,7 @@ protected:
 
 	virtual void	HandleFailure();
 
-	void		HandleFailure(const JIndex startIndex, const JCharacter* value);
+	void		HandleFailure(const JIndex startIndex, const JString& value);
 	JPoint		GetCell(const JIndex i) const;
 	JBoolean	ItsIndexValid() const;
 

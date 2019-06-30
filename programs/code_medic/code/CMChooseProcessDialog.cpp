@@ -96,7 +96,7 @@ CMChooseProcessDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 390,500, "");
+	JXWindow* window = jnew JXWindow(this, 390,500, JString::empty);
 	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =

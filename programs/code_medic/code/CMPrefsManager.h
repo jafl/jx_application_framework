@@ -132,10 +132,10 @@ public:
 	JBoolean		SetDebuggerType(const DebuggerType type);
 
 	JString	GetGDBCommand() const;
-	void	SetGDBCommand(const JCharacter* command);
+	void	SetGDBCommand(const JString& command);
 
 	JString	GetJVMCommand() const;
-	void	SetJVMCommand(const JCharacter* command);
+	void	SetJVMCommand(const JString& command);
 
 	JSize	GetStackLineMax() const;
 	void	SetStackLineMax(const JSize max);
@@ -165,7 +165,7 @@ public:
 // these were taken from Code Crusader for compatibility with shared prefs
 
 	void	GetDefaultFont(JString* name, JSize* size) const;
-	void	SetDefaultFont(const JCharacter* name, const JSize size);
+	void	SetDefaultFont(const JString& name, const JSize size);
 
 	JSize	GetTabCharCount() const;
 	void	SetTabCharCount(const JSize count);
@@ -180,8 +180,8 @@ public:
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion);
-	virtual void	SaveAllBeforeDestruct();
+	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion) override;
+	virtual void	SaveAllBeforeDestruct() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -214,9 +214,9 @@ private:
 
 public:
 
-	static const JCharacter* kFileTypesChanged;
-	static const JCharacter* kCustomCommandsChanged;
-	static const JCharacter* kTextColorChanged;
+	static const JUtf8Byte* kFileTypesChanged;
+	static const JUtf8Byte* kCustomCommandsChanged;
+	static const JUtf8Byte* kTextColorChanged;
 
 	class FileTypesChanged : public JBroadcaster::Message
 		{

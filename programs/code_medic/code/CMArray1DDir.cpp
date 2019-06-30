@@ -230,7 +230,7 @@ CMArray1DDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 300,500, "");
+	JXWindow* window = jnew JXWindow(this, 300,500, JString::empty);
 	assert( window != nullptr );
 
 	itsExprInput =

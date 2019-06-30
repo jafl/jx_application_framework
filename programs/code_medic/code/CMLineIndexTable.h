@@ -46,8 +46,8 @@ protected:
 	JPtrArray<CMBreakpoint>*	GetBreakpointList() const;
 
 	virtual void	TablePrepareToDrawCol(const JIndex colIndex,
-										  const JIndex firstRow, const JIndex lastRow);
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+										  const JIndex firstRow, const JIndex lastRow) override;
+	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,

@@ -14,7 +14,7 @@ class CMGetFrame : public CMCommand
 {
 public:
 
-	CMGetFrame(const JCharacter* cmd);
+	CMGetFrame(const JString& cmd);
 
 	virtual	~CMGetFrame();
 

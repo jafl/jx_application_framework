@@ -50,7 +50,7 @@ CMCommandOutputDisplay::~CMCommandOutputDisplay()
 void
 CMCommandOutputDisplay::PlaceCursorAtEnd()
 {
-	if (!IsEmpty())
+	if (!GetText()->IsEmpty())
 		{
 		SetCaretLocation(GetTextLength()+1);
 		if (GetText().GetLastCharacter() != '\n')

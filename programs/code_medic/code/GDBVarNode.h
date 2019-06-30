@@ -16,7 +16,7 @@ public:
 
 	GDBVarNode(const JBoolean shouldUpdate = kJTrue);
 
-	GDBVarNode(JTreeNode* parent, const JCharacter* name, const JCharacter* value);
+	GDBVarNode(JTreeNode* parent, const JString& name, const JString& value);
 
 	virtual	~GDBVarNode();
 

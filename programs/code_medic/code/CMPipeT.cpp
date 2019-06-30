@@ -9,4 +9,4 @@
 
 // JBroadcaster message types
 
-const JCharacter* CMPipeT::kReadReady = "ReadReady::CMPipeT";
+const JUtf8Byte* CMPipeT::kReadReady = "ReadReady::CMPipeT";

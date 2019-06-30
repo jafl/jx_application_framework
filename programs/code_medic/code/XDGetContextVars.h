@@ -17,7 +17,7 @@ class XDGetContextVars : public CMCommand
 {
 public:
 
-	XDGetContextVars(CMVarNode* rootNode, const JCharacter* contextID);
+	XDGetContextVars(CMVarNode* rootNode, const JString& contextID);
 
 	virtual	~XDGetContextVars();
 

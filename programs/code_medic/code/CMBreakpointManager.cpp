@@ -18,7 +18,7 @@
 
 // JBroadcaster message types
 
-const JCharacter* CMBreakpointManager::kBreakpointsChanged =
+const JUtf8Byte* CMBreakpointManager::kBreakpointsChanged =
 	"BreakpointsChanged::CMBreakpointManager";
 
 /******************************************************************************
@@ -91,7 +91,7 @@ CMBreakpointManager::HasBreakpointAt
 JBoolean
 CMBreakpointManager::GetBreakpoints
 	(
-	const JCharacter*			fileName,
+	const JString&				fileName,
 	JPtrArray<CMBreakpoint>*	list
 	)
 	const
@@ -249,12 +249,12 @@ CMBreakpointManager::ReadSetup
 	for (JIndex i=1; i<=count; i++)
 		{
 		input >> fileName >> lineNumber;
-		input >> enabled >> tempAction >> ignoreCount;
-		input >> hasCondition >> condition;
+		input >> JBoolFromString(enabled) >> tempAction >> ignoreCount;
+		input >> JBoolFromString(hasCondition) >> condition;
 
 		if (vers == 1)
 			{
-			input >> hasCommands >> commands;
+			input >> JBoolFromString(hasCommands) >> commands;
 			}
 
 		action = (CMBreakpoint::Action) tempAction;
@@ -263,7 +263,8 @@ CMBreakpointManager::ReadSetup
 			condition.Clear();
 			}
 
-		CMBreakpoint* bp = jnew CMBreakpoint(0, fileName, lineNumber, "", "",
+		CMBreakpoint* bp = jnew CMBreakpoint(0, fileName, lineNumber,
+											JString::empty, JString::empty,
 											enabled, action, condition,
 											ignoreCount);
 		assert( bp != nullptr );

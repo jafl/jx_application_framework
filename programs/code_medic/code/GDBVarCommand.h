@@ -14,7 +14,7 @@ class GDBVarCommand : public CMVarCommand
 {
 public:
 
-	GDBVarCommand(const JCharacter* cmd);
+	GDBVarCommand(const JString& cmd);
 
 	virtual	~GDBVarCommand();
 

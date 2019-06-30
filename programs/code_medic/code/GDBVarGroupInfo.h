@@ -28,9 +28,9 @@ struct GDBVarGroupInfo
 		jdelete list;
 	};
 
-	const JCharacter* GetName()
+	const JString& GetName()
 	{
-		return (name == nullptr ? "" : name->GetCString());
+		return (name == nullptr ? JString::empty : *name);
 	};
 };
 

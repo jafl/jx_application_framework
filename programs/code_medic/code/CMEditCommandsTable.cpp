@@ -180,7 +180,7 @@ CMEditCommandsTable::ExtractInputData
 	const JPoint& cell
 	)
 {
-	itsDialog->SetString(cell.y, itsCmdInput->GetText());
+	itsDialog->SetString(cell.y, itsCmdInput->GetText()->GetText());
 	return kJTrue;
 }
 
@@ -205,7 +205,7 @@ CMEditCommandsTable::CreateXInputField
 			w - kHMarginWidth, h);
 	assert(itsCmdInput != nullptr);
 
-	itsCmdInput->SetText(itsDialog->GetString(cell.y));
+	itsCmdInput->GetText()->SetText(itsDialog->GetString(cell.y));
 	itsRemoveButton->Activate();
 
 	return itsCmdInput;

@@ -36,8 +36,9 @@ public:
 	void	EditIgnoreCount(const CMBreakpoint* bp);
 	void	EditCondition(const CMBreakpoint* bp);
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const;
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual JBoolean	IsEditable(const JPoint& cell) const override;
+	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
+									   const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -46,15 +47,15 @@ protected:
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h);
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
-	virtual void			PrepareDeleteXInputField();
+											  const JCoordinate w, const JCoordinate h) override;
+	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual void			PrepareDeleteXInputField() override;
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input) override;
+	virtual void	WritePrefs(std::ostream& output) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

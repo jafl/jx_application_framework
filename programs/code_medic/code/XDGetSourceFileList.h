@@ -28,7 +28,7 @@ protected:
 
 private:
 
-	void	ScanDirectory(const JCharacter* path);
+	void	ScanDirectory(const JString& path);
 
 	// not allowed
 

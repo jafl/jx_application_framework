@@ -20,9 +20,7 @@ class CMVarNode : public JNamedTreeNode
 public:
 
 	CMVarNode(const JBoolean shouldUpdate = kJTrue);
-
-	CMVarNode(JTreeNode* parent, const JCharacter* name,
-			  const JCharacter* value);
+	CMVarNode(JTreeNode* parent, const JString& name, const JString& value);
 
 	virtual	~CMVarNode();
 
@@ -41,7 +39,7 @@ public:
 	JBoolean	IsPointer() const;
 	void		MakePointer(const JBoolean pointer, const JBoolean adjustOpenable = kJTrue);
 
-	virtual JBoolean	OKToOpen() const;
+	virtual JBoolean	OKToOpen() const override;
 
 	void	ShouldUpdate(const JBoolean update);
 
@@ -67,7 +65,7 @@ public:
 
 protected:
 
-	virtual void	NameChanged();
+	virtual void	NameChanged() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 

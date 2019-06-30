@@ -44,14 +44,14 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kValueUpdated;
-	static const JCharacter* kValueFailed;
+	static const JUtf8Byte* kValueUpdated;
+	static const JUtf8Byte* kValueFailed;
 
 	class ValueMessage : public JBroadcaster::Message
 		{
 		public:
 
-			ValueMessage(const JCharacter* type, CMVarNode* root)
+			ValueMessage(const JUtf8Byte* type, CMVarNode* root)
 				:
 				JBroadcaster::Message(type),
 				itsRootNode(root)

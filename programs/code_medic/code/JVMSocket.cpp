@@ -14,14 +14,14 @@
 #include "cmGlobals.h"
 #include <jAssert.h>
 
-static const JCharacter* kHandshake = "JDWP-Handshake";
-const JSize kHandshakeLength        = 14;
-const JSize kBufferSize             = 65536;	// 64KB
-const time_t kClientDeadTime        = 5;		// seconds
+static const JUtf8Byte* kHandshake = "JDWP-Handshake";
+const JSize kHandshakeLength       = 14;
+const JSize kBufferSize            = 65536;	// 64KB
+const time_t kClientDeadTime       = 5;		// seconds
 
 // Broadcaster messages
 
-const JCharacter* JVMSocket::kMessageReady = "MessageReady::JVMSocket";
+const JUtf8Byte* JVMSocket::kMessageReady = "MessageReady::JVMSocket";
 
 /******************************************************************************
  Constructor
@@ -35,7 +35,7 @@ JVMSocket::JVMSocket()
 	itsTimerID(-1),
 	itsInHandleInputFlag(kJFalse)
 {
-	itsBuffer = jnew JCharacter [ kBufferSize ];
+	itsBuffer = jnew JUtf8Byte [ kBufferSize ];
 	assert( itsBuffer != nullptr );
 }
 

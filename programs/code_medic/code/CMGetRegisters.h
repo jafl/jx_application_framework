@@ -16,7 +16,7 @@ class CMGetRegisters : public CMCommand
 {
 public:
 
-	CMGetRegisters(const JCharacter* cmd, CMRegistersDir* dir);
+	CMGetRegisters(const JString& cmd, CMRegistersDir* dir);
 
 	virtual	~CMGetRegisters();
 

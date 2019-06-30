@@ -18,11 +18,6 @@
 #include <JXHelpManager.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kUpgradeNoticeID     = "UpgradeNotice::CMAboutDialog";
-static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::CMAboutDialog";
-
 /******************************************************************************
  Constructor
 
@@ -32,8 +27,8 @@ static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::CMAboutDialo
 
 CMAboutDialog::CMAboutDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	prevVersStr
+	JXDirector*		supervisor,
+	const JString&	prevVersStr
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -63,12 +58,12 @@ CMAboutDialog::~CMAboutDialog()
 void
 CMAboutDialog::BuildWindow
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 430,180, "");
+	JXWindow* window = jnew JXWindow(this, 430,180, JString::empty);
 	assert( window != nullptr );
 
 	JXImageWidget* medicIcon =
@@ -105,7 +100,7 @@ CMAboutDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("About");
+	window->SetTitle(JGetString("WindowTitle::CMAboutDialog"));
 	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton);
@@ -114,18 +109,18 @@ CMAboutDialog::BuildWindow
 	// text
 
 	JString text = CMGetVersionStr();
-	if (!JString::IsEmpty(prevVersStr))
+	if (!prevVersStr.IsEmpty())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"vers", prevVersStr
+			"vers", prevVersStr.GetBytes()
 			};
-		text += JGetString(kUpgradeNoticeID);
+		text += JGetString("UpgradeNotice::CMAboutDialog");
 		JGetStringManager()->Replace(&text, map, sizeof(map));
-		itsHelpButton->SetLabel(JGetString(kChangeButtonLabelID));
+		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::CMAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}
-	textWidget->SetText(text);
+	textWidget->GetText()->SetText(text);
 
 	// Code Medic icon
 

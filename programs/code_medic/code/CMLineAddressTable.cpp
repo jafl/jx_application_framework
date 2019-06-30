@@ -12,6 +12,7 @@
 #include "CMBreakpointManager.h"
 #include "CMLink.h"
 #include <JXColorManager.h>
+#include <JStringIterator.h>
 #include <JListUtil.h>
 #include <jAssert.h>
 
@@ -77,30 +78,31 @@ CMLineAddressTable::SetLineNumbers
 		return;
 		}
 
-	JIndex startIndex = 1;
-	const JString* s1 = itsLineTextList->FirstElement();
-	const JString* sN = itsLineTextList->LastElement();
-	if (s1->BeginsWith("0x") && s1->GetLength() > 2 &&
-		sN->BeginsWith("0x") && sN->GetLength() > 2)
+	JSize charCount = 0;
+	const JString* s1 = itsLineTextList->GetFirstElement();
+	const JString* sN = itsLineTextList->GetLastElement();
+	if (s1->BeginsWith("0x") && s1->GetCharacterCount() > 2 &&
+		sN->BeginsWith("0x") && sN->GetCharacterCount() > 2)
 		{
-		startIndex = 3;
+		charCount = 2;
 
-		if (s1->GetLength() == sN->GetLength())
+		if (s1->GetCharacterCount() == sN->GetCharacterCount())
 			{
-			while (startIndex < sN->GetLength() &&
-				   sN->GetCharacter(startIndex) == '0')
+			JStringIterator iter(*sN, kJIteratorStartAfter, charCount);
+			JUtf8Character c;
+			while (iter.Next(&c) && c == '0')
 				{
-				startIndex++;
+				charCount++;
 				}
 			}
 		}
 
-	if (startIndex > 1)
+	if (charCount > 0)
 		{
-		const JSize count = itsLineTextList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JString* s : *itsLineTextList)
 			{
-			itsLineTextList->GetElement(i)->RemoveSubstring(1, startIndex-1);
+			JStringIterator iter(s);
+			iter.RemoveNext(charCount);
 			}
 		}
 }
@@ -145,7 +147,7 @@ JColorID
 CMLineAddressTable::GetCurrentLineMarkerColor()
 	const
 {
-	return GetColormap()->GetMagentaColor();
+	return JColorManager::GetMagentaColor();
 }
 
 /******************************************************************************
@@ -177,7 +179,7 @@ CMLineAddressTable::GetLongestLineText
 	const
 {
 	return !itsLineTextList->IsEmpty() ?
-		*(itsLineTextList->LastElement()) : JString((JUInt64) lineCount);
+		*(itsLineTextList->GetLastElement()) : JString((JUInt64) lineCount);
 }
 
 /******************************************************************************
@@ -345,10 +347,11 @@ CMLineAddressTable::BuildAddress
 	)
 {
 	JString s = addr;
-	JIndex i;
-	if (s.LocateSubstring(" ", &i))
+	JStringIterator iter(&s);
+	if (iter.Next(" "))
 		{
-		s.RemoveSubstring(i, s.GetLength());
+		iter.SkipPrev();
+		iter.RemoveAllNext();
 		}
 
 	s.Prepend("0x");
@@ -368,15 +371,16 @@ CMLineAddressTable::GetLineTextFromAddress
 	const
 {
 	JString s = addr;
+	JStringIterator iter(&s);
 	if (s.BeginsWith("0x"))
 		{
-		s.RemoveSubstring(1,2);
+		iter.RemoveNext(2);
 		}
 
 	while (s.GetFirstCharacter() == '0' &&
-		   s.GetLength() > itsLineTextList->LastElement()->GetLength())
+		   s.GetCharacterCount() > itsLineTextList->GetLastElement()->GetCharacterCount())
 		{
-		s.RemoveSubstring(1,1);
+		iter.RemoveNext();
 		}
 
 	return s;

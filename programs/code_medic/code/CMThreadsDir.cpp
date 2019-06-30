@@ -127,7 +127,7 @@ CMThreadsDir::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,500, "");
+	JXWindow* window = jnew JXWindow(this, 450,500, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =

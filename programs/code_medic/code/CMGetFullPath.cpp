@@ -12,9 +12,9 @@
 
 // JBroadcaster message types
 
-const JCharacter* CMGetFullPath::kFileFound    = "FileFound::CMGetFullPath";
-const JCharacter* CMGetFullPath::kFileNotFound = "FileNotFound::CMGetFullPath";
-const JCharacter* CMGetFullPath::kNewCommand   = "NewCommand::CMGetFullPath";
+const JUtf8Byte* CMGetFullPath::kFileFound    = "FileFound::CMGetFullPath";
+const JUtf8Byte* CMGetFullPath::kFileNotFound = "FileNotFound::CMGetFullPath";
+const JUtf8Byte* CMGetFullPath::kNewCommand   = "NewCommand::CMGetFullPath";
 
 /******************************************************************************
  Constructor
@@ -23,9 +23,9 @@ const JCharacter* CMGetFullPath::kNewCommand   = "NewCommand::CMGetFullPath";
 
 CMGetFullPath::CMGetFullPath
 	(
-	const JString&		cmd,
-	const JCharacter*	fileName,
-	const JIndex		lineIndex	// for convenience
+	const JString&	cmd,
+	const JString&	fileName,
+	const JIndex	lineIndex	// for convenience
 	)
 	:
 	CMCommand(cmd, kJTrue, kJFalse),

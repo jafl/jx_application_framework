@@ -51,7 +51,7 @@
 
 CMCommand::CMCommand
 	(
-	const JCharacter*	cmd,
+	const JUtf8Byte*	cmd,
 	const JBoolean		oneShot,
 	const JBoolean		background
 	)
@@ -208,13 +208,13 @@ const JString&
 CMCommand::GetLastResult()
 	const
 {
-	return (itsResultList != nullptr ? *(itsResultList->LastElement()) : theEmptyResult);
+	return (itsResultList != nullptr ? *(itsResultList->GetLastElement()) : theEmptyResult);
 }
 
 void
 CMCommand::SaveResult
 	(
-	const JCharacter* data
+	const JString& data
 	)
 {
 	if (itsResultList == nullptr)

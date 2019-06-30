@@ -11,6 +11,7 @@
 #include "XDLink.h"
 #include "CMVarNode.h"
 #include "cmGlobals.h"
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -20,17 +21,17 @@
 
 XDGetContextVars::XDGetContextVars
 	(
-	CMVarNode*			rootNode,
-	const JCharacter*	contextID
+	CMVarNode*		rootNode,
+	const JString&	contextID
 	)
 	:
 	CMCommand("", kJTrue, kJTrue),
 	itsRootNode(rootNode)
 {
-	JString cmd = "context_get -c ";
-	cmd        += contextID;
-	cmd        += " -d ";
-	cmd        += dynamic_cast<XDLink*>CMGetLink()->GetStackFrameIndex();
+	JString cmd("context_get -c ");
+	cmd += contextID;
+	cmd += " -d ";
+	cmd += JString((JUInt64) dynamic_cast<XDLink*>(CMGetLink())->GetStackFrameIndex());
 	SetCommand(cmd);
 }
 
@@ -54,7 +55,7 @@ XDGetContextVars::HandleSuccess
 	const JString& data
 	)
 {
-	XDLink* link = dynamic_cast<XDLink*>CMGetLink();
+	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
 	xmlNode* root;
 	if (link == nullptr || !link->GetParsedData(&root))
 		{
@@ -98,17 +99,18 @@ XDGetContextVars::BuildTree
 
 			if (type == "string")
 				{
-				for (JIndex i=value.GetLength(); i>=1; i--)
+				JStringIterator iter(&value, kJIteratorStartAtEnd);
+				JUtf8Character c;
+				while (iter.Prev(&c))
 					{
-					const JCharacter c = value.GetCharacter(i);
 					if (c == '"' || c == '\\')
 						{
-						value.InsertCharacter('\\', i);
+						iter.Insert("\\");
 						}
 					}
 
-				value.PrependCharacter('"');
-				value.AppendCharacter('"');
+				value.Prepend("\"");
+				value.Append("\"");
 				}
 
 			n = CMGetLink()->CreateVarNode(nullptr, name, fullName, value);
@@ -116,7 +118,7 @@ XDGetContextVars::BuildTree
 			}
 		else
 			{
-			n = CMGetLink()->CreateVarNode(nullptr, name, fullName, "");
+			n = CMGetLink()->CreateVarNode(nullptr, name, fullName, JString::empty);
 			assert( n != nullptr );
 
 			if (type == "array" && JGetXMLNodeAttr(node, "children") == "1")

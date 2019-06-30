@@ -23,7 +23,7 @@ public:
 
 public:
 
-	CMCommand(const JCharacter* cmd,
+	CMCommand(const JUtf8Byte* cmd,
 			  const JBoolean oneShot, const JBoolean background);
 	CMCommand(const JString& cmd,
 			  const JBoolean oneShot, const JBoolean background);
@@ -48,13 +48,14 @@ public:
 
 	void			SetTransactionID(const JIndex id);
 	virtual void	Starting();
-	void			Accumulate(const JCharacter* data);
-	void			SaveResult(const JCharacter* data);	// mainly for gdb-mi
+	void			Accumulate(const JString& data);
+	void			SaveResult(const JString& data);	// mainly for gdb-mi
 	void			Finished(const JBoolean success);
 
 protected:
 
-	void	SetCommand(const JCharacter* cmd);
+	void	SetCommand(const JUtf8Byte* cmd);
+	void	SetCommand(const JString& cmd);
 
 	virtual void	HandleSuccess(const JString& data) = 0;
 	virtual void	HandleFailure();
@@ -102,7 +103,16 @@ CMCommand::GetCommand()
 inline void
 CMCommand::SetCommand
 	(
-	const JCharacter* cmd
+	const JUtf8Byte* cmd
+	)
+{
+	itsCommandString = cmd;
+}
+
+inline void
+CMCommand::SetCommand
+	(
+	const JString& cmd
 	)
 {
 	itsCommandString = cmd;
@@ -185,7 +195,7 @@ CMCommand::ShouldIgnoreResult
 inline void
 CMCommand::Accumulate
 	(
-	const JCharacter* data
+	const JString& data
 	)
 {
 	itsData += data;

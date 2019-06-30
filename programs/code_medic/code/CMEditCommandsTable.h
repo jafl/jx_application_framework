@@ -32,13 +32,13 @@ public:
 
 protected:
 
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
+	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h);
-	virtual void			PrepareDeleteXInputField();
+											  const JCoordinate w, const JCoordinate h) override;
+	virtual void			PrepareDeleteXInputField() override;
 
-	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual void			HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 											const JSize clickCount,
 											const JXButtonStates& buttonStates,
@@ -50,7 +50,7 @@ private:
 	CMEditCommandsDialog*	itsDialog;
 	JCoordinate				itsMinColWidth;
 	JXInputField*			itsCmdInput;
-    JXTextButton*			itsRemoveButton;
+	JXTextButton*			itsRemoveButton;
 
 private:
 

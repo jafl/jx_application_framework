@@ -15,6 +15,7 @@
 #include "CMBreakpointManager.h"
 #include "XDLink.h"
 #include "cmGlobals.h"
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -25,7 +26,7 @@
 
 XDGetBreakpoints::XDGetBreakpoints()
 	:
-	CMGetBreakpoints("breakpoint_list")
+	CMGetBreakpoints(JString("breakpoint_list", kJFalse))
 {
 }
 
@@ -49,7 +50,7 @@ XDGetBreakpoints::HandleSuccess
 	const JString& data
 	)
 {
-	XDLink* link = dynamic_cast<XDLink*>CMGetLink();
+	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
 	xmlNode* root;
 	if (link == nullptr || !link->GetParsedData(&root))
 		{
@@ -82,7 +83,8 @@ XDGetBreakpoints::HandleSuccess
 
 			if (fileName.BeginsWith("file://"))
 				{
-				fileName.RemoveSubstring(1, 7);
+				JStringIterator iter(&fileName);
+				iter.RemoveNext(7);
 				}
 
 			JIndex lineNumber;
@@ -92,8 +94,8 @@ XDGetBreakpoints::HandleSuccess
 			const JBoolean enabled = JI2B(state == "enabled");
 
 			CMBreakpoint* bp =
-				jnew CMBreakpoint(bpIndex, fileName, lineNumber, "", "",
-								 enabled, CMBreakpoint::kKeepBreakpoint, "", 0);
+				jnew CMBreakpoint(bpIndex, fileName, lineNumber, JString::empty, JString::empty,
+								 enabled, CMBreakpoint::kKeepBreakpoint, JString::empty, 0);
 			assert( bp != nullptr );
 			bpList.InsertSorted(bp);
 

@@ -26,7 +26,7 @@ public:
 
 	// Broadcaster messages
 
-	static const JCharacter* kReadReady;
+	static const JUtf8Byte* kReadReady;
 
 	// Broadcaster message classes
 
@@ -53,7 +53,7 @@ public:
 	virtual ~CMPipe();
 
 	void	Read(JString* buffer);
-	void	Write(const JCharacter* buffer);
+	void	Write(const JString& buffer);
 
 	// ACE_Svc_Handler functions
 
@@ -63,7 +63,7 @@ private:
 
 	JString		itsData;
 
-	JCharacter*	itsBuffer;				// buffer to receive raw bytes
+	JUtf8Byte*	itsBuffer;				// buffer to receive raw bytes
 	JSize		itsBufferSize;
 
 	JBoolean	itsInHandleInputFlag;	// kJTrue => stack passes through handle_input()

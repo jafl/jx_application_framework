@@ -15,10 +15,10 @@
 
 // JBroadcaster message types
 
-const JCharacter* CMCommandInput::kReturnKeyPressed    = "ReturnKeyPressed::CMCommandInput";
-const JCharacter* CMCommandInput::kTabKeyPressed       = "TabKeyPressed::CMCommandInput";
-const JCharacter* CMCommandInput::kUpArrowKeyPressed   = "UpArrowKeyPressed::CMCommandInput";
-const JCharacter* CMCommandInput::kDownArrowKeyPressed = "DownArrowKeyPressed::CMCommandInput";
+const JUtf8Byte* CMCommandInput::kReturnKeyPressed    = "ReturnKeyPressed::CMCommandInput";
+const JUtf8Byte* CMCommandInput::kTabKeyPressed       = "TabKeyPressed::CMCommandInput";
+const JUtf8Byte* CMCommandInput::kUpArrowKeyPressed   = "UpArrowKeyPressed::CMCommandInput";
+const JUtf8Byte* CMCommandInput::kDownArrowKeyPressed = "DownArrowKeyPressed::CMCommandInput";
 
 /******************************************************************************
  Constructor

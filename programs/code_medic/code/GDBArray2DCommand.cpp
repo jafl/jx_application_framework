@@ -11,9 +11,10 @@
 #include "CMArray2DDir.h"
 #include "CMVarNode.h"
 #include <JXStringTable.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
 #include <JStringTableData.h>
 #include <JStyleTableData.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -57,8 +58,8 @@ GDBArray2DCommand::PrepareToSend
 {
 	CMArray2DCommand::PrepareToSend(type, index, arrayIndex);
 
-	JString cmd = "set print pretty off\nset print array off\n"
-				  "set print repeats 0\nset width 0\n";
+	JString cmd("set print pretty off\nset print array off\n"
+				"set print repeats 0\nset width 0\n");
 
 	const JIndex max =
 		(GetType() == kRow ? GetData()->GetColCount() : GetData()->GetRowCount());
@@ -68,7 +69,7 @@ GDBArray2DCommand::PrepareToSend
 		{
 		cmd += "print ";
 		cmd += GetDirector()->GetExpression(GetCell(i));
-		cmd.AppendCharacter('\n');
+		cmd.Append("\n");
 		}
 
 	SetCommand(cmd);
@@ -97,12 +98,11 @@ GDBArray2DCommand::HandleSuccess
 
 	JIndex i = 1;
 
-	JIndexRange r;
-	JArray<JIndexRange> matchRange;
+	JStringIterator iter(data);
 	JString value;
-	while (i <= max && prefixPattern.MatchAfter(data, r, &matchRange))
+	while (i <= max && iter.Next(prefixPattern))
 		{
-		value = data.GetSubstring(matchRange.GetElement(2));
+		value = iter.GetLastMatch().GetSubstring(1);
 		value.TrimWhitespace();
 
 		const JPoint cell        = GetCell(i);
@@ -110,27 +110,29 @@ GDBArray2DCommand::HandleSuccess
 		const JBoolean isNew     = JI2B(!origValue.IsEmpty() && origValue != value);
 
 		GetData()->SetString(cell, value);
-		GetTable()->SetCellStyle(cell,
-			CMVarNode::GetFontStyle(kJTrue, isNew, GetTable()->GetColormap()));
+		GetTable()->SetCellStyle(cell, CMVarNode::GetFontStyle(kJTrue, isNew));
 
 		i++;
-		r = matchRange.GetElement(1);
 		}
 
 	if (i == 1)
 		{
 		JString s = data;
 		s.TrimWhitespace();
-		if (s.LocateSubstring("\n", &i))
+
+		JStringIterator iter2(&s);
+		if (iter2.Next("\n"))
 			{
-			s.RemoveSubstring(i, s.GetLength());
+			iter2.SkipPrev();
+			iter2.RemoveAllNext();
 			s.TrimWhitespace();
 			}
+		iter2.Invalidate();
 		HandleFailure(1, s);
 		}
 	else if (i <= max)
 		{
-		HandleFailure(i, "");
+		HandleFailure(i, JString::empty);
 		}
 
 	GetDirector()->UpdateNext();

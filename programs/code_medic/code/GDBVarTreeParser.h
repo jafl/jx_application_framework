@@ -16,7 +16,7 @@ class GDBVarTreeParser
 {
 public:
 
-	GDBVarTreeParser(const JCharacter* text);
+	GDBVarTreeParser(const JString& text);
 
 	virtual	~GDBVarTreeParser();
 
@@ -39,7 +39,7 @@ private:
 private:
 
 	void	AppendAsArrayElement(CMVarNode* node, JPtrArray<CMVarNode>* list) const;
-	void	AppendAsArrayElement(const JCharacter* groupLabel,
+	void	AppendAsArrayElement(const JString& groupLabel,
 								 const JPtrArray<CMVarNode>& data,
 								 JPtrArray<CMVarNode>* list) const;
 

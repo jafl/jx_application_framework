@@ -20,13 +20,13 @@
 
 GDBVarCommand::GDBVarCommand
 	(
-	const JCharacter* origCmd
+	const JString& origCmd
 	)
 	:
 	CMVarCommand()
 {
-	JString cmd = "set print pretty off\nset print array off\n"
-				  "set print repeats 0\nset width 0\n";
+	JString cmd("set print pretty off\nset print array off\n"
+				"set print repeats 0\nset width 0\n");
 	cmd        += origCmd;
 	SetCommand(cmd);
 }

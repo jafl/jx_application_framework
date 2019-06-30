@@ -16,7 +16,7 @@ class XDVarCommand : public CMVarCommand
 {
 public:
 
-	XDVarCommand(const JCharacter* cmd);
+	XDVarCommand(const JString& cmd);
 
 	virtual	~XDVarCommand();
 

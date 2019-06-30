@@ -125,14 +125,15 @@ CMPlot2DExprTable::HandleMouseDown
 void
 CMPlot2DExprTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == kJReturnKey)
+	if (c == kJReturnKey)
 		{
 		JPoint cell;
-		if (!IsEditing() && (GetTableSelection()).GetSingleSelectedCell(&cell))
+		if (!IsEditing() && GetTableSelection().GetSingleSelectedCell(&cell))
 			{
 			BeginEditing(cell);
 			}
@@ -142,14 +143,14 @@ CMPlot2DExprTable::HandleKeyPress
 			}
 		}
 
-	else if (!IsEditing() && HandleSelectionKeyPress(key, modifiers))
+	else if (!IsEditing() && HandleSelectionKeyPress(c, modifiers))
 		{
 		// work has been done
 		}
 
 	else
 		{
-		JXStringTable::HandleKeyPress(key, modifiers);
+		JXStringTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 

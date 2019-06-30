@@ -15,6 +15,7 @@
 #include <JXStaticText.h>
 #include <JXScrollbarSet.h>
 #include <JXWindow.h>
+#include <JFontManager.h>
 #include <jAssert.h>
 
 const JFileVersion kCurrentSetupVersion = 0;
@@ -62,7 +63,7 @@ CMEditCommandsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 350,370, "");
+	JXWindow* window = jnew JXWindow(this, 350,370, JString::empty);
 	assert( window != nullptr );
 
 	JXStaticText* gdbCmdTitle =
@@ -102,12 +103,12 @@ CMEditCommandsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("hint::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 270,20);
 	assert( hint != nullptr );
-	hint->SetFontSize(JGetDefaultFontSize()-2);
+	hint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	hint->SetToLabel();
 
 // end JXLayout
 
-	window->SetTitle("Edit custom gdb commands");
+	window->SetTitle(JGetString("WindowTitle::CMEditCommandsDialog"));
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 	UseModalPlacement(kJFalse);
@@ -140,7 +141,7 @@ CMEditCommandsDialog::Receive
 {
 	if (sender == itsNewButton && message.Is(JXButton::kPushed))
 		{
-		itsCommands->Append("");
+		itsCommands->Append(JString::empty);
 		itsWidget->NewStringAppended();
 		}
 	if (sender == itsRemoveButton && message.Is(JXButton::kPushed))

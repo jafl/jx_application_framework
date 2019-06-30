@@ -67,6 +67,7 @@ $copyright"
 
 # CMAboutDialog
 
+WindowTitle::CMAboutDialog			"About"
 ChangeButtonLabel::CMAboutDialog	"Changes"
 
 UpgradeNotice::CMAboutDialog
@@ -77,6 +78,7 @@ You have just upgraded from version $vers"
 
 # CMEditPrefsDialog
 
+WindowTitle::CMEditPrefsDialog			"Edit preferences"
 ChooseDebuggerPrompt::CMEditPrefsDialog	"Choose $name binary:"
 
 # CMCommandDirector
@@ -150,6 +152,7 @@ WindowsMenuText::CMFileListDir	"File list"
 
 # CMDebugDir
 
+WindowTitle::CMDebugDir		"Debug"
 WindowsMenuText::CMDebugDir	"Debugging info"
 
 # CMPlot2DDir
@@ -162,6 +165,14 @@ XExprColTitle::CMPlot2DExprTable	"X"
 YExprColTitle::CMPlot2DExprTable	"Y"
 RangeMinColTitle::CMPlot2DExprTable	"Start"
 RangeMaxColTitle::CMPlot2DExprTable	"End"
+
+# CMEditCommandsDialog
+
+WindowTitle::CMEditCommandsDialog	"Edit custom gdb commands"
+
+# CMFileDragSource
+
+Hint::CMFileDragSource	"Drag this to drag the URL for this file."
 
 # XDLink
 
@@ -292,6 +303,7 @@ echo \\032\\032:Medic command done:0:
 
 # GDBAnalyzeCore
 
+Prompt::GDBAnalyzeCore		"Name of program"
 FindProgram::GDBAnalyzeCore	"Please locate \"$name\""
 
 # GDBVarTreeParser

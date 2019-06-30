@@ -30,6 +30,7 @@
 #include <JXSearchTextDialog.h>
 #include <JXWebBrowser.h>
 
+#include <JStringIterator.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
 
@@ -40,9 +41,9 @@ const JSize kStackLineMaxDefault = 100;
 
 // JBroadcaster messages
 
-const JCharacter* CMPrefsManager::kFileTypesChanged      = "FileTypesChanged::CMPrefsManager";
-const JCharacter* CMPrefsManager::kCustomCommandsChanged = "CustomCommandsChanged::CMPrefsManager";
-const JCharacter* CMPrefsManager::kTextColorChanged      = "TextColorChanged::CMPrefsManager";
+const JUtf8Byte* CMPrefsManager::kFileTypesChanged      = "FileTypesChanged::CMPrefsManager";
+const JUtf8Byte* CMPrefsManager::kCustomCommandsChanged = "CustomCommandsChanged::CMPrefsManager";
+const JUtf8Byte* CMPrefsManager::kTextColorChanged      = "TextColorChanged::CMPrefsManager";
 
 /******************************************************************************
  Constructor
@@ -287,7 +288,9 @@ CMPrefsManager::UpgradeData
 		cHeaderSuffixData << ' ' << JString(".h++") << ' ' << JString(".H");
 		SetData(kCHeaderSuffixID, cHeaderSuffixData);
 
-		SetEditFileCmds("jcc $f", "jcc +$l $f");
+		SetEditFileCmds(
+			JString("jcc $f", kJFalse),
+			JString("jcc +$l $f", kJFalse));
 
 		std::ostringstream gdbCmdData;
 		gdbCmdData << JString("gdb");
@@ -298,7 +301,10 @@ CMPrefsManager::UpgradeData
 		JString cmd = GetGDBCommand();
 		if (cmd.EndsWith(" -f"))
 			{
-			cmd.RemoveSubstring(cmd.GetLength()-2, cmd.GetLength());
+			JStringIterator iter(&cmd, kJIteratorStartAtEnd);
+			iter.RemovePrev(3);
+			iter.Invalidate();
+
 			cmd.TrimWhitespace();
 			SetGDBCommand(cmd);
 			}
@@ -307,7 +313,8 @@ CMPrefsManager::UpgradeData
 	JXDisplay* display = JXGetApplication()->GetDisplay(1);
 	if (currentVersion < 2)
 		{
-		SetDefaultFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
+		SetDefaultFont(JFontManager::GetDefaultMonospaceFontName(),
+					   JFontManager::GetDefaultMonospaceFontSize());
 		}
 	else
 		{
@@ -316,7 +323,8 @@ CMPrefsManager::UpgradeData
 		GetDefaultFont(&name, &size);
 		if (name == "6x13")
 			{
-			SetDefaultFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize());
+			SetDefaultFont(JFontManager::GetDefaultMonospaceFontName(),
+						   JFontManager::GetDefaultMonospaceFontSize());
 			}
 		}
 
@@ -463,11 +471,11 @@ CMPrefsManager::GetGDBCommand()
 void
 CMPrefsManager::SetGDBCommand
 	(
-	const JCharacter* command
+	const JString& command
 	)
 {
 	std::ostringstream data;
-	data << ' ' << JString(command);
+	data << ' ' << command;
 
 	SetData(kGDBCommandID, data);
 }
@@ -495,11 +503,11 @@ CMPrefsManager::GetJVMCommand()
 void
 CMPrefsManager::SetJVMCommand
 	(
-	const JCharacter* command
+	const JString& command
 	)
 {
 	std::ostringstream data;
-	data << ' ' << JString(command);
+	data << ' ' << command;
 
 	SetData(kJVMCommandID, data);
 }
@@ -862,12 +870,12 @@ CMPrefsManager::GetDefaultFont
 void
 CMPrefsManager::SetDefaultFont
 	(
-	const JCharacter*	name,
-	const JSize			size
+	const JString&	name,
+	const JSize		size
 	)
 {
 	std::ostringstream data;
-	data << JString(name) << ' ' << size;
+	data << name << ' ' << size;
 	SetData(kCBDefFontID, data);
 }
 
@@ -954,14 +962,12 @@ CMPrefsManager::SetColorList
 	JRGB			colorList[]
 	)
 {
-	JXColorManager* colormap = (JXGetApplication()->GetCurrentDisplay())->GetColormap();
-
 	JBoolean ok[ kColorCount ];
 	if (hasColors)
 		{
 		for (JUnsignedOffset i=0; i<kColorCount; i++)
 			{
-			itsColor[i] = colormap->GetColor(colorList[i]);
+			itsColor[i] = JColorManager::GetColorID(colorList[i]);
 			ok[i]       = kJTrue;
 			}
 		}
@@ -977,12 +983,12 @@ CMPrefsManager::SetColorList
 
 	const JColorID defaultColor[] =
 		{
-		colormap->GetBlackColor(),
-		colormap->GetWhiteColor(),
-		colormap->GetRedColor(),
-		colormap->GetDefaultSelectionColor(),
-		colormap->GetBlueColor(),
-		colormap->GetGrayColor(70)
+		JColorManager::GetBlackColor(),
+		JColorManager::GetWhiteColor(),
+		JColorManager::GetRedColor(),
+		JColorManager::GetDefaultSelectionColor(),
+		JColorManager::GetBlueColor(),
+		JColorManager::GetGrayColor(70)
 		};
 	assert( sizeof(defaultColor)/sizeof(JColorID) == kColorCount );
 
@@ -998,14 +1004,12 @@ CMPrefsManager::SetColorList
 void
 CMPrefsManager::WriteColors()
 {
-	JXColorManager* colormap = (JXGetApplication()->GetCurrentDisplay())->GetColormap();
-
 	std::ostringstream data;
 	data << kCurrentTextColorVers;
 
 	for (JUnsignedOffset i=0; i<kColorCount; i++)
 		{
-		data << ' ' << colormap->GetRGB(itsColor[i]);
+		data << ' ' << JColorManager::GetRGB(itsColor[i]);
 		}
 
 	SetData(kCBTextColorID, data);

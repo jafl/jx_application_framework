@@ -17,10 +17,10 @@
 
 CMThreadNode::CMThreadNode
 	(
-	const JUInt64		id,
-	const JCharacter*	name,
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JUInt64	id,
+	const JString&	name,
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 	:
 	JNamedTreeNode(nullptr, name, kJFalse),

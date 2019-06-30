@@ -14,7 +14,7 @@ class GDBSimpleCommand : public CMCommand
 {
 public:
 
-	GDBSimpleCommand(const JCharacter* cmd);
+	GDBSimpleCommand(const JString& cmd);
 
 	virtual	~GDBSimpleCommand();
 

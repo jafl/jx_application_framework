@@ -17,11 +17,11 @@
 
 XDGetFullPath::XDGetFullPath
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex	// for convenience
+	const JString&	fileName,
+	const JIndex	lineIndex	// for convenience
 	)
 	:
-	CMGetFullPath("status", fileName, lineIndex)
+	CMGetFullPath(JString("status", kJFalse), fileName, lineIndex)
 {
 }
 

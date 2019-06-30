@@ -16,7 +16,7 @@ class CMGetThread : public CMCommand
 {
 public:
 
-	CMGetThread(const JCharacter* cmd, CMThreadsWidget* widget);
+	CMGetThread(const JString& cmd, CMThreadsWidget* widget);
 
 	virtual	~CMGetThread();
 

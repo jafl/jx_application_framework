@@ -117,14 +117,15 @@ CMArray2DTable::HandleMouseDown
 void
 CMArray2DTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == kJReturnKey)
+	if (c == kJReturnKey)
 		{
 		JPoint cell;
-		if (!IsEditing() && (GetTableSelection()).GetSingleSelectedCell(&cell))
+		if (!IsEditing() && GetTableSelection().GetSingleSelectedCell(&cell))
 			{
 			BeginEditing(cell);
 			}
@@ -134,14 +135,14 @@ CMArray2DTable::HandleKeyPress
 			}
 		}
 
-	else if (!IsEditing() && HandleSelectionKeyPress(key, modifiers))
+	else if (!IsEditing() && HandleSelectionKeyPress(c, modifiers))
 		{
 		// work has been done
 		}
 
 	else
 		{
-		JXStringTable::HandleKeyPress(key, modifiers);
+		JXStringTable::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -163,7 +164,7 @@ CMArray2DTable::CreateXInputField
 	JXInputField* input = JXStringTable::CreateXInputField(cell, x,y, w,h);
 	input->SetIsRequired();
 
-	itsOrigEditValue = input->GetText();
+	itsOrigEditValue = input->GetText()->GetText();
 
 	return input;
 }
@@ -182,7 +183,7 @@ CMArray2DTable::ExtractInputData
 	JXInputField* input = nullptr;
 	const JBoolean ok = GetXInputField(&input);
 	assert( ok );
-	const JString& text = input->GetText();
+	const JString& text = input->GetText()->GetText();
 
 	if (!text.IsEmpty())
 		{

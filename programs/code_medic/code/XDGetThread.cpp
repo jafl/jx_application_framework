@@ -21,7 +21,7 @@ XDGetThread::XDGetThread
 	CMThreadsWidget* widget
 	)
 	:
-	CMGetThread("status", widget)
+	CMGetThread(JString("status", kJFalse), widget)
 {
 }
 

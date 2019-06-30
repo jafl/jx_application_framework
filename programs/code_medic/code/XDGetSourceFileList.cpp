@@ -25,7 +25,7 @@ XDGetSourceFileList::XDGetSourceFileList
 	CMFileListDir* fileList
 	)
 	:
-	CMGetSourceFileList("status", fileList)
+	CMGetSourceFileList(JString("status", kJFalse), fileList)
 {
 }
 
@@ -51,7 +51,7 @@ XDGetSourceFileList::Starting()
 	JXFileListTable* table = GetFileList()->GetTable();
 	table->RemoveAllFiles();
 
-	const JPtrArray<JString>& list = dynamic_cast<XDLink*>CMGetLink()->GetSourcePathList();
+	const JPtrArray<JString>& list = dynamic_cast<XDLink*>(CMGetLink())->GetSourcePathList();
 	const JSize count              = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
@@ -67,7 +67,7 @@ XDGetSourceFileList::Starting()
 void
 XDGetSourceFileList::ScanDirectory
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	JDirInfo* info;

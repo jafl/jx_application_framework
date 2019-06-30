@@ -34,14 +34,14 @@ const JSize kIndentWidth    = 2;	// characters
 
 // Edit menu additions
 
-static const JCharacter* kEditMenuAddStr =
+static const JUtf8Byte* kEditMenuAddStr =
 	"  Copy complete name  %k Meta-Shift-C  %i" kCMCopyFullVarNameAction
 	"| Copy value          %k Ctrl-C        %i" kCMCopyVarValueAction;
 
 // Base menu
 
 static const JCharacter* kBaseMenuTitleStr = "Base";
-static const JCharacter* kBaseMenuStr =
+static const JUtf8Byte* kBaseMenuStr =
 	"    Default %r"
 	"%l| 10      %r"
 	"%l| 2       %r"

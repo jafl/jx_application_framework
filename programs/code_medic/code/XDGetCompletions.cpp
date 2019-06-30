@@ -22,8 +22,8 @@ XDGetCompletions::XDGetCompletions
 	CMCommandOutputDisplay*	history
 	)
 	:
-	CMGetCompletions("status"),
-	itsPrefix(input->GetText()),
+	CMGetCompletions(JString("status", kJFalse)),
+	itsPrefix(input->GetText()->GetText()),
 	itsInput(input),
 	itsHistory(history)
 {

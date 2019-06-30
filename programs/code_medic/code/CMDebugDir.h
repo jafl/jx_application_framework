@@ -23,7 +23,7 @@ public:
 
 	virtual ~CMDebugDir();
 
-	virtual const JString&	GetName() const;
+	virtual const JString&	GetName() const override;
 
 protected:
 

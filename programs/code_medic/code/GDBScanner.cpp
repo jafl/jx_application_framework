@@ -57,7 +57,7 @@ GDBScanner::Reset()
 void
 GDBScanner::AppendInput
 	(
-	const JCharacter* string
+	const JString& string
 	)
 {
 	const JCharacter* p1 = string;

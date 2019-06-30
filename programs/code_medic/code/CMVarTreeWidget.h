@@ -32,8 +32,8 @@ public:
 
 	virtual ~CMVarTreeWidget();
 
-	CMVarNode*	NewExpression(const JCharacter* expr = nullptr);
-	CMVarNode*	DisplayExpression(const JCharacter* expr);
+	CMVarNode*	NewExpression(const JString& expr = JString::empty);
+	CMVarNode*	DisplayExpression(const JString& expr);
 	void		ShowNode(const CMVarNode* node);
 
 	JBoolean	HasSelection() const;
@@ -48,16 +48,17 @@ public:
 	void	ExamineMemory(const CMMemoryDir::DisplayType type);
 	void	ShouldUpdate(const JBoolean update);
 
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
-	virtual JBoolean	IsEditable(const JPoint& cell) const;
+	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
+									   const JXKeyModifiers& modifiers) override;
+	virtual JBoolean	IsEditable(const JPoint& cell) const override;
 
 	void	ReadSetup(std::istream& input, const JFileVersion vers);
 	void	WriteSetup(std::ostream& output) const;
 
 protected:
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
-	virtual JSize	GetMinCellWidth(const JPoint& cell) const;
+	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	virtual JSize	GetMinCellWidth(const JPoint& cell) const override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
@@ -71,8 +72,8 @@ protected:
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h);
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
+											  const JCoordinate w, const JCoordinate h) override;
+	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;

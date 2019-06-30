@@ -24,7 +24,7 @@ public:
 	const JPtrArray<CMBreakpoint>&	GetOtherpoints() const;
 
 	JBoolean	HasBreakpointAt(const CMLocation& loc) const;
-	JBoolean	GetBreakpoints(const JCharacter* fileName,
+	JBoolean	GetBreakpoints(const JString& fileName,
 							   JPtrArray<CMBreakpoint>* list) const;
 	JBoolean	GetBreakpoints(const CMLocation& loc,
 							   JPtrArray<CMBreakpoint>* list) const;
@@ -73,7 +73,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kBreakpointsChanged;
+	static const JUtf8Byte* kBreakpointsChanged;
 
 	class BreakpointsChanged : public JBroadcaster::Message
 		{

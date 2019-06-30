@@ -18,9 +18,9 @@
 
 CMGetStack::CMGetStack
 	(
-	const JCharacter*	cmd,
-	JTree*				tree,
-	CMStackWidget*		widget
+	const JString&	cmd,
+	JTree*			tree,
+	CMStackWidget*	widget
 	)
 	:
 	CMCommand(cmd, kJFalse, kJTrue),

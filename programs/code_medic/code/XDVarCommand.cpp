@@ -21,7 +21,7 @@
 
 XDVarCommand::XDVarCommand
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 	:
 	CMVarCommand()
@@ -53,7 +53,7 @@ XDVarCommand::HandleSuccess
 	const JString& data
 	)
 {
-	XDLink* link = dynamic_cast<XDLink*>CMGetLink();
+	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
 	xmlNode* root;
 	if (link == nullptr || !link->GetParsedData(&root))
 		{
@@ -67,7 +67,7 @@ XDVarCommand::HandleSuccess
 		}
 	else
 		{
-		SetData("<error reading value>");
+		SetData(JString("<error reading value>", kJFalse));
 		Broadcast(ValueMessage(kValueFailed, nullptr));
 		}
 	itsRootNode->DeleteAllChildren();

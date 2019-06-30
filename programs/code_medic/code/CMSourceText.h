@@ -12,7 +12,7 @@
 
 #include "CMTextDisplayBase.h"
 #include "CBTextFileType.h"
-#include <JTEStyler.h>
+#include <JSTStyler.h>
 
 class CMSourceDirector;
 class CMCommandDirector;
@@ -33,13 +33,14 @@ public:
 
 	void	SetFileType(const CBTextFileType type);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 
 protected:
 
 	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
 											 JIndexRange* recalcRange, JIndexRange* redrawRange,
-											 const JBoolean deletion);
+											 const JBoolean deletion) override;
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
@@ -56,7 +57,7 @@ private:
 	CMSourceDirector*				itsSrcDir;
 	CMCommandDirector*				itsCmdDir;
 	CBStylerBase*					itsStyler;
-	JArray<JTEStyler::TokenData>*	itsTokenStartList;		// nullptr if styling is turned off
+	JArray<JSTStyler::TokenData>*	itsTokenStartList;		// nullptr if styling is turned off
 	JIndex							itsFirstSearchMenuItem;	// index of first item added to Search menu
 	JSize							itsLastClickCount;
 

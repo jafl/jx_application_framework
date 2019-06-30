@@ -166,69 +166,69 @@ public:
 
 	virtual	~JVMLink();
 
-	virtual JBoolean	DebuggerHasStarted() const;
-	virtual JBoolean	HasLoadedSymbols() const;
-	virtual JBoolean	IsDebugging() const;
-	virtual JBoolean	IsDefiningScript() const;
+	virtual JBoolean	DebuggerHasStarted() const override;
+	virtual JBoolean	HasLoadedSymbols() const override;
+	virtual JBoolean	IsDebugging() const override;
+	virtual JBoolean	IsDefiningScript() const override;
 
-	virtual JBoolean	ChangeDebugger();
-	virtual JBoolean	RestartDebugger();
+	virtual JBoolean	ChangeDebugger() override;
+	virtual JBoolean	RestartDebugger() override;
 
-	virtual JString		GetChooseProgramInstructions() const;
-	virtual JBoolean	HasProgram() const;
-	virtual JBoolean	GetProgram(JString* fullName) const;
-	virtual void		SetProgram(const JCharacter* fullName);
-	virtual void		ReloadProgram();
-	virtual JBoolean	HasCore() const;
-	virtual JBoolean	GetCore(JString* fullName) const;
-	virtual void		SetCore(const JCharacter* fullName);
-	virtual void		AttachToProcess(const pid_t pid);
+	virtual JString		GetChooseProgramInstructions() const override;
+	virtual JBoolean	HasProgram() const override;
+	virtual JBoolean	GetProgram(JString* fullName) const override;
+	virtual void		SetProgram(const JString& fullName) override;
+	virtual void		ReloadProgram() override;
+	virtual JBoolean	HasCore() const override;
+	virtual JBoolean	GetCore(JString* fullName) const override;
+	virtual void		SetCore(const JString& fullName) override;
+	virtual void		AttachToProcess(const pid_t pid) override;
 
-	virtual void		RunProgram(const JCharacter* args);
-	virtual void		StopProgram();
-	virtual void		KillProgram();
-	virtual JBoolean	ProgramIsRunning() const;
-	virtual JBoolean	ProgramIsStopped() const;
-	virtual JBoolean	OKToDetachOrKill() const;
+	virtual void		RunProgram(const JString& args) override;
+	virtual void		StopProgram() override;
+	virtual void		KillProgram() override;
+	virtual JBoolean	ProgramIsRunning() const override;
+	virtual JBoolean	ProgramIsStopped() const override;
+	virtual JBoolean	OKToDetachOrKill() const override;
 
-	virtual JBoolean	OKToSendCommands(const JBoolean background) const;
-	virtual JBoolean	Send(CMCommand* cmd);
+	virtual JBoolean	OKToSendCommands(const JBoolean background) const override;
+	virtual JBoolean	Send(CMCommand* cmd) override;
 
-	virtual CMBreakpointManager*	GetBreakpointManager();
+	virtual CMBreakpointManager*	GetBreakpointManager() override;
 
-	virtual void	ShowBreakpointInfo(const JIndex debuggerIndex);
-	virtual void	SetBreakpoint(const JCharacter* fileName, const JIndex lineIndex,
-								  const JBoolean temporary = kJFalse);
-	virtual void	SetBreakpoint(const JCharacter* address,
-								  const JBoolean temporary = kJFalse);
-	virtual void	RemoveBreakpoint(const JIndex debuggerIndex);
-	virtual void	RemoveAllBreakpointsOnLine(const JCharacter* fileName,
-										   const JIndex lineIndex);
-	virtual void	RemoveAllBreakpointsAtAddress(const JCharacter* addr);
-	virtual void	RemoveAllBreakpoints();
+	virtual void	ShowBreakpointInfo(const JIndex debuggerIndex) override;
+	virtual void	SetBreakpoint(const JString& fileName, const JIndex lineIndex,
+								  const JBoolean temporary = kJFalse) override;
+	virtual void	SetBreakpoint(const JString& address,
+								  const JBoolean temporary = kJFalse) override;
+	virtual void	RemoveBreakpoint(const JIndex debuggerIndex) override;
+	virtual void	RemoveAllBreakpointsOnLine(const JString& fileName,
+										   const JIndex lineIndex) override;
+	virtual void	RemoveAllBreakpointsAtAddress(const JString& addr) override;
+	virtual void	RemoveAllBreakpoints() override;
 	virtual void	SetBreakpointEnabled(const JIndex debuggerIndex, const JBoolean enabled,
-									 const JBoolean once = kJFalse);
+									 const JBoolean once = kJFalse) override;
 	virtual void	SetBreakpointCondition(const JIndex debuggerIndex,
-									   const JCharacter* condition);
-	virtual void	RemoveBreakpointCondition(const JIndex debuggerIndex);
-	virtual void	SetBreakpointIgnoreCount(const JIndex debuggerIndex, const JSize count);
+									   const JString& condition) override;
+	virtual void	RemoveBreakpointCondition(const JIndex debuggerIndex) override;
+	virtual void	SetBreakpointIgnoreCount(const JIndex debuggerIndex, const JSize count) override;
 
-	virtual void	WatchExpression(const JCharacter* expr);
-	virtual void	WatchLocation(const JCharacter* expr);
+	virtual void	WatchExpression(const JString& expr) override;
+	virtual void	WatchLocation(const JString& expr) override;
 
-	virtual void	SwitchToThread(const JUInt64 id);
-	virtual void	SwitchToFrame(const JUInt64 id);
-	virtual void	StepOver();
-	virtual void	StepInto();
-	virtual void	StepOut();
-	virtual void	Continue();
-	virtual void	RunUntil(const JCharacter* fileName, const JIndex lineIndex);
-	virtual void	SetExecutionPoint(const JCharacter* fileName, const JIndex lineIndex);
+	virtual void	SwitchToThread(const JUInt64 id) override;
+	virtual void	SwitchToFrame(const JUInt64 id) override;
+	virtual void	StepOver() override;
+	virtual void	StepInto() override;
+	virtual void	StepOut() override;
+	virtual void	Continue() override;
+	virtual void	RunUntil(const JString& fileName, const JIndex lineIndex) override;
+	virtual void	SetExecutionPoint(const JString& fileName, const JIndex lineIndex) override;
 
-	virtual void	SetValue(const JCharacter* name, const JCharacter* value);
+	virtual void	SetValue(const JString& name, const JString& value) override;
 
-	virtual const JString&	GetPrompt()	const;
-	virtual const JString&	GetScriptPrompt() const;
+	virtual const JString&	GetPrompt()	const override;
+	virtual const JString&	GetScriptPrompt() const override;
 
 	JSize	GetFieldIDSize() const;
 	JSize	GetMethodIDSize() const;
@@ -243,16 +243,16 @@ public:
 	JBoolean		FindThread(const JUInt64 id, JVMThreadNode** node) const;
 
 	void	FlushClassList();
-	void	AddClass(const JUInt64 id, const JCharacter* signature);
-	void	AddMethod(const JUInt64 classID, const JUInt64 methodID, const JCharacter* name);
+	void	AddClass(const JUInt64 id, const JString& signature);
+	void	AddMethod(const JUInt64 classID, const JUInt64 methodID, const JString& name);
 
 	JBoolean	GetClassName(const JUInt64 id, JString* name);
 	JBoolean	GetClassSourceFile(const JUInt64 id, JString* fullName);
 	JBoolean	GetMethodName(const JUInt64 classID, const JUInt64 methodID, JString* name);
 
-	static JString	ClassSignatureToResourcePath(const JCharacter* signature);
-	static JString	ClassSignatureToName(const JCharacter* signature);
-	static JString	ClassNameToResourcePath(const JCharacter* name);
+	static JString	ClassSignatureToResourcePath(const JString& signature);
+	static JString	ClassSignatureToName(const JString& signature);
+	static JString	ClassNameToResourcePath(const JString& name);
 
 	const JPtrArray<JString>&	GetSourcePathList() const;
 
@@ -264,35 +264,35 @@ public:
 
 	virtual CMArray2DCommand*		CreateArray2DCommand(CMArray2DDir* dir,
 														 JXStringTable* table,
-														 JStringTableData* data);
+														 JStringTableData* data) override;
 	virtual CMPlot2DCommand*		CreatePlot2DCommand(CMPlot2DDir* dir,
 														JArray<JFloat>* x,
-														JArray<JFloat>* y);
-	virtual CMDisplaySourceForMain*	CreateDisplaySourceForMain(CMSourceDirector* sourceDir);
+														JArray<JFloat>* y) override;
+	virtual CMDisplaySourceForMain*	CreateDisplaySourceForMain(CMSourceDirector* sourceDir) override;
 	virtual CMGetCompletions*		CreateGetCompletions(CMCommandInput* input,
-														 CMCommandOutputDisplay* history);
-	virtual CMGetFrame*				CreateGetFrame(CMStackWidget* widget);
-	virtual CMGetStack*				CreateGetStack(JTree* tree, CMStackWidget* widget);
-	virtual CMGetThread*			CreateGetThread(CMThreadsWidget* widget);
-	virtual CMGetThreads*			CreateGetThreads(JTree* tree, CMThreadsWidget* widget);
-	virtual CMGetFullPath*			CreateGetFullPath(const JCharacter* fileName,
-													  const JIndex lineIndex = 0);
-	virtual CMGetInitArgs*			CreateGetInitArgs(JXInputField* argInput);
-	virtual CMGetLocalVars*			CreateGetLocalVars(CMVarNode* rootNode);
-	virtual CMGetSourceFileList*	CreateGetSourceFileList(CMFileListDir* fileList);
-	virtual CMVarCommand*			CreateVarValueCommand(const JCharacter* expr);
-	virtual CMVarCommand*			CreateVarContentCommand(const JCharacter* expr);
-	virtual CMVarNode*				CreateVarNode(const JBoolean shouldUpdate = kJTrue);
-	virtual CMVarNode*				CreateVarNode(JTreeNode* parent, const JCharacter* name,
-												  const JCharacter* fullName, const JCharacter* value);
-	virtual JString					Build1DArrayExpression(const JCharacter* expr,
-														   const JInteger index);
-	virtual JString					Build2DArrayExpression(const JCharacter* expr,
+														 CMCommandOutputDisplay* history) override;
+	virtual CMGetFrame*				CreateGetFrame(CMStackWidget* widget) override;
+	virtual CMGetStack*				CreateGetStack(JTree* tree, CMStackWidget* widget) override;
+	virtual CMGetThread*			CreateGetThread(CMThreadsWidget* widget) override;
+	virtual CMGetThreads*			CreateGetThreads(JTree* tree, CMThreadsWidget* widget) override;
+	virtual CMGetFullPath*			CreateGetFullPath(const JString& fileName,
+													  const JIndex lineIndex = 0) override;
+	virtual CMGetInitArgs*			CreateGetInitArgs(JXInputField* argInput) override;
+	virtual CMGetLocalVars*			CreateGetLocalVars(CMVarNode* rootNode) override;
+	virtual CMGetSourceFileList*	CreateGetSourceFileList(CMFileListDir* fileList) override;
+	virtual CMVarCommand*			CreateVarValueCommand(const JString& expr) override;
+	virtual CMVarCommand*			CreateVarContentCommand(const JString& expr) override;
+	virtual CMVarNode*				CreateVarNode(const JBoolean shouldUpdate = kJTrue) override;
+	virtual CMVarNode*				CreateVarNode(JTreeNode* parent, const JString& name,
+												  const JString& fullName, const JString& value) override;
+	virtual JString					Build1DArrayExpression(const JString& expr,
+														   const JInteger index) override;
+	virtual JString					Build2DArrayExpression(const JString& expr,
 														   const JInteger rowIndex,
-														   const JInteger colIndex);
-	virtual CMGetMemory*			CreateGetMemory(CMMemoryDir* dir);
-	virtual CMGetAssembly*			CreateGetAssembly(CMSourceDirector* dir);
-	virtual CMGetRegisters*			CreateGetRegisters(CMRegistersDir* dir);
+														   const JInteger colIndex) override;
+	virtual CMGetMemory*			CreateGetMemory(CMMemoryDir* dir) override;
+	virtual CMGetAssembly*			CreateGetAssembly(CMSourceDirector* dir) override;
+	virtual CMGetRegisters*			CreateGetRegisters(CMRegistersDir* dir) override;
 
 	// called by JVM commands
 
@@ -308,7 +308,7 @@ public:
 
 	// called by JVMWelcomeTask
 
-	void	BroadcastWelcome(const JCharacter* msg, const JBoolean error);
+	void	BroadcastWelcome(const JString& msg, const JBoolean error);
 
 	// called by JVMSetProgramTask
 
@@ -322,11 +322,11 @@ public:
 
 	// only when user types input for program being debugged
 
-	virtual void	SendRaw(const JCharacter* text);
+	virtual void	SendRaw(const JString& text) override;
 
 protected:
 
-	virtual void	SendMedicCommand(CMCommand* command);
+	virtual void	SendMedicCommand(CMCommand* command) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -448,8 +448,8 @@ private:
 
 	void	CheckNextThreadGroup();
 
-	JBoolean	ClassSignatureToFile(const JCharacter* signature, JString* fullName) const;
-	JBoolean	FindSourceForClass(const JCharacter* signature, JString* fullName);
+	JBoolean	ClassSignatureToFile(const JString& signature, JString* fullName) const;
+	JBoolean	FindSourceForClass(const JString& signature, JString* fullName);
 	JBoolean	GetFrame(const JUInt64 id, JIndex* index) const;
 
 	static JListT::CompareResult	CompareClassIDs(const ClassInfo& c1, const ClassInfo& c2);
@@ -465,7 +465,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kIDResolved;
+	static const JUtf8Byte* kIDResolved;
 
 	class IDResolved : public JBroadcaster::Message
 		{
@@ -499,7 +499,7 @@ public:
 inline void
 JVMLink::BroadcastWelcome
 	(
-	const JCharacter*	msg,
+	const JString&	msg,
 	const JBoolean		error
 	)
 {

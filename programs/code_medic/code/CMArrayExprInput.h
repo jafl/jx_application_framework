@@ -23,7 +23,8 @@ public:
 
 	virtual ~CMArrayExprInput();
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 
 private:
 
@@ -36,7 +37,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kReturnKeyPressed;
+	static const JUtf8Byte* kReturnKeyPressed;
 
 	class ReturnKeyPressed : public JBroadcaster::Message
 		{

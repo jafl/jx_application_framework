@@ -25,7 +25,7 @@
 
 // Application signature (MDI, prefs)
 
-static const JCharacter* kAppSignature = "medic";
+static const JUtf8Byte* kAppSignature = "medic";
 
 /******************************************************************************
  Constructor
@@ -89,8 +89,8 @@ CMApp::~CMApp()
 void
 CMApp::EditFile
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 	const
 {
@@ -129,15 +129,15 @@ CMApp::EditFile
 void
 CMApp::DisplayAbout
 	(
-	const JCharacter*	prevVersStr,
-	const JBoolean		init
+	const JString&	prevVersStr,
+	const JBoolean	init
 	)
 {
 	CMAboutDialog* dlog = jnew CMAboutDialog(this, prevVersStr);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 
-	if (init && JString::IsEmpty(prevVersStr))
+	if (init && prevVersStr.IsEmpty())
 		{
 		JXAskInitDockAll* task = jnew JXAskInitDockAll(dlog);
 		assert( task != nullptr );
@@ -153,7 +153,7 @@ CMApp::DisplayAbout
 JBoolean
 CMApp::HandleCustomEvent()
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link != nullptr)
 		{
 		link->HandleLLDBEvent();
@@ -185,7 +185,7 @@ CMApp::CleanUpBeforeSuddenDeath
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 CMApp::GetAppSignature()
 {
 	return kAppSignature;

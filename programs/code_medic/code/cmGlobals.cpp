@@ -53,23 +53,23 @@ static JXImage* thePlot2DIcon        = nullptr;
 static JXImage* theMemoryIcon        = nullptr;
 static JXImage* theRegistersIcon     = nullptr;
 
-static const JCharacter* kCommandWindowClass     = "Code_Medic_Command_Line";
-static const JCharacter* kSourceWindowClass      = "Code_Medic_Source";
-static const JCharacter* kAsmWindowClass         = "Code_Medic_Disassembly";
-static const JCharacter* kMainSourceWindowClass  = "Code_Medic_Source_Main";
-static const JCharacter* kMainAsmWindowClass     = "Code_Medic_Disassembly_Main";
-static const JCharacter* kThreadWindowClass      = "Code_Medic_Threads";
-static const JCharacter* kStackWindowClass       = "Code_Medic_Stack";
-static const JCharacter* kBreakpointsWindowClass = "Code_Medic_Breakpoints";
-static const JCharacter* kVariableWindowClass    = "Code_Medic_Variables";
-static const JCharacter* kLocalVarsWindowClass   = "Code_Medic_Variables_Local";
-static const JCharacter* kArray1DWindowClass     = "Code_Medic_Variables_Array_1D";
-static const JCharacter* kArray2DWindowClass     = "Code_Medic_Variables_Array_2D";
-static const JCharacter* kPlot2DWindowClass      = "Code_Medic_Variables_Plot_2D";
-static const JCharacter* kFileListWindowClass    = "Code_Medic_File_List";
-static const JCharacter* kMemoryWindowClass      = "Code_Medic_Memory";
-static const JCharacter* kRegistersWindowClass   = "Code_Medic_Registers";
-static const JCharacter* kDebugWindowClass       = "Code_Medic_Debug";
+static const JUtf8Byte* kCommandWindowClass     = "Code_Medic_Command_Line";
+static const JUtf8Byte* kSourceWindowClass      = "Code_Medic_Source";
+static const JUtf8Byte* kAsmWindowClass         = "Code_Medic_Disassembly";
+static const JUtf8Byte* kMainSourceWindowClass  = "Code_Medic_Source_Main";
+static const JUtf8Byte* kMainAsmWindowClass     = "Code_Medic_Disassembly_Main";
+static const JUtf8Byte* kThreadWindowClass      = "Code_Medic_Threads";
+static const JUtf8Byte* kStackWindowClass       = "Code_Medic_Stack";
+static const JUtf8Byte* kBreakpointsWindowClass = "Code_Medic_Breakpoints";
+static const JUtf8Byte* kVariableWindowClass    = "Code_Medic_Variables";
+static const JUtf8Byte* kLocalVarsWindowClass   = "Code_Medic_Variables_Local";
+static const JUtf8Byte* kArray1DWindowClass     = "Code_Medic_Variables_Array_1D";
+static const JUtf8Byte* kArray2DWindowClass     = "Code_Medic_Variables_Array_2D";
+static const JUtf8Byte* kPlot2DWindowClass      = "Code_Medic_Variables_Plot_2D";
+static const JUtf8Byte* kFileListWindowClass    = "Code_Medic_File_List";
+static const JUtf8Byte* kMemoryWindowClass      = "Code_Medic_Memory";
+static const JUtf8Byte* kRegistersWindowClass   = "Code_Medic_Registers";
+static const JUtf8Byte* kDebugWindowClass       = "Code_Medic_Debug";
 
 // private functions
 
@@ -96,7 +96,7 @@ CMCreateGlobals
 	JString oldPrefsFile, newPrefsFile;
 	if (JGetPrefsDirectory(&oldPrefsFile))
 		{
-		oldPrefsFile = JCombinePathAndName(oldPrefsFile, ".gMedic.pref");
+		oldPrefsFile = JCombinePathAndName(oldPrefsFile, JString(".gMedic.pref", kJFalse));
 		if (JFileExists(oldPrefsFile) &&
 			(JPrefsFile::GetFullName(app->GetSignature(), &newPrefsFile)).OK() &&
 			!JFileExists(newPrefsFile))
@@ -376,109 +376,109 @@ CMGetCommandDirector()
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 CMGetWMClassInstance()
 {
-	return JGetString("CMName");
+	return JGetString("CMName").GetBytes();
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetCommandWindowClass()
 {
 	return kCommandWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetSourceViewWindowClass()
 {
 	return kSourceWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetAsmViewWindowClass()
 {
 	return kAsmWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetMainSourceWindowClass()
 {
 	return kMainSourceWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetMainAsmWindowClass()
 {
 	return kMainAsmWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetThreadWindowClass()
 {
 	return kThreadWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetStackWindowClass()
 {
 	return kStackWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetBreakpointsWindowClass()
 {
 	return kBreakpointsWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetVariableWindowClass()
 {
 	return kVariableWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetLocalVariableWindowClass()
 {
 	return kLocalVarsWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetArray1DWindowClass()
 {
 	return kArray1DWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetArray2DWindowClass()
 {
 	return kArray2DWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetPlot2DWindowClass()
 {
 	return kPlot2DWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetFileListWindowClass()
 {
 	return kFileListWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetMemoryWindowClass()
 {
 	return kMemoryWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetRegistersWindowClass()
 {
 	return kRegistersWindowClass;
 }
 
-const JCharacter*
+const JUtf8Byte*
 CMGetDebugWindowClass()		// required so Enlightenment will allow it to resize
 {
 	return kDebugWindowClass;
@@ -489,7 +489,7 @@ CMGetDebugWindowClass()		// required so Enlightenment will allow it to resize
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 CMGetVersionNumberStr()
 {
 	return JGetString("VERSION");
@@ -503,10 +503,10 @@ CMGetVersionNumberStr()
 JString
 CMGetVersionStr()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"version",   JGetString("VERSION"),
-		"copyright", JGetString("COPYRIGHT")
+		"version",   JGetString("VERSION").GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
 	return JGetString("CMDescription", map, sizeof(map));
 }

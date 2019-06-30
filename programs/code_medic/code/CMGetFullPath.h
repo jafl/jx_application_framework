@@ -16,7 +16,7 @@ class CMGetFullPath : public CMCommand, virtual public JBroadcaster
 public:
 
 	CMGetFullPath(const JString& cmd,
-				  const JCharacter* fileName, const JIndex lineIndex);
+				  const JString& fileName, const JIndex lineIndex);
 
 	virtual	~CMGetFullPath();
 
@@ -39,9 +39,9 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kFileFound;
-	static const JCharacter* kFileNotFound;
-	static const JCharacter* kNewCommand;
+	static const JUtf8Byte* kFileFound;
+	static const JUtf8Byte* kFileNotFound;
+	static const JUtf8Byte* kNewCommand;
 
 	class FileFound : public JBroadcaster::Message
 		{

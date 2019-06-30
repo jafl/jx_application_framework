@@ -95,14 +95,14 @@ public:
 	virtual JString		GetChooseProgramInstructions() const = 0;
 	virtual JBoolean	HasProgram() const = 0;
 	virtual JBoolean	GetProgram(JString* fullName) const = 0;
-	virtual void		SetProgram(const JCharacter* fullName) = 0;
+	virtual void		SetProgram(const JString& fullName) = 0;
 	virtual void		ReloadProgram() = 0;
 	virtual JBoolean	HasCore() const = 0;
 	virtual JBoolean	GetCore(JString* fullName) const = 0;
-	virtual void		SetCore(const JCharacter* fullName) = 0;
+	virtual void		SetCore(const JString& fullName) = 0;
 	virtual void		AttachToProcess(const pid_t pid) = 0;
 
-	virtual void		RunProgram(const JCharacter* args) = 0;
+	virtual void		RunProgram(const JString& args) = 0;
 	virtual void		StopProgram() = 0;
 	virtual void		KillProgram() = 0;
 	virtual JBoolean	ProgramIsRunning() const = 0;
@@ -120,25 +120,25 @@ public:
 	virtual void	ShowBreakpointInfo(const JIndex debuggerIndex) = 0;
 	void			SetBreakpoint(const CMBreakpoint& bp);
 	void			SetBreakpoint(const CMLocation& loc, const JBoolean temporary = kJFalse);
-	virtual void	SetBreakpoint(const JCharacter* fileName, const JIndex lineIndex,
+	virtual void	SetBreakpoint(const JString& fileName, const JIndex lineIndex,
 								  const JBoolean temporary = kJFalse) = 0;
-	virtual void	SetBreakpoint(const JCharacter* address,
+	virtual void	SetBreakpoint(const JString& address,
 								  const JBoolean temporary = kJFalse) = 0;
 	void			RemoveBreakpoint(const CMBreakpoint& bp);
 	virtual void	RemoveBreakpoint(const JIndex debuggerIndex) = 0;
-	virtual void	RemoveAllBreakpointsOnLine(const JCharacter* fileName,
+	virtual void	RemoveAllBreakpointsOnLine(const JString& fileName,
 											   const JIndex lineIndex) = 0;
-	virtual void	RemoveAllBreakpointsAtAddress(const JCharacter* addr) = 0;
+	virtual void	RemoveAllBreakpointsAtAddress(const JString& addr) = 0;
 	virtual void	RemoveAllBreakpoints() = 0;
 	virtual void	SetBreakpointEnabled(const JIndex debuggerIndex, const JBoolean enabled,
 										 const JBoolean once = kJFalse) = 0;
 	virtual void	SetBreakpointCondition(const JIndex debuggerIndex,
-										   const JCharacter* condition) = 0;
+										   const JString& condition) = 0;
 	virtual void	RemoveBreakpointCondition(const JIndex debuggerIndex) = 0;
 	virtual void	SetBreakpointIgnoreCount(const JIndex debuggerIndex, const JSize count) = 0;
 
-	virtual void	WatchExpression(const JCharacter* expr) = 0;
-	virtual void	WatchLocation(const JCharacter* expr) = 0;
+	virtual void	WatchExpression(const JString& expr) = 0;
+	virtual void	WatchLocation(const JString& expr) = 0;
 
 	virtual void	SwitchToThread(const JUInt64 id) = 0;
 	virtual void	SwitchToFrame(const JUInt64 id) = 0;
@@ -146,32 +146,32 @@ public:
 	virtual void	StepInto() = 0;
 	virtual void	StepOut() = 0;
 	virtual void	Continue() = 0;
-	virtual void	RunUntil(const JCharacter* fileName, const JIndex lineIndex) = 0;
-	virtual void	SetExecutionPoint(const JCharacter* fileName, const JIndex lineIndex) = 0;
+	virtual void	RunUntil(const JString& fileName, const JIndex lineIndex) = 0;
+	virtual void	SetExecutionPoint(const JString& fileName, const JIndex lineIndex) = 0;
 
 	// uncommon, so not pure virtual
 
 	virtual void	StepOverAssembly();
 	virtual void	StepIntoAssembly();
-	virtual void	RunUntil(const JCharacter* addr);
-	virtual void	SetExecutionPoint(const JCharacter* addr);
+	virtual void	RunUntil(const JString& addr);
+	virtual void	SetExecutionPoint(const JString& addr);
 	virtual void	BackupOver();
 	virtual void	BackupInto();
 	virtual void	BackupOut();
 	virtual void	BackupContinue();
 
-	virtual void	SetValue(const JCharacter* name, const JCharacter* value) = 0;
+	virtual void	SetValue(const JString& name, const JString& value) = 0;
 
 	virtual const JString&	GetPrompt()	const = 0;
 	virtual const JString&	GetScriptPrompt() const = 0;
 
-	void		RememberFile(const JCharacter* fileName, const JCharacter* fullName);
-	JBoolean	FindFile(const JCharacter* fileName,
+	void		RememberFile(const JString& fileName, const JString& fullName);
+	JBoolean	FindFile(const JString& fileName,
 						 JBoolean* exists, JString* fullName) const;
 	void		ClearFileNameMap();
 
-	static void	NotifyUser(const JCharacter* msg, const JBoolean error);
-	static void	Log(const JCharacter* log);
+	static void	NotifyUser(const JString& msg, const JBoolean error);
+	static void	Log(const JUtf8Byte* log);
 	static void	Log(std::ostringstream& log);
 
 	// CMCommand factory
@@ -189,19 +189,19 @@ public:
 	virtual CMGetStack*				CreateGetStack(JTree* tree, CMStackWidget* widget) = 0;
 	virtual CMGetThread*			CreateGetThread(CMThreadsWidget* widget) = 0;
 	virtual CMGetThreads*			CreateGetThreads(JTree* tree, CMThreadsWidget* widget) = 0;
-	virtual CMGetFullPath*			CreateGetFullPath(const JCharacter* fileName,
+	virtual CMGetFullPath*			CreateGetFullPath(const JString& fileName,
 													  const JIndex lineIndex = 0) = 0;
 	virtual CMGetInitArgs*			CreateGetInitArgs(JXInputField* argInput) = 0;
 	virtual CMGetLocalVars*			CreateGetLocalVars(CMVarNode* rootNode) = 0;
 	virtual CMGetSourceFileList*	CreateGetSourceFileList(CMFileListDir* fileList) = 0;
-	virtual CMVarCommand*			CreateVarValueCommand(const JCharacter* expr) = 0;
-	virtual CMVarCommand*			CreateVarContentCommand(const JCharacter* expr) = 0;
+	virtual CMVarCommand*			CreateVarValueCommand(const JString& expr) = 0;
+	virtual CMVarCommand*			CreateVarContentCommand(const JString& expr) = 0;
 	virtual CMVarNode*				CreateVarNode(const JBoolean shouldUpdate = kJTrue) = 0;
-	virtual CMVarNode*				CreateVarNode(JTreeNode* parent, const JCharacter* name,
-												  const JCharacter* fullName, const JCharacter* value) = 0;
-	virtual JString					Build1DArrayExpression(const JCharacter* expr,
+	virtual CMVarNode*				CreateVarNode(JTreeNode* parent, const JString& name,
+												  const JString& fullName, const JString& value) = 0;
+	virtual JString					Build1DArrayExpression(const JString& expr,
 														   const JInteger index) = 0;
-	virtual JString					Build2DArrayExpression(const JCharacter* expr,
+	virtual JString					Build2DArrayExpression(const JString& expr,
 														   const JInteger rowIndex,
 														   const JInteger colIndex) = 0;
 	virtual CMGetMemory*			CreateGetMemory(CMMemoryDir* dir) = 0;
@@ -210,7 +210,7 @@ public:
 
 	// only when user types input for program being debugged
 
-	virtual void	SendRaw(const JCharacter* text) = 0;
+	virtual void	SendRaw(const JString& text) = 0;
 
 	// called by CMCommand
 
@@ -230,9 +230,9 @@ protected:
 
 	virtual void	SendMedicCommand(CMCommand* command) = 0;
 
-	JString	Build1DArrayExpressionForCFamilyLanguage(const JCharacter* expr,
+	JString	Build1DArrayExpressionForCFamilyLanguage(const JString& expr,
 													 const JInteger index);
-	JString	Build2DArrayExpressionForCFamilyLanguage(const JCharacter* expr,
+	JString	Build2DArrayExpressionForCFamilyLanguage(const JString& expr,
 													 const JInteger rowIndex,
 													 const JInteger colIndex);
 
@@ -261,37 +261,37 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kUserOutput;
-	static const JCharacter* kDebugOutput;
+	static const JUtf8Byte* kUserOutput;
+	static const JUtf8Byte* kDebugOutput;
 
-	static const JCharacter* kDebuggerReadyForInput;
-	static const JCharacter* kDebuggerBusy;
-	static const JCharacter* kDebuggerDefiningScript;
+	static const JUtf8Byte* kDebuggerReadyForInput;
+	static const JUtf8Byte* kDebuggerBusy;
+	static const JUtf8Byte* kDebuggerDefiningScript;
 
-	static const JCharacter* kDebuggerStarted;
-	static const JCharacter* kDebuggerRestarted;
-	static const JCharacter* kPrepareToLoadSymbols;
-	static const JCharacter* kSymbolsLoaded;
-	static const JCharacter* kSymbolsReloaded;
-	static const JCharacter* kCoreLoaded;
-	static const JCharacter* kCoreCleared;
-	static const JCharacter* kAttachedToProcess;
-	static const JCharacter* kDetachedFromProcess;
+	static const JUtf8Byte* kDebuggerStarted;
+	static const JUtf8Byte* kDebuggerRestarted;
+	static const JUtf8Byte* kPrepareToLoadSymbols;
+	static const JUtf8Byte* kSymbolsLoaded;
+	static const JUtf8Byte* kSymbolsReloaded;
+	static const JUtf8Byte* kCoreLoaded;
+	static const JUtf8Byte* kCoreCleared;
+	static const JUtf8Byte* kAttachedToProcess;
+	static const JUtf8Byte* kDetachedFromProcess;
 
-	static const JCharacter* kProgramRunning;
-	static const JCharacter* kProgramFirstStop;
-	static const JCharacter* kProgramStopped;
-	static const JCharacter* kProgramStopped2;
-	static const JCharacter* kProgramFinished;
+	static const JUtf8Byte* kProgramRunning;
+	static const JUtf8Byte* kProgramFirstStop;
+	static const JUtf8Byte* kProgramStopped;
+	static const JUtf8Byte* kProgramStopped2;
+	static const JUtf8Byte* kProgramFinished;
 
-	static const JCharacter* kBreakpointsChanged;
-	static const JCharacter* kFrameChanged;
-	static const JCharacter* kThreadChanged;
-	static const JCharacter* kValueChanged;
+	static const JUtf8Byte* kBreakpointsChanged;
+	static const JUtf8Byte* kFrameChanged;
+	static const JUtf8Byte* kThreadChanged;
+	static const JUtf8Byte* kValueChanged;
 
-	static const JCharacter* kThreadListChanged;
+	static const JUtf8Byte* kThreadListChanged;
 
-	static const JCharacter* kPlugInMessage;
+	static const JUtf8Byte* kPlugInMessage;
 
 	// text from gdb
 
@@ -299,7 +299,7 @@ public:
 		{
 		public:
 
-			UserOutput(const JCharacter* text, const JBoolean error, const JBoolean fromTarget = kJFalse)
+			UserOutput(const JString& text, const JBoolean error, const JBoolean fromTarget = kJFalse)
 				:
 				JBroadcaster::Message(kUserOutput),
 				itsText(text),
@@ -307,7 +307,7 @@ public:
 				itsErrorFlag(error)
 				{ };
 
-			const JCharacter*
+			const JString&
 			GetText() const
 			{
 				return itsText;
@@ -327,9 +327,9 @@ public:
 
 		private:
 
-			const JCharacter*	itsText;
-			const JBoolean		itsFromTargetFlag;
-			const JBoolean		itsErrorFlag;
+			const JString	itsText;
+			const JBoolean	itsFromTargetFlag;
+			const JBoolean	itsErrorFlag;
 		};
 
 	enum DebugType
@@ -343,13 +343,13 @@ public:
 		{
 		public:
 
-			DebugOutput(const JCharacter* text, const DebugType type)
+			DebugOutput(const JString& text, const DebugType type)
 				:
 				JBroadcaster::Message(kDebugOutput),
 				itsText(text), itsType(type)
 				{ };
 
-			const JCharacter*
+			const JString&
 			GetText() const
 			{
 				return itsText;
@@ -363,8 +363,8 @@ public:
 
 		private:
 
-			const JCharacter*	itsText;
-			const DebugType		itsType;
+			const JString&	itsText;
+			const DebugType	itsType;
 		};
 
 	// command line state
@@ -535,7 +535,7 @@ public:
 		{
 		public:
 
-			ProgramStoppedBase(const JCharacter* type, const CMLocation& location)
+			ProgramStoppedBase(const JUtf8Byte* type, const CMLocation& location)
 				:
 				JBroadcaster::Message(type),
 				itsLocation(location)

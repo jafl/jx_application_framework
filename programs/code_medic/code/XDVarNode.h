@@ -16,8 +16,8 @@ public:
 
 	XDVarNode(const JBoolean shouldUpdate = kJTrue);
 
-	XDVarNode(JTreeNode* parent, const JCharacter* name,
-			  const JCharacter* fullName, const JCharacter* value);
+	XDVarNode(JTreeNode* parent, const JString& name,
+			  const JString& fullName, const JString& value);
 
 	virtual	~XDVarNode();
 

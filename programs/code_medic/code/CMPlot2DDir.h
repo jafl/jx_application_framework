@@ -24,14 +24,14 @@ class CMPlot2DDir : public JXWindowDirector
 {
 public:
 
-	CMPlot2DDir(CMCommandDirector* supervisor, const JCharacter* expr);
+	CMPlot2DDir(CMCommandDirector* supervisor, const JString& expr);
 	CMPlot2DDir(std::istream& input, const JFileVersion vers,
 				CMCommandDirector* supervisor);
 
 	virtual	~CMPlot2DDir();
 
-	virtual void		Activate();
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const;
+	virtual void		Activate() override;
+	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
 
 	void	StreamOut(std::ostream& output);
 

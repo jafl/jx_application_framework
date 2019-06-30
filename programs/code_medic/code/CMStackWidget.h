@@ -36,7 +36,8 @@ public:
 	JBoolean	GetStackFrame(const JUInt64 id, const CMStackFrameNode** frame);
 	void		SwitchToFrame(const JUInt64 id);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 
 	// void called by CMGetStack
 
@@ -44,8 +45,8 @@ public:
 
 protected:
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
-	virtual JSize	GetMinCellWidth(const JPoint& cell) const;
+	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	virtual JSize	GetMinCellWidth(const JPoint& cell) const override;
 
 	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,

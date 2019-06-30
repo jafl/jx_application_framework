@@ -14,7 +14,7 @@ class CMGetInitArgs : public CMCommand
 {
 public:
 
-	CMGetInitArgs(const JCharacter* cmd);
+	CMGetInitArgs(const JString& cmd);
 
 	virtual	~CMGetInitArgs();
 

@@ -19,7 +19,7 @@
 CMGetAssembly::CMGetAssembly
 	(
 	CMSourceDirector*	dir,
-	const JCharacter*	cmd
+	const JString&		cmd
 	)
 	:
 	CMCommand(cmd, kJFalse, kJTrue),
@@ -45,5 +45,5 @@ void
 CMGetAssembly::HandleFailure()
 {
 	JPtrArray<JString> addrList(JPtrArrayT::kDeleteAll);
-	itsDir->DisplayDisassembly(&addrList, "");
+	itsDir->DisplayDisassembly(&addrList, JString::empty);
 }

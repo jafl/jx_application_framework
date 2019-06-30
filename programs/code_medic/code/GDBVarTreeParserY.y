@@ -2,6 +2,7 @@
 #include "CMVarNode.h"
 #include "GDBVarGroupInfo.h"
 #include "cmGlobals.h"
+#include <JStringIterator.h>
 
 // also uncomment yydebug=1; below
 //#define YYERROR_VERBOSE
@@ -66,7 +67,7 @@ yyprint
 {
 	if (value.pString != nullptr)
 		{
-		fprintf(file, "string:  %s", (value.pString)->GetCString());
+		fprintf(file, "string:  %s", (value.pString)->GetBytes());
 		}
 }
 
@@ -88,7 +89,7 @@ top_group :
 
 	group P_EOF
 		{
-		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, "", nullptr, $1->GetName());
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, JString::empty, JString::empty, $1->GetName());
 		for (JIndex i=1; i<=$1->list->GetElementCount(); i++)
 			{
 			itsCurrentNode->Append($1->list->GetElement(i));
@@ -102,7 +103,7 @@ top_group :
 
 	| reference_value group P_EOF
 		{
-		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, "", nullptr, *$1);
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, JString::empty, JString::empty, *$1);
 		for (JIndex i=1; i<=$2->list->GetElementCount(); i++)
 			{
 			itsCurrentNode->Append($2->list->GetElement(i));
@@ -119,7 +120,7 @@ top_group :
 
 	| value P_EOF
 		{
-		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, "", nullptr, *$1);
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, JString::empty, JString::empty, *$1);
 		itsCurrentNode->MakePointer(itsIsPointerFlag);
 		itsIsPointerFlag = kJFalse;
 
@@ -130,8 +131,8 @@ top_group :
 
 	| reference_value value P_EOF
 		{
-		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, "", nullptr, *$1);
-		CMVarNode* child = CMGetLink()->CreateVarNode(itsCurrentNode, "", nullptr, *$2);
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, JString::empty, JString::empty, *$1);
+		CMVarNode* child = CMGetLink()->CreateVarNode(itsCurrentNode, JString::empty, JString::empty, *$2);
 		child->MakePointer(itsIsPointerFlag);
 		itsIsPointerFlag = kJFalse;
 
@@ -160,7 +161,7 @@ group :
 		{
 		JPtrArray<CMVarNode>* list = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
 		assert( list != nullptr );
-		AppendAsArrayElement("", *($2->list), list);
+		AppendAsArrayElement(JString::empty, *($2->list), list);
 		$$ = jnew GDBVarGroupInfo(nullptr, list);
 		assert( $$ != nullptr );
 
@@ -210,8 +211,8 @@ node_list :
 		{
 		$$ = $1;
 
-		CMVarNode* node = CMGetLink()->CreateVarNode(nullptr, "", nullptr, *$3);
-		if ((($$->FirstElement())->GetName()).BeginsWith("["))
+		CMVarNode* node = CMGetLink()->CreateVarNode(nullptr, JString::empty, JString::empty, *$3);
+		if ((($$->GetFirstElement())->GetName()).BeginsWith(JString("[", kJFalse)))
 			{
 			AppendAsArrayElement(node, $$);
 			}
@@ -236,7 +237,7 @@ node_list :
 
 	| node_list ',' group
 		{
-		if ((($1->FirstElement())->GetName()).BeginsWith("["))
+		if ((($1->GetFirstElement())->GetName()).BeginsWith(JString("[", kJFalse)))
 			{
 			$$ = $1;
 			}
@@ -244,7 +245,7 @@ node_list :
 			{
 			JPtrArray<CMVarNode>* list = $$ = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
 			assert( list != nullptr );
-			AppendAsArrayElement("", *$1, list);
+			AppendAsArrayElement(JString::empty, *$1, list);
 
 			jdelete $1;
 			}
@@ -257,7 +258,7 @@ node_list :
 	| node_list '.' '.' '.'
 		{
 		$$ = $1;
-		CMVarNode* child = CMGetLink()->CreateVarNode(nullptr, "...", nullptr, "");
+		CMVarNode* child = CMGetLink()->CreateVarNode(nullptr, JString("...", kJFalse), JString::empty, JString::empty);
 		$$->Append(child);
 		}
 	;
@@ -268,10 +269,11 @@ node :
 		{
 		if ($1->EndsWith("="))
 			{
-			$1->RemoveSubstring($1->GetLength(), $1->GetLength());
+			JStringIterator iter($1, kJIteratorStartAtEnd);
+			iter.RemovePrev();
 			$1->TrimWhitespace();
 			}
-		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, nullptr, *$2);
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, JString::empty, *$2);
 		if (!$1->BeginsWith("_vptr.") && !$1->BeginsWith("_vb."))
 			{
 			itsCurrentNode->MakePointer(itsIsPointerFlag);
@@ -286,10 +288,11 @@ node :
 		{
 		if ($1->EndsWith("="))
 			{
-			$1->RemoveSubstring($1->GetLength(), $1->GetLength());
+			JStringIterator iter($1, kJIteratorStartAtEnd);
+			iter.RemovePrev();
 			$1->TrimWhitespace();
 			}
-		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, nullptr, $2->GetName());
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, JString::empty, $2->GetName());
 		itsIsPointerFlag = kJFalse;
 		for (JIndex i=1; i<=$2->list->GetElementCount(); i++)
 			{
@@ -302,7 +305,7 @@ node :
 
 	| P_NO_DATA_FIELDS
 		{
-		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, nullptr, "");
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, JString::empty, JString::empty);
 		itsIsPointerFlag = kJFalse;
 
 		jdelete $1;
@@ -312,10 +315,11 @@ node :
 		{
 		if ($1->EndsWith("="))
 			{
-			$1->RemoveSubstring($1->GetLength(), $1->GetLength());
+			JStringIterator iter($1, kJIteratorStartAtEnd);
+			iter.RemovePrev();
 			$1->TrimWhitespace();
 			}
-		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, nullptr, "<nothing>");
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, JString::empty, JString("<nothing>", kJFalse));
 		itsIsPointerFlag = kJFalse;
 
 		jdelete $1;
@@ -386,7 +390,7 @@ value_list :
 	| value_list '.' '.' '.'
 		{
 		$$ = $1;
-		CMVarNode* child = CMGetLink()->CreateVarNode(nullptr, "...", nullptr, "");
+		CMVarNode* child = CMGetLink()->CreateVarNode(nullptr, JString("...", kJFalse), JString::empty, JString::empty);
 		$$->Append(child);
 		}
 	;
@@ -397,7 +401,7 @@ value_node :
 
 	value
 		{
-		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, "", nullptr, *$1);
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, JString::empty, JString::empty, *$1);
 		itsCurrentNode->MakePointer(itsIsPointerFlag);
 		itsIsPointerFlag = kJFalse;
 
@@ -425,14 +429,14 @@ value :
 		{
 		itsIsPointerFlag = cmIsOpenablePointer(*$2);
 		$$ = $2;
-		$$->PrependCharacter('@');
+		$$->Prepend("@");
 		}
 
 	| P_PAREN_EXPR P_HEX
 		{
 		itsIsPointerFlag = cmIsOpenablePointer(*$2);
 		$$ = $1;
-		$$->AppendCharacter(' ');
+		$$->Append(" ");
 		$$->Append(*$2);
 
 		jdelete $2;
@@ -445,7 +449,7 @@ value :
 	| P_HEX P_STRING
 		{
 		$$ = $1;
-		$$->AppendCharacter(' ');
+		$$->Append(" ");
 		$$->Append(*$2);
 
 		jdelete $2;
@@ -454,9 +458,9 @@ value :
 	| P_PAREN_EXPR P_HEX P_STRING
 		{
 		$$ = $1;
-		$$->AppendCharacter(' ');
+		$$->Append(" ");
 		$$->Append(*$2);
-		$$->AppendCharacter(' ');
+		$$->Append(" ");
 		$$->Append(*$3);
 
 		jdelete $2;
@@ -467,7 +471,7 @@ value :
 		{
 		itsIsPointerFlag = cmIsOpenablePointer(*$1);
 		$$ = $1;
-		$$->AppendCharacter(' ');
+		$$->Append(" ");
 		$$->Append(*$2);
 
 		jdelete $2;
@@ -476,7 +480,7 @@ value :
 	| P_NAME P_BRACKET
 		{
 		$$ = $1;
-		$$->AppendCharacter(' ');
+		$$->Append(" ");
 		$$->Append(*$2);
 
 		jdelete $2;
@@ -485,7 +489,7 @@ value :
 	| P_INTEGER P_BRACKET
 		{
 		$$ = $1;
-		$$->AppendCharacter(' ');
+		$$->Append(" ");
 		$$->Append(*$2);
 
 		jdelete $2;
@@ -494,7 +498,7 @@ value :
 	| P_FLOAT P_BRACKET
 		{
 		$$ = $1;
-		$$->AppendCharacter(' ');
+		$$->Append(" ");
 		$$->Append(*$2);
 
 		jdelete $2;
@@ -503,7 +507,7 @@ value :
 	| P_CHAR P_BRACKET
 		{
 		$$ = $1;
-		$$->AppendCharacter(' ');
+		$$->Append(" ");
 		$$->Append(*$2);
 
 		jdelete $2;
@@ -514,7 +518,7 @@ value :
 	| P_HEX name P_PAREN_EXPR
 		{
 		$$ = $1;
-		$$->AppendCharacter(' ');
+		$$->Append(" ");
 		$$->Append(*$2);
 		$$->Append(*$3);
 
@@ -525,7 +529,7 @@ value :
 	| P_NAME P_PAREN_EXPR
 		{
 		$$ = $1;
-		$$->AppendCharacter(' ');
+		$$->Append(" ");
 		$$->Append(*$2);
 
 		jdelete $2;
@@ -534,7 +538,7 @@ value :
 	| P_INTEGER P_CHAR
 		{
 		$$ = $1;
-		$$->AppendCharacter(' ');
+		$$->Append(" ");
 		$$->Append(*$2);
 
 		jdelete $2;
@@ -579,8 +583,8 @@ reference_value :
 	P_PAREN_EXPR '@' P_HEX ':'
 		{
 		$$ = $1;
-		$$->AppendCharacter(' ');
-		$$->AppendCharacter('@');
+		$$->Append(" ");
+		$$->Append("@");
 		$$->Append(*$3);
 
 		jdelete $3;

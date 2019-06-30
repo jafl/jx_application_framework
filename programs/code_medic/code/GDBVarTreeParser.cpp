@@ -17,7 +17,7 @@
 
 GDBVarTreeParser::GDBVarTreeParser
 	(
-	const JCharacter* text
+	const JString& text
 	)
 	:
 	itsCurrentNode(nullptr),
@@ -120,7 +120,7 @@ GDBVarTreeParser::AppendAsArrayElement
 void
 GDBVarTreeParser::AppendAsArrayElement
 	(
-	const JCharacter*			groupLabel,
+	const JString&				groupLabel,
 	const JPtrArray<CMVarNode>& data,
 	JPtrArray<CMVarNode>*		list
 	)
@@ -128,7 +128,7 @@ GDBVarTreeParser::AppendAsArrayElement
 {
 	const JString name = "[" + JString((JUInt64) list->GetElementCount()) + "]";
 
-	CMVarNode* node = CMGetLink()->CreateVarNode(nullptr, name, nullptr, groupLabel);
+	CMVarNode* node = CMGetLink()->CreateVarNode(nullptr, name, JString::empty, groupLabel);
 	assert( node != nullptr );
 	list->Append(node);
 
@@ -154,7 +154,7 @@ GDBVarTreeParser::ReportRecoverableError()
 		child->SetValid(kJFalse);
 
 		child = CMGetLink()->CreateVarNode(itsCurrentNode,
-					JGetString("ErrorNodeName::GDBVarTreeParser"), nullptr,
+					JGetString("ErrorNodeName::GDBVarTreeParser"), JString::empty,
 					JGetString("ErrorNodeValue::GDBVarTreeParser"));
 		child->SetValid(kJFalse);
 

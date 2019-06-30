@@ -15,7 +15,7 @@ class XDWelcomeTask : public JXUrgentTask
 {
 public:
 
-	XDWelcomeTask(const JCharacter* msg, const JBoolean error);
+	XDWelcomeTask(const JString& msg, const JBoolean error);
 
 	virtual ~XDWelcomeTask();
 

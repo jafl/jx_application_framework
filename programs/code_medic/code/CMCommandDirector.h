@@ -48,29 +48,29 @@ public:
 
 	virtual ~CMCommandDirector();
 
-	virtual JBoolean		Close();
-	virtual const JString&	GetName() const;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const;
+	virtual JBoolean		Close() override;
+	virtual const JString&	GetName() const override;
+	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
 
 	void	InitializeCommandOutput();
-	void	PrepareCommand(const JCharacter* cmd);
+	void	PrepareCommand(const JString& cmd);
 
 	void	RunProgram();
 
 	void	OpenSourceFiles();
-	void	OpenSourceFile(const JCharacter* file, const JSize lineIndex = 0,
+	void	OpenSourceFile(const JString& file, const JSize lineIndex = 0,
 						   const JBoolean askDebuggerWhenRelPath = kJTrue);
-	void	ReportUnreadableSourceFile(const JCharacter* fileName) const;
+	void	ReportUnreadableSourceFile(const JString& fileName) const;
 
-	void	DisassembleFunction(const JCharacter* fn, const JCharacter* addr = nullptr);
+	void	DisassembleFunction(const JString& fn, const JString& addr = JString::empty);
 
 	void	LoadConfig();
 	void	SaveConfig();
 
-	void	DisplayExpression(const JCharacter* expr);
-	void	Display1DArray(const JCharacter* expr);
-	void	Display2DArray(const JCharacter* expr);
-	void	Plot1DArray(const JCharacter* expr);
+	void	DisplayExpression(const JString& expr);
+	void	Display1DArray(const JString& expr);
+	void	Display2DArray(const JString& expr);
+	void	Plot1DArray(const JString& expr);
 
 	void	CloseDynamicDirectors();
 
@@ -183,7 +183,7 @@ private:
 private:
 
 	JXMenuBar*	BuildWindow();
-	void		UpdateWindowTitle(const JCharacter* programName);
+	void		UpdateWindowTitle(const JString& programName);
 
 	void	HandleUserInput();
 	void	HandleCompletionRequest();

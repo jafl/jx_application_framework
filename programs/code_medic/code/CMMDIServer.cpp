@@ -10,7 +10,8 @@
 #include "CMMDIServer.h"
 #include "CMCommandDirector.h"
 #include "cmGlobals.h"
-#include <JTextEditor.h>
+#include <JStyledText.h>
+#include <JStringIterator.h>
 #include <jDirUtil.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>
@@ -53,7 +54,7 @@ CMMDIServer::~CMMDIServer()
 void
 CMMDIServer::HandleMDIRequest
 	(
-	const JCharacter*			dir,
+	const JString&				dir,
 	const JPtrArray<JString>&	argList
 	)
 {
@@ -152,21 +153,19 @@ CMMDIServer::HandleMDIRequest
 				}
 			else
 				{
-				JString* str = jnew JString(*arg);
-				assert(str != nullptr);
-				JIndex findex;
+				JPtrArray<JString> s(JPtrArrayT::kDeleteAll);
+				arg->Split(":", &s, 2);
+
+				fileList.Append(s.GetFirstElement());
+				s.RemoveElement(1);
+
 				JInteger value = 0;
-				if (str->LocateSubstring(":", &findex))
+				if (!s.IsEmpty())
 					{
-					if (findex < str->GetLength())
-						{
-						JString line = str->GetSubstring(findex+1, str->GetLength());
-						line.ConvertToInteger(&value);
-						}
-					str->RemoveSubstring(findex, str->GetLength());
+					s.GetFirstElement()->ConvertToInteger(&value);
 					}
 				lineIndexList.AppendElement(value);
-				fileList.Append(str);
+
 				context = kWaitingForProgram;
 				}
 			}
@@ -232,7 +231,7 @@ CMMDIServer::HandleMDIRequest
 void
 CMMDIServer::UpdateDebuggerType
 	(
-	const JCharacter* program
+	const JString& program
 	)
 {
 	JString language;
@@ -273,15 +272,15 @@ CMMDIServer::UpdateDebuggerType
 JBoolean
 CMMDIServer::IsBinary
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
-	char buffer[1000];
+	JUtf8Byte buffer[1000];
 	memset(buffer, ' ', 1000);
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	input.read(buffer, 1000);
-	return JTextEditor::ContainsIllegalChars(buffer, 1000);
+	return JStyledText::ContainsIllegalChars(JString(buffer, 1000, kJFalse));
 }
 
 /******************************************************************************
@@ -292,18 +291,19 @@ CMMDIServer::IsBinary
 JBoolean
 CMMDIServer::GetLanguage
 	(
-	const JCharacter*	fileName,
-	JString*			language
+	const JString&	fileName,
+	JString*		language
 	)
 {
 	language->Clear();
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	JString line = JReadLine(input);
 	line.TrimWhitespace();
 	if (line.BeginsWith("code-medic:"))
 		{
-		line.RemoveSubstring(1, 11);
+		JStringIterator iter(&line);
+		iter.RemoveNext(11);
 		line.TrimWhitespace();
 		*language = line;
 		}

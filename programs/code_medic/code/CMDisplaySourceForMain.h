@@ -17,7 +17,7 @@ class CMDisplaySourceForMain : public CMCommand, virtual public JBroadcaster
 {
 public:
 
-	CMDisplaySourceForMain(CMSourceDirector* sourceDir, const JCharacter* cmd);
+	CMDisplaySourceForMain(CMSourceDirector* sourceDir, const JString& cmd);
 
 	virtual	~CMDisplaySourceForMain();
 

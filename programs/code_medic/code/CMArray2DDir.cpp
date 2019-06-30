@@ -255,7 +255,7 @@ CMArray2DDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,500, "");
+	JXWindow* window = jnew JXWindow(this, 370,500, JString::empty);
 	assert( window != nullptr );
 
 	JXWidgetSet* rowFTCContainer =

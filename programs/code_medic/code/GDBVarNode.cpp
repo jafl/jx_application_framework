@@ -31,9 +31,9 @@ GDBVarNode::GDBVarNode				// root node
 
 GDBVarNode::GDBVarNode
 	(
-	JTreeNode*			parent,
-	const JCharacter*	name,
-	const JCharacter*	value
+	JTreeNode*		parent,
+	const JString&	name,
+	const JString&	value
 	)
 	:
 	CMVarNode(parent, name, value)

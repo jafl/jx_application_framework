@@ -50,6 +50,6 @@ GDBPingTask::Perform
 {
 	if (TimeToPerform(delta, maxSleepTime))
 		{
-		dynamic_cast<GDBLink*>CMGetLink()->SendPing();
+		dynamic_cast<GDBLink*>(CMGetLink())->SendPing();
 		}
 }

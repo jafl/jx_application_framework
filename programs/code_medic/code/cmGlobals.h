@@ -30,7 +30,7 @@ void				CMStartDebugger();
 CMLink*				CMGetLink();
 CMCommandDirector*	CMGetCommandDirector();
 
-const JCharacter*	CMGetVersionNumberStr();
+const JString&		CMGetVersionNumberStr();
 JString				CMGetVersionStr();
 
 JBoolean			CMIsShuttingDown();
@@ -63,24 +63,24 @@ void		CMCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reaso
 
 	// called by Directors
 
-const JCharacter*	CMGetWMClassInstance();
-const JCharacter*	CMGetCommandWindowClass();
-const JCharacter*	CMGetSourceViewWindowClass();
-const JCharacter*	CMGetAsmViewWindowClass();
-const JCharacter*	CMGetMainSourceWindowClass();
-const JCharacter*	CMGetMainAsmWindowClass();
-const JCharacter*	CMGetThreadWindowClass();
-const JCharacter*	CMGetStackWindowClass();
-const JCharacter*	CMGetBreakpointsWindowClass();
-const JCharacter*	CMGetVariableWindowClass();
-const JCharacter*	CMGetLocalVariableWindowClass();
-const JCharacter*	CMGetArray1DWindowClass();
-const JCharacter*	CMGetArray2DWindowClass();
-const JCharacter*	CMGetPlot2DWindowClass();
-const JCharacter*	CMGetFileListWindowClass();
-const JCharacter*	CMGetMemoryWindowClass();
-const JCharacter*	CMGetRegistersWindowClass();
-const JCharacter*	CMGetDebugWindowClass();
+const JUtf8Byte*	CMGetWMClassInstance();
+const JUtf8Byte*	CMGetCommandWindowClass();
+const JUtf8Byte*	CMGetSourceViewWindowClass();
+const JUtf8Byte*	CMGetAsmViewWindowClass();
+const JUtf8Byte*	CMGetMainSourceWindowClass();
+const JUtf8Byte*	CMGetMainAsmWindowClass();
+const JUtf8Byte*	CMGetThreadWindowClass();
+const JUtf8Byte*	CMGetStackWindowClass();
+const JUtf8Byte*	CMGetBreakpointsWindowClass();
+const JUtf8Byte*	CMGetVariableWindowClass();
+const JUtf8Byte*	CMGetLocalVariableWindowClass();
+const JUtf8Byte*	CMGetArray1DWindowClass();
+const JUtf8Byte*	CMGetArray2DWindowClass();
+const JUtf8Byte*	CMGetPlot2DWindowClass();
+const JUtf8Byte*	CMGetFileListWindowClass();
+const JUtf8Byte*	CMGetMemoryWindowClass();
+const JUtf8Byte*	CMGetRegistersWindowClass();
+const JUtf8Byte*	CMGetDebugWindowClass();
 
 // CBCtagsUser
 

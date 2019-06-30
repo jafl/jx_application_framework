@@ -100,7 +100,7 @@ public:
 	virtual ~GDBScanner();
 
 	void	Reset();
-	void	AppendInput(const JCharacter* string);
+	void	AppendInput(const JString& string);
 
 	Token	NextToken();		// written by flex
 
@@ -128,7 +128,7 @@ private:
 private:
 
 	void	Flush();
-	void	ExtractCommandId(const JCharacter* yytext, const JSize yyleng);
+	void	ExtractCommandId(const JUtf8Byte* yytext, const JSize yyleng);
 
 	// not allowed
 

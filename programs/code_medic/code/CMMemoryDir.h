@@ -38,21 +38,21 @@ public:
 
 public:
 
-	CMMemoryDir(CMCommandDirector* supervisor, const JCharacter* expr);
+	CMMemoryDir(CMCommandDirector* supervisor, const JString& expr);
 	CMMemoryDir(std::istream& input, const JFileVersion vers,
 				CMCommandDirector* supervisor);
 
 	virtual	~CMMemoryDir();
 
-	virtual void		Activate();
-	virtual JBoolean	Deactivate();
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const;
+	virtual void		Activate() override;
+	virtual JBoolean	Deactivate() override;
+	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
 
 	void	StreamOut(std::ostream& output);
 
 	const JString&	GetExpression(DisplayType* type, JSize* count);
 	void			SetDisplayType(const DisplayType type);
-	void			Update(const JCharacter* data);
+	void			Update(const JString& data);
 
 protected:
 

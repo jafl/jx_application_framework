@@ -20,13 +20,13 @@ public:
 
 	virtual	~CMMDIServer();
 
-	static void	UpdateDebuggerType(const JCharacter* program);
-	static JBoolean	IsBinary(const JCharacter* fileName);
-	static JBoolean	GetLanguage(const JCharacter* fileName, JString* language);
+	static void	UpdateDebuggerType(const JString& program);
+	static JBoolean	IsBinary(const JString& fileName);
+	static JBoolean	GetLanguage(const JString& fileName, JString* language);
 
 protected:
 
-	virtual void	HandleMDIRequest(const JCharacter* dir,
+	virtual void	HandleMDIRequest(const JString& dir,
 									 const JPtrArray<JString>& argList) override;
 
 private:

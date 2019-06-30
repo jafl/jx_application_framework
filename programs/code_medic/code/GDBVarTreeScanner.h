@@ -26,7 +26,7 @@ class GDBVarTreeScanner : public GDBVarFlexLexer
 {
 public:
 
-	GDBVarTreeScanner(const JCharacter* text);
+	GDBVarTreeScanner(const JString& text);
 
 	virtual	~GDBVarTreeScanner();
 
@@ -34,7 +34,7 @@ public:
 
 protected:
 
-	virtual FlexLexerInputSize LexerInput(char* buf, FlexLexerInputSize max_size) /* override */;
+	virtual FlexLexerInputSize LexerInput(char* buf, FlexLexerInputSize max_size) override;
 
 private:
 

@@ -18,7 +18,7 @@
 
 CMGetThread::CMGetThread
 	(
-	const JCharacter*	cmd,
+	const JString&		cmd,
 	CMThreadsWidget*	widget
 	)
 	:

@@ -22,11 +22,11 @@ CMBreakpoint::CMBreakpoint
 	(
 	const JSize			debuggerIndex,
 	const CMLocation&	location,
-	const JCharacter*	fn,
-	const JCharacter*	addr,
+	const JString&		fn,
+	const JString&		addr,
 	const JBoolean		enabled,
 	const Action		action,
-	const JCharacter*	condition,
+	const JString&		condition,
 	const JSize			ignoreCount
 	)
 	:
@@ -44,15 +44,15 @@ CMBreakpoint::CMBreakpoint
 
 CMBreakpoint::CMBreakpoint
 	(
-	const JSize			debuggerIndex,
-	const JCharacter*	fileName,
-	const JSize			lineIndex,
-	const JCharacter*	fn,
-	const JCharacter*	addr,
-	const JBoolean		enabled,
-	const Action		action,
-	const JCharacter*	condition,
-	const JSize			ignoreCount
+	const JSize		debuggerIndex,
+	const JString&	fileName,
+	const JSize		lineIndex,
+	const JString&	fn,
+	const JString&	addr,
+	const JBoolean	enabled,
+	const Action	action,
+	const JString&	condition,
+	const JSize		ignoreCount
 	)
 	:
 	itsDebuggerIndex(debuggerIndex),
@@ -71,8 +71,8 @@ CMBreakpoint::CMBreakpoint
 
 CMBreakpoint::CMBreakpoint
 	(
-	const JCharacter* fileName,
-	const JIndex lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 	:
 	itsDebuggerIndex(0),
@@ -86,7 +86,7 @@ CMBreakpoint::CMBreakpoint
 
 CMBreakpoint::CMBreakpoint
 	(
-	const JCharacter* addr
+	const JString& addr
 	)
 	:
 	itsDebuggerIndex(0),

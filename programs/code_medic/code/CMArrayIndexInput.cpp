@@ -13,7 +13,7 @@
 
 // JBroadcaster message types
 
-const JCharacter* CMArrayIndexInput::kReturnKeyPressed =
+const JUtf8Byte* CMArrayIndexInput::kReturnKeyPressed =
 	"ReturnKeyPressed::CMArrayIndexInput";
 
 /******************************************************************************
@@ -53,16 +53,17 @@ CMArrayIndexInput::~CMArrayIndexInput()
 void
 CMArrayIndexInput::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == kJReturnKey)
+	if (c == kJReturnKey)
 		{
 		Broadcast(ReturnKeyPressed());
 		}
 	else
 		{
-		JXIntegerInput::HandleKeyPress(key, modifiers);
+		JXIntegerInput::HandleKeyPress(c, keySym, modifiers);
 		}
 }

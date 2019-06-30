@@ -52,18 +52,18 @@ GDBPlot2DCommand::UpdateRange
 {
 	CMPlot2DCommand::UpdateRange(curveIndex, min, max);
 
-	JString cmd = "set print pretty off\nset print array off\n"
-				  "set print repeats 0\nset width 0\n";
+	JString cmd("set print pretty off\nset print array off\n"
+				"set print repeats 0\nset width 0\n");
 
 	for (JInteger i=min; i<=max; i++)
 		{
 		cmd += "print ";
 		cmd += GetDirector()->GetXExpression(curveIndex, i);
-		cmd.AppendCharacter('\n');
+		cmd.Append("\n");
 
 		cmd += "print ";
 		cmd += GetDirector()->GetYExpression(curveIndex, i);
-		cmd.AppendCharacter('\n');
+		cmd.Append("\n");
 		}
 
 	SetCommand(cmd);
@@ -86,7 +86,7 @@ GDBPlot2DCommand::HandleSuccess
 	JArray<JFloat>* x = GetX();
 	JArray<JFloat>* y = GetY();
 
-	if ((GetLastResult()).BeginsWith("error,msg=\"No symbol"))
+	if (GetLastResult().BeginsWith("error,msg=\"No symbol"))
 		{
 		x->RemoveAll();
 		y->RemoveAll();

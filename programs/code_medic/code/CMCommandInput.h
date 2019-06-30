@@ -21,7 +21,8 @@ public:
 
 	virtual	~CMCommandInput();
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -39,10 +40,10 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kReturnKeyPressed;
-	static const JCharacter* kTabKeyPressed;
-	static const JCharacter* kUpArrowKeyPressed;
-	static const JCharacter* kDownArrowKeyPressed;
+	static const JUtf8Byte* kReturnKeyPressed;
+	static const JUtf8Byte* kTabKeyPressed;
+	static const JUtf8Byte* kUpArrowKeyPressed;
+	static const JUtf8Byte* kDownArrowKeyPressed;
 
 	class ReturnKeyPressed : public JBroadcaster::Message
 		{

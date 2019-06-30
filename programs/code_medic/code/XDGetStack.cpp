@@ -29,7 +29,7 @@ XDGetStack::XDGetStack
 	CMStackWidget*	widget
 	)
 	:
-	CMGetStack("stack_get", tree, widget)
+	CMGetStack(JString("stack_get", kJFalse), tree, widget)
 {
 }
 
@@ -53,7 +53,7 @@ XDGetStack::HandleSuccess
 	const JString& data
 	)
 {
-	XDLink* link = dynamic_cast<XDLink*>CMGetLink();
+	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
 	xmlNode* root;
 	if (link == nullptr || !link->GetParsedData(&root))
 		{
@@ -85,9 +85,9 @@ XDGetStack::HandleSuccess
 			}
 
 		frameName = frameIndexStr;
-		while (frameName.GetLength() < kFrameIndexWidth)
+		while (frameName.GetCharacterCount() < kFrameIndexWidth)
 			{
-			frameName.PrependCharacter('0');
+			frameName.Prepend("0");
 			}
 		frameName += ":  ";
 		frameName += name;

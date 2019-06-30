@@ -17,7 +17,7 @@ class CMGetSourceFileList : public CMCommand, virtual public JBroadcaster
 {
 public:
 
-	CMGetSourceFileList(const JCharacter* cmd, CMFileListDir* fileList);
+	CMGetSourceFileList(const JString& cmd, CMFileListDir* fileList);
 
 	virtual	~CMGetSourceFileList();
 

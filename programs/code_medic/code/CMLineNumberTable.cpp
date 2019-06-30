@@ -56,7 +56,7 @@ JColorID
 CMLineNumberTable::GetCurrentLineMarkerColor()
 	const
 {
-	return GetColormap()->GetCyanColor();
+	return JColorManager::GetCyanColor();
 }
 
 /******************************************************************************
@@ -118,7 +118,7 @@ CMLineNumberTable::GetFirstBreakpointOnLine
 	)
 	const
 {
-	CMBreakpoint bp("", lineIndex);
+	CMBreakpoint bp(JString::empty, lineIndex);
 	return GetBreakpointList()->SearchSorted(&bp, JListT::kFirstMatch, bpIndex);
 }
 
@@ -152,7 +152,7 @@ CMLineNumberTable::GetBreakpoints
 	const JString* fullName;
 	if (GetDirector()->GetFileName(&fullName))
 		{
-		(GetLink()->GetBreakpointManager())->GetBreakpoints(*fullName, list);
+		GetLink()->GetBreakpointManager()->GetBreakpoints(*fullName, list);
 		}
 	else
 		{

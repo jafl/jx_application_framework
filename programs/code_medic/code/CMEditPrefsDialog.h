@@ -20,10 +20,10 @@ class CMEditPrefsDialog : public JXDialogDirector
 public:
 
 	CMEditPrefsDialog(JXDirector* supervisor,
-					  const JCharacter* gdbCmd,
-					  const JCharacter* jdbCmd,
-					  const JCharacter* editFileCmd,
-					  const JCharacter* editFileLineCmd,
+					  const JString& gdbCmd,
+					  const JString& jdbCmd,
+					  const JString& editFileCmd,
+					  const JString& editFileLineCmd,
 					  const JPtrArray<JString>& cSourceSuffixes,
 					  const JPtrArray<JString>& cHeaderSuffixes,
 					  const JPtrArray<JString>& javaSuffixes,
@@ -64,17 +64,17 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* gdbCmd,
-						const JCharacter* jdbCmd,
-						const JCharacter* editFileCmd,
-						const JCharacter* editFileLineCmd,
+	void	BuildWindow(const JString& gdbCmd,
+						const JString& jdbCmd,
+						const JString& editFileCmd,
+						const JString& editFileLineCmd,
 						const JPtrArray<JString>& cSourceSuffixes,
 						const JPtrArray<JString>& cHeaderSuffixes,
 						const JPtrArray<JString>& javaSuffixes,
 						const JPtrArray<JString>& phpSuffixes,
 						const JPtrArray<JString>& fortranSuffixes);
 
-	void	ChooseDebugger(const JCharacter* name, JXInputField* input);
+	void	ChooseDebugger(const JString& name, JXInputField* input);
 
 	// not allowed
 

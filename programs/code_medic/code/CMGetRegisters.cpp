@@ -18,8 +18,8 @@
 
 CMGetRegisters::CMGetRegisters
 	(
-	const JCharacter*	cmd,
-	CMRegistersDir*		dir
+	const JString&	cmd,
+	CMRegistersDir*	dir
 	)
 	:
 	CMCommand(cmd, kJFalse, kJTrue),
@@ -44,5 +44,5 @@ CMGetRegisters::~CMGetRegisters()
 void
 CMGetRegisters::HandleFailure()
 {
-	itsDir->Update("");
+	itsDir->Update(JString::empty);
 }

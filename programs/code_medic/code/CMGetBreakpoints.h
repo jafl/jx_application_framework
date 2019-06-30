@@ -14,7 +14,7 @@ class CMGetBreakpoints : public CMCommand
 {
 public:
 
-	CMGetBreakpoints(const JCharacter* cmd);
+	CMGetBreakpoints(const JString& cmd);
 
 	virtual	~CMGetBreakpoints();
 

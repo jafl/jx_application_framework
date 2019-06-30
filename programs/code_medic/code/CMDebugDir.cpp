@@ -28,7 +28,7 @@ CMDebugDir::CMDebugDir
 	JXDirector* supervisor
 	)
 	:
-	JXWindowDirectorJXGetApplication(),
+	JXWindowDirector(JXGetApplication()),
 	itsFile("/tmp/code_medic_log")
 {
 	itsLink = CMGetLink();
@@ -57,7 +57,7 @@ CMDebugDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,500, "");
+	JXWindow* window = jnew JXWindow(this, 450,500, JString::empty);
 	assert( window != nullptr );
 
 	JXScrollbarSet* scrollbarSet =
@@ -72,14 +72,14 @@ CMDebugDir::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Debug");
+	window->SetTitle(JGetString("WindowTitle::CMDebugDir"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetDebugWindowClass());
 	CMGetPrefsManager()->GetWindowSize(kDebugWindSizeID, window);
 
 	itsText =
-		jnew JXStaticText("", kJFalse, kJTrue,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsText != nullptr );
@@ -106,7 +106,7 @@ CMDebugDir::GetName()
 
  ******************************************************************************/
 
-static const JCharacter* kLogPrefix = "=== ";
+static const JUtf8Byte* kLogPrefix = "=== ";
 
 void
 CMDebugDir::Receive

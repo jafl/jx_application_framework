@@ -19,8 +19,8 @@
 CMStackArgNode::CMStackArgNode
 	(
 	CMStackFrameNode*	parent,
-	const JCharacter*	name,
-	const JCharacter*	value
+	const JString&		name,
+	const JString&		value
 	)
 	:
 	JNamedTreeNode(nullptr, name, kJFalse),

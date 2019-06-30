@@ -70,7 +70,7 @@ CMArray2DCommand::PrepareToSend
 void
 CMArray2DCommand::HandleFailure()
 {
-	HandleFailure(1, "");
+	HandleFailure(1, JString::empty);
 	itsDirector->UpdateNext();
 }
 
@@ -82,8 +82,8 @@ CMArray2DCommand::HandleFailure()
 void
 CMArray2DCommand::HandleFailure
 	(
-	const JIndex		startIndex,
-	const JCharacter*	value
+	const JIndex	startIndex,
+	const JString&	value
 	)
 {
 	const JIndex max =
@@ -97,8 +97,7 @@ CMArray2DCommand::HandleFailure
 	// ugly, but much faster
 	JStyleTableData* styleData =
 		const_cast<JStyleTableData*>(&(itsTable->GetStyleData()));
-	const JFontStyle style =
-		CMVarNode::GetFontStyle(kJFalse, kJFalse, itsTable->GetColormap());
+	const JFontStyle style = CMVarNode::GetFontStyle(kJFalse, kJFalse);
 
 	if (startIndex == 1)
 		{
@@ -128,7 +127,7 @@ CMArray2DCommand::HandleFailure
 			itsData->SetString(GetCell(i), value);
 			}
 
-		if (!JString::IsEmpty(value))
+		if (!value.IsEmpty())
 			{
 			if (itsType == kRow)
 				{

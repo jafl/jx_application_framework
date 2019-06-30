@@ -30,7 +30,7 @@ class CMArray2DDir : public JXWindowDirector
 {
 public:
 
-	CMArray2DDir(CMCommandDirector* supervisor, const JCharacter* expr);
+	CMArray2DDir(CMCommandDirector* supervisor, const JString& expr);
 	CMArray2DDir(std::istream& input, const JFileVersion vers,
 				 CMCommandDirector* supervisor);
 
@@ -47,8 +47,8 @@ public:
 	void	WatchLocation();
 	void	ExamineMemory(const CMMemoryDir::DisplayType type);
 
-	virtual void		Activate();
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const;
+	virtual void		Activate() override;
+	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
 
 	void	StreamOut(std::ostream& output);
 

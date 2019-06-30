@@ -17,7 +17,7 @@ class CMStackArgNode : public JNamedTreeNode
 public:
 
 	CMStackArgNode(CMStackFrameNode* parent,
-				   const JCharacter* name, const JCharacter* value);
+				   const JString& name, const JString& value);
 
 	virtual	~CMStackArgNode();
 

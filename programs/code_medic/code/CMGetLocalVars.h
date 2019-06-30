@@ -14,7 +14,7 @@ class CMGetLocalVars : public CMCommand
 {
 public:
 
-	CMGetLocalVars(const JCharacter* cmd);
+	CMGetLocalVars(const JString& cmd);
 
 	virtual	~CMGetLocalVars();
 

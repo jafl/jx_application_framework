@@ -150,7 +150,7 @@ CMFileListDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 250,500, "");
+	JXWindow* window = jnew JXWindow(this, 250,500, JString::empty);
 	assert( window != nullptr );
 
 	JXMenuBar* menuBar =

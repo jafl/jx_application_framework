@@ -20,7 +20,7 @@
 CMDisplaySourceForMain::CMDisplaySourceForMain
 	(
 	CMSourceDirector*	sourceDir,
-	const JCharacter*	cmd
+	const JString&		cmd
 	)
 	:
 	CMCommand(cmd, kJFalse, kJFalse),

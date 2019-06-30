@@ -276,7 +276,7 @@ CMSourceDirector::BuildWindow()
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 600,550, "");
+	JXWindow* window = jnew JXWindow(this, 600,550, JString::empty);
 	assert( window != nullptr );
 
 	itsMenuBar =

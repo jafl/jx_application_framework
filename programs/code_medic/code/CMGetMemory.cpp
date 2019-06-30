@@ -43,5 +43,5 @@ CMGetMemory::~CMGetMemory()
 void
 CMGetMemory::HandleFailure()
 {
-	itsDir->Update("");
+	itsDir->Update(JString::empty);
 }

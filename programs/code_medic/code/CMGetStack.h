@@ -17,7 +17,7 @@ class CMGetStack : public CMCommand
 {
 public:
 
-	CMGetStack(const JCharacter* cmd, JTree* tree, CMStackWidget* widget);
+	CMGetStack(const JString& cmd, JTree* tree, CMStackWidget* widget);
 
 	virtual	~CMGetStack();
 

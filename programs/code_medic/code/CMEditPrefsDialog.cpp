@@ -13,7 +13,8 @@
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
-#include <JXFontManager.h>
+#include <JFontManager.h>
+#include <JStringIterator.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -25,10 +26,10 @@
 CMEditPrefsDialog::CMEditPrefsDialog
 	(
 	JXDirector*					supervisor,
-	const JCharacter*			gdbCmd,
-	const JCharacter*			jdbCmd,
-	const JCharacter*			editFileCmd,
-	const JCharacter*			editFileLineCmd,
+	const JString&				gdbCmd,
+	const JString&				jdbCmd,
+	const JString&				editFileCmd,
+	const JString&				editFileLineCmd,
 	const JPtrArray<JString>&	cSourceSuffixes,
 	const JPtrArray<JString>&	cHeaderSuffixes,
 	const JPtrArray<JString>&	javaSuffixes,
@@ -60,10 +61,10 @@ CMEditPrefsDialog::~CMEditPrefsDialog()
 void
 CMEditPrefsDialog::BuildWindow
 	(
-	const JCharacter*			gdbCmd,
-	const JCharacter*			jdbCmd,
-	const JCharacter*			editFileCmd,
-	const JCharacter*			editFileLineCmd,
+	const JString&				gdbCmd,
+	const JString&				jdbCmd,
+	const JString&				editFileCmd,
+	const JString&				editFileLineCmd,
 	const JPtrArray<JString>&	cSourceSuffixes,
 	const JPtrArray<JString>&	cHeaderSuffixes,
 	const JPtrArray<JString>&	javaSuffixes,
@@ -73,7 +74,7 @@ CMEditPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,420, "");
+	JXWindow* window = jnew JXWindow(this, 450,420, JString::empty);
 	assert( window != nullptr );
 
 	itsGDBCmd =
@@ -138,7 +139,7 @@ CMEditPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("cmdHint::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,200, 270,20);
 	assert( cmdHint != nullptr );
-	cmdHint->SetFontSize(JGetDefaultFontSize()-2);
+	cmdHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	cmdHint->SetToLabel();
 
 	JXStaticText* editFileLabel =
@@ -180,7 +181,7 @@ CMEditPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("gdbScriptHint::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 410,20);
 	assert( gdbScriptHint != nullptr );
-	gdbScriptHint->SetFontSize(JGetDefaultFontSize()-2);
+	gdbScriptHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	gdbScriptHint->SetToLabel();
 
 	JXStaticText* jvmCmdLabel =
@@ -198,7 +199,7 @@ CMEditPrefsDialog::BuildWindow
 		jnew JXStaticText(JGetString("jvmScriptHint::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 410,20);
 	assert( jvmScriptHint != nullptr );
-	jvmScriptHint->SetFontSize(JGetDefaultFontSize()-2);
+	jvmScriptHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	jvmScriptHint->SetToLabel();
 
 	itsPHPSuffixInput =
@@ -219,24 +220,24 @@ CMEditPrefsDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Edit preferences");
+	window->SetTitle(JGetString("WindowTitle::CMEditPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
-	itsGDBCmd->SetText(gdbCmd);
+	itsGDBCmd->GetText()->SetText(gdbCmd);
 	itsGDBCmd->SetIsRequired();
 	itsGDBCmd->ShouldRequireExecutable();
 
-	itsJDBCmd->SetText(jdbCmd);
+	itsJDBCmd->GetText()->SetText(jdbCmd);
 	itsJDBCmd->SetIsRequired();
 	itsJDBCmd->ShouldRequireExecutable();
 
 	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 
-	itsEditFileCmdInput->SetText(editFileCmd);
+	itsEditFileCmdInput->GetText()->SetText(editFileCmd);
 	itsEditFileCmdInput->SetIsRequired();
 	itsEditFileCmdInput->SetFont(font);
 
-	itsEditFileLineCmdInput->SetText(editFileLineCmd);
+	itsEditFileLineCmdInput->GetText()->SetText(editFileLineCmd);
 	itsEditFileLineCmdInput->SetIsRequired();
 	itsEditFileLineCmdInput->SetFont(font);
 
@@ -284,10 +285,10 @@ CMEditPrefsDialog::GetPrefs
 	)
 	const
 {
-	*gdbCmd          = itsGDBCmd->GetText();
-	*jdbCmd          = itsJDBCmd->GetText();
-	*editFileCmd     = itsEditFileCmdInput->GetText();
-	*editFileLineCmd = itsEditFileLineCmdInput->GetText();
+	*gdbCmd          = itsGDBCmd->GetText()->GetText();
+	*jdbCmd          = itsJDBCmd->GetText()->GetText();
+	*editFileCmd     = itsEditFileCmdInput->GetText()->GetText();
+	*editFileLineCmd = itsEditFileLineCmdInput->GetText()->GetText();
 
 	CBMGetSuffixList(itsCSourceSuffixInput, cSourceSuffixes);
 	CBMGetSuffixList(itsCHeaderSuffixInput, cHeaderSuffixes);
@@ -310,11 +311,11 @@ CMEditPrefsDialog::Receive
 {
 	if (sender == itsChooseGDBButton && message.Is(JXButton::kPushed))
 		{
-		ChooseDebugger("gdb", itsGDBCmd);
+		ChooseDebugger(JString("gdb", kJFalse), itsGDBCmd);
 		}
 	else if (sender == itsChooseJDBButton && message.Is(JXButton::kPushed))
 		{
-		ChooseDebugger("jdb", itsJDBCmd);
+		ChooseDebugger(JString("jdb", kJFalse), itsJDBCmd);
 		}
 	else
 		{
@@ -330,29 +331,34 @@ CMEditPrefsDialog::Receive
 void
 CMEditPrefsDialog::ChooseDebugger
 	(
-	const JCharacter*	name,
-	JXInputField*		input
+	const JString&	name,
+	JXInputField*	input
 	)
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"name", name
+		"name", name.GetBytes()
 		};
 	const JString prompt = JGetString("ChooseDebuggerPrompt::CMEditPrefsDialog", map, sizeof(map));
 
 	JString fullName;
-	if (JGetChooseSaveFile()->ChooseFile(prompt, "", &fullName))
+	if (JGetChooseSaveFile()->ChooseFile(prompt, JString::empty, &fullName))
 		{
-		JString text = input->GetText();
-		JIndex i;
-		if (text.LocateSubstring(" ", &i))
+		JString text = input->GetText()->GetText();
+
+		JStringIterator iter(&text);
+		iter.BeginMatch();
+		if (iter.Next(" "))
 			{
-			text.ReplaceSubstring(1, i-1, fullName);
+			iter.SkipPrev();
+			iter.FinishMatch();
+			iter.ReplaceLastMatch(fullName);
 			}
 		else
 			{
 			text = fullName;
 			}
-		input->SetText(text);
+
+		input->GetText()->SetText(text);
 		}
 }

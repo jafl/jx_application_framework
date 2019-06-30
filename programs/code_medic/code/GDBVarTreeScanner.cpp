@@ -18,7 +18,7 @@
 
 GDBVarTreeScanner::GDBVarTreeScanner
 	(
-	const JCharacter* text
+	const JString& text
 	)
 	:
 	GDBVarFlexLexer(),
@@ -52,12 +52,12 @@ GDBVarTreeScanner::LexerInput
 	assert(flexBuf != nullptr);
 	assert(flexBufSize > 0);
 
-	const FlexLexerInputSize charLeft = itsInputBuffer.GetLength() - itsBytesRead;
+	const FlexLexerInputSize charLeft = itsInputBuffer.GetByteCount() - itsBytesRead;
 	const FlexLexerInputSize numCopy  = (charLeft > flexBufSize) ? flexBufSize : charLeft;
 
 	if (numCopy > 0)
 		{
-		memcpy(flexBuf, itsInputBuffer.GetCString() + itsBytesRead, numCopy);
+		memcpy(flexBuf, itsInputBuffer.GetBytes() + itsBytesRead, numCopy);
 		itsBytesRead += numCopy;
 		}
 

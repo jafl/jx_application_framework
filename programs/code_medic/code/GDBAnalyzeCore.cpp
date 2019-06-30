@@ -9,13 +9,10 @@
 
 #include "GDBAnalyzeCore.h"
 #include "cmGlobals.h"
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jFileUtil.h>
 #include <jAssert.h>
-
-// string ID's
-
-static const JCharacter* kFindProgramID = "FindProgram::GDBAnalyzeCore";
 
 /******************************************************************************
  Constructor
@@ -24,7 +21,7 @@ static const JCharacter* kFindProgramID = "FindProgram::GDBAnalyzeCore";
 
 GDBAnalyzeCore::GDBAnalyzeCore
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 	:
 	CMCommand(cmd, kJTrue, kJFalse)
@@ -56,10 +53,11 @@ GDBAnalyzeCore::HandleSuccess
 	CMLink* link = CMGetLink();
 
 	JString programName;
-	JArray<JIndexRange> matchList;
-	if (programNamePattern.Match(data, &matchList))
+
+	JStringIterator iter(data);
+	if (iter.Next(programNamePattern))
 		{
-		programName = data.GetSubstring(matchList.GetElement(2));
+		programName = iter.GetLastMatch().GetSubstring(1);
 		programName.TrimWhitespace();
 		}
 	else
@@ -79,6 +77,7 @@ GDBAnalyzeCore::HandleSuccess
 			}
 
 		JBoolean found = kJFalse;
+		JStringIterator iter(&programFullName, kJIteratorStartAtEnd);
 		while (1)
 			{
 			if (JFileExecutable(programFullName))
@@ -89,25 +88,24 @@ GDBAnalyzeCore::HandleSuccess
 
 			// try stripping off last word
 
-			JIndex spaceIndex;
-			if (!programFullName.LocateLastSubstring(" ", &spaceIndex))
+			if (!iter.Prev(" "))
 				{
 				break;
 				}
-			programFullName.RemoveSubstring(spaceIndex, programFullName.GetLength());
+			iter.RemoveAllNext();
 			}
 
 		// if all else fails, ask user
 
 		if (!found)
 			{
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"name", programName.GetCString()
+				"name", programName.GetBytes()
 				};
-			const JString instr = JGetString(kFindProgramID, map, sizeof(map));
-			found = JGetChooseSaveFile()->ChooseFile("Name of program", instr,
-													   &programFullName);
+			const JString instr = JGetString("FindProgram::GDBAnalyzeCore", map, sizeof(map));
+			found = JGetChooseSaveFile()->ChooseFile(JGetString("Prompt::GDBAnalyzeCore"),
+													 instr, &programFullName);
 			}
 
 		// must load core after program so shared libs get loaded

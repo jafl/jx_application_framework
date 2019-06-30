@@ -18,37 +18,37 @@
 
 // JBroadcaster message types
 
-const JCharacter* CMLink::kUserOutput             = "UserOutput::CMLink";
-const JCharacter* CMLink::kDebugOutput            = "DebugOutput::CMLink";
+const JUtf8Byte* CMLink::kUserOutput             = "UserOutput::CMLink";
+const JUtf8Byte* CMLink::kDebugOutput            = "DebugOutput::CMLink";
 
-const JCharacter* CMLink::kDebuggerReadyForInput  = "DebuggerReadyForInput::CMLink";
-const JCharacter* CMLink::kDebuggerBusy           = "DebuggerBusy::CMLink";
-const JCharacter* CMLink::kDebuggerDefiningScript = "DebuggerDefiningScript::CMLink";
+const JUtf8Byte* CMLink::kDebuggerReadyForInput  = "DebuggerReadyForInput::CMLink";
+const JUtf8Byte* CMLink::kDebuggerBusy           = "DebuggerBusy::CMLink";
+const JUtf8Byte* CMLink::kDebuggerDefiningScript = "DebuggerDefiningScript::CMLink";
 
-const JCharacter* CMLink::kDebuggerStarted        = "DebuggerStarted::CMLink";
-const JCharacter* CMLink::kDebuggerRestarted      = "DebuggerRestarted::CMLink";
-const JCharacter* CMLink::kPrepareToLoadSymbols   = "PrepareToLoadSymbols::CMLink";
-const JCharacter* CMLink::kSymbolsLoaded          = "SymbolsLoaded::CMLink";
-const JCharacter* CMLink::kSymbolsReloaded        = "SymbolsReloaded::CMLink";
-const JCharacter* CMLink::kCoreLoaded             = "CoreLoaded::CMLink";
-const JCharacter* CMLink::kCoreCleared            = "CoreCleared::CMLink";
-const JCharacter* CMLink::kAttachedToProcess      = "AttachedToProcess::CMLink";
-const JCharacter* CMLink::kDetachedFromProcess    = "DetachedFromProcess::CMLink";
+const JUtf8Byte* CMLink::kDebuggerStarted        = "DebuggerStarted::CMLink";
+const JUtf8Byte* CMLink::kDebuggerRestarted      = "DebuggerRestarted::CMLink";
+const JUtf8Byte* CMLink::kPrepareToLoadSymbols   = "PrepareToLoadSymbols::CMLink";
+const JUtf8Byte* CMLink::kSymbolsLoaded          = "SymbolsLoaded::CMLink";
+const JUtf8Byte* CMLink::kSymbolsReloaded        = "SymbolsReloaded::CMLink";
+const JUtf8Byte* CMLink::kCoreLoaded             = "CoreLoaded::CMLink";
+const JUtf8Byte* CMLink::kCoreCleared            = "CoreCleared::CMLink";
+const JUtf8Byte* CMLink::kAttachedToProcess      = "AttachedToProcess::CMLink";
+const JUtf8Byte* CMLink::kDetachedFromProcess    = "DetachedFromProcess::CMLink";
 
-const JCharacter* CMLink::kProgramRunning         = "ProgramRunning::CMLink";
-const JCharacter* CMLink::kProgramFirstStop       = "ProgramFirstStop::CMLink";
-const JCharacter* CMLink::kProgramStopped         = "ProgramStopped::CMLink";
-const JCharacter* CMLink::kProgramStopped2        = "ProgramStopped2::CMLink";
-const JCharacter* CMLink::kProgramFinished        = "ProgramFinished::CMLink";
+const JUtf8Byte* CMLink::kProgramRunning         = "ProgramRunning::CMLink";
+const JUtf8Byte* CMLink::kProgramFirstStop       = "ProgramFirstStop::CMLink";
+const JUtf8Byte* CMLink::kProgramStopped         = "ProgramStopped::CMLink";
+const JUtf8Byte* CMLink::kProgramStopped2        = "ProgramStopped2::CMLink";
+const JUtf8Byte* CMLink::kProgramFinished        = "ProgramFinished::CMLink";
 
-const JCharacter* CMLink::kBreakpointsChanged     = "BreakpointsChanged::CMLink";
-const JCharacter* CMLink::kFrameChanged           = "FrameChanged::CMLink";
-const JCharacter* CMLink::kThreadChanged          = "ThreadChanged::CMLink";
-const JCharacter* CMLink::kValueChanged           = "ValueChanged::CMLink";
+const JUtf8Byte* CMLink::kBreakpointsChanged     = "BreakpointsChanged::CMLink";
+const JUtf8Byte* CMLink::kFrameChanged           = "FrameChanged::CMLink";
+const JUtf8Byte* CMLink::kThreadChanged          = "ThreadChanged::CMLink";
+const JUtf8Byte* CMLink::kValueChanged           = "ValueChanged::CMLink";
 
-const JCharacter* CMLink::kThreadListChanged      = "ThreadListChanged::CMLink";
+const JUtf8Byte* CMLink::kThreadListChanged      = "ThreadListChanged::CMLink";
 
-const JCharacter* CMLink::kPlugInMessage          = "PlugInMessage::CMLink";
+const JUtf8Byte* CMLink::kPlugInMessage          = "PlugInMessage::CMLink";
 
 /******************************************************************************
  Constructor
@@ -268,7 +268,7 @@ CMLink::RunNextCommand()
 		}
 	else if (!itsForegroundQ->IsEmpty())
 		{
-		CMCommand* command = itsForegroundQ->FirstElement();
+		CMCommand* command = itsForegroundQ->GetFirstElement();
 		if (command->GetState() != CMCommand::kExecuting && OKToSendCommands(kJFalse))
 			{
 			SendMedicCommand(command);
@@ -276,7 +276,7 @@ CMLink::RunNextCommand()
 		}
 	else if (!itsBackgroundQ->IsEmpty() && OKToSendCommands(kJTrue))
 		{
-		CMCommand* command = itsBackgroundQ->FirstElement();
+		CMCommand* command = itsBackgroundQ->GetFirstElement();
 		if (command->GetState() != CMCommand::kExecuting)
 			{
 			SendMedicCommand(command);
@@ -311,7 +311,7 @@ CMLink::HandleCommandRunning
 
 	if (itsRunningCommand == nullptr && !itsBackgroundQ->IsEmpty())
 		{
-		CMCommand* command = itsBackgroundQ->FirstElement();
+		CMCommand* command = itsBackgroundQ->GetFirstElement();
 		if (command->GetTransactionID() == cmdID)
 			{
 			itsRunningCommand = command;
@@ -372,11 +372,11 @@ CMLink::CancelBackgroundCommands()
 void
 CMLink::RememberFile
 	(
-	const JCharacter* fileName,
-	const JCharacter* fullName
+	const JString& fileName,
+	const JString& fullName
 	)
 {
-	if (JString::IsEmpty(fullName))
+	if (fullName.IsEmpty())
 		{
 		itsFileNameMap->SetElement(fileName, nullptr, JPtrArrayT::kDelete);
 		}
@@ -394,9 +394,9 @@ CMLink::RememberFile
 JBoolean
 CMLink::FindFile
 	(
-	const JCharacter*	fileName,
-	JBoolean*			exists,
-	JString*			fullName
+	const JString&	fileName,
+	JBoolean*		exists,
+	JString*		fullName
 	)
 	const
 {
@@ -471,8 +471,8 @@ CMLink::ClearFileNameMap()
 void
 CMLink::NotifyUser
 	(
-	const JCharacter*	msg,
-	const JBoolean		error
+	const JString&	msg,
+	const JBoolean	error
 	)
 {
 	CMGetLink()->Broadcast(UserOutput(msg, error));
@@ -486,10 +486,10 @@ CMLink::NotifyUser
 void
 CMLink::Log
 	(
-	const JCharacter* log
+	const JUtf8Byte* log
 	)
 {
-	CMGetLink()->Broadcast(DebugOutput(log, kLogType));
+	CMGetLink()->Broadcast(DebugOutput(JString(log, kJFalse), kLogType));
 }
 
 /******************************************************************************
@@ -515,8 +515,8 @@ CMLink::Log
 JString
 CMLink::Build1DArrayExpressionForCFamilyLanguage
 	(
-	const JCharacter*	origExpr,
-	const JInteger		index
+	const JString&	origExpr,
+	const JInteger	index
 	)
 {
 	JString expr = origExpr;
@@ -524,9 +524,9 @@ CMLink::Build1DArrayExpressionForCFamilyLanguage
 	const JString indexStr(index, 0);	// must use floating point conversion
 	if (expr.Contains("$i"))
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"i", indexStr.GetCString()
+			"i", indexStr.GetBytes()
 			};
 		JGetStringManager()->Replace(&expr, map, sizeof(map));
 		}
@@ -535,13 +535,13 @@ CMLink::Build1DArrayExpressionForCFamilyLanguage
 		if (expr.GetFirstCharacter() != '(' ||
 			expr.GetLastCharacter()  != ')')
 			{
-			expr.PrependCharacter('(');
-			expr.AppendCharacter(')');
+			expr.Prepend("(");
+			expr.Append(")");
 			}
 
-		expr.AppendCharacter('[');
+		expr.Append("[");
 		expr += indexStr;
-		expr.AppendCharacter(']');
+		expr.Append("]");
 		}
 
 	return expr;
@@ -554,9 +554,9 @@ CMLink::Build1DArrayExpressionForCFamilyLanguage
 JString
 CMLink::Build2DArrayExpressionForCFamilyLanguage
 	(
-	const JCharacter*	origExpr,
-	const JInteger		rowIndex,
-	const JInteger		colIndex
+	const JString&	origExpr,
+	const JInteger	rowIndex,
+	const JInteger	colIndex
 	)
 {
 	JString expr = origExpr;
@@ -571,10 +571,10 @@ CMLink::Build2DArrayExpressionForCFamilyLanguage
 
 	if (usesI || usesJ)
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"i", iStr.GetCString(),
-			"j", jStr.GetCString()
+			"i", iStr.GetBytes(),
+			"j", jStr.GetBytes()
 			};
 		JGetStringManager()->Replace(&expr, map, sizeof(map));
 		}
@@ -584,21 +584,21 @@ CMLink::Build2DArrayExpressionForCFamilyLanguage
 		if (expr.GetFirstCharacter() != '(' ||
 			expr.GetLastCharacter()  != ')')
 			{
-			expr.PrependCharacter('(');
-			expr.AppendCharacter(')');
+			expr.Prepend("(");
+			expr.Append(")");
 			}
 
 		if (!usesI)
 			{
-			expr.AppendCharacter('[');
+			expr.Append("[");
 			expr += iStr;
-			expr.AppendCharacter(']');
+			expr.Append("]");
 			}
 		if (!usesJ)
 			{
-			expr.AppendCharacter('[');
+			expr.Append("[");
 			expr += jStr;
-			expr.AppendCharacter(']');
+			expr.Append("]");
 			}
 		}
 
@@ -623,7 +623,7 @@ CMLink::StepIntoAssembly()
 void
 CMLink::RunUntil
 	(
-	const JCharacter* addr
+	const JString& addr
 	)
 {
 }
@@ -631,7 +631,7 @@ CMLink::RunUntil
 void
 CMLink::SetExecutionPoint
 	(
-	const JCharacter* addr
+	const JString& addr
 	)
 {
 }

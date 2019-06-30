@@ -24,8 +24,8 @@ CMLocation::CMLocation()
 
 CMLocation::CMLocation
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineNumber
+	const JString&	fileName,
+	const JIndex	lineNumber
 	)
 	:
 	itsFileName(fileName),

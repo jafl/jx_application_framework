@@ -15,8 +15,8 @@ class CMStackFrameNode : public JNamedTreeNode
 public:
 
 	CMStackFrameNode(JTreeNode* parent,
-					  const JUInt64 id, const JCharacter* name,
-					  const JCharacter* fileName, const JIndex lineIndex);
+					  const JUInt64 id, const JString& name,
+					  const JString& fileName, const JIndex lineIndex);
 
 	virtual	~CMStackFrameNode();
 

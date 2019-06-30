@@ -20,13 +20,13 @@ public:
 
 	virtual	~CMApp();
 
-	void	EditFile(const JCharacter* fileName, const JIndex lineIndex = 0) const;
+	void	EditFile(const JString& fileName, const JIndex lineIndex = 0) const;
 
-	void	DisplayAbout(const JCharacter* prevVersStr = nullptr,
+	void	DisplayAbout(const JString& prevVersStr = JString::empty,
 						 const JBoolean init = kJFalse);
 
-	static void					InitStrings();
-	static const JCharacter*	GetAppSignature();
+	static void				InitStrings();
+	static const JUtf8Byte*	GetAppSignature();
 
 protected:
 

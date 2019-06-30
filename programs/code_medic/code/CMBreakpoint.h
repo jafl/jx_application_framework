@@ -29,19 +29,19 @@ public:
 public:
 
 	CMBreakpoint(const JIndex debuggerIndex, const CMLocation& location,
-				 const JCharacter* fn, const JCharacter* addr,
+				 const JString& fn, const JString& addr,
 				 const JBoolean enabled, const Action action,
-				 const JCharacter* condition, const JSize ignoreCount);
+				 const JString& condition, const JSize ignoreCount);
 
 	CMBreakpoint(const JIndex debuggerIndex,
-				 const JCharacter* fileName, const JIndex lineIndex,
-				 const JCharacter* fn, const JCharacter* addr,
+				 const JString& fileName, const JIndex lineIndex,
+				 const JString& fn, const JString& addr,
 				 const JBoolean enabled, const Action action,
-				 const JCharacter* condition, const JSize ignoreCount);
+				 const JString& condition, const JSize ignoreCount);
 
 	// search target
-	CMBreakpoint(const JCharacter* fileName, const JIndex lineIndex);
-	CMBreakpoint(const JCharacter* addr);
+	CMBreakpoint(const JString& fileName, const JIndex lineIndex);
+	CMBreakpoint(const JString& addr);
 
 	virtual	~CMBreakpoint();
 

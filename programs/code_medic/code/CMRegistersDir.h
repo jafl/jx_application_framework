@@ -23,12 +23,12 @@ public:
 
 	virtual	~CMRegistersDir();
 
-	virtual void			Activate();
-	virtual JBoolean		Deactivate();
-	virtual const JString&	GetName() const;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const;
+	virtual void			Activate() override;
+	virtual JBoolean		Deactivate() override;
+	virtual const JString&	GetName() const override;
+	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
 
-	void	Update(const JCharacter* data);
+	void	Update(const JString& data);
 
 protected:
 
@@ -54,7 +54,7 @@ private:
 private:
 
 	void	BuildWindow();
-	void	UpdateWindowTitle(const JCharacter* binaryName);
+	void	UpdateWindowTitle(const JString& binaryName);
 	void	Update();
 
 	void	UpdateFileMenu();

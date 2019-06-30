@@ -50,7 +50,7 @@ CMPipe<ACE_PEER_STREAM_2>::CMPipeX()
 {
 	itsBufferSize = CMPipeT::kDefaultBufferSize;
 
-	itsBuffer = jnew JCharacter [ itsBufferSize ];
+	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
 	assert( itsBuffer != nullptr );
 
 	itsInHandleInputFlag = kJFalse;
@@ -93,20 +93,20 @@ template <ACE_PEER_STREAM_1>
 void
 CMPipe<ACE_PEER_STREAM_2>::Write
 	(
-	const JCharacter* data
+	const JString& data
 	)
 {
-	const JSize dataLen = strlen(data);
+	const JSize dataLen = data.GetByteCount();
 
 	iovec buffer[2];
-	buffer[0].iov_base = const_cast<char*>(data);
+	buffer[0].iov_base = const_cast<JUtf8Byte*>(data.GetBytes());
 	buffer[0].iov_len  = dataLen;
 
 	JSize count = 1;
-	if (data [ dataLen-1 ] != '\n')
+	if (data.GetLastCharacter() != '\n')
 		{
 		count              = 2;
-		buffer[1].iov_base = const_cast<char*>("\n");
+		buffer[1].iov_base = const_cast<JUtf8Byte*>("\n");
 		buffer[1].iov_len  = 1;
 		}
 

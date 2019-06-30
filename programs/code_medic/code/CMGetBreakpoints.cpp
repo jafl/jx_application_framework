@@ -17,7 +17,7 @@
 
 CMGetBreakpoints::CMGetBreakpoints
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 	:
 	CMCommand(cmd, kJFalse, kJFalse)

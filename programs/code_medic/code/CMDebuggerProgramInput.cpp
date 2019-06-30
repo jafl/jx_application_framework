@@ -61,7 +61,7 @@ CMDebuggerProgramInput::GetFile
 	)
 	const
 {
-	const JString& text = GetText();
+	const JString& text = GetText().GetText();
 	if (JProgramAvailable(text))
 		{
 		*fullName = text;
@@ -81,7 +81,7 @@ CMDebuggerProgramInput::GetFile
 JBoolean
 CMDebuggerProgramInput::InputValid()
 {
-	const JString& text = GetText();
+	const JString& text = GetText()->GetText();
 	if (JProgramAvailable(text))
 		{
 		return kJTrue;

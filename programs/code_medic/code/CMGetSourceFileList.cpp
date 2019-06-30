@@ -23,15 +23,15 @@
 
 CMGetSourceFileList::CMGetSourceFileList
 	(
-	const JCharacter*	cmd,
-	CMFileListDir*		fileList
+	const JString&	cmd,
+	CMFileListDir*	fileList
 	)
 	:
 	CMCommand(cmd, kJFalse, kJFalse),
 	itsFileList(fileList),
 	itsNeedRedoOnFirstStop(kJTrue)
 {
-	ListenToCMGetLink();
+	ListenTo(CMGetLink());
 }
 
 /******************************************************************************

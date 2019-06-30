@@ -19,7 +19,7 @@ class CMLocation
 public:
 
 	CMLocation();
-	CMLocation(const JCharacter* fileName, const JIndex lineNumber);
+	CMLocation(const JString& fileName, const JIndex lineNumber);
 	CMLocation(const CMLocation& source);
 
 	~CMLocation();
@@ -28,7 +28,7 @@ public:
 
 	const JString&	GetFileName() const;
 	const JFileID&	GetFileID() const;
-	void			SetFileName(const JCharacter* fileName);
+	void			SetFileName(const JString& fileName);
 
 	JIndex	GetLineNumber() const;
 	void	SetLineNumber(const JIndex lineNumber);
@@ -36,10 +36,10 @@ public:
 	// not included in comparators
 
 	const JString&	GetFunctionName() const;
-	void			SetFunctionName(const JCharacter* fnName);
+	void			SetFunctionName(const JString& fnName);
 
 	const JString&	GetMemoryAddress() const;
-	void			SetMemoryAddress(const JCharacter* addr);
+	void			SetMemoryAddress(const JString& addr);
 
 private:
 
@@ -66,7 +66,7 @@ CMLocation::GetFileName() const
 inline void
 CMLocation::SetFileName
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	itsFileName = fileName;
@@ -118,7 +118,7 @@ CMLocation::GetFunctionName() const
 inline void
 CMLocation::SetFunctionName
 	(
-	const JCharacter* fnName
+	const JString& fnName
 	)
 {
 	itsFunctionName = fnName;
@@ -138,7 +138,7 @@ CMLocation::GetMemoryAddress() const
 inline void
 CMLocation::SetMemoryAddress
 	(
-	const JCharacter* addr
+	const JString& addr
 	)
 {
 	itsMemoryAddress = addr;

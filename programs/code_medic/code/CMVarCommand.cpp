@@ -12,8 +12,8 @@
 
 // JBroadcaster message types
 
-const JCharacter* CMVarCommand::kValueUpdated = "CMVarCommand::kValueUpdated";
-const JCharacter* CMVarCommand::kValueFailed  = "CMVarCommand::kValueFailed";
+const JUtf8Byte* CMVarCommand::kValueUpdated = "CMVarCommand::kValueUpdated";
+const JUtf8Byte* CMVarCommand::kValueFailed  = "CMVarCommand::kValueFailed";
 
 /******************************************************************************
  Constructor

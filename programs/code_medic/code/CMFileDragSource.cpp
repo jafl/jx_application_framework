@@ -21,9 +21,6 @@
 
 #include <jx_plain_file_small.xpm>
 
-static const JCharacter* kHintText =
-	"Drag this to drag the URL for this file.";
-
 /******************************************************************************
  Constructor
 
@@ -48,7 +45,7 @@ CMFileDragSource::CMFileDragSource
 	assert( icon != nullptr );
 	SetImage(icon, kJTrue);
 
-	SetHint(kHintText);
+	SetHint(JGetString("Hint::CMFileDragSource"));
 }
 
 /******************************************************************************

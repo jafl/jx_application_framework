@@ -42,7 +42,7 @@ public:
 	CMSourceDirector(CMCommandDirector* commandDir, const Type type);
 
 	static CMSourceDirector*	Create(CMCommandDirector* commandDir,
-									   const JCharacter* fileOrFn,
+									   const JString& fileOrFn,
 									   const Type type);
 
 	void	CreateWindowsMenu();
@@ -57,25 +57,25 @@ public:
 
 	JBoolean	GetFunctionName(const JString** fnName) const;
 
-	void	DisplayFile(const JCharacter* fileName, const JIndex lineNumber = 0,
+	void	DisplayFile(const JString& fileName, const JIndex lineNumber = 0,
 						const JBoolean markLine = kJTrue);
 	void	DisplayDisassembly(const CMLocation& loc);
 	void	DisplayLine(const JSize lineNumber, const JBoolean markLine = kJTrue);
 	void	ClearDisplay();
 
 	Type					GetType() const;
-	virtual const JString&	GetName() const;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const;
+	virtual const JString&	GetName() const override;
+	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
 
 	// called by GDBGetAssembly
 
 	const CMLocation&	GetDisassemblyLocation() const;
 	void				DisplayDisassembly(JPtrArray<JString>* addrList,
-										   const JCharacter* instText);
+										   const JString& instText);
 
 protected:
 
-	CMSourceDirector(CMCommandDirector* commandDir, const JCharacter* fileOrFn,
+	CMSourceDirector(CMCommandDirector* commandDir, const JString& fileOrFn,
 					 const Type type);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -115,7 +115,7 @@ private:
 	void	CMSourceViewDirectorX(CMCommandDirector* commandDir);
 	void	BuildWindow();
 	void	UpdateFileType();
-	void	UpdateWindowTitle(const JCharacter* binaryName);
+	void	UpdateWindowTitle(const JString& binaryName);
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);

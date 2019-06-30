@@ -16,7 +16,7 @@ class CMGetAssembly : public CMCommand
 {
 public:
 
-	CMGetAssembly(CMSourceDirector* dir, const JCharacter* cmd);
+	CMGetAssembly(CMSourceDirector* dir, const JString& cmd);
 
 	virtual	~CMGetAssembly();
 

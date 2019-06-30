@@ -35,21 +35,21 @@ public:
 	static void		Pack8(const JUInt64 value, unsigned char* data);
 	static JUInt64	Unpack8(const unsigned char* data);
 
-	static void		PackString(const JCharacter* s, unsigned char* data);
+	static void		PackString(const JString& s, unsigned char* data);
 	static JString	UnpackString(const unsigned char* data, JSize* dataLength);
 
 	// ACE_Svc_Handler functions
 
 	virtual int	open(void*) override;
-	virtual int	handle_timeout(const ACE_Time_Value& time, const void*);
-	virtual int handle_close(ACE_HANDLE h, ACE_Reactor_Mask m);
+	virtual int	handle_timeout(const ACE_Time_Value& time, const void*) override;
+	virtual int handle_close(ACE_HANDLE h, ACE_Reactor_Mask m) override;
 	virtual int	handle_input(ACE_HANDLE) override;
 
 private:
 
 	JBoolean	itsHandshakeFinishedFlag;	// kJTrue => handshake is complete
 	JString		itsRecvData;				// buffer containing unprocessed bytes
-	JCharacter*	itsBuffer;					// buffer to receive raw bytes
+	JUtf8Byte*	itsBuffer;					// buffer to receive raw bytes
 
 	long		itsTimerID;
 	JBoolean	itsInHandleInputFlag;		// kJTrue => stack passes through handle_input()
@@ -63,7 +63,7 @@ public:
 
 	// Broadcaster messages
 
-	static const JCharacter* kMessageReady;
+	static const JUtf8Byte* kMessageReady;
 
 	class MessageReady : public JBroadcaster::Message
 		{

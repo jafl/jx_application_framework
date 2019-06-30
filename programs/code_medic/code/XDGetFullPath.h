@@ -14,7 +14,7 @@ class XDGetFullPath : public CMGetFullPath
 {
 public:
 
-	XDGetFullPath(const JCharacter* fileName, const JIndex lineIndex = 0);
+	XDGetFullPath(const JString& fileName, const JIndex lineIndex = 0);
 
 	virtual	~XDGetFullPath();
 

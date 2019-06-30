@@ -14,7 +14,7 @@ class GDBAnalyzeCore : public CMCommand
 {
 public:
 
-	GDBAnalyzeCore(const JCharacter* cmd);
+	GDBAnalyzeCore(const JString& cmd);
 
 	virtual	~GDBAnalyzeCore();
 

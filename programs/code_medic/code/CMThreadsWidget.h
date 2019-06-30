@@ -33,7 +33,8 @@ public:
 	void	Update();
 	void	SelectThread(const JIndex id);
 
-	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 
 	// void called by CMGetStack
 

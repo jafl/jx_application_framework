@@ -8,6 +8,7 @@ This scanner reads output from gdb's print command.
 #define _H_GDBVarTreeScannerL
 
 #include "GDBVarTreeScanner.h"
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 #undef YY_DECL
@@ -107,8 +108,8 @@ static {
 {STDWRAP}*{STDCLASS}" with "[+-]?{INT}" elements"{WS}=                  |
 {STDWRAP}*{STDCLASS}{WS}=                                               {
 	NEW_TOKEN(yytext);
-	const JSize length = lvalp->pString->GetLength();
-	lvalp->pString->RemoveSubstring(length, length);
+	JStringIterator iter(lvalp->pString, kJIteratorStartAtEnd);
+	iter.RemovePrev();
 	return P_SUMMARY;
 	}
 
