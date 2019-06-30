@@ -52,6 +52,7 @@ public:
 	virtual JBoolean	OKToDetachOrKill() const override;
 
 	virtual JBoolean	OKToSendCommands(const JBoolean background) const override;
+	void				Send(const JUtf8Byte* text);
 	void				Send(const JString& text);
 
 	virtual CMBreakpointManager*	GetBreakpointManager() override;
@@ -247,6 +248,22 @@ XDLink::GetStackFrameIndex()
 	const
 {
 	return itsStackFrameIndex;
+}
+
+/******************************************************************************
+ Send
+
+	Sends the given text as command(s) to xdebug.
+
+ *****************************************************************************/
+
+inline void
+XDLink::Send
+	(
+	const JString& text
+	)
+{
+	Send(text.GetBytes());
 }
 
 #endif

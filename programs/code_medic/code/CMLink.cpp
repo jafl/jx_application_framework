@@ -539,9 +539,9 @@ CMLink::Build1DArrayExpressionForCFamilyLanguage
 			expr.Append(")");
 			}
 
-		expr.Append("[");
+		expr += "[";
 		expr += indexStr;
-		expr.Append("]");
+		expr += "]";
 		}
 
 	return expr;
@@ -590,15 +590,15 @@ CMLink::Build2DArrayExpressionForCFamilyLanguage
 
 		if (!usesI)
 			{
-			expr.Append("[");
+			expr += "[";
 			expr += iStr;
-			expr.Append("]");
+			expr += "]";
 			}
 		if (!usesJ)
 			{
-			expr.Append("[");
+			expr += "[";
 			expr += jStr;
-			expr.Append("]");
+			expr += "]";
 			}
 		}
 

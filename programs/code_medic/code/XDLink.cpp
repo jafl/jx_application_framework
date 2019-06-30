@@ -41,6 +41,7 @@
 #include <libxml/parser.h>
 
 #include <JXAssert.h>
+#include <JStringIterator.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
 #include <jErrno.h>
@@ -192,7 +193,7 @@ XDLink::GetProgram
 	)
 	const
 {
-	*fullName = (itsProgramName.IsEmpty() ? "PHP" : itsProgramName);
+	*fullName = (itsProgramName.IsEmpty() ? JString("PHP", kJFalse) : itsProgramName);
 	return kJTrue;
 }
 
@@ -347,14 +348,14 @@ XDLink::ReceiveMessageFromDebugger()
 		if (!itsProgramIsStoppedFlag)
 			{
 			itsProgramIsStoppedFlag = kJTrue;
-			Broadcast(ProgramStopped(CMLocation("", 1)));
+			Broadcast(ProgramStopped(CMLocation(JString::empty, 1)));
 			}
 
 		itsDebuggerBusyFlag = kJFalse;
 		Broadcast(DebuggerReadyForInput());
 		}
 
-	xmlDoc* doc = xmlReadMemory(data.GetCString(), data.GetLength(),
+	xmlDoc* doc = xmlReadMemory(data.GetBytes(), data.GetByteCount(),
 								nullptr, nullptr, XML_PARSE_NOCDATA);
 	if (doc != nullptr)
 		{
@@ -365,10 +366,10 @@ XDLink::ReceiveMessageFromDebugger()
 			itsIDEKey         = JGetXMLNodeAttr(root, "idekey");
 			const JString uri = JGetXMLNodeAttr(root, "fileuri");
 
-			const JCharacter* map[] =
+			const JUtf8Byte* map[] =
 				{
-				"idekey", itsIDEKey,
-				"uri",    uri
+				"idekey", itsIDEKey.GetBytes(),
+				"uri",    uri.GetBytes()
 				};
 			JString msg = JGetString("ConnectionInfo::XDLink", map, sizeof(map));
 			Broadcast(UserOutput(msg, kJFalse));
@@ -394,7 +395,7 @@ XDLink::ReceiveMessageFromDebugger()
 				strcmp((char*) root->children->name, "error") == 0 &&
 				root->children->children->type == XML_TEXT_NODE)
 				{
-				JString msg            = (char*) root->children->children->content;
+				JString msg((char*) root->children->children->content);
 				const JString encoding = JGetXMLNodeAttr(root->children, "encoding");
 				if (encoding == "base64")
 					{
@@ -450,7 +451,7 @@ XDLink::ReceiveMessageFromDebugger()
 void
 XDLink::SetProgram
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	Send("detach");
@@ -462,7 +463,7 @@ XDLink::SetProgram
 	itsSourcePathList->DeleteAll();
 
 	JString fullName;
-	if (!JConvertToAbsolutePath(fileName, nullptr, &fullName) ||
+	if (!JConvertToAbsolutePath(fileName, JString::empty, &fullName) ||
 		!JFileReadable(fullName))
 		{
 		const JString error = JGetString("ConfigFileUnreadable::XDLink");
@@ -491,7 +492,7 @@ XDLink::SetProgram
 
 	itsProgramConfigFileName = fullName;
 
-	std::ifstream input(fullName);
+	std::ifstream input(fullName.GetBytes());
 	while (1)
 		{
 		line = JReadLine(input);
@@ -499,7 +500,10 @@ XDLink::SetProgram
 
 		if (line.BeginsWith("source-path:"))
 			{
-			line.RemoveSubstring(1, 12);
+			JStringIterator iter(&line);
+			iter.RemoveNext(12);
+			iter.Invalidate();
+
 			line.TrimWhitespace();
 
 			name = JCombinePathAndName(path, line);
@@ -508,7 +512,7 @@ XDLink::SetProgram
 		else if (!line.IsEmpty() && !line.BeginsWith("code-medic:"))
 			{
 			line.Prepend("Unknown option: ");
-			line.AppendCharacter('\n');
+			line.Append("\n");
 			Broadcast(UserOutput(line, kJTrue));
 			}
 
@@ -555,7 +559,7 @@ XDLink::ReloadProgram()
 void
 XDLink::SetCore
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 }
@@ -581,7 +585,7 @@ XDLink::AttachToProcess
 void
 XDLink::RunProgram
 	(
-	const JCharacter* args
+	const JString& args
 	)
 {
 }
@@ -618,15 +622,15 @@ XDLink::ShowBreakpointInfo
 void
 XDLink::SetBreakpoint
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex,
-	const JBoolean		temporary
+	const JString&	fileName,
+	const JIndex	lineIndex,
+	const JBoolean	temporary
 	)
 {
-	JString cmd = "breakpoint_set -t line -f ";
-	cmd        += fileName;
-	cmd        += " -n ";
-	cmd        += lineIndex;
+	JString cmd("breakpoint_set -t line -f ");
+	cmd += fileName;
+	cmd += " -n ";
+	cmd += JString((JUInt64) lineIndex);
 
 	if (temporary)
 		{
@@ -646,8 +650,8 @@ XDLink::SetBreakpoint
 void
 XDLink::SetBreakpoint
 	(
-	const JCharacter*	address,
-	const JBoolean		temporary
+	const JString&	address,
+	const JBoolean	temporary
 	)
 {
 }
@@ -663,8 +667,8 @@ XDLink::RemoveBreakpoint
 	const JIndex debuggerIndex
 	)
 {
-	JString cmd = "breakpoint_remove -d ";
-	cmd        += debuggerIndex;
+	JString cmd("breakpoint_remove -d ");
+	cmd += JString((JUInt64) debuggerIndex);
 	Send(cmd);
 
 	Broadcast(BreakpointsChanged());
@@ -678,8 +682,8 @@ XDLink::RemoveBreakpoint
 void
 XDLink::RemoveAllBreakpointsOnLine
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	JBoolean changed = kJFalse;
@@ -694,7 +698,7 @@ XDLink::RemoveAllBreakpointsOnLine
 			if (bp->GetLineNumber() == lineIndex)
 				{
 				cmd  = "breakpoint_remove -d ";
-				cmd += bp->GetDebuggerIndex();
+				cmd += JString((JUInt64) bp->GetDebuggerIndex());
 				Send(cmd);
 				changed = kJTrue;
 				}
@@ -715,7 +719,7 @@ XDLink::RemoveAllBreakpointsOnLine
 void
 XDLink::RemoveAllBreakpointsAtAddress
 	(
-	const JCharacter* addr
+	const JString& addr
 	)
 {
 }
@@ -737,7 +741,7 @@ XDLink::RemoveAllBreakpoints()
 		const CMBreakpoint* bp = list.GetElement(i);
 
 		cmd	 = "breakpoint_remove -d ";
-		cmd += bp->GetDebuggerIndex();
+		cmd += JString((JUInt64) bp->GetDebuggerIndex());
 		Send(cmd);
 		changed = kJTrue;
 		}
@@ -761,10 +765,10 @@ XDLink::SetBreakpointEnabled
 	const JBoolean	once
 	)
 {
-	JString cmd = "breakpoint_update -d ";
-	cmd        += debuggerIndex;
-	cmd        += " -s ";
-	cmd        += (enabled ? "enabled" : "disabled");
+	JString cmd("breakpoint_update -d ");
+	cmd += JString((JUInt64) debuggerIndex);
+	cmd += " -s ";
+	cmd += (enabled ? "enabled" : "disabled");
 	Send(cmd);
 
 	Broadcast(BreakpointsChanged());
@@ -778,8 +782,8 @@ XDLink::SetBreakpointEnabled
 void
 XDLink::SetBreakpointCondition
 	(
-	const JIndex		debuggerIndex,
-	const JCharacter*	condition
+	const JIndex	debuggerIndex,
+	const JString&	condition
 	)
 {
 }
@@ -819,7 +823,7 @@ XDLink::SetBreakpointIgnoreCount
 void
 XDLink::WatchExpression
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 }
@@ -832,7 +836,7 @@ XDLink::WatchExpression
 void
 XDLink::WatchLocation
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 }
@@ -875,7 +879,8 @@ XDLink::SwitchToFrame
 		{
 		if (fileName.BeginsWith("file://"))
 			{
-			fileName.RemoveSubstring(1, 7);
+			JStringIterator iter(&fileName);
+			iter.RemoveNext(7);
 			}
 		Broadcast(ProgramStopped(CMLocation(fileName, lineIndex)));
 		}
@@ -941,8 +946,8 @@ XDLink::Continue()
 void
 XDLink::RunUntil
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	SetBreakpoint(fileName, lineIndex, kJTrue);
@@ -957,8 +962,8 @@ XDLink::RunUntil
 void
 XDLink::SetExecutionPoint
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 }
@@ -971,20 +976,20 @@ XDLink::SetExecutionPoint
 void
 XDLink::SetValue
 	(
-	const JCharacter* name,
-	const JCharacter* value
+	const JString& name,
+	const JString& value
 	)
 {
 	if (ProgramIsStopped())
 		{
 		const JString encValue = JString(value).EncodeBase64();
 
-		JString cmd = "property_set @i -n ";
-		cmd        += name;
-		cmd        += " -l ";
-		cmd        += encValue.GetLength();
-		cmd        += " -- ";
-		cmd        += encValue;
+		JString cmd("property_set @i -n ");
+		cmd += name;
+		cmd += " -l ";
+		cmd += JString((JUInt64) encValue.GetByteCount());
+		cmd += " -- ";
+		cmd += encValue;
 		Send(cmd);
 
 		Broadcast(ValueChanged());
@@ -1134,8 +1139,8 @@ XDLink::CreateGetThreads
 CMGetFullPath*
 XDLink::CreateGetFullPath
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	CMGetFullPath* cmd = jnew XDGetFullPath(fileName, lineIndex);
@@ -1199,13 +1204,13 @@ XDLink::CreateGetSourceFileList
 CMVarCommand*
 XDLink::CreateVarValueCommand
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
-	JString s = "property_get -n ";
-	s        += expr;
-	s        += " -d ";
-	s        += itsStackFrameIndex;
+	JString s("property_get -n ");
+	s += expr;
+	s += " -d ";
+	s += JString((JUInt64)itsStackFrameIndex);
 
 	CMVarCommand* cmd = jnew XDVarCommand(s);
 	assert( cmd != nullptr );
@@ -1220,7 +1225,7 @@ XDLink::CreateVarValueCommand
 CMVarCommand*
 XDLink::CreateVarContentCommand
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 	return CreateVarValueCommand(expr);
@@ -1245,10 +1250,10 @@ XDLink::CreateVarNode
 CMVarNode*
 XDLink::CreateVarNode
 	(
-	JTreeNode*			parent,
-	const JCharacter*	name,
-	const JCharacter*	fullName,
-	const JCharacter*	value
+	JTreeNode*		parent,
+	const JString&	name,
+	const JString&	fullName,
+	const JString&	value
 	)
 {
 	CMVarNode* node = jnew XDVarNode(parent, name, fullName, value);
@@ -1264,8 +1269,8 @@ XDLink::CreateVarNode
 JString
 XDLink::Build1DArrayExpression
 	(
-	const JCharacter*	origExpr,
-	const JInteger		index
+	const JString&	origExpr,
+	const JInteger	index
 	)
 {
 	JString expr = origExpr;
@@ -1275,26 +1280,29 @@ XDLink::Build1DArrayExpression
 		{
 		// double literal $'s
 
-		for (JIndex i=expr.GetLength()-1; i>=1; i--)
+		JStringIterator iter(&expr);
+		JUtf8Character c;
+		while (iter.Next("$"))
 			{
-			if (expr.GetCharacter(i)   == '$' &&
-				expr.GetCharacter(i+1) != 'i')
+			if (!iter.Next(&c, kJFalse) || c != 'i')
 				{
-				expr.InsertCharacter('$', i);
+				iter.Insert("$");
+				iter.SkipNext();
 				}
 			}
+		iter.Invalidate();
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"i", indexStr.GetCString()
+			"i", indexStr.GetBytes()
 			};
 		JGetStringManager()->Replace(&expr, map, sizeof(map));
 		}
 	else
 		{
-		expr.AppendCharacter('[');
+		expr += "[";
 		expr += indexStr;
-		expr.AppendCharacter(']');
+		expr += "]";
 		}
 
 	return expr;
@@ -1308,9 +1316,9 @@ XDLink::Build1DArrayExpression
 JString
 XDLink::Build2DArrayExpression
 	(
-	const JCharacter*	origExpr,
-	const JInteger		rowIndex,
-	const JInteger		colIndex
+	const JString&	origExpr,
+	const JInteger	rowIndex,
+	const JInteger	colIndex
 	)
 {
 	JString expr = origExpr;
@@ -1327,20 +1335,22 @@ XDLink::Build2DArrayExpression
 		{
 		// double literal $'s
 
-		for (JIndex i=expr.GetLength()-1; i>=1; i--)
+		JStringIterator iter(&expr);
+		JUtf8Character c;
+		while (iter.Next("$"))
 			{
-			if (expr.GetCharacter(i)   == '$' &&
-				expr.GetCharacter(i+1) != 'i' &&
-				expr.GetCharacter(i+1) != 'j')
+			if (!iter.Next(&c, kJFalse) || (c != 'i' && c != 'j'))
 				{
-				expr.InsertCharacter('$', i);
+				iter.Insert("$");
+				iter.SkipNext();
 				}
 			}
+		iter.Invalidate();
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"i", iStr.GetCString(),
-			"j", jStr.GetCString()
+			"i", iStr.GetBytes(),
+			"j", jStr.GetBytes()
 			};
 		JGetStringManager()->Replace(&expr, map, sizeof(map));
 		}
@@ -1350,21 +1360,21 @@ XDLink::Build2DArrayExpression
 		if (expr.GetFirstCharacter() != '(' ||
 			expr.GetLastCharacter()  != ')')
 			{
-			expr.PrependCharacter('(');
-			expr.AppendCharacter(')');
+			expr.Prepend("(");
+			expr.Append(")");
 			}
 
 		if (!usesI)
 			{
-			expr.AppendCharacter('[');
+			expr += "[";
 			expr += iStr;
-			expr.AppendCharacter(']');
+			expr += "]";
 			}
 		if (!usesJ)
 			{
-			expr.AppendCharacter('[');
+			expr += "[";
 			expr += jStr;
-			expr.AppendCharacter(']');
+			expr += "]";
 			}
 		}
 
@@ -1423,7 +1433,7 @@ XDLink::CreateGetRegisters
 void
 XDLink::Send
 	(
-	const JCharacter* text
+	const JUtf8Byte* text
 	)
 {
 	if (itsLink != nullptr)
@@ -1433,18 +1443,19 @@ XDLink::Send
 			StopProgram();
 			}
 
-		JString arg = " -i not_command";
+		JString arg(" -i not_command");
 
-		JString s = text;
-		JIndex i;
-		if (s.LocateSubstring("@i", &i))
+		JString s(text);
+		JStringIterator iter(&s);
+		if (iter.Next("@i"))
 			{
-			s.ReplaceSubstring(i, i+1, arg);
+			iter.ReplaceLastMatch(arg);
 			}
 		else
 			{
 			s += arg;
 			}
+		iter.Invalidate();
 
 		SendRaw(s);
 		}
@@ -1460,7 +1471,7 @@ XDLink::Send
 void
 XDLink::SendRaw
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 	if (itsLink != nullptr)
@@ -1468,11 +1479,12 @@ XDLink::SendRaw
 		JString s = text;
 		s.TrimWhitespace();
 
-		JIndex i;
-		while (s.LocateSubstring("  ", &i))
+		JStringIterator iter(&s);
+		while (iter.Next("  "))
 			{
-			s.ReplaceSubstring(i, i+1, " ");
+			iter.RemovePrev();
 			}
+		iter.Invalidate();
 
 		itsLink->SendMessage(s);
 		itsLink->StartTimer();
@@ -1500,19 +1512,21 @@ XDLink::SendMedicCommand
 {
 	command->Starting();
 
-	JString arg = " -i ";
-	arg        += JString((JUInt64) command->GetTransactionID());
+	JString arg(" -i ");
+	arg += JString((JUInt64) command->GetTransactionID());
 
 	JString s = command->GetCommand();
-	JIndex i;
-	if (s.LocateSubstring("@i", &i))
+
+	JStringIterator iter(&s);
+	if (iter.Next("@i"))
 		{
-		s.ReplaceSubstring(i, i+1, arg);
+		iter.ReplaceLastMatch(arg);
 		}
 	else
 		{
 		s += arg;
 		}
+	iter.Invalidate();
 
 	SendRaw(s);
 }
@@ -1574,10 +1588,10 @@ XDLink::StartDebugger()
 		{
 		const JString errStr((JUInt64) jerrno());
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"port",  portStr,
-			"errno", errStr
+			"port",  portStr.GetBytes(),
+			"errno", errStr.GetBytes()
 			};
 		JString msg = JGetString("ListenError::XDLink", map, sizeof(map));
 
@@ -1588,9 +1602,9 @@ XDLink::StartDebugger()
 		}
 	else
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"port", portStr
+			"port", portStr.GetBytes()
 			};
 		JString msg = JGetString("Welcome::XDLink", map, sizeof(map));
 

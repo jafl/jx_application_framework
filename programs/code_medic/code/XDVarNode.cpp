@@ -31,10 +31,10 @@ XDVarNode::XDVarNode				// root node
 
 XDVarNode::XDVarNode
 	(
-	JTreeNode*			parent,
-	const JCharacter*	name,
-	const JCharacter*	fullName,
-	const JCharacter*	value
+	JTreeNode*		parent,
+	const JString&	name,
+	const JString&	fullName,
+	const JString&	value
 	)
 	:
 	CMVarNode(parent, name, value)

@@ -59,11 +59,11 @@ GDBPlot2DCommand::UpdateRange
 		{
 		cmd += "print ";
 		cmd += GetDirector()->GetXExpression(curveIndex, i);
-		cmd.Append("\n");
+		cmd += "\n";
 
 		cmd += "print ";
 		cmd += GetDirector()->GetYExpression(curveIndex, i);
-		cmd.Append("\n");
+		cmd += "\n";
 		}
 
 	SetCommand(cmd);

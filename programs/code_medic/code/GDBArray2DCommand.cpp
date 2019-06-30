@@ -69,7 +69,7 @@ GDBArray2DCommand::PrepareToSend
 		{
 		cmd += "print ";
 		cmd += GetDirector()->GetExpression(GetCell(i));
-		cmd.Append("\n");
+		cmd += "\n";
 		}
 
 	SetCommand(cmd);
