@@ -43,8 +43,9 @@
 
 #include <JXTimerTask.h>
 #include <JXAssert.h>
-#include <JTree.h>
 #include <JTreeNode.h>
+#include <JStringIterator.h>
+#include <JTree.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
 #include <jErrno.h>
@@ -73,7 +74,7 @@ static const JBoolean kFeatures[]=
 
 // JBroadcaster message types
 
-const JCharacter* JVMLink::kIDResolved = "IDResolved::JVMLink";
+const JUtf8Byte* JVMLink::kIDResolved = "IDResolved::JVMLink";
 
 /******************************************************************************
  Constructor
@@ -244,10 +245,11 @@ JVMLink::GetProgram
 		{
 		*fullName = itsMainClassName;
 
-		JIndex i;
-		if (fullName->LocateLastSubstring(".", &i))
+		JStringIterator iter(fullName, kJIteratorStartAtEnd);
+		if (iter.Prev("."))
 			{
-			fullName->RemoveSubstring(1, i);
+			iter.SkipNext();
+			iter.RemoveAllPrev();
 			}
 		}
 
@@ -714,8 +716,8 @@ JVMLink::FlushClassList()
 void
 JVMLink::AddClass
 	(
-	const JUInt64		id,
-	const JCharacter*	signature
+	const JUInt64	id,
+	const JString&	signature
 	)
 {
 	ClassInfo info;
@@ -825,9 +827,9 @@ JVMLink::GetClassSourceFile
 void
 JVMLink::AddMethod
 	(
-	const JUInt64		classID,
-	const JUInt64		methodID,
-	const JCharacter*	name
+	const JUInt64	classID,
+	const JUInt64	methodID,
+	const JString&	name
 	)
 {
 	ClassInfo target;
@@ -900,23 +902,26 @@ JVMLink::GetMethodName
 JString
 JVMLink::ClassSignatureToResourcePath
 	(
-	const JCharacter* signature
+	const JString& signature
 	)
 {
 	JString path = signature;
+
+	JStringIterator iter(&path);
 	if (path.GetFirstCharacter() == 'L')
 		{
-		path.RemoveSubstring(1,1);
+		iter.RemoveNext();
 		}
 
-	JIndex i;
-	if (path.LocateSubstring("$", &i))
+	if (iter.Next("$"))
 		{
-		path.RemoveSubstring(i, path.GetLength());
+		iter.SkipPrev();
+		iter.RemoveAllNext();
 		}
 	else if (path.GetLastCharacter() == ';')
 		{
-		path.RemoveSubstring(path.GetLength(), path.GetLength());
+		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.RemovePrev();
 		}
 
 	return path;
@@ -930,18 +935,15 @@ JVMLink::ClassSignatureToResourcePath
 JString
 JVMLink::ClassSignatureToName
 	(
-	const JCharacter* signature
+	const JString& signature
 	)
 {
 	JString name = ClassSignatureToResourcePath(signature);
 
-	const JSize length = name.GetLength();
-	for (JIndex j=1; j<=length; j++)
+	JStringIterator iter(&name);
+	while (iter.Next(ACE_DIRECTORY_SEPARATOR_STR))
 		{
-		if (name.GetCharacter(j) == ACE_DIRECTORY_SEPARATOR_CHAR)
-			{
-			name.SetCharacter(j, '.');
-			}
+		iter.ReplaceLastMatch("."); 
 		}
 
 	return name;
@@ -955,18 +957,15 @@ JVMLink::ClassSignatureToName
 JString
 JVMLink::ClassNameToResourcePath
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	JString file = name;
 
-	const JSize length = file.GetLength();
-	for (JIndex j=1; j<=length; j++)
+	JStringIterator iter(&file);
+	while (iter.Next("."))
 		{
-		if (file.GetCharacter(j) == '.')
-			{
-			file.SetCharacter(j, ACE_DIRECTORY_SEPARATOR_CHAR);
-			}
+		iter.ReplaceLastMatch(ACE_DIRECTORY_SEPARATOR_STR); 
 		}
 
 	return file;
@@ -980,8 +979,8 @@ JVMLink::ClassNameToResourcePath
 JBoolean
 JVMLink::ClassSignatureToFile
 	(
-	const JCharacter*	signature,
-	JString*			fullName
+	const JString&	signature,
+	JString*		fullName
 	)
 	const
 {
@@ -1155,7 +1154,7 @@ JVMLink::ReadFromProcess()
 void
 JVMLink::SetProgram
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	DetachOrKill();
@@ -1171,7 +1170,7 @@ JVMLink::SetProgram
 	// delete all directories in itsJarPathList
 
 	JString fullName;
-	if (!JConvertToAbsolutePath(fileName, nullptr, &fullName) ||
+	if (!JConvertToAbsolutePath(fileName, JString::empty, &fullName) ||
 		!JFileReadable(fullName))
 		{
 		const JString error = JGetString("ConfigFileUnreadable::JVMLink");
@@ -1200,7 +1199,7 @@ JVMLink::SetProgram
 
 	itsProgramConfigFileName = fullName;
 
-	std::ifstream input(fullName);
+	std::ifstream input(fullName.GetBytes());
 	while (1)
 		{
 		line = JReadLine(input);
@@ -1208,25 +1207,29 @@ JVMLink::SetProgram
 
 		if (line.BeginsWith("main-class:"))
 			{
-			line.RemoveSubstring(1, 11);
+			JStringIterator iter(&line);
+			iter.RemoveNext(11);
 			line.TrimWhitespace();
 			itsMainClassName = line;
 			}
 		else if (line.BeginsWith("java-path:"))
 			{
-			line.RemoveSubstring(1, 10);
+			JStringIterator iter(&line);
+			iter.RemoveNext(10);
 			line.TrimWhitespace();
 			itsJVMCWD = line;
 			}
 		else if (line.BeginsWith("java-exec:"))
 			{
-			line.RemoveSubstring(1, 10);
+			JStringIterator iter(&line);
+			iter.RemoveNext(10);
 			line.TrimWhitespace();
 			itsJVMExecArgs = line;
 			}
 		else if (line.BeginsWith("source-path:"))
 			{
-			line.RemoveSubstring(1, 12);
+			JStringIterator iter(&line);
+			iter.RemoveNext(12);
 			line.TrimWhitespace();
 
 			name = JCombinePathAndName(path, line);
@@ -1234,7 +1237,8 @@ JVMLink::SetProgram
 			}
 		else if (line.BeginsWith("source-jar:"))
 			{
-			line.RemoveSubstring(1, 11);
+			JStringIterator iter(&line);
+			iter.RemoveNext(11);
 			line.TrimWhitespace();
 			// unpack to /tmp
 			// add to itsJarPathList (for deletion)
@@ -1243,7 +1247,7 @@ JVMLink::SetProgram
 		else if (!line.IsEmpty() && !line.BeginsWith("code-medic:"))
 			{
 			line.Prepend("Unknown option: ");
-			line.AppendCharacter('\n');
+			line.Append("\n");
 			Broadcast(UserOutput(line, kJTrue));
 			}
 
@@ -1296,7 +1300,7 @@ JVMLink::ReloadProgram()
 void
 JVMLink::SetCore
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 }
@@ -1322,7 +1326,7 @@ JVMLink::AttachToProcess
 void
 JVMLink::RunProgram
 	(
-	const JCharacter* args
+	const JString& args
 	)
 {
 	DetachOrKill();
@@ -1332,10 +1336,10 @@ JVMLink::RunProgram
 
 	JString cmd = itsJVMCmd;
 
-	if (strstr(itsJVMCmd,      "-agentlib:jdwp") == nullptr &&
-		strstr(itsJVMExecArgs, "-agentlib:jdwp") == nullptr &&
-		strstr(itsJVMCmd,      "-Xrunjdwp")      == nullptr &&
-		strstr(itsJVMExecArgs, "-Xrunjdwp")      == nullptr)
+	if (!itsJVMCmd.Contains("-agentlib:jdwp")      &&
+		!itsJVMExecArgs.Contains("-agentlib:jdwp") &&
+		!itsJVMCmd.Contains("-Xrunjdwp")           &&
+		!itsJVMExecArgs.Contains("-Xrunjdwp"))
 		{
 		cmd += " -agentlib:jdwp=transport=dt_socket,address=localhost:";
 		cmd += JString((JUInt64) kJavaPort);
@@ -1400,23 +1404,23 @@ JVMLink::ShowBreakpointInfo
 void
 JVMLink::SetBreakpoint
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex,
-	const JBoolean		temporary
+	const JString&	fileName,
+	const JIndex	lineIndex,
+	const JBoolean	temporary
 	)
 {
-	JString data;
-	data += 0x02;			// breakpoint
-	data += 0x02;			// all
-	data += 0x01;			// 1 condition
-		data += 0x07;		// LocationOnly
-			data += 0x01;	// CLASS
+	JArray<unsigned char> data;
+	data.AppendElement(0x02);			// breakpoint
+	data.AppendElement(0x02);			// all
+	data.AppendElement(0x01);			// 1 condition
+		data.AppendElement(0x07);		// LocationOnly
+			data.AppendElement(0x01);	// CLASS
 			// classID
 			// methodID
 			// code index (8 bytes)
 
 //	itsDebugLink->Send(GetNextTransactionID(), kEventRequestCmdSet, kERSetCmd,
-//					   (unsigned char*) data.GetCString(), data.GetLength());
+//					   data.GetCArray(), data.GetElementCount());
 }
 
 /******************************************************************************
@@ -1427,8 +1431,8 @@ JVMLink::SetBreakpoint
 void
 JVMLink::SetBreakpoint
 	(
-	const JCharacter*	address,
-	const JBoolean		temporary
+	const JString&	address,
+	const JBoolean	temporary
 	)
 {
 }
@@ -1454,8 +1458,8 @@ JVMLink::RemoveBreakpoint
 void
 JVMLink::RemoveAllBreakpointsOnLine
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 }
@@ -1468,7 +1472,7 @@ JVMLink::RemoveAllBreakpointsOnLine
 void
 JVMLink::RemoveAllBreakpointsAtAddress
 	(
-	const JCharacter* addr
+	const JString& addr
 	)
 {
 }
@@ -1507,8 +1511,8 @@ JVMLink::SetBreakpointEnabled
 void
 JVMLink::SetBreakpointCondition
 	(
-	const JIndex		debuggerIndex,
-	const JCharacter*	condition
+	const JIndex	debuggerIndex,
+	const JString&	condition
 	)
 {
 }
@@ -1548,7 +1552,7 @@ JVMLink::SetBreakpointIgnoreCount
 void
 JVMLink::WatchExpression
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 }
@@ -1561,7 +1565,7 @@ JVMLink::WatchExpression
 void
 JVMLink::WatchLocation
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 }
@@ -1659,8 +1663,8 @@ JVMLink::Continue()
 void
 JVMLink::RunUntil
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	SetBreakpoint(fileName, lineIndex, kJTrue);
@@ -1675,8 +1679,8 @@ JVMLink::RunUntil
 void
 JVMLink::SetExecutionPoint
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 }
@@ -1689,8 +1693,8 @@ JVMLink::SetExecutionPoint
 void
 JVMLink::SetValue
 	(
-	const JCharacter* name,
-	const JCharacter* value
+	const JString& name,
+	const JString& value
 	)
 {
 }
@@ -1838,8 +1842,8 @@ JVMLink::CreateGetThreads
 CMGetFullPath*
 JVMLink::CreateGetFullPath
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	CMGetFullPath* cmd = jnew JVMGetFullPath(fileName, lineIndex);
@@ -1903,11 +1907,11 @@ JVMLink::CreateGetSourceFileList
 CMVarCommand*
 JVMLink::CreateVarValueCommand
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
-	JString s = "print ";
-	s        += expr;
+	JString s("print ");
+	s += expr;
 
 	CMVarCommand* cmd = jnew JVMVarCommand(s);
 	assert( cmd != nullptr );
@@ -1922,12 +1926,12 @@ JVMLink::CreateVarValueCommand
 CMVarCommand*
 JVMLink::CreateVarContentCommand
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
-	JString s = "print *(";
-	s        += expr;
-	s        += ")";
+	JString s("print *(");
+	s += expr;
+	s += ")";
 
 	CMVarCommand* cmd = jnew JVMVarCommand(s);
 	assert( cmd != nullptr );
@@ -1953,10 +1957,10 @@ JVMLink::CreateVarNode
 CMVarNode*
 JVMLink::CreateVarNode
 	(
-	JTreeNode*			parent,
-	const JCharacter*	name,
-	const JCharacter*	fullName,
-	const JCharacter*	value
+	JTreeNode*		parent,
+	const JString&	name,
+	const JString&	fullName,
+	const JString&	value
 	)
 {
 	CMVarNode* node = jnew JVMVarNode(parent, name, fullName, value);
@@ -1972,8 +1976,8 @@ JVMLink::CreateVarNode
 JString
 JVMLink::Build1DArrayExpression
 	(
-	const JCharacter*	expr,
-	const JInteger		index
+	const JString&	expr,
+	const JInteger	index
 	)
 {
 	return Build1DArrayExpressionForCFamilyLanguage(expr, index);
@@ -1987,9 +1991,9 @@ JVMLink::Build1DArrayExpression
 JString
 JVMLink::Build2DArrayExpression
 	(
-	const JCharacter*	expr,
-	const JInteger		rowIndex,
-	const JInteger		colIndex
+	const JString&	expr,
+	const JInteger	rowIndex,
+	const JInteger	colIndex
 	)
 {
 	return Build2DArrayExpressionForCFamilyLanguage(expr, rowIndex, colIndex);
@@ -2047,7 +2051,7 @@ JVMLink::CreateGetRegisters
 void
 JVMLink::SendRaw
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 	if (itsOutputLink != nullptr)
@@ -2180,7 +2184,7 @@ JVMLink::StopProgram()
 {
 	itsProgramIsStoppedFlag = kJTrue;
 	itsDebugLink->Send(GetNextTransactionID(), kVirtualMachineCmdSet, kVMSuspendCmd, nullptr, 0);
-	Broadcast(ProgramStopped(CMLocation("", 1)));
+	Broadcast(ProgramStopped(CMLocation(JString::empty, 1)));
 }
 
 /******************************************************************************
@@ -2268,12 +2272,12 @@ JVMLink::StartDebugger()
 		{
 		const JString errStr((JUInt64) jerrno());
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"port",  portStr,
-			"errno", errStr
+			"port",  portStr.GetBytes(),
+			"errno", errStr.GetBytes()
 			};
-		JString msg = JGetString("ListenError::JVMLink", map, sizeof(map));
+		const JString msg = JGetString("ListenError::JVMLink", map, sizeof(map));
 
 		JVMWelcomeTask* task = jnew JVMWelcomeTask(msg, kJTrue);
 		assert( task != nullptr );
@@ -2282,9 +2286,9 @@ JVMLink::StartDebugger()
 		}
 	else
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"port", portStr
+			"port", portStr.GetBytes()
 			};
 		JString msg = JGetString("Welcome::JVMLink", map, sizeof(map));
 
@@ -2423,7 +2427,7 @@ JVMLink::ConnectionEstablished
 	Broadcast(DebuggerReadyForInput());
 	Broadcast(UserOutput(JGetString("Connected::JVMLink"), kJFalse));
 	Broadcast(SymbolsLoaded(kJTrue, programName));
-	Broadcast(ProgramStopped(CMLocation("", 1)));
+	Broadcast(ProgramStopped(CMLocation(JString::empty, 1)));
 
 	// show main()
 

@@ -25,7 +25,7 @@ JVMGetSourceFileList::JVMGetSourceFileList
 	CMFileListDir* fileList
 	)
 	:
-	CMGetSourceFileList("NOP", fileList)
+	CMGetSourceFileList(JString("NOP", kJFalse), fileList)
 {
 }
 
@@ -48,12 +48,12 @@ JVMGetSourceFileList::Starting()
 {
 	CMGetSourceFileList::Starting();
 
-	dynamic_cast<JVMLink*>CMGetLink()->FlushClassList();
+	dynamic_cast<JVMLink*>(CMGetLink())->FlushClassList();
 
 	JXFileListTable* table = GetFileList()->GetTable();
 	table->RemoveAllFiles();
 
-	const JPtrArray<JString>& list = dynamic_cast<JVMLink*>CMGetLink()->GetSourcePathList();
+	const JPtrArray<JString>& list = dynamic_cast<JVMLink*>(CMGetLink())->GetSourcePathList();
 	const JSize count              = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
@@ -69,7 +69,7 @@ JVMGetSourceFileList::Starting()
 void
 JVMGetSourceFileList::ScanDirectory
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	JDirInfo* info;

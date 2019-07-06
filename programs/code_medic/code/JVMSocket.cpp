@@ -14,10 +14,9 @@
 #include "cmGlobals.h"
 #include <jAssert.h>
 
-static const JUtf8Byte* kHandshake = "JDWP-Handshake";
-const JSize kHandshakeLength       = 14;
-const JSize kBufferSize            = 65536;	// 64KB
-const time_t kClientDeadTime       = 5;		// seconds
+static const JString kHandshake("JDWP-Handshake", kJFalse);
+const JSize kBufferSize      = 65536;	// 64KB
+const time_t kClientDeadTime = 5;		// seconds
 
 // Broadcaster messages
 
@@ -35,8 +34,11 @@ JVMSocket::JVMSocket()
 	itsTimerID(-1),
 	itsInHandleInputFlag(kJFalse)
 {
-	itsBuffer = jnew JUtf8Byte [ kBufferSize ];
+	itsBuffer = jnew unsigned char [ kBufferSize ];
 	assert( itsBuffer != nullptr );
+
+	itsRecvData = jnew JArray<unsigned char>;
+	assert( itsRecvData != nullptr );
 }
 
 /******************************************************************************
@@ -47,6 +49,7 @@ JVMSocket::JVMSocket()
 JVMSocket::~JVMSocket()
 {
 	jdelete [] itsBuffer;
+	jdelete itsRecvData;
 }
 
 /******************************************************************************
@@ -66,7 +69,7 @@ JVMSocket::open
 	if (result == 0)
 		{
 		JNetworkProtocolBase<ACE_SOCK_STREAM>::Send(kHandshake);
-		dynamic_cast<JVMLink*>CMGetLink()->ConnectionEstablished(this);
+		dynamic_cast<JVMLink*>(CMGetLink())->ConnectionEstablished(this);
 		StartTimer();
 		}
 	return result;
@@ -86,7 +89,7 @@ JVMSocket::handle_close
 	ACE_Reactor_Mask	m
 	)
 {
-	dynamic_cast<JVMLink*>CMGetLink()->ConnectionFinished(this);
+	dynamic_cast<JVMLink*>(CMGetLink())->ConnectionFinished(this);
 	return JNetworkProtocolBase<ACE_SOCK_STREAM>::handle_close(h, m);
 }
 
@@ -119,21 +122,25 @@ JVMSocket::handle_input
 		{
 		StopTimer();
 
-		itsRecvData.Append(itsBuffer, count);
-		if (!itsHandshakeFinishedFlag &&
-			JString::Compare(itsRecvData, kHandshakeLength, kHandshake, kHandshakeLength) == 0)
+		for (JUnsignedOffset i=0; i<count; i++)
 			{
-			itsHandshakeFinishedFlag = kJTrue;
-			itsRecvData.RemoveSubstring(1, kHandshakeLength);
-
-			dynamic_cast<JVMLink*>CMGetLink()->InitDebugger();
+			itsRecvData->AppendElement(itsBuffer[i]);
 			}
 
-		while (itsHandshakeFinishedFlag && itsRecvData.GetLength() >= 11)
+		if (!itsHandshakeFinishedFlag &&
+			memcmp(itsRecvData->GetCArray(), kHandshake.GetBytes(), kHandshake.GetByteCount()) == 0)
 			{
-			unsigned char* msg    = (unsigned char*) itsRecvData.GetCString();
-			const JSize msgLength = Unpack4(msg);
-			if (itsRecvData.GetLength() >= msgLength)
+			itsHandshakeFinishedFlag = kJTrue;
+			itsRecvData->RemoveNextElements(1, kHandshake.GetByteCount());
+
+			dynamic_cast<JVMLink*>(CMGetLink())->InitDebugger();
+			}
+
+		while (itsHandshakeFinishedFlag && itsRecvData->GetElementCount() >= 11)
+			{
+			const unsigned char* msg = itsRecvData->GetCArray();
+			const JSize msgLength    = Unpack4(msg);
+			if (itsRecvData->GetElementCount() >= msgLength)
 				{
 				const JIndex id        = Unpack4(msg + 4);
 				const JBoolean isReply = JI2B(*(msg + 8));
@@ -144,7 +151,7 @@ JVMSocket::handle_input
 				Broadcast(MessageReady(id, isReply, cmdSet, cmd, errorCode,
 									   msg + 11, msgLength - 11));
 
-				itsRecvData.RemoveSubstring(1, msgLength);
+				itsRecvData->RemoveNextElements(1, msgLength);
 				}
 			else
 				{
@@ -185,7 +192,7 @@ JVMSocket::Send
 
 	if (count == 0)
 		{
-		JNetworkProtocolBase<ACE_SOCK_STREAM>::Send((const JCharacter*) header, 11);
+		JNetworkProtocolBase<ACE_SOCK_STREAM>::Send((const JUtf8Byte*) header, 11);
 		}
 	else
 		{
@@ -425,14 +432,14 @@ JVMSocket::Unpack8
 void
 JVMSocket::PackString
 	(
-	const JCharacter*	s,
-	unsigned char*		data
+	const JString&	s,
+	unsigned char*	data
 	)
 {
-	const JSize length = strlen(s);
+	const JSize length = s.GetByteCount();
 
 	Pack4(length, data);
-	memcpy(data+4, s, length);
+	memcpy(data+4, s.GetBytes(), length);
 }
 
 /******************************************************************************
@@ -449,5 +456,5 @@ JVMSocket::UnpackString
 {
 	const JSize length = Unpack4(data);
 	*dataLength        = 4 + length;
-	return JString((const JCharacter*) (data+4), length);
+	return JString((const JUtf8Byte*) (data+4), length);
 }

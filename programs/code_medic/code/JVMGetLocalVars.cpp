@@ -20,7 +20,7 @@ JVMGetLocalVars::JVMGetLocalVars
 	CMVarNode* rootNode
 	)
 	:
-	CMGetLocalVars("NOP"),
+	CMGetLocalVars(JString("NOP", kJFalse)),
 	itsRootNode(rootNode)
 {
 }

@@ -16,12 +16,12 @@ public:
 
 	JVMVarNode(const JBoolean shouldUpdate = kJTrue);
 
-	JVMVarNode(JTreeNode* parent, const JCharacter* name,
-			   const JCharacter* fullName, const JCharacter* value);
+	JVMVarNode(JTreeNode* parent, const JString& name,
+			   const JString& fullName, const JString& value);
 
 	virtual	~JVMVarNode();
 
-	virtual JString	GetFullName(JBoolean* isPointer = nullptr) const;
+	virtual JString	GetFullName(JBoolean* isPointer = nullptr) const override;
 
 private:
 

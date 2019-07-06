@@ -21,12 +21,12 @@ public:
 
 	virtual	~JVMGetThreadParent();
 
-	virtual void	Starting();
+	virtual void	Starting() override;
 
 protected:
 
-	virtual void	HandleSuccess(const JString& data);
-	virtual void	HandleFailure();
+	virtual void	HandleSuccess(const JString& data) override;
+	virtual void	HandleFailure() override;
 
 private:
 

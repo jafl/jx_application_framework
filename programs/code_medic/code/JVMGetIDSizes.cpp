@@ -43,7 +43,7 @@ JVMGetIDSizes::Starting()
 {
 	CMCommand::Starting();
 
-	dynamic_cast<JVMLink*>CMGetLink()->Send(this,
+	dynamic_cast<JVMLink*>(CMGetLink())->Send(this,
 		JVMLink::kVirtualMachineCmdSet, JVMLink::kVMIDSizesCmd, nullptr, 0);
 }
 
@@ -58,7 +58,7 @@ JVMGetIDSizes::HandleSuccess
 	const JString& origData
 	)
 {
-	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
+	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 	const JVMSocket::MessageReady* msg;
 	if (!link->GetLatestMessageFromJVM(&msg))
 		{

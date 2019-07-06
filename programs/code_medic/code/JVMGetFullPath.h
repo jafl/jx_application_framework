@@ -14,13 +14,13 @@ class JVMGetFullPath : public CMGetFullPath
 {
 public:
 
-	JVMGetFullPath(const JCharacter* fileName, const JIndex lineIndex = 0);
+	JVMGetFullPath(const JString& fileName, const JIndex lineIndex = 0);
 
 	virtual	~JVMGetFullPath();
 
 protected:
 
-	virtual void	HandleSuccess(const JString& data);
+	virtual void	HandleSuccess(const JString& data) override;
 
 private:
 

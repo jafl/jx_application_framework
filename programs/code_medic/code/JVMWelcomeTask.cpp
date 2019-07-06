@@ -21,8 +21,8 @@
 
 JVMWelcomeTask::JVMWelcomeTask
 	(
-	const JCharacter*	msg,
-	const JBoolean		error
+	const JString&	msg,
+	const JBoolean	error
 	)
 	:
 	itsMessage(msg),
@@ -47,7 +47,7 @@ JVMWelcomeTask::~JVMWelcomeTask()
 void
 JVMWelcomeTask::Perform()
 {
-	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
+	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 	if (link != nullptr)
 		{
 		link->BroadcastWelcome(itsMessage, itsErrorFlag);

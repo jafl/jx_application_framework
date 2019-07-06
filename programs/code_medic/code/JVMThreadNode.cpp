@@ -26,12 +26,12 @@ JVMThreadNode::JVMThreadNode
 	const JUInt64	id
 	)
 	:
-	CMThreadNode(id, "", "", 0),
+	CMThreadNode(id, JString::empty, JString::empty, 0),
 	itsType(type)
 {
 	if (id != kRootThreadGroupID)
 		{
-		dynamic_cast<JVMLink*>CMGetLink()->ThreadCreated(this);
+		dynamic_cast<JVMLink*>(CMGetLink())->ThreadCreated(this);
 
 		CMCommand* cmd = jnew JVMGetThreadName(this);
 		assert( cmd != nullptr );
@@ -45,7 +45,7 @@ JVMThreadNode::JVMThreadNode
 	const JUInt64 id
 	)
 	:
-	CMThreadNode(id, "", "", 0),
+	CMThreadNode(id, JString::empty, JString::empty, 0),
 	itsType(kThreadType)
 {
 }
@@ -57,7 +57,7 @@ JVMThreadNode::JVMThreadNode
 	const JVMThreadNode& node
 	)
 	:
-	CMThreadNode(node.GetID(), node.GetName(), "", 0),
+	CMThreadNode(node.GetID(), node.GetName(), JString::empty, 0),
 	itsType(node.GetType())
 {
 	if (itsType == kGroupType)
@@ -73,7 +73,7 @@ JVMThreadNode::JVMThreadNode
 
 JVMThreadNode::~JVMThreadNode()
 {
-	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
+	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 	if (link != nullptr)	// when switching debugger type, it won't be a JVMLink
 		{
 		link->ThreadDeleted(this);
@@ -110,7 +110,7 @@ JVMThreadNode::FindParent
 	const JUInt64 id
 	)
 {
-	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
+	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 
 	JVMThreadNode* parent;
 	if (!link->FindThread(id, &parent))

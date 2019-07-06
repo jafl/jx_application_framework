@@ -47,7 +47,7 @@ JVMGetClassInfo::Starting()
 {
 	CMCommand::Starting();
 
-	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
+	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 
 	const JSize length  = link->GetObjectIDSize();
 	unsigned char* data = (unsigned char*) calloc(length, 1);
@@ -72,7 +72,7 @@ JVMGetClassInfo::HandleSuccess
 	const JString& origData
 	)
 {
-	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
+	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 	const JVMSocket::MessageReady* msg;
 	if (!link->GetLatestMessageFromJVM(&msg))
 		{

@@ -17,11 +17,11 @@
 
 JVMGetFullPath::JVMGetFullPath
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex	// for convenience
+	const JString&	fileName,
+	const JIndex	lineIndex	// for convenience
 	)
 	:
-	CMGetFullPath("NOP", fileName, lineIndex)
+	CMGetFullPath(JString("NOP", kJFalse), fileName, lineIndex)
 {
 }
 

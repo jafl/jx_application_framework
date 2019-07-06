@@ -17,12 +17,12 @@
 
 JVMVarCommand::JVMVarCommand
 	(
-	const JCharacter* origCmd
+	const JString& origCmd
 	)
 	:
 	CMVarCommand()
 {
-	SetCommand("NOP");
+	SetCommand(JString("NOP", kJFalse));
 }
 
 /******************************************************************************

@@ -20,7 +20,7 @@ JVMDisplaySourceForMain::JVMDisplaySourceForMain
 	CMSourceDirector* sourceDir
 	)
 	:
-	CMDisplaySourceForMain(sourceDir, "NOP")
+	CMDisplaySourceForMain(sourceDir, JString("NOP", kJFalse))
 {
 }
 

@@ -61,7 +61,7 @@ JVMGetThreadGroups::Starting()
 		return;
 		}
 
-	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
+	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 	if (itsParent == nullptr)
 		{
 		link->Send(this,
@@ -93,7 +93,7 @@ JVMGetThreadGroups::HandleSuccess
 	const JString& origData
 	)
 {
-	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
+	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 	const JVMSocket::MessageReady* msg;
 	if (!link->GetLatestMessageFromJVM(&msg))
 		{

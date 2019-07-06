@@ -26,14 +26,14 @@ JVMStackFrameNode::JVMStackFrameNode
 	const JUInt64	codeOffset
 	)
 	:
-	CMStackFrameNode(parent, id, "", "", 0),
+	CMStackFrameNode(parent, id, JString::empty, JString::empty, 0),
 	itsClassID(classID),
 	itsMethodID(methodID),
 	itsCodeOffset(codeOffset)
 {
 	if (!UpdateNodeName())
 		{
-		ListenToCMGetLink();
+		ListenTo(CMGetLink());
 		}
 }
 
@@ -84,7 +84,7 @@ JVMStackFrameNode::Receive
 JBoolean
 JVMStackFrameNode::UpdateNodeName()
 {
-	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
+	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 	JString c, m;
 	if (link->GetClassName(itsClassID, &c) &&
 		link->GetMethodName(itsClassID, itsMethodID, &m))

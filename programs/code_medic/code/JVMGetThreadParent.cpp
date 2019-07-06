@@ -53,7 +53,7 @@ JVMGetThreadParent::Starting()
 
 	if (itsNode != nullptr)
 		{
-		JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
+		JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 
 		const JSize length  = link->GetObjectIDSize();
 		unsigned char* data = (unsigned char*) calloc(length, 1);
@@ -82,7 +82,7 @@ JVMGetThreadParent::HandleSuccess
 	const JString& origData
 	)
 {
-	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
+	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 	const JVMSocket::MessageReady* msg;
 	if (!link->GetLatestMessageFromJVM(&msg))
 		{

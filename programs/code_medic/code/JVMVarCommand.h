@@ -14,13 +14,13 @@ class JVMVarCommand : public CMVarCommand
 {
 public:
 
-	JVMVarCommand(const JCharacter* cmd);
+	JVMVarCommand(const JString& cmd);
 
 	virtual	~JVMVarCommand();
 
 protected:
 
-	virtual void	HandleSuccess(const JString& data);
+	virtual void	HandleSuccess(const JString& data) override;
 
 private:
 

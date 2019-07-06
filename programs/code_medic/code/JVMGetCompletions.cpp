@@ -21,7 +21,7 @@ JVMGetCompletions::JVMGetCompletions
 	CMCommandOutputDisplay*	history
 	)
 	:
-	CMGetCompletions("NOP")
+	CMGetCompletions(JString("NOP", kJFalse))
 {
 }
 

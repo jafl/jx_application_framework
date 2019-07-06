@@ -20,11 +20,11 @@ public:
 
 	virtual	~XDGetSourceFileList();
 
-	virtual void	Starting();
+	virtual void	Starting() override;
 
 protected:
 
-	virtual void	HandleSuccess(const JString& data);
+	virtual void	HandleSuccess(const JString& data) override;
 
 private:
 

@@ -20,7 +20,7 @@ public:
 
 protected:
 
-	virtual void	HandleSuccess(const JString& data);
+	virtual void	HandleSuccess(const JString& data) override;
 
 private:
 

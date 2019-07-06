@@ -20,15 +20,15 @@ public:
 
 	virtual	~JVMGetSourceFileList();
 
-	virtual void	Starting();
+	virtual void	Starting() override;
 
 protected:
 
-	virtual void	HandleSuccess(const JString& data);
+	virtual void	HandleSuccess(const JString& data) override;
 
 private:
 
-	void	ScanDirectory(const JCharacter* path);
+	void	ScanDirectory(const JString& path);
 
 	// not allowed
 

@@ -26,7 +26,7 @@ JVMGetThreads::JVMGetThreads
 	CMThreadsWidget*	widget
 	)
 	:
-	CMGetThreads("NOP", widget),
+	CMGetThreads(JString("NOP", kJFalse), widget),
 	itsTree(tree)
 {
 }
@@ -51,7 +51,7 @@ JVMGetThreads::HandleSuccess
 	const JString& data
 	)
 {
-	JVMLink* link = dynamic_cast<JVMLink*>CMGetLink();
+	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 	CopyTree(link->GetThreadRoot(), itsTree->GetRoot());
 
 	GetWidget()->FinishedLoading(link->GetCurrentThreadID());

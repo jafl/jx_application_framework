@@ -15,7 +15,7 @@ class JVMWelcomeTask : public JXUrgentTask
 {
 public:
 
-	JVMWelcomeTask(const JCharacter* msg, const JBoolean error);
+	JVMWelcomeTask(const JString& msg, const JBoolean error);
 
 	virtual ~JVMWelcomeTask();
 

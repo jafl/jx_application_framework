@@ -47,9 +47,9 @@ public:
 
 private:
 
-	JBoolean	itsHandshakeFinishedFlag;	// kJTrue => handshake is complete
-	JString		itsRecvData;				// buffer containing unprocessed bytes
-	JUtf8Byte*	itsBuffer;					// buffer to receive raw bytes
+	JBoolean				itsHandshakeFinishedFlag;	// kJTrue => handshake is complete
+	unsigned char*			itsBuffer;					// buffer to receive raw bytes
+	JArray<unsigned char>*	itsRecvData;				// buffer containing unprocessed bytes
 
 	long		itsTimerID;
 	JBoolean	itsInHandleInputFlag;		// kJTrue => stack passes through handle_input()

@@ -18,7 +18,7 @@ public:
 
 	virtual ~JVMSetProgramTask();
 
-	virtual void	Perform();
+	virtual void	Perform() override;
 
 private:
 
