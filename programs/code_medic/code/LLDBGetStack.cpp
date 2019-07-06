@@ -39,7 +39,7 @@ LLDBGetStack::LLDBGetStack
 	CMStackWidget*	widget
 	)
 	:
-	CMGetStack("", tree, widget)
+	CMGetStack(JString::empty, tree, widget)
 {
 }
 
@@ -65,7 +65,7 @@ LLDBGetStack::HandleSuccess
 	const JString& cmdData
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link == nullptr)
 		{
 		return;
@@ -88,13 +88,13 @@ LLDBGetStack::HandleSuccess
 		lldb::SBFrame f = t.GetFrameAtIndex(i);
 
 		frameName = JString((JUInt64) i);
-		while (frameName.GetLength() < kFrameIndexWidth)
+		while (frameName.GetCharacterCount() < kFrameIndexWidth)
 			{
-			frameName.PrependCharacter('0');
+			frameName.Prepend("0");
 			}
 		frameName += ":  ";
 
-		const JCharacter* name = f.GetFunctionName();
+		const JUtf8Byte* name = f.GetFunctionName();
 		frameName += (name == nullptr ? "?" : name);
 
 		JIndex lineIndex      = 0;
@@ -102,7 +102,10 @@ LLDBGetStack::HandleSuccess
 		lldb::SBFileSpec file = e.GetFileSpec();
 		if (file.IsValid())
 			{
-			fileName  = JCombinePathAndName(file.GetDirectory(), file.GetFilename());
+			fileName = JCombinePathAndName(
+				JString(file.GetDirectory(), kJFalse),
+				JString(file.GetFilename(), kJFalse));
+
 			lineIndex = e.GetLine();
 			}
 		else
@@ -121,7 +124,7 @@ LLDBGetStack::HandleSuccess
 			initFrameIndex  = f.GetFrameID();
 			selectNextFrame = kJFalse;
 			}
-		else if (f.GetFunctionName() != nullptr && assertPattern.Match(f.GetFunctionName()))
+		else if (f.GetFunctionName() != nullptr && assertPattern.Match(JString(f.GetFunctionName(), kJFalse)))
 			{
 			selectNextFrame = kJTrue;
 			}
@@ -140,7 +143,9 @@ LLDBGetStack::HandleSuccess
 
 			if (v.GetName() != nullptr)
 				{
-				CMStackArgNode* argNode = jnew CMStackArgNode(node, v.GetName(), v.GetValue() == nullptr ? "null" : v.GetValue());
+				CMStackArgNode* argNode = jnew CMStackArgNode(node,
+					JString(v.GetName(), kJFalse),
+					JString(v.GetValue() == nullptr ? "null" : v.GetValue(), kJFalse));
 				assert( argNode != nullptr );
 				}
 			}

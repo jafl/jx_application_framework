@@ -190,7 +190,7 @@ private:
 
 	static int	ReceiveLLDBMessageLine(void* baton, const char* line, int count);
 	static int	ReceiveLLDBErrorLine(void* baton, const char* line, int count);
-	static void	LogLLDBMessage(const JString& msg, void* baton);
+	static void	LogLLDBMessage(const JUtf8Byte* msg, void* baton);
 
 	// not allowed
 

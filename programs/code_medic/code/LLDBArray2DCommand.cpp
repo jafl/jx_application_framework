@@ -59,7 +59,7 @@ LLDBArray2DCommand::HandleSuccess
 	)
 {
 	lldb::SBFrame f =
-		dynamic_cast<LLDBLink*>CMGetLink()->GetDebugger()->
+		dynamic_cast<LLDBLink*>(CMGetLink())->GetDebugger()->
 			GetSelectedTarget().GetProcess().GetSelectedThread().GetSelectedFrame();
 	if (!f.IsValid())
 		{
@@ -80,26 +80,26 @@ LLDBArray2DCommand::HandleSuccess
 		{
 		const JPoint cell = GetCell(i);
 		expr              = GetDirector()->GetExpression(cell);
-		lldb::SBValue v   = f.EvaluateExpression(expr);
+		lldb::SBValue v   = f.EvaluateExpression(expr.GetBytes());
 		if (!v.IsValid())
 			{
-			HandleFailure(i, v.GetError().GetCString());
+			HandleFailure(i, JString(v.GetError().GetCString(), kJFalse));
 			continue;
 			}
 
-		const JCharacter* value = v.GetValue();
+		const JUtf8Byte* value = v.GetValue();
 		if (value == nullptr)
 			{
-			HandleFailure(i, v.GetError().GetCString());
+			HandleFailure(i, JString(v.GetError().GetCString(), kJFalse));
 			continue;
 			}
 
 		const JString& origValue = GetData()->GetString(cell);
 		const JBoolean isNew     = JI2B(!origValue.IsEmpty() && origValue != value);
 
-		GetData()->SetString(cell, value);
+		GetData()->SetString(cell, JString(value, kJFalse));
 		GetTable()->SetCellStyle(cell,
-			CMVarNode::GetFontStyle(kJTrue, isNew, GetTable()->GetColormap()));
+			CMVarNode::GetFontStyle(kJTrue, isNew));
 		}
 
 	GetDirector()->UpdateNext();

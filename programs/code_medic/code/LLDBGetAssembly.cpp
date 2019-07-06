@@ -15,6 +15,8 @@
 #include "CMSourceDirector.h"
 #include "LLDBLink.h"
 #include "cmGlobals.h"
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <JRegex.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
@@ -32,7 +34,7 @@ LLDBGetAssembly::LLDBGetAssembly
 	CMSourceDirector* dir
 	)
 	:
-	CMGetAssembly(dir, "")
+	CMGetAssembly(dir, JString::empty)
 {
 }
 
@@ -58,7 +60,7 @@ LLDBGetAssembly::HandleSuccess
 	const JString& cmdData
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link == nullptr)
 		{
 		return;
@@ -74,7 +76,7 @@ LLDBGetAssembly::HandleSuccess
 
 	const JString cmd = "disassemble -n " + JPrepArgForExec(loc.GetFunctionName());
 	lldb::SBCommandReturnObject result;
-	interp.HandleCommand(cmd, result);
+	interp.HandleCommand(cmd.GetBytes(), result);
 
 	JPtrArray<JString> addrList(JPtrArrayT::kDeleteAll);
 	JString instText;
@@ -88,29 +90,33 @@ LLDBGetAssembly::HandleSuccess
 			{
 			line = JReadLine(input);
 
-			JIndex i;
-			if (!line.EndsWith(":") &&
-				line.LocateSubstring(":", &i) && i < line.GetLength())
+			JStringIterator iter(line);
+			iter.BeginMatch();
+			if (!line.EndsWith(":") && iter.Next(":"))
 				{
-				s = line.GetSubstring(1, i-1);
-				if (s.BeginsWith("->") && s.GetLength() > 2)
+				s = iter.FinishMatch().GetString();
+				if (s.BeginsWith("->") && s.GetCharacterCount() > 2)
 					{
-					s = s.GetSubstring(3, s.GetLength());
+					JStringIterator i2(&s);
+					i2.RemoveNext(2);
 					}
 				s.TrimWhitespace();
 				addrList.Append(s);
 
-				JIndexRange r;
-				if (offsetPattern.Match(s, &r))
+				const JStringMatch m = offsetPattern.Match(s, kJFalse);
+				if (!m.IsEmpty())
 					{
-					maxOffsetLength = JMax(maxOffsetLength, r.GetLength());
+					maxOffsetLength = JMax(maxOffsetLength, m.GetCharacterRange().GetCount());
 					}
 
 				if (!instText.IsEmpty())
 					{
-					instText.AppendCharacter('\n');
+					instText += "\n";
 					}
-				s = line.GetSubstring(i+1, line.GetLength());
+
+				iter.BeginMatch();
+				iter.MoveTo(kJIteratorStartAtEnd, 0);
+				s = iter.FinishMatch().GetString();
 				s.TrimWhitespace();
 				instText.Append(s);
 				}
@@ -120,13 +126,18 @@ LLDBGetAssembly::HandleSuccess
 		for (JIndex i=1; i<=count; i++)
 			{
 			JString* s = addrList.GetElement(i);
-			JIndexRange r;
-			if (offsetPattern.Match(*s, &r))
+
+			JStringIterator iter(s);
+			const JStringMatch m = offsetPattern.Match(*s, kJFalse);
+			if (iter.Next(offsetPattern))
 				{
-				const JSize pad = maxOffsetLength - r.GetLength();
+				const JSize count = iter.GetLastMatch().GetCharacterRange().GetCount();
+				iter.SkipPrev(count-2);
+
+				const JSize pad = maxOffsetLength - count;
 				for (JUnsignedOffset j=0; j<pad; j++)
 					{
-					s->InsertCharacter('0', r.first+2);
+					iter.Insert("0");
 					}
 				}
 			}

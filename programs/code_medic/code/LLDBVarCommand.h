@@ -14,13 +14,13 @@ class LLDBVarCommand : public CMVarCommand
 {
 public:
 
-	LLDBVarCommand(const JCharacter* cmd);
+	LLDBVarCommand(const JString& cmd);
 
 	virtual	~LLDBVarCommand();
 
 protected:
 
-	virtual void	HandleSuccess(const JString& data);
+	virtual void	HandleSuccess(const JString& data) override;
 
 private:
 

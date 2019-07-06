@@ -21,7 +21,7 @@ public:
 
 	virtual ~LLDBRunBackgroundCommandTask();
 
-	virtual void	Perform();
+	virtual void	Perform() override;
 
 private:
 

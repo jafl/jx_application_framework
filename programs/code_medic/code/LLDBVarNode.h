@@ -18,11 +18,11 @@ public:
 
 	LLDBVarNode(const JBoolean shouldUpdate = kJTrue);
 
-	LLDBVarNode(JTreeNode* parent, const JCharacter* name, const JCharacter* value);
+	LLDBVarNode(JTreeNode* parent, const JString& name, const JString& value);
 
 	virtual	~LLDBVarNode();
 
-	virtual JString	GetFullName(JBoolean* isPointer = nullptr) const;
+	virtual JString	GetFullName(JBoolean* isPointer = nullptr) const override;
 
 	static CMVarNode*	BuildTree(lldb::SBFrame& frame, lldb::SBValue& value);
 

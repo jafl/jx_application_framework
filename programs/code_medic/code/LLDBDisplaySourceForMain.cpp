@@ -31,9 +31,9 @@ LLDBDisplaySourceForMain::LLDBDisplaySourceForMain
 	CMSourceDirector* sourceDir
 	)
 	:
-	CMDisplaySourceForMain(sourceDir, "")
+	CMDisplaySourceForMain(sourceDir, JString::empty)
 {
-	ListenToCMGetLink();
+	ListenTo(CMGetLink());
 }
 
 /******************************************************************************
@@ -84,7 +84,7 @@ LLDBDisplaySourceForMain::HandleSuccess
 	const JString& data
 	)
 {
-	lldb::SBTarget t = dynamic_cast<LLDBLink*>CMGetLink()->GetDebugger()->GetSelectedTarget();
+	lldb::SBTarget t = dynamic_cast<LLDBLink*>(CMGetLink())->GetDebugger()->GetSelectedTarget();
 	JBoolean found   = kJFalse;
 	if (t.IsValid())
 		{
@@ -112,7 +112,10 @@ LLDBDisplaySourceForMain::HandleSuccess
 						}
 					}
 
-				JString fullName = JCombinePathAndName(file.GetDirectory(), file.GetFilename());
+				JString fullName = JCombinePathAndName(
+					JString(file.GetDirectory(), kJFalse),
+					JString(file.GetFilename(), kJFalse));
+
 				GetSourceDir()->DisplayFile(fullName, line, kJFalse);
 				found = kJTrue;
 				}

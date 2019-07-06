@@ -15,11 +15,11 @@ class LLDBSymbolsLoadedTask : public JXUrgentTask
 {
 public:
 
-	LLDBSymbolsLoadedTask(const JCharacter* fileName);
+	LLDBSymbolsLoadedTask(const JString& fileName);
 
 	virtual ~LLDBSymbolsLoadedTask();
 
-	virtual void	Perform();
+	virtual void	Perform() override;
 
 private:
 

@@ -19,11 +19,11 @@ public:
 	virtual	~LLDBPlot2DCommand();
 
 	virtual void	UpdateRange(const JIndex curveIndex,
-								const JInteger min,const JInteger max);
+								const JInteger min,const JInteger max) override;
 
 protected:
 
-	virtual void	HandleSuccess(const JString& data);
+	virtual void	HandleSuccess(const JString& data) override;
 
 private:
 

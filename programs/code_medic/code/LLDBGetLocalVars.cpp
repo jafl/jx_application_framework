@@ -30,7 +30,7 @@ LLDBGetLocalVars::LLDBGetLocalVars
 	CMVarNode* rootNode
 	)
 	:
-	CMGetLocalVars(""),
+	CMGetLocalVars(JString::empty),
 	itsRootNode(rootNode)
 {
 }
@@ -55,7 +55,7 @@ LLDBGetLocalVars::HandleSuccess
 	const JString& data
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link == nullptr)
 		{
 		itsRootNode->DeleteAllChildren();

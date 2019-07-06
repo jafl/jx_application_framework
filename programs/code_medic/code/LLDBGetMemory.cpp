@@ -43,7 +43,7 @@ LLDBGetMemory::~LLDBGetMemory()
 
  ******************************************************************************/
 
-static const JCharacter* kCommandName[] =
+static const JUtf8Byte* kCommandName[] =
 {
 	"xb", "xh", "xw", "xg", "cb", "i"
 };
@@ -54,7 +54,7 @@ LLDBGetMemory::HandleSuccess
 	const JString& data
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link == nullptr)
 		{
 		return;
@@ -70,17 +70,17 @@ LLDBGetMemory::HandleSuccess
 	JSize count;
 	const JString& expr = GetDirector()->GetExpression(&type, &count);
 
-	JString cmd = "memory read -g ";
-	cmd        += JString((JUInt64) count);
-	cmd        += kCommandName[ type-1 ];
-	cmd        += " ";
-	cmd        += expr;
+	JString cmd("memory read -g ");
+	cmd += JString((JUInt64) count);
+	cmd += kCommandName[ type-1 ];
+	cmd += " ";
+	cmd += expr;
 
 	lldb::SBCommandReturnObject result;
-	interp.HandleCommand(cmd, result);
+	interp.HandleCommand(cmd.GetBytes(), result);
 
 	if (result.IsValid() && result.Succeeded() && result.HasResult())
 		{
-		GetDirector()->Update(result.GetOutput());
+		GetDirector()->Update(JString(result.GetOutput(), kJFalse));
 		}
 }

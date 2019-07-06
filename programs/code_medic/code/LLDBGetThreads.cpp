@@ -18,6 +18,8 @@
 #include "LLDBLink.h"
 #include "cmGlobals.h"
 #include <JTree.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <JRegex.h>
 #include <jFileUtil.h>
 #include <jAssert.h>
@@ -35,7 +37,7 @@ LLDBGetThreads::LLDBGetThreads
 	CMThreadsWidget*	widget
 	)
 	:
-	CMGetThreads("", widget),
+	CMGetThreads(JString::empty, widget),
 	itsTree(tree)
 {
 }
@@ -62,7 +64,7 @@ LLDBGetThreads::HandleSuccess
 	const JString& data
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link == nullptr)
 		{
 		return;
@@ -77,7 +79,6 @@ LLDBGetThreads::HandleSuccess
 	JTreeNode* root   = itsTree->GetRoot();
 	const JSize count = p.GetNumThreads();
 	JString fileName, name, indexStr;
-	JArray<JIndexRange> matchList;
 	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		lldb::SBThread t = p.GetThreadAtIndex(i);
@@ -88,7 +89,10 @@ LLDBGetThreads::HandleSuccess
 		lldb::SBFileSpec file = e.GetFileSpec();
 		if (file.IsValid())
 			{
-			fileName  = JCombinePathAndName(file.GetDirectory(), file.GetFilename());
+			fileName = JCombinePathAndName(
+				JString(file.GetDirectory(), kJFalse),
+				JString(file.GetFilename(), kJFalse));
+
 			lineIndex = e.GetLine();
 			}
 		else
@@ -99,17 +103,19 @@ LLDBGetThreads::HandleSuccess
 		lldb::SBStream stream;
 		t.GetDescription(stream);
 		name = stream.GetData();
-		
-		if (threadIDPattern.Match(name, &matchList))
+
+		const JStringMatch m = threadIDPattern.Match(name, kJTrue);
+		if (!m.IsEmpty())
 			{
-			indexStr = name.GetSubstring(matchList.GetElement(2));
-			while (indexStr.GetLength() < kThreadIndexWidth)
+			indexStr = m.GetSubstring(1);
+			while (indexStr.GetCharacterCount() < kThreadIndexWidth)
 				{
-				indexStr.PrependCharacter('0');
+				indexStr.Prepend("0");
 				}
 			indexStr += ":  ";
 
-			name.RemoveSubstring(1, matchList.GetFirstElement().last);
+			JStringIterator iter(&name);
+			iter.RemoveNext(m.GetCharacterRange().last);
 			name.TrimWhitespace();
 			name.Prepend(indexStr);
 			}

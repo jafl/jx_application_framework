@@ -27,8 +27,8 @@ LLDBGetCompletions::LLDBGetCompletions
 	CMCommandOutputDisplay*	history
 	)
 	:
-	CMGetCompletions(""),
-	itsPrefix(input->GetText()),
+	CMGetCompletions(JString::empty),
+	itsPrefix(input->GetText()->GetText()),
 	itsInput(input),
 	itsHistory(history)
 {
@@ -48,13 +48,15 @@ LLDBGetCompletions::~LLDBGetCompletions()
 
  ******************************************************************************/
 
+static const JString newline("\n", kJFalse);
+
 void
 LLDBGetCompletions::HandleSuccess
 	(
 	const JString& data
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link == nullptr)
 		{
 		return;
@@ -67,33 +69,33 @@ LLDBGetCompletions::HandleSuccess
 		}
 
 	lldb::SBStringList matches;
-	const JSize matchCount = interp.HandleCompletion(itsPrefix, itsPrefix.GetLength(), 0, -1, matches);
+	const JSize matchCount = interp.HandleCompletion(itsPrefix.GetBytes(), itsPrefix.GetByteCount(), 0, -1, matches);
 
 	if (matchCount == 0)
 		{
-		(itsInput->GetDisplay())->Beep();
+		itsInput->GetDisplay()->Beep();
 		return;
 		}
 	else if (strlen(matches.GetStringAtIndex(0)) > 0)
 		{
 		itsInput->GoToEndOfLine();
-		itsInput->Paste(matches.GetStringAtIndex(0));
+		itsInput->Paste(JString(matches.GetStringAtIndex(0), kJFalse));
 		return;
 		}
 	else if (matchCount == 1)
 		{
-		itsInput->SetText(matches.GetStringAtIndex(1));
+		itsInput->GetText()->SetText(JString(matches.GetStringAtIndex(1), kJFalse));
 		itsInput->GoToEndOfLine();
 		return;
 		}
 
 	itsHistory->PlaceCursorAtEnd();
-	itsHistory->Paste("\n");
+	itsHistory->Paste(newline);
 
 	const JSize count = matches.GetSize();
 	for (JIndex i=1; i<count; i++)
 		{
-		itsHistory->Paste(matches.GetStringAtIndex(i));
-		itsHistory->Paste("\n");
+		itsHistory->Paste(JString(matches.GetStringAtIndex(i), kJFalse));
+		itsHistory->Paste(newline);
 		}
 }

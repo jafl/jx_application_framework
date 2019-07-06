@@ -15,11 +15,11 @@ class LLDBWelcomeTask : public JXUrgentTask
 {
 public:
 
-	LLDBWelcomeTask(const JCharacter* msg, const JBoolean restart);
+	LLDBWelcomeTask(const JString& msg, const JBoolean restart);
 
 	virtual ~LLDBWelcomeTask();
 
-	virtual void	Perform();
+	virtual void	Perform() override;
 
 private:
 

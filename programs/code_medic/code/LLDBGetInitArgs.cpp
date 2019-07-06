@@ -24,7 +24,7 @@ LLDBGetInitArgs::LLDBGetInitArgs
 	JXInputField* argInput
 	)
 	:
-	CMGetInitArgs(""),
+	CMGetInitArgs(JString::empty),
 	itsArgInput(argInput)
 {
 }

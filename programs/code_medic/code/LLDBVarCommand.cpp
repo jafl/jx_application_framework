@@ -26,7 +26,7 @@
 
 LLDBVarCommand::LLDBVarCommand
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 	:
 	CMVarCommand()
@@ -54,7 +54,7 @@ LLDBVarCommand::HandleSuccess
 	const JString& data
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link == nullptr)
 		{
 		Broadcast(ValueMessage(kValueFailed, nullptr));
@@ -68,7 +68,7 @@ LLDBVarCommand::HandleSuccess
 		return;
 		}
 
-	lldb::SBValue v = f.EvaluateExpression(itsExpr, lldb::eDynamicDontRunTarget);
+	lldb::SBValue v = f.EvaluateExpression(itsExpr.GetBytes(), lldb::eDynamicDontRunTarget);
 	if (v.IsValid())
 		{
 		Broadcast(ValueMessage(kValueUpdated, LLDBVarNode::BuildTree(f, v)));

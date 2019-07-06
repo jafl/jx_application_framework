@@ -27,7 +27,7 @@
 
 LLDBGetBreakpoints::LLDBGetBreakpoints()
 	:
-	CMGetBreakpoints("")
+	CMGetBreakpoints(JString::empty)
 {
 }
 
@@ -51,7 +51,7 @@ LLDBGetBreakpoints::HandleSuccess
 	const JString& cmdData
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link == nullptr)
 		{
 		return;
@@ -114,7 +114,10 @@ LLDBGetBreakpoints::HandleSuccess
 		CMBreakpoint* bp = nullptr;
 		if (file.IsValid())
 			{
-			const JString fullName = JCombinePathAndName(file.GetDirectory(), file.GetFilename());
+			const JString fullName = JCombinePathAndName(
+				JString(file.GetDirectory(), kJFalse),
+				JString(file.GetFilename(), kJFalse));
+
 			bp = jnew CMBreakpoint(b.GetID(), fullName, e.GetLine(), func, addr,
 								  JI2B(b.IsEnabled()), action,
 								  cond, b.GetIgnoreCount());
@@ -164,12 +167,12 @@ LLDBGetBreakpoints::HandleSuccess
 			cond.Clear();
 			}
 
-		CMBreakpoint* bp = jnew CMBreakpoint(w.GetID(), loc, "", addr,
+		CMBreakpoint* bp = jnew CMBreakpoint(w.GetID(), loc, JString::empty, addr,
 											JI2B(w.IsEnabled()), CMBreakpoint::kKeepBreakpoint,
 											cond, w.GetIgnoreCount());
 		assert( bp != nullptr );
 		bpList.InsertSorted(bp);
 		}
 
-	(CMGetLink()->GetBreakpointManager())->UpdateBreakpoints(bpList, otherList);
+	CMGetLink()->GetBreakpointManager()->UpdateBreakpoints(bpList, otherList);
 }

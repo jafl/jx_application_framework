@@ -20,11 +20,11 @@ public:
 	virtual	~GDBArray2DCommand();
 
 	virtual void	PrepareToSend(const UpdateType type, const JIndex index,
-								  const JInteger arrayIndex);
+								  const JInteger arrayIndex) override;
 
 protected:
 
-	virtual void	HandleSuccess(const JString& data);
+	virtual void	HandleSuccess(const JString& data) override;
 
 private:
 

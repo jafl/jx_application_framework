@@ -108,7 +108,7 @@ public:
 
 protected:
 
-	virtual FlexLexerInputSize	LexerInput(char* buf, FlexLexerInputSize max_size) /* override */;
+	virtual FlexLexerInputSize	LexerInput(char* buf, FlexLexerInputSize max_size) override;
 
 private:
 

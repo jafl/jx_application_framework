@@ -939,10 +939,8 @@ T "../../libjx/code/" T
 T "../../libjx/image/" T
 T "./JCC" T
 T "./code/" T
+T "./lldb-include/" T
 T "./strings/" T
-T "~/tools/lldb/include/" F
-T "~/tools/lldb/include/lldb/API" T
-T "~/tools/lldb/source/API" T
 F
 # C preprocessor
 T "CBCFlexLexer" "yyFlexLexer"

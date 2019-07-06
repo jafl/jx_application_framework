@@ -75,7 +75,7 @@ LLDBPlot2DCommand::HandleSuccess
 	)
 {
 	lldb::SBFrame f =
-		dynamic_cast<LLDBLink*>CMGetLink()->GetDebugger()->
+		dynamic_cast<LLDBLink*>(CMGetLink())->GetDebugger()->
 			GetSelectedTarget().GetProcess().GetSelectedThread().GetSelectedFrame();
 
 	JArray<JFloat>* x = GetX();
@@ -94,7 +94,7 @@ LLDBPlot2DCommand::HandleSuccess
 	for (i=1; i<=count; i++)
 		{
 		expr             = GetDirector()->GetXExpression(itsCurveIndex, i);
-		lldb::SBValue vx = f.EvaluateExpression(expr);
+		lldb::SBValue vx = f.EvaluateExpression(expr.GetBytes());
 		JFloat x1;
 		if (!JString::ConvertToFloat(vx.GetValue(), &x1))
 			{
@@ -102,7 +102,7 @@ LLDBPlot2DCommand::HandleSuccess
 			}
 
 		expr             = GetDirector()->GetYExpression(itsCurveIndex, i);
-		lldb::SBValue vy = f.EvaluateExpression(expr);
+		lldb::SBValue vy = f.EvaluateExpression(expr.GetBytes());
 		JFloat y1;
 		if (!JString::ConvertToFloat(vy.GetValue(), &y1))
 			{

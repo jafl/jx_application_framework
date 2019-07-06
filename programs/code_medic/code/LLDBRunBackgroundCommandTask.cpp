@@ -46,7 +46,7 @@ LLDBRunBackgroundCommandTask::~LLDBRunBackgroundCommandTask()
 void
 LLDBRunBackgroundCommandTask::Perform()
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link != nullptr && itsCmd != nullptr)
 		{
 		link->SendMedicCommandSync(itsCmd);

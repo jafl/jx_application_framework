@@ -18,11 +18,11 @@
 
 LLDBGetFullPath::LLDBGetFullPath
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex	// for convenience
+	const JString&	fileName,
+	const JIndex	lineIndex	// for convenience
 	)
 	:
-	CMGetFullPath("", fileName, lineIndex)
+	CMGetFullPath(JString::empty, fileName, lineIndex)
 {
 }
 
@@ -47,5 +47,5 @@ LLDBGetFullPath::HandleSuccess
 	)
 {
 	Broadcast(FileNotFound(GetFileName()));
-	CMGetLink()->RememberFile(GetFileName(), nullptr);
+	CMGetLink()->RememberFile(GetFileName(), JString::empty);
 }

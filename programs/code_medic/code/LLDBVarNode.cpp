@@ -32,9 +32,9 @@ LLDBVarNode::LLDBVarNode			// root node
 
 LLDBVarNode::LLDBVarNode
 	(
-	JTreeNode*			parent,
-	const JCharacter*	name,
-	const JCharacter*	value
+	JTreeNode*		parent,
+	const JString&	name,
+	const JString&	value
 	)
 	:
 	CMVarNode(parent, name, value)
@@ -80,13 +80,13 @@ LLDBVarNode::BuildTree
 	lldb::SBValue& v
 	)
 {
-	const JCharacter* s = v.GetValue();
+	const JUtf8Byte* s = v.GetValue();
 	if (s == nullptr)
 		{
 		s = "";
 		}
 
-	JString value      = s;
+	JString value(s);
 	JBoolean isPointer = kJFalse;
 	JBoolean isSpecial = kJFalse;
 
@@ -140,11 +140,11 @@ LLDBVarNode::BuildTree
 			 name == v.GetTypeName())
 		{
 		// mark as "fake"
-		name.PrependCharacter('<');
-		name.AppendCharacter('>');
+		name.Prepend("<");
+		name.Append(">");
 		}
 
-	CMVarNode* node = CMGetLink()->CreateVarNode(nullptr, name, nullptr, value);
+	CMVarNode* node = CMGetLink()->CreateVarNode(nullptr, name, JString::empty, value);
 	assert( node != nullptr );
 
 	if (isPointer)

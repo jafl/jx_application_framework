@@ -14,13 +14,13 @@ class LLDBGetFullPath : public CMGetFullPath
 {
 public:
 
-	LLDBGetFullPath(const JCharacter* fileName, const JIndex lineIndex = 0);
+	LLDBGetFullPath(const JString& fileName, const JIndex lineIndex = 0);
 
 	virtual	~LLDBGetFullPath();
 
 protected:
 
-	virtual void	HandleSuccess(const JString& data);
+	virtual void	HandleSuccess(const JString& data) override;
 
 private:
 

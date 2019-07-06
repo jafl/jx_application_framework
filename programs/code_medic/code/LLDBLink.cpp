@@ -107,7 +107,6 @@ LLDBLink::~LLDBLink()
 	StopDebugger();
 
 	jdelete itsBPMgr;
-	jdelete itsPrompt;
 
 	DeleteOneShotCommands();
 }
@@ -132,11 +131,8 @@ const JString&
 LLDBLink::GetPrompt()
 	const
 {
-	jdelete itsPrompt;
-	const_cast<LLDBLink*>(this)->itsPrompt = jnew JString(itsDebugger->GetPrompt());
-	assert( itsPrompt != nullptr );
-
-	return *itsPrompt;
+	const_cast<LLDBLink*>(this)->itsPrompt = itsDebugger->GetPrompt();
+	return itsPrompt;
 }
 
 /******************************************************************************
@@ -202,7 +198,9 @@ LLDBLink::GetProgram
 	lldb::SBFileSpec f = itsDebugger->GetSelectedTarget().GetExecutable();
 	if (f.Exists())
 	{
-		*fullName = JCombinePathAndName(f.GetDirectory(), f.GetFilename());
+		*fullName = JCombinePathAndName(
+			JString(f.GetDirectory(), kJFalse),
+			JString(f.GetFilename(), kJFalse));
 		return kJTrue;
 	}
 	else
@@ -362,19 +360,19 @@ LLDBLink::HandleLLDBEvent()
 {
 	// read from LLDB
 
-	JCharacter buf[1024];
-	JSize count = fread(buf, sizeof(JCharacter), 1023, itsDebugger->GetOutputFileHandle());
+	JUtf8Byte buf[1024];
+	JSize count = fread(buf, sizeof(JUtf8Byte), 1023, itsDebugger->GetOutputFileHandle());
 	if (count > 0)
 		{
 		buf[ count ] = '\0';
-		Broadcast(UserOutput(buf, kJFalse));
+		Broadcast(UserOutput(JString(buf, kJFalse), kJFalse));
 		}
 
-	count = fread(buf, sizeof(JCharacter), 1023, itsDebugger->GetErrorFileHandle());
+	count = fread(buf, sizeof(JUtf8Byte), 1023, itsDebugger->GetErrorFileHandle());
 	if (count > 0)
 		{
 		buf[ count ] = '\0';
-		Broadcast(UserOutput(buf, kJTrue));
+		Broadcast(UserOutput(JString(buf, kJFalse), kJTrue));
 		}
 
 	// read from process
@@ -386,11 +384,11 @@ LLDBLink::HandleLLDBEvent()
 		if (count > 0)
 			{
 			buf[ count ]  = '\0';
-			JCharacter* b = buf;
+			JUtf8Byte* b = buf;
 
-			const JSize len = itsLastProgramInput.GetLength();
+			const JSize len = itsLastProgramInput.GetByteCount();
 			if (len < count &&
-				JCompareMaxN(itsLastProgramInput, len, buf, count, len) &&
+				JString::CompareMaxNBytes(itsLastProgramInput.GetBytes(), buf, JMin(count, len)) &&
 				(buf[len] == '\n' || buf[len] == '\r'))
 				{
 				b += len;
@@ -401,14 +399,14 @@ LLDBLink::HandleLLDBEvent()
 				}
 			itsLastProgramInput.Clear();
 
-			Broadcast(UserOutput(b, kJFalse, kJTrue));
+			Broadcast(UserOutput(JString(b, kJFalse), kJFalse, kJTrue));
 			}
 
 		count = p.GetSTDERR(buf, 1023);
 		if (count > 0)
 			{
 			buf[ count ] = '\0';
-			Broadcast(UserOutput(buf, kJTrue, kJTrue));
+			Broadcast(UserOutput(JString(buf, kJFalse), kJTrue, kJTrue));
 			}
 		}
 
@@ -437,12 +435,12 @@ LLDBLink::HandleLLDBEvent
 		return;
 		}
 
-	const JCharacter* eventClass = e.GetBroadcasterClass();
-	const uint32_t eventType     = e.GetType();
+	const JUtf8Byte* eventClass = e.GetBroadcasterClass();
+	const uint32_t eventType    = e.GetType();
 
-	JString msg = eventClass;
-	msg        += ":";
-	msg        += JString((JUInt64) eventType);
+	JString msg(eventClass);
+	msg += ":";
+	msg += JString((JUInt64) eventType);
 
 	if (lldb::SBProcess::EventIsProcessEvent(e))
 		{
@@ -559,11 +557,11 @@ LLDBLink::ReceiveLLDBErrorLine
 void
 LLDBLink::LogLLDBMessage
 	(
-	const JCharacter*	msg,
+	const JUtf8Byte*	msg,
 	void*				baton
 	)
 {
-	static_cast<LLDBLink*>(baton)->Broadcast(DebugOutput(msg, kLogType));
+	static_cast<LLDBLink*>(baton)->Broadcast(DebugOutput(JString(msg, kJFalse), kLogType));
 }
 
 /******************************************************************************
@@ -574,12 +572,12 @@ LLDBLink::LogLLDBMessage
 void
 LLDBLink::SetProgram
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	DetachOrKill(kJTrue);
 
-	lldb::SBTarget t = itsDebugger->CreateTarget(fullName);
+	lldb::SBTarget t = itsDebugger->CreateTarget(fullName.GetBytes());
 	if (t.IsValid())
 		{
 		StartListeningForEvents(t.GetBroadcaster(), kLLDBEventMask);
@@ -600,7 +598,7 @@ LLDBLink::SetProgram
 void
 LLDBLink::SymbolsLoaded
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	JString path, name;
@@ -632,7 +630,7 @@ LLDBLink::ReloadProgram()
 void
 LLDBLink::SetCore
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	DetachOrKill(kJFalse);
@@ -640,17 +638,17 @@ LLDBLink::SetCore
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
 	if (t.IsValid())
 		{
-		t.LoadCore(fullName);
+		t.LoadCore(fullName.GetBytes());
 		itsCoreName = fullName;
 		Broadcast(CoreLoaded());
 		}
 	else
 		{
-		JString cmdStr = "target create --core ";
-		cmdStr        += fullName;
+		JString cmdStr("target create --core ");
+		cmdStr += fullName;
 		SendRaw(cmdStr);
-		SendRaw("frame select 1");
-		SendRaw("frame select 0");
+		SendRaw(JString("frame select 1", kJFalse));
+		SendRaw(JString("frame select 0", kJFalse));
 		}
 }
 
@@ -678,7 +676,7 @@ LLDBLink::AttachToProcess
 
 		if (e.Fail())
 			{
-			Broadcast(UserOutput(e.GetCString(), kJTrue));
+			Broadcast(UserOutput(JString(e.GetCString(), kJFalse), kJTrue));
 			}
 		else if (t.IsValid())
 			{
@@ -686,7 +684,9 @@ LLDBLink::AttachToProcess
 			StartListeningForEvents(t.GetBroadcaster(), kLLDBEventMask);
 
 			lldb::SBFileSpec f     = t.GetExecutable();
-			const JString fullName = JCombinePathAndName(f.GetDirectory(), f.GetFilename());
+			const JString fullName = JCombinePathAndName(
+				JString(f.GetDirectory(), kJFalse),
+				JString(f.GetFilename(), kJFalse));
 
 			LLDBSymbolsLoadedTask* task = jnew LLDBSymbolsLoadedTask(fullName);
 			assert( task != nullptr );
@@ -705,7 +705,7 @@ LLDBLink::AttachToProcess
 void
 LLDBLink::RunProgram
 	(
-	const JCharacter* args
+	const JString& args
 	)
 {
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
@@ -713,19 +713,19 @@ LLDBLink::RunProgram
 		{
 		DetachOrKill(kJFalse);
 
-		JCharacter** lldbArgs = nullptr;
+		JUtf8Byte** lldbArgs = nullptr;
 
 		JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
-		if (strlen(args) > 0)
+		if (!args.IsEmpty())
 			{
 			JParseArgsForExec(args, &argList);
 
-			lldbArgs = jnew JCharacter*[ argList.GetElementCount()+1 ];
+			lldbArgs = jnew JUtf8Byte*[ argList.GetElementCount()+1 ];
 			assert( lldbArgs != nullptr );
 
 			for (JIndex i=1; i<=argList.GetElementCount(); i++)
 				{
-				lldbArgs[ i-1 ] = const_cast<JCharacter*>(argList.GetElement(i)->GetCString());
+				lldbArgs[ i-1 ] = const_cast<JUtf8Byte*>(argList.GetElement(i)->GetBytes());
 				}
 
 			lldbArgs[ argList.GetElementCount() ] = nullptr;
@@ -761,7 +761,7 @@ LLDBLink::ShowBreakpointInfo
 	const JIndex debuggerIndex
 	)
 {
-	SendRaw("breakpoint list");
+	SendRaw(JString("breakpoint list", kJFalse));
 }
 
 /******************************************************************************
@@ -772,9 +772,9 @@ LLDBLink::ShowBreakpointInfo
 void
 LLDBLink::SetBreakpoint
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex,
-	const JBoolean		temporary
+	const JString&	fileName,
+	const JIndex	lineIndex,
+	const JBoolean	temporary
 	)
 {
 	JString path, name;
@@ -783,7 +783,7 @@ LLDBLink::SetBreakpoint
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
 	if (t.IsValid())
 		{
-		lldb::SBBreakpoint b = t.BreakpointCreateByLocation(name, lineIndex);
+		lldb::SBBreakpoint b = t.BreakpointCreateByLocation(name.GetBytes(), lineIndex);
 		b.SetOneShot(temporary);
 		}
 }
@@ -796,15 +796,15 @@ LLDBLink::SetBreakpoint
 void
 LLDBLink::SetBreakpoint
 	(
-	const JCharacter*	address,
-	const JBoolean		temporary
+	const JString&	address,
+	const JBoolean	temporary
 	)
 {
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
 	if (t.IsValid())
 		{
-		JCharacter* end;
-		const lldb::addr_t a = strtoull(address, &end, 0);
+		JUtf8Byte* end;
+		const lldb::addr_t a = strtoull(address.GetBytes(), &end, 0);
 		lldb::SBBreakpoint b = t.BreakpointCreateByAddress(a);
 		b.SetOneShot(temporary);
 		}
@@ -836,8 +836,8 @@ LLDBLink::RemoveBreakpoint
 void
 LLDBLink::RemoveAllBreakpointsOnLine
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
@@ -876,7 +876,7 @@ LLDBLink::RemoveAllBreakpointsOnLine
 void
 LLDBLink::RemoveAllBreakpointsAtAddress
 	(
-	const JCharacter* addrStr
+	const JString& addrStr
 	)
 {
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
@@ -885,8 +885,8 @@ LLDBLink::RemoveAllBreakpointsAtAddress
 		return;
 		}
 
-	JCharacter* end;
-	const lldb::addr_t addr = strtoull(addrStr, &end, 0);
+	JUtf8Byte* end;
+	const lldb::addr_t addr = strtoull(addrStr.GetBytes(), &end, 0);
 
 	const JSize bpCount = t.GetNumBreakpoints();
 	for (long i=bpCount-1; i>=0; i--)
@@ -950,14 +950,14 @@ LLDBLink::SetBreakpointEnabled
 void
 LLDBLink::SetBreakpointCondition
 	(
-	const JIndex		debuggerIndex,
-	const JCharacter*	condition
+	const JIndex	debuggerIndex,
+	const JString&	condition
 	)
 {
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
 	if (t.IsValid())
 		{
-		t.FindBreakpointByID(debuggerIndex).SetCondition(condition);
+		t.FindBreakpointByID(debuggerIndex).SetCondition(condition.GetBytes());
 		}
 }
 
@@ -1006,7 +1006,7 @@ LLDBLink::SetBreakpointIgnoreCount
 void
 LLDBLink::WatchExpression
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 	Watch(expr, kJFalse);
@@ -1020,7 +1020,7 @@ LLDBLink::WatchExpression
 void
 LLDBLink::WatchLocation
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 	Watch(expr, kJTrue);
@@ -1034,14 +1034,14 @@ LLDBLink::WatchLocation
 void
 LLDBLink::Watch
 	(
-	const JCharacter*	expr,
-	const JBoolean		resolveAddress
+	const JString&	expr,
+	const JBoolean	resolveAddress
 	)
 {
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
 	if (t.IsValid())
 		{
-		lldb::SBValue v = t.EvaluateExpression(expr);
+		lldb::SBValue v = t.EvaluateExpression(expr.GetBytes());
 		if (v.IsValid())
 			{
 			v.Watch(resolveAddress, false, true);
@@ -1161,8 +1161,8 @@ LLDBLink::Continue()
 void
 LLDBLink::RunUntil
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	if (ProgramIsStopped())
@@ -1180,17 +1180,17 @@ LLDBLink::RunUntil
 void
 LLDBLink::SetExecutionPoint
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	if (ProgramIsStopped())
 		{
-		JString cmd = "_regexp-jump ";
-		cmd        += fileName;
-		cmd        += ":";
-		cmd        += JString((JUInt64) lineIndex);
-		itsDebugger->HandleCommand(cmd);
+		JString cmd("_regexp-jump ");
+		cmd += fileName;
+		cmd += ":";
+		cmd += JString((JUInt64) lineIndex);
+		itsDebugger->HandleCommand(cmd.GetBytes());
 
 		ProgramStopped();
 		}
@@ -1234,14 +1234,14 @@ LLDBLink::StepIntoAssembly()
 void
 LLDBLink::RunUntil
 	(
-	const JCharacter* addr
+	const JString& addr
 	)
 {
 	lldb::SBThread t = itsDebugger->GetSelectedTarget().GetProcess().GetSelectedThread();
 	if (t.IsValid() && ProgramIsStopped())
 		{
-		JCharacter* end;
-		const lldb::addr_t a = strtoull(addr, &end, 0);
+		JUtf8Byte* end;
+		const lldb::addr_t a = strtoull(addr.GetBytes(), &end, 0);
 		t.RunToAddress(a);
 		}
 }
@@ -1254,14 +1254,14 @@ LLDBLink::RunUntil
 void
 LLDBLink::SetExecutionPoint
 	(
-	const JCharacter* addr
+	const JString& addr
 	)
 {
 	if (ProgramIsStopped())
 		{
-		JString cmd = "_regexp-jump *";
-		cmd        += addr;
-		itsDebugger->HandleCommand(cmd);
+		JString cmd("_regexp-jump *");
+		cmd += addr;
+		itsDebugger->HandleCommand(cmd.GetBytes());
 
 		ProgramStopped();
 		}
@@ -1315,8 +1315,8 @@ LLDBLink::BackupContinue()
 void
 LLDBLink::SetValue
 	(
-	const JCharacter* name,
-	const JCharacter* value
+	const JString& name,
+	const JString& value
 	)
 {
 	lldb::SBFrame f = itsDebugger->GetSelectedTarget().GetProcess().GetSelectedThread().GetSelectedFrame();
@@ -1325,7 +1325,7 @@ LLDBLink::SetValue
 		JString expr = name;
 		expr        += " = ";
 		expr        += value;
-		f.EvaluateExpression(expr);
+		f.EvaluateExpression(expr.GetBytes());
 
 		Broadcast(ValueChanged());
 		}
@@ -1474,8 +1474,8 @@ LLDBLink::CreateGetThreads
 CMGetFullPath*
 LLDBLink::CreateGetFullPath
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	CMGetFullPath* cmd = jnew LLDBGetFullPath(fileName, lineIndex);
@@ -1539,7 +1539,7 @@ LLDBLink::CreateGetSourceFileList
 CMVarCommand*
 LLDBLink::CreateVarValueCommand
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 	CMVarCommand* cmd = jnew LLDBVarCommand(expr);
@@ -1555,12 +1555,12 @@ LLDBLink::CreateVarValueCommand
 CMVarCommand*
 LLDBLink::CreateVarContentCommand
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
-	JString s = "*(";
-	s        += expr;
-	s        += ")";
+	JString s("*(");
+	s += expr;
+	s += ")";
 
 	CMVarCommand* cmd = jnew LLDBVarCommand(s);
 	assert( cmd != nullptr );
@@ -1586,10 +1586,10 @@ LLDBLink::CreateVarNode
 CMVarNode*
 LLDBLink::CreateVarNode
 	(
-	JTreeNode*			parent,
-	const JCharacter*	name,
-	const JCharacter*	fullName,
-	const JCharacter*	value
+	JTreeNode*		parent,
+	const JString&	name,
+	const JString&	fullName,
+	const JString&	value
 	)
 {
 	CMVarNode* node = jnew LLDBVarNode(parent, name, value);
@@ -1605,8 +1605,8 @@ LLDBLink::CreateVarNode
 JString
 LLDBLink::Build1DArrayExpression
 	(
-	const JCharacter*	expr,
-	const JInteger		index
+	const JString&	expr,
+	const JInteger	index
 	)
 {
 	return Build1DArrayExpressionForCFamilyLanguage(expr, index);
@@ -1620,9 +1620,9 @@ LLDBLink::Build1DArrayExpression
 JString
 LLDBLink::Build2DArrayExpression
 	(
-	const JCharacter*	expr,
-	const JInteger		rowIndex,
-	const JInteger		colIndex
+	const JString&	expr,
+	const JInteger	rowIndex,
+	const JInteger	colIndex
 	)
 {
 	return Build2DArrayExpressionForCFamilyLanguage(expr, rowIndex, colIndex);
@@ -1686,19 +1686,19 @@ LLDBLink::CreateGetRegisters
 void
 LLDBLink::SendRaw
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 	if (ProgramIsRunning())
 		{
 		lldb::SBProcess p = itsDebugger->GetSelectedTarget().GetProcess();
-		p.PutSTDIN(text, strlen(text));
+		p.PutSTDIN(text.GetBytes(), text.GetByteCount());
 		p.PutSTDIN("\n", 1);
 		itsLastProgramInput = text;
 		}
 	else
 		{
-		itsDebugger->HandleCommand(text);
+		itsDebugger->HandleCommand(text.GetBytes());
 		Broadcast(DebugOutput(text, kCommandType));
 		}
 }
@@ -1778,13 +1778,15 @@ LLDBLink::ProgramStopped
 		JString fullName;
 		if (file.IsValid())
 			{
-			fullName = JCombinePathAndName(file.GetDirectory(), file.GetFilename());
+			fullName = JCombinePathAndName(
+				JString(file.GetDirectory(), kJFalse),
+				JString(file.GetFilename(), kJFalse));
 			}
 		CMLocation location(fullName, line.IsValid() ? line.GetLine() : 0);
 
 		if (f.GetFunctionName() != nullptr)
 			{
-			location.SetFunctionName(f.GetFunctionName());
+			location.SetFunctionName(JString(f.GetFunctionName(), kJFalse));
 			}
 
 		const lldb::SBAddress addr = f.GetPCAddress();
@@ -1982,11 +1984,11 @@ LLDBLink::StartDebugger
 		setvbuf(itsStderrStream, nullptr, _IOLBF, 0);
 		itsDebugger->SetErrorFileHandle(itsStderrStream, false);
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
 			"debugger", itsDebugger->GetVersionString()
 			};
-		JString msg = JGetString("Welcome::LLDBLink", map, sizeof(map));
+		const JString msg = JGetString("Welcome::LLDBLink", map, sizeof(map));
 
 		LLDBWelcomeTask* task = jnew LLDBWelcomeTask(msg, restart);
 		assert( task != nullptr );
@@ -1996,7 +1998,7 @@ LLDBLink::StartDebugger
 		}
 	else
 		{
-		JGetStringManager()->ReportError("UnableToStartDebugger::LLDBLink", "");
+		JGetStringManager()->ReportError("UnableToStartDebugger::LLDBLink", JString::empty);
 		return kJFalse;
 		}
 }

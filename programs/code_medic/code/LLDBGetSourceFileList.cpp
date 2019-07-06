@@ -30,7 +30,7 @@ LLDBGetSourceFileList::LLDBGetSourceFileList
 	CMFileListDir* fileList
 	)
 	:
-	CMGetSourceFileList("", fileList)
+	CMGetSourceFileList(JString::empty, fileList)
 {
 }
 
@@ -54,7 +54,7 @@ LLDBGetSourceFileList::HandleSuccess
 	const JString& origData
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link == nullptr)
 		{
 		return;
@@ -82,7 +82,10 @@ LLDBGetSourceFileList::HandleSuccess
 
 				if (f.GetDirectory() != nullptr && f.GetFilename() != nullptr)
 					{
-					fullName = JCombinePathAndName(f.GetDirectory(), f.GetFilename());
+					fullName = JCombinePathAndName(
+						JString(f.GetDirectory(), kJFalse),
+						JString(f.GetFilename(), kJFalse));
+
 					table->AddFile(fullName);
 					}
 				}

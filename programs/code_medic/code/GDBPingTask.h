@@ -18,7 +18,7 @@ public:
 
 	virtual ~GDBPingTask();
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	virtual void	Perform(const Time delta, Time* maxSleepTime) override;
 
 private:
 

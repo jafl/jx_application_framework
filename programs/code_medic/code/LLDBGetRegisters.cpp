@@ -25,7 +25,7 @@ LLDBGetRegisters::LLDBGetRegisters
 	CMRegistersDir* dir
 	)
 	:
-	CMGetRegisters("", dir)
+	CMGetRegisters(JString::empty, dir)
 {
 }
 
@@ -49,7 +49,7 @@ LLDBGetRegisters::HandleSuccess
 	const JString& data
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>CMGetLink();
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link == nullptr)
 		{
 		return;
@@ -67,6 +67,6 @@ LLDBGetRegisters::HandleSuccess
 	// https://llvm.org/bugs/show_bug.cgi?id=26421
 	if (result.IsValid() && result.Succeeded() /* && result.HasResult() */)
 		{
-		GetDirector()->Update(result.GetOutput());
+		GetDirector()->Update(JString(result.GetOutput(), kJFalse));
 		}
 }
