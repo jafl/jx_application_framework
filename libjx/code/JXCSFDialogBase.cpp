@@ -473,7 +473,7 @@ JXCSFDialogBase::Receive
 
 	else if (sender == itsFilterInput && message.Is(JXWidget::kGotFocus))
 		{
-		itsEnterButton->SetLabel(JGetString("SetLabel::JXCSFDialogBase"));
+		itsEnterButton->SetLabel(JGetString("ApplyLabel::JXCSFDialogBase"));
 		}
 	else if (sender == itsFilterInput && message.Is(JXWidget::kLostFocus) &&
 			 !itsDeactCancelFlag)
