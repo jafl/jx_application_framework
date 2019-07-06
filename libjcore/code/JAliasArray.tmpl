@@ -4,8 +4,8 @@
 /******************************************************************************
  JAliasArray.tmpl
 
-	Template for an array of indices into a JList.  The indices are
-	sorted by applying a comparison function to the data in the JList.
+	Template for an array of indices into a JArray.  The indices are
+	sorted by applying a comparison function to the data in the JArray.
 	This allows you to sort a list in more than one way without having to
 	duplicate the data itself.
 
@@ -33,7 +33,7 @@
 template <class T>
 JAliasArray<T>::JAliasArray
 	(
-	JList<T>*					data,
+	JArray<T>*					data,
 	JListT::CompareResult		(*compareFn)(const T&, const T&),
 	const JListT::SortOrder	order
 	)
@@ -51,7 +51,7 @@ JAliasArray<T>::JAliasArray
 template <class T>
 JAliasArray<T>::JAliasArray
 	(
-	JList<T>*					data,
+	JArray<T>*					data,
 	const JElementComparison<T>&	compareObj,
 	const JListT::SortOrder	order
 	)
@@ -114,7 +114,7 @@ JAliasArray<T>::~JAliasArray()
  ******************************************************************************/
 
 template <class T>
-JList<T>*
+JArray<T>*
 JAliasArray<T>::GetData()
 {
 	assert( itsData != nullptr );
@@ -123,7 +123,7 @@ JAliasArray<T>::GetData()
 }
 
 template <class T>
-const JList<T>&
+const JArray<T>&
 JAliasArray<T>::GetData()
 	const
 {
@@ -285,47 +285,30 @@ public:
 
 	JCompareAliasWrapper
 		(
-		const JList<T>&					data,
+		const JArray<T>&				data,
 		const JElementComparison<T>&	compareObj,
 		const T*						searchData = nullptr
 		)
 		:
 		itsData(data),
 		itsCompareObj(compareObj),
-		itsSearchData(searchData),
-		itsIter(itsData.NewIterator())
+		itsSearchData(searchData)
 	{ };
-
-	virtual ~JCompareAliasWrapper()
-	{
-		jdelete itsIter;
-	};
 
 	virtual JListT::CompareResult
 	Compare(const JIndex& i1, const JIndex& i2) const
 	{
 		if (itsSearchData == nullptr || (i1 > 0 && i2 > 0))
 			{
-			T d1, d2;
-			itsIter->MoveTo(kJIteratorStartBefore, i1);
-			itsIter->Next(&d1);
-			itsIter->MoveTo(kJIteratorStartBefore, i2);
-			itsIter->Next(&d2);
-			return itsCompareObj.Compare(d1, d2);
+			return itsCompareObj.Compare(itsData.GetElement(i1), itsData.GetElement(i2));
 			}
 		else if (i1 == 0)
 			{
-			T d2;
-			itsIter->MoveTo(kJIteratorStartBefore, i2);
-			itsIter->Next(&d2);
-			return itsCompareObj.Compare(*itsSearchData, d2);
+			return itsCompareObj.Compare(*itsSearchData, itsData.GetElement(i2));
 			}
 		else	// i2 == 0
 			{
-			T d1;
-			itsIter->MoveTo(kJIteratorStartBefore, i1);
-			itsIter->Next(&d1);
-			return itsCompareObj.Compare(d1, *itsSearchData);
+			return itsCompareObj.Compare(itsData.GetElement(i1), *itsSearchData);
 			}
 	}
 
@@ -339,10 +322,9 @@ public:
 
 private:
 
-	const JList<T>&					itsData;
+	const JArray<T>&				itsData;
 	const JElementComparison<T>&	itsCompareObj;
 	const T*						itsSearchData;
-	JListIterator<T>*				itsIter;
 };
 
 /******************************************************************************
@@ -451,9 +433,9 @@ template <class T>
 JBoolean
 JAliasArray<T>::SearchSorted
 	(
-	const T&							target,
+	const T&					target,
 	const JListT::SearchReturn	which,
-	JIndex*								index
+	JIndex*						index
 	)
 	const
 {
@@ -482,9 +464,9 @@ template <class T>
 JIndex
 JAliasArray<T>::SearchSorted1
 	(
-	const T&							target,
+	const T&					target,
 	const JListT::SearchReturn	which,
-	JBoolean*							found
+	JBoolean*					found
 	)
 	const
 {

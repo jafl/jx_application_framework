@@ -15,17 +15,17 @@ class JAliasArray : public JCollection
 {
 public:
 
-	JAliasArray(JList<T>* data,
+	JAliasArray(JArray<T>* data,
 				JListT::CompareResult (*compareFn)(const T&, const T&),
 				const JListT::SortOrder order);
-	JAliasArray(JList<T>* data,
+	JAliasArray(JArray<T>* data,
 				const JElementComparison<T>& compareObj,
 				const JListT::SortOrder order);
 
 	virtual ~JAliasArray();
 
-	JList<T>*			GetData();
-	const JList<T>&	GetData() const;
+	JArray<T>*			GetData();
+	const JArray<T>&	GetData() const;
 
 	JIndex	GetElementIndex(const JIndex index) const;
 	JIndex	GetElementIndexFromEnd(const JIndex index) const;
@@ -48,7 +48,7 @@ public:
 	void	SetCompareObject(const JElementComparison<T>& compareObj);
 
 	JListT::SortOrder	GetSortOrder() const;
-	void					SetSortOrder(const JListT::SortOrder order);
+	void				SetSortOrder(const JListT::SortOrder order);
 
 	JBoolean	SearchSorted(const T& target, const JListT::SearchReturn which,
 							 JIndex* index) const;
@@ -64,11 +64,11 @@ protected:
 
 private:
 
-	JList<T>*	itsData;		// not owned; die if nullptr
+	JArray<T>*		itsData;		// not owned; die if nullptr
 	JArray<JIndex>*	itsIndexArray;
 
 	JListT::CompareResult	(*itsCompareFn)(const T&, const T&);	// can be nullptr
-	JElementComparison<T>*		itsCompareObj;							// can be nullptr
+	JElementComparison<T>*	itsCompareObj;							// can be nullptr
 
 private:
 
