@@ -47,11 +47,11 @@ GDBGetStopLocation::GetLocation()
 	const JString& data = GetLastResult();
 
 	CMLocation loc;
-	JIndexRange r;
-	if (locationPattern.Match(data, &r))
+	const JStringMatch m = locationPattern.Match(data, kJFalse);
+	if (!m.IsEmpty())
 		{
-		std::istringstream stream(data.GetCString());
-		stream.seekg(r.last);
+		std::istringstream stream(data.GetBytes());
+		stream.seekg(m.GetUtf8ByteRange().last);
 
 		JStringPtrMap<JString> map(JPtrArrayT::kDeleteAll);
 		JString *s, *s1, *fullName;

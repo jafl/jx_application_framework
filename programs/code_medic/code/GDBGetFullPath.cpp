@@ -24,8 +24,8 @@
 
 GDBGetFullPath::GDBGetFullPath
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex	// for convenience
+	const JString&	fileName,
+	const JIndex	lineIndex	// for convenience
 	)
 	:
 	CMGetFullPath(BuildCommand(fileName), fileName, lineIndex)
@@ -49,12 +49,12 @@ GDBGetFullPath::~GDBGetFullPath()
 JString
 GDBGetFullPath::BuildCommand
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
-	JString cmd = "list ";
-	cmd        += fileName;
-	cmd        += ":1\n-file-list-exec-source-file";
+	JString cmd("list ");
+	cmd += fileName;
+	cmd += ":1\n-file-list-exec-source-file";
 	return cmd;
 }
 
@@ -72,14 +72,14 @@ GDBGetFullPath::HandleSuccess
 	const JString& cmdData
 	)
 {
-	JArray<JIndexRange> matchList;
-	if (redirectPattern.Match(cmdData, &matchList))
+	const JStringMatch m1 = redirectPattern.Match(cmdData, kJTrue);
+	if (!m1.IsEmpty())
 		{
-		const JString fullName = cmdData.GetSubstring(matchList.GetElement(2));
+		const JString fullName = m1.GetSubstring(1);
 		if (fullName == GetFileName())
 			{
 			Broadcast(FileNotFound(GetFileName()));
-			CMGetLink()->RememberFile(GetFileName(), nullptr);
+			CMGetLink()->RememberFile(GetFileName(), JString::empty);
 			}
 		else if (JIsAbsolutePath(fullName))
 			{
@@ -102,13 +102,13 @@ GDBGetFullPath::HandleSuccess
 	JString data1;
 	if (resultList.GetElementCount() == 2)
 		{
-		data1 = *(resultList.FirstElement());
+		data1 = *(resultList.GetFirstElement());
 		}
 
-	if (!data1.Contains("No source file") &&
-		pathPattern.Match(data, &matchList))
+	const JStringMatch m2 = pathPattern.Match(data, kJTrue);
+	if (!data1.Contains("No source file") && !m2.IsEmpty())
 		{
-		const JString fullName = data.GetSubstring(matchList.GetElement(2));
+		const JString fullName = m2.GetSubstring(1);
 		if (JFileReadable(fullName))
 			{
 			fileOK = kJTrue;
@@ -124,6 +124,6 @@ GDBGetFullPath::HandleSuccess
 	if (!fileOK)
 		{
 		Broadcast(FileNotFound(GetFileName()));
-		CMGetLink()->RememberFile(GetFileName(), nullptr);
+		CMGetLink()->RememberFile(GetFileName(), JString::empty);
 		}
 }

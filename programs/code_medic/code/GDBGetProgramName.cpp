@@ -40,7 +40,6 @@ GDBGetProgramName::~GDBGetProgramName()
  ******************************************************************************/
 
 static const JRegex fileNamePattern = "Local exec file:\n\t`([^\n]+)'";
-static const JRegex osxNamePattern  = "Symbols from \"([^\"]+)\"";
 
 void
 GDBGetProgramName::HandleSuccess
@@ -50,11 +49,10 @@ GDBGetProgramName::HandleSuccess
 {
 	JString fileName;
 
-	JArray<JIndexRange> matchList;
-	if (fileNamePattern.Match(data, &matchList) ||
-		osxNamePattern.Match(data, &matchList))
+	const JStringMatch m = fileNamePattern.Match(data, kJTrue);
+	if (!m.IsEmpty())
 		{
-		fileName = data.GetSubstring(matchList.GetElement(2));
+		fileName = m.GetSubstring(1);
 		}
 	else
 		{
@@ -64,5 +62,5 @@ GDBGetProgramName::HandleSuccess
 	// CMLink has to broadcast SymbolsLoaded regardless of whether or not
 	// we get what we expect from gdb.
 
-	dynamic_cast<GDBLink*>CMGetLink()->SaveProgramName(fileName);
+	dynamic_cast<GDBLink*>(CMGetLink())->SaveProgramName(fileName);
 }

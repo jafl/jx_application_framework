@@ -9,6 +9,8 @@
 
 #include "GDBPlot2DCommand.h"
 #include "CMPlot2DDir.h"
+#include "cmGlobals.h"
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -74,7 +76,6 @@ GDBPlot2DCommand::UpdateRange
 
  ******************************************************************************/
 
-#include "cmGlobals.h"
 static const JRegex prefixPattern = "^\\$[[:digit:]]+[[:space:]]+=[[:space:]]+(.*)$";
 
 void
@@ -96,27 +97,27 @@ GDBPlot2DCommand::HandleSuccess
 	const JIndex count = x->GetElementCount();
 
 	JIndex i;
-	JIndexRange r;
-	JArray<JIndexRange> matchRange1, matchRange2;
 	JString v1, v2;
+
+	JStringIterator iter(data);
 	for (i=1; i<=count; i++)
 		{
-		if (!prefixPattern.MatchAfter(data, r, &matchRange1))
+		if (!iter.Next(prefixPattern))
 			{
 			break;
 			}
-		r = matchRange1.GetElement(1);
+		const JStringMatch m1 = iter.GetLastMatch();
 
-		if (!prefixPattern.MatchAfter(data, r, &matchRange2))
+		if (!iter.Next(prefixPattern))
 			{
 			break;
 			}
-		r = matchRange2.GetElement(1);
+		const JStringMatch m2 = iter.GetLastMatch();
 
-		v1 = data.GetSubstring(matchRange1.GetElement(2));
+		v1 = m1.GetSubstring(1);
 		v1.TrimWhitespace();
 
-		v2 = data.GetSubstring(matchRange2.GetElement(2));
+		v2 = m2.GetSubstring(1);
 		v2.TrimWhitespace();
 
 		JFloat x1, y1;

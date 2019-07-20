@@ -10,6 +10,7 @@
 #include "GDBGetThread.h"
 #include "CMThreadsWidget.h"
 #include "GDBGetThreads.h"
+#include <JStringIterator.h>
 #include <jStreamUtil.h>
 #include <sstream>
 #include <jAssert.h>
@@ -24,7 +25,7 @@ GDBGetThread::GDBGetThread
 	CMThreadsWidget* widget
 	)
 	:
-	CMGetThread("set width 0\ninfo threads", widget)
+	CMGetThread(JString("set width 0\ninfo threads", kJFalse), widget)
 {
 }
 
@@ -50,7 +51,7 @@ GDBGetThread::HandleSuccess
 {
 	JIndex currentThreadIndex = 0;
 
-	const std::string s(data.GetCString(), data.GetLength());
+	const std::string s(data.GetRawBytes(), data.GetByteCount());
 	std::istringstream input(s);
 	JString line;
 	while (1)
@@ -64,7 +65,8 @@ GDBGetThread::HandleSuccess
 		line.TrimWhitespace();
 		if (!line.IsEmpty() && line.GetFirstCharacter() == '*')
 			{
-			line.RemoveSubstring(1,1);
+			JStringIterator iter(&line);
+			iter.RemoveNext();
 			line.TrimWhitespace();
 			if (GDBGetThreads::ExtractThreadIndex(line, &currentThreadIndex))
 				{

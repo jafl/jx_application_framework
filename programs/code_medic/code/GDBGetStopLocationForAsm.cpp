@@ -43,5 +43,5 @@ GDBGetStopLocationForAsm::HandleSuccess
 	const JString& cmdData
 	)
 {
-	dynamic_cast<GDBLink*>CMGetLink()->SendProgramStopped2(GetLocation());
+	dynamic_cast<GDBLink*>(CMGetLink())->SendProgramStopped2(GetLocation());
 }

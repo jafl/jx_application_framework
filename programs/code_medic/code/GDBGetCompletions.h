@@ -33,7 +33,7 @@ private:
 
 private:
 
-	static JString	BuildCommand(const JCharacter* prefix);
+	static JString	BuildCommand(const JString& prefix);
 
 	// not allowed
 

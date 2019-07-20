@@ -14,7 +14,6 @@
 #include "cbmUtil.h"
 #include <JTree.h>
 #include <JRegex.h>
-#include <JColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************

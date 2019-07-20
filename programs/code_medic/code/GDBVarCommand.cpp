@@ -10,6 +10,7 @@
 #include "GDBVarCommand.h"
 #include "GDBVarTreeParser.h"
 #include "cmGlobals.h"
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -60,11 +61,13 @@ GDBVarCommand::HandleSuccess
 
 	JBoolean success = kJFalse;
 
-	JIndexRange r;
 	prefixPattern.SetSingleLine();
-	if (prefixPattern.Match(s, &r))
+
+	JStringIterator iter(&s);
+	if (iter.Next(prefixPattern))
 		{
-		s.RemoveSubstring(r);
+		iter.RemoveAllPrev();
+		iter.Invalidate();
 		SetData(s);
 
 		GDBVarTreeParser parser(s);

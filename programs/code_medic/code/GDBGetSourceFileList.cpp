@@ -14,6 +14,8 @@
 #include "CMFileListDir.h"
 #include "cmGlobals.h"
 #include <JXFileListTable.h>
+#include <JStringIterator.h>
+#include <JRegex.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
 #include <strstream>
@@ -29,7 +31,7 @@ GDBGetSourceFileList::GDBGetSourceFileList
 	CMFileListDir* fileList
 	)
 	:
-	CMGetSourceFileList("info sources", fileList)
+	CMGetSourceFileList(JString("info sources", kJFalse), fileList)
 {
 }
 
@@ -47,6 +49,8 @@ GDBGetSourceFileList::~GDBGetSourceFileList()
 
  ******************************************************************************/
 
+static const JRegex textPattern = "Source files for which symbols[^:]+(:|$)";
+
 void
 GDBGetSourceFileList::HandleSuccess
 	(
@@ -61,19 +65,15 @@ GDBGetSourceFileList::HandleSuccess
 		table->RemoveAllFiles();
 
 		JString data = origData;
-		JIndex i,j;
-		while (data.LocateSubstring("Source files for which symbols", &i))
+
+		JStringIterator iter(&data);
+		while (iter.Next(textPattern))
 			{
-			j = i;
-			if (!data.LocateNextSubstring(":", &j))
-				{
-				j = data.GetLength();
-				}
-			data.ReplaceSubstring(i, j, ",");
+			iter.ReplaceLastMatch(",");
 			}
 		data.TrimWhitespace();		// no comma after last file
 
-		std::istrstream input(data.GetCString(), data.GetLength());
+		std::istrstream input(data.GetRawBytes(), data.GetByteCount());
 		JString fullName, path, name, s;
 		JBoolean foundDelimiter;
 		do

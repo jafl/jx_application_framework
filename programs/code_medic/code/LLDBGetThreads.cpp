@@ -19,7 +19,6 @@
 #include "cmGlobals.h"
 #include <JTree.h>
 #include <JStringIterator.h>
-#include <JStringMatch.h>
 #include <JRegex.h>
 #include <jFileUtil.h>
 #include <jAssert.h>

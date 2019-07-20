@@ -11,6 +11,8 @@
 #include "CMCommandInput.h"
 #include "CMCommandOutputDisplay.h"
 #include <JXDisplay.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -24,8 +26,8 @@ GDBGetCompletions::GDBGetCompletions
 	CMCommandOutputDisplay*	history
 	)
 	:
-	CMGetCompletions(BuildCommand(input->GetText())),
-	itsPrefix(input->GetText()),
+	CMGetCompletions(BuildCommand(input->GetText()->GetText())),
+	itsPrefix(input->GetText()->GetText()),
 	itsInput(input),
 	itsHistory(history)
 {
@@ -48,12 +50,10 @@ GDBGetCompletions::~GDBGetCompletions()
 JString
 GDBGetCompletions::BuildCommand
 	(
-	const JCharacter* prefix
+	const JString& prefix
 	)
 {
-	JString cmd = "complete ";
-	cmd        += prefix;
-	return cmd;
+	return "complete " + prefix;
 }
 
 /******************************************************************************
@@ -73,12 +73,14 @@ GDBGetCompletions::HandleSuccess
 
 	// loop through each line and add each one to our list
 
-	JIndex i = 1, j = 1;
-	while (data.LocateNextSubstring("\n", &j))
+	JStringIterator iter(data);
+	iter.BeginMatch();
+	while (iter.Next("\n"))
 		{
-		if (j > i)
+		const JStringMatch& m = iter.FinishMatch();
+		if (!m.IsEmpty())
 			{
-			JString* s = jnew JString(data, JIndexRange(i, j-1));
+			JString* s = jnew JString(m.GetString());
 			assert( s != nullptr );
 			s->TrimWhitespace();
 			if (s->IsEmpty() || !lines.InsertSorted(s, kJFalse))
@@ -86,13 +88,16 @@ GDBGetCompletions::HandleSuccess
 				jdelete s;
 				}
 			}
-		i = j+1;
-		j = i;
+
+		iter.BeginMatch();
 		}
 
-	if (i <= data.GetLength())
+	if (!iter.AtEnd())
 		{
-		JString* s = jnew JString(data, JIndexRange(i, data.GetLength()));
+		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		const JStringMatch& m = iter.FinishMatch();
+
+		JString* s = jnew JString(m.GetString());
 		assert( s != nullptr );
 		s->TrimWhitespace();
 		if (s->IsEmpty() || !lines.InsertSorted(s, kJFalse))
@@ -103,7 +108,7 @@ GDBGetCompletions::HandleSuccess
 
 	if (lines.IsEmpty())
 		{
-		(itsInput->GetDisplay())->Beep();
+		itsInput->GetDisplay()->Beep();
 		return;
 		}
 
@@ -129,10 +134,10 @@ GDBGetCompletions::HandleSuccess
 			// all possible completions.
 
 			itsHistory->PlaceCursorAtEnd();
-			itsHistory->Paste("\n");
+			itsHistory->Paste(JString("\n", kJFalse));
 			itsHistory->Paste(data);
 			}
-		itsInput->SetText(itsPrefix);
+		itsInput->GetText()->SetText(itsPrefix);
 		itsInput->GoToEndOfLine();
 		return;
 		}
@@ -146,19 +151,19 @@ GDBGetCompletions::HandleSuccess
 		// fill in the input with this word.
 
 		maxPrefix += " ";
-		itsInput->SetText(maxPrefix);
+		itsInput->GetText()->SetText(maxPrefix);
 		itsInput->GoToEndOfLine();
 		return;
 		}
 
 	for (JIndex i=startIndex+1; i<=stringCount; i++)
 		{
-		const JString* s = lines.GetElement(i);
-		const JSize matchLength  = JCalcMatchLength(maxPrefix, *s);
-		const JSize prefixLength = maxPrefix.GetLength();
+		const JString* s         = lines.GetElement(i);
+		const JSize matchLength  = JString::CalcCharacterMatchLength(maxPrefix, *s);
+		const JSize prefixLength = maxPrefix.GetCharacterCount();
 		if (matchLength < prefixLength)
 			{
-			maxPrefix.RemoveSubstring(matchLength+1, prefixLength);
+			maxPrefix = JString(maxPrefix, JCharacterRange(1, matchLength));
 			}
 		}
 
@@ -169,12 +174,12 @@ GDBGetCompletions::HandleSuccess
 		// to the history window.
 
 		itsHistory->PlaceCursorAtEnd();
-		itsHistory->Paste("\n");
+		itsHistory->Paste(JString("\n", kJFalse));
 		itsHistory->Paste(data);
 		}
 	else
 		{
-		itsInput->SetText(maxPrefix);
+		itsInput->GetText()->SetText(maxPrefix);
 		itsInput->GoToEndOfLine();
 		}
 }

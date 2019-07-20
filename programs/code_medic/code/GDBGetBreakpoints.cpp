@@ -15,6 +15,7 @@
 #include "CMBreakpointManager.h"
 #include "GDBLink.h"
 #include "cmGlobals.h"
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -25,7 +26,7 @@
 
 GDBGetBreakpoints::GDBGetBreakpoints()
 	:
-	CMGetBreakpoints("-break-list")
+	CMGetBreakpoints(JString("-break-list", kJFalse))
 {
 }
 
@@ -60,19 +61,20 @@ GDBGetBreakpoints::HandleSuccess
 	JPtrArray<CMBreakpoint> otherList(JPtrArrayT::kForgetAll);	// ownership taken by CMBreakpointManager
 
 	const JString& data = GetLastResult();
-	std::istringstream stream(data.GetCString());
+	std::istringstream stream(data.GetBytes());
 
-	JIndexRange origRange, newRange;
 	JStringPtrMap<JString> map(JPtrArrayT::kDeleteAll);
-	while (bpPattern.MatchAfter(data, origRange, &newRange))
+
+	JStringIterator iter(data);
+	while (iter.Next(bpPattern))
 		{
-		stream.seekg(newRange.last);
+		stream.seekg(iter.GetLastMatch().GetUtf8ByteRange().last);
 		if (!GDBLink::ParseMap(stream, &map))
 			{
 			CMGetLink()->Log("invalid data map");
 			break;
 			}
-		origRange.first = origRange.last = ((std::streamoff) stream.tellg()) + 1;
+		iter.MoveTo(kJIteratorStartAfter, (std::streamoff) stream.tellg());
 
 		JString* s;
 		if (!map.GetElement("type", &s))
@@ -89,7 +91,7 @@ GDBGetBreakpoints::HandleSuccess
 			}
 		}
 
-	(CMGetLink()->GetBreakpointManager())->UpdateBreakpoints(bpList, otherList);
+	CMGetLink()->GetBreakpointManager()->UpdateBreakpoints(bpList, otherList);
 }
 
 /******************************************************************************
@@ -138,6 +140,7 @@ GDBGetBreakpoints::ParseBreakpoint
 	}
 	while (0);
 
+	JPtrArray<JString> split(JPtrArrayT::kDeleteAll);
 	do
 	{
 		if (!fileName.IsEmpty())
@@ -147,23 +150,22 @@ GDBGetBreakpoints::ParseBreakpoint
 
 		if (map.GetElement("original-location", &s))
 			{
-			JIndex i;
-			if (!s->LocateSubstring(":", &i))
+			if (!s->Contains(":"))
 				{
 				CMGetLink()->Log("warn: missing line number in original-location");
 				break;
 				}
 
-			if (1 < i && i < s->GetLength())
+			s->Split(":", &split, 2);
+			if (!split.GetElement(1)->IsEmpty() && !split.GetElement(2)->IsEmpty())
 				{
-				JString n = s->GetSubstring(i+1, s->GetLength());
-				if (!n.ConvertToUInt(&lineIndex))
+				if (!split.GetElement(2)->ConvertToUInt(&lineIndex))
 					{
 					CMGetLink()->Log("warn: line number is not integer in original-location");
 					break;
 					}
 
-				fileName = s->GetSubstring(1, i-1);
+				fileName = *(split.GetElement(1));
 				}
 			}
 	}
@@ -234,7 +236,7 @@ GDBGetBreakpoints::ParseOther
 		}
 
 	CMBreakpoint* bp =
-		jnew CMBreakpoint(bpIndex, CMLocation(), fn, "",
+		jnew CMBreakpoint(bpIndex, CMLocation(), fn, JString::empty,
 						 enabled, action, condition, ignoreCount);
 	assert( bp != nullptr );
 	list->Append(bp);

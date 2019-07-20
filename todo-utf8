@@ -91,6 +91,16 @@ glove
 replace JBoolean with bool
 	jTypes.h - remove JConvertToBoolean, JI2B, JNegate, operator!, JFloatToBoolean, JF2B
 
+test every usage of JStringIterator
+	glove
+	jcc
+	medic
+
+test every usage of JRegex::Match
+	glove
+	jcc
+	medic
+
 test every usage of JRunArrayIterator
 	libjcore
 		JSTStyler

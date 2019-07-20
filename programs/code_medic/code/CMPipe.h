@@ -10,6 +10,7 @@
 
 #include <JBroadcaster.h>
 #include <JString.h>
+#include <JUtf8ByteBuffer.h>
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 
@@ -61,10 +62,10 @@ public:
 
 private:
 
-	JString		itsData;
-
-	JUtf8Byte*	itsBuffer;				// buffer to receive raw bytes
-	JSize		itsBufferSize;
+	JUtf8Byte*		itsRecvBuffer;		// buffer to receive raw bytes
+	JSize			itsRecvBufferSize;
+	JUtf8ByteBuffer	itsByteBuffer;		// buffer containing unprocessed bytes
+	JString			itsRecvData;		// buffer containing unprocessed characters
 
 	JBoolean	itsInHandleInputFlag;	// kJTrue => stack passes through handle_input()
 

@@ -23,7 +23,8 @@
 template <ACE_PEER_STREAM_1>
 CMPipe<ACE_PEER_STREAM_2>::CMPipe()
 	:
-	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>()
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>(),
+	itsByteBuffer(CMPipeT::kDefaultBufferSize)
 {
 	CMPipeX();
 }
@@ -34,7 +35,8 @@ CMPipe<ACE_PEER_STREAM_2>::CMPipe
 	const ACE_HANDLE fd
 	)
 	:
-	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>()
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>(),
+	itsByteBuffer(CMPipeT::kDefaultBufferSize)
 {
 	CMPipeX();
 
@@ -48,10 +50,10 @@ template <ACE_PEER_STREAM_1>
 void
 CMPipe<ACE_PEER_STREAM_2>::CMPipeX()
 {
-	itsBufferSize = CMPipeT::kDefaultBufferSize;
+	itsRecvBufferSize = CMPipeT::kDefaultBufferSize;
 
-	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
-	assert( itsBuffer != nullptr );
+	itsRecvBuffer = jnew JUtf8Byte [ itsRecvBufferSize ];
+	assert( itsRecvBuffer != nullptr );
 
 	itsInHandleInputFlag = kJFalse;
 }
@@ -64,7 +66,7 @@ CMPipe<ACE_PEER_STREAM_2>::CMPipeX()
 template <ACE_PEER_STREAM_1>
 CMPipe<ACE_PEER_STREAM_2>::~CMPipe()
 {
-	jdelete [] itsBuffer;
+	jdelete [] itsRecvBuffer;
 }
 
 /******************************************************************************
@@ -80,8 +82,8 @@ CMPipe<ACE_PEER_STREAM_2>::Read
 	)
 {
 	assert( buffer != nullptr );
-	*buffer = itsData;
-	itsData.Clear();
+	*buffer = itsRecvData;
+	itsRecvData.Clear();
 }
 
 /******************************************************************************
@@ -139,11 +141,15 @@ CMPipe<ACE_PEER_STREAM_2>::handle_input
 	// read newly received data
 
 	const ssize_t count =
-		(ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::peer()).recv(itsBuffer, itsBufferSize);
+		(ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::peer()).recv(itsRecvBuffer, itsRecvBufferSize);
 	if (count > 0)
 		{
-		itsData.Append(itsBuffer, count);
-		Broadcast(CMPipeT::ReadReady());
+		itsByteBuffer.Append(itsRecvBuffer, count);
+		itsRecvData += itsByteBuffer.ExtractCharacters();
+		if (!itsRecvData.IsEmpty())
+		{
+			Broadcast(CMPipeT::ReadReady());
+		}
 		}
 
 	itsInHandleInputFlag = kJFalse;

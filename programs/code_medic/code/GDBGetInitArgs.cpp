@@ -15,6 +15,7 @@
 #include "GDBScanner.h"
 #include "cmGlobals.h"
 #include <JXInputField.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -28,7 +29,7 @@ GDBGetInitArgs::GDBGetInitArgs
 	JXInputField* argInput
 	)
 	:
-	CMGetInitArgs("show args"),
+	CMGetInitArgs(JString("show args", kJFalse)),
 	itsArgInput(argInput)
 {
 }
@@ -58,28 +59,29 @@ GDBGetInitArgs::HandleSuccess
 	const JString& data
 	)
 {
-	const JString& result = GetLastResult();
-
-	JArray<JIndexRange> matchList;
-	JIndex index;
-	if (resultPattern.Match(result, &matchList))
+	const JStringMatch m = resultPattern.Match(GetLastResult(), kJTrue);
+	if (!m.IsEmpty())
 		{
-		JString args = result.GetSubstring(matchList.GetElement(2));
+		JString args = m.GetSubstring(1);
 		GDBScanner::TranslateMIOutput(&args);
-		itsArgInput->SetText(args);
+		itsArgInput->GetText()->SetText(args);
+		return;
 		}
-	else if (data.LocateSubstring("\"", &index) && index < data.GetLength())
+
+	JStringIterator iter(data);
+	if (iter.Next("\"") && !iter.AtEnd())
 		{
-		JString args = data.GetSubstring(index+1, data.GetLength());
-		args.TrimWhitespace();
-		if (args.EndsWith("\"."))
+		iter.BeginMatch();
+		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		if (!iter.Prev("\"."))
 			{
-			args.RemoveSubstring(args.GetLength()-1, args.GetLength());
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
 			}
-		itsArgInput->SetText(args);
+
+		JString args = iter.FinishMatch().GetString();
+		args.TrimWhitespace();
+		itsArgInput->GetText()->SetText(args);
 		}
-	else
-		{
-		CMGetLink()->Log("GDBGetInitArgs failed to match");
-		}
+
+	CMGetLink()->Log("GDBGetInitArgs failed to match");
 }

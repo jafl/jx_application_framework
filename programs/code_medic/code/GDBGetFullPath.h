@@ -14,7 +14,7 @@ class GDBGetFullPath : public CMGetFullPath
 {
 public:
 
-	GDBGetFullPath(const JCharacter* fileName, const JIndex lineIndex = 0);
+	GDBGetFullPath(const JString& fileName, const JIndex lineIndex = 0);
 
 	virtual	~GDBGetFullPath();
 
@@ -24,7 +24,7 @@ protected:
 
 private:
 
-	static JString	BuildCommand(const JCharacter* fileName);
+	static JString	BuildCommand(const JString& fileName);
 
 	// not allowed
 

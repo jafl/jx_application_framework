@@ -16,7 +16,6 @@
 #include "LLDBLink.h"
 #include "cmGlobals.h"
 #include <JStringIterator.h>
-#include <JStringMatch.h>
 #include <JRegex.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>

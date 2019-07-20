@@ -13,6 +13,7 @@
 #include "CMSourceDirector.h"
 #include "GDBLink.h"
 #include "cmGlobals.h"
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jFileUtil.h>
 #include <jAssert.h>
@@ -27,7 +28,7 @@ GDBGetAssembly::GDBGetAssembly
 	CMSourceDirector* dir
 	)
 	:
-	CMGetAssembly(dir, "")
+	CMGetAssembly(dir, JString::empty)
 {
 }
 
@@ -52,7 +53,7 @@ GDBGetAssembly::Starting()
 
 	const CMLocation& loc = GetDirector()->GetDisassemblyLocation();
 
-	JString cmd = "-data-disassemble";
+	JString cmd("-data-disassemble");
 	if (loc.GetFileName().IsEmpty())
 		{
 		cmd += " -s ";
@@ -91,14 +92,15 @@ GDBGetAssembly::HandleSuccess
 	JString instText;
 
 	const JString& data = GetLastResult();
-	std::istringstream stream(data.GetCString());
+	std::istringstream stream(data.GetBytes());
 
-	JIndexRange r;
 	JPtrArray< JStringPtrMap<JString> > list(JPtrArrayT::kDeleteAll);
 	JSize maxOffsetLength = 0;
-	if (bpPattern.Match(data, &r))
+
+	const JStringMatch m = bpPattern.Match(data, kJFalse);
+	if (!m.IsEmpty())
 		{
-		stream.seekg(r.last);
+		stream.seekg(m.GetUtf8ByteRange().last);
 		if (!GDBLink::ParseMapArray(stream, &list))
 			{
 			CMGetLink()->Log("invalid data map");
@@ -134,11 +136,11 @@ GDBGetAssembly::HandleSuccess
 				*addr += ">";
 				addrList.Append(*addr);
 
-				maxOffsetLength = JMax(maxOffsetLength, offset->GetLength() + 3);
+				maxOffsetLength = JMax(maxOffsetLength, offset->GetCharacterCount() + 3);
 
 				if (!instText.IsEmpty())
 					{
-					instText.AppendCharacter('\n');
+					instText.Append("\n");
 					}
 				instText.Append(*inst);
 				}
@@ -149,12 +151,16 @@ GDBGetAssembly::HandleSuccess
 	for (JIndex i=1; i<count; i++)
 		{
 		JString* s = addrList.GetElement(i);
-		if (offsetPattern.Match(*s, &r))
+
+		const JStringMatch m2 = offsetPattern.Match(*s, kJFalse);
+		if (!m2.IsEmpty())
 			{
-			const JSize pad = maxOffsetLength - r.GetLength();
+			const JSize pad = maxOffsetLength - m2.GetCharacterRange().GetCount();
+
+			JStringIterator iter(s, kJIteratorStartBefore, m2.GetCharacterRange().first + 2);
 			for (JUnsignedOffset j=0; j<pad; j++)
 				{
-				s->InsertCharacter('0', r.first+2);
+				iter.Insert("0");
 				}
 			}
 		}

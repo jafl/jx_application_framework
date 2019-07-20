@@ -13,6 +13,7 @@
 #include "GDBLink.h"
 #include "cmGlobals.h"
 #include <JTree.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -66,30 +67,28 @@ GDBGetStackArguments::HandleSuccess
 		}
 
 	const JString& data = GetLastResult();
-	std::istringstream stream(data.GetCString());
+	std::istringstream stream(data.GetBytes());
 
-	JIndexRange matchedRange, refRange;
-	JArray<JIndexRange> matchList;
-	JString frameIndexStr;
 	JPtrArray< JStringPtrMap<JString> > argList(JPtrArrayT::kDeleteAll);
-	while (framePattern.MatchAfter(data, matchedRange, &matchList))
+
+	JStringIterator iter(data);
+	JUtf8Character c;
+	while (iter.Next(framePattern))
 		{
-		matchedRange = matchList.GetFirstElement();
-		if (data.GetCharacter(matchedRange.last+1) == ']')
+		if (iter.Next(&c, kJFalse) && c == ']')
 			{
 			continue;
 			}
 
-		framePattern.GetSubexpression(data, "FrameIndex", matchList, &frameIndexStr);
 		JIndex frameIndex;
-		JBoolean ok = frameIndexStr.ConvertToUInt(&frameIndex);
+		JBoolean ok = iter.GetLastMatch().GetSubstring("FrameIndex").ConvertToUInt(&frameIndex);
 		assert( ok );
 
 		CMStackFrameNode* frameNode =
 			dynamic_cast<CMStackFrameNode*>(root->GetChild(frameCount - frameIndex));
 		assert( frameNode != nullptr );
 
-		stream.seekg(matchedRange.last);
+		stream.seekg(iter.GetLastMatch().GetUtf8ByteRange().last);
 		if (!GDBLink::ParseMapArray(stream, &argList))
 			{
 			CMGetLink()->Log("invalid stack argument list");
@@ -108,10 +107,13 @@ GDBGetStackArguments::HandleSuccess
 				continue;
 				}
 
-			if (refPattern.Match(*value, &refRange))
+			JStringIterator iter(value);
+			if (iter.Next(refPattern))
 				{
-				value->RemoveSubstring(refRange.last, value->GetLength());
+				iter.SkipPrev();
+				iter.RemoveAllNext();
 				}
+			iter.Invalidate();
 
 			CMStackArgNode* argNode = jnew CMStackArgNode(frameNode, *name, *value);
 			assert( argNode != nullptr );

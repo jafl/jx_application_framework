@@ -16,21 +16,21 @@
 #include <JRegex.h>
 #include <jAssert.h>
 
-static const JCharacter* kCommand[] =
+static const JUtf8Byte* kCommand[] =
 {
 	"info line main",
 	"info line _start",
 	"info line MAIN__"
 };
 
-static const JCharacter* kBreakCommand[] =
+static const JUtf8Byte* kBreakCommand[] =
 {
 	"tbreak main",
 	"tbreak _start",
 	"tbreak MAIN__"
 };
 
-const JSize kCommandCount = sizeof(kCommand) / sizeof(JCharacter*);
+const JSize kCommandCount = sizeof(kCommand) / sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Constructor
@@ -42,11 +42,11 @@ GDBDisplaySourceForMain::GDBDisplaySourceForMain
 	CMSourceDirector* sourceDir
 	)
 	:
-	CMDisplaySourceForMain(sourceDir, kCommand[0]),
+	CMDisplaySourceForMain(sourceDir, JString(kCommand[0], kJFalse)),
 	itsHasCoreFlag(kJFalse),
 	itsNextCmdIndex(1)
 {
-	ListenToCMGetLink();
+	ListenTo(CMGetLink());
 }
 
 /******************************************************************************
@@ -113,28 +113,25 @@ GDBDisplaySourceForMain::HandleSuccess
 {
 	if (infoPattern.Match(data))
 		{
-		JArray<JIndexRange> matchList;
-		if (locationPattern.Match(data, &matchList))
+		const JStringMatch m = locationPattern.Match(data, kJTrue);
+		if (!m.IsEmpty())
 			{
-			const JString fileName = data.GetSubstring(matchList.GetElement(2));
-
-			const JString lineStr = data.GetSubstring(matchList.GetElement(3));
 			JIndex lineIndex;
-			const JBoolean ok = lineStr.ConvertToUInt(&lineIndex);
+			const JBoolean ok = m.GetSubstring(2).ConvertToUInt(&lineIndex);
 			assert( ok );
 
 			if (!itsHasCoreFlag)
 				{
-				GetSourceDir()->DisplayFile(fileName, lineIndex, kJFalse);
+				GetSourceDir()->DisplayFile(m.GetSubstring(1), lineIndex, kJFalse);
 				}
 			}
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
 			"tbreak_cmd", kBreakCommand[ itsNextCmdIndex-1 ]
 			};
 		const JString cmd = JGetString("RunCommand::GDBDisplaySourceForMain", map, sizeof(map));
-		dynamic_cast<GDBLink*>CMGetLink()->SendWhenStopped(cmd);
+		dynamic_cast<GDBLink*>(CMGetLink())->SendWhenStopped(cmd);
 		}
 	else if (itsNextCmdIndex < kCommandCount)
 		{
@@ -151,13 +148,13 @@ GDBDisplaySourceForMain::HandleSuccess
 			GetSourceDir()->ClearDisplay();
 			}
 
-		dynamic_cast<GDBLink*>CMGetLink()->FirstBreakImpossible();
+		dynamic_cast<GDBLink*>(CMGetLink())->FirstBreakImpossible();
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
 			"tbreak_cmd", ""
 			};
 		const JString cmd = JGetString("RunCommand::GDBDisplaySourceForMain", map, sizeof(map));
-		dynamic_cast<GDBLink*>CMGetLink()->SendWhenStopped(cmd);
+		dynamic_cast<GDBLink*>(CMGetLink())->SendWhenStopped(cmd);
 		}
 }

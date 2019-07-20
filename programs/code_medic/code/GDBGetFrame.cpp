@@ -24,7 +24,7 @@ GDBGetFrame::GDBGetFrame
 	CMStackWidget* widget
 	)
 	:
-	CMGetFrame("-stack-info-frame"),
+	CMGetFrame(JString("-stack-info-frame", kJFalse)),
 	itsWidget(widget)
 {
 }
@@ -53,11 +53,11 @@ GDBGetFrame::HandleSuccess
 {
 	const JString& data = GetLastResult();
 
-	JIndexRange r;
-	if (framePattern.Match(data, &r))
+	const JStringMatch m = framePattern.Match(data, kJFalse);
+	if (!m.IsEmpty())
 		{
-		std::istringstream stream(data.GetCString());
-		stream.seekg(r.last);
+		std::istringstream stream(data.GetBytes());
+		stream.seekg(m.GetUtf8ByteRange().last);
 
 		JStringPtrMap<JString> map(JPtrArrayT::kDeleteAll);
 		JString* s;

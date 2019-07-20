@@ -11,7 +11,6 @@
 #include "CMArray2DDir.h"
 #include "CMVarNode.h"
 #include <JXStringTable.h>
-#include <JColorManager.h>
 #include <JStringTableData.h>
 #include <JStyleTableData.h>
 #include <JStringIterator.h>

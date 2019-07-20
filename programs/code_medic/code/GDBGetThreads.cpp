@@ -11,13 +11,12 @@
 #include "CMThreadsWidget.h"
 #include "CMThreadNode.h"
 #include <JTree.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <JListUtil.h>
 #include <jStreamUtil.h>
 #include <sstream>
 #include <jAssert.h>
-
-const JSize kThreadIndexWidth = 2;	// width of thread index in characters
 
 /******************************************************************************
  Constructor
@@ -30,7 +29,7 @@ GDBGetThreads::GDBGetThreads
 	CMThreadsWidget*	widget
 	)
 	:
-	CMGetThreads("set width 0\ninfo threads", widget),
+	CMGetThreads(JString("set width 0\ninfo threads", kJFalse), widget),
 	itsTree(tree)
 {
 }
@@ -49,7 +48,8 @@ GDBGetThreads::~GDBGetThreads()
 
  ******************************************************************************/
 
-static const JRegex prefixPattern = "^([[:digit:]]+)[[:space:]]+";
+static const JRegex prefixPattern      = "^([[:digit:]]+)[[:space:]]+";
+static const JRegex threadIndexPattern = "^[0-9]{2}:";
 
 void
 GDBGetThreads::HandleSuccess
@@ -63,10 +63,9 @@ GDBGetThreads::HandleSuccess
 
 	JIndex currentThreadIndex = 0;
 
-	const std::string s(data.GetCString(), data.GetLength());
+	const std::string s(data.GetRawBytes(), data.GetByteCount());
 	std::istringstream input(s);
 	JString line;
-	JArray<JIndexRange> matchList;
 	while (1)
 		{
 		line = JReadLine(input);
@@ -80,23 +79,20 @@ GDBGetThreads::HandleSuccess
 			{
 			if (line.GetFirstCharacter() == '*')
 				{
-				line.RemoveSubstring(1,1);
+				JStringIterator iter1(&line);
+				iter1.RemoveNext();
 				line.TrimWhitespace();
 				ExtractThreadIndex(line, &currentThreadIndex);
 				}
 
-			if (prefixPattern.Match(line, &matchList))
+			JStringIterator iter2(&line);
+			if (iter2.Next(prefixPattern))
 				{
-				JIndexRange r;
-				line.ReplaceSubstring(matchList.GetElement(1),
-					line.GetSubstring(matchList.GetElement(2)) + ":  ", &r);
+				iter2.ReplaceLastMatch(iter2.GetLastMatch().GetSubstring(1) + ":  ");
 
-				if (line.GetLength() >= kThreadIndexWidth)
+				while (!threadIndexPattern.Match(line))
 					{
-					while (!isdigit(line.GetCharacter(kThreadIndexWidth)))
-						{
-						line.PrependCharacter('0');
-						}
+					line.Prepend("0");
 					}
 
 				JString* s = jnew JString(line);
@@ -142,11 +138,10 @@ GDBGetThreads::ExtractThreadIndex
 	JIndex*			threadIndex
 	)
 {
-	JIndexRange r;
-	if (indexPattern.Match(line, &r))
+	const JStringMatch m = indexPattern.Match(line, kJFalse);
+	if (!m.IsEmpty())
 		{
-		const JString lineStr = line.GetSubstring(r);
-		const JBoolean ok     = lineStr.ConvertToUInt(threadIndex);
+		const JBoolean ok = m.GetString().ConvertToUInt(threadIndex);
 		assert( ok );
 
 		return kJTrue;
@@ -173,13 +168,12 @@ GDBGetThreads::ExtractLocation
 	JIndex*			lineIndex
 	)
 {
-	JArray<JIndexRange> matchList;
-	if (locationPattern.Match(line, &matchList))
+	const JStringMatch m = locationPattern.Match(line, kJTrue);
+	if (!m.IsEmpty())
 		{
-		*fileName = line.GetSubstring(matchList.GetElement(2));
+		*fileName = m.GetSubstring(1);
 
-		const JString lineStr = line.GetSubstring(matchList.GetElement(3));
-		const JBoolean ok     = lineStr.ConvertToUInt(lineIndex);
+		const JBoolean ok = m.GetSubstring(2).ConvertToUInt(lineIndex);
 		assert( ok );
 
 		return kJTrue;

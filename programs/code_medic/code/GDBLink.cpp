@@ -480,7 +480,7 @@ GDBLink::ReadFromDebugger()
 
 				if (itsContinueCount == 0)
 					{
-					Send("continue");
+					Send(JString("continue", kJFalse));
 					}
 				}
 
@@ -744,7 +744,7 @@ GDBLink::ReadFromDebugger()
 void
 GDBLink::SaveProgramName
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	itsProgramName = fileName;
@@ -768,7 +768,7 @@ GDBLink::SaveProgramName
 void
 GDBLink::SaveCoreName
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	itsCoreName = fileName;
@@ -830,7 +830,7 @@ GDBLink::SendProgramStopped
 			}
 		else
 			{
-			Send("continue");
+			Send(JString("continue", kJFalse));
 			}
 		}
 	else if (itsContinueCount == 0)
@@ -883,21 +883,19 @@ GDBLink::SendProgramStopped2
 void
 GDBLink::SetProgram
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	if (itsHasStartedFlag)
 		{
 		if (itsInitFinishedFlag && !JSameDirEntry(fullName, itsProgramName))
 			{
-			Send("delete");
+			Send(JString("delete", kJFalse));
 			}
 		DetachOrKill();
-		Send("core-file");
+		Send(JString("core-file", kJFalse));
 
-		JString cmd  = "file ";
-		cmd         += JPrepArgForExec(fullName);
-		Send(cmd);
+		Send("file " + JPrepArgForExec(fullName));
 		}
 
 	itsProgramName = fullName;
@@ -925,7 +923,7 @@ GDBLink::ReloadProgram()
 void
 GDBLink::SetCore
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	if (itsHasStartedFlag)
@@ -934,8 +932,7 @@ GDBLink::SetCore
 
 		// can't use JPrepArgForExec() because gdb doesn't like the quotes
 
-		JString cmdStr = "core-file ";
-		cmdStr        += fullName;
+		const JString cmdStr = "core-file " + fullName;
 		if (itsProgramName.IsEmpty())
 			{
 			GDBAnalyzeCore* cmd = jnew GDBAnalyzeCore(cmdStr);
@@ -962,12 +959,10 @@ GDBLink::AttachToProcess
 	const pid_t pid
 	)
 {
-	Send("core-file");
+	Send(JString("core-file", kJFalse));
 	DetachOrKill();
 
-	JString cmd = "attach ";
-	cmd        += JString((JUInt64) pid);
-	Send(cmd);
+	Send("attach " + JString((JUInt64) pid));
 }
 
 /******************************************************************************
@@ -978,17 +973,15 @@ GDBLink::AttachToProcess
 void
 GDBLink::RunProgram
 	(
-	const JCharacter* args
+	const JString& args
 	)
 {
-	Send("core-file");
+	Send(JString("core-file", kJFalse));
 	DetachOrKill();
 
-	JString cmd  = "set args ";
-	cmd         += args;
-	Send(cmd);
+	Send("set args " + args);
 
-	Send("run");
+	Send(JString("run", kJFalse));
 }
 
 /******************************************************************************
@@ -1018,9 +1011,9 @@ GDBLink::ShowBreakpointInfo
 		itsContinueCount = 2;
 		}
 
-	JString cmd = "echo \\n\ninfo breakpoint ";
-	cmd        += JString((JUInt64) debuggerIndex);
-	cmd        += "\necho \\n";
+	JString cmd("echo \\n\ninfo breakpoint ");
+	cmd += JString((JUInt64) debuggerIndex);
+	cmd += "\necho \\n";
 	SendWhenStopped(cmd);
 }
 
@@ -1032,9 +1025,9 @@ GDBLink::ShowBreakpointInfo
 void
 GDBLink::SetBreakpoint
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex,
-	const JBoolean		temporary
+	const JString&	fileName,
+	const JIndex	lineIndex,
+	const JBoolean	temporary
 	)
 {
 	JString path, name;
@@ -1045,11 +1038,8 @@ GDBLink::SetBreakpoint
 		itsContinueCount = 2;
 		}
 
-	JString cmd = "echo \\032\\032:Medic breakpoints changed:\n";
+	JString cmd("echo \\032\\032:Medic breakpoints changed:\n");
 	cmd += (temporary ? "-break-insert -t " : "-break-insert ");
-	#ifdef _J_OLD_OSX
-	cmd += "-l -1 ";
-	#endif
 	cmd += name + ":" + JString((JUInt64) lineIndex);
 	SendWhenStopped(cmd);
 }
@@ -1062,8 +1052,8 @@ GDBLink::SetBreakpoint
 void
 GDBLink::SetBreakpoint
 	(
-	const JCharacter*	address,
-	const JBoolean		temporary
+	const JString&	address,
+	const JBoolean	temporary
 	)
 {
 	if (!itsProgramIsStoppedFlag)
@@ -1071,11 +1061,8 @@ GDBLink::SetBreakpoint
 		itsContinueCount = 2;
 		}
 
-	JString cmd = "echo \\032\\032:Medic breakpoints changed:\n";
+	JString cmd("echo \\032\\032:Medic breakpoints changed:\n");
 	cmd += (temporary ? "-break-insert -t " : "-break-insert ");
-	#ifdef _J_OLD_OSX
-	cmd += "-l -1 ";
-	#endif
 	cmd += "*";
 	cmd += address;
 	SendWhenStopped(cmd);
@@ -1109,8 +1096,8 @@ GDBLink::RemoveBreakpoint
 void
 GDBLink::RemoveAllBreakpointsOnLine
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	JString path, name;
@@ -1133,7 +1120,7 @@ GDBLink::RemoveAllBreakpointsOnLine
 void
 GDBLink::RemoveAllBreakpointsAtAddress
 	(
-	const JCharacter* addr
+	const JString& addr
 	)
 {
 	if (!itsProgramIsStoppedFlag)
@@ -1158,7 +1145,7 @@ GDBLink::RemoveAllBreakpoints()
 		itsContinueCount = 2;
 		}
 
-	SendWhenStopped("delete");
+	SendWhenStopped(JString("delete", kJFalse));
 }
 
 /******************************************************************************
@@ -1193,8 +1180,8 @@ GDBLink::SetBreakpointEnabled
 void
 GDBLink::SetBreakpointCondition
 	(
-	const JIndex		debuggerIndex,
-	const JCharacter*	condition
+	const JIndex	debuggerIndex,
+	const JString&	condition
 	)
 {
 	if (!itsProgramIsStoppedFlag)
@@ -1255,7 +1242,7 @@ GDBLink::SetBreakpointIgnoreCount
 void
 GDBLink::WatchExpression
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 	if (!itsProgramIsStoppedFlag)
@@ -1263,8 +1250,8 @@ GDBLink::WatchExpression
 		itsContinueCount = 2;
 		}
 
-	JString cmd = "watch ";
-	cmd        += expr;
+	JString cmd("watch ");
+	cmd += expr;
 	SendWhenStopped(cmd);
 }
 
@@ -1276,7 +1263,7 @@ GDBLink::WatchExpression
 void
 GDBLink::WatchLocation
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 	if (!itsProgramIsStoppedFlag)
@@ -1284,8 +1271,8 @@ GDBLink::WatchLocation
 		itsContinueCount = 2;
 		}
 
-	JString cmd = "watch -location ";
-	cmd        += expr;
+	JString cmd("watch -location ");
+	cmd += expr;
 	SendWhenStopped(cmd);
 }
 
@@ -1303,10 +1290,7 @@ GDBLink::SwitchToThread
 	if (ProgramIsStopped() || HasCore())
 		{
 		itsPrintingOutputFlag = kJFalse;
-
-		JString cmd = "thread ";
-		cmd        += JString((JUInt64) id);
-		Send(cmd);
+		Send("thread " + JString((JUInt64) id));
 		}
 }
 
@@ -1324,10 +1308,7 @@ GDBLink::SwitchToFrame
 	if (ProgramIsStopped() || HasCore())
 		{
 		itsPrintingOutputFlag = kJFalse;
-
-		JString cmd = "frame ";
-		cmd        += JString((JUInt64) id);
-		Send(cmd);
+		Send("frame " + JString((JUInt64) id));
 		}
 }
 
@@ -1339,7 +1320,7 @@ GDBLink::SwitchToFrame
 void
 GDBLink::StepOver()
 {
-	Send("next");
+	Send(JString("next", kJFalse));
 }
 
 /******************************************************************************
@@ -1350,7 +1331,7 @@ GDBLink::StepOver()
 void
 GDBLink::StepInto()
 {
-	Send("step");
+	Send(JString("step", kJFalse));
 }
 
 /******************************************************************************
@@ -1361,7 +1342,7 @@ GDBLink::StepInto()
 void
 GDBLink::StepOut()
 {
-	Send("finish");
+	Send(JString("finish", kJFalse));
 }
 
 /******************************************************************************
@@ -1372,7 +1353,7 @@ GDBLink::StepOut()
 void
 GDBLink::Continue()
 {
-	Send("continue");
+	Send(JString("continue", kJFalse));
 }
 
 /******************************************************************************
@@ -1383,8 +1364,8 @@ GDBLink::Continue()
 void
 GDBLink::RunUntil
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	if (ProgramIsStopped())
@@ -1392,8 +1373,7 @@ GDBLink::RunUntil
 		JString path, name;
 		JSplitPathAndName(fileName, &path, &name);
 
-		const JString cmd = "until " + name + ":" + JString((JUInt64) lineIndex);
-		Send(cmd);
+		Send("until " + name + ":" + JString((JUInt64) lineIndex));
 		}
 }
 
@@ -1405,8 +1385,8 @@ GDBLink::RunUntil
 void
 GDBLink::SetExecutionPoint
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	if (ProgramIsStopped())
@@ -1416,11 +1396,8 @@ GDBLink::SetExecutionPoint
 
 		const JString loc = name + ":" + JString((JUInt64) lineIndex);
 
-		JString cmd = "tbreak " + loc;
-		SendRaw(cmd);
-
-		cmd = "jump " + loc;
-		SendRaw(cmd);
+		SendRaw("tbreak " + loc);
+		SendRaw("jump " + loc);
 		}
 }
 
@@ -1432,7 +1409,7 @@ GDBLink::SetExecutionPoint
 void
 GDBLink::StepOverAssembly()
 {
-	Send("nexti");
+	Send(JString("nexti", kJFalse));
 }
 
 /******************************************************************************
@@ -1443,7 +1420,7 @@ GDBLink::StepOverAssembly()
 void
 GDBLink::StepIntoAssembly()
 {
-	Send("stepi");
+	Send(JString("stepi", kJFalse));
 }
 
 /******************************************************************************
@@ -1454,14 +1431,12 @@ GDBLink::StepIntoAssembly()
 void
 GDBLink::RunUntil
 	(
-	const JCharacter* addr
+	const JString& addr
 	)
 {
 	if (ProgramIsStopped())
 		{
-		JString cmd = "until *";
-		cmd        += addr;
-		Send(cmd);
+		Send("until *" + addr);
 		}
 }
 
@@ -1473,19 +1448,15 @@ GDBLink::RunUntil
 void
 GDBLink::SetExecutionPoint
 	(
-	const JCharacter* addr
+	const JString& addr
 	)
 {
 	if (ProgramIsStopped())
 		{
-		JString loc = "*";
-		loc        += addr;
+		JString loc = "*" + addr;
 
-		JString cmd = "tbreak " + loc;
-		SendRaw(cmd);
-
-		cmd = "jump " + loc;
-		SendRaw(cmd);
+		SendRaw("tbreak " + loc);
+		SendRaw("jump " + loc);
 		}
 }
 
@@ -1497,7 +1468,7 @@ GDBLink::SetExecutionPoint
 void
 GDBLink::BackupOver()
 {
-	Send("reverse-next");
+	Send(JString("reverse-next", kJFalse));
 }
 
 /******************************************************************************
@@ -1508,7 +1479,7 @@ GDBLink::BackupOver()
 void
 GDBLink::BackupInto()
 {
-	Send("reverse-step");
+	Send(JString("reverse-step", kJFalse));
 }
 
 /******************************************************************************
@@ -1519,7 +1490,7 @@ GDBLink::BackupInto()
 void
 GDBLink::BackupOut()
 {
-	Send("reverse-finish");
+	Send(JString("reverse-finish", kJFalse));
 }
 
 /******************************************************************************
@@ -1530,7 +1501,7 @@ GDBLink::BackupOut()
 void
 GDBLink::BackupContinue()
 {
-	Send("reverse-continue");
+	Send(JString("reverse-continue", kJFalse));
 }
 
 /******************************************************************************
@@ -1541,17 +1512,13 @@ GDBLink::BackupContinue()
 void
 GDBLink::SetValue
 	(
-	const JCharacter* name,
-	const JCharacter* value
+	const JString& name,
+	const JString& value
 	)
 {
 	if (ProgramIsStopped())
 		{
-		JString cmd = "set variable ";
-		cmd        += name;
-		cmd        += " = ";
-		cmd        += value;
-		Send(cmd);
+		Send("set variable " + name + " = " + value);
 
 		// We have to broadcast manually because only "set x=y" triggers
 		// our hook, not "set variable x=y".  This is actually a good thing
@@ -1706,8 +1673,8 @@ GDBLink::CreateGetThreads
 CMGetFullPath*
 GDBLink::CreateGetFullPath
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineIndex
+	const JString&	fileName,
+	const JIndex	lineIndex
 	)
 {
 	#ifdef _J_OLD_OSX
@@ -1782,13 +1749,10 @@ GDBLink::CreateGetSourceFileList
 CMVarCommand*
 GDBLink::CreateVarValueCommand
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
-	JString s = "print ";
-	s        += expr;
-
-	CMVarCommand* cmd = jnew GDBVarCommand(s);
+	CMVarCommand* cmd = jnew GDBVarCommand("print " + expr);
 	assert( cmd != nullptr );
 	return cmd;
 }
@@ -1801,14 +1765,10 @@ GDBLink::CreateVarValueCommand
 CMVarCommand*
 GDBLink::CreateVarContentCommand
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
-	JString s = "print *(";
-	s        += expr;
-	s        += ")";
-
-	CMVarCommand* cmd = jnew GDBVarCommand(s);
+	CMVarCommand* cmd = jnew GDBVarCommand("print *(" + expr + ")");
 	assert( cmd != nullptr );
 	return cmd;
 }
@@ -1832,10 +1792,10 @@ GDBLink::CreateVarNode
 CMVarNode*
 GDBLink::CreateVarNode
 	(
-	JTreeNode*			parent,
-	const JCharacter*	name,
-	const JCharacter*	fullName,
-	const JCharacter*	value
+	JTreeNode*		parent,
+	const JString&	name,
+	const JString&	fullName,
+	const JString&	value
 	)
 {
 	CMVarNode* node = jnew GDBVarNode(parent, name, value);
@@ -1851,8 +1811,8 @@ GDBLink::CreateVarNode
 JString
 GDBLink::Build1DArrayExpression
 	(
-	const JCharacter*	expr,
-	const JInteger		index
+	const JString&	expr,
+	const JInteger	index
 	)
 {
 	return Build1DArrayExpressionForCFamilyLanguage(expr, index);
@@ -1866,9 +1826,9 @@ GDBLink::Build1DArrayExpression
 JString
 GDBLink::Build2DArrayExpression
 	(
-	const JCharacter*	expr,
-	const JInteger		rowIndex,
-	const JInteger		colIndex
+	const JString&	expr,
+	const JInteger	rowIndex,
+	const JInteger	colIndex
 	)
 {
 	return Build2DArrayExpressionForCFamilyLanguage(expr, rowIndex, colIndex);
@@ -1935,7 +1895,7 @@ GDBLink::ParseList
 	(
 	std::istringstream&	stream,
 	JPtrArray<JString>*	list,
-	const JCharacter	terminator
+	const JUtf8Byte		terminator
 	)
 {
 	list->CleanOut();
@@ -1994,7 +1954,7 @@ GDBLink::ParseMap
 			return kJFalse;
 			}
 
-		const JCharacter next = stream.peek();
+		const JUtf8Byte next = stream.peek();
 		if (next == '{' || next == '[')
 			{
 			stream.ignore();	// skip {
@@ -2011,7 +1971,7 @@ GDBLink::ParseMap
 				{
 				if (i > 1)
 					{
-					value.AppendCharacter('\1');
+					value.Append("\1");
 					}
 				value.Append(*(list.GetElement(i)));
 				}
@@ -2119,9 +2079,9 @@ GDBLink::SendPing()
 		itsPingID++;
 		}
 	const JString idStr((JUInt64) itsPingID);
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"id", idStr
+		"id", idStr.GetBytes()
 		};
 	const JString cmd = JGetString("PingCommand::GDBLink", map, sizeof(map));
 	SendRaw(cmd);
@@ -2134,13 +2094,13 @@ GDBLink::SendPing()
 
  *****************************************************************************/
 
-static const JCharacter* kFakeCommandPrefix = "echo \\032\\032:Medic command:0:\n";
-static const JCharacter* kFakeCommandSuffix = "echo \\032\\032:Medic command done:0:\n";
+static const JUtf8Byte* kFakeCommandPrefix = "echo \\032\\032:Medic command:0:\n";
+static const JUtf8Byte* kFakeCommandSuffix = "echo \\032\\032:Medic command done:0:\n";
 
 void
 GDBLink::SendWhenStopped
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 #ifdef _J_OLD_OSX
@@ -2183,7 +2143,7 @@ GDBLink::SendWhenStopped
 void
 GDBLink::Send
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 	if (itsOutputLink != nullptr)
@@ -2210,7 +2170,7 @@ static JRegex pingSendPattern =
 void
 GDBLink::SendRaw
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 	if (itsOutputLink != nullptr)
@@ -2261,7 +2221,7 @@ GDBLink::SendMedicCommand
 
 	const JString id((JUInt64) command->GetTransactionID());
 
-	const JCharacter *startId, *endId;
+	const JUtf8Byte *startId, *endId;
 	if (command->WillIgnoreResult())
 		{
 		startId = "StartIgnoreResultCommand::GDBLink";
@@ -2273,9 +2233,9 @@ GDBLink::SendMedicCommand
 		endId   = "EndCommand::GDBLink";
 		}
 
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"id", id
+		"id", id.GetBytes()
 		};
 	JString cmd = JGetString(startId, map, sizeof(map));
 	Send(cmd);	// switching this to SendRaw() will cripple opening of source files while the program is running
@@ -2380,7 +2340,7 @@ GDBLink::StopProgram()
 void
 GDBLink::KillProgram()
 {
-	SendWhenStopped("kill");
+	SendWhenStopped(JString("kill", kJFalse));
 }
 
 /******************************************************************************
@@ -2393,11 +2353,11 @@ GDBLink::DetachOrKill()
 {
 	if (itsIsAttachedFlag)
 		{
-		Send("detach");
+		Send(JString("detach", kJFalse));
 		}
 	else if (itsChildProcess != nullptr)
 		{
-		Send("kill");
+		Send(JString("kill", kJFalse));
 		}
 }
 
@@ -2544,7 +2504,7 @@ void
 GDBLink::StopDebugger()
 {
 	DetachOrKill();
-	Send("quit");
+	Send(JString("quit", kJFalse));
 
 	jdelete itsDebuggerProcess;
 	itsDebuggerProcess = nullptr;

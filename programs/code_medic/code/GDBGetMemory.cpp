@@ -9,6 +9,7 @@
 
 #include "GDBGetMemory.h"
 #include "CMMemoryDir.h"
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -40,7 +41,7 @@ GDBGetMemory::~GDBGetMemory()
 
  *****************************************************************************/
 
-static const JCharacter* kCommandName[] =
+static const JUtf8Byte* kCommandName[] =
 {
 	"xb", "xh", "xw", "xg", "cb", "i"
 };
@@ -54,11 +55,11 @@ GDBGetMemory::Starting()
 	JSize count;
 	const JString& expr = GetDirector()->GetExpression(&type, &count);
 
-	JString cmd = "x/";
-	cmd        += JString((JUInt64) count);
-	cmd        += kCommandName[ type-1 ];
-	cmd        += " ";
-	cmd        += expr;
+	JString cmd("x/");
+	cmd += JString((JUInt64) count);
+	cmd += kCommandName[ type-1 ];
+	cmd += " ";
+	cmd += expr;
 
 	SetCommand(cmd);
 }
@@ -76,20 +77,22 @@ GDBGetMemory::HandleSuccess
 	const JString& data
 	)
 {
-	JString s =  data;
+	JString s = data;
 
-	JIndex i = 1;
-	JArray<JIndexRange> matchList;
-	while (prefixPattern.MatchFrom(s, i, &matchList))
+	JStringIterator iter(&s);
+	while (iter.Next(prefixPattern))
 		{
-		s.RemoveSubstring(matchList.GetElement(2));
-		i = matchList.GetElement(2).first;
+		const JStringMatch& m = iter.GetLastMatch();
+
+		const JSize count = m.GetCharacterRange(1).GetCount();
+		iter.SkipPrev(count + 2);
+		iter.RemoveNext(count);
 		}
 
-	i = 1;
-	while (s.LocateNextSubstring("\t", &i))
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	while (iter.Next("\t"))
 		{
-		s.SetCharacter(i, ' ');
+		iter.SetPrev(JUtf8Character(' '));
 		}
 
 	GetDirector()->Update(s);

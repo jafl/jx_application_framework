@@ -14,6 +14,7 @@
 #include "GDBLink.h"
 #include "cmGlobals.h"
 #include <JTree.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -30,7 +31,7 @@ GDBGetStack::GDBGetStack
 	CMStackWidget*	widget
 	)
 	:
-	CMGetStack("-stack-list-frames", tree, widget)
+	CMGetStack(JString("-stack-list-frames", kJFalse), tree, widget)
 {
 	itsArgsCmd = jnew GDBGetStackArguments(tree);
 }
@@ -63,21 +64,22 @@ GDBGetStack::HandleSuccess
 	JIndex initFrameIndex = 0;
 
 	const JString& data = GetLastResult();
-	std::istringstream stream(data.GetCString());
+	std::istringstream stream(data.GetBytes());
 
-	JIndexRange origRange, newRange;
 	JStringPtrMap<JString> map(JPtrArrayT::kDeleteAll);
 	JString frameName, fileName;
 	JBoolean selectNextFrame = kJFalse;
-	while (framePattern.MatchAfter(data, origRange, &newRange))
+
+	JStringIterator iter(data);
+	while (iter.Next(framePattern))
 		{
-		stream.seekg(newRange.last);
+		stream.seekg(iter.GetLastMatch().GetUtf8ByteRange().last);
 		if (!GDBLink::ParseMap(stream, &map))
 			{
 			CMGetLink()->Log("invalid data map");
 			break;
 			}
-		origRange.first = origRange.last = ((std::streamoff) stream.tellg()) + 1;
+		iter.MoveTo(kJIteratorStartAfter, (std::streamoff) stream.tellg());
 
 		JString* s;
 		JIndex frameIndex;
@@ -93,9 +95,9 @@ GDBGetStack::HandleSuccess
 			}
 
 		frameName = *s;
-		while (frameName.GetLength() < kFrameIndexWidth)
+		while (frameName.GetCharacterCount() < kFrameIndexWidth)
 			{
-			frameName.PrependCharacter('0');
+			frameName.Prepend("0");
 			}
 		frameName += ":  ";
 
@@ -122,7 +124,7 @@ GDBGetStack::HandleSuccess
 
 		CMStackFrameNode* node =
 			jnew CMStackFrameNode(root, frameIndex, frameName,
-								 fileName, lineIndex);
+								  fileName, lineIndex);
 		assert( node != nullptr );
 		root->Prepend(node);
 

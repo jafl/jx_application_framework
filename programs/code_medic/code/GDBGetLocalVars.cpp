@@ -11,6 +11,7 @@
 #include "CMVarNode.h"
 #include "GDBVarTreeParser.h"
 #include "cmGlobals.h"
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -24,13 +25,14 @@ GDBGetLocalVars::GDBGetLocalVars
 	CMVarNode* rootNode
 	)
 	:
-	CMGetLocalVars(	"set print pretty off\n"
-					"set print array off\n"
-					"set print repeats 0\n"
-					"set width 0\n"
-					"info args\n"
-					"echo -----\\n\n"
-					"info locals"),
+	CMGetLocalVars(JString(
+		"set print pretty off\n"
+		"set print array off\n"
+		"set print repeats 0\n"
+		"set width 0\n"
+		"info args\n"
+		"echo -----\\n\n"
+		"info locals", kJFalse)),
 	itsRootNode(rootNode)
 {
 }
@@ -49,9 +51,9 @@ GDBGetLocalVars::~GDBGetLocalVars()
 
  ******************************************************************************/
 
-static const JCharacter* kSeparator = "\n-----\n";
-static const JRegex varPattern      = "^([^=]+)=(.*)$";
-static const JRegex gdb7RefPattern  = "^@0[xX][[:xdigit:]]+$";
+static const JString kSeparator("\n-----\n", kJFalse);
+static const JRegex varPattern     = "^([^=]+)=(.*)$";
+static const JRegex gdb7RefPattern = "^@0[xX][[:xdigit:]]+$";
 
 void
 GDBGetLocalVars::HandleSuccess
@@ -59,67 +61,61 @@ GDBGetLocalVars::HandleSuccess
 	const JString& data
 	)
 {
-	JIndex separatorIndex;
-	if (!data.LocateSubstring(kSeparator, &separatorIndex))
+	if (!data.Contains(kSeparator))
 		{
 		itsRootNode->DeleteAllChildren();
 		return;
 		}
 
-	JString argData, varData;
-	if (separatorIndex > 1)
-		{
-		argData = data.GetSubstring(1, separatorIndex-1);
-		}
-	separatorIndex += strlen(kSeparator);
-	if (separatorIndex <= data.GetLength())
-		{
-		varData = data.GetSubstring(separatorIndex, data.GetLength());
-		}
+	JPtrArray<JString> s(JPtrArrayT::kDeleteAll);
+	data.Split(kSeparator, &s, 2);
+
+	JString *argData = s.GetElement(1),
+			*varData = s.GetElement(2);
 
 	// build list of arguments
 
 	JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll),
 					   valueList(JPtrArrayT::kDeleteAll);
 
-	CleanVarString(&argData);
+	CleanVarString(argData);
 
-	JIndexRange matchedRange;
-	JArray<JIndexRange> matchList;
-	while (varPattern.MatchAfter(argData, matchedRange, &matchList))
+	JStringIterator argIter(*argData);
+	while (argIter.Next(varPattern))
 		{
-		JString* name = jnew JString(argData.GetSubstring(matchList.GetElement(2)));
+		const JStringMatch& m = argIter.GetLastMatch();
+
+		JString* name = jnew JString(m.GetSubstring(1));
 		assert( name != nullptr );
 		name->TrimWhitespace();
 		nameList.Append(name);
 
-		JString* value = jnew JString(argData.GetSubstring(matchList.GetElement(3)));
+		JString* value = jnew JString(m.GetSubstring(2));
 		assert( value != nullptr );
 		value->TrimWhitespace();
 		valueList.Append(value);
-
-		matchedRange = matchList.GetFirstElement();
 		}
 
 	// build list of local variables in reverse order
 
-	CleanVarString(&varData);
+	CleanVarString(varData);
 
-	matchedRange.SetToNothing();
 	const JIndex insertionIndex = nameList.GetElementCount()+1;
-	while (varPattern.MatchAfter(varData, matchedRange, &matchList))
+
+	JStringIterator varIter(*varData);
+	while (varIter.Next(varPattern))
 		{
-		JString* name = jnew JString(varData.GetSubstring(matchList.GetElement(2)));
+		const JStringMatch& m = varIter.GetLastMatch();
+
+		JString* name = jnew JString(m.GetSubstring(1));
 		assert( name != nullptr );
 		name->TrimWhitespace();
 		nameList.InsertAtIndex(insertionIndex, name);
 
-		JString* value = jnew JString(varData.GetSubstring(matchList.GetElement(3)));
+		JString* value = jnew JString(m.GetSubstring(2));
 		assert( value != nullptr );
 		value->TrimWhitespace();
 		valueList.InsertAtIndex(insertionIndex, value);
-
-		matchedRange = matchList.GetFirstElement();
 		}
 
 	// delete existing nodes beyond the first one that doesn't match the
@@ -169,7 +165,7 @@ GDBGetLocalVars::HandleSuccess
 			}
 		else
 			{
-			node = CMGetLink()->CreateVarNode(nullptr, *(nameList.GetElement(i)), nullptr, "");
+			node = CMGetLink()->CreateVarNode(nullptr, *(nameList.GetElement(i)), JString::empty, JString::empty);
 			assert( node != nullptr );
 			itsRootNode->Append(node);	// avoid automatic update
 			}
@@ -213,17 +209,15 @@ GDBGetLocalVars::CleanVarString
 	JString* s
 	)
 {
-	JIndexRange r;
-	while (parseError1Pattern.MatchAfter(*s, r, &r))
+	JStringIterator iter(s);
+	while (iter.Next(parseError1Pattern))
 		{
-		s->RemoveSubstring(r.last, r.last);
-		r.last--;
+		iter.RemovePrev();
 		}
 
-	r.SetToNothing();
-	while (parseError2Pattern.MatchAfter(*s, r, &r))
+	while (iter.Next(parseError2Pattern))
 		{
-		s->RemoveSubstring(r.first, r.first);
-		r.last--;
+		iter.SkipPrev(2);
+		iter.RemovePrev();
 		}
 }

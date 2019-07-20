@@ -10,6 +10,7 @@
  *****************************************************************************/
 
 #include <GDBScanner.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -60,37 +61,37 @@ GDBScanner::AppendInput
 	const JString& string
 	)
 {
-	const JCharacter* p1 = string;
-	const JCharacter* p2;
-	while (1)
-		{
-		p2 = strchr(p1, '\n');
-		if (p2 == nullptr)
-			{
-			break;
-			}
+	JPtrArray<JString> split(JPtrArrayT::kDeleteAll);
+	string.Split("\n", &split);
 
+	JString* last = split.GetLastElement();
+	split.RemoveElement(split.GetElementCount());
+
+	for (JString* s : split)
+	{
 		if (!itsPartialBuffer.IsEmpty())
 			{
 			itsInputBuffer += itsPartialBuffer;
 			itsPartialBuffer.Clear();
 			}
-		itsInputBuffer.Append(p1, p2 - p1 + 1);
-		p1 = p2 + 1;
-		}
+		itsInputBuffer.Append(*s);
+		itsInputBuffer.Append("\n");
+	}
 
 	// Accumulate partial line for later parsing if:
 	// 1: the first character is a meta character
 	// 2: we have already accumulated something else
 
-	if (strchr("(^~@&*+=", *p1) != nullptr || !itsPartialBuffer.IsEmpty())
+	if (strchr("(^~@&*+=", last->GetBytes()[0]) != nullptr || !itsPartialBuffer.IsEmpty())
 		{
-		itsPartialBuffer += p1;
+		itsPartialBuffer += *last;
 		}
 	else
 		{
-		itsInputBuffer += p1;
+		itsInputBuffer += *last;
 		}
+
+	jdelete last;
 }
 
 /******************************************************************************
@@ -107,12 +108,31 @@ GDBScanner::LexerInput
 {
 	assert( flexBuf != nullptr && flexBufSize > 0 );
 
-	const int charLeft = itsInputBuffer.GetLength() - itsBytesRead;
-	const int numCopy  = (charLeft > flexBufSize) ? flexBufSize : charLeft;
+	const int byteLeft = itsInputBuffer.GetByteCount() - itsBytesRead;
+
+	int numCopy = 0;
+	if (byteLeft <= flexBufSize)
+	{
+		numCopy = byteLeft;
+	}
+	else
+	{
+		const JUtf8Byte* p = itsInputBuffer.GetRawBytes() + itsBytesRead;
+
+		JSize remainingCount = flexBufSize;
+		JSize byteCount;
+		while (remainingCount > 0 &&
+			   (JUtf8Character::IsCompleteCharacter(p + numCopy, remainingCount, &byteCount) ||
+				remainingCount >= JUtf8Character::kMaxByteCount))
+			{
+			numCopy        += byteCount;
+			remainingCount -= byteCount;
+			}
+	}
 
 	if (numCopy > 0)
 		{
-		memcpy(flexBuf, itsInputBuffer.GetCString() + itsBytesRead, numCopy);
+		memcpy(flexBuf, itsInputBuffer.GetBytes() + itsBytesRead, numCopy);
 		itsBytesRead += numCopy;
 		}
 
@@ -129,7 +149,8 @@ GDBScanner::Flush()
 {
 	if (itsBytesRead > 0)
 		{
-		itsInputBuffer.RemoveSubstring(1, itsBytesRead);
+		JStringIterator iter(&itsInputBuffer, kJIteratorStartAfterByte, itsBytesRead);
+		iter.RemoveAllPrev();
 		itsBytesRead = 0;
 		}
 }
@@ -142,17 +163,17 @@ GDBScanner::Flush()
 void
 GDBScanner::ExtractCommandId
 	(
-	const JCharacter*	yytext,
+	const JUtf8Byte*	yytext,
 	const JSize			yyleng
 	)
 {
-	const JCharacter* s = yytext + yyleng-4;
+	const JUtf8Byte* s = yytext + yyleng-4;
 	while (isdigit(s[-1]))
 		{
 		s--;
 		}
-	const_cast<JCharacter*>(yytext)[yyleng-3] = '\0';
-	const JBoolean ok = JString::ConvertToUInt(s, &(itsData.number));
+	const_cast<JUtf8Byte*>(yytext)[yyleng-3] = '\0';
+	const JBoolean ok = JString::ConvertToUInt(s, &itsData.number);
 	assert( ok );
 }
 
@@ -167,21 +188,26 @@ GDBScanner::TranslateMIOutput
 	JString* data
 	)
 {
-	JSize count = data->GetLength();
-	for (JIndex i=1; i<=count; i++)
+	JStringIterator iter(data);
+	JUtf8Character c;
+	while (iter.Next(&c))
 		{
-		if (data->GetCharacter(i) == '\\')
+		if (c == '\\')
 			{
-			data->RemoveSubstring(i, i);
-			count--;
+			iter.RemovePrev();
 
-			if (data->GetCharacter(i) == 'n')
+			if (!iter.Next(&c))
 				{
-				data->SetCharacter(i, '\n');
+				break;
 				}
-			else if (data->GetCharacter(i) == 't')
+
+			if (c == 'n')
 				{
-				data->SetCharacter(i, '\t');
+				iter.SetPrev(JUtf8Character('\n'));
+				}
+			else if (c == 't')
+				{
+				iter.SetPrev(JUtf8Character('\t'));
 				}
 			}
 		}
