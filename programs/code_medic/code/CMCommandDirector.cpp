@@ -58,18 +58,17 @@
 #include <JXColorManager.h>
 #include <JXMacWinPrefsDialog.h>
 
+#include <JStringIterator.h>
+#include <JFontManager.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
-
-static const JCharacter* kWindowTitleSuffix = " Command Line";
 
 const JSize kCmdHistoryLength = 100;
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open source file...   %k Meta-O %i" kCMOpenSourceFileAction
 	"%l| Load configuration... %k Ctrl-O %i" kCMLoadConfigAction
 	"  | Save configuration... %k Ctrl-S %i" kCMSaveConfigAction
@@ -95,8 +94,7 @@ enum
 
 // Debug menu
 
-static const JCharacter* kDebugMenuTitleStr = "Debug";
-static const JCharacter* kDebugMenuStr =
+static const JUtf8Byte* kDebugMenuStr =
 	"    Choose program...      %k Meta-Shift-P %i" kCMChooseBinaryAction
 	"  | Reload program                         %i" kCMReloadBinaryAction
 	"  | Choose core...         %k Meta-Shift-C %i" kCMChooseCoreAction
@@ -163,14 +161,9 @@ enum
 	kFirstCustomDebugCmd
 };
 
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
 // Prefs menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    gdb %r"
 	"  | lldb %r"
 	"  | Java %r"
@@ -202,8 +195,7 @@ static const JIndex kDebuggerTypeToMenuIndex[] =
 
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents       %i" kJXHelpTOCAction
 	"  | Overview"
@@ -270,17 +262,17 @@ CMCommandDirector::CMCommandDirector
 	assert(itsDebugDir!=nullptr);
 
 	JXWDManager* wdMgr = GetDisplay()->GetWDManager();
-	wdMgr->PermanentDirectorCreated(this,                nullptr,           kCMShowCommandLineAction);
-	wdMgr->PermanentDirectorCreated(itsCurrentSourceDir, nullptr,           kCMShowCurrentSourceAction);
-	wdMgr->PermanentDirectorCreated(itsThreadsDir,       "Meta-Shift-T", kCMShowThreadsAction);
-	wdMgr->PermanentDirectorCreated(itsStackDir,         "Meta-Shift-S", kCMShowStackTraceAction);
-	wdMgr->PermanentDirectorCreated(itsBreakpointsDir,   "Meta-Shift-B", kCMShowBreakpointsAction);
-	wdMgr->PermanentDirectorCreated(itsVarTreeDir,       "Meta-Shift-V", kCMShowVariablesAction);
-	wdMgr->PermanentDirectorCreated(itsLocalVarsDir,     "Meta-Shift-L", kCMShowLocalVariablesAction);
-	wdMgr->PermanentDirectorCreated(itsCurrentAsmDir,    "Meta-Shift-Y", kCMShowCurrentAsmAction);
-	wdMgr->PermanentDirectorCreated(itsRegistersDir,     "Meta-Shift-R", kCMShowRegistersAction);
-	wdMgr->PermanentDirectorCreated(itsFileListDir,      "Meta-Shift-F", kCMShowFileListAction);
-	wdMgr->PermanentDirectorCreated(itsDebugDir,         "",             kCMShowDebugInfoAction);
+	wdMgr->PermanentDirectorCreated(this,                JString::empty,                   kCMShowCommandLineAction);
+	wdMgr->PermanentDirectorCreated(itsCurrentSourceDir, JString::empty,                   kCMShowCurrentSourceAction);
+	wdMgr->PermanentDirectorCreated(itsThreadsDir,       JString("Meta-Shift-T", kJFalse), kCMShowThreadsAction);
+	wdMgr->PermanentDirectorCreated(itsStackDir,         JString("Meta-Shift-S", kJFalse), kCMShowStackTraceAction);
+	wdMgr->PermanentDirectorCreated(itsBreakpointsDir,   JString("Meta-Shift-B", kJFalse), kCMShowBreakpointsAction);
+	wdMgr->PermanentDirectorCreated(itsVarTreeDir,       JString("Meta-Shift-V", kJFalse), kCMShowVariablesAction);
+	wdMgr->PermanentDirectorCreated(itsLocalVarsDir,     JString("Meta-Shift-L", kJFalse), kCMShowLocalVariablesAction);
+	wdMgr->PermanentDirectorCreated(itsCurrentAsmDir,    JString("Meta-Shift-Y", kJFalse), kCMShowCurrentAsmAction);
+	wdMgr->PermanentDirectorCreated(itsRegistersDir,     JString("Meta-Shift-R", kJFalse), kCMShowRegistersAction);
+	wdMgr->PermanentDirectorCreated(itsFileListDir,      JString("Meta-Shift-F", kJFalse), kCMShowFileListAction);
+	wdMgr->PermanentDirectorCreated(itsDebugDir,         JString::empty,                   kCMShowDebugInfoAction);
 
 	CreateWindowsMenuAndToolBar(menuBar, itsToolBar, kJFalse, kJFalse, kJTrue,
 								itsDebugMenu, itsPrefsMenu,
@@ -315,7 +307,7 @@ CMCommandDirector::CMCommandDirector
 
 	ListenTo(CMGetPrefsManager());
 
-	itsFakePrompt->SetText(itsLink->GetPrompt());
+	itsFakePrompt->GetText()->SetText(itsLink->GetPrompt());
 	itsFakePrompt->SetFontStyle(
 		CMGetPrefsManager()->GetColor(CMPrefsManager::kRightMarginColorIndex));
 }
@@ -408,13 +400,14 @@ CMCommandDirector::CloseDynamicDirectors()
 void
 CMCommandDirector::TransferKeyPressToInput
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
 	if (itsCommandInput->Focus())
 		{
-		itsCommandInput->HandleKeyPress(key, modifiers);
+		itsCommandInput->HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -426,14 +419,14 @@ CMCommandDirector::TransferKeyPressToInput
 void
 CMCommandDirector::InitializeCommandOutput()
 {
-	itsCommandOutput->SetText("");
+	itsCommandOutput->GetText()->SetText(JString::empty);
 
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"vers", CMGetVersionNumberStr()
+		"vers", CMGetVersionNumberStr().GetBytes()
 		};
 	const JString welcome = JGetString("Welcome::CMCommandDirector", map, sizeof(map));
-	itsCommandOutput->SetText(welcome);
+	itsCommandOutput->GetText()->SetText(welcome);
 }
 
 /******************************************************************************
@@ -444,10 +437,10 @@ CMCommandDirector::InitializeCommandOutput()
 void
 CMCommandDirector::PrepareCommand
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
-	itsCommandInput->SetText(cmd);
+	itsCommandInput->GetText()->SetText(cmd);
 	itsCommandInput->Focus();
 	itsCommandInput->GoToEndOfLine();
 	Activate();
@@ -506,7 +499,7 @@ CMCommandDirector::BuildWindow()
 	assert( itsCommandInput != nullptr );
 
 	itsHistoryMenu =
-		jnew JXStringHistoryMenu(kCmdHistoryLength, "", itsDownRect,
+		jnew JXStringHistoryMenu(kCmdHistoryLength, JString::empty, itsDownRect,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 30,20);
 	assert( itsHistoryMenu != nullptr );
 
@@ -517,7 +510,7 @@ CMCommandDirector::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle(kWindowTitleSuffix);
+	window->SetTitle(JGetString("WindowTitleSuffix::CMCommandDirector"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetCommandWindowClass());
@@ -539,8 +532,8 @@ CMCommandDirector::BuildWindow()
 	CMGetPrefsManager()->ReadHistoryMenuSetup(itsHistoryMenu);
 	ListenTo(itsHistoryMenu);
 
-	itsProgramButton->SetFontName(JGetMonospaceFontName());
-	itsProgramButton->SetFontSize(JGetDefaultMonoFontSize());
+	itsProgramButton->SetFontName(JFontManager::GetDefaultMonospaceFontName());
+	itsProgramButton->SetFontSize(JFontManager::GetDefaultMonospaceFontSize());
 	itsProgramButton->SetActive(itsLink->GetFeature(CMLink::kSetProgram));
 	ListenTo(itsProgramButton);
 
@@ -549,11 +542,11 @@ CMCommandDirector::BuildWindow()
 	itsProgramButton->SetPaddingBeforeFTC(p);
 
 	CMTextDisplayBase::AdjustFont(itsArgInput);
-	itsArgInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsArgInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CMCommandDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -584,12 +577,12 @@ CMCommandDirector::BuildWindow()
 	itsCommandInput->ShareEditMenu(itsCommandOutput);
 	itsArgInput->ShareEditMenu(itsCommandOutput);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "CMCommandDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "CMCommandDirector");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -670,14 +663,14 @@ CMCommandDirector::DockAll
 void
 CMCommandDirector::UpdateWindowTitle
 	(
-	const JCharacter* programName
+	const JString& programName
 	)
 {
 	JString title = programName;
-	title += kWindowTitleSuffix;
+	title += JGetString("WindowTitleSuffix::CMCommandDirector");
 	GetWindow()->SetTitle(title);
 
-	if (!JString::IsEmpty(programName))
+	if (!programName.IsEmpty())
 		{
 		itsProgramButton->SetLabel(programName);
 		}
@@ -747,7 +740,7 @@ CMCommandDirector::CreateDebugMenu
 	JXMenuBar* menuBar
 	)
 {
-	JXTextMenu* menu = menuBar->AppendTextMenu(kDebugMenuTitleStr);
+	JXTextMenu* menu = menuBar->AppendTextMenu(JGetString("DebugMenuTitle::CMCommandDirector"));
 	menu->SetMenuItems(kDebugMenuStr, "CMCommandDirector");
 
 	menu->SetItemImage(kSelectBinCmd,      jx_executable_small);
@@ -835,7 +828,7 @@ CMCommandDirector::AdjustDebugMenu
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JString* cmd = cmds.GetElement(i);
-		menu->AppendItem(*cmd, JXMenu::kPlainType, nullptr, nullptr, *cmd);
+		menu->AppendItem(*cmd, JXMenu::kPlainType, JString::empty, JString::empty, *cmd);
 		}
 }
 
@@ -860,7 +853,7 @@ CMCommandDirector::CreateWindowsMenuAndToolBar
 	)
 {
 	JXWDMenu* wdMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
 	menuBar->InsertMenuBefore(prefsMenu, wdMenu);
@@ -893,17 +886,17 @@ CMCommandDirector::AddWindowsMenuItemsToToolBar
 {
 	if (includeCmdLine)
 		{
-		toolBar->AppendButton(windowsMenu, kCMShowCommandLineAction);
+		toolBar->AppendButton(windowsMenu, JString(kCMShowCommandLineAction, kJFalse));
 		}
 	if (includeCurrSrc)
 		{
-		toolBar->AppendButton(windowsMenu, kCMShowCurrentSourceAction);
+		toolBar->AppendButton(windowsMenu, JString(kCMShowCurrentSourceAction, kJFalse));
 		}
-	toolBar->AppendButton(windowsMenu, kCMShowStackTraceAction);
-	toolBar->AppendButton(windowsMenu, kCMShowBreakpointsAction);
-	toolBar->AppendButton(windowsMenu, kCMShowVariablesAction);
-	toolBar->AppendButton(windowsMenu, kCMShowLocalVariablesAction);
-	toolBar->AppendButton(windowsMenu, kCMShowFileListAction);
+	toolBar->AppendButton(windowsMenu, JString(kCMShowStackTraceAction, kJFalse));
+	toolBar->AppendButton(windowsMenu, JString(kCMShowBreakpointsAction, kJFalse));
+	toolBar->AppendButton(windowsMenu, JString(kCMShowVariablesAction, kJFalse));
+	toolBar->AppendButton(windowsMenu, JString(kCMShowLocalVariablesAction, kJFalse));
+	toolBar->AppendButton(windowsMenu, JString(kCMShowFileListAction, kJFalse));
 }
 
 /******************************************************************************
@@ -928,14 +921,12 @@ CMCommandDirector::Receive
 		itsCommandOutput->GoToEndOfLine();
 //		itsISOStyler->FilterISO(output->GetText());
 
-		JFont font = itsCommandOutput->GetDefaultFont();
+		JFont font = itsCommandOutput->GetText()->GetDefaultFont();
 		font.SetBold(output->IsFromTarget());
-		font.SetColor(output->IsError() ?
-			(itsCommandOutput->GetColormap())->GetDarkRedColor() :
-			(itsCommandOutput->GetColormap())->GetBlackColor());
+		font.SetColor(output->IsError() ? JColorManager::GetDarkRedColor() : JColorManager::GetBlackColor());
 		itsCommandOutput->SetCurrentFont(font);
 		itsCommandOutput->Paste(output->GetText());
-		itsCommandOutput->ClearUndo();
+		itsCommandOutput->GetText()->ClearUndo();
 		}
 
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerBusy))
@@ -945,13 +936,13 @@ CMCommandDirector::Receive
 		}
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerReadyForInput))
 		{
-		itsFakePrompt->SetText(itsLink->GetPrompt());
+		itsFakePrompt->GetText()->SetText(itsLink->GetPrompt());
 		itsFakePrompt->SetFontStyle(
 			CMGetPrefsManager()->GetColor(CMPrefsManager::kTextColorIndex));
 		}
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerDefiningScript))
 		{
-		itsFakePrompt->SetText(itsLink->GetScriptPrompt());
+		itsFakePrompt->GetText()->SetText(itsLink->GetScriptPrompt());
 		itsFakePrompt->SetFontStyle(
 			CMGetPrefsManager()->GetColor(CMPrefsManager::kTextColorIndex));
 		// can't do it here because, when core file loaded, hook-run is
@@ -1093,7 +1084,7 @@ CMCommandDirector::Receive
 	else if (sender == itsHistoryMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JString& str = itsHistoryMenu->GetItemText(message);
-		itsCommandInput->SetText(str);
+		itsCommandInput->GetText()->SetText(str);
 		itsCommandInput->GoToEndOfLine();
 		}
 
@@ -1150,13 +1141,13 @@ CMCommandDirector::ReceiveGoingAway
 
 		itsWaitingToRunFlag = kJFalse;
 
-		UpdateWindowTitle("");
-		itsFakePrompt->SetText(itsLink->GetPrompt());
+		UpdateWindowTitle(JString::empty);
+		itsFakePrompt->GetText()->SetText(itsLink->GetPrompt());
 		itsFakePrompt->SetFontStyle(
 			CMGetPrefsManager()->GetColor(CMPrefsManager::kRightMarginColorIndex));
 
 		itsProgramButton->SetActive(itsLink->GetFeature(CMLink::kSetProgram));
-		itsArgInput->SetText("");
+		itsArgInput->GetText()->SetText(JString::empty);
 
 		jdelete itsGetArgsCmd;
 		itsGetArgsCmd = itsLink->CreateGetInitArgs(itsArgInput);
@@ -1176,14 +1167,14 @@ void
 CMCommandDirector::HandleUserInput()
 {
 	itsHistoryIndex = 0;
-	JString input   = itsCommandInput->GetText();
+	JString input   = itsCommandInput->GetText()->GetText();
 
 	if ((!itsLink->IsDebugging() || itsLink->ProgramIsStopped()) &&
 		!itsLink->IsDefiningScript())
 		{
 		itsCommandOutput->PlaceCursorAtEnd();
 //		itsISOStyler->FilterISO("\n" + itsLink->GetPrompt() + " ");
-		itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetDefaultFont().GetStyle());
+		itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetText()->GetDefaultFont().GetStyle());
 		itsCommandOutput->Paste("\n" + itsLink->GetPrompt() + " ");
 		}
 	else
@@ -1191,10 +1182,10 @@ CMCommandDirector::HandleUserInput()
 		itsCommandOutput->GoToEndOfLine();
 		}
 //	itsISOStyler->FilterISO(input);
-	itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetDefaultFont().GetStyle());
+	itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetText()->GetDefaultFont().GetStyle());
 	itsCommandOutput->Paste(input);
 
-	itsCommandOutput->Paste("\n");
+	itsCommandOutput->Paste(JString::newline);
 	input.TrimWhitespace();
 	if (!input.IsEmpty())
 		{
@@ -1202,7 +1193,7 @@ CMCommandDirector::HandleUserInput()
 		}
 	itsLink->SendRaw(input);
 
-	itsCommandInput->SetText("");
+	itsCommandInput->GetText()->SetText(JString::empty);
 }
 
 /******************************************************************************
@@ -1213,7 +1204,7 @@ CMCommandDirector::HandleUserInput()
 void
 CMCommandDirector::HandleCompletionRequest()
 {
-	const JString& input = itsCommandInput->GetText();
+	const JString& input = itsCommandInput->GetText()->GetText();
 	if (!input.EndsWith(" ") &&
 		!input.EndsWith("\t") &&
 		!input.EndsWith(":"))
@@ -1241,7 +1232,7 @@ CMCommandDirector::ShowHistoryCommand
 {
 	if (itsHistoryIndex == 0)
 		{
-		itsCurrentCommand = itsCommandInput->GetText();
+		itsCurrentCommand = itsCommandInput->GetText()->GetText();
 		}
 
 	const JIndex menuIndex = itsHistoryMenu->GetItemCount() - itsHistoryIndex + 1;
@@ -1251,12 +1242,12 @@ CMCommandDirector::ShowHistoryCommand
 		{
 		itsHistoryIndex     += delta;
 		const JString& input = itsHistoryMenu->JXTextMenu::GetItemText(i);
-		itsCommandInput->SetText(input);
+		itsCommandInput->GetText()->SetText(input);
 		}
 	else if (i > (JInteger) itsHistoryMenu->GetItemCount())
 		{
 		itsHistoryIndex = 0;
-		itsCommandInput->SetText(itsCurrentCommand);
+		itsCommandInput->GetText()->SetText(itsCurrentCommand);
 		}
 
 	itsCommandInput->GoToEndOfLine();
@@ -1336,7 +1327,7 @@ void
 CMCommandDirector::OpenSourceFiles()
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-	if (JGetChooseSaveFile()->ChooseFiles("Choose Source Files", nullptr, &list))
+	if (JGetChooseSaveFile()->ChooseFiles(JGetString("ChooseSourcePrompt::CMCommandDirector"), JString::empty, &list))
 		{
 		const JSize count = list.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -1354,9 +1345,9 @@ CMCommandDirector::OpenSourceFiles()
 void
 CMCommandDirector::OpenSourceFile
 	(
-	const JCharacter*	fileName,
-	const JSize			lineIndex,
-	const JBoolean		askDebuggerWhenRelPath
+	const JString&	fileName,
+	const JSize		lineIndex,
+	const JBoolean	askDebuggerWhenRelPath
 	)
 {
 	JString fullName;
@@ -1379,7 +1370,7 @@ CMCommandDirector::OpenSourceFile
 			ListenTo(cmd);
 			}
 		}
-	else if (JConvertToAbsolutePath(fileName, nullptr, &fullName))
+	else if (JConvertToAbsolutePath(fileName, JString::empty, &fullName))
 		{
 		const JSize count = itsSourceDirs->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -1419,21 +1410,23 @@ CMCommandDirector::OpenSourceFile
 void
 CMCommandDirector::DisassembleFunction
 	(
-	const JCharacter* origFn,
-	const JCharacter* addr
+	const JString& origFn,
+	const JString& addr
 	)
 {
 	CMSourceDirector* dir = nullptr;
 
 	JString fn = origFn;
-	JIndex i;
-	if (fn.LocateSubstring("(", &i))
+	JStringIterator iter(&fn);
+	if (iter.Next("("))
 		{
-		fn.RemoveSubstring(i, fn.GetLength());
+		iter.SkipPrev();
+		iter.RemoveAllNext();
 		}
+	iter.Invalidate();
 
 	const JSize count = itsAsmDirs->GetElementCount();
-	for (i=1; i<=count; i++)
+	for (JIndex i=1; i<=count; i++)
 		{
 		dir = itsAsmDirs->GetElement(i);
 		const JString* f;
@@ -1447,12 +1440,12 @@ CMCommandDirector::DisassembleFunction
 
 	if (dir == nullptr)
 		{
-		dir = CMSourceDirector::Create(this, JString::IsEmpty(addr) ? fn.GetCString() : nullptr, CMSourceDirector::kAsmType);
+		dir = CMSourceDirector::Create(this, addr.IsEmpty() ? fn : JString::empty, CMSourceDirector::kAsmType);
 		itsAsmDirs->Append(dir);
 		dir->Activate();
 		}
 
-	if (!JString::IsEmpty(addr))
+	if (!addr.IsEmpty())
 		{
 		CMLocation loc;
 		loc.SetFunctionName(fn);
@@ -1469,13 +1462,13 @@ CMCommandDirector::DisassembleFunction
 void
 CMCommandDirector::ReportUnreadableSourceFile
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	const
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"name", fileName
+		"name", fileName.GetBytes()
 		};
 	const JString err = JGetString("CannotOpenFile::CMCommandDirector", map, sizeof(map));
 	JGetUserNotification()->ReportError(err);
@@ -1490,9 +1483,9 @@ void
 CMCommandDirector::LoadConfig()
 {
 	JString fullName;
-	if (JGetChooseSaveFile()->ChooseFile("Choose configuration file", nullptr, &fullName))
+	if (JGetChooseSaveFile()->ChooseFile(JString("ChooseConfigPrompt::CMCommandDirector"), JString::empty, &fullName))
 		{
-		std::ifstream input(fullName);
+		std::ifstream input(fullName.GetBytes());
 
 		JFileVersion vers;
 		input >> vers;
@@ -1547,9 +1540,7 @@ CMCommandDirector::LoadConfig()
 			}
 		else
 			{
-			JGetUserNotification()->DisplayMessage(
-				"This configuration file was created by a newer version of "
-				"Code Medic.  You need the newest version in order to open it.");
+			JGetUserNotification()->DisplayMessage(JGetString("ConfigTooNew::CMCommandDirector"));
 			}
 		}
 }
@@ -1573,9 +1564,9 @@ CMCommandDirector::SaveConfig()
 		origName = "debug_config";
 		}
 
-	if (JGetChooseSaveFile()->SaveFile("Choose file name", nullptr, origName, &fullName))
+	if (JGetChooseSaveFile()->SaveFile(JGetString("SaveFilePrompt::CMCommandDirector"), JString::empty, origName, &fullName))
 		{
-		std::ofstream output(fullName);
+		std::ofstream output(fullName.GetBytes());
 
 		output << kCurrentConfigVersion;
 		(itsLink->GetBreakpointManager())->WriteSetup(output);
@@ -1629,7 +1620,7 @@ CMCommandDirector::SaveInCurrentFile()
 		}
 	else
 		{
-		itsCommandOutput->WritePlainText(itsCurrentHistoryFile, JTextEditor::kUNIXText);
+		itsCommandOutput->GetText()->WritePlainText(itsCurrentHistoryFile, JStyledText::kUNIXText);
 		}
 }
 
@@ -1641,7 +1632,7 @@ CMCommandDirector::SaveInCurrentFile()
 void
 CMCommandDirector::SaveInNewFile()
 {
-	if (JGetChooseSaveFile()->SaveFile("Choose file name:", nullptr, "",  &itsCurrentHistoryFile))
+	if (JGetChooseSaveFile()->SaveFile(JGetString("SaveFilePrompt::CMCommandDirector"), JString::empty, JString::empty,  &itsCurrentHistoryFile))
 		{
 		SaveInCurrentFile();
 		}
@@ -1983,10 +1974,10 @@ CMCommandDirector::HandleDebugMenu
 		if ((te1 != nullptr && te1->GetSelection(&text) && !text.Contains("\n")) ||
 			(te2 != nullptr && te2->GetSelection(&text) && !text.Contains("\n")))
 			{
-			JIndex i;
-			while (s.LocateSubstring("##", &i))
+			JStringIterator iter(&s);
+			while (iter.Next("##"))
 				{
-				s.ReplaceSubstring(i, i+1, text);
+				iter.ReplaceLastMatch(text);
 				}
 			}
 		else if (s.Contains("##"))
@@ -2023,7 +2014,7 @@ CMCommandDirector::RunProgram()
 		}
 	else if (itsLink->OKToDetachOrKill())
 		{
-		itsLink->RunProgram(itsArgInput->GetText());
+		itsLink->RunProgram(itsArgInput->GetText()->GetText());
 		}
 }
 
@@ -2038,7 +2029,7 @@ CMCommandDirector::ChangeProgram()
 	JString fullName;
 	const JString instr = itsLink->GetChooseProgramInstructions();
 	if (itsLink->OKToDetachOrKill() &&
-		JGetChooseSaveFile()->ChooseFile("Choose binary", instr, &fullName))
+		JGetChooseSaveFile()->ChooseFile(JGetString("ChooseBinaryPrompt::CMCommandDirector"), instr, &fullName))
 		{
 		CMMDIServer::UpdateDebuggerType(fullName);
 		itsLink->SetProgram(fullName);
@@ -2076,7 +2067,7 @@ CMCommandDirector::ChooseCoreFile()
 #endif
 
 	if (itsLink->OKToDetachOrKill() &&
-		JGetChooseSaveFile()->ChooseFile("Choose core file", nullptr, origPath, &coreName))
+		JGetChooseSaveFile()->ChooseFile(JGetString("ChooseCorePrompt::CMCommandDirector"), JString::empty, origPath, &coreName))
 		{
 		itsLink->SetCore(coreName);
 		}
@@ -2106,7 +2097,7 @@ CMCommandDirector::ChooseProcess()
 void
 CMCommandDirector::DisplayExpression
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 	itsVarTreeDir->Activate();
@@ -2121,7 +2112,7 @@ CMCommandDirector::DisplayExpression
 void
 CMCommandDirector::Display1DArray
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 	CMArray1DDir* dir = jnew CMArray1DDir(this, expr);
@@ -2137,7 +2128,7 @@ CMCommandDirector::Display1DArray
 void
 CMCommandDirector::Display2DArray
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 	CMArray2DDir* dir = jnew CMArray2DDir(this, expr);
@@ -2153,7 +2144,7 @@ CMCommandDirector::Display2DArray
 void
 CMCommandDirector::Plot1DArray
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 	CMPlot2DDir* dir = jnew CMPlot2DDir(this, expr);
@@ -2240,22 +2231,22 @@ CMCommandDirector::HandleHelpMenu
 		}
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
+		JXGetHelpManager()->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMCommandDirHelp");
+		JXGetHelpManager()->ShowSection("CMCommandDirHelp");
 		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }

@@ -13,7 +13,9 @@
 #include "cmGlobals.h"
 #include "cbmUtil.h"
 #include <JTree.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
+#include <JColorManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -26,7 +28,7 @@ CMVarNode::CMVarNode				// root node
 	const JBoolean shouldUpdate		// kJFalse for Local Variables
 	)
 	:
-	JNamedTreeNode(nullptr, ""),
+	JNamedTreeNode(nullptr, JString::empty),
 	itsShouldListenToLinkFlag(shouldUpdate)
 {
 	VarTreeNodeX();
@@ -34,18 +36,18 @@ CMVarNode::CMVarNode				// root node
 
 	if (itsShouldListenToLinkFlag)
 		{
-		ListenToCMGetLink();
+		ListenTo(CMGetLink());
 		}
 }
 
 CMVarNode::CMVarNode
 	(
-	JTreeNode*			parent,
-	const JCharacter*	name,
-	const JCharacter*	value
+	JTreeNode*		parent,
+	const JString&	name,
+	const JString&	value
 	)
 	:
-	JNamedTreeNode(nullptr, JString::IsEmpty(name) ? " " : name, kJFalse),
+	JNamedTreeNode(nullptr, name.IsEmpty() ? JString(" ", kJFalse) : name, kJFalse),
 	itsShouldListenToLinkFlag(kJFalse),
 	itsValue(value)
 {
@@ -54,7 +56,7 @@ CMVarNode::CMVarNode
 	if (parent != nullptr)
 		{
 		parent->Append(this);
-		if (parent->IsRoot() && !JString::IsEmpty(name))
+		if (parent->IsRoot() && !name.IsEmpty())
 			{
 			CMInitVarNodeTask* task = jnew CMInitVarNodeTask(this);
 			assert( task != nullptr );
@@ -132,8 +134,8 @@ static const JRegex valuePattern = "^(-?[[:digit:]]+)([[:space:]]+'.*)?$";
 
 struct CMSpecialCharInfo
 {
-	JCharacter			c;
-	const JCharacter*	s;
+	JUtf8Byte			c;
+	const JUtf8Byte*	s;
 };
 
 static const CMSpecialCharInfo kSpecialCharInfo[] =
@@ -169,13 +171,13 @@ CMVarNode::ConvertToBase()
 
 	if (itsBase == 0 || itsIsPointerFlag)
 		{
-		return;		// avoid constructing matchList
+		return;		// avoid JRegex match
 		}
 
-	JArray<JIndexRange> matchList;
-	if (valuePattern.Match(itsValue, &matchList))
+	const JStringMatch m = valuePattern.Match(itsValue, kJTrue);
+	if (!m.IsEmpty())
 		{
-		JString vStr = itsValue.GetSubstring(matchList.GetElement(2));
+		JString vStr = m.GetSubstring(1);
 
 		JUInt v;
 		if (vStr.GetFirstCharacter() == '-')
@@ -215,7 +217,7 @@ CMVarNode::ConvertToBase()
 				JBoolean found = kJFalse;
 				for (JUnsignedOffset i=0; i<kSpecialCharCount; i++)
 					{
-					if (JCharacter(v) == kSpecialCharInfo[i].c)
+					if (JUtf8Character(v) == kSpecialCharInfo[i].c)
 						{
 						vStr += kSpecialCharInfo[i].s;
 						found = kJTrue;
@@ -223,22 +225,27 @@ CMVarNode::ConvertToBase()
 					}
 				if (!found)
 					{
-					vStr.AppendCharacter(v);
+					vStr.Append(JUtf8Character(v));
 					}
 
-				vStr.AppendCharacter('\'');
+				vStr.Append("'");
 				}
 			else
 				{
 				vStr = JString(v, (JString::Base) itsBase, kJTrue);
 				if (itsBase == 8)
 					{
-					vStr.PrependCharacter('0');
+					vStr.Prepend("0");
 					}
 				}
 
-			JIndexRange r;
-			itsValue.ReplaceSubstring(matchList.GetElement(2), vStr, &r);
+			const JCharacterRange r = m.GetCharacterRange(1);
+			JStringIterator iter(&itsValue, kJIteratorStartBefore, r.first);
+			iter.BeginMatch();
+			iter.SkipNext(r.GetCount());
+			iter.FinishMatch();
+			iter.ReplaceLastMatch(vStr);
+			iter.Invalidate();
 
 			JTree* tree;
 			if (GetTree(&tree))
@@ -311,7 +318,7 @@ JFontStyle
 CMVarNode::GetFontStyle
 	(
 	const JBoolean isValid,
-	const JBoolean isNew,
+	const JBoolean isNew
 	)
 {
 	if (!isValid)
@@ -424,7 +431,7 @@ CMVarNode::Receive
 			 message.Is(CMVarCommand::kValueFailed))
 		{
 		DeleteAllChildren();
-		CMVarNode* child = CMGetLink()->CreateVarNode(this, "", "", itsContentCommand->GetData());
+		CMVarNode* child = CMGetLink()->CreateVarNode(this, JString::empty, JString::empty, itsContentCommand->GetData());
 		assert( child != nullptr );
 		child->SetValid(kJFalse);
 		}
@@ -448,7 +455,7 @@ CMVarNode::ReceiveGoingAway
 {
 	if (itsShouldListenToLinkFlag && !CMIsShuttingDown())
 		{
-		ListenToCMGetLink();
+		ListenTo(CMGetLink());
 		}
 
 	JNamedTreeNode::ReceiveGoingAway(sender);
@@ -528,14 +535,17 @@ CMVarNode::TrimExpression
 		   s->GetFirstCharacter() == '(' &&
 		   s->GetLastCharacter()  == ')')
 		{
-		JIndex i = 2;
-		if (!CBMBalanceForward(kCBCLang, *s, &i) || i < s->GetLength())
+		JStringIterator iter(s, kJIteratorStartAfter, 1);
+		if (!CBMBalanceForward(kCBCLang, &iter) || !iter.AtEnd())
 			{
 			break;
 			}
 
-		s->RemoveSubstring(1, 1);
-		s->RemoveSubstring(s->GetLength(), s->GetLength());
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		iter.RemoveNext();
+		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.RemovePrev();
+
 		s->TrimWhitespace();
 		}
 }
@@ -598,7 +608,7 @@ CMVarNode::UpdateValue()
 		}
 	else
 		{
-		SetValue("");
+		SetValue(JString::empty);
 		}
 }
 
@@ -935,8 +945,8 @@ CMVarNode::GetFullNameForCFamilyLanguage
 		str = parent->GetFullName(isPointer);
 		if (!str.BeginsWith("(") || !str.EndsWith(")"))
 			{
-			str.PrependCharacter('(');
-			str.AppendCharacter(')');
+			str.Prepend("(");
+			str.Append(")");
 			}
 		str += "[" + JString((JUInt64) i-1) + "]";
 		}
@@ -961,7 +971,8 @@ CMVarNode::GetFullNameForCFamilyLanguage
 		str = name;
 		if (str.BeginsWith("static "))
 			{
-			str.RemoveSubstring(1,7);
+			JStringIterator iter(&str);
+			iter.RemoveNext(7);
 			}
 		str.Prepend(parent->GetPathForCFamilyLanguage());
 		}

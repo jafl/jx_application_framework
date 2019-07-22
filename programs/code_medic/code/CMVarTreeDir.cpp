@@ -29,12 +29,9 @@
 #include <JNamedTreeList.h>
 #include <jAssert.h>
 
-static const JCharacter* kWindowTitleSuffix = " Variables";
-
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open source file... %k Meta-O %i" kCMOpenSourceFileAction
 	"%l| Close               %k Meta-W %i" kJXCloseWindowAction
 	"  | Quit                %k Meta-Q %i" kJXQuitAction;
@@ -48,8 +45,7 @@ enum
 
 // Actions menu
 
-static const JCharacter* kActionMenuTitleStr = "Actions";
-static const JCharacter* kActionMenuStr =
+static const JUtf8Byte* kActionMenuStr =
 	"    New expression      %k Meta-N       %i" kCMNewExpressionAction
 	"  | Remove expression   %k Backspace.   %i" kCMRemoveExpressionAction
 	"%l| Display as C string %k Meta-S       %i" kCMDisplayAsCStringAction
@@ -75,14 +71,9 @@ enum
 	kDisassembleMemCmd
 };
 
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents"
 	"  | Overview"
@@ -110,7 +101,7 @@ CMVarTreeDir::CMVarTreeDir
 	CMCommandDirector* supervisor
 	)
 	:
-	JXWindowDirectorJXGetApplication(),
+	JXWindowDirector(JXGetApplication()),
 	itsCommandDir(supervisor)
 {
 	itsLink = CMGetLink();
@@ -188,7 +179,7 @@ CMVarTreeDir::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle(kWindowTitleSuffix);
+	window->SetTitle(JGetString("WindowTitleSuffix::CMVarTreeDir"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
 	window->ShouldFocusWhenShow(kJTrue);
@@ -216,14 +207,14 @@ CMVarTreeDir::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->PrependTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CMThreadsDir");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
 
 	itsFileMenu->SetItemImage(kOpenCmd, jx_file_open);
 
-	itsActionMenu = menuBar->AppendTextMenu(kActionMenuTitleStr);
+	itsActionMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::CMGlobal"));
 	menuBar->InsertMenu(3, itsActionMenu);
 	itsActionMenu->SetMenuItems(kActionMenuStr, "CMVarTreeDir");
 	ListenTo(itsActionMenu);
@@ -234,12 +225,12 @@ CMVarTreeDir::BuildWindow()
 	itsActionMenu->SetItemImage(kExamineMemCmd,     medic_show_memory);
 
 	JXWDMenu* wdMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "CMVarTreeDir");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -256,11 +247,11 @@ CMVarTreeDir::BuildWindow()
 void
 CMVarTreeDir::UpdateWindowTitle
 	(
-	const JCharacter* binaryName
+	const JString& binaryName
 	)
 {
 	JString title = binaryName;
-	title += kWindowTitleSuffix;
+	title += JGetString("WindowTitleSuffix::CMVarTreeDir");
 	GetWindow()->SetTitle(title);
 }
 
@@ -511,7 +502,7 @@ CMVarTreeDir::HandleActionMenu
 void
 CMVarTreeDir::DisplayExpression
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
 	itsWidget->DisplayExpression(expr);
@@ -534,23 +525,23 @@ CMVarTreeDir::HandleHelpMenu
 		}
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
+		JXGetHelpManager()->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMVarTreeHelp");
+		JXGetHelpManager()->ShowSection("CMVarTreeHelp");
 		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }
 

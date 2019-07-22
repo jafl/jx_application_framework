@@ -252,11 +252,12 @@ CMThreadsWidget::HandleMouseUp
 void
 CMThreadsWidget::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&   modifiers
 	)
 {
-	if (key == kJUpArrow)
+	if (c == kJUpArrow)
 		{
 		if (!SelectNextThread(-1) && GetRowCount() > 0)
 			{
@@ -264,7 +265,7 @@ CMThreadsWidget::HandleKeyPress
 			}
 		ClearIncrementalSearchBuffer();
 		}
-	else if (key == kJDownArrow)
+	else if (c == kJDownArrow)
 		{
 		if (!SelectNextThread(+1) && GetRowCount() > 0)
 			{
@@ -274,11 +275,11 @@ CMThreadsWidget::HandleKeyPress
 		}
 	else
 		{
-		if (key == kJLeftArrow || key == kJRightArrow)
+		if (c == kJLeftArrow || c == kJRightArrow)
 			{
 			itsSelectingThreadFlag = kJTrue;		// ignore selection changes during open/close
 			}
-		JXNamedTreeListWidget::HandleKeyPress(key, modifiers);
+		JXNamedTreeListWidget::HandleKeyPress(c, keySym, modifiers);
 		itsSelectingThreadFlag = kJFalse;
 		}
 }

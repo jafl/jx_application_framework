@@ -34,7 +34,7 @@ private:
 
 private:
 
-	void	ExtendCheckRangeForString(const JIndexRange& tokenRange);
+	void	ExtendCheckRangeForString(const JUtf8ByteRange& tokenRange);
 
 	// not allowed
 

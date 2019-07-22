@@ -25,9 +25,9 @@
 #include <jAssert.h>
 
 #ifdef _J_CYGWIN
-static const JCharacter* kCmdStr = "ps s";
+static const JString kCmdStr("ps s", kJFalse);
 #else
-static const JCharacter* kCmdStr = "ps xco pid,stat,command";
+static const JString kCmdStr("ps xco pid,stat,command", kJFalse);
 #endif
 
 /******************************************************************************
@@ -57,7 +57,7 @@ CMChooseProcessDialog::CMChooseProcessDialog
 		JString text;
 		JReadAll(inFD, &text);
 		text.TrimWhitespace();
-		itsText->SetText(text);
+		itsText->GetText()->SetText(text);
 		}
 
 	ListenTo(this);
@@ -134,7 +134,7 @@ CMChooseProcessDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Choose process");
+	window->SetTitle(JGetString("WindowTitle::CMChooseProcessDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsText =
@@ -142,7 +142,7 @@ CMChooseProcessDialog::BuildWindow()
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsText != nullptr );
 	itsText->FitToEnclosure();
-	itsText->SetDefaultFont(JFontManager::GetDefaultMonospaceFont());
+	itsText->GetText()->SetDefaultFont(JFontManager::GetDefaultMonospaceFont());
 }
 
 /******************************************************************************
@@ -173,7 +173,7 @@ CMChooseProcessDialog::Receive
 				}
 			else
 				{
-				dynamic_cast<GDBLink*>CMGetLink()->ProgramStarted(pid);
+				dynamic_cast<GDBLink*>(CMGetLink())->ProgramStarted(pid);
 				}
 
 			if (itsStopProgramFlag)

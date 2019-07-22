@@ -2183,7 +2183,7 @@ CBTextDocument::UpdateFileType
 void
 CBTextDocument::StylerChanged
 	(
-	JTEStyler* styler
+	JSTStyler* styler
 	)
 {
 	CBStylerBase* myStyler;
@@ -2198,7 +2198,7 @@ CBTextDocument::StylerChanged
  GetStyler
 
 	Returns the styler to be used for this document, if any.  Not inline
-	to avoid including JTEStyler.h.
+	to avoid including JSTStyler.h.
 
  ******************************************************************************/
 

@@ -16,7 +16,7 @@
 #include <JPtrArray.h>
 
 class JRegex;
-class JTEStyler;
+class JSTStyler;
 class JXWindow;
 class CBProjectDocument;
 class CBTextDocument;
@@ -91,7 +91,7 @@ public:
 	void		ReloadTextDocuments(const JBoolean force);
 	JBoolean	CloseTextDocuments();
 	void		FileRenamed(const JString& origFullName, const JString& newFullName);
-	void		StylerChanged(JTEStyler* styler);
+	void		StylerChanged(JSTStyler* styler);
 
 	void	ProjDocCreated(CBProjectDocument* doc);
 	void	ProjDocDeleted(CBProjectDocument* doc);

@@ -114,16 +114,16 @@ public:
 	struct Token
 	{
 		TokenType		type;
-		JIndexRange		range;
+		JUtf8ByteRange	range;
 		const JString*	language;			// if type == kHTMLScript
-		JIndexRange		docCommentRange;	// preceding comment range for DOC comment tags
+		JUtf8ByteRange	docCommentRange;	// preceding comment range for DOC comment tags
 
 		Token()
 			:
 			type(kEOF), range(), language(nullptr)
 			{ };
 
-		Token(const TokenType t, const JIndexRange& r, const JString* l)
+		Token(const TokenType t, const JUtf8ByteRange& r, const JString* l)
 			:
 			type(t), range(r), language(l)
 			{ };
@@ -149,7 +149,7 @@ private:
 
 	JBoolean		itsResetFlag;
 	yy_state_type	itsStartState;
-	JIndexRange		itsCurrentRange;
+	JUtf8ByteRange	itsCurrentRange;
 	JString			itsScriptLanguage;
 	JString			itsPHPHereDocTag;
 	JBoolean		itsProbableJSOperatorFlag;	// kTrue if / is most likely operator instead of regex

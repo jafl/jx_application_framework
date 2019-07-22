@@ -27,10 +27,6 @@
 #include <stdio.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kEmptyMenuID = "EmptyMenu::CBFunctionMenu";
-
 /******************************************************************************
  Constructor
 
@@ -94,7 +90,7 @@ CBFunctionMenu::CBFunctionMenuX
 	SetUpdateAction(kDisableNone);
 	ListenTo(this);
 
-	TextChanged(type, "");
+	TextChanged(type, JString::empty);
 }
 
 /******************************************************************************
@@ -116,7 +112,7 @@ void
 CBFunctionMenu::TextChanged
 	(
 	const CBTextFileType	type,
-	const JCharacter*		fileName
+	const JString&			fileName
 	)
 {
 	itsFileType    = type;
@@ -210,8 +206,8 @@ CBFunctionMenu::UpdateMenu()
 				CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(itsDoc);
 				assert( textDoc != nullptr );
 
-				std::ofstream output(fileName);
-				((textDoc->GetTextEditor())->GetText()).Print(output);
+				std::ofstream output(fileName.GetBytes());
+				textDoc->GetTextEditor()->GetText()->GetText().Print(output);
 				}
 			}
 		else
@@ -251,8 +247,8 @@ CBFunctionMenu::UpdateMenu()
 		itsSortFlag       = sort;
 		itsIncludeNSFlag  = includeNS;
 		itsPackFlag       = pack;
-		itsCaretItemIndex = 0;				// nothing to remove
-		itsTE->DeactivateCurrentUndo();		// force another TextChanged
+		itsCaretItemIndex = 0;						// nothing to remove
+		itsTE->GetText()->DeactivateCurrentUndo();	// force another TextChanged
 
 		#if defined CODE_CRUSADER
 
@@ -326,10 +322,10 @@ CBFunctionMenu::SetEmptyMenuItems()
 	JString name = CBCtagsUser::GetFunctionMenuTitle(itsFileType);
 	name.ToLower();
 
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"name", name.GetCString()
+		"name", name.GetBytes()
 		};
-	const JString menuItems = JGetString(kEmptyMenuID, map, sizeof(map));
-	SetMenuItems(menuItems);
+	const JString menuItems = JGetString("EmptyMenu::CBFunctionMenu", map, sizeof(map));
+	SetMenuItems(menuItems.GetBytes());
 }

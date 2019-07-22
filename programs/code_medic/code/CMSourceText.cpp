@@ -31,7 +31,7 @@
 
 #include "jcc_balance_braces.xpm"
 
-static const JCharacter* kSearchMenuStr =
+static const JUtf8Byte* kSearchMenuStr =
 	"    Balance closest grouping symbols %k Meta-B     %i" kCMBalanceGroupingSymbolAction
 	"%l| Go to line...                    %k Meta-comma %i" kCMGoToLineAction
 	"  | Go to current line               %k Meta-<     %i" kCMGoToCurrentLineAction;
@@ -71,8 +71,6 @@ CMSourceText::CMSourceText
 	itsCmdDir(cmdDir),
 	itsStyler(nullptr)
 {
-	itsTokenStartList = JTEStyler::NewTokenStartList();
-
 	SetBackColor(CMGetPrefsManager()->GetColor(CMPrefsManager::kBackColorIndex));
 	SetSingleFocusWidget();
 
@@ -92,7 +90,6 @@ CMSourceText::CMSourceText
 
 CMSourceText::~CMSourceText()
 {
-	jdelete itsTokenStartList;
 }
 
 /******************************************************************************
@@ -103,19 +100,20 @@ CMSourceText::~CMSourceText()
 void
 CMSourceText::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (JXIsPrint(key) ||
-		key == kJDeleteKey || key == kJForwardDeleteKey ||
-		key == kJReturnKey || key == kJTabKey)
+	if (c.IsPrint() ||
+		c == kJDeleteKey || c == kJForwardDeleteKey ||
+		c == kJReturnKey || c == kJTabKey)
 		{
-		itsCmdDir->TransferKeyPressToInput(key, modifiers);
+		itsCmdDir->TransferKeyPressToInput(c, keySym, modifiers);
 		}
 	else
 		{
-		CMTextDisplayBase::HandleKeyPress(key, modifiers);
+		CMTextDisplayBase::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -132,39 +130,48 @@ CMSourceText::SetFileType
 {
 	CBGetStyler(CBGetLanguage(type), &itsStyler);
 
-	if (GetTextLength() > 0)
+	if (GetText()->GetText().IsEmpty())
 		{
-		if (itsStyler != nullptr)
-			{
-			RecalcAll(kJTrue);
-			}
-		else
-			{
-			JFont font = GetFont(1);
-			font.ClearStyle();
-			JTextEditor::SetFont(1, GetTextLength(), font, kJFalse);
-			}
+		return;
+		}
+
+	if (itsStyler != nullptr)
+		{
+		RecalcAll(kJTrue);
+		}
+	else
+		{
+		JFont font = GetText()->GetFont(1);
+		font.ClearStyle();
+		SelectAll();
+		SetCurrentFont(font);
+		SetCaretLocation(1);
 		}
 }
 
 /******************************************************************************
- AdjustStylesBeforeRecalc (virtual protected)
+ CMSourceText::StyledText (protected)
 
  ******************************************************************************/
 
+CMSourceText::StyledText::~StyledText()
+{
+	jdelete itsTokenStartList;
+}
+
 void
-CMSourceText::xAdjustStylesBeforeRecalc
+CMSourceText::StyledText::AdjustStylesBeforeBroadcast
 	(
-	const JString&		buffer,
+	const JString&		text,
 	JRunArray<JFont>*	styles,
-	JIndexRange*		recalcRange,
-	JIndexRange*		redrawRange,
+	TextRange*			recalcRange,
+	TextRange*			redrawRange,
 	const JBoolean		deletion
 	)
 {
 	if (itsStyler != nullptr)
 		{
-		itsStyler->UpdateStyles(this, buffer, styles,
+		itsStyler->UpdateStyles(this, text, styles,
 								recalcRange, redrawRange,
 								deletion, itsTokenStartList);
 		}
@@ -300,7 +307,7 @@ CMSourceText::UpdateCustomSearchMenuItems()
 
 	searchMenu->EnableItem(itsFirstSearchMenuItem + kGoToLineCmd);
 
-	if (!IsEmpty())
+	if (!GetText()->IsEmpty())
 		{
 		searchMenu->EnableItem(itsFirstSearchMenuItem + kBalanceCmd);
 

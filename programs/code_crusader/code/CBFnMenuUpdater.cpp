@@ -17,6 +17,7 @@
 #include <jXConstants.h>
 #include <JPtrArray-JString.h>
 #include <JListUtil.h>
+#include <JFontManager.h>
 #include <jStreamUtil.h>
 #include <jGlobals.h>
 #include <strstream>
@@ -24,7 +25,7 @@
 
 // sort=no requires so qualified tag comes after unqualified version
 
-static const JCharacter* kCtagsArgs =
+static const JUtf8Byte* kCtagsArgs =
 	"--format=1 --excmd=number --sort=no --extra=q "
 	"--ant-kinds=t "
 	"--asm-kinds=l "
@@ -109,7 +110,7 @@ CBFnMenuUpdater::~CBFnMenuUpdater()
 CBLanguage
 CBFnMenuUpdater::UpdateMenu
 	(
-	const JCharacter*		fileName,
+	const JString&			fileName,
 	const CBTextFileType	fileType,
 	const JBoolean			sort,
 	const JBoolean			includeNS,
@@ -123,12 +124,12 @@ CBFnMenuUpdater::UpdateMenu
 
 	if (pack)
 		{
-		menu->SetDefaultFontSize(JGetDefaultFontSize()-2, kJFalse);
+		menu->SetDefaultFontSize(JFontManager::GetDefaultFontSize()-2, kJFalse);
 		menu->CompressHeight(kJTrue);
 		}
 	else
 		{
-		menu->SetDefaultFontSize(JGetDefaultFontSize(), kJFalse);
+		menu->SetDefaultFontSize(JFontManager::GetDefaultFontSize(), kJFalse);
 		menu->CompressHeight(kJFalse);
 		}
 
@@ -136,7 +137,7 @@ CBFnMenuUpdater::UpdateMenu
 	CBLanguage lang;
 	if (ProcessFile(fileName, fileType, &data, &lang))
 		{
-		std::istrstream input(data.GetCString(), data.GetLength());
+		std::istrstream input(data.GetRawBytes(), data.GetByteCount());
 		ReadFunctionList(input, CBGetLanguage(fileType),
 						 sort, includeNS, menu, lineIndexList);
 		}
@@ -271,16 +272,16 @@ CBFnMenuUpdater::ReadPrefs
 	input >> vers;
 	if (vers <= kCurrentSetupVersion)
 		{
-		input >> itsSortFlag;
+		input >> JBoolFromString(itsSortFlag);
 
 		if (vers >= 2)
 			{
-			input >> itsIncludeNSFlag;
+			input >> JBoolFromString(itsIncludeNSFlag);
 			}
 
 		if (vers >= 1)
 			{
-			input >> itsPackFlag;
+			input >> JBoolFromString(itsPackFlag);
 			}
 		}
 }
@@ -298,7 +299,7 @@ CBFnMenuUpdater::WritePrefs
 	const
 {
 	output << kCurrentSetupVersion;
-	output << ' ' << itsSortFlag;
-	output << ' ' << itsIncludeNSFlag;
-	output << ' ' << itsPackFlag;
+	output << ' ' << JBoolToString(itsSortFlag);
+	output << ' ' << JBoolToString(itsIncludeNSFlag);
+	output << ' ' << JBoolToString(itsPackFlag);
 }

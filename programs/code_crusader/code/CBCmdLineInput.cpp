@@ -59,7 +59,7 @@ CBCmdLineInput::HandleKeyPress
 	if (c == kJReturnKey)
 		{
 		itsDoc->SendText(GetText()->GetText());
-		itsDoc->SendText(JString("\n", kJFalse));
+		itsDoc->SendText(JString::newline);
 		GetText()->SetText(JString::empty);
 		}
 	else

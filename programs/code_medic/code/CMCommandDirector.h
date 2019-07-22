@@ -105,7 +105,8 @@ public:
 
 	// called by CMSourceText
 
-	void	TransferKeyPressToInput(const int key, const JXKeyModifiers& modifiers);
+	void	TransferKeyPressToInput(const JUtf8Character& c,
+									const int keySym, const JXKeyModifiers& modifiers);
 
 	// called by dynamically created directors
 

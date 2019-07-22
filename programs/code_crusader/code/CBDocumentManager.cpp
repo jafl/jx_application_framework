@@ -1181,7 +1181,7 @@ CBDocumentManager::FileRenamed
 void
 CBDocumentManager::StylerChanged
 	(
-	JTEStyler* styler
+	JSTStyler* styler
 	)
 {
 	const JSize count = itsTextDocuments->GetElementCount();

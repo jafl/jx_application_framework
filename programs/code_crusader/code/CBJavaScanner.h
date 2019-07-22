@@ -14,7 +14,7 @@
 #include <FlexLexer.h>
 #endif
 
-#include <JIndexRange.h>
+#include <JUtf8ByteRange.h>
 
 class JString;
 
@@ -61,16 +61,16 @@ public:
 
 	struct Token
 	{
-		TokenType	type;
-		JIndexRange	range;
-		JIndexRange	docCommentRange;	// preceding comment range for DOC comment tags
+		TokenType		type;
+		JUtf8ByteRange	range;
+		JUtf8ByteRange	docCommentRange;	// preceding comment range for DOC comment tags
 
 		Token()
 			:
 			type(kEOF), range(), docCommentRange()
 			{ };
 
-		Token(const TokenType t, const JIndexRange& r)
+		Token(const TokenType t, const JUtf8ByteRange& r)
 			:
 			type(t), range(r), docCommentRange()
 			{ };
@@ -87,8 +87,8 @@ public:
 
 private:
 
-	JBoolean	itsResetFlag;
-	JIndexRange	itsCurrentRange;
+	JBoolean		itsResetFlag;
+	JUtf8ByteRange	itsCurrentRange;
 
 private:
 

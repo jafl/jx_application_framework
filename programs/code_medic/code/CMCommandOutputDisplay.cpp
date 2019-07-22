@@ -52,10 +52,10 @@ CMCommandOutputDisplay::PlaceCursorAtEnd()
 {
 	if (!GetText()->IsEmpty())
 		{
-		SetCaretLocation(GetTextLength()+1);
-		if (GetText().GetLastCharacter() != '\n')
+		SetCaretLocation(GetText()->GetText().GetCharacterCount()+1);
+		if (GetText()->GetText().GetLastCharacter() != '\n')
 			{
-			Paste("\n");
+			Paste(JString::newline);
 			}
 		}
 }

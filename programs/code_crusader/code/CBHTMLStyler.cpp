@@ -13,7 +13,8 @@
 #include "CBHTMLStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBHTMLStyler* CBHTMLStyler::itsSelf = nullptr;
@@ -36,7 +37,7 @@ const JFileVersion kCurrentTypeListVersion = 8;
 	//			 inserts 16 PHP types before kError (6)
 	// version 1 inserts kHTMLScript after kHTMLTag (1)
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	// HTML
 
@@ -110,24 +111,22 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
-static const JCharacter* kUnusedJavaKeyword[] =
+static const JUtf8Byte* kUnusedJavaKeyword[] =
 {
 	"byvalue", "cast", "const", "future", "generic", "inner",
 	"operator", "outer", "rest"
 };
 
-const JSize kUnusedJavaKeywordCount = sizeof(kUnusedJavaKeyword)/sizeof(JCharacter*);
+const JSize kUnusedJavaKeywordCount = sizeof(kUnusedJavaKeyword)/sizeof(JUtf8Byte*);
 
-static const JCharacter* kUnusedJSKeyword[] =
+static const JUtf8Byte* kUnusedJSKeyword[] =
 {
 	"debugger", "goto"
 };
 
-const JSize kUnusedJSKeywordCount = sizeof(kUnusedJSKeyword)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit HTML/PHP/XML Styles";
+const JSize kUnusedJSKeywordCount = sizeof(kUnusedJSKeyword)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -173,7 +172,8 @@ CBHTMLStyler::Shutdown()
 CBHTMLStyler::CBHTMLStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBHTMLStyleID, kCBPHPFT),
+				 JGetString("EditDialogTitle::CBHTMLStyler"),
+				 kCBHTMLStyleID, kCBPHPFT),
 	CBHTMLScanner()
 {
 	JFontStyle blankStyle;
@@ -182,35 +182,34 @@ CBHTMLStyler::CBHTMLStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap = GetColormap();
-
-	SetTypeStyle(kHTMLTag            - kWhitespace, JFontStyle(colormap->GetBlueColor()));
-	SetTypeStyle(kHTMLScript         - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
+	SetTypeStyle(kHTMLTag            - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
+	SetTypeStyle(kHTMLScript         - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
 	SetTypeStyle(kHTMLNamedCharacter - kWhitespace, JFontStyle(kJFalse, kJFalse, 1, kJFalse));
-	SetTypeStyle(kHTMLComment        - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kError              - kWhitespace, JFontStyle(colormap->GetRedColor()));
+	SetTypeStyle(kHTMLComment        - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kError              - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
 	InitMustacheTypeStyles();
 	InitPHPTypeStyles();
 	InitJSPTypeStyles();
 	InitJavaScriptTypeStyles();
 
-	const JColorID red = colormap->GetRedColor();
+	const JColorID red = JColorManager::GetRedColor();
 	for (JUnsignedOffset i=0; i<kUnusedJavaKeywordCount; i++)
 		{
-		SetWordStyle(kUnusedJavaKeyword[i], JFontStyle(red));
+		SetWordStyle(JString(kUnusedJavaKeyword[i], kJFalse), JFontStyle(red));
 		}
 	for (JUnsignedOffset i=0; i<kUnusedJSKeywordCount; i++)
 		{
-		SetWordStyle(kUnusedJSKeyword[i], JFontStyle(red));
+		SetWordStyle(JString(kUnusedJSKeyword[i], kJFalse), JFontStyle(red));
 		}
 
 	JPrefObject::ReadPrefs();
 
 	JFontStyle style;
-	if (GetWordStyle("?php", &style))
+	const JString phpOpen("?php", kJFalse);
+	if (GetWordStyle(phpOpen, &style))
 		{
-		RemoveWordStyle("?php");
+		RemoveWordStyle(phpOpen);
 		}
 }
 
@@ -233,9 +232,7 @@ CBHTMLStyler::~CBHTMLStyler()
 void
 CBHTMLStyler::InitMustacheTypeStyles()
 {
-	JXColorManager* colormap = GetColormap();
-
-	SetTypeStyle(kMustacheCommand - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
+	SetTypeStyle(kMustacheCommand - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 }
 
 /******************************************************************************
@@ -246,16 +243,14 @@ CBHTMLStyler::InitMustacheTypeStyles()
 void
 CBHTMLStyler::InitPHPTypeStyles()
 {
-	JXColorManager* colormap = GetColormap();
-
-	SetTypeStyle(kPHPStartEnd          - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, colormap->GetDarkRedColor()));
-	SetTypeStyle(kPHPReservedKeyword   - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kPHPBuiltInDataType   - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kPHPSingleQuoteString - kWhitespace, JFontStyle(colormap->GetBrownColor()));
-	SetTypeStyle(kPHPDoubleQuoteString - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kPHPHereDocString     - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kPHPExecString        - kWhitespace, JFontStyle(colormap->GetPinkColor()));
-	SetTypeStyle(kComment              - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
+	SetTypeStyle(kPHPStartEnd          - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kPHPReservedKeyword   - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kPHPBuiltInDataType   - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kPHPSingleQuoteString - kWhitespace, JFontStyle(JColorManager::GetBrownColor()));
+	SetTypeStyle(kPHPDoubleQuoteString - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kPHPHereDocString     - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kPHPExecString        - kWhitespace, JFontStyle(JColorManager::GetPinkColor()));
+	SetTypeStyle(kComment              - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
 }
 
 /******************************************************************************
@@ -266,14 +261,12 @@ CBHTMLStyler::InitPHPTypeStyles()
 void
 CBHTMLStyler::InitJSPTypeStyles()
 {
-	JXColorManager* colormap = GetColormap();
-
-	SetTypeStyle(kJSPStartEnd         - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, colormap->GetDarkGreenColor()));
-	SetTypeStyle(kJSPComment          - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kJavaReservedKeyword - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kJavaBuiltInDataType - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kJavaString          - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kJavaCharConst       - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
+	SetTypeStyle(kJSPStartEnd         - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kJSPComment          - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kJavaReservedKeyword - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kJavaBuiltInDataType - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kJavaString          - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kJavaCharConst       - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
 }
 
 /******************************************************************************
@@ -284,13 +277,11 @@ CBHTMLStyler::InitJSPTypeStyles()
 void
 CBHTMLStyler::InitJavaScriptTypeStyles()
 {
-	JXColorManager* colormap = GetColormap();
-
-	SetTypeStyle(kJSReservedKeyword    - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kJSString             - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kJSTemplateString     - kWhitespace, JFontStyle(colormap->GetPinkColor()));
-	SetTypeStyle(kJSRegexSearch        - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kDocCommentHTMLTag    - kWhitespace, JFontStyle(colormap->GetBlueColor()));
+	SetTypeStyle(kJSReservedKeyword    - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kJSString             - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kJSTemplateString     - kWhitespace, JFontStyle(JColorManager::GetPinkColor()));
+	SetTypeStyle(kJSRegexSearch        - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kDocCommentHTMLTag    - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
 	SetTypeStyle(kDocCommentSpecialTag - kWhitespace, JFontStyle(kJFalse, kJFalse, 1, kJFalse));
 }
 
@@ -424,13 +415,13 @@ CBHTMLStyler::Scan
 			}
 		else if (token.type == kHTMLNamedCharacter)
 			{
-			JIndexRange r = token.range;
+			JUtf8ByteRange r = token.range;
 			r.first++;
 			if (text.GetCharacter(r.last) == ';')
 				{
 				r.last--;
 				}
-			style = GetStyle(typeIndex, text.GetSubstring(r));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), r, kJFalse));
 			}
 		else
 			{
@@ -444,7 +435,7 @@ CBHTMLStyler::Scan
 				ExtendCheckRange(token.range.last+1);
 				}
 
-			style = GetStyle(typeIndex, text.GetSubstring(token.range));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range, kJFalse));
 			}
 
 		keepGoing = SetStyle(token.range, style);
@@ -468,7 +459,7 @@ CBHTMLStyler::Scan
 
  ******************************************************************************/
 
-JTEStyler::TokenExtra
+JSTStyler::TokenExtra
 CBHTMLStyler::GetFirstTokenExtraData()
 	const
 {
@@ -492,7 +483,7 @@ CBHTMLStyler::GetFirstTokenExtraData()
 void
 CBHTMLStyler::ExtendCheckRangeForString
 	(
-	const JIndexRange& tokenRange
+	const JUtf8ByteRange& tokenRange
 	)
 {
 	ExtendCheckRange(tokenRange.last+1);
@@ -509,15 +500,15 @@ CBHTMLStyler::ExtendCheckRangeForString
 void
 CBHTMLStyler::ExtendCheckRangeForPHPStartEnd
 	(
-	const JIndexRange& tokenRange
+	const JUtf8ByteRange& tokenRange
 	)
 {
 	const JFontStyle& style = GetTypeStyle(kPHPStartEnd - kWhitespace);
-	if ((GetStyles()).IndexValid(tokenRange.last) &&	// avoid crash if redoing all
-		(style != (GetStyles()).GetElement(tokenRange.first).GetStyle() ||
-		 style != (GetStyles()).GetElement(tokenRange.last).GetStyle()))
+	if (GetStyles().IndexValid(tokenRange.last) &&	// avoid crash if redoing all
+		(style != GetStyles().GetElement(tokenRange.first).GetStyle() ||
+		 style != GetStyles().GetElement(tokenRange.last).GetStyle()))
 		{
-		ExtendCheckRange((GetText()).GetLength());
+		ExtendCheckRange(GetText().GetLength());
 		}
 }
 
@@ -532,15 +523,15 @@ CBHTMLStyler::ExtendCheckRangeForPHPStartEnd
 void
 CBHTMLStyler::ExtendCheckRangeForJSPStartEnd
 	(
-	const JIndexRange& tokenRange
+	const JUtf8ByteRange& tokenRange
 	)
 {
 	const JFontStyle& style = GetTypeStyle(kJSPStartEnd - kWhitespace);
-	if ((GetStyles()).IndexValid(tokenRange.last) &&	// avoid crash if redoing all
-		(style != (GetStyles()).GetElement(tokenRange.first).GetStyle() ||
-		 style != (GetStyles()).GetElement(tokenRange.last).GetStyle()))
+	if (GetStyles().IndexValid(tokenRange.last) &&	// avoid crash if redoing all
+		(style != GetStyles().GetElement(tokenRange.first).GetStyle() ||
+		 style != GetStyles().GetElement(tokenRange.last).GetStyle()))
 		{
-		ExtendCheckRange((GetText()).GetLength());
+		ExtendCheckRange(GetText().GetLength());
 		}
 }
 
@@ -554,8 +545,8 @@ static const JRegex tagNamePattern = "<[[:space:]]*([^>[:space:]][^>/[:space:]]*
 JFontStyle
 CBHTMLStyler::GetTagStyle
 	(
-	const JIndexRange&	tokenRange,
-	const JIndex		typeIndex
+	const JUtf8ByteRange&	tokenRange,
+	const JIndex			typeIndex
 	)
 {
 	const JString& text = GetText();
@@ -692,7 +683,7 @@ CBHTMLStyler::StyleEmbeddedPHPVariables
 		errStyle.underlineCount++;
 		}
 
-	JIndexRange r = token.range, r1, r2;
+	JUtf8ByteRange r = token.range, r1, r2;
 	while (!r.IsEmpty())
 		{
 		const JCharacter c = text.GetCharacter(r.first);
@@ -765,7 +756,7 @@ CBHTMLStyler::StyleEmbeddedJSVariables
 	JFontStyle errStyle = GetTypeStyle(kError - kWhitespace);
 	errStyle.underlineCount++;
 
-	JIndexRange r = token.range, r1, r2;
+	JUtf8ByteRange r = token.range, r1, r2;
 	while (!r.IsEmpty())
 		{
 		const JCharacter c = text.GetCharacter(r.first);
@@ -806,11 +797,9 @@ CBHTMLStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	JXColorManager* cmap = GetColormap();
-
 	if (vers < 1)
 		{
-		typeStyles->InsertElementAtIndex(2, JFontStyle(cmap->GetDarkRedColor()));
+		typeStyles->InsertElementAtIndex(2, JFontStyle(JColorManager::GetDarkRedColor()));
 		}
 
 	if (vers < 2)
@@ -837,7 +826,7 @@ CBHTMLStyler::UpgradeTypeList
 
 	if (vers < 4)
 		{
-		typeStyles->InsertElementAtIndex(22, JFontStyle(cmap->GetDarkGreenColor()));
+		typeStyles->InsertElementAtIndex(22, JFontStyle(JColorManager::GetDarkGreenColor()));
 		}
 
 	if (vers < 5)
@@ -860,7 +849,7 @@ CBHTMLStyler::UpgradeTypeList
 
 	if (vers < 8)
 		{
-		typeStyles->InsertElementAtIndex(33, JFontStyle(cmap->GetPinkColor()));
+		typeStyles->InsertElementAtIndex(33, JFontStyle(JColorManager::GetPinkColor()));
 		}
 
 	// set new values after all new slots have been created

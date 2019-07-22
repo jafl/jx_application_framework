@@ -14,7 +14,7 @@
 #include <FlexLexer.h>
 #endif
 
-#include <JIndexRange.h>
+#include <JUtf8ByteRange.h>
 
 class CBCShellScanner : public CBCShellFlexLexer
 {
@@ -53,15 +53,15 @@ public:
 
 	struct Token
 	{
-		TokenType	type;
-		JIndexRange	range;
+		TokenType		type;
+		JUtf8ByteRange	range;
 
 		Token()
 			:
 			type(kEOF), range()
 			{ };
 
-		Token(const TokenType t, const JIndexRange& r)
+		Token(const TokenType t, const JUtf8ByteRange& r)
 			:
 			type(t), range(r)
 			{ };
@@ -78,8 +78,8 @@ public:
 
 private:
 
-	JBoolean	itsResetFlag;
-	JIndexRange	itsCurrentRange;
+	JBoolean		itsResetFlag;
+	JUtf8ByteRange	itsCurrentRange;
 
 private:
 

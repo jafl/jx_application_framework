@@ -40,6 +40,7 @@
 
 JSize JString::theDefaultBlockSize = 1024;
 const JString JString::empty("", kJFalse);
+const JString JString::newline("\n", kJFalse);
 
 static thread_local JString* theCurrentlyConstructingObject;
 

@@ -834,7 +834,7 @@ JTEST(Selection)
 	JAssertStringsEqual("1234\nwxzy", text.GetText());
 
 	te.SetCaretLocation(10);
-	te.Paste(JString("\n", kJFalse));
+	te.Paste(JString::newline);
 	te.Paste();
 	JAssertStringsEqual("1234\nwxzy\n" "\xC3\xA1" "bcd\n", text.GetText());
 

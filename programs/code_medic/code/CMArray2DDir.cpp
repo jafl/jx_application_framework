@@ -37,17 +37,15 @@
 
 #include <JStringTableData.h>
 #include <JTableSelection.h>
+#include <JRegex.h>
 #include <jAssert.h>
 
 const JCoordinate kDefaultColWidth = 50;
 const JCoordinate kMinColWidth     = 10;
 
-static const JCharacter* kWindowTitleSuffix = "  (2D Array)";
-
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open source file... %k Meta-O %i" kCMOpenSourceFileAction
 	"%l| Page setup...                 %i" kJXPageSetupAction
 	"  | Print...            %k Meta-P %i" kJXPrintAction
@@ -65,8 +63,7 @@ enum
 
 // Actions menu
 
-static const JCharacter* kActionMenuTitleStr = "Actions";
-static const JCharacter* kActionMenuStr =
+static const JUtf8Byte* kActionMenuStr =
 	"    Display as 1D array %k Meta-Shift-A %i" kCMDisplay1DArrayAction
 	"  | Plot as 1D array                    %i" kCMPlot1DArrayAction
 	"  | Display as 2D array                 %i" kCMDisplay2DArrayAction
@@ -88,14 +85,9 @@ enum
 	kSavePrefsCmd
 };
 
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents"
 	"  | Overview"
@@ -121,10 +113,10 @@ enum
 CMArray2DDir::CMArray2DDir
 	(
 	CMCommandDirector*	supervisor,
-	const JCharacter*	expr
+	const JString&		expr
 	)
 	:
-	JXWindowDirectorJXGetApplication()
+	JXWindowDirector(JXGetApplication())
 {
 	// format variable for input field
 
@@ -144,7 +136,7 @@ CMArray2DDir::CMArray2DDir
 	CMCommandDirector*	supervisor
 	)
 	:
-	JXWindowDirectorJXGetApplication()
+	JXWindowDirector(JXGetApplication())
 {
 	input >> itsExpr >> itsRowRequestRange >> itsColRequestRange;
 	CMArray2DDirX(supervisor);
@@ -360,14 +352,19 @@ CMArray2DDir::BuildWindow()
 
 	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 
-	JIndex i;
-	if (rowIndexLabel->GetText().LocateSubstring("$i", &i))
+	JBoolean wrapped;
+	const JStringMatch m1 = rowIndexLabel->GetText()->SearchForward(
+			JStyledText::TextIndex(1,1), JRegex("\\$i"), kJFalse, kJFalse, &wrapped);
+	if (!m1.IsEmpty())
 		{
-		rowIndexLabel->JTextEditor::SetFont(i,i+1, font, kJTrue);
+		rowIndexLabel->GetText()->SetFont(JStyledText::TextRange(m1), font, kJTrue);
 		}
-	if (colIndexLabel->GetText().LocateSubstring("$j", &i))
+
+	const JStringMatch m2 = colIndexLabel->GetText()->SearchForward(
+			JStyledText::TextIndex(1,1), JRegex("\\$j"), kJFalse, kJFalse, &wrapped);
+	if (!m2.IsEmpty())
 		{
-		colIndexLabel->JTextEditor::SetFont(i,i+1, font, kJTrue);
+		colIndexLabel->GetText()->SetFont(JStyledText::TextRange(m2), font, kJTrue);
 		}
 
 	JXContainer* encl = scrollbarSet->GetScrollEnclosure();
@@ -402,7 +399,7 @@ CMArray2DDir::BuildWindow()
 
 	CMGetPrefsManager()->GetWindowSize(kArray2DWindSizeID, window, kJTrue);	// after all widgets
 
-	itsExprInput->SetText(itsExpr);
+	itsExprInput->GetText()->SetText(itsExpr);
 	itsExprInput->SetIsRequired();
 	ListenTo(itsExprInput);
 
@@ -422,7 +419,7 @@ CMArray2DDir::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->PrependTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CMThreadsDir");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -437,7 +434,7 @@ CMArray2DDir::BuildWindow()
 	itsColStartIndex->ShareEditMenu(te);
 	itsColEndIndex->ShareEditMenu(te);
 
-	itsActionMenu = menuBar->AppendTextMenu(kActionMenuTitleStr);
+	itsActionMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::CMGlobal"));
 	itsActionMenu->SetMenuItems(kActionMenuStr, "CMArray2DDir");
 	ListenTo(itsActionMenu);
 
@@ -447,12 +444,12 @@ CMArray2DDir::BuildWindow()
 	itsActionMenu->SetItemImage(kExamineMemCmd,     medic_show_memory);
 
 	JXWDMenu* wdMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "CMArray2DDir");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -472,7 +469,7 @@ void
 CMArray2DDir::UpdateWindowTitle()
 {
 	JString title = itsExpr;
-	title += kWindowTitleSuffix;
+	title += JGetString("WindowTitleSuffix::CMArray2DDir");
 	GetWindow()->SetTitle(title);
 }
 
@@ -508,9 +505,9 @@ CMArray2DDir::Receive
 		(message.Is(JXWidget::kLostFocus) ||
 		 message.Is(CMArrayExprInput::kReturnKeyPressed)))
 		{
-		if (itsExprInput->GetText() != itsExpr)
+		if (itsExprInput->GetText()->GetText() != itsExpr)
 			{
-			itsExpr = itsExprInput->GetText();
+			itsExpr = itsExprInput->GetText()->GetText();
 			UpdateWindowTitle();
 			UpdateAll();
 			}
@@ -722,7 +719,7 @@ CMArray2DDir::FitToRanges()
 	else
 		{
 		itsData->RemoveAllRows();
-		itsData->AppendRows(itsRowRequestRange.GetLength());
+		itsData->AppendRows(itsRowRequestRange.GetCount());
 		itsRowDisplayRange = itsRowRequestRange;
 		SetRowTitles(itsRowRequestRange);
 		UpdateAll();
@@ -766,7 +763,7 @@ CMArray2DDir::FitToRanges()
 	else
 		{
 		itsData->RemoveAllCols();
-		itsData->AppendCols(itsColRequestRange.GetLength());
+		itsData->AppendCols(itsColRequestRange.GetCount());
 		itsColDisplayRange = itsColRequestRange;
 		SetColTitles(itsColRequestRange);
 		UpdateAll();
@@ -845,7 +842,7 @@ CMArray2DDir::UpdateAll()
 		}
 
 	itsTable->SetAllCellStyles(
-		CMVarNode::GetFontStyle(kJFalse, kJFalse, GetColormap()));
+		CMVarNode::GetFontStyle(kJFalse, kJFalse));
 }
 
 /******************************************************************************
@@ -1228,7 +1225,7 @@ CMArray2DDir::ExamineMemory
 
 	if (dir == nullptr)
 		{
-		dir = jnew CMMemoryDir(itsCommandDir, "");
+		dir = jnew CMMemoryDir(itsCommandDir, JString::empty);
 		assert(dir != nullptr);
 		dir->SetDisplayType(type);
 		dir->Activate();
@@ -1253,23 +1250,23 @@ CMArray2DDir::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
+		JXGetHelpManager()->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMVarTreeHelp-Array2D");
+		JXGetHelpManager()->ShowSection("CMVarTreeHelp-Array2D");
 		}
 
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }

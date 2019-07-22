@@ -12,6 +12,7 @@
 
 #include "CMTextDisplayBase.h"
 #include "CBTextFileType.h"
+#include <JXStyledText.h>
 #include <JSTStyler.h>
 
 class CMSourceDirector;
@@ -38,9 +39,6 @@ public:
 
 protected:
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
-											 JIndexRange* recalcRange, JIndexRange* redrawRange,
-											 const JBoolean deletion) override;
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
@@ -52,14 +50,42 @@ protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
+protected:
+
+	class StyledText : public JXStyledText
+	{
+		public:
+
+		StyledText(CBStylerBase* styler, JFontManager* fontManager)
+			:
+			JXStyledText(kJFalse, kJFalse, fontManager),
+			itsStyler(styler),
+			itsTokenStartList(JSTStyler::NewTokenStartList())
+		{ };
+
+		virtual ~StyledText();
+
+		protected:
+
+		virtual void	AdjustStylesBeforeBroadcast(const JString& text,
+													JRunArray<JFont>* styles,
+													TextRange* recalcRange,
+													TextRange* redrawRange,
+													const JBoolean deletion);
+
+		private:
+
+		CBStylerBase*					itsStyler;
+		JArray<JSTStyler::TokenData>*	itsTokenStartList;	// nullptr if styling is turned off
+	};
+
 private:
 
-	CMSourceDirector*				itsSrcDir;
-	CMCommandDirector*				itsCmdDir;
-	CBStylerBase*					itsStyler;
-	JArray<JSTStyler::TokenData>*	itsTokenStartList;		// nullptr if styling is turned off
-	JIndex							itsFirstSearchMenuItem;	// index of first item added to Search menu
-	JSize							itsLastClickCount;
+	CMSourceDirector*	itsSrcDir;
+	CMCommandDirector*	itsCmdDir;
+	CBStylerBase*		itsStyler;
+	JIndex				itsFirstSearchMenuItem;	// index of first item added to Search menu
+	JSize				itsLastClickCount;
 
 private:
 

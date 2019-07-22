@@ -26,6 +26,8 @@ CHANGE_LOG_URL	"http://codemedic.sourceforge.net/ChangeLog.html"
 VERSION_URL		"http://codemedic.sourceforge.net/VERSION"
 DOWNLOAD_URL	"https://sourceforge.net/projects/codemedic/"
 
+ActionsMenuTitle::CMGlobal	"Actions"
+
 # CMMDIServer
 
 CMCommandLineHelp
@@ -83,7 +85,15 @@ ChooseDebuggerPrompt::CMEditPrefsDialog	"Choose $name binary:"
 
 # CMCommandDirector
 
-WindowsMenuText::CMCommandDirector	"Command line"
+WindowsMenuText::CMCommandDirector		"Command line"
+WindowTitleSuffix::CMCommandDirector	" Command Line"
+DebugMenuTitle::CMCommandDirector		"Debug"
+ChooseSourcePrompt::CMCommandDirector	"Choose Source Files"
+ChooseConfigPrompt::CMCommandDirector	"Choose configuration file"
+SaveFilePrompt::CMCommandDirector		"Choose file name"
+ChooseBinaryPrompt::CMCommandDirector	"Choose binary"
+ChooseCorePrompt::CMCommandDirector		"Choose core file"
+
 CannotOpenFile::CMCommandDirector	"Unable to open $name because it either does not exist or is not readable, or the debugger is being unhelpful."
 
 NoBinaryButtonLabel::CMCommandDirector "<no binary>"
@@ -97,6 +107,9 @@ Welcome::CMCommandDirector
 
 Running on top of:
 "
+
+ConfigTooNew::CMCommandDirector
+"This configuration file was created by a newer version of Code Medic.  You need the newest version in order to open it."
 
 # CMSourceDirector
 
@@ -115,14 +128,21 @@ InitAsmWindowTitle::CMSourceDirector	"Current Disassembly - (No function)"
 # CMVarTreeDir
 
 WindowsMenuText::CMVarTreeDir	"Variables"
+WindowTitleSuffix::CMVarTreeDir	" Variables"
+
+# CMVarTreeWidget
+
+BaseMenuTitle::CMVarTreeWidget	"Base"
 
 # CMLocalVarsDir
 
-WindowsMenuText::CMLocalVarsDir	"Local variables"
+WindowsMenuText::CMLocalVarsDir		"Local variables"
+WindowTitleSuffix::CMLocalVarsDir	" Local Variables"
 
 # CMThreadsDir
 
 WindowsMenuText::CMThreadsDir	"Threads"
+WindowTitleSuffix::CMThreadsDir	" Threads"
 
 # CMThreadsWidget
 
@@ -145,10 +165,12 @@ WindowTitleSuffix::CMRegistersDir	" Registers"
 # CMBreakpointsDir
 
 WindowsMenuText::CMBreakpointsDir	"Breakpoints"
+WindowTitleSuffix::CMBreakpointsDir	" Breakpoints"
 
 # CMFileListDir
 
-WindowsMenuText::CMFileListDir	"File list"
+WindowsMenuText::CMFileListDir		"File list"
+WindowTitleSuffix::CMFileListDir	" Files"
 
 # CMDebugDir
 
@@ -166,6 +188,18 @@ YExprColTitle::CMPlot2DExprTable	"Y"
 RangeMinColTitle::CMPlot2DExprTable	"Start"
 RangeMaxColTitle::CMPlot2DExprTable	"End"
 
+# CMArray1DDir
+
+WindowTitleSuffix::CMArray1DDir	"  (1D Array)"
+
+# CMArray2DDir
+
+WindowTitleSuffix::CMArray2DDir	"  (2D Array)"
+
+# CMMemoryDir
+
+WindowTitleSuffix::CMMemoryDir	"  (Memory)"
+
 # CMEditCommandsDialog
 
 WindowTitle::CMEditCommandsDialog	"Edit custom gdb commands"
@@ -173,6 +207,10 @@ WindowTitle::CMEditCommandsDialog	"Edit custom gdb commands"
 # CMFileDragSource
 
 Hint::CMFileDragSource	"Drag this to drag the URL for this file."
+
+# CMChooseProcessDialog
+
+WindowTitle::CMChooseProcessDialog	"Choose process"
 
 # XDLink
 

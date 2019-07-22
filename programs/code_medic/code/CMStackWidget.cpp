@@ -27,10 +27,6 @@
 const JIndex kArgValueColIndex = 3;
 const JSize kIndentWidth       = 4;	// characters: "xx:"
 
-// string ID's
-
-static const JCharacter* kNoSourceFileID = "NoSourceFile::CMStackWidget";
-
 /******************************************************************************
  Constructor
 
@@ -78,7 +74,7 @@ CMStackWidget::CMStackWidget
 	CMGetPrefsManager()->GetDefaultFont(&name, &size);
 	SetFont(name, size);
 
-	SetIndentWidth(kIndentWidth * GetFont().GetCharWidth('0'));
+	SetIndentWidth(kIndentWidth * GetFont().GetCharWidth(GetFontManager(), JUtf8Character('0')));
 
 	ListenTo(&(GetTableSelection()));
 	ListenTo(GetWindow());
@@ -222,7 +218,7 @@ CMStackWidget::GetMinCellWidth
 				dynamic_cast<const CMStackArgNode*>(node);
 			assert( argNode != nullptr );
 
-			return GetFont().GetStringWidth(argNode->GetValue());
+			return GetFont().GetStringWidth(GetFontManager(), argNode->GetValue());
 			}
 		else
 			{
@@ -303,7 +299,7 @@ CMStackWidget::HandleMouseDown
 				}
 			else
 				{
-				JGetUserNotification()->ReportError(JGetString(kNoSourceFileID));
+				JGetUserNotification()->ReportError(JGetString("NoSourceFile::CMStackWidget"));
 				}
 			}
 		else
@@ -346,11 +342,12 @@ CMStackWidget::HandleMouseUp
 void
 CMStackWidget::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&   modifiers
 	)
 {
-	if (key == kJUpArrow)
+	if (c == kJUpArrow)
 		{
 		if (!SelectNextFrame(-1) && GetRowCount() > 0)
 			{
@@ -358,7 +355,7 @@ CMStackWidget::HandleKeyPress
 			}
 		ClearIncrementalSearchBuffer();
 		}
-	else if (key == kJDownArrow)
+	else if (c == kJDownArrow)
 		{
 		if (!SelectNextFrame(+1) && GetRowCount() > 0)
 			{
@@ -368,11 +365,11 @@ CMStackWidget::HandleKeyPress
 		}
 	else
 		{
-		if (key == kJLeftArrow || key == kJRightArrow)
+		if (c == kJLeftArrow || c == kJRightArrow)
 			{
 			itsSelectingFrameFlag = kJTrue;		// ignore selection changes during open/close
 			}
-		JXNamedTreeListWidget::HandleKeyPress(key, modifiers);
+		JXNamedTreeListWidget::HandleKeyPress(c, keySym, modifiers);
 		itsSelectingFrameFlag = kJFalse;
 		}
 }

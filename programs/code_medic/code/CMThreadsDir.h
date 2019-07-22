@@ -24,9 +24,9 @@ public:
 
 	virtual	~CMThreadsDir();
 
-	virtual void			Activate();
-	virtual const JString&	GetName() const;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const;
+	virtual void			Activate() override;
+	virtual const JString&	GetName() const override;
+	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
 
 protected:
 
@@ -49,7 +49,7 @@ private:
 private:
 
 	void	BuildWindow(CMCommandDirector* supervisor);
-	void	UpdateWindowTitle(const JCharacter* binaryName);
+	void	UpdateWindowTitle(const JString& binaryName);
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);

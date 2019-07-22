@@ -15,7 +15,7 @@
 #include <FlexLexer.h>
 #endif
 
-#include <JIndexRange.h>
+#include <JUtf8ByteRange.h>
 
 class JString;
 
@@ -60,15 +60,15 @@ public:
 
 	struct Token
 	{
-		TokenType	type;
-		JIndexRange	range;
+		TokenType		type;
+		JUtf8ByteRange	range;
 
 		Token()
 			:
 			type(kEOF), range()
 			{ };
 
-		Token(const TokenType t, const JIndexRange& r)
+		Token(const TokenType t, const JUtf8ByteRange& r)
 			:
 			type(t), range(r)
 			{ };
@@ -83,18 +83,18 @@ public:
 	void	BeginScan(std::istream& input);
 	Token	NextToken();		// written by flex
 
-	JIndexRange	GetPPNameRange() const;
+	JUtf8ByteRange	GetPPNameRange() const;
 
 protected:
 
-	void	Undo(const JIndexRange& range, const JString& text);
+	void	Undo(const JUtf8ByteRange& range, const JString& text);
 
 private:
 
-	JBoolean	itsResetFlag;
-	JIndexRange	itsCurrentRange;
-	JIndexRange	itsPPNameRange;
-	JBoolean	itsIsDocCommentFlag;
+	JBoolean		itsResetFlag;
+	JUtf8ByteRange	itsCurrentRange;
+	JUtf8ByteRange	itsPPNameRange;
+	JBoolean		itsIsDocCommentFlag;
 
 private:
 
@@ -161,7 +161,7 @@ CBCSharpScanner::ThisToken
 
  *****************************************************************************/
 
-inline JIndexRange
+inline JUtf8ByteRange
 CBCSharpScanner::GetPPNameRange()
 	const
 {

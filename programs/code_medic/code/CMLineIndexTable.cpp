@@ -42,7 +42,7 @@ const JCoordinate kMarginWidth = 2;
 
 // Line menu
 
-static const JCharacter* kLineMenuStr =
+static const JUtf8Byte* kLineMenuStr =
 	"    Run until execution reaches this line %k Meta-click"
 	"  | Set execution point to this line      %k Ctrl-click"
 //	"  | Disassemble function containing this line"
@@ -57,7 +57,7 @@ enum
 
 const JSize kLineMenuItemCount = kSetExecPtCmd;
 
-static const JCharacter* kAllBreakpointsMenuStr =
+static const JUtf8Byte* kAllBreakpointsMenuStr =
 	"    Set new breakpoint on this line       %k Click (if none)"
 	"  | Set temporary breakpoint on this line %k Meta-Shift-click (if none)"
 	"  | Remove all breakpoints from this line %k Click (if only one)"
@@ -72,7 +72,7 @@ enum
 
 const JSize kAllBreakpointsMenuItemCount = kRemoveAllBreakpointsCmd;
 
-static const JCharacter* kBreakpointMenuStr =
+static const JUtf8Byte* kBreakpointMenuStr =
 	"    Show information on breakpoint #$index"
 	"  | Remove breakpoint"
 	"  | Set condition"
@@ -171,10 +171,7 @@ CMLineIndexTable::SetCurrentLine
 	)
 {
 	itsCurrentLineIndex = line;
-	if (0 < line && line <= itsText->GetLineCount())
-		{
-		itsText->SetCaretLocation(itsText->GetLineStart(line));
-		}
+	itsText->GoToLine(line);
 	Refresh();
 }
 
@@ -231,14 +228,14 @@ CMLineIndexTable::TableDrawCell
 		p.SetFilling(kJTrue);
 		p.Polygon(poly);
 
-		p.SetPenColor(GetColormap()->GetBlackColor());
+		p.SetPenColor(JColorManager::GetBlackColor());
 		p.SetFilling(kJFalse);
 		p.Polygon(poly);
 		}
 
 	else if (JIndex(cell.x) == kLineNumberColumn)
 		{
-		p.SetFont(itsText->GetDefaultFont());
+		p.SetFont(itsText->GetText()->GetDefaultFont());
 
 		JRect r  = rect;
 		r.right -= kMarginWidth;
@@ -495,7 +492,7 @@ CMLineIndexTable::OpenLineMenu
 {
 	if (itsLineMenu == nullptr)
 		{
-		itsLineMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsLineMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsLineMenu != nullptr );
 		itsLineMenu->SetToHiddenPopupMenu(kJTrue);
 		itsLineMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -531,16 +528,16 @@ CMLineIndexTable::OpenLineMenu
 
 		const JString bpIndexStr(bp->GetDebuggerIndex(), 0);
 		const JString ignoreCountStr(bp->GetIgnoreCount(), 0);
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"index",        bpIndexStr.GetCString(),
-			"ignore_count", ignoreCountStr.GetCString()
+			"index",        bpIndexStr.GetBytes(),
+			"ignore_count", ignoreCountStr.GetBytes()
 			};
 
-		JString s = kBreakpointMenuStr;
+		JString s(kBreakpointMenuStr);
 		JGetStringManager()->Replace(&s, map, sizeof(map));
 
-		itsLineMenu->AppendMenuItems(s);
+		itsLineMenu->AppendMenuItems(s.GetBytes());
 
 		if (!HasMultipleBreakpointsOnLine(bpIndex))
 			{
@@ -717,8 +714,8 @@ CMLineIndexTable::Receive
 	)
 {
 	if (sender == itsText &&
-		(message.Is(JTextEditor::kTextChanged) ||
-		 message.Is(JTextEditor::kTextSet)))
+		(message.Is(JStyledText::kTextChanged) ||
+		 message.Is(JStyledText::kTextSet)))
 		{
 		AdjustToText();
 		}
@@ -806,7 +803,7 @@ CMLineIndexTable::AdjustToText()
 
 	JFont font = itsText->GetCurrentFont();
 
-	const JSize lineCount       = itsText->IsEmpty() ? 0 : itsText->GetLineCount();
+	const JSize lineCount       = itsText->GetText()->IsEmpty() ? 0 : itsText->GetLineCount();
 	const JString lineCountStr  = GetLongestLineText(lineCount);
 	const JSize lineHeight      = font.GetLineHeight(fontMgr);
 	const JSize lineNumberWidth = font.GetStringWidth(fontMgr, lineCountStr);

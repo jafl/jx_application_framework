@@ -31,8 +31,7 @@
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open source file... %k Meta-O %i" kCMOpenSourceFileAction
 	"%l| Close               %k Meta-W %i" kJXCloseWindowAction
 	"  | Quit                %k Meta-Q %i" kJXQuitAction;
@@ -44,14 +43,9 @@ enum
 	kQuitCmd
 };
 
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents"
 	"  | Overview"
@@ -79,7 +73,7 @@ CMRegistersDir::CMRegistersDir
 	CMCommandDirector* supervisor
 	)
 	:
-	JXWindowDirectorJXGetApplication(),
+	JXWindowDirector(JXGetApplication()),
 	itsCommandDir(supervisor),
 	itsShouldUpdateFlag(kJFalse),	// window is always initially hidden
 	itsNeedsUpdateFlag(kJTrue)
@@ -87,7 +81,7 @@ CMRegistersDir::CMRegistersDir
 	itsCmd = CMGetLink()->CreateGetRegisters(this);
 
 	BuildWindow();
-	ListenToCMGetLink();
+	ListenTo(CMGetLink());
 }
 
 /******************************************************************************
@@ -169,7 +163,7 @@ CMRegistersDir::BuildWindow()
 	window->SetIcon(icon);
 
 	itsWidget =
-		jnew JXStaticText("", kJFalse, kJTrue,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert(itsWidget != nullptr);
@@ -182,7 +176,7 @@ CMRegistersDir::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->PrependTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CMThreadsDir");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -192,12 +186,12 @@ CMRegistersDir::BuildWindow()
 	itsWidget->AppendEditMenu(menuBar);
 
 	JXWDMenu* wdMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "CMRegistersDir");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -214,7 +208,7 @@ CMRegistersDir::BuildWindow()
 void
 CMRegistersDir::UpdateWindowTitle
 	(
-	const JCharacter* binaryName
+	const JString& binaryName
 	)
 {
 	JString title = binaryName;
@@ -267,7 +261,7 @@ CMRegistersDir::Receive
 		 message.Is(CMLink::kCoreCleared)     ||
 		 message.Is(CMLink::kDetachedFromProcess)))
 		{
-		Update("");
+		Update(JString::empty);
 		}
 	else if (sender == CMGetLink() &&
 			 (message.Is(CMLink::kProgramStopped) ||
@@ -324,9 +318,9 @@ CMRegistersDir::ReceiveGoingAway
 {
 	if (!CMIsShuttingDown())
 		{
-		ListenToCMGetLink();
+		ListenTo(CMGetLink());
 
-		Update("");
+		Update(JString::empty);
 
 		jdelete itsCmd;
 		itsCmd = CMGetLink()->CreateGetRegisters(this);
@@ -362,11 +356,11 @@ CMRegistersDir::Update()
 void
 CMRegistersDir::Update
 	(
-	const JCharacter* data
+	const JString& data
 	)
 {
 	JXTEBase::DisplayState state = itsWidget->SaveDisplayState();
-	itsWidget->SetText(data);
+	itsWidget->GetText()->SetText(data);
 	itsWidget->RestoreDisplayState(state);
 }
 
@@ -425,23 +419,23 @@ CMRegistersDir::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
+		JXGetHelpManager()->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMVarTreeHelp-Registers");
+		JXGetHelpManager()->ShowSection("CMVarTreeHelp-Registers");
 		}
 
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }

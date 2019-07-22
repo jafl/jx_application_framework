@@ -64,13 +64,13 @@ CBEiffelScanner::BeginScan
 void
 CBEiffelScanner::Undo
 	(
-	const JIndexRange&	range,
-	const JString&		text
+	const JUtf8ByteRange&	range,
+	const JString&			text
 	)
 {
-	for (JIndex i=text.GetLength(); i>=1; i--)
+	for (JUnsignedOffset i=text.GetByteCount()-1; i>=0; i--)
 		{
-		yyunput(text.GetCharacter(i), yytext);
+		yyunput(text.GetBytes()[i], yytext);
 		}
 
 	itsCurrentRange.first = itsCurrentRange.last = range.first - 1;

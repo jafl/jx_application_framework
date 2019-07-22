@@ -31,7 +31,8 @@ CMDebuggerProgramInput::CMDebuggerProgramInput
 	const JCoordinate	h
 	)
 	:
-	JXFileInput(enclosure, hSizing, vSizing, x,y, w,h)
+	JXFileInput(jnew StyledText(this, enclosure->GetFontManager()),
+				enclosure, hSizing, vSizing, x,y, w,h)
 {
 }
 
@@ -69,7 +70,8 @@ CMDebuggerProgramInput::GetFile
 		}
 	else
 		{
-		return JXFileInput::GetFile(fullName);
+		fullName->Clear();
+		return kJFalse;
 		}
 }
 
@@ -82,46 +84,25 @@ JBoolean
 CMDebuggerProgramInput::InputValid()
 {
 	const JString& text = GetText()->GetText();
-	if (JProgramAvailable(text))
-		{
-		return kJTrue;
-		}
-	else
-		{
-		return JXFileInput::InputValid();
-		}
+	return JProgramAvailable(text);
 }
 
 /******************************************************************************
- AdjustStylesBeforeRecalc (virtual protected)
+ ComputeErrorLength (virtual protected)
+
+	Return the number of characters that should be marked as invalid.
 
  ******************************************************************************/
 
-void
-CMDebuggerProgramInput::xAdjustStylesBeforeRecalc
+JSize
+CMDebuggerProgramInput::StyledText::ComputeErrorLength
 	(
-	const JString&		buffer,
-	JRunArray<JFont>*	styles,
-	JIndexRange*		recalcRange,
-	JIndexRange*		redrawRange,
-	const JBoolean		deletion
+	JXFSInputBase*	field,
+	const JSize		totalLength,	// original character count
+	const JString&	fullName		// modified path
 	)
+	const
 {
-	const JString& text = GetText();
-	if (JProgramAvailable(text))
-		{
-		const JSize totalLength = buffer.GetLength();
-
-		JFont f = styles->GetFirstElement();
-		styles->RemoveAll();
-
-		f.SetColor(GetColormap()->GetBlackColor());
-		styles->AppendElements(f, totalLength);
-
-		*redrawRange += JIndexRange(1, totalLength);
-		}
-	else
-		{
-		JXFileInput::AdjustStylesBeforeRecalc(buffer, styles, recalcRange, redrawRange, deletion);
-		}
+	const JString& text = field->GetText()->GetText();
+	return JProgramAvailable(text) ? 0 : totalLength;
 }

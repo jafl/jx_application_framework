@@ -496,7 +496,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_South FL_NoGravity
 name: itsFileDisplay
 callback: 
-argument: ""
+argument: JString::empty
 
 --------------------
 class: FL_BOX
@@ -664,7 +664,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsHistoryMenu
 callback: 
-argument: kCmdHistoryLength, ""
+argument: kCmdHistoryLength, JString::empty
 
 --------------------
 class: FL_INPUT

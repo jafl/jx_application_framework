@@ -16,7 +16,7 @@
 #include <JXWidget.h>		// need defn of H/VSizing
 #include <JStyledText.h>	// need defn of PlainTextFormat, CRMRuleList
 
-class JTEStyler;
+class JSTStyler;
 class CBTextEditor;
 class CBFileDragSource;
 class CBFileNameDisplay;
@@ -103,7 +103,7 @@ public:
 	// called by CBDocumentManager
 
 	void	UpdateFileType(const JBoolean init = kJFalse);
-	void	StylerChanged(JTEStyler* styler);
+	void	StylerChanged(JSTStyler* styler);
 
 	void	RefreshVCSStatus();
 

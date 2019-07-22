@@ -38,7 +38,7 @@ const JFileVersion kCurrentSetupVersion = 0;
 
 // JBroadcaster message types
 
-const JCharacter* CBStylerBase::kWordListChanged = "WordListChanged::CBStylerBase";
+const JUtf8Byte* CBStylerBase::kWordListChanged = "WordListChanged::CBStylerBase";
 
 /******************************************************************************
  Constructor
@@ -49,15 +49,13 @@ CBStylerBase::CBStylerBase
 	(
 	const JSize				typeVersion,
 	const JSize				typeCount,
-	const JCharacter**		typeNames,
-	const JCharacter*		editDialogTitle,
+	const JUtf8Byte**		typeNames,
+	const JString&			editDialogTitle,
 	const JPrefID&			prefID,
 	const CBTextFileType	fileType
 	)
 	:
-	JTEStyler(),
 	JPrefObject(CBMGetPrefsManager(), prefID),
-	itsColormap((JXGetApplication()->GetCurrentDisplay())->GetColormap()),
 	itsTypeNameVersion(typeVersion),
 	itsTypeNameCount(typeCount),
 	itsTypeNames(typeNames),
@@ -137,7 +135,7 @@ JIndex i;
 		}
 
 	JBoolean active;
-	input >> active;
+	input >> JBoolFromString(active);
 
 	// type styles
 
@@ -197,14 +195,14 @@ CBStylerBase::ReadStyle
 {
 	JFontStyle style;
 
-	input >> style.bold;
-	input >> style.italic;
+	input >> JBoolFromString(style.bold);
+	input >> JBoolFromString(style.italic);
 	input >> style.underlineCount;
-	input >> style.strike;
+	input >> JBoolFromString(style.strike);
 
 	JRGB color;
 	input >> color;
-	style.color = itsColormap->GetColor(color);
+	style.color = JColorManager::GetColorID(color);
 
 	return style;
 }
@@ -246,14 +244,11 @@ JIndex i;
 	const JSize wordCount = wordList.GetElementCount();
 	output << ' ' << wordCount;
 
-	JString s;
 	for (i=1; i<=wordCount; i++)
 		{
 		const WordStyle style = wordList.GetElement(i);
 
-		s = style.key;
-		output << ' ' << s;
-
+		output << ' ' << *style.key;
 		WriteStyle(output, style.value);
 		}
 
@@ -270,17 +265,17 @@ JIndex i;
 void
 CBStylerBase::WriteStyle
 	(
-	std::ostream&			output,
+	std::ostream&		output,
 	const JFontStyle&	style
 	)
 	const
 {
-	output << ' ' << style.bold;
-	output << ' ' << style.italic;
+	output << ' ' << JBoolToString(style.bold);
+	output << ' ' << JBoolToString(style.italic);
 	output << ' ' << style.underlineCount;
-	output << ' ' << style.strike;
+	output << ' ' << JBoolToString(style.strike);
 
-	output << ' ' << itsColormap->GetRGB(style.color);
+	output << ' ' << JColorManager::GetRGB(style.color);
 }
 
 /******************************************************************************
@@ -306,7 +301,8 @@ CBStylerBase::GetWordList
 	JStringMapCursor<JFontStyle> cursor(&wordStyles);
 	while (cursor.Next())
 		{
-		const WordStyle data(cursor.GetKey(), cursor.GetValue());
+		const WordStyle data(jnew JString(cursor.GetKey()), cursor.GetValue());
+		assert( data.key != nullptr );
 		if (sort)
 			{
 			wordList->InsertSorted(data);
@@ -330,7 +326,7 @@ CBStylerBase::CompareWords
 	const WordStyle& w2
 	)
 {
-	const int result = JString::Compare(w1.key, w2.key, kJFalse);
+	const int result = JString::Compare(*w1.key, *w2.key, kJFalse);
 
 	if (result < 0)
 		{
@@ -420,7 +416,7 @@ JIndex i;
 			if (data.value.color == itsDefColor)
 				{
 				data.value.color = color;
-				itsWordStyles->SetElement(data.key, data.value);
+				itsWordStyles->SetElement(*data.key, data.value);
 				}
 			}
 
@@ -475,7 +471,7 @@ CBStylerBase::ExtractStyles()
 		itsEditDialog->GetData(&active, itsTypeStyles, itsWordStyles);
 
 		SetActive(active);
-		(CBMGetDocumentManager())->StylerChanged(this);
+		CBMGetDocumentManager()->StylerChanged(this);
 
 		Broadcast(WordListChanged(*itsWordStyles));
 		}
@@ -539,7 +535,7 @@ CBStylerBase::WordStylesChanged
 		{
 		const WordStyle w1 = oldWordList.GetElement(i);
 		const WordStyle w2 = newWordList.GetElement(i);
-		if (strcmp(w1.key, w2.key) != 0 || w1.value != w2.value)
+		if (*w1.key != *w2.key || w1.value != w2.value)
 			{
 			return kJTrue;
 			}

@@ -22,6 +22,7 @@
 #include <JXColorManager.h>
 #include <JTableSelection.h>
 #include <JFontManager.h>
+#include <JStringIterator.h>
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
 #include <JListUtil.h>
@@ -48,7 +49,7 @@ const JCoordinate kInitColWidth[] =
 	10, 150, 50, 150, 70, 50, 150
 };
 
-static const JCharacter* kColTitle[] =
+static const JUtf8Byte* kColTitle[] =
 {
 	"",
 	"File name",
@@ -64,7 +65,7 @@ const JSize kColCount = sizeof(kInitColWidth) / sizeof(JCoordinate);
 // geometry information
 
 const JFileVersion kCurrentGeometryDataVersion = 0;
-const JCharacter kGeometryDataEndDelimiter     = '\1';
+const JUtf8Byte kGeometryDataEndDelimiter      = '\1';
 
 /******************************************************************************
  Constructor
@@ -102,7 +103,7 @@ CMBreakpointTable::CMBreakpointTable
 	CMGetPrefsManager()->GetDefaultFont(&fontName, &fontSize);
 	itsFont = JFontManager::GetFont(fontName, fontSize);
 
-	const JSize rowHeight = 2*kVMarginWidth + itsFont.GetLineHeight();
+	const JSize rowHeight = 2*kVMarginWidth + itsFont.GetLineHeight(GetFontManager());
 	SetDefaultRowHeight(rowHeight);
 
 	// data
@@ -324,9 +325,9 @@ cmFileNameOffset
 	const CMBreakpoint* bp
 	)
 {
-	JIndex i;
-	(bp->GetFileName()).LocateLastSubstring(ACE_DIRECTORY_SEPARATOR_STR, &i);
-	return i;
+	JStringIterator iter(bp->GetFileName(), kJIteratorStartAtEnd);
+	iter.Prev(ACE_DIRECTORY_SEPARATOR_STR);
+	return iter.GetNextCharacterIndex();
 }
 
 void
@@ -353,7 +354,7 @@ CMBreakpointTable::TableDrawCell
 
 		if (bp->GetLineNumber() > 0)
 			{
-			CMLineIndexTable::DrawBreakpoint(bp, p, GetColormap(), r);
+			CMLineIndexTable::DrawBreakpoint(bp, p, r);
 			}
 		else
 			{
@@ -362,8 +363,7 @@ CMBreakpointTable::TableDrawCell
 			poly.AppendElement(JPoint(r.topRight()));
 			poly.AppendElement(JPoint(r.xcenter(), r.bottom));
 
-			JXColorManager* cmap        = GetColormap();
-			const JColorID color = bp->IsEnabled() ? cmap->GetRedColor() : cmap->GetGreenColor();
+			const JColorID color = bp->IsEnabled() ? JColorManager::GetRedColor() : JColorManager::GetGreenColor();
 
 			p.SetPenColor(color);
 			p.SetFilling(kJTrue);
@@ -371,7 +371,7 @@ CMBreakpointTable::TableDrawCell
 
 			if (bp->GetAction() != CMBreakpoint::kRemoveBreakpoint)
 				{
-				p.SetPenColor(GetColormap()->GetBlackColor());
+				p.SetPenColor(JColorManager::GetBlackColor());
 				p.SetFilling(kJFalse);
 				p.Polygon(poly);
 				}
@@ -383,7 +383,7 @@ CMBreakpointTable::TableDrawCell
 		JPainter::HAlignment hAlign = JPainter::kHAlignLeft;
 		if (cell.x == kFileNameColumn)
 			{
-			s = bp->GetFileName().GetCString() + cmFileNameOffset(bp);
+			s.Set(bp->GetFileName().GetBytes() + cmFileNameOffset(bp));
 			}
 		else if (cell.x == kLineNumberColumn)
 			{
@@ -486,15 +486,16 @@ CMBreakpointTable::HandleMouseDown
 void
 CMBreakpointTable::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
 	if (IsEditing())
 		{
-		JXEditTable::HandleKeyPress(key, modifiers);
+		JXEditTable::HandleKeyPress(c, keySym, modifiers);
 		}
-	else if (key == kJDeleteKey || key == kJForwardDeleteKey)
+	else if (c == kJDeleteKey || c == kJForwardDeleteKey)
 		{
 		JTableSelection& s = GetTableSelection();
 		JPoint cell;
@@ -504,7 +505,7 @@ CMBreakpointTable::HandleKeyPress
 			CMGetLink()->RemoveBreakpoint(*bp);
 			}
 		}
-	else if (key == kJReturnKey)
+	else if (c == kJReturnKey)
 		{
 		JTableSelection& s = GetTableSelection();
 		JPoint cell;
@@ -540,7 +541,7 @@ CMBreakpointTable::HandleKeyPress
 		}
 	else
 		{
-		HandleSelectionKeyPress(key, modifiers);
+		HandleSelectionKeyPress(c, modifiers);
 		}
 }
 
@@ -602,7 +603,7 @@ CMBreakpointTable::CreateXInputField
 		{
 		itsTextInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
 		assert( itsTextInput != nullptr );
-		itsTextInput->SetText(text);
+		itsTextInput->GetText()->SetText(text);
 		}
 
 	itsTextInput->SetFont(itsFont);
@@ -641,7 +642,7 @@ CMBreakpointTable::ExtractInputData
 		}
 	else if (cell.x == kConditionColumn)
 		{
-		const JString& s = itsTextInput->GetText();
+		const JString& s = itsTextInput->GetText()->GetText();
 
 		JString cond;
 		const JBoolean hasCondition = bp->GetCondition(&cond);
@@ -740,7 +741,7 @@ CMBreakpointTable::SetColTitles
 {
 	for (JIndex i=1; i<=kColCount; i++)
 		{
-		widget->SetColTitle(i, kColTitle[i-1]);
+		widget->SetColTitle(i, JString(kColTitle[i-1], kJFalse));
 		}
 }
 
@@ -757,8 +758,8 @@ CMBreakpointTable::CompareBreakpointLocations
 	)
 {
 	int r = JString::Compare(
-		bp1->GetFileName().GetCString() + cmFileNameOffset(bp1),
-		bp2->GetFileName().GetCString() + cmFileNameOffset(bp2), kJFalse);
+		bp1->GetFileName().GetBytes() + cmFileNameOffset(bp1),
+		bp2->GetFileName().GetBytes() + cmFileNameOffset(bp2), kJFalse);
 	if (r > 0)
 		{
 		return JListT::kFirstGreaterSecond;

@@ -162,18 +162,18 @@ CMAboutDialog::Receive
 		{
 		if (itsIsUpgradeFlag)
 			{
-			(JXGetHelpManager())->ShowChangeLog();
+			JXGetHelpManager()->ShowChangeLog();
 			}
 		else
 			{
-			(JXGetHelpManager())->ShowSection("CMOverviewHelp");
+			JXGetHelpManager()->ShowSection("CMOverviewHelp");
 			}
 		EndDialog(kJTrue);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		EndDialog(kJTrue);
 		}
 

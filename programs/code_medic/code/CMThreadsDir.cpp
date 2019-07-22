@@ -26,12 +26,9 @@
 #include <JNamedTreeNode.h>
 #include <jAssert.h>
 
-static const JCharacter* kWindowTitleSuffix = " Threads";
-
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open source file... %k Meta-O %i" kCMOpenSourceFileAction
 	"%l| Close               %k Meta-W %i" kJXCloseWindowAction
 	"  | Quit                %k Meta-Q %i" kJXQuitAction;
@@ -43,14 +40,9 @@ enum
 	kQuitCmd
 };
 
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents"
 	"  | Overview"
@@ -81,11 +73,11 @@ CMThreadsDir::CMThreadsDir
 	CMCommandDirector* supervisor
 	)
 	:
-	JXWindowDirectorJXGetApplication(),
+	JXWindowDirector(JXGetApplication()),
 	itsCommandDir(supervisor)
 {
 	BuildWindow(supervisor);
-	ListenToCMGetLink();
+	ListenTo(CMGetLink());
 }
 
 /******************************************************************************
@@ -142,7 +134,7 @@ CMThreadsDir::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle(kWindowTitleSuffix);
+	window->SetTitle(JGetString("WindowTitleSuffix::CMThreadsDir"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
 	window->ShouldFocusWhenShow(kJTrue);
@@ -154,7 +146,7 @@ CMThreadsDir::BuildWindow
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
-	JNamedTreeNode* root = jnew JNamedTreeNode(nullptr, "");
+	JNamedTreeNode* root = jnew JNamedTreeNode(nullptr, JString::empty);
 	assert( root != nullptr );
 	JTree* tree = jnew JTree(root);
 	assert( tree != nullptr );
@@ -170,7 +162,7 @@ CMThreadsDir::BuildWindow
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CMThreadsDir");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -178,12 +170,12 @@ CMThreadsDir::BuildWindow
 	itsFileMenu->SetItemImage(kOpenCmd, jx_file_open);
 
 	JXWDMenu* wdMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "CMThreadsDir");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -200,11 +192,11 @@ CMThreadsDir::BuildWindow
 void
 CMThreadsDir::UpdateWindowTitle
 	(
-	const JCharacter* binaryName
+	const JString& binaryName
 	)
 {
 	JString title = binaryName;
-	title += kWindowTitleSuffix;
+	title += JGetString("WindowTitleSuffix::CMThreadsDir");
 	GetWindow()->SetTitle(title);
 }
 
@@ -295,7 +287,7 @@ CMThreadsDir::ReceiveGoingAway
 {
 	if (!CMIsShuttingDown())
 		{
-		ListenToCMGetLink();
+		ListenTo(CMGetLink());
 		}
 
 	JXWindowDirector::ReceiveGoingAway(sender);
@@ -355,22 +347,22 @@ CMThreadsDir::HandleHelpMenu
 		}
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
+		JXGetHelpManager()->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMThreadsHelp");
+		JXGetHelpManager()->ShowSection("CMThreadsHelp");
 		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }

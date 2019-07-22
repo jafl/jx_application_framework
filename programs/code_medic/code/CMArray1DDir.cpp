@@ -33,12 +33,9 @@
 #include <JNamedTreeList.h>
 #include <jAssert.h>
 
-static const JCharacter* kWindowTitleSuffix = "  (1D Array)";
-
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open source file... %k Meta-O %i" kCMOpenSourceFileAction
 	"%l| Close               %k Meta-W %i" kJXCloseWindowAction
 	"  | Quit                %k Meta-Q %i" kJXQuitAction;
@@ -52,8 +49,7 @@ enum
 
 // Actions menu
 
-static const JCharacter* kActionMenuTitleStr = "Actions";
-static const JCharacter* kActionMenuStr =
+static const JUtf8Byte* kActionMenuStr =
 	"    Display as C string %k Meta-S       %i" kCMDisplayAsCStringAction
 	"%l| Display as 1D array %k Meta-Shift-A %i" kCMDisplay1DArrayAction
 	"  | Plot as 1D array                    %i" kCMPlot1DArrayAction
@@ -77,14 +73,9 @@ enum
 	kSavePrefsCmd
 };
 
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents"
 	"  | Overview"
@@ -110,10 +101,10 @@ enum
 CMArray1DDir::CMArray1DDir
 	(
 	CMCommandDirector*	supervisor,
-	const JCharacter*	expr
+	const JString&		expr
 	)
 	:
-	JXWindowDirectorJXGetApplication()
+	JXWindowDirector(JXGetApplication())
 {
 	// format variable for input field
 
@@ -131,7 +122,7 @@ CMArray1DDir::CMArray1DDir
 	CMCommandDirector*	supervisor
 	)
 	:
-	JXWindowDirectorJXGetApplication()
+	JXWindowDirector(JXGetApplication())
 {
 	input >> itsExpr >> itsRequestRange;
 	CMArray1DDirX(supervisor);
@@ -311,7 +302,7 @@ CMArray1DDir::BuildWindow()
 	assert(itsWidget != nullptr);
 	itsWidget->FitToEnclosure();
 
-	itsExprInput->SetText(itsExpr);
+	itsExprInput->GetText()->SetText(itsExpr);
 	itsExprInput->SetIsRequired();
 	ListenTo(itsExprInput);
 
@@ -326,7 +317,7 @@ CMArray1DDir::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->PrependTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CMThreadsDir");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -338,7 +329,7 @@ CMArray1DDir::BuildWindow()
 	itsStartIndex->ShareEditMenu(te);
 	itsEndIndex->ShareEditMenu(te);
 
-	itsActionMenu = menuBar->AppendTextMenu(kActionMenuTitleStr);
+	itsActionMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::CMGlobal"));
 	menuBar->InsertMenu(3, itsActionMenu);
 	itsActionMenu->SetMenuItems(kActionMenuStr, "CMArray1DDir");
 	ListenTo(itsActionMenu);
@@ -349,12 +340,12 @@ CMArray1DDir::BuildWindow()
 	itsActionMenu->SetItemImage(kExamineMemCmd,     medic_show_memory);
 
 	JXWDMenu* wdMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "CMArray1DDir");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -374,7 +365,7 @@ void
 CMArray1DDir::UpdateWindowTitle()
 {
 	JString title = itsExpr;
-	title += kWindowTitleSuffix;
+	title += JGetString("WindowTitleSuffix::CMArray1DDir");
 	GetWindow()->SetTitle(title);
 }
 
@@ -410,9 +401,9 @@ CMArray1DDir::Receive
 		(message.Is(JXWidget::kLostFocus) ||
 		 message.Is(CMArrayExprInput::kReturnKeyPressed)))
 		{
-		if (itsExprInput->GetText() != itsExpr)
+		if (itsExprInput->GetText()->GetText() != itsExpr)
 			{
-			itsExpr = itsExprInput->GetText();
+			itsExpr = itsExprInput->GetText()->GetText();
 			UpdateWindowTitle();
 			itsDisplayRange.SetToEmptyAt(0);
 			BeginCreateNodes();
@@ -595,7 +586,7 @@ CMArray1DDir::CreateNextNode()
 		{
 		itsDisplayRange.first--;
 		const JString expr = GetExpression(itsDisplayRange.first);
-		CMVarNode* node    = itsLink->CreateVarNode(root, expr, expr, "");
+		CMVarNode* node    = itsLink->CreateVarNode(root, expr, expr, JString::empty);
 		assert (node != nullptr);
 
 		itsCurrentNode = node;
@@ -606,7 +597,7 @@ CMArray1DDir::CreateNextNode()
 		{
 		itsDisplayRange.last++;
 		const JString expr = GetExpression(itsDisplayRange.last);
-		CMVarNode* node    = itsLink->CreateVarNode(root, expr, expr, "");
+		CMVarNode* node    = itsLink->CreateVarNode(root, expr, expr, JString::empty);
 		assert (node != nullptr);
 
 		itsCurrentNode = node;
@@ -773,23 +764,23 @@ CMArray1DDir::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
+		JXGetHelpManager()->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMVarTreeHelp-Array1D");
+		JXGetHelpManager()->ShowSection("CMVarTreeHelp-Array1D");
 		}
 
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }

@@ -39,6 +39,7 @@
 #include <JXMacWinPrefsDialog.h>
 #include <JXCloseDirectorTask.h>
 
+#include <JStringIterator.h>
 #include <JFontManager.h>
 #include <jDirUtil.h>
 #include <jFileUtil.h>
@@ -46,8 +47,7 @@
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open source file...      %k Meta-O       %i" kCMOpenSourceFileAction
 	"  | Open this file in editor %k Meta-Shift-O %i" kCMEditSourceFileAction
 	"%l| Load configuration...    %k Ctrl-O       %i" kCMLoadConfigAction
@@ -71,8 +71,7 @@ enum
 
 // Prefs menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    gdb %r"
 	"  | lldb %r"
 	"  | Java %r"
@@ -106,8 +105,7 @@ static const JIndex kDebuggerTypeToMenuIndex[] =
 
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents       %i" kJXHelpTOCAction
 	"  | Overview"
@@ -134,7 +132,7 @@ CMSourceDirector*
 CMSourceDirector::Create
 	(
 	CMCommandDirector*	commandDir,
-	const JCharacter*	fileOrFn,
+	const JString&		fileOrFn,
 	const Type			type
 	)
 {
@@ -155,7 +153,7 @@ CMSourceDirector::CMSourceDirector
 	const Type			type
 	)
 	:
-	JXWindowDirectorJXGetApplication(),
+	JXWindowDirector(JXGetApplication()),
 	itsType(type),
 	itsSrcMainCmd(nullptr),
 	itsGetAssemblyCmd(nullptr)
@@ -178,22 +176,22 @@ CMSourceDirector::CMSourceDirector
 CMSourceDirector::CMSourceDirector
 	(
 	CMCommandDirector*	commandDir,
-	const JCharacter*	fileOrFn,
+	const JString&		fileOrFn,
 	const Type			type
 	)
 	:
-	JXWindowDirectorJXGetApplication(),
+	JXWindowDirector(JXGetApplication()),
 	itsType(type),
 	itsSrcMainCmd(nullptr),
 	itsGetAssemblyCmd(nullptr)
 {
 	CMSourceViewDirectorX(commandDir);
 
-	if (itsType == kAsmType && !JString::IsEmpty(fileOrFn))
+	if (itsType == kAsmType && !fileOrFn.IsEmpty())
 		{
 		CMLocation loc;
 		loc.SetFunctionName(fileOrFn);
-		loc.SetMemoryAddress("0x0");	// not allowed to be null
+		loc.SetMemoryAddress(JString("0x0", kJFalse));	// not allowed to be null
 		DisplayDisassembly(loc);
 		}
 	else if (itsType == kSourceType && JFileReadable(fileOrFn))
@@ -290,7 +288,7 @@ CMSourceDirector::BuildWindow()
 	assert( itsToolBar != nullptr );
 
 	itsFileDisplay =
-		jnew JXFileNameDisplay("", window,
+		jnew JXFileNameDisplay(JString::empty, window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,530, 580,20);
 	assert( itsFileDisplay != nullptr );
 
@@ -344,7 +342,7 @@ CMSourceDirector::BuildWindow()
 
 	JCoordinate w = window->GetFrameWidth();
 
-	itsFileMenu = itsMenuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = itsMenuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CMSourceDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -402,7 +400,7 @@ CMSourceDirector::BuildWindow()
 	assert( itsFnMenu != nullptr );
 	itsFnMenu->Hide();
 
-	itsPrefsMenu = itsMenuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = itsMenuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "CMSourceDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	if (IsMainSourceWindow())
@@ -411,7 +409,7 @@ CMSourceDirector::BuildWindow()
 		}
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = itsMenuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = itsMenuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "CMSourceDirector");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -517,9 +515,10 @@ CMSourceDirector::Receive
 		{
 		if (!itsCurrentFile.IsEmpty())		// reload file, in case it changed
 			{
+			JCharacterRange r;
 			const JString fileName = itsCurrentFile;
-			const JIndex lineIndex = itsText->HasSelection() ?
-									 itsText->GetLineForChar(itsText->GetInsertionIndex()) :
+			const JIndex lineIndex = itsText->GetSelection(&r) ?
+									 itsText->GetLineForChar(r.first) :
 									 itsTable->GetCurrentLine();
 			itsCurrentFile.Clear();			// force reload
 			DisplayFile(fileName, lineIndex);
@@ -707,46 +706,48 @@ CMSourceDirector::ReceiveGoingAway
 void
 CMSourceDirector::DisplayFile
 	(
-	const JCharacter*	fileName,
-	const JIndex		lineNumber,
-	const JBoolean		markLine
+	const JString&	fileName,
+	const JIndex	lineNumber,
+	const JBoolean	markLine
 	)
 {
-	assert( !JString::IsEmpty(fileName) );
+	assert( !fileName.IsEmpty() );
 
 	if (!itsCurrentFile.IsEmpty() && JSameDirEntry(fileName, itsCurrentFile))
 		{
 		DisplayLine(lineNumber, markLine);
-		UpdateWindowTitle(nullptr);
+		UpdateWindowTitle(JString::empty);
 		}
 	else if (JFileReadable(fileName))
 		{
 		itsCurrentFile = fileName;
 
-		JTextEditor::PlainTextFormat format;
-		itsText->ReadPlainText(itsCurrentFile, &format);
+		JStyledText::PlainTextFormat format;
+		itsText->GetText()->ReadPlainText(itsCurrentFile, &format);
 
 		// Assembly must not end with newline, so we have to enforce this for
 		// source code, too.
 
-		const JString& text = itsText->GetText();
-		JIndex i = text.GetLength();
-		while (text.GetCharacter(i) == '\n')
+		const JString& text = itsText->GetText()->GetText();
+		JStringIterator iter(text, kJIteratorStartAtEnd);
+		JUtf8Character c;
+		while (iter.Prev(&c, kJFalse) && c == '\n')
 			{
-			i--;
+			iter.SkipPrev();
 			}
-		if (i < text.GetLength())
+		if (!iter.AtEnd())
 			{
-			itsText->SetSelection(i+1, text.GetLength());
+			itsText->SetSelection(JCharacterRange(
+				iter.GetNextCharacterIndex(), text.GetCharacterCount()));
 			itsText->DeleteSelection();
 			}
 		itsText->SetCaretLocation(1);
 
 		DisplayLine(lineNumber, markLine);
-		itsFileDisplay->SetText(itsCurrentFile);
+		itsFileDisplay->GetText()->SetText(itsCurrentFile);
 
 		UpdateFileType();
-		UpdateWindowTitle(nullptr);
+		UpdateWindowTitle(JString::empty);
 		}
 }
 
@@ -764,8 +765,8 @@ CMSourceDirector::DisplayDisassembly
 	const JString& fnName = loc.GetFunctionName();
 	const JString& addr   = loc.GetMemoryAddress();
 
-	assert( !JString::IsEmpty(fnName) );
-	assert( !JString::IsEmpty(addr) );
+	assert( !fnName.IsEmpty() );
+	assert( !addr.IsEmpty() );
 
 	if (fnName == itsCurrentFn)
 		{
@@ -779,7 +780,7 @@ CMSourceDirector::DisplayDisassembly
 			itsTable->SetCurrentLine(0);
 			}
 
-		UpdateWindowTitle(nullptr);
+		UpdateWindowTitle(JString::empty);
 		}
 	else
 		{
@@ -796,7 +797,7 @@ CMSourceDirector::DisplayDisassembly
 			itsGetAssemblyCmd->Send();
 			}
 
-		UpdateWindowTitle(nullptr);
+		UpdateWindowTitle(JString::empty);
 		}
 }
 
@@ -809,12 +810,12 @@ void
 CMSourceDirector::DisplayDisassembly
 	(
 	JPtrArray<JString>*	addrList,
-	const JCharacter*	instText
+	const JString&		instText
 	)
 {
 	CMLineAddressTable* table = dynamic_cast<CMLineAddressTable*>(itsTable);
 	table->SetLineNumbers(addrList);
-	itsText->SetText(instText);
+	itsText->GetText()->SetText(instText);
 
 	JIndex i;
 	if (table->FindAddressLineNumber(itsAsmLocation.GetMemoryAddress(), &i))
@@ -868,11 +869,11 @@ CMSourceDirector::ClearDisplay()
 		{
 		table->ClearLineNumbers();
 		}
-	itsText->SetText("");
-	itsFileDisplay->SetText("");
+	itsText->GetText()->SetText(JString::empty);
+	itsFileDisplay->GetText()->SetText(JString::empty);
 	itsCurrentFile.Clear();
 	itsCurrentFn.Clear();
-	UpdateWindowTitle(nullptr);
+	UpdateWindowTitle(JString::empty);
 
 	UpdateFileType();
 }
@@ -906,13 +907,13 @@ CMSourceDirector::UpdateFileType()
 		{
 		JBoolean setTabWidth, setTabMode, tabInsertsSpaces, setAutoIndent, autoIndent;
 		JSize tabWidth;
-		CBMParseEditorOptions(itsCurrentFile, itsText->GetText(), &setTabWidth, &tabWidth,
+		CBMParseEditorOptions(itsCurrentFile, itsText->GetText()->GetText(), &setTabWidth, &tabWidth,
 							  &setTabMode, &tabInsertsSpaces, &setAutoIndent, &autoIndent);
 		if (setTabWidth)
 			{
-			itsText->SetCRMTabCharCount(tabWidth);
+			itsText->GetText()->SetCRMTabCharCount(tabWidth);
 			itsText->SetDefaultTabWidth(
-				tabWidth * itsText->GetDefaultFont().GetCharWidth(' '));
+				tabWidth * itsText->GetText()->GetDefaultFont().GetCharWidth(itsText->GetFontManager(), JUtf8Character(' ')));
 			}
 		}
 }
@@ -927,7 +928,7 @@ CMSourceDirector::UpdateFileType()
 void
 CMSourceDirector::UpdateWindowTitle
 	(
-	const JCharacter* binaryName
+	const JString& binaryName
 	)
 {
 	JString path, title, prefix;
@@ -955,7 +956,7 @@ CMSourceDirector::UpdateWindowTitle
 		// Save prefix with binary name since we will be called when file
 		// name changes, too.
 
-		if (binaryName != nullptr)
+		if (!binaryName.IsEmpty())
 			{
 			itsWindowTitlePrefix  = binaryName;
 			itsWindowTitlePrefix += prefix;
@@ -1001,9 +1002,10 @@ CMSourceDirector::HandleFileMenu
 		}
 	else if (index == kEditCmd)
 		{
+		JCharacterRange r;
 		const JIndex visualIndex =
-			itsText->HasSelection() ?
-				itsText->GetLineForChar(itsText->GetInsertionIndex()) :
+			itsText->GetSelection(&r) ?
+				itsText->GetLineForChar(r.first) :
 				itsTable->GetCurrentLine();
 
 		(CMGetApplication())->
@@ -1139,22 +1141,22 @@ CMSourceDirector::HandleHelpMenu
 		}
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
+		JXGetHelpManager()->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMSourceWindowHelp");
+		JXGetHelpManager()->ShowSection("CMSourceWindowHelp");
 		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }

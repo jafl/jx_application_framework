@@ -954,7 +954,7 @@ CBDiffDocument::ReadDiff
 				!st->EndsWithNewline())
 				{
 				te->SetCaretLocation(st->GetText().GetCharacterCount()+1);
-				te->Paste(JString("\n", kJFalse));
+				te->Paste(JString::newline);
 				}
 
 			const JIndex pasteIndex = te->GetLineEnd(origRange.last) + 1;

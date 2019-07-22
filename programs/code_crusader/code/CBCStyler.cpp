@@ -14,7 +14,8 @@
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
 #include <JRegex.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBCStyler* CBCStyler::itsSelf = nullptr;
@@ -27,7 +28,7 @@ const JFileVersion kCurrentTypeListVersion = 3;
 	// version 2 inserts kBuiltInDataType after kReservedCPPKeyword (4)
 	// version 3 inserts kOperator and kDelimiter after kBuiltInDataType (5)
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	"Identifier",
 	"Identifier containing $",
@@ -54,9 +55,7 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit C/C++ Styles";
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -100,7 +99,8 @@ CBCStyler::Shutdown()
 CBCStyler::CBCStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBCStyleID, kCBCSourceFT),
+				 JGetString("EditDialogTitle::CBCStyler"),
+				 kCBCStyleID, kCBCSourceFT),
 	CBCScanner()
 {
 	JFontStyle blankStyle;
@@ -109,27 +109,26 @@ CBCStyler::CBCStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap   = GetColormap();
-	const JColorID red = colormap->GetRedColor();
+	const JColorID red = JColorManager::GetRedColor();
 
 	SetTypeStyle(kDollarID           - kWhitespace, JFontStyle(red));
-	SetTypeStyle(kReservedCKeyword   - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kReservedCPPKeyword - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kBuiltInDataType    - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
+	SetTypeStyle(kReservedCKeyword   - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kReservedCPPKeyword - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kBuiltInDataType    - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 
-	SetTypeStyle(kString             - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kCharConst          - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
+	SetTypeStyle(kString             - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kCharConst          - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
 
-	SetTypeStyle(kComment            - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kPPDirective        - kWhitespace, JFontStyle(colormap->GetBlueColor()));
+	SetTypeStyle(kComment            - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kPPDirective        - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
 
 	SetTypeStyle(kTrigraph           - kWhitespace, JFontStyle(red));
 	SetTypeStyle(kRespelling         - kWhitespace, JFontStyle(red));
 	SetTypeStyle(kError              - kWhitespace, JFontStyle(red));
 
-	SetWordStyle("#pragma",       JFontStyle(red));
-	SetWordStyle("#include_next", JFontStyle(red));
-	SetWordStyle("goto",          JFontStyle(kJTrue, kJFalse, 0, kJFalse, red));
+	SetWordStyle(JString("#pragma", kJFalse),       JFontStyle(red));
+	SetWordStyle(JString("#include_next", kJFalse), JFontStyle(red));
+	SetWordStyle(JString("goto", kJFalse),          JFontStyle(kJTrue, kJFalse, 0, kJFalse, red));
 
 	JPrefObject::ReadPrefs();
 }
@@ -202,7 +201,7 @@ CBCStyler::Scan
 			}
 		else if (token.type == kPPDirective)
 			{
-			style = GetStyle(typeIndex, text.GetSubstring(GetPPNameRange()));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange(), kJFalse));
 			}
 		else if (token.type < kWhitespace)
 			{
@@ -210,14 +209,14 @@ CBCStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(text.GetSubstring(token.range), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range, kJFalse), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, text.GetSubstring(token.range));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range, kJFalse));
 			}
 		}
 		while (SetStyle(token.range, style));

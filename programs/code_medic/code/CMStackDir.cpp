@@ -27,8 +27,7 @@
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open source file... %k Meta-O %i" kCMOpenSourceFileAction
 	"%l| Close               %k Meta-W %i" kJXCloseWindowAction
 	"  | Quit                %k Meta-Q %i" kJXQuitAction;
@@ -40,14 +39,9 @@ enum
 	kQuitCmd
 };
 
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents"
 	"  | Overview"
@@ -75,11 +69,11 @@ CMStackDir::CMStackDir
 	CMCommandDirector* supervisor
 	)
 	:
-	JXWindowDirectorJXGetApplication(),
+	JXWindowDirector(JXGetApplication()),
 	itsCommandDir(supervisor)
 {
 	BuildWindow(supervisor);
-	ListenToCMGetLink();
+	ListenTo(CMGetLink());
 }
 
 /******************************************************************************
@@ -150,7 +144,7 @@ CMStackDir::BuildWindow
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
-	JNamedTreeNode* root = jnew JNamedTreeNode(nullptr, "");
+	JNamedTreeNode* root = jnew JNamedTreeNode(nullptr, JString::empty);
 	assert( root != nullptr );
 	JTree* tree = jnew JTree(root);
 	assert( tree != nullptr );
@@ -166,7 +160,7 @@ CMStackDir::BuildWindow
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CMStackDir");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -174,12 +168,12 @@ CMStackDir::BuildWindow
 	itsFileMenu->SetItemImage(kOpenCmd, jx_file_open);
 
 	JXWDMenu* wdMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "CMStackDir");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -196,7 +190,7 @@ CMStackDir::BuildWindow
 void
 CMStackDir::UpdateWindowTitle
 	(
-	const JCharacter* binaryName
+	const JString& binaryName
 	)
 {
 	JString title = binaryName;
@@ -292,7 +286,7 @@ CMStackDir::ReceiveGoingAway
 {
 	if (!CMIsShuttingDown())
 		{
-		ListenToCMGetLink();
+		ListenTo(CMGetLink());
 		}
 
 	JXWindowDirector::ReceiveGoingAway(sender);
@@ -352,22 +346,22 @@ CMStackDir::HandleHelpMenu
 		}
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
+		JXGetHelpManager()->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMStackHelp");
+		JXGetHelpManager()->ShowSection("CMStackHelp");
 		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }

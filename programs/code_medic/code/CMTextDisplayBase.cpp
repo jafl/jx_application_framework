@@ -12,6 +12,7 @@
 #include "cbmUtil.h"
 #include <JXScrollbarSet.h>
 #include <JXScrollbar.h>
+#include <JXStyledText.h>
 #include <JFontManager.h>
 #include <jAssert.h>
 
@@ -35,19 +36,21 @@ CMTextDisplayBase::CMTextDisplayBase
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(type, breakCROnly, kJFalse, scrollbarSet,
+	JXTEBase(type,
+			 jnew JXStyledText(kJFalse, kJFalse, enclosure->GetFontManager()),
+			 kJTrue, breakCROnly, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	WantInput(kJTrue, kJFalse);
 
-	(scrollbarSet->GetVScrollbar())->SetScrollDelay(0);
+	scrollbarSet->GetVScrollbar()->SetScrollDelay(0);
 
 	AppendEditMenu(menuBar);
 
 	AdjustFont(this);
 
 	ShouldAllowDragAndDrop(kJTrue);
-	SetCharacterInWordFunction(CBMIsCharacterInWord);
+	GetText()->SetCharacterInWordFunction(CBMIsCharacterInWord);
 	SetPTPrinter(CMGetPTPrinter());
 }
 
@@ -78,7 +81,7 @@ CMTextDisplayBase::AdjustFont
 	JString name;
 	JSize size;
 	CMGetPrefsManager()->GetDefaultFont(&name, &size);
-	te->SetDefaultFont(
+	te->GetText()->SetDefaultFont(
 		JFontManager::GetFont(name, size, CMGetPrefsManager()->GetColor(CMPrefsManager::kTextColorIndex)));
 
 	// colors
@@ -91,7 +94,7 @@ CMTextDisplayBase::AdjustFont
 	// tab width
 
 	const JSize tabCharCount    = CMGetPrefsManager()->GetTabCharCount();
-	const JCoordinate charWidth = te->GetDefaultFont().GetCharWidth(fontMgr, ' ');
+	const JCoordinate charWidth = te->GetText()->GetDefaultFont().GetCharWidth(fontMgr, JUtf8Character(' '));
 	te->SetDefaultTabWidth(tabCharCount * charWidth);
-	te->SetCRMTabCharCount(tabCharCount);
+	te->GetText()->SetCRMTabCharCount(tabCharCount);
 }

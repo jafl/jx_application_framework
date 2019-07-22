@@ -38,8 +38,7 @@
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open source file...      %k Meta-O %i" kCMOpenSourceFileAction
 	"%l| PostScript page setup...           %i" kJXPageSetupAction
 	"  | Print PostScript...      %k Meta-P %i" kJXPrintAction
@@ -59,8 +58,7 @@ enum
 
 // Actions menu
 
-static const JCharacter* kActionMenuTitleStr = "Actions";
-static const JCharacter* kActionMenuStr =
+static const JUtf8Byte* kActionMenuStr =
 	"Save window size as default";
 
 enum
@@ -68,14 +66,9 @@ enum
 	kSavePrefsCmd = 1
 };
 
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents"
 	"  | Overview"
@@ -101,10 +94,10 @@ enum
 CMPlot2DDir::CMPlot2DDir
 	(
 	CMCommandDirector*	supervisor,
-	const JCharacter*	origExpr
+	const JString&		origExpr
 	)
 	:
-	JXWindowDirectorJXGetApplication()
+	JXWindowDirector(JXGetApplication())
 {
 	CMPlot2DDirX1(supervisor);
 
@@ -114,22 +107,22 @@ CMPlot2DDir::CMPlot2DDir
 	CMVarNode::TrimExpression(&expr);
 
 	itsExprData->AppendRows(1);
-	itsExprData->SetString(1, CMPlot2DExprTable::kXExprColIndex, "$i");
+	itsExprData->SetString(1, CMPlot2DExprTable::kXExprColIndex, JString("$i", kJFalse));
 	itsExprData->SetString(1, CMPlot2DExprTable::kYExprColIndex, expr);
-	itsExprData->SetString(1, CMPlot2DExprTable::kRangeMinColIndex, "0");
-	itsExprData->SetString(1, CMPlot2DExprTable::kRangeMaxColIndex, "10");
+	itsExprData->SetString(1, CMPlot2DExprTable::kRangeMinColIndex, JString("0", kJFalse));
+	itsExprData->SetString(1, CMPlot2DExprTable::kRangeMaxColIndex, JString("10", kJFalse));
 
 	CMPlot2DDirX2();
 }
 
 CMPlot2DDir::CMPlot2DDir
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	CMCommandDirector*	supervisor
 	)
 	:
-	JXWindowDirectorJXGetApplication()
+	JXWindowDirector(JXGetApplication())
 {
 	CMPlot2DDirX1(supervisor);
 
@@ -358,7 +351,7 @@ CMPlot2DDir::BuildWindow()
 
 	// menus
 
-	itsActionMenu = menuBar->PrependTextMenu(kActionMenuTitleStr);
+	itsActionMenu = menuBar->PrependTextMenu(JGetString("ActionsMenuTitle::CMGlobal"));
 	itsActionMenu->SetMenuItems(kActionMenuStr, "CMPlot2DDir");
 	itsActionMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsActionMenu);
@@ -368,7 +361,7 @@ CMPlot2DDir::BuildWindow()
 	assert( hasEditMenu );
 	menuBar->PrependMenu(editMenu);
 
-	itsFileMenu = menuBar->PrependTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CMThreadsDir");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -377,12 +370,12 @@ CMPlot2DDir::BuildWindow()
 	itsFileMenu->SetItemImage(kPrintPSCmd, jx_file_print);
 
 	JXWDMenu* wdMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "CMPlot2DDir");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -516,10 +509,10 @@ CMPlot2DDir::Receive
 		if (itsExprTable->EndEditing())
 			{
 			JPtrArray<JString> data(JPtrArrayT::kDeleteAll);
-			data.Append("$i");
-			data.Append("$i");
-			data.Append("0");
-			data.Append("10");
+			data.Append(JString("$i", kJFalse));
+			data.Append(JString("$i", kJFalse));
+			data.Append(JString("0", kJFalse));
+			data.Append(JString("10", kJFalse));
 			itsExprData->AppendRows(1, &data);
 			}
 		}
@@ -681,7 +674,7 @@ CMPlot2DDir::Update
 			itsYData->Append(y);
 
 			JIndex j;
-			const JBoolean ok = itsPlotWidget->AddCurve(*x, *y, kJTrue, "", &j);
+			const JBoolean ok = itsPlotWidget->AddCurve(*x, *y, kJTrue, JString::empty, &j);
 			assert( ok && j == i );
 
 			cmd = itsLink->CreatePlot2DCommand(this, x, y);
@@ -878,23 +871,23 @@ CMPlot2DDir::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
+		JXGetHelpManager()->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CM2DPlotHelp");
+		JXGetHelpManager()->ShowSection("CM2DPlotHelp");
 		}
 
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }

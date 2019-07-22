@@ -51,6 +51,7 @@ public:
 	};
 
 	static const JString empty;
+	static const JString newline;
 
 public:
 

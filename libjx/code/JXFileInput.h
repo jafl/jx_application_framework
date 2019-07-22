@@ -59,7 +59,7 @@ protected:
 
 		virtual JSize	ComputeErrorLength(JXFSInputBase* field,
 										   const JSize totalLength,
-										   const JString& fullName) const;
+										   const JString& fullName) const override;
 	};
 
 protected:

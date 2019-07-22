@@ -15,7 +15,7 @@
 #include <FlexLexer.h>
 #endif
 
-#include <JIndexRange.h>
+#include <JUtf8ByteRange.h>
 
 class JString;
 
@@ -61,15 +61,15 @@ public:
 
 	struct Token
 	{
-		TokenType	type;
-		JIndexRange	range;
+		TokenType		type;
+		JUtf8ByteRange	range;
 
 		Token()
 			:
 			type(kEOF), range()
 			{ };
 
-		Token(const TokenType t, const JIndexRange& r)
+		Token(const TokenType t, const JUtf8ByteRange& r)
 			:
 			type(t), range(r)
 			{ };
@@ -86,13 +86,13 @@ public:
 
 protected:
 
-	void	Undo(const JIndexRange& range, const JString& text);
+	void	Undo(const JUtf8ByteRange& range, const JString& text);
 
 private:
 
-	JBoolean	itsResetFlag;
-	JIndexRange	itsCurrentRange;
-	JBoolean	itsDoubleQuoteFlag;
+	JBoolean		itsResetFlag;
+	JUtf8ByteRange	itsCurrentRange;
+	JBoolean		itsDoubleQuoteFlag;
 
 private:
 

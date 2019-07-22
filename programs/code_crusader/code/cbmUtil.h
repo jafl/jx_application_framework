@@ -51,13 +51,13 @@ void	CBMSetStringList(JXInputField* inputField, const JPtrArray<JString>& list);
 
 	#include "CMPrefsManager.h"
 
-	class JTEStyler;
+	class JSTStyler;
 
 	class CMSourceWindowManager
 	{
 	public:
 
-		void	StylerChanged(JTEStyler* styler) {};
+		void	StylerChanged(JSTStyler* styler) {};
 	};
 
 	CMSourceWindowManager*	CBMGetDocumentManager();
@@ -84,8 +84,8 @@ void	CBMSetStringList(JXInputField* inputField, const JPtrArray<JString>& list);
 
  ******************************************************************************/
 
-JBoolean	CBMBalanceForward(const CBLanguage lang, const JString& str, JIndex* index);
-JBoolean	CBMBalanceBackward(const CBLanguage lang, const JString& str, JIndex* index);
+JBoolean	CBMBalanceForward(const CBLanguage lang, JStringIterator* iter);
+JBoolean	CBMBalanceBackward(const CBLanguage lang, JStringIterator* iter);
 
 inline JBoolean
 CBMIsOpenGroup

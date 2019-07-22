@@ -28,9 +28,9 @@ public:
 
 	virtual	~CMLocalVarsDir();
 
-	virtual void			Activate();
-	virtual const JString&	GetName() const;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const;
+	virtual void			Activate() override;
+	virtual const JString&	GetName() const override;
+	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
 
 protected:
 
@@ -58,7 +58,7 @@ private:
 private:
 
 	void	BuildWindow();
-	void	UpdateWindowTitle(const JCharacter* binaryName);
+	void	UpdateWindowTitle(const JString& binaryName);
 
 	void	Update();
 	void	Rebuild();

@@ -10,3 +10,15 @@ EmptyMenu::CBFunctionMenu	"No $name %d"
 
 Instructions::CBEditStylerDialog
 "To change the style of the selected items, right-click on any one.  To edit the name of an item in the bottom list, double-click on it."
+
+# CBCStyler
+
+EditDialogTitle::CBCStyler	"Edit C/C++ Styles"
+
+# CBHTMLStyler
+
+EditDialogTitle::CBHTMLStyler	"Edit HTML/PHP/XML Styles"
+
+# CBJavaStyler
+
+EditDialogTitle::CBJavaStyler	"Edit Java Styles"

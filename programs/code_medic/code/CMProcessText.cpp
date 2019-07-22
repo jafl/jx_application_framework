@@ -29,7 +29,7 @@ CMProcessText::CMProcessText
 	const JCoordinate		h
 	)
 	:
-	JXStaticText("", kJFalse, kJTrue, scrollbarSet,
+	JXStaticText(JString::empty, kJFalse, kJTrue, scrollbarSet,
 				 enclosure, hSizing, vSizing, x,y, w, h),
 	itsDir(dir)
 {

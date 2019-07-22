@@ -736,13 +736,13 @@ CBMBalanceFromSelection
 /******************************************************************************
  Balancing (private)
 
-	Forward:	search for the first unbalanced closing paren: ) } ]
-				starting from the given index
+	Forward:	Search for the first unbalanced closing paren: ) } ]
+				starting from the given index.  Modifies the iterator
+				to be after the closing paren.
 
-	Backward:	search for the first unbalanced opening paren: ( { [
-				starting from the character in front of the given index
-
-	Returns the index of this character.
+	Backward:	Search for the first unbalanced opening paren: ( { [
+				starting from the character in front of the given index.
+				Modifies the iterator to be before the opening paren.
 
 	By not using a C/C++ lexer to balance parentheses, we will display the
 	wrong answer when parens are used inside character and string constants.
@@ -763,15 +763,14 @@ JBoolean
 CBMBalanceForward
 	(
 	const CBLanguage	lang,
-	const JString&		str,
-	JIndex*				index
+	JStringIterator*	iter
 	)
 {
-	JStack<JCharacter, JArray<JCharacter> > openList;
+	JStack<JCharacter, JArray<JUtf8Byte> > openList;
 
-	for (JIndex i = *index; i <= str.GetLength(); i++)
+	JUtf8Character c;
+	while (iter->Next(&c))
 		{
-		const JCharacter c     = str.GetCharacter(i);
 		const JBoolean isOpen  = CBMIsOpenGroup(lang, c);
 		const JBoolean isClose = CBMIsCloseGroup(lang, c);
 
@@ -781,13 +780,12 @@ CBMBalanceForward
 			}
 		else if (isClose && openList.IsEmpty())
 			{
-			*index = i;
 			return kJTrue;
 			}
 		else if (isClose)
 			{
-			const JCharacter c1 = openList.Pop();
-			if (!CBMIsMatchingPair(lang, c1, c))
+			const JUtf8Byte c1 = openList.Pop();
+			if (!CBMIsMatchingPair(lang, JUtf8Character(c1), c))
 				{
 				return kJFalse;
 				}
@@ -801,17 +799,14 @@ JBoolean
 CBMBalanceBackward
 	(
 	const CBLanguage	lang,
-	const JString&		str,
-	JIndex*				index
+	JStringIterator*	iter
 	)
 {
-	assert( *index > 0 );
+	JStack<JCharacter, JArray<JUtf8Byte> > closeList;
 
-	JStack<JCharacter, JArray<JCharacter> > closeList;
-
-	for (JIndex i = *index-1; i>=1; i--)
+	JUtf8Character c;
+	while (iter.Prev(&c))
 		{
-		const JCharacter c     = str.GetCharacter(i);
 		const JBoolean isOpen  = CBMIsOpenGroup(lang, c);
 		const JBoolean isClose = CBMIsCloseGroup(lang, c);
 
@@ -821,13 +816,12 @@ CBMBalanceBackward
 			}
 		else if (isOpen && closeList.IsEmpty())
 			{
-			*index = i;
 			return kJTrue;
 			}
 		else if (isOpen)
 			{
-			const JCharacter c1 = closeList.Pop();
-			if (!CBMIsMatchingPair(lang, c, c1))
+			const JUtf8Byte c1 = closeList.Pop();
+			if (!CBMIsMatchingPair(lang, c, JUtf8Character(c1)))
 				{
 				return kJFalse;
 				}
@@ -851,7 +845,7 @@ CBMIsCharacterInWord
 	const JUtf8Character& c
 	)
 {
-	return JI2B( isalnum(c) || c == '_' );
+	return JI2B( c.IsAlnum() || c == '_' );
 }
 
 #ifdef CODE_CRUSADER

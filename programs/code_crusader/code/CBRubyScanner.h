@@ -71,15 +71,15 @@ public:
 
 	struct Token
 	{
-		TokenType	type;
-		JIndexRange	range;
+		TokenType		type;
+		JUtf8ByteRange	range;
 
 		Token()
 			:
 			type(kEOF), range()
 			{ };
 
-		Token(const TokenType t, const JIndexRange& r)
+		Token(const TokenType t, const JUtf8ByteRange& r)
 			:
 			type(t), range(r)
 			{ };
@@ -96,12 +96,12 @@ public:
 
 private:
 
-	JBoolean	itsResetFlag;
-	JIndexRange	itsCurrentRange;
-	JBoolean	itsProbableOperatorFlag;	// kTrue if /,? are most likely operators instead of regex
-	TokenType	itsComplexVariableType;
-	JString		itsHereDocTag;
-	TokenType	itsHereDocType;
+	JBoolean		itsResetFlag;
+	JUtf8ByteRange	itsCurrentRange;
+	JBoolean		itsProbableOperatorFlag;	// kTrue if /,? are most likely operators instead of regex
+	TokenType		itsComplexVariableType;
+	JString			itsHereDocTag;
+	TokenType		itsHereDocType;
 
 private:
 

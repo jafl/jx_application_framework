@@ -27,12 +27,12 @@ public:
 
 	virtual	~CMVarTreeDir();
 
-	void	DisplayExpression(const JCharacter* expr);
+	void	DisplayExpression(const JString& expr);
 
-	virtual void			Activate();
-	virtual JBoolean		Deactivate();
-	virtual const JString&	GetName() const;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const;
+	virtual void			Activate() override;
+	virtual JBoolean		Deactivate() override;
+	virtual const JString&	GetName() const override;
+	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
 
 	void	ReadSetup(std::istream& input, const JFileVersion vers);
 	void	WriteSetup(std::ostream& output) const;
@@ -61,7 +61,7 @@ private:
 private:
 
 	void	BuildWindow();
-	void	UpdateWindowTitle(const JCharacter* binaryName);
+	void	UpdateWindowTitle(const JString& binaryName);
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);

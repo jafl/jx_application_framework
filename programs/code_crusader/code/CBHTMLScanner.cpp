@@ -85,22 +85,24 @@ CBHTMLScanner::IsScript
 
 	language->Clear();
 
-	const JString& text = GetScannedText();
-	const JCharacter* s = text.GetCString() + itsCurrentRange.first - 1;
-	JIndexRange r       = itsCurrentRange - (itsCurrentRange.first - 1);
+	const JString s(GetScannedText().GetRawBytes(), itsCurrentRange, kJFalse);
 
-	JArray<JIndexRange> matchList;
-	if (scriptTagPattern1.MatchWithin(s, r, &matchList))
+	const JStringMatch m1 = scriptTagPattern1.Match(s, kJTrue);
+	if (!m1.IsEmpty())
 		{
-		*language = text.GetSubstring(matchList.GetElement(2) + (itsCurrentRange.first - 1));
+		*language = m1.GetSubstring(1);
 		return kJTrue;
 		}
-	else if (scriptTagPattern2.MatchWithin(s, r, &matchList))
+
+	const JStringMatch m2 = scriptTagPattern2.Match(s, kJTrue);
+	if (!m2.IsEmpty())
 		{
-		*language = text.GetSubstring(matchList.GetElement(2) + (itsCurrentRange.first - 1));
+		*language = m2.GetSubstring(1);
 		return kJTrue;
 		}
-	else if (scriptTagPattern3.MatchWithin(s, r))
+
+	const JStringMatch m3 = scriptTagPattern3.Match(s, kJFalse);
+	if (!m3.IsEmpty())
 		{
 		*language = "JavaScript";
 		return kJTrue;

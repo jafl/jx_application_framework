@@ -43,10 +43,10 @@ private:
 	void		InitPHPTypeStyles();
 	void		InitJSPTypeStyles();
 	void		InitJavaScriptTypeStyles();
-	void		ExtendCheckRangeForString(const JIndexRange& tokenRange);
-	void		ExtendCheckRangeForPHPStartEnd(const JIndexRange& tokenRange);
-	void		ExtendCheckRangeForJSPStartEnd(const JIndexRange& tokenRange);
-	JFontStyle	GetTagStyle(const JIndexRange& tokenRange, const JIndex typeIndex);
+	void		ExtendCheckRangeForString(const JUtf8ByteRange& tokenRange);
+	void		ExtendCheckRangeForPHPStartEnd(const JUtf8ByteRange& tokenRange);
+	void		ExtendCheckRangeForJSPStartEnd(const JUtf8ByteRange& tokenRange);
+	JFontStyle	GetTagStyle(const JUtf8ByteRange& tokenRange, const JIndex typeIndex);
 	JBoolean	GetXMLStyle(const JString& tagName, JFontStyle* style);
 	void		StyleEmbeddedPHPVariables(const Token& token);
 	void		StyleEmbeddedJSVariables(const Token& token);

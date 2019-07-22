@@ -34,7 +34,7 @@ private:
 
 private:
 
-	JBoolean	SlurpPPComment(JIndexRange* totalRange);
+	JBoolean	SlurpPPComment(JUtf8ByteRange* totalRange);
 
 	// not allowed
 

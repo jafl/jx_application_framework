@@ -32,7 +32,7 @@ public:
 
 	virtual ~CBFunctionMenu();
 
-	void	TextChanged(const CBTextFileType type, const JCharacter* fileName);
+	void	TextChanged(const CBTextFileType type, const JString& fileName);
 
 protected:
 

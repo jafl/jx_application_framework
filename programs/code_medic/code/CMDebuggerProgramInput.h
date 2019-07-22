@@ -21,14 +21,27 @@ public:
 
 	virtual ~CMDebuggerProgramInput();
 
-	virtual JBoolean	InputValid();
-	virtual JBoolean	GetFile(JString* fullName) const;
+	virtual JBoolean	InputValid() override;
+	virtual JBoolean	GetFile(JString* fullName) const override;
 
 protected:
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
-											 JIndexRange* recalcRange, JIndexRange* redrawRange,
-											 const JBoolean deletion);
+	class StyledText : public JXFileInput::StyledText
+	{
+		public:
+
+		StyledText(CMDebuggerProgramInput* field, JFontManager* fontManager)
+			:
+			JXFileInput::StyledText(field, fontManager)
+		{ };
+
+		protected:
+
+		virtual JSize	ComputeErrorLength(JXFSInputBase* field,
+										   const JSize totalLength,
+										   const JString& fullName) const override;
+	};
+
 private:
 
 	// not allowed

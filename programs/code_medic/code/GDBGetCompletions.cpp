@@ -134,7 +134,7 @@ GDBGetCompletions::HandleSuccess
 			// all possible completions.
 
 			itsHistory->PlaceCursorAtEnd();
-			itsHistory->Paste(JString("\n", kJFalse));
+			itsHistory->Paste(JString::newline);
 			itsHistory->Paste(data);
 			}
 		itsInput->GetText()->SetText(itsPrefix);
@@ -174,7 +174,7 @@ GDBGetCompletions::HandleSuccess
 		// to the history window.
 
 		itsHistory->PlaceCursorAtEnd();
-		itsHistory->Paste(JString("\n", kJFalse));
+		itsHistory->Paste(JString::newline);
 		itsHistory->Paste(data);
 		}
 	else

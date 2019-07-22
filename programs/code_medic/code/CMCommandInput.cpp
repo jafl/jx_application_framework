@@ -10,6 +10,7 @@
 #include "CMCommandInput.h"
 #include "CMTextDisplayBase.h"
 #include "cbmUtil.h"
+#include <JXStyledText.h>
 #include <jASCIIConstants.h>
 #include <jAssert.h>
 
@@ -36,13 +37,15 @@ CMCommandInput::CMCommandInput
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, kJFalse, kJFalse, nullptr,
+	JXTEBase(kFullEditor,
+			 jnew JXStyledText(kJFalse, kJFalse, enclosure->GetFontManager()),
+			 kJTrue, kJTrue, nullptr,
 			 enclosure, hSizing, vSizing, x,y,w,h)
 {
 	CMTextDisplayBase::AdjustFont(this);
 	WantInput(kJTrue, kJTrue);
 	SetBorderWidth(0);
-	SetCharacterInWordFunction(CBMIsCharacterInWord);
+	GetText()->SetCharacterInWordFunction(CBMIsCharacterInWord);
 }
 
 /******************************************************************************
@@ -63,7 +66,7 @@ void
 CMCommandInput::HandleFocusEvent()
 {
 	JXTEBase::HandleFocusEvent();
-	ClearUndo();
+	GetText()->ClearUndo();
 	SelectAll();
 }
 
@@ -76,7 +79,7 @@ void
 CMCommandInput::HandleUnfocusEvent()
 {
 	JXTEBase::HandleUnfocusEvent();
-	ClearUndo();
+	GetText()->ClearUndo();
 }
 
 /******************************************************************************
@@ -87,47 +90,48 @@ CMCommandInput::HandleUnfocusEvent()
 void
 CMCommandInput::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
 	const JBoolean allOff    = modifiers.AllOff();
 	const JBoolean controlOn = modifiers.control();
 
-	if (controlOn && key == JXCtrl('A'))
+	if (controlOn && c == JXCtrl('A'))
 		{
 		GoToBeginningOfLine();
 		}
-	else if (controlOn && key == JXCtrl('E'))
+	else if (controlOn && c == JXCtrl('E'))
 		{
 		GoToEndOfLine();
 		}
 
-	else if (controlOn && key == JXCtrl('B'))
+	else if (controlOn && c == JXCtrl('B'))
 		{
 		JXKeyModifiers newModifiers(GetDisplay());
-		JXTEBase::HandleKeyPress(kJLeftArrow, newModifiers);
+		JXTEBase::HandleKeyPress(JUtf8Character(kJLeftArrow), 0, newModifiers);
 		}
-	else if (controlOn && key == JXCtrl('F'))
+	else if (controlOn && c == JXCtrl('F'))
 		{
 		JXKeyModifiers newModifiers(GetDisplay());
-		JXTEBase::HandleKeyPress(kJRightArrow, newModifiers);
+		JXTEBase::HandleKeyPress(JUtf8Character(kJRightArrow), 0, newModifiers);
 		}
 
-	else if (controlOn && key == JXCtrl('D'))
+	else if (controlOn && c == JXCtrl('D'))
 		{
 		JXKeyModifiers newModifiers(GetDisplay());
-		JXTEBase::HandleKeyPress(modifiers.shift() ? kJDeleteKey : kJForwardDeleteKey, newModifiers);
+		JXTEBase::HandleKeyPress(JUtf8Character(modifiers.shift() ? kJDeleteKey : kJForwardDeleteKey), 0, newModifiers);
 		}
 
-	else if (controlOn && key == JXCtrl('U'))
+	else if (controlOn && c == JXCtrl('U'))
 		{
-		SetText("");
+		GetText()->SetText(JString::empty);
 		}
 
-	else if (controlOn && key == JXCtrl('K'))
+	else if (controlOn && c == JXCtrl('K'))
 		{
-		JIndexRange r(GetInsertionIndex(), GetTextLength());
+		const JCharacterRange r(GetInsertionIndex().charIndex, GetText()->GetText().GetCharacterCount());
 		if (!HasSelection() && !r.IsEmpty())
 			{
 			SetSelection(r);
@@ -135,25 +139,25 @@ CMCommandInput::HandleKeyPress
 		Cut();
 		}
 
-	else if (key == kJReturnKey)
+	else if (c == kJReturnKey)
 		{
 		Broadcast(ReturnKeyPressed());
 		}
-	else if (key == kJTabKey && !(GetText()).IsEmpty())
+	else if (c == kJTabKey && !GetText()->GetText().IsEmpty())
 		{
 		Broadcast(TabKeyPressed());
 		}
-	else if (allOff && key == kJUpArrow)
+	else if (allOff && c == kJUpArrow)
 		{
 		Broadcast(UpArrowKeyPressed());
 		}
-	else if (allOff && key == kJDownArrow)
+	else if (allOff && c == kJDownArrow)
 		{
 		Broadcast(DownArrowKeyPressed());
 		}
 
 	else
 		{
-		JXTEBase::HandleKeyPress(key, modifiers);
+		JXTEBase::HandleKeyPress(c, keySym, modifiers);
 		}
 }

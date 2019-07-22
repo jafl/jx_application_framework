@@ -25,12 +25,9 @@
 #include <JTableSelection.h>
 #include <jAssert.h>
 
-static const JCharacter* kWindowTitleSuffix = " Files";
-
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open source file... %k Meta-O %i" kCMOpenSourceFileAction
 	"%l| Close               %k Meta-W %i" kJXCloseWindowAction
 	"  | Quit                %k Meta-Q %i" kJXQuitAction;
@@ -44,8 +41,7 @@ enum
 
 // Actions menu
 
-static const JCharacter* kActionsMenuTitleStr = "Actions";
-static const JCharacter* kActionsMenuStr =
+static const JUtf8Byte* kActionMenuStr =
 	"    Use wildcard filter %b"
 	"  | Use regex filter    %b";
 
@@ -55,14 +51,9 @@ enum
 	kShowRegexCmd
 };
 
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents"
 	"  | Overview"
@@ -94,7 +85,7 @@ CMFileListDir::CMFileListDir
 	CMCommandDirector* supervisor
 	)
 	:
-	JXWindowDirectorJXGetApplication(),
+	JXWindowDirector(JXGetApplication()),
 	JPrefObject(CMGetPrefsManager(), kFileListSetupID),
 	itsCommandDir(supervisor)
 {
@@ -165,7 +156,7 @@ CMFileListDir::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle(kWindowTitleSuffix);
+	window->SetTitle(JGetString("WindowTitleSuffix::CMFileListDir"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
 	window->ShouldFocusWhenShow(kJTrue);
@@ -181,15 +172,15 @@ CMFileListDir::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->PrependTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CMThreadsDir");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
 
 	itsFileMenu->SetItemImage(kOpenCmd, jx_file_open);
 
-	itsActionsMenu = menuBar->AppendTextMenu(kActionsMenuTitleStr);
-	itsActionsMenu->SetMenuItems(kActionsMenuStr, "CMFileListDir");
+	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::CMGlobal"));
+	itsActionsMenu->SetMenuItems(kActionMenuStr, "CMFileListDir");
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsActionsMenu);
 
@@ -197,12 +188,12 @@ CMFileListDir::BuildWindow()
 	itsActionsMenu->SetItemImage(kShowRegexCmd,  jx_filter_regex);
 
 	JXWDMenu* wdMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "CMFileListDir");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -219,11 +210,11 @@ CMFileListDir::BuildWindow()
 void
 CMFileListDir::UpdateWindowTitle
 	(
-	const JCharacter* binaryName
+	const JString& binaryName
 	)
 {
 	JString title = binaryName;
-	title += kWindowTitleSuffix;
+	title += JGetString("WindowTitleSuffix::CMFileListDir");
 	GetWindow()->SetTitle(title);
 }
 
@@ -462,23 +453,23 @@ CMFileListDir::HandleHelpMenu
 		}
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
+		JXGetHelpManager()->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kCMFileListHelpName);
+		JXGetHelpManager()->ShowSection("CMSourceWindowHelp-FileList");
 		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }
 

@@ -13,7 +13,8 @@
 #include "CBJavaStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBJavaStyler* CBJavaStyler::itsSelf = nullptr;
@@ -22,7 +23,7 @@ const JFileVersion kCurrentTypeListVersion = 1;
 
 	// Remember to increment kCurrentSharedPrefsVersion in cbmUtil.cpp
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	"Identifier",
 	"Reserved keyword",
@@ -46,17 +47,15 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
-static const JCharacter* kUnusedKeyword[] =
+static const JUtf8Byte* kUnusedKeyword[] =
 {
 	"byvalue", "cast", "const", "future", "generic", "inner",
 	"operator", "outer", "rest", "var"
 };
 
-const JSize kUnusedKeywordCount = sizeof(kUnusedKeyword)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit Java Styles";
+const JSize kUnusedKeywordCount = sizeof(kUnusedKeyword)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -100,7 +99,8 @@ CBJavaStyler::Shutdown()
 CBJavaStyler::CBJavaStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBJavaStyleID, kCBJavaSourceFT),
+				 JGetString("EditDialogTitle::CBJavaStyler"),
+				 kCBJavaStyleID, kCBJavaSourceFT),
 	CBJavaScanner()
 {
 	JFontStyle blankStyle;
@@ -109,26 +109,25 @@ CBJavaStyler::CBJavaStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap   = GetColormap();
-	const JColorID red = colormap->GetRedColor();
+	const JColorID red = JColorManager::GetRedColor();
 
-	SetTypeStyle(kReservedKeyword      - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kBuiltInDataType      - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
+	SetTypeStyle(kReservedKeyword      - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kBuiltInDataType      - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 
-	SetTypeStyle(kString               - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kCharConst            - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
+	SetTypeStyle(kString               - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kCharConst            - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
 
-	SetTypeStyle(kComment              - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kDocCommentHTMLTag    - kWhitespace, JFontStyle(colormap->GetBlueColor()));
+	SetTypeStyle(kComment              - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kDocCommentHTMLTag    - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
 	SetTypeStyle(kDocCommentSpecialTag - kWhitespace, JFontStyle(kJFalse, kJFalse, 1, kJFalse));
 
 	SetTypeStyle(kError                - kWhitespace, JFontStyle(red));
 
-	SetWordStyle("goto", JFontStyle(kJTrue, kJFalse, 0, kJFalse, red));
+	SetWordStyle(JString("goto", kJFalse), JFontStyle(kJTrue, kJFalse, 0, kJFalse, red));
 
 	for (JUnsignedOffset i=0; i<kUnusedKeywordCount; i++)
 		{
-		SetWordStyle(kUnusedKeyword[i], JFontStyle(red));
+		SetWordStyle(JString(kUnusedKeyword[i], kJFalse), JFontStyle(red));
 		}
 
 	JPrefObject::ReadPrefs();
@@ -209,7 +208,7 @@ CBJavaStyler::Scan
 				ExtendCheckRange(token.range.last+1);
 				}
 
-			style = GetStyle(typeIndex, text.GetSubstring(token.range));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range, kJFalse));
 			}
 		}
 		while (SetStyle(token.range, style));
@@ -229,7 +228,7 @@ CBJavaStyler::UpgradeTypeList
 {
 	if (vers < 1)
 		{
-		typeStyles->InsertElementAtIndex(4, JFontStyle(GetColormap()->GetBlueColor()));
+		typeStyles->InsertElementAtIndex(4, JFontStyle(JColorManager::GetBlueColor()));
 		}
 
 	// set new values after all new slots have been created

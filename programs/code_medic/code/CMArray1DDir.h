@@ -26,15 +26,15 @@ class CMArray1DDir : public JXWindowDirector
 {
 public:
 
-	CMArray1DDir(CMCommandDirector* supervisor, const JCharacter* expr);
+	CMArray1DDir(CMCommandDirector* supervisor, const JString& expr);
 	CMArray1DDir(std::istream& input, const JFileVersion vers,
 				 CMCommandDirector* supervisor);
 
 	virtual	~CMArray1DDir();
 
-	virtual void		Activate();
-	virtual JBoolean	Deactivate();
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const;
+	virtual void		Activate() override;
+	virtual JBoolean	Deactivate() override;
+	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
 
 	void	StreamOut(std::ostream& output);
 

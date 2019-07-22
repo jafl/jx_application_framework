@@ -40,7 +40,6 @@ static const JUtf8Byte* kEditMenuAddStr =
 
 // Base menu
 
-static const JCharacter* kBaseMenuTitleStr = "Base";
 static const JUtf8Byte* kBaseMenuStr =
 	"    Default %r"
 	"%l| 10      %r"
@@ -107,13 +106,13 @@ CMVarTreeWidget::CMVarTreeWidget
 
 	// Base conversion menus
 
-	itsBaseMenu = menuBar->AppendTextMenu(kBaseMenuTitleStr);
+	itsBaseMenu = menuBar->AppendTextMenu(JGetString("BaseMenuTitle::CMVarTreeWidget"));
 	itsBaseMenu->SetMenuItems(kBaseMenuStr, "CMVarTreeWidget");
 	itsBaseMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsBaseMenu);
 
 	itsBasePopupMenu =
-		jnew JXTextMenu(kBaseMenuTitleStr, this, kFixedLeft, kFixedTop, 0,0, 10, 10);
+		jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10, 10);
 	assert( itsBasePopupMenu != nullptr );
 	itsBasePopupMenu->SetMenuItems(kBaseMenuStr, "CMVarTreeWidget");
 	itsBasePopupMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -128,10 +127,10 @@ CMVarTreeWidget::CMVarTreeWidget
 	CMGetPrefsManager()->GetDefaultFont(&name, &size);
 	SetFont(name, size);
 
-	SetIndentWidth(kIndentWidth * GetFont().GetCharWidth('0'));
+	SetIndentWidth(kIndentWidth * GetFont().GetCharWidth(GetFontManager(), JUtf8Character('0')));
 
-	ListenToCMGetLink();
-	ListenTo(&(GetTableSelection()));
+	ListenTo(CMGetLink());
+	ListenTo(&GetTableSelection());
 
 	if (mainDisplay)
 		{
@@ -157,18 +156,16 @@ CMVarTreeWidget::~CMVarTreeWidget()
 CMVarNode*
 CMVarTreeWidget::NewExpression
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
-	const JCharacter* expr1 = JString::IsEmpty(expr) ? "" : expr;
-
 	CMVarNode* node =
-		CMGetLink()->CreateVarNode((GetTreeList()->GetTree())->GetRoot(),
-									 expr1, expr1, "");
+		CMGetLink()->CreateVarNode(GetTreeList()->GetTree()->GetRoot(),
+								   expr, expr, JString::empty);
 	assert( node != nullptr );
-	if (JString::IsEmpty(expr))
+	if (expr.IsEmpty())
 		{
-		node->SetName("");		// compensate for ctor using " " instead of ""
+		node->SetName(JString::empty);		// compensate for ctor using " " instead of ""
 		}
 
 	JIndex i;
@@ -191,10 +188,10 @@ CMVarTreeWidget::NewExpression
 CMVarNode*
 CMVarTreeWidget::DisplayExpression
 	(
-	const JCharacter* expr
+	const JString& expr
 	)
 {
-	CMVarNode* node = CMGetLink()->CreateVarNode(itsTree->GetRoot(), expr, expr, "");
+	CMVarNode* node = CMGetLink()->CreateVarNode(itsTree->GetRoot(), expr, expr, JString::empty);
 	assert ( node != nullptr );
 	ShowNode(node);
 	return node;
@@ -288,7 +285,7 @@ CMVarTreeWidget::DisplayAsCString()
 
 		expr = node->GetFullName();
 		expr.Prepend("(char*)(");
-		expr.AppendCharacter(')');
+		expr.Append(")");
 		exprList.Append(expr);
 		}
 
@@ -406,7 +403,7 @@ CMVarTreeWidget::ExamineMemory
 
 	if (dir == nullptr)
 		{
-		dir = jnew CMMemoryDir(itsDir, "");
+		dir = jnew CMMemoryDir(itsDir, JString::empty);
 		assert(dir != nullptr);
 		dir->SetDisplayType(type);
 		dir->Activate();
@@ -555,7 +552,7 @@ CMVarTreeWidget::TableDrawCell
 		assert( node != nullptr );
 
 		JFont font = GetFont();
-		font.SetStyle(node->GetFontStyle(GetColormap()));
+		font.SetStyle(node->GetFontStyle());
 		p.SetFont(font);
 		p.String(rect, node->GetValue(), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 		}
@@ -583,7 +580,7 @@ CMVarTreeWidget::GetMinCellWidth
 			dynamic_cast<const CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != nullptr );
 
-		return kHMargin + GetFont().GetStringWidth(node->GetValue());
+		return kHMargin + GetFont().GetStringWidth(GetFontManager(), node->GetValue());
 		}
 	else
 		{
@@ -732,16 +729,17 @@ CMVarTreeWidget::HandleMouseUp
 void
 CMVarTreeWidget::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&   modifiers
 	)
 {
-	if (key == kJReturnKey)
+	if (c == kJReturnKey)
 		{
 		EndEditing();
 		}
 
-	else if (key == kJForwardDeleteKey || key == kJDeleteKey)
+	else if (c == kJForwardDeleteKey || c == kJDeleteKey)
 		{
 		if (itsIsMainDisplayFlag)
 			{
@@ -749,7 +747,7 @@ CMVarTreeWidget::HandleKeyPress
 			}
 		}
 
-	else if (key == kJEscapeKey)
+	else if (c == kJEscapeKey)
 		{
 		JPoint cell;
 		if (GetEditedCell(&cell))
@@ -764,27 +762,27 @@ CMVarTreeWidget::HandleKeyPress
 			}
 		}
 
-	else if ((key == kJUpArrow || key == kJDownArrow) && !IsEditing())
+	else if ((c == kJUpArrow || c == kJDownArrow) && !IsEditing())
 		{
 		const JBoolean hasSelection = HasSelection();
-		if (!hasSelection && key == kJUpArrow && GetRowCount() > 0)
+		if (!hasSelection && c == kJUpArrow && GetRowCount() > 0)
 			{
 			SelectSingleCell(JPoint(GetNodeColIndex(), GetRowCount()));
 			}
-		else if (!hasSelection && key == kJDownArrow && GetRowCount() > 0)
+		else if (!hasSelection && c == kJDownArrow && GetRowCount() > 0)
 			{
 			SelectSingleCell(JPoint(GetNodeColIndex(), 1));
 			}
 		else
 			{
-			HandleSelectionKeyPress(key, modifiers);
+			HandleSelectionKeyPress(c, modifiers);
 			}
 		ClearIncrementalSearchBuffer();
 		}
 
 	else
 		{
-		JXNamedTreeListWidget::HandleKeyPress(key, modifiers);
+		JXNamedTreeListWidget::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -812,13 +810,13 @@ CMVarTreeWidget::CreateXInputField
 		CMVarNode* node =
 			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != nullptr );
-		input->SetText(node->GetValue());
+		input->GetText()->SetText(node->GetValue());
 		}
 
-	itsOrigEditValue = input->GetText();
+	itsOrigEditValue = input->GetText()->GetText();
 
 	input->SetIsRequired();
-	input->SetCharacterInWordFunction(CBMIsCharacterInWord);
+	input->GetText()->SetCharacterInWordFunction(CBMIsCharacterInWord);
 	return input;
 }
 
@@ -836,7 +834,7 @@ CMVarTreeWidget::ExtractInputData
 	JXInputField* input = nullptr;
 	const JBoolean ok = GetXInputField(&input);
 	assert( ok );
-	const JString& text = input->GetText();
+	const JString& text = input->GetText()->GetText();
 
 	CMVarNode* node =
 		dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
@@ -982,7 +980,7 @@ CMVarTreeWidget::ReceiveGoingAway
 {
 	if (!CMIsShuttingDown())
 		{
-		ListenToCMGetLink();
+		ListenTo(CMGetLink());
 		}
 
 	JXNamedTreeListWidget::ReceiveGoingAway(sender);
@@ -1019,7 +1017,7 @@ CMVarTreeWidget::FlushOldData()
 		CMVarNode* child = dynamic_cast<CMVarNode*>(root->GetChild(i));
 		assert( child != nullptr );
 		child->DeleteAllChildren();
-		child->SetValue("");
+		child->SetValue(JString::empty);
 		}
 }
 

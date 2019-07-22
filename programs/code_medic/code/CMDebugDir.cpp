@@ -106,7 +106,7 @@ CMDebugDir::GetName()
 
  ******************************************************************************/
 
-static const JUtf8Byte* kLogPrefix = "=== ";
+static const JString kLogPrefix("=== ", kJFalse);
 
 void
 CMDebugDir::Receive
@@ -117,7 +117,7 @@ CMDebugDir::Receive
 {
 	if (sender == itsLink)
 		{
-		itsText->SetCaretLocation(itsText->GetTextLength() + 1);
+		itsText->SetCaretLocation(itsText->GetText()->GetText().GetCharacterCount() + 1);
 
 		if (message.Is(CMLink::kDebugOutput))
 			{
@@ -128,23 +128,23 @@ CMDebugDir::Receive
 			const CMLink::DebugType type = msg->GetType();
 			if (type == CMLink::kCommandType)
 				{
-				itsText->SetCurrentFontColor(GetColormap()->GetLightBlueColor());
+				itsText->SetCurrentFontColor(JColorManager::GetLightBlueColor());
 				itsText->Paste(itsLink->GetPrompt() + " ");
 				itsFile << itsLink->GetPrompt() << " ";
 				}
 			else if (type == CMLink::kOutputType)
 				{
-				itsText->SetCurrentFontColor(GetColormap()->GetBlueColor());
+				itsText->SetCurrentFontColor(JColorManager::GetBlueColor());
 				}
 			else if (type == CMLink::kLogType)
 				{
 				itsText->Paste(kLogPrefix);
-				itsFile << kLogPrefix;
+				itsFile << kLogPrefix.GetBytes();
 				}
 
 			itsText->Paste(msg->GetText());
-			itsText->SetCurrentFontColor(GetColormap()->GetBlackColor());
-			itsText->Paste("\n");
+			itsText->SetCurrentFontColor(JColorManager::GetBlackColor());
+			itsText->Paste(JString::newline);
 
 			itsFile << msg->GetText();
 			itsFile << std::endl;
@@ -152,8 +152,8 @@ CMDebugDir::Receive
 		else if (JString::Compare(message.GetType(), CMLink::kUserOutput, kJTrue) != 0)
 			{
 			itsText->Paste(kLogPrefix);
-			itsText->Paste(message.GetType());
-			itsText->Paste("\n");
+			itsText->Paste(JString(message.GetType(), kJFalse));
+			itsText->Paste(JString::newline);
 
 			itsFile << kLogPrefix;
 			itsFile << message.GetType();
@@ -189,7 +189,7 @@ CMDebugDir::ReceiveGoingAway
 		itsLink = CMGetLink();
 		ListenTo(itsLink);
 
-		itsText->SetText("");
+		itsText->GetText()->SetText(JString::empty);
 		}
 	else
 		{

@@ -32,12 +32,9 @@
 
 #include <jAssert.h>
 
-static const JCharacter* kWindowTitleSuffix = "  (Memory)";
-
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    Open source file... %k Meta-O %i" kCMOpenSourceFileAction
 	"%l| Close               %k Meta-W %i" kJXCloseWindowAction
 	"  | Quit                %k Meta-Q %i" kJXQuitAction;
@@ -51,8 +48,7 @@ enum
 
 // Actions menu
 
-static const JCharacter* kActionMenuTitleStr = "Actions";
-static const JCharacter* kActionMenuStr =
+static const JUtf8Byte* kActionMenuStr =
 	"Save window size as default";
 
 enum
@@ -60,14 +56,9 @@ enum
 	kSavePrefsCmd = 1
 };
 
-// Windows menu
-
-static const JCharacter* kWindowsMenuTitleStr = "Windows";
-
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents"
 	"  | Overview"
@@ -87,7 +78,7 @@ enum
 
 // Display type
 
-static const JCharacter* kDisplayTypeMenuStr =
+static const JUtf8Byte* kDisplayTypeMenuStr =
 	"    Hex bytes"
 	"  | Hex short (2 bytes)"
 	"  | Hex word (4 bytes)"
@@ -103,10 +94,10 @@ static const JCharacter* kDisplayTypeMenuStr =
 CMMemoryDir::CMMemoryDir
 	(
 	CMCommandDirector*	supervisor,
-	const JCharacter*	expr
+	const JString&		expr
 	)
 	:
-	JXWindowDirectorJXGetApplication()
+	JXWindowDirector(JXGetApplication())
 {
 	// format variable for input field
 
@@ -121,12 +112,12 @@ CMMemoryDir::CMMemoryDir
 
 CMMemoryDir::CMMemoryDir
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	CMCommandDirector*	supervisor
 	)
 	:
-	JXWindowDirectorJXGetApplication()
+	JXWindowDirector(JXGetApplication())
 {
 	long type;
 	input >> itsExpr >> type >> itsItemCount;
@@ -285,7 +276,7 @@ CMMemoryDir::BuildWindow()
 	CMGetPrefsManager()->GetWindowSize(kMemoryWindSizeID, window, kJTrue);
 
 	itsWidget =
-		jnew JXStaticText("", kJFalse, kJTrue,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert(itsWidget != nullptr);
@@ -296,7 +287,7 @@ CMMemoryDir::BuildWindow()
 	CMGetPrefsManager()->GetDefaultFont(&name, &size);
 	itsWidget->SetFont(JFontManager::GetFont(name, size));
 
-	itsExprInput->SetText(itsExpr);
+	itsExprInput->GetText()->SetText(itsExpr);
 	itsExprInput->SetIsRequired();
 	ListenTo(itsExprInput);
 
@@ -311,7 +302,7 @@ CMMemoryDir::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->PrependTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CMThreadsDir");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -322,18 +313,18 @@ CMMemoryDir::BuildWindow()
 	itsExprInput->ShareEditMenu(itsWidget);
 	itsItemCountInput->ShareEditMenu(itsWidget);
 
-	itsActionMenu = menuBar->AppendTextMenu(kActionMenuTitleStr);
+	itsActionMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::CMGlobal"));
 	menuBar->InsertMenu(3, itsActionMenu);
 	itsActionMenu->SetMenuItems(kActionMenuStr, "CMMemoryDir");
 	ListenTo(itsActionMenu);
 
 	JXWDMenu* wdMenu =
-		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
 	menuBar->AppendMenu(wdMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "CMMemoryDir");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -353,7 +344,7 @@ void
 CMMemoryDir::UpdateWindowTitle()
 {
 	JString title = itsExpr;
-	title += kWindowTitleSuffix;
+	title += JGetString("WindowTitleSuffix::CMMemoryDir");
 	GetWindow()->SetTitle(title);
 }
 
@@ -389,9 +380,9 @@ CMMemoryDir::Receive
 		(message.Is(JXWidget::kLostFocus) ||
 		 message.Is(CMArrayExprInput::kReturnKeyPressed)))
 		{
-		if (itsExprInput->GetText() != itsExpr)
+		if (itsExprInput->GetText()->GetText() != itsExpr)
 			{
-			itsExpr = itsExprInput->GetText();
+			itsExpr = itsExprInput->GetText()->GetText();
 			UpdateWindowTitle();
 			itsNeedsUpdateFlag = kJTrue;
 			Update();
@@ -409,7 +400,7 @@ CMMemoryDir::Receive
 
 			// update all other values, too, since menu selection doesn't trigger input fields
 
-			itsExpr = itsExprInput->GetText();
+			itsExpr = itsExprInput->GetText()->GetText();
 
 			JInteger value;
 			if (itsItemCountInput->GetValue(&value))
@@ -451,7 +442,7 @@ CMMemoryDir::Receive
 			  message.Is(CMLink::kCoreCleared)     ||
 			  message.Is(CMLink::kDetachedFromProcess)))
 		{
-		Update("");
+		Update(JString::empty);
 		}
 	else if (sender == itsLink && CMVarNode::ShouldUpdate(message))
 		{
@@ -582,11 +573,11 @@ CMMemoryDir::Update()
 void
 CMMemoryDir::Update
 	(
-	const JCharacter* data
+	const JString& data
 	)
 {
 	JXTEBase::DisplayState state = itsWidget->SaveDisplayState();
-	itsWidget->SetText(data);
+	itsWidget->GetText()->SetText(data);
 	itsWidget->RestoreDisplayState(state);
 }
 
@@ -662,23 +653,23 @@ CMMemoryDir::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMOverviewHelp");
+		JXGetHelpManager()->ShowSection("CMOverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection("CMVarTreeHelp-Memory");
+		JXGetHelpManager()->ShowSection("CMVarTreeHelp-Memory");
 		}
 
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }
