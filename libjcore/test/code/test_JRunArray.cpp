@@ -968,6 +968,20 @@ JTEST(TwoIterators)
 	i2->SkipNext();
 	verify("5 5 5 1 1 1 -2", a);
 
+	JRunArray<long> a2;
+	JSetList("5 5 3 1 1", &a2);
+	a.PrependSlice(a2, JIndexRange(1,2));
+
+	JAssertEqual(6, i1->GetNextElementIndex());
+	JAssertTrue(i1->Next(&j));
+	JAssertEqual(1, j);
+	i1->SkipPrev();
+	JAssertEqual(8, i2->GetPrevElementIndex());
+	JAssertTrue(i2->Prev(&j));
+	JAssertEqual(1, j);
+	i2->SkipNext();
+	verify("5 5 5 5 5 1 1 1 -2", a);
+
 	jdelete i1;
 	jdelete i2;
 }

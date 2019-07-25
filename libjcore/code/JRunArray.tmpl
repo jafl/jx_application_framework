@@ -291,6 +291,10 @@ JRunArray<T>::IteratorInsertSlice
 		PrivateInsertElementsAtIndex(elementIndex,
 									 source.GetRunData(startRun), range.GetCount(),
 									 runIndex, firstIndexInRun);
+
+		JListT::ElementsInserted message(elementIndex, range.GetCount());
+		JList<T>::NotifyIterators(message);
+		JBroadcaster::Broadcast(message);
 		return;
 		}
 
