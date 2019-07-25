@@ -21,6 +21,7 @@
 
 TestStyler::TestStyler()
 {
+	SetDecimationFactor(2);
 }
 
 /******************************************************************************
@@ -40,12 +41,13 @@ TestStyler::~TestStyler()
 void
 TestStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
 	JCharacterRange r;
-	r.first = JTellg(input)+1;
+	r.first = startIndex.charIndex;
 
 	JString token;
 	while (1)
@@ -59,12 +61,12 @@ TestStyler::Scan
 			{
 			style.color = JColorManager::GetGreenColor();
 			}
-		else if (token == "no")
+		else if (token == "nø")
 			{
 			style.bold = kJTrue;
 			style.color = JColorManager::GetRedColor();
 			}
-		else if (token == "zap")
+		else if (token == "zäp")
 			{
 			style.strike = kJTrue;
 			}

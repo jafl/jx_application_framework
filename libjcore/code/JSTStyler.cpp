@@ -50,7 +50,7 @@
  ******************************************************************************/
 
 #include "JSTStyler.h"
-#include "JFontManager.h"
+#include "JStringIterator.h"
 #include "JListUtil.h"
 #include "JMinMax.h"
 #include "jStreamUtil.h"
@@ -99,7 +99,8 @@ JSTStyler::JSTStyler()
 	itsRecalcRange = nullptr;
 	itsRedrawRange = nullptr;
 
-	itsTokenStartList = nullptr;
+	itsTokenStartList   = nullptr;
+	itsDecimationFactor = kDecimationFactor;
 }
 
 /******************************************************************************
@@ -115,7 +116,7 @@ JSTStyler::~JSTStyler()
 /******************************************************************************
  UpdateStyles
 
-	*range is inside [1, text.GetCharacterCount()+1]
+	Ranges are inside [1, text.GetCharacterCount()+1]
 
  ******************************************************************************/
 
@@ -151,10 +152,11 @@ JSTStyler::UpdateStyles
 	if (recalcRange->charRange.first == 1 && recalcRange->charRange.last >= textLength)
 		{
 		itsRedoAllFlag = kJTrue;
-		itsCheckRange.Set(1, textLength);
+		itsCheckRange.charRange.Set(1, textLength);
+		itsCheckRange.byteRange.Set(1, text.GetByteCount());
 
 		tokenStartList->RemoveAll();
-		tokenData = TokenData(1, GetFirstTokenExtraData());
+		tokenData = TokenData(TextIndex(1,1), GetFirstTokenExtraData());
 		tokenStartList->AppendElement(tokenData);
 
 		styles->RemoveAll();
@@ -190,26 +192,35 @@ JSTStyler::UpdateStyles
 		const JIndex endIndex = itsIterator->GetRunEnd();
 
 		itsIterator->MoveTo(kJIteratorStartBefore, firstIndex);		// see below; faster to start here
-		itsCheckRange.Set(itsIterator->GetRunStart(), endIndex);
+		itsCheckRange.charRange.Set(itsIterator->GetRunStart(), endIndex);
+		{
+		JStringIterator iter(text);
+		iter.UnsafeMoveTo(kJIteratorStartBefore, recalcRange->charRange.first, recalcRange->byteRange.first);
+		iter.MoveTo(kJIteratorStartBefore, itsIterator->GetRunStart());
+		itsCheckRange.byteRange.first = iter.GetNextByteIndex();
+		iter.MoveTo(kJIteratorStartAfter, endIndex);
+		itsCheckRange.byteRange.last = iter.GetPrevByteIndex();
+		}
 
 		// let derived class expand the range
 
-		JCharacterRange savedRange = itsCheckRange;
+		TextRange savedRange = itsCheckRange;
 		PreexpandCheckRange(text, *styles, recalcRange->charRange, deletion, &itsCheckRange);
-		assert( itsCheckRange.Contains(savedRange) &&
-				itsCheckRange.last <= styles->GetElementCount() );
+		assert( itsCheckRange.byteRange.Contains(savedRange.byteRange) &&
+				itsCheckRange.charRange.Contains(savedRange.charRange) &&
+				itsCheckRange.charRange.last <= styles->GetElementCount() );
 
 		// find nearest token in front of itsCheckRange
 
 		if (tokenStartList->IsEmpty())
 			{
-			tokenData = TokenData(1, GetFirstTokenExtraData());
+			tokenData = TokenData(TextIndex(1,1), GetFirstTokenExtraData());
 			tokenStartList->AppendElement(tokenData);
 			}
 		else
 			{
 			JBoolean foundTokenStart;
-			TokenData target(itsCheckRange.first, TokenExtra());
+			TokenData target(itsCheckRange.GetFirst(), TokenExtra());
 			JIndex tokenStartIndex =
 				tokenStartList->SearchSorted1(target, JListT::kAnyMatch, &foundTokenStart);
 			if (!foundTokenStart)
@@ -233,12 +244,12 @@ JSTStyler::UpdateStyles
 	itsTokenStartList    = tokenStartList;
 	itsTokenStartCounter = 0;
 
-	itsIterator->MoveTo(kJIteratorStartBefore, tokenData.startIndex);
+	itsIterator->MoveTo(kJIteratorStartBefore, tokenData.startIndex.charIndex);
 
 	// scan the text and adjust the styles
 
-	std::istrstream input(text.GetRawBytes(), textLength);
-	JSeekg(input, tokenData.startIndex-1);
+	std::istrstream input(text.GetRawBytes(), text.GetByteCount());
+	JSeekg(input, tokenData.startIndex.byteIndex-1);
 
 	JFont f = st->GetDefaultFont();
 
@@ -254,7 +265,7 @@ JSTStyler::UpdateStyles
 	timer.StartTimer();
 	#endif
 
-	Scan(input, tokenData.data);
+	Scan(tokenData.startIndex, input, tokenData.data);
 
 	#if DEBUG_TIMING_INFO
 	timer.StopTimer();
@@ -290,7 +301,7 @@ JSTStyler::PreexpandCheckRange
 	const JRunArray<JFont>&	styles,
 	const JCharacterRange&	modifiedRange,
 	const JBoolean			deletion,
-	JCharacterRange*		checkRange
+	TextRange*				checkRange
 	)
 {
 }
@@ -306,12 +317,16 @@ JSTStyler::PreexpandCheckRange
 void
 JSTStyler::ExtendCheckRange
 	(
-	const JIndex newEndIndex
+	const JIndex newEndCharIndex
 	)
 {
-	if (itsCheckRange.last < newEndIndex)
+	if (itsCheckRange.charRange.last < newEndCharIndex)
 		{
-		itsCheckRange.last = JMin(newEndIndex, itsText->GetCharacterCount());
+		JStringIterator iter(*itsText);
+		iter.UnsafeMoveTo(kJIteratorStartAfter, itsCheckRange.charRange.last, itsCheckRange.byteRange.last);
+		iter.MoveTo(kJIteratorStartAfter, newEndCharIndex);
+		itsCheckRange.charRange.last = iter.GetPrevCharacterIndex();
+		itsCheckRange.byteRange.last = iter.GetPrevByteIndex();
 		}
 }
 
@@ -331,7 +346,7 @@ JSTStyler::SetStyle
 {
 	assert( !range.IsEmpty() );
 
-	if (itsCheckRange.last < range.first)
+	if (itsCheckRange.charRange.last < range.first)
 		{
 		// we are beyond the range where anything could have changed
 		return kJFalse;
@@ -346,7 +361,7 @@ JSTStyler::SetStyle
 		f.SetStyle(style);
 		itsStyles->AppendElements(f, range.GetCount());
 		}
-	else if (range.last >= itsCheckRange.first)
+	else if (range.last >= itsCheckRange.charRange.first)
 		{
 		const JCharacterRange fontRange(itsIterator->GetRunStart(), itsIterator->GetRunEnd());
 		const JBoolean beyondCurrentRun = !fontRange.Contains(range);
@@ -401,7 +416,7 @@ JSTStyler::SetStyle
 		}
 
 	itsIterator->MoveTo(kJIteratorStartAfter, range.last);
-	return JConvertToBoolean( range.last < itsCheckRange.last );
+	return JConvertToBoolean( range.last < itsCheckRange.charRange.last );
 }
 
 /******************************************************************************
@@ -424,22 +439,22 @@ JSTStyler::NewTokenStartList()
 /******************************************************************************
  SaveTokenStart (protected)
 
-	Automatically decimates the stream of token starts by kDecimationFactor.
+	Automatically decimates the stream of token starts by itsDecimationFactor.
 
  ******************************************************************************/
 
 void
 JSTStyler::SaveTokenStart
 	(
-	const TokenExtra& data
+	const JStyledText::TextIndex&	index,
+	const TokenExtra				data
 	)
 {
 	itsTokenStartCounter++;
-	if (itsTokenStartCounter >= kDecimationFactor)
+	if (itsTokenStartCounter >= itsDecimationFactor)
 		{
 		itsTokenStartCounter = 0;
-		itsTokenStartList->AppendElement(
-			TokenData(itsIterator->GetNextElementIndex(), data));
+		itsTokenStartList->AppendElement(TokenData(index, data));
 		}
 }
 
@@ -469,7 +484,7 @@ JSTStyler::CompareTokenStarts
 	const TokenData& t2
 	)
 {
-	return JCompareIndices(t1.startIndex, t2.startIndex);
+	return JCompareIndices(t1.startIndex.charIndex, t2.startIndex.charIndex);
 }
 
 /******************************************************************************

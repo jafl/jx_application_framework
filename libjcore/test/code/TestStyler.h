@@ -20,7 +20,8 @@ public:
 
 protected:
 
-	virtual void	Scan(std::istream& input, const TokenExtra& initData) override;
+	virtual void	Scan(const JStyledText::TextIndex& startIndex,
+						 std::istream& input, const TokenExtra& initData) override;
 
 private:
 

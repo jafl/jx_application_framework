@@ -22,22 +22,22 @@ public:
 
 	union TokenExtra
 	{
-		JIndex			indexValue;
-		JSize			sizeValue;
+//		JIndex			indexValue;
+//		JSize			sizeValue;
 		yy_state_type	lexerState;
 	};
 
 	struct TokenData
 	{
-		JIndex		startIndex;
-		TokenExtra	data;
+		JStyledText::TextIndex	startIndex;
+		TokenExtra				data;
 
 		TokenData()
 			:
-			startIndex(0), data()
+			data()
 		{ };
 
-		TokenData(const JIndex i, const TokenExtra& d)
+		TokenData(const JStyledText::TextIndex& i, const TokenExtra& d)
 			:
 			startIndex(i), data(d)
 		{ };
@@ -62,14 +62,15 @@ public:
 
 protected:
 
-	virtual void		Scan(std::istream& input, const TokenExtra& initData) = 0;
+	virtual void		Scan(const JStyledText::TextIndex& startIndex,
+							 std::istream& input, const TokenExtra& initData) = 0;
 	virtual TokenExtra	GetFirstTokenExtraData() const;
 	virtual void		PreexpandCheckRange(const JString& text,
 											const JRunArray<JFont>& styles,
 											const JCharacterRange& modifiedRange,
 											const JBoolean deletion,
-											JCharacterRange* checkRange);
-	void				ExtendCheckRange(const JIndex newEndIndex);
+											JStyledText::TextRange* checkRange);
+	void				ExtendCheckRange(const JIndex newEndCharIndex);
 
 	const JStyledText*		GetStyledText() const;
 	const JFontManager*		GetFontManager() const;
@@ -78,9 +79,13 @@ protected:
 	const JRunArray<JFont>&	GetStyles() const;
 
 	JBoolean	SetStyle(const JCharacterRange& range, const JFontStyle& style);
-	void		SaveTokenStart(const TokenExtra& data);
+	void		SaveTokenStart(const JStyledText::TextIndex& index, const TokenExtra data = TokenExtra());
 
 	void	AdjustStyle(const JCharacterRange& range, const JFontStyle& style);
+
+	// testing
+
+	void	SetDecimationFactor(const JSize factor);
 
 private:
 
@@ -96,12 +101,14 @@ private:
 
 	JStyledText::TextRange*	itsRecalcRange;		// not owned; nullptr unless lexing
 	JStyledText::TextRange*	itsRedrawRange;		// not owned; nullptr unless lexing
-	JCharacterRange			itsCheckRange;
+	JStyledText::TextRange	itsCheckRange;
 
 	JArray<TokenData>*	itsTokenStartList;			// not owned; nullptr unless lexing
 	JSize				itsTokenStartCounter;
 
 	JRunArrayIterator<JFont>*	itsIterator;		// nullptr unless lexing
+
+	JSize	itsDecimationFactor;
 
 private:
 
@@ -177,15 +184,17 @@ JSTStyler::GetText()
 }
 
 /******************************************************************************
- GetStyles (protected)
+ SetDecimationFactor (protected)
 
  ******************************************************************************/
 
-inline const JRunArray<JFont>&
-JSTStyler::GetStyles()
-	const
+inline void
+JSTStyler::SetDecimationFactor
+	(
+	const JSize factor
+	)
 {
-	return *itsStyles;
+	itsDecimationFactor = factor;
 }
 
 #endif
