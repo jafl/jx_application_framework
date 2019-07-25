@@ -25,7 +25,7 @@ class JSTUndoPaste;
 class JSTUndoTabShift;
 class JSTUndoMove;
 
-typedef JBoolean (*JCharacterInWordFn)(const JUtf8Character&);
+typedef std::function<JBoolean(const JUtf8Character&)> JCharacterInWordFn;
 
 class JStyledText : virtual public JBroadcaster
 {
