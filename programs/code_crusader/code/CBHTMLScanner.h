@@ -14,6 +14,7 @@
 #include <FlexLexer.h>
 #endif
 
+#include <JStyledText.h>
 #include <JPtrArray-JString.h>
 #include <JPtrStack.h>
 
@@ -113,17 +114,17 @@ public:
 
 	struct Token
 	{
-		TokenType		type;
-		JUtf8ByteRange	range;
-		const JString*	language;			// if type == kHTMLScript
-		JUtf8ByteRange	docCommentRange;	// preceding comment range for DOC comment tags
+		TokenType				type;
+		JStyledText::TextRange	range;
+		const JString*			language;			// if type == kHTMLScript
+		JStyledText::TextRange	docCommentRange;	// preceding comment range for DOC comment tags
 
 		Token()
 			:
-			type(kEOF), range(), language(nullptr)
+			type(kEOF), language(nullptr)
 			{ };
 
-		Token(const TokenType t, const JUtf8ByteRange& r, const JString* l)
+		Token(const TokenType t, const JStyledText::TextRange& r, const JString* l)
 			:
 			type(t), range(r), language(l)
 			{ };
@@ -135,7 +136,8 @@ public:
 
 	virtual ~CBHTMLScanner();
 
-	void	BeginScan(std::istream& input, const yy_state_type startState);
+	void	BeginScan(const JStyledText::TextIndex& startIndex,
+					  std::istream& input, const yy_state_type startState);
 	Token	NextToken();		// written by flex
 
 protected:
@@ -147,15 +149,16 @@ protected:
 
 private:
 
-	JBoolean		itsResetFlag;
-	yy_state_type	itsStartState;
-	JUtf8ByteRange	itsCurrentRange;
-	JString			itsScriptLanguage;
-	JString			itsPHPHereDocTag;
-	JBoolean		itsProbableJSOperatorFlag;	// kTrue if / is most likely operator instead of regex
+	JBoolean				itsResetFlag;
+	yy_state_type			itsStartState;
+	JStyledText::TextRange	itsCurrentRange;
+	JString					itsScriptLanguage;
+	JString					itsPHPHereDocTag;
+	JBoolean				itsProbableJSOperatorFlag;	// kTrue if / is most likely operator instead of regex
 
 private:
 
+	void	InitToken();
 	void	StartToken();
 	void	ContinueToken();
 	Token	ThisToken(const TokenType type);
@@ -173,6 +176,18 @@ private:
 
 
 /******************************************************************************
+ InitToken (private)
+
+ *****************************************************************************/
+
+inline void
+CBHTMLScanner::InitToken()
+{
+	itsCurrentRange.charRange.SetToEmptyAt(itsCurrentRange.charRange.last+1);
+	itsCurrentRange.byteRange.SetToEmptyAt(itsCurrentRange.byteRange.last+1);
+}
+
+/******************************************************************************
  StartToken (private)
 
  *****************************************************************************/
@@ -180,8 +195,8 @@ private:
 inline void
 CBHTMLScanner::StartToken()
 {
-	const JIndex prevEnd = itsCurrentRange.last;
-	itsCurrentRange.Set(prevEnd+1, prevEnd+yyleng);
+	InitToken();
+	ContinueToken();
 }
 
 /******************************************************************************
@@ -192,7 +207,8 @@ CBHTMLScanner::StartToken()
 inline void
 CBHTMLScanner::ContinueToken()
 {
-	itsCurrentRange.last += yyleng;
+	itsCurrentRange.charRange.last += JString::CountCharacters(yytext, yyleng);
+	itsCurrentRange.byteRange.last += yyleng;
 }
 
 /******************************************************************************
@@ -239,7 +255,7 @@ CBHTMLScanner::DocToken
 	t.range = itsCurrentRange;
 
 	// prepare for continuation of comment (StartToken() with yyleng==0)
-	itsCurrentRange.Set(itsCurrentRange.last+1, itsCurrentRange.last);
+	InitToken();
 
 	return t;
 }
@@ -261,7 +277,7 @@ operator==
 	)
 {
 	return (t1.type == t2.type &&
-			(t1.range == t2.range || t1.type == CBHTMLScanner::kEOF));
+			(t1.range.charRange == t2.range.charRange || t1.type == CBHTMLScanner::kEOF));
 }
 
 inline int

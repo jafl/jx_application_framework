@@ -152,11 +152,12 @@ CBJavaStyler::~CBJavaStyler()
 void
 CBJavaStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input);
+	BeginScan(startIndex, input);
 
 	const JString& text = GetText();
 
@@ -177,7 +178,7 @@ CBJavaStyler::Scan
 			token.type == kBuiltInDataType ||
 			token.type == kString)
 			{
-			SaveTokenStart(TokenExtra());
+			SaveTokenStart(token.range.GetFirst());
 			}
 
 		// set the style
@@ -203,15 +204,15 @@ CBJavaStyler::Scan
 				{
 				if (!(token.docCommentRange).IsEmpty())
 					{
-					SetStyle(token.docCommentRange, GetTypeStyle(kComment - kWhitespace));
+					SetStyle(token.docCommentRange.charRange, GetTypeStyle(kComment - kWhitespace));
 					}
-				ExtendCheckRange(token.range.last+1);
+				ExtendCheckRange(token.range.charRange.last+1);
 				}
 
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
 			}
 		}
-		while (SetStyle(token.range, style));
+		while (SetStyle(token.range.charRange, style));
 }
 
 /******************************************************************************

@@ -13,14 +13,15 @@
 #include "CBSQLStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBSQLStyler* CBSQLStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 0;
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	"Identifier",
 	"Variable",
@@ -49,9 +50,7 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit SQL Styles";
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -95,7 +94,8 @@ CBSQLStyler::Shutdown()
 CBSQLStyler::CBSQLStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBSQLStyleID, kCBSQLFT),
+				 JGetString("EditDialogTitle::CBSQLStyler"),
+				 kCBSQLStyleID, kCBSQLFT),
 	CBSQLScanner()
 {
 	JFontStyle blankStyle;
@@ -104,23 +104,21 @@ CBSQLStyler::CBSQLStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap = GetColormap();
+	SetTypeStyle(kVariable            - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
+	SetTypeStyle(kKeyword             - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kReservedWord        - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kBuiltInFunction     - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kSingleQuoteString   - kWhitespace, JFontStyle(JColorManager::GetBrownColor()));
+	SetTypeStyle(kDoubleQuoteString   - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kBackQuoteString     - kWhitespace, JFontStyle(JColorManager::GetPinkColor()));
+	SetTypeStyle(kComment             - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
 
-	SetTypeStyle(kVariable            - kWhitespace, JFontStyle(colormap->GetBlueColor()));
-	SetTypeStyle(kKeyword             - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kReservedWord        - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kBuiltInFunction     - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kSingleQuoteString   - kWhitespace, JFontStyle(colormap->GetBrownColor()));
-	SetTypeStyle(kDoubleQuoteString   - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kBackQuoteString     - kWhitespace, JFontStyle(colormap->GetPinkColor()));
-	SetTypeStyle(kComment             - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-
-	SetTypeStyle(kExtensionMySQL      - kWhitespace, JFontStyle(colormap->GetRedColor()));
-	SetTypeStyle(kExtensionPostgreSQL - kWhitespace, JFontStyle(colormap->GetRedColor()));
-	SetTypeStyle(kExtensionOracle     - kWhitespace, JFontStyle(colormap->GetRedColor()));
-	SetTypeStyle(kMySQLOperator       - kWhitespace, JFontStyle(colormap->GetRedColor()));
-	SetTypeStyle(kMySQLComment        - kWhitespace, JFontStyle(colormap->GetRedColor()));
-	SetTypeStyle(kError               - kWhitespace, JFontStyle(colormap->GetRedColor()));
+	SetTypeStyle(kExtensionMySQL      - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
+	SetTypeStyle(kExtensionPostgreSQL - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
+	SetTypeStyle(kExtensionOracle     - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
+	SetTypeStyle(kMySQLOperator       - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
+	SetTypeStyle(kMySQLComment        - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
+	SetTypeStyle(kError               - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
 	JPrefObject::ReadPrefs();
 }
@@ -144,15 +142,15 @@ CBSQLStyler::~CBSQLStyler()
 void
 CBSQLStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input);
+	BeginScan(startIndex, input);
 
 	const JString& text = GetText();
 
-	JBoolean keepGoing;
 	Token token;
 	JFontStyle style;
 	do
@@ -174,7 +172,7 @@ CBSQLStyler::Scan
 			token.type == kBackQuoteString   ||
 			token.type == kComment)
 			{
-			SaveTokenStart(TokenExtra());
+			SaveTokenStart(token.range.GetFirst());
 			}
 
 		// set the style
@@ -197,14 +195,12 @@ CBSQLStyler::Scan
 			}
 		else
 			{
-			JString word = text.GetSubstring(token.range);
+			JString word(text.GetRawBytes(), token.range.byteRange);
 			word.ToLower();
 			style = GetStyle(typeIndex, word);
 			}
-
-		keepGoing = SetStyle(token.range, style);
 		}
-		while (keepGoing);
+		while (SetStyle(token.range.charRange, style));
 }
 
 /******************************************************************************

@@ -13,6 +13,7 @@
 #include "CBCStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <JColorManager.h>
 #include <jGlobals.h>
@@ -152,11 +153,12 @@ CBCStyler::~CBCStyler()
 void
 CBCStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input);
+	BeginScan(startIndex, input);
 
 	const JString& text = GetText();
 
@@ -179,7 +181,7 @@ CBCStyler::Scan
 			token.type == kString             ||
 			token.type == kComment)
 			{
-			SaveTokenStart(TokenExtra());
+			SaveTokenStart(token.range.GetFirst());
 			}
 
 		// set the style
@@ -201,7 +203,7 @@ CBCStyler::Scan
 			}
 		else if (token.type == kPPDirective)
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange(), kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange().byteRange, kJFalse));
 			}
 		else if (token.type < kWhitespace)
 			{
@@ -209,17 +211,17 @@ CBCStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(JString(text.GetRawBytes(), token.range, kJFalse), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
 			}
 		}
-		while (SetStyle(token.range, style));
+		while (SetStyle(token.range.charRange, style));
 }
 
 /******************************************************************************
@@ -241,17 +243,21 @@ CBCStyler::PreexpandCheckRange
 	const JRunArray<JFont>&	styles,
 	const JCharacterRange&	modifiedRange,
 	const JBoolean			deletion,
-	JCharacterRange*		checkRange
+	JStyledText::TextRange*	checkRange
 	)
 {
-	JIndex i = checkRange->first - 1;
-	while (i > 1 && isspace(text.GetCharacter(i)))
+	JStringIterator iter(text);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, checkRange->charRange.first, checkRange->byteRange.first);
+
+	JUtf8Character c;
+	while (iter.Prev(&c, kJFalse) && c.IsSpace())
 		{
-		i--;
+		iter.SkipPrev();
 		}
-	if (i > 0 && text.GetCharacter(i) == '#')
+	if (iter.Prev(&c) && c == '#')
 		{
-		checkRange->first = i;
+		checkRange->charRange.first = iter.GetNextCharacterIndex();
+		checkRange->byteRange.first = iter.GetNextByteIndex();
 		}
 }
 
@@ -287,18 +293,17 @@ abc
 JBoolean
 CBCStyler::SlurpPPComment
 	(
-	JIndexRange* totalRange
+	JStyledText::TextRange* totalRange
 	)
 {
 	const JString& text = GetText();
-	const JString s     = text.GetSubstring((GetPPNameRange()).first, totalRange->last);
+	const JString s(text.GetRawBytes(), JUtf8ByteRange(GetPPNameRange().byteRange.first, totalRange->byteRange.last), kJFalse);
 	if (!ppCommentPattern.Match(s))
 		{
 		return kJFalse;
 		}
 
 	Token token;
-	JString ppCmd;
 	JSize nestCount = 1;
 	while (1)
 		{
@@ -309,7 +314,7 @@ CBCStyler::SlurpPPComment
 			}
 		else if (token.type == kPPDirective)
 			{
-			ppCmd = text.GetSubstring(GetPPNameRange());
+			const JString ppCmd(text.GetRawBytes(), GetPPNameRange().byteRange, kJFalse);
 			if (ppIfPattern.Match(ppCmd))
 				{
 				nestCount++;
@@ -324,14 +329,24 @@ CBCStyler::SlurpPPComment
 				}
 			else if (ppElsePattern.Match(ppCmd) && nestCount == 1)
 				{
-				Undo(token.range, text.GetSubstring(token.range));	// rescan
-				token.range.last = token.range.first - 1;
+				JSize prevCharByteCount;
+				const JBoolean ok =
+					JUtf8Character::GetPrevCharacterByteCount(
+						text.GetRawBytes() + token.range.byteRange.first-2,
+						&prevCharByteCount);
+				assert( ok );
+
+				Undo(token.range, prevCharByteCount,
+					 JString(text.GetRawBytes(), token.range.byteRange, kJFalse));	// rescan
+				token.range.charRange.SetToEmptyAt(token.range.charRange.first);
+				token.range.byteRange.SetToEmptyAt(token.range.byteRange.first);
 				break;
 				}
 			}
 		}
 
-	totalRange->last = token.range.last;
+	totalRange->charRange.last = token.range.charRange.last;
+	totalRange->byteRange.last = token.range.byteRange.last;
 	return kJTrue;
 }
 

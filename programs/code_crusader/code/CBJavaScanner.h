@@ -14,7 +14,7 @@
 #include <FlexLexer.h>
 #endif
 
-#include <JUtf8ByteRange.h>
+#include <JStyledText.h>
 
 class JString;
 
@@ -61,18 +61,18 @@ public:
 
 	struct Token
 	{
-		TokenType		type;
-		JUtf8ByteRange	range;
-		JUtf8ByteRange	docCommentRange;	// preceding comment range for DOC comment tags
+		TokenType				type;
+		JStyledText::TextRange	range;
+		JStyledText::TextRange	docCommentRange;	// preceding comment range for DOC comment tags
 
 		Token()
 			:
-			type(kEOF), range(), docCommentRange()
+			type(kEOF)
 			{ };
 
-		Token(const TokenType t, const JUtf8ByteRange& r)
+		Token(const TokenType t, const JStyledText::TextRange& r)
 			:
-			type(t), range(r), docCommentRange()
+			type(t), range(r)
 			{ };
 	};
 
@@ -82,16 +82,17 @@ public:
 
 	virtual ~CBJavaScanner();
 
-	void	BeginScan(std::istream& input);
+	void	BeginScan(const JStyledText::TextIndex& startIndex, std::istream& input);
 	Token	NextToken();		// written by flex
 
 private:
 
-	JBoolean		itsResetFlag;
-	JUtf8ByteRange	itsCurrentRange;
+	JBoolean				itsResetFlag;
+	JStyledText::TextRange	itsCurrentRange;
 
 private:
 
+	void	InitToken();
 	void	StartToken();
 	void	ContinueToken();
 	Token	ThisToken(const TokenType type);
@@ -105,6 +106,18 @@ private:
 
 
 /******************************************************************************
+ InitToken (private)
+
+ *****************************************************************************/
+
+inline void
+CBJavaScanner::InitToken()
+{
+	itsCurrentRange.charRange.SetToEmptyAt(itsCurrentRange.charRange.last+1);
+	itsCurrentRange.byteRange.SetToEmptyAt(itsCurrentRange.byteRange.last+1);
+}
+
+/******************************************************************************
  StartToken (private)
 
  *****************************************************************************/
@@ -112,8 +125,8 @@ private:
 inline void
 CBJavaScanner::StartToken()
 {
-	const JIndex prevEnd = itsCurrentRange.last;
-	itsCurrentRange.Set(prevEnd+1, prevEnd+yyleng);
+	InitToken();
+	ContinueToken();
 }
 
 /******************************************************************************
@@ -124,7 +137,8 @@ CBJavaScanner::StartToken()
 inline void
 CBJavaScanner::ContinueToken()
 {
-	itsCurrentRange.last += yyleng;
+	itsCurrentRange.charRange.last += JString::CountCharacters(yytext, yyleng);
+	itsCurrentRange.byteRange.last += yyleng;
 }
 
 /******************************************************************************
@@ -160,7 +174,7 @@ CBJavaScanner::DocToken
 	t.range = itsCurrentRange;
 
 	// prepare for continuation of comment (StartToken() with yyleng==0)
-	itsCurrentRange.Set(itsCurrentRange.last+1, itsCurrentRange.last);
+	InitToken();
 
 	return t;
 }
@@ -184,7 +198,7 @@ operator==
 	return ( t1.type == t2.type
 			 &&
 				(
-					t1.range == t2.range || t1.type == CBJavaScanner::kEOF
+					t1.range.charRange == t2.range.charRange || t1.type == CBJavaScanner::kEOF
 				)
 		   );
 }

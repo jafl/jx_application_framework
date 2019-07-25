@@ -486,7 +486,7 @@ JS_BADHEX     (0[xX][0-9A-Fa-f]{9,})
 	ContinueToken();
 	yy_pop_state();
 	const Token t = ThisToken(kJSPComment);
-	itsCurrentRange.SetToEmptyAt(itsCurrentRange.last+1);	/* req'd when reentering tag */
+	InitToken();	/* req'd when reentering tag */
 	return t;
 	}
 
@@ -516,7 +516,7 @@ JS_BADHEX     (0[xX][0-9A-Fa-f]{9,})
 	const JBoolean isText = JI2B(yy_top_state() == INITIAL);
 	yy_pop_state();
 	const Token t = ThisToken(isText ? kHTMLText : kHTMLTag);
-	itsCurrentRange.SetToEmptyAt(itsCurrentRange.last+1);	/* req'd when reentering tag */
+	InitToken();	/* req'd when reentering tag */
 	return t;
 	}
 
@@ -538,7 +538,7 @@ JS_BADHEX     (0[xX][0-9A-Fa-f]{9,})
 //	JInteger v;
 	const Token t = ThisToken(// s.ConvertToInteger(&v) && 0 <= v && v <= JInteger(UCHAR_MAX) ?
 							  kHTMLNamedCharacter); // : kHTMLInvalidNamedCharacter);
-	itsCurrentRange.SetToEmptyAt(itsCurrentRange.last+1);	/* req'd when reentering tag */
+	InitToken();	/* req'd when reentering tag */
 	return t;
 	}
 
@@ -797,7 +797,7 @@ euro;?     {
 	ContinueToken();
 	yy_pop_state();
 	const Token t = ThisToken(kHTMLNamedCharacter);
-	itsCurrentRange.SetToEmptyAt(itsCurrentRange.last+1);	/* req'd when reentering tag */
+	InitToken();	/* req'd when reentering tag */
 	return t;
 	}
 
@@ -853,7 +853,7 @@ euro;?     {
 		BEGIN(INITIAL);
 		}
 	const Token t = ThisToken(kPHPStartEnd);
-	itsCurrentRange.SetToEmptyAt(itsCurrentRange.last+1);	/* req'd when reentering tag */
+	InitToken();	/* req'd when reentering tag */
 	return t;
 	}
 
@@ -1235,7 +1235,7 @@ euro;?     {
 		BEGIN(INITIAL);
 		}
 	const Token t = ThisToken(kJSPStartEnd);
-	itsCurrentRange.SetToEmptyAt(itsCurrentRange.last+1);	/* req'd when reentering tag */
+	InitToken();	/* req'd when reentering tag */
 	return t;
 	}
 

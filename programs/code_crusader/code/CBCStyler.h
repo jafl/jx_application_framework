@@ -24,12 +24,13 @@ protected:
 
 	CBCStyler();
 
-	virtual void	Scan(std::istream& input, const TokenExtra& initData) override;
+	virtual void	Scan(const JStyledText::TextIndex& startIndex,
+						 std::istream& input, const TokenExtra& initData) override;
 	virtual void	PreexpandCheckRange(const JString& text,
 										const JRunArray<JFont>& styles,
 										const JCharacterRange& modifiedRange,
 										const JBoolean deletion,
-										JCharacterRange* checkRange) override;
+										JStyledText::TextRange* checkRange) override;
 
 	virtual void	UpgradeTypeList(const JFileVersion vers,
 									JArray<JFontStyle>* typeStyles) override;
@@ -42,7 +43,7 @@ private:
 
 private:
 
-	JBoolean	SlurpPPComment(JUtf8ByteRange* totalRange);
+	JBoolean	SlurpPPComment(JStyledText::TextRange* totalRange);
 
 	// not allowed
 

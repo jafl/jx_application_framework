@@ -8,6 +8,7 @@ This scanner reads a Ruby file and returns CBRubyScanner::Tokens.
 #define _H_CBRubyScannerL
 
 #include "CBRubyScanner.h"
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 #undef YY_DECL
@@ -430,12 +431,14 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 			itsHereDocType = kExecString;
 			}
 
-		itsHereDocTag.RemoveSubstring(1,1);
+		JStringIterator iter(&itsHereDocTag);
+		iter.RemoveNext();
 		if (itsHereDocTag.GetLastCharacter() != c)
 			{
 			return ThisToken(kUnterminatedString);
 			}
-		itsHereDocTag.RemoveSubstring(itsHereDocTag.GetLength(), itsHereDocTag.GetLength());
+		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.RemovePrev();
 		}
 
 	BEGIN(HEREDOC_STRING_STATE);
@@ -446,7 +449,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 ^.+\n {
 	ContinueToken();
 	if (JString::Compare(yytext, yyleng - 1,
-					   itsHereDocTag, itsHereDocTag.GetLength()) == 0)
+						 itsHereDocTag.GetBytes(), itsHereDocTag.GetByteCount()) == 0)
 		{
 		BEGIN(INITIAL);
 		return ThisToken(itsHereDocType);

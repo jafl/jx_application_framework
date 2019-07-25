@@ -8,6 +8,7 @@ This scanner reads a Perl file and returns CBPerlScanner::Tokens.
 #define _H_CBPerlScannerL
 
 #include "CBPerlScanner.h"
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 #undef YY_DECL
@@ -697,12 +698,14 @@ __DATA__ {
 			itsHereDocType = kExecString;
 			}
 
-		itsHereDocTag.RemoveSubstring(1,1);
+		JStringIterator iter(&itsHereDocTag);
+		iter.RemoveNext();
 		if (itsHereDocTag.GetLastCharacter() != c)
 			{
 			return ThisToken(kUnterminatedString);
 			}
-		itsHereDocTag.RemoveSubstring(itsHereDocTag.GetLength(), itsHereDocTag.GetLength());
+		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.RemovePrev();
 		}
 
 	BEGIN(HEREDOC_STRING_STATE);
@@ -713,7 +716,7 @@ __DATA__ {
 ^.+\n {
 	ContinueToken();
 	if (JString::Compare(yytext, yyleng - 1,
-					   itsHereDocTag, itsHereDocTag.GetLength()) == 0)
+						 itsHereDocTag.GetBytes(), itsHereDocTag.GetByteCount()) == 0)
 		{
 		BEGIN(INITIAL);
 		return ThisToken(itsHereDocType);

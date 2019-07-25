@@ -43,13 +43,17 @@ CBHTMLScanner::~CBHTMLScanner()
 void
 CBHTMLScanner::BeginScan
 	(
-	std::istream&			input,
-	const yy_state_type	startState
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const yy_state_type				startState
 	)
 {
 	itsResetFlag  = kJTrue;
 	itsStartState = startState;
-	itsCurrentRange.Set(JTellg(input)+1, JTellg(input));
+
+	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
+	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
+
 	itsScriptLanguage.Clear();
 	itsPHPHereDocTag.Clear();
 	itsProbableJSOperatorFlag = kJFalse;
@@ -85,7 +89,7 @@ CBHTMLScanner::IsScript
 
 	language->Clear();
 
-	const JString s(GetScannedText().GetRawBytes(), itsCurrentRange, kJFalse);
+	const JString s(GetScannedText().GetRawBytes(), itsCurrentRange.byteRange, kJFalse);
 
 	const JStringMatch m1 = scriptTagPattern1.Match(s, kJTrue);
 	if (!m1.IsEmpty())

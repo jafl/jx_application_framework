@@ -862,3 +862,7 @@ DiffFailed::CBDiffDocument
 "Unable to difference the two files because:
 
 $err"
+
+# CBSQLStyler
+
+EditDialogTitle::CBSQLStyler	"Edit SQL Styles"

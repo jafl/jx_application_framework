@@ -293,11 +293,12 @@ CBHTMLStyler::InitJavaScriptTypeStyles()
 void
 CBHTMLStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input, initData.lexerState);
+	BeginScan(startIndex, input, initData.lexerState);
 	itsLatestTagName.Clear();
 
 	const JString& text = GetText();
@@ -340,7 +341,7 @@ CBHTMLStyler::Scan
 			{
 			TokenExtra data;
 			data.lexerState = GetCurrentLexerState();
-			SaveTokenStart(data);
+			SaveTokenStart(token.range.GetFirst(), data);
 
 //			const JString s = text.GetSubstring(token.range);
 //			std::cout << yy_top_state() << ' ' << yy_start_stack_ptr << ": " << s << std::endl;
