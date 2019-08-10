@@ -118,7 +118,7 @@ CBCompileDocument::SetConnection
 	const JBoolean		showPID
 	)
 {
-	(CBGetDocumentManager())->SetActiveListDocument(this);
+	CBGetDocumentManager()->SetActiveListDocument(this);
 
 	itsPrevLine.Clear();
 
@@ -453,7 +453,7 @@ CBCompileDocument::ConvertSelectionToFullPath
 	)
 	const
 {
-	(CBGetDocumentManager())->SetActiveListDocument(const_cast<CBCompileDocument*>(this));
+	CBGetDocumentManager()->SetActiveListDocument(const_cast<CBCompileDocument*>(this));
 
 	if (JIsAbsolutePath(*fileName))
 		{
@@ -561,7 +561,7 @@ CBCompileDocument::HandleErrorMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveListDocument(this);
+	CBGetDocumentManager()->SetActiveListDocument(this);
 
 	if (index == kFirstErrorCmd)
 		{

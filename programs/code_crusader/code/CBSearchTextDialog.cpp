@@ -488,7 +488,7 @@ CBSearchTextDialog::UpdateDisplay()
 			{
 			GetFindFwdButton()->Activate();
 
-			if ((CBGetDocumentManager())->WillEditTextFilesLocally())
+			if (CBGetDocumentManager()->WillEditTextFilesLocally())
 				{
 				GetReplaceAllFwdButton()->Activate();
 				}
@@ -899,7 +899,7 @@ CBSearchTextDialog::SaveFileForSearch
 		assert( file != nullptr );
 
 		JXFileDocument* doc;
-		if ((CBGetDocumentManager())->FileDocumentIsOpen(*file, &doc) &&
+		if (CBGetDocumentManager()->FileDocumentIsOpen(*file, &doc) &&
 			doc->NeedsSave())
 			{
 			CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(doc);
@@ -935,7 +935,7 @@ void
 CBSearchTextDialog::UpdateBasePath()
 {
 	CBProjectDocument* doc;
-	if ((CBGetDocumentManager())->GetActiveProjectDocument(&doc))
+	if (CBGetDocumentManager()->GetActiveProjectDocument(&doc))
 		{
 		itsDirInput->SetBasePath(doc->GetFilePath());
 		}
@@ -1114,7 +1114,7 @@ CBSearchTextDialog::OpenSelectedFiles()
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
 	if (itsFileList->GetSelection(&fileList))
 		{
-		(CBGetDocumentManager())->OpenSomething(fileList);
+		CBGetDocumentManager()->OpenSomething(fileList);
 		}
 }
 

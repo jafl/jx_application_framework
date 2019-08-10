@@ -264,7 +264,7 @@ CBFileNodeBase::BuildCMakeData
 				*src += itsFileName;
 
 				JString complName;
-				if ((CBGetDocumentManager())->
+				if (CBGetDocumentManager()->
 						GetComplementFile(fullName, type, &complName,
 										  GetProjectDoc(), kJFalse) &&
 					!(GetProjectTree()->GetProjectRoot())->Includes(complName))
@@ -334,7 +334,7 @@ CBFileNodeBase::BuildQMakeData
 				*src += itsFileName;
 
 				JString complName;
-				if ((CBGetDocumentManager())->
+				if (CBGetDocumentManager()->
 						GetComplementFile(fullName, type, &complName,
 										  GetProjectDoc(), kJFalse) &&
 					!(GetProjectTree()->GetProjectRoot())->Includes(complName))

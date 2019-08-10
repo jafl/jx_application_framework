@@ -496,7 +496,7 @@ CBSymbolDirector::FindSymbol
 			itsSymbolList->GetFile(symbolIndex, &lineIndex);
 
 		CBTextDocument* doc = nullptr;
-		if ((CBGetDocumentManager())->OpenTextDocument(fileName1, lineIndex, &doc) &&
+		if (CBGetDocumentManager()->OpenTextDocument(fileName1, lineIndex, &doc) &&
 			CBSymbolList::ShouldSmartScroll(type))
 			{
 			(doc->GetTextEditor())->ScrollForDefinition(lang);
@@ -806,27 +806,27 @@ CBSymbolDirector::HandleFileMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(itsProjDoc);
+	CBGetDocumentManager()->SetActiveProjectDocument(itsProjDoc);
 
 	if (index == kNewTextEditorCmd)
 		{
-		(CBGetDocumentManager())->NewTextDocument();
+		CBGetDocumentManager()->NewTextDocument();
 		}
 	else if (index == kNewTextTemplateCmd)
 		{
-		(CBGetDocumentManager())->NewTextDocumentFromTemplate();
+		CBGetDocumentManager()->NewTextDocumentFromTemplate();
 		}
 	else if (index == kNewProjectCmd)
 		{
-		(CBGetDocumentManager())->NewProjectDocument();
+		CBGetDocumentManager()->NewProjectDocument();
 		}
 	else if (index == kNewShellCmd)
 		{
-		(CBGetDocumentManager())->NewShellDocument();
+		CBGetDocumentManager()->NewShellDocument();
 		}
 	else if (index == kOpenSomethingCmd)
 		{
-		(CBGetDocumentManager())->OpenSomething();
+		CBGetDocumentManager()->OpenSomething();
 		}
 
 	else if (index == kCloseCmd)
@@ -879,7 +879,7 @@ CBSymbolDirector::HandleSymbolMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(itsProjDoc);
+	CBGetDocumentManager()->SetActiveProjectDocument(itsProjDoc);
 
 	if (index == kEditSearchPathsCmd)
 		{
@@ -921,9 +921,9 @@ void
 CBSymbolDirector::UpdateProjectMenu()
 {
 	itsProjectMenu->SetItemEnable(kCloseAllTextCmd,
-								  (CBGetDocumentManager())->HasTextDocuments());
+								  CBGetDocumentManager()->HasTextDocuments());
 	itsProjectMenu->SetItemEnable(kSaveAllTextCmd,
-								  (CBGetDocumentManager())->TextDocumentsNeedSave());
+								  CBGetDocumentManager()->TextDocumentsNeedSave());
 }
 
 /******************************************************************************
@@ -937,7 +937,7 @@ CBSymbolDirector::HandleProjectMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(itsProjDoc);
+	CBGetDocumentManager()->SetActiveProjectDocument(itsProjDoc);
 
 	if (index == kShowCTreeCmd)
 		{
@@ -975,11 +975,11 @@ CBSymbolDirector::HandleProjectMenu
 
 	else if (index == kSaveAllTextCmd)
 		{
-		(CBGetDocumentManager())->SaveTextDocuments(kJTrue);
+		CBGetDocumentManager()->SaveTextDocuments(kJTrue);
 		}
 	else if (index == kCloseAllTextCmd)
 		{
-		(CBGetDocumentManager())->CloseTextDocuments();
+		CBGetDocumentManager()->CloseTextDocuments();
 		}
 }
 
@@ -1018,7 +1018,7 @@ CBSymbolDirector::HandlePrefsMenu
 		}
 	else if (index == kChooseExtEditorsCmd)
 		{
-		(CBGetDocumentManager())->ChooseEditors();
+		CBGetDocumentManager()->ChooseEditors();
 		}
 	else if (index == kMiscPrefsCmd)
 		{

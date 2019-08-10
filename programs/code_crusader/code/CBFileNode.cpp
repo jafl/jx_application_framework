@@ -67,7 +67,7 @@ CBFileNode::OpenFile()
 	JString fullName;
 	if (GetFullName(&fullName))
 		{
-		(CBGetDocumentManager())->OpenSomething(fullName);
+		CBGetDocumentManager()->OpenSomething(fullName);
 		}
 	else
 		{
@@ -102,7 +102,7 @@ CBFileNode::ParseFiles
 			}
 
 		const CBTextFileType type = CBGetPrefsManager()->GetFileType(trueName);
-		if ((CBGetDocumentManager())->GetComplementFile(trueName, type, &fullName,
+		if (CBGetDocumentManager()->GetComplementFile(trueName, type, &fullName,
 														GetProjectDoc(), kJFalse) &&
 			JGetTrueName(fullName, &trueName) &&
 			!ParseFile(trueName, parser, allSuffixList, symbolList, cTree, javaTree, phpTree, pg))

@@ -550,7 +550,7 @@ CBBuildManager::SaveOpenFile
 	)
 {
 	JXFileDocument* doc;
-	return JI2B(!(CBGetDocumentManager())->FileDocumentIsOpen(fileName, &doc) ||
+	return JI2B(!CBGetDocumentManager()->FileDocumentIsOpen(fileName, &doc) ||
 				doc->Save());
 }
 
@@ -730,7 +730,7 @@ CBBuildManager::EditMakeConfig()
 		JString makeHeaderName, makeFilesName;
 		GetMakemakeFileNames(&makeHeaderName, &makeFilesName);
 
-		if ((CBGetDocumentManager())->OpenTextDocument(makeHeaderName))
+		if (CBGetDocumentManager()->OpenTextDocument(makeHeaderName))
 			{
 			return kJTrue;
 			}
@@ -739,7 +739,7 @@ CBBuildManager::EditMakeConfig()
 		{
 		RecreateMakeHeaderFile();
 
-		if ((CBGetDocumentManager())->OpenTextDocument(cmakeHeaderName))
+		if (CBGetDocumentManager()->OpenTextDocument(cmakeHeaderName))
 			{
 			return kJTrue;
 			}
@@ -748,7 +748,7 @@ CBBuildManager::EditMakeConfig()
 		{
 		RecreateMakeHeaderFile();
 
-		if ((CBGetDocumentManager())->OpenTextDocument(qmakeHeaderName))
+		if (CBGetDocumentManager()->OpenTextDocument(qmakeHeaderName))
 			{
 			return kJTrue;
 			}
@@ -766,7 +766,7 @@ CBBuildManager::EditMakeConfig()
 		{
 		JString* fileName = makefileNameList.GetElement(i);
 		if (JFileReadable(*fileName) &&
-			(CBGetDocumentManager())->OpenTextDocument(*fileName))
+			CBGetDocumentManager()->OpenTextDocument(*fileName))
 			{
 			return kJTrue;
 			}
@@ -774,7 +774,7 @@ CBBuildManager::EditMakeConfig()
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		if ((CBGetDocumentManager())->OpenTextDocument(*(makefileNameList.GetElement(i))))
+		if (CBGetDocumentManager()->OpenTextDocument(*(makefileNameList.GetElement(i))))
 			{
 			return kJTrue;
 			}

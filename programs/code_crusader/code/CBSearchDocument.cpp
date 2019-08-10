@@ -260,7 +260,7 @@ CBSearchDocument::CBSearchDocument
 				  windowTitle, JGetString("NoCloseWhileSearching::CBSearchDocument"),
 				  JString("/", kJFalse), windowTitle, kJFalse);
 
-	(CBGetDocumentManager())->SetActiveListDocument(this);
+	CBGetDocumentManager()->SetActiveListDocument(this);
 
 	if (itsIsReplaceFlag)
 		{
@@ -492,7 +492,7 @@ CBSearchDocument::ReplaceAll
 	JStyledText::PlainTextFormat format;
 
 	JXFileDocument* doc;
-	if ((CBGetDocumentManager())->FileDocumentIsOpen(fileName, &doc))
+	if (CBGetDocumentManager()->FileDocumentIsOpen(fileName, &doc))
 		{
 		CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(doc);
 		if (textDoc != nullptr)
@@ -562,7 +562,7 @@ CBSearchDocument::ConvertSelectionToFullPath
 	)
 	const
 {
-	(CBGetDocumentManager())->SetActiveListDocument(const_cast<CBSearchDocument*>(this));
+	CBGetDocumentManager()->SetActiveListDocument(const_cast<CBSearchDocument*>(this));
 
 	CBExecOutputDocument::ConvertSelectionToFullPath(fileName);
 }
@@ -619,7 +619,7 @@ CBSearchDocument::HandleMatchMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveListDocument(this);
+	CBGetDocumentManager()->SetActiveListDocument(this);
 
 	if (index == kFirstMatchCmd)
 		{

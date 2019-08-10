@@ -166,7 +166,7 @@ CBJavaTreeDirector::HandleTreeMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(GetProjectDoc());
+	CBGetDocumentManager()->SetActiveProjectDocument(GetProjectDoc());
 
 	if (index == kEditSearchPathsCmd)
 		{

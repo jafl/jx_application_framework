@@ -238,7 +238,7 @@ CBTextDocument::CBTextDocument
 	)
 	:
 	JXFileDocument(CBGetApplication(),
-				   (CBGetDocumentManager())->GetNewFileName(),
+				   CBGetDocumentManager()->GetNewFileName(),
 				   kJFalse, kJTrue, ""),
 	JPrefObject(CBGetPrefsManager(), kCBTextDocID),
 	itsHelpSectionName(helpSectionName)
@@ -322,7 +322,7 @@ CBTextDocument::CBTextDocumentX1
 		itsOverrideFlag[i] = kJFalse;
 		}
 
-	(CBGetDocumentManager())->TextDocumentCreated(this);
+	CBGetDocumentManager()->TextDocumentCreated(this);
 }
 
 void
@@ -383,7 +383,7 @@ CBTextDocument::ConstructTextEditor
 
 CBTextDocument::~CBTextDocument()
 {
-	(CBGetDocumentManager())->TextDocumentDeleted(this);
+	CBGetDocumentManager()->TextDocumentDeleted(this);
 }
 
 /******************************************************************************
@@ -398,7 +398,7 @@ CBTextDocument::Activate()
 
 	if (IsActive())
 		{
-		(CBGetDocumentManager())->SetActiveTextDocument(this);
+		CBGetDocumentManager()->SetActiveTextDocument(this);
 		}
 }
 
@@ -447,7 +447,7 @@ CBTextDocument::GetMenuIcon
 	const
 {
 	CBExecOutputDocument* doc;
-	*icon = CBGetTextFileIcon(JI2B((CBGetDocumentManager())->GetActiveListDocument(&doc) &&
+	*icon = CBGetTextFileIcon(JI2B(CBGetDocumentManager()->GetActiveListDocument(&doc) &&
 								   doc == const_cast<CBTextDocument*>(this)));
 	return kJTrue;
 }
@@ -964,7 +964,7 @@ CBTextDocument::Receive
 			{
 			DataModified();
 			}
-		(CBGetDocumentManager())->TextDocumentNeedsSave();
+		CBGetDocumentManager()->TextDocumentNeedsSave();
 		}
 
 	else if (sender == itsTextEditor && message.Is(JTextEditor::kTypeChanged))
@@ -1010,7 +1010,7 @@ CBTextDocument::UpdateFileMenu()
 	itsFileMenu->SetItemEnable(kSaveFileCmd, NeedsSave());
 	itsFileMenu->SetItemEnable(kRevertCmd, CanRevert());
 	itsFileMenu->SetItemEnable(kSaveAllFilesCmd,
-							   (CBGetDocumentManager())->TextDocumentsNeedSave());
+							   CBGetDocumentManager()->TextDocumentsNeedSave());
 
 	JBoolean enable, onDisk;
 	const JString fullName = GetFullName(&onDisk);
@@ -1072,19 +1072,19 @@ CBTextDocument::HandleFileMenu
 {
 	if (index == kNewTextEditorCmd)
 		{
-		(CBGetDocumentManager())->NewTextDocument();
+		CBGetDocumentManager()->NewTextDocument();
 		}
 	else if (index == kNewTextTemplateCmd)
 		{
-		(CBGetDocumentManager())->NewTextDocumentFromTemplate();
+		CBGetDocumentManager()->NewTextDocumentFromTemplate();
 		}
 	else if (index == kNewProjectCmd)
 		{
-		(CBGetDocumentManager())->NewProjectDocument();
+		CBGetDocumentManager()->NewProjectDocument();
 		}
 	else if (index == kNewShellCmd)
 		{
-		(CBGetDocumentManager())->NewShellDocument();
+		CBGetDocumentManager()->NewShellDocument();
 		}
 	else if (index == kOpenSomethingCmd)
 		{
@@ -1101,7 +1101,7 @@ CBTextDocument::HandleFileMenu
 		{
 		JBoolean onDisk;
 		const JString fullName = GetFullName(&onDisk);
-		(CBGetDocumentManager())->
+		CBGetDocumentManager()->
 			AddToFileHistoryMenu(CBDocumentManager::kTextFileHistory, fullName);
 
 		SaveInNewFile();
@@ -1111,14 +1111,14 @@ CBTextDocument::HandleFileMenu
 		JString fullName;
 		if (SaveCopyInNewFile(nullptr, &fullName))
 			{
-			(CBGetDocumentManager())->
+			CBGetDocumentManager()->
 				AddToFileHistoryMenu(CBDocumentManager::kTextFileHistory, fullName);
 			}
 		}
 	else if (index == kSaveAsTemplateCmd)
 		{
 		JString origName;
-		if ((CBGetDocumentManager())->GetTextTemplateDirectory(kJTrue, &origName))
+		if (CBGetDocumentManager()->GetTextTemplateDirectory(kJTrue, &origName))
 			{
 			origName = JCombinePathAndName(origName, GetFileName());
 			SaveCopyInNewFile(origName);
@@ -1130,7 +1130,7 @@ CBTextDocument::HandleFileMenu
 		}
 	else if (index == kSaveAllFilesCmd)
 		{
-		(CBGetDocumentManager())->SaveTextDocuments(kJTrue);
+		CBGetDocumentManager()->SaveTextDocuments(kJTrue);
 		}
 
 	else if (index == kDiffFilesCmd)
@@ -1200,7 +1200,7 @@ CBTextDocument::HandleFileMenu
 		}
 	else if (index == kCloseAllCmd)
 		{
-		(CBGetDocumentManager())->CloseTextDocuments();
+		CBGetDocumentManager()->CloseTextDocuments();
 		}
 
 	else if (index == kQuitCmd)
@@ -1385,7 +1385,7 @@ CBTextDocument::ReadFile
 			const JSize count = safetyFilesToOpen.GetElementCount();
 			for (JIndex i=1; i<=count; i++)
 				{
-				(CBGetDocumentManager())->
+				CBGetDocumentManager()->
 					OpenTextDocument(*(safetyFilesToOpen.GetElement(i)));
 				}
 			}
@@ -1840,7 +1840,7 @@ CBTextDocument::HandlePrefsMenu
 		}
 	else if (index == kChooseExtEditorsCmd)
 		{
-		(CBGetDocumentManager())->ChooseEditors();
+		CBGetDocumentManager()->ChooseEditors();
 		}
 	else if (index == kWWWPrefsCmd)
 		{
@@ -2245,7 +2245,7 @@ CBTextDocument::HandleActionButton()
 			}
 		else
 			{
-			(CBGetDocumentManager())->OpenComplementFile(fullName, itsFileType);
+			CBGetDocumentManager()->OpenComplementFile(fullName, itsFileType);
 			}
 		}
 }

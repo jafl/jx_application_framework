@@ -2589,7 +2589,7 @@ void
 CBDiffFileDialog::UpdateBasePath()
 {
 	CBProjectDocument* doc;
-	if ((CBGetDocumentManager())->GetActiveProjectDocument(&doc))
+	if (CBGetDocumentManager()->GetActiveProjectDocument(&doc))
 		{
 		const JString& path = doc->GetFilePath();
 		itsPlainFile1Input->SetBasePath(path);

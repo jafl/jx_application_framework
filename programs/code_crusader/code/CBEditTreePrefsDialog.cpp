@@ -197,7 +197,7 @@ CBEditTreePrefsDialog::UpdateSettings()
 	(CBGetApplication())->DisplayBusyCursor();
 
 	JPtrArray<CBProjectDocument>* docList =
-		(CBGetDocumentManager())->GetProjectDocList();
+		CBGetDocumentManager()->GetProjectDocList();
 	const JSize docCount = docList->GetElementCount();
 
 	JProgressDisplay* pg = JNewPG();

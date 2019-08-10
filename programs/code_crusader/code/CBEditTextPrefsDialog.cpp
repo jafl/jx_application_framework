@@ -588,7 +588,7 @@ CBEditTextPrefsDialog::UpdateSettings()
 		prefsMgr->SetColor(j, itsColor[j-1]);
 		}
 
-	JPtrArray<CBTextDocument>* docList = (CBGetDocumentManager())->GetTextDocList();
+	JPtrArray<CBTextDocument>* docList = CBGetDocumentManager()->GetTextDocList();
 	const JSize docCount = docList->GetElementCount();
 
 	JProgressDisplay* pg = JNewPG();

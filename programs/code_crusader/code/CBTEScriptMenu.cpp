@@ -196,7 +196,7 @@ CBTEScriptMenu::HandleSelection
 				std::ofstream output(fullName);
 				output.close();
 				JSetPermissions(fullName, 0744);
-				(CBGetDocumentManager())->OpenTextDocument(fullName);
+				CBGetDocumentManager()->OpenTextDocument(fullName);
 				}
 			}
 		return kJTrue;

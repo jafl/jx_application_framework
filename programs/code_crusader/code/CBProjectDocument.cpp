@@ -342,7 +342,7 @@ CBProjectDocument::Create
 	// open the file
 
 	JXFileDocument* baseDoc;
-	if ((CBGetDocumentManager())->FileDocumentIsOpen(projName, &baseDoc))
+	if (CBGetDocumentManager()->FileDocumentIsOpen(projName, &baseDoc))
 		{
 		*doc = dynamic_cast<CBProjectDocument*>(baseDoc);
 		if (*doc != nullptr && !silent)
@@ -519,7 +519,7 @@ CBProjectDocument::CBProjectDocument
 	UpdateSymbolDatabase();
 	ListenTo(itsFileTree);
 
-	(CBGetDocumentManager())->ProjDocCreated(this);
+	CBGetDocumentManager()->ProjDocCreated(this);
 
 	jdelete input;
 }
@@ -701,11 +701,11 @@ CBProjectDocument::CBProjectDocument
 
 			if (projVers < 71 && useProjSetData)
 				{
-				(CBGetDocumentManager())->ReadFromProject(projInput, projVers);
+				CBGetDocumentManager()->ReadFromProject(projInput, projVers);
 				}
 			else if (!useProjSetData)
 				{
-				(CBGetDocumentManager())->ReadFromProject(*setInput, setVers);
+				CBGetDocumentManager()->ReadFromProject(*setInput, setVers);
 				}
 			}
 
@@ -771,7 +771,7 @@ CBProjectDocument::CBProjectDocumentX
 
 CBProjectDocument::~CBProjectDocument()
 {
-	(CBGetDocumentManager())->ProjDocDeleted(this);
+	CBGetDocumentManager()->ProjDocDeleted(this);
 
 	DeleteUpdateLink();
 	jdelete itsUpdateStream;
@@ -966,7 +966,7 @@ CBProjectDocument::WriteFiles
 	if (setOutput != nullptr)
 		{
 		*setOutput << ' ';
-		(CBGetDocumentManager())->WriteForProject(*setOutput);
+		CBGetDocumentManager()->WriteForProject(*setOutput);
 		}
 
 	// clean up -- no problem if settings or symbol table can't be written
@@ -1354,7 +1354,7 @@ CBProjectDocument::SetTreePrefs
 void
 CBProjectDocument::EditMakeConfig()
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(this);
+	CBGetDocumentManager()->SetActiveProjectDocument(this);
 	itsBuildMgr->EditMakeConfig();
 }
 
@@ -1370,7 +1370,7 @@ CBProjectDocument::Activate()
 
 	if (IsActive())
 		{
-		(CBGetDocumentManager())->SetActiveProjectDocument(this);
+		CBGetDocumentManager()->SetActiveProjectDocument(this);
 		}
 }
 
@@ -1410,7 +1410,7 @@ CBProjectDocument::GetMenuIcon
 	const
 {
 	CBProjectDocument* doc;
-	*icon = CBGetProjectFileIcon(JI2B((CBGetDocumentManager())->GetActiveProjectDocument(&doc) &&
+	*icon = CBGetProjectFileIcon(JI2B(CBGetDocumentManager()->GetActiveProjectDocument(&doc) &&
 									  doc == const_cast<CBProjectDocument*>(this)));
 	return kJTrue;
 }
@@ -1869,7 +1869,7 @@ CBProjectDocument::HandleFileMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(this);
+	CBGetDocumentManager()->SetActiveProjectDocument(this);
 
 	if (!itsFileTable->EndEditing())
 		{
@@ -1878,23 +1878,23 @@ CBProjectDocument::HandleFileMenu
 
 	if (index == kNewTextEditorCmd)
 		{
-		(CBGetDocumentManager())->NewTextDocument();
+		CBGetDocumentManager()->NewTextDocument();
 		}
 	else if (index == kNewTextTemplateCmd)
 		{
-		(CBGetDocumentManager())->NewTextDocumentFromTemplate();
+		CBGetDocumentManager()->NewTextDocumentFromTemplate();
 		}
 	else if (index == kNewProjectCmd)
 		{
-		(CBGetDocumentManager())->NewProjectDocument();
+		CBGetDocumentManager()->NewProjectDocument();
 		}
 	else if (index == kNewShellCmd)
 		{
-		(CBGetDocumentManager())->NewShellDocument();
+		CBGetDocumentManager()->NewShellDocument();
 		}
 	else if (index == kOpenSomethingCmd)
 		{
-		(CBGetDocumentManager())->OpenSomething();
+		CBGetDocumentManager()->OpenSomething();
 		}
 
 	else if (index == kSaveCmd)
@@ -1944,7 +1944,7 @@ CBProjectDocument::SaveAsTemplate()
 	const
 {
 	JString origName;
-	if ((CBGetDocumentManager())->GetTemplateDirectory(kProjTemplateDir, kJTrue, &origName))
+	if (CBGetDocumentManager()->GetTemplateDirectory(kProjTemplateDir, kJTrue, &origName))
 		{
 		origName = JCombinePathAndName(origName, GetFileName());
 
@@ -2004,7 +2004,7 @@ CBProjectDocument::HandleProjectMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(this);
+	CBGetDocumentManager()->SetActiveProjectDocument(this);
 
 	if (!itsFileTable->EndEditing())
 		{
@@ -2141,9 +2141,9 @@ CBProjectDocument::UpdateSourceMenu()
 		}
 
 	itsSourceMenu->SetItemEnable(kCloseAllTextCmd,
-								 (CBGetDocumentManager())->HasTextDocuments());
+								 CBGetDocumentManager()->HasTextDocuments());
 	itsSourceMenu->SetItemEnable(kSaveAllTextCmd,
-								 (CBGetDocumentManager())->TextDocumentsNeedSave());
+								 CBGetDocumentManager()->TextDocumentsNeedSave());
 }
 
 /******************************************************************************
@@ -2157,7 +2157,7 @@ CBProjectDocument::HandleSourceMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(this);
+	CBGetDocumentManager()->SetActiveProjectDocument(this);
 
 	if (!itsFileTable->EndEditing())
 		{
@@ -2214,11 +2214,11 @@ CBProjectDocument::HandleSourceMenu
 
 	else if (index == kSaveAllTextCmd)
 		{
-		(CBGetDocumentManager())->SaveTextDocuments(kJTrue);
+		CBGetDocumentManager()->SaveTextDocuments(kJTrue);
 		}
 	else if (index == kCloseAllTextCmd)
 		{
-		(CBGetDocumentManager())->CloseTextDocuments();
+		CBGetDocumentManager()->CloseTextDocuments();
 		}
 }
 
@@ -2257,7 +2257,7 @@ CBProjectDocument::HandlePrefsMenu
 		}
 	else if (index == kChooseExtEditorsCmd)
 		{
-		(CBGetDocumentManager())->ChooseEditors();
+		CBGetDocumentManager()->ChooseEditors();
 		}
 	else if (index == kShowLocationPrefsCmd)
 		{

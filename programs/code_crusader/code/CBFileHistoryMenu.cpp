@@ -79,7 +79,7 @@ CBFileHistoryMenu::CBFileHistoryMenuX
 		}
 
 	CBFileHistoryMenu* master =
-		(CBGetDocumentManager())->GetFileHistoryMenu(itsDocType);
+		CBGetDocumentManager()->GetFileHistoryMenu(itsDocType);
 	if (master != nullptr)
 		{
 		std::ostringstream data;

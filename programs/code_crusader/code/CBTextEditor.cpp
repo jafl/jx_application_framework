@@ -571,7 +571,7 @@ CBTextEditor::HandleCustomEditMenuItems
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveTextDocument(itsDoc);
+	CBGetDocumentManager()->SetActiveTextDocument(itsDoc);
 
 	if (index == itsExecScriptCmdIndex)
 		{
@@ -616,7 +616,7 @@ CBTextEditor::UpdateCustomSearchMenuItems()
 		}
 
 	CBProjectDocument* projDoc;
-	if ((CBGetDocumentManager())->GetActiveProjectDocument(&projDoc))
+	if (CBGetDocumentManager()->GetActiveProjectDocument(&projDoc))
 		{
 		JString itemText = projDoc->GetName();
 		itemText.Prepend(kFindSelAsSymInText);
@@ -628,7 +628,7 @@ CBTextEditor::UpdateCustomSearchMenuItems()
 		}
 
 	CBExecOutputDocument* listDoc;
-	if ((CBGetDocumentManager())->GetActiveListDocument(&listDoc))
+	if (CBGetDocumentManager()->GetActiveListDocument(&listDoc))
 		{
 		searchMenu->EnableItem(itsFirstSearchMenuItem + kOpenPrevListItemCmd);
 		searchMenu->EnableItem(itsFirstSearchMenuItem + kOpenNextListItemCmd);
@@ -651,7 +651,7 @@ CBTextEditor::HandleCustomSearchMenuItems
 		{
 		Focus();
 		}
-	(CBGetDocumentManager())->SetActiveTextDocument(itsDoc);
+	CBGetDocumentManager()->SetActiveTextDocument(itsDoc);
 
 	if (index == kBalanceCmd)
 		{
@@ -710,7 +710,7 @@ CBTextEditor::HandleCustomSearchMenuItems
 	else if (index == kOpenPrevListItemCmd)
 		{
 		CBExecOutputDocument* listDoc;
-		if ((CBGetDocumentManager())->GetActiveListDocument(&listDoc))
+		if (CBGetDocumentManager()->GetActiveListDocument(&listDoc))
 			{
 			listDoc->OpenPrevListItem();
 			}
@@ -719,7 +719,7 @@ CBTextEditor::HandleCustomSearchMenuItems
 	else if (index == kOpenNextListItemCmd)
 		{
 		CBExecOutputDocument* listDoc;
-		if ((CBGetDocumentManager())->GetActiveListDocument(&listDoc))
+		if (CBGetDocumentManager()->GetActiveListDocument(&listDoc))
 			{
 			listDoc->OpenNextListItem();
 			}
@@ -770,7 +770,7 @@ CBTextEditor::HandleContextMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveTextDocument(itsDoc);
+	CBGetDocumentManager()->SetActiveTextDocument(itsDoc);
 
 	if (index == kContextCutCmd)
 		{
@@ -962,7 +962,7 @@ CBTextEditor::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	(CBGetDocumentManager())->SetActiveTextDocument(itsDoc);
+	CBGetDocumentManager()->SetActiveTextDocument(itsDoc);
 	if (itsCompletionMenu != nullptr)
 		{
 		itsCompletionMenu->ClearRequestCount();
@@ -1111,7 +1111,7 @@ CBTextEditor::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	(CBGetDocumentManager())->SetActiveTextDocument(itsDoc);
+	CBGetDocumentManager()->SetActiveTextDocument(itsDoc);
 
 	const JBoolean controlOn = modifiers.control();
 	const JBoolean metaOn    = modifiers.meta();
@@ -1238,7 +1238,7 @@ CBTextEditor::HandleShortcut
 	const JXKeyModifiers&	modifiers
 	)
 {
-	(CBGetDocumentManager())->SetActiveTextDocument(itsDoc);
+	CBGetDocumentManager()->SetActiveTextDocument(itsDoc);
 	if (itsCompletionMenu != nullptr)
 		{
 		itsCompletionMenu->ClearRequestCount();
@@ -1393,7 +1393,7 @@ CBTextEditor::FindSelectedSymbol
 		return;
 		}
 
-	if (!(CBGetDocumentManager())->GetActiveProjectDocument(&projDoc) ||
+	if (!CBGetDocumentManager()->GetActiveProjectDocument(&projDoc) ||
 		!(projDoc->GetSymbolDirector())->FindSymbol(str, fullName, button))
 		{
 		// If we can't find it anywhere else, check the man pages.

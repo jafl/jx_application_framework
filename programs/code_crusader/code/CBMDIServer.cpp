@@ -211,7 +211,7 @@ CBMDIServer::HandleMDIRequest
 				{
 				exit(0);
 				}
-			(CBGetDocumentManager())->ReloadTextDocuments(kJFalse);
+			CBGetDocumentManager()->ReloadTextDocuments(kJFalse);
 			}
 		else if (arg == "--force-reload-open")
 			{
@@ -219,7 +219,7 @@ CBMDIServer::HandleMDIRequest
 				{
 				exit(0);
 				}
-			(CBGetDocumentManager())->ReloadTextDocuments(kJTrue);
+			CBGetDocumentManager()->ReloadTextDocuments(kJTrue);
 			}
 
 		else if (arg == "--reopen")
@@ -234,7 +234,7 @@ CBMDIServer::HandleMDIRequest
 
 		else if (arg == "--turn-off-external-editor")		// in case they lock themselves out
 			{
-			(CBGetDocumentManager())->ShouldEditTextFilesLocally(kJTrue);
+			CBGetDocumentManager()->ShouldEditTextFilesLocally(kJTrue);
 			}
 
 		else if (arg.GetFirstCharacter() == '-')
@@ -267,12 +267,12 @@ CBMDIServer::HandleMDIRequest
 
 			if (JFileExists(fileName))
 				{
-				(CBGetDocumentManager())->
+				CBGetDocumentManager()->
 					OpenSomething(fileName, lineRange, iconify, forceReload);
 				}
 			else
 				{
-				(CBGetDocumentManager())->
+				CBGetDocumentManager()->
 					OpenTextDocument(fileName, lineRange, nullptr, iconify, forceReload);
 				}
 			lineRange.SetToNothing();
@@ -308,17 +308,17 @@ CBMDIServer::HandleMDIRequest
 		{
 		if (itsCreateProjectFlag)
 			{
-			projectCreated = (CBGetDocumentManager())->NewProjectDocument();
+			projectCreated = CBGetDocumentManager()->NewProjectDocument();
 			}
 		if (itsCreateEditorFlag ||
 			(!stateRestored && !projectCreated &&
 			 !itsCreateEditorFlag && !itsChooseFileFlag))
 			{
-			(CBGetDocumentManager())->NewTextDocument();
+			CBGetDocumentManager()->NewTextDocument();
 			}
 		if (itsChooseFileFlag)
 			{
-			(CBGetDocumentManager())->OpenSomething();
+			CBGetDocumentManager()->OpenSomething();
 			}
 		}
 

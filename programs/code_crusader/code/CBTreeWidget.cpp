@@ -402,7 +402,7 @@ CBTreeWidget::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(itsDirector->GetProjectDoc());
+	CBGetDocumentManager()->SetActiveProjectDocument(itsDirector->GetProjectDoc());
 
 	itsKeyBuffer.Clear();
 	itsDragType = kInvalidDrag;
@@ -766,7 +766,7 @@ CBTreeWidget::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(itsDirector->GetProjectDoc());
+	CBGetDocumentManager()->SetActiveProjectDocument(itsDirector->GetProjectDoc());
 
 	// open source
 

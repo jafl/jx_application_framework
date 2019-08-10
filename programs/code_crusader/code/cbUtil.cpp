@@ -38,6 +38,6 @@ CBCleanUpAfterRename
 
 	if (!newFullName.IsEmpty())
 		{
-		(CBGetDocumentManager())->FileRenamed(origFullName, newFullName);
+		CBGetDocumentManager()->FileRenamed(origFullName, newFullName);
 		}
 }

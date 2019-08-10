@@ -296,7 +296,7 @@ CBCommandMenu::UpdateMenu()
 	CBProjectDocument* projDoc = itsProjDoc;
 	if (projDoc == nullptr)
 		{
-		(CBGetDocumentManager())->GetActiveProjectDocument(&projDoc);
+		CBGetDocumentManager()->GetActiveProjectDocument(&projDoc);
 		}
 	const JBoolean hasProject = JI2B( projDoc != nullptr );
 
@@ -353,11 +353,11 @@ CBCommandMenu::HandleSelection
 	CBProjectDocument* projDoc = itsProjDoc;
 	if (projDoc != nullptr)
 		{
-		(CBGetDocumentManager())->SetActiveProjectDocument(projDoc);
+		CBGetDocumentManager()->SetActiveProjectDocument(projDoc);
 		}
 	else
 		{
-		(CBGetDocumentManager())->GetActiveProjectDocument(&projDoc);
+		CBGetDocumentManager()->GetActiveProjectDocument(&projDoc);
 		}
 
 	if (index == kRunCmd)
@@ -441,7 +441,7 @@ CBCommandMenu::HandleAddToProjectMenu
 	CBProjectDocument* projDoc = itsProjDoc;
 	if (projDoc == nullptr)
 		{
-		(CBGetDocumentManager())->GetActiveProjectDocument(&projDoc);
+		CBGetDocumentManager()->GetActiveProjectDocument(&projDoc);
 		}
 
 	JBoolean onDisk;
@@ -476,7 +476,7 @@ CBCommandMenu::CanAddToProject()
 	const
 {
 	return JI2B(itsProjDoc == nullptr &&
-				(CBGetDocumentManager())->HasProjectDocuments() &&
+				CBGetDocumentManager()->HasProjectDocuments() &&
 				itsTextDoc != nullptr &&
 				itsTextDoc->ExistsOnDisk());
 }
@@ -518,7 +518,7 @@ CBCommandMenu::HandleManageProjectMenu
 	CBProjectDocument* projDoc = itsProjDoc;
 	if (projDoc == nullptr)
 		{
-		(CBGetDocumentManager())->GetActiveProjectDocument(&projDoc);
+		CBGetDocumentManager()->GetActiveProjectDocument(&projDoc);
 		}
 
 	if (index == kUpdateSymbolDBCmd)
@@ -556,6 +556,6 @@ JBoolean
 CBCommandMenu::CanManageProject()
 	const
 {
-	return JI2B((CBGetDocumentManager())->HasProjectDocuments() &&
+	return JI2B(CBGetDocumentManager()->HasProjectDocuments() &&
 				itsTextDoc != nullptr);
 }

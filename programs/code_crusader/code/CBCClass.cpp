@@ -93,7 +93,7 @@ CBCClass::ViewHeader()
 	JString headerName;
 	if (GetFileName(&headerName))
 		{
-		(CBGetDocumentManager())->OpenTextDocument(headerName);
+		CBGetDocumentManager()->OpenTextDocument(headerName);
 		}
 	else
 		{

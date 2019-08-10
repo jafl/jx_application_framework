@@ -88,7 +88,7 @@ CBPHPClass::ViewSource()
 	JString fileName;
 	if (GetFileName(&fileName))
 		{
-		(CBGetDocumentManager())->OpenTextDocument(fileName);
+		CBGetDocumentManager()->OpenTextDocument(fileName);
 		}
 	else
 		{

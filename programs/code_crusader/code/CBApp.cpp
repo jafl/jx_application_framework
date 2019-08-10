@@ -146,7 +146,7 @@ CBApp::Close()
 
 	// close these first so they remember all open text documents
 
-	if (!(CBGetDocumentManager())->CloseProjectDocuments())
+	if (!CBGetDocumentManager()->CloseProjectDocuments())
 		{
 		return kJFalse;
 		}
@@ -511,7 +511,7 @@ CBApp::CollectSearchPaths
 	searchPaths->SetCompareFunction(CBDirInfo::ComparePathNames);
 
 	JPtrArray<CBProjectDocument>* docList =
-		(CBGetDocumentManager())->GetProjectDocList();
+		CBGetDocumentManager()->GetProjectDocList();
 
 	const JSize docCount = docList->GetElementCount();
 	JString truePath;
@@ -576,7 +576,7 @@ CBApp::FindAndViewFile
 	JString fullName;
 	if (FindFile(fileName, caseSensitive, &fullName))
 		{
-		(CBGetDocumentManager())->OpenSomething(fullName, lineRange);
+		CBGetDocumentManager()->OpenSomething(fullName, lineRange);
 		return kJTrue;
 		}
 	else
@@ -642,7 +642,7 @@ CBApp::CleanUpBeforeSuddenDeath
 		{
 		JPrefObject::WritePrefs();
 		CBGetPrefsManager()->SaveProgramState();
-//		(CBGetDocumentManager())->Save
+//		CBGetDocumentManager()->Save
 		}
 
 	CBCleanUpBeforeSuddenDeath(reason);		// must be last call

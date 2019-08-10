@@ -162,7 +162,7 @@ CBSymbolTable::DisplaySelectedSymbols()
 				itsSymbolList->GetFile(symbolIndex, &lineIndex);
 
 			CBTextDocument* doc;
-			if ((CBGetDocumentManager())->OpenTextDocument(fileName, lineIndex, &doc))
+			if (CBGetDocumentManager()->OpenTextDocument(fileName, lineIndex, &doc))
 				{
 				CBLanguage lang;
 				CBSymbolList::Type type;

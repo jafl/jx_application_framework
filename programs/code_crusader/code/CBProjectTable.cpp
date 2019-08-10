@@ -1186,7 +1186,7 @@ CBProjectTable::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(itsDoc);
+	CBGetDocumentManager()->SetActiveProjectDocument(itsDoc);
 
 	ClearIncrementalSearchBuffer();
 	itsDragType = kInvalidDrag;
@@ -1350,7 +1350,7 @@ CBProjectTable::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(itsDoc);
+	CBGetDocumentManager()->SetActiveProjectDocument(itsDoc);
 
 	if (c == kJReturnKey)
 		{
@@ -2193,7 +2193,7 @@ CBProjectTable::HandleContextMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(itsDoc);
+	CBGetDocumentManager()->SetActiveProjectDocument(itsDoc);
 
 	if (!EndEditing())
 		{

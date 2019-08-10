@@ -506,7 +506,7 @@ CBFileListDirector::OpenSelectedFiles()
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
 	if (itsFLTable->GetSelection(&fileList))
 		{
-		(CBGetDocumentManager())->OpenSomething(fileList);
+		CBGetDocumentManager()->OpenSomething(fileList);
 		}
 }
 
@@ -532,27 +532,27 @@ CBFileListDirector::HandleFileMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(itsProjDoc);
+	CBGetDocumentManager()->SetActiveProjectDocument(itsProjDoc);
 
 	if (index == kNewTextEditorCmd)
 		{
-		(CBGetDocumentManager())->NewTextDocument();
+		CBGetDocumentManager()->NewTextDocument();
 		}
 	else if (index == kNewTextTemplateCmd)
 		{
-		(CBGetDocumentManager())->NewTextDocumentFromTemplate();
+		CBGetDocumentManager()->NewTextDocumentFromTemplate();
 		}
 	else if (index == kNewProjectCmd)
 		{
-		(CBGetDocumentManager())->NewProjectDocument();
+		CBGetDocumentManager()->NewProjectDocument();
 		}
 	else if (index == kNewShellCmd)
 		{
-		(CBGetDocumentManager())->NewShellDocument();
+		CBGetDocumentManager()->NewShellDocument();
 		}
 	else if (index == kOpenSomethingCmd)
 		{
-		(CBGetDocumentManager())->OpenSomething();
+		CBGetDocumentManager()->OpenSomething();
 		}
 
 	else if (index == kCloseCmd)
@@ -632,9 +632,9 @@ void
 CBFileListDirector::UpdateProjectMenu()
 {
 	itsProjectMenu->SetItemEnable(kCloseAllTextCmd,
-								  (CBGetDocumentManager())->HasTextDocuments());
+								  CBGetDocumentManager()->HasTextDocuments());
 	itsProjectMenu->SetItemEnable(kSaveAllTextCmd,
-								  (CBGetDocumentManager())->TextDocumentsNeedSave());
+								  CBGetDocumentManager()->TextDocumentsNeedSave());
 }
 
 /******************************************************************************
@@ -648,7 +648,7 @@ CBFileListDirector::HandleProjectMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(itsProjDoc);
+	CBGetDocumentManager()->SetActiveProjectDocument(itsProjDoc);
 
 	if (index == kShowSymbolBrowserCmd)
 		{
@@ -686,11 +686,11 @@ CBFileListDirector::HandleProjectMenu
 
 	else if (index == kSaveAllTextCmd)
 		{
-		(CBGetDocumentManager())->SaveTextDocuments(kJTrue);
+		CBGetDocumentManager()->SaveTextDocuments(kJTrue);
 		}
 	else if (index == kCloseAllTextCmd)
 		{
-		(CBGetDocumentManager())->CloseTextDocuments();
+		CBGetDocumentManager()->CloseTextDocuments();
 		}
 }
 
@@ -725,7 +725,7 @@ CBFileListDirector::HandlePrefsMenu
 		}
 	else if (index == kChooseExtEditorsCmd)
 		{
-		(CBGetDocumentManager())->ChooseEditors();
+		CBGetDocumentManager()->ChooseEditors();
 		}
 	else if (index == kShowLocationPrefsCmd)
 		{

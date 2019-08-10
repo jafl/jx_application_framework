@@ -257,7 +257,7 @@ JBoolean
 CBRunTEScriptDialog::RunScript()
 {
 	CBTextDocument* textDoc = nullptr;
-	if ((CBGetDocumentManager())->GetActiveTextDocument(&textDoc))
+	if (CBGetDocumentManager()->GetActiveTextDocument(&textDoc))
 		{
 		JBoolean onDisk;
 		const JString fullName = textDoc->GetFullName(&onDisk);

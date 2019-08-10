@@ -68,7 +68,7 @@ CBStringCompleter::CBStringCompleter
 	// ListenTo() all pre-existing project documents.
 
 	JPtrArray<CBProjectDocument>* docList =
-		(CBGetDocumentManager())->GetProjectDocList();
+		CBGetDocumentManager()->GetProjectDocList();
 
 	const JSize docCount = docList->GetElementCount();
 	for (JIndex i=1; i<=docCount; i++)
@@ -446,7 +446,7 @@ CBStringCompleter::CopySymbolsForLanguage
 	)
 {
 	JPtrArray<CBProjectDocument>* docList =
-		(CBGetDocumentManager())->GetProjectDocList();
+		CBGetDocumentManager()->GetProjectDocList();
 
 	const JSize docCount = docList->GetElementCount();
 	for (JIndex i=1; i<=docCount; i++)

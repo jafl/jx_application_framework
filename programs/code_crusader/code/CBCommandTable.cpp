@@ -166,7 +166,7 @@ CBCommandTable::CBCommandTable
 	// base path
 
 	CBProjectDocument* doc = nullptr;
-	if ((CBGetDocumentManager())->GetActiveProjectDocument(&doc))
+	if (CBGetDocumentManager()->GetActiveProjectDocument(&doc))
 		{
 		itsBasePath = doc->GetFilePath();
 		}

@@ -170,7 +170,7 @@ CBEditMiscPrefsDialog::BuildWindow()
 	itsFocusInDockCB->SetState(JXWindow::WillFocusFollowCursorInDock());
 
 	JBoolean warnSave, warnClose, warnQuit;
-	(CBGetDocumentManager())->GetWarnings(&warnSave, &warnClose);
+	CBGetDocumentManager()->GetWarnings(&warnSave, &warnClose);
 	(CBGetApplication())->GetWarnings(&warnQuit);
 
 	itsOpenOldProjCB->SetState(CBProjectDocument::WillAskOKToOpenOldVersion());
@@ -246,7 +246,7 @@ CBEditMiscPrefsDialog::UpdateSettings()
 	JXFileDocument::ShouldAskOKToClose(itsCloseUnsavedCB->IsChecked());
 	CBProjectDocument::ShouldAskOKToOpenOldVersion(itsOpenOldProjCB->IsChecked());
 
-	(CBGetDocumentManager())->SetWarnings(itsSaveAllCB->IsChecked(),
+	CBGetDocumentManager()->SetWarnings(itsSaveAllCB->IsChecked(),
 										  itsCloseAllCB->IsChecked());
 
 	(CBGetApplication())->SetWarnings(itsQuitCB->IsChecked());

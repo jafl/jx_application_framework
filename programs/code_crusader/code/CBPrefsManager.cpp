@@ -2676,7 +2676,7 @@ CBPrefsManager::RestoreProgramState()
 
 		std::istringstream dataStream(data);
 		const JBoolean restored =
-			(CBGetDocumentManager())->RestoreState(dataStream);
+			CBGetDocumentManager()->RestoreState(dataStream);
 		RemoveData(kCBDocMgrStateID);
 
 		JXWindow::ShouldAutoDockNewWindows(saveAutoDock);
@@ -2698,7 +2698,7 @@ CBPrefsManager::SaveProgramState()
 		}
 
 	std::ostringstream data;
-	if ((CBGetDocumentManager())->SaveState(data))
+	if (CBGetDocumentManager()->SaveState(data))
 		{
 		SetData(kCBDocMgrStateID, data);
 		}

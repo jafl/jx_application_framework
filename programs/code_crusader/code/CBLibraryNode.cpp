@@ -160,7 +160,7 @@ CBLibraryNode::BuildMakeFiles
 		libProjPathList->Append(path);
 
 		CBProjectDocument* doc;
-		if ((CBGetDocumentManager())->ProjectDocumentIsOpen(projFullName, &doc))
+		if (CBGetDocumentManager()->ProjectDocumentIsOpen(projFullName, &doc))
 			{
 			(doc->GetBuildManager())->UpdateMakeFiles();
 			}

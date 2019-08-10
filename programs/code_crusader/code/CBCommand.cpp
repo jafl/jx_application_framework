@@ -87,7 +87,7 @@ CBCommand::~CBCommand()
 
 	if (itsUpdateSymbolDatabaseFlag && itsSuccessFlag)
 		{
-		(CBGetDocumentManager())->UpdateSymbolDatabases();
+		CBGetDocumentManager()->UpdateSymbolDatabases();
 		}
 
 	// only refresh VCS status when all finished, since may be expensive
@@ -98,7 +98,7 @@ CBCommand::~CBCommand()
 		}
 	else if (itsRefreshVCSStatusFlag)
 		{
-		(CBGetDocumentManager())->RefreshVCSStatus();
+		CBGetDocumentManager()->RefreshVCSStatus();
 		}
 
 	if (itsParent != nullptr && itsCallParentProcessFinishedFlag)
@@ -363,7 +363,7 @@ CBCommand::Start
 
 	if (info.saveAll)	// ok, now that we have decided that command can be executed
 		{
-		(CBGetDocumentManager())->SaveTextDocuments(kJFalse);
+		CBGetDocumentManager()->SaveTextDocuments(kJFalse);
 		JWait(1.1);		// ensure timestamp is different if any other program modifies the files and then does --revert-all-saved
 		}
 
@@ -374,7 +374,7 @@ CBCommand::Start
 
 	if (itsUpdateSymbolDatabaseFlag)
 		{
-		(CBGetDocumentManager())->CancelUpdateSymbolDatabases();
+		CBGetDocumentManager()->CancelUpdateSymbolDatabases();
 		}
 
 	// after saving all files, update Makefile

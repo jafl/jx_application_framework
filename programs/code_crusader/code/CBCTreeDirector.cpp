@@ -209,7 +209,7 @@ CBCTreeDirector::HandleTreeMenu
 	const JIndex index
 	)
 {
-	(CBGetDocumentManager())->SetActiveProjectDocument(GetProjectDoc());
+	CBGetDocumentManager()->SetActiveProjectDocument(GetProjectDoc());
 
 	if (index == kEditCPPMacrosCmd)
 		{

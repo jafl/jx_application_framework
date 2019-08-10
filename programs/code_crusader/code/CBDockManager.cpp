@@ -114,7 +114,7 @@ CBDockManager::DockAll()
 	(dock3->GetTabGroup())->SetTabEdge(JXTabGroup::kBottom);
 
 	JPtrArray<CBProjectDocument>* projList =
-		(CBGetDocumentManager())->GetProjectDocList();
+		CBGetDocumentManager()->GetProjectDocList();
 
 	JSize count = projList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -131,7 +131,7 @@ CBDockManager::DockAll()
 		}
 
 	JPtrArray<CBTextDocument>* textList =
-		(CBGetDocumentManager())->GetTextDocList();
+		CBGetDocumentManager()->GetTextDocList();
 
 	count = textList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
