@@ -364,6 +364,7 @@ CBCommand::Start
 	if (info.saveAll)	// ok, now that we have decided that command can be executed
 		{
 		(CBGetDocumentManager())->SaveTextDocuments(kJFalse);
+		JWait(1.1);		// ensure timestamp is different if any other program modifies the files and then does --revert-all-saved
 		}
 
 	if (info.isVCS)
