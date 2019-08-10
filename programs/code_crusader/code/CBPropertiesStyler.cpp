@@ -12,16 +12,16 @@
 
 #include "CBPropertiesStyler.h"
 #include "cbmUtil.h"
-#include <JXDialogDirector.h>
 #include <JRegex.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBPropertiesStyler* CBPropertiesStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 0;
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	"Key or Value",
 	"Assignment",
@@ -31,9 +31,7 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit INI Styles";
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -77,7 +75,8 @@ CBPropertiesStyler::Shutdown()
 CBPropertiesStyler::CBPropertiesStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBPropertiesStyleID, kCBPropertiesFT),
+				 JGetString("EditDialogTitle::CBPropertiesStyler"),
+				 kCBPropertiesStyleID, kCBPropertiesFT),
 	CBPropertiesScanner()
 {
 	JFontStyle blankStyle;
@@ -86,11 +85,9 @@ CBPropertiesStyler::CBPropertiesStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap = GetColormap();
+	SetTypeStyle(kComment - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
 
-	SetTypeStyle(kComment - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-
-	SetTypeStyle(kError   - kWhitespace, JFontStyle(colormap->GetRedColor()));
+	SetTypeStyle(kError   - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
 	JPrefObject::ReadPrefs();
 }
@@ -114,15 +111,15 @@ CBPropertiesStyler::~CBPropertiesStyler()
 void
 CBPropertiesStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input);
+	BeginScan(startIndex, input);
 
 	const JString& text = GetText();
 
-	JBoolean keepGoing;
 	Token token;
 	JFontStyle style;
 	do
@@ -137,7 +134,7 @@ CBPropertiesStyler::Scan
 
 		if (token.type == kAssignment)
 			{
-			SaveTokenStart(TokenExtra());
+			SaveTokenStart(token.range.GetFirst());
 			}
 
 		// set the style
@@ -157,19 +154,17 @@ CBPropertiesStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(text.GetSubstring(token.range), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, text.GetSubstring(token.range));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
 			}
-
-		keepGoing = SetStyle(token.range, style);
 		}
-		while (keepGoing);
+		while (SetStyle(token.range.charRange, style));
 }
 
 /******************************************************************************

@@ -14,7 +14,7 @@
 #include <FlexLexer.h>
 #endif
 
-#include <JUtf8ByteRange.h>
+#include <JStyledText.h>
 
 class CBCShellScanner : public CBCShellFlexLexer
 {
@@ -53,15 +53,15 @@ public:
 
 	struct Token
 	{
-		TokenType		type;
-		JUtf8ByteRange	range;
+		TokenType				type;
+		JStyledText::TextRange	range;
 
 		Token()
 			:
-			type(kEOF), range()
+			type(kEOF)
 			{ };
 
-		Token(const TokenType t, const JUtf8ByteRange& r)
+		Token(const TokenType t, const JStyledText::TextRange& r)
 			:
 			type(t), range(r)
 			{ };
@@ -73,13 +73,13 @@ public:
 
 	virtual ~CBCShellScanner();
 
-	void	BeginScan(std::istream& input);
+	void	BeginScan(const JStyledText::TextIndex& startIndex, std::istream& input);
 	Token	NextToken();		// written by flex
 
 private:
 
-	JBoolean		itsResetFlag;
-	JUtf8ByteRange	itsCurrentRange;
+	JBoolean				itsResetFlag;
+	JStyledText::TextRange	itsCurrentRange;
 
 private:
 
@@ -102,8 +102,9 @@ private:
 inline void
 CBCShellScanner::StartToken()
 {
-	const JIndex prevEnd = itsCurrentRange.last;
-	itsCurrentRange.Set(prevEnd+1, prevEnd+yyleng);
+	itsCurrentRange.charRange.SetToEmptyAt(itsCurrentRange.charRange.last+1);
+	itsCurrentRange.byteRange.SetToEmptyAt(itsCurrentRange.byteRange.last+1);
+	ContinueToken();
 }
 
 /******************************************************************************
@@ -114,7 +115,8 @@ CBCShellScanner::StartToken()
 inline void
 CBCShellScanner::ContinueToken()
 {
-	itsCurrentRange.last += yyleng;
+	itsCurrentRange.charRange.last += JString::CountCharacters(yytext, yyleng);
+	itsCurrentRange.byteRange.last += yyleng;
 }
 
 /******************************************************************************
@@ -147,12 +149,9 @@ operator==
 	const CBCShellScanner::Token& t2
 	)
 {
-	return ( t1.type == t2.type
-			 &&
-				(
-					t1.range == t2.range || t1.type == CBCShellScanner::kEOF
-				)
-		   );
+	return (t1.type == t2.type &&
+			(t1.range.charRange == t2.range.charRange ||
+			 t1.type == CBCShellScanner::kEOF));
 }
 
 inline int

@@ -119,7 +119,8 @@ BUILTINCMD     (true|false|source|alias|bg|bind|break|builtin|cd|command|continu
 
 !({WSCHAR}|[=(]) {
 	StartToken();
-	itsCurrentRange.last = itsCurrentRange.first;
+	itsCurrentRange.charRange.last = itsCurrentRange.charRange.first;
+	itsCurrentRange.byteRange.last = itsCurrentRange.byteRange.first;	// single byte character
 	yyless(yyleng-1);
 	return ThisToken(kControlOperator);
 	}

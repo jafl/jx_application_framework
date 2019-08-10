@@ -13,14 +13,15 @@
 #include "CBCShellStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBCShellStyler* CBCShellStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 0;
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	"Identifier",
 	"Variable",
@@ -41,9 +42,7 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit C Shell Styles";
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -87,7 +86,8 @@ CBCShellStyler::Shutdown()
 CBCShellStyler::CBCShellStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBCShellStyleID, kCBCShellFT),
+				 JGetString("EditDialogTitle::CBCShellStyler"),
+				 kCBCShellStyleID, kCBCShellFT),
 	CBCShellScanner()
 {
 	JFontStyle blankStyle;
@@ -96,16 +96,14 @@ CBCShellStyler::CBCShellStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap = GetColormap();
-
-	SetTypeStyle(kVariable          - kWhitespace, JFontStyle(colormap->GetBlueColor()));
-	SetTypeStyle(kReservedWord      - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kBuiltInCommand    - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kSingleQuoteString - kWhitespace, JFontStyle(colormap->GetBrownColor()));
-	SetTypeStyle(kDoubleQuoteString - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kExecString        - kWhitespace, JFontStyle(colormap->GetPinkColor()));
-	SetTypeStyle(kComment           - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kError             - kWhitespace, JFontStyle(colormap->GetRedColor()));
+	SetTypeStyle(kVariable          - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
+	SetTypeStyle(kReservedWord      - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kBuiltInCommand    - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kSingleQuoteString - kWhitespace, JFontStyle(JColorManager::GetBrownColor()));
+	SetTypeStyle(kDoubleQuoteString - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kExecString        - kWhitespace, JFontStyle(JColorManager::GetPinkColor()));
+	SetTypeStyle(kComment           - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kError             - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
 	JPrefObject::ReadPrefs();
 }
@@ -129,11 +127,12 @@ CBCShellStyler::~CBCShellStyler()
 void
 CBCShellStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input);
+	BeginScan(startIndex, input);
 
 	const JString& text = GetText();
 
@@ -158,7 +157,7 @@ CBCShellStyler::Scan
 			token.type == kExecString        ||
 			token.type == kComment)
 			{
-			SaveTokenStart(TokenExtra());
+			SaveTokenStart(token.range.GetFirst());
 			}
 
 		// handle special cases
@@ -189,17 +188,17 @@ CBCShellStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(text.GetSubstring(token.range), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, text.GetSubstring(token.range));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
 			}
 
-		keepGoing = SetStyle(token.range, style);
+		keepGoing = SetStyle(token.range.charRange, style);
 
 		if (token.type == kDoubleQuoteString ||
 			token.type == kExecString)
@@ -225,10 +224,10 @@ CBCShellStyler::Scan
 void
 CBCShellStyler::ExtendCheckRangeForString
 	(
-	const JIndexRange& tokenRange
+	const JStyledText::TextRange& tokenRange
 	)
 {
-	ExtendCheckRange(tokenRange.last+1);
+	ExtendCheckRange(tokenRange.charRange.last+1);
 }
 
 /******************************************************************************

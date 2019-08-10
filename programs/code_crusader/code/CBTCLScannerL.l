@@ -212,7 +212,8 @@ PREDEFWORD   (after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|
 	if (braceDepth == 0)
 		{
 		yyless(1);
-		itsCurrentRange.last++;
+		itsCurrentRange.charRange.last++;
+		itsCurrentRange.byteRange.last++;	// single byte character
 		BEGIN(INITIAL);
 		return ThisToken(kUnterminatedString);
 		}
@@ -272,7 +273,8 @@ PREDEFWORD   (after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|
 	if (braceDepth == 0)
 		{
 		yyless(1);
-		itsCurrentRange.last++;
+		itsCurrentRange.charRange.last++;
+		itsCurrentRange.byteRange.last++;	// single byte character
 		BEGIN(INITIAL);
 		return ThisToken(kComment);
 		}

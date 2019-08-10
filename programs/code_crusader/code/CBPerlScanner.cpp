@@ -44,11 +44,13 @@ CBPerlScanner::~CBPerlScanner()
 void
 CBPerlScanner::BeginScan
 	(
-	std::istream& input
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input
 	)
 {
 	itsResetFlag = kJTrue;
-	itsCurrentRange.Set(JTellg(input)+1, JTellg(input));
+	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
+	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 	itsProbableOperatorFlag = kJFalse;
 	itsHereDocTag.Clear();
 	itsHereDocType = kDoubleQuoteString;
@@ -164,6 +166,8 @@ CBPerlScanner::SlurpQuoted
 void
 CBPerlScanner::SavePPNameRange()
 {
+	itsPPNameRange = itsCurrentRange;
+
 	JIndex i=0;
 	while (yytext[i] != '#')
 		{
@@ -171,7 +175,8 @@ CBPerlScanner::SavePPNameRange()
 		}
 	assert( i < (JSize) yyleng );
 
-	itsPPNameRange.first = itsCurrentRange.first + i;
+	itsPPNameRange.charRange.first += JString::CountCharacters(yytext, i);
+	itsPPNameRange.byteRange.first += i;
 
 	i++;	// move past #
 	while (isspace(yytext[i]))
@@ -186,5 +191,6 @@ CBPerlScanner::SavePPNameRange()
 		}
 	assert( i < (JSize) yyleng );
 
-	itsPPNameRange.last = itsCurrentRange.first + i-1;
+	itsPPNameRange.charRange.last = itsCurrentRange.charRange.first + JString::CountCharacters(yytext, i-1);
+	itsPPNameRange.byteRange.last = itsCurrentRange.byteRange.first + i-1;
 }

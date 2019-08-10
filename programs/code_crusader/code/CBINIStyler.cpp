@@ -14,7 +14,8 @@
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
 #include <JRegex.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBINIStyler* CBINIStyler::itsSelf = nullptr;
@@ -23,7 +24,7 @@ const JFileVersion kCurrentTypeListVersion = 1;
 
 	// version 1 inserts kArrayIndex after kAssignment (2)
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	"Section Name",
 
@@ -39,9 +40,7 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit INI Styles";
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -85,7 +84,8 @@ CBINIStyler::Shutdown()
 CBINIStyler::CBINIStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBINIStyleID, kCBINIFT),
+				 JGetString("EditDialogTitle::CBINIStyler"),
+				 kCBINIStyleID, kCBINIFT),
 	CBINIScanner()
 {
 	JFontStyle blankStyle;
@@ -94,16 +94,14 @@ CBINIStyler::CBINIStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap = GetColormap();
-
 	SetTypeStyle(kSectionName       - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse));
 
-	SetTypeStyle(kSingleQuoteString - kWhitespace, JFontStyle(colormap->GetBrownColor()));
-	SetTypeStyle(kDoubleQuoteString - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
+	SetTypeStyle(kSingleQuoteString - kWhitespace, JFontStyle(JColorManager::GetBrownColor()));
+	SetTypeStyle(kDoubleQuoteString - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
 
-	SetTypeStyle(kComment           - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
+	SetTypeStyle(kComment           - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
 
-	SetTypeStyle(kError             - kWhitespace, JFontStyle(colormap->GetRedColor()));
+	SetTypeStyle(kError             - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
 	JPrefObject::ReadPrefs();
 }
@@ -127,15 +125,15 @@ CBINIStyler::~CBINIStyler()
 void
 CBINIStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input);
+	BeginScan(startIndex, input);
 
 	const JString& text = GetText();
 
-	JBoolean keepGoing;
 	Token token;
 	JFontStyle style;
 	do
@@ -150,7 +148,7 @@ CBINIStyler::Scan
 
 		if (token.type == kAssignment)
 			{
-			SaveTokenStart(TokenExtra());
+			SaveTokenStart(token.range.GetFirst());
 			}
 
 		// handle special cases
@@ -179,19 +177,17 @@ CBINIStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(text.GetSubstring(token.range), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, text.GetSubstring(token.range));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
 			}
-
-		keepGoing = SetStyle(token.range, style);
 		}
-		while (keepGoing);
+		while (SetStyle(token.range.charRange, style));
 }
 
 /******************************************************************************
@@ -209,10 +205,10 @@ CBINIStyler::Scan
 void
 CBINIStyler::ExtendCheckRangeForString
 	(
-	const JIndexRange& tokenRange
+	const JStyledText::TextRange& tokenRange
 	)
 {
-	ExtendCheckRange(tokenRange.last+1);
+	ExtendCheckRange(tokenRange.charRange.last+1);
 }
 
 /******************************************************************************

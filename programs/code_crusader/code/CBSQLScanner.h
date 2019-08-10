@@ -156,12 +156,9 @@ operator==
 	const CBSQLScanner::Token& t2
 	)
 {
-	return ( t1.type == t2.type
-			 &&
-				(
-					t1.range.charRange == t2.range.charRange || t1.type == CBSQLScanner::kEOF
-				)
-		   );
+	return (t1.type == t2.type &&
+			(t1.range.charRange == t2.range.charRange ||
+			 t1.type == CBSQLScanner::kEOF));
 }
 
 inline int

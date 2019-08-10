@@ -23,8 +23,7 @@
 CBEiffelScanner::CBEiffelScanner()
 	:
 	CBEiffelFlexLexer(),
-	itsResetFlag(kJFalse),
-	itsCurrentRange()
+	itsResetFlag(kJFalse)
 {
 }
 
@@ -45,11 +44,13 @@ CBEiffelScanner::~CBEiffelScanner()
 void
 CBEiffelScanner::BeginScan
 	(
-	std::istream& input
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input
 	)
 {
 	itsResetFlag = kJTrue;
-	itsCurrentRange.Set(JTellg(input)+1, JTellg(input));
+	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
+	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 
 	switch_streams(&input, nullptr);
 }
@@ -64,8 +65,9 @@ CBEiffelScanner::BeginScan
 void
 CBEiffelScanner::Undo
 	(
-	const JUtf8ByteRange&	range,
-	const JString&			text
+	const JStyledText::TextRange&	range,
+	const JSize						prevCharByteCount,
+	const JString&					text
 	)
 {
 	for (JUnsignedOffset i=text.GetByteCount()-1; i>=0; i--)
@@ -73,5 +75,9 @@ CBEiffelScanner::Undo
 		yyunput(text.GetBytes()[i], yytext);
 		}
 
-	itsCurrentRange.first = itsCurrentRange.last = range.first - 1;
+	itsCurrentRange.charRange.first =
+	itsCurrentRange.charRange.last  = range.charRange.first - 1;
+
+	itsCurrentRange.byteRange.first = range.byteRange.first - prevCharByteCount;
+	itsCurrentRange.byteRange.last  = range.byteRange.first - 1;
 }

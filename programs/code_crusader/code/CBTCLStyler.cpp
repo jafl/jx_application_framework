@@ -13,14 +13,15 @@
 #include "CBTCLStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBTCLStyler* CBTCLStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 0;
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	"Predefined word",
 	"Variable",
@@ -38,9 +39,7 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit TCL Styles";
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -84,7 +83,8 @@ CBTCLStyler::Shutdown()
 CBTCLStyler::CBTCLStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBTCLStyleID, kCBTCLFT),
+				 JGetString("EditDialogTitle::CBTCLStyler"),
+				 kCBTCLStyleID, kCBTCLFT),
 	CBTCLScanner()
 {
 	JFontStyle blankStyle;
@@ -93,13 +93,11 @@ CBTCLStyler::CBTCLStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap = GetColormap();
-
-	SetTypeStyle(kPredefinedWord - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kVariable       - kWhitespace, JFontStyle(colormap->GetBlueColor()));
-	SetTypeStyle(kString         - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kComment        - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kError          - kWhitespace, JFontStyle(colormap->GetRedColor()));
+	SetTypeStyle(kPredefinedWord - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kVariable       - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
+	SetTypeStyle(kString         - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kComment        - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kError          - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
 	JPrefObject::ReadPrefs();
 }
@@ -123,11 +121,12 @@ CBTCLStyler::~CBTCLStyler()
 void
 CBTCLStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input);
+	BeginScan(startIndex, input);
 
 	const JString& text = GetText();
 
@@ -150,7 +149,7 @@ CBTCLStyler::Scan
 			token.type == kString ||
 			token.type == kComment)
 			{
-			SaveTokenStart(TokenExtra());
+			SaveTokenStart(token.range.GetFirst());
 			}
 
 		// handle special cases
@@ -182,10 +181,10 @@ CBTCLStyler::Scan
 			}
 		else
 			{
-			style = GetStyle(typeIndex, text.GetSubstring(token.range));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
 			}
 
-		keepGoing = SetStyle(token.range, style);
+		keepGoing = SetStyle(token.range.charRange, style);
 
 		if (token.type == kString)
 			{
@@ -210,10 +209,10 @@ CBTCLStyler::Scan
 void
 CBTCLStyler::ExtendCheckRangeForString
 	(
-	const JIndexRange& tokenRange
+	const JStyledText::TextRange& tokenRange
 	)
 {
-	ExtendCheckRange(tokenRange.last+1);
+	ExtendCheckRange(tokenRange.charRange.last+1);
 }
 
 /******************************************************************************

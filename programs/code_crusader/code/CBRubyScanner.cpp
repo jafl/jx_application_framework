@@ -44,11 +44,13 @@ CBRubyScanner::~CBRubyScanner()
 void
 CBRubyScanner::BeginScan
 	(
-	std::istream& input
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input
 	)
 {
 	itsResetFlag = kJTrue;
-	itsCurrentRange.Set(JTellg(input)+1, JTellg(input));
+	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
+	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 	itsProbableOperatorFlag = kJFalse;
 	itsHereDocTag.Clear();
 	itsHereDocType = kDoubleQuoteString;

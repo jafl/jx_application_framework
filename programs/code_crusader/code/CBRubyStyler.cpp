@@ -12,9 +12,9 @@
 
 #include "CBRubyStyler.h"
 #include "cbmUtil.h"
-#include <JXDialogDirector.h>
 #include <JRegex.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBRubyStyler* CBRubyStyler::itsSelf = nullptr;
@@ -23,7 +23,7 @@ const JFileVersion kCurrentTypeListVersion = 1;
 
 // version 1 inserts kWordList after kSymbol (11)
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	"Local variable",
 	"Instance variable",
@@ -54,9 +54,7 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit Ruby Styles";
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -100,7 +98,8 @@ CBRubyStyler::Shutdown()
 CBRubyStyler::CBRubyStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBRubyStyleID, kCBRubyFT),
+				 JGetString("EditDialogTitle::CBRubyStyler"),
+				 kCBRubyStyleID, kCBRubyFT),
 	CBRubyScanner()
 {
 	JFontStyle blankStyle;
@@ -109,22 +108,19 @@ CBRubyStyler::CBRubyStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap   = GetColormap();
-	const JColorID red = colormap->GetRedColor();
+	SetTypeStyle(kReservedKeyword    - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 
-	SetTypeStyle(kReservedKeyword    - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
+	SetTypeStyle(kSingleQuoteString  - kWhitespace, JFontStyle(JColorManager::GetBrownColor()));
+	SetTypeStyle(kDoubleQuoteString  - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kHereDocString      - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kExecString         - kWhitespace, JFontStyle(JColorManager::GetPinkColor()));
 
-	SetTypeStyle(kSingleQuoteString  - kWhitespace, JFontStyle(colormap->GetBrownColor()));
-	SetTypeStyle(kDoubleQuoteString  - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kHereDocString      - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kExecString         - kWhitespace, JFontStyle(colormap->GetPinkColor()));
+	SetTypeStyle(kRegex              - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 
-	SetTypeStyle(kRegex              - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
+	SetTypeStyle(kComment            - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kEmbeddedDoc        - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetGrayColor(50)));
 
-	SetTypeStyle(kComment            - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kEmbeddedDoc        - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, colormap->GetGrayColor(50)));
-
-	SetTypeStyle(kError              - kWhitespace, JFontStyle(red));
+	SetTypeStyle(kError              - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
 	JPrefObject::ReadPrefs();
 }
@@ -148,11 +144,12 @@ CBRubyStyler::~CBRubyStyler()
 void
 CBRubyStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input);
+	BeginScan(startIndex, input);
 
 	const JString& text = GetText();
 
@@ -178,7 +175,7 @@ CBRubyStyler::Scan
 			token.type == kDoubleQuoteString ||
 			token.type == kExecString)
 			{
-			SaveTokenStart(TokenExtra());
+			SaveTokenStart(token.range.GetFirst());
 			}
 
 		// handle special cases
@@ -212,17 +209,17 @@ CBRubyStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(text.GetSubstring(token.range), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, text.GetSubstring(token.range));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
 			}
 
-		keepGoing = SetStyle(token.range, style);
+		keepGoing = SetStyle(token.range.charRange, style);
 
 		if (token.type == kDoubleQuoteString ||
 			token.type == kExecString)
@@ -248,10 +245,10 @@ CBRubyStyler::Scan
 void
 CBRubyStyler::ExtendCheckRangeForString
 	(
-	const JIndexRange& tokenRange
+	const JStyledText::TextRange& tokenRange
 	)
 {
-	ExtendCheckRange(tokenRange.last+1);
+	ExtendCheckRange(tokenRange.charRange.last+1);
 }
 
 /******************************************************************************

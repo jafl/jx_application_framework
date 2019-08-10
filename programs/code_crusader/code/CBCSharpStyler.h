@@ -24,7 +24,8 @@ protected:
 
 	CBCSharpStyler();
 
-	virtual void	Scan(std::istream& input, const TokenExtra& initData) override;
+	virtual void	Scan(const JStyledText::TextIndex& startIndex,
+						 std::istream& input, const TokenExtra& initData) override;
 	virtual void	UpgradeTypeList(const JFileVersion vers,
 									JArray<JFontStyle>* typeStyles) override;
 
@@ -34,7 +35,7 @@ private:
 
 private:
 
-	JBoolean	SlurpPPComment(JUtf8ByteRange* totalRange);
+	JBoolean	SlurpPPComment(JStyledText::TextRange* totalRange);
 
 	// not allowed
 

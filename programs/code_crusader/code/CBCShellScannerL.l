@@ -117,7 +117,8 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 
 !({WSCHAR}|\() {
 	StartToken();
-	itsCurrentRange.last = itsCurrentRange.first;
+	itsCurrentRange.charRange.last = itsCurrentRange.charRange.first;
+	itsCurrentRange.byteRange.last = itsCurrentRange.byteRange.first;	// single byte character
 	yyless(yyleng-1);
 	return ThisToken(kControlOperator);
 	}

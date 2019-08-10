@@ -12,9 +12,9 @@
 
 #include "CBJavaScriptStyler.h"
 #include "cbmUtil.h"
-#include <JXDialogDirector.h>
-#include <JXColorManager.h>
 #include <JRegex.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBJavaScriptStyler* CBJavaScriptStyler::itsSelf = nullptr;
@@ -24,7 +24,7 @@ const JFileVersion kCurrentTypeListVersion = 2;
 	// version 2 adds kTemplateString after kString (5)
 	// version 1 adds kRegexSearch after kHexInt (8)
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	"Identifier",
 	"Reserved keyword",
@@ -48,16 +48,14 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
-static const JCharacter* kUnusedKeyword[] =
+static const JUtf8Byte* kUnusedKeyword[] =
 {
 	"debugger", "goto"
 };
 
-const JSize kUnusedKeywordCount = sizeof(kUnusedKeyword)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit JavaScript Styles";
+const JSize kUnusedKeywordCount = sizeof(kUnusedKeyword)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -101,7 +99,8 @@ CBJavaScriptStyler::Shutdown()
 CBJavaScriptStyler::CBJavaScriptStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBJavaScriptStyleID, kCBJavaScriptFT),
+				 JGetString("EditDialogTitle::CBJavaScriptStyler"),
+				 kCBJavaScriptStyleID, kCBJavaScriptFT),
 	CBJavaScriptScanner()
 {
 	JFontStyle blankStyle;
@@ -110,24 +109,23 @@ CBJavaScriptStyler::CBJavaScriptStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap   = GetColormap();
-	const JColorID red = colormap->GetRedColor();
+	const JColorID red = JColorManager::GetRedColor();
 
-	SetTypeStyle(kReservedKeyword      - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
+	SetTypeStyle(kReservedKeyword      - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 
-	SetTypeStyle(kString               - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kTemplateString       - kWhitespace, JFontStyle(colormap->GetPinkColor()));
-	SetTypeStyle(kRegexSearch          - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
+	SetTypeStyle(kString               - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kTemplateString       - kWhitespace, JFontStyle(JColorManager::GetPinkColor()));
+	SetTypeStyle(kRegexSearch          - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 
-	SetTypeStyle(kComment              - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kDocCommentHTMLTag    - kWhitespace, JFontStyle(colormap->GetBlueColor()));
+	SetTypeStyle(kComment              - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kDocCommentHTMLTag    - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
 	SetTypeStyle(kDocCommentSpecialTag - kWhitespace, JFontStyle(kJFalse, kJFalse, 1, kJFalse));
 
 	SetTypeStyle(kError                - kWhitespace, JFontStyle(red));
 
 	for (JUnsignedOffset i=0; i<kUnusedKeywordCount; i++)
 		{
-		SetWordStyle(kUnusedKeyword[i], JFontStyle(red));
+		SetWordStyle(JString(kUnusedKeyword[i], kJFalse), JFontStyle(red));
 		}
 
 	JPrefObject::ReadPrefs();
@@ -152,11 +150,12 @@ CBJavaScriptStyler::~CBJavaScriptStyler()
 void
 CBJavaScriptStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input);
+	BeginScan(startIndex, input);
 
 	const JString& text = GetText();
 
@@ -177,7 +176,7 @@ CBJavaScriptStyler::Scan
 			token.type == kReservedKeyword ||
 			token.type == kString)
 			{
-			SaveTokenStart(TokenExtra());
+			SaveTokenStart(token.range.GetFirst());
 			}
 
 		// set the style
@@ -204,15 +203,15 @@ CBJavaScriptStyler::Scan
 				{
 				if (!(token.docCommentRange).IsEmpty())
 					{
-					SetStyle(token.docCommentRange, GetTypeStyle(kComment - kWhitespace));
+					SetStyle(token.docCommentRange.charRange, GetTypeStyle(kComment - kWhitespace));
 					}
-				ExtendCheckRange(token.range.last+1);
+				ExtendCheckRange(token.range.charRange.last+1);
 				}
 
-			style = GetStyle(typeIndex, text.GetSubstring(token.range));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
 			}
 
-		keepGoing = SetStyle(token.range, style);
+		keepGoing = SetStyle(token.range.charRange, style);
 
 		if (token.type == kTemplateString)
 			{
@@ -290,16 +289,14 @@ CBJavaScriptStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	JXColorManager* colormap = GetColormap();
-
 	if (vers < 1)
 		{
-		typeStyles->InsertElementAtIndex(9, JFontStyle(colormap->GetDarkGreenColor()));
+		typeStyles->InsertElementAtIndex(9, JFontStyle(JColorManager::GetDarkGreenColor()));
 		}
 
 	if (vers < 2)
 		{
-		typeStyles->InsertElementAtIndex(6, JFontStyle(colormap->GetPinkColor()));
+		typeStyles->InsertElementAtIndex(6, JFontStyle(JColorManager::GetPinkColor()));
 		}
 
 	// set new values after all new slots have been created

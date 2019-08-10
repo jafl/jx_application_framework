@@ -14,7 +14,8 @@
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
 #include <JRegex.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBEiffelStyler* CBEiffelStyler::itsSelf = nullptr;
@@ -27,7 +28,7 @@ const JFileVersion kCurrentTypeListVersion = 3;
 	// version 2 inserts kBuiltInDataType after kReservedCPPKeyword (4)
 	// version 3 inserts kOperator and kDelimiter after kBuiltInDataType (5)
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	"Identifier",
 	"Reserved keyword",
@@ -48,9 +49,7 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit Eiffel Styles";
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -94,7 +93,8 @@ CBEiffelStyler::Shutdown()
 CBEiffelStyler::CBEiffelStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBEiffelStyleID, kCBEiffelFT),
+				 JGetString("EditDialogTitle::CBEiffelStyler"),
+				 kCBEiffelStyleID, kCBEiffelFT),
 	CBEiffelScanner()
 {
 	JFontStyle blankStyle;
@@ -103,14 +103,11 @@ CBEiffelStyler::CBEiffelStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap   = GetColormap();
-	const JColorID red = colormap->GetRedColor();
-
-	SetTypeStyle(kReservedKeyword - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kBuiltInDataType - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kString          - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kComment         - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kError           - kWhitespace, JFontStyle(red));
+	SetTypeStyle(kReservedKeyword - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kBuiltInDataType - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kString          - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kComment         - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kError           - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
 	JPrefObject::ReadPrefs();
 }
@@ -134,11 +131,12 @@ CBEiffelStyler::~CBEiffelStyler()
 void
 CBEiffelStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input);
+	BeginScan(startIndex, input);
 
 	const JString& text = GetText();
 
@@ -160,7 +158,7 @@ CBEiffelStyler::Scan
 			token.type == kString          ||
 			token.type == kComment)
 			{
-			SaveTokenStart(TokenExtra());
+			SaveTokenStart(token.range.GetFirst());
 			}
 
 		// set the style
@@ -181,17 +179,17 @@ CBEiffelStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(text.GetSubstring(token.range), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, text.GetSubstring(token.range));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
 			}
 		}
-		while (SetStyle(token.range, style));
+		while (SetStyle(token.range.charRange, style));
 }
 
 /******************************************************************************

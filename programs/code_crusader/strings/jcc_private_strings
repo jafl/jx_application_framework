@@ -863,6 +863,50 @@ DiffFailed::CBDiffDocument
 
 $err"
 
+# CBBourneShellStyler
+
+EditDialogTitle::CBBourneShellStyler	"Edit Bourne Shell Styles"
+
+# CBCSharpStyler
+
+EditDialogTitle::CBCSharpStyler	"Edit C# Styles"
+
+# CBCShellStyler
+
+EditDialogTitle::CBCShellStyler	"Edit C Shell Styles"
+
+# CBEiffelStyler
+
+EditDialogTitle::CBEiffelStyler	"Edit Eiffel Styles"
+
+# CBINIStyler
+
+EditDialogTitle::CBINIStyler	"Edit INI Styles"
+
+# CBJavaScriptStyler
+
+EditDialogTitle::CBJavaScriptStyler	"Edit JavaScript Styles"
+
+# CBPerlStyler
+
+EditDialogTitle::CBPerlStyler	"Edit Perl Styles"
+
+# CBPropertiesStyler
+
+EditDialogTitle::CBPropertiesStyler	"Edit INI Styles"
+
+# CBPythonStyler
+
+EditDialogTitle::CBPythonStyler	"Edit C/C++ Styles"
+
+# CBRubyStyler
+
+EditDialogTitle::CBRubyStyler	"Edit Ruby Styles"
+
 # CBSQLStyler
 
 EditDialogTitle::CBSQLStyler	"Edit SQL Styles"
+
+# CBTCLStyler
+
+EditDialogTitle::CBTCLStyler	"Edit TCL Styles"

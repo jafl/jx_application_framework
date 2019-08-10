@@ -269,11 +269,11 @@ CBCStyler::PreexpandCheckRange
  ******************************************************************************/
 
 static const JRegex ppCommentPattern =
-	"^[[:space:]]*#[[:space:]]*(el)?if[[:space:]]+0[[:space:]]*(//.*|/\\*[^*]*\\*/)?\n";
+	"^[[:space:]]*(#|%:|\\?\\?=)[[:space:]]*(el)?if[[:space:]]+0[[:space:]]*(//.*|/\\*[^*]*\\*/)?\n";
 
-static const JRegex ppIfPattern   = "^[[:space:]]*#[[:space:]]*if";
-static const JRegex ppElsePattern = "^[[:space:]]*#[[:space:]]*(else|elif)";
-static const JRegex ppEndPattern  = "^[[:space:]]*#[[:space:]]*endif";
+static const JRegex ppIfPattern   = "^[[:space:]]*(#|%:|\\?\\?=)[[:space:]]*if";
+static const JRegex ppElsePattern = "^[[:space:]]*(#|%:|\\?\\?=)[[:space:]]*(else|elif)";
+static const JRegex ppEndPattern  = "^[[:space:]]*(#|%:|\\?\\?=)[[:space:]]*endif";
 
 #if 0	// comment
 abc

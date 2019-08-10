@@ -45,11 +45,13 @@ CBCSharpScanner::~CBCSharpScanner()
 void
 CBCSharpScanner::BeginScan
 	(
-	std::istream& input
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input
 	)
 {
 	itsResetFlag = kJTrue;
-	itsCurrentRange.Set(JTellg(input)+1, JTellg(input));
+	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
+	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 
 	switch_streams(&input, nullptr);
 }
@@ -64,8 +66,9 @@ CBCSharpScanner::BeginScan
 void
 CBCSharpScanner::Undo
 	(
-	const JUtf8ByteRange&	range,
-	const JString&			text
+	const JStyledText::TextRange&	range,
+	const JSize						prevCharByteCount,
+	const JString&					text
 	)
 {
 	for (JUnsignedOffset i=text.GetByteCount()-1; i>=0; i--)
@@ -73,7 +76,11 @@ CBCSharpScanner::Undo
 		yyunput(text.GetBytes()[i], yytext);
 		}
 
-	itsCurrentRange.first = itsCurrentRange.last = range.first - 1;
+	itsCurrentRange.charRange.first =
+	itsCurrentRange.charRange.last  = range.charRange.first - 1;
+
+	itsCurrentRange.byteRange.first = range.byteRange.first - prevCharByteCount;
+	itsCurrentRange.byteRange.last  = range.byteRange.first - 1;
 }
 
 /******************************************************************************
@@ -95,5 +102,6 @@ CBCSharpScanner::SavePPNameRange()
 		}
 	assert( i < (JSize) yyleng );
 
-	itsPPNameRange.first += i;
+	itsPPNameRange.charRange.first += JString::CountCharacters(yytext, i);
+	itsPPNameRange.byteRange.first += i;
 }

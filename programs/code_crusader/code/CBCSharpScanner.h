@@ -15,7 +15,7 @@
 #include <FlexLexer.h>
 #endif
 
-#include <JUtf8ByteRange.h>
+#include <JStyledText.h>
 
 class JString;
 
@@ -60,15 +60,15 @@ public:
 
 	struct Token
 	{
-		TokenType		type;
-		JUtf8ByteRange	range;
+		TokenType				type;
+		JStyledText::TextRange	range;
 
 		Token()
 			:
-			type(kEOF), range()
+			type(kEOF)
 			{ };
 
-		Token(const TokenType t, const JUtf8ByteRange& r)
+		Token(const TokenType t, const JStyledText::TextRange& r)
 			:
 			type(t), range(r)
 			{ };
@@ -80,21 +80,22 @@ public:
 
 	virtual ~CBCSharpScanner();
 
-	void	BeginScan(std::istream& input);
+	void	BeginScan(const JStyledText::TextIndex& startIndex, std::istream& input);
 	Token	NextToken();		// written by flex
 
-	JUtf8ByteRange	GetPPNameRange() const;
+	const JStyledText::TextRange&	GetPPNameRange() const;
 
 protected:
 
-	void	Undo(const JUtf8ByteRange& range, const JString& text);
+	void	Undo(const JStyledText::TextRange& range,
+				 const JSize prevCharByteCount, const JString& text);
 
 private:
 
-	JBoolean		itsResetFlag;
-	JUtf8ByteRange	itsCurrentRange;
-	JUtf8ByteRange	itsPPNameRange;
-	JBoolean		itsIsDocCommentFlag;
+	JBoolean				itsResetFlag;
+	JStyledText::TextRange	itsCurrentRange;
+	JStyledText::TextRange	itsPPNameRange;
+	JBoolean				itsIsDocCommentFlag;
 
 private:
 
@@ -119,8 +120,9 @@ private:
 inline void
 CBCSharpScanner::StartToken()
 {
-	const JIndex prevEnd = itsCurrentRange.last;
-	itsCurrentRange.Set(prevEnd+1, prevEnd+yyleng);
+	itsCurrentRange.charRange.SetToEmptyAt(itsCurrentRange.charRange.last+1);
+	itsCurrentRange.byteRange.SetToEmptyAt(itsCurrentRange.byteRange.last+1);
+	ContinueToken();
 }
 
 /******************************************************************************
@@ -131,7 +133,8 @@ CBCSharpScanner::StartToken()
 inline void
 CBCSharpScanner::ContinueToken()
 {
-	itsCurrentRange.last += yyleng;
+	itsCurrentRange.charRange.last += JString::CountCharacters(yytext, yyleng);
+	itsCurrentRange.byteRange.last += yyleng;
 }
 
 /******************************************************************************
@@ -161,7 +164,7 @@ CBCSharpScanner::ThisToken
 
  *****************************************************************************/
 
-inline JUtf8ByteRange
+inline const JStyledText::TextRange&
 CBCSharpScanner::GetPPNameRange()
 	const
 {
@@ -184,12 +187,9 @@ operator==
 	const CBCSharpScanner::Token& t2
 	)
 {
-	return ( t1.type == t2.type
-			 &&
-				(
-					t1.range == t2.range || t1.type == CBCSharpScanner::kEOF
-				)
-		   );
+	return (t1.type == t2.type &&
+			(t1.range.charRange == t2.range.charRange ||
+			 t1.type == CBCSharpScanner::kEOF));
 }
 
 inline int

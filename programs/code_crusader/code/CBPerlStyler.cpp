@@ -12,9 +12,9 @@
 
 #include "CBPerlStyler.h"
 #include "cbmUtil.h"
-#include <JXDialogDirector.h>
 #include <JRegex.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBPerlStyler* CBPerlStyler::itsSelf = nullptr;
@@ -25,7 +25,7 @@ const JFileVersion kCurrentTypeListVersion = 3;
 	// version 2 inserts kReference after kPrototypeArgList (5)
 	// version 1 inserts kPrototypeArgList after kSubroutine (4)
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	"Scalar identifier",
 	"List identifier",
@@ -68,9 +68,7 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit Perl Styles";
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -114,7 +112,8 @@ CBPerlStyler::Shutdown()
 CBPerlStyler::CBPerlStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBPerlStyleID, kCBPerlFT),
+				 JGetString("EditDialogTitle::CBPerlStyler"),
+				 kCBPerlStyleID, kCBPerlFT),
 	CBPerlScanner()
 {
 	JFontStyle blankStyle;
@@ -123,29 +122,26 @@ CBPerlStyler::CBPerlStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap   = GetColormap();
-	const JColorID red = colormap->GetRedColor();
-
 	SetTypeStyle(kPrototypeArgList   - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse));
-	SetTypeStyle(kReservedKeyword    - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
+	SetTypeStyle(kReservedKeyword    - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 
-	SetTypeStyle(kSingleQuoteString  - kWhitespace, JFontStyle(colormap->GetBrownColor()));
-	SetTypeStyle(kDoubleQuoteString  - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kHereDocString      - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kExecString         - kWhitespace, JFontStyle(colormap->GetPinkColor()));
+	SetTypeStyle(kSingleQuoteString  - kWhitespace, JFontStyle(JColorManager::GetBrownColor()));
+	SetTypeStyle(kDoubleQuoteString  - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kHereDocString      - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kExecString         - kWhitespace, JFontStyle(JColorManager::GetPinkColor()));
 
-	SetTypeStyle(kRegexSearch        - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kRegexReplace       - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kOneShotRegexSearch - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kCompiledRegex      - kWhitespace, JFontStyle(colormap->GetPinkColor()));
-	SetTypeStyle(kTransliteration    - kWhitespace, JFontStyle(colormap->GetLightBlueColor()));
-	SetTypeStyle(kFileGlob           - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
+	SetTypeStyle(kRegexSearch        - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kRegexReplace       - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kOneShotRegexSearch - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kCompiledRegex      - kWhitespace, JFontStyle(JColorManager::GetPinkColor()));
+	SetTypeStyle(kTransliteration    - kWhitespace, JFontStyle(JColorManager::GetLightBlueColor()));
+	SetTypeStyle(kFileGlob           - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 
-	SetTypeStyle(kComment            - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kPOD                - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, colormap->GetGrayColor(50)));
-	SetTypeStyle(kPPDirective        - kWhitespace, JFontStyle(colormap->GetBlueColor()));
+	SetTypeStyle(kComment            - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kPOD                - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kPPDirective        - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
 
-	SetTypeStyle(kError              - kWhitespace, JFontStyle(red));
+	SetTypeStyle(kError              - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
 	JPrefObject::ReadPrefs();
 }
@@ -169,11 +165,12 @@ CBPerlStyler::~CBPerlStyler()
 void
 CBPerlStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input);
+	BeginScan(startIndex, input);
 
 	const JString& text = GetText();
 
@@ -198,7 +195,7 @@ CBPerlStyler::Scan
 			token.type == kDoubleQuoteString ||
 			token.type == kExecString)
 			{
-			SaveTokenStart(TokenExtra());
+			SaveTokenStart(token.range.GetFirst());
 			}
 
 		// set the style
@@ -227,7 +224,7 @@ CBPerlStyler::Scan
 			}
 		else if (token.type == kPPDirective)
 			{
-			style = GetStyle(typeIndex, text.GetSubstring(GetPPNameRange()));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange().byteRange, kJFalse));
 			}
 		else if (token.type < kWhitespace)
 			{
@@ -235,17 +232,17 @@ CBPerlStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(text.GetSubstring(token.range), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, text.GetSubstring(token.range));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
 			}
 		}
-		while (SetStyle(token.range, style));
+		while (SetStyle(token.range.charRange, style));
 }
 
 /******************************************************************************
@@ -267,7 +264,7 @@ CBPerlStyler::PreexpandCheckRange
 	const JRunArray<JFont>&	styles,
 	const JCharacterRange&	modifiedRange,
 	const JBoolean			deletion,
-	JCharacterRange*		checkRange
+	JStyledText::TextRange*	checkRange
 	)
 {
 	// We have to extend past any whitespace to include the next
@@ -305,8 +302,6 @@ CBPerlStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	JXColorManager* colormap = GetColormap();
-
 	if (vers < 1)
 		{
 		typeStyles->InsertElementAtIndex(5, JFontStyle(kJTrue, kJFalse, 0, kJFalse));
@@ -319,7 +314,7 @@ CBPerlStyler::UpgradeTypeList
 
 	if (vers < 3)
 		{
-		typeStyles->InsertElementAtIndex(27, JFontStyle(colormap->GetDarkGreenColor()));
+		typeStyles->InsertElementAtIndex(27, JFontStyle(JColorManager::GetDarkGreenColor()));
 		}
 
 	// set new values after all new slots have been created

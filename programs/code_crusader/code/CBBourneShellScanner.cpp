@@ -42,11 +42,13 @@ CBBourneShellScanner::~CBBourneShellScanner()
 void
 CBBourneShellScanner::BeginScan
 	(
-	std::istream& input
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input
 	)
 {
 	itsResetFlag = kJTrue;
-	itsCurrentRange.Set(JTellg(input)+1, JTellg(input));
+	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
+	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 
 	switch_streams(&input, nullptr);
 }

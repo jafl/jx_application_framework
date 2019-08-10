@@ -13,14 +13,15 @@
 #include "CBCSharpStyler.h"
 #include "CBPrefsManager.h"
 #include <JRegex.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 CBCSharpStyler* CBCSharpStyler::itsSelf = nullptr;
 
 const JFileVersion kCurrentTypeListVersion = 0;
 
-static const JCharacter* kTypeNames[] =
+static const JUtf8Byte* kTypeNames[] =
 {
 	"Identifier",
 	"Reserved keyword",
@@ -43,9 +44,7 @@ static const JCharacter* kTypeNames[] =
 	"Detectable error"
 };
 
-const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
-
-static const JCharacter* kEditDialogTitle = "Edit C# Styles";
+const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -89,7 +88,8 @@ CBCSharpStyler::Shutdown()
 CBCSharpStyler::CBCSharpStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBCSharpStyleID, kCBCSharpFT),
+				 JGetString("EditDialogTitle::CBCSharpStyler"),
+				 kCBCSharpStyleID, kCBCSharpFT),
 	CBCSharpScanner()
 {
 	JFontStyle blankStyle;
@@ -98,22 +98,19 @@ CBCSharpStyler::CBCSharpStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	JXColorManager* colormap   = GetColormap();
-	const JColorID red = colormap->GetRedColor();
+	SetTypeStyle(kReservedCKeyword   - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kBuiltInDataType    - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 
-	SetTypeStyle(kReservedCKeyword   - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kBuiltInDataType    - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
+	SetTypeStyle(kString             - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kCharConst          - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
 
-	SetTypeStyle(kString             - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-	SetTypeStyle(kCharConst          - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
+	SetTypeStyle(kComment            - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kDocComment         - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kPPDirective        - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
 
-	SetTypeStyle(kComment            - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kDocComment         - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kPPDirective        - kWhitespace, JFontStyle(colormap->GetBlueColor()));
+	SetTypeStyle(kError              - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
-	SetTypeStyle(kError              - kWhitespace, JFontStyle(red));
-
-	SetWordStyle("goto", JFontStyle(kJTrue, kJFalse, 0, kJFalse, red));
+	SetWordStyle(JString("goto", kJFalse), JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor()));
 
 	JPrefObject::ReadPrefs();
 }
@@ -137,11 +134,12 @@ CBCSharpStyler::~CBCSharpStyler()
 void
 CBCSharpStyler::Scan
 	(
-	std::istream&		input,
-	const TokenExtra&	initData
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input,
+	const TokenExtra&				initData
 	)
 {
-	BeginScan(input);
+	BeginScan(startIndex, input);
 
 	const JString& text = GetText();
 
@@ -164,7 +162,7 @@ CBCSharpStyler::Scan
 			token.type == kComment            ||
 			token.type == kDocComment)
 			{
-			SaveTokenStart(TokenExtra());
+			SaveTokenStart(token.range.GetFirst());
 			}
 
 		// set the style
@@ -180,14 +178,14 @@ CBCSharpStyler::Scan
 			{
 			style = GetTypeStyle(typeIndex);
 			}
-		else if (token.type == kPPDirective && SlurpPPComment(&(token.range)))
+		else if (token.type == kPPDirective && SlurpPPComment(&token.range))
 			{
 			token.type = kComment;
 			style      = GetTypeStyle(kComment - kWhitespace);
 			}
 		else if (token.type == kPPDirective)
 			{
-			style = GetStyle(typeIndex, text.GetSubstring(GetPPNameRange()));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange().byteRange, kJFalse));
 			}
 		else if (token.type < kWhitespace)
 			{
@@ -195,17 +193,17 @@ CBCSharpStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(text.GetSubstring(token.range), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, text.GetSubstring(token.range));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
 			}
 		}
-		while (SetStyle(token.range, style));
+		while (SetStyle(token.range.charRange, style));
 }
 
 /******************************************************************************
@@ -240,18 +238,17 @@ abc
 JBoolean
 CBCSharpStyler::SlurpPPComment
 	(
-	JIndexRange* totalRange
+	JStyledText::TextRange* totalRange
 	)
 {
 	const JString& text = GetText();
-	const JString s     = text.GetSubstring((GetPPNameRange()).first, totalRange->last);
+	const JString s(text.GetRawBytes(), JUtf8ByteRange(GetPPNameRange().byteRange.first, totalRange->byteRange.last), kJFalse);
 	if (!ppCommentPattern.Match(s))
 		{
 		return kJFalse;
 		}
 
 	Token token;
-	JString ppCmd;
 	JSize nestCount = 1;
 	while (1)
 		{
@@ -262,7 +259,7 @@ CBCSharpStyler::SlurpPPComment
 			}
 		else if (token.type == kPPDirective)
 			{
-			ppCmd = text.GetSubstring(GetPPNameRange());
+			const JString ppCmd(text.GetRawBytes(), GetPPNameRange().byteRange, kJFalse);
 			if (ppIfPattern.Match(ppCmd))
 				{
 				nestCount++;
@@ -277,14 +274,24 @@ CBCSharpStyler::SlurpPPComment
 				}
 			else if (ppElsePattern.Match(ppCmd) && nestCount == 1)
 				{
-				Undo(token.range, text.GetSubstring(token.range));	// rescan
-				token.range.last = token.range.first - 1;
+				JSize prevCharByteCount;
+				const JBoolean ok =
+					JUtf8Character::GetPrevCharacterByteCount(
+						text.GetRawBytes() + token.range.byteRange.first-2,
+						&prevCharByteCount);
+				assert( ok );
+
+				Undo(token.range, prevCharByteCount,
+					 JString(text.GetRawBytes(), token.range.byteRange, kJFalse));	// rescan
+				token.range.charRange.SetToEmptyAt(token.range.charRange.first);
+				token.range.byteRange.SetToEmptyAt(token.range.byteRange.first);
 				break;
 				}
 			}
 		}
 
-	totalRange->last = token.range.last;
+	totalRange->charRange.last = token.range.charRange.last;
+	totalRange->byteRange.last = token.range.byteRange.last;
 	return kJTrue;
 }
 

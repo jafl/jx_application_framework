@@ -195,12 +195,9 @@ operator==
 	const CBJavaScanner::Token& t2
 	)
 {
-	return ( t1.type == t2.type
-			 &&
-				(
-					t1.range.charRange == t2.range.charRange || t1.type == CBJavaScanner::kEOF
-				)
-		   );
+	return (t1.type == t2.type &&
+			(t1.range.charRange == t2.range.charRange ||
+			 t1.type == CBJavaScanner::kEOF));
 }
 
 inline int
