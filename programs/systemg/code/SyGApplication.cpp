@@ -28,7 +28,7 @@
 static const JUtf8Byte* kAppSignature = "systemg";
 
 #ifdef _J_OSX
-static const JString kDefaultTermCmd       ("xterm -title $n -n $n", kJFalse);
+static const JString kDefaultTermCmd       ("open -a Terminal $p", kJFalse);
 static const JString kDefaultGitStatusCmd  ("git gui", kJFalse);
 static const JString kDefaultGitHistoryCmd ("gitk --all", kJFalse);
 #elif defined _J_CYGWIN
@@ -887,6 +887,8 @@ SyGApplication::OpenTerminal
 		{
 		iter.ReplaceLastMatch(n);
 		}
+
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
 	while (iter.Next("$p"))
 		{
 		iter.ReplaceLastMatch(fullName);
