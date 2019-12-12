@@ -185,8 +185,8 @@ JTEST(Path)
 	JAssertStringsEqual("/usr", path);
 
 	s = JGetClosestDirectory(
-		JString("/usr/include/zzz/junk/foo/bar/baz.cc", kJFalse));
-	JAssertStringsEqual("/usr/include/", s);
+		JString("/usr/local/zzz/junk/foo/bar/baz.cc", kJFalse));
+	JAssertStringsEqual("/usr/local/", s);
 
 	s = "./test_j_file_util_test_directory";
 	JAssertOK(JCreateDirectory(s));
