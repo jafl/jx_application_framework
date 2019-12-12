@@ -115,7 +115,7 @@ const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
 static const JUtf8Byte* kUnusedJavaKeyword[] =
 {
-	"byvalue", "cast", "const", "future", "generic", "inner",
+	"byvalue", "cast", "future", "generic", "inner",
 	"operator", "outer", "rest"
 };
 
