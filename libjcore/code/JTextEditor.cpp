@@ -2484,8 +2484,8 @@ JTextEditor::TEHandleDNDHere
 
 	CaretLocation dropLoc;
 	if (!dropOnSelf ||
-		caretLoc.location.charIndex   <= itsSelection.charRange.first ||
-		itsSelection.charRange.last+1 <= caretLoc.location.charIndex)
+		caretLoc.location.charIndex   < itsSelection.charRange.first ||
+		itsSelection.charRange.last+1 < caretLoc.location.charIndex)
 		{
 		dropLoc = caretLoc;		// only drop outside selection
 		}
