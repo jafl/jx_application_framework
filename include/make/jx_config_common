@@ -36,8 +36,6 @@ ifeq ($(findstring clang++,${CXX}),clang++)
     J_RAW_SYSTEM_STUFF += -O2
   endif
 
-  J_RAW_SYSTEM_STUFF += -fno-exceptions
-
 else ifeq ($(findstring g++,${CXX}),g++)
   GPP_VERSION := $(shell g++ --version | grep g++ | sed 's/^[^0-9]* //' | sed 's/\..*//')
 
@@ -55,8 +53,6 @@ else ifeq ($(findstring g++,${CXX}),g++)
   else
     J_RAW_SYSTEM_STUFF += -O2
   endif
-
-  J_RAW_SYSTEM_STUFF += -fno-exceptions
 endif
 
 J_COMPILER_DEPEND_FLAGS_FOR_BISON := ${J_RAW_SYSTEM_STUFF}
