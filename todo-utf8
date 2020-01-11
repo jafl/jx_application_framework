@@ -1,6 +1,3 @@
-testjx
-	untitled:  type character, undo, redo, undo - first character selected
-
 render as many characters as possible via fallback fonts
 	if (!HasGlyphsForString)
 		JXFontManager:

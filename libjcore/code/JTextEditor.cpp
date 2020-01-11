@@ -463,6 +463,12 @@ JTextEditor::Receive
 		if (itsActiveFlag && !r.IsEmpty())
 			{
 			SetSelection(r);
+			TEScrollToSelection(kJFalse);
+			}
+		else if (itsActiveFlag)
+			{
+			SetCaretLocation(r.GetFirst());
+			TEScrollTo(itsCaret);
 			}
 		}
 
