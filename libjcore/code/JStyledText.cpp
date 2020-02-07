@@ -4041,14 +4041,13 @@ JStyledText::GetWordEnd
 			}
 		}
 
-	while (iter.Next(&c) && IsCharacterInWord(c))
+	while (iter.Next(&c))
 		{
-		// find end of word
-		}
-
-	if (!iter.AtEnd())
-		{
-		iter.SkipPrev();
+		if (!IsCharacterInWord(c))
+			{
+			iter.SkipPrev();
+			break;
+			}
 		}
 
 	iter.SkipPrev();	// get first byte of last character
