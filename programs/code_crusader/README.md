@@ -18,6 +18,12 @@ Requirements
 On OS X, this program requires XQuartz, the X11 server.  Before running this program, you must first start XQuartz.
 
 
+Bugs
+====
+
+Code Crusader is very slow when scanning a file without newlines.  This is due to a known issue in flex:  https://github.com/westes/flex/pull/438
+
+
 Notes
 =====
 
