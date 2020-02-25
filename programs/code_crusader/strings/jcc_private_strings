@@ -200,6 +200,9 @@ WizardExecError::CBProjectDocument
 
 $err"
 
+MetaDirectoryAlreadyExists::CBProjectDocument
+"Unable to delete the existing \".jcc\" directory.  Please delete it and try again."
+
 PrintHeader::CBProjectDocument
 "Project name:  $name
 Project path:  $path
