@@ -254,6 +254,15 @@ CBProjectDocument::Create
 		assert( ok );
 		}
 
+	JString path, name;
+	JSplitPathAndName(fullName, &path, &name);
+	const JString meta = JCombinePathAndName(path, kDataDirectory);
+	if (!JKillDirectory(meta))
+		{
+		(JGetUserNotification())->ReportError(JGetString("MetaDirectoryAlreadyExists::CBProjectDocument"));
+		return kJFalse;
+		}
+
 	if (!fromTemplate || tmplType == kTmplFileSignature)
 		{
 		std::ofstream temp(fullName);
@@ -280,8 +289,8 @@ CBProjectDocument::Create
 		if (fullName.EndsWith(kProjectFileSuffix))
 			{
 			JString root, suffix;
-			JSplitRootAndSuffix(fullName, &root, &suffix);
-			fullName = root;
+			JSplitRootAndSuffix(name, &root, &suffix);
+			name = root;
 			}
 
 		std::ifstream input(tmplFile);
@@ -295,8 +304,6 @@ CBProjectDocument::Create
 		JReadAll(input, &cmd);
 		cmd.TrimWhitespace();
 
-		JString path, name;
-		JSplitPathAndName(fullName, &path, &name);
 		const JCharacter* map[] =
 			{
 			"path", path,

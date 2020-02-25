@@ -88,6 +88,9 @@ WizardExecError::CBProjectDocument
 
 $err"
 
+MetaDirectoryAlreadyExists::CBProjectDocument
+"Unable to delete the existing \".jcc\" directory.  Please delete it and try again."
+
 ConfigButtonHint::CBProjectDocument	"Open build configuration file"
 
 ReloadingSymbols::CBProjectDocument	"Reloading symbols..."
