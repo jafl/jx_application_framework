@@ -19,6 +19,7 @@
 #include "general.h"  /* must always come first */
 
 #include <string.h>
+#include <regex.h>
 
 #include "parse.h"
 #include "read.h"
@@ -27,11 +28,11 @@
 /*
 *   DATA DEFINITIONS
 */
+#if 0
 typedef enum {
 	K_CLASS, K_DEFINE, K_FUNCTION, K_VARIABLE
 } phpKind;
 
-#if 0
 static kindOption PhpKinds [] = {
 	{ TRUE, 'c', "class",    "classes" },
 	{ TRUE, 'd', "define",   "constant definitions" },
@@ -61,29 +62,63 @@ static kindOption PhpKinds [] = {
 #define ALPHA "A-Za-z\x7f-\xff"
 #define ALNUM "0-9A-Za-z\x7f-\xff"
 #endif
+#define IDENT "[" ALPHA "_][" ALNUM "_]*"
+
+static kindOption CallbackKinds [] = {
+	{ TRUE, 'j', "jsfunction", "javascript function" }
+};
+
+static regex_t keywords_pattern;
+
+static void es6Function(const char *line, const regexMatch *matches, unsigned int count)
+{
+	vString *const name = vStringNew ();
+	vStringNCopyS (name, line + matches[1].start, matches[1].length);
+
+	if (regexec(&keywords_pattern, name->buffer, 0, NULL, 0) == REG_NOMATCH)
+	{
+		makeSimpleTag(name, CallbackKinds, 0);
+	}
+	else
+	{
+		vStringDelete(name);
+	}
+}
 
 static void installPHPRegex (const langType language)
 {
-	addTagRegex(language, "^[ \t]*((final|abstract)[ \t]+)*class[ \t]+([" ALPHA "_][" ALNUM "_]*)",
+	addTagRegex(language, "^[ \t]*((final|abstract)[ \t]+)*class[ \t]+(" IDENT ")",
 		"\\3", "c,class,classes", NULL);
-	addTagRegex(language, "^[ \t]*interface[ \t]+([" ALPHA "_][" ALNUM "_]*)",
+	addTagRegex(language, "^[ \t]*interface[ \t]+(" IDENT ")",
 		"\\1", "i,interface,interfaces", NULL);
-	addTagRegex(language, "^[ \t]*define[ \t]*\\([ \t]*['\"]?([" ALPHA "_][" ALNUM "_]*)",
+	addTagRegex(language, "^[ \t]*define[ \t]*\\([ \t]*['\"]?(" IDENT ")",
 		"\\1", "d,define,constant definitions", NULL);
-	addTagRegex(language, "^[ \t]*((abstract|static|public|protected|private)[ \t]+)*function[ \t]+&?[ \t]*([" ALPHA "_][" ALNUM "_]*)",
+	addTagRegex(language, "^[ \t]*((abstract|static|public|protected|private)[ \t]+)*function[ \t]+&?[ \t]*(" IDENT ")",
 		"\\3", "f,function,functions", NULL);
-	addTagRegex(language, "^[ \t]*(\\$|::\\$|\\$this->)([" ALPHA "_][" ALNUM "_]*)[ \t]*=",
+	addTagRegex(language, "^[ \t]*(\\$|::\\$|\\$this->)(" IDENT ")[ \t]*=",
 		"\\2", "v,variable,variables", NULL);
-	addTagRegex(language, "^[ \t]*((var|public|protected|private|static)[ \t]+)+\\$([" ALPHA "_][" ALNUM "_]*)[ \t]*[=;]",
+	addTagRegex(language, "^[ \t]*((var|public|protected|private|static)[ \t]+)+\\$(" IDENT ")[ \t]*[=;]",
 		"\\3", "v,variable,variables", NULL);
 
-	/* function regex is covered by PHP regex */
-	addTagRegex (language, "(^|[ \t])([A-Za-z0-9_\x7f-\xff]+)[ \t]*[=:][ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
+	/* javascript - plain function is covered by php */
+
+	addTagRegex (language, "^[ \t]*async[ \t]+function[ \t]+(" IDENT ")[ \t]*\\(",
+		"\\1", "j,jsfunction,javascript functions", NULL);
+	addTagRegex (language, "^[ \t]*var[ \t]*(" IDENT ")[ \t]*=[ \t]*(?:async[ \t]+)?function([ \t]+" IDENT ")?[ \t]*\\(",
+		"\\1", "j,jsfunction,javascript functions", NULL);
+	addTagRegex (language, "^[ \t]*(" IDENT ")[ \t]*[=:][ \t]*(?:async[ \t]+)?function([ \t]+" IDENT ")?[ \t]*\\(",
+		"\\1", "j,jsfunction,javascript functions", NULL);
+	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.\x7f-\xff]+)\\.(" IDENT ")[ \t]*=[ \t]*(?:async[ \t]+)?function([ \t]+" IDENT ")?[ \t]*\\(",
+		"\\1.\\2", "j,jsfunction,javascript functions", NULL);
+	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.\x7f-\xff]+)\\.(" IDENT ")[ \t]*=[ \t]*(?:async[ \t]+)?function([ \t]+" IDENT ")?[ \t]*\\(",
 		"\\2", "j,jsfunction,javascript functions", NULL);
-	addTagRegex (language, "(^|[ \t])([A-Za-z0-9_.\x7f-\xff]+)\\.([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
-		"\\2.\\3", "j,jsfunction,javascript functions", NULL);
-	addTagRegex (language, "(^|[ \t])([A-Za-z0-9_.\x7f-\xff]+)\\.([A-Za-z0-9_\x7f-\xff]+)[ \t]*=[ \t]*function([ \t]+[A-Za-z0-9_\x7f-\xff]+)?[ \t]*\\(",
-		"\\3", "j,jsfunction,javascript functions", NULL);
+
+	addCallbackRegex (language, "^[ \t]*(?:async[ \t]+)?(" IDENT ")[ \t]*\\((?:" IDENT "[ \t]*,[ \t]*)*" IDENT "\\)(?:[ \t]*\\{)?$",
+		NULL, es6Function);
+
+	regcomp(&keywords_pattern,
+			"^(abstract|arguments|async|await|boolean|break|byte|case|catch|char|class|const|constructor|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|of|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|volatile|while|with|yield)$",
+			REG_EXTENDED | REG_NOSUB);
 }
 
 /* Create parser definition structure */
