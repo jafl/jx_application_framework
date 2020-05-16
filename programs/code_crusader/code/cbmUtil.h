@@ -94,8 +94,7 @@ CBMIsOpenGroup
 	const JUtf8Character&	c
 	)
 {
-	return JI2B( c == '(' || c == '{' || c == '[' ||
-				 ((lang == kCBHTMLLang || lang == kCBXMLLang) && c == '<'));
+	return JI2B( c == '(' || c == '{' || c == '[');
 }
 
 inline JBoolean
@@ -105,8 +104,7 @@ CBMIsCloseGroup
 	const JUtf8Character&	c
 	)
 {
-	return JI2B( c == ')' || c == '}' || c == ']' ||
-				 ((lang == kCBHTMLLang || lang == kCBXMLLang) && c == '>'));
+	return JI2B( c == ')' || c == '}' || c == ']');
 }
 
 inline JBoolean

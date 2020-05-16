@@ -962,7 +962,7 @@ F
 T "../../libjcore/code" T
 T "../../libjfs/code" T
 T "../../libjx/code" T
-T "../../misc/ctags/" T
+T "../../misc/ctags" T
 T "./code" T
 F
 # C preprocessor
