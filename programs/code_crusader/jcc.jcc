@@ -1086,8 +1086,8 @@ F
 T "../../libjcore/code" T
 T "../../libjfs/code" T
 T "../../libjx/code" T
+T "../../misc/ctags" T
 T "./code" T
-T "./ctags" T
 F
 # C preprocessor
 T "CBBourneShellFlexLexer" "yyFlexLexer"

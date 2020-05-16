@@ -17,15 +17,16 @@ static const JCharacter* kKeywordList[] =
 {
 	// keywords
 
-	"abstract", "boolean", "break", "byte", "case", "catch", "char", "class",
-	"continue", "const", "debugger", "default", "delete", "do", "double",
-	"else", "extends","enum", "export", "false", "final", "finally", "float",
-	"for", "function", "goto", "if", "implements", "import", "in",
-	"instanceof", "int", "interface", "label", "long", "native", "new",
-	"null", "package", "private", "protected", "public", "return", "short",
+	"abstract", "arguments", "async", "await", "boolean", "break", "byte",
+	"case", "catch", "char", "class", "const", "constructor", "continue",
+	"debugger", "default", "delete", "do", "double", "else", "enum",
+	"export", "extends", "false", "final", "finally", "float", "for",
+	"function", "goto", "if", "implements", "import", "in", "instanceof",
+	"int", "interface", "label", "let", "long", "native", "new", "null",
+	"package", "private", "protected", "public", "return", "short",
 	"static", "super", "switch", "synchronized", "this", "throw", "throws",
 	"transient", "true", "try", "typeof", "var", "void", "volatile",
-	"while", "with",
+	"while", "with", "yield",
 
 	// methods, classes, etc.
 
