@@ -76,7 +76,7 @@ static void installJavaScriptRegex (const langType language)
 
 	addTagRegex (language, "^[ \t]*class[ \t]+(" IDENT ")(?:[ \t]*\\{)?$",
 		"\\1", "c,class,classes", NULL);
-	addCallbackRegex (language, "^[ \t]*(?:async[ \t]+)?(" IDENT ")[ \t]*\\((?:" IDENT "[ \t]*,[ \t]*)*" IDENT "\\)(?:[ \t]*\\{)?$",
+	addCallbackRegex (language, "^[ \t]*(?:async[ \t]+)?(" IDENT ")[ \t]*\\((?:(?:" IDENT "[ \t]*,[ \t]*)*" IDENT ")?\\)(?:[ \t]*\\{)?$",
 		NULL, es6Function);
 
 	regcomp(&keywords_pattern,
