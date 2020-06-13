@@ -28,7 +28,7 @@ WS           ([ \v\t\f\r\n]+)
 
 
 
-KEYWORD      (abstract|arguments|async|await|boolean|break|byte|case|catch|char|class|const|constructor|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|of|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|volatile|while|with|yield)
+KEYWORD      (abstract|arguments|async|await|boolean|break|byte|case|catch|char|class|const|constructor|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|of|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|undefined|var|void|volatile|while|with|yield)
 
 DOCTAG       (async|attribute|author|beta|broadcast|bubbles|category|class|chainable|config|constructor|default|deprecated|event|example|extends|extension|extensionfor|extension_for|final|for|main|method|module|namespace|optional|param|private|property|protected|readonly|readOnly|required|requires|return|since|static|submodule|type|uses|writeonce|writeOnce)
 
