@@ -37,6 +37,7 @@
 #define ALNUM "0-9A-Za-z\x7f-\xff"
 #endif
 #define IDENT "[" ALPHA "_][" ALNUM "_]*"
+#define ARG   IDENT "(?:[ \t]*=[^,)]+)?"
 
 static kindOption CallbackKinds [] = {
 	{ TRUE, 'f', "function", "function" }
@@ -76,11 +77,11 @@ static void installJavaScriptRegex (const langType language)
 
 	addTagRegex (language, "^[ \t]*class[ \t]+(" IDENT ")(?:[ \t]*\\{)?$",
 		"\\1", "c,class,classes", NULL);
-	addCallbackRegex (language, "^[ \t]*(?:async[ \t]+)?(" IDENT ")[ \t]*\\((?:(?:" IDENT "[ \t]*,[ \t]*)*" IDENT ")?\\)(?:[ \t]*\\{)?$",
+	addCallbackRegex (language, "^[ \t]*(?:async[ \t]+)?(" IDENT ")[ \t]*\\((?:(?:" ARG "[ \t]*,[ \t]*)*" ARG ")?\\)(?:[ \t]*\\{)?$",
 		NULL, es6Function);
 
 	regcomp(&keywords_pattern,
-			"^(abstract|arguments|async|await|boolean|break|byte|case|catch|char|class|const|constructor|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|of|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|volatile|while|with|yield)$",
+			"^(abstract|arguments|async|await|boolean|break|byte|case|catch|char|class|const|constructor|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|of|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|try|typeof|var|void|volatile|while|with|yield)$",
 			REG_EXTENDED | REG_NOSUB);
 }
 
