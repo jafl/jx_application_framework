@@ -12,7 +12,7 @@ NotAFile::CBDocumentManager			"\"$f\" is not a regular file, so it cannot be ope
 FileDoesNotExist::CBDocumentManager	"\"$f\" does not exist.  Do you want to create it?"
 CannotCreateFile::CBDocumentManager	"Unable to create \"$f\".  Please check that the directory is writable."
 
-WarnFileTooLarge::CBDocumentManager	"\"$f\" is larger than 1MB, so it may take a while to open it, and syntax hilighting may be disabled.  Do you wish to proceed?"
+WarnFileTooLarge::CBDocumentManager	"\"$f\" is larger than 5MB, so it may take a while to open it, and syntax hilighting may be disabled.  Do you wish to proceed?"
 
 # CBTextDocument
 

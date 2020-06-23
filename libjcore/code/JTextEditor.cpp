@@ -10908,7 +10908,7 @@ JTextEditor::Recalc
 		origY = GetLineTop(origCaretLoc.lineIndex);
 		}
 
-	const JSize bufLength  = itsBuffer->GetLength();
+	const JSize bufLength = itsBuffer->GetLength();
 
 	CaretLocation caretLoc = origCaretLoc;
 	JSize minCharCount     = JMax((JSize) 1, origMinCharCount);
@@ -10949,8 +10949,11 @@ JTextEditor::Recalc
 	JIndex firstLineIndex, lastLineIndex;
 	if (bufLength > 0)
 		{
-		Recalc1(bufLength, caretLoc, minCharCount, &maxLineWidth,
-				&firstLineIndex, &lastLineIndex);
+		const JSize maxCharsPerLine =
+			itsBreakCROnlyFlag ? 0 : JLCeil(itsGUIWidth / 3);	// at least 3 pixels per character
+
+		Recalc1(bufLength, caretLoc, minCharCount, maxCharsPerLine,
+				&maxLineWidth, &firstLineIndex, &lastLineIndex);
 
 		if (!redrawRange.IsEmpty())
 			{
@@ -11072,6 +11075,7 @@ JTextEditor::Recalc1
 	const JSize				bufLength,
 	const CaretLocation&	caretLoc,
 	const JSize				origMinCharCount,
+	const JSize				maxCharsPerLine,
 	JCoordinate*			maxLineWidth,
 	JIndex*					firstLineIndex,
 	JIndex*					lastLineIndex
@@ -11101,8 +11105,8 @@ JTextEditor::Recalc1
 	while (1)
 		{
 		JCoordinate lineWidth;
-		const JSize charCount = RecalcLine(bufLength, firstChar, lineIndex, &lineWidth,
-										   &runIndex, &firstInRun);
+		const JSize charCount = RecalcLine(bufLength, firstChar, lineIndex, maxCharsPerLine,
+										   &lineWidth, &runIndex, &firstInRun);
 		totalCharCount += charCount;
 		if (*maxLineWidth < lineWidth)
 			{
@@ -11196,6 +11200,7 @@ JTextEditor::RecalcLine
 	const JSize		bufLength,
 	const JIndex	firstCharIndex,
 	const JIndex	lineIndex,
+	const JSize		maxCharsPerLine,
 	JCoordinate*	lineWidth,
 	JIndex*			runIndex,
 	JIndex*			firstInRun
@@ -11221,10 +11226,12 @@ JTextEditor::RecalcLine
 
 	else
 		{
+		const JSize length = JMin(bufLength, firstCharIndex + maxCharsPerLine - 1);
+
 		// include leading whitespace
 
 		JBoolean endOfLine;
-		charCount = IncludeWhitespaceOnLine(bufLength, firstCharIndex,
+		charCount = IncludeWhitespaceOnLine(length, firstCharIndex,
 											lineWidth, &endOfLine,
 											&gswRunIndex, &gswFirstInRun);
 		JIndex charIndex = firstCharIndex + charCount;
@@ -11232,14 +11239,14 @@ JTextEditor::RecalcLine
 		// Add words until we hit the right margin, a newline,
 		// or the end of the buffer.
 
-		while (charIndex <= bufLength && !endOfLine)
+		while (charIndex <= length && !endOfLine)
 			{
 			// get the next word
 
 			JIndex prevIndex = charIndex;
-			if (!LocateNextWhitespace(bufLength, &charIndex))
+			if (!LocateNextWhitespace(length, &charIndex))
 				{
-				charIndex = bufLength+1;
+				charIndex = length+1;
 				}
 
 			// check if the word fits on this line
@@ -11263,7 +11270,7 @@ JTextEditor::RecalcLine
 					// put as much of this word as possible on the line
 
 					assert( *lineWidth == 0 && charCount == 0 );
-					charCount = GetSubwordForLine(bufLength, lineIndex,
+					charCount = GetSubwordForLine(length, lineIndex,
 												  firstCharIndex, lineWidth);
 					}
 				break;
@@ -11277,7 +11284,7 @@ JTextEditor::RecalcLine
 			// include the whitespace after the word
 
 			JSize wsCount =
-				IncludeWhitespaceOnLine(bufLength, charIndex, lineWidth, &endOfLine,
+				IncludeWhitespaceOnLine(length, charIndex, lineWidth, &endOfLine,
 										&gswRunIndex, &gswFirstInRun);
 			charIndex += wsCount;
 			charCount += wsCount;

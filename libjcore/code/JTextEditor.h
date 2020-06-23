@@ -824,10 +824,12 @@ private:
 					   const JBoolean needCaretBcast = kJTrue,
 					   const JBoolean needAdjustStyles = kJTrue);
 	void		Recalc1(const JSize bufLength, const CaretLocation& caretLoc,
-						const JSize minCharCount, JCoordinate* maxLineWidth,
+						const JSize minCharCount, const JSize maxCharsPerLine,
+						JCoordinate* maxLineWidth,
 						JIndex* firstLineIndex, JIndex* lastLineIndex);
 	JSize		RecalcLine(const JSize bufLength, const JIndex firstCharIndex,
-						   const JIndex lineIndex, JCoordinate* lineWidth,
+						   const JIndex lineIndex, const JSize maxCharsPerLine,
+						   JCoordinate* lineWidth,
 						   JIndex* runIndex, JIndex* firstInRun);
 	JBoolean	LocateNextWhitespace(const JSize bufLength, JIndex* startIndex) const;
 	JSize		GetSubwordForLine(const JSize bufLength, const JIndex lineIndex,
