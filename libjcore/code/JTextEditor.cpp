@@ -4093,20 +4093,24 @@ JTextEditor::RecalcLine
 		// Add words until we hit the right margin, a newline,
 		// or the end of the text.
 
+		const JSize maxCharsPerLine = JLCeil(itsGUIWidth / 3);	// at least 3 pixels per character
+
 		while (!textIter->AtEnd() && !endOfLine)
 			{
 			// get the next word
 
 			textIter->BeginMatch();
+			JSize count = 0;
 
 			JUtf8Character c;
-			while (textIter->Next(&c))	// JRegex is too slow for this intensive operation
+			while (textIter->Next(&c) && count <= maxCharsPerLine)
 				{
-				if (c.IsSpace())
+				if (c.IsSpace())	// JRegex is too slow for this intensive operation
 					{
 					textIter->SkipPrev();		// don't ignore whitespace
 					break;
 					}
+				count++;
 				}
 
 			const JStringMatch& m = textIter->FinishMatch();

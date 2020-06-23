@@ -37,7 +37,7 @@ public:
 
 	enum
 	{
-		kMinWarnFileSize = 1000000
+		kMinWarnFileSize = 5000000
 	};
 
 public:

@@ -70,7 +70,7 @@ FileDoesNotExistCreate::CBDocumentManager	"\"$f\" does not exist.  Do you want t
 CannotCreateFile::CBDocumentManager			"Unable to create \"$f\".  Please check that the directory is writable."
 CannotReadFile::CBDocumentManager			"You do not have permission to read \"$f\""
 
-WarnFileTooLarge::CBDocumentManager	"\"$f\" is larger than 1MB, so it may take a while to open it, and syntax hilighting may be disabled.  Do you wish to proceed?"
+WarnFileTooLarge::CBDocumentManager	"\"$f\" is larger than 5MB, so it may take a while to open it, and syntax hilighting may be disabled.  Do you wish to proceed?"
 
 OpenFilesPrompt::CBDocumentManager		"Files to open:"
 OpeningFilesProgress::CBDocumentManager	"Opening files..."
