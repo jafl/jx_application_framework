@@ -273,7 +273,7 @@ static void parseFunction (const unsigned char *line)
 		 * Vim7 added the for/endfo[r] construct, so we must first
 		 * check for an "endfo", before a "endf"
 		 */
-		if ( (!strncmp ((const char*) line, "endfo", (size_t) 5) == 0) && 
+		if ( (strncmp ((const char*) line, "endfo", (size_t) 5) != 0) && 
 				(strncmp ((const char*) line, "endf", (size_t) 4) == 0)   )
 			break;
 		/* TODO - call parseVimLine */
@@ -350,8 +350,8 @@ static boolean parseCommand (const unsigned char *line)
 		while (*cp && isspace ((int) *cp))
 			++cp; 
 	}
-	else if ( (!strncmp ((const char*) line, "comp", (size_t) 4) == 0) && 
-		     (!strncmp ((const char*) line, "comc", (size_t) 4) == 0) && 
+	else if ( (strncmp ((const char*) line, "comp", (size_t) 4) != 0) && 
+		     (strncmp ((const char*) line, "comc", (size_t) 4) != 0) && 
 				(strncmp ((const char*) line, "com", (size_t) 3) == 0) )
 	{
 		cp += 2;
@@ -566,8 +566,8 @@ static boolean parseVimLine (const unsigned char *line)
 {
 	boolean readNextLine = TRUE;
 
-	if ( (!strncmp ((const char*) line, "comp", (size_t) 4) == 0) && 
-			(!strncmp ((const char*) line, "comc", (size_t) 4) == 0) && 
+	if ( (strncmp ((const char*) line, "comp", (size_t) 4) != 0) && 
+			(strncmp ((const char*) line, "comc", (size_t) 4) != 0) && 
 			(strncmp ((const char*) line, "com", (size_t) 3) == 0) )
 	{
 		readNextLine = parseCommand(line);
