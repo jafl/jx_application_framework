@@ -134,7 +134,9 @@ public:
 
 	virtual JBoolean	TEHasSearchText() const = 0;
 
-	JIndex		GetInsertionCharIndex() const;
+	JIndex				GetInsertionCharIndex() const;
+	JStringIterator*	GetConstIteratorAtInsertionIndex() const;
+	void				DisposeConstIterator(JStringIterator* iter) const;
 
 	JBoolean	GetCaretLocation(JIndex* charIndex) const;
 	void		SetCaretLocation(const JIndex charIndex);
@@ -1146,6 +1148,33 @@ JTextEditor::GetInsertionIndex()
 	const
 {
 	return itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetFirst();
+}
+
+/******************************************************************************
+ GetConstIteratorAtInsertionIndex
+
+ ******************************************************************************/
+
+inline JStringIterator*
+JTextEditor::GetConstIteratorAtInsertionIndex()
+	const
+{
+	return itsText->GetConstIterator(kJIteratorStartBefore, GetInsertionIndex());
+}
+
+/******************************************************************************
+ DisposeConstIterator
+
+ ******************************************************************************/
+
+inline void
+JTextEditor::DisposeConstIterator
+	(
+	JStringIterator* iter
+	)
+	const
+{
+	itsText->DisposeConstIterator(iter);
 }
 
 /******************************************************************************
