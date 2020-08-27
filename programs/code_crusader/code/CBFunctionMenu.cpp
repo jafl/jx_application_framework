@@ -272,7 +272,7 @@ CBFunctionMenu::UpdateMenu()
 
 		const JIndex lineIndex =
 			itsTE->VisualLineIndexToCRLineIndex(
-						itsTE->GetLineForChar(itsTE->GetInsertionIndex()));
+						itsTE->GetLineForChar(itsTE->GetInsertionCharIndex()));
 
 		const JSize count = GetItemCount();
 		assert( count == itsLineIndexList->GetElementCount() );

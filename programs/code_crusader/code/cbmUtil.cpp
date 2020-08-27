@@ -24,6 +24,7 @@
 #include <JXDisplay.h>
 #include <JXInputField.h>
 #include <JXColorManager.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>
@@ -484,23 +485,20 @@ static JRegex aspCommentPattern    = "^(\n|[ \t]*')";
 static JRegex sqlCommentPattern    = "^(\n|[ \t]*--)";
 
 inline void
-CBMIncludeScriptComments
+cbmIncludeScriptComments
 	(
-	JXTEBase*		te,
-	const JRegex&	pattern,
-	JIndex*			charIndex
+	JStringIterator*	iter,
+	const JRegex&		pattern
 	)
 {
-	const JString& text = te->GetText()->GetText();
-	while (*charIndex > 1)
+	while (!iter->AtBeginning())
 		{
-		const JIndex line = te->GetLineForChar(*charIndex-1);
-		const JIndex i    = te->GetLineStart(line);
-		const JIndex j    = te->GetLineEnd(line);	// regex code is slow
-
-		*charIndex = i;		// point to line above before comment block
-		if (!pattern.MatchWithin(text, JIndexRange(i, j)))
+		iter->BeginMatch();
+		iter->Prev("\n");
+		const JStringMatch& m = iter->FinishMatch();
+		if (!pattern.Match(m.GetString()))
 			{
+			iter->Next("\n");
 			break;
 			}
 		}
@@ -513,11 +511,9 @@ CBMScrollForDefinition
 	const CBLanguage	lang
 	)
 {
-	const JString& text         = te->GetText()->GetText();
-	const JIndex startIndex     = te->GetInsertionIndex();
-	const JIndex startLineIndex = te->GetLineForChar(startIndex);
+	JStringIterator* iter = te->GetConstIteratorAtInsertionIndex();
+	JUtf8Character c;
 
-	JIndex charIndex = startIndex;
 	if (lang == kCBCLang          ||
 		lang == kCBCSharpLang     ||
 		lang == kCBJavaLang       ||
@@ -532,15 +528,11 @@ CBMScrollForDefinition
 		{
 		// search backwards for closing brace (end of function) or semicolon (declaration)
 
-		while (charIndex > 1)
-			{
-			const JUtf8Character c = text.GetCharacter(charIndex);
-			if (c == '}' || c == ';')
-				{
-				break;
-				}
-			charIndex--;
-			}
+		while (iter->Prev(&c) && c != '}' && c != ';') {}
+
+		// find start of following line
+
+		while (iter->Next(&c) && c != '\n') {}
 		}
 	else if (lang == kCBAWKLang         ||
 			 lang == kCBPerlLang        ||
@@ -554,65 +546,58 @@ CBMScrollForDefinition
 		{
 		// search backwards for line that is neither comment nor empty
 
-		CBMIncludeScriptComments(te, scriptCommentPattern, &charIndex);
+		cbmIncludeScriptComments(iter, scriptCommentPattern);
 		}
 	else if (lang == kCBMakeLang)
 		{
 		// search backwards for line that is neither comment nor empty
 
 		makeCommentPattern.SetCaseSensitive(kJFalse);
-		CBMIncludeScriptComments(te, makeCommentPattern, &charIndex);
+		cbmIncludeScriptComments(iter, makeCommentPattern);
 		}
 	else if (lang == kCBAntLang)
 		{
 		// search backwards for line that is neither comment nor empty
 
-		CBMIncludeScriptComments(te, antCommentPattern, &charIndex);
+		cbmIncludeScriptComments(iter, antCommentPattern);
 		}
 	else if (lang == kCBLispLang)
 		{
 		// search backwards for line that is neither comment nor empty
 
-		CBMIncludeScriptComments(te, lispCommentPattern, &charIndex);
+		cbmIncludeScriptComments(iter, lispCommentPattern);
 		}
 	else if (lang == kCBASPLang)
 		{
 		// search backwards for line that is neither comment nor empty
 
-		CBMIncludeScriptComments(te, aspCommentPattern, &charIndex);
+		cbmIncludeScriptComments(iter, aspCommentPattern);
 		}
 	else if (lang == kCBSQLLang)
 		{
 		// search backwards for line that is neither comment nor empty
 
-		CBMIncludeScriptComments(te, sqlCommentPattern, &charIndex);
+		cbmIncludeScriptComments(iter, sqlCommentPattern);
 		}
 
 	// if we moved up without hitting the top of the file,
 	// search down again for the next non-blank line
 
-	JIndex lineIndex = te->GetLineForChar(charIndex);
-	if (charIndex > 1)
-		{
-		while (lineIndex < startLineIndex)
-			{
-			lineIndex++;
-			charIndex = te->GetLineStart(lineIndex);
-			if (text.GetCharacter(charIndex) != '\n')
-				{
-				break;
-				}
-			}
-		}
+	while (iter->Next(&c) && c == '\n') {}
 
-	// scroll to place this line at the top of the window,
-	// if this shifts the original line up
+	// scroll to place this line at the top of the window, if this shifts
+	// the original line up - the original line is normally centered in the
+	// aperture
 
-	const JCoordinate lineTop = te->GetLineTop(lineIndex);
-	if (lineTop > (te->GetAperture()).top)
+	const JCoordinate lineTop =
+		te->GetLineTop(te->GetLineForChar(iter->GetPrevCharacterIndex()));
+
+	if (lineTop > te->GetAperture().top)
 		{
 		te->ScrollTo(0, lineTop);
 		}
+
+	te->DisposeConstIterator(iter);
 }
 
 /******************************************************************************
