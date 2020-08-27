@@ -38,11 +38,11 @@ CBCTree::CBCTree
 
 CBCTree::CBCTree
 	(
-	std::istream&			projInput,
+	std::istream&		projInput,
 	const JFileVersion	projVers,
-	std::istream*			setInput,
+	std::istream*		setInput,
 	const JFileVersion	setVers,
-	std::istream*			symInput,
+	std::istream*		symInput,
 	const JFileVersion	symVers,
 	CBCTreeDirector*	director,
 	const JSize			marginWidth,
