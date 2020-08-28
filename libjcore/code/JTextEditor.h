@@ -186,6 +186,8 @@ public:
 	void		ShouldMoveToFrontOfText(const JBoolean moveToFront);
 
 	JSize		GetLineCount() const;
+	JIndex		GetLineCharStart(const JIndex lineIndex) const;
+	JIndex		GetLineCharEnd(const JIndex lineIndex) const;
 	JIndex		GetLineForChar(const JIndex charIndex) const;
 	void		GoToLine(const JIndex lineIndex);
 	void		SelectLine(const JIndex lineIndex);
@@ -1190,6 +1192,23 @@ JTextEditor::GetLineCount()
 }
 
 /******************************************************************************
+ GetLineCharStart
+
+	Returns the first character on the specified line.
+
+ ******************************************************************************/
+
+inline JIndex
+JTextEditor::GetLineCharStart
+	(
+	const JIndex lineIndex
+	)
+	const
+{
+	return GetLineStart(lineIndex).charIndex;
+}
+
+/******************************************************************************
  GetLineStart (protected)
 
 	Returns the first character on the specified line.
@@ -1225,6 +1244,23 @@ JTextEditor::GetLineLength
 		e = GetLineEnd(lineIndex);
 	return JStyledText::TextCount(
 		e.charIndex - s.charIndex + 1, e.byteIndex - s.byteIndex + 1);
+}
+
+/******************************************************************************
+ GetLineCharEnd
+
+	Returns the first character on the specified line.
+
+ ******************************************************************************/
+
+inline JIndex
+JTextEditor::GetLineCharEnd
+	(
+	const JIndex lineIndex
+	)
+	const
+{
+	return GetLineEnd(lineIndex).charIndex;
 }
 
 /******************************************************************************

@@ -25,7 +25,7 @@ void	CBMParseEditorOptions(const JString& fullName, const JString& text,
 							  JBoolean* setTabMode, JBoolean* tabInsertsSpaces,
 							  JBoolean* setAutoIndent, JBoolean* autoIndent);
 void		CBMScrollForDefinition(JXTEBase* te, const CBLanguage lang);
-void		CBMSelectLines(JTextEditor* te, const JIndexRange& origRange);
+void		CBMSelectLines(JTextEditor* te, const JIndexRange& lineRange);
 void		CBMBalanceFromSelection(JXTEBase* te, const CBLanguage lang);
 JBoolean	CBMIsCharacterInWord(const JUtf8Character& c);
 
