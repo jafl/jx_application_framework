@@ -78,6 +78,8 @@ protected:
 	const JString&			GetText() const;
 	const JRunArray<JFont>&	GetStyles() const;
 
+	JUtf8Character	GetCharacter(const JStyledText::TextIndex& index) const;
+
 	JBoolean	SetStyle(const JCharacterRange& range, const JFontStyle& style);
 	void		SaveTokenStart(const JStyledText::TextIndex& index, const TokenExtra data = TokenExtra());
 

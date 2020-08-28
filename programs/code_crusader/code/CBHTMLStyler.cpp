@@ -321,7 +321,7 @@ CBHTMLStyler::Scan
 			  token.type == kHTMLComment ||
 			  token.type == kJSPComment  ||
 			  (token.type == kHTMLTag &&
-			   text.GetCharacter(token.range.first) == '<'))) ||
+			   GetCharacter(token.range.GetFirst()) == '<'))) ||
 			(yy_start_stack_ptr > 0 && yy_top_state() == 0 &&
 			 (token.type == kPHPID                ||
 			  token.type == kPHPVariable          ||
@@ -352,15 +352,15 @@ CBHTMLStyler::Scan
 		if (token.type == kPHPDoubleQuoteString ||
 			token.type == kPHPExecString)
 			{
-			ExtendCheckRangeForString(token.range);
+			ExtendCheckRangeForString(token.range.charRange);
 			}
 		else if (token.type == kPHPStartEnd)
 			{
-			ExtendCheckRangeForPHPStartEnd(token.range);
+			ExtendCheckRangeForLanguageStartEnd(kPHPStartEnd, token.range.charRange);
 			}
 		else if (token.type == kJSPStartEnd)
 			{
-			ExtendCheckRangeForJSPStartEnd(token.range);
+			ExtendCheckRangeForLanguageStartEnd(kJSPStartEnd, token.range.charRange);
 			}
 
 		// set the style
@@ -408,7 +408,7 @@ CBHTMLStyler::Scan
 			}
 		else if (token.type == kHTMLTag)
 			{
-			style = GetTagStyle(token.range, typeIndex);
+			style = GetTagStyle(token.range.byteRange, typeIndex);
 			}
 		else if (token.type == kHTMLScript)
 			{
@@ -416,9 +416,9 @@ CBHTMLStyler::Scan
 			}
 		else if (token.type == kHTMLNamedCharacter)
 			{
-			JUtf8ByteRange r = token.range;
-			r.first++;
-			if (text.GetCharacter(r.last) == ';')
+			JUtf8ByteRange r = token.range.byteRange;
+			r.first++;	// skip over &
+			if (GetCharacter(token.range.GetLast(*GetStyledText())) == ';')
 				{
 				r.last--;
 				}
@@ -431,15 +431,15 @@ CBHTMLStyler::Scan
 				{
 				if (!(token.docCommentRange).IsEmpty())
 					{
-					SetStyle(token.docCommentRange, GetTypeStyle(kComment - kWhitespace));
+					SetStyle(token.docCommentRange.charRange, GetTypeStyle(kComment - kWhitespace));
 					}
-				ExtendCheckRange(token.range.last+1);
+				ExtendCheckRange(token.range.charRange.last+1);
 				}
 
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
 			}
 
-		keepGoing = SetStyle(token.range, style);
+		keepGoing = SetStyle(token.range.charRange, style);
 
 		if (token.type == kPHPDoubleQuoteString ||
 			token.type == kPHPHereDocString     ||
@@ -484,14 +484,14 @@ CBHTMLStyler::GetFirstTokenExtraData()
 void
 CBHTMLStyler::ExtendCheckRangeForString
 	(
-	const JUtf8ByteRange& tokenRange
+	const JCharacterRange& tokenRange
 	)
 {
 	ExtendCheckRange(tokenRange.last+1);
 }
 
 /******************************************************************************
- ExtendCheckRangeForPHPStartEnd (private)
+ ExtendCheckRangeForLanguageStartEnd (private)
 
 	If the token doesn't have the correct style, then everything following
 	it needs to be rescanned.
@@ -499,40 +499,29 @@ CBHTMLStyler::ExtendCheckRangeForString
  ******************************************************************************/
 
 void
-CBHTMLStyler::ExtendCheckRangeForPHPStartEnd
+CBHTMLStyler::ExtendCheckRangeForLanguageStartEnd
 	(
-	const JUtf8ByteRange& tokenRange
+	const TokenType			tokenType,
+	const JCharacterRange&	tokenRange
 	)
 {
-	const JFontStyle& style = GetTypeStyle(kPHPStartEnd - kWhitespace);
-	if (GetStyles().IndexValid(tokenRange.last) &&	// avoid crash if redoing all
-		(style != GetStyles().GetElement(tokenRange.first).GetStyle() ||
-		 style != GetStyles().GetElement(tokenRange.last).GetStyle()))
+	JFont f1, f2;
+
+	JRunArrayIterator iter(GetStyles(), kJIteratorStartBefore, tokenRange.first);
+	if (!iter.Next(&f1))
 		{
-		ExtendCheckRange(GetText().GetLength());
+		return;
 		}
-}
-
-/******************************************************************************
- ExtendCheckRangeForJSPStartEnd (private)
-
-	If the token doesn't have the correct style, then everything following
-	it needs to be rescanned.
-
- ******************************************************************************/
-
-void
-CBHTMLStyler::ExtendCheckRangeForJSPStartEnd
-	(
-	const JUtf8ByteRange& tokenRange
-	)
-{
-	const JFontStyle& style = GetTypeStyle(kJSPStartEnd - kWhitespace);
-	if (GetStyles().IndexValid(tokenRange.last) &&	// avoid crash if redoing all
-		(style != GetStyles().GetElement(tokenRange.first).GetStyle() ||
-		 style != GetStyles().GetElement(tokenRange.last).GetStyle()))
+	iter.MoveTo(kJIteratorStartBefore, tokenRange.last);
+	if (!iter.Next(&f2))
 		{
-		ExtendCheckRange(GetText().GetLength());
+		return;
+		}
+
+	const JFontStyle& style = GetTypeStyle(tokenType - kWhitespace);
+	if (style != f1.GetStyle() || style != f1.GetStyle())
+		{
+		ExtendCheckRange(GetText().GetCharacterCount());
 		}
 }
 

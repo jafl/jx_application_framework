@@ -567,3 +567,20 @@ JSTStyler::ExpandTextRange
 
 	*r1 = TextRange(start, after);
 }
+
+/******************************************************************************
+ GetCharacter (protected)
+
+	Only use if you really need only one single character
+
+ ******************************************************************************/
+
+JUtf8Character
+JSTStyler::GetCharacter
+	(
+	const TextIndex& index
+	)
+	const
+{
+	return JUtf8Character(itsText->GetBytes() + index.byteIndex - 1);
+}

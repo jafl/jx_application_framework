@@ -640,33 +640,34 @@ CBMBalanceFromSelection
 	const CBLanguage	lang
 	)
 {
-	JIndex selStart, selEnd;
-	JBoolean hasSelection = te->GetSelection(&selStart, &selEnd);
+	JCharacterRange sel;
+	JBoolean hasSelection = te->GetSelection(&sel);
 
-	JIndex openIndex = te->GetInsertionIndex();
+	JIndex openIndex = te->GetInsertionCharIndex();
 
 	// If a single grouping symbol is enclosed, balance it.
 
-	const JString& text = te->GetText();
-	if (hasSelection && selStart == selEnd)
+	const JString& text = te->GetText()->GetText();
+	if (hasSelection && sel.first == sel.last)
 		{
-		const JCharacter c = text.GetCharacter(selStart);
-		if (CBMIsOpenGroup(lang, c))
+		JString c;
+		te->GetSelection(&c);
+		if (CBMIsOpenGroup(lang, c.GetFirstCharacter()))
 			{
 			hasSelection = kJFalse;
-			openIndex = selStart+1;
+			openIndex    = sel.first+1;
 			}
-		else if (CBMIsCloseGroup(lang, c))
+		else if (CBMIsCloseGroup(lang, c.GetFirstCharacter()))
 			{
 			hasSelection = kJFalse;
-			openIndex = selEnd;
+			openIndex    = sel.last;
 			}
 		}
-	else if (openIndex < text.GetLength() &&
+	else if (openIndex < text.GetCharacterCount() &&
 			 CBMIsOpenGroup(lang, text.GetCharacter(openIndex)) &&
 			 (openIndex == 1 ||
-			  (!CBMIsOpenGroup(lang, openIndex-1) &&
-			   !CBMIsCloseGroup(lang, openIndex-1))))
+			  (!CBMIsOpenGroup(lang, text.GetCharacter(openIndex-1)) &&
+			   !CBMIsCloseGroup(lang, text.GetCharacter(openIndex-1)))))
 		{
 		openIndex++;
 		}
@@ -751,7 +752,7 @@ CBMBalanceForward
 	JStringIterator*	iter
 	)
 {
-	JStack<JCharacter, JArray<JUtf8Byte> > openList;
+	JStack<JUtf8Byte, JArray<JUtf8Byte> > openList;
 
 	JUtf8Character c;
 	while (iter->Next(&c))
@@ -761,7 +762,7 @@ CBMBalanceForward
 
 		if (isOpen)
 			{
-			openList.Push(c);
+			openList.Push(c.GetBytes()[0]);
 			}
 		else if (isClose && openList.IsEmpty())
 			{
@@ -787,17 +788,17 @@ CBMBalanceBackward
 	JStringIterator*	iter
 	)
 {
-	JStack<JCharacter, JArray<JUtf8Byte> > closeList;
+	JStack<JUtf8Byte, JArray<JUtf8Byte> > closeList;
 
 	JUtf8Character c;
-	while (iter.Prev(&c))
+	while (iter->Prev(&c))
 		{
 		const JBoolean isOpen  = CBMIsOpenGroup(lang, c);
 		const JBoolean isClose = CBMIsCloseGroup(lang, c);
 
 		if (isClose)
 			{
-			closeList.Push(c);
+			closeList.Push(c.GetBytes()[0]);
 			}
 		else if (isOpen && closeList.IsEmpty())
 			{
@@ -913,6 +914,8 @@ CBMGetFnMenuUpdater()
 
  ******************************************************************************/
 
+static const JRegex wsPattern = "[ \t]+";
+
 void
 CBMGetStringList
 	(
@@ -922,40 +925,11 @@ CBMGetStringList
 {
 	list->DeleteAll();
 
-	JString text = inputField->GetText();
+	JString text = inputField->GetText()->GetText();
 	text.TrimWhitespace();
-	if (text.IsEmpty())
+	if (!text.IsEmpty())
 		{
-		return;
-		}
-
-	text += " ";	// helps catch the last str
-
-	// get rid of extra spaces
-
-	JIndex i;
-	while (text.LocateSubstring("\t", &i))
-		{
-		text.SetCharacter(i, ' ');
-		}
-	while (text.LocateSubstring("  ", &i))
-		{
-		text.RemoveSubstring(i+1,i+1);
-		}
-
-	// extract the strings
-
-	while (!text.IsEmpty())
-		{
-		JIndex endIndex;
-		const JBoolean found = text.LocateSubstring(" ", &endIndex);
-		assert( found );
-
-		JString* str = jnew JString(text.GetSubstring(1, endIndex-1));
-		assert( str != nullptr );
-		list->Append(str);
-
-		text.RemoveSubstring(1,endIndex);
+		text.Split(wsPattern, list);
 		}
 }
 
@@ -982,7 +956,7 @@ CBMGetSuffixList
 		JString* suffix = list->GetElement(i);
 		if (suffix->GetFirstCharacter() != '.')
 			{
-			suffix->PrependCharacter('.');
+			suffix->Prepend(".");
 			}
 		}
 }
@@ -1013,5 +987,5 @@ CBMSetStringList
 		text += *(list.GetElement(i));
 		}
 
-	inputField->SetText(text);
+	inputField->GetText()->SetText(text);
 }
