@@ -26,6 +26,7 @@
 #include <JXWindowPainter.h>
 #include <JXColorManager.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 #include <jXUtil.h>
 
 #include <JPagePrinter.h>
@@ -43,7 +44,7 @@
 JBoolean CBTreeWidget::itsRaiseWhenSingleMatchFlag = kJFalse;
 const JSize CBTreeWidget::kBorderWidth             = 5;
 
-static const JCharacter* kSelectionDataID = "CBTreeWidget";
+static const JUtf8Byte* kSelectionDataID = "CBTreeWidget";
 
 /******************************************************************************
  Constructor
@@ -79,11 +80,8 @@ CBTreeWidget::CBTreeWidget
 
 	itsFnMenuDir = nullptr;
 
-	itsQtSignalImage = jnew JXImage(GetDisplay(), jcc_qt_signal);
-	assert( itsQtSignalImage != nullptr );
-
-	itsQtSlotImage = jnew JXImage(GetDisplay(), jcc_qt_slot);
-	assert( itsQtSlotImage != nullptr );
+	itsQtSignalImage = GetDisplay()->GetImageCache()->GetImage(jcc_qt_signal);
+	itsQtSlotImage   = GetDisplay()->GetImageCache()->GetImage(jcc_qt_slot);
 
 	WantInput(kJTrue, kJFalse, kJTrue);	// need Ctrl-Tab
 
@@ -107,8 +105,6 @@ CBTreeWidget::CBTreeWidget
 
 CBTreeWidget::~CBTreeWidget()
 {
-	jdelete itsQtSignalImage;
-	jdelete itsQtSlotImage;
 }
 
 /******************************************************************************

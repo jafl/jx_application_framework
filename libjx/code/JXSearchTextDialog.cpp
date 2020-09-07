@@ -870,7 +870,7 @@ JXSearchTextDialog::GetSearchParameters
 		itsRegex->SetSingleLine(kJTrue);
 		const JError err = itsRegex->SetPattern(
 			JRegex::BackslashForLiteral(itsSearchInput->GetText()->GetText()));
-		assert( err.OK() );
+		assert_ok( err );
 		}
 
 	*replaceStr   = itsReplaceInput->GetText()->GetText();

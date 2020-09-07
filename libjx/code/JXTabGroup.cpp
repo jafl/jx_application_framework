@@ -25,6 +25,7 @@
 #include "JXFontManager.h"
 #include "JXColorManager.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
 #include "jXGlobals.h"
 #include <jStreamUtil.h>
 #include <jTime.h>
@@ -111,11 +112,9 @@ JXTabGroup::JXTabGroup
 	itsTabInfoList = jnew JArray<TabInfo>;
 	assert( itsTabInfoList != nullptr );
 
-	itsCloseImage = jnew JXImage(GetDisplay(), jx_tab_close);
-	assert( itsCloseImage != nullptr );
-
-	itsClosePushedImage = jnew JXImage(GetDisplay(), jx_tab_close_pushed);
-	assert( itsClosePushedImage != nullptr );
+	JXImageCache* cache = GetDisplay()->GetImageCache();
+	itsCloseImage       = cache->GetImage(jx_tab_close);
+	itsClosePushedImage = cache->GetImage(jx_tab_close_pushed);
 
 	itsTabRects = jnew JArray<JRect>;
 	assert( itsTabRects != nullptr );
@@ -135,9 +134,6 @@ JXTabGroup::~JXTabGroup()
 	jdelete itsTitles;
 	jdelete itsTabInfoList;
 	jdelete itsTabRects;
-
-	jdelete itsCloseImage;
-	jdelete itsClosePushedImage;
 }
 
 /******************************************************************************

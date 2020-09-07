@@ -86,6 +86,7 @@
 #include "mode.xpm"
 #include "month.xpm"
 #include "git_status.xpm"
+#include "git_history.xpm"
 #include "git_commit_all.xpm"
 #include "git_revert_all.xpm"
 
@@ -417,6 +418,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	ListenTo(itsGitMenu);
 
 	itsGitMenu->SetItemImage(kGitStatusCmd, git_status);
+	itsGitMenu->SetItemImage(kGitHistoryCmd, git_history);
 	itsGitMenu->SetItemImage(kGitCommitAllCmd, git_commit_all);
 	itsGitMenu->SetItemImage(kGitRevertAllCmd, git_revert_all);
 
@@ -584,7 +586,7 @@ SyGFileTreeTable::LoadToolBarDefaults
 	toolBar->AppendButton(itsViewMenu, kShowModeCmd);
 	toolBar->AppendButton(itsViewMenu, kShowDateCmd);
 	toolBar->NewGroup();
-	(SyGGetApplication())->LoadToolBarDefaults(toolBar, itsShortcutMenu,
+	SyGGetApplication()->LoadToolBarDefaults(toolBar, itsShortcutMenu,
 											   kShortcutCmdOffset+1);
 }
 
@@ -2572,8 +2574,9 @@ SyGFileTreeTable::SetWindowIcon()
 		itsIconWidget = GetWindow()->SetIcon(icon1, icon2);
 		ListenTo(itsIconWidget);
 */
-		JXImage* icon3 = jnew JXImage(display, plain);
-		assert(icon3 != nullptr);
+		JXImage* icon3;
+		const JError err = JXImage::CreateFromXPM(display, plain, &icon3);
+		assert_ok( err );
 
 		GetWindow()->SetIcon(icon3);
 		}

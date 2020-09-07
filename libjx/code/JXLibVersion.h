@@ -61,6 +61,8 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXApplication:
 //		Support multi-threaded applications by allowing other threads to create
 //			urgent & idle tasks.  UI code must run only in the UI thread.
+//	JXImage
+//		Added CreateFromXPM() which works with > 256 colors.
 
 // version 3.1.0:
 //	JXGetStringDialog:

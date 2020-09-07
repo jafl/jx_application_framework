@@ -10,7 +10,9 @@
  ******************************************************************************/
 
 #include "CBExecHistoryMenu.h"
+#include <JXDisplay.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 #include <jAssert.h>
 
 #include <jx_executable_small.xpm>
@@ -56,9 +58,7 @@ CBExecHistoryMenu::CBExecHistoryMenu
 void
 CBExecHistoryMenu::CBExecHistoryMenuX()
 {
-	JXImage* icon = jnew JXImage(GetDisplay(), jx_executable_small);
-	assert( icon != nullptr );
-	SetDefaultIcon(icon, kJTrue);
+	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_executable_small), kJFalse);
 }
 
 /******************************************************************************

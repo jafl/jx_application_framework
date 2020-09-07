@@ -15,7 +15,7 @@ class CBSearchPathHistoryMenu : public JXHistoryMenuBase
 public:
 
 	CBSearchPathHistoryMenu(const JSize historyLength,
-							const JCharacter* title, JXContainer* enclosure,
+							const JString& title, JXContainer* enclosure,
 							const HSizingOption hSizing, const VSizingOption vSizing,
 							const JCoordinate x, const JCoordinate y,
 							const JCoordinate w, const JCoordinate h);
@@ -26,7 +26,7 @@ public:
 
 	virtual ~CBSearchPathHistoryMenu();
 
-	void	AddPath(const JCharacter* fullName, const JBoolean recurse);
+	void	AddPath(const JString& fullName, const JBoolean recurse);
 
 	const JString&	GetPath(const Message& message, JBoolean* recurse) const;
 	const JString&	GetPath(const JIndex index, JBoolean* recurse) const;

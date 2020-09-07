@@ -51,7 +51,7 @@ private:
 	JXTextMenu*				itsContextMenu;
 	const GPMProcessEntry* 	itsSelectedEntry;
 	JXTEBase*				itsFullCmdDisplay;
-	JXImage*				itsZombieImage;
+	JXImage*				itsZombieImage;		// not owned
 
 private:
 

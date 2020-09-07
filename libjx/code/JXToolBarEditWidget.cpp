@@ -20,6 +20,7 @@
 #include "JXDisplay.h"
 #include "JXColorManager.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
 #include <JTreeList.h>
 #include <JTableSelection.h>
 #include <jAssert.h>
@@ -48,14 +49,10 @@ JXToolBarEditWidget::JXToolBarEditWidget
 	:
 	JXNamedTreeListWidget(treeList, scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsMenuImage = jnew JXImage(GetDisplay(), jx_toolbar_menu_node);
-	assert(itsMenuImage != nullptr);
-
-	itsCheckedItemImage = jnew JXImage(GetDisplay(), jx_toolbar_checked);
-	assert(itsCheckedItemImage != nullptr);
-
-	itsUncheckedItemImage = jnew JXImage(GetDisplay(), jx_toolbar_unchecked);
-	assert(itsUncheckedItemImage != nullptr);
+	JXImageCache* cache   = GetDisplay()->GetImageCache();
+	itsMenuImage          = cache->GetImage(jx_toolbar_menu_node);
+	itsCheckedItemImage   = cache->GetImage(jx_toolbar_checked);
+	itsUncheckedItemImage = cache->GetImage(jx_toolbar_unchecked);
 }
 
 /******************************************************************************
@@ -65,9 +62,6 @@ JXToolBarEditWidget::JXToolBarEditWidget
 
 JXToolBarEditWidget::~JXToolBarEditWidget()
 {
-	jdelete itsMenuImage;
-	jdelete itsCheckedItemImage;
-	jdelete itsUncheckedItemImage;
 }
 
 /******************************************************************************

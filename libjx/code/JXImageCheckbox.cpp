@@ -9,8 +9,10 @@
 
 #include "JXImageCheckbox.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
 #include "JXWindowPainter.h"
 #include "JXColorManager.h"
+#include "JXDisplay.h"
 #include "jXPainterUtil.h"
 #include <jAssert.h>
 
@@ -94,13 +96,11 @@ JXImageCheckbox::SetBitmap
 void
 JXImageCheckbox::SetImage
 	(
-	const JXPM&			xpm,
+	const JXPM&		xpm,
 	const JColorID	backColor
 	)
 {
-	JXImage* image = jnew JXImage(GetDisplay(), xpm);
-	assert( image != nullptr );
-	SetImage(image, kJTrue, backColor);
+	SetImage(GetDisplay()->GetImageCache()->GetImage(xpm), kJFalse, backColor);
 }
 
 /******************************************************************************

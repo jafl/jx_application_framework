@@ -38,6 +38,8 @@ protected:
 
 private:
 
+	// not owned
+
 	JXImage*	itsMenuImage;
 	JXImage*	itsCheckedItemImage;
 	JXImage*	itsUncheckedItemImage;

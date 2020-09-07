@@ -30,7 +30,6 @@
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
 #include <JListUtil.h>
-#include <X11/xpm.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -465,6 +464,45 @@ JXImage::CreateFromGIF
 }
 
 /******************************************************************************
+ Constructor function (XPM data) (static)
+
+ ******************************************************************************/
+
+JError
+JXImage::CreateFromXPM
+	(
+	JXDisplay*	display,
+	const JXPM&	data,
+	JXImage**	image
+	)
+{
+	XpmAttributes attr;
+	InitXPMAttributes(display, &attr);
+
+	Pixmap image_pixmap = None;
+	Pixmap mask_pixmap  = None;
+
+	const int xpmErr =
+		XpmCreatePixmapFromData(*display, display->GetRootWindow(),
+								(char**) data.xpm, &image_pixmap, &mask_pixmap, &attr);
+	if (xpmErr == XpmNoMemory)
+		{
+		return JNoProcessMemory();
+		}
+	else if (xpmErr != XpmSuccess)
+		{
+		return JUnexpectedError(xpmErr);
+		}
+
+	*image = CreateImageAndMaskFromXPMData(display, image_pixmap, mask_pixmap);
+
+	// clean up
+
+	XpmFreeAttributes(&attr);
+	return JNoError();
+}
+
+/******************************************************************************
  Constructor function (XPM file) (static)
 
 	Returns an error if the file does not contain an XPM.
@@ -479,25 +517,11 @@ JXImage::CreateFromXPM
 	JXImage**		image
 	)
 {
-	JXColorManager* colorManager = display->GetColorManager();
+	XpmAttributes attr;
+	InitXPMAttributes(display, &attr);
 
 	Pixmap image_pixmap = None;
 	Pixmap mask_pixmap  = None;
-
-	XpmAttributes attr;
-	attr.valuemask          = XpmVisual | XpmColormap | XpmDepth |
-							  XpmExactColors | XpmCloseness |
-							  XpmColorKey | XpmAllocCloseColors |
-							  XpmReturnAllocPixels;
-	attr.visual             = colorManager->GetVisual();
-	attr.colormap           = colorManager->GetXColormap();
-	attr.depth              = display->GetDepth();
-	attr.color_key          = XPM_COLOR;
-	attr.alloc_pixels       = nullptr;
-	attr.nalloc_pixels      = 0;
-	attr.alloc_close_colors = kJTrue;	// so we can free all resulting pixels
-	attr.exactColors        = 1;
-	attr.closeness          = 0;
 
 	const int xpmErr =
 		XpmReadFileToPixmap(*display, display->GetRootWindow(),
@@ -519,28 +543,58 @@ JXImage::CreateFromXPM
 		{
 		return JNoProcessMemory();
 		}
-	else if (xpmErr == XpmColorFailed || xpmErr == XpmColorError)
+	else if (xpmErr != XpmSuccess)
 		{
-		if (image_pixmap != None)
-			{
-			XFreePixmap(*display, image_pixmap);
-			}
-		if (mask_pixmap != None)
-			{
-			XFreePixmap(*display, mask_pixmap);
-			}
-		if (attr.alloc_pixels != nullptr)
-			{
-			XFreeColors(*display, attr.colormap, attr.alloc_pixels, attr.nalloc_pixels, 0);
-			}
-		XpmFreeAttributes(&attr);
-		return TooManyColors();
+		return JUnexpectedError(xpmErr);
 		}
 
-	// create image and mask
+	*image = CreateImageAndMaskFromXPMData(display, image_pixmap, mask_pixmap);
 
-	*image = jnew JXImage(display, image_pixmap);
-	assert( *image != nullptr );
+	// clean up
+
+	XpmFreeAttributes(&attr);
+	return JNoError();
+}
+
+/******************************************************************************
+ InitXPMAttributes (static private)
+
+ ******************************************************************************/
+
+void
+JXImage::InitXPMAttributes
+	(
+	JXDisplay*		display,
+	XpmAttributes*	attr
+	)
+{
+	JXColorManager* colorManager = display->GetColorManager();
+
+	attr->valuemask   = XpmVisual | XpmColormap | XpmDepth |
+					    XpmColorKey | XpmExactColors | XpmCloseness;
+	attr->visual      = colorManager->GetVisual();
+	attr->colormap    = colorManager->GetXColormap();
+	attr->depth       = display->GetDepth();
+	attr->color_key   = XPM_COLOR;
+	attr->exactColors = 1;
+	attr->closeness   = 0;
+}
+
+/******************************************************************************
+ CreateImageAndMaskFromXPMData (static private)
+
+ ******************************************************************************/
+
+JXImage*
+JXImage::CreateImageAndMaskFromXPMData
+	(
+	JXDisplay*		display,
+	const Pixmap	image_pixmap,
+	const Pixmap	mask_pixmap
+	)
+{
+	JXImage* image = jnew JXImage(display, image_pixmap);
+	assert( image != nullptr );
 
 	XFreePixmap(*display, image_pixmap);
 
@@ -548,19 +602,12 @@ JXImage::CreateFromXPM
 		{
 		JXImageMask* mask = jnew JXImageMask(display, mask_pixmap);
 		assert( mask != nullptr );
-		(**image).SetMask(mask);
+		image->SetMask(mask);
 
 		XFreePixmap(*display, mask_pixmap);
 		}
 
-	// free pixels so X has usage count of 1
-
-	XFreeColors(*display, attr.colormap, attr.alloc_pixels, attr.nalloc_pixels, 0);
-
-	// clean up
-
-	XpmFreeAttributes(&attr);
-	return JNoError();
+	return image;
 }
 
 /******************************************************************************
@@ -619,9 +666,13 @@ JXImage::WriteXPM
 		{
 		return JNoProcessMemory();
 		}
-	else
+	else if (xpmErr == XpmSuccess)
 		{
 		return JNoError();
+		}
+	else
+		{
+		return JUnexpectedError(xpmErr);
 		}
 }
 

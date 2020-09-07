@@ -34,9 +34,10 @@ JXSplashWindow::JXSplashWindow
 	:
 	JXWindowDirector(JXGetApplication())
 {
-	JXDisplay* d   = JXGetApplication()->GetCurrentDisplay();
-	JXImage* image = jnew JXImage(d, imageData);
-	assert( image != nullptr );
+	JXDisplay* d = JXGetApplication()->GetCurrentDisplay();
+	JXImage* image;
+	const JError err = JXImage::CreateFromXPM(d, imageData, &image);
+	assert_ok( err );
 
 	BuildWindow(image, text, displayInterval);
 }

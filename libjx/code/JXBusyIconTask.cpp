@@ -10,6 +10,8 @@
 #include "JXBusyIconTask.h"
 #include "JXImageWidget.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
+#include "JXDisplay.h"
 #include <jAssert.h>
 
 #include <jx_busy_1_small.xpm>
@@ -43,15 +45,13 @@ JXBusyIconTask::JXBusyIconTask
 	:
 	JXAnimationTask(widget)
 {
-	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kBusyIconCount);
+	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kForgetAll, kBusyIconCount);
 	assert( itsImageList != nullptr );
 
-	JXDisplay* display = widget->GetDisplay();
+	JXImageCache* cache = widget->GetDisplay()->GetImageCache();
 	for (const JXPM& xpm : kBusyIcon)
 		{
-		JXImage* icon = jnew JXImage(display, xpm);
-		assert( icon != nullptr );
-		itsImageList->Append(icon);
+		itsImageList->Append(cache->GetImage(xpm));
 		}
 }
 

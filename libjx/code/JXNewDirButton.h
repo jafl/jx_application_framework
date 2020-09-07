@@ -29,7 +29,7 @@ protected:
 
 private:
 
-	JXImage*	itsFolderIcon;
+	JXImage*	itsFolderIcon;	// not owned
 	JSize		itsLabelWidth;
 
 private:

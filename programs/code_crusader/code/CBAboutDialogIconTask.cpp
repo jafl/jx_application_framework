@@ -8,8 +8,10 @@
  ******************************************************************************/
 
 #include "CBAboutDialogIconTask.h"
+#include <JXDisplay.h>
 #include <JXImageWidget.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 #include <jAssert.h>
 
 #include "jcc_about_0.xpm"
@@ -41,15 +43,13 @@ CBAboutDialogIconTask::CBAboutDialogIconTask
 	:
 	JXAnimationTask(widget)
 {
-	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kAboutIconCount);
+	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kForgetAll, kAboutIconCount);
 	assert( itsImageList != nullptr );
 
-	JXDisplay* display = widget->GetDisplay();
+	JXImageCache* cache = widget->GetDisplay()->GetImageCache();
 	for (JIndex i=1; i<=kAboutIconCount; i++)
 		{
-		JXImage* icon = jnew JXImage(display, kAboutIcon[i-1]);
-		assert( icon != nullptr );
-		itsImageList->Append(icon);
+		itsImageList->Append(cache->GetImage(kAboutIcon[i-1]));
 		}
 }
 

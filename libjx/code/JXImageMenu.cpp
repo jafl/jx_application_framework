@@ -13,6 +13,8 @@
 #include "JXImageMenuData.h"
 #include "JXImageMenuDirector.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
+#include "JXDisplay.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -159,9 +161,7 @@ JXImageMenu::SetItemImage
 	const JXPM&		data
 	)
 {
-	JXImage* image = jnew JXImage(GetDisplay(), data);
-	assert( image != nullptr );
-	SetItemImage(index, image, kJTrue);
+	SetItemImage(index, GetDisplay()->GetImageCache()->GetImage(data), kJFalse);
 }
 
 void

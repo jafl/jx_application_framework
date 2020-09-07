@@ -16,6 +16,7 @@
 #include <JArray.h>
 #include "jXConstants.h"
 #include <X11/Xlib.h>
+#include <X11/xpm.h>
 
 class JXDisplay;
 class JXGC;
@@ -51,7 +52,7 @@ public:
 			const JColorID backColor = kJXTransparentColor, // placeholder for GetDefaultBackColor()
 			const JSize depth = 0);
 
-	JXImage(JXDisplay* display, const JXPM& data);
+	JXImage(JXDisplay* display, const JXPM& data);		// < 256 colors
 
 	JXImage(const JXImage& source);
 	JXImage(const JXImage& source, const JRect& rect);
@@ -66,6 +67,8 @@ public:
 								  const JString& fileName, JXImage** image);
 	static JError	CreateFromJPEG(JXDisplay* display,
 								   const JString& fileName, JXImage** image);
+	static JError	CreateFromXPM(JXDisplay* display,
+								  const JXPM& data, JXImage** image);
 	static JError	CreateFromXPM(JXDisplay* display,
 								  const JString& fileName, JXImage** image);
 
@@ -149,6 +152,11 @@ private:
 
 	void	JXImageX(JXDisplay* display, const JSize depth = 0);
 	void	JXImageFromDrawable(JXDisplay* display, Drawable source, const JRect& rect);
+
+	static void		InitXPMAttributes(JXDisplay* display, XpmAttributes* attr);
+	static JXImage*	CreateImageAndMaskFromXPMData(JXDisplay* display,
+												  const Pixmap image_pixmap,
+												  const Pixmap mask_pixmap);
 
 	// not allowed
 

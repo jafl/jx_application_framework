@@ -124,15 +124,11 @@ THXAboutDialog::BuildWindow
 
 	// Program icon
 
-	JXImage* image = jnew JXImage(GetDisplay(), thx_about);
-	assert( image != nullptr );
-	thxIcon->SetImage(image, kJTrue);
+	thxIcon->SetXPM(thx_about);
 
 	// NPS icon
 
-	image = jnew JXImage(GetDisplay(), new_planet_software);
-	assert( image != nullptr );
-	npsIcon->SetImage(image, kJTrue);
+	npsIcon->SetXPM(new_planet_software);
 
 	// adjust window to fit text
 

@@ -12,6 +12,8 @@
 
 #include "JXPathHistoryMenu.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
+#include "JXDisplay.h"
 #include <jDirUtil.h>
 #include <jMountUtil.h>
 #include <jAssert.h>
@@ -62,9 +64,7 @@ JXPathHistoryMenu::JXPathHistoryMenu
 void
 JXPathHistoryMenu::JXPathHistoryMenuX()
 {
-	JXImage* icon = jnew JXImage(GetDisplay(), jx_folder_small);
-	assert( icon != nullptr );
-	SetDefaultIcon(icon, kJTrue);
+	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_folder_small), kJFalse);
 }
 
 /******************************************************************************

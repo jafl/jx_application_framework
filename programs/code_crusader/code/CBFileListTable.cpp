@@ -276,7 +276,7 @@ CBFileListTable::ScanDirectory
 				const JBoolean ok = JGetTrueName(entry.GetFullName(), &trueName);
 				assert( ok );
 				const JError err = JGetModificationTime(trueName, &modTime);
-				assert( err.OK() );
+				assert_ok( err );
 				}
 
 			ParseFile(trueName, allSuffixList, modTime,

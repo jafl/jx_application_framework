@@ -111,6 +111,8 @@ private:
 	JPtrArray<JString>*	itsReselectNameList;	// non-empty => reselect after AdjustTableContents()
 	JPoint				itsReselectScrollOffset;
 
+	// not owned
+
 	JXImage*	itsFileIcon;
 	JXImage*	itsFolderIcon;
 	JXImage*	itsReadOnlyFolderIcon;

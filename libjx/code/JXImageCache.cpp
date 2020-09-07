@@ -56,8 +56,11 @@ JXImageCache::GetImage
 	JXImage* image;
 	if (!itsMap->GetElement(s, &image))
 		{
-		image = jnew JXImage(itsDisplay, data);
-		assert( image != nullptr );
+		const JError err = JXImage::CreateFromXPM(itsDisplay, data, &image);
+		assert_ok( err );
+
+		image->ConvertToRemoteStorage();	// expect to use as-is
+
 		const JBoolean ok = itsMap->SetNewElement(s, image);
 		assert( ok );
 		}

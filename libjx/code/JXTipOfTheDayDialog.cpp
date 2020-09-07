@@ -131,9 +131,9 @@ JXTipOfTheDayDialog::BuildWindow
 	window->LockCurrentMinSize();
 	window->PlaceAsDialogWindow();
 
-	JXDisplay* display = GetDisplay();
-	JXImage* wIcon     = jnew JXImage(display, jx_tip_of_the_day);
-	assert( wIcon != nullptr );
+	JXImage* wIcon;
+	const JError err = JXImage::CreateFromXPM(GetDisplay(), jx_tip_of_the_day, &wIcon);
+	assert_ok( err );
 	window->SetIcon(wIcon);
 
 	sideBar->SetColor(JColorManager::GetGrayColor(50));

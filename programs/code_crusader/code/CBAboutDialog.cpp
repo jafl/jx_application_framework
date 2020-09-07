@@ -14,7 +14,6 @@
 #include <JXTextButton.h>
 #include <JXStaticText.h>
 #include <JXImageWidget.h>
-#include <JXImage.h>
 #include <JXHelpManager.h>
 #include <jAssert.h>
 
@@ -129,9 +128,7 @@ CBAboutDialog::BuildWindow
 
 	// NPS icon
 
-	JXImage* image = jnew JXImage(GetDisplay(), new_planet_software);
-	assert( image != nullptr );
-	npsIcon->SetImage(image, kJTrue);
+	npsIcon->SetXPM(new_planet_software);
 
 	// adjust window to fit text
 

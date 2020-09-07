@@ -124,15 +124,11 @@ CMAboutDialog::BuildWindow
 
 	// Code Medic icon
 
-	JXImage* image = jnew JXImage(GetDisplay(), medic_about);
-	assert(image != nullptr);
-	medicIcon->SetImage(image, kJTrue);
+	medicIcon->SetXPM(medic_about);
 
 	// NPS icon
 
-	image = jnew JXImage(GetDisplay(), new_planet_software);
-	assert( image != nullptr );
-	npsIcon->SetImage(image, kJTrue);
+	npsIcon->SetXPM(image, new_planet_software);
 
 	// adjust window to fit text
 

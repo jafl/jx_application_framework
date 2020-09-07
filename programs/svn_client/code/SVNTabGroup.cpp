@@ -13,6 +13,7 @@
 #include "SVNBusyTabTask.h"
 #include <JXWindowPainter.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 
@@ -55,15 +56,13 @@ SVNTabGroup::SVNTabGroup
 	JXTabGroup(enclosure, hSizing, vSizing, x,y, w,h),
 	itsBusyIndex(0)
 {
-	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kBusyIconCount);
+	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kForgetAll, kBusyIconCount);
 	assert( itsImageList != nullptr );
 
-	JXDisplay* display = enclosure->GetDisplay();
+	JXImageCache* cache = enclosure->GetDisplay()->GetImageCache();
 	for (JIndex i=1; i<=kBusyIconCount; i++)
 		{
-		JXImage* icon = jnew JXImage(display, kBusyIcon[i-1]);
-		assert( icon != nullptr );
-		itsImageList->Append(icon);
+		itsImageList->Append(cache->GetImage(kBusyIcon[i-1]));
 		}
 
 	itsAnimationTask = jnew SVNBusyTabTask(this);

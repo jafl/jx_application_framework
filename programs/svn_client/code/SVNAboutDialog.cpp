@@ -105,9 +105,7 @@ SVNAboutDialog::BuildWindow
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	JXImage* image = jnew JXImage(GetDisplay(), svn_about_icon);
-	assert( image != nullptr );
-	imageWidget->SetImage(image, kJTrue);
+	imageWidget->SetXPM(svn_about_icon);
 
 	JString text = SVNGetVersionStr();
 	if (!prevVersStr.IsEmpty())
@@ -125,9 +123,7 @@ SVNAboutDialog::BuildWindow
 
 	// NPS icon
 
-	image = jnew JXImage(GetDisplay(), new_planet_software);
-	assert( image != nullptr );
-	npsIcon->SetImage(image, kJTrue);
+	npsIcon->SetXPM(new_planet_software);
 
 	// adjust window to fit text
 

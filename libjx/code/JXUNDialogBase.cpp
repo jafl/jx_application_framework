@@ -14,6 +14,7 @@
 #include "JXStaticText.h"
 #include "JXImageWidget.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -117,9 +118,5 @@ JXUNDialogBase::Init
 
 	// display the icon
 
-	JXImage* image = jnew JXImage(GetDisplay(), xpm);
-	assert( image != nullptr );
-	image->SetDefaultState(JXImage::kRemoteStorage);
-	image->ConvertToDefaultState();
-	icon->SetImage(image, kJTrue);
+	icon->SetImage(GetDisplay()->GetImageCache()->GetImage(xpm), kJFalse);
 }

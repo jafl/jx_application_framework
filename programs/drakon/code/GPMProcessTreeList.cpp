@@ -15,6 +15,7 @@
 #include <JXTextMenu.h>
 #include <JXTEBase.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 #include <JXColorManager.h>
 
 #include <JTableSelection.h>
@@ -63,8 +64,7 @@ GPMProcessTreeList::GPMProcessTreeList
 	SetColWidth(GPMProcessList::kTreeMemory, 60);
 	SetColWidth(GPMProcessList::kTreeTime,   60);
 
-	itsZombieImage = jnew JXImage(GetDisplay(), jx_edit_clear);
-	assert( itsZombieImage != nullptr );
+	itsZombieImage = GetDisplay()->GetImageCache()->GetImage(jx_edit_clear);
 
 	itsContextMenu = GPMProcessTable::CreateContextMenu(this);
 	ListenTo(itsContextMenu);
@@ -79,7 +79,6 @@ GPMProcessTreeList::GPMProcessTreeList
 
 GPMProcessTreeList::~GPMProcessTreeList()
 {
-	jdelete itsZombieImage;
 }
 
 /******************************************************************************

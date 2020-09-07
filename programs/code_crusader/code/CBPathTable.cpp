@@ -10,12 +10,14 @@
 #include "CBPathTable.h"
 #include "CBDirList.h"
 #include "CBRelPathCSF.h"
+#include <JXDisplay.h>
 #include <JXTextButton.h>
 #include <JXPathInput.h>
 #include <JXSelectionManager.h>
 #include <JXDNDManager.h>
 #include <JXColorManager.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 #include <jXUtil.h>
 #include <jXConstants.h>
 #include <JStringTableData.h>
@@ -67,8 +69,7 @@ CBPathTable::CBPathTable
 		JFontManager::GetDefaultMonospaceFont().GetLineHeight(GetFontManager());
 	SetDefaultRowHeight(rowHeight);
 
-	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);
-	assert( itsFolderIcon != nullptr );
+	itsFolderIcon = GetDisplay()->GetImageCache()->GetImage(jx_folder_small);
 
 	itsPathInput        = nullptr;
 	itsAddPathButton    = addPathButton;
@@ -120,7 +121,6 @@ CBPathTable::CBPathTable
 CBPathTable::~CBPathTable()
 {
 	jdelete itsData;
-	jdelete itsFolderIcon;
 }
 
 /******************************************************************************

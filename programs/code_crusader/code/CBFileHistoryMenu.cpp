@@ -16,6 +16,7 @@
 #include "cbGlobals.h"
 #include <JXDisplay.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 #include <sstream>
 #include <jAssert.h>
 
@@ -73,9 +74,7 @@ CBFileHistoryMenu::CBFileHistoryMenuX
 {
 	if (type == CBDocumentManager::kProjectFileHistory)
 		{
-		JXImage* icon = jnew JXImage(GetDisplay(), jcc_project_file);
-		assert( icon != nullptr );
-		SetDefaultIcon(icon, kJTrue);
+		SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jcc_project_file), kJFalse);
 		}
 
 	CBFileHistoryMenu* master =

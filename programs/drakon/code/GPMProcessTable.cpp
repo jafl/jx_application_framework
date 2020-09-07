@@ -18,6 +18,7 @@
 #include <JXToolBar.h>
 #include <JXTEBase.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 
 #include <JPainter.h>
 #include <JTableSelection.h>
@@ -97,8 +98,7 @@ GPMProcessTable::GPMProcessTable
 	SetRowBorderInfo(0, JColorManager::GetBlackColor());
 	SetColBorderInfo(0, JColorManager::GetBlackColor());
 
-	itsZombieImage = jnew JXImage(GetDisplay(), jx_edit_clear);
-	assert( itsZombieImage != nullptr );
+	itsZombieImage = GetDisplay()->GetImageCache()->GetImage(jx_edit_clear);
 
 	itsContextMenu = CreateContextMenu(this);
 	ListenTo(itsContextMenu);
@@ -113,7 +113,6 @@ GPMProcessTable::GPMProcessTable
 
 GPMProcessTable::~GPMProcessTable()
 {
-	jdelete itsZombieImage;
 }
 
 /******************************************************************************

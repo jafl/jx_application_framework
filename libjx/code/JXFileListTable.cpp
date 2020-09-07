@@ -15,6 +15,7 @@
 #include "JXWindow.h"
 #include "JXWindowPainter.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
 #include "JXColorManager.h"
 #include "JXTEBase.h"
 #include "JXTextMenu.h"
@@ -89,9 +90,7 @@ JXFileListTable::JXFileListTable
 	assert( itsVisibleList != nullptr );
 	itsVisibleList->SetSortOrder(JListT::kSortAscending);
 
-	itsFileIcon = jnew JXImage(GetDisplay(), jx_plain_file_small);
-	assert( itsFileIcon != nullptr );
-	itsFileIcon->ConvertToRemoteStorage();
+	itsFileIcon = GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small);
 
 	const JColorID blackColor = JColorManager::GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
@@ -116,7 +115,6 @@ JXFileListTable::~JXFileListTable()
 	jdelete itsVisibleList;
 
 	jdelete itsRegex;
-	jdelete itsFileIcon;
 }
 
 /******************************************************************************

@@ -124,15 +124,11 @@ SyGAboutDialog::BuildWindow
 
 	// System G icon
 
-	JXImage* image = jnew JXImage(GetDisplay(), SyGMainIcon);
-	assert( image != nullptr );
-	sygIcon->SetImage(image, kJTrue);
+	sygIcon->SetXPM(SyGMainIcon);
 
 	// NPS icon
 
-	image = jnew JXImage(GetDisplay(), new_planet_software);
-	assert( image != nullptr );
-	npsIcon->SetImage(image, kJTrue);
+	npsIcon->SetXPM(new_planet_software);
 
 	// adjust window to fit text
 

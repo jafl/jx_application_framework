@@ -129,7 +129,7 @@ private:
 	JBoolean			itsAcceptFileDropFlag;	// kJTrue => accept drop of url/url
 	JBoolean			itsBSRemoveSelFlag;		// kJTrue => backspace removes selected files
 	JSize				itsMaxStringWidth;
-	JXImage*			itsFileIcon;
+	JXImage*			itsFileIcon;			// not owned
 	JString				itsKeyBuffer;
 
 	// dragging

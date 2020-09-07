@@ -18,7 +18,7 @@
 #include "JXDisplay.h"
 #include "JXWindow.h"
 #include "JXInputField.h"
-#include "JXImage.h"
+#include "JXImageCache.h"
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -47,11 +47,7 @@ JXDirectSaveSource::JXDirectSaveSource
 	itsDialog    = dialog;
 	itsNameInput = nameInput;
 
-	JXImage* icon = jnew JXImage(GetDisplay(), jx_plain_file_small);
-	assert( icon != nullptr );
-	icon->ConvertToRemoteStorage();
-	SetImage(icon, kJTrue);
-
+	SetImage(GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small), kJFalse);
 	SetHint(JGetString("Hint::JXDirectSaveSource"));
 }
 

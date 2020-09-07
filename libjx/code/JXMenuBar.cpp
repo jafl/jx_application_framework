@@ -23,7 +23,7 @@
 #include "JXMenuBar.h"
 #include "JXTextMenu.h"
 #include "JXDocktab.h"
-#include "JXImage.h"
+#include "JXImageCache.h"
 #include "JXWindowPainter.h"
 #include "jXPainterUtil.h"
 #include "jXConstants.h"
@@ -563,11 +563,10 @@ JXMenuBar::WidthChanged()
 
 	// create menu to hold overflow
 
-	JXImage* image = jnew JXImage(GetDisplay(), jx_down_chevron);
-	assert( image != nullptr );
+	JXImage* image = GetDisplay()->GetImageCache()->GetImage(jx_down_chevron);
 
 	JXTextMenu* overflowMenu =
-		jnew JXTextMenu(image, kJTrue, this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		jnew JXTextMenu(image, kJFalse, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( overflowMenu != nullptr );
 	overflowMenu->SetUpdateAction(JXMenu::kDisableNone);
 

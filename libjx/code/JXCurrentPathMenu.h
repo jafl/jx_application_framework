@@ -30,6 +30,8 @@ public:
 
 private:
 
+	// not owned
+
 	JXImage*	itsFolderIcon;
 	JXImage*	itsReadOnlyFolderIcon;
 

@@ -104,13 +104,8 @@ GPMAboutDialog::BuildWindow
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	JXImage* image = jnew JXImage(GetDisplay(), gpm_about_icon);
-	assert( image != nullptr );
-	gpmIcon->SetImage(image, kJTrue);
-
-	image = jnew JXImage(GetDisplay(), new_planet_software);
-	assert( image != nullptr );
-	npsIcon->SetImage(image, kJTrue);
+	gpmIcon->SetXPM(gpm_about_icon);
+	npsIcon->SetXPM(new_planet_software);
 
 	JString text = GPMGetVersionStr();
 	if (!prevVersStr.IsEmpty())

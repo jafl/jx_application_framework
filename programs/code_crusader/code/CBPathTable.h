@@ -64,7 +64,7 @@ protected:
 private:
 
 	JStringTableData*	itsData;
-	JXImage*			itsFolderIcon;
+	JXImage*			itsFolderIcon;			// not owned
 	JXPathInput*		itsPathInput;			// nullptr unless editing
 	JString				itsBasePath;
 

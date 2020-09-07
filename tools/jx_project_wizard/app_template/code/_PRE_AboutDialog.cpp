@@ -103,9 +103,7 @@ void
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	JXImage* image = jnew JXImage(GetDisplay(), <pre>_about_icon);
-	assert( image != nullptr );
-	imageWidget->SetImage(image, kJTrue);
+	imageWidget->SetXPM(<pre>_about_icon);
 
 	JString text = <PRE>GetVersionStr();
 	if (!JString::IsEmpty(prevVersStr))

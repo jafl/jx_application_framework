@@ -68,7 +68,7 @@ private:
 	JXTextMenu*				itsContextMenu;
 	const GPMProcessEntry* 	itsSelectedEntry;	// nullptr unless updating
 	JXTEBase*				itsFullCmdDisplay;
-	JXImage*				itsZombieImage;
+	JXImage*				itsZombieImage;		// not owned
 
 private:
 

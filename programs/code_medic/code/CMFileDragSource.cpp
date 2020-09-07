@@ -41,9 +41,7 @@ CMFileDragSource::CMFileDragSource
 	JXImageWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsDoc(doc)
 {
-	JXImage* icon = jnew JXImage(GetDisplay(), jx_plain_file_small);
-	assert( icon != nullptr );
-	SetImage(icon, kJTrue);
+	SetImage(GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small), kJFalse);
 
 	SetHint(JGetString("Hint::CMFileDragSource"));
 }

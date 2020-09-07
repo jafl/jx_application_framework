@@ -19,6 +19,7 @@
 #include <JXPathInput.h>
 #include <JXCurrentPathMenu.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 #include <jMouseUtil.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
@@ -46,9 +47,7 @@ SyGFolderDragSource::SyGFolderDragSource
 	JXImageWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsPathInput(pathInput)
 {
-	JXImage* icon = jnew JXImage(GetDisplay(), jx_folder_small);
-	assert( icon != nullptr );
-	SetImage(icon, kJTrue);
+	SetImage(GetDisplay()->GetImageCache()->GetImage(jx_folder_small), kJFalse);
 
 	SetHint(JGetString("Hint::SyGFolderDragSource"));
 

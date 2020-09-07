@@ -12,7 +12,9 @@
 #include "JXImageButton.h"
 #include "JXWindowPainter.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
 #include "JXColorManager.h"
+#include "JXDisplay.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -93,13 +95,11 @@ JXImageButton::SetBitmap
 void
 JXImageButton::SetImage
 	(
-	const JXPM&			xpm,
+	const JXPM&		xpm,
 	const JColorID	backColor
 	)
 {
-	JXImage* image = jnew JXImage(GetDisplay(), xpm);
-	assert( image != nullptr );
-	SetImage(image, kJTrue, backColor);
+	SetImage(GetDisplay()->GetImageCache()->GetImage(xpm), kJFalse, backColor);
 }
 
 /******************************************************************************

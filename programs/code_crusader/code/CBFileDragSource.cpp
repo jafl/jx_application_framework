@@ -20,16 +20,12 @@
 #include <JXInputField.h>
 #include <JXWebBrowser.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 #include <jXGlobals.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
 
 #include <jx_plain_file_small.xpm>
-
-static const JCharacter* kXDNDHintID      = "XDNDHint::CBFileDragSource";
-static const JCharacter* kXDSHintID       = "XDSHint::CBFileDragSource";
-static const JCharacter* kHowToXDS1HintID = "HowToXDS1HintID::CBFileDragSource";
-static const JCharacter* kHowToXDS2HintID = "HowToXDS2HintID::CBFileDragSource";
 
 /******************************************************************************
  Constructor
@@ -51,9 +47,7 @@ CBFileDragSource::CBFileDragSource
 	JXImageWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsDoc(doc)
 {
-	JXImage* icon = jnew JXImage(GetDisplay(), jx_plain_file_small);
-	assert( icon != nullptr );
-	SetImage(icon, kJTrue);
+	SetImage(GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small), kJFalse);
 
 	ProvideDirectSave(nullptr);
 }
@@ -81,24 +75,24 @@ CBFileDragSource::AdjustCursor
 {
 	if ((itsNameInput == nullptr && !itsDoc->ExistsOnDisk()) ||
 		(itsNameInput != nullptr &&
-		 (itsNameInput->GetText()).EndsWith(ACE_DIRECTORY_SEPARATOR_STR)))
+		 itsNameInput->GetText()->GetText().EndsWith(ACE_DIRECTORY_SEPARATOR_STR)))
 		{
 		DisplayCursor(kJXInactiveCursor);
-		SetHint(JGetString(kHowToXDS1HintID));
+		SetHint(JGetString("kFileSelected::JXFSDirMenu"));
 		}
 	else
 		{
-		if (itsNameInput != nullptr && itsNameInput->IsEmpty())
+		if (itsNameInput != nullptr && itsNameInput->GetText()->IsEmpty())
 			{
-			SetHint(JGetString(kHowToXDS2HintID));
+			SetHint(JGetString("HowToXDS2HintID::CBFileDragSource"));
 			}
 		else if (itsNameInput != nullptr)
 			{
-			SetHint(JGetString(kXDSHintID));
+			SetHint(JGetString("XDSHint::CBFileDragSource"));
 			}
 		else
 			{
-			SetHint(JGetString(kXDNDHintID));
+			SetHint(JGetString("XDNDHint::CBFileDragSource"));
 			}
 
 		JXImageWidget::AdjustCursor(pt, modifiers);
@@ -137,7 +131,7 @@ CBFileDragSource::HandleMouseDown
 		BeginDND(pt, buttonStates, modifiers, data);
 		}
 	else if (itsNameInput != nullptr &&
-			 !(itsNameInput->GetText()).EndsWith(ACE_DIRECTORY_SEPARATOR_STR))
+			 !itsNameInput->GetText()->GetText().EndsWith(ACE_DIRECTORY_SEPARATOR_STR))
 		{
 		CBDSSFinishSaveTask* task = jnew CBDSSFinishSaveTask(itsDoc);
 		assert( task != nullptr );
@@ -162,9 +156,9 @@ CBFileDragSource::DNDInit
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsNameInput != nullptr && !itsNameInput->IsEmpty())
+	if (itsNameInput != nullptr && !itsNameInput->GetText()->IsEmpty())
 		{
-		JString fullName = itsNameInput->GetText();
+		JString fullName = itsNameInput->GetText()->GetText();
 		JStripTrailingDirSeparator(&fullName);		// paranoia -- checked earlier
 
 		JString path, name;

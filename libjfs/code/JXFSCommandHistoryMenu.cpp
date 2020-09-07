@@ -17,8 +17,9 @@
  ******************************************************************************/
 
 #include "JXFSCommandHistoryMenu.h"
+#include <JXDisplay.h>
 #include <JXImage.h>
-#include <JString.h>
+#include <JXImageCache.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>
 #include <jGlobals.h>
@@ -67,9 +68,7 @@ JXFSCommandHistoryMenu::JXFSCommandHistoryMenu
 void
 JXFSCommandHistoryMenu::JFSCommandHistoryMenuX()
 {
-	JXImage* icon = jnew JXImage(GetDisplay(), jx_executable_small);
-	assert( icon != nullptr );
-	SetDefaultIcon(icon, kJTrue);
+	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_executable_small), kJFalse);
 }
 
 /******************************************************************************

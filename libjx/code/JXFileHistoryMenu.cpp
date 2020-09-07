@@ -19,8 +19,8 @@
  ******************************************************************************/
 
 #include "JXFileHistoryMenu.h"
-#include "JXImage.h"
-#include <JString.h>
+#include "JXImageCache.h"
+#include "JXDisplay.h"
 #include <jFileUtil.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
@@ -68,9 +68,7 @@ JXFileHistoryMenu::JXFileHistoryMenu
 void
 JXFileHistoryMenu::JXFileHistoryMenuX()
 {
-	JXImage* icon = jnew JXImage(GetDisplay(), jx_plain_file_small);
-	assert( icon != nullptr );
-	SetDefaultIcon(icon, kJTrue);
+	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small), kJFalse);
 }
 
 /******************************************************************************

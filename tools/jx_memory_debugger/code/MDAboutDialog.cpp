@@ -99,9 +99,7 @@ MDAboutDialog::BuildWindow
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	JXImage* image = jnew JXImage(GetDisplay(), md_about_icon);
-	assert( image != nullptr );
-	imageWidget->SetImage(image, kJTrue);
+	imageWidget->SetXPM(md_about_icon);
 
 	JString text = MDGetVersionStr();
 	if (!prevVersStr.IsEmpty())

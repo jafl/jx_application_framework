@@ -134,7 +134,7 @@ private:
 	JXTimerTask*			itsSafetySaveTask;
 
 	JXUpdateDocMenuTask*	itsUpdateDocMenuTask;	// nullptr unless pending
-	JXImage*				itsDefaultMenuIcon;
+	JXImage*				itsDefaultMenuIcon;		// not owned
 
 private:
 

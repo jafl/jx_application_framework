@@ -125,7 +125,7 @@ private:
 
 	static JBoolean		itsRaiseWhenSingleMatchFlag;
 
-	// for use by CBFnListWidget
+	// not owned; for use by CBFnListWidget
 
 	JXImage*	itsQtSignalImage;
 	JXImage*	itsQtSlotImage;

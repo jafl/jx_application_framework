@@ -54,6 +54,7 @@
 #include "JXUpdateDocMenuTask.h"
 #include "JXTimerTask.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
 #include "JXDisplay.h"
 #include "JXColorManager.h"
 #include "jXGlobals.h"
@@ -109,9 +110,8 @@ JXDocumentManager::JXDocumentManager
 
 	itsUpdateDocMenuTask = nullptr;
 
-	JXDisplay* d = JXGetApplication()->GetCurrentDisplay();
-	itsDefaultMenuIcon = jnew JXImage(d, jx_plain_file_small);
-	assert( itsDefaultMenuIcon != nullptr );
+	JXImageCache* cache = JXGetApplication()->GetCurrentDisplay()->GetImageCache();
+	itsDefaultMenuIcon  = cache->GetImage(jx_plain_file_small);
 
 	JXSetDocumentManager(this);
 }
@@ -135,7 +135,6 @@ JXDocumentManager::~JXDocumentManager()
 
 	jdelete itsSafetySaveTask;
 	jdelete itsUpdateDocMenuTask;
-//	jdelete itsDefaultMenuIcon;	// can't because JXDisplay already deleted
 }
 
 /******************************************************************************

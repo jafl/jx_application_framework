@@ -166,12 +166,12 @@ private:
 	JRect				itsScrollDownRect;
 	JIndex				itsFirstDrawIndex;
 	JIndex				itsLastDrawIndex;
-	JArray<JRect>*		itsTabRects;		// 1 <=> itsFirstDrawIndex
+	JArray<JRect>*		itsTabRects;			// 1 <=> itsFirstDrawIndex
 	JXCardFile*			itsCardFile;
-	JXTextMenu*			itsContextMenu;		// nullptr until first used
-	JXImage*			itsCloseImage;
-	JXImage*			itsClosePushedImage;
-	JIndex				itsPrevTabIndex;	// 0 => none
+	JXTextMenu*			itsContextMenu;			// nullptr until first used
+	JXImage*			itsCloseImage;			// not owned
+	JXImage*			itsClosePushedImage;	// not owned
+	JIndex				itsPrevTabIndex;		// 0 => none
 
 	// used during dragging
 

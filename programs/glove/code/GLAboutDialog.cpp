@@ -129,15 +129,8 @@ GLAboutDialog::BuildWindow
 		}
 	textWidget->GetText()->SetText(text);
 
-	JXImage* image = jnew JXImage(GetDisplay(), JXPM(glove_icon));
-	assert(image != nullptr);
-	gloveIcon->SetImage(image, kJTrue);
-
-	// NPS icon
-
-	image = jnew JXImage(GetDisplay(), nps);
-	assert( image != nullptr );
-	npsIcon->SetImage(image, kJTrue);
+	gloveIcon->SetXPM(glove_icon);
+	npsIcon->SetXPM(nps);
 
 	const JSize bdh = textWidget->GetBoundsHeight();
 	const JSize aph = textWidget->GetApertureHeight();

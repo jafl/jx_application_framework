@@ -99,9 +99,7 @@ GFGAboutDialog::BuildWindow
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	JXImage* image = jnew JXImage(GetDisplay(), gfg_about_icon);
-	assert( image != nullptr );
-	imageWidget->SetImage(image, kJTrue);
+	imageWidget->SetXPM(gfg_about_icon);
 
 	JString text = GFGGetVersionStr();
 	if (!prevVersStr.IsEmpty())

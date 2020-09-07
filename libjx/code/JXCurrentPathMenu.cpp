@@ -15,7 +15,8 @@
  ******************************************************************************/
 
 #include "JXCurrentPathMenu.h"
-#include "JXImage.h"
+#include "JXImageCache.h"
+#include "JXDisplay.h"
 #include <jDirUtil.h>
 #include <jAssert.h>
 
@@ -65,13 +66,9 @@ JXCurrentPathMenu::JXCurrentPathMenuX
 	const JString& path
 	)
 {
-	JXDisplay* d = GetDisplay();
-
-	itsFolderIcon = jnew JXImage(d, jx_folder_small);
-	assert( itsFolderIcon != nullptr );
-
-	itsReadOnlyFolderIcon = jnew JXImage(d, jx_folder_read_only_small);
-	assert( itsReadOnlyFolderIcon != nullptr );
+	JXImageCache* cache   = GetDisplay()->GetImageCache();
+	itsFolderIcon         = cache->GetImage(jx_folder_small);
+	itsReadOnlyFolderIcon = cache->GetImage(jx_folder_read_only_small);
 
 	// after creating icons
 
@@ -85,8 +82,6 @@ JXCurrentPathMenu::JXCurrentPathMenuX
 
 JXCurrentPathMenu::~JXCurrentPathMenu()
 {
-	jdelete itsFolderIcon;
-	jdelete itsReadOnlyFolderIcon;
 }
 
 /******************************************************************************

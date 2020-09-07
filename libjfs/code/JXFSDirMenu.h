@@ -77,10 +77,12 @@ private:
 	JBoolean				itsDereferenceLinksFlag;
 	JBoolean				itsDeleteBrokenLinksFlag;
 
+	JBoolean	itsOwnsFileIcon;
 	JXImage*	itsFileIcon;
-	JXImage*	itsFolderIcon;
+	JXImage*	itsFolderIcon;		// not owned
+	JBoolean	itsOwnsExecIcon;
 	JXImage*	itsExecIcon;
-	JXImage*	itsUnknownIcon;
+	JXImage*	itsUnknownIcon;		// not owned
 
 private:
 

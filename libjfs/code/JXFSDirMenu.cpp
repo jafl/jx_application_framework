@@ -20,6 +20,7 @@
 #include <JXMenuManager.h>
 #include <JXDisplay.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 #include <jXGlobals.h>
 #include <JDirInfo.h>
 #include <jDirUtil.h>
@@ -144,17 +145,11 @@ JXFSDirMenu::JXFSDirMenuX()
 	itsEntries = nullptr;
 	itsParent  = nullptr;
 
-	itsFileIcon = jnew JXImage(GetDisplay(), jx_plain_file_small);
-	assert( itsFileIcon != nullptr );
-
-	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);
-	assert( itsFolderIcon != nullptr );
-
-	itsExecIcon = jnew JXImage(GetDisplay(), jx_executable_small);
-	assert( itsExecIcon != nullptr );
-
-	itsUnknownIcon = jnew JXImage(GetDisplay(), jx_unknown_file_small);
-	assert( itsUnknownIcon != nullptr );
+	JXImageCache* cache = GetDisplay()->GetImageCache();
+	itsFileIcon         = cache->GetImage(jx_plain_file_small);
+	itsFolderIcon       = cache->GetImage(jx_folder_small);
+	itsExecIcon         = cache->GetImage(jx_executable_small);
+	itsUnknownIcon      = cache->GetImage(jx_unknown_file_small);
 
 	JXFSDirMenuX1();
 }
@@ -162,6 +157,9 @@ JXFSDirMenu::JXFSDirMenuX()
 void
 JXFSDirMenu::JXFSDirMenuX1()
 {
+	itsOwnsFileIcon = kJFalse;
+	itsOwnsExecIcon = kJFalse;
+
 	itsShowPathFlag          = kJFalse;
 	itsDereferenceLinksFlag  = kJFalse;
 	itsDeleteBrokenLinksFlag = kJFalse;
@@ -182,12 +180,14 @@ JXFSDirMenu::~JXFSDirMenu()
 	jdelete itsDirInfo;
 	jdelete itsEntries;
 
-	if (itsParent == nullptr)
+	if (itsOwnsFileIcon)
 		{
 		jdelete itsFileIcon;
-		jdelete itsFolderIcon;
+		}
+
+	if (itsOwnsExecIcon)
+		{
 		jdelete itsExecIcon;
-		jdelete itsUnknownIcon;
 		}
 }
 
@@ -268,9 +268,15 @@ JXFSDirMenu::SetFileIcon
 	const JXImage& image
 	)
 {
-	jdelete itsFileIcon;
+	if (itsOwnsFileIcon)
+		{
+		jdelete itsFileIcon;
+		}
+
 	itsFileIcon = jnew JXImage(image);
 	assert( itsFileIcon != nullptr );
+
+	itsOwnsFileIcon = kJTrue;
 }
 
 void
@@ -279,9 +285,13 @@ JXFSDirMenu::SetFileIcon
 	const JXPM& data
 	)
 {
-	jdelete itsFileIcon;
-	itsFileIcon = jnew JXImage(GetDisplay(), data);
-	assert( itsFileIcon != nullptr );
+	if (itsOwnsFileIcon)
+		{
+		jdelete itsFileIcon;
+		}
+
+	itsFileIcon     = GetDisplay()->GetImageCache()->GetImage(data);
+	itsOwnsFileIcon = kJFalse;
 }
 
 /******************************************************************************
@@ -295,9 +305,15 @@ JXFSDirMenu::SetExecIcon
 	const JXImage& image
 	)
 {
-	jdelete itsExecIcon;
+	if (itsOwnsExecIcon)
+		{
+		jdelete itsExecIcon;
+		}
+
 	itsExecIcon = jnew JXImage(image);
 	assert( itsExecIcon != nullptr );
+
+	itsOwnsExecIcon = kJTrue;
 }
 
 void
@@ -306,9 +322,13 @@ JXFSDirMenu::SetExecIcon
 	const JXPM& data
 	)
 {
-	jdelete itsExecIcon;
-	itsExecIcon = jnew JXImage(GetDisplay(), data);
-	assert( itsExecIcon != nullptr );
+	if (itsOwnsExecIcon)
+		{
+		jdelete itsExecIcon;
+		}
+
+	itsExecIcon     = GetDisplay()->GetImageCache()->GetImage(data);
+	itsOwnsExecIcon = kJFalse;
 }
 
 /******************************************************************************

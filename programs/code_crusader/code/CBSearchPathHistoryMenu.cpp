@@ -11,14 +11,16 @@
  ******************************************************************************/
 
 #include "CBSearchPathHistoryMenu.h"
+#include <JXDisplay.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
 
 #include <jx_folder_small.xpm>
 
-static const JCharacter* kOldRecurseFlag = "(recurse)";
-static const JCharacter* kRecurseFlag    = "(include subdirs)";
+static const JString kOldRecurseFlag("(recurse)");
+static const JString kRecurseFlag("(include subdirs)");
 
 /******************************************************************************
  Constructor
@@ -28,7 +30,7 @@ static const JCharacter* kRecurseFlag    = "(include subdirs)";
 CBSearchPathHistoryMenu::CBSearchPathHistoryMenu
 	(
 	const JSize			historyLength,
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -61,9 +63,7 @@ CBSearchPathHistoryMenu::CBSearchPathHistoryMenu
 void
 CBSearchPathHistoryMenu::CBSearchPathHistoryMenuX()
 {
-	JXImage* icon = jnew JXImage(GetDisplay(), jx_folder_small);
-	assert( icon != nullptr );
-	SetDefaultIcon(icon, kJTrue);
+	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_folder_small), kJFalse);
 }
 
 /******************************************************************************
@@ -123,15 +123,15 @@ CBSearchPathHistoryMenu::GetPath
 void
 CBSearchPathHistoryMenu::AddPath
 	(
-	const JCharacter*	fullName,
-	const JBoolean		recurse
+	const JString&	fullName,
+	const JBoolean	recurse
 	)
 {
-	if (!JString::IsEmpty(fullName))
+	if (!fullName.IsEmpty())
 		{
 		const JString path = JConvertToHomeDirShortcut(fullName);
 
-		AddItem(path, recurse ? kRecurseFlag : "");
+		AddItem(path, recurse ? kRecurseFlag : JString::empty);
 		}
 }
 
@@ -163,7 +163,7 @@ CBSearchPathHistoryMenu::RemoveInvalidPaths()
 		{
 		const JString& dirName = JXTextMenu::GetItemText(i);
 		if (JIsAbsolutePath(dirName) &&
-			!JConvertToAbsolutePath(dirName, nullptr, &fullName))
+			!JConvertToAbsolutePath(dirName, JString::empty, &fullName))
 			{
 			RemoveItem(i);
 			}

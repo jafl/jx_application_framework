@@ -17,6 +17,7 @@
 #include "JXWindow.h"
 #include "JXWindowPainter.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
 #include "JXColorManager.h"
 #include "JXSelectionManager.h"
 #include "JXDNDManager.h"
@@ -89,25 +90,13 @@ JXDirTable::JXDirTable
 	itsReselectNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsReselectNameList != nullptr );
 
-	JXDisplay* d = GetDisplay();
-
-	itsFileIcon = jnew JXImage(d, jx_plain_file_small);
-	assert( itsFileIcon != nullptr );
-
-	itsFolderIcon = jnew JXImage(d, jx_folder_small);
-	assert( itsFolderIcon != nullptr );
-
-	itsReadOnlyFolderIcon = jnew JXImage(d, jx_folder_read_only_small);
-	assert( itsReadOnlyFolderIcon != nullptr );
-
-	itsLockedFolderIcon = jnew JXImage(d, jx_folder_locked_small);
-	assert( itsLockedFolderIcon != nullptr );
-
-	itsExecIcon = jnew JXImage(d, jx_executable_small);
-	assert( itsExecIcon != nullptr );
-
-	itsUnknownIcon = jnew JXImage(d, jx_unknown_file_small);
-	assert( itsUnknownIcon != nullptr );
+	JXImageCache* cache   = GetDisplay()->GetImageCache();
+	itsFileIcon           = cache->GetImage(jx_plain_file_small);
+	itsFolderIcon         = cache->GetImage(jx_folder_small);
+	itsReadOnlyFolderIcon = cache->GetImage(jx_folder_read_only_small);
+	itsLockedFolderIcon   = cache->GetImage(jx_folder_locked_small);
+	itsExecIcon           = cache->GetImage(jx_executable_small);
+	itsUnknownIcon        = cache->GetImage(jx_unknown_file_small);
 
 	itsIgnoreSelChangesFlag = kJFalse;
 	SetSelectionBehavior(itsAllowSelectMultipleFlag, kJTrue);
@@ -133,12 +122,6 @@ JXDirTable::~JXDirTable()
 	jdelete itsActiveCells;
 	jdelete itsDirUpdateTask;
 	jdelete itsReselectNameList;
-	jdelete itsFileIcon;
-	jdelete itsFolderIcon;
-	jdelete itsReadOnlyFolderIcon;
-	jdelete itsLockedFolderIcon;
-	jdelete itsExecIcon;
-	jdelete itsUnknownIcon;
 }
 
 /******************************************************************************

@@ -11,6 +11,8 @@
 #include "JXFontManager.h"
 #include "JXWindowPainter.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
+#include "JXDisplay.h"
 #include <jMath.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -35,9 +37,7 @@ JXNewDirButton::JXNewDirButton
 	:
 	JXTextButton(JString::empty, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);
-	assert( itsFolderIcon != nullptr );
-	itsFolderIcon->ConvertToRemoteStorage();
+	itsFolderIcon = GetDisplay()->GetImageCache()->GetImage(jx_folder_small);
 
 	const JSize spaceWidth = GetFont().GetCharWidth(GetFontManager(), JUtf8Character(' '));
 	const JSize spaceCount = JRound(itsFolderIcon->GetWidth() / (JFloat) spaceWidth);
@@ -57,7 +57,6 @@ JXNewDirButton::JXNewDirButton
 
 JXNewDirButton::~JXNewDirButton()
 {
-	jdelete itsFolderIcon;
 }
 
 /******************************************************************************

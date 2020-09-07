@@ -13,7 +13,9 @@
 #include "JXAdjustIWBoundsTask.h"
 #include "JXWindowPainter.h"
 #include "JXImage.h"
+#include "JXImageCache.h"
 #include "JXColorManager.h"
+#include "JXDisplay.h"
 #include "jXGlobals.h"
 #include <jAssert.h>
 
@@ -121,7 +123,7 @@ JXImageWidget::SetBitmap
 void
 JXImageWidget::SetXPM
 	(
-	const JXPM&			data,
+	const JXPM&		data,
 	const JColorID	origBackColor
 	)
 {
@@ -134,10 +136,8 @@ JXImageWidget::SetXPM
 		jdelete itsImage;
 		}
 
-	itsImage = jnew JXImage(GetDisplay(), data);
-	assert( itsImage != nullptr );
-
-	itsOwnsImageFlag = kJTrue;
+	itsImage         = GetDisplay()->GetImageCache()->GetImage(data);
+	itsOwnsImageFlag = kJFalse;
 
 	AdjustBounds();
 
@@ -153,8 +153,8 @@ JXImageWidget::SetXPM
 void
 JXImageWidget::SetImage
 	(
-	JXImage*			image,
-	const JBoolean		widgetOwnsImage,
+	JXImage*		image,
+	const JBoolean	widgetOwnsImage,
 	const JColorID	origBackColor
 	)
 {
