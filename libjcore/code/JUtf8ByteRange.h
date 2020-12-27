@@ -29,6 +29,14 @@ public:
 		:
 		JIndexRange(firstIndex, lastIndex)
 	{ };
+
+	explicit JUtf8ByteRange
+		(
+		const JIndexRange& r
+		)
+		:
+		JIndexRange(r)
+	{ };
 };
 
 #endif

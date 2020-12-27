@@ -29,6 +29,14 @@ public:
 		:
 		JIndexRange(firstIndex, lastIndex)
 	{ };
+
+	explicit JCharacterRange
+		(
+		const JIndexRange& r
+		)
+		:
+		JIndexRange(r)
+	{ };
 };
 
 #endif
