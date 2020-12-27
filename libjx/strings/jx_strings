@@ -475,3 +475,7 @@ FontName::JXTipOfTheDayDialog		"Times"
 # JXMacWinPrefsDialog
 
 WindowTitle::JXMacWinPrefsDialog	"Macintosh / Windows / X Preferences"
+
+# JXImage
+
+JXPMError	"$msg ($code)"

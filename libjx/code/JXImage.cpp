@@ -32,6 +32,13 @@
 #include <JListUtil.h>
 #include <jAssert.h>
 
+class JXPMError : public JError
+{
+public:
+
+	JXPMError(const int err);
+};
+
 /******************************************************************************
  Constructor (empty)
 
@@ -491,7 +498,7 @@ JXImage::CreateFromXPM
 		}
 	else if (xpmErr != XpmSuccess)
 		{
-		return JUnexpectedError(xpmErr);
+		return JXPMError(xpmErr);
 		}
 
 	*image = CreateImageAndMaskFromXPMData(display, image_pixmap, mask_pixmap);
@@ -545,7 +552,7 @@ JXImage::CreateFromXPM
 		}
 	else if (xpmErr != XpmSuccess)
 		{
-		return JUnexpectedError(xpmErr);
+		return JXPMError(xpmErr);
 		}
 
 	*image = CreateImageAndMaskFromXPMData(display, image_pixmap, mask_pixmap);
@@ -571,7 +578,7 @@ JXImage::InitXPMAttributes
 	JXColorManager* colorManager = display->GetColorManager();
 
 	attr->valuemask   = XpmVisual | XpmColormap | XpmDepth |
-					    XpmColorKey | XpmExactColors | XpmCloseness;
+						XpmColorKey | XpmExactColors | XpmCloseness;
 	attr->visual      = colorManager->GetVisual();
 	attr->colormap    = colorManager->GetXColormap();
 	attr->depth       = display->GetDepth();
@@ -672,7 +679,7 @@ JXImage::WriteXPM
 		}
 	else
 		{
-		return JUnexpectedError(xpmErr);
+		return JXPMError(xpmErr);
 		}
 }
 
@@ -1228,4 +1235,26 @@ JXImage::ImageDataFinished()
 		{
 		itsMask->ConvertToDefaultState();
 		}
+}
+
+/******************************************************************************
+ JXPMError (local)
+
+ ******************************************************************************/
+
+JXPMError::JXPMError
+	(
+	const int code
+	)
+	:
+	JError("JXPMError")
+{
+	const JString codeStr(code, 0);
+
+	const JUtf8Byte* map[] =
+		{
+		"msg",  XpmGetErrorString(code),
+		"code", codeStr.GetBytes()
+		};
+	SetMessage(map, sizeof(map));
 }
