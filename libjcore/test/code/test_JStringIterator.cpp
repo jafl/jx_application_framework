@@ -439,6 +439,13 @@ JTEST(Regex)
 	TestRegex(JString("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0));
 	TestRegex(JString("  123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94  ",
 					  JUtf8ByteRange(3, 14), kJFalse));
+
+	JString s1("aaaaaaa", JUtf8ByteRange(2,5));
+	JStringIterator iter1(s1);
+	JRegex r1 = "a+";
+	JAssertTrue(iter1.Next(r1));
+	const JStringMatch& m1 = iter1.GetLastMatch();
+	JAssertStringsEqual("aaaa", m1.GetString());
 }
 
 void TestAccumulate(const JString& s)
