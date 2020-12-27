@@ -222,7 +222,7 @@ CBStylerBase::WritePrefs
 JIndex i;
 
 	output << kCurrentSetupVersion;
-	output << ' ' << IsActive();
+	output << ' ' << JBoolToString(IsActive());
 
 	// type styles
 

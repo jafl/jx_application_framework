@@ -536,7 +536,8 @@ CMVarNode::TrimExpression
 		   s->GetLastCharacter()  == ')')
 		{
 		JStringIterator iter(s, kJIteratorStartAfter, 1);
-		if (!CBMBalanceForward(kCBCLang, &iter) || !iter.AtEnd())
+		JUtf8Character c;
+		if (!CBMBalanceForward(kCBCLang, &iter, &c) || !iter.AtEnd())
 			{
 			break;
 			}

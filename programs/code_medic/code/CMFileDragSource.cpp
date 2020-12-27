@@ -16,6 +16,7 @@
 #include <JXSelectionManager.h>
 #include <JXWebBrowser.h>
 #include <JXImage.h>
+#include <JXImageCache.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 

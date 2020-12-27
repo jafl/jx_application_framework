@@ -1234,6 +1234,8 @@ CBCtagsUser::IsParsedForFunctionMenu
 
  ******************************************************************************/
 
+static const JString kDefFnTitle("Not parsed");
+
 const JString&
 CBCtagsUser::GetFunctionMenuTitle
 	(
@@ -1242,5 +1244,12 @@ CBCtagsUser::GetFunctionMenuTitle
 {
 	assert( kFTCount == kCBFTCount && kFTInfo[type].fileType == type );
 
-	return JGetString(kFTInfo[type].fnTitleID);
+	if (kFTInfo[type].fnTitleID != nullptr)
+		{
+		return JGetString(kFTInfo[type].fnTitleID);
+		}
+	else
+		{
+		return kDefFnTitle;
+		}
 }

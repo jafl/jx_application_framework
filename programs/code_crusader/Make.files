@@ -107,7 +107,7 @@
 .cpp ./code/CBSearchDocument
 .cpp ./code/CBSearchTE
 .cpp ./code/CBSearchFontManager
-.cpp ./code/CBSearchColormap
+.cpp ./code/CBSearchColorManager
 .cpp ./code/CBStylerBase
 .cpp ./code/CBBourneShellStyler
 .cpp ./code/CBBourneShellScanner

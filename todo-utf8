@@ -1,3 +1,7 @@
+unit test
+	all jcc stylers
+	cbmUtil
+
 render as many characters as possible via fallback fonts
 	if (!HasGlyphsForString)
 		JXFontManager:
@@ -19,6 +23,7 @@ JStyledText
 
 jcc
 	unit test CBSearch classes - split CBSearchProcess out from CBSearchDocument
+	test html styling with xml:  should ignore namespaces (xmlns:foo=) in tags
 
 	symbol list:
 		strip space from signature:( JBroadcaster* recipient )

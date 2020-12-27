@@ -297,10 +297,10 @@ CMBreakpointManager::WriteSetup
 		CMBreakpoint* bp = itsBPList->GetElement(i);
 		output << ' ' << bp->GetFileName();
 		output << ' ' << bp->GetLineNumber();
-		output << ' ' << bp->IsEnabled();
+		output << ' ' << JBoolToString(bp->IsEnabled());
 		output << ' ' << (long) bp->GetAction();
 		output << ' ' << bp->GetIgnoreCount();
-		output << ' ' << bp->GetCondition(&s);
+		output << ' ' << JBoolToString(bp->GetCondition(&s));
 		output << ' ' << s;
 		}
 }

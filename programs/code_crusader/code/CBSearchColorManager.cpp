@@ -1,5 +1,5 @@
 /******************************************************************************
- CBSearchColormap.cpp
+ CBSearchColorManager.cpp
 
 	BASE CLASS = JColorManager
 
@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include "CBSearchColormap.h"
+#include "CBSearchColorManager.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -15,7 +15,7 @@
 
  ******************************************************************************/
 
-CBSearchColormap::CBSearchColormap()
+CBSearchColorManager::CBSearchColorManager()
 	:
 	JColorManager()
 {
@@ -26,7 +26,7 @@ CBSearchColormap::CBSearchColormap()
 
  ******************************************************************************/
 
-CBSearchColormap::~CBSearchColormap()
+CBSearchColorManager::~CBSearchColorManager()
 {
 }
 
@@ -36,7 +36,7 @@ CBSearchColormap::~CBSearchColormap()
  ******************************************************************************/
 
 JBoolean
-CBSearchColormap::GetColorID
+CBSearchColorManager::GetColorID
 	(
 	const JString&	name,
 	JColorID*		id

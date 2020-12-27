@@ -23,7 +23,7 @@
 
 #include <JXDisplay.h>
 #include <JXInputField.h>
-#include <JXColorManager.h>
+#include <JColorManager.h>
 #include <JStringIterator.h>
 #include <JRegex.h>
 #include <jFileUtil.h>
@@ -123,10 +123,10 @@ JIndex i;
 	CBFnMenuUpdater* updater = CBMGetFnMenuUpdater();
 
 	output << ' ' << te->GetTabCharCount();
-	output << ' ' << updater->WillSortFnNames();
-	output << ' ' << updater->WillIncludeNamespace();
-	output << ' ' << updater->WillPackFnNames();
-	output << ' ' << doc->WillOpenComplFileOnTop();
+	output << ' ' << JBoolToString(updater->WillSortFnNames());
+	output << ' ' << JBoolToString(updater->WillIncludeNamespace());
+	output << ' ' << JBoolToString(updater->WillPackFnNames());
+	output << ' ' << JBoolToString(doc->WillOpenComplFileOnTop());
 
 	doc->Close();
 	doc = nullptr;
@@ -202,7 +202,7 @@ CBMReadSharedPrefs
 		return kJFalse;
 		}
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	if (!input.good())
 		{
 		return kJFalse;
@@ -221,21 +221,21 @@ CBMReadSharedPrefs
 
 	// editor settings
 
-	input >> *tabCharCount >> *sortFnNames;
+	input >> *tabCharCount >> JBoolFromString(*sortFnNames);
 
 	*includeNS = kJFalse;
 	if (vers >= 3)
 		{
-		input >> *includeNS;
+		input >> JBoolFromString(*includeNS);
 		}
 
 	*packFnNames = kJFalse;
 	if (vers >= 1)
 		{
-		input >> *packFnNames;
+		input >> JBoolFromString(*packFnNames);
 		}
 
-	input >> *openComplFileOnTop;
+	input >> JBoolFromString(*openComplFileOnTop);
 
 	// default text colors
 
@@ -246,8 +246,7 @@ CBMReadSharedPrefs
 	if (vers < 2)
 		{
 		assert( colorCount == 5 );
-		JXColorManager* colormap = (CBCStyler::Instance())->GetColormap();
-		colorList[5]        = colormap->GetRGB(colormap->GetGrayColor(70));
+		colorList[5] = JColorManager::GetRGB(JColorManager::GetGrayColor(70));
 		}
 	else
 		{
@@ -648,77 +647,84 @@ CBMBalanceFromSelection
 	JCharacterRange sel;
 	JBoolean hasSelection = te->GetSelection(&sel);
 
-	JIndex openIndex = te->GetInsertionCharIndex();
+	JStringIterator openIter(te->GetText()->GetText(), kJIteratorStartBefore, te->GetInsertionCharIndex());
 
 	// If a single grouping symbol is enclosed, balance it.
 
-	const JString& text = te->GetText()->GetText();
+	JUtf8Character c;
 	if (hasSelection && sel.first == sel.last)
 		{
-		JString c;
-		te->GetSelection(&c);
-		if (CBMIsOpenGroup(lang, c.GetFirstCharacter()))
+		openIter.Next(&c, kJFalse);
+		if (CBMIsOpenGroup(lang, c))
 			{
 			hasSelection = kJFalse;
-			openIndex    = sel.first+1;
+			openIter.SkipNext();
 			}
-		else if (CBMIsCloseGroup(lang, c.GetFirstCharacter()))
+		else if (CBMIsCloseGroup(lang, c))
 			{
 			hasSelection = kJFalse;
-			openIndex    = sel.last;
 			}
 		}
-	else if (openIndex < text.GetCharacterCount() &&
-			 CBMIsOpenGroup(lang, text.GetCharacter(openIndex)) &&
-			 (openIndex == 1 ||
-			  (!CBMIsOpenGroup(lang, text.GetCharacter(openIndex-1)) &&
-			   !CBMIsCloseGroup(lang, text.GetCharacter(openIndex-1)))))
+	else if (openIter.Next(&c, kJFalse) && CBMIsOpenGroup(lang, c) &&
+			 (openIter.AtBeginning() ||
+			  (openIter.Prev(&c, kJFalse) &&
+			   !CBMIsOpenGroup(lang, c) && !CBMIsCloseGroup(lang, c))))
 		{
-		openIndex++;
+		openIter.SkipNext();
 		}
-	else if (openIndex > 1 && CBMIsCloseGroup(lang, text.GetCharacter(openIndex-1)) &&
-			 (openIndex > text.GetLength() ||
-			  (!CBMIsOpenGroup(lang, text.GetCharacter(openIndex)) &&
-			   !CBMIsCloseGroup(lang, text.GetCharacter(openIndex)))))
+	else if (openIter.Prev(&c, kJFalse) && CBMIsCloseGroup(lang, c) &&
+			 (openIter.AtEnd() ||
+			  (openIter.Next(&c, kJFalse) &&
+			   !CBMIsOpenGroup(lang, c) && !CBMIsCloseGroup(lang, c))))
 		{
-		openIndex--;
+		openIter.SkipPrev();
 		}
 
-	JIndex closeIndex = openIndex;
+	if (openIter.AtBeginning() || openIter.AtEnd())
+		{
+		te->GetDisplay()->Beep();
+		return;
+		}
+
+	const JString s(te->GetText()->GetText(), kJFalse);
+	JStringIterator closeIter(s, kJIteratorStartBefore, openIter.GetNextCharacterIndex());
 
 	// balance groupers until the selection is enclosed or we get an error
 
 	while (1)
 		{
-		const JBoolean foundOpen  = CBMBalanceBackward(lang, text, &openIndex);
-		const JBoolean foundClose = CBMBalanceForward(lang, text,  &closeIndex);
+		JUtf8Character cOpen;
+		const JBoolean foundOpen = CBMBalanceBackward(lang, &openIter, &cOpen);
 
-		if (foundOpen && foundClose &&
-			CBMIsMatchingPair(lang, text.GetCharacter(openIndex),
-							  text.GetCharacter(closeIndex)))
+		JUtf8Character cClose;
+		const JBoolean foundClose = CBMBalanceForward(lang, &closeIter, &cClose);
+
+		if (foundOpen && foundClose && CBMIsMatchingPair(lang, cOpen, cClose))
 			{
+			const JIndex openIndex  = openIter.GetNextCharacterIndex();
+			const JIndex closeIndex = closeIter.GetPrevCharacterIndex();
+
 			if ((hasSelection &&
-				 (selStart-1 < openIndex || closeIndex < selEnd+1 ||
-				  (selStart-1 == openIndex && closeIndex == selEnd+1))) ||
+				 (sel.first-1 < openIndex || closeIndex < sel.last+1 ||
+				  (sel.first-1 == openIndex && closeIndex == sel.last+1))) ||
 				(!hasSelection && openIndex+1 == closeIndex))
 				{
-				closeIndex++;
-				continue;
+				closeIter.SkipNext();
 				}
-
-			if (openIndex < closeIndex-1)
+			else if (openIndex < closeIndex-1)
 				{
-				te->SetSelection(openIndex+1, closeIndex-1);
+				te->SetSelection(JCharacterRange(openIndex+1, closeIndex-1));
+				break;
 				}
 			else
 				{
 				te->SetCaretLocation(closeIndex);
+				break;
 				}
-			break;
 			}
 		else
 			{
-			(te->GetDisplay())->Beep();
+			te->GetDisplay()->Beep();
 			break;
 			}
 		}
@@ -754,20 +760,20 @@ JBoolean
 CBMBalanceForward
 	(
 	const CBLanguage	lang,
-	JStringIterator*	iter
+	JStringIterator*	iter,
+	JUtf8Character*		c
 	)
 {
 	JStack<JUtf8Byte, JArray<JUtf8Byte> > openList;
 
-	JUtf8Character c;
-	while (iter->Next(&c))
+	while (iter->Next(c))
 		{
-		const JBoolean isOpen  = CBMIsOpenGroup(lang, c);
-		const JBoolean isClose = CBMIsCloseGroup(lang, c);
+		const JBoolean isOpen  = CBMIsOpenGroup(lang, *c);
+		const JBoolean isClose = CBMIsCloseGroup(lang, *c);
 
 		if (isOpen)
 			{
-			openList.Push(c.GetBytes()[0]);
+			openList.Push(c->GetBytes()[0]);
 			}
 		else if (isClose && openList.IsEmpty())
 			{
@@ -776,7 +782,7 @@ CBMBalanceForward
 		else if (isClose)
 			{
 			const JUtf8Byte c1 = openList.Pop();
-			if (!CBMIsMatchingPair(lang, JUtf8Character(c1), c))
+			if (!CBMIsMatchingPair(lang, JUtf8Character(c1), *c))
 				{
 				return kJFalse;
 				}
@@ -790,20 +796,20 @@ JBoolean
 CBMBalanceBackward
 	(
 	const CBLanguage	lang,
-	JStringIterator*	iter
+	JStringIterator*	iter,
+	JUtf8Character*		c
 	)
 {
 	JStack<JUtf8Byte, JArray<JUtf8Byte> > closeList;
 
-	JUtf8Character c;
-	while (iter->Prev(&c))
+	while (iter->Prev(c))
 		{
-		const JBoolean isOpen  = CBMIsOpenGroup(lang, c);
-		const JBoolean isClose = CBMIsCloseGroup(lang, c);
+		const JBoolean isOpen  = CBMIsOpenGroup(lang, *c);
+		const JBoolean isClose = CBMIsCloseGroup(lang, *c);
 
 		if (isClose)
 			{
-			closeList.Push(c.GetBytes()[0]);
+			closeList.Push(c->GetBytes()[0]);
 			}
 		else if (isOpen && closeList.IsEmpty())
 			{
@@ -812,7 +818,7 @@ CBMBalanceBackward
 		else if (isOpen)
 			{
 			const JUtf8Byte c1 = closeList.Pop();
-			if (!CBMIsMatchingPair(lang, c, JUtf8Character(c1)))
+			if (!CBMIsMatchingPair(lang, *c, JUtf8Character(c1)))
 				{
 				return kJFalse;
 				}

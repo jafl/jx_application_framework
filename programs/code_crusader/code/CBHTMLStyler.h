@@ -51,6 +51,9 @@ private:
 	void		StyleEmbeddedPHPVariables(const Token& token);
 	void		StyleEmbeddedJSVariables(const Token& token);
 
+	static JCharacterRange	MatchAt(const Token& token, JStringIterator& iter,
+									const JRegex& pattern);
+
 	// not allowed
 
 	CBHTMLStyler(const CBHTMLStyler& source);

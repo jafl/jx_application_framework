@@ -11,7 +11,7 @@
 
 #include "CBSearchTE.h"
 #include "CBSearchFontManager.h"
-#include "CBSearchColormap.h"
+#include "CBSearchColorManager.h"
 #include "CBSearchTextDialog.h"
 #include "cbmUtil.h"
 #include "cbGlobals.h"
@@ -41,7 +41,7 @@ CBSearchTE::CBSearchTE()
 	:
 	JTextEditor(kFullEditor, kJTrue, kJFalse,
 				jnew CBSearchFontManager,
-				jnew CBSearchColormap,
+				jnew CBSearchColorManager,
 				1,1,1,1,1, 1000000)
 {
 	assert( TEGetFontManager() != nullptr );

@@ -13,6 +13,7 @@
 #include "CBHTMLStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
+#include <JStringIterator.h>
 #include <JColorManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -530,7 +531,7 @@ CBHTMLStyler::ExtendCheckRangeForLanguageStartEnd
 
  ******************************************************************************/
 
-static const JRegex tagNamePattern = "<[[:space:]]*([^>[:space:]][^>/[:space:]]*)";
+static const JRegex tagNamePattern = "<[[:space:]]*(/?([^>/[:space:]]+))";
 
 JFontStyle
 CBHTMLStyler::GetTagStyle
@@ -539,20 +540,21 @@ CBHTMLStyler::GetTagStyle
 	const JIndex			typeIndex
 	)
 {
-	const JString& text = GetText();
+	const JString s(GetText().GetBytes(), tokenRange, kJFalse);
 
 	JFontStyle style;
-	JArray<JIndexRange> matchList;
-	if (tagNamePattern.MatchWithin(text, tokenRange, &matchList))
+	const JStringMatch m = tagNamePattern.Match(s, kJTrue);
+	if (!m.IsEmpty())
 		{
-		itsLatestTagName = text.GetSubstring(matchList.GetElement(2));
+		itsLatestTagName = m.GetSubstring(1);
 		itsLatestTagName.ToLower();
 
 		JString openTag;
 		if (itsLatestTagName.GetFirstCharacter() == '/' &&
-			itsLatestTagName.GetLength() > 1)
+			itsLatestTagName.GetCharacterCount() > 1)
 			{
-			openTag = itsLatestTagName.GetSubstring(2, itsLatestTagName.GetLength());
+			openTag = m.GetSubstring(2);
+			openTag.ToLower();
 			}
 
 		JBoolean found = GetWordStyle(itsLatestTagName, &style);
@@ -576,7 +578,7 @@ CBHTMLStyler::GetTagStyle
 			style = GetTypeStyle(typeIndex);
 			}
 		}
-	else if (text.GetCharacter(tokenRange.first) == '<')
+	else if (s.GetFirstCharacter() == '<')
 		{
 		itsLatestTagName.Clear();
 		style = GetTypeStyle(typeIndex);
@@ -596,37 +598,20 @@ CBHTMLStyler::GetXMLStyle
 	JFontStyle*		style
 	)
 {
-	JIndex i;
-	if (!tagName.LocateLastSubstring(":", &i))
+	JStringIterator iter(tagName);
+	if (!iter.Next(":") || iter.AtEnd())
 		{
 		return kJFalse;
 		}
 
-	// tag name takes priority over XML namespaces
-
-	JString s;
-	if (i < tagName.GetLength())
+	iter.BeginMatch();
+	iter.MoveTo(kJIteratorStartAtEnd, 0);
+	const JStringMatch m = iter.FinishMatch();
+	if (GetWordStyle(m.GetString(), style))
 		{
-		s = tagName.GetSubstring(i+1, tagName.GetLength());
-		if (GetWordStyle(s, style))
-			{
-			itsLatestTagName = s;
-			return kJTrue;
-			}
+		itsLatestTagName = m.GetString();
+		return kJTrue;
 		}
-
-	do
-		{
-		s = tagName.GetSubstring(1, i);
-		if (GetWordStyle(s, style))
-			{
-			itsLatestTagName = s;
-			return kJTrue;
-			}
-
-		i--;	// skip past the one we found
-		}
-		while (itsLatestTagName.LocatePrevSubstring(":", &i));
 
 	return kJFalse;
 }
@@ -642,7 +627,7 @@ CBHTMLStyler::GetXMLStyle
 #define CBPHPStringNotID "[^[:alpha:]_]"
 
 static JRegex emptyPHPVariablePattern =
-	"^\\$+(\\{\\}|" CBPHPStringID "(->" CBPHPStringNotID "|\\[\\]))";	// update special conditions in code below
+	"^\\$+(\\{\\}|" CBPHPStringID "(->(?=" CBPHPStringNotID ")|\\[\\]))";	// update special conditions in code below
 static JRegex phpVariablePattern =
 	"^\\$+(\\{[^}]+\\}|" CBPHPStringID "(\\[[^]]+\\]|->" CBPHPStringID ")?)";
 
@@ -656,8 +641,6 @@ CBHTMLStyler::StyleEmbeddedPHPVariables
 {
 	emptyPHPVariablePattern.SetSingleLine();
 	phpVariablePattern.SetSingleLine();
-
-	const JString& text = GetText();
 
 	JFontStyle varStyle = GetTypeStyle(token.type - kWhitespace);
 	varStyle.underlineCount++;
@@ -673,49 +656,38 @@ CBHTMLStyler::StyleEmbeddedPHPVariables
 		errStyle.underlineCount++;
 		}
 
-	JUtf8ByteRange r = token.range, r1, r2;
-	while (!r.IsEmpty())
+	const JString s(GetText().GetBytes(), token.range.byteRange);
+	JStringIterator iter(s);
+	JUtf8Character c;
+	while (iter.Next(&c) && !iter.AtEnd())
 		{
-		const JCharacter c = text.GetCharacter(r.first);
 		if (c == '\\')
 			{
-			r.first++;
+			iter.SkipNext();
 			}
 		else if (c == '$')
 			{
-			r1 = r - (r.first-1);
-			if (emptyPHPVariablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
+			JCharacterRange r = MatchAt(token, iter, emptyPHPVariablePattern);
+			if (!r.IsEmpty())
 				{
-				r2 += r.first-1;
-				const JCharacter c1 = text.GetCharacter(r2.last);
-				if (c1 != '}' && c1 != ']')
-					{
-					r2.last--;
-					}
-				AdjustStyle(r2, errStyle);
-				r.first = r2.last;
+				AdjustStyle(r, errStyle);
+				continue;
 				}
-			else if (phpVariablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
-				{
-				r2 += r.first-1;
-				if (r2.first > 1 && text.GetCharacter(r2.first-1) == '{')
-					{
-					r2.first--;
-					}
-				AdjustStyle(r2, varStyle);
-				r.first = r2.last;
-				}
-			}
-		else if (c == '{' && r.first < r.last - 1 &&
-				 text.GetCharacter(r.first+1) == '$' &&
-				 text.GetCharacter(r.first+2) == '}')
-			{
-			r1.SetFirstAndLength(r.first, 3);
-			AdjustStyle(r1, errStyle);
-			r.first = r1.last;
-			}
 
-		r.first++;
+			r = MatchAt(token, iter, phpVariablePattern);
+			if (!r.IsEmpty())
+				{
+				AdjustStyle(r, varStyle);
+				}
+			}
+		else if (c == '{' &&
+				 iter.Next(&c) && c == '$' &&
+				 iter.Next(&c, kJFalse) && c == '}')
+			{
+			iter.SkipNext();
+			const JIndex i = iter.GetPrevCharacterIndex();
+			AdjustStyle(JCharacterRange(i-1, i), errStyle);
+			}
 		}
 }
 
@@ -726,7 +698,7 @@ CBHTMLStyler::StyleEmbeddedPHPVariables
 
  ******************************************************************************/
 
-static JRegex jsVariablePattern =      "^\\$\\{.+?\\}";
+static JRegex jsVariablePattern      = "^\\$\\{.+?\\}";
 static JRegex emptyJSVariablePattern = "^\\$\\{\\}?";
 
 void
@@ -738,41 +710,66 @@ CBHTMLStyler::StyleEmbeddedJSVariables
 	jsVariablePattern.SetSingleLine();
 	emptyJSVariablePattern.SetSingleLine();
 
-	const JString& text = GetText();
-
 	JFontStyle varStyle = GetTypeStyle(token.type - kWhitespace);
 	varStyle.underlineCount++;
 
 	JFontStyle errStyle = GetTypeStyle(kError - kWhitespace);
 	errStyle.underlineCount++;
 
-	JUtf8ByteRange r = token.range, r1, r2;
-	while (!r.IsEmpty())
+	const JString s(GetText().GetBytes(), token.range.byteRange);
+	JStringIterator iter(s);
+	JUtf8Character c;
+	while (iter.Next(&c) && !iter.AtEnd())
 		{
-		const JCharacter c = text.GetCharacter(r.first);
 		if (c == '\\')
 			{
-			r.first++;
+			iter.SkipNext();
 			}
 		else if (c == '$')
 			{
-			r1 = r - (r.first-1);
-			if (jsVariablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
+			iter.SkipPrev();
+			JCharacterRange r = MatchAt(token, iter, jsVariablePattern);
+			if (!r.IsEmpty())
 				{
-				r2 += r.first-1;
-				AdjustStyle(r2, varStyle);
-				r.first = r2.last;
+				AdjustStyle(r, varStyle);
+				continue;
 				}
-			else if (emptyJSVariablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
+
+			r = MatchAt(token, iter, emptyJSVariablePattern);
+			if (!r.IsEmpty())
 				{
-				r2 += r.first-1;
-				AdjustStyle(r2, errStyle);
-				r.first = r2.last;
+				AdjustStyle(r, errStyle);
 				}
 			}
-
-		r.first++;
 		}
+}
+
+/******************************************************************************
+ MatchAt (private)
+
+ ******************************************************************************/
+
+JCharacterRange
+CBHTMLStyler::MatchAt
+	(
+	const Token&		token,
+	JStringIterator&	iter,
+	const JRegex&		pattern
+	)
+{
+	const JIndex orig = iter.GetNextCharacterIndex();
+
+	iter.BeginMatch();
+	iter.MoveTo(kJIteratorStartAtEnd, 0);
+	const JStringMatch& m1 = iter.FinishMatch();
+	const JStringMatch m2  = pattern.Match(m1.GetString(), kJTrue);
+
+	iter.MoveTo(kJIteratorStartBefore, orig);
+
+	return JCharacterRange(
+			m2.GetCharacterRange() +
+				(token.range.charRange.first - 1 +
+				 iter.GetPrevCharacterIndex() - m2.GetCharacterCount()));
 }
 
 /******************************************************************************

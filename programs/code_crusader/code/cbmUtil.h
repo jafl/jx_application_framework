@@ -84,8 +84,8 @@ void	CBMSetStringList(JXInputField* inputField, const JPtrArray<JString>& list);
 
  ******************************************************************************/
 
-JBoolean	CBMBalanceForward(const CBLanguage lang, JStringIterator* iter);
-JBoolean	CBMBalanceBackward(const CBLanguage lang, JStringIterator* iter);
+JBoolean	CBMBalanceForward(const CBLanguage lang, JStringIterator* iter, JUtf8Character* c);
+JBoolean	CBMBalanceBackward(const CBLanguage lang, JStringIterator* iter, JUtf8Character* c);
 
 inline JBoolean
 CBMIsOpenGroup

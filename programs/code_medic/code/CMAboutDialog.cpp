@@ -128,7 +128,7 @@ CMAboutDialog::BuildWindow
 
 	// NPS icon
 
-	npsIcon->SetXPM(image, new_planet_software);
+	npsIcon->SetXPM(new_planet_software);
 
 	// adjust window to fit text
 

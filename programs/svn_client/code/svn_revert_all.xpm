@@ -1,6 +1,6 @@
 /* XPM */
 static const char * svn_revert_all[] = {
-"15 13 3 1",
+"15 13 4 1",
 " 	c None",
 ".	c black",
 "X	c white",

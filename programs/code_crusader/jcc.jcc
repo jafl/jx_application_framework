@@ -443,9 +443,9 @@ T
 F
 "./code/CBSearchFontManager.cpp"
 T
-2 "CBSearchColormap.cpp"
+2 "CBSearchColorManager.cpp"
 F
-"./code/CBSearchColormap.cpp"
+"./code/CBSearchColorManager.cpp"
 F
 T
 1 "styler"
