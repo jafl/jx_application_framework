@@ -1127,9 +1127,9 @@ JTextEditor::DeleteSelection()
 {
 	if (!itsIsDragSourceFlag && !itsSelection.IsEmpty())
 		{
-		const TextIndex& i = itsSelection.GetFirst();
-		itsText->DeleteText(itsSelection);
-		SetCaretLocation(i);
+		const JStyledText::TextRange r = itsSelection;
+		SetCaretLocation(r.GetFirst());
+		itsText->DeleteText(r);
 		}
 }
 
