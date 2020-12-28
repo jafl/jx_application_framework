@@ -232,6 +232,8 @@ JXToolBarButton::NeedsGeometryAdjustment
 		}
 	else
 		{
+		ClearHint();
+
 		itsFont                 = itsMenu->GetItemFont(itemIndex);
 		const JCoordinate width = itsFont.GetStringWidth(GetFontManager(), itsLabel);
 		const JCoordinate newWidth =

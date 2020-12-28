@@ -2,8 +2,6 @@ balance
 	CMArray2DCommand::HandleFailure
 	99, 130
 
-menu shortcuts in toolbar hints not showing clover
-
 unit test
 	all jcc stylers
 	cbmUtil
@@ -20,7 +18,8 @@ render as many characters as possible via fallback fonts
 
 	menu: remove custom font for menu shortcuts
 
-	test with plot labels, testjx file list, file chooser, systemg, menu shortcuts
+	test with file chooser, menu shortcuts, toolbar hints,
+		systemg, plot labels, testjx file list
 
 JStyledText
 	AutoIndent
