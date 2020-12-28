@@ -109,7 +109,6 @@ JParseArgsForExec
 				{
 				JString* s = jnew JString(m.GetString());
 				assert( s != nullptr );
-				s->TrimWhitespace();
 				if (!s->IsEmpty())
 					{
 					JCleanArg(s);	// clean out backslashes and quotes
