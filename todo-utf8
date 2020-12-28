@@ -1,3 +1,11 @@
+RecalcAll doesn't invoke AdjustStylesBeforeBroadcast
+
+balance
+	CMArray2DCommand::HandleFailure
+	99, 130
+
+menu shortcuts in toolbar hints not showing clover
+
 unit test
 	all jcc stylers
 	cbmUtil

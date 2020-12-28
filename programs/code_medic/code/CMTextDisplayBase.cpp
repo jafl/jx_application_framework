@@ -41,6 +41,40 @@ CMTextDisplayBase::CMTextDisplayBase
 			 kJTrue, breakCROnly, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
+	CMTextDisplayBaseX(menuBar, scrollbarSet);
+}
+
+CMTextDisplayBase::CMTextDisplayBase
+	(
+	JXStyledText*		text,
+	const Type			type,
+	const JBoolean		breakCROnly,
+	JXMenuBar*			menuBar,
+	JXScrollbarSet*		scrollbarSet,
+	JXContainer*		enclosure,
+	const HSizingOption	hSizing,
+	const VSizingOption	vSizing,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
+	)
+	:
+	JXTEBase(type, text, kJTrue, breakCROnly, scrollbarSet,
+			 enclosure, hSizing, vSizing, x,y, w,h)
+{
+	CMTextDisplayBaseX(menuBar, scrollbarSet);
+}
+
+// private
+
+void
+CMTextDisplayBase::CMTextDisplayBaseX
+	(
+	JXMenuBar*		menuBar,
+	JXScrollbarSet*	scrollbarSet
+	)
+{
 	WantInput(kJTrue, kJFalse);
 
 	scrollbarSet->GetVScrollbar()->SetScrollDelay(0);

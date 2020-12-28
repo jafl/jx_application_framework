@@ -739,6 +739,7 @@ CMSourceDirector::DisplayFile
 			{
 			itsText->SetSelection(JCharacterRange(
 				iter.GetNextCharacterIndex(), text.GetCharacterCount()));
+			iter.Invalidate();
 			itsText->DeleteSelection();
 			}
 		itsText->SetCaretLocation(1);

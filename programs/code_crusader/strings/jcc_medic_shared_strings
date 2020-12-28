@@ -22,3 +22,21 @@ EditDialogTitle::CBHTMLStyler	"Edit HTML/PHP/XML Styles"
 # CBJavaStyler
 
 EditDialogTitle::CBJavaStyler	"Edit Java Styles"
+
+# CBCtagsUser
+
+FunctionsMenuTitle::CBCtagsUser		"Functions"
+IdsMenuTitle::CBCtagsUser			"Ids"
+LabelsMenuTitle::CBCtagsUser		"Labels"
+ParagraphsMenuTitle::CBCtagsUser	"Paragraphs"
+SubroutinesMenuTitle::CBCtagsUser	"Subroutines"
+ProceduresMenuTitle::CBCtagsUser	"Procedures"
+TargetsMenuTitle::CBCtagsUser		"Targets"
+StatesMenuTitle::CBCtagsUser		"States"
+SymbolsMenuTitle::CBCtagsUser		"Symbols"
+FragmentsMenuTitle::CBCtagsUser		"Fragments"
+ObjectsMenuTitle::CBCtagsUser		"Objects"
+FeaturesMenuTitle::CBCtagsUser		"Features"
+
+ctagsFailure::CBCtagsUser
+"ctags is not responding correctly, so some features will not work."

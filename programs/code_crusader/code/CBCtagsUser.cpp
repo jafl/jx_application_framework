@@ -190,7 +190,7 @@ CBCtagsUser::ProcessFile
 		return kJFalse;
 		}
 
-	*itsCmdPipe << fileName << std::endl;
+	*itsCmdPipe << fileName.GetBytes() << std::endl;
 
 	JBoolean found;
 	*result = JReadUntil(itsResultFD, kDelimiter, &found);

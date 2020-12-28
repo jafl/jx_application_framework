@@ -65,7 +65,8 @@ CMSourceText::CMSourceText
 	const JCoordinate	h
 	)
 	:
-	CMTextDisplayBase(kSelectableText, kJTrue, menuBar, scrollbarSet,
+	CMTextDisplayBase(jnew StyledText(this, enclosure->GetFontManager()),
+					  kSelectableText, kJTrue, menuBar, scrollbarSet,
 					  enclosure, hSizing, vSizing, x,y, w,h),
 	itsSrcDir(srcDir),
 	itsCmdDir(cmdDir),
@@ -169,11 +170,11 @@ CMSourceText::StyledText::AdjustStylesBeforeBroadcast
 	const JBoolean		deletion
 	)
 {
-	if (itsStyler != nullptr)
+	if (itsOwner->itsStyler != nullptr)
 		{
-		itsStyler->UpdateStyles(this, text, styles,
-								recalcRange, redrawRange,
-								deletion, itsTokenStartList);
+		itsOwner->itsStyler->UpdateStyles(this, text, styles,
+										  recalcRange, redrawRange,
+										  deletion, itsTokenStartList);
 		}
 	else
 		{

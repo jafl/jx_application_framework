@@ -56,10 +56,10 @@ protected:
 	{
 		public:
 
-		StyledText(CBStylerBase* styler, JFontManager* fontManager)
+		StyledText(CMSourceText* owner, JFontManager* fontManager)
 			:
 			JXStyledText(kJFalse, kJFalse, fontManager),
-			itsStyler(styler),
+			itsOwner(owner),
 			itsTokenStartList(JSTStyler::NewTokenStartList())
 		{ };
 
@@ -75,9 +75,11 @@ protected:
 
 		private:
 
-		CBStylerBase*					itsStyler;
+		CMSourceText*					itsOwner;
 		JArray<JSTStyler::TokenData>*	itsTokenStartList;	// nullptr if styling is turned off
 	};
+
+	friend class StyledText;
 
 private:
 
