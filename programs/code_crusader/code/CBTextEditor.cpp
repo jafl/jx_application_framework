@@ -1767,7 +1767,7 @@ CBTextEditor::RecalcStyles()
 	if (length < CBDocumentManager::kMinWarnFileSize &&
 		itsDoc->GetStyler(&styler))
 		{
-		RecalcAll(kJTrue);
+		GetText()->RestyleAll();
 		}
 	else
 		{

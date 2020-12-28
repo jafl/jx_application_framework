@@ -207,6 +207,7 @@ public:
 
 	const JRunArray<JFont>&	GetStyles() const;
 	JBoolean				WillPasteStyledText() const;
+	void					RestyleAll();
 
 	JBoolean	IsCharacterInWord(const JUtf8Character& c) const;
 

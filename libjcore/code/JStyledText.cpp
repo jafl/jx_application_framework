@@ -3871,6 +3871,20 @@ JStyledText::InsertSpacesForTab
 }
 
 /******************************************************************************
+ RestyleAll
+
+ ******************************************************************************/
+
+void
+JStyledText::RestyleAll()
+{
+	BroadcastTextChanged(
+		TextRange(TextIndex(1,1),
+			TextCount(itsText.GetCharacterCount(), itsText.GetByteCount())),
+		0, 0, kJFalse, kJTrue);
+}
+
+/******************************************************************************
  BroadcastTextChanged (protected)
 
  ******************************************************************************/

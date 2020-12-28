@@ -183,7 +183,7 @@ JXFSInputBase::SetBasePath
 		{
 		assert( JIsAbsolutePath(path) );
 		itsBasePath = path;
-		RecalcAll();
+		GetText()->RestyleAll();
 		}
 }
 

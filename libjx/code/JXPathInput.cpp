@@ -138,13 +138,13 @@ JXPathInput::InputValid()
 	if (JIsRelativePath(text) && !hasBasePath)
 		{
 		JGetUserNotification()->ReportError(JGetString("NoRelPath::JXPathInput"));
-		RecalcAll();
+		GetText()->RestyleAll();
 		return kJFalse;
 		}
 	if (!JConvertToAbsolutePath(text, basePath, &path))
 		{
 		JGetUserNotification()->ReportError(JGetString("InvalidDir::JXPathInput"));
-		RecalcAll();
+		GetText()->RestyleAll();
 		return kJFalse;
 		}
 
@@ -157,13 +157,13 @@ JXPathInput::InputValid()
 		if (!JDirectoryReadable(path))
 			{
 			JGetUserNotification()->ReportError(JGetString("Unreadable::JXPathInput"));
-			RecalcAll();
+			GetText()->RestyleAll();
 			return kJFalse;
 			}
 		else if (itsRequireWriteFlag && !JDirectoryWritable(path))
 			{
 			JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXGlobal"));
-			RecalcAll();
+			GetText()->RestyleAll();
 			return kJFalse;
 			}
 		else
@@ -191,7 +191,7 @@ JXPathInput::InputValid()
 		}
 
 	JGetUserNotification()->ReportError(JGetString(errID));
-	RecalcAll();
+	GetText()->RestyleAll();
 	return kJFalse;
 }
 

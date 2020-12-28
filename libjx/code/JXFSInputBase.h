@@ -153,7 +153,7 @@ inline void
 JXFSInputBase::ClearBasePath()
 {
 	itsBasePath.Clear();
-	RecalcAll();
+	GetText()->RestyleAll();
 }
 
 #endif

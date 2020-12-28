@@ -140,7 +140,7 @@ JXFileInput::InputValid()
 	if (JIsRelativePath(text) && !hasBasePath)
 		{
 		errID = "NoRelPath::JXFileInput";
-		RecalcAll();
+		GetText()->RestyleAll();
 		}
 	else if (!JConvertToAbsolutePath(text, basePath, &fullName) ||
 			 !JFileExists(fullName))

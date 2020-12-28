@@ -138,7 +138,7 @@ CMSourceText::SetFileType
 
 	if (itsStyler != nullptr)
 		{
-		RecalcAll(kJTrue);
+		GetText()->RestyleAll();
 		}
 	else
 		{
