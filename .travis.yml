@@ -3,7 +3,7 @@ script: ./configure && make test
 matrix:
   include:
     - os: osx
-      osx_image: xcode10
+      osx_image: xcode12.2
 
   # libace 6.0.3 on Trusty is broken
   exclude:
