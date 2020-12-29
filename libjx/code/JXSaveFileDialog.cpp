@@ -306,7 +306,6 @@ JXSaveFileDialog::SetObjects
 	ListenTo(fileBrowser);
 	ListenTo(&(fileBrowser->GetTableSelection()));
 	ListenTo(itsFileNameInput);
-	ListenTo(itsFileNameInput->GetText());
 
 	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXGlobal"));
 
@@ -345,7 +344,7 @@ JXSaveFileDialog::Receive
 		UpdateDisplay();
 		}
 
-	else if (sender == itsFileNameInput->GetText() &&
+	else if (sender == itsFileNameInput &&
 			 (message.Is(JStyledText::kTextChanged) ||
 			  message.Is(JStyledText::kTextSet)))
 		{

@@ -187,11 +187,11 @@ SyGFindFileDialog::BuildWindow()
 
 	itsFileInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	itsFileInput->SetFont(font);
-	ListenTo(itsFileInput->GetText());
+	ListenTo(itsFileInput);
 
 	itsExprInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	itsExprInput->SetFont(font);
-	ListenTo(itsExprInput->GetText());
+	ListenTo(itsExprInput);
 
 	itsStayOpenCB->SetState(kJTrue);
 
@@ -295,7 +295,7 @@ SyGFindFileDialog::Receive
 		UpdateDisplay();
 		}
 
-	else if ((sender == itsFileInput->GetText() || sender == itsExprInput->GetText()) &&
+	else if ((sender == itsFileInput || sender == itsExprInput) &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
 		{

@@ -218,13 +218,13 @@ JXFSRunCommandDialog::BuildWindow()
 	ListenTo(itsCmdHistoryMenu);
 
 	itsPathInput->ShouldAllowInvalidPath();
-	ListenTo(itsPathInput->GetText());
+	ListenTo(itsPathInput);
 
 	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 	itsPathHistoryMenu->SetDefaultFont(font, kJTrue);
 
 	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsCmdInput->GetText());
+	ListenTo(itsCmdInput);
 
 	itsCmdInput->SetFont(font);
 	itsCmdHistoryMenu->SetDefaultFont(font, kJTrue);
@@ -306,8 +306,7 @@ JXFSRunCommandDialog::Receive
 		JXFSRunFileDialog::HandleChooseCmdButton(itsCmdInput);
 		}
 
-	else if ((sender == itsCmdInput->GetText() ||
-			  sender == itsPathInput->GetText()) &&
+	else if ((sender == itsCmdInput || sender == itsPathInput) &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
 		{

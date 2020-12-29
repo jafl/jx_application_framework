@@ -306,12 +306,12 @@ JXFSEditBindingsDialog::BuildWindow()
 	ListenTo(itsHelpButton);
 
 	ListenTo(itsUseDefaultCB);
-	ListenTo(itsDefCmd->GetText());
+	ListenTo(itsDefCmd);
 	ListenTo(itsDefShellCB);
 	ListenTo(itsDefWindowCB);
 	ListenTo(itsDefSingleCB);
-	ListenTo(itsShellCmd->GetText());
-	ListenTo(itsWindowCmd->GetText());
+	ListenTo(itsShellCmd);
+	ListenTo(itsWindowCmd);
 	ListenTo(itsAutoShellCB);
 
 	if (!ReadSetup())

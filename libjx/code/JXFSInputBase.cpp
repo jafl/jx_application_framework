@@ -53,7 +53,6 @@ JXFSInputBase::JXFSInputBase
 	GetText()->SetDefaultFont(JFontManager::GetDefaultMonospaceFont());
 	SetHint(JGetString(itsDefaultHintID));
 	ListenTo(this);
-	ListenTo(this->GetText());
 }
 
 /******************************************************************************
@@ -149,7 +148,7 @@ JXFSInputBase::Receive
 {
 	JXInputField::Receive(sender, message);		// update JStyledText first
 
-	if (sender == this->GetText() && message.Is(JStyledText::kTextSet))
+	if (sender == this && message.Is(JStyledText::kTextSet))
 		{
 		GoToEndOfLine();
 		}

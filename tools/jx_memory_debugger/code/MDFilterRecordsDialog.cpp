@@ -96,10 +96,10 @@ MDFilterRecordsDialog::BuildWindow()
 	assert( cbGroup != nullptr );
 
 	ListenTo(itsFileCB);
-	ListenTo(itsFileInput->GetText());
+	ListenTo(itsFileInput);
 
 	ListenTo(itsSizeCB);
-	ListenTo(itsSizeInput->GetText());
+	ListenTo(itsSizeInput);
 	itsSizeInput->SetLowerLimit(0);
 }
 
@@ -122,7 +122,7 @@ MDFilterRecordsDialog::Receive
 			itsSizeInput->Focus();
 			}
 		}
-	else if (sender == itsSizeInput->GetText() && message.Is(JStyledText::kTextChanged))
+	else if (sender == itsSizeInput && message.Is(JStyledText::kTextChanged))
 		{
 		itsSizeCB->SetState(kJTrue);
 		}
@@ -134,7 +134,7 @@ MDFilterRecordsDialog::Receive
 			itsFileInput->Focus();
 			}
 		}
-	else if (sender == itsFileInput->GetText() && message.Is(JStyledText::kTextChanged))
+	else if (sender == itsFileInput && message.Is(JStyledText::kTextChanged))
 		{
 		itsFileCB->SetState(kJTrue);
 		}

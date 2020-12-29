@@ -138,7 +138,7 @@ CBFindFileDialog::BuildWindow()
 	ListenTo(itsFileHistoryMenu);
 
 	itsFileName->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsFileName->GetText());
+	ListenTo(itsFileName);
 
 	itsIgnoreCaseCB->SetState(kJTrue);
 	itsStayOpenCB->SetState(kJTrue);

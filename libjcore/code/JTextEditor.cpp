@@ -388,6 +388,7 @@ JTextEditor::Receive
 
 		RecalcAll(kJFalse);
 		SetCaretLocation(CaretLocation(TextIndex(1,1),1));
+		Broadcast(message);		// safer for others to receive now
 		}
 
 	else if (sender == itsText &&
@@ -441,6 +442,8 @@ JTextEditor::Receive
 			{
 			SetCaretLocation(CalcCaretLocation(itsSelection.GetFirst()));
 			}
+
+		Broadcast(message);		// safer for others to receive now
 		}
 
 	else if (sender == itsText &&

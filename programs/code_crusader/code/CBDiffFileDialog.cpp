@@ -542,12 +542,12 @@ CBDiffFileDialog::BuildWindow()
 	itsPlainFile1Input->ShouldAllowInvalidFile(kJTrue);
 	itsPlainFile1Input->ShouldRequireWritable(kJFalse);
 	itsPlainFile1Input->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsPlainFile1Input->GetText());
+	ListenTo(itsPlainFile1Input);
 
 	itsPlainFile2Input->ShouldAllowInvalidFile(kJTrue);
 	itsPlainFile2Input->ShouldRequireWritable(kJFalse);
 	itsPlainFile2Input->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsPlainFile2Input->GetText());
+	ListenTo(itsPlainFile2Input);
 
 	itsPlainOnly1StyleMenu->SetStyle(
 		JFontStyle(kJFalse, kJFalse, 0, kJTrue, JColorManager::GetRedColor()));
@@ -573,13 +573,13 @@ CBDiffFileDialog::BuildWindow()
 	itsCVSOnly2StyleMenu->SetStyle(
 		JFontStyle(kJFalse, kJFalse, 0, kJFalse, JColorManager::GetBlueColor()));
 
-	ListenTo(itsCVSRev1Input->GetText());
-	ListenTo(itsCVSRev2Input->GetText());
+	ListenTo(itsCVSRev1Input);
+	ListenTo(itsCVSRev2Input);
 
 	itsCVSFileInput->ShouldAllowInvalidFile(kJTrue);
 	itsCVSFileInput->ShouldRequireWritable(kJFalse);
 	itsCVSFileInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsCVSFileInput->GetText());
+	ListenTo(itsCVSFileInput);
 
 	itsCVSChooseButton->SetHint(JGetString("ChoseButtonHint::CBDiffFileDialog"));
 
@@ -600,13 +600,13 @@ CBDiffFileDialog::BuildWindow()
 	itsSVNOnly2StyleMenu->SetStyle(
 		JFontStyle(kJFalse, kJFalse, 0, kJFalse, JColorManager::GetBlueColor()));
 
-	ListenTo(itsSVNRev1Input->GetText());
-	ListenTo(itsSVNRev2Input->GetText());
+	ListenTo(itsSVNRev1Input);
+	ListenTo(itsSVNRev2Input);
 
 	itsSVNFileInput->ShouldAllowInvalidFile(kJTrue);
 	itsSVNFileInput->ShouldRequireWritable(kJFalse);
 	itsSVNFileInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsSVNFileInput->GetText());
+	ListenTo(itsSVNFileInput);
 
 	itsSVNChooseButton->SetHint(JGetString("ChoseButtonHint::CBDiffFileDialog"));
 
@@ -627,13 +627,13 @@ CBDiffFileDialog::BuildWindow()
 	itsGitOnly2StyleMenu->SetStyle(
 		JFontStyle(kJFalse, kJFalse, 0, kJFalse, JColorManager::GetBlueColor()));
 
-	ListenTo(itsGitRev1Input->GetText());
-	ListenTo(itsGitRev2Input->GetText());
+	ListenTo(itsGitRev1Input);
+	ListenTo(itsGitRev2Input);
 
 	itsGitFileInput->ShouldAllowInvalidFile(kJTrue);
 	itsGitFileInput->ShouldRequireWritable(kJFalse);
 	itsGitFileInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsGitFileInput->GetText());
+	ListenTo(itsGitFileInput);
 
 	itsGitChooseButton->SetHint(JGetString("ChoseButtonHint::CBDiffFileDialog"));
 

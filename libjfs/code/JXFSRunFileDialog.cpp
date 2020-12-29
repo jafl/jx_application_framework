@@ -216,7 +216,7 @@ JXFSRunFileDialog::BuildWindow
 	ListenTo(itsCmdHistoryMenu);
 
 	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsCmdInput->GetText());
+	ListenTo(itsCmdInput);
 
 	itsCmdInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 	itsCmdHistoryMenu->SetDefaultFont(JFontManager::GetDefaultMonospaceFont(), kJTrue);
@@ -312,7 +312,7 @@ JXFSRunFileDialog::Receive
 		(JXGetHelpManager())->ShowSection(JGetString("HelpLink::JXFSRunFileDialog").GetBytes());
 		}
 
-	else if (sender == itsCmdInput->GetText() &&
+	else if (sender == itsCmdInput &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
 		{

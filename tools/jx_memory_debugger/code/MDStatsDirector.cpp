@@ -400,7 +400,7 @@ MDStatsDirector::BuildWindow()
 	assert( itsAllocatedHisto != nullptr );
 	itsAllocatedHisto->FitToEnclosure();
 
-	ListenTo(itsProgramInput->GetText());
+	ListenTo(itsProgramInput);
 
 	ListenTo(itsChooseProgramButton);
 	ListenTo(itsRunProgramButton);
@@ -506,7 +506,7 @@ MDStatsDirector::Receive
 		RunProgram();
 		}
 
-	else if (sender == itsProgramInput->GetText() &&
+	else if (sender == itsProgramInput &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
 		{

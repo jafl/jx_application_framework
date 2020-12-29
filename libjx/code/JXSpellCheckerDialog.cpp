@@ -210,7 +210,7 @@ JXSpellCheckerDialog::BuildWindow()
 	itsCheckText->GetText()->SetDefaultFontStyle(JFontStyle(kJTrue, kJFalse, 0, kJFalse));
 
 	itsFirstGuess->SetBackColor(itsFirstGuess->GetFocusColor());
-	ListenTo(itsFirstGuess->GetText());
+	ListenTo(itsFirstGuess);
 
 	// place intelligently
 	// (outside left, right, bottom, top; inside top, bottom, left, right)
@@ -381,7 +381,7 @@ JXSpellCheckerDialog::Receive
 		Check();
 		}
 
-	else if (sender == itsFirstGuess->GetText() &&
+	else if (sender == itsFirstGuess &&
 			 (message.Is(JStyledText::kTextChanged) ||
 			  message.Is(JStyledText::kTextSet)))
 		{

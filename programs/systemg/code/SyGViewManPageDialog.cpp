@@ -166,7 +166,7 @@ SyGViewManPageDialog::BuildWindow()
 	ListenTo(itsFnHistoryMenu);
 
 	itsFnName->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsFnName->GetText());
+	ListenTo(itsFnName);
 
 	itsManIndex->SetIsRequired(kJFalse);
 	itsStayOpenCB->SetState(kJTrue);
@@ -228,7 +228,7 @@ SyGViewManPageDialog::Receive
 		itsFnName->Focus();
 		}
 
-	else if (sender == itsFnName->GetText() &&
+	else if (sender == itsFnName &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
 		{

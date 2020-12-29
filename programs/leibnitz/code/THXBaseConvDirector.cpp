@@ -204,10 +204,10 @@ THXBaseConvDirector::BuildWindow()
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
-	ListenTo(its2Input->GetText());
-	ListenTo(its8Input->GetText());
-	ListenTo(its10Input->GetText());
-	ListenTo(its16Input->GetText());
+	ListenTo(its2Input);
+	ListenTo(its8Input);
+	ListenTo(its10Input);
+	ListenTo(its16Input);
 
 	ListenTo(itsCloseButton);
 	ListenTo(itsHelpButton);
@@ -272,7 +272,7 @@ THXBaseConvDirector::Convert
 
 	for (JUnsignedOffset i=0; i<kTHXBaseCount; i++)
 		{
-		if (sender == itsInput[i]->GetText())
+		if (sender == itsInput[i])
 			{
 			input = itsInput[i];
 			base  = kBase[i];

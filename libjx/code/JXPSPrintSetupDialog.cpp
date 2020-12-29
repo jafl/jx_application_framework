@@ -269,7 +269,7 @@ JXPSPrintSetupDialog::SetObjects
 	assert( itsFileInput != nullptr );
 	itsFileInput->ShouldAllowInvalidFile();
 	itsFileInput->GetText()->SetText(fileName);
-	ListenTo(itsFileInput->GetText());
+	ListenTo(itsFileInput);
 
 	JXAdjustPrintSetupLayoutTask* task =
 		jnew JXAdjustPrintSetupLayoutTask(this, itsPrintCmd, itsChooseFileButton, itsFileInput);
@@ -422,7 +422,7 @@ JXPSPrintSetupDialog::Receive
 		{
 		ChooseDestinationFile();
 		}
-	else if (sender == itsFileInput->GetText() &&
+	else if (sender == itsFileInput &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
 		{

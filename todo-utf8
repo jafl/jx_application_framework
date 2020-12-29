@@ -1,5 +1,3 @@
-JTextEditor: re-broadcast text changes
-
 balance
 	CMArray2DCommand::HandleFailure
 	99, 130

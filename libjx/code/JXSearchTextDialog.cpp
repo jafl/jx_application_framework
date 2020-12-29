@@ -593,12 +593,10 @@ JXSearchTextDialog::SetObjects
 	// XSearch data
 
 	ListenTo(itsSearchInput);
-	ListenTo(itsSearchInput->GetText());
 	ListenTo(itsSearchIsRegexCB);
 	ListenTo(itsSingleLineCB);
 
 	ListenTo(itsReplaceInput);
-	ListenTo(itsReplaceInput->GetText());
 	ListenTo(itsReplaceIsRegexCB);
 	ListenTo(itsPreserveCaseCB);
 
@@ -741,7 +739,7 @@ JXSearchTextDialog::Receive
 			}
 		}
 
-	else if (sender == itsSearchInput->GetText() || sender == itsReplaceInput->GetText())
+	else if (sender == itsSearchInput || sender == itsReplaceInput)
 		{
 		UpdateDisplay();
 

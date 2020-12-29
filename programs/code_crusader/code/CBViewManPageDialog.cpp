@@ -157,7 +157,7 @@ CBViewManPageDialog::BuildWindow()
 	ListenTo(itsFnHistoryMenu);
 
 	itsFnName->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsFnName->GetText());
+	ListenTo(itsFnName);
 
 	itsManIndex->SetIsRequired(kJFalse);
 	itsStayOpenCB->SetState(kJTrue);

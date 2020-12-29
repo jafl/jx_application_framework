@@ -352,7 +352,7 @@ JXFSBindingTable::CreateXInputField
 
 	itsTextInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 	itsTextInput->SetIsRequired();
-	ListenTo(itsTextInput->GetText());
+	ListenTo(itsTextInput);
 	return itsTextInput;
 }
 

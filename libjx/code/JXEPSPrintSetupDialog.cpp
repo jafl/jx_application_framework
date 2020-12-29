@@ -164,7 +164,7 @@ JXEPSPrintSetupDialog::SetObjects
 		}
 
 	UpdateDisplay();
-	ListenTo(itsFileInput->GetText());
+	ListenTo(itsFileInput);
 }
 
 /******************************************************************************
@@ -214,7 +214,7 @@ JXEPSPrintSetupDialog::Receive
 		{
 		ChooseDestinationFile();
 		}
-	else if (sender == itsFileInput->GetText() &&
+	else if (sender == itsFileInput &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
 		{

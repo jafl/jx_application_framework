@@ -38,7 +38,7 @@ JXFileNameDisplay::JXFileNameDisplay
 	SetFont(JFontManager::GetDefaultMonospaceFont());
 	SetBorderWidth(1);
 	GoToEndOfLine();
-	ListenTo(GetText());
+	ListenTo(this);
 }
 
 /******************************************************************************
@@ -78,7 +78,7 @@ JXFileNameDisplay::Receive
 	const Message&	message
 	)
 {
-	if (sender == GetText() && message.Is(JStyledText::kTextSet))
+	if (sender == this && message.Is(JStyledText::kTextSet))
 		{
 		GoToEndOfLine();
 		}

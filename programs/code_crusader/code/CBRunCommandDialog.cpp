@@ -254,7 +254,7 @@ CBRunCommandDialog::BuildWindow()
 
 	itsPathInput->GetText()->SetText(JString("." ACE_DIRECTORY_SEPARATOR_STR, kJFalse));
 	itsPathInput->ShouldAllowInvalidPath();
-	ListenTo(itsPathInput->GetText());
+	ListenTo(itsPathInput);
 
 	if (itsProjDoc != nullptr)
 		{
@@ -262,7 +262,7 @@ CBRunCommandDialog::BuildWindow()
 		}
 
 	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsCmdInput->GetText());
+	ListenTo(itsCmdInput);
 
 	itsCmdInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 
