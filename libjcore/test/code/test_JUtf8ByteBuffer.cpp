@@ -28,9 +28,9 @@ JTEST(Exercise)
 	JAssertStringsEqual("\xC3\xA5\xE2\x9C\x94\n", buf.ExtractCharacters());
 	JAssertTrue(buf.IsEmpty());
 
-	std::cout << "expect invalid: a5" << std::endl;
-
 	buf.Append("\xA5\xE2\x9C\x94\n", 5);
+	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
 	JAssertStringsEqual("\xEF\xBF\xBD\xE2\x9C\x94\n", buf.ExtractCharacters());
+	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
 	JAssertTrue(buf.IsEmpty());
 }

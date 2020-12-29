@@ -552,9 +552,9 @@ JTEST(Get)
 	delete [] s1;
 	s1 = nullptr;
 
-	std::cout << "expect invalid: f8 9c 94" << std::endl;
-
+	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
 	s = "\xC3\xA6" "34567\xCE\xA6" "90\xCE\xA6\xF8\x9C\x94";
+	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
 	JAssertEqual(JUtf8Character("\xC3\xA6"), s.GetFirstCharacter());
 	JAssertEqual(JUtf8Character::kUtf8SubstitutionCharacter, s.GetLastCharacter());
 }

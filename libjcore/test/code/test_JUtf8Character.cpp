@@ -60,9 +60,9 @@ JTEST(Set)
 	c.Set("\xE2\x9C\x94");
 	JAssertEqual(3, c.GetByteCount());
 
-	std::cout << "expect invalid: f4" << std::endl;
-
+	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
 	c.Set("\xF4\x30");
+	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
 	JAssertEqual(JUtf8Character::kUtf32SubstitutionCharacter, c.GetUtf32());
 
 	JUtf8Character c2;
@@ -89,13 +89,10 @@ JTEST(IsValid)
 	JAssertTrue(JUtf8Character::IsValid("\xC2\xA9"));
 	JAssertTrue(JUtf8Character::IsValid("\xE2\x9C\x94"));
 
-	std::cout << "expect invalid: c2" << std::endl;
-
+	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
 	JAssertFalse(JUtf8Character::IsValid("\xC2\x0A"));
-
-	std::cout << "expect invalid: f6" << std::endl;
-
 	JAssertFalse(JUtf8Character::IsValid("\xF6\x9C\x94"));
+	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
 }
 
 JTEST(IsBlank)
@@ -160,13 +157,10 @@ JTEST(CharacterByteCount)
 	JAssertTrue(JUtf8Character::GetCharacterByteCount("\xE2\x9C\x94", &byteCount));
 	JAssertEqual(3, byteCount);
 
-	std::cout << "expect invalid: f5" << std::endl;
-
+	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
 	JAssertFalse(JUtf8Character::GetCharacterByteCount("\xF5\x9C\x94", &byteCount));
-
-	std::cout << "expect invalid: f4" << std::endl;
-
 	JAssertFalse(JUtf8Character::GetCharacterByteCount("\xF4\x30\x94", &byteCount));
+	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
 }
 
 JTEST(PrevCharacter)
@@ -184,10 +178,10 @@ JTEST(PrevCharacter)
 	JAssertTrue(JUtf8Character::GetPrevCharacterByteCount(s + strlen(s) - 1, &byteCount));
 	JAssertEqual(1, byteCount);
 
-	std::cout << "expect invalid: f8" << std::endl;
-
 	s = "ABC\xF8\xAF\xA7\x97";
+	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
 	JAssertFalse(JUtf8Character::GetPrevCharacterByteCount(s + strlen(s) - 1, &byteCount));
+	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
 	JAssertEqual(1, byteCount);
 }
 
@@ -218,9 +212,9 @@ JTEST(Utf8ToUtf32)
 	JAssertEqual(12328, JUtf8Character("\xE3\x80\xA8").GetUtf32());
 	JAssertEqual(195031, JUtf8Character("\xF0\xAF\xA7\x97").GetUtf32());
 
-	std::cout << "expect invalid: fe" << std::endl;
-
+	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
 	JAssertEqual(65533, JUtf8Character("\xFE\xAF\xFF\x97").GetUtf32());
+	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
 }
 
 JTEST(IsPrint)
@@ -380,8 +374,8 @@ JTEST(Stream)
 	input >> c;
 	JAssertStringsEqual("\xF0\xAF\xA7\x97", c.GetBytes());
 
-	std::cout << "expect invalid: c2" << std::endl;
-
+	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
 	input >> c;
+	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
 	JAssertStringsEqual("\xEF\xBF\xBD", c.GetBytes());
 }
