@@ -5,6 +5,7 @@ Internal Form Definition File
 
 Number of forms: 20
 Unit of measure: FL_COORD_PIXEL
+SnapGrid: 1
 
 =============== FORM ===============
 Name: CMChooseProcessDialog
@@ -2481,7 +2482,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 135 500 370
+box: 0 135 500 365
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER

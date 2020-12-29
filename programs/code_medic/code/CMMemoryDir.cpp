@@ -257,7 +257,7 @@ CMMemoryDir::BuildWindow()
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,135, 500,370);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,135, 500,365);
 	assert( scrollbarSet != nullptr );
 
 // end JXLayout
@@ -576,9 +576,7 @@ CMMemoryDir::Update
 	const JString& data
 	)
 {
-	JXTEBase::DisplayState state = itsWidget->SaveDisplayState();
 	itsWidget->GetText()->SetText(data);
-	itsWidget->RestoreDisplayState(state);
 }
 
 /******************************************************************************
