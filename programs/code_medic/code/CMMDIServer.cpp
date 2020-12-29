@@ -280,7 +280,22 @@ CMMDIServer::IsBinary
 
 	std::ifstream input(fileName.GetBytes());
 	input.read(buffer, 1000);
-	return JStyledText::ContainsIllegalChars(JString(buffer, 1000, kJFalse));
+
+	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
+
+	JSize byteCount;
+	for (JIndex i = 0; i < 995; )
+		{
+		if (!JUtf8Character::GetCharacterByteCount(buffer + i, &byteCount))
+			{
+			JUtf8Character::SetIgnoreBadUtf8(kJFalse);
+			return kJFalse;
+			}
+		i += byteCount;
+		}
+
+	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
+	return kJTrue;
 }
 
 /******************************************************************************

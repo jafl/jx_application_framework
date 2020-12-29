@@ -1965,7 +1965,7 @@ JStyledText::CleanText
 
  ******************************************************************************/
 
-static const JRegex illegalCharRegex = "[\\0\x01-\x08\x0B\x0E-\x1F\x7F]+";
+static JRegex illegalCharRegex = "[\\0\x01-\x08\x0B\x0E-\x1F\x7F]+";
 
 JBoolean
 JStyledText::ContainsIllegalChars
@@ -1973,6 +1973,7 @@ JStyledText::ContainsIllegalChars
 	const JString&	text
 	)
 {
+	illegalCharRegex.SetUtf8(kJFalse);
 	return illegalCharRegex.Match(text);
 }
 

@@ -74,6 +74,9 @@ public:
 	JBoolean IsLineEnd() const;
 	void     SetLineEnd(const JBoolean yesNo = kJTrue);
 
+	JBoolean IsUtf8() const;
+	void     SetUtf8(const JBoolean yesNo = kJTrue);
+
 	JError RestoreDefaults();
 
 protected:
@@ -303,6 +306,28 @@ JRegex::IsLineEnd() const
 }
 
 /******************************************************************************
+ Utf8
+
+	Controls whether the string is treated as utf-8 or raw bytes.
+
+ *****************************************************************************/
+
+inline void
+JRegex::SetUtf8
+	(
+	const JBoolean yesNo // = kJTrue
+	)
+{
+	SetCompileOption(PCRE_UTF8, !yesNo);
+}
+
+inline JBoolean
+JRegex::IsUtf8() const
+{
+	return RawGetOption(itsCFlags, PCRE_UTF8);
+}
+
+/******************************************************************************
  Match
 
 	Returns kJTrue if our pattern matches the given string.
@@ -316,7 +341,7 @@ JRegex::Match
 	)
 	const
 {
-	return JNegate( Match(str, 0, str.GetByteCount(), kJFalse).IsEmpty() );
+	return ! Match(str, 0, str.GetByteCount(), kJFalse).IsEmpty();
 }
 
 /******************************************************************************

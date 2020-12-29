@@ -71,10 +71,15 @@ public:
 	static JUtf8Character	Utf32ToUtf8(const JUInt32 c);
 	static JUInt32			Utf8ToUtf32(const JUtf8Byte* c, JSize* returnByteCount = nullptr);
 
+	static JBoolean	IgnoreBadUtf8();
+	static void		SetIgnoreBadUtf8(const JBoolean ignore);
+
 private:
 
 	unsigned char	itsByteCount;
 	JUtf8Byte		itsBytes[ kMaxByteCount+1 ];
+
+	static JBoolean	theIgnoreBadUtf8Flag;	// do not print errors
 };
 
 
@@ -151,6 +156,26 @@ JUtf8Character::IsValid
 {
 	JSize byteCount;
 	return GetCharacterByteCount(utf8Character, &byteCount);
+}
+
+/******************************************************************************
+ IgnoreBadUtf8 (static)
+
+ ******************************************************************************/
+
+inline JBoolean
+JUtf8Character::IgnoreBadUtf8()
+{
+	return theIgnoreBadUtf8Flag;
+}
+
+inline void
+JUtf8Character::SetIgnoreBadUtf8
+	(
+	const JBoolean ignore
+	)
+{
+	theIgnoreBadUtf8Flag = ignore;
 }
 
 /******************************************************************************

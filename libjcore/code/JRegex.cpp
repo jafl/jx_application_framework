@@ -651,6 +651,10 @@ JRegex::Match
 		jdelete [] pmatch;
 		return JStringMatch(str, m0, this, list);
 		}
+	else if (nmatch == PCRE_ERROR_BADUTF8 && JUtf8Character::IgnoreBadUtf8())
+		{
+		// ignore because it's expected
+		}
 	else if (nmatch != PCRE_ERROR_NOMATCH &&
 			 nmatch != PCRE_ERROR_RECURSIONLIMIT &&
 			 nmatch != PCRE_ERROR_BADOFFSET)

@@ -13,6 +13,8 @@
 const JUInt32 JUtf8Character::kUtf32SubstitutionCharacter       = 0x0000FFFD;
 const JUtf8Character JUtf8Character::kUtf8SubstitutionCharacter("\xEF\xBF\xBD");
 
+JBoolean JUtf8Character::theIgnoreBadUtf8Flag = kJFalse;
+
 /******************************************************************************
  Constructor
 
@@ -91,7 +93,10 @@ JUtf8Character::Set
 	JSize byteCount;
 	if (!GetCharacterByteCount(utf8Character, &byteCount))
 		{
-		std::cerr << "Replaced invalid UTF-8 byte sequence with substitution U+FFFD" << std::endl;
+		if (!theIgnoreBadUtf8Flag)
+			{
+			std::cerr << "Replaced invalid UTF-8 byte sequence with substitution U+FFFD" << std::endl;
+			}
 		utf8Character = kUtf8SubstitutionCharacter.GetBytes();
 		byteCount     = kUtf8SubstitutionCharacter.GetByteCount();
 		}
@@ -190,7 +195,7 @@ JUtf8Character::GetCharacterByteCount
 		*byteCount = 1;
 		}
 
-	if (!ok)
+	if (!ok && !theIgnoreBadUtf8Flag)
 		{
 		std::cerr << "Invalid UTF-8 byte sequence: " << std::hex;
 		for (JUnsignedOffset i=0; i<*byteCount; i++)

@@ -1752,7 +1752,6 @@ JString::IsValid
 	const JUtf8ByteRange&	range
 	)
 {
-	JSize charCount = 0;
 	JSize byteCount;
 	JIndex i;
 	for (i = range.first-1; i < range.last; )
@@ -1761,7 +1760,6 @@ JString::IsValid
 			{
 			return kJFalse;
 			}
-		charCount++;
 		i += byteCount;
 		}
 
