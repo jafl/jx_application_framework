@@ -819,7 +819,8 @@ CMSourceDirector::DisplayDisassembly
 	itsText->GetText()->SetText(instText);
 
 	JIndex i;
-	if (table->FindAddressLineNumber(itsAsmLocation.GetMemoryAddress(), &i))
+	if (!addrList->IsEmpty() &&
+		table->FindAddressLineNumber(itsAsmLocation.GetMemoryAddress(), &i))
 		{
 		DisplayLine(i);
 		}

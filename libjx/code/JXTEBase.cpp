@@ -3323,7 +3323,7 @@ JXTEBase::RestoreDisplayState
 
 	// restore the selection
 
-	if (state.hadSelection)
+	if (state.hadSelection && GetText()->GetText().RangeValid(state.range))
 		{
 		SetSelection(state.range);
 		}

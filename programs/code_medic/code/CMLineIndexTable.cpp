@@ -143,7 +143,7 @@ CMLineIndexTable::CMLineIndexTable
 	assert( task != nullptr );
 	task->Go();
 
-	ListenTo(itsText);
+	ListenTo(itsText->GetText());
 	ListenTo(itsVScrollbar);
 	ListenTo(itsLink->GetBreakpointManager());
 }
@@ -713,11 +713,13 @@ CMLineIndexTable::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsText &&
+	if (sender == itsText->GetText() &&
 		(message.Is(JStyledText::kTextChanged) ||
 		 message.Is(JStyledText::kTextSet)))
 		{
-		AdjustToText();
+		CMAdjustLineTableToTextTask* task = jnew CMAdjustLineTableToTextTask(this);
+		assert( task != nullptr );
+		task->Go();
 		}
 
 	else if (sender == itsVScrollbar && message.Is(JXScrollbar::kScrolled))
