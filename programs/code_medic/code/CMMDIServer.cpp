@@ -313,7 +313,11 @@ CMMDIServer::GetLanguage
 	language->Clear();
 
 	std::ifstream input(fileName.GetBytes());
+
+	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
 	JString line = JReadLine(input);
+	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
+
 	line.TrimWhitespace();
 	if (line.BeginsWith("code-medic:"))
 		{
