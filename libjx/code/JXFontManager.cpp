@@ -642,6 +642,8 @@ JXFontManager::ResolveFontID
 	const JFontID id
 	)
 {
+	assert( id > 0 );
+
 	while (!itsFontList->IndexValid(id))
 		{
 		itsFontList->AppendElement(FontInfo());
