@@ -1,13 +1,3 @@
-balance
-	CMArray2DCommand::HandleFailure
-	99, 130
-
-unit test
-	all jcc stylers
-	cbmUtil
-
------
-
 render as many characters as possible via fallback fonts
 	if (!HasGlyphsForString)
 		JXFontManager:
@@ -15,11 +5,17 @@ render as many characters as possible via fallback fonts
 			compute separate char width if substitution
 		JXWindowPainter:
 			draw string in chunks
+		only switch font if glyph exists in a fallback
 
 	menu: remove custom font for menu shortcuts
 
 	test with file chooser, menu shortcuts, toolbar hints,
 		systemg, plot labels, testjx file list
+		doesn't change JTextEditor insertion font
+			when glyphs are rendered with different font
+
+	cairo does not have fallback fonts
+	pango does, but it requires rendering the text before you can get the width
 
 JStyledText
 	AutoIndent
@@ -69,12 +65,10 @@ unit test
 	JFloatTableData
 	JPTPrinter - send to file
 	JVIKeyHandler:  split into multiple tests covering all options
+	all jcc stylers
 
 
 JTextEditor:
-	don't change insertion font when glyphs are rendered with different font
-		use isExact to tell which glyphs are substitutions?
-
 	need smarter update during indent/outdent, to maintain caret location
 		when caret in another view is inside the affected range
 

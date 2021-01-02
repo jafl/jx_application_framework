@@ -709,7 +709,7 @@ CBMBalanceFromSelection
 				  (sel.first-1 == openIndex && closeIndex == sel.last+1))) ||
 				(!hasSelection && openIndex+1 == closeIndex))
 				{
-				closeIter.SkipNext();
+				// keep going
 				}
 			else if (openIndex < closeIndex-1)
 				{
