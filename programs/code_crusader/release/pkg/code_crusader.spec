@@ -1,14 +1,13 @@
-%define jcc_version   6.9.0
 %define ctags_version 5.8.0
-%define mm_version    3.3.0
+%define mm_version    3.4.1
 
 Summary: Code Crusader is a UNIX development environment for X.
 Name: Code_Crusader
-Version: %jcc_version
+Version: %pkg_version
 Release: 1
 License: Copyright John Lindal
 Group: Development/Tools/IDE
-Source: Code_Crusader_%jcc_version.tar
+Source: Code_Crusader_%pkg_version.tar
 
 %description
 Code Crusader is a graphical development environment for UNIX.

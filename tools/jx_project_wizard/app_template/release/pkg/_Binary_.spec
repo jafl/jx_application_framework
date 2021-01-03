@@ -1,14 +1,12 @@
-%define <Binary>_version <Version>
-
 Summary: <Program> provides ...
 Name: <Program>
-Version: %<Binary>_version
+Version: %pkg_version
 Release: 1
 ExclusiveArch: i386
 ExclusiveOS: Linux
 License: ...
 Group: ...
-Source: <Binary>_%<Binary>_version.tar
+Source: <Binary>_%pkg_version.tar
 
 %description
 <Program> provides ...

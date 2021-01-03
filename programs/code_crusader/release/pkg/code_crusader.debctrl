@@ -1,5 +1,5 @@
 Package: code-crusader
-Version: 6.9.0
+Version: %VERSION%
 Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
 Homepage: http://www.newplanetsoftware.com/jcc/
 Section: non-free/devel

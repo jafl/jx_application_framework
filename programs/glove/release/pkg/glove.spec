@@ -1,12 +1,10 @@
-%define glove_version 2.1.0
-
 Summary: Data acquisition, manipulation, and analysis program for X.
 Name: Glove
-Version: %glove_version
+Version: %pkg_version
 Release: 1
 License: GPL
 Group: Applications/Scientific
-Source: Glove_%glove_version.tar
+Source: Glove_%pkg_version.tar
 
 %description 
 Glove was designed as a flexible tool to address a number of issues. We

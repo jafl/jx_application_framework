@@ -1,12 +1,10 @@
-%define leibnitz_version 3.0.0
-
 Summary: Leibnitz provides electronic paper for calculations and graphs.
 Name: Leibnitz
-Version: %leibnitz_version
+Version: %pkg_version
 Release: 1
 License: GPL
 Group: Applications/Scientific
-Source: Leibnitz_%leibnitz_version.tar
+Source: Leibnitz_%pkg_version.tar
 
 %description
 Leibnitz provides electronic paper for calculations and graphs.

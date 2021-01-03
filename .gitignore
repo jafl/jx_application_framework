@@ -22,6 +22,7 @@ programs/*/code/*StringData.h
 programs/*/Makefile
 programs/*/strings/*_menu_strings
 programs/*/ChangeLog.html
+programs/*/strings/version
 
 tools/*/code/*StringData.h
 tools/*/Makefile

@@ -113,7 +113,7 @@ RPM_SRC_ROOT := /usr/src/jxrpmbuild
 RPM_BUILD_DIR = ${RPM_SRC_ROOT}/BUILD
 RPM_SRC_DIR   = ${RPM_SRC_ROOT}/SOURCES
 RPM_SPEC_DIR  = ${RPM_SRC_ROOT}/SPECS
-RPM_BIN_DIR   = ${RPM_SRC_ROOT}/RPMS/*
+RPM_BIN_DIR   = ${RPM_SRC_ROOT}/RPMS
 RPM_SRPM_DIR  = ${RPM_SRC_ROOT}/SRPMS
 
 RPM := rpmbuild -bb --quiet --clean --rmsource

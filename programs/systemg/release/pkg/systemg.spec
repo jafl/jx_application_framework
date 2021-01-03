@@ -1,12 +1,10 @@
-%define systemg_version 3.0.0
-
 Summary: System G provides a graphical interface to UNIX file system.
 Name: System_G
-Version: %systemg_version
+Version: %pkg_version
 Release: 1
 License: GPL
 Group: Filemanager
-Source: System_G_%systemg_version.tar
+Source: System_G_%pkg_version.tar
 
 %description
 System G provides a graphical interface to UNIX file system,

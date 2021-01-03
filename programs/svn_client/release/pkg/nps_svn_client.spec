@@ -1,12 +1,10 @@
-%define svn_client_version 1.4.0
-
 Summary: NPS Subversion Client provides a simple, graphical Subversion client.
 Name: nps_svn_client
-Version: %svn_client_version
+Version: %pkg_version
 Release: 1
 License: Copyright John Lindal
 Group: Development/Tools/Version Control
-Source: nps_svn_client_%svn_client_version.tar
+Source: nps_svn_client_%pkg_version.tar
 
 %description
 NPS Subversion Client provides a simple, graphical Subversion client.

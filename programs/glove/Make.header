@@ -6,6 +6,7 @@
 JX_ROOT  := ../..
 
 CODEDIR    := ./code
+STRINGDIR  := ./strings
 JCOREDIR   := ${JX_ROOT}/include/jcore
 JXDIR      := ${JX_ROOT}/include/jx
 J2DPLOTDIR := ${JX_ROOT}/include/j2dplot
@@ -30,8 +31,8 @@ SEARCHDIRS := -I${CODEDIR} \
 GLOVE_VERSION     := ${shell cat release/VERSION}
 SIGNATURE         := glove
 PROG_STRING_FILES := ${filter-out %/glove_menu_strings, \
-                       ${shell echo strings/*}}
-MENU_STRINGS_FILE := strings/glove_menu_strings
+                       ${shell echo strings/*}} strings/version
+MENU_STRINGS_FILE := ${STRINGDIR}/glove_menu_strings
 
 # also defined in .spec
 
@@ -89,7 +90,7 @@ include ${JX_ROOT}/include/make/jx_targets
 #
 
 .PHONY : strings
-strings:
+strings: build_version_string
 	@${RM} ${MENU_STRINGS_FILE}
 	compile_jstrings ${J_STRING_FILES} \
       --code kGLDefaultStringData ${CODEDIR}/GLStringData.h

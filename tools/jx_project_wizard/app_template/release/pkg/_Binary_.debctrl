@@ -1,5 +1,5 @@
 Package: <Binary>
-Version: <Version>
+Version: %VERSION%
 Maintainer: <Author> <<EMail>>
 Homepage: <URL>
 Section: ...

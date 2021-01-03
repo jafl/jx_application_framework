@@ -5,10 +5,11 @@
 
 JX_ROOT := ../..
 
-CODEDIR  := ./code
-JCOREDIR := ${JX_ROOT}/include/jcore
-JXDIR    := ${JX_ROOT}/include/jx
-JFSDIR   := ${JX_ROOT}/include/jfs
+CODEDIR   := ./code
+STRINGDIR := ./strings
+JCOREDIR  := ${JX_ROOT}/include/jcore
+JXDIR     := ${JX_ROOT}/include/jx
+JFSDIR    := ${JX_ROOT}/include/jfs
 
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
@@ -29,8 +30,8 @@ PROG_NAME         := nps_svn_client
 PROG_VERSION      := ${shell cat release/VERSION}
 SIGNATURE         := nps_svn_client
 PROG_STRING_FILES := ${filter-out %/${PROG_NAME}_menu_strings, \
-                      ${shell echo strings/*}}
-MENU_STRINGS_FILE := strings/${PROG_NAME}_menu_strings
+                      ${shell echo strings/*}} strings/version
+MENU_STRINGS_FILE := ${STRINGDIR}/${PROG_NAME}_menu_strings
 
 # also defined in .spec
 
@@ -89,7 +90,7 @@ include ${JX_ROOT}/include/make/jx_targets
 #
 
 .PHONY : strings
-strings:
+strings: build_version_string
 	@${RM} ${MENU_STRINGS_FILE}
 	compile_jstrings ${J_STRING_FILES} \
       --code kSVNDefaultStringData ${CODEDIR}/svnStringData.h

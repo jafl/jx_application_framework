@@ -1,13 +1,12 @@
-%define medic_version 4.2.2
 %define _unpackaged_files_terminate_build 0
 
 Summary: Code Medic is a graphical debugging environment for UNIX.
 Name: Code_Medic
-Version: %medic_version
+Version: %pkg_version
 Release: 1
 License: Copyright New Planet Software, Inc.
 Group: Development/Tools/Debuggers
-Source: Code_Medic-%medic_version.tar
+Source: Code_Medic-%pkg_version.tar
 
 %description
 Code Medic is a graphical debugging environment for UNIX.

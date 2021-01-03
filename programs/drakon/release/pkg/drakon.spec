@@ -1,12 +1,10 @@
-%define drakon_version 1.4.0
-
 Summary: Drakon provides a simple way to manage UNIX processes.
 Name: Drakon
-Version: %drakon_version
+Version: %pkg_version
 Release: 1
 License: GPL
 Group: System/Monitoring
-Source: Drakon_%drakon_version.tar
+Source: Drakon_%pkg_version.tar
 
 %description
 Drakon provides a simple way to manage UNIX processes.

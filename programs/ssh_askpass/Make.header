@@ -5,9 +5,10 @@
 
 JX_ROOT := ../..
 
-CODEDIR  := ./code
-JCOREDIR := ${JX_ROOT}/include/jcore
-JXDIR    := ${JX_ROOT}/include/jx
+CODEDIR   := ./code
+STRINGDIR := ./strings
+JCOREDIR  := ${JX_ROOT}/include/jcore
+JXDIR     := ${JX_ROOT}/include/jx
 
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
@@ -71,7 +72,7 @@ include ${JX_ROOT}/include/make/jx_targets
 #
 
 .PHONY : strings
-strings:
+strings: build_version_string
 	compile_jstrings ${J_STRING_FILES} \
       --code kASKDefaultStringData ${CODEDIR}/askStringData.h
 

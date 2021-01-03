@@ -17,6 +17,15 @@ staticACE:
   endif
 
 #
+# Strings (const STRINGDIR)
+#
+
+.PHONY : build_version_string
+build_version_string:
+	@rm -f ${STRINGDIR}/version
+	@echo -e '0\nVERSION "'`cat release/VERSION`'"' > ${STRINGDIR}/version
+
+#
 # Building packages
 #
 
@@ -89,7 +98,8 @@ build_rpm:
 	@${SUDO} mkdir -p -m 755 ${RPM_BUILD_DIR} ${RPM_SRC_DIR} ${RPM_SPEC_DIR} ${RPM_BIN_DIR} ${RPM_SRPM_DIR}
 	@${SUDO} ./release/pkg/uninstall
 	@${SUDO} cp ${J_DISTR_TAR_DIR}/${SOURCE_TAR_NAME} ${RPM_TAR_FILE}
-	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' ${RPM_SPEC_FILE}
+	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
+                    --define 'pkg_version '`cat release/VERSION` ${RPM_SPEC_FILE}
 	@${SUDO} mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
 	@${SUDO} chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
 	@${SUDO} ./release/pkg/uninstall
@@ -109,6 +119,7 @@ build_deb:
 	@cd debian; tar -xf ${SOURCE_TAR_NAME}
 	@${MAKE} SOURCE_TAR_NAME=${SOURCE_TAR_NAME} _build_deb_sub
 	@cp ${DEB_CTRL_FILE} debian/DEBIAN/control
+	@perl -pi -e 's/%VERSION%/'`cat release/VERSION`'/' debian/DEBIAN/control;
 	@dpkg-deb --build debian
 	@mv debian.deb ${J_DISTR_TAR_DIR}/${DEB_PKG_FILE}
 	@${RM} -r debian
