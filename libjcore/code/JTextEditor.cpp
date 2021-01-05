@@ -10950,7 +10950,7 @@ JTextEditor::Recalc
 	if (bufLength > 0)
 		{
 		const JSize maxCharsPerLine =
-			itsBreakCROnlyFlag ? 0 : JLCeil(itsGUIWidth / 3);	// at least 3 pixels per character
+			itsBreakCROnlyFlag ? 0 : JLCeil(itsGUIWidth / 3.0);	// at least 3 pixels per character
 
 		Recalc1(bufLength, caretLoc, minCharCount, maxCharsPerLine,
 				&maxLineWidth, &firstLineIndex, &lastLineIndex);
