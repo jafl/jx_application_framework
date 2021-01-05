@@ -4096,7 +4096,7 @@ JTextEditor::RecalcLine
 		// Add words until we hit the right margin, a newline,
 		// or the end of the text.
 
-		const JSize maxCharsPerLine = JLCeil(itsGUIWidth / 3);	// at least 3 pixels per character
+		const JSize maxCharsPerLine = JLCeil(itsGUIWidth / 3.0);	// at least 3 pixels per character
 
 		while (!textIter->AtEnd() && !endOfLine)
 			{
