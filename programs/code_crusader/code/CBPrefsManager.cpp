@@ -1441,8 +1441,6 @@ CBPrefsManager::AddDefaultJavaMacros
 {
 	mgr->AddMacro("/*",   "  */\\l\\l\\l");
 	mgr->AddMacro("/**",  "  */\\l\\l\\l");
-	mgr->AddMacro("#\"",  "\\binclude \"\"\\l");
-	mgr->AddMacro("#<",   "\\binclude <>\\l");
 
 	mgr->AddMacro("if",   " ()\\n\\t{\\n}\\u\\u\\l");
 	mgr->AddMacro("ei",   "\\blse if ()\\n\\t{\\n}\\u\\u\\r\\r\\r\\r");
@@ -1455,9 +1453,6 @@ CBPrefsManager::AddDefaultJavaMacros
 	mgr->AddMacro("try",    "\\n\\t{\\n}\\n\\b"
 							"catch (Exception e)\\n\\t{\\n}\\n\\b"
 							"final\\n\\t{\\n}\\u\\u\\u\\u\\u\\u\\u\\n");
-
-	mgr->AddMacro("&c", "\\b\\b(C)");
-	mgr->AddMacro("&r", "\\b\\b(R)");
 }
 
 void
@@ -1483,9 +1478,6 @@ CBPrefsManager::AddDefaultCSharpMacros
 	mgr->AddMacro("switch", " ()\\n\\t{\\ndefault:\\n\\tbreak;\\n\\b}\\u\\u\\u\\u\\r\\r\\r");
 	mgr->AddMacro("try",    "\\n\\t{\\n}\\n\\b"
 							"catch (...)\\n\\t{\\n}\\u\\u\\u\\u\\n");
-
-	mgr->AddMacro("&c", "\\b\\b(C)");
-	mgr->AddMacro("&r", "\\b\\b(R)");
 }
 
 void
