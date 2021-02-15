@@ -7,6 +7,8 @@ render as many characters as possible via fallback fonts
 			draw string in chunks
 		only switch font if glyph exists in a fallback
 
+	option to turn this off, so JTextEditor can manage it
+
 	menu: remove custom font for menu shortcuts
 
 	test with file chooser, menu shortcuts, toolbar hints,

@@ -1659,7 +1659,7 @@ static const JUtf8Byte* kMakefileMethodName[] =
 	"CMake"
 };
 
-const JUtf8Byte*
+JString
 CBBuildManager::GetMakefileMethodName
 	(
 	const MakefileMethod method
@@ -1667,7 +1667,7 @@ CBBuildManager::GetMakefileMethodName
 {
 	assert( method == kManual || method == kMakemake ||
 			method == kCMake || method == kQMake );
-	return kMakefileMethodName[ method ];
+	return JString(kMakefileMethodName[ method ], 0, kJFalse);
 }
 
 /******************************************************************************

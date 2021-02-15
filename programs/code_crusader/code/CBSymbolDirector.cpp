@@ -639,7 +639,7 @@ CBSymbolDirector::BuildWindow
 	itsSymbolMenu->SetMenuItems(kSymbolMenuStr, "CBSymbolDirector");
 	ListenTo(itsSymbolMenu);
 
-	itsProjectMenu = menuBar->AppendTextMenu(JGetString("ProjectMenuTitle::CBSymbolDirector"));
+	itsProjectMenu = menuBar->AppendTextMenu(JGetString("ProjectMenuTitle::CBGlobal"));
 	itsProjectMenu->SetMenuItems(kProjectMenuStr, "CBSymbolDirector");
 	itsProjectMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsProjectMenu);

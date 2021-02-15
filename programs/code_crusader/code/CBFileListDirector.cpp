@@ -341,7 +341,7 @@ CBFileListDirector::BuildWindow()
 
 	itsFLSet->AppendEditMenu(menuBar);
 
-	itsProjectMenu = menuBar->AppendTextMenu(JGetString("ProjectMenuTitle::CBProjectDocument"));
+	itsProjectMenu = menuBar->AppendTextMenu(JGetString("ProjectMenuTitle::CBGlobal"));
 	itsProjectMenu->SetMenuItems(kProjectMenuStr, "CBFileListDirector");
 	itsProjectMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsProjectMenu);

@@ -18,12 +18,9 @@
 
 #include "jcc_php_tree_window.xpm"
 
-static const JCharacter* kWindowTitleSuffix = " PHP Inheritance";
-
 // Tree menu
 
-static const JCharacter* kTreeMenuTitleStr = "Tree";
-static const JCharacter* kTreeMenuStr =
+static const JUtf8Byte* kTreeMenuStr =
 	"    Add classes...                                         %i" kCBEditSearchPathsAction
 	"  | Update                 %k Meta-U                       %i" kCBUpdateClassTreeAction
 	"  | Minimize MI link lengths now                           %i" kCBMinimizeMILinkLengthAction
@@ -58,9 +55,9 @@ CBPHPTreeDirector::CBPHPTreeDirector
 	CBProjectDocument* supervisor
 	)
 	:
-	CBTreeDirector(supervisor, NewPHPTree, kWindowTitleSuffix, "CBPHPTreeHelp",
-				   jcc_php_tree_window, kTreeMenuTitleStr, kTreeMenuStr,
-				   "CBPHPTreeDirector",
+	CBTreeDirector(supervisor, NewPHPTree, "WindowTitleSuffix::CBPHPTreeDirector",
+				   "CBPHPTreeHelp", jcc_php_tree_window,
+				   kTreeMenuStr, "CBPHPTreeDirector",
 				   kCBPHPTreeToolBarID, InitPHPTreeToolBar)
 {
 	CBPHPTreeDirectorX();
@@ -80,8 +77,9 @@ CBPHPTreeDirector::CBPHPTreeDirector
 	:
 	CBTreeDirector(projInput, projVers, setInput, setVers, symInput, symVers,
 				   supervisor, subProject, StreamInPHPTree,
-				   kWindowTitleSuffix, "CBPHPTreeHelp", jcc_php_tree_window,
-				   kTreeMenuTitleStr, kTreeMenuStr, "CBPHPTreeDirector",
+				   "WindowTitleSuffix::CBPHPTreeDirector",
+				   "CBPHPTreeHelp", jcc_php_tree_window,
+				   kTreeMenuStr, "CBPHPTreeDirector",
 				   kCBPHPTreeToolBarID, InitPHPTreeToolBar,
 				   nullptr, kJFalse)
 {

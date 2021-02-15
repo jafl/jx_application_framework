@@ -18,12 +18,9 @@
 
 #include "jcc_java_tree_window.xpm"
 
-static const JCharacter* kWindowTitleSuffix = " Java Inheritance";
-
 // Tree menu
 
-static const JCharacter* kTreeMenuTitleStr = "Tree";
-static const JCharacter* kTreeMenuStr =
+static const JUtf8Byte* kTreeMenuStr =
 	"    Add classes...                                         %i" kCBEditSearchPathsAction
 	"  | Update                 %k Meta-U                       %i" kCBUpdateClassTreeAction
 	"  | Minimize MI link lengths now                           %i" kCBMinimizeMILinkLengthAction
@@ -58,9 +55,9 @@ CBJavaTreeDirector::CBJavaTreeDirector
 	CBProjectDocument* supervisor
 	)
 	:
-	CBTreeDirector(supervisor, NewJavaTree, kWindowTitleSuffix, "CBJavaTreeHelp",
-				   jcc_java_tree_window, kTreeMenuTitleStr, kTreeMenuStr,
-				   "CBJavaTreeDirector",
+	CBTreeDirector(supervisor, NewJavaTree, "WindowTitleSuffix::CBJavaTreeDirector",
+				   "CBJavaTreeHelp", jcc_java_tree_window,
+				   kTreeMenuStr, "CBJavaTreeDirector",
 				   kCBJavaTreeToolBarID, InitJavaTreeToolBar)
 {
 	CBJavaTreeDirectorX();
@@ -80,8 +77,9 @@ CBJavaTreeDirector::CBJavaTreeDirector
 	:
 	CBTreeDirector(projInput, projVers, setInput, setVers, symInput, symVers,
 				   supervisor, subProject, StreamInJavaTree,
-				   kWindowTitleSuffix, "CBJavaTreeHelp", jcc_java_tree_window,
-				   kTreeMenuTitleStr, kTreeMenuStr, "CBJavaTreeDirector",
+				   "WindowTitleSuffix::CBJavaTreeDirector",
+				   "CBJavaTreeHelp", jcc_java_tree_window,
+				    kTreeMenuStr, "CBJavaTreeDirector",
 				   kCBJavaTreeToolBarID, InitJavaTreeToolBar,
 				   nullptr, kJFalse)
 {

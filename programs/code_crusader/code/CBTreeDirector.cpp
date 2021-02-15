@@ -12,7 +12,6 @@
 #include "CBTree.h"
 #include "CBClass.h"
 #include "CBFileHistoryMenu.h"
-#include "CBFnListDirector.h"
 #include "CBEditTreePrefsDialog.h"
 #include "CBViewManPageDialog.h"
 #include "CBFindFileDialog.h"
@@ -47,8 +46,7 @@ const JFileVersion kCurrentPrefsVersion = 2;
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    New text file                  %k Meta-N       %i" kCBNewTextFileAction
 	"  | New text file from template... %k Meta-Shift-N %i" kCBNewTextFileFromTmplAction
 	"  | New project...                                 %i" kCBNewProjectAction
@@ -73,8 +71,7 @@ enum
 
 // Project menu
 
-static const JCharacter* kProjectMenuTitleStr = "Project";
-static const JCharacter* kProjectMenuStr =
+static const JUtf8Byte* kProjectMenuStr =
 	"    Show symbol browser %k Ctrl-F12     %i" kCBShowSymbolBrowserAction
 	"  | Look up man page... %k Meta-I       %i" kCBViewManPageAction
 	"%l| Show file list      %k Meta-Shift-F %i" kCBShowFileListAction
@@ -91,14 +88,9 @@ enum
 	kSaveAllTextCmd, kCloseAllTextCmd
 };
 
-// Windows menu
-
-static const JCharacter* kFileListMenuTitleStr = "Windows";
-
 // Preferences menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    Tree..."
 	"  | Toolbar buttons..."
 	"  | File types..."
@@ -124,23 +116,22 @@ CBTreeDirector::CBTreeDirector
 	(
 	CBProjectDocument*		supervisor,
 	CBTreeCreateFn*			createTreeFn,
-	const JCharacter*		windowTitleSuffix,
-	const JCharacter*		windowHelpName,
+	const JUtf8Byte*		windowTitleSuffixID,
+	const JUtf8Byte*		windowHelpName,
 	const JXPM&				windowIcon,
-	const JCharacter*		treeMenuTitle,
-	const JCharacter*		treeMenuItems,
-	const JCharacter*		treeMenuNamespace,
+	const JUtf8Byte*		treeMenuItems,
+	const JUtf8Byte*		treeMenuNamespace,
 	const JIndex			toolBarPrefID,
 	CBTreeInitToolBarFn*	initToolBarFn
 	)
 	:
 	JXWindowDirector(supervisor),
 	JPrefObject(CBGetPrefsManager(), kCBTreeSetupID),
-	itsWindowTitleSuffix( windowTitleSuffix ),
+	itsWindowTitleSuffix( JGetString(windowTitleSuffixID) ),
 	itsWindowHelpName( windowHelpName )
 {
 	JXScrollbarSet* scrollbarSet =
-		CBTreeDirectorX(supervisor, windowIcon, treeMenuTitle, treeMenuItems,
+		CBTreeDirectorX(supervisor, windowIcon, treeMenuItems,
 						treeMenuNamespace, toolBarPrefID, initToolBarFn);
 
 	itsTree = createTreeFn(this, CBTreeWidget::kBorderWidth);
@@ -156,23 +147,44 @@ CBTreeDirector::CBTreeDirector
 	JPrefObject::ReadPrefs();
 }
 
+static void skipFnListDirector
+	(
+	std::istream&		input,
+	const JFileVersion	vers
+	)
+{
+	JSize fnListCount;
+	input >> fnListCount;
+
+	JString className;
+	JBoolean showInheritedFns;
+	for (JIndex i=1; i<=fnListCount; i++)
+		{
+		JXWindow::SkipGeometry(input);
+		input >> className >> JBoolFromString(showInheritedFns);
+		if (vers >= 24)
+			{
+			JXScrollableWidget::SkipScrollSetup(input);
+			}
+		}
+}
+
 CBTreeDirector::CBTreeDirector
 	(
-	std::istream&				projInput,
+	std::istream&			projInput,
 	const JFileVersion		projVers,
-	std::istream*				setInput,
+	std::istream*			setInput,
 	const JFileVersion		setVers,
-	std::istream*				symStream,
+	std::istream*			symStream,
 	const JFileVersion		origSymVers,
 	CBProjectDocument*		supervisor,
 	const JBoolean			subProject,
 	CBTreeStreamInFn*		streamInTreeFn,
-	const JCharacter*		windowTitleSuffix,
-	const JCharacter*		windowHelpName,
+	const JUtf8Byte*		windowTitleSuffixID,
+	const JUtf8Byte*		windowHelpName,
 	const JXPM&				windowIcon,
-	const JCharacter*		treeMenuTitle,
-	const JCharacter*		treeMenuItems,
-	const JCharacter*		treeMenuNamespace,
+	const JUtf8Byte*		treeMenuItems,
+	const JUtf8Byte*		treeMenuNamespace,
 	const JIndex			toolBarPrefID,
 	CBTreeInitToolBarFn*	initToolBarFn,
 	CBDirList*				dirList,
@@ -181,11 +193,11 @@ CBTreeDirector::CBTreeDirector
 	:
 	JXWindowDirector(supervisor),
 	JPrefObject(CBGetPrefsManager(), kCBTreeSetupID),
-	itsWindowTitleSuffix( windowTitleSuffix ),
+	itsWindowTitleSuffix( JGetString(windowTitleSuffixID) ),
 	itsWindowHelpName( windowHelpName )
 {
 	JXScrollbarSet* scrollbarSet =
-		CBTreeDirectorX(supervisor, windowIcon, treeMenuTitle, treeMenuItems,
+		CBTreeDirectorX(supervisor, windowIcon, treeMenuItems,
 						treeMenuNamespace, toolBarPrefID, initToolBarFn);
 
 	itsTree = streamInTreeFn(projInput, projVers,
@@ -195,7 +207,6 @@ CBTreeDirector::CBTreeDirector
 	std::istream* symInput             = (projVers <= 41 ? &projInput : symStream);
 	const JFileVersion symVers    = (projVers <= 41 ? projVers   : origSymVers);
 	const JBoolean useSetProjData = JI2B( setInput == nullptr || setVers < 71 );
-	const JBoolean useSymProjData = JI2B( symInput == nullptr || symVers < 71 );
 
 /* settings file */
 
@@ -254,11 +265,11 @@ CBTreeDirector::CBTreeDirector
 	JBoolean active = kJFalse;
 	if (31 <= projVers && projVers < 71)
 		{
-		projInput >> active;
+		projInput >> JBoolFromString(active);
 		}
 	if (!useSetProjData)	// overwrite
 		{
-		*setInput >> active;
+		*setInput >> JBoolFromString(active);
 		}
 	if (active && !subProject)
 		{
@@ -269,48 +280,11 @@ CBTreeDirector::CBTreeDirector
 
 	if (17 <= projVers && projVers < 71)
 		{
-		JSize fnListCount;
-		projInput >> fnListCount;
-
-		for (JIndex i=1; i<=fnListCount; i++)
-			{
-			JBoolean keep;
-			CBFnListDirector* dir =
-				jnew CBFnListDirector(projInput, projVers, &keep,
-									 this, itsFnListPrinter, itsTreeWidget);
-			assert( dir != nullptr );
-			if (useSymProjData && keep && !subProject)
-				{
-				dir->Activate();
-				}
-			else
-				{
-				dir->Close();
-				}
-			}
+		skipFnListDirector(projInput, projVers);
 		}
-
-	if (!useSymProjData)
+	else if (symInput != nullptr && 71 <= symVers && symVers < 88)
 		{
-		JSize fnListCount;
-		*symInput >> fnListCount;
-
-		for (JIndex i=1; i<=fnListCount; i++)
-			{
-			JBoolean keep;
-			CBFnListDirector* dir =
-				jnew CBFnListDirector(*symInput, symVers, &keep,
-									 this, itsFnListPrinter, itsTreeWidget);
-			assert( dir != nullptr );
-			if (keep && !subProject)
-				{
-				dir->Activate();
-				}
-			else
-				{
-				dir->Close();
-				}
-			}
+		skipFnListDirector(*symInput, symVers);
 		}
 }
 
@@ -321,9 +295,8 @@ CBTreeDirector::CBTreeDirectorX
 	(
 	CBProjectDocument*		doc,
 	const JXPM&				windowIcon,
-	const JCharacter*		treeMenuTitle,
-	const JCharacter*		treeMenuItems,
-	const JCharacter*		treeMenuNamespace,
+	const JUtf8Byte*		treeMenuItems,
+	const JUtf8Byte*		treeMenuNamespace,
 	const JIndex			toolBarPrefID,
 	CBTreeInitToolBarFn*	initToolBarFn
 	)
@@ -331,13 +304,10 @@ CBTreeDirector::CBTreeDirectorX
 	itsProjDoc = doc;
 	ListenTo(itsProjDoc);
 
-	itsFnBrowsers = jnew JPtrArray<CBFnListDirector>(JPtrArrayT::kForgetAll);
-	assert( itsFnBrowsers != nullptr );
-
 	itsShowInheritedFnsFlag = kJTrue;
 	itsFindFnDialog         = nullptr;
 
-	JXScrollbarSet* sbarSet = BuildWindow(windowIcon, treeMenuTitle, treeMenuItems,
+	JXScrollbarSet* sbarSet = BuildWindow(windowIcon, treeMenuItems,
 										  treeMenuNamespace,
 										  toolBarPrefID, initToolBarFn);
 
@@ -368,7 +338,6 @@ CBTreeDirector::~CBTreeDirector()
 	jdelete itsPSPrinter;
 	jdelete itsEPSPrinter;
 	jdelete itsFnListPrinter;
-	jdelete itsFnBrowsers;	// objects deleted by JXDirector
 }
 
 /******************************************************************************
@@ -379,23 +348,11 @@ CBTreeDirector::~CBTreeDirector()
 void
 CBTreeDirector::ReloadSetup
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers
 	)
 {
 	itsTree->ReloadSetup(input, vers);
-
-	// skip function browser data and reconnect the existing ones
-
-	JSize fnListCount;
-	input >> fnListCount;
-
-	for (JIndex i=1; i<=fnListCount; i++)
-		{
-		CBFnListDirector::SkipSetup(input);
-		}
-
-	ReconnectFunctionBrowsers();
 }
 
 /******************************************************************************
@@ -436,25 +393,9 @@ CBTreeDirector::StreamOut
 		*setOutput << ' ';
 		itsFnListPrinter->WriteXPSSetup(*setOutput);
 
-		*setOutput << ' ' << IsActive();
+		*setOutput << ' ' << JBoolToString(IsActive());
 
 		*setOutput << ' ';
-		}
-
-/* symbol file */
-
-	if (symOutput != nullptr)
-		{
-		const JSize fnListCount = itsFnBrowsers->GetElementCount();
-		*symOutput << ' ' << fnListCount;
-
-		for (JIndex i=1; i<=fnListCount; i++)
-			{
-			*symOutput << ' ';
-			(itsFnBrowsers->GetElement(i))->StreamOut(*symOutput);
-			}
-
-		*symOutput << ' ';
 		}
 }
 
@@ -497,12 +438,7 @@ CBTreeDirector::TreeUpdateFinished
 	const JArray<JFAID_t>& deadFileList
 	)
 {
-	const JBoolean ok = itsTree->UpdateFinished(deadFileList);
-	if (ok && !CBInUpdateThread())
-		{
-		ReconnectFunctionBrowsers();
-		}
-	return ok;
+	return itsTree->UpdateFinished(deadFileList);
 }
 
 /******************************************************************************
@@ -525,36 +461,6 @@ CBTreeDirector::AskForFunctionToFind()
 }
 
 /******************************************************************************
- CloseFunctionBrowsers
-
- ******************************************************************************/
-
-void
-CBTreeDirector::CloseFunctionBrowsers()
-{
-	const JSize count = itsFnBrowsers->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		(itsFnBrowsers->LastElement())->Close();
-		}
-}
-
-/******************************************************************************
- ReconnectFunctionBrowsers (private)
-
- ******************************************************************************/
-
-void
-CBTreeDirector::ReconnectFunctionBrowsers()
-{
-	const JSize count = itsFnBrowsers->GetElementCount();
-	for (JIndex i=count; i>=1; i--)
-		{
-		(itsFnBrowsers->GetElement(i))->Reconnect();
-		}
-}
-
-/******************************************************************************
  ViewFunctionList
 
  ******************************************************************************/
@@ -566,7 +472,7 @@ CBTreeDirector::ViewFunctionList
 	)
 {
 	const JSize count = itsFnBrowsers->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+/*	for (JIndex i=1; i<=count; i++)
 		{
 		CBFnListDirector* dir = itsFnBrowsers->GetElement(i);
 		if (dir->IsShowingClass(theClass))
@@ -581,6 +487,7 @@ CBTreeDirector::ViewFunctionList
 												 itsShowInheritedFnsFlag);
 	assert( dir != nullptr );
 	dir->Activate();
+*/
 }
 
 /******************************************************************************
@@ -602,9 +509,8 @@ JXScrollbarSet*
 CBTreeDirector::BuildWindow
 	(
 	const JXPM&				windowIcon,
-	const JCharacter*		treeMenuTitle,
-	const JCharacter*		treeMenuItems,
-	const JCharacter*		treeMenuNamespace,
+	const JUtf8Byte*		treeMenuItems,
+	const JUtf8Byte*		treeMenuNamespace,
 	const JIndex			toolBarPrefID,
 	CBTreeInitToolBarFn*	initToolBarFn
 	)
@@ -650,7 +556,7 @@ CBTreeDirector::BuildWindow
 		window->SetSize(w,h);
 		}
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CBTreeDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -669,12 +575,11 @@ CBTreeDirector::BuildWindow
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
 	assert( recentTextMenu != nullptr );
 
-	itsTreeMenu = menuBar->AppendTextMenu("tree");
-	itsTreeMenu->SetTitle(treeMenuTitle, nullptr, kJFalse);
+	itsTreeMenu = menuBar->AppendTextMenu(JGetString("TreeMenuTitle::CBTreeDirector"));
 	itsTreeMenu->SetMenuItems(treeMenuItems, treeMenuNamespace);
 	ListenTo(itsTreeMenu);
 
-	itsProjectMenu = menuBar->AppendTextMenu(kProjectMenuTitleStr);
+	itsProjectMenu = menuBar->AppendTextMenu(JGetString("ProjectMenuTitle::CBGlobal"));
 	itsProjectMenu->SetMenuItems(kProjectMenuStr, "CBTreeDirector");
 	itsProjectMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsProjectMenu);
@@ -694,12 +599,12 @@ CBTreeDirector::BuildWindow
 	ListenTo(itsCmdMenu);
 
 	CBDocumentMenu* fileListMenu =
-		jnew CBDocumentMenu(kFileListMenuTitleStr, menuBar,
+		jnew CBDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != nullptr );
 	menuBar->AppendMenu(fileListMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "CBTreeDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
@@ -1102,13 +1007,13 @@ CBTreeDirector::ReadPrefs
 		}
 
 	JSize fontSize;
-	input >> fontSize >> itsShowInheritedFnsFlag;
+	input >> fontSize >> JBoolFromString(itsShowInheritedFnsFlag);
 	itsTree->SetFontSize(fontSize);
 
 	if (vers >= 1)
 		{
 		JBoolean autoMinMILinks, drawMILinksOnTop;
-		input >> autoMinMILinks >> drawMILinksOnTop;
+		input >> JBoolFromString(autoMinMILinks) >> JBoolFromString(drawMILinksOnTop);
 		itsTree->ShouldAutoMinimizeMILinks(autoMinMILinks);
 		itsTree->ShouldDrawMILinksOnTop(drawMILinksOnTop);
 		}
@@ -1116,7 +1021,7 @@ CBTreeDirector::ReadPrefs
 	if (vers >= 2)
 		{
 		JBoolean raiseWhenSingleMatch;
-		input >> raiseWhenSingleMatch;
+		input >> JBoolFromString(raiseWhenSingleMatch);
 		itsTreeWidget->ShouldRaiseWindowWhenSingleMatch(raiseWhenSingleMatch);
 		}
 }
@@ -1136,10 +1041,10 @@ CBTreeDirector::WritePrefs
 	output << kCurrentPrefsVersion;
 
 	output << ' ' << itsTree->GetFontSize();
-	output << ' ' << itsShowInheritedFnsFlag;
-	output << ' ' << itsTree->WillAutoMinimizeMILinks();
-	output << ' ' << itsTree->WillDrawMILinksOnTop();
-	output << ' ' << itsTreeWidget->WillRaiseWindowWhenSingleMatch();
+	output << ' ' << JBoolToString(itsShowInheritedFnsFlag);
+	output << ' ' << JBoolToString(itsTree->WillAutoMinimizeMILinks());
+	output << ' ' << JBoolToString(itsTree->WillDrawMILinksOnTop());
+	output << ' ' << JBoolToString(itsTreeWidget->WillRaiseWindowWhenSingleMatch());
 }
 
 /******************************************************************************
@@ -1191,21 +1096,4 @@ CBTreeDirector::ReceiveWithFeedback
 		{
 		JXWindowDirector::ReceiveWithFeedback(sender, message);
 		}
-}
-
-/*****************************************************************************
- DirectorClosed (virtual protected)
-
-	Listen for function browsers that are closed.
-
- ******************************************************************************/
-
-void
-CBTreeDirector::DirectorClosed
-	(
-	JXDirector* theDirector
-	)
-{
-	itsFnBrowsers->Remove((CBFnListDirector*) theDirector);	// safe: doesn't call object
-	JXWindowDirector::DirectorClosed(theDirector);
 }

@@ -19,12 +19,9 @@
 
 #include "jcc_c_tree_window.xpm"
 
-static const JCharacter* kWindowTitleSuffix = " C++ Inheritance";
-
 // Tree menu
 
-static const JCharacter* kTreeMenuTitleStr = "Tree";
-static const JCharacter* kTreeMenuStr =
+static const JUtf8Byte* kTreeMenuStr =
 	"    Configure C preprocessor...                            %i" kCBConfigureCTreeCPPAction
 	"  | Add classes...                                         %i" kCBEditSearchPathsAction
 	"  | Update                 %k Meta-U                       %i" kCBUpdateClassTreeAction
@@ -63,9 +60,9 @@ CBCTreeDirector::CBCTreeDirector
 	CBProjectDocument* supervisor
 	)
 	:
-	CBTreeDirector(supervisor, NewCTree, kWindowTitleSuffix, "CBCTreeHelp",
-				   jcc_c_tree_window, kTreeMenuTitleStr, kTreeMenuStr,
-				   "CBCTreeDirector",
+	CBTreeDirector(supervisor, NewCTree, "WindowTitleSuffix::CBCTreeDirector",
+				   "CBCTreeHelp", jcc_c_tree_window,
+				   kTreeMenuStr, "CBCTreeDirector",
 				   kCBCTreeToolBarID, InitCTreeToolBar)
 {
 	CBCTreeDirectorX();
@@ -86,8 +83,9 @@ CBCTreeDirector::CBCTreeDirector
 	:
 	CBTreeDirector(projInput, projVers, setInput, setVers, symInput, symVers,
 				   supervisor, subProject, StreamInCTree,
-				   kWindowTitleSuffix, "CBCTreeHelp", jcc_c_tree_window,
-				   kTreeMenuTitleStr, kTreeMenuStr, "CBCTreeDirector",
+				   "WindowTitleSuffix::CBCTreeDirector",
+				   "CBCTreeHelp", jcc_c_tree_window,
+				   kTreeMenuStr, "CBCTreeDirector",
 				   kCBCTreeToolBarID, InitCTreeToolBar,
 				   dirList, kJTrue)
 {

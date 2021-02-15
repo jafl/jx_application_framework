@@ -24,7 +24,6 @@ class CBDirList;
 class CBClass;
 class CBTree;
 class CBTreeWidget;
-class CBFnListDirector;
 class CBEditTreePrefsDialog;
 class CBProjectDocument;
 class CBCommandMenu;
@@ -44,22 +43,20 @@ class CBTreeDirector : public JXWindowDirector, public JPrefObject
 public:
 
 	CBTreeDirector(CBProjectDocument* supervisor, CBTreeCreateFn* createTreeFn,
-				   const JString& windowTitleSuffix,
+				   const JUtf8Byte* windowTitleSuffixID,
 				   const JUtf8Byte* windowHelpName,
 				   const JXPM& windowIcon,
-				   const JString& treeMenuTitle, const JString& treeMenuItems,
-				   const JString& treeMenuNamespace,
+				   const JUtf8Byte* treeMenuItems, const JUtf8Byte* treeMenuNamespace,
 				   const JIndex toolBarPrefID, CBTreeInitToolBarFn* initToolBarFn);
 	CBTreeDirector(std::istream& projInput, const JFileVersion projVers,
 				   std::istream* setInput, const JFileVersion setVers,
 				   std::istream* symInput, const JFileVersion symVers,
 				   CBProjectDocument* supervisor, const JBoolean subProject,
 				   CBTreeStreamInFn* streamInTreeFn,
-				   const JString& windowTitleSuffix,
+				   const JUtf8Byte* windowTitleSuffixID,
 				   const JUtf8Byte* windowHelpName,
 				   const JXPM& windowIcon,
-				   const JString& treeMenuTitle, const JString& treeMenuItems,
-				   const JString& treeMenuNamespace,
+				   const JUtf8Byte* treeMenuItems, const JUtf8Byte* treeMenuNamespace,
 				   const JIndex toolBarPrefID, CBTreeInitToolBarFn* initToolBarFn,
 				   CBDirList* dirList, const JBoolean readCompileRunDialogs);
 
@@ -75,7 +72,6 @@ public:
 	void		ViewFunctionList(const CBClass* theClass);
 	JBoolean	HasFunctionBrowsers() const;
 	void		CloseFunctionBrowsers();
-	void		FnBrowserCreated(CBFnListDirector* dir);
 
 	virtual void	StreamOut(std::ostream& projOutput, std::ostream* setOutput,
 							  std::ostream* symOutput, const CBDirList* dirList) const;
@@ -108,7 +104,6 @@ protected:
 	virtual void	ReadPrefs(std::istream& input) override;
 	virtual void	WritePrefs(std::ostream& output) const override;
 
-	virtual void	DirectorClosed(JXDirector* theDirector) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 
@@ -117,13 +112,11 @@ private:
 	CBProjectDocument*	itsProjDoc;
 	CBTreeWidget*		itsTreeWidget;
 	CBTree*				itsTree;
+	JBoolean			itsShowInheritedFnsFlag;
 
 	JXPSPrinter*		itsPSPrinter;
 	JXEPSPrinter*		itsEPSPrinter;
 	JXPSPrinter*		itsFnListPrinter;		// shared by all CBFnListDirectors
-
-	JPtrArray<CBFnListDirector>*	itsFnBrowsers;			// contents not owned
-	JBoolean						itsShowInheritedFnsFlag;
 
 	JXTextMenu*		itsFileMenu;
 	JXTextMenu*		itsTreeMenu;
@@ -146,15 +139,14 @@ private:
 private:
 
 	JXScrollbarSet*	CBTreeDirectorX(CBProjectDocument* doc, const JXPM& windowIcon,
-									const JString& treeMenuTitle, const JString& treeMenuItems,
-									const JString& treeMenuNamespace,
+									const JUtf8Byte* treeMenuItems,
+									const JUtf8Byte* treeMenuNamespace,
 									const JIndex toolBarPrefID, CBTreeInitToolBarFn* initToolBarFn);
 	JXScrollbarSet*	BuildWindow(const JXPM& windowIcon,
-								const JString& treeMenuTitle, const JString& treeMenuItems,
-								const JString& treeMenuNamespace,
+								const JUtf8Byte* treeMenuItems,
+								const JUtf8Byte* treeMenuNamespace,
 								const JIndex toolBarPrefID, CBTreeInitToolBarFn* initToolBarFn);
 	void			AdjustWindowTitle();
-	void			ReconnectFunctionBrowsers();
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);
@@ -231,32 +223,6 @@ CBTreeDirector::ShowInheritedFns()
 	const
 {
 	return itsShowInheritedFnsFlag;
-}
-
-/******************************************************************************
- HasFunctionBrowsers
-
- ******************************************************************************/
-
-inline JBoolean
-CBTreeDirector::HasFunctionBrowsers()
-	const
-{
-	return !itsFnBrowsers->IsEmpty();
-}
-
-/******************************************************************************
- FnBrowserCreated
-
- ******************************************************************************/
-
-inline void
-CBTreeDirector::FnBrowserCreated
-	(
-	CBFnListDirector* dir
-	)
-{
-	itsFnBrowsers->Append(dir);
 }
 
 #endif

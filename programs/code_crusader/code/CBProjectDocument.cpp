@@ -1558,7 +1558,7 @@ CBProjectDocument::BuildWindow
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
 	assert( recentTextMenu != nullptr );
 
-	itsProjectMenu = menuBar->AppendTextMenu(JGetString("ProjectMenuTitle::CBProjectDocument"));
+	itsProjectMenu = menuBar->AppendTextMenu(JGetString("ProjectMenuTitle::CBGlobal"));
 	itsProjectMenu->SetMenuItems(kProjectMenuStr, "CBProjectDocument");
 	itsProjectMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsProjectMenu);

@@ -24,7 +24,6 @@
 #include <JXWebBrowser.h>
 #include <JXChooseSaveFile.h>
 #include <JXSearchTextDialog.h>
-#include <JXCloseDirectorTask.h>
 #include <JRegex.h>
 #include <JSubstitute.h>
 #include <JLatentPG.h>
