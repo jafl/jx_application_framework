@@ -90,7 +90,7 @@ TextEditor::SetBoundsWidth
 void
 TextEditor::Draw()
 {
-	TestPainter p;
+	TestPainter p(jnew TestFontManager);
 	TEDraw(p, JRect(0,0,1000000,1000000));
 }
 

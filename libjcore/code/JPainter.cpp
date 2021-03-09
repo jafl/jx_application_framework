@@ -54,7 +54,8 @@
 #include "JPainter.h"
 #include "JFontManager.h"
 #include "JColorManager.h"
-#include "JString.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
 #include "jGlobals.h"
 #include "jAssert.h"
 
@@ -261,7 +262,108 @@ JPainter::GetStringWidth
 	)
 	const
 {
-	return itsFont.GetStringWidth(itsFontManager, str);
+	if (str.IsEmpty())
+		{
+		return 0;
+		}
+
+	JSize width = 0;
+
+	JStringIterator iter(str);
+	JUtf8Character c;
+	JFont f = itsFont;
+
+	iter.BeginMatch();
+	while (iter.Next(&c))
+		{
+		if (f.SubstituteToDisplayGlyph(itsFontManager, c))
+			{
+			iter.SkipPrev();
+			const JStringMatch& m = iter.FinishMatch();
+			if (!m.IsEmpty())
+				{
+				width += itsFont.GetStringWidth(itsFontManager, m.GetString());
+				}
+
+			width += f.GetCharWidth(itsFontManager, c);
+			iter.SkipNext();
+			iter.BeginMatch();
+			f = itsFont;
+			}
+		}
+
+	const JStringMatch& m = iter.FinishMatch();
+	if (!m.IsEmpty())
+		{
+		width += itsFont.GetStringWidth(itsFontManager, m.GetString());
+		}
+
+	return width;
+}
+
+/******************************************************************************
+ String
+
+ ******************************************************************************/
+
+void
+JPainter::String
+	(
+	const JCoordinate	left,
+	const JCoordinate	top,
+	const JString&		str,
+	const JCoordinate	width,
+	const HAlignment	hAlign,
+	const JCoordinate	height,
+	const VAlignment	vAlign
+	)
+{
+	if (str.IsEmpty())
+		{
+		return;
+		}
+
+	const JFont origFont = itsFont;
+
+	JCoordinate x = left;
+	JCoordinate y = top;
+	AlignString(&x,&y, str, width, hAlign, height, vAlign);
+
+	JStringIterator iter(str);
+	JUtf8Character c;
+	JFont f = origFont;
+
+	iter.BeginMatch();
+	while (iter.Next(&c))
+		{
+		if (f.SubstituteToDisplayGlyph(itsFontManager, c))
+			{
+			iter.SkipPrev();
+			const JStringMatch& m = iter.FinishMatch();
+			if (!m.IsEmpty())
+				{
+				const JString& s = m.GetString();
+				StringNoSubstitutions(x, y, s);
+				x += itsFont.GetStringWidth(itsFontManager, s);
+				}
+
+			SetFont(f);
+			JString s(c);
+			StringNoSubstitutions(x, y, s);
+			x += f.GetCharWidth(itsFontManager, c);
+
+			iter.SkipNext();
+			iter.BeginMatch();
+			f = origFont;
+			SetFont(origFont);
+			}
+		}
+
+	const JStringMatch& m = iter.FinishMatch();
+	if (!m.IsEmpty())
+		{
+		StringNoSubstitutions(x, y, m.GetString());
+		}
 }
 
 /******************************************************************************

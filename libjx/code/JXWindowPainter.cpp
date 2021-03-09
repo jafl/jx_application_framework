@@ -355,18 +355,29 @@ JXWindowPainter::SetDashList
  ******************************************************************************/
 
 void
-JXWindowPainter::String
+JXWindowPainter::StringNoSubstitutions
 	(
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JString&		str,
-	const JCoordinate	width,
-	const HAlignment	hAlign,
-	const JCoordinate	height,
-	const VAlignment	vAlign
+	const JString&		str
 	)
 {
-	String(left, top, str, 0, width, hAlign, height, vAlign);
+	if (str.IsEmpty())
+		{
+		return;
+		}
+
+	const JFont& font = GetFont();
+	itsGC->SetFont(font.GetID());
+	itsGC->SetDrawingColor(font.GetStyle().color);
+
+	JCoordinate ascent, descent;
+	GetLineHeight(&ascent, &descent);
+
+	const JPoint& o = GetOrigin();
+
+	itsGC->DrawString(itsDrawable, GetFontDrawable(), o.x + left, o.y + top + ascent, str);
+	StyleString(str, left, top + ascent, ascent, descent);
 }
 
 void
@@ -387,44 +398,45 @@ JXWindowPainter::String
 		return;
 		}
 
-	const JFont& font = GetFont();
-	itsGC->SetFont(font.GetID());
-	itsGC->SetDrawingColor(font.GetStyle().color);
+	JCoordinate x = left;
+	JCoordinate y = top;
+	AlignString(&x,&y, str, width, hAlign, height, vAlign);
 
-	JCoordinate ascent, descent;
-	GetLineHeight(&ascent, &descent);
+	JPainter::String(x, y, str);
 
-	const JPoint& o = GetOrigin();
-	JCoordinate x   = o.x + left;
-	JCoordinate y   = o.y + top + ascent;
-	const JSize sw  = AlignString(&x,&y, str, width, hAlign, height, vAlign);
-
-	itsGC->DrawString(itsDrawable, GetFontDrawable(), x,y, str);
 	if (uIndex > 0)
 		{
+		const JPoint& o = GetOrigin();
+
+		JCoordinate ascent, descent;
+		GetLineHeight(&ascent, &descent);
+
+		x += o.x;
+		y += o.y + ascent;
+
 		JStringIterator iter(str);
 		iter.BeginMatch();
 		iter.MoveTo(kJIteratorStartBefore, uIndex);
 
-		JCoordinate xu = x;
 		if (uIndex > 1)
 			{
-			xu += font.GetStringWidth(GetFontManager(), iter.FinishMatch().GetString());
+			x += GetStringWidth(iter.FinishMatch().GetString());
 			}
 
 		JUtf8Character c;
 		iter.Next(&c);
+
+		JFont font = GetFont();
+		font.SubstituteToDisplayGlyph(GetFontManager(), c);
 		const JCoordinate w = font.GetCharWidth(GetFontManager(), c);
 
 		const JCoordinate lineWidth = font.GetUnderlineThickness();
-		const JCoordinate yu        = y + JLFloor(1.5 * lineWidth);
+		y += JLFloor(1.5 * lineWidth);
 
 		itsGC->SetLineWidth(lineWidth);
 		itsGC->DrawDashedLines(kJFalse);
-		itsGC->DrawLine(itsDrawable, xu, yu, xu+w-1, yu);
+		itsGC->DrawLine(itsDrawable, x, y, x+w-1, y);
 		}
-
-	StyleString(str, x-o.x, y-o.y, ascent, descent, sw);
 }
 
 void
@@ -461,7 +473,7 @@ JXWindowPainter::String
 
 	if (-45.0 < angle && angle <= 45.0)
 		{
-		String(left, top, str, width, hAlign, height, vAlign);
+		JPainter::String(left, top, str, width, hAlign, height, vAlign);
 		return;
 		}
 
@@ -546,7 +558,7 @@ JXWindowPainter::String
 	{
 	JXImagePainter* p = tempImage->CreatePainter();
 	p->SetFont(GetFont());
-	p->String(0,0, str);
+	p->JPainter::String(0,0, str);
 	jdelete p;
 	}
 
@@ -602,8 +614,7 @@ JXWindowPainter::StyleString
 	const JCoordinate	x,
 	const JCoordinate	y,
 	const JCoordinate	ascent,
-	const JCoordinate	descent,
-	const JSize			w
+	const JCoordinate	descent
 	)
 {
 	const JFontStyle& fontStyle = GetFont().GetStyle();
@@ -618,7 +629,7 @@ JXWindowPainter::StyleString
 		SetPenColor(fontStyle.color);
 		DrawDashedLines(kJFalse);
 
-		const JSize strWidth = w > 0 ? w : GetStringWidth(str);
+		const JSize strWidth = GetFont().GetStringWidth(GetFontManager(), str);
 
 		if (fontStyle.underlineCount > 0)
 			{

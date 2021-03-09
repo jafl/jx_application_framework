@@ -75,20 +75,16 @@ JXImagePainter::~JXImagePainter()
  ******************************************************************************/
 
 void
-JXImagePainter::String
+JXImagePainter::StringNoSubstitutions
 	(
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JString&		str,
-	const JCoordinate	width,
-	const HAlignment	hAlign,
-	const JCoordinate	height,
-	const VAlignment	vAlign
+	const JString&		str
 	)
 {
 	if (PrepareXDraw())
 		{
-		JXWindowPainter::String(left, top, str, width, hAlign, height, vAlign);
+		JXWindowPainter::StringNoSubstitutions(left, top, str);
 		}
 }
 

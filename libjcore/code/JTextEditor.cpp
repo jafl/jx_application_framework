@@ -1860,14 +1860,14 @@ JTextEditor::TEDrawLine
 			p.GetLineHeight(&ascent, &descent);
 
 			const JString s = m.GetString();
-			p.String(left, top + geom.ascent - ascent, s);
+			p.StringNoSubstitutions(left, top + geom.ascent - ascent, s);
 
 			// we only care if there is more text on the line
 
 			startChar += m.GetCharacterCount();
 			if (startChar <= endChar || itsDrawWhitespaceFlag)
 				{
-				left += p.GetStringWidth(s);
+				left += f.GetStringWidth(itsFontManager, s);	// no substitutions
 				}
 			}
 

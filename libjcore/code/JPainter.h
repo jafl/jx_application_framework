@@ -100,12 +100,12 @@ public:
 
 	JSize	GetStringWidth(const JString& str) const;
 
-	virtual void	String(const JCoordinate left, const JCoordinate top,
+	void			String(const JCoordinate left, const JCoordinate top,
 						   const JString& str,
 						   const JCoordinate width = 0,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const JCoordinate height = 0,
-						   const VAlignment vAlign = kVAlignTop) = 0;
+						   const VAlignment vAlign = kVAlignTop);
 	void			String(const JPoint& topLeft, const JString& str,
 						   const JCoordinate width = 0,
 						   const HAlignment hAlign = kHAlignLeft,
@@ -129,6 +129,10 @@ public:
 						   const JString& str,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const VAlignment vAlign = kVAlignTop);
+
+	virtual void	StringNoSubstitutions(
+						const JCoordinate left, const JCoordinate top,
+						const JString& str) = 0;
 
 	// drawing
 
@@ -197,8 +201,7 @@ private:
 	JArray<JSize>*	itsDashList;			// can be nullptr
 
 	JFontManager*	itsFontManager;
-
-	JFont	itsFont;
+	JFont			itsFont;
 
 	JRect			itsDefClipRect;		// global coords, so origin can change
 	const JColorID	itsDefaultColor;

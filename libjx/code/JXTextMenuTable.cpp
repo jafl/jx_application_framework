@@ -18,8 +18,6 @@
 #include "JXDisplay.h"
 #include <jAssert.h>
 
-static const JString kOSXSymbolFontName("Apple Symbols", kJFalse);
-
 /******************************************************************************
  Constructor
 
@@ -220,12 +218,6 @@ JXTextMenuTable::AdjustFont
 	else if (colIndex == kSubmenuColumnIndex)
 		{
 		font->ClearStyle();
-
-		if (display->IsOSX())
-			{
-			font->SetName(kOSXSymbolFontName);
-			font->SetSize(font->GetSize()+2);
-			}
 		}
 }
 

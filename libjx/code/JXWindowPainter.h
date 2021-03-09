@@ -44,12 +44,9 @@ public:
 	virtual JRect	SetClipRect(const JRect& r) override;
 	virtual void	SetDashList(const JArray<JSize>& dashList, const JSize dashOffset = 0) override;
 
-	virtual void	String(const JCoordinate left, const JCoordinate top,
-						   const JString& str,
-						   const JCoordinate width = 0,
-						   const HAlignment hAlign = kHAlignLeft,
-						   const JCoordinate height = 0,
-						   const VAlignment vAlign = kVAlignTop) override;
+	virtual void	StringNoSubstitutions(
+						const JCoordinate left, const JCoordinate top,
+						const JString& str) override;
 	virtual void	String(const JFloat angle, const JCoordinate left,
 						   const JCoordinate top, const JString& str,
 						   const JCoordinate width = 0,
@@ -113,8 +110,7 @@ private:
 
 	void	StyleString(const JString& str,
 						const JCoordinate x, const JCoordinate y,
-						const JCoordinate ascent, const JCoordinate descent,
-						const JSize w);
+						const JCoordinate ascent, const JCoordinate descent);
 
 	void	CalcClipRegion(const Region region);
 

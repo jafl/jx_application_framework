@@ -85,6 +85,13 @@ literal: ${LIB_DEPS}
 ${CODEDIR}/test_JMessageProtocol
 literal: ${LIB_DEPS}
 
+@test_JPainter
+${CODEDIR}/test_JPainter
+${CODEDIR}/TestPainter
+${CODEDIR}/TestFontManager
+${CODEDIR}/TestFontManagerMissingGlyphs
+literal: ${LIB_DEPS}
+
 @test_JPipe
 ${CODEDIR}/test_JPipe
 literal: ${LIB_DEPS}

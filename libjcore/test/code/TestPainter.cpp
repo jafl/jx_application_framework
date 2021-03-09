@@ -16,9 +16,12 @@
 
  ******************************************************************************/
 
-TestPainter::TestPainter()
+TestPainter::TestPainter
+	(
+	JFontManager* fontMgr
+	)
 	:
-	JPainter(jnew TestFontManager, JRect())
+	JPainter(fontMgr, JRect())
 {
 }
 
@@ -77,31 +80,11 @@ TestPainter::SetDashList
  ******************************************************************************/
 
 void
-TestPainter::String
+TestPainter::StringNoSubstitutions
 	(
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JString&		str,
-	const JCoordinate	width,
-	const HAlignment	hAlign,
-	const JCoordinate	height,
-	const VAlignment	vAlign
-	)
-{
-	std::cout << str << std::endl;
-}
-
-void
-TestPainter::String
-	(
-	const JCoordinate	left,
-	const JCoordinate	top,
-	const JString&		str,
-	const JIndex		uIndex,
-	const JCoordinate	width,
-	const HAlignment	hAlign,
-	const JCoordinate	height,
-	const VAlignment	vAlign
+	const JString&		str
 	)
 {
 	std::cout << str << std::endl;

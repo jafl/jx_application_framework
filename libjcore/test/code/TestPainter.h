@@ -14,7 +14,7 @@ class TestPainter : public JPainter
 {
 public:
 
-	TestPainter();
+	TestPainter(JFontManager* fontMgr);
 
 	virtual ~TestPainter();
 
@@ -23,12 +23,9 @@ public:
 	virtual JRect	SetClipRect(const JRect& r) override;
 	virtual void	SetDashList(const JArray<JSize>& dashList, const JSize dashOffset = 0) override;
 
-	virtual void	String(const JCoordinate left, const JCoordinate top,
-						   const JString& str,
-						   const JCoordinate width = 0,
-						   const HAlignment hAlign = kHAlignLeft,
-						   const JCoordinate height = 0,
-						   const VAlignment vAlign = kVAlignTop) override;
+	virtual void	StringNoSubstitutions(
+						const JCoordinate left, const JCoordinate top,
+						const JString& str) override;
 	virtual void	String(const JFloat angle, const JCoordinate left,
 						   const JCoordinate top, const JString& str,
 						   const JCoordinate width = 0,
@@ -55,15 +52,6 @@ public:
 							const JPolygon& poly) override;
 
 	virtual void	Image(const JImage& image, const JRect& srcRect, const JRect& destRect) override;
-
-	// this is virtual so JXImagePainter can override it correctly
-
-	virtual void	String(const JCoordinate left, const JCoordinate top,
-						   const JString& str, const JIndex uIndex,
-						   const JCoordinate width = 0,
-						   const HAlignment hAlign = kHAlignLeft,
-						   const JCoordinate height = 0,
-						   const VAlignment vAlign = kVAlignTop);
 
 private:
 

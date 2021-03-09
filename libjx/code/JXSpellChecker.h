@@ -15,7 +15,7 @@
 
 class JXTEBase;
 
-class JXSpellChecker : public JSpellChecker, JXSharedPrefObject
+class JXSpellChecker : public JSpellChecker, public JXSharedPrefObject
 {
 public:
 

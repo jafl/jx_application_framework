@@ -529,24 +529,17 @@ JPSPrinter::SetDashList
  ******************************************************************************/
 
 void
-JPSPrinter::String
+JPSPrinter::StringNoSubstitutions
 	(
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JString&		str,
-	const JCoordinate	width,
-	const HAlignment	hAlign,
-	const JCoordinate	height,
-	const VAlignment	vAlign
+	const JString&		str
 	)
 {
 	JCoordinate ascent, descent;
 	GetLineHeight(&ascent, &descent);
 
-	JCoordinate dx = 0, dy = 0;
-	AlignString(&dx,&dy, str, width, hAlign, height, vAlign);
-
-	PSString(GetFont(), ascent, dx,dy, 0, left,top, str);
+	PSString(GetFont(), ascent, 0,0, 0, left,top, str);
 }
 
 void
