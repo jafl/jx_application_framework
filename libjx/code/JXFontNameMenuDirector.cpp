@@ -1,5 +1,5 @@
 /******************************************************************************
- JXStyleMenuDirector.cpp
+ JXFontNameMenuDirector.cpp
 
 	BASE CLASS = JXTextMenuDirector
 
@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "JXStyleMenuDirector.h"
-#include "JXStyleMenu.h"
-#include "JXStyleMenuTable.h"
+#include "JXFontNameMenuDirector.h"
+#include "JXFontNameMenu.h"
+#include "JXFontNameMenuTable.h"
 #include "JXWindow.h"
 #include <jAssert.h>
 
@@ -18,10 +18,10 @@
 
  ******************************************************************************/
 
-JXStyleMenuDirector::JXStyleMenuDirector
+JXFontNameMenuDirector::JXFontNameMenuDirector
 	(
 	JXDirector*		supervisor,
-	JXStyleMenu*	menu,
+	JXFontNameMenu*	menu,
 	JXTextMenuData*	menuData
 	)
 	:
@@ -35,7 +35,7 @@ JXStyleMenuDirector::JXStyleMenuDirector
 
  ******************************************************************************/
 
-JXStyleMenuDirector::~JXStyleMenuDirector()
+JXFontNameMenuDirector::~JXFontNameMenuDirector()
 {
 }
 
@@ -45,12 +45,12 @@ JXStyleMenuDirector::~JXStyleMenuDirector()
  ******************************************************************************/
 
 JXMenuTable*
-JXStyleMenuDirector::CreateMenuTable()
+JXFontNameMenuDirector::CreateMenuTable()
 {
-	JXStyleMenuTable* table =
-		jnew JXStyleMenuTable(itsMenu, GetMenuData(), GetWindow(),
-							 JXWidget::kHElastic, JXWidget::kVElastic,
-							 0,0, 10,10);
+	JXFontNameMenuTable* table =
+		jnew JXFontNameMenuTable(itsMenu, GetMenuData(), GetWindow(),
+								 JXWidget::kHElastic, JXWidget::kVElastic,
+								 0,0, 10,10);
 	assert( table != nullptr );
 	return table;
 }

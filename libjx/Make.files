@@ -86,6 +86,10 @@
 .cpp ./code/JXImageMenuData
 .cpp ./code/JXImageMenuDirector
 .cpp ./code/JXImageMenuTable
+.cpp ./code/JXFontNameMenu
+.cpp ./code/JXFontNameMenuDirector
+.cpp ./code/JXFontNameMenuTable
+.cpp ./code/JXFontSizeMenu
 .cpp ./code/JXStyleMenu
 .cpp ./code/JXStyleMenuDirector
 .cpp ./code/JXStyleMenuTable
@@ -112,8 +116,6 @@
 .cpp ./code/JXRegexReplaceInput
 .cpp ./code/JXTextEditorSet
 .cpp ./code/JXTextEditor
-.cpp ./code/JXFontNameMenu
-.cpp ./code/JXFontSizeMenu
 .cpp ./code/JXTEStyleMenu
 .cpp ./code/JXChooseMonoFont
 .cpp ./code/JXChooseFontSizeDialog

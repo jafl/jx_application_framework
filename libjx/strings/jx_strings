@@ -479,3 +479,7 @@ WindowTitle::JXMacWinPrefsDialog	"Macintosh / Windows / X Preferences"
 # JXImage
 
 JXPMError	"$msg ($code)"
+
+# JXFontNameMenu
+
+Hint::JXFontNameMenu	"To find a font, type the first letter of its name"

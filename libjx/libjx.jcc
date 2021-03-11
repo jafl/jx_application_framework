@@ -352,6 +352,22 @@ T
 F
 "./code/JXImageMenuTable.cpp"
 T
+2 "JXFontNameMenu.cpp"
+F
+"./code/JXFontNameMenu.cpp"
+T
+2 "JXFontNameMenuDirector.cpp"
+F
+"./code/JXFontNameMenuDirector.cpp"
+T
+2 "JXFontNameMenuTable.cpp"
+F
+"./code/JXFontNameMenuTable.cpp"
+T
+2 "JXFontSizeMenu.cpp"
+F
+"./code/JXFontSizeMenu.cpp"
+T
 2 "JXStyleMenu.cpp"
 F
 "./code/JXStyleMenu.cpp"
@@ -464,14 +480,6 @@ T
 2 "JXTextEditor.cpp"
 F
 "./code/JXTextEditor.cpp"
-T
-2 "JXFontNameMenu.cpp"
-F
-"./code/JXFontNameMenu.cpp"
-T
-2 "JXFontSizeMenu.cpp"
-F
-"./code/JXFontSizeMenu.cpp"
 T
 2 "JXTEStyleMenu.cpp"
 F

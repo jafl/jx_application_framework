@@ -1,5 +1,5 @@
 /******************************************************************************
- JXStyleMenuTable.cpp
+ JXFontNameMenuTable.cpp
 
 	BASE CLASS = JXTextMenuTable
 
@@ -7,9 +7,8 @@
 
  ******************************************************************************/
 
-#include "JXStyleMenuTable.h"
-#include "JXStyleMenu.h"
-#include <JPainter.h>
+#include "JXFontNameMenuTable.h"
+#include "JXFontNameMenu.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -17,9 +16,9 @@
 
  ******************************************************************************/
 
-JXStyleMenuTable::JXStyleMenuTable
+JXFontNameMenuTable::JXFontNameMenuTable
 	(
-	JXStyleMenu*		menu,
+	JXFontNameMenu*		menu,
 	JXTextMenuData*		data,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -40,43 +39,40 @@ JXStyleMenuTable::JXStyleMenuTable
 
  ******************************************************************************/
 
-JXStyleMenuTable::~JXStyleMenuTable()
+JXFontNameMenuTable::~JXFontNameMenuTable()
 {
 }
 
 /******************************************************************************
- TableDrawCell (virtual protected)
+ HandleKeyPress (virtual)
 
  ******************************************************************************/
 
 void
-JXStyleMenuTable::TableDrawCell
+JXFontNameMenuTable::HandleKeyPress
 	(
-	JPainter&		p,
-	const JPoint&	cell,
-	const JRect&	origRect
+	const JUtf8Character&	c,
+	const int				keySym,
+	const JXKeyModifiers&	modifiers
 	)
 {
-	if (cell.x == kTextColumnIndex && cell.y >= JXStyleMenu::kFirstColorCmd)
+	if (!c.IsAlnum())
 		{
-		JRect rect = AdjustRectForSeparator(cell.y, origRect);
-
-		JRect colorRect = rect;
-		colorRect.Shrink(0, kHilightBorderWidth);
-		colorRect.right = colorRect.left + colorRect.height();
-
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
-		p.SetPenColor(itsMenu->IndexToColor(cell.y));
-		p.Rect(colorRect);
-		p.SetFilling(origFill);
-
-		rect = origRect;
-		rect.left += colorRect.width() + kHilightBorderWidth;
-		JXTextMenuTable::TableDrawCell(p, cell, rect);
+		JXTextMenuTable::HandleKeyPress(c, keySym, modifiers);
+		return;
 		}
-	else
+
+	const JString s1(c);
+	JString s2;
+
+	const JSize count = itsMenu->GetItemCount();
+	for (JIndex i=itsMenu->GetHistoryCount()+1; i<=count; i++)
 		{
-		JXTextMenuTable::TableDrawCell(p, cell, origRect);
+		s2.Set(itsMenu->GetItemText(i).GetFirstCharacter());
+		if (JString::Compare(s1, s2, kJFalse) == 0)
+			{
+			ScrollTo(GetCellRect(JPoint(1,i-1)).topLeft());
+			break;
+			}
 		}
 }

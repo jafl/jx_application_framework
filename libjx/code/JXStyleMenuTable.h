@@ -31,7 +31,7 @@ protected:
 
 private:
 
-	JXStyleMenu*	itsStyleMenu;	// it owns us
+	JXStyleMenu*	itsMenu;	// it owns us
 
 private:
 

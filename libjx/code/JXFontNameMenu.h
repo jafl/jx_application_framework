@@ -35,7 +35,11 @@ public:
 
 #pragma GCC diagnostic pop
 
+	JSize	GetHistoryCount() const;
+
 protected:
+
+	virtual JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -44,9 +48,13 @@ private:
 	JIndex		itsFontIndex;
 	JBoolean	itsBroadcastNameChangeFlag;
 
+	JPtrArray<JString>*	itsNameHistory;
+
 private:
 
 	void	BuildMenu();
+	void	UpdateMenu();
+	void	UpdateHistory();
 
 	// not allowed
 
@@ -94,6 +102,18 @@ JXFontNameMenu::GetFontName()
 	const
 {
 	return GetItemText(itsFontIndex);
+}
+
+/******************************************************************************
+ GetHistoryCount
+
+ ******************************************************************************/
+
+inline JSize
+JXFontNameMenu::GetHistoryCount()
+	const
+{
+	return itsNameHistory->GetElementCount();
 }
 
 #endif

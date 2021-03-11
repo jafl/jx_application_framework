@@ -14,10 +14,13 @@
  ******************************************************************************/
 
 #include "JXFontNameMenu.h"
+#include "JXFontNameMenuDirector.h"
 #include "JXFontManager.h"
 #include "JXDisplay.h"
 #include "jXGlobals.h"
 #include <jAssert.h>
+
+const JSize kHistoryCount = 5;
 
 // JBroadcaster message types
 
@@ -67,6 +70,7 @@ JXFontNameMenu::JXFontNameMenu
 
 JXFontNameMenu::~JXFontNameMenu()
 {
+	jdelete itsNameHistory;
 }
 
 /******************************************************************************
@@ -80,9 +84,21 @@ JXFontNameMenu::SetFontName
 	const JString& name
 	)
 {
+	JBoolean foundSeparator = kJFalse;
+
 	const JIndex count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 		{
+		if (HasSeparatorAfter(i))
+			{
+			foundSeparator = kJTrue;
+			continue;
+			}
+		else if (!foundSeparator)
+			{
+			continue;
+			}
+
 		if (GetItemText(i) == name)
 			{
 			const JIndex origFontIndex = itsFontIndex;
@@ -109,7 +125,14 @@ JXFontNameMenu::SetFontName
 void
 JXFontNameMenu::BuildMenu()
 {
-	RemoveAllItems();
+	SetHint(JGetString("Hint::JXFontNameMenu"));
+
+	itsNameHistory = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsNameHistory != nullptr );
+	itsNameHistory->Append(JFontManager::GetDefaultFontName());
+
+	AppendItem(JFontManager::GetDefaultFontName(), kRadioType);
+	ShowSeparatorAfter(1);
 
 	JXFontManager* fontManager = GetDisplay()->GetXFontManager();
 
@@ -123,16 +146,33 @@ JXFontNameMenu::BuildMenu()
 		{
 		const JString* fontName = fontNames.GetElement(i);
 		AppendItem(*fontName, kRadioType);
-		SetItemFontName(i, *fontName);
+		SetItemFontName(i+1, *fontName);
 
-		fontManager->Preload(GetItemFont(i).GetID());
+		fontManager->Preload(GetItemFont(i+1).GetID());
 		}
 
 	SetUpdateAction(kDisableNone);
 
-	itsFontIndex = 1;
+	itsFontIndex = 0;
 	SetFontName(JFontManager::GetDefaultFontName());
 	ListenTo(this);
+}
+
+/******************************************************************************
+ CreateMenuWindow (virtual protected)
+
+ ******************************************************************************/
+
+JXMenuDirector*
+JXFontNameMenu::CreateMenuWindow
+	(
+	JXWindowDirector* supervisor
+	)
+{
+	JXFontNameMenuDirector* dir =
+		jnew JXFontNameMenuDirector(supervisor, this, GetTextMenuData());
+	assert( dir != nullptr );
+	return dir;
 }
 
 /******************************************************************************
@@ -150,8 +190,7 @@ JXFontNameMenu::Receive
 	if (sender == this && message.Is(JXMenu::kNeedsUpdate))
 		{
 		itsBroadcastNameChangeFlag = kJFalse;
-		Broadcast(NameNeedsUpdate());
-		CheckItem(itsFontIndex);
+		UpdateMenu();
 		itsBroadcastNameChangeFlag = kJTrue;
 		}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
@@ -160,12 +199,78 @@ JXFontNameMenu::Receive
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsFontIndex = selection->GetIndex();
+		UpdateHistory();
 		Broadcast(NameChanged());
 		}
 
 	else
 		{
 		JXTextMenu::Receive(sender, message);
+		}
+}
+
+/******************************************************************************
+ UpdateMenu (private)
+
+ ******************************************************************************/
+
+void
+JXFontNameMenu::UpdateMenu()
+{
+	Broadcast(NameNeedsUpdate());	// before removing history items
+
+	while (GetItemCount() > 0)
+		{
+		const JBoolean hadSeparator = HasSeparatorAfter(1);
+		RemoveItem(1);
+		itsFontIndex--;
+		if (hadSeparator)
+			{
+			break;
+			}
+		}
+
+	UpdateHistory();
+
+	const JSize count = itsNameHistory->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		const JString* s = itsNameHistory->GetElement(i);
+		InsertItem(i, *s, kRadioType);
+		SetItemFontName(i, *s);
+		itsFontIndex++;
+		}
+
+	ShowSeparatorAfter(count);
+
+	CheckItem(1);
+	CheckItem(itsFontIndex);
+}
+
+/******************************************************************************
+ UpdateHistory (private)
+
+ ******************************************************************************/
+
+void
+JXFontNameMenu::UpdateHistory()
+{
+	const JString& s = GetItemText(itsFontIndex);
+
+	for (JIndex i=1; i<=itsNameHistory->GetElementCount(); i++)
+		{
+		if (s == *itsNameHistory->GetElement(i))
+			{
+			itsNameHistory->MoveElementToIndex(i, 1);
+			return;
+			}
+		}
+
+	itsNameHistory->InsertAtIndex(1, s);
+
+	while (itsNameHistory->GetElementCount() > kHistoryCount)
+		{
+		itsNameHistory->DeleteElement(itsNameHistory->GetElementCount());
 		}
 }
 

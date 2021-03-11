@@ -94,7 +94,7 @@ public:
 	void	Set(const JUtf8Byte* str, const JUtf8ByteRange& range);
 	void	Set(const std::string& str);
 	void	Set(const std::string& str, const JUtf8ByteRange& range);
-	void	Set(const JUtf8Character& str);
+	void	Set(const JUtf8Character& c);
 
 	void	Clear();
 
