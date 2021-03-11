@@ -56,7 +56,7 @@ init_tarball:
 	@mkdir -p ${PKG_PATH}/lib ${PKG_PATH}/docs_HTML
 	@if [[ -e README ]];    then ln -s ../README    ${PKG_PATH}/README;    fi
 	@if [[ -e README.md ]]; then ln -s ../README.md ${PKG_PATH}/README.md; fi
-	@ln -s ../COPYING               ${PKG_PATH}/COPYING
+	@ln -s ../../../COPYING         ${PKG_PATH}/COPYING
 	@ln -s ../release/pkg/install   ${PKG_PATH}/install
 	@ln -s ../release/pkg/uninstall ${PKG_PATH}/uninstall
 	@ln -s ../release/pkg/desktop   ${PKG_PATH}/desktop
