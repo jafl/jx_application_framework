@@ -852,6 +852,21 @@ static const JXTMKeySymConversion kNMKeyConv[] =
 	{"page down", XK_Page_Down}
 };
 
+struct JXTMNameConversion
+{
+	const JUtf8Byte* name;
+	const JUtf8Byte* str;
+};
+
+static const JXTMNameConversion kNMNameConv[] =
+{
+	{"dash",   "\xE2\x80\x93"},
+	{"minus",  "\xE2\x80\x93"},
+	{"plus",   "+"},
+	{"period", "."},
+	{"comma",  ","}
+};
+
 JBoolean
 JXTextMenuData::ParseNMShortcut
 	(
@@ -928,7 +943,7 @@ JXTextMenuData::ParseNMShortcut
 
 		if (modifiers->control())
 			{
-			str->Append("\xE2\x8C\x83");
+			str->Append("^");	// \xE2\x8C\x83
 			}
 
 		if (modifiers->meta())
@@ -936,7 +951,21 @@ JXTextMenuData::ParseNMShortcut
 			str->Append("\xE2\x8C\x98");
 			}
 
-		str->Append(keyStr);
+		JBoolean found = kJFalse;
+		for (const JXTMNameConversion& conv : kNMNameConv)
+			{
+			if (keyStr == conv.name)
+				{
+				str->Append(conv.str);
+				found = kJTrue;
+				break;
+				}
+			}
+
+		if (!found)
+			{
+			str->Append(keyStr);
+			}
 		}
 
 	// translate known name to single character
