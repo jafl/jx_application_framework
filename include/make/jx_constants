@@ -17,7 +17,7 @@ ACE_VERSION := $(shell perl -e \
               print $$1; exit; \
          } \
      } \
-     print "6.4.6";')    # default version downloaded from libjx.sourceforge.net
+     print "7.0.0";')    # default version downloaded from libjx.sourceforge.net
 
 #
 # useful directories
