@@ -166,9 +166,6 @@ private:
 	static DeleteRequest theDeallocStack[];
 	static JSize         theDeallocStackSize;
 
-	static JBoolean      theInitializeFlag;
-	static unsigned char theAllocateGarbage;
-
 	static JBoolean      theAbortUnknownAllocFlag;
 
 // Member data
@@ -187,9 +184,6 @@ private:
 
 	JBoolean itsPrintExitStatsFlag;
 	JBoolean itsPrintInternalStatsFlag;
-
-	JBoolean      itsShredFlag;
-	unsigned char itsDeallocateGarbage;
 
 	// Error notification
 
@@ -448,28 +442,6 @@ JMemoryManager::SetPrintInternalStats
 	)
 {
 	itsPrintInternalStatsFlag = yesNo;
-}
-
-/******************************************************************************
- GetAllocateGarbage
-
- *****************************************************************************/
-
-inline unsigned char
-JMemoryManager::GetAllocateGarbage() const
-{
-	return theAllocateGarbage;
-}
-
-/******************************************************************************
- GetDeallocateGarbage
-
- *****************************************************************************/
-
-inline unsigned char
-JMemoryManager::GetDeallocateGarbage() const
-{
-	return itsDeallocateGarbage;
 }
 
 /******************************************************************************

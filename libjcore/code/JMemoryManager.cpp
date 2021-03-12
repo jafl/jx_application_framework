@@ -49,45 +49,6 @@
 #		                       to use the grossly inefficient array
 #		                       implementation.
 
-#		JMM_INITIALIZE         If this environment variable is set but given no
-#		                       value the manager will initialize new memory blocks
-#		                       to the default AllocateGarbage value.  If it is
-#		                       given a numerical value, that will be the value
-#		                       used for initialization.  If the manager cannot
-#		                       understand the value given, the default is used
-#		                       (setting it to "default" is the recommended way
-#		                       to do this intentionally).  If it does not exist
-#		                       or is set to "no" memory blocks will not be
-#		                       initialized.
-
-#		JMM_SHRED              If this environment variable is set but given no
-#		                       value the manager will set deleted blocks to the
-#		                       default DeallocateGarbage value.  If it is given
-#		                       a numerical value, that will be the value the
-#		                       blocks are set to.  If the manager cannot
-#		                       understand the value given, the default is used
-#		                       (setting it to "default" is the recommended way
-#		                       to do this intentionally).  If it does not exist
-#		                       or is set to "no" memory blocks will not be
-#		                       initialized.
-
-#		                       This variable is meaningless if allocation records
-#		                       are not being kept, because in that case the
-#		                       manager cannot know the size of the block being
-#		                       freed.
-
-#		                       Keep in mind that jdelete (via free()) generally
-#		                       will store information at the beginning of each
-#		                       deallocated block.  This information will overwrite
-#		                       the JMM garbage values at those locations, so
-#		                       don't expect the first few bytes to have the
-#		                       JMM_SHRED value.
-
-#		                       Generally, you'll want to use different initialize
-#		                       and shred values so you can look at a piece of
-#		                       memory and see at a glance whether the manager
-#		                       thinks it is allocated or deallocated.
-
 #		JMM_RECORD_ALLOCATED   If this environment variable is set to "yes" the
 #		                       manager will keep a record of all currently
 #		                       allocated memory.
@@ -228,11 +189,6 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 
 	const JUtf8Byte* JMemoryManager::kMultipleAllocation = "MultipleAllocation::JMemoryManager";
 
-// Constants
-
-	const unsigned char defaultAllocateGarbage   = 0xA7; // A for Allocate :-)
-	const unsigned char defaultDeallocateGarbage = 0xD7; // D for Delete   :-)
-
 // Static member data
 
 	static const JSize theStackMax = 50;
@@ -245,9 +201,6 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 
 	JMemoryManager::DeleteRequest JMemoryManager::theDeallocStack[theStackMax];
 	JSize                         JMemoryManager::theDeallocStackSize = 0;
-
-	JBoolean      JMemoryManager::theInitializeFlag  = kJFalse;
-	unsigned char JMemoryManager::theAllocateGarbage = defaultAllocateGarbage;
 
 	JBoolean      JMemoryManager::theAbortUnknownAllocFlag = kJFalse;
 
@@ -281,8 +234,6 @@ JMemoryManager::JMemoryManager()
 	itsBroadcastErrorsFlag(kJFalse),
 	itsPrintExitStatsFlag(kJFalse),
 	itsPrintInternalStatsFlag(kJFalse),
-	itsShredFlag(kJFalse), // Dummy initialization
-	itsDeallocateGarbage(defaultDeallocateGarbage),
 	itsCheckDoubleAllocationFlag(kJFalse)
 {
 	itsMutex = new std::recursive_mutex;
@@ -315,8 +266,6 @@ JMemoryManager::JMemoryManager()
 		itsPrintInternalStatsFlag = kJTrue;
 		}
 
-	ReadValue(&theInitializeFlag, &theAllocateGarbage, getenv("JMM_INITIALIZE"));
-	ReadValue(&itsShredFlag, &itsDeallocateGarbage, getenv("JMM_SHRED"));
 	const JUtf8Byte* checkDoubleAllocation = getenv("JMM_CHECK_DOUBLE_ALLOCATION");
 	if (checkDoubleAllocation != nullptr && JString::Compare(checkDoubleAllocation, "yes", kJFalse) == 0)
 		{
@@ -453,11 +402,6 @@ JMemoryManager::New
 		{
 		std::cerr << "Failed to allocate block of size " << trueSize << std::endl;
 		return nullptr;
-		}
-
-	if (theInitializeFlag)
-		{
-		memset(newBlock, theAllocateGarbage, trueSize);
 		}
 
 	if (!theConstructingFlag)
@@ -631,24 +575,10 @@ JMemoryManager::DeleteRecord
 		return;
 		}
 
-	JBoolean wasAllocated;
-	if (itsMemoryTable != nullptr)
-		{
-		JMMRecord record;
-		wasAllocated = itsMemoryTable->SetRecordDeleted(&record, block,
-														file, line, isArray);
-
-		// Can't do this unless we're keeping records
-		if (itsShredFlag && wasAllocated)
-			{
-			assert(record.GetAddress() == block);
-			memset(block, itsDeallocateGarbage, record.GetSize() );
-			}
-		}
-	else
-		{
-		wasAllocated = kJTrue; // Have to trust the client
-		}
+	JMMRecord record;
+	const JBoolean wasAllocated = JI2B(
+		itsMemoryTable == nullptr ||	// Have to trust the client
+		itsMemoryTable->SetRecordDeleted(&record, block, file, line, isArray));
 
 	// Try to avoid a seg fault so the program can continue
 	if (wasAllocated)

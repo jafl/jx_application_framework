@@ -31,6 +31,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Removed "null deleted" functionality since C++14 specifies that
 //			"delete null" is a nop.
 //		Updated code to be thread-safe.
+//		Removed JMM_INITIALIZE & JMM_SHRED in favor of MALLOC_PERTURB_.
 //	JBroadcaster:
 //		Added ToString(), which can be overridden by derived classes.
 //	*** Removed using statements from jTypes.h & jFStreamUtil.h

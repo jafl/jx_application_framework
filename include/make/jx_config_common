@@ -69,11 +69,9 @@ define run_tests
      ${foreach p, $(1), \
        if [[ ! -f .timestamps/$p || $p -nt .timestamps/$p ]]; then \
          echo; echo $p; \
-         export JMM_RECORD_ALLOCATED=yes JMM_INITIALIZE=default \
-                JMM_RECORD_DEALLOCATED=yes JMM_SHRED=default \
-                JMM_CHECK_DOUBLE_ALLOCATION=yes \
-                JMM_BROADCAST_ERRORS=yes \
-                MALLOC_CHECK_=3; \
+         export JMM_RECORD_ALLOCATED=yes JMM_RECORD_DEALLOCATED=yes \
+                JMM_CHECK_DOUBLE_ALLOCATION=yes JMM_BROADCAST_ERRORS=yes \
+                MALLOC_PERTURB_=$$(($$RANDOM % 255 + 1)); \
          if ./$p; then touch .timestamps/$p; else e=1; fi; \
        fi;} \
      echo ==========; \
