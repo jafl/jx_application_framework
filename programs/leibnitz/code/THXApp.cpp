@@ -37,8 +37,6 @@
 #include <sstream>
 #include <jAssert.h>
 
-#include <new_planet_software.xpm>
-
 // application signature (MDI)
 
 static const JUtf8Byte* kAppSignature = "leibnitz";
@@ -403,15 +401,6 @@ JIndex i;
 		{
 		DisplayAbout(prevProgramVers);
 		}
-#ifdef DISPLAY_SPLASH
-	else
-		{
-		JXSplashWindow* w = jnew JXSplashWindow(new_planet_software, THXGetVersionStr(),
-											   SPLASH_DISPLAY_TIME);
-		assert( w != nullptr );
-		w->Activate();
-		}
-#endif
 }
 
 /******************************************************************************

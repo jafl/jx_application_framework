@@ -18,8 +18,6 @@
 #include <jSysUtil.h>
 #include <jAssert.h>
 
-#include <new_planet_software.xpm>
-
 // Prototypes
 
 void ParseTextOptions(const int argc, char* argv[]);
@@ -71,15 +69,6 @@ main
 		{
 		app->DisplayAbout(prevVersStr, kJTrue);
 		}
-#ifdef DISPLAY_SPLASH
-	else
-		{
-		JXSplashWindow* w = jnew JXSplashWindow(new_planet_software, CMGetVersionStr(),
-											   SPLASH_DISPLAY_TIME);
-		assert( w != nullptr );
-		w->Activate();
-		}
-#endif
 
 	app->Run();
 	return 0;

@@ -17,8 +17,6 @@
 #include <jSysUtil.h>
 #include <jAssert.h>
 
-#include <new_planet_software.xpm>
-
 void ParseTextOptions(const int argc, char* argv[]);
 void PrintVersion();
 
@@ -60,15 +58,6 @@ main
 		{
 		app->DisplayAbout(prevVersStr);
 		}
-#ifdef DISPLAY_SPLASH
-	else
-		{
-		JXSplashWindow* w = jnew JXSplashWindow(new_planet_software, SyGGetVersionStr(),
-											   SPLASH_DISPLAY_TIME);
-		assert( w != nullptr );
-		w->Activate();
-		}
-#endif
 
 	JXFSBindingManager::Initialize();	// notify user of any upgrades
 
