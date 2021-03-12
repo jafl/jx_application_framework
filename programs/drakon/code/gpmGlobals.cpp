@@ -14,7 +14,9 @@
 #include <JRegex.h>
 #include <jStreamUtil.h>
 
+#ifdef _J_HAS_SYSCTL
 #include <sys/sysctl.h>
+#endif
 
 #include <jAssert.h>
 

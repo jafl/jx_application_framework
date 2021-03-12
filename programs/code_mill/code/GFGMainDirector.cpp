@@ -120,8 +120,6 @@ GFGMainDirector::~GFGMainDirector()
  ******************************************************************************/
 
 #include "gfg_main_window_icon.xpm"
-#include <jx_help_specific.xpm>
-#include <jx_help_toc.xpm>
 
 void
 GFGMainDirector::BuildWindow
@@ -406,13 +404,9 @@ GFGMainDirector::Write()
 	JString headerfile	= JCombinePathAndName(dir, headername);
 	JString sourcefile	= JCombinePathAndName(dir, sourcename);
 
-	JBoolean exists	= kJFalse;
-
 	if (JFileExists(headerfile) ||
 		JFileExists(sourcefile))
 		{
-		exists		= kJTrue;
-
 		headername	= cname + "_tmp.h";
 		sourcename	= cname + "_tmp.cpp";
 

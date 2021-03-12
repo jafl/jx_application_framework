@@ -158,6 +158,7 @@
 
 #include <stdlib.h>
 #include <new>
+#include <atomic>
 
 #include "JMMArrayTable.h"
 #include "JMMHashTable.h"

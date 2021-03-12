@@ -1124,6 +1124,6 @@ MDStatsDirector::WritePrefs
 	output << ' ';
 	GetWindow()->WriteGeometry(output);
 
-	output << ' ' << itsProgramInput->GetText();
-	output << ' ' << itsArgsInput->GetText();
+	output << ' ' << itsProgramInput->GetText()->GetText();
+	output << ' ' << itsArgsInput->GetText()->GetText();
 }

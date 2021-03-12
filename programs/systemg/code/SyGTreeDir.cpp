@@ -36,7 +36,6 @@
 #include <sstream>
 #include <jAssert.h>
 
-#include <jx_help_specific.xpm>
 #include <jx_help_toc.xpm>
 
 const JString kDirPrefsName    (".systemg_folder_prefs_", kJFalse);
@@ -66,7 +65,6 @@ static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents %k F1 %i" kJXHelpTOCAction
 	"  | Getting started"
-//	"  | This window       %k F1 %i" kJXHelpSpecificAction
 	"%l| Changes"
 	"  | Credits";
 
@@ -75,7 +73,6 @@ enum
 	kAboutCmd = 1,
 	kTOCCmd,
 	kOverviewCmd,
-//	kThisWindowCmd,
 	kChangesCmd,
 	kCreditsCmd
 };
@@ -348,7 +345,6 @@ SyGTreeDir::BuildWindow
 	ListenTo(itsHelpMenu);
 
 	itsHelpMenu->SetItemImage(kTOCCmd, jx_help_toc);
-//	itsHelpMenu->SetItemImage(kThisWindowCmd, JXPM(jx_help_specific));
 
 	itsToolBar->LoadPrefs();
 	if (itsToolBar->IsEmpty())
@@ -522,10 +518,6 @@ SyGTreeDir::HandleHelpMenu
 		{
 		(JXGetHelpManager())->ShowSection("SyGGettingStartedHelp");
 		}
-//	else if (index == kThisWindowCmd)
-//		{
-//		(JXGetHelpManager())->ShowSection("...");
-//		}
 	else if (index == kChangesCmd)
 		{
 		(JXGetHelpManager())->ShowChangeLog();

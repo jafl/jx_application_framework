@@ -302,7 +302,6 @@ SVNMainDirector::StreamOut
 #include "svn_revert_all.xpm"
 #include <jx_folder_small.xpm>
 #include "svn_info_log.xpm"
-#include <jx_edit_undo.xpm>
 #include <jx_help_specific.xpm>
 #include <jx_help_toc.xpm>
 
