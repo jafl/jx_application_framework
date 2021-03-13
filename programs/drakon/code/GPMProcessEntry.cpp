@@ -220,7 +220,7 @@ GPMProcessEntry::ReadStat()
 		is >> itsPID;
 		is >> std::ws;
 		itsCommand = JReadUntilws(is);
-		if (itsCommand.GetLength() > 2)
+		if (itsCommand.GetCharacterCount() > 2)
 			{
 			JStringIterator iter(&itsCommand);
 			iter.RemoveNext();
