@@ -13,8 +13,8 @@
 #include "lldb/API/SBThread.h"
 #include "lldb/API/SBFrame.h"
 #include "CMStackWidget.h"
-#include "LLDBLink.h"
 #include "cmGlobals.h"
+#include "LLDBLink.h"	// must be after X11 includes: Status
 #include <JRegex.h>
 #include <jAssert.h>
 

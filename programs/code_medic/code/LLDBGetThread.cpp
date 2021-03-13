@@ -13,8 +13,8 @@
 #include "lldb/API/SBThread.h"
 #include "CMThreadsWidget.h"
 #include "LLDBGetThreads.h"
-#include "LLDBLink.h"
 #include "cmGlobals.h"
+#include "LLDBLink.h"	// must be after X11 includes: Status
 #include <jAssert.h>
 
 /******************************************************************************

@@ -19,8 +19,8 @@
 #include "CMStackFrameNode.h"
 #include "CMStackArgNode.h"
 #include "CMStackWidget.h"
-#include "LLDBLink.h"
 #include "cmGlobals.h"
+#include "LLDBLink.h"	// must be after X11 includes: Status
 #include <JTree.h>
 #include <JRegex.h>
 #include <jFileUtil.h>

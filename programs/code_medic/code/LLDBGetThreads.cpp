@@ -15,8 +15,8 @@
 #include "lldb/API/SBStream.h"
 #include "CMThreadsWidget.h"
 #include "CMThreadNode.h"
-#include "LLDBLink.h"
 #include "cmGlobals.h"
+#include "LLDBLink.h"	// must be after X11 includes: Status
 #include <JTree.h>
 #include <JStringIterator.h>
 #include <JRegex.h>

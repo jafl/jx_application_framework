@@ -12,8 +12,8 @@
 #include "lldb/API/SBStringList.h"
 #include "CMCommandInput.h"
 #include "CMCommandOutputDisplay.h"
-#include "LLDBLink.h"
 #include "cmGlobals.h"
+#include "LLDBLink.h"	// must be after X11 includes: Status
 #include <jAssert.h>
 
 /******************************************************************************
