@@ -130,7 +130,7 @@ GPMProcessList::Update()
 	{
 	if (itsDirInfo == nullptr)
 		{
-		JBoolean ok	= JDirInfo::Create("/proc", &itsDirInfo);
+		JBoolean ok	= JDirInfo::Create(JString("/proc", 0, kJFalse), &itsDirInfo);
 		assert(ok);
 		}
 	else
