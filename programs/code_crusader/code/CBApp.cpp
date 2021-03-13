@@ -28,13 +28,20 @@
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
-#ifdef _J_UNIX
-static const JCharacter* kSysIncludeDir[] =
+static const JCharacter* kDefaultSysIncludeDir[] =
 {
+#ifdef _J_UNIX
 	"/usr/include/",
-	"/usr/local/include/"
-};
+	"/usr/local/include/",
 #endif
+};
+
+static const JCharacter* kExtraSysIncludeDir[] =
+{
+#ifdef _J_OSX
+	"/usr/X11/include/"
+#endif
+};
 
 // Application signature (MDI, prefs)
 
@@ -451,6 +458,14 @@ CBApp::FindFile
 void
 CBApp::GetSystemIncludeDirectories()
 {
+	for (const JCharacter* s : kExtraSysIncludeDir)
+		{
+		if (JDirectoryExists(s))
+			{
+			itsSystemIncludeDirs->Append(s);
+			}
+		}
+
 	int pid, fd, inFD;
 	const JError err = JExecute("gcc -Wp,-v -x c++ -fsyntax-only -", &pid,
 								kJCreatePipe, &inFD,
@@ -458,9 +473,12 @@ CBApp::GetSystemIncludeDirectories()
 								kJAttachToFromFD);
 	if (!err.OK())
 		{
-		for (const JCharacter* s : kSysIncludeDir)
+		for (const JCharacter* s : kDefaultSysIncludeDir)
 			{
-			itsSystemIncludeDirs->Append(s);
+			if (JDirectoryExists(s))
+				{
+				itsSystemIncludeDirs->Append(s);
+				}
 			}
 		return;
 		}
