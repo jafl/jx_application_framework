@@ -21,9 +21,11 @@ class LLDBGetStopLocationForLink;
 class LLDBGetStopLocationForAsm;
 
 #ifdef _J_OSX
-typedef int j_lldb_cookie_type;
+typedef int j_lldb_cookie_fn_return;
+typedef int j_lldb_cookie_size;
 #else
-typedef long j_lldb_cookie_type;
+typedef long j_lldb_cookie_fn_return;
+typedef unsigned long j_lldb_cookie_size;
 #endif
 
 class LLDBLink : public CMLink, public lldb::SBListener
@@ -197,9 +199,9 @@ private:
 
 	void	HandleLLDBEvent(const lldb::SBEvent& e);
 
-	static j_lldb_cookie_type	ReceiveLLDBMessageLine(void* baton, const char* line, j_lldb_cookie_type count);
-	static j_lldb_cookie_type	ReceiveLLDBErrorLine(void* baton, const char* line, j_lldb_cookie_type count);
-	static void					LogLLDBMessage(const JUtf8Byte* msg, void* baton);
+	static j_lldb_cookie_fn_return	ReceiveLLDBMessageLine(void* baton, const char* line, j_lldb_cookie_size count);
+	static j_lldb_cookie_fn_return	ReceiveLLDBErrorLine(void* baton, const char* line, j_lldb_cookie_size count);
+	static void						LogLLDBMessage(const JUtf8Byte* msg, void* baton);
 
 	// not allowed
 
