@@ -27,13 +27,20 @@
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
-#ifdef _J_UNIX
-static const JUtf8Byte* kSysIncludeDir[] =
+static const JUtf8Byte* kDefaultSysIncludeDir[] =
 {
+#ifdef _J_UNIX
 	"/usr/include/",
-	"/usr/local/include/"
-};
+	"/usr/local/include/",
 #endif
+};
+
+static const JCharacter* kExtraSysIncludeDir[] =
+{
+#ifdef _J_OSX
+	"/usr/X11/include/"
+#endif
+};
 
 // Application signature (MDI, prefs)
 
@@ -454,6 +461,16 @@ CBApp::FindFile
 void
 CBApp::GetSystemIncludeDirectories()
 {
+	for (const JUtf8Byte* s : kExtraSysIncludeDir)
+		{
+		if (JDirectoryExists(JString(s, 0, kJFalse)))
+			{
+			JString* p = jnew JString(s);
+			assert( p != nullptr );
+			itsSystemIncludeDirs->Append(p);
+			}
+		}
+
 	int pid, fd, inFD;
 	const JError err = JExecute(JString("gcc -Wp,-v -x c++ -fsyntax-only -", kJFalse), &pid,
 								kJCreatePipe, &inFD,
@@ -461,11 +478,14 @@ CBApp::GetSystemIncludeDirectories()
 								kJAttachToFromFD);
 	if (!err.OK())
 		{
-		for (const JUtf8Byte* s : kSysIncludeDir)
+		for (const JUtf8Byte* s : kDefaultSysIncludeDir)
 			{
-			JString* p = jnew JString(s);
-			assert( p != nullptr );
-			itsSystemIncludeDirs->Append(p);
+			if (JDirectoryExists(JString(s, 0, kJFalse)))
+				{
+				JString* p = jnew JString(s);
+				assert( p != nullptr );
+				itsSystemIncludeDirs->Append(p);
+				}
 			}
 		return;
 		}
