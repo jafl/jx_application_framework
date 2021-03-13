@@ -213,7 +213,7 @@ GPMProcessEntry::ReadStat()
 {
 	const JSize uTime = itsUTime, sTime = itsSTime;
 
-	JString str = JCombinePathAndName(itsProcPath, "stat");
+	JString str = JCombinePathAndName(itsProcPath, JString("stat", 0, kJFalse));
 	std::ifstream is(str.GetBytes());
 	if (is.good())
 		{
@@ -328,7 +328,7 @@ GPMProcessEntry::ReadCmdline()
 			return;
 			}
 
-		JStringIterator iter(&cmdLine);
+		JStringIterator iter(&cmdline);
 		JUtf8Character c;
 		while (iter.Next(&c))
 			{
