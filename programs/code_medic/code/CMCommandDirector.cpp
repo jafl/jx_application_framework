@@ -329,7 +329,6 @@ CMCommandDirector::~CMCommandDirector()
 	jdelete itsArray2DDirs;
 	jdelete itsPlot2DDirs;
 	jdelete itsMemoryDirs;
-//	jdelete itsISOStyler;
 	jdelete itsGetArgsCmd;
 }
 
@@ -427,6 +426,7 @@ CMCommandDirector::InitializeCommandOutput()
 		};
 	const JString welcome = JGetString("Welcome::CMCommandDirector", map, sizeof(map));
 	itsCommandOutput->GetText()->SetText(welcome);
+	itsCommandOutput->SetCaretLocation(welcome.GetCharacterCount()+1);
 }
 
 /******************************************************************************
@@ -919,7 +919,6 @@ CMCommandDirector::Receive
 			dynamic_cast<const CMLink::UserOutput*>(&message);
 		assert(output != nullptr);
 		itsCommandOutput->GoToEndOfLine();
-//		itsISOStyler->FilterISO(output->GetText());
 
 		JFont font = itsCommandOutput->GetText()->GetDefaultFont();
 		font.SetBold(output->IsFromTarget());
@@ -1173,7 +1172,6 @@ CMCommandDirector::HandleUserInput()
 		!itsLink->IsDefiningScript())
 		{
 		itsCommandOutput->PlaceCursorAtEnd();
-//		itsISOStyler->FilterISO("\n" + itsLink->GetPrompt() + " ");
 		itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetText()->GetDefaultFont().GetStyle());
 		itsCommandOutput->Paste("\n" + itsLink->GetPrompt() + " ");
 		}
@@ -1181,7 +1179,6 @@ CMCommandDirector::HandleUserInput()
 		{
 		itsCommandOutput->GoToEndOfLine();
 		}
-//	itsISOStyler->FilterISO(input);
 	itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetText()->GetDefaultFont().GetStyle());
 	itsCommandOutput->Paste(input);
 

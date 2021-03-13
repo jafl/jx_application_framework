@@ -230,7 +230,7 @@ inline void
 LLDBLink::BroadcastWelcome
 	(
 	const JString&	msg,
-	const JBoolean		restart
+	const JBoolean	restart
 	)
 {
 	if (restart)
