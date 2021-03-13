@@ -518,12 +518,12 @@ LLDBLink::HandleLLDBEvent
 
  *****************************************************************************/
 
-cookie_fn_return
+j_lldb_cookie_type
 LLDBLink::ReceiveLLDBMessageLine
 	(
-	void*		baton,
-	const char*	line,
-	int			count
+	void*				baton,
+	const char*			line,
+	j_lldb_cookie_type	count
 	)
 {
 	const JString msg(line, count);
@@ -536,12 +536,12 @@ LLDBLink::ReceiveLLDBMessageLine
 
  *****************************************************************************/
 
-cookie_fn_return
+j_lldb_cookie_type
 LLDBLink::ReceiveLLDBErrorLine
 	(
-	void*		baton,
-	const char*	line,
-	int			count
+	void*				baton,
+	const char*			line,
+	j_lldb_cookie_type	count
 	)
 {
 	const JString msg(line, count);
