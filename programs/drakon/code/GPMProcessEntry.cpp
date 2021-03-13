@@ -41,7 +41,7 @@ GPMProcessEntry::GPMProcessEntry
 	const JDirEntry&	entry
 	)
 	:
-	JNamedTreeNode(tree, "", kJFalse),
+	JNamedTreeNode(tree, JString::empty, kJFalse),
 	itsLastUTime(0),
 	itsLastSTime(0)
 {
@@ -214,7 +214,7 @@ GPMProcessEntry::ReadStat()
 	const JSize uTime = itsUTime, sTime = itsSTime;
 
 	JString str = JCombinePathAndName(itsProcPath, "stat");
-	std::ifstream is(str);
+	std::ifstream is(str.GetBytes());
 	if (is.good())
 		{
 		is >> itsPID;
@@ -287,7 +287,7 @@ GPMProcessEntry::ReadStatM()
 {
 
 	JString str = JCombinePathAndName(itsProcPath, JString("statm", 0, kJFalse));
-	std::ifstream is(str);
+	std::ifstream is(str.GetBytes());
 	if (is.good())
 		{
 		is >> itsSize >> itsResident >> itsShare;
@@ -317,7 +317,7 @@ GPMProcessEntry::ReadCmdline()
 		}
 
 	JString str = JCombinePathAndName(itsProcPath, JString("cmdline", 0, kJFalse));
-	std::ifstream is(str);
+	std::ifstream is(str.GetBytes());
 	if (is.good())
 		{
 		JString cmdline;
@@ -334,7 +334,7 @@ GPMProcessEntry::ReadCmdline()
 			{
 			if (c == '\0')
 				{
-				iter.SetPrev(' ', kJFalse);
+				iter.SetPrev(JUtf8Character(' '), kJFalse);
 				}
 			}
 
