@@ -53,11 +53,7 @@ PROMPT "(gdb) "\n
 
 {PROMPT} {
 	Flush();
-	#ifdef _J_OLD_OSX
-	RETURN(kMaybeReadyForInput);
-	#else
 	RETURN(kReadyForInput);
-	#endif
 	}
 
 (&\""echo "\\\\032\\\\032:"Medic debugger ready":{INT}:\\n\"\n)?~\"\\032\\032:"Medic debugger ready":{INT}:\"\n(\^done\n)? {
@@ -306,13 +302,7 @@ PROMPT "(gdb) "\n
 
 \^done\n {
 	BEGIN(INITIAL);
-	#ifdef _J_OLD_OSX
-	itsString       = "Symbols (hopefully) loaded.\n";
-	itsData.pString = &itsString;
-	RETURN(kFinishedLoadingSymbolsFromProgram);
-	#else
 	RETURN(kNoSymbolsInProgram);
-	#endif
 	}
 
 &\".*"No such file or directory".*\"\n {

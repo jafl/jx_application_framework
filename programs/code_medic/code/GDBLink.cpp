@@ -307,11 +307,7 @@ JBoolean
 GDBLink::OKToSendMultipleCommands()
 	const
 {
-	#ifdef _J_OLD_OSX
-	return kJFalse;
-	#else
 	return CMLink::OKToSendMultipleCommands();
-	#endif
 }
 
 /******************************************************************************
@@ -326,12 +322,7 @@ GDBLink::OKToSendCommands
 	)
 	const
 {
-	#ifdef _J_OLD_OSX
-	return (background ? JI2B(itsContinueCount == 0) :
-						 !itsDebuggerBusyFlag);
-	#else
 	return JI2B(itsContinueCount == 0);
-	#endif
 }
 
 /******************************************************************************
@@ -385,28 +376,12 @@ GDBLink::Receive
 
  *****************************************************************************/
 
-static JRegex pingRecvPattern =
-	"^(&\"echo \\\\\\\\032\\\\\\\\032:Medic debugger ready:[[:digit:]]+:\\\\n\"\n"
-	"\\^error,msg=\"Cannot execute this command while the target is running.\"\n"
-	"\\(gdb\\) \n)+$";
-
 void
 GDBLink::ReadFromDebugger()
 {
 	JString data;
 	itsInputLink->Read(&data);
-
-#ifdef _J_OLD_OSX
-	pingRecvPattern.SetSingleLine();
-	if (!pingRecvPattern.Match(data))
-		{
-#endif
-
-		Broadcast(DebugOutput(data, kOutputType));
-
-#ifdef _J_OLD_OSX
-		}
-#endif
+	Broadcast(DebugOutput(data, kOutputType));
 
 	itsScanner->AppendInput(data);
 	while (1)
@@ -445,10 +420,6 @@ GDBLink::ReadFromDebugger()
 			}
 		else if (token.type == GDBScanner::kReadyForInput)
 			{
-			#ifdef _J_OLD_OSX
-			itsIgnoreNextMaybeReadyFlag = kJTrue;
-			#endif
-
 			itsPingTask->Stop();
 
 			if (0 < token.data.number && token.data.number < itsPingID)
@@ -472,11 +443,7 @@ GDBLink::ReadFromDebugger()
 
 			if (itsContinueCount > 0 && !HasForegroundCommands())
 				{
-				#ifdef _J_OLD_OSX
-				itsContinueCount = 0;
-				#else
 				itsContinueCount--;
-				#endif
 
 				if (itsContinueCount == 0)
 					{
@@ -550,14 +517,10 @@ GDBLink::ReadFromDebugger()
 				cmd->Finished(kJTrue);	// may delete object
 				SetRunningCommand(nullptr);
 
-				#ifdef _J_OLD_OSX
-				RunNextCommand();
-				#else
 				if (!HasForegroundCommands())
 					{
 					RunNextCommand();
 					}
-				#endif
 				}
 
 			itsPrintingOutputFlag = kJTrue;
@@ -1677,17 +1640,6 @@ GDBLink::CreateGetFullPath
 	const JIndex	lineIndex
 	)
 {
-	#ifdef _J_OLD_OSX
-	if (ProgramIsRunning())
-		{
-		StopProgram();
-		if (!itsFirstBreakFlag)
-			{
-			itsContinueCount = 1;	// only at final prompt will itsForegroundQ be empty
-			}
-		}
-	#endif
-
 	CMGetFullPath* cmd = jnew GDBGetFullPath(fileName, lineIndex);
 	assert( cmd != nullptr );
 	return cmd;
@@ -2094,43 +2046,13 @@ GDBLink::SendPing()
 
  *****************************************************************************/
 
-static const JUtf8Byte* kFakeCommandPrefix = "echo \\032\\032:Medic command:0:\n";
-static const JUtf8Byte* kFakeCommandSuffix = "echo \\032\\032:Medic command done:0:\n";
-
 void
 GDBLink::SendWhenStopped
 	(
 	const JString& text
 	)
 {
-#ifdef _J_OLD_OSX
-
-	if (itsOutputLink != nullptr)
-		{
-		if (ProgramIsRunning())
-			{
-			StopProgram();
-			}
-
-		JString s = text;
-		if (s.BeginsWith(kFakeCommandPrefix))
-			{
-			s.RemoveSubstring(1, strlen(kFakeCommandPrefix));
-			}
-		if (s.EndsWith(kFakeCommandSuffix))
-			{
-			const JSize length = s.GetLength();
-			s.RemoveSubstring(length - strlen(kFakeCommandSuffix) + 1, length);
-			}
-
-		CMCommand* cmd = jnew GDBSimpleCommand(s);
-		assert( cmd != nullptr );
-		cmd->Send();
-		}
-
-#else
 	Send(text);
-#endif
 }
 
 /******************************************************************************
@@ -2164,9 +2086,6 @@ GDBLink::Send
 
  *****************************************************************************/
 
-static JRegex pingSendPattern =
-	"^echo \\\\032\\\\032:Medic debugger ready:[[:digit:]]+:$";
-
 void
 GDBLink::SendRaw
 	(
@@ -2176,17 +2095,7 @@ GDBLink::SendRaw
 	if (itsOutputLink != nullptr)
 		{
 		itsOutputLink->Write(text);
-
-#ifdef _J_OLD_OSX
-		if (!pingSendPattern.Match(text))
-			{
-#endif
-
-			Broadcast(DebugOutput(text, kCommandType));
-
-#ifdef _J_OLD_OSX
-			}
-#endif
+		Broadcast(DebugOutput(text, kCommandType));
 
 		if (!itsDebuggerBusyFlag)
 			{

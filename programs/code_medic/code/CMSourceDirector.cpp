@@ -556,12 +556,8 @@ CMSourceDirector::Receive
 			}
 		else
 			{
-			#ifdef _J_OLD_OSX
-			itsTable->SetCurrentLine(0);	// we get blank location the first time
-			#else
 			ClearDisplay();
 			(CMGetCommandDirector())->GetStackDir()->Activate();
-			#endif
 			}
 		}
 	else if (itsType == kMainAsmType && sender == itsLink &&
