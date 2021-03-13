@@ -252,20 +252,22 @@ GPMSystemStats::ComputeStats
 	if (GPMGetSystemMemory(&totalMem))
 		{
 		std::ifstream ms("/proc/meminfo");
-		JArray<JIndexRange> matchList;
+		JString line;
 		while (ms.good() && !ms.eof())
 			{
-			JString line = JReadLine(ms);
-			if (freeMemoryPattern.Match(line, &matchList))
+			line = JReadLine(ms);
+
+			const JStringMatch m1 = freeMemoryPattern.Match(line, kJTrue),
+							   m2 = bufferMemoryPattern.Match(line, kJTrue),
+							   m3 = cacheMemoryPattern.Match(line, kJTrue);
+			if (!m1.IsEmpty())
 				{
-				const JString s = line.GetSubstring(matchList.GetElement(2));
-				s.ConvertToUInt(&freeMem);	// usually kB
+				m1.GetSubstring(1).ConvertToUInt(&freeMem);	// usually kB
 				foundCount++;
 				}
-			else if (bufferMemoryPattern.Match(line, &matchList) ||
-					 cacheMemoryPattern.Match(line, &matchList))
+			else if (!m2.IsEmpty() || !m3.IsEmpty())
 				{
-				const JString s = line.GetSubstring(matchList.GetElement(2));
+				const JString s = m3.IsEmpty() ? m2.GetSubstring(1) : m3.GetSubstring(1);
 				JSize mem;
 				s.ConvertToUInt(&mem);	// usually kB
 				otherMem += mem;

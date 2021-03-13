@@ -54,14 +54,15 @@ GPMCreateGlobals
 #ifdef _J_HAS_PROC
 	{
 	std::ifstream ms("/proc/meminfo");
-	JArray<JIndexRange> matchList;
+	JString line;
 	while (ms.good() && !ms.eof())
 		{
-		JString line = JReadLine(ms);
-		if (totalMemoryPattern.Match(line, &matchList))
+		line = JReadLine(ms);
+
+		const JStringMatch m = totalMemoryPattern.Match(line, kJTrue);
+		if (!m.IsEmpty())
 			{
-			const JString s = line.GetSubstring(matchList.GetElement(2));
-			s.ConvertToUInt(&theSystemMemory);	// usually kB
+			m.GetSubstring(1).ConvertToUInt(&theSystemMemory);	// usually kB
 			break;
 			}
 		}

@@ -16,6 +16,7 @@
 #include <JDirEntry.h>
 #endif
 
+#include <JStringIterator.h>
 #include <jDirUtil.h>
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
@@ -221,7 +222,10 @@ GPMProcessEntry::ReadStat()
 		itsCommand = JReadUntilws(is);
 		if (itsCommand.GetLength() > 2)
 			{
-			itsCommand = itsCommand.GetSubstring(2, itsCommand.GetLength() - 1);
+			JStringIterator iter(&itsCommand);
+			iter.RemoveNext();
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			iter.RemovePrev();
 			}
 		JString state = JReadUntilws(is);
 		if (state.Contains("S"))
@@ -282,16 +286,14 @@ void
 GPMProcessEntry::ReadStatM()
 {
 
-	JString str = JCombinePathAndName(itsProcPath, "statm");
+	JString str = JCombinePathAndName(itsProcPath, JString("statm", 0, kJFalse));
 	std::ifstream is(str);
 	if (is.good())
 		{
-		is >> itsSize;
-		itsSize	*= 4;
-		is >> itsResident;
-		itsResident	*= 4;
-		is >> itsShare;
-		itsShare	*= 4;
+		is >> itsSize >> itsResident >> itsShare;
+		itsSize	    *= 4;
+		itsResident *= 4;
+		itsShare    *= 4;
 		}
 
 	if (!is.good())
@@ -314,7 +316,7 @@ GPMProcessEntry::ReadCmdline()
 		return;
 		}
 
-	JString str = JCombinePathAndName(itsProcPath, "cmdline");
+	JString str = JCombinePathAndName(itsProcPath, JString("cmdline", 0, kJFalse));
 	std::ifstream is(str);
 	if (is.good())
 		{
@@ -325,14 +327,17 @@ GPMProcessEntry::ReadCmdline()
 			{
 			return;
 			}
-		const JSize count = cmdline.GetLength();
-		for (JIndex i = 1; i <= count; i++)
+
+		JStringIterator iter(&cmdLine);
+		JUtf8Character c;
+		while (iter.Next(&c))
 			{
-			if (cmdline.GetCharacter(i) == '\0')
+			if (c == '\0')
 				{
-				cmdline.SetCharacter(i, ' ');
+				iter.SetPrev(' ', kJFalse);
 				}
 			}
+
 		itsFullCommand = cmdline;
 		}
 }
