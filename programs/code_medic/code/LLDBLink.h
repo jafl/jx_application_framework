@@ -8,6 +8,9 @@
 #ifndef _H_LLDBLink
 #define _H_LLDBLink
 
+// conflict between X11 and LLDB
+#undef Status
+
 #include "CMLink.h"
 #include "lldb/API/SBDebugger.h"
 #include "lldb/API/SBListener.h"
@@ -16,6 +19,12 @@
 class LLDBBreakpointManager;
 class LLDBGetStopLocationForLink;
 class LLDBGetStopLocationForAsm;
+
+#ifdef _J_OSX
+typedef int cookie_fn_return;
+#else
+typedef long cookie_fn_return;
+#endif
 
 class LLDBLink : public CMLink, public lldb::SBListener
 {
@@ -188,9 +197,9 @@ private:
 
 	void	HandleLLDBEvent(const lldb::SBEvent& e);
 
-	static int	ReceiveLLDBMessageLine(void* baton, const char* line, int count);
-	static int	ReceiveLLDBErrorLine(void* baton, const char* line, int count);
-	static void	LogLLDBMessage(const JUtf8Byte* msg, void* baton);
+	static cookie_fn_return	ReceiveLLDBMessageLine(void* baton, const char* line, int count);
+	static cookie_fn_return	ReceiveLLDBErrorLine(void* baton, const char* line, int count);
+	static void				LogLLDBMessage(const JUtf8Byte* msg, void* baton);
 
 	// not allowed
 

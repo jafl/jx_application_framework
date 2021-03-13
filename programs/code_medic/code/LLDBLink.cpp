@@ -518,7 +518,7 @@ LLDBLink::HandleLLDBEvent
 
  *****************************************************************************/
 
-int
+cookie_fn_return
 LLDBLink::ReceiveLLDBMessageLine
 	(
 	void*		baton,
@@ -536,7 +536,7 @@ LLDBLink::ReceiveLLDBMessageLine
 
  *****************************************************************************/
 
-int
+cookie_fn_return
 LLDBLink::ReceiveLLDBErrorLine
 	(
 	void*		baton,
