@@ -22,9 +22,8 @@ install -m755 nps_svn_client $BIN
 mkdir -p $LIB
 cp lib/* $LIB
 
-mkdir -p $DOC/HTML
+mkdir -p $DOC
 cp README COPYING menu_strings $DOC
-cp docs_HTML/*                 $DOC/HTML
 
 cp desktop/nps_svn_client.desktop $APP/
 cp desktop/nps_svn_client.xpm     $ICON/

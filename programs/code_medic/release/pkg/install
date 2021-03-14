@@ -24,9 +24,8 @@ install -m755 medic $BIN
 mkdir -p $LIB
 cp lib/* $LIB
 
-mkdir -p $DOC/HTML
+mkdir -p $DOC
 cp README.md COPYING menu_strings $DOC
-cp docs_HTML/*                    $DOC/HTML
 
 cp desktop/code_medic.desktop $APP/
 cp desktop/code_medic.xpm     $ICON/

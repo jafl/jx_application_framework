@@ -53,7 +53,7 @@ pre_build_pkgs:
 .PHONY : init_tarball
 init_tarball:
 	@${RM} -r ${PKG_PATH}
-	@mkdir -p ${PKG_PATH}/lib ${PKG_PATH}/docs_HTML
+	@mkdir -p ${PKG_PATH}/lib
 	@if [[ -e README ]];    then ln -s ../README    ${PKG_PATH}/README;    fi
 	@if [[ -e README.md ]]; then ln -s ../README.md ${PKG_PATH}/README.md; fi
 	@ln -s ../../../COPYING         ${PKG_PATH}/COPYING

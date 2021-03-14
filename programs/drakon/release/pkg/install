@@ -22,9 +22,8 @@ install -m755 drakon $BIN
 mkdir -p $LIB
 cp lib/* $LIB
 
-mkdir -p $DOC/HTML
+mkdir -p $DOC
 cp README COPYING menu_strings $DOC
-cp docs_HTML/*                 $DOC/HTML
 
 cp desktop/drakon.desktop $APP/
 cp desktop/drakon.xpm     $ICON/

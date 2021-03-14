@@ -22,9 +22,8 @@ install -m755 code_mill $BIN
 mkdir -p $LIB
 cp lib/* $LIB
 
-mkdir -p $DOC/HTML
+mkdir -p $DOC
 cp README COPYING menu_strings $DOC
-cp docs_HTML/*                 $DOC/HTML
 
 cp desktop/code_mill.desktop $APP/
 cp desktop/code_mill.xpm     $ICON/
