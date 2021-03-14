@@ -100,7 +100,7 @@ build_rpm:
 	@${SUDO} cp ${J_DISTR_TAR_DIR}/${SOURCE_TAR_NAME} ${RPM_TAR_FILE}
 	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
                     --define 'pkg_version '`cat release/VERSION` ${RPM_SPEC_FILE}
-	@${SUDO} mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
+	@${SUDO} mv ${RPM_BIN_DIR}/*/*.rpm ${J_DISTR_TAR_DIR}/
 	@${SUDO} chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
 	@${SUDO} ./release/pkg/uninstall
   endif
