@@ -53,7 +53,7 @@ JTextEditor:
 	need smarter update during indent/outdent, to maintain caret location
 		when caret in another view is inside the affected range
 
-	don't change insertion font when glyphs are rendered with fallback font
+	don't change insertion font while typing when glyphs are rendered with fallback font
 
 jcc
 	menu of supported text formats in "open text file" dialog

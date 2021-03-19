@@ -740,11 +740,12 @@ CMSourceDirector::DisplayFile
 			}
 		itsText->SetCaretLocation(1);
 
-		DisplayLine(lineNumber, markLine);
 		itsFileDisplay->GetText()->SetText(itsCurrentFile);
 
 		UpdateFileType();
 		UpdateWindowTitle(JString::empty);
+
+		DisplayLine(lineNumber, markLine);
 		}
 }
 
