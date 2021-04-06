@@ -1100,7 +1100,8 @@ JXExprEditor::EIPGetExternalClipboard
 			selManager->GetData(kJXClipboardName, CurrentTime, textType,
 								&returnType, &data, &dataLength, &delMethod))
 			{
-			if (returnType == XA_STRING)
+			if (returnType == XA_STRING ||
+				returnType == selManager->GetUtf8StringXAtom())
 				{
 				text->Set(reinterpret_cast<JUtf8Byte*>(data), dataLength);
 				gotData = kJTrue;
