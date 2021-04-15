@@ -1,0 +1,5 @@
+Name: editorconfig
+Description: Library handling EditorConfig files, a file format defining coding styles in projects.
+Version: 0.12.1
+Libs: -leditorconfig
+Cflags:

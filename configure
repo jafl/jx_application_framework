@@ -157,6 +157,8 @@ elif command -v apt-get; then
 	ln -sf /usr/lib/llvm-$LLDB_VERS/include programs/code_medic/lldb-include;
 	ln -sf /usr/lib/llvm-$LLDB_VERS/lib/liblldb.so.1 lib/liblldb.so;
 
+	$SUDO ln -sf $(pwd)/misc/ubuntu/editorconfig.pc /usr/lib/pkgconfig/editorconfig.pc
+
 elif command -v dnf; then
 
 	# redhat
