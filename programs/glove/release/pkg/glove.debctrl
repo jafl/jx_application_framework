@@ -6,7 +6,7 @@ Section: contrib/science
 Priority: optional
 Architecture: i386
 Essential: no
-Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Depends: libx11, libxinerama, libxpm, libxft, libxml2, libgd, libjpeg, libpng, libace, libicu, libpcre3
 Description: Data acquisition, manipulation, and analysis program for X.
  Glove was designed as a flexible tool to address a number of issues. We
  needed a generic plotting tool, an interface to data acquisition systems,

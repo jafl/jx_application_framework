@@ -5,6 +5,7 @@ Release: 1
 License: GPL
 Group: Utilities
 Source: nps_ssh_askpass_%pkg_version.tar
+Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre
 
 %description
 nps-ssh-askpass provides a cross-platform user interface for SSH

@@ -6,6 +6,6 @@ Section: contrib/devel
 Priority: optional
 Architecture: i386
 Essential: no
-Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Depends: libx11, libxinerama, libxpm, libxft, libxml2, libgd, libjpeg, libpng, libace, libicu, libpcre3
 Description: Code Mill is a Code Crusader plug-in for creating C++ derived classes.
  Code Mill is a Code Crusader plug-in for creating C++ derived classes.

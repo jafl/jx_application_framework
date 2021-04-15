@@ -5,6 +5,7 @@ Release: 1
 License: GPL
 Group: Applications/Scientific
 Source: Glove_%pkg_version.tar
+Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre
 
 %description 
 Glove was designed as a flexible tool to address a number of issues. We

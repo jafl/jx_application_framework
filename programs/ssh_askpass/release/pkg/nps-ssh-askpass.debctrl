@@ -6,7 +6,7 @@ Section: contrib/utils
 Priority: optional
 Architecture: i386
 Essential: no
-Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Depends: libx11, libxinerama, libxpm, libxft, libxml2, libgd, libjpeg, libpng, libace, libicu, libpcre3
 Description: Cross-platform replacement for x11-ssh-askpass.
  nps-ssh-askpass provides a cross-platform user interface for SSH
  to ask for a password.

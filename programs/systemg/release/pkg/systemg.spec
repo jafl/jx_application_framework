@@ -5,6 +5,7 @@ Release: 1
 License: GPL
 Group: Filemanager
 Source: System_G_%pkg_version.tar
+Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre
 
 %description
 System G provides a graphical interface to UNIX file system,

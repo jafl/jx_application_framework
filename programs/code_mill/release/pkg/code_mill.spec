@@ -5,6 +5,7 @@ Release: 1
 License: Copyright John Lindal
 Group: Development/Code Generators
 Source: Code_Mill_%pkg_version.tar
+Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre
 
 %description
 Code Mill is a Code Crusader plug-in for creating C++ derived classes.

@@ -5,6 +5,7 @@ Release: 1
 License: GPL
 Group: System/Monitoring
 Source: Drakon_%pkg_version.tar
+Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre
 
 %description
 Drakon provides a simple way to manage UNIX processes.

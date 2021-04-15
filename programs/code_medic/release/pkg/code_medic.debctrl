@@ -6,7 +6,7 @@ Section: contrib/devel
 Priority: optional
 Architecture: i386
 Essential: no
-Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Depends: liblldb-11, libeditorconfig, libx11, libxinerama, libxpm, libxft, libxml2, libgd, libjpeg, libpng, libace, libicu, libpcre3
 Suggests: code-crusader
 Replaces: code-crusader, exuberant-ctags
 Description: Code Medic is a graphical debugging environment for UNIX.
