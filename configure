@@ -131,7 +131,7 @@ elif command -v apt-get; then
 
 	# debian
 
-	LLDB_VERS=10
+	LLDB_VERS=11
 
 	if [[ -z $LGTM_SRC ]]; then
 		$SUDO apt update;
