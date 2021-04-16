@@ -4007,12 +4007,14 @@ JTextEditor::RecalcRange
 			{
 			// The rest of the line starts merely shift.
 
-			const JSize lineCount = GetLineCount();
-			const long charDelta  = textLength.charCount - itsPrevTextEnd.charCount,
-					   byteDelta  = textLength.byteCount - itsPrevTextEnd.byteCount;
+			const JSignedOffset charDelta = textLength.charCount - itsPrevTextEnd.charCount,
+								byteDelta = textLength.byteCount - itsPrevTextEnd.byteCount;
 			if (charDelta != 0)
 				{
-				TextIndex* lineStart = const_cast<TextIndex*>(itsLineStarts->GetCArray());
+				assert( JSign(byteDelta) == JSign(charDelta) && labs(byteDelta) >= labs(charDelta) );
+
+				TextIndex* lineStart  = const_cast<TextIndex*>(itsLineStarts->GetCArray());
+				const JSize lineCount = GetLineCount();
 				for (JIndex i=lineIndex; i<lineCount; i++)
 					{
 					lineStart[i].charIndex += charDelta;
