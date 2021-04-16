@@ -70,8 +70,9 @@ endif
 
 DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${J_BEGIN_LINK_STATIC} \
-                   ${ljfs} ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${ljfs} ${ljx} ${ljcore} ${J_STATIC_LINK_ACE_LIBS} \
                    ${J_END_LINK_STATIC} \
+                   ${J_DYNAMIC_LINK_ACE_LIBS} \
                    ${shell pkg-config --libs editorconfig} \
                    ${J_X11_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
 

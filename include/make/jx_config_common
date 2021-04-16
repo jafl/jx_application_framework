@@ -10,6 +10,12 @@ endif
 
 ACELIBDIR = ${JX_ROOT}/ACE
 
+ifeq ("$(wildcard ${ACELIBDIR}/ACE_wrappers/ace/libACE.a)","")
+  J_DYNAMIC_LINK_ACE_LIBS := ${J_ACE_LIBS}
+else
+  J_STATIC_LINK_ACE_LIBS := ${J_ACE_LIBS}
+endif
+
 #
 # modify configuration based on OS, compiler, etc.
 #

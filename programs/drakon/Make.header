@@ -64,8 +64,9 @@ endif
 
 DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${J_BEGIN_LINK_STATIC} \
-                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${ljx} ${ljcore} ${J_STATIC_LINK_ACE_LIBS} \
                    ${J_END_LINK_STATIC} \
+                   ${J_DYNAMIC_LINK_ACE_LIBS} \
                    ${J_X11_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
 
 #####

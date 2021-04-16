@@ -95,8 +95,9 @@ jcc: debug
 
 DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${J_BEGIN_LINK_STATIC} \
-                   ${ljcore} ${J_ACE_LIBS} \
+                   ${ljcore} ${J_STATIC_LINK_ACE_LIBS} \
                    ${J_END_LINK_STATIC} \
+                   ${J_DYNAMIC_LINK_ACE_LIBS} \
                    ${J_IMG_LIBS} ${J_GCC_LIBS}
 
 .PHONY : debug
