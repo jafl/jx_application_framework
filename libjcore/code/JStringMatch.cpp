@@ -204,6 +204,8 @@ JStringMatch::GetCharacterRange
 		{
 		const JUtf8ByteRange ur = itsSubmatchList->GetElement(submatchIndex);
 
+		ComputeCharacterRange();
+
 		JCharacterRange cr;
 		cr.SetFirstAndCount(
 			itsCharacterRange.first +

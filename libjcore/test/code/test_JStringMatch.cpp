@@ -129,4 +129,10 @@ JTEST(Submatches)
 	JAssertStringsEqual("7", m1.GetSubstring(3));
 	JAssertEqual(JCharacterRange(7,7), m1.GetCharacterRange(3));
 	JAssertEqual(JUtf8ByteRange(7,7), m1.GetUtf8ByteRange(3));
+
+	// without first getting full character range
+
+	JStringMatchTest m2(s, JUtf8ByteRange(7,14), jnew JArray<JUtf8ByteRange>(*list1));
+	JAssertEqual(JCharacterRange(11,11), m2.GetCharacterRange(1));
+	JAssertEqual(JCharacterRange(9,12), m2.GetCharacterRange(2));
 }
