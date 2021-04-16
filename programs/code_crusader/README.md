@@ -1,7 +1,7 @@
 Installing
 ==========
 
-The easiest way to install from the binary package is to run `sudo ./install`
+The easiest way to install from the binary package is to run `sudo ./install`.  If you are on MacOS, you also need to `brew install ace icu4c pcre gd editorconfig aspell`.
 
 Otherwise, the programs (jcc, makemake, ctags, dirdiff) need to be placed in a directory that is on your execution path.  `/usr/bin` or `~/bin` are usually good choices.  Copy the libraries in `lib/` to a directory on your `LD_LIBRARY_PATH`.
 
