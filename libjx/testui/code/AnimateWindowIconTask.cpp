@@ -44,10 +44,6 @@ AnimateWindowIconTask::AnimateWindowIconTask
 
 AnimateWindowIconTask::~AnimateWindowIconTask()
 {
-	if (itsState == kSillyIconState)
-		{
-		DisplayNormalIcon();
-		}
 }
 
 /******************************************************************************
