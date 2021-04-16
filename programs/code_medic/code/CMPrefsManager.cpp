@@ -1048,7 +1048,7 @@ CMPrefsManager::SaveSearchPrefs()
 void
 CMPrefsManager::SyncWithCodeCrusader()
 {
-	JString fontname;
+	JString fontName;
 	JSize size, tabCharCount;
 	JBoolean sort, includeNS, pack, openOnTop;
 	JRGB colorList[kColorCount];
@@ -1057,13 +1057,13 @@ CMPrefsManager::SyncWithCodeCrusader()
 					   fortranSuffixList(JPtrArrayT::kDeleteAll),
 					   javaSuffixList(JPtrArrayT::kDeleteAll),
 					   phpSuffixList(JPtrArrayT::kDeleteAll);
-	if (CBMReadSharedPrefs(&fontname, &size, &tabCharCount, &sort, &includeNS, &pack,
+	if (CBMReadSharedPrefs(&fontName, &size, &tabCharCount, &sort, &includeNS, &pack,
 						   &openOnTop, kColorCount, colorList,
 						   &cSourceSuffixes, &cHeaderSuffixes,
 						   &fortranSuffixList, &javaSuffixList,
 						   &phpSuffixList))
 		{
-		SetDefaultFont(fontname, size);
+		SetDefaultFont(fontName, size);
 		SetTabCharCount(tabCharCount);
 		SetColorList(kJTrue, colorList);
 		SetSuffixes(kCSourceSuffixID, cSourceSuffixes);
@@ -1086,5 +1086,7 @@ CMPrefsManager::SyncWithCodeCrusader()
 		updater->ShouldSortFnNames(sort);
 		updater->ShouldIncludeNamespace(includeNS);
 		updater->ShouldPackFnNames(pack);
+
+		JXGetSearchTextDialog()->SetFont(JFontManager::GetFont(fontName, size));
 		}
 }

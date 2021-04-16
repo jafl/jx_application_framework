@@ -133,8 +133,8 @@ CMCreateGlobals
 	theFnMenuUpdater = jnew CBFnMenuUpdater;
 	assert( theFnMenuUpdater != nullptr );
 
-	thePrefsManager->SyncWithCodeCrusader();
-	thePrefsManager->LoadSearchPrefs();		// requires JXHelpManager
+	thePrefsManager->LoadSearchPrefs();
+	thePrefsManager->SyncWithCodeCrusader();	// after creating search dialog
 
 	lldb::SBDebugger::Initialize();
 	CMStartDebugger();
