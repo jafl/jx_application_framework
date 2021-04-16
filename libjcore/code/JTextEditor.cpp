@@ -2373,7 +2373,7 @@ JTextEditor::TEHandleMouseDrag
 		{
 		SetSelection(TextRange(
 			GetLineStart( JMin(itsLineSelPivot, caretLoc.lineIndex) ),
-			GetLineEnd(   JMax(itsLineSelPivot, caretLoc.lineIndex) )),
+			itsText->AdjustTextIndex(GetLineEnd( JMax(itsLineSelPivot, caretLoc.lineIndex) ), +1)),
 			kJFalse);
 		BroadcastCaretMessages(caretLoc);
 		}
@@ -3018,7 +3018,7 @@ JTextEditor::GoToLine
 		{
 		SetSelection(TextRange(
 			GetLineStart(caretLoc.lineIndex),
-			GetLineEnd(caretLoc.lineIndex)));
+			itsText->AdjustTextIndex(GetLineEnd(caretLoc.lineIndex), +1)));
 		}
 	else
 		{
