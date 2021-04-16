@@ -63,6 +63,7 @@ static kindOption PhpKinds [] = {
 #define ALNUM "0-9A-Za-z\x7f-\xff"
 #endif
 #define IDENT "[" ALPHA "_][" ALNUM "_]*"
+#define ARG   IDENT "([ \t]*=[^,)]+)?"
 
 static kindOption CallbackKinds [] = {
 	{ TRUE, 'j', "jsfunction", "javascript function" }
@@ -104,16 +105,19 @@ static void installPHPRegex (const langType language)
 
 	addTagRegex (language, "^[ \t]*async[ \t]+function[ \t]+(" IDENT ")[ \t]*\\(",
 		"\\1", "j,jsfunction,javascript functions", NULL);
-	addTagRegex (language, "^[ \t]*var[ \t]*(" IDENT ")[ \t]*=[ \t]*(?:async[ \t]+)?function([ \t]+" IDENT ")?[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*var[ \t]*(" IDENT ")[ \t]*=[ \t]*(async[ \t]+)?function([ \t]+" IDENT ")?[ \t]*\\(",
 		"\\1", "j,jsfunction,javascript functions", NULL);
-	addTagRegex (language, "^[ \t]*(" IDENT ")[ \t]*[=:][ \t]*(?:async[ \t]+)?function([ \t]+" IDENT ")?[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*(" IDENT ")[ \t]*[=:][ \t]*(async[ \t]+)?function([ \t]+" IDENT ")?[ \t]*\\(",
 		"\\1", "j,jsfunction,javascript functions", NULL);
-	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.\x7f-\xff]+)\\.(" IDENT ")[ \t]*=[ \t]*(?:async[ \t]+)?function([ \t]+" IDENT ")?[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.\x7f-\xff]+)\\.(" IDENT ")[ \t]*=[ \t]*(async[ \t]+)?function([ \t]+" IDENT ")?[ \t]*\\(",
 		"\\1.\\2", "j,jsfunction,javascript functions", NULL);
-	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.\x7f-\xff]+)\\.(" IDENT ")[ \t]*=[ \t]*(?:async[ \t]+)?function([ \t]+" IDENT ")?[ \t]*\\(",
+	addTagRegex (language, "^[ \t]*([A-Za-z0-9_.\x7f-\xff]+)\\.(" IDENT ")[ \t]*=[ \t]*(async[ \t]+)?function([ \t]+" IDENT ")?[ \t]*\\(",
 		"\\2", "j,jsfunction,javascript functions", NULL);
 
-	addCallbackRegex (language, "^[ \t]*(?:async[ \t]+)?(" IDENT ")[ \t]*\\((?:" IDENT "[ \t]*,[ \t]*)*" IDENT "\\)(?:[ \t]*\\{)?$",
+	// ctags stops at first empty capture, so we can't use ()? before what we need
+	addCallbackRegex (language, "^[ \t]*(" IDENT ")[ \t]*\\(((" ARG "[ \t]*,[ \t]*)*" ARG ")?\\)([ \t]*\\{)?$",
+		NULL, es6Function);
+	addCallbackRegex (language, "^[ \t]*async[ \t]+(" IDENT ")[ \t]*\\(((" ARG "[ \t]*,[ \t]*)*" ARG ")?\\)([ \t]*\\{)?$",
 		NULL, es6Function);
 
 	regcomp(&keywords_pattern,

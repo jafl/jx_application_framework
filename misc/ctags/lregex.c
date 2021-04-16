@@ -312,7 +312,7 @@ static void addCompiledCallbackPattern (
 
 static regex_t* compileRegex (const char* const regexp, const char* const flags)
 {
-	int cflags = REG_EXTENDED | REG_NEWLINE | REG_ENHANCED;
+	int cflags = REG_EXTENDED | REG_NEWLINE;
 	regex_t *result = NULL;
 	int errcode;
 	int i;
