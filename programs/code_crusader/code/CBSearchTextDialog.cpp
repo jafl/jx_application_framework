@@ -433,7 +433,7 @@ CBSearchTextDialog::BuildWindow()
 	JString fontName;
 	JSize fontSize;
 	prefsMgr->GetDefaultFont(&fontName, &fontSize);
-	SetFont(fontName, fontSize);
+	SetFont(JFontManager::GetFont(fontName, fontSize));
 
 	searchInput->SetCharacterInWordFunction(CBMIsCharacterInWord);
 	replaceInput->SetCharacterInWordFunction(CBMIsCharacterInWord);

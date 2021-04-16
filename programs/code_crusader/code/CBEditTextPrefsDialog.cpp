@@ -553,9 +553,8 @@ CBEditTextPrefsDialog::UpdateSettings()
 	JFloat vScrollScale = 1.0;
 	if (fontChanged)
 		{
-		JFontManager* fontMgr = te->GetFontManager();
 		const JFloat h1 = te->GetDefaultFont().GetLineHeight(fontMgr);
-		const JFloat h2 = fontMgr->GetFont(fontName, fontSize).GetLineHeight(fontMgr);
+		const JFloat h2 = JFontManager::GetFont(fontName, fontSize).GetLineHeight(fontMgr);
 		vScrollScale    = h2 / h1;
 		}
 
@@ -677,8 +676,7 @@ CBEditTextPrefsDialog::UpdateSettings()
 	JTextEditor::ShouldCopyWhenSelect(itsCopyWhenSelectCB->IsChecked());
 	JXTEBase::MiddleButtonShouldPaste(itsMiddleButtonPasteCB->IsChecked());
 
-	CBSearchTextDialog* dlog = CBGetSearchTextDialog();
-	dlog->SetFont(fontName, fontSize);
+	CBGetSearchTextDialog()->SetFont(fontName, fontSize);
 
 	itsDoc->JPrefObject::WritePrefs();
 
