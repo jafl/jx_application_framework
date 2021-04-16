@@ -133,7 +133,9 @@ personal:
 RELEASE_PROGS := ${addprefix ../programs/, \
                    code_crusader code_medic code_mill \
                    systemg ssh_askpass svn_client \
-                   drakon leibnitz glove }
+                   drakon leibnitz }
+
+# glove
 
 .PHONY : release
 release:
