@@ -20,7 +20,7 @@ Run `rpm -qlp` on the `.rpm` file to list the files that it installed.
 
 ### The binary that I downloaded doesn't work on my system.  Does this mean that I have to obtain the source?
 
-If you have Mac OS X, upgrade to the latest version of [XQuartz](http://www.xquartz.org) (X11 for Mac).
+If you have MacOS, upgrade to the latest version of [XQuartz](http://www.xquartz.org) (X11 for Mac).
 
 If you are missing a system library (e.g. `libucb.so` on Solaris), then search for it on your system (easiest via `find`) and add its directory to your `LD_LIBRARY_PATH` environment variable.
 
@@ -115,7 +115,7 @@ Make a copy of the appropriate XVision key mapping file in <XVision installation
 Thanks to Ian Wakeling for figuring this out!
 
 
-### On OS X, I don't want to display the location of files using System G.  How do I get it to use Finder?
+### On MacOS, I don't want to display the location of files using System G.  How do I get it to use Finder?
 
 [This script](http://yost.com/computers/MacStuff/reveal/index.html) will display the file in the Finder.  Update the \"Shell cmd to view file in file manager\" command in the Web Browser Preferences dialog to execute the script.
 

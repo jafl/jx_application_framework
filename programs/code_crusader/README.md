@@ -1,7 +1,7 @@
 Installing
 ==========
 
-The easiest way to install from the binary package is to run `sudo ./install`.  If you are on MacOS, you also need to `brew install ace icu4c pcre gd editorconfig aspell`.
+The easiest way to install from the binary package is to run `sudo ./install`.
 
 Otherwise, the programs (jcc, makemake, ctags, dirdiff) need to be placed in a directory that is on your execution path.  `/usr/bin` or `~/bin` are usually good choices.  Copy the libraries in `lib/` to a directory on your `LD_LIBRARY_PATH`.
 
@@ -15,7 +15,9 @@ The CPM_rules files can be loaded into Code Crusader by using the "Clean paragra
 Requirements
 ============
 
-On OS X, this program requires XQuartz, the X11 server.  Before running this program, you must first start XQuartz.
+On MacOS, this program requires XQuartz, the X11 server.  Before running this program, you must first start XQuartz.
+
+You also need to `brew install ace icu4c pcre gd editorconfig aspell`.
 
 
 Bugs
@@ -27,15 +29,12 @@ Code Crusader is very slow when scanning a file without newlines.  This is due t
 Notes
 =====
 
-Code Crusader is a graphical development environment for UNIX.
-
-The on-line help explains all the features of the program.
+Code Crusader is a graphical development environment for UNIX.  The on-line help explains all the features of the program.
 
 Since we use Code Crusader for all our development, we guarantee that it will continue to improve.  We have a very long list of features that we intend to implement, so please tell us what features you need, so we will know which ones on our list to implement first.
 
-Menu items that seem to be permanently disabled are features waiting to be implemented.
+http://sourceforge.net/p/codecrusader/
 
-The C++ parser in Code Crusader is home-grown and therefore not up to parsing all valid C++ header files.  It parses JX correctly, but it can be confused by g++.  This does not cause serious problems, however, because it usually only affects the functions that Code Crusader thinks are implemented by particular classes.
 
 FAQ
 ===
@@ -212,7 +211,7 @@ You need to flush the program's output buffer.  In C, use `fflush(stdout)`.  In 
 
 ### When I try to use CVS or SVN, it hangs because ssh cannot ask for my password.  What can I do about this?
 
-First, set the environment variable `SSH_ASKPASS` to point to an AskPass program, like `/usr/libexec/openssh/x11-ssh-askpass`, `/usr/libexec/openssh/gnome-ssh-askpass`, or [`nps-ssh-askpass`](http://sourceforge.net/p/nps-ssh-askpass/).  Then kill the terminal, if any, from which you ran Code Crusader.  This will force SSH to run the AskPass program to get your password.  [`nps-ssh-askpass`](http://sourceforge.net/p/nps-ssh-askpass/) has the advantage that it runs on Linux, Mac OS X, and Cygwin.
+First, set the environment variable `SSH_ASKPASS` to point to an AskPass program, like `/usr/libexec/openssh/x11-ssh-askpass`, `/usr/libexec/openssh/gnome-ssh-askpass`, or [`nps-ssh-askpass`](http://sourceforge.net/p/nps-ssh-askpass/).  Then kill the terminal, if any, from which you ran Code Crusader.  This will force SSH to run the AskPass program to get your password.  [`nps-ssh-askpass`](http://sourceforge.net/p/nps-ssh-askpass/) has the advantage that it runs on Linux, MacOS, and Cygwin.
 
 
 C++ class tree

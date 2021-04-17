@@ -9,14 +9,18 @@ Otherwise, the program (leibnitz) should be placed in a directory that is on you
 Requirements
 ============
 
-On OS X, this program requires XQuartz, the X11 server.  Before running this program, you must first start XQuartz.
+On MacOS, this program requires XQuartz, the X11 server.  Before running this program, you must first start XQuartz.
+
+You also need to `brew install ace icu4c pcre gd`.
 
 
 Notes
 =====
 
-Leibnitz provides a calculator and the ability to plot functions.  The
-on-line help explains all the features of the program.
+Leibnitz provides a calculator and the ability to plot functions.  The on-line help explains all the features of the program.
+
+http://sourceforge.net/p/leibnitz/
+
 
 FAQ
 ===

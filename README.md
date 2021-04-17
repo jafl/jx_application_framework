@@ -112,7 +112,7 @@ misc
 Please read the LICENSE file for the conditions under which the source is
 provided.
 
-The code has been thoroughly tested on Linux and OS X.  Bizzare behavior
+The code has been thoroughly tested on Linux and MacOS.  Bizzare behavior
 and crashes may be the result of broken system libraries.  We am willing to
 work with you to solve such problems, so please don't hesitate to contact
 us, but since we don't have access to your system, the burden of proof must

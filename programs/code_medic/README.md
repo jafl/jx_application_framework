@@ -9,23 +9,19 @@ Otherwise, the program (medic) should be placed in a directory that is on your e
 Requirements
 ============
 
-On OS X, this program requires XQuartz, the X11 server.  Before running this program, you must first start XQuartz.
+On MacOS, this program requires XQuartz, the X11 server.  Before running this program, you must first start XQuartz.
+
+You also need to `brew install ace icu4c pcre gd editorconfig`.
 
 
 Notes
 =====
 
-Code Medic is a graphical debugging environment for UNIX.
+Code Medic is a graphical debugging environment for UNIX.  The on-line help explains all the features of the program.
 
-The on-line help explains all the features of the program.
+Since we use Code Medic for all our development, we guarantee that it will continue to improve.  We have a very long list of features that we intend to implement, so please tell us what features you need, so we will know which ones on our list to implement first.
 
-Since we use Code Medic for all our development, we guarantee that it will
-continue to improve.  We have a very long list of features that we intend
-to implement, so please tell us what features you need, so we will know
-which ones on our list to implement first.
-
-Menu items that seem to be permanently disabled are features waiting
-to be implemented.
+http://sourceforge.net/p/codemedic/
 
 
 FAQ
