@@ -565,7 +565,10 @@ GDBLink::ReadFromDebugger()
 			GDBGetProgramName* cmd = jnew GDBGetProgramName;
 			assert( cmd != nullptr );
 
-			Broadcast(UserOutput(*(token.data.pString), kJFalse));
+			if (token.data.pString != nullptr)
+				{
+				Broadcast(UserOutput(*(token.data.pString), kJFalse));
+				}
 			}
 		else if (token.type == GDBScanner::kNoSymbolsInProgram)
 			{
