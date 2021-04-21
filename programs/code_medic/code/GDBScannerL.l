@@ -302,10 +302,11 @@ PROMPT "(gdb) "\n
 
 \^done\n {
 	BEGIN(INITIAL);
-	RETURN(kNoSymbolsInProgram);
+	RETURN(kFinishedLoadingSymbolsFromProgram);
 	}
 
-&\".*"No such file or directory".*\"\n {
+&\".*"No such file or directory".*\"\n |
+~\""(No debugging symbols found in".*\"\n {
 
 	itsData.pString = nullptr;
 	BEGIN(INITIAL);

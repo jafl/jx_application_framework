@@ -359,8 +359,6 @@ set height 0
 set print repeats 0
 set print asm-demangle on
 set print demangle on
-#set print pretty on
-#set print array on
 set print sevenbit-strings off
 set print union on
 
@@ -496,14 +494,6 @@ define hook-watch
 echo \\032\\032:Medic breakpoints changed:
 end
 
-define hook-xbreak
-echo \\032\\032:Medic breakpoints changed:
-end
-
-define hook-txbreak
-echo \\032\\032:Medic breakpoints changed:
-end
-
 
 define hook-kill
 echo \\032\\032:Medic program killed:
@@ -528,9 +518,7 @@ echo \\032\\032:Medic thread changed:
 end
 
 
-# doesn't trigger when setting options or \"set variable\"
-
-define hook-set
+define hook-set		# doesn't trigger when setting options or \"set variable\"
 echo \\032\\032:Medic value changed:
 end
 
@@ -548,9 +536,8 @@ define hook-if
 echo \\032\\032:Medic defining script:
 end
 
-# must be last!
 
-define hook-define
+define hook-define		# must be last!
 echo \\032\\032:Medic defining script:
 echo \\n
 echo Type commands for definition of script.\\n
