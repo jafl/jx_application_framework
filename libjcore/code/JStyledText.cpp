@@ -4003,14 +4003,13 @@ JStyledText::GetWordStart
 			}
 		}
 
-	while (iter.Prev(&c) && IsCharacterInWord(c))
+	while (iter.Prev(&c))
 		{
-		// find start of word
-		}
-
-	if (!iter.AtBeginning())
-		{
-		iter.SkipNext();
+		if (!IsCharacterInWord(c))
+			{
+			iter.SkipNext();
+			break;
+			}
 		}
 
 	return TextIndex(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
