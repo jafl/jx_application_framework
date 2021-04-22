@@ -300,7 +300,7 @@ PROMPT "(gdb) "\n?
 	RETURN(kFinishedLoadingSymbolsFromProgram);
 	}
 
-\^done\n {
+([~@]\".*\")?\^done\n {
 	BEGIN(INITIAL);
 	RETURN(kFinishedLoadingSymbolsFromProgram);
 	}
@@ -322,7 +322,7 @@ PROMPT "(gdb) "\n?
 	RETURN(kNoSymbolsInProgram);
 	}
 
-[~@]\".*\"\n? {
+[~@]\".*\"\n {
 
 	itsString.Set(yytext + 2, yyleng - 4);
 	TranslateMIOutput(&itsString);
