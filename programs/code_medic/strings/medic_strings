@@ -518,7 +518,7 @@ echo \\032\\032:Medic thread changed:
 end
 
 
-define hook-set		# doesn't trigger when setting options or \"set variable\"
+define set hook-variable
 echo \\032\\032:Medic value changed:
 end
 
@@ -536,8 +536,9 @@ define hook-if
 echo \\032\\032:Medic defining script:
 end
 
+# must be last!
 
-define hook-define		# must be last!
+define hook-define
 echo \\032\\032:Medic defining script:
 echo \\n
 echo Type commands for definition of script.\\n
