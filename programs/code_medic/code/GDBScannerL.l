@@ -34,7 +34,7 @@ static const JRegex pingRegex(":Medic debugger ready:([""[:digit:]""]+)");
 WS     ([[:space:]]+)
 INT    ([[:digit:]]+)
 HEX    (0x[[:xdigit:]]+)
-PROMPT "(gdb) "\n
+PROMPT "(gdb) "\n?
 
 %%
 
@@ -322,7 +322,7 @@ PROMPT "(gdb) "\n
 	RETURN(kNoSymbolsInProgram);
 	}
 
-[~@]\".*\"\n {
+[~@]\".*\"\n? {
 
 	itsString.Set(yytext + 2, yyleng - 4);
 	TranslateMIOutput(&itsString);
