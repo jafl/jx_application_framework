@@ -1,3 +1,7 @@
+unit test all jcc stylers
+unit test CBSearch classes - split CBSearchProcess out from CBSearchDocument
+test html styling with xml:  should ignore namespaces (xmlns:foo=) in tags
+
 JStyledText
 	AutoIndent
 	CleanRightMargin
@@ -6,8 +10,7 @@ JStyledText
 		test with /opt/X11/share/X11/locale/en_US.UTF-8/Compose
 
 jcc
-	unit test CBSearch classes - split CBSearchProcess out from CBSearchDocument
-	test html styling with xml:  should ignore namespaces (xmlns:foo=) in tags
+	test that CBCompileDocument::ConvertSelectionToFullPath gets path from "Entering directory"
 
 	symbol list:
 		strip space from signature:( JBroadcaster* recipient )

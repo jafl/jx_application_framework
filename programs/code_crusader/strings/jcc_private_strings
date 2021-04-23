@@ -672,6 +672,11 @@ $update_cmd
 $build_cmd
 "
 
+# CBCompileDocument
+
+ErrorMenuTitle::CBCompileDocument	"Errors"
+ChangeDirectory::CBCompileDocument	"Entering directory `$d`"
+
 # CBFileListTable
 
 ParsingFiles::CBFileListTable	"Parsing files:"
@@ -740,6 +745,24 @@ UnableToCreateDir::CBFileTypeTable
 "Unable to create $dir because:
 
 $err"
+
+Column1::CBFileTypeTable	"Suffix / Regex"
+Column2::CBFileTypeTable	"Type"
+Column3::CBFileTypeTable	"Macro set"
+Column4::CBFileTypeTable	"Script path"
+Column5::CBFileTypeTable	"CPM rules"
+Column6::CBFileTypeTable	"Word wrap"
+Column7::CBFileTypeTable	"Open command"
+
+WordWrapOn::CBFileTypeTable		"Yes"
+WordWrapOff::CBFileTypeTable	"No"
+
+UserScriptMarker::CBFileTypeTable	" (personal)"
+SysScriptMarker::CBFileTypeTable	" (global)"
+
+NoScript::CBFileTypeTable	"None"
+
+EmptyInput::CBFileTypeTable	"You must specify some text to match."
 
 # CBTEScriptMenu
 

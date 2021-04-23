@@ -1,0 +1,139 @@
+/******************************************************************************
+ CBSTSlurpQuoted.th
+
+	Use this file to instantiate code for stylers
+
+	To use this file:
+
+		#define ClassName ____
+		#include "CBSTSlurpQuoted.th"
+		#undef ClassName
+
+	Copyright (C) 2021 by John Lindal.
+
+ ******************************************************************************/
+
+JBoolean
+ClassName::SlurpQuoted
+	(
+	const JSize			count,
+	const JUtf8Byte*	suffixList
+	)
+{
+	assert( count > 0 );
+
+	JStyledText::TextIndex beyond = itsCurrentRange.GetAfter();
+
+	JUtf8Character startChar;
+	if (!ReadCharacter(&beyond, &startChar))
+		{
+		return kJFalse;
+		}
+
+	JUtf8Character endChar = startChar;
+	if (startChar == '(')
+		{
+		endChar = ')';
+		}
+	else if (startChar == '<')
+		{
+		endChar = '>';
+		}
+	else if (startChar == '[')
+		{
+		endChar = ']';
+		}
+	else if (startChar == '{')
+		{
+		endChar = '}';
+		}
+
+	JSize remainder = count;
+	JUtf8Character c;
+	JBoolean ok = kJFalse;
+	while (1)
+		{
+		if (!ReadCharacter(&beyond, &c))
+			{
+			break;
+			}
+
+		if (startChar != endChar && c == startChar)
+			{
+			remainder++;
+			}
+		else if (c == endChar)	// check for endChar before '\\' because qq\abc\ is legal
+			{
+			if (remainder > 0)
+				{
+				remainder--;
+				}
+			if (remainder == 0)
+				{
+				while (1)		// slurp in characters in suffixList
+					{
+					if (!ReadCharacter(&beyond, &c))
+						{
+						ok = kJTrue;
+						break;
+						}
+					else if (strchr(suffixList, c.GetBytes()[0]) == nullptr)
+						{
+						const JSize count = c.GetByteCount();
+						for (JUnsignedOffset i=1; i<=count; i++)
+							{
+							yyunput(c.GetBytes()[ count-i ], yytext);
+							}
+						beyond = itsCurrentText->AdjustTextIndex(beyond, -1);
+						ok     = kJTrue;
+						break;
+						}
+					}
+				}
+			else if (count > 1 && remainder < count)
+				{
+				remainder--;	// compensate for extra openChar in s(a)(b)g
+				}
+			}
+		else if (c == '\\')
+			{
+			if (!ReadCharacter(&beyond, &c))
+				{
+				break;
+				}
+			}
+		}
+
+	itsCurrentRange = JStyledText::TextRange(itsCurrentRange.GetFirst(), beyond);
+	return ok;
+}
+
+JBoolean
+ClassName::ReadCharacter
+	(
+	JStyledText::TextIndex*	index,
+	JUtf8Character*			ch
+	)
+{
+	int c = yyinput();
+	if (c == EOF || c == 0)
+		{
+		return kJFalse;
+		}
+
+	JUtf8Byte bytes[ JUtf8Character::kMaxByteCount+1 ];
+	JUnsignedOffset i = 0;
+	bytes[i++]        = c;
+
+	JIndex j = index->byteIndex + 1;
+	*index   = itsCurrentText->AdjustTextIndex(*index, +1);
+	while (j < index->byteIndex)
+		{
+		bytes[i++] = yyinput();
+		j++;
+		}
+
+	bytes[i++] = 0;
+	ch->Set(bytes);
+	return kJTrue;
+}

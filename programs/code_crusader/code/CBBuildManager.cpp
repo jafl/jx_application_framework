@@ -15,7 +15,7 @@
 #include "CBProjectConfigDialog.h"
 #include "CBCommand.h"
 #include "cbGlobals.h"
-#include <jDirUtil.h>
+#include <JStringIterator.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
@@ -318,11 +318,12 @@ CBBuildManager::UpdateMakeHeader
 	std::ostringstream output;
 
 	const JString& marker = JGetString("MakeHeaderMarker::CBBuildManager");
-	JIndex i;
-	const JBoolean foundMarker = text.LocateSubstring(marker, &i);
+
+	JStringIterator iter(text);
+	const JBoolean foundMarker = iter.Next(marker);
 	if (foundMarker)
 		{
-		output.write(text.GetBytes(), i-1);
+		output.write(text.GetBytes(), iter.GetPrevByteIndex());
 		}
 	else
 		{
@@ -345,18 +346,16 @@ CBBuildManager::UpdateMakeHeader
 			"lib_full_name", libFileList.GetElement(i)->GetBytes(),
 			"lib_proj_path", libProjPathList.GetElement(i)->GetBytes(),
 			};
-		const JString target = JGetString("MakeHeaderLibTarget::CBBuildManager", map, sizeof(map));
-		target.Print(output);
+		JGetString("MakeHeaderLibTarget::CBBuildManager", map, sizeof(map)).Print(output);
 		}
 
 	output << '\n';
 	marker.Print(output);
 
-	i++;
-	if (foundMarker && text.LocateNextSubstring(marker, &i))
+	if (foundMarker && iter.Next(marker) && !iter.AtEnd())
 		{
-		const JSize offset = i-1 + marker.GetLength();
-		output.write(text.GetBytes() + offset, text.GetLength() - offset);
+		const JSize offset = iter.GetPrevByteIndex();
+		output.write(text.GetBytes() + offset, text.GetByteCount() - offset);
 		}
 	else
 		{
@@ -446,15 +445,17 @@ CBBuildManager::WriteCMakeInput
 	JString cmakeHeader;
 	JReadFile(inputFileName, &cmakeHeader);
 	const JString& marker = JGetString("CMakeInsertMarker::CBBuildManager");
-	JIndex i;
-	if (cmakeHeader.LocateSubstring(marker, &i))
+
+	JStringIterator iter(&cmakeHeader);
+	if (iter.Next(marker))
 		{
-		cmakeHeader.ReplaceSubstring(i, i+strlen(marker)-1, cmakeData);
+		iter.ReplaceLastMatch(cmakeData);
 		}
 	else
 		{
 		cmakeHeader += cmakeData;
 		}
+	iter.Invalidate();
 
 	JEditVCS(outputFileName);
 	std::ofstream output(outputFileName.GetBytes());
@@ -488,15 +489,17 @@ CBBuildManager::WriteQMakeInput
 	JString qmakeHeader;
 	JReadFile(inputFileName, &qmakeHeader);
 	const JString& marker = JGetString("QMakeInsertMarker::CBBuildManager");
-	JIndex i;
-	if (qmakeHeader.LocateSubstring(marker, &i))
+
+	JStringIterator iter(&qmakeHeader);
+	if (iter.Next(marker))
 		{
-		qmakeHeader.ReplaceSubstring(i, i+strlen(marker)-1, qmakeData);
+		iter.ReplaceLastMatch(qmakeData);
 		}
 	else
 		{
 		qmakeHeader += qmakeData;
 		}
+	iter.Invalidate();
 
 	JEditVCS(outputFileName);
 	std::ofstream output(outputFileName.GetBytes());
@@ -520,17 +523,21 @@ CBBuildManager::PrintTargetName
 	const
 {
 	JString s = itsTargetName, target;
-	JIndex commaIndex;
-	while (s.LocateSubstring(",", &commaIndex))
+
+	JStringIterator iter(s);
+	iter.BeginMatch();
+	while (iter.Next(","))
 		{
-		target = s.GetSubstring(1, commaIndex-1);
-		s.RemoveSubstring(1, commaIndex);
+		target = iter.FinishMatch().GetString();
 
 		target.TrimWhitespace();
 		output << '@';
 		target.Print(output);
 		output << '\n';
+
+		iter.BeginMatch();
 		}
+	iter.Invalidate();
 
 	s.TrimWhitespace();
 	output << '@';

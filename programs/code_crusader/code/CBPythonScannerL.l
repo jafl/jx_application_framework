@@ -335,7 +335,8 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 
 . {
 	StartToken();
-	if ( isprint(YYText()[0]) )
+	JUtf8Character c(yytext);
+	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);
 		}

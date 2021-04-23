@@ -237,7 +237,8 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 . {
 	StartToken();
-	if ( isprint(YYText()[0]) )
+	JUtf8Character c(yytext);
+	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);
 		}

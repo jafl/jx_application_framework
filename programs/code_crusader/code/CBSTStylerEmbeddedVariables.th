@@ -1,0 +1,62 @@
+/******************************************************************************
+ CBSTStylerEmbeddedVariables.th
+
+	Use this file to instantiate code for stylers
+
+	To use this file:
+
+		#define ClassName ____
+		#include "CBSTStylerEmbeddedVariables.th"
+		#undef ClassName
+
+	Copyright (C) 2021 by John Lindal.
+
+ ******************************************************************************/
+
+void
+ClassName::StyleEmbeddedVariables
+	(
+	const Token& token
+	)
+{
+	variablePattern.SetSingleLine();
+	emptyVariablePattern.SetSingleLine();
+
+	JFontStyle varStyle = GetTypeStyle(token.type - kWhitespace);
+	varStyle.underlineCount++;
+#ifndef NoVariableIndex
+	if (varStyle == GetTypeStyle(kVariable - kWhitespace))
+		{
+		varStyle.underlineCount++;
+		}
+#endif
+	JFontStyle errStyle = GetTypeStyle(kError - kWhitespace);
+	errStyle.underlineCount++;
+#ifndef NoVariableIndex
+	if (errStyle == GetTypeStyle(kVariable - kWhitespace))
+		{
+		errStyle.underlineCount++;
+		}
+#endif
+	JArray<JIndex> varIndexList;
+
+	JStringIterator iter(GetText(), kJIteratorStartBefore, token.range.charRange.first);
+	JUtf8Character c;
+	while (iter.Next(variablePattern) && iter.GetPrevCharacterIndex() <= token.range.charRange.last)
+		{
+		const JStringMatch& m = iter.GetLastMatch();
+		AdjustStyle(m.GetCharacterRange(), varStyle);
+		varIndexList.AppendElement(m.GetCharacterRange().first);
+		}
+
+	iter.MoveTo(kJIteratorStartBefore, token.range.charRange.first);
+	JIndex i;
+	while (iter.Next(emptyVariablePattern) && iter.GetPrevCharacterIndex() <= token.range.charRange.last)
+		{
+		const JStringMatch& m = iter.GetLastMatch();
+		if (!varIndexList.SearchSorted(m.GetCharacterRange().first, JListT::kAnyMatch, &i))
+			{
+			AdjustStyle(m.GetCharacterRange(), errStyle);
+			}
+		}
+}

@@ -1009,7 +1009,7 @@ CBProjectDocument::WriteFiles
 JBoolean
 CBProjectDocument::ReadTasksFromProjectFile
 	(
-	std::istream&					input,
+	std::istream&				input,
 	CBCommandManager::CmdList*	cmdList
 	)
 {
@@ -1052,7 +1052,7 @@ CBProjectDocument::ReadTasksFromProjectFile
 void
 CBProjectDocument::ConvertCompileRunDialogs
 	(
-	std::istream&			projInput,
+	std::istream&		projInput,
 	const JFileVersion	projVers
 	)
 {

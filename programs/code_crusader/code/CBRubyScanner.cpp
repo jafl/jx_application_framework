@@ -44,11 +44,13 @@ CBRubyScanner::~CBRubyScanner()
 void
 CBRubyScanner::BeginScan
 	(
+	const JStyledText*				text,
 	const JStyledText::TextIndex&	startIndex,
 	std::istream&					input
 	)
 {
-	itsResetFlag = kJTrue;
+	itsCurrentText = text;
+	itsResetFlag   = kJTrue;
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 	itsProbableOperatorFlag = kJFalse;
@@ -61,89 +63,13 @@ CBRubyScanner::BeginScan
 /******************************************************************************
  SlurpQuoted
 
+	count is the number of times to slurp up to and including endChar.
 	suffixList is the characters that can be appended, e.g., /foo/i
 
 	Returns kJFalse if EOF was encountered.
 
  *****************************************************************************/
 
-JBoolean
-CBRubyScanner::SlurpQuoted
-	(
-	const JUtf8Byte* suffixList
-	)
-{
-	const int startChar = yyinput();
-	if (startChar == EOF || startChar == 0)
-		{
-		return kJFalse;
-		}
-	itsCurrentRange.last++;
-
-	int endChar = startChar;
-	if (startChar == '(')
-		{
-		endChar = ')';
-		}
-	else if (startChar == '<')
-		{
-		endChar = '>';
-		}
-	else if (startChar == '[')
-		{
-		endChar = ']';
-		}
-	else if (startChar == '{')
-		{
-		endChar = '}';
-		}
-
-	JSize remainder = 1;
-	while (1)
-		{
-		int c = yyinput();
-		if (c == EOF || c == 0)
-			{
-			return kJFalse;
-			}
-		itsCurrentRange.last++;
-
-		if (startChar != endChar && c == startChar)
-			{
-			remainder++;
-			}
-		else if (c == endChar)	// check for endChar before '\\' because %r\abc\ is legal
-			{
-			if (remainder > 0)
-				{
-				remainder--;
-				}
-			if (remainder == 0)
-				{
-				while (1)		// slurp in characters in suffixList
-					{
-					c = yyinput();
-					if (c == EOF || c == 0)
-						{
-						return kJTrue;
-						}
-					else if (strchr(suffixList, c) == nullptr)
-						{
-						yyunput(c, yytext);
-						return kJTrue;
-						}
-					itsCurrentRange.last++;
-					}
-				}
-			}
-		else if (c == '\\')
-			{
-			c = yyinput();
-			if (c == EOF || c == 0)
-				{
-				return kJFalse;
-				}
-			itsCurrentRange.last++;
-			}
-		}
-}
+#define ClassName CBRubyScanner
+#include "CBSTSlurpQuoted.th"
+#undef ClassName

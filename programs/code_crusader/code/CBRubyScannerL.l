@@ -287,7 +287,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "%r" {
 	StartToken();
 	itsProbableOperatorFlag = kJTrue;
-	if (SlurpQuoted("imox"))
+	if (SlurpQuoted(1, "imox"))
 		{
 		return ThisToken(kRegex);
 		}
@@ -332,7 +332,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "%q" {
 	StartToken();
 	itsProbableOperatorFlag = kJTrue;
-	if (SlurpQuoted(""))
+	if (SlurpQuoted(1, ""))
 		{
 		return ThisToken(kSingleQuoteString);
 		}
@@ -377,7 +377,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "%"Q? {
 	StartToken();
 	itsProbableOperatorFlag = kJTrue;
-	if (SlurpQuoted(""))
+	if (SlurpQuoted(1, ""))
 		{
 		return ThisToken(kDoubleQuoteString);
 		}
@@ -482,7 +482,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "%x" {
 	StartToken();
 	itsProbableOperatorFlag = kJTrue;
-	if (SlurpQuoted(""))
+	if (SlurpQuoted(1, ""))
 		{
 		return ThisToken(kExecString);
 		}
@@ -521,7 +521,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "%w"[ \v\t\f\r\n]* {
 	StartToken();
 	itsProbableOperatorFlag = kJTrue;
-	if (SlurpQuoted(""))
+	if (SlurpQuoted(1, ""))
 		{
 		return ThisToken(kWordList);
 		}
@@ -546,7 +546,8 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 . {
 	StartToken();
 	itsProbableOperatorFlag = kJFalse;
-	if ( isprint(YYText()[0]) )
+	JUtf8Character c(yytext);
+	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);
 		}

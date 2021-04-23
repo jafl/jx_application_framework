@@ -877,7 +877,8 @@ __DATA__ {
 . {
 	StartToken();
 	itsProbableOperatorFlag = kJFalse;
-	if ( isprint(YYText()[0]) )
+	JUtf8Character c(yytext);
+	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);
 		}

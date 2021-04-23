@@ -38,19 +38,19 @@ JXTextMenu*
 CBFileTypeTable::CreateMenuFn()
 {
 	JXTextMenu* menu =
-		new JXTextMenu("", this,
-					   JXWidget::kFixedLeft, JXWidget::kFixedTop,
-					   0,0, 10,10);
+		jnew JXTextMenu(JString::empty, this,
+						JXWidget::kFixedLeft, JXWidget::kFixedTop,
+						0,0, 10,10);
 	assert( menu != nullptr );
 	menu->SetToHiddenPopupMenu();
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 
-	menu->AppendItem("None", JXMenu::kRadioType);
+	menu->AppendItem(JGetString("NoScript::CBFileTypeTable"), JXMenu::kRadioType);
 	menu->ShowSeparatorAfter(1);
 	const JSize count = DataList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		menu->AppendItem(*((DataList.GetElement(i)).name), JXMenu::kRadioType);
+		menu->AppendItem(*DataList.GetElement(i).name, JXMenu::kRadioType);
 		}
 
 	return menu;
@@ -65,7 +65,7 @@ void
 CBFileTypeTable::UpdateMenuFn()
 {
 	JPoint cell;
-	const JBoolean ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const JBoolean ok = GetTableSelection().GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	const CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
@@ -110,7 +110,7 @@ CBFileTypeTable::HandleMenuFn
 	)
 {
 	JPoint cell;
-	const JBoolean ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const JBoolean ok = GetTableSelection().GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
@@ -120,7 +120,7 @@ CBFileTypeTable::HandleMenuFn
 		}
 	else
 		{
-		info.StructIDVar = (DataList.GetElement(index-1)).id;
+		info.StructIDVar = DataList.GetElement(index-1).id;
 		}
 	itsFileTypeList->SetElement(cell.y, info);
 

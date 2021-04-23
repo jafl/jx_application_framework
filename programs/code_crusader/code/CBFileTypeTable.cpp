@@ -18,6 +18,7 @@
 #include <JTableSelection.h>
 #include <JPainter.h>
 #include <JFontManager.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
@@ -42,26 +43,12 @@ const JCoordinate kInitColWidth[] =
 	100, 120, 75, 80, 70, 70, 150
 };
 
-static const JCharacter* kColTitle[] =
-{
-	"Suffix / Regex",
-	"Type",
-	"Macro set",
-	"Script path",
-	"CPM rules",
-	"Word wrap",
-	"Open command"
-};
-
 const JSize kColCount = sizeof(kInitColWidth) / sizeof(JCoordinate);
-
-static const JCharacter* kWordWrapOnStr  = "Yes";
-static const JCharacter* kWordWrapOffStr = "No";
 
 // geometry information
 
 const JFileVersion kCurrentGeometryDataVersion = 3;
-const JCharacter kGeometryDataEndDelimiter     = '\1';
+const JUtf8Byte kGeometryDataEndDelimiter      = '\1';
 
 	// version  3 stores script path column width
 	// version  2 stores edit cmd column width
@@ -69,7 +56,7 @@ const JCharacter kGeometryDataEndDelimiter     = '\1';
 
 // Type menu
 
-static const JCharacter* kTypeMenuStr =
+static const JUtf8Byte* kTypeMenuStr =
 	"  Adobe Flash %r"
 	"| Ant %r"
 	"| Assembly %r"
@@ -318,8 +305,8 @@ static const JIndex kFileTypeToMenuIndex[] =
 
 // Script menu
 
-static const JCharacter* kScriptMenuStr    = "None %r %l";
-static const JCharacter* kScriptMenuEndStr = "New directory";
+static const JUtf8Byte* kScriptMenuStr    = "None %r %l";
+static const JUtf8Byte* kScriptMenuEndStr = "New directory";
 
 enum
 {
@@ -327,16 +314,6 @@ enum
 
 	kNewScriptPathCmd = 0	// offset from end of menu
 };
-
-static const JCharacter* kUserScriptMarker = " (personal)";
-static const JCharacter* kSysScriptMarker  = " (global)";
-
-// string ID's
-
-static const JCharacter* kNewDirTitleID       = "NewDirTitle::CBFileTypeTable";
-static const JCharacter* kNewDirPromptID      = "NewDirPrompt::CBFileTypeTable";
-static const JCharacter* kNewDirNoHomeID      = "NewDirNoHome::CBFileTypeTable";
-static const JCharacter* kUnableToCreateDirID = "UnableToCreateDir::CBFileTypeTable";
 
 /******************************************************************************
  Constructor
@@ -378,8 +355,8 @@ CBFileTypeTable::CBFileTypeTable
 	itsFont.Set(fontName, fontSize);
 
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		JFontManager::GetDefaultFont().GetLineHeight(),
-		itsFont.GetLineHeight());
+		JFontManager::GetDefaultFont().GetLineHeight(GetFontManager()),
+		itsFont.GetLineHeight(GetFontManager()));
 	SetDefaultRowHeight(rowHeight);
 
 	// buttons
@@ -394,7 +371,7 @@ CBFileTypeTable::CBFileTypeTable
 
 	// type menu
 
-	itsTypeMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsTypeMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsTypeMenu != nullptr );
 	itsTypeMenu->SetToHiddenPopupMenu();
 	itsTypeMenu->SetMenuItems(kTypeMenuStr);
@@ -408,7 +385,7 @@ CBFileTypeTable::CBFileTypeTable
 
 	// script menu
 
-	itsScriptMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsScriptMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsScriptMenu != nullptr );
 	itsScriptMenu->SetToHiddenPopupMenu();
 	itsScriptMenu->SetMenuItems(kScriptMenuStr);	// ensure non-empty
@@ -595,7 +572,7 @@ CBFileTypeTable::TableDrawCell
 		{
 		if (info.scriptPath == nullptr)
 			{
-			p.String(rect, "None", JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+			p.String(rect, JGetString("NoScript::CBFileTypeTable"), JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 			}
 		else
 			{
@@ -611,8 +588,9 @@ CBFileTypeTable::TableDrawCell
 	else if (cell.x == kWrapColumn &&
 			 info.type != kCBBinaryFT && info.type != kCBExternalFT)
 		{
-		const JCharacter* str = info.wordWrap ? kWordWrapOnStr : kWordWrapOffStr;
-		p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+		p.String(rect,
+			JGetString(info.wordWrap ? "WordWrapOn::CBFileTypeTable" : "WordWrapOff::CBFileTypeTable"),
+			JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 		}
 	else if (cell.x == kEditCmdColumn && info.editCmd != nullptr)
 		{
@@ -752,13 +730,13 @@ CBFileTypeTable::CreateXInputField
 	const CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
 	if (cell.x == kSuffixColumn)
 		{
-		itsTextInput->SetText(*(info.suffix));
+		itsTextInput->GetText()->SetText(*info.suffix);
 		itsTextInput->SetIsRequired();
 		}
 	else if (cell.x == kEditCmdColumn)
 		{
 		assert( info.editCmd != nullptr );
-		itsTextInput->SetText(*(info.editCmd));
+		itsTextInput->GetText()->SetText(*info.editCmd);
 		}
 	itsTextInput->SetFont(itsFont);
 	return itsTextInput;
@@ -778,17 +756,17 @@ CBFileTypeTable::ExtractInputData
 	assert( itsTextInput != nullptr );
 
 	CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
-	const JString& text               = itsTextInput->GetText();
+	const JString& text               = itsTextInput->GetText()->GetText();
 
 	JBoolean ok = itsTextInput->InputValid();
 	if (ok && cell.x == kSuffixColumn)
 		{
 		const JBoolean isRegex = JI2B(text.GetFirstCharacter() == kCBContentRegexMarker);
-		if (isRegex && text.GetLength() == 1)
+		if (isRegex && text.GetCharacterCount() == 1)
 			{
 			ok = kJFalse;
 			JGetUserNotification()->ReportError(
-				"You must specify some text to match.");
+				JGetString("EmptyInput::CBFileTypeTable"));
 			}
 		else if (isRegex)
 			{
@@ -799,14 +777,14 @@ CBFileTypeTable::ExtractInputData
 
 		if (ok)
 			{
-			*(info.suffix) = text;
+			*info.suffix = text;
 			}
 		}
 	else if (ok && cell.x == kEditCmdColumn)
 		{
 		assert( info.editCmd != nullptr );
-		*(info.editCmd) = text;
-		(info.editCmd)->TrimWhitespace();
+		*info.editCmd = text;
+		info.editCmd->TrimWhitespace();
 		}
 
 	return ok;
@@ -1098,15 +1076,17 @@ CBFileTypeTable::UpdateScriptMenu()
 			// We have to extract user/sys here because otherwise we would
 			// have to keep extra state while building the sorted list.
 
-			itemText = *(menuText.GetElement(i));
+			itemText = *menuText.GetElement(i);
 
-			JIndex j;
-			const JBoolean found = itemText.LocateLastSubstring(" (", &j);
+			JStringIterator iter(&itemText, kJIteratorStartAtEnd);
+			iter.BeginMatch();
+			const JBoolean found = iter.Prev(" (");
 			assert( found );
+			const JStringMatch& m = iter.FinishMatch(kJTrue);
 
-			const JIndexRange r(j, itemText.GetLength());
-			nmShortcut = itemText.GetSubstring(r);
-			itemText.RemoveSubstring(r);
+			nmShortcut = m.GetString();
+			iter.RemoveAllNext();
+			iter.Invalidate();
 
 			itsScriptMenu->AppendItem(itemText, JXMenu::kRadioType);
 			itsScriptMenu->SetItemNMShortcut(itsScriptMenu->GetItemCount(), nmShortcut);
@@ -1114,9 +1094,9 @@ CBFileTypeTable::UpdateScriptMenu()
 			// By not stripping off the leading whitespace on nmShorcut, we
 			// can do a direct string comparison with the original strings.
 
-			if (info.scriptPath != nullptr && *(info.scriptPath) == itemText &&
-				(( info.isUserScript && nmShortcut == kUserScriptMarker) ||
-				 (!info.isUserScript && nmShortcut == kSysScriptMarker)))
+			if (info.scriptPath != nullptr && *info.scriptPath == itemText &&
+				(( info.isUserScript && nmShortcut == JGetString("UserScriptMarker::CBFileTypeTable")) ||
+				 (!info.isUserScript && nmShortcut == JGetString("SysScriptMarker::CBFileTypeTable"))))
 				{
 				itsScriptMenu->CheckItem(itsScriptMenu->GetItemCount());
 				}
@@ -1137,7 +1117,7 @@ CBFileTypeTable::UpdateScriptMenu()
 void
 CBFileTypeTable::BuildScriptMenuItems
 	(
-	const JCharacter*	path,
+	const JString&		path,
 	const JBoolean		isUserPath,
 	JPtrArray<JString>*	menuText
 	)
@@ -1151,16 +1131,16 @@ CBFileTypeTable::BuildScriptMenuItems
 		const JSize count = info->GetEntryCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JString* s = jnew JString((info->GetEntry(i)).GetName());
+			JString* s = jnew JString(info->GetEntry(i).GetName());
 			assert( s != nullptr );
 
 			if (isUserPath)
 				{
-				*s += kUserScriptMarker;
+				*s += JGetString("UserScriptMarker::CBFileTypeTable");
 				}
 			else
 				{
-				*s += kSysScriptMarker;
+				*s += JGetString("SysScriptMarker::CBFileTypeTable");
 				}
 
 			menuText->InsertSorted(s);
@@ -1210,7 +1190,7 @@ CBFileTypeTable::HandleScriptMenu
 		JString nmShortcut;
 		const JBoolean ok = itsScriptMenu->GetItemNMShortcut(index, &nmShortcut);
 		assert( ok );
-		info.isUserScript = JI2B( nmShortcut == kUserScriptMarker );
+		info.isUserScript = JI2B( nmShortcut == JGetString("UserScriptMarker::CBFileTypeTable") );
 		}
 
 	itsFileTypeList->SetElement(cell.y, info);
@@ -1230,7 +1210,7 @@ CBFileTypeTable::GetNewScriptDirectory()
 	JString sysDir, userDir;
 	if (!CBPrefsManager::GetScriptPaths(&sysDir, &userDir))
 		{
-		JGetUserNotification()->ReportError(JGetString(kNewDirNoHomeID));
+		JGetUserNotification()->ReportError(JGetString("NewDirNoHome::CBFileTypeTable"));
 		return;
 		}
 
@@ -1240,8 +1220,8 @@ CBFileTypeTable::GetNewScriptDirectory()
 		}
 
 	itsNewDirDialog =
-		jnew JXGetNewDirDialog(JXGetApplication(), JGetString(kNewDirTitleID),
-							  JGetString(kNewDirPromptID), "", userDir);
+		jnew JXGetNewDirDialog(JXGetApplication(), JGetString("NewDirTitle::CBFileTypeTable"),
+							  JGetString("NewDirPrompt::CBFileTypeTable"), JString::empty, userDir);
 	assert( itsNewDirDialog != nullptr );
 	itsNewDirDialog->BeginDialog();
 	ListenTo(itsNewDirDialog);
@@ -1292,19 +1272,19 @@ CBFileTypeTable::CreateNewScriptDirectory()
 JBoolean
 CBFileTypeTable::CreateDirectory
 	(
-	const JCharacter* path
+	const JString& path
 	)
 	const
 {
 	const JError err = JCreateDirectory(path);
 	if (!err.OK())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"dir", path,
-			"err", err.GetMessage()
+			"dir", path.GetBytes(),
+			"err", err.GetMessage().GetBytes()
 			};
-		const JString msg = JGetString(kUnableToCreateDirID, map, sizeof(map));
+		const JString msg = JGetString("UnableToCreateDir::CBFileTypeTable", map, sizeof(map));
 		JGetUserNotification()->ReportError(msg);
 		}
 	return err.OK();
@@ -1461,6 +1441,7 @@ CBFileTypeTable::SetColTitles
 {
 	for (JIndex i=1; i<=kColCount; i++)
 		{
-		widget->SetColTitle(i, kColTitle[i-1]);
+		const JString s = JString("Column") + JString(JUInt64(i)) + "::CBFileTypeTable";
+		widget->SetColTitle(i, JGetString(s.GetBytes()));
 		}
 }

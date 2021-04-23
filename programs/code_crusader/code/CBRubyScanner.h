@@ -89,11 +89,13 @@ public:
 
 	virtual ~CBRubyScanner();
 
-	void	BeginScan(const JStyledText::TextIndex& startIndex, std::istream& input);
+	void	BeginScan(const JStyledText* text,
+					  const JStyledText::TextIndex& startIndex, std::istream& input);
 	Token	NextToken();		// written by flex
 
 private:
 
+	const JStyledText*		itsCurrentText;
 	JBoolean				itsResetFlag;
 	JStyledText::TextRange	itsCurrentRange;
 	JBoolean				itsProbableOperatorFlag;	// kTrue if /,? are most likely operators instead of regex
@@ -107,7 +109,8 @@ private:
 	void	ContinueToken();
 	Token	ThisToken(const TokenType type);
 
-	JBoolean	SlurpQuoted(const JUtf8Byte* suffixList);
+	JBoolean	SlurpQuoted(const JSize count, const JUtf8Byte* suffixList);
+	JBoolean	ReadCharacter(JStyledText::TextIndex* index, JUtf8Character* ch);
 
 	// not allowed
 

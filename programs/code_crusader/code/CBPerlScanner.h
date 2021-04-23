@@ -105,13 +105,15 @@ public:
 
 	virtual ~CBPerlScanner();
 
-	void	BeginScan(const JStyledText::TextIndex& startIndex, std::istream& input);
+	void	BeginScan(const JStyledText* text,
+					  const JStyledText::TextIndex& startIndex, std::istream& input);
 	Token	NextToken();		// written by flex
 
 	const JStyledText::TextRange&	GetPPNameRange() const;
 
 private:
 
+	const JStyledText*		itsCurrentText;
 	JBoolean				itsResetFlag;
 	JStyledText::TextRange	itsCurrentRange;
 	JStyledText::TextRange	itsPPNameRange;
@@ -127,6 +129,7 @@ private:
 	Token	ThisToken(const TokenType type);
 
 	JBoolean	SlurpQuoted(const JSize count, const JUtf8Byte* suffixList);
+	JBoolean	ReadCharacter(JStyledText::TextIndex* index, JUtf8Character* ch);
 
 	void	SavePPNameRange();
 

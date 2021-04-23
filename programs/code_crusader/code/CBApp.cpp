@@ -442,9 +442,9 @@ CBApp::FindFile
 	if (!cancelled)
 		{
 		const JUtf8Byte* map[] =
-		{
+			{
 			"name", fileName.GetBytes()
-		};
+			};
 		const JString msg = JGetString("FileNotFound::CBApp", map, sizeof(map));
 		JGetUserNotification()->ReportError(msg);
 		}

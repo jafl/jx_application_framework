@@ -16,15 +16,12 @@
 #include <JXMenuBar.h>
 #include <JXTextMenu.h>
 #include <JRegex.h>
-#include <JString.h>
+#include <JStringIterator.h>
 #include <JStack.h>
 #include <jFileUtil.h>
-#include <jDirUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kDirMarkerStr    = "Entering directory `";
-static const JCharacter* kDirMarkerEndStr = "`";
-static const JRegex dirMarkerPattern      = "((Entering)|(Leaving)) directory `";
+static const JRegex dirMarkerPattern = "((Entering)|(Leaving)) directory `";
 
 // static data
 
@@ -32,8 +29,7 @@ JBoolean CBCompileDocument::theDoubleSpaceFlag = kJTrue;
 
 // Error menu
 
-static const JCharacter* kErrorMenuTitleStr = "Errors";
-static const JCharacter* kErrorMenuStr =
+static const JUtf8Byte* kErrorMenuStr =
 	"    First error             %k Ctrl-1"
 	"%l| Previous error          %k Meta-minus"		// and Meta-_
 	"  | Next error              %k Meta-plus"
@@ -60,8 +56,7 @@ CBCompileDocument::CBCompileDocument
 	itsProjDoc(projDoc),
 	itsHasErrorsFlag(kJFalse)
 {
-	JXMenuBar* menuBar = GetMenuBar();
-	itsErrorMenu = InsertTextMenu(kErrorMenuTitleStr);
+	itsErrorMenu = InsertTextMenu(JGetString("ErrorMenuTitle::CBCompileDocument"));
 	itsErrorMenu->SetMenuItems(kErrorMenuStr, "CBCompileDocument");
 	itsErrorMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsErrorMenu);
@@ -108,14 +103,14 @@ CBCompileDocument::NeedsFormattedData()
 void
 CBCompileDocument::SetConnection
 	(
-	JProcess*			p,
-	const int			inFD,
-	const int			outFD,
-	const JCharacter*	windowTitle,
-	const JCharacter*	dontCloseMsg,
-	const JCharacter*	execDir,
-	const JCharacter*	execCmd,
-	const JBoolean		showPID
+	JProcess*		p,
+	const int		inFD,
+	const int		outFD,
+	const JString&	windowTitle,
+	const JString&	dontCloseMsg,
+	const JString&	execDir,
+	const JString&	execCmd,
+	const JBoolean	showPID
 	)
 {
 	CBGetDocumentManager()->SetActiveListDocument(this);
@@ -137,11 +132,14 @@ CBCompileDocument::SetConnection
 	if (execCmd != nullptr)
 		{
 		CBTextEditor* te = GetTextEditor();
-		te->Paste(kDirMarkerStr);
-		te->Paste(execDir);
-		te->Paste(kDirMarkerEndStr);
-		te->Paste("\n\n");
-		te->ClearUndo();
+
+		const JUtf8Byte* map[] =
+			{
+			"d", execDir.GetBytes()
+			};
+		te->Paste(JGetString("ChangeDirectory::CBCompileDocument", map, sizeof(map)));
+		te->Paste(JString("\n\n", 0, kJFalse));
+		te->GetText()->ClearUndo();
 		}
 }
 
@@ -200,183 +198,179 @@ static const JRegex javacErrorRegex  = "^\\s+\\[.+?\\]\\s+(.+?):[0-9]+: ";
 static const JRegex maven2ErrorRegex = "^(?:\\[.+?\\]\\s+)?(.+?):\\[[0-9]+,[0-9]+\\] ";
 static const JRegex maven3ErrorRegex = "^(?:\\[.+?\\]\\s+)?(.+?):[0-9]+:[0-9]+::";
 
-static const JCharacter* makeIgnoreErrorStr = "(ignored)";
-static const JCharacter* gccMultilinePrefix = "   ";
-const JSize kGCCMultilinePrefixLength       = strlen(gccMultilinePrefix);
+static const JUtf8Byte* makeIgnoreErrorStr = "(ignored)";
+static const JUtf8Byte* gccMultilinePrefix = "   ";
+const JSize kGCCMultilinePrefixLength      = strlen(gccMultilinePrefix);
 
-const JCharacter kMultibyteMarker = '\xE2';
+JStyledText::TextRange
+cbComputeErrorRangeFromFirstSubmatch
+	(
+	const JStyledText::TextIndex	i,
+	const JStringMatch&				m
+	)
+{
+	JCharacterRange cr = m.GetCharacterRange(1);
+	JUtf8ByteRange br  = m.GetUtf8ByteRange(1);
+
+	cr += i.charIndex-1;
+	br += i.byteIndex-1;
+
+	return JStyledText::TextRange(cr, br);
+}
 
 void
 CBCompileDocument::AppendText
 	(
-	const JString& origText
+	const JString& text
 	)
 {
-	const JString* text = &origText;
-	JBoolean deleteText = kJFalse;
-	if (strchr(*text, kMultibyteMarker) != nullptr)
-		{
-		JString* s = jnew JString(origText);
-		assert( s != nullptr );
-		text       = s;
-		deleteText = kJTrue;
+	const JBoolean isJavacError = javacOutputRegex.Match(text);
 
-		JSize length = s->GetLength();
-		for (JIndex i=1; i<=length; i++)
-			{
-			if (s->GetCharacter(i) == kMultibyteMarker && i <= length-2)
-				{
-				const unsigned char c1 = s->GetCharacter(i+1);
-				const unsigned char c2 = s->GetCharacter(i+2);
-				const JIndex u = (((unsigned int) (unsigned char) c1) << 8) |
-								 ((unsigned int) (unsigned char) c2);
+	const JStringMatch gccMatch         = gccErrorRegex.Match(text, kJFalse),
+					   gccPrevLineMatch = gccErrorRegex.Match(itsPrevLine, kJFalse);
 
-				if (u == 32920 || u == 32921)
-					{
-					s->ReplaceSubstring(i, i+2, "'");
-					}
-				else
-					{
-					std::cout << "jcc: AppendText: unicode: " << u << std::endl;
-					s->ReplaceSubstring(i, i+2, "\x80");
-					}
+	const JBoolean isGCCError = JI2B(!isJavacError && !gccMatch.IsEmpty());
 
-				length -= 2;
-				}
-			}
-		}
+	const JStringMatch flexMatch = flexErrorRegex.Match(text, kJFalse);
+	const JBoolean isFlexError   = !flexMatch.IsEmpty();
 
-	const JBoolean isJavacError = javacOutputRegex.Match(*text);
+	const JStringMatch bisonMatch = bisonErrorRegex.Match(text, kJFalse);
+	const JBoolean isBisonError   = !bisonMatch.IsEmpty();
 
-	JIndexRange gccPrevLineRange, gccRange;
-	const JBoolean isGCCError = JI2B(!isJavacError && gccErrorRegex.Match(*text, &gccRange));
+	const JStringMatch makeMatch = makeErrorRegex.Match(text, kJFalse);
+	const JBoolean isMakeError   = JI2B(
+		!makeMatch.IsEmpty() && !text.EndsWith(makeIgnoreErrorStr) );
 
-	JIndexRange flexRange;
-	const JBoolean isFlexError = flexErrorRegex.Match(*text, &flexRange);
+	const JStringMatch absoftMatch = absoftErrorRegex.Match(text, kJTrue);
+	const JBoolean isAbsoftError   = !absoftMatch.IsEmpty();
 
-	JIndexRange bisonRange;
-	const JBoolean isBisonError = bisonErrorRegex.Match(*text, &bisonRange);
+	const JStringMatch maven2Match = maven2ErrorRegex.Match(text, kJTrue);
+	const JBoolean isMaven2Error   = !maven2Match.IsEmpty();
 
-	JIndexRange makeRange;
-	const JBoolean isMakeError = JI2B(
-		makeErrorRegex.Match(*text, &makeRange) && !text->EndsWith(makeIgnoreErrorStr) );
+	const JStringMatch maven3Match = maven3ErrorRegex.Match(text, kJTrue);
+	const JBoolean isMaven3Error   = !maven3Match.IsEmpty();
 
-	JArray<JIndexRange> absoftRangeList;
-	const JBoolean isAbsoftError = absoftErrorRegex.Match(*text, &absoftRangeList);
-
-	JArray<JIndexRange> maven2RangeList;
-	const JBoolean isMaven2Error = maven2ErrorRegex.Match(*text, &maven2RangeList);
-
-	JArray<JIndexRange> maven3RangeList;
-	const JBoolean isMaven3Error = maven3ErrorRegex.Match(*text, &maven3RangeList);
+	CBTextEditor* te = GetTextEditor();
 
 	if (isGCCError &&
-		gccErrorRegex.Match(itsPrevLine, &gccPrevLineRange) &&
-		gccPrevLineRange == gccRange &&
-		JCompareMaxN(itsPrevLine, *text, gccRange.last, kJTrue))
+		gccPrevLineMatch.GetUtf8ByteRange() == gccMatch.GetUtf8ByteRange() &&
+		JString::CompareMaxNBytes(itsPrevLine.GetBytes(), text.GetBytes(),
+								  gccMatch.GetByteCount(), kJTrue))
 		{
-		JString s = *text;
-		s.RemoveSubstring(1, gccRange.last - 1);
+		JString s = text;
+		JStringIterator iter(&s, kJIteratorStartAfterByte, gccMatch.GetUtf8ByteRange().last);
+		iter.RemoveAllPrev();
+		iter.Invalidate();
 		s.Prepend(" /");
 
 		// in front of 1 or 2 trailing newlines
 
-		CBTextEditor* te = GetTextEditor();
-		te->SetCaretLocation(te->GetTextLength() - (theDoubleSpaceFlag ? 1 : 0));
+		te->SetCaretLocation(te->GetText()->GetText().GetCharacterCount() - (theDoubleSpaceFlag ? 1 : 0));
 		te->Paste(s);
+		return;
 		}
-	else if (!isJavacError && !isGCCError &&
-			 gccErrorRegex.Match(itsPrevLine, &gccPrevLineRange) &&
-			 text->BeginsWith(gccMultilinePrefix) &&
-			 text->GetLength() > kGCCMultilinePrefixLength &&
-			 !isspace(text->GetCharacter(kGCCMultilinePrefixLength+1)))
+	else if (!isJavacError && !isGCCError && !gccPrevLineMatch.IsEmpty() &&
+			 text.BeginsWith(gccMultilinePrefix) &&
+			 text.GetByteCount() > kGCCMultilinePrefixLength)
 		{
-		JString s = *text;
-		s.RemoveSubstring(1, strlen(gccMultilinePrefix));
+		JString s = text;
+		JStringIterator iter(&s, kJIteratorStartAfterByte, kGCCMultilinePrefixLength);
+		JUtf8Character c;
+		if (iter.Next(&c, kJFalse) && !c.IsSpace())
+			{
+			iter.RemoveAllPrev();
+			iter.Invalidate();
 
-		CBTextEditor* te = GetTextEditor();
-		te->SetCaretLocation(te->GetTextLength() - (theDoubleSpaceFlag ? 1 : 0));
-		te->Paste(s);
-		}
-	else
-		{
-		CBTextEditor* te        = GetTextEditor();
-		const JIndex startIndex = te->GetTextLength() + 1;
-
-		CBExecOutputDocument::AppendText(*text);
-		if (theDoubleSpaceFlag)
-			{
-			te->Paste("\n");
-			}
-
-		itsPrevLine = *text;
-
-		// display file name in bold and activate Errors menu
-
-		JIndexRange boldRange;
-		if (isJavacError)
-			{
-			JArray<JIndexRange> javacMatchList;
-			if (javacErrorRegex.Match(*text, &javacMatchList))
-				{
-				const JIndexRange r = javacMatchList.GetElement(2);
-				boldRange.Set(startIndex + r.first-1, startIndex + r.last-1);
-				}
-			}
-		else if (isGCCError)
-			{
-			boldRange.Set(startIndex, startIndex + gccRange.first - 1);
-			}
-		else if (isFlexError)
-			{
-			boldRange.Set(startIndex+1, startIndex + flexRange.first);
-			}
-		else if (isBisonError)
-			{
-			boldRange.Set(startIndex+2, startIndex + bisonRange.first + 1);
-			}
-		else if (isMakeError)
-			{
-			boldRange.SetFirstAndLength(startIndex, text->GetLength());
-			}
-		else if (isAbsoftError)
-			{
-			boldRange  = absoftRangeList.GetElement(2);
-			boldRange += startIndex-1;
-			}
-		else if (isMaven2Error)
-			{
-			boldRange  = maven2RangeList.GetElement(2);
-			boldRange += startIndex-1;
-			}
-		else if (isMaven3Error)
-			{
-			boldRange  = maven3RangeList.GetElement(2);
-			boldRange += startIndex-1;
-			}
-
-		if (!boldRange.IsEmpty())
-			{
-			te->JTextEditor::SetFont(boldRange.first, boldRange.last, GetErrorFont(), kJTrue);
-
-			if (!itsHasErrorsFlag)
-				{
-				itsHasErrorsFlag = kJTrue;
-				itsErrorMenu->Activate();
-
-				JXWindow* window    = GetWindow();
-				JString windowTitle = window->GetTitle();
-				windowTitle.SetCharacter(1, '!');
-				windowTitle.SetCharacter(2, '!');
-				windowTitle.SetCharacter(3, '!');
-				window->SetTitle(windowTitle);
-				}
+			te->SetCaretLocation(te->GetText()->GetText().GetCharacterCount() - (theDoubleSpaceFlag ? 1 : 0));
+			te->Paste(s);
+			return;
 			}
 		}
 
-	if (deleteText)
+	const JStyledText::TextIndex startIndex = te->GetText()->GetBeyondEnd();
+
+	CBExecOutputDocument::AppendText(text);
+	if (theDoubleSpaceFlag)
 		{
-		jdelete text;
+		te->Paste(JString("\n", 0, kJFalse));
+		}
+
+	itsPrevLine = text;
+
+	// display file name in bold and activate Errors menu
+
+	JStyledText::TextRange boldRange(startIndex, JStyledText::TextCount());
+	if (isJavacError)
+		{
+		const JStringMatch javacMatch = javacErrorRegex.Match(text, kJFalse);
+		if (!javacMatch.IsEmpty())
+			{
+			boldRange = cbComputeErrorRangeFromFirstSubmatch(startIndex, javacMatch);
+			}
+		}
+	else if (isGCCError)
+		{
+		boldRange.SetCount(
+			JStyledText::TextCount(
+				gccMatch.GetCharacterRange().first-1,
+				gccMatch.GetUtf8ByteRange().first-1));
+		}
+	else if (isFlexError)
+		{
+		boldRange = JStyledText::TextRange(
+			te->GetText()->AdjustTextIndex(startIndex, +1),
+			JStyledText::TextCount(
+				flexMatch.GetCharacterRange().first-1,
+				flexMatch.GetUtf8ByteRange().first-1));
+		}
+	else if (isBisonError)
+		{
+		boldRange = JStyledText::TextRange(
+			te->GetText()->AdjustTextIndex(startIndex, +2),
+			JStyledText::TextCount(
+				bisonMatch.GetCharacterRange().first-1,
+				bisonMatch.GetUtf8ByteRange().first-1));
+		}
+	else if (isMakeError)
+		{
+		boldRange.SetCount(
+			JStyledText::TextCount(
+				text.GetCharacterCount(),
+				text.GetByteCount()));
+		}
+	else if (isAbsoftError)
+		{
+		boldRange = cbComputeErrorRangeFromFirstSubmatch(startIndex, absoftMatch);
+		}
+	else if (isMaven2Error)
+		{
+		boldRange = cbComputeErrorRangeFromFirstSubmatch(startIndex, maven2Match);
+		}
+	else if (isMaven3Error)
+		{
+		boldRange = cbComputeErrorRangeFromFirstSubmatch(startIndex, maven3Match);
+		}
+
+	if (!boldRange.IsEmpty())
+		{
+		te->GetText()->SetFontBold(boldRange, kJTrue, kJTrue);
+
+		if (!itsHasErrorsFlag)
+			{
+			itsHasErrorsFlag = kJTrue;
+			itsErrorMenu->Activate();
+
+			JXWindow* window    = GetWindow();
+			JString windowTitle = window->GetTitle();
+
+			JStringIterator iter(&windowTitle);
+			const JUtf8Character c('!');
+			iter.SetNext(c);
+			iter.SetNext(c);
+			iter.SetNext(c);
+
+			window->SetTitle(windowTitle);
+			}
 		}
 }
 
@@ -390,21 +384,18 @@ CBCompileDocument::AppendText
 void
 CBCompileDocument::OpenPrevListItem()
 {
-	CBTextEditor* te    = GetTextEditor();
-	const JString& text = te->GetText();
+	CBTextEditor* te = GetTextEditor();
 	JString s;
-	JIndexRange r;
 	while (ShowPrevError())
 		{
-		const JBoolean ok = te->GetSelection(&r);
+		const JBoolean ok = te->GetSelection(&s);
 		assert( ok );
-		s = text.GetSubstring(r);
 		if (makeErrorRegex.Match(s))
 			{
 			continue;
 			}
 
-		GetTextEditor()->OpenSelection();
+		te->OpenSelection();
 		break;
 		}
 }
@@ -419,21 +410,18 @@ CBCompileDocument::OpenPrevListItem()
 void
 CBCompileDocument::OpenNextListItem()
 {
-	CBTextEditor* te    = GetTextEditor();
-	const JString& text = te->GetText();
+	CBTextEditor* te = GetTextEditor();
 	JString s;
-	JIndexRange r;
 	while (ShowNextError())
 		{
-		const JBoolean ok = te->GetSelection(&r);
+		const JBoolean ok = te->GetSelection(&s);
 		assert( ok );
-		s = text.GetSubstring(r);
 		if (makeErrorRegex.Match(s))
 			{
 			continue;
 			}
 
-		GetTextEditor()->OpenSelection();
+		te->OpenSelection();
 		break;
 		}
 }
@@ -461,43 +449,36 @@ CBCompileDocument::ConvertSelectionToFullPath
 		}
 
 	CBTextEditor* te       = GetTextEditor();
-	const JString& text    = te->GetText();
-	const JIndex caretChar = te->GetInsertionIndex();
+	const JIndex caretChar = te->GetInsertionCharIndex();
 
-	JArray<JIndexRange> matchList;
 	JStack<JIndex, JArray<JIndex> > dirStack;
 
-	JIndex i=1;
-	while (dirMarkerPattern.MatchFrom(text, i, &matchList))
+	JStringIterator iter(te->GetText()->GetText());
+	JIndex i;
+	while (iter.Next(dirMarkerPattern) &&
+		   iter.GetNextCharacterIndex(&i) && i < caretChar)
 		{
-		i = (matchList.GetElement(1)).last + 1;
-		if (i >= caretChar)
-			{
-			break;
-			}
-
-		if (!(matchList.GetElement(3)).IsEmpty())					// Entering
+		const JStringMatch& m = iter.GetLastMatch();
+		if (!m.GetCharacterRange(2).IsEmpty())					// Entering
 			{
 			dirStack.Push(i);
 			}
-		else														// Leaving
+		else													// Leaving
 			{
-			assert( !(matchList.GetElement(4)).IsEmpty() );
-			JIndex j;
-			dirStack.Pop(&j);
+			assert( !m.GetCharacterRange(3).IsEmpty() );
+			dirStack.Pop(&i);
 			}
 		}
 
-	JIndex startChar;
-	if (dirStack.Peek(&startChar))
+	if (dirStack.Peek(&i))
 		{
-		JIndex endChar = startChar;
-		if (text.GetCharacter(endChar) != '\'' &&
-			text.LocateNextSubstring("\'", &endChar))
+		iter.MoveTo(kJIteratorStartBefore, i);
+		iter.BeginMatch();
+		JUtf8Character c;
+		if (iter.Next(&c) && c != '`' && iter.Next("`"))
 			{
-			endChar--;
-			JString testName = text.GetSubstring(startChar, endChar);
-			testName         = JCombinePathAndName(testName, *fileName);
+			const JStringMatch& m  = iter.FinishMatch();
+			const JString testName = JCombinePathAndName(m.GetString(), *fileName);
 			if (JFileExists(testName))
 				{
 				*fileName = testName;
@@ -653,18 +634,4 @@ CBCompileDocument::ShowNextError()
 		GetDisplay()->Beep();
 		return kJFalse;
 		}
-}
-
-/******************************************************************************
- GetErrorFont (private)
-
- ******************************************************************************/
-
-JFont
-CBCompileDocument::GetErrorFont()
-	const
-{
-	JFont font = GetTextEditor()->GetDefaultFont();
-	font.SetBold(kJTrue);
-	return font;
 }

@@ -13,6 +13,7 @@
 #include "CBPerlStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
+#include <JStringIterator.h>
 #include <JColorManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -170,7 +171,7 @@ CBPerlStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input);
+	BeginScan(GetStyledText(), startIndex, input);
 
 	const JString& text = GetText();
 
@@ -272,21 +273,27 @@ CBPerlStyler::PreexpandCheckRange
 	//		= 2 ? ... ?
 	//		Delete 2 and then undo.  Forces restyling of range to not be regex.
 
-	JIndex i = checkRange->last;
-	if (!isspace(text.GetCharacter(i)))
-		{
-		i++;
-		}
-	const JIndex saved = i;
+	JStringIterator iter(text, kJIteratorStartBefore, checkRange->charRange.last);
+	JUtf8Character c;
+	const JBoolean ok = iter.Next(&c, kJFalse);
+	assert( ok );
 
-	while (i < text.GetLength() && isspace(text.GetCharacter(i)))
+	if (!c.IsSpace())
 		{
-		i++;
+		iter.SkipNext();
 		}
 
-	if (i > saved)
+	JBoolean foundSpace = kJFalse;
+	while (iter.Next(&c, kJFalse) && c.IsSpace())
 		{
-		checkRange->last = i;
+		iter.SkipNext();
+		foundSpace = kJTrue;
+		}
+
+	if (foundSpace)
+		{
+		checkRange->charRange.last = iter.GetPrevCharacterIndex();
+		checkRange->byteRange.last = iter.GetPrevByteIndex();
 		}
 }
 

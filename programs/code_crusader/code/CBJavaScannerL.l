@@ -358,7 +358,8 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 
 . {
 	StartToken();
-	if ( isprint(YYText()[0]) )
+	JUtf8Character c(yytext);
+	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);
 		}

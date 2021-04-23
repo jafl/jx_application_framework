@@ -682,9 +682,9 @@ CBDiffDocument::DiffFailed::SetMessage
 	)
 {
 	const JUtf8Byte* map[] =
-	{
+		{
 		"err", msg.GetBytes()
-	};
+		};
 	JError::SetMessage(map, sizeof(map));
 }
 
@@ -869,10 +869,10 @@ CBDiffDocument::Init
 	// (must be before reading text to avoid styling based on content)
 
 	const JUtf8Byte* map[] =
-	{
+		{
 		"name1", itsName1.GetBytes(),
 		"name2", itsName2.GetBytes()
-	};
+		};
 	const JString windowTitle = JGetString("WindowTitle::CBDiffDocument", map, sizeof(map));
 	FileChanged(windowTitle, kJFalse);
 

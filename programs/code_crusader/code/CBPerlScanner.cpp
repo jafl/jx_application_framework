@@ -44,11 +44,13 @@ CBPerlScanner::~CBPerlScanner()
 void
 CBPerlScanner::BeginScan
 	(
+	const JStyledText*				text,
 	const JStyledText::TextIndex&	startIndex,
 	std::istream&					input
 	)
 {
-	itsResetFlag = kJTrue;
+	itsCurrentText = text;
+	itsResetFlag   = kJTrue;
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 	itsProbableOperatorFlag = kJFalse;
@@ -68,93 +70,9 @@ CBPerlScanner::BeginScan
 
  *****************************************************************************/
 
-JBoolean
-CBPerlScanner::SlurpQuoted
-	(
-	const JSize			count,
-	const JUtf8Byte*	suffixList
-	)
-{
-	assert( count > 0 );
-
-	const int startChar = yyinput();
-	if (startChar == EOF || startChar == 0)
-		{
-		return kJFalse;
-		}
-	itsCurrentRange.last++;
-
-	int endChar = startChar;
-	if (startChar == '(')
-		{
-		endChar = ')';
-		}
-	else if (startChar == '<')
-		{
-		endChar = '>';
-		}
-	else if (startChar == '[')
-		{
-		endChar = ']';
-		}
-	else if (startChar == '{')
-		{
-		endChar = '}';
-		}
-
-	JSize remainder = count;
-	while (1)
-		{
-		int c = yyinput();
-		if (c == EOF || c == 0)
-			{
-			return kJFalse;
-			}
-		itsCurrentRange.last++;
-
-		if (startChar != endChar && c == startChar)
-			{
-			remainder++;
-			}
-		else if (c == endChar)	// check for endChar before '\\' because qq\abc\ is legal
-			{
-			if (remainder > 0)
-				{
-				remainder--;
-				}
-			if (remainder == 0)
-				{
-				while (1)		// slurp in characters in suffixList
-					{
-					c = yyinput();
-					if (c == EOF || c == 0)
-						{
-						return kJTrue;
-						}
-					else if (strchr(suffixList, c) == nullptr)
-						{
-						yyunput(c, yytext);
-						return kJTrue;
-						}
-					itsCurrentRange.last++;
-					}
-				}
-			else if (count > 1 && remainder < count)
-				{
-				remainder--;	// compensate for extra openChar in s(a)(b)g
-				}
-			}
-		else if (c == '\\')
-			{
-			c = yyinput();
-			if (c == EOF || c == 0)
-				{
-				return kJFalse;
-				}
-			itsCurrentRange.last++;
-			}
-		}
-}
+#define ClassName CBPerlScanner
+#include "CBSTSlurpQuoted.th"
+#undef ClassName
 
 /******************************************************************************
  SavePPNameRange (private)

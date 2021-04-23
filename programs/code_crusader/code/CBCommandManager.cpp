@@ -21,8 +21,8 @@
 #include <JXWebBrowser.h>
 #include <JKLRand.h>
 #include <JRegex.h>
+#include <JStringIterator.h>
 #include <jDirUtil.h>
-#include <jFileUtil.h>
 #include <jAssert.h>
 
 static const JUtf8Byte* kDefaultMakeDependCmd = "echo Makefile must be updated manually";
@@ -189,7 +189,7 @@ CBCommandManager::Exec
 	assert( onDisk == JIsAbsolutePath(fullName) );
 
 	JTextEditor* te        = textDoc->GetTextEditor();
-	const JIndex lineIndex = te->VisualLineIndexToCRLineIndex(te->GetLineForChar(te->GetInsertionIndex()));
+	const JIndex lineIndex = te->VisualLineIndexToCRLineIndex(te->GetLineForChar(te->GetInsertionCharIndex()));
 
 	JPtrArray<JString> fullNameList(JPtrArrayT::kForgetAll);
 	fullNameList.Append(&fullName);
@@ -678,7 +678,12 @@ CBCommandManager::BuildCmdPath
 
 		JString p, n;
 		JSplitPathAndName(fullName, &p, &n);
-		cmdPath->ReplaceSubstring(1, 1, p);
+
+		JStringIterator iter(cmdPath);
+		iter.RemoveNext();
+		iter.Invalidate();
+		cmdPath->Prepend(p);
+
 		JCleanPath(cmdPath);
 		}
 
@@ -1628,7 +1633,7 @@ CBCommandManager::GetUniqueMenuID()
 void
 CBCommandManager::ConvertCompileDialog
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	CBBuildManager*		buildMgr,
 	const JBoolean		readWindGeom
@@ -1831,13 +1836,13 @@ CBCommandManager::UpdateFileMarkers
 
 	// convert variable names
 
-	for (JUnsignedOffset j=0; j<kVarCount; j++)
+	JStringIterator iter(s);
+	for (JUnsignedOffset i=0; i<kVarCount; i++)
 		{
-		JIndex i = 1;
-		while (s->LocateNextSubstring(kOldVar[j], &i))
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		while (iter.Next(kOldVar[i]))
 			{
-			s->ReplaceSubstring(i, i+strlen(kOldVar[j])-1, kNewVar[j]);
-			i += strlen(kNewVar[j]);
+			iter.ReplaceLastMatch(kNewVar[i]);
 			}
 		}
 }

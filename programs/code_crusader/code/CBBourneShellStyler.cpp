@@ -13,6 +13,7 @@
 #include "CBBourneShellStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
+#include <JStringIterator.h>
 #include <JColorManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -239,65 +240,15 @@ CBBourneShellStyler::ExtendCheckRangeForString
 #define CBBourneShellStringID "([[:alpha:]_][[:alnum:]_]*|[0-9]+)"
 
 static JRegex variablePattern =
-	"^\\$(" CBBourneShellStringID "|\\{[#!]?" CBBourneShellStringID "(\\[[^]\n]+\\])?([}:]|#{1,2}|%{1,2}|/{1,2})|[-0-9*@#?$!_])";
+	"(?<!\\\\)\\$(" CBBourneShellStringID "|\\{[#!]?" CBBourneShellStringID "(\\[[^]\n]+\\])?([}:]|#{1,2}|%{1,2}|/{1,2})|[-0-9*@#?$!_])";
 static JRegex emptyVariablePattern =
-	"^\\$\\{\\}?";
+	"(?<!\\\\)\\$\\{\\}?";
 
 #undef CBBourneShellStringID
 
-void
-CBBourneShellStyler::StyleEmbeddedVariables
-	(
-	const Token& token
-	)
-{
-	variablePattern.SetSingleLine();
-	emptyVariablePattern.SetSingleLine();
-
-	const JString& text = GetText();
-
-	JFontStyle varStyle = GetTypeStyle(token.type - kWhitespace);
-	varStyle.underlineCount++;
-	if (varStyle == GetTypeStyle(kVariable - kWhitespace))
-		{
-		varStyle.underlineCount++;
-		}
-
-	JFontStyle errStyle = GetTypeStyle(kError - kWhitespace);
-	errStyle.underlineCount++;
-	if (errStyle == GetTypeStyle(kVariable - kWhitespace))
-		{
-		errStyle.underlineCount++;
-		}
-
-	JIndexRange r = token.range, r1, r2;
-	while (!r.IsEmpty())
-		{
-		const JCharacter c = text.GetCharacter(r.first);
-		if (c == '\\')
-			{
-			r.first++;
-			}
-		else if (c == '$')
-			{
-			r1 = r - (r.first-1);
-			if (variablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
-				{
-				r2 += r.first-1;
-				AdjustStyle(r2, varStyle);
-				r.first = r2.last;
-				}
-			else if (emptyVariablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
-				{
-				r2 += r.first-1;
-				AdjustStyle(r2, errStyle);
-				r.first = r2.last;
-				}
-			}
-
-		r.first++;
-		}
-}
+#define ClassName CBBourneShellStyler
+#include "CBSTStylerEmbeddedVariables.th"
+#undef ClassName
 
 /******************************************************************************
  UpgradeTypeList (virtual protected)

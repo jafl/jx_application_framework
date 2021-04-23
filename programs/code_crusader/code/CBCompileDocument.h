@@ -63,8 +63,6 @@ private:
 	JBoolean	ShowPrevError();
 	JBoolean	ShowNextError();
 
-	JFont	GetErrorFont() const;
-
 	// not allowed
 
 	CBCompileDocument(const CBCompileDocument& source);
