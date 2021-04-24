@@ -1238,7 +1238,7 @@ JXTEBase::HandleKeyPress
 			else if ((keySym == XK_Page_Down || keySym == XK_KP_Page_Down) &&
 					  ap.bottom == b.bottom)
 				{
-				SetCaretLocation(GetText()->GetText().GetCharacterCount()+1);
+				SetCaretLocation(GetText()->GetBeyondEnd());
 				}
 			}
 
@@ -1264,7 +1264,7 @@ JXTEBase::HandleKeyPress
 				}
 			else if (keySym == XK_End || keySym == XK_KP_End)
 				{
-				SetCaretLocation(GetText()->GetText().GetCharacterCount()+1);
+				SetCaretLocation(GetText()->GetBeyondEnd());
 				}
 			}
 		}
@@ -2870,7 +2870,7 @@ JXTEBase::SearchBackward()
 
 	if (GetType() != kFullEditor && !HasSelection())	// caret not visible
 		{
-		SetCaretLocation(GetText()->GetText().GetCharacterCount()+1);
+		SetCaretLocation(GetText()->GetBeyondEnd());
 		}
 
 	JBoolean wrapped;

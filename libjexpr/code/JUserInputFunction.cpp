@@ -196,10 +196,10 @@ JUserInputFunction::Layout
 
 	if (fontSize != GetText()->GetDefaultFont().GetSize())
 		{
-		JCharacterRange sel;
+		JStyledText::TextRange sel;
 		const JBoolean hasSelection = GetSelection(&sel);
 
-		JIndex caret;
+		CaretLocation caret;
 		GetCaretLocation(&caret);
 
 		SelectAll();
