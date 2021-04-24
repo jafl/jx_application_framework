@@ -69,7 +69,7 @@ TESTS := \
 
 .PHONY : default
 default:
-	@cd ${JCORELIBDIR}; ${MAKE}
+	@cd ..; ${MAKE}
 
 .PHONY : Makefiles
 Makefiles:
@@ -80,4 +80,4 @@ test: ${TESTS}
 
 .PHONY : touch
 touch::
-	@cd ${JCORELIBDIR}; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
+	@cd ..; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch

@@ -42,7 +42,7 @@ TESTS := \
 
 .PHONY : default
 default:
-	@cd ${JXLIBDIR}; ${MAKE}
+	@cd ..; ${MAKE}
 
 .PHONY : Makefiles
 Makefiles:
@@ -53,4 +53,4 @@ test: ${TESTS}
 
 .PHONY : touch
 touch::
-	@cd ${JXLIBDIR}; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
+	@cd ..; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
