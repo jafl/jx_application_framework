@@ -356,7 +356,10 @@ protected:
 	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight);
 
 	JBoolean		GetCaretLocation(CaretLocation* caretLoc) const;
+	void			SetCaretLocation(const JStyledText::TextIndex& caretLoc);
+	void			SetCaretLocation(const CaretLocation& caretLoc);
 	CaretLocation	CalcCaretLocation(const JPoint& pt) const;
+	CaretLocation	CalcCaretLocation(const JStyledText::TextIndex& index) const;
 	JBoolean		PointInSelection(const JPoint& pt) const;
 	void			MoveCaretVert(const JInteger deltaLines);
 	JIndex			GetColumnForChar(const CaretLocation& caretLoc) const;
@@ -492,9 +495,6 @@ private:
 							const JCoordinate startVisLineTop);
 	void	TEDrawCaret(JPainter& p, const CaretLocation& caretLoc);
 
-	void			SetCaretLocation(const JStyledText::TextIndex& caretLoc);
-	void			SetCaretLocation(const CaretLocation& caretLoc);
-	CaretLocation	CalcCaretLocation(const JStyledText::TextIndex& index) const;
 	JIndex			CalcLineIndex(const JCoordinate y, JCoordinate* lineTop) const;
 	JBoolean		TEScrollTo(const CaretLocation& caretLoc);
 	JRect			CalcCaretRect(const CaretLocation& caretLoc) const;
@@ -1064,7 +1064,7 @@ JTextEditor::GetCaretLocation
 	return itsSelection.IsEmpty();
 }
 
-// private
+// protected
 
 inline void
 JTextEditor::SetCaretLocation

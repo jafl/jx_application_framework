@@ -2864,7 +2864,7 @@ JTextEditor::SetCaretLocation
 	SetCaretLocation(TextIndex(charIndex, 0));
 }
 
-// private
+// protected
 
 void
 JTextEditor::SetCaretLocation
@@ -4479,7 +4479,7 @@ JTextEditor::CalcCaretLocation
 }
 
 /******************************************************************************
- CalcCaretLocation (private)
+ CalcCaretLocation (protected)
 
 	byteIndex can be zero.
 
