@@ -19,7 +19,7 @@
 #include <JXStringHistoryMenu.h>
 #include <JXDocumentMenu.h>
 #include <JXChooseSaveFile.h>
-#include <JString.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 const JSize kHistoryLength = 20;
@@ -305,16 +305,19 @@ CBViewManPageDialog::SetFunction
 {
 	JString fnName = historyStr;
 
-	JString manIndex;
+	JUtf8Character manIndex;
 	if (fnName.GetLastCharacter() == ')')
 		{
-		manIndex = fnName.GetCharacter(fnName.GetLength()-1);
-		fnName.RemoveSubstring(fnName.GetLength()-3, fnName.GetLength());
+		JStringIterator iter(&fnName, kJIteratorStartAtEnd);
+		iter.SkipPrev();
+		iter.Prev(&manIndex);
+		iter.SkipPrev(2);
+		iter.RemoveAllNext();
 		}
 
-	if (manIndex == "*")
+	if (manIndex == '*')
 		{
-		manIndex.Clear();
+		manIndex = ' ';
 		itsAproposCheckbox->SetState(kJTrue);
 		}
 	else
@@ -323,7 +326,7 @@ CBViewManPageDialog::SetFunction
 		}
 
 	itsFnName->GetText()->SetText(fnName);
-	itsManIndex->GetText()->SetText(manIndex);
+	itsManIndex->GetText()->SetText(JString(manIndex));
 }
 
 /******************************************************************************
