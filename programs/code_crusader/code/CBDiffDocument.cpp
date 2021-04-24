@@ -8,13 +8,13 @@
  ******************************************************************************/
 
 #include "CBDiffDocument.h"
-#include "CBTextEditor.h"
+#include "CBDiffEditor.h"
 #include "cbGlobals.h"
-#include <JXDisplay.h>
 #include <JXWindow.h>
 #include <JXMenuBar.h>
 #include <JXTextMenu.h>
 #include <JXTextButton.h>
+#include <JXScrollbarSet.h>
 #include <JStringIterator.h>
 #include <JProcess.h>
 #include <jFStreamUtil.h>
@@ -809,7 +809,7 @@ CBDiffDocument::CBDiffDocument
 	const JFontStyle&	insertStyle
 	)
 	:
-	CBTextDocument(kCBDiffOutputFT, "CBDiffHelp"),
+	CBTextDocument(kCBDiffOutputFT, "CBDiffHelp", kJTrue, ConstructDiffEditor),
 	itsType(type),
 	itsFullName(fullName),
 	itsGetCmd(getCmd),
@@ -820,6 +820,8 @@ CBDiffDocument::CBDiffDocument
 	itsRemoveStyle(removeStyle),
 	itsInsertStyle(insertStyle)
 {
+	itsDiffEditor = (CBDiffEditor*) GetTextEditor();
+
 	// Diff menu
 
 	JXMenuBar* menuBar = GetMenuBar();
@@ -850,6 +852,28 @@ CBDiffDocument::CBDiffDocument
 	menuBar->AdjustSize(-kMenuButtonWidth, 0);
 }
 
+// static private
+
+CBTextEditor*
+CBDiffDocument::ConstructDiffEditor
+	(
+	CBTextDocument*		document,
+	const JString&		fileName,
+	JXMenuBar*			menuBar,
+	CBTELineIndexInput*	lineInput,
+	CBTEColIndexInput*	colInput,
+	JXScrollbarSet*		scrollbarSet
+	)
+{
+	CBDiffEditor* te =
+		jnew CBDiffEditor(document, fileName, menuBar, lineInput, colInput,
+						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
+	assert( te != nullptr );
+
+	return te;
+}
+
 /******************************************************************************
  Init (private)
 
@@ -878,20 +902,19 @@ CBDiffDocument::Init
 
 	// word wrap messes up the line numbers
 
-	CBTextEditor* te = GetTextEditor();
-	te->SetBreakCROnly(kJTrue);
+	itsDiffEditor->SetBreakCROnly(kJTrue);
 
 	// start with default style
 
-	if (!te->GetText()->IsEmpty())
+	if (!itsDiffEditor->GetText()->IsEmpty())
 		{
-		te->GetText()->SetFontStyle(
+		itsDiffEditor->GetText()->SetFontStyle(
 			JStyledText::TextRange(
 				JStyledText::TextIndex(1,1),
-				te->GetText()->GetBeyondEnd()),
+				itsDiffEditor->GetText()->GetBeyondEnd()),
 			itsDefaultStyle, kJTrue);
 		}
-	te->GetText()->SetDefaultFontStyle(itsDefaultStyle);
+	itsDiffEditor->GetText()->SetDefaultFontStyle(itsDefaultStyle);
 }
 
 /******************************************************************************
@@ -914,59 +937,7 @@ CBDiffDocument::ReadDiff
 	std::istream& input
 	)
 {
-	CBTextEditor* te = GetTextEditor();
-
-	JSize lineOffset = 0;
-	while (1)
-		{
-		JIndexRange origRange, newRange;
-		const JUtf8Byte cmd = ReadCmd(input, &origRange, &newRange);
-
-		if (input.eof() || input.fail())
-			{
-			break;
-			}
-
-		origRange.first = te->CRLineIndexToVisualLineIndex(origRange.first);
-		origRange.last  = te->CRLineIndexToVisualLineIndex(origRange.last);
-		newRange.first  = te->CRLineIndexToVisualLineIndex(newRange.first);
-		newRange.last   = te->CRLineIndexToVisualLineIndex(newRange.last);
-
-		IgnoreOrigText(input, cmd);
-
-		JSize newLineCount;
-		const JString newText = ReadNewText(input, cmd, &newLineCount);
-
-		JStyledText* st = te->GetText();
-
-		origRange += lineOffset;
-		if (cmd != 'a' && st->GetText().CharacterIndexValid(origRange.last))
-			{
-			st->SetFontStyle(JStyledText::TextRange(
-								te->GetLineStart(origRange.first),
-								te->GetLineEnd(origRange.last)),
-							 itsRemoveStyle, kJTrue);
-			}
-
-		if (newLineCount > 0)
-			{
-			if (origRange.last+1 > te->GetLineCount() &&
-				!st->EndsWithNewline())
-				{
-				te->SetCaretLocation(st->GetText().GetCharacterCount()+1);
-				te->Paste(JString::newline);
-				}
-
-			const JIndex pasteIndex = te->GetLineEnd(origRange.last) + 1;
-			te->SetCaretLocation(pasteIndex);
-			te->Paste(newText);
-			te->SetFontStyle(pasteIndex,
-							 te->GetLineEnd(origRange.last + newLineCount),
-							 itsInsertStyle, kJTrue);
-			}
-
-		lineOffset += newLineCount;
-		}
+	itsDiffEditor->ReadDiff(input, itsRemoveStyle, itsInsertStyle);
 
 	DataReverted();
 	UpdateFileType();		// reset word wrap
@@ -977,152 +948,11 @@ CBDiffDocument::ReadDiff
 		CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(doc);
 		if (textDoc != nullptr)
 			{
-			te->SetBreakCROnly(textDoc->GetTextEditor()->WillBreakCROnly());
+			itsDiffEditor->SetBreakCROnly(textDoc->GetTextEditor()->WillBreakCROnly());
 			}
 		}
 
-	ShowFirstDiff();
-}
-
-/******************************************************************************
- ReadCmd (private)
-
-	LaR
-		Add the lines in range R of the second file after line L of the
-		first file.  For example, `8a12,15' means append lines 12-15 of
-		file 2 after line 8 of file 1.
-
-	FcT
-		Replace the lines in range F of the first file with lines in range
-		T of the second file.  This is like a combined add and delete, but
-		more compact.  For example, `5,7c8,10' means change lines 5-7 of
-		file 1 to read as lines 8-10 of file 2.
-
-	RdL
-		Delete the lines in range R from the first file; line L is where
-		they would have appeared in the second file had they not been
-		deleted.  For example, `5,7d3' means delete lines 5-7 of file 1.
-
- ******************************************************************************/
-
-JUtf8Byte
-CBDiffDocument::ReadCmd
-	(
-	std::istream&	input,
-	JIndexRange*	origRange,
-	JIndexRange*	newRange
-	)
-	const
-{
-	*origRange          = ReadRange(input);
-	const JUtf8Byte cmd = input.get();
-	*newRange           = ReadRange(input);
-	return cmd;
-}
-
-/******************************************************************************
- ReadRange (private)
-
-	Format:  x[,y]
-
- ******************************************************************************/
-
-JIndexRange
-CBDiffDocument::ReadRange
-	(
-	std::istream& input
-	)
-	const
-{
-	JIndexRange r;
-	input >> r.first;
-	if (input.peek() == ',')
-		{
-		input.ignore();
-		input >> r.last;
-		}
-	else
-		{
-		r.last = r.first;
-		}
-	return r;
-}
-
-/******************************************************************************
- IgnoreOrigText (private)
-
-	< FROM-FILE-LINE
-	< FROM-FILE-LINE...
-	---
-
- ******************************************************************************/
-
-void
-CBDiffDocument::IgnoreOrigText
-	(
-	std::istream&	input,
-	const JUtf8Byte	cmd
-	)
-	const
-{
-	if (cmd == 'a')
-		{
-		return;
-		}
-
-	input >> std::ws;
-	while (input.peek() == '<' || input.peek() == '\\')
-		{
-		JIgnoreLine(input);
-		}
-
-	if (cmd == 'c' && input.peek() == '-')
-		{
-		JIgnoreLine(input);
-		}
-}
-
-/******************************************************************************
- ReadNewText (private)
-
-	> TO-FILE-LINE
-	> TO-FILE-LINE...
-
- ******************************************************************************/
-
-JString
-CBDiffDocument::ReadNewText
-	(
-	std::istream&	input,
-	const JUtf8Byte	cmd,
-	JSize*			lineCount
-	)
-	const
-{
-	JString text;
-	*lineCount = 0;
-
-	if (cmd != 'd')
-		{
-		input >> std::ws;
-		while (input.peek() == '>')
-			{
-			input.ignore(2);
-			text += JReadUntil(input, '\n');
-			text += "\n";
-			(*lineCount)++;
-			}
-
-		if (input.peek() == '\\')
-			{
-			JIgnoreLine(input);
-
-			JStringIterator iter(&text, kJIteratorStartAtEnd);
-			iter.RemovePrev();
-			}
-		}
-
-	return text;
+	itsDiffEditor->ShowFirstDiff();
 }
 
 /******************************************************************************
@@ -1215,167 +1045,15 @@ CBDiffDocument::HandleDiffMenu
 {
 	if (index == kFirstDiffCmd)
 		{
-		ShowFirstDiff();
+		itsDiffEditor->ShowFirstDiff();
 		}
 
 	else if (index == kPrevDiffCmd)
 		{
-		ShowPrevDiff();
+		itsDiffEditor->ShowPrevDiff();
 		}
 	else if (index == kNextDiffCmd)
 		{
-		ShowNextDiff();
-		}
-}
-
-/******************************************************************************
- ShowFirstDiff (private)
-
- ******************************************************************************/
-
-void
-CBDiffDocument::ShowFirstDiff()
-{
-	GetTextEditor()->SetCaretLocation(1);
-	ShowNextDiff();
-}
-
-/******************************************************************************
- ShowPrevDiff (private)
-
- ******************************************************************************/
-
-void
-CBDiffDocument::ShowPrevDiff()
-{
-	CBTextEditor* te = GetTextEditor();
-	te->Focus();
-
-	JIndexRange origRange;
-	const JIndex origIndex      = te->GetInsertionIndex();
-	const JBoolean hadSelection = te->GetSelection(&origRange);
-
-	JIndexRange removeRange, insertRange;
-	JBoolean wrapped;
-	if (te->JTextEditor::SearchBackward([this] (const JFont& f)
-		{
-		return JI2B(f.GetStyle() == this->itsRemoveStyle);
-		},
-		kJFalse, &wrapped))
-		{
-		const JBoolean ok = te->GetSelection(&removeRange);
-		assert( ok );
-		}
-
-	te->SetCaretLocation(origIndex);
-	if (te->JTextEditor::SearchBackward([this] (const JFont& f)
-		{
-		return JI2B(f.GetStyle() == this->itsInsertStyle);
-		},
-		kJFalse, &wrapped))
-		{
-		const JBoolean ok = te->GetSelection(&insertRange);
-		assert( ok );
-		}
-
-	SelectDiff(removeRange, insertRange, JI2B(removeRange.first >= insertRange.first),
-			   hadSelection, origIndex, origRange);
-}
-
-/******************************************************************************
- ShowNextDiff (private)
-
- ******************************************************************************/
-
-void
-CBDiffDocument::ShowNextDiff()
-{
-	CBTextEditor* te = GetTextEditor();
-	te->Focus();
-
-	JIndexRange origRange;
-	const JIndex origIndex      = te->GetInsertionIndex();
-	const JBoolean hadSelection = te->GetSelection(&origRange);
-
-	JIndexRange removeRange, insertRange;
-	JBoolean wrapped;
-	if (te->JTextEditor::SearchForward([this] (const JFont& f)
-		{
-		return JI2B(f.GetStyle() == this->itsRemoveStyle);
-		},
-		kJFalse, &wrapped))
-		{
-		const JBoolean ok = te->GetSelection(&removeRange);
-		assert( ok );
-		}
-
-	te->SetCaretLocation(hadSelection ? origRange.last+1 : origIndex);
-	if (te->JTextEditor::SearchForward([this] (const JFont& f)
-		{
-		return JI2B(f.GetStyle() == this->itsInsertStyle);
-		},
-		kJFalse, &wrapped))
-		{
-		const JBoolean ok = te->GetSelection(&insertRange);
-		assert( ok );
-		}
-
-	SelectDiff(removeRange, insertRange, JI2B(removeRange.first <= insertRange.first),
-			   hadSelection, origIndex, origRange);
-}
-
-/******************************************************************************
- SelectDiff (private)
-
- ******************************************************************************/
-
-void
-CBDiffDocument::SelectDiff
-	(
-	const JIndexRange&	removeRange,
-	const JIndexRange&	insertRange,
-	const JBoolean		preferRemove,
-	const JBoolean		hadSelection,
-	const JIndex		origIndex,
-	const JIndexRange&	origRange
-	)
-{
-	CBTextEditor* te = GetTextEditor();
-
-	const JBoolean foundRemove = !removeRange.IsNothing();
-	const JBoolean foundInsert = !insertRange.IsNothing();
-	if (foundRemove && foundInsert && preferRemove)
-		{
-		te->SetSelection(removeRange);
-		}
-	else if (foundRemove && foundInsert)
-		{
-		te->SetSelection(insertRange);
-		}
-	else if (foundRemove)
-		{
-		te->SetSelection(removeRange);
-		}
-	else if (foundInsert)
-		{
-		te->SetSelection(insertRange);
-		}
-	else if (hadSelection)
-		{
-		te->SetSelection(origRange);
-		GetDisplay()->Beep();
-		}
-	else
-		{
-		te->SetCaretLocation(origIndex);
-		}
-
-	if (te->HasSelection())
-		{
-		te->TEScrollToSelection(kJTrue);
-		}
-	else
-		{
-		GetDisplay()->Beep();
+		itsDiffEditor->ShowNextDiff();
 		}
 }

@@ -25,11 +25,8 @@
 #include "CBStylerBase.h"
 #include "CBEditStylerDialog.h"
 #include "cbmUtil.h"
-#include <JXDisplay.h>
 #include <JXWindow.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <JListUtil.h>
+#include <JColorManager.h>
 #include <jAssert.h>
 
 // setup information -- remember to increment shared prefs file version
@@ -66,7 +63,7 @@ CBStylerBase::CBStylerBase
 	itsTypeStyles = jnew JArray<JFontStyle>;
 	assert( itsTypeStyles != nullptr );
 
-	itsDefColor = (CBMGetPrefsManager())->GetColor(CBMPrefsManager::kTextColorIndex);
+	itsDefColor = CBMGetPrefsManager()->GetColor(CBMPrefsManager::kTextColorIndex);
 
 	JFontStyle style(itsDefColor);
 	for (JIndex i=1; i<=typeCount; i++)

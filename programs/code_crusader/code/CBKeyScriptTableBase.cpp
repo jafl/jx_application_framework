@@ -102,7 +102,7 @@ CBKeyScriptTableBase::ContentsValid()
 				s.SelectRow(j);
 				me->TableScrollToCell(JPoint(1,i));
 				JGetUserNotification()->ReportError(
-					"The items in the left column must be unique.");
+					JGetString("MustBeUnique::CBKeyScriptTableBase"));
 				return kJFalse;
 				}
 			}

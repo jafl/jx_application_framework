@@ -113,8 +113,8 @@ CBShellDocument::ConstructShellEditor
 {
 	CBShellEditor* te =
 		jnew CBShellEditor(document, fileName, menuBar, lineInput, colInput,
-						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
+						   scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( te != nullptr );
 
 	return te;

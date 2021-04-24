@@ -822,6 +822,10 @@ ReplaceCharActionList::CBCharActionTable	"Replace existing actions"
 AppendToCharActionList::CBCharActionTable	"Merge with existing actions"
 SaveCharActionListPrompt::CBCharActionTable	"Save actions as:"
 
+# CBKeyScriptTableBase
+
+MustBeUnique::CBKeyScriptTableBase	"The items in the left column must be unique."
+
 # CBMacroTable
 
 ReplaceMacroList::CBMacroTable		"Replace existing macros"

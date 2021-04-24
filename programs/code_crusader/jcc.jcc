@@ -813,6 +813,10 @@ T
 2 "CBDiffDocument.cpp"
 F
 "./code/CBDiffDocument.cpp"
+T
+2 "CBDiffEditor.cpp"
+F
+"./code/CBDiffEditor.cpp"
 F
 T
 1 "printing"

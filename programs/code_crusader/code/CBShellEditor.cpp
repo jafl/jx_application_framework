@@ -113,13 +113,14 @@ CBShellEditor::HandleKeyPress
 	if ((c == kJLeftArrow && metaOn && !controlOn && !shiftOn) ||
 		(c == JXCtrl('A') && controlOn && !metaOn && !shiftOn))
 		{
-		const JIndex index            = GetInsertionIndex();
-		const JRunArray<JFont>& styles = GetText()->GetStyles();
-		if (index > 1 && styles.GetElement(index-1) == GetDefaultFont())
+		JRunArrayIterator<JFont> iter(
+			GetText()->GetStyles(),
+			kJIteratorStartBefore, GetInsertionIndex().charIndex);
+
+		JFont f;
+		if (iter.Prev(&f) && f == GetText()->GetDefaultFont())
 			{
-			JIndex runIndex, firstIndexInRun;
-			const JBoolean ok = styles.FindRun(index-1, &runIndex, &firstIndexInRun);
-			SetCaretLocation(firstIndexInRun);
+			SetCaretLocation(iter.GetRunStart());
 			return;
 			}
 		}
@@ -141,15 +142,19 @@ CBShellEditor::HandleKeyPress
 		assert( ok );
 
 		JString cmd;
-		const JRunArray<JFont>& styles = GetText()->GetStyles();
-		if (index > 1 && styles.GetElement(index-1) == GetText()->GetDefaultFont())
-			{
-			JIndex runIndex, firstIndexInRun;
-			ok = styles.FindRun(index-1, &runIndex, &firstIndexInRun);
 
-			const JIndex endIndex = firstIndexInRun + styles.GetRunLength(runIndex);
-			cmd = GetText()->GetSubstring(firstIndexInRun, endIndex - 1);
+		JRunArrayIterator<JFont> fiter(GetText()->GetStyles(), kJIteratorStartBefore, index);
+		JFont f;
+		if (fiter.Prev(&f) && f == GetText()->GetDefaultFont())
+			{
+			const JIndex endIndex = fiter.GetRunEnd();
+
+			JStringIterator siter(GetText()->GetText(), kJIteratorStartBefore, fiter.GetRunStart());
+			siter.BeginMatch();
+			siter.MoveTo(kJIteratorStartBefore, endIndex);
+			cmd = siter.FinishMatch().GetString();
 			SetCaretLocation(endIndex);
+			siter.Invalidate();
 
 			if (cmd.BeginsWith("man "))
 				{

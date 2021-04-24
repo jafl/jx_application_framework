@@ -114,10 +114,10 @@ void
 CBCharActionManager::SetAction
 	(
 	const unsigned char	c,
-	const JCharacter*	script
+	const JString&		script
 	)
 {
-	if (JString::IsEmpty(script))
+	if (script.IsEmpty())
 		{
 		ClearAction(c);
 		}

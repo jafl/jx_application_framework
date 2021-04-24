@@ -14,6 +14,7 @@
 
 class JXTextMenu;
 class JXTextButton;
+class CBDiffEditor;
 
 class CBDiffDocument : public CBTextDocument
 {
@@ -80,6 +81,7 @@ private:
 	const JFontStyle	itsRemoveStyle;
 	const JFontStyle	itsInsertStyle;
 
+	CBDiffEditor*	itsDiffEditor;
 	JXTextMenu*		itsDiffMenu;
 	JXTextButton*	itsDiffButton;
 
@@ -90,23 +92,19 @@ private:
 	static JError	FillOutputFile(const JString& path, const JString& cmd,
 								   JString* resultFullName);
 
-	void		Init(const JString& fullName);
+	void	Init(const JString& fullName);
 
-	void		ReadDiff(std::istream& input);
-	JUtf8Byte	ReadCmd(std::istream& input, JIndexRange* origRange, JIndexRange* newRange) const;
-	JIndexRange	ReadRange(std::istream& input) const;
-	void		IgnoreOrigText(std::istream& input, const JUtf8Byte cmd) const;
-	JString		ReadNewText(std::istream& input, const JUtf8Byte cmd, JSize* lineCount) const;
+	void	ReadDiff(std::istream& input);
 
 	void	UpdateDiffMenu();
 	void	HandleDiffMenu(const JIndex index);
 
-	void	ShowFirstDiff();
-	void	ShowPrevDiff();
-	void	ShowNextDiff();
-	void	SelectDiff(const JIndexRange& removeRange, const JIndexRange& insertRange,
-					   const JBoolean preferRemove, const JBoolean hadSelection,
-					   const JIndex origIndex, const JIndexRange& origRange);
+	static CBTextEditor*	ConstructDiffEditor(CBTextDocument* document,
+												const JString& fileName,
+												JXMenuBar* menuBar,
+												CBTELineIndexInput* lineInput,
+												CBTEColIndexInput* colInput,
+												JXScrollbarSet* scrollbarSet);
 
 	// not allowed
 

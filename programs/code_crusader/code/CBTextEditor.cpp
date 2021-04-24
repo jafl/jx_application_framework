@@ -787,10 +787,10 @@ CBTextEditor::HandleContextMenu
 
 	else if (index == kContextCompleteCmd)
 		{
-		JIndexRange r;
+		JStyledText::TextRange r;
 		if (GetSelection(&r))
 			{
-			SetCaretLocation(r.last+1);
+			SetCaretLocation(r.GetAfter());
 			}
 
 		CBStringCompleter* completer = nullptr;
@@ -803,10 +803,10 @@ CBTextEditor::HandleContextMenu
 		}
 	else if (index == kContextMacroCmd)
 		{
-		JIndexRange r;
+		JStyledText::TextRange r;
 		if (GetSelection(&r))
 			{
-			SetCaretLocation(r.last+1);
+			SetCaretLocation(r.GetAfter());
 			}
 
 		CBMacroManager* macroMgr = nullptr;

@@ -196,6 +196,7 @@
 .cpp ./code/CBDiffStyleMenu
 .cpp ./code/CBSVNFileInput
 .cpp ./code/CBDiffDocument
+.cpp ./code/CBDiffEditor
 .cpp ./code/CBPSPrinter
 .cpp ./code/CBPSPrintSetupDialog
 .cpp ./code/CBPTPrinter

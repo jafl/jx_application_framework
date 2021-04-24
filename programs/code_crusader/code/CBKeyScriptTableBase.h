@@ -54,9 +54,9 @@ protected:
 		CreateStringTableInput(const JPoint& cell, JXContainer* enclosure,
 							   const HSizingOption hSizing, const VSizingOption vSizing,
 							   const JCoordinate x, const JCoordinate y,
-							   const JCoordinate w, const JCoordinate h);
+							   const JCoordinate w, const JCoordinate h) override;
 
-	virtual void	PrepareDeleteXInputField();
+	virtual void	PrepareDeleteXInputField() override;
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
