@@ -502,7 +502,7 @@ JSTStyler::AdjustStyle
 	const JFontStyle&		style
 	)
 {
-	assert( range.last < itsIterator->GetNextElementIndex() );
+	assert( range.last <= itsIterator->GetPrevElementIndex() );
 	assert( itsRecalcRange != nullptr );
 
 	ExpandTextRange(itsRecalcRange, range);
