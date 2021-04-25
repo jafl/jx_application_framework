@@ -1,0 +1,8 @@
+-suffix .cpp
+
+@test_BourneShellStyler
+${CODEDIR}/test_BourneShellStyler
+${JCCCODEDIR}/CBBourneShellStyler
+${JCCCODEDIR}/CBBourneShellScanner
+.l ${JCCCODEDIR}/CBBourneShellScannerL
+${JCCCODEDIR}/CBStylerBase

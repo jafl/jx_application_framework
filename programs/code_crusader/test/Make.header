@@ -1,0 +1,65 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../../..
+
+CODEDIR    := ./code
+JCCCODEDIR := ../code
+JCOREDIR   := ${JX_ROOT}/include/jcore
+JXDIR      := ${JX_ROOT}/include/jx
+
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
+JXLIBDIR    := ${JX_ROOT}/libjx
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCCCODEDIR} \
+              -I${JCOREDIR} \
+              -I${JXDIR}
+
+# makemake variables
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               -g ${SEARCHDIRS} -DCODE_CRUSADER \
+               -DCODE_CRUSADER_UNIT_TEST
+
+# make variables
+
+CPPFLAGS  += -Wno-sign-compare
+LOADLIBES := ${J_STD_LIBS}
+LDFLAGS   := 
+
+# tests
+
+TESTS := \
+      test_BourneShellStyler
+
+#####
+
+.PHONY : default
+default:
+	@cd ..; ${MAKE}
+
+.PHONY : Makefiles
+Makefiles:
+
+.PHONY : test
+test:
+	@cd ..; ${MAKE} TOUCHSTRING=CODE_CRUSADER_UNIT_TEST touch
+	${MAKE} test_binaries
+	$(call run_tests,${TESTS})
+	@cd ..; ${MAKE} TOUCHSTRING=CODE_CRUSADER_UNIT_TEST touch
+
+.PHONY : test_binaries
+test_binaries: ${TESTS}
+
+.PHONY : touch
+touch::
+	@cd ..; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
