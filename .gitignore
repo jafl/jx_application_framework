@@ -37,12 +37,7 @@ obsolete/*/ChangeLog.html
 !lib/*.a
 !lib/*.so
 
-libj*/test/test_*
-libj*/test/.timestamps
-!libj*/test/test_*.cpp
-!libj*/test/test_*.txt
-
-programs/*/test/test_*
-programs/*/test/.timestamps
-!programs/*/test/test_*.cpp
-!programs/*/test/test_*.txt
+**/test/test_*
+**/test/.timestamps
+!**/test/test_*.cpp
+!**/test/test_*.txt
