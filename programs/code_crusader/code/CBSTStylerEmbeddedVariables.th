@@ -13,6 +13,8 @@
 
  ******************************************************************************/
 
+#include <JListUtil.h>
+
 void
 ClassName::StyleEmbeddedVariables
 	(
@@ -39,6 +41,7 @@ ClassName::StyleEmbeddedVariables
 		}
 #endif
 	JArray<JIndex> varIndexList;
+	varIndexList.SetCompareFunction(JCompareIndices);
 
 	JStringIterator iter(GetText(), kJIteratorStartBefore, token.range.charRange.first);
 	JUtf8Character c;

@@ -11,9 +11,8 @@
  ******************************************************************************/
 
 #include "CBSearchFilterHistoryMenu.h"
+#include <jGlobals.h>
 #include <jAssert.h>
-
-static const JCharacter* kInvertFlag = "(invert)";
 
 /******************************************************************************
  Constructor
@@ -23,7 +22,7 @@ static const JCharacter* kInvertFlag = "(invert)";
 CBSearchFilterHistoryMenu::CBSearchFilterHistoryMenu
 	(
 	const JSize			historyLength,
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -89,7 +88,7 @@ CBSearchFilterHistoryMenu::GetFilter
 	const
 {
 	JString s;
-	*invert = JI2B(GetItemNMShortcut(index, &s) && s == kInvertFlag);
+	*invert = JI2B(GetItemNMShortcut(index, &s) && s == JGetString("InvertFlag::CBSearchFilterHistoryMenu"));
 
 	return JXTextMenu::GetItemText(index);
 }
@@ -105,12 +104,12 @@ CBSearchFilterHistoryMenu::GetFilter
 void
 CBSearchFilterHistoryMenu::AddFilter
 	(
-	const JCharacter*	filter,
-	const JBoolean		invert
+	const JString&	filter,
+	const JBoolean	invert
 	)
 {
-	if (!JString::IsEmpty(filter))
+	if (!filter.IsEmpty())
 		{
-		AddItem(filter, invert ? kInvertFlag : "");
+		AddItem(filter, invert ? JGetString("InvertFlag::CBSearchFilterHistoryMenu") : JString::empty);
 		}
 }

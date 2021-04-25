@@ -5,6 +5,7 @@ Internal Form Definition File
 
 Number of forms: 46
 Unit of measure: FL_COORD_PIXEL
+SnapGrid: 5
 
 =============== FORM ===============
 Name: CBTreeDirector
@@ -1437,13 +1438,13 @@ argument:
 =============== FORM ===============
 Name: CBSearchTextDialog
 Width: 450
-Height: 470
-Number of Objects: 44
+Height: 460
+Number of Objects: 42
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 450 470
+box: 0 0 450 460
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1461,7 +1462,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 101 220 20
+box: 20 85 220 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -1479,7 +1480,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 31 220 20
+box: 20 9 220 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -1497,7 +1498,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 20 50 220 40
+box: 20 29 220 45
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -1515,7 +1516,7 @@ argument: kJTrue, kJFalse
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 20 120 220 40
+box: 20 105 220 45
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -1533,7 +1534,7 @@ argument: kJTrue, kJFalse
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 320 440 80 20
+box: 320 430 80 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1551,7 +1552,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 180 130 20
+box: 20 170 130 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1569,7 +1570,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 240 130 20
+box: 20 230 130 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1605,7 +1606,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 210 130 20
+box: 20 200 130 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1623,7 +1624,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 250 130 30 20
+box: 250 120 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1636,12 +1637,12 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: (prevReplaceMenu)
 callback: 
-argument: kHistoryLength, ""
+argument: kHistoryLength, JString::empty
 
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 250 60 30 20
+box: 250 50 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1654,12 +1655,12 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: (prevSearchMenu)
 callback: 
-argument: kHistoryLength, ""
+argument: kHistoryLength, JString::empty
 
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 60 440 80 20
+box: 60 430 80 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1677,7 +1678,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 160 180 150 20
+box: 160 170 150 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1695,7 +1696,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 320 180 110 20
+box: 320 170 110 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1713,7 +1714,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 160 210 150 20
+box: 160 200 150 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1731,7 +1732,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 320 210 110 20
+box: 320 200 110 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1749,7 +1750,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 190 440 80 20
+box: 190 430 80 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1767,7 +1768,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 360 100 20
+box: 20 350 100 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1785,7 +1786,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 140 360 300 60
+box: 140 350 300 60
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1909,81 +1910,9 @@ callback:
 argument: kJTrue
 
 --------------------
-class: FL_TEXT
-type: FL_NORMAL_TEXT
-box: 320 110 100 20
-boxtype: FL_FLAT_BOX
-colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: Replace all
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
-name: (replaceAllLabel)
-callback: 
-argument: 
-
---------------------
-class: FL_BOX
-type: FL_NO_BOX
-box: 300 110 20 20
-boxtype: FL_NO_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: JXSearchTextButton
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
-name: (replaceAllBackButton)
-callback: 
-argument: kJFalse
-
---------------------
-class: FL_BOX
-type: FL_NO_BOX
-box: 420 110 20 20
-boxtype: FL_NO_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: JXSearchTextButton
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
-name: (replaceAllFwdButton)
-callback: 
-argument: kJTrue
-
---------------------
-class: FL_BUTTON
-type: FL_NORMAL_BUTTON
-box: 300 140 140 20
-boxtype: FL_UP_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: Replace all in selection
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
-name: (replaceAllInSelButton)
-callback: 
-argument: 
-
---------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 160 240 150 20
+box: 160 230 150 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -2001,7 +1930,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 320 240 110 20
+box: 320 230 110 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -2019,7 +1948,7 @@ argument:
 --------------------
 class: FL_MENU
 type: FL_PULLDOWN_MENU
-box: 30 390 90 30
+box: 30 380 90 30
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_CENTER
@@ -2037,7 +1966,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 270 130 20
+box: 20 260 130 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -2055,7 +1984,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 150 270 190 20
+box: 150 260 190 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -2073,7 +2002,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 50 300 100 20
+box: 50 290 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -2091,7 +2020,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 340 270 30 20
+box: 340 260 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -2104,12 +2033,12 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsDirHistory
 callback: 
-argument: kHistoryLength, ""
+argument: kHistoryLength, JString::empty
 
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 150 300 190 20
+box: 150 290 190 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -2127,7 +2056,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 340 300 30 20
+box: 340 290 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -2140,12 +2069,12 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsFileFilterHistory
 callback: 
-argument: kHistoryLength, ""
+argument: kHistoryLength, JString::empty
 
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 40 330 215 20
+box: 40 320 215 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -2163,7 +2092,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 380 270 60 20
+box: 380 260 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -2181,7 +2110,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 380 300 60 20
+box: 380 290 60 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -2199,7 +2128,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 255 330 155 20
+box: 255 320 155 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -2217,7 +2146,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 410 330 30 20
+box: 410 320 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -2230,7 +2159,43 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsPathFilterHistory
 callback: 
-argument: kHistoryLength, ""
+argument: kHistoryLength, JString::empty
+
+--------------------
+class: FL_BUTTON
+type: FL_NORMAL_BUTTON
+box: 300 110 70 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Replace all
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthEast FL_NoGravity
+name: (replaceAllButton)
+callback: 
+argument: 
+
+--------------------
+class: FL_BUTTON
+type: FL_NORMAL_BUTTON
+box: 370 110 70 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: in selection
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthEast FL_NoGravity
+name: (replaceAllInSelButton)
+callback: 
+argument: 
 
 =============== FORM ===============
 Name: CBAboutDialog

@@ -42,9 +42,6 @@
 #include <stdio.h>
 #include <jAssert.h>
 
-static const JCharacter* kReplaceFileListStr  = "Replace contents";
-static const JCharacter* kAppendToFileListStr = "Merge with contents";
-
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 73;	// first digit must be >= 7
@@ -62,7 +59,7 @@ const JFileVersion kCurrentSetupVersion = 73;	// first digit must be >= 7
 
 // File list menu
 
-static const JCharacter* kFileListMenuStr =
+static const JUtf8Byte* kFileListMenuStr =
 	"    Show text of each match      %b"
 	"  | List files that do not match %b"
 	"%l| Add files..."
@@ -100,11 +97,11 @@ CBSearchTextDialog::Create()
 
 CBSearchTextDialog::CBSearchTextDialog()
 	:
-	JXSearchTextDialog("CBSearchTextHelp"),
 	JPrefObject(CBGetPrefsManager(), kCBSearchTextID),
 	itsFileSetName("Untitled")
 {
-	itsCSF = jnew CBListCSF(kReplaceFileListStr, kAppendToFileListStr);
+	itsCSF = jnew CBListCSF(JGetString("ReplaceFileList::CBSearchTextDialog"),
+							JGetString("AppendToFileList::CBSearchTextDialog"));
 	assert( itsCSF != nullptr );
 
 	itsOnlyListFilesFlag         = kJFalse;
@@ -150,44 +147,44 @@ CBSearchTextDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,470, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 450,460, JString::empty);
 	assert( window != nullptr );
 
 	JXStaticText* replaceLabel =
 		jnew JXStaticText(JGetString("replaceLabel::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,101, 220,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,85, 220,20);
 	assert( replaceLabel != nullptr );
 	replaceLabel->SetToLabel();
 
 	JXStaticText* searchLabel =
 		jnew JXStaticText(JGetString("searchLabel::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,31, 220,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,9, 220,20);
 	assert( searchLabel != nullptr );
 	searchLabel->SetToLabel();
 
 	JXInputField* searchInput =
 		jnew JXInputField(kJTrue, kJFalse, window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,50, 220,40);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,29, 220,45);
 	assert( searchInput != nullptr );
 
 	JXInputField* replaceInput =
 		jnew JXInputField(kJTrue, kJFalse, window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,120, 220,40);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,105, 220,45);
 	assert( replaceInput != nullptr );
 
 	JXTextButton* closeButton =
 		jnew JXTextButton(JGetString("closeButton::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,440, 80,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,430, 80,20);
 	assert( closeButton != nullptr );
 
 	JXTextCheckbox* ignoreCaseCB =
 		jnew JXTextCheckbox(JGetString("ignoreCaseCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,180, 130,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,170, 130,20);
 	assert( ignoreCaseCB != nullptr );
 
 	JXTextCheckbox* wrapSearchCB =
 		jnew JXTextCheckbox(JGetString("wrapSearchCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,240, 130,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,230, 130,20);
 	assert( wrapSearchCB != nullptr );
 
 	JXTextButton* replaceButton =
@@ -197,59 +194,59 @@ CBSearchTextDialog::BuildWindow()
 
 	JXTextCheckbox* entireWordCB =
 		jnew JXTextCheckbox(JGetString("entireWordCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,210, 130,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,200, 130,20);
 	assert( entireWordCB != nullptr );
 
 	JXStringHistoryMenu* prevReplaceMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, "", window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,130, 30,20);
+		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,120, 30,20);
 	assert( prevReplaceMenu != nullptr );
 
 	JXStringHistoryMenu* prevSearchMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, "", window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,60, 30,20);
+		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,50, 30,20);
 	assert( prevSearchMenu != nullptr );
 
 	JXTextButton* helpButton =
 		jnew JXTextButton(JGetString("helpButton::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,440, 80,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,430, 80,20);
 	assert( helpButton != nullptr );
 	helpButton->SetShortcuts(JGetString("helpButton::CBSearchTextDialog::shortcuts::JXLayout"));
 
 	JXTextCheckbox* searchIsRegexCB =
 		jnew JXTextCheckbox(JGetString("searchIsRegexCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,180, 150,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,170, 150,20);
 	assert( searchIsRegexCB != nullptr );
 
 	JXTextCheckbox* replaceIsRegexCB =
 		jnew JXTextCheckbox(JGetString("replaceIsRegexCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,180, 110,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,170, 110,20);
 	assert( replaceIsRegexCB != nullptr );
 
 	JXTextCheckbox* singleLineCB =
 		jnew JXTextCheckbox(JGetString("singleLineCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,210, 150,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,200, 150,20);
 	assert( singleLineCB != nullptr );
 
 	JXTextCheckbox* preserveCaseCB =
 		jnew JXTextCheckbox(JGetString("preserveCaseCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,210, 110,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,200, 110,20);
 	assert( preserveCaseCB != nullptr );
 
 	JXTextButton* qRefButton =
 		jnew JXTextButton(JGetString("qRefButton::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 190,440, 80,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 190,430, 80,20);
 	assert( qRefButton != nullptr );
 
 	itsMultifileCB =
 		jnew JXTextCheckbox(JGetString("itsMultifileCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,360, 100,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,350, 100,20);
 	assert( itsMultifileCB != nullptr );
 	itsMultifileCB->SetShortcuts(JGetString("itsMultifileCB::CBSearchTextDialog::shortcuts::JXLayout"));
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 140,360, 300,60);
+					JXWidget::kHElastic, JXWidget::kVElastic, 140,350, 300,60);
 	assert( scrollbarSet != nullptr );
 
 	JXStaticText* findLabel =
@@ -284,98 +281,87 @@ CBSearchTextDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,80, 20,20);
 	assert( replaceFindFwdButton != nullptr );
 
-	JXStaticText* replaceAllLabel =
-		jnew JXStaticText(JGetString("replaceAllLabel::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,110, 100,20);
-	assert( replaceAllLabel != nullptr );
-	replaceAllLabel->SetToLabel(kJTrue);
-
-	JXSearchTextButton* replaceAllBackButton =
-		jnew JXSearchTextButton(kJFalse, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,110, 20,20);
-	assert( replaceAllBackButton != nullptr );
-
-	JXSearchTextButton* replaceAllFwdButton =
-		jnew JXSearchTextButton(kJTrue, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,110, 20,20);
-	assert( replaceAllFwdButton != nullptr );
-
-	JXTextButton* replaceAllInSelButton =
-		jnew JXTextButton(JGetString("replaceAllInSelButton::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,140, 140,20);
-	assert( replaceAllInSelButton != nullptr );
-
 	JXTextCheckbox* stayOpenCB =
 		jnew JXTextCheckbox(JGetString("stayOpenCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,240, 150,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,230, 150,20);
 	assert( stayOpenCB != nullptr );
 
 	JXTextCheckbox* retainFocusCB =
 		jnew JXTextCheckbox(JGetString("retainFocusCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,240, 110,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,230, 110,20);
 	assert( retainFocusCB != nullptr );
 
 	itsFileListMenu =
 		jnew JXTextMenu(JGetString("itsFileListMenu::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,390, 90,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,380, 90,30);
 	assert( itsFileListMenu != nullptr );
 
 	itsSearchDirCB =
 		jnew JXTextCheckbox(JGetString("itsSearchDirCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,270, 130,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,260, 130,20);
 	assert( itsSearchDirCB != nullptr );
 	itsSearchDirCB->SetShortcuts(JGetString("itsSearchDirCB::CBSearchTextDialog::shortcuts::JXLayout"));
 
 	itsDirInput =
 		jnew JXPathInput(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 150,270, 190,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 150,260, 190,20);
 	assert( itsDirInput != nullptr );
 
 	JXStaticText* filterLabel =
 		jnew JXStaticText(JGetString("filterLabel::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,300, 100,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,290, 100,20);
 	assert( filterLabel != nullptr );
 	filterLabel->SetToLabel();
 
 	itsDirHistory =
-		jnew CBSearchPathHistoryMenu(kHistoryLength, "", window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,270, 30,20);
+		jnew CBSearchPathHistoryMenu(kHistoryLength, JString::empty, window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,260, 30,20);
 	assert( itsDirHistory != nullptr );
 
 	itsFileFilterInput =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 150,300, 190,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 150,290, 190,20);
 	assert( itsFileFilterInput != nullptr );
 
 	itsFileFilterHistory =
-		jnew CBSearchFilterHistoryMenu(kHistoryLength, "", window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,300, 30,20);
+		jnew CBSearchFilterHistoryMenu(kHistoryLength, JString::empty, window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,290, 30,20);
 	assert( itsFileFilterHistory != nullptr );
 
 	itsRecurseDirCB =
 		jnew JXTextCheckbox(JGetString("itsRecurseDirCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,330, 215,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,320, 215,20);
 	assert( itsRecurseDirCB != nullptr );
 
 	itsChooseDirButton =
 		jnew JXTextButton(JGetString("itsChooseDirButton::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 380,270, 60,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 380,260, 60,20);
 	assert( itsChooseDirButton != nullptr );
 
 	itsInvertFileFilterCB =
 		jnew JXTextCheckbox(JGetString("itsInvertFileFilterCB::CBSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 380,300, 60,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 380,290, 60,20);
 	assert( itsInvertFileFilterCB != nullptr );
 
 	itsPathFilterInput =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 255,330, 155,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 255,320, 155,20);
 	assert( itsPathFilterInput != nullptr );
 
 	itsPathFilterHistory =
-		jnew CBSearchFilterHistoryMenu(kHistoryLength, "", window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,330, 30,20);
+		jnew CBSearchFilterHistoryMenu(kHistoryLength, JString::empty, window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,320, 30,20);
 	assert( itsPathFilterHistory != nullptr );
+
+	JXTextButton* replaceAllButton =
+		jnew JXTextButton(JGetString("replaceAllButton::CBSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,110, 70,20);
+	assert( replaceAllButton != nullptr );
+
+	JXTextButton* replaceAllInSelButton =
+		jnew JXTextButton(JGetString("replaceAllInSelButton::CBSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 370,110, 70,20);
+	assert( replaceAllInSelButton != nullptr );
 
 // end JXLayout
 
@@ -388,12 +374,11 @@ CBSearchTextDialog::BuildWindow()
 			   findFwdButton, findBackButton,
 			   replaceButton,
 			   replaceFindFwdButton, replaceFindBackButton,
-			   replaceAllFwdButton, replaceAllBackButton,
-			   replaceAllInSelButton,
+			   replaceAllButton, replaceAllInSelButton,
 			   closeButton, helpButton, qRefButton);
 
 	ListenTo(itsSearchDirCB);
-	ListenTo(itsDirInput);
+	ListenTo(itsDirInput->GetText());
 	ListenTo(itsMultifileCB);
 
 	itsFileList =
@@ -418,9 +403,9 @@ CBSearchTextDialog::BuildWindow()
 
 	itsDirInput->ShouldAllowInvalidPath();
 	itsDirHistory->SetDefaultFont(font, kJTrue);
-	itsFileFilterInput->SetDefaultFont(font);
+	itsFileFilterInput->GetText()->SetDefaultFont(font);
 	itsFileFilterHistory->SetDefaultFont(font, kJTrue);
-	itsPathFilterInput->SetDefaultFont(font);
+	itsPathFilterInput->GetText()->SetDefaultFont(font);
 	itsPathFilterHistory->SetDefaultFont(font, kJTrue);
 	itsRecurseDirCB->SetState(kJTrue);
 
@@ -435,13 +420,13 @@ CBSearchTextDialog::BuildWindow()
 	prefsMgr->GetDefaultFont(&fontName, &fontSize);
 	SetFont(JFontManager::GetFont(fontName, fontSize));
 
-	searchInput->SetCharacterInWordFunction(CBMIsCharacterInWord);
-	replaceInput->SetCharacterInWordFunction(CBMIsCharacterInWord);
+	searchInput->GetText()->SetCharacterInWordFunction(CBMIsCharacterInWord);
+	replaceInput->GetText()->SetCharacterInWordFunction(CBMIsCharacterInWord);
 
 	// create hidden JXDocument so Meta-# shortcuts work
 
 	JXDocumentMenu* fileListMenu =
-		jnew JXDocumentMenu("", window,
+		jnew JXDocumentMenu(JString::empty, window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != nullptr );
 
@@ -479,7 +464,6 @@ CBSearchTextDialog::UpdateDisplay()
 		GetReplaceButton()->Deactivate();
 		GetReplaceFindFwdButton()->Deactivate();
 		GetReplaceFindBackButton()->Deactivate();
-		GetReplaceAllBackButton()->Deactivate();
 		GetReplaceAllInSelButton()->Deactivate();
 
 		// These two buttons will already be deactivated if !HasSearchText().
@@ -490,7 +474,7 @@ CBSearchTextDialog::UpdateDisplay()
 
 			if (CBGetDocumentManager()->WillEditTextFilesLocally())
 				{
-				GetReplaceAllFwdButton()->Activate();
+				GetReplaceAllButton()->Activate();
 				}
 			}
 		}
@@ -513,7 +497,7 @@ CBSearchTextDialog::Receive
 		{
 		SearchFiles();
 		}
-	else if (sender == GetReplaceAllFwdButton() && message.Is(JXButton::kPushed) &&
+	else if (sender == GetReplaceAllButton() && message.Is(JXButton::kPushed) &&
 			 (itsMultifileCB->IsChecked() || itsSearchDirCB->IsChecked()))
 		{
 		SearchFilesAndReplace();
@@ -546,9 +530,9 @@ CBSearchTextDialog::Receive
 		{
 		UpdateDisplay();
 		}
-	else if (sender == itsDirInput &&
-			 (message.Is(JTextEditor::kTextChanged) ||
-			  message.Is(JTextEditor::kTextSet)))
+	else if (sender == itsDirInput->GetText() &&
+			 (message.Is(JStyledText::kTextChanged) ||
+			  message.Is(JStyledText::kTextSet)))
 		{
 		itsSearchDirCB->SetState(kJTrue);
 		}
@@ -569,28 +553,28 @@ CBSearchTextDialog::Receive
 		}
 	else if (sender == itsChooseDirButton && message.Is(JXButton::kPushed))
 		{
-		itsDirInput->ChoosePath("");
+		itsDirInput->ChoosePath(JString::empty);
 		itsSearchDirCB->SetState(kJTrue);
 		}
 
 	else if (sender == itsDirHistory && message.Is(JXMenu::kItemSelected))
 		{
 		JBoolean recurse;
-		itsDirInput->SetText(itsDirHistory->GetPath(message, &recurse));
+		itsDirInput->GetText()->SetText(itsDirHistory->GetPath(message, &recurse));
 		itsRecurseDirCB->SetState(recurse);
 		itsSearchDirCB->SetState(kJTrue);
 		}
 	else if (sender == itsFileFilterHistory && message.Is(JXMenu::kItemSelected))
 		{
 		JBoolean invert;
-		itsFileFilterInput->SetText(itsFileFilterHistory->GetFilter(message, &invert));
+		itsFileFilterInput->GetText()->SetText(itsFileFilterHistory->GetFilter(message, &invert));
 		itsInvertFileFilterCB->SetState(invert);
 		itsSearchDirCB->SetState(kJTrue);
 		}
 	else if (sender == itsPathFilterHistory && message.Is(JXMenu::kItemSelected))
 		{
 		JBoolean invert;
-		itsPathFilterInput->SetText(itsPathFilterHistory->GetFilter(message, &invert));
+		itsPathFilterInput->GetText()->SetText(itsPathFilterHistory->GetFilter(message, &invert));
 		itsSearchDirCB->SetState(kJTrue);
 		}
 
@@ -799,7 +783,7 @@ CBSearchTextDialog::BuildSearchFileList
 			}
 
 		JLatentPG pg(100);
-		pg.VariableLengthProcessBeginning("Collecting files...", kJTrue, kJFalse);
+		pg.VariableLengthProcessBeginning(JGetString("CollectingFiles::CBSearchTextDialog"), kJTrue, kJFalse);
 		ok = SearchDirectory(path, fileRegex, pathRegex, fileList, nameList, pg);
 		pg.ProcessFinished();
 
@@ -904,10 +888,10 @@ CBSearchTextDialog::SaveFileForSearch
 			{
 			CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(doc);
 			if (textDoc != nullptr &&
-				(JCreateTempFile(file)).OK())
+				JCreateTempFile(file).OK())
 				{
-				std::ofstream output(*file);
-				((textDoc->GetTextEditor())->GetText()).Print(output);
+				std::ofstream output(file->GetBytes());
+				textDoc->GetTextEditor()->GetText()->GetText().Print(output);
 				}
 			}
 
@@ -967,16 +951,16 @@ CBSearchTextDialog::GetSearchDirectory
 		return kJTrue;
 		}
 
-	*fileFilter = itsFileFilterInput->GetText();
-	*pathFilter = itsPathFilterInput->GetText();
+	*fileFilter = itsFileFilterInput->GetText()->GetText();
+	*pathFilter = itsPathFilterInput->GetText()->GetText();
 
 	itsDirInput->ShouldAllowInvalidPath(kJFalse);
 	const JBoolean ok = itsDirInput->GetPath(path);
 	if (ok)
 		{
-		itsDirHistory->AddPath(itsDirInput->GetText(), itsRecurseDirCB->IsChecked());
-		itsFileFilterHistory->AddFilter(itsFileFilterInput->GetText(), itsInvertFileFilterCB->IsChecked());
-		itsPathFilterHistory->AddFilter(itsPathFilterInput->GetText(), kJFalse);
+		itsDirHistory->AddPath(itsDirInput->GetText()->GetText(), itsRecurseDirCB->IsChecked());
+		itsFileFilterHistory->AddFilter(itsFileFilterInput->GetText()->GetText(), itsInvertFileFilterCB->IsChecked());
+		itsPathFilterHistory->AddFilter(itsPathFilterInput->GetText()->GetText(), kJFalse);
 		}
 	else
 		{
@@ -997,14 +981,14 @@ void
 CBSearchTextDialog::LoadFileSet()
 {
 	JString fullName;
-	if (itsCSF->ChooseFile("", nullptr, &fullName))
+	if (itsCSF->ChooseFile(JString::empty, JString::empty, &fullName))
 		{
 		if (itsCSF->ReplaceExisting())
 			{
 			itsFileList->RemoveAllFiles();
 			}
 
-		std::ifstream input(fullName);
+		std::ifstream input(fullName.GetBytes());
 		JString file;
 		while (!input.eof() && !input.fail())
 			{
@@ -1027,17 +1011,17 @@ CBSearchTextDialog::SaveFileSet()
 	const
 {
 	JString newName;
-	if (JGetChooseSaveFile()->SaveFile("Save file set as:", "",
-										 itsFileSetName, &newName))
+	if (JGetChooseSaveFile()->SaveFile(JGetString("SaveFileSet::CBSearchTextDialog"),
+									   JString::empty, itsFileSetName, &newName))
 		{
 		itsFileSetName = newName;
 
-		std::ofstream output(itsFileSetName);
+		std::ofstream output(itsFileSetName.GetBytes());
 		const JPtrArray<JString>& fullNameList = itsFileList->GetFullNameList();
 		const JSize fileCount = fullNameList.GetElementCount();
 		for (JIndex i=1; i<=fileCount; i++)
 			{
-			(fullNameList.GetElement(i))->Print(output);
+			fullNameList.GetElement(i)->Print(output);
 			output << '\n';
 			}
 		}
@@ -1052,7 +1036,7 @@ void
 CBSearchTextDialog::AddSearchFiles()
 {
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
-	if ((JXGetChooseSaveFile())->ChooseFiles("", nullptr, &fileList))
+	if (JXGetChooseSaveFile()->ChooseFiles(JString::empty, JString::empty, &fileList))
 		{
 		const JSize count = fileList.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -1070,7 +1054,7 @@ CBSearchTextDialog::AddSearchFiles()
 void
 CBSearchTextDialog::AddFileToSearch
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	const
 {
@@ -1130,7 +1114,7 @@ CBSearchTextDialog::ReadPrefs
 	)
 {
 	input >> std::ws;
-	const JCharacter versChar = input.peek();
+	const JUtf8Byte versChar = input.peek();
 
 	JFileVersion vers;
 	if (versChar <= '6')
@@ -1154,10 +1138,10 @@ CBSearchTextDialog::ReadPrefs
 
 	if (vers >= 4)
 		{
-		input >> itsOnlyListFilesFlag;
+		input >> JBoolFromString(itsOnlyListFilesFlag);
 		if (vers >= 5)
 			{
-			input >> itsListFilesWithoutMatchFlag >> itsFileSetName;
+			input >> JBoolFromString(itsListFilesWithoutMatchFlag) >> itsFileSetName;
 			}
 
 		JSize fileCount;
@@ -1179,20 +1163,20 @@ CBSearchTextDialog::ReadPrefs
 	if (vers >= 71)
 		{
 		JBoolean b;
-		input >> b;
+		input >> JBoolFromString(b);
 		itsRecurseDirCB->SetState(b);
 
 		if (vers >= 72)
 			{
-			input >> b;
+			input >> JBoolFromString(b);
 			itsInvertFileFilterCB->SetState(b);
 			}
 
 		JString s;
 		input >> s;
-		itsDirInput->SetText(s);
+		itsDirInput->GetText()->SetText(s);
 		input >> s;
-		itsFileFilterInput->SetText(s);
+		itsFileFilterInput->GetText()->SetText(s);
 
 		itsDirHistory->ReadSetup(input);
 		itsFileFilterHistory->ReadSetup(input);
@@ -1200,9 +1184,9 @@ CBSearchTextDialog::ReadPrefs
 		if (vers >= 73)
 			{
 			input >> s;
-			itsPathFilterInput->SetText(s);
+			itsPathFilterInput->GetText()->SetText(s);
 
-			input >> b;
+			input >> JBoolFromString(b);
 
 			itsPathFilterHistory->ReadSetup(input);
 			}
@@ -1228,8 +1212,8 @@ CBSearchTextDialog::WritePrefs
 
 	// file list
 
-	output << ' ' << itsOnlyListFilesFlag;
-	output << ' ' << itsListFilesWithoutMatchFlag;
+	output << ' ' << JBoolToString(itsOnlyListFilesFlag);
+	output << ' ' << JBoolToString(itsListFilesWithoutMatchFlag);
 	output << ' ' << itsFileSetName;
 
 	const JPtrArray<JString>& fullNameList = itsFileList->GetFullNameList();
@@ -1244,8 +1228,8 @@ CBSearchTextDialog::WritePrefs
 
 	// directory
 
-	output << ' ' << itsRecurseDirCB->IsChecked();
-	output << ' ' << itsInvertFileFilterCB->IsChecked();
+	output << ' ' << JBoolToString(itsRecurseDirCB->IsChecked());
+	output << ' ' << JBoolToString(itsInvertFileFilterCB->IsChecked());
 	output << ' ' << itsDirInput->GetText()->GetText();
 	output << ' ' << itsFileFilterInput->GetText()->GetText();
 
@@ -1256,7 +1240,7 @@ CBSearchTextDialog::WritePrefs
 	itsFileFilterHistory->WriteSetup(output);
 
 	output << ' ' << itsPathFilterInput->GetText()->GetText();
-	output << ' ' << kJFalse;	// placeholder for invert, if we ever find a use
+	output << ' ' << JBoolToString(kJFalse);	// placeholder for invert, if we ever find a use
 	output << ' ';
 	itsPathFilterHistory->WriteSetup(output);
 

@@ -9,7 +9,7 @@
 *.bak
 **/.jcc/*
 libj*/Makefile
-*/test/Makefile
+**/test/Makefile
 */testui/Makefile
 Mesa
 misc/Mesa.tgz
@@ -41,3 +41,8 @@ libj*/test/test_*
 libj*/test/.timestamps
 !libj*/test/test_*.cpp
 !libj*/test/test_*.txt
+
+programs/*/test/test_*
+programs/*/test/.timestamps
+!programs/*/test/test_*.cpp
+!programs/*/test/test_*.txt

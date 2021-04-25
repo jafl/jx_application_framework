@@ -15,7 +15,7 @@ class CBSearchFilterHistoryMenu : public JXHistoryMenuBase
 public:
 
 	CBSearchFilterHistoryMenu(const JSize historyLength,
-							  const JCharacter* title, JXContainer* enclosure,
+							  const JString& title, JXContainer* enclosure,
 							  const HSizingOption hSizing, const VSizingOption vSizing,
 							  const JCoordinate x, const JCoordinate y,
 							  const JCoordinate w, const JCoordinate h);
@@ -26,7 +26,7 @@ public:
 
 	virtual ~CBSearchFilterHistoryMenu();
 
-	void	AddFilter(const JCharacter* filter, const JBoolean invert);
+	void	AddFilter(const JString& filter, const JBoolean invert);
 
 	const JString&	GetFilter(const Message& message, JBoolean* invert) const;
 	const JString&	GetFilter(const JIndex index, JBoolean* invert) const;

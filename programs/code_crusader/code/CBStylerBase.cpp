@@ -52,7 +52,11 @@ CBStylerBase::CBStylerBase
 	const CBTextFileType	fileType
 	)
 	:
+#ifndef CODE_CRUSADER_UNIT_TEST
 	JPrefObject(CBMGetPrefsManager(), prefID),
+#else
+	JPrefObject(nullptr, prefID),
+#endif
 	itsTypeNameVersion(typeVersion),
 	itsTypeNameCount(typeCount),
 	itsTypeNames(typeNames),
@@ -63,7 +67,11 @@ CBStylerBase::CBStylerBase
 	itsTypeStyles = jnew JArray<JFontStyle>;
 	assert( itsTypeStyles != nullptr );
 
+#ifndef CODE_CRUSADER_UNIT_TEST
 	itsDefColor = CBMGetPrefsManager()->GetColor(CBMPrefsManager::kTextColorIndex);
+#else
+	itsDefColor = JColorManager::GetBlackColor();
+#endif
 
 	JFontStyle style(itsDefColor);
 	for (JIndex i=1; i<=typeCount; i++)
@@ -74,7 +82,9 @@ CBStylerBase::CBStylerBase
 	itsWordStyles = jnew JStringMap<JFontStyle>;
 	assert( itsWordStyles != nullptr );
 
+#ifndef CODE_CRUSADER_UNIT_TEST
 	ListenTo(CBMGetPrefsManager());
+#endif
 }
 
 /******************************************************************************
@@ -351,6 +361,8 @@ CBStylerBase::Receive
 	const Message&	message
 	)
 {
+#ifndef CODE_CRUSADER_UNIT_TEST
+
 	if (sender == CBMGetPrefsManager() &&
 		message.Is(CBMPrefsManager::kTextColorChanged))
 		{
@@ -374,6 +386,8 @@ CBStylerBase::Receive
 		{
 		JBroadcaster::Receive(sender, message);
 		}
+
+#endif
 }
 
 /******************************************************************************
@@ -426,6 +440,8 @@ JIndex i;
 
  ******************************************************************************/
 
+#ifndef CODE_CRUSADER_UNIT_TEST
+
 void
 CBStylerBase::EditStyles()
 {
@@ -473,6 +489,8 @@ CBStylerBase::ExtractStyles()
 		Broadcast(WordListChanged(*itsWordStyles));
 		}
 }
+
+#endif
 
 /******************************************************************************
  TypeStylesChanged (private)
