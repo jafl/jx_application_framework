@@ -2990,7 +2990,7 @@ CBPrefsManager::CalcFileType
 
 			if (JString::CompareMaxNBytes(
 					text.GetBytes(), info.suffix->GetBytes()+1,
-					info.literalRange.GetCount(), kJTrue) &&
+					info.literalRange.GetCount(), kJTrue) == 0 &&
 				info.contentRegex->Match(text))
 				{
 				*index = i;

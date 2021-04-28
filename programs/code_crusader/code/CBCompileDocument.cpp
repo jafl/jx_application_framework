@@ -255,7 +255,7 @@ CBCompileDocument::AppendText
 	if (isGCCError &&
 		gccPrevLineMatch.GetUtf8ByteRange() == gccMatch.GetUtf8ByteRange() &&
 		JString::CompareMaxNBytes(itsPrevLine.GetBytes(), text.GetBytes(),
-								  gccMatch.GetByteCount(), kJTrue))
+								  gccMatch.GetByteCount(), kJTrue) == 0)
 		{
 		JString s = text;
 		JStringIterator iter(&s, kJIteratorStartAfterByte, gccMatch.GetUtf8ByteRange().last);

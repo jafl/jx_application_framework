@@ -388,7 +388,7 @@ LLDBLink::HandleLLDBEvent()
 
 			const JSize len = itsLastProgramInput.GetByteCount();
 			if (len < count &&
-				JString::CompareMaxNBytes(itsLastProgramInput.GetBytes(), buf, JMin(count, len)) &&
+				JString::CompareMaxNBytes(itsLastProgramInput.GetBytes(), buf, JMin(count, len)) == 0 &&
 				(buf[len] == '\n' || buf[len] == '\r'))
 				{
 				b += len;
