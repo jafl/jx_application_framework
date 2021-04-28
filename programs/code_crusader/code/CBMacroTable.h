@@ -49,8 +49,8 @@ private:
 	void	LoadMacros();
 	void	SaveMacros() const;
 
-	void	ReadData(const JCharacter* fileName, const JBoolean replace);
-	void	WriteData(const JCharacter* fileName) const;
+	void	ReadData(const JString& fileName, const JBoolean replace);
+	void	WriteData(const JString& fileName) const;
 
 	// not allowed
 

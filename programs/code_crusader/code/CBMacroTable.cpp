@@ -168,7 +168,7 @@ CBMacroTable::LoadMacros()
 {
 	JString fileName;
 	if (GetDialog()->ContentsValid() &&
-		itsCSF->ChooseFile("", nullptr, &fileName))
+		itsCSF->ChooseFile(JString::empty, JString::empty, &fileName))
 		{
 		ReadData(fileName, itsCSF->ReplaceExisting());
 		}
@@ -184,8 +184,8 @@ CBMacroTable::LoadMacros()
 void
 CBMacroTable::ReadData
 	(
-	const JCharacter*	fileName,
-	const JBoolean		replace
+	const JString&	fileName,
+	const JBoolean	replace
 	)
 {
 	JStringTableData* data = GetStringData();
@@ -196,7 +196,7 @@ CBMacroTable::ReadData
 
 	JIndex firstNewRow = 0;
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	JString macro, script;
 	JIndex state = 1;
 	while (!input.eof() && !input.fail())
@@ -248,7 +248,7 @@ CBMacroTable::SaveMacros()
 		GetDialog()->GetCurrentMacroSetName(&origName))
 		{
 		JString newName;
-		if (itsCSF->SaveFile(JGetString("SaveMacroListPrompt::CBMacroTable"), nullptr, origName, &newName))
+		if (itsCSF->SaveFile(JGetString("SaveMacroListPrompt::CBMacroTable"), JString::empty, origName, &newName))
 			{
 			WriteData(newName);
 			}
@@ -265,19 +265,19 @@ CBMacroTable::SaveMacros()
 void
 CBMacroTable::WriteData
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	const
 {
-	std::ofstream output(fileName);
+	std::ofstream output(fileName.GetBytes());
 
 	const JStringTableData* data = GetStringData();
 	const JSize count            = GetRowCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(data->GetString(i, kMacroColumn)).Print(output);
+		data->GetString(i, kMacroColumn).Print(output);
 		output << '\n';
-		(data->GetString(i, kScriptColumn)).Print(output);
+		data->GetString(i, kScriptColumn).Print(output);
 		output << "\n\n";
 		}
 }

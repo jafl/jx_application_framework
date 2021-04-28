@@ -8,9 +8,10 @@
  *****************************************************************************/
 
 #include "CBMacroSubstitute.h"
+#include "cbmUtil.h"
 #include <jProcessUtil.h>
 #include <jStreamUtil.h>
-#include <JString.h>
+#include <JStringIterator.h>
 #include <JMinMax.h>
 #include <jASCIIConstants.h>
 #include <jGlobals.h>
@@ -48,18 +49,21 @@ CBMacroSubstitute::~CBMacroSubstitute()
 JBoolean
 CBMacroSubstitute::Evaluate
 	(
-	const JString&	s,
-	const JIndex	startIndex,
-	JIndexRange*	matchRange,
-	JString*		value
+	JStringIterator&	iter,
+	JString*			value
 	)
 	const
 {
-	if (s.GetCharacter(startIndex) == '(')
+	JUtf8Character c;
+	if (iter.Next(&c, kJFalse) && c == '(')
 		{
-		if (GetExecRange(s, startIndex, matchRange))
+		iter.SkipNext();
+		iter.BeginMatch();
+		if (CBMBalanceForward(kCBCLang, &iter, &c))
 			{
-			*value = s.GetSubstring(startIndex+1, matchRange->last-1);
+			iter.SkipPrev();
+			*value = iter.FinishMatch().GetString();
+			iter.SkipNext();
 
 			CBMacroSubstitute* me = const_cast<CBMacroSubstitute*>(this);
 			if (itsExecCount == 0)
@@ -90,17 +94,12 @@ CBMacroSubstitute::Evaluate
 				JReadAll(errFD, &msg);
 				if (!msg.IsEmpty())
 					{
-					msg.Prepend("Error occurred:\n\n");
+					msg.Prepend(JGetString("Error::CBMacroSubstitute"));
 					JGetUserNotification()->ReportError(msg);
 					}
 
 				JReadAll(fromFD, value);
-				if (!value->IsEmpty() &&
-					value->GetLastCharacter() == '\n')
-					{
-					const JSize len = value->GetLength();
-					value->RemoveSubstring(len, len);
-					}
+				value->TrimWhitespace();
 				}
 			}
 		else
@@ -112,51 +111,8 @@ CBMacroSubstitute::Evaluate
 		}
 	else
 		{
-		return JSubstitute::Evaluate(s, startIndex, matchRange, value);
+		return JSubstitute::Evaluate(iter, value);
 		}
-}
-
-/******************************************************************************
- GetExecRange (static)
-
- *****************************************************************************/
-
-JBoolean
-CBMacroSubstitute::GetExecRange
-	(
-	const JString&	s,
-	const JIndex	startIndex,
-	JIndexRange*	matchRange
-	)
-{
-	const JSize len = s.GetLength();
-	JIndex endIndex = startIndex+1;
-	JSize count     = 1;
-	while (endIndex <= len)
-		{
-		const JCharacter c = s.GetCharacter(endIndex);
-		if (c == '\\')
-			{
-			endIndex++;
-			}
-		else if (c == '$' &&
-				 endIndex < len && s.GetCharacter(endIndex+1) == '(')
-			{
-			count++;
-			}
-		else if (c == ')')
-			{
-			count--;
-			if (count == 0)
-				{
-				break;
-				}
-			}
-		endIndex++;
-		}
-
-	matchRange->Set(startIndex, JMin(endIndex, len));
-	return JI2B( count == 0 && matchRange->GetLength() > 2 );
 }
 
 /******************************************************************************
@@ -170,11 +126,23 @@ CBMacroSubstitute::TurnOnEscapes()
 	SetEscape('n', "\n");
 	SetEscape('t', "\t");
 	SetEscape('b', "\b");
-	SetEscape('f', &kJForwardDeleteKey, 1);
-	SetEscape('l', &kJLeftArrow,        1);
-	SetEscape('r', &kJRightArrow,       1);
-	SetEscape('u', &kJUpArrow,          1);
-	SetEscape('d', &kJDownArrow,        1);
+
+	JUtf8Byte c[] = { '\0', '\0' };
+
+	c[0] = kJForwardDeleteKey;
+	SetEscape('f', c);
+
+	c[0] = kJLeftArrow;
+	SetEscape('l', c);
+
+	c[0] = kJRightArrow;
+	SetEscape('r', c);
+
+	c[0] = kJUpArrow;
+	SetEscape('u', c);
+
+	c[0] = kJDownArrow;
+	SetEscape('d', c);
 }
 
 /******************************************************************************

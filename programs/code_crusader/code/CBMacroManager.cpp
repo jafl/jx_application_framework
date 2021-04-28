@@ -19,6 +19,7 @@
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
 #include "cbmUtil.h"
+#include <JStringIterator.h>
 #include <JColorManager.h>
 #include <jFileUtil.h>
 #include <jProcessUtil.h>
@@ -99,33 +100,42 @@ CBMacroManager::~CBMacroManager()
 JBoolean
 CBMacroManager::Perform
 	(
-	const JIndex	caretIndex,
-	CBTextDocument*	doc
+	const JStyledText::TextIndex&	caretIndex,
+	CBTextDocument*					doc
 	)
 {
-	if (caretIndex <= 1)
+	if (caretIndex.charIndex <= 1)
 		{
 		return kJFalse;
 		}
 
-	const JString& text   = (doc->GetTextEditor())->GetText();
-	const JIndex endIndex = caretIndex - 1;
+	const JStyledText* st = doc->GetTextEditor()->GetText();
+	const JUtf8Byte* text = st->GetText().GetBytes();
 
 	const JSize macroCount = itsMacroList->GetElementCount();
 	for (JIndex i=1; i<=macroCount; i++)
 		{
 		const MacroInfo info = itsMacroList->GetElement(i);
-		const JSize macroLen = (info.macro)->GetLength();
-		if (macroLen <= endIndex)
+		if (info.macro->GetCharacterCount() <= caretIndex.charIndex-1)
 			{
-			if (JCompareMaxN(text.GetCString() + endIndex - macroLen,
-							 *(info.macro), macroLen) &&
-				(macroLen == endIndex ||
-				 !CBMIsCharacterInWord(text, endIndex - macroLen + 1) ||
-				 !CBMIsCharacterInWord(text, endIndex - macroLen)))
+			const JStyledText::TextIndex j =
+				st->AdjustTextIndex(caretIndex, -(JInteger)info.macro->GetCharacterCount());
+
+			if (info.macro->GetByteCount() == caretIndex.byteIndex - j.byteIndex &&
+				JString::CompareMaxNBytes(text + j.byteIndex-1, info.macro->GetBytes(),
+										  info.macro->GetByteCount()) == 0)
 				{
-				Perform(*(info.script), doc);
-				return kJTrue;
+				JStringIterator iter(st->GetText());
+				iter.UnsafeMoveTo(kJIteratorStartBefore, j.charIndex, j.byteIndex);
+
+				JUtf8Character c;
+				if (iter.AtBeginning() ||
+					(iter.Next(&c, kJFalse) && !CBMIsCharacterInWord(c)) ||
+					(iter.Prev(&c, kJFalse) && !CBMIsCharacterInWord(c)))
+					{
+					Perform(*info.script, doc);
+					return kJTrue;
+					}
 				}
 			}
 		}
@@ -146,7 +156,7 @@ CBMacroManager::Perform
 	)
 {
 	CBTextEditor* te = doc->GetTextEditor();
-	te->DeactivateCurrentUndo();
+	te->GetText()->DeactivateCurrentUndo();
 
 	JBoolean onDisk;
 	const JString fullName = JPrepArgForExec(doc->GetFullName(&onDisk));
@@ -157,19 +167,22 @@ CBMacroManager::Perform
 	if (JSplitRootAndSuffix(doc->GetFileName(), &root, &suffix))
 		{
 		root = JPrepArgForExec(root);
-		suffix.PrependCharacter('.');
+		suffix.Prepend(".");
 		}
 
-	const JIndex charIndex = te->GetInsertionIndex();
+	const JIndex charIndex = te->GetInsertionCharIndex();
 	const JIndex lineIndex = te->GetLineForChar(charIndex);
-	const JIndex lineStart = te->GetLineStart(lineIndex);
+	const JIndex lineStart = te->GetLineCharStart(lineIndex);
 
 	const JString lineIndexStr((JUInt64) lineIndex);
 
 	JString lineStr;
 	if (charIndex > lineStart)
 		{
-		lineStr = JPrepArgForExec((te->GetText()).GetSubstring(lineStart, charIndex-1));
+		JStringIterator iter(te->GetText()->GetText(), kJIteratorStartBefore, lineStart);
+		iter.BeginMatch();
+		iter.MoveTo(kJIteratorStartAfter, charIndex);
+		lineStr = JPrepArgForExec(iter.FinishMatch().GetString());
 		}
 
 	theSubst.UndefineAllVariables();
@@ -186,10 +199,11 @@ CBMacroManager::Perform
 
 	JXKeyModifiers modifiers(te->GetDisplay());
 
-	const JSize length = s.GetLength();
-	for (JIndex i=1; i<=length; i++)
+	JStringIterator iter(s);
+	JUtf8Character c;
+	while (iter.Next(&c))
 		{
-		te->JXTEBase::HandleKeyPress((unsigned char) s.GetCharacter(i), modifiers);
+		te->JXTEBase::HandleKeyPress(c, 0, modifiers);
 		}
 }
 
@@ -217,26 +231,32 @@ CBMacroManager::HighlightErrors
 	JFont red = f;
 	red.SetColor(JColorManager::GetRedColor());
 
-	const JIndex length = script.GetLength();
-	styles->AppendElements(black, length);
+	styles->AppendElements(black, script.GetCharacterCount());
 
-	for (JIndex i=1; i<=length; i++)
+	JStringIterator siter(script);
+	JRunArrayIterator<JFont> fiter(styles);
+	JUtf8Character c;
+	while (siter.Next(&c))
 		{
-		const JCharacter c = script.GetCharacter(i);
 		if (c == '\\')
 			{
-			i++;
+			siter.SkipNext();
+			fiter.SkipNext(2);
 			}
-		else if (c == '$' && i == length)
+		else if (c == '$' && siter.AtEnd())
 			{
-			styles->SetNextElements(i, 1, red);
+			fiter.SetPrev(red);
 			}
-		else if (c == '$' && script.GetCharacter(i+1) == '(')
+		else if (c == '$' && siter.Next(&c, kJFalse) && c == '(')
 			{
-			JIndexRange range;
-			const JBoolean ok = CBMacroSubstitute::GetExecRange(script, i+1, &range);
-			styles->SetNextElements(i, range.GetLength()+1, ok ? blue : red);
-			i = range.last;
+			siter.SkipNext();
+			const JBoolean ok = CBMBalanceForward(kCBCLang, &siter, &c);
+			fiter.SetNext(ok ? blue : red, siter.GetPrevCharacterIndex() - fiter.GetNextElementIndex() + 1);
+			fiter.MoveTo(kJIteratorStartAfter, siter.GetPrevCharacterIndex());
+			}
+		else
+			{
+			fiter.SkipNext();
 			}
 		}
 }

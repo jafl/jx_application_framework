@@ -29,6 +29,26 @@ protected:
 											 JIndexRange* recalcRange, JIndexRange* redrawRange,
 											 const JBoolean deletion);
 
+protected:
+
+	class StyledText : public JXInputField::StyledText
+	{
+		public:
+
+		StyledText(JFontManager* fontManager)
+			:
+			JXInputField::StyledText(kJFalse, fontManager)
+		{ };
+
+		protected:
+
+		virtual void	AdjustStylesBeforeBroadcast(
+							const JString& text, JRunArray<JFont>* styles,
+							JStyledText::TextRange* recalcRange,
+							JStyledText::TextRange* redrawRange,
+							const JBoolean deletion) override;
+	};
+
 private:
 
 	// not allowed

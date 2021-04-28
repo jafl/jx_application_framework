@@ -8,8 +8,7 @@
 #ifndef _H_CBMacroManager
 #define _H_CBMacroManager
 
-#include <JArray.h>
-#include <JFont.h>
+#include <JStyledText.h>
 
 class JString;
 class CBMacroList;
@@ -42,7 +41,7 @@ public:
 
 	~CBMacroManager();
 
-	JBoolean	Perform(const JIndex caretIndex, CBTextDocument* doc);
+	JBoolean	Perform(const JStyledText::TextIndex& caretIndex, CBTextDocument* doc);
 
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;

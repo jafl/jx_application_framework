@@ -39,16 +39,14 @@ const JUtf8Byte CBSearchTE::kError             = '\5';
 
 CBSearchTE::CBSearchTE()
 	:
-	JTextEditor(kFullEditor, kJTrue, kJFalse,
-				jnew CBSearchFontManager,
-				jnew CBSearchColorManager,
-				1,1,1,1,1, 1000000)
+	JTextEditor(kFullEditor, jnew JStyledText(kJFalse, kJFalse), kJTrue,
+				jnew CBSearchFontManager, kJTrue,
+				1,1,1,1, 1000000)
 {
 	assert( TEGetFontManager() != nullptr );
-	assert( TEGetColormap() != nullptr );
 
 	RecalcAll(kJTrue);
-	SetCharacterInWordFunction(CBMIsCharacterInWord);
+	GetText()->SetCharacterInWordFunction(CBMIsCharacterInWord);
 }
 
 /******************************************************************************
@@ -86,7 +84,7 @@ CBSearchTE::SearchFiles
 	const JPtrArray<JString>&	nameList,
 	const JBoolean				onlyListFiles,
 	const JBoolean				listFilesWithoutMatch,
-	std::ostream&					output
+	std::ostream&				output
 	)
 {
 	JString searchStr, replaceStr;
@@ -94,7 +92,7 @@ CBSearchTE::SearchFiles
 	JBoolean replaceIsRegex, preserveCase;
 	JRegex* regex;
 	const JBoolean ok =
-		(CBGetSearchTextDialog())->GetSearchParameters(
+		CBGetSearchTextDialog()->GetSearchParameters(
 			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
 			&replaceStr, &replaceIsRegex, &preserveCase,
 			&regex);
@@ -119,7 +117,7 @@ CBSearchTE::SearchFiles
 
 		if (*file != *name)
 			{
-			remove(*file);
+			JRemoveFile(*file);
 			}
 		}
 
@@ -139,7 +137,7 @@ CBSearchTE::SearchFile
 	const JString&	printName,		// so we display it correctly to the user
 	const JBoolean	onlyListFiles,
 	const JBoolean	listFilesWithoutMatch,
-	std::ostream&		output,
+	std::ostream&	output,
 
 	const JString&	searchStr,
 	const JBoolean	isRegex,
@@ -161,13 +159,14 @@ CBSearchTE::SearchFile
 		output << kRecordTerminator;
 		}
 
-	PlainTextFormat format;
+	JStyledText::PlainTextFormat format;
 	if (IsKnownBinaryFile(printName) ||
-		!ReadPlainText(fileName, &format, kJFalse))
+		!GetText()->ReadPlainText(fileName, &format, kJFalse))
 		{
 		// don't search binary files (cleaning is too slow and pointless)
 
-		output << kError << "Not searched (binary):  ";
+		output << kError;
+		JGetString("NotSearchedBinary::CBSearchTE").Print(output);
 		fileName.Print(output);
 		output << kRecordTerminator;
 		return;
@@ -275,12 +274,12 @@ CBSearchTE::SearchFile
 
  ******************************************************************************/
 
-static const JCharacter* kSuffix[] =
+static const JUtf8Byte* kSuffix[] =
 {
 	".o", ".a", ".so", ".dylib"
 };
 
-const JSize kSuffixCount = sizeof(kSuffix) / sizeof(JCharacter*);
+const JSize kSuffixCount = sizeof(kSuffix) / sizeof(JUtf8Byte*);
 
 JBoolean
 CBSearchTE::IsKnownBinaryFile
@@ -465,6 +464,7 @@ CBSearchTE::TEUpdateClipboard
 	const JString&			text,
 	const JRunArray<JFont>&	style
 	)
+	const
 {
 }
 
@@ -482,17 +482,6 @@ CBSearchTE::TEGetClipboard
 	const
 {
 	return kJFalse;
-}
-
-/******************************************************************************
- TEDisplayBusyCursor (virtual protected)
-
- ******************************************************************************/
-
-void
-CBSearchTE::TEDisplayBusyCursor()
-	const
-{
 }
 
 /******************************************************************************

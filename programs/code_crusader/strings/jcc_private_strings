@@ -828,11 +828,25 @@ SaveCharActionListPrompt::CBCharActionTable	"Save actions as:"
 
 MustBeUnique::CBKeyScriptTableBase	"The items in the left column must be unique."
 
+# CBEditMacroDialog
+
+WindowTitle::CBEditMacroDialog	"Edit Actions & Macros"
+Column1Char::CBEditMacroDialog	"Char"
+Column1Macro::CBEditMacroDialog	"Macro"
+Column2::CBEditMacroDialog		"Keystrokes"
+Column1Set::CBEditMacroDialog	"Name"
+
 # CBMacroTable
 
 ReplaceMacroList::CBMacroTable		"Replace existing macros"
 AppendToMacroList::CBMacroTable		"Merge with existing macros"
 SaveMacroListPrompt::CBMacroTable	"Save macros as:"
+
+# CBMacroSubstitute
+
+Error::CBMacroSubstitute	"Error occurred:
+
+"
 
 # CBSubprojectConfigDialog
 
@@ -949,3 +963,7 @@ SaveFileSet::CBSearchTextDialog			"Save file set as:"
 # CBSearchFilterHistoryMenu
 
 InvertFlag::CBSearchFilterHistoryMenu	"(invert)"
+
+# CBSearchTE
+
+NotSearchedBinary::CBSearchTE	"Not searched (binary):  "

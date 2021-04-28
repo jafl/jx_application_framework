@@ -11,6 +11,7 @@ JStyledText
 
 jcc
 	test that CBCompileDocument::ConvertSelectionToFullPath gets path from "Entering directory"
+	test CBMacroManager: Perform & HighlightErrors completely rewritten
 
 	symbol list:
 		strip space from signature:( JBroadcaster* recipient )

@@ -18,13 +18,9 @@ public:
 
 	virtual ~CBMacroSubstitute();
 
-	static JBoolean	GetExecRange(const JString& s, const JIndex startIndex,
-								 JIndexRange* matchRange);
-
 protected:
 
-	virtual JBoolean	Evaluate(const JString& s, const JIndex startIndex,
-								 JIndexRange* matchRange, JString* value) const;
+	virtual JBoolean	Evaluate(JStringIterator& iter, JString* value) const override;
 
 private:
 

@@ -19,12 +19,6 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kReplaceListID  = "ReplaceCharActionList::CBCharActionTable";
-static const JCharacter* kAppendToListID = "AppendToCharActionList::CBCharActionTable";
-static const JCharacter* kSavePromptID   = "SaveCharActionListPrompt::CBCharActionTable";
-
 /******************************************************************************
  Constructor
 
@@ -56,7 +50,8 @@ CBCharActionTable::CBCharActionTable
 	itsSaveButton = saveButton;
 	ListenTo(itsSaveButton);
 
-	itsCSF = jnew CBListCSF(JGetString(kReplaceListID), JGetString(kAppendToListID));
+	itsCSF = jnew CBListCSF(JGetString("ReplaceCharActionList::CBCharActionTable"),
+							JGetString("AppendToCharActionList::CBCharActionTable"));
 	assert( itsCSF != nullptr );
 
 	SetColWidth(kMacroColumn, 40);
@@ -93,7 +88,7 @@ CBCharActionTable::GetData
 	const JSize count            = GetRowCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		mgr->SetAction((data->GetString(i, kMacroColumn)).GetCharacter(1),
+		mgr->SetAction(data->GetString(i, kMacroColumn).GetFirstCharacter().GetBytes()[0],
 					   data->GetString(i, kScriptColumn));
 		}
 }
@@ -112,7 +107,7 @@ CBCharActionTable::SetData
 	JStringTableData* data = GetStringData();
 	data->RemoveAllRows();
 
-	JCharacter key[] = { '\0', '\0' };
+	JUtf8Byte key[] = { '\0', '\0' };
 
 	const JPtrArray<JString>& actionList = mgr.GetActionList();
 	const JSize count                    = actionList.GetElementCount();
@@ -123,8 +118,8 @@ CBCharActionTable::SetData
 			{
 			data->AppendRows(1);
 
-			key[0] = (JCharacter) i-1;
-			data->SetString(GetRowCount(), kMacroColumn,  key);
+			key[0] = (JUtf8Byte) i-1;
+			data->SetString(GetRowCount(), kMacroColumn,  JString(key, 0, kJFalse));
 			data->SetString(GetRowCount(), kScriptColumn, *script);
 			}
 		}
@@ -213,7 +208,7 @@ CBCharActionTable::LoadMacros()
 {
 	JString fileName;
 	if (GetDialog()->ContentsValid() &&
-		itsCSF->ChooseFile("", nullptr, &fileName))
+		itsCSF->ChooseFile(JString::empty, JString::empty, &fileName))
 		{
 		ReadData(fileName, itsCSF->ReplaceExisting());
 		}
@@ -229,7 +224,7 @@ CBCharActionTable::LoadMacros()
 void
 CBCharActionTable::ReadData
 	(
-	const JCharacter*	fileName,
+	const JString&	fileName,
 	const JBoolean		replace
 	)
 {
@@ -241,7 +236,7 @@ CBCharActionTable::ReadData
 
 	JIndex firstNewRow = 0;
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	JString action, script;
 	JIndex state = 1;
 	while (!input.eof() && !input.fail())
@@ -261,7 +256,7 @@ CBCharActionTable::ReadData
 				{
 				data->AppendRows(1);
 				const JSize rowCount = data->GetRowCount();
-				data->SetString(rowCount,kMacroColumn,  action.GetSubstring(1,1));
+				data->SetString(rowCount,kMacroColumn,  JString(action.GetFirstCharacter()));
 				data->SetString(rowCount,kScriptColumn, script);
 				if (firstNewRow == 0)
 					{
@@ -293,7 +288,7 @@ CBCharActionTable::SaveMacros()
 		GetDialog()->GetCurrentMacroSetName(&origName))
 		{
 		JString newName;
-		if (itsCSF->SaveFile(JGetString(kSavePromptID), nullptr, origName, &newName))
+		if (itsCSF->SaveFile(JGetString("SaveCharActionListPrompt::CBCharActionTable"), JString::empty, origName, &newName))
 			{
 			WriteData(newName);
 			}
@@ -310,19 +305,19 @@ CBCharActionTable::SaveMacros()
 void
 CBCharActionTable::WriteData
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	const
 {
-	std::ofstream output(fileName);
+	std::ofstream output(fileName.GetBytes());
 
 	const JStringTableData* data = GetStringData();
 	const JSize count            = GetRowCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(data->GetString(i, kMacroColumn)).Print(output);
+		data->GetString(i, kMacroColumn).Print(output);
 		output << '\n';
-		(data->GetString(i, kScriptColumn)).Print(output);
+		data->GetString(i, kScriptColumn).Print(output);
 		output << "\n\n";
 		}
 }

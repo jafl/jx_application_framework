@@ -123,7 +123,7 @@ CBEditMacroDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Edit Actions & Macros");
+	window->SetTitle(JGetString("WindowTitle::CBEditMacroDialog"));
 	SetButtons(okButton, cancelButton);
 	UseModalPlacement(kJFalse);
 	window->PlaceAsDialogWindow();
@@ -187,8 +187,8 @@ CBEditMacroDialog::BuildWindow
 							  JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 10,10);
 	assert( colHeader != nullptr );
 	colHeader->FitToEnclosure();
-	colHeader->SetColTitle(1, "Char");
-	colHeader->SetColTitle(2, "Keystrokes");
+	colHeader->SetColTitle(1, JGetString("Column1Char::CBEditMacroDialog"));
+	colHeader->SetColTitle(2, JGetString("Column2::CBEditMacroDialog"));
 	colHeader->TurnOnColResizing(20);
 
 	// create macro table
@@ -247,8 +247,8 @@ CBEditMacroDialog::BuildWindow
 							  JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 10,10);
 	assert( colHeader != nullptr );
 	colHeader->FitToEnclosure();
-	colHeader->SetColTitle(1, "Macro");
-	colHeader->SetColTitle(2, "Keystrokes");
+	colHeader->SetColTitle(1, JGetString("Column1Macro::CBEditMacroDialog"));
+	colHeader->SetColTitle(2, JGetString("Column2::CBEditMacroDialog"));
 	colHeader->TurnOnColResizing(20);
 
 	// create macro set table
@@ -299,7 +299,7 @@ CBEditMacroDialog::BuildWindow
 							  JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 10,10);
 	assert( colHeader != nullptr );
 	colHeader->FitToEnclosure();
-	colHeader->SetColTitle(1, "Name");
+	colHeader->SetColTitle(1, JGetString("Column1Set::CBEditMacroDialog"));
 }
 
 /******************************************************************************

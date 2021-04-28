@@ -30,7 +30,8 @@ CBKeyScriptInput::CBKeyScriptInput
 	const JCoordinate	h
 	)
 	:
-	JXInputField(enclosure, hSizing, vSizing, x,y, w,h)
+	JXInputField(jnew StyledText(enclosure->GetFontManager()),
+				 enclosure, hSizing, vSizing, x,y, w,h)
 {
 }
 
@@ -44,22 +45,24 @@ CBKeyScriptInput::~CBKeyScriptInput()
 }
 
 /******************************************************************************
- AdjustStylesBeforeRecalc (virtual protected)
+ AdjustStylesBeforeBroadcast (virtual protected)
 
 	Draw the illegal backslash characters in red.
 
  ******************************************************************************/
 
 void
-CBKeyScriptInput::xAdjustStylesBeforeRecalc
+CBKeyScriptInput::StyledText::AdjustStylesBeforeBroadcast
 	(
-	const JString&		buffer,
-	JRunArray<JFont>*	styles,
-	JIndexRange*		recalcRange,
-	JIndexRange*		redrawRange,
-	const JBoolean		deletion
+	const JString&			text,
+	JRunArray<JFont>*		styles,
+	JStyledText::TextRange*	recalcRange,
+	JStyledText::TextRange*	redrawRange,
+	const JBoolean			deletion
 	)
 {
-	CBMacroManager::HighlightErrors(buffer, GetColormap(), styles);
-	*redrawRange += JIndexRange(1, buffer.GetLength());
+	CBMacroManager::HighlightErrors(text, styles);
+	*redrawRange = JStyledText::TextRange(
+		JCharacterRange(1, text.GetCharacterCount()),
+		JUtf8ByteRange(1, text.GetByteCount()));
 }
