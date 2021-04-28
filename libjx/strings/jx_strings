@@ -277,8 +277,9 @@ WindowTitle::JXMessageDialog	"Message"
 
 # JXWarningDialog
 
-WindowTitle::JXWarningDialog	"Warning"
-NoShortcuts::JXWarningDialog	"#N"
+WarningWindowTitle::JXWarningDialog		"Warning"
+QuestionWindowTitle::JXWarningDialog	"Question"
+NoShortcuts::JXWarningDialog			"#N"
 
 # JXErrorDialog
 

@@ -123,7 +123,8 @@ JXUserNotification::AskUserYes
 
 	JXGetApplication()->PrepareForBlockingWindow();
 
-	itsCurrentDialog = jnew JXWarningDialog(JXGetApplication(), message);
+	itsCurrentDialog = jnew JXWarningDialog(
+		JXGetApplication(), JGetString("QuestionWindowTitle::JXWarningDialog"), message);
 	assert( itsCurrentDialog != nullptr );
 	WaitForResponse();
 
@@ -143,7 +144,16 @@ JXUserNotification::AskUserNo
 	const JString& message
 	)
 {
-	return AskUserYes(message);
+	assert( itsCurrentDialog == nullptr );
+
+	JXGetApplication()->PrepareForBlockingWindow();
+
+	itsCurrentDialog = jnew JXWarningDialog(
+		JXGetApplication(), JGetString("WarningWindowTitle::JXWarningDialog"), message);
+	assert( itsCurrentDialog != nullptr );
+	WaitForResponse();
+
+	return itsWarningResponse;
 }
 
 /******************************************************************************

@@ -26,12 +26,13 @@
 JXWarningDialog::JXWarningDialog
 	(
 	JXDirector*		supervisor,
+	const JString&	title,
 	const JString&	message
 	)
 	:
 	JXUNDialogBase(supervisor)
 {
-	BuildWindow(message);
+	BuildWindow(title, message);
 }
 
 /******************************************************************************
@@ -51,6 +52,7 @@ JXWarningDialog::~JXWarningDialog()
 void
 JXWarningDialog::BuildWindow
 	(
+	const JString& title,
 	const JString& message
 	)
 {
@@ -83,7 +85,7 @@ JXWarningDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JXWarningDialog"));
+	window->SetTitle(title);
 	SetButtons(yesButton, noButton);
 	noButton->SetShortcuts(JGetString("NoShortcuts::JXWarningDialog"));		// avoid the automatic escape key shortcut
 
