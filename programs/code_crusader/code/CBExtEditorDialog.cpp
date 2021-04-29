@@ -14,6 +14,7 @@
 #include <JXTextCheckbox.h>
 #include <JXInputField.h>
 #include <JXChooseSaveFile.h>
+#include <JFontManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -24,12 +25,12 @@
 
 CBExtEditorDialog::CBExtEditorDialog
 	(
-	JXDirector*			supervisor,
-	const JBoolean		editTextLocally,
-	const JCharacter*	editTextFileCmd,
-	const JCharacter*	editTextFileLineCmd,
-	const JBoolean		editBinaryLocally,
-	const JCharacter*	editBinaryFileCmd
+	JXDirector*		supervisor,
+	const JBoolean	editTextLocally,
+	const JString&	editTextFileCmd,
+	const JString&	editTextFileLineCmd,
+	const JBoolean	editBinaryLocally,
+	const JString&	editBinaryFileCmd
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
@@ -55,11 +56,11 @@ CBExtEditorDialog::~CBExtEditorDialog()
 void
 CBExtEditorDialog::BuildWindow
 	(
-	const JBoolean		editTextLocally,
-	const JCharacter*	editTextFileCmd,
-	const JCharacter*	editTextFileLineCmd,
-	const JBoolean		editBinaryLocally,
-	const JCharacter*	editBinaryFileCmd
+	const JBoolean	editTextLocally,
+	const JString&	editTextFileCmd,
+	const JString&	editTextFileLineCmd,
+	const JBoolean	editBinaryLocally,
+	const JString&	editBinaryFileCmd
 	)
 {
 // begin JXLayout
@@ -137,18 +138,18 @@ CBExtEditorDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("External Editor");
+	window->SetTitle(JGetString("WindowTitle::CBExtEditorDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsExtTextEditorCB->SetState(!editTextLocally);
-	itsEditTextFileCmdInput->SetText(editTextFileCmd);
-	itsEditTextFileCmdInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	itsEditTextFileLineCmdInput->SetText(editTextFileLineCmd);
-	itsEditTextFileLineCmdInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsEditTextFileCmdInput->GetText()->SetText(editTextFileCmd);
+	itsEditTextFileCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsEditTextFileLineCmdInput->GetText()->SetText(editTextFileLineCmd);
+	itsEditTextFileLineCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 
 	itsExtBinaryEditorCB->SetState(!editBinaryLocally);
-	itsEditBinaryFileCmdInput->SetText(editBinaryFileCmd);
-	itsEditBinaryFileCmdInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsEditBinaryFileCmdInput->GetText()->SetText(editBinaryFileCmd);
+	itsEditBinaryFileCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 
 	// until we have a built-in one
 	itsExtBinaryEditorCB->SetState(kJTrue);
@@ -176,11 +177,11 @@ CBExtEditorDialog::GetPrefs
 	const
 {
 	*editTextLocally     = !itsExtTextEditorCB->IsChecked();
-	*editTextFileCmd     = itsEditTextFileCmdInput->GetText();
-	*editTextFileLineCmd = itsEditTextFileLineCmdInput->GetText();
+	*editTextFileCmd     = itsEditTextFileCmdInput->GetText()->GetText();
+	*editTextFileLineCmd = itsEditTextFileLineCmdInput->GetText()->GetText();
 
 	*editBinaryLocally   = !itsExtBinaryEditorCB->IsChecked();
-	*editBinaryFileCmd   = itsEditBinaryFileCmdInput->GetText();
+	*editBinaryFileCmd   = itsEditBinaryFileCmdInput->GetText()->GetText();
 }
 
 /******************************************************************************

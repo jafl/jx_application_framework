@@ -967,3 +967,40 @@ InvertFlag::CBSearchFilterHistoryMenu	"(invert)"
 # CBSearchTE
 
 NotSearchedBinary::CBSearchTE	"Not searched (binary):  "
+
+# CBExtEditorDialog
+
+WindowTitle::CBExtEditorDialog	"External Editor"
+
+# CBTabWidthDialog
+
+WindowTitle::CBTabWidthDialog	"Tab width"
+
+# CBRunTEScriptDialog
+
+WindowTitle::CBRunTEScriptDialog		"Run script"
+FileDoesNotExist::CBRunTEScriptDialog	"The file does not exist on disk."
+NoEditor::CBRunTEScriptDialog			"There is no editor on which to run the script."
+
+Error::CBRunTEScriptDialog	"Error occurred:
+
+"
+
+# CBEditTextPrefsDialog
+
+WindowTitle::CBEditTextPrefsDialog		"Text Editor Preferences"
+UpdatingPrefs::CBEditTextPrefsDialog	"Updating preferences..."
+
+# CBEditCRMDialog
+
+WindowTitle::CBEditCRMDialog	"Edit Clean Paragraph Margin Rules"
+Column1::CBEditCRMDialog		"Name"
+
+# CBCRMRuleTable
+
+ReplaceList::CBCRMRuleTable		"Replace existing rules"
+AppendToList::CBCRMRuleTable	"Merge with existing rules"
+Column1::CBCRMRuleTable			"First line prefix"
+Column2::CBCRMRuleTable			"Rest of lines prefix"
+Column3::CBCRMRuleTable			"Replace prefix with"
+SaveAsPrompt::CBCRMRuleTable	"Save rules as:"

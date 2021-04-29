@@ -94,7 +94,7 @@ CBTabWidthDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Tab width");
+	window->SetTitle(JGetString("WindowTitle::CBTabWidthDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsTabWidthInput->SetValue(tabWidth);

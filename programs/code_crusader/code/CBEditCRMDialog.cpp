@@ -120,7 +120,7 @@ CBEditCRMDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Edit Clean Paragraph Margin Rules");
+	window->SetTitle(JGetString("WindowTitle::CBEditCRMDialog"));
 	SetButtons(okButton, cancelButton);
 	UseModalPlacement(kJFalse);
 	window->PlaceAsDialogWindow();
@@ -235,7 +235,7 @@ CBEditCRMDialog::BuildWindow
 							  JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 10,10);
 	assert( colHeader != nullptr );
 	colHeader->FitToEnclosure();
-	colHeader->SetColTitle(1, "Name");
+	colHeader->SetColTitle(1, JGetString("Column1::CBEditCRMDialog"));
 }
 
 /******************************************************************************

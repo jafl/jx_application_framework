@@ -76,7 +76,7 @@ CBTEColIndexInput::GetValue
 	)
 	const
 {
-	return te->GetColumnForChar(te->GetInsertionIndex());
+	return te->GetColumnForChar(te->GetInsertionCharIndex());
 }
 
 JIndex

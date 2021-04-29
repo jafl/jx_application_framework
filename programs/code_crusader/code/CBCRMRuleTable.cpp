@@ -22,28 +22,18 @@
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kReplaceListStr  = "Replace existing rules";
-static const JCharacter* kAppendToListStr = "Merge with existing rules";
-
-static const JCharacter* kInitFirstStr   = "[ \\t]*";
-static const JCharacter* kInitRestStr    = "[ \\t]*";
-static const JCharacter* kInitReplaceStr = "$0";
+static const JUtf8Byte* kInitFirstStr   = "[ \\t]*";
+static const JUtf8Byte* kInitRestStr    = "[ \\t]*";
+static const JUtf8Byte* kInitReplaceStr = "$0";
 
 const JCoordinate kDefaultColWidth = 200;
 
-static const JCharacter* kColTitle[] =
-{
-	"First line prefix",
-	"Rest of lines prefix",
-	"Replace prefix with"
-};
-
-const JSize kColCount = sizeof(kColTitle) / sizeof(JCharacter*);
+const JSize kColCount = 3;
 
 // geometry information
 
 const JFileVersion kCurrentGeometryDataVersion = 0;
-const JCharacter kGeometryDataEndDelimiter     = '\1';
+const JUtf8Byte kGeometryDataEndDelimiter      = '\1';
 
 /******************************************************************************
  Constructor
@@ -85,11 +75,13 @@ CBCRMRuleTable::CBCRMRuleTable
 	itsSaveButton = saveButton;
 	ListenTo(itsSaveButton);
 
-	itsCSF = jnew CBListCSF(kReplaceListStr, kAppendToListStr);
+	itsCSF = jnew CBListCSF(
+		JGetString("ReplaceList::CBCRMRuleTable"),
+		JGetString("AppendToList::CBCRMRuleTable"));
 	assert( itsCSF != nullptr );
 
-	itsFirstRegex = JTextEditor::CRMRule::CreateFirst(".", "$0");
-	itsRestRegex  = JTextEditor::CRMRule::CreateRest(".");
+	itsFirstRegex = JStyledText::CRMRule::CreateFirst(".", "$0");
+	itsRestRegex  = JStyledText::CRMRule::CreateRest(".");
 
 	JStringTableData* data = GetStringData();
 	data->AppendCols(3);	// first prefix pattern, rest prefix pattern, replace prefix
@@ -127,7 +119,7 @@ CBCRMRuleTable::~CBCRMRuleTable()
 void
 CBCRMRuleTable::GetData
 	(
-	JTextEditor::CRMRuleList* list
+	JStyledText::CRMRuleList* list
 	)
 	const
 {
@@ -140,7 +132,7 @@ CBCRMRuleTable::GetData
 	for (JIndex i=1; i<=count; i++)
 		{
 		list->AppendElement(
-			JTextEditor::CRMRule(data->GetString(i, kFirstColumn),
+			JStyledText::CRMRule(data->GetString(i, kFirstColumn),
 								 data->GetString(i, kRestColumn),
 								 data->GetString(i, kReplaceColumn)));
 		}
@@ -154,7 +146,7 @@ CBCRMRuleTable::GetData
 void
 CBCRMRuleTable::SetData
 	(
-	const JTextEditor::CRMRuleList& list
+	const JStyledText::CRMRuleList& list
 	)
 {
 	JStringTableData* data = GetStringData();
@@ -164,10 +156,10 @@ CBCRMRuleTable::SetData
 	data->AppendRows(count);
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JTextEditor::CRMRule r = list.GetElement(i);
-		data->SetString(i,kFirstColumn,   (r.first)->GetPattern());
-		data->SetString(i,kRestColumn,    (r.rest)->GetPattern());
-		data->SetString(i,kReplaceColumn, (r.first)->GetReplacePattern());
+		const JStyledText::CRMRule r = list.GetElement(i);
+		data->SetString(i,kFirstColumn,   r.first->GetPattern());
+		data->SetString(i,kRestColumn,    r.rest->GetPattern());
+		data->SetString(i,kReplaceColumn, *r.replace);
 		}
 
 	Activate();
@@ -295,9 +287,9 @@ CBCRMRuleTable::AddRow()
 		data->AppendRows(1);
 
 		const JSize rowIndex = GetRowCount();
-		data->SetString(rowIndex, kFirstColumn,   kInitFirstStr);
-		data->SetString(rowIndex, kRestColumn,    kInitRestStr);
-		data->SetString(rowIndex, kReplaceColumn, kInitReplaceStr);
+		data->SetString(rowIndex, kFirstColumn,   JString(kInitFirstStr, 0, kJFalse));
+		data->SetString(rowIndex, kRestColumn,    JString(kInitRestStr, 0, kJFalse));
+		data->SetString(rowIndex, kReplaceColumn, JString(kInitReplaceStr, 0, kJFalse));
 
 		BeginEditing(JPoint(1, rowIndex));
 		}
@@ -353,7 +345,7 @@ CBCRMRuleTable::CreateStringTableInput
 	else if (cell.x == kReplaceColumn)
 		{
 		input = jnew JXRegexReplaceInput(itsFirstRegex, kJFalse,
-										enclosure, hSizing, vSizing, x,y, w,h);
+										 enclosure, hSizing, vSizing, x,y, w,h);
 		}
 
 	assert( input != nullptr );
@@ -382,7 +374,7 @@ CBCRMRuleTable::LoadRules()
 {
 	JString fileName;
 	if (GetWindow()->OKToUnfocusCurrentWidget() &&
-		itsCSF->ChooseFile("", nullptr, &fileName))
+		itsCSF->ChooseFile(JString::empty, JString::empty, &fileName))
 		{
 		ReadData(fileName, itsCSF->ReplaceExisting());
 		}
@@ -398,8 +390,8 @@ CBCRMRuleTable::LoadRules()
 void
 CBCRMRuleTable::ReadData
 	(
-	const JCharacter*	fileName,
-	const JBoolean		replaceExisting
+	const JString&	fileName,
+	const JBoolean	replaceExisting
 	)
 {
 	JStringTableData* data = GetStringData();
@@ -410,7 +402,7 @@ CBCRMRuleTable::ReadData
 
 	JIndex firstNewRow = 0;
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	JString first, rest, replace;
 	JIndex state = 1;
 	while (!input.eof() && !input.fail())
@@ -471,7 +463,7 @@ CBCRMRuleTable::SaveRules()
 		itsDialog->GetCurrentCRMRuleSetName(&origName))
 		{
 		JString newName;
-		if (itsCSF->SaveFile("Save rules as:", nullptr, origName, &newName))
+		if (itsCSF->SaveFile(JGetString("SaveAsPrompt::CBCRMRuleTable"), JString::empty, origName, &newName))
 			{
 			WriteData(newName);
 			}
@@ -488,21 +480,21 @@ CBCRMRuleTable::SaveRules()
 void
 CBCRMRuleTable::WriteData
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	const
 {
-	std::ofstream output(fileName);
+	std::ofstream output(fileName.GetBytes());
 
 	const JStringTableData* data = GetStringData();
 	const JSize count            = GetRowCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(data->GetString(i, kFirstColumn)).Print(output);
+		data->GetString(i, kFirstColumn).Print(output);
 		output << '\n';
-		(data->GetString(i, kRestColumn)).Print(output);
+		data->GetString(i, kRestColumn).Print(output);
 		output << '\n';
-		(data->GetString(i, kReplaceColumn)).Print(output);
+		data->GetString(i, kReplaceColumn).Print(output);
 		output << "\n\n";
 		}
 }
@@ -567,6 +559,7 @@ CBCRMRuleTable::SetColTitles
 {
 	for (JIndex i=1; i<=kColCount; i++)
 		{
-		widget->SetColTitle(i, kColTitle[i-1]);
+		const JString id = "Column" + JString((JUInt64) i) + "::CBCRMRuleTable";
+		widget->SetColTitle(i, JGetString(id.GetBytes()));
 		}
 }

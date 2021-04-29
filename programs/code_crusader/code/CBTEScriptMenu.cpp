@@ -18,7 +18,7 @@
 #include <jVCSUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kMenuSuffixStr =
+static const JUtf8Byte* kMenuSuffixStr =
 	"  New script"
 	"| Open directory";
 
@@ -28,10 +28,6 @@ enum	// in reverse order since from end of menu
 	kNewScriptCmdOffset
 };
 
-// string ID's
-
-static const JCharacter* kSavePromptID = "SavePrompt::CBTEScriptMenu";
-
 /******************************************************************************
  Constructor
 
@@ -40,8 +36,8 @@ static const JCharacter* kSavePromptID = "SavePrompt::CBTEScriptMenu";
 CBTEScriptMenu::CBTEScriptMenu
 	(
 	CBTextEditor*		te,
-	const JCharacter*	path,
-	const JCharacter*	title,
+	const JString&		path,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -59,11 +55,11 @@ CBTEScriptMenu::CBTEScriptMenu
 
 CBTEScriptMenu::CBTEScriptMenu
 	(
-	CBTextEditor*		te,
-	const JCharacter*	path,
-	JXMenu*				owner,
-	const JIndex		itemIndex,
-	JXContainer*		enclosure
+	CBTextEditor*	te,
+	const JString&	path,
+	JXMenu*			owner,
+	const JIndex	itemIndex,
+	JXContainer*	enclosure
 	)
 	:
 	JXFSDirMenu(path, owner, itemIndex, enclosure),
@@ -80,7 +76,7 @@ CBTEScriptMenu::CBTEScriptMenuX()
 	JDirInfo* info;
 	if (GetDirInfo(&info))
 		{
-		info->SetWildcardFilter("*~ #*#", kJTrue);
+		info->SetWildcardFilter(JString("*~ #*#", 0, kJFalse), kJTrue);
 		}
 }
 
@@ -187,13 +183,13 @@ CBTEScriptMenu::HandleSelection
 		if (GetDirInfo(&info))
 			{
 			JString origName = info->GetDirectory();
-			origName         = JCombinePathAndName(origName, "script");
+			origName         = JCombinePathAndName(origName, JString("script", 0, kJFalse));
 
 			JString fullName;
-			if (JGetChooseSaveFile()->SaveFile(JGetString(kSavePromptID), nullptr,
+			if (JGetChooseSaveFile()->SaveFile(JGetString("SavePrompt::CBTEScriptMenu"), JString::empty,
 												 origName, &fullName))
 				{
-				std::ofstream output(fullName);
+				std::ofstream output(fullName.GetBytes());
 				output.close();
 				JSetPermissions(fullName, 0744);
 				CBGetDocumentManager()->OpenTextDocument(fullName);

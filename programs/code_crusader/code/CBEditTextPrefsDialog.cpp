@@ -35,7 +35,7 @@
 
 // emulators
 
-static const JCharacter* kEmulatorMenuStr =
+static const JUtf8Byte* kEmulatorMenuStr =
 	"  None"
 	"| vi";
 
@@ -371,7 +371,7 @@ CBEditTextPrefsDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Text Editor Preferences");
+	window->SetTitle(JGetString("WindowTitle::CBEditTextPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
 	ListenTo(itsHelpButton);
@@ -388,7 +388,7 @@ CBEditTextPrefsDialog::BuildWindow
 
 	CBTextEditor* te = doc->GetTextEditor();
 
-	itsAutoIndentCB->SetState(te->WillAutoIndent());
+	itsAutoIndentCB->SetState(te->GetText()->WillAutoIndent());
 	itsUseDNDCB->SetState(te->CBAllowsDragAndDrop());
 	itsLeftToFrontOfTextCB->SetState(te->WillMoveToFrontOfText());
 
@@ -402,20 +402,20 @@ CBEditTextPrefsDialog::BuildWindow
 	itsPackFnMenuCB->SetState(updater->WillPackFnNames());
 
 	itsSmartTabCB->SetState(te->TabIsSmart());
-	itsTabToSpacesCB->SetState(te->TabInsertsSpaces());
+	itsTabToSpacesCB->SetState(te->GetText()->TabInsertsSpaces());
 	itsCopyWhenSelectCB->SetState(te->WillCopyWhenSelect());
 	itsMiddleButtonPasteCB->SetState(te->MiddleButtonWillPaste());
 
-	const JFont& font = te->GetDefaultFont();
+	const JFont& font = te->GetText()->GetDefaultFont();
 	itsFontMenu->SetFont(font.GetName(), font.GetSize());
 
 	itsTabCharCountInput->SetValue(te->GetTabCharCount());
 	itsTabCharCountInput->SetLowerLimit(1);
 
-	itsCRMLineWidthInput->SetValue(te->GetCRMLineWidth());
+	itsCRMLineWidthInput->SetValue(te->GetText()->GetCRMLineWidth());
 	itsCRMLineWidthInput->SetLowerLimit(1);
 
-	itsUndoDepthInput->SetValue(te->GetUndoDepth());
+	itsUndoDepthInput->SetValue(te->GetText()->GetUndoDepth());
 	itsUndoDepthInput->SetLowerLimit(1);
 
 	JSize margin;
@@ -434,7 +434,6 @@ CBEditTextPrefsDialog::BuildWindow
 	// must do this after SetWindow()
 
 	CBPrefsManager* prefsMgr = CBGetPrefsManager();
-	JXColorManager* colormap     = GetColormap();
 	for (JUnsignedOffset i=0; i<CBPrefsManager::kColorCount; i++)
 		{
 		itsColor[i] = prefsMgr->GetColor(i+1);
@@ -474,7 +473,7 @@ CBEditTextPrefsDialog::Receive
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowSection("CBEditorHelp-Prefs");
+		JXGetHelpManager()->ShowSection("CBEditorHelp-Prefs");
 		}
 
 	else if ((sender == itsCreateBackupCB || sender == itsBalanceWhileTypingCB) &&
@@ -547,13 +546,15 @@ CBEditTextPrefsDialog::UpdateSettings()
 	JSize fontSize;
 	itsFontMenu->GetFont(&fontName, &fontSize);
 	const JBoolean fontChanged = JI2B(
-		fontName != te->GetDefaultFont().GetName() ||
-		fontSize != te->GetDefaultFont().GetSize() );
+		fontName != te->GetText()->GetDefaultFont().GetName() ||
+		fontSize != te->GetText()->GetDefaultFont().GetSize() );
+
+	JFontManager* fontMgr = GetDisplay()->GetFontManager();
 
 	JFloat vScrollScale = 1.0;
 	if (fontChanged)
 		{
-		const JFloat h1 = te->GetDefaultFont().GetLineHeight(fontMgr);
+		const JFloat h1 = te->GetText()->GetDefaultFont().GetLineHeight(fontMgr);
 		const JFloat h2 = JFontManager::GetFont(fontName, fontSize).GetLineHeight(fontMgr);
 		vScrollScale    = h2 / h1;
 		}
@@ -591,7 +592,7 @@ CBEditTextPrefsDialog::UpdateSettings()
 	const JSize docCount = docList->GetElementCount();
 
 	JProgressDisplay* pg = JNewPG();
-	pg->FixedLengthProcessBeginning(docCount, "Updating preferences...", kJFalse, kJFalse);
+	pg->FixedLengthProcessBeginning(docCount, JGetString("UpdatingPrefs::CBEditTextPrefsDialog"), kJFalse, kJFalse);
 
 	for (JIndex i=1; i<=docCount; i++)
 		{
@@ -610,7 +611,7 @@ CBEditTextPrefsDialog::UpdateSettings()
 			CBInstallEmulator(kMenuIndexToEmulator[ itsEmulatorIndex-1 ], te, &handler);
 			}
 
-		te->ShouldAutoIndent(itsAutoIndentCB->IsChecked());
+		te->GetText()->ShouldAutoIndent(itsAutoIndentCB->IsChecked());
 		te->CBShouldAllowDragAndDrop(itsUseDNDCB->IsChecked());
 		te->ShouldMoveToFrontOfText(itsLeftToFrontOfTextCB->IsChecked());
 
@@ -619,7 +620,7 @@ CBEditTextPrefsDialog::UpdateSettings()
 		te->ShouldBeepWhenTypeUnbalanced(itsBeepWhenTypeUnbalancedCB->IsChecked());
 
 		te->TabShouldBeSmart(itsSmartTabCB->IsChecked());
-		te->TabShouldInsertSpaces(itsTabToSpacesCB->IsChecked());
+		te->GetText()->TabShouldInsertSpaces(itsTabToSpacesCB->IsChecked());
 
 		if (fontChanged)
 			{
@@ -635,11 +636,11 @@ CBEditTextPrefsDialog::UpdateSettings()
 			te->SetTabCharCount(tabCharCount);
 			}
 
-		te->SetCRMLineWidth(crmLineWidth);
-		te->SetUndoDepth(undoDepth);
+		te->GetText()->SetCRMLineWidth(crmLineWidth);
+		te->GetText()->SetUndoDepth(undoDepth);
 		te->SetRightMarginWidth(itsRightMarginCB->IsChecked(), rightMargin);
 
-		te->SetDefaultFontStyle(itsColor [ CBPrefsManager::kTextColorIndex-1 ]);
+		te->GetText()->SetDefaultFontStyle(itsColor [ CBPrefsManager::kTextColorIndex-1 ]);
 		te->SetBackColor(itsColor [ CBPrefsManager::kBackColorIndex-1 ]);
 		te->SetFocusColor(itsColor [ CBPrefsManager::kBackColorIndex-1 ]);
 		te->SetCaretColor(itsColor [ CBPrefsManager::kCaretColorIndex-1 ]);
@@ -676,7 +677,7 @@ CBEditTextPrefsDialog::UpdateSettings()
 	JTextEditor::ShouldCopyWhenSelect(itsCopyWhenSelectCB->IsChecked());
 	JXTEBase::MiddleButtonShouldPaste(itsMiddleButtonPasteCB->IsChecked());
 
-	CBGetSearchTextDialog()->SetFont(fontName, fontSize);
+	CBGetSearchTextDialog()->SetFont(fontMgr->GetFont(fontName, fontSize));
 
 	itsDoc->JPrefObject::WritePrefs();
 
@@ -739,13 +740,12 @@ CBEditTextPrefsDialog::HandleColorButton
 void
 CBEditTextPrefsDialog::SetDefaultColors()
 {
-	JXColorManager* cmap = GetColormap();
-	ChangeColor(CBPrefsManager::kTextColorIndex,        cmap->GetBlackColor());
-	ChangeColor(CBPrefsManager::kBackColorIndex,        cmap->GetWhiteColor());
-	ChangeColor(CBPrefsManager::kCaretColorIndex,       cmap->GetRedColor());
-	ChangeColor(CBPrefsManager::kSelColorIndex,         cmap->GetDefaultSelectionColor());
-	ChangeColor(CBPrefsManager::kSelLineColorIndex,     cmap->GetBlueColor());
-	ChangeColor(CBPrefsManager::kRightMarginColorIndex, cmap->GetGrayColor(70));
+	ChangeColor(CBPrefsManager::kTextColorIndex,        JColorManager::GetBlackColor());
+	ChangeColor(CBPrefsManager::kBackColorIndex,        JColorManager::GetWhiteColor());
+	ChangeColor(CBPrefsManager::kCaretColorIndex,       JColorManager::GetRedColor());
+	ChangeColor(CBPrefsManager::kSelColorIndex,         JColorManager::GetDefaultSelectionColor());
+	ChangeColor(CBPrefsManager::kSelLineColorIndex,     JColorManager::GetBlueColor());
+	ChangeColor(CBPrefsManager::kRightMarginColorIndex, JColorManager::GetGrayColor(70));
 }
 
 /******************************************************************************
@@ -756,13 +756,12 @@ CBEditTextPrefsDialog::SetDefaultColors()
 void
 CBEditTextPrefsDialog::SetReverseVideoColors()
 {
-	JXColorManager* cmap = GetColormap();
-	ChangeColor(CBPrefsManager::kTextColorIndex,        cmap->GetWhiteColor());
-	ChangeColor(CBPrefsManager::kBackColorIndex,        cmap->GetBlackColor());
-	ChangeColor(CBPrefsManager::kCaretColorIndex,       cmap->GetWhiteColor());
-	ChangeColor(CBPrefsManager::kSelColorIndex,         cmap->GetBlueColor());
-	ChangeColor(CBPrefsManager::kSelLineColorIndex,     cmap->GetCyanColor());
-	ChangeColor(CBPrefsManager::kRightMarginColorIndex, cmap->GetGrayColor(80));
+	ChangeColor(CBPrefsManager::kTextColorIndex,        JColorManager::GetWhiteColor());
+	ChangeColor(CBPrefsManager::kBackColorIndex,        JColorManager::GetBlackColor());
+	ChangeColor(CBPrefsManager::kCaretColorIndex,       JColorManager::GetWhiteColor());
+	ChangeColor(CBPrefsManager::kSelColorIndex,         JColorManager::GetBlueColor());
+	ChangeColor(CBPrefsManager::kSelLineColorIndex,     JColorManager::GetCyanColor());
+	ChangeColor(CBPrefsManager::kRightMarginColorIndex, JColorManager::GetGrayColor(80));
 }
 
 /******************************************************************************
@@ -773,7 +772,7 @@ CBEditTextPrefsDialog::SetReverseVideoColors()
 void
 CBEditTextPrefsDialog::ChangeColor
 	(
-	const JIndex		colorIndex,
+	const JIndex	colorIndex,
 	const JColorID	color
 	)
 {

@@ -240,7 +240,7 @@ CBCRMRuleListTable::AddRow()
 		{
 		itsLastNewID++;
 		CBPrefsManager::CRMRuleListInfo info(itsLastNewID, jnew JString("New"),
-											 jnew JTextEditor::CRMRuleList);
+											 jnew JStyledText::CRMRuleList);
 		assert( info.name != nullptr &&
 				info.list != nullptr );
 		itsCRMList->AppendElement(info);
@@ -249,7 +249,7 @@ CBCRMRuleListTable::AddRow()
 		data->AppendRows(1);
 
 		const JPoint newCell(1, GetRowCount());
-		data->SetString(newCell, *(info.name));
+		data->SetString(newCell, *info.name);
 		BeginEditing(newCell);
 		}
 }

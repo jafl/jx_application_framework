@@ -16,13 +16,13 @@ class CBTEScriptMenu : public JXFSDirMenu
 {
 public:
 
-	CBTEScriptMenu(CBTextEditor* te, const JCharacter* path,
-				   const JCharacter* title, JXContainer* enclosure,
+	CBTEScriptMenu(CBTextEditor* te, const JString& path,
+				   const JString& title, JXContainer* enclosure,
 				   const HSizingOption hSizing, const VSizingOption vSizing,
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	CBTEScriptMenu(CBTextEditor* te, const JCharacter* path,
+	CBTEScriptMenu(CBTextEditor* te, const JString& path,
 				   JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
 	virtual	~CBTEScriptMenu();

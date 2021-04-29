@@ -117,7 +117,7 @@ CBRunTEScriptDialog::BuildWindow()
 	cmdLabel->SetToLabel();
 
 	itsHistoryMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, "", window,
+		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,40, 30,20);
 	assert( itsHistoryMenu != nullptr );
 
@@ -134,7 +134,7 @@ CBRunTEScriptDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Run script");
+	window->SetTitle(JGetString("WindowTitle::CBRunTEScriptDialog"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
@@ -145,16 +145,15 @@ CBRunTEScriptDialog::BuildWindow()
 	ListenTo(itsHelpButton);
 	ListenTo(itsHistoryMenu);
 
-	itsCmdInput->ShouldBroadcastAllTextChanged(kJTrue);
-	itsCmdInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsCmdInput);
+	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	ListenTo(itsCmdInput->GetText());
 
 	itsStayOpenCB->SetState(kJTrue);
 
 	// create hidden JXDocument so Meta-# shortcuts work
 
 	JXDocumentMenu* fileListMenu =
-		jnew JXDocumentMenu("", window,
+		jnew JXDocumentMenu(JString::empty, window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != nullptr );
 
@@ -169,7 +168,7 @@ CBRunTEScriptDialog::BuildWindow()
 void
 CBRunTEScriptDialog::UpdateDisplay()
 {
-	if (itsCmdInput->IsEmpty())
+	if (itsCmdInput->GetText()->IsEmpty())
 		{
 		itsRunButton->Deactivate();
 		}
@@ -215,9 +214,9 @@ CBRunTEScriptDialog::Receive
 		itsCmdInput->Focus();
 		}
 
-	else if (sender == itsCmdInput &&
-			 (message.Is(JTextEditor::kTextSet) ||
-			  message.Is(JTextEditor::kTextChanged)))
+	else if (sender == itsCmdInput->GetText() &&
+			 (message.Is(JStyledText::kTextSet) ||
+			  message.Is(JStyledText::kTextChanged)))
 		{
 		UpdateDisplay();
 		}
@@ -238,9 +237,9 @@ CBRunTEScriptDialog::Receive
 JBoolean
 CBRunTEScriptDialog::RunSimpleScript
 	(
-	const JCharacter*	scriptName,
-	JTextEditor*		te,
-	const JCharacter*	fileName
+	const JString&	scriptName,
+	JTextEditor*	te,
+	const JString&	fileName
 	)
 {
 	JString cmd = JPrepArgForExec(scriptName);
@@ -270,14 +269,14 @@ CBRunTEScriptDialog::RunScript()
 		else
 			{
 			JGetUserNotification()->ReportError(
-				"The file does not exist on disk.");
+				JGetString("FileDoesNotExist::CBRunTEScriptDialog"));
 			return kJFalse;
 			}
 		}
 	else
 		{
 		JGetUserNotification()->ReportError(
-			"There is no editor on which to run the script.");
+			JGetString("NoEditor::CBRunTEScriptDialog"));
 		return kJFalse;
 		}
 }
@@ -287,8 +286,8 @@ CBRunTEScriptDialog::RunScript()
 JBoolean
 CBRunTEScriptDialog::RunScript
 	(
-	JTextEditor*		te,
-	const JCharacter*	fullName
+	JTextEditor*	te,
+	const JString&	fullName
 	)
 {
 	if (!itsCmdInput->InputValid())
@@ -296,11 +295,11 @@ CBRunTEScriptDialog::RunScript
 		return kJFalse;
 		}
 
-	itsCmdInput->DeactivateCurrentUndo();
+	itsCmdInput->GetText()->DeactivateCurrentUndo();
 
-	if (RunScript(itsCmdInput->GetText(), te, fullName))
+	if (RunScript(itsCmdInput->GetText()->GetText(), te, fullName))
 		{
-		itsHistoryMenu->AddString(itsCmdInput->GetText());
+		itsHistoryMenu->AddString(itsCmdInput->GetText()->GetText());
 		return kJTrue;
 		}
 	else
@@ -312,9 +311,9 @@ CBRunTEScriptDialog::RunScript
 JBoolean
 CBRunTEScriptDialog::RunScript
 	(
-	const JCharacter*	origCmd,
-	JTextEditor*		te,
-	const JCharacter*	fullName
+	const JString&	origCmd,
+	JTextEditor*	te,
+	const JString&	fullName
 	)
 {
 	JString cmd = origCmd;
@@ -349,18 +348,14 @@ CBRunTEScriptDialog::RunScript
 		JReadAll(errFD, &msg);
 		if (!msg.IsEmpty())
 			{
-			msg.Prepend("Error occurred:\n\n");
+			msg.Prepend(JGetString("Error::CBRunTEScriptDialog"));
 			JGetUserNotification()->ReportError(msg);
 			return kJFalse;
 			}
 
+		text.TrimWhitespace();
 		if (!text.IsEmpty())
 			{
-			if (text.GetLastCharacter() == '\n')
-				{
-				const JSize len = text.GetLength();
-				text.RemoveSubstring(len, len);
-				}
 			te->Paste(text);
 			}
 		}
@@ -376,9 +371,9 @@ CBRunTEScriptDialog::RunScript
 void
 CBRunTEScriptDialog::ReplaceVariables
 	(
-	JString*			cmd,
-	JTextEditor*		te,
-	const JCharacter*	fullName
+	JString*		cmd,
+	JTextEditor*	te,
+	const JString&	fullName
 	)
 {
 	JString path, fileName;
@@ -386,7 +381,7 @@ CBRunTEScriptDialog::ReplaceVariables
 
 	const JString lineIndexStr(
 		te->VisualLineIndexToCRLineIndex(
-			te->GetLineForChar(te->GetInsertionIndex())),
+			te->GetLineForChar(te->GetInsertionCharIndex())),
 		0);
 
 	JSubstitute sub;
@@ -425,7 +420,7 @@ CBRunTEScriptDialog::ReadPrefs
 	if (vers >= 1)
 		{
 		JBoolean stayOpen;
-		input >> stayOpen;
+		input >> JBoolFromString(stayOpen);
 		itsStayOpenCB->SetState(stayOpen);
 		}
 }
@@ -450,6 +445,6 @@ CBRunTEScriptDialog::WritePrefs
 	output << ' ';
 	itsHistoryMenu->WriteSetup(output);
 
-	output << ' ' << itsStayOpenCB->IsChecked();
+	output << ' ' << JBoolToString(itsStayOpenCB->IsChecked());
 	output << ' ';
 }

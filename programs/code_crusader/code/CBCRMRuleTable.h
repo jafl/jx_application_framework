@@ -44,8 +44,8 @@ public:
 	virtual void	Activate() override;
 	virtual void	Deactivate() override;
 
-	void	GetData(JTextEditor::CRMRuleList* list) const;
-	void	SetData(const JTextEditor::CRMRuleList& list);
+	void	GetData(JStyledText::CRMRuleList* list) const;
+	void	SetData(const JStyledText::CRMRuleList& list);
 	void	ClearData();
 
 	void	ReadGeometry(std::istream& input);
@@ -63,9 +63,9 @@ protected:
 		CreateStringTableInput(const JPoint& cell, JXContainer* enclosure,
 							   const HSizingOption hSizing, const VSizingOption vSizing,
 							   const JCoordinate x, const JCoordinate y,
-							   const JCoordinate w, const JCoordinate h);
+							   const JCoordinate w, const JCoordinate h) override;
 
-	virtual void	PrepareDeleteXInputField();
+	virtual void	PrepareDeleteXInputField() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -91,8 +91,8 @@ private:
 	void	LoadRules();
 	void	SaveRules() const;
 
-	void	ReadData(const JCharacter* fileName, const JBoolean replace);
-	void	WriteData(const JCharacter* fileName) const;
+	void	ReadData(const JString& fileName, const JBoolean replace);
+	void	WriteData(const JString& fileName) const;
 
 	// not allowed
 
