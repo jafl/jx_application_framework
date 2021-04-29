@@ -20,7 +20,7 @@
 #include <strstream>
 #include <jAssert.h>
 
-static const JCharacter* kCtagsArgs =
+static const JUtf8Byte* kCtagsArgs =
 	"--format=2 --excmd=number --sort=no --php-kinds=f";
 
 /******************************************************************************
@@ -42,11 +42,11 @@ CBPHPTree::CBPHPTree
 
 CBPHPTree::CBPHPTree
 	(
-	std::istream&			projInput,
+	std::istream&		projInput,
 	const JFileVersion	projVers,
-	std::istream*			setInput,
+	std::istream*		setInput,
 	const JFileVersion	setVers,
-	std::istream*			symInput,
+	std::istream*		symInput,
 	const JFileVersion	symVers,
 	CBPHPTreeDirector*	director,
 	const JSize			marginWidth,
@@ -145,8 +145,8 @@ CBPHPTree::UpdateFinished
 void
 CBPHPTree::ParseFile
 	(
-	const JCharacter*	fileName,
-	const JFAID_t		id
+	const JString&	fileName,
+	const JFAID_t	id
 	)
 {
 	if (itsClassNameLexer == nullptr)
@@ -169,7 +169,7 @@ CBPHPTree::ParseFile
 	CBLanguage lang;
 	if (ProcessFile(fileName, kCBPHPFT, &data, &lang))
 		{
-		std::istrstream input(data.GetCString(), data.GetLength());
+		std::istrstream input(data.GetBytes(), data.GetByteCount());
 		ReadFunctionList(input, newClass);
 		}
 }

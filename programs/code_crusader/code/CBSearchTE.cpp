@@ -195,11 +195,11 @@ CBSearchTE::SearchFile
 			}
 		else
 			{
-			JIndexRange matchRange;
+			JStyledText::TextRange matchRange;
 			const JBoolean ok = GetSelection(&matchRange);
 			assert( ok );
 
-			JIndexRange origMatchRange = matchRange;
+			JStyledText::TextRange origMatchRange = matchRange;
 			matchRange.last = JMin(matchRange.last, matchRange.first + kMaxQuoteLength-1);
 
 			const JIndexRange origQuoteRange(GetParagraphStart(matchRange.first),
@@ -233,7 +233,7 @@ CBSearchTE::SearchFile
 				{
 				prevQuoteTruncated = kJFalse;
 
-				JString quoteText = (GetText()).GetSubstring(quoteRange);
+				JString quoteText = GetText()->GetText().GetSubstring(quoteRange);
 				if (quoteRange.first != origQuoteRange.first)
 					{
 					quoteText.Prepend("...");

@@ -29,7 +29,7 @@ public:
 
 	// written by flex
 
-	JBoolean	CreateClass(const JCharacter* fileName, const JFAID_t fileID,
+	JBoolean	CreateClass(const JString& fileName, const JFAID_t fileID,
 							CBTree* tree, CBClass** theClass);
 
 private:

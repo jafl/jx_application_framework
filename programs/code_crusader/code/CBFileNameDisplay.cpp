@@ -19,12 +19,6 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kEmptyErrorID  = "EmptyError::CBFileNameDisplay";
-static const JCharacter* kNoFileNameID  = "NoFileName::CBFileNameDisplay";
-static const JCharacter* kOKToReplaceID = "OKToReplace::CBFileNameDisplay";
-
 /******************************************************************************
  Constructor
 
@@ -43,7 +37,8 @@ CBFileNameDisplay::CBFileNameDisplay
 	const JCoordinate	h
 	)
 	:
-	JXFileInput(enclosure, hSizing, vSizing, x,y, w,h)
+	JXFileInput(jnew StyledText(this, enclosure->GetFontManager()),
+				enclosure, hSizing, vSizing, x,y, w,h)
 {
 	assert( dragSource != nullptr );	// force ordering of JXLayout code
 
@@ -116,11 +111,11 @@ CBFileNameDisplay::UpdateDisplay
 	itsCBHasFocusFlag = hasFocus;
 	if (!hasFocus && itsDiskModFlag)
 		{
-		SetFontStyle(GetColormap()->GetDarkRedColor());
+		SetFontStyle(JColorManager::GetDarkRedColor());
 		}
 	else if (!hasFocus)
 		{
-		SetFontStyle(GetColormap()->GetBlackColor());
+		SetFontStyle(JColorManager::GetBlackColor());
 		}
 }
 
@@ -132,11 +127,11 @@ CBFileNameDisplay::UpdateDisplay
 void
 CBFileNameDisplay::HandleFocusEvent()
 {
-	UpdateDisplay(kJTrue);		// allow JXFileInput to control text style
+	UpdateDisplay(kJTrue);					// allow JXFileInput to control text style
 	itsDragSource->ProvideDirectSave(this);
 
-	itsOrigFile = GetText();
-	SetText(itsOrigFile);		// force recalc of styles
+	itsOrigFile = GetText()->GetText();
+	GetText()->SetText(itsOrigFile);		// force recalc of styles
 
 	JXFileInput::HandleFocusEvent();
 }
@@ -155,10 +150,10 @@ CBFileNameDisplay::HandleUnfocusEvent()
 
 	JString fullName;
 	if (itsUnfocusAction != kCancel &&
-		JExpandHomeDirShortcut(GetText(), &fullName))
+		JExpandHomeDirShortcut(GetText()->GetText(), &fullName))
 		{
 		if (JIsRelativePath(fullName) &&
-			!JGetChooseSaveFile()->SaveFile("Save file as:", "", fullName, &fullName))
+			!JGetChooseSaveFile()->SaveFile(JGetString("SaveAsPrompt::CBFileNameDisplay"), JString::empty, fullName, &fullName))
 			{
 			fullName.Clear();
 			}
@@ -171,7 +166,7 @@ CBFileNameDisplay::HandleUnfocusEvent()
 
 			JBoolean onDisk;
 			fullName = itsDoc->GetFullName(&onDisk);
-			SetText(fullName);
+			GetText()->SetText(fullName);
 
 			if (itsUnfocusAction == kRename)
 				{
@@ -182,7 +177,7 @@ CBFileNameDisplay::HandleUnfocusEvent()
 
 	if (!saved)
 		{
-		SetText(itsOrigFile);
+		GetText()->SetText(itsOrigFile);
 		}
 
 	UpdateDisplay(kJFalse);			// take control of text style
@@ -197,19 +192,19 @@ CBFileNameDisplay::HandleUnfocusEvent()
 JBoolean
 CBFileNameDisplay::InputValid()
 {
-	const JString& text = GetText();
+	const JString& text = GetText()->GetText();
 	if (itsUnfocusAction == kCancel)
 		{
 		return kJTrue;
 		}
 	else if (text.IsEmpty())
 		{
-		JGetUserNotification()->ReportError(JGetString(kEmptyErrorID));
+		JGetUserNotification()->ReportError(JGetString("EmptyError::CBFileNameDisplay"));
 		return kJFalse;
 		}
 	else if (text.EndsWith(ACE_DIRECTORY_SEPARATOR_STR))
 		{
-		JGetUserNotification()->ReportError(JGetString(kNoFileNameID));
+		JGetUserNotification()->ReportError(JGetString("NoFileName::CBFileNameDisplay"));
 		return kJFalse;
 		}
 	else if (JIsRelativePath(text))
@@ -235,11 +230,11 @@ CBFileNameDisplay::InputValid()
 
 	if (JFileExists(fullName))
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"f", text
+			"f", text.GetBytes()
 			};
-		const JString msg = JGetString(kOKToReplaceID, map, sizeof(map));
+		const JString msg = JGetString("OKToReplace::CBFileNameDisplay", map, sizeof(map));
 		if (!JGetUserNotification()->AskUserNo(msg))
 			{
 			return kJFalse;
@@ -286,23 +281,24 @@ CBFileNameDisplay::InputValid()
 void
 CBFileNameDisplay::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == kJEscapeKey)
+	if (c == kJEscapeKey)
 		{
 		itsTE->Focus();
 		}
-	else if (key == '\t' &&
+	else if (c == '\t' &&
 			 !modifiers.GetState(kJXMetaKeyIndex)   &&
 			 modifiers.GetState(kJXControlKeyIndex) &&
 			 !modifiers.shift())
 		{
 		itsTE->Focus();
-		itsTE->HandleKeyPress(key, modifiers);
+		itsTE->HandleKeyPress(c, keySym, modifiers);
 		}
-	else if ((key == '\r' || key == '\n') &&
+	else if ((c == '\r' || c == '\n') &&
 			 !modifiers.GetState(JXMenu::AdjustNMShortcutModifier(kJXMetaKeyIndex)) &&
 			 !modifiers.shift())
 		{
@@ -314,30 +310,30 @@ CBFileNameDisplay::HandleKeyPress
 		}
 	else
 		{
-		JXFileInput::HandleKeyPress(key, modifiers);
+		JXFileInput::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
 /******************************************************************************
- AdjustStylesBeforeRecalc (virtual protected)
+ AdjustStylesBeforeBroadcast (virtual protected)
 
 	Don't let JXFileInput adjust the styles unless we have focus.
 
  ******************************************************************************/
 
 void
-CBFileNameDisplay::xAdjustStylesBeforeRecalc
+CBFileNameDisplay::StyledText::AdjustStylesBeforeBroadcast
 	(
-	const JString&		buffer,
-	JRunArray<JFont>*	styles,
-	JIndexRange*		recalcRange,
-	JIndexRange*		redrawRange,
-	const JBoolean		deletion
+	const JString&			text,
+	JRunArray<JFont>*		styles,
+	JStyledText::TextRange*	recalcRange,
+	JStyledText::TextRange*	redrawRange,
+	const JBoolean			deletion
 	)
 {
-	if (itsCBHasFocusFlag)
+	if (itsCBField->itsCBHasFocusFlag)
 		{
-		JXFileInput::AdjustStylesBeforeRecalc(buffer, styles, recalcRange,
-											  redrawRange, deletion);
+		JXFileInput::StyledText::AdjustStylesBeforeBroadcast(
+			text, styles, recalcRange, redrawRange, deletion);
 		}
 }

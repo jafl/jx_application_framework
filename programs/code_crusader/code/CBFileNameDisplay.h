@@ -28,17 +28,39 @@ public:
 	void	SetTE(JXTEBase* te);
 	void	DiskCopyIsModified(const JBoolean mod);
 
-	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers) override;
-	virtual JBoolean	InputValid();
+	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
+									   const JXKeyModifiers& modifiers) override;
+	virtual JBoolean	InputValid() override;
+
+protected:
+
+	class StyledText : public JXFileInput::StyledText
+	{
+		public:
+
+		StyledText(CBFileNameDisplay* field, JFontManager* fontManager)
+			:
+			JXFileInput::StyledText(field, fontManager),
+			itsCBField(field)
+		{ };
+
+		protected:
+
+		virtual void	AdjustStylesBeforeBroadcast(
+							const JString& text, JRunArray<JFont>* styles,
+							JStyledText::TextRange* recalcRange,
+							JStyledText::TextRange* redrawRange,
+							const JBoolean deletion) override;
+
+		private:
+
+		CBFileNameDisplay*	itsCBField;
+	};
 
 protected:
 
 	virtual void	HandleFocusEvent() override;
 	virtual void	HandleUnfocusEvent() override;
-
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
-											 JIndexRange* recalcRange, JIndexRange* redrawRange,
-											 const JBoolean deletion);
 
 private:
 

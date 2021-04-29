@@ -74,18 +74,19 @@ CBTELineIndexInput::SetTE
 void
 CBTELineIndexInput::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if ((key == '\r' || key == '\n') &&
+	if ((c == '\r' || c == '\n') &&
 		!modifiers.meta() && !modifiers.control() && modifiers.shift())
 		{
 		ShouldAct(kJTrue);
 		itsColInput->Focus();	// trigger HandleUnfocusEvent()
 		ShouldAct(kJFalse);
 		}
-	else if ((key == '\r' || key == '\n') &&
+	else if ((c == '\r' || c == '\n') &&
 			 !modifiers.GetState(JXMenu::AdjustNMShortcutModifier(kJXMetaKeyIndex))    &&
 			  modifiers.GetState(JXMenu::AdjustNMShortcutModifier(kJXControlKeyIndex)) &&
 			 !modifiers.shift())
@@ -95,7 +96,7 @@ CBTELineIndexInput::HandleKeyPress
 		if (JXIntegerInput::GetValue(&value))
 			{
 			const JString s((JUInt64) te->CRLineIndexToVisualLineIndex(value));
-			SetText(s);
+			GetText()->SetText(s);
 			}
 
 		ShouldAct(kJTrue);
@@ -104,19 +105,19 @@ CBTELineIndexInput::HandleKeyPress
 		}
 	else
 		{
-		CBTECaretInputBase::HandleKeyPress(key, modifiers);
+		CBTECaretInputBase::HandleKeyPress(c, keySym, modifiers);
 
 		// vi emulation
 
-		const JString& s = GetText();
+		const JString& s = GetText()->GetText();
 		if (s == "0")
 			{
-			SetText("1");
+			GetText()->SetText(JString("1", 0, kJFalse));
 			GoToEndOfLine();
 			}
 		if (s == "$")
 			{
-			SetText(JString((JUInt64) GetTE()->GetLineCount()+1));
+			GetText()->SetText(JString((JUInt64) GetTE()->GetLineCount()+1));
 			GoToEndOfLine();
 			}
 		}
@@ -149,7 +150,7 @@ CBTELineIndexInput::GetValue
 	)
 	const
 {
-	return te->GetLineForChar(te->GetInsertionIndex());
+	return te->GetLineForChar(te->GetInsertionCharIndex());
 }
 
 JIndex

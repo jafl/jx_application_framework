@@ -736,6 +736,7 @@ HowToXDS2HintID::CBFileDragSource	"Type a file name and then drag this to an XDS
 EmptyError::CBFileNameDisplay	"You must enter a path and file name."
 NoFileName::CBFileNameDisplay	"You must enter a file name."
 OKToReplace::CBFileNameDisplay	"\"$f\" already exists.  Are you sure you want to overwrite it?"
+SaveAsPrompt::CBFileNameDisplay	"Save file as:"
 
 # CBFileTypeTable
 

@@ -197,23 +197,24 @@ CBTECaretInputBase::Receive
 void
 CBTECaretInputBase::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (key == kJEscapeKey)
+	if (c == kJEscapeKey)
 		{
 		itsTE->Focus();
 		}
-	else if (key == '\t' &&
+	else if (c == '\t' &&
 			 !modifiers.GetState(kJXMetaKeyIndex)   &&
 			 modifiers.GetState(kJXControlKeyIndex) &&
 			 !modifiers.shift())
 		{
 		itsTE->Focus();
-		itsTE->HandleKeyPress(key, modifiers);
+		itsTE->HandleKeyPress(c, keySym, modifiers);
 		}
-	else if ((key == '\r' || key == '\n') &&
+	else if ((c == '\r' || c == '\n') &&
 			 !modifiers.meta() && !modifiers.control() && !modifiers.shift())
 		{
 		itsShouldActFlag = kJTrue;
@@ -222,7 +223,7 @@ CBTECaretInputBase::HandleKeyPress
 		}
 	else
 		{
-		JXIntegerInput::HandleKeyPress(key, modifiers);
+		JXIntegerInput::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 
@@ -275,6 +276,8 @@ CBTECaretInputBase::GetFTCMinContentSize
 	const
 {
 	return (horizontal ?
-			TEGetLeftMarginWidth() + GetDefaultFont().GetStringWidth("00000") :
+			TEGetLeftMarginWidth() +
+				GetText().GetDefaultFont().GetStringWidth(
+					GetFontManager(), JString("00000", 0, kJFalse)) :
 			JXIntegerInput::GetFTCMinContentSize(horizontal));
 }

@@ -36,6 +36,12 @@ public:
 
 protected:
 
+	JXFSInputBase(StyledText* text, const JBoolean showFilesForCompletion,
+				  const JUtf8Byte* defaultHintID, JXContainer* enclosure,
+				  const HSizingOption hSizing, const VSizingOption vSizing,
+				  const JCoordinate x, const JCoordinate y,
+				  const JCoordinate w, const JCoordinate h);
+
 	virtual void	HandleUnfocusEvent() override;
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
@@ -87,14 +93,6 @@ protected:
 
 		JXFSInputBase*	itsField;
 	};
-
-protected:
-
-	JXFSInputBase(StyledText* text, const JBoolean showFilesForCompletion,
-				  const JUtf8Byte* defaultHintID, JXContainer* enclosure,
-				  const HSizingOption hSizing, const VSizingOption vSizing,
-				  const JCoordinate x, const JCoordinate y,
-				  const JCoordinate w, const JCoordinate h);
 
 private:
 
