@@ -1314,20 +1314,20 @@ JXTEBase::RemapWindowsHomeEnd
 void
 JXTEBase::MoveCaretToEdge
 	(
-	const int key
+	const JUtf8Character& c
 	)
 {
 	const JSize h = (3 * (GetText()->GetDefaultFont()).GetLineHeight(GetFontManager())) / 4;
 
 	JPoint pt;
-	if (key == kJUpArrow)
+	if (c == kJUpArrow)
 		{
-		pt    = (GetAperture()).topLeft();
+		pt    = GetAperture().topLeft();
 		pt.y += h;
 		}
-	else if (key == kJDownArrow)
+	else if (c == kJDownArrow)
 		{
-		pt    = (GetAperture()).bottomLeft();
+		pt    = GetAperture().bottomLeft();
 		pt.y -= h;
 		}
 	else
@@ -1396,14 +1396,14 @@ JXTEBase::BoundsMoved
 	JXScrollableWidget::BoundsMoved(dx, dy);
 
 	if (theScrollCaretFlag && dy > 0 &&
-		GetLineTop(GetLineForChar(GetInsertionIndex().charIndex)) > (GetAperture()).bottom)
+		GetLineTop(GetLineForChar(GetInsertionCharIndex())) > GetAperture().bottom)
 		{
-		MoveCaretToEdge(kJDownArrow);
+		MoveCaretToEdge(JUtf8Character(kJDownArrow));
 		}
 	else if (theScrollCaretFlag && dy < 0 &&
-			 GetLineBottom(GetLineForChar(GetInsertionIndex().charIndex)) < (GetAperture()).top)
+			 GetLineBottom(GetLineForChar(GetInsertionCharIndex())) < GetAperture().top)
 		{
-		MoveCaretToEdge(kJUpArrow);
+		MoveCaretToEdge(JUtf8Character(kJUpArrow));
 		}
 }
 

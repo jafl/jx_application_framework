@@ -152,7 +152,7 @@ public:
 	static void		MiddleButtonShouldPaste(const JBoolean paste);
 
 	void	AskForLine();
-	void	MoveCaretToEdge(const int key);
+	void	MoveCaretToEdge(const JUtf8Character& c);
 
 	JCoordinate	GetMinBoundsWidth() const;
 	JCoordinate	GetMinBoundsHeight() const;
