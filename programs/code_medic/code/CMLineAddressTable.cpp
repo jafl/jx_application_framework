@@ -179,7 +179,7 @@ CMLineAddressTable::GetLongestLineText
 	const
 {
 	return !itsLineTextList->IsEmpty() ?
-		*(itsLineTextList->GetLastElement()) : JString((JUInt64) lineCount);
+		*itsLineTextList->GetLastElement() : JString((JUInt64) lineCount);
 }
 
 /******************************************************************************
@@ -211,7 +211,7 @@ CMLineAddressTable::GetFirstBreakpointOnLine
 	)
 	const
 {
-	const JString addr = BuildAddress(*(itsLineTextList->GetElement(lineIndex)));
+	const JString addr = BuildAddress(*itsLineTextList->GetElement(lineIndex));
 	CMBreakpoint bp(addr);
 	return GetBreakpointList()->SearchSorted(&bp, JListT::kFirstMatch, bpIndex);
 }
@@ -286,7 +286,7 @@ CMLineAddressTable::SetBreakpoint
 	const JBoolean	temporary
 	)
 {
-	const JString addr = BuildAddress(*(itsLineTextList->GetElement(lineIndex)));
+	const JString addr = BuildAddress(*itsLineTextList->GetElement(lineIndex));
 	GetLink()->SetBreakpoint(addr, temporary);
 }
 
@@ -301,7 +301,7 @@ CMLineAddressTable::RemoveAllBreakpointsOnLine
 	const JIndex lineIndex
 	)
 {
-	const JString addr = BuildAddress(*(itsLineTextList->GetElement(lineIndex)));
+	const JString addr = BuildAddress(*itsLineTextList->GetElement(lineIndex));
 	GetLink()->RemoveAllBreakpointsAtAddress(addr);
 }
 
@@ -316,7 +316,7 @@ CMLineAddressTable::RunUntil
 	const JIndex lineIndex
 	)
 {
-	const JString addr = BuildAddress(*(itsLineTextList->GetElement(lineIndex)));
+	const JString addr = BuildAddress(*itsLineTextList->GetElement(lineIndex));
 	GetLink()->RunUntil(addr);
 }
 
@@ -331,7 +331,7 @@ CMLineAddressTable::SetExecutionPoint
 	const JIndex lineIndex
 	)
 {
-	const JString addr = BuildAddress(*(itsLineTextList->GetElement(lineIndex)));
+	const JString addr = BuildAddress(*itsLineTextList->GetElement(lineIndex));
 	GetLink()->SetExecutionPoint(addr);
 }
 
@@ -375,6 +375,11 @@ CMLineAddressTable::GetLineTextFromAddress
 	if (s.BeginsWith("0x"))
 		{
 		iter.RemoveNext(2);
+		}
+
+	if (itsLineTextList->IsEmpty())
+		{
+		return s;
 		}
 
 	while (s.GetFirstCharacter() == '0' &&
