@@ -275,7 +275,7 @@ TestDirector::OpenTextFile
 {
 	if (JFileReadable(fileName))
 		{
-		TestTextEditDocument* doc = jnew TestTextEditDocument(this, fileName);
+		TestTextEditDocument* doc = jnew TestTextEditDocument(this, fileName, kJFalse);
 		assert( doc != nullptr );
 		doc->Activate();
 		}

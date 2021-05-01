@@ -72,7 +72,7 @@ TestLinkedDocument::TestLinkedDocument
 			}
 		else
 			{
-			itsDoc = jnew TestTextEditDocument(supervisor, newName);
+			itsDoc = jnew TestTextEditDocument(supervisor, newName, kJFalse);
 			assert( itsDoc != nullptr );
 			}
 

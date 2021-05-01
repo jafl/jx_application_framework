@@ -26,26 +26,29 @@
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
-#include <jDirUtil.h>
+#include <sstream>
 #include <jAssert.h>
 
 // File menu
 
 static const JUtf8Byte* kFileMenuStr =
-	"    New %h n %k Ctrl-N"
+	"    New     %h n %k Ctrl-N"
 	"  | Open... %h o %k Ctrl-O"
-	"  | Save %h s %k Ctrl-S"
+	"  | Save    %h s %k Ctrl-S"
 	"  | Save as..."
 	"  | Save a copy as..."
 	"  | Revert to saved"
+	"%l| Load private format... %k Ctrl-Shift-O"
+	"  | Save private format... %k Ctrl-Shift-S"
 	"%l| Page setup..."
 	"  | Print... %h p %k Ctrl-P"
-	"%l| Close %h c %k Ctrl-W";
+	"%l| Close    %h c %k Ctrl-W";
 
 enum
 {
 	kNewFileCmd = 1,
 	kOpenFileCmd, kSaveFileCmd, kSaveFileAsCmd, kSaveCopyAsCmd, kRevertCmd,
+	kReadPrivateFmtCmd, kWritePrivateFmtCmd,
 	kPageSetupCmd, kPrintCmd,
 	kCloseCmd
 };
@@ -75,7 +78,8 @@ TestTextEditDocument::TestTextEditDocument
 	JXFileDocument(supervisor,
 				   (JXGetDocumentManager())->GetNewFileName(),
 				   kJFalse, kJTrue, ""),
-	itsEmulatorType(kNoEmulator)
+	itsEmulatorType(kNoEmulator),
+	itsWritePrivateFmtFlag(kJFalse)
 {
 	BuildWindow(kJTrue);
 
@@ -87,16 +91,19 @@ TestTextEditDocument::TestTextEditDocument
 TestTextEditDocument::TestTextEditDocument
 	(
 	JXDirector*		supervisor,
-	const JString&	fileName
+	const JString&	fileName,
+	const JBoolean	privateFmt
 	)
 	:
 	JXFileDocument(supervisor, fileName, kJTrue, kJTrue, ""),
-	itsEmulatorType(kNoEmulator)
+	itsEmulatorType(kNoEmulator),
+	itsWritePrivateFmtFlag(privateFmt)
 {
 	assert( JFileExists(fileName) );
 
 	BuildWindow(JFileWritable(fileName));
 	ReadFile(fileName);
+	itsWritePrivateFmtFlag = kJFalse;
 }
 
 /******************************************************************************
@@ -269,6 +276,7 @@ TestTextEditDocument::UpdateFileMenu()
 {
 	itsFileMenu->SetItemEnable(kSaveFileCmd, NeedsSave());
 	itsFileMenu->SetItemEnable(kRevertCmd, CanRevert());
+	itsFileMenu->SetItemEnable(kWritePrivateFmtCmd, NeedsSave());
 }
 
 /******************************************************************************
@@ -308,6 +316,20 @@ TestTextEditDocument::HandleFileMenu
 		{
 		RevertToSaved();
 		}
+
+	else if (index == kReadPrivateFmtCmd)
+		{
+		itsWritePrivateFmtFlag = kJTrue;
+		OpenFiles();
+		itsWritePrivateFmtFlag = kJFalse;
+		}
+	else if (index == kWritePrivateFmtCmd)
+		{
+		itsWritePrivateFmtFlag = kJTrue;
+		SaveCopyInNewFile();
+		itsWritePrivateFmtFlag = kJFalse;
+		}
+
 	else if (index == kPageSetupCmd)
 		{
 		itsTextEditor1->HandlePSPageSetup();
@@ -316,6 +338,7 @@ TestTextEditDocument::HandleFileMenu
 		{
 		itsTextEditor1->PrintPS();
 		}
+
 	else if (index == kCloseCmd)
 		{
 		Close();
@@ -344,7 +367,7 @@ TestTextEditDocument::OpenFiles()
 			JXFileDocument* doc;
 			if (!(JXGetDocumentManager())->FileDocumentIsOpen(*fileName, &doc))
 				{
-				doc = jnew TestTextEditDocument(GetSupervisor(), *fileName);
+				doc = jnew TestTextEditDocument(GetSupervisor(), *fileName, itsWritePrivateFmtFlag);
 				}
 			assert( doc != nullptr );
 			doc->Activate();
@@ -406,8 +429,16 @@ TestTextEditDocument::ReadFile
 	const JString& fileName
 	)
 {
-	JStyledText::PlainTextFormat format;
-	itsText->ReadPlainText(fileName, &format);
+	if (itsWritePrivateFmtFlag)
+		{
+		std::ifstream input(fileName.GetBytes());
+		itsText->ReadPrivateFormat(input);
+		}
+	else
+		{
+		JStyledText::PlainTextFormat format;
+		itsText->ReadPlainText(fileName, &format);
+		}
 	itsText->SetLastSaveLocation();
 }
 
@@ -436,7 +467,17 @@ TestTextEditDocument::WriteTextFile
 	)
 	const
 {
-	itsText->WritePlainText(output, JStyledText::kUNIXText);
+	if (itsWritePrivateFmtFlag)
+		{
+		std::ostringstream data;
+		itsText->WritePrivateFormat(data);
+		output << data.str().c_str();
+		}
+	else
+		{
+		itsText->WritePlainText(output, JStyledText::kUNIXText);
+		}
+
 	if (!safetySave)
 		{
 		itsText->DeactivateCurrentUndo();

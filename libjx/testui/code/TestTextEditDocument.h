@@ -21,7 +21,7 @@ class TestTextEditDocument : public JXFileDocument
 public:
 
 	TestTextEditDocument(JXDirector* supervisor);
-	TestTextEditDocument(JXDirector* supervisor, const JString& fileName);
+	TestTextEditDocument(JXDirector* supervisor, const JString& fileName, const JBoolean privateFmt);
 
 	virtual ~TestTextEditDocument();
 
@@ -49,6 +49,7 @@ private:
 	JXTextMenu*		itsEmulatorMenu;	// owned by menu bar
 
 	EmulatorType	itsEmulatorType;
+	JBoolean		itsWritePrivateFmtFlag;
 
 // begin JXLayout
 
