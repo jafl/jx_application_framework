@@ -259,8 +259,8 @@ CBRubyStyler::ExtendCheckRangeForString
 
  ******************************************************************************/
 
-static JRegex variablePattern =      "^#\\{[^}]+\\}";
-static JRegex emptyVariablePattern = "^#\\{\\}?";
+static JRegex variablePattern =      "(?<!\\\\)#\\{[^}]+\\}";
+static JRegex emptyVariablePattern = "(?<!\\\\)#\\{\\}?";
 
 #define ClassName CBRubyStyler
 #define NoVariableIndex

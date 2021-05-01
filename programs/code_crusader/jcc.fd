@@ -3383,7 +3383,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
 name: itsFontSizeMenu
 callback: 
-argument: JGetDefaultFontName(), "Font size:"
+argument: JFontManager::GetDefaultFontName(), JGetString("FontSize::CBEditTreePrefsDialog")
 
 --------------------
 class: FL_CHECKBUTTON

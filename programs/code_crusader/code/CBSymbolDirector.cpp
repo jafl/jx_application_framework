@@ -671,7 +671,7 @@ CBSymbolDirector::BuildWindow
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = (CBGetApplication())->CreateHelpMenu(menuBar, "CBSymbolDirector");
+	itsHelpMenu = CBGetApplication()->CreateHelpMenu(menuBar, "CBSymbolDirector");
 	ListenTo(itsHelpMenu);
 
 	// must do this after creating menus
@@ -684,7 +684,7 @@ CBSymbolDirector::BuildWindow
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsSymbolMenu, kEditSearchPathsCmd);
 
-		(CBGetApplication())->AppendHelpMenuToToolBar(itsToolBar, itsHelpMenu);
+		CBGetApplication()->AppendHelpMenuToToolBar(itsToolBar, itsHelpMenu);
 		}
 }
 
@@ -762,14 +762,14 @@ CBSymbolDirector::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
-		(CBGetApplication())->UpdateHelpMenu(itsHelpMenu);
+		CBGetApplication()->UpdateHelpMenu(itsHelpMenu);
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
-		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, "CBSymbolHelp",
+		CBGetApplication()->HandleHelpMenu(itsHelpMenu, "CBSymbolHelp",
 											 selection->GetIndex());
 		}
 
@@ -1022,7 +1022,7 @@ CBSymbolDirector::HandlePrefsMenu
 		}
 	else if (index == kMiscPrefsCmd)
 		{
-		(CBGetApplication())->EditMiscPrefs();
+		CBGetApplication()->EditMiscPrefs();
 		}
 
 	else if (index == kSaveWindSizeCmd)

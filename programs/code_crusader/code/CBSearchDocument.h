@@ -20,13 +20,13 @@ public:
 
 	static JError	Create(const JPtrArray<JString>& fileList,
 						   const JPtrArray<JString>& nameList,
-						   const JString& searchStr,
+						   const JRegex& searchRegex,
 						   const JBoolean onlyListFiles,
 						   const JBoolean listFilesWithoutMatch);
 
 	static JError	Create(const JPtrArray<JString>& fileList,
 						   const JPtrArray<JString>& nameList,
-						   const JString& searchStr,
+						   const JRegex& searchRegex,
 						   const JString& replaceStr);
 
 	virtual ~CBSearchDocument();

@@ -55,7 +55,7 @@ CBSearchDocument::Create
 	(
 	const JPtrArray<JString>&	fileList,
 	const JPtrArray<JString>&	nameList,
-	const JString&				searchStr,
+	const JRegex&				searchRegex,
 	const JBoolean				onlyListFiles,
 	const JBoolean				listFilesWithoutMatch
 	)
@@ -107,7 +107,7 @@ CBSearchDocument::Create
 
 		const JUtf8Byte* map[] =
 			{
-			"s", searchStr.GetBytes()
+			"s", searchRegex.GetPattern().GetBytes()
 			};
 		const JString windowTitle = JGetString("SearchTitle::CBSearchDocument", map, sizeof(map));
 
@@ -139,7 +139,7 @@ CBSearchDocument::Create
 	(
 	const JPtrArray<JString>&	fileList,
 	const JPtrArray<JString>&	nameList,
-	const JString&				searchStr,
+	const JRegex&				searchRegex,
 	const JString&				replaceStr
 	)
 {
@@ -188,7 +188,7 @@ CBSearchDocument::Create
 
 		const JUtf8Byte* map[] =
 			{
-			"s", searchStr.GetBytes(),
+			"s", searchRegex.GetPattern().GetBytes(),
 			"r", replaceStr.GetBytes()
 			};
 		const JString windowTitle = JGetString("ReplaceTitle::CBSearchDocument", map, sizeof(map));
@@ -437,7 +437,7 @@ CBSearchDocument::AppendText
 			start = st->GetBeyondEnd();
 			te->SetCurrentFont(st->GetDefaultFont());
 
-			te->Paste(JString(":", kJFalse));
+			te->Paste(JString(":", 0, kJFalse));
 			te->Paste(JString(lineIndex));
 			te->Paste(kDoubleNewline);
 

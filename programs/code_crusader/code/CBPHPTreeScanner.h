@@ -16,6 +16,7 @@
 
 #include <JFAID.h>
 
+class JString;
 class CBTree;
 class CBClass;
 

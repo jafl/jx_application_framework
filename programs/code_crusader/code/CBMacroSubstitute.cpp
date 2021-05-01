@@ -94,7 +94,7 @@ CBMacroSubstitute::Evaluate
 				JReadAll(errFD, &msg);
 				if (!msg.IsEmpty())
 					{
-					msg.Prepend(JGetString("Error::CBMacroSubstitute"));
+					msg.Prepend(JGetString("Error::CBGlobal"));
 					JGetUserNotification()->ReportError(msg);
 					}
 

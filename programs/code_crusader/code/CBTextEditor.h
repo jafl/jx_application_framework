@@ -9,6 +9,7 @@
 #define _H_CBTextEditor
 
 #include <JXTEBase.h>
+#include <JXStyledText.h>
 #include <JSTStyler.h>
 #include "CBTextFileType.h"
 
@@ -117,10 +118,33 @@ protected:
 	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
 	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate footerHeight) override;
 
-	virtual JBoolean	VIsCharacterInWord(const JString& text,
-										   const JIndex charIndex) const;
-
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+
+protected:
+
+	class StyledText : public JXStyledText
+	{
+		public:
+
+		StyledText(CBTextEditor* doc, JFontManager* fontManager)
+			:
+			JXStyledText(kJTrue, kJTrue, fontManager),
+			itsDoc(doc)
+		{ };
+
+		protected:
+
+		virtual void	AdjustStylesBeforeBroadcast(
+							const JString& text, JRunArray<JFont>* styles,
+							JStyledText::TextRange* recalcRange,
+							JStyledText::TextRange* redrawRange,
+							const JBoolean deletion) override;
+
+		private:
+
+		CBTextEditor*					itsDoc;
+		JArray<JSTStyler::TokenData>*	itsTokenStartList;	// nullptr if styling is turned off
+	};
 
 private:
 
@@ -140,10 +164,6 @@ private:
 
 	CBTELineIndexInput*	itsLineInput;
 	CBTEColIndexInput*	itsColInput;
-
-	// keyword styling
-
-	JArray<JSTStyler::TokenData>*	itsTokenStartList;	// nullptr if styling is turned off
 
 	// balance while typing
 

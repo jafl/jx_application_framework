@@ -51,15 +51,14 @@
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 2;
-const JCharacter kSetupDataEndDelimiter = '\1';
+const JUtf8Byte kSetupDataEndDelimiter  = '\1';
 
 	// version 1 includes itsBreakCodeCROnlyFlag
 	// version 2 removes itsBreakCodeCROnlyFlag
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"    New text file                  %k Meta-N       %i" kCBNewTextFileAction
 	"  | New text file from template... %k Meta-Shift-N %i" kCBNewTextFileFromTmplAction
 	"  | New project...                                 %i" kCBNewProjectAction
@@ -104,7 +103,7 @@ enum
 
 // File format menu
 
-static const JCharacter* kFileFormatMenuStr =
+static const JUtf8Byte* kFileFormatMenuStr =
 	"  UNIX                 %r %i" kCBUNIXTextFormatAction
 	"| Macintosh (pre OS X) %r %i" kCBMacTextFormatAction
 	"| DOS / Windows        %r %i" kCBDOSTextFormatAction;
@@ -116,7 +115,7 @@ enum
 
 // Diff menu
 
-static const JCharacter* kDiffMenuStr =
+static const JUtf8Byte* kDiffMenuStr =
 	"    Compare as file #1..."
 	"  | Compare as file #2..."
 	"%l| Compare with version control...";
@@ -128,14 +127,9 @@ enum
 	kDiffAsVCSCmd
 };
 
-// Windows menu
-
-static const JCharacter* kFileListMenuTitleStr = "Windows";
-
 // Preferences menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    Editor..."
 	"  | Toolbar buttons..."
 	"  | External editors..."
@@ -158,7 +152,7 @@ enum
 
 // Syntax highlighting menu
 
-static const JCharacter* kPrefsStylesMenuStr =
+static const JUtf8Byte* kPrefsStylesMenuStr =
 	"  Bourne shell"
 	"| C shell"
 	"| C / C++"
@@ -194,11 +188,9 @@ static const CBLanguage kMenuItemToLang[] =
 	kCBTCLLang
 };
 
-const JSize kMenuItemToLangCount = sizeof(kMenuItemToLang) / sizeof(CBLanguage);
-
 // Settings popup menu
 
-static const JCharacter* kSettingsMenuStr =
+static const JUtf8Byte* kSettingsMenuStr =
 	"    Change spaces per tab..." 
 	"%l| Auto-indent        %b"
 	"  | Tab inserts spaces %b"
@@ -216,13 +208,9 @@ enum
 	kToggleReadOnlyCmd
 };
 
-// Action button
-
-static const JCharacter* kHTMLButtonStr = "View";
-
 // JBroadcaster message types
 
-const JCharacter* CBTextDocument::kSaved = "Saved::CBTextDocument";
+const JUtf8Byte* CBTextDocument::kSaved = "Saved::CBTextDocument";
 
 /******************************************************************************
  Constructor
@@ -232,7 +220,7 @@ const JCharacter* CBTextDocument::kSaved = "Saved::CBTextDocument";
 CBTextDocument::CBTextDocument
 	(
 	const CBTextFileType	type,		// first to avoid conflict with fileName
-	const JCharacter*		helpSectionName,
+	const JUtf8Byte*		helpSectionName,
 	const JBoolean			setWMClass,
 	CBTextEditorCtorFn*		teCtorFn
 	)
@@ -250,7 +238,7 @@ CBTextDocument::CBTextDocument
 
 CBTextDocument::CBTextDocument
 	(
-	const JCharacter*		fileName,
+	const JString&			fileName,
 	const CBTextFileType	type,
 	const JBoolean			tmpl
 	)
@@ -280,7 +268,7 @@ CBTextDocument::CBTextDocument
 	JBoolean*			keep
 	)
 	:
-	JXFileDocument(CBGetApplication(), "", kJFalse, kJTrue, ""),
+	JXFileDocument(CBGetApplication(), JString::empty, kJFalse, kJTrue, ""),
 	JPrefObject(CBGetPrefsManager(), kCBTextDocID),
 	itsHelpSectionName("CBOverviewHelp")
 {
@@ -307,7 +295,7 @@ CBTextDocument::CBTextDocumentX1
 	ListenTo(this);
 
 	itsOpenOverComplementFlag = kJFalse;
-	itsFileFormat             = JTextEditor::kUNIXText;
+	itsFileFormat             = JStyledText::kUNIXText;
 	itsUpdateFileTypeFlag     = kJFalse;
 
 	itsFileType    = type;
@@ -360,7 +348,7 @@ CBTextEditor*
 CBTextDocument::ConstructTextEditor
 	(
 	CBTextDocument*		document,
-	const JCharacter*	fileName,
+	const JString&		fileName,
 	JXMenuBar*			menuBar,
 	CBTELineIndexInput*	lineInput,
 	CBTEColIndexInput*	colInput,
@@ -604,7 +592,7 @@ CBTextDocument::BuildWindow
 	itsSettingsMenu->SetItemImage(kToggleWordWrapCmd,         jcc_word_wrap);
 	itsSettingsMenu->SetItemImage(kToggleReadOnlyCmd,         jx_edit_read_only);
 
-	itsFileMenu = itsMenuBar->PrependTextMenu(kFileMenuTitleStr);
+	itsFileMenu = itsMenuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "CBTextDocument");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -657,12 +645,12 @@ CBTextDocument::BuildWindow
 	itsMenuBar->AppendMenu(itsCmdMenu);
 
 	itsWindowMenu =
-		jnew CBDocumentMenu(kFileListMenuTitleStr, itsMenuBar,
+		jnew CBDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), itsMenuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsWindowMenu != nullptr );
 	itsMenuBar->AppendMenu(itsWindowMenu);
 
-	itsPrefsMenu = itsMenuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = itsMenuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "CBTextDocument");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
@@ -673,7 +661,7 @@ CBTextDocument::BuildWindow
 	itsPrefsStylesMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsStylesMenu);
 
-	itsHelpMenu = (CBGetApplication())->CreateHelpMenu(itsMenuBar, "CBTextDocument");
+	itsHelpMenu = CBGetApplication()->CreateHelpMenu(itsMenuBar, "CBTextDocument");
 	ListenTo(itsHelpMenu);
 
 	// must do this after creating widgets
@@ -722,7 +710,7 @@ CBTextDocument::BuildWindow
 		itsToolBar->AppendButton(editMenu, left);
 		itsToolBar->AppendButton(editMenu, right);
 
-		(CBGetApplication())->AppendHelpMenuToToolBar(itsToolBar, itsHelpMenu);
+		CBGetApplication()->AppendHelpMenuToToolBar(itsToolBar, itsHelpMenu);
 		}
 }
 
@@ -734,7 +722,7 @@ CBTextDocument::BuildWindow
 JXTextMenu*
 CBTextDocument::InsertTextMenu
 	(
-	const JCharacter* title
+	const JString& title
 	)
 {
 	JIndex i;
@@ -787,18 +775,10 @@ CBTextDocument::SetFileDisplayVisible
 void
 CBTextDocument::DisplayFileName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
-	if (ExistsOnDisk())
-		{
-		itsFileDisplay->SetText(name);
-		}
-	else
-		{
-		itsFileDisplay->SetText("");
-		}
-
+	itsFileDisplay->GetText()->SetText(ExistsOnDisk() ? name : JString::empty);
 	itsFileDisplay->DiskCopyIsModified(kJFalse);
 }
 
@@ -926,14 +906,14 @@ CBTextDocument::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
-		(CBGetApplication())->UpdateHelpMenu(itsHelpMenu);
+		CBGetApplication()->UpdateHelpMenu(itsHelpMenu);
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
-		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, itsHelpSectionName,
+		CBGetApplication()->HandleHelpMenu(itsHelpMenu, itsHelpSectionName,
 											 selection->GetIndex());
 		}
 
@@ -954,9 +934,10 @@ CBTextDocument::Receive
 		HandleActionButton();
 		}
 
-	else if (sender == itsTextEditor && message.Is(JTextEditor::kTextChanged))
+	else if (sender == itsTextEditor &&
+			 message.Is(JStyledText::kTextChanged))
 		{
-		if (itsTextEditor->IsAtLastSaveLocation())
+		if (itsTextEditor->GetText()->IsAtLastSaveLocation())
 			{
 			DataReverted(kJTrue);
 			}
@@ -1051,10 +1032,10 @@ CBTextDocument::UpdateFileMenu()
 	itsFileMenu->SetItemText(kDiffVCSCmd, *s);
 	itsFileMenu->SetItemEnable(kDiffVCSCmd, enable);
 
-	const JBoolean hasText = !(itsTextEditor->GetText()).IsEmpty();
+	const JBoolean hasText = !itsTextEditor->GetText()->IsEmpty();
 	itsFileMenu->SetItemEnable(kPrintPTCmd, hasText);
 
-	const JBoolean isStyled = JI2B((itsTextEditor->GetStyles()).GetRunCount() > 1);
+	const JBoolean isStyled = JI2B(itsTextEditor->GetText()->GetStyles().GetRunCount() > 1);
 	itsFileMenu->SetItemEnable(kPSPageSetupCmd, isStyled);
 	itsFileMenu->SetItemEnable(kPrintPSCmd, JI2B(hasText && isStyled));
 }
@@ -1109,7 +1090,7 @@ CBTextDocument::HandleFileMenu
 	else if (index == kSaveCopyAsCmd)
 		{
 		JString fullName;
-		if (SaveCopyInNewFile(nullptr, &fullName))
+		if (SaveCopyInNewFile(JString::empty, &fullName))
 			{
 			CBGetDocumentManager()->
 				AddToFileHistoryMenu(CBDocumentManager::kTextFileHistory, fullName);
@@ -1228,7 +1209,7 @@ CBTextDocument::OpenSomething()
 	docMgr->OpenSomething();
 
 	if (docMgr->GetTextDocumentCount() > textDocCount &&
-		(itsTextEditor->GetText()).IsEmpty() &&
+		itsTextEditor->GetText()->IsEmpty() &&
 		!NeedsSave() && !ExistsOnDisk())
 		{
 		Close();
@@ -1254,7 +1235,7 @@ CBTextDocument::DiscardChanges()
 		{
 		// save location of caret and scrollbars
 
-		JIndex caretIndex = itsTextEditor->GetInsertionIndex();
+		JIndex caretIndex = itsTextEditor->GetInsertionCharIndex();
 		const JRect ap    = itsTextEditor->GetAperture();
 
 		// re-read file
@@ -1267,7 +1248,7 @@ CBTextDocument::DiscardChanges()
 
 		itsTextEditor->ScrollTo(ap.topLeft());	// this first to avoid 2 redraws
 
-		const JSize textLength = itsTextEditor->GetTextLength();
+		const JSize textLength = itsTextEditor->GetText()->GetText().GetCharacterCount();
 		if (caretIndex > textLength + 1)
 			{
 			caretIndex = textLength + 1;
@@ -1276,7 +1257,7 @@ CBTextDocument::DiscardChanges()
 		}
 	else
 		{
-		itsTextEditor->SetText("");
+		itsTextEditor->GetText()->SetText(JString::empty);
 		DataReverted();
 		}
 
@@ -1294,17 +1275,17 @@ CBTextDocument::DiscardChanges()
 JBoolean
 CBTextDocument::OpenAsBinaryFile
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	JString s;
 	JReadFile(fileName, &s);
 
-	if (CBTextEditor::ContainsIllegalChars(s))
+	if (JStyledText::ContainsIllegalChars(s))
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"name", fileName
+			"name", fileName.GetBytes()
 			};
 		const JString msg = JGetString("OpenBinaryFileMessage::CBTextDocument", map, sizeof(map));
 		return !JGetUserNotification()->AskUserNo(msg);
@@ -1323,11 +1304,11 @@ CBTextDocument::OpenAsBinaryFile
 void
 CBTextDocument::ReadFile
 	(
-	const JCharacter*	fileName,
-	const JBoolean		firstTime
+	const JString&	fileName,
+	const JBoolean	firstTime
 	)
 {
-	if (!itsTextEditor->ReadPlainText(fileName, &itsFileFormat))
+	if (!itsTextEditor->GetText()->ReadPlainText(fileName, &itsFileFormat))
 		{
 		// Don't let them overwrite it without thinking about it.
 
@@ -1346,7 +1327,7 @@ CBTextDocument::ReadFile
 
 	JBoolean setTabWidth, setTabMode, tabInsertsSpaces, setAutoIndent, autoIndent;
 	JSize tabWidth;
-	CBMParseEditorOptions(fileName, itsTextEditor->GetText(), &setTabWidth, &tabWidth,
+	CBMParseEditorOptions(fileName, itsTextEditor->GetText()->GetText(), &setTabWidth, &tabWidth,
 						  &setTabMode, &tabInsertsSpaces, &setAutoIndent, &autoIndent);
 
 	if (setTabWidth)
@@ -1364,14 +1345,14 @@ CBTextDocument::ReadFile
 
 	if (firstTime)
 		{
-		const JBoolean spaces = itsTextEditor->TabInsertsSpaces();
+		const JBoolean spaces = itsTextEditor->GetText()->TabInsertsSpaces();
 
 		JSize tabWidth = itsTextEditor->GetTabCharCount();
 		itsTextEditor->AnalyzeWhitespace(&tabWidth);
 
 		if (setTabMode)
 			{
-			itsTextEditor->TabShouldInsertSpaces(spaces);
+			itsTextEditor->GetText()->TabShouldInsertSpaces(spaces);
 			}
 
 		if (!setTabWidth)
@@ -1392,7 +1373,7 @@ CBTextDocument::ReadFile
 		}
 
 	UpdateFileType();
-	itsTextEditor->SetLastSaveLocation();
+	itsTextEditor->GetText()->SetLastSaveLocation();
 }
 
 /******************************************************************************
@@ -1403,19 +1384,19 @@ CBTextDocument::ReadFile
 void
 CBTextDocument::WriteTextFile
 	(
-	std::ostream&		output,
+	std::ostream&	output,
 	const JBoolean	safetySave
 	)
 	const
 {
-	itsTextEditor->WritePlainText(output, itsFileFormat);
+	itsTextEditor->GetText()->WritePlainText(output, itsFileFormat);
 	if (!safetySave)
 		{
-		itsTextEditor->DeactivateCurrentUndo();
+		itsTextEditor->GetText()->DeactivateCurrentUndo();
 
 		if (output.good())
 			{
-			itsTextEditor->SetLastSaveLocation();
+			itsTextEditor->GetText()->SetLastSaveLocation();
 
 			const_cast<CBTextDocument*>(this)->UpdateFileType();
 
@@ -1436,12 +1417,12 @@ CBTextDocument::WriteTextFile
 JBoolean
 CBTextDocument::ReadFromProject
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers
 	)
 {
 	JBoolean onDisk;
-	input >> onDisk;
+	input >> JBoolFromString(onDisk);
 	if (!onDisk)
 		{
 		return kJFalse;
@@ -1463,24 +1444,24 @@ CBTextDocument::ReadFromProject
 	JSize tabCharCount;
 	if (vers >= 68)
 		{
-		input >> itsOverrideFlag[ kAutoIndentIndex ]     >> autoIndent;
-		input >> itsOverrideFlag[ kShowWhitespaceIndex ] >> showWS;
-		input >> itsOverrideFlag[ kWordWrapIndex ]       >> wordWrap;
-		input >> itsOverrideFlag[ kReadOnlyIndex ]       >> readOnly;
+		input >> JBoolFromString(itsOverrideFlag[ kAutoIndentIndex ])     >> JBoolFromString(autoIndent);
+		input >> JBoolFromString(itsOverrideFlag[ kShowWhitespaceIndex ]) >> JBoolFromString(showWS);
+		input >> JBoolFromString(itsOverrideFlag[ kWordWrapIndex ])       >> JBoolFromString(wordWrap);
+		input >> JBoolFromString(itsOverrideFlag[ kReadOnlyIndex ])       >> JBoolFromString(readOnly);
 		}
 	if (vers >= 69)
 		{
-		input >> itsOverrideFlag[ kTabWidthIndex ] >> tabCharCount;
+		input >> JBoolFromString(itsOverrideFlag[ kTabWidthIndex ]) >> tabCharCount;
 		}
 	if (70 <= vers && vers < 84)
 		{
 		JBoolean override;
 		JString charSet;
-		input >> override >> charSet;
+		input >> JBoolFromString(override) >> charSet;
 		}
 	if (vers >= 82)
 		{
-		input >> itsOverrideFlag[ kTabInsertsSpacesIndex ] >> tabInsertsSpaces;
+		input >> JBoolFromString(itsOverrideFlag[ kTabInsertsSpacesIndex ]) >> JBoolFromString(tabInsertsSpaces);
 		}
 
 	JXFileDocument* existingDoc;
@@ -1495,11 +1476,11 @@ CBTextDocument::ReadFromProject
 
 		if (itsOverrideFlag[ kAutoIndentIndex ])
 			{
-			itsTextEditor->ShouldAutoIndent(autoIndent);
+			itsTextEditor->GetText()->ShouldAutoIndent(autoIndent);
 			}
 		if (itsOverrideFlag[ kTabInsertsSpacesIndex ])
 			{
-			itsTextEditor->TabShouldInsertSpaces(tabInsertsSpaces);
+			itsTextEditor->GetText()->TabShouldInsertSpaces(tabInsertsSpaces);
 			}
 		if (itsOverrideFlag[ kShowWhitespaceIndex ])
 			{
@@ -1566,7 +1547,7 @@ CBTextDocument::WriteForProject
 {
 	JBoolean onDisk;
 	const JString fullName = GetFullName(&onDisk);
-	output << onDisk;
+	output << JBoolToString(onDisk);
 
 	if (onDisk)
 		{
@@ -1577,25 +1558,25 @@ CBTextDocument::WriteForProject
 		output << ' ';
 		GetWindow()->WriteGeometry(output);
 
-		output << ' ' << itsTextEditor->GetInsertionIndex();
+		output << ' ' << itsTextEditor->GetInsertionCharIndex();
 
-		output << ' ' << itsOverrideFlag[ kAutoIndentIndex ];
-		output << ' ' << itsTextEditor->WillAutoIndent();
+		output << ' ' << JBoolToString(itsOverrideFlag[ kAutoIndentIndex ]);
+		output << JBoolToString(itsTextEditor->GetText()->WillAutoIndent());
 
-		output << ' ' << itsOverrideFlag[ kShowWhitespaceIndex ];
-		output << ' ' << itsTextEditor->WillShowWhitespace();
+		output << JBoolToString(itsOverrideFlag[ kShowWhitespaceIndex ]);
+		output << JBoolToString(itsTextEditor->WillShowWhitespace());
 
-		output << ' ' << itsOverrideFlag[ kWordWrapIndex ];
-		output << ' ' << itsTextEditor->WillBreakCROnly();
+		output << JBoolToString(itsOverrideFlag[ kWordWrapIndex ]);
+		output << JBoolToString(itsTextEditor->WillBreakCROnly());
 
-		output << ' ' << itsOverrideFlag[ kReadOnlyIndex ];
-		output << ' ' << itsTextEditor->IsReadOnly();
+		output << JBoolToString(itsOverrideFlag[ kReadOnlyIndex ]);
+		output << JBoolToString(itsTextEditor->IsReadOnly());
 
-		output << ' ' << itsOverrideFlag[ kTabWidthIndex ];
+		output << JBoolToString(itsOverrideFlag[ kTabWidthIndex ]);
 		output << ' ' << itsTextEditor->GetTabCharCount();
 
-		output << ' ' << itsOverrideFlag[ kTabInsertsSpacesIndex ];
-		output << ' ' << itsTextEditor->TabInsertsSpaces();
+		output << ' ' << JBoolToString(itsOverrideFlag[ kTabInsertsSpacesIndex ]);
+		output << JBoolToString(itsTextEditor->GetText()->TabInsertsSpaces());
 
 		output << ' ';
 		itsTextEditor->WriteScrollSetup(output);
@@ -1617,9 +1598,9 @@ CBTextDocument::ReadStaticGlobalPrefs
 	if (vers < 25)
 		{
 		JBoolean copyWhenSelect;
-		input >> copyWhenSelect;
+		input >> JBoolFromString(copyWhenSelect);
 
-		if ((JXGetSharedPrefsManager())->WasNew())
+		if (JXGetSharedPrefsManager()->WasNew())
 			{
 			JTextEditor::ShouldCopyWhenSelect(copyWhenSelect);
 			}
@@ -1628,9 +1609,9 @@ CBTextDocument::ReadStaticGlobalPrefs
 	if (21 <= vers && vers < 25)
 		{
 		JBoolean windowsHomeEnd, scrollCaret;
-		input >> windowsHomeEnd >> scrollCaret;
+		input >> JBoolFromString(windowsHomeEnd) >> JBoolFromString(scrollCaret);
 
-		if ((JXGetSharedPrefsManager())->WasNew())
+		if (JXGetSharedPrefsManager()->WasNew())
 			{
 			JXTEBase::ShouldUseWindowsHomeEnd(windowsHomeEnd);
 			JXTEBase::CaretShouldFollowScroll(scrollCaret);
@@ -1640,7 +1621,7 @@ CBTextDocument::ReadStaticGlobalPrefs
 	if (vers >= 17)
 		{
 		JBoolean askOKToClose;
-		input >> askOKToClose;
+		input >> JBoolFromString(askOKToClose);
 		JXFileDocument::ShouldAskOKToClose(askOKToClose);
 		}
 }
@@ -1656,7 +1637,7 @@ CBTextDocument::WriteStaticGlobalPrefs
 	std::ostream& output
 	)
 {
-	output << ' ' << JXFileDocument::WillAskOKToClose();
+	output << ' ' << JBoolToString(JXFileDocument::WillAskOKToClose());
 }
 
 /******************************************************************************
@@ -1667,15 +1648,15 @@ CBTextDocument::WriteStaticGlobalPrefs
 void
 CBTextDocument::UpdateFileFormatMenu()
 {
-	if (itsFileFormat == JTextEditor::kUNIXText)
+	if (itsFileFormat == JStyledText::kUNIXText)
 		{
 		itsFileFormatMenu->CheckItem(kUNIXFmtCmd);
 		}
-	else if (itsFileFormat == JTextEditor::kMacintoshText)
+	else if (itsFileFormat == JStyledText::kMacintoshText)
 		{
 		itsFileFormatMenu->CheckItem(kMacFmtCmd);
 		}
-	else if (itsFileFormat == JTextEditor::kDOSText)
+	else if (itsFileFormat == JStyledText::kDOSText)
 		{
 		itsFileFormatMenu->CheckItem(kDOSFmtCmd);
 		}
@@ -1692,24 +1673,24 @@ CBTextDocument::HandleFileFormatMenu
 	const JIndex index
 	)
 {
-	const JTextEditor::PlainTextFormat origFormat = itsFileFormat;
+	const JStyledText::PlainTextFormat origFormat = itsFileFormat;
 
 	if (index == kUNIXFmtCmd)
 		{
-		itsFileFormat = JTextEditor::kUNIXText;
+		itsFileFormat = JStyledText::kUNIXText;
 		}
 	else if (index == kMacFmtCmd)
 		{
-		itsFileFormat = JTextEditor::kMacintoshText;
+		itsFileFormat = JStyledText::kMacintoshText;
 		}
 	else if (index == kDOSFmtCmd)
 		{
-		itsFileFormat = JTextEditor::kDOSText;
+		itsFileFormat = JStyledText::kDOSText;
 		}
 
 	if (itsFileFormat != origFormat)
 		{
-		itsTextEditor->ClearLastSaveLocation();
+		itsTextEditor->GetText()->ClearLastSaveLocation();
 		DataModified();
 		}
 }
@@ -1726,7 +1707,7 @@ CBTextDocument::UpdateDiffMenu()
 	const JString fullName = GetFullName(&onDisk);
 
 	JBoolean enable = kJFalse;
-	JString s       = "...";
+	JString s("...");
 	if (onDisk)
 		{
 		itsDiffMenu->EnableItem(kDiffAs1Cmd);
@@ -1848,7 +1829,7 @@ CBTextDocument::HandlePrefsMenu
 		}
 	else if (index == kMiscPrefsCmd)
 		{
-		(CBGetApplication())->EditMiscPrefs();
+		CBGetApplication()->EditMiscPrefs();
 		}
 
 	else if (index == kEditFileTypesCmd)
@@ -1908,19 +1889,19 @@ CBTextDocument::UpdateSettingsMenu()
 {
 	const JString tabWidth(itsTextEditor->GetTabCharCount(), JString::kBase10);
 
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 	{
-		"n", tabWidth.GetCString()
+		"n", tabWidth.GetBytes()
 	};
 	const JString text = JGetString("ChangeSpacesPerTabMenuItem::CBTextDocument", map, sizeof(map));
 	itsSettingsMenu->SetItemText(kTabWidthCmd, text);
 
-	if (itsTextEditor->WillAutoIndent())
+	if (itsTextEditor->GetText()->WillAutoIndent())
 		{
 		itsSettingsMenu->CheckItem(kToggleAutoIndentCmd);
 		}
 
-	if (itsTextEditor->TabInsertsSpaces())
+	if (itsTextEditor->GetText()->TabInsertsSpaces())
 		{
 		itsSettingsMenu->CheckItem(kToggleTabInsertsSpacesCmd);
 		}
@@ -1963,11 +1944,11 @@ CBTextDocument::HandleSettingsMenu
 
 	else if (index == kToggleAutoIndentCmd)
 		{
-		OverrideAutoIndent( !itsTextEditor->WillAutoIndent() );
+		OverrideAutoIndent( !itsTextEditor->GetText()->WillAutoIndent() );
 		}
 	else if (index == kToggleTabInsertsSpacesCmd)
 		{
-		OverrideTabInsertsSpaces( !itsTextEditor->TabInsertsSpaces() );
+		OverrideTabInsertsSpaces( !itsTextEditor->GetText()->TabInsertsSpaces() );
 		}
 	else if (index == kToggleWhitespaceCmd)
 		{
@@ -2010,7 +1991,7 @@ CBTextDocument::OverrideAutoIndent
 	)
 {
 	itsOverrideFlag[ kAutoIndentIndex ] = kJTrue;
-	itsTextEditor->ShouldAutoIndent(autoIndent);
+	itsTextEditor->GetText()->ShouldAutoIndent(autoIndent);
 }
 
 /******************************************************************************
@@ -2025,7 +2006,7 @@ CBTextDocument::OverrideTabInsertsSpaces
 	)
 {
 	itsOverrideFlag[ kTabInsertsSpacesIndex ] = kJTrue;
-	itsTextEditor->TabShouldInsertSpaces(insertSpaces);
+	itsTextEditor->GetText()->TabShouldInsertSpaces(insertSpaces);
 }
 
 /******************************************************************************
@@ -2134,7 +2115,7 @@ CBTextDocument::UpdateFileType
 		{
 		itsTextEditor->SetBreakCROnly(!wordWrap);
 		}
-	itsTextEditor->SetCRMRuleList(itsCRMRuleList, kJFalse);
+	itsTextEditor->GetText()->SetCRMRuleList(itsCRMRuleList, kJFalse);
 	itsTextEditor->SetScriptPath(scriptPath);
 
 	CBStylerBase* newStyler;
@@ -2160,7 +2141,7 @@ CBTextDocument::UpdateFileType
 
 		if (itsFileType == kCBHTMLFT || itsFileType == kCBXMLFT)
 			{
-			itsActionButton->SetLabel(kHTMLButtonStr);
+			itsActionButton->SetLabel(JGetString("HTMLButton::CBTextDocument"));
 			}
 		else
 			{
@@ -2222,8 +2203,8 @@ CBTextDocument::UpdateReadOnlyDisplay()
 {
 	itsFileDragSource->SetBackColor(
 		itsTextEditor->GetType() == JTextEditor::kFullEditor ?
-		GetColormap()->GetDefaultBackColor() :
-		GetColormap()->GetDarkRedColor());
+		JColorManager::GetDefaultBackColor() :
+		JColorManager::GetDarkRedColor());
 }
 
 /******************************************************************************
@@ -2241,7 +2222,7 @@ CBTextDocument::HandleActionButton()
 
 		if ((itsFileType == kCBHTMLFT || itsFileType == kCBXMLFT) && Save())
 			{
-			(JXGetWebBrowser())->ShowFileContent(fullName);
+			JXGetWebBrowser()->ShowFileContent(fullName);
 			}
 		else
 			{

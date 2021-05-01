@@ -9,7 +9,7 @@ This scanner reads a Java file and builds a CBJavaClass.
 
 #include "CBJavaTreeScanner.h"
 #include "CBJavaClass.h"
-#include <JString.h>
+#include <JStringIterator.h>
 #include <jFStreamUtil.h>
 #include <jErrno.h>
 #include <jAssert.h>
@@ -17,7 +17,7 @@ This scanner reads a Java file and builds a CBJavaClass.
 #undef YY_DECL
 #define YY_DECL \
 	JBoolean CBJavaTreeScanner::CreateClasses( \
-		const JCharacter* fileName, const JFAID_t fileID, \
+		const JString& fileName, const JFAID_t fileID, \
 		CBTree* tree, JPtrArray<CBClass>* classList)
 %}
 
@@ -47,7 +47,7 @@ OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compile
 	JString package;
 	JPtrArray<JString> importList(JPtrArrayT::kDeleteAll);
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	switch_streams(&input, nullptr);
 %}
 
@@ -182,13 +182,13 @@ implements{WS} {
 {NSID}"<"? {
 	if (classList->GetElementCount() == 1)
 		{
-		package = classList->FirstElement()->GetFullName();
+		package = classList->GetFirstElement()->GetFullName();
 		}
 
 	JString fullName(yytext, yyleng);
-	if (!JString::IsEmpty(package))
+	if (!package.IsEmpty())
 		{
-		fullName.PrependCharacter('.');
+		fullName.Prepend(".");
 		fullName.Prepend(package);
 		}
 
@@ -196,7 +196,8 @@ implements{WS} {
 	if (fullName.GetLastCharacter() == '<')
 		{
 		generic = kJTrue;
-		fullName.RemoveSubstring(fullName.GetLength(), fullName.GetLength());
+		JStringIterator iter(&fullName, kJIteratorStartAtEnd);
+		iter.RemovePrev();
 		}
 
 	CBJavaClass* c = jnew CBJavaClass(fullName, CBClass::kClassType, fileID, tree,
@@ -269,10 +270,11 @@ implements{WS} {
 				if (c->EndsWith(s))
 					{
 					JString s1 = *c;
-					s1.RemoveSubstring(
-						s1.GetLength() - s.GetLength() + 1,
-						s1.GetLength());
-					s1.AppendCharacter('.');
+					JStringIterator iter(&s1, kJIteratorStartAtEnd);
+					iter.RemovePrev(s.GetCharacterCount());
+					iter.Invalidate();
+
+					s1.Append(".");
 					s1.Append(parentName);
 
 					parentName = s1;
@@ -281,10 +283,10 @@ implements{WS} {
 					}
 				}
 
-			JIndex dotIndex;
-			if (!found && s.LocateLastSubstring(".", &dotIndex) && dotIndex > 1)
+			JStringIterator iter(&s, kJIteratorStartAtEnd);
+			if (!found && iter.Prev(".") && !iter.AtBeginning())
 				{
-				s.RemoveSubstring(dotIndex, s.GetLength());
+				iter.RemoveAllNext();
 				}
 			else
 				{

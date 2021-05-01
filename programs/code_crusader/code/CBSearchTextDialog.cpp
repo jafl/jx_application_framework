@@ -378,7 +378,7 @@ CBSearchTextDialog::BuildWindow()
 			   closeButton, helpButton, qRefButton);
 
 	ListenTo(itsSearchDirCB);
-	ListenTo(itsDirInput->GetText());
+	ListenTo(itsDirInput);
 	ListenTo(itsMultifileCB);
 
 	itsFileList =
@@ -530,7 +530,7 @@ CBSearchTextDialog::Receive
 		{
 		UpdateDisplay();
 		}
-	else if (sender == itsDirInput->GetText() &&
+	else if (sender == itsDirInput &&
 			 (message.Is(JStyledText::kTextChanged) ||
 			  message.Is(JStyledText::kTextSet)))
 		{
@@ -674,23 +674,21 @@ void
 CBSearchTextDialog::SearchFiles()
 	const
 {
-	JString searchStr, replaceStr;
-	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
-	JBoolean replaceIsRegex, preserveCase;
-	JRegex* regex;
+	JRegex* searchRegex;
+	JString replaceStr;
+	JInterpolate* interpolator;
+	JBoolean entireWord, wrapSearch, preserveCase;
 
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll),
 					   nameList(JPtrArrayT::kDeleteAll);
 
-	if (GetSearchParameters(
-			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase,
-			&regex) &&
+	if (GetSearchParameters(&searchRegex, &entireWord, &wrapSearch,
+							&replaceStr, &interpolator, &preserveCase) &&
 		BuildSearchFileList(&fileList, &nameList))
 		{
 		const JError err =
 			CBSearchDocument::Create(fileList, nameList,
-									 searchStr, itsOnlyListFilesFlag,
+									 *searchRegex, itsOnlyListFilesFlag,
 									 itsListFilesWithoutMatchFlag);
 		err.ReportIfError();
 		}
@@ -704,23 +702,21 @@ CBSearchTextDialog::SearchFiles()
 void
 CBSearchTextDialog::SearchFilesAndReplace()
 {
-	JString searchStr, replaceStr;
-	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
-	JBoolean replaceIsRegex, preserveCase;
-	JRegex* regex;
+	JRegex* searchRegex;
+	JString replaceStr;
+	JInterpolate* interpolator;
+	JBoolean entireWord, wrapSearch, preserveCase;
 
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll),
 					   nameList(JPtrArrayT::kDeleteAll);
 
-	if (GetSearchParameters(
-			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase,
-			&regex) &&
+	if (GetSearchParameters(&searchRegex, &entireWord, &wrapSearch,
+							&replaceStr, &interpolator, &preserveCase) &&
 		BuildSearchFileList(&fileList, &nameList))
 		{
 		const JError err =
 			CBSearchDocument::Create(fileList, nameList,
-									 searchStr, replaceStr);
+									 *searchRegex, replaceStr);
 		err.ReportIfError();
 		}
 }

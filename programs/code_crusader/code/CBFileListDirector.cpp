@@ -373,7 +373,7 @@ CBFileListDirector::BuildWindow()
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = (CBGetApplication())->CreateHelpMenu(menuBar, "CBFileListDirector");
+	itsHelpMenu = CBGetApplication()->CreateHelpMenu(menuBar, "CBFileListDirector");
 	ListenTo(itsHelpMenu);
 
 	// must do this after creating menus
@@ -389,7 +389,7 @@ CBFileListDirector::BuildWindow()
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsProjectMenu, kSearchFilesCmd);
 
-		(CBGetApplication())->AppendHelpMenuToToolBar(itsToolBar, itsHelpMenu);
+		CBGetApplication()->AppendHelpMenuToToolBar(itsToolBar, itsHelpMenu);
 		}
 }
 
@@ -472,14 +472,14 @@ CBFileListDirector::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
-		(CBGetApplication())->UpdateHelpMenu(itsHelpMenu);
+		CBGetApplication()->UpdateHelpMenu(itsHelpMenu);
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
-		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, "CBFileListHelp",
+		CBGetApplication()->HandleHelpMenu(itsHelpMenu, "CBFileListHelp",
 											 selection->GetIndex());
 		}
 
@@ -733,7 +733,7 @@ CBFileListDirector::HandlePrefsMenu
 		}
 	else if (index == kMiscPrefsCmd)
 		{
-		(CBGetApplication())->EditMiscPrefs();
+		CBGetApplication()->EditMiscPrefs();
 		}
 
 	else if (index == kSaveWindSizeCmd)

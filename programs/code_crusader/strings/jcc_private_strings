@@ -28,7 +28,15 @@ HelpURL::JXSearchTextDialog	"http://codecrusader.sourceforge.net/help.html#CBSea
 
 # Global
 
-ProjectMenuTitle::CBGlobal			"Project"
+ProjectMenuTitle::CBGlobal		"Project"
+ComplementHeader::CBGlobal		"Header"
+ComplementSource::CBGlobal		"Source"
+ComplementInterface::CBGlobal	"Interface"
+ComplementModule::CBGlobal		"Module"
+
+Error::CBGlobal	"Error occurred:
+
+"
 
 # CBApp
 
@@ -100,6 +108,7 @@ ComplFileNotFound::CBDocumentManager	"Unable to find complement of \"$name\".  P
 
 # CBTextDocument
 
+HTMLButton::CBTextDocument				"View"
 BinaryFilePrefix::CBTextDocument		"binary: "
 OpenBinaryFileMessage::CBTextDocument	"$name appears to be a binary file.  You will lose information if you open it as a text file.  Do you wish to open it as a text file?"
 
@@ -114,7 +123,13 @@ ChangeSpacesPerTabMenuItem::CBTextDocument	"Change spaces per tab ($n)..."
 
 # CBTextEditor
 
-EmptyScriptMenu::CBTextEditor	"No scripts"
+ScriptSubmenuTitle::CBTextEditor	"Scripts"
+EmptyScriptMenu::CBTextEditor		"No scripts"
+RunScript::CBTextEditor				"Run script..."
+RunScriptOnSelection::CBTextEditor	"Run script on selection..."
+RunScriptShortcut::CBTextEditor		"Meta-|"
+FindSymbol::CBTextEditor			"Find selection as symbol"
+FindSymbolGlobal::CBTextEditor		"Find selection as symbol in project $p"
 
 # CBExecOutputDocument
 
@@ -843,12 +858,6 @@ ReplaceMacroList::CBMacroTable		"Replace existing macros"
 AppendToMacroList::CBMacroTable		"Merge with existing macros"
 SaveMacroListPrompt::CBMacroTable	"Save macros as:"
 
-# CBMacroSubstitute
-
-Error::CBMacroSubstitute	"Error occurred:
-
-"
-
 # CBSubprojectConfigDialog
 
 WindowTitle::CBSubprojectConfigDialog		"Sub-project Configuration"
@@ -983,10 +992,6 @@ WindowTitle::CBRunTEScriptDialog		"Run script"
 FileDoesNotExist::CBRunTEScriptDialog	"The file does not exist on disk."
 NoEditor::CBRunTEScriptDialog			"There is no editor on which to run the script."
 
-Error::CBRunTEScriptDialog	"Error occurred:
-
-"
-
 # CBEditTextPrefsDialog
 
 WindowTitle::CBEditTextPrefsDialog		"Text Editor Preferences"
@@ -1005,3 +1010,9 @@ Column1::CBCRMRuleTable			"First line prefix"
 Column2::CBCRMRuleTable			"Rest of lines prefix"
 Column3::CBCRMRuleTable			"Replace prefix with"
 SaveAsPrompt::CBCRMRuleTable	"Save rules as:"
+
+# CBEditTreePrefsDialog
+
+WindowTitle::CBEditTreePrefsDialog		"Tree Preferences"
+FontSize::CBEditTreePrefsDialog			"Font size:"
+UpdatingPrefs::CBEditTreePrefsDialog	"Updating preferences..."

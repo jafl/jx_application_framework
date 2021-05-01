@@ -52,7 +52,7 @@ CBManPageDocument::Create
 		return kJFalse;
 		}
 
-	(CBGetViewManPageDialog())->AddToHistory(pageName, pageIndex, apropos);
+	CBGetViewManPageDialog()->AddToHistory(pageName, pageIndex, apropos);
 
 	// check if the man page is already open
 

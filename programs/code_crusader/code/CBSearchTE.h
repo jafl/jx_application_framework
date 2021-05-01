@@ -62,9 +62,7 @@ private:
 	void	SearchFile(const JString& fileName, const JString& printName,
 					   const JBoolean onlyListFiles, const JBoolean listFilesWithoutMatch,
 					   std::ostream& output,
-					   const JString& searchStr, const JBoolean isRegex,
-					   const JBoolean caseSensitive, const JBoolean entireWord,
-					   const JRegex& regex);
+					   const JRegex& searchRegex, const JBoolean	entireWord);
 
 	JBoolean	IsKnownBinaryFile(const JString& fileName) const;
 

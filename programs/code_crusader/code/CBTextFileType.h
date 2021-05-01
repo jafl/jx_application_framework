@@ -93,8 +93,8 @@ const JSize kCBFTCount = kCBLastFT+1;
 std::istream& operator>>(std::istream& input, CBTextFileType& type);
 std::ostream& operator<<(std::ostream& output, const CBTextFileType type);
 
-JBoolean			CBGetComplementType(const CBTextFileType inputType, CBTextFileType* outputType);
-const JUtf8Byte*	CBGetComplementFileTypeName(const CBTextFileType type);
+JBoolean		CBGetComplementType(const CBTextFileType inputType, CBTextFileType* outputType);
+const JString&	CBGetComplementFileTypeName(const CBTextFileType type);
 
 JBoolean	CBIsCharacterInWord(const CBTextFileType type, const JUtf8Character& c);
 

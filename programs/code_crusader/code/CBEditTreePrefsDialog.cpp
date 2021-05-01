@@ -18,6 +18,7 @@
 #include <JXFontSizeMenu.h>
 #include <JXStaticText.h>
 #include <JXHelpManager.h>
+#include <JFontManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -87,7 +88,7 @@ CBEditTreePrefsDialog::BuildWindow
 	assert( itsShowInheritedFnsCB != nullptr );
 
 	itsFontSizeMenu =
-		jnew JXFontSizeMenu(JGetDefaultFontName(), "Font size:", window,
+		jnew JXFontSizeMenu(JFontManager::GetDefaultFontName(), JGetString("FontSize::CBEditTreePrefsDialog"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 280,30);
 	assert( itsFontSizeMenu != nullptr );
 
@@ -130,7 +131,7 @@ CBEditTreePrefsDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("Tree Preferences");
+	window->SetTitle(JGetString("WindowTitle::CBEditTreePrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
 	ListenTo(itsHelpButton);
@@ -142,14 +143,7 @@ CBEditTreePrefsDialog::BuildWindow
 	itsAutoMinMILinkCB->SetState(autoMinMILinks);
 	itsRaiseSingleMatchCB->SetState(raiseWhenSingleMatch);
 
-	if (drawMILinksOnTop)
-		{
-		itsMILinkStyleRG->SelectItem(kDrawMILinksAbove);
-		}
-	else
-		{
-		itsMILinkStyleRG->SelectItem(kDrawMILinksBelow);
-		}
+	itsMILinkStyleRG->SelectItem(drawMILinksOnTop ? kDrawMILinksAbove : kDrawMILinksBelow);
 }
 
 /******************************************************************************
@@ -194,14 +188,14 @@ CBEditTreePrefsDialog::Receive
 void
 CBEditTreePrefsDialog::UpdateSettings()
 {
-	(CBGetApplication())->DisplayBusyCursor();
+	CBGetApplication()->DisplayBusyCursor();
 
 	JPtrArray<CBProjectDocument>* docList =
 		CBGetDocumentManager()->GetProjectDocList();
 	const JSize docCount = docList->GetElementCount();
 
 	JProgressDisplay* pg = JNewPG();
-	pg->FixedLengthProcessBeginning(docCount, "Updating preferences...",
+	pg->FixedLengthProcessBeginning(docCount, JGetString("UpdatingPrefs::CBEditTreePrefsDialog"),
 									kJFalse, kJFalse);
 
 	for (JIndex i=1; i<=docCount; i++)

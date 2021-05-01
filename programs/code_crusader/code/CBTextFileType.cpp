@@ -56,6 +56,7 @@
 
 #endif
 
+#include <jGlobals.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -151,19 +152,19 @@ struct CBComplName
 
 static const CBComplName kComplName[] =
 {
-	{ kCBCSourceFT,          "Header"    },
-	{ kCBCHeaderFT,          "Source"    },
-	{ kCBModula2ModuleFT,    "Interface" },
-	{ kCBModula2InterfaceFT, "Module"    },
-	{ kCBModula3ModuleFT,    "Interface" },
-	{ kCBModula3InterfaceFT, "Module"    },
-	{ kCBVeraSourceFT,       "Header"    },
-	{ kCBVeraHeaderFT,       "Source"    },
+	{ kCBCSourceFT,          "ComplementHeader::CBGlobal"    },
+	{ kCBCHeaderFT,          "ComplementSource::CBGlobal"    },
+	{ kCBModula2ModuleFT,    "ComplementInterface::CBGlobal" },
+	{ kCBModula2InterfaceFT, "ComplementModule::CBGlobal"    },
+	{ kCBModula3ModuleFT,    "ComplementInterface::CBGlobal" },
+	{ kCBModula3InterfaceFT, "ComplementModule::CBGlobal"    },
+	{ kCBVeraSourceFT,       "ComplementHeader::CBGlobal"    },
+	{ kCBVeraHeaderFT,       "ComplementSource::CBGlobal"    },
 };
 
 const JSize kComplNameCount = sizeof(kComplName) / sizeof(CBComplName);
 
-const JUtf8Byte*
+const JString&
 CBGetComplementFileTypeName
 	(
 	const CBTextFileType type
@@ -173,11 +174,11 @@ CBGetComplementFileTypeName
 		{
 		if (type == kComplName[i].type)
 			{
-			return kComplName[i].name;
+			return JGetString(kComplName[i].name);
 			}
 		}
 
-	return "";
+	return JString::empty;
 }
 
 /******************************************************************************

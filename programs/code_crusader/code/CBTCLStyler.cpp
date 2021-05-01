@@ -223,8 +223,8 @@ CBTCLStyler::ExtendCheckRangeForString
 
  ******************************************************************************/
 
-static JRegex emptyVariablePattern = "^\\$\\{\\}";
-static JRegex variablePattern      = "^\\$(\\{[^}]+\\}|[[:alnum:]_]+)";
+static JRegex emptyVariablePattern = "(?<!\\\\)\\$\\{\\}";
+static JRegex variablePattern      = "(?<!\\\\)\\$(\\{[^}]+\\}|[[:alnum:]_]+)";
 
 #define ClassName CBTCLStyler
 #include "CBSTStylerEmbeddedVariables.th"

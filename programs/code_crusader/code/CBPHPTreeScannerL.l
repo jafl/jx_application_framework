@@ -9,7 +9,7 @@ This scanner reads a PHP file and builds a CBPHPClass.
 
 #include "CBPHPTreeScanner.h"
 #include "CBPHPClass.h"
-#include <JString.h>
+#include <JStringIterator.h>
 #include <jFStreamUtil.h>
 #include <jErrno.h>
 #include <jAssert.h>
@@ -17,7 +17,7 @@ This scanner reads a PHP file and builds a CBPHPClass.
 #undef YY_DECL
 #define YY_DECL \
 	JBoolean CBPHPTreeScanner::CreateClass( \
-		const JCharacter* fileName, const JFAID_t fileID, \
+		const JString& fileName, const JFAID_t fileID, \
 		CBTree* tree, CBClass** theClass)
 %}
 
@@ -47,7 +47,7 @@ NSID         ({ID}(\\{ID})*)
 	JBoolean isAbstract = kJFalse;
 	JBoolean isFinal    = kJFalse;
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	switch_streams(&input, nullptr);
 %}
 
@@ -197,9 +197,9 @@ as{WS} {
 
 {NSID} {
 	JString fullName(yytext, yyleng);
-	if (!JString::IsEmpty(phpNamespace))
+	if (!phpNamespace.IsEmpty())
 		{
-		fullName.PrependCharacter('\\');
+		fullName.Prepend("\\");
 		fullName.Prepend(phpNamespace);
 		}
 
@@ -247,7 +247,8 @@ as{WS} {
 		{
 		if (parentName.BeginsWith("\\"))
 			{
-			parentName.RemoveSubstring(1, 1);
+			JStringIterator iter(&parentName);
+			iter.RemoveNext();
 			}
 		else if (!parentName.Contains("\\"))
 			{

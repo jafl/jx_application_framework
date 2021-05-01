@@ -146,7 +146,7 @@ CBRunTEScriptDialog::BuildWindow()
 	ListenTo(itsHistoryMenu);
 
 	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	ListenTo(itsCmdInput->GetText());
+	ListenTo(itsCmdInput);
 
 	itsStayOpenCB->SetState(kJTrue);
 
@@ -214,7 +214,7 @@ CBRunTEScriptDialog::Receive
 		itsCmdInput->Focus();
 		}
 
-	else if (sender == itsCmdInput->GetText() &&
+	else if (sender == itsCmdInput &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
 		{
@@ -348,7 +348,7 @@ CBRunTEScriptDialog::RunScript
 		JReadAll(errFD, &msg);
 		if (!msg.IsEmpty())
 			{
-			msg.Prepend(JGetString("Error::CBRunTEScriptDialog"));
+			msg.Prepend(JGetString("Error::CBGlobal"));
 			JGetUserNotification()->ReportError(msg);
 			return kJFalse;
 			}

@@ -171,7 +171,7 @@ CBEditMiscPrefsDialog::BuildWindow()
 
 	JBoolean warnSave, warnClose, warnQuit;
 	CBGetDocumentManager()->GetWarnings(&warnSave, &warnClose);
-	(CBGetApplication())->GetWarnings(&warnQuit);
+	CBGetApplication()->GetWarnings(&warnQuit);
 
 	itsOpenOldProjCB->SetState(CBProjectDocument::WillAskOKToOpenOldVersion());
 	itsCloseUnsavedCB->SetState(JXFileDocument::WillAskOKToClose());
@@ -249,7 +249,7 @@ CBEditMiscPrefsDialog::UpdateSettings()
 	CBGetDocumentManager()->SetWarnings(itsSaveAllCB->IsChecked(),
 										  itsCloseAllCB->IsChecked());
 
-	(CBGetApplication())->SetWarnings(itsQuitCB->IsChecked());
+	CBGetApplication()->SetWarnings(itsQuitCB->IsChecked());
 
 	CBMDIServer* mdi;
 	if (CBGetMDIServer(&mdi))

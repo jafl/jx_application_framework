@@ -240,8 +240,8 @@ CBCShellStyler::ExtendCheckRangeForString
 
 #define CBCShellStringID "([?#%]?[[:alpha:]_][[:alnum:]_]{0,19}|%?[0-9]+)"
 
-static JRegex variablePattern      = "^\\$(" CBCShellStringID "|\\{" CBCShellStringID "[}[]|[*#?$!_<])";
-static JRegex emptyVariablePattern = "^\\$\\{\\}?";
+static JRegex variablePattern      = "(?<!\\\\)\\$(" CBCShellStringID "|\\{" CBCShellStringID "[}[]|[*#?$!_<])";
+static JRegex emptyVariablePattern = "(?<!\\\\)\\$\\{\\}?";
 
 #undef CBCShellStringID
 

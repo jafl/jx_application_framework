@@ -275,21 +275,6 @@ static const JRegex ppIfPattern   = "^[[:space:]]*(#|%:|\\?\\?=)[[:space:]]*if";
 static const JRegex ppElsePattern = "^[[:space:]]*(#|%:|\\?\\?=)[[:space:]]*(else|elif)";
 static const JRegex ppEndPattern  = "^[[:space:]]*(#|%:|\\?\\?=)[[:space:]]*endif";
 
-#if 0	// comment
-abc
-#endif
-
-#if 1
-// nothing
- #elif 0 /* comment */
-abc
-	# if abc
-	123
-	# elif defined xyz
-	456
-	# endif
-# endif
-
 JBoolean
 CBCStyler::SlurpPPComment
 	(
@@ -401,7 +386,7 @@ CBCStyler::Receive
 {
 	CBStylerBase::Receive(sender, message);
 
-#ifdef CODE_CRUSADER
+#if defined CODE_CRUSADER && ! defined CODE_CRUSADER_UNIT_TEST
 
 	if (message.Is(JXDialogDirector::kDeactivated))
 		{

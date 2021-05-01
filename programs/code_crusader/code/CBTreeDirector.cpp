@@ -609,7 +609,7 @@ CBTreeDirector::BuildWindow
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = (CBGetApplication())->CreateHelpMenu(menuBar, "CBTreeDirector");
+	itsHelpMenu = CBGetApplication()->CreateHelpMenu(menuBar, "CBTreeDirector");
 	ListenTo(itsHelpMenu);
 
 	// must do this after creating menus
@@ -625,7 +625,7 @@ CBTreeDirector::BuildWindow
 
 		initToolBarFn(itsToolBar, itsTreeMenu);
 
-		(CBGetApplication())->AppendHelpMenuToToolBar(itsToolBar, itsHelpMenu);
+		CBGetApplication()->AppendHelpMenuToToolBar(itsToolBar, itsHelpMenu);
 		}
 
 	return scrollbarSet;
@@ -705,14 +705,14 @@ CBTreeDirector::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
-		(CBGetApplication())->UpdateHelpMenu(itsHelpMenu);
+		CBGetApplication()->UpdateHelpMenu(itsHelpMenu);
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
-		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, itsWindowHelpName,
+		CBGetApplication()->HandleHelpMenu(itsHelpMenu, itsWindowHelpName,
 											 selection->GetIndex());
 		}
 
@@ -938,7 +938,7 @@ CBTreeDirector::HandlePrefsMenu
 		}
 	else if (index == kMiscPrefsCmd)
 		{
-		(CBGetApplication())->EditMiscPrefs();
+		CBGetApplication()->EditMiscPrefs();
 		}
 
 	else if (index == kSaveWindSizeCmd)

@@ -380,7 +380,7 @@ CBProjectDocument::Create
 			return kNotMyFile;
 		}
 
-		(CBGetApplication())->DisplayBusyCursor();
+		CBGetApplication()->DisplayBusyCursor();
 
 		const JString symName = GetSymbolFileName(fullName);
 		const JString setName = GetSettingFileName(fullName);
@@ -1599,7 +1599,7 @@ CBProjectDocument::BuildWindow
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = (CBGetApplication())->CreateHelpMenu(menuBar, "CBProjectDocument");
+	itsHelpMenu = CBGetApplication()->CreateHelpMenu(menuBar, "CBProjectDocument");
 	ListenTo(itsHelpMenu);
 
 	// must do this after creating widgets
@@ -1614,7 +1614,7 @@ CBProjectDocument::BuildWindow
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsProjectMenu, kSearchFilesCmd);
 
-		(CBGetApplication())->AppendHelpMenuToToolBar(itsToolBar, itsHelpMenu);
+		CBGetApplication()->AppendHelpMenuToToolBar(itsToolBar, itsHelpMenu);
 		}
 
 	// update pg
@@ -1688,14 +1688,14 @@ CBProjectDocument::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
-		(CBGetApplication())->UpdateHelpMenu(itsHelpMenu);
+		CBGetApplication()->UpdateHelpMenu(itsHelpMenu);
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
-		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, "CBProjectHelp",
+		CBGetApplication()->HandleHelpMenu(itsHelpMenu, "CBProjectHelp",
 											 selection->GetIndex());
 		}
 
@@ -2272,7 +2272,7 @@ CBProjectDocument::HandlePrefsMenu
 		}
 	else if (index == kMiscPrefsCmd)
 		{
-		(CBGetApplication())->EditMiscPrefs();
+		CBGetApplication()->EditMiscPrefs();
 		}
 
 	else if (index == kSaveWindSizeCmd)

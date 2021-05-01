@@ -185,7 +185,7 @@ CBEditProjPrefsDialog::Receive
 void
 CBEditProjPrefsDialog::UpdateSettings()
 {
-	(CBGetApplication())->DisplayBusyCursor();
+	CBGetApplication()->DisplayBusyCursor();
 
 	const JBoolean reopenTextFiles      = itsReopenTextFilesCB->IsChecked();
 	const JBoolean doubleSpaceCompile   = itsDoubleSpaceCB->IsChecked();

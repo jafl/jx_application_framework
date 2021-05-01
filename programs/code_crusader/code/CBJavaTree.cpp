@@ -172,7 +172,7 @@ CBJavaTree::ParseFile
 	CBLanguage lang;
 	if (ProcessFile(fileName, kCBJavaSourceFT, &data, &lang))
 		{
-		std::istrstream input(data.GetCString(), data.GetLength());
+		std::istrstream input(data.GetBytes(), data.GetByteCount());
 		ReadFunctionList(input, classList);
 		}
 }

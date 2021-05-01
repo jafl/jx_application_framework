@@ -16,12 +16,13 @@
 #include "cbmUtil.h"
 #include "cbGlobals.h"
 #include <JXColorManager.h>
+#include <JStringIterator.h>
 #include <jFileUtil.h>
 #include <jFStreamUtil.h>
 #include <stdio.h>
 #include <jAssert.h>
 
-const JSize kMaxQuoteLength = 500;
+const JSize kMaxQuoteCharCount = 500;
 
 static const JUtf8Byte* kDisconnectStr         = "\0";
 const JUtf8Byte kDisconnect                    = '\0';
@@ -87,15 +88,14 @@ CBSearchTE::SearchFiles
 	std::ostream&				output
 	)
 {
-	JString searchStr, replaceStr;
-	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
-	JBoolean replaceIsRegex, preserveCase;
-	JRegex* regex;
+	JRegex* searchRegex;
+	JString replaceStr;
+	JInterpolate* interpolator;
+	JBoolean entireWord, wrapSearch, preserveCase;
 	const JBoolean ok =
 		CBGetSearchTextDialog()->GetSearchParameters(
-			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase,
-			&regex);
+			&searchRegex, &entireWord, &wrapSearch,
+			&replaceStr, &interpolator, &preserveCase);
 	assert( ok );
 
 	const JSize count = fileList.GetElementCount();
@@ -105,8 +105,8 @@ CBSearchTE::SearchFiles
 		{
 		const JString* file = fileList.GetElement(i);
 		const JString* name = nameList.GetElement(i);
-		SearchFile(*file, *name, onlyListFiles, listFilesWithoutMatch, output,
-				   searchStr, searchIsRegex, caseSensitive, entireWord, *regex);
+		SearchFile(*file, *name, onlyListFiles, listFilesWithoutMatch,
+				   output, *searchRegex, entireWord);
 
 		// increment progress
 
@@ -139,11 +139,8 @@ CBSearchTE::SearchFile
 	const JBoolean	listFilesWithoutMatch,
 	std::ostream&	output,
 
-	const JString&	searchStr,
-	const JBoolean	isRegex,
-	const JBoolean	caseSensitive,
-	const JBoolean	entireWord,
-	const JRegex&	regex
+	const JRegex&	searchRegex,
+	const JBoolean	entireWord
 	)
 {
 	if (!JFileExists(fileName))
@@ -173,16 +170,18 @@ CBSearchTE::SearchFile
 		}
 
 	JBoolean foundMatch = kJFalse;
-	JIndexRange prevQuoteRange;
+	JStyledText::TextRange prevQuoteRange;
 	JBoolean prevQuoteTruncated = kJFalse;
 
-	JBoolean wrapped;
-	JArray<JIndexRange> submatchList;
-	while ((!isRegex &&
-			SearchForward(searchStr, caseSensitive, entireWord, kJFalse, &wrapped)) ||
-		   (isRegex &&
-			SearchForward(regex, entireWord, kJFalse, &wrapped, &submatchList)))
+	while (1)
 		{
+		JBoolean wrapped;
+		const JStringMatch m = SearchForward(searchRegex, entireWord, kJFalse, &wrapped);
+		if (m.IsEmpty())
+			{
+			break;
+			}
+
 		foundMatch = kJTrue;
 		if (onlyListFiles || listFilesWithoutMatch)
 			{
@@ -193,73 +192,107 @@ CBSearchTE::SearchFile
 				}
 			break;
 			}
+
+		JStringIterator iter(GetText()->GetText());
+
+		const JStyledText::TextRange origMatchRange(
+			m.GetCharacterRange(), m.GetUtf8ByteRange());
+
+		JStyledText::TextRange matchRange = origMatchRange;
+		if (matchRange.charRange.GetCount() > kMaxQuoteCharCount)
+			{
+			matchRange.charRange.last = matchRange.charRange.first + kMaxQuoteCharCount - 1;
+
+			iter.UnsafeMoveTo(kJIteratorStartBefore, matchRange.charRange.first, matchRange.byteRange.first);
+			iter.MoveTo(kJIteratorStartAfter, matchRange.charRange.last);
+			matchRange.byteRange.last = iter.GetPrevByteIndex();
+			}
+
+		const JStyledText::TextRange origQuoteRange(
+			GetText()->GetParagraphStart(matchRange.GetFirst()),
+			GetText()->GetParagraphEnd(matchRange.GetLast(*GetText())));
+
+		JStyledText::TextRange quoteRange = origQuoteRange;
+		if (prevQuoteRange.charRange.Contains(matchRange.charRange))
+			{
+			quoteRange = prevQuoteRange;
+			}
+		else if (quoteRange.charRange.GetCount() > kMaxQuoteCharCount)
+			{
+			const JSize extraCount =
+				(kMaxQuoteCharCount - matchRange.charRange.GetCount())/2;
+
+			const JIndex first = matchRange.charRange.first > extraCount ? 
+									matchRange.charRange.first - extraCount : 1;
+
+			if (quoteRange.charRange.first < first)
+				{
+				iter.UnsafeMoveTo(kJIteratorStartBefore, quoteRange.charRange.first, quoteRange.byteRange.first);
+				iter.MoveTo(kJIteratorStartBefore, first);
+				quoteRange.charRange.first = first;
+				quoteRange.byteRange.first = iter.GetNextByteIndex();
+				}
+
+			const JIndex last = matchRange.charRange.last + extraCount;
+			if (last < quoteRange.charRange.last)
+				{
+				iter.UnsafeMoveTo(kJIteratorStartAfter, quoteRange.charRange.last, quoteRange.byteRange.last);
+				iter.MoveTo(kJIteratorStartAfter, last);
+				quoteRange.charRange.last = last;
+				quoteRange.byteRange.last = iter.GetPrevByteIndex();
+				}
+			}
+
+		matchRange.charRange -= quoteRange.charRange.first-1;
+		matchRange.byteRange -= quoteRange.byteRange.first-1;
+
+		if (quoteRange.charRange == prevQuoteRange.charRange)
+			{
+			if (prevQuoteTruncated)
+				{
+				matchRange.charRange += 3;
+				matchRange.byteRange += 3;
+				}
+			output << kRepeatMatchLine;
+			output << ' ' << matchRange.charRange;
+			output << ' ' << matchRange.byteRange;
+			}
 		else
 			{
-			JStyledText::TextRange matchRange;
-			const JBoolean ok = GetSelection(&matchRange);
-			assert( ok );
+			prevQuoteTruncated = kJFalse;
 
-			JStyledText::TextRange origMatchRange = matchRange;
-			matchRange.last = JMin(matchRange.last, matchRange.first + kMaxQuoteLength-1);
+			iter.UnsafeMoveTo(kJIteratorStartBefore, quoteRange.charRange.first, quoteRange.byteRange.first);
+			iter.BeginMatch();
+			iter.UnsafeMoveTo(kJIteratorStartAfter, quoteRange.charRange.last, quoteRange.byteRange.last);
+			JString quoteText = iter.FinishMatch().GetString();
 
-			const JIndexRange origQuoteRange(GetParagraphStart(matchRange.first),
-											 GetParagraphEnd(matchRange.last));
-
-			JIndexRange quoteRange = origQuoteRange;
-			if (prevQuoteRange.Contains(matchRange))
+			if (quoteRange.charRange.first != origQuoteRange.charRange.first)
 				{
-				quoteRange = prevQuoteRange;
+				quoteText.Prepend("...");
+				matchRange.charRange += 3;
+				matchRange.byteRange += 3;
+				prevQuoteTruncated = kJTrue;
 				}
-			else if (quoteRange.GetLength() > kMaxQuoteLength)
+			if (quoteRange.charRange.last != origQuoteRange.charRange.last)
 				{
-				const JSize extraLength = (kMaxQuoteLength - matchRange.GetLength())/2;
-				quoteRange.first = JMax(quoteRange.first,
-					matchRange.first > extraLength ? matchRange.first - extraLength : 1);
-				quoteRange.last = JMin(quoteRange.last, matchRange.last + extraLength);
+				quoteText.Append("...");
 				}
-
-			matchRange -= quoteRange.first-1;
-			if (quoteRange == prevQuoteRange)
+			if (matchRange.charRange.GetCount() != origMatchRange.charRange.GetCount())
 				{
-				if (prevQuoteTruncated)
-					{
-					matchRange += 3;
-					}
-				output << kRepeatMatchLine;
-				output << ' ' << matchCharRange;
-				output << ' ' << matchByteRange;
+				matchRange.charRange.last += 3;	// underline ellipsis
+				matchRange.byteRange.last += 3;
 				}
-			else
-				{
-				prevQuoteTruncated = kJFalse;
 
-				JString quoteText = GetText()->GetText().GetSubstring(quoteRange);
-				if (quoteRange.first != origQuoteRange.first)
-					{
-					quoteText.Prepend("...");
-					matchRange += 3;
-					prevQuoteTruncated = kJTrue;
-					}
-				if (quoteRange.last != origQuoteRange.last)
-					{
-					quoteText.Append("...");
-					}
-				if (matchRange.GetLength() != origMatchRange.GetLength())
-					{
-					matchRange.last += 3;	// underline ellipsis
-					}
-
-				output << kNewMatchLine;
-				output << ' ' << printName;
-				output << ' ' << GetLineForChar(quoteRange.first);
-				output << ' ' << quoteText;
-				output << ' ' << matchCharRange;
-				output << ' ' << matchByteRange;
-				}
-			output << kRecordTerminator;
-
-			prevQuoteRange = quoteRange;
+			output << kNewMatchLine;
+			output << ' ' << printName;
+			output << ' ' << GetLineForChar(quoteRange.charRange.first);
+			output << ' ' << quoteText;
+			output << ' ' << matchRange.charRange;
+			output << ' ' << matchRange.byteRange;
 			}
+		output << kRecordTerminator;
+
+		prevQuoteRange = quoteRange;
 		}
 
 	if (listFilesWithoutMatch && !foundMatch)
@@ -315,18 +348,17 @@ CBSearchTE::IsKnownBinaryFile
 JBoolean
 CBSearchTE::ReplaceAllForward()
 {
-	JString searchStr, replaceStr;
-	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
-	JBoolean replaceIsRegex, preserveCase;
-	JRegex* regex;
+	JRegex* searchRegex;
+	JString replaceStr;
+	JInterpolate* interpolator;
+	JBoolean entireWord, wrapSearch, preserveCase;
 	if (JXGetSearchTextDialog()->GetSearchParameters(
-			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
-			&replaceStr, &replaceIsRegex, &preserveCase,
-			&regex))
+			&searchRegex, &entireWord, &wrapSearch,
+			&replaceStr, &interpolator, &preserveCase))
 		{
-		return JTextEditor::ReplaceAllForward(
-					searchStr, searchIsRegex, caseSensitive, entireWord, wrapSearch,
-					replaceStr, replaceIsRegex, preserveCase, *regex);
+		return JTextEditor::ReplaceAll(
+					*searchRegex, entireWord,
+					replaceStr, interpolator, preserveCase, kJFalse);
 		}
 	else
 		{

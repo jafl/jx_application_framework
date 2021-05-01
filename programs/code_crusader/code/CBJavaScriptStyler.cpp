@@ -229,8 +229,8 @@ CBJavaScriptStyler::Scan
 
  ******************************************************************************/
 
-static JRegex variablePattern =      "^\\$\\{.+?\\}";
-static JRegex emptyVariablePattern = "^\\$\\{\\}?";
+static JRegex variablePattern =      "(?<!\\\\)\\$\\{.+?\\}";
+static JRegex emptyVariablePattern = "(?<!\\\\)\\$\\{\\}?";
 
 #define ClassName CBJavaScriptStyler
 #define NoVariableIndex

@@ -133,7 +133,7 @@ CBEditSymbolPrefsDialog::Receive
 void
 CBEditSymbolPrefsDialog::UpdateSettings()
 {
-	(CBGetApplication())->DisplayBusyCursor();
+	CBGetApplication()->DisplayBusyCursor();
 
 	JPtrArray<CBProjectDocument>* docList =
 		CBGetDocumentManager()->GetProjectDocList();

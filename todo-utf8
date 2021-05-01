@@ -28,6 +28,7 @@ jcc
 	test that CBCompileDocument::ConvertSelectionToFullPath gets path from "Entering directory"
 	test CBMacroManager: Perform & HighlightErrors completely rewritten
 	test man pages: multi-character index, e.g., foo(bar)
+	test multifile search, esp matching lines that must be truncated
 
 	symbol list:
 		strip space from signature:( JBroadcaster* recipient )

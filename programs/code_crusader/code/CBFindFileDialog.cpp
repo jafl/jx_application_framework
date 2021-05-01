@@ -230,7 +230,7 @@ CBFindFileDialog::FindFile()
 	JExtractFileAndLine(itsFileName->GetText()->GetText(), &fileName,
 						&(lineRange.first), &(lineRange.last));
 	if (itsFileName->InputValid() &&
-		(CBGetApplication())->FindAndViewFile(fileName, lineRange,
+		CBGetApplication()->FindAndViewFile(fileName, lineRange,
 											  !itsIgnoreCaseCB->IsChecked()))
 		{
 		itsFileHistoryMenu->AddString(fileName);
