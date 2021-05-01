@@ -36,6 +36,35 @@ public:
 
 protected:
 
+	class StyledText : public JXInputField::StyledText
+	{
+		public:
+
+		StyledText(JXFSInputBase* field, JFontManager* fontManager)
+			:
+			JXInputField::StyledText(kJFalse, fontManager),
+			itsField(field)
+		{ };
+
+		protected:
+
+		virtual void	AdjustStylesBeforeBroadcast(
+							const JString& text, JRunArray<JFont>* styles,
+							JStyledText::TextRange* recalcRange,
+							JStyledText::TextRange* redrawRange,
+							const JBoolean deletion) override;
+
+		virtual JSize	ComputeErrorLength(JXFSInputBase* field,
+										   const JSize totalLength,
+										   const JString& fullName) const = 0;
+
+		private:
+
+		JXFSInputBase*	itsField;
+	};
+
+protected:
+
 	JXFSInputBase(StyledText* text, const JBoolean showFilesForCompletion,
 				  const JUtf8Byte* defaultHintID, JXContainer* enclosure,
 				  const HSizingOption hSizing, const VSizingOption vSizing,
@@ -64,35 +93,6 @@ protected:
 
 	JBoolean	GetDroppedEntry(const Time time, const JBoolean reportErrors,
 								JString* name);
-
-protected:
-
-	class StyledText : public JXInputField::StyledText
-	{
-		public:
-
-		StyledText(JXFSInputBase* field, JFontManager* fontManager)
-			:
-			JXInputField::StyledText(kJFalse, fontManager),
-			itsField(field)
-		{ };
-
-		protected:
-
-		virtual void	AdjustStylesBeforeBroadcast(
-							const JString& text, JRunArray<JFont>* styles,
-							JStyledText::TextRange* recalcRange,
-							JStyledText::TextRange* redrawRange,
-							const JBoolean deletion) override;
-
-		virtual JSize	ComputeErrorLength(JXFSInputBase* field,
-										   const JSize totalLength,
-										   const JString& fullName) const = 0;
-
-		private:
-
-		JXFSInputBase*	itsField;
-	};
 
 private:
 
