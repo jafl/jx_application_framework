@@ -28,6 +28,7 @@ $abc = 3.h7
 // a comment
 /// a doc comment
 c = 035 + '\x9802';
+s = "abcd";
 goto abc;
 
 #define ABC \

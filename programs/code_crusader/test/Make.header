@@ -39,7 +39,7 @@ LDFLAGS   :=
 # tests
 
 TESTS := \
-      test_BourneShellStyler
+      test_BourneShellStyler test_CStyler test_CSharpStyler test_CShellStyler
 
 #####
 

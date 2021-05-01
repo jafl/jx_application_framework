@@ -1,5 +1,20 @@
+test jcc with old project formats in code_crusader/test-manual/*.jcc
+
 unit test all jcc stylers
+	Eiffel
+	HTML
+	INI
+	Java
+	JavaScript
+	Perl
+	properties
+	Python
+	Ruby
+	SQL
+	TCL
+
 unit test CBSearch classes - split CBSearchProcess out from CBSearchDocument
+	search results, incl with multiple matches on a line
 test html styling with xml:  should ignore namespaces (xmlns:foo=) in tags
 
 JStyledText
@@ -12,6 +27,7 @@ JStyledText
 jcc
 	test that CBCompileDocument::ConvertSelectionToFullPath gets path from "Entering directory"
 	test CBMacroManager: Perform & HighlightErrors completely rewritten
+	test man pages: multi-character index, e.g., foo(bar)
 
 	symbol list:
 		strip space from signature:( JBroadcaster* recipient )
@@ -37,7 +53,6 @@ jcc
 
 	test
 		CalcFileType when using a prefix regex
-		search results, incl with multiple matches on a line
 
 -----
 
@@ -50,8 +65,6 @@ unit test
 	JFloatTableData
 	JPTPrinter - send to file
 	JVIKeyHandler:  split into multiple tests covering all options
-	all jcc stylers
-
 
 JTextEditor:
 	need smarter update during indent/outdent, to maintain caret location
@@ -62,8 +75,6 @@ JTextEditor:
 jcc
 	menu of supported text formats in "open text file" dialog
 	sub-menu of supported text formats on File menu, just like "file formats"
-medic
-	test with JMemoryManager enabled - multiple threads
 
 jx_project_wizard
 	convert logic to use JSubstitute - need way to specify case match?

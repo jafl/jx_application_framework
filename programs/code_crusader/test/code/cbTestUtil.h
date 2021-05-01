@@ -1,7 +1,7 @@
 /******************************************************************************
  cbTestUtil.h
 
-	Test bash styler.
+	Utility test code.
 
 	Written by John Lindal.
 
@@ -22,4 +22,26 @@ UpdateStyles
 	styler->UpdateStyles(
 		st, st->GetText(), const_cast<JRunArray<JFont>*>(&st->GetStyles()),
 		&recalcRange, &redrawRange, kJFalse, &tokenStartList);
+}
+
+inline void
+RunTest
+	(
+	JStyledText*		st,
+	CBStylerBase*		styler,
+	const JUtf8Byte*	inputFilename,
+	const JUtf8Byte*	outputFilename
+	)
+{
+	JString text;
+	JReadFile(JString(inputFilename), &text);
+
+	st->SetText(text);
+	UpdateStyles(st, styler);
+
+	std::ostringstream result;
+	st->WritePrivateFormat(result);
+
+	JReadFile(JString(outputFilename), &text);
+	JAssertStringsEqual(text, JString(result.str().c_str(), 0, kJFalse));
 }

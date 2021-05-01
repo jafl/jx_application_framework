@@ -6,3 +6,24 @@ ${JCCCODEDIR}/CBBourneShellStyler
 ${JCCCODEDIR}/CBBourneShellScanner
 .l ${JCCCODEDIR}/CBBourneShellScannerL
 ${JCCCODEDIR}/CBStylerBase
+
+@test_CStyler
+${CODEDIR}/test_CStyler
+${JCCCODEDIR}/CBCStyler
+${JCCCODEDIR}/CBCScanner
+.l ${JCCCODEDIR}/CBCScannerL
+${JCCCODEDIR}/CBStylerBase
+
+@test_CSharpStyler
+${CODEDIR}/test_CSharpStyler
+${JCCCODEDIR}/CBCSharpStyler
+${JCCCODEDIR}/CBCSharpScanner
+.l ${JCCCODEDIR}/CBCSharpScannerL
+${JCCCODEDIR}/CBStylerBase
+
+@test_CShellStyler
+${CODEDIR}/test_CShellStyler
+${JCCCODEDIR}/CBCShellStyler
+${JCCCODEDIR}/CBCShellScanner
+.l ${JCCCODEDIR}/CBCShellScannerL
+${JCCCODEDIR}/CBStylerBase

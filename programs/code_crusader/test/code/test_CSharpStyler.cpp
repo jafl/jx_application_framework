@@ -1,5 +1,5 @@
 /******************************************************************************
- test_BourneShellStyler.cpp
+ test_CSharpStyler.cpp
 
 	Test bash styler.
 
@@ -8,7 +8,7 @@
  *****************************************************************************/
 
 #include <JTestManager.h>
-#include "CBBourneShellStyler.h"
+#include "CBCSharpStyler.h"
 #include "cbTestUtil.h"
 #include <jFileUtil.h>
 #include <sstream>
@@ -24,10 +24,10 @@ JTEST(Basic)
 	JStyledText* st = jnew JStyledText(kJFalse, kJFalse);
 	assert( st != nullptr );
 
-	CBStylerBase* styler = CBBourneShellStyler::Instance();
+	CBStylerBase* styler = CBCSharpStyler::Instance();
 
 	// empty
 	UpdateStyles(st, styler);
 
-	RunTest(st, styler, "./data/bash/test.sh", "./data/bash/styled.out");
+	RunTest(st, styler, "./data/c#/test.cs", "./data/c#/styled.out");
 }
