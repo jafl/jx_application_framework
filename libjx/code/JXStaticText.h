@@ -21,8 +21,8 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	JXStaticText(const JString& text,
-				 const JBoolean wordWrap, const JBoolean selectable,
+	JXStaticText(const JString& text, const JBoolean wordWrap,
+				 const JBoolean selectable, const JBoolean allowStyles,
 				 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,

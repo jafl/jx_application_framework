@@ -79,9 +79,9 @@ CMDebugDir::BuildWindow()
 	CMGetPrefsManager()->GetWindowSize(kDebugWindSizeID, window);
 
 	itsText =
-		jnew JXStaticText(JString::empty, kJFalse, kJTrue,
-						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue, kJTrue,
+						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsText != nullptr );
 	itsText->FitToEnclosure();
 	CMTextDisplayBase::AdjustFont(itsText);
@@ -149,7 +149,7 @@ CMDebugDir::Receive
 			itsFile << msg->GetText();
 			itsFile << std::endl;
 			}
-		else if (JString::Compare(message.GetType(), CMLink::kUserOutput, kJTrue) != 0)
+		else if (!message.Is(CMLink::kUserOutput))
 			{
 			itsText->Paste(kLogPrefix);
 			itsText->Paste(JString(message.GetType(), kJFalse));

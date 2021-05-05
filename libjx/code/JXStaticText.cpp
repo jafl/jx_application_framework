@@ -47,6 +47,7 @@ JXStaticText::JXStaticText
 	const JString&		text,
 	const JBoolean		wordWrap,
 	const JBoolean		selectable,
+	const JBoolean		allowStyles,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -58,7 +59,7 @@ JXStaticText::JXStaticText
 	)
 	:
 	JXTEBase((selectable ? kSelectableText : kStaticText),
-			 jnew JXStyledText(kJFalse, kJFalse, enclosure->GetFontManager()), kJTrue,
+			 jnew JXStyledText(kJFalse, allowStyles, enclosure->GetFontManager()), kJTrue,
 			 !wordWrap, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y,
 			 (w>0 ? w : 100), (h>0 ? h : 100))
