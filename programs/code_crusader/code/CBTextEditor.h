@@ -198,11 +198,11 @@ private:
 	void	FindSelectedSymbol(const JXMouseButton button, const JBoolean useContext);
 	void	DisplayManPage();
 
-	JIndex	GetLineIndex(const JIndex startIndex) const;
+	JIndex	GetLineIndex(const JStyledText::TextIndex& startIndex) const;
 
 	void	PrivateSetTabCharCount(const JSize charCount);
 
-	JBoolean	IsNonstdError(JIndex* fileNameStart, JIndex* fileNameEnd,
+	JBoolean	IsNonstdError(JStyledText::TextRange* fileNameRange,
 							  JIndex* lineIndex) const;
 
 	void	ShowBalancingOpenGroup();

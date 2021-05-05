@@ -112,7 +112,7 @@ CBTELineIndexInput::HandleKeyPress
 		const JString& s = GetText()->GetText();
 		if (s == "0")
 			{
-			GetText()->SetText(JString("1", 0, kJFalse));
+			GetText()->SetText(JString("1", kJFalse));
 			GoToEndOfLine();
 			}
 		if (s == "$")

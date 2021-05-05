@@ -138,7 +138,7 @@ CBCompileDocument::SetConnection
 			"d", execDir.GetBytes()
 			};
 		te->Paste(JGetString("ChangeDirectory::CBCompileDocument", map, sizeof(map)));
-		te->Paste(JString("\n\n", 0, kJFalse));
+		te->Paste(JString("\n\n", kJFalse));
 		te->GetText()->ClearUndo();
 		}
 }
@@ -292,7 +292,7 @@ CBCompileDocument::AppendText
 	CBExecOutputDocument::AppendText(text);
 	if (theDoubleSpaceFlag)
 		{
-		te->Paste(JString("\n", 0, kJFalse));
+		te->Paste(JString("\n", kJFalse));
 		}
 
 	itsPrevLine = text;

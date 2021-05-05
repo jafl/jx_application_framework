@@ -278,6 +278,6 @@ CBTECaretInputBase::GetFTCMinContentSize
 	return (horizontal ?
 			TEGetLeftMarginWidth() +
 				GetText().GetDefaultFont().GetStringWidth(
-					GetFontManager(), JString("00000", 0, kJFalse)) :
+					GetFontManager(), JString("00000", kJFalse)) :
 			JXIntegerInput::GetFTCMinContentSize(horizontal));
 }

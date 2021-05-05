@@ -213,7 +213,7 @@ GPMProcessEntry::ReadStat()
 {
 	const JSize uTime = itsUTime, sTime = itsSTime;
 
-	JString str = JCombinePathAndName(itsProcPath, JString("stat", 0, kJFalse));
+	JString str = JCombinePathAndName(itsProcPath, JString("stat", kJFalse));
 	std::ifstream is(str.GetBytes());
 	if (is.good())
 		{
@@ -286,7 +286,7 @@ void
 GPMProcessEntry::ReadStatM()
 {
 
-	JString str = JCombinePathAndName(itsProcPath, JString("statm", 0, kJFalse));
+	JString str = JCombinePathAndName(itsProcPath, JString("statm", kJFalse));
 	std::ifstream is(str.GetBytes());
 	if (is.good())
 		{
@@ -316,7 +316,7 @@ GPMProcessEntry::ReadCmdline()
 		return;
 		}
 
-	JString str = JCombinePathAndName(itsProcPath, JString("cmdline", 0, kJFalse));
+	JString str = JCombinePathAndName(itsProcPath, JString("cmdline", kJFalse));
 	std::ifstream is(str.GetBytes());
 	if (is.good())
 		{

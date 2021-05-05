@@ -437,7 +437,7 @@ CBSearchDocument::AppendText
 			start = st->GetBeyondEnd();
 			te->SetCurrentFont(st->GetDefaultFont());
 
-			te->Paste(JString(":", 0, kJFalse));
+			te->Paste(JString(":", kJFalse));
 			te->Paste(JString(lineIndex));
 			te->Paste(kDoubleNewline);
 

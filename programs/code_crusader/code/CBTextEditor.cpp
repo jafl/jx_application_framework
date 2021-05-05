@@ -58,6 +58,7 @@
 #include <JXColorManager.h>
 
 #include <JRegex.h>
+#include <JStringIterator.h>
 #include <JStack.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
@@ -1405,59 +1406,66 @@ CBTextEditor::OpenSelection()
 {
 	// get selected text
 
-	JIndex startIndex, endIndex;
-	if (!GetSelection(&startIndex, &endIndex))
+	JStyledText::TextRange sel;
+	if (!GetSelection(&sel))
 		{
 		return;
 		}
 
+	JStringIterator iter(GetText()->GetText());
+
 	JIndex lineIndex;
-	if (!IsNonstdError(&startIndex, &endIndex, &lineIndex))
+	if (!IsNonstdError(&sel, &lineIndex))
 		{
+		lineIndex = 0;
+		JUtf8Character c;
+
 		// extend selection to entire file name
 
-		startIndex = GetWordStart(endIndex);
-		endIndex   = GetWordEnd(startIndex);
-		lineIndex  = 0;
+		JStyledText::TextIndex start = GetText()->GetWordStart(sel.GetLast(*GetText()));
+		JStyledText::TextIndex end   = GetText()->GetWordEnd(sel.GetFirst());
 
-		const JString& text    = GetText();
-		const JSize textLength = text.GetLength();
 
-		while (startIndex > 1)
+		iter.UnsafeMoveTo(kJIteratorStartBefore, start.charIndex, start.byteIndex);
+		if (!iter.AtBeginning())
 			{
-			JCharacter c = text.GetCharacter(startIndex-1);
-
-			// catch "#include </usr/junk.h>", "#include <../junk.h>"
-
-			while ((c == ACE_DIRECTORY_SEPARATOR_CHAR || c == '.') && startIndex > 2)
+			while (iter.Prev(&c))
 				{
-				startIndex--;
-				c = text.GetCharacter(startIndex-1);
+				// catch "#include </usr/junk.h>", "#include <../junk.h>"
+
+				while ((c == ACE_DIRECTORY_SEPARATOR_CHAR || c == '.') && !iter.AtBeginning())
+					{
+					iter.Prev(&c);
+					}
+
+				// stop correctly for
+				// <a href=mailto:jafl>
+				// (MyClass.java:35)
+				// <url>http://yahoo.com</url>
+
+				if (c.IsSpace() || c == '"' || c == '\'' || c == '<' || c == '>' ||
+					c == '=' || c == '(' || c == '[' || c == '{')
+					{
+					break;
+					}
 				}
 
-			// stop correctly for
-			// <a href=mailto:jafl>
-			// (MyClass.java:35)
-			// <url>http://yahoo.com</url>
-
-			if (isspace(c) || c == '"' || c == '\'' || c == '<' || c == '>' ||
-				c == '=' || c == '(' || c == '[' || c == '{')
-				{
-				break;
-				}
-			startIndex = GetWordStart(startIndex-1);
+			iter.SkipNext();
 			}
 
-		while (endIndex < textLength)
-			{
-			JCharacter c = text.GetCharacter(endIndex+1);
+		start =
+			JStyledText::TextIndex(
+				iter.GetNextCharacterIndex(),
+				iter.GetNextByteIndex());
 
+		iter.UnsafeMoveTo(kJIteratorStartAfter, end.charIndex, end.charIndex);
+		while (iter.Next(&c))
+			{
 			// catch "http://junk/>"
 
-			while (c == ACE_DIRECTORY_SEPARATOR_CHAR && endIndex < textLength-1)
+			while (c == ACE_DIRECTORY_SEPARATOR_CHAR && !iter.AtEnd())
 				{
-				endIndex++;
-				c = text.GetCharacter(endIndex+1);
+				iter.Next(&c);
 				}
 
 			// don't include line number for file:line
@@ -1465,25 +1473,41 @@ CBTextEditor::OpenSelection()
 			// (MyClass.java)
 			// <url>http://yahoo.com</url>
 
-			if (isspace(c) || c == '"' || c == '\'' || c == '>' || c == '<' ||
+			if (c.IsSpace() || c == '"' || c == '\'' || c == '>' || c == '<' ||
 				c == ')' || c == ']' || c == '}')
 				{
 				break;
 				}
-			else if (c == ':' && endIndex < textLength-1 &&
-					 isdigit(text.GetCharacter(endIndex+2)))
+			else if (c == ':' && iter.Next(&c, kJFalse) && c.IsDigit())
 				{
-				lineIndex = GetLineIndex(endIndex+2);
+				lineIndex = GetLineIndex(
+					JStyledText::TextIndex(
+						iter.GetNextCharacterIndex(),
+						iter.GetNextByteIndex()));
 				break;
 				}
-			endIndex = GetWordEnd(endIndex+1);
 			}
+
+		iter.SkipPrev();
+
+		sel =
+			JStyledText::TextRange(
+				start,
+				GetText()->AdjustTextIndex(		// works even if at end of text
+					JStyledText::TextIndex(
+						iter.GetNextCharacterIndex(),
+						iter.GetNextByteIndex()),
+					+1));
 		}
 
-	SetSelection(startIndex, endIndex);
+	SetSelection(sel);
 	GetWindow()->Update();				// show selection while we work
 
-	JString str = (GetText()).GetSubstring(startIndex, endIndex);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, sel.charRange.first, sel.byteRange.first);
+	iter.BeginMatch();
+	iter.UnsafeMoveTo(kJIteratorStartAfter, sel.charRange.last, sel.byteRange.last);
+	JString str = iter.FinishMatch().GetString();
+
 	if (str.Contains("\n"))
 		{
 		return;
@@ -1491,7 +1515,7 @@ CBTextEditor::OpenSelection()
 
 	if (urlPrefixRegex.Match(str))
 		{
-		(JXGetWebBrowser())->ShowURL(str);
+		JXGetWebBrowser()->ShowURL(str);
 		}
 	else
 		{
@@ -1511,28 +1535,26 @@ CBTextEditor::OpenSelection()
 JIndex
 CBTextEditor::GetLineIndex
 	(
-	const JIndex startIndex
+	const JStyledText::TextIndex& startIndex
 	)
 	const
 {
-	const JString& text    = GetText();
-	const JSize textLength = text.GetLength();
+	JStringIterator iter(GetText().GetText());
+	JUtf8Character c;
 
-	JString str;
-	JIndex i = startIndex;
-	while (i <= textLength)
+	iter.UnsafeMoveTo(kJIteratorStartBefore, startIndex.charIndex, startIndex.byteIndex);
+	iter.BeginMatch();
+
+	while (iter.Next(&c))
 		{
-		const JCharacter c = text.GetCharacter(i);
-		if (isdigit(c))
+		if (!c.IsDigit())
 			{
-			str.AppendCharacter(c);
-			}
-		else
-			{
+			iter.SkipPrev();
 			break;
 			}
-		i++;
 		}
+
+	const JString str = iter.FinishMatch().GetString();
 
 	JIndex lineIndex;
 	if (str.ConvertToUInt(&lineIndex))
@@ -1563,16 +1585,16 @@ static const JRegex mavenErrorRegex  = "(?:\\[[^]]+\\]\\s+)?([^:]+):\\[([0-9]+),
 JBoolean
 CBTextEditor::IsNonstdError
 	(
-	JIndex* fileNameStart,
-	JIndex* fileNameEnd,
-	JIndex* lineIndex
+	JStyledText::TextRange*	fileNameRange,
+	JIndex*					lineIndex
 	)
 	const
 {
-	const JIndex caretIndex = GetInsertionIndex();
-	const JIndex startIndex = GetParagraphStart(caretIndex);
-	const JIndex endIndex   = GetParagraphEnd(caretIndex);
-	const JString line      = (GetText()).GetSubstring(startIndex, endIndex);
+	const JStyledText::TextIndex caretIndex = GetInsertionIndex();
+	const JStyledText::TextIndex startIndex = GetText().GetParagraphStart(caretIndex);
+	const JStyledText::TextIndex endIndex   = GetText().GetParagraphEnd(caretIndex);
+
+	const JString line = GetText().GetSubstring(startIndex, endIndex);
 
 	JArray<JIndexRange> matchList;
 	if (flexErrorRegex.Match(line, &matchList) &&

@@ -76,7 +76,7 @@ CBTEScriptMenu::CBTEScriptMenuX()
 	JDirInfo* info;
 	if (GetDirInfo(&info))
 		{
-		info->SetWildcardFilter(JString("*~ #*#", 0, kJFalse), kJTrue);
+		info->SetWildcardFilter(JString("*~ #*#", kJFalse), kJTrue);
 		}
 }
 
@@ -183,7 +183,7 @@ CBTEScriptMenu::HandleSelection
 		if (GetDirInfo(&info))
 			{
 			JString origName = info->GetDirectory();
-			origName         = JCombinePathAndName(origName, JString("script", 0, kJFalse));
+			origName         = JCombinePathAndName(origName, JString("script", kJFalse));
 
 			JString fullName;
 			if (JGetChooseSaveFile()->SaveFile(JGetString("SavePrompt::CBTEScriptMenu"), JString::empty,
