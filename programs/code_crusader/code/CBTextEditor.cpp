@@ -178,7 +178,7 @@ CBTextEditor::CBTextEditor
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, jnew StyledText(this, enclosure->GetFontManager()), kJTrue,
+	JXTEBase(kFullEditor, jnew StyledText(document, enclosure->GetFontManager()), kJTrue,
 			 kJFalse, scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
 	itsLastModifiers(GetDisplay())
 {
@@ -1414,8 +1414,9 @@ CBTextEditor::OpenSelection()
 
 	JStringIterator iter(GetText()->GetText());
 
+	JString str;
 	JIndex lineIndex;
-	if (!IsNonstdError(&sel, &lineIndex))
+	if (!IsNonstdError(&str, &sel, &lineIndex))
 		{
 		lineIndex = 0;
 		JUtf8Character c;
@@ -1498,15 +1499,15 @@ CBTextEditor::OpenSelection()
 						iter.GetNextCharacterIndex(),
 						iter.GetNextByteIndex()),
 					+1));
+
+		iter.UnsafeMoveTo(kJIteratorStartBefore, sel.charRange.first, sel.byteRange.first);
+		iter.BeginMatch();
+		iter.UnsafeMoveTo(kJIteratorStartAfter, sel.charRange.last, sel.byteRange.last);
+		str = iter.FinishMatch().GetString();
 		}
 
 	SetSelection(sel);
 	GetWindow()->Update();				// show selection while we work
-
-	iter.UnsafeMoveTo(kJIteratorStartBefore, sel.charRange.first, sel.byteRange.first);
-	iter.BeginMatch();
-	iter.UnsafeMoveTo(kJIteratorStartAfter, sel.charRange.last, sel.byteRange.last);
-	JString str = iter.FinishMatch().GetString();
 
 	if (str.Contains("\n"))
 		{
@@ -1577,14 +1578,53 @@ CBTextEditor::GetLineIndex
 
  ******************************************************************************/
 
-static const JRegex flexErrorRegex   = "..\", line ([0-9]+)(\\.[0-9]+)?: ";
-static const JRegex bisonErrorRegex  = "...\", line ([0-9]+)\\) error: ";
+static const JRegex flexErrorRegex   = "\"(.+)\", line ([0-9]+)(\\.[0-9]+)?: ";
+static const JRegex bisonErrorRegex  = "\\(\"(.+)\", line ([0-9]+)\\) error: ";
 static const JRegex absoftErrorRegex = " error on line ([0-9]+) of ([^:]+): ";
 static const JRegex mavenErrorRegex  = "(?:\\[[^]]+\\]\\s+)?([^:]+):\\[([0-9]+),";
 
 JBoolean
+cbExtractFileAndLine
+	(
+	const JStyledText::TextIndex&	caretIndex,
+	const JStyledText::TextIndex&	startIndex,
+	const JString&					line,
+	const JRegex&					pattern,
+	const JIndex					fileSubindex,
+	const JIndex					lineSubindex,
+	JString*						fileName,
+	JStyledText::TextRange*			fileNameRange,
+	JIndex*							lineIndex
+	)
+{
+	const JStringMatch match = pattern.Match(line, kJTrue);
+	if (!match.IsEmpty() &&
+		match.GetCharacterRange(fileSubindex).Contains(caretIndex.charIndex - startIndex.charIndex + 1))
+		{
+		*fileName = match.GetSubstring(1);
+
+		*fileNameRange =
+			JStyledText::TextRange(
+				JCharacterRange(
+					match.GetCharacterRange(fileSubindex) + (startIndex.charIndex - 1)),
+				JUtf8ByteRange(
+					match.GetUtf8ByteRange(fileSubindex)  + (startIndex.byteIndex - 1)));
+
+		const JBoolean ok = match.GetSubstring(lineSubindex).ConvertToUInt(lineIndex);
+		assert( ok );
+
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+JBoolean
 CBTextEditor::IsNonstdError
 	(
+	JString*				fileName,
 	JStyledText::TextRange*	fileNameRange,
 	JIndex*					lineIndex
 	)
@@ -1594,65 +1634,21 @@ CBTextEditor::IsNonstdError
 	const JStyledText::TextIndex startIndex = GetText().GetParagraphStart(caretIndex);
 	const JStyledText::TextIndex endIndex   = GetText().GetParagraphEnd(caretIndex);
 
-	const JString line = GetText().GetSubstring(startIndex, endIndex);
+	JStringIterator iter(GetText().GetText());
+	iter.UnsafeMoveTo(kJIteratorStartBefore, startIndex.charIndex, startIndex.byteIndex);
+	iter.BeginMatch();
+	iter.UnsafeMoveTo(kJIteratorStartAfter, endIndex.charIndex, endIndex.byteIndex);
+	const JString line = iter.FinishMatch().GetString();
 
-	JArray<JIndexRange> matchList;
-	if (flexErrorRegex.Match(line, &matchList) &&
-		line.GetFirstCharacter() == '"' &&
-		caretIndex - startIndex + 1 < (matchList.GetFirstElement()).last - 1)
-		{
-		*fileNameStart = startIndex+1;
-		*fileNameEnd   = (matchList.GetFirstElement()).first + startIndex;
-
-		const JString lineStr = line.GetSubstring(matchList.GetElement(2));
-		const JBoolean ok     = lineStr.ConvertToUInt(lineIndex);
-		assert( ok );
-
-		return kJTrue;
-		}
-	else if (bisonErrorRegex.Match(line, &matchList) &&
-			 line.BeginsWith("(\"") &&
-			 caretIndex - startIndex + 1 < (matchList.GetFirstElement()).last - 8)
-		{
-		*fileNameStart = startIndex+2;
-		*fileNameEnd   = (matchList.GetFirstElement()).first + startIndex+1;
-
-		const JString lineStr = line.GetSubstring(matchList.GetElement(2));
-		const JBoolean ok     = lineStr.ConvertToUInt(lineIndex);
-		assert( ok );
-
-		return kJTrue;
-		}
-	else if (absoftErrorRegex.Match(line, &matchList) &&
-			 (matchList.GetElement(3)).Contains(caretIndex - startIndex + 1))
-		{
-		const JIndexRange fileNameRange = matchList.GetElement(3);
-		*fileNameStart = startIndex + fileNameRange.first-1;
-		*fileNameEnd   = startIndex + fileNameRange.last -1;
-
-		const JString lineStr = line.GetSubstring(matchList.GetElement(2));
-		const JBoolean ok     = lineStr.ConvertToUInt(lineIndex);
-		assert( ok );
-
-		return kJTrue;
-		}
-	else if (mavenErrorRegex.Match(line, &matchList) &&
-			 (matchList.GetElement(2)).Contains(caretIndex - startIndex + 1))
-		{
-		const JIndexRange fileNameRange = matchList.GetElement(2);
-		*fileNameStart = startIndex + fileNameRange.first-1;
-		*fileNameEnd   = startIndex + fileNameRange.last -1;
-
-		const JString lineStr = line.GetSubstring(matchList.GetElement(3));
-		const JBoolean ok     = lineStr.ConvertToUInt(lineIndex);
-		assert( ok );
-
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
-		}
+	return JI2B(
+		cbExtractFileAndLine(caretIndex, startIndex, line, flexErrorRegex, 1, 2,
+							 fileName, fileNameRange, lineIndex) ||
+		cbExtractFileAndLine(caretIndex, startIndex, line, bisonErrorRegex, 1, 2,
+							 fileName, fileNameRange, lineIndex) ||
+		cbExtractFileAndLine(caretIndex, startIndex, line, absoftErrorRegex, 2, 1,
+							 fileName, fileNameRange, lineIndex) ||
+		cbExtractFileAndLine(caretIndex, startIndex, line, mavenErrorRegex, 1, 2,
+							 fileName, fileNameRange, lineIndex));
 }
 
 /******************************************************************************
@@ -1666,10 +1662,10 @@ CBTextEditor::IsNonstdError
 void
 CBTextEditor::SetFont
 	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JSize			tabCharCount,
-	const JBoolean		breakCROnly
+	const JString&	name,
+	const JSize		size,
+	const JSize		tabCharCount,
+	const JBoolean	breakCROnly
 	)
 {
 	PrivateSetTabCharCount(tabCharCount);
@@ -1693,7 +1689,7 @@ CBTextEditor::SetTabCharCount
 		{
 		PrivateSetTabCharCount(charCount);
 		SetDefaultTabWidth(
-			CalcTabWidth(GetDefaultFont(), charCount));
+			CalcTabWidth(GetText()->GetDefaultFont(), charCount));
 		}
 }
 
@@ -1704,14 +1700,14 @@ CBTextEditor::SetTabCharCount
 
 CBTextEditor::StyledText::StyledText
 	(
-	CBTextEditor*	doc,
+	CBTextDocument*	doc,
 	JFontManager*	fontManager
 	)
 	:
 	JXStyledText(kJTrue, kJTrue, fontManager),
 	itsDoc(doc)
 {
-	itsTokenStartList = JTEStyler::NewTokenStartList();
+	itsTokenStartList = JSTStyler::NewTokenStartList();
 }
 
 CBTextEditor::StyledText::~StyledText()
@@ -1730,7 +1726,7 @@ CBTextEditor::StyledText::AdjustStylesBeforeBroadcast
 	)
 {
 	CBStylerBase* styler = nullptr;
-	if (GetCharacterCount() < CBDocumentManager::kMinWarnFileSize &&
+	if (text.GetCharacterCount() < CBDocumentManager::kMinWarnFileSize &&
 		itsDoc->GetStyler(&styler))
 		{
 		styler->UpdateStyles(this, text, styles,
@@ -1753,7 +1749,7 @@ CBTextEditor::StyledText::AdjustStylesBeforeBroadcast
 void
 CBTextEditor::RecalcStyles()
 {
-	const JSize length = GetTextLength();
+	const JSize length = GetText()->GetText().GetCharacterCount();
 	if (length == 0)
 		{
 		return;
@@ -1767,9 +1763,9 @@ CBTextEditor::RecalcStyles()
 		}
 	else
 		{
-		JFont font = GetFont(1);
+		JFont font = GetText()->GetFont(1);
 		font.ClearStyle();
-		JTextEditor::SetFont(1, GetTextLength(), font, kJFalse);
+		GetText()->SetFont(GetText()->SelectAll(), font, kJFalse);
 		}
 }
 
@@ -1846,7 +1842,7 @@ CBTextEditor::SetFontBeforePrintPS
 	if (fontName != "Courier")
 		{
 		itsSavedBreakCROnlyFlag = WillBreakCROnly();
-		SetFont("Courier", fontSize, itsTabCharCount, kJFalse);
+		SetFont(JString("Courier", kJFalse), fontSize, itsTabCharCount, kJFalse);
 		}
 }
 

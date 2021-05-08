@@ -126,11 +126,9 @@ protected:
 	{
 		public:
 
-		StyledText(CBTextEditor* doc, JFontManager* fontManager)
-			:
-			JXStyledText(kJTrue, kJTrue, fontManager),
-			itsDoc(doc)
-		{ };
+		StyledText(CBTextDocument* doc, JFontManager* fontManager);
+
+		virtual ~StyledText();
 
 		protected:
 
@@ -142,7 +140,7 @@ protected:
 
 		private:
 
-		CBTextEditor*					itsDoc;
+		CBTextDocument*					itsDoc;
 		JArray<JSTStyler::TokenData>*	itsTokenStartList;	// nullptr if styling is turned off
 	};
 
@@ -202,7 +200,8 @@ private:
 
 	void	PrivateSetTabCharCount(const JSize charCount);
 
-	JBoolean	IsNonstdError(JStyledText::TextRange* fileNameRange,
+	JBoolean	IsNonstdError(JString* fileName,
+							  JStyledText::TextRange* fileNameRange,
 							  JIndex* lineIndex) const;
 
 	void	ShowBalancingOpenGroup();

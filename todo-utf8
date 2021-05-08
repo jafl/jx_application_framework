@@ -29,6 +29,7 @@ jcc
 	test CBMacroManager: Perform & HighlightErrors completely rewritten
 	test man pages: multi-character index, e.g., foo(bar)
 	test multifile search, esp matching lines that must be truncated
+	test open flex, bison, maven error
 
 	symbol list:
 		strip space from signature:( JBroadcaster* recipient )
