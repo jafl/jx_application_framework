@@ -11,7 +11,7 @@ if ($line =~ m|<([^?%!/\s<>]+)(\s+[^<>]+)?>$| &&
 	$line !~ m|/\s*>$|)
 	{
 	$tag = $1;
-	if ($tag =~ /^(a|abbr|acronym|address|article|aside|bdi|blockquote|body|button|caption|cite|code|command|dd|del|details|div|dl|dt|em|fieldset|figcaption|figure|footer|form|h[1-6]|head(er)?|hgroup|html|iframe|input|ins|label|legend|li|mark|meter|nav|noframes|noscript|ol|optgroup|option|p|pre|progress|q|rp|rt|ruby|samp|script|section|select|span|strong|style|sub|summary|sup|table|tbody|td|textarea|time|tfoot|th|thead|title|tr|tt|ul|var|video|wbr)$/ ||
+	if ($tag =~ /^(a|abbr|acronym|address|article|aside|bdi|blockquote|body|button|caption|cite|code|command|dd|del|details|div|dl|dt|em|fieldset|figcaption|figure|footer|form|h[1-6]|head(er)?|hgroup|html|iframe|input|ins|label|legend|li|mark|meter|nav|noframes|noscript|ol|optgroup|option|p|pre|progress|q|rp|rt|ruby|samp|script|section|select|span|strong|style|sub|summary|sup|svg|table|tbody|td|textarea|time|tfoot|th|thead|title|tr|tt|ul|var|video|wbr)$/ ||
 		$tag =~ /^([A-Za-z_][A-Za-z0-9_]*:[^\s\/>]+)/)
 		{
 		$s = '</'.$1.'>';

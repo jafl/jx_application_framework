@@ -1779,33 +1779,38 @@ CBTextEditor::ShowBalancingOpenGroup()
 {
 	const CBLanguage lang = CBGetLanguage(itsDoc->GetFileType());
 
-	const JIndex origCaretIndex = GetInsertionIndex();
-	const JIndex closeIndex     = origCaretIndex - 1;
-	if (closeIndex > 0)		// must be the case unless something fails
+	const JStyledText::TextIndex origCaretIndex = GetInsertionIndex();
+
+	JStringIterator iter(GetText()->GetText());
+	iter.UnsafeMoveTo(kJIteratorStartBefore, origCaretIndex.charIndex, origCaretIndex.byteIndex);
+
+	JUtf8Character openChar, closeChar;
+	if (!iter.Prev(&closeChar, kJFalse) ||	// paranoia: must be the case unless something fails
+		!CBMIsCloseGroup(lang, closeChar))
 		{
-		const JString& text        = GetText();
-		const JCharacter closeChar = text.GetCharacter(closeIndex);
-		if (CBMIsCloseGroup(lang, closeChar))
+		return;
+		}
+
+	if (CBMBalanceBackward(lang, &iter, &openChar) &&
+		CBMIsMatchingPair(lang, openChar, closeChar))
+		{
+		const JPoint savePt = GetAperture().topLeft();
+
+		const JStyledText::TextIndex i(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
+		SetSelection(JStyledText::TextRange(i, GetText()->AdjustTextIndex(i, +1)));
+
+		if (!TEScrollToSelection(kJFalse) || itsScrollToBalanceFlag)
 			{
-			JIndex openIndex     = closeIndex;
-			const JBoolean found = CBMBalanceBackward(lang, text, &openIndex);
-			if (found && CBMIsMatchingPair(lang, text.GetCharacter(openIndex), closeChar))
-				{
-				const JPoint savePt = (GetAperture()).topLeft();
-				SetSelection(openIndex, openIndex);
-				if (!TEScrollToSelection(kJFalse) || itsScrollToBalanceFlag)
-					{
-					GetWindow()->Update();
-					JWait(kBalanceWhileTypingDelay);
-					}
-				SetCaretLocation(origCaretIndex);
-				ScrollTo(savePt);
-				}
-			else if (itsBeepWhenTypeUnbalancedFlag)
-				{
-				GetDisplay()->Beep();
-				}
+			GetWindow()->Update();
+			JWait(kBalanceWhileTypingDelay);
 			}
+
+		SetCaretLocation(origCaretIndex);
+		ScrollTo(savePt);
+		}
+	else if (itsBeepWhenTypeUnbalancedFlag)
+		{
+		GetDisplay()->Beep();
 		}
 }
 
