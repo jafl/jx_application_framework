@@ -54,7 +54,7 @@ private:
 
 	void	BuildMenu();
 	void	UpdateMenu();
-	void	UpdateHistory();
+	void	UpdateHistory(const JString& name);
 
 	// not allowed
 

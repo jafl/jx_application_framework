@@ -44,9 +44,9 @@ JXFontNameMenu::JXFontNameMenu
 	const JCoordinate	h
 	)
 	:
-	JXTextMenu(title, enclosure, hSizing, vSizing, x,y, w,h)
+	JXTextMenu(title, enclosure, hSizing, vSizing, x,y, w,h),
+	itsBroadcastNameChangeFlag(kJTrue)
 {
-	itsBroadcastNameChangeFlag = kJTrue;
 	BuildMenu();
 }
 
@@ -57,9 +57,9 @@ JXFontNameMenu::JXFontNameMenu
 	JXContainer*	enclosure
 	)
 	:
-	JXTextMenu(owner, itemIndex, enclosure)
+	JXTextMenu(owner, itemIndex, enclosure),
+	itsBroadcastNameChangeFlag(kJTrue)
 {
-	itsBroadcastNameChangeFlag = kJTrue;
 	BuildMenu();
 }
 
@@ -198,9 +198,10 @@ JXFontNameMenu::Receive
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
-		itsFontIndex = selection->GetIndex();
-		UpdateHistory();
-		Broadcast(NameChanged());
+		const JString& name = GetItemText(selection->GetIndex());
+		UpdateHistory(name);
+		itsFontIndex = 0;	// force broadcast
+		SetFontName(name);
 		}
 
 	else
@@ -230,7 +231,7 @@ JXFontNameMenu::UpdateMenu()
 			}
 		}
 
-	UpdateHistory();
+	UpdateHistory(GetItemText(itsFontIndex));
 
 	const JSize count = itsNameHistory->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -253,20 +254,21 @@ JXFontNameMenu::UpdateMenu()
  ******************************************************************************/
 
 void
-JXFontNameMenu::UpdateHistory()
+JXFontNameMenu::UpdateHistory
+	(
+	const JString& name
+	)
 {
-	const JString& s = GetItemText(itsFontIndex);
-
 	for (JIndex i=1; i<=itsNameHistory->GetElementCount(); i++)
 		{
-		if (s == *itsNameHistory->GetElement(i))
+		if (name == *itsNameHistory->GetElement(i))
 			{
 			itsNameHistory->MoveElementToIndex(i, 1);
 			return;
 			}
 		}
 
-	itsNameHistory->InsertAtIndex(1, s);
+	itsNameHistory->InsertAtIndex(1, name);
 
 	while (itsNameHistory->GetElementCount() > kHistoryCount)
 		{
