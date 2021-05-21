@@ -92,7 +92,7 @@ JXPGMessageDirector::BuildWindow()
 	itsCloseButton->Hide();
 
 	itsMessageText =
-		jnew JXStaticText(JString::empty,kJFalse,kJTrue, scrollbarSet,
+		jnew JXStaticText(JString::empty,kJFalse,kJTrue,kJFalse, scrollbarSet,
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 10,10);

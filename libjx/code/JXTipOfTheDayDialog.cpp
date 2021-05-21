@@ -150,7 +150,7 @@ JXTipOfTheDayDialog::BuildWindow
 		kJTrue);
 
 	itsText =
-		jnew JXStaticText(JString::empty, kJTrue, kJFalse,
+		jnew JXStaticText(JString::empty, kJTrue, kJFalse, kJTrue,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsText != nullptr );

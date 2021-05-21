@@ -76,7 +76,7 @@ JXAcceptLicenseDialog::BuildWindow()
 	SetButtons(yesButton, noButton);
 
 	JXStaticText* text =
-		jnew JXStaticText(JGetString("LICENSE"), kJTrue, kJFalse,
+		jnew JXStaticText(JGetString("LICENSE"), kJTrue, kJFalse, kJTrue,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( text != nullptr );

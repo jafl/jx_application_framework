@@ -13,8 +13,6 @@
 #include "JXWindowDirector.h"
 #include "JXDocumentManager.h"	// need definition of SafetySaveReason
 
-class JXFileDocument;
-
 class JXDocument : public JXWindowDirector
 {
 public:
@@ -32,7 +30,7 @@ public:
 
 	void	RevertToSaved();
 
-	virtual void		SafetySave(const JXDocumentManager::SafetySaveReason reason) = 0;
+	virtual void	SafetySave(const JXDocumentManager::SafetySaveReason reason) = 0;
 
 protected:
 
