@@ -11,16 +11,22 @@
 #include "TestDirector.h"
 #include "AboutDialog.h"
 #include "TestMDIServer.h"
+#include "TestTextEditDocument.h"
 #include "testjxStringData.h"
 #include "testjxGlobals.h"
+#include <JXWindow.h>
 #include <JThisProcess.h>
 #include <JOutPipeStream.h>
+#include <jFileUtil.h>
 #include <jSysUtil.h>
+#include <fstream>
 #include <jAssert.h>
 
 // Application signature (MDI)
 
 static const JUtf8Byte* kAppSignature = "testjx";
+
+static const JUtf8Byte* kOpenFilesFileName = "testjx_open_files";
 
 /******************************************************************************
  Constructor
@@ -50,6 +56,88 @@ TestApp::TestApp
 TestApp::~TestApp()
 {
 	TestjxDeleteGlobals();
+}
+
+/******************************************************************************
+ OpenDocuments
+
+	Re-open TestTextEditDocuments.
+
+ ******************************************************************************/
+
+void
+TestApp::OpenDocuments()
+{
+	if (!JFileExists(JString(kOpenFilesFileName, kJFalse)))
+		{
+		return;
+		}
+
+	std::ifstream input(kOpenFilesFileName);
+
+	JSize count;
+	input >> count;
+
+	JString fullName;
+	for (JIndex i=1; i<=count; i++)
+		{
+		input >> fullName;
+
+		TestTextEditDocument* doc = jnew TestTextEditDocument(this, fullName, kJFalse);
+		assert( doc != nullptr );
+		doc->GetWindow()->ReadGeometry(input);
+		doc->Activate();
+		}
+}
+
+/******************************************************************************
+ Close (virtual)
+
+	Save all open TestTextEditDocuments.
+
+ ******************************************************************************/
+
+JBoolean
+TestApp::Close()
+{
+	JXDocumentManager* mgr = JXGetDocumentManager();
+	JXDocument* doc;
+
+	JIndex i = 1;
+	JSize count = 0;
+	while (mgr->GetDocument(i, &doc))
+		{
+		TestTextEditDocument* teDoc = dynamic_cast<TestTextEditDocument*>(doc);
+		if (teDoc != nullptr && teDoc->ExistsOnDisk())
+			{
+			count++;
+			}
+		i++;
+		}
+
+	std::ofstream output(kOpenFilesFileName);
+
+	output << count;
+
+	i = 1;
+	while (mgr->GetDocument(i, &doc))
+		{
+		TestTextEditDocument* teDoc = dynamic_cast<TestTextEditDocument*>(doc);
+		if (teDoc != nullptr)
+			{
+			JBoolean onDisk;
+			const JString fullName = teDoc->GetFullName(&onDisk);
+			if (onDisk)
+				{
+				output << ' ' << fullName;
+				output << ' ';
+				teDoc->GetWindow()->WriteGeometry(output);
+				}
+			}
+		i++;
+		}
+
+	return JXApplication::Close();
 }
 
 /******************************************************************************

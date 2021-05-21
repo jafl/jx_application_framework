@@ -22,6 +22,9 @@ public:
 
 	virtual ~TestApp();
 
+	void				OpenDocuments();
+	virtual JBoolean	Close() override;
+
 	void	DisplayAbout(JXDisplay* display);
 
 	JBoolean	GetMainDirector(TestDirector** dir) const;

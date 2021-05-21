@@ -49,6 +49,8 @@ TestjxCreateGlobals
 		theDockManager->ReadSetup(input);
 		}
 
+	app->OpenDocuments();
+
 	if (wantMDI)
 		{
 		theMDIServer = jnew TestMDIServer;
@@ -67,7 +69,7 @@ void
 TestjxDeleteGlobals()
 {
 	std::ofstream output(kDockSetupFileName);
-	(JXGetDockManager())->WriteSetup(output);
+	JXGetDockManager()->WriteSetup(output);
 
 	theApplication = nullptr;
 	theMDIServer   = nullptr;
