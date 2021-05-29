@@ -12,6 +12,8 @@
 
 #include "CBCPreprocessor.h"
 #include <JPtrArray-JString.h>
+#include <JStringIterator.h>
+#include <JRegex.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
@@ -55,69 +57,20 @@ CBCPreprocessor::Preprocess
 {
 	JBoolean changed = kJFalse;
 
-	const JSize count = itsMacroList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	JStringIterator iter(text);
+	JString pattern;
+	for (const MacroInfo& info : *itsMacroList)
 		{
-		const MacroInfo info   = itsMacroList->GetElement(i);
-		const JSize nameLength = (info.name)->GetLength();
+		pattern = "\\b" + JRegex::BackslashForLiteral(*info.name)  + "\\b";
 
-		JIndex j=1;
-		while (text->LocateNextSubstring(*(info.name), &j))
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		while (iter.Next(*info.name))
 			{
-			if (IsEntireWord(*text, j, nameLength))
-				{
-				// The only action we prevent by incrementing j is
-				// an infinite loop.
-
-				text->ReplaceSubstring(j, j + nameLength-1, *(info.value));
-				changed = kJTrue;
-				j += (info.value)->GetLength();
-				}
-			else
-				{
-				j++;
-				}
+			iter.ReplaceLastMatch(*info.value);
 			}
 		}
 
 	return changed;
-}
-
-/******************************************************************************
- IsEntireWord (private)
-
- ******************************************************************************/
-
-JBoolean
-CBCPreprocessor::IsEntireWord
-	(
-	const JString&	text,
-	const JIndex	wordIndex,
-	const JSize		wordLength
-	)
-	const
-{
-	return JI2B(!(wordIndex > 1 &&
-				  IsIDCharacter(text.GetCharacter(wordIndex)) &&
-				  IsIDCharacter(text.GetCharacter(wordIndex - 1))) &&
-				!(wordIndex + wordLength <= text.GetLength() &&
-				  IsIDCharacter(text.GetCharacter(wordIndex + wordLength - 1)) &&
-				  IsIDCharacter(text.GetCharacter(wordIndex + wordLength))));
-}
-
-/******************************************************************************
- IsIDCharacter (private)
-
- ******************************************************************************/
-
-inline int
-CBCPreprocessor::IsIDCharacter
-	(
-	const JUtf8Character& c
-	)
-	const
-{
-	return (c.IsAlnum() || c == '_');
 }
 
 /******************************************************************************

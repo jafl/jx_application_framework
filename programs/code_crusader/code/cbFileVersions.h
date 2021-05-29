@@ -174,6 +174,7 @@ const JFileVersion kCurrentProjectFileVersion = 88;
 
 // version 88:
 //	Removed CBFnListDirector.
+//	Removed functions from CBClass.
 // version 87:
 //	Removed show flags from CBTree, because all loners moved to the bottom.
 // version 86:

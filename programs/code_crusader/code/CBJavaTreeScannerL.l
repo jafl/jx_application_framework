@@ -10,8 +10,7 @@ This scanner reads a Java file and builds a CBJavaClass.
 #include "CBJavaTreeScanner.h"
 #include "CBJavaClass.h"
 #include <JStringIterator.h>
-#include <jFStreamUtil.h>
-#include <jErrno.h>
+#include <fstream>
 #include <jAssert.h>
 
 #undef YY_DECL
@@ -36,7 +35,7 @@ IDCDR        ([_[:alnum:]]|{UESCCODE})
 ID           ({IDCAR}{IDCDR}*)
 NSID         ({ID}(\.{ID})*)
 
-OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compiler|const|continue|default|do|else|equals|false|finally|finalize|for|future|generic|getClass|goto|hashCode|if|inner|instanceof|Math|NaN|native|NEGATIVE_INFINITY|new|notify(All)?|null|operator|outer|POSITIVE_INFINITY|Process|Random|rest|return|Runnable|Runtime|SecurityManager|static|StringTokenizer|super|switch|synchronized|System|this|Thread(Group)?|throws?|Throwable|toString|transient|true|try|var|void|volatile|wait|while)
+OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compiler|const|continue|default|do|else|enum|equals|false|finally|finalize|for|future|generic|getClass|goto|hashCode|if|inner|instanceof|Math|NaN|native|NEGATIVE_INFINITY|new|notify(All)?|null|operator|outer|POSITIVE_INFINITY|Process|Random|rest|return|Runnable|Runtime|SecurityManager|static|StringTokenizer|super|switch|synchronized|System|this|Thread(Group)?|throws?|Throwable|toString|transient|true|try|var|void|volatile|wait|while)
 
 %%
 
@@ -45,6 +44,7 @@ OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compile
 	ResetState();
 
 	JString package;
+	JInteger genericDepth;
 	JPtrArray<JString> importList(JPtrArrayT::kDeleteAll);
 
 	std::ifstream input(fileName.GetBytes());
@@ -83,10 +83,6 @@ class{WS} {
 interface{WS} {
 	BEGIN(NAME_STATE);
 	itsAbstractFlag = kJTrue;
-	}
-
-enum{WS} {
-	BEGIN(NAME_STATE);
 	}
 
 extends{WS}    |
@@ -216,7 +212,7 @@ implements{WS} {
 
 	if (generic)
 		{
-		itsGenericDepth = 1;
+		genericDepth = 1;
 		BEGIN(GENERIC_STATE);
 		}
 	else
@@ -248,6 +244,9 @@ implements{WS} {
 
 <INHERIT_STATE>{
 
+extend |
+implements	/* ignore */
+
 {NSID} {
 	if (itsCurrentClass == nullptr)
 		{
@@ -255,52 +254,50 @@ implements{WS} {
 		}
 
 	JString parentName(yytext, yyleng);
-	if (parentName != "extends" && parentName != "implements")
+
+	JString s = parentName;
+	s.Prepend(".");
+
+	JBoolean found = kJFalse;
+	while (1)
 		{
-		JString s = parentName;
-		s.Prepend(".");
-
-		JBoolean found = kJFalse;
-		while (1)
+		for (const JString* c : importList)
 			{
-			const JSize count = importList.GetElementCount();
-			for (JIndex i=1; i<=count; i++)
+			if (!c->EndsWith(s))
 				{
-				const JString* c = importList.GetElement(i);
-				if (c->EndsWith(s))
-					{
-					JString s1 = *c;
-					JStringIterator iter(&s1, kJIteratorStartAtEnd);
-					iter.RemovePrev(s.GetCharacterCount());
-					iter.Invalidate();
-
-					s1.Append(".");
-					s1.Append(parentName);
-
-					parentName = s1;
-					found      = kJTrue;
-					break;
-					}
+				continue;
 				}
 
-			JStringIterator iter(&s, kJIteratorStartAtEnd);
-			if (!found && iter.Prev(".") && !iter.AtBeginning())
-				{
-				iter.RemoveAllNext();
-				}
-			else
-				{
-				break;
-				}
+			JString s1 = *c;
+			JStringIterator iter(&s1, kJIteratorStartAtEnd);
+			iter.RemovePrev(s.GetCharacterCount());
+			iter.Invalidate();
+
+			s1.Append(".");
+			s1.Append(parentName);
+
+			parentName = s1;
+			found      = kJTrue;
+			break;
 			}
 
-		if (!found && !parentName.Contains("."))
+		JStringIterator iter(&s, kJIteratorStartAtEnd);
+		if (!found && iter.Prev(".") && !iter.AtBeginning())
 			{
-			parentName = package + "." + parentName;
+			iter.RemoveAllNext();
 			}
-
-		itsCurrentClass->AddParent(CBClass::kInheritPublic, parentName);
+		else
+			{
+			break;
+			}
 		}
+
+	if (!found && !parentName.Contains("."))
+		{
+		parentName = package + "." + parentName;
+		}
+
+	itsCurrentClass->AddParent(CBClass::kInheritPublic, parentName);
 	}
 
 "{" {
@@ -334,12 +331,12 @@ implements{WS} {
 <GENERIC_STATE>{
 
 "<" {
-	itsGenericDepth++;
+	genericDepth++;
 	}
 
 ">" {
-	itsGenericDepth--;
-	if (itsGenericDepth <= 0)
+	genericDepth--;
+	if (genericDepth <= 0)
 		{
 		BEGIN(INITIAL);
 		}
@@ -396,7 +393,7 @@ implements{WS} {
 	BEGIN(INITIAL);
 	}
 
-\\.?  |
+\\.? |
 [^\\\n\"]+		/* ignore everything inside quotes */
 
 }

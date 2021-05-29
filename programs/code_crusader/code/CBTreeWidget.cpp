@@ -12,8 +12,6 @@
 #include "CBClass.h"
 #include "CBProjectDocument.h"
 #include "CBTreeDirector.h"
-#include "CBFnListDirector.h"
-#include "CBFnListWidget.h"
 #include "CBEditSearchPathsDialog.h"
 #include "cbGlobals.h"
 
@@ -37,9 +35,6 @@
 #include <jMouseUtil.h>
 #include <jMath.h>
 #include <jAssert.h>
-
-#include "jcc_qt_signal.xpm"
-#include "jcc_qt_slot.xpm"
 
 JBoolean CBTreeWidget::itsRaiseWhenSingleMatchFlag = kJFalse;
 const JSize CBTreeWidget::kBorderWidth             = 5;
@@ -67,25 +62,20 @@ CBTreeWidget::CBTreeWidget
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	CBClass::SetGhostNameColor(GetColormap()->GetBlackColor());
+	CBClass::SetGhostNameColor(JColorManager::GetBlackColor());
 
 	itsDirector = director;
 	itsTree     = tree;
 
-	itsFnMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsFnMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsFnMenu != nullptr );
 	itsFnMenu->Hide();
 	itsFnMenu->SetToHiddenPopupMenu(kJTrue);
 	itsFnMenu->CompressHeight();
 
-	itsFnMenuDir = nullptr;
-
-	itsQtSignalImage = GetDisplay()->GetImageCache()->GetImage(jcc_qt_signal);
-	itsQtSlotImage   = GetDisplay()->GetImageCache()->GetImage(jcc_qt_slot);
-
 	WantInput(kJTrue, kJFalse, kJTrue);	// need Ctrl-Tab
 
-	const JColorID gray75Color = GetColormap()->GetGrayColor(75);
+	const JColorID gray75Color = JColorManager::GetGrayColor(75);
 	SetBackColor(gray75Color);
 	SetFocusColor(gray75Color);
 
@@ -126,7 +116,7 @@ CBTreeWidget::~CBTreeWidget()
 JBoolean
 CBTreeWidget::FindClass
 	(
-	const JCharacter*	name,
+	const JString&		name,
 	const JXMouseButton	button,
 	const JBoolean		raiseTreeWindow,
 	const JBoolean		reportNotFound,
@@ -141,13 +131,13 @@ CBTreeWidget::FindClass
 	JSize selCount;
 	if (itsTree->GetSelectionCoverage(&selRect, &selCount))
 		{
-		(const_cast<CBTreeWidget*>(this))->ScrollToRectCentered(selRect, kJTrue);
+		const_cast<CBTreeWidget*>(this)->ScrollToRectCentered(selRect, kJTrue);
 
 		if (raiseTreeWindow &&
 			(selCount > 1 || button == kJXRightButton ||
 			 itsRaiseWhenSingleMatchFlag))
 			{
-			(GetWindow()->GetDirector())->Activate();
+			GetWindow()->GetDirector()->Activate();
 			}
 
 		if (openFileIfSingleMatch && button != kJXRightButton)
@@ -157,7 +147,7 @@ CBTreeWidget::FindClass
 			assert( ok );
 			if (classList.GetElementCount() == 1)
 				{
-				CBClass* theClass = classList.FirstElement();
+				CBClass* theClass = classList.GetFirstElement();
 				if (button == kJXLeftButton)
 					{
 					theClass->ViewSource();
@@ -176,7 +166,7 @@ CBTreeWidget::FindClass
 		if (reportNotFound)
 			{
 			JGetUserNotification()->ReportError(
-				"There are no classes with that name.");
+				JGetString("ClassNotFound::CBTreeWidget"));
 			}
 		return kJFalse;
 		}
@@ -201,7 +191,7 @@ CBTreeWidget::FindClass
 JBoolean
 CBTreeWidget::FindFunction
 	(
-	const JCharacter*	fnName,
+	const JString&		fnName,
 	const JBoolean		caseSensitive,
 	const JXMouseButton	button,
 	const JBoolean		raiseTreeWindow,
@@ -217,13 +207,13 @@ CBTreeWidget::FindFunction
 	JSize selCount;
 	if (itsTree->GetSelectionCoverage(&selRect, &selCount))
 		{
-		(const_cast<CBTreeWidget*>(this))->ScrollToRectCentered(selRect, kJTrue);
+		const_cast<CBTreeWidget*>(this)->ScrollToRectCentered(selRect, kJTrue);
 
 		if (raiseTreeWindow &&
 			(selCount > 1 || button == kJXRightButton ||
 			 itsRaiseWhenSingleMatchFlag))
 			{
-			(GetWindow()->GetDirector())->Activate();
+			GetWindow()->GetDirector()->Activate();
 			}
 
 		if (openFileIfSingleMatch && button != kJXRightButton)
@@ -233,7 +223,7 @@ CBTreeWidget::FindFunction
 			assert( ok );
 			if (classList.GetElementCount() == 1)
 				{
-				CBClass* theClass = classList.FirstElement();
+				CBClass* theClass = classList.GetFirstElement();
 				if (button == kJXLeftButton)
 					{
 					theClass->ViewDefinition(fnName, caseSensitive, kJFalse);
@@ -252,7 +242,7 @@ CBTreeWidget::FindFunction
 		if (reportNotFound)
 			{
 			JGetUserNotification()->ReportError(
-				"No class implements that function.");
+				JGetString("FunctionNotFound::CBTreeWidget"));
 			}
 		return kJFalse;
 		}
@@ -292,7 +282,7 @@ CBTreeWidget::Print
 		{
 		if (p.WillPrintBlackWhite())
 			{
-			CBClass::SetGhostNameColor((p.GetColormap())->GetWhiteColor());
+			CBClass::SetGhostNameColor(JColorManager::GetWhiteColor());
 			}
 
 		const JCoordinate lineHeight   = itsTree->GetLineHeight();
@@ -319,15 +309,15 @@ CBTreeWidget::Print
 				break;
 				}
 
-			const JString pageNumberStr = "Page " + JString(i);
+			const JString pageNumberStr = "Page " + JString((JUInt64) i);
 			p.String(pageRect.left, pageRect.bottom - footerHeight, pageNumberStr,
 					 pageRect.width(), JPainter::kHAlignCenter,
 					 footerHeight, JPainter::kVAlignBottom);
 			p.LockFooter(pageRect.height() - drawHeight);
 
-			p.SetPenColor(GetColormap()->GetYellowColor());
+			p.SetPenColor(JColorManager::GetYellowColor());
 			p.JPainter::Rect(p.GetPageRect());
-			p.SetPenColor(GetColormap()->GetBlackColor());
+			p.SetPenColor(JColorManager::GetBlackColor());
 
 			const JCoordinate top = (i-1)*drawHeight;
 			p.ShiftOrigin(0, 1-kBorderWidth-top);
@@ -341,7 +331,7 @@ CBTreeWidget::Print
 			p.CloseDocument();
 			}
 
-		CBClass::SetGhostNameColor((p.GetColormap())->GetBlackColor());
+		CBClass::SetGhostNameColor(JColorManager::GetBlackColor());
 		}
 }
 
@@ -363,7 +353,7 @@ CBTreeWidget::Print
 
 	if (p.PSWillPrintBlackWhite())
 		{
-		CBClass::SetGhostNameColor((p.GetColormap())->GetWhiteColor());
+		CBClass::SetGhostNameColor(JColorManager::GetWhiteColor());
 		}
 
 	const JRect bounds = GetBounds();
@@ -380,7 +370,7 @@ CBTreeWidget::Print
 		p.CloseDocument();
 		}
 
-	CBClass::SetGhostNameColor((p.GetColormap())->GetBlackColor());
+	CBClass::SetGhostNameColor(JColorManager::GetBlackColor());
 }
 
 /******************************************************************************
@@ -468,18 +458,15 @@ CBTreeWidget::HandleMouseDrag
 		!JMouseMoved(itsStartPt, pt) &&
 		JXGetApplication()->GetCurrentTime() >= itsMouseDownTime + kJXDoubleClickTime)
 		{
-		if (itsFnMenuDir != nullptr)
-			{
-			itsFnMenuDir->Close();
-			}
 		itsFnMenuDir = jnew CBFnListDirector(itsDirector, nullptr, itsFnMenuClass, this,
 											itsDirector->ShowInheritedFns(), kJTrue);
+/*
 		assert( itsFnMenuDir != nullptr );
 
 		CBFnListWidget* fnList = itsFnMenuDir->GetFnListWidget();
 		fnList->PrepareFunctionMenu(itsFnMenu);
 		fnList->SetMenuButton(itsFnMenuButton);
-
+*/
 		itsFnMenu->PopUp(this, pt, buttonStates, modifiers);
 		itsDragType = kInvalidDrag;
 		}
@@ -545,10 +532,10 @@ void
 CBTreeWidget::GetSelectionData
 	(
 	JXSelectionData*	data,
-	const JCharacter*	id
+	const JString&		id
 	)
 {
-	if (strcmp(id, kSelectionDataID) == 0)
+	if (id == kSelectionDataID)
 		{
 		JXFileSelection* fileData = dynamic_cast<JXFileSelection*>(data);
 		assert( fileData != nullptr );
@@ -721,8 +708,7 @@ CBTreeWidget::HandleDNDDrop
 	if (dirList.IsEmpty() && urlList.IsEmpty())
 		{
 		JGetUserNotification()->ReportError(
-			"You can only drop directories on the class tree, "
-			"not individual files.");
+			JGetString("OnlyDropFolders::CBTreeWidget"));
 		}
 	else if (dirList.IsEmpty())
 		{
@@ -731,7 +717,7 @@ CBTreeWidget::HandleDNDDrop
 	else
 		{
 		CBEditSearchPathsDialog* dlog =
-			(itsDirector->GetProjectDoc())->EditSearchPaths(itsDirector);
+			itsDirector->GetProjectDoc()->EditSearchPaths(itsDirector);
 		dlog->AddDirectories(dirList);
 		}
 
@@ -758,7 +744,8 @@ CBTreeWidget::HandleFocusEvent()
 void
 CBTreeWidget::HandleKeyPress
 	(
-	const int				key,
+	const JUtf8Character&	c,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -766,7 +753,7 @@ CBTreeWidget::HandleKeyPress
 
 	// open source
 
-	if (key == kJReturnKey)
+	if (c == kJReturnKey)
 		{
 		itsKeyBuffer.Clear();
 		itsTree->ViewSelectedSources();
@@ -774,7 +761,7 @@ CBTreeWidget::HandleKeyPress
 
 	// open header
 
-	else if (key == '\t' &&
+	else if (c == '\t' &&
 			 !modifiers.GetState(kJXMetaKeyIndex)   &&
 			 modifiers.GetState(kJXControlKeyIndex) &&
 			 !modifiers.shift())
@@ -785,14 +772,14 @@ CBTreeWidget::HandleKeyPress
 
 	// incremental search for class name
 
-	else if (key == ' ')
+	else if (c == ' ')
 		{
 		itsKeyBuffer.Clear();
 		}
-	else if (!itsTree->IsEmpty() && JXIsPrint(key) &&
+	else if (!itsTree->IsEmpty() && c.IsPrint() &&
 			 !modifiers.meta() && !modifiers.control())
 		{
-		itsKeyBuffer.AppendCharacter(key);
+		itsKeyBuffer.Append(c);
 
 		CBClass* selClass = nullptr;
 		if (itsTree->ClosestVisibleMatch(itsKeyBuffer, &selClass))
@@ -805,7 +792,7 @@ CBTreeWidget::HandleKeyPress
 
 	else
 		{
-		JXScrollableWidget::HandleKeyPress(key, modifiers);
+		JXScrollableWidget::HandleKeyPress(c, keySym, modifiers);
 		}
 }
 

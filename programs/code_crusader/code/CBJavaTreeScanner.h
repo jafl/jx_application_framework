@@ -38,7 +38,6 @@ private:
 	JBoolean	itsAbstractFlag;
 	JBoolean	itsPublicFlag;
 	JBoolean	itsFinalFlag;
-	JSize		itsGenericDepth;
 	CBClass*	itsCurrentClass;
 
 private:

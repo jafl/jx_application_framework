@@ -20,7 +20,6 @@ class CBProjectDocument;
 class CBTreeDirector;
 class CBTree;
 class CBClass;
-class CBFnListDirector;
 class JPagePrinter;
 class JEPSPrinter;
 
@@ -68,9 +67,6 @@ public:
 	virtual void	HandleKeyPress(const JUtf8Character& c,
 								   const int keySym, const JXKeyModifiers& modifiers) override;
 
-	JXImage*	GetQtSignalImage() const;
-	JXImage*	GetQtSlotImage() const;
-
 protected:
 
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
@@ -111,24 +107,18 @@ private:
 
 private:
 
-	CBTreeDirector*		itsDirector;		// owns us
-	CBTree*				itsTree;			// not owned
-	JString				itsKeyBuffer;
+	CBTreeDirector*	itsDirector;		// owns us
+	CBTree*			itsTree;			// not owned
+	JString			itsKeyBuffer;
 
-	JXTextMenu*			itsFnMenu;
-	CBFnListDirector*	itsFnMenuDir;
-	DragType			itsDragType;
-	JPoint				itsStartPt;
-	JXMouseButton		itsFnMenuButton;
-	Time				itsMouseDownTime;
-	CBClass*			itsFnMenuClass;		// not owned
+	JXTextMenu*		itsFnMenu;
+	DragType		itsDragType;
+	JPoint			itsStartPt;
+	JXMouseButton	itsFnMenuButton;
+	Time			itsMouseDownTime;
+	CBClass*		itsFnMenuClass;		// not owned
 
-	static JBoolean		itsRaiseWhenSingleMatchFlag;
-
-	// not owned; for use by CBFnListWidget
-
-	JXImage*	itsQtSignalImage;
-	JXImage*	itsQtSlotImage;
+	static JBoolean	itsRaiseWhenSingleMatchFlag;
 
 private:
 
@@ -172,25 +162,6 @@ CBTreeWidget::ShouldRaiseWindowWhenSingleMatch
 	)
 {
 	itsRaiseWhenSingleMatchFlag = raise;
-}
-
-/******************************************************************************
- Qt signal/slot images
-
- ******************************************************************************/
-
-inline JXImage*
-CBTreeWidget::GetQtSignalImage()
-	const
-{
-	return itsQtSignalImage;
-}
-
-inline JXImage*
-CBTreeWidget::GetQtSlotImage()
-	const
-{
-	return itsQtSlotImage;
 }
 
 #endif

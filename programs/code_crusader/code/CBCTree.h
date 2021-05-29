@@ -11,13 +11,15 @@
 #define _H_CBCTree
 
 #include "CBTree.h"
-#include "CBClass.h"	// need definition of FnAccessLevel
+#include "CBCtagsUser.h"
 
+class CBCTreeScanner;
 class CBCTreeDirector;
 class CBCPreprocessor;
 class CBCClass;
+class CBClass;
 
-class CBCTree : public CBTree
+class CBCTree : public CBTree, public CBCtagsUser
 {
 public:
 
@@ -33,15 +35,19 @@ public:
 	CBCPreprocessor*	GetCPreprocessor() const;
 
 	virtual void	StreamOut(std::ostream& projOutput, std::ostream* setOutput,
-							  std::ostream* symOutput, const CBDirList* dirList) const;
+							  std::ostream* symOutput, const CBDirList* dirList) const override;
 
 protected:
 
-	virtual void	ParseFile(const JString& fileName, const JFAID_t id);
+	virtual JBoolean	UpdateFinished(const JArray<JFAID_t>& deadFileList) override;
+	virtual void		ParseFile(const JString& fileName, const JFAID_t id) override;
+
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
 	CBCPreprocessor*	itsCPP;
+	CBCTreeScanner*		itsClassNameLexer;	// nullptr unless parsing
 
 private:
 
@@ -49,21 +55,6 @@ private:
 
 	static CBClass* StreamInCClass(std::istream& input, const JFileVersion vers,
 								   CBTree* tree);
-
-	void	ReadHeaderFile(const JString& fileName, JString* buffer);
-	void	ParseClasses(JString* buffer, const JString& classNamePrefix,
-						 const JFAID_t fileID);
-	void	ParseNamespace(const JString& nsName, const JFAID_t fileID,
-						   JString* buffer, const JIndex braceIndex);
-	void	ParseInheritance(const JString& origNamespace,
-							 CBCClass* theClass, JString* inheritance);
-	void	ParseEnumValues(CBCClass* theClass, JString* buffer, const JIndex braceIndex);
-
-	JIndex	FindEndOfBlock(const JIndex blockStartIndex, const JUtf8Character& openBlockChar,
-						   const JUtf8Character& closeBlockChar, const JString& buffer,
-						   JBoolean* hasNestedBlocks);
-	void	RemoveBalancedBlocks(JString* buffer, const JUtf8Character& openChar,
-								 const JUtf8Character& closeChar);
 
 	// not allowed
 

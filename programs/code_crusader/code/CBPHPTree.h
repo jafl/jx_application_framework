@@ -10,13 +10,12 @@
 
 #include "CBTree.h"
 #include "CBClass.h"		// need definition of FnAccessLevel
-#include "CBCtagsUser.h"
 
 class CBPHPTreeScanner;
 class CBPHPTreeDirector;
 class CBPHPClass;
 
-class CBPHPTree : public CBTree, public CBCtagsUser
+class CBPHPTree : public CBTree
 {
 public:
 
@@ -37,16 +36,11 @@ protected:
 	virtual JBoolean	UpdateFinished(const JArray<JFAID_t>& deadFileList) override;
 	virtual void		ParseFile(const JString& fileName, const JFAID_t id) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	CBPHPTreeScanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
-
-	void					ReadFunctionList(std::istream& input, CBClass* theClass);
-	CBClass::FnAccessLevel	DecodeAccess(const JStringPtrMap<JString>& flags) const;
 
 	static CBClass* StreamInPHPClass(std::istream& input, const JFileVersion vers,
 									 CBTree* tree);

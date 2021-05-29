@@ -34,6 +34,7 @@
 #include <JPainter.h>
 #include <JLatentPG.h>
 #include <JPtrArray-JString.h>
+#include <JStringIterator.h>
 #include <JSimpleProcess.h>
 #include <jGlobals.h>
 #include <jFileUtil.h>
@@ -1659,16 +1660,18 @@ CBTree::FindParent
 	JString parentSuffix(namespaceOp);
 	parentSuffix += parentName;
 
-	const JSize classCount = itsClassesByFull->GetElementCount();
-	for (JIndex i=1; i<=classCount; i++)
+	for (CBClass* c : *itsClassesByFull)
 		{
-		CBClass* c           = itsClassesByFull->GetElement(i);
 		const JString& cName = c->GetFullName();
 		if (cName.EndsWith(parentSuffix) &&
 			parentSuffix.GetCharacterCount() < cName.GetCharacterCount())
 			{
-			JString prefixClassName =
-				cName.GetSubstring(1, cName.GetLength() - parentSuffix.GetLength());
+			JString prefixClassName = cName;
+			JStringIterator iter(&prefixClassName, kJIteratorStartAtEnd);
+			iter.Prev(parentSuffix);
+			iter.RemoveAllNext();
+			iter.Invalidate();
+
 			const CBClass* prefixClass = nullptr;
 			if (FindClass(prefixClassName, &prefixClass) &&
 				(prefixClass == container ||

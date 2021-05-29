@@ -3,9 +3,9 @@
 
 	This class instantiates a PHP inheritance tree.
 
-	BASE CLASS = CBTree, CBCtagsUser
+	BASE CLASS = CBTree
 
-	Copyright (C) 2014 John Lindal.
+	Copyright (C) 2014-2021 John Lindal.
 
  ******************************************************************************/
 
@@ -20,9 +20,6 @@
 #include <strstream>
 #include <jAssert.h>
 
-static const JUtf8Byte* kCtagsArgs =
-	"--format=2 --excmd=number --sort=no --php-kinds=f";
-
 /******************************************************************************
  Constructor
 
@@ -34,8 +31,7 @@ CBPHPTree::CBPHPTree
 	const JSize			marginWidth
 	)
 	:
-	CBTree(StreamInPHPClass, director, kCBPHPFT, marginWidth),
-	CBCtagsUser(kCtagsArgs)
+	CBTree(StreamInPHPClass, director, kCBPHPFT, marginWidth)
 {
 	itsClassNameLexer = nullptr;
 }
@@ -54,8 +50,7 @@ CBPHPTree::CBPHPTree
 	)
 	:
 	CBTree(projInput, projVers, setInput, setVers, symInput, symVers,
-		   StreamInPHPClass, director, kCBPHPFT, marginWidth, dirList),
-	CBCtagsUser(kCtagsArgs)
+		   StreamInPHPClass, director, kCBPHPFT, marginWidth, dirList)
 {
 	itsClassNameLexer = nullptr;
 
@@ -83,9 +78,9 @@ CBPHPTree::~CBPHPTree()
 void
 CBPHPTree::StreamOut
 	(
-	std::ostream&			projOutput,
-	std::ostream*			setOutput,
-	std::ostream*			symOutput,
+	std::ostream&		projOutput,
+	std::ostream*		setOutput,
+	std::ostream*		symOutput,
 	const CBDirList*	dirList
 	)
 	const
@@ -130,8 +125,6 @@ CBPHPTree::UpdateFinished
 	jdelete itsClassNameLexer;
 	itsClassNameLexer = nullptr;
 
-	DeleteProcess();
-
 	return CBTree::UpdateFinished(deadFileList);
 }
 
@@ -158,109 +151,5 @@ CBPHPTree::ParseFile
 	// extract info about class
 
 	CBClass* newClass;
-	if (!itsClassNameLexer->CreateClass(fileName, id, this, &newClass))
-		{
-		return;
-		}
-
-	// extract functions via ctags
-
-	JString data;
-	CBLanguage lang;
-	if (ProcessFile(fileName, kCBPHPFT, &data, &lang))
-		{
-		std::istrstream input(data.GetBytes(), data.GetByteCount());
-		ReadFunctionList(input, newClass);
-		}
-}
-
-/******************************************************************************
- ReadFunctionList (private)
-
- ******************************************************************************/
-
-void
-CBPHPTree::ReadFunctionList
-	(
-	std::istream&	input,
-	CBClass*		theClass
-	)
-{
-	input >> std::ws;
-	while (input.peek() == '!')
-		{
-		JIgnoreLine(input);
-		input >> std::ws;
-		}
-
-	JString name;
-	JStringPtrMap<JString> flags(JPtrArrayT::kDeleteAll);
-	while (1)
-		{
-		input >> std::ws;
-		name = JReadUntil(input, '\t');			// function name
-		if (input.eof() || input.fail())
-			{
-			break;
-			}
-
-		ReadExtensionFlags(input, &flags);		// skips file name and line number
-
-		JString* impl;
-		const JBoolean implemented =
-			JNegate(flags.GetElement("implementation", &impl) && *impl == "abstract");
-
-		theClass->AddFunction(name, DecodeAccess(flags), implemented);
-		}
-}
-
-/******************************************************************************
- DecodeAccess (private)
-
- ******************************************************************************/
-
-CBClass::FnAccessLevel
-CBPHPTree::DecodeAccess
-	(
-	const JStringPtrMap<JString>& flags
-	)
-	const
-{
-	const JString* value;
-	const JBoolean exists = flags.GetElement("access", &value);
-
-	if (exists && *value == "public")
-		{
-		return CBClass::kPublicAccess;
-		}
-	else if (exists && *value == "private")
-		{
-		return CBClass::kPrivateAccess;
-		}
-	else if (exists && *value == "protected")
-		{
-		return CBClass::kProtectedAccess;
-		}
-	else	// default
-		{
-		return CBClass::kPublicAccess;
-		}
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
-	Required because of multiple inheritance.
-
- ******************************************************************************/
-
-void
-CBPHPTree::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	CBTree::Receive(sender, message);
-	CBCtagsUser::Receive(sender, message);
+	itsClassNameLexer->CreateClass(fileName, id, this, &newClass);
 }

@@ -33,9 +33,9 @@ public:
 	enum DeclareType
 	{
 		kClassType = 0,
-		kStructType,
+		kStructUnused,
 		kGhostType,		// inferred, but not parsed
-		kEnumType
+		kEnumUnused
 	};
 
 	enum InheritType
@@ -58,20 +58,6 @@ public:
 		kUnusedQtPrivateSlotAccess
 	};
 
-	struct FunctionInfo
-	{
-		const JString&	name;
-		FnAccessLevel	access;
-		JBoolean		implemented;
-
-		FunctionInfo(const JString& n, const FnAccessLevel level, const JBoolean impl)
-			:
-			name(n),
-			access(level),
-			implemented(impl)
-			{ };
-	};
-
 public:
 
 	virtual ~CBClass();
@@ -91,8 +77,6 @@ public:
 	void			SetAbstract(const JBoolean abstract = kJTrue);
 	JBoolean		IsTemplate() const;
 	void			SetTemplate(const JBoolean tmpl = kJTrue);
-	JBoolean		IsStruct() const;
-	JBoolean		IsEnum() const;
 	JBoolean		IsGhost() const;
 
 	void			AddParent(const InheritType type, const JString& name);
@@ -231,9 +215,6 @@ private:
 	JPoint		GetLinkFromPt() const;
 	JPoint		GetLinkToPt() const;
 
-	static JListT::CompareResult
-		CompareFunctionNames(const FunctionInfo& i1, const FunctionInfo& i2);
-
 	// called by CBTree
 
 	void	ClearConnections();
@@ -300,20 +281,6 @@ CBClass::IsAbstract()
 	const
 {
 	return itsIsAbstractFlag;
-}
-
-inline JBoolean
-CBClass::IsStruct()
-	const
-{
-	return JConvertToBoolean( itsDeclType == kStructType );
-}
-
-inline JBoolean
-CBClass::IsEnum()
-	const
-{
-	return JConvertToBoolean( itsDeclType == kEnumType );
 }
 
 inline JBoolean
@@ -587,6 +554,20 @@ CBClass::GetTree()
 	const
 {
 	return itsTree;
+}
+
+/******************************************************************************
+ GetNamespaceOperator (protected)
+
+	Returns the languages's namespace operator.
+
+ ******************************************************************************/
+
+inline const JUtf8Byte*
+CBClass::GetNamespaceOperator()
+	const
+{
+	return itsNamespaceOperator;
 }
 
 /******************************************************************************

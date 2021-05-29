@@ -9,14 +9,13 @@
 #define _H_CBJavaTree
 
 #include "CBTree.h"
-#include "CBClass.h"		// need definition of FnAccessLevel
-#include "CBCtagsUser.h"
 
 class CBJavaTreeScanner;
 class CBJavaTreeDirector;
 class CBJavaClass;
+class CBClass;
 
-class CBJavaTree : public CBTree, public CBCtagsUser
+class CBJavaTree : public CBTree
 {
 public:
 
@@ -44,9 +43,6 @@ private:
 	CBJavaTreeScanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
-
-	void					ReadFunctionList(std::istream& input, CBClass* theClass);
-	CBClass::FnAccessLevel	DecodeAccess(const JStringPtrMap<JString>& flags) const;
 
 	static CBClass* StreamInJavaClass(std::istream& input, const JFileVersion vers,
 									  CBTree* tree);

@@ -3,9 +3,9 @@
 
 	This class instantiates a Java inheritance tree.
 
-	BASE CLASS = CBTree, CBCtagsUser
+	BASE CLASS = CBTree
 
-	Copyright (C) 1995-99 John Lindal.
+	Copyright (C) 1995-2021 John Lindal.
 
  ******************************************************************************/
 
@@ -20,9 +20,6 @@
 #include <strstream>
 #include <jAssert.h>
 
-static const JUtf8Byte* kCtagsArgs =
-	"--format=2 --excmd=number --sort=no --java-kinds=me";
-
 /******************************************************************************
  Constructor
 
@@ -34,8 +31,7 @@ CBJavaTree::CBJavaTree
 	const JSize			marginWidth
 	)
 	:
-	CBTree(StreamInJavaClass, director, kCBJavaSourceFT, marginWidth),
-	CBCtagsUser(kCtagsArgs)
+	CBTree(StreamInJavaClass, director, kCBJavaSourceFT, marginWidth)
 {
 	itsClassNameLexer = nullptr;
 }
@@ -54,8 +50,7 @@ CBJavaTree::CBJavaTree
 	)
 	:
 	CBTree(projInput, projVers, setInput, setVers, symInput, symVers,
-		   StreamInJavaClass, director, kCBJavaSourceFT, marginWidth, dirList),
-	CBCtagsUser(kCtagsArgs)
+		   StreamInJavaClass, director, kCBJavaSourceFT, marginWidth, dirList)
 {
 	itsClassNameLexer = nullptr;
 
@@ -83,9 +78,9 @@ CBJavaTree::~CBJavaTree()
 void
 CBJavaTree::StreamOut
 	(
-	std::ostream&			projOutput,
-	std::ostream*			setOutput,
-	std::ostream*			symOutput,
+	std::ostream&		projOutput,
+	std::ostream*		setOutput,
+	std::ostream*		symOutput,
 	const CBDirList*	dirList
 	)
 	const
@@ -130,8 +125,6 @@ CBJavaTree::UpdateFinished
 	jdelete itsClassNameLexer;
 	itsClassNameLexer = nullptr;
 
-	DeleteProcess();
-
 	return CBTree::UpdateFinished(deadFileList);
 }
 
@@ -161,109 +154,5 @@ CBJavaTree::ParseFile
 	// extract info about classes
 
 	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
-	if (!itsClassNameLexer->CreateClasses(fileName, id, this, &classList))
-		{
-		return;
-		}
-
-	// extract functions via ctags
-
-	JString data;
-	CBLanguage lang;
-	if (ProcessFile(fileName, kCBJavaSourceFT, &data, &lang))
-		{
-		std::istrstream input(data.GetBytes(), data.GetByteCount());
-		ReadFunctionList(input, classList);
-		}
-}
-
-/******************************************************************************
- ReadFunctionList (private)
-
- ******************************************************************************/
-
-void
-CBJavaTree::ReadFunctionList
-	(
-	std::istream&				input,
-	const JPtrArray<CBClass>&	classList
-	)
-{
-	input >> std::ws;
-	while (input.peek() == '!')
-		{
-		JIgnoreLine(input);
-		input >> std::ws;
-		}
-
-	JString name;
-	JStringPtrMap<JString> flags(JPtrArrayT::kDeleteAll);
-	while (1)
-		{
-		input >> std::ws;
-		name = JReadUntil(input, '\t');			// function name
-		if (input.eof() || input.fail())
-			{
-			break;
-			}
-
-		ReadExtensionFlags(input, &flags);		// skips file name and line number
-
-		JString* impl;
-		const JBoolean implemented =
-			JNegate(flags.GetElement("implementation", &impl) && *impl == "abstract");
-
-		theClass->AddFunction(name, DecodeAccess(flags), implemented);
-		}
-}
-
-/******************************************************************************
- DecodeAccess (private)
-
- ******************************************************************************/
-
-CBClass::FnAccessLevel
-CBJavaTree::DecodeAccess
-	(
-	const JStringPtrMap<JString>& flags
-	)
-	const
-{
-	const JString* value;
-	const JBoolean exists = flags.GetElement("access", &value);
-
-	if (exists && *value == "public")
-		{
-		return CBClass::kPublicAccess;
-		}
-	else if (exists && *value == "private")
-		{
-		return CBClass::kPrivateAccess;
-		}
-	else if (exists && *value == "protected")
-		{
-		return CBClass::kProtectedAccess;
-		}
-	else	// default
-		{
-		return CBClass::kJavaDefaultAccess;
-		}
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
-	Required because of multiple inheritance.
-
- ******************************************************************************/
-
-void
-CBJavaTree::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	CBTree::Receive(sender, message);
-	CBCtagsUser::Receive(sender, message);
+	itsClassNameLexer->CreateClasses(fileName, id, this, &classList);
 }

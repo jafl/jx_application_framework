@@ -1,24 +1,24 @@
 /******************************************************************************
- CBJavaTreeScanner.cpp
+ CBCTreeScanner.cpp
 
-	Extracts class information from Java source file.
+	Extracts class information from C header file.
 
-	BASE CLASS = CBJavaTreeFlexLexer
+	BASE CLASS = CBCTreeFlexLexer
 
-	Copyright (C) 1999 John Lindal.
+	Copyright (C) 2021 John Lindal.
 
  ******************************************************************************/
 
-#include "CBJavaTreeScanner.h"
+#include "CBCTreeScanner.h"
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-CBJavaTreeScanner::CBJavaTreeScanner()
+CBCTreeScanner::CBCTreeScanner()
 	:
-	CBJavaTreeFlexLexer()
+	CBCTreeFlexLexer()
 {
 }
 
@@ -27,7 +27,7 @@ CBJavaTreeScanner::CBJavaTreeScanner()
 
  ******************************************************************************/
 
-CBJavaTreeScanner::~CBJavaTreeScanner()
+CBCTreeScanner::~CBCTreeScanner()
 {
 }
 
@@ -37,10 +37,8 @@ CBJavaTreeScanner::~CBJavaTreeScanner()
  ******************************************************************************/
 
 void
-CBJavaTreeScanner::ResetState()
+CBCTreeScanner::ResetState()
 {
-	itsAbstractFlag = kJFalse;
-	itsPublicFlag   = kJFalse;
-	itsFinalFlag    = kJFalse;
+	itsTemplateFlag = kJFalse;
 	itsCurrentClass = nullptr;
 }

@@ -136,7 +136,7 @@ CBEditCPPMacroDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle("C Preprocessor");
+	window->SetTitle(JGetString("WindowTitle::CBEditCPPMacroDialog"));
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 	UseModalPlacement(kJFalse);

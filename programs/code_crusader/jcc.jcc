@@ -270,6 +270,14 @@ T
 F
 "./code/CBCTree.cpp"
 T
+2 "CBCTreeScanner.cpp"
+F
+"./code/CBCTreeScanner.cpp"
+T
+2 "CBCTreeScannerL.l"
+F
+"./code/CBCTreeScannerL.l"
+T
 2 "CBCClass.cpp"
 F
 "./code/CBCClass.cpp"

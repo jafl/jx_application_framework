@@ -70,10 +70,6 @@ CBCClass::ViewSource()
 		{
 		JGetUserNotification()->ReportError(JGetString("NoGhostFile::CBClass"));
 		}
-	else if (GetDeclareType() == kEnumType)
-		{
-		docMgr->OpenTextDocument(headerName);
-		}
 	else
 		{
 		docMgr->OpenComplementFile(headerName, kCBCHeaderFT,
@@ -161,26 +157,5 @@ CBCClass::IsInherited
 	else
 		{
 		return kJFalse;
-		}
-}
-
-/******************************************************************************
- AdjustNameStyle (virtual protected)
-
- ******************************************************************************/
-
-void
-CBCClass::AdjustNameStyle
-	(
-	JFontStyle* style
-	)
-	const
-{
-	CBClass::AdjustNameStyle(style);
-
-	const DeclareType type = GetDeclareType();
-	if (type == kStructType || type == kEnumType)
-		{
-		style->color = JColorManager::GetGrayColor(50);
 		}
 }

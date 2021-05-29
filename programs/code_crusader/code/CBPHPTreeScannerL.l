@@ -10,8 +10,7 @@ This scanner reads a PHP file and builds a CBPHPClass.
 #include "CBPHPTreeScanner.h"
 #include "CBPHPClass.h"
 #include <JStringIterator.h>
-#include <jFStreamUtil.h>
-#include <jErrno.h>
+#include <fstream>
 #include <jAssert.h>
 
 #undef YY_DECL

@@ -3,6 +3,7 @@ test jcc with old project formats in code_crusader/test-manual/*.jcc
 unit test all jcc stylers
 	Eiffel
 	HTML
+		xml: should ignore namespaces (xmlns:foo=) in tags
 	INI
 	Java
 	JavaScript
@@ -15,7 +16,8 @@ unit test all jcc stylers
 
 unit test CBSearch classes - split CBSearchProcess out from CBSearchDocument
 	search results, incl with multiple matches on a line
-test html styling with xml:  should ignore namespaces (xmlns:foo=) in tags
+
+units test C++, Java, PHP class parsers
 
 JStyledText
 	AutoIndent
@@ -25,12 +27,6 @@ JStyledText
 		test with /opt/X11/share/X11/locale/en_US.UTF-8/Compose
 
 jcc
-	test that CBCompileDocument::ConvertSelectionToFullPath gets path from "Entering directory"
-	test CBMacroManager: Perform & HighlightErrors completely rewritten
-	test man pages: multi-character index, e.g., foo(bar)
-	test multifile search, esp matching lines that must be truncated
-	test open flex, bison, maven error
-
 	symbol list:
 		strip space from signature:( JBroadcaster* recipient )
 	CBSymbolSRDirector
@@ -53,8 +49,14 @@ jcc
 
 	CBCharActionManager only accepts single bytes, not JUtf8Character
 
-	test
-		CalcFileType when using a prefix regex
+	test that CBCompileDocument::ConvertSelectionToFullPath gets path from "Entering directory"
+	test CBMacroManager: Perform & HighlightErrors completely rewritten
+	test man pages: multi-character index, e.g., foo(bar)
+	test multifile search, esp matching lines that must be truncated
+	test open flex, bison, maven error
+	java: enums ignored
+	c++: parser replaced, enums ignored, preprocessor
+	test CalcFileType when using a prefix regex
 
 -----
 

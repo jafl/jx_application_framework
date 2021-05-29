@@ -59,10 +59,6 @@ private:
 
 private:
 
-	JBoolean	IsEntireWord(const JString& text, const JIndex wordIndex,
-					 const JSize wordLength) const;
-	int			IsIDCharacter(const JUtf8Character& c) const;
-
 	void	ReadMacro(std::istream& input, const JFileVersion vers);
 
 	static JListT::CompareResult

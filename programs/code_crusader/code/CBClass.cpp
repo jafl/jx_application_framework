@@ -30,9 +30,6 @@
 		NewGhost
 			Create a ghost of the appropriate derived type.
 
-		GetNamespaceOperator
-			Returns the languages's namespace operator.
-
 		IsInherited
 			Returns kJTrue if the specified function will be inherited by
 			derived classes.
@@ -215,18 +212,18 @@ JIndex i;
 
 	// functions
 
-	JSize fnCount;
-	input >> fnCount;
-
-	for (i=1; i<=fnCount; i++)
+	if (vers < 88)
 		{
-		FunctionInfo fInfo;
-		fInfo.name = jnew JString;
-		assert( fInfo.name != NULL );
+		JSize fnCount;
+		input >> fnCount;
+
+		JString name;
+		JInteger access;
 		JBoolean pureVirtual;
-		input >> *(fInfo.name) >> fInfo.access >> JBoolFromString(pureVirtual);
-		fInfo.implemented = !pureVirtual;
-		itsFunctionInfo->AppendElement(fInfo);
+		for (i=1; i<=fnCount; i++)
+			{
+			input >> name >> access >> JBoolFromString(pureVirtual);
+			}
 		}
 }
 
@@ -241,8 +238,7 @@ CBClass::CBClass
 	itsFullName(name),
 	itsName(name),
 	itsTree(nullptr),
-	itsParentInfo(nullptr),
-	itsFunctionInfo(nullptr)
+	itsParentInfo(nullptr)
 {
 }
 
@@ -261,11 +257,6 @@ CBClass::CBClassX
 
 	itsHasPrimaryChildrenFlag   = kJFalse;
 	itsHasSecondaryChildrenFlag = kJFalse;
-
-	itsFunctionInfo = jnew JArray<FunctionInfo>;
-	assert( itsFunctionInfo != NULL );
-	itsFunctionInfo->SetCompareFunction(CompareFunctionNames);
-	itsFunctionInfo->SetSortOrder(JListT::kSortAscending);
 
 	itsVisibleFlag    = kJTrue;
 	itsCollapsedFlag  = kJFalse;
@@ -291,15 +282,6 @@ CBClass::~CBClass()
 			pInfo.CleanOut();
 			}
 		jdelete itsParentInfo;
-		}
-
-	if (itsFunctionInfo != nullptr)
-		{
-		for (FunctionInfo fInfo : *itsFunctionInfo)
-			{
-			fInfo.CleanOut();
-			}
-		jdelete itsFunctionInfo;
 		}
 }
 
@@ -339,19 +321,6 @@ JIndex i;
 		output << ' ' << *(pInfo.name);
 		output << ' ' << itsTree->ClassToIndexForWrite(pInfo.parent);
 		output << ' ' << pInfo.inheritance;
-		}
-
-	// functions
-
-	const JSize fnCount = GetFunctionCount();
-	output << ' ' << fnCount;
-
-	for (i=1; i<=fnCount; i++)
-		{
-		const FunctionInfo fInfo = itsFunctionInfo->GetElement(i);
-		output << ' ' << *(fInfo.name);
-		output << ' ' << fInfo.access;
-		output << ' ' << JBoolToString(!fInfo.implemented);
 		}
 
 	output << ' ';
@@ -539,10 +508,10 @@ CBClass::FindParent
 	JString nameSpace = itsFullName;
 	JString prefixStr, testName;
 
-	JIndex opIndex;
-	while (nameSpace.LocateLastSubstring(namespaceOp, &opIndex) && opIndex > 1)
+	JStringIterator iter(&nameSpace, kJIteratorStartAtEnd);
+	while (iter.Prev(namespaceOp) && !iter.AtBeginning())
 		{
-		nameSpace.RemoveSubstring(opIndex, nameSpace.GetLength());
+		iter.RemoveAllNext();
 
 		// check if parent exists in namespace
 
@@ -570,9 +539,9 @@ CBClass::FindParent
 
 	// check for any exact match
 
-	return JConvertToBoolean(okToSearchGhosts &&
-							 itsTree->FindClass(*(pInfo->name), &(pInfo->parent)) &&
-							 pInfo->parent != this);
+	return JI2B(okToSearchGhosts &&
+				itsTree->FindClass(*(pInfo->name), &(pInfo->parent)) &&
+				pInfo->parent != this);
 }
 
 /******************************************************************************
@@ -591,21 +560,6 @@ CBClass::NewGhost
 	)
 {
 	assert_msg( 0, "The programmer forgot to override CBClass::NewGhost()" );
-	return nullptr;
-}
-
-/******************************************************************************
- GetNamespaceOperator (virtual protected)
-
-	Returns the languages's namespace operator.
-
- ******************************************************************************/
-
-const JUtf8Byte*
-CBClass::GetNamespaceOperator()
-	const
-{
-	assert_msg( 0, "The programmer forgot to override CBClass::GetNamespaceOperator()" );
 	return nullptr;
 }
 
@@ -749,32 +703,6 @@ CBClass::AddChild
 }
 
 /******************************************************************************
- AddFunction
-
-	We sort the function names so others can perform an incremental search.
-
- ******************************************************************************/
-
-void
-CBClass::AddFunction
-	(
-	const JString&		name,
-	const JIndex		lineIndex,
-	const FnAccessLevel	access,
-	const JBoolean		implemented
-	)
-{
-	FunctionInfo fInfo(jnew JString(name), lineIndex, access, implemented);
-	assert( fInfo.name != NULL );
-
-	itsFunctionInfo->InsertSorted(fInfo);
-	if (!implemented)
-		{
-		itsIsAbstractFlag = kJTrue;
-		}
-}
-
-/******************************************************************************
  View... (virtual)
 
 	These are not pure virtual because CBTree needs to be able to construct
@@ -866,8 +794,7 @@ inline JBoolean
 CBClass::NeedDrawName()
 	const
 {
-	return JI2B(itsIsTemplateFlag ||
-				itsDeclType == kStructType || itsDeclType == kEnumType);
+	return itsIsTemplateFlag;
 }
 
 /******************************************************************************
@@ -880,15 +807,6 @@ CBClass::GetDrawName()
 	const
 {
 	JString drawName = itsFullName;
-	if (itsDeclType == kStructType)
-		{
-		drawName.Prepend(JGetString("StructNamePrefix::CBClass"));
-		}
-	else if (itsDeclType == kEnumType)
-		{
-		drawName.Prepend(JGetString("EnumNamePrefix::CBClass"));
-		}
-
 	if (itsIsTemplateFlag)
 		{
 		drawName.Append(JGetString("TemplateNameSuffix::CBClass"));
@@ -1213,39 +1131,12 @@ CBClass::CalcFrame()
 }
 
 /******************************************************************************
- CompareFunctionNames (static private)
-
- ******************************************************************************/
-
-JListT::CompareResult
-CBClass::CompareFunctionNames
-	(
-	const FunctionInfo& i1,
-	const FunctionInfo& i2
-	)
-{
-	return JCompareStringsCaseInsensitive(i1.name, i2.name);
-}
-
-/******************************************************************************
  CBClass::ParentInfo
 
  ******************************************************************************/
 
 void
 CBClass::ParentInfo::CleanOut()
-{
-	jdelete name;
-	name = nullptr;
-}
-
-/******************************************************************************
- CBClass::FunctionInfo
-
- ******************************************************************************/
-
-void
-CBClass::FunctionInfo::CleanOut()
 {
 	jdelete name;
 	name = nullptr;
@@ -1272,9 +1163,9 @@ operator>>
 	input >> temp;
 	type = (CBClass::DeclareType) temp;
 	assert( type == CBClass::kClassType ||
-			type == CBClass::kStructType ||
+			type == CBClass::kStructUnused ||
 			type == CBClass::kGhostType ||
-			type == CBClass::kEnumType );
+			type == CBClass::kEnumUnused );
 	return input;
 }
 

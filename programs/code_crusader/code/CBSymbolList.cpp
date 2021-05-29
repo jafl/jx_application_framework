@@ -809,8 +809,8 @@ CBSymbolList::InitCtags
 	std::ostream& output
 	)
 {
-	(((itsProjDoc->GetCTreeDirector())->
-		GetCTree())->GetCPreprocessor())->PrintMacrosForCTags(output);
+	itsProjDoc->GetCTreeDirector()->
+		GetCTree()->GetCPreprocessor()->PrintMacrosForCTags(output);
 }
 
 /******************************************************************************

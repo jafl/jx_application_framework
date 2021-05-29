@@ -25,18 +25,9 @@ const JCoordinate kValueColumn = 2;
 
 const JCoordinate kDefNameColWidth = 100;
 
-static const JCharacter* kDefaultFileName = "cpp.macros";
+static const JUtf8Byte* kDefaultFileName = "cpp.macros";
 
-static const JCharacter* kReplaceListStr  = "Replace existing macros";
-static const JCharacter* kAppendToListStr = "Merge with existing macros";
-
-static const JCharacter* kColTitle[] =
-{
-	"Name",
-	"Replace with"
-};
-
-const JSize kColCount = sizeof(kColTitle) / sizeof(JCharacter*);
+const JSize kColCount = 2;
 
 // setup information
 
@@ -81,7 +72,7 @@ CBCPPMacroTable::CBCPPMacroTable
 	itsSaveButton = saveButton;
 	ListenTo(itsSaveButton);
 
-	itsCSF = jnew CBListCSF(kReplaceListStr, kAppendToListStr);
+	itsCSF = jnew CBListCSF(JGetString("ReplaceList::CBCPPMacroTable"), JGetString("AppendToList::CBCPPMacroTable"));
 	assert( itsCSF != nullptr );
 
 	JString fontName;
@@ -90,12 +81,10 @@ CBCPPMacroTable::CBCPPMacroTable
 	SetFont(fontName, fontSize);
 
 	JStringTableData* data = GetStringData();
-	data->AppendCols(2);	// name, value
-	FitToEnclosure();		// make sure SetColWidth() won't fail
-	ListenTo(this);			// adjust value col width
+	data->AppendCols(kColCount);	// name, value
+	FitToEnclosure();				// make sure SetColWidth() won't fail
+	ListenTo(this);					// adjust value col width
 	SetColWidth(kNameColumn, kDefNameColWidth);
-
-	assert( GetColCount() == kColCount );
 
 	const CBPPMacroList& list = cpp.GetMacroList();
 	const JSize count         = list.GetElementCount();
@@ -152,7 +141,7 @@ CBCPPMacroTable::ContentsValid()
 				s.SelectRow(j);
 				me->TableScrollToCell(JPoint(1,i));
 				JGetUserNotification()->ReportError(
-					"The macro names must be unique.");
+					JGetString("UniqueName::CBCPPMacroTable"));
 				return kJFalse;
 				}
 			}
@@ -353,7 +342,7 @@ CBCPPMacroTable::CreateStringTableInput
 		{
 		input->SetIsRequired();
 		}
-	input->SetCharacterInWordFunction(CBMIsCharacterInWord);
+	input->GetText()->SetCharacterInWordFunction(CBMIsCharacterInWord);
 	return input;
 }
 
@@ -379,7 +368,7 @@ CBCPPMacroTable::LoadMacros()
 {
 	JString fileName;
 	if (EndEditing() &&
-		itsCSF->ChooseFile("", nullptr, &fileName))
+		itsCSF->ChooseFile(JString::empty, JString::empty, &fileName))
 		{
 		ReadData(fileName, itsCSF->ReplaceExisting());
 		}
@@ -395,8 +384,8 @@ CBCPPMacroTable::LoadMacros()
 void
 CBCPPMacroTable::ReadData
 	(
-	const JCharacter*	fileName,
-	const JBoolean		replaceExisting
+	const JString&	fileName,
+	const JBoolean	replaceExisting
 	)
 {
 	JStringTableData* data = GetStringData();
@@ -407,7 +396,7 @@ CBCPPMacroTable::ReadData
 
 	JIndex firstNewRow = 0;
 
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	JString name, value;
 	while (!input.eof() && !input.fail())
 		{
@@ -444,7 +433,7 @@ CBCPPMacroTable::SaveMacros()
 {
 	JString newName;
 	if (const_cast<CBCPPMacroTable*>(this)->EndEditing() &&
-		itsCSF->SaveFile("Save macros as:", nullptr, itsFileName, &newName))
+		itsCSF->SaveFile(JGetString("SavePrompt::CBCPPMacroTable"), JString::empty, itsFileName, &newName))
 		{
 		itsFileName = newName;
 		WriteData(newName);
@@ -461,19 +450,19 @@ CBCPPMacroTable::SaveMacros()
 void
 CBCPPMacroTable::WriteData
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	const
 {
-	std::ofstream output(fileName);
+	std::ofstream output(fileName.GetBytes());
 
 	const JStringTableData* data = GetStringData();
 	const JSize count            = GetRowCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(data->GetString(i, kNameColumn)).Print(output);
+		data->GetString(i, kNameColumn).Print(output);
 		output << '\n';
-		(data->GetString(i, kValueColumn)).Print(output);
+		data->GetString(i, kValueColumn).Print(output);
 		output << "\n\n";
 		}
 }
@@ -532,7 +521,8 @@ CBCPPMacroTable::SetColTitles
 {
 	for (JIndex i=1; i<=kColCount; i++)
 		{
-		widget->SetColTitle(i, kColTitle[i-1]);
+		const JString id = "Column" + JString((JUInt64) i) + "::CBCPPMacroTable";
+		widget->SetColTitle(i, JGetString(id.GetBytes()));
 		}
 }
 

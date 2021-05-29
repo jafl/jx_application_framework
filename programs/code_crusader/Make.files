@@ -66,6 +66,8 @@
 .cpp ./code/CBEditTreePrefsDialog
 .cpp ./code/CBCTreeDirector
 .cpp ./code/CBCTree
+.cpp ./code/CBCTreeScanner
+.l ./code/CBCTreeScannerL
 .cpp ./code/CBCClass
 .cpp ./code/CBCPreprocessor
 .cpp ./code/CBEditCPPMacroDialog

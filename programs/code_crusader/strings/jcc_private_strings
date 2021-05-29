@@ -806,7 +806,10 @@ WindowTitleSuffix::CBPHPTreeDirector	" PHP Inheritance"
 
 # CBTreeWidget
 
-NoGhostFile::CBTreeWidget	"Ghost classes cannot be opened."
+NoGhostFile::CBTreeWidget		"Ghost classes cannot be opened."
+ClassNotFound::CBTreeWidget		"There are no classes with that name."
+FunctionNotFound::CBTreeWidget	"No class implements that function."
+OnlyDropFolders::CBTreeWidget	"You can only drop directories on the class tree, not individual files."
 
 # CBTree
 
@@ -820,8 +823,6 @@ Code Mill is available from https://sourceforge.net/projects/nps-codemill/"
 # CBClass
 
 TemplateNameSuffix::CBClass	"<>"
-StructNamePrefix::CBClass	"struct "
-EnumNamePrefix::CBClass		"enum "
 
 # CBJavaClass
 
@@ -1016,3 +1017,16 @@ SaveAsPrompt::CBCRMRuleTable	"Save rules as:"
 WindowTitle::CBEditTreePrefsDialog		"Tree Preferences"
 FontSize::CBEditTreePrefsDialog			"Font size:"
 UpdatingPrefs::CBEditTreePrefsDialog	"Updating preferences..."
+
+# CBCPPMacroTable
+
+ReplaceList::CBCPPMacroTable	"Replace existing macros"
+AppendToList::CBCPPMacroTable	"Merge with existing macros"
+Column1::CBCPPMacroTable		"Name"
+Column2::CBCPPMacroTable		"Replace with"
+UniqueName::CBCPPMacroTable		"The macro names must be unique."
+SavePrompt::CBCPPMacroTable		"Save macros as:"
+
+# CBEditCPPMacroDialog
+
+WindowTitle::CBEditCPPMacroDialog	"C Preprocessor"

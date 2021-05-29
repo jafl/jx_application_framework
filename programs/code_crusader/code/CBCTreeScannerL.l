@@ -1,0 +1,412 @@
+%{
+/*
+Copyright (C) 1998 by Dustin Laurence.
+Copyright (C) 2021 by John Lindal.
+
+This scanner reads a C/C++ file and creates CBClass instances.
+*/
+
+#define _H_CBCTreeScannerL
+
+#include "CBCTreeScanner.h"
+#include "CBCClass.h"
+#include <JStringIterator.h>
+#include <JStack.h>
+#include <sstream>
+#include <jAssert.h>
+
+#undef YY_DECL
+#define YY_DECL \
+	JBoolean CBCTreeScanner::CreateClasses( \
+		const JString& buffer, const JFAID_t fileID, \
+		CBTree* tree, JPtrArray<CBClass>* classList)
+%}
+
+%option c++ yyclass = "CBCTreeScanner" prefix = "CBCTree"
+%option 8bit nodefault stack noyywrap
+
+%x NAMESPACE_STATE CLASS_NAME_STATE INHERIT_STATE
+%x TEMPLATE_PARAM_STATE C_COMMENT_STATE CPP_COMMENT_STATE STRING_STATE
+
+WS	[[:space:]]+
+
+
+
+CKEYWORD     (auto|break|case|const|continue|default|do|else|enum|extern|for|goto|if|inline|register|restrict|return|sizeof|static|struct|switch|typedef|union|volatile|while)
+
+CPPKEYWORD   (alignas|aslignof|and|and_eq|asm|atomic_cancel|atomic_commit|atomic_noexcept|bitand|bitor|catch|compl|concept|constexpr|const_cast|decltype|delete|dynamic_cast|explicit|export|false|final|friend|module|mutable|new|noexcept|not|not_eq|operator|or|or_eq|overload|override|private|protected|public|reinterpret_cast|requires|static_assert|static_cast|this|thread_local|throw|true|try|typeid|typename|virtual|xor|xor_eq)
+
+PPKEYWORD    (include|include_next|define|undef|if|ifdef|ifndef|else|elif|endif|line|pragma|error)
+
+CDATATYPE    (bool|char|char16_t|char32_t|double|float|int|long|nullptr|short|signed|unsigned|void|wchar_t)
+
+
+
+HEXQUAD      ([0-9a-fA-F]{4})
+UESCCODE     (\\[uU]{HEXQUAD}{HEXQUAD}?)
+IDCAR        ([_[:alpha:]]|{UESCCODE})
+IDCDR        ([_[:alnum:]]|{UESCCODE})
+ID           ({IDCAR}{IDCDR}*)
+NSID         ({ID}(::{ID})*)
+
+%%
+
+%{
+	BEGIN(INITIAL);
+	ResetState();
+
+	JInteger curlyBraceDepth = 0, templateBracketDepth = 0;
+	CBClass::InheritType inheritType = CBClass::kInheritPrivate;
+	JPtrArray<JString> usingList(JPtrArrayT::kDeleteAll);
+	JStack<JInteger, JArray<JInteger>> curlyBraceStack;
+	JPtrArray<JString> nsStack(JPtrArrayT::kDeleteAll);
+
+	std::istringstream input(buffer.GetBytes());
+	switch_streams(&input, nullptr);
+%}
+
+template{WS} {
+	itsTemplateFlag      = kJTrue;
+	templateBracketDepth = 0;
+	yy_push_state(TEMPLATE_PARAM_STATE);
+	}
+
+namespace{WS} {
+	BEGIN(NAMESPACE_STATE);
+	}
+
+class{WS} {
+	BEGIN(CLASS_NAME_STATE);
+	}
+
+using{WS}{NSID}; {
+	JString* s = jnew JString(yytext+5, yyleng-6);
+	assert( s != nullptr );
+	s->TrimWhitespace();
+	usingList.Append(s);
+}
+
+"{" {
+	curlyBraceDepth++;
+	}
+
+"}" {
+	curlyBraceDepth--;
+	if (curlyBraceDepth < 0)
+		{
+		return kJFalse;
+		}
+	else if (curlyBraceDepth == 0 && !curlyBraceStack.IsEmpty())
+		{
+		curlyBraceDepth = curlyBraceStack.Pop();
+		nsStack.DeleteElement(1);
+		}
+	}
+
+"/*" {
+	yy_push_state(C_COMMENT_STATE);
+	}
+
+"//" {
+	yy_push_state(CPP_COMMENT_STATE);
+	}
+
+(L|u8?|U)?\" {
+	BEGIN(STRING_STATE);
+	}
+
+{CKEYWORD}{WS}   |
+{CPPKEYWORD}{WS} |
+{PPKEYWORD}{WS}  |
+{CDATATYPE}{WS}  {
+	ResetState();
+	}
+
+.|\n	/* ignore */
+
+<*><<EOF>> {
+	return ! classList->IsEmpty();
+	}
+
+
+	/* Extract namespace */
+
+
+<NAMESPACE_STATE>{
+
+{NSID}{WS}"{" {
+	curlyBraceStack.Push(curlyBraceDepth);
+	curlyBraceDepth = 1;
+
+	JString* s = jnew JString(yytext, yyleng-1);
+	assert( s != nullptr );
+	s->TrimWhitespace();
+	nsStack.Prepend(s);
+
+	BEGIN(INITIAL);
+	}
+
+"{" {
+	curlyBraceDepth++;
+	ResetState();
+	BEGIN(INITIAL);
+	}
+
+{WS}	/* ignore */
+
+"/*" {
+	yy_push_state(C_COMMENT_STATE);
+	}
+
+"//" {
+	yy_push_state(CPP_COMMENT_STATE);
+	}
+
+. {
+	ResetState();
+	BEGIN(INITIAL);
+	}
+
+}
+
+
+	/* Extract class name and create CBJavaClass */
+
+
+<CLASS_NAME_STATE>{
+
+{NSID} {
+	JString fullName(yytext, yyleng);
+	for (JString* s : nsStack)
+		{
+		fullName.Prepend("::");
+		fullName.Prepend(*s);
+		}
+
+	CBCClass* c = jnew CBCClass(fullName, CBClass::kClassType, fileID, tree);
+	assert( c != nullptr );
+	classList->Append(c);
+
+	ResetState();
+	itsCurrentClass = c;	// must be after ResetState();
+	}
+
+{WS}: {
+	if (itsCurrentClass != nullptr)
+		{
+		inheritType = CBClass::kInheritPrivate;
+		BEGIN(INHERIT_STATE);
+		}
+	else
+		{
+		ResetState();
+		BEGIN(INITIAL);
+		}
+}
+
+"{" {
+	if (itsCurrentClass != nullptr)
+		{
+		curlyBraceStack.Push(curlyBraceDepth);
+		curlyBraceDepth = 1;
+		nsStack.Prepend(itsCurrentClass->GetName());
+		}
+	else
+		{
+		curlyBraceDepth++;
+		}
+	ResetState();
+	BEGIN(INITIAL);
+	}
+
+{WS}	/* ignore */
+
+"/*" {
+	yy_push_state(C_COMMENT_STATE);
+	}
+
+"//" {
+	yy_push_state(CPP_COMMENT_STATE);
+	}
+
+. {
+	ResetState();
+	BEGIN(INITIAL);
+	}
+
+}
+
+
+	/* Extract base classes */
+
+
+<INHERIT_STATE>{
+
+virtual		/* ignore */
+
+public {
+	inheritType = CBClass::kInheritPublic;
+	}
+
+protected {
+	inheritType = CBClass::kInheritProtected;
+	}
+
+private {
+	inheritType = CBClass::kInheritPrivate;
+	}
+
+{NSID}"<"? {
+	JString parentName(yytext, yyleng);
+	if (parentName.GetLastCharacter() == '<')
+		{
+		templateBracketDepth = 0;
+		yy_push_state(TEMPLATE_PARAM_STATE);
+
+		parentName.Set(yytext, yyleng-1);
+		}
+
+	JString s = parentName;
+	s.Prepend("::");
+
+	JBoolean found = kJFalse;
+	while (1)
+		{
+		for (const JString* c : usingList)
+			{
+			if (!c->EndsWith(s))
+				{
+				continue;
+				}
+
+			JString s1 = *c;
+			JStringIterator iter(&s1, kJIteratorStartAtEnd);
+			iter.RemovePrev(s.GetCharacterCount());
+			iter.Invalidate();
+
+			s1.Append("::");
+			s1.Append(parentName);
+
+			parentName = s1;
+			found      = kJTrue;
+			break;
+			}
+
+		JStringIterator iter(&s, kJIteratorStartAtEnd);
+		if (!found && iter.Prev("::") && !iter.AtBeginning())
+			{
+			iter.RemoveAllNext();
+			}
+		else
+			{
+			break;
+			}
+		}
+
+	itsCurrentClass->AddParent(inheritType, parentName);
+	}
+
+"{" {
+	curlyBraceStack.Push(curlyBraceDepth);
+	curlyBraceDepth = 1;
+	nsStack.Prepend(itsCurrentClass->GetName());
+	ResetState();
+	BEGIN(INITIAL);
+	}
+
+"," {
+	inheritType = CBClass::kInheritPrivate;
+	}
+
+{WS}	/* ignore */
+
+"/*" {
+	yy_push_state(C_COMMENT_STATE);
+	}
+
+"//" {
+	yy_push_state(CPP_COMMENT_STATE);
+	}
+
+. {
+	ResetState();
+	BEGIN(INITIAL);
+	}
+
+}
+
+
+	/* Ignore template parameters */
+
+
+<TEMPLATE_PARAM_STATE>{
+
+"<" {
+	templateBracketDepth++;
+	}
+
+">" {
+	templateBracketDepth--;
+	if (templateBracketDepth <= 0)
+		{
+		yy_pop_state();
+		}
+	}
+
+[^<>]+	/* ignore */
+
+}
+
+
+	/* Ignore C comments -- this is the fast comment scanner from the flex man page,
+	   since Vern Paxon presumably can optimize such things far better than I can. */
+
+
+<C_COMMENT_STATE>{
+
+[^*\n]*        |
+[^*\n]*\n      |
+"*"+[^*/\n]*   |
+"*"+[^*/\n]*\n		/* ignore everything inside comment */
+
+"*"+"/" {
+	yy_pop_state();
+	}
+
+}
+
+
+	/* Ignore C++ comments */
+
+
+<CPP_COMMENT_STATE>{
+
+[^\n]+				/* ignore everything inside comment */
+
+\n {
+	yy_pop_state();
+	}
+
+}
+
+
+	/* Match strings -- based on the string scanner from the flex manual */
+	/* except I allow ANSI wide character strings, may God save my soul. */
+
+
+<STRING_STATE>{
+
+\" {
+	BEGIN(INITIAL);
+	}
+
+\n {
+	BEGIN(INITIAL);
+	}
+
+\\(.|\n)? |
+[^\\\n\"]+ 		/* ignore everything inside quotes */
+
+}
+
+%%

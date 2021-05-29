@@ -647,19 +647,19 @@ CBProjectDocument::CBProjectDocument
 	// create file list
 
 	itsAllFileDirector = jnew CBFileListDirector(projInput, projVers, setInput, setVers,
-												symInput, symVers, this, silent);
+												 symInput, symVers, this, silent);
 	assert( itsAllFileDirector != nullptr );
 
 	// create symbol list
 
 	itsSymbolDirector = jnew CBSymbolDirector(projInput, projVers, setInput, setVers,
-											 symInput, symVers, this, silent);
+											  symInput, symVers, this, silent);
 	assert( itsSymbolDirector != nullptr );
 
 	// read C++ class tree
 
 	itsCTreeDirector = jnew CBCTreeDirector(projInput, projVers, setInput, setVers,
-										   symInput, symVers, this, silent, itsDirList);
+											symInput, symVers, this, silent, itsDirList);
 	assert( itsCTreeDirector != nullptr );
 	// activates itself
 
@@ -668,7 +668,7 @@ CBProjectDocument::CBProjectDocument
 	if (projVers >= 48)
 		{
 		itsJavaTreeDirector = jnew CBJavaTreeDirector(projInput, projVers, setInput, setVers,
-													 symInput, symVers, this, silent);
+													  symInput, symVers, this, silent);
 		assert( itsJavaTreeDirector != nullptr );
 		// activates itself
 		}
