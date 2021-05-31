@@ -17,7 +17,9 @@
 #include <JStringIterator.h>
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
+#include <jFileUtil.h>
 #include <strstream>
+#include <fstream>
 #include <jAssert.h>
 
 static const JUtf8Byte* kCtagsArgs =
@@ -39,6 +41,8 @@ CBCTree::CBCTree
 {
 	CBCTreeX();
 }
+
+#ifndef CODE_CRUSADER_UNIT_TEST
 
 CBCTree::CBCTree
 	(
@@ -69,6 +73,8 @@ CBCTree::CBCTree
 		NextUpdateMustReparseAll();
 		}
 }
+
+#endif
 
 // private
 
@@ -160,7 +166,7 @@ CBCTree::UpdateFinished
 void
 CBCTree::ParseFile
 	(
-	const JString&	fileName,
+	const JString&	origFileName,
 	const JFAID_t	id
 	)
 {
@@ -172,24 +178,35 @@ CBCTree::ParseFile
 
 	// Read in the entire file and apply preprocessor.
 
+	JString fileName = origFileName;
+
 	JString buffer;
 	JReadFile(fileName, &buffer);
-	itsCPP->Preprocess(&buffer);
+	if (itsCPP->Preprocess(&buffer))
+		{
+		JString newFileName;
+		if (!JCreateTempFile(&newFileName).OK())
+			{
+			return;
+			}
+
+		fileName = newFileName;
+
+		std::ofstream output(fileName.GetBytes());
+		buffer.Print(output);
+		}
 
 	// extract info about classes
 
 	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
-	if (!itsClassNameLexer->CreateClasses(buffer, id, this, &classList))
-		{
-		return;
-		}
-
-	// check for pure virtual via ctags
-
 	JString data;
 	CBLanguage lang;
-	if (ProcessFile(fileName, kCBJavaSourceFT, &data, &lang))
+
+	if (itsClassNameLexer->CreateClasses(fileName, id, this, &classList) &&
+		ProcessFile(fileName, kCBJavaSourceFT, &data, &lang))
 		{
+		// check for pure virtual via ctags
+
 		std::istrstream input(data.GetBytes(), data.GetByteCount());
 
 		input >> std::ws;
@@ -238,6 +255,11 @@ CBCTree::ParseFile
 					}
 				}
 			}
+		}
+
+	if (fileName != origFileName)
+		{
+		JRemoveFile(fileName);
 		}
 }
 

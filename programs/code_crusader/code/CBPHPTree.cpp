@@ -36,6 +36,8 @@ CBPHPTree::CBPHPTree
 	itsClassNameLexer = nullptr;
 }
 
+#ifndef CODE_CRUSADER_UNIT_TEST
+
 CBPHPTree::CBPHPTree
 	(
 	std::istream&		projInput,
@@ -59,6 +61,8 @@ CBPHPTree::CBPHPTree
 		NextUpdateMustReparseAll();
 		}
 }
+
+#endif
 
 /******************************************************************************
  Destructor

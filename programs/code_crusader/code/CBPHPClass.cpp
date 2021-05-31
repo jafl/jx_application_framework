@@ -85,6 +85,8 @@ void
 CBPHPClass::ViewSource()
 	const
 {
+#ifndef CODE_CRUSADER_UNIT_TEST
+
 	JString fileName;
 	if (GetFileName(&fileName))
 		{
@@ -94,6 +96,8 @@ CBPHPClass::ViewSource()
 		{
 		JGetUserNotification()->ReportError(JGetString("NoGhostFile::CBClass"));
 		}
+
+#endif
 }
 
 /******************************************************************************
@@ -125,35 +129,6 @@ CBPHPClass::NewGhost
 										  kJFalse);
 	assert( newClass != nullptr );
 	return newClass;
-}
-
-/******************************************************************************
- IsInherited (virtual protected)
-
-	Returns kJTrue if the specified function is inherited by derived classes.
-	Constructors, destructors, and private functions are not inherited.
-
-	If it is inherited, *access contains the access level adjusted according
-	to the inheritance access.
-
- ******************************************************************************/
-
-JBoolean
-CBPHPClass::IsInherited
-	(
-	const JIndex		index,
-	const InheritType	inherit,
-	FnAccessLevel*		access
-	)
-	const
-{
-	const JString& fnName = GetFunctionName(index);
-	*access               = GetFnAccessLevel(index);
-
-	return JI2B(*access != kPrivateAccess &&	// private
-				fnName != GetName()       &&	// ctor
-				fnName != "__construct"   &&	// ctor
-				fnName != "__destruct");		// dtor
 }
 
 /******************************************************************************

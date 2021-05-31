@@ -235,6 +235,9 @@ as{WS} {
 
 <INHERIT_STATE>{
 
+extends |
+implements	/* ignore */
+
 {NSID} {
 	if (*theClass == nullptr)
 		{
@@ -242,34 +245,30 @@ as{WS} {
 		}
 
 	JString parentName(yytext, yyleng);
-	if (parentName != "extends" && parentName != "implements")
+	if (parentName.BeginsWith("\\"))
 		{
-		if (parentName.BeginsWith("\\"))
-			{
-			JStringIterator iter(&parentName);
-			iter.RemoveNext();
-			}
-		else if (!parentName.Contains("\\"))
-			{
-			JString s = parentName;
-			s.Prepend("\\");
+		parentName.Set(yytext+1, yyleng-1);
+		}
+	else if (!parentName.Contains("\\"))
+		{
+		JString s = parentName;
+		s.Prepend("\\");
 
-			JStringPtrMapCursor<JString> cursor(&useMap);
-			JString key;
-			while (cursor.Next())
+		JStringPtrMapCursor<JString> cursor(&useMap);
+		JString key;
+		while (cursor.Next())
+			{
+			key              = cursor.GetKey();
+			const JString* c = cursor.GetValue();
+			if (parentName == *c || key.EndsWith(s))
 				{
-				key              = cursor.GetKey();
-				const JString* c = cursor.GetValue();
-				if (parentName == *c || key.EndsWith(s))
-					{
-					parentName = key;
-					break;
-					}
+				parentName = key;
+				break;
 				}
 			}
-
-		(**theClass).AddParent(CBClass::kInheritPublic, parentName);
 		}
+
+	(**theClass).AddParent(CBClass::kInheritPublic, parentName);
 	}
 
 ","		/* ignore */

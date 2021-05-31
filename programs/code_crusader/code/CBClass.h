@@ -93,6 +93,8 @@ public:
 	JBoolean		HasPrimaryChildren() const;
 	JBoolean		HasSecondaryChildren() const;
 
+	JBoolean		Implements(const JString& name, const JBoolean caseSensitive) const;
+
 	void	Draw(JPainter& p, const JRect& rect) const;
 	void	DrawMILinks(JPainter& p, const JRect& rect) const;
 	void	DrawText(JPainter& p, const JRect& rect) const;
@@ -137,9 +139,6 @@ protected:
 	virtual CBClass*	NewGhost(const JString& name, CBTree* tree);
 	const JUtf8Byte*	GetNamespaceOperator() const;
 	JString				RemoveNamespace(const JString& fullName);
-
-	virtual JBoolean	IsInherited(const JIndex index, const InheritType inherit,
-									FnAccessLevel* access) const;
 
 	virtual void	AdjustNameStyle(JFontStyle* style) const;
 

@@ -27,6 +27,7 @@ This scanner reads a Java file and builds a CBJavaClass.
 %x GENERIC_STATE C_COMMENT_STATE CPP_COMMENT_STATE STRING_STATE
 
 WS	[[:space:]]+
+MS	[[:space:]]*
 
 HEXQUAD      ([0-9a-fA-F]{4})
 UESCCODE     (\\[uU]{HEXQUAD})
@@ -45,6 +46,7 @@ OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compile
 
 	JString package;
 	JInteger genericDepth;
+	JBoolean genericPop = kJFalse;
 	JPtrArray<JString> importList(JPtrArrayT::kDeleteAll);
 
 	std::ifstream input(fileName.GetBytes());
@@ -175,25 +177,25 @@ implements{WS} {
 
 <NAME_STATE>{
 
-{NSID}"<"? {
+{NSID}({MS}"<")? {
 	if (classList->GetElementCount() == 1)
 		{
 		package = classList->GetFirstElement()->GetFullName();
 		}
 
 	JString fullName(yytext, yyleng);
-	if (!package.IsEmpty())
-		{
-		fullName.Prepend(".");
-		fullName.Prepend(package);
-		}
-
 	JBoolean generic = kJFalse;
 	if (fullName.GetLastCharacter() == '<')
 		{
 		generic = kJTrue;
-		JStringIterator iter(&fullName, kJIteratorStartAtEnd);
-		iter.RemovePrev();
+		fullName.Set(yytext, yyleng-1);
+		fullName.TrimWhitespace();
+		}
+
+	if (!package.IsEmpty())
+		{
+		fullName.Prepend(".");
+		fullName.Prepend(package);
 		}
 
 	CBJavaClass* c = jnew CBJavaClass(fullName, CBClass::kClassType, fileID, tree,
@@ -212,7 +214,9 @@ implements{WS} {
 
 	if (generic)
 		{
+		c->SetTemplate();
 		genericDepth = 1;
+		genericPop   = kJFalse;
 		BEGIN(GENERIC_STATE);
 		}
 	else
@@ -244,16 +248,24 @@ implements{WS} {
 
 <INHERIT_STATE>{
 
-extend |
+extends |
 implements	/* ignore */
 
-{NSID} {
+{NSID}({MS}"<")? {
 	if (itsCurrentClass == nullptr)
 		{
 		return kJFalse;
 		}
 
 	JString parentName(yytext, yyleng);
+
+	JBoolean generic = kJFalse;
+	if (parentName.GetLastCharacter() == '<')
+		{
+		generic = kJTrue;
+		parentName.Set(yytext, yyleng-1);
+		parentName.TrimWhitespace();
+		}
 
 	JString s = parentName;
 	s.Prepend(".");
@@ -298,6 +310,13 @@ implements	/* ignore */
 		}
 
 	itsCurrentClass->AddParent(CBClass::kInheritPublic, parentName);
+
+	if (generic)
+		{
+		genericDepth = 1;
+		genericPop   = kJTrue;
+		yy_push_state(GENERIC_STATE);
+		}
 	}
 
 "{" {
@@ -336,7 +355,11 @@ implements	/* ignore */
 
 ">" {
 	genericDepth--;
-	if (genericDepth <= 0)
+	if (genericDepth <= 0 && genericPop)
+		{
+		yy_pop_state();
+		}
+	else if (genericDepth <= 0)
 		{
 		BEGIN(INITIAL);
 		}

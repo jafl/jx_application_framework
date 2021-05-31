@@ -36,6 +36,8 @@ CBJavaTree::CBJavaTree
 	itsClassNameLexer = nullptr;
 }
 
+#ifndef CODE_CRUSADER_UNIT_TEST
+
 CBJavaTree::CBJavaTree
 	(
 	std::istream&		projInput,
@@ -59,6 +61,8 @@ CBJavaTree::CBJavaTree
 		NextUpdateMustReparseAll();
 		}
 }
+
+#endif
 
 /******************************************************************************
  Destructor

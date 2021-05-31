@@ -12,35 +12,29 @@ This scanner reads a C/C++ file and creates CBClass instances.
 #include "CBCClass.h"
 #include <JStringIterator.h>
 #include <JStack.h>
-#include <sstream>
+#include <fstream>
 #include <jAssert.h>
 
 #undef YY_DECL
 #define YY_DECL \
 	JBoolean CBCTreeScanner::CreateClasses( \
-		const JString& buffer, const JFAID_t fileID, \
+		const JString& fileName, const JFAID_t fileID, \
 		CBTree* tree, JPtrArray<CBClass>* classList)
 %}
 
-%option c++ yyclass = "CBCTreeScanner" prefix = "CBCTree"
+%option c++ yyclass="CBCTreeScanner" prefix="CBCTree"
 %option 8bit nodefault stack noyywrap
 
 %x NAMESPACE_STATE CLASS_NAME_STATE INHERIT_STATE
 %x TEMPLATE_PARAM_STATE C_COMMENT_STATE CPP_COMMENT_STATE STRING_STATE
 
 WS	[[:space:]]+
-
-
+MS	[[:space:]]*
 
 CKEYWORD     (auto|break|case|const|continue|default|do|else|enum|extern|for|goto|if|inline|register|restrict|return|sizeof|static|struct|switch|typedef|union|volatile|while)
-
 CPPKEYWORD   (alignas|aslignof|and|and_eq|asm|atomic_cancel|atomic_commit|atomic_noexcept|bitand|bitor|catch|compl|concept|constexpr|const_cast|decltype|delete|dynamic_cast|explicit|export|false|final|friend|module|mutable|new|noexcept|not|not_eq|operator|or|or_eq|overload|override|private|protected|public|reinterpret_cast|requires|static_assert|static_cast|this|thread_local|throw|true|try|typeid|typename|virtual|xor|xor_eq)
-
 PPKEYWORD    (include|include_next|define|undef|if|ifdef|ifndef|else|elif|endif|line|pragma|error)
-
 CDATATYPE    (bool|char|char16_t|char32_t|double|float|int|long|nullptr|short|signed|unsigned|void|wchar_t)
-
-
 
 HEXQUAD      ([0-9a-fA-F]{4})
 UESCCODE     (\\[uU]{HEXQUAD}{HEXQUAD}?)
@@ -61,7 +55,7 @@ NSID         ({ID}(::{ID})*)
 	JStack<JInteger, JArray<JInteger>> curlyBraceStack;
 	JPtrArray<JString> nsStack(JPtrArrayT::kDeleteAll);
 
-	std::istringstream input(buffer.GetBytes());
+	std::ifstream input(fileName.GetBytes());
 	switch_streams(&input, nullptr);
 %}
 
@@ -75,16 +69,18 @@ namespace{WS} {
 	BEGIN(NAMESPACE_STATE);
 	}
 
+class{WS}{NSID}{MS};		/* ignore */
+
 class{WS} {
 	BEGIN(CLASS_NAME_STATE);
 	}
 
-using{WS}{NSID}; {
+using{WS}{NSID}{MS}; {
 	JString* s = jnew JString(yytext+5, yyleng-6);
 	assert( s != nullptr );
 	s->TrimWhitespace();
 	usingList.Append(s);
-}
+	}
 
 "{" {
 	curlyBraceDepth++;
@@ -134,7 +130,7 @@ using{WS}{NSID}; {
 
 <NAMESPACE_STATE>{
 
-{NSID}{WS}"{" {
+{NSID}{MS}"{" {
 	curlyBraceStack.Push(curlyBraceDepth);
 	curlyBraceDepth = 1;
 
@@ -170,7 +166,7 @@ using{WS}{NSID}; {
 }
 
 
-	/* Extract class name and create CBJavaClass */
+	/* Extract class name and create CBCClass */
 
 
 <CLASS_NAME_STATE>{
@@ -191,7 +187,7 @@ using{WS}{NSID}; {
 	itsCurrentClass = c;	// must be after ResetState();
 	}
 
-{WS}: {
+{MS}: {
 	if (itsCurrentClass != nullptr)
 		{
 		inheritType = CBClass::kInheritPrivate;

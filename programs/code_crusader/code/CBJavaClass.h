@@ -30,9 +30,6 @@ protected:
 
 	virtual CBClass*	NewGhost(const JString& name, CBTree* tree) override;
 
-	virtual JBoolean	IsInherited(const JIndex index, const InheritType inherit,
-									FnAccessLevel* access) const override;
-
 	virtual void	AdjustNameStyle(JFontStyle* style) const override;
 
 private:

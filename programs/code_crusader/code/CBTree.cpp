@@ -47,7 +47,9 @@ const JSize kBlockSize = 100;
 
 static const JString kCodeMillProgramName("code_mill", kJFalse);
 static const JString kCodeMillOptions("--delete --output_path", kJFalse);
+#ifndef CODE_CRUSADER_UNIT_TEST
 const JFileVersion kCodeMillDataVersion = 0;
+#endif
 
 // JBroadcaster message types
 
@@ -84,6 +86,8 @@ CBTree::CBTree
 {
 	CBTreeX(director, streamInFn);
 }
+
+#ifndef CODE_CRUSADER_UNIT_TEST
 
 CBTree::CBTree
 	(
@@ -276,6 +280,8 @@ JIndex i;
 		}
 }
 
+#endif
+
 // private
 
 void
@@ -301,9 +307,13 @@ CBTree::CBTreeX
 	itsVisibleByName->SetCompareFunction(CompareClassNames);
 	itsVisibleByName->SetSortOrder(JListT::kSortAscending);
 
+#ifndef CODE_CRUSADER_UNIT_TEST
 	itsSuffixList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsSuffixList != nullptr );
 	CBGetPrefsManager()->GetFileSuffixes(itsFileType, itsSuffixList);
+#else
+	itsSuffixList = nullptr;
+#endif
 
 	itsCollapsedList = nullptr;
 
@@ -441,6 +451,8 @@ CBTree::StreamOut
 	)
 	const
 {
+#ifndef CODE_CRUSADER_UNIT_TEST
+
 JIndex i;
 
 /* project file */
@@ -500,6 +512,8 @@ JIndex i;
 
 		*symOutput << ' ';
 		}
+
+#endif
 }
 
 /******************************************************************************
@@ -509,6 +523,8 @@ JIndex i;
 	CBProjectDocument updates everything.
 
  ******************************************************************************/
+
+#ifndef CODE_CRUSADER_UNIT_TEST
 
 void
 CBTree::FileTypesChanged
@@ -523,13 +539,13 @@ CBTree::FileTypesChanged
 		}
 }
 
+#endif
+
 /******************************************************************************
  PrepareForUpdate (virtual)
 
 	Get ready to parse files that have changed or been created and to
 	throw out classes in files that no longer exist.
-
-	deadFileIDList can be nullptr.
 
 	*** This often runs in the update thread.
 
@@ -1906,7 +1922,7 @@ CBTree::SelectImplementors
 	for (JIndex i=1; i<=classCount; i++)
 		{
 		CBClass* theClass = itsClassesByFull->GetElement(i);
-		if (theClass->Implements(fnName, caseSensitive))
+//		if (theClass->Implements(fnName, caseSensitive))
 			{
 			theClass->SetSelected(kJTrue);
 			if (!theClass->IsVisible())
@@ -2058,6 +2074,8 @@ CBTree::ViewSelectedHeaders()
 
  ******************************************************************************/
 
+#ifndef CODE_CRUSADER_UNIT_TEST
+
 void
 CBTree::ViewSelectedFunctionLists()
 	const
@@ -2072,6 +2090,8 @@ CBTree::ViewSelectedFunctionLists()
 			}
 		}
 }
+
+#endif
 
 /******************************************************************************
  CopySelectedClassNames
@@ -2111,6 +2131,8 @@ CBTree::CopySelectedClassNames()
  DeriveFromSelected
 
  ******************************************************************************/
+
+#ifndef CODE_CRUSADER_UNIT_TEST
 
 void
 CBTree::DeriveFromSelected()
@@ -2201,6 +2223,8 @@ CBTree::DeriveFromSelected()
 			}
 		}
 }
+
+#endif
 
 /******************************************************************************
  CollectAncestors (private)
@@ -2448,35 +2472,32 @@ CBTree::Draw
 	)
 	const
 {
-JIndex i;
-
 	p.SetFontSize(itsFontSize);
-	const JSize classCount = itsVisibleByName->GetElementCount();
 
 	if (!itsDrawMILinksOnTopFlag)
 		{
-		for (i=1; i<=classCount; i++)
+		for (CBClass* c : *itsVisibleByName)
 			{
-			(itsVisibleByName->GetElement(i))->DrawMILinks(p, rect);
+			c->DrawMILinks(p, rect);
 			}
 		}
 
-	for (i=1; i<=classCount; i++)
+	for (CBClass* c : *itsVisibleByName)
 		{
-		(itsVisibleByName->GetElement(i))->Draw(p, rect);
+		c->Draw(p, rect);
 		}
 
 	if (itsDrawMILinksOnTopFlag)
 		{
-		for (i=1; i<=classCount; i++)
+		for (CBClass* c : *itsVisibleByName)
 			{
-			(itsVisibleByName->GetElement(i))->DrawMILinks(p, rect);
+			c->DrawMILinks(p, rect);
 			}
 		}
 
-	for (i=1; i<=classCount; i++)
+	for (CBClass* c : *itsVisibleByName)
 		{
-		(itsVisibleByName->GetElement(i))->DrawText(p, rect);
+		c->DrawText(p, rect);
 		}
 }
 
@@ -2503,7 +2524,7 @@ JFontManager*
 CBTree::GetFontManager()
 	const
 {
-	return (itsDirector->GetDisplay())->GetFontManager();
+	return itsDirector->GetDisplay()->GetFontManager();
 }
 
 /******************************************************************************
@@ -2524,10 +2545,9 @@ CBTree::SetFontSize
 
 		itsFontSize = size;
 
-		const JSize count = itsClassesByFull->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (CBClass* c : *itsClassesByFull)
 			{
-			(itsClassesByFull->GetElement(i))->CalcFrame();
+			c->CalcFrame();
 			}
 
 		const JFloat h2 = CBClass::GetTotalHeight(this, GetFontManager());

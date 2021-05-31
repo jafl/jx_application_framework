@@ -30,10 +30,6 @@
 		NewGhost
 			Create a ghost of the appropriate derived type.
 
-		IsInherited
-			Returns kJTrue if the specified function will be inherited by
-			derived classes.
-
 	Derived classes can override:
 
 		StreamOut
@@ -68,9 +64,11 @@ JColorID CBClass::theGhostNameColor;
 static JFontStyle kConcreteLabelStyle;
 static JFontStyle kAbstractLabelStyle(kJFalse, kJTrue, 0, kJFalse, 0);
 
+#ifndef CODE_CRUSADER_UNIT_TEST
 const JCoordinate kHMarginWidth        = 3;
-const JCoordinate kVMarginWidth        = 2;
 const JSize       kMinFrameWidth       = 50;
+#endif
+const JCoordinate kVMarginWidth        = 2;
 const JCoordinate kLinkWidth           = 15;
 const JCoordinate kCollapsedLinkLength = 14;
 
@@ -374,6 +372,8 @@ CBClass::ForceVisible()
 
  ******************************************************************************/
 
+#ifndef CODE_CRUSADER_UNIT_TEST
+
 JBoolean
 CBClass::GetFileName
 	(
@@ -383,7 +383,7 @@ CBClass::GetFileName
 {
 	if (itsFileID != JFAID::kInvalidID)
 		{
-		*fileName = ((itsTree->GetProjectDoc())->GetAllFileList())->
+		*fileName = itsTree->GetProjectDoc()->GetAllFileList()->
 					GetFileName(itsFileID);
 		return kJTrue;
 		}
@@ -393,6 +393,8 @@ CBClass::GetFileName
 		return kJFalse;		// ghost
 		}
 }
+
+#endif
 
 /******************************************************************************
  AddParent
@@ -586,27 +588,6 @@ CBClass::RemoveNamespace
 		}
 
 	return name;
-}
-
-/******************************************************************************
- IsInherited (virtual)
-
-	Returns kJTrue if the specified function will be inherited by derived
-	classes.
-
- ******************************************************************************/
-
-JBoolean
-CBClass::IsInherited
-	(
-	const JIndex		index,
-	const InheritType	inherit,
-	FnAccessLevel*		access
-	)
-	const
-{
-	assert_msg( 0, "The programmer forgot to override CBClass::IsInherited()" );
-	return kJFalse;
 }
 
 /******************************************************************************
@@ -1101,6 +1082,8 @@ CBClass::GetTotalHeight
 void
 CBClass::CalcFrame()
 {
+#ifndef CODE_CRUSADER_UNIT_TEST
+
 	JCoordinate x = itsHCoord;
 	if (HasParents())
 		{
@@ -1128,6 +1111,8 @@ CBClass::CalcFrame()
 	const JCoordinate h = CalcFrameHeight(fontManager, fontSize);
 
 	itsFrame.Set(itsVCoord, x, itsVCoord+h, x+w);
+
+#endif
 }
 
 /******************************************************************************

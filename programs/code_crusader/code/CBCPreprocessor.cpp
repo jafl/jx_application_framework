@@ -67,6 +67,7 @@ CBCPreprocessor::Preprocess
 		while (iter.Next(*info.name))
 			{
 			iter.ReplaceLastMatch(*info.value);
+			changed = kJTrue;
 			}
 		}
 
