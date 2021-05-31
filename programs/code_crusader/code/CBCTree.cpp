@@ -37,7 +37,8 @@ CBCTree::CBCTree
 	)
 	:
 	CBTree(StreamInCClass, director, kCBCHeaderFT, marginWidth),
-	CBCtagsUser(kCtagsArgs)
+	CBCtagsUser(kCtagsArgs),
+	itsClassNameLexer(nullptr)
 {
 	CBCTreeX();
 }
@@ -59,7 +60,8 @@ CBCTree::CBCTree
 	:
 	CBTree(projInput, projVers, setInput, setVers, symInput, symVers,
 		   StreamInCClass, director, kCBCHeaderFT, marginWidth, dirList),
-	CBCtagsUser(kCtagsArgs)
+	CBCtagsUser(kCtagsArgs),
+	itsClassNameLexer(nullptr)
 {
 	CBCTreeX();
 

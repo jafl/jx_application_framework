@@ -31,9 +31,9 @@ CBJavaTree::CBJavaTree
 	const JSize			marginWidth
 	)
 	:
-	CBTree(StreamInJavaClass, director, kCBJavaSourceFT, marginWidth)
+	CBTree(StreamInJavaClass, director, kCBJavaSourceFT, marginWidth),
+	itsClassNameLexer(nullptr)
 {
-	itsClassNameLexer = nullptr;
 }
 
 #ifndef CODE_CRUSADER_UNIT_TEST
@@ -52,10 +52,9 @@ CBJavaTree::CBJavaTree
 	)
 	:
 	CBTree(projInput, projVers, setInput, setVers, symInput, symVers,
-		   StreamInJavaClass, director, kCBJavaSourceFT, marginWidth, dirList)
+		   StreamInJavaClass, director, kCBJavaSourceFT, marginWidth, dirList),
+	itsClassNameLexer(nullptr)
 {
-	itsClassNameLexer = nullptr;
-
 	if (projVers < 86 && !IsEmpty())
 		{
 		NextUpdateMustReparseAll();

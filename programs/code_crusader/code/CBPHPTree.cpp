@@ -31,9 +31,9 @@ CBPHPTree::CBPHPTree
 	const JSize			marginWidth
 	)
 	:
-	CBTree(StreamInPHPClass, director, kCBPHPFT, marginWidth)
+	CBTree(StreamInPHPClass, director, kCBPHPFT, marginWidth),
+	itsClassNameLexer(nullptr)
 {
-	itsClassNameLexer = nullptr;
 }
 
 #ifndef CODE_CRUSADER_UNIT_TEST
@@ -52,10 +52,9 @@ CBPHPTree::CBPHPTree
 	)
 	:
 	CBTree(projInput, projVers, setInput, setVers, symInput, symVers,
-		   StreamInPHPClass, director, kCBPHPFT, marginWidth, dirList)
+		   StreamInPHPClass, director, kCBPHPFT, marginWidth, dirList),
+	itsClassNameLexer(nullptr)
 {
-	itsClassNameLexer = nullptr;
-
 	if (projVers < 81 && !IsEmpty())
 		{
 		NextUpdateMustReparseAll();
