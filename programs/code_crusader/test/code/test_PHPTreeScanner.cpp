@@ -55,37 +55,37 @@ JTEST(Basic)
 	JAssertEqual(5, list.GetElementCount());
 
 	JSize found = 0;
-	for (const JUtf8Byte* n :
+	for (CBClass* c : list)
 		{
-			"A\\A1",
-			"Exception\\InvalidArgumentException",
-			"ExceptionInterface",
-			"foo\\B\\B1",
-			"Zend\\Authentication\\Adapter\\DbTable\\Exception\\InvalidArgumentException"
-		})
-		{
-		for (CBClass* c : list)
+		if (c->GetFullName() == "Zend\\Authentication\\Adapter\\DbTable\\Exception\\InvalidArgumentException")
 			{
-			if (c->GetFullName() == "Zend\\Authentication\\Adapter\\DbTable\\Exception\\InvalidArgumentException")
-				{
-				JAssertTrue(c->HasParents());
-				JAssertEqual(2, c->GetParentCount());
-				}
-			else if (c->GetFullName() == "foo\\B\\B1")
-				{
-				JAssertTrue(c->HasParents());
-				JAssertEqual(1, c->GetParentCount());
-				}
-			else if (c->GetFullName() == "A\\A1")
-				{
-				JAssertTrue(c->IsAbstract());
-				}
-			else
-				{
-				JAssertEqual(CBClass::kGhostType, c->GetDeclareType());
-				}
+			JAssertTrue(c->HasParents());
+			JAssertEqual(2, c->GetParentCount());
+			}
+		else if (c->GetFullName() == "foo\\B\\B1")
+			{
+			JAssertTrue(c->HasParents());
+			JAssertEqual(1, c->GetParentCount());
+			}
+		else if (c->GetFullName() == "A\\A1")
+			{
+			JAssertTrue(c->IsAbstract());
+			}
+		else
+			{
+			JAssertEqual(CBClass::kGhostType, c->GetDeclareType());
+			}
 
-			if (c->GetFullName() == n)
+		for (const JUtf8Byte* n :
+			{
+				"A\\A1",
+				"Exception\\InvalidArgumentException",
+				"ExceptionInterface",
+				"foo\\B\\B1",
+				"Zend\\Authentication\\Adapter\\DbTable\\Exception\\InvalidArgumentException"
+			})
+			{
+			if (n == c->GetFullName())
 				{
 				found++;
 				break;

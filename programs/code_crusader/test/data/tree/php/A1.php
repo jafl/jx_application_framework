@@ -2,7 +2,7 @@
 
 namespace A;
 
-abstract class A1
+abstract /*comment*/ class A1
 {
 	function __construct()
 	{

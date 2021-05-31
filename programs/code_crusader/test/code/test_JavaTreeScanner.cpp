@@ -54,45 +54,45 @@ JTEST(Basic)
 	JAssertEqual(8, list.GetElementCount());
 
 	JSize found = 0;
-	for (const JUtf8Byte* n :
+	for (CBClass* c : list)
 		{
-			"com.android.systemui.statusbar.policy.AccessibilityController",
-			"com.android.systemui.statusbar.policy.AccessibilityController.AccessibilityStateChangedCallback",
-			"android.view.accessibility.AccessibilityManager.AccessibilityStateChangeListener",
-			"android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener",
-			"com.android.systemui.power.PowerNotificationWarnings",
-			"PowerUI.WarningsUI",
-			"com.android.systemui.power.PowerNotificationWarnings.Receiver",
-			"android.content.BroadcastReceiver"
-		})
-		{
-		for (CBClass* c : list)
+		if (c->GetFullName() == "com.android.systemui.statusbar.policy.AccessibilityController")
 			{
-			if (c->GetFullName() == "com.android.systemui.statusbar.policy.AccessibilityController")
-				{
-				JAssertFalse(c->IsAbstract());
-				JAssertTrue(c->HasParents());
-				JAssertEqual(2, c->GetParentCount());
-				}
-			else if (c->GetFullName() == "com.android.systemui.statusbar.policy.AccessibilityController.AccessibilityStateChangedCallback")
-				{
-				JAssertTrue(c->IsAbstract());
-				}
-			else if (c->GetFullName() == "com.android.systemui.power.PowerNotificationWarnings" ||
-					 c->GetFullName() == "com.android.systemui.power.PowerNotificationWarnings.Receiver")
-				{
-				JAssertFalse(c->IsAbstract());
-				JAssertTrue(c->HasParents());
-				JAssertEqual(1, c->GetParentCount());
-				}
-			else
-				{
-				JAssertEqual(CBClass::kGhostType, c->GetDeclareType());
-				}
+			JAssertFalse(c->IsAbstract());
+			JAssertTrue(c->HasParents());
+			JAssertEqual(2, c->GetParentCount());
+			}
+		else if (c->GetFullName() == "com.android.systemui.statusbar.policy.AccessibilityController.AccessibilityStateChangedCallback")
+			{
+			JAssertTrue(c->IsAbstract());
+			}
+		else if (c->GetFullName() == "com.android.systemui.power.PowerNotificationWarnings" ||
+				 c->GetFullName() == "com.android.systemui.power.PowerNotificationWarnings.Receiver")
+			{
+			JAssertFalse(c->IsAbstract());
+			JAssertTrue(c->HasParents());
+			JAssertEqual(1, c->GetParentCount());
+			}
+		else
+			{
+			JAssertEqual(CBClass::kGhostType, c->GetDeclareType());
+			}
 
-			JAssertFalse(c->IsTemplate());
+		JAssertFalse(c->IsTemplate());
 
-			if (c->GetFullName() == n)
+		for (const JUtf8Byte* n :
+			{
+				"com.android.systemui.statusbar.policy.AccessibilityController",
+				"com.android.systemui.statusbar.policy.AccessibilityController.AccessibilityStateChangedCallback",
+				"android.view.accessibility.AccessibilityManager.AccessibilityStateChangeListener",
+				"android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener",
+				"com.android.systemui.power.PowerNotificationWarnings",
+				"PowerUI.WarningsUI",
+				"com.android.systemui.power.PowerNotificationWarnings.Receiver",
+				"android.content.BroadcastReceiver"
+			})
+			{
+			if (n == c->GetFullName())
 				{
 				found++;
 				break;
@@ -118,36 +118,36 @@ JTEST(Template)
 	JAssertEqual(5, list.GetElementCount());
 
 	JSize found = 0;
-	for (const JUtf8Byte* n :
+	for (CBClass* c : list)
 		{
-			"test.csv.verifier.DateVerifier",
-			"test.csv.verifier.IdVerifier",
-			"test.csv.verifier.StartDateVerifier",
-			"com.opencsv.bean.BeanVerifier",
-			"test.foo.Test1"
-		})
-		{
-		for (CBClass* c : list)
+		if (c->GetFullName() == "com.opencsv.bean.BeanVerifier" ||
+			c->GetFullName() == "test.foo.Test1")
 			{
-			if (c->GetFullName() == "com.opencsv.bean.BeanVerifier" ||
-				c->GetFullName() == "test.foo.Test1")
-				{
-				JAssertEqual(CBClass::kGhostType, c->GetDeclareType());
-				}
-			else if (c->GetFullName() == "test.csv.verifier.StartDateVerifier")
-				{
-				JAssertFalse(c->IsTemplate());
-				JAssertTrue(c->HasParents());
-				JAssertEqual(2, c->GetParentCount());
-				}
-			else
-				{
-				JAssertTrue(c->IsTemplate());
-				JAssertTrue(c->HasParents());
-				JAssertEqual(1, c->GetParentCount());
-				}
+			JAssertEqual(CBClass::kGhostType, c->GetDeclareType());
+			}
+		else if (c->GetFullName() == "test.csv.verifier.StartDateVerifier")
+			{
+			JAssertFalse(c->IsTemplate());
+			JAssertTrue(c->HasParents());
+			JAssertEqual(2, c->GetParentCount());
+			}
+		else
+			{
+			JAssertTrue(c->IsTemplate());
+			JAssertTrue(c->HasParents());
+			JAssertEqual(1, c->GetParentCount());
+			}
 
-			if (c->GetFullName() == n)
+		for (const JUtf8Byte* n :
+			{
+				"test.csv.verifier.DateVerifier",
+				"test.csv.verifier.IdVerifier",
+				"test.csv.verifier.StartDateVerifier",
+				"com.opencsv.bean.BeanVerifier",
+				"test.foo.Test1"
+			})
+			{
+			if (n == c->GetFullName())
 				{
 				found++;
 				break;

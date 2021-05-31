@@ -1,4 +1,4 @@
-package test.csv.verifier;
+package test.csv.verifier;	// comment
 
 import java.time.Instant;
 
@@ -8,7 +8,8 @@ import test.csv.model.ImportBean;
 import test.csv.model.InventoryLimit;
 import test.csv.exception.CSVException;
 
-public class StartDateVerifier implements BeanVerifier<InventoryLimit> extends test.foo.Test1 {
+public class /*comment*/ StartDateVerifier	// comment
+	implements BeanVerifier<InventoryLimit> /*comment*/ extends test.foo.Test1 {
 
 	@Override
 	public boolean verifyBean(InventoryLimit bean) {
@@ -17,6 +18,7 @@ public class StartDateVerifier implements BeanVerifier<InventoryLimit> extends t
 		} else if (bean.getStartDate().isAfter(bean.getEndDate())) {
 			throw new CSVException("error.import.invalid-time-range");
 		}
+		"class foo {};";
 		return true;
 	}
 }
