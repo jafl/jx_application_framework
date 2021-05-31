@@ -10,8 +10,6 @@
 #include <JTestManager.h>
 #include "CBCStyler.h"
 #include "cbTestUtil.h"
-#include <jFileUtil.h>
-#include <sstream>
 #include <jAssert.h>
 
 int main()
@@ -29,5 +27,5 @@ JTEST(Basic)
 	// empty
 	UpdateStyles(st, styler);
 
-	RunTest(st, styler, "./data/c/test.c", "./data/c/styled.out");
+	RunTest(st, styler, "./data/styler/c/test.c", "./data/styler/c/styled.out");
 }

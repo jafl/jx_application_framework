@@ -10,8 +10,6 @@
 #include <JTestManager.h>
 #include "CBCShellStyler.h"
 #include "cbTestUtil.h"
-#include <jFileUtil.h>
-#include <sstream>
 #include <jAssert.h>
 
 int main()
@@ -29,5 +27,5 @@ JTEST(Basic)
 	// empty
 	UpdateStyles(st, styler);
 
-	RunTest(st, styler, "./data/cshell/test.csh", "./data/cshell/styled.out");
+	RunTest(st, styler, "./data/styler/cshell/test.csh", "./data/styler/cshell/styled.out");
 }

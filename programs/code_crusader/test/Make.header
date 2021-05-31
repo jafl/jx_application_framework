@@ -39,7 +39,8 @@ LDFLAGS   :=
 # tests
 
 TESTS := \
-      test_BourneShellStyler test_CStyler test_CSharpStyler test_CShellStyler
+      test_BourneShellStyler test_CStyler test_CSharpStyler test_CShellStyler \
+      test_CTreeScanner test_JavaTreeScanner test_PHPTreeScanner
 
 #####
 

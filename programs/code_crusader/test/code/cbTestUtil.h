@@ -7,6 +7,9 @@
 
  *****************************************************************************/
 
+#include <jFileUtil.h>
+#include <sstream>
+
 inline void
 UpdateStyles
 	(

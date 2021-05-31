@@ -27,3 +27,32 @@ ${JCCCODEDIR}/CBCShellStyler
 ${JCCCODEDIR}/CBCShellScanner
 .l ${JCCCODEDIR}/CBCShellScannerL
 ${JCCCODEDIR}/CBStylerBase
+
+@test_CTreeScanner
+${CODEDIR}/test_CTreeScanner
+${JCCCODEDIR}/CBCTreeScanner
+.l ${JCCCODEDIR}/CBCTreeScannerL
+${JCCCODEDIR}/CBCTree
+${JCCCODEDIR}/CBTree
+${JCCCODEDIR}/CBCClass
+${JCCCODEDIR}/CBClass
+${JCCCODEDIR}/CBCPreprocessor
+${JCCCODEDIR}/CBCtagsUser
+
+@test_JavaTreeScanner
+${CODEDIR}/test_JavaTreeScanner
+${JCCCODEDIR}/CBJavaTreeScanner
+.l ${JCCCODEDIR}/CBJavaTreeScannerL
+${JCCCODEDIR}/CBJavaTree
+${JCCCODEDIR}/CBTree
+${JCCCODEDIR}/CBJavaClass
+${JCCCODEDIR}/CBClass
+
+@test_PHPTreeScanner
+${CODEDIR}/test_PHPTreeScanner
+${JCCCODEDIR}/CBPHPTreeScanner
+.l ${JCCCODEDIR}/CBPHPTreeScannerL
+${JCCCODEDIR}/CBPHPTree
+${JCCCODEDIR}/CBTree
+${JCCCODEDIR}/CBPHPClass
+${JCCCODEDIR}/CBClass
