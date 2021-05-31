@@ -270,7 +270,11 @@ JStringManager::Register
 
 	if (!JString::IsEmpty(signature))
 		{
-		JString locale(getenv("LANG"), 0);
+		JString locale(getenv("LANG"));
+		if (locale.IsEmpty())
+			{
+			locale = "en_US";
+			}
 
 		// remove character set
 
@@ -289,7 +293,7 @@ JStringManager::Register
 
 		itsBCP47Locale = *localeParts.GetElement(1);
 		itsBCP47Locale.Append("-");
-		itsBCP47Locale += *localeParts.GetElement(1);
+		itsBCP47Locale += *localeParts.GetElement(2);
 
 		const JString& language = *localeParts.GetElement(1);
 

@@ -69,9 +69,7 @@ private:
 
 
 /******************************************************************************
- EnablePseudotranslation
-
-	This must be called before initialization.
+ GetBCP47Locale
 
  *****************************************************************************/
 
