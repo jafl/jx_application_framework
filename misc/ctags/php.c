@@ -23,7 +23,7 @@
 
 #include "parse.h"
 #include "read.h"
-#include "vstring.h"
+#include "entry.h"
 
 /*
 *   DATA DEFINITIONS
@@ -71,6 +71,38 @@ static kindOption CallbackKinds [] = {
 
 static regex_t keywords_pattern;
 
+static void phpClass(const char *line, const regexMatch *matches, unsigned int count)
+{
+	vString *const name = vStringNew ();
+	vStringNCopyS (name, line + matches[2].start, matches[2].length);
+
+	tagEntryInfo e;
+	initTagEntry (&e, vStringValue (name));
+	e.kindName = "class";
+	e.kind = 'c';
+
+	if (strncmp("abstract", line + matches[1].start, 8) == 0)
+	{
+		e.extensionFields.implementation = "abstract";
+	}
+
+	makeTagEntry(&e);
+}
+
+static void phpInterface(const char *line, const regexMatch *matches, unsigned int count)
+{
+	vString *const name = vStringNew ();
+	vStringNCopyS (name, line + matches[1].start, matches[1].length);
+
+	tagEntryInfo e;
+	initTagEntry (&e, vStringValue (name));
+	e.kindName = "interface";
+	e.kind = 'i';
+	e.extensionFields.implementation = "abstract";
+
+	makeTagEntry(&e);
+}
+
 static void es6Function(const char *line, const regexMatch *matches, unsigned int count)
 {
 	vString *const name = vStringNew ();
@@ -88,10 +120,14 @@ static void es6Function(const char *line, const regexMatch *matches, unsigned in
 
 static void installPHPRegex (const langType language)
 {
-	addTagRegex(language, "^[ \t]*((final|abstract)[ \t]+)*class[ \t]+(" IDENT ")",
-		"\\3", "c,class,classes", NULL);
-	addTagRegex(language, "^[ \t]*interface[ \t]+(" IDENT ")",
-		"\\1", "i,interface,interfaces", NULL);
+	addCallbackRegex(language, "^[ \t]*(final[ \t]+class)[ \t]+(" IDENT ")",
+		NULL, phpClass);
+	addCallbackRegex(language, "^[ \t]*(abstract[ \t]+class)[ \t]+(" IDENT ")",
+		NULL, phpClass);
+	addCallbackRegex(language, "^[ \t]*(class)[ \t]+(" IDENT ")",
+		NULL, phpClass);
+	addCallbackRegex(language, "^[ \t]*interface[ \t]+(" IDENT ")",
+		NULL, phpInterface);
 	addTagRegex(language, "^[ \t]*define[ \t]*\\([ \t]*['\"]?(" IDENT ")",
 		"\\1", "d,define,constant definitions", NULL);
 	addTagRegex(language, "^[ \t]*((abstract|static|public|protected|private)[ \t]+)*function[ \t]+&?[ \t]*(" IDENT ")",
