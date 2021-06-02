@@ -1998,6 +1998,13 @@ CBProjectDocument::UpdateProjectMenu()
 {
 	itsProjectMenu->SetItemEnable(kUpdateMakefileCmd,
 		JI2B(itsBuildMgr->GetMakefileMethod() != CBBuildManager::kManual));
+
+	itsProjectMenu->SetItemEnable(kShowCTreeCmd,
+		JNegate(itsCTreeDirector->GetTree()->IsEmpty()));
+	itsProjectMenu->SetItemEnable(kShowJavaTreeCmd,
+		JNegate(itsJavaTreeDirector->GetTree()->IsEmpty()));
+	itsProjectMenu->SetItemEnable(kShowPHPTreeCmd,
+		JNegate(itsPHPTreeDirector->GetTree()->IsEmpty()));
 }
 
 /******************************************************************************
@@ -2049,7 +2056,7 @@ CBProjectDocument::HandleProjectMenu
 		}
 	else if (index == kViewManPageCmd)
 		{
-		(CBGetViewManPageDialog())->Activate();
+		CBGetViewManPageDialog()->Activate();
 		}
 
 	else if (index == kEditSearchPathsCmd)
@@ -2062,15 +2069,15 @@ CBProjectDocument::HandleProjectMenu
 		}
 	else if (index == kFindFileCmd)
 		{
-		(CBGetFindFileDialog())->Activate();
+		CBGetFindFileDialog()->Activate();
 		}
 	else if (index == kSearchFilesCmd)
 		{
-		(CBGetSearchTextDialog())->Activate();
+		CBGetSearchTextDialog()->Activate();
 		}
 	else if (index == kDiffFilesCmd)
 		{
-		(CBGetDiffFileDialog())->Activate();
+		CBGetDiffFileDialog()->Activate();
 		}
 }
 

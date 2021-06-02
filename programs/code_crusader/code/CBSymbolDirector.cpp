@@ -920,6 +920,13 @@ CBSymbolDirector::HandleSymbolMenu
 void
 CBSymbolDirector::UpdateProjectMenu()
 {
+	itsProjectMenu->SetItemEnable(kShowCTreeCmd,
+		JNegate(itsProjDoc->GetCTreeDirector()->GetTree()->IsEmpty()));
+	itsProjectMenu->SetItemEnable(kShowJavaTreeCmd,
+		JNegate(itsProjDoc->GetJavaTreeDirector()->GetTree()->IsEmpty()));
+	itsProjectMenu->SetItemEnable(kShowPHPTreeCmd,
+		JNegate(itsProjDoc->GetPHPTreeDirector()->GetTree()->IsEmpty()));
+
 	itsProjectMenu->SetItemEnable(kCloseAllTextCmd,
 								  CBGetDocumentManager()->HasTextDocuments());
 	itsProjectMenu->SetItemEnable(kSaveAllTextCmd,
@@ -941,36 +948,36 @@ CBSymbolDirector::HandleProjectMenu
 
 	if (index == kShowCTreeCmd)
 		{
-		(itsProjDoc->GetCTreeDirector())->Activate();
+		itsProjDoc->GetCTreeDirector()->Activate();
 		}
 	else if (index == kShowJavaTreeCmd)
 		{
-		(itsProjDoc->GetJavaTreeDirector())->Activate();
+		itsProjDoc->GetJavaTreeDirector()->Activate();
 		}
 	else if (index == kShowPHPTreeCmd)
 		{
-		(itsProjDoc->GetPHPTreeDirector())->Activate();
+		itsProjDoc->GetPHPTreeDirector()->Activate();
 		}
 	else if (index == kViewManPageCmd)
 		{
-		(CBGetViewManPageDialog())->Activate();
+		CBGetViewManPageDialog()->Activate();
 		}
 
 	else if (index == kShowFileListCmd)
 		{
-		(itsProjDoc->GetFileListDirector())->Activate();
+		itsProjDoc->GetFileListDirector()->Activate();
 		}
 	else if (index == kFindFileCmd)
 		{
-		(CBGetFindFileDialog())->Activate();
+		CBGetFindFileDialog()->Activate();
 		}
 	else if (index == kSearchFilesCmd)
 		{
-		(CBGetSearchTextDialog())->Activate();
+		CBGetSearchTextDialog()->Activate();
 		}
 	else if (index == kDiffFilesCmd)
 		{
-		(CBGetDiffFileDialog())->Activate();
+		CBGetDiffFileDialog()->Activate();
 		}
 
 	else if (index == kSaveAllTextCmd)

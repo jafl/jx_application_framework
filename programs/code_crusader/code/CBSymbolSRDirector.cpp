@@ -17,6 +17,7 @@
 #include "CBCTreeDirector.h"
 #include "CBJavaTreeDirector.h"
 #include "CBPHPTreeDirector.h"
+#include "CBTree.h"
 #include "CBCommandMenu.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -247,6 +248,13 @@ void
 CBSymbolSRDirector::UpdateActionsMenu()
 {
 	itsActionsMenu->SetItemEnable(kCopySelNamesCmd, itsSymbolTable->HasSelection());
+
+	itsActionsMenu->SetItemEnable(kShowCTreeCmd,
+		JNegate(itsProjDoc->GetCTreeDirector()->GetTree()->IsEmpty()));
+	itsActionsMenu->SetItemEnable(kShowJavaTreeCmd,
+		JNegate(itsProjDoc->GetJavaTreeDirector()->GetTree()->IsEmpty()));
+	itsActionsMenu->SetItemEnable(kShowPHPTreeCmd,
+		JNegate(itsProjDoc->GetPHPTreeDirector()->GetTree()->IsEmpty()));
 }
 
 /******************************************************************************

@@ -22,6 +22,7 @@
 #include "CBPHPTreeDirector.h"
 #include "CBFileListDirector.h"
 #include "CBTextDocument.h"
+#include "CBTree.h"
 #include "CBRelPathCSF.h"
 #include "cbGlobals.h"
 #include "cbActionDefs.h"
@@ -492,6 +493,19 @@ CBCommandMenu::UpdateManageProjectMenu()
 	if (CanManageProject())
 		{
 		itsManageProjMenu->EnableAll();
+
+		CBProjectDocument* projDoc = itsProjDoc;
+		if (projDoc == nullptr)
+			{
+			CBGetDocumentManager()->GetActiveProjectDocument(&projDoc);
+			}
+
+		itsManageProjMenu->SetItemEnable(kShowCTreeCmd,
+			JNegate(projDoc->GetCTreeDirector()->GetTree()->IsEmpty()));
+		itsManageProjMenu->SetItemEnable(kShowJavaTreeCmd,
+			JNegate(projDoc->GetJavaTreeDirector()->GetTree()->IsEmpty()));
+		itsManageProjMenu->SetItemEnable(kShowPHPTreeCmd,
+			JNegate(projDoc->GetPHPTreeDirector()->GetTree()->IsEmpty()));
 		}
 	else
 		{
@@ -527,23 +541,23 @@ CBCommandMenu::HandleManageProjectMenu
 		}
 	else if (index == kShowSymbolBrowserCmd)
 		{
-		(projDoc->GetSymbolDirector())->Activate();
+		projDoc->GetSymbolDirector()->Activate();
 		}
 	else if (index == kShowCTreeCmd)
 		{
-		(projDoc->GetCTreeDirector())->Activate();
+		projDoc->GetCTreeDirector()->Activate();
 		}
 	else if (index == kShowJavaTreeCmd)
 		{
-		(projDoc->GetJavaTreeDirector())->Activate();
+		projDoc->GetJavaTreeDirector()->Activate();
 		}
 	else if (index == kShowPHPTreeCmd)
 		{
-		(projDoc->GetPHPTreeDirector())->Activate();
+		projDoc->GetPHPTreeDirector()->Activate();
 		}
 	else if (index == kShowFileListCmd)
 		{
-		(projDoc->GetFileListDirector())->Activate();
+		projDoc->GetFileListDirector()->Activate();
 		}
 }
 
