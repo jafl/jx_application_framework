@@ -190,7 +190,7 @@ GPMMainDirector::BuildWindow()
 	assert( itsToolBar != nullptr );
 
 	itsFullCmdDisplay =
-		jnew JXStaticText(JString::empty, kJFalse, kJTrue, NULL, window,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue, kJFalse, NULL, window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,330, 530,20);
 	assert( itsFullCmdDisplay != nullptr );
 

@@ -38,7 +38,7 @@ SVNTextBase::SVNTextBase
 	const JCoordinate	h
 	)
 	:
-	JXStaticText(JString::empty, kJFalse, kJTrue, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
+	JXStaticText(JString::empty, kJFalse, kJTrue, kJTrue, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
 	SVNTabBase(director),
 	itsProcess(nullptr),
 	itsLink(nullptr)

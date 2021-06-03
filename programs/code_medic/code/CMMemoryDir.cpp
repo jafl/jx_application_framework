@@ -276,7 +276,7 @@ CMMemoryDir::BuildWindow()
 	CMGetPrefsManager()->GetWindowSize(kMemoryWindSizeID, window, kJTrue);
 
 	itsWidget =
-		jnew JXStaticText(JString::empty, kJFalse, kJTrue,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue, kJTrue,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert(itsWidget != nullptr);
