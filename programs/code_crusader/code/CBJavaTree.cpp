@@ -55,7 +55,7 @@ CBJavaTree::CBJavaTree
 		   StreamInJavaClass, director, kCBJavaSourceFT, marginWidth, dirList),
 	itsClassNameLexer(nullptr)
 {
-	if (projVers < 86 && !IsEmpty())
+	if (projVers < 88 && !IsEmpty())	// new parser
 		{
 		NextUpdateMustReparseAll();
 		}

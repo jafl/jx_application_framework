@@ -70,7 +70,7 @@ CBCTree::CBCTree
 		itsCPP->ReadSetup(projInput, projVers);
 		}
 
-	if (projVers < 88)		// new parser
+	if (projVers < 88 && !IsEmpty())		// new parser
 		{
 		NextUpdateMustReparseAll();
 		}
