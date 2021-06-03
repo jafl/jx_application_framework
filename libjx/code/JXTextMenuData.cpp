@@ -287,14 +287,15 @@ JXTextMenuData::InsertMenuItems
 				}
 			}
 
-		InsertItem(startIndex + i-1, itemText, type, shortcuts, nmShortcut, id);
+		const JIndex j = startIndex + i-1;
+		InsertItem(j, itemText, type, shortcuts, nmShortcut, id);
 		if (!isActive)
 			{
-			DisableItem(i);
+			DisableItem(j);
 			}
 		if (hasSeparator)
 			{
-			ShowSeparatorAfter(i);
+			ShowSeparatorAfter(j);
 			}
 		}
 }
