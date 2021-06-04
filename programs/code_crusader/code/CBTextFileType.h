@@ -80,7 +80,8 @@ enum CBTextFileType
 	kCBMatlabFT,
 	kCBAdobeFlexFT,
 	kCBINIFT,
-	kCBPropertiesFT,		// = kCBLastFT	// special
+	kCBPropertiesFT,
+	kCBGoFT,			// = kCBLastFT	// special
 
 	// When you add new types, be sure to increment the prefs version!
 
@@ -136,6 +137,7 @@ CBCanCompile
 				type == kCBRatforFT        ||
 				type == kCBJavaSourceFT    ||
 				type == kCBJSPFT           ||
+				type == kCBGoFT            ||
 				type == kCBPascalFT        ||
 				type == kCBAssemblyFT      ||
 				type == kCBModula2ModuleFT ||
@@ -327,7 +329,8 @@ enum CBLanguage
 	kCBMatlabLang,
 	kCBAdobeFlexLang,
 	kCBINILang,
-	kCBPropertiesLang,	// = kCBLastLang
+	kCBPropertiesLang,
+	kCBGoLang,		// = kCBLastLang
 
 	// When you add new types, be sure to increment the prefs version!
 
@@ -363,6 +366,7 @@ CBHasNamespace
 	)
 {
 	return JI2B( lang == kCBCLang          ||	// C++, actually
+				 lang == kCBGoLang         ||
 				 lang == kCBJavaLang       ||
 				 lang == kCBJavaScriptLang ||
 				 lang == kCBPerlLang       ||

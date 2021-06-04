@@ -20,7 +20,7 @@ This scanner reads a PHP file and builds a CBPHPClass.
 		CBTree* tree, CBClass** theClass)
 %}
 
-%option c++ yyclass="CBPHPTree" prefix="CBPHPTree"
+%option c++ yyclass="CBPHPTreeScanner" prefix="CBPHPTree"
 %option 8bit nodefault stack noyywrap
 
 %x NAMESPACE_STATE USE_STATE USE_AS_STATE NAME_STATE INHERIT_STATE

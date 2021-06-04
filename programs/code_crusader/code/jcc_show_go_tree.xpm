@@ -1,0 +1,18 @@
+/* XPM */
+static const char *jcc_show_go_tree[] = {
+/* width height num_colors chars_per_pixel */
+"    8     9        2            1",
+/* colors */
+". c None",
+"# c black",
+/* pixels */
+"..####..",
+".##...#.",
+".#......",
+".#......",
+".#..###.",
+".#....#.",
+".#....#.",
+".##..##.",
+"..####.."
+};

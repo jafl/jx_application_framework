@@ -23,6 +23,7 @@
 #include "CBProjectDocument.h"
 #include "CBFileListTable.h"
 #include "CBCTreeDirector.h"
+#include "CBGoTreeDirector.h"
 #include "CBJavaTreeDirector.h"
 #include "CBPHPTreeDirector.h"
 #include "CBTreeWidget.h"
@@ -95,6 +96,7 @@ enum
 
 static const JUtf8Byte* kProjectMenuStr =
 	"    Show C++ class tree                 %i" kCBShowCPPClassTreeAction
+	"  | Show Go struct/interface tree       %i" kCBShowGoClassTreeAction
 	"  | Show Java class tree                %i" kCBShowJavaClassTreeAction
 	"  | Show PHP class tree                 %i" kCBShowPHPClassTreeAction
 	"  | Look up man page... %k Meta-I       %i" kCBViewManPageAction
@@ -107,7 +109,8 @@ static const JUtf8Byte* kProjectMenuStr =
 
 enum
 {
-	kShowCTreeCmd = 1, kShowJavaTreeCmd, kShowPHPTreeCmd, kViewManPageCmd,
+	kShowCTreeCmd = 1, kShowGoTreeCmd, kShowJavaTreeCmd, kShowPHPTreeCmd,
+	kViewManPageCmd,
 	kShowFileListCmd, kFindFileCmd, kSearchFilesCmd, kDiffFilesCmd,
 	kSaveAllTextCmd, kCloseAllTextCmd
 };
@@ -555,6 +558,7 @@ CBSymbolDirector::BuildAncestorList
 #include <jx_file_new.xpm>
 #include <jx_file_open.xpm>
 #include "jcc_show_c_tree.xpm"
+#include "jcc_show_go_tree.xpm"
 #include "jcc_show_java_tree.xpm"
 #include "jcc_show_php_tree.xpm"
 #include "jcc_view_man_page.xpm"
@@ -645,6 +649,7 @@ CBSymbolDirector::BuildWindow
 	ListenTo(itsProjectMenu);
 
 	itsProjectMenu->SetItemImage(kShowCTreeCmd,    jcc_show_c_tree);
+	itsProjectMenu->SetItemImage(kShowGoTreeCmd,   jcc_show_go_tree);
 	itsProjectMenu->SetItemImage(kShowJavaTreeCmd, jcc_show_java_tree);
 	itsProjectMenu->SetItemImage(kShowPHPTreeCmd,  jcc_show_php_tree);
 	itsProjectMenu->SetItemImage(kViewManPageCmd,  jcc_view_man_page);
@@ -922,6 +927,8 @@ CBSymbolDirector::UpdateProjectMenu()
 {
 	itsProjectMenu->SetItemEnable(kShowCTreeCmd,
 		JNegate(itsProjDoc->GetCTreeDirector()->GetTree()->IsEmpty()));
+	itsProjectMenu->SetItemEnable(kShowGoTreeCmd,
+		JNegate(itsProjDoc->GetGoTreeDirector()->GetTree()->IsEmpty()));
 	itsProjectMenu->SetItemEnable(kShowJavaTreeCmd,
 		JNegate(itsProjDoc->GetJavaTreeDirector()->GetTree()->IsEmpty()));
 	itsProjectMenu->SetItemEnable(kShowPHPTreeCmd,
@@ -949,6 +956,10 @@ CBSymbolDirector::HandleProjectMenu
 	if (index == kShowCTreeCmd)
 		{
 		itsProjDoc->GetCTreeDirector()->Activate();
+		}
+	else if (index == kShowGoTreeCmd)
+		{
+		itsProjDoc->GetGoTreeDirector()->Activate();
 		}
 	else if (index == kShowJavaTreeCmd)
 		{

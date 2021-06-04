@@ -1,18 +1,18 @@
 /******************************************************************************
- CBJavaTree.cpp
+ CBGoTree.cpp
 
-	This class instantiates a Java inheritance tree.
+	This class instantiates a Go inheritance tree.
 
 	BASE CLASS = CBTree
 
-	Copyright (C) 1995-2021 John Lindal.
+	Copyright (C) 2021 John Lindal.
 
  ******************************************************************************/
 
-#include "CBJavaTree.h"
-#include "CBJavaClass.h"
-#include "CBJavaTreeDirector.h"
-#include "CBJavaTreeScanner.h"
+#include "CBGoTree.h"
+#include "CBGoClass.h"
+#include "CBGoTreeDirector.h"
+#include "CBGoTreeScanner.h"
 #include "CBProjectDocument.h"
 #include "cbGlobals.h"
 #include <jStreamUtil.h>
@@ -25,20 +25,20 @@
 
  ******************************************************************************/
 
-CBJavaTree::CBJavaTree
+CBGoTree::CBGoTree
 	(
-	CBJavaTreeDirector*	director,
+	CBGoTreeDirector*	director,
 	const JSize			marginWidth
 	)
 	:
-	CBTree(StreamInJavaClass, director, kCBJavaSourceFT, marginWidth),
+	CBTree(StreamInGoClass, director, kCBGoFT, marginWidth),
 	itsClassNameLexer(nullptr)
 {
 }
 
 #ifndef CODE_CRUSADER_UNIT_TEST
 
-CBJavaTree::CBJavaTree
+CBGoTree::CBGoTree
 	(
 	std::istream&		projInput,
 	const JFileVersion	projVers,
@@ -46,13 +46,13 @@ CBJavaTree::CBJavaTree
 	const JFileVersion	setVers,
 	std::istream*		symInput,
 	const JFileVersion	symVers,
-	CBJavaTreeDirector*	director,
+	CBGoTreeDirector*	director,
 	const JSize			marginWidth,
 	CBDirList*			dirList
 	)
 	:
 	CBTree(projInput, projVers, setInput, setVers, symInput, symVers,
-		   StreamInJavaClass, director, kCBJavaSourceFT, marginWidth, dirList),
+		   StreamInGoClass, director, kCBGoFT, marginWidth, dirList),
 	itsClassNameLexer(nullptr)
 {
 	if (projVers < 88 && !IsEmpty())	// new parser
@@ -68,7 +68,7 @@ CBJavaTree::CBJavaTree
 
  ******************************************************************************/
 
-CBJavaTree::~CBJavaTree()
+CBGoTree::~CBGoTree()
 {
 	jdelete itsClassNameLexer;
 }
@@ -79,7 +79,7 @@ CBJavaTree::~CBJavaTree()
  ******************************************************************************/
 
 void
-CBJavaTree::StreamOut
+CBGoTree::StreamOut
 	(
 	std::ostream&		projOutput,
 	std::ostream*		setOutput,
@@ -93,21 +93,21 @@ CBJavaTree::StreamOut
 }
 
 /******************************************************************************
- StreamInJavaClass (static private)
+ StreamInGoClass (static private)
 
-	Creates a jnew CBJavaClass from the data in the given stream.
+	Creates a jnew CBGoClass from the data in the given stream.
 
  ******************************************************************************/
 
 CBClass*
-CBJavaTree::StreamInJavaClass
+CBGoTree::StreamInGoClass
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	CBTree*				tree
 	)
 {
-	CBJavaClass* newClass = jnew CBJavaClass(input, vers, tree);
+	CBGoClass* newClass = jnew CBGoClass(input, vers, tree);
 	assert( newClass != nullptr );
 	return newClass;
 }
@@ -120,7 +120,7 @@ CBJavaTree::StreamInJavaClass
  ******************************************************************************/
 
 JBoolean
-CBJavaTree::UpdateFinished
+CBGoTree::UpdateFinished
 	(
 	const JArray<JFAID_t>& deadFileList
 	)
@@ -134,15 +134,12 @@ CBJavaTree::UpdateFinished
 /******************************************************************************
  ParseFile (virtual protected)
 
-	Parses the given file and creates CBJavaClasses.
-
-	We do not create java.lang.Object, because that destroys the ability to
-	minimize MI links.
+	Parses the given file and creates CBGoClasses.
 
  ******************************************************************************/
 
 void
-CBJavaTree::ParseFile
+CBGoTree::ParseFile
 	(
 	const JString&	fileName,
 	const JFAID_t	id
@@ -150,7 +147,7 @@ CBJavaTree::ParseFile
 {
 	if (itsClassNameLexer == nullptr)
 		{
-		itsClassNameLexer = jnew CBJavaTreeScanner;
+		itsClassNameLexer = jnew CBGoTreeScanner;
 		assert( itsClassNameLexer != nullptr );
 		}
 

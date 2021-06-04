@@ -205,7 +205,7 @@ CBCTree::ParseFile
 	CBLanguage lang;
 
 	if (itsClassNameLexer->CreateClasses(fileName, id, this, &classList) &&
-		ProcessFile(fileName, kCBJavaSourceFT, &data, &lang))
+		ProcessFile(fileName, kCBCSourceFT, &data, &lang))
 		{
 		// check for pure virtual via ctags
 

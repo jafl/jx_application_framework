@@ -158,6 +158,7 @@ static const JUtf8Byte* kPrefsStylesMenuStr =
 	"| C / C++"
 	"| C#"
 	"| Eiffel"
+	"| Go"
 	"| HTML / PHP / JSP / XML"
 	"| INI"
 	"| Java"
@@ -176,6 +177,7 @@ static const CBLanguage kMenuItemToLang[] =
 	kCBCLang,
 	kCBCSharpLang,
 	kCBEiffelLang,
+	kCBGoLang
 	kCBHTMLLang,
 	kCBINILang,
 	kCBJavaLang,

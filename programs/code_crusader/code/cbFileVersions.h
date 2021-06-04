@@ -12,8 +12,10 @@
 
 #include <jTypes.h>
 
-const JFileVersion kCurrentPrefsFileVersion = 67;
+const JFileVersion kCurrentPrefsFileVersion = 68;
 
+// version 68:
+//	Added support for Go source files.
 // version 67:
 //	Added support for Java properties files.
 // version 66:

@@ -1,14 +1,14 @@
 /******************************************************************************
- CBJavaTreeDirector.cpp
+ CBGoTreeDirector.cpp
 
 	BASE CLASS = CBTreeDirector
 
-	Copyright (C) 1999 by John Lindal.
+	Copyright (C) 2021 by John Lindal.
 
  ******************************************************************************/
 
-#include "CBJavaTreeDirector.h"
-#include "CBJavaTree.h"
+#include "CBGoTreeDirector.h"
+#include "CBGoTree.h"
 #include "CBProjectDocument.h"
 #include "cbActionDefs.h"
 #include "cbGlobals.h"
@@ -16,12 +16,12 @@
 #include <JXToolBar.h>
 #include <jAssert.h>
 
-#include "jcc_java_tree_window.xpm"
+#include "jcc_go_tree_window.xpm"
 
 // Tree menu
 
 static const JUtf8Byte* kTreeMenuStr =
-	"    Add classes...                                         %i" kCBEditSearchPathsAction
+	"    Add structs/interfaces...                              %i" kCBEditSearchPathsAction
 	"  | Update                 %k Meta-U                       %i" kCBUpdateClassTreeAction
 	"  | Minimize MI link lengths now                           %i" kCBMinimizeMILinkLengthAction
 	"%l| Open source            %k Left-dbl-click or Return     %i" kCBOpenSelectedFilesAction
@@ -50,20 +50,20 @@ enum
 
  ******************************************************************************/
 
-CBJavaTreeDirector::CBJavaTreeDirector
+CBGoTreeDirector::CBGoTreeDirector
 	(
 	CBProjectDocument* supervisor
 	)
 	:
-	CBTreeDirector(supervisor, NewJavaTree, "WindowTitleSuffix::CBJavaTreeDirector",
-				   "CBJavaTreeHelp", jcc_java_tree_window,
-				   kTreeMenuStr, "CBJavaTreeDirector",
-				   kCBJavaTreeToolBarID, InitJavaTreeToolBar)
+	CBTreeDirector(supervisor, NewGoTree, "WindowTitleSuffix::CBGoTreeDirector",
+				   "CBGoTreeHelp", jcc_go_tree_window,
+				   kTreeMenuStr, "CBGoTreeDirector",
+				   kCBGoTreeToolBarID, InitGoTreeToolBar)
 {
-	CBJavaTreeDirectorX();
+	CBGoTreeDirectorX();
 }
 
-CBJavaTreeDirector::CBJavaTreeDirector
+CBGoTreeDirector::CBGoTreeDirector
 	(
 	std::istream&			projInput,
 	const JFileVersion	projVers,
@@ -76,23 +76,23 @@ CBJavaTreeDirector::CBJavaTreeDirector
 	)
 	:
 	CBTreeDirector(projInput, projVers, setInput, setVers, symInput, symVers,
-				   supervisor, subProject, StreamInJavaTree,
-				   "WindowTitleSuffix::CBJavaTreeDirector",
-				   "CBJavaTreeHelp", jcc_java_tree_window,
-				   kTreeMenuStr, "CBJavaTreeDirector",
-				   kCBJavaTreeToolBarID, InitJavaTreeToolBar,
+				   supervisor, subProject, StreamInGoTree,
+				   "WindowTitleSuffix::CBGoTreeDirector",
+				   "CBGoTreeHelp", jcc_go_tree_window,
+				   kTreeMenuStr, "CBGoTreeDirector",
+				   kCBGoTreeToolBarID, InitGoTreeToolBar,
 				   nullptr, kJFalse)
 {
-	CBJavaTreeDirectorX();
+	CBGoTreeDirectorX();
 }
 
 // private
 
 void
-CBJavaTreeDirector::CBJavaTreeDirectorX()
+CBGoTreeDirector::CBGoTreeDirectorX()
 {
-	itsJavaTree = dynamic_cast<CBJavaTree*>(GetTree());
-	assert( itsJavaTree != nullptr );
+	itsGoTree = dynamic_cast<CBGoTree*>(GetTree());
+	assert( itsGoTree != nullptr );
 }
 
 /******************************************************************************
@@ -100,7 +100,7 @@ CBJavaTreeDirector::CBJavaTreeDirectorX()
 
  ******************************************************************************/
 
-CBJavaTreeDirector::~CBJavaTreeDirector()
+CBGoTreeDirector::~CBGoTreeDirector()
 {
 }
 
@@ -110,26 +110,26 @@ CBJavaTreeDirector::~CBJavaTreeDirector()
  ******************************************************************************/
 
 void
-CBJavaTreeDirector::UpdateTreeMenu()
+CBGoTreeDirector::UpdateTreeMenu()
 {
 	JXTextMenu* treeMenu = GetTreeMenu();
 
 	treeMenu->EnableItem(kEditSearchPathsCmd);
 	treeMenu->EnableItem(kUpdateCurrentCmd);
 
-	if (!itsJavaTree->IsEmpty())
+	if (!itsGoTree->IsEmpty())
 		{
 		treeMenu->EnableItem(kFindFnCmd);
 		treeMenu->EnableItem(kTreeExpandAllCmd);
 
-		if (itsJavaTree->NeedsMinimizeMILinks())
+		if (itsGoTree->NeedsMinimizeMILinks())
 			{
 			treeMenu->EnableItem(kForceMinMILinksCmd);
 			}
 		}
 
 	JBoolean hasSelection, canCollapse, canExpand;
-	itsJavaTree->GetMenuInfo(&hasSelection, &canCollapse, &canExpand);
+	itsGoTree->GetMenuInfo(&hasSelection, &canCollapse, &canExpand);
 	if (hasSelection)
 		{
 		treeMenu->EnableItem(kTreeOpenSourceCmd);
@@ -159,7 +159,7 @@ CBJavaTreeDirector::UpdateTreeMenu()
  ******************************************************************************/
 
 void
-CBJavaTreeDirector::HandleTreeMenu
+CBGoTreeDirector::HandleTreeMenu
 	(
 	const JIndex index
 	)
@@ -176,42 +176,42 @@ CBJavaTreeDirector::HandleTreeMenu
 		}
 	else if (index == kForceMinMILinksCmd)
 		{
-		itsJavaTree->ForceMinimizeMILinks();
+		itsGoTree->ForceMinimizeMILinks();
 		}
 
 	else if (index == kTreeOpenSourceCmd)
 		{
-		itsJavaTree->ViewSelectedSources();
+		itsGoTree->ViewSelectedSources();
 		}
 	else if (index == kTreeOpenFnListCmd)
 		{
-		itsJavaTree->ViewSelectedFunctionLists();
+		itsGoTree->ViewSelectedFunctionLists();
 		}
 
 	else if (index == kTreeCollapseCmd)
 		{
-		itsJavaTree->CollapseExpandSelectedClasses(kJTrue);
+		itsGoTree->CollapseExpandSelectedClasses(kJTrue);
 		}
 	else if (index == kTreeExpandCmd)
 		{
-		itsJavaTree->CollapseExpandSelectedClasses(kJFalse);
+		itsGoTree->CollapseExpandSelectedClasses(kJFalse);
 		}
 	else if (index == kTreeExpandAllCmd)
 		{
-		itsJavaTree->ExpandAllClasses();
+		itsGoTree->ExpandAllClasses();
 		}
 
 	else if (index == kTreeSelParentsCmd)
 		{
-		itsJavaTree->SelectParents();
+		itsGoTree->SelectParents();
 		}
 	else if (index == kTreeSelDescendantsCmd)
 		{
-		itsJavaTree->SelectDescendants();
+		itsGoTree->SelectDescendants();
 		}
 	else if (index == kCopySelNamesCmd)
 		{
-		itsJavaTree->CopySelectedClassNames();
+		itsGoTree->CopySelectedClassNames();
 		}
 
 	else if (index == kFindFnCmd)
@@ -225,12 +225,12 @@ CBJavaTreeDirector::HandleTreeMenu
 }
 
 /******************************************************************************
- NewJavaTree (static private)
+ NewGoTree (static private)
 
  ******************************************************************************/
 
 CBTree*
-CBJavaTreeDirector::NewJavaTree
+CBGoTreeDirector::NewGoTree
 	(
 	CBTreeDirector*	director,
 	const JSize		marginWidth
@@ -238,21 +238,21 @@ CBJavaTreeDirector::NewJavaTree
 {
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
-	CBJavaTreeDirector* javaTreeDir = static_cast<CBJavaTreeDirector*>(director);
-	assert( javaTreeDir != nullptr );
+	CBGoTreeDirector* goTreeDir = static_cast<CBGoTreeDirector*>(director);
+	assert( goTreeDir != nullptr );
 
-	CBJavaTree* tree = jnew CBJavaTree(javaTreeDir, marginWidth);
+	CBGoTree* tree = jnew CBGoTree(goTreeDir, marginWidth);
 	assert( tree != nullptr );
 	return tree;
 }
 
 /******************************************************************************
- StreamInJavaTree (static private)
+ StreamInGoTree (static private)
 
  ******************************************************************************/
 
 CBTree*
-CBJavaTreeDirector::StreamInJavaTree
+CBGoTreeDirector::StreamInGoTree
 	(
 	std::istream&		projInput,
 	const JFileVersion	projVers,
@@ -269,23 +269,23 @@ CBJavaTreeDirector::StreamInJavaTree
 
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
-	CBJavaTreeDirector* javaTreeDir = static_cast<CBJavaTreeDirector*>(director);
-	assert( javaTreeDir != nullptr );
+	CBGoTreeDirector* goTreeDir = static_cast<CBGoTreeDirector*>(director);
+	assert( goTreeDir != nullptr );
 
-	CBJavaTree* tree = jnew CBJavaTree(projInput, projVers,
-									  setInput, setVers, symInput, symVers,
-									  javaTreeDir, marginWidth, dirList);
+	CBGoTree* tree = jnew CBGoTree(projInput, projVers,
+								   setInput, setVers, symInput, symVers,
+								   goTreeDir, marginWidth, dirList);
 	assert( tree != nullptr );
 	return tree;
 }
 
 /******************************************************************************
- InitJavaTreeToolBar (static private)
+ InitGoTreeToolBar (static private)
 
  ******************************************************************************/
 
 void
-CBJavaTreeDirector::InitJavaTreeToolBar
+CBGoTreeDirector::InitGoTreeToolBar
 	(
 	JXToolBar*	toolBar,
 	JXTextMenu*	treeMenu

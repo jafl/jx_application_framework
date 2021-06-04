@@ -214,6 +214,7 @@ CBSymbolList::FindSymbol
 	const JString&		contextNamespace,
 	const CBLanguage	contextLang,
 	JPtrArray<JString>*	cContextNamespaceList,
+	JPtrArray<JString>*	goContextNamespaceList,
 	JPtrArray<JString>*	javaContextNamespaceList,
 	JPtrArray<JString>*	phpContextNamespaceList,
 	const JBoolean		findDeclaration,
@@ -278,14 +279,15 @@ CBSymbolList::FindSymbol
 		JString ns1, ns2;
 		PrepareContextNamespace(contextNamespace, contextLang, &ns1, &ns2);
 		PrepareCContextNamespaceList(cContextNamespaceList);
+		PrepareGoContextNamespaceList(goContextNamespaceList);
 		PrepareJavaContextNamespaceList(javaContextNamespaceList);
 		PreparePHPContextNamespaceList(phpContextNamespaceList);
 
 		JArray<JIndex> noContextList = *matchList;
 		if (!ConvertToFullNames(&noContextList, matchList,
 								ns1, ns2, contextLang,
-								*cContextNamespaceList, *javaContextNamespaceList,
-								*phpContextNamespaceList))
+								*cContextNamespaceList, *goContextNamespaceList,
+								*javaContextNamespaceList, *phpContextNamespaceList))
 			{
 			if (!usedAllList && !findDeclaration && findDefinition)
 				{
@@ -342,6 +344,7 @@ CBSymbolList::ConvertToFullNames
 	const JString&				contextNamespace2,
 	const CBLanguage			contextLang,
 	const JPtrArray<JString>&	cContextNamespaceList,
+	const JPtrArray<JString>&	goContextNamespaceList,
 	const JPtrArray<JString>&	javaContextNamespaceList,
 	const JPtrArray<JString>&	phpContextNamespaceList
 	)
@@ -349,6 +352,7 @@ CBSymbolList::ConvertToFullNames
 {
 	const JBoolean useLangNSContext = !contextNamespace1.IsEmpty();
 	const JBoolean useCNSContext    = !cContextNamespaceList.IsEmpty();
+	const JBoolean useGoNSContext   = !goContextNamespaceList.IsEmpty();
 	const JBoolean useJavaNSContext = !javaContextNamespaceList.IsEmpty();
 	const JBoolean usePHPNSContext  = !phpContextNamespaceList.IsEmpty();
 
@@ -378,6 +382,8 @@ CBSymbolList::ConvertToFullNames
 				{
 				if ((info.lang == kCBCLang && useCNSContext &&
 					 !InContext(*(sym[k].name), cContextNamespaceList, kJTrue)) ||
+					(info.lang == kCBGoLang && useGoNSContext &&
+					 !InContext(*(sym[k].name), goContextNamespaceList, kJTrue)) ||
 					(info.lang == kCBJavaLang && useJavaNSContext &&
 					 !InContext(*(sym[k].name), javaContextNamespaceList, kJTrue)) ||
 					(info.lang == kCBPHPLang && usePHPNSContext &&
@@ -418,7 +424,8 @@ CBSymbolList::PrepareContextNamespace
 	const
 {
 	if (!contextNamespace.IsEmpty() &&
-		(lang == kCBJavaLang       ||
+		(lang == kCBGoLang         ||
+		 lang == kCBJavaLang       ||
 		 lang == kCBJavaScriptLang ||
 		 lang == kCBEiffelLang     ||
 		 lang == kCBCSharpLang))
@@ -449,6 +456,16 @@ CBSymbolList::PrepareCContextNamespaceList
 	const
 {
 	PrepareContextNamespaceList(contextNamespace, "::");
+}
+
+void
+CBSymbolList::PrepareGoContextNamespaceList
+	(
+	JPtrArray<JString>* contextNamespace
+	)
+	const
+{
+	PrepareContextNamespaceList(contextNamespace, ".");
 }
 
 void

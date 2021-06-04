@@ -14,6 +14,7 @@
 #include "CBProjectDocument.h"
 #include "CBSymbolDirector.h"
 #include "CBCTreeDirector.h"
+#include "CBGoTreeDirector.h"
 #include "CBJavaTreeDirector.h"
 #include "CBPHPTreeDirector.h"
 #include "CBTree.h"
@@ -79,6 +80,7 @@ enum
 static const JUtf8Byte* kProjectMenuStr =
 	"    Show symbol browser %k Ctrl-F12     %i" kCBShowSymbolBrowserAction
 	"  | Show C++ class tree                 %i" kCBShowCPPClassTreeAction
+	"  | Show Go struct/interface tree       %i" kCBShowGoClassTreeAction
 	"  | Show Java class tree                %i" kCBShowJavaClassTreeAction
 	"  | Show PHP class tree                 %i" kCBShowPHPClassTreeAction
 	"  | Look up man page... %k Meta-I       %i" kCBViewManPageAction
@@ -91,7 +93,7 @@ static const JUtf8Byte* kProjectMenuStr =
 enum
 {
 	kShowSymbolBrowserCmd = 1,
-	kShowCTreeCmd, kShowJavaTreeCmd, kShowPHPTreeCmd,
+	kShowCTreeCmd, kShowGoTreeCmd, kShowJavaTreeCmd, kShowPHPTreeCmd,
 	kViewManPageCmd,
 	kFindFileCmd, kSearchFilesCmd, kDiffFilesCmd,
 	kSaveAllTextCmd, kCloseAllTextCmd
@@ -254,6 +256,7 @@ CBFileListDirector::StreamOut
 #include <jx_filter_regex.xpm>
 #include "jcc_show_symbol_list.xpm"
 #include "jcc_show_c_tree.xpm"
+#include "jcc_show_go_tree.xpm"
 #include "jcc_show_java_tree.xpm"
 #include "jcc_show_php_tree.xpm"
 #include "jcc_view_man_page.xpm"
@@ -349,6 +352,7 @@ CBFileListDirector::BuildWindow()
 
 	itsProjectMenu->SetItemImage(kShowSymbolBrowserCmd, jcc_show_symbol_list);
 	itsProjectMenu->SetItemImage(kShowCTreeCmd,         jcc_show_c_tree);
+	itsProjectMenu->SetItemImage(kShowGoTreeCmd,        jcc_show_go_tree);
 	itsProjectMenu->SetItemImage(kShowJavaTreeCmd,      jcc_show_java_tree);
 	itsProjectMenu->SetItemImage(kShowPHPTreeCmd,       jcc_show_php_tree);
 	itsProjectMenu->SetItemImage(kViewManPageCmd,       jcc_view_man_page);
@@ -634,6 +638,8 @@ CBFileListDirector::UpdateProjectMenu()
 {
 	itsProjectMenu->SetItemEnable(kShowCTreeCmd,
 		JNegate(itsProjDoc->GetCTreeDirector()->GetTree()->IsEmpty()));
+	itsProjectMenu->SetItemEnable(kShowGoTreeCmd,
+		JNegate(itsProjDoc->GetGoTreeDirector()->GetTree()->IsEmpty()));
 	itsProjectMenu->SetItemEnable(kShowJavaTreeCmd,
 		JNegate(itsProjDoc->GetJavaTreeDirector()->GetTree()->IsEmpty()));
 	itsProjectMenu->SetItemEnable(kShowPHPTreeCmd,
@@ -665,6 +671,10 @@ CBFileListDirector::HandleProjectMenu
 	else if (index == kShowCTreeCmd)
 		{
 		itsProjDoc->GetCTreeDirector()->Activate();
+		}
+	else if (index == kShowGoTreeCmd)
+		{
+		itsProjDoc->GetGoTreeDirector()->Activate();
 		}
 	else if (index == kShowJavaTreeCmd)
 		{

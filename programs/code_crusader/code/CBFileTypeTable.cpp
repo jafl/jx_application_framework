@@ -74,6 +74,7 @@ static const JUtf8Byte* kTypeMenuStr =
 	"| Eiffel %r"
 	"| Erlang %r"
 	"| FORTRAN %r"
+	"| Go %r"
 	"| HTML %r"
 	"| INI %r"
 	"| Java archive %r"
@@ -134,6 +135,7 @@ enum
 	kEiffelTypeCmd,
 	kErlangTypeCmd,
 	kFortranTypeCmd,
+	kGoTypeCmd,
 	kHTMLTypeCmd,
 	kINITypeCmd,
 	kJavaArchiveTypeCmd,
@@ -195,6 +197,7 @@ static const CBTextFileType kMenuIndexToFileType[] =
 	kCBEiffelFT,
 	kCBErlangFT,
 	kCBFortranFT,
+	kCBGoFT,
 	kCBHTMLFT,
 	kCBINIFT,
 	kCBJavaArchiveFT,
@@ -300,7 +303,8 @@ static const JIndex kFileTypeToMenuIndex[] =
 	kMatlabTypeCmd,
 	kAdobeFlexTypeCmd,
 	kINITypeCmd,
-	kPropertiesTypeCmd
+	kPropertiesTypeCmd,
+	kGoTypeCmd
 };
 
 // Script menu

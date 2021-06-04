@@ -1,3 +1,18 @@
+go
+	finish tree parser
+	styler
+	completer
+	universal ctags
+		CBCtagsUser::DecodeSymbolType
+		CBSymbolTypeList
+	Go class tree
+		struct only contains data
+		interface only contains functions
+	medic: delve back-end
+		https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
+
+
+
 jcc:  CBTree::SelectImplementors
 
 

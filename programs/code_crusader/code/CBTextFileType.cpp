@@ -25,11 +25,13 @@
 #include "CBINIStyler.h"
 #include "CBPropertiesStyler.h"
 #include "CBSQLStyler.h"
+#include "CBGoStyler.h"
 
 #include "CBBisonCompleter.h"
 #include "CBCCompleter.h"
 #include "CBEiffelCompleter.h"
 #include "CBFortranCompleter.h"
+#include "CBGoCompleter.h"
 #include "CBHTMLCompleter.h"
 #include "CBJavaCompleter.h"
 #include "CBLexCompleter.h"
@@ -256,6 +258,7 @@ static const CBFT2Lang kFT2Lang[] =
 	{ kCBAdobeFlexFT,        kCBAdobeFlexLang   },
 	{ kCBINIFT,              kCBINILang         },
 	{ kCBPropertiesFT,       kCBPropertiesLang  },
+	{ kCBGoFT,               kCBGoLang          },
 };
 
 const JSize kFT2LangCount = sizeof(kFT2Lang) / sizeof(CBFT2Lang);
@@ -328,6 +331,7 @@ static const CBLang2Styler kLang2Styler[] =
 	{ kCBAdobeFlexLang,   nullptr, nullptr },
 	{ kCBINILang,         &CBINIStyler::Instance,         &CBINIStyler::Shutdown },
 	{ kCBPropertiesLang,  &CBPropertiesStyler::Instance,  &CBPropertiesStyler::Shutdown },
+	{ kCBGoLang,          &CBGoStyler::Instance,          &CBGoStyler::Shutdown },
 };
 
 const JSize kLang2StylerCount = sizeof(kLang2Styler) / sizeof(CBLang2Styler);
@@ -425,6 +429,7 @@ static const CBLang2Completer kLang2Completer[] =
 	{ kCBAdobeFlexLang,   nullptr, nullptr },
 	{ kCBINILang,         nullptr, nullptr },
 	{ kCBPropertiesLang,  nullptr, nullptr },
+	{ kCBGoLang,          &CBGoCompleter::Instance,          &CBGoCompleter::Shutdown },
 };
 
 const JSize kLang2CompleterCount = sizeof(kLang2Completer) / sizeof(CBLang2Completer);

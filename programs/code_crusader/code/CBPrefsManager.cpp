@@ -639,7 +639,7 @@ CBPrefsManager::UpgradeData
 		{
 			{ ".e", kJFalse }
 		};
-		cbAddNewSuffixes("Eiffel",  nullptr, kCBEiffelFT, kEiffelSuffix, sizeof(kEiffelSuffix),  itsFileTypeList, itsMacroList, *itsCRMList);
+		cbAddNewSuffixes("Eiffel",  nullptr, kCBEiffelFT, kEiffelSuffix, sizeof(kEiffelSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kFortranSuffix[] =
 		{
@@ -663,7 +663,7 @@ CBPrefsManager::UpgradeData
 			{ ".java", kJFalse },
 			{ ".jws",  kJFalse }
 		};
-		cbAddNewSuffixes("Java", nullptr, kCBJavaSourceFT, kJavaSuffix, sizeof(kJavaSuffix),    itsFileTypeList, itsMacroList, *itsCRMList);
+		cbAddNewSuffixes("Java", nullptr, kCBJavaSourceFT, kJavaSuffix, sizeof(kJavaSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kStaticLibrarySuffix[] =
 		{
@@ -1179,6 +1179,15 @@ CBPrefsManager::UpgradeData
 			{ ".properties", kJFalse }
 		};
 		cbAddNewSuffixes("Properties", "UNIX script", kCBPropertiesFT, kPropertiesSuffix, sizeof(kPropertiesSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
+		}
+
+	if (currentVersion < 68)
+		{
+		CBNewSuffixInfo kGoSuffix[] =
+		{
+			{ ".go", kJFalse }
+		};
+		cbAddNewSuffixes("Go", nullptr, kCBGoFT, kGoSuffix, sizeof(kGoSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
 
 	//

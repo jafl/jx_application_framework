@@ -294,6 +294,26 @@ T
 F
 "./code/CBCPPMacroTable.cpp"
 T
+2 "CBGoTreeDirector.cpp"
+F
+"./code/CBGoTreeDirector.cpp"
+T
+2 "CBGoTree.cpp"
+F
+"./code/CBGoTree.cpp"
+T
+2 "CBGoTreeScanner.cpp"
+F
+"./code/CBGoTreeScanner.cpp"
+T
+2 "CBGoTreeScannerL.l"
+F
+"./code/CBGoTreeScannerL.l"
+T
+2 "CBGoClass.cpp"
+F
+"./code/CBGoClass.cpp"
+T
 2 "CBJavaTreeDirector.cpp"
 F
 "./code/CBJavaTreeDirector.cpp"

@@ -20,7 +20,7 @@ This scanner reads a Java file and builds a CBJavaClass.
 		CBTree* tree, JPtrArray<CBClass>* classList)
 %}
 
-%option c++ yyclass="CBJavaTree" prefix="CBJavaTree"
+%option c++ yyclass="CBJavaTreeScanner" prefix="CBJavaTree"
 %option 8bit nodefault stack noyywrap
 
 %x PACKAGE_STATE IMPORT_STATE NAME_STATE INHERIT_STATE

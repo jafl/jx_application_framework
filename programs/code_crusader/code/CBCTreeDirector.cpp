@@ -315,11 +315,11 @@ CBCTreeDirector::NewCTree
 CBTree*
 CBCTreeDirector::StreamInCTree
 	(
-	std::istream&			projInput,
+	std::istream&		projInput,
 	const JFileVersion	projVers,
-	std::istream*			setInput,
+	std::istream*		setInput,
 	const JFileVersion	setVers,
-	std::istream*			symInput,
+	std::istream*		symInput,
 	const JFileVersion	symVers,
 	CBTreeDirector*		director,
 	const JSize			marginWidth,

@@ -1,13 +1,13 @@
 /******************************************************************************
- CBJavaClass.cpp
+ CBGoClass.cpp
 
 	BASE CLASS = CBClass
 
-	Copyright (C) 1999 John Lindal.
+	Copyright (C) 2021 John Lindal.
 
  ******************************************************************************/
 
-#include "CBJavaClass.h"
+#include "CBGoClass.h"
 #include "CBTree.h"
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
@@ -23,7 +23,7 @@ static const JUtf8Byte* kNamespaceOperator = ".";
 
  ******************************************************************************/
 
-CBJavaClass::CBJavaClass
+CBGoClass::CBGoClass
 	(
 	const JString&		name,
 	const DeclareType	declType,
@@ -33,28 +33,19 @@ CBJavaClass::CBJavaClass
 	const JBoolean		isFinal
 	)
 	:
-	CBClass(name, declType, fileID, tree, kNamespaceOperator),
-	itsIsPublicFlag(isPublic),
-	itsIsFinalFlag(isFinal)
+	CBClass(name, declType, fileID, tree, kNamespaceOperator)
 {
 }
 
-CBJavaClass::CBJavaClass
+CBGoClass::CBGoClass
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	CBTree*				tree
 	)
 	:
-	CBClass(input, vers, tree, kNamespaceOperator),
-	itsIsPublicFlag(kJTrue),
-	itsIsFinalFlag(kJFalse)
+	CBClass(input, vers, tree, kNamespaceOperator)
 {
-	if (vers >= 52)
-		{
-		input >> JBoolFromString(itsIsPublicFlag)
-			  >> JBoolFromString(itsIsFinalFlag);
-		}
 }
 
 /******************************************************************************
@@ -62,27 +53,8 @@ CBJavaClass::CBJavaClass
 
  ******************************************************************************/
 
-CBJavaClass::~CBJavaClass()
+CBGoClass::~CBGoClass()
 {
-}
-
-/******************************************************************************
- StreamOut (virtual)
-
- ******************************************************************************/
-
-void
-CBJavaClass::StreamOut
-	(
-	std::ostream& output
-	)
-	const
-{
-	CBClass::StreamOut(output);
-
-	output << ' ' << JBoolToString(itsIsPublicFlag)
-				  << JBoolToString(itsIsFinalFlag);
-	output << ' ';
 }
 
 /******************************************************************************
@@ -91,7 +63,7 @@ CBJavaClass::StreamOut
  ******************************************************************************/
 
 void
-CBJavaClass::ViewSource()
+CBGoClass::ViewSource()
 	const
 {
 #ifndef CODE_CRUSADER_UNIT_TEST
@@ -104,7 +76,7 @@ CBJavaClass::ViewSource()
 		CBTextDocument* doc = nullptr;
 		if (docMgr->OpenTextDocument(fileName, 0, &doc))
 			{
-			JString p("(class|interface)[ \t\n]*");
+			JString p("struct[ \t\n]*");
 			p += GetName();
 			p += "\\b";
 			const JRegex r(p);
@@ -119,7 +91,7 @@ CBJavaClass::ViewSource()
 			if (!m.IsEmpty())
 				{
 				te->SelectLine(te->GetLineForChar(m.GetCharacterRange().first));
-				te->ScrollForDefinition(kCBJavaLang);
+				te->ScrollForDefinition(kCBGoLang);
 				}
 			else
 				{
@@ -127,7 +99,7 @@ CBJavaClass::ViewSource()
 				{
 					"name", GetName().GetBytes()
 				};
-				const JString msg = JGetString("NoDefinition::CBJavaClass", map, sizeof(map));
+				const JString msg = JGetString("NoDefinition::CBGoClass", map, sizeof(map));
 				JGetUserNotification()->ReportError(msg);
 				}
 			}
@@ -146,7 +118,7 @@ CBJavaClass::ViewSource()
  ******************************************************************************/
 
 void
-CBJavaClass::ViewHeader()
+CBGoClass::ViewHeader()
 	const
 {
 }
@@ -154,47 +126,19 @@ CBJavaClass::ViewHeader()
 /******************************************************************************
  NewGhost (virtual protected)
 
-	Creates a new ghost CBJavaClass.
+	Creates a new ghost CBGoClass.
 
  ******************************************************************************/
 
 CBClass*
-CBJavaClass::NewGhost
+CBGoClass::NewGhost
 	(
 	const JString&	name,
 	CBTree*			tree
 	)
 {
-	CBJavaClass* newClass = jnew CBJavaClass(name, kGhostType, JFAID::kInvalidID, tree,
-											kJTrue, kJFalse);
+	CBGoClass* newClass = jnew CBGoClass(name, kGhostType, JFAID::kInvalidID, tree,
+										 kJTrue, kJFalse);
 	assert( newClass != nullptr );
 	return newClass;
-}
-
-/******************************************************************************
- AdjustNameStyle (virtual protected)
-
- ******************************************************************************/
-
-void
-CBJavaClass::AdjustNameStyle
-	(
-	JFontStyle* style
-	)
-	const
-{
-	CBClass::AdjustNameStyle(style);
-
-	if (GetDeclareType() != kGhostType)
-		{
-		if (!itsIsPublicFlag)
-			{
-			style->color = JColorManager::GetGrayColor(50);
-			}
-
-		if (itsIsFinalFlag)
-			{
-			style->bold = kJTrue;
-			}
-		}
 }

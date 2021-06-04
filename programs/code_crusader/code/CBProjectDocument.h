@@ -33,6 +33,7 @@ class CBProjectTree;
 class CBSymbolDirector;
 class CBTreeDirector;
 class CBCTreeDirector;
+class CBGoTreeDirector;
 class CBJavaTreeDirector;
 class CBPHPTreeDirector;
 class CBCommandMenu;
@@ -86,6 +87,7 @@ public:
 	CBFileListTable*	GetAllFileList() const;
 	CBSymbolDirector*	GetSymbolDirector() const;
 	CBCTreeDirector*	GetCTreeDirector() const;
+	CBGoTreeDirector*	GetGoTreeDirector() const;
 	CBJavaTreeDirector*	GetJavaTreeDirector() const;
 	CBPHPTreeDirector*	GetPHPTreeDirector() const;
 	CBRelPathCSF*		GetRelPathCSF() const;
@@ -169,6 +171,7 @@ private:
 	CBFileListDirector*	itsAllFileDirector;
 	CBSymbolDirector*	itsSymbolDirector;
 	CBCTreeDirector*	itsCTreeDirector;
+	CBGoTreeDirector*	itsGoTreeDirector;
 	CBJavaTreeDirector*	itsJavaTreeDirector;
 	CBPHPTreeDirector*	itsPHPTreeDirector;
 
@@ -380,6 +383,18 @@ CBProjectDocument::GetCTreeDirector()
 	const
 {
 	return itsCTreeDirector;
+}
+
+/******************************************************************************
+ GetGoTreeDirector
+
+ ******************************************************************************/
+
+inline CBGoTreeDirector*
+CBProjectDocument::GetGoTreeDirector()
+	const
+{
+	return itsGoTreeDirector;
 }
 
 /******************************************************************************

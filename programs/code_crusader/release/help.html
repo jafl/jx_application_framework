@@ -28,6 +28,7 @@
 		<li><a href="#CBSymbolHelp">Symbol browser</a></li>
 		<li><a href="#CBFileListHelp">File list</a></li>
 		<li><a href="#CBCTreeHelp">C++ class inheritance tree</a></li>
+		<li><a href="#CBGoTreeHelp">Go struct composition tree</a></li>
 		<li><a href="#CBJavaTreeHelp">Java class inheritance tree</a></li>
 		<li><a href="#CBPHPTreeHelp">PHP class inheritance tree</a></li>
 		<li><a href="#CBTasksHelp">Defining custom tasks for version control, etc.</a></li>
@@ -88,6 +89,7 @@
 	<li>Ability to <a href="#CBTasksHelp">run the finished program</a> from within Code Crusader</li>
 	<li><a href="#CBTasksHelp">Integration</a> with <a href="http://sourceforge.net/p/codemedic/">Code Medic</a> for debugging</li>
 	<li><a href="#CBCTreeHelp">C++ class inheritance tree</a></li>
+	<li><a href="#CBGoTreeHelp">Go struct composition tree</a></li>
 	<li><a href="#CBJavaTreeHelp">Java class inheritance tree</a></li>
 	<li><a href="#CBPHPTreeHelp">PHP class inheritance tree</a></li>
 	<li><a href="#CBManPageHelp">Interface to UNIX man pages</a> for information about system functions</li>
@@ -673,6 +675,67 @@ The following options can be changed in the Symbol Preferences dialog:
 <p>This implementation is not a true preprocessor.  It can handle only simple names, not full macros with arguments.  This is generally sufficient because only macros in the class declaration need to be defined, and as above, they usually only need to be removed.  If this is not sufficient, please contact the author.</p>
 
 <p>Code Crusader can, however, replace a macro that takes arguments with a fixed string. As an example, the Qt widget library defines the macro <code>Q_PROPERTY(...)</code>.  This confuses Code Crusader's parser, but defining <code>Q_PROPERTY()</code> to be replaced by nothing (i.e. removed) is sufficient to allow Code Crusader to parse the rest of the file.</p>
+
+
+<hr>
+<h2><a name="CBGoTreeHelp">Go Struct &amp; Interface Tree</a></h2>
+
+<p>The tree displays the composition relationships between the Go structs and interfaces that are found by parsing source files.</p>
+
+<p>The names of interfaces are italicized.  If an interface or struct is not exported, its name will be gray.</p>
+
+<p>If a struct or interface is referenced but never defined in any of the files that are parsed, a "ghost" is created to indicate this.  Ghosts are drawn with a gray background.</p>
+
+<p>To add structs and interfaces to the tree, use the "Add structs/interfaces..." item on the Tree menu.  (Structs and interfaces in project files are always included in the tree.)  To update the current tree without quitting, use the "Update" item.  The <a href="#CBFileTypeHelp">"Edit file types..."</a> item lets you set the suffixes for source files.</p>
+
+<p>To locate a particular struct or interface, press the space bar and then type the first few letters in its name.  This search is case-insensitive and ignores the namespaces.  To then open the source file, press Return.  You do not have to de-iconify the window before typing.</p>
+
+<p>To locate all interfaces that include a particular function, select "Find function" from the Tree menu and then enter the name of the function to search for.  This is case sensitive.  If a single function is found, its definition will automatically be displayed.</p>
+
+<p>If you click on a struct or interface in the Tree window:</p>
+
+<dl>
+	<dt>Any button once (or type the first few characters of the name)</dt>
+	<dd>Select the item</dd>
+
+	<dt>Shift key + any button once</dt>
+	<dd>Select/deselect the item without deselecting other items</dd>
+
+	<dt>Left button twice (or Return)</dt>
+	<dd>Open source file for the item</dd>
+
+	<dt>Right button twice</dt>
+	<dd>Open list of members or functions in the item</dd>
+</dl>
+
+<p>There are also several <a href="#CBEditorHelp-MouseShortcuts">shortcuts</a> in the <a href="#CBEditorHelp">built-in editor</a> that connect back to the tree.</p>
+
+<h3><a name="CBGoTreeHelp-FunctionList">Displaying the members in a struct or functions in an interface</a></h3>
+
+<p>To get a list of the members that a struct contains or functions that an interface defines, either click on it and hold for a moment to display a menu or right-double-click to create a new window.</p>
+
+<p>The setting in the Tree Preferences dialog controls whether or not the menu and each new window also displays the items inherited from base structs or interfaces.  If this is turned on, items defined by the struct or interface itself are boldfaced to make them easy to find.</p>
+
+<p>To locate a particular function, press the space bar and then type the first few letters in its name.  This search is case-insensitive.  To then open the file containing the function's code, press Return.  You do not have to de-iconify the window before typing.</p>
+
+<p>If you click on a function name in a Function List window:</p>
+
+<dl>
+	<dt>Any button once (or type the first few characters of the name)</dt>
+	<dd>Select the function</dd>
+
+	<dt>Left button twice (or Return)</dt>
+	<dd>Display source for the function</dd>
+
+	<dt>Right button twice</dt>
+	<dd>Search the tree for all interfaces that include the function</dd>
+</dl>
+
+<p>When using the menu, the mouse button that was pressed determines the action, just like when double clicking in the window.</p>
+
+<h3>Preferences</h3>
+
+<p>See the <a href="#CBTreePrefsHelp">Tree Preferences</a> section.</p>
 
 
 <hr>

@@ -66,6 +66,7 @@
 #define kCBUpdateMakefileAction            "CBUpdateMakefile"
 #define kCBShowSymbolBrowserAction         "CBShowSymbolBrowser"
 #define kCBShowCPPClassTreeAction          "CBShowCPPClassTree"
+#define kCBShowGoClassTreeAction           "CBShowGoClassTree"
 #define kCBShowJavaClassTreeAction         "CBShowJavaClassTree"
 #define kCBShowPHPClassTreeAction          "CBShowPHPClassTree"
 #define kCBViewManPageAction               "CBViewManPage"
