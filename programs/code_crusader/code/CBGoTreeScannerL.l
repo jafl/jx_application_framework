@@ -9,7 +9,8 @@ This scanner reads a GoLang file and creates CBGoClass instances.
 
 #include "CBGoTreeScanner.h"
 #include "CBGoClass.h"
-#include <JStringIterator.h>
+#include <JRegex.h>
+#include <JStringPtrMap.h>
 #include <fstream>
 #include <jAssert.h>
 
@@ -20,47 +21,54 @@ This scanner reads a GoLang file and creates CBGoClass instances.
 		CBTree* tree, JPtrArray<CBClass>* classList)
 %}
 
-%option c++ yyclass = "CBPythonTree" prefix = "CBPythonTree"
+%option c++ yyclass = "CBGoTree" prefix = "CBGoTree"
 %option 8bit nodefault stack noyywrap
 
+%x PACKAGE_STATE IMPORT_STATE NAME_STATE INHERIT_STATE
 %x C_COMMENT_STATE CPP_COMMENT_STATE STRING_STATE
 
-WS	[[:space:]]+
-MS	[[:space:]]*
+WS     [[:space:]]+
+BDRY   ({WS}|[^_[:alnum:]])
 
-IDCAR        [_[:alpha:]]
-IDCDR        [_[:alnum:]]
-ID           ({IDCAR}{IDCDR}*)
-NSID         ({ID}(/{ID})*)
+IDCAR  [_[:alpha:]]
+IDCDR  [_[:alnum:]]
+ID     ({IDCAR}{IDCDR}*)
 
-OTHER_KEYWORD  (x)
+OTHER_KEYWORD (break|case|chan|const|continue|default|defer|else|fallthrough|false|for|func|go|goto|if|interface|iota|map|nil|range|return|select|struct|switch|true|var)
+
+DATATYPE      (bool|byte|complex64|complex128|error|float32|float64|int|int8|int16|int32|int64|rune|string|uint|uint8|uint16|uint32|uint64|uintptr)
+
+FUNCTION      (append|cap|close|complex|copy|delete|imag|len|make|new|panic|print|println|real|recover)
 
 %%
 
 %{
 	BEGIN(INITIAL);
-	ResetState();
 
 	JString package;
-	JPtrArray<JString> importList(JPtrArrayT::kDeleteAll);
+	JString importAlias;
+	JStringPtrMap<JString> importMap(JPtrArrayT::kDeleteAll);
+	JString typeName;
+	JUtf8Character abstract;
+	CBGoClass* currentClass = nullptr;
+	JString typeContent;
+
+	const JRegex modulePattern("(?:.+?/)*(.+?)(?:/[vV][.0-9]+)?");
 
 	std::ifstream input(fileName.GetBytes());
 	switch_streams(&input, nullptr);
 %}
 
-package{WS} {
+package/{BDRY} {
 	BEGIN(PACKAGE_STATE);
 	}
 
-import{WS}  {
+import/{BDRY}  {
+	importAlias.Clear();
 	BEGIN(IMPORT_STATE);
 	}
 
-struct{WS} {
-	BEGIN(NAME_STATE);
-	}
-
-interface{WS} {
+type/{BDRY} {
 	BEGIN(NAME_STATE);
 	}
 
@@ -78,8 +86,10 @@ interface{WS} {
 
 `(.|\n)*`	/* ignore raw strings -- no backslash interpretation */
 
-{OTHER_KEYWORD}{WS} {
-	ResetState();
+{OTHER_KEYWORD}{WS} |
+{DATATYPE}{WS}      |
+{FUNCTION}{WS}      {
+	currentClass = nullptr;
 	}
 
 .|\n	/* ignore */
@@ -87,6 +97,165 @@ interface{WS} {
 <*><<EOF>> {
 	return ! classList->IsEmpty();
 	}
+
+
+	/* Extract class package */
+
+
+<PACKAGE_STATE>{
+
+{ID} {
+	package.Set(yytext, yyleng);
+	BEGIN(INITIAL);
+	}
+
+{WS}	/* ignore */
+
+"/*" {
+	yy_push_state(C_COMMENT_STATE);
+	}
+
+"//" {
+	yy_push_state(CPP_COMMENT_STATE);
+	}
+
+. {
+	currentClass = nullptr;
+	BEGIN(INITIAL);
+	}
+
+}
+
+
+	/* Extract imported class */
+
+
+<IMPORT_STATE>{
+
+{ID}|\. {
+	importAlias.Set(yytext, yyleng);
+	if (importAlias == "_" || importAlias == ".")
+		{
+		BEGIN(INITIAL);
+		}
+	importAlias += ".";		// easier lookup
+	}
+
+\"[^"]+\" {
+	JString s(yytext+1, yyleng-2);
+	const JStringMatch m = modulePattern.Match(s, kJTrue);
+	if (!m.IsEmpty() && !importAlias.IsEmpty())
+		{
+		importMap.SetNewElement(importAlias, m.GetSubstring(1));
+		}
+	BEGIN(INITIAL);
+	}
+
+{WS}	/* ignore */
+
+"/*" {
+	yy_push_state(C_COMMENT_STATE);
+	}
+
+"//" {
+	yy_push_state(CPP_COMMENT_STATE);
+	}
+
+. {
+	currentClass = nullptr;
+	BEGIN(INITIAL);
+	}
+
+}
+
+
+	/* Parse struct/interface and create CBGoClass */
+
+
+<NAME_STATE>{
+
+{ID} {
+	typeName.Set(yytext, yyleng);
+	abstract = ' ';
+	}
+
+struct/{BDRY} {
+	abstract = 'F';
+	}
+
+interface/{BDRY} {
+	abstract = 'T';
+	}
+
+"{" {
+	if (abstract == ' ')
+		{
+		BEGIN(INITIAL);
+		}
+	else
+		{
+		const JBoolean isExported = typeName.GetFirstCharacter().IsUpper();
+
+		if (!package.IsEmpty())
+			{
+			typeName.Prepend(".");
+			typeName.Prepend(package);
+			}
+
+		currentClass = jnew CBGoClass(typeName, CBClass::kClassType, fileID, tree,
+									  isExported);
+		assert( currentClass != nullptr );
+
+		currentClass->SetAbstract(JI2B(abstract == 'T'));
+		classList->Append(currentClass);
+
+		typeContent.Clear();
+		BEGIN(INHERIT_STATE);
+		}
+	}
+
+{WS}	/* ignore */
+
+"/*" {
+	yy_push_state(C_COMMENT_STATE);
+	}
+
+"//" {
+	yy_push_state(CPP_COMMENT_STATE);
+	}
+
+. {
+	currentClass = nullptr;
+	BEGIN(INITIAL);
+	}
+
+}
+
+
+	/* Extract contained types */
+
+
+<INHERIT_STATE>{
+
+[^/}]+|"/" {
+	typeContent += JString(yytext, yyleng, kJFalse);
+	}
+
+"}" {
+	ParseTypeContent(currentClass, typeContent, importMap);
+	currentClass = nullptr;
+	BEGIN(INITIAL);
+	}
+
+"/*" {
+	yy_push_state(C_COMMENT_STATE);
+	}
+
+"//" {
+	yy_push_state(CPP_COMMENT_STATE);
+	}
+
+}
 
 
 	/* Ignore C comments -- this is the fast comment scanner from the flex man page,

@@ -8,8 +8,8 @@ import test.csv.model.ImportBean;
 import test.csv.model.InventoryLimit;
 import test.csv.exception.CSVException;
 
-public class /*comment*/ StartDateVerifier	// comment
-	implements BeanVerifier<InventoryLimit> /*comment*/ extends test.foo.Test1 {
+public class/*comment*/StartDateVerifier	// comment
+	implements BeanVerifier<InventoryLimit> /*comment*/extends/*comment*/test.foo.Test1 {
 
 	@Override
 	public boolean verifyBean(InventoryLimit bean) {

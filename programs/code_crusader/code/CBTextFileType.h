@@ -86,7 +86,7 @@ enum CBTextFileType
 	// When you add new types, be sure to increment the prefs version!
 
 	kCBFirstFT = kCBUnknownFT,
-	kCBLastFT  = kCBPropertiesFT
+	kCBLastFT  = kCBGoFT
 };
 
 const JSize kCBFTCount = kCBLastFT+1;
@@ -335,7 +335,7 @@ enum CBLanguage
 	// When you add new types, be sure to increment the prefs version!
 
 	kCBFirstLang = kCBOtherLang,
-	kCBLastLang  = kCBPropertiesLang
+	kCBLastLang  = kCBGoLang
 };
 
 const JSize kCBLangCount = kCBLastLang+1;

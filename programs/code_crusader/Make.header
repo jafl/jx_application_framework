@@ -80,9 +80,11 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
 
 .PHONY : default
 default: libs jcc ctags
+	@cd test; makemake; make test
 
 .PHONY : Makefiles
 Makefiles:
+	@cd test; makemake; ${MAKE} Makefiles
 
 include ${JX_ROOT}/include/make/jx_targets
 

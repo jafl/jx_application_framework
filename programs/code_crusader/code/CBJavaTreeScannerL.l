@@ -26,8 +26,9 @@ This scanner reads a Java file and builds a CBJavaClass.
 %x PACKAGE_STATE IMPORT_STATE NAME_STATE INHERIT_STATE
 %x GENERIC_STATE C_COMMENT_STATE CPP_COMMENT_STATE STRING_STATE
 
-WS	[[:space:]]+
-MS	[[:space:]]*
+WS     [[:space:]]+
+MS     [[:space:]]*
+BDRY   ({WS}|[^_[:alnum:]])
 
 HEXQUAD      ([0-9a-fA-F]{4})
 UESCCODE     (\\[uU]{HEXQUAD})
@@ -53,42 +54,40 @@ OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compile
 	switch_streams(&input, nullptr);
 %}
 
-package{WS} {
+package/{BDRY} {
 	BEGIN(PACKAGE_STATE);
 	}
 
-import{WS}  {
+import/{BDRY}  {
 	BEGIN(IMPORT_STATE);
 	}
 
-public{WS} {
+public/{BDRY} {
 	itsPublicFlag = kJTrue;
 	}
 
-protected{WS} |
-private{WS}   {
+(protected|private)/{BDRY} {
 	itsPublicFlag = kJFalse;
 	}
 
-final{WS} {
+final/{BDRY} {
 	itsFinalFlag = kJTrue;
 	}
 
-abstract{WS} {
+abstract/{BDRY} {
 	itsAbstractFlag = kJTrue;
 	}
 
-class{WS} {
+class/{BDRY} {
 	BEGIN(NAME_STATE);
 	}
 
-interface{WS} {
+interface/{BDRY} {
 	BEGIN(NAME_STATE);
 	itsAbstractFlag = kJTrue;
 	}
 
-extends{WS}    |
-implements{WS} {
+(extends|implements)/{BDRY} {
 	BEGIN(INHERIT_STATE);
 	}
 
@@ -104,7 +103,7 @@ implements{WS} {
 	BEGIN(STRING_STATE);
 	}
 
-{OTHER_KEYWORD}{WS} {
+{OTHER_KEYWORD}/{BDRY} {
 	ResetState();
 	}
 

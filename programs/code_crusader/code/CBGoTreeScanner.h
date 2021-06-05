@@ -15,6 +15,7 @@
 #endif
 
 #include <JPtrArray.h>
+#include <JStringPtrMap.h>
 #include <JFAID.h>
 
 class CBTree;
@@ -35,11 +36,8 @@ public:
 
 private:
 
-	CBClass*	itsCurrentClass;
-
-private:
-
-	void	ResetState();
+	void	ParseTypeContent(CBClass* goClass, const JString& typeContent,
+							 const JStringPtrMap<JString>& importMap);
 
 	// not allowed
 

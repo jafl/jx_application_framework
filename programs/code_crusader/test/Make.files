@@ -39,6 +39,15 @@ ${JCCCODEDIR}/CBClass
 ${JCCCODEDIR}/CBCPreprocessor
 ${JCCCODEDIR}/CBCtagsUser
 
+@test_GoTreeScanner
+${CODEDIR}/test_GoTreeScanner
+${JCCCODEDIR}/CBGoTreeScanner
+.l ${JCCCODEDIR}/CBGoTreeScannerL
+${JCCCODEDIR}/CBGoTree
+${JCCCODEDIR}/CBTree
+${JCCCODEDIR}/CBGoClass
+${JCCCODEDIR}/CBClass
+
 @test_JavaTreeScanner
 ${CODEDIR}/test_JavaTreeScanner
 ${JCCCODEDIR}/CBJavaTreeScanner

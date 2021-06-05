@@ -10,6 +10,7 @@
 #include "cbmUtil.h"
 #include "CBFnMenuUpdater.h"
 #include "CBCStyler.h"
+#include "CBGoStyler.h"
 #include "CBJavaStyler.h"
 #include "CBHTMLStyler.h"
 
@@ -36,8 +37,9 @@
 
 static const JString kSharedPrefsFileName(".jxcb/medic_shared_prefs");
 
-const JFileVersion kCurrentSharedPrefsVersion = 6;
+const JFileVersion kCurrentSharedPrefsVersion = 7;
 
+// version  7 adds CBGoStyler data and Go file suffixes
 // version  6 adds CBHTMLStyler data and PHP file suffixes
 // version  5 adds CBJavaStyler data
 // version  4 adds Fortran and Java file suffixes
@@ -151,6 +153,9 @@ JIndex i;
 	output << ' ';
 	(CBHTMLStyler::Instance())->WriteForSharedPrefs(output);
 
+	output << ' ';
+	(CBGoStyler::Instance())->WriteForSharedPrefs(output);
+
 	// File suffixes
 
 	JPtrArray<JString> suffixList(JPtrArrayT::kDeleteAll);
@@ -167,6 +172,9 @@ JIndex i;
 	output << ' ' << suffixList;
 
 	prefsMgr->GetFileSuffixes(kCBPHPFT, &suffixList);
+	output << ' ' << suffixList;
+
+	prefsMgr->GetFileSuffixes(kCBGoFT, &suffixList);
 	output << ' ' << suffixList;
 }
 
@@ -193,7 +201,8 @@ CBMReadSharedPrefs
 	JPtrArray<JString>*	cHeaderSuffixList,
 	JPtrArray<JString>*	fortranSuffixList,
 	JPtrArray<JString>*	javaSuffixList,
-	JPtrArray<JString>*	phpSuffixList
+	JPtrArray<JString>*	phpSuffixList,
+	JPtrArray<JString>*	goSuffixList
 	)
 {
 	JString fileName;
@@ -260,16 +269,21 @@ CBMReadSharedPrefs
 
 	// stylers
 
-	(CBCStyler::Instance())->ReadFromSharedPrefs(input);
+	CBCStyler::Instance()->ReadFromSharedPrefs(input);
 
 	if (vers >= 5)
 		{
-		(CBJavaStyler::Instance())->ReadFromSharedPrefs(input);
+		CBJavaStyler::Instance()->ReadFromSharedPrefs(input);
 		}
 
 	if (vers >= 6)
 		{
-		(CBHTMLStyler::Instance())->ReadFromSharedPrefs(input);
+		CBHTMLStyler::Instance()->ReadFromSharedPrefs(input);
+		}
+
+	if (vers >= 7)
+		{
+		CBGoStyler::Instance()->ReadFromSharedPrefs(input);
 		}
 
 	// File suffixes
@@ -293,6 +307,15 @@ CBMReadSharedPrefs
 	else
 		{
 		phpSuffixList->DeleteAll();
+		}
+
+	if (vers >= 7)
+		{
+		input >> *goSuffixList;
+		}
+	else
+		{
+		goSuffixList->DeleteAll();
 		}
 
 	return kJTrue;

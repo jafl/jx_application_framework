@@ -542,6 +542,18 @@ T
 F
 "./code/CBEiffelScannerL.l"
 T
+2 "CBGoStyler.cpp"
+F
+"./code/CBGoStyler.cpp"
+T
+2 "CBGoScanner.cpp"
+F
+"./code/CBGoScanner.cpp"
+T
+2 "CBGoScannerL.l"
+F
+"./code/CBGoScannerL.l"
+T
 2 "CBHTMLStyler.cpp"
 F
 "./code/CBHTMLStyler.cpp"
@@ -712,6 +724,10 @@ T
 2 "CBFortranCompleter.cpp"
 F
 "./code/CBFortranCompleter.cpp"
+T
+2 "CBGoCompleter.cpp"
+F
+"./code/CBGoCompleter.cpp"
 T
 2 "CBHTMLCompleter.cpp"
 F

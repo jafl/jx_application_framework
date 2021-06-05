@@ -26,7 +26,8 @@ This scanner reads a PHP file and builds a CBPHPClass.
 %x NAMESPACE_STATE USE_STATE USE_AS_STATE NAME_STATE INHERIT_STATE
 %x C_COMMENT_STATE CPP_COMMENT_STATE
 
-WS	[[:space:]]+
+WS     [[:space:]]+
+BDRY   ({WS}|[^_[:alnum:]])
 
 HEXQUAD      ([0-9a-fA-F]{4})
 UESCCODE     (\\[uU]{HEXQUAD})
@@ -50,33 +51,32 @@ NSID         ({ID}(\\{ID})*)
 	switch_streams(&input, nullptr);
 %}
 
-namespace{WS} {
+namespace/{BDRY} {
 	BEGIN(NAMESPACE_STATE);
 	}
 
-use{WS} {
+use/{BDRY} {
 	BEGIN(USE_STATE);
 	}
 
-final{WS} {
+final/{BDRY} {
 	isFinal = kJTrue;
 	}
 
-abstract{WS} {
+abstract/{BDRY} {
 	isAbstract = kJTrue;
 	}
 
-class{WS} {
+class/{BDRY} {
 	BEGIN(NAME_STATE);
 	}
 
-interface{WS} {
+interface/{BDRY} {
 	BEGIN(NAME_STATE);
 	isAbstract = kJTrue;
 	}
 
-extends{WS}    |
-implements{WS} {
+(extends|implements)/{BDRY} {
 	BEGIN(INHERIT_STATE);
 	}
 
@@ -131,7 +131,7 @@ implements{WS} {
 
 <USE_STATE>{
 
-as{WS} {
+as/{BDRY} {
 	BEGIN(USE_AS_STATE);
 	}
 

@@ -2,7 +2,7 @@ namespace Test1
 {
 	class /*comment*/ Foo {};
 
-	namespace /*comment*/ Test2
+	namespace/*comment*/Test2
 	{
 		class Bar : /*comment {*/ private Foo
 		{

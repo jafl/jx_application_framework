@@ -1,15 +1,12 @@
-go
-	finish tree parser
-	styler
-	completer
-	universal ctags
-		CBCtagsUser::DecodeSymbolType
-		CBSymbolTypeList
-	Go class tree
-		struct only contains data
-		interface only contains functions
-	medic: delve back-end
-		https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
+u-ctags:
+	test:  make, yacc, html
+	fix:  javascript, php
+		aws-lambda-common: Transaction.js
+		any php file containing javascript
+	update CBCtagsUser::DecodeSymbolType & CBSymbolTypeList
+
+medic for go: delve back-end
+	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
 
 
 
@@ -24,6 +21,7 @@ unit test all jcc stylers
 	HTML
 		xml: should ignore namespaces (xmlns:foo=) in tags
 	INI
+	Go
 	Java
 	JavaScript
 	Perl

@@ -131,6 +131,9 @@
 .cpp ./code/CBEiffelStyler
 .cpp ./code/CBEiffelScanner
 .l ./code/CBEiffelScannerL
+.cpp ./code/CBGoStyler
+.cpp ./code/CBGoScanner
+.l ./code/CBGoScannerL
 .cpp ./code/CBHTMLStyler
 .cpp ./code/CBHTMLScanner
 .l ./code/CBHTMLScannerL
@@ -173,6 +176,7 @@
 .cpp ./code/CBCShellCompleter
 .cpp ./code/CBEiffelCompleter
 .cpp ./code/CBFortranCompleter
+.cpp ./code/CBGoCompleter
 .cpp ./code/CBHTMLCompleter
 .cpp ./code/CBJavaCompleter
 .cpp ./code/CBJavaScriptCompleter

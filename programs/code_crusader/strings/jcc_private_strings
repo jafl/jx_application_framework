@@ -944,6 +944,14 @@ EditDialogTitle::CBEiffelStyler	"Edit Eiffel Styles"
 
 EditDialogTitle::CBINIStyler	"Edit INI Styles"
 
+# CBGoStyler
+
+EditDialogTitle::CBGoStyler		"Edit Go Styles"
+
+# CBJavaStyler
+
+EditDialogTitle::CBJavaStyler	"Edit Java Styles"
+
 # CBJavaScriptStyler
 
 EditDialogTitle::CBJavaScriptStyler	"Edit JavaScript Styles"

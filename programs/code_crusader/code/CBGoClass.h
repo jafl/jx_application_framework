@@ -16,7 +16,7 @@ public:
 
 	CBGoClass(const JString& name, const DeclareType declType,
 			  const JFAID_t fileID, CBTree* tree,
-			  const JBoolean isPublic, const JBoolean isFinal);
+			  const JBoolean isPublic);
 	CBGoClass(std::istream& input, const JFileVersion vers, CBTree* tree);
 
 	virtual ~CBGoClass();
@@ -24,11 +24,17 @@ public:
 	virtual void	ViewSource() const override;
 	virtual void	ViewHeader() const override;
 
+	virtual void	StreamOut(std::ostream& output) const override;
+
 protected:
 
 	virtual CBClass*	NewGhost(const JString& name, CBTree* tree) override;
 
 	virtual void	AdjustNameStyle(JFontStyle* style) const override;
+
+private:
+
+	JBoolean	itsIsPublicFlag;
 
 private:
 

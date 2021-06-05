@@ -4,7 +4,7 @@ namespace foo\B;
 
 use A\A1 as ARF;
 
-class B1 // comment
+class B1// comment
 	extends ARF
 {
 	function __construct()

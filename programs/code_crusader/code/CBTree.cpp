@@ -1912,6 +1912,7 @@ CBTree::SelectImplementors
 	const JBoolean	deselectAll
 	)
 {
+/*
 	if (deselectAll)
 		{
 		DeselectAll();
@@ -1922,7 +1923,7 @@ CBTree::SelectImplementors
 	for (JIndex i=1; i<=classCount; i++)
 		{
 		CBClass* theClass = itsClassesByFull->GetElement(i);
-//		if (theClass->Implements(fnName, caseSensitive))
+		if (theClass->Implements(fnName, caseSensitive))
 			{
 			theClass->SetSelected(kJTrue);
 			if (!theClass->IsVisible())
@@ -1938,6 +1939,7 @@ CBTree::SelectImplementors
 		RecalcVisible(kJTrue);		// ForceVisible() can uncollapse
 		Broadcast(Changed());
 		}
+*/
 }
 
 /******************************************************************************

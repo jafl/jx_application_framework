@@ -75,7 +75,8 @@ void	CBMSetStringList(JXInputField* inputField, const JPtrArray<JString>& list);
 								   JPtrArray<JString>* cHeaderSuffixList,
 								   JPtrArray<JString>* fortranSuffixList,
 								   JPtrArray<JString>* javaSuffixList,
-								   JPtrArray<JString>* phpSuffixList);
+								   JPtrArray<JString>* phpSuffixList,
+								   JPtrArray<JString>* goSuffixList);
 
 #endif
 

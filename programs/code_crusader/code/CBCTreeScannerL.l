@@ -28,8 +28,9 @@ This scanner reads a C/C++ file and creates CBClass instances.
 %x NAMESPACE_STATE CLASS_NAME_STATE INHERIT_STATE
 %x TEMPLATE_PARAM_STATE C_COMMENT_STATE CPP_COMMENT_STATE STRING_STATE
 
-WS	[[:space:]]+
-MS	[[:space:]]*
+WS     [[:space:]]+
+MS     [[:space:]]*
+BDRY   ({WS}|[^_[:alnum:]])
 
 CKEYWORD     (auto|break|case|const|continue|default|do|else|enum|extern|for|goto|if|inline|register|restrict|return|sizeof|static|struct|switch|typedef|union|volatile|while)
 CPPKEYWORD   (alignas|aslignof|and|and_eq|asm|atomic_cancel|atomic_commit|atomic_noexcept|bitand|bitor|catch|compl|concept|constexpr|const_cast|decltype|delete|dynamic_cast|explicit|export|false|final|friend|module|mutable|new|noexcept|not|not_eq|operator|or|or_eq|overload|override|private|protected|public|reinterpret_cast|requires|static_assert|static_cast|this|thread_local|throw|true|try|typeid|typename|virtual|xor|xor_eq)
@@ -49,6 +50,7 @@ NSID         ({ID}(::{ID})*)
 	BEGIN(INITIAL);
 	ResetState();
 
+	JString namespaceStr;
 	JInteger curlyBraceDepth = 0, templateBracketDepth = 0;
 	CBClass::InheritType inheritType = CBClass::kInheritPrivate;
 	JPtrArray<JString> usingList(JPtrArrayT::kDeleteAll);
@@ -59,19 +61,20 @@ NSID         ({ID}(::{ID})*)
 	switch_streams(&input, nullptr);
 %}
 
-template{WS} {
+template/{BDRY} {
 	itsTemplateFlag      = kJTrue;
 	templateBracketDepth = 0;
 	yy_push_state(TEMPLATE_PARAM_STATE);
 	}
 
-namespace{WS} {
+namespace/{BDRY} {
+	namespaceStr.Clear();
 	BEGIN(NAMESPACE_STATE);
 	}
 
 class{WS}{NSID}{MS};		/* ignore */
 
-class{WS} {
+class/{BDRY} {
 	BEGIN(CLASS_NAME_STATE);
 	}
 
@@ -111,10 +114,10 @@ using{WS}{NSID}{MS}; {
 	BEGIN(STRING_STATE);
 	}
 
-{CKEYWORD}{WS}   |
-{CPPKEYWORD}{WS} |
-{PPKEYWORD}{WS}  |
-{CDATATYPE}{WS}  {
+{CKEYWORD}/{BDRY}   |
+{CPPKEYWORD}/{BDRY} |
+{PPKEYWORD}/{BDRY}  |
+{CDATATYPE}/{BDRY}  {
 	ResetState();
 	}
 
@@ -130,20 +133,22 @@ using{WS}{NSID}{MS}; {
 
 <NAMESPACE_STATE>{
 
-{NSID}{MS}"{" {
-	curlyBraceStack.Push(curlyBraceDepth);
-	curlyBraceDepth = 1;
-
-	JString* s = jnew JString(yytext, yyleng-1);
-	assert( s != nullptr );
-	s->TrimWhitespace();
-	nsStack.Prepend(s);
-
-	BEGIN(INITIAL);
+{NSID} {
+	namespaceStr.Set(yytext, yyleng);
 	}
 
 "{" {
-	curlyBraceDepth++;
+	if (!namespaceStr.IsEmpty())
+		{
+		curlyBraceStack.Push(curlyBraceDepth);
+		curlyBraceDepth = 1;
+
+		nsStack.Prepend(namespaceStr);
+		}
+	else
+		{
+		curlyBraceDepth++;
+		}
 	ResetState();
 	BEGIN(INITIAL);
 	}
@@ -187,7 +192,7 @@ using{WS}{NSID}{MS}; {
 	itsCurrentClass = c;	// must be after ResetState();
 	}
 
-{MS}: {
+: {
 	if (itsCurrentClass != nullptr)
 		{
 		inheritType = CBClass::kInheritPrivate;

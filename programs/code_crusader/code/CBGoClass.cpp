@@ -29,11 +29,11 @@ CBGoClass::CBGoClass
 	const DeclareType	declType,
 	const JFAID_t		fileID,
 	CBTree*				tree,
-	const JBoolean		isPublic,
-	const JBoolean		isFinal
+	const JBoolean		isPublic
 	)
 	:
-	CBClass(name, declType, fileID, tree, kNamespaceOperator)
+	CBClass(name, declType, fileID, tree, kNamespaceOperator),
+	itsIsPublicFlag(isPublic)
 {
 }
 
@@ -44,8 +44,13 @@ CBGoClass::CBGoClass
 	CBTree*				tree
 	)
 	:
-	CBClass(input, vers, tree, kNamespaceOperator)
+	CBClass(input, vers, tree, kNamespaceOperator),
+	itsIsPublicFlag(kJTrue)
 {
+	if (vers >= 88)
+		{
+		input >> JBoolFromString(itsIsPublicFlag);
+		}
 }
 
 /******************************************************************************
@@ -55,6 +60,24 @@ CBGoClass::CBGoClass
 
 CBGoClass::~CBGoClass()
 {
+}
+
+/******************************************************************************
+ StreamOut (virtual)
+
+ ******************************************************************************/
+
+void
+CBGoClass::StreamOut
+	(
+	std::ostream& output
+	)
+	const
+{
+	CBClass::StreamOut(output);
+
+	output << ' ' << JBoolToString(itsIsPublicFlag);
+	output << ' ';
 }
 
 /******************************************************************************
@@ -138,7 +161,27 @@ CBGoClass::NewGhost
 	)
 {
 	CBGoClass* newClass = jnew CBGoClass(name, kGhostType, JFAID::kInvalidID, tree,
-										 kJTrue, kJFalse);
+										 kJTrue);
 	assert( newClass != nullptr );
 	return newClass;
+}
+
+/******************************************************************************
+ AdjustNameStyle (virtual protected)
+
+ ******************************************************************************/
+
+void
+CBGoClass::AdjustNameStyle
+	(
+	JFontStyle* style
+	)
+	const
+{
+	CBClass::AdjustNameStyle(style);
+
+	if (GetDeclareType() != kGhostType && !itsIsPublicFlag)
+		{
+		style->color = JColorManager::GetGrayColor(50);
+		}
 }

@@ -3,6 +3,11 @@ CBCStyler.h
 CBCScanner.cpp
 CBCScanner.h
 CBCScannerL.l
+CBGoStyler.cpp
+CBGoStyler.h
+CBGoScanner.cpp
+CBGoScanner.h
+CBGoScannerL.l
 CBJavaStyler.cpp
 CBJavaStyler.h
 CBJavaScanner.cpp
