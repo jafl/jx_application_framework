@@ -35,7 +35,7 @@ CDATATYPE    (bool|char|char16_t|char32_t|double|float|int|long|nullptr|short|si
 
 
 
-HEXQUAD      ([0-9a-fA-F]{4})
+HEXQUAD      ([[:xdigit:]]{4})
 UESCCODE     (\\[uU]{HEXQUAD}{HEXQUAD}?)
 
 
@@ -56,7 +56,7 @@ DOLLARID     ({DOLLARIDCAR}{DOLLARIDCDR}*)
 INTSUFFIX    (([lL][uU]?)|([uU][lL]?))
 
 DECIMAL      ((0|[1-9][0-9]*){INTSUFFIX}?)
-HEX          (0[xX][0-9A-Fa-f]*{INTSUFFIX}?)
+HEX          (0[xX][[:xdigit:]]*{INTSUFFIX}?)
 OCTAL        (0[0-7]+{INTSUFFIX}?)
 	/* The programmer probably meant a number, but it is invalid (match after other ints) */
 BADINT       ([0-9]+{INTSUFFIX}?)
@@ -81,13 +81,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}{FLOATSUFFIX}?|{DOTDIGITS}{EXPONENT}?{FLOATSUF
 	/* warn about ANSI brain-damage with a different color/font. */
 CESCCODE     ([abfnrtv\\'"?])
 OESCCODE     (0*[1-3]?[0-7]{1,2})
-HESCCODE     ([xX]0*[0-9a-fA-F]{1,2})
+HESCCODE     ([xX]0*[[:xdigit:]]{1,2})
 
 ESCCHAR      (\\({CESCCODE}|{OESCCODE}|{HESCCODE}))
 
 BADCESCCODE  ([^abfnrtv\\'"?])
 BADOESCCODE  ([0-9]+)
-BADHESCCODE  ([xX]0*[0-9a-fA-F]{3,})
+BADHESCCODE  ([xX]0*[[:xdigit:]]{3,})
 
 BADESCCHAR   (\\({BADCESCCODE}|{BADOESCCODE}|{BADHESCCODE}))
 

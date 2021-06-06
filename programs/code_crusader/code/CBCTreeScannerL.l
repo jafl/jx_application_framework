@@ -37,7 +37,7 @@ CPPKEYWORD   (alignas|aslignof|and|and_eq|asm|atomic_cancel|atomic_commit|atomic
 PPKEYWORD    (include|include_next|define|undef|if|ifdef|ifndef|else|elif|endif|line|pragma|error)
 CDATATYPE    (bool|char|char16_t|char32_t|double|float|int|long|nullptr|short|signed|unsigned|void|wchar_t)
 
-HEXQUAD      ([0-9a-fA-F]{4})
+HEXQUAD      ([[:xdigit:]]{4})
 UESCCODE     (\\[uU]{HEXQUAD}{HEXQUAD}?)
 IDCAR        ([_[:alpha:]]|{UESCCODE})
 IDCDR        ([_[:alnum:]]|{UESCCODE})

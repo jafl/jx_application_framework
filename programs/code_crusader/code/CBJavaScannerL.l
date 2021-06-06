@@ -34,7 +34,7 @@ DOCTAG       (author|code|docRoot|deprecated|exception|inheritDoc|link|linkplain
 
 
 
-UESCCODE     (\\[uU][0-9a-fA-F]{4})
+UESCCODE     (\\[uU][[:xdigit:]]{4})
 
 
 
@@ -49,8 +49,8 @@ ANNOTATION   (@{ID}(\.{ID})*)
 INTSUFFIX    ([lL])
 
 DECIMAL      ([0-9]+{INTSUFFIX}?)
-HEX          (0[xX]0*[0-9A-Fa-f]{1,8}{INTSUFFIX}?)
-BADHEX       (0[xX][0-9A-Fa-f]{9,}{INTSUFFIX}?)
+HEX          (0[xX]0*[[:xdigit:]]{1,8}{INTSUFFIX}?)
+BADHEX       (0[xX][[:xdigit:]]{9,}{INTSUFFIX}?)
 
 
 

@@ -81,12 +81,13 @@ enum CBTextFileType
 	kCBAdobeFlexFT,
 	kCBINIFT,
 	kCBPropertiesFT,
-	kCBGoFT,			// = kCBLastFT	// special
+	kCBGoFT,
+	kCBDFT,				// = kCBLastFT	// special
 
 	// When you add new types, be sure to increment the prefs version!
 
 	kCBFirstFT = kCBUnknownFT,
-	kCBLastFT  = kCBGoFT
+	kCBLastFT  = kCBDFT
 };
 
 const JSize kCBFTCount = kCBLastFT+1;
@@ -129,6 +130,7 @@ CBCanCompile
 {
 	return JI2B(type == kCBCSourceFT       ||
 				type == kCBCSharpFT        ||
+				type == kCBDFT             ||
 				type == kCBLexFT           ||
 				type == kCBBisonFT         ||
 				type == kCBEiffelFT        ||
@@ -330,12 +332,13 @@ enum CBLanguage
 	kCBAdobeFlexLang,
 	kCBINILang,
 	kCBPropertiesLang,
-	kCBGoLang,		// = kCBLastLang
+	kCBGoLang,
+	kCBDLang,		// = kCBLastLang
 
 	// When you add new types, be sure to increment the prefs version!
 
 	kCBFirstLang = kCBOtherLang,
-	kCBLastLang  = kCBGoLang
+	kCBLastLang  = kCBDLang
 };
 
 const JSize kCBLangCount = kCBLastLang+1;
@@ -366,6 +369,7 @@ CBHasNamespace
 	)
 {
 	return JI2B( lang == kCBCLang          ||	// C++, actually
+				 lang == kCBDLang          ||
 				 lang == kCBGoLang         ||
 				 lang == kCBJavaLang       ||
 				 lang == kCBJavaScriptLang ||

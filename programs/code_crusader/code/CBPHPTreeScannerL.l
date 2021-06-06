@@ -29,7 +29,7 @@ This scanner reads a PHP file and builds a CBPHPClass.
 WS     [[:space:]]+
 BDRY   ({WS}|[^_[:alnum:]])
 
-HEXQUAD      ([0-9a-fA-F]{4})
+HEXQUAD      ([[:xdigit:]]{4})
 UESCCODE     (\\[uU]{HEXQUAD})
 IDCAR        ([_[:alpha:]]|{UESCCODE})
 IDCDR        ([_[:alnum:]]|{UESCCODE})

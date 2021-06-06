@@ -41,7 +41,7 @@ ID           ({IDCAR}{IDCDR}*)
 
 
 
-HEXDIGITS	 (_?[0-9A-Fa-f]+)
+HEXDIGITS	 (_?[[:xdigit:]]+)
 
 DECIMAL      ([0-9]+(_?[0-9]+)*)
 BINARY       (0[bB](_?[0-1]+)+)
@@ -68,10 +68,10 @@ IMAG         (({DECIMAL}|{BINARY}|{OCTAL}|{HEX}|{FLOAT}|{HEXFLOAT})i)
 
 
 
-UESCCODE     (\\(u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8}))
+UESCCODE     (\\(u[[:xdigit:]]{4}|U[[:xdigit:]]{8}))
 CESCCODE     ([abfnrtv\\'"])
 OESCCODE     ([0-7]{3})
-HESCCODE     (x[0-9A-Fa-f]{2})
+HESCCODE     (x[[:xdigit:]]{2})
 ESCCHAR      (\\({CESCCODE}|{OESCCODE}|{HESCCODE}))
 
 RUNE         (\'([^\n'\\]|{ESCCHAR}|{UESCCODE})\')

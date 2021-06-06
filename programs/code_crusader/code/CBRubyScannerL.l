@@ -43,13 +43,13 @@ ID           ([_[:alpha:]][_[:alnum:]]*[?!]?)
 
 
 DECIMAL      (0_*|[1-9][0-9_]*)
-HEX          (0x[0-9A-Fa-f_]*)
+HEX          (0x[_[:xdigit:]]*)
 BINARY       (0b[01_]*)
 OCTAL        (0[0-7_]+)
 	/* The programmer probably meant a number, but it is invalid (match after other ints) */
 BADINT       ([0-9_]+)
-BADHEX       (0[xX][0-9A-Za-z_]+)
-BADBINARY    (0[bB][0-9A-Za-z_]+)
+BADHEX       (0[xX][_[:xdigit:]]+)
+BADBINARY    (0[bB][_[:xdigit:]]+)
 
 
 

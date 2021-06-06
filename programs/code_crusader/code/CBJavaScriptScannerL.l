@@ -42,8 +42,8 @@ ID           ({IDCAR}{IDCDR}*)
 
 
 DECIMAL      ([0-9]+)
-HEX          (0[xX]0*[0-9A-Fa-f]{1,8})
-BADHEX       (0[xX][0-9A-Fa-f]{9,})
+HEX          (0[xX]0*[[:xdigit:]]{1,8})
+BADHEX       (0[xX][[:xdigit:]]{9,})
 
 
 

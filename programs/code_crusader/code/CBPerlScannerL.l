@@ -48,7 +48,7 @@ BAREWORD     ([_[:alpha:]][_[:alnum:]]*)
 
 
 DECIMAL      (0_*|[1-9][0-9_]*)
-HEX          (0x[0-9A-Fa-f_]*)
+HEX          (0x[_[:xdigit:]]*)
 BINARY       (0b[01_]*)
 OCTAL        (0[0-7_]+)
 VERSION      (v[0-9]+(\.[0-9]+)*|([0-9]+\.){2,}[0-9]+)

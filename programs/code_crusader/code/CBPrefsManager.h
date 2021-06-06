@@ -106,6 +106,8 @@ enum
 	kCBSQLStyleID,
 	kCBGoStyleID,
 	kCBGoTreeToolBarID,
+	kCBDStyleID,
+	kCBDTreeToolBarID,
 
 	// 10000-19999 are reserved for action/macro
 

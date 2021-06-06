@@ -39,11 +39,6 @@ JXMenu::PrepareToOpenMenu()
 JPrefsManager
 	Atomic lock around SaveToDisk(), etc. in case multiple instances try writing
 
-support D
-	http://en.wikipedia.org/wiki/D_(programming_language)
-	http://www.digitalmars.com/d/download.html
-	http://digitalmars.com/d/archives/digitalmars/D/Exuberant_Ctags_Support_for_D_51878.html
-
 libjexpr write to mathml
 	https://developer.mozilla.org/en/Mathml
 	http://en.wikipedia.org/wiki/MathML

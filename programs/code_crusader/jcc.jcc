@@ -530,6 +530,18 @@ T
 F
 "./code/CBCShellScannerL.l"
 T
+2 "CBDStyler.cpp"
+F
+"./code/CBDStyler.cpp"
+T
+2 "CBDScanner.cpp"
+F
+"./code/CBDScanner.cpp"
+T
+2 "CBDScannerL.l"
+F
+"./code/CBDScannerL.l"
+T
 2 "CBEiffelStyler.cpp"
 F
 "./code/CBEiffelStyler.cpp"

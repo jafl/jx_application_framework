@@ -40,7 +40,7 @@ ID           ({IDCAR}{IDCDR}*)
 INTSUFFIX    ([lL])
 
 DECIMAL      ((0|[1-9][0-9]*){INTSUFFIX}?)
-HEX          (0[xX][0-9A-Fa-f]*{INTSUFFIX}?)
+HEX          (0[xX][[:xdigit:]]*{INTSUFFIX}?)
 OCTAL        (0[0-7]+{INTSUFFIX}?)
 	/* The programmer probably meant a number, but it is invalid (match after other ints) */
 BADINT       ([0-9]+{INTSUFFIX}?)

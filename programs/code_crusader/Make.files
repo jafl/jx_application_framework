@@ -128,6 +128,9 @@
 .cpp ./code/CBCShellStyler
 .cpp ./code/CBCShellScanner
 .l ./code/CBCShellScannerL
+.cpp ./code/CBDStyler
+.cpp ./code/CBDScanner
+.l ./code/CBDScannerL
 .cpp ./code/CBEiffelStyler
 .cpp ./code/CBEiffelScanner
 .l ./code/CBEiffelScannerL

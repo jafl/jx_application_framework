@@ -35,7 +35,7 @@ EXTORACLE    (access|audit|bfile|binary_float|binary_double|blob|clob|file|incre
 ID           ([[:alpha:]_][[:alnum:]_]*)
 
 INT          ([0-9]+)
-HEX          (0[xX][0-9A-Fa-f]+|[xX]'[0-9A-Fa-f]+')
+HEX          (0[xX][[:xdigit:]]+|[xX]'[[:xdigit:]]+')
 
 DIGITSEQ     ([0-9]+)
 EXPONENT     ([eE][+-]?{DIGITSEQ})

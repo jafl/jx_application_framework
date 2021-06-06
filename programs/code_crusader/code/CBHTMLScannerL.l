@@ -66,7 +66,7 @@ IDCDR         ([[:alnum:]_\x7f-\xff])
 ID            ({IDCAR}{IDCDR}*)
 
 DECIMAL       (0|[1-9][0-9]*)
-HEX           (0[xX][0-9A-Fa-f]+)
+HEX           (0[xX][[:xdigit:]]+)
 OCTAL         (0[0-7]+)
 	/* The programmer probably meant a number, but it is invalid (match after other ints) */
 BADINT        ([0-9]+)
@@ -84,7 +84,7 @@ JAVA_KEYWORD  (abstract|attribute|autoFlush|break|buffer|byvalue|case|cast|catch
 
 JAVA_DATATYPE (BitSet|[bB]oolean|byte|char|Character|Class|Date|Dictionary|[dD]ouble|Enumeration|[fF]loat|Hashtable|int|Integer|[lL]ong|Number|Object|Observable|Observer|Properties|short|Stack|String(Buffer)?|Vector)
 
-JAVA_UESCCODE (\\[uU][0-9a-fA-F]{4})
+JAVA_UESCCODE (\\[uU][[:xdigit:]]{4})
 
 JAVA_IDCAR    ([_[:alpha:]]|{JAVA_UESCCODE})
 JAVA_IDCDR    ([_[:alnum:]]|{JAVA_UESCCODE})
@@ -94,8 +94,8 @@ JAVA_ID       ({JAVA_IDCAR}{JAVA_IDCDR}*)
 JAVA_INTSUFFIX ([lL])
 
 JAVA_DECIMAL  ([0-9]+{JAVA_INTSUFFIX}?)
-JAVA_HEX      (0[xX]0*[0-9A-Fa-f]{1,8}{JAVA_INTSUFFIX}?)
-JAVA_BADHEX   (0[xX][0-9A-Fa-f]{9,}{JAVA_INTSUFFIX}?)
+JAVA_HEX      (0[xX]0*[[:xdigit:]]{1,8}{JAVA_INTSUFFIX}?)
+JAVA_BADHEX   (0[xX][[:xdigit:]]{9,}{JAVA_INTSUFFIX}?)
 
 JAVA_FLOATSUFFIX ([fFlL])
 JAVA_FLOAT       {FLOAT}{JAVA_FLOATSUFFIX}?
@@ -120,8 +120,8 @@ JS_ID         ({JS_IDCAR}{JS_IDCDR}*)
 
 
 JS_DECIMAL    ([0-9]+)
-JS_HEX        (0[xX]0*[0-9A-Fa-f]{1,8})
-JS_BADHEX     (0[xX][0-9A-Fa-f]{9,})
+JS_HEX        (0[xX]0*[[:xdigit:]]{1,8})
+JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 %%
 
 %{
@@ -527,7 +527,7 @@ JS_BADHEX     (0[xX][0-9A-Fa-f]{9,})
 	}
 
 #[0-9]+;?           |
-#[xX][0-9A-Fa-f]+;? {
+#[xX][[:xdigit:]]+;? {
 	ContinueToken();
 	yy_pop_state();
 	JString s(yytext+1, yyleng - (yytext[yyleng-1] == ';' ? 2 : 1));

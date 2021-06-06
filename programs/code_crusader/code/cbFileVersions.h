@@ -15,7 +15,7 @@
 const JFileVersion kCurrentPrefsFileVersion = 68;
 
 // version 68:
-//	Added support for Go source files.
+//	Added support for D & Go source files.
 // version 67:
 //	Added support for Java properties files.
 // version 66:
@@ -175,6 +175,7 @@ const JFileVersion kCurrentPrefsFileVersion = 68;
 const JFileVersion kCurrentProjectFileVersion = 88;
 
 // version 88:
+//	Added support for D & Go.
 //	Removed CBFnListDirector.
 //	Removed functions from CBClass.
 // version 87:

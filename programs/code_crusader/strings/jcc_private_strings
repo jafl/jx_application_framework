@@ -928,6 +928,10 @@ $err"
 
 EditDialogTitle::CBBourneShellStyler	"Edit Bourne Shell Styles"
 
+# CBCStyler
+
+EditDialogTitle::CBCStyler		"Edit C/C++ Styles"
+
 # CBCSharpStyler
 
 EditDialogTitle::CBCSharpStyler	"Edit C# Styles"
@@ -936,17 +940,25 @@ EditDialogTitle::CBCSharpStyler	"Edit C# Styles"
 
 EditDialogTitle::CBCShellStyler	"Edit C Shell Styles"
 
+# CBDStyler
+
+EditDialogTitle::CBDStyler	"Edit D Styles"
+
 # CBEiffelStyler
 
 EditDialogTitle::CBEiffelStyler	"Edit Eiffel Styles"
 
-# CBINIStyler
-
-EditDialogTitle::CBINIStyler	"Edit INI Styles"
-
 # CBGoStyler
 
 EditDialogTitle::CBGoStyler		"Edit Go Styles"
+
+# CBHTMLStyler
+
+EditDialogTitle::CBHTMLStyler	"Edit HTML/PHP/XML Styles"
+
+# CBINIStyler
+
+EditDialogTitle::CBINIStyler	"Edit INI Styles"
 
 # CBJavaStyler
 
@@ -962,11 +974,11 @@ EditDialogTitle::CBPerlStyler	"Edit Perl Styles"
 
 # CBPropertiesStyler
 
-EditDialogTitle::CBPropertiesStyler	"Edit INI Styles"
+EditDialogTitle::CBPropertiesStyler	"Edit Properties Styles"
 
 # CBPythonStyler
 
-EditDialogTitle::CBPythonStyler	"Edit C/C++ Styles"
+EditDialogTitle::CBPythonStyler	"Edit Python Styles"
 
 # CBRubyStyler
 

@@ -23,7 +23,7 @@ This scanner reads a TCL file and returns CBTCLScanner::Tokens.
 WSCHAR       ([ \v\t\f\r\n])
 WS           ({WSCHAR}+|{WSCHAR}*\\\n{WSCHAR}*)
 
-HEXCHAR      ([0-9a-fA-F])
+HEXCHAR      ([[:xdigit:]])
 OESCCODE     ([0-7]{1,3})
 HESCCODE     ([xX]{HEXCHAR}+)
 UESCCODE     ([uU]{HEXCHAR}{1,4})

@@ -10,9 +10,10 @@
 #include "cbmUtil.h"
 #include "CBFnMenuUpdater.h"
 #include "CBCStyler.h"
+#include "CBDStyler.h"
 #include "CBGoStyler.h"
-#include "CBJavaStyler.h"
 #include "CBHTMLStyler.h"
+#include "CBJavaStyler.h"
 
 #ifdef CODE_CRUSADER
 #include "CBTextDocument.h"
@@ -39,7 +40,7 @@ static const JString kSharedPrefsFileName(".jxcb/medic_shared_prefs");
 
 const JFileVersion kCurrentSharedPrefsVersion = 7;
 
-// version  7 adds CBGoStyler data and Go file suffixes
+// version  7 adds CBDStyler, CBGoStyler data and D, Go file suffixes
 // version  6 adds CBHTMLStyler data and PHP file suffixes
 // version  5 adds CBJavaStyler data
 // version  4 adds Fortran and Java file suffixes
@@ -154,6 +155,9 @@ JIndex i;
 	(CBHTMLStyler::Instance())->WriteForSharedPrefs(output);
 
 	output << ' ';
+	(CBDStyler::Instance())->WriteForSharedPrefs(output);
+
+	output << ' ';
 	(CBGoStyler::Instance())->WriteForSharedPrefs(output);
 
 	// File suffixes
@@ -172,6 +176,9 @@ JIndex i;
 	output << ' ' << suffixList;
 
 	prefsMgr->GetFileSuffixes(kCBPHPFT, &suffixList);
+	output << ' ' << suffixList;
+
+	prefsMgr->GetFileSuffixes(kCBDFT, &suffixList);
 	output << ' ' << suffixList;
 
 	prefsMgr->GetFileSuffixes(kCBGoFT, &suffixList);
@@ -202,6 +209,7 @@ CBMReadSharedPrefs
 	JPtrArray<JString>*	fortranSuffixList,
 	JPtrArray<JString>*	javaSuffixList,
 	JPtrArray<JString>*	phpSuffixList,
+	JPtrArray<JString>*	dSuffixList
 	JPtrArray<JString>*	goSuffixList
 	)
 {
@@ -283,6 +291,7 @@ CBMReadSharedPrefs
 
 	if (vers >= 7)
 		{
+		CBDStyler::Instance()->ReadFromSharedPrefs(input);
 		CBGoStyler::Instance()->ReadFromSharedPrefs(input);
 		}
 
@@ -311,10 +320,12 @@ CBMReadSharedPrefs
 
 	if (vers >= 7)
 		{
+		input >> *dSuffixList;
 		input >> *goSuffixList;
 		}
 	else
 		{
+		dSuffixList->DeleteAll();
 		goSuffixList->DeleteAll();
 		}
 

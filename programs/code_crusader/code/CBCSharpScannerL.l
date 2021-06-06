@@ -33,7 +33,7 @@ CDATATYPE    (bool|byte|char|decimal|double|event|fixed|float|int|long|object|sb
 
 
 
-HEXQUAD      ([0-9a-fA-F]{4})
+HEXQUAD      ([[:xdigit:]]{4})
 UESCCODE     (\\[uU]{HEXQUAD}{HEXQUAD}?)
 
 
@@ -49,7 +49,7 @@ ID           @?({IDCAR}{IDCDR}*)
 INTSUFFIX    (([lL][uU]?)|([uU][lL]?))
 
 DECIMAL      ([0-9]+{INTSUFFIX}?)
-HEX          (0[xX][0-9A-Fa-f]+{INTSUFFIX}?)
+HEX          (0[xX][[:xdigit:]]+{INTSUFFIX}?)
 	/* We can't define BADHEX because 0xAAU is legal while 0xAUA isn't */
 	/* and regex subexpressions are greedy. */
 
@@ -70,12 +70,12 @@ FLOAT        ({DIGITSEQ}{EXPONENT}{FLOATSUFFIX}?|{DOTDIGITS}{EXPONENT}?{FLOATSUF
 	/* numeric escape sequences, since they are non-portable and hazardous.  We can */
 	/* warn about ANSI brain-damage with a different color/font. */
 CESCCODE     ([abfnrtv\\'"])
-HESCCODE     ([xX]0*[0-9a-fA-F]{1,4})
+HESCCODE     ([xX]0*[[:xdigit:]]{1,4})
 
 ESCCHAR      (\\({CESCCODE}|{HESCCODE}))
 
 BADCESCCODE  ([^abfnrtv\\'"])
-BADHESCCODE  ([xX]0*[0-9a-fA-F]{5,})
+BADHESCCODE  ([xX]0*[[:xdigit:]]{5,})
 
 BADESCCHAR   (\\({BADCESCCODE}|{BADHESCCODE}))
 

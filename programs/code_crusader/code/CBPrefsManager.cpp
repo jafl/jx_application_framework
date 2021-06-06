@@ -1183,6 +1183,12 @@ CBPrefsManager::UpgradeData
 
 	if (currentVersion < 68)
 		{
+		CBNewSuffixInfo kDSuffix[] =
+		{
+			{ ".d", kJFalse }
+		};
+		cbAddNewSuffixes("D", nullptr, kCBDFT, kDSuffix, sizeof(kDSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
+
 		CBNewSuffixInfo kGoSuffix[] =
 		{
 			{ ".go", kJFalse }
