@@ -177,6 +177,7 @@
 .cpp ./code/CBCCompleter
 .cpp ./code/CBCSharpCompleter
 .cpp ./code/CBCShellCompleter
+.cpp ./code/CBDCompleter
 .cpp ./code/CBEiffelCompleter
 .cpp ./code/CBFortranCompleter
 .cpp ./code/CBGoCompleter
