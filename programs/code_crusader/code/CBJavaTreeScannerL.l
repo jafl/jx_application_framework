@@ -23,7 +23,7 @@ This scanner reads a Java file and builds a CBJavaClass.
 %option c++ yyclass="CBJavaTreeScanner" prefix="CBJavaTree"
 %option 8bit nodefault stack noyywrap
 
-%x PACKAGE_STATE IMPORT_STATE NAME_STATE INHERIT_STATE
+%x CLASS_NAME_STATE INHERIT_STATE
 %x GENERIC_STATE C_COMMENT_STATE CPP_COMMENT_STATE STRING_STATE
 
 WS     [[:space:]]+
@@ -54,12 +54,15 @@ OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compile
 	switch_streams(&input, nullptr);
 %}
 
-package/{BDRY} {
-	BEGIN(PACKAGE_STATE);
+package{WS}{NSID}{MS}; {
+	package.Set(yytext+7, yyleng-8);
+	package.TrimWhitespace();
 	}
 
-import/{BDRY}  {
-	BEGIN(IMPORT_STATE);
+import{WS}{NSID}{MS};  {
+	JString s(yytext+6, yyleng-7);
+	s.TrimWhitespace();
+	importList.Append(s);
 	}
 
 public/{BDRY} {
@@ -79,12 +82,13 @@ abstract/{BDRY} {
 	}
 
 class/{BDRY} {
-	BEGIN(NAME_STATE);
+	itsAbstractFlag = kJFalse;
+	BEGIN(CLASS_NAME_STATE);
 	}
 
 interface/{BDRY} {
-	BEGIN(NAME_STATE);
 	itsAbstractFlag = kJTrue;
+	BEGIN(CLASS_NAME_STATE);
 	}
 
 (extends|implements)/{BDRY} {
@@ -114,69 +118,12 @@ interface/{BDRY} {
 	}
 
 
-	/* Extract class package */
-
-
-<PACKAGE_STATE>{
-
-{NSID} {
-	package.Set(yytext, yyleng);
-	BEGIN(INITIAL);
-	}
-
-{WS}	/* ignore */
-
-"/*" {
-	yy_push_state(C_COMMENT_STATE);
-	}
-
-"//" {
-	yy_push_state(CPP_COMMENT_STATE);
-	}
-
-. {
-	ResetState();
-	BEGIN(INITIAL);
-	}
-
-}
-
-
-	/* Extract imported class */
-
-
-<IMPORT_STATE>{
-
-{NSID} {
-	JString s(yytext, yyleng);
-	importList.Append(s);
-	BEGIN(INITIAL);
-	}
-
-{WS}	/* ignore */
-
-"/*" {
-	yy_push_state(C_COMMENT_STATE);
-	}
-
-"//" {
-	yy_push_state(CPP_COMMENT_STATE);
-	}
-
-. {
-	ResetState();
-	BEGIN(INITIAL);
-	}
-
-}
-
-
 	/* Extract class name and create CBJavaClass */
 
 
-<NAME_STATE>{
+<CLASS_NAME_STATE>{
 
-{NSID}({MS}"<")? {
+{ID}({MS}"<")? {
 	if (classList->GetElementCount() == 1)
 		{
 		package = classList->GetFirstElement()->GetFullName();
@@ -201,11 +148,7 @@ interface/{BDRY} {
 									  itsPublicFlag, itsFinalFlag);
 	assert( c != nullptr );
 
-	if (itsAbstractFlag)
-		{
-		c->SetAbstract();
-		}
-
+	c->SetAbstract(itsAbstractFlag);
 	classList->Append(c);
 
 	ResetState();

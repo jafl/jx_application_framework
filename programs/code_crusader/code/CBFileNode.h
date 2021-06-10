@@ -28,8 +28,8 @@ public:
 	virtual JBoolean	ParseFiles(CBFileListTable* parser,
 								   const JPtrArray<JString>& allSuffixList,
 								   CBSymbolList* symbolList,
-								   CBCTree* cTree, CBJavaTree* javaTree,
-								   CBPHPTree* phpTree,
+								   CBCTree* cTree, CBDTree* dTree, CBGoTree* goTree,
+								   CBJavaTree* javaTree, CBPHPTree* phpTree,
 								   JProgressDisplay& pg) const override;
 
 	virtual void	CreateFilesForTemplate(std::istream& input,
@@ -41,7 +41,8 @@ private:
 	JBoolean	ParseFile(const JString& fullName, CBFileListTable* parser,
 						  const JPtrArray<JString>& allSuffixList,
 						  CBSymbolList* symbolList,
-						  CBCTree* cTree, CBJavaTree* javaTree, CBPHPTree* phpTree,
+						  CBCTree* cTree, CBDTree* dTree, CBGoTree* goTree,
+						  CBJavaTree* javaTree, CBPHPTree* phpTree,
 						  JProgressDisplay& pg) const;
 
 	// not allowed

@@ -18,6 +18,8 @@ class CBProjectDocument;
 class CBFileListTable;
 class CBSymbolList;
 class CBCTree;
+class CBDTree;
+class CBGoTree;
 class CBJavaTree;
 class CBPHPTree;
 
@@ -61,8 +63,8 @@ public:
 	virtual JBoolean	ParseFiles(CBFileListTable* parser,
 								   const JPtrArray<JString>& allSuffixList,
 								   CBSymbolList* symbolList,
-								   CBCTree* cTree, CBJavaTree* javaTree,
-								   CBPHPTree* phpTree,
+								   CBCTree* cTree, CBDTree* dTree, CBGoTree* goTree,
+								   CBJavaTree* javaTree, CBPHPTree* phpTree,
 								   JProgressDisplay& pg) const;
 	virtual void		Print(JString* text) const;
 

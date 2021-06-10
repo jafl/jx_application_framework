@@ -122,7 +122,7 @@ CBGoClass::ViewSource()
 				{
 					"name", GetName().GetBytes()
 				};
-				const JString msg = JGetString("NoDefinition::CBGoClass", map, sizeof(map));
+				const JString msg = JGetString("NoDefinition::CBClass", map, sizeof(map));
 				JGetUserNotification()->ReportError(msg);
 				}
 			}

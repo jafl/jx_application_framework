@@ -15,6 +15,7 @@
 #include "CBSymbolList.h"
 #include "CBProjectDocument.h"
 #include "CBCTreeDirector.h"
+#include "CBDTreeDirector.h"
 #include "CBGoTreeDirector.h"
 #include "CBJavaTreeDirector.h"
 #include "CBPHPTreeDirector.h"
@@ -34,7 +35,8 @@ static const JUtf8Byte* kActionsMenuStr =
 	"    Copy selected names           %k Meta-C"
 	"%l| Update                        %k Meta-U"
 	"  | Show C++ class tree           %k Meta-Shift-C"
-	"  | Show Go struct/interface tree %k Meta-Shift-O"
+	"  | Show D class tree             %k Meta-Shift-D"
+	"  | Show Go struct/interface tree %k Meta-Shift-G"
 	"  | Show Java class tree          %k Meta-Shift-J"
 	"  | Show PHP class tree           %k Meta-Shift-P"
 	"%l| Close window                  %k Meta-W"
@@ -43,7 +45,8 @@ static const JUtf8Byte* kActionsMenuStr =
 enum
 {
 	kCopySelNamesCmd = 1,
-	kUpdateCmd, kShowCTreeCmd, kShowGoTreeCmd, kShowJavaTreeCmd, kShowPHPTreeCmd,
+	kUpdateCmd,
+	kShowCTreeCmd, kShowDTreeCmd, kShowGoTreeCmd, kShowJavaTreeCmd, kShowPHPTreeCmd,
 	kCloseWindowCmd, kCloseAllCmd
 };
 
@@ -127,6 +130,7 @@ CBSymbolSRDirector::~CBSymbolSRDirector()
  ******************************************************************************/
 
 #include "jcc_show_c_tree.xpm"
+#include "jcc_show_d_tree.xpm"
 #include "jcc_show_go_tree.xpm"
 #include "jcc_show_java_tree.xpm"
 #include "jcc_show_php_tree.xpm"
@@ -175,6 +179,7 @@ CBSymbolSRDirector::BuildWindow
 	ListenTo(itsActionsMenu);
 
 	itsActionsMenu->SetItemImage(kShowCTreeCmd,    jcc_show_c_tree);
+	itsActionsMenu->SetItemImage(kShowDTreeCmd,    jcc_show_d_tree);
 	itsActionsMenu->SetItemImage(kShowGoTreeCmd,   jcc_show_go_tree);
 	itsActionsMenu->SetItemImage(kShowJavaTreeCmd, jcc_show_java_tree);
 	itsActionsMenu->SetItemImage(kShowPHPTreeCmd,  jcc_show_php_tree);
@@ -255,6 +260,8 @@ CBSymbolSRDirector::UpdateActionsMenu()
 
 	itsActionsMenu->SetItemEnable(kShowCTreeCmd,
 		JNegate(itsProjDoc->GetCTreeDirector()->GetTree()->IsEmpty()));
+	itsActionsMenu->SetItemEnable(kShowDTreeCmd,
+		JNegate(itsProjDoc->GetDTreeDirector()->GetTree()->IsEmpty()));
 	itsActionsMenu->SetItemEnable(kShowGoTreeCmd,
 		JNegate(itsProjDoc->GetGoTreeDirector()->GetTree()->IsEmpty()));
 	itsActionsMenu->SetItemEnable(kShowJavaTreeCmd,
@@ -286,6 +293,10 @@ CBSymbolSRDirector::HandleActionsMenu
 	else if (index == kShowCTreeCmd)
 		{
 		itsProjDoc->GetCTreeDirector()->Activate();
+		}
+	else if (index == kShowDTreeCmd)
+		{
+		itsProjDoc->GetDTreeDirector()->Activate();
 		}
 	else if (index == kShowGoTreeCmd)
 		{

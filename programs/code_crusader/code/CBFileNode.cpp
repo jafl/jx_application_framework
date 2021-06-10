@@ -87,6 +87,8 @@ CBFileNode::ParseFiles
 	const JPtrArray<JString>&	allSuffixList,
 	CBSymbolList*				symbolList,
 	CBCTree*					cTree,
+	CBDTree*					dTree,
+	CBGoTree*					goTree,
 	CBJavaTree*					javaTree,
 	CBPHPTree*					phpTree,
 	JProgressDisplay&			pg
@@ -96,7 +98,7 @@ CBFileNode::ParseFiles
 	JString fullName, trueName;
 	if (GetFullName(&fullName) && JGetTrueName(fullName, &trueName))
 		{
-		if (!ParseFile(trueName, parser, allSuffixList, symbolList, cTree, javaTree, phpTree, pg))
+		if (!ParseFile(trueName, parser, allSuffixList, symbolList, cTree, dTree, goTree, javaTree, phpTree, pg))
 			{
 			return kJFalse;
 			}
@@ -105,12 +107,12 @@ CBFileNode::ParseFiles
 		if (CBGetDocumentManager()->GetComplementFile(trueName, type, &fullName,
 														GetProjectDoc(), kJFalse) &&
 			JGetTrueName(fullName, &trueName) &&
-			!ParseFile(trueName, parser, allSuffixList, symbolList, cTree, javaTree, phpTree, pg))
+			!ParseFile(trueName, parser, allSuffixList, symbolList, cTree, dTree, goTree, javaTree, phpTree, pg))
 			{
 			return kJFalse;
 			}
 		}
-	return CBFileNodeBase::ParseFiles(parser, allSuffixList, symbolList, cTree, javaTree, phpTree, pg);
+	return CBFileNodeBase::ParseFiles(parser, allSuffixList, symbolList, cTree, dTree, goTree, javaTree, phpTree, pg);
 }
 
 /******************************************************************************
@@ -126,6 +128,8 @@ CBFileNode::ParseFile
 	const JPtrArray<JString>&	allSuffixList,
 	CBSymbolList*				symbolList,
 	CBCTree*					cTree,
+	CBDTree*					dTree,
+	CBGoTree*					goTree,
 	CBJavaTree*					javaTree,
 	CBPHPTree*					phpTree,
 	JProgressDisplay&			pg
@@ -134,7 +138,7 @@ CBFileNode::ParseFile
 {
 	time_t t;
 	JGetModificationTime(fullName, &t);
-	parser->ParseFile(fullName, allSuffixList, t, symbolList, cTree, javaTree, phpTree);
+	parser->ParseFile(fullName, allSuffixList, t, symbolList, cTree, dTree, goTree, javaTree, phpTree);
 
 	return pg.IncrementProgress();
 }

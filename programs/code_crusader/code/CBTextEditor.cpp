@@ -1694,7 +1694,7 @@ CBTextEditor::SetTabCharCount
 }
 
 /******************************************************************************
- AdjustStylesBeforeRecalc (virtual protected)
+ AdjustStylesBeforeBroadcast (virtual protected)
 
  ******************************************************************************/
 

@@ -915,7 +915,7 @@ CBBuildManager::StreamOut
 {
 	projOutput << "# build settings\n";
 	projOutput << itsMakefileMethod << '\n';
-	projOutput << itsNeedWriteMakeFilesFlag << '\n';
+	projOutput << JBoolToString(itsNeedWriteMakeFilesFlag) << '\n';
 	projOutput << itsTargetName << '\n';
 	projOutput << itsDepListExpr << '\n';
 	projOutput << itsSubProjectBuildCmd << '\n';
@@ -1063,11 +1063,11 @@ cbSaveFile
 		{
 		JString text;
 		JReadFile(fileName, &text);
-		output << ' ' << kJTrue << ' ' << text;
+		output << ' ' << JBoolToString(kJTrue) << ' ' << text;
 		}
 	else
 		{
-		output << ' ' << kJFalse;
+		output << ' ' << JBoolToString(kJFalse);
 		}
 }
 
@@ -1096,7 +1096,7 @@ CBBuildManager::WriteTemplate
 
 	if (itsMakefileMethod == kManual)
 		{
-		output << ' ' << kJTrue;
+		output << ' ' << JBoolToString(kJTrue);
 
 		JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 		GetMakefileNames(&list);
@@ -1117,7 +1117,7 @@ CBBuildManager::WriteTemplate
 		}
 	else
 		{
-		output << ' ' << kJFalse;
+		output << ' ' << JBoolToString(kJFalse);
 		}
 }
 

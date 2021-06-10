@@ -21,6 +21,10 @@ class CBSymbolDirector;
 class CBSymbolList;
 class CBCTreeDirector;
 class CBCTree;
+class CBDTreeDirector;
+class CBDTree;
+class CBGoTreeDirector;
+class CBGoTree;
 class CBJavaTreeDirector;
 class CBJavaTree;
 class CBPHPTreeDirector;
@@ -40,7 +44,8 @@ public:
 	JBoolean	Update(std::ostream& link,
 					   CBProjectTree* fileTree, const CBDirList& dirList,
 					   CBSymbolDirector* symbolDir,
-					   CBCTreeDirector* cTreeDir, CBJavaTreeDirector* javaTreeDir,
+					   CBCTreeDirector* cTreeDir, CBDTreeDirector* dTreeDir,
+					   CBGoTreeDirector* goTreeDir, CBJavaTreeDirector* javaTreeDir,
 					   CBPHPTreeDirector* phpTreeDir);
 	void		UpdateFinished();
 
@@ -59,8 +64,8 @@ public:
 
 	void	ParseFile(const JString& fullName, const JPtrArray<JString>& allSuffixList,
 					  const time_t modTime,
-					  CBSymbolList* symbolList, CBCTree* cTree, CBJavaTree* javaTree,
-					  CBPHPTree* phpTree);
+					  CBSymbolList* symbolList, CBCTree* cTree, CBDTree* dTree,
+					  CBGoTree* goTree, CBJavaTree* javaTree, CBPHPTree* phpTree);
 
 protected:
 
@@ -96,13 +101,14 @@ private:
 
 	void		ScanAll(CBProjectTree* fileTree, const CBDirList& dirList,
 						CBSymbolList* symbolList,
-						CBCTree* cTree, CBJavaTree* javaTree, CBPHPTree* phpTree,
+						CBCTree* cTree, CBDTree* dTree, CBGoTree* goTree,
+						CBJavaTree* javaTree, CBPHPTree* phpTree,
 						JProgressDisplay& pg);
 	void		ScanDirectory(const JString& path, const JBoolean recurse,
 							  const JPtrArray<JString>& allSuffixList,
 							  CBSymbolList* symbolList,
-							  CBCTree* cTree, CBJavaTree* javaTree,
-							  CBPHPTree* phpTree,
+							  CBCTree* cTree, CBDTree* dTree, CBGoTree* goTree,
+							  CBJavaTree* javaTree, CBPHPTree* phpTree,
 							  JProgressDisplay& pg);
 	JBoolean	AddFile(const JString& fullName, const CBTextFileType fileType,
 						const time_t modTime, JFAID_t* id);

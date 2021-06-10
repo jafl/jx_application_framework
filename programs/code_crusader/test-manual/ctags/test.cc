@@ -22,7 +22,7 @@ main
 		"--format=1",
 		"--excmd=number",
 		"--sort=no",
-		"--extra=q",
+		"--extras=q",
 //		"--c-types=f",
 		nullptr
 		};

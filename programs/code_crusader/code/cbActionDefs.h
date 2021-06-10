@@ -66,6 +66,7 @@
 #define kCBUpdateMakefileAction            "CBUpdateMakefile"
 #define kCBShowSymbolBrowserAction         "CBShowSymbolBrowser"
 #define kCBShowCPPClassTreeAction          "CBShowCPPClassTree"
+#define kCBShowDClassTreeAction            "CBShowDClassTree"
 #define kCBShowGoClassTreeAction           "CBShowGoClassTree"
 #define kCBShowJavaClassTreeAction         "CBShowJavaClassTree"
 #define kCBShowPHPClassTreeAction          "CBShowPHPClassTree"
@@ -111,7 +112,6 @@
 #define kCBCopyClassNameAction         "CBCopyClassName"
 #define kCBCreateDerivedClassAction    "CBCreateDerivedClass"
 #define kCBFindFunctionAction          "CBFindFunction"
-#define kCBCloseAllClassFnListAction   "CBCloseAllClassFnList"
 
 // File List menu
 

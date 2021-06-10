@@ -294,6 +294,26 @@ T
 F
 "./code/CBCPPMacroTable.cpp"
 T
+2 "CBDTreeDirector.cpp"
+F
+"./code/CBDTreeDirector.cpp"
+T
+2 "CBDTree.cpp"
+F
+"./code/CBDTree.cpp"
+T
+2 "CBDTreeScanner.cpp"
+F
+"./code/CBDTreeScanner.cpp"
+T
+2 "CBDTreeScannerL.l"
+F
+"./code/CBDTreeScannerL.l"
+T
+2 "CBDClass.cpp"
+F
+"./code/CBDClass.cpp"
+T
 2 "CBGoTreeDirector.cpp"
 F
 "./code/CBGoTreeDirector.cpp"
@@ -729,6 +749,10 @@ T
 F
 "./code/CBCShellCompleter.cpp"
 T
+2 "CBDCompleter.cpp"
+F
+"./code/CBDCompleter.cpp"
+T
 2 "CBEiffelCompleter.cpp"
 F
 "./code/CBEiffelCompleter.cpp"
@@ -1020,6 +1044,7 @@ T "../../libjfs/code" T
 T "../../libjx/code" T
 T "../../misc/ctags" T
 T "./code" T
+T "./test" T
 F
 # C preprocessor
 T "CBBourneShellFlexLexer" "yyFlexLexer"

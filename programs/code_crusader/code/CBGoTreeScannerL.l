@@ -24,7 +24,7 @@ This scanner reads a GoLang file and creates CBGoClass instances.
 %option c++ yyclass = "CBGoTree" prefix = "CBGoTree"
 %option 8bit nodefault stack noyywrap
 
-%x PACKAGE_STATE IMPORT_STATE NAME_STATE INHERIT_STATE
+%x PACKAGE_STATE IMPORT_STATE CLASS_NAME_STATE INHERIT_STATE
 %x C_COMMENT_STATE CPP_COMMENT_STATE STRING_STATE
 
 WS     [[:space:]]+
@@ -69,7 +69,7 @@ import/{BDRY}  {
 	}
 
 type/{BDRY} {
-	BEGIN(NAME_STATE);
+	BEGIN(CLASS_NAME_STATE);
 	}
 
 "/*" {
@@ -172,7 +172,7 @@ type/{BDRY} {
 	/* Parse struct/interface and create CBGoClass */
 
 
-<NAME_STATE>{
+<CLASS_NAME_STATE>{
 
 {ID} {
 	typeName.Set(yytext, yyleng);

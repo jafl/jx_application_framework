@@ -11,7 +11,12 @@ medic for go: delve back-end
 kegs for brew
 
 
-jcc:  CBTree::SelectImplementors
+jcc:
+	CBTree::SelectImplementors
+	CBTreeDirector::ViewFunctionList
+	CBTreeWidget::FindFunction
+	CBTreeWidget::HandleMouseDrag
+	CBCRMRuleTable
 
 
 

@@ -70,8 +70,6 @@ public:
 	JBoolean	ShowInheritedFns() const;
 
 	void		ViewFunctionList(const CBClass* theClass);
-	JBoolean	HasFunctionBrowsers() const;
-	void		CloseFunctionBrowsers();
 
 	virtual void	StreamOut(std::ostream& projOutput, std::ostream* setOutput,
 							  std::ostream* symOutput, const CBDirList* dirList) const;

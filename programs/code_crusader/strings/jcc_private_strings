@@ -796,9 +796,13 @@ TreeMenuTitle::CBTreeDirector		"Tree"
 
 WindowTitleSuffix::CBCTreeDirector	" C++ Inheritance"
 
+# CBDTreeDirector
+
+WindowTitleSuffix::CBDTreeDirector	" D Inheritance"
+
 # CBGoTreeDirector
 
-WindowTitleSuffix::CBGoTreeDirector	" Go Inheritance"
+WindowTitleSuffix::CBGoTreeDirector	" Go Composition"
 
 # CBJavaTreeDirector
 
@@ -827,14 +831,7 @@ Code Mill is available from https://sourceforge.net/projects/nps-codemill/"
 # CBClass
 
 TemplateNameSuffix::CBClass	"<>"
-
-# CBGoClass
-
-NoDefinition::CBGoClass	"Unable to find the definition of \"$name\"."
-
-# CBJavaClass
-
-NoDefinition::CBJavaClass	"Unable to find the definition of \"$name\"."
+NoDefinition::CBClass		"Unable to find the definition of \"$name\"."
 
 # CBSymbolTable
 

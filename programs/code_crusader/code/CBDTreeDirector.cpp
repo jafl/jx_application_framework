@@ -1,14 +1,14 @@
 /******************************************************************************
- CBPHPTreeDirector.cpp
+ CBDTreeDirector.cpp
 
 	BASE CLASS = CBTreeDirector
 
-	Copyright (C) 2014 by John Lindal.
+	Copyright (C) 2021 by John Lindal.
 
  ******************************************************************************/
 
-#include "CBPHPTreeDirector.h"
-#include "CBPHPTree.h"
+#include "CBDTreeDirector.h"
+#include "CBDTree.h"
 #include "CBProjectDocument.h"
 #include "cbActionDefs.h"
 #include "cbGlobals.h"
@@ -16,7 +16,7 @@
 #include <JXToolBar.h>
 #include <jAssert.h>
 
-#include "jcc_php_tree_window.xpm"
+#include "jcc_d_tree_window.xpm"
 
 // Tree menu
 
@@ -49,20 +49,20 @@ enum
 
  ******************************************************************************/
 
-CBPHPTreeDirector::CBPHPTreeDirector
+CBDTreeDirector::CBDTreeDirector
 	(
 	CBProjectDocument* supervisor
 	)
 	:
-	CBTreeDirector(supervisor, NewPHPTree, "WindowTitleSuffix::CBPHPTreeDirector",
-				   "CBPHPTreeHelp", jcc_php_tree_window,
-				   kTreeMenuStr, "CBPHPTreeDirector",
-				   kCBPHPTreeToolBarID, InitPHPTreeToolBar)
+	CBTreeDirector(supervisor, NewDTree, "WindowTitleSuffix::CBDTreeDirector",
+				   "CBDTreeHelp", jcc_d_tree_window,
+				   kTreeMenuStr, "CBDTreeDirector",
+				   kCBDTreeToolBarID, InitDTreeToolBar)
 {
-	CBPHPTreeDirectorX();
+	CBDTreeDirectorX();
 }
 
-CBPHPTreeDirector::CBPHPTreeDirector
+CBDTreeDirector::CBDTreeDirector
 	(
 	std::istream&		projInput,
 	const JFileVersion	projVers,
@@ -75,23 +75,23 @@ CBPHPTreeDirector::CBPHPTreeDirector
 	)
 	:
 	CBTreeDirector(projInput, projVers, setInput, setVers, symInput, symVers,
-				   supervisor, subProject, StreamInPHPTree,
-				   "WindowTitleSuffix::CBPHPTreeDirector",
-				   "CBPHPTreeHelp", jcc_php_tree_window,
-				   kTreeMenuStr, "CBPHPTreeDirector",
-				   kCBPHPTreeToolBarID, InitPHPTreeToolBar,
+				   supervisor, subProject, StreamInDTree,
+				   "WindowTitleSuffix::CBDTreeDirector",
+				   "CBDTreeHelp", jcc_d_tree_window,
+				   kTreeMenuStr, "CBDTreeDirector",
+				   kCBDTreeToolBarID, InitDTreeToolBar,
 				   nullptr, kJFalse)
 {
-	CBPHPTreeDirectorX();
+	CBDTreeDirectorX();
 }
 
 // private
 
 void
-CBPHPTreeDirector::CBPHPTreeDirectorX()
+CBDTreeDirector::CBDTreeDirectorX()
 {
-	itsPHPTree = dynamic_cast<CBPHPTree*>(GetTree());
-	assert( itsPHPTree != nullptr );
+	itsDTree = dynamic_cast<CBDTree*>(GetTree());
+	assert( itsDTree != nullptr );
 }
 
 /******************************************************************************
@@ -99,7 +99,7 @@ CBPHPTreeDirector::CBPHPTreeDirectorX()
 
  ******************************************************************************/
 
-CBPHPTreeDirector::~CBPHPTreeDirector()
+CBDTreeDirector::~CBDTreeDirector()
 {
 }
 
@@ -109,26 +109,26 @@ CBPHPTreeDirector::~CBPHPTreeDirector()
  ******************************************************************************/
 
 void
-CBPHPTreeDirector::UpdateTreeMenu()
+CBDTreeDirector::UpdateTreeMenu()
 {
 	JXTextMenu* treeMenu = GetTreeMenu();
 
 	treeMenu->EnableItem(kEditSearchPathsCmd);
 	treeMenu->EnableItem(kUpdateCurrentCmd);
 
-	if (!itsPHPTree->IsEmpty())
+	if (!itsDTree->IsEmpty())
 		{
 		treeMenu->EnableItem(kFindFnCmd);
 		treeMenu->EnableItem(kTreeExpandAllCmd);
 
-		if (itsPHPTree->NeedsMinimizeMILinks())
+		if (itsDTree->NeedsMinimizeMILinks())
 			{
 			treeMenu->EnableItem(kForceMinMILinksCmd);
 			}
 		}
 
 	JBoolean hasSelection, canCollapse, canExpand;
-	itsPHPTree->GetMenuInfo(&hasSelection, &canCollapse, &canExpand);
+	itsDTree->GetMenuInfo(&hasSelection, &canCollapse, &canExpand);
 	if (hasSelection)
 		{
 		treeMenu->EnableItem(kTreeOpenSourceCmd);
@@ -153,7 +153,7 @@ CBPHPTreeDirector::UpdateTreeMenu()
  ******************************************************************************/
 
 void
-CBPHPTreeDirector::HandleTreeMenu
+CBDTreeDirector::HandleTreeMenu
 	(
 	const JIndex index
 	)
@@ -170,42 +170,42 @@ CBPHPTreeDirector::HandleTreeMenu
 		}
 	else if (index == kForceMinMILinksCmd)
 		{
-		itsPHPTree->ForceMinimizeMILinks();
+		itsDTree->ForceMinimizeMILinks();
 		}
 
 	else if (index == kTreeOpenSourceCmd)
 		{
-		itsPHPTree->ViewSelectedSources();
+		itsDTree->ViewSelectedSources();
 		}
 	else if (index == kTreeOpenFnListCmd)
 		{
-		itsPHPTree->ViewSelectedFunctionLists();
+		itsDTree->ViewSelectedFunctionLists();
 		}
 
 	else if (index == kTreeCollapseCmd)
 		{
-		itsPHPTree->CollapseExpandSelectedClasses(kJTrue);
+		itsDTree->CollapseExpandSelectedClasses(kJTrue);
 		}
 	else if (index == kTreeExpandCmd)
 		{
-		itsPHPTree->CollapseExpandSelectedClasses(kJFalse);
+		itsDTree->CollapseExpandSelectedClasses(kJFalse);
 		}
 	else if (index == kTreeExpandAllCmd)
 		{
-		itsPHPTree->ExpandAllClasses();
+		itsDTree->ExpandAllClasses();
 		}
 
 	else if (index == kTreeSelParentsCmd)
 		{
-		itsPHPTree->SelectParents();
+		itsDTree->SelectParents();
 		}
 	else if (index == kTreeSelDescendantsCmd)
 		{
-		itsPHPTree->SelectDescendants();
+		itsDTree->SelectDescendants();
 		}
 	else if (index == kCopySelNamesCmd)
 		{
-		itsPHPTree->CopySelectedClassNames();
+		itsDTree->CopySelectedClassNames();
 		}
 
 	else if (index == kFindFnCmd)
@@ -215,12 +215,12 @@ CBPHPTreeDirector::HandleTreeMenu
 }
 
 /******************************************************************************
- NewPHPTree (static private)
+ NewDTree (static private)
 
  ******************************************************************************/
 
 CBTree*
-CBPHPTreeDirector::NewPHPTree
+CBDTreeDirector::NewDTree
 	(
 	CBTreeDirector*	director,
 	const JSize		marginWidth
@@ -228,21 +228,21 @@ CBPHPTreeDirector::NewPHPTree
 {
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
-	CBPHPTreeDirector* phpTreeDir = static_cast<CBPHPTreeDirector*>(director);
-	assert( phpTreeDir != nullptr );
+	CBDTreeDirector* dTreeDir = static_cast<CBDTreeDirector*>(director);
+	assert( dTreeDir != nullptr );
 
-	CBPHPTree* tree = jnew CBPHPTree(phpTreeDir, marginWidth);
+	CBDTree* tree = jnew CBDTree(dTreeDir, marginWidth);
 	assert( tree != nullptr );
 	return tree;
 }
 
 /******************************************************************************
- StreamInPHPTree (static private)
+ StreamInDTree (static private)
 
  ******************************************************************************/
 
 CBTree*
-CBPHPTreeDirector::StreamInPHPTree
+CBDTreeDirector::StreamInDTree
 	(
 	std::istream&		projInput,
 	const JFileVersion	projVers,
@@ -255,27 +255,25 @@ CBPHPTreeDirector::StreamInPHPTree
 	CBDirList*			dirList
 	)
 {
-	assert( dirList == nullptr );
-
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
-	CBPHPTreeDirector* phpTreeDir = static_cast<CBPHPTreeDirector*>(director);
-	assert( phpTreeDir != nullptr );
+	CBDTreeDirector* dTreeDir = static_cast<CBDTreeDirector*>(director);
+	assert( dTreeDir != nullptr );
 
-	CBPHPTree* tree = jnew CBPHPTree(projInput, projVers,
-									setInput, setVers, symInput, symVers,
-									phpTreeDir, marginWidth, dirList);
+	CBDTree* tree = jnew CBDTree(projInput, projVers,
+								setInput, setVers, symInput, symVers,
+								dTreeDir, marginWidth, dirList);
 	assert( tree != nullptr );
 	return tree;
 }
 
 /******************************************************************************
- InitPHPTreeToolBar (static private)
+ InitDTreeToolBar (static private)
 
  ******************************************************************************/
 
 void
-CBPHPTreeDirector::InitPHPTreeToolBar
+CBDTreeDirector::InitDTreeToolBar
 	(
 	JXToolBar*	toolBar,
 	JXTextMenu*	treeMenu

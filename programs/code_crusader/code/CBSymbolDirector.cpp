@@ -23,6 +23,7 @@
 #include "CBProjectDocument.h"
 #include "CBFileListTable.h"
 #include "CBCTreeDirector.h"
+#include "CBDTreeDirector.h"
 #include "CBGoTreeDirector.h"
 #include "CBJavaTreeDirector.h"
 #include "CBPHPTreeDirector.h"
@@ -96,6 +97,7 @@ enum
 
 static const JUtf8Byte* kProjectMenuStr =
 	"    Show C++ class tree                 %i" kCBShowCPPClassTreeAction
+	"  | Show D class tree                   %i" kCBShowDClassTreeAction
 	"  | Show Go struct/interface tree       %i" kCBShowGoClassTreeAction
 	"  | Show Java class tree                %i" kCBShowJavaClassTreeAction
 	"  | Show PHP class tree                 %i" kCBShowPHPClassTreeAction
@@ -109,7 +111,7 @@ static const JUtf8Byte* kProjectMenuStr =
 
 enum
 {
-	kShowCTreeCmd = 1, kShowGoTreeCmd, kShowJavaTreeCmd, kShowPHPTreeCmd,
+	kShowCTreeCmd = 1, kShowDTreeCmd, kShowGoTreeCmd, kShowJavaTreeCmd, kShowPHPTreeCmd,
 	kViewManPageCmd,
 	kShowFileListCmd, kFindFileCmd, kSearchFilesCmd, kDiffFilesCmd,
 	kSaveAllTextCmd, kCloseAllTextCmd
@@ -421,14 +423,18 @@ CBSymbolDirector::FindSymbol
 {
 	JXGetApplication()->DisplayBusyCursor();
 
-	CBTree* cTree    = (itsProjDoc->GetCTreeDirector())->GetTree();
-	CBTree* javaTree = (itsProjDoc->GetJavaTreeDirector())->GetTree();
-	CBTree* phpTree  = (itsProjDoc->GetPHPTreeDirector())->GetTree();
+	CBTree* cTree    = itsProjDoc->GetCTreeDirector()->GetTree();
+	CBTree* dTree    = itsProjDoc->GetDTreeDirector()->GetTree();
+	CBTree* goTree   = itsProjDoc->GetGoTreeDirector()->GetTree();
+	CBTree* javaTree = itsProjDoc->GetJavaTreeDirector()->GetTree();
+	CBTree* phpTree  = itsProjDoc->GetPHPTreeDirector()->GetTree();
 
 	JFAID_t contextFileID = JFAID::kInvalidID;
 	JString contextNamespace;
 	CBLanguage contextLang = kCBOtherLang;
 	JPtrArray<JString> cContextNamespaceList(JPtrArrayT::kDeleteAll);
+	JPtrArray<JString> dContextNamespaceList(JPtrArrayT::kDeleteAll);
+	JPtrArray<JString> goContextNamespaceList(JPtrArrayT::kDeleteAll);
 	JPtrArray<JString> javaContextNamespaceList(JPtrArrayT::kDeleteAll);
 	JPtrArray<JString> phpContextNamespaceList(JPtrArrayT::kDeleteAll);
 	if (!fileName.IsEmpty())
@@ -443,6 +449,14 @@ CBSymbolDirector::FindSymbol
 		if (cTree->IsUniqueClassName(className, &theClass))
 			{
 			BuildAncestorList(*theClass, &cContextNamespaceList);
+			}
+		if (dTree->IsUniqueClassName(className, &theClass))
+			{
+			BuildAncestorList(*theClass, &dContextNamespaceList);
+			}
+		if (goTree->IsUniqueClassName(className, &theClass))
+			{
+			BuildAncestorList(*theClass, &goContextNamespaceList);
 			}
 		if (javaTree->IsUniqueClassName(className, &theClass))
 			{
@@ -465,7 +479,8 @@ CBSymbolDirector::FindSymbol
 	const JBoolean foundSymbol =
 		itsSymbolList->FindSymbol(name,
 			contextFileID, contextNamespace, contextLang,
-			&cContextNamespaceList, &javaContextNamespaceList,
+			&cContextNamespaceList, &dContextNamespaceList,
+			&goContextNamespaceList, &javaContextNamespaceList,
 			&phpContextNamespaceList,
 			JI2B(button == kJXMiddleButton || button == kJXRightButton),
 			JI2B(button == kJXLeftButton   || button == kJXRightButton),
@@ -474,15 +489,23 @@ CBSymbolDirector::FindSymbol
 	const JBoolean raiseTree =
 		JI2B(!foundSymbol || (button == kJXRightButton && itsRaiseTreeOnRightClickFlag));
 
-	CBTreeWidget* treeWidget = (itsProjDoc->GetCTreeDirector())->GetTreeWidget();
+	CBTreeWidget* treeWidget = itsProjDoc->GetCTreeDirector()->GetTreeWidget();
 	const JBoolean cc = treeWidget->FindClass(name, button, raiseTree, kJFalse, raiseTree, kJTrue);
 	const JBoolean cf = treeWidget->FindFunction(name, kJTrue, button, raiseTree, kJFalse, raiseTree, kJFalse);
 
-	treeWidget = (itsProjDoc->GetJavaTreeDirector())->GetTreeWidget();
+	treeWidget = itsProjDoc->GetDTreeDirector()->GetTreeWidget();
+	const JBoolean dc = treeWidget->FindClass(name, button, raiseTree, kJFalse, raiseTree, kJTrue);
+	const JBoolean df = treeWidget->FindFunction(name, kJTrue, button, raiseTree, kJFalse, raiseTree, kJFalse);
+
+	treeWidget = itsProjDoc->GetGoTreeDirector()->GetTreeWidget();
+	const JBoolean gc = treeWidget->FindClass(name, button, raiseTree, kJFalse, raiseTree, kJTrue);
+	const JBoolean gf = treeWidget->FindFunction(name, kJTrue, button, raiseTree, kJFalse, raiseTree, kJFalse);
+
+	treeWidget = itsProjDoc->GetJavaTreeDirector()->GetTreeWidget();
 	const JBoolean jc = treeWidget->FindClass(name, button, raiseTree, kJFalse, raiseTree, kJTrue);
 	const JBoolean jf = treeWidget->FindFunction(name, kJTrue, button, raiseTree, kJFalse, raiseTree, kJFalse);
 
-	treeWidget = (itsProjDoc->GetPHPTreeDirector())->GetTreeWidget();
+	treeWidget = itsProjDoc->GetPHPTreeDirector()->GetTreeWidget();
 	const JBoolean pc = treeWidget->FindClass(name, button, raiseTree, kJFalse, raiseTree, kJTrue);
 	const JBoolean pf = treeWidget->FindFunction(name, kJTrue, button, raiseTree, kJFalse, raiseTree, kJFalse);
 
@@ -510,7 +533,7 @@ CBSymbolDirector::FindSymbol
 		{
 		CBSymbolSRDirector* dir =
 			jnew CBSymbolSRDirector(this, itsProjDoc, itsSymbolList,
-								   symbolList, name);
+									symbolList, name);
 		assert( dir != nullptr );
 		dir->Activate();
 		itsSRList->Append(dir);
@@ -518,7 +541,7 @@ CBSymbolDirector::FindSymbol
 		}
 	else
 		{
-		return JI2B( cc || cf || jc || jf || pc || pf );
+		return JI2B( cc || cf || dc || df || gc || gf || jc || jf || pc || pf );
 		}
 }
 
@@ -558,6 +581,7 @@ CBSymbolDirector::BuildAncestorList
 #include <jx_file_new.xpm>
 #include <jx_file_open.xpm>
 #include "jcc_show_c_tree.xpm"
+#include "jcc_show_d_tree.xpm"
 #include "jcc_show_go_tree.xpm"
 #include "jcc_show_java_tree.xpm"
 #include "jcc_show_php_tree.xpm"
@@ -649,6 +673,7 @@ CBSymbolDirector::BuildWindow
 	ListenTo(itsProjectMenu);
 
 	itsProjectMenu->SetItemImage(kShowCTreeCmd,    jcc_show_c_tree);
+	itsProjectMenu->SetItemImage(kShowDTreeCmd,    jcc_show_d_tree);
 	itsProjectMenu->SetItemImage(kShowGoTreeCmd,   jcc_show_go_tree);
 	itsProjectMenu->SetItemImage(kShowJavaTreeCmd, jcc_show_java_tree);
 	itsProjectMenu->SetItemImage(kShowPHPTreeCmd,  jcc_show_php_tree);
@@ -927,6 +952,8 @@ CBSymbolDirector::UpdateProjectMenu()
 {
 	itsProjectMenu->SetItemEnable(kShowCTreeCmd,
 		JNegate(itsProjDoc->GetCTreeDirector()->GetTree()->IsEmpty()));
+	itsProjectMenu->SetItemEnable(kShowDTreeCmd,
+		JNegate(itsProjDoc->GetDTreeDirector()->GetTree()->IsEmpty()));
 	itsProjectMenu->SetItemEnable(kShowGoTreeCmd,
 		JNegate(itsProjDoc->GetGoTreeDirector()->GetTree()->IsEmpty()));
 	itsProjectMenu->SetItemEnable(kShowJavaTreeCmd,
@@ -956,6 +983,10 @@ CBSymbolDirector::HandleProjectMenu
 	if (index == kShowCTreeCmd)
 		{
 		itsProjDoc->GetCTreeDirector()->Activate();
+		}
+	else if (index == kShowDTreeCmd)
+		{
+		itsProjDoc->GetDTreeDirector()->Activate();
 		}
 	else if (index == kShowGoTreeCmd)
 		{

@@ -18,6 +18,8 @@ class CBProjectNode;
 class CBFileListTable;
 class CBSymbolList;
 class CBCTree;
+class CBDTree;
+class CBGoTree;
 class CBJavaTree;
 class CBPHPTree;
 
@@ -45,8 +47,8 @@ public:
 	void		ParseFiles(CBFileListTable* parser,
 						   const JPtrArray<JString>& allSuffixList,
 						   CBSymbolList* symbolList,
-						   CBCTree* cTree, CBJavaTree* javaTree,
-						   CBPHPTree* phpTree,
+						   CBCTree* cTree, CBDTree* dTree, CBGoTree* goTree,
+						   CBJavaTree* javaTree, CBPHPTree* phpTree,
 						   JProgressDisplay& pg) const;
 	void		Print(JString* text) const;
 

@@ -20,6 +20,7 @@
 #include "CBCTreeDirector.h"
 #include "CBCTree.h"
 #include "CBCPreprocessor.h"
+#include "CBDTreeDirector.h"
 #include "CBGoTreeDirector.h"
 #include "CBJavaTreeDirector.h"
 #include "CBPHPTreeDirector.h"
@@ -134,6 +135,7 @@ static const JUtf8Byte* kProjectMenuStr =
 	"%l| Update symbol database         %k Meta-U       %i" kCBUpdateClassTreeAction
 	"  | Show symbol browser            %k Ctrl-F12     %i" kCBShowSymbolBrowserAction
 	"  | Show C++ class tree                            %i" kCBShowCPPClassTreeAction
+	"  | Show D class tree                              %i" kCBShowDClassTreeAction
 	"  | Show Go struct/interface tree                  %i" kCBShowGoClassTreeAction
 	"  | Show Java class tree                           %i" kCBShowJavaClassTreeAction
 	"  | Show PHP class tree                            %i" kCBShowPHPClassTreeAction
@@ -148,7 +150,7 @@ enum
 {
 	kOpenMakeConfigDlogCmd = 1, kUpdateMakefileCmd,
 	kUpdateSymbolDBCmd, kShowSymbolBrowserCmd,
-	kShowCTreeCmd, kShowGoTreeCmd, kShowJavaTreeCmd, kShowPHPTreeCmd,
+	kShowCTreeCmd, kShowDTreeCmd, kShowGoTreeCmd, kShowJavaTreeCmd, kShowPHPTreeCmd,
 	kViewManPageCmd,
 	kEditSearchPathsCmd,
 	kShowFileListCmd, kFindFileCmd, kSearchFilesCmd, kDiffFilesCmd
@@ -505,6 +507,9 @@ CBProjectDocument::CBProjectDocument
 	itsCTreeDirector = jnew CBCTreeDirector(this);
 	assert( itsCTreeDirector != nullptr );
 
+	itsDTreeDirector = jnew CBDTreeDirector(this);
+	assert( itsDTreeDirector != nullptr );
+
 	itsGoTreeDirector = jnew CBGoTreeDirector(this);
 	assert( itsGoTreeDirector != nullptr );
 
@@ -668,10 +673,15 @@ CBProjectDocument::CBProjectDocument
 	assert( itsCTreeDirector != nullptr );
 	// activates itself
 
-	// read Go class tree
+	// read D & Go class trees
 
 	if (projVers >= 88)
 		{
+		itsDTreeDirector = jnew CBDTreeDirector(projInput, projVers, setInput, setVers,
+												symInput, symVers, this, silent);
+		assert( itsDTreeDirector != nullptr );
+		// activates itself
+
 		itsGoTreeDirector = jnew CBGoTreeDirector(projInput, projVers, setInput, setVers,
 												  symInput, symVers, this, silent);
 		assert( itsGoTreeDirector != nullptr );
@@ -679,6 +689,10 @@ CBProjectDocument::CBProjectDocument
 		}
 	else
 		{
+		itsDTreeDirector = jnew CBDTreeDirector(this);
+		assert( itsDTreeDirector != nullptr );
+		itsDTreeDirector->GetTree()->NextUpdateMustReparseAll();
+
 		itsGoTreeDirector = jnew CBGoTreeDirector(this);
 		assert( itsGoTreeDirector != nullptr );
 		itsGoTreeDirector->GetTree()->NextUpdateMustReparseAll();
@@ -982,6 +996,9 @@ CBProjectDocument::WriteFiles
 
 	cbWriteSpace(projOutput, setOutput, symOutput);
 	itsCTreeDirector->StreamOut(projOutput, setOutput, symOutput, itsDirList);
+
+	cbWriteSpace(projOutput, setOutput, symOutput);
+	itsDTreeDirector->StreamOut(projOutput, setOutput, symOutput, itsDirList);
 
 	cbWriteSpace(projOutput, setOutput, symOutput);
 	itsGoTreeDirector->StreamOut(projOutput, setOutput, symOutput, itsDirList);
@@ -1342,6 +1359,11 @@ CBProjectDocument::SetTreePrefs
 				 autoMinMILinks, drawMILinksOnTop,
 				 raiseWhenSingleMatch, writePrefs);
 
+	SetTreePrefs(itsDTreeDirector,
+				 fontSize, showInheritedFns,
+				 autoMinMILinks, drawMILinksOnTop,
+				 raiseWhenSingleMatch, writePrefs);
+
 	SetTreePrefs(itsGoTreeDirector,
 				 fontSize, showInheritedFns,
 				 autoMinMILinks, drawMILinksOnTop,
@@ -1465,6 +1487,7 @@ CBProjectDocument::GetMenuIcon
 #include <jx_file_print.xpm>
 #include "jcc_show_symbol_list.xpm"
 #include "jcc_show_c_tree.xpm"
+#include "jcc_show_d_tree.xpm"
 #include "jcc_show_go_tree.xpm"
 #include "jcc_show_java_tree.xpm"
 #include "jcc_show_php_tree.xpm"
@@ -1595,6 +1618,7 @@ CBProjectDocument::BuildWindow
 
 	itsProjectMenu->SetItemImage(kShowSymbolBrowserCmd, jcc_show_symbol_list);
 	itsProjectMenu->SetItemImage(kShowCTreeCmd,         jcc_show_c_tree);
+	itsProjectMenu->SetItemImage(kShowDTreeCmd,         jcc_show_d_tree);
 	itsProjectMenu->SetItemImage(kShowGoTreeCmd,        jcc_show_go_tree);
 	itsProjectMenu->SetItemImage(kShowJavaTreeCmd,      jcc_show_java_tree);
 	itsProjectMenu->SetItemImage(kShowPHPTreeCmd,       jcc_show_php_tree);
@@ -1780,6 +1804,7 @@ CBProjectDocument::Receive
 			itsBuildMgr->ProjectChanged();
 			itsSymbolDirector->FileTypesChanged(*info);
 			itsCTreeDirector->FileTypesChanged(*info);
+			itsDTreeDirector->FileTypesChanged(*info);
 			itsGoTreeDirector->FileTypesChanged(*info);
 			itsJavaTreeDirector->FileTypesChanged(*info);
 			itsPHPTreeDirector->FileTypesChanged(*info);
@@ -1841,6 +1866,7 @@ CBProjectDocument::Receive
 		{
 		SymbolUpdateFinished();
 		itsCTreeDirector->GetTree()->RebuildLayout();
+		itsDTreeDirector->GetTree()->RebuildLayout();
 		itsGoTreeDirector->GetTree()->RebuildLayout();
 		itsJavaTreeDirector->GetTree()->RebuildLayout();
 		itsPHPTreeDirector->GetTree()->RebuildLayout();
@@ -2034,6 +2060,8 @@ CBProjectDocument::UpdateProjectMenu()
 
 	itsProjectMenu->SetItemEnable(kShowCTreeCmd,
 		JNegate(itsCTreeDirector->GetTree()->IsEmpty()));
+	itsProjectMenu->SetItemEnable(kShowDTreeCmd,
+		JNegate(itsDTreeDirector->GetTree()->IsEmpty()));
 	itsProjectMenu->SetItemEnable(kShowGoTreeCmd,
 		JNegate(itsGoTreeDirector->GetTree()->IsEmpty()));
 	itsProjectMenu->SetItemEnable(kShowJavaTreeCmd,
@@ -2080,6 +2108,10 @@ CBProjectDocument::HandleProjectMenu
 	else if (index == kShowCTreeCmd)
 		{
 		itsCTreeDirector->Activate();
+		}
+	else if (index == kShowDTreeCmd)
+		{
+		itsDTreeDirector->Activate();
 		}
 	else if (index == kShowGoTreeCmd)
 		{
@@ -2588,7 +2620,8 @@ CBProjectDocument::SymbolUpdateProgress()
 		std::ostringstream pgOutput;
 		itsAllFileDirector->GetFileListTable()->Update(
 			pgOutput, itsFileTree, *itsDirList, itsSymbolDirector,
-			itsCTreeDirector, itsGoTreeDirector, itsJavaTreeDirector, itsPHPTreeDirector);
+			itsCTreeDirector, itsDTreeDirector, itsGoTreeDirector,
+			itsJavaTreeDirector, itsPHPTreeDirector);
 
 		itsAllFileDirector->GetFileListTable()->UpdateFinished();
 		SymbolUpdateFinished();
@@ -2637,6 +2670,7 @@ CBProjectDocument::SymbolUpdateProgress()
 			itsAllFileDirector->GetFileListTable()->ReadSetup(symInput, symVers);
 			itsSymbolDirector->ReadSetup(symInput, symVers);
 			itsCTreeDirector->ReloadSetup(symInput, symVers);
+			itsDTreeDirector->ReloadSetup(symInput, symVers);
 			itsGoTreeDirector->ReloadSetup(symInput, symVers);
 			itsJavaTreeDirector->ReloadSetup(symInput, symVers);
 			itsPHPTreeDirector->ReloadSetup(symInput, symVers);
@@ -2800,7 +2834,8 @@ CBProjectDocument::UpdateSymbolDatabase()
 
 		if (!itsAllFileDirector->GetFileListTable()->Update(
 				output, itsFileTree, *itsDirList, itsSymbolDirector,
-				itsCTreeDirector, itsGoTreeDirector, itsJavaTreeDirector, itsPHPTreeDirector))
+				itsCTreeDirector, itsDTreeDirector, itsGoTreeDirector,
+				itsJavaTreeDirector, itsPHPTreeDirector))
 			{
 			output.write(JMessageProtocolT::kStdDisconnectStr, JMessageProtocolT::kStdDisconnectByteCount);
 			output.close();

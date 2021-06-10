@@ -72,6 +72,11 @@
 .cpp ./code/CBCPreprocessor
 .cpp ./code/CBEditCPPMacroDialog
 .cpp ./code/CBCPPMacroTable
+.cpp ./code/CBDTreeDirector
+.cpp ./code/CBDTree
+.cpp ./code/CBDTreeScanner
+.l ./code/CBDTreeScannerL
+.cpp ./code/CBDClass
 .cpp ./code/CBGoTreeDirector
 .cpp ./code/CBGoTree
 .cpp ./code/CBGoTreeScanner

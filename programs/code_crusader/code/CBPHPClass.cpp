@@ -12,7 +12,6 @@
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
 #include "cbGlobals.h"
-#include <JXColorManager.h>
 #include <JRegex.h>
 #include <jAssert.h>
 

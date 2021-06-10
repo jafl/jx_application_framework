@@ -176,7 +176,7 @@ using{WS}{NSID}{MS}; {
 
 <CLASS_NAME_STATE>{
 
-{NSID} {
+{ID} {
 	JString fullName(yytext, yyleng);
 	for (JString* s : nsStack)
 		{
@@ -186,6 +186,8 @@ using{WS}{NSID}{MS}; {
 
 	CBCClass* c = jnew CBCClass(fullName, CBClass::kClassType, fileID, tree);
 	assert( c != nullptr );
+
+	c->SetTemplate(itsTemplateFlag);
 	classList->Append(c);
 
 	ResetState();
@@ -203,7 +205,7 @@ using{WS}{NSID}{MS}; {
 		ResetState();
 		BEGIN(INITIAL);
 		}
-}
+	}
 
 "{" {
 	if (itsCurrentClass != nullptr)
@@ -397,10 +399,7 @@ private {
 
 <STRING_STATE>{
 
-\" {
-	BEGIN(INITIAL);
-	}
-
+\" |
 \n {
 	BEGIN(INITIAL);
 	}

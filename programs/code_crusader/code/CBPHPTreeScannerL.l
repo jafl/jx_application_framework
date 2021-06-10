@@ -23,7 +23,7 @@ This scanner reads a PHP file and builds a CBPHPClass.
 %option c++ yyclass="CBPHPTreeScanner" prefix="CBPHPTree"
 %option 8bit nodefault stack noyywrap
 
-%x NAMESPACE_STATE USE_STATE USE_AS_STATE NAME_STATE INHERIT_STATE
+%x NAMESPACE_STATE USE_STATE USE_AS_STATE CLASS_NAME_STATE INHERIT_STATE
 %x C_COMMENT_STATE CPP_COMMENT_STATE
 
 WS     [[:space:]]+
@@ -68,11 +68,11 @@ abstract/{BDRY} {
 	}
 
 class/{BDRY} {
-	BEGIN(NAME_STATE);
+	BEGIN(CLASS_NAME_STATE);
 	}
 
 interface/{BDRY} {
-	BEGIN(NAME_STATE);
+	BEGIN(CLASS_NAME_STATE);
 	isAbstract = kJTrue;
 	}
 
@@ -192,9 +192,9 @@ as/{BDRY} {
 	/* Extract class name and create CBPHPClass */
 
 
-<NAME_STATE>{
+<CLASS_NAME_STATE>{
 
-{NSID} {
+{ID} {
 	JString fullName(yytext, yyleng);
 	if (!phpNamespace.IsEmpty())
 		{
@@ -204,11 +204,7 @@ as/{BDRY} {
 
 	*theClass = jnew CBPHPClass(fullName, CBClass::kClassType, fileID, tree, isFinal);
 	assert( *theClass != nullptr );
-
-	if (isAbstract)
-		{
-		(**theClass).SetAbstract();
-		}
+	(**theClass).SetAbstract(isAbstract);
 
 	BEGIN(INITIAL);
 	}

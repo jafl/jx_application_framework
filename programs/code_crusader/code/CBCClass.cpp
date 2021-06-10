@@ -12,7 +12,6 @@
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
 #include "cbGlobals.h"
-#include <JXColorManager.h>
 #include <jAssert.h>
 
 static const JUtf8Byte* kNamespaceOperator = "::";

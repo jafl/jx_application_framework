@@ -25,12 +25,6 @@ public:
 
 protected:
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
-											 JIndexRange* recalcRange, JIndexRange* redrawRange,
-											 const JBoolean deletion);
-
-protected:
-
 	class StyledText : public JXInputField::StyledText
 	{
 		public:

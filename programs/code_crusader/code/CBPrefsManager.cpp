@@ -509,7 +509,7 @@ CBPrefsManager::UpgradeData
 		std::string oldData;
 		GetData(kCBDocMgrID, &oldData);
 		std::ostringstream newData;
-		newData << 0 << ' ' << kJTrue << ' ' << oldData.c_str();
+		newData << 0 << ' ' << JBoolToString(kJTrue) << ' ' << oldData.c_str();
 		SetData(kCBDocMgrID, newData);
 		}
 	else if (4 <= currentVersion && currentVersion <= 6)
@@ -565,13 +565,13 @@ CBPrefsManager::UpgradeData
 			}
 
 		std::ostringstream codeData;
-		codeData << codeWrap;
+		codeData << JBoolToString(codeWrap);
 		SetData(30000, codeData);
 		SetData(30001, codeData);
 		SetData(30002, codeData);
 
 		std::ostringstream otherData;
-		otherData << kJTrue;
+		otherData << JBoolToString(kJTrue);
 		SetData(30003, otherData);
 		SetData(30004, otherData);
 		SetData(39998, otherData);

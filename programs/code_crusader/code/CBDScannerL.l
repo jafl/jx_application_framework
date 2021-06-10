@@ -30,7 +30,7 @@ WS      ([ \v\t\f\r]*)
 
 KEYWORD     (abstract|alias|align|asm|assert|auto|body|break|case|cast|catch|class|const|continue|debug|default|delegate|delete|deprecated|do|else|enum|export|extern|false|final|finally|for|foreach|foreach_reverse|function|goto|if|immutable|import|in|inout|interface|invariant|is|lazy|long|macro|mixin|module|new|nothrow|null|out|override|package|pragma|private|protected|public|pure|ref|return|scope|shared|static|struct|super|switch|synchronized|template|this|throw|true|try|typeid|typeof|union|unittest|version|void|while|with|__DATE__|__EOF__|__FILE__|__FILE_FULL_PATH__|__FUNCTION__|__LINE__|__MODULE__|__PRETTY_FUNCTION__|__TIME__|__TIMESTAMP__|__VENDOR__|__VERSION__|__gshared|__traits|__vector|__parameters)
 
-DATATYPE    (bool|byte|cdouble|cent|cfloat|char|creal|dchar|double|float|idouble|ifloat|int|ireal\|real|short|ubyte|ucent|uint|ulong|ushort|wchar)
+DATATYPE    (bool|byte|cdouble|cent|cfloat|char|creal|dchar|double|float|idouble|ifloat|int|ireal|real|short|ubyte|ucent|uint|ulong|ushort|wchar)
 
 
 
@@ -344,8 +344,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 
 
 
-	/* Match strings -- based on the string scanner from the flex manual */
-	/* except I allow ANSI wide character strings, may God save my soul. */
+	/* Match strings -- based on the string scanner from the flex manual. */
 
 
 

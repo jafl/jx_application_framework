@@ -202,7 +202,7 @@ CBTreeWidget::FindFunction
 	const
 {
 	itsTree->SelectImplementors(fnName, caseSensitive, deselectAll);
-
+/*
 	JRect selRect;
 	JSize selCount;
 	if (itsTree->GetSelectionCoverage(&selRect, &selCount))
@@ -246,6 +246,8 @@ CBTreeWidget::FindFunction
 			}
 		return kJFalse;
 		}
+*/
+	return kJFalse;
 }
 
 /******************************************************************************
@@ -458,9 +460,10 @@ CBTreeWidget::HandleMouseDrag
 		!JMouseMoved(itsStartPt, pt) &&
 		JXGetApplication()->GetCurrentTime() >= itsMouseDownTime + kJXDoubleClickTime)
 		{
+/*
 		itsFnMenuDir = jnew CBFnListDirector(itsDirector, nullptr, itsFnMenuClass, this,
 											itsDirector->ShowInheritedFns(), kJTrue);
-/*
+
 		assert( itsFnMenuDir != nullptr );
 
 		CBFnListWidget* fnList = itsFnMenuDir->GetFnListWidget();

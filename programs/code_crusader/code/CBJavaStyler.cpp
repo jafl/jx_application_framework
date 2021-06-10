@@ -52,10 +52,8 @@ const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 static const JUtf8Byte* kUnusedKeyword[] =
 {
 	"byvalue", "cast", "const", "future", "generic", "inner",
-	"operator", "outer", "rest", "var"
+	"operator", "outer", "rest"
 };
-
-const JSize kUnusedKeywordCount = sizeof(kUnusedKeyword)/sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Instance (static)
@@ -125,9 +123,9 @@ CBJavaStyler::CBJavaStyler()
 
 	SetWordStyle(JString("goto", kJFalse), JFontStyle(kJTrue, kJFalse, 0, kJFalse, red));
 
-	for (JUnsignedOffset i=0; i<kUnusedKeywordCount; i++)
+	for (const JUtf8Byte* kw : kUnusedKeyword)
 		{
-		SetWordStyle(JString(kUnusedKeyword[i], kJFalse), JFontStyle(red));
+		SetWordStyle(JString(kw, kJFalse), JFontStyle(red));
 		}
 
 	JPrefObject::ReadPrefs();

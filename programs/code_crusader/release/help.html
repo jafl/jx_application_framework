@@ -28,6 +28,7 @@
 		<li><a href="#CBSymbolHelp">Symbol browser</a></li>
 		<li><a href="#CBFileListHelp">File list</a></li>
 		<li><a href="#CBCTreeHelp">C++ class inheritance tree</a></li>
+		<li><a href="#CBDTreeHelp">D class inheritance tree</a></li>
 		<li><a href="#CBGoTreeHelp">Go struct composition tree</a></li>
 		<li><a href="#CBJavaTreeHelp">Java class inheritance tree</a></li>
 		<li><a href="#CBPHPTreeHelp">PHP class inheritance tree</a></li>
@@ -89,6 +90,7 @@
 	<li>Ability to <a href="#CBTasksHelp">run the finished program</a> from within Code Crusader</li>
 	<li><a href="#CBTasksHelp">Integration</a> with <a href="http://sourceforge.net/p/codemedic/">Code Medic</a> for debugging</li>
 	<li><a href="#CBCTreeHelp">C++ class inheritance tree</a></li>
+	<li><a href="#CBDTreeHelp">D class inheritance tree</a></li>
 	<li><a href="#CBGoTreeHelp">Go struct composition tree</a></li>
 	<li><a href="#CBJavaTreeHelp">Java class inheritance tree</a></li>
 	<li><a href="#CBPHPTreeHelp">PHP class inheritance tree</a></li>
@@ -678,6 +680,67 @@ The following options can be changed in the Symbol Preferences dialog:
 
 
 <hr>
+<h2><a name="CBDTreeHelp">D Class Tree</a></h2>
+
+<p>The tree displays the inheritance relationships between the D classes and interfaces that are found by parsing source files.</p>
+
+<p>The names of interfaces are italicized.</p>
+
+<p>If a class or interface is referenced but never defined in any of the files that are parsed, a "ghost" is created to indicate this.  Ghosts are drawn with a gray background.</p>
+
+<p>To add classes and interfaces to the tree, use the "Add classes..." item on the Tree menu.  (Classes and interfaces in project files are always included in the tree.)  To update the current tree without quitting, use the "Update" item.  The <a href="#CBFileTypeHelp">"Edit file types..."</a> item lets you set the suffixes for source files.</p>
+
+<p>To locate a particular class or interface, press the space bar and then type the first few letters in its name.  This search is case-insensitive and ignores the namespaces.  To then open the source file, press Return.  You do not have to de-iconify the window before typing.</p>
+
+<p>To locate all classes and interfaces that include a particular function, select "Find function" from the Tree menu and then enter the name of the function to search for.  This is case sensitive.  If a single function is found, its definition will automatically be displayed.</p>
+
+<p>If you click on a class or interface in the Tree window:</p>
+
+<dl>
+	<dt>Any button once (or type the first few characters of the name)</dt>
+	<dd>Select the item</dd>
+
+	<dt>Shift key + any button once</dt>
+	<dd>Select/deselect the item without deselecting other items</dd>
+
+	<dt>Left button twice (or Return)</dt>
+	<dd>Open source file for the item</dd>
+
+	<dt>Right button twice</dt>
+	<dd>Open list of members or functions in the item</dd>
+</dl>
+
+<p>There are also several <a href="#CBEditorHelp-MouseShortcuts">shortcuts</a> in the <a href="#CBEditorHelp">built-in editor</a> that connect back to the tree.</p>
+
+<h3><a name="CBDTreeHelp-FunctionList">Displaying the members in a class or functions in an interface</a></h3>
+
+<p>To get a list of the members that a class contains or functions that an interface defines, either click on it and hold for a moment to display a menu or right-double-click to create a new window.</p>
+
+<p>The setting in the Tree Preferences dialog controls whether or not the menu and each new window also displays the items inherited from base classes or interfaces.  If this is turned on, items defined by the class or interface itself are boldfaced to make them easy to find.</p>
+
+<p>To locate a particular function, press the space bar and then type the first few letters in its name.  This search is case-insensitive.  To then open the file containing the function's code, press Return.  You do not have to de-iconify the window before typing.</p>
+
+<p>If you click on a function name in a Function List window:</p>
+
+<dl>
+	<dt>Any button once (or type the first few characters of the name)</dt>
+	<dd>Select the function</dd>
+
+	<dt>Left button twice (or Return)</dt>
+	<dd>Display source for the function</dd>
+
+	<dt>Right button twice</dt>
+	<dd>Search the tree for all classes and interfaces that include the function</dd>
+</dl>
+
+<p>When using the menu, the mouse button that was pressed determines the action, just like when double clicking in the window.</p>
+
+<h3>Preferences</h3>
+
+<p>See the <a href="#CBTreePrefsHelp">Tree Preferences</a> section.</p>
+
+
+<hr>
 <h2><a name="CBGoTreeHelp">Go Struct &amp; Interface Tree</a></h2>
 
 <p>The tree displays the composition relationships between the Go structs and interfaces that are found by parsing source files.</p>
@@ -1016,7 +1079,7 @@ The following options can be changed in the Symbol Preferences dialog:
 
 <p>To search the man pages for all occurrences of the function, check the Apropos checkbox.</p>
 
-<p>You can get the Man Pages dialog via the "Look up man page..." item on the Search menu in the <a href="#CBEditorHelp">Text Editor</a> window and the Project menu in the <a href="#CBProjectHelp">Project</a> and <a href="#CBSymbolHelp">Symbol</a> windows and the <a href="#CBCTreeHelp">C++</a> and <a href="#CBJavaTreeHelp">Java</a> Class Tree</a> windows.  Man pages are initially read-only.</p>
+<p>You can get the Man Pages dialog via the "Look up man page..." item on the Search menu in the <a href="#CBEditorHelp">Text Editor</a> window and the Project menu in the <a href="#CBProjectHelp">Project</a> and <a href="#CBSymbolHelp">Symbol</a> windows and any Class Tree window.  Man pages are initially read-only.</p>
 
 <p>In the Text Editor window, <a href="#CBEditorHelp-MouseShortcuts">Meta-double-click</a> checks the UNIX man pages if it can't find the function name in the class tree. <a href="#CBEditorHelp-MouseShortcuts">Meta-double-click</a> also understands the apropos format "name (#)" and automatically looks in the correct section.</p>
 
@@ -1121,6 +1184,17 @@ The following options can be changed in the Symbol Preferences dialog:
 		<li>Compilable via the Project menu</li>
 		</ul>
 
+	<li><b>D source</b></li>
+		<ul>
+		<li><a href="#CBStylerHelp">Context-sensitive highlighting</a></li>
+		<li><a href="#CBEditorHelp-SourceCode">Functions menu</a></li>
+		<li><a href="#CBCompleterHelp">Keyword completion</a></li>
+		<li>Included in <a href="#CBSymbolHelp">symbol browser</a></li>
+		<li>Included in <a href="#CBProjectHelp">Make.files</a></li>
+		<li>Compilable via the Project menu</li>
+		<li>Parsed by the <a href="#CBDTreeHelp">D class tree</a> if it is a file suffix type</li>
+		</ul>
+
 	<li><a href="http://www.eiffel.com/"><b>Eiffel</b></a></li>
 		<ul>
 		<li><a href="#CBStylerHelp">Context-sensitive highlighting</a></li>
@@ -1138,6 +1212,17 @@ The following options can be changed in the Symbol Preferences dialog:
 		<li>Included in <a href="#CBSymbolHelp">symbol browser</a></li>
 		<li>Included in <a href="#CBProjectHelp">Make.files</a></li>
 		<li>Compilable via the Project menu</li>
+		</ul>
+
+	<li><b>Go source</b></li>
+		<ul>
+		<li><a href="#CBStylerHelp">Context-sensitive highlighting</a></li>
+		<li><a href="#CBEditorHelp-SourceCode">Functions menu</a></li>
+		<li><a href="#CBCompleterHelp">Keyword completion</a></li>
+		<li>Included in <a href="#CBSymbolHelp">symbol browser</a></li>
+		<li>Included in <a href="#CBProjectHelp">Make.files</a></li>
+		<li>Compilable via the Project menu</li>
+		<li>Parsed by the <a href="#CBGoTreeHelp">Go struct composition tree</a> if it is a file suffix type</li>
 		</ul>
 
 	<li><b><a href="#CBEditorHelp-HTML">HTML</a></b></li>
@@ -2089,7 +2174,7 @@ For C/C++, the following actions can be useful:
 
 <h3>Additional features</h3>
 
-<p>You can get the File Differences dialog via the "Compare files..." item on the Search menu in the <a href="#CBEditorHelp">Text Editor</a> window and the Project menu in the <a href="#CBProjectHelp">Project</a> and <a href="#CBSymbolHelp">Symbol</a> windows and the <a href="#CBCTreeHelp">C++</a>, <a href="#CBJavaTreeHelp">Java</a> and <a href="#CBPHPTreeHelp">PHP</a> Class Tree windows.</p>
+<p>You can get the File Differences dialog via the "Compare files..." item on the Search menu in the <a href="#CBEditorHelp">Text Editor</a> window and the Project menu in the <a href="#CBProjectHelp">Project</a> and <a href="#CBSymbolHelp">Symbol</a> windows and any Class Tree window.</p>
 
 <p>You can also compare files by using the "Compare selected files with backup" item on the Source menu in the <a href="#CBProjectHelp">Project</a> window and the smart compare item on the File menu in the <a href="#CBEditorHelp">Text Editor</a> window.</p>
 

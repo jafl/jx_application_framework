@@ -158,13 +158,16 @@ CBProjectTree::ParseFiles
 	const JPtrArray<JString>&	allSuffixList,
 	CBSymbolList*				symbolList,
 	CBCTree*					cTree,
+	CBDTree*					dTree,
+	CBGoTree*					goTree,
 	CBJavaTree*					javaTree,
 	CBPHPTree*					phpTree,
 	JProgressDisplay&			pg
 	)
 	const
 {
-	GetProjectRoot()->ParseFiles(parser, allSuffixList, symbolList, cTree, javaTree, phpTree, pg);
+	GetProjectRoot()->ParseFiles(parser, allSuffixList, symbolList,
+								 cTree, dTree, goTree, javaTree, phpTree, pg);
 }
 
 /******************************************************************************

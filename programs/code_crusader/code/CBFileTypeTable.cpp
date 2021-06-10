@@ -71,6 +71,7 @@ static const JUtf8Byte* kTypeMenuStr =
 	"| C/C++ header %r"
 	"| C# %r"
 	"| Cobol %r"
+	"| D %d"
 	"| Eiffel %r"
 	"| Erlang %r"
 	"| FORTRAN %r"
@@ -132,6 +133,7 @@ enum
 	kCHeaderTypeCmd,
 	kCSharpTypeCmd,
 	kCobolTypeCmd,
+	kDTypeCmd,
 	kEiffelTypeCmd,
 	kErlangTypeCmd,
 	kFortranTypeCmd,
@@ -194,6 +196,7 @@ static const CBTextFileType kMenuIndexToFileType[] =
 	kCBCHeaderFT,
 	kCBCSharpFT,
 	kCBCobolFT,
+	kCBDFT,
 	kCBEiffelFT,
 	kCBErlangFT,
 	kCBFortranFT,
@@ -304,7 +307,8 @@ static const JIndex kFileTypeToMenuIndex[] =
 	kAdobeFlexTypeCmd,
 	kINITypeCmd,
 	kPropertiesTypeCmd,
-	kGoTypeCmd
+	kGoTypeCmd,
+	kDTypeCmd
 };
 
 // Script menu

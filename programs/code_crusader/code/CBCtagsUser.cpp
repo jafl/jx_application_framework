@@ -119,6 +119,7 @@ static const FTInfo kFTInfo[] =		// index on CBTextFileType
 	{ kCBINIFT,              kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
 	{ kCBPropertiesFT,       kCBOtherLang,       kOtherLangCmd                 , nullptr                             },
 	{ kCBGoFT,               kCBGoLang,          "--language-force=go"         , "FunctionsMenuTitle::CBCtagsUser"   },
+	{ kCBDFT,                kCBDLang,           "--language-force=d"          , "FunctionsMenuTitle::CBCtagsUser"   },
 };
 
 const JSize kFTCount = sizeof(kFTInfo) / sizeof(FTInfo);

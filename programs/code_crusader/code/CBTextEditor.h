@@ -111,10 +111,6 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
-											 JIndexRange* recalcRange, JIndexRange* redrawRange,
-											 const JBoolean deletion);
-
 	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
 	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate footerHeight) override;
 

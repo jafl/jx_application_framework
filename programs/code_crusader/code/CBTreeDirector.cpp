@@ -365,9 +365,9 @@ CBTreeDirector::ReloadSetup
 void
 CBTreeDirector::StreamOut
 	(
-	std::ostream&			projOutput,
-	std::ostream*			setOutput,
-	std::ostream*			symOutput,
+	std::ostream&		projOutput,
+	std::ostream*		setOutput,
+	std::ostream*		symOutput,
 	const CBDirList*	dirList
 	)
 	const
@@ -471,8 +471,8 @@ CBTreeDirector::ViewFunctionList
 	const CBClass* theClass
 	)
 {
-	const JSize count = itsFnBrowsers->GetElementCount();
-/*	for (JIndex i=1; i<=count; i++)
+/*	const JSize count = itsFnBrowsers->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
 		{
 		CBFnListDirector* dir = itsFnBrowsers->GetElement(i);
 		if (dir->IsShowingClass(theClass))

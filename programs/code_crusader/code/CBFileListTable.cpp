@@ -18,6 +18,10 @@
 #include "CBSymbolList.h"
 #include "CBCTreeDirector.h"
 #include "CBCTree.h"
+#include "CBDTreeDirector.h"
+#include "CBDTree.h"
+#include "CBGoTreeDirector.h"
+#include "CBGoTree.h"
 #include "CBJavaTreeDirector.h"
 #include "CBJavaTree.h"
 #include "CBPHPTreeDirector.h"
@@ -80,11 +84,13 @@ CBFileListTable::~CBFileListTable()
 JBoolean
 CBFileListTable::Update
 	(
-	std::ostream&			link,
+	std::ostream&		link,
 	CBProjectTree*		fileTree,
 	const CBDirList&	dirList,
 	CBSymbolDirector*	symbolDir,
 	CBCTreeDirector*	cTreeDir,
+	CBDTreeDirector*	dTreeDir,
+	CBGoTreeDirector*	goTreeDir,
 	CBJavaTreeDirector*	javaTreeDir,
 	CBPHPTreeDirector*	phpTreeDir
 	)
@@ -97,12 +103,16 @@ JIndex i;
 
 	CBSymbolList* symbolList = symbolDir->GetSymbolList();
 	CBCTree* cTree           = cTreeDir->GetCTree();
+	CBDTree* dTree           = dTreeDir->GetDTree();
+	CBGoTree* goTree         = goTreeDir->GetGoTree();
 	CBJavaTree* javaTree     = javaTreeDir->GetJavaTree();
 	CBPHPTree* phpTree       = phpTreeDir->GetPHPTree();
 
 	const JBoolean reparseAll = JI2B(itsReparseAllFlag             ||
 									 symbolList->NeedsReparseAll() ||
 									 cTree->NeedsReparseAll()      ||
+									 dTree->NeedsReparseAll()      ||
+									 goTree->NeedsReparseAll()     ||
 									 javaTree->NeedsReparseAll()   ||
 									 phpTree->NeedsReparseAll());
 
@@ -112,6 +122,8 @@ JIndex i;
 		}
 	symbolDir->PrepareForListUpdate(reparseAll, pg);
 	cTreeDir->PrepareForTreeUpdate(reparseAll);
+	dTreeDir->PrepareForTreeUpdate(reparseAll);
+	goTreeDir->PrepareForTreeUpdate(reparseAll);
 	javaTreeDir->PrepareForTreeUpdate(reparseAll);
 	phpTreeDir->PrepareForTreeUpdate(reparseAll);
 
@@ -130,7 +142,7 @@ JIndex i;
 
 	// process each file
 
-	ScanAll(fileTree, dirList, symbolList, cTree, javaTree, phpTree, pg);
+	ScanAll(fileTree, dirList, symbolList, cTree, dTree, goTree, javaTree, phpTree, pg);
 
 	// collect files that no longer exist
 
@@ -156,6 +168,8 @@ JIndex i;
 	RemoveFiles(deadFileNameList);
 	symbolDir->ListUpdateFinished(deadFileIDList, pg);
 	cTreeDir->TreeUpdateFinished(deadFileIDList);
+	dTreeDir->TreeUpdateFinished(deadFileIDList);
+	goTreeDir->TreeUpdateFinished(deadFileIDList);
 	javaTreeDir->TreeUpdateFinished(deadFileIDList);
 	phpTreeDir->TreeUpdateFinished(deadFileIDList);
 
@@ -188,6 +202,8 @@ CBFileListTable::ScanAll
 	const CBDirList&	dirList,
 	CBSymbolList*		symbolList,
 	CBCTree*			cTree,
+	CBDTree*			dTree,
+	CBGoTree*			goTree,
 	CBJavaTree*			javaTree,
 	CBPHPTree*			phpTree,
 	JProgressDisplay&	pg
@@ -209,13 +225,13 @@ CBFileListTable::ScanAll
 				{
 				ScanDirectory(fullPath, recurse,
 							  allSuffixList, symbolList,
-							  cTree, javaTree, phpTree,
+							  cTree, dTree, goTree, javaTree, phpTree,
 							  pg);
 				}
 			}
 
 		fileTree->ParseFiles(this, allSuffixList, symbolList,
-							 cTree, javaTree, phpTree, pg);
+							 cTree, dTree, goTree, javaTree, phpTree, pg);
 
 		pg.ProcessFinished();
 		}
@@ -236,6 +252,8 @@ CBFileListTable::ScanDirectory
 	const JPtrArray<JString>&	allSuffixList,
 	CBSymbolList*				symbolList,
 	CBCTree*					cTree,
+	CBDTree*					dTree,
+	CBGoTree*					goTree,
 	CBJavaTree*					javaTree,
 	CBPHPTree*					phpTree,
 	JProgressDisplay&			pg
@@ -261,7 +279,7 @@ CBFileListTable::ScanDirectory
 			{
 			ScanDirectory(entry.GetFullName(), recurse,
 						  allSuffixList, symbolList,
-						  cTree, javaTree, phpTree,
+						  cTree, dTree, goTree, javaTree, phpTree,
 						  pg);
 			}
 
@@ -280,7 +298,7 @@ CBFileListTable::ScanDirectory
 				}
 
 			ParseFile(trueName, allSuffixList, modTime,
-					  symbolList, cTree, javaTree, phpTree);
+					  symbolList, cTree, dTree, goTree, javaTree, phpTree);
 			}
 
 		pg.IncrementProgress();
@@ -306,6 +324,8 @@ CBFileListTable::ParseFile
 	const time_t				modTime,
 	CBSymbolList*				symbolList,
 	CBCTree*					cTree,
+	CBDTree*					dTree,
+	CBGoTree*					goTree,
 	CBJavaTree*					javaTree,
 	CBPHPTree*					phpTree
 	)
@@ -320,6 +340,8 @@ CBFileListTable::ParseFile
 
 			symbolList->FileChanged(fullName, fileType, id);
 			cTree->FileChanged(fullName, fileType, id);
+			dTree->FileChanged(fullName, fileType, id);
+			goTree->FileChanged(fullName, fileType, id);
 			javaTree->FileChanged(fullName, fileType, id);
 			phpTree->FileChanged(fullName, fileType, id);
 			}

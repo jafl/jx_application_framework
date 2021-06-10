@@ -1,18 +1,17 @@
 /******************************************************************************
- CBJavaClass.cpp
+ CBDClass.cpp
 
 	BASE CLASS = CBClass
 
-	Copyright (C) 1999 John Lindal.
+	Copyright (C) 2021 John Lindal.
 
  ******************************************************************************/
 
-#include "CBJavaClass.h"
+#include "CBDClass.h"
 #include "CBTree.h"
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
 #include "cbGlobals.h"
-#include <JXColorManager.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -23,23 +22,21 @@ static const JUtf8Byte* kNamespaceOperator = ".";
 
  ******************************************************************************/
 
-CBJavaClass::CBJavaClass
+CBDClass::CBDClass
 	(
 	const JString&		name,
 	const DeclareType	declType,
 	const JFAID_t		fileID,
 	CBTree*				tree,
-	const JBoolean		isPublic,
 	const JBoolean		isFinal
 	)
 	:
 	CBClass(name, declType, fileID, tree, kNamespaceOperator),
-	itsIsPublicFlag(isPublic),
 	itsIsFinalFlag(isFinal)
 {
 }
 
-CBJavaClass::CBJavaClass
+CBDClass::CBDClass
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -47,13 +44,11 @@ CBJavaClass::CBJavaClass
 	)
 	:
 	CBClass(input, vers, tree, kNamespaceOperator),
-	itsIsPublicFlag(kJTrue),
 	itsIsFinalFlag(kJFalse)
 {
-	if (vers >= 52)
+	if (vers >= 88)
 		{
-		input >> JBoolFromString(itsIsPublicFlag)
-			  >> JBoolFromString(itsIsFinalFlag);
+		input >> JBoolFromString(itsIsFinalFlag);
 		}
 }
 
@@ -62,7 +57,7 @@ CBJavaClass::CBJavaClass
 
  ******************************************************************************/
 
-CBJavaClass::~CBJavaClass()
+CBDClass::~CBDClass()
 {
 }
 
@@ -72,7 +67,7 @@ CBJavaClass::~CBJavaClass()
  ******************************************************************************/
 
 void
-CBJavaClass::StreamOut
+CBDClass::StreamOut
 	(
 	std::ostream& output
 	)
@@ -80,8 +75,7 @@ CBJavaClass::StreamOut
 {
 	CBClass::StreamOut(output);
 
-	output << ' ' << JBoolToString(itsIsPublicFlag)
-				  << JBoolToString(itsIsFinalFlag);
+	output << ' ' << JBoolToString(itsIsFinalFlag);
 	output << ' ';
 }
 
@@ -91,7 +85,7 @@ CBJavaClass::StreamOut
  ******************************************************************************/
 
 void
-CBJavaClass::ViewSource()
+CBDClass::ViewSource()
 	const
 {
 #ifndef CODE_CRUSADER_UNIT_TEST
@@ -119,7 +113,7 @@ CBJavaClass::ViewSource()
 			if (!m.IsEmpty())
 				{
 				te->SelectLine(te->GetLineForChar(m.GetCharacterRange().first));
-				te->ScrollForDefinition(kCBJavaLang);
+				te->ScrollForDefinition(kCBDLang);
 				}
 			else
 				{
@@ -146,27 +140,27 @@ CBJavaClass::ViewSource()
  ******************************************************************************/
 
 void
-CBJavaClass::ViewHeader()
+CBDClass::ViewHeader()
 	const
 {
 }
 
+
 /******************************************************************************
  NewGhost (virtual protected)
 
-	Creates a new ghost CBJavaClass.
+	Creates a new ghost CBDClass.
 
  ******************************************************************************/
 
 CBClass*
-CBJavaClass::NewGhost
+CBDClass::NewGhost
 	(
 	const JString&	name,
 	CBTree*			tree
 	)
 {
-	CBJavaClass* newClass = jnew CBJavaClass(name, kGhostType, JFAID::kInvalidID, tree,
-											kJTrue, kJFalse);
+	CBDClass* newClass = jnew CBDClass(name, kGhostType, JFAID::kInvalidID, tree, kJFalse);
 	assert( newClass != nullptr );
 	return newClass;
 }
@@ -177,7 +171,7 @@ CBJavaClass::NewGhost
  ******************************************************************************/
 
 void
-CBJavaClass::AdjustNameStyle
+CBDClass::AdjustNameStyle
 	(
 	JFontStyle* style
 	)
@@ -187,11 +181,6 @@ CBJavaClass::AdjustNameStyle
 
 	if (GetDeclareType() != kGhostType)
 		{
-		if (!itsIsPublicFlag)
-			{
-			style->color = JColorManager::GetGrayColor(50);
-			}
-
 		if (itsIsFinalFlag)
 			{
 			style->bold = kJTrue;

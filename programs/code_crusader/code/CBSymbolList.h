@@ -43,6 +43,7 @@ public:
 	JBoolean	FindSymbol(const JString& name, const JFAID_t contextFileID,
 						   const JString& contextNamespace, const CBLanguage contextLang,
 						   JPtrArray<JString>* cContextNamespaceList,
+						   JPtrArray<JString>* dContextNamespaceList,
 						   JPtrArray<JString>* goContextNamespaceList,
 						   JPtrArray<JString>* javaContextNamespaceList,
 						   JPtrArray<JString>* phpContextNamespaceList,
@@ -131,12 +132,14 @@ private:
 								   const JString& contextNamespace2,
 								   const CBLanguage contextLang,
 								   const JPtrArray<JString>& cContextNamespace,
+								   const JPtrArray<JString>& dContextNamespace,
 								   const JPtrArray<JString>& goContextNamespace,
 								   const JPtrArray<JString>& javaContextNamespaceList,
 								   const JPtrArray<JString>& phpContextNamespaceList) const;
 	void		PrepareContextNamespace(const JString& contextNamespace, const CBLanguage lang,
 										JString* ns1, JString* ns2) const;
 	void		PrepareCContextNamespaceList(JPtrArray<JString>* contextNamespace) const;
+	void		PrepareDContextNamespaceList(JPtrArray<JString>* contextNamespace) const;
 	void		PrepareGoContextNamespaceList(JPtrArray<JString>* contextNamespace) const;
 	void		PrepareJavaContextNamespaceList(JPtrArray<JString>* contextNamespace) const;
 	void		PreparePHPContextNamespaceList(JPtrArray<JString>* contextNamespace) const;

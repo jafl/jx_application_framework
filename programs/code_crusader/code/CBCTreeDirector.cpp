@@ -36,8 +36,7 @@ static const JUtf8Byte* kTreeMenuStr =
 	"%l| Select parents                                         %i" kCBSelectParentClassAction
 	"  | Select descendants                                     %i" kCBSelectDescendantClassAction
 	"  | Copy selected names    %k Meta-C                       %i" kCBCopyClassNameAction
-	"%l| Find function...       %k Meta-F                       %i" kCBFindFunctionAction
-	"  | Close function windows                                 %i" kCBCloseAllClassFnListAction;
+	"%l| Find function...       %k Meta-F                       %i" kCBFindFunctionAction;
 
 enum
 {
@@ -47,7 +46,7 @@ enum
 	kCreateDerivedClassCmd,
 	kTreeCollapseCmd, kTreeExpandCmd, kTreeExpandAllCmd,
 	kTreeSelParentsCmd, kTreeSelDescendantsCmd, kCopySelNamesCmd,
-	kFindFnCmd, kCloseFnWindCmd
+	kFindFnCmd
 };
 
 /******************************************************************************
@@ -189,11 +188,6 @@ CBCTreeDirector::UpdateTreeMenu()
 		{
 		treeMenu->EnableItem(kTreeExpandCmd);
 		}
-
-	if (HasFunctionBrowsers())
-		{
-		treeMenu->EnableItem(kCloseFnWindCmd);
-		}
 }
 
 /******************************************************************************
@@ -278,10 +272,6 @@ CBCTreeDirector::HandleTreeMenu
 	else if (index == kFindFnCmd)
 		{
 		AskForFunctionToFind();
-		}
-	else if (index == kCloseFnWindCmd)
-		{
-		CloseFunctionBrowsers();
 		}
 }
 

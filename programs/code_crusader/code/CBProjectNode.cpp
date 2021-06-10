@@ -433,6 +433,8 @@ CBProjectNode::ParseFiles
 	const JPtrArray<JString>&	allSuffixList,
 	CBSymbolList*				symbolList,
 	CBCTree*					cTree,
+	CBDTree*					dTree,
+	CBGoTree*					goTree,
 	CBJavaTree*					javaTree,
 	CBPHPTree*					phpTree,
 	JProgressDisplay&			pg
@@ -445,7 +447,8 @@ CBProjectNode::ParseFiles
 		const CBProjectNode* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
-		if (!child->ParseFiles(parser, allSuffixList, symbolList, cTree, javaTree, phpTree, pg))
+		if (!child->ParseFiles(parser, allSuffixList, symbolList,
+							   cTree, dTree, goTree, javaTree, phpTree, pg))
 			{
 			return kJFalse;
 			}

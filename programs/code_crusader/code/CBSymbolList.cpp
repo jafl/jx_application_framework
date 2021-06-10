@@ -23,8 +23,8 @@
 #include <jAssert.h>
 
 static const JUtf8Byte* kCtagsArgs =
-	"--format=2 --excmd=number --sort=no --extra=q "
-	"--c-kinds=+p --php-kinds=-v --ant-kinds=t "
+	"--format=2 --excmd=number --sort=no --extras=q "
+	"--c-kinds=+p --php-kinds=-v --ant-kinds=t --javascript-kinds=cfgm "
 	CBCtagsBisonDef
 	CBCtagsBisonNonterminalDef
 	CBCtagsBisonNonterminalDecl
@@ -214,6 +214,7 @@ CBSymbolList::FindSymbol
 	const JString&		contextNamespace,
 	const CBLanguage	contextLang,
 	JPtrArray<JString>*	cContextNamespaceList,
+	JPtrArray<JString>*	dContextNamespaceList,
 	JPtrArray<JString>*	goContextNamespaceList,
 	JPtrArray<JString>*	javaContextNamespaceList,
 	JPtrArray<JString>*	phpContextNamespaceList,
@@ -279,6 +280,7 @@ CBSymbolList::FindSymbol
 		JString ns1, ns2;
 		PrepareContextNamespace(contextNamespace, contextLang, &ns1, &ns2);
 		PrepareCContextNamespaceList(cContextNamespaceList);
+		PrepareDContextNamespaceList(dContextNamespaceList);
 		PrepareGoContextNamespaceList(goContextNamespaceList);
 		PrepareJavaContextNamespaceList(javaContextNamespaceList);
 		PreparePHPContextNamespaceList(phpContextNamespaceList);
@@ -286,8 +288,9 @@ CBSymbolList::FindSymbol
 		JArray<JIndex> noContextList = *matchList;
 		if (!ConvertToFullNames(&noContextList, matchList,
 								ns1, ns2, contextLang,
-								*cContextNamespaceList, *goContextNamespaceList,
-								*javaContextNamespaceList, *phpContextNamespaceList))
+								*cContextNamespaceList, *dContextNamespaceList,
+								*goContextNamespaceList, *javaContextNamespaceList,
+								*phpContextNamespaceList))
 			{
 			if (!usedAllList && !findDeclaration && findDefinition)
 				{
@@ -297,7 +300,8 @@ CBSymbolList::FindSymbol
 				JArray<JIndex> allNoContextList = allMatchList;
 				if (ConvertToFullNames(&allNoContextList, &allMatchList,
 									   ns1, ns2, contextLang,
-									   *cContextNamespaceList, *javaContextNamespaceList,
+									   *cContextNamespaceList, *dContextNamespaceList,
+									   *goContextNamespaceList, *javaContextNamespaceList,
 									   *phpContextNamespaceList))
 					{
 					*matchList = allMatchList;
@@ -344,6 +348,7 @@ CBSymbolList::ConvertToFullNames
 	const JString&				contextNamespace2,
 	const CBLanguage			contextLang,
 	const JPtrArray<JString>&	cContextNamespaceList,
+	const JPtrArray<JString>&	dContextNamespaceList,
 	const JPtrArray<JString>&	goContextNamespaceList,
 	const JPtrArray<JString>&	javaContextNamespaceList,
 	const JPtrArray<JString>&	phpContextNamespaceList
@@ -352,6 +357,7 @@ CBSymbolList::ConvertToFullNames
 {
 	const JBoolean useLangNSContext = !contextNamespace1.IsEmpty();
 	const JBoolean useCNSContext    = !cContextNamespaceList.IsEmpty();
+	const JBoolean useDNSContext    = !dContextNamespaceList.IsEmpty();
 	const JBoolean useGoNSContext   = !goContextNamespaceList.IsEmpty();
 	const JBoolean useJavaNSContext = !javaContextNamespaceList.IsEmpty();
 	const JBoolean usePHPNSContext  = !phpContextNamespaceList.IsEmpty();
@@ -382,6 +388,8 @@ CBSymbolList::ConvertToFullNames
 				{
 				if ((info.lang == kCBCLang && useCNSContext &&
 					 !InContext(*(sym[k].name), cContextNamespaceList, kJTrue)) ||
+					(info.lang == kCBDLang && useDNSContext &&
+					 !InContext(*(sym[k].name), dContextNamespaceList, kJTrue)) ||
 					(info.lang == kCBGoLang && useGoNSContext &&
 					 !InContext(*(sym[k].name), goContextNamespaceList, kJTrue)) ||
 					(info.lang == kCBJavaLang && useJavaNSContext &&
@@ -424,7 +432,8 @@ CBSymbolList::PrepareContextNamespace
 	const
 {
 	if (!contextNamespace.IsEmpty() &&
-		(lang == kCBGoLang         ||
+		(lang == kCBDLang          ||
+		 lang == kCBGoLang         ||
 		 lang == kCBJavaLang       ||
 		 lang == kCBJavaScriptLang ||
 		 lang == kCBEiffelLang     ||
@@ -456,6 +465,16 @@ CBSymbolList::PrepareCContextNamespaceList
 	const
 {
 	PrepareContextNamespaceList(contextNamespace, "::");
+}
+
+void
+CBSymbolList::PrepareDContextNamespaceList
+	(
+	JPtrArray<JString>* contextNamespace
+	)
+	const
+{
+	PrepareContextNamespaceList(contextNamespace, ".");
 }
 
 void

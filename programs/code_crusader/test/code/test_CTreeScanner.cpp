@@ -134,6 +134,24 @@ JTEST(Namespace)
 	JAssertEqual(6, found);
 }
 
+JTEST(Template)
+{
+	JArray<JFAID_t> deadFileList;
+
+	TestCTree tree;
+	tree.PrepareForUpdate(kJFalse);
+	tree.ParseFile(JString("./data/tree/c/template.h", kJFalse), 1);
+	tree.UpdateFinished(deadFileList);
+
+	const TestCTree& constTree     = tree;
+	const JPtrArray<CBClass>& list = constTree.GetClasses();
+	JAssertEqual(1, list.GetElementCount());
+
+	CBClass* c = list.GetFirstElement();
+	JAssertTrue(c->IsTemplate());
+	JAssertStringsEqual("Foo", c->GetName());
+}
+
 JBoolean
 CBInUpdateThread()
 {
