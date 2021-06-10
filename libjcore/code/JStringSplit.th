@@ -24,7 +24,6 @@ JString::Split
 	const
 {
 	partList->CleanOut();
-	partList->SetCleanUpAction(JPtrArrayT::kDeleteAll);
 
 	JSize count = 1;	// in case we don't find any separators
 
