@@ -30,6 +30,9 @@ public:
 
 	virtual ~CBDTree();
 
+	virtual void	StreamOut(std::ostream& projOutput, std::ostream* setOutput,
+							  std::ostream* symOutput, const CBDirList* dirList) const override;
+
 	virtual JBoolean	UpdateFinished(const JArray<JFAID_t>& deadFileList) override;
 
 protected:
@@ -41,8 +44,6 @@ private:
 	CBDTreeScanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
-
-	void	CBDTreeX();
 
 	static CBClass* StreamInCClass(std::istream& input, const JFileVersion vers,
 								   CBTree* tree);

@@ -64,6 +64,25 @@ CBDTree::~CBDTree()
 }
 
 /******************************************************************************
+ StreamOut (virtual)
+
+ ******************************************************************************/
+
+void
+CBDTree::StreamOut
+	(
+	std::ostream&		projOutput,
+	std::ostream*		setOutput,
+	std::ostream*		symOutput,
+	const CBDirList*	dirList
+	)
+	const
+{
+	assert( dirList == nullptr );
+	CBTree::StreamOut(projOutput, setOutput, symOutput, dirList);
+}
+
+/******************************************************************************
  StreamInCClass (static private)
 
 	Creates a new CBDClass from the data in the given stream.

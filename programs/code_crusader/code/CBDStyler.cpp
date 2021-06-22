@@ -34,24 +34,25 @@ const JFileVersion kCurrentTypeListVersion = 3;
 static const JUtf8Byte* kTypeNames[] =
 {
 	"Identifier",
-	"Identifier containing $",
-	"Reserved C keyword",
-	"Reserved C++ keyword",
+	"Reserved keyword",
 	"Built-in data type",
 
 	"Operator",
 	"Delimiter",
 
 	"String",
+	"Wysiwyg string",
+	"Hexadecimal string",
+	"Token string",
 	"Character constant",
 
 	"Floating point constant",
+	"Hexadecimal floating point constant",
 	"Decimal constant",
+	"Binary constant",
 	"Hexadecimal constant",
-	"Octal constant",
 
 	"Comment",
-	"Preprocessor directive",
 
 	"Detectable error"
 };

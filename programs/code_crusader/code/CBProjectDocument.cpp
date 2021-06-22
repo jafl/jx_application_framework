@@ -998,10 +998,10 @@ CBProjectDocument::WriteFiles
 	itsCTreeDirector->StreamOut(projOutput, setOutput, symOutput, itsDirList);
 
 	cbWriteSpace(projOutput, setOutput, symOutput);
-	itsDTreeDirector->StreamOut(projOutput, setOutput, symOutput, itsDirList);
+	itsDTreeDirector->StreamOut(projOutput, setOutput, symOutput,  nullptr);
 
 	cbWriteSpace(projOutput, setOutput, symOutput);
-	itsGoTreeDirector->StreamOut(projOutput, setOutput, symOutput, itsDirList);
+	itsGoTreeDirector->StreamOut(projOutput, setOutput, symOutput, nullptr);
 
 	cbWriteSpace(projOutput, setOutput, symOutput);
 	itsJavaTreeDirector->StreamOut(projOutput, setOutput, symOutput, nullptr);

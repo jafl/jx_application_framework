@@ -1,3 +1,12 @@
+jcc
+	crashes when reload symbol table
+		[xcb] Unknown sequence number while processing queue
+		[xcb] Most likely this is a multi-threaded client and
+				XInitThreads has not been called
+
+
+
+
 u-ctags:
 	test:  make, yacc, html
 	fix:  javascript, php
@@ -11,18 +20,25 @@ medic for go: delve back-end
 kegs for brew
 
 
+
 jcc:
 	CBTree::SelectImplementors
 	CBTreeDirector::ViewFunctionList
 	CBTreeWidget::FindFunction
 	CBTreeWidget::HandleMouseDrag
 	CBCRMRuleTable
+	CBMWriteSharedPrefs short-circuit
+
+D tree
+	must remember all imported packages, to resolve parents after full parse
+	imports are scoped to block
 
 
 
 test jcc with old project formats in code_crusader/test-manual/*.jcc
 
 unit test all jcc stylers
+	D
 	Eiffel
 	HTML
 		xml: should ignore namespaces (xmlns:foo=) in tags

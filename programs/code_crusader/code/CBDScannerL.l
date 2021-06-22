@@ -315,8 +315,9 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 
 <D_COMMENT_STATE>{
 
-[^+\n]*\n?      |
-"+"+[^+/\n]*\n? {
+[^+/\n]*\n?     |
+"+"+[^+/\n]*\n? |
+"/"				{
 	ContinueToken();
 	}
 
