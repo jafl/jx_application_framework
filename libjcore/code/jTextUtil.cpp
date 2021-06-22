@@ -304,6 +304,7 @@ JReadUNIXManOutput
 		citer.ReplaceLastMatch("\n\n");
 		}
 
+	citer.Invalidate();
 	st->SetText(buffer, &styles);
 }
 

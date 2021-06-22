@@ -249,7 +249,7 @@ JXProgressDisplay::IncrementProgress1
 		}
 	else if (process == kVariableLengthProcess)
 		{
-		if (message != nullptr)
+		if (!message.IsEmpty())
 			{
 			AppendToMessageWindow(message);
 			}
