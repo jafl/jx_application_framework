@@ -344,9 +344,9 @@ CBCtagsUser::ReadExtensionFlags
 		JString* value = jnew JString;
 		assert( value != nullptr );
 
-		if (data.Contains(":"))
+		data.Split(":", &split, 2);
+		if (split.GetElementCount() == 2)
 			{
-			data.Split(":", &split, 2);
 			key    = *split.GetElement(1);
 			*value = *split.GetElement(2);
 			}

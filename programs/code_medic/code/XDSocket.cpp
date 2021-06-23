@@ -84,7 +84,7 @@ XDSocket::StartTimer()
 void
 XDSocket::StopTimer()
 {
-	(reactor())->cancel_timer(itsTimerID);
+	reactor()->cancel_timer(itsTimerID);
 }
 
 /******************************************************************************
