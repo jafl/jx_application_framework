@@ -829,7 +829,7 @@ JIndex i;
 		for (i=1; i<=classCount; i++)
 			{
 			const JBoolean foundAnotherParent =
-				(itsClassesByFull->GetElement(i))->FindParents(kJFalse);
+				itsClassesByFull->GetElement(i)->FindParents(kJFalse);
 			progress = JConvertToBoolean( progress || foundAnotherParent );
 			}
 		}
@@ -840,7 +840,7 @@ JIndex i;
 
 	for (i=1; i<=classCount; i++)
 		{
-		(itsClassesByFull->GetElement(i))->FindParents(kJTrue);
+		itsClassesByFull->GetElement(i)->FindParents(kJTrue);
 		classCount = GetElementCount();
 		}
 
@@ -853,8 +853,7 @@ JIndex i;
 /******************************************************************************
  RecalcVisible (private)
 
-	Applies itsShow*Flags and hides classes whose parents are hidden or
-	collapsed.
+	Hides classes whose parents are hidden or collapsed.
 
 	If necessary or requested, it rebuilds the list of visible classes
 	and adjusts their placement in the tree.
