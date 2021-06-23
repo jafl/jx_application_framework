@@ -60,6 +60,17 @@ JUtf8ByteBuffer::Append
 
  ******************************************************************************/
 
+inline JBoolean
+isNull
+	(
+	const JUtf8Byte*	c,
+	JSize*				byteCount
+	)
+{
+	*byteCount = 1;
+	return JI2B( *c == '\0' );
+}
+
 JString
 JUtf8ByteBuffer::ExtractCharacters()
 {
@@ -69,7 +80,8 @@ JUtf8ByteBuffer::ExtractCharacters()
 	JSize validCount     = 0;
 	JSize byteCount;
 	while (remainingCount > 0 &&
-		   (JUtf8Character::IsCompleteCharacter(p + validCount, remainingCount, &byteCount) ||
+		   (isNull(p + validCount, &byteCount) ||
+			JUtf8Character::IsCompleteCharacter(p + validCount, remainingCount, &byteCount) ||
 			remainingCount >= JUtf8Character::kMaxByteCount))
 		{
 		validCount     += byteCount;

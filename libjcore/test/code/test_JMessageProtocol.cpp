@@ -49,7 +49,7 @@ static const JUtf8Byte* serverSend[] =
 
 	// test receiving several messages at once
 
-	"bc\nab", "c\ndef\ngih\nke", "r", nullptr,
+	"bc\nab", "c\ndef\ngih\nke", "r\n", nullptr,
 	nullptr
 };
 
@@ -139,13 +139,6 @@ private:
 	virtual void
 	HandleMessage()
 	{
-		std::cout << "server state: " << itsState << std::endl;
-
-		if (serverSend[ itsSendOffset ] == nullptr)
-			{
-			return;
-			}
-
 		JAssertTrue(itsLink->HasMessages());
 		JAssertEqual(1, itsLink->GetMessageCount());
 		JAssertFalse(itsLink->ReceivedDisconnect());
@@ -154,12 +147,20 @@ private:
 		JAssertFalse(itsLink->PeekPartialMessage(&msg));
 		JAssertTrue(itsLink->PeekNextMessage(&msg));
 		JAssertTrue(itsLink->GetNextMessage(&msg));		// pull from queue
+		std::cout << "server received: " << msg << std::endl;
 
 		JAssertStringsEqual(message[ itsState ], msg);
+		itsState++;
+
+		if (serverSend[ itsSendOffset ] == nullptr)
+			{
+			return;
+			}
 
 		while (serverSend[ itsSendOffset ] != nullptr)
 			{
 			itsLink->SendBytes(serverSend[ itsSendOffset ]);
+			std::cout << "server sent: " << serverSend[ itsSendOffset ] << std::endl;
 			itsSendOffset++;
 			JWait(0.5);
 			}
@@ -168,8 +169,6 @@ private:
 			{
 			itsSendOffset++;
 			}
-
-		itsState++;
 	};
 
 	virtual void
@@ -229,30 +228,28 @@ private:
 	void
 	HandleMessage()
 	{
-		std::cout << "client state: " << itsState << std::endl;
-
-		if (message[ itsState ] == nullptr)
-			{
-			return;
-			}
-
 		JAssertTrue(itsLink->HasMessages());
 		JAssertFalse(itsLink->ReceivedDisconnect());
 
 		JString msg;
 		JAssertTrue(itsLink->PeekNextMessage(&msg));
 		JAssertTrue(itsLink->GetNextMessage(&msg));		// pull from queue
+		std::cout << "client received: " << msg << std::endl;
 
 		JAssertStringsEqual(message[ itsState ], msg);
 		itsState++;
-		itsLink->SendMessage(JString(message[ itsState ], kJFalse));
 
-		if (message[ itsState+1 ] == nullptr)
+		if (message[ itsState ] == nullptr)
 			{
 			itsLink->ShouldSendSynch();
 			itsLink->SendDisconnect();
 			ACE_Reactor::instance()->end_reactor_event_loop();
+			JWait(5);	// wait for server to finish
+			return;
 			}
+
+		itsLink->SendMessage(JString(message[ itsState ], kJFalse));
+		std::cout << "client sent: " << message[ itsState ] << std::endl;
 	};
 
 	// not allowed
