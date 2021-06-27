@@ -131,13 +131,15 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SetProtocol
 	itsSeparatorStr.Set(separatorStr, separatorByteCount > 0 ? separatorByteCount : strlen(separatorStr));
 	itsDisconnectStr.Set(disconnectStr, disconnectByteCount > 0 ? disconnectByteCount : strlen(disconnectStr));
 
+	// must use raw byte functions because control characters are treated as zero-length in UTF-8
+
 	assert( disconnectByteCount == 0 ||
 			(separatorByteCount == disconnectByteCount &&
-			 itsSeparatorStr != itsDisconnectStr) ||
+			 memcmp(itsSeparatorStr.GetBytes(), itsDisconnectStr.GetBytes(), separatorByteCount) != 0) ||
 			(separatorByteCount > disconnectByteCount &&
-			 !itsSeparatorStr.Contains(itsDisconnectStr)) ||
+			 strstr(itsSeparatorStr.GetBytes(), itsDisconnectStr.GetBytes()) == nullptr) ||
 			(disconnectByteCount > separatorByteCount &&
-			 !itsDisconnectStr.Contains(itsSeparatorStr)) );
+			 strstr(itsDisconnectStr.GetBytes(), itsSeparatorStr.GetBytes()) == nullptr));
 
 	UpdateTokenPattern();
 }
