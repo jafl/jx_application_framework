@@ -399,7 +399,7 @@ CBBuildManager::UpdateMakeFiles
 	JGetString("MakeFilesWarning::CBBuildManager").Print(data);
 	PrintTargetName(data);
 	data << '\n';
-	data << text;
+	text.Print(data);
 	if (!itsDepListExpr.IsEmpty())
 		{
 		data << "\nliteral: ";
