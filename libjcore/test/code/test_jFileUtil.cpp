@@ -221,6 +221,11 @@ JTEST(RootSuffix)
 	s = JCombineRootAndSuffix(root, suffix);
 	JAssertStringsEqual("foo.cpp", s);
 
+	s = "foo.bar.baz";
+	JAssertTrue(JSplitRootAndSuffix(s, &root, &suffix));
+	JAssertStringsEqual("foo.bar", root);
+	JAssertStringsEqual("baz", suffix);
+
 	s = "foo.5";
 	JAssertFalse(JSplitRootAndSuffix(s, &root, &suffix));
 	JAssertStringsEqual("foo.5", root);
