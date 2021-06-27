@@ -45,7 +45,7 @@ JTEST(Basic)
 
 	TestCTree tree;
 	tree.PrepareForUpdate(kJFalse);
-	tree.ParseFile(JString("./data/tree/c/CBCTree.h", kJFalse), 1);
+	tree.ParseFile(JString("./data/tree/c/CBTestTree.h", kJFalse), 1);
 	tree.UpdateFinished(deadFileList);
 
 	const TestCTree& constTree     = tree;
@@ -55,7 +55,7 @@ JTEST(Basic)
 	JSize found = 0;
 	for (CBClass* c : list)
 		{
-		if (c->GetFullName() == "CBCTree")
+		if (c->GetFullName() == "CBTestTree")
 			{
 			JAssertTrue(c->HasParents());
 			JAssertEqual(2, c->GetParentCount());
@@ -67,7 +67,7 @@ JTEST(Basic)
 
 		for (const JUtf8Byte* n :
 			{
-				"CBCTree",
+				"CBTestTree",
 				"CBTree",
 				"CBCtagsUser"
 			})

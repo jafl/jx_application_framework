@@ -1,36 +1,36 @@
 /******************************************************************************
- CBCTree.h
+ CBTestTree.h
 
-	Interface for the CBCTree Class
+	Interface for the CBTestTree Class
 
 	Copyright (C) 1995-99 John Lindal.
 
  ******************************************************************************/
 
-#ifndef _H_CBCTree
-#define _H_CBCTree
+#ifndef _H_CBTestTree
+#define _H_CBTestTree
 
 #include "CBTree.h"
 #include "CBCtagsUser.h"
 
-class CBCTreeScanner;
-class CBCTreeDirector;
+class CBTestTreeScanner;
+class CBTestTreeDirector;
 class CBCPreprocessor;
 class CBCClass;
 class CBClass;
 
-class CBCTree : public CBTree, public CBCtagsUser
+class CBTestTree : public CBTree, public CBCtagsUser
 {
 public:
 
-	CBCTree(CBCTreeDirector* director, const JSize marginWidth);
-	CBCTree(std::istream& projInput, const JFileVersion projVers,
+	CBTestTree(CBTestTreeDirector* director, const JSize marginWidth);
+	CBTestTree(std::istream& projInput, const JFileVersion projVers,
 			std::istream* setInput, const JFileVersion setVers,
 			std::istream* symInput, const JFileVersion symVers,
-			CBCTreeDirector* director, const JSize marginWidth,
+			CBTestTreeDirector* director, const JSize marginWidth,
 			CBDirList* dirList);
 
-	virtual ~CBCTree();
+	virtual ~CBTestTree();
 
 	CBCPreprocessor*	GetCPreprocessor() const;
 
@@ -47,19 +47,19 @@ protected:
 private:
 
 	CBCPreprocessor*	itsCPP;
-	CBCTreeScanner*		itsClassNameLexer;	// nullptr unless parsing
+	CBTestTreeScanner*		itsClassNameLexer;	// nullptr unless parsing
 
 private:
 
-	void	CBCTreeX();
+	void	CBTestTreeX();
 
 	static CBClass* StreamInCClass(std::istream& input, const JFileVersion vers,
 								   CBTree* tree);
 
 	// not allowed
 
-	CBCTree(const CBCTree& source);
-	CBCTree& operator=(const CBCTree& source);
+	CBTestTree(const CBTestTree& source);
+	CBTestTree& operator=(const CBTestTree& source);
 };
 
 
@@ -69,7 +69,7 @@ private:
  ******************************************************************************/
 
 inline CBCPreprocessor*
-CBCTree::GetCPreprocessor()
+CBTestTree::GetCPreprocessor()
 	const
 {
 	return itsCPP;

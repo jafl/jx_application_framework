@@ -1,9 +1,7 @@
 jcc
-	crashes when reload symbol table
-		[xcb] Unknown sequence number while processing queue
-		[xcb] Most likely this is a multi-threaded client and
-				XInitThreads has not been called
+	writes Make.files incorrectly
 
+	Add/manage on Tasks menu is disabled in all windows except text editor
 
 
 
@@ -17,7 +15,9 @@ u-ctags:
 medic for go: delve back-end
 	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
 
-kegs for brew
+tap for brew
+	https://docs.brew.sh/Formula-Cookbook
+	https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap
 
 
 
@@ -55,8 +55,6 @@ unit test all jcc stylers
 
 unit test CBSearch classes - split CBSearchProcess out from CBSearchDocument
 	search results, incl with multiple matches on a line
-
-units test C++, Java, PHP class parsers
 
 JStyledText
 	AutoIndent
