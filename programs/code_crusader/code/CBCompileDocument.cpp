@@ -129,7 +129,7 @@ CBCompileDocument::SetConnection
 	CBExecOutputDocument::SetConnection(p, inFD, outFD, windowTitle,
 										dontCloseMsg, execDir, execCmd, kJFalse);
 
-	if (execCmd != nullptr)
+	if (!execCmd.IsEmpty())
 		{
 		CBTextEditor* te = GetTextEditor();
 

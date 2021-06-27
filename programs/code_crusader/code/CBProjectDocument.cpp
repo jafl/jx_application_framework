@@ -2624,7 +2624,6 @@ CBProjectDocument::SymbolUpdateProgress()
 			itsJavaTreeDirector, itsPHPTreeDirector);
 
 		itsAllFileDirector->GetFileListTable()->UpdateFinished();
-		SymbolUpdateFinished();
 		}
 	else if (type == kLockSymbolTable)
 		{
@@ -2683,8 +2682,6 @@ CBProjectDocument::SymbolUpdateProgress()
 			itsWaitForUpdateTask->StopWaiting();
 			}
 		itsWaitForUpdateTask = nullptr;
-
-		SymbolUpdateFinished();
 		}
 }
 
@@ -2850,6 +2847,7 @@ CBProjectDocument::UpdateSymbolDatabase()
 		if (itsLastSymbolLoadTime < prevSymbolLoadTime)
 			{
 			output << kDoItYourself << std::endl;
+			output.write(JMessageProtocolT::kStdDisconnectStr, JMessageProtocolT::kStdDisconnectByteCount);
 			output.close();
 
 			JWait(15);	// give last message a chance to be received
@@ -2882,6 +2880,7 @@ CBProjectDocument::UpdateSymbolDatabase()
 		WriteFiles(projOutput, JString::empty, nullptr, symName, symOutput);
 
 		output << kSymbolTableWritten << std::endl;
+		output.write(JMessageProtocolT::kStdDisconnectStr, JMessageProtocolT::kStdDisconnectByteCount);
 		output.close();
 
 		JWait(15);	// give last message a chance to be received

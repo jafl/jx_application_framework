@@ -343,7 +343,7 @@ CBExecOutputDocument::SetConnection
 		te->GetText()->ClearUndo();
 		}
 
-	if (execCmd != nullptr)
+	if (!execCmd.IsEmpty())
 		{
 		const JString timeStamp = JGetTimeStamp();
 
