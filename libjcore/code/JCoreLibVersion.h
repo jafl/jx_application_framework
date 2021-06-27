@@ -79,7 +79,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Removed JCreateBuffer() - Run out of memory?  Seriously?
 //	*** Moved JSubset, JProbDistr, J*Histogram to misc/jextra.
 //	*** Updated JIntRange to match JIndexRange API.
-//	*** Removed JMessageProtocol::Translate*AndSend
+//	JMessageProtocol:
+//		*** No longer works for binary data, because JString expects UTF-8.
+//		*** Removed Translate*AndSend().
 //	*** Removed JGetJDataDirectories() because it is no longer used
 //	*** JTextEditor:
 //			Refactored into JStyledText & JTextEditor.

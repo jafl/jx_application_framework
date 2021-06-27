@@ -2090,17 +2090,12 @@ JString::CopyNormalizedBytes
 {
 	if (maxBytes == 0)
 		{
-		destination[0] = 0;
+		destination[0] = '\0';
 		return 0;
 		}
 
 	JSize currByteCount;
 	JUInt32 curr = JUtf8Character::Utf8ToUtf32(source, &currByteCount);
-	if (curr == 0)
-		{
-		destination[0] = 0;
-		return 0;
-		}
 
 	UErrorCode err            = U_ZERO_ERROR;
 	const UNormalizer2* norm2 = unorm2_getNFCInstance(&err);	// do not close
