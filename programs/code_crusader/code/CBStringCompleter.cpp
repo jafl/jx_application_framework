@@ -200,8 +200,10 @@ CBStringCompleter::Complete
 		return kJFalse;
 		}
 
-	const JStringMatch& m   = iter.FinishMatch();
+	const JStringMatch m    = iter.FinishMatch();	// must exist after invalidating iterator
 	const JSize matchLength = m.GetCharacterRange().GetCount();
+
+	iter.Invalidate();
 
 	JString s;
 	const JSize matchCount = Complete(m.GetString(), &s, menu);

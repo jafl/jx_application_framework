@@ -338,6 +338,7 @@ CBExecOutputDocument::SetConnection
 			te->SetSelection(JCharacterRange(
 				iter.GetNextCharacterIndex(), text.GetCharacterCount()));
 			}
+		iter.Invalidate();
 
 		te->Paste(JString("\n\n----------\n\n", kJFalse));
 		te->GetText()->ClearUndo();
