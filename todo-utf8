@@ -1,7 +1,14 @@
 jcc
-	writes Make.files incorrectly
+	keeps appending to Make.header
 
 	Add/manage on Tasks menu is disabled in all windows except text editor
+
+	beeps when looking back for matching paren
+		but select inside parens works
+
+	doesn't restore line when re-opening text files
+
+	CBHTMLStyler::StyleEmbeddedJSVariables hangs
 
 
 
@@ -40,8 +47,6 @@ test jcc with old project formats in code_crusader/test-manual/*.jcc
 unit test all jcc stylers
 	D
 	Eiffel
-	HTML
-		xml: should ignore namespaces (xmlns:foo=) in tags
 	INI
 	Go
 	Java

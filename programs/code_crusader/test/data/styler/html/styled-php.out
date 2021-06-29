@@ -1,0 +1,44 @@
+1 454 <?php
+require_once('../../lib/debug.inc');
+
+/* test */
+
+ob_start();
+phpinfo();
+$s = ob_get_clean();
+
+// test
+
+$x = `cat ${y}`;
+
+# test
+
+$z = <<<EOF
+foo $bar ${baz} ${}
+EOF;
+
+$n = <<<'EOF'
+foo $bar ${baz}
+EOF;
+?>
+
+<html>
+<?php echo "{$} $s ${abc[3]} {$foo[1][3]->bar[2]->baz['zot']} {${$object->getName()}}"; ?>
+
+<script>
+(function(){
+"use strict";
+
+	/* test */
+
+	window.addEventListener('load', () =>
+	{
+		return;
+	});
+
+	// test
+
+})();
+</script>
+</html>
+ 1 "Helvetica" 8 0 0 0 0 0 65535 0 26214 0 32768 32768 32768 39321 0 0 39321 26214 0 65535 0 0 65535 0 39321 63 6 1 10 TFF 0 5 12 1 10 FFF 0 3 1 1 10 FFF 0 1 21 1 10 FFF 0 6 4 1 10 FFF 0 1 10 1 10 FFF 0 4 47 1 10 FFF 0 1 8 1 10 FFF 0 4 6 1 10 FFF 0 1 5 1 10 FFF 0 8 4 1 10 FFF 1 8 1 1 10 FFF 0 8 3 1 10 FFF 0 1 7 1 10 FFF 0 4 6 1 10 FFF 0 1 11 1 10 FFF 0 5 4 1 10 FFF 1 5 1 1 10 FFF 0 5 6 1 10 FFF 1 5 1 1 10 FFF 0 5 3 1 10 FFF 1 7 6 1 10 FFF 0 5 6 1 10 FFF 0 1 30 1 10 FFF 0 6 2 1 10 TFF 0 5 2 1 10 FFF 0 1 6 1 10 FFF 0 2 1 1 10 FFF 0 1 6 1 10 TFF 0 5 4 1 10 FFF 0 3 1 1 10 FFF 0 1 1 1 10 FFF 0 5 3 1 10 FFF 1 7 1 1 10 FFF 0 5 2 1 10 FFF 1 5 1 1 10 FFF 0 5 9 1 10 FFF 1 5 1 1 10 FFF 0 5 32 1 10 FFF 1 5 1 1 10 FFF 0 5 23 1 10 FFF 1 5 1 1 10 FFF 0 5 2 1 10 FFF 0 1 2 1 10 TFF 0 5 2 1 10 FFF 0 1 8 1 10 FFF 0 5 2 1 10 FFF 0 1 8 1 10 FFF 0 3 4 1 10 FFF 0 1 12 1 10 FFF 0 5 4 1 10 FFF 0 1 10 1 10 FFF 0 4 27 1 10 FFF 0 1 6 1 10 FFF 0 5 13 1 10 FFF 0 1 6 1 10 FFF 0 3 9 1 10 FFF 0 1 8 1 10 FFF 0 4 7 1 10 FFF 0 1 9 1 10 FFF 0 5 1 1 10 FFF 0 1 7 1 10 FFF 0 2 1 1 10 FFF 0 1

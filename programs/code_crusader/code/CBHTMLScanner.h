@@ -69,6 +69,7 @@ public:
 		kPHPSingleQuoteString,
 		kPHPDoubleQuoteString,
 		kPHPHereDocString,
+		kPHPNowDocString,
 		kPHPExecString,
 
 		// JSP/Java
@@ -154,6 +155,7 @@ private:
 	JStyledText::TextRange	itsCurrentRange;
 	JString					itsScriptLanguage;
 	JString					itsPHPHereDocTag;
+	JString					itsPHPNowDocTag;
 	JBoolean				itsProbableJSOperatorFlag;	// kTrue if / is most likely operator instead of regex
 
 private:

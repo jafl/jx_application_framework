@@ -13,10 +13,14 @@
 
  ******************************************************************************/
 
+#ifndef FunctionName
+#define FunctionName StyleEmbeddedVariables
+#endif
+
 #include <JListUtil.h>
 
 void
-ClassName::StyleEmbeddedVariables
+ClassName::FunctionName
 	(
 	const Token& token
 	)
@@ -63,3 +67,5 @@ ClassName::StyleEmbeddedVariables
 			}
 		}
 }
+
+#undef FunctionName

@@ -1,0 +1,53 @@
+1 1072 <!DOCTYPE HTML>
+<html th:lang="${#locale.language}"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="/static/favicon.ico" />
+
+	<title th:text="#{${pageBody} + '.title'}"></title>
+
+	<link rel="stylesheet" type="text/css" href="/static/css/foo.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/bar.css" />
+
+	<script src="/static/js/baz.js"></script>
+
+	<div th:replace="@{'views/' + ${pageBody}} :: head"></div>
+</head>
+
+<body>
+
+<div id="hd">
+	<div id="global-nav">
+		<script>
+		(function(){
+		"use strict";
+
+			window.addEventListener('load', () =>
+			{
+				return;
+			});
+
+		})();
+		</script>
+	</div>
+</div>
+
+<div id="bd">
+	<div class="module">
+		<div class="module-hd">
+			<p class="module-title" th:text="#{${pageBody} + '.module-title'}"></p>
+		</div>
+
+		<div class="module-bd">
+			<div th:replace="@{'views/' + ${pageBody}} :: ${pageBody}"></div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
+ 1 "Helvetica" 4 0 0 0 0 0 65535 0 26214 0 39321 0 0 68 15 1 10 FFF 0 2 1 1 10 FFF 0 1 184 1 10 FFF 0 2 2 1 10 FFF 0 1 6 1 10 FFF 0 2 2 1 10 FFF 0 1 22 1 10 FFF 0 2 2 1 10 FFF 0 1 55 1 10 FFF 0 2 3 1 10 FFF 0 1 51 1 10 FFF 0 2 3 1 10 FFF 0 1 68 1 10 FFF 0 2 2 1 10 FFF 0 1 68 1 10 FFF 0 2 3 1 10 FFF 0 1 41 1 10 FFF 0 4 3 1 10 FFF 0 1 58 1 10 FFF 0 2 1 1 10 FFF 0 1 7 1 10 FFF 0 2 2 1 10 FFF 0 1 6 1 10 FFF 0 2 2 1 10 FFF 0 1 13 1 10 FFF 0 2 2 1 10 FFF 0 1 21 1 10 FFF 0 2 3 1 10 FFF 0 1 8 1 10 FFF 0 4 4 1 10 FFF 0 1 8 1 10 FFF 0 3 6 1 10 FFF 0 1 12 1 10 FFF 0 4 30 1 10 FFF 0 1 6 1 10 FFF 0 4 17 1 10 FFF 0 1 6 1 10 FFF 0 3 20 1 10 FFF 0 1 9 1 10 FFF 0 4 2 1 10 FFF 0 1 6 1 10 FFF 0 2 1 1 10 FFF 0 1 6 1 10 FFF 0 2 2 1 10 FFF 0 1 13 1 10 FFF 0 2 2 1 10 FFF 0 1 20 1 10 FFF 0 2 3 1 10 FFF 0 1 23 1 10 FFF 0 2 4 1 10 FFF 0 1 71 1 10 FFF 0 2 3 1 10 FFF 0 1 6 1 10 FFF 0 2 4 1 10 FFF 0 1 23 1 10 FFF 0 2 4 1 10 FFF 0 1 65 1 10 FFF 0 2 3 1 10 FFF 0 1 6 1 10 FFF 0 2 2 1 10 FFF 0 1 6 1 10 FFF 0 2 1 1 10 FFF 0 1 6 1 10 FFF 0 2 2 1 10 FFF 0 1 7 1 10 FFF 0 2 1 1 10 FFF 0 1 7 1 10 FFF 0 2 1 1 10 FFF 0 1

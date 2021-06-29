@@ -28,6 +28,14 @@ ${JCCCODEDIR}/CBCShellScanner
 .l ${JCCCODEDIR}/CBCShellScannerL
 ${JCCCODEDIR}/CBStylerBase
 
+@test_HTMLStyler
+${CODEDIR}/test_HTMLStyler
+${JCCCODEDIR}/CBHTMLStyler
+${JCCCODEDIR}/CBHTMLScanner
+.l ${JCCCODEDIR}/CBHTMLScannerL
+${JCCCODEDIR}/CBStylerBase
+
+
 @test_CTreeScanner
 ${CODEDIR}/test_CTreeScanner
 ${JCCCODEDIR}/CBCTreeScanner

@@ -36,7 +36,8 @@ CBHTMLScanner::GetCurrentLexerState()
 
 %x PHP_STATE
 %x PHP_QUOTED_VARIABLE_STATE PHP_CPP_COMMENT_STATE
-%x PHP_SINGLE_STRING_STATE PHP_DOUBLE_STRING_STATE PHP_HEREDOC_STRING_STATE
+%x PHP_SINGLE_STRING_STATE PHP_DOUBLE_STRING_STATE
+%x PHP_HEREDOC_STRING_STATE PHP_NOWDOC_STRING_STATE
 %x PHP_EXEC_STRING_STATE PHP_COMPLEX_VARIABLE_STATE
 
 %x JSP_STATE JSP_CPP_COMMENT_STATE JAVA_STRING_STATE
@@ -997,6 +998,14 @@ euro;?     {
 	BEGIN(PHP_HEREDOC_STRING_STATE);
 	}
 
+\<\<\<'{ID}'[ \t]*\n {
+	StartToken();
+	JString s(yytext+4, yyleng-5);
+	s.TrimWhitespace();
+	itsPHPNowDocTag.Set(s.GetBytes(), s.GetByteCount()-1);
+	BEGIN(PHP_NOWDOC_STRING_STATE);
+	}
+
 \` {
 	StartToken();
 	BEGIN(PHP_EXEC_STRING_STATE);
@@ -1143,6 +1152,30 @@ euro;?     {
 		{
 		BEGIN(PHP_STATE);
 		return ThisToken(kPHPHereDocString);
+		}
+	}
+
+.|\n {
+	ContinueToken();
+	}
+
+<<EOF>> {
+	BEGIN(INITIAL);
+	return ThisToken(kUnterminatedString);
+	}
+
+}
+
+<PHP_NOWDOC_STRING_STATE>{
+
+^.+\n {
+	ContinueToken();
+	if (JString::Compare(
+			yytext, yyleng - (yytext[yyleng-2] == ';' ? 2 : 1),
+			itsPHPNowDocTag.GetBytes(), itsPHPNowDocTag.GetByteCount()) == 0)
+		{
+		BEGIN(PHP_STATE);
+		return ThisToken(kPHPNowDocString);
 		}
 	}
 

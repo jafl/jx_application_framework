@@ -1,7 +1,7 @@
 /******************************************************************************
  test_CStyler.cpp
 
-	Test bash styler.
+	Test C styler.
 
 	Written by John Lindal.
 

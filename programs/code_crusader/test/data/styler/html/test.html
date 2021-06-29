@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html th:lang="${#locale.language}"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="/static/favicon.ico" />
+
+	<title th:text="#{${pageBody} + '.title'}"></title>
+
+	<link rel="stylesheet" type="text/css" href="/static/css/foo.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/bar.css" />
+
+	<script src="/static/js/baz.js"></script>
+
+	<div th:replace="@{'views/' + ${pageBody}} :: head"></div>
+</head>
+
+<body>
+
+<div id="hd">
+	<div id="global-nav">
+		<script>
+		(function(){
+		"use strict";
+
+			window.addEventListener('load', () =>
+			{
+				return;
+			});
+
+		})();
+		</script>
+	</div>
+</div>
+
+<div id="bd">
+	<div class="module">
+		<div class="module-hd">
+			<p class="module-title" th:text="#{${pageBody} + '.module-title'}"></p>
+		</div>
+
+		<div class="module-bd">
+			<div th:replace="@{'views/' + ${pageBody}} :: ${pageBody}"></div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

@@ -20,8 +20,9 @@
 
 CBHTMLStyler* CBHTMLStyler::itsSelf = nullptr;
 
-const JFileVersion kCurrentTypeListVersion = 8;
+const JFileVersion kCurrentTypeListVersion = 9;
 
+	// version 9 inserts kPHPNowDocString after kPHPHereDocString (17)
 	// version 8 inserts kJSTemplateString after kJSString (32)
 	// version 7 inserts kCDATABlock after kHTMLComment (5)
 	// version 6 inserts kMustacheCommand after kHTMLComment (5)
@@ -69,6 +70,7 @@ static const JUtf8Byte* kTypeNames[] =
 	"PHP single quoted string",
 	"PHP double quoted string",
 	"PHP heredoc string",
+	"PHP nowdoc string",
 	"PHP executed string",
 
 	// JSP/Java
@@ -250,6 +252,7 @@ CBHTMLStyler::InitPHPTypeStyles()
 	SetTypeStyle(kPHPSingleQuoteString - kWhitespace, JFontStyle(JColorManager::GetBrownColor()));
 	SetTypeStyle(kPHPDoubleQuoteString - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
 	SetTypeStyle(kPHPHereDocString     - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kPHPNowDocString      - kWhitespace, JFontStyle(JColorManager::GetBrownColor()));
 	SetTypeStyle(kPHPExecString        - kWhitespace, JFontStyle(JColorManager::GetPinkColor()));
 	SetTypeStyle(kComment              - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
 }
@@ -331,6 +334,7 @@ CBHTMLStyler::Scan
 			  token.type == kPHPSingleQuoteString ||
 			  token.type == kPHPDoubleQuoteString ||
 			  token.type == kPHPHereDocString     ||
+			  token.type == kPHPNowDocString      ||
 			  token.type == kPHPExecString        ||
 			  token.type == kJavaID               ||
 			  token.type == kJavaReservedKeyword  ||
@@ -393,6 +397,7 @@ CBHTMLStyler::Scan
 				 token.type == kPHPSingleQuoteString ||
 				 token.type == kPHPDoubleQuoteString ||
 				 token.type == kPHPHereDocString     ||
+				 token.type == kPHPNowDocString      ||
 				 token.type == kPHPExecString        ||
 				 token.type == kJSPStartEnd          ||
 				 token.type == kJSPComment           ||
@@ -629,7 +634,7 @@ CBHTMLStyler::GetXMLStyle
 static JRegex emptyPHPVariablePattern =
 	"^\\$+(\\{\\}|" CBPHPStringID "(->(?=" CBPHPStringNotID ")|\\[\\]))";	// update special conditions in code below
 static JRegex phpVariablePattern =
-	"^\\$+(\\{[^}]+\\}|" CBPHPStringID "(\\[[^]]+\\]|->" CBPHPStringID ")?)";
+	"^\\$+(\\{[^}]+\\}|" CBPHPStringID "(\\[[^]]+\\]|->" CBPHPStringID ")*)";
 
 #undef CBPHPStringID
 
@@ -667,26 +672,47 @@ CBHTMLStyler::StyleEmbeddedPHPVariables
 			}
 		else if (c == '$')
 			{
+			iter.SkipPrev();
 			JCharacterRange r = MatchAt(token, iter, emptyPHPVariablePattern);
 			if (!r.IsEmpty())
 				{
 				AdjustStyle(r, errStyle);
+				iter.SkipNext(r.GetCount());
 				continue;
 				}
 
 			r = MatchAt(token, iter, phpVariablePattern);
 			if (!r.IsEmpty())
 				{
+				if (iter.Prev(&c, kJFalse) && c == '{')
+					{
+					r.first--;
+					iter.SkipNext(r.GetCount()-1);
+					if (iter.Next(&c, kJFalse) && c == '}')
+						{
+						iter.SkipNext();
+						r.last++;
+						}
+					}
+				else
+					{
+					iter.SkipNext(r.GetCount());
+					}
 				AdjustStyle(r, varStyle);
 				}
 			}
-		else if (c == '{' &&
-				 iter.Next(&c) && c == '$' &&
-				 iter.Next(&c, kJFalse) && c == '}')
+		else if (c == '{' && iter.Next(&c) && c == '$')
 			{
-			iter.SkipNext();
-			const JIndex i = iter.GetPrevCharacterIndex();
-			AdjustStyle(JCharacterRange(i-1, i), errStyle);
+			if (iter.Next(&c, kJFalse) && c == '}')
+				{
+				iter.SkipNext();
+				const JIndex i = token.range.charRange.first - 1 + iter.GetPrevCharacterIndex();
+				AdjustStyle(JCharacterRange(i-2, i), errStyle);
+				}
+			else
+				{
+				iter.SkipPrev();
+				}
 			}
 		}
 }
@@ -698,51 +724,15 @@ CBHTMLStyler::StyleEmbeddedPHPVariables
 
  ******************************************************************************/
 
-static JRegex jsVariablePattern      = "^\\$\\{.+?\\}";
-static JRegex emptyJSVariablePattern = "^\\$\\{\\}?";
+static JRegex variablePattern =      "(?<!\\\\)\\$\\{.+?\\}";
+static JRegex emptyVariablePattern = "(?<!\\\\)\\$\\{\\}?";
 
-void
-CBHTMLStyler::StyleEmbeddedJSVariables
-	(
-	const Token& token
-	)
-{
-	jsVariablePattern.SetSingleLine();
-	emptyJSVariablePattern.SetSingleLine();
-
-	JFontStyle varStyle = GetTypeStyle(token.type - kWhitespace);
-	varStyle.underlineCount++;
-
-	JFontStyle errStyle = GetTypeStyle(kError - kWhitespace);
-	errStyle.underlineCount++;
-
-	const JString s(GetText().GetBytes(), token.range.byteRange);
-	JStringIterator iter(s);
-	JUtf8Character c;
-	while (iter.Next(&c) && !iter.AtEnd())
-		{
-		if (c == '\\')
-			{
-			iter.SkipNext();
-			}
-		else if (c == '$')
-			{
-			iter.SkipPrev();
-			JCharacterRange r = MatchAt(token, iter, jsVariablePattern);
-			if (!r.IsEmpty())
-				{
-				AdjustStyle(r, varStyle);
-				continue;
-				}
-
-			r = MatchAt(token, iter, emptyJSVariablePattern);
-			if (!r.IsEmpty())
-				{
-				AdjustStyle(r, errStyle);
-				}
-			}
-		}
-}
+#define ClassName CBHTMLStyler
+#define FunctionName StyleEmbeddedJSVariables
+#define NoVariableIndex
+#include "CBSTStylerEmbeddedVariables.th"
+#undef NoVariableIndex
+#undef ClassName
 
 /******************************************************************************
  MatchAt (private)
@@ -766,10 +756,10 @@ CBHTMLStyler::MatchAt
 
 	iter.MoveTo(kJIteratorStartBefore, orig);
 
-	return JCharacterRange(
+	return m2.IsEmpty() ? JCharacterRange() :
+		JCharacterRange(
 			m2.GetCharacterRange() +
-				(token.range.charRange.first - 1 +
-				 iter.GetPrevCharacterIndex() - m2.GetCharacterCount()));
+				(token.range.charRange.first - 1 + iter.GetPrevCharacterIndex()));
 }
 
 /******************************************************************************
@@ -837,6 +827,11 @@ CBHTMLStyler::UpgradeTypeList
 	if (vers < 8)
 		{
 		typeStyles->InsertElementAtIndex(33, JFontStyle(JColorManager::GetPinkColor()));
+		}
+
+	if (vers < 9)
+		{
+		typeStyles->InsertElementAtIndex(18, JFontStyle(JColorManager::GetBrownColor()));
 		}
 
 	// set new values after all new slots have been created

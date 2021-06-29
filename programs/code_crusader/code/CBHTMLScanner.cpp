@@ -56,6 +56,7 @@ CBHTMLScanner::BeginScan
 
 	itsScriptLanguage.Clear();
 	itsPHPHereDocTag.Clear();
+	itsPHPNowDocTag.Clear();
 	itsProbableJSOperatorFlag = kJFalse;
 
 	switch_streams(&input, nullptr);

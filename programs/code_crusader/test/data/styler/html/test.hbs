@@ -1,0 +1,33 @@
+{{!< layouts/site }}
+
+{{#contentFor "head"}}
+<link rel="stylesheet" type="text/css" href="/css/foo.css" />
+<link rel="stylesheet" type="text/css" href="/css/bar.css" />
+
+<script src="/js/baz.js"></script>
+
+<style>
+.floater-controls { float:right; margin-right:10px; }
+</style>
+{{/contentFor}}
+
+<div class="module">
+	<div class="module-hd">
+	</div>
+
+	<div class="module-bd">
+	</div>
+</div>
+
+<script>
+(async function(){
+"use strict";
+
+/* test */
+
+const s = `/${foo}/${bar}/${flag ? 'true': 'false'}/${}`;
+
+// test
+
+})();
+</script>
