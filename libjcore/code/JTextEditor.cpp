@@ -3947,12 +3947,15 @@ JTextEditor::RecalcRange
 	)
 {
 	JIndex lineIndex = GetLineForChar(range.charRange.first);
-	if (!itsBreakCROnlyFlag && lineIndex > 1 && range.charRange.first > 1 &&
-		NoPrevWhitespaceOnLine(range.GetFirst()))
-		{
+	if (lineIndex > 1 &&
+		(range.charRange.first > itsText->GetText().GetCharacterCount() ||
+
 		// If we start in the first word on the line, it
 		// might actually belong on the previous line.
 
+		(!itsBreakCROnlyFlag && range.charRange.first > 1 &&
+		 NoPrevWhitespaceOnLine(range.GetFirst()))))
+		{
 		lineIndex--;
 		}
 
