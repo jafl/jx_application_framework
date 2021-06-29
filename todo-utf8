@@ -1,14 +1,13 @@
 jcc
-	keeps appending to Make.header
-
 	Add/manage on Tasks menu is disabled in all windows except text editor
 
 	beeps when looking back for matching paren
-		but select inside parens works
+		it thinks it's one paren too many
 
-	doesn't restore line when re-opening text files
+	source files: doesn't restore line when re-opening files
 
-	CBHTMLStyler::StyleEmbeddedJSVariables hangs
+	fails to build
+		Failed to open macho file at /Library/Developer/CommandLineTools/usr/bin/clang++ for reading: Too many levels of symbolic links
 
 
 
