@@ -341,8 +341,11 @@ JTestManager::StringsAreEqual
 		s << "Strings are not equal:" 
 		  << "  Expected <<" << expectedValue
 		  << ">> but got <<" << actualValue << ">>" << std::endl;
-		s << '\t'; JString(expectedValue, strlen(expectedValue), kJFalse).PrintHex(s); s << std::endl;
-		s << '\t'; JString(actualValue, strlen(actualValue), kJFalse).PrintHex(s); s << std::endl;
+		if (strlen(actualValue) < 128)
+			{
+			s << '\t'; JString(expectedValue, strlen(expectedValue), kJFalse).PrintHex(s); s << std::endl;
+			s << '\t'; JString(actualValue, strlen(actualValue), kJFalse).PrintHex(s); s << std::endl;
+			}
 
 		ReportFailure(s.str().c_str(), file, line);
 		return kJFalse;
