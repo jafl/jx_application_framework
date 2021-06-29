@@ -323,7 +323,7 @@ CBBuildManager::UpdateMakeHeader
 	const JBoolean foundMarker = iter.Next(marker);
 	if (foundMarker)
 		{
-		output.write(text.GetBytes(), iter.GetPrevByteIndex());
+		output.write(text.GetBytes(), iter.GetPrevByteIndex() - marker.GetByteCount());
 		}
 	else
 		{
