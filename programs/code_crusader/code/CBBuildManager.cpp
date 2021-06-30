@@ -522,27 +522,15 @@ CBBuildManager::PrintTargetName
 	)
 	const
 {
-	JString s = itsTargetName, target;
+	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
+	itsTargetName.Split(",", &list);
 
-	JStringIterator iter(s);
-	iter.BeginMatch();
-	while (iter.Next(","))
+	for (JString* s : list)
 		{
-		target = iter.FinishMatch().GetString();
-
-		target.TrimWhitespace();
 		output << '@';
-		target.Print(output);
+		s->Print(output);
 		output << '\n';
-
-		iter.BeginMatch();
 		}
-	iter.Invalidate();
-
-	s.TrimWhitespace();
-	output << '@';
-	s.Print(output);
-	output << '\n';
 }
 
 /******************************************************************************
