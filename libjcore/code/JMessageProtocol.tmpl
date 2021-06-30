@@ -440,13 +440,13 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	itsRecvData.Split(itsTokenPattern, &list, 0, kJTrue);
 
-	if (itsTokenPattern.Match(*(list.GetLastElement())))
+	if (itsTokenPattern.Match(*list.GetLastElement()))
 		{
 		itsRecvData.Clear();
 		}
 	else
 		{
-		itsRecvData = *(list.GetLastElement());
+		itsRecvData = *list.GetLastElement();
 		list.DeleteElement(list.GetElementCount());
 		}
 
@@ -454,14 +454,17 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	for (JIndex i=1; i<=blockCount; i++)
 		{
 		const JString* s = list.GetElement(i);
-		if (*s == itsDisconnectStr)
+		if (s->GetByteCount() == itsDisconnectStr.GetByteCount() &&
+			memcmp(s->GetBytes(), itsDisconnectStr.GetBytes(), s->GetByteCount()) == 0)
 			{
 			itsReceivedDisconnectFlag = kJTrue;
 			itsRecvData.Clear();
 			Broadcast(JMessageProtocolT::ReceivedDisconnect());
 			return 0;	// we might be deleted and itsInHandleInputFlag is now irrelevant
 			}
-		else if (!s->IsEmpty() && *s != itsSeparatorStr)
+		else if (!s->IsEmpty() &&
+				 !(s->GetByteCount() == itsSeparatorStr.GetByteCount() &&
+				   memcmp(s->GetBytes(), itsSeparatorStr.GetBytes(), s->GetByteCount()) == 0))
 			{
 			JString* msg = jnew JString(*s);
 			assert( msg != nullptr );
