@@ -209,7 +209,7 @@ CBMReadSharedPrefs
 	JPtrArray<JString>*	fortranSuffixList,
 	JPtrArray<JString>*	javaSuffixList,
 	JPtrArray<JString>*	phpSuffixList,
-	JPtrArray<JString>*	dSuffixList
+	JPtrArray<JString>*	dSuffixList,
 	JPtrArray<JString>*	goSuffixList
 	)
 {
