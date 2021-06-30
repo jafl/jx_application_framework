@@ -12,7 +12,7 @@
 
 #include "JArray.h"
 #include "JRunArrayIterator.h"
-#include "JIndexRange.h"
+#include "JRange.h"
 
 template <class T>
 class JRunArrayElement

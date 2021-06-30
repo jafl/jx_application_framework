@@ -47,6 +47,10 @@ T
 2 "JAssertBase.cpp"
 F
 "./code/JAssertBase.cpp"
+T
+2 "JRange.h"
+F
+"./code/JRange.h"
 F
 T
 1 "text"
@@ -66,10 +70,6 @@ T
 2 "JStringIterator.cpp"
 F
 "./code/JStringIterator.cpp"
-T
-2 "JIndexRange.cpp"
-F
-"./code/JIndexRange.cpp"
 T
 2 "JCharacterRange.h"
 F
@@ -121,10 +121,6 @@ T
 2 "JMatrix.cpp"
 F
 "./code/JMatrix.cpp"
-T
-2 "JIntRange.cpp"
-F
-"./code/JIntRange.cpp"
 T
 2 "jRand.cpp"
 F

@@ -1928,7 +1928,7 @@ JXContainer::IsMenuTable()
 }
 
 #include "JXFTCCell.h"
-#include <JIntRange.h>
+#include <JRange.h>
 
 /******************************************************************************
  DebugExpandToFitContent (static)

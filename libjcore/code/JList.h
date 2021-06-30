@@ -10,7 +10,7 @@
 
 #include "JCollection.h"
 #include "JListIterator.h"
-#include "JIndexRange.h"
+#include "JRange.h"
 
 // namespace to own JBroadcaster messages, etc (template is unnecessary)
 

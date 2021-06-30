@@ -10,7 +10,7 @@
 #ifndef _H_JUtf8ByteRange
 #define _H_JUtf8ByteRange
 
-#include "JIndexRange.h"
+#include "JRange.h"
 
 class JUtf8ByteRange : public JIndexRange
 {

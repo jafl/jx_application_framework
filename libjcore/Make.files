@@ -19,7 +19,6 @@
 .cpp ./code/JString
 .cpp ./code/JStringMatch
 .cpp ./code/JStringIterator
-.cpp ./code/JIndexRange
 .cpp ./code/JRegex
 .cpp ./code/JSubstitute
 .cpp ./code/JInterpolate
@@ -29,7 +28,6 @@
 .cpp ./code/JComplex
 .cpp ./code/JVector
 .cpp ./code/JMatrix
-.cpp ./code/JIntRange
 .cpp ./code/jRand
 .cpp ./code/JKLRand
 .cpp ./code/JCollection
