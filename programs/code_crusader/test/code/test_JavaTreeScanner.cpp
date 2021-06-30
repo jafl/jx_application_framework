@@ -47,6 +47,7 @@ JTEST(Basic)
 	tree.PrepareForUpdate(kJFalse);
 	tree.ParseFile(JString("./data/tree/java/AccessibilityController.java", kJFalse), 1);
 	tree.ParseFile(JString("./data/tree/java/PowerNotificationWarnings.java", kJFalse), 2);
+	tree.ParseFile(JString("./data/tree/java/PizzaStatus.java", kJFalse), 3);
 	tree.UpdateFinished(deadFileList);
 
 	const TestJavaTree& constTree  = tree;

@@ -19,6 +19,11 @@ class CBCPreprocessor;
 class CBCClass;
 class CBClass;
 
+enum FooBar
+{
+	a, b, c
+};
+
 class CBTestTree : public CBTree, public CBCtagsUser
 {
 public:
