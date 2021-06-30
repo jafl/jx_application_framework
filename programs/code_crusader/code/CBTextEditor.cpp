@@ -607,7 +607,7 @@ CBTextEditor::UpdateCustomSearchMenuItems()
 			"p", projDoc->GetName().GetBytes()
 			};
 		searchMenu->SetItemText(itsFirstSearchMenuItem + kFindSelectionAsSymbolCmd,
-			JGetString("Find selection as symbol in project $p", map, sizeof(map)));
+			JGetString("FindSymbolGlobal::CBTextEditor", map, sizeof(map)));
 		}
 	else
 		{
@@ -1412,7 +1412,7 @@ CBTextEditor::OpenSelection()
 		return;
 		}
 
-	JStringIterator iter(GetText()->GetText());
+	JStringIterator* iter = GetText()->GetConstIterator(kJIteratorStartAtBeginning, JStyledText::TextIndex(1,1));
 
 	JString str;
 	JIndex lineIndex;
@@ -1427,16 +1427,16 @@ CBTextEditor::OpenSelection()
 		JStyledText::TextIndex end   = GetText()->GetWordEnd(sel.GetFirst());
 
 
-		iter.UnsafeMoveTo(kJIteratorStartBefore, start.charIndex, start.byteIndex);
-		if (!iter.AtBeginning())
+		iter->UnsafeMoveTo(kJIteratorStartBefore, start.charIndex, start.byteIndex);
+		if (!iter->AtBeginning())
 			{
-			while (iter.Prev(&c))
+			while (iter->Prev(&c))
 				{
 				// catch "#include </usr/junk.h>", "#include <../junk.h>"
 
-				while ((c == ACE_DIRECTORY_SEPARATOR_CHAR || c == '.') && !iter.AtBeginning())
+				while ((c == ACE_DIRECTORY_SEPARATOR_CHAR || c == '.') && !iter->AtBeginning())
 					{
-					iter.Prev(&c);
+					iter->Prev(&c);
 					}
 
 				// stop correctly for
@@ -1451,22 +1451,22 @@ CBTextEditor::OpenSelection()
 					}
 				}
 
-			iter.SkipNext();
+			iter->SkipNext();
 			}
 
 		start =
 			JStyledText::TextIndex(
-				iter.GetNextCharacterIndex(),
-				iter.GetNextByteIndex());
+				iter->GetNextCharacterIndex(),
+				iter->GetNextByteIndex());
 
-		iter.UnsafeMoveTo(kJIteratorStartAfter, end.charIndex, end.charIndex);
-		while (iter.Next(&c))
+		iter->UnsafeMoveTo(kJIteratorStartAfter, end.charIndex, end.charIndex);
+		while (iter->Next(&c))
 			{
 			// catch "http://junk/>"
 
-			while (c == ACE_DIRECTORY_SEPARATOR_CHAR && !iter.AtEnd())
+			while (c == ACE_DIRECTORY_SEPARATOR_CHAR && !iter->AtEnd())
 				{
-				iter.Next(&c);
+				iter->Next(&c);
 				}
 
 			// don't include line number for file:line
@@ -1479,32 +1479,33 @@ CBTextEditor::OpenSelection()
 				{
 				break;
 				}
-			else if (c == ':' && iter.Next(&c, kJFalse) && c.IsDigit())
+			else if (c == ':' && iter->Next(&c, kJFalse) && c.IsDigit())
 				{
 				lineIndex = GetLineIndex(
 					JStyledText::TextIndex(
-						iter.GetNextCharacterIndex(),
-						iter.GetNextByteIndex()));
+						iter->GetNextCharacterIndex(),
+						iter->GetNextByteIndex()));
 				break;
 				}
 			}
 
-		iter.SkipPrev();
+		iter->SkipPrev();
 
 		sel =
 			JStyledText::TextRange(
 				start,
-				GetText()->AdjustTextIndex(		// works even if at end of text
-					JStyledText::TextIndex(
-						iter.GetNextCharacterIndex(),
-						iter.GetNextByteIndex()),
-					+1));
+				JStyledText::TextIndex(
+					iter->GetNextCharacterIndex(),
+					iter->GetNextByteIndex()));
 
-		iter.UnsafeMoveTo(kJIteratorStartBefore, sel.charRange.first, sel.byteRange.first);
-		iter.BeginMatch();
-		iter.UnsafeMoveTo(kJIteratorStartAfter, sel.charRange.last, sel.byteRange.last);
-		str = iter.FinishMatch().GetString();
+		iter->UnsafeMoveTo(kJIteratorStartBefore, sel.charRange.first, sel.byteRange.first);
+		iter->BeginMatch();
+		iter->UnsafeMoveTo(kJIteratorStartAfter, sel.charRange.last, sel.byteRange.last);
+		str = iter->FinishMatch().GetString();
 		}
+
+	GetText()->DisposeConstIterator(iter);
+	iter = nullptr;
 
 	SetSelection(sel);
 	GetWindow()->Update();				// show selection while we work
@@ -1540,22 +1541,23 @@ CBTextEditor::GetLineIndex
 	)
 	const
 {
-	JStringIterator iter(GetText().GetText());
+	JStringIterator* iter = GetText().GetConstIterator(kJIteratorStartBefore, startIndex);
 	JUtf8Character c;
 
-	iter.UnsafeMoveTo(kJIteratorStartBefore, startIndex.charIndex, startIndex.byteIndex);
-	iter.BeginMatch();
+	iter->BeginMatch();
 
-	while (iter.Next(&c))
+	while (iter->Next(&c))
 		{
 		if (!c.IsDigit())
 			{
-			iter.SkipPrev();
+			iter->SkipPrev();
 			break;
 			}
 		}
 
-	const JString str = iter.FinishMatch().GetString();
+	const JString str = iter->FinishMatch().GetString();
+	GetText().DisposeConstIterator(iter);
+	iter = nullptr;
 
 	JIndex lineIndex;
 	if (str.ConvertToUInt(&lineIndex))
@@ -1634,11 +1636,12 @@ CBTextEditor::IsNonstdError
 	const JStyledText::TextIndex startIndex = GetText().GetParagraphStart(caretIndex);
 	const JStyledText::TextIndex endIndex   = GetText().GetParagraphEnd(caretIndex);
 
-	JStringIterator iter(GetText().GetText());
-	iter.UnsafeMoveTo(kJIteratorStartBefore, startIndex.charIndex, startIndex.byteIndex);
-	iter.BeginMatch();
-	iter.UnsafeMoveTo(kJIteratorStartAfter, endIndex.charIndex, endIndex.byteIndex);
-	const JString line = iter.FinishMatch().GetString();
+	JStringIterator* iter = GetText().GetConstIterator(kJIteratorStartBefore, startIndex);
+	iter->BeginMatch();
+	iter->UnsafeMoveTo(kJIteratorStartAfter, endIndex.charIndex, endIndex.byteIndex);
+	const JString line = iter->FinishMatch().GetString();
+	GetText().DisposeConstIterator(iter);
+	iter = nullptr;
 
 	return JI2B(
 		cbExtractFileAndLine(caretIndex, startIndex, line, flexErrorRegex, 1, 2,
@@ -1781,22 +1784,21 @@ CBTextEditor::ShowBalancingOpenGroup()
 
 	const JStyledText::TextIndex origCaretIndex = GetInsertionIndex();
 
-	JStringIterator iter(GetText()->GetText());
-	iter.UnsafeMoveTo(kJIteratorStartBefore, origCaretIndex.charIndex, origCaretIndex.byteIndex);
+	JStringIterator* iter = GetText()->GetConstIterator(kJIteratorStartBefore, origCaretIndex);
 
 	JUtf8Character openChar, closeChar;
-	if (!iter.Prev(&closeChar, kJFalse) ||	// paranoia: must be the case unless something fails
+	if (!iter->Prev(&closeChar) ||	// paranoia: must be the case unless something fails
 		!CBMIsCloseGroup(lang, closeChar))
 		{
 		return;
 		}
 
-	if (CBMBalanceBackward(lang, &iter, &openChar) &&
+	if (CBMBalanceBackward(lang, iter, &openChar) &&
 		CBMIsMatchingPair(lang, openChar, closeChar))
 		{
 		const JPoint savePt = GetAperture().topLeft();
 
-		const JStyledText::TextIndex i(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
+		const JStyledText::TextIndex i(iter->GetNextCharacterIndex(), iter->GetNextByteIndex());
 		SetSelection(JStyledText::TextRange(i, GetText()->AdjustTextIndex(i, +1)));
 
 		if (!TEScrollToSelection(kJFalse) || itsScrollToBalanceFlag)
@@ -1805,13 +1807,15 @@ CBTextEditor::ShowBalancingOpenGroup()
 			JWait(kBalanceWhileTypingDelay);
 			}
 
-		SetCaretLocation(origCaretIndex);
 		ScrollTo(savePt);
 		}
 	else if (itsBeepWhenTypeUnbalancedFlag)
 		{
 		GetDisplay()->Beep();
 		}
+
+	SetCaretLocation(origCaretIndex);
+	GetText()->DisposeConstIterator(iter);
 }
 
 /******************************************************************************
