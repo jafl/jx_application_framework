@@ -144,7 +144,7 @@ CBExecOutputDocument::CBExecOutputDocument
 	task->Go();
 
 	GetTextEditor()->SetWritable(kJFalse);
-	(JXGetDocumentManager())->DocumentMustStayOpen(this, kJTrue);
+	JXGetDocumentManager()->DocumentMustStayOpen(this, kJTrue);
 
 	window->SetWMClass(CBGetWMClassInstance(), CBGetExecOutputWindowClass());
 }

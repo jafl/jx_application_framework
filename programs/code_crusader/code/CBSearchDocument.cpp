@@ -10,6 +10,7 @@
 #include "CBSearchDocument.h"
 #include "CBTextEditor.h"
 #include "CBSearchTE.h"
+#include "CBSearchTextDialog.h"
 #include "cbGlobals.h"
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -107,7 +108,7 @@ CBSearchDocument::Create
 
 		const JUtf8Byte* map[] =
 			{
-			"s", searchRegex.GetPattern().GetBytes()
+			"s", CBGetSearchTextDialog()->GetSearchText().GetBytes()
 			};
 		const JString windowTitle = JGetString("SearchTitle::CBSearchDocument", map, sizeof(map));
 
@@ -389,14 +390,10 @@ CBSearchDocument::AppendText
 		const JStyledText::TextIndex start = st->GetBeyondEnd();
 		te->SetCaretLocation(start.charIndex);
 		te->Paste(msg);
-		te->Paste(kSingleNewline);
-		if (!itsOnlyListFilesFlag)
-			{
-			te->Paste(kSingleNewline);
-			}
-
 		st->SetFontStyle(JStyledText::TextRange(start, st->GetBeyondEnd()),
 						 GetErrorStyle(), kJTrue);
+
+		te->Paste(itsOnlyListFilesFlag ? kSingleNewline : kDoubleNewline);
 		}
 	else if (itsOnlyListFilesFlag)
 		{

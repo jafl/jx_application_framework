@@ -77,7 +77,7 @@ static const JUtf8Byte* kFileMenuStr =
 	"  | Compare with...                                %i" kCBDiffSmartAction
 	"  | Compare with version control                   %i" kCBDiffVCSAction
 	"  | Compare"
-	"%l| Show in file manager           %k Dbl-click icon in footer %i" kCBShowInFileMgrAction
+	"%l| Show in file manager                           %i" kCBShowInFileMgrAction
 	"%l| Page setup...                                  %i" kJXPageSetupAction
 	"  | Print...                       %k Meta-P       %i" kJXPrintAction
 	"%l| Page setup for styles...                       %i" kCBPageSetupStyledTextAction

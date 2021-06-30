@@ -9,9 +9,9 @@
 #define _H_JFSBinding
 
 #include <JPtrArray-JString.h>
+#include <JRange.h>
 
 class JRegex;
-class JIndexRange;
 
 class JFSBinding
 {

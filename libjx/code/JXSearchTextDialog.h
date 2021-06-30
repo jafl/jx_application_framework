@@ -52,9 +52,10 @@ public:
 	void		SetActiveTE(JXTEBase* te);
 	void		TEDeactivated(JXTEBase* te);
 
-	JBoolean	HasSearchText() const;
-	void		SetSearchText(const JString& str);
-	void		SetRegexSearch(const JBoolean regex = kJTrue);
+	JBoolean		HasSearchText() const;
+	const JString&	GetSearchText() const;
+	void			SetSearchText(const JString& str);
+	void			SetRegexSearch(const JBoolean regex = kJTrue);
 
 	JBoolean	HasReplaceText() const;
 	void		SetReplaceText(const JString& str);
