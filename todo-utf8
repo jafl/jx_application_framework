@@ -1,14 +1,40 @@
-jcc
-	Add/manage on Tasks menu is disabled in all windows except text editor
+who includes JMessageProtocol.tmpl?
 
-	beeps when looking back for matching paren
-		it thinks it's one paren too many
+always invalidate JStringIterator if part of a larger function
+	libs
+	jcc
+	medic
+
+jcc
+	search backward from end of CBTextEditor::OpenSelection for "iter"
+		jumps way back in file
 
 	source files: doesn't restore line when re-opening files
 
 	fails to build
 		Failed to open macho file at /Library/Developer/CommandLineTools/usr/bin/clang++ for reading: Too many levels of symbolic links
 
+	multi-file search
+		two blank lines before next file name
+	unit test CBSearch classes - split CBSearchProcess out from CBSearchDocument
+		search results, incl with multiple matches on a line
+
+	diff
+		select change doesn't include final newline
+		window not closed if no differences found
+
+	man page
+		doesn't format bold, etc.
+		multi-character index, e.g., foo(bar)
+
+	search parameters not shared across apps
+
+	html-auto-close pastes additional junk
+
+	A|::B - then type <T> at the caret
+
+medic
+	gets caret location confused, so output not in order
 
 
 u-ctags:
@@ -57,9 +83,6 @@ unit test all jcc stylers
 	SQL
 	TCL
 
-unit test CBSearch classes - split CBSearchProcess out from CBSearchDocument
-	search results, incl with multiple matches on a line
-
 JStyledText
 	AutoIndent
 	CleanRightMargin
@@ -92,11 +115,8 @@ jcc
 
 	test that CBCompileDocument::ConvertSelectionToFullPath gets path from "Entering directory"
 	test CBMacroManager: Perform & HighlightErrors completely rewritten
-	test man pages: multi-character index, e.g., foo(bar)
-	test multifile search, esp matching lines that must be truncated
 	test open flex, bison, maven error
-	java: enums ignored
-	c++: parser replaced, enums ignored, preprocessor
+	c++: preprocessor
 	test CalcFileType when using a prefix regex
 
 -----
@@ -160,15 +180,12 @@ test every usage of JRunArrayIterator
 
 always invalidate JStringIterator if part of a larger function
 	glove
-	jcc
-	medic
 
 JXFontManager
 	some characters extend above line height
 
 test
 	JVersionSocket - wait for version notice
-	man pages
 	styled unix terminal output - yui build output
 	code_medic on ubuntu with lldb-6.0
 	jcc CBExecOutputDocument: test usage of JUtf8ByteBuffer inside JAsynchDataReceiver
