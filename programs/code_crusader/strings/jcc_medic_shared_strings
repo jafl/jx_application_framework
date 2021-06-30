@@ -15,9 +15,17 @@ Instructions::CBEditStylerDialog
 
 EditDialogTitle::CBCStyler	"Edit C/C++ Styles"
 
+# CBDStyler
+
+EditDialogTitle::CBDStyler	"Edit D Styles"
+
 # CBHTMLStyler
 
 EditDialogTitle::CBHTMLStyler	"Edit HTML/PHP/XML Styles"
+
+# CBGoStyler
+
+EditDialogTitle::CBGoStyler		"Edit Go Styles"
 
 # CBJavaStyler
 
