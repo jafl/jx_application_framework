@@ -166,21 +166,21 @@ CBCommandMenu::CBCommandMenuX
 		itsAddToProjMenu->SetMenuItems(kAddToProjMenuStr, "CBCommandMenu");
 		itsAddToProjMenu->SetUpdateAction(JXMenu::kDisableNone);
 		ListenTo(itsAddToProjMenu);
-
-		itsManageProjMenu = jnew JXTextMenu(this, kManageProjIndex, GetEnclosure());
-		assert( itsManageProjMenu != nullptr );
-		itsManageProjMenu->SetMenuItems(kManageProjMenuStr, "CBCommandMenu");
-		itsManageProjMenu->SetUpdateAction(JXMenu::kDisableNone);
-		ListenTo(itsManageProjMenu);
-
-		itsManageProjMenu->SetItemImage(kShowSymbolBrowserCmd, jcc_show_symbol_list);
-		itsManageProjMenu->SetItemImage(kShowCTreeCmd,         jcc_show_c_tree);
-		itsManageProjMenu->SetItemImage(kShowDTreeCmd,         jcc_show_d_tree);
-		itsManageProjMenu->SetItemImage(kShowGoTreeCmd,        jcc_show_go_tree);
-		itsManageProjMenu->SetItemImage(kShowJavaTreeCmd,      jcc_show_java_tree);
-		itsManageProjMenu->SetItemImage(kShowPHPTreeCmd,       jcc_show_php_tree);
-		itsManageProjMenu->SetItemImage(kShowFileListCmd,      jcc_show_file_list);
 		}
+
+	itsManageProjMenu = jnew JXTextMenu(this, kManageProjIndex, GetEnclosure());
+	assert( itsManageProjMenu != nullptr );
+	itsManageProjMenu->SetMenuItems(kManageProjMenuStr, "CBCommandMenu");
+	itsManageProjMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsManageProjMenu);
+
+	itsManageProjMenu->SetItemImage(kShowSymbolBrowserCmd, jcc_show_symbol_list);
+	itsManageProjMenu->SetItemImage(kShowCTreeCmd,         jcc_show_c_tree);
+	itsManageProjMenu->SetItemImage(kShowDTreeCmd,         jcc_show_d_tree);
+	itsManageProjMenu->SetItemImage(kShowGoTreeCmd,        jcc_show_go_tree);
+	itsManageProjMenu->SetItemImage(kShowJavaTreeCmd,      jcc_show_java_tree);
+	itsManageProjMenu->SetItemImage(kShowPHPTreeCmd,       jcc_show_php_tree);
+	itsManageProjMenu->SetItemImage(kShowFileListCmd,      jcc_show_file_list);
 
 	UpdateMenu();	// build menu so shortcuts work
 }
@@ -304,12 +304,8 @@ CBCommandMenu::UpdateMenu()
 		RemoveItem(GetItemCount());
 		}
 
-	CBProjectDocument* projDoc = itsProjDoc;
-	if (projDoc == nullptr)
-		{
-		CBGetDocumentManager()->GetActiveProjectDocument(&projDoc);
-		}
-	const JBoolean hasProject = JI2B( projDoc != nullptr );
+	CBProjectDocument* projDoc;
+	const JBoolean hasProject = GetProjectDocument(&projDoc);
 
 	(CBGetCommandManager())->AppendMenuItems(this, hasProject);
 
@@ -335,7 +331,7 @@ CBCommandMenu::UpdateMenu()
 
 	// "Manage" sub-menu
 
-	SetItemEnable(kManageProjIndex, CanManageProject());
+	SetItemEnable(kManageProjIndex, hasProject);
 
 	itemText = JGetString("ManageProjectItemText::CBCommandMenu");
 	if (projDoc != nullptr)
@@ -449,11 +445,9 @@ CBCommandMenu::HandleAddToProjectMenu
 		return;
 		}
 
-	CBProjectDocument* projDoc = itsProjDoc;
-	if (projDoc == nullptr)
-		{
-		CBGetDocumentManager()->GetActiveProjectDocument(&projDoc);
-		}
+	CBProjectDocument* projDoc;
+	const JBoolean hasProject = GetProjectDocument(&projDoc);
+	assert( hasProject );
 
 	JBoolean onDisk;
 	const JString fullName = itsTextDoc->GetFullName(&onDisk);
@@ -500,15 +494,10 @@ CBCommandMenu::CanAddToProject()
 void
 CBCommandMenu::UpdateManageProjectMenu()
 {
-	if (CanManageProject())
+	CBProjectDocument* projDoc;
+	if (GetProjectDocument(&projDoc))
 		{
 		itsManageProjMenu->EnableAll();
-
-		CBProjectDocument* projDoc = itsProjDoc;
-		if (projDoc == nullptr)
-			{
-			CBGetDocumentManager()->GetActiveProjectDocument(&projDoc);
-			}
 
 		itsManageProjMenu->SetItemEnable(kShowCTreeCmd,
 			JNegate(projDoc->GetCTreeDirector()->GetTree()->IsEmpty()));
@@ -538,15 +527,10 @@ CBCommandMenu::HandleManageProjectMenu
 	const JIndex index
 	)
 {
-	if (!CanManageProject())
+	CBProjectDocument* projDoc;
+	if (!GetProjectDocument(&projDoc))
 		{
 		return;
-		}
-
-	CBProjectDocument* projDoc = itsProjDoc;
-	if (projDoc == nullptr)
-		{
-		CBGetDocumentManager()->GetActiveProjectDocument(&projDoc);
 		}
 
 	if (index == kUpdateSymbolDBCmd)
@@ -584,14 +568,22 @@ CBCommandMenu::HandleManageProjectMenu
 }
 
 /******************************************************************************
- CanManageProject (private)
+ GetProjectDocument (private)
 
  ******************************************************************************/
 
 JBoolean
-CBCommandMenu::CanManageProject()
+CBCommandMenu::GetProjectDocument
+	(
+	CBProjectDocument** projDoc
+	)
 	const
 {
-	return JI2B(CBGetDocumentManager()->HasProjectDocuments() &&
-				itsTextDoc != nullptr);
+	*projDoc = itsProjDoc;
+	if (*projDoc == nullptr)
+		{
+		CBGetDocumentManager()->GetActiveProjectDocument(projDoc);
+		}
+
+	return JI2B( *projDoc != nullptr );
 }

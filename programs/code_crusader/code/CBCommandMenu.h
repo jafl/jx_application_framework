@@ -60,7 +60,7 @@ private:
 	void	UpdateManageProjectMenu();
 	void	HandleManageProjectMenu(const JIndex index);
 
-	JBoolean	CanManageProject() const;
+	JBoolean	GetProjectDocument(CBProjectDocument** doc) const;
 
 	void	BuildTargetInfo(GetTargetInfo* info);
 
