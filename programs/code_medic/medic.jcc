@@ -828,6 +828,30 @@ T
 F
 "./JCC/CBCStyler.cpp"
 T
+2 "CBDStyler.cpp"
+F
+"./JCC/CBDStyler.cpp"
+T
+2 "CBDScanner.cpp"
+F
+"./JCC/CBDScanner.cpp"
+T
+2 "CBDScannerL.l"
+F
+"./JCC/CBDScannerL.l"
+T
+2 "CBGoStyler.cpp"
+F
+"./JCC/CBGoStyler.cpp"
+T
+2 "CBGoScanner.cpp"
+F
+"./JCC/CBGoScanner.cpp"
+T
+2 "CBGoScannerL.l"
+F
+"./JCC/CBGoScannerL.l"
+T
 2 "CBJavaScanner.cpp"
 F
 "./JCC/CBJavaScanner.cpp"

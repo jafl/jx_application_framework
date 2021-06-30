@@ -11,7 +11,7 @@
 #include <JXWindowDirector.h>
 #include "CMMemoryDir.h"	// need defn of DisplayType
 #include <JString.h>
-#include <JIntRange.h>
+#include <JRange.h>
 #include <JPoint.h>
 
 class JStringTableData;

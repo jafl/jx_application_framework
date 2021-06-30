@@ -193,6 +193,12 @@
 .cpp ./JCC/CBCScanner
 .l ./JCC/CBCScannerL
 .cpp ./JCC/CBCStyler
+.cpp ./JCC/CBDStyler
+.cpp ./JCC/CBDScanner
+.l ./JCC/CBDScannerL
+.cpp ./JCC/CBGoStyler
+.cpp ./JCC/CBGoScanner
+.l ./JCC/CBGoScannerL
 .cpp ./JCC/CBJavaScanner
 .l ./JCC/CBJavaScannerL
 .cpp ./JCC/CBJavaStyler

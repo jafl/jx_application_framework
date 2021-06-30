@@ -34,14 +34,17 @@ CMEditPrefsDialog::CMEditPrefsDialog
 	const JPtrArray<JString>&	cHeaderSuffixes,
 	const JPtrArray<JString>&	javaSuffixes,
 	const JPtrArray<JString>&	phpSuffixes,
-	const JPtrArray<JString>&	fortranSuffixes
+	const JPtrArray<JString>&	fortranSuffixes,
+	const JPtrArray<JString>&	dSuffixes,
+	const JPtrArray<JString>&	goSuffixes
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
 {
 	BuildWindow(gdbCmd, jdbCmd, editFileCmd, editFileLineCmd,
 				cSourceSuffixes, cHeaderSuffixes,
-				javaSuffixes, phpSuffixes, fortranSuffixes);
+				javaSuffixes, phpSuffixes, fortranSuffixes,
+				dSuffixes, goSuffixes);
 }
 
 /******************************************************************************
@@ -69,12 +72,14 @@ CMEditPrefsDialog::BuildWindow
 	const JPtrArray<JString>&	cHeaderSuffixes,
 	const JPtrArray<JString>&	javaSuffixes,
 	const JPtrArray<JString>&	phpSuffixes,
-	const JPtrArray<JString>&	fortranSuffixes
+	const JPtrArray<JString>&	fortranSuffixes,
+	const JPtrArray<JString>&	dSuffixes,
+	const JPtrArray<JString>&	goSuffixes
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,420, JString::empty);
+	JXWindow* window = jnew JXWindow(this, 450,480, JString::empty);
 	assert( window != nullptr );
 
 	itsGDBCmd =
@@ -114,13 +119,13 @@ CMEditPrefsDialog::BuildWindow
 
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::CMEditPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 280,390, 60,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 280,450, 60,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CMEditPrefsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CMEditPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,390, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,450, 60,20);
 	assert( cancelButton != nullptr );
 
 	JXStaticText* cSourceFileLabel =
@@ -218,6 +223,28 @@ CMEditPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 190,350, 240,20);
 	assert( itsFortranSuffixInput != nullptr );
 
+	JXStaticText* dSourceLabel =
+		jnew JXStaticText(JGetString("dSourceLabel::CMEditPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,380, 170,20);
+	assert( dSourceLabel != nullptr );
+	dSourceLabel->SetToLabel();
+
+	itsDSuffixInput =
+		jnew JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 190,380, 240,20);
+	assert( itsDSuffixInput != nullptr );
+
+	JXStaticText* goSourceLabel =
+		jnew JXStaticText(JGetString("goSourceLabel::CMEditPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,410, 170,20);
+	assert( goSourceLabel != nullptr );
+	goSourceLabel->SetToLabel();
+
+	itsGoSuffixInput =
+		jnew JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 190,410, 240,20);
+	assert( itsGoSuffixInput != nullptr );
+
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::CMEditPrefsDialog"));
@@ -261,6 +288,14 @@ CMEditPrefsDialog::BuildWindow
 	itsFortranSuffixInput->SetIsRequired();
 	itsFortranSuffixInput->SetFont(font);
 
+	CBMSetStringList(itsDSuffixInput, dSuffixes);
+	itsDSuffixInput->SetIsRequired();
+	itsDSuffixInput->SetFont(font);
+
+	CBMSetStringList(itsGoSuffixInput, goSuffixes);
+	itsGoSuffixInput->SetIsRequired();
+	itsGoSuffixInput->SetFont(font);
+
 	ListenTo(itsChooseGDBButton);
 	ListenTo(itsChooseJDBButton);
 }
@@ -281,7 +316,9 @@ CMEditPrefsDialog::GetPrefs
 	JPtrArray<JString>*	cHeaderSuffixes,
 	JPtrArray<JString>*	javaSuffixes,
 	JPtrArray<JString>*	phpSuffixes,
-	JPtrArray<JString>*	fortranSuffixes
+	JPtrArray<JString>*	fortranSuffixes,
+	JPtrArray<JString>*	dSuffixes,
+	JPtrArray<JString>*	goSuffixes
 	)
 	const
 {
@@ -295,6 +332,8 @@ CMEditPrefsDialog::GetPrefs
 	CBMGetSuffixList(itsJavaSuffixInput, javaSuffixes);
 	CBMGetSuffixList(itsPHPSuffixInput, phpSuffixes);
 	CBMGetSuffixList(itsFortranSuffixInput, fortranSuffixes);
+	CBMGetSuffixList(itsDSuffixInput, dSuffixes);
+	CBMGetSuffixList(itsGoSuffixInput, goSuffixes);
 }
 
 /******************************************************************************

@@ -10,7 +10,7 @@
 
 #include "CMCommand.h"
 #include <JPoint.h>
-#include <JIntRange.h>
+#include <JRange.h>
 
 class JStringTableData;
 class JXStringTable;

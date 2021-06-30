@@ -85,7 +85,11 @@ enum
 	kOtherAsmToolBarID,
 	kAsmWindSizeID,
 	kRegistersWindowSizeID,
-	kSearchTextDialogPrefsID
+	kSearchTextDialogPrefsID,
+	kCBDStyleID,
+	kDSuffixID,
+	kCBGoStyleID,
+	kGoSuffixID
 };
 
 class CMPrefsManager : public JXPrefsManager

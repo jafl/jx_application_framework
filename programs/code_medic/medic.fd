@@ -5,7 +5,6 @@ Internal Form Definition File
 
 Number of forms: 20
 Unit of measure: FL_COORD_PIXEL
-SnapGrid: 1
 
 =============== FORM ===============
 Name: CMChooseProcessDialog
@@ -994,13 +993,13 @@ argument:
 =============== FORM ===============
 Name: CMEditPrefsDialog
 Width: 450
-Height: 420
-Number of Objects: 26
+Height: 480
+Number of Objects: 30
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 450 420
+box: 0 0 450 480
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1144,7 +1143,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_RETURN_BUTTON
-box: 280 390 60 20
+box: 280 450 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1162,7 +1161,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 100 390 60 20
+box: 100 450 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1462,6 +1461,78 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
 name: itsFortranSuffixInput
+callback: 
+argument: 
+
+--------------------
+class: FL_TEXT
+type: FL_NORMAL_TEXT
+box: 20 380 170 20
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: D source file suffixes:
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: (dSourceLabel)
+callback: 
+argument: 
+
+--------------------
+class: FL_INPUT
+type: FL_NORMAL_INPUT
+box: 190 380 240 20
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: itsDSuffixInput
+callback: 
+argument: 
+
+--------------------
+class: FL_TEXT
+type: FL_NORMAL_TEXT
+box: 20 410 170 20
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Go source file suffixes:
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: (goSourceLabel)
+callback: 
+argument: 
+
+--------------------
+class: FL_INPUT
+type: FL_NORMAL_INPUT
+box: 190 410 240 20
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: itsGoSuffixInput
 callback: 
 argument: 
 

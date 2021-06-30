@@ -3,6 +3,11 @@ CBCStyler.h
 CBCScanner.cpp
 CBCScanner.h
 CBCScannerL.l
+CBDStyler.cpp
+CBDStyler.h
+CBDScanner.cpp
+CBDScanner.h
+CBDScannerL.l
 CBGoStyler.cpp
 CBGoStyler.h
 CBGoScanner.cpp
@@ -24,6 +29,7 @@ CBStylerBase.cpp
 CBStylerBase.h
 CBStylerTableInput.cpp
 CBStylerTableInput.h
+CBSTStylerEmbeddedVariables.th
 cbmUtil.cpp
 cbmUtil.h
 CBCtagsUser.cpp

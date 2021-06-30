@@ -10,7 +10,7 @@
 
 #include <JXWindowDirector.h>
 #include <JString.h>
-#include <JIntRange.h>
+#include <JRange.h>
 
 class JTree;
 class JTreeNode;

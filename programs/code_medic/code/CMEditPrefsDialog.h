@@ -28,7 +28,9 @@ public:
 					  const JPtrArray<JString>& cHeaderSuffixes,
 					  const JPtrArray<JString>& javaSuffixes,
 					  const JPtrArray<JString>& phpSuffixes,
-					  const JPtrArray<JString>& fortranSuffixes);
+					  const JPtrArray<JString>& fortranSuffixes,
+					  const JPtrArray<JString>& dSuffixes,
+					  const JPtrArray<JString>& goSuffixes);
 
 	virtual ~CMEditPrefsDialog();
 
@@ -38,7 +40,9 @@ public:
 					 JPtrArray<JString>* cHeaderSuffixes,
 					 JPtrArray<JString>* javaSuffixes,
 					 JPtrArray<JString>* phpSuffixes,
-					 JPtrArray<JString>* fortranSuffixes) const;
+					 JPtrArray<JString>* fortranSuffixes,
+					 JPtrArray<JString>* dSuffixes,
+					 JPtrArray<JString>* goSuffixes) const;
 
 protected:
 
@@ -59,6 +63,8 @@ private:
 	JXTextButton*           itsChooseJDBButton;
 	JXInputField*           itsPHPSuffixInput;
 	JXInputField*           itsFortranSuffixInput;
+	JXInputField*           itsDSuffixInput;
+	JXInputField*           itsGoSuffixInput;
 
 // end JXLayout
 
@@ -72,7 +78,9 @@ private:
 						const JPtrArray<JString>& cHeaderSuffixes,
 						const JPtrArray<JString>& javaSuffixes,
 						const JPtrArray<JString>& phpSuffixes,
-						const JPtrArray<JString>& fortranSuffixes);
+						const JPtrArray<JString>& fortranSuffixes,
+						const JPtrArray<JString>& dSuffixes,
+						const JPtrArray<JString>& goSuffixes);
 
 	void	ChooseDebugger(const JString& name, JXInputField* input);
 

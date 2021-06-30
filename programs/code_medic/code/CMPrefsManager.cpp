@@ -176,18 +176,23 @@ CMPrefsManager::EditPrefs()
 					   cHeaderSuffixes(JPtrArrayT::kDeleteAll),
 					   javaSuffixes(JPtrArrayT::kDeleteAll),
 					   phpSuffixes(JPtrArrayT::kDeleteAll),
-					   fortranSuffixes(JPtrArrayT::kDeleteAll);
+					   fortranSuffixes(JPtrArrayT::kDeleteAll),
+					   dSuffixes(JPtrArrayT::kDeleteAll),
+					   goSuffixes(JPtrArrayT::kDeleteAll);
 	GetSuffixes(kCSourceSuffixID, &cSourceSuffixes);
 	GetSuffixes(kCHeaderSuffixID, &cHeaderSuffixes);
 	GetSuffixes(kJavaSuffixID, &javaSuffixes);
 	GetSuffixes(kPHPSuffixID, &phpSuffixes);
 	GetSuffixes(kFortranSuffixID, &fortranSuffixes);
+	GetSuffixes(kDSuffixID, &dSuffixes);
+	GetSuffixes(kGoSuffixID, &goSuffixes);
 
 	itsEditPrefsDialog =
 		jnew CMEditPrefsDialog(JXGetApplication(),
 							  gdbCmd, jvmCmd, editFileCmd, editFileLineCmd,
 							  cSourceSuffixes, cHeaderSuffixes,
-							  javaSuffixes, phpSuffixes, fortranSuffixes);
+							  javaSuffixes, phpSuffixes, fortranSuffixes,
+							  dSuffixes, goSuffixes);
 	assert( itsEditPrefsDialog != nullptr );
 	itsEditPrefsDialog->BeginDialog();
 	ListenTo(itsEditPrefsDialog);
@@ -209,11 +214,14 @@ CMPrefsManager::UpdatePrefs
 					   cHeaderSuffixes(JPtrArrayT::kDeleteAll),
 					   javaSuffixes(JPtrArrayT::kDeleteAll),
 					   phpSuffixes(JPtrArrayT::kDeleteAll),
-					   fortranSuffixes(JPtrArrayT::kDeleteAll);
+					   fortranSuffixes(JPtrArrayT::kDeleteAll),
+					   dSuffixes(JPtrArrayT::kDeleteAll),
+					   goSuffixes(JPtrArrayT::kDeleteAll);
 	dlog->GetPrefs(&gdbCmd, &jvmCmd,
 				   &editFileCmd, &editFileLineCmd,
 				   &cSourceSuffixes, &cHeaderSuffixes,
-				   &javaSuffixes, &phpSuffixes, &fortranSuffixes);
+				   &javaSuffixes, &phpSuffixes, &fortranSuffixes,
+				   &dSuffixes, &goSuffixes);
 
 	SetGDBCommand(gdbCmd);
 	SetJVMCommand(jvmCmd);
@@ -226,6 +234,8 @@ CMPrefsManager::UpdatePrefs
 	SetSuffixes(kJavaSuffixID, javaSuffixes);
 	SetSuffixes(kPHPSuffixID, phpSuffixes);
 	SetSuffixes(kFortranSuffixID, fortranSuffixes);
+	SetSuffixes(kDSuffixID, dSuffixes);
+	SetSuffixes(kGoSuffixID, goSuffixes);
 
 	Broadcast(FileTypesChanged());
 }
@@ -1056,12 +1066,14 @@ CMPrefsManager::SyncWithCodeCrusader()
 					   cHeaderSuffixes(JPtrArrayT::kDeleteAll),
 					   fortranSuffixList(JPtrArrayT::kDeleteAll),
 					   javaSuffixList(JPtrArrayT::kDeleteAll),
-					   phpSuffixList(JPtrArrayT::kDeleteAll);
+					   phpSuffixList(JPtrArrayT::kDeleteAll),
+					   dSuffixList(JPtrArrayT::kDeleteAll),
+					   goSuffixList(JPtrArrayT::kDeleteAll);
 	if (CBMReadSharedPrefs(&fontName, &size, &tabCharCount, &sort, &includeNS, &pack,
 						   &openOnTop, kColorCount, colorList,
 						   &cSourceSuffixes, &cHeaderSuffixes,
 						   &fortranSuffixList, &javaSuffixList,
-						   &phpSuffixList))
+						   &phpSuffixList, &dSuffixList, &goSuffixList))
 		{
 		SetDefaultFont(fontName, size);
 		SetTabCharCount(tabCharCount);
@@ -1080,6 +1092,14 @@ CMPrefsManager::SyncWithCodeCrusader()
 		if (!phpSuffixList.IsEmpty())
 			{
 			SetSuffixes(kPHPSuffixID, phpSuffixList);
+			}
+		if (!dSuffixList.IsEmpty())
+			{
+			SetSuffixes(kDSuffixID, dSuffixList);
+			}
+		if (!goSuffixList.IsEmpty())
+			{
+			SetSuffixes(kGoSuffixID, goSuffixList);
 			}
 
 		CBFnMenuUpdater* updater = CMGetFnMenuUpdater();
