@@ -623,7 +623,7 @@ CBDiffDocument::CreateGit
 
 	err = CBDiffDocument::CreatePlain(f1, cmd, defStyle, name1, removeStyle,
 									  name2, insertStyle, silent, doc);
-	if (!err.OK() && origDoc == nullptr)
+	if ((!err.OK() && origDoc == nullptr) || !doc->IsActive())
 		{
 		doc->Close();
 		}
@@ -915,6 +915,8 @@ CBDiffDocument::Init
 			itsDefaultStyle, kJTrue);
 		}
 	itsDiffEditor->GetText()->SetDefaultFontStyle(itsDefaultStyle);
+
+	DataReverted();
 }
 
 /******************************************************************************

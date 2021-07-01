@@ -90,12 +90,14 @@ CBDiffEditor::ReadDiff
 
 		JStyledText* st = GetText();
 
+		const JStyledText::TextIndex pasteIndex =
+			GetText()->AdjustTextIndex(GetLineEnd(origRange.last), +1);
+
 		origRange += lineOffset;
 		if (cmd != 'a' && st->GetText().CharacterIndexValid(origRange.last))
 			{
 			st->SetFontStyle(JStyledText::TextRange(
-								GetLineStart(origRange.first),
-								GetLineEnd(origRange.last)),
+								GetLineStart(origRange.first), pasteIndex),
 							 itsRemoveStyle, kJTrue);
 			}
 
@@ -108,15 +110,12 @@ CBDiffEditor::ReadDiff
 				Paste(JString::newline);
 				}
 
-			const JStyledText::TextIndex pasteIndex =
-				GetText()->AdjustTextIndex(GetLineEnd(origRange.last), +1);
-
 			SetCaretLocation(pasteIndex);
 			Paste(newText);
 			GetText()->SetFontStyle(
 				JStyledText::TextRange(
 					pasteIndex,
-					GetLineEnd(origRange.last + newLineCount)),
+					GetText()->AdjustTextIndex(GetLineEnd(origRange.last + newLineCount), +1)),
 				insertStyle, kJTrue);
 			}
 
