@@ -210,7 +210,7 @@ CBSearchTE::SearchFile
 
 		const JStyledText::TextRange origQuoteRange(
 			GetText()->GetParagraphStart(matchRange.GetFirst()),
-			GetText()->GetParagraphEnd(matchRange.GetLast(*GetText())));
+			GetText()->AdjustTextIndex(GetText()->GetParagraphEnd(matchRange.GetLast(*GetText())), +1));
 
 		JStyledText::TextRange quoteRange = origQuoteRange;
 		if (prevQuoteRange.charRange.Contains(matchRange.charRange))

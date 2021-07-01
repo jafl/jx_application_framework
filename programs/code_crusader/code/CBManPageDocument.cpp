@@ -330,6 +330,7 @@ CBManPageDocument::GetCmd1
 		#endif
 
 		cmd += JPrepArgForExec(pageIndex);
+		cmd += " ";
 		}
 	cmd += JPrepArgForExec(pageName);
 	return cmd;

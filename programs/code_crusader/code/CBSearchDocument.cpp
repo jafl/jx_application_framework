@@ -189,7 +189,7 @@ CBSearchDocument::Create
 
 		const JUtf8Byte* map[] =
 			{
-			"s", searchRegex.GetPattern().GetBytes(),
+			"s", CBGetSearchTextDialog()->GetSearchText().GetBytes(),
 			"r", replaceStr.GetBytes()
 			};
 		const JString windowTitle = JGetString("ReplaceTitle::CBSearchDocument", map, sizeof(map));

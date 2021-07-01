@@ -1245,7 +1245,7 @@ CBTextEditor::FileTypeChanged
 	const CBTextFileType type
 	)
 {
-	if ((CBGetFnMenuUpdater())->CanCreateMenu(type))
+	if (CBGetFnMenuUpdater()->CanCreateMenu(type))
 		{
 		if (itsFnMenu == nullptr)
 			{
@@ -1375,7 +1375,7 @@ CBTextEditor::FindSelectedSymbol
 
  ******************************************************************************/
 
-static const JRegex manRegex("^([^(,[:space:]]+)[[:space:]]*\\([^)]\\)");
+static const JRegex manRegex("^([^(,[:space:]]+)(?:[[:space:]]*\\(([^)]+)\\))?");
 
 void
 CBTextEditor::DisplayManPage()
@@ -1426,7 +1426,6 @@ CBTextEditor::OpenSelection()
 		JStyledText::TextIndex start = GetText()->GetWordStart(sel.GetLast(*GetText()));
 		JStyledText::TextIndex end   = GetText()->GetWordEnd(sel.GetFirst());
 
-
 		iter->UnsafeMoveTo(kJIteratorStartBefore, start.charIndex, start.byteIndex);
 		if (!iter->AtBeginning())
 			{
@@ -1459,7 +1458,7 @@ CBTextEditor::OpenSelection()
 				iter->GetNextCharacterIndex(),
 				iter->GetNextByteIndex());
 
-		iter->UnsafeMoveTo(kJIteratorStartAfter, end.charIndex, end.charIndex);
+		iter->UnsafeMoveTo(kJIteratorStartAfter, end.charIndex, end.byteIndex);
 		while (iter->Next(&c))
 			{
 			// catch "http://junk/>"
@@ -1762,7 +1761,9 @@ CBTextEditor::RecalcStyles()
 	if (length < CBDocumentManager::kMinWarnFileSize &&
 		itsDoc->GetStyler(&styler))
 		{
+		const JIndex saved = GetLineForChar(GetInsertionCharIndex());
 		GetText()->RestyleAll();
+		GoToLine(saved);
 		}
 	else
 		{

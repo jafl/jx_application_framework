@@ -133,6 +133,7 @@ CBMacroManager::Perform
 					(iter.Next(&c, kJFalse) && !CBMIsCharacterInWord(c)) ||
 					(iter.Prev(&c, kJFalse) && !CBMIsCharacterInWord(c)))
 					{
+					iter.Invalidate();
 					Perform(*info.script, doc);
 					return kJTrue;
 					}

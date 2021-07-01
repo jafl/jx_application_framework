@@ -1,5 +1,3 @@
-who includes JMessageProtocol.tmpl?
-
 always invalidate JStringIterator if part of a larger function
 	libs
 	jcc
@@ -9,29 +7,13 @@ jcc
 	search backward from end of CBTextEditor::OpenSelection for "iter"
 		jumps way back in file
 
-	source files: doesn't restore line when re-opening files
+	styling
+		A|::B - then type <T> at the caret
 
-	fails to build
-		Failed to open macho file at /Library/Developer/CommandLineTools/usr/bin/clang++ for reading: Too many levels of symbolic links
-
-	multi-file search
-		two blank lines before next file name
-	unit test CBSearch classes - split CBSearchProcess out from CBSearchDocument
-		search results, incl with multiple matches on a line
-
-	diff
-		select change doesn't include final newline
-		window not closed if no differences found
-
-	man page
-		doesn't format bold, etc.
-		multi-character index, e.g., foo(bar)
-
-	search parameters not shared across apps
-
-	html-auto-close pastes additional junk
-
-	A|::B - then type <T> at the caret
+	non-fatal build error
+		Failed to open macho file at
+		/Library/Developer/CommandLineTools/usr/bin/clang++
+		for reading: Too many levels of symbolic links
 
 medic
 	gets caret location confused, so output not in order
