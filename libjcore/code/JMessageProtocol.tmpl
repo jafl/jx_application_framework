@@ -454,17 +454,14 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	for (JIndex i=1; i<=blockCount; i++)
 		{
 		const JString* s = list.GetElement(i);
-		if (s->GetByteCount() == itsDisconnectStr.GetByteCount() &&
-			memcmp(s->GetBytes(), itsDisconnectStr.GetBytes(), s->GetByteCount()) == 0)
+		if (BytesEqual(*s, itsDisconnectStr))
 			{
 			itsReceivedDisconnectFlag = kJTrue;
 			itsRecvData.Clear();
 			Broadcast(JMessageProtocolT::ReceivedDisconnect());
 			return 0;	// we might be deleted and itsInHandleInputFlag is now irrelevant
 			}
-		else if (!s->IsEmpty() &&
-				 !(s->GetByteCount() == itsSeparatorStr.GetByteCount() &&
-				   memcmp(s->GetBytes(), itsSeparatorStr.GetBytes(), s->GetByteCount()) == 0))
+		else if (!s->IsEmpty() && !BytesEqual(*s, itsSeparatorStr))
 			{
 			JString* msg = jnew JString(*s);
 			assert( msg != nullptr );
@@ -475,6 +472,26 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 
 	itsInHandleInputFlag = kJFalse;
 	return 0;
+}
+
+/******************************************************************************
+ BytesEqual (protected)
+
+	Compare raw bytes because control characters are often zero-length in UTF-8.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JMessageProtocol<ACE_PEER_STREAM_2>::BytesEqual
+	(
+	const JString& s1,
+	const JString& s2
+	)
+	const
+{
+	return JI2B(s1.GetByteCount() == s2.GetByteCount() &&
+				memcmp(s1.GetBytes(), s2.GetBytes(), s1.GetByteCount()) == 0);
 }
 
 #endif

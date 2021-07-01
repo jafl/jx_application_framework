@@ -118,6 +118,10 @@ public:
 
 	virtual int	handle_input(ACE_HANDLE) override;
 
+protected:
+
+	JBoolean	BytesEqual(const JString& s1, const JString& s2) const;
+
 private:
 
 	JUtf8Byte*			itsRecvBuffer;		// buffer to receive raw bytes
