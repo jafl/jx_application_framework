@@ -270,6 +270,7 @@ JReadUNIXManOutput
 				{
 				siter.SetPrev(ulFont);
 				}
+			prev = '\0';
 			}
 		else if (!citer.AtEnd() && c == '\b' && citer.GetPrevCharacterIndex() > 1)
 			{
@@ -285,11 +286,13 @@ JReadUNIXManOutput
 				{
 				citer.SkipPrev();	// reprocess
 				}
+			prev = '\0';
 			}
 		else
 			{
 			siter.Insert(defFont);
 			siter.SkipNext();
+			prev = c;
 			}
 		}
 
