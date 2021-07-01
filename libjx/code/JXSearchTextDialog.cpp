@@ -745,17 +745,8 @@ JXSearchTextDialog::Receive
 		UpdateDisplay();
 
 		if (!itsIgnoreXSearchChangeFlag &&
-			message.Is(JXWidget::kLostFocus) && itsNeedXSearchBcastFlag)
-			{
-			SetXSearch();
-			}
-		}
-
-	else if (sender == itsSearchInput || sender == itsReplaceInput)
-		{
-		UpdateDisplay();
-
-		if (!itsIgnoreXSearchChangeFlag && message.Is(JStyledText::kTextSet))
+			(message.Is(JStyledText::kTextSet) ||
+			 (message.Is(JXWidget::kLostFocus) && itsNeedXSearchBcastFlag)))
 			{
 			SetXSearch();
 			}
