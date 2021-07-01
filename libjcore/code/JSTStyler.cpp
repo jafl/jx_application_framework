@@ -188,7 +188,7 @@ JSTStyler::UpdateStyles
 			lastIndex = textLength;
 			}
 
-		itsIterator->MoveTo(kJIteratorStartBefore, lastIndex);
+		itsIterator->MoveTo(kJIteratorStartBefore, JMax(lastIndex, (JIndex) 1));		// range can be (1,0)
 		const JIndex endIndex = itsIterator->GetRunEnd();
 
 		itsIterator->MoveTo(kJIteratorStartBefore, firstIndex);		// see below; faster to start here
