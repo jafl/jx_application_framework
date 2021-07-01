@@ -735,10 +735,20 @@ JSubstitute::Substitute
 				}
 			else
 				{
+				const JIndex startCharIndex = iter.GetPrevCharacterIndex(),
+							 startByteIndex = iter.GetPrevByteIndex();	// $ is single byte
+
 				if (!Evaluate(iter, &varValue))
 					{
 					varValue.Clear();
 					}
+
+				const JIndex endCharIndex = iter.GetPrevCharacterIndex(),
+							 endByteIndex = iter.GetPrevByteIndex();
+
+				iter.UnsafeMoveTo(kJIteratorStartBefore, startCharIndex, startByteIndex);
+				iter.BeginMatch();
+				iter.UnsafeMoveTo(kJIteratorStartAfter, endCharIndex, endByteIndex);
 				iter.FinishMatch();
 				iter.ReplaceLastMatch(varValue);
 				}
