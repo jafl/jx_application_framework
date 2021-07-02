@@ -69,7 +69,7 @@ CBCClass::ViewSource()
 	JString headerName;
 	if (!GetFileName(&headerName))
 		{
-		JGetUserNotification()->ReportError(JGetString("NoGhostFile::CBClass"));
+		JGetUserNotification()->ReportError(JGetString("NoGhostFile::CBTreeWidget"));
 		}
 	else
 		{
@@ -98,7 +98,7 @@ CBCClass::ViewHeader()
 		}
 	else
 		{
-		JGetUserNotification()->ReportError(JGetString("NoGhostFile::CBClass"));
+		JGetUserNotification()->ReportError(JGetString("NoGhostFile::CBTreeWidget"));
 		}
 
 #endif

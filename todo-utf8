@@ -7,6 +7,9 @@ jcc
 	search backward from end of CBTextEditor::OpenSelection for "iter"
 		jumps way back in file
 
+	C++ parsing
+		class JFloatTableData : public JValueTableData<JArray<JFloat>,JFloat>
+
 	styling
 		A|::B - then type <T> at the caret
 

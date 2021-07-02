@@ -129,7 +129,7 @@ CBGoClass::ViewSource()
 		}
 	else
 		{
-		JGetUserNotification()->ReportError(JGetString("NoGhostFile::CBClass"));
+		JGetUserNotification()->ReportError(JGetString("NoGhostFile::CBTreeWidget"));
 		}
 
 #endif
