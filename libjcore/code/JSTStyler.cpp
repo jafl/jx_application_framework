@@ -324,7 +324,7 @@ JSTStyler::ExtendCheckRange
 		{
 		JStringIterator iter(*itsText);
 		iter.UnsafeMoveTo(kJIteratorStartAfter, itsCheckRange.charRange.last, itsCheckRange.byteRange.last);
-		iter.MoveTo(kJIteratorStartAfter, newEndCharIndex);
+		iter.MoveTo(kJIteratorStartAfter, JMin(newEndCharIndex, itsText->GetCharacterCount()));
 		itsCheckRange.charRange.last = iter.GetPrevCharacterIndex();
 		itsCheckRange.byteRange.last = iter.GetPrevByteIndex();
 		}
