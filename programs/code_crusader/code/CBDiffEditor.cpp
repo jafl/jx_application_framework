@@ -78,10 +78,8 @@ CBDiffEditor::ReadDiff
 			break;
 			}
 
-		origRange.first = CRLineIndexToVisualLineIndex(origRange.first);
-		origRange.last  = CRLineIndexToVisualLineIndex(origRange.last);
-		newRange.first  = CRLineIndexToVisualLineIndex(newRange.first);
-		newRange.last   = CRLineIndexToVisualLineIndex(newRange.last);
+		origRange.first = CRLineIndexToVisualLineIndex(origRange.first) + lineOffset;
+		origRange.last  = CRLineIndexToVisualLineIndex(origRange.last)  + lineOffset;
 
 		IgnoreOrigText(input, cmd);
 
@@ -93,7 +91,6 @@ CBDiffEditor::ReadDiff
 		const JStyledText::TextIndex pasteIndex =
 			GetText()->AdjustTextIndex(GetLineEnd(origRange.last), +1);
 
-		origRange += lineOffset;
 		if (cmd != 'a' && st->GetText().CharacterIndexValid(origRange.last))
 			{
 			st->SetFontStyle(JStyledText::TextRange(

@@ -1394,9 +1394,6 @@ CBPrefsManager::AddDefaultCMacros
 	mgr->AddMacro("switch", " ()\\n\\t{\\ndefault:\\n\\tbreak;\\n\\b}\\u\\u\\u\\u\\r\\r\\r");
 	mgr->AddMacro("try",    "\\n\\t{\\n}\\n\\b"
 							"catch (...)\\n\\t{\\n}\\u\\u\\u\\u\\n");
-
-	mgr->AddMacro("&c", "\\b\\b(C)");
-	mgr->AddMacro("&r", "\\b\\b(R)");
 }
 
 void

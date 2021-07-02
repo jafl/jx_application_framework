@@ -263,7 +263,7 @@ CBDiffFileDialog::BuildWindow()
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBDiffFileDialog::shortcuts::JXLayout"));
 
 	itsCommonStyleMenu =
-		jnew CBDiffStyleMenu(JGetString("SharedStyleMenuTitle::CBDiffDialog"), window,
+		jnew CBDiffStyleMenu(JGetString("SharedStyleMenuTitle::CBDiffFileDialog"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,170, 140,30);
 	assert( itsCommonStyleMenu != nullptr );
 

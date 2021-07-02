@@ -7817,7 +7817,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsCommonStyleMenu
 callback: 
-argument: JGetString("SharedStyleMenuTitle::CBDiffDialog")
+argument: JGetString("SharedStyleMenuTitle::CBDiffFileDialog")
 
 --------------------
 class: FL_CHECKBUTTON
