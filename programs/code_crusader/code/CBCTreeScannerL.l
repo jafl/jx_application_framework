@@ -263,7 +263,7 @@ private {
 	JString parentName(yytext, yyleng);
 	if (parentName.GetLastCharacter() == '<')
 		{
-		templateBracketDepth = 0;
+		templateBracketDepth = 1;
 		yy_push_state(TEMPLATE_PARAM_STATE);
 
 		parentName.Set(yytext, yyleng-1);
