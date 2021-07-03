@@ -418,7 +418,7 @@ CBMParseEditorOptions
 		{
 		const JUtf8Byte *name, *value;
 
-		const JSize nvCount = editorconfig_handle_get_name_value_count(eh);
+		const int nvCount = editorconfig_handle_get_name_value_count(eh);
 		for (int i=0; i<nvCount; i++)
 			{
 			editorconfig_handle_get_name_value(eh, i, &name, &value);
