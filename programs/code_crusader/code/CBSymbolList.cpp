@@ -19,7 +19,7 @@
 #include "cbCtagsRegex.h"
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
-#include <strstream>
+#include <sstream>
 #include <jAssert.h>
 
 static const JUtf8Byte* kCtagsArgs =
@@ -826,7 +826,9 @@ CBSymbolList::ParseFile
 	CBLanguage lang;
 	if (ProcessFile(fileName, fileType, &data, &lang))
 		{
-		std::istrstream input(data.GetBytes(), data.GetByteCount());
+		std::istringstream input;
+		input.rdbuf()->pubsetbuf(const_cast<char*>(data.GetBytes()) , data.GetByteCount());
+
 		ReadSymbolList(input, lang, fileName, id);
 		itsChangedDuringParseFlag = kJTrue;
 		}

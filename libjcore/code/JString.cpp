@@ -9,7 +9,7 @@
 	names, operator< and operator> are not case sensitive.  One should therefore
 	not mix == with < and > when comparing strings.
 
-	Since strstream doesn't provide the control we need when converting a number
+	Since stringstream doesn't provide the control we need when converting a number
 	to a string, we use the NumConvert and StrUtil modules.  We include them at
 	the end of the file so they are completely hidden and JString is self-contained.
 
@@ -1501,28 +1501,14 @@ JString::CompleteConversion
 
  ******************************************************************************/
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated"
-
-#if defined __GNUC__ && ! defined __clang__
-	// hack for https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53431
-	#undef __DEPRECATED
-#endif
-
-#include <strstream>
-
-#if defined __GNUC__ && ! defined __clang__
-	#define __DEPRECATED 1
-#endif
-
 JString
 JString::EncodeBase64()
 	const
 {
-	std::istrstream input(itsBytes, itsByteCount);
-	std::ostrstream output;
+	icharbufstream input(itsBytes, itsByteCount);
+	std::ostringstream output;
 	JEncodeBase64(input, output);
-	return JString(output.str(), output.pcount(), kJTrue);
+	return JString(output.str());
 }
 
 /******************************************************************************
@@ -1537,11 +1523,11 @@ JString::DecodeBase64
 	)
 	const
 {
-	std::istrstream input(itsBytes, itsByteCount);
-	std::ostrstream output;
+	icharbufstream input(itsBytes, itsByteCount);
+	std::ostringstream output;
 	if (JDecodeBase64(input, output))
 		{
-		str->Set(output.str(), output.pcount());
+		str->Set(output.str());
 		return kJTrue;
 		}
 	else
@@ -1550,8 +1536,6 @@ JString::DecodeBase64
 		return kJFalse;
 		}
 }
-
-#pragma GCC diagnostic pop
 
 /******************************************************************************
  Read

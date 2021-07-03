@@ -103,6 +103,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JComplex:
 //		*** Removed inverse trigonometric and hyperbolic functions, because
 //			they are now provided by std::complex.
+//	jStreamUtil:
+//		Added icharbufstream to avoid copying data.
 
 // version 3.2.0:
 //	jMountUtil:

@@ -20,7 +20,6 @@
 #include <JFontManager.h>
 #include <jStreamUtil.h>
 #include <jGlobals.h>
-#include <strstream>
 #include <jAssert.h>
 
 // sort=no requires so qualified tag comes after unqualified version
@@ -137,7 +136,7 @@ CBFnMenuUpdater::UpdateMenu
 	CBLanguage lang;
 	if (ProcessFile(fileName, fileType, &data, &lang))
 		{
-		std::istrstream input(data.GetRawBytes(), data.GetByteCount());
+		icharbufstream input(data.GetRawBytes(), data.GetByteCount());
 		ReadFunctionList(input, CBGetLanguage(fileType),
 						 sort, includeNS, menu, lineIndexList);
 		}

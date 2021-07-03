@@ -21,7 +21,6 @@
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>
-#include <strstream>
 #include <fcntl.h>
 #include <stdio.h>
 #include <jAssert.h>
@@ -345,7 +344,7 @@ CBDiffDocument::CreateCVS
 					}
 				else if (text.GetCharacterCount() > 0)
 					{
-					std::istrstream input2(text.GetBytes(), text.GetByteCount());
+					icharbufstream input2(text.GetBytes(), text.GetByteCount());
 					doc->ReadDiff(input2);
 					doc->Activate();
 					}
@@ -511,7 +510,7 @@ CBDiffDocument::CreateSVN
 					}
 				else if (text.GetCharacterCount() > 0)
 					{
-					std::istrstream input2(text.GetBytes(), text.GetByteCount());
+					icharbufstream input2(text.GetBytes(), text.GetByteCount());
 					doc->ReadDiff(input2);
 					doc->Activate();
 					}

@@ -17,7 +17,6 @@
 #include "cbGlobals.h"
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
-#include <strstream>
 #include <jAssert.h>
 
 /******************************************************************************

@@ -18,7 +18,6 @@
 #include <JRegex.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
-#include <strstream>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -73,7 +72,7 @@ GDBGetSourceFileList::HandleSuccess
 			}
 		data.TrimWhitespace();		// no comma after last file
 
-		std::istrstream input(data.GetRawBytes(), data.GetByteCount());
+		icharbufstream input(data.GetRawBytes(), data.GetByteCount());
 		JString fullName, path, name, s;
 		JBoolean foundDelimiter;
 		do

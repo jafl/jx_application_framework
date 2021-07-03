@@ -34,7 +34,6 @@
 #include <jWebUtil.h>
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
-#include <strstream>
 #include <jAssert.h>
 
 static JString kDot(".", kJFalse);

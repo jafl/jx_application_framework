@@ -38,7 +38,7 @@ void JIgnoreLine(std::istream& input, JBoolean* foundNewLine = nullptr);
 void		JEncodeBase64(std::istream& input, std::ostream& output);
 JBoolean	JDecodeBase64(std::istream& input, std::ostream& output);
 
-// compensate for lack of features in io stream library
+// compensate for lack of features in iostream library
 
 JString		JRead(const int input, const JSize count);
 JString		JReadUntil(const int input, const JUtf8Byte delimiter,
@@ -59,6 +59,74 @@ JBoolean JIgnoreUntil(const int input, const JSize delimiterCount,
 					  const JUtf8Byte* delimiters, JUtf8Byte* delimiter = nullptr);
 
 JBoolean	JWaitForInput(const int input, const time_t timeout);
+
+// https://gist.github.com/andreasxp/ac9adcf8a2b37ac05ff7047f8728b3c7
+
+class charbuf : public std::streambuf
+{
+public:
+
+	charbuf
+		(
+		const char*			s,
+		const std::size_t	count
+		)
+	{
+		char* p = const_cast<char*>(s);
+		this->setg(p, p, p + count);
+	}
+
+protected:
+
+	virtual pos_type seekoff
+		(
+		off_type				off,
+		std::ios_base::seekdir	dir,
+		std::ios_base::openmode	which = std::ios_base::in | std::ios_base::out
+		)
+		override
+	{
+		if (dir == std::ios_base::cur)
+			{
+			gbump(off);
+			}
+		else if (dir == std::ios_base::end)
+			{
+			setg(eback(), egptr() + off, egptr());
+			}
+		else if (dir == std::ios_base::beg)
+			{
+			setg(eback(), eback() + off, egptr());
+			}
+
+		return gptr() - eback();
+	}
+
+	virtual pos_type seekpos
+		(
+		pos_type				sp,
+		std::ios_base::openmode	which
+		)
+		override
+	{
+		return seekoff(sp - pos_type(off_type(0)), std::ios_base::beg, which);
+	}
+};
+
+class icharbufstream : private virtual charbuf, public std::istream
+{
+public:
+
+	icharbufstream
+		(
+		const char*			s,
+		const std::size_t	count
+		)
+		:
+		charbuf(s, count), 
+		std::istream(static_cast<std::streambuf*>(this))
+	{ }
+};
 
 // compensate for ANSI's removal of features
 

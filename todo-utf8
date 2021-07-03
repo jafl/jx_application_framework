@@ -1,14 +1,18 @@
+medic - confused when using gdb
+
 always invalidate JStringIterator if part of a larger function
 	libs
 	jcc
 	medic
 
 jcc
+	HTML styler
+		unit test for CDATA - can contain php or jsp
+		tag, attribute value, script, char escapes
+		javascript regex, incl char class - can contain php or jsp
+
 	search backward from end of CBTextEditor::OpenSelection for "iter"
 		jumps way back in file
-
-	C++ parsing
-		class JFloatTableData : public JValueTableData<JArray<JFloat>,JFloat>
 
 	styling
 		A|::B - then type <T> at the caret
@@ -18,14 +22,19 @@ jcc
 		/Library/Developer/CommandLineTools/usr/bin/clang++
 		for reading: Too many levels of symbolic links
 
+	styling <foo> inside javascript - sometimes - is state attached to checkpoint wrong?
+
 medic
 	gets caret location confused, so output not in order
+
+testjx crash - itsLineStarts was already broken
 
 
 u-ctags:
 	test:  make, yacc, html
 	fix:  javascript, php
 		aws-lambda-common: Transaction.js
+		vendomatic/src/main/webapp/public/assets/js/vendomatic-config-edit.js
 		any php file containing javascript
 	update CBCtagsUser::DecodeSymbolType & CBSymbolTypeList
 

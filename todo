@@ -1,3 +1,6 @@
+When g++/clang++ both support stringstream::view
+	fix JString::Encode/DecodeBase64
+
 JXDialogDirector
 	systemg: "Add remote..." doesn't validate emtpy second field
 	Only validates input with focus!

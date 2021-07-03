@@ -55,21 +55,6 @@
 #include "JMinMax.h"
 #include "jStreamUtil.h"
 #include "JStopWatch.h"
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated"
-
-#if defined __GNUC__ && ! defined __clang__
-	// hack for https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53431
-	#undef __DEPRECATED
-#endif
-
-#include <strstream>
-
-#if defined __GNUC__ && ! defined __clang__
-	#define __DEPRECATED 1
-#endif
-
 #include "jAssert.h"
 
 typedef JStyledText::TextIndex TextIndex;
@@ -248,7 +233,7 @@ JSTStyler::UpdateStyles
 
 	// scan the text and adjust the styles
 
-	std::istrstream input(text.GetRawBytes(), text.GetByteCount());
+	icharbufstream input(text.GetRawBytes(), text.GetByteCount());
 	JSeekg(input, tokenData.startIndex.byteIndex-1);
 
 	JFont f = st->GetDefaultFont();

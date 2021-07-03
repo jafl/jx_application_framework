@@ -17,7 +17,6 @@
 #include <JXFileListTable.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
-#include <strstream>
 #include <jAssert.h>
 
 /******************************************************************************

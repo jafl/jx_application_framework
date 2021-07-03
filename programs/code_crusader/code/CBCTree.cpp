@@ -18,7 +18,6 @@
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
 #include <jFileUtil.h>
-#include <strstream>
 #include <fstream>
 #include <jAssert.h>
 
@@ -209,7 +208,7 @@ CBCTree::ParseFile
 		{
 		// check for pure virtual via ctags
 
-		std::istrstream input(data.GetBytes(), data.GetByteCount());
+		icharbufstream input(data.GetBytes(), data.GetByteCount());
 
 		input >> std::ws;
 		while (input.peek() == '!')
