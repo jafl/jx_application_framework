@@ -203,7 +203,8 @@ JStringMatch::GetCharacterRange
 	else if (itsSubmatchList != nullptr && itsSubmatchList->IndexValid(submatchIndex))
 		{
 		const JUtf8ByteRange ur = itsSubmatchList->GetElement(submatchIndex);
-
+		if (!ur.IsEmpty())
+			{
 		ComputeCharacterRange();
 
 		JCharacterRange cr;
@@ -214,11 +215,10 @@ JStringMatch::GetCharacterRange
 			JString::CountCharacters(itsTarget.GetRawBytes() + ur.first - 1, ur.GetCount()));
 
 		return cr;
+			}
 		}
-	else
-		{
-		return JCharacterRange();
-		}
+
+	return JCharacterRange();
 }
 
 /******************************************************************************
