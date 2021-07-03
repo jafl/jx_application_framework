@@ -188,9 +188,9 @@ CBCompileDocument::ProcessFinished
 
  ******************************************************************************/
 
-static const JRegex gccErrorRegex    = ".:[0-9]+(:[0-9]+)?: (?:(?:fatal )?error|warning):";
-static const JRegex flexErrorRegex   = "..\", line [0-9]+: ";
-static const JRegex bisonErrorRegex  = "...\", line [0-9]+\\) error: ";
+static const JRegex gccErrorRegex    = "(?<=.):[0-9]+(:[0-9]+)?: (?:(?:fatal )?error|warning):";
+static const JRegex flexErrorRegex   = "(?<=..)\", line [0-9]+: ";
+static const JRegex bisonErrorRegex  = "(?<=...)\", line [0-9]+\\) error: ";
 static const JRegex makeErrorRegex   = ".(\\[[0-9]+\\])?: \\*\\*\\*";
 static const JRegex absoftErrorRegex = " error on line [0-9]+ of ([^:]+): ";
 static const JRegex javacOutputRegex = "^\\s+\\[.+?\\]\\s+";
@@ -317,16 +317,14 @@ CBCompileDocument::AppendText
 		}
 	else if (isFlexError)
 		{
-		boldRange = JStyledText::TextRange(
-			te->GetText()->AdjustTextIndex(startIndex, +1),
+		boldRange.SetCount(
 			JStyledText::TextCount(
 				flexMatch.GetCharacterRange().first-1,
 				flexMatch.GetUtf8ByteRange().first-1));
 		}
 	else if (isBisonError)
 		{
-		boldRange = JStyledText::TextRange(
-			te->GetText()->AdjustTextIndex(startIndex, +2),
+		boldRange.SetCount(
 			JStyledText::TextCount(
 				bisonMatch.GetCharacterRange().first-1,
 				bisonMatch.GetUtf8ByteRange().first-1));
