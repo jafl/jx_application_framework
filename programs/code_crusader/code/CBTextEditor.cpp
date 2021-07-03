@@ -1706,7 +1706,7 @@ CBTextEditor::StyledText::StyledText
 	JFontManager*	fontManager
 	)
 	:
-	JXStyledText(kJTrue, kJTrue, fontManager),
+	JXStyledText(kJTrue, kJFalse, fontManager),
 	itsDoc(doc)
 {
 	itsTokenStartList = JSTStyler::NewTokenStartList();
