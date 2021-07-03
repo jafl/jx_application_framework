@@ -738,6 +738,8 @@ CMSourceDirector::DisplayFile
 			iter.Invalidate();
 			itsText->DeleteSelection();
 			}
+		iter.Invalidate();
+
 		itsText->SetCaretLocation(1);
 
 		itsFileDisplay->GetText()->SetText(itsCurrentFile);

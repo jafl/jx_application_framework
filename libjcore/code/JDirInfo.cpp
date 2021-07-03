@@ -1139,6 +1139,7 @@ JDirInfo::AppendRegex
 			iter.Insert("\\");
 			}
 		}
+	iter.Invalidate();
 
 	// Add instructions that it must match the entire file name.
 

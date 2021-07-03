@@ -366,6 +366,7 @@ CBCompileDocument::AppendText
 			iter.SetNext(c);
 			iter.SetNext(c);
 			iter.SetNext(c);
+			iter.Invalidate();
 
 			window->SetTitle(windowTitle);
 			}
@@ -484,6 +485,8 @@ CBCompileDocument::ConvertSelectionToFullPath
 				}
 			}
 		}
+
+	iter.Invalidate();
 
 	CBExecOutputDocument::ConvertSelectionToFullPath(fileName);
 }

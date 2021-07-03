@@ -171,6 +171,8 @@ JAnalyzeWhitespace
 		}
 		while ((c == "\n" || iter.Next("\n")) && !iter.AtEnd());
 
+	iter.Invalidate();
+
 	if (tabLines > 0)
 		{
 		tabLines += tinySpaceLines;
@@ -495,5 +497,6 @@ JReadLimitedMarkdown
 	jReplaceMarkdownPattern(&iter, theFixedWidthPattern, f, &styles);
 	// no need to reset font
 
+	iter.Invalidate();
 	st->SetText(buffer, &styles);
 }

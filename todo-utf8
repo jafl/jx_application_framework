@@ -1,10 +1,5 @@
 medic - confused when using gdb
 
-always invalidate JStringIterator if part of a larger function
-	libs
-	jcc
-	medic
-
 jcc
 	HTML styler
 		unit test for CDATA - can contain php or jsp

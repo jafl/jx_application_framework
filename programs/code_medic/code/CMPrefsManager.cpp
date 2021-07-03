@@ -315,7 +315,7 @@ CMPrefsManager::UpgradeData
 			iter.RemovePrev(3);
 			iter.Invalidate();
 
-			cmd.TrimWhitespace();
+			cmd.TrimWhitespace();	// invalidates iter
 			SetGDBCommand(cmd);
 			}
 		}

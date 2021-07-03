@@ -520,7 +520,7 @@ CBClass::FindParent
 		testName  = nameSpace;
 		testName += namespaceOp;
 		testName += *(pInfo->name);
-		if (itsTree->FindClass(testName, &(pInfo->parent)) &&
+		if (itsTree->FindClass(testName, &pInfo->parent) &&
 			pInfo->parent != this)
 			{
 			*(pInfo->name) = testName;
@@ -531,7 +531,7 @@ CBClass::FindParent
 
 		const CBClass* nsClass;
 		if (itsTree->FindClass(nameSpace, &nsClass) &&
-			itsTree->FindParent(*(pInfo->name), nsClass, &(pInfo->parent), &prefixStr) &&
+			itsTree->FindParent(*pInfo->name, nsClass, &pInfo->parent, &prefixStr) &&
 			pInfo->parent != this)
 			{
 			(pInfo->name)->Prepend(prefixStr);
@@ -542,7 +542,7 @@ CBClass::FindParent
 	// check for any exact match
 
 	return JI2B(okToSearchGhosts &&
-				itsTree->FindClass(*(pInfo->name), &(pInfo->parent)) &&
+				itsTree->FindClass(*pInfo->name, &pInfo->parent) &&
 				pInfo->parent != this);
 }
 

@@ -90,6 +90,7 @@ GDBGetBreakpoints::HandleSuccess
 			ParseOther(map, &otherList);
 			}
 		}
+	iter.Invalidate();
 
 	CMGetLink()->GetBreakpointManager()->UpdateBreakpoints(bpList, otherList);
 }

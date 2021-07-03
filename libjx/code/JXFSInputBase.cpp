@@ -585,6 +585,8 @@ JXFSInputBase::Complete
 		}
 	else if (matchCount > 1)
 		{
+		iter.Invalidate();
+
 		if (*menu == nullptr)
 			{
 			*menu = jnew JXStringCompletionMenu(te, kJFalse);

@@ -936,6 +936,7 @@ JXTextMenuData::ParseNMShortcut
 		const JBoolean ok = iter.Next(keyStr);
 		assert( ok );
 		iter.RemoveLastMatch();
+		iter.Invalidate();
 
 		if (modifiers->shift())
 			{

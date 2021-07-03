@@ -89,6 +89,7 @@ GDBGetThreads::HandleSuccess
 			if (iter2.Next(prefixPattern))
 				{
 				iter2.ReplaceLastMatch(iter2.GetLastMatch().GetSubstring(1) + ":  ");
+				iter2.Invalidate();
 
 				while (!threadIndexPattern.Match(line))
 					{

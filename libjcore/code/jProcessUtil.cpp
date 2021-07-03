@@ -67,6 +67,7 @@ JPrepArgForExec
 			quote = kJTrue;
 			}
 		}
+	iter.Invalidate();
 
 	if (quote)
 		{

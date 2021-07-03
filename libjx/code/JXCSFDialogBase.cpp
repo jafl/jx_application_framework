@@ -753,6 +753,8 @@ JXCSFDialogBase::SelectPrevDirectory()
 			iter.RemoveAllNext();
 			}
 
+		iter.Invalidate();
+
 		// create UrgentTask to select this item
 
 		if (!dirName.IsEmpty())

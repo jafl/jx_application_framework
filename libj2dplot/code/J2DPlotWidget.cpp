@@ -1193,6 +1193,7 @@ J2DPlotWidget::GetDecPlaces
 			}
 		hadE = kJTrue;
 		}
+	iter.Invalidate();
 
 	if (!hadE)
 		{

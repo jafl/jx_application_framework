@@ -64,6 +64,7 @@ GDBAnalyzeCore::HandleSuccess
 		{
 		link->Log("GDBAnalyzeCore failed to match");
 		}
+	iter.Invalidate();
 
 	JString coreFullName;
 	if (!programName.IsEmpty() && link->GetCore(&coreFullName))
@@ -94,6 +95,7 @@ GDBAnalyzeCore::HandleSuccess
 				}
 			iter.RemoveAllNext();
 			}
+		iter.Invalidate();
 
 		// if all else fails, ask user
 

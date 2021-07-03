@@ -95,6 +95,7 @@ GDBGetLocalVars::HandleSuccess
 		value->TrimWhitespace();
 		valueList.Append(value);
 		}
+	argIter.Invalidate();
 
 	// build list of local variables in reverse order
 
@@ -117,6 +118,7 @@ GDBGetLocalVars::HandleSuccess
 		value->TrimWhitespace();
 		valueList.InsertAtIndex(insertionIndex, value);
 		}
+	varIter.Invalidate();
 
 	// delete existing nodes beyond the first one that doesn't match the
 	// new variable names

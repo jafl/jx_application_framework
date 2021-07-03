@@ -298,6 +298,7 @@ JXMenu::SetTitle
 			}
 		else
 			{
+			iter.Invalidate();
 			itsULIndex = JXWindow::GetULShortcutIndex(itsTitle, itsShortcuts);
 			}
 		}

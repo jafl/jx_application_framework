@@ -113,6 +113,7 @@ GDBArray2DCommand::HandleSuccess
 
 		i++;
 		}
+	iter.Invalidate();
 
 	if (i == 1)
 		{

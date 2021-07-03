@@ -397,6 +397,7 @@ CMEditPrefsDialog::ChooseDebugger
 			{
 			text = fullName;
 			}
+		iter.Invalidate();
 
 		input->GetText()->SetText(text);
 		}

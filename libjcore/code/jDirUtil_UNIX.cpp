@@ -1466,6 +1466,7 @@ JConvertToRelativePath
 	pathIter.MoveTo(kJIteratorStartAtBeginning, 0);
 	pathIter.SkipNext(matchLength);
 	pathIter.RemoveAllPrev();
+	pathIter.Invalidate();
 
 	if (base.IsEmpty())
 		{

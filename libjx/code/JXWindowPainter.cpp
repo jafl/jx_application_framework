@@ -425,6 +425,7 @@ JXWindowPainter::String
 
 		JUtf8Character c;
 		iter.Next(&c);
+		iter.Invalidate();
 
 		JFont font = GetFont();
 		font.SubstituteToDisplayGlyph(GetFontManager(), c);

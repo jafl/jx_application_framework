@@ -105,6 +105,7 @@ GDBGetCompletions::HandleSuccess
 			jdelete s;
 			}
 		}
+	iter.Invalidate();
 
 	if (lines.IsEmpty())
 		{

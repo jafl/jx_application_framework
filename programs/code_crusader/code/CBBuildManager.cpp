@@ -362,6 +362,8 @@ CBBuildManager::UpdateMakeHeader
 		output << '\n';
 		}
 
+	iter.Invalidate();
+
 	// if new Make.header data is different, update file
 
 	const std::string s = output.str();
