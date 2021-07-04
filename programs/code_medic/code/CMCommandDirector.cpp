@@ -918,7 +918,8 @@ CMCommandDirector::Receive
 		const CMLink::UserOutput* output =
 			dynamic_cast<const CMLink::UserOutput*>(&message);
 		assert(output != nullptr);
-		itsCommandOutput->GoToEndOfLine();
+		itsCommandOutput->SetCaretLocation(
+			itsCommandOutput->GetText()->GetText().GetCharacterCount()+1);
 
 		JFont font = itsCommandOutput->GetText()->GetDefaultFont();
 		font.SetBold(output->IsFromTarget());

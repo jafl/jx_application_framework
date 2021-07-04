@@ -1,13 +1,25 @@
 medic - confused when using gdb
+	no stack, threads, locals, etc.
 
 jcc
+	shell doc doesn't work at all
+
+	CBCharActionManager: switch to JStringPtrMap
+
+	search backward from end of CBTextEditor::OpenSelection for "iter"
+		jumps way back in file
+
 	HTML styler
 		unit test for CDATA - can contain php or jsp
 		tag, attribute value, script, char escapes
 		javascript regex, incl char class - can contain php or jsp
 
-	search backward from end of CBTextEditor::OpenSelection for "iter"
-		jumps way back in file
+	test that CBCompileDocument::ConvertSelectionToFullPath
+		gets path from "Entering directory"
+	test CBMacroManager: Perform & HighlightErrors completely rewritten
+	test open flex, bison, maven error
+	c++: preprocessor
+	test CalcFileType when using a prefix regex
 
 	styling
 		A|::B - then type <T> at the caret
@@ -19,13 +31,12 @@ jcc
 
 	styling <foo> inside javascript - sometimes - is state attached to checkpoint wrong?
 
-medic
-	gets caret location confused, so output not in order
-
 testjx crash - itsLineStarts was already broken
 
 
 u-ctags:
+	doesn't find definition of JPasteUNIXTerminalOutput
+
 	test:  make, yacc, html
 	fix:  javascript, php
 		aws-lambda-common: Transaction.js
@@ -36,7 +47,7 @@ u-ctags:
 medic for go: delve back-end
 	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
 
-tap for brew
+keg for brew
 	https://docs.brew.sh/Formula-Cookbook
 	https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap
 
@@ -100,14 +111,6 @@ jcc
 		show list of functions returned by CBSymbolList
 			based on file and class name and possibly partially qualified name (java)
 
-	CBCharActionManager only accepts single bytes, not JUtf8Character
-
-	test that CBCompileDocument::ConvertSelectionToFullPath gets path from "Entering directory"
-	test CBMacroManager: Perform & HighlightErrors completely rewritten
-	test open flex, bison, maven error
-	c++: preprocessor
-	test CalcFileType when using a prefix regex
-
 -----
 
 unit test
@@ -167,17 +170,12 @@ test every usage of JRunArrayIterator
 	jcc
 	medic
 
-always invalidate JStringIterator if part of a larger function
-	glove
-
 JXFontManager
 	some characters extend above line height
 
 test
 	JVersionSocket - wait for version notice
-	styled unix terminal output - yui build output
 	code_medic on ubuntu with lldb-6.0
-	jcc CBExecOutputDocument: test usage of JUtf8ByteBuffer inside JAsynchDataReceiver
 
 test every function that uses JStringIterator, Split
 	jcc
