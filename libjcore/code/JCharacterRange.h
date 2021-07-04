@@ -12,7 +12,7 @@
 
 #include "JRange.h"
 
-class JCharacterRange : public JIndexRange
+class JCharacterRange : public JRange<JIndex>
 {
 public:
 

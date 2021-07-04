@@ -12,7 +12,7 @@
 
 #include "JRange.h"
 
-class JUtf8ByteRange : public JIndexRange
+class JUtf8ByteRange : public JRange<JIndex>
 {
 public:
 
