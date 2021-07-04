@@ -113,6 +113,13 @@ private:
 	CBExecOutputDocument(const CBExecOutputDocument& source);
 	const CBExecOutputDocument& operator=(const CBExecOutputDocument& source);
 
+	static CBTextEditor*	ConstructTextEditor(CBTextDocument* document,
+												const JString& fileName,
+												JXMenuBar* menuBar,
+												CBTELineIndexInput* lineInput,
+												CBTEColIndexInput* colInput,
+												JXScrollbarSet* scrollbarSet);
+
 public:
 
 	// JBroadcaster messages

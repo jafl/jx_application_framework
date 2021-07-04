@@ -168,6 +168,7 @@ CBTextEditor::CBTextEditor
 	JXMenuBar*			menuBar,
 	CBTELineIndexInput*	lineInput,
 	CBTEColIndexInput*	colInput,
+	const JBoolean		pasteStyledText,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -178,7 +179,7 @@ CBTextEditor::CBTextEditor
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, jnew StyledText(document, enclosure->GetFontManager()), kJTrue,
+	JXTEBase(kFullEditor, jnew StyledText(document, enclosure->GetFontManager(), pasteStyledText), kJTrue,
 			 kJFalse, scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
 	itsLastModifiers(GetDisplay())
 {
@@ -1703,10 +1704,11 @@ CBTextEditor::SetTabCharCount
 CBTextEditor::StyledText::StyledText
 	(
 	CBTextDocument*	doc,
-	JFontManager*	fontManager
+	JFontManager*	fontManager,
+	const JBoolean	pasteStyledText
 	)
 	:
-	JXStyledText(kJTrue, kJFalse, fontManager),
+	JXStyledText(kJTrue, pasteStyledText, fontManager),
 	itsDoc(doc)
 {
 	itsTokenStartList = JSTStyler::NewTokenStartList();

@@ -27,7 +27,7 @@ public:
 
 	CBTextEditor(CBTextDocument* document, const JString& fileName,
 				 JXMenuBar* menuBar, CBTELineIndexInput* lineInput,
-				 CBTEColIndexInput* colInput,
+				 CBTEColIndexInput* colInput, const JBoolean pasteStyledText,
 				 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
@@ -122,7 +122,8 @@ protected:
 	{
 		public:
 
-		StyledText(CBTextDocument* doc, JFontManager* fontManager);
+		StyledText(CBTextDocument* doc, JFontManager* fontManager,
+				   const JBoolean pasteStyledText);
 
 		virtual ~StyledText();
 

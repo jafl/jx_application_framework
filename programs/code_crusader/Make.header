@@ -82,6 +82,7 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
 default: libs jcc ctags
 
 .PHONY : test
+test:
 	@cd test; make test
 
 .PHONY : Makefiles

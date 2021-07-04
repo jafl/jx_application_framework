@@ -37,7 +37,7 @@ CBShellEditor::CBShellEditor
 	const JCoordinate	h
 	)
 	:
-	CBTextEditor(document, fileName, menuBar, lineInput, colInput,
+	CBTextEditor(document, fileName, menuBar, lineInput, colInput, kJTrue,
 				 scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
 	itsInsertIndex(1,1)
 {

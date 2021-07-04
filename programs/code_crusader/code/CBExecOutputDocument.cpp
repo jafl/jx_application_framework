@@ -16,6 +16,7 @@
 #include <JXMenuBar.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
+#include <JXScrollbarSet.h>
 #include <JOutPipeStream.h>
 #include <JStringIterator.h>
 #include <jTextUtil.h>
@@ -46,7 +47,7 @@ CBExecOutputDocument::CBExecOutputDocument
 	const JBoolean			allowStop
 	)
 	:
-	CBTextDocument(fileType, helpSectionName, kJFalse),
+	CBTextDocument(fileType, helpSectionName, kJFalse, ConstructTextEditor),
 	itsFocusToCmdFlag(focusToCmd)
 {
 	itsProcess            = nullptr;
@@ -147,6 +148,28 @@ CBExecOutputDocument::CBExecOutputDocument
 	JXGetDocumentManager()->DocumentMustStayOpen(this, kJTrue);
 
 	window->SetWMClass(CBGetWMClassInstance(), CBGetExecOutputWindowClass());
+}
+
+// static private
+
+CBTextEditor*
+CBExecOutputDocument::ConstructTextEditor
+	(
+	CBTextDocument*		document,
+	const JString&		fileName,
+	JXMenuBar*			menuBar,
+	CBTELineIndexInput*	lineInput,
+	CBTEColIndexInput*	colInput,
+	JXScrollbarSet*		scrollbarSet
+	)
+{
+	CBTextEditor* te =
+		jnew CBTextEditor(document, fileName, menuBar, lineInput, colInput, kJTrue,
+						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
+	assert( te != nullptr );
+
+	return te;
 }
 
 /******************************************************************************
@@ -534,6 +557,7 @@ CBExecOutputDocument::AppendText
 {
 	CBTextEditor* te = GetTextEditor();
 	JPasteUNIXTerminalOutput(text, te->GetText()->GetBeyondEnd(), te->GetText());
+	te->SetCaretLocation(te->GetText()->GetBeyondEnd().charIndex);
 	te->Paste(kNewLine);
 }
 

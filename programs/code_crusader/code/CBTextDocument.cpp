@@ -360,9 +360,9 @@ CBTextDocument::ConstructTextEditor
 	)
 {
 	CBTextEditor* te =
-		jnew CBTextEditor(document, fileName, menuBar, lineInput, colInput,
-						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
+		jnew CBTextEditor(document, fileName, menuBar, lineInput, colInput, kJFalse,
+						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( te != nullptr );
 
 	return te;

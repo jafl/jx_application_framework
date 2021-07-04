@@ -202,6 +202,19 @@ static const JUtf8Byte* makeIgnoreErrorStr = "(ignored)";
 static const JUtf8Byte* gccMultilinePrefix = "   ";
 const JSize kGCCMultilinePrefixLength      = strlen(gccMultilinePrefix);
 
+void
+cbSetErrorRangeFromMatchStart
+	(
+	const JStringMatch&		m,
+	JStyledText::TextRange*	r
+	)
+{
+	r->SetCount(
+		JStyledText::TextCount(
+			m.GetCharacterRange().first-1,
+			m.GetUtf8ByteRange().first-1));
+}
+
 JStyledText::TextRange
 cbComputeErrorRangeFromFirstSubmatch
 	(
@@ -310,24 +323,15 @@ CBCompileDocument::AppendText
 		}
 	else if (isGCCError)
 		{
-		boldRange.SetCount(
-			JStyledText::TextCount(
-				gccMatch.GetCharacterRange().first-1,
-				gccMatch.GetUtf8ByteRange().first-1));
+		cbSetErrorRangeFromMatchStart(gccMatch, &boldRange);
 		}
 	else if (isFlexError)
 		{
-		boldRange.SetCount(
-			JStyledText::TextCount(
-				flexMatch.GetCharacterRange().first-1,
-				flexMatch.GetUtf8ByteRange().first-1));
+		cbSetErrorRangeFromMatchStart(flexMatch, &boldRange);
 		}
 	else if (isBisonError)
 		{
-		boldRange.SetCount(
-			JStyledText::TextCount(
-				bisonMatch.GetCharacterRange().first-1,
-				bisonMatch.GetUtf8ByteRange().first-1));
+		cbSetErrorRangeFromMatchStart(bisonMatch, &boldRange);
 		}
 	else if (isMakeError)
 		{

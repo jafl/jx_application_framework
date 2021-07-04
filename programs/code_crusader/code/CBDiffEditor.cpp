@@ -36,7 +36,7 @@ CBDiffEditor::CBDiffEditor
 	const JCoordinate	h
 	)
 	:
-	CBTextEditor(document, fileName, menuBar, lineInput, colInput,
+	CBTextEditor(document, fileName, menuBar, lineInput, colInput, kJFalse,
 				 scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsDiffDoc = (CBDiffDocument*) document;
