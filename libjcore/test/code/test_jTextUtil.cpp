@@ -65,13 +65,13 @@ JTEST(PasteUNIXTerminalOutput)
 	JAssertFalse(f.GetStyle().bold);
 	JAssertTrue(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
-	JAssertEqual(JColorManager::GetRedColor(), f.GetStyle().color);
+	JAssertEqual(JColorManager::GetDarkRedColor(), f.GetStyle().color);
 
 	f = text.GetFont(9);
 	JAssertFalse(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
-	JAssertEqual(JColorManager::GetRedColor(), f.GetStyle().color);
+	JAssertEqual(JColorManager::GetDarkRedColor(), f.GetStyle().color);
 
 	f = text.GetFont(10);
 	JAssertFalse(f.GetStyle().bold);

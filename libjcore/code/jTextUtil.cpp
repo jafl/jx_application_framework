@@ -401,7 +401,7 @@ JPasteUNIXTerminalOutput
 					f.SetColor(JColorManager::GetGrayColor(50));
 					break;
 				case 31:
-					f.SetColor(JColorManager::GetRedColor());
+					f.SetColor(JColorManager::GetDarkRedColor());
 					break;
 				case 32:
 					f.SetColor(JColorManager::GetDarkGreenColor());	// green-on-white is impossible to read
