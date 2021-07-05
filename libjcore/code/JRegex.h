@@ -110,8 +110,6 @@ private:
 
 	void CopyPatternRegex(const JRegex& source);
 
-	JStringMatch	MatchLastWithin(const JString& str, const JUtf8ByteRange& range) const;
-
 	void SetCompileOption(const int option, const JBoolean setClear);
 	void SetExecuteOption(const int option, const JBoolean setClear);
 	void RawSetOption(int* flags, const int option, const JBoolean setClear);

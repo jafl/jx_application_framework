@@ -597,7 +597,6 @@ JStringIterator::Prev
 
 		itsLastMatch = jnew JStringMatch(m);
 		assert( itsLastMatch != nullptr );
-		itsLastMatch->SetFirstCharacterIndex(itsCharacterOffset + 1);
 
 		return kJTrue;
 		}

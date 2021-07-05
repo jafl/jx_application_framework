@@ -49,7 +49,8 @@ protected:
 
 	// for JRegex
 
-	const JStringMatch& operator=(const JStringMatch& source);
+	JStringMatch(const JString& target, JStringMatch& dyingSource);
+	const JStringMatch&	operator=(const JStringMatch& source);
 
 private:
 

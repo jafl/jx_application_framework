@@ -49,6 +49,21 @@ JStringMatch::JStringMatch
 {
 }
 
+JStringMatch::JStringMatch
+	(
+	const JString&	target,
+	JStringMatch&	dyingSource
+	)
+	:
+	itsTarget(target),
+	itsByteRange(dyingSource.itsByteRange),
+	itsCharacterRange(dyingSource.itsCharacterRange),
+	itsRegex(dyingSource.itsRegex),
+	itsSubmatchList(dyingSource.itsSubmatchList)
+{
+	dyingSource.itsSubmatchList = nullptr;
+}
+
 /******************************************************************************
  Copy constructor
 

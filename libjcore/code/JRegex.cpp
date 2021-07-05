@@ -366,61 +366,31 @@ JRegex::MatchBackward
 	JInteger decrement     = 1000;
 	const JSize multiplier = 5;
 
-	JUtf8ByteRange searchRange;
-	JInteger from = byteIndex;
-	do
-		{
-		from = JMax(1L, from - decrement);
-		searchRange.Set(from, byteIndex);
+	const JString s(str.GetRawBytes(), byteIndex, kJFalse);
+	JStringIterator iter(s);
+	JStringMatch m(s);
 
-		const JStringMatch m = MatchLastWithin(str, searchRange);
+	JBoolean done = kJFalse;
+	while (!done)
+		{
+		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.SkipPrev(decrement);
+		done = iter.AtBeginning();
+
+		while (iter.Next(*this))
+			{
+			m = iter.GetLastMatch();
+			}
+
 		if (!m.IsEmpty())
 			{
-			return m;
+			return JStringMatch(str, m);
 			}
 
 		decrement *= multiplier;	// for next iteration
 		}
-		while (from > 1);
 
 	return JStringMatch(str, JUtf8ByteRange(), this);
-}
-
-/******************************************************************************
- MatchLastWithin (private)
-
- *****************************************************************************/
-
-JStringMatch
-JRegex::MatchLastWithin
-	(
-	const JString&			str,
-	const JUtf8ByteRange&	range
-	)
-	const
-{
-	JUtf8ByteRange searchRegion = range;
-
-	JStringMatch result(str, JUtf8ByteRange());
-	while (1)
-		{
-		const JStringMatch m = Match(str, searchRegion.first-1, range.GetCount(), kJTrue);
-		if (m.GetUtf8ByteRange().IsNothing())
-			{
-			break;
-			}
-		else if (m.IsEmpty()) // Avoid infinite loop if get a null match!
-			{
-			searchRegion.first = m.GetUtf8ByteRange().first + 1;
-			}
-		else
-			{
-			result             = m;
-			searchRegion.first = m.GetUtf8ByteRange().last + 1;
-			}
-		}
-
-	return result;
 }
 
 /******************************************************************************
@@ -651,13 +621,12 @@ JRegex::Match
 		jdelete [] pmatch;
 		return JStringMatch(str, m0, this, list);
 		}
-	else if (nmatch == PCRE_ERROR_BADUTF8 && JUtf8Character::IgnoreBadUtf8())
+	else if (JUtf8Character::IgnoreBadUtf8() &&
+			 (nmatch == PCRE_ERROR_BADUTF8 || nmatch == PCRE_ERROR_BADUTF8_OFFSET))
 		{
 		// ignore because it's expected
 		}
-	else if (nmatch != PCRE_ERROR_NOMATCH &&
-			 nmatch != PCRE_ERROR_RECURSIONLIMIT &&
-			 nmatch != PCRE_ERROR_BADOFFSET)
+	else if (nmatch != PCRE_ERROR_NOMATCH)
 		{
 		std::cerr << "unexpected error from PCRE: " << nmatch << std::endl;
 		}
