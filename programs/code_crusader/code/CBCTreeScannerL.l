@@ -1,7 +1,7 @@
 %{
 /*
-Copyright (C) 1998 by Dustin Laurence.
-Copyright (C) 2021 by John Lindal.
+Copyright © 1998 by Dustin Laurence.
+Copyright © 2021 by John Lindal.
 
 This scanner reads a C/C++ file and creates CBClass instances.
 */

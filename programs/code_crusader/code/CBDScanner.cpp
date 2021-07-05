@@ -5,8 +5,8 @@
 
 	BASE CLASS = public CBDFlexLexer
 
-	Copyright (C) 1997 by Dustin Laurence.
-	Copyright (C) 2021 by John Lindal.
+	Copyright © 1997 by Dustin Laurence.
+	Copyright © 2021 by John Lindal.
 
  *****************************************************************************/
 

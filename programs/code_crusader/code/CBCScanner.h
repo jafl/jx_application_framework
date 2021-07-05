@@ -4,8 +4,8 @@
 /******************************************************************************
  CBCScanner.h
 
-	Copyright (C) 1997 by Dustin Laurence.
-	Copyright (C) 1998 by John Lindal.
+	Copyright © 1997 by Dustin Laurence.
+	Copyright © 1998 by John Lindal.
 
  *****************************************************************************/
 

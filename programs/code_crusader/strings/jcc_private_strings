@@ -1,9 +1,9 @@
 1
 
-# Copyright (C) 2000-14 by John Lindal.
+# Copyright © 2000-14 by John Lindal.
 
 COPYRIGHT
-"Copyright (C) 1996-2018 John Lindal.
+"Copyright © 1996-2018 John Lindal.
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
@@ -154,7 +154,7 @@ WaitCloseMsg::CBExecOutputDocument
 # CBSearchDocument
 
 SearchTitle::CBSearchDocument		"Search: $s"
-ReplaceTitle::CBSearchDocument		"Replace: $s --> $r"
+ReplaceTitle::CBSearchDocument		"Replace: $s → $r"
 MatchMenuTitle::CBSearchDocument	"Matches"
 
 NoCloseWhileSearching::CBSearchDocument

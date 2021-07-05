@@ -3,7 +3,7 @@
 
 	Interface for the CBClass Class
 
-	Copyright (C) 1995-97 John Lindal.
+	Copyright © 1995-97 John Lindal.
 
  ******************************************************************************/
 

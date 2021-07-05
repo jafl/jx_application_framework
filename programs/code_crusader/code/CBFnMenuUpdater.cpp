@@ -6,7 +6,7 @@
 
 	BASE CLASS = JPrefObject, CBCtagsUser
 
-	Copyright (C) 1999-2001 by John Lindal.
+	Copyright © 1999-2001 by John Lindal.
 
  ******************************************************************************/
 

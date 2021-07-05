@@ -6,7 +6,7 @@
 
 	BASE CLASS = CBStylerBase, CBRubyScanner
 
-	Copyright (C) 2003 by John Lindal.
+	Copyright © 2003 by John Lindal.
 
  ******************************************************************************/
 

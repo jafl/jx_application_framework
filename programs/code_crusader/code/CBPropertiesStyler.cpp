@@ -6,7 +6,7 @@
 
 	BASE CLASS = CBStylerBase, CBPropertiesScanner
 
-	Copyright (C) 2015 by John Lindal.
+	Copyright © 2015 by John Lindal.
 
  ******************************************************************************/
 

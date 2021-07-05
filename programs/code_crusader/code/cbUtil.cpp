@@ -3,7 +3,7 @@
 
 	Functions used by Code Crusader.
 
-	Copyright (C) 2006 John Lindal.
+	Copyright © 2006 John Lindal.
 
  ******************************************************************************/
 

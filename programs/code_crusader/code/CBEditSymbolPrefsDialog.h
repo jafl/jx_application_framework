@@ -3,7 +3,7 @@
 
 	Interface for the CBEditSymbolPrefsDialog class
 
-	Copyright (C) 2000 by John Lindal.
+	Copyright © 2000 by John Lindal.
 
  ******************************************************************************/
 

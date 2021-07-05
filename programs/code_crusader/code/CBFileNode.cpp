@@ -3,7 +3,7 @@
 
 	BASE CLASS = CBFileNodeBase
 
-	Copyright (C) 1999 John Lindal.
+	Copyright © 1999 John Lindal.
 
  ******************************************************************************/
 

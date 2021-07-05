@@ -13,7 +13,7 @@
 
 	BASE CLASS = JXTEBase
 
-	Copyright (C) 1996-2001 by John Lindal.
+	Copyright © 1996-2001 by John Lindal.
 
  ******************************************************************************/
 

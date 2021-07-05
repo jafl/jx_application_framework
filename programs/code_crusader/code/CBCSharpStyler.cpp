@@ -6,7 +6,7 @@
 
 	BASE CLASS = CBStylerBase, CBCSharpScanner
 
-	Copyright (C) 2004 by John Lindal.
+	Copyright © 2004 by John Lindal.
 
  ******************************************************************************/
 

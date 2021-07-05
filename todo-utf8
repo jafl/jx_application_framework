@@ -1,13 +1,26 @@
 medic - confused when using gdb
 	no stack, threads, locals, etc.
 
+	when program runs, clear "current line" marker for src and asm
+
 jcc
+	losing newlines when run tests in libjcore
+
+	in a source file, select 2 tabs and press delete
+		JStringMatch		operator=(JStringMatch&& source);
+
+	only parsing header files with ctags?
+
 	shell doc doesn't work at all
 
 	CBCharActionManager: switch to JStringPtrMap
 
-	search backward from end of CBTextEditor::OpenSelection for "iter"
-		jumps way back in file
+	CalcFileType when using a prefix regex
+		programs/code_crusader/test-manual/csh/install
+
+	Editor Prefs
+		Emulator drop-down should be radio buttons
+		Fonts should have monospace, not Arial
 
 	HTML styler
 		unit test for CDATA - can contain php or jsp
@@ -18,8 +31,9 @@ jcc
 		gets path from "Entering directory"
 	test CBMacroManager: Perform & HighlightErrors completely rewritten
 	test open flex, bison, maven error
-	c++: preprocessor
-	test CalcFileType when using a prefix regex
+
+	unit test
+		c++ preprocessor
 
 	styling
 		A|::B - then type <T> at the caret
@@ -35,7 +49,9 @@ testjx crash - itsLineStarts was already broken
 
 
 u-ctags:
-	doesn't find definition of JPasteUNIXTerminalOutput
+	symbol tables doesn't include
+		definition of JPasteUNIXTerminalOutput
+		CBTextEditor
 
 	test:  make, yacc, html
 	fix:  javascript, php

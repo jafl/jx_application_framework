@@ -6,7 +6,7 @@
 
 	BASE CLASS = JXUrgentTask, virtual JBroadcaster
 
-	Copyright (C) 2007 by John Lindal.
+	Copyright © 2007 by John Lindal.
 
  ******************************************************************************/
 

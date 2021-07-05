@@ -3,7 +3,7 @@
 
 	Interface for the CBViewManPageDialog class
 
-	Copyright (C) 1996-98 by John Lindal.
+	Copyright © 1996-98 by John Lindal.
 
  ******************************************************************************/
 

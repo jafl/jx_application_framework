@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXIdleTask
 
-	Copyright (C) 2007 by John Lindal.
+	Copyright © 2007 by John Lindal.
 
  ******************************************************************************/
 

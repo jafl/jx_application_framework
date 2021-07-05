@@ -5,7 +5,7 @@
 
 	BASE CLASS = JPrefObject, virtual JBroadcaster
 
-	Copyright (C) 2001-18 by John Lindal.
+	Copyright © 2001-18 by John Lindal.
 
  ******************************************************************************/
 

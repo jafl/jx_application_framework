@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXChooseFileDialog
 
-	Copyright (C) 1998 by John Lindal.
+	Copyright © 1998 by John Lindal.
 
  ******************************************************************************/
 

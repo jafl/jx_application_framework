@@ -5,7 +5,7 @@
 
 	BASE CLASS = public CBPropertiesFlexLexer
 
-	Copyright (C) 2015 by John Lindal.
+	Copyright © 2015 by John Lindal.
 
  *****************************************************************************/
 

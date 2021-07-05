@@ -3,7 +3,7 @@
 
 	Interface for the CBAboutDialog class
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright © 1996 by John Lindal.
 
  ******************************************************************************/
 

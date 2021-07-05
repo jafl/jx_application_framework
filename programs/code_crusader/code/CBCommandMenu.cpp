@@ -7,7 +7,7 @@
 
 	BASE CLASS = JXTextMenu
 
-	Copyright (C) 2001-02 by John Lindal.
+	Copyright © 2001-02 by John Lindal.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Functions used by both Code Crusader and Code Medic.
 
-	Copyright (C) 1999 John Lindal.
+	Copyright © 1999 John Lindal.
 
  ******************************************************************************/
 

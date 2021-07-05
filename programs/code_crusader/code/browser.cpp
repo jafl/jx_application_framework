@@ -3,7 +3,7 @@
 
 	Main program for Code Crusader.
 
-	Copyright (C) 1996-2000 by John Lindal.
+	Copyright © 1996-2000 by John Lindal.
 
  ******************************************************************************/
 

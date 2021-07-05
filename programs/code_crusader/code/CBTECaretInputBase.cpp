@@ -13,7 +13,7 @@
 
 	BASE CLASS = JXIntegerInput
 
-	Copyright (C) 1999-2017 by John Lindal.
+	Copyright © 1999-2017 by John Lindal.
 
  ******************************************************************************/
 

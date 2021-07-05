@@ -3,7 +3,7 @@
 
 	Interface for the CBEditFileTypesDialog class
 
-	Copyright (C) 1998 by John Lindal.
+	Copyright © 1998 by John Lindal.
 
  ******************************************************************************/
 

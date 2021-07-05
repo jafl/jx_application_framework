@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXPrefsManager
 
-	Copyright (C) 1997-2001 John Lindal.
+	Copyright © 1997-2001 John Lindal.
 
  ******************************************************************************/
 

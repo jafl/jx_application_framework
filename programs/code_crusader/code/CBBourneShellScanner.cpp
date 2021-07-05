@@ -5,7 +5,7 @@
 
 	BASE CLASS = public CBBourneShellFlexLexer
 
-	Copyright (C) 2001 by John Lindal.
+	Copyright © 2001 by John Lindal.
 
  *****************************************************************************/
 

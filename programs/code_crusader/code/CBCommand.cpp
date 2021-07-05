@@ -9,7 +9,7 @@
 
 	BASE CLASS = virtual JBroadcaster
 
-	Copyright (C) 2002-2018 by John Lindal.
+	Copyright © 2002-2018 by John Lindal.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Interface for the CBCTree Class
 
-	Copyright (C) 1995-99 John Lindal.
+	Copyright © 1995-99 John Lindal.
 
  ******************************************************************************/
 

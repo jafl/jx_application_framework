@@ -3,7 +3,7 @@
 
 	BASE CLASS = CBTextEditor
 
-	Copyright (C) 2009 by John Lindal.
+	Copyright © 2009 by John Lindal.
 
  ******************************************************************************/
 

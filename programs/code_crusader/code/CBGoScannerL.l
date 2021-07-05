@@ -1,6 +1,6 @@
 %{
 /*
-Copyright (C) 2021 by John Lindal.
+Copyright © 2021 by John Lindal.
 
 This scanner reads a Go file and returns CBGoScanner::Tokens.
 

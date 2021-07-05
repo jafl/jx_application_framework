@@ -5,7 +5,7 @@
 
 	BASE CLASS = public CBJavaScriptFlexLexer
 
-	Copyright (C) 2006 by John Lindal.
+	Copyright © 2006 by John Lindal.
 
  *****************************************************************************/
 

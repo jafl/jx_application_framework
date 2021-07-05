@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXPSPrinter, JPrefObject
 
-	Copyright (C) 1999 by John Lindal.
+	Copyright © 1999 by John Lindal.
 
  ******************************************************************************/
 

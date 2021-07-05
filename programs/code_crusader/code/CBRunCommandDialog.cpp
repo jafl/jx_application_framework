@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXDialogDirector, JPrefObject
 
-	Copyright (C) 2002 by John Lindal.
+	Copyright © 2002 by John Lindal.
 
  ******************************************************************************/
 

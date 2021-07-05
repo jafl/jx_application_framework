@@ -18,7 +18,7 @@
 
 	BASE CLASS = JContainer
 
-	Copyright (C) 1995-99 John Lindal.
+	Copyright © 1995-99 John Lindal.
 
  ******************************************************************************/
 

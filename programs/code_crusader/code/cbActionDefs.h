@@ -5,7 +5,7 @@
 	These preprocessor definitions allow them to be included in static
 	menu definitions.
 
-	Copyright (C) 1999 by John Lindal.
+	Copyright © 1999 by John Lindal.
 
  ******************************************************************************/
 

@@ -5,7 +5,7 @@
 
 	BASE CLASS = CBGoTreeFlexLexer
 
-	Copyright (C) 2021 John Lindal.
+	Copyright © 2021 John Lindal.
 
  ******************************************************************************/
 

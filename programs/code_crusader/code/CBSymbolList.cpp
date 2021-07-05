@@ -5,7 +5,7 @@
 
 	BASE CLASS = JContainer, CBCtagsUser
 
-	Copyright (C) 1999 by John Lindal.
+	Copyright © 1999 by John Lindal.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXDocumentManager, JPrefObject
 
-	Copyright (C) 1997-99 by John Lindal.
+	Copyright © 1997-99 by John Lindal.
 
  ******************************************************************************/
 

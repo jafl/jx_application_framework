@@ -6,7 +6,7 @@
 
 	BASE CLASS = CBStylerBase, CBINIScanner
 
-	Copyright (C) 2013 by John Lindal.
+	Copyright © 2013 by John Lindal.
 
  ******************************************************************************/
 

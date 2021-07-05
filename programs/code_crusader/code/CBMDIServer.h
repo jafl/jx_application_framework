@@ -3,7 +3,7 @@
 
 	Interface for the CBMDIServer class
 
-	Copyright (C) 1997-98 by John Lindal.
+	Copyright © 1997-98 by John Lindal.
 
  ******************************************************************************/
 

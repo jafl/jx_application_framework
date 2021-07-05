@@ -3,7 +3,7 @@
 
 	BASE CLASS = CBStringCompleter
 
-	Copyright (C) 2006 by John Lindal.
+	Copyright © 2006 by John Lindal.
 
  ******************************************************************************/
 

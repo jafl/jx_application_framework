@@ -3,7 +3,7 @@
 
 	BASE CLASS = CBKeyScriptTableBase
 
-	Copyright (C) 1998-2008 by John Lindal.
+	Copyright © 1998-2008 by John Lindal.
 
  ******************************************************************************/
 

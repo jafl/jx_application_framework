@@ -1,7 +1,7 @@
 %{
 /*
-Copyright (C) 2021 by John Lindal.
-Copyright (C) 1998 by Dustin Laurence.
+Copyright © 2021 by John Lindal.
+Copyright © 1998 by Dustin Laurence.
 
 This scanner reads a D file and returns CBDScanner::Tokens.
 */

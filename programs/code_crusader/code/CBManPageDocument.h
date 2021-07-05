@@ -3,7 +3,7 @@
 
 	Interface for the CBManPageDocument class
 
-	Copyright (C) 1997 by John Lindal.
+	Copyright © 1997 by John Lindal.
 
  ******************************************************************************/
 

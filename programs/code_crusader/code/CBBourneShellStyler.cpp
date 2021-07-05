@@ -6,7 +6,7 @@
 
 	BASE CLASS = CBStylerBase, CBBourneShellScanner
 
-	Copyright (C) 2001 by John Lindal.
+	Copyright © 2001 by John Lindal.
 
  ******************************************************************************/
 

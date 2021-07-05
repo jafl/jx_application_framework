@@ -5,7 +5,7 @@
 
 	BASE CLASS = JXVIKeyHandler
 
-	Copyright (C) 2010 by John Lindal.
+	Copyright © 2010 by John Lindal.
 
  ******************************************************************************/
 

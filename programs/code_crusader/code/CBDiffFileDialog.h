@@ -3,7 +3,7 @@
 
 	Interface for the CBDiffFileDialog class
 
-	Copyright (C) 1999 by John Lindal.
+	Copyright © 1999 by John Lindal.
 
  ******************************************************************************/
 

@@ -5,7 +5,7 @@
 
 	BASE CLASS = public CBSQLFlexLexer
 
-	Copyright (C) 2017 by John Lindal.
+	Copyright © 2017 by John Lindal.
 
  *****************************************************************************/
 

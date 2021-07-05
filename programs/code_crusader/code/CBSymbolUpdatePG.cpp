@@ -3,7 +3,7 @@
 
 	Encapsulates the link back to the parent process which displays the progress.
 
-	Copyright (C) 2007 by John Lindal.
+	Copyright © 2007 by John Lindal.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXMDIServer, JPrefObject
 
-	Copyright (C) 1997-98 by John Lindal.
+	Copyright © 1997-98 by John Lindal.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	BASE CLASS = CBTreeDirector
 
-	Copyright (C) 2014 by John Lindal.
+	Copyright © 2014 by John Lindal.
 
  ******************************************************************************/
 
