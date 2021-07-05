@@ -4012,10 +4012,8 @@ JTextEditor::RecalcRange
 
 			const JSignedOffset charDelta = textLength.charCount - itsPrevTextEnd.charCount,
 								byteDelta = textLength.byteCount - itsPrevTextEnd.byteCount;
-			if (charDelta != 0)
+			if (charDelta != 0 || byteDelta != 0)
 				{
-				assert( JSign(byteDelta) == JSign(charDelta) && labs(byteDelta) >= labs(charDelta) );
-
 				TextIndex* lineStart  = const_cast<TextIndex*>(itsLineStarts->GetCArray());
 				const JSize lineCount = GetLineCount();
 				for (JIndex i=lineIndex; i<lineCount; i++)
