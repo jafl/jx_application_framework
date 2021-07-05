@@ -9,14 +9,9 @@ jcc
 	in a source file, select 2 tabs and press delete
 		JStringMatch		operator=(JStringMatch&& source);
 
-	only parsing header files with ctags?
-
 	shell doc doesn't work at all
 
 	CBCharActionManager: switch to JStringPtrMap
-
-	CalcFileType when using a prefix regex
-		programs/code_crusader/test-manual/csh/install
 
 	Editor Prefs
 		Emulator drop-down should be radio buttons
@@ -49,10 +44,6 @@ testjx crash - itsLineStarts was already broken
 
 
 u-ctags:
-	symbol tables doesn't include
-		definition of JPasteUNIXTerminalOutput
-		CBTextEditor
-
 	test:  make, yacc, html
 	fix:  javascript, php
 		aws-lambda-common: Transaction.js

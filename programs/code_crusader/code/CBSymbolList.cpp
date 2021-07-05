@@ -826,9 +826,7 @@ CBSymbolList::ParseFile
 	CBLanguage lang;
 	if (ProcessFile(fileName, fileType, &data, &lang))
 		{
-		std::istringstream input;
-		input.rdbuf()->pubsetbuf(const_cast<char*>(data.GetBytes()) , data.GetByteCount());
-
+		icharbufstream input(data.GetBytes(), data.GetByteCount());
 		ReadSymbolList(input, lang, fileName, id);
 		itsChangedDuringParseFlag = kJTrue;
 		}
