@@ -3037,10 +3037,10 @@ CBPrefsManager::GetLiteralPrefixRange
 
 	JStringIterator iter(regexStr, kJIteratorStartAfter, 1);
 	JUtf8Character c;
-	while (iter.Next(&c) && c != '\0' && c != '\\' &&
+	while (iter.Next(&c, kJFalse) && c != '\0' && c != '\\' &&
 		   !JRegex::NeedsBackslashToBeLiteral(c))
 		{
-		// keep going
+		iter.SkipNext();
 		}
 
 	if (c == '?' && iter.GetPrevCharacterIndex() > 2)
