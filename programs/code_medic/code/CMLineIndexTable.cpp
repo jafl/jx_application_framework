@@ -728,6 +728,11 @@ CMLineIndexTable::Receive
 		ScrollTo(0, info->GetValue());
 		}
 
+	else if (sender == itsLink && message.Is(CMLink::kProgramRunning))
+		{
+		itsCurrentLineIndex = 0;
+		Refresh();
+		}
 	else if (sender == itsLink->GetBreakpointManager() &&
 			 message.Is(CMBreakpointManager::kBreakpointsChanged))
 		{
