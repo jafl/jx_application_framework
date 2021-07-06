@@ -78,6 +78,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 
 	UseUNIXProtocol();
 
+	itsWantsBlankMessagesFlag = kJFalse;
 	itsSentDisconnectFlag     = kJFalse;
 	itsReceivedDisconnectFlag = kJFalse;
 	itsInHandleInputFlag      = kJFalse;
@@ -222,6 +223,29 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SetBufferSize
 	jdelete [] itsRecvBuffer;
 	itsRecvBuffer = jnew JUtf8Byte [ itsRecvBufferSize ];
 	assert( itsRecvBuffer != nullptr );
+}
+
+/******************************************************************************
+ Wants blank messages
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JMessageProtocol<ACE_PEER_STREAM_2>::WantsBlankMessages()
+	const
+{
+	return itsWantsBlankMessagesFlag;
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::SetWantsBlankMessages
+	(
+	const JBoolean wantsBlanks
+	)
+{
+	itsWantsBlankMessagesFlag = wantsBlanks;
 }
 
 /******************************************************************************
@@ -461,7 +485,8 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 			Broadcast(JMessageProtocolT::ReceivedDisconnect());
 			return 0;	// we might be deleted and itsInHandleInputFlag is now irrelevant
 			}
-		else if (!s->IsEmpty() && !BytesEqual(*s, itsSeparatorStr))
+		else if (!BytesEqual(*s, itsSeparatorStr) &&
+				 (!s->IsEmpty() || itsWantsBlankMessagesFlag))
 			{
 			JString* msg = jnew JString(*s);
 			assert( msg != nullptr );

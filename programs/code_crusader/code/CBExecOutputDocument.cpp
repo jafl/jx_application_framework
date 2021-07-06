@@ -326,6 +326,7 @@ CBExecOutputDocument::SetConnection
 		{
 		itsRecordLink = new RecordLink(inFD);
 		assert( itsRecordLink != nullptr );
+		itsRecordLink->SetWantsBlankMessages();
 		ListenTo(itsRecordLink);
 		}
 	else

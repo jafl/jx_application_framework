@@ -367,7 +367,11 @@ CBSearchDocument::AppendText
 	const JString& text
 	)
 {
-	if (text.GetFirstCharacter() == CBSearchTE::kIncrementProgress)
+	if (text.IsEmpty())
+		{
+		return;
+		}
+	else if (text.GetFirstCharacter() == CBSearchTE::kIncrementProgress)
 		{
 		itsIndicator->IncrementValue();
 		return;

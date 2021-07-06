@@ -109,6 +109,9 @@ public:
 	void	SendMessage(const JString& message);
 	void	SendData(const JString& data);
 
+	JBoolean	WantsBlankMessages() const;
+	void		SetWantsBlankMessages(const JBoolean wantsBlanks = kJTrue);
+
 	// how much is read from the connection at one time
 
 	JSize	GetBufferSize() const;
@@ -134,6 +137,7 @@ private:
 	JString		itsDisconnectStr;			// can be empty; sent to terminate connection
 	JRegex		itsTokenPattern;			// separator or disconnect
 
+	JBoolean	itsWantsBlankMessagesFlag;
 	JBoolean	itsSentDisconnectFlag;		// kJTrue => we are finished
 	JBoolean	itsReceivedDisconnectFlag;	// kJTrue => other end is finished
 	JBoolean	itsInHandleInputFlag;		// kJTrue => stack passes through handle_input()

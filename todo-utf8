@@ -1,10 +1,9 @@
 medic - confused when using gdb
 	no stack, threads, locals, etc.
 
-	when program runs, clear "current line" marker for src and asm
-
 jcc
-	losing newlines when run tests in libjcore
+	medic.jcc
+		CMLink::k then tab doesn't show all possibilities
 
 	in a source file, select 2 tabs and press delete
 		JStringMatch		operator=(JStringMatch&& source);
