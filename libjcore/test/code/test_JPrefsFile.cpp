@@ -24,7 +24,15 @@ int main()
 
 JTEST(NewFile)
 {
-	JAssertFalse(JNameUsed(JString("~/." + kTestFileName + ".pref", kJFalse)));
+	const JString s1 = "~/." + kTestFileName + ".pref";
+	JString s2;
+	JAssertTrue(JExpandHomeDirShortcut(s1, &s2));
+
+	if (JNameUsed(s2))
+		{
+		JAssertOK(JRemoveFile(s2));
+		}
+	JAssertFalse(JNameUsed(s2));
 
 	JPrefsFile* prefsFile;
 	JAssertOK(JPrefsFile::Create(kTestFileName, &prefsFile));

@@ -34,7 +34,6 @@
 #include <stdlib.h>
 #include <sstream>
 #include <iomanip>
-#include <unicode/ucol.h>
 #include "jErrno.h"
 #include "jAssert.h"
 
@@ -1090,16 +1089,12 @@ JString::SearchForward
 		return kJFalse;
 		}
 
-	if (!caseSensitive)
-		{
-		ucol_setStrength(coll, UCOL_PRIMARY);
-		}
+	PrepareCollator(coll, caseSensitive);
 
 	for (JIndex i=*byteIndex; i<=itsByteCount; )
 		{
-		const JUtf8Byte* s       = itsBytes + i-1;
-		const UCollationResult r = ucol_strcollUTF8(coll, s, byteCount, str, byteCount, &err);
-		if (r == 0)
+		const JUtf8Byte* s = itsBytes + i-1;
+		if (Compare(coll, s, byteCount, str, byteCount, caseSensitive) == 0)
 			{
 			*byteIndex = i;
 			ucol_close(coll);
@@ -1163,16 +1158,12 @@ JString::SearchBackward
 		return kJFalse;
 		}
 
-	if (!caseSensitive)
-		{
-		ucol_setStrength(coll, UCOL_PRIMARY);
-		}
+	PrepareCollator(coll, caseSensitive);
 
 	for (JIndex i=*byteIndex; i>=1; )
 		{
-		const JUtf8Byte* s       = itsBytes + i-1;
-		const UCollationResult r = ucol_strcollUTF8(coll, s, byteCount, str, byteCount, &err);
-		if (r == 0)
+		const JUtf8Byte* s = itsBytes + i-1;
+		if (Compare(coll, s, byteCount, str, byteCount, caseSensitive) == 0)
 			{
 			*byteIndex = i;
 			ucol_close(coll);
@@ -1905,15 +1896,95 @@ JString::Compare
 		return 0;
 		}
 
-	if (!caseSensitive)
-		{
-		ucol_setStrength(coll, UCOL_PRIMARY);
-		}
-
-	UCollationResult r = ucol_strcollUTF8(coll, s1, length1, s2, length2, &err);
+	PrepareCollator(coll, caseSensitive);
+	const UCollationResult r = Compare(coll, s1, length1, s2, length2, caseSensitive);
 	ucol_close(coll);
 
 	return (int) r;
+}
+
+/******************************************************************************
+ PrepareCollator (static private)
+
+	Mixed-case strings are always compared case-insensitive by ucol_strcollUTF8.
+
+ ******************************************************************************/
+
+void
+JString::PrepareCollator
+	(
+	UCollator*		coll,
+	const JBoolean	caseSensitive
+	)
+{
+	if (caseSensitive)
+		{
+		UErrorCode err = U_ZERO_ERROR;
+		ucol_setAttribute(coll, UCOL_CASE_FIRST, UCOL_UPPER_FIRST, &err);
+		}
+	else
+		{
+		ucol_setStrength(coll, UCOL_PRIMARY);
+		}
+}
+
+/******************************************************************************
+ Compare (static private)
+
+	Work-around for issue that mixed-case strings are always compared
+	case-insensitive by ucol_strcollUTF8.
+
+ ******************************************************************************/
+
+UCollationResult
+JString::Compare
+	(
+	UCollator*			coll,
+	const JUtf8Byte*	s1,
+	const JSize			length1,
+	const JUtf8Byte*	s2,
+	const JSize			length2,
+	const JBoolean		caseSensitive
+	)
+{
+	UErrorCode err  = U_ZERO_ERROR;
+	if (!caseSensitive)
+		{
+		return ucol_strcollUTF8(coll, s1, length1, s2, length2, &err);
+		}
+
+	UCollationResult r = UCOL_EQUAL;
+
+	JIndex i1 = 0, i2 = 0;
+	while (i1 < length1 && i2 < length2)
+		{
+		JSize n1, n2;
+		if (!JUtf8Character::GetCharacterByteCount(s1+i1, &n1) ||
+			!JUtf8Character::GetCharacterByteCount(s2+i2, &n2))
+			{
+			break;
+			}
+
+		r = ucol_strcollUTF8(coll, s1+i1, n1, s2+i2, n2, &err);
+		if (r != 0)
+			{
+			break;
+			}
+
+		i1 += n1;
+		i2 += n2;
+		}
+
+	if (r == 0 && i1 < length1 && i2 == length2)
+		{
+		r = UCOL_GREATER;
+		}
+	else if (r == 0 && i1 == length1 && i2 < length2)
+		{
+		r = UCOL_LESS;
+		}
+
+	return r;
 }
 
 /******************************************************************************
@@ -1932,18 +2003,6 @@ JString::CompareMaxNBytes
 	const JBoolean		caseSensitive
 	)
 {
-	UErrorCode err  = U_ZERO_ERROR;
-	UCollator* coll = ucol_open(nullptr, &err);
-	if (coll == nullptr)
-		{
-		return 0;
-		}
-
-	if (!caseSensitive)
-		{
-		ucol_setStrength(coll, UCOL_PRIMARY);
-		}
-
 	JSize M = N;
 	for (JUnsignedOffset i=0; i<N; i++)
 		{
@@ -1954,10 +2013,7 @@ JString::CompareMaxNBytes
 			}
 		}
 
-	const UCollationResult r = ucol_strcollUTF8(coll, s1, M, s2, M, &err);
-	ucol_close(coll);
-
-	return (int) r;
+	return JString::Compare(s1, M, s2, M, caseSensitive);
 }
 
 /******************************************************************************

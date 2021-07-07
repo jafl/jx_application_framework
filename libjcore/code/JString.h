@@ -16,6 +16,7 @@
 #include "JPtrArray.h"	// for Split()
 #include <string.h>
 #include <unicode/ucasemap.h>
+#include <unicode/ucol.h>
 
 class JStringIterator;
 class JRegex;
@@ -306,6 +307,12 @@ private:
 
 	static JBoolean	CompleteConversion(const JUtf8Byte* startPtr, const JSize byteCount,
 									   const JUtf8Byte* convEndPtr);
+
+	static void PrepareCollator(UCollator* coll, const JBoolean caseSensitive);
+	static UCollationResult Compare(UCollator* coll,
+									const JUtf8Byte* s1, const JSize length1,
+									const JUtf8Byte* s2, const JSize length2,
+									const JBoolean caseSensitive);
 };
 
 

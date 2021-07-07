@@ -575,9 +575,12 @@ JTEST(Search)
 	JAssertTrue(s.TestSearchBackward("\xC3\xA9\xC3\xAD\xC3\xA7", 6, kJFalse, &byteIndex));
 */
 	s.Set("\xC3\xB6\xE2\x9C\x94");
-	JAssertTrue(s.BeginsWith("\x6F\xCC\x88\xE2\x9C\x94"));
-	JAssertTrue(s.Contains("\x6F\xCC\x88\xE2\x9C\x94"));
-	JAssertTrue(s.EndsWith("\x6F\xCC\x88\xE2\x9C\x94"));
+	JAssertTrue(s.BeginsWith(JString("\x6F\xCC\x88\xE2\x9C\x94")));
+	JAssertTrue(s.Contains(JString("\x6F\xCC\x88\xE2\x9C\x94")));
+	JAssertTrue(s.EndsWith(JString("\x6F\xCC\x88\xE2\x9C\x94")));
+	JAssertTrue(s.BeginsWith("\x6F\xCC\x88\xE2\x9C\x94", kJFalse));
+	JAssertTrue(s.Contains("\x6F\xCC\x88\xE2\x9C\x94", kJFalse));
+	JAssertTrue(s.EndsWith("\x6F\xCC\x88\xE2\x9C\x94", kJFalse));
 
 	byteIndex = 4;
 	JAssertTrue(s.TestSearchBackward("\x6F\xCC\x88\xE2\x9C\x94", 6, kJFalse, &byteIndex));
@@ -930,16 +933,28 @@ JTEST(Compare)
 	JAssertFalse(JString::Compare("", "1") == 0);
 	JAssertFalse(JString::Compare("1", "12") == 0);
 
+	JAssertEqual(-1, JString::Compare("Cmlinkb", "cmlinkb"));
+	JAssertEqual( 0, JString::Compare("Cmlinkb", "cmlinkb", kJFalse));
+	JAssertEqual(-1, JString::Compare("CMLINKB", "cmlinka"));
+	JAssertEqual(+1, JString::Compare("CMLINKB", "cmlinka", kJFalse));
+
+	JAssertEqual(-1, JString::Compare("CMLINK::B", "cmlink::a"));
+	JAssertEqual(+1, JString::Compare("CMLINK::B", "cmlink::a", kJFalse));
+	JAssertEqual(-1, JString::Compare("CMLink::KillProgram", "CMLink::kFrameChanged"));
+	JAssertEqual(+1, JString::Compare("CMLink::kFrameChanged", "CMLink::KillProgram"));
+	JAssertEqual(+1, JString::Compare("CMLink::KillProgram", "CMLink::kFrameChanged", kJFalse));
+	JAssertEqual(-1, JString::Compare("CMLink::kFrameChanged", "CMLink::KillProgram", kJFalse));
+
 	// h a-ring r vs haar - equivalent in Danish
 
 	JAssertFalse(JString::Compare("h" "\xC3\xA5" "r", "haar") == 0);
 
 	// both are o-umlaut
 
-	JAssertEqual(0, JString::Compare("\x6F\xCC\x88", "\xC3\xB6"));
-	JAssertEqual(0, JString::Compare("\xC3\xB6", "\x6F\xCC\x88"));
+	JAssertEqual(0, JString::Compare(JString("\x6F\xCC\x88"), "\xC3\xB6"));
+	JAssertEqual(0, JString::Compare("\x6F\xCC\x88", "\xC3\xB6", kJFalse));
 	JAssertEqual(0, JString::Compare("\x4F\xCC\x88", "\xC3\xB6", kJFalse));
-	JAssertEqual(0, JString::CompareMaxNBytes("\xC3\xB6", "\x6F\xCC\x88", 3));
+	JAssertEqual(0, JString::CompareMaxNBytes("\xC3\xB6", "\x6F\xCC\x88", 3, kJFalse));
 }
 
 JTEST(MemoryStreaming)
