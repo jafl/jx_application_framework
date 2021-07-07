@@ -265,26 +265,9 @@ CBCompileDocument::AppendText
 
 	CBTextEditor* te = GetTextEditor();
 
-	if (isGCCError &&
-		gccPrevLineMatch.GetUtf8ByteRange() == gccMatch.GetUtf8ByteRange() &&
-		JString::CompareMaxNBytes(itsPrevLine.GetBytes(), text.GetBytes(),
-								  gccMatch.GetByteCount(), kJTrue) == 0)
-		{
-		JString s = text;
-		JStringIterator iter(&s, kJIteratorStartAfterByte, gccMatch.GetUtf8ByteRange().last);
-		iter.RemoveAllPrev();
-		iter.Invalidate();
-		s.Prepend(" /");
-
-		// in front of 1 or 2 trailing newlines
-
-		te->SetCaretLocation(te->GetText()->GetText().GetCharacterCount() - (theDoubleSpaceFlag ? 1 : 0));
-		te->Paste(s);
-		return;
-		}
-	else if (!isJavacError && !isGCCError && !gccPrevLineMatch.IsEmpty() &&
-			 text.BeginsWith(gccMultilinePrefix) &&
-			 text.GetByteCount() > kGCCMultilinePrefixLength)
+	if (!isJavacError && !isGCCError && !gccPrevLineMatch.IsEmpty() &&
+		text.BeginsWith(gccMultilinePrefix) &&
+		text.GetByteCount() > kGCCMultilinePrefixLength)
 		{
 		JString s = text;
 		JStringIterator iter(&s, kJIteratorStartAfterByte, kGCCMultilinePrefixLength);
