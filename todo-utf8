@@ -2,20 +2,6 @@ medic - confused when using gdb
 	no stack, threads, locals, etc.
 
 jcc
-	medic.jcc
-		CMLink::k then tab doesn't show all possibilities
-
-	in a source file, select 2 tabs and press delete
-		JStringMatch		operator=(JStringMatch&& source);
-
-	shell doc doesn't work at all
-
-	CBCharActionManager: switch to JStringPtrMap
-
-	Editor Prefs
-		Emulator drop-down should be radio buttons
-		Fonts should have monospace, not Arial
-
 	HTML styler
 		unit test for CDATA - can contain php or jsp
 		tag, attribute value, script, char escapes
@@ -29,8 +15,21 @@ jcc
 	unit test
 		c++ preprocessor
 
+
+
+	in a source file, select 2 tabs and press delete
+		JStringMatch		operator=(JStringMatch&& source);
+
+	CBCharActionManager: switch to JStringPtrMap
+
+	Editor Prefs
+		Emulator drop-down should be radio buttons
+		Fonts should have monospace, not Arial
+
 	styling
 		A|::B - then type <T> at the caret
+
+	shell doc doesn't work at all
 
 	non-fatal build error
 		Failed to open macho file at

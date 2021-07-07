@@ -1082,14 +1082,11 @@ JString::SearchForward
 
 	// search forward for a match
 
-	UErrorCode err  = U_ZERO_ERROR;
-	UCollator* coll = ucol_open(nullptr, &err);
-	if (coll == nullptr)
+	UCollator* coll;
+	if (!CreateCollator(&coll, caseSensitive))
 		{
 		return kJFalse;
 		}
-
-	PrepareCollator(coll, caseSensitive);
 
 	for (JIndex i=*byteIndex; i<=itsByteCount; )
 		{
@@ -1151,14 +1148,11 @@ JString::SearchBackward
 
 	// search backward for a match
 
-	UErrorCode err  = U_ZERO_ERROR;
-	UCollator* coll = ucol_open(nullptr, &err);
-	if (coll == nullptr)
+	UCollator* coll;
+	if (!CreateCollator(&coll, caseSensitive))
 		{
 		return kJFalse;
 		}
-
-	PrepareCollator(coll, caseSensitive);
 
 	for (JIndex i=*byteIndex; i>=1; )
 		{
@@ -1889,43 +1883,48 @@ JString::Compare
 	const JBoolean		caseSensitive
 	)
 {
-	UErrorCode err  = U_ZERO_ERROR;
-	UCollator* coll = ucol_open(nullptr, &err);
-	if (coll == nullptr)
+	UCollator* coll;
+	if (!CreateCollator(&coll, caseSensitive))
 		{
 		return 0;
 		}
 
-	PrepareCollator(coll, caseSensitive);
 	const UCollationResult r = Compare(coll, s1, length1, s2, length2, caseSensitive);
 	ucol_close(coll);
-
 	return (int) r;
 }
 
 /******************************************************************************
- PrepareCollator (static private)
-
-	Mixed-case strings are always compared case-insensitive by ucol_strcollUTF8.
+ CreateCollator (static private)
 
  ******************************************************************************/
 
-void
-JString::PrepareCollator
+JBoolean
+JString::CreateCollator
 	(
-	UCollator*		coll,
+	UCollator**		coll,
 	const JBoolean	caseSensitive
 	)
 {
+	UErrorCode err = U_ZERO_ERROR;
+
+	*coll = ucol_open(nullptr, &err);
+	if (*coll == nullptr)
+		{
+		return kJFalse;
+		}
+
 	if (caseSensitive)
 		{
 		UErrorCode err = U_ZERO_ERROR;
-		ucol_setAttribute(coll, UCOL_CASE_FIRST, UCOL_UPPER_FIRST, &err);
+		ucol_setAttribute(*coll, UCOL_CASE_FIRST, UCOL_UPPER_FIRST, &err);
 		}
 	else
 		{
-		ucol_setStrength(coll, UCOL_PRIMARY);
+		ucol_setStrength(*coll, UCOL_PRIMARY);
 		}
+
+	return kJTrue;
 }
 
 /******************************************************************************
