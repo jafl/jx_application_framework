@@ -70,6 +70,7 @@ CBSymbolSRDirector::CBSymbolSRDirector
 	CBSymbolSRDirectorX(mainSym, projDoc, symbolList, kJTrue);
 
 	*err = itsSymbolTable->SetNameFilter(filterStr, isRegex);
+	FitWindowToContent();
 
 	JString title = JGetString("WindowTitlePrefix::CBSymbolSRDirector");
 	title += filterStr;
@@ -90,6 +91,7 @@ CBSymbolSRDirector::CBSymbolSRDirector
 	CBSymbolSRDirectorX(mainSym, projDoc, symbolList, kJTrue);
 
 	itsSymbolTable->SetDisplayList(displayList);
+	FitWindowToContent();
 
 	JString title = JGetString("WindowTitlePrefix::CBSymbolSRDirector");;
 	title += searchStr;
@@ -190,6 +192,20 @@ CBSymbolSRDirector::BuildWindow
 	assert( itsCmdMenu != nullptr );
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
+}
+
+/******************************************************************************
+ FitWindowToContent (private)
+
+ ******************************************************************************/
+
+void
+CBSymbolSRDirector::FitWindowToContent()
+{
+	GetWindow()->AdjustSize(
+		itsSymbolTable->GetBoundsWidth() - itsSymbolTable->GetApertureWidth(),
+		JMin(itsSymbolTable->GetBoundsHeight() - itsSymbolTable->GetApertureHeight(),
+			 (JCoordinate) 300));
 }
 
 /******************************************************************************

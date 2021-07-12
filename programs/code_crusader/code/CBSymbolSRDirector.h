@@ -61,6 +61,7 @@ private:
 								CBSymbolList* symbolList,
 								const JBoolean focus);
 	void	BuildWindow(CBSymbolList* symbolList, const JBoolean focus);
+	void	FitWindowToContent();
 
 	void	UpdateActionsMenu();
 	void	HandleActionsMenu(const JIndex index);
