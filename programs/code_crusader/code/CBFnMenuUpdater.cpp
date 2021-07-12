@@ -106,20 +106,30 @@ CBFnMenuUpdater::~CBFnMenuUpdater()
 
  ******************************************************************************/
 
-CBLanguage
+void
 CBFnMenuUpdater::UpdateMenu
 	(
 	const JString&			fileName,
-	const CBTextFileType	fileType,
+	const CBTextFileType	origFileType,
 	const JBoolean			sort,
 	const JBoolean			includeNS,
 	const JBoolean			pack,
 	JXTextMenu*				menu,
-	JArray<JIndex>*			lineIndexList
+	JArray<JIndex>*			lineIndexList,
+	JArray<CBLanguage>*		lineLangList
 	)
 {
 	menu->RemoveAllItems();
+
+	JPtrArray<JString> fnNameList(JPtrArrayT::kDeleteAll);
+	fnNameList.SetCompareFunction(JCompareStringsCaseInsensitive);
+	fnNameList.SetSortOrder(JListT::kSortAscending);
+
 	lineIndexList->RemoveAll();
+	lineIndexList->SetCompareFunction(JCompareIndices);
+	lineIndexList->SetSortOrder(JListT::kSortAscending);
+
+	lineLangList->RemoveAll();
 
 	if (pack)
 		{
@@ -132,15 +142,38 @@ CBFnMenuUpdater::UpdateMenu
 		menu->CompressHeight(kJFalse);
 		}
 
+	CBTextFileType fileType = origFileType == kCBPHPFT ? kCBJavaScriptFT : origFileType;
+
 	JString data;
 	CBLanguage lang;
 	if (ProcessFile(fileName, fileType, &data, &lang))
 		{
 		icharbufstream input(data.GetRawBytes(), data.GetByteCount());
-		ReadFunctionList(input, CBGetLanguage(fileType),
-						 sort, includeNS, menu, lineIndexList);
+		ReadFunctionList(input, CBGetLanguage(fileType), sort, includeNS,
+						 &fnNameList, lineIndexList, lineLangList);
+
+		if (lang == kCBHTMLLang)
+			{
+			for (JString* s : fnNameList)
+				{
+				s->Prepend("#");
+				}
+			}
 		}
-	return lang;
+
+	if (lang == kCBHTMLLang && ProcessFile(fileName, kCBJavaScriptFT, &data, &lang))
+		{
+		icharbufstream input(data.GetRawBytes(), data.GetByteCount());
+		ReadFunctionList(input, kCBJavaScriptLang, sort, includeNS,
+						 &fnNameList, lineIndexList, lineLangList);
+		}
+
+	// build menu
+
+	for (JString* s : fnNameList)
+		{
+		menu->AppendItem(*s);
+		}
 }
 
 /******************************************************************************
@@ -148,33 +181,18 @@ CBFnMenuUpdater::UpdateMenu
 
  ******************************************************************************/
 
-inline JBoolean
-cbIsQualified
-	(
-	const JString& s
-	)
-{
-	return JI2B(s.Contains(":") || s.Contains("."));
-}
-
 void
 CBFnMenuUpdater::ReadFunctionList
 	(
-	std::istream&	input,
-	CBLanguage		lang,
-	const JBoolean	sort,
-	const JBoolean	includeNS,
-	JXTextMenu*		menu,
-	JArray<JIndex>*	lineIndexList
+	std::istream&		input,
+	const CBLanguage	lang,
+	const JBoolean		sort,
+	const JBoolean		includeNS,
+	JPtrArray<JString>*	fnNameList,
+	JArray<JIndex>*		lineIndexList,
+	JArray<CBLanguage>*	lineLangList
 	)
 {
-	JPtrArray<JString> fnNameList(JPtrArrayT::kDeleteAll);
-	fnNameList.SetCompareFunction(JCompareStringsCaseInsensitive);
-	fnNameList.SetSortOrder(JListT::kSortAscending);
-
-	lineIndexList->SetCompareFunction(JCompareIndices);
-	lineIndexList->SetSortOrder(JListT::kSortAscending);
-
 	// build symbol list
 
 	const JBoolean hasNS = CBHasNamespace(lang);
@@ -200,7 +218,7 @@ CBFnMenuUpdater::ReadFunctionList
 
 		// toss qualified or unqualified version
 
-		if (hasNS && !includeNS && cbIsQualified(fnName))
+		if (hasNS && !includeNS && CBNameIsQualified(fnName))
 			{
 			continue;
 			}
@@ -210,31 +228,35 @@ CBFnMenuUpdater::ReadFunctionList
 		JIndex i;
 		if (sort)
 			{
-			i = fnNameList.GetInsertionSortIndex(&fnName);
+			i = fnNameList->GetInsertionSortIndex(&fnName);
 			}
 		else
 			{
 			i = lineIndexList->GetInsertionSortIndex(lineIndex);
 			}
-		fnNameList.InsertAtIndex(i, fnName);
+		fnNameList->InsertAtIndex(i, fnName);
 		lineIndexList->InsertElementAtIndex(i, lineIndex);
+		lineLangList->InsertElementAtIndex(i, lang);
 		}
+
+	// filter
 
 	if (hasNS && includeNS)
 		{
-		JSize count = fnNameList.GetElementCount();
+		JSize count = fnNameList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			const JString* fnName  = fnNameList.GetElement(i);
-			const JIndex lineIndex = lineIndexList->GetElement(i);
-			if (cbIsQualified(*fnName))
+			const JString* fnName = fnNameList->GetElement(i);
+			if (CBNameIsQualified(*fnName))
 				{
+				const JIndex lineIndex = lineIndexList->GetElement(i);
 				for (JIndex j=1; j<=count; j++)
 					{
 					if (j != i && lineIndexList->GetElement(j) == lineIndex)
 						{
-						fnNameList.DeleteElement(j);
+						fnNameList->DeleteElement(j);
 						lineIndexList->RemoveElement(j);
+						lineLangList->RemoveElement(j);
 						count--;
 						if (j < i)
 							{
@@ -245,14 +267,6 @@ CBFnMenuUpdater::ReadFunctionList
 					}
 				}
 			}
-		}
-
-	// build menu
-
-	const JSize count = fnNameList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		menu->AppendItem(*(fnNameList.GetElement(i)));
 		}
 }
 

@@ -103,6 +103,23 @@ CBIsCharacterInWord
 }
 
 /******************************************************************************
+ Is character in word
+
+	Returns kJTrue if the character is a special part of a word for the
+	given language.
+
+ ******************************************************************************/
+
+JBoolean
+CBNameIsQualified
+	(
+	const JString& s
+	)
+{
+	return JI2B(s.Contains(":") || s.Contains(".") || s.Contains("\\"));
+}
+
+/******************************************************************************
  Complement file mapping
 
  ******************************************************************************/

@@ -34,7 +34,7 @@ EditDialogTitle::CBJavaStyler	"Edit Java Styles"
 # CBCtagsUser
 
 FunctionsMenuTitle::CBCtagsUser		"Functions"
-IdsMenuTitle::CBCtagsUser			"Ids"
+IdsMenuTitle::CBCtagsUser			"Ids/Functions"
 LabelsMenuTitle::CBCtagsUser		"Labels"
 ParagraphsMenuTitle::CBCtagsUser	"Paragraphs"
 SubroutinesMenuTitle::CBCtagsUser	"Subroutines"

@@ -23,10 +23,11 @@ public:
 
 	JBoolean	CanCreateMenu(const CBTextFileType type) const;
 
-	CBLanguage	UpdateMenu(const JString& fileName, const CBTextFileType fileType,
+	void		UpdateMenu(const JString& fileName, const CBTextFileType fileType,
 						   const JBoolean sort, const JBoolean includeNS,
 						   const JBoolean pack,
-						   JXTextMenu* menu, JArray<JIndex>* lineIndexList);
+						   JXTextMenu* menu, JArray<JIndex>* lineIndexList,
+						   JArray<CBLanguage>* lineLangList);
 
 	JBoolean	WillSortFnNames() const;
 	void		ShouldSortFnNames(const JBoolean sort);
@@ -50,9 +51,11 @@ private:
 
 private:
 
-	void	ReadFunctionList(std::istream& input, CBLanguage lang,
+	void	ReadFunctionList(std::istream& input, const CBLanguage lang,
 							 const JBoolean sort, const JBoolean includeNS,
-							 JXTextMenu* menu, JArray<JIndex>* lineIndexList);
+							 JPtrArray<JString>* fnNameList,
+							 JArray<JIndex>* lineIndexList,
+							 JArray<CBLanguage>* lineLangList);
 
 	// not allowed
 

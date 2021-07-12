@@ -79,12 +79,14 @@ CBFunctionMenu::CBFunctionMenuX
 {
 	itsDoc            = doc;
 	itsFileType       = kCBUnknownFT;
-	itsLang           = kCBOtherLang;
 	itsTE             = te;
 	itsCaretItemIndex = 0;
 
 	itsLineIndexList = jnew JArray<JIndex>(100);
 	assert( itsLineIndexList != nullptr );
+
+	itsLineLangList = jnew JArray<CBLanguage>(100);
+	assert( itsLineLangList != nullptr );
 
 	SetEmptyMenuItems();
 	SetUpdateAction(kDisableNone);
@@ -101,6 +103,7 @@ CBFunctionMenu::CBFunctionMenuX
 CBFunctionMenu::~CBFunctionMenu()
 {
 	jdelete itsLineIndexList;
+	jdelete itsLineLangList;
 }
 
 /******************************************************************************
@@ -228,14 +231,14 @@ CBFunctionMenu::UpdateMenu()
 
 		if (!fileName.IsEmpty())
 			{
-			itsLang = updater->UpdateMenu(fileName, itsFileType, sort, includeNS, pack,
-										  this, itsLineIndexList);
+			updater->UpdateMenu(fileName, itsFileType, sort, includeNS, pack,
+								this, itsLineIndexList, itsLineLangList);
 			}
 		else
 			{
-			itsLang = kCBOtherLang;
 			this->RemoveAllItems();
 			itsLineIndexList->RemoveAll();
+			itsLineLangList->RemoveAll();
 			}
 
 		if (IsEmpty())
@@ -276,6 +279,7 @@ CBFunctionMenu::UpdateMenu()
 
 		const JSize count = GetItemCount();
 		assert( count == itsLineIndexList->GetElementCount() );
+		assert( count == itsLineLangList->GetElementCount() );
 
 		for (JIndex i=1; i<=count; i++)
 			{
@@ -308,7 +312,7 @@ CBFunctionMenu::HandleSelection
 	JIndexRange r;
 	r.first = r.last = itsLineIndexList->GetElement(index);
 	CBMSelectLines(itsTE, r);
-	CBMScrollForDefinition(itsTE, itsLang);
+	CBMScrollForDefinition(itsTE, itsLineLangList->GetElement(index));
 }
 
 /******************************************************************************

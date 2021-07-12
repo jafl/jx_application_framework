@@ -351,6 +351,8 @@ JBoolean	CBGetCompleter(const CBLanguage lang, CBStringCompleter** completer);
 void	CBShutdownStylers();
 void	CBShutdownCompleters();
 
+JBoolean	CBNameIsQualified(const JString& s);
+
 inline JBoolean
 CBIsCaseSensitive
 	(

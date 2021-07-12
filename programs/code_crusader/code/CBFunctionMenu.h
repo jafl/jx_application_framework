@@ -40,16 +40,16 @@ protected:
 
 private:
 
-	JXFileDocument*	itsDoc;					// not owned; can be nullptr (Medic)
-	CBTextFileType	itsFileType;
-	CBLanguage		itsLang;
-	JXTEBase*		itsTE;					// not owned
-	JArray<JIndex>*	itsLineIndexList;
-	JIndex			itsCaretItemIndex;
-	JBoolean		itsNeedsUpdate;			// kJTrue if must rebuild menu
-	JBoolean		itsSortFlag;			// kJTrue if menu is currently sorted
-	JBoolean		itsIncludeNSFlag;		// kJTrue if menu is displaying namespace
-	JBoolean		itsPackFlag;			// kJTrue if menu is currently packed
+	JXFileDocument*		itsDoc;				// not owned; can be nullptr (Medic)
+	CBTextFileType		itsFileType;
+	JXTEBase*			itsTE;				// not owned
+	JArray<JIndex>*		itsLineIndexList;
+	JArray<CBLanguage>*	itsLineLangList;
+	JIndex				itsCaretItemIndex;
+	JBoolean			itsNeedsUpdate;		// kJTrue if must rebuild menu
+	JBoolean			itsSortFlag;		// kJTrue if menu is currently sorted
+	JBoolean			itsIncludeNSFlag;	// kJTrue if menu is displaying namespace
+	JBoolean			itsPackFlag;		// kJTrue if menu is currently packed
 
 	#ifdef CODE_MEDIC
 	JString itsFileName;
