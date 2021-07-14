@@ -1376,7 +1376,7 @@ CBTextEditor::FindSelectedSymbol
 
  ******************************************************************************/
 
-static const JRegex manRegex("^([^(,[:space:]]+)(?:[[:space:]]*\\(([^)]+)\\))?");
+static const JRegex manRegex("^([^(,[:space:]]+)(?:[[:space:]]*\\(([a-zA-Z0-9]+)\\))?");
 
 void
 CBTextEditor::DisplayManPage()
@@ -1425,7 +1425,7 @@ CBTextEditor::OpenSelection()
 		// extend selection to entire file name
 
 		JStyledText::TextIndex start = GetText()->GetWordStart(sel.GetLast(*GetText()));
-		JStyledText::TextIndex end   = GetText()->GetWordEnd(sel.GetFirst());
+		JStyledText::TextIndex end   = GetText()->GetWordEnd(start);
 
 		iter->UnsafeMoveTo(kJIteratorStartBefore, start.charIndex, start.byteIndex);
 		if (!iter->AtBeginning())
