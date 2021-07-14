@@ -135,7 +135,7 @@ JXStyledText::AdjustFontToDisplayGlyphs
 
 		if (f.SubstituteToDisplayGlyph(itsFontManager, c))
 			{
-			fiter.SetPrev(f);
+			fiter.SetPrev(f, kJFalse);
 			changed = kJTrue;
 			}
 		}

@@ -98,7 +98,8 @@ template <class T>
 JBoolean
 JLinkedListIterator<T>::Prev
 	(
-	T* item
+	T*				item,
+	const JBoolean	move
 	)
 {
 	if (itsLinkedList == nullptr || this->AtBeginning())
@@ -108,13 +109,16 @@ JLinkedListIterator<T>::Prev
 
 	*item = itsCurrElement->data;
 
-	const JCursorPosition cursorPos = this->GetCursor();
-	if (cursorPos > 1)
+	if (move)
 		{
-		itsCurrElement = itsCurrElement->prev;
-		}
+		const JCursorPosition cursorPos = this->GetCursor();
+		if (cursorPos > 1)
+			{
+			itsCurrElement = itsCurrElement->prev;
+			}
 
-	this->SetCursor(cursorPos-1);
+		this->SetCursor(cursorPos-1);
+		}
 	return kJTrue;
 }
 
@@ -131,7 +135,8 @@ template <class T>
 JBoolean
 JLinkedListIterator<T>::Next
 	(
-	T* item
+	T*				item,
+	const JBoolean	move
 	)
 {
 	if (itsLinkedList == nullptr || this->AtEnd())
@@ -139,14 +144,21 @@ JLinkedListIterator<T>::Next
 		return kJFalse;
 		}
 
+	JLinkedListElement<T>* e = itsCurrElement;
+
 	const JCursorPosition cursorPos = this->GetCursor();
 	if (cursorPos > 0)
 		{
-		itsCurrElement = itsCurrElement->next;
+		e = e->next;
 		}
 
-	*item = itsCurrElement->data;
-	this->SetCursor(cursorPos+1);
+	*item = e->data;
+
+	if (move)
+		{
+		itsCurrElement = e;
+		this->SetCursor(cursorPos+1);
+		}
 	return kJTrue;
 }
 
@@ -225,7 +237,8 @@ template <class T>
 JBoolean
 JLinkedListIterator<T>::SetPrev
 	(
-	const T& data
+	const T&		data,
+	const JBoolean	move
 	)
 {
 	JList<T>* obj;
@@ -234,7 +247,19 @@ JLinkedListIterator<T>::SetPrev
 		return kJFalse;
 		}
 
-	itsLinkedList->IteratorSetElement(this->GetCursor(), data, itsCurrElement);
+	const JCursorPosition cursorPos = this->GetCursor();
+
+	itsLinkedList->IteratorSetElement(cursorPos, data, itsCurrElement);
+	if (move)
+		{
+		const JCursorPosition cursorPos = this->GetCursor();
+		if (cursorPos > 1)
+			{
+			itsCurrElement = itsCurrElement->prev;
+			}
+
+		this->SetCursor(cursorPos-1);
+		}
 	return kJTrue;
 }
 
@@ -250,7 +275,8 @@ template <class T>
 JBoolean
 JLinkedListIterator<T>::SetNext
 	(
-	const T& data
+	const T&		data,
+	const JBoolean	move
 	)
 {
 	JList<T>* obj;
@@ -261,7 +287,20 @@ JLinkedListIterator<T>::SetNext
 
 	assert( itsCurrElement->next != nullptr );
 
-	itsLinkedList->IteratorSetElement(this->GetCursor()+1, data, itsCurrElement->next);
+	JLinkedListElement<T>* e = itsCurrElement;
+
+	const JCursorPosition cursorPos = this->GetCursor();
+	if (cursorPos > 0)
+		{
+		e = e->next;
+		}
+
+	itsLinkedList->IteratorSetElement(cursorPos+1, data, e);
+	if (move)
+		{
+		itsCurrElement = e;
+		this->SetCursor(cursorPos+1);
+		}
 	return kJTrue;
 }
 
@@ -329,10 +368,22 @@ JLinkedListIterator<T>::RemoveNext
 		return kJFalse;
 		}
 
+	JLinkedListElement<T>* e = itsCurrElement;
+
+	const JCursorPosition cursorPos = this->GetCursor();
+	if (cursorPos > 0)
+		{
+		e = e->next;
+		}
+
 	itsIgnoreListChangedFlag = kJTrue;
-	itsLinkedList->IteratorRemoveNextElements(this->GetCursor()+1, count,
-											  itsCurrElement->next);
+	itsLinkedList->IteratorRemoveNextElements(cursorPos+1, count, e);
 	itsIgnoreListChangedFlag = kJFalse;
+
+	if (this->AtBeginning())
+		{
+		itsCurrElement = itsLinkedList->itsFirstElement;
+		}
 
 	return kJTrue;
 }

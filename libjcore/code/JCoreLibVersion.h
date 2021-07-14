@@ -38,6 +38,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			You should use the std:: prefix explicitly.
 //	*** Converted to nullptr.  NULL is forced to be undefined.
 //	*** Renamed JOrderedSet to JList to be more accurate.
+//	*** Changed JList::ElementChanged to JList::ElementsChanged
+//			to allow JRunArray optimization.
 //	*** Removed all random-access functions from JList.
 //			JLinkedList must be modified via an iterator.
 //			JArray & JRunArray can be modified via an iterator.

@@ -164,11 +164,11 @@ JPackedTableData<T>::SetElement
 
 	JRunArrayIterator<T> iter(itsData, kJIteratorStartBefore, index);
 	T origData;
-	iter.Next(&origData);
+	iter.Next(&origData, kJFalse);
 
 	if (data != origData)
 		{
-		iter.SetPrev(data);
+		iter.SetNext(data);
 		Broadcast(JTableData::RectChanged(row,col));
 		}
 }
@@ -398,7 +398,6 @@ JPackedTableData<T>::SetRect
 		for (JIndex i=y; i<=y2; i++)
 			{
 			iter.SetNext(data);
-			iter.SkipNext();
 			}
 		}
 
@@ -451,8 +450,8 @@ JPackedTableData<T>::ApplyToRect
 		for (JIndex i=y; i<=y2; i++)
 			{
 			iter.MoveTo(kJIteratorStartBefore, RCToI(i,j));
-			iter.Next(&element);
-			iter.SetPrev(f(element));
+			iter.Next(&element, kJFalse);
+			iter.SetNext(f(element));
 			}
 		}
 
@@ -791,7 +790,6 @@ JPackedTableData<T>::DuplicateCol
 			{
 			origIter.Next(&element);
 			newIter.SetNext(element);
-			newIter.SkipNext();
 			}
 		}
 	else

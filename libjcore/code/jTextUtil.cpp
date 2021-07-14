@@ -266,11 +266,11 @@ JReadUNIXManOutput
 				(styles.IsEmpty() ||
 				 styles.GetLastElement() != ulFont))
 				{
-				siter.SetPrev(defFont);
+				siter.SetPrev(defFont, kJFalse);
 				}
 			else
 				{
-				siter.SetPrev(ulFont);
+				siter.SetPrev(ulFont, kJFalse);
 				}
 			prev = '\0';
 			}
@@ -282,7 +282,7 @@ JReadUNIXManOutput
 			if (c == prev)
 				{
 				citer.RemovePrev();	// toss duplicate
-				siter.SetPrev(boldFont);
+				siter.SetPrev(boldFont, kJFalse);
 				}
 			else
 				{

@@ -89,11 +89,10 @@ JSTUndoBase::SetFont
 
 	JRunArrayIterator<JFont> iter(styles);
 
-	do
+	while (!iter.AtEnd())
 		{
 		JFont f = iter.GetRunData();
 		f.Set(name, size, f.GetStyle());
 		iter.SetNext(f, iter.GetRunLength());
 		}
-		while (iter.NextRun());
 }

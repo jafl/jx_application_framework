@@ -21,7 +21,7 @@ const JUtf8Byte* JListT::kElementsRemoved  = "ElementsRemoved::JListT";
 
 const JUtf8Byte* JListT::kElementMoved    = "ElementMoved::JListT";
 const JUtf8Byte* JListT::kElementsSwapped = "ElementsSwapped::JListT";
-const JUtf8Byte* JListT::kElementChanged  = "ElementChanged::JListT";
+const JUtf8Byte* JListT::kElementsChanged = "ElementsChanged::JListT";
 const JUtf8Byte* JListT::kSorted          = "Sorted::JListT";
 
 // for iterators

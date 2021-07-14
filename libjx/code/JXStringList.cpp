@@ -433,7 +433,7 @@ JXStringList::Receive
 		}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
-			 message.Is(JListT::kElementChanged))
+			 message.Is(JListT::kElementsChanged))
 		{
 		itsMinColWidth = 1;
 		Refresh();

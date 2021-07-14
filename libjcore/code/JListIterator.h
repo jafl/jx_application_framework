@@ -37,8 +37,8 @@ public:
 	const JList<T>*	GetList() const;
 	JBoolean		GetList(JList<T>** obj) const;
 
-	virtual JBoolean	Prev(T* data) = 0;
-	virtual JBoolean	Next(T* data) = 0;
+	virtual JBoolean	Prev(T* data, const JBoolean move = kJTrue) = 0;
+	virtual JBoolean	Next(T* data, const JBoolean move = kJTrue) = 0;
 
 	JBoolean			Prev(std::function<JBoolean(const T&)> match, T* item);
 	JBoolean			Next(std::function<JBoolean(const T&)> match, T* item);
@@ -56,8 +56,8 @@ public:
 
 	// only allowed if constructed from non-const JList<T>*
 
-	virtual JBoolean	SetPrev(const T& data) = 0;
-	virtual JBoolean	SetNext(const T& data) = 0;
+	virtual JBoolean	SetPrev(const T& data, const JBoolean move = kJTrue) = 0;
+	virtual JBoolean	SetNext(const T& data, const JBoolean move = kJTrue) = 0;
 
 	virtual JBoolean	RemovePrev(const JSize count = 1) = 0;
 	virtual JBoolean	RemoveNext(const JSize count = 1) = 0;

@@ -1247,7 +1247,7 @@ JXFileListTable::Receive
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
 		}
-	else if (sender == itsFileList && message.Is(JListT::kElementChanged))
+	else if (sender == itsFileList && message.Is(JListT::kElementsChanged))
 		{
 		assert_msg( 0, "makes no sense since it's a JPtrArray" );
 		}

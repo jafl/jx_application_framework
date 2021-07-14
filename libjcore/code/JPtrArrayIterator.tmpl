@@ -57,7 +57,8 @@ JBoolean
 JPtrArrayIterator<T>::SetPrev
 	(
 	T*									dataPtr,
-	const JPtrArrayT::SetElementAction	action
+	const JPtrArrayT::SetElementAction	action,
+	const JBoolean						move
 	)
 {
 	JList<T*>* obj;
@@ -69,7 +70,13 @@ JPtrArrayIterator<T>::SetPrev
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
 	assert( ptr != nullptr );
 
-	ptr->SetElement(JListIterator<T*>::GetCursor(), dataPtr, action);
+	const JCursorPosition cursorPos = JListIterator<T*>::GetCursor();
+
+	ptr->SetElement(cursorPos, dataPtr, action);
+	if (move)
+		{
+		this->SetCursor(cursorPos-1);
+		}
 	return kJTrue;
 }
 
@@ -86,7 +93,8 @@ JBoolean
 JPtrArrayIterator<T>::SetNext
 	(
 	T*									dataPtr,
-	const JPtrArrayT::SetElementAction	action
+	const JPtrArrayT::SetElementAction	action,
+	const JBoolean						move
 	)
 {
 	JList<T*>* obj;
@@ -98,7 +106,13 @@ JPtrArrayIterator<T>::SetNext
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
 	assert( ptr != nullptr );
 
-	ptr->SetElement(JListIterator<T*>::GetCursor()+1, dataPtr, action);
+	const JCursorPosition cursorPos = JListIterator<T*>::GetCursor() + 1;
+
+	ptr->SetElement(cursorPos, dataPtr, action);
+	if (move)
+		{
+		this->SetCursor(cursorPos);
+		}
 	return kJTrue;
 }
 

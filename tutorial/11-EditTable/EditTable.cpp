@@ -217,17 +217,20 @@ EditTable::Receive
 			}
 
 		// Was an element changed?
-		else if (message.Is(JListT::kElementChanged))
+		else if (message.Is(JListT::kElementsChanged))
 			{
 			// cast the message to an ElementsRemoved object
-			const JListT::ElementChanged* info =
-				dynamic_cast<const JListT::ElementChanged*>(&message);
+			const JListT::ElementsChanged* info =
+				dynamic_cast<const JListT::ElementsChanged*>(&message);
 			assert(info != nullptr);
 
 			// The element changed, so redraw it.
 			// (This would not be necessary if we were using a
 			//  class derived from JTableData.)
-			TableRefreshRow(info->GetFirstIndex());
+			for (JIndex i=info->GetFirstIndex(); i<=info->GetLastIndex(); i++)
+				{
+				TableRefreshRow(i);
+				}
 			}
 		}
 

@@ -622,12 +622,16 @@ CBFileListTable::Receive
 		assert_msg( 0, "CBFileListTable can't handle full sort of file list" );
 		}
 
-	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementChanged))
+	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementsChanged))
 		{
-		const JListT::ElementChanged* info =
-			dynamic_cast<const JListT::ElementChanged*>(&message);
+		const JListT::ElementsChanged* info =
+			dynamic_cast<const JListT::ElementsChanged*>(&message);
 		assert( info != nullptr );
-		UpdateFileInfo(info->GetFirstIndex());
+
+		for (JIndex i=info->GetFirstIndex(); i<=info->GetLastIndex(); i++)
+			{
+			UpdateFileInfo(i);
+			}
 		}
 
 	JXFileListTable::Receive(sender, message);

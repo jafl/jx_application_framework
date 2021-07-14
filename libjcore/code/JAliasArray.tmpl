@@ -33,8 +33,8 @@
 template <class T>
 JAliasArray<T>::JAliasArray
 	(
-	JArray<T>*					data,
-	JListT::CompareResult		(*compareFn)(const T&, const T&),
+	JArray<T>*				data,
+	JListT::CompareResult	(*compareFn)(const T&, const T&),
 	const JListT::SortOrder	order
 	)
 	:
@@ -51,9 +51,9 @@ JAliasArray<T>::JAliasArray
 template <class T>
 JAliasArray<T>::JAliasArray
 	(
-	JArray<T>*					data,
+	JArray<T>*						data,
 	const JElementComparison<T>&	compareObj,
-	const JListT::SortOrder	order
+	const JListT::SortOrder			order
 	)
 	:
 	JCollection(),
@@ -551,25 +551,28 @@ JAliasArray<T>::Receive
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
 		}
-	else if (sender == itsData && message.Is(JListT::kElementChanged))
+	else if (sender == itsData && message.Is(JListT::kElementsChanged))
 		{
 		// Sort() would be O(N log N).  This method is O(N) + O(log N) = O(N).
 
-		const JListT::ElementChanged* m =
-			dynamic_cast<const JListT::ElementChanged*>(&message);
+		const JListT::ElementsChanged* m =
+			dynamic_cast<const JListT::ElementsChanged*>(&message);
 		assert( m != nullptr );
 
-		const JSize count = itsIndexArray->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JIndex j=m->GetFirstIndex(); j<=m->GetLastIndex(); j++)
 			{
-			if (itsIndexArray->GetElement(i) == m->GetFirstIndex())
+			const JSize count = itsIndexArray->GetElementCount();
+			for (JIndex i=1; i<=count; i++)
 				{
-				itsIndexArray->RemoveElement(i);
-				break;
+				if (itsIndexArray->GetElement(i) == j)
+					{
+					itsIndexArray->RemoveElement(i);
+					break;
+					}
 				}
-			}
 
-		itsIndexArray->InsertSorted(m->GetFirstIndex());
+			itsIndexArray->InsertSorted(j);
+			}
 		}
 	else if (sender == itsData && message.Is(JListT::kSorted))
 		{

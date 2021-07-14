@@ -70,7 +70,8 @@ template <class T>
 JBoolean
 JArrayIterator<T>::Prev
 	(
-	T* data
+	T*				data,
+	const JBoolean	move
 	)
 {
 	if (this->AtBeginning())
@@ -82,7 +83,10 @@ JArrayIterator<T>::Prev
 
 	*data = itsArray->GetElement(cursorPos);
 
-	this->SetCursor(cursorPos-1);
+	if (move)
+		{
+		this->SetCursor(cursorPos-1);
+		}
 	return kJTrue;
 }
 
@@ -99,7 +103,8 @@ template <class T>
 JBoolean
 JArrayIterator<T>::Next
 	(
-	T* data
+	T*				data,
+	const JBoolean	move
 	)
 {
 	if (this->AtEnd())
@@ -111,7 +116,10 @@ JArrayIterator<T>::Next
 
 	*data = itsArray->GetElement(cursorPos);
 
-	this->SetCursor(cursorPos);
+	if (move)
+		{
+		this->SetCursor(cursorPos);
+		}
 	return kJTrue;
 }
 
@@ -159,7 +167,8 @@ template <class T>
 JBoolean
 JArrayIterator<T>::SetPrev
 	(
-	const T& data
+	const T&		data,
+	const JBoolean	move
 	)
 {
 	JList<T>* obj;
@@ -168,7 +177,13 @@ JArrayIterator<T>::SetPrev
 		return kJFalse;
 		}
 
-	itsArray->SetElement(this->GetCursor(), data);
+	const JCursorPosition cursorPos = this->GetCursor();
+
+	itsArray->SetElement(cursorPos, data);
+	if (move)
+		{
+		this->SetCursor(cursorPos-1);
+		}
 	return kJTrue;
 }
 
@@ -184,7 +199,8 @@ template <class T>
 JBoolean
 JArrayIterator<T>::SetNext
 	(
-	const T& data
+	const T&		data,
+	const JBoolean	move
 	)
 {
 	JList<T>* obj;
@@ -193,7 +209,13 @@ JArrayIterator<T>::SetNext
 		return kJFalse;
 		}
 
-	itsArray->SetElement(this->GetCursor()+1, data);
+	const JCursorPosition cursorPos = this->GetCursor() + 1;
+
+	itsArray->SetElement(cursorPos, data);
+	if (move)
+		{
+		this->SetCursor(cursorPos);
+		}
 	return kJTrue;
 }
 

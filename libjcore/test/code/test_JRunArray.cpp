@@ -8,9 +8,9 @@
  ******************************************************************************/
 
 #include <JTestManager.h>
+#include "jListTestUtil.h"
 #include <JRunArray.h>
 #include <JBroadcastTester.h>
-#include <jTestUtil.h>
 #include <sstream>
 #include <algorithm>
 #include <numeric>
@@ -150,14 +150,14 @@ JTEST(Runs)
 	verify("1 2 3 4 4 5 5", a);
 
 	iter->MoveTo(kJIteratorStartBefore, 3);
-	iter->SetNext(4);
+	iter->SetNext(4, kJFalse);
 	verify("1 2 4 4 4 5 5", a);
 
 	iter->MoveTo(kJIteratorStartAfter, 3);
-	iter->SetNext(2);
+	iter->SetNext(2, kJFalse);
 	verify("1 2 4 2 4 5 5", a);
 
-	iter->SetNext(4);
+	iter->SetNext(4, kJFalse);
 	verify("1 2 4 4 4 5 5", a);
 
 	JSetList("-1 1 1 1 1 2 3 3 3 4 5 5 10", &a);
@@ -215,10 +215,30 @@ JTEST(Runs)
 	verify("0 -1 0 -1 -1 1 1 1 1 1 2 2 2 2 3 3 3 5 5 5 10 10 10 11 11", a);
 
 	runiter->MoveTo(kJIteratorStartAfter, 10);
-	runiter->SetPrev(-1, 3);
+	runiter->SetPrev(-1, 3, kJFalse);
 	verify("0 -1 0 -1 -1 1 1 -1 -1 -1 2 2 2 2 3 3 3 5 5 5 10 10 10 11 11", a);
 
-	runiter->SetNext(-2, 3);
+	runiter->SetNext(-2, 3, kJFalse);
+	verify("0 -1 0 -1 -1 1 1 -1 -1 -1 -2 -2 -2 2 3 3 3 5 5 5 10 10 10 11 11", a);
+
+	runiter->SetPrev(1, 3, kJFalse);
+	verify("0 -1 0 -1 -1 1 1 1 1 1 -2 -2 -2 2 3 3 3 5 5 5 10 10 10 11 11", a);
+
+	runiter->SetNext(1, 3, kJFalse);
+	verify("0 -1 0 -1 -1 1 1 1 1 1 1 1 1 2 3 3 3 5 5 5 10 10 10 11 11", a);
+
+	runiter->MoveTo(kJIteratorStartAfter, 4);
+	runiter->SetPrev(5, 3, kJFalse);
+	verify("0 5 5 5 -1 1 1 1 1 1 1 1 1 2 3 3 3 5 5 5 10 10 10 11 11", a);
+
+	runiter->SetPrev(-1);
+	runiter->SetPrev(0);
+	runiter->SetPrev(-1);
+	verify("0 -1 0 -1 -1 1 1 1 1 1 1 1 1 2 3 3 3 5 5 5 10 10 10 11 11", a);
+
+	runiter->MoveTo(kJIteratorStartAfter, 10);
+	runiter->SetNext(-2, 3, kJFalse);
+	runiter->SetPrev(-1, 3, kJFalse);
 	verify("0 -1 0 -1 -1 1 1 -1 -1 -1 -2 -2 -2 2 3 3 3 5 5 5 10 10 10 11 11", a);
 
 	long j;
@@ -265,6 +285,10 @@ JTEST(Runs)
 
 	runiter->RemoveNext(3);
 	verify("1 1 3 3 10 10 11 11", a);
+
+	runiter->MoveTo(kJIteratorStartBefore, 6);
+	runiter->SetNext(5, 3);
+	verify("1 1 3 3 10 5 5 5", a);
 
 	jdelete iter;
 }
@@ -866,8 +890,8 @@ JTEST(IteratorModification)
 	iter->SkipPrev();
 	verify("-2 -2 5 5 4 4 2 1 -3", a);
 
-	iter->SetPrev(-4);
-	iter->SetNext(-4);
+	iter->SetPrev(-4, kJFalse);
+	iter->SetNext(-4, kJFalse);
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(-4, j);
 	iter->SkipPrev();
@@ -894,6 +918,19 @@ JTEST(IteratorModification)
 	JAssertEqual(5, j);
 	iter->SkipPrev();
 	verify("-2 -2 5 5 2 2 1 -3", a);
+
+	a.RemoveAll();
+	iter->Insert(1);
+	verify("1", a);
+
+	iter->RemoveNext();
+	iter->Insert(2);
+	verify("2", a);
+
+	iter->SkipNext();
+	iter->RemovePrev();
+	iter->Insert(3);
+	verify("3", a);
 
 	jdelete iter;
 }

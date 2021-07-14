@@ -1255,11 +1255,11 @@ JTable::SetRowHeight
 	JRunArrayIterator<JCoordinate> iter(itsRowHeights, kJIteratorStartBefore, index);
 
 	JCoordinate oldHeight;
-	iter.Next(&oldHeight);
+	iter.Next(&oldHeight, kJFalse);
 
 	if (rowHeight != oldHeight)
 		{
-		iter.SetPrev(rowHeight);
+		iter.SetNext(rowHeight);
 
 		const JCoordinate deltaH = rowHeight - oldHeight;
 		TableHeightChanged(GetRowTop(index) +
@@ -1562,11 +1562,11 @@ JTable::SetColWidth
 	JRunArrayIterator<JCoordinate> iter(itsColWidths, kJIteratorStartBefore, index);
 
 	JCoordinate oldWidth;
-	iter.Next(&oldWidth);
+	iter.Next(&oldWidth, kJFalse);
 
 	if (colWidth != oldWidth)
 		{
-		iter.SetPrev(colWidth);
+		iter.SetNext(colWidth);
 
 		const JCoordinate deltaW = colWidth - oldWidth;
 		TableWidthChanged(GetColLeft(index) +

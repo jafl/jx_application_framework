@@ -1865,10 +1865,10 @@ CBDocumentManager::Receive
 			Broadcast(ProjectDocumentActivated(itsProjectDocuments));
 			}
 		}
-	else if (sender == itsProjectDocuments && message.Is(JListT::kElementChanged))
+	else if (sender == itsProjectDocuments && message.Is(JListT::kElementsChanged))
 		{
-		const JListT::ElementChanged* info =
-			dynamic_cast<const JListT::ElementChanged*>(&message);
+		const JListT::ElementsChanged* info =
+			dynamic_cast<const JListT::ElementsChanged*>(&message);
 		assert( info != nullptr );
 		if (info->Contains(1))
 			{

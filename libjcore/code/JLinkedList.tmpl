@@ -416,7 +416,7 @@ JLinkedList<T>::IteratorSetElement
 	)
 {
 	listElement->data = data;
-	JBroadcaster::Broadcast(JListT::ElementChanged(index));
+	JBroadcaster::Broadcast(JListT::ElementsChanged(index, 1));
 }
 
 /******************************************************************************

@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include <JTestManager.h>
-#include <jTestUtil.h>
+#include "jListTestUtil.h"
 #include <JLinkedList.h>
 #include <JBroadcastTester.h>
 #include <algorithm>
@@ -170,6 +170,8 @@ JTEST(Iterator)
 	JAssertTrue(iter->GetPrevElementIndex(&i));
 	JAssertEqual(5, i);
 
+	JAssertTrue(iter->Prev(&j, kJFalse));
+	JAssertEqual(1, j);
 	JAssertTrue(iter->Prev(&j));
 	JAssertEqual(1, j);
 	JAssertEqual(4, iter->GetPrevElementIndex());
@@ -193,6 +195,8 @@ JTEST(Iterator)
 	JAssertTrue(iter->GetNextElementIndex(&i));
 	JAssertEqual(1, i);
 
+	JAssertTrue(iter->Next(&j, kJFalse));
+	JAssertEqual(5, j);
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(5, j);
 	JAssertTrue(iter->Next(&j));
@@ -282,8 +286,8 @@ JTEST(IteratorModification)
 	iter->SkipPrev();
 	verify("-2 -4 -1 5 4 3 2 1 -3", a);
 
-	iter->SetPrev(-4);
-	iter->SetNext(-3);
+	iter->SetPrev(-4, kJFalse);
+	iter->SetNext(-3, kJFalse);
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(-3, j);
 	iter->SkipPrev();
@@ -313,6 +317,28 @@ JTEST(IteratorModification)
 	iter->RemovePrev(3);
 	iter->RemoveNext();
 	verify("7 2", a);
+
+	iter->MoveTo(kJIteratorStartAtBeginning, 0);
+	iter->SetNext(5);
+	iter->SetNext(4);
+	verify("5 4", a);
+
+	iter->SetPrev(3);
+	iter->SetPrev(2);
+	verify("2 3", a);
+
+	a.RemoveAll();
+	iter->Insert(1);
+	verify("1", a);
+
+	iter->RemoveNext();
+	iter->Insert(2);
+	verify("2", a);
+
+	iter->SkipNext();
+	iter->RemovePrev();
+	iter->Insert(3);
+	verify("3", a);
 
 	jdelete iter;
 }

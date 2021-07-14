@@ -411,7 +411,7 @@ J2DVectorData::Receive
 	if (sender == itsXData  || sender == itsYData ||
 		sender == itsVXData || sender == itsVYData)
 		{
-		if (message.Is(JListT::kElementChanged) ||
+		if (message.Is(JListT::kElementsChanged) ||
 			message.Is(JListT::kElementMoved) )
 			{
 			BroadcastCurveChanged();

@@ -1,3 +1,8 @@
+JStyledText
+	AutoIndent
+	CleanRightMargin
+
+
 medic - confused when using gdb
 	no stack, threads, locals, etc.
 
@@ -17,8 +22,6 @@ jcc
 		tag, attribute value, script, char escapes
 		javascript regex, incl char class - can contain php or jsp
 
-	test that CBCompileDocument::ConvertSelectionToFullPath
-		gets path from "Entering directory"
 	test CBMacroManager: Perform & HighlightErrors completely rewritten
 	test open flex, bison, maven error
 
@@ -28,16 +31,8 @@ jcc
 	shell doc doesn't work at all
 
 
-	in a source file, select 2 tabs and press delete
-		JStringMatch		operator=(JStringMatch&& source);
-
 	styling
 		A|::B - then type <T> at the caret
-
-	non-fatal build error
-		Failed to open macho file at
-		/Library/Developer/CommandLineTools/usr/bin/clang++
-		for reading: Too many levels of symbolic links
 
 	styling <foo> inside javascript - sometimes - is state attached to checkpoint wrong?
 
@@ -59,6 +54,9 @@ medic for go: delve back-end
 keg for brew
 	https://docs.brew.sh/Formula-Cookbook
 	https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap
+
+switch to xcb
+	run jcc updated & search in threads
 
 
 
@@ -92,16 +90,7 @@ unit test all jcc stylers
 	SQL
 	TCL
 
-JStyledText
-	AutoIndent
-	CleanRightMargin
-
-	optimize SetFont*() to operate on runs, not characters
-		test with /opt/X11/share/X11/locale/en_US.UTF-8/Compose
-
 jcc
-	symbol list:
-		strip space from signature:( JBroadcaster* recipient )
 	CBSymbolList needs to store
 		access: check "access" flag (public, private, protected, java-default)
 		implemented: check "implementation" flag
@@ -121,6 +110,7 @@ jcc
 -----
 
 unit test
+	JAliasArray
 	JStyledText - every usage of JRunArrayIterator
 	JTextEditor - every usage of JRunArrayIterator
 	JTable - especially JRunArrayIterator

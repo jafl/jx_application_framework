@@ -141,8 +141,10 @@ public:
 
 	// only allowed if constructed from non-const JList<T>*
 
-	JBoolean	SetPrev(T* dataPtr, const JPtrArrayT::SetElementAction action);
-	JBoolean	SetNext(T* dataPtr, const JPtrArrayT::SetElementAction action);
+	JBoolean	SetPrev(T* dataPtr, const JPtrArrayT::SetElementAction action,
+						const JBoolean move = kJTrue);
+	JBoolean	SetNext(T* dataPtr, const JPtrArrayT::SetElementAction action,
+						const JBoolean move = kJTrue);
 
 	JBoolean	DeletePrev();
 	JBoolean	DeleteNext();

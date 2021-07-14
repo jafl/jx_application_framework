@@ -470,7 +470,7 @@ JArray<T>::SetElement
 
 	StoreElement(index, data);
 
-	JBroadcaster::Broadcast(JListT::ElementChanged(index));
+	JBroadcaster::Broadcast(JListT::ElementsChanged(index, 1));
 }
 
 /******************************************************************************
@@ -586,8 +586,6 @@ JArray<T>::MoveElementToIndex
 
 /******************************************************************************
  SwapElements
-
-	Sends an ElementChanged message for each element.
 
  ******************************************************************************/
 

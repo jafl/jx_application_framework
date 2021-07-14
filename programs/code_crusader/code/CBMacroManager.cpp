@@ -246,14 +246,13 @@ CBMacroManager::HighlightErrors
 			}
 		else if (c == '$' && siter.AtEnd())
 			{
-			fiter.SetPrev(red);
+			fiter.SetPrev(red, kJFalse);
 			}
 		else if (c == '$' && siter.Next(&c, kJFalse) && c == '(')
 			{
 			siter.SkipNext();
 			const JBoolean ok = CBMBalanceForward(kCBCLang, &siter, &c);
 			fiter.SetNext(ok ? blue : red, siter.GetPrevCharacterIndex() - fiter.GetNextElementIndex() + 1);
-			fiter.MoveTo(kJIteratorStartAfter, siter.GetPrevCharacterIndex());
 			}
 		else
 			{

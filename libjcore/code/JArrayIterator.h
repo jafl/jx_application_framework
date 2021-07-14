@@ -29,16 +29,16 @@ public:
 
 	virtual ~JArrayIterator();
 
-	virtual JBoolean	Prev(T* data) override;
-	virtual JBoolean	Next(T* data) override;
+	virtual JBoolean	Prev(T* data, const JBoolean move = kJTrue) override;
+	virtual JBoolean	Next(T* data, const JBoolean move = kJTrue) override;
 
 	virtual void		SkipPrev(const JSize count = 1) override;
 	virtual void		SkipNext(const JSize count = 1) override;
 
 	// only allowed if constructed from non-const JArray<T>*
 
-	virtual JBoolean	SetPrev(const T& data) override;
-	virtual JBoolean	SetNext(const T& data) override;
+	virtual JBoolean	SetPrev(const T& data, const JBoolean move = kJTrue) override;
+	virtual JBoolean	SetNext(const T& data, const JBoolean move = kJTrue) override;
 
 	virtual JBoolean	RemovePrev(const JSize count = 1) override;
 	virtual JBoolean	RemoveNext(const JSize count = 1) override;

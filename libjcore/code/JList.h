@@ -49,7 +49,7 @@ public:
 
 	static const JUtf8Byte* kElementMoved;
 	static const JUtf8Byte* kElementsSwapped;
-	static const JUtf8Byte* kElementChanged;
+	static const JUtf8Byte* kElementsChanged;
 	static const JUtf8Byte* kSorted;
 
 	// for iterators
@@ -195,13 +195,13 @@ public:
 			JIndex	itsIndex2;
 		};
 
-	class ElementChanged : public ElementMessage
+	class ElementsChanged : public ElementMessage
 		{
 		public:
 
-			ElementChanged(const JIndex index)
+			ElementsChanged(const JIndex firstIndex, const JSize count)
 				:
-				ElementMessage(kElementChanged, index, 1)
+				ElementMessage(kElementsChanged, firstIndex, count)
 				{ };
 		};
 

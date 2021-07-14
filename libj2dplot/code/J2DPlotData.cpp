@@ -517,7 +517,7 @@ J2DPlotData::Receive
 		sender == itsYPErrorData ||
 		sender == itsYMErrorData)
 		{
-		if (message.Is(JListT::kElementChanged) ||
+		if (message.Is(JListT::kElementsChanged) ||
 			message.Is(JListT::kElementMoved) )
 			{
 			BroadcastCurveChanged();

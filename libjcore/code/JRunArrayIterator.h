@@ -31,8 +31,8 @@ public:
 
 	virtual ~JRunArrayIterator();
 
-	virtual JBoolean	Prev(T* item) override;
-	virtual JBoolean	Next(T* item) override;
+	virtual JBoolean	Prev(T* item, const JBoolean move = kJTrue) override;
+	virtual JBoolean	Next(T* item, const JBoolean move = kJTrue) override;
 
 	virtual void		SkipPrev(const JSize count = 1) override;
 	virtual void		SkipNext(const JSize count = 1) override;
@@ -41,11 +41,11 @@ public:
 
 	// only allowed if constructed from non-const JList<T>*
 
-	virtual JBoolean	SetPrev(const T& data) override;
-	virtual JBoolean	SetNext(const T& data) override;
+	virtual JBoolean	SetPrev(const T& data, const JBoolean move = kJTrue) override;
+	virtual JBoolean	SetNext(const T& data, const JBoolean move = kJTrue) override;
 
-	JBoolean			SetPrev(const T& data, const JSize count);
-	JBoolean			SetNext(const T& data, const JSize count);
+	JBoolean			SetPrev(const T& data, const JSize count, const JBoolean move = kJTrue);
+	JBoolean			SetNext(const T& data, const JSize count, const JBoolean move = kJTrue);
 
 	virtual JBoolean	RemovePrev(const JSize count = 1) override;
 	virtual JBoolean	RemoveNext(const JSize count = 1) override;

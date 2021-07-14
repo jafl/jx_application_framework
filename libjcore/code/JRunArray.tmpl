@@ -468,19 +468,36 @@ JRunArray<T>::IteratorSetElements
 	JIndex*			firstIndexInRun
 	)
 {
-	for (JIndex i=elementIndex; i<elementIndex+count; i++)
+	JBoolean changed = kJTrue;
+	if (count == 1)
 		{
-		if (i > elementIndex)
-			{
-			IncrementalFindRun(i-1, i, runIndex, firstIndexInRun);
-			}
+		changed = PrivateSetElement(elementIndex, data, runIndex, firstIndexInRun);
+		}
+	else
+		{
+		PrivateRemoveElements(elementIndex, count, runIndex, firstIndexInRun);
 
-		if (PrivateSetElement(i, data, runIndex, firstIndexInRun))
+		if (JList<T>::IndexValid(elementIndex))
 			{
-			JListT::ElementChanged message(elementIndex);
-			JList<T>::NotifyIterators(message);
-			JBroadcaster::Broadcast(message);
+			// We save a lot of code by incrementing the run length and
+			// then asking SetValue to handle the details of splitting
+			// the run.
+
+			IncrementRunLength(*runIndex, 1);
+			PrivateSetElement(elementIndex, data, runIndex, firstIndexInRun);
+			IncrementRunLength(*runIndex, count-1);
 			}
+		else
+			{
+			PrivateInsertElementsAtIndex(elementIndex, data, count, runIndex, firstIndexInRun);
+			}
+		}
+
+	if (changed)
+		{
+		JListT::ElementsChanged message(elementIndex, count);
+		JList<T>::NotifyIterators(message);
+		JBroadcaster::Broadcast(message);
 		}
 }
 

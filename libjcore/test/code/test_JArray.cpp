@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include <JTestManager.h>
-#include <jTestUtil.h>
+#include "jListTestUtil.h"
 #include <JArray.h>
 #include <JBroadcastTester.h>
 #include <algorithm>
@@ -707,8 +707,8 @@ JTEST(IteratorModification)
 	iter->SkipPrev();
 	verify("-2 -4 -1 5 4 3 2 1 -3", a);
 
-	iter->SetPrev(-4);
-	iter->SetNext(-3);
+	iter->SetPrev(-4, kJFalse);
+	iter->SetNext(-3, kJFalse);
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(-3, j);
 	iter->SkipPrev();
@@ -728,6 +728,19 @@ JTEST(IteratorModification)
 	JAssertEqual(7, j);
 	iter->SkipPrev();
 	verify("-2 -4 -1 7 2 1 -3", a);
+
+	a.RemoveAll();
+	iter->Insert(1);
+	verify("1", a);
+
+	iter->RemoveNext();
+	iter->Insert(2);
+	verify("2", a);
+
+	iter->SkipNext();
+	iter->RemovePrev();
+	iter->Insert(3);
+	verify("3", a);
 
 	jdelete iter;
 }
