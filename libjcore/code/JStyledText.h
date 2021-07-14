@@ -515,12 +515,13 @@ public:
 	{
 	public:
 
-		TextChanged(const TextRange& r, const TextRange& rr,
+		TextChanged(const TextRange& r, const TextRange& rcr, const TextRange& rdr,
 					const JInteger cd, const JInteger bd)
 			:
 			JBroadcaster::Message(kTextChanged),
 			itsRange(r),
-			itsRedrawRange(rr),
+			itsRecalcRange(rcr),
+			itsRedrawRange(rdr),
 			itsCharDelta(cd),
 			itsByteDelta(bd)
 			{ };
@@ -529,6 +530,12 @@ public:
 		GetRange() const
 		{
 			return itsRange;
+		}
+
+		const TextRange&
+		GetRecalcRange() const
+		{
+			return itsRecalcRange;
 		}
 
 		const TextRange&
@@ -552,7 +559,8 @@ public:
 	private:
 
 		const TextRange	itsRange;
-		const TextRange	itsRedrawRange;		// may be larger than itsRange
+		const TextRange	itsRecalcRange;		// with auto-styling, typically larger than itsRange
+		const TextRange	itsRedrawRange;		// may be larger than itsRecalcRange
 		const JInteger	itsCharDelta;
 		const JInteger	itsByteDelta;
 	};

@@ -397,15 +397,17 @@ JTextEditor::Receive
 		const JStyledText::TextChanged* info =
 			dynamic_cast<const JStyledText::TextChanged*>(&message);
 		assert( info != nullptr );
-		const TextRange& r = info->GetRange();
-		if (r.charRange.GetCount() == itsText->GetText().GetCharacterCount())
+		const TextRange& rcr = info->GetRecalcRange();
+		if (rcr.charRange.GetCount() == itsText->GetText().GetCharacterCount())
 			{
 			RecalcAll(kJFalse);
 			}
 		else
 			{
-			Recalc(r, info->GetRedrawRange());
+			Recalc(rcr, info->GetRedrawRange());
 			}
+
+		const TextRange& r = info->GetRange();
 
 		const JInteger cd = info->GetCharDelta(),
 					   bd = info->GetByteDelta();
@@ -4186,12 +4188,12 @@ JTextEditor::RecalcLine
 	if (geomIter->AtEnd())
 		{
 		geomIter->Insert(geom);
+		geomIter->SkipNext();
 		}
 	else
 		{
 		geomIter->SetNext(geom);
 		}
-	geomIter->SkipNext();
 }
 
 /******************************************************************************
