@@ -6,6 +6,7 @@ namespace Test1
 	{
 		class Bar : /*comment {*/ private Foo
 		{
+			friend class Foo;
 			public:
 			template <class T> class Zod {};
 		};
