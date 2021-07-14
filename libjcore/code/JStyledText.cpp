@@ -1354,17 +1354,23 @@ JStyledText::SetFontName
 	JFont f1 = itsDefaultFont, f2 = itsDefaultFont;
 	JBoolean changed = kJFalse;
 	FontIterator iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
-	for (JIndex i=range.charRange.first; i<=range.charRange.last; i++)
+	JIndex i;
+	while (iter.GetNextElementIndex(&i) && i <= range.charRange.last)
 		{
-		const JBoolean ok = iter.Next(&f1);
+		const JBoolean ok = iter.Next(&f1, kJFalse);
 		assert( ok );
 
 		f2 = f1;
 		f2.SetName(name);
 		if (f2 != f1)
 			{
-			iter.SetPrev(f2);
+			const JIndex end = JMin(iter.GetRunEnd(), range.charRange.last);
+			iter.SetNext(f2, end-i+1);
 			changed = kJTrue;
+			}
+		else
+			{
+			iter.SkipNext();
 			}
 		}
 
@@ -1475,7 +1481,7 @@ JBoolean
 JStyledText::SetFontColor
 	(
 	const TextRange&	range,
-	const JColorID	color,
+	const JColorID		color,
 	const JBoolean		clearUndo
 	)
 {
@@ -1526,18 +1532,7 @@ JStyledText::SetFont
 		}
 
 	FontIterator iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
-
-	if (range.charRange.last > range.charRange.first)
-		{
-		iter.RemoveNext(range.charRange.GetCount());
-		iter.Insert(f, range.charRange.GetCount());
-		}
-	else
-		{
-		assert( range.charRange.first == range.charRange.last );
-
-		iter.SetNext(f);
-		}
+	iter.SetNext(f, range.charRange.GetCount());
 
 	AdjustFontToDisplayGlyphs(range, itsText, itsStyles);
 
@@ -1563,10 +1558,7 @@ JStyledText::SetFont
 	FontIterator fIter(fontList);
 	FontIterator sIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 
-	while (fIter.Next(&f) && sIter.SetNext(f))
-		{
-		sIter.SkipNext();
-		}
+	while (fIter.Next(&f) && sIter.SetNext(f)) { }
 
 	AdjustFontToDisplayGlyphs(range, itsText, itsStyles);
 
@@ -1608,13 +1600,12 @@ JStyledText::SetAllFontNameAndSize
 		{
 		FontIterator iter(itsStyles);
 
-		do
+		while (!iter.AtEnd())
 			{
 			JFont f = iter.GetRunData();
 			f.Set(name, size, f.GetStyle());
 			iter.SetNext(f, iter.GetRunLength());
 			}
-			while (iter.NextRun());
 		}
 
 	const TextRange& all = SelectAll();
@@ -3919,7 +3910,7 @@ JStyledText::BroadcastTextChanged
 		redrawRange.SetToNothing();
 		}
 
-	Broadcast(TextChanged(recalcRange, redrawRange, charDelta, byteDelta));
+	Broadcast(TextChanged(range, recalcRange, redrawRange, charDelta, byteDelta));
 }
 
 /******************************************************************************

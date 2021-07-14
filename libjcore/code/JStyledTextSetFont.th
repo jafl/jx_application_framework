@@ -32,16 +32,22 @@ else
 JFont f = itsDefaultFont;
 JBoolean changed = kJFalse;
 FontIterator iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
-for (JIndex i=range.charRange.first; i<=range.charRange.last; i++)
+JIndex i;
+while (iter.GetNextElementIndex(&i) && i <= range.charRange.last)
 	{
-	const JBoolean ok = iter.Next(&f);
+	const JBoolean ok = iter.Next(&f, kJFalse);
 	assert( ok );
 
 	if (LocalVarName != f.GetElementName)
 		{
 		f.SetElementName(LocalVarName);
-		iter.SetPrev(f);
+		const JIndex end = JMin(iter.GetRunEnd(), range.charRange.last);
+		iter.SetNext(f, end-i+1);
 		changed = kJTrue;
+		}
+	else
+		{
+		iter.SkipNext();
 		}
 	}
 
