@@ -72,6 +72,8 @@ namespace/{BDRY} {
 	BEGIN(NAMESPACE_STATE);
 	}
 
+friend{WS}class{WS}{NSID}	/* ignore */
+
 class{WS}{NSID}{MS};		/* ignore */
 
 class/{BDRY} {
