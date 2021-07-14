@@ -22,6 +22,7 @@
 #include <jAssert.h>
 
 static const JRegex dirMarkerPattern = "((Entering)|(Leaving)) directory `";
+static const JRegex endMarkerPattern = "['`]";
 
 // static data
 
@@ -461,7 +462,7 @@ CBCompileDocument::ConvertSelectionToFullPath
 		iter.MoveTo(kJIteratorStartBefore, i);
 		iter.BeginMatch();
 		JUtf8Character c;
-		if (iter.Next(&c) && c != '`' && iter.Next("`"))
+		if (iter.Next(&c) && c != '`' && c != '\'' && iter.Next(endMarkerPattern))
 			{
 			const JStringMatch& m  = iter.FinishMatch();
 			const JString testName = JCombinePathAndName(m.GetString(), *fileName);
