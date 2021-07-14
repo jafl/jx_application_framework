@@ -350,7 +350,7 @@ MDStatsDirector::BuildWindow()
 	blocksLabel->SetToLabel();
 
 	itsAllocatedBlocksDisplay =
-		jnew JXStaticText(JString::empty, kJFalse, kJTrue, NULL, statsEncl,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue, kJFalse, nullptr, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,60, 90,20);
 	assert( itsAllocatedBlocksDisplay != nullptr );
 
@@ -361,7 +361,7 @@ MDStatsDirector::BuildWindow()
 	bytesLabel->SetToLabel();
 
 	itsAllocatedBytesDisplay =
-		jnew JXStaticText(JString::empty, kJFalse, kJTrue, NULL, statsEncl,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue, kJFalse, nullptr, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,60, 90,20);
 	assert( itsAllocatedBytesDisplay != nullptr );
 
@@ -372,7 +372,7 @@ MDStatsDirector::BuildWindow()
 	deallocLabel->SetToLabel();
 
 	itsDeallocatedBlocksDisplay =
-		jnew JXStaticText(JString::empty, kJFalse, kJTrue, NULL, statsEncl,
+		jnew JXStaticText(JString::empty, kJFalse, kJTrue, kJFalse, nullptr, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 390,60, 90,20);
 	assert( itsDeallocatedBlocksDisplay != nullptr );
 

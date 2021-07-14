@@ -460,7 +460,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsAllocatedBlocksDisplay
 callback: 
-argument: JString::empty, kJFalse, kJTrue, NULL,
+argument: JString::empty, kJFalse, kJTrue, kJFalse, nullptr,
 
 --------------------
 class: FL_TEXT
@@ -496,7 +496,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsAllocatedBytesDisplay
 callback: 
-argument: JString::empty, kJFalse, kJTrue, NULL,
+argument: JString::empty, kJFalse, kJTrue, kJFalse, nullptr,
 
 --------------------
 class: FL_TEXT
@@ -532,7 +532,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsDeallocatedBlocksDisplay
 callback: 
-argument: JString::empty, kJFalse, kJTrue, NULL,
+argument: JString::empty, kJFalse, kJTrue, kJFalse, nullptr,
 
 =============== FORM ===============
 Name: MDRecordDirector
