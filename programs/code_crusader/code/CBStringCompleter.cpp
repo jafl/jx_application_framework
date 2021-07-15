@@ -195,7 +195,8 @@ CBStringCompleter::Complete
 		iter.SkipPrev();
 		}
 
-	if (iter.GetNextCharacterIndex() == caretIndex)
+	if ((iter.AtEnd() && caretIndex > text.GetCharacterCount()) ||
+		iter.GetNextCharacterIndex() == caretIndex)
 		{
 		return kJFalse;
 		}
