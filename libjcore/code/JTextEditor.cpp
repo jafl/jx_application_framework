@@ -3173,12 +3173,12 @@ JTextEditor::CRLineIndexToVisualLineIndex
 	TextIndex index(1,1);
 	for (JIndex i=1; i<=crLineIndex; i++)
 		{
-		const TextIndex newIndex = itsText->GetParagraphEnd(index);
+		const TextIndex newIndex = itsText->GetParagraphEnd(itsText->AdjustTextIndex(index, +1));
 		if (newIndex.charIndex == index.charIndex)	// end of text
 			{
 			break;
 			}
-		index = itsText->AdjustTextIndex(newIndex, +1);
+		index = newIndex;
 		}
 
 	return GetLineForChar(itsText->GetParagraphStart(itsText->AdjustTextIndex(index, -1)).charIndex);
