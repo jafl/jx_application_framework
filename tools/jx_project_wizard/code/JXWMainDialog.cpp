@@ -620,7 +620,7 @@ JXWMainDialog::CopyAndAdjustTemplateFiles
 				}
 
 			const JString target = JCombinePathAndName(targetDir, name);
-			std::ofstream os(target);
+			std::ofstream os(target.GetBytes());
 			data.Print(os);
 			}
 		}
@@ -647,42 +647,42 @@ JXWMainDialog::ReadPrefs
 
 		JString s;
 		input >> s;
-		itsProgramVersion->SetText(s);
+		itsProgramVersion->GetText()->SetText(s);
 
 		input >> s;
-		itsDevName->SetText(s);
+		itsDevName->GetText()->SetText(s);
 
 		input >> s;
-		itsDevEmail->SetText(s);
+		itsDevEmail->GetText()->SetText(s);
 
 		input >> s;
-		itsCompanyName->SetText(s);
+		itsCompanyName->GetText()->SetText(s);
 
 		input >> s;
-		itsDevURL->SetText(s);
+		itsDevURL->GetText()->SetText(s);
 
 		JBoolean checked;
-		input >> checked;
+		input >> JBoolFromString(checked);
 		itsNeedsMDICB->SetState(checked);
 
 		input >> s;
 		if (!s.IsEmpty())
 			{
 			UpdatePath(&s);
-			itsProjectDir->SetText(s);
+			itsProjectDir->GetText()->SetText(s);
 			}
 
 		input >> s;
 		if (!s.IsEmpty())
 			{
 			UpdatePath(&s);
-			itsTemplateDir->SetText(s);
+			itsTemplateDir->GetText()->SetText(s);
 			}
 
 		itsTmplDirHistory->ReadSetup(input);
 
 		input >> s;
-		itsOpenCmd->SetText(s);
+		itsOpenCmd->GetText()->SetText(s);
 		}
 }
 
@@ -699,15 +699,11 @@ JXWMainDialog::UpdatePath
 	JString* s
 	)
 {
-	if (!s->IsEmpty())
+	JStringIterator iter(s);
+	const JString v = "JX-" + JString(JXWGetVersionNumberStr(), kJFalse);
+	while (iter.Next(jxVersPattern))
 		{
-		JArray<JIndexRange> matchList;
-		JIndexRange r;
-		while (jxVersPattern.MatchAfter(*s, r, &matchList))
-			{
-			s->ReplaceSubstring(matchList.GetElement(2), JXWGetVersionNumberStr(), &r);
-			r = matchList.GetElement(1);
-			}
+		iter.ReplaceLastMatch(v);
 		}
 }
 
@@ -731,45 +727,44 @@ JXWMainDialog::WritePrefs
 	output << ' ';
 	GetWindow()->WriteGeometry(output);
 
-	output << ' ' << itsProgramVersion->GetText();
-	output << ' ' << itsDevName->GetText();
-	output << ' ' << itsDevEmail->GetText();
-	output << ' ' << itsCompanyName->GetText();
+	output << ' ' << itsProgramVersion->GetText()->GetText();
+	output << ' ' << itsDevName->GetText()->GetText();
+	output << ' ' << itsDevEmail->GetText()->GetText();
+	output << ' ' << itsCompanyName->GetText()->GetText();
 
 	// save host name from url
 
 	output << ' ';
-	const JString& url = itsDevURL->GetText();
-	JIndexRange r;
-	if (hostPattern.Match(url, &r))
+	const JStringMatch m1 = hostPattern.Match(itsDevURL->GetText()->GetText(), kJFalse);
+	if (!m1.IsEmpty())
 		{
-		output << url.GetSubstring(r);
+		output << m1.GetString();
 		}
 	else
 		{
-		output << JString(kDefaultURLText);
+		output << JString(kDefaultURLText, kJFalse);
 		}
 
-	output << ' ' << itsNeedsMDICB->IsChecked();
+	output << ' ' << JBoolToString(itsNeedsMDICB->IsChecked());
 
 	// save ".../JX-<vers>/programs/" from project directory
 
 	output << ' ';
-	const JString& projDir = itsProjectDir->GetText();
-	if (projPattern.Match(projDir, &r))
+	const JStringMatch m2 = projPattern.Match(itsProjectDir->GetText()->GetText(), kJFalse);
+	if (!m2.IsEmpty())
 		{
-		output << projDir.GetSubstring(r);
+		output << m2.GetString();
 		}
 	else
 		{
 		output << JString();
 		}
 
-	output << ' ' << itsTemplateDir->GetText();
+	output << ' ' << itsTemplateDir->GetText()->GetText();
 
 	output << ' ';
 	itsTmplDirHistory->WriteSetup(output);
 
-	output << ' ' << itsOpenCmd->GetText();
+	output << ' ' << itsOpenCmd->GetText()->GetText();
 	output << ' ';
 }
