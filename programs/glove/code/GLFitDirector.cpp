@@ -211,7 +211,7 @@ GLFitDirector::BuildWindow()
 	assert( menuBar != nullptr );
 
 	itsToolBar =
-		jnew JXToolBar(GetPrefsMgr(), kFitToolBarID,
+		jnew JXToolBar(GLGetPrefsMgr(), kFitToolBarID,
 			menuBar,
 			window, JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kJXDefaultMenuBarHeight, w,h - kJXDefaultMenuBarHeight);
@@ -489,7 +489,7 @@ GLFitDirector::BuildWindow()
 
 	itsCurveList->SetCurrentCurveIndex(1);
 
-	GetPrefsMgr()->ReadFitDirectorSetup(this);
+	GLGetPrefsMgr()->ReadFitDirectorSetup(this);
 }
 
 /******************************************************************************
@@ -552,7 +552,7 @@ GLFitDirector::Receive
 		const GLFitDescriptionList::FitSelected* info =
 			dynamic_cast<const GLFitDescriptionList::FitSelected*>(&message);
 		assert(info != nullptr);
-		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(info->GetIndex());
+		const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(info->GetIndex());
 		itsParameterTable->SetFitDescription(fd);
 		RemoveFit();
 		itsChiSq->GetText()->SetText(JString::empty);
@@ -585,7 +585,7 @@ GLFitDirector::Receive
 		JIndex index;
 		JBoolean ok	= itsFitList->GetCurrentFitIndex(&index);
 		assert(ok);
-		GLFitDescription& fd	= GetFitManager()->GetFitDescription(index);
+		GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(index);
 		const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
 		const JSize count	= parms.GetElementCount();
 		for (JIndex i = 1; i <= count; i++)
@@ -607,7 +607,7 @@ GLFitDirector::Receive
 					itsNLFitDialog->GetDerivativeString(),
 					itsNLFitDialog->GetVarList().GetVariables());
 			assert(fit != nullptr);
-			GetFitManager()->AddFitDescription(fit);
+			GLGetFitManager()->AddFitDescription(fit);
 			}
 		itsNLFitDialog	= nullptr;
 		}
@@ -624,7 +624,7 @@ GLFitDirector::Receive
 				jnew GLPolyFitDescription(itsPolyFitDialog->GetFitName(),
 					powers);
 			assert(fit != nullptr);
-			GetFitManager()->AddFitDescription(fit);
+			GLGetFitManager()->AddFitDescription(fit);
 			}
 		itsPolyFitDialog	= nullptr;
 		}
@@ -677,7 +677,7 @@ GLFitDirector::HandleFitMenu
 			{
 			itsExprWidget->ClearFunction();
 			itsExprWidget->Hide();
-			GetFitManager()->RemoveFitDescription(index1);
+			GLGetFitManager()->RemoveFitDescription(index1);
 			}
 		}
 	else if (index == kFitCmd)
@@ -718,7 +718,7 @@ GLFitDirector::HandleFitMenu
 		JIndex findex;
 		ok	= itsFitList->GetCurrentFitIndex(&findex);
 		assert(ok);
-		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(findex);
+		const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(findex);
 		itsDir->AddFitProxy(proxy, index1, fd.GetFnName());
 		}
 	else if (index == kShowHistoryCmd)
@@ -748,7 +748,7 @@ GLFitDirector::UpdateFitMenu()
 		itsFitList->GetCurrentFitIndex(&index))
 		{
 		itsFitMenu->EnableItem(kFitCmd);
-		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(index);
+		const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(index);
 		if (fd.RequiresStartValues())
 			{
 			itsFitMenu->EnableItem(kTestFitCmd);
@@ -772,7 +772,7 @@ GLFitDirector::UpdateFitMenu()
 				itsFitMenu->EnableItem(kRefitCmd);
 				}
 			}
-		if (GetFitManager()->FitIsRemovable(index))
+		if (GLGetFitManager()->FitIsRemovable(index))
 			{
 			itsFitMenu->EnableItem(kRemoveFitCmd);
 			}
@@ -802,7 +802,7 @@ GLFitDirector::HandlePrefsMenu
 {
 	if (index == kPrefsCmd)
 		{
-//		GWIGetPrefsMgr()->EditPrefs();
+//		GWIGLGetPrefsMgr()->EditPrefs();
 		}
 	else if (index == kEditToolBarCmd)
 		{
@@ -810,7 +810,7 @@ GLFitDirector::HandlePrefsMenu
 		}
 	else if (index == kSaveWindowSizeCmd)
 		{
-		GetPrefsMgr()->WriteFitDirectorSetup(this);
+		GLGetPrefsMgr()->WriteFitDirectorSetup(this);
 		}
 }
 
@@ -904,7 +904,7 @@ GLFitDirector::Fit()
 	JPlotDataBase* data	= &(itsPlot->GetCurve(index));
 	ok	= itsFitList->GetCurrentFitIndex(&index);
 	assert(ok);
-	const GLFitDescription& fd	= GetFitManager()->GetFitDescription(index);
+	const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(index);
 	if (fd.GetType() == GLFitDescription::kPolynomial)
 		{
 		JArray<JIndex> powers;
@@ -1214,7 +1214,7 @@ GLFitDirector::TestFit()
 	JPlotDataBase* data	= &(itsPlot->GetCurve(index));
 	ok	= itsFitList->GetCurrentFitIndex(&index);
 	assert(ok);
-	GLFitDescription& fd	= GetFitManager()->GetFitDescription(index);
+	GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(index);
 	const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
 	const JSize count	= parms.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
@@ -1224,7 +1224,7 @@ GLFitDirector::TestFit()
 	JFloat xmin, xmax;
 	data->GetXRange(&xmin, &xmax);
 	ok	= J2DPlotJFunction::Create(&itsTestFunction, itsFitPlot, fd.GetVarList(),
-			fd.GetFitFunctionString(), 1, xmin, xmax);
+			GetDisplay()->GetFontManager(), fd.GetFitFunctionString(), 1, xmin, xmax);
 	if (ok)
 		{
 		itsFitPlot->AddCurve(itsTestFunction, kJFalse, fd.GetFnName());
@@ -1260,7 +1260,7 @@ GLFitDirector::AddHistoryText
 	itsHistory->AppendText(str, kJFalse);
 	ok	= itsFitList->GetCurrentFitIndex(&index);
 	assert(ok);
-	const GLFitDescription& fd	= GetFitManager()->GetFitDescription(index);
+	const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(index);
 	str	= "Fit type: " + fd.GetFnName() + "\n";
 	itsHistory->AppendText(str, kJFalse);
 	str.Clear();
@@ -1295,19 +1295,23 @@ GLFitDirector::Print()
 			JBoolean ok	= itsCurveList->GetCurrentCurveIndex(&index);
 			assert(ok);
 			str	+= itsPlot->GetCurveName(index);
-			itsPrinter->String(kLeftMargin, 0, str);
+			itsPrinter->JPainter::String(kLeftMargin, 0, str);
 
 			str	= JGetString("FitTitle::GLFitDirector");
 			ok	= itsFitList->GetCurrentFitIndex(&index);
 			assert(ok);
-			const GLFitDescription& fd	= GetFitManager()->GetFitDescription(index);
+			const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(index);
 			str += fd.GetFnName();
-			itsPrinter->String(kLeftMargin, kPlotSep, str);
+			itsPrinter->JPainter::String(kLeftMargin, kPlotSep, str);
 
-			str = JGetString("ChiSqTitle::GLFitDirector");
-			str += JString((JUInt64) fd.GetParameterCount()) + "): ";
+			str = JString((JUInt64) fd.GetParameterCount());
+			const JUtf8Byte* map[] =
+				{
+				"i", str.GetBytes()
+				};
+			str  = JGetString("ChiSqTitle::GLFitDirector", map, sizeof(map));
 			str += itsChiSq->GetText()->GetText();
-			itsPrinter->String(kLeftMargin, kPlotSep*2, str);
+			itsPrinter->JPainter::String(kLeftMargin, kPlotSep*2, str);
 
 			// draw expression widget
 			JRect eRect	= itsExprWidget->GetPrintBounds();

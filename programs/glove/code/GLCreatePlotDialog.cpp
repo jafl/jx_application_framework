@@ -10,6 +10,7 @@
 #include "GLCreatePlotDialog.h"
 #include "GLDataDocument.h"
 #include "GLRaggedFloatTableData.h"
+#include "GLGlobals.h"
 
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -21,9 +22,6 @@
 #include <JPtrArray.h>
 #include <JString.h>
 #include <JUserNotification.h>
-
-#include <jGlobals.h>
-
 #include <jAssert.h>
 
 /******************************************************************************
@@ -132,18 +130,9 @@ GLCreatePlotDialog::BuildWindow
 	
 	itsXErrMenu->AppendItem(JGetString("NoneItemLabel::GLCreatePlotDialog"));
 	itsYErrMenu->AppendItem(JGetString("NoneItemLabel::GLCreatePlotDialog"));
-	
-	const JSize count = data->GetDataColCount();
-	for (JUInt64 i=1; i<=count; i++)
-		{
-		JString str(i);
-		str.Prepend(JGetString("ColumnTitlePrefix::GLColByRangeDialog")); 
-		itsXMenu->AppendItem(str);
-		itsXErrMenu->AppendItem(str);
-		itsYMenu->AppendItem(str);
-		itsYErrMenu->AppendItem(str);
-		}
 
+	GLBuildColumnMenus("Column::GLGlobal", data->GetDataColCount(),
+					   itsXMenu, itsXErrMenu, itsYMenu, itsYErrMenu, nullptr);
 	
 	itsStartX = startX;
 	if (startX == 0)
@@ -164,7 +153,7 @@ GLCreatePlotDialog::BuildWindow
 	JPtrArray<JString> names(JPtrArrayT::kDeleteAll);
 	itsTableDir->GetPlotNames(names);
 	
-	itsPlotsMenu->AppendItem(JGetString("NewPlotItemLabel::GLCreatePlotDialog"));
+	itsPlotsMenu->AppendItem(JGetString("NewPlotItemLabel::GLGlobal"));
 	
 	const JSize strCount = names.GetElementCount();
 	
@@ -195,7 +184,7 @@ GLCreatePlotDialog::BuildWindow
 	ListenTo(itsYErrMenu);
 	ListenTo(itsPlotsMenu);
 
-	itsLabelInput->GetText()->SetText(JGetString("DefaultLabel::GLCreatePlotDialog"));
+	itsLabelInput->GetText()->SetText(JGetString("DefaultLabel::GLGlobal"));
 }
 
 /******************************************************************************
@@ -321,7 +310,7 @@ GLCreatePlotDialog::OKToDeactivate()
 		}
 	if (GetLabel().IsEmpty())
 		{
-		JGetUserNotification()->ReportError(JGetString("SpecifyCurveLabel::GLCreatePlotDialog"));
+		JGetUserNotification()->ReportError(JGetString("SpecifyCurveLabel::GLGlobal"));
 		return kJFalse;
 		}
 	return kJTrue;

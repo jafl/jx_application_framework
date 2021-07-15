@@ -1,0 +1,11 @@
+0
+cancelButton::GLCreatePlotDialog::shortcuts::JXLayout "^["
+okButton::GLCreatePlotDialog::shortcuts::JXLayout "^M"
+itsYMenu::GLCreatePlotDialog::JXLayout "Y Axis"
+itsPlotsMenu::GLCreatePlotDialog::JXLayout "Plot"
+okButton::GLCreatePlotDialog::JXLayout "OK"
+itsYErrMenu::GLCreatePlotDialog::JXLayout "Y Error"
+cancelButton::GLCreatePlotDialog::JXLayout "Cancel"
+labelLabel::GLCreatePlotDialog::JXLayout "Label:"
+itsXMenu::GLCreatePlotDialog::JXLayout "X Axis"
+itsXErrMenu::GLCreatePlotDialog::JXLayout "X Error"

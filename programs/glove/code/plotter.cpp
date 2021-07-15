@@ -54,7 +54,7 @@ main
 		return 0;
 		}
 
-	JCheckForNewerVersion(GetPrefsMgr(), kVersionCheckID);
+	JCheckForNewerVersion(GLGetPrefsMgr(), kVersionCheckID);
 
 	GLGetMDIServer()->HandleCmdLineOptions(argc, argv);
 

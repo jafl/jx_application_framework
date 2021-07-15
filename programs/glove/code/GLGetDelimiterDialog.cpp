@@ -24,13 +24,10 @@
 #include <JXColorManager.h>
 #include <JXInputField.h>
 
+#include <JStringIterator.h>
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
 #include <jAssert.h>
-
-const JSize kFileByteCount 	= 1000;
-const JCharacter kSpaceChar	= 0xb7;
-const JCharacter kTabChar	= 0xbb;
 
 const JIndex kDelimiterPrefsVersionID = 1;
 
@@ -41,34 +38,30 @@ const JIndex kDelimiterPrefsVersionID = 1;
 
 GLGetDelimiterDialog::GLGetDelimiterDialog
 	(
-	JXWindowDirector* supervisor,
-	const JString& 			text
+	JXWindowDirector*	supervisor,
+	const JString& 		text
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue),
-	JPrefObject(GetPrefsMgr(), kDelimiterPrefsID)
+	JPrefObject(GLGetPrefsMgr(), kDelimiterPrefsID)
 {
 	BuildWindow();
-	JString filteredText(text);
-	JIndex findex = 1;
-	while (filteredText.LocateNextSubstring(" ", &findex))
+
+	JString s(text);
+	JStringIterator iter(&s);
+
+	while (iter.Next(" "))
 		{
-		filteredText.SetCharacter(findex, kSpaceChar);
+		iter.ReplaceLastMatch("\xE2\x80\xA2");
 		}
-	JArray<JIndex> tabs;
-	findex = 1;
-	while (filteredText.LocateNextSubstring("\t", &findex))
+
+	while (iter.Prev("\t"))
 		{
-		filteredText.SetCharacter(findex, kTabChar);
-		tabs.AppendElement(findex);
+		iter.ReplaceLastMatch("\xE2\x86\x92");
 		}
-	itsFileText->SetText(filteredText);
-	JSize count = tabs.GetElementCount();
-	for (JSize i = 1; i <= count; i++)
-		{
-		findex = tabs.GetElement(i);
-		itsFileText->JTextEditor::SetFontName(findex, findex, JGetGreekFontName(), kJTrue);
-		}
+
+	itsFileText->GetText()->SetText(s);
+
 	JPrefObject::ReadPrefs();
 }
 
@@ -90,102 +83,99 @@ GLGetDelimiterDialog::~GLGetDelimiterDialog()
 void
 GLGetDelimiterDialog::BuildWindow()
 {
-
 	JXTextRadioButton* rb[4];
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 330,360, "");
+	JXWindow* window = jnew JXWindow(this, 330,360, JString::empty);
 	assert( window != nullptr );
 
-	JXScrollbarSet* scollbarSet =
-		jnew JXScrollbarSet( window,
+	JXScrollbarSet* scrollbarSet =
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,220, 310,100);
-	assert( scollbarSet != nullptr );
+	assert( scrollbarSet != nullptr );
 
 	JXTextButton* okButton =
-		jnew JXTextButton("OK", window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 210,330, 70,20);
+		jnew JXTextButton(JGetString("okButton::GLGetDelimiterDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 210,330, 70,20);
 	assert( okButton != nullptr );
-	okButton->SetShortcuts("^M");
+	okButton->SetShortcuts(JGetString("okButton::GLGetDelimiterDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
-		jnew JXTextButton("Cancel", window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,330, 70,20);
+		jnew JXTextButton(JGetString("cancelButton::GLGetDelimiterDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 50,330, 70,20);
 	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts("^[");
 
 	itsRG =
 		jnew JXRadioGroup(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 215,110);
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 215,110);
 	assert( itsRG != nullptr );
 
 	rb[0] =
-		jnew JXTextRadioButton(1, "White space", itsRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 120,20);
+		jnew JXTextRadioButton(1, JGetString("rb[0]::GLGetDelimiterDialog::JXLayout"), itsRG,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,10, 120,20);
 	assert( rb[0] != nullptr );
 
 	rb[1] =
-		jnew JXTextRadioButton(2, "Space", itsRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,30, 120,20);
+		jnew JXTextRadioButton(2, JGetString("rb[1]::GLGetDelimiterDialog::JXLayout"), itsRG,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,30, 120,20);
 	assert( rb[1] != nullptr );
 
 	rb[2] =
-		jnew JXTextRadioButton(3, "Tab", itsRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 120,20);
+		jnew JXTextRadioButton(3, JGetString("rb[2]::GLGetDelimiterDialog::JXLayout"), itsRG,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,50, 120,20);
 	assert( rb[2] != nullptr );
 
 	rb[3] =
-		jnew JXTextRadioButton(4, "Character", itsRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 100,20);
+		jnew JXTextRadioButton(4, JGetString("rb[3]::GLGetDelimiterDialog::JXLayout"), itsRG,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 100,20);
 	assert( rb[3] != nullptr );
 
 	itsCharInput =
 		jnew JXInputField(itsRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 125,70, 40,20);
+					JXWidget::kHElastic, JXWidget::kVElastic, 125,70, 40,20);
 	assert( itsCharInput != nullptr );
 
-	JXStaticText* helplabel =
-		jnew JXStaticText("", window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,200, 310,20);
-	assert( helplabel != nullptr );
+	JXStaticText* helpLabel =
+		jnew JXStaticText(JGetString("helpLabel::GLGetDelimiterDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,200, 310,20);
+	assert( helpLabel != nullptr );
+	helpLabel->SetToLabel();
 
 	itsSkipCB =
-		jnew JXTextCheckbox("Skip first", window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,140, 80,20);
+		jnew JXTextCheckbox(JGetString("itsSkipCB::GLGetDelimiterDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,140, 80,20);
 	assert( itsSkipCB != nullptr );
 
 	itsCommentCB =
-		jnew JXTextCheckbox("Skip lines beginning with", window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,160, 170,20);
+		jnew JXTextCheckbox(JGetString("itsCommentCB::GLGetDelimiterDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,160, 170,20);
 	assert( itsCommentCB != nullptr );
 
 	itsSkipCountInput =
 		jnew JXIntegerInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,140, 40,20);
+					JXWidget::kHElastic, JXWidget::kVElastic, 90,140, 40,20);
 	assert( itsSkipCountInput != nullptr );
 
-	JXStaticText* obj1 =
-		jnew JXStaticText("lines.", window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,143, 60,20);
-	assert( obj1 != nullptr );
+	JXStaticText* lineLabel =
+		jnew JXStaticText(JGetString("lineLabel::GLGetDelimiterDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 135,140, 60,20);
+	assert( lineLabel != nullptr );
+	lineLabel->SetToLabel();
 
 	itsCommentInput =
 		jnew JXInputField(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,160, 50,20);
+					JXWidget::kHElastic, JXWidget::kVElastic, 180,160, 50,20);
 	assert( itsCommentInput != nullptr );
-	itsCommentInput->SetFontSize(10);
 
 // end JXLayout
 
-	window->SetTitle("Choose Delimiter");
-	window->PlaceAsDialogWindow();
-	UseModalPlacement(kJTrue);
+	window->SetTitle(JGetString("WindowTitle::GLGetDelimiterDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsFileText =
-		jnew JXStaticText("", kJFalse, kJFalse,
-			scollbarSet, scollbarSet->GetScrollEnclosure(),
+		jnew JXStaticText(JString::empty, kJFalse, kJFalse, kJFalse,
+			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
 	assert(itsFileText != nullptr);
 	itsFileText->FitToEnclosure();
@@ -196,17 +186,13 @@ GLGetDelimiterDialog::BuildWindow()
 	itsSkipCountInput->Deactivate();
 	itsCommentInput->Deactivate();
 
-	JString helpText("In the text below, \'a\' = tab and \'b\' = space.");
-	helpText.SetCharacter(21, kTabChar);
-	helpText.SetCharacter(35, kSpaceChar);
-	helplabel->SetText(helpText);
-	helplabel->JTextEditor::SetFontName(21, 21, JGetGreekFontName(), kJTrue);
+	helpLabel->GetText()->SetText(JGetString("Help::GLGetDelimiterDialog"));
 
 	ListenTo(itsRG);
 	ListenTo(itsSkipCB);
 	ListenTo(itsCommentCB);
 
-	itsCommentInput->SetText("#");
+	itsCommentInput->GetText()->SetText(JString("#", kJFalse));
 }
 
 /******************************************************************************
@@ -281,8 +267,8 @@ JUtf8Byte
 GLGetDelimiterDialog::GetCharacter()
 {
 	assert(itsRG->GetSelectedItem() == kChar);
-	assert(itsCharInput->GetTextLength() > 0);
-	const JString& temp = itsCharInput->GetText();
+	assert(!itsCharInput->GetText()->IsEmpty());
+	const JString& temp = itsCharInput->GetText()->GetText();
 	return temp.GetRawBytes()[0];
 }
 
@@ -332,7 +318,7 @@ GLGetDelimiterDialog::HasComments()
 const JString&
 GLGetDelimiterDialog::GetCommentString()
 {
-	return itsCommentInput->GetText();
+	return itsCommentInput->GetText()->GetText();
 }
 
 /******************************************************************************
@@ -354,22 +340,22 @@ GLGetDelimiterDialog::ReadPrefs
 		itsRG->SelectItem(id);
 		JString str;
 		input >> str;
-		itsCharInput->SetText(str);
+		itsCharInput->GetText()->SetText(str);
 		JBoolean checked;
-		input >> checked;
+		input >> JBoolFromString(checked);
 		itsSkipCB->SetState(checked);
 		JBoolean ok;
-		input >> ok;
+		input >> JBoolFromString(ok);
 		if (ok)
 			{
 			JInteger value;
 			input >> value;
 			itsSkipCountInput->SetValue(value);
 			}
-		input >> checked;
+		input >> JBoolFromString(checked);
 		itsCommentCB->SetState(checked);
 		input >> str;
-		itsCommentInput->SetText(str);
+		itsCommentInput->GetText()->SetText(str);
 		JPoint loc;
 		input >> loc;
 		JCoordinate w;
@@ -396,15 +382,15 @@ GLGetDelimiterDialog::WritePrefs
 	output << kDelimiterPrefsVersionID << ' ';
 	output << itsRG->GetSelectedItem() << ' ';
 	output << itsCharInput->GetText() << ' ';
-	output << itsSkipCB->IsChecked() << ' ';
+	output << JBoolToString(itsSkipCB->IsChecked()) << ' ';
 	JInteger value;
 	JBoolean ok = itsSkipCountInput->GetValue(&value);
-	output << ok << ' ';
+	output << JBoolToString(ok) << ' ';
 	if (ok)
 		{
 		output << value << ' ';
 		}
-	output << itsCommentCB->IsChecked() << ' ';
+	output << JBoolToString(itsCommentCB->IsChecked()) << ' ';
 	output << itsCommentInput->GetText() << ' ';
 	output << GetWindow()->GetDesktopLocation() << ' ';
 	output << GetWindow()->GetFrameWidth() << ' ';

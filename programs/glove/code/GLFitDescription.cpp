@@ -32,7 +32,7 @@ GLFitDescription::GLFitDescription
 	GLFitBase(1),
 	itsType(type),
 	itsFnForm(form),
-	itsFnName(name.IsEmpty() ? JGetString("DefaultName::GLFitDescription") : name),
+	itsFnName(name.IsEmpty() ? JGetString("DefaultLabel::GLGlobal") : name),
 	itsRequiresStartValues(kJFalse),
 	itsCanUseStartValues(kJTrue)
 {

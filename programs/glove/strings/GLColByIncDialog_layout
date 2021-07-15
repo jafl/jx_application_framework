@@ -1,0 +1,9 @@
+0
+cancelButton::GLColByIncDialog::shortcuts::JXLayout "^["
+okButton::GLColByIncDialog::shortcuts::JXLayout "^M"
+itsDestMenu::GLColByIncDialog::JXLayout "Destination"
+okButton::GLColByIncDialog::JXLayout "OK"
+minLabel::GLColByIncDialog::JXLayout "Minimum:"
+cancelButton::GLColByIncDialog::JXLayout "Cancel"
+incrLabel::GLColByIncDialog::JXLayout "Increment:"
+countLabel::GLColByIncDialog::JXLayout "Count:"

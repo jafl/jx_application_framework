@@ -16,13 +16,15 @@ class GLPlotApp;
 class JXPTPrinter;
 class GLMDIServer;
 
-GLFitManager*	GetFitManager();
-GLPrefsMgr*		GetPrefsMgr();
+GLFitManager*	GLGetFitManager();
+GLPrefsMgr*		GLGetPrefsMgr();
 GLPlotApp*		GLGetApplication();
 JXPTPrinter*	GLGetPTPrinter();
 GLMDIServer*	GLGetMDIServer();
 
 JBoolean		InitGLGlobals(GLPlotApp* app);
 void			DeleteGLGlobals();
+
+void	GLBuildColumnMenus(const JUtf8Byte* key, const JSize count, ...);
 
 #endif

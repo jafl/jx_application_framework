@@ -296,7 +296,7 @@ GLPlotFitLinearEq::CalculateFirstPass()
 	SetCurrentParameters(parms.GetColVector(1));
 
 	const JPlotDataBase* data = GetData();
-	if (data->HasXErrors() && 0)
+	if (0 && data->HasXErrors())
 		{
 		for (JIndex i = 1; i <= 3; i++)
 			{

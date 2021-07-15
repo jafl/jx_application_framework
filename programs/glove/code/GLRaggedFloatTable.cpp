@@ -2608,16 +2608,13 @@ GLRaggedFloatTable::WriteDataCols
 	SelectionType type = GetSelectionType();
 	if (type != kColsSelected)
 		{
-		JString str = "This module requires " + JString((JUInt64) cols);
-		if (cols == 1)
+		JString str((JUInt64) cols);
+		const JUtf8Byte* map[] =
 			{
-			str += " column to be selected.";
-			}
-		else
-			{
-			str += " columns to be selected.";
-			}
-		JGetUserNotification()->ReportError(str);
+			"i", str.GetBytes()
+			};
+		JGetUserNotification()->ReportError(
+			JGetString("MustSelectColumns::GLRaggedFloatTable", map, sizeof(map)));
 		return kJFalse;
 		}
 	JIndex nrows;
@@ -2636,10 +2633,15 @@ GLRaggedFloatTable::WriteDataCols
 		nrows--;
 		}
 
-	if (cols > (int)ncols)
+	if (cols > (int) ncols)
 		{
-		JString str = "This module requires " + JString((JUInt64) cols) + " columns to be selected.";
-		JGetUserNotification()->ReportError(str);
+		JString str((JUInt64) cols);
+		const JUtf8Byte* map[] =
+			{
+			"i", str.GetBytes()
+			};
+		JGetUserNotification()->ReportError(
+			JGetString("MustSelectColumns::GLRaggedFloatTable", map, sizeof(map)));
 		return kJFalse;
 		}
 	os << nrows << std::endl;

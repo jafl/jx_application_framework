@@ -1,4 +1,4 @@
-0
+1
 
 COPYRIGHT
 "Copyright (C) 1996-2018 Glenn Bach.
@@ -47,6 +47,11 @@ $copyright"
 # global
 
 DefaultVarName::GLGlobal	"x"
+Column::GLGlobal			"Column $i"
+DefaultLabel::GLGlobal		"Untitled"
+NewPlotItemLabel::GLGlobal	"New Plot"
+SpecifyCurveLabel::GLGlobal	"You must specify a curve label."
+FitMenuItem::GLGlobal		"Fit $i"
 
 # GLAboutDialog
 
@@ -64,10 +69,6 @@ You have just upgraded from version $vers"
 DirectoryAccessDenied::GLMDIServer	"Unable to access \"$name\"."
 OpenFilesProgress::GLMDIServer		"Opening files..."
 NotAFile::GLMDIServer				"\"$name\" is not a regular file, so it cannot be opened."
-
-# GLFitDescription
-
-DefaultName::GLFitDescription	"Untitled"
 
 # GLDataModule
 
@@ -107,6 +108,7 @@ NoDataToPlot::GLRaggedFloatTable			"You have no data to plot."
 ReplaceColWarning::GLRaggedFloatTable		"Replace destination column?"
 NoDataToTransform::GLRaggedFloatTable		"You have no data to transform."
 GenerateIfNoTransform::GLRaggedFloatTable	"Use \"Generate column\" if you aren't transforming column values."
+MustSelectColumns::GLRaggedFloatTable		"This module requires $i column(s) to be selected."
 
 # GLDataDocument
 
@@ -115,7 +117,7 @@ OpenFailed::GLDataDocument			"Error opening file."
 FilterError::GLDataDocument			"Error executing filter."
 FilterFileError::GLDataDocument		"This file is not readable by this filter."
 FilterProcess::GLDataDocument		"Loading file..."
-PlotTitlePrefix::GLDataDocument		"Plot "
+PlotTitle::GLDataDocument			"Plot $i"
 MismatchedColumns::GLDataDocument	"The data columns must have the same number of elements."
 Ellipsis::GLDataDocument			"..."
 ExportFileName::GLDataDocument		"Untitled.dat"
@@ -143,15 +145,11 @@ NoData::GLColByIncDialog			"Count must be greater than zero."
 # GLColByRangeDialog
 
 WindowTitle::GLColByRangeDialog			"New Column by Range"
-ColumnTitlePrefix::GLColByRangeDialog	"Column "
 
 # GLCreatePlotDialog
 
 WindowTitle::GLCreatePlotDialog			"Choose Plot Data Columns"
 NoneItemLabel::GLCreatePlotDialog		"None"
-NewPlotItemLabel::GLCreatePlotDialog	"New Plot"
-DefaultLabel::GLCreatePlotDialog		"Untitled"
-SpecifyCurveLabel::GLCreatePlotDialog	"You must specify a curve label."
 
 # GLPlotFunctionDialog
 
@@ -177,8 +175,7 @@ MissingPower::GLPolyFitDialog	"You must add at least one power."
 PlotMenuTitle::GLPlotDir		"Plot"
 AnalysisMenuTitle::GLPlotDir	"Analysis"
 DiffCurveName::GLPlotDir		"Residual data"
-DiffMenuItemPrefix::GLPlotDir	"Residual plot "
-FitMenuItemPrefix::GLPlotDir	"Fit "
+DiffMenuItem::GLPlotDir			"Residual plot $i"
 
 # GLFitParameterTable
 
@@ -202,4 +199,21 @@ CurvesColTitle::GLFitDirector	"Curves"
 FitsColTitle::GLFitDirector		"Fits"
 CurveTitle::GLFitDirector		"Curve: "
 FitTitle::GLFitDirector			"Fit: "
-ChiSqTitle::GLFitDirector		"Normalized chi-squared (chi^2/n-"
+ChiSqTitle::GLFitDirector		"Normalized chi-squared (chi^2/n-$i):"
+
+# GLFitModuleDialog
+
+WindowTitle::GLFitModuleDialog	"Choose fit module"
+
+# GLTransformFunctionDialog
+
+WindowTitle::GLTransformFunctionDialog	"Transformation Window"
+
+# GLGetDelimiterDialog
+
+WindowTitle::GLGetDelimiterDialog	"Choose Delimiter"
+Help::GLGetDelimiterDialog			"In the text below, → = tab and • = space."
+
+# GLCreateVectorPlotDialog
+
+WindowTitle::GLCreateVectorPlotDialog	"Choose Vector Data Columns"

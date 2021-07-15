@@ -33,7 +33,7 @@ const JUtf8Byte* GLFitManager::kFitsChanged	= "kFitsChanged::GLFitManager";
 
 GLFitManager::GLFitManager()
 	:
-	JPrefObject(GetPrefsMgr(), kFitManagerID),
+	JPrefObject(GLGetPrefsMgr(), kFitManagerID),
 	itsIsInitialized(kJFalse)
 {
 	itsFitDescriptions	= jnew JPtrArray<GLFitDescription>(JPtrArrayT::kDeleteAll);

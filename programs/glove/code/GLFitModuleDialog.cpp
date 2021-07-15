@@ -51,51 +51,47 @@ GLFitModuleDialog::~GLFitModuleDialog()
 void
 GLFitModuleDialog::BuildWindow()
 {
-
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 270,100, "");
+	JXWindow* window = jnew JXWindow(this, 270,100, JString::empty);
 	assert( window != nullptr );
 
-	JXStaticText* obj1 =
-		jnew JXStaticText("Please select the appropriate module.", window,
+	JXStaticText* prompt =
+		jnew JXStaticText(JGetString("prompt::GLFitModuleDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,10, 230,20);
-	assert( obj1 != nullptr );
+	assert( prompt != nullptr );
+	prompt->SetToLabel();
 
 	itsFilterMenu =
-		jnew JXTextMenu("Filter:", window,
+		jnew JXTextMenu(JGetString("itsFilterMenu::GLFitModuleDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,40, 70,20);
 	assert( itsFilterMenu != nullptr );
 
-	itsOKButton =
-		jnew JXTextButton("OK", window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 70,20);
-	assert( itsOKButton != nullptr );
-	itsOKButton->SetShortcuts("^M");
-
 	JXTextButton* cancelButton =
-		jnew JXTextButton("Cancel", window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 180,70, 70,20);
+		jnew JXTextButton(JGetString("cancelButton::GLFitModuleDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 70,20);
 	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts("^[");
+
+	itsOKButton =
+		jnew JXTextButton(JGetString("itsOKButton::GLFitModuleDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 180,70, 70,20);
+	assert( itsOKButton != nullptr );
+	itsOKButton->SetShortcuts(JGetString("itsOKButton::GLFitModuleDialog::shortcuts::JXLayout"));
 
 	itsReloadButton =
-		jnew JXTextButton("Reload", window,
+		jnew JXTextButton(JGetString("itsReloadButton::GLFitModuleDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 100,70, 70,20);
 	assert( itsReloadButton != nullptr );
 
 // end JXLayout
 
-	window->SetTitle("Choose fit module");
+	window->SetTitle(JGetString("WindowTitle::GLFitModuleDialog"));
 	SetButtons(itsOKButton, cancelButton);
 
-	JPtrArray<JString>* names = (GLGetApplication())->GetFitModules();
-
-	const JSize strCount = names->GetElementCount();
-
-	for (JSize i = 1; i <= strCount; i++)
+	JPtrArray<JString>* names = GLGetApplication()->GetFitModules();
+	for (JString* name : *names)
 		{
-		itsFilterMenu->AppendItem(*(names->GetElement(i)));
+		itsFilterMenu->AppendItem(*name);
 		}
 
 	itsFilterIndex = 1;
@@ -103,7 +99,7 @@ GLFitModuleDialog::BuildWindow()
 	itsFilterMenu->SetToPopupChoice(kJTrue, itsFilterIndex);
 	itsFilterMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFilterMenu);
-	if (strCount == 0)
+	if (names->IsEmpty())
 		{
 		itsFilterMenu->Deactivate();
 		itsOKButton->Deactivate();
@@ -133,17 +129,16 @@ GLFitModuleDialog::Receive
 
 	else if (sender == itsReloadButton && message.Is(JXButton::kPushed))
 		{
-		(GLGetApplication())->ReloadFitModules();
+		GLGetApplication()->ReloadFitModules();
 		itsFilterMenu->RemoveAllItems();
-		JPtrArray<JString>* names = (GLGetApplication())->GetFitModules();
-		const JSize strCount = names->GetElementCount();
-		for (JSize i = 1; i <= strCount; i++)
+		JPtrArray<JString>* names = GLGetApplication()->GetFitModules();
+		for (JString* name : *names)
 			{
-			itsFilterMenu->AppendItem(*(names->GetElement(i)));
+			itsFilterMenu->AppendItem(*name);
 			}
 		itsFilterIndex = 1;
 		itsFilterMenu->SetToPopupChoice(kJTrue, itsFilterIndex);
-		if (strCount == 0)
+		if (names->IsEmpty())
 			{
 			itsFilterMenu->Deactivate();
 			itsOKButton->Deactivate();

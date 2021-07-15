@@ -12,6 +12,7 @@
 #include "GLFitBase.h"
 #include "GLPlotDir.h"
 #include "GLHistoryDir.h"
+#include "GLGlobals.h"
 #include <JXWindow.h>
 #include <JXTextMenu.h>
 #include <JXTextButton.h>
@@ -154,7 +155,7 @@ void
 GLFitParmsDir::UpdateFitMenu()
 {
 	itsFitMenu->RemoveAllItems();
-	JSize i;
+
 	const JSize count = itsFits->GetElementCount();
 	if (count == 0)
 		{
@@ -164,12 +165,8 @@ GLFitParmsDir::UpdateFitMenu()
 		{
 		itsFitMenu->Activate();
 		}
-	for (i = 1; i <= count; i++)
-		{
-		JString numS(i);
-		JString str = "Fit " + numS;
-		itsFitMenu->AppendItem(str);
-		}
+
+	GLBuildColumnMenus("FitMenuItem::GLGlobal", count, itsFitMenu, nullptr);
 }
 
 /******************************************************************************
@@ -268,13 +265,19 @@ GLFitParmsDir::SendToSession
 	GLHistoryDir* dir = itsPlotDir->GetSessionDir();
 	GLFitBase* fit = itsFits->GetElement(index);
 	const JSize count = fit->GetParameterCount();
-	JString str;
-	str = "Fit " + JString(index);
+
+	JString str((JUInt64) index);
+	const JUtf8Byte* map[] =
+		{
+		"i", str.GetBytes()
+		};
+	str = JGetString("FitMenuItem::GLGlobal", map, sizeof(map));
 	dir->AppendText(str);
+
 	str = "Function: " + fit->GetFitFunctionString();
 	dir->AppendText(str);
-	JSize i;
-	for (i = 1; i <= count; i++)
+
+	for (JIndex i = 1; i <= count; i++)
 		{
 		fit->GetParameterName(i, &str);
 		JFloat value;
@@ -321,5 +324,5 @@ GLFitParmsDir::SendToSession
 			dir->AppendText(str);
 			}
 		}
-	dir->AppendText("\n");
+	dir->AppendText(JString("\n", kJFalse));
 }

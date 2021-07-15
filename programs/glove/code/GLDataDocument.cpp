@@ -210,7 +210,7 @@ GLDataDocument::BuildWindow()
 	assert( menuBar != nullptr );
 
 	JXToolBar* toolBar =
-		jnew JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar,
+		jnew JXToolBar(GLGetPrefsMgr(), kDataToolBarID, menuBar,
 					window,
 					JXWidget::kHElastic, JXWidget::kVElastic,
 					0,kJXDefaultMenuBarHeight,
@@ -723,7 +723,12 @@ GLDataDocument::CreateNewPlot
 	const JString&			label
 	)
 {
-	JString str = JGetString("PlotTitlePrefix::GLDataDocument") + JString((JUInt64) itsPlotNumber);
+	JString str((JUInt64) itsPlotNumber);
+	const JUtf8Byte* map[] =
+		{
+		"i", str.GetBytes()
+		};
+	str = JGetString("PlotTitle::GLDataDocument", map, sizeof(map));
 	itsPlotNumber++;
 
 	GLPlotDir* plotDir = jnew GLPlotDir(this, this, GetFileName());

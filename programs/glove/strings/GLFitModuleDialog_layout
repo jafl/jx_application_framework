@@ -1,0 +1,7 @@
+0
+itsOKButton::GLFitModuleDialog::shortcuts::JXLayout "^M"
+itsReloadButton::GLFitModuleDialog::JXLayout "Reload"
+prompt::GLFitModuleDialog::JXLayout "Please select the appropriate module."
+itsFilterMenu::GLFitModuleDialog::JXLayout "Filter:"
+itsOKButton::GLFitModuleDialog::JXLayout "OK"
+cancelButton::GLFitModuleDialog::JXLayout "Cancel"

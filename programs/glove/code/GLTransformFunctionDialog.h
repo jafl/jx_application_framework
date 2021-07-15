@@ -39,18 +39,18 @@ private:
 
 // begin JXLayout
 
-	JXTextButton*  itsTransformButton;
-	JXTextButton*  itsCloseButton;
-	JXTextButton*  itsClearButton;
-	JXInputField*  itsFunctionString;
-	JXTextButton*  itsEditButton;
-	JXTextMenu*    itsDestMenu;
-	JXTextMenu*    itsVarMenu;
-	JXStaticText*  itsColNumber;
+	JXTextButton* itsTransformButton;
+	JXTextButton* itsCloseButton;
+	JXTextButton* itsClearButton;
+	JXInputField* itsFunctionString;
+	JXTextButton* itsEditButton;
+	JXTextMenu*   itsDestMenu;
+	JXTextMenu*   itsVarMenu;
+	JXStaticText* itsColNumber;
 
 // end JXLayout
 
-	GLExprDirector* 	itsEditor;
+	GLExprDirector* itsEditor;
 	GLVarList* 		itsList;
 	JIndex			itsDestCol;
 

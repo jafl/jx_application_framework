@@ -168,7 +168,6 @@ GLPolyFitDialog::BuildWindow()
 
 // end JXLayout
 
-
 	itsFn = 
 		jnew JXExprEditor(itsVarList, 
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),

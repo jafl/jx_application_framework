@@ -10,6 +10,7 @@
 #include "GLCreateVectorPlotDialog.h"
 #include "GLDataDocument.h"
 #include "GLRaggedFloatTableData.h"
+#include "GLGlobals.h"
 
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -17,12 +18,8 @@
 #include <JXInputField.h>
 #include <JXStaticText.h>
 
-#include <JPtrArray.h>
-#include <JString.h>
+#include <JPtrArray-JString.h>
 #include <JUserNotification.h>
-
-#include <jGlobals.h>
-
 #include <jAssert.h>
 
 /******************************************************************************
@@ -70,46 +67,44 @@ GLCreateVectorPlotDialog::BuildWindow
 	const JIndex startY2
 	)
 {
-
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 380,160, "");
+	JXWindow* window = jnew JXWindow(this, 370,160, JString::empty);
 	assert( window != nullptr );
 
 	itsX1Menu =
-		jnew JXTextMenu("X1", window,
+		jnew JXTextMenu(JGetString("itsX1Menu::GLCreateVectorPlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 160,30);
 	assert( itsX1Menu != nullptr );
 
 	itsY1Menu =
-		jnew JXTextMenu("Y1", window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 200,40, 170,30);
+		jnew JXTextMenu(JGetString("itsY1Menu::GLCreateVectorPlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 200,40, 160,30);
 	assert( itsY1Menu != nullptr );
 
 	itsX2Menu =
-		jnew JXTextMenu("DX", window,
+		jnew JXTextMenu(JGetString("itsX2Menu::GLCreateVectorPlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,80, 160,30);
 	assert( itsX2Menu != nullptr );
 
 	itsY2Menu =
-		jnew JXTextMenu("DY", window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 200,80, 170,30);
+		jnew JXTextMenu(JGetString("itsY2Menu::GLCreateVectorPlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 200,80, 160,30);
 	assert( itsY2Menu != nullptr );
 
 	JXTextButton* okButton =
-		jnew JXTextButton("OK", window,
+		jnew JXTextButton(JGetString("okButton::GLCreateVectorPlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 280,130, 70,20);
 	assert( okButton != nullptr );
-	okButton->SetShortcuts("^M");
+	okButton->SetShortcuts(JGetString("okButton::GLCreateVectorPlotDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
-		jnew JXTextButton("Cancel", window,
+		jnew JXTextButton(JGetString("cancelButton::GLCreateVectorPlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 190,130, 70,20);
 	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts("^[");
 
 	itsPlotsMenu =
-		jnew JXTextMenu("Plot:", window,
+		jnew JXTextMenu(JGetString("itsPlotsMenu::GLCreateVectorPlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,120, 130,30);
 	assert( itsPlotsMenu != nullptr );
 
@@ -118,28 +113,19 @@ GLCreateVectorPlotDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 115,10, 200,20);
 	assert( itsLabelInput != nullptr );
 
-	JXStaticText* obj1 =
-		jnew JXStaticText("Label:", window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 65,13, 45,15);
-	assert( obj1 != nullptr );
-	obj1->SetToLabel();
+	JXStaticText* label =
+		jnew JXStaticText(JGetString("label::GLCreateVectorPlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 65,10, 50,20);
+	assert( label != nullptr );
+	label->SetToLabel();
 
 // end JXLayout
 
-	window->SetTitle("Choose Vector Data Columns");
+	window->SetTitle(JGetString("WindowTitle::GLCreateVectorPlotDialog"));
 	SetButtons(okButton, cancelButton);
 
-	const JSize count = data->GetDataColCount();
-
-	for (JSize i = 1; i <= count; i++)
-		{
-		JString str(i);
-		str.Prepend("Column ");
-		itsX1Menu->AppendItem(str);
-		itsX2Menu->AppendItem(str);
-		itsY1Menu->AppendItem(str);
-		itsY2Menu->AppendItem(str);
-		}
+	GLBuildColumnMenus("Column::GLGlobal", data->GetDataColCount(),
+					   itsX1Menu, itsX2Menu, itsY1Menu, itsY2Menu, nullptr);
 
 	itsStartX1 = startX;
 	if (startX == 0)
@@ -168,13 +154,11 @@ GLCreateVectorPlotDialog::BuildWindow
 	JPtrArray<JString> names(JPtrArrayT::kDeleteAll);
 	itsTableDir->GetPlotNames(names);
 
-	itsPlotsMenu->AppendItem("New Plot");
+	itsPlotsMenu->AppendItem(JGetString("NewPlotItemLabel::GLGlobal"));
 
-	const JSize strCount = names.GetElementCount();
-
-	for (JSize i = 1; i <= strCount; i++)
+	for (JString* name : names)
 		{
-		itsPlotsMenu->AppendItem(*(names.GetElement(i)));
+		itsPlotsMenu->AppendItem(*name);
 		}
 
 	itsPlotsMenu->ShowSeparatorAfter(1, kJTrue);
@@ -199,7 +183,7 @@ GLCreateVectorPlotDialog::BuildWindow
 	ListenTo(itsY2Menu);
 	ListenTo(itsPlotsMenu);
 
-	itsLabelInput->SetText("Untitled");
+	itsLabelInput->GetText()->SetText(JGetString("DefaultLabel::GLGlobal"));
 }
 
 /******************************************************************************
@@ -308,7 +292,7 @@ GLCreateVectorPlotDialog::GetPlotIndex
 const JString&
 GLCreateVectorPlotDialog::GetLabel()
 {
-	return itsLabelInput->GetText();
+	return itsLabelInput->GetText()->GetText();
 }
 
 /******************************************************************************
@@ -325,7 +309,7 @@ GLCreateVectorPlotDialog::OKToDeactivate()
 		}
 	if (GetLabel().IsEmpty())
 		{
-		JGetUserNotification()->ReportError("You must specify a curve label.");
+		JGetUserNotification()->ReportError(JGetString("SpecifyCurveLabel::GLGlobal"));
 		return kJFalse;
 		}
 	return kJTrue;

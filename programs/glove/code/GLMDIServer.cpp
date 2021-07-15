@@ -60,14 +60,14 @@ GLMDIServer::HandleMDIRequest
 	const JSize argCount = argList.GetElementCount();
 	if (argCount == 1)
 		{
-//		GNBGetPrefsMgr()->RestoreProgramState();
+//		GNBGLGetPrefsMgr()->RestoreProgramState();
 		itsApp->NewFile();
-//		GNBGetPrefsMgr()->ForgetProgramState();
+//		GNBGLGetPrefsMgr()->ForgetProgramState();
 		return;
 		}
 	else
 		{
-//		GNBGetPrefsMgr()->ForgetProgramState();
+//		GNBGLGetPrefsMgr()->ForgetProgramState();
 		}
 
 	JUserNotification* un = JGetUserNotification();

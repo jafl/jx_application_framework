@@ -71,7 +71,7 @@ GLPlotApp::GLPlotApp
 
 	if (!*displayAbout)
 		{
-		*prevVersStr = GetPrefsMgr()->GetGloveVersionStr();
+		*prevVersStr = GLGetPrefsMgr()->GetGloveVersionStr();
 		if (*prevVersStr == JGetString("VERSION"))
 			{
 			prevVersStr->Clear();

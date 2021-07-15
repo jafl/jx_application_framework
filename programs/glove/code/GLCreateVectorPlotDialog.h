@@ -51,12 +51,12 @@ private:
 
 // begin JXLayout
 
-	JXTextMenu*    itsX1Menu;
-	JXTextMenu*    itsY1Menu;
-	JXTextMenu*    itsX2Menu;
-	JXTextMenu*    itsY2Menu;
-	JXTextMenu*    itsPlotsMenu;
-	JXInputField*  itsLabelInput;
+	JXTextMenu*   itsX1Menu;
+	JXTextMenu*   itsY1Menu;
+	JXTextMenu*   itsX2Menu;
+	JXTextMenu*   itsY2Menu;
+	JXTextMenu*   itsPlotsMenu;
+	JXInputField* itsLabelInput;
 
 // end JXLayout
 

@@ -11,11 +11,11 @@
 #include "GLMDIServer.h"
 
 #include <JXPTPrinter.h>
+#include <JXTextMenu.h>
 
 #include <JPtrArray-JString.h>
 #include <jDirUtil.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdarg>
 #include <jAssert.h>
 
 static GLFitManager*	itsFitManager	= nullptr;
@@ -26,7 +26,6 @@ static GLMDIServer*		itsMDIServer	= nullptr;
 
 /******************************************************************************
  InitGLGlobals
-
 
  ******************************************************************************/
 
@@ -61,7 +60,6 @@ InitGLGlobals
 /******************************************************************************
  DeleteGLGlobals
 
-
  ******************************************************************************/
 
 void 
@@ -79,7 +77,7 @@ DeleteGLGlobals()
  ******************************************************************************/
 
 GLPrefsMgr*
-GetPrefsMgr()
+GLGetPrefsMgr()
 {
 	assert(itsPrefsMgr != nullptr);
 	return itsPrefsMgr;
@@ -114,7 +112,7 @@ GLGetPTPrinter()
  ******************************************************************************/
 
 GLFitManager*
-GetFitManager()
+GLGetFitManager()
 {
 	assert(itsFitManager != nullptr);
 	return itsFitManager;
@@ -130,4 +128,48 @@ GLGetMDIServer()
 {
 	assert(itsMDIServer != nullptr);
 	return itsMDIServer;
+}
+
+/******************************************************************************
+ GLBuildColumnMenus
+
+ ******************************************************************************/
+
+void
+GLBuildColumnMenus
+	(
+	const JUtf8Byte*	key,
+	const JSize			count,
+	...
+	)
+{
+	std::va_list args;
+	va_start(args, count);
+
+	for (JUInt64 i=1; i<=count; i++)
+		{
+		JString str(i);
+		const JUtf8Byte* map[] =
+			{
+			"i", str.GetBytes()
+			};
+		str = JGetString(key, map, sizeof("map"));
+
+		std::va_list args2;
+		va_copy(args2, args);
+
+		while (1)
+			{
+			JXTextMenu* menu = va_arg(args2, JXTextMenu*);
+			if (menu == nullptr)
+				{
+				break;
+				}
+			menu->AppendItem(str);
+			}
+
+		va_end(args2);
+		}
+
+	va_end(args);
 }

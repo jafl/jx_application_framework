@@ -8,6 +8,7 @@
  ******************************************************************************/
 
 #include "GLColByIncDialog.h"
+#include "GLGlobals.h"
 
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -17,10 +18,6 @@
 #include <JXStaticText.h>
 
 #include <JUserNotification.h>
-#include <JString.h>
-
-#include <jGlobals.h>
-
 #include <jAssert.h>
 
 /******************************************************************************
@@ -30,20 +27,15 @@
 
 GLColByIncDialog::GLColByIncDialog
 	(
-	JXWindowDirector* supervisor,
-	const JSize count
+	JXWindowDirector*	supervisor,
+	const JSize			count
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue)
 {
 	BuildWindow();
 	
-	for (JSize i = 1; i <= count; i++)
-		{
-		JString str((JUInt64) i);
-		str.Prepend("Column "); 
-		itsDestMenu->AppendItem(str);
-		}
+	GLBuildColumnMenus("Column::GLGlobal", count, itsDestMenu, nullptr);
 	
 	itsDestMenu->SetToPopupChoice(kJTrue, count);
 	itsDestCol = count;

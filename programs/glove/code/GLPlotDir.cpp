@@ -168,8 +168,7 @@ GLPlotDir::GLPlotDir
 	ListenTo(itsDiffMenu);
 	itsAnalysisMenu->DisableItem(kDiffPlotCmd);
 
-	itsSessionDir =
-		jnew GLHistoryDirJXGetApplication();
+	itsSessionDir = jnew GLHistoryDir(JXGetApplication());
 	assert(itsSessionDir != nullptr);
 	JXGetDocumentManager()->DocumentMustStayOpen(itsSessionDir, kJTrue);
 	ListenTo(itsSessionDir);
@@ -822,7 +821,7 @@ GLPlotDir::ReadCurves
 			J2DPlotJFunction* pf;
 			JFloat min, max, inc;
 			itsPlot->GetXScale(&min, &max, &inc);
-			if (J2DPlotJFunction::Create(&pf, itsPlot, itsVarList, fnString, itsXVarIndex, min, max))
+			if (J2DPlotJFunction::Create(&pf, itsPlot, itsVarList, GetDisplay()->GetFontManager(), fnString, itsXVarIndex, min, max))
 				{
 				itsCurrentCurveType = kGFunctionCurve;
 				itsPlot->AddCurve(pf, kJTrue, pf->GetFunctionString(), kJTrue, kJFalse);
@@ -992,18 +991,13 @@ void
 GLPlotDir::UpdateFitParmsMenu()
 {
 	itsFitParmsMenu->RemoveAllItems();
-	const JSize count = itsFits->GetElementCount();
-	for (JUInt64 i = 1; i <= count; i++)
-		{
-		JString numS(i);
-		JString str = JGetString("FitMenuItemPrefix::GLPlotDir") + numS;
-		itsFitParmsMenu->AppendItem(str);
-		}
-	if (count == 0)
+	GLBuildColumnMenus("FitMenuItem::GLGlobal", itsFits->GetElementCount(),
+					   itsFitParmsMenu, nullptr);
+
+	if (itsFits->IsEmpty())
 		{
 		itsAnalysisMenu->DisableItem(kFitParmsCmd);
 		}
-
 }
 
 /******************************************************************************
@@ -1015,18 +1009,13 @@ void
 GLPlotDir::UpdateDiffMenu()
 {
 	itsDiffMenu->RemoveAllItems();
-	const JSize count = itsDiffDirs->GetElementCount();
-	for (JUInt64 i = 1; i <= count; i++)
-		{
-		JString numS(i);
-		JString str = JGetString("DiffMenuItemPrefix::GLPlotDir") + numS;
-		itsDiffMenu->AppendItem(str);
-		}
-	if (count == 0)
+	GLBuildColumnMenus("DiffMenuItem::GLPlotDir", itsDiffDirs->GetElementCount(),
+					   itsDiffMenu, nullptr);
+
+	if (itsDiffDirs->IsEmpty())
 		{
 		itsAnalysisMenu->DisableItem(kDiffPlotCmd);
 		}
-
 }
 
 /******************************************************************************
@@ -1363,23 +1352,23 @@ GLPlotDir::HandleHelpMenu
 {
 	if (index == kAboutCmd)
 		{
-		(GLGetApplication())->DisplayAbout();
+		GLGetApplication()->DisplayAbout();
 		}
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection("GLPlotHelp");
+		JXGetHelpManager()->ShowSection("GLPlotHelp");
 		}
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }
 
@@ -1394,7 +1383,6 @@ GLPlotDir::SafetySave
 	const JXDocumentManager::SafetySaveReason reason
 	)
 {
-
 }
 
 /******************************************************************************
@@ -1405,7 +1393,6 @@ GLPlotDir::SafetySave
 void
 GLPlotDir::DiscardChanges()
 {
-
 }
 
 /******************************************************************************

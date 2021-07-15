@@ -43,7 +43,7 @@ public:
 
 	virtual ~GLPlotDir();
 
-	GLPlotter*		GetPlot();
+	GLPlotter*			GetPlot();
 	void 				NewFileName(const JString& filename);
 
 	void 				WriteSetup(std::ostream& os);
@@ -52,7 +52,7 @@ public:
 	void 				WriteData(std::ostream& os, GLRaggedFloatTableData* data);
 	void 				ReadData(std::istream& is, GLRaggedFloatTableData* data, const JFloat gloveVersion);
 	virtual JBoolean	NeedsSave() const override;
-	GLHistoryDir*	GetSessionDir();
+	GLHistoryDir*		GetSessionDir();
 	JBoolean			AddFitModule(GLPlotModuleFit* fit, JPlotDataBase* fitData);
 	virtual void		SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
 	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
@@ -73,7 +73,7 @@ protected:
 
 private:
 
-	GLPlotter* 				itsPlot;
+	GLPlotter* 					itsPlot;
 	JString 					itsFileName;
 	GLVarList*					itsVarList;
 	JXTextMenu*					itsPlotMenu;
@@ -85,12 +85,12 @@ private:
 	GLPlotFunctionDialog*		itsFunctionDialog;
 	JPtrArray<GLFitBase>*		itsFits;
 	GLFitParmsDir*				itsFitParmsDir;
-	JArray<GloveCurveStats>*			itsCurveStats;
+	JArray<GloveCurveStats>*	itsCurveStats;
 	GCurveType					itsCurrentCurveType;
 	JXFileDocument*				itsSupervisor;
-	JPtrArray<GLPlotDir>*			itsDiffDirs;
+	JPtrArray<GLPlotDir>*		itsDiffDirs;
 	JBoolean					itsHideOnClose;
-	GLHistoryDir*			itsSessionDir;
+	GLHistoryDir*				itsSessionDir;
 	JXPSPrinter*				itsPrinter;
 	JX2DPlotEPSPrinter*			itsEPSPrinter;
 	JBoolean					itsIsPrintAll;

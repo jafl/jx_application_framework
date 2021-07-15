@@ -40,7 +40,7 @@ GLChooseFileImportDialog::GLChooseFileImportDialog
 	)
 	:
 	JXDialogDirector(supervisor, kJTrue),
-	JPrefObject(GetPrefsMgr(), kFileModulePrefsID),
+	JPrefObject(GLGetPrefsMgr(), kFileModulePrefsID),
 	itsDir(supervisor)
 {
 	BuildWindow(filename);
@@ -140,7 +140,7 @@ GLChooseFileImportDialog::BuildWindow
 	text.Read(is, kFileByteCount);
 
 	itsFileText = 
-		jnew JXStaticText(text, kJFalse, kJFalse, 
+		jnew JXStaticText(text, kJFalse, kJFalse, kJFalse,
 			textScrollbarSet, textScrollbarSet->GetScrollEnclosure(), 
 			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
 	assert(itsFileText != nullptr);

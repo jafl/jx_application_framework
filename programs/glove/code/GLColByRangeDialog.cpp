@@ -8,6 +8,7 @@
  ******************************************************************************/
 
 #include "GLColByRangeDialog.h"
+#include "GLGlobals.h"
 
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -17,10 +18,6 @@
 #include <JXStaticText.h>
 
 #include <JUserNotification.h>
-#include <JString.h>
-
-#include <jGlobals.h>
-
 #include <jAssert.h>
 
 /******************************************************************************
@@ -119,12 +116,7 @@ GLColByRangeDialog::BuildWindow()
 	window->SetTitle(JGetString("WindowTitle::GLColByRangeDialog"));
 	SetButtons(okButton, cancelButton);
 
-	for (JUInt64 i=1; i<=itsDestCol; i++)
-		{
-		JString str(i);
-		str.Prepend(JGetString("ColumnTitlePrefix::GLColByRangeDialog")); 
-		itsDestMenu->AppendItem(str);
-		}
+	GLBuildColumnMenus("Column::GLGlobal", itsDestCol, itsDestMenu, nullptr);
 	
 	itsDestMenu->SetToPopupChoice(kJTrue, itsDestCol);
 //	itsDestMenu->SetPopupChoice(itsDestCol);

@@ -22,11 +22,13 @@
 #include <jx_plain_file_small.xpm>
 #include <jAssert.h>
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
-	"Save session %k Meta-S"
-	"|Save session as... %l|Save session window size"
-	"%l|Print %k Meta-P %l|Close %k Meta-W | Quit %k Meta-Q";
+static const JUtf8Byte* kFileMenuStr =
+	"    Save session             %k Meta-S"
+	"  | Save session as..."
+	"%l| Save session window size"
+	"%l| Print                    %k Meta-P"
+	"%l| Close                    %k Meta-W"
+	"  | Quit                     %k Meta-Q";
 
 enum
 {
@@ -38,7 +40,7 @@ enum
 	kQuitCmd
 };
 
-const JCharacter* GLHistoryDir::kSessionChanged = "kSessionChanged::GLHistoryDir";
+const JUtf8Byte* GLHistoryDir::kSessionChanged = "kSessionChanged::GLHistoryDir";
 
 /******************************************************************************
  Constructor
@@ -93,7 +95,7 @@ GLHistoryDir::BuildWindow()
 						0,0, w,kJXDefaultMenuBarHeight);
 	assert( itsMenuBar != nullptr );
 
-	itsFileMenu = itsMenuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = itsMenuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
@@ -142,7 +144,7 @@ GLHistoryDir::Receive
 		{
 		UpdateFileMenu();
 		}
-	else if (sender == itsHistory && message.Is(JTextEditor::kTextChanged))
+	else if (sender == itsHistory && message.Is(JStyledText::kTextChanged))
 		{
 		Broadcast(SessionChanged());
 		}
@@ -199,18 +201,17 @@ GLHistoryDir::HandleFileMenu
 void
 GLHistoryDir::AppendText
 	(
-	const JCharacter* 	text,
-	const JBoolean 		show
+	const JString&	text,
+	const JBoolean	show
 	)
 {
-	JSize count = itsHistory->GetTextLength();
-	if (count != 0)
+	const JString& history = itsHistory->GetText()->GetText();
+	if (!history.IsEmpty())
 		{
-		const JString& history = itsHistory->GetText();
-		itsHistory->SetCaretLocation(count+1);
-		if (history.GetCharacter(count) != '\n')
+		itsHistory->SetCaretLocation(itsHistory->GetText()->GetBeyondEnd().charIndex);
+		if (history.GetLastCharacter() != '\n')
 			{
-			itsHistory->Paste("\n");
+			itsHistory->Paste(JString("\n", kJFalse));
 			}
 		}
 	itsHistory->Paste(text);
@@ -244,8 +245,7 @@ GLHistoryDir::WriteData
 	std::ostream& os
 	)
 {
-	JString text = itsHistory->GetText();
-	os << text << ' ';
+	os << itsHistory->GetText()->GetText() << ' ';
 }
 
 /******************************************************************************

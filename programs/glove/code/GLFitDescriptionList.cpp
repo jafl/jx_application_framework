@@ -93,7 +93,7 @@ GLFitDescriptionList::GLFitDescriptionList
 	assert( itsExecutableIcon != nullptr );
 	itsExecutableIcon->ConvertToRemoteStorage();
 
-	ListenTo(GetFitManager());
+	ListenTo(GLGetFitManager());
 }
 
 /******************************************************************************
@@ -162,7 +162,7 @@ GLFitDescriptionList::TableDrawCell
 
 	const JString* curveName = itsNameList->GetElement(cell.y);
 
-	const GLFitDescription& fd	= GetFitManager()->GetFitDescription(cell.y);
+	const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(cell.y);
 
 	JRect irect	= rect;
 	irect.right	= rect.left + kIconWidth;
@@ -353,7 +353,7 @@ GLFitDescriptionList::Receive
 	const Message&	message
 	)
 {
-	if (sender == GetFitManager() && message.Is(GLFitManager::kFitsChanged))
+	if (sender == GLGetFitManager() && message.Is(GLFitManager::kFitsChanged))
 		{
 		SyncWithManager();
 		}
@@ -369,14 +369,14 @@ GLFitDescriptionList::SyncWithManager()
 {
 	RemoveAllRows();
 	
-	const JSize count = GetFitManager()->GetFitCount();
+	const JSize count = GLGetFitManager()->GetFitCount();
 	AppendRows(count);
 
 	itsNameList->DeleteAll();
 	
 	for (JIndex i=1; i<=count; i++)
 		{
-		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(i);
+		const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(i);
 		JString* str	= jnew JString(fd.GetFnName());
 		assert(str != nullptr);
 		itsNameList->Append(str);

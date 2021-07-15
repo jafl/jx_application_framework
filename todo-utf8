@@ -1,3 +1,19 @@
+glove
+	clean up .fd to match current layouts
+	test layouts on Linux and OS X
+
+	test column transform:  add two columns
+
+jx_project_wizard
+	convert logic to use JSubstitute - need way to specify case match?
+	convert app_template to { }
+	convert help to online
+
+replace JBoolean with bool
+	jTypes.h - remove JConvertToBoolean, JI2B, JNegate, operator!, JFloatToBoolean, JF2B
+
+-----
+
 JStyledText
 	AutoIndent
 	CleanRightMargin
@@ -13,9 +29,6 @@ jcc
 		Emulator drop-down should be radio buttons
 		Fonts should have monospace, not Arial
 
-
-	unit test
-		c++ preprocessor
 
 	HTML styler
 		unit test for CDATA - can contain php or jsp
@@ -110,7 +123,6 @@ jcc
 -----
 
 unit test
-	JAliasArray
 	JStyledText - every usage of JRunArrayIterator
 	JTextEditor - every usage of JRunArrayIterator
 	JTable - especially JRunArrayIterator
@@ -130,21 +142,7 @@ jcc
 	menu of supported text formats in "open text file" dialog
 	sub-menu of supported text formats on File menu, just like "file formats"
 
-jx_project_wizard
-	convert logic to use JSubstitute - need way to specify case match?
-	convert app_template to { }
-	convert help to online
-
-glove
-	clean up .fd to match current layouts
-	test layouts on Linux and OS X
-
-	test column transform:  add two columns
-
------
-
-replace JBoolean with bool
-	jTypes.h - remove JConvertToBoolean, JI2B, JNegate, operator!, JFloatToBoolean, JF2B
+---
 
 test every usage of JStringIterator
 	glove

@@ -78,5 +78,5 @@ GLChiSqLabel::Draw
 	)
 {
 	JXDrawUpFrame(p, GetBounds(), GetBorderWidth());
-	p.String(0, 0, JGetString("Label::GLChiSqLabel"), GetBoundsWidth(), JPainter::kHAlignCenter, GetBoundsHeight(), JPainter::kVAlignCenter);
+	p.JPainter::String(0, 0, JGetString("Label::GLChiSqLabel"), GetBoundsWidth(), JPainter::kHAlignCenter, GetBoundsHeight(), JPainter::kVAlignCenter);
 }
