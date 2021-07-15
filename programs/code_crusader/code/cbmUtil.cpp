@@ -646,6 +646,14 @@ CBMSelectLines
 	)
 {
 	JIndex lineIndex = te->CRLineIndexToVisualLineIndex(lineRange.first);
+	te->SelectLine(lineIndex);
+
+	if (lineRange.last > lineRange.first)
+		{
+		lineIndex = te->CRLineIndexToVisualLineIndex(lineRange.last);
+		te->SetSelection(JCharacterRange(
+			te->GetInsertionCharIndex(), te->GetLineCharEnd(lineIndex)));
+		}
 
 	if (!te->WillBreakCROnly())
 		{
@@ -653,16 +661,6 @@ CBMSelectLines
 		const JStyledText::TextRange r = te->GetText()->CharToTextRange(nullptr, JCharacterRange(charIndex, charIndex));
 		te->SetSelection(JCharacterRange(
 			te->GetInsertionCharIndex(), te->GetText()->GetParagraphEnd(r.GetFirst()).charIndex));
-		}
-	else if (lineRange.last > lineRange.first)
-		{
-		lineIndex = te->CRLineIndexToVisualLineIndex(lineRange.last);
-		te->SetSelection(JCharacterRange(
-			te->GetInsertionCharIndex(), te->GetLineCharEnd(lineIndex)));
-		}
-	else
-		{
-		te->SelectLine(lineIndex);
 		}
 }
 
