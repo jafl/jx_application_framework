@@ -16,8 +16,6 @@
 #include <numeric>
 #include <jAssert.h>
 
-#define verify(str, list)	JAssertStringsEqual(str, JPrintList(list));
-
 int main()
 {
 	return JTestManager::Execute();

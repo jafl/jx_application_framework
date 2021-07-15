@@ -52,7 +52,7 @@ TESTS := \
   test_JBroadcaster test_JComplex \
   test_JArray test_JLinkedList test_JPtrArray test_JRunArray \
   test_JStack test_JQueue test_JVector test_JMatrix \
-  test_JListUtil test_JPtrArrayJString \
+  test_JAliasArray test_JListUtil test_JPtrArrayJString \
   test_jColor test_JColorManager test_JFontManager test_JPainter \
   test_JKLRand test_jHashFunctions \
   test_JHashTable test_JStringMap test_JStringPtrMap \

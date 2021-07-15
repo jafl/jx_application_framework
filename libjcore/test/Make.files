@@ -1,5 +1,9 @@
 -suffix .cpp
 
+@test_JAliasArray
+${CODEDIR}/test_JAliasArray
+literal: ${LIB_DEPS}
+
 @test_JArray
 ${CODEDIR}/test_JArray
 literal: ${LIB_DEPS}
