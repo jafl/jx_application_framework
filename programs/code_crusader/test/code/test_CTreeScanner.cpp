@@ -10,6 +10,7 @@
 #include <JTestManager.h>
 #include "CBCTree.h"
 #include "CBClass.h"
+#include "CBCPreprocessor.h"
 #include <jAssert.h>
 
 int main()
@@ -44,6 +45,10 @@ JTEST(Basic)
 	JArray<JFAID_t> deadFileList;
 
 	TestCTree tree;
+	tree.GetCPreprocessor()->DefineMacro(
+		JString("TEST_MACRO", kJFalse),
+		JString("CBCtagsUser", kJFalse));
+
 	tree.PrepareForUpdate(kJFalse);
 	tree.ParseFile(JString("./data/tree/c/CBTestTree.h", kJFalse), 1);
 	tree.UpdateFinished(deadFileList);

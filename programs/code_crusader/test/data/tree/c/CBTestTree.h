@@ -24,7 +24,7 @@ enum FooBar
 	a, b, c
 };
 
-class CBTestTree : public CBTree, public CBCtagsUser
+class CBTestTree : public CBTree, public TEST_MACRO
 {
 public:
 

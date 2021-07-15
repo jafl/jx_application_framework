@@ -55,13 +55,16 @@ Makefiles:
 
 .PHONY : test
 test:
-	@cd ..; ${MAKE} TOUCHSTRING=CODE_CRUSADER_UNIT_TEST touch
-	${MAKE} test_binaries
+	${MAKE} reset test_binaries
 	$(call run_tests,${TESTS})
-	@cd ..; ${MAKE} TOUCHSTRING=CODE_CRUSADER_UNIT_TEST touch
+	${MAKE} reset
 
 .PHONY : test_binaries
 test_binaries: ${TESTS}
+
+.PHONY : reset
+reset:
+	@cd ..; ${MAKE} TOUCHSTRING=CODE_CRUSADER_UNIT_TEST touch
 
 .PHONY : touch
 touch::
