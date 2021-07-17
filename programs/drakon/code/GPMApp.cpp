@@ -26,7 +26,7 @@ GPMApp::GPMApp
 	(
 	int*		argc,
 	char*		argv[],
-	JBoolean*	displayAbout,
+	bool*	displayAbout,
 	JString*	prevVersStr
 	)
 	:
@@ -43,7 +43,7 @@ GPMApp::GPMApp
 			}
 		else
 			{
-			*displayAbout = kJTrue;
+			*displayAbout = true;
 			}
 		}
 	else

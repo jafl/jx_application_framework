@@ -97,7 +97,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 	JSize depth;

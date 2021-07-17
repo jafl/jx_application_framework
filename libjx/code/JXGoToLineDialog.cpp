@@ -26,10 +26,10 @@ JXGoToLineDialog::JXGoToLineDialog
 	JXDirector*		supervisor,
 	const JIndex	lineIndex,
 	const JIndex	maxLine,
-	const JBoolean	physicalLineIndexFlag
+	const bool	physicalLineIndexFlag
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue),
+	JXDialogDirector(supervisor, true),
 	itsMaxLineCount(maxLine)
 {
 	BuildWindow(lineIndex, physicalLineIndexFlag);
@@ -53,7 +53,7 @@ void
 JXGoToLineDialog::BuildWindow
 	(
 	const JIndex	lineIndex,
-	const JBoolean	physicalLineIndexFlag
+	const bool	physicalLineIndexFlag
 	)
 {
 // begin JXLayout
@@ -108,14 +108,14 @@ JXGoToLineDialog::BuildWindow
 JIndex
 JXGoToLineDialog::GetLineIndex
 	(
-	JBoolean* physicalLineIndexFlag
+	bool* physicalLineIndexFlag
 	)
 	const
 {
 	*physicalLineIndexFlag = itsPhysicalLineIndexCB->IsChecked();
 
 	JInteger lineIndex;
-	const JBoolean ok = itsLineNumber->GetValue(&lineIndex);
+	const bool ok = itsLineNumber->GetValue(&lineIndex);
 	assert( ok );
 
 	if (((JSize) lineIndex) <= itsMaxLineCount)

@@ -126,12 +126,12 @@ JString
 JReadLine
 	(
 	std::istream&	input,
-	JBoolean*		foundNewLine
+	bool*		foundNewLine
 	)
 {
 	JString line;
 	JUtf8Byte c;
-	const JBoolean foundDelimiter = JReadUntil(input, 2, "\r\n", &line, &c);
+	const bool foundDelimiter = JReadUntil(input, 2, "\r\n", &line, &c);
 	if (foundDelimiter && c == '\r' && !input.eof() && input.peek() == '\n')
 		{
 		input.ignore();
@@ -159,12 +159,12 @@ JReadUntil
 	(
 	std::istream&	input,
 	const JUtf8Byte	delimiter,
-	JBoolean*		foundDelimiter
+	bool*		foundDelimiter
 	)
 {
 	JString str;
 	JUtf8Byte c;
-	const JBoolean found = JReadUntil(input, 1, &delimiter, &str, &c);
+	const bool found = JReadUntil(input, 1, &delimiter, &str, &c);
 	if (foundDelimiter != nullptr)
 		{
 		*foundDelimiter = found;
@@ -178,17 +178,17 @@ JReadUntil
 	Read characters from the std::istream until one of the delimiters is reached.
 	delimiter is read in and discarded.
 
-	Returns kJTrue if a delimited is found.  *delimiter is then set to
+	Returns true if a delimited is found.  *delimiter is then set to
 	the delimiter that was found.
 
-	Returns kJFalse if it encounters an error or end-of-stream instead of
+	Returns false if it encounters an error or end-of-stream instead of
 	a delimiter.  *delimiter is not changed.
 
 	delimiter can be nullptr.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JReadUntil
 	(
 	std::istream&		input,
@@ -199,7 +199,7 @@ JReadUntil
 	)
 {
 	str->Clear();
-	JBoolean isDelimiter = kJFalse;
+	bool isDelimiter = false;
 
 	const JSize bufSize = 1024;
 	JUtf8Byte buf[ bufSize ];
@@ -218,7 +218,7 @@ JReadUntil
 			{
 			if (c == delimiters[j])
 				{
-				isDelimiter = kJTrue;
+				isDelimiter = true;
 				if (delimiter != nullptr)
 					{
 					*delimiter = delimiters[j];
@@ -265,7 +265,7 @@ JString
 JReadUntilws
 	(
 	std::istream&	input,
-	JBoolean*		foundws
+	bool*		foundws
 	)
 {
 	JUtf8Byte delimiters[] = { ' ', '\t', '\n' };
@@ -273,7 +273,7 @@ JReadUntilws
 
 	JString str;
 	JUtf8Byte c;
-	const JBoolean found = JReadUntil(input, delimiterCount, delimiters, &str, &c);
+	const bool found = JReadUntil(input, delimiterCount, delimiters, &str, &c);
 	if (foundws != nullptr)
 		{
 		*foundws = found;
@@ -297,11 +297,11 @@ void
 JIgnoreLine
 	(
 	std::istream&	input,
-	JBoolean*		foundNewLine
+	bool*		foundNewLine
 	)
 {
 	JUtf8Byte c;
-	const JBoolean foundDelimiter = JIgnoreUntil(input, 2, "\r\n", &c);
+	const bool foundDelimiter = JIgnoreUntil(input, 2, "\r\n", &c);
 	if (foundDelimiter && c == '\r' && !input.eof() && input.peek() == '\n')
 		{
 		input.ignore();
@@ -331,11 +331,11 @@ JIgnoreUntil
 	(
 	std::istream&	input,
 	const JUtf8Byte	delimiter,
-	JBoolean*		foundDelimiter
+	bool*		foundDelimiter
 	)
 {
 	JUtf8Byte c;
-	const JBoolean found = JIgnoreUntil(input, 1, &delimiter, &c);
+	const bool found = JIgnoreUntil(input, 1, &delimiter, &c);
 	if (foundDelimiter != nullptr)
 		{
 		*foundDelimiter = found;
@@ -347,7 +347,7 @@ JIgnoreUntil
 	(
 	std::istream&		input, 
 	const JUtf8Byte*	delimiter,
-	JBoolean*			foundDelimiter
+	bool*			foundDelimiter
 	)
 {
 	const JSize delimLength = strlen(delimiter);
@@ -361,7 +361,7 @@ JIgnoreUntil
 
 	if (foundDelimiter != nullptr)
 		{
-		*foundDelimiter = kJFalse;
+		*foundDelimiter = false;
 		}
 
 	JUtf8Byte* window = jnew JUtf8Byte[ delimLength ];
@@ -379,7 +379,7 @@ JIgnoreUntil
 	if (foundDelimiter != nullptr &&
 		JString::Compare(window, delimLength, delimiter, delimLength) == 0)
 		{
-		*foundDelimiter = kJTrue;
+		*foundDelimiter = true;
 		}
 
 	jdelete [] window;
@@ -391,17 +391,17 @@ JIgnoreUntil
 	Toss characters from the std::istream until one of the delimiters is reached.
 	delimiter is read in and discarded.
 
-	Returns kJTrue if a delimited is found.  *delimiter is then set to
+	Returns true if a delimited is found.  *delimiter is then set to
 	the delimiter that was found.
 
-	Returns kJFalse if it encounters an error or end-of-stream instead of
+	Returns false if it encounters an error or end-of-stream instead of
 	a delimiter.  *delimiter is not changed.
 
 	delimiter can be nullptr.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIgnoreUntil
 	(
 	std::istream&		input,
@@ -410,7 +410,7 @@ JIgnoreUntil
 	JUtf8Byte*			delimiter
 	)
 {
-	JBoolean isDelimiter = kJFalse;
+	bool isDelimiter = false;
 
 	while (1)
 		{
@@ -425,7 +425,7 @@ JIgnoreUntil
 			{
 			if (c == delimiters[i])
 				{
-				isDelimiter = kJTrue;
+				isDelimiter = true;
 				if (delimiter != nullptr)
 					{
 					*delimiter = c;
@@ -567,9 +567,9 @@ JEncodeBase64
  ******************************************************************************/
 
 static JIndex kBase64Decoding[128];
-static JBoolean kBase64DecodeInit = kJFalse;
+static bool kBase64DecodeInit = false;
 
-JBoolean
+bool
 JDecodeBase64
 	(
 	std::istream& input,
@@ -585,12 +585,12 @@ JDecodeBase64
 			kBase64Decoding[ (unsigned char) kBase64Encoding[i] ] = i;
 			}
 
-		kBase64DecodeInit = kJTrue;
+		kBase64DecodeInit = true;
 		}
 
 	input >> std::ws;
 
-	JBoolean lastReturn = kJFalse;
+	bool lastReturn = false;
 	JIndex chunkIndex   = 1;
 	JIndex chunkData    = 0;
 
@@ -601,11 +601,11 @@ JDecodeBase64
 			{
 			if (lastReturn)
 				{
-				return kJTrue;
+				return true;
 				}
 			else
 				{
-				lastReturn = kJTrue;
+				lastReturn = true;
 				}
 			}
 		else if (c == '\r')
@@ -620,7 +620,7 @@ JDecodeBase64
 				output << outVal;
 
 				JReadUntilws(input);
-				return kJTrue;
+				return true;
 				}
 			else if (chunkIndex == 4)
 				{
@@ -631,18 +631,18 @@ JDecodeBase64
 				output << outVal;
 
 				JReadUntilws(input);
-				return kJTrue;
+				return true;
 				}
 
 			chunkIndex++;
 			}
 		else if (c > 127 || kBase64Decoding[c] == 0xFFFFFFFF)
 			{
-			return kJFalse;
+			return false;
 			}
 		else
 			{
-			lastReturn      = kJFalse;	// prevent single \n from triggering exit
+			lastReturn      = false;	// prevent single \n from triggering exit
 			JIndex pieceVal = kBase64Decoding[c];
 
 			if (chunkIndex == 1)
@@ -686,7 +686,7 @@ JDecodeBase64
 			}
 		}
 
-	return JI2B(chunkIndex == 1);
+	return chunkIndex == 1;
 }
 
 /******************************************************************************
@@ -780,12 +780,12 @@ JRead
 
  ******************************************************************************/
 
-JBoolean
+bool
 JReadAll
 	(
 	const int		input,
 	JString*		str,
-	const JBoolean	closeInput
+	const bool	closeInput
 	)
 {
 	str->Clear();
@@ -811,7 +811,7 @@ JReadAll
 				::close(input);
 				}
 			str->Set(byteBuf.GetCArray(), byteBuf.GetElementCount());
-			return kJFalse;
+			return false;
 			}
 		else if (result == 0)
 			{
@@ -820,7 +820,7 @@ JReadAll
 				::close(input);
 				}
 			str->Set(byteBuf.GetCArray(), byteBuf.GetElementCount());
-			return kJTrue;
+			return true;
 			}
 		// else, keep reading
 		}
@@ -842,12 +842,12 @@ JReadUntil
 	(
 	const int		input,
 	const JUtf8Byte	delimiter,
-	JBoolean*		foundDelimiter
+	bool*		foundDelimiter
 	)
 {
 	JString str;
 	JUtf8Byte c;
-	const JBoolean found = JReadUntil(input, 1, &delimiter, &str, &c);
+	const bool found = JReadUntil(input, 1, &delimiter, &str, &c);
 	if (foundDelimiter != nullptr)
 		{
 		*foundDelimiter = found;
@@ -861,10 +861,10 @@ JReadUntil
 	Read characters from the std::istream until one of the delimiters is reached.
 	delimiter is read in and discarded.
 
-	Returns kJTrue if a delimited is found.  *delimiter is then set to
+	Returns true if a delimited is found.  *delimiter is then set to
 	the delimiter that was found.
 
-	Returns kJFalse if it encounters an error or end-of-stream instead of
+	Returns false if it encounters an error or end-of-stream instead of
 	a delimiter.  *delimiter is not changed.
 
 	delimiter can be nullptr.
@@ -874,7 +874,7 @@ JReadUntil
 
  ******************************************************************************/
 
-JBoolean
+bool
 JReadUntil
 	(
 	const int			input,
@@ -885,7 +885,7 @@ JReadUntil
 	)
 {
 	str->Clear();
-	JBoolean isDelimiter = kJFalse;
+	bool isDelimiter = false;
 
 	const JSize bufLength = 1024;
 
@@ -905,7 +905,7 @@ JReadUntil
 			{
 			if (c == delimiters[j])
 				{
-				isDelimiter = kJTrue;
+				isDelimiter = true;
 				if (delimiter != nullptr)
 					{
 					*delimiter = c;
@@ -943,11 +943,11 @@ JIgnoreUntil
 	(
 	const int		input,
 	const JUtf8Byte	delimiter,
-	JBoolean*		foundDelimiter
+	bool*		foundDelimiter
 	)
 {
 	JUtf8Byte c;
-	const JBoolean found = JIgnoreUntil(input, 1, &delimiter, &c);
+	const bool found = JIgnoreUntil(input, 1, &delimiter, &c);
 	if (foundDelimiter != nullptr)
 		{
 		*foundDelimiter = found;
@@ -959,7 +959,7 @@ JIgnoreUntil
 	(
 	const int			input, 
 	const JUtf8Byte*	delimiter,
-	JBoolean*			foundDelimiter
+	bool*			foundDelimiter
 	)
 {
 	const JSize delimLength = strlen(delimiter);
@@ -973,7 +973,7 @@ JIgnoreUntil
 
 	if (foundDelimiter != nullptr)
 		{
-		*foundDelimiter = kJFalse;
+		*foundDelimiter = false;
 		}
 
 	char* window = jnew char[ delimLength ];
@@ -990,7 +990,7 @@ JIgnoreUntil
 
 	if (strcmp(window, delimiter) == 0 && foundDelimiter != nullptr)
 		{
-		*foundDelimiter = kJTrue;
+		*foundDelimiter = true;
 		}
 
 	jdelete [] window;
@@ -1002,10 +1002,10 @@ JIgnoreUntil
 	Toss characters from the std::istream until one of the delimiters is reached.
 	delimiter is read in and discarded.
 
-	Returns kJTrue if a delimited is found.  *delimiter is then set to
+	Returns true if a delimited is found.  *delimiter is then set to
 	the delimiter that was found.
 
-	Returns kJFalse if it encounters an error or end-of-stream instead of
+	Returns false if it encounters an error or end-of-stream instead of
 	a delimiter.  *delimiter is not changed.
 
 	delimiter can be nullptr.
@@ -1015,7 +1015,7 @@ JIgnoreUntil
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIgnoreUntil
 	(
 	const int			input,
@@ -1024,7 +1024,7 @@ JIgnoreUntil
 	JUtf8Byte*			delimiter
 	)
 {
-	JBoolean isDelimiter = kJFalse;
+	bool isDelimiter = false;
 
 	while (1)
 		{
@@ -1034,14 +1034,14 @@ JIgnoreUntil
 
 		if (result == -1)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		for (JUnsignedOffset i=0; i<delimiterCount; i++)
 			{
 			if (c == delimiters[i])
 				{
-				isDelimiter = kJTrue;
+				isDelimiter = true;
 				if (delimiter != nullptr)
 					{
 					*delimiter = c;
@@ -1067,7 +1067,7 @@ JIgnoreUntil
 
  ******************************************************************************/
 
-JBoolean
+bool
 JWaitForInput
 	(
 	const int		input,
@@ -1087,16 +1087,16 @@ JWaitForInput
 		const int result = poll(&in, 1, 1000);
 		if (result > 0)								// success
 			{
-			return kJTrue;
+			return true;
 			}
 		else if (result < 0 && jerrno() != EINTR)	// failure
 			{
-			return kJFalse;
+			return false;
 			}
 
 		if (time(nullptr) - startTime > timeout)			// give up
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 }

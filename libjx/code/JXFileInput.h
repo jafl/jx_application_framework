@@ -21,28 +21,28 @@ public:
 
 	virtual ~JXFileInput();
 
-	virtual JBoolean	InputValid() override;
-	virtual JBoolean	GetFile(JString* fullName) const;
+	virtual bool	InputValid() override;
+	virtual bool	GetFile(JString* fullName) const;
 	virtual JString		GetTextForChooseFile() const;
 
-	JBoolean	WillAllowInvalidFile() const;
-	void		ShouldAllowInvalidFile(const JBoolean allow = kJTrue);
+	bool	WillAllowInvalidFile() const;
+	void		ShouldAllowInvalidFile(const bool allow = true);
 
-	JBoolean	WillRequireReadable() const;
-	void		ShouldRequireReadable(const JBoolean require = kJTrue);
+	bool	WillRequireReadable() const;
+	void		ShouldRequireReadable(const bool require = true);
 
-	JBoolean	WillRequireWritable() const;
-	void		ShouldRequireWritable(const JBoolean require = kJTrue);
+	bool	WillRequireWritable() const;
+	void		ShouldRequireWritable(const bool require = true);
 
-	JBoolean	WillRequireExecutable() const;
-	void		ShouldRequireExecutable(const JBoolean require = kJTrue);
+	bool	WillRequireExecutable() const;
+	void		ShouldRequireExecutable(const bool require = true);
 
-	JBoolean	ChooseFile(const JString& prompt, const JString& instr = JString::empty);
-	JBoolean	SaveFile(const JString& prompt, const JString& instr = JString::empty);
+	bool	ChooseFile(const JString& prompt, const JString& instr = JString::empty);
+	bool	SaveFile(const JString& prompt, const JString& instr = JString::empty);
 
 	static JColorID		GetTextColor(const JString& fileName, const JString& basePath,
-									 const JBoolean requireRead, const JBoolean requireWrite,
-									 const JBoolean requireExec);
+									 const bool requireRead, const bool requireWrite,
+									 const bool requireExec);
 
 protected:
 
@@ -71,10 +71,10 @@ protected:
 
 private:
 
-	JBoolean	itsAllowInvalidFileFlag;
-	JBoolean	itsRequireReadFlag;
-	JBoolean	itsRequireWriteFlag;
-	JBoolean	itsRequireExecFlag;
+	bool	itsAllowInvalidFileFlag;
+	bool	itsRequireReadFlag;
+	bool	itsRequireWriteFlag;
+	bool	itsRequireExecFlag;
 
 private:
 
@@ -92,7 +92,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileInput::WillAllowInvalidFile()
 	const
 {
@@ -102,7 +102,7 @@ JXFileInput::WillAllowInvalidFile()
 inline void
 JXFileInput::ShouldAllowInvalidFile
 	(
-	const JBoolean allow
+	const bool allow
 	)
 {
 	itsAllowInvalidFileFlag = allow;
@@ -113,7 +113,7 @@ JXFileInput::ShouldAllowInvalidFile
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileInput::WillRequireReadable()
 	const
 {
@@ -123,7 +123,7 @@ JXFileInput::WillRequireReadable()
 inline void
 JXFileInput::ShouldRequireReadable
 	(
-	const JBoolean require
+	const bool require
 	)
 {
 	itsRequireReadFlag = require;
@@ -134,7 +134,7 @@ JXFileInput::ShouldRequireReadable
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileInput::WillRequireWritable()
 	const
 {
@@ -144,7 +144,7 @@ JXFileInput::WillRequireWritable()
 inline void
 JXFileInput::ShouldRequireWritable
 	(
-	const JBoolean require
+	const bool require
 	)
 {
 	itsRequireWriteFlag = require;
@@ -155,7 +155,7 @@ JXFileInput::ShouldRequireWritable
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileInput::WillRequireExecutable()
 	const
 {
@@ -165,7 +165,7 @@ JXFileInput::WillRequireExecutable()
 inline void
 JXFileInput::ShouldRequireExecutable
 	(
-	const JBoolean require
+	const bool require
 	)
 {
 	itsRequireExecFlag = require;

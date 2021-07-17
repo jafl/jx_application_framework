@@ -21,7 +21,7 @@ public:
 
 	virtual ~JXCheckboxGroup();
 
-	JBoolean	Includes(JXCheckbox* cb) const;
+	bool	Includes(JXCheckbox* cb) const;
 	void		Add(JXCheckbox* cb);
 	void		Insert(const JIndex index, JXCheckbox* cb);
 	void		Remove(JXCheckbox* cb);
@@ -31,13 +31,13 @@ protected:
 	JXCheckboxGroup();
 	JXCheckboxGroup(const JPtrArray<JXCheckbox>& cbList);
 
-	JBoolean	AllChecked() const;
-	JBoolean	AllUnchecked() const;
+	bool	AllChecked() const;
+	bool	AllUnchecked() const;
 
-	JBoolean	AllDisabled() const;
-	JBoolean	CheckboxDisabled(const JIndex index) const;
+	bool	AllDisabled() const;
+	bool	CheckboxDisabled(const JIndex index) const;
 
-	JBoolean				FindCheckbox(JBroadcaster* obj, JIndex* index) const;
+	bool				FindCheckbox(JBroadcaster* obj, JIndex* index) const;
 	JXCheckbox*				GetCheckbox(const JIndex index) const;
 	JPtrArray<JXCheckbox>*	GetCheckboxList() const;
 
@@ -64,7 +64,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXCheckboxGroup::Includes
 	(
 	JXCheckbox* cb

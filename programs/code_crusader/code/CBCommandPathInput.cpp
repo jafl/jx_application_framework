@@ -47,14 +47,14 @@ CBCommandPathInput::~CBCommandPathInput()
 /******************************************************************************
  GetPath (virtual)
 
-	Returns kJTrue if the current path is valid.  In this case, *path is
+	Returns true if the current path is valid.  In this case, *path is
 	set to the full path, relative to the root directory.
 
 	Use this instead of GetText(), because that may return a relative path.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandPathInput::GetPath
 	(
 	JString* path
@@ -65,7 +65,7 @@ CBCommandPathInput::GetPath
 	if (text == "@")
 		{
 		*path = text;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -78,12 +78,12 @@ CBCommandPathInput::GetPath
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandPathInput::InputValid()
 {
 	if (GetText()->GetText() == "@")
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -105,7 +105,7 @@ CBCommandPathInput::StyledText::AdjustStylesBeforeBroadcast
 	JRunArray<JFont>*		styles,
 	JStyledText::TextRange*	recalcRange,
 	JStyledText::TextRange*	redrawRange,
-	const JBoolean			deletion
+	const bool			deletion
 	)
 {
 	if (!text.IsEmpty() && text.GetFirstCharacter() == '@')
@@ -143,7 +143,7 @@ CBCommandPathInput::GetTextColor
 	(
 	const JString&	path,
 	const JString&	base,
-	const JBoolean	requireWrite
+	const bool	requireWrite
 	)
 {
 	if (path.GetFirstCharacter() == '@')

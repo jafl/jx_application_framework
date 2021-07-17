@@ -6,21 +6,21 @@
 	the following routines:
 
 		WillPrintBlackWhite
-			Returns kJTrue if the output will be black&white.
+			Returns true if the output will be black&white.
 
 		OpenDocument
 			Prepare to print.  (Page Setup and Print Setup dialogs should
-			already have been successfully completed.)  Return kJFalse
+			already have been successfully completed.)  Return false
 			if an error occurs.
 
 		NewPage
-			Open a new page.  Return kJFalse if printing was cancelled.
+			Open a new page.  Return false if printing was cancelled.
 
 		CloseDocument
 			Send the result to the printer.
 
 		CancelDocument
-			Abort the process.  Subsequent calls to NewPage should return kJFalse.
+			Abort the process.  Subsequent calls to NewPage should return false.
 
 	BASE CLASS = JPainter, JPrinter
 

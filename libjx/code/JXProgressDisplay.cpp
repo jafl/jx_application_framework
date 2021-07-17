@@ -37,7 +37,7 @@ const JUtf8Byte* JXProgressDisplay::kCancelRequested = "CancelRequested::JXProgr
 
 // Private class data
 
-static JBoolean messageWindowLocInit = kJFalse;
+static bool messageWindowLocInit = false;
 static JPoint messageWindowLoc(-1,-1);
 
 /******************************************************************************
@@ -49,7 +49,7 @@ JXProgressDisplay::JXProgressDisplay()
 	:
 	JProgressDisplay()
 {
-	itsCancelFlag      = kJFalse;
+	itsCancelFlag      = false;
 	itsCancelButton    = nullptr;
 	itsCounter         = nullptr;
 	itsIndicator       = nullptr;
@@ -106,11 +106,11 @@ JXProgressDisplay::ProcessBeginning
 	const ProcessType	processType,
 	const JSize			stepCount,
 	const JString&		message,
-	const JBoolean		allowCancel,
-	const JBoolean		allowBackground
+	const bool		allowCancel,
+	const bool		allowBackground
 	)
 {
-	itsCancelFlag = kJFalse;
+	itsCancelFlag = false;
 	JProgressDisplay::ProcessBeginning(processType, stepCount, message,
 									   allowCancel, allowBackground);
 
@@ -159,14 +159,14 @@ JXProgressDisplay::ProcessBeginning
  IncrementProgress (virtual)
 
 	Update the display to show that progress is being made.
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
 	If the current process is of variable length and the message is not nullptr,
 	then it is displayed in the message window.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXProgressDisplay::IncrementProgress
 	(
 	const JString& message
@@ -182,13 +182,13 @@ JXProgressDisplay::IncrementProgress
  IncrementProgress (virtual)
 
 	Update the display to show that progress is being made.
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
 	The iteration count is incremented by the specified value.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXProgressDisplay::IncrementProgress
 	(
 	const JSize delta
@@ -204,14 +204,14 @@ JXProgressDisplay::IncrementProgress
  IncrementProgress (virtual)
 
 	Update the display to show that progress is being made.
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
 	If the current process is of variable length and the message is not nullptr,
 	then it is displayed in the message window.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXProgressDisplay::IncrementProgress
 	(
 	const JString&	message,
@@ -228,14 +228,14 @@ JXProgressDisplay::IncrementProgress
  IncrementProgress1 (private)
 
 	Update the display to show that progress is being made.
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
 	If the current process is of variable length and the message is not nullptr,
 	then it is displayed in the message window.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXProgressDisplay::IncrementProgress1
 	(
 	const JString& message
@@ -269,16 +269,16 @@ JXProgressDisplay::IncrementProgress1
  ProcessContinuing (virtual)
 
 	Save the current location of the message window.
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXProgressDisplay::ProcessContinuing()
 {
 	if (itsMessageDirector != nullptr)
 		{
-		messageWindowLocInit = kJTrue;
+		messageWindowLocInit = true;
 		messageWindowLoc =
 			(itsMessageDirector->GetWindow())->GetDesktopLocation();
 		}
@@ -291,7 +291,7 @@ JXProgressDisplay::ProcessContinuing()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXProgressDisplay::CheckForCancel()
 {
 	return itsCancelFlag;
@@ -309,7 +309,7 @@ JXProgressDisplay::ProcessFinished()
 
 	if (itsMessageDirector != nullptr)
 		{
-		messageWindowLocInit = kJTrue;
+		messageWindowLocInit = true;
 		messageWindowLoc =
 			(itsMessageDirector->GetWindow())->GetDesktopLocation();
 
@@ -374,7 +374,7 @@ JXProgressDisplay::Receive
 		const JXButton::Pushed* info =
 			dynamic_cast<const JXButton::Pushed*>(&message);
 		assert( info != nullptr );
-		itsCancelFlag = kJTrue;
+		itsCancelFlag = true;
 
 		// must be last since it could delete us
 

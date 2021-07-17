@@ -20,7 +20,7 @@
 
 JFSFileTreeNodeBase::JFSFileTreeNodeBase
 	(
-	const JBoolean isOpenable
+	const bool isOpenable
 	)
 	:
 	JNamedTreeNode(nullptr, JString::empty, isOpenable)
@@ -43,14 +43,14 @@ JFSFileTreeNodeBase::~JFSFileTreeNodeBase()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFSFileTreeNodeBase::Update
 	(
-	const JBoolean			force,
+	const bool			force,
 	JFSFileTreeNodeBase**	updateNode
 	)
 {
-	JBoolean changed = kJFalse;
+	bool changed = false;
 
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
@@ -59,7 +59,7 @@ JFSFileTreeNodeBase::Update
 		assert (node != nullptr);
 		if (node->Update(force, updateNode))
 			{
-			changed = kJTrue;
+			changed = true;
 			}
 		}
 
@@ -112,7 +112,7 @@ JFSFileTreeNodeBase::GetFSParent()
 	return n;
 }
 
-JBoolean
+bool
 JFSFileTreeNodeBase::GetFSParent
 	(
 	JFSFileTreeNodeBase** parent
@@ -123,16 +123,16 @@ JFSFileTreeNodeBase::GetFSParent
 		{
 		*parent = dynamic_cast<JFSFileTreeNodeBase*>(p);
 		assert( *parent != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JFSFileTreeNodeBase::GetFSParent
 	(
 	const JFSFileTreeNodeBase** parent
@@ -144,11 +144,11 @@ JFSFileTreeNodeBase::GetFSParent
 		{
 		*parent = dynamic_cast<const JFSFileTreeNodeBase*>(p);
 		assert( *parent != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }

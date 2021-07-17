@@ -38,8 +38,8 @@ JXButton::JXButton
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsIsReturnButtonFlag = kJFalse;
-	itsIsPushedFlag       = kJFalse;
+	itsIsReturnButtonFlag = false;
+	itsIsPushedFlag       = false;
 
 	SetBorderWidth(kJXDefaultBorderWidth);
 }
@@ -63,9 +63,9 @@ JXButton::~JXButton()
 void
 JXButton::Push()
 {
-	itsIsPushedFlag = kJTrue;
+	itsIsPushedFlag = true;
 	Redraw();
-	itsIsPushedFlag = kJFalse;
+	itsIsPushedFlag = false;
 	Refresh();
 	Broadcast(Pushed());	// must be last since it could delete us
 }
@@ -127,7 +127,7 @@ JXButton::HandleMouseDown
 {
 	if (button == kJXLeftButton)
 		{
-		itsIsPushedFlag = kJTrue;
+		itsIsPushedFlag = true;
 		Redraw();
 		}
 }
@@ -148,15 +148,15 @@ JXButton::HandleMouseDrag
 	if (buttonStates.left())
 		{
 		const JRect frame     = JXContainer::GlobalToLocal(GetFrameGlobal());
-		const JBoolean inside = frame.Contains(pt);
+		const bool inside = frame.Contains(pt);
 		if (inside && !itsIsPushedFlag)
 			{
-			itsIsPushedFlag = kJTrue;
+			itsIsPushedFlag = true;
 			Redraw();
 			}
 		else if (!inside && itsIsPushedFlag)
 			{
-			itsIsPushedFlag = kJFalse;
+			itsIsPushedFlag = false;
 			Redraw();
 			}
 		}
@@ -178,7 +178,7 @@ JXButton::HandleMouseUp
 {
 	if (button == kJXLeftButton && itsIsPushedFlag)
 		{
-		itsIsPushedFlag = kJFalse;
+		itsIsPushedFlag = false;
 		Refresh();
 		Broadcast(Pushed());	// must be last since it could delete us
 		}
@@ -218,12 +218,12 @@ JXButton::SetShortcuts
 	w->ClearShortcuts(this);
 	w->InstallShortcuts(this, shortcuts);
 
-	const JBoolean wasReturnButton = itsIsReturnButtonFlag;
-	itsIsReturnButtonFlag = kJFalse;
+	const bool wasReturnButton = itsIsReturnButtonFlag;
+	itsIsReturnButtonFlag = false;
 	if (!shortcuts.IsEmpty() &&
 		(shortcuts.Contains("^M") || shortcuts.Contains("^m")))
 		{
-		itsIsReturnButtonFlag = kJTrue;
+		itsIsReturnButtonFlag = true;
 		}
 
 	const JSize borderWidth = GetBorderWidth();

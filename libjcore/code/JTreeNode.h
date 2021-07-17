@@ -20,38 +20,38 @@ class JTreeNode : public JBroadcaster
 
 public:
 
-	JTreeNode(JTree* tree, const JBoolean isOpenable = kJTrue);
+	JTreeNode(JTree* tree, const bool isOpenable = true);
 
 	virtual ~JTreeNode();
 
-	JBoolean	IsRoot() const;
+	bool	IsRoot() const;
 	JSize		GetDepth() const;
 
 	JTree*			GetTree();
 	const JTree*	GetTree() const;
-	JBoolean		HasTree() const;
-	JBoolean		GetTree(JTree** tree);
-	JBoolean		GetTree(const JTree** tree) const;
+	bool		HasTree() const;
+	bool		GetTree(JTree** tree);
+	bool		GetTree(const JTree** tree) const;
 
 	JTreeNode*			GetParent();
 	const JTreeNode*	GetParent() const;
-	JBoolean			HasParent() const;
-	JBoolean			GetParent(JTreeNode** parent);
-	JBoolean			GetParent(const JTreeNode** parent) const;
+	bool			HasParent() const;
+	bool			GetParent(JTreeNode** parent);
+	bool			GetParent(const JTreeNode** parent) const;
 	JIndex				GetIndexInParent() const;
-	JBoolean			GetIndexInParent(JIndex* index) const;
+	bool			GetIndexInParent(JIndex* index) const;
 	void				DisconnectFromParent();
 
-	JBoolean			IsOpenable() const;
-	virtual JBoolean	OKToOpen() const;
-	JBoolean			HasChildren() const;
+	bool			IsOpenable() const;
+	virtual bool	OKToOpen() const;
+	bool			HasChildren() const;
 	JSize				GetChildCount() const;
 	JTreeNode*			GetChild(const JIndex index);
 	const JTreeNode*	GetChild(const JIndex index) const;
 	JSize				GetDescendantCount() const;
 	void				CollectDescendants(JPtrArray<JTreeNode>* list);
-	JBoolean			FindChild(const JTreeNode* child, JIndex* index) const;
-	JBoolean			ChildIndexValid(const JIndex index) const;
+	bool			FindChild(const JTreeNode* child, JIndex* index) const;
+	bool			ChildIndexValid(const JIndex index) const;
 
 	void	InsertAtIndex(const JIndex index, JTreeNode* child);
 	void	Prepend(JTreeNode* child);
@@ -62,7 +62,7 @@ public:
 	void	DeleteAllChildren();
 
 	void		InsertSorted(JTreeNode* child);
-	JBoolean	GetChildCompareFunction(
+	bool	GetChildCompareFunction(
 					JListT::CompareResult (**compareFn)(JTreeNode * const &,
 															  JTreeNode * const &),
 					JListT::SortOrder* order);
@@ -70,8 +70,8 @@ public:
 					JListT::CompareResult (*compareFn)(JTreeNode * const &,
 															 JTreeNode * const &),
 					const JListT::SortOrder order,
-					const JBoolean propagate);
-	void		SortChildren(const JBoolean propagate = kJFalse);
+					const bool propagate);
+	void		SortChildren(const bool propagate = false);
 
 	void	MoveToIndex(JTreeNode* child, const JIndex index);
 	void	MoveBefore(const JTreeNode* before, JTreeNode* child);
@@ -79,7 +79,7 @@ public:
 
 protected:
 
-	void	ShouldBeOpenable(const JBoolean openable);
+	void	ShouldBeOpenable(const bool openable);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -88,8 +88,8 @@ private:
 	JTree*					itsTree;			// not owned; can be nullptr
 	JTreeNode*				itsParent;			// owns us; can be nullptr
 	JPtrArray<JTreeNode>*	itsChildren;		// can be nullptr
-	JBoolean				itsIsOpenableFlag;
-	JBoolean				itsIsDestructingFlag;
+	bool				itsIsOpenableFlag;
+	bool				itsIsDestructingFlag;
 
 	JListT::CompareResult (*itsCompareFn)(JTreeNode * const &,
 												JTreeNode * const &);
@@ -98,10 +98,10 @@ private:
 private:
 
 	void		SetTree(JTree* tree);
-	JBoolean	SetParent(JTreeNode* parent);
+	bool	SetParent(JTreeNode* parent);
 
 	void	CreateChildList();
-	void	BroadcastInsertChild(JTreeNode* child, const JBoolean isMove);
+	void	BroadcastInsertChild(JTreeNode* child, const bool isMove);
 
 	// not allowed
 
@@ -115,11 +115,11 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeNode::HasTree()
 	const
 {
-	return JI2B( itsTree != nullptr );
+	return itsTree != nullptr;
 }
 
 /******************************************************************************
@@ -127,17 +127,17 @@ JTreeNode::HasTree()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeNode::GetTree
 	(
 	JTree** tree
 	)
 {
 	*tree = itsTree;
-	return JI2B( itsTree != nullptr );
+	return itsTree != nullptr;
 }
 
-inline JBoolean
+inline bool
 JTreeNode::GetTree
 	(
 	const JTree** tree
@@ -145,7 +145,7 @@ JTreeNode::GetTree
 	const
 {
 	*tree = itsTree;
-	return JI2B( itsTree != nullptr );
+	return itsTree != nullptr;
 }
 
 /******************************************************************************
@@ -165,11 +165,11 @@ JTreeNode::GetDepth()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeNode::HasParent()
 	const
 {
-	return JI2B( itsParent != nullptr );
+	return itsParent != nullptr;
 }
 
 /******************************************************************************
@@ -177,17 +177,17 @@ JTreeNode::HasParent()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeNode::GetParent
 	(
 	JTreeNode** parent
 	)
 {
 	*parent = itsParent;
-	return JI2B( itsParent != nullptr );
+	return itsParent != nullptr;
 }
 
-inline JBoolean
+inline bool
 JTreeNode::GetParent
 	(
 	const JTreeNode** parent
@@ -195,7 +195,7 @@ JTreeNode::GetParent
 	const
 {
 	*parent = itsParent;
-	return JI2B( itsParent != nullptr );
+	return itsParent != nullptr;
 }
 
 /******************************************************************************
@@ -203,11 +203,11 @@ JTreeNode::GetParent
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeNode::HasChildren()
 	const
 {
-	return JI2B( itsChildren != nullptr );
+	return itsChildren != nullptr;
 }
 
 /******************************************************************************
@@ -290,7 +290,7 @@ JTreeNode::MoveAfter
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeNode::FindChild
 	(
 	const JTreeNode*	child,
@@ -299,7 +299,7 @@ JTreeNode::FindChild
 	const
 {
 	*index = 0;
-	return JI2B( itsChildren != nullptr && itsChildren->Find(child, index) );
+	return itsChildren != nullptr && itsChildren->Find(child, index);
 }
 
 /******************************************************************************
@@ -307,14 +307,14 @@ JTreeNode::FindChild
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeNode::ChildIndexValid
 	(
 	const JIndex index
 	)
 	const
 {
-	return (itsChildren != nullptr ? itsChildren->IndexValid(index) : kJFalse);
+	return (itsChildren != nullptr ? itsChildren->IndexValid(index) : false);
 }
 
 /******************************************************************************
@@ -322,7 +322,7 @@ JTreeNode::ChildIndexValid
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeNode::IsOpenable()
 	const
 {
@@ -334,7 +334,7 @@ JTreeNode::IsOpenable()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeNode::GetChildCompareFunction
 	(
 	JListT::CompareResult (**compareFn)(JTreeNode * const &,
@@ -344,7 +344,7 @@ JTreeNode::GetChildCompareFunction
 {
 	*compareFn = itsCompareFn;
 	*order     = itsSortOrder;
-	return JI2B( itsCompareFn != nullptr );
+	return itsCompareFn != nullptr;
 }
 
 #endif

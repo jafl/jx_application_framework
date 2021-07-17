@@ -34,10 +34,10 @@ const JSize kHistoryLength = 20;
 
 // setup information
 
-static const JString kPrefsFileRoot("jx/jfs/run_cmd_dialog", kJFalse);
+static const JString kPrefsFileRoot("jx/jfs/run_cmd_dialog", JString::kNoCopy);
 const JFileVersion kCurrentPrefsVersion = 0;
 
-static const JString kSignalFileName("~/.jx/jfs/run_cmd_dialog.signal", kJFalse);
+static const JString kSignalFileName("~/.jx/jfs/run_cmd_dialog.signal", JString::kNoCopy);
 const Time kUpdateInterval = 1000;	// milliseconds
 
 /******************************************************************************
@@ -206,7 +206,7 @@ JXFSRunCommandDialog::BuildWindow()
 	window->SetTitle(JGetString("WindowTitle::JXFSRunCommandDialog"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->LockCurrentMinSize();
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	ftcContainer->SetNeedsInternalFTC();
 
 	ListenTo(itsRunButton);
@@ -221,17 +221,17 @@ JXFSRunCommandDialog::BuildWindow()
 	ListenTo(itsPathInput);
 
 	const JFont& font = JFontManager::GetDefaultMonospaceFont();
-	itsPathHistoryMenu->SetDefaultFont(font, kJTrue);
+	itsPathHistoryMenu->SetDefaultFont(font, true);
 
 	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsCmdInput);
 
 	itsCmdInput->SetFont(font);
-	itsCmdHistoryMenu->SetDefaultFont(font, kJTrue);
+	itsCmdHistoryMenu->SetDefaultFont(font, true);
 
-	itsStayOpenCB->SetState(kJTrue);
+	itsStayOpenCB->SetState(true);
 
-	if (!ReadSetup(kJFalse))
+	if (!ReadSetup(false))
 		{
 		window->PlaceAsDialogWindow();
 		}
@@ -315,7 +315,7 @@ JXFSRunCommandDialog::Receive
 
 	else if (sender == itsSignalTask && message.Is(JXCheckModTimeTask::kFileChanged))
 		{
-		ReadSetup(kJTrue);
+		ReadSetup(true);
 		}
 
 	else
@@ -353,7 +353,7 @@ JXFSRunCommandDialog::Exec()
 		itsCmdHistoryMenu->AddCommand(itsCmdInput->GetText()->GetText(),
 									  itsUseShellCB->IsChecked(),
 									  itsUseWindowCB->IsChecked(),
-									  kJFalse);
+									  false);
 		WriteSetup();
 		}
 }
@@ -363,19 +363,19 @@ JXFSRunCommandDialog::Exec()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSRunCommandDialog::ReadSetup
 	(
-	const JBoolean update
+	const bool update
 	)
 {
-	JBoolean found = kJFalse;
+	bool found = false;
 
 	JPrefsFile* file = nullptr;
 	if ((JPrefsFile::Create(kPrefsFileRoot, &file,
 							JFileArray::kDeleteIfWaitTimeout)).OK())
 		{
-		for (JFileVersion vers = kCurrentPrefsVersion; kJTrue; vers--)
+		for (JFileVersion vers = kCurrentPrefsVersion; true; vers--)
 			{
 			if (file->IDValid(vers))
 				{
@@ -390,7 +390,7 @@ JXFSRunCommandDialog::ReadSetup
 					{
 					ReadSetup(input);
 					}
-				found = kJTrue;
+				found = true;
 				break;
 				}
 
@@ -447,7 +447,7 @@ JXFSRunCommandDialog::ReadSetup
 	window->Deiconify();
 
 	JString s;
-	JBoolean checked;
+	bool checked;
 
 	input >> s;
 	itsPathInput->GetText()->SetText(s);
@@ -485,7 +485,7 @@ JXFSRunCommandDialog::UpdateSetup
 	JXWindow::SkipGeometry(input);
 
 	JString s;
-	JBoolean checked;
+	bool checked;
 
 	input >> s;
 //	itsPathInput->SetText(s);

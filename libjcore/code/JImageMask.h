@@ -24,7 +24,7 @@ public:
 
 	virtual ~JImageMask();
 
-	virtual JBoolean	ContainsPixel(const JCoordinate x, const JCoordinate y) const = 0;
+	virtual bool	ContainsPixel(const JCoordinate x, const JCoordinate y) const = 0;
 	virtual void		AddPixel(const JCoordinate x, const JCoordinate y) = 0;
 	virtual void		RemovePixel(const JCoordinate x, const JCoordinate y) = 0;
 

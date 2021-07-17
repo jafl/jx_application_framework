@@ -14,7 +14,7 @@ class <PRE>App : public JXApplication
 {
 public:
 
-	<PRE>App(int* argc, char* argv[], JBoolean* displayAbout, JString* prevVersStr);
+	<PRE>App(int* argc, char* argv[], bool* displayAbout, JString* prevVersStr);
 
 	virtual	~<PRE>App();
 

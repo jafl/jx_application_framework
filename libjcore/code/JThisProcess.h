@@ -29,20 +29,20 @@ public:
 	static void	Exit(const int returnValue);
 	static void	Abort();
 
-	static JBoolean	WillQuitAtExit(const JProcess* p);
-	static void		QuitAtExit(JProcess* p, const JBoolean quit = kJTrue);
+	static bool	WillQuitAtExit(const JProcess* p);
+	static void		QuitAtExit(JProcess* p, const bool quit = true);
 
-	static JBoolean	WillKillAtExit(const JProcess* p);
-	static void		KillAtExit(JProcess* p, const JBoolean kill = kJTrue);
+	static bool	WillKillAtExit(const JProcess* p);
+	static void		KillAtExit(JProcess* p, const bool kill = true);
 
 	static void		Ignore(JProcess* p);
 
-	static JBoolean	WillCatchSignal(const int sig);
-	static void		ShouldCatchSignal(const int sig, const JBoolean catchIt);
+	static bool	WillCatchSignal(const int sig);
+	static void		ShouldCatchSignal(const int sig, const bool catchIt);
 
 	// called by event loop
 
-	static JBoolean	CheckForSignals();
+	static bool	CheckForSignals();
 
 	// called by JExecute() if exec() fails
 
@@ -65,7 +65,7 @@ protected:
 private:
 
 	ACE_Sig_Set	itsSignalSet;
-	JBoolean	itsSigintJumpBufferInitFlag;
+	bool	itsSigintJumpBufferInitFlag;
 	jmp_buf		itsSigintJumpBuffer;
 
 	static JThisProcess* itsSelf;
@@ -75,7 +75,7 @@ private:
 
 private:
 
-	JBoolean	BroadcastSignal(const int sig);
+	bool	BroadcastSignal(const int sig);
 
 	static void	CleanUpProcesses();
 
@@ -118,7 +118,7 @@ public:
 				:
 				JBroadcaster::Message(type),
 				itsSignalValue(value),
-				itsCaughtFlag(kJFalse)
+				itsCaughtFlag(false)
 				{ };
 
 			int
@@ -127,7 +127,7 @@ public:
 				return itsSignalValue;
 			};
 
-			JBoolean
+			bool
 			WasCaught() const
 			{
 				return itsCaughtFlag;
@@ -136,13 +136,13 @@ public:
 			void
 			SetCaught()
 			{
-				itsCaughtFlag = kJTrue;
+				itsCaughtFlag = true;
 			};
 
 		private:
 
 			int			itsSignalValue;
-			JBoolean	itsCaughtFlag;
+			bool	itsCaughtFlag;
 		};
 };
 

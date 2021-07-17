@@ -32,7 +32,7 @@ JXFloatInput::JXFloatInput
 	JXInputField(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	SetIsRequired();
-	itsHasLowerLimitFlag = itsHasUpperLimitFlag = kJFalse;
+	itsHasLowerLimitFlag = itsHasUpperLimitFlag = false;
 	SetValue(0.0);
 }
 
@@ -50,14 +50,14 @@ JXFloatInput::~JXFloatInput()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFloatInput::GetValue
 	(
 	JFloat* value
 	)
 	const
 {
-	return JI2B( GetText().GetText().ConvertToFloat(value) && ValueValid(*value) );
+	return GetText().GetText().ConvertToFloat(value) && ValueValid(*value);
 }
 
 /******************************************************************************
@@ -106,7 +106,7 @@ JXFloatInput::SetLowerLimit
 {
 	assert( !itsHasUpperLimitFlag || minValue < itsUpperLimit );
 
-	itsHasLowerLimitFlag = kJTrue;
+	itsHasLowerLimitFlag = true;
 	itsLowerLimit = minValue;
 
 	JFloat x;
@@ -124,7 +124,7 @@ JXFloatInput::SetUpperLimit
 {
 	assert( !itsHasLowerLimitFlag || itsLowerLimit < maxValue );
 
-	itsHasUpperLimitFlag = kJTrue;
+	itsHasUpperLimitFlag = true;
 	itsUpperLimit = maxValue;
 
 	JFloat x;
@@ -139,12 +139,12 @@ JXFloatInput::SetUpperLimit
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFloatInput::InputValid()
 {
 	if (!JXInputField::InputValid())
 		{
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -152,17 +152,17 @@ JXFloatInput::InputValid()
 
 		if (!IsRequired() && text.IsEmpty())
 			{
-			return kJTrue;
+			return true;
 			}
 
 		JFloat value;
 		if (!text.ConvertToFloat(&value))
 			{
 			JGetUserNotification()->ReportError(JGetString("NotANumber::JXFloatInput"));
-			return kJFalse;
+			return false;
 			}
 
-		const JBoolean valid = ValueValid(value);
+		const bool valid = ValueValid(value);
 		JString errorStr;
 		if (!valid && itsHasLowerLimitFlag && itsHasUpperLimitFlag)
 			{

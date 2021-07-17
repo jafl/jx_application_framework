@@ -23,7 +23,7 @@ GLTextSelection::GLTextSelection
 	const std::string&	text
 	)
 	:
-	JXTextSelection(display, JString(text.c_str(), kJFalse), nullptr)
+	JXTextSelection(display, JString(text.c_str(), text.length(), JString::kNoCopy), nullptr)
 {
 }
 
@@ -70,7 +70,7 @@ GLTextSelection::AddTypes
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLTextSelection::ConvertData
 	(
 	const Atom		requestType,
@@ -90,7 +90,7 @@ GLTextSelection::ConvertData
 		memcpy(*data, itsGloveData.GetRawBytes(), itsGloveData.GetByteCount());
 		*dataLength = itsGloveData.GetByteCount();
 		*returnType = itsGloveTextXAtom;
-		return kJTrue;
+		return true;
 		}
 	return JXTextSelection::ConvertData(requestType, returnType, data, dataLength, bitsPerBlock);
 }

@@ -107,7 +107,7 @@ BADCCONST    (L?\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|L?\'(\\?{CCHAR}
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}

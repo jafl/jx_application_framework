@@ -33,25 +33,25 @@ public:
 	void	Activate();
 	void	Deactivate();
 
-	JBoolean	IsEmpty() const;
+	bool	IsEmpty() const;
 	void		Clear();
 
-	JBoolean	IsGreek() const;
-	void		SetGreek(const JBoolean greek);
+	bool	IsGreek() const;
+	void		SetGreek(const bool greek);
 
-	JBoolean	HandleMouseDown(const JPoint& pt, const JBoolean extendSelection,
+	bool	HandleMouseDown(const JPoint& pt, const bool extendSelection,
 								const JExprRectList& rectList,
 								const JExprRenderer& renderer);
-	JBoolean	HandleMouseDrag(const JPoint& pt, const JExprRectList& rectList,
+	bool	HandleMouseDrag(const JPoint& pt, const JExprRectList& rectList,
 								const JExprRenderer& renderer);
-	JBoolean	HandleMouseUp();
-	JBoolean	HandleKeyPress(const JUtf8Character& key, JBoolean* needParse,
-							   JBoolean* needRender);
-	JBoolean	Parse(const JUtf8Character& c, JFunction** f,
-					  JUserInputFunction** newUIF, JBoolean* needRender);
+	bool	HandleMouseUp();
+	bool	HandleKeyPress(const JUtf8Character& key, bool* needParse,
+							   bool* needRender);
+	bool	Parse(const JUtf8Character& c, JFunction** f,
+					  JUserInputFunction** newUIF, bool* needRender);
 
-	virtual JBoolean	Evaluate(JFloat* result) const override;
-	virtual JBoolean	Evaluate(JComplex* result) const override;
+	virtual bool	Evaluate(JFloat* result) const override;
+	virtual bool	Evaluate(JComplex* result) const override;
 	virtual void		Print(std::ostream& output) const override;
 	virtual JFunction*	Copy() const override;
 	virtual JIndex		Layout(const JExprRenderer& renderer,
@@ -62,7 +62,7 @@ public:
 
 	static const JString&	GetEmptyString();
 
-	virtual JBoolean	TEHasSearchText() const override;
+	virtual bool	TEHasSearchText() const override;
 
 	static JUtf8Character	ConvertToGreek(const JUtf8Character& c);
 	static JString			ConvertToGreek(const JString& s);
@@ -71,7 +71,7 @@ public:
 						const JString& text, JRunArray<JFont>* styles,
 						JStyledText::TextRange* recalcRange,
 						JStyledText::TextRange* redrawRange,
-						const JBoolean deletion);
+						const bool deletion);
 
 protected:
 
@@ -80,27 +80,27 @@ protected:
 	virtual void		TERedraw() override;
 	virtual void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
 									   const JCoordinate changeY) override;
-	virtual JBoolean	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
-	virtual JBoolean	TEScrollToRect(const JRect& rect,
-									   const JBoolean centerInDisplay) override;
-	virtual JBoolean	TEScrollForDrag(const JPoint& pt) override;
-	virtual JBoolean	TEScrollForDND(const JPoint& pt) override;
+	virtual bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
+	virtual bool	TEScrollToRect(const JRect& rect,
+									   const bool centerInDisplay) override;
+	virtual bool	TEScrollForDrag(const JPoint& pt) override;
+	virtual bool	TEScrollForDND(const JPoint& pt) override;
 	virtual void		TESetVertScrollStep(const JCoordinate vStep) override;
 	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
-	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
-	virtual JBoolean	TEBeginDND() override;
+	virtual bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
+	virtual bool	TEBeginDND() override;
 	virtual void		TEPasteDropData() override;
-	virtual void		TECaretShouldBlink(const JBoolean blink) override;
+	virtual void		TECaretShouldBlink(const bool blink) override;
 
 private:
 
 	JExprEditor*	itsEditor;
 	JCoordinate		itsWidth;
 	JCoordinate		itsHeight;
-	JBoolean		itsGreekFlag;
+	bool		itsGreekFlag;
 
-	mutable JBoolean	itsNeedRedrawFlag;
-	mutable JBoolean	itsNeedRenderFlag;
+	mutable bool	itsNeedRedrawFlag;
+	mutable bool	itsNeedRenderFlag;
 
 private:
 
@@ -137,7 +137,7 @@ JUserInputFunction::Deactivate()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JUserInputFunction::IsGreek()
 	const
 {
@@ -147,7 +147,7 @@ JUserInputFunction::IsGreek()
 inline void
 JUserInputFunction::SetGreek
 	(
-	const JBoolean greek
+	const bool greek
 	)
 {
 	itsGreekFlag = greek;

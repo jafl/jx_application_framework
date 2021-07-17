@@ -31,7 +31,7 @@ main
 {
 	ParseTextOptions(argc, argv);
 
-	JBoolean displayAbout;
+	bool displayAbout;
 	JString prevVersStr;
 	MDApp* app = jnew MDApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );

@@ -35,7 +35,7 @@ JXImageCheckbox::JXImageCheckbox
 	JXCheckbox(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsImage         = nullptr;
-	itsOwnsImageFlag = kJTrue;
+	itsOwnsImageFlag = true;
 
 	SetBorderWidth(kJXDefaultBorderWidth);
 }
@@ -82,7 +82,7 @@ JXImageCheckbox::SetBitmap
 	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	assert( itsImage != nullptr );
 
-	itsOwnsImageFlag = kJTrue;
+	itsOwnsImageFlag = true;
 
 	SetBackColor(backColor);
 	Refresh();
@@ -100,7 +100,7 @@ JXImageCheckbox::SetImage
 	const JColorID	backColor
 	)
 {
-	SetImage(GetDisplay()->GetImageCache()->GetImage(xpm), kJFalse, backColor);
+	SetImage(GetDisplay()->GetImageCache()->GetImage(xpm), false, backColor);
 }
 
 /******************************************************************************
@@ -112,7 +112,7 @@ void
 JXImageCheckbox::SetImage
 	(
 	JXImage*			image,
-	const JBoolean		widgetOwnsImage,
+	const bool		widgetOwnsImage,
 	const JColorID	origBackColor
 	)
 {
@@ -165,8 +165,8 @@ JXImageCheckbox::DrawBorder
 	const JRect&		frame
 	)
 {
-	const JBoolean drawChecked = DrawChecked();
-	const JBoolean isActive    = IsActive();
+	const bool drawChecked = DrawChecked();
+	const bool isActive    = IsActive();
 	const JSize borderWidth    = GetBorderWidth();
 
 	if (drawChecked && isActive)

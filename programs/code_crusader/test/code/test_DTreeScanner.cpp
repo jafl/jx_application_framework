@@ -44,11 +44,11 @@ JTEST(Basic)
 	JArray<JFAID_t> deadFileList;
 
 	TestDTree tree;
-	tree.PrepareForUpdate(kJFalse);
-	tree.ParseFile(JString("./data/tree/d/a.d", kJFalse), 1);
-	tree.ParseFile(JString("./data/tree/d/b.d", kJFalse), 2);
-	tree.ParseFile(JString("./data/tree/d/c.d", kJFalse), 3);
-	tree.ParseFile(JString("./data/tree/d/d.d", kJFalse), 4);
+	tree.PrepareForUpdate(false);
+	tree.ParseFile(JString("./data/tree/d/a.d", false), 1);
+	tree.ParseFile(JString("./data/tree/d/b.d", false), 2);
+	tree.ParseFile(JString("./data/tree/d/c.d", false), 3);
+	tree.ParseFile(JString("./data/tree/d/d.d", false), 4);
 	tree.UpdateFinished(deadFileList);
 
 	const TestDTree& constTree     = tree;
@@ -123,8 +123,8 @@ JTEST(Alias)
 	JArray<JFAID_t> deadFileList;
 
 	TestDTree tree;
-	tree.PrepareForUpdate(kJFalse);
-	tree.ParseFile(JString("./data/tree/d/alias.d", kJFalse), 1);
+	tree.PrepareForUpdate(false);
+	tree.ParseFile(JString("./data/tree/d/alias.d", false), 1);
 	tree.UpdateFinished(deadFileList);
 
 	const TestDTree& constTree     = tree;
@@ -166,8 +166,8 @@ JTEST(Alias)
 	JAssertEqual(5, found);
 }
 
-JBoolean
+bool
 CBInUpdateThread()
 {
-	return kJTrue;
+	return true;
 }

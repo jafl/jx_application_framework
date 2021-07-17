@@ -58,8 +58,8 @@ static const JUtf8Byte* kObjDirArg   = "--obj-dir";
 static const JUtf8Byte* kNoStdIncArg = "--no-std-inc";
 static const JUtf8Byte* kAutoGenArg  = "--assume-autogen";
 
-static const JString kCurrentDir   ("./", kJFalse);
-static const JString kSysIncludeDir("/usr/include/", kJFalse);
+static const JString kCurrentDir   ("./", JString::kNoCopy);
+static const JString kSysIncludeDir("/usr/include/", JString::kNoCopy);
 
 static const JUtf8Byte* kDontInterpretFlag = "literal: ";
 const JSize kDontInterpretFlagLen          = strlen(kDontInterpretFlag);
@@ -96,8 +96,8 @@ static const JRegex linePattern =
 
 // Prototypes
 
-JBoolean ShouldMakeTarget(const JString& target, const JPtrArray<JString>& list);
-JBoolean AddSubTarget(JPtrArray<JString>& targetList,
+bool ShouldMakeTarget(const JString& target, const JPtrArray<JString>& list);
+bool AddSubTarget(JPtrArray<JString>& targetList,
 					  JPtrArray<JString>& prefixList, JPtrArray<JString>& suffixList,
 					  JPtrArray<JString>& outPrefixList, JPtrArray<JString>& outSuffixList,
 					  JString* targetName, JString* prefixName, JString* suffixName,
@@ -110,10 +110,10 @@ JString GetOutputSuffix(const JString& inputSuffix,
 void GetOptions(const JSize argc, char* argv[], JString* defSuffix,
 				JString* defineText, JString* headerName,
 				JString* inputName, JString* outputName, JString* outputDirName,
-				JPtrArray<JString>* userTargetList, JBoolean* searchSysDir,
-				JBoolean* assumeAutoGen,
+				JPtrArray<JString>* userTargetList, bool* searchSysDir,
+				bool* assumeAutoGen,
 				JPtrArray<JString>* suffixMapIn, JPtrArray<JString>* suffixMapOut);
-JBoolean FindFile(const JString& fileName, const JPtrArray<JString>& pathList,
+bool FindFile(const JString& fileName, const JPtrArray<JString>& pathList,
 				  JString* fullName);
 void PickTargets(const JString& fileName, JPtrArray<JString>* list);
 
@@ -147,7 +147,7 @@ main
 
 	JString defSuffix, defineText, headerName, inputName, outputName, outputDirName;
 	JPtrArray<JString> userTargetList(JPtrArrayT::kDeleteAll);	// empty => include all targets
-	JBoolean searchSysDir, assumeAutoGen;
+	bool searchSysDir, assumeAutoGen;
 
 	JPtrArray<JString> suffixMapIn(JPtrArrayT::kDeleteAll),
 					   suffixMapOut(JPtrArrayT::kDeleteAll);
@@ -160,7 +160,7 @@ main
 
 	JPtrArray<JString> mainTargetList(JPtrArrayT::kDeleteAll),
 					   mainTargetObjsList(JPtrArrayT::kDeleteAll);
-	JArray<JBoolean>   javaTargetList;
+	JArray<bool>   javaTargetList;
 	JPtrArray<JString> targetList(JPtrArrayT::kDeleteAll),
 					   prefixList(JPtrArrayT::kDeleteAll),
 					   suffixList(JPtrArrayT::kDeleteAll);
@@ -214,7 +214,7 @@ main
 	while (input.get() == '@' && !input.eof() && !input.fail())
 		{
 		JString prefix;
-		JBoolean usesJava = kJFalse;
+		bool usesJava = false;
 
 		// get the name of the target for make
 
@@ -226,7 +226,7 @@ main
 		// list, we can take a quick exit.
 
 		input >> std::ws;
-		const JBoolean shouldMakeTarget =
+		const bool shouldMakeTarget =
 			ShouldMakeTarget(*mainTargetName, userTargetList);
 		if (!shouldMakeTarget && prevEmptyTargets == 0)
 			{
@@ -309,7 +309,7 @@ main
 				*mainTargetObjs += fullName;
 				*mainTargetObjs += suffix;
 
-				usesJava = JI2B(usesJava || javaObjFileSuffix.Match(suffix));
+				usesJava = usesJava || javaObjFileSuffix.Match(suffix);
 				continue;
 				}
 
@@ -374,9 +374,9 @@ main
 			JString* prefixName = jnew JString(prefix);
 			assert( prefixName != nullptr );
 
-			usesJava = JI2B(usesJava ||
+			usesJava = usesJava ||
 							javaObjFileSuffix.Match(*suffixName) ||
-							javaObjFileSuffix.Match(*outSuffixName));
+							javaObjFileSuffix.Match(*outSuffixName);
 
 			// We want all the path information to be
 			// in the prefix.
@@ -778,13 +778,13 @@ main
 
 	// build the dependency graph
 
-	JString makemakeBinaryDef(kMakemakeBinaryVar, 0);
+	JString makemakeBinaryDef(kMakemakeBinaryVar);
 	makemakeBinaryDef += "=";
 	makemakeBinaryDef += argv[0];
 
 #if USE_TEMP_FILE_FOR_DEPEND
 
-	JString tempFileDef(kDependInputFileVar, 0);
+	JString tempFileDef(kDependInputFileVar);
 	tempFileDef += "=";
 	tempFileDef += tempFileName;
 
@@ -832,12 +832,12 @@ main
 /******************************************************************************
  ShouldMakeTarget
 
-	Returns kJTrue if target is in the list.  If the list is empty, it means
-	"make all targets" so we just return kJTrue.
+	Returns true if target is in the list.  If the list is empty, it means
+	"make all targets" so we just return true.
 
  ******************************************************************************/
 
-JBoolean
+bool
 ShouldMakeTarget
 	(
 	const JString&				target,
@@ -846,7 +846,7 @@ ShouldMakeTarget
 {
 	if (list.IsEmpty())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	const JSize count = list.GetElementCount();
@@ -854,23 +854,23 @@ ShouldMakeTarget
 		{
 		if (target == *(list.GetElement(i)))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  AddSubTarget
 
 	Add the given target name to the targetList if it is new.
-	Returns kJTrue if the target was added.
+	Returns true if the target was added.
 
-	*** If it returns kJFalse, the JStrings were deleted.
+	*** If it returns false, the JStrings were deleted.
 
  ******************************************************************************/
 
-JBoolean
+bool
 AddSubTarget
 	(
 	JPtrArray<JString>&	targetList,
@@ -885,7 +885,7 @@ AddSubTarget
 	JString*			outSuffixName
 	)
 {
-	JBoolean found;
+	bool found;
 	const JIndex index =
 		targetList.SearchSorted1(targetName, JListT::kAnyMatch, &found);
 
@@ -896,7 +896,7 @@ AddSubTarget
 		jdelete suffixName;
 		jdelete outPrefixName;
 		jdelete outSuffixName;
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -905,7 +905,7 @@ AddSubTarget
 		suffixList.InsertAtIndex(index, suffixName);
 		outPrefixList.InsertAtIndex(index, outPrefixName);
 		outSuffixList.InsertAtIndex(index, outSuffixName);
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -965,7 +965,7 @@ GetOutputSuffix
 			}
 		}
 
-	return JString(kDefOutputSuffix, kJFalse);
+	return JString(kDefOutputSuffix, JString::kNoCopy);
 }
 
 /******************************************************************************
@@ -987,8 +987,8 @@ GetOptions
 	JString*			outputName,
 	JString*			outputDirName,
 	JPtrArray<JString>*	userTargetList,
-	JBoolean*			searchSysDir,
-	JBoolean*			assumeAutoGen,
+	bool*			searchSysDir,
+	bool*			assumeAutoGen,
 	JPtrArray<JString>*	suffixMapIn,
 	JPtrArray<JString>*	suffixMapOut
 	)
@@ -1001,14 +1001,14 @@ GetOptions
 	*headerName    = "Make.header";
 	*inputName     = "Make.files";
 	*outputName    = "Makefile";
-	*searchSysDir  = kJTrue;
-	*assumeAutoGen = kJFalse;
+	*searchSysDir  = true;
+	*assumeAutoGen = false;
 
 	{
-	JString* s = jnew JString(".java", 0);
+	JString* s = jnew JString(".java");
 	assert( s != nullptr );
 	suffixMapIn->Append(s);
-	s = jnew JString(".java", 0);
+	s = jnew JString(".java");
 	assert( s != nullptr );
 	suffixMapOut->Append(s);
 	}
@@ -1016,8 +1016,8 @@ GetOptions
 	outputDirName->Clear();
 	defineText->Clear();
 
-	JBoolean pickTargets   = kJFalse;
-	JBoolean checkModTimes = kJFalse;
+	bool pickTargets   = false;
+	bool checkModTimes = false;
 
 	JPtrArray<JString> searchPaths(JPtrArrayT::kDeleteAll);
 	searchPaths.Append(kCurrentDir);
@@ -1048,7 +1048,7 @@ GetOptions
 		else if (strcmp(argv[index], "--search-path") == 0)
 			{
 			JCheckForValues(1, &index, argc, argv);
-			JString* s = jnew JString(argv[index], 0);
+			JString* s = jnew JString(argv[index]);
 			assert( s != nullptr );
 			searchPaths.Append(s);
 			}
@@ -1079,7 +1079,7 @@ GetOptions
 			{
 			JCheckForValues(1, &index, argc, argv);
 
-			JString arg(argv[index], kJFalse);
+			JString arg(argv[index], JString::kNoCopy);
 			JStringIterator iter(arg);
 			if (iter.Next(suffixMapPattern))
 				{
@@ -1106,7 +1106,7 @@ GetOptions
 			JStringIterator iter1(&p, kJIteratorStartAtEnd);
 			iter1.SkipPrev(2);
 
-			JStringIterator iter2(JString(argv[index], kJFalse));
+			JStringIterator iter2(JString(argv[index], JString::kNoCopy));
 			while (iter2.Next(noParsePattern))
 				{
 				JString s = iter2.GetLastMatch().GetSubstring(1);
@@ -1119,22 +1119,22 @@ GetOptions
 
 		else if (strcmp(argv[index], kNoStdIncArg) == 0)
 			{
-			*searchSysDir = kJFalse;
+			*searchSysDir = false;
 			}
 
 		else if (strcmp(argv[index], kAutoGenArg) == 0)
 			{
-			*assumeAutoGen = kJTrue;
+			*assumeAutoGen = true;
 			}
 
 		else if (strcmp(argv[index], "--check") == 0)
 			{
-			checkModTimes = kJTrue;
+			checkModTimes = true;
 			}
 
 		else if (strcmp(argv[index], "--choose") == 0)
 			{
-			pickTargets = kJTrue;
+			pickTargets = true;
 			}
 
 		else if (strcmp(argv[index], "--make-name") == 0)
@@ -1150,7 +1150,7 @@ GetOptions
 
 		else
 			{
-			JString* userTarget = jnew JString(argv[index], 0);
+			JString* userTarget = jnew JString(argv[index]);
 			assert( userTarget != nullptr );
 			userTargetList->Append(userTarget);
 			}
@@ -1162,7 +1162,7 @@ GetOptions
 	if (FindFile(s, searchPaths, headerName))
 		{
 		s = *headerName;
-		const JBoolean ok = JGetTrueName(s, headerName);
+		const bool ok = JGetTrueName(s, headerName);
 		assert( ok );
 		}
 	else
@@ -1175,7 +1175,7 @@ GetOptions
 	if (FindFile(s, searchPaths, inputName))
 		{
 		s = *inputName;
-		const JBoolean ok = JGetTrueName(s, inputName);
+		const bool ok = JGetTrueName(s, inputName);
 		assert( ok );
 		}
 	else
@@ -1404,7 +1404,7 @@ void		WriteDependencies(std::ostream& output, const JString& fileName,
 							  const JString& makeName,
 							  const JPtrArray<JString>& pathList1,
 							  const JPtrArray<JString>& pathList2,
-							  const JBoolean assumeAutoGen,
+							  const bool assumeAutoGen,
 							  const JString& outputDirName,
 							  JArray<HeaderDep>* headerList);
 void		PrintDependencies(std::ostream& output, const JString& outputDirName,
@@ -1413,18 +1413,18 @@ void		PrintDependencies(std::ostream& output, const JString& outputDirName,
 void		AddDependency(JPtrArray<JString>* depList, const JString& headerName,
 						  const JPtrArray<JString>& pathList1,
 						  const JPtrArray<JString>& pathList2,
-						  const JBoolean assumeAutoGen,
+						  const bool assumeAutoGen,
 						  JArray<HeaderDep>* headerList,
-						  const JBoolean addToDepList = kJTrue);
+						  const bool addToDepList = true);
 HeaderDep	ParseHeaderFile(const JString& fileName,
 							const JPtrArray<JString>& pathList1,
 							const JPtrArray<JString>& pathList2,
-							const JBoolean assumeAutoGen,
+							const bool assumeAutoGen,
 							JArray<HeaderDep>* headerList);
-JBoolean	GetNextIncludedFile(const JString& inputFileName, std::istream& input,
+bool	GetNextIncludedFile(const JString& inputFileName, std::istream& input,
 								const JPtrArray<JString>& pathList1,
 								const JPtrArray<JString>& pathList2,
-								const JBoolean assumeAutoGen,
+								const bool assumeAutoGen,
 								JString* fileName);
 void		TruncateMakefile(const JString& fileName);
 
@@ -1459,12 +1459,12 @@ CalcDepend
 	// parse command line arguments
 
 	JString outputDirName;
-	JBoolean searchSysDir  = kJTrue;
-	JBoolean assumeAutoGen = kJFalse;
+	bool searchSysDir  = true;
+	bool assumeAutoGen = false;
 
 	JIndex i = startArg;
 
-	const JString makefileName(argv[i], kJFalse);
+	const JString makefileName(argv[i], JString::kNoCopy);
 	i++;
 
 	while (i < argc-1 && strcmp(argv[i], "--") != 0)
@@ -1476,11 +1476,11 @@ CalcDepend
 			}
 		else if (strcmp(argv[i], kNoStdIncArg) == 0)
 			{
-			searchSysDir = kJFalse;
+			searchSysDir = false;
 			}
 		else if (strcmp(argv[i], kAutoGenArg) == 0)
 			{
-			assumeAutoGen = kJTrue;
+			assumeAutoGen = true;
 			}
 		else
 			{
@@ -1502,24 +1502,24 @@ CalcDepend
 					   pathList2(JPtrArrayT::kForgetAll);
 	JString* path;
 
-	JBoolean searchCurrDir = kJTrue;
+	bool searchCurrDir = true;
 
 	while (i < argc && strcmp(argv[i], "--") != 0)
 		{
 		if (strcmp(argv[i], "-nostdinc") == 0)
 			{
-			searchSysDir = kJFalse;
+			searchSysDir = false;
 			}
 		else if (strcmp(argv[i], "-I-") == 0)
 			{
-			searchCurrDir = kJFalse;
+			searchCurrDir = false;
 			}
 		else if (argv[i][0] == '-' && argv[i][1] == 'I' &&
 				 argv[i][2] != '\0' && argv[i][2] != '-')
 			{
-			if (JDirectoryReadable(JString(argv[i]+2, kJFalse)))
+			if (JDirectoryReadable(JString(argv[i]+2, JString::kNoCopy)))
 				{
-				path = jnew JString(argv[i]+2, 0);		// strip off "-I"
+				path = jnew JString(argv[i]+2);		// strip off "-I"
 				assert( path != nullptr );
 				if (searchCurrDir)
 					{
@@ -1552,7 +1552,7 @@ CalcDepend
 	if (searchCurrDir)
 		{
 		// don't include ./ for <...>
-		pathList2.CopyPointers(pathList1, JPtrArrayT::kForgetAll, kJFalse);
+		pathList2.CopyPointers(pathList1, JPtrArrayT::kForgetAll, false);
 		pathList1.Prepend(kCurrentDir);
 		}
 
@@ -1633,7 +1633,7 @@ WriteDependencies
 	const JString&				makeName,
 	const JPtrArray<JString>&	pathList1,
 	const JPtrArray<JString>&	pathList2,
-	const JBoolean				assumeAutoGen,
+	const bool				assumeAutoGen,
 	const JString&				outputDirName,
 	JArray<HeaderDep>*			headerList
 	)
@@ -1717,14 +1717,14 @@ AddDependency
 	const JString&				headerName,
 	const JPtrArray<JString>&	pathList1,
 	const JPtrArray<JString>&	pathList2,
-	const JBoolean				assumeAutoGen,
+	const bool				assumeAutoGen,
 	JArray<HeaderDep>*			headerList,
-	const JBoolean				addToDepList
+	const bool				addToDepList
 	)
 {
 	const HeaderDep info = ParseHeaderFile(headerName, pathList1, pathList2, assumeAutoGen, headerList);
 
-	JBoolean isDuplicate;
+	bool isDuplicate;
 	const JIndex index =
 		depList->GetInsertionSortIndex(const_cast<JString*>(&headerName), &isDuplicate);
 	if (!isDuplicate)
@@ -1736,9 +1736,9 @@ AddDependency
 			}
 
 		#if ALLOW_INCLUDE_LOOPS
-		const JBoolean addSubToDepList = kJTrue;
+		const bool addSubToDepList = true;
 		#else
-		const JBoolean addSubToDepList = kJFalse;
+		const bool addSubToDepList = false;
 		#endif
 
 		const JSize count = (info.depList)->GetElementCount();
@@ -1779,14 +1779,14 @@ ParseHeaderFile
 	const JString&				fileName,
 	const JPtrArray<JString>&	pathList1,
 	const JPtrArray<JString>&	pathList2,
-	const JBoolean				assumeAutoGen,
+	const bool				assumeAutoGen,
 	JArray<HeaderDep>*			headerList
 	)
 {
 	// check if it already exists
 
 	HeaderDep info(const_cast<JString*>(&fileName), (JPtrArray<JString>*) nullptr);
-	JBoolean found;
+	bool found;
 	const JIndex index =
 		headerList->SearchSorted1(info, JListT::kAnyMatch, &found);
 	if (found)
@@ -1818,7 +1818,7 @@ ParseHeaderFile
 	JString headerName;
 	while (GetNextIncludedFile(fileName, input, pathList1, pathList2, assumeAutoGen, &headerName))
 		{
-		JBoolean isDuplicate;
+		bool isDuplicate;
 		const JIndex i = (info.depList)->GetInsertionSortIndex(&headerName, &isDuplicate);
 		if (!isDuplicate)
 			{
@@ -1833,20 +1833,20 @@ ParseHeaderFile
  GetNextIncludedFile
 
 	Get the next #include from the given input stream.
-	Returns kJFalse if there are no more.
+	Returns false if there are no more.
 
  ******************************************************************************/
 
 static const JRegex includePattern = "^\\s*#\\s*include\\s*([<\"])(.+?)[>\"]";
 
-JBoolean
+bool
 GetNextIncludedFile
 	(
 	const JString&				inputFileName,
 	std::istream&				input,
 	const JPtrArray<JString>&	pathList1,
 	const JPtrArray<JString>&	pathList2,
-	const JBoolean				assumeAutoGen,
+	const bool				assumeAutoGen,
 	JString*					fileName
 	)
 {
@@ -1869,7 +1869,7 @@ GetNextIncludedFile
 			else if ((type == '"' && FindFile(name, pathList1, fileName)) ||
 					 FindFile(name, pathList2, fileName))
 				{
-				return kJTrue;
+				return true;
 				}
 			else if (type == '"' && assumeAutoGen)	// assume in same dir as including file
 				{
@@ -1879,13 +1879,13 @@ GetNextIncludedFile
 					p = "./";
 					}
 				*fileName = JCombinePathAndName(p, name);
-				return kJTrue;
+				return true;
 				}
 			}
 		}
 
 	fileName->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1895,7 +1895,7 @@ GetNextIncludedFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 FindFile
 	(
 	const JString&				fileName,
@@ -1912,12 +1912,12 @@ FindFile
 		if (JFileExists(fileName))
 			{
 			*fullName = fileName;
-			return kJTrue;
+			return true;
 			}
 		else
 			{
 			fullName->Clear();
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -1930,12 +1930,12 @@ FindFile
 		*fullName           = JCombinePathAndName(*path, fileName);
 		if (JFileExists(*fullName))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	fullName->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1981,7 +1981,7 @@ CompareHeaderFiles
 	const HeaderDep& h2
 	)
 {
-	const int r = JString::Compare(*(h1.fileName), *(h2.fileName), kJTrue);
+	const int r = JString::Compare(*(h1.fileName), *(h2.fileName));
 
 	if (r > 0)
 		{

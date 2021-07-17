@@ -86,14 +86,14 @@ public:
 	void	MoveElementToIndex(const JFAIndex& currentIndex, const JFAIndex& newIndex);
 	void	SwapElements(const JFAIndex& index1, const JFAIndex& index2);
 
-	JBoolean	IndexToID(const JFAIndex& index, JFAID*    id   ) const;
-	JBoolean	IDToIndex(const JFAID&    id,    JFAIndex* index) const;
+	bool	IndexToID(const JFAIndex& index, JFAID*    id   ) const;
+	bool	IDToIndex(const JFAID&    id,    JFAIndex* index) const;
 
-	JBoolean	IndexValid(const JFAIndex& index) const;
-	JBoolean	IDValid(const JFAID& id) const;
+	bool	IndexValid(const JFAIndex& index) const;
+	bool	IDValid(const JFAID& id) const;
 
-	JBoolean	WillFlushChanges() const;
-	void		ShouldFlushChanges(const JBoolean write);
+	bool	WillFlushChanges() const;
+	void		ShouldFlushChanges(const bool write);
 	void		FlushChanges();
 
 protected:
@@ -122,8 +122,8 @@ private:
 
 	JString*		itsFileName;				// name of file (for JSetFStreamLength) - nullptr if embedded
 	std::fstream*	itsStream;					// stream for accessing file
-	JBoolean		itsIsOpenFlag;				// kJTrue => set high bit of element count
-	JBoolean		itsFlushChangesFlag;		// kJTrue => write index after every change
+	bool		itsIsOpenFlag;				// true => set high bit of element count
+	bool		itsFlushChangesFlag;		// true => write index after every change
 
 	JFileVersion	itsVersion;					// version of file
 	JUnsignedOffset	itsFileSignatureByteCount;	// space reserved at front for file signaure (string)
@@ -136,10 +136,10 @@ private:
 
 private:
 
-	void	FileArrayX(const JBoolean isNew, const JUtf8Byte* fileSignature);
+	void	FileArrayX(const bool isNew, const JUtf8Byte* fileSignature);
 
 	std::fstream*	OpenEmbeddedFile(JFileArray* theEmbeddedFile,
-								 const JFAID& id, JBoolean* isNew);
+								 const JFAID& id, bool* isNew);
 	void	EmbeddedFileClosed(const JFAID& id);
 
 	JSize	GetElementSize(const JFAIndex& index) const;
@@ -176,7 +176,7 @@ private:
 	static void				WriteUnsignedLong(std::ostream& output,
 											  const unsigned long value);
 
-	static JBoolean	FileIsOpen(std::ifstream& file, const JSize sigLength);
+	static bool	FileIsOpen(std::ifstream& file, const JSize sigLength);
 
 	// not allowed
 
@@ -239,7 +239,7 @@ public:
 				ElementMessage(kElementRemoved, index)
 				{ };
 
-			JBoolean	AdjustIndex(JFAIndex* index) const;
+			bool	AdjustIndex(JFAIndex* index) const;
 		};
 
 	class ElementMoved : public JBroadcaster::Message
@@ -440,7 +440,7 @@ JFileArray::GetFileArrayIndex()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JFileArray::IndexValid
 	(
 	const JFAIndex& index
@@ -455,7 +455,7 @@ JFileArray::IndexValid
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JFileArray::IDValid
 	(
 	const JFAID& id
@@ -476,7 +476,7 @@ JFileArray::IDValid
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JFileArray::WillFlushChanges()
 	const
 {
@@ -486,7 +486,7 @@ JFileArray::WillFlushChanges()
 inline void
 JFileArray::ShouldFlushChanges
 	(
-	const JBoolean write
+	const bool write
 	)
 {
 	itsFlushChangesFlag = write;

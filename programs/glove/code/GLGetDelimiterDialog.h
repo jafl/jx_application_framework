@@ -42,9 +42,9 @@ public:
 
 	DelimiterType	GetDelimiterType();
 	JUtf8Byte		GetCharacter();
-	JBoolean		IsSkippingLines();
+	bool		IsSkippingLines();
 	JSize			GetSkipLineCount();
-	JBoolean		HasComments();
+	bool		HasComments();
 	const JString&	GetCommentString();
 
 protected:

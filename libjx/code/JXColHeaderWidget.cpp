@@ -54,7 +54,7 @@ JXColHeaderWidget::JXColHeaderWidget
 
 	itsTitles = nullptr;
 
-	itsAllowColResizingFlag = kJFalse;
+	itsAllowColResizingFlag = false;
 	itsMinColWidth          = 1;
 
 	itsDragType = kInvalidDrag;
@@ -67,7 +67,7 @@ JXColHeaderWidget::JXColHeaderWidget
 
 	// override JXEditTable
 
-	WantInput(kJFalse);
+	WantInput(false);
 	SetBackColor(JColorManager::GetDefaultBackColor());
 
 	AppendRows(1, GetApertureHeight());
@@ -87,11 +87,11 @@ JXColHeaderWidget::~JXColHeaderWidget()
 /******************************************************************************
  GetColTitle
 
-	Returns kJTrue if there is a title for the specified column.
+	Returns true if there is a title for the specified column.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXColHeaderWidget::GetColTitle
 	(
 	const JIndex	index,
@@ -105,12 +105,12 @@ JXColHeaderWidget::GetColTitle
 		if (str != nullptr)
 			{
 			*title = *str;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	title->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -158,6 +158,25 @@ JXColHeaderWidget::ClearColTitle
 }
 
 /******************************************************************************
+ CBSetColumnTitles
+
+ ******************************************************************************/
+
+void
+JXColHeaderWidget::SetColumnTitles
+	(
+	const JUtf8Byte*	className,
+	const JSize			count
+	)
+{
+	for (JUInt64 i=1; i<=count; i++)
+		{
+		const JString id = "Column" + JString(i) + "::" + className;
+		SetColTitle(i, JGetString(id.GetBytes()));
+		}
+}
+
+/******************************************************************************
  TableDrawCell (virtual protected)
 
 	We provide a default implementation, for convenience.
@@ -175,14 +194,14 @@ JXColHeaderWidget::TableDrawCell
 	JXDrawUpFrame(p, rect, kCellFrameWidth);
 
 	JString str;
-	JBoolean hasTitle = kJFalse;
+	bool hasTitle = false;
 	if (itsTitles != nullptr)
 		{
 		const JString* title = itsTitles->GetElement(cell.x);
 		if (title != nullptr)
 			{
 			str      = *title;
-			hasTitle = kJTrue;
+			hasTitle = true;
 			}
 		}
 	if (!hasTitle)
@@ -193,7 +212,7 @@ JXColHeaderWidget::TableDrawCell
 	const JFont font = JFontManager::GetFont(
 			JFontManager::GetDefaultFontName(),
 			JFontManager::GetDefaultRowColHeaderFontSize(),
-			JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+			JFontStyle(true, false, 0, false));
 	p.SetFont(font);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 }
@@ -213,7 +232,7 @@ JXColHeaderWidget::TurnOnColResizing
 {
 	assert( minColWidth > 0 );
 
-	itsAllowColResizingFlag = kJTrue;
+	itsAllowColResizingFlag = true;
 	itsMinColWidth          = minColWidth;
 }
 
@@ -238,7 +257,7 @@ JXColHeaderWidget::HandleMouseDown
 		return;
 		}
 
-	const JBoolean inDragRegion = InDragRegion(pt, &itsDragCell);
+	const bool inDragRegion = InDragRegion(pt, &itsDragCell);
 
 	if (inDragRegion && button == kJXLeftButton)
 		{
@@ -294,7 +313,7 @@ JXColHeaderWidget::HandleMouseDrag
 		if (pt.x != itsPrevPt.x)
 			{
 			JPainter* p = nullptr;
-			const JBoolean ok = GetDragPainter(&p);
+			const bool ok = GetDragPainter(&p);
 			assert( ok );
 
 			const JRect enclApG = GetEnclosure()->GetApertureGlobal();
@@ -352,7 +371,7 @@ JXColHeaderWidget::HandleMouseUp
 		// erase the line
 
 		JPainter* p = nullptr;
-		const JBoolean ok = GetDragPainter(&p);
+		const bool ok = GetDragPainter(&p);
 		assert( ok );
 
 		const JRect enclAp = JXContainer::GlobalToLocal(GetEnclosure()->GetApertureGlobal());
@@ -393,7 +412,7 @@ JXColHeaderWidget::AdjustCursor
 	)
 {
 	JPoint cell;
-	const JBoolean inDragRegion = InDragRegion(pt, &cell);
+	const bool inDragRegion = InDragRegion(pt, &cell);
 	if (itsAllowColResizingFlag && inDragRegion && modifiers.meta())
 		{
 		DisplayCursor(itsDragAllLineCursor);
@@ -413,7 +432,7 @@ JXColHeaderWidget::AdjustCursor
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXColHeaderWidget::InDragRegion
 	(
 	const JPoint&	pt,
@@ -433,11 +452,11 @@ JXColHeaderWidget::InDragRegion
 		if (cellRect.right - halfWidth <= pt.x &&
 			pt.x <= cellRect.right + halfWidth)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

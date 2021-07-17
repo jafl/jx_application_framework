@@ -15,7 +15,7 @@ class StyledText : public JStyledText
 {
 public:
 
-	StyledText(const JBoolean useMultipleUndo = kJFalse);
+	StyledText(const bool useMultipleUndo = false);
 
 	virtual ~StyledText();
 
@@ -36,7 +36,7 @@ protected:
 												JRunArray<JFont>* styles,
 												TextRange* recalcRange,
 												TextRange* redrawRange,
-												const JBoolean deletion) override;
+												const bool deletion) override;
 
 private:
 

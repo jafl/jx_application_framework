@@ -185,7 +185,7 @@ void
 CBMacroTable::ReadData
 	(
 	const JString&	fileName,
-	const JBoolean	replace
+	const bool	replace
 	)
 {
 	JStringTableData* data = GetStringData();

@@ -23,7 +23,7 @@
 CBPerlScanner::CBPerlScanner()
 	:
 	CBPerlFlexLexer(),
-	itsResetFlag(kJFalse)
+	itsResetFlag(false)
 {
 }
 
@@ -50,10 +50,10 @@ CBPerlScanner::BeginScan
 	)
 {
 	itsCurrentText = text;
-	itsResetFlag   = kJTrue;
+	itsResetFlag   = true;
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	itsHereDocTag.Clear();
 	itsHereDocType = kDoubleQuoteString;
 
@@ -66,7 +66,7 @@ CBPerlScanner::BeginScan
 	count is the number of times to slurp up to and including endChar.
 	suffixList is the characters that can be appended, e.g., s/a/b/g
 
-	Returns kJFalse if EOF was encountered.
+	Returns false if EOF was encountered.
 
  *****************************************************************************/
 

@@ -47,16 +47,16 @@ public:
 										  const PathType pathType);
 	static PathType	CalcPathType(const JString& path);
 
-	JBoolean ChooseRelFile(const JString& prompt,
+	bool ChooseRelFile(const JString& prompt,
 						   const JString& instructions,
 						   const JString& origName,
 						   JString* name);					// relative
 
-	JBoolean ChooseRelRPath(const JString& prompt,
+	bool ChooseRelRPath(const JString& prompt,
 							const JString& instructions,
 							const JString& origPath,
 							JString* newPath);				// relative
-	JBoolean ChooseRelRWPath(const JString& prompt,
+	bool ChooseRelRWPath(const JString& prompt,
 							 const JString& instructions,
 							 const JString& origPath,
 							 JString* newPath);				// relative
@@ -66,13 +66,13 @@ protected:
 	virtual JXChooseFileDialog*
 	CreateChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 						   const JString& fileFilter,
-						   const JBoolean allowSelectMultiple,
+						   const bool allowSelectMultiple,
 						   const JString& origName, const JString& message) override;
 
 	virtual JXChoosePathDialog*
 	CreateChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 						   const JString& fileFilter,
-						   const JBoolean selectOnlyWritable, const JString& message) override;
+						   const bool selectOnlyWritable, const JString& message) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

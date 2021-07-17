@@ -72,7 +72,7 @@ JXDirTable::JXDirTable
 	assert( data != nullptr );
 	itsDirInfo = data;
 
-	itsActiveCells = jnew JArray<JBoolean>;
+	itsActiveCells = jnew JArray<bool>;
 	assert( itsActiveCells != nullptr );
 
 	itsDirUpdateTask = jnew JXTimerTask(kDirUpdatePeriod);
@@ -80,12 +80,12 @@ JXDirTable::JXDirTable
 	itsDirUpdateTask->Start();
 	ListenTo(itsDirUpdateTask);
 
-	itsAllowSelectFilesFlag      = kJTrue;
-	itsAllowSelectMultipleFlag   = kJFalse;
-	itsAllowDblClickInactiveFlag = kJFalse;
-	itsSelectWhenChangePathFlag  = kJTrue;
+	itsAllowSelectFilesFlag      = true;
+	itsAllowSelectMultipleFlag   = false;
+	itsAllowDblClickInactiveFlag = false;
+	itsSelectWhenChangePathFlag  = true;
 	itsMaxStringWidth            = 0;
-	itsReselectFlag              = kJFalse;
+	itsReselectFlag              = false;
 
 	itsReselectNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsReselectNameList != nullptr );
@@ -98,8 +98,8 @@ JXDirTable::JXDirTable
 	itsExecIcon           = cache->GetImage(jx_executable_small);
 	itsUnknownIcon        = cache->GetImage(jx_unknown_file_small);
 
-	itsIgnoreSelChangesFlag = kJFalse;
-	SetSelectionBehavior(itsAllowSelectMultipleFlag, kJTrue);
+	itsIgnoreSelChangesFlag = false;
+	SetSelectionBehavior(itsAllowSelectMultipleFlag, true);
 
 	const JIndex blackColor = JColorManager::GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
@@ -141,7 +141,7 @@ JXDirTable::GetPath()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirTable::HasSelection()
 	const
 {
@@ -153,16 +153,15 @@ JXDirTable::HasSelection()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirTable::HasSingleSelection()
 	const
 {
 	const JTableSelection& s = GetTableSelection();
 	JPoint cell1, cell2;
-	return JI2B(
-		s.GetFirstSelectedCell(&cell1) &&
+	return s.GetFirstSelectedCell(&cell1) &&
 		s.GetLastSelectedCell(&cell2) &&
-		cell1.y == cell2.y);
+		cell1.y == cell2.y;
 }
 
 /******************************************************************************
@@ -170,7 +169,7 @@ JXDirTable::HasSingleSelection()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirTable::GetFirstSelection
 	(
 	const JDirEntry** entry
@@ -181,11 +180,11 @@ JXDirTable::GetFirstSelection
 	if ((GetTableSelection()).GetFirstSelectedCell(&cell))
 		{
 		*entry = &(itsDirInfo->GetEntry(cell.y));
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -194,7 +193,7 @@ JXDirTable::GetFirstSelection
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirTable::GetSelection
 	(
 	JPtrArray<JDirEntry>* entryList
@@ -220,22 +219,22 @@ JXDirTable::GetSelection
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirTable::SelectSingleEntry
 	(
 	const JIndex	index,
-	const JBoolean	scroll
+	const bool	scroll
 	)
 {
 	if (ItemIsActive(index))
 		{
 		SelectSingleCell(JPoint(1, index), scroll);
 		itsKeyBuffer.Clear();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -247,11 +246,11 @@ JXDirTable::SelectSingleEntry
 void
 JXDirTable::SelectFirstEntry
 	(
-	const JBoolean scroll
+	const bool scroll
 	)
 {
 	JIndex index;
-	if (GetNextSelectable(0, kJFalse, &index))
+	if (GetNextSelectable(0, false, &index))
 		{
 		SelectSingleEntry(index, scroll);
 		}
@@ -265,11 +264,11 @@ JXDirTable::SelectFirstEntry
 void
 JXDirTable::SelectLastEntry
 	(
-	const JBoolean scroll
+	const bool scroll
 	)
 {
 	JIndex index;
-	if (GetPrevSelectable(GetRowCount()+1, kJFalse, &index))
+	if (GetPrevSelectable(GetRowCount()+1, false, &index))
 		{
 		SelectSingleEntry(index, scroll);
 		}
@@ -301,24 +300,24 @@ JXDirTable::CleanSelection()
 		return;
 		}
 
-	itsIgnoreSelChangesFlag = kJTrue;
+	itsIgnoreSelChangesFlag = true;
 
 	JTableSelection& s = GetTableSelection();
 	JTableSelectionIterator iter(&s);
 
-	const JBoolean forMulti = !HasSingleSelection();
+	const bool forMulti = !HasSingleSelection();
 
 	JPoint cell;
 	while (iter.Next(&cell))
 		{
 		if (!ItemIsSelectable(cell.y, forMulti))
 			{
-			s.SelectCell(cell, kJFalse);
+			s.SelectCell(cell, false);
 			}
 		}
 
 	itsKeyBuffer.Clear();
-	itsIgnoreSelChangesFlag = kJFalse;
+	itsIgnoreSelChangesFlag = false;
 }
 
 /******************************************************************************
@@ -326,11 +325,11 @@ JXDirTable::CleanSelection()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirTable::IsSelectable
 	(
 	const JPoint&	cell,
-	const JBoolean	forExtend
+	const bool	forExtend
 	)
 	const
 {
@@ -345,7 +344,7 @@ JXDirTable::IsSelectable
 void
 JXDirTable::ShowHidden
 	(
-	const JBoolean showHidden
+	const bool showHidden
 	)
 {
 	itsDirInfo->ShowHidden(showHidden);
@@ -359,12 +358,12 @@ JXDirTable::ShowHidden
 void
 JXDirTable::AllowSelectFiles
 	(
-	const JBoolean allowSelectFiles,
-	const JBoolean allowMultiple
+	const bool allowSelectFiles,
+	const bool allowMultiple
 	)
 {
 	itsAllowSelectMultipleFlag = allowMultiple;
-	SetSelectionBehavior(itsAllowSelectMultipleFlag, kJTrue);
+	SetSelectionBehavior(itsAllowSelectMultipleFlag, true);
 
 	if (allowSelectFiles != itsAllowSelectFilesFlag)
 		{
@@ -382,11 +381,11 @@ JXDirTable::AllowSelectFiles
  GoToSelectedDirectory
 
 	If there is a single item selected, and it is a directory, we switch to
-	it and return kJTrue.
+	it and return true.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirTable::GoToSelectedDirectory()
 {
 	const JDirEntry* entry;
@@ -407,14 +406,14 @@ JXDirTable::GoToSelectedDirectory()
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 
 		err.ReportIfError();
 		return err.OK();
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -476,7 +475,7 @@ JXDirTable::TableDrawCell
 
 	// draw name
 
-	const JBoolean italic = entry.IsLink();
+	const bool italic = entry.IsLink();
 
 	JColorID color = JColorManager::GetBlackColor();
 	if (!ItemIsActive(cell.y))
@@ -485,7 +484,7 @@ JXDirTable::TableDrawCell
 		}
 
 	JFont font = JFontManager::GetDefaultFont();
-	font.SetStyle(JFontStyle(kJFalse, italic, 0, kJFalse, color));
+	font.SetStyle(JFontStyle(false, italic, 0, false, color));
 	p.SetFont(font);
 
 	JRect r = rect;
@@ -588,12 +587,12 @@ JXDirTable::HandleDoubleClick
 			}
 		else
 			{
-			Broadcast(FileDblClicked(entry, kJTrue));
+			Broadcast(FileDblClicked(entry, true));
 			}
 		}
 	else if (itsAllowDblClickInactiveFlag && entry.IsFile())
 		{
-		Broadcast(FileDblClicked(entry, kJFalse));
+		Broadcast(FileDblClicked(entry, false));
 		}
 }
 
@@ -624,7 +623,7 @@ JXDirTable::HandleKeyPress
 {
 	JPoint topSelCell;
 	JTableSelection& s          = GetTableSelection();
-	const JBoolean hadSelection = s.GetFirstSelectedCell(&topSelCell);
+	const bool hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
 	if (c == ' ')
 		{
@@ -723,7 +722,7 @@ void
 JXDirTable::InstallShortcuts()
 {
 	JXKeyModifiers modifiers(GetDisplay());
-	modifiers.SetState(kJXMetaKeyIndex, kJTrue);
+	modifiers.SetState(kJXMetaKeyIndex, true);
 
 	JXWindow* window = GetWindow();
 	window->InstallShortcut(this, kJUpArrow, modifiers);
@@ -764,7 +763,7 @@ JXDirTable::HandleShortcut
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirTable::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -778,7 +777,7 @@ JXDirTable::WillAcceptDrop
 
 	if (this == const_cast<JXWidget*>(source))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// we accept drops of type text/uri-list
@@ -790,11 +789,11 @@ JXDirTable::WillAcceptDrop
 		if (type == urlXAtom)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -877,7 +876,7 @@ JXDirTable::HandleDNDDrop
 				GetWindow()->Raise();
 				if (!s.HasSelection())
 					{
-					const JBoolean ok = SelectSingleEntry(index);
+					const bool ok = SelectSingleEntry(index);
 					assert( ok );
 					}
 				else
@@ -940,18 +939,18 @@ JXDirTable::AdjustTableContents()
 				(entry.IsDirectory() && (!entry.IsReadable() || !entry.IsExecutable())) ||
 				(entry.IsFile() && (!entry.IsReadable() || !itsAllowSelectFilesFlag)))
 				{
-				itsActiveCells->AppendElement(kJFalse);
+				itsActiveCells->AppendElement(false);
 				}
 			else
 				{
-				itsActiveCells->AppendElement(kJTrue);
+				itsActiveCells->AppendElement(true);
 				}
 			}
 		}
 
 	// select appropriate items
 
-	JBoolean deselect  = kJFalse;
+	bool deselect  = false;
 	JTableSelection& s = GetTableSelection();
 	if (itsReselectFlag && !itsReselectNameList->IsEmpty())
 		{
@@ -981,7 +980,7 @@ JXDirTable::AdjustTableContents()
 				if ((itsDirInfo->GetEntry(i)).GetName() !=
 					*(itsReselectNameList->GetFirstElement()))
 					{
-					deselect = kJTrue;
+					deselect = true;
 					}
 				}
 			}
@@ -992,7 +991,7 @@ JXDirTable::AdjustTableContents()
 		// keep display from jumping
 
 		JPoint cell;
-		const JBoolean hasSelection = s.GetFirstSelectedCell(&cell);
+		const bool hasSelection = s.GetFirstSelectedCell(&cell);
 		assert( hasSelection );
 		const JRect selRect   = GetCellRect(cell);
 		const JPoint scrollPt = selRect.topLeft() + itsReselectScrollOffset;
@@ -1008,7 +1007,7 @@ JXDirTable::AdjustTableContents()
 		s.ClearSelection();
 		}
 
-	itsReselectFlag = kJFalse;
+	itsReselectFlag = false;
 	itsReselectNameList->CleanOut();
 }
 
@@ -1019,11 +1018,11 @@ JXDirTable::AdjustTableContents()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirTable::GetNextSelectable
 	(
 	const JIndex	startIndex,
-	const JBoolean	forMulti,
+	const bool	forMulti,
 	JIndex*			nextIndex
 	)
 	const
@@ -1031,7 +1030,7 @@ JXDirTable::GetNextSelectable
 	const JSize rowCount = GetRowCount();
 	if (startIndex >= rowCount)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JIndex i = startIndex + 1;
@@ -1041,7 +1040,7 @@ JXDirTable::GetNextSelectable
 		}
 
 	*nextIndex = i;
-	return JI2B( i <= rowCount );
+	return i <= rowCount;
 }
 
 /******************************************************************************
@@ -1051,18 +1050,18 @@ JXDirTable::GetNextSelectable
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirTable::GetPrevSelectable
 	(
 	const JIndex	startIndex,
-	const JBoolean	forMulti,
+	const bool	forMulti,
 	JIndex*			nextIndex
 	)
 	const
 {
 	if (startIndex <= 1)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JIndex i = startIndex - 1;
@@ -1072,7 +1071,7 @@ JXDirTable::GetPrevSelectable
 		}
 
 	*nextIndex = i;
-	return JI2B( i >= 1 );
+	return i >= 1;
 }
 
 /******************************************************************************
@@ -1080,7 +1079,7 @@ JXDirTable::GetPrevSelectable
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirTable::ItemIsFile
 	(
 	const JIndex index
@@ -1093,11 +1092,11 @@ JXDirTable::ItemIsFile
 /******************************************************************************
  ClosestMatch
 
-	Returns kJFalse if nothing can be selected.
+	Returns false if nothing can be selected.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirTable::ClosestMatch
 	(
 	const JString&	prefixStr,
@@ -1105,14 +1104,14 @@ JXDirTable::ClosestMatch
 	)
 	const
 {
-	JBoolean found = itsDirInfo->ClosestMatch(prefixStr, index);
+	bool found = itsDirInfo->ClosestMatch(prefixStr, index);
 
 	if (found && !ItemIsActive(*index))
 		{
-		found = GetNextSelectable(*index, kJFalse, index);
+		found = GetNextSelectable(*index, false, index);
 		if (!found)
 			{
-			found = GetPrevSelectable(GetRowCount()+1, kJFalse, index);
+			found = GetPrevSelectable(GetRowCount()+1, false, index);
 			}
 		}
 
@@ -1156,7 +1155,7 @@ JXDirTable::Receive
 		// This comes after ContentsChanged, and cancels the effect of
 		// ContentsWillBeUpdated.
 
-		itsReselectFlag = kJFalse;
+		itsReselectFlag = false;
 		itsReselectNameList->CleanOut();
 		if (itsSelectWhenChangePathFlag)
 			{
@@ -1200,7 +1199,7 @@ JXDirTable::RememberSelections()
 	JPtrArray<JDirEntry> entryList(JPtrArrayT::kDeleteAll);
 	if (!itsReselectFlag && GetSelection(&entryList))
 		{
-		itsReselectFlag = kJTrue;
+		itsReselectFlag = true;
 
 		for (const JDirEntry* e : entryList)
 			{
@@ -1208,7 +1207,7 @@ JXDirTable::RememberSelections()
 			}
 
 		JPoint cell;
-		const JBoolean hasSelection = (GetTableSelection()).GetFirstSelectedCell(&cell);
+		const bool hasSelection = (GetTableSelection()).GetFirstSelectedCell(&cell);
 		assert( hasSelection );
 		const JRect selRect     = GetCellRect(cell);
 		itsReselectScrollOffset = (GetAperture()).topLeft() - selRect.topLeft();

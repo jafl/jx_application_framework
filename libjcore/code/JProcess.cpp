@@ -3,7 +3,7 @@
 
 	Class to represent a UNIX process.
 
-	Event loops can call CheckForFinishedChild(kJFalse) in order to
+	Event loops can call CheckForFinishedChild(false) in order to
 	receive JBroadcaster messages when child processes finish.
 
 	BASE CLASS = virtual JBroadcaster
@@ -220,14 +220,14 @@ JProcess::JProcess
 	)
 	:
 	itsPID(pid),
-	itsIsFinishedFlag(kJFalse),
+	itsIsFinishedFlag(false),
 	itsFinishedStatus(0),
-	itsAutoDeleteFlag(kJFalse)
+	itsAutoDeleteFlag(false)
 {
 	theProcessList.SetCompareFunction(ComparePID);
-	theProcessList.InsertSorted(this, kJTrue);
+	theProcessList.InsertSorted(this, true);
 
-	JThisProcess::QuitAtExit(this, kJTrue);
+	JThisProcess::QuitAtExit(this, true);
 }
 
 // private -- used only by CheckForFinishedChild()
@@ -251,8 +251,8 @@ JProcess::JProcess
 JProcess::~JProcess()
 {
 	theProcessList.Remove(this);
-	JThisProcess::QuitAtExit(this, kJFalse);
-	JThisProcess::KillAtExit(this, kJFalse);
+	JThisProcess::QuitAtExit(this, false);
+	JThisProcess::KillAtExit(this, false);
 }
 
 /******************************************************************************
@@ -260,7 +260,7 @@ JProcess::~JProcess()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JProcess::WillQuitAtExit()
 	const
 {
@@ -270,13 +270,13 @@ JProcess::WillQuitAtExit()
 void
 JProcess::QuitAtExit
 	(
-	const JBoolean quit
+	const bool quit
 	)
 {
 	JThisProcess::QuitAtExit(this, quit);
 }
 
-JBoolean
+bool
 JProcess::WillKillAtExit()
 	const
 {
@@ -286,7 +286,7 @@ JProcess::WillKillAtExit()
 void
 JProcess::KillAtExit
 	(
-	const JBoolean kill
+	const bool kill
 	)
 {
 	JThisProcess::KillAtExit(this, kill);
@@ -329,10 +329,10 @@ JProcess::WaitUntilFinished()
 	const JError err = JWaitForChild(itsPID, &status);
 	if (err.OK())
 		{
-		itsIsFinishedFlag = kJTrue;
+		itsIsFinishedFlag = true;
 		itsFinishedStatus = status;
 
-		const JBoolean autoDelete = itsAutoDeleteFlag;	// save since Broadcast() might delete it -- in which case, the flag must be kJFalse!
+		const bool autoDelete = itsAutoDeleteFlag;	// save since Broadcast() might delete it -- in which case, the flag must be false!
 		Broadcast(Finished(status));
 		if (autoDelete)
 			{
@@ -352,7 +352,7 @@ JProcess::WaitUntilFinished()
 void
 JProcess::CheckForFinishedChild
 	(
-	const JBoolean block
+	const bool block
 	)
 {
 	pid_t pid;
@@ -389,8 +389,8 @@ JProcess::CheckForFinishedChild
 
 			for (JProcess* p : list)
 				{
-				const JBoolean autoDelete = p->itsAutoDeleteFlag;	// save since Broadcast() might delete it -- in which case, the flag must be kJFalse!
-				p->itsIsFinishedFlag      = kJTrue;
+				const bool autoDelete = p->itsAutoDeleteFlag;	// save since Broadcast() might delete it -- in which case, the flag must be false!
+				p->itsIsFinishedFlag      = true;
 				p->itsFinishedStatus      = status;
 				p->Broadcast(Finished(status));
 				if (autoDelete)

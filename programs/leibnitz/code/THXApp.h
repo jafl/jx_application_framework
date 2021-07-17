@@ -33,7 +33,7 @@ public:
 	void	DisplayAbout(const JString& prevVersStr = JString::empty);
 
 	THXVarList*			GetVariableList() const;
-	THXExprDirector*	NewExpression(const JBoolean centerOnScreen = kJFalse);
+	THXExprDirector*	NewExpression(const bool centerOnScreen = false);
 	void				New2DPlot(const THX2DPlotDirector* prevPlot = nullptr);
 	void				ShowConstants() const;
 	void				ShowBaseConversion() const;
@@ -46,8 +46,8 @@ public:
 	void		HandleHelpMenu(JXTextMenu* menu, const JUtf8Byte* windowSectionName,
 							   const JIndex index);
 
-	JBoolean	KeyPadIsVisible() const;
-	void		SetKeyPadVisible(const JBoolean visible);
+	bool	KeyPadIsVisible() const;
+	void		SetKeyPadVisible(const bool visible);
 	void		ToggleKeyPadVisible();
 
 	static const JUtf8Byte*	GetAppSignature();
@@ -55,20 +55,20 @@ public:
 
 protected:
 
-	virtual JBoolean	Close() override;
+	virtual bool	Close() override;
 	virtual void		CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason) override;
 	virtual void		DirectorClosed(JXDirector* theDirector) override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	JBoolean	itsStartupFlag;
+	bool	itsStartupFlag;
 	JString		itsStatePath;
 
 	THXVarList*						itsVarList;
 	THXVarDirector*					itsVarDirector;
 	JPtrArray<THXExprDirector>*		itsExprList;
-	JBoolean						itsKeyPadVisibleFlag;
+	bool						itsKeyPadVisibleFlag;
 	JPtrArray<THX2DPlotDirector>*	its2DPlotList;
 	THX2DPlotFunctionDialog*		its2DPlotFnDialog;	// nullptr unless asking user
 	THXBaseConvDirector*			itsBCDirector;
@@ -108,7 +108,7 @@ THXApp::GetVariableList()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 THXApp::KeyPadIsVisible()
 	const
 {

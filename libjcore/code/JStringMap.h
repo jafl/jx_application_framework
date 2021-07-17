@@ -38,38 +38,38 @@ public:
 	JStringMap(const JSize lgSize = kJDefaultLgMinTableSize);
 	virtual ~JStringMap();
 
-	JBoolean Contains(const JString& key) const;
-	JBoolean GetElement(const JString& key, V* value) const;
+	bool Contains(const JString& key) const;
+	bool GetElement(const JString& key, V* value) const;
 
-	JBoolean SetElement(const JString& key, const V& value,
+	bool SetElement(const JString& key, const V& value,
 						const JStringMapT::SetType type = JStringMapT::kAlways);
-	JBoolean SetNewElement(const JString& key, const V& value);
-	JBoolean SetOldElement(const JString& key, const V& value);
-	JBoolean SetContains(const JString& key, const V& value);
+	bool SetNewElement(const JString& key, const V& value);
+	bool SetOldElement(const JString& key, const V& value);
+	bool SetContains(const JString& key, const V& value);
 
-	JBoolean RemoveElement(const JString& key);
+	bool RemoveElement(const JString& key);
 	void     RemoveAll();
 
-	JBoolean Contains(const JUtf8Byte* key) const;
-	JBoolean GetElement(const JUtf8Byte* key, V* value) const;
+	bool Contains(const JUtf8Byte* key) const;
+	bool GetElement(const JUtf8Byte* key, V* value) const;
 
-	JBoolean SetElement(const JUtf8Byte* key, const V& value,
+	bool SetElement(const JUtf8Byte* key, const V& value,
 						const JStringMapT::SetType type = JStringMapT::kAlways);
-	JBoolean SetNewElement(const JUtf8Byte* key, const V& value);
-	JBoolean SetOldElement(const JUtf8Byte* key, const V& value);
-	JBoolean SetContains(const JUtf8Byte* key, const V& value);
+	bool SetNewElement(const JUtf8Byte* key, const V& value);
+	bool SetOldElement(const JUtf8Byte* key, const V& value);
+	bool SetContains(const JUtf8Byte* key, const V& value);
 
-	JBoolean RemoveElement(const JUtf8Byte* key);
+	bool RemoveElement(const JUtf8Byte* key);
 
 protected:
 
-	JBoolean     SetElement(const JString& key, const V& value,
+	bool     SetElement(const JString& key, const V& value,
 							const JPtrArrayT::SetElementAction action,
 							const JStringMapT::SetType type,
-							JBoolean* existed);
+							bool* existed);
 	virtual void PrepareForSet(const JPtrArrayT::SetElementAction action);
 
-	JBoolean RemoveElement(const JString& key,
+	bool RemoveElement(const JString& key,
 						   const JPtrArrayT::SetElementAction action);
 	void     RemoveAll(const JPtrArrayT::SetElementAction action);
 
@@ -77,7 +77,7 @@ private:
 
 	void JStringMapX();
 
-	static JBoolean Compare(const JStrValue<V>& lhs, const JStrValue<V>& rhs);
+	static bool Compare(const JStrValue<V>& lhs, const JStrValue<V>& rhs);
 
 	static JHashValue Hash(const JStrValue<V>& value);
 
@@ -94,14 +94,14 @@ private:
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMap<V>::Contains
 	(
 	const JUtf8Byte* key
 	)
 	const
 {
-	return Contains(JString(key, kJFalse));
+	return Contains(JString(key, JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -110,7 +110,7 @@ JStringMap<V>::Contains
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMap<V>::GetElement
 	(
 	const JUtf8Byte* key,
@@ -118,7 +118,7 @@ JStringMap<V>::GetElement
 	)
 	const
 {
-	return GetElement(JString(key, kJFalse), value);
+	return GetElement(JString(key, JString::kNoCopy), value);
 }
 
 /******************************************************************************
@@ -139,12 +139,12 @@ JStringMap<V>::GetElement
 	The element is set if it already existed and 'type' is kIfOld or kAlways
 	(the default) or if it did not exist and 'type' is kIfNew or kAlways.
 
-	Returns kJTrue if the element was set, kJFalse otherwise.
+	Returns true if the element was set, false otherwise.
 
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMap<V>::SetElement
 	(
 	const JUtf8Byte*           key,
@@ -152,12 +152,12 @@ JStringMap<V>::SetElement
 	const JStringMapT::SetType type // = kAlways
 	)
 {
-	JBoolean existed;
-	return SetElement(JString(key, kJFalse), value, JPtrArrayT::kForget, type, &existed);
+	bool existed;
+	return SetElement(JString(key, JString::kNoCopy), value, JPtrArrayT::kForget, type, &existed);
 }
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMap<V>::SetElement
 	(
 	const JString&             key,
@@ -165,31 +165,31 @@ JStringMap<V>::SetElement
 	const JStringMapT::SetType type // = kAlways
 	)
 {
-	JBoolean existed;
+	bool existed;
 	return SetElement(key, value, JPtrArrayT::kForget, type, &existed);
 }
 
 /******************************************************************************
  SetNewElement
 
-	Only sets the value if it does not already exist.  Returns kJTrue if the
+	Only sets the value if it does not already exist.  Returns true if the
 	value was set.
 
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMap<V>::SetNewElement
 	(
 	const JUtf8Byte* key,
 	const V&         value
 	)
 {
-	return SetElement(JString(key, kJFalse), value, JStringMapT::kIfNew);
+	return SetElement(JString(key, JString::kNoCopy), value, JStringMapT::kIfNew);
 }
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMap<V>::SetNewElement
 	(
 	const JString& key,
@@ -202,24 +202,24 @@ JStringMap<V>::SetNewElement
 /******************************************************************************
  SetOldElement
 
-	Only sets the value if it already exists.  Returns kJTrue if the value was
+	Only sets the value if it already exists.  Returns true if the value was
 	set.
 
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMap<V>::SetOldElement
 	(
 	const JUtf8Byte* key,
 	const V&         value
 	)
 {
-	return SetElement(JString(key, kJFalse), value, JStringMapT::kIfOld);
+	return SetElement(JString(key, JString::kNoCopy), value, JStringMapT::kIfOld);
 }
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMap<V>::SetOldElement
 	(
 	const JString& key,
@@ -232,33 +232,33 @@ JStringMap<V>::SetOldElement
 /******************************************************************************
  SetContains
 
-	A sometimes useful hybrid form; always sets the element, and returns kJTrue
-	if the element already existed, kJFalse otherwise.
+	A sometimes useful hybrid form; always sets the element, and returns true
+	if the element already existed, false otherwise.
 
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMap<V>::SetContains
 	(
 	const JUtf8Byte* key,
 	const V&         value
 	)
 {
-	JBoolean existed;
-	SetElement(JString(key, kJFalse), value, JPtrArrayT::kForget, JStringMapT::kAlways, &existed);
+	bool existed;
+	SetElement(JString(key, JString::kNoCopy), value, JPtrArrayT::kForget, JStringMapT::kAlways, &existed);
 	return existed;
 }
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMap<V>::SetContains
 	(
 	const JString& key,
 	const V&       value
 	)
 {
-	JBoolean existed;
+	bool existed;
 	SetElement(key, value, JPtrArrayT::kForget, JStringMapT::kAlways, &existed);
 	return existed;
 }
@@ -269,17 +269,17 @@ JStringMap<V>::SetContains
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMap<V>::RemoveElement
 	(
 	const JUtf8Byte* key
 	)
 {
-	return RemoveElement(JString(key, kJFalse), JPtrArrayT::kForget);
+	return RemoveElement(JString(key, JString::kNoCopy), JPtrArrayT::kForget);
 }
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMap<V>::RemoveElement
 	(
 	const JString& key

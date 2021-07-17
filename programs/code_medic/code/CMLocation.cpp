@@ -90,13 +90,13 @@ CMLocation::operator=
 
  *****************************************************************************/
 
-JBoolean
+bool
 operator==
 	(
 	const CMLocation& lhs,
 	const CMLocation& rhs
 	)
 {
-	return JI2B(lhs.itsFileID     == rhs.itsFileID &&
-				lhs.itsLineNumber == rhs.itsLineNumber);
+	return lhs.itsFileID     == rhs.itsFileID &&
+				lhs.itsLineNumber == rhs.itsLineNumber;
 }

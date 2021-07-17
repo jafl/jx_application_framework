@@ -19,38 +19,38 @@ class CMVarNode : public JNamedTreeNode
 
 public:
 
-	CMVarNode(const JBoolean shouldUpdate = kJTrue);
+	CMVarNode(const bool shouldUpdate = true);
 	CMVarNode(JTreeNode* parent, const JString& name, const JString& value);
 
 	virtual	~CMVarNode();
 
-	JBoolean		ValueIsValid() const;
-	virtual JString	GetFullName(JBoolean* isPointer = nullptr) const = 0;
+	bool		ValueIsValid() const;
+	virtual JString	GetFullName(bool* isPointer = nullptr) const = 0;
 	const JString&	GetValue() const;
 	void			SetValue(const JString& value);
-	void			SetValid(const JBoolean valid);
+	void			SetValid(const bool valid);
 	JFontStyle		GetFontStyle();
 
-	static JFontStyle	GetFontStyle(const JBoolean isValid, const JBoolean isNew);
+	static JFontStyle	GetFontStyle(const bool isValid, const bool isNew);
 
 	JSize	GetBase() const;
 	void	SetBase(const JSize base);
 
-	JBoolean	IsPointer() const;
-	void		MakePointer(const JBoolean pointer, const JBoolean adjustOpenable = kJTrue);
+	bool	IsPointer() const;
+	void		MakePointer(const bool pointer, const bool adjustOpenable = true);
 
-	virtual JBoolean	OKToOpen() const override;
+	virtual bool	OKToOpen() const override;
 
-	void	ShouldUpdate(const JBoolean update);
+	void	ShouldUpdate(const bool update);
 
-	static JBoolean	ShouldUpdate(const Message& message);
+	static bool	ShouldUpdate(const Message& message);
 
 	void	GetLastChild(CMVarNode** child);
 
 	CMVarNode*			GetVarParent();
 	const CMVarNode*	GetVarParent() const;
-	JBoolean			GetVarParent(CMVarNode** parent);
-	JBoolean			GetVarParent(const CMVarNode** parent) const;
+	bool			GetVarParent(CMVarNode** parent);
+	bool			GetVarParent(const CMVarNode** parent) const;
 
 	CMVarNode*			GetVarChild(const JIndex index);
 	const CMVarNode*	GetVarChild(const JIndex index) const;
@@ -69,29 +69,29 @@ protected:
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
 
-	JString	GetFullNameForCFamilyLanguage(JBoolean* isPointer) const;
+	JString	GetFullNameForCFamilyLanguage(bool* isPointer) const;
 	JString	GetPathForCFamilyLanguage() const;
 
 private:
 
-	const JBoolean		itsShouldListenToLinkFlag;
+	const bool		itsShouldListenToLinkFlag;
 	CMVarCommand*		itsValueCommand;
 	JString				itsValue;
-	JBoolean			itsIsPointerFlag;
-	JBoolean			itsValidFlag;
-	JBoolean			itsNewValueFlag;
+	bool			itsIsPointerFlag;
+	bool			itsValidFlag;
+	bool			itsNewValueFlag;
 	CMVarCommand*		itsContentCommand;
 
 	// used for base conversion
 
 	JSize		itsBase;		// 0 => default, 1 => ASCII
-	JBoolean	itsCanConvertBaseFlag;
+	bool	itsCanConvertBaseFlag;
 	JString*	itsOrigValue;
 
 	// optimized updating
 
-	JBoolean	itsShouldUpdateFlag;
-	JBoolean	itsNeedsUpdateFlag;
+	bool	itsShouldUpdateFlag;
+	bool	itsNeedsUpdateFlag;
 
 private:
 
@@ -105,7 +105,7 @@ private:
 
 	void	ConvertToBase();
 
-	JBoolean	SameElements(const CMVarNode* node) const;
+	bool	SameElements(const CMVarNode* node) const;
 
 	// not allowed
 
@@ -119,7 +119,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CMVarNode::ValueIsValid()
 	const
 {
@@ -143,7 +143,7 @@ CMVarNode::GetValue()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CMVarNode::IsPointer()
 	const
 {

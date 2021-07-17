@@ -72,7 +72,7 @@ JAlgSign::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JAlgSign::Evaluate
 	(
 	JFloat* result
@@ -82,7 +82,7 @@ JAlgSign::Evaluate
 	JFloat value;
 	if (!GetArg()->Evaluate(&value))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	jclear_errno();
@@ -90,7 +90,7 @@ JAlgSign::Evaluate
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JAlgSign::Evaluate
 	(
 	JComplex* result
@@ -100,7 +100,7 @@ JAlgSign::Evaluate
 	JComplex value;
 	if (!GetArg()->Evaluate(&value))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	jclear_errno();

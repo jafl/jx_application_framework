@@ -59,7 +59,7 @@ SVNRepoDragData::AddTypes
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNRepoDragData::ConvertData
 	(
 	const Atom		requestType,
@@ -79,7 +79,7 @@ SVNRepoDragData::ConvertData
 		if (*data != nullptr)
 			{
 			memcpy(*data, itsURI.GetRawBytes(), *dataLength);
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -87,5 +87,5 @@ SVNRepoDragData::ConvertData
 	*data         = nullptr;
 	*dataLength   = 0;
 	*returnType   = None;
-	return kJFalse;
+	return false;
 }

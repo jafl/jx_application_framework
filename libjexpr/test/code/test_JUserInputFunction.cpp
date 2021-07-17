@@ -27,7 +27,7 @@ JTEST(ConvertToGreekCharacter)
 
 JTEST(ConvertToGreekString)
 {
-	JAssertStringsEqual("foo", JUserInputFunction::ConvertToGreek(JString("foo", kJFalse)));
+	JAssertStringsEqual("foo", JUserInputFunction::ConvertToGreek(JString("foo", JString::kNoCopy)));
 
-	JAssertStringsEqual("\xCF\x80", JUserInputFunction::ConvertToGreek(JString("`p", kJFalse)));
+	JAssertStringsEqual("\xCF\x80", JUserInputFunction::ConvertToGreek(JString("`p", JString::kNoCopy)));
 }

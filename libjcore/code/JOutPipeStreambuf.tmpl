@@ -26,7 +26,7 @@ template<typename _CharT, typename _Traits>
 JOutPipeStreambuf<_CharT, _Traits>::JOutPipeStreambuf
 	(
 	const int		fd,
-	const JBoolean	close
+	const bool	close
 	)
 	:
 	itsDescriptor(fd),
@@ -63,7 +63,7 @@ JOutPipeStreambuf<_CharT, _Traits>::GetDescriptor()
  *****************************************************************************/
 
 template<typename _CharT, typename _Traits>
-JBoolean
+bool
 JOutPipeStreambuf<_CharT, _Traits>::WillClosePipe()
 	const
 {
@@ -74,7 +74,7 @@ template<typename _CharT, typename _Traits>
 void
 JOutPipeStreambuf<_CharT, _Traits>::ShouldClosePipe
 	(
-	const JBoolean close
+	const bool close
 	)
 {
 	itsCloseFlag = close;
@@ -97,7 +97,7 @@ JOutPipeStreambuf<_CharT, _Traits>::close()
 			{
 			std::cerr << "JOutPipeStreambuf failed to close pipe: " << jerrno() << std::endl;
 			}
-		itsCloseFlag = kJFalse;
+		itsCloseFlag = false;
 		}
 }
 

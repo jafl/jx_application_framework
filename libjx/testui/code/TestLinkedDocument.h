@@ -20,7 +20,7 @@ public:
 
 	virtual ~TestLinkedDocument();
 
-	virtual JBoolean	NeedDocument(JXDocument* doc) const;
+	virtual bool	NeedDocument(JXDocument* doc) const;
 
 private:
 

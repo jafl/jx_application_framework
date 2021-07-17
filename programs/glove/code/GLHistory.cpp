@@ -66,10 +66,10 @@ GLHistory::GLHistory
 	)
 	:
 	JXTEBase(kFullEditor,
-			 jnew JXStyledText(kJFalse, kJFalse, enclosure->GetFontManager()), kJTrue,
-			 kJFalse, scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
+			 jnew JXStyledText(false, false, enclosure->GetFontManager()), true,
+			 false, scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	WantInput(kJTrue, kJFalse);
+	WantInput(true, false);
 
 	(scrollbarSet->GetVScrollbar())->SetScrollDelay(0);
 
@@ -157,8 +157,8 @@ GLHistory::AdjustFont()
 
 	JCharacterRange selRange;
 	JIndex caretIndex;
-	const JBoolean hasSelection = HasSelection();
-	JBoolean ok;
+	const bool hasSelection = HasSelection();
+	bool ok;
 	if (hasSelection)
 		{
 		ok = GetSelection(&selRange);
@@ -258,9 +258,9 @@ GLHistory::CompareFontNames
 	else
 		{
 		JUInt x1, x2;
-		const JBoolean ok1 = JString::ConvertToUInt(s1->GetBytes() + 2, &x1);
+		const bool ok1 = JString::ConvertToUInt(s1->GetBytes() + 2, &x1);
 		assert( ok1 );
-		const JBoolean ok2 = JString::ConvertToUInt(s2->GetBytes() + 2, &x2);
+		const bool ok2 = JString::ConvertToUInt(s2->GetBytes() + 2, &x2);
 		assert( ok2 );
 
 		if (x1 > x2)
@@ -326,7 +326,7 @@ GLHistory::LoadDefaultToolBar
 	GetEditMenu(&editMenu);
 
 	JIndex mIndex;
-	JBoolean ok = EditMenuCmdToIndex(kCutCmd, &mIndex);
+	bool ok = EditMenuCmdToIndex(kCutCmd, &mIndex);
 	assert(ok);
 
 	toolBar->NewGroup();

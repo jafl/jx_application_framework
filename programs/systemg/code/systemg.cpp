@@ -39,7 +39,7 @@ main
 		return 0;
 		}
 
-	JBoolean displayAbout;
+	bool displayAbout;
 	JString prevVersStr;
 	SyGApplication* app = jnew SyGApplication(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );

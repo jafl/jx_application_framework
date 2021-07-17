@@ -17,14 +17,14 @@ class JXXFontMenu : public JXFontNameMenu
 {
 public:
 
-	static JBoolean Create(const JRegex& regex, JSortXFontNamesFn compare,
+	static bool Create(const JRegex& regex, JSortXFontNamesFn compare,
 						   const JString& title, JXContainer* enclosure,
 						   const HSizingOption hSizing, const VSizingOption vSizing,
 						   const JCoordinate x, const JCoordinate y,
 						   const JCoordinate w, const JCoordinate h,
 						   JXXFontMenu** menu);
 
-	static JBoolean Create(const JRegex& regex, JSortXFontNamesFn compare,
+	static bool Create(const JRegex& regex, JSortXFontNamesFn compare,
 						   JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure,
 						   JXXFontMenu** menu);
 

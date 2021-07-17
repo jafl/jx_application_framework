@@ -114,7 +114,7 @@ JStringPtrMap<V>::PrepareForSet
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JStringPtrMap<V>::SetElement
 	(
 	const JUtf8Byte*                   key,
@@ -125,11 +125,11 @@ JStringPtrMap<V>::SetElement
 {
 	V* ptr = jnew V(data);
 	assert( ptr != nullptr );
-	return SetElement(JString(key, 0, kJFalse), ptr, action, type);
+	return SetElement(JString(key, JString::kNoCopy), ptr, action, type);
 }
 
 template <class V>
-JBoolean
+bool
 JStringPtrMap<V>::SetElement
 	(
 	const JString&                     key,
@@ -144,7 +144,7 @@ JStringPtrMap<V>::SetElement
 }
 
 template <class V>
-JBoolean
+bool
 JStringPtrMap<V>::SetNewElement
 	(
 	const JUtf8Byte* key,
@@ -153,11 +153,11 @@ JStringPtrMap<V>::SetNewElement
 {
 	V* ptr = jnew V(data);
 	assert( ptr != nullptr );
-	return SetNewElement(JString(key, 0, kJFalse), ptr);
+	return SetNewElement(JString(key, JString::kNoCopy), ptr);
 }
 
 template <class V>
-JBoolean
+bool
 JStringPtrMap<V>::SetNewElement
 	(
 	const JString& key,
@@ -170,7 +170,7 @@ JStringPtrMap<V>::SetNewElement
 }
 
 template <class V>
-JBoolean
+bool
 JStringPtrMap<V>::SetOldElement
 	(
 	const JUtf8Byte*                   key,
@@ -180,11 +180,11 @@ JStringPtrMap<V>::SetOldElement
 {
 	V* ptr = jnew V(data);
 	assert( ptr != nullptr );
-	return SetOldElement(JString(key, 0, kJFalse), ptr, action);
+	return SetOldElement(JString(key, JString::kNoCopy), ptr, action);
 }
 
 template <class V>
-JBoolean
+bool
 JStringPtrMap<V>::SetOldElement
 	(
 	const JString&                     key,
@@ -198,7 +198,7 @@ JStringPtrMap<V>::SetOldElement
 }
 
 template <class V>
-JBoolean
+bool
 JStringPtrMap<V>::SetContains
 	(
 	const JUtf8Byte*                   key,
@@ -208,11 +208,11 @@ JStringPtrMap<V>::SetContains
 {
 	V* ptr = jnew V(data);
 	assert( ptr != nullptr );
-	return SetContains(JString(key, 0, kJFalse), ptr, action);
+	return SetContains(JString(key, JString::kNoCopy), ptr, action);
 }
 
 template <class V>
-JBoolean
+bool
 JStringPtrMap<V>::SetContains
 	(
 	const JString&                     key,

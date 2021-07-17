@@ -14,14 +14,14 @@ class JVMVarNode : public CMVarNode
 {
 public:
 
-	JVMVarNode(const JBoolean shouldUpdate = kJTrue);
+	JVMVarNode(const bool shouldUpdate = true);
 
 	JVMVarNode(JTreeNode* parent, const JString& name,
 			   const JString& fullName, const JString& value);
 
 	virtual	~JVMVarNode();
 
-	virtual JString	GetFullName(JBoolean* isPointer = nullptr) const override;
+	virtual JString	GetFullName(bool* isPointer = nullptr) const override;
 
 private:
 

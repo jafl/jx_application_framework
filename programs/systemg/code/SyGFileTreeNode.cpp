@@ -64,23 +64,23 @@ SyGFileTreeNode::SetChildCompareFunction
 {
 	if (type == kGFMUID)
 		{
-		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareUserName, JListT::kSortAscending, kJTrue);
+		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareUserName, JListT::kSortAscending, true);
 		}
 	else if (type == kGFMGID)
 		{
-		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareGroupName, JListT::kSortAscending, kJTrue);
+		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareGroupName, JListT::kSortAscending, true);
 		}
 	else if (type == kGFMSize)
 		{
-		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareSize, JListT::kSortDescending, kJTrue);
+		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareSize, JListT::kSortDescending, true);
 		}
 	else if (type == kGFMDate)
 		{
-		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareDate, JListT::kSortDescending, kJTrue);
+		JFSFileTreeNode::SetChildCompareFunction(JFSFileTreeNode::CompareDate, JListT::kSortDescending, true);
 		}
 	else
 		{
-		JFSFileTreeNode::SetChildCompareFunction(JNamedTreeNode::DynamicCastCompareNames, JListT::kSortAscending, kJTrue);
+		JFSFileTreeNode::SetChildCompareFunction(JNamedTreeNode::DynamicCastCompareNames, JListT::kSortAscending, true);
 		}
 }
 
@@ -130,7 +130,7 @@ SyGFileTreeNode::GetSyGParent()
 	return n;
 }
 
-JBoolean
+bool
 SyGFileTreeNode::GetSyGParent
 	(
 	SyGFileTreeNode** parent
@@ -141,16 +141,16 @@ SyGFileTreeNode::GetSyGParent
 		{
 		*parent = dynamic_cast<SyGFileTreeNode*>(p);
 		assert( *parent != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 SyGFileTreeNode::GetSyGParent
 	(
 	const SyGFileTreeNode** parent
@@ -162,12 +162,12 @@ SyGFileTreeNode::GetSyGParent
 		{
 		*parent = dynamic_cast<const SyGFileTreeNode*>(p);
 		assert( *parent != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 

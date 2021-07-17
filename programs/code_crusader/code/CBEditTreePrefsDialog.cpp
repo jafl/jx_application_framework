@@ -29,13 +29,13 @@
 CBEditTreePrefsDialog::CBEditTreePrefsDialog
 	(
 	const JSize		fontSize,
-	const JBoolean	showInheritedFns,
-	const JBoolean	autoMinMILinks,
-	const JBoolean	drawMILinksOnTop,
-	const JBoolean	raiseWhenSingleMatch
+	const bool	showInheritedFns,
+	const bool	autoMinMILinks,
+	const bool	drawMILinksOnTop,
+	const bool	raiseWhenSingleMatch
 	)
 	:
-	JXDialogDirector(CBGetApplication(), kJTrue)
+	JXDialogDirector(CBGetApplication(), true)
 {
 	BuildWindow(fontSize, showInheritedFns, autoMinMILinks, drawMILinksOnTop,
 				raiseWhenSingleMatch);
@@ -60,10 +60,10 @@ void
 CBEditTreePrefsDialog::BuildWindow
 	(
 	const JSize		fontSize,
-	const JBoolean	showInheritedFns,
-	const JBoolean	autoMinMILinks,
-	const JBoolean	drawMILinksOnTop,
-	const JBoolean	raiseWhenSingleMatch
+	const bool	showInheritedFns,
+	const bool	autoMinMILinks,
+	const bool	drawMILinksOnTop,
+	const bool	raiseWhenSingleMatch
 	)
 {
 // begin JXLayout
@@ -196,7 +196,7 @@ CBEditTreePrefsDialog::UpdateSettings()
 
 	JProgressDisplay* pg = JNewPG();
 	pg->FixedLengthProcessBeginning(docCount, JGetString("UpdatingPrefs::CBEditTreePrefsDialog"),
-									kJFalse, kJFalse);
+									false, false);
 
 	for (JIndex i=1; i<=docCount; i++)
 		{
@@ -204,9 +204,9 @@ CBEditTreePrefsDialog::UpdateSettings()
 			SetTreePrefs(itsFontSizeMenu->GetFontSize(),
 						 itsShowInheritedFnsCB->IsChecked(),
 						 itsAutoMinMILinkCB->IsChecked(),
-						 JI2B(itsMILinkStyleRG->GetSelectedItem() == kDrawMILinksAbove),
+						 itsMILinkStyleRG->GetSelectedItem() == kDrawMILinksAbove,
 						 itsRaiseSingleMatchCB->IsChecked(),
-						 JI2B(i==1));
+						 i==1);
 
 		pg->IncrementProgress();
 		}

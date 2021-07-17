@@ -27,12 +27,12 @@ public:
 	virtual void		DisplayMessage(const JString& message) override;
 	virtual void		ReportError(const JString& message) override;
 
-	virtual JBoolean	AskUserYes(const JString& message) override;
-	virtual JBoolean	AskUserNo(const JString& message) override;
+	virtual bool	AskUserYes(const JString& message) override;
+	virtual bool	AskUserNo(const JString& message) override;
 
 	virtual CloseAction	OKToClose(const JString& message) override;
 
-	virtual JBoolean	AcceptLicense() override;
+	virtual bool	AcceptLicense() override;
 
 protected:
 
@@ -41,7 +41,7 @@ protected:
 private:
 
 	JXDialogDirector*	itsCurrentDialog;
-	JBoolean			itsWarningResponse;
+	bool			itsWarningResponse;
 
 	JXOKToCloseDialog*	itsOKToCloseDialog;
 	CloseAction			itsCloseAction;

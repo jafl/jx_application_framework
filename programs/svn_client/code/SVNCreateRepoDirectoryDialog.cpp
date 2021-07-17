@@ -51,16 +51,16 @@ SVNCreateRepoDirectoryDialog::~SVNCreateRepoDirectoryDialog()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNCreateRepoDirectoryDialog::OKToDeactivate()
 {
 	if (!JXGetStringDialog::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	const JString& name = GetString();
@@ -68,10 +68,10 @@ SVNCreateRepoDirectoryDialog::OKToDeactivate()
 	if (itsParentNode->FindNamedChild(name, &node))
 		{
 		JGetUserNotification()->ReportError(JGetString("NameUsed::SVNCreateRepoDirectoryDialog"));
-		return kJFalse;
+		return false;
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }

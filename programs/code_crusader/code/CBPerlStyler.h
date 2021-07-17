@@ -29,7 +29,7 @@ protected:
 	virtual void	PreexpandCheckRange(const JString& text,
 										const JRunArray<JFont>& styles,
 										const JCharacterRange& modifiedRange,
-										const JBoolean deletion,
+										const bool deletion,
 										JStyledText::TextRange* checkRange) override;
 
 	virtual void	UpgradeTypeList(const JFileVersion vers,

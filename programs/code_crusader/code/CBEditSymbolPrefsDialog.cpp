@@ -25,10 +25,10 @@
 
 CBEditSymbolPrefsDialog::CBEditSymbolPrefsDialog
 	(
-	const JBoolean raiseTreeOnRightClick
+	const bool raiseTreeOnRightClick
 	)
 	:
-	JXDialogDirector(CBGetApplication(), kJTrue)
+	JXDialogDirector(CBGetApplication(), true)
 {
 	BuildWindow(raiseTreeOnRightClick);
 	ListenTo(this);
@@ -51,7 +51,7 @@ CBEditSymbolPrefsDialog::~CBEditSymbolPrefsDialog()
 void
 CBEditSymbolPrefsDialog::BuildWindow
 	(
-	const JBoolean raiseTreeOnRightClick
+	const bool raiseTreeOnRightClick
 	)
 {
 // begin JXLayout
@@ -141,13 +141,13 @@ CBEditSymbolPrefsDialog::UpdateSettings()
 
 //	JProgressDisplay* pg = JNewPG();
 //	pg->FixedLengthProcessBeginning(docCount, "Updating preferences...",
-//									kJFalse, kJFalse);
+//									false, false);
 
 	for (JIndex i=1; i<=docCount; i++)
 		{
 		((docList->GetElement(i))->GetSymbolDirector())->
 			SetPrefs(itsRaiseTreeOnRightClickCB->IsChecked(),
-					 JI2B(i==1));
+					 i==1);
 
 //		pg->IncrementProgress();
 		}

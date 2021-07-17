@@ -16,7 +16,7 @@
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGetUserMountPointList
 	(
 	JMountPointList*	list,
@@ -62,7 +62,7 @@ JGetUserMountPointList
 		list->AppendElement(JMountPoint(path, type, c - 'A', devicePath));
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -115,32 +115,32 @@ JGetUserMountPointType
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIsMounted
 	(
 	const JCharacter*	path,
-	JBoolean*			writable,
+	bool*			writable,
 	JString*			device
 	)
 {
 	if (JString::IsEmpty(path) || !JNameUsed(path) || path[1] != ':')
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JCharacter* drive = "A:\\";
 	drive[0]          = path[0];
 	const UINT type   = GetDriveType(drive);
-	return JI2B( type != DRIVE_UNKNOWN && type != DRIVE_NO_ROOT_DIR );
+	return type != DRIVE_UNKNOWN && type != DRIVE_NO_ROOT_DIR;
 }
 
 /******************************************************************************
  JMount
 
 	To determine whether or not this function succeeded, call it with
-	block=kJTrue and then check JIsMounted().
+	block=true and then check JIsMounted().
 
-	If mount = kJFalse, the file system is unmounted instead.
+	If mount = false, the file system is unmounted instead.
 
  ******************************************************************************/
 
@@ -148,8 +148,8 @@ void
 JMount
 	(
 	const JCharacter*	path,
-	const JBoolean		mount,
-	const JBoolean		block
+	const bool		mount,
+	const bool		block
 	)
 {
 }
@@ -161,7 +161,7 @@ JMount
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTranslateLocalToRemote
 	(
 	const JCharacter*	localPathStr,
@@ -169,7 +169,7 @@ JTranslateLocalToRemote
 	JString*			remotePath
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -182,7 +182,7 @@ JTranslateLocalToRemote
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTranslateRemoteToLocal
 	(
 	const JCharacter*	hostStr,
@@ -190,7 +190,7 @@ JTranslateRemoteToLocal
 	JString*			localPath
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -222,11 +222,11 @@ JFormatPartition
 /******************************************************************************
  JIsSamePartition
 
-	Returns kJTrue if the two directories are on the same partition.
+	Returns true if the two directories are on the same partition.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIsSamePartition
 	(
 	const JCharacter* path1,
@@ -237,12 +237,12 @@ JIsSamePartition
 	if (!JConvertToAbsolutePath(path1, nullptr, &s1) ||
 		!JConvertToAbsolutePath(path2, nullptr, &s2))
 		{
-		return kJFalse;
+		return false;
 		}
 
-	return JI2B(s1.GetCharacter(1) == s2.GetCharacter(1) &&
+	return s1.GetCharacter(1) == s2.GetCharacter(1) &&
 				s1.GetCharacter(2) == ':' &&
-				s2.GetCharacter(2) == ':');
+				s2.GetCharacter(2) == ':';
 }
 
 /******************************************************************************

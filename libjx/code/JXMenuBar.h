@@ -35,27 +35,27 @@ public:
 	JSize			GetMenuCount() const;
 	JXMenu*			GetMenu(const JIndex index);
 	const JXMenu*	GetMenu(const JIndex index) const;
-	JBoolean		FindMenu(const JXMenu* menu, JIndex* index) const;
+	bool		FindMenu(const JXMenu* menu, JIndex* index) const;
 
 	JXTextMenu*	InsertTextMenu(const JIndex index, const JString& title);
 	JXTextMenu*	PrependTextMenu(const JString& title);
 	JXTextMenu*	AppendTextMenu(const JString& title);
 
 	JXTextMenu*	InsertTextMenu(const JIndex index, JXImage* image,
-							   const JBoolean menuOwnsImage);
-	JXTextMenu*	PrependTextMenu(JXImage* image, const JBoolean menuOwnsImage);
-	JXTextMenu*	AppendTextMenu(JXImage* image, const JBoolean menuOwnsImage);
+							   const bool menuOwnsImage);
+	JXTextMenu*	PrependTextMenu(JXImage* image, const bool menuOwnsImage);
+	JXTextMenu*	AppendTextMenu(JXImage* image, const bool menuOwnsImage);
 
 	void		DeleteMenu(const JIndex index);
-	JBoolean	DeleteMenu(JXMenu* menu);
+	bool	DeleteMenu(JXMenu* menu);
 
 	void		InsertMenu(const JIndex index, JXMenu* menu);
-	JBoolean	InsertMenuBefore(JXMenu* existingMenu, JXMenu* newMenu);
-	JBoolean	InsertMenuAfter(JXMenu* existingMenu, JXMenu* newMenu);
+	bool	InsertMenuBefore(JXMenu* existingMenu, JXMenu* newMenu);
+	bool	InsertMenuAfter(JXMenu* existingMenu, JXMenu* newMenu);
 	void		PrependMenu(JXMenu* menu);
 	void		AppendMenu(JXMenu* menu);
 	JXMenu*		RemoveMenu(const JIndex index);
-	JBoolean	RemoveMenu(JXMenu* menu);
+	bool	RemoveMenu(JXMenu* menu);
 
 protected:
 
@@ -64,13 +64,13 @@ protected:
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
 private:
 
 	JPtrArray<JXMenu>*	itsMenus;
 	JXTextMenu*			itsOverflowMenu;			// nullptr unless menus overflow bar
-	JSize				itsIgnoreWidthChangedCount;	// kJTrue => in WidthChanged()
+	JSize				itsIgnoreWidthChangedCount;	// true => in WidthChanged()
 
 private:
 
@@ -107,7 +107,7 @@ inline JXTextMenu*
 JXMenuBar::PrependTextMenu
 	(
 	JXImage*		image,
-	const JBoolean	menuOwnsImage
+	const bool	menuOwnsImage
 	)
 {
 	return InsertTextMenu(1, image, menuOwnsImage);
@@ -140,7 +140,7 @@ inline JXTextMenu*
 JXMenuBar::AppendTextMenu
 	(
 	JXImage*		image,
-	const JBoolean	menuOwnsImage
+	const bool	menuOwnsImage
 	)
 {
 	return InsertTextMenu(GetMenuCount()+1, image, menuOwnsImage);

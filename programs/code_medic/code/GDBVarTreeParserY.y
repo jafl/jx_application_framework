@@ -8,13 +8,13 @@
 //#define YYERROR_VERBOSE
 //#define YYDEBUG 1
 
-inline JBoolean
+inline bool
 cmIsOpenablePointer
 	(
 	const JString& s
 	)
 {
-	return JNegate( s == "0x0" );
+	return s != "0x0";
 }
 
 %}
@@ -80,7 +80,7 @@ yyprint
 %initial-action
 {
 	itsGroupDepth   = 0;
-	itsGDBErrorFlag = kJFalse;
+	itsGDBErrorFlag = false;
 //	yydebug         = 1;
 }
 
@@ -94,7 +94,7 @@ top_group :
 			{
 			itsCurrentNode->Append($1->list->GetElement(i));
 			}
-		itsIsPointerFlag = kJFalse;
+		itsIsPointerFlag = false;
 
 		jdelete $1;
 
@@ -108,7 +108,7 @@ top_group :
 			{
 			itsCurrentNode->Append($2->list->GetElement(i));
 			}
-		itsIsPointerFlag = kJFalse;
+		itsIsPointerFlag = false;
 
 		jdelete $1;
 		jdelete $2;
@@ -122,7 +122,7 @@ top_group :
 		{
 		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, JString::empty, JString::empty, *$1);
 		itsCurrentNode->MakePointer(itsIsPointerFlag);
-		itsIsPointerFlag = kJFalse;
+		itsIsPointerFlag = false;
 
 		jdelete $1;
 
@@ -134,7 +134,7 @@ top_group :
 		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, JString::empty, JString::empty, *$1);
 		CMVarNode* child = CMGetLink()->CreateVarNode(itsCurrentNode, JString::empty, JString::empty, *$2);
 		child->MakePointer(itsIsPointerFlag);
-		itsIsPointerFlag = kJFalse;
+		itsIsPointerFlag = false;
 
 		jdelete $1;
 		jdelete $2;
@@ -212,7 +212,7 @@ node_list :
 		$$ = $1;
 
 		CMVarNode* node = CMGetLink()->CreateVarNode(nullptr, JString::empty, JString::empty, *$3);
-		if ((($$->GetFirstElement())->GetName()).BeginsWith(JString("[", kJFalse)))
+		if ((($$->GetFirstElement())->GetName()).BeginsWith(JString("[", JString::kNoCopy)))
 			{
 			AppendAsArrayElement(node, $$);
 			}
@@ -237,7 +237,7 @@ node_list :
 
 	| node_list ',' group
 		{
-		if ((($1->GetFirstElement())->GetName()).BeginsWith(JString("[", kJFalse)))
+		if ((($1->GetFirstElement())->GetName()).BeginsWith(JString("[", JString::kNoCopy)))
 			{
 			$$ = $1;
 			}
@@ -258,7 +258,7 @@ node_list :
 	| node_list '.' '.' '.'
 		{
 		$$ = $1;
-		CMVarNode* child = CMGetLink()->CreateVarNode(nullptr, JString("...", kJFalse), JString::empty, JString::empty);
+		CMVarNode* child = CMGetLink()->CreateVarNode(nullptr, JString("...", JString::kNoCopy), JString::empty, JString::empty);
 		$$->Append(child);
 		}
 	;
@@ -278,7 +278,7 @@ node :
 			{
 			itsCurrentNode->MakePointer(itsIsPointerFlag);
 			}
-		itsIsPointerFlag = kJFalse;
+		itsIsPointerFlag = false;
 
 		jdelete $1;
 		jdelete $2;
@@ -293,7 +293,7 @@ node :
 			$1->TrimWhitespace();
 			}
 		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, JString::empty, $2->GetName());
-		itsIsPointerFlag = kJFalse;
+		itsIsPointerFlag = false;
 		for (JIndex i=1; i<=$2->list->GetElementCount(); i++)
 			{
 			itsCurrentNode->Append($2->list->GetElement(i));
@@ -306,7 +306,7 @@ node :
 	| P_NO_DATA_FIELDS
 		{
 		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, JString::empty, JString::empty);
-		itsIsPointerFlag = kJFalse;
+		itsIsPointerFlag = false;
 
 		jdelete $1;
 		}
@@ -319,8 +319,8 @@ node :
 			iter.RemovePrev();
 			$1->TrimWhitespace();
 			}
-		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, JString::empty, JString("<nothing>", kJFalse));
-		itsIsPointerFlag = kJFalse;
+		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, *$1, JString::empty, JString("<nothing>", JString::kNoCopy));
+		itsIsPointerFlag = false;
 
 		jdelete $1;
 		}
@@ -390,7 +390,7 @@ value_list :
 	| value_list '.' '.' '.'
 		{
 		$$ = $1;
-		CMVarNode* child = CMGetLink()->CreateVarNode(nullptr, JString("...", kJFalse), JString::empty, JString::empty);
+		CMVarNode* child = CMGetLink()->CreateVarNode(nullptr, JString("...", JString::kNoCopy), JString::empty, JString::empty);
 		$$->Append(child);
 		}
 	;
@@ -403,7 +403,7 @@ value_node :
 		{
 		itsCurrentNode = $$ = CMGetLink()->CreateVarNode(nullptr, JString::empty, JString::empty, *$1);
 		itsCurrentNode->MakePointer(itsIsPointerFlag);
-		itsIsPointerFlag = kJFalse;
+		itsIsPointerFlag = false;
 
 		jdelete $1;
 		}

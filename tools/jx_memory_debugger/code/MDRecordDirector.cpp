@@ -183,7 +183,7 @@ MDRecordDirector::BuildWindow
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kHeaderHeight, 100,tableHeight);
 	assert( itsRecordTable != nullptr );
-	itsRecordTable->FitToEnclosure(kJTrue, kJFalse);
+	itsRecordTable->FitToEnclosure(true, false);
 
 	MDHeaderWidget* tableHeader =
 		jnew MDHeaderWidget(itsRecordTable, recordList,
@@ -191,7 +191,7 @@ MDRecordDirector::BuildWindow
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, 100,kHeaderHeight);
 	assert( tableHeader != nullptr );
-	tableHeader->FitToEnclosure(kJTrue, kJFalse);
+	tableHeader->FitToEnclosure(true, false);
 
 	// menus
 

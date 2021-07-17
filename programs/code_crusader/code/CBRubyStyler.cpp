@@ -62,19 +62,19 @@ const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStylerBase*
 CBRubyStyler::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBRubyStyler;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -119,7 +119,7 @@ CBRubyStyler::CBRubyStyler()
 	SetTypeStyle(kRegex              - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 
 	SetTypeStyle(kComment            - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
-	SetTypeStyle(kEmbeddedDoc        - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kEmbeddedDoc        - kWhitespace, JFontStyle(true, false, 0, false, JColorManager::GetGrayColor(50)));
 
 	SetTypeStyle(kError              - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
@@ -154,7 +154,7 @@ CBRubyStyler::Scan
 
 	const JString& text = GetText();
 
-	JBoolean keepGoing;
+	bool keepGoing;
 	Token token;
 	JFontStyle style;
 	do
@@ -210,14 +210,14 @@ CBRubyStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy));
 			}
 
 		keepGoing = SetStyle(token.range.charRange, style);

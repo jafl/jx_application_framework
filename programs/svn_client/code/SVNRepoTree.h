@@ -23,7 +23,7 @@ public:
 	virtual ~SVNRepoTree();
 
 	const JString&	GetRepoPath() const;
-	void			Update(SVNRepoTreeList* view, const JBoolean fresh = kJTrue);
+	void			Update(SVNRepoTreeList* view, const bool fresh = true);
 	void			ReopenIfNeeded(SVNRepoTreeNode* node);
 	void			SavePathToOpen(const JString& url);
 

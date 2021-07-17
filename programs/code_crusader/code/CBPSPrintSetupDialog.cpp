@@ -31,10 +31,10 @@ CBPSPrintSetupDialog::Create
 	const JXPSPrinter::Destination	dest,
 	const JString&					printCmd,
 	const JString&					fileName,
-	const JBoolean					collate,
-	const JBoolean					bw,
+	const bool					collate,
+	const bool					bw,
 	const JSize						fontSize,
-	const JBoolean					printHeader
+	const bool					printHeader
 	)
 {
 	CBPSPrintSetupDialog* dlog = jnew CBPSPrintSetupDialog;
@@ -72,7 +72,7 @@ void
 CBPSPrintSetupDialog::CBGetSettings
 	(
 	JSize*		fontSize,
-	JBoolean*	printHeader
+	bool*	printHeader
 	)
 	const
 {
@@ -91,10 +91,10 @@ CBPSPrintSetupDialog::BuildWindow
 	const JXPSPrinter::Destination	dest,
 	const JString&					printCmd,
 	const JString&					fileName,
-	const JBoolean					collate,
-	const JBoolean					bw,
+	const bool					collate,
+	const bool					bw,
 	const JSize						fontSize,
-	const JBoolean					printHeader
+	const bool					printHeader
 	)
 {
 // begin JXLayout

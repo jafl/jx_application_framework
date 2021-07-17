@@ -210,7 +210,7 @@ THXKeyPad::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 THXKeyPad::HandleButton
 	(
 	JBroadcaster* sender
@@ -221,7 +221,7 @@ JXKeyModifiers modifiers(GetDisplay());
 
 	if (itsExpr == nullptr || !itsExpr->Focus())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	for (JUnsignedOffset i=0; i<10; i++)
@@ -241,7 +241,7 @@ JXKeyModifiers modifiers(GetDisplay());
 				}
 
 			itsExpr->HandleKeyPress(JUtf8Character('0' + i), 0, modifiers);
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -255,7 +255,7 @@ JXKeyModifiers modifiers(GetDisplay());
 				}
 
 			itsExpr->HandleKeyPress(JUtf8Character(kOpKey[i]), 0, modifiers);
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -264,8 +264,8 @@ JXKeyModifiers modifiers(GetDisplay());
 		itsExpr->CancelEditing();
 		itsExpr->SelectAll();
 		itsExpr->DeleteSelection();
-		return kJTrue;
+		return true;
 		}
 
-	return kJFalse;
+	return false;
 }

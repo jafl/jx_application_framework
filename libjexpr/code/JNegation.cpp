@@ -77,7 +77,7 @@ JNegation::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JNegation::Evaluate
 	(
 	JFloat* result
@@ -88,15 +88,15 @@ JNegation::Evaluate
 	if (GetArg()->Evaluate(&value))
 		{
 		*result = -value;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JNegation::Evaluate
 	(
 	JComplex* result
@@ -107,11 +107,11 @@ JNegation::Evaluate
 	if (GetArg()->Evaluate(&value))
 		{
 		*result = -value;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -159,7 +159,7 @@ JNegation::Layout
 	// intialize our rectangle
 
 	JPoint argUpperLeft = upperLeft;
-	argUpperLeft.x += renderer.GetStringWidth(fontSize, JString("-", kJFalse));
+	argUpperLeft.x += renderer.GetStringWidth(fontSize, JString("-", JString::kNoCopy));
 
 	JFunction* arg = GetArg();
 	if (dynamic_cast<JDivision*>(arg) != nullptr)
@@ -208,7 +208,7 @@ JNegation::Render
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);
@@ -217,7 +217,7 @@ JNegation::Render
 
 	// draw ourselves
 
-	renderer.DrawString(ourRect.left, ourMidline, fontSize, JString("-", kJFalse));
+	renderer.DrawString(ourRect.left, ourMidline, fontSize, JString("-", JString::kNoCopy));
 
 	const JFunction* arg = GetArg();
 	arg->Render(renderer, rectList);
@@ -225,7 +225,7 @@ JNegation::Render
 	if (JParenthesizeArgForRender(*this, *arg))
 		{
 		JIndex argIndex;
-		const JBoolean found = rectList.FindFunction(arg, &argIndex);
+		const bool found = rectList.FindFunction(arg, &argIndex);
 		assert( found );
 		renderer.DrawParentheses(rectList.GetRect(argIndex));
 		}

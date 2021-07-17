@@ -67,7 +67,7 @@ JTEKeyHandler::InsertKeyPress
 void
 JTEKeyHandler::BackwardDelete
 	(
-	const JBoolean	deleteToTabStop,
+	const bool	deleteToTabStop,
 	JString*		text	// can be nullptr
 	)
 {
@@ -93,7 +93,7 @@ JTEKeyHandler::BackwardDelete
 void
 JTEKeyHandler::ForwardDelete
 	(
-	const JBoolean	deleteToTabStop,
+	const bool	deleteToTabStop,
 	JString*		text	// can be nullptr
 	)
 {

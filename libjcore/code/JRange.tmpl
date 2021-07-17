@@ -85,8 +85,8 @@ JCovering
 	const JRange<T>& r2
 	)
 {
-	const JBoolean n1 = r1.IsNothing();
-	const JBoolean n2 = r2.IsNothing();
+	const bool n1 = r1.IsNothing();
+	const bool n2 = r2.IsNothing();
 	if (n1 && n2)
 		{
 		return JRange<T>();
@@ -110,12 +110,12 @@ JCovering
 /******************************************************************************
  JIntersection
 
-	Returns kJTrue if the result is not empty.
+	Returns true if the result is not empty.
 
  *****************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JIntersection
 	(
 	const JRange<T>&	r1,
@@ -128,12 +128,12 @@ JIntersection
 	if (max >= min)
 		{
 		result->Set(min, max);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		result->SetToNothing();
-		return kJFalse;
+		return false;
 		}
 }
 

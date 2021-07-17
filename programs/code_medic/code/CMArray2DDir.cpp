@@ -155,8 +155,8 @@ CMArray2DDir::CMArray2DDirX
 	ListenTo(itsLink);
 
 	itsCommandDir           = supervisor;
-	itsShouldUpdateFlag     = kJFalse;		// window is always initially hidden
-	itsWaitingForReloadFlag = kJFalse;
+	itsShouldUpdateFlag     = false;		// window is always initially hidden
+	itsWaitingForReloadFlag = false;
 
 	itsData = jnew JStringTableData;
 	assert( itsData != nullptr );
@@ -223,7 +223,7 @@ void
 CMArray2DDir::Activate()
 {
 	JXWindowDirector::Activate();
-	ShouldUpdate(kJTrue);
+	ShouldUpdate(true);
 }
 
 /******************************************************************************
@@ -340,7 +340,7 @@ CMArray2DDir::BuildWindow()
 // end JXLayout
 
 	window->SetMinSize(300, 250);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetArray2DWindowClass());
 
 	UpdateWindowTitle();
@@ -352,19 +352,19 @@ CMArray2DDir::BuildWindow()
 
 	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 
-	JBoolean wrapped;
+	bool wrapped;
 	const JStringMatch m1 = rowIndexLabel->GetText()->SearchForward(
-			JStyledText::TextIndex(1,1), JRegex("\\$i"), kJFalse, kJFalse, &wrapped);
+			JStyledText::TextIndex(1,1), JRegex("\\$i"), false, false, &wrapped);
 	if (!m1.IsEmpty())
 		{
-		rowIndexLabel->GetText()->SetFont(JStyledText::TextRange(m1), font, kJTrue);
+		rowIndexLabel->GetText()->SetFont(JStyledText::TextRange(m1), font, true);
 		}
 
 	const JStringMatch m2 = colIndexLabel->GetText()->SearchForward(
-			JStyledText::TextIndex(1,1), JRegex("\\$j"), kJFalse, kJFalse, &wrapped);
+			JStyledText::TextIndex(1,1), JRegex("\\$j"), false, false, &wrapped);
 	if (!m2.IsEmpty())
 		{
-		colIndexLabel->GetText()->SetFont(JStyledText::TextRange(m2), font, kJTrue);
+		colIndexLabel->GetText()->SetFont(JStyledText::TextRange(m2), font, true);
 		}
 
 	JXContainer* encl = scrollbarSet->GetScrollEnclosure();
@@ -397,7 +397,7 @@ CMArray2DDir::BuildWindow()
 	itsTable->SetDefaultColWidth(kDefaultColWidth);
 	itsColHeader->TurnOnColResizing(kMinColWidth);
 
-	CMGetPrefsManager()->GetWindowSize(kArray2DWindSizeID, window, kJTrue);	// after all widgets
+	CMGetPrefsManager()->GetWindowSize(kArray2DWindSizeID, window, true);	// after all widgets
 
 	itsExprInput->GetText()->SetText(itsExpr);
 	itsExprInput->SetIsRequired();
@@ -478,7 +478,7 @@ CMArray2DDir::UpdateWindowTitle()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMArray2DDir::GetMenuIcon
 	(
 	const JXImage** icon
@@ -486,7 +486,7 @@ CMArray2DDir::GetMenuIcon
 	const
 {
 	*icon = CMGetArray2DIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -565,7 +565,7 @@ CMArray2DDir::Receive
 
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerRestarted))
 		{
-		itsWaitingForReloadFlag = kJTrue;
+		itsWaitingForReloadFlag = true;
 		}
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerStarted))
 		{
@@ -573,7 +573,7 @@ CMArray2DDir::Receive
 			{
 			JXCloseDirectorTask::Close(this);	// close after bcast is finished
 			}
-		itsWaitingForReloadFlag = kJFalse;
+		itsWaitingForReloadFlag = false;
 		}
 
 	else if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
@@ -610,11 +610,11 @@ CMArray2DDir::Receive
 
 	else if (sender == GetWindow() && message.Is(JXWindow::kIconified))
 		{
-		ShouldUpdate(kJFalse);
+		ShouldUpdate(false);
 		}
 	else if (sender == GetWindow() && message.Is(JXWindow::kDeiconified))
 		{
-		ShouldUpdate(kJTrue);
+		ShouldUpdate(true);
 		}
 
 	else if (sender == itsRowHeader && message.Is(JXRowHeaderWidget::kNeedsToBeWidened))
@@ -814,7 +814,7 @@ CMArray2DDir::SetColTitles
 void
 CMArray2DDir::ShouldUpdate
 	(
-	const JBoolean update
+	const bool update
 	)
 {
 	itsShouldUpdateFlag = update;
@@ -842,7 +842,7 @@ CMArray2DDir::UpdateAll()
 		}
 
 	itsTable->SetAllCellStyles(
-		CMVarNode::GetFontStyle(kJFalse, kJFalse));
+		CMVarNode::GetFontStyle(false, false));
 }
 
 /******************************************************************************

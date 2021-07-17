@@ -46,17 +46,17 @@ enum LaceOption
 gdImagePtr	ReadGIF(const JString& fileName);
 void		WriteGIF(gdImagePtr image, const JString& fileName);
 void		PrintGIFInfo(gdImagePtr image);
-JBoolean	SetTransparentColor(gdImagePtr image, const int color);
-JBoolean	SetInterlace(gdImagePtr image, const LaceOption interlace);
-JBoolean	PadColormap(gdImagePtr image);
+bool	SetTransparentColor(gdImagePtr image, const int color);
+bool	SetInterlace(gdImagePtr image, const LaceOption interlace);
+bool	PadColormap(gdImagePtr image);
 
 void	Blend(gdImagePtr image, const JFloat alpha, const JRGB& alphaColor,
 			  const JString& outputFileName);
 
 void ParseOptions(const JSize argc, char* argv[], JString* fileName,
-				  JBoolean* printInfo, int* transparentColor,
-				  LaceOption* interlace, JBoolean* padColormap,
-				  JBoolean* blend, JFloat* alpha, JRGB* alphaColor,
+				  bool* printInfo, int* transparentColor,
+				  LaceOption* interlace, bool* padColormap,
+				  bool* blend, JFloat* alpha, JRGB* alphaColor,
 				  JString* blendOutput);
 
 void PrintHelp();
@@ -75,18 +75,18 @@ main
 	)
 {
 	JString fileName;
-	JBoolean printInfo;
+	bool printInfo;
 	int transparentColor;
 	LaceOption interlace;
-	JBoolean padColormap;
-	JBoolean blend;
+	bool padColormap;
+	bool blend;
 	JFloat alpha;
 	JRGB alphaColor;
 	JString blendOutput;
 	ParseOptions(argc, argv, &fileName, &printInfo, &transparentColor,
 				 &interlace, &padColormap, &blend, &alpha, &alphaColor, &blendOutput);
 
-	JBoolean changed = kJFalse;
+	bool changed = false;
 	gdImagePtr image = ReadGIF(fileName);
 
 	if (printInfo)
@@ -96,17 +96,17 @@ main
 
 	if (SetTransparentColor(image, transparentColor))
 		{
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (SetInterlace(image, interlace))
 		{
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (padColormap && PadColormap(image))
 		{
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (blend)
@@ -134,11 +134,11 @@ ParseOptions
 	const JSize	argc,
 	char*		argv[],
 	JString*	fileName,
-	JBoolean*	printInfo,
+	bool*	printInfo,
 	int*		transparentColor,
 	LaceOption*	interlace,
-	JBoolean*	padColormap,
-	JBoolean*	blend,
+	bool*	padColormap,
+	bool*	blend,
 	JFloat*		alpha,
 	JRGB*		alphaColor,
 	JString*	blendOutput
@@ -151,11 +151,11 @@ ParseOptions
 		}
 
 	fileName->Clear();
-	*printInfo        = kJFalse;
+	*printInfo        = false;
 	*transparentColor = kTransparentColorNotSet;
 	*interlace        = kIgnoreInterlace;
-	*padColormap      = kJFalse;
-	*blend            = kJFalse;
+	*padColormap      = false;
+	*blend            = false;
 
 	JIndex index = 1;
 	while (index < argc)
@@ -175,7 +175,7 @@ ParseOptions
 
 		else if (strcmp(argv[index], "-i") == 0)
 			{
-			*printInfo = kJTrue;
+			*printInfo = true;
 			}
 
 		else if (strcmp(argv[index], "-t") == 0)
@@ -216,13 +216,13 @@ ParseOptions
 
 		else if (strcmp(argv[index], "-p") == 0)
 			{
-			*padColormap = kJTrue;
+			*padColormap = true;
 			}
 
 		else if (strcmp(argv[index], "-b") == 0)
 			{
 			JCheckForValues(5, &index, argc, argv);
-			*blend            = kJTrue;
+			*blend            = true;
 			*alpha            = atof(argv[index]);
 			alphaColor->red   = atoi(argv[index+1]);
 			alphaColor->green = atoi(argv[index+2]);
@@ -268,7 +268,7 @@ ParseOptions
 
 	if (argc == 2)
 		{
-		*printInfo = kJTrue;
+		*printInfo = true;
 		}
 }
 
@@ -424,7 +424,7 @@ PrintGIFInfo
 
  ******************************************************************************/
 
-JBoolean
+bool
 SetTransparentColor
 	(
 	gdImagePtr	image,
@@ -434,11 +434,11 @@ SetTransparentColor
 	if (color != kTransparentColorNotSet)
 		{
 		gdImageColorTransparent(image, color);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -447,7 +447,7 @@ SetTransparentColor
 
  ******************************************************************************/
 
-JBoolean
+bool
 SetInterlace
 	(
 	gdImagePtr			image,
@@ -457,11 +457,11 @@ SetInterlace
 	if (interlace != kIgnoreInterlace)
 		{
 		gdImageInterlace(image, interlace);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -472,7 +472,7 @@ SetInterlace
 
  ******************************************************************************/
 
-JBoolean
+bool
 PadColormap
 	(
 	gdImagePtr image
@@ -481,7 +481,7 @@ PadColormap
 	JSize colorCount = gdImageColorsTotal(image);
 	if (colorCount >= kMinColorCount)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JSize extraColorCount = kMinColorCount - colorCount;
@@ -524,7 +524,7 @@ PadColormap
 		x++;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

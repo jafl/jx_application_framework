@@ -42,7 +42,7 @@ GLNonLinearFitDialog::GLNonLinearFitDialog
 	JXDirector* supervisor
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	itsVarList	= jnew GLVarList();
 	assert(itsVarList != nullptr);
@@ -166,7 +166,7 @@ GLNonLinearFitDialog::BuildWindow()
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
 	assert(itsFnEditor != nullptr);
-	itsFnEditor->FitToEnclosure(kJTrue, kJTrue);
+	itsFnEditor->FitToEnclosure(true, true);
 
 	container	= itsPartition->GetCompartment(2);
 
@@ -203,7 +203,7 @@ GLNonLinearFitDialog::BuildWindow()
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
 	assert(itsDerivativeEditor != nullptr);
-	itsDerivativeEditor->FitToEnclosure(kJTrue, kJTrue);
+	itsDerivativeEditor->FitToEnclosure(true, true);
 
 	container	= itsPartition->GetCompartment(3);
 
@@ -245,14 +245,14 @@ GLNonLinearFitDialog::BuildWindow()
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
 	assert(itsVarTable != nullptr);
-	itsVarTable->FitToEnclosure(kJTrue, kJTrue);
+	itsVarTable->FitToEnclosure(true, true);
 
 	ListenTo(itsNewButton);
 	ListenTo(itsDeleteButton);
 	itsDeleteButton->Deactivate();
 
 	window->SetTitle(JGetString("WindowTitle::GLNonLinearFitDialog"));
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 	SetButtons(okButton, cancelButton);
@@ -334,16 +334,16 @@ GLNonLinearFitDialog::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLNonLinearFitDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 	JString name	= itsNameInput->GetText()->GetText();
 	name.TrimWhitespace();
@@ -351,23 +351,23 @@ GLNonLinearFitDialog::OKToDeactivate()
 		{
 		JGetUserNotification()->ReportError(JGetString("MissingName::GLNonLinearFitDialog"));
 		itsNameInput->Focus();
-		return kJFalse;
+		return false;
 		}
 	if (itsFnEditor->ContainsUIF())
 		{
 		JGetUserNotification()->ReportError(JGetString("MissingFunction::GLNonLinearFitDialog"));
 		itsFnEditor->Focus();
-		return kJFalse;
+		return false;
 		}
 	if (!itsDerivativeEditor->EndEditing())
 		{
-		return kJFalse;
+		return false;
 		}
 	if (!itsVarTable->EndEditing())
 		{
-		return kJFalse;
+		return false;
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -375,16 +375,16 @@ GLNonLinearFitDialog::OKToDeactivate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLNonLinearFitDialog::OKToDeleteParm()
 {
 	JPoint cell;
 	const JCoordinate kXOffset	= 1;
 	if (itsVarTable->GetEditedCell(&cell) && itsVarList->OKToRemoveVariable(cell.y + kXOffset))
 		{
-		return kJTrue;
+		return true;
 		}
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

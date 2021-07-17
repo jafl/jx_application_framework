@@ -22,68 +22,67 @@
 /******************************************************************************
  JFileExists
 
-	Returns kJTrue if the specified file exists.
+	Returns true if the specified file exists.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileExists
 	(
 	const JString& fileName
 	)
 {
 	ACE_stat info;
-	return JI2B(
-			ACE_OS::lstat(fileName.GetBytes(), &info) == 0 &&
+	return ACE_OS::lstat(fileName.GetBytes(), &info) == 0 &&
 			ACE_OS::stat( fileName.GetBytes(), &info) == 0 &&
-			S_ISREG(info.st_mode) );
+			S_ISREG(info.st_mode);
 }
 
 /******************************************************************************
  JFileReadable
 
-	Returns kJTrue if the specified file can be read from.
+	Returns true if the specified file can be read from.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileReadable
 	(
 	const JString& fileName
 	)
 {
-	return JI2B(JFileExists(fileName) &&
-				(getuid() == 0 || access(fileName.GetBytes(), R_OK) == 0));
+	return JFileExists(fileName) &&
+				(getuid() == 0 || access(fileName.GetBytes(), R_OK) == 0);
 }
 
 /******************************************************************************
  JFileWritable
 
-	Returns kJTrue if the specified file can be written to.
+	Returns true if the specified file can be written to.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileWritable
 	(
 	const JString& fileName
 	)
 {
-	return JI2B(JFileExists(fileName) &&
-				(getuid() == 0 || access(fileName.GetBytes(), W_OK) == 0));
+	return JFileExists(fileName) &&
+				(getuid() == 0 || access(fileName.GetBytes(), W_OK) == 0);
 }
 
 /******************************************************************************
  JFileExecutable
 
-	Returns kJTrue if the specified file can be executed.
+	Returns true if the specified file can be executed.
 
 	Readability is not checked, because this is only an issue for scripts,
 	and I can't tell the difference between a script and a binary.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileExecutable
 	(
 	const JString& fileName
@@ -92,13 +91,13 @@ JFileExecutable
 	if (getuid() == 0)
 		{
 		ACE_stat stbuf;
-		return JI2B( ACE_OS::stat(fileName.GetBytes(), &stbuf) == 0 &&
-					 (stbuf.st_mode & S_IXUSR) != 0 );
+		return ACE_OS::stat(fileName.GetBytes(), &stbuf) == 0 &&
+					 (stbuf.st_mode & S_IXUSR) != 0;
 		}
 	else
 		{
-		return JI2B(JFileExists(fileName) &&
-					access(fileName.GetBytes(), X_OK) == 0);
+		return JFileExists(fileName) &&
+					access(fileName.GetBytes(), X_OK) == 0;
 		}
 }
 
@@ -203,11 +202,11 @@ JRemoveFile
  JKillFile
 
 	Tries as hard as it can to delete the file.
-	Returns kJTrue if successful.
+	Returns true if successful.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JKillFile
 	(
 	const JString& fileName
@@ -224,7 +223,7 @@ JKillFile
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -246,9 +245,9 @@ JCreateTempFile
 	)
 {
 	// inside function to ensure initialization
-	static const JString theTmpDirForError("/tmp", kJFalse);
-	static const JString theTmpFilePrefix("temp_file_", kJFalse);
-	static const JString theTmpFileTemplate("XXXXXX", kJFalse);
+	static const JString theTmpDirForError("/tmp", JString::kNoCopy);
+	static const JString theTmpFilePrefix("temp_file_", JString::kNoCopy);
+	static const JString theTmpFileTemplate("XXXXXX", JString::kNoCopy);
 
 	JString p;
 	if (!JString::IsEmpty(path))
@@ -364,12 +363,12 @@ JUncompressFile
 
 	// construct the command
 
-	JString cmd("gunzip --to-stdout ", 0);
+	JString cmd("gunzip --to-stdout ");
 	cmd += JPrepArgForExec(origFileName);
 	cmd += " >| ";
 	cmd += JPrepArgForExec(*newFileName);
 
-	cmd = JString("/bin/sh -c ", 0) + JPrepArgForExec(cmd);
+	cmd = JString("/bin/sh -c ") + JPrepArgForExec(cmd);
 
 	// run the command
 

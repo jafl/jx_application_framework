@@ -73,7 +73,7 @@ JArcSine::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JArcSine::Evaluate
 	(
 	JFloat* result
@@ -83,14 +83,14 @@ JArcSine::Evaluate
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue) || !(-1.0 <= argValue && argValue <= 1.0))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = asin(argValue);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JArcSine::Evaluate
 	(
 	JComplex* result
@@ -100,7 +100,7 @@ JArcSine::Evaluate
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = asin(argValue);

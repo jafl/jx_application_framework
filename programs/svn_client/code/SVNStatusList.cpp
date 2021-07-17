@@ -20,7 +20,7 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-static const JString kIgnoreCmd("svn propedit svn:ignore $path", kJFalse);
+static const JString kIgnoreCmd("svn propedit svn:ignore $path", JString::kNoCopy);
 
 /******************************************************************************
  Constructor
@@ -41,8 +41,8 @@ SVNStatusList::SVNStatusList
 	const JCoordinate	h
 	)
 	:
-	SVNListBase(director, editMenu, JString("svn --non-interactive status", kJFalse),
-				kJFalse, kJFalse, kJFalse, kJTrue,
+	SVNListBase(director, editMenu, JString("svn --non-interactive status", JString::kNoCopy),
+				false, false, false, true,
 				scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
 {
 }
@@ -145,14 +145,14 @@ SVNStatusList::UpdateContextMenu
 {
 	SVNListBase::UpdateContextMenu(menu);
 
-	JBoolean canIgnore = kJFalse;
+	bool canIgnore = false;
 
 	JTableSelection& s = GetTableSelection();
 	JPoint cell;
 	if (s.GetSingleSelectedCell(&cell) &&
 		((GetStringList()).GetElement(cell.y))->GetFirstCharacter() == '?')
 		{
-		canIgnore = kJTrue;
+		canIgnore = true;
 		}
 
 	menu->SetItemEnable(kIgnoreSelectionCtxCmd, canIgnore);
@@ -163,7 +163,7 @@ SVNStatusList::UpdateContextMenu
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNStatusList::Ignore()
 {
 	JTableSelection& s = GetTableSelection();
@@ -189,8 +189,8 @@ SVNStatusList::Ignore()
 		subst.DefineVariable("path", path);
 		subst.Substitute(&cmd);
 
-		JSimpleProcess::Create(cmd, kJTrue);
+		JSimpleProcess::Create(cmd, true);
 		}
 
-	return kJTrue;
+	return true;
 }

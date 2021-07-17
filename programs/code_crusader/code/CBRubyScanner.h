@@ -96,9 +96,9 @@ public:
 private:
 
 	const JStyledText*		itsCurrentText;
-	JBoolean				itsResetFlag;
+	bool				itsResetFlag;
 	JStyledText::TextRange	itsCurrentRange;
-	JBoolean				itsProbableOperatorFlag;	// kTrue if /,? are most likely operators instead of regex
+	bool				itsProbableOperatorFlag;	// kTrue if /,? are most likely operators instead of regex
 	TokenType				itsComplexVariableType;
 	JString					itsHereDocTag;
 	TokenType				itsHereDocType;
@@ -109,8 +109,8 @@ private:
 	void	ContinueToken();
 	Token	ThisToken(const TokenType type);
 
-	JBoolean	SlurpQuoted(const JSize count, const JUtf8Byte* suffixList);
-	JBoolean	ReadCharacter(JStyledText::TextIndex* index, JUtf8Character* ch);
+	bool	SlurpQuoted(const JSize count, const JUtf8Byte* suffixList);
+	bool	ReadCharacter(JStyledText::TextIndex* index, JUtf8Character* ch);
 
 	// not allowed
 

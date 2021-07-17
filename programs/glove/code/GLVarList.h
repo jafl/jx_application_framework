@@ -27,14 +27,14 @@ public:
 
 	virtual ~GLVarList();
 
-	JBoolean	AddVariable(const JString& name, const JFloat value);
+	bool	AddVariable(const JString& name, const JFloat value);
 	void		RemoveVariable(const JIndex index);
-	JBoolean	AddArray(const JString& name, const GNArray& values);
+	bool	AddArray(const JString& name, const GNArray& values);
 
-	JBoolean	IsVariable(const JIndex index) const;
-	JBoolean	SetValue(const JIndex index, const JFloat value);
+	bool	IsVariable(const JIndex index) const;
+	bool	SetValue(const JIndex index, const JFloat value);
 	JSize		GetVariableCount() const;
-	JBoolean	SetElementValue(const JIndex variableIndex, 
+	bool	SetElementValue(const JIndex variableIndex, 
 								const JIndex elementIndex,
 								const JFloat value);
 	virtual void	SetNumericValue(const JIndex variableIndex,
@@ -49,17 +49,17 @@ public:
 	virtual const JString&	GetVariableName(const JIndex index) const override;
 	virtual void			GetVariableName(const JIndex index, JString* name,
 											JString* subscript) const override;
-	JBoolean				SetVariableName(const JIndex index, const JString& str);
+	bool				SetVariableName(const JIndex index, const JString& str);
 
 	const JPtrArray<JString>&	GetVariables() const;
 
-	virtual JBoolean	IsArray(const JIndex index) const override;
-	virtual JBoolean	ArrayIndexValid(const JIndex variableIndex,
+	virtual bool	IsArray(const JIndex index) const override;
+	virtual bool	ArrayIndexValid(const JIndex variableIndex,
 										const JIndex elementIndex) const override;
 
-	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
+	virtual bool	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex, JFloat* value) const override;
-	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
+	virtual bool	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex, JComplex* value) const override;
 
 private:
@@ -82,14 +82,14 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GLVarList::IsVariable
 	(
 	const JIndex index
 	)
 	const
 {
-	return JConvertToBoolean(!(IsArray(index)));
+	return !(IsArray(index));
 }
 
 /******************************************************************************

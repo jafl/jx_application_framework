@@ -66,7 +66,7 @@ GFGLink::ParseClass
 	const JString&	classname
 	)
 {
-	JBoolean ok	= kJTrue;
+	bool ok	= true;
 	if (itsCTagsProcess == nullptr)
 		{
 		ok = StartCTags();
@@ -84,7 +84,7 @@ GFGLink::ParseClass
 		*itsOutputLink << std::endl;
 		itsOutputLink->flush();
 
-		JBoolean found = kJFalse;
+		bool found = false;
 		JString result = JReadUntil(itsInputFD, kDelimiter, &found);
 
 		if (found)
@@ -141,10 +141,10 @@ GFGLink::ParseLine
 {
 	// we only care about virtual functions
 
-	JBoolean required = kJFalse;
+	bool required = false;
 	if (data.Contains("implementation:pure virtual"))
 		{
-		required = kJTrue;
+		required = true;
 		}
 	else if (!data.Contains("implementation:virtual"))
 		{
@@ -182,7 +182,7 @@ GFGLink::ParseLine
 
 	if (m.GetSubstring(4) == "protected")
 		{
-		fn->ShouldBeProtected(kJTrue);
+		fn->ShouldBeProtected(true);
 		}
 
 	ParseInterface(fn, line);
@@ -190,7 +190,7 @@ GFGLink::ParseLine
 	// Override entry from base class so function will only be
 	// marked as pure virtual if nobody implemented it.
 
-	JBoolean found;
+	bool found;
 	const JIndex i = itsClassList->SearchSorted1(fn, JListT::kAnyMatch, &found);
 	if (found)
 		{
@@ -285,7 +285,7 @@ GFGLink::ParseInterface
 	str = JReadUntil(is, ';');
 	if (str.Contains("const"))
 		{
-		fn->ShouldBeConst(kJTrue);
+		fn->ShouldBeConst(true);
 		}
 
 	JSize p2 = JTellg(is);
@@ -303,7 +303,7 @@ GFGLink::ParseInterface
 
  *****************************************************************************/
 
-JBoolean
+bool
 GFGLink::StartCTags()
 {
 	assert( itsCTagsProcess == nullptr );
@@ -315,7 +315,7 @@ GFGLink::StartCTags()
 										kJAttachToFromFD, nullptr);
 	if (err.OK())
 		{
-		itsOutputLink = jnew JOutPipeStream(toFD, kJTrue);
+		itsOutputLink = jnew JOutPipeStream(toFD, true);
 		assert( itsOutputLink != nullptr );
 
 		itsInputFD = fromFD;
@@ -323,11 +323,11 @@ GFGLink::StartCTags()
 
 		ListenTo(itsCTagsProcess);
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		JGetStringManager()->ReportError("UnableToStartCTags::GFGLink", err);
-		return kJFalse;
+		return false;
 		}
 }

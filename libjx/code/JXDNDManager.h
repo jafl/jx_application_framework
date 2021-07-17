@@ -35,13 +35,13 @@ public:
 
 	Atom			GetDNDSelectionName() const;
 	Atom			GetCurrentDNDVersion() const;
-	JCursorIndex	GetDefaultDNDCursor(const JBoolean dropAccepted = kJFalse,
+	JCursorIndex	GetDefaultDNDCursor(const bool dropAccepted = false,
 										const Atom action = None) const;
 	JCursorIndex	GetDefaultDNDCopyCursor() const;
 	JCursorIndex	GetDefaultDNDMoveCursor() const;
 	JCursorIndex	GetDefaultDNDLinkCursor() const;
 	JCursorIndex	GetDefaultDNDAskCursor() const;
-	JCursorIndex	GetDNDCursor(const JBoolean dropAccepted, const Atom action,
+	JCursorIndex	GetDNDCursor(const bool dropAccepted, const Atom action,
 								 const JCursorIndex* cursor) const;
 
 	Atom	GetDNDActionCopyXAtom() const;
@@ -51,35 +51,35 @@ public:
 	Atom	GetDNDActionPrivateXAtom() const;
 	Atom	GetDNDActionDirectSaveXAtom() const;
 
-	JBoolean	GetAskActions(JArray<Atom>* actionList,
+	bool	GetAskActions(JArray<Atom>* actionList,
 							  JPtrArray<JString>* descriptionList) const;
-	JBoolean	ChooseDropAction(const JArray<Atom>& actionList,
+	bool	ChooseDropAction(const JArray<Atom>& actionList,
 								 const JPtrArray<JString>& descriptionList,
 								 Atom* action);
 
-	JBoolean	IsDragging() const;
+	bool	IsDragging() const;
 	Window		GetDraggerWindow() const;
-	JBoolean	TargetWillAcceptDrop() const;
+	bool	TargetWillAcceptDrop() const;
 
 	Atom	GetDNDDirectSave0XAtom() const;
 
 	// dragging files
 
-	JCursorIndex	GetDNDFileCursor(const JBoolean dropAccepted = kJFalse,
+	JCursorIndex	GetDNDFileCursor(const bool dropAccepted = false,
 									 const Atom action = None) const;
 	JCursorIndex	GetDNDCopyFileCursor() const;
 	JCursorIndex	GetDNDMoveFileCursor() const;
 	JCursorIndex	GetDNDLinkFileCursor() const;
 	JCursorIndex	GetDNDAskFileCursor() const;
 
-	JCursorIndex	GetDNDDirectoryCursor(const JBoolean dropAccepted = kJFalse,
+	JCursorIndex	GetDNDDirectoryCursor(const bool dropAccepted = false,
 										  const Atom action = None) const;
 	JCursorIndex	GetDNDCopyDirectoryCursor() const;
 	JCursorIndex	GetDNDMoveDirectoryCursor() const;
 	JCursorIndex	GetDNDLinkDirectoryCursor() const;
 	JCursorIndex	GetDNDAskDirectoryCursor() const;
 
-	JCursorIndex	GetDNDFileAndDirectoryCursor(const JBoolean dropAccepted = kJFalse,
+	JCursorIndex	GetDNDFileAndDirectoryCursor(const bool dropAccepted = false,
 												 const Atom action = None) const;
 	JCursorIndex	GetDNDCopyFileAndDirectoryCursor() const;
 	JCursorIndex	GetDNDMoveFileAndDirectoryCursor() const;
@@ -88,11 +88,11 @@ public:
 
 	// utility functions for target acquisition
 
-	JBoolean	IsDNDAware(const Window xWindow, Window* proxy, JSize* vers) const;
+	bool	IsDNDAware(const Window xWindow, Window* proxy, JSize* vers) const;
 
 	// called by JXWidget
 
-	JBoolean	BeginDND(JXWidget* widget, const JPoint& pt,
+	bool	BeginDND(JXWidget* widget, const JPoint& pt,
 						 const JXButtonStates& buttonStates,
 						 const JXKeyModifiers& modifiers,
 						 JXSelectionData* data,
@@ -106,16 +106,16 @@ public:
 	// called by JXWindow
 
 	void		EnableDND(const Window xWindow) const;
-	JBoolean	CancelDND();
+	bool	CancelDND();
 
 	// called by JXDisplay
 
-	JBoolean	HandleClientMessage(const XClientMessageEvent& clientMessage);
-	JBoolean	HandleDestroyNotify(const XDestroyWindowEvent& xEvent);
+	bool	HandleClientMessage(const XClientMessageEvent& clientMessage);
+	bool	HandleDestroyNotify(const XDestroyWindowEvent& xEvent);
 
 	// called by JXSelectionManager
 
-	JBoolean	IsLastFakePasteTime(const Time time) const;
+	bool	IsLastFakePasteTime(const Time time) const;
 
 protected:
 
@@ -185,7 +185,7 @@ public:		// kAtomCount required at global scope
 private:
 
 	JXDisplay*			itsDisplay;					// not owned
-	JBoolean			itsIsDraggingFlag;			// kJTrue until FinishDND() is called
+	bool			itsIsDraggingFlag;			// true until FinishDND() is called
 	JXWidget*			itsDragger;					// widget initiating drag; not owned
 	Window				itsDraggerWindow;			// window of itsDragger; not owned
 	JArray<Atom>*		itsDraggerTypeList;			// data types supported by itsDragger
@@ -195,15 +195,15 @@ private:
 
 	Atom			itsDNDVersion;			// version being used
 	Window			itsMouseWindow;			// window that mouse is in; not owned
-	JBoolean		itsMouseWindowIsAware;	// kJTrue if itsMouseWindow has XdndAware
+	bool		itsMouseWindowIsAware;	// true if itsMouseWindow has XdndAware
 	JXContainer*	itsMouseContainer;		// widget that mouse is in; nullptr if inter-app; not owned
 	Window			itsMsgWindow;			// window that receives messages (not itsMouseWindow if proxy)
 
-	JBoolean		itsWillAcceptDropFlag;	// kJTrue if target will accept drop
-	JBoolean		itsWaitForStatusFlag;	// kJTrue if waiting for XdndStatus message
-	JBoolean		itsSendHereMsgFlag;		// kJTrue if need another XdndPosition with itsPrevHandleDNDPt
-	JBoolean		itsReceivedStatusFlag;	// kJTrue if received any XdndStatus from current target
-	JBoolean		itsUseMouseRectFlag;	// kJTrue if use itsMouseRectR
+	bool		itsWillAcceptDropFlag;	// true if target will accept drop
+	bool		itsWaitForStatusFlag;	// true if waiting for XdndStatus message
+	bool		itsSendHereMsgFlag;		// true if need another XdndPosition with itsPrevHandleDNDPt
+	bool		itsReceivedStatusFlag;	// true if received any XdndStatus from current target
+	bool		itsUseMouseRectFlag;	// true if use itsMouseRectR
 	JRect			itsMouseRectR;			// don't send another XdndPosition while inside here
 
 	JPoint			itsPrevMousePt;			// last XdndPosition coordinates (local coords of target)
@@ -218,7 +218,7 @@ private:
 	JXDNDChooseDropActionDialog*	itsChooseDropActionDialog;
 	Atom*							itsUserDropAction;		// nullptr unless waiting for GetDropActionDialog
 
-	JBoolean	itsSentFakePasteFlag;		// kJTrue if times are valid
+	bool	itsSentFakePasteFlag;		// true if times are valid
 	Time		itsFakeButtonPressTime;
 	Time		itsFakeButtonReleaseTime;
 
@@ -231,19 +231,19 @@ private:
 	void	InitCursors();
 
 	void	SendDNDEnter(const Window xWindow, const Window msgWindow, JXContainer* widget,
-						 const JBoolean isAware, const Atom vers);
+						 const bool isAware, const Atom vers);
 	void	SendDNDHere(const JPoint& pt, const Atom action,
 						const JXMouseButton scrollButton, const JXKeyModifiers& modifiers);
-	void	SendDNDLeave(const JBoolean sendPasteClick = kJFalse);
+	void	SendDNDLeave(const bool sendPasteClick = false);
 	void	SendDNDDrop();
 	void	PrepareForDrop(const JXContainer* target);
-	void	SendDNDStatus(const JBoolean willAcceptDrop, const Atom action);
+	void	SendDNDStatus(const bool willAcceptDrop, const Atom action);
 	void	SendDNDFinished();
 
 	void		AnnounceTypeList(const Window xWindow, const JArray<Atom>& list) const;
 	void		AnnounceAskActions(const JXButtonStates& buttonStates,
 								   const JXKeyModifiers& modifiers) const;
-	JBoolean	DraggerCanProvideText() const;
+	bool	DraggerCanProvideText() const;
 
 	void	HandleDNDEnter(const XClientMessageEvent& clientMessage);
 	void	HandleDNDHere(const XClientMessageEvent& clientMessage);
@@ -253,14 +253,14 @@ private:
 	void	HandleDNDFinished();
 	void	HandleDNDStatus(const XClientMessageEvent& clientMessage);
 
-	JBoolean	FindTarget(const JXContainer* coordOwner, const JPoint& pt,
+	bool	FindTarget(const JXContainer* coordOwner, const JPoint& pt,
 						   Window* xWindow, Window* msgWindow,
 						   JXContainer** target, Atom* vers) const;
 
 	void	InvokeDNDScroll(const XClientMessageEvent& clientMessage, const JPoint& pt);
 
 	void		FinishDND1();
-	JBoolean	WaitForLastStatusMsg();
+	bool	WaitForLastStatusMsg();
 	static Bool	GetNextStatusEvent(Display* display, XEvent* event, char* arg);
 
 	long	PackPoint(const JPoint& pt) const;
@@ -286,7 +286,7 @@ public:
 			JXSelectionManager*	GetSelectionManager() const;
 			JXDNDManager*		GetDNDManager() const;
 
-			virtual JBoolean	FindTarget(const JXContainer* coordOwner,
+			virtual bool	FindTarget(const JXContainer* coordOwner,
 										   const JPoint& pt,
 										   Window* xWindow, Window* msgWindow,
 										   JXContainer** target, Atom* vers) = 0;
@@ -372,15 +372,15 @@ JXDNDManager::GetDNDActionDirectSaveXAtom()
 /******************************************************************************
  IsDragging
 
-	Returns kJTrue while dragging.
+	Returns true while dragging.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDNDManager::IsDragging()
 	const
 {
-	return JI2B( itsDragger != nullptr && itsIsDraggingFlag );
+	return itsDragger != nullptr && itsIsDraggingFlag;
 }
 
 /******************************************************************************
@@ -404,11 +404,11 @@ JXDNDManager::GetDraggerWindow()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDNDManager::TargetWillAcceptDrop()
 	const
 {
-	return JI2B( itsDragger != nullptr && itsWillAcceptDropFlag );
+	return itsDragger != nullptr && itsWillAcceptDropFlag;
 }
 
 /******************************************************************************
@@ -416,16 +416,16 @@ JXDNDManager::TargetWillAcceptDrop()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDNDManager::IsLastFakePasteTime
 	(
 	const Time time
 	)
 	const
 {
-	return JI2B( itsSentFakePasteFlag &&
+	return itsSentFakePasteFlag &&
 				 (time == itsFakeButtonPressTime ||
-				  time == itsFakeButtonReleaseTime) );
+				  time == itsFakeButtonReleaseTime);
 }
 
 /******************************************************************************
@@ -436,7 +436,7 @@ JXDNDManager::IsLastFakePasteTime
 inline JCursorIndex
 JXDNDManager::GetDefaultDNDCursor
 	(
-	const JBoolean	dropAccepted,
+	const bool	dropAccepted,
 	const Atom		action
 	)
 	const
@@ -480,7 +480,7 @@ JXDNDManager::GetDefaultDNDAskCursor()
 inline JCursorIndex
 JXDNDManager::GetDNDFileCursor
 	(
-	const JBoolean	dropAccepted,
+	const bool	dropAccepted,
 	const Atom		action
 	)
 	const
@@ -524,7 +524,7 @@ JXDNDManager::GetDNDAskFileCursor()
 inline JCursorIndex
 JXDNDManager::GetDNDDirectoryCursor
 	(
-	const JBoolean	dropAccepted,
+	const bool	dropAccepted,
 	const Atom		action
 	)
 	const
@@ -568,7 +568,7 @@ JXDNDManager::GetDNDAskDirectoryCursor()
 inline JCursorIndex
 JXDNDManager::GetDNDFileAndDirectoryCursor
 	(
-	const JBoolean	dropAccepted,
+	const bool	dropAccepted,
 	const Atom		action
 	)
 	const

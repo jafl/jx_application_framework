@@ -25,7 +25,7 @@ public:
 
 	~JXHintManager();
 
-	JBoolean	IsActive() const;
+	bool	IsActive() const;
 	void		Activate();
 	void		Deactivate();
 
@@ -48,7 +48,7 @@ private:
 
 	JXContainer*	itsWidget;		// not owned
 	JString			itsText;
-	JBoolean		itsActiveFlag;	// kJTrue if should show hint
+	bool		itsActiveFlag;	// true if should show hint
 	Time			itsStartTime;
 	JPoint			itsPrevPt;
 	JXDirector*		itsDirOwner;	// can be nullptr
@@ -110,7 +110,7 @@ JXHintManager::SetStartTime
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXHintManager::IsActive()
 	const
 {
@@ -120,14 +120,14 @@ JXHintManager::IsActive()
 inline void
 JXHintManager::Activate()
 {
-	itsActiveFlag = kJTrue;
+	itsActiveFlag = true;
 	HandleMouseEnter();
 }
 
 inline void
 JXHintManager::Deactivate()
 {
-	itsActiveFlag = kJFalse;
+	itsActiveFlag = false;
 	DestroyWindow();
 }
 

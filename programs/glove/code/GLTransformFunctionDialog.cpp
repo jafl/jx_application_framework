@@ -33,7 +33,7 @@ GLTransformFunctionDialog::GLTransformFunctionDialog
 	const JSize colCount
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	itsEditor = nullptr;
 	BuildWindow();
@@ -216,18 +216,18 @@ GLTransformFunctionDialog::GetFunctionString()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLTransformFunctionDialog::OKToDeactivate()
 {
 	if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 	JFunction* f = nullptr;
 	if (JParseFunction(itsFunctionString->GetText(), itsList, &f))
 		{
 		jdelete f;
-		return kJTrue;
+		return true;
 		}
-	return kJFalse;
+	return false;
 }

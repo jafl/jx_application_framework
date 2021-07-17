@@ -126,7 +126,7 @@ JXMenuBar::GetMenu
 	if (itsOverflowMenu != nullptr && index >= count)
 		{
 		const JXMenu* menu;
-		const JBoolean found = itsOverflowMenu->GetSubmenu(index - (count-1), &menu);
+		const bool found = itsOverflowMenu->GetSubmenu(index - (count-1), &menu);
 		assert( found );
 		return const_cast<JXMenu*>(menu);
 		}
@@ -147,7 +147,7 @@ JXMenuBar::GetMenu
 	if (itsOverflowMenu != nullptr && index >= count)
 		{
 		const JXMenu* menu;
-		const JBoolean found = itsOverflowMenu->GetSubmenu(index - (count-1), &menu);
+		const bool found = itsOverflowMenu->GetSubmenu(index - (count-1), &menu);
 		assert( found );
 		return menu;
 		}
@@ -162,7 +162,7 @@ JXMenuBar::GetMenu
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenuBar::FindMenu
 	(
 	const JXMenu*	menu,
@@ -170,20 +170,20 @@ JXMenuBar::FindMenu
 	)
 	const
 {
-	JBoolean found = itsMenus->Find(menu, index);
+	bool found = itsMenus->Find(menu, index);
 	if (!found && itsOverflowMenu != nullptr)
 		{
 		const JSize count = itsOverflowMenu->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 			{
 			const JXMenu* m;
-			const JBoolean ok = itsOverflowMenu->GetSubmenu(i, &m);
+			const bool ok = itsOverflowMenu->GetSubmenu(i, &m);
 			assert( ok );
 
 			if (m == menu)
 				{
 				*index = itsMenus->GetElementCount() - 1 + i;
-				found  = kJTrue;
+				found  = true;
 				break;
 				}
 			}
@@ -218,7 +218,7 @@ JXMenuBar::InsertTextMenu
 	(
 	const JIndex	index,
 	JXImage*		image,
-	const JBoolean	menuOwnsImage
+	const bool	menuOwnsImage
 	)
 {
 	const JRect bounds = GetBounds();
@@ -275,7 +275,7 @@ JXMenuBar::InsertMenu
 	WidthChanged();
 }
 
-JBoolean
+bool
 JXMenuBar::InsertMenuBefore
 	(
 	JXMenu* existingMenu,
@@ -285,7 +285,7 @@ JXMenuBar::InsertMenuBefore
 	ClearOverflowMenu();
 
 	JIndex menuIndex;
-	const JBoolean found = itsMenus->Find(existingMenu, &menuIndex);
+	const bool found = itsMenus->Find(existingMenu, &menuIndex);
 	if (found)
 		{
 		InsertMenu(menuIndex, newMenu);
@@ -297,7 +297,7 @@ JXMenuBar::InsertMenuBefore
 	return found;
 }
 
-JBoolean
+bool
 JXMenuBar::InsertMenuAfter
 	(
 	JXMenu* existingMenu,
@@ -307,7 +307,7 @@ JXMenuBar::InsertMenuAfter
 	ClearOverflowMenu();
 
 	JIndex menuIndex;
-	const JBoolean found = itsMenus->Find(existingMenu, &menuIndex);
+	const bool found = itsMenus->Find(existingMenu, &menuIndex);
 	if (found)
 		{
 		InsertMenu(menuIndex+1, newMenu);
@@ -326,7 +326,7 @@ JXMenuBar::InsertMenuAfter
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenuBar::RemoveMenu
 	(
 	JXMenu* theMenu
@@ -335,7 +335,7 @@ JXMenuBar::RemoveMenu
 	ClearOverflowMenu();
 
 	JIndex menuIndex;
-	const JBoolean found = itsMenus->Find(theMenu, &menuIndex);
+	const bool found = itsMenus->Find(theMenu, &menuIndex);
 	if (found)
 		{
 		RemoveMenu(menuIndex);
@@ -372,7 +372,7 @@ JXMenuBar::RemoveMenu
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenuBar::DeleteMenu
 	(
 	JXMenu* theMenu
@@ -381,7 +381,7 @@ JXMenuBar::DeleteMenu
 	ClearOverflowMenu();
 
 	JIndex menuIndex;
-	const JBoolean found = itsMenus->Find(theMenu, &menuIndex);
+	const bool found = itsMenus->Find(theMenu, &menuIndex);
 	if (found)
 		{
 		DeleteMenu(menuIndex);
@@ -420,7 +420,7 @@ JXMenuBar::MenuWidthChanged
 	if (dw != 0)
 		{
 		JIndex menuIndex;
-		const JBoolean found = itsMenus->Find(theMenu, &menuIndex);
+		const bool found = itsMenus->Find(theMenu, &menuIndex);
 		if (found)
 			{
 			MenuWidthChanged(menuIndex, dw);
@@ -517,7 +517,7 @@ JXMenuBar::ClearOverflowMenu()
 		for (JIndex i=1; i<=count; i++)
 			{
 			const JXMenu* m;
-			const JBoolean found = overflowMenu->GetSubmenu(i, &m);
+			const bool found = overflowMenu->GetSubmenu(i, &m);
 			assert( found );
 			AppendMenu(const_cast<JXMenu*>(m));
 			}
@@ -566,7 +566,7 @@ JXMenuBar::WidthChanged()
 	JXImage* image = GetDisplay()->GetImageCache()->GetImage(jx_down_chevron);
 
 	JXTextMenu* overflowMenu =
-		jnew JXTextMenu(image, kJFalse, this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		jnew JXTextMenu(image, false, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( overflowMenu != nullptr );
 	overflowMenu->SetUpdateAction(JXMenu::kDisableNone);
 
@@ -618,7 +618,7 @@ JXMenuBar::WidthChanged()
 JCoordinate
 JXMenuBar::GetFTCMinContentSize
 	(
-	const JBoolean horizontal
+	const bool horizontal
 	)
 	const
 {
@@ -636,7 +636,7 @@ JXMenuBar::GetFTCMinContentSize
 		JXMenu* menu;
 		while (iter.Next(&menu))
 			{
-			h = JMax(h, menu->GetFTCMinContentSize(kJFalse));
+			h = JMax(h, menu->GetFTCMinContentSize(false));
 			}
 
 		return h;

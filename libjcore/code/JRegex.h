@@ -26,6 +26,14 @@ class JRegex
 
 public:
 
+	enum IncludeSubmatches
+	{
+		kIgnoreSubmatches  = 0,
+		kIncludeSubmatches = 1
+	};
+
+public:
+
 	JRegex();
 	JRegex(const JString& pattern);
 	JRegex(const JUtf8Byte* pattern);
@@ -45,39 +53,39 @@ public:
 	void	SetPatternOrDie(const JString& pattern);
 	void	SetPatternOrDie(const JUtf8Byte* pattern);
 
-	static JBoolean	NeedsBackslashToBeLiteral(const JUtf8Byte c);
-	static JBoolean	NeedsBackslashToBeLiteral(const JUtf8Character& c);
+	static bool		NeedsBackslashToBeLiteral(const JUtf8Byte c);
+	static bool		NeedsBackslashToBeLiteral(const JUtf8Character& c);
 	static JString	BackslashForLiteral(const JString& text);
 
 // Pattern-related settings and statistics
 
-	JSize    	GetSubexpressionCount() const;
-	JBoolean	GetSubexpressionIndex(const JUtf8Byte* name, JIndex* index) const;
-	JBoolean	GetSubexpressionIndex(const JString& name, JIndex* index) const;
+	JSize	GetSubexpressionCount() const;
+	bool	GetSubexpressionIndex(const JUtf8Byte* name, JIndex* index) const;
+	bool	GetSubexpressionIndex(const JString& name, JIndex* index) const;
 
 // Matching
 
-	JBoolean		Match(const JString& str) const;
-	JStringMatch	Match(const JString& str, const JBoolean includeSubmatches) const;
+	bool			Match(const JString& str) const;
+	JStringMatch	Match(const JString& str, const IncludeSubmatches includeSubmatches) const;
 
 // Setting and testing options
 
-	JBoolean IsCaseSensitive() const;
-	void     SetCaseSensitive(const JBoolean yesNo = kJTrue);
+	bool IsCaseSensitive() const;
+	void SetCaseSensitive(const bool yesNo = true);
 
-	JBoolean IsSingleLine() const;
-	void     SetSingleLine(const JBoolean yesNo = kJTrue);
+	bool IsSingleLine() const;
+	void SetSingleLine(const bool yesNo = true);
 
-	JBoolean IsLineBegin() const;
-	void     SetLineBegin(const JBoolean yesNo = kJTrue);
+	bool IsLineBegin() const;
+	void SetLineBegin(const bool yesNo = true);
 
-	JBoolean IsLineEnd() const;
-	void     SetLineEnd(const JBoolean yesNo = kJTrue);
+	bool IsLineEnd() const;
+	void SetLineEnd(const bool yesNo = true);
 
-	JBoolean IsUtf8() const;
-	void     SetUtf8(const JBoolean yesNo = kJTrue);
+	bool IsUtf8() const;
+	void SetUtf8(const bool yesNo = true);
 
-	JError RestoreDefaults();
+	JError	RestoreDefaults();
 
 protected:
 
@@ -110,18 +118,18 @@ private:
 
 	void CopyPatternRegex(const JRegex& source);
 
-	void SetCompileOption(const int option, const JBoolean setClear);
-	void SetExecuteOption(const int option, const JBoolean setClear);
-	void RawSetOption(int* flags, const int option, const JBoolean setClear);
+	void SetCompileOption(const int option, const bool setClear);
+	void SetExecuteOption(const int option, const bool setClear);
+	void RawSetOption(int* flags, const int option, const bool setClear);
 
-	JBoolean RawGetOption(const int flags, const int option) const;
+	bool RawGetOption(const int flags, const int option) const;
 
 	// The basic regex library functions, translated
 
 	JError			Compile();
 	JStringMatch	Match(const JString& str,
 						  const JSize byteOffset, const JSize byteCount,
-						  const JBoolean includeSubmatches) const;
+						  const IncludeSubmatches includeSubmatches) const;
 	void			CleanUp();
 
 public:
@@ -143,7 +151,7 @@ public:
 
 	public:
 
-		JBoolean
+		bool
 		GetErrorIndex
 			(
 			JIndex* index
@@ -151,7 +159,7 @@ public:
 			const
 		{
 			*index = itsIndex;
-			return JI2B(itsIndex > 0);
+			return itsIndex > 0;
 		};
 
 	private:
@@ -166,12 +174,12 @@ public:
 
 	JAFL 5/11/98
 
-	Returns kJTrue if the given character needs to be backslashed
+	Returns true if the given character needs to be backslashed
 	in order to be treated as a literal by the regex compiler.
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JRegex::NeedsBackslashToBeLiteral
 	(
 	const JUtf8Byte c
@@ -180,7 +188,7 @@ JRegex::NeedsBackslashToBeLiteral
 	return theSpecialCharList.Contains(&c, 1);
 }
 
-inline JBoolean
+inline bool
 JRegex::NeedsBackslashToBeLiteral
 	(
 	const JUtf8Character& c
@@ -214,13 +222,13 @@ JRegex::GetPattern() const
 inline void
 JRegex::SetCaseSensitive
 	(
-	const JBoolean yesNo // = kJTrue
+	const bool yesNo // = true
 	)
 {
 	SetCompileOption(PCRE_CASELESS, !yesNo);
 }
 
-inline JBoolean
+inline bool
 JRegex::IsCaseSensitive() const
 {
 	return !RawGetOption(itsCFlags, PCRE_CASELESS);
@@ -241,14 +249,14 @@ JRegex::IsCaseSensitive() const
 inline void
 JRegex::SetSingleLine
 	(
-	const JBoolean yesNo // = kJTrue
+	const bool yesNo // = true
 	)
 {
 	SetCompileOption(PCRE_MULTILINE, !yesNo);
 	SetCompileOption(PCRE_DOTALL, yesNo);
 }
 
-inline JBoolean
+inline bool
 JRegex::IsSingleLine() const
 {
 	return !RawGetOption(itsCFlags, PCRE_MULTILINE);
@@ -267,13 +275,13 @@ JRegex::IsSingleLine() const
 inline void
 JRegex::SetLineBegin
 	(
-	const JBoolean yesNo // = kJTrue
+	const bool yesNo // = true
 	)
 {
 	SetExecuteOption(PCRE_NOTBOL, !yesNo);
 }
 
-inline JBoolean
+inline bool
 JRegex::IsLineBegin() const
 {
 	return !RawGetOption(itsEFlags, PCRE_NOTBOL);
@@ -291,13 +299,13 @@ JRegex::IsLineBegin() const
 inline void
 JRegex::SetLineEnd
 	(
-	const JBoolean yesNo // = kJTrue
+	const bool yesNo // = true
 	)
 {
 	SetExecuteOption(PCRE_NOTEOL, !yesNo);
 }
 
-inline JBoolean
+inline bool
 JRegex::IsLineEnd() const
 {
 	return !RawGetOption(itsEFlags, PCRE_NOTEOL);
@@ -313,13 +321,13 @@ JRegex::IsLineEnd() const
 inline void
 JRegex::SetUtf8
 	(
-	const JBoolean yesNo // = kJTrue
+	const bool yesNo // = true
 	)
 {
 	SetCompileOption(PCRE_UTF8, !yesNo);
 }
 
-inline JBoolean
+inline bool
 JRegex::IsUtf8() const
 {
 	return RawGetOption(itsCFlags, PCRE_UTF8);
@@ -328,18 +336,18 @@ JRegex::IsUtf8() const
 /******************************************************************************
  Match
 
-	Returns kJTrue if our pattern matches the given string.
+	Returns true if our pattern matches the given string.
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JRegex::Match
 	(
 	const JString& str
 	)
 	const
 {
-	return ! Match(str, 0, str.GetByteCount(), kJFalse).IsEmpty();
+	return ! Match(str, 0, str.GetByteCount(), kIgnoreSubmatches).IsEmpty();
 }
 
 /******************************************************************************
@@ -350,8 +358,8 @@ JRegex::Match
 inline JStringMatch
 JRegex::Match
 	(
-	const JString& str,
-	const JBoolean includeSubmatches
+	const JString&			str,
+	const IncludeSubmatches	includeSubmatches
 	)
 	const
 {
@@ -373,7 +381,7 @@ JRegex::MatchForward
 	)
 	const
 {
-	return Match(str, byteIndex-1, str.GetByteCount(), kJTrue);
+	return Match(str, byteIndex-1, str.GetByteCount(), kIncludeSubmatches);
 }
 
 /******************************************************************************
@@ -381,7 +389,7 @@ JRegex::MatchForward
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JRegex::GetSubexpressionIndex
 	(
 	const JString& name,
@@ -397,7 +405,7 @@ JRegex::GetSubexpressionIndex
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JRegex::RawGetOption
 	(
 	const int flags,
@@ -405,7 +413,7 @@ JRegex::RawGetOption
 	)
 	const
 {
-	return JI2B(flags & option);
+	return flags & option;
 }
 
 #endif

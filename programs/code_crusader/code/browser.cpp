@@ -39,13 +39,13 @@ main
 	JString commitFile;
 	ParseTextOptions(argc, argv, &commitFile);
 
-	const JBoolean useMDI = commitFile.IsEmpty();
+	const bool useMDI = commitFile.IsEmpty();
 	if (useMDI && !CBMDIServer::WillBeMDIServer(CBApp::GetAppSignature(), argc, argv))
 		{
 		return 0;
 		}
 
-	JBoolean displayAbout;
+	bool displayAbout;
 	JString prevVersStr;
 	CBApp* app = jnew CBApp(&argc, argv, useMDI, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
@@ -69,7 +69,7 @@ main
 
 	if (!commitFile.IsEmpty())
 		{
-		JXWindow::ShouldAutoDockNewWindows(kJFalse);
+		JXWindow::ShouldAutoDockNewWindows(false);
 
 		CBDocumentManager* docMgr = CBGetDocumentManager();
 		docMgr->OpenSomething(commitFile);
@@ -77,13 +77,13 @@ main
 		JPtrArray<CBTextDocument>* docList = docMgr->GetTextDocList();
 		if (!docList->IsEmpty())
 			{
-			(docList->GetFirstElement())->ShouldMakeBackupFile(kJFalse);
+			(docList->GetFirstElement())->ShouldMakeBackupFile(false);
 			}
 		}
 
 	if (displayAbout)
 		{
-		app->DisplayAbout(prevVersStr, kJTrue);
+		app->DisplayAbout(prevVersStr, true);
 		}
 
 	app->Run();

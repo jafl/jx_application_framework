@@ -27,24 +27,24 @@ public:
 
 	JXTEBase*	GetTE();
 	void		SetTE(JXTEBase* te);
-	void		ShouldOptimizeUpdate(const JBoolean optimize);
+	void		ShouldOptimizeUpdate(const bool optimize);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c,
 								   const int keySym, const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	void			ShouldAct(const JBoolean act);
+	void			ShouldAct(const bool act);
 	virtual void	Act(JXTEBase* te, const JIndex value) = 0;
 	virtual JIndex	GetValue(JXTEBase* te) const = 0;
 	virtual JIndex	GetValue(const JTextEditor::CaretLocationChanged& info) const = 0;
 
 	virtual void		BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
 	virtual void		HandleFocusEvent() override;
 	virtual void		HandleUnfocusEvent() override;
-	virtual JBoolean	OKToUnfocus() override;
+	virtual bool	OKToUnfocus() override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -52,8 +52,8 @@ private:
 
 	JXTEBase*	itsTE;				// not owned
 	JInteger	itsOrigValue;
-	JBoolean	itsShouldActFlag;
-	JBoolean	itsOptimizeUpdateFlag;
+	bool	itsShouldActFlag;
+	bool	itsOptimizeUpdateFlag;
 
 	JXStaticText*	itsLabel;		// not owned
 
@@ -87,7 +87,7 @@ CBTECaretInputBase::GetTE()
 inline void
 CBTECaretInputBase::ShouldOptimizeUpdate
 	(
-	const JBoolean optimize
+	const bool optimize
 	)
 {
 	itsOptimizeUpdateFlag = optimize;
@@ -101,7 +101,7 @@ CBTECaretInputBase::ShouldOptimizeUpdate
 inline void
 CBTECaretInputBase::ShouldAct
 	(
-	const JBoolean act
+	const bool act
 	)
 {
 	itsShouldActFlag = act;

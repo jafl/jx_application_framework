@@ -50,10 +50,10 @@ ScrollingWidgetDir::BuildWindow()
 {
 	// Create the window
 	JXWindow* window = jnew JXWindow(this, 300,200, "Scrolling Program");
-    assert( window != nullptr );
+	assert( window != nullptr );
 
     // Set window sizing
-    window->SetMinSize(300,200);
+	window->SetMinSize(300,200);
 	window->SetMaxSize(800,600);
 
 	// Create the scrollbar set to hold the custom widget
@@ -72,5 +72,5 @@ ScrollingWidgetDir::BuildWindow()
 	assert( widget != nullptr );
 
 	// Adjust the widget to fit into the scrollbarset
-	widget->FitToEnclosure(kJTrue, kJTrue);
+	widget->FitToEnclosure(true, true);
 }

@@ -14,13 +14,13 @@ class GDBVarNode : public CMVarNode
 {
 public:
 
-	GDBVarNode(const JBoolean shouldUpdate = kJTrue);
+	GDBVarNode(const bool shouldUpdate = true);
 
 	GDBVarNode(JTreeNode* parent, const JString& name, const JString& value);
 
 	virtual	~GDBVarNode();
 
-	virtual JString	GetFullName(JBoolean* isPointer = nullptr) const override;
+	virtual JString	GetFullName(bool* isPointer = nullptr) const override;
 
 private:
 

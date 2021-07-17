@@ -26,7 +26,7 @@ ResizeWidgetDialog::ResizeWidgetDialog
 	const JXWidget*		widget
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(widget);
 }
@@ -118,7 +118,7 @@ ResizeWidgetDialog::GetNewSize
 	)
 	const
 {
-	const JBoolean okW = itsWidth->GetValue(w);
-	const JBoolean okH = itsHeight->GetValue(h);
+	const bool okW = itsWidth->GetValue(w);
+	const bool okH = itsHeight->GetValue(h);
 	assert( okW && okH );
 }

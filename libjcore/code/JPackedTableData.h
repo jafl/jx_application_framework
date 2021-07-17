@@ -78,7 +78,7 @@ public:
 
 	void		SetAllElements(const T& data);
 	void		ClearAllElements();
-	JBoolean	AllElementsEqual(T* data = nullptr) const;
+	bool	AllElementsEqual(T* data = nullptr) const;
 	JSize		CountElementsWithValue(const T& data) const;
 
 	const T		GetDefaultValue() const;

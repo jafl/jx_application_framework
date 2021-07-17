@@ -22,7 +22,7 @@ GLPlotApp*		GLGetApplication();
 JXPTPrinter*	GLGetPTPrinter();
 GLMDIServer*	GLGetMDIServer();
 
-JBoolean		InitGLGlobals(GLPlotApp* app);
+bool		InitGLGlobals(GLPlotApp* app);
 void			DeleteGLGlobals();
 
 void	GLBuildColumnMenus(const JUtf8Byte* key, const JSize count, ...);

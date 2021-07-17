@@ -16,7 +16,7 @@
 	Returns the full paths of the system and user directories for the given
 	program signature.  dirName is appended to each one for convenience.
 
-	Returns kJFalse if the user doesn't have a home directory, in which
+	Returns false if the user doesn't have a home directory, in which
 	case userDir is empty.
 
 	*** Does not check if either directory exists.
@@ -31,7 +31,7 @@ const JUtf8Byte* kSystemDataFileDir = "/usr/lib/";
 
 const JUtf8Byte* kUserDataFileDir = "~/.";
 
-JBoolean
+bool
 JGetDataDirectories
 	(
 	const JUtf8Byte*	signature,
@@ -42,10 +42,10 @@ JGetDataDirectories
 {
 	*sysDir  = kSystemDataFileDir;
 	*sysDir += signature;
-	*sysDir  = JCombinePathAndName(*sysDir, JString(dirName, kJFalse));
+	*sysDir  = JCombinePathAndName(*sysDir, JString(dirName, JString::kNoCopy));
 
 	JString relName(kUserDataFileDir);
 	relName += signature;
-	relName  = JCombinePathAndName(relName, JString(dirName, kJFalse));
+	relName  = JCombinePathAndName(relName, JString(dirName, JString::kNoCopy));
 	return JExpandHomeDirShortcut(relName, userDir);
 }

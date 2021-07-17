@@ -22,8 +22,8 @@ TestFontManager::TestFontManager()
 	itsFontNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsFontNames != nullptr );
 
-	itsFontNames->Append(JString("Courier", kJFalse));
-	itsFontNames->Append(JString("Times", kJFalse));
+	itsFontNames->Append(JString("Courier", JString::kNoCopy));
+	itsFontNames->Append(JString("Times", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -47,7 +47,7 @@ TestFontManager::GetFontNames
 	JPtrArray<JString>* fontNames
 	)
 {
-	fontNames->CopyObjects(*itsFontNames, JPtrArrayT::kDeleteAll, kJFalse);
+	fontNames->CopyObjects(*itsFontNames, JPtrArrayT::kDeleteAll, false);
 }
 
 /******************************************************************************
@@ -61,7 +61,7 @@ TestFontManager::GetMonospaceFontNames
 	JPtrArray<JString>* fontNames
 	)
 {
-	fontNames->CopyObjects(*itsFontNames, JPtrArrayT::kDeleteAll, kJFalse);
+	fontNames->CopyObjects(*itsFontNames, JPtrArrayT::kDeleteAll, false);
 }
 
 /******************************************************************************
@@ -69,7 +69,7 @@ TestFontManager::GetMonospaceFontNames
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestFontManager::GetFontSizes
 	(
 	const JString&	name,
@@ -81,7 +81,7 @@ TestFontManager::GetFontSizes
 	*minSize = 8;
 	*maxSize = 24;
 	sizeList->RemoveAll();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -89,13 +89,13 @@ TestFontManager::GetFontSizes
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestFontManager::IsExact
 	(
 	const JFontID id
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -103,14 +103,14 @@ TestFontManager::IsExact
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestFontManager::HasGlyphForCharacter
 	(
 	const JFontID			id,
 	const JUtf8Character&	c
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -118,7 +118,7 @@ TestFontManager::HasGlyphForCharacter
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestFontManager::GetSubstituteFontName
 	(
 	const JFont&			f,
@@ -126,7 +126,7 @@ TestFontManager::GetSubstituteFontName
 	JString*				name
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

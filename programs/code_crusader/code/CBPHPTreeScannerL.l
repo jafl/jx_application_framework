@@ -15,7 +15,7 @@ This scanner reads a PHP file and builds a CBPHPClass.
 
 #undef YY_DECL
 #define YY_DECL \
-	JBoolean CBPHPTreeScanner::CreateClass( \
+	bool CBPHPTreeScanner::CreateClass( \
 		const JString& fileName, const JFAID_t fileID, \
 		CBTree* tree, CBClass** theClass)
 %}
@@ -44,8 +44,8 @@ NSID         ({ID}(\\{ID})*)
 	JString phpNamespace, useName;
 	JStringPtrMap<JString> useMap(JPtrArrayT::kDeleteAll);
 	*theClass           = nullptr;
-	JBoolean isAbstract = kJFalse;
-	JBoolean isFinal    = kJFalse;
+	bool isAbstract = false;
+	bool isFinal    = false;
 
 	std::ifstream input(fileName.GetBytes());
 	switch_streams(&input, nullptr);
@@ -60,11 +60,11 @@ use/{BDRY} {
 	}
 
 final/{BDRY} {
-	isFinal = kJTrue;
+	isFinal = true;
 	}
 
 abstract/{BDRY} {
-	isAbstract = kJTrue;
+	isAbstract = true;
 	}
 
 class/{BDRY} {
@@ -73,7 +73,7 @@ class/{BDRY} {
 
 interface/{BDRY} {
 	BEGIN(CLASS_NAME_STATE);
-	isAbstract = kJTrue;
+	isAbstract = true;
 	}
 
 (extends|implements)/{BDRY} {
@@ -89,13 +89,13 @@ interface/{BDRY} {
 	}
 
 "{" {
-	return JI2B( *theClass != nullptr );
+	return *theClass != nullptr;
 	}
 
 .|\n	/* ignore */
 
 <*><<EOF>> {
-	return JI2B( *theClass != nullptr );
+	return *theClass != nullptr;
 	}
 
 
@@ -120,7 +120,7 @@ interface/{BDRY} {
 	}
 
 . {
-	return JI2B( *theClass != nullptr );
+	return *theClass != nullptr;
 	}
 
 }
@@ -157,7 +157,7 @@ as/{BDRY} {
 	}
 
 . {
-	return JI2B( *theClass != nullptr );
+	return *theClass != nullptr;
 	}
 
 }
@@ -183,7 +183,7 @@ as/{BDRY} {
 	}
 
 . {
-	return JI2B( *theClass != nullptr );
+	return *theClass != nullptr;
 	}
 
 }
@@ -220,7 +220,7 @@ as/{BDRY} {
 	}
 
 . {
-	return JI2B( *theClass != nullptr );
+	return *theClass != nullptr;
 	}
 
 }
@@ -237,7 +237,7 @@ implements	/* ignore */
 {NSID} {
 	if (*theClass == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JString parentName(yytext, yyleng);
@@ -280,7 +280,7 @@ implements	/* ignore */
 	}
 
 . {
-	return JI2B( *theClass != nullptr );
+	return *theClass != nullptr;
 	}
 
 }

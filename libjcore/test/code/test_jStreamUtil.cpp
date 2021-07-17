@@ -42,7 +42,7 @@ JTEST(JReadLine)	// also tests JReadUntil
 	JString s = JReadLine(input);
 	JAssertStringsEqual("This is \xE2\x9C\x94 test", s);
 
-	JBoolean foundNewLine;
+	bool foundNewLine;
 	s = JReadLine(input, &foundNewLine);
 	JAssertTrue(foundNewLine);
 	JAssertStringsEqual("This is another test", s);
@@ -55,7 +55,7 @@ JTEST(JReadUntil)
 {
 	int fd = open("data/test_JReadLine.txt", O_RDONLY);
 
-	JBoolean foundDelimiter;
+	bool foundDelimiter;
 	JString s = JReadUntil(fd, ' ', &foundDelimiter);
 	JAssertStringsEqual("This", s);
 	JAssertTrue(foundDelimiter);
@@ -75,7 +75,7 @@ JTEST(JReadUntilws)
 	JString s = JReadUntilws(input);
 	JAssertStringsEqual("This", s);
 
-	JBoolean foundws;
+	bool foundws;
 	s = JReadUntilws(input, &foundws);
 	JAssertTrue(foundws);
 	JAssertStringsEqual("is", s);
@@ -94,7 +94,7 @@ JTEST(JIgnoreLine)
 
 	JIgnoreLine(input);
 
-	JBoolean foundNewLine;
+	bool foundNewLine;
 	JString s = JReadLine(input, &foundNewLine);
 	JAssertStringsEqual("This is another test", s);
 	JAssertTrue(foundNewLine);

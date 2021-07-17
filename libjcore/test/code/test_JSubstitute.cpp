@@ -36,7 +36,7 @@ JTEST(Escape1)
 
 	// Test ignore unrecognized
 	newString = oldString;
-	sub.IgnoreUnrecognized(kJFalse);
+	sub.IgnoreUnrecognized(false);
 	sub.Substitute(&newString);
 	JAssertStringsEqual("iiabciidefii", newString);
 
@@ -64,7 +64,7 @@ JTEST(Escape1)
 	JAssertStringsEqual("abcdef", newString);
 
 	newString = oldString;
-	sub.IgnoreUnrecognized(kJFalse);
+	sub.IgnoreUnrecognized(false);
 	sub.Substitute(&newString);
 	JAssertStringsEqual("abcdef", newString);
 
@@ -147,7 +147,7 @@ JTEST(Escape2)
 	JAssertStringsEqual("abcdef", newString);
 
 	newString = oldString;
-	sub.IgnoreUnrecognized(kJFalse);
+	sub.IgnoreUnrecognized(false);
 	sub.Substitute(&newString);
 	JAssertStringsEqual("abcdef", newString);
 
@@ -158,7 +158,7 @@ JTEST(Escape2)
 	JAssertStringsEqual("abcdef\r", newString);
 
 	newString = oldString;
-	sub.IgnoreUnrecognized(kJFalse);
+	sub.IgnoreUnrecognized(false);
 	sub.Substitute(&newString);
 	JAssertStringsEqual("abcdef\r", newString);
 
@@ -186,8 +186,8 @@ JTEST(Variables)
 	JString oldString, newString;
 
 	JSubstitute sub;
-	sub.DefineVariable("a", JString("x", kJFalse));
-	sub.DefineVariable("b", JString("y", kJFalse));
+	sub.DefineVariable("a", JString("x", JString::kNoCopy));
+	sub.DefineVariable("b", JString("y", JString::kNoCopy));
 
 	oldString = "a$aab$bb";
 	newString = oldString;
@@ -207,8 +207,8 @@ JTEST(ContainsError)
 {
 	JSubstitute sub;
 	sub.UseControlEscapes();
-	sub.DefineVariable("a", JString("x", kJFalse));
-	sub.DefineVariable("b", JString("y", kJFalse));
+	sub.DefineVariable("a", JString("x", JString::kNoCopy));
+	sub.DefineVariable("b", JString("y", JString::kNoCopy));
 
 	JString s;
 	JCharacterRange r;

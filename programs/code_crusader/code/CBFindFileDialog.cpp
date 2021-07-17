@@ -131,7 +131,7 @@ CBFindFileDialog::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 
 	ListenTo(itsFindButton);
 	ListenTo(itsCloseButton);
@@ -140,8 +140,8 @@ CBFindFileDialog::BuildWindow()
 	itsFileName->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsFileName);
 
-	itsIgnoreCaseCB->SetState(kJTrue);
-	itsStayOpenCB->SetState(kJTrue);
+	itsIgnoreCaseCB->SetState(true);
+	itsStayOpenCB->SetState(true);
 
 	// create hidden JXDocument so Meta-# shortcuts work
 
@@ -219,7 +219,7 @@ CBFindFileDialog::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFindFileDialog::FindFile()
 {
 	JString fileName = itsFileName->GetText()->GetText();
@@ -230,15 +230,16 @@ CBFindFileDialog::FindFile()
 	JExtractFileAndLine(itsFileName->GetText()->GetText(), &fileName,
 						&(lineRange.first), &(lineRange.last));
 	if (itsFileName->InputValid() &&
-		CBGetApplication()->FindAndViewFile(fileName, lineRange,
-											  !itsIgnoreCaseCB->IsChecked()))
+		CBGetApplication()->FindAndViewFile(
+			fileName, lineRange,
+			itsIgnoreCaseCB->IsChecked() ? JString::kIgnoreCase : JString::kCompareCase))
 		{
 		itsFileHistoryMenu->AddString(fileName);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -266,13 +267,13 @@ CBFindFileDialog::ReadPrefs
 
 	itsFileHistoryMenu->ReadSetup(input);
 
-	JBoolean ignoreCase;
+	bool ignoreCase;
 	input >> JBoolFromString(ignoreCase);
 	itsIgnoreCaseCB->SetState(ignoreCase);
 
 	if (vers >= 1)
 		{
-		JBoolean stayOpen;
+		bool stayOpen;
 		input >> JBoolFromString(stayOpen);
 		itsStayOpenCB->SetState(stayOpen);
 		}

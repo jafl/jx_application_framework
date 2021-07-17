@@ -66,7 +66,7 @@ MDRecordList::AddRecord
 
  ******************************************************************************/
 
-JBoolean
+bool
 MDRecordList::ClosestMatch
 	(
 	const JString&	prefix,
@@ -75,7 +75,7 @@ MDRecordList::ClosestMatch
 	const
 {
 	MDRecord target(prefix);
-	JBoolean found;
+	bool found;
 	JIndex i = itsAlphaRecords->SearchSorted1(&target, JListT::kFirstMatch, &found);
 	if (i > itsAlphaRecords->GetElementCount())		// insert beyond end of list
 		{
@@ -85,12 +85,12 @@ MDRecordList::ClosestMatch
 	if (i > 0)
 		{
 		*record = itsAlphaRecords->GetElement(i);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*record = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -105,35 +105,35 @@ MDRecordList::SetSortColumn
 	const JIndex index
 	)
 {
-	JBoolean changed = kJFalse;
+	bool changed = false;
 
 	if (index == kRecordState)
 		{
 		itsRecords->SetCompareFunction(MDRecord::CompareState);
 		itsRecords->SetSortOrder(JListT::kSortAscending);
 		itsSortColumn = kRecordState;
-		changed       = kJTrue;
+		changed       = true;
 		}
 	else if (index == kRecordFile || index == kRecordLine)
 		{
 		itsRecords->SetCompareFunction(MDRecord::CompareFileName);
 		itsRecords->SetSortOrder(JListT::kSortAscending);
 		itsSortColumn = kRecordFile;
-		changed       = kJTrue;
+		changed       = true;
 		}
 	else if (index == kRecordSize)
 		{
 		itsRecords->SetCompareFunction(MDRecord::CompareSize);
 		itsRecords->SetSortOrder(JListT::kSortDescending);
 		itsSortColumn = kRecordSize;
-		changed       = kJTrue;
+		changed       = true;
 		}
 	else if (index == kRecordData)
 		{
 		itsRecords->SetCompareFunction(MDRecord::CompareData);
 		itsRecords->SetSortOrder(JListT::kSortAscending);
 		itsSortColumn = kRecordData;
-		changed       = kJTrue;
+		changed       = true;
 		}
 
 	if (changed)

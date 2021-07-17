@@ -21,7 +21,7 @@ public:
 	virtual	~CMStackFrameNode();
 
 	JUInt64		GetID() const;
-	JBoolean	GetFile(JString* fileName, JIndex* lineIndex) const;
+	bool	GetFile(JString* fileName, JIndex* lineIndex) const;
 
 	void	AppendArg(JTreeNode* node);
 
@@ -59,7 +59,7 @@ CMStackFrameNode::GetID()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CMStackFrameNode::GetFile
 	(
 	JString*	fileName,
@@ -69,7 +69,7 @@ CMStackFrameNode::GetFile
 {
 	*fileName  = itsFileName;
 	*lineIndex = itsLineIndex;
-	return JI2B(!itsFileName.IsEmpty() && itsLineIndex > 0);
+	return !itsFileName.IsEmpty() && itsLineIndex > 0;
 }
 
 /******************************************************************************
@@ -84,7 +84,7 @@ CMStackFrameNode::AppendArg
 	)
 {
 	Append(node);
-	ShouldBeOpenable(kJTrue);
+	ShouldBeOpenable(true);
 }
 
 #endif

@@ -63,19 +63,19 @@ const JSize kUnusedKeywordCount = sizeof(kUnusedKeyword)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStylerBase*
 CBJavaScriptStyler::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBJavaScriptStyler;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -120,13 +120,13 @@ CBJavaScriptStyler::CBJavaScriptStyler()
 
 	SetTypeStyle(kComment              - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
 	SetTypeStyle(kDocCommentHTMLTag    - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
-	SetTypeStyle(kDocCommentSpecialTag - kWhitespace, JFontStyle(kJFalse, kJFalse, 1, kJFalse));
+	SetTypeStyle(kDocCommentSpecialTag - kWhitespace, JFontStyle(false, false, 1, false));
 
 	SetTypeStyle(kError                - kWhitespace, JFontStyle(red));
 
 	for (JUnsignedOffset i=0; i<kUnusedKeywordCount; i++)
 		{
-		SetWordStyle(JString(kUnusedKeyword[i], kJFalse), JFontStyle(red));
+		SetWordStyle(JString(kUnusedKeyword[i], JString::kNoCopy), JFontStyle(red));
 		}
 
 	JPrefObject::ReadPrefs();
@@ -160,7 +160,7 @@ CBJavaScriptStyler::Scan
 
 	const JString& text = GetText();
 
-	JBoolean keepGoing;
+	bool keepGoing;
 	Token token;
 	JFontStyle style;
 	do
@@ -209,7 +209,7 @@ CBJavaScriptStyler::Scan
 				ExtendCheckRange(token.range.charRange.last+1);
 				}
 
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy));
 			}
 
 		keepGoing = SetStyle(token.range.charRange, style);

@@ -107,7 +107,7 @@ JXGetRegionBounds
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXRegionIsRectangle
 	(
 	Region	region,
@@ -123,7 +123,7 @@ JXRegionIsRectangle
 			{
 			*rect = JXXToJRect(xRect);
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -131,7 +131,7 @@ JXRegionIsRectangle
 			{
 			*rect = JRect(0,0,0,0);
 			}
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -216,7 +216,7 @@ JXIntersection
 	const JRect&		resultRect
 	)
 {
-	JBoolean pixmapInsideRegion = kJFalse;
+	bool pixmapInsideRegion = false;
 	JRect regionRect;
 	if (JXRegionIsRectangle(region, &regionRect))
 		{
@@ -321,7 +321,7 @@ JXPackStrings
 	const JSize					sepLength
 	)
 {
-	const JString s(separator, sepLength, kJFalse);
+	const JString s(separator, sepLength, JString::kNoCopy);
 	return JStringJoin(s, strList);
 }
 
@@ -335,9 +335,9 @@ JXUnpackStrings
 	const JSize			sepLength
 	)
 {
-	JString(origData, byteCount, kJFalse).
+	JString(origData, byteCount, JString::kNoCopy).
 		Split(
-			JString(separator, sepLength, kJFalse), strList);
+			JString(separator, sepLength, JString::kNoCopy), strList);
 }
 
 /******************************************************************************
@@ -364,7 +364,7 @@ JXPackFileNames
 {
 	JString data;
 
-	JBoolean first = kJTrue;
+	bool first = true;
 	for (JString* name : fileNameList)
 		{
 		if (!first)
@@ -372,7 +372,7 @@ JXPackFileNames
 			data.Append(kURISeparator, kURISeparatorLength);
 			}
 		data.Append(JFileNameToURL(*name));
-		first = kJFalse;
+		first = false;
 		}
 
 	return data;
@@ -440,7 +440,7 @@ JXReportUnreachableHosts
 			{
 			JString* host = jnew JString(iter.GetLastMatch().GetSubstring(1));
 			assert( host != nullptr );
-			if (!hostList.InsertSorted(host, kJFalse))
+			if (!hostList.InsertSorted(host, false))
 				{
 				jdelete host;
 				}
@@ -451,7 +451,7 @@ JXReportUnreachableHosts
 		{
 		JString hosts;
 
-		JBoolean first = kJTrue;
+		bool first = true;
 		for (JString* host : hostList)
 			{
 			if (!first)
@@ -459,7 +459,7 @@ JXReportUnreachableHosts
 				hosts.Append("\n");
 				}
 			hosts += *host;
-			first  = kJFalse;
+			first  = false;
 			}
 
 		JGetStringManager()->ReportError(kUnreachableHostsID, hosts);
@@ -500,7 +500,7 @@ jXGetClientMachineName
 	return machineName;
 }
 
-JBoolean
+bool
 JXFixBrokenURLs
 	(
 	const JUtf8Byte*	data,
@@ -513,7 +513,7 @@ JXFixBrokenURLs
 	JPtrArray<JString> urlList(JPtrArrayT::kDeleteAll);
 	JXUnpackStrings(data, byteCount, &urlList, kURISeparator, kURISeparatorLength);
 
-	JBoolean changed = kJFalse;
+	bool changed = false;
 
 	JString srcHost, tmp;
 	for (JString* url : urlList)
@@ -527,7 +527,7 @@ JXFixBrokenURLs
 				srcHost = jXGetClientMachineName(display, srcWindow);
 				if (srcHost.IsEmpty())
 					{
-					return kJFalse;
+					return false;
 					}
 				}
 
@@ -538,7 +538,7 @@ JXFixBrokenURLs
 			sub.Substitute(&tmp);
 
 			iter.ReplaceLastMatch(tmp);
-			changed = kJTrue;
+			changed = true;
 			}
 		}
 

@@ -37,7 +37,7 @@ JXCursorAnimator::JXCursorAnimator
 	)
 {
 	itsWindow     = window;
-	itsActiveFlag = kJFalse;
+	itsActiveFlag = false;
 
 	InitFrames(itsWindow->GetDisplay());
 	ResetFrameCounter();

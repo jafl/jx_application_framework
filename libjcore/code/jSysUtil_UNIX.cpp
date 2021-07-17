@@ -11,6 +11,7 @@
 #include "JStdError.h"
 #include "jErrno.h"
 #include "JListUtil.h"
+#include "jDirUtil.h"
 #include "jGlobals.h"
 #include <unistd.h>
 #include <sys/stat.h>
@@ -23,19 +24,19 @@
 
  *******************************************************************************/
 
-JBoolean
+bool
 JUserIsAdmin()
 {
 	return JUserIsAdmin(getuid());
 }
 
-JBoolean
+bool
 JUserIsAdmin
 	(
 	const uid_t uid
 	)
 {
-	return JI2B(uid == 0);
+	return uid == 0;
 }
 
 /******************************************************************************
@@ -51,7 +52,7 @@ JGetHostName()
 	JUtf8Byte hostName[255];
 	const int result = gethostname(hostName, 255);
 	assert( result == 0 );
-	return JString(hostName, 0);
+	return JString(hostName);
 }
 
 /******************************************************************************
@@ -99,7 +100,7 @@ jCleanUserInfoMap()
 		}
 }
 
-static JBoolean
+static bool
 jGetUserInfo
 	(
 	const uid_t uid,
@@ -124,20 +125,20 @@ jGetUserInfo
 		passwd* pwbuf = getpwuid(uid);
 		if (pwbuf != nullptr)
 			{
-			info->userName = jnew JString(pwbuf->pw_name, 0);
+			info->userName = jnew JString(pwbuf->pw_name);
 			assert( info->userName != nullptr );
 
-			info->realName = jnew JString(pwbuf->pw_gecos, 0);
+			info->realName = jnew JString(pwbuf->pw_gecos);
 			assert( info->realName != nullptr );
 
-			info->homeDirectory = jnew JString(pwbuf->pw_dir, 0);
+			info->homeDirectory = jnew JString(pwbuf->pw_dir);
 			assert( info->homeDirectory != nullptr );
 
-			info->shell = jnew JString(pwbuf->pw_shell, 0);
+			info->shell = jnew JString(pwbuf->pw_shell);
 			assert( info->shell != nullptr );
 
 			info->id = uid;
-			const JBoolean inserted = theUserInfoMap.InsertSorted(*info, kJFalse);
+			const bool inserted = theUserInfoMap.InsertSorted(*info, false);
 			assert( inserted );
 			}
 		else
@@ -146,7 +147,7 @@ jGetUserInfo
 			}
 		}
 
-	return JI2B( info->userName != nullptr );
+	return info->userName != nullptr;
 }
 
 /******************************************************************************
@@ -236,7 +237,7 @@ JGetUserHomeDirectory
 		}
 	else
 		{
-		return JString("/", 0);
+		return JGetRootDirectory();
 		}
 }
 
@@ -266,7 +267,7 @@ JGetUserShell
 		}
 	else
 		{
-		return JString("/bin/sh", 0);
+		return JString("/bin/sh");
 		}
 }
 
@@ -295,7 +296,7 @@ jCompareGIDs
 	return JCompareIndices(i1.id, i2.id);
 }
 
-static JBoolean
+static bool
 jGetGroupInfo
 	(
 	const gid_t	gid,
@@ -319,11 +320,11 @@ jGetGroupInfo
 		group* grpbuf = getgrgid(gid);
 		if (grpbuf != nullptr)
 			{
-			info->groupName = jnew JString(grpbuf->gr_name, 0);
+			info->groupName = jnew JString(grpbuf->gr_name);
 			assert( info->groupName != nullptr );
 
 			info->id = gid;
-			const JBoolean inserted = groupInfoMap.InsertSorted(*info, kJFalse);
+			const bool inserted = groupInfoMap.InsertSorted(*info, false);
 			assert( inserted );
 			}
 		else
@@ -332,7 +333,7 @@ jGetGroupInfo
 			}
 		}
 
-	return JI2B( info->groupName != nullptr );
+	return info->groupName != nullptr;
 }
 
 /******************************************************************************
@@ -368,12 +369,12 @@ JGetGroupName
 /******************************************************************************
  JUNIXSocketExists
 
-	Returns kJTrue if pathName is the pathname of an existing unix socket,
-	kJFalse otherwise.
+	Returns true if pathName is the pathname of an existing unix socket,
+	false otherwise.
 
  *****************************************************************************/
 
-JBoolean
+bool
 JUNIXSocketExists
 	(
 	const JString& pathName
@@ -381,8 +382,7 @@ JUNIXSocketExists
 {
 	ACE_stat info;
 
-	return JConvertToBoolean(
-			ACE_OS::lstat(pathName.GetBytes(), &info) == 0 &&
+	return (ACE_OS::lstat(pathName.GetBytes(), &info) == 0 &&
 			ACE_OS::stat( pathName.GetBytes(), &info) == 0 &&
 #ifdef _J_OLD_SUNOS
 			S_ISFIFO(info.st_mode)

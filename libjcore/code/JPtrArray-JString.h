@@ -18,8 +18,8 @@ std::ostream& operator<<(std::ostream&, const JPtrArray<JString>&);
 std::istream& operator>>(std::istream&, JStringPtrMap<JString>&);
 std::ostream& operator<<(std::ostream&, const JStringPtrMap<JString>&);
 
-JBoolean JSameStrings(const JPtrArray<JString>&, const JPtrArray<JString>&,
-					  const JBoolean caseSensitive);
+bool JSameStrings(const JPtrArray<JString>&, const JPtrArray<JString>&,
+				  const JString::Case caseSensitive);
 
 JListT::CompareResult
 JCompareStringsCaseSensitive(JString* const &, JString* const &);

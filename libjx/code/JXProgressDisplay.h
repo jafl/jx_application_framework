@@ -32,11 +32,11 @@ public:
 					 JXProgressIndicator* indicator,
 					 JXTEBase* label = nullptr);
 
-	virtual JBoolean	IncrementProgress(const JString& message = JString::empty) override;
-	virtual JBoolean	IncrementProgress(const JSize delta) override;
-	virtual JBoolean	IncrementProgress(const JString& message,
+	virtual bool	IncrementProgress(const JString& message = JString::empty) override;
+	virtual bool	IncrementProgress(const JSize delta) override;
+	virtual bool	IncrementProgress(const JString& message,
 										  const JSize delta) override;
-	virtual JBoolean	ProcessContinuing() override;
+	virtual bool	ProcessContinuing() override;
 	virtual void		ProcessFinished() override;
 	virtual void		DisplayBusyCursor() override;
 
@@ -45,17 +45,17 @@ protected:
 	virtual void	ProcessBeginning(const ProcessType processType,
 									 const JSize stepCount,
 									 const JString& message, 
-									 const JBoolean allowCancel,
-									 const JBoolean allowBackground) override;
+									 const bool allowCancel,
+									 const bool allowBackground) override;
 
 	virtual void		AppendToMessageWindow(const JString& message);
-	virtual JBoolean	CheckForCancel() override;
+	virtual bool	CheckForCancel() override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	JBoolean	itsCancelFlag;
+	bool	itsCancelFlag;
 
 	JXTextButton*			itsCancelButton;		// can be nullptr unless cancellable
 	JXStaticText*			itsCounter;				// can be nullptr unless var length
@@ -66,7 +66,7 @@ private:
 
 private:
 
-	JBoolean	IncrementProgress1(const JString& message);
+	bool	IncrementProgress1(const JString& message);
 
 	// not allowed
 

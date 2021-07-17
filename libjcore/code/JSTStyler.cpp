@@ -14,7 +14,7 @@
 
 		Scan
 			Read tokens from the given input stream and call SetStyle() for
-			each one.  When SetStyle() returns kJFalse, stop scanning.
+			each one.  When SetStyle() returns false, stop scanning.
 
 			Every character in the input stream must be part of some token,
 			and the tokens must be passed to SetStyle() in the order that they
@@ -73,7 +73,7 @@ const JSize kListBlockSize    = 50;
 
 JSTStyler::JSTStyler()
 {
-	itsActiveFlag  = kJTrue;
+	itsActiveFlag  = true;
 
 	itsST          = nullptr;
 	itsFontMgr     = nullptr;
@@ -113,7 +113,7 @@ JSTStyler::UpdateStyles
 	JRunArray<JFont>*	styles,
 	TextRange*			recalcRange,
 	TextRange*			redrawRange,
-	const JBoolean		deletion,
+	const bool		deletion,
 	JArray<TokenData>*	tokenStartList
 	)
 {
@@ -136,7 +136,7 @@ JSTStyler::UpdateStyles
 	TokenData tokenData;
 	if (recalcRange->charRange.first == 1 && recalcRange->charRange.last >= textLength)
 		{
-		itsRedoAllFlag = kJTrue;
+		itsRedoAllFlag = true;
 		itsCheckRange.charRange.Set(1, textLength);
 		itsCheckRange.byteRange.Set(1, text.GetByteCount());
 
@@ -148,7 +148,7 @@ JSTStyler::UpdateStyles
 		}
 	else
 		{
-		itsRedoAllFlag = kJFalse;
+		itsRedoAllFlag = false;
 
 		// calculate the range that needs to be checked
 
@@ -204,7 +204,7 @@ JSTStyler::UpdateStyles
 			}
 		else
 			{
-			JBoolean foundTokenStart;
+			bool foundTokenStart;
 			TokenData target(itsCheckRange.GetFirst(), TokenExtra());
 			JIndex tokenStartIndex =
 				tokenStartList->SearchSorted1(target, JListT::kAnyMatch, &foundTokenStart);
@@ -275,7 +275,7 @@ JSTStyler::UpdateStyles
 	*checkRange is only allowed to expand.  The default is to do nothing.
 
 	modifiedRange is the range of text that was changed.
-	deletion is kJTrue if the modification was that text was deleted.
+	deletion is true if the modification was that text was deleted.
 
  ******************************************************************************/
 
@@ -285,7 +285,7 @@ JSTStyler::PreexpandCheckRange
 	const JString&			text,
 	const JRunArray<JFont>&	styles,
 	const JCharacterRange&	modifiedRange,
-	const JBoolean			deletion,
+	const bool			deletion,
 	TextRange*				checkRange
 	)
 {
@@ -318,11 +318,11 @@ JSTStyler::ExtendCheckRange
 /******************************************************************************
  SetStyle (protected)
 
-	Returns kJTrue if the lexer should keep going.
+	Returns true if the lexer should keep going.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JSTStyler::SetStyle
 	(
 	const JCharacterRange&	range,
@@ -334,7 +334,7 @@ JSTStyler::SetStyle
 	if (itsCheckRange.charRange.last < range.first)
 		{
 		// we are beyond the range where anything could have changed
-		return kJFalse;
+		return false;
 		}
 
 	assert( itsIterator->AtEnd() ||
@@ -349,13 +349,13 @@ JSTStyler::SetStyle
 	else if (range.last >= itsCheckRange.charRange.first)
 		{
 		const JCharacterRange fontRange(itsIterator->GetRunStart(), itsIterator->GetRunEnd());
-		const JBoolean beyondCurrentRun = !fontRange.Contains(range);
+		const bool beyondCurrentRun = !fontRange.Contains(range);
 
 		JFont f                     = itsIterator->GetRunData();
 		const JFontStyle& origStyle = f.GetStyle();
 
-		const JBoolean styleExtendsBeyondToken =
-			JI2B( !origStyle.IsBlank() && range.last < fontRange.last );
+		const bool styleExtendsBeyondToken =
+			!origStyle.IsBlank() && range.last < fontRange.last;
 
 		if (beyondCurrentRun || styleExtendsBeyondToken || style != origStyle)
 			{
@@ -401,7 +401,7 @@ JSTStyler::SetStyle
 		}
 
 	itsIterator->MoveTo(kJIteratorStartAfter, range.last);
-	return JConvertToBoolean( range.last < itsCheckRange.charRange.last );
+	return range.last < itsCheckRange.charRange.last;
 }
 
 /******************************************************************************
@@ -498,7 +498,7 @@ JSTStyler::AdjustStyle
 	iter.MoveTo(kJIteratorStartAfter, range.first);
 
 	JFont f;
-	const JBoolean ok = iter.Prev(&f);
+	const bool ok = iter.Prev(&f);
 	assert( ok );
 
 	f.SetStyle(style);
@@ -512,7 +512,7 @@ JSTStyler::AdjustStyle
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JSTStyler::OnlyColorChanged
 	(
 	JFontStyle s1,
@@ -521,7 +521,7 @@ JSTStyler::OnlyColorChanged
 	const
 {
 	s1.color = s2.color = 0;	// make sure the color is the same
-	return JI2B(s1 == s2);		// avoids maintenance when fields are added
+	return s1 == s2;		// avoids maintenance when fields are added
 }
 
 /******************************************************************************

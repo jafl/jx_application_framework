@@ -35,41 +35,41 @@ public:
 	//	const JConstHashCursor& operator=(const JConstHashCursor& source);
 
 // Fundamental operations
-	JBoolean Next();
-	JBoolean Next(JBoolean (*NextRecordType)(const JHashRecord<V>&),
-				  const JBoolean stopOnEmpty);
+	bool Next();
+	bool Next(bool (*NextRecordType)(const JHashRecord<V>&),
+				  const bool stopOnEmpty);
 
-	JBoolean NextFull();
-	JBoolean NextOpen();
-	JBoolean NextHash(const JBoolean allowEmpty = kJFalse);
-	JBoolean NextHashOrOpen();
+	bool NextFull();
+	bool NextOpen();
+	bool NextHash(const bool allowEmpty = false);
+	bool NextHashOrOpen();
 
-	JBoolean NextKey(const JBoolean allowEmpty = kJFalse);
-	JBoolean NextKeyOrOpen();
+	bool NextKey(const bool allowEmpty = false);
+	bool NextKeyOrOpen();
 
 // Shorthands for common iterator constructs
-	JBoolean NextMapInsertHash();
-	JBoolean NextMapInsertKey();
+	bool NextMapInsertHash();
+	bool NextMapInsertKey();
 
-	void Reset(const JBoolean clear = kJFalse);
+	void Reset(const bool clear = false);
 	void ResetHash(const JHashValue hash);
 	void ResetKey(const V& value);
 
 	// Useful for avoiding extra calls to the hash function
 	JHashValue GetCursorHashValue() const;
 
-	JBoolean Equal(const V& value1, const V& value2) const;
+	bool Equal(const V& value1, const V& value2) const;
 	JHashValue Hash(const V& value1) const;
 
-// Get... functions--may only be called after Next() has returned kJTrue;
+// Get... functions--may only be called after Next() has returned true;
 // otherwise the result is undefined (but isn't likely to be good).
 
 	const JHashRecord<V>& GetRecord() const;
 
 	JHashRecordT::State GetState() const;
-	JBoolean            IsEmpty() const;
-	JBoolean            IsDeleted() const;
-	JBoolean            IsFull() const;
+	bool            IsEmpty() const;
+	bool            IsDeleted() const;
+	bool            IsFull() const;
 	JHashValue          GetHashValue() const;
 
 	const V&              GetValue() const;
@@ -127,7 +127,7 @@ JConstHashCursor<V>::GetState() const
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JConstHashCursor<V>::IsEmpty() const
 {
 	return itsTable->IsEmpty(itsIndex);
@@ -139,7 +139,7 @@ JConstHashCursor<V>::IsEmpty() const
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JConstHashCursor<V>::IsDeleted() const
 {
 	return itsTable->IsDeleted(itsIndex);
@@ -151,7 +151,7 @@ JConstHashCursor<V>::IsDeleted() const
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JConstHashCursor<V>::IsFull() const
 {
 	return itsTable->IsFull(itsIndex);
@@ -178,7 +178,7 @@ JConstHashCursor<V>::GetCursorHashValue() const
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JConstHashCursor<V>::Equal
 	(
 	const V& value1,

@@ -37,7 +37,7 @@ JXMacWinPrefsDialog::EditPrefs()
 
 JXMacWinPrefsDialog::JXMacWinPrefsDialog()
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue)
+	JXDialogDirector(JXGetApplication(), true)
 {
 	BuildWindow();
 	ListenTo(this);
@@ -113,7 +113,7 @@ JXMacWinPrefsDialog::BuildWindow()
 	window->SetTitle(JGetString("WindowTitle::JXMacWinPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
-	itsMacStyleCB->SetState(JI2B(JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle));
+	itsMacStyleCB->SetState(JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle);
 	itsHomeEndCB->SetState(JXTEBase::WillUseWindowsHomeEnd());
 	itsScrollCaretCB->SetState(JXTEBase::CaretWillFollowScroll());
 	itsCopyWhenSelectCB->SetState(JTextEditor::WillCopyWhenSelect());

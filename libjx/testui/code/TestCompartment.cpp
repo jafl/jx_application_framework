@@ -57,11 +57,11 @@ TestCompartment::~TestCompartment()
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestCompartment::IsElastic()
 	const
 {
-	JBoolean isElastic = kJFalse;
+	bool isElastic = false;
 
 	JXContainer* enclosure           = GetEnclosure();
 	const JXContainer* partition     = enclosure->GetEnclosure();
@@ -71,24 +71,24 @@ TestCompartment::IsElastic()
 	if (partition == horizPartition)
 		{
 		JIndex ourIndex;
-		const JBoolean ok = horizPartition->GetCompartmentIndex(enclosure, &ourIndex);
+		const bool ok = horizPartition->GetCompartmentIndex(enclosure, &ourIndex);
 		assert( ok );
 
 		JIndex elasticIndex;
 		horizPartition->GetElasticIndex(&elasticIndex);
 
-		isElastic = JConvertToBoolean( ourIndex == elasticIndex || elasticIndex == 0 );
+		isElastic = ourIndex == elasticIndex || elasticIndex == 0;
 		}
 	else if (partition == vertPartition)
 		{
 		JIndex ourIndex;
-		const JBoolean ok = vertPartition->GetCompartmentIndex(enclosure, &ourIndex);
+		const bool ok = vertPartition->GetCompartmentIndex(enclosure, &ourIndex);
 		assert( ok );
 
 		JIndex elasticIndex;
 		vertPartition->GetElasticIndex(&elasticIndex);
 
-		isElastic = JConvertToBoolean( ourIndex == elasticIndex || elasticIndex == 0 );
+		isElastic = ourIndex == elasticIndex || elasticIndex == 0;
 		}
 
 	return isElastic;
@@ -123,7 +123,7 @@ TestCompartment::Draw
 	const JRect&		rect
 	)
 {
-	const JBoolean isElastic = IsElastic();
+	const bool isElastic = IsElastic();
 
 	const JRect ap         = GetAperture();
 	const JSize lineHeight = p.GetLineHeight();
@@ -184,7 +184,7 @@ TestCompartment::HandleMouseUp
 	if (partition == horizPartition)
 		{
 		JIndex ourIndex;
-		const JBoolean ok = horizPartition->GetCompartmentIndex(enclosure, &ourIndex);
+		const bool ok = horizPartition->GetCompartmentIndex(enclosure, &ourIndex);
 		assert( ok );
 
 		if (button == kJXLeftButton)
@@ -204,7 +204,7 @@ TestCompartment::HandleMouseUp
 	else if (partition == vertPartition)
 		{
 		JIndex ourIndex;
-		const JBoolean ok = vertPartition->GetCompartmentIndex(enclosure, &ourIndex);
+		const bool ok = vertPartition->GetCompartmentIndex(enclosure, &ourIndex);
 		assert( ok );
 
 		if (button == kJXLeftButton)
@@ -230,7 +230,7 @@ TestCompartment::HandleMouseUp
 JCoordinate
 TestCompartment::GetFTCMinContentSize
 	(
-	const JBoolean horizontal
+	const bool horizontal
 	)
 	const
 {

@@ -23,7 +23,7 @@ public:
 	virtual ~JNaryFunction();
 
 	virtual JSize				GetArgCount() const override;
-	JBoolean					ArgIndexValid(const JIndex index) const;
+	bool					ArgIndexValid(const JIndex index) const;
 	virtual const JFunction*	GetArg(const JIndex index) const override;
 	virtual JFunction*			GetArg(const JIndex index) override;
 	virtual void				SetArg(const JIndex index, JFunction* arg) override;
@@ -31,15 +31,15 @@ public:
 	void						PrependArg(JFunction* arg);
 	void						AppendArg(JFunction* arg);
 	void						DeleteArg(const JIndex index);
-	JBoolean					DeleteArg(const JFunction* arg);
-	JBoolean					FindArg(JFunction* arg, JIndex* index);
+	bool					DeleteArg(const JFunction* arg);
+	bool					FindArg(JFunction* arg, JIndex* index);
 	void						MoveArgToIndex(const JIndex currentIndex,
 											   const JIndex newIndex);
 
 protected:
 
-	JBoolean	SameAsSameOrder(const JFunction& theFunction) const;
-	JBoolean	SameAsAnyOrder(const JFunction& theFunction) const;
+	bool	SameAsSameOrder(const JFunction& theFunction) const;
+	bool	SameAsAnyOrder(const JFunction& theFunction) const;
 
 private:
 
@@ -57,7 +57,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JNaryFunction::FindArg
 	(
 	JFunction*	arg,
@@ -87,7 +87,7 @@ JNaryFunction::MoveArgToIndex
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JNaryFunction::ArgIndexValid
 	(
 	const JIndex index

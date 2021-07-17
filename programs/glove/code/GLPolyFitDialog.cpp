@@ -36,7 +36,7 @@ GLPolyFitDialog::GLPolyFitDialog
 	JXDirector* supervisor
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	itsVarList	= jnew GLVarList();
 	assert(itsVarList != nullptr);
@@ -174,7 +174,7 @@ GLPolyFitDialog::BuildWindow()
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
 	assert(itsFn != nullptr);
-	itsFn->FitToEnclosure(kJTrue, kJTrue);
+	itsFn->FitToEnclosure(true, true);
 	itsFn->Hide();
 
 	ListenTo(itsHelpButton);
@@ -186,7 +186,7 @@ GLPolyFitDialog::BuildWindow()
 		}
 
 	window->SetTitle(JGetString("WindowTitle::GLPolyFitDialog"));
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 	SetButtons(okButton, cancelButton);
@@ -231,7 +231,7 @@ GLPolyFitDialog::Receive
 	else if (message.Is(JXCheckbox::kPushed))
 		{
 		JString fStr;
-		JBoolean started	= kJFalse;
+		bool started	= false;
 		const JSize count	= 10;
 		for (JIndex i = 1; i <= count; i++)
 			{
@@ -243,7 +243,7 @@ GLPolyFitDialog::Receive
 					}
 				else
 					{
-					started	= kJTrue;
+					started	= true;
 					}
 				JString parm	= "a" + JString((JUInt64) i - 1);
 				JString xTerm	= " * " + JGetString("DefaultVarName::GLGlobal");
@@ -286,16 +286,16 @@ GLPolyFitDialog::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPolyFitDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 	JString name = itsNameInput->GetText()->GetText();
 	name.TrimWhitespace();
@@ -303,16 +303,16 @@ GLPolyFitDialog::OKToDeactivate()
 		{
 		JGetUserNotification()->ReportError(JGetString("MissingName::GLNonLinearFitDialog"));
 		itsNameInput->Focus();
-		return kJFalse;
+		return false;
 		}
 
-	JBoolean checked	= kJFalse;
+	bool checked	= false;
 	const JSize count	= 10;
 	for (JIndex i = 1; i <= count; i++)
 		{
 		if (itsCB[i-1]->IsChecked())
 			{
-			checked		= kJTrue;
+			checked		= true;
 			break;
 			}
 		}

@@ -19,14 +19,14 @@ JXToolBarNode::JXToolBarNode
 	(
 	JXTextMenu*		menu,
 	const JIndex	index,
-	const JBoolean	hasSeparator,
-	const JBoolean	checked,
+	const bool	hasSeparator,
+	const bool	checked,
 	JTree*			tree,
 	JNamedTreeNode*	parent,
 	const JString&	name
 	)
 	:
-	JNamedTreeNode(tree, name, kJFalse),
+	JNamedTreeNode(tree, name, false),
 	itsMenu(menu),
 	itsIndex(index),
 	itsHasSeparator(hasSeparator),

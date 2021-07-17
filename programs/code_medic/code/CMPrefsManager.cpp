@@ -52,10 +52,10 @@ const JUtf8Byte* CMPrefsManager::kTextColorChanged      = "TextColorChanged::CMP
 
 CMPrefsManager::CMPrefsManager
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue)
+	JXPrefsManager(kCurrentPrefsFileVersion, true)
 {
 	itsEditPrefsDialog = nullptr;
 
@@ -119,7 +119,7 @@ CMPrefsManager::GetMedicVersionStr()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMPrefsManager::GetExpirationTimeStamp
 	(
 	time_t* t
@@ -131,11 +131,11 @@ CMPrefsManager::GetExpirationTimeStamp
 		{
 		std::istringstream input(data);
 		input >> *t;
-		return JI2B(!input.fail());
+		return !input.fail();
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -277,7 +277,7 @@ CMPrefsManager::Receive
 void
 CMPrefsManager::UpgradeData
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JFileVersion	currentVersion
 	)
 {
@@ -299,8 +299,8 @@ CMPrefsManager::UpgradeData
 		SetData(kCHeaderSuffixID, cHeaderSuffixData);
 
 		SetEditFileCmds(
-			JString("jcc $f", kJFalse),
-			JString("jcc +$l $f", kJFalse));
+			JString("jcc $f", JString::kNoCopy),
+			JString("jcc +$l $f", JString::kNoCopy));
 
 		std::ostringstream gdbCmdData;
 		gdbCmdData << JString("gdb");
@@ -426,7 +426,7 @@ CMPrefsManager::GetDebuggerType()
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(kDebuggerTypeID, &data);
+	const bool ok = GetData(kDebuggerTypeID, &data);
 	assert( ok );
 
 	std::istringstream dataStream(data);
@@ -436,7 +436,7 @@ CMPrefsManager::GetDebuggerType()
 	return (DebuggerType) type;
 }
 
-JBoolean
+bool
 CMPrefsManager::SetDebuggerType
 	(
 	const DebuggerType type
@@ -450,11 +450,11 @@ CMPrefsManager::SetDebuggerType
 		SetData(kDebuggerTypeID, data);
 
 		CMStartDebugger();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -468,7 +468,7 @@ CMPrefsManager::GetGDBCommand()
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(kGDBCommandID, &data);
+	const bool ok = GetData(kGDBCommandID, &data);
 	assert( ok );
 
 	std::istringstream dataStream(data);
@@ -500,7 +500,7 @@ CMPrefsManager::GetJVMCommand()
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(kJVMCommandID, &data);
+	const bool ok = GetData(kJVMCommandID, &data);
 	assert( ok );
 
 	std::istringstream dataStream(data);
@@ -611,7 +611,7 @@ CMPrefsManager::GetFileType
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMPrefsManager::GetSuffixes
 	(
 	const JPrefID&		id,
@@ -658,7 +658,7 @@ CMPrefsManager::GetEditFileCmds
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(kEditFileCmdID, &data);
+	const bool ok = GetData(kEditFileCmdID, &data);
 	assert( ok );
 
 	std::istringstream dataStream(data);
@@ -831,7 +831,7 @@ CMPrefsManager::GetWindowSize
 	(
 	const JPrefID	id,
 	JXWindow*		window,
-	const JBoolean	skipDocking
+	const bool	skipDocking
 	)
 	const
 {
@@ -870,7 +870,7 @@ CMPrefsManager::GetDefaultFont
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(kCBDefFontID, &data);
+	const bool ok = GetData(kCBDefFontID, &data);
 	assert( ok );
 
 	std::istringstream dataStream(data);
@@ -947,7 +947,7 @@ CMPrefsManager::ReadColors()
 	JRGB color[ kColorCount ];
 
 	std::string data;
-	const JBoolean hasColors = GetData(kCBTextColorID, &data);
+	const bool hasColors = GetData(kCBTextColorID, &data);
 	if (hasColors)
 		{
 		std::istringstream dataStream(data);
@@ -968,24 +968,24 @@ CMPrefsManager::ReadColors()
 void
 CMPrefsManager::SetColorList
 	(
-	const JBoolean	hasColors,
+	const bool	hasColors,
 	JRGB			colorList[]
 	)
 {
-	JBoolean ok[ kColorCount ];
+	bool ok[ kColorCount ];
 	if (hasColors)
 		{
 		for (JUnsignedOffset i=0; i<kColorCount; i++)
 			{
 			itsColor[i] = JColorManager::GetColorID(colorList[i]);
-			ok[i]       = kJTrue;
+			ok[i]       = true;
 			}
 		}
 	else
 		{
 		for (JUnsignedOffset i=0; i<kColorCount; i++)
 			{
-			ok[i] = kJFalse;
+			ok[i] = false;
 			}
 		}
 
@@ -1060,7 +1060,7 @@ CMPrefsManager::SyncWithCodeCrusader()
 {
 	JString fontName;
 	JSize size, tabCharCount;
-	JBoolean sort, includeNS, pack, openOnTop;
+	bool sort, includeNS, pack, openOnTop;
 	JRGB colorList[kColorCount];
 	JPtrArray<JString> cSourceSuffixes(JPtrArrayT::kDeleteAll),
 					   cHeaderSuffixes(JPtrArrayT::kDeleteAll),
@@ -1077,7 +1077,7 @@ CMPrefsManager::SyncWithCodeCrusader()
 		{
 		SetDefaultFont(fontName, size);
 		SetTabCharCount(tabCharCount);
-		SetColorList(kJTrue, colorList);
+		SetColorList(true, colorList);
 		SetSuffixes(kCSourceSuffixID, cSourceSuffixes);
 		SetSuffixes(kCHeaderSuffixID, cHeaderSuffixes);
 

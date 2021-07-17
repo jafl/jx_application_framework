@@ -21,7 +21,7 @@
 CBJavaScriptScanner::CBJavaScriptScanner()
 	:
 	CBJavaScriptFlexLexer(),
-	itsResetFlag(kJFalse),
+	itsResetFlag(false),
 	itsCurrentRange()
 {
 }
@@ -47,10 +47,10 @@ CBJavaScriptScanner::BeginScan
 	std::istream&					input
 	)
 {
-	itsResetFlag = kJTrue;
+	itsResetFlag = true;
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 
 	switch_streams(&input, nullptr);
 }

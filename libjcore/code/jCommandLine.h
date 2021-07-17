@@ -15,7 +15,7 @@ void JInputFinished();
 
 void		JCheckForValues(const JSize valueCount, JIndex* index,
 							const JSize argc, char* argv[]);
-JBoolean	JIsVersionRequest(const JUtf8Byte* arg);
-JBoolean	JIsHelpRequest(const JUtf8Byte* arg);
+bool	JIsVersionRequest(const JUtf8Byte* arg);
+bool	JIsHelpRequest(const JUtf8Byte* arg);
 
 #endif

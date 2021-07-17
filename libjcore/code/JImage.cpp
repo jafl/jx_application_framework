@@ -106,24 +106,24 @@ JImage::GetFileType
 	fread(buffer, sizeof(char), bufSize, input);
 	fclose(input);
 
-	if (JString::CompareMaxNBytes(buffer, "GIF", 3, kJTrue) == 0)
+	if (JString::CompareMaxNBytes(buffer, "GIF", 3) == 0)
 		{
 		return kGIFType;
 		}
-	else if (JString::CompareMaxNBytes(buffer, "\x89PNG", 4, kJTrue) == 0)
+	else if (JString::CompareMaxNBytes(buffer, "\x89PNG", 4) == 0)
 		{
 		return kPNGType;
 		}
-	else if (JString::CompareMaxNBytes(buffer, "\xFF\xD8\xFF", 3, kJTrue) == 0)
+	else if (JString::CompareMaxNBytes(buffer, "\xFF\xD8\xFF", 3) == 0)
 		{
 		return kJPEGType;
 		}
-	else if (JString::CompareMaxNBytes(buffer, "/* XPM */", 9, kJTrue) == 0)
+	else if (JString::CompareMaxNBytes(buffer, "/* XPM */", 9) == 0)
 		{
 		return kXPMType;
 		}
-	else if (JString::CompareMaxNBytes(buffer, "#define", 7, kJTrue) == 0 ||
-			 JString::CompareMaxNBytes(buffer, "/*"     , 2, kJTrue) == 0)
+	else if (JString::CompareMaxNBytes(buffer, "#define", 7) == 0 ||
+			 JString::CompareMaxNBytes(buffer, "/*"     , 2) == 0)
 		{
 		return kXBMType;
 		}
@@ -164,12 +164,12 @@ JError
 JImage::WriteGIF
 	(
 	const JString&	fileName,
-	const JBoolean	compressColorsToFit,
-	const JBoolean	interlace
+	const bool	compressColorsToFit,
+	const bool	interlace
 	)
 	const
 {
-	return WriteGD(fileName, kJFalse, compressColorsToFit, interlace, gdImageGif);
+	return WriteGD(fileName, false, compressColorsToFit, interlace, gdImageGif);
 }
 
 /******************************************************************************
@@ -203,9 +203,9 @@ JError
 JImage::WritePNG
 	(
 	const JString&	fileName,
-	const JBoolean	useTrueColor,
-	const JBoolean	compressColorsToFit,
-	const JBoolean	interlace
+	const bool	useTrueColor,
+	const bool	compressColorsToFit,
+	const bool	interlace
 	)
 	const
 {
@@ -259,13 +259,13 @@ JError
 JImage::WriteJPEG
 	(
 	const JString&	fileName,
-	const JBoolean	interlace,
+	const bool	interlace,
 	const int		quality
 	)
 	const
 {
 	jQuality = quality;
-	return WriteGD(fileName, kJTrue, kJTrue, interlace, imageJpeg);
+	return WriteGD(fileName, true, true, interlace, imageJpeg);
 }
 
 /******************************************************************************
@@ -307,8 +307,8 @@ JImage::ReadGD
 	itsWidth  = gdImageSX(image);
 	itsHeight = gdImageSY(image);
 
-	const int maskColor     = gdImageGetTransparent(image);
-	const JBoolean hasMask  = JNegate( maskColor == kGDNoTransparentColor );
+	const int maskColor = gdImageGetTransparent(image);
+	const bool hasMask  = maskColor != kGDNoTransparentColor;
 
 	if (gdImageTrueColor(image))
 		{
@@ -395,16 +395,16 @@ JImage::ReadGD
 /******************************************************************************
  WriteGD (private)
 
-	If useTrueColor==kJTrue, you have no worries about color issues.
+	If useTrueColor==true, you have no worries about color issues.
 	Otherwise, returns JNoError if there were at most 256 colors or
-	compressColorsToFit==kJTrue.  Otherwise, returns TooManyColors to
+	compressColorsToFit==true.  Otherwise, returns TooManyColors to
 	indicate that the image could not be written.
 
-	If compressColorsToFit==kJTrue, colors beyond 256 will be ignored.  The
+	If compressColorsToFit==true, colors beyond 256 will be ignored.  The
 	correct way to handle this is to adjust -all- the colors in the image
 	so there are less than 256, which is beyond the scope of this function,
 	since there are so many ways to do it.  Obviously, compressColorsToFit
-	is irrelevant if useTrueColor==kJTrue.
+	is irrelevant if useTrueColor==true.
 
 	If the image has a mask, this uses up one color.
 
@@ -414,9 +414,9 @@ JError
 JImage::WriteGD
 	(
 	const JString&	fileName,
-	const JBoolean	useTrueColor,
-	const JBoolean	compressColorsToFit,
-	const JBoolean	interlace,
+	const bool	useTrueColor,
+	const bool	compressColorsToFit,
+	const bool	interlace,
 	void			(*imageWriteToFile)(gdImagePtr im, FILE *out)
 	)
 	const
@@ -442,7 +442,7 @@ JImage::WriteGD
 	int maxColorCount = gdMaxColors;
 
 	JImageMask* mask       = nullptr;
-	const JBoolean hasMask = GetMask(&mask);
+	const bool hasMask = GetMask(&mask);
 	if (hasMask)
 		{
 		maxColorCount--;	// need space for transparent color
@@ -597,7 +597,7 @@ JImage::ReadFromJXPM
 
 	const JColorID blackColor = JColorManager::GetBlackColor();
 
-	JBoolean hasMask        = kJFalse;
+	bool hasMask        = false;
 	unsigned long maskColor = 0;
 
 	for (JIndex i=1; i<=colorCount; i++)
@@ -614,9 +614,9 @@ JImage::ReadFromJXPM
 			while (c != '\0' && c != '\t');
 
 		const JString colorName(pixmap.xpm[i] + 4, j-1);
-		if (JString::Compare(colorName, "none", kJFalse) == 0)
+		if (JString::Compare(colorName, "none", JString::kIgnoreCase) == 0)
 			{
-			hasMask         = kJTrue;
+			hasMask         = true;
 			maskColor       = i-1;
 			colorTable[i-1] = blackColor;
 			}

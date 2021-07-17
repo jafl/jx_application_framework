@@ -24,15 +24,15 @@ public:
 
 	const JTableData& operator=(const JTableData& source);
 
-	JBoolean	IsEmpty() const;
+	bool	IsEmpty() const;
 
 	JSize		GetRowCount() const;
-	JBoolean	RowIndexValid(const JIndex index) const;
+	bool	RowIndexValid(const JIndex index) const;
 
 	JSize		GetColCount() const;
-	JBoolean	ColIndexValid(const JIndex index) const;
+	bool	ColIndexValid(const JIndex index) const;
 
-	JBoolean	CellValid(const JPoint& cell) const;
+	bool	CellValid(const JPoint& cell) const;
 
 protected:
 
@@ -99,11 +99,10 @@ private:
 				return itsCount;
 			};
 
-			JBoolean
+			bool
 			Contains(const JIndex index) const
 			{
-				return JConvertToBoolean(
-						GetFirstIndex() <= index && index <= GetLastIndex() );
+				return GetFirstIndex() <= index && index <= GetLastIndex();
 			};
 
 		private:
@@ -227,13 +226,13 @@ public:
 				RowColMessage(kRowsRemoved, firstIndex, count)
 				{ };
 
-			JBoolean	AdjustIndex(JIndex* index) const;
+			bool	AdjustIndex(JIndex* index) const;
 
-			JBoolean
+			bool
 			AdjustCell(JPoint* cell) const
 			{
 				JIndex rowIndex   = cell->y;
-				const JBoolean ok = AdjustIndex(&rowIndex);
+				const bool ok = AdjustIndex(&rowIndex);
 				cell->y           = rowIndex;
 				return ok;
 			};
@@ -306,13 +305,13 @@ public:
 				RowColMessage(kColsRemoved, firstIndex, count)
 				{ };
 
-			JBoolean	AdjustIndex(JIndex* index) const;
+			bool	AdjustIndex(JIndex* index) const;
 
-			JBoolean
+			bool
 			AdjustCell(JPoint* cell) const
 			{
 				JIndex colIndex   = cell->x;
-				const JBoolean ok = AdjustIndex(&colIndex);
+				const bool ok = AdjustIndex(&colIndex);
 				cell->x           = colIndex;
 				return ok;
 			};
@@ -376,11 +375,11 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTableData::IsEmpty()
 	const
 {
-	return JConvertToBoolean( itsRowCount == 0 || itsColCount == 0 );
+	return itsRowCount == 0 || itsColCount == 0;
 }
 
 /******************************************************************************
@@ -400,14 +399,14 @@ JTableData::GetRowCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTableData::RowIndexValid
 	(
 	const JIndex index
 	)
 	const
 {
-	return JConvertToBoolean( 1 <= index && index <= itsRowCount );
+	return 1 <= index && index <= itsRowCount;
 }
 
 /******************************************************************************
@@ -455,14 +454,14 @@ JTableData::GetColCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTableData::ColIndexValid
 	(
 	const JIndex index
 	)
 	const
 {
-	return JConvertToBoolean( 1 <= index && index <= itsColCount );
+	return 1 <= index && index <= itsColCount;
 }
 
 /******************************************************************************
@@ -470,14 +469,14 @@ JTableData::ColIndexValid
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTableData::CellValid
 	(
 	const JPoint& cell
 	)
 	const
 {
-	return JConvertToBoolean( RowIndexValid(cell.y) && ColIndexValid(cell.x) );
+	return RowIndexValid(cell.y) && ColIndexValid(cell.x);
 }
 
 /******************************************************************************

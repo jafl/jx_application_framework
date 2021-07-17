@@ -18,7 +18,7 @@ class TestPGTask : public JXIdleTask
 {
 public:
 
-	TestPGTask(const JBoolean fixedLength);
+	TestPGTask(const bool fixedLength);
 
 	virtual ~TestPGTask();
 

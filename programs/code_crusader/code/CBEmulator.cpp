@@ -15,7 +15,7 @@
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBInstallEmulator
 	(
 	const CBEmulator	type,
@@ -32,7 +32,7 @@ CBInstallEmulator
 		}
 
 	editor->SetKeyHandler(*handler);
-	return JI2B(*handler != nullptr);
+	return *handler != nullptr;
 }
 
 /******************************************************************************

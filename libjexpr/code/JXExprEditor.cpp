@@ -415,12 +415,12 @@ JXExprEditor::ApertureResized
 /******************************************************************************
  EIPScrollToRect (virtual protected)
 
-	Scroll the pane to make the given rectangle visible.  Return kJTrue
+	Scroll the pane to make the given rectangle visible.  Return true
 	if scrolling was necessary.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXExprEditor::EIPScrollToRect
 	(
 	const JRect& r
@@ -438,7 +438,7 @@ JXExprEditor::EIPScrollToRect
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXExprEditor::EIPScrollForDrag
 	(
 	const JPoint& pt
@@ -455,10 +455,10 @@ JXExprEditor::EIPScrollForDrag
 void
 JXExprEditor::EIPAdjustNeedTab
 	(
-	const JBoolean needTab
+	const bool needTab
 	)
 {
-	WantInput(kJTrue, needTab);
+	WantInput(true, needTab);
 }
 
 /******************************************************************************
@@ -556,7 +556,7 @@ JXExprEditor::HandleMouseDown
 	else if (button == kJXLeftButton || button == kJXRightButton)
 		{
 		EIPHandleMouseDown(BoundsToRenderer(pt),
-						   JConvertToBoolean(button == kJXRightButton));
+						   button == kJXRightButton);
 		}
 	else
 		{
@@ -615,10 +615,10 @@ JXExprEditor::HandleFocusEvent()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXExprEditor::OKToUnfocus()
 {
-	return JConvertToBoolean( JXScrollableWidget::OKToUnfocus() && EndEditing() );
+	return JXScrollableWidget::OKToUnfocus() && EndEditing();
 }
 
 /******************************************************************************
@@ -690,7 +690,7 @@ JXExprEditor::AdjustCursor
 void
 JXExprEditor::UpdateEditMenu()
 {
-	const JArray<JBoolean> enableFlags = GetCmdStatus(nullptr);
+	const JArray<bool> enableFlags = GetCmdStatus(nullptr);
 
 	const JSize count = itsEditMenu->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
@@ -775,7 +775,7 @@ JXExprEditor::UpdateMathMenu()
 {
 	JString evalStr;
 
-	const JArray<JBoolean> enableFlags = GetCmdStatus(&evalStr);
+	const JArray<bool> enableFlags = GetCmdStatus(&evalStr);
 	for (JIndex i=1; i<=kMathMenuItemCount; i++)
 		{
 		if (enableFlags.GetElement(kMathMenuItemToCmd[i-1]))
@@ -887,11 +887,11 @@ JXExprEditor::HandleFunctionMenu
 void
 JXExprEditor::UpdateFontMenu()
 {
-	const JArray<JBoolean> enableFlags = GetCmdStatus(nullptr);
+	const JArray<bool> enableFlags = GetCmdStatus(nullptr);
 	JIndex activeIndex = 0;
 	for (JIndex i=1; i<=kFontMenuItemCount; i++)
 		{
-		const JBoolean enableFlag =
+		const bool enableFlag =
 			enableFlags.GetElement(kFontMenuItemToCmd[i-1]);
 		if (enableFlag && activeIndex == 0)
 			{
@@ -1049,20 +1049,20 @@ JXExprEditor::EIPClipboardChanged()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXExprEditor::EIPOwnsClipboard()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  EIPGetExternalClipboard (virtual protected)
 
-	Returns kJTrue if there is something pasteable on the system clipboard.
+	Returns true if there is something pasteable on the system clipboard.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXExprEditor::EIPGetExternalClipboard
 	(
 	JString* text
@@ -1070,13 +1070,13 @@ JXExprEditor::EIPGetExternalClipboard
 {
 	text->Clear();
 
-	JBoolean gotData = kJFalse;
+	bool gotData = false;
 	JXSelectionManager* selManager = GetSelectionManager();
 
 	JArray<Atom> typeList;
 	if (selManager->GetAvailableTypes(kJXClipboardName, CurrentTime, &typeList))
 		{
-		JBoolean canGetText = kJFalse;
+		bool canGetText = false;
 		Atom textType       = None;
 
 		const JSize typeCount = typeList.GetElementCount();
@@ -1086,7 +1086,7 @@ JXExprEditor::EIPGetExternalClipboard
 			if (type == XA_STRING ||
 				(!canGetText && type == selManager->GetUtf8StringXAtom()))
 				{
-				canGetText = kJTrue;
+				canGetText = true;
 				textType   = type;
 				break;
 				}
@@ -1104,7 +1104,7 @@ JXExprEditor::EIPGetExternalClipboard
 				returnType == selManager->GetUtf8StringXAtom())
 				{
 				text->Set(reinterpret_cast<JUtf8Byte*>(data), dataLength);
-				gotData = kJTrue;
+				gotData = true;
 				}
 			selManager->DeleteData(&data, delMethod);
 			}
@@ -1148,7 +1148,7 @@ JXExprEditor::StyledText::AdjustStylesBeforeBroadcast
 	JRunArray<JFont>*		styles,
 	JStyledText::TextRange*	recalcRange,
 	JStyledText::TextRange*	redrawRange,
-	const JBoolean			deletion
+	const bool			deletion
 	)
 {
 	JUserInputFunction::AdjustStylesBeforeBroadcast(text, styles, recalcRange, redrawRange, deletion);

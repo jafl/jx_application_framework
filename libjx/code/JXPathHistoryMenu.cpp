@@ -64,7 +64,7 @@ JXPathHistoryMenu::JXPathHistoryMenu
 void
 JXPathHistoryMenu::JXPathHistoryMenuX()
 {
-	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_folder_small), kJFalse);
+	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_folder_small), false);
 }
 
 /******************************************************************************

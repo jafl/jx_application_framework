@@ -26,14 +26,14 @@ TestFontManagerMissingGlyphs::TestFontManagerMissingGlyphs()
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestFontManagerMissingGlyphs::HasGlyphForCharacter
 	(
 	const JFontID			id,
 	const JUtf8Character&	c
 	)
 {
-	return JI2B(id == 1 || (c != 'w' && c != 'm'));
+	return id == 1 || (c != 'w' && c != 'm');
 }
 
 /******************************************************************************
@@ -41,7 +41,7 @@ TestFontManagerMissingGlyphs::HasGlyphForCharacter
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestFontManagerMissingGlyphs::GetSubstituteFontName
 	(
 	const JFont&			f,
@@ -52,11 +52,11 @@ TestFontManagerMissingGlyphs::GetSubstituteFontName
 	if (f.GetID() == 2 && (c == 'w' || c == 'm'))
 	{
 		*name = GetFontName(1);
-		return kJTrue;
+		return true;
 	}
 	else
 	{
-		return kJFalse;
+		return false;
 	}
 }
 

@@ -228,7 +228,7 @@ CBNewProjectSaveFileDialog::BuildWindow
 	assert( newDirButton != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu(JString("/", kJFalse), window,
+		jnew JXCurrentPathMenu(JString("/", false), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 
@@ -285,8 +285,8 @@ CBNewProjectSaveFileDialog::BuildTemplateMenu
 									&sysDir, &userDir))
 		{
 		JString* menuTextStr = nullptr;
-		BuildTemplateMenuItems(sysDir,  kJFalse, &menuText, templateFile, &menuTextStr);
-		BuildTemplateMenuItems(userDir, kJTrue,  &menuText, templateFile, &menuTextStr);
+		BuildTemplateMenuItems(sysDir,  false, &menuText, templateFile, &menuTextStr);
+		BuildTemplateMenuItems(userDir, true,  &menuText, templateFile, &menuTextStr);
 
 		const JSize count = menuText.GetElementCount();
 		JString itemText, nmShortcut;
@@ -320,7 +320,7 @@ CBNewProjectSaveFileDialog::BuildTemplateMenu
 
 	// after selecting initial template
 
-	itsTemplateMenu->SetToPopupChoice(kJTrue, itsTemplateIndex);
+	itsTemplateMenu->SetToPopupChoice(true, itsTemplateIndex);
 	UpdateMakefileMethod();
 }
 
@@ -335,7 +335,7 @@ void
 CBNewProjectSaveFileDialog::BuildTemplateMenuItems
 	(
 	const JString&		path,
-	const JBoolean		isUserPath,
+	const bool		isUserPath,
 	JPtrArray<JString>*	menuText,
 	const JString&		templateFile,
 	JString**			menuTextStr
@@ -345,7 +345,7 @@ CBNewProjectSaveFileDialog::BuildTemplateMenuItems
 	JDirInfo* info = nullptr;
 	if (JDirInfo::Create(path, &info))
 		{
-		info->ShowDirs(kJFalse);
+		info->ShowDirs(false);
 
 		const JSize count = info->GetEntryCount();
 		JString fullName, templateType;
@@ -384,7 +384,7 @@ CBNewProjectSaveFileDialog::BuildTemplateMenuItems
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBNewProjectSaveFileDialog::GetProjectTemplate
 	(
 	JString* fullName
@@ -394,12 +394,12 @@ CBNewProjectSaveFileDialog::GetProjectTemplate
 	if (itsTemplateIndex == kNoTemplateCmd)
 		{
 		fullName->Clear();
-		return kJFalse;
+		return false;
 		}
 	else
 		{
 		JString nmShortcut;
-		const JBoolean ok = itsTemplateMenu->GetItemNMShortcut(itsTemplateIndex, &nmShortcut);
+		const bool ok = itsTemplateMenu->GetItemNMShortcut(itsTemplateIndex, &nmShortcut);
 		assert( ok );
 
 		JString sysDir, userDir;
@@ -409,7 +409,7 @@ CBNewProjectSaveFileDialog::GetProjectTemplate
 		*fullName = JCombinePathAndName(
 			nmShortcut == JGetString("UserTemplateMarker::CBNewProjectSaveFileDialog") ? userDir : sysDir,
 			itsTemplateMenu->GetItemText(itsTemplateIndex));
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -452,7 +452,7 @@ CBNewProjectSaveFileDialog::Receive
 void
 CBNewProjectSaveFileDialog::UpdateMakefileMethod()
 {
-	itsMethodRG->SetActive(JI2B( itsTemplateIndex == kNoTemplateCmd ));
+	itsMethodRG->SetActive(itsTemplateIndex == kNoTemplateCmd );
 }
 
 /******************************************************************************
@@ -460,22 +460,22 @@ CBNewProjectSaveFileDialog::UpdateMakefileMethod()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBNewProjectSaveFileDialog::OKToDeactivate()
 {
 	if (!JXSaveFileDialog::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	const CBBuildManager::MakefileMethod method = GetMakefileMethod();
 	if (method == CBBuildManager::kManual)
 		{
-		return kJTrue;
+		return true;
 		}
 
 	// ask if OK to replace Make.files
@@ -486,7 +486,7 @@ CBNewProjectSaveFileDialog::OKToDeactivate()
 		if (JFileExists(makeFilesName) &&
 			!OKToReplaceFile(makeFilesName, JGetString("CBName")))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -502,7 +502,7 @@ CBNewProjectSaveFileDialog::OKToDeactivate()
 		if (JFileExists(cmakeInputName) &&
 			!OKToReplaceFile(cmakeInputName, JGetString("CBName")))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -518,7 +518,7 @@ CBNewProjectSaveFileDialog::OKToDeactivate()
 		if (JFileExists(qmakeInputName) &&
 			!OKToReplaceFile(qmakeInputName, JGetString("CBName")))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -534,11 +534,11 @@ CBNewProjectSaveFileDialog::OKToDeactivate()
 		if (JFileExists(*fullName) &&
 			!OKToReplaceFile(*fullName, CBBuildManager::GetMakefileMethodName(GetMakefileMethod())))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -546,7 +546,7 @@ CBNewProjectSaveFileDialog::OKToDeactivate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBNewProjectSaveFileDialog::OKToReplaceFile
 	(
 	const JString& fullName,

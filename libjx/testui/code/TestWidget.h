@@ -28,7 +28,7 @@ class TestWidget : public JXScrollableWidget
 {
 public:
 
-	TestWidget(const JBoolean isMaster, const JBoolean isImage,
+	TestWidget(const bool isMaster, const bool isImage,
 			   JXMenuBar* menuBar, JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 			   const HSizingOption hSizing, const VSizingOption vSizing,
 			   const JCoordinate x, const JCoordinate y,
@@ -57,20 +57,20 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
+	virtual bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	virtual Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
 								 const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
 									  const JXWidget* source) override;
 
-	virtual JBoolean	HandleClientMessage(const XClientMessageEvent& clientMessage) override;
+	virtual bool	HandleClientMessage(const XClientMessageEvent& clientMessage) override;
 
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -78,7 +78,7 @@ protected:
 
 private:
 
-	JBoolean	itsFillFlag;
+	bool	itsFillFlag;
 
 	JRect	its2Rect;
 	JRect	its3Rect;
@@ -137,7 +137,7 @@ private:
 
 	void		BuildXlsfontsMenu(JXMenu* owner, JXContainer* enclosure);
 	void		PrintSelectionTargets(const Time time);
-	JBoolean	PrintSelectionText(const Atom selectionName, const Time time,
+	bool	PrintSelectionText(const Atom selectionName, const Time time,
 								   const Atom type) const;
 	void		PrintFileNames(const Atom selectionName, const Time time,
 							   const Atom type) const;

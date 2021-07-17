@@ -32,7 +32,7 @@ CBPTPrinter::CBPTPrinter()
 	JXPTPrinter(),
 	JPrefObject(CBGetPrefsManager(), kCBPrintPlainTextID)
 {
-	itsPrintHeaderFlag    = kJTrue;
+	itsPrintHeaderFlag    = true;
 	itsCBPrintSetupDialog = nullptr;
 
 	JPrefObject::ReadPrefs();
@@ -61,7 +61,7 @@ CBPTPrinter::CreatePrintSetupDialog
 	const Destination	destination,
 	const JString&		printCmd,
 	const JString&		fileName,
-	const JBoolean		printLineNumbers
+	const bool		printLineNumbers
 	)
 {
 	assert( itsCBPrintSetupDialog == nullptr );
@@ -75,31 +75,31 @@ CBPTPrinter::CreatePrintSetupDialog
 /******************************************************************************
  EndUserPrintSetup (virtual protected)
 
-	Returns kJTrue if caller should continue the printing process.
+	Returns true if caller should continue the printing process.
 	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPTPrinter::EndUserPrintSetup
 	(
 	const JBroadcaster::Message&	message,
-	JBoolean*						changed
+	bool*						changed
 	)
 {
 	assert( itsCBPrintSetupDialog != nullptr );
 
-	const JBoolean ok = JXPTPrinter::EndUserPrintSetup(message, changed);
+	const bool ok = JXPTPrinter::EndUserPrintSetup(message, changed);
 	if (ok)
 		{
-		*changed = JI2B(*changed ||
-			itsCBPrintSetupDialog->ShouldPrintHeader() != itsPrintHeaderFlag);
+		*changed = *changed ||
+			itsCBPrintSetupDialog->ShouldPrintHeader() != itsPrintHeaderFlag;
 
 		itsPrintHeaderFlag = itsCBPrintSetupDialog->ShouldPrintHeader();
 		if (GetPageHeight() <= GetHeaderLineCount())
 			{
 			SetPageHeight(GetHeaderLineCount() + 1);
-			*changed = kJTrue;
+			*changed = true;
 			}
 		}
 

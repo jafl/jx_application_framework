@@ -35,8 +35,8 @@ CMBreakpointManager::CMBreakpointManager
 	itsLink(link),
 	itsCmd(cmd),
 	itsSavedBPList(nullptr),
-	itsRestoreBreakpointsFlag(kJFalse),
-	itsUpdateWhenStopFlag(kJFalse)
+	itsRestoreBreakpointsFlag(false),
+	itsUpdateWhenStopFlag(false)
 {
 	assert( itsCmd != nullptr );
 
@@ -69,7 +69,7 @@ CMBreakpointManager::~CMBreakpointManager()
 
  *****************************************************************************/
 
-JBoolean
+bool
 CMBreakpointManager::HasBreakpointAt
 	(
 	const CMLocation& loc
@@ -88,7 +88,7 @@ CMBreakpointManager::HasBreakpointAt
 
  *****************************************************************************/
 
-JBoolean
+bool
 CMBreakpointManager::GetBreakpoints
 	(
 	const JString&				fileName,
@@ -102,7 +102,7 @@ CMBreakpointManager::GetBreakpoints
 	if (JIsAbsolutePath(fileName) && JFileExists(fileName))
 		{
 		CMBreakpoint target(fileName, 1);
-		JBoolean found;
+		bool found;
 		const JIndex startIndex =
 			itsBPList->SearchSorted1(&target, JListT::kFirstMatch, &found);
 
@@ -131,7 +131,7 @@ CMBreakpointManager::GetBreakpoints
 
  *****************************************************************************/
 
-JBoolean
+bool
 CMBreakpointManager::GetBreakpoints
 	(
 	const CMLocation&			loc,
@@ -145,7 +145,7 @@ CMBreakpointManager::GetBreakpoints
 	if (loc.GetFileID().IsValid())
 		{
 		CMBreakpoint target(loc.GetFileName(), loc.GetLineNumber());
-		JBoolean found;
+		bool found;
 		const JIndex startIndex =
 			itsBPList->SearchSorted1(&target, JListT::kFirstMatch, &found);
 
@@ -194,7 +194,7 @@ CMBreakpointManager::EnableAll()
 		{
 		if (!bp->IsEnabled())
 			{
-			itsLink->SetBreakpointEnabled(bp->GetDebuggerIndex(), kJTrue);
+			itsLink->SetBreakpointEnabled(bp->GetDebuggerIndex(), true);
 			}
 		}
 }
@@ -211,7 +211,7 @@ CMBreakpointManager::DisableAll()
 		{
 		if (bp->IsEnabled())
 			{
-			itsLink->SetBreakpointEnabled(bp->GetDebuggerIndex(), kJFalse);
+			itsLink->SetBreakpointEnabled(bp->GetDebuggerIndex(), false);
 			}
 		}
 }
@@ -242,7 +242,7 @@ CMBreakpointManager::ReadSetup
 
 	JString fileName, condition, commands;
 	JIndex lineNumber;
-	JBoolean enabled, hasCondition, hasCommands;
+	bool enabled, hasCondition, hasCommands;
 	JSize ignoreCount;
 	CMBreakpoint::Action action;
 	long tempAction;
@@ -272,7 +272,7 @@ CMBreakpointManager::ReadSetup
 
 		// set breakpoint after saving, so name resolution happens first
 
-		itsLink->SetBreakpoint(fileName, lineNumber, JI2B(action == CMBreakpoint::kRemoveBreakpoint));
+		itsLink->SetBreakpoint(fileName, lineNumber, action == CMBreakpoint::kRemoveBreakpoint);
 		}
 }
 
@@ -321,7 +321,7 @@ CMBreakpointManager::Receive
 {
 	if (sender == itsLink && message.Is(CMLink::kDebuggerRestarted))
 		{
-		itsRestoreBreakpointsFlag = kJTrue;
+		itsRestoreBreakpointsFlag = true;
 		}
 	else if (sender == itsLink && message.Is(CMLink::kSymbolsLoaded))
 		{
@@ -334,14 +334,14 @@ CMBreakpointManager::Receive
 			jdelete itsSavedBPList;
 			itsSavedBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
 			assert( itsSavedBPList != nullptr );
-			itsSavedBPList->CopyObjects(*itsBPList, JPtrArrayT::kDeleteAll, kJFalse);
+			itsSavedBPList->CopyObjects(*itsBPList, JPtrArrayT::kDeleteAll, false);
 
 			for (JIndex i=1; i<=count; i++)
 				{
 				itsLink->SetBreakpoint(*(itsBPList->GetElement(i)));
 				}
 			}
-		itsRestoreBreakpointsFlag = kJFalse;
+		itsRestoreBreakpointsFlag = false;
 		}
 
 	else if (sender == itsLink && message.Is(CMLink::kBreakpointsChanged))
@@ -374,8 +374,8 @@ CMBreakpointManager::UpdateBreakpoints
 	const JPtrArray<CMBreakpoint>& otherList
 	)
 {
-	itsBPList->CopyPointers(bpList, JPtrArrayT::kDeleteAll, kJFalse);
-	itsOtherList->CopyPointers(otherList, JPtrArrayT::kDeleteAll, kJFalse);
+	itsBPList->CopyPointers(bpList, JPtrArrayT::kDeleteAll, false);
+	itsOtherList->CopyPointers(otherList, JPtrArrayT::kDeleteAll, false);
 	Broadcast(BreakpointsChanged());
 
 	if (itsSavedBPList != nullptr &&
@@ -390,11 +390,11 @@ CMBreakpointManager::UpdateBreakpoints
 
 			if (!bp->IsEnabled())
 				{
-				itsLink->SetBreakpointEnabled(j, kJFalse);
+				itsLink->SetBreakpointEnabled(j, false);
 				}
 			else if (bp->GetAction() == CMBreakpoint::kDisableBreakpoint)
 				{
-				itsLink->SetBreakpointEnabled(j, kJTrue, kJTrue);
+				itsLink->SetBreakpointEnabled(j, true, true);
 				}
 
 			if (bp->GetCondition(&condition))

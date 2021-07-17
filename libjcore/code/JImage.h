@@ -49,17 +49,17 @@ public:
 	virtual void		SetColor(const JCoordinate x, const JCoordinate y,
 								 const JColorID color) = 0;
 
-	virtual JBoolean	GetMask(JImageMask** mask) const = 0;
+	virtual bool	GetMask(JImageMask** mask) const = 0;
 
 	JError	WriteGIF(const JString& fileName,
-					 const JBoolean compressColorsToFit,
-					 const JBoolean interlace = kJFalse) const;
+					 const bool compressColorsToFit,
+					 const bool interlace = false) const;
 	JError	WritePNG(const JString& fileName,
-					 const JBoolean useTrueColor = kJTrue,
-					 const JBoolean compressColorsToFit = kJFalse,
-					 const JBoolean interlace = kJFalse) const;
+					 const bool useTrueColor = true,
+					 const bool compressColorsToFit = false,
+					 const bool interlace = false) const;
 	JError	WriteJPEG(const JString& fileName,
-					  const JBoolean interlace = kJFalse,
+					  const bool interlace = false,
 					  const int quality = -1) const;
 
 	static FileType	GetFileType(const JString& fileName);
@@ -80,7 +80,7 @@ protected:
 
 	virtual void	SetImageData(const JSize colorCount, const JColorID* colorTable,
 								 unsigned short** imageData,
-								 const JBoolean hasMask, const unsigned long maskColor) = 0;
+								 const bool hasMask, const unsigned long maskColor) = 0;
 	virtual void	PrepareForImageData() = 0;
 	virtual void	ImageDataFinished() = 0;
 
@@ -97,8 +97,8 @@ private:
 
 	JError	ReadGD(const JString& fileName,
 				   gdImagePtr (*imageCreateFromFile)(FILE *fd));
-	JError	WriteGD(const JString& fileName, const JBoolean useTrueColor,
-					const JBoolean compressColorsToFit, const JBoolean interlace,
+	JError	WriteGD(const JString& fileName, const bool useTrueColor,
+					const bool compressColorsToFit, const bool interlace,
 					void (*imageWriteToFile)(gdImagePtr im, FILE *out)) const;
 
 	// not allowed

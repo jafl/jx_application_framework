@@ -57,7 +57,7 @@ CBRunCommandDialog::CBRunCommandDialog
 	CBTextDocument*		textDoc
 	)
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue),
+	JXDialogDirector(JXGetApplication(), true),
 	JPrefObject(CBGetPrefsManager(), kCBRunCommandDialogID),
 	itsProjDoc(projDoc),
 	itsTextDoc(textDoc),
@@ -78,7 +78,7 @@ CBRunCommandDialog::CBRunCommandDialog
 	const JArray<JIndex>&		lineIndexList
 	)
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue),
+	JXDialogDirector(JXGetApplication(), true),
 	JPrefObject(CBGetPrefsManager(), kCBRunCommandDialogID),
 	itsProjDoc(projDoc),
 	itsTextDoc(nullptr)
@@ -240,7 +240,7 @@ CBRunCommandDialog::BuildWindow()
 
 	window->SetTitle(JGetString("WindowTitle::CBRunCommandDialog"));
 	SetButtons(itsRunButton, cancelButton);
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 
@@ -252,7 +252,7 @@ CBRunCommandDialog::BuildWindow()
 	ListenTo(itsIsCVSCB);
 	ListenTo(itsUseWindowCB);
 
-	itsPathInput->GetText()->SetText(JString("." ACE_DIRECTORY_SEPARATOR_STR, kJFalse));
+	itsPathInput->GetText()->SetText(JString("." ACE_DIRECTORY_SEPARATOR_STR, JString::kNoCopy));
 	itsPathInput->ShouldAllowInvalidPath();
 	ListenTo(itsPathInput);
 
@@ -300,15 +300,15 @@ CBRunCommandDialog::UpdateDisplay()
 	if (itsIsMakeCB->IsChecked())
 		{
 		itsSaveAllCB->Deactivate();
-		itsSaveAllCB->SetState(kJTrue);
+		itsSaveAllCB->SetState(true);
 
 		itsUseWindowCB->Deactivate();
-		itsUseWindowCB->SetState(kJTrue);
+		itsUseWindowCB->SetState(true);
 		}
 	else if (itsIsCVSCB->IsChecked())
 		{
 		itsSaveAllCB->Deactivate();
-		itsSaveAllCB->SetState(kJTrue);
+		itsSaveAllCB->SetState(true);
 
 		itsUseWindowCB->Activate();
 		}
@@ -325,7 +325,7 @@ CBRunCommandDialog::UpdateDisplay()
 	else
 		{
 		itsRaiseCB->Deactivate();
-		itsRaiseCB->SetState(kJFalse);
+		itsRaiseCB->SetState(false);
 		}
 }
 
@@ -442,7 +442,7 @@ CBRunCommandDialog::Exec()
 								   itsIsMakeCB->IsChecked(), itsIsCVSCB->IsChecked(),
 								   itsSaveAllCB->IsChecked(), itsOneAtATimeCB->IsChecked(),
 								   itsUseWindowCB->IsChecked(), itsRaiseCB->IsChecked(),
-								   itsBeepCB->IsChecked(), mt, ms, mi, kJFalse);
+								   itsBeepCB->IsChecked(), mt, ms, mi, false);
 
 	if (itsTextDoc != nullptr)
 		{
@@ -520,7 +520,7 @@ CBRunCommandDialog::AddCommandToMenu
 					   itsIsMakeCB->IsChecked(), itsIsCVSCB->IsChecked(),
 					   itsSaveAllCB->IsChecked(), itsOneAtATimeCB->IsChecked(),
 					   itsUseWindowCB->IsChecked(), itsRaiseCB->IsChecked(),
-					   itsBeepCB->IsChecked(), JString::empty, JString::empty, kJFalse);
+					   itsBeepCB->IsChecked(), JString::empty, JString::empty, false);
 }
 
 /******************************************************************************
@@ -546,7 +546,7 @@ CBRunCommandDialog::ReadPrefs
 	window->Deiconify();
 
 	JString s;
-	JBoolean checked;
+	bool checked;
 
 	input >> s;
 	itsPathInput->GetText()->SetText(s);
@@ -580,7 +580,7 @@ CBRunCommandDialog::ReadPrefs
 	input >> JBoolFromString(checked);
 	itsBeepCB->SetState(checked);
 
-	itsOneAtATimeCB->SetState(kJTrue);
+	itsOneAtATimeCB->SetState(true);
 	itsOneAtATimeCB->Deactivate();
 }
 

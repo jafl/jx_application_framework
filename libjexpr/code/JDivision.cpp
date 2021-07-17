@@ -76,7 +76,7 @@ JDivision::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDivision::Evaluate
 	(
 	JFloat* result
@@ -86,25 +86,25 @@ JDivision::Evaluate
 	JFloat numerator, denominator;
 	if (!(GetArg1())->Evaluate(&numerator))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (!(GetArg2())->Evaluate(&denominator))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (denominator != 0.0)
 		{
 		*result = numerator / denominator;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JDivision::Evaluate
 	(
 	JComplex* result
@@ -114,21 +114,21 @@ JDivision::Evaluate
 	JComplex numerator, denominator;
 	if (!(GetArg1())->Evaluate(&numerator))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (!(GetArg2())->Evaluate(&denominator))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (denominator != 0.0)
 		{
 		*result = numerator / denominator;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -216,7 +216,7 @@ JDivision::Render
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);

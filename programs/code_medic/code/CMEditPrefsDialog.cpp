@@ -39,7 +39,7 @@ CMEditPrefsDialog::CMEditPrefsDialog
 	const JPtrArray<JString>&	goSuffixes
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(gdbCmd, jdbCmd, editFileCmd, editFileLineCmd,
 				cSourceSuffixes, cHeaderSuffixes,
@@ -350,11 +350,11 @@ CMEditPrefsDialog::Receive
 {
 	if (sender == itsChooseGDBButton && message.Is(JXButton::kPushed))
 		{
-		ChooseDebugger(JString("gdb", kJFalse), itsGDBCmd);
+		ChooseDebugger(JString("gdb", JString::kNoCopy), itsGDBCmd);
 		}
 	else if (sender == itsChooseJDBButton && message.Is(JXButton::kPushed))
 		{
-		ChooseDebugger(JString("jdb", kJFalse), itsJDBCmd);
+		ChooseDebugger(JString("jdb", JString::kNoCopy), itsJDBCmd);
 		}
 	else
 		{

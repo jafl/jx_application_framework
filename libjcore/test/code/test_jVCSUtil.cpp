@@ -19,7 +19,7 @@ int main()
 
 JTEST(Directory)
 {
-	JAssertTrue(JIsVCSDirectory(JString(".git", kJFalse)));
+	JAssertTrue(JIsVCSDirectory(JString(".git", JString::kNoCopy)));
 	JAssertEqual(kJGitType, JGetVCSType(JGetCurrentDirectory()));
-	JAssertTrue(JIsManagedByVCS(JString("./Make.files", kJFalse)));
+	JAssertTrue(JIsManagedByVCS(JString("./Make.files", JString::kNoCopy)));
 }

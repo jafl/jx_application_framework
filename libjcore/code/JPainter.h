@@ -77,14 +77,14 @@ public:
 	JSize			GetLineWidth() const;
 	void			SetLineWidth(const JSize width);
 
-	JBoolean		LinesAreDashed() const;
-	void			DrawDashedLines(const JBoolean on);
-	JBoolean		GetDashList(const JArray<JSize>** dashList, JSize* dashOffset) const;
+	bool		LinesAreDashed() const;
+	void			DrawDashedLines(const bool on);
+	bool		GetDashList(const JArray<JSize>** dashList, JSize* dashOffset) const;
 	virtual void	SetDashList(const JArray<JSize>& dashList, const JSize dashOffset = 0);
 						// must call inherited
 
-	JBoolean		IsFilling() const;
-	void			SetFilling(const JBoolean on);
+	bool		IsFilling() const;
+	void			SetFilling(const bool on);
 
 	// text
 
@@ -193,10 +193,10 @@ private:
 	JPoint		itsPenLoc;
 	JSize		itsLineWidth;
 	JColorID	itsPenColor;
-	JBoolean	itsFillFlag;
+	bool	itsFillFlag;
 	JRect		itsClipRect;
 
-	JBoolean		itsDrawDashedLinesFlag;
+	bool		itsDrawDashedLinesFlag;
 	JSize			itsDashOffset;
 	JArray<JSize>*	itsDashList;			// can be nullptr
 
@@ -374,23 +374,23 @@ JPainter::GetLineWidth()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JPainter::LinesAreDashed()
 	const
 {
-	return JConvertToBoolean( itsDrawDashedLinesFlag && itsDashList != nullptr );
+	return itsDrawDashedLinesFlag && itsDashList != nullptr;
 }
 
 inline void
 JPainter::DrawDashedLines
 	(
-	const JBoolean on
+	const bool on
 	)
 {
 	itsDrawDashedLinesFlag = on;
 }
 
-inline JBoolean
+inline bool
 JPainter::GetDashList
 	(
 	const JArray<JSize>**	dashList,
@@ -400,7 +400,7 @@ JPainter::GetDashList
 {
 	*dashList   = itsDashList;
 	*dashOffset = itsDashOffset;
-	return JConvertToBoolean( *dashList != nullptr );
+	return *dashList != nullptr;
 }
 
 /******************************************************************************
@@ -408,7 +408,7 @@ JPainter::GetDashList
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JPainter::IsFilling()
 	const
 {
@@ -418,7 +418,7 @@ JPainter::IsFilling()
 inline void
 JPainter::SetFilling
 	(
-	const JBoolean on
+	const bool on
 	)
 {
 	itsFillFlag = on;

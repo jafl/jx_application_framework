@@ -64,7 +64,7 @@ static const int defaultCFlags = PCRE_MULTILINE | PCRE_UTF8 | PCRE_UCP;
 static const int defaultEFlags = 0;
 
 // JAFL 5/11/98
-const JString JRegex::theSpecialCharList(".[]\\?*+{}|()^$", kJFalse);
+const JString JRegex::theSpecialCharList(".[]\\?*+{}|()^$", JString::kNoCopy);
 
 /******************************************************************************
  Constructor
@@ -78,7 +78,7 @@ const JString JRegex::theSpecialCharList(".[]\\?*+{}|()^$", kJFalse);
 
 JRegex::JRegex()
 	:
-	itsPattern(kJFalse),
+	itsPattern(false),
 	itsState(kEmpty),
 	itsRegex(nullptr),
 	itsCFlags(defaultCFlags),
@@ -92,7 +92,7 @@ JRegex::JRegex
 	const JString& pattern
 	)
 	:
-	itsPattern(kJFalse),
+	itsPattern(false),
 	itsState(kEmpty),
 	itsRegex(nullptr),
 	itsCFlags(defaultCFlags),
@@ -107,7 +107,7 @@ JRegex::JRegex
 	const JUtf8Byte* pattern
 	)
 	:
-	itsPattern(kJFalse),
+	itsPattern(false),
 	itsState(kEmpty),
 	itsRegex(nullptr),
 	itsCFlags(defaultCFlags),
@@ -237,7 +237,7 @@ JRegex::BackslashForLiteral
  SetPattern
 
 	Sets 'pattern' as the regular expression for subsequent matches.
-	Returns kJFalse if the pattern could not be compiled, kJTrue otherwise.
+	Returns false if the pattern could not be compiled, true otherwise.
 	If the compile fails the pattern remains set until the next call to
 	SetPattern(); it can be examined with GetPattern().
 
@@ -366,11 +366,11 @@ JRegex::MatchBackward
 	JInteger decrement     = 1000;
 	const JSize multiplier = 5;
 
-	const JString s(str.GetRawBytes(), byteIndex, kJFalse);
+	const JString s(str.GetRawBytes(), byteIndex, JString::kNoCopy);
 	JStringIterator iter(s);
 	JStringMatch m(s);
 
-	JBoolean done = kJFalse;
+	bool done = false;
 	while (!done)
 		{
 		iter.MoveTo(kJIteratorStartAtEnd, 0);
@@ -398,7 +398,7 @@ JRegex::MatchBackward
 
  *****************************************************************************/
 
-JBoolean
+bool
 JRegex::GetSubexpressionIndex
 	(
 	const JUtf8Byte*	name,
@@ -412,12 +412,12 @@ JRegex::GetSubexpressionIndex
 		if (i > 0)
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -454,7 +454,7 @@ void
 JRegex::SetCompileOption
 	(
 	const int      option,
-	const JBoolean setClear
+	const bool setClear
 	)
 {
 	int oldCFlags = itsCFlags;
@@ -476,7 +476,7 @@ void
 JRegex::SetExecuteOption
 	(
 	const int      option,
-	const JBoolean setClear
+	const bool setClear
 	)
 {
 	RawSetOption(&itsEFlags, option, setClear);
@@ -492,7 +492,7 @@ JRegex::RawSetOption
 	(
 	int*           flags,
 	const int      option,
-	const JBoolean setClear
+	const bool setClear
 	)
 {
 	if (setClear)
@@ -574,10 +574,10 @@ jMakeRange
 JStringMatch
 JRegex::Match
 	(
-	const JString&	str,
-	const JSize		byteOffset,
-	const JSize		byteCount,
-	const JBoolean	includeSubmatches
+	const JString&			str,
+	const JSize				byteOffset,
+	const JSize				byteCount,
+	const IncludeSubmatches	includeSubmatches
 	)
 	const
 {

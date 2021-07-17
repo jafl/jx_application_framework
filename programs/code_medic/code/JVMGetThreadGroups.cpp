@@ -24,7 +24,7 @@ JVMGetThreadGroups::JVMGetThreadGroups
 	JVMThreadNode*	parent
 	)
 	:
-	CMCommand("", kJTrue, kJFalse),
+	CMCommand("", true, false),
 	itsRoot(root),
 	itsParent(parent)
 {

@@ -22,7 +22,7 @@ JVMVarCommand::JVMVarCommand
 	:
 	CMVarCommand()
 {
-	SetCommand(JString("NOP", kJFalse));
+	SetCommand(JString("NOP", JString::kNoCopy));
 }
 
 /******************************************************************************

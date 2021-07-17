@@ -36,7 +36,7 @@ CMApp::CMApp
 	(
 	int*		argc,
 	char*		argv[],
-	JBoolean*	displayAbout,
+	bool*	displayAbout,
 	JString*	prevVersStr
 	)
 	:
@@ -52,7 +52,7 @@ CMApp::CMApp
 			}
 		else
 			{
-			*displayAbout = kJTrue;
+			*displayAbout = true;
 			}
 		}
 	else
@@ -116,7 +116,7 @@ CMApp::EditFile
 	sub.DefineVariable("l", lineIndexStr);
 	sub.Substitute(&cmd);
 
-	JSimpleProcess::Create(cmd, kJTrue);
+	JSimpleProcess::Create(cmd, true);
 }
 
 /******************************************************************************
@@ -130,7 +130,7 @@ void
 CMApp::DisplayAbout
 	(
 	const JString&	prevVersStr,
-	const JBoolean	init
+	const bool	init
 	)
 {
 	CMAboutDialog* dlog = jnew CMAboutDialog(this, prevVersStr);
@@ -150,7 +150,7 @@ CMApp::DisplayAbout
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMApp::HandleCustomEvent()
 {
 	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
@@ -158,7 +158,7 @@ CMApp::HandleCustomEvent()
 		{
 		link->HandleLLDBEvent();
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

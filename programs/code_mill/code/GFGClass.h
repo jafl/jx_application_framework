@@ -42,8 +42,8 @@ public:
 
 	void	WritePublicInterface(std::ostream& os);
 	void	WriteProtectedInterface(std::ostream& os);
-	void	WritePublic(std::ostream& os, const JBoolean interface = kJFalse);
-	void	WriteProtected(std::ostream& os, const JBoolean interface = kJFalse);
+	void	WritePublic(std::ostream& os, const bool interface = false);
+	void	WriteProtected(std::ostream& os, const bool interface = false);
 	
 protected:
 
@@ -64,7 +64,7 @@ private:
 
 private:
 
-	void WriteFunction(std::ostream& os, GFGMemberFunction* fn, const JBoolean interface);
+	void WriteFunction(std::ostream& os, GFGMemberFunction* fn, const bool interface);
 
 	// not allowed
 

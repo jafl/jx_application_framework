@@ -41,7 +41,7 @@
 		SIGUSR2			User-defined signal 2
 
 		A = Abort if the signal is not caught.
-		Q = Cause CheckForSignals() to return kJTrue,
+		Q = Cause CheckForSignals() to return true,
 			as a suggestion to the event loop to quit,
 			if the signal is not caught.
 		D = Clean up child processes that should quit or be killed
@@ -136,19 +136,19 @@ volatile sig_atomic_t signalList [ kSignalListSize ];
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 JThisProcess*
 JThisProcess::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew JThisProcess;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -163,9 +163,9 @@ JThisProcess::JThisProcess()
 	:
 	JProcess(getpid()),
 	ACE_Event_Handler(),
-	itsSigintJumpBufferInitFlag(kJFalse)
+	itsSigintJumpBufferInitFlag(false)
 {
-	QuitAtExit(this, kJFalse);	// We don't need to kill ourselves!
+	QuitAtExit(this, false);	// We don't need to kill ourselves!
 
 	pendingSignalCount = 0;
 
@@ -198,7 +198,7 @@ JThisProcess::~JThisProcess()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JThisProcess::BroadcastSignal
 	(
 	const int sig
@@ -284,22 +284,21 @@ JThisProcess::BroadcastSignal
 
  ******************************************************************************/
 
-JBoolean
+bool
 JThisProcess::WillCatchSignal
 	(
 	const int sig
 	)
 {
 	JThisProcess* p = JThisProcess::Instance();
-	return JConvertToBoolean(
-			(p->itsSignalSet).is_member(sig) );
+	return (p->itsSignalSet).is_member(sig);
 }
 
 void
 JThisProcess::ShouldCatchSignal
 	(
 	const int		sig,
-	const JBoolean	catchIt
+	const bool	catchIt
 	)
 {
 	JThisProcess* p = JThisProcess::Instance();
@@ -320,15 +319,15 @@ JThisProcess::ShouldCatchSignal
  CheckForSignals (static)
 
 	Checks if we have received any signals.  If so, it calls
-	BroadcastWithFeedback().  Returns kJTrue if a signal was received that
+	BroadcastWithFeedback().  Returns true if a signal was received that
 	implies a request to quit.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JThisProcess::CheckForSignals()
 {
-	JBoolean requestQuit = kJFalse;
+	bool requestQuit = false;
 
 	if (pendingSignalCount > 0 && itsSelf != nullptr)
 		{
@@ -336,13 +335,13 @@ JThisProcess::CheckForSignals()
 			{
 			// this is safe since extra signals are simply appended to the list
 
-			const JBoolean sigCaught = itsSelf->BroadcastSignal(signalList[i]);
+			const bool sigCaught = itsSelf->BroadcastSignal(signalList[i]);
 			if (!sigCaught)
 				{
 				if (signalList[i] == SIGTERM ||
 					signalList[i] == SIGQUIT)
 					{
-					requestQuit = kJTrue;
+					requestQuit = true;
 					}
 				else if (signalList[i] == SIGILL  ||
 						 signalList[i] == SIGFPE  ||
@@ -409,11 +408,11 @@ JThisProcess::handle_signal
 /******************************************************************************
  WillQuitAtExit (static)
 
-	Returns kJTrue if the given process will be terminated when we quit.
+	Returns true if the given process will be terminated when we quit.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JThisProcess::WillQuitAtExit
 	(
 	const JProcess* p
@@ -435,7 +434,7 @@ void
 JThisProcess::QuitAtExit
 	(
 	JProcess*		p,
-	const JBoolean	quit
+	const bool	quit
 	)
 {
 	theKillList.Remove(p);
@@ -453,11 +452,11 @@ JThisProcess::QuitAtExit
 /******************************************************************************
  WillKillAtExit (static)
 
-	Returns kJTrue if the given process will be killed when we quit.
+	Returns true if the given process will be killed when we quit.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JThisProcess::WillKillAtExit
 	(
 	const JProcess* p
@@ -479,7 +478,7 @@ void
 JThisProcess::KillAtExit
 	(
 	JProcess*		p,
-	const JBoolean	kill
+	const bool	kill
 	)
 {
 	theQuitList.Remove(p);
@@ -507,8 +506,8 @@ JThisProcess::Ignore
 	JProcess* p
 	)
 {
-	QuitAtExit(p, kJFalse);
-	KillAtExit(p, kJFalse);
+	QuitAtExit(p, false);
+	KillAtExit(p, false);
 }
 
 /******************************************************************************
@@ -646,6 +645,6 @@ JThisProcess::GetSigintJumpBuffer()
 {
 	JThisProcess* p = JThisProcess::Instance();
 
-	p->itsSigintJumpBufferInitFlag = kJTrue;
+	p->itsSigintJumpBufferInitFlag = true;
 	return p->itsSigintJumpBuffer;
 }

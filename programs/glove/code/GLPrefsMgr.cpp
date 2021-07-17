@@ -33,10 +33,10 @@ const JFileVersion kCurrentPrefsFileVersion = 2;
 
 GLPrefsMgr::GLPrefsMgr
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 	:
-   JXPrefsManager(kCurrentPrefsFileVersion, kJTrue)
+   JXPrefsManager(kCurrentPrefsFileVersion, true)
 {
 	*isNew = JPrefsManager::UpgradeData();
 	JXGetChooseSaveFile()->SetPrefInfo(this, kChooseSaveFilePrefsID);
@@ -83,7 +83,7 @@ GLPrefsMgr::GetGloveVersionStr()
 void
 GLPrefsMgr::UpgradeData
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JFileVersion	currentVersion
 	)
 {

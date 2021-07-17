@@ -93,11 +93,11 @@ CBMacroManager::~CBMacroManager()
 /******************************************************************************
  Perform
 
-	Returns kJTrue if it found a script and performed it.
+	Returns true if it found a script and performed it.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBMacroManager::Perform
 	(
 	const JStyledText::TextIndex&	caretIndex,
@@ -106,7 +106,7 @@ CBMacroManager::Perform
 {
 	if (caretIndex.charIndex <= 1)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JStyledText* st = doc->GetTextEditor()->GetText();
@@ -130,18 +130,18 @@ CBMacroManager::Perform
 
 				JUtf8Character c;
 				if (iter.AtBeginning() ||
-					(iter.Next(&c, kJFalse) && !CBMIsCharacterInWord(c)) ||
-					(iter.Prev(&c, kJFalse) && !CBMIsCharacterInWord(c)))
+					(iter.Next(&c, kJIteratorStay) && !CBMIsCharacterInWord(c)) ||
+					(iter.Prev(&c, kJIteratorStay) && !CBMIsCharacterInWord(c)))
 					{
 					iter.Invalidate();
 					Perform(*info.script, doc);
-					return kJTrue;
+					return true;
 					}
 				}
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -159,7 +159,7 @@ CBMacroManager::Perform
 	CBTextEditor* te = doc->GetTextEditor();
 	te->GetText()->DeactivateCurrentUndo();
 
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = JPrepArgForExec(doc->GetFullName(&onDisk));
 	const JString path     = JPrepArgForExec(doc->GetFilePath());
 	const JString fileName = JPrepArgForExec(doc->GetFileName());
@@ -246,12 +246,12 @@ CBMacroManager::HighlightErrors
 			}
 		else if (c == '$' && siter.AtEnd())
 			{
-			fiter.SetPrev(red, kJFalse);
+			fiter.SetPrev(red, kJIteratorStay);
 			}
-		else if (c == '$' && siter.Next(&c, kJFalse) && c == '(')
+		else if (c == '$' && siter.Next(&c, kJIteratorStay) && c == '(')
 			{
 			siter.SkipNext();
-			const JBoolean ok = CBMBalanceForward(kCBCLang, &siter, &c);
+			const bool ok = CBMBalanceForward(kCBCLang, &siter, &c);
 			fiter.SetNext(ok ? blue : red, siter.GetPrevCharacterIndex() - fiter.GetNextElementIndex() + 1);
 			}
 		else

@@ -26,10 +26,10 @@ public:
 
 	virtual ~CBSearchFilterHistoryMenu();
 
-	void	AddFilter(const JString& filter, const JBoolean invert);
+	void	AddFilter(const JString& filter, const bool invert);
 
-	const JString&	GetFilter(const Message& message, JBoolean* invert) const;
-	const JString&	GetFilter(const JIndex index, JBoolean* invert) const;
+	const JString&	GetFilter(const Message& message, bool* invert) const;
+	const JString&	GetFilter(const JIndex index, bool* invert) const;
 
 private:
 

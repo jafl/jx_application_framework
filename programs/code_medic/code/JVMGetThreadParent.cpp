@@ -21,10 +21,10 @@
 JVMGetThreadParent::JVMGetThreadParent
 	(
 	JVMThreadNode*	node,
-	const JBoolean	checkOnly
+	const bool	checkOnly
 	)
 	:
-	CMCommand("", kJTrue, kJFalse),
+	CMCommand("", true, false),
 	itsNode(node),
 	itsCheckOnlyFlag(checkOnly)
 {
@@ -61,7 +61,7 @@ JVMGetThreadParent::Starting()
 
 		JVMSocket::Pack(length, itsNode->GetID(), data);
 
-		const JBoolean isGroup = JI2B(itsNode->GetType() == JVMThreadNode::kGroupType);
+		const bool isGroup = itsNode->GetType() == JVMThreadNode::kGroupType;
 		link->Send(this,
 			isGroup ? JVMLink::kThreadGroupReferenceCmdSet : JVMLink::kThreadReferenceCmdSet,
 			isGroup ? JVMLink::kTGParentCmd : JVMLink::kTThreadGroupCmd,

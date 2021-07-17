@@ -157,7 +157,7 @@ static void skipFnListDirector
 	input >> fnListCount;
 
 	JString className;
-	JBoolean showInheritedFns;
+	bool showInheritedFns;
 	for (JIndex i=1; i<=fnListCount; i++)
 		{
 		JXWindow::SkipGeometry(input);
@@ -178,7 +178,7 @@ CBTreeDirector::CBTreeDirector
 	std::istream*			symStream,
 	const JFileVersion		origSymVers,
 	CBProjectDocument*		supervisor,
-	const JBoolean			subProject,
+	const bool			subProject,
 	CBTreeStreamInFn*		streamInTreeFn,
 	const JUtf8Byte*		windowTitleSuffixID,
 	const JUtf8Byte*		windowHelpName,
@@ -188,7 +188,7 @@ CBTreeDirector::CBTreeDirector
 	const JIndex			toolBarPrefID,
 	CBTreeInitToolBarFn*	initToolBarFn,
 	CBDirList*				dirList,
-	const JBoolean			readCompileRunDialogs
+	const bool			readCompileRunDialogs
 	)
 	:
 	JXWindowDirector(supervisor),
@@ -206,7 +206,7 @@ CBTreeDirector::CBTreeDirector
 
 	std::istream* symInput             = (projVers <= 41 ? &projInput : symStream);
 	const JFileVersion symVers    = (projVers <= 41 ? projVers   : origSymVers);
-	const JBoolean useSetProjData = JI2B( setInput == nullptr || setVers < 71 );
+	const bool useSetProjData = setInput == nullptr || setVers < 71;
 
 /* settings file */
 
@@ -262,7 +262,7 @@ CBTreeDirector::CBTreeDirector
 
 	// put fn list windows on top of tree window
 
-	JBoolean active = kJFalse;
+	bool active = false;
 	if (31 <= projVers && projVers < 71)
 		{
 		projInput >> JBoolFromString(active);
@@ -304,7 +304,7 @@ CBTreeDirector::CBTreeDirectorX
 	itsProjDoc = doc;
 	ListenTo(itsProjDoc);
 
-	itsShowInheritedFnsFlag = kJTrue;
+	itsShowInheritedFnsFlag = true;
 	itsFindFnDialog         = nullptr;
 
 	JXScrollbarSet* sbarSet = BuildWindow(windowIcon, treeMenuItems,
@@ -421,7 +421,7 @@ CBTreeDirector::FileTypesChanged
 void
 CBTreeDirector::PrepareForTreeUpdate
 	(
-	const JBoolean reparseAll
+	const bool reparseAll
 	)
 {
 	itsTree->PrepareForUpdate(reparseAll);
@@ -432,7 +432,7 @@ CBTreeDirector::PrepareForTreeUpdate
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTreeDirector::TreeUpdateFinished
 	(
 	const JArray<JFAID_t>& deadFileList
@@ -723,7 +723,7 @@ CBTreeDirector::Receive
 		assert( info != nullptr );
 		if (info->Successful())
 			{
-			itsTreeWidget->FindFunction(itsFindFnDialog->GetString(), kJTrue,
+			itsTreeWidget->FindFunction(itsFindFnDialog->GetString(), true,
 										kJXLeftButton);
 			}
 		itsFindFnDialog = nullptr;
@@ -772,7 +772,7 @@ CBTreeDirector::Receive
 void
 CBTreeDirector::UpdateFileMenu()
 {
-	const JBoolean canPrint = !itsTree->IsEmpty();
+	const bool canPrint = !itsTree->IsEmpty();
 	itsFileMenu->SetItemEnable(kPrintPSCmd,  canPrint);
 	itsFileMenu->SetItemEnable(kPrintEPSCmd, canPrint);
 
@@ -891,7 +891,7 @@ CBTreeDirector::HandleProjectMenu
 
 	else if (index == kSaveAllTextCmd)
 		{
-		CBGetDocumentManager()->SaveTextDocuments(kJTrue);
+		CBGetDocumentManager()->SaveTextDocuments(true);
 		}
 	else if (index == kCloseAllTextCmd)
 		{
@@ -973,10 +973,10 @@ void
 CBTreeDirector::SetTreePrefs
 	(
 	const JSize		fontSize,
-	const JBoolean	showInheritedFns,
-	const JBoolean	autoMinMILinks,
-	const JBoolean	drawMILinksOnTop,
-	const JBoolean	raiseWhenSingleMatch
+	const bool	showInheritedFns,
+	const bool	autoMinMILinks,
+	const bool	drawMILinksOnTop,
+	const bool	raiseWhenSingleMatch
 	)
 {
 	itsShowInheritedFnsFlag = showInheritedFns;
@@ -1012,7 +1012,7 @@ CBTreeDirector::ReadPrefs
 
 	if (vers >= 1)
 		{
-		JBoolean autoMinMILinks, drawMILinksOnTop;
+		bool autoMinMILinks, drawMILinksOnTop;
 		input >> JBoolFromString(autoMinMILinks) >> JBoolFromString(drawMILinksOnTop);
 		itsTree->ShouldAutoMinimizeMILinks(autoMinMILinks);
 		itsTree->ShouldDrawMILinksOnTop(drawMILinksOnTop);
@@ -1020,7 +1020,7 @@ CBTreeDirector::ReadPrefs
 
 	if (vers >= 2)
 		{
-		JBoolean raiseWhenSingleMatch;
+		bool raiseWhenSingleMatch;
 		input >> JBoolFromString(raiseWhenSingleMatch);
 		itsTreeWidget->ShouldRaiseWindowWhenSingleMatch(raiseWhenSingleMatch);
 		}
@@ -1080,7 +1080,7 @@ CBTreeDirector::ReceiveWithFeedback
 					JString complName;
 					if (0 && CBGetDocumentManager()->GetComplementFile(
 							fullName, CBGetPrefsManager()->GetFileType(fullName),
-							&complName, GetProjectDoc(), kJTrue))
+							&complName, GetProjectDoc(), true))
 						{
 						info->AddFile(complName);
 						}

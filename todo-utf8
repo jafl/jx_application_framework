@@ -1,3 +1,8 @@
+jcc leaking memory
+	open project then close it
+
+-----
+
 glove
 	clean up .fd to match current layouts
 	test layouts on Linux and OS X
@@ -9,15 +14,14 @@ jx_project_wizard
 	convert app_template to { }
 	convert help to online
 
-replace JBoolean with bool
-	jTypes.h - remove JConvertToBoolean, JI2B, JNegate, operator!, JFloatToBoolean, JF2B
-
 -----
 
 JStyledText
 	AutoIndent
 	CleanRightMargin
 
+
+medic - clear stack/threads/etc when program is running or finished
 
 medic - confused when using gdb
 	no stack, threads, locals, etc.

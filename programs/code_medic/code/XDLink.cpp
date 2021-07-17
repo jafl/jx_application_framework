@@ -49,23 +49,23 @@
 
 const JIndex kXdebugPort = 9000;
 
-static const JBoolean kFeatures[]=
+static const bool kFeatures[]=
 {
-	kJTrue,		// kSetProgram
-	kJFalse,	// kSetArgs
-	kJFalse,	// kSetCore
-	kJFalse,	// kSetProcess
-	kJFalse,	// kRunProgram
-	kJFalse,	// kStopProgram
-	kJFalse,	// kSetExecutionPoint
-	kJFalse,	// kExecuteBackwards
-	kJFalse,	// kShowBreakpointInfo
-	kJFalse,	// kSetBreakpointCondition
-	kJFalse,	// kSetBreakpointIgnoreCount
-	kJFalse,	// kWatchExpression
-	kJFalse,	// kWatchLocation
-	kJFalse,	// kExamineMemory
-	kJFalse,	// kDisassembleMemory
+	true,		// kSetProgram
+	false,	// kSetArgs
+	false,	// kSetCore
+	false,	// kSetProcess
+	false,	// kRunProgram
+	false,	// kStopProgram
+	false,	// kSetExecutionPoint
+	false,	// kExecuteBackwards
+	false,	// kShowBreakpointInfo
+	false,	// kSetBreakpointCondition
+	false,	// kSetBreakpointIgnoreCount
+	false,	// kWatchExpression
+	false,	// kWatchLocation
+	false,	// kExamineMemory
+	false,	// kDisassembleMemory
 };
 
 /******************************************************************************
@@ -116,9 +116,9 @@ void
 XDLink::InitFlags()
 {
 	itsStackFrameIndex      = (JIndex) -1;
-	itsInitFinishedFlag     = kJFalse;
-	itsProgramIsStoppedFlag = kJFalse;
-	itsDebuggerBusyFlag     = kJTrue;
+	itsInitFinishedFlag     = false;
+	itsProgramIsStoppedFlag = false;
+	itsDebuggerBusyFlag     = true;
 }
 
 /******************************************************************************
@@ -150,11 +150,11 @@ XDLink::GetScriptPrompt()
 
  ******************************************************************************/
 
-JBoolean
+bool
 XDLink::DebuggerHasStarted()
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -174,11 +174,11 @@ XDLink::GetChooseProgramInstructions()
 
  ******************************************************************************/
 
-JBoolean
+bool
 XDLink::HasProgram()
 	const
 {
-	return JI2B(!itsProgramName.IsEmpty() || itsLink != nullptr);
+	return !itsProgramName.IsEmpty() || itsLink != nullptr;
 }
 
 /******************************************************************************
@@ -186,15 +186,15 @@ XDLink::HasProgram()
 
  ******************************************************************************/
 
-JBoolean
+bool
 XDLink::GetProgram
 	(
 	JString* fullName
 	)
 	const
 {
-	*fullName = (itsProgramName.IsEmpty() ? JString("PHP", kJFalse) : itsProgramName);
-	return kJTrue;
+	*fullName = (itsProgramName.IsEmpty() ? JString("PHP", JString::kNoCopy) : itsProgramName);
+	return true;
 }
 
 /******************************************************************************
@@ -202,11 +202,11 @@ XDLink::GetProgram
 
  ******************************************************************************/
 
-JBoolean
+bool
 XDLink::HasCore()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -214,7 +214,7 @@ XDLink::HasCore()
 
  ******************************************************************************/
 
-JBoolean
+bool
 XDLink::GetCore
 	(
 	JString* fullName
@@ -222,7 +222,7 @@ XDLink::GetCore
 	const
 {
 	fullName->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -230,11 +230,11 @@ XDLink::GetCore
 
  ******************************************************************************/
 
-JBoolean
+bool
 XDLink::HasLoadedSymbols()
 	const
 {
-	return JI2B(itsLink != nullptr);
+	return itsLink != nullptr;
 }
 
 /******************************************************************************
@@ -242,11 +242,11 @@ XDLink::HasLoadedSymbols()
 
  *****************************************************************************/
 
-JBoolean
+bool
 XDLink::IsDebugging()
 	const
 {
-	return JI2B(itsLink != nullptr);
+	return itsLink != nullptr;
 }
 
 /******************************************************************************
@@ -254,11 +254,11 @@ XDLink::IsDebugging()
 
  *****************************************************************************/
 
-JBoolean
+bool
 XDLink::ProgramIsRunning()
 	const
 {
-	return JI2B(itsLink != nullptr && !itsProgramIsStoppedFlag);
+	return itsLink != nullptr && !itsProgramIsStoppedFlag;
 }
 
 /******************************************************************************
@@ -266,11 +266,11 @@ XDLink::ProgramIsRunning()
 
  *****************************************************************************/
 
-JBoolean
+bool
 XDLink::ProgramIsStopped()
 	const
 {
-	return JI2B(itsLink != nullptr && itsProgramIsStoppedFlag);
+	return itsLink != nullptr && itsProgramIsStoppedFlag;
 }
 
 /******************************************************************************
@@ -278,14 +278,14 @@ XDLink::ProgramIsStopped()
 
  *****************************************************************************/
 
-JBoolean
+bool
 XDLink::OKToSendCommands
 	(
-	const JBoolean background
+	const bool background
 	)
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -293,11 +293,11 @@ XDLink::OKToSendCommands
 
  *****************************************************************************/
 
-JBoolean
+bool
 XDLink::IsDefiningScript()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -333,7 +333,7 @@ XDLink::ReceiveMessageFromDebugger()
 	itsLink->StopTimer();
 
 	JString data;
-	const JBoolean ok = itsLink->GetNextMessage(&data);
+	const bool ok = itsLink->GetNextMessage(&data);
 	assert( ok );
 
 	if (data.IsEmpty() || data.GetFirstCharacter() != '<')
@@ -347,11 +347,11 @@ XDLink::ReceiveMessageFromDebugger()
 		{
 		if (!itsProgramIsStoppedFlag)
 			{
-			itsProgramIsStoppedFlag = kJTrue;
+			itsProgramIsStoppedFlag = true;
 			Broadcast(ProgramStopped(CMLocation(JString::empty, 1)));
 			}
 
-		itsDebuggerBusyFlag = kJFalse;
+		itsDebuggerBusyFlag = false;
 		Broadcast(DebuggerReadyForInput());
 		}
 
@@ -372,7 +372,7 @@ XDLink::ReceiveMessageFromDebugger()
 				"uri",    uri.GetBytes()
 				};
 			JString msg = JGetString("ConnectionInfo::XDLink", map, sizeof(map));
-			Broadcast(UserOutput(msg, kJFalse));
+			Broadcast(UserOutput(msg, false));
 
 			Send("feature_set -n show_hidden -v 1");
 			Send("step_into");
@@ -381,9 +381,9 @@ XDLink::ReceiveMessageFromDebugger()
 			GetProgram(&programName);
 
 			Broadcast(AttachedToProcess());
-			Broadcast(SymbolsLoaded(JI2B(uri == itsScriptURI), programName));
+			Broadcast(SymbolsLoaded(uri == itsScriptURI, programName));
 
-			itsInitFinishedFlag = kJTrue;
+			itsInitFinishedFlag = true;
 			itsScriptURI        = uri;
 			}
 		else if (root != nullptr && strcmp((char*) root->name, "response") == 0)
@@ -402,7 +402,7 @@ XDLink::ReceiveMessageFromDebugger()
 					msg.DecodeBase64(&msg);
 					}
 				msg += "\n";
-				Broadcast(UserOutput(msg, kJTrue));
+				Broadcast(UserOutput(msg, true));
 				}
 
 			const JString idStr = JGetXMLNodeAttr(root, "transaction_id");
@@ -417,8 +417,7 @@ XDLink::ReceiveMessageFromDebugger()
 				{
 				itsParsedDataRoot = root;
 
-				cmd->Finished(JI2B(
-					root->children == nullptr || strcmp((char*) root->children->name, "error") != 0));
+				cmd->Finished(root->children == nullptr || strcmp((char*) root->children->name, "error") != 0);
 
 				itsParsedDataRoot = nullptr;
 
@@ -467,22 +466,22 @@ XDLink::SetProgram
 		!JFileReadable(fullName))
 		{
 		const JString error = JGetString("ConfigFileUnreadable::XDLink");
-		Broadcast(UserOutput(error, kJTrue));
+		Broadcast(UserOutput(error, true));
 		return;
 		}
 	else if (CMMDIServer::IsBinary(fullName))
 		{
 		const JString error = JGetString("ConfigFileIsBinary::XDLink");
-		Broadcast(UserOutput(error, kJTrue));
+		Broadcast(UserOutput(error, true));
 		return;
 		}
 
 	JString line;
 	if (!CMMDIServer::GetLanguage(fullName, &line) ||
-		JString::Compare(line, "php", kJFalse) != 0)
+		JString::Compare(line, "php", JString::kIgnoreCase) != 0)
 		{
 		const JString error = JGetString("ConfigFileWrongLanguage::XDLink");
-		Broadcast(UserOutput(error, kJTrue));
+		Broadcast(UserOutput(error, true));
 		return;
 		}
 
@@ -513,7 +512,7 @@ XDLink::SetProgram
 			{
 			line.Prepend("Unknown option: ");
 			line.Append("\n");
-			Broadcast(UserOutput(line, kJTrue));
+			Broadcast(UserOutput(line, true));
 			}
 
 		if (!input.good())
@@ -538,7 +537,7 @@ XDLink::BroadcastProgramSet()
 	JString programName;
 	GetProgram(&programName);
 
-	Broadcast(SymbolsLoaded(kJFalse, programName));
+	Broadcast(SymbolsLoaded(false, programName));
 }
 
 /******************************************************************************
@@ -624,7 +623,7 @@ XDLink::SetBreakpoint
 	(
 	const JString&	fileName,
 	const JIndex	lineIndex,
-	const JBoolean	temporary
+	const bool	temporary
 	)
 {
 	JString cmd("breakpoint_set -t line -f ");
@@ -651,7 +650,7 @@ void
 XDLink::SetBreakpoint
 	(
 	const JString&	address,
-	const JBoolean	temporary
+	const bool	temporary
 	)
 {
 }
@@ -686,7 +685,7 @@ XDLink::RemoveAllBreakpointsOnLine
 	const JIndex	lineIndex
 	)
 {
-	JBoolean changed = kJFalse;
+	bool changed = false;
 
 	JPtrArray<CMBreakpoint> list(JPtrArrayT::kForgetAll);
 	JString cmd;
@@ -700,7 +699,7 @@ XDLink::RemoveAllBreakpointsOnLine
 				cmd  = "breakpoint_remove -d ";
 				cmd += JString((JUInt64) bp->GetDebuggerIndex());
 				Send(cmd);
-				changed = kJTrue;
+				changed = true;
 				}
 			}
 		}
@@ -732,7 +731,7 @@ XDLink::RemoveAllBreakpointsAtAddress
 void
 XDLink::RemoveAllBreakpoints()
 {
-	JBoolean changed = kJFalse;
+	bool changed = false;
 
 	const JPtrArray<CMBreakpoint>& list = itsBPMgr->GetBreakpoints();
 	JString cmd;
@@ -743,7 +742,7 @@ XDLink::RemoveAllBreakpoints()
 		cmd	 = "breakpoint_remove -d ";
 		cmd += JString((JUInt64) bp->GetDebuggerIndex());
 		Send(cmd);
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (changed)
@@ -761,8 +760,8 @@ void
 XDLink::SetBreakpointEnabled
 	(
 	const JIndex	debuggerIndex,
-	const JBoolean	enabled,
-	const JBoolean	once
+	const bool	enabled,
+	const bool	once
 	)
 {
 	JString cmd("breakpoint_update -d ");
@@ -895,7 +894,7 @@ void
 XDLink::StepOver()
 {
 	Send("step_over");
-	itsProgramIsStoppedFlag = kJFalse;
+	itsProgramIsStoppedFlag = false;
 	Broadcast(ProgramRunning());
 }
 
@@ -908,7 +907,7 @@ void
 XDLink::StepInto()
 {
 	Send("step_into");
-	itsProgramIsStoppedFlag = kJFalse;
+	itsProgramIsStoppedFlag = false;
 	Broadcast(ProgramRunning());
 }
 
@@ -921,7 +920,7 @@ void
 XDLink::StepOut()
 {
 	Send("step_out");
-	itsProgramIsStoppedFlag = kJFalse;
+	itsProgramIsStoppedFlag = false;
 	Broadcast(ProgramRunning());
 }
 
@@ -934,7 +933,7 @@ void
 XDLink::Continue()
 {
 	Send("run");
-	itsProgramIsStoppedFlag = kJFalse;
+	itsProgramIsStoppedFlag = false;
 	Broadcast(ProgramRunning());
 }
 
@@ -950,7 +949,7 @@ XDLink::RunUntil
 	const JIndex	lineIndex
 	)
 {
-	SetBreakpoint(fileName, lineIndex, kJTrue);
+	SetBreakpoint(fileName, lineIndex, true);
 	Continue();
 }
 
@@ -1239,7 +1238,7 @@ XDLink::CreateVarContentCommand
 CMVarNode*
 XDLink::CreateVarNode
 	(
-	const JBoolean shouldUpdate		// kJFalse for Local Variables
+	const bool shouldUpdate		// false for Local Variables
 	)
 {
 	CMVarNode* node = jnew XDVarNode(shouldUpdate);
@@ -1284,7 +1283,7 @@ XDLink::Build1DArrayExpression
 		JUtf8Character c;
 		while (iter.Next("$"))
 			{
-			if (!iter.Next(&c, kJFalse) || c != 'i')
+			if (!iter.Next(&c, kJIteratorStay) || c != 'i')
 				{
 				iter.Insert("$");
 				iter.SkipNext();
@@ -1323,8 +1322,8 @@ XDLink::Build2DArrayExpression
 {
 	JString expr = origExpr;
 
-	const JBoolean usesI = expr.Contains("$i");		// row
-	const JBoolean usesJ = expr.Contains("$j");		// col
+	const bool usesI = expr.Contains("$i");		// row
+	const bool usesJ = expr.Contains("$j");		// col
 
 	const JString iStr(rowIndex, 0);	// must use floating point conversion
 	const JString jStr(colIndex, 0);	// must use floating point conversion
@@ -1339,7 +1338,7 @@ XDLink::Build2DArrayExpression
 		JUtf8Character c;
 		while (iter.Next("$"))
 			{
-			if (!iter.Next(&c, kJFalse) || (c != 'i' && c != 'j'))
+			if (!iter.Next(&c, kJIteratorStay) || (c != 'i' && c != 'j'))
 				{
 				iter.Insert("$");
 				iter.SkipNext();
@@ -1491,7 +1490,7 @@ XDLink::SendRaw
 
 		if (!itsDebuggerBusyFlag)
 			{
-			itsDebuggerBusyFlag = kJTrue;
+			itsDebuggerBusyFlag = true;
 			Broadcast(DebuggerBusy());
 			}
 
@@ -1560,11 +1559,11 @@ XDLink::KillProgram()
 
  *****************************************************************************/
 
-JBoolean
+bool
 XDLink::OKToDetachOrKill()
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1574,7 +1573,7 @@ XDLink::OKToDetachOrKill()
 
  *****************************************************************************/
 
-JBoolean
+bool
 XDLink::StartDebugger()
 {
 	if (itsAcceptor == nullptr)
@@ -1595,10 +1594,10 @@ XDLink::StartDebugger()
 			};
 		JString msg = JGetString("ListenError::XDLink", map, sizeof(map));
 
-		XDWelcomeTask* task = jnew XDWelcomeTask(msg, kJTrue);
+		XDWelcomeTask* task = jnew XDWelcomeTask(msg, true);
 		assert( task != nullptr );
 		task->Go();
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -1608,10 +1607,10 @@ XDLink::StartDebugger()
 			};
 		JString msg = JGetString("Welcome::XDLink", map, sizeof(map));
 
-		XDWelcomeTask* task = jnew XDWelcomeTask(msg, kJFalse);
+		XDWelcomeTask* task = jnew XDWelcomeTask(msg, false);
 		assert( task != nullptr );
 		task->Go();
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -1620,10 +1619,10 @@ XDLink::StartDebugger()
 
  *****************************************************************************/
 
-JBoolean
+bool
 XDLink::ChangeDebugger()
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1631,11 +1630,11 @@ XDLink::ChangeDebugger()
 
  *****************************************************************************/
 
-JBoolean
+bool
 XDLink::RestartDebugger()
 {
 	StopDebugger();
-	const JBoolean ok = StartDebugger();
+	const bool ok = StartDebugger();
 
 	if (ok)
 		{
@@ -1684,7 +1683,7 @@ XDLink::ConnectionEstablished
 	itsAcceptor->close();
 
 	Broadcast(DebuggerStarted());
-	Broadcast(UserOutput(JGetString("Connected::XDLink"), kJFalse));
+	Broadcast(UserOutput(JGetString("Connected::XDLink"), false));
 }
 
 /******************************************************************************

@@ -30,13 +30,13 @@ public:
 
 	CMBreakpoint(const JIndex debuggerIndex, const CMLocation& location,
 				 const JString& fn, const JString& addr,
-				 const JBoolean enabled, const Action action,
+				 const bool enabled, const Action action,
 				 const JString& condition, const JSize ignoreCount);
 
 	CMBreakpoint(const JIndex debuggerIndex,
 				 const JString& fileName, const JIndex lineIndex,
 				 const JString& fn, const JString& addr,
-				 const JBoolean enabled, const Action action,
+				 const bool enabled, const Action action,
 				 const JString& condition, const JSize ignoreCount);
 
 	// search target
@@ -52,10 +52,10 @@ public:
 	JIndex				GetLineNumber() const;
 	const JString&		GetFunctionName() const;
 	const JString&		GetAddress() const;
-	JBoolean			IsEnabled() const;
+	bool			IsEnabled() const;
 	Action				GetAction() const;
-	JBoolean			HasCondition() const;
-	JBoolean			GetCondition(JString* condition) const;
+	bool			HasCondition() const;
+	bool			GetCondition(JString* condition) const;
 	JSize				GetIgnoreCount() const;
 
 	void	DisplayStatus() const;
@@ -73,7 +73,7 @@ private:
 	CMLocation	itsLocation;
 	JString		itsFnName;
 	JString		itsAddr;
-	JBoolean	itsEnabledFlag;
+	bool	itsEnabledFlag;
 	Action		itsAction;
 	JString		itsCondition;
 	JSize		itsIgnoreCount;
@@ -173,7 +173,7 @@ CMBreakpoint::GetAddress()
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 CMBreakpoint::IsEnabled()
 	const
 {
@@ -197,14 +197,14 @@ CMBreakpoint::GetAction()
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 CMBreakpoint::HasCondition()
 	const
 {
 	return !itsCondition.IsEmpty();
 }
 
-inline JBoolean
+inline bool
 CMBreakpoint::GetCondition
 	(
 	JString* condition

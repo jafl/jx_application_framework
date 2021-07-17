@@ -21,7 +21,7 @@ public:
 
 	JXWindow();
 
-	JBoolean	InstallMenuShortcut(JXTextMenu* menu, const JIndex menuItem,
+	bool	InstallMenuShortcut(JXTextMenu* menu, const JIndex menuItem,
 									const int key, const JXKeyModifiers& origModifiers);
 	void		ClearMenuShortcut(JXTextMenu* menu, const JIndex menuItem);
 	void		ClearAllMenuShortcuts(JXTextMenu* menu);

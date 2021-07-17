@@ -35,11 +35,11 @@ JCalcWSFont
 	const JFontStyle& prevStyle = prevFont.GetStyle();
 	const JFontStyle& nextStyle = nextFont.GetStyle();
 
-	const JBoolean ulMatch =
-		JI2B( prevStyle.underlineCount == nextStyle.underlineCount );
+	const bool ulMatch =
+		prevStyle.underlineCount == nextStyle.underlineCount;
 
-	const JBoolean sMatch =
-		JI2B( prevStyle.strike == nextStyle.strike );
+	const bool sMatch =
+		prevStyle.strike == nextStyle.strike;
 
 	if (!ulMatch && !sMatch &&
 		prevStyle.underlineCount == 0 && !prevStyle.strike)
@@ -55,7 +55,7 @@ JCalcWSFont
 		{
 		JFont f = nextFont;
 		f.SetUnderlineCount(0);
-		f.SetStrike(kJFalse);
+		f.SetStrike(false);
 		return f;
 		}
 	else if (!ulMatch && prevStyle.underlineCount == 0)
@@ -96,14 +96,14 @@ JAnalyzeWhitespace
 	(
 	const JString&	buffer,
 	const JSize		tabWidth,
-	const JBoolean	defaultUseSpaces,
-	JBoolean*		useSpaces,
-	JBoolean*		isMixed
+	const bool	defaultUseSpaces,
+	bool*		useSpaces,
+	bool*		isMixed
 	)
 {
 	assert( tabWidth > 0 );
 
-	*isMixed = kJFalse;
+	*isMixed = false;
 
 	const JSize maxSpaceCount = 100;
 	JSize spaceLines = 0, tinySpaceLines = 0, tabLines = 0,
@@ -115,7 +115,7 @@ JAnalyzeWhitespace
 	do
 		{
 		JSize spaceCount = 0, tailSpaceCount = 0;
-		JBoolean tabs = kJFalse;
+		bool tabs = false;
 		while (iter.Next(&c))
 			{
 			if (c == ' ')
@@ -125,7 +125,7 @@ JAnalyzeWhitespace
 				}
 			else if (c == '\t')
 				{
-				tabs           = kJTrue;
+				tabs           = true;
 				tailSpaceCount = 0;
 				}
 			else
@@ -153,7 +153,7 @@ JAnalyzeWhitespace
 			}
 		else if (spaceCount > 0 && tabs)
 			{
-			*isMixed = kJTrue;
+			*isMixed = true;
 
 			if (defaultUseSpaces)
 				{
@@ -184,10 +184,10 @@ JAnalyzeWhitespace
 
 	if (tabLines > 0 && spaceLines > 0)
 		{
-		*isMixed = kJTrue;
+		*isMixed = true;
 		}
 
-	*useSpaces = JI2B(spaceLines > tabLines || (spaceLines == tabLines && defaultUseSpaces));
+	*useSpaces = spaceLines > tabLines || (spaceLines == tabLines && defaultUseSpaces);
 
 	if (!*useSpaces || spaceHistoCount == 0)
 		{
@@ -246,7 +246,7 @@ JReadUNIXManOutput
 	const JFont& defFont = st->GetDefaultFont();
 
 	JFont boldFont = defFont;
-	boldFont.SetBold(kJTrue);
+	boldFont.SetBold(true);
 
 	JFont ulFont = defFont;
 	ulFont.SetUnderlineCount(1);
@@ -266,11 +266,11 @@ JReadUNIXManOutput
 				(styles.IsEmpty() ||
 				 styles.GetLastElement() != ulFont))
 				{
-				siter.SetPrev(defFont, kJFalse);
+				siter.SetPrev(defFont, kJIteratorStay);
 				}
 			else
 				{
-				siter.SetPrev(ulFont, kJFalse);
+				siter.SetPrev(ulFont, kJIteratorStay);
 				}
 			prev = '\0';
 			}
@@ -282,7 +282,7 @@ JReadUNIXManOutput
 			if (c == prev)
 				{
 				citer.RemovePrev();	// toss duplicate
-				siter.SetPrev(boldFont, kJFalse);
+				siter.SetPrev(boldFont, kJIteratorStay);
 				}
 			else
 				{
@@ -339,13 +339,13 @@ JPasteUNIXTerminalOutput
 	const JFont f0 = f;
 
 	JPtrArray<JString> chunkList(JPtrArrayT::kDeleteAll);
-	text.Split(theUNIXTerminalFormatPattern, &chunkList, 0, kJTrue);
+	text.Split(theUNIXTerminalFormatPattern, &chunkList, 0, true);
 
 	JPtrArray<JString> cmdList(JPtrArrayT::kDeleteAll);
 
 	for (const JString* chunk : chunkList)
 		{
-		const JStringMatch m = theUNIXTerminalFormatPattern.Match(*chunk, kJTrue);
+		const JStringMatch m = theUNIXTerminalFormatPattern.Match(*chunk, JRegex::kIncludeSubmatches);
 		if (m.IsEmpty())
 			{
 			buffer += *chunk;
@@ -370,17 +370,17 @@ JPasteUNIXTerminalOutput
 					break;
 
 				case 1:
-					f.SetBold(kJTrue);
+					f.SetBold(true);
 					break;
 				case 22:
-					f.SetBold(kJFalse);
+					f.SetBold(false);
 					break;
 
 				case 3:
-					f.SetItalic(kJTrue);
+					f.SetItalic(true);
 					break;
 				case 23:
-					f.SetItalic(kJFalse);
+					f.SetItalic(false);
 					break;
 
 				case 4:
@@ -481,13 +481,13 @@ JReadLimitedMarkdown
 	JFont f = st->GetDefaultFont();
 	styles.AppendElements(f, buffer.GetCharacterCount());
 
-	f.SetBold(kJTrue);
+	f.SetBold(true);
 	jReplaceMarkdownPattern(&iter, theBoldPattern, f, &styles);
-	f.SetBold(kJFalse);
+	f.SetBold(false);
 
-	f.SetItalic(kJTrue);
+	f.SetItalic(true);
 	jReplaceMarkdownPattern(&iter, theItalicPattern, f, &styles);
-	f.SetItalic(kJFalse);
+	f.SetItalic(false);
 
 	f.SetUnderlineCount(1);
 	jReplaceMarkdownPattern(&iter, theUnderlinePattern, f, &styles);

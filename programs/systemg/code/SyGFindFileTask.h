@@ -23,7 +23,7 @@ public:
 
 public:
 
-	static JBoolean	Create(SyGTreeDir* dir, const JString& path,
+	static bool	Create(SyGTreeDir* dir, const JString& path,
 						   const JString& expr, SyGFindFileTask** task);
 
 	virtual ~SyGFindFileTask();
@@ -44,7 +44,7 @@ private:
 	RecordLink*			itsMessageLink;		// can be nullptr
 	RecordLink*			itsErrorLink;		// can be nullptr
 	JString				itsErrors;			// cache while process is running
-	JBoolean			itsFoundFilesFlag;
+	bool			itsFoundFilesFlag;
 
 private:
 

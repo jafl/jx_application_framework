@@ -1,4 +1,4 @@
-jx_browser_data 87
+jx_browser_data 88
 # project tree
 0 "root"
 T
@@ -339,7 +339,7 @@ F
 # tasks
 4
 "makemake"
-T "./" "./glove test1.glv" "" F F F F T T F "" "" "R8Jou)kyC$5xOnrhPu%0::CBCommandManager" F
+T "./" "./glove test1.glv" "" FFFFTTF "" "" "R8Jou)kyC$5xOnrhPu%0::CBCommandManager" F
 F
 # build settings
 1

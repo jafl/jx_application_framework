@@ -21,8 +21,8 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	JXStaticText(const JString& text, const JBoolean wordWrap,
-				 const JBoolean selectable, const JBoolean allowStyles,
+	JXStaticText(const JString& text, const bool wordWrap,
+				 const bool selectable, const bool allowStyles,
 				 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
@@ -37,7 +37,7 @@ public:
 
 	void	SetBackgroundColor(const JColorID color);
 
-	void	SetToLabel(const JBoolean centerHorizontally = kJFalse);
+	void	SetToLabel(const bool centerHorizontally = false);
 
 	virtual JString	ToString() const override;
 
@@ -45,12 +45,12 @@ protected:
 
 	virtual void		BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
 	virtual void		BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
 private:
 
-	JBoolean	itsCenterHorizFlag;
-	JBoolean	itsCenterVertFlag;
+	bool	itsCenterHorizFlag;
+	bool	itsCenterVertFlag;
 
 private:
 

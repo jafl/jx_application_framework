@@ -53,11 +53,11 @@ CMStackWidget::CMStackWidget
 	itsCommandDir(commandDir),
 	itsStackDir(stackDir),
 	itsTree(tree),
-	itsNeedsUpdateFlag(kJFalse),
-	itsSmartFrameSelectFlag(kJFalse),
-	itsIsWaitingForReloadFlag(kJFalse),
-	itsChangingFrameFlag(kJFalse),
-	itsSelectingFrameFlag(kJFalse)
+	itsNeedsUpdateFlag(false),
+	itsSmartFrameSelectFlag(false),
+	itsIsWaitingForReloadFlag(false),
+	itsChangingFrameFlag(false),
+	itsSelectingFrameFlag(false)
 {
 	itsLink = CMGetLink();
 	ListenTo(itsLink);
@@ -97,7 +97,7 @@ CMStackWidget::~CMStackWidget()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMStackWidget::GetStackFrame
 	(
 	const JUInt64				id,
@@ -115,12 +115,12 @@ CMStackWidget::GetStackFrame
 		if (node->GetID() == id)
 			{
 			*frame = node;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*frame = nullptr;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -147,12 +147,12 @@ CMStackWidget::SelectFrame
 		if (node->GetID() == id)
 			{
 			JIndex j;
-			const JBoolean found = list->FindNode(node, &j);
+			const bool found = list->FindNode(node, &j);
 			assert( found );
 
-			itsSelectingFrameFlag = kJTrue;
+			itsSelectingFrameFlag = true;
 			SelectSingleCell(JPoint(GetNodeColIndex(), j));
-			itsSelectingFrameFlag = kJFalse;
+			itsSelectingFrameFlag = false;
 
 			break;
 			}
@@ -309,9 +309,9 @@ CMStackWidget::HandleMouseDown
 		}
 	else
 		{
-		itsSelectingFrameFlag = kJTrue;		// ignore selection changes during open/close
+		itsSelectingFrameFlag = true;		// ignore selection changes during open/close
 		JXNamedTreeListWidget::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
-		itsSelectingFrameFlag = kJFalse;
+		itsSelectingFrameFlag = false;
 		}
 }
 
@@ -329,9 +329,9 @@ CMStackWidget::HandleMouseUp
 	const JXKeyModifiers&	modifiers
 	)
 {
-	itsSelectingFrameFlag = kJTrue;		// ignore selection changes during open/close
+	itsSelectingFrameFlag = true;		// ignore selection changes during open/close
 	JXNamedTreeListWidget::HandleMouseUp(pt, button, buttonStates, modifiers);
-	itsSelectingFrameFlag = kJFalse;
+	itsSelectingFrameFlag = false;
 }
 
 /******************************************************************************
@@ -367,10 +367,10 @@ CMStackWidget::HandleKeyPress
 		{
 		if (c == kJLeftArrow || c == kJRightArrow)
 			{
-			itsSelectingFrameFlag = kJTrue;		// ignore selection changes during open/close
+			itsSelectingFrameFlag = true;		// ignore selection changes during open/close
 			}
 		JXNamedTreeListWidget::HandleKeyPress(c, keySym, modifiers);
-		itsSelectingFrameFlag = kJFalse;
+		itsSelectingFrameFlag = false;
 		}
 }
 
@@ -379,7 +379,7 @@ CMStackWidget::HandleKeyPress
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMStackWidget::SelectNextFrame
 	(
 	const JInteger delta
@@ -395,7 +395,7 @@ CMStackWidget::SelectNextFrame
 		const JTreeNode* parent = node->GetParent();
 
 		JIndex i;
-		JBoolean found = parent->FindChild(node, &i);
+		bool found = parent->FindChild(node, &i);
 		assert( found );
 
 		i += delta;
@@ -408,11 +408,11 @@ CMStackWidget::SelectNextFrame
 			SelectSingleCell(JPoint(GetNodeColIndex(), i));
 			}
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -436,7 +436,7 @@ CMStackWidget::Receive
 			}
 		else
 			{
-			itsNeedsUpdateFlag = kJTrue;
+			itsNeedsUpdateFlag = true;
 			}
 		}
 	else if (sender == itsLink && message.Is(CMLink::kThreadChanged))
@@ -466,13 +466,13 @@ CMStackWidget::Receive
 		{
 		// This is triggered when gdb prints file:line info.
 
-		const JBoolean wasChanging = itsChangingFrameFlag;
-		itsChangingFrameFlag       = kJFalse;
+		const bool wasChanging = itsChangingFrameFlag;
+		itsChangingFrameFlag       = false;
 
 		if (!wasChanging &&
 			itsGetFrameCmd->GetState() == CMCommand::kUnassigned)
 			{
-			itsSmartFrameSelectFlag = kJTrue;
+			itsSmartFrameSelectFlag = true;
 			Rebuild();
 			}
 		}
@@ -481,8 +481,8 @@ CMStackWidget::Receive
 			 (message.Is(CMLink::kCoreLoaded) ||
 			  message.Is(CMLink::kAttachedToProcess)))
 		{
-		itsNeedsUpdateFlag      = kJTrue;
-		itsSmartFrameSelectFlag = kJTrue;
+		itsNeedsUpdateFlag      = true;
+		itsSmartFrameSelectFlag = true;
 		itsStackDir->Activate();
 		}
 
@@ -560,7 +560,7 @@ CMStackWidget::SwitchToFrame
 	const JUInt64 id
 	)
 {
-	itsChangingFrameFlag = kJTrue;
+	itsChangingFrameFlag = true;
 	itsLink->SwitchToFrame(id);
 }
 
@@ -584,12 +584,12 @@ CMStackWidget::Update()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMStackWidget::ShouldRebuild()
 	const
 {
-	return JI2B(itsStackDir->IsActive() &&
-				!GetWindow()->IsIconified());
+	return itsStackDir->IsActive() &&
+				!GetWindow()->IsIconified();
 }
 
 /******************************************************************************
@@ -602,7 +602,7 @@ CMStackWidget::Rebuild()
 {
 	if (ShouldRebuild())
 		{
-		itsIsWaitingForReloadFlag = kJTrue;
+		itsIsWaitingForReloadFlag = true;
 		FlushOldData();
 		itsGetStackCmd->Send();		// need stack before selecting frame
 		if (!itsSmartFrameSelectFlag)
@@ -612,7 +612,7 @@ CMStackWidget::Rebuild()
 		}
 	else
 		{
-		itsNeedsUpdateFlag = kJTrue;
+		itsNeedsUpdateFlag = true;
 		}
 }
 
@@ -624,12 +624,12 @@ CMStackWidget::Rebuild()
 void
 CMStackWidget::FlushOldData()
 {
-	itsSelectingFrameFlag = kJTrue;
+	itsSelectingFrameFlag = true;
 	(itsTree->GetRoot())->DeleteAllChildren();
-	itsSelectingFrameFlag = kJFalse;
+	itsSelectingFrameFlag = false;
 
-	itsNeedsUpdateFlag   = kJFalse;
-	itsChangingFrameFlag = kJFalse;
+	itsNeedsUpdateFlag   = false;
+	itsChangingFrameFlag = false;
 }
 
 /******************************************************************************
@@ -648,6 +648,6 @@ CMStackWidget::FinishedLoading
 		{
 		itsLink->SwitchToFrame(initID);
 		}
-	itsIsWaitingForReloadFlag = kJFalse;
-	itsSmartFrameSelectFlag   = kJFalse;
+	itsIsWaitingForReloadFlag = false;
+	itsSmartFrameSelectFlag   = false;
 }

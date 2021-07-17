@@ -37,7 +37,7 @@ CBEditMacroDialog::CBEditMacroDialog
 	const JIndex							firstUnusedID
 	)
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue),
+	JXDialogDirector(JXGetApplication(), true),
 	JPrefObject(CBGetPrefsManager(), kCBEditMacroDialogID)
 {
 	BuildWindow(macroList, initialSelection, firstUnusedID);
@@ -125,7 +125,7 @@ CBEditMacroDialog::BuildWindow
 
 	window->SetTitle(JGetString("WindowTitle::CBEditMacroDialog"));
 	SetButtons(okButton, cancelButton);
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 
@@ -309,7 +309,7 @@ CBEditMacroDialog::BuildWindow
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBEditMacroDialog::ContentsValid()
 	const
 {
@@ -321,7 +321,7 @@ CBEditMacroDialog::ContentsValid()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBEditMacroDialog::GetCurrentMacroSetName
 	(
 	JString* name
@@ -338,12 +338,11 @@ CBEditMacroDialog::GetCurrentMacroSetName
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBEditMacroDialog::OKToDeactivate()
 {
-	return JConvertToBoolean(
-		Cancelled() ||
-		(JXDialogDirector::OKToDeactivate() && ContentsValid()) );
+	return Cancelled() ||
+		(JXDialogDirector::OKToDeactivate() && ContentsValid());
 }
 
 /******************************************************************************

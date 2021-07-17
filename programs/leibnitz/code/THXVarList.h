@@ -40,12 +40,12 @@ public:
 	virtual ~THXVarList();
 
 	JIndex		NewFunction();
-	JBoolean	SetVariableName(const JIndex index, const JString& name);
+	bool	SetVariableName(const JIndex index, const JString& name);
 
 	const JFunction*	GetFunction(const JIndex index) const;
-	JBoolean			SetFunction(const JIndex index, const JString& expr);
+	bool			SetFunction(const JIndex index, const JString& expr);
 
-	JBoolean	OKToRemoveFunction(const JIndex index) const;
+	bool	OKToRemoveFunction(const JIndex index) const;
 	void		RemoveFunction(const JIndex index);
 
 // implementation of JVariableList
@@ -54,14 +54,14 @@ public:
 	virtual void			GetVariableName(const JIndex index, JString* name,
 											JString* subscript) const override;
 
-	virtual JBoolean	IsArray(const JIndex index) const override;
-	virtual JBoolean	ArrayIndexValid(const JIndex variableIndex,
+	virtual bool	IsArray(const JIndex index) const override;
+	virtual bool	ArrayIndexValid(const JIndex variableIndex,
 										const JIndex elementIndex) const override;
 
-	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
+	virtual bool	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex,
 										JFloat* value) const override;
-	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
+	virtual bool	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex,
 										JComplex* value) const override;
 
@@ -114,15 +114,15 @@ THXVarList::GetFunction
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 THXVarList::OKToRemoveFunction
 	(
 	const JIndex index
 	)
 	const
 {
-	return JI2B( index > kUserFnOffset &&
-				 OKToRemoveVariable(index) );
+	return index > kUserFnOffset &&
+				 OKToRemoveVariable(index);
 }
 
 #endif

@@ -110,7 +110,7 @@ JHashCursor<V>::ForceNextOpen()
 		{
 		GetMutableTable()->FitToLimits(1);
 		JConstHashCursor<V>::Reset();
-		const JBoolean foundOpen = JConstHashCursor<V>::NextOpen();
+		const bool foundOpen = JConstHashCursor<V>::NextOpen();
 		assert(foundOpen); // Should *never* require more than one resize
 		}
 }
@@ -137,7 +137,7 @@ JHashCursor<V>::ForceNextMapInsertHash()
 		{
 		GetMutableTable()->FitToLimits(1);
 		JConstHashCursor<V>::Reset();
-		const JBoolean foundOpen = JConstHashCursor<V>::NextMapInsertHash();
+		const bool foundOpen = JConstHashCursor<V>::NextMapInsertHash();
 		assert(foundOpen); // Should *never* require more than one resize
 		}
 }
@@ -164,7 +164,7 @@ JHashCursor<V>::ForceNextMapInsertKey()
 		{
 		GetMutableTable()->FitToLimits(1);
 		JConstHashCursor<V>::Reset();
-		const JBoolean foundOpen = JConstHashCursor<V>::NextMapInsertKey();
+		const bool foundOpen = JConstHashCursor<V>::NextMapInsertKey();
 		assert(foundOpen); // Should *never* require more than one resize
 		}
 }

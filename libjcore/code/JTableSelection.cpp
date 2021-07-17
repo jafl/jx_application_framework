@@ -3,7 +3,7 @@
 
 	Class for storing which cells are selected in a JTable.
 
-	BASE CLASS = JAuxTableData<JBoolean>
+	BASE CLASS = JAuxTableData<bool>
 
 	Copyright (C) 1997 by John Lindal & Glenn Bach.
 
@@ -24,7 +24,7 @@ JTableSelection::JTableSelection
 	JTable* table
 	)
 	:
-	JAuxTableData<JBoolean>(table, kJFalse)
+	JAuxTableData<bool>(table, false)
 {
 }
 
@@ -39,7 +39,7 @@ JTableSelection::JTableSelection
 	const JTableSelection&	source
 	)
 	:
-	JAuxTableData<JBoolean>(table, source)
+	JAuxTableData<bool>(table, source)
 {
 }
 
@@ -60,7 +60,7 @@ JTableSelection::~JTableSelection()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTableSelection::ExtendSelection
 	(
 	const JPoint& newBoat
@@ -68,17 +68,17 @@ JTableSelection::ExtendSelection
 {
 	if (newBoat == itsBoat)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (UndoSelection())
 		{
 		itsBoat = newBoat;
-		SelectRect(itsBoat, itsAnchor, kJTrue);
-		return kJTrue;
+		SelectRect(itsBoat, itsAnchor, true);
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -89,17 +89,17 @@ JTableSelection::ExtendSelection
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTableSelection::UndoSelection()
 {
 	if (OKToExtendSelection())
 		{
-		SelectRect(itsBoat, itsAnchor, kJFalse);
-		return kJTrue;
+		SelectRect(itsBoat, itsAnchor, false);
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -122,7 +122,7 @@ JTableSelection::Receive
 {
 	JTable* table = GetTable();
 
-	JBoolean reselect = kJFalse;
+	bool reselect = false;
 	if (sender == table && message.Is(JTable::kPrepareForTableDataMessage))
 		{
 		itsReselectAfterChangeFlag = UndoSelection();
@@ -130,7 +130,7 @@ JTableSelection::Receive
 
 	// let JAuxTableData update the data first
 
-	JAuxTableData<JBoolean>::Receive(sender, message);
+	JAuxTableData<bool>::Receive(sender, message);
 
 	// rows changed
 
@@ -141,7 +141,7 @@ JTableSelection::Receive
 		assert( info != nullptr );
 		info->AdjustCell(&itsBoat);
 		info->AdjustCell(&itsAnchor);
-		reselect = kJTrue;
+		reselect = true;
 		}
 
 	else if (sender == table && message.Is(JTableData::kRowDuplicated))
@@ -151,7 +151,7 @@ JTableSelection::Receive
 		assert( info != nullptr );
 		info->AdjustCell(&itsBoat);
 		info->AdjustCell(&itsAnchor);
-		reselect = kJTrue;
+		reselect = true;
 		}
 
 	else if (sender == table && message.Is(JTableData::kRowsRemoved))
@@ -166,7 +166,7 @@ JTableSelection::Receive
 		AdjustIndexAfterRemove(origBoat.y, origAnchor.y,
 							   info->GetFirstIndex(), GetRowCount(),
 							   &(itsBoat.y), &(itsAnchor.y));
-		reselect = kJTrue;
+		reselect = true;
 		}
 
 	// columns changed
@@ -178,7 +178,7 @@ JTableSelection::Receive
 		assert( info != nullptr );
 		info->AdjustCell(&itsBoat);
 		info->AdjustCell(&itsAnchor);
-		reselect = kJTrue;
+		reselect = true;
 		}
 
 	else if (sender == table && message.Is(JTableData::kColDuplicated))
@@ -188,7 +188,7 @@ JTableSelection::Receive
 		assert( info != nullptr );
 		info->AdjustCell(&itsBoat);
 		info->AdjustCell(&itsAnchor);
-		reselect = kJTrue;
+		reselect = true;
 		}
 
 	else if (sender == table && message.Is(JTableData::kColsRemoved))
@@ -203,14 +203,14 @@ JTableSelection::Receive
 		AdjustIndexAfterRemove(origBoat.x, origAnchor.x,
 							   info->GetFirstIndex(), GetColCount(),
 							   &(itsBoat.x), &(itsAnchor.x));
-		reselect = kJTrue;
+		reselect = true;
 		}
 
 	// elements changed
 
 	else if (sender == table && message.Is(JTableData::kRectChanged))
 		{
-		reselect = kJTrue;
+		reselect = true;
 		}
 
 	// everything changed
@@ -224,7 +224,7 @@ JTableSelection::Receive
 
 	if (reselect && itsReselectAfterChangeFlag && OKToExtendSelection())
 		{
-		SelectRect(itsBoat, itsAnchor, kJTrue);
+		SelectRect(itsBoat, itsAnchor, true);
 		}
 }
 
@@ -268,7 +268,7 @@ JTableSelection::AdjustIndexAfterRemove
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTableSelection::GetSingleSelectedCell
 	(
 	JPoint* cell
@@ -281,12 +281,12 @@ JTableSelection::GetSingleSelectedCell
 		cell1 == cell2)
 		{
 		*cell = cell1;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		cell->Set(0,0);
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -298,7 +298,7 @@ JTableSelection::GetSingleSelectedCell
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTableSelection::GetFirstSelectedCell
 	(
 	JPoint*										cell,
@@ -318,7 +318,7 @@ JTableSelection::GetFirstSelectedCell
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTableSelection::GetLastSelectedCell
 	(
 	JPoint*										cell,
@@ -337,10 +337,10 @@ JTableSelection::GetLastSelectedCell
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTableSelection::InvertSelection
 	(
-	const JBoolean& b
+	const bool& b
 	)
 {
 	return !b;

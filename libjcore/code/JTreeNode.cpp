@@ -26,11 +26,11 @@
 JTreeNode::JTreeNode
 	(
 	JTree*			tree,
-	const JBoolean	isOpenable
+	const bool	isOpenable
 	)
 	:
 	itsIsOpenableFlag(isOpenable),
-	itsIsDestructingFlag(kJFalse)
+	itsIsDestructingFlag(false)
 {
 	itsTree      = tree;
 	itsParent    = nullptr;
@@ -46,7 +46,7 @@ JTreeNode::JTreeNode
 
 JTreeNode::~JTreeNode()
 {
-	itsIsDestructingFlag = kJTrue;
+	itsIsDestructingFlag = true;
 
 	DeleteAllChildren();
 	DisconnectFromParent();
@@ -62,12 +62,12 @@ JTreeNode::~JTreeNode()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTreeNode::IsRoot()
 	const
 {
-	return JI2B( (itsTree != nullptr && itsTree->GetRoot() == this) ||
-				 (itsTree == nullptr && itsParent == nullptr) );
+	return (itsTree != nullptr && itsTree->GetRoot() == this) ||
+				 (itsTree == nullptr && itsParent == nullptr);
 }
 
 /******************************************************************************
@@ -141,7 +141,7 @@ JTreeNode::GetParent()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTreeNode::OKToOpen()
 	const
 {
@@ -156,7 +156,7 @@ JTreeNode::OKToOpen()
 void
 JTreeNode::ShouldBeOpenable
 	(
-	const JBoolean openable
+	const bool openable
 	)
 {
 	if (itsIsOpenableFlag != openable)
@@ -177,7 +177,7 @@ JTreeNode::ShouldBeOpenable
  GetIndexInParent
 
 	The first version asserts that we have a parent.
-	The second version returns kJFalse if we don't have a parent.
+	The second version returns false if we don't have a parent.
 
  ******************************************************************************/
 
@@ -186,12 +186,12 @@ JTreeNode::GetIndexInParent()
 	const
 {
 	JIndex index;
-	const JBoolean found = GetIndexInParent(&index);
+	const bool found = GetIndexInParent(&index);
 	assert( found );
 	return index;
 }
 
-JBoolean
+bool
 JTreeNode::GetIndexInParent
 	(
 	JIndex* index
@@ -200,14 +200,14 @@ JTreeNode::GetIndexInParent
 {
 	if (itsParent != nullptr)
 		{
-		const JBoolean found = itsParent->FindChild(this, index);
+		const bool found = itsParent->FindChild(this, index);
 		assert( found );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*index = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -318,7 +318,7 @@ JTreeNode::InsertAtIndex
 	JTreeNode*		child
 	)
 {
-	const JBoolean isMove = child->SetParent(this);		// may delete *our* itsChildren list
+	const bool isMove = child->SetParent(this);		// may delete *our* itsChildren list
 
 	CreateChildList();
 	itsChildren->InsertAtIndex(index, child);
@@ -337,7 +337,7 @@ JTreeNode::InsertBefore
 	JTreeNode*			child
 	)
 {
-	const JBoolean isMove = child->SetParent(this);		// may delete *our* itsChildren list
+	const bool isMove = child->SetParent(this);		// may delete *our* itsChildren list
 
 	CreateChildList();
 	itsChildren->InsertBefore(before, child);
@@ -356,7 +356,7 @@ JTreeNode::InsertAfter
 	JTreeNode*			child
 	)
 {
-	const JBoolean isMove = child->SetParent(this);		// may delete *our* itsChildren list
+	const bool isMove = child->SetParent(this);		// may delete *our* itsChildren list
 
 	CreateChildList();
 	itsChildren->InsertAfter(after, child);
@@ -374,7 +374,7 @@ JTreeNode::InsertSorted
 	JTreeNode* child
 	)
 {
-	const JBoolean isMove = child->SetParent(this);		// may delete *our* itsChildren list
+	const bool isMove = child->SetParent(this);		// may delete *our* itsChildren list
 
 	CreateChildList();
 	if (!itsChildren->Includes(child))
@@ -397,7 +397,7 @@ JTreeNode::SetChildCompareFunction
 	JListT::CompareResult (*compareFn)(JTreeNode * const &,
 											 JTreeNode * const &),
 	const JListT::SortOrder	order,
-	const JBoolean					propagate
+	const bool					propagate
 	)
 {
 	if (compareFn != itsCompareFn || order != itsSortOrder)
@@ -417,7 +417,7 @@ JTreeNode::SetChildCompareFunction
 		{
 		for (JTreeNode* n : *itsChildren)
 			{
-			n->SetChildCompareFunction(compareFn, order, kJTrue);
+			n->SetChildCompareFunction(compareFn, order, true);
 			}
 		}
 }
@@ -432,7 +432,7 @@ JTreeNode::SetChildCompareFunction
 void
 JTreeNode::SortChildren
 	(
-	const JBoolean propagate
+	const bool propagate
 	)
 {
 	if (itsChildren != nullptr && itsCompareFn != nullptr)
@@ -509,11 +509,11 @@ JTreeNode::Receive
 	We always disconnect, even if the parent is the same, because
 	JTreeList requires it.
 
-	Returns kJTrue if we have a tree and the node will stay in the same tree.
+	Returns true if we have a tree and the node will stay in the same tree.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTreeNode::SetParent
 	(
 	JTreeNode* parent
@@ -521,10 +521,10 @@ JTreeNode::SetParent
 {
 	assert( parent != nullptr );
 
-	JBoolean isMove = kJFalse;
+	bool isMove = false;
 	if (itsTree != nullptr && itsParent != nullptr && parent->itsTree == itsTree)
 		{
-		isMove = kJTrue;
+		isMove = true;
 		itsTree->BroadcastPrepareForMove(this);
 		}
 
@@ -550,7 +550,7 @@ JTreeNode::CreateChildList()
 		itsChildren->SetCompareFunction(itsCompareFn);
 		itsChildren->SetSortOrder(itsSortOrder);
 
-		ShouldBeOpenable(kJTrue);
+		ShouldBeOpenable(true);
 		}
 }
 
@@ -563,13 +563,13 @@ void
 JTreeNode::BroadcastInsertChild
 	(
 	JTreeNode*		child,
-	const JBoolean	isMove
+	const bool	isMove
 	)
 {
 	if (itsTree != nullptr && itsChildren != nullptr)
 		{
 		JIndex index;
-		const JBoolean found = itsChildren->Find(child, &index);
+		const bool found = itsChildren->Find(child, &index);
 		assert( found );
 		itsTree->BroadcastInsert(this, child, index);
 

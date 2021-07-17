@@ -37,7 +37,7 @@ TestApp::TestApp
 	(
 	int*			argc,
 	char*			argv[],
-	const JBoolean	wantMDI
+	const bool	wantMDI
 	)
 	:
 	JXApplication(argc, argv, kAppSignature, kDefaultStringData)
@@ -68,7 +68,7 @@ TestApp::~TestApp()
 void
 TestApp::OpenDocuments()
 {
-	if (!JFileExists(JString(kOpenFilesFileName, kJFalse)))
+	if (!JFileExists(JString(kOpenFilesFileName, false)))
 		{
 		return;
 		}
@@ -83,7 +83,7 @@ TestApp::OpenDocuments()
 		{
 		input >> fullName;
 
-		TestTextEditDocument* doc = jnew TestTextEditDocument(this, fullName, kJFalse);
+		TestTextEditDocument* doc = jnew TestTextEditDocument(this, fullName, false);
 		assert( doc != nullptr );
 		doc->GetWindow()->ReadGeometry(input);
 		doc->Activate();
@@ -97,7 +97,7 @@ TestApp::OpenDocuments()
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestApp::Close()
 {
 	JXDocumentManager* mgr = JXGetDocumentManager();
@@ -125,7 +125,7 @@ TestApp::Close()
 		TestTextEditDocument* teDoc = dynamic_cast<TestTextEditDocument*>(doc);
 		if (teDoc != nullptr)
 			{
-			JBoolean onDisk;
+			bool onDisk;
 			const JString fullName = teDoc->GetFullName(&onDisk);
 			if (onDisk)
 				{
@@ -180,7 +180,7 @@ TestApp::CleanUpBeforeSuddenDeath
 		JError err = JProcess::Create(&p, argv, sizeof(argv), kJCreatePipe, &toFD);
 		if (err.OK())
 			{
-			JOutPipeStream output(toFD, kJTrue);
+			JOutPipeStream output(toFD, true);
 			output << "Subject: server crash" << std::endl << std::endl;
 			output << "We're sorry, but the X Windows server crashed while" << std::endl;
 			output << "you were running testjx.  (Or had you already noticed?)" << std::endl;

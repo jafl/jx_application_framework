@@ -137,15 +137,14 @@ JXMenuData::CleanOutBaseItem
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenuData::HasCheckboxes()
 	const
 {
-	return JI2B(
-		std::any_of(begin(*itsBaseItemData), end(*itsBaseItemData),
+	return std::any_of(begin(*itsBaseItemData), end(*itsBaseItemData),
 			[] (const BaseItemData& itemData)
 				{ return (itemData.type == JXMenu::kCheckboxType ||
-						  itemData.type == JXMenu::kRadioType); }));
+						  itemData.type == JXMenu::kRadioType); });
 }
 
 /******************************************************************************
@@ -153,14 +152,13 @@ JXMenuData::HasCheckboxes()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenuData::HasSubmenus()
 	const
 {
-	return JI2B(
-		std::any_of(begin(*itsBaseItemData), end(*itsBaseItemData),
+	return std::any_of(begin(*itsBaseItemData), end(*itsBaseItemData),
 			[] (const BaseItemData& itemData)
-				{ return itemData.submenu != nullptr; }));
+				{ return itemData.submenu != nullptr; });
 }
 
 /******************************************************************************
@@ -177,7 +175,7 @@ JXMenuData::SetItemShortcuts
 {
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
 
-	JBoolean changed = kJFalse;
+	bool changed = false;
 	if (!shortcuts.IsEmpty())
 		{
 		if (itemData.shortcuts == nullptr)
@@ -191,14 +189,14 @@ JXMenuData::SetItemShortcuts
 			*(itemData.shortcuts) = shortcuts;
 			}
 		(itemData.shortcuts)->ToLower();
-		changed = kJTrue;
+		changed = true;
 		}
 	else if (itemData.shortcuts != nullptr)
 		{
 		jdelete (itemData.shortcuts);
 		itemData.shortcuts = nullptr;
 		itsBaseItemData->SetElement(index, itemData);
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (changed)
@@ -228,12 +226,12 @@ JXMenuData::ItemShortcutsChanged
 /******************************************************************************
  ShortcutToIndex
 
-	Returns kJTrue if the given character is a shortcut for one of our
+	Returns true if the given character is a shortcut for one of our
 	menu items.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenuData::ShortcutToIndex
 	(
 	const JUtf8Character&	c,
@@ -251,11 +249,11 @@ JXMenuData::ShortcutToIndex
 			(itemData.shortcuts)->Contains(c))
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -332,7 +330,7 @@ void
 JXMenuData::SetItemEnable
 	(
 	const JIndex	index,
-	const JBoolean	enabled
+	const bool	enabled
 	)
 {
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
@@ -371,7 +369,7 @@ JXMenuData::CheckItem
 	assert( itemData.type == JXMenu::kCheckboxType || itemData.type == JXMenu::kRadioType );
 	if (!itemData.isChecked)
 		{
-		itemData.isChecked = kJTrue;
+		itemData.isChecked = true;
 		itsBaseItemData->SetElement(index, itemData);
 		}
 }
@@ -402,19 +400,19 @@ JXMenuData::AttachSubmenu
 	itemData.submenu   = submenu;
 	itemData.enabled   = submenu->IsActive();
 	itemData.type      = JXMenu::kPlainType;
-	itemData.isChecked = kJFalse;
+	itemData.isChecked = false;
 	itsBaseItemData->SetElement(index, itemData);
 }
 
 /******************************************************************************
  RemoveSubmenu (private)
 
-	Returns kJTrue if there was a submenu at the given index.
+	Returns true if there was a submenu at the given index.
 	The caller now owns the menu and is responsible for deleting it.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenuData::RemoveSubmenu
 	(
 	const JIndex	index,
@@ -431,11 +429,11 @@ JXMenuData::RemoveSubmenu
 		itemData.submenu = nullptr;
 		itsBaseItemData->SetElement(index, itemData);
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -458,11 +456,11 @@ JXMenuData::RemoveSubmenu
 /******************************************************************************
  FindSubmenu (private)
 
-	Returns kJTrue if the given submenu is attached to this menu.
+	Returns true if the given submenu is attached to this menu.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenuData::FindSubmenu
 	(
 	JXMenu*	theMenu,
@@ -477,12 +475,12 @@ JXMenuData::FindSubmenu
 		if (itemData.submenu == theMenu)
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -524,18 +522,18 @@ JXMenuData::PrepareToOpenMenu
 		{
 		BaseItemData itemData = itsBaseItemData->GetElement(i);
 
-		JBoolean changed = kJFalse;
+		bool changed = false;
 		if (itemData.enabled &&
 			(updateAction == JXMenu::kDisableAll ||
 			 (itemData.submenu == nullptr && updateAction == JXMenu::kDisableSingles)))
 			{
-			itemData.enabled = kJFalse;
-			changed          = kJTrue;
+			itemData.enabled = false;
+			changed          = true;
 			}
 		if (itemData.isChecked)
 			{
-			itemData.isChecked = kJFalse;
-			changed            = kJTrue;
+			itemData.isChecked = false;
+			changed            = true;
 			}
 
 		if (changed)

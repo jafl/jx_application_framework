@@ -98,14 +98,14 @@ TestData
 		}
 
 	J2DPlotData* data;
-	JBoolean ok = J2DPlotData::Create(&data, x, y, kJFalse);
+	bool ok = J2DPlotData::Create(&data, x, y, false);
 	assert( ok );
 	ok = data->SetXErrors(xPErr, xMErr);
 	assert( ok );
 	ok = data->SetYErrors(yPErr, yMErr);
 	assert( ok );
 
-	plot->AddCurve(data, kJTrue, JString("sin(x)", kJFalse), kJTrue, kJTrue);
+	plot->AddCurve(data, true, JString("sin(x)", false), true, true);
 
 	x.RemoveAll();
 	y.RemoveAll();
@@ -118,7 +118,7 @@ TestData
 		}
 
 	JIndex i;
-	plot->AddCurve(x, y, kJFalse, JString("cos(x)", kJFalse), &i, kJTrue, kJFalse);
+	plot->AddCurve(x, y, false, JString("cos(x)", false), &i, true, false);
 
 	plot->SetTitle(JGetString("DataTitle::main"));
 }
@@ -149,7 +149,7 @@ TestLogData
 		}
 
 	JIndex i;
-	plot->AddCurve(x, y, kJFalse, JString("log2(x)", kJFalse), &i, kJTrue, kJFalse);
+	plot->AddCurve(x, y, false, JString("log2(x)", false), &i, true, false);
 
 	x.RemoveAll();
 	y.RemoveAll();
@@ -160,9 +160,9 @@ TestLogData
 		y.AppendElement((i*delta)*(i*delta));
 		}
 
-	plot->AddCurve(x, y, kJFalse, JString("x^2", kJFalse), &i, kJTrue, kJFalse);
+	plot->AddCurve(x, y, false, JString("x^2", false), &i, true, false);
 
-	plot->SetYScale(0.1, 1000, 0, kJFalse);
+	plot->SetYScale(0.1, 1000, 0, false);
 	plot->SetTitle(JGetString("LogDataTitle::main"));
 }
 
@@ -193,7 +193,7 @@ TestVector
 		data->AddElement(0.8+x, 5.0+y, x,y);
 		}
 
-	plot->AddCurve(data, kJTrue, JString("vector", kJFalse));
+	plot->AddCurve(data, true, JString("vector", false));
 
 	plot->SetTitle(JGetString("VectorTitle::main"));
 }

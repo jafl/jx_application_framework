@@ -36,15 +36,15 @@ public:
 	virtual ~JXCSFDialogBase();
 
 	virtual void		Activate() override;
-	virtual JBoolean	Deactivate() override;
+	virtual bool	Deactivate() override;
 
 	const JString&	GetPath() const;
 	const JString&	GetFilter() const;
-	JBoolean		HiddenVisible() const;
+	bool		HiddenVisible() const;
 
 	// called by JXChooseSaveFile
 
-	void	ReadBaseSetup(std::istream& input, const JBoolean ignoreScroll);
+	void	ReadBaseSetup(std::istream& input, const bool ignoreScroll);
 	void	WriteBaseSetup(std::ostream& output) const;
 
 protected:
@@ -73,7 +73,7 @@ protected:
 	JXInputField*	GetFilterInput() const;
 	JXNewDirButton*	GetNewDirButton() const;
 
-	JBoolean	GoToItsPath();
+	bool	GoToItsPath();
 	void		AdjustFilter();
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -83,7 +83,7 @@ private:
 	JDirInfo*	itsDirInfo;			// we don't own this
 	JString		itsPrevPath;
 	JString		itsPrevFilterString;
-	JBoolean	itsDeactCancelFlag;
+	bool	itsDeactCancelFlag;
 
 	JXDirTable*				itsFileBrowser;
 	JXPathHistoryMenu*		itsPathHistory;

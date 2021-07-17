@@ -17,7 +17,7 @@
 
  ********************************************************************************/
 
-JBoolean
+bool
 J2DPlotJFunction::Create
 	(
 	J2DPlotJFunction**	plotfunction,
@@ -35,13 +35,13 @@ J2DPlotJFunction::Create
 	JFunction* f;
 	if (p.Parse(function, &f))
 		{
-		*plotfunction = jnew J2DPlotJFunction(plot, varList, f, kJTrue, xIndex, xMin, xMax);
-		return kJTrue;
+		*plotfunction = jnew J2DPlotJFunction(plot, varList, f, true, xIndex, xMin, xMax);
+		return true;
 		}
 	else
 		{
 		*plotfunction = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -55,7 +55,7 @@ J2DPlotJFunction::J2DPlotJFunction
 	J2DPlotWidget*	plot,
 	JVariableList*	varList,
 	JFunction*		f,
-	const JBoolean	ownsFn,
+	const bool	ownsFn,
 	const JIndex	xIndex,
 	const JFloat	xMin,
 	const JFloat	xMax
@@ -89,7 +89,7 @@ J2DPlotJFunction::~J2DPlotJFunction()
 
  ********************************************************************************/
 
-JBoolean
+bool
 J2DPlotJFunction::GetYValue
 	(
 	const JFloat	x,
@@ -123,7 +123,7 @@ J2DPlotJFunction::SetFunction
 	(
 	JVariableList*	varList,
 	JFunction*		f,
-	const JBoolean	ownsFn,
+	const bool	ownsFn,
 	const JIndex	xIndex,
 	const JFloat	xMin,
 	const JFloat	xMax
@@ -176,7 +176,7 @@ J2DPlotJFunction::Receive
 		const JVariableList::VarRemoved* info =
 			dynamic_cast<const JVariableList::VarRemoved*>(&message);
 		assert( info != nullptr );
-		const JBoolean ok = info->AdjustIndex(&itsXIndex);
+		const bool ok = info->AdjustIndex(&itsXIndex);
 		assert( ok );	// client must ensure this
 		}
 

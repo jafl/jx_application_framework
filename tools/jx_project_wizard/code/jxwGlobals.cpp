@@ -21,11 +21,11 @@ static JXWMainDialog*	theMainDialog   = nullptr;
 /******************************************************************************
  JXWCreateGlobals
 
-	Returns kJTrue if this is the first time the program is run.
+	Returns true if this is the first time the program is run.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWCreateGlobals
 	(
 	JXWApp* app
@@ -33,7 +33,7 @@ JXWCreateGlobals
 {
 	theApplication = app;
 
-	JBoolean isNew;
+	bool isNew;
 	thePrefsManager	= jnew JXWPrefsManager(&isNew);
 	assert(thePrefsManager != nullptr);
 

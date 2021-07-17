@@ -22,10 +22,10 @@ GFGMemberFunction::GFGMemberFunction()
 	:	
 	itsArgs(nullptr)
 {
-	itsIsProtected	= kJFalse;
-	itsIsRequired	= kJFalse;
-	itsIsUsed		= kJFalse;
-	itsIsConst		= kJFalse;
+	itsIsProtected	= false;
+	itsIsRequired	= false;
+	itsIsUsed		= false;
+	itsIsConst		= false;
 }
 
 /******************************************************************************

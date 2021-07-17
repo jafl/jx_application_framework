@@ -74,16 +74,16 @@ JXSelectionManager::JXSelectionManager
 
 	itsMaxDataChunkSize = XMaxRequestSize(*display) * 4/5;
 
-	itsReceivedAllocErrorFlag  = kJFalse;
+	itsReceivedAllocErrorFlag  = false;
 	itsTargetWindow            = None;
-	itsTargetWindowDeletedFlag = kJFalse;
+	itsTargetWindowDeletedFlag = false;
 
 	// create data transfer window
 
 	const unsigned long valueMask = CWOverrideRedirect | CWEventMask;
 
 	XSetWindowAttributes attr;
-	attr.override_redirect = kJTrue;
+	attr.override_redirect = true;
 	attr.event_mask        = PropertyChangeMask;
 
 	itsDataWindow = XCreateSimpleWindow(*itsDisplay, itsDisplay->GetRootWindow(),
@@ -114,7 +114,7 @@ JXSelectionManager::~JXSelectionManager()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSelectionManager::GetAvailableTypes
 	(
 	const Atom		selectionName,
@@ -128,7 +128,7 @@ JXSelectionManager::GetAvailableTypes
 	if (GetData(selectionName, time, &data))
 		{
 		*typeList = data->GetTypeList();
-		return kJTrue;
+		return true;
 		}
 
 	// We have to go via the X server.
@@ -159,7 +159,7 @@ JXSelectionManager::GetAvailableTypes
 				}
 
 			XFree(data);
-			return kJTrue;
+			return true;
 			}
 		else
 			{
@@ -183,11 +183,11 @@ JXSelectionManager::GetAvailableTypes
 //		std::cout << "CLIPBOARD owner: " << XGetSelectionOwner(*itsDisplay, XInternAtom(*itsDisplay, "CLIPBOARD", False)) << std::endl;
 
 		typeList->AppendElement(XA_STRING);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -204,7 +204,7 @@ JXSelectionManager::GetAvailableTypes
 #include <JProcess.h>
 #include <jStreamUtil.h>
 
-JBoolean
+bool
 JXSelectionManager::GetData
 	(
 	const Atom		selectionName,
@@ -222,7 +222,7 @@ JXSelectionManager::GetData
 		{
 		JProcess* p;
 		int fd;
-		if (JProcess::Create(&p, JString("pbpaste", kJFalse),
+		if (JProcess::Create(&p, JString("pbpaste", false),
 							 kJIgnoreConnection, nullptr, kJCreatePipe, &fd).OK())
 			{
 			JString clipdata;
@@ -233,7 +233,7 @@ JXSelectionManager::GetData
 			*data       = (unsigned char*) clipdata.AllocateBytes();
 			*dataLength = clipdata.GetByteCount();
 			*delMethod  = kArrayDelete;
-			return kJTrue;
+			return true;
 			}
 		}
 #endif
@@ -247,14 +247,14 @@ JXSelectionManager::GetData
 							   data, dataLength, &bitsPerBlock))
 			{
 			*delMethod = kArrayDelete;
-			return kJTrue;
+			return true;
 			}
 		else
 			{
 			*returnType = None;
 			*data       = nullptr;
 			*dataLength = 0;
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -265,7 +265,7 @@ JXSelectionManager::GetData
 	*dataLength = 0;
 	*delMethod  = kXFree;
 
-	JBoolean success = kJFalse;
+	bool success = false;
 
 	XSelectionEvent selEvent;
 	if (RequestData(selectionName, time, requestType, &selEvent))
@@ -304,7 +304,7 @@ JXSelectionManager::GetData
 		else if (*returnType != None && remainingBytes == 0)
 			{
 			*dataLength = itemCount * actualFormat/8;
-			success     = kJTrue;
+			success     = true;
 			}
 		else
 			{
@@ -395,7 +395,7 @@ JXSelectionManager::SendDeleteRequest
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSelectionManager::RequestData
 	(
 	const Atom			selectionName,
@@ -419,7 +419,7 @@ JXSelectionManager::RequestData
 	XEvent xEvent;
 	const clock_t startTime = clock();
 	const clock_t endTime   = startTime + kWaitForSelectionTime;
-	JBoolean userBored      = kJFalse;
+	bool userBored      = false;
 	while (!receivedEvent && clock() < endTime)
 		{
 		receivedEvent =
@@ -428,7 +428,7 @@ JXSelectionManager::RequestData
 
 		if (!userBored && clock() > startTime + kUserBoredWaitingTime)
 			{
-			userBored = kJTrue;
+			userBored = true;
 			JXGetApplication()->DisplayBusyCursor();
 			}
 		}
@@ -437,14 +437,14 @@ JXSelectionManager::RequestData
 		{
 		assert( xEvent.type == SelectionNotify );
 		*selEvent = xEvent.xselection;
-		return JI2B(selEvent->requestor == itsDataWindow &&
+		return selEvent->requestor == itsDataWindow &&
 					selEvent->selection == selectionName &&
 					selEvent->target    == type &&
-					selEvent->property  == itsAtoms[ kSelectionWindPropAtomIndex ] );
+					selEvent->property  == itsAtoms[ kSelectionWindPropAtomIndex ];
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -705,7 +705,7 @@ JXSelectionManager::SendData
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSelectionManager::SendData1
 	(
 	const Window	requestor,
@@ -723,9 +723,9 @@ JXSelectionManager::SendData1
 	XChangeProperty(*itsDisplay, requestor, property, type,
 					bitsPerBlock, PropModeReplace, data, itemCount);
 
-	itsReceivedAllocErrorFlag  = kJFalse;
+	itsReceivedAllocErrorFlag  = false;
 	itsTargetWindow            = requestor;
-	itsTargetWindowDeletedFlag = kJFalse;
+	itsTargetWindowDeletedFlag = false;
 
 	itsDisplay->Synchronize();
 
@@ -735,18 +735,18 @@ JXSelectionManager::SendData1
 
 	itsTargetWindow = None;
 
-	return JNegate(itsReceivedAllocErrorFlag || itsTargetWindowDeletedFlag);
+	return !itsReceivedAllocErrorFlag && !itsTargetWindowDeletedFlag;
 }
 
 /******************************************************************************
  WaitForPropertyDeleted (private)
 
 	Wait for the receiver to delete the window property.
-	Returns kJFalse if we time out or the window is deleted (receiver crash).
+	Returns false if we time out or the window is deleted (receiver crash).
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSelectionManager::WaitForPropertyDeleted
 	(
 	const Window	xWindow,
@@ -766,11 +766,11 @@ JXSelectionManager::WaitForPropertyDeleted
 
 		if (receivedEvent && xEvent.type == PropertyNotify)
 			{
-			return kJTrue;
+			return true;
 			}
 		else if (receivedEvent && xEvent.type == DestroyNotify)
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -799,7 +799,7 @@ JXSelectionManager::WaitForPropertyDeleted
 	#endif
 
 	XSelectInput(*itsDisplay, xWindow, NoEventMask);
-	return kJFalse;
+	return false;
 }
 
 // static
@@ -839,7 +839,7 @@ JXSelectionManager::GetNextPropDeletedEvent
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSelectionManager::ReceiveDataIncr
 	(
 	const Atom		selectionName,
@@ -865,7 +865,7 @@ JXSelectionManager::ReceiveDataIncr
 	const Window sender = XGetSelectionOwner(*itsDisplay, selectionName);
 	if (sender == None)
 		{
-		return kJFalse;
+		return false;
 		}
 	XSelectInput(*itsDisplay, sender, StructureNotifyMask);
 
@@ -878,7 +878,7 @@ JXSelectionManager::ReceiveDataIncr
 	JIndex chunkIndex = 0;
 	#endif
 
-	JBoolean ok = kJTrue;
+	bool ok = true;
 	while (1)
 		{
 		#if JXSEL_DEBUG_MSGS
@@ -892,7 +892,7 @@ JXSelectionManager::ReceiveDataIncr
 			std::cout << chunkIndex << ", " << *dataLength << " bytes received" << std::endl;
 			#endif
 
-			ok = kJFalse;
+			ok = false;
 			break;
 			}
 
@@ -912,7 +912,7 @@ JXSelectionManager::ReceiveDataIncr
 			std::cout << chunkIndex << std::endl;
 			#endif
 
-			ok = kJFalse;
+			ok = false;
 			break;
 			}
 
@@ -929,7 +929,7 @@ JXSelectionManager::ReceiveDataIncr
 			#endif
 
 			XFree(chunk);
-			ok = JConvertToBoolean( *data != nullptr );
+			ok = *data != nullptr;
 			break;
 			}
 
@@ -1000,11 +1000,11 @@ JXSelectionManager::ReceiveDataIncr
  WaitForPropertyCreated (private)
 
 	Wait for the receiver to create the window property.
-	Returns kJFalse if we time out or the sender crashes.
+	Returns false if we time out or the sender crashes.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSelectionManager::WaitForPropertyCreated
 	(
 	const Window	xWindow,
@@ -1021,17 +1021,17 @@ JXSelectionManager::WaitForPropertyCreated
 		{
 		if (XCheckTypedWindowEvent(*itsDisplay, sender, DestroyNotify, &xEvent))
 			{
-			return kJFalse;
+			return false;
 			}
 
 		if (XCheckIfEvent(*itsDisplay, &xEvent, GetNextNewPropertyEvent,
 						  reinterpret_cast<char*>(checkIfEventData)))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 // static
@@ -1080,14 +1080,14 @@ JXSelectionManager::ReceiveWithFeedback
 
 		if (err->GetType() == BadAlloc)
 			{
-			itsReceivedAllocErrorFlag = kJTrue;
+			itsReceivedAllocErrorFlag = true;
 			err->SetCaught();
 			}
 
 		else if (err->GetType() == BadWindow &&
 				 err->GetXID()  == itsTargetWindow)
 			{
-			itsTargetWindowDeletedFlag = kJTrue;
+			itsTargetWindowDeletedFlag = true;
 			err->SetCaught();
 			}
 		}
@@ -1104,14 +1104,14 @@ JXSelectionManager::ReceiveWithFeedback
 	Set the data for the given selection.
 
 	*** 'data' must be allocated on the heap.
-		We take ownership of 'data' even if the function returns kJFalse.
+		We take ownership of 'data' even if the function returns false.
 
  ******************************************************************************/
 
 #include <JProcess.h>
 #include <unistd.h>
 
-JBoolean
+bool
 JXSelectionManager::SetData
 	(
 	const Atom			selectionName,
@@ -1125,7 +1125,7 @@ JXSelectionManager::SetData
 	// check if it already owns the selection
 
 	JXSelectionData* origData = nullptr;
-	const JBoolean found = GetData(selectionName, CurrentTime, &origData);
+	const bool found = GetData(selectionName, CurrentTime, &origData);
 	if (found && origData != data)
 		{
 		origData->SetEndTime(lastEventTime);
@@ -1163,7 +1163,7 @@ JXSelectionManager::SetData
 				{
 				JProcess* p;
 				int fd;
-				if (JProcess::Create(&p, JString("pbcopy", kJFalse),
+				if (JProcess::Create(&p, JString("pbcopy", false),
 									 kJCreatePipe, &fd).OK())
 					{
 					write(fd, clipdata, dataLength);
@@ -1177,12 +1177,12 @@ JXSelectionManager::SetData
 #endif
 		data->SetSelectionInfo(selectionName, lastEventTime);
 		itsDataList->Append(data);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		jdelete data;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1227,7 +1227,7 @@ JXSelectionManager::ClearData
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSelectionManager::GetData
 	(
 	const Atom				selectionName,
@@ -1240,7 +1240,7 @@ JXSelectionManager::GetData
 
 // private
 
-JBoolean
+bool
 JXSelectionManager::GetData
 	(
 	const Atom			selectionName,
@@ -1256,7 +1256,7 @@ JXSelectionManager::GetData
 		const Time t1 = (**data).GetStartTime();
 
 		Time t2;
-		const JBoolean finished = (**data).GetEndTime(&t2);
+		const bool finished = (**data).GetEndTime(&t2);
 
 		if (selectionName == (**data).GetSelectionName() &&
 			((time == CurrentTime && !finished) ||
@@ -1267,7 +1267,7 @@ JXSelectionManager::GetData
 				{
 				*index = i;
 				}
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -1276,7 +1276,7 @@ JXSelectionManager::GetData
 		{
 		*index = 0;
 		}
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

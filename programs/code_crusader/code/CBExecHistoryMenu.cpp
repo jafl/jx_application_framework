@@ -58,7 +58,7 @@ CBExecHistoryMenu::CBExecHistoryMenu
 void
 CBExecHistoryMenu::CBExecHistoryMenuX()
 {
-	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_executable_small), kJFalse);
+	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_executable_small), false);
 }
 
 /******************************************************************************

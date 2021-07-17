@@ -39,10 +39,10 @@ enum JChildExitReason
 
 // Prototypes
 
-JBoolean	JWillIncludeCWDOnPath();
-void		JShouldIncludeCWDOnPath(const JBoolean includeCWD);
+bool	JWillIncludeCWDOnPath();
+void		JShouldIncludeCWDOnPath(const bool includeCWD);
 
-JBoolean	JProgramAvailable(const JString& programName);
+bool	JProgramAvailable(const JString& programName);
 
 JError	JExecute(const JString& cmd, pid_t* childPID,
 				 const JExecuteAction toAction = kJIgnoreConnection,
@@ -102,7 +102,7 @@ void	JParseArgsForExec(const JString& cmd, JPtrArray<JString>* argList);
 
 	// wait for any child -- returns child that finished
 
-JError JWaitForChild(const JBoolean block, pid_t* pid, ACE_exitcode* status = nullptr);
+JError JWaitForChild(const bool block, pid_t* pid, ACE_exitcode* status = nullptr);
 
 	// wait for specified child
 

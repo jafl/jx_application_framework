@@ -115,15 +115,15 @@ jGetParenType
 
  ******************************************************************************/
 
-JBoolean
+bool
 JParenthesizeArgForPrint
 	(
 	const JFunction& f,
 	const JFunction& arg
 	)
 {
-	return JI2B(kNeedParenForPrint[ jGetParenType(f) * kFunctionParenTypeCount +
-									jGetParenType(arg)] );
+	return kNeedParenForPrint[ jGetParenType(f) * kFunctionParenTypeCount +
+									jGetParenType(arg)];
 }
 
 /******************************************************************************
@@ -131,15 +131,15 @@ JParenthesizeArgForPrint
 
  ******************************************************************************/
 
-JBoolean
+bool
 JParenthesizeArgForRender
 	(
 	const JFunction& f,
 	const JFunction& arg
 	)
 {
-	return JI2B(kNeedParenForRender[ jGetParenType(f) * kFunctionParenTypeCount +
-									 jGetParenType(arg)] );
+	return kNeedParenForRender[ jGetParenType(f) * kFunctionParenTypeCount +
+									 jGetParenType(arg)];
 }
 
 /******************************************************************************
@@ -164,7 +164,7 @@ jAddFunction
 	FunctionData data;
 	data.argCount = argCount;
 
-	const JBoolean added = theFunctionData.SetNewElement(JString(name, kJFalse), data);
+	const bool added = theFunctionData.SetNewElement(JString(name, JString::kNoCopy), data);
 	assert( added );
 }
 
@@ -211,7 +211,7 @@ jInitFunctionData()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGetArgCount
 	(
 	const JString&	fnName,
@@ -224,11 +224,11 @@ JGetArgCount
 	if (theFunctionData.GetElement(fnName, &data))
 		{
 		*argCount = data.argCount;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*argCount = 0;
-		return kJFalse;
+		return false;
 		}
 }

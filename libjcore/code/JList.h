@@ -91,10 +91,10 @@ private:
 				return itsCount;
 			};
 
-			JBoolean
+			bool
 			Contains(const JIndex index) const
 			{
-				return JI2B( itsFirstIndex <= index && index <= GetLastIndex() );
+				return itsFirstIndex <= index && index <= GetLastIndex();
 			};
 
 		private:
@@ -128,7 +128,7 @@ public:
 				ElementMessage(kElementsRemoved, firstIndex, count)
 				{ };
 
-			JBoolean	AdjustIndex(JIndex* index) const;
+			bool	AdjustIndex(JIndex* index) const;
 		};
 
 	// for JBroadcasters
@@ -297,17 +297,17 @@ public:
 
 	// sorting functions -- virtual so they can be optimized for particular storage methods
 
-	JBoolean	GetCompareFunction(JListT::CompareResult (**compareFn)(const T&, const T&)) const;
+	bool	GetCompareFunction(JListT::CompareResult (**compareFn)(const T&, const T&)) const;
 	void		SetCompareFunction(JListT::CompareResult (*compareFn)(const T&, const T&));
 
-	JBoolean	GetCompareObject(const JElementComparison<T>** compareObj) const;
+	bool	GetCompareObject(const JElementComparison<T>** compareObj) const;
 	void		SetCompareObject(const JElementComparison<T>& compareObj);
 	void		ClearCompareObject();
 
 	JListT::SortOrder	GetSortOrder() const;
 	void				SetSortOrder(const JListT::SortOrder order);
 
-	JBoolean		IsSorted() const;
+	bool		IsSorted() const;
 
 protected:
 

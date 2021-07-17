@@ -48,14 +48,14 @@ CMDebuggerProgramInput::~CMDebuggerProgramInput()
 /******************************************************************************
  GetFile (virtual)
 
-	Returns kJTrue if the current file name is valid.  In this case, *fullName
+	Returns true if the current file name is valid.  In this case, *fullName
 	is set to the full path + name, relative to the root directory.
 
 	Use this instead of GetText(), because that may return a relative path.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMDebuggerProgramInput::GetFile
 	(
 	JString* fullName
@@ -66,12 +66,12 @@ CMDebuggerProgramInput::GetFile
 	if (JProgramAvailable(text))
 		{
 		*fullName = text;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		fullName->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -80,7 +80,7 @@ CMDebuggerProgramInput::GetFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMDebuggerProgramInput::InputValid()
 {
 	const JString& text = GetText()->GetText();

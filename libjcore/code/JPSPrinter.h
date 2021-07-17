@@ -34,7 +34,7 @@ public:
 
 	virtual ~JPSPrinter();
 
-	virtual JBoolean	WillPrintBlackWhite() const;
+	virtual bool	WillPrintBlackWhite() const;
 
 	// saving setup information
 
@@ -43,8 +43,8 @@ public:
 
 	// printing control
 
-	virtual JBoolean	OpenDocument();
-	virtual JBoolean	NewPage();
+	virtual bool	OpenDocument();
+	virtual bool	NewPage();
 	virtual void		CloseDocument();
 	virtual void		CancelDocument();
 
@@ -62,7 +62,7 @@ public:
 	JIndex	GetLastPageToPrint() const;
 	void	SetLastPageToPrint(const JIndex index);
 
-	JBoolean	WillPrintAllPages() const;
+	bool	WillPrintAllPages() const;
 	void		PrintAllPages();
 
 	// paper info
@@ -115,7 +115,7 @@ protected:
 	virtual void			PSResetCoordinates();
 	virtual JCoordinate		PSGetPrintableHeight() const;
 
-	virtual JBoolean	PSShouldPrintCurrentPage() const;
+	virtual bool	PSShouldPrintCurrentPage() const;
 	virtual void		PSPrintVersionComment(std::ostream& output);
 	virtual void		PSPrintHeaderComments(std::ostream& output);
 	virtual void		PSPrintSetupComments(std::ostream& output);
@@ -233,11 +233,11 @@ JPSPrinter::SetLastPageToPrint
 	itsLastPageIndex = index;
 }
 
-inline JBoolean
+inline bool
 JPSPrinter::WillPrintAllPages()
 	const
 {
-	return JConvertToBoolean( itsFirstPageIndex == 0 && itsLastPageIndex == 0 );
+	return itsFirstPageIndex == 0 && itsLastPageIndex == 0;
 }
 
 inline void

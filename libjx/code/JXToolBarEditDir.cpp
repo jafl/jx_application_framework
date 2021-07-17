@@ -44,17 +44,17 @@ const JCoordinate kCurrentPrefsVersion = 1;
 JXToolBarEditDir::JXToolBarEditDir
 	(
 	JTree*						tree,
-	const JBoolean				show,
-	const JBoolean				useSmall,
+	const bool				show,
+	const bool				useSmall,
 	const JXToolBarButton::Type	type,
 	JXDirector*				supervisor
 	)
 	:
-   JXDialogDirector(supervisor, kJTrue),
+   JXDialogDirector(supervisor, true),
    itsTree(tree),
-   itsTreeChanged(kJFalse)
+   itsTreeChanged(false)
 {
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 
 	BuildWindow();
 	ListenTo(itsTree);
@@ -63,11 +63,11 @@ JXToolBarEditDir::JXToolBarEditDir
 	itsUseSmallButtonsCB->SetState(useSmall);
 	if ((type == JXToolBarButton::kImage) || (type == JXToolBarButton::kBoth))
 		{
-		itsShowImagesCB->SetState(kJTrue);
+		itsShowImagesCB->SetState(true);
 		}
 	if ((type == JXToolBarButton::kText) || (type == JXToolBarButton::kBoth))
 		{
-		itsShowTextCB->SetState(kJTrue);
+		itsShowTextCB->SetState(true);
 		}
 
 }
@@ -216,7 +216,7 @@ JXToolBarEditDir::Receive
 {
 	if (sender == itsTree && message.Is(JTree::kNodeChanged))
 		{
-		itsTreeChanged = kJTrue;
+		itsTreeChanged = true;
 		}
 	else
 		{
@@ -229,7 +229,7 @@ JXToolBarEditDir::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXToolBarEditDir::ShowToolBar()
 {
 	return itsShowToolBarCB->IsChecked();
@@ -240,7 +240,7 @@ JXToolBarEditDir::ShowToolBar()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXToolBarEditDir::UseSmallButtons()
 {
 	return itsUseSmallButtonsCB->IsChecked();
@@ -254,8 +254,8 @@ JXToolBarEditDir::UseSmallButtons()
 JXToolBarButton::Type
 JXToolBarEditDir::GetType()
 {
-	JBoolean images = itsShowImagesCB->IsChecked();
-	JBoolean text	= itsShowTextCB->IsChecked();
+	bool images = itsShowImagesCB->IsChecked();
+	bool text	= itsShowTextCB->IsChecked();
 
 	if (images && !text)
 		{

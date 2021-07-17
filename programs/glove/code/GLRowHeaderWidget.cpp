@@ -75,7 +75,7 @@ GLRowHeaderWidget::TableDrawCell
 
 	const JFont font = JFontManager::GetFont(
 		JFontManager::GetDefaultFontName(), 10,
-		JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetBlackColor()));
+		JFontStyle(true, false, 0, false, JColorManager::GetBlackColor()));
 	p.SetFont(font);
 	JString str(cell.y, 0);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
@@ -97,7 +97,7 @@ GLRowHeaderWidget::HandleMouseDown
 	)
 {
 	JPoint itsDragCell;
-	const JBoolean inDragRegion = InDragRegion(pt, &itsDragCell);
+	const bool inDragRegion = InDragRegion(pt, &itsDragCell);
 
 	if (inDragRegion && button == kJXLeftButton)
 		{

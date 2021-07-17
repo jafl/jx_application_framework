@@ -123,13 +123,12 @@ JXCheckboxGroup::Remove
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXCheckboxGroup::AllChecked()
 	const
 {
-	return JI2B(
-		std::all_of(begin(*itsCBList), end(*itsCBList),
-			[] (const JXCheckbox* cb) { return cb->IsChecked(); }));
+	return std::all_of(begin(*itsCBList), end(*itsCBList),
+			[] (const JXCheckbox* cb) { return cb->IsChecked(); });
 }
 
 /******************************************************************************
@@ -137,23 +136,22 @@ JXCheckboxGroup::AllChecked()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXCheckboxGroup::AllUnchecked()
 	const
 {
-	return JI2B(
-		std::all_of(begin(*itsCBList), end(*itsCBList),
-			[] (const JXCheckbox* cb) { return !cb->IsChecked(); }));
+	return std::all_of(begin(*itsCBList), end(*itsCBList),
+			[] (const JXCheckbox* cb) { return !cb->IsChecked(); });
 }
 
 /******************************************************************************
  AllDisabled (protected)
 
-	Returns kJTrue if all checkboxes are either hidden or inactive.
+	Returns true if all checkboxes are either hidden or inactive.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXCheckboxGroup::AllDisabled()
 	const
 {
@@ -162,21 +160,21 @@ JXCheckboxGroup::AllDisabled()
 		{
 		if (!CheckboxDisabled(i))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  CheckboxDisabled (protected)
 
-	Returns kJTrue if the checkbox is either hidden or inactive.
+	Returns true if the checkbox is either hidden or inactive.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXCheckboxGroup::CheckboxDisabled
 	(
 	const JIndex index
@@ -184,7 +182,7 @@ JXCheckboxGroup::CheckboxDisabled
 	const
 {
 	JXCheckbox* cb = itsCBList->GetElement(index);
-	return JI2B(!cb->WouldBeVisible() || !cb->WouldBeActive());
+	return !cb->WouldBeVisible() || !cb->WouldBeActive();
 }
 
 /******************************************************************************
@@ -254,7 +252,7 @@ JXCheckboxGroup::ReceiveGoingAway
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXCheckboxGroup::FindCheckbox
 	(
 	JBroadcaster*	obj,
@@ -268,10 +266,10 @@ JXCheckboxGroup::FindCheckbox
 		if (itsCBList->GetElement(i) == obj)
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
-	return kJFalse;
+	return false;
 }

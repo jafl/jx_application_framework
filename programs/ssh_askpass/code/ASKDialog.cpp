@@ -31,7 +31,7 @@ ASKDialog::ASKDialog
 	)
 	:
 	JXGetStringDialog(supervisor, JGetString("Title::ASKDialog"),
-					  JGetString("Prompt::ASKDialog"), JString::empty, kJTrue, kJTrue)
+					  JGetString("Prompt::ASKDialog"), JString::empty, true, true)
 {
 }
 
@@ -49,16 +49,16 @@ ASKDialog::~ASKDialog()
 
  ******************************************************************************/
 
-JBoolean
+bool
 ASKDialog::OKToDeactivate()
 {
 	if (JXGetStringDialog::OKToDeactivate())
 		{
 		std::cout << GetString() << std::endl;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

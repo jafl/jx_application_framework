@@ -25,7 +25,7 @@ JVMGetSourceFileList::JVMGetSourceFileList
 	CMFileListDir* fileList
 	)
 	:
-	CMGetSourceFileList(JString("NOP", kJFalse), fileList)
+	CMGetSourceFileList(JString("NOP", JString::kNoCopy), fileList)
 {
 }
 

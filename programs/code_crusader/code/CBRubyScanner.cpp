@@ -23,7 +23,7 @@
 CBRubyScanner::CBRubyScanner()
 	:
 	CBRubyFlexLexer(),
-	itsResetFlag(kJFalse)
+	itsResetFlag(false)
 {
 }
 
@@ -50,10 +50,10 @@ CBRubyScanner::BeginScan
 	)
 {
 	itsCurrentText = text;
-	itsResetFlag   = kJTrue;
+	itsResetFlag   = true;
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	itsHereDocTag.Clear();
 	itsHereDocType = kDoubleQuoteString;
 
@@ -66,7 +66,7 @@ CBRubyScanner::BeginScan
 	count is the number of times to slurp up to and including endChar.
 	suffixList is the characters that can be appended, e.g., /foo/i
 
-	Returns kJFalse if EOF was encountered.
+	Returns false if EOF was encountered.
 
  *****************************************************************************/
 

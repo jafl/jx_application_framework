@@ -57,8 +57,8 @@ CBSearchDocument::Create
 	const JPtrArray<JString>&	fileList,
 	const JPtrArray<JString>&	nameList,
 	const JRegex&				searchRegex,
-	const JBoolean				onlyListFiles,
-	const JBoolean				listFilesWithoutMatch
+	const bool				onlyListFiles,
+	const bool				listFilesWithoutMatch
 	)
 {
 	assert( !fileList.IsEmpty() );
@@ -89,7 +89,7 @@ CBSearchDocument::Create
 		JInitCore();
 
 		CBSearchTE te;
-		JOutPipeStream output(fd[1], kJTrue);
+		JOutPipeStream output(fd[1], true);
 		te.SearchFiles(fileList, nameList,
 					   onlyListFiles, listFilesWithoutMatch,
 					   output);
@@ -113,14 +113,14 @@ CBSearchDocument::Create
 		const JString windowTitle = JGetString("SearchTitle::CBSearchDocument", map, sizeof(map));
 
 		CBSearchDocument* doc =
-			jnew CBSearchDocument(kJFalse, JI2B(onlyListFiles || listFilesWithoutMatch),
+			jnew CBSearchDocument(false, onlyListFiles || listFilesWithoutMatch,
 								 fileList.GetElementCount(),
 								 process, fd[0], windowTitle);
 		assert( doc != nullptr );
 		doc->Activate();
 
 		RecordLink* link;
-		const JBoolean ok = doc->GetRecordLink(&link);
+		const bool ok = doc->GetRecordLink(&link);
 		assert( ok );
 		CBSearchTE::SetProtocol(link);
 		}
@@ -172,8 +172,8 @@ CBSearchDocument::Create
 		JInitCore();
 
 		CBSearchTE te;
-		JOutPipeStream output(fd[1], kJTrue);
-		te.SearchFiles(fileList, nameList, kJTrue, kJFalse, output);
+		JOutPipeStream output(fd[1], true);
+		te.SearchFiles(fileList, nameList, true, false, output);
 		output.close();
 		exit(0);
 		}
@@ -195,7 +195,7 @@ CBSearchDocument::Create
 		const JString windowTitle = JGetString("ReplaceTitle::CBSearchDocument", map, sizeof(map));
 
 		CBSearchDocument* doc =
-			jnew CBSearchDocument(kJTrue, kJTrue, fileList.GetElementCount(),
+			jnew CBSearchDocument(true, true, fileList.GetElementCount(),
 								 process, fd[0], windowTitle);
 		assert( doc != nullptr );
 
@@ -203,7 +203,7 @@ CBSearchDocument::Create
 		doc->Activate();
 
 		RecordLink* link;
-		const JBoolean ok = doc->GetRecordLink(&link);
+		const bool ok = doc->GetRecordLink(&link);
 		assert( ok );
 		CBSearchTE::SetProtocol(link);
 		}
@@ -218,20 +218,20 @@ CBSearchDocument::Create
 
 CBSearchDocument::CBSearchDocument
 	(
-	const JBoolean		isReplace,
-	const JBoolean		onlyListFiles,
+	const bool		isReplace,
+	const bool		onlyListFiles,
 	const JSize			fileCount,
 	JProcess*			p,
 	const int			fd,
 	const JString&		windowTitle
 	)
 	:
-	CBExecOutputDocument(kCBSearchOutputFT, "CBSearchTextHelp-Multifile", kJFalse, kJFalse),
+	CBExecOutputDocument(kCBSearchOutputFT, "CBSearchTextHelp-Multifile", false, false),
 	itsIsReplaceFlag(isReplace),
 	itsOnlyListFilesFlag(onlyListFiles),
 	itsReplaceTE(nullptr)
 {
-	itsFoundFlag = kJFalse;
+	itsFoundFlag = false;
 
 	JXWidget::HSizingOption hSizing;
 	JXWidget::VSizingOption vSizing;
@@ -252,14 +252,14 @@ CBSearchDocument::CBSearchDocument
 	// allow Meta-_ to parallel Shift key required for Meta-plus
 
 	JXKeyModifiers modifiers(GetDisplay());
-	modifiers.SetState(kJXMetaKeyIndex, kJTrue);
+	modifiers.SetState(kJXMetaKeyIndex, true);
 	GetWindow()->InstallMenuShortcut(itsMatchMenu, kPrevMatchCmd, '_', modifiers);
 
 	GetWindow()->SetWMClass(CBGetWMClassInstance(), CBGetSearchOutputWindowClass());
 
 	SetConnection(p, fd, ACE_INVALID_HANDLE,
 				  windowTitle, JGetString("NoCloseWhileSearching::CBSearchDocument"),
-				  JString("/", kJFalse), windowTitle, kJFalse);
+				  JString("/", JString::kNoCopy), windowTitle, false);
 
 	CBGetDocumentManager()->SetActiveListDocument(this);
 
@@ -303,11 +303,11 @@ CBSearchDocument::PlaceCmdLineWidgets()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchDocument::NeedsFormattedData()
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -315,7 +315,7 @@ CBSearchDocument::NeedsFormattedData()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchDocument::ProcessFinished
 	(
 	const JProcess::Finished& info
@@ -323,7 +323,7 @@ CBSearchDocument::ProcessFinished
 {
 	if (!CBExecOutputDocument::ProcessFinished(info))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (itsIsReplaceFlag)
@@ -337,7 +337,7 @@ CBSearchDocument::ProcessFinished
 	jdelete itsIndicator;
 	itsIndicator = nullptr;
 
-	SetFileDisplayVisible(kJTrue);
+	SetFileDisplayVisible(true);
 
 	if (!itsFoundFlag)
 		{
@@ -350,7 +350,7 @@ CBSearchDocument::ProcessFinished
 		ShowFirstMatch();
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -358,8 +358,7 @@ CBSearchDocument::ProcessFinished
 
  ******************************************************************************/
 
-static const JString kSingleNewline("\n", kJFalse);
-static const JString kDoubleNewline("\n\n", kJFalse);
+static const JString kDoubleNewline("\n\n", JString::kNoCopy);
 
 void
 CBSearchDocument::AppendText
@@ -379,7 +378,7 @@ CBSearchDocument::AppendText
 
 	CBTextEditor* te = GetTextEditor();
 
-	itsFoundFlag = kJTrue;
+	itsFoundFlag = true;
 	const std::string s(text.GetBytes(), text.GetByteCount());
 	std::istringstream input(s);
 
@@ -395,9 +394,9 @@ CBSearchDocument::AppendText
 		te->SetCaretLocation(start.charIndex);
 		te->Paste(msg);
 		st->SetFontStyle(JStyledText::TextRange(start, st->GetBeyondEnd()),
-						 GetErrorStyle(), kJTrue);
+						 GetErrorStyle(), true);
 
-		te->Paste(itsOnlyListFilesFlag ? kSingleNewline : kDoubleNewline);
+		te->Paste(itsOnlyListFilesFlag ? JString::newline : kDoubleNewline);
 		}
 	else if (itsOnlyListFilesFlag)
 		{
@@ -431,14 +430,14 @@ CBSearchDocument::AppendText
 
 			te->Paste(fileName);
 			st->SetFontStyle(JStyledText::TextRange(start, st->GetBeyondEnd()),
-							 GetFileNameStyle(), kJTrue);
+							 GetFileNameStyle(), true);
 
 			// line number
 
 			start = st->GetBeyondEnd();
 			te->SetCurrentFont(st->GetDefaultFont());
 
-			te->Paste(JString(":", kJFalse));
+			te->Paste(JString(":", JString::kNoCopy));
 			te->Paste(JString(lineIndex));
 			te->Paste(kDoubleNewline);
 
@@ -452,7 +451,7 @@ CBSearchDocument::AppendText
 			// underline match
 
 			st->SetFontStyle(JStyledText::TextRange(matchCharRange, matchByteRange),
-							 GetMatchStyle(), kJTrue);
+							 GetMatchStyle(), true);
 
 			// save text range in case of multiple matches
 
@@ -472,7 +471,7 @@ CBSearchDocument::AppendText
 			matchCharRange += itsPrevQuoteIndex.charIndex - 1;
 			matchByteRange += itsPrevQuoteIndex.byteIndex - 1;
 			st->SetFontStyle(JStyledText::TextRange(matchCharRange, matchByteRange),
-							 GetMatchStyle(), kJTrue);
+							 GetMatchStyle(), true);
 			}
 
 		itsMatchMenu->Activate();
@@ -502,11 +501,11 @@ CBSearchDocument::ReplaceAll
 
 			CBTextEditor* te = textDoc->GetTextEditor();
 			te->SetCaretLocation(1);
-			te->ReplaceAll(kJFalse);
+			te->ReplaceAll(false);
 			}
 		}
 	else if (JFileReadable(fileName) &&
-			 itsReplaceTE->GetText()->ReadPlainText(fileName, &format, kJFalse))
+			 itsReplaceTE->GetText()->ReadPlainText(fileName, &format, false))
 		{
 		itsReplaceTE->SetCaretLocation(1);
 		if (itsReplaceTE->ReplaceAllForward())
@@ -659,7 +658,7 @@ CBSearchDocument::ShowFirstMatch()
 
  ******************************************************************************/
 
-JBoolean
+bool
 jMatchFileName
 	(
 	const JFont& font
@@ -669,22 +668,22 @@ jMatchFileName
 }
 
 
-JBoolean
+bool
 CBSearchDocument::ShowPrevMatch()
 {
 	CBTextEditor* te = GetTextEditor();
 	te->Focus();
 
-	JBoolean wrapped;
-	if (te->JTextEditor::SearchBackward(jMatchFileName, kJFalse, &wrapped))
+	bool wrapped;
+	if (te->JTextEditor::SearchBackward(jMatchFileName, false, &wrapped))
 		{
-		te->TEScrollToSelection(kJTrue);
-		return kJTrue;
+		te->TEScrollToSelection(true);
+		return true;
 		}
 	else
 		{
 		GetDisplay()->Beep();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -693,22 +692,22 @@ CBSearchDocument::ShowPrevMatch()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchDocument::ShowNextMatch()
 {
 	CBTextEditor* te = GetTextEditor();
 	te->Focus();
 
-	JBoolean wrapped;
-	if (te->JTextEditor::SearchForward(jMatchFileName, kJFalse, &wrapped))
+	bool wrapped;
+	if (te->JTextEditor::SearchForward(jMatchFileName, false, &wrapped))
 		{
-		te->TEScrollToSelection(kJTrue);
-		return kJTrue;
+		te->TEScrollToSelection(true);
+		return true;
 		}
 	else
 		{
 		GetDisplay()->Beep();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -722,7 +721,7 @@ CBSearchDocument::GetFileNameStyle()
 	const
 {
 	JFont font = GetTextEditor()->GetText()->GetDefaultFont();
-	font.SetBold(kJTrue);
+	font.SetBold(true);
 	return font.GetStyle();
 }
 

@@ -48,7 +48,7 @@
 
 	If msg == nullptr, it is retrieved from JStringManager.
 
-	If copyMsg == kJTrue, we make a copy of the data in msg.
+	If copyMsg == true, we make a copy of the data in msg.
 	Otherwise, we just store the pointer that is passed in.
 
  ******************************************************************************/

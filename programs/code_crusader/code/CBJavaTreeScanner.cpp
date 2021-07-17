@@ -39,8 +39,8 @@ CBJavaTreeScanner::~CBJavaTreeScanner()
 void
 CBJavaTreeScanner::ResetState()
 {
-	itsAbstractFlag = kJFalse;
-	itsPublicFlag   = kJFalse;
-	itsFinalFlag    = kJFalse;
+	itsAbstractFlag = false;
+	itsPublicFlag   = false;
+	itsFinalFlag    = false;
 	itsCurrentClass = nullptr;
 }

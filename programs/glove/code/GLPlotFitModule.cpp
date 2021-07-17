@@ -167,7 +167,7 @@ GLPlotFitModule::SetInitialParameters
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitModule::GetYValue
 	(
 	const JFloat 	x,
@@ -177,7 +177,7 @@ GLPlotFitModule::GetYValue
 {
 	GLPlotFitModule* th	= const_cast< GLPlotFitModule* >(this);
 	*y	= th->itsModule->Function(x);
-	return kJTrue;
+	return true;
 }
 
 
@@ -187,7 +187,7 @@ GLPlotFitModule::GetYValue
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitModule::GetParameterName
 	(
 	const JIndex index, 
@@ -198,10 +198,10 @@ GLPlotFitModule::GetParameterName
 	assert(itsModule != nullptr);
 	if (index > itsModule->GetParameterCount() || index < 1)
 		{
-		return kJFalse;
+		return false;
 		}
 	*name	= itsModule->GetParameterName(index);
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -210,7 +210,7 @@ GLPlotFitModule::GetParameterName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitModule::GetParameter
 	(
 	const JIndex index, 
@@ -220,10 +220,10 @@ GLPlotFitModule::GetParameter
 {
 	if (index > itsParameters->GetDimensionCount() || index < 1)
 		{
-		return kJFalse;
+		return false;
 		}
 	*value	= itsParameters->GetElement(index);
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -232,7 +232,7 @@ GLPlotFitModule::GetParameter
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitModule::GetParameterError
 	(
 	const JIndex index, 
@@ -243,12 +243,12 @@ GLPlotFitModule::GetParameterError
 	const JPlotDataBase* data = GetData();
 	if (!data->HasXErrors() && !data->HasYErrors())
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index > itsErrors->GetDimensionCount())
 		{
-		return kJFalse;
+		return false;
 		}
 	*value	= itsErrors->GetElement(index);
-	return kJTrue;		
+	return true;		
 }

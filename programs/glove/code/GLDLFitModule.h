@@ -23,16 +23,16 @@ class GLDLFitModule
 {
 public:
 
-	static JBoolean Create(const JString& moduleName, GLDLFitModule** fit);
+	static bool Create(const JString& moduleName, GLDLFitModule** fit);
 	virtual ~GLDLFitModule();
 
-	JBoolean	HasStartValues() const;
-	JBoolean	GetStartValues(const JArray<JFloat>* x, const JArray<JFloat>* y, 
+	bool	HasStartValues() const;
+	bool	GetStartValues(const JArray<JFloat>* x, const JArray<JFloat>* y, 
 							   const JArray<JFloat>* xerr, const JArray<JFloat>* yerr, 
 							   JVector* p);
 	JFloat		Function(const JFloat x);
 	JFloat		FPrimed(const JFloat x);
-	JBoolean	HasFPrimed() const;
+	bool	HasFPrimed() const;
 	void		SetCurrentParameters(const JVector& p);
 
 	JSize			GetParameterCount() const;

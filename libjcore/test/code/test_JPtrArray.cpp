@@ -130,7 +130,7 @@ JTEST(Exercise)
 	snoop2.Expect(JListT::kElementsInserted);
 	snoop2.Expect(JListT::kElementsInserted);
 
-	a2.CopyPointers(a1, JPtrArrayT::kForgetAll, kJFalse);
+	a2.CopyPointers(a1, JPtrArrayT::kForgetAll, false);
 
 	JAssertFalse(a2.IsEmpty());
 	JAssertEqual(4, a2.GetElementCount());
@@ -165,7 +165,7 @@ JTEST(Exercise)
 	JAssertEqual(4, j);
 	}
 
-	JString target("3", kJFalse);
+	JString target("3", JString::kNoCopy);
 	JAssertTrue(a2.SearchSorted(&target, JListT::kAnyMatch, &index));
 	JAssertEqual(3, index);
 
@@ -178,7 +178,7 @@ JTEST(Exercise)
 	target = "4";
 	JAssertFalse(a2.SearchSorted(&target, JListT::kAnyMatch, &index));
 
-	JBoolean found;
+	bool found;
 	index = a2.SearchSorted1(&target, JListT::kAnyMatch, &found);
 	JAssertFalse(found);
 	JAssertEqual(4, index);
@@ -203,9 +203,9 @@ JTEST(Exercise)
 JTEST(RangeBasedForLoop)
 {
 	JPtrArray<JString> a(JPtrArrayT::kDeleteAll);
-	a.Append(JString("foo", kJFalse));
-	a.Append(JString("bar", kJFalse));
-	a.Append(JString("baz", kJFalse));
+	a.Append(JString("foo", JString::kNoCopy));
+	a.Append(JString("bar", JString::kNoCopy));
+	a.Append(JString("baz", JString::kNoCopy));
 
 	JString* b[3];
 	int j = 0;
@@ -223,9 +223,9 @@ JTEST(MoveCtor)
 {
 	JPtrArray<JString>* a1 = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( a1 != nullptr );
-	a1->Append(JString("foo", kJFalse));
-	a1->Append(JString("bar", kJFalse));
-	a1->Append(JString("baz", kJFalse));
+	a1->Append(JString("foo", JString::kNoCopy));
+	a1->Append(JString("bar", JString::kNoCopy));
+	a1->Append(JString("baz", JString::kNoCopy));
 
 	JPtrArray<JString> a2(std::move(*a1));
 

@@ -79,9 +79,9 @@ public:
 	JXDisplay*	GetDisplay() const;
 	JSize		GetDepth() const;
 
-	JBoolean			HasMask() const;
-	virtual JBoolean	GetMask(JImageMask** mask) const;
-	JBoolean			GetMask(JXImageMask** mask) const;
+	bool			HasMask() const;
+	virtual bool	GetMask(JImageMask** mask) const;
+	bool			GetMask(JXImageMask** mask) const;
 	void				SetMask(JXImageMask* mask);
 	void				ClearMask();
 
@@ -123,7 +123,7 @@ protected:
 
 	virtual void	SetImageData(const JSize colorCount, const JColorID* colorTable,
 								 unsigned short** imageData,
-								 const JBoolean hasMask, const unsigned long maskColor);
+								 const bool hasMask, const unsigned long maskColor);
 	virtual void	PrepareForImageData();
 	virtual void	ImageDataFinished();
 
@@ -193,11 +193,11 @@ JXImage::GetDepth()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXImage::HasMask()
 	const
 {
-	return JConvertToBoolean( itsMask != nullptr );
+	return itsMask != nullptr;
 }
 
 /******************************************************************************
@@ -205,7 +205,7 @@ JXImage::HasMask()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXImage::GetMask
 	(
 	JXImageMask** mask
@@ -213,7 +213,7 @@ JXImage::GetMask
 	const
 {
 	*mask = itsMask;
-	return JConvertToBoolean( itsMask != nullptr );
+	return itsMask != nullptr;
 }
 
 /******************************************************************************

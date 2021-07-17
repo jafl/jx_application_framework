@@ -63,7 +63,7 @@ JXMenuManager::CloseCurrentMenus()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenuManager::IsMenuForWindow
 	(
 	JXWindow* menuWindow,
@@ -75,11 +75,11 @@ JXMenuManager::IsMenuForWindow
 	if (itsOpenWindowList->Find(menuWindow, &index))
 		{
 		JXMenu* menu = itsOpenMenuList->GetElement(index);
-		return JI2B(mainWindow == menu->GetWindow());
+		return mainWindow == menu->GetWindow();
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

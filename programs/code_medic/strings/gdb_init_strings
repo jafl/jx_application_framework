@@ -1,0 +1,202 @@
+0
+
+# Copyright (C) 2021 by John Lindal.
+
+InitCommands::GDBLink
+"echo \\032\\032:Medic command:0:
+
+set $medic_first_stop=0
+
+set width 0
+set height 0
+set print repeats 0
+set print asm-demangle on
+set print demangle on
+set print sevenbit-strings off
+set print union on
+
+define hook-quit
+echo \\032\\032:Medic debugger quit:
+end
+
+define hook-start
+echo \\032\\032:Medic program starting:
+echo \\032\\032:Medic program running:
+end
+
+define hook-stop
+if $medic_first_stop
+set $medic_first_stop=0
+echo \\032\\032:Medic acquire pid:
+info program
+echo \\032\\032:Medic acquire pid end:
+end
+end
+
+define hook-file
+echo \\032\\032:Medic loading file:
+end
+
+define hook-core-file
+echo \\032\\032:Medic loading core:
+end
+
+define hook-attach
+echo \\032\\032:Medic attaching:
+end
+
+define hook-detach
+echo \\032\\032:Medic detaching:
+end
+
+
+define hook-next
+echo \\032\\032:Medic program running:
+end
+
+define hook-step
+echo \\032\\032:Medic program running:
+end
+
+define hook-continue
+echo \\032\\032:Medic program running:
+end
+
+define hook-until
+echo \\032\\032:Medic program running:
+end
+
+define hook-finish
+echo \\032\\032:Medic program running:
+end
+
+define hook-return
+echo \\032\\032:Medic program running:
+end
+
+define hook-stepi
+echo \\032\\032:Medic program running:
+end
+
+define hook-nexti
+echo \\032\\032:Medic program running:
+end
+
+
+define hook-awatch
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-break
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-catch
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-clear
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-condition
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-delete
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-disable
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-enable
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-hbreak
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-ignore
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-rbreak
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-rwatch
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-tbreak
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-tcatch
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-thbreak
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-watch
+echo \\032\\032:Medic breakpoints changed:
+end
+
+
+define hook-kill
+echo \\032\\032:Medic program killed:
+end
+
+
+define hook-frame
+echo \\032\\032:Medic frame changed:
+end
+
+define hook-up
+echo \\032\\032:Medic frame changed:
+end
+
+define hook-down
+echo \\032\\032:Medic frame changed:
+end
+
+
+define hook-thread
+echo \\032\\032:Medic thread changed:
+end
+
+
+define set hook-variable
+echo \\032\\032:Medic value changed:
+end
+
+
+define hook-commands
+echo \\032\\032:Medic defining script:
+echo \\n
+echo Type commands for when breakpoint is hit, one per line.\\n
+echo End with a line saying just \"end\".\\n
+echo Give \"silent\" as the first line to make the breakpoint silent;\\n
+echo then no output is printed when it is hit, except what the commands print.\\n
+end
+
+define hook-if
+echo \\032\\032:Medic defining script:
+end
+
+# must be last!
+
+define hook-define
+echo \\032\\032:Medic defining script:
+echo \\n
+echo Type commands for definition of script.\\n
+echo End with a line saying just \"end\".\\n
+end
+
+echo \\032\\032:Medic command done:0:
+"

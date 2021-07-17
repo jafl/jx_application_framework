@@ -23,11 +23,11 @@ static SVNMDIServer*	theMDIServer    = nullptr;
 /******************************************************************************
  SVNCreateGlobals
 
-	Returns kJTrue if this is the first time the program is run.
+	Returns true if this is the first time the program is run.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNCreateGlobals
 	(
 	SVNApp* app
@@ -37,13 +37,13 @@ SVNCreateGlobals
 
 	JXDisplay* display = app->GetCurrentDisplay();
 
-	JBoolean isNew;
+	bool isNew;
 	thePrefsManager	= jnew SVNPrefsManager(&isNew);
 	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
-	theWDManager = jnew SVNWDManager(display, kJTrue);
+	theWDManager = jnew SVNWDManager(display, true);
 	assert( theWDManager != nullptr );
 
 	theMDIServer = jnew SVNMDIServer;

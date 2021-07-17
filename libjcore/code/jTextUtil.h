@@ -13,8 +13,8 @@
 JFont	CalcWSFont(const JFont& prevFont, const JFont& nextFont);
 
 JSize	JAnalyzeWhitespace(const JString& buffer, const JSize tabWidth,
-						   const JBoolean defaultUseSpaces,
-						   JBoolean* useSpaces, JBoolean* isMixed);
+						   const bool defaultUseSpaces,
+						   bool* useSpaces, bool* isMixed);
 
 void	JReadUNIXManOutput(std::istream& input, JStyledText* tb);
 void	JReadLimitedMarkdown(const JString& text, JStyledText* st);

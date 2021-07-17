@@ -64,7 +64,7 @@ JXDSSSelection::AddTypes
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDSSSelection::ConvertData
 	(
 	const Atom		requestType,
@@ -123,12 +123,12 @@ JXDSSSelection::ConvertData
 		if (*data != nullptr)
 			{
 			**data = 0x45;	// E
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*data       = nullptr;
 	*dataLength = 0;
 	*returnType = None;
-	return kJFalse;
+	return false;
 }

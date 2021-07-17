@@ -75,8 +75,6 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Renamed JColormap to JColorManager and redesigned it
 //			so JColorID is system independent.
 //	*** Removed j_prep_ace.h because it is no longer needed.
-//	*** Removed support for nullptr's in JRegex and JString.
-//			If you have nullptr's, you have binary data and should treat it differently.
 //	*** Removed JCheckSiteName()
 //	*** Removed JCreateBuffer() - Run out of memory?  Seriously?
 //	*** Moved JSubset, JProbDistr, J*Histogram to misc/jextra.
@@ -95,7 +93,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //				JIndex values, because these are ambiguous.  Switch to
 //				the versions that use JCharacterRange.
 //			Removed CaretLineChanged message.  Always broadcasts CaretLocationChanged.
-//			Replaced FontMatch with std::function<JBoolean(const JFont&)>.
+//			Replaced FontMatch with std::function<bool(const JFont&)>.
 //	*** Removed HTML parsing from JTextEditor.  HTML belongs on the web.
 //			Removed JHTMLScanner, JTEHTMLScanner, JExtractHTMLTitle.
 //	*** Changed all /usr/lib paths to /usr/local/lib on OSX because of SIP
@@ -107,6 +105,12 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			they are now provided by std::complex.
 //	jStreamUtil:
 //		Added icharbufstream to avoid copying data.
+//	jFileUtil:
+//		*** Removed JSearchFile().
+//	JString:
+//		Created JString::Case enum to support function overloading.
+//	JRegex:
+//		Rewrote interface to use JStringMatch.
 
 // version 3.2.0:
 //	jMountUtil:

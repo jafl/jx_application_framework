@@ -60,7 +60,7 @@ private:
 private:
 
 	void		BuildWindow(const JSize argc, char** argv);
-	JBoolean	WriteTemplate();
+	bool	WriteTemplate();
 	void		CopyAndAdjustTemplateFiles(const JString& sourceDir,
 										   const JString& targetDir,
 										   const JPtrArray<JString>& value);

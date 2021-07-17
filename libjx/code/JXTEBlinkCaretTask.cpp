@@ -27,7 +27,7 @@ JXTEBlinkCaretTask::JXTEBlinkCaretTask
 	JXIdleTask(kHalfPeriod)
 {
 	itsTE         = te;
-	itsActiveFlag = kJFalse;
+	itsActiveFlag = false;
 }
 
 /******************************************************************************

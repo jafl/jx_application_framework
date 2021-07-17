@@ -29,16 +29,16 @@ public:
 
 	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
-	virtual JBoolean	WantsInputFieldKey(const JUtf8Character& c, const int keySym,
+	virtual bool	WantsInputFieldKey(const JUtf8Character& c, const int keySym,
 										   const JXKeyModifiers& modifiers) const;
 
 	JXTEBase*	GetEditMenuHandler() const;
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const override;
+	virtual bool	IsEditable(const JPoint& cell) const override;
 
 protected:
 
-	virtual JBoolean	CreateInputField(const JPoint& cell, const JRect& cellRect) override;
+	virtual bool	CreateInputField(const JPoint& cell, const JRect& cellRect) override;
 	virtual void		DeleteInputField() override;
 	virtual void		PlaceInputField(const JCoordinate x, const JCoordinate y) override;
 	virtual void		MoveInputField(const JCoordinate dx, const JCoordinate dy) override;
@@ -49,7 +49,7 @@ protected:
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) = 0;
 	virtual void			PrepareDeleteXInputField() = 0;
-	JBoolean				GetXInputField(JXInputField** inputField) const;
+	bool				GetXInputField(JXInputField** inputField) const;
 
 	virtual JCoordinate	GetMin1DVisibleWidth(const JPoint& cell) const override;
 
@@ -70,11 +70,11 @@ private:
 /******************************************************************************
  GetXInputField (protected)
 
-	Returns kJTrue if we have an active input field.
+	Returns true if we have an active input field.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXEditTable::GetXInputField
 	(
 	JXInputField** inputField
@@ -82,7 +82,7 @@ JXEditTable::GetXInputField
 	const
 {
 	*inputField = itsInputField;
-	return JConvertToBoolean( itsInputField != nullptr );
+	return itsInputField != nullptr;
 }
 
 #endif

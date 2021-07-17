@@ -20,7 +20,7 @@ public:
 	CBDTreeDirector(std::istream& projInput, const JFileVersion projVers,
 					std::istream* setInput, const JFileVersion setVers,
 					std::istream* symInput, const JFileVersion symVers,
-					CBProjectDocument* supervisor, const JBoolean subProject);
+					CBProjectDocument* supervisor, const bool subProject);
 
 	virtual ~CBDTreeDirector();
 

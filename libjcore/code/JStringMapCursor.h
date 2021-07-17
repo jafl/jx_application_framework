@@ -25,7 +25,7 @@ public:
 	JStringMapCursor(const JStringMap<V>* map);
 	virtual ~JStringMapCursor();
 
-	JBoolean Next();
+	bool Next();
 
 	const JString& GetKey() const;
 	const V& GetValue() const;
@@ -50,7 +50,7 @@ private:
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JStringMapCursor<V>::Next()
 {
 	return itsCursor.NextFull();

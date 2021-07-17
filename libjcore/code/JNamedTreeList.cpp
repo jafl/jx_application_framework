@@ -111,11 +111,11 @@ JNamedTreeList::SetNodeName
  Find
 
 	Returns the index of the node with the given name.
-	Returns kJFalse if the item does not exist or is *not visible*.
+	Returns false if the item does not exist or is *not visible*.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JNamedTreeList::Find
 	(
 	const JString&	name,
@@ -126,13 +126,13 @@ JNamedTreeList::Find
 	JNamedTreeNode target(nullptr, name);
 	if (itsSortedNodeList->SearchSorted(&target, JListT::kFirstMatch, index))
 		{
-		const JBoolean found = FindNode(itsSortedNodeList->GetElement(*index), index);
+		const bool found = FindNode(itsSortedNodeList->GetElement(*index), index);
 		assert( found );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -140,11 +140,11 @@ JNamedTreeList::Find
  ClosestMatch
 
 	Returns the index of the closest match for the given name prefix.
-	Returns kJFalse if the list is empty.
+	Returns false if the list is empty.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JNamedTreeList::ClosestMatch
 	(
 	const JString&	prefixStr,
@@ -155,7 +155,7 @@ JNamedTreeList::ClosestMatch
 	itsSortedNodeList->SetCompareFunction(JNamedTreeNode::DynamicCastCompareNamesForIncrSearch);
 
 	JNamedTreeNode target(nullptr, prefixStr);
-	JBoolean found;
+	bool found;
 	*index = itsSortedNodeList->SearchSorted1(&target, JListT::kFirstMatch, &found);
 	if (*index > itsSortedNodeList->GetElementCount())		// insert beyond end of list
 		{
@@ -166,13 +166,13 @@ JNamedTreeList::ClosestMatch
 
 	if (*index > 0)
 		{
-		const JBoolean found = FindNode(itsSortedNodeList->GetElement(*index), index);
+		const bool found = FindNode(itsSortedNodeList->GetElement(*index), index);
 		assert( found );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

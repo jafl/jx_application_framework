@@ -41,7 +41,7 @@ GPMProcessEntry::GPMProcessEntry
 	const JDirEntry&	entry
 	)
 	:
-	JNamedTreeNode(tree, JString::empty, kJFalse),
+	JNamedTreeNode(tree, JString::empty, false),
 	itsLastUTime(0),
 	itsLastSTime(0)
 {
@@ -62,7 +62,7 @@ GPMProcessEntry::GPMProcessEntry
 	const kinfo_proc&	entry
 	)
 	:
-	JNamedTreeNode(tree, JString::empty, kJFalse),
+	JNamedTreeNode(tree, JString::empty, false),
 	itsLastUTime(0),
 	itsLastSTime(0)
 {
@@ -86,7 +86,7 @@ GPMProcessEntry::GPMProcessEntry
 	const JString&	prefix
 	)
 	:
-	JNamedTreeNode(tree, prefix, kJFalse)
+	JNamedTreeNode(tree, prefix, false)
 {
 	itsCommand = prefix;
 }
@@ -213,7 +213,7 @@ GPMProcessEntry::ReadStat()
 {
 	const JSize uTime = itsUTime, sTime = itsSTime;
 
-	JString str = JCombinePathAndName(itsProcPath, JString("stat", kJFalse));
+	JString str = JCombinePathAndName(itsProcPath, JString("stat", false));
 	std::ifstream is(str.GetBytes());
 	if (is.good())
 		{
@@ -286,7 +286,7 @@ void
 GPMProcessEntry::ReadStatM()
 {
 
-	JString str = JCombinePathAndName(itsProcPath, JString("statm", kJFalse));
+	JString str = JCombinePathAndName(itsProcPath, JString("statm", false));
 	std::ifstream is(str.GetBytes());
 	if (is.good())
 		{
@@ -316,7 +316,7 @@ GPMProcessEntry::ReadCmdline()
 		return;
 		}
 
-	JString str = JCombinePathAndName(itsProcPath, JString("cmdline", kJFalse));
+	JString str = JCombinePathAndName(itsProcPath, JString("cmdline", false));
 	std::ifstream is(str.GetBytes());
 	if (is.good())
 		{
@@ -334,7 +334,7 @@ GPMProcessEntry::ReadCmdline()
 			{
 			if (c == '\0')
 				{
-				iter.SetPrev(JUtf8Character(' '), kJFalse);
+				iter.SetPrev(JUtf8Character(' '), false);
 				}
 			}
 

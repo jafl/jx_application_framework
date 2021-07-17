@@ -30,7 +30,7 @@ protected:
 
 	SyGCopyProcess(SyGFileTreeTable* srcTable, JPtrArray<JString>* srcNameList,
 				   SyGFileTreeTable* destTable, SyGFileTreeNode* destNode,
-				   const JBoolean isCopy);
+				   const bool isCopy);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -41,7 +41,7 @@ private:
 	SyGFileTreeTable*			itsDestTable;		// not owned; can be nullptr
 	SyGFileTreeNode*			itsDestNode;		// not owned; can be nullptr
 	JVCSType					itsVCSType;
-	const JBoolean				itsIsMoveFlag;
+	const bool				itsIsMoveFlag;
 	JSimpleProcess*				itsProcess;
 
 private:
@@ -50,12 +50,12 @@ private:
 	void	RemoveExecutePermissions(const JString& srcPath,
 									 const JString& destPath);
 
-	static JBoolean	CleanSrcList(JPtrArray<JString>* srcNameList,
+	static bool	CleanSrcList(JPtrArray<JString>* srcNameList,
 								 SyGFileTreeNode* destNode);
-	static JBoolean	ActionIsUseful(const JString& srcName, const JString& destPath,
+	static bool	ActionIsUseful(const JString& srcName, const JString& destPath,
 								   JString* destName);
-	static JBoolean	OKToReplace(const JString& srcName, const JString& destName,
-								JBoolean* ask, JBoolean* first);
+	static bool	OKToReplace(const JString& srcName, const JString& destName,
+								bool* ask, bool* first);
 
 	// not allowed
 

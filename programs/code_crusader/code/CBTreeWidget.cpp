@@ -36,7 +36,7 @@
 #include <jMath.h>
 #include <jAssert.h>
 
-JBoolean CBTreeWidget::itsRaiseWhenSingleMatchFlag = kJFalse;
+bool CBTreeWidget::itsRaiseWhenSingleMatchFlag = false;
 const JSize CBTreeWidget::kBorderWidth             = 5;
 
 static const JUtf8Byte* kSelectionDataID = "CBTreeWidget";
@@ -70,10 +70,10 @@ CBTreeWidget::CBTreeWidget
 	itsFnMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsFnMenu != nullptr );
 	itsFnMenu->Hide();
-	itsFnMenu->SetToHiddenPopupMenu(kJTrue);
+	itsFnMenu->SetToHiddenPopupMenu(true);
 	itsFnMenu->CompressHeight();
 
-	WantInput(kJTrue, kJFalse, kJTrue);	// need Ctrl-Tab
+	WantInput(true, false, true);	// need Ctrl-Tab
 
 	const JColorID gray75Color = JColorManager::GetGrayColor(75);
 	SetBackColor(gray75Color);
@@ -113,15 +113,15 @@ CBTreeWidget::~CBTreeWidget()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTreeWidget::FindClass
 	(
 	const JString&		name,
 	const JXMouseButton	button,
-	const JBoolean		raiseTreeWindow,
-	const JBoolean		reportNotFound,
-	const JBoolean		openFileIfSingleMatch,
-	const JBoolean		deselectAll
+	const bool		raiseTreeWindow,
+	const bool		reportNotFound,
+	const bool		openFileIfSingleMatch,
+	const bool		deselectAll
 	)
 	const
 {
@@ -131,7 +131,7 @@ CBTreeWidget::FindClass
 	JSize selCount;
 	if (itsTree->GetSelectionCoverage(&selRect, &selCount))
 		{
-		const_cast<CBTreeWidget*>(this)->ScrollToRectCentered(selRect, kJTrue);
+		const_cast<CBTreeWidget*>(this)->ScrollToRectCentered(selRect, true);
 
 		if (raiseTreeWindow &&
 			(selCount > 1 || button == kJXRightButton ||
@@ -143,7 +143,7 @@ CBTreeWidget::FindClass
 		if (openFileIfSingleMatch && button != kJXRightButton)
 			{
 			JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
-			const JBoolean ok = itsTree->GetSelectedClasses(&classList);
+			const bool ok = itsTree->GetSelectedClasses(&classList);
 			assert( ok );
 			if (classList.GetElementCount() == 1)
 				{
@@ -159,7 +159,7 @@ CBTreeWidget::FindClass
 				}
 			}
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -168,7 +168,7 @@ CBTreeWidget::FindClass
 			JGetUserNotification()->ReportError(
 				JGetString("ClassNotFound::CBTreeWidget"));
 			}
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -188,16 +188,16 @@ CBTreeWidget::FindClass
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTreeWidget::FindFunction
 	(
 	const JString&		fnName,
-	const JBoolean		caseSensitive,
+	const bool		caseSensitive,
 	const JXMouseButton	button,
-	const JBoolean		raiseTreeWindow,
-	const JBoolean		reportNotFound,
-	const JBoolean		openFileIfSingleMatch,
-	const JBoolean		deselectAll
+	const bool		raiseTreeWindow,
+	const bool		reportNotFound,
+	const bool		openFileIfSingleMatch,
+	const bool		deselectAll
 	)
 	const
 {
@@ -207,7 +207,7 @@ CBTreeWidget::FindFunction
 	JSize selCount;
 	if (itsTree->GetSelectionCoverage(&selRect, &selCount))
 		{
-		const_cast<CBTreeWidget*>(this)->ScrollToRectCentered(selRect, kJTrue);
+		const_cast<CBTreeWidget*>(this)->ScrollToRectCentered(selRect, true);
 
 		if (raiseTreeWindow &&
 			(selCount > 1 || button == kJXRightButton ||
@@ -219,23 +219,23 @@ CBTreeWidget::FindFunction
 		if (openFileIfSingleMatch && button != kJXRightButton)
 			{
 			JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
-			const JBoolean ok = itsTree->GetSelectedClasses(&classList);
+			const bool ok = itsTree->GetSelectedClasses(&classList);
 			assert( ok );
 			if (classList.GetElementCount() == 1)
 				{
 				CBClass* theClass = classList.GetFirstElement();
 				if (button == kJXLeftButton)
 					{
-					theClass->ViewDefinition(fnName, caseSensitive, kJFalse);
+					theClass->ViewDefinition(fnName, caseSensitive, false);
 					}
 				else if (button == kJXMiddleButton)
 					{
-					theClass->ViewDeclaration(fnName, caseSensitive, kJFalse);
+					theClass->ViewDeclaration(fnName, caseSensitive, false);
 					}
 				}
 			}
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -244,10 +244,10 @@ CBTreeWidget::FindFunction
 			JGetUserNotification()->ReportError(
 				JGetString("FunctionNotFound::CBTreeWidget"));
 			}
-		return kJFalse;
+		return false;
 		}
 */
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -302,12 +302,12 @@ CBTreeWidget::Print
 			pageCount++;
 			}
 
-		JBoolean cancelled = kJFalse;
+		bool cancelled = false;
 		for (JIndex i=1; i<=pageCount; i++)
 			{
 			if (!p.NewPage())
 				{
-				cancelled = kJTrue;
+				cancelled = true;
 				break;
 				}
 
@@ -410,7 +410,7 @@ CBTreeWidget::HandleMouseDown
 		else if (!theClass->IsSelected())
 			{
 			itsTree->DeselectAll();
-			theClass->SetSelected(kJTrue);
+			theClass->SetSelected(true);
 			ExpectPopupFnMenu(pt, button, theClass);
 			}
 		else if (clickCount == 1)
@@ -462,7 +462,7 @@ CBTreeWidget::HandleMouseDrag
 		{
 /*
 		itsFnMenuDir = jnew CBFnListDirector(itsDirector, nullptr, itsFnMenuClass, this,
-											itsDirector->ShowInheritedFns(), kJTrue);
+											itsDirector->ShowInheritedFns(), true);
 
 		assert( itsFnMenuDir != nullptr );
 
@@ -508,7 +508,7 @@ CBTreeWidget::ExpectPopupFnMenu
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTreeWidget::HitSamePart
 	(
 	const JPoint& pt1,
@@ -549,7 +549,7 @@ CBTreeWidget::GetSelectionData
 		assert( list != nullptr );
 
 		JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
-		const JBoolean hasSelection = itsTree->GetSelectedClasses(&classList);
+		const bool hasSelection = itsTree->GetSelectedClasses(&classList);
 		assert( hasSelection );
 
 		const JSize classCount = classList.GetElementCount();
@@ -606,7 +606,7 @@ void
 CBTreeWidget::HandleDNDResponse
 	(
 	const JXContainer*	target,
-	const JBoolean		dropAccepted,
+	const bool		dropAccepted,
 	const Atom			action
 	)
 {
@@ -620,7 +620,7 @@ CBTreeWidget::HandleDNDResponse
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTreeWidget::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -634,7 +634,7 @@ CBTreeWidget::WillAcceptDrop
 
 	if (this == const_cast<JXWidget*>(source))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// we accept drops of type text/uri-list
@@ -648,11 +648,11 @@ CBTreeWidget::WillAcceptDrop
 		if (a == urlXAtom)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -788,8 +788,8 @@ CBTreeWidget::HandleKeyPress
 		if (itsTree->ClosestVisibleMatch(itsKeyBuffer, &selClass))
 			{
 			itsTree->DeselectAll();
-			selClass->SetSelected(kJTrue);
-			ScrollToRectCentered(selClass->GetFrame(), kJTrue);
+			selClass->SetSelected(true);
+			ScrollToRectCentered(selClass->GetFrame(), true);
 			}
 		}
 
@@ -834,7 +834,7 @@ CBTreeWidget::Receive
 		assert( info != nullptr );
 
 		JXScrollbar *hScrollbar, *vScrollbar;
-		const JBoolean ok = GetScrollbars(&hScrollbar, &vScrollbar);
+		const bool ok = GetScrollbars(&hScrollbar, &vScrollbar);
 		assert( ok );
 		vScrollbar->PrepareForScaledMaxValue(info->GetVertScaleFactor());
 
@@ -874,7 +874,7 @@ CBTreeWidget::Receive
 		JCoordinate miny = 0;
 		if (itsTree->GetSelectedClasses(&sel))
 			{
-			JBoolean visible  = kJFalse;
+			bool visible  = false;
 			const JSize count = sel.GetElementCount();
 			for (JIndex i=1; i<=count; i++)
 				{
@@ -882,7 +882,7 @@ CBTreeWidget::Receive
 				const JRect r = c->GetFrame();
 				if (ap.Contains(r))
 					{
-					visible = kJTrue;
+					visible = true;
 					break;
 					}
 				else if (ap.bottom < r.bottom &&
@@ -938,7 +938,7 @@ CBTreeWidget::ReadSetup
 	else if (setVers >= 18)
 		{
 		JXScrollbar *hScrollbar, *vScrollbar;
-		const JBoolean ok = GetScrollbars(&hScrollbar, &vScrollbar);
+		const bool ok = GetScrollbars(&hScrollbar, &vScrollbar);
 		assert( ok );
 		hScrollbar->ReadSetup(setInput);
 		vScrollbar->ReadSetup(setInput);

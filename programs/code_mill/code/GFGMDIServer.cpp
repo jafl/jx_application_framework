@@ -61,7 +61,7 @@ GFGMDIServer::HandleMDIRequest
 		JString arg	= *(argList.GetElement(i));
 		if (arg == "--delete")
 			{
-			GFGGetApplication()->ShouldBeDeletingTemplate(kJTrue);
+			GFGGetApplication()->ShouldBeDeletingTemplate(true);
 			}
 		}
 

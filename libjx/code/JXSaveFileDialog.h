@@ -30,7 +30,7 @@ public:
 	virtual void	Activate() override;
 
 	void		Save(const JString& path);
-	JBoolean	GetFileName(JString* name) const;
+	bool	GetFileName(JString* name) const;
 
 protected:
 
@@ -54,7 +54,7 @@ protected:
 
 	virtual void	UpdateDisplay() override;	// must call inherited
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

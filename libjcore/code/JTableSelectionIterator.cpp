@@ -74,13 +74,13 @@ JTableSelectionIterator::~JTableSelectionIterator()
 /******************************************************************************
  Prev (virtual)
 
-	Return kJTrue if there is a previous selected cell, fetching the
+	Return true if there is a previous selected cell, fetching the
 	coordinates of the cell and decrementing the iterator position.
-	Otherwise return kJFalse without fetching or decrementing.
+	Otherwise return false without fetching or decrementing.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTableSelectionIterator::Prev
 	(
 	JIndex* row, 
@@ -92,16 +92,16 @@ JTableSelectionIterator::Prev
 		{
 		*row = cell.y;
 		*col = cell.x;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*row = *col = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JTableSelectionIterator::Prev
 	(
 	JPoint* cell
@@ -110,7 +110,7 @@ JTableSelectionIterator::Prev
 	if (AtBeginning())
 		{
 		*cell = JPoint(0,0);
-		return kJFalse;
+		return false;
 		}
 
 	while (PrevCell())
@@ -118,12 +118,12 @@ JTableSelectionIterator::Prev
 		if (itsTableSelection->IsSelected(itsCursor))
 			{
 			*cell = itsCursor;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*cell = JPoint(0,0);
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -131,7 +131,7 @@ JTableSelectionIterator::Prev
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTableSelectionIterator::PrevCell()
 {
 	const JSize rowCount = itsTableSelection->GetRowCount();
@@ -139,7 +139,7 @@ JTableSelectionIterator::PrevCell()
 
 	if (rowCount == 0 || colCount == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	else if (itsAtEndFlag)
@@ -153,7 +153,7 @@ JTableSelectionIterator::PrevCell()
 
 	else if (itsCursor.y <= 1 && itsCursor.x <= 1)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	else if (itsDirection == kIterateByCol)
@@ -182,20 +182,20 @@ JTableSelectionIterator::PrevCell()
 			}
 		}
 
-	itsAtEndFlag = kJFalse;
-	return kJTrue;
+	itsAtEndFlag = false;
+	return true;
 }
 
 /******************************************************************************
  Next (virtual)
 
-	Return kJTrue if there is a next selected cell, fetching the
+	Return true if there is a next selected cell, fetching the
 	coordinates of the cell and incrementing the iterator position.
-	Otherwise return kJFalse without fetching or incrementing.
+	Otherwise return false without fetching or incrementing.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTableSelectionIterator::Next
 	(
 	JIndex* row, 
@@ -207,16 +207,16 @@ JTableSelectionIterator::Next
 		{
 		*row = cell.y;
 		*col = cell.x;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*row = *col = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JTableSelectionIterator::Next
 	(
 	JPoint* cell
@@ -228,12 +228,12 @@ JTableSelectionIterator::Next
 		NextCell();
 		if (itsTableSelection->IsSelected(*cell))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*cell = JPoint(0,0);
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -241,7 +241,7 @@ JTableSelectionIterator::Next
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTableSelectionIterator::NextCell()
 {
 	JSize rowCount = itsTableSelection->GetRowCount();
@@ -251,8 +251,8 @@ JTableSelectionIterator::NextCell()
 		((JIndex) itsCursor.y >= rowCount &&
 		 (JIndex) itsCursor.x >= colCount))
 		{
-		itsAtEndFlag = kJTrue;
-		return kJFalse;
+		itsAtEndFlag = true;
+		return false;
 		}
 
 	else if (itsDirection == kIterateByCol)
@@ -281,7 +281,7 @@ JTableSelectionIterator::NextCell()
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -304,7 +304,7 @@ JTableSelectionIterator::MoveTo
 	const JSize rowCount = itsTableSelection->GetRowCount();
 	const JSize colCount = itsTableSelection->GetColCount();
 
-	itsAtEndFlag = kJFalse;
+	itsAtEndFlag = false;
 
 	if (newPosition == kJIteratorStartAtBeginning)
 		{
@@ -316,7 +316,7 @@ JTableSelectionIterator::MoveTo
 		{
 		itsCursor.x  = JMax((JSize) 1, colCount);
 		itsCursor.y  = JMax((JSize) 1, rowCount);
-		itsAtEndFlag = kJTrue;
+		itsAtEndFlag = true;
 		}
 
 	else if (newPosition == kJIteratorStartBefore)
@@ -337,35 +337,35 @@ JTableSelectionIterator::MoveTo
 /******************************************************************************
  AtBeginning
 
-	Return kJTrue if iterator is positioned at the top left of the table
+	Return true if iterator is positioned at the top left of the table
 	or if the table has been deleted.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTableSelectionIterator::AtBeginning()
 {
-	return JI2B( (!itsAtEndFlag && itsCursor.x <= 1 && itsCursor.y <= 1) ||
+	return (!itsAtEndFlag && itsCursor.x <= 1 && itsCursor.y <= 1) ||
 				 itsTableSelection == nullptr ||
 				 itsTableSelection->GetRowCount() == 0 ||
-				 itsTableSelection->GetColCount() == 0 );
+				 itsTableSelection->GetColCount() == 0;
 }
 
 /******************************************************************************
  AtEnd
 
-	Return kJTrue if iterator is positioned at the bottom right of the table
+	Return true if iterator is positioned at the bottom right of the table
 	or if the table has been deleted.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTableSelectionIterator::AtEnd()
 {
-	return JI2B( itsAtEndFlag ||
+	return itsAtEndFlag ||
 				 itsTableSelection == nullptr ||
 				 itsTableSelection->GetRowCount() == 0 ||
-				 itsTableSelection->GetColCount() == 0 );
+				 itsTableSelection->GetColCount() == 0;
 }
 
 /******************************************************************************

@@ -82,7 +82,7 @@ JParallel::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JParallel::Evaluate
 	(
 	JFloat* result
@@ -92,7 +92,7 @@ JParallel::Evaluate
 	const JSize argCount = GetArgCount();
 	if (argCount == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	*result = 0.0;
@@ -101,7 +101,7 @@ JParallel::Evaluate
 		JFloat argValue;
 		if (!(GetArg(i))->Evaluate(&argValue) || argValue == 0.0)
 			{
-			return kJFalse;
+			return false;
 			}
 		*result += 1.0/argValue;
 		}
@@ -109,15 +109,15 @@ JParallel::Evaluate
 	if (*result != 0.0)
 		{
 		*result = 1.0/(*result);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JParallel::Evaluate
 	(
 	JComplex* result
@@ -127,7 +127,7 @@ JParallel::Evaluate
 	const JSize argCount = GetArgCount();
 	if (argCount == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	*result = 0.0;
@@ -136,7 +136,7 @@ JParallel::Evaluate
 		JComplex argValue;
 		if (!(GetArg(i))->Evaluate(&argValue) || argValue == 0.0)
 			{
-			return kJFalse;
+			return false;
 			}
 		*result += 1.0/argValue;
 		}
@@ -144,11 +144,11 @@ JParallel::Evaluate
 	if (real(*result) != 0.0 || imag(*result) != 0.0)
 		{
 		*result = 1.0/(*result);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -216,7 +216,7 @@ JParallel::Layout
 			{
 			const JFunction* arg = GetArg(i);
 			JIndex argIndex;
-			const JBoolean found = rectList->FindFunction(arg, &argIndex);
+			const bool found = rectList->FindFunction(arg, &argIndex);
 			assert( found );
 			rectList->SetMidline(argIndex, ourMidline);
 			ourRect = JCovering(ourRect, rectList->GetRect(argIndex));
@@ -244,7 +244,7 @@ JParallel::Render
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);
@@ -288,7 +288,7 @@ JParallel::Render
 		arg->Render(renderer, rectList);
 
 		JIndex argIndex;
-		const JBoolean found = rectList.FindFunction(arg, &argIndex);
+		const bool found = rectList.FindFunction(arg, &argIndex);
 		assert( found );
 		const JRect argRect = rectList.GetRect(argIndex);
 		JCoordinate h = argRect.right + spaceWidth;

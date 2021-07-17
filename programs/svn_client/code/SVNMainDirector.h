@@ -35,12 +35,12 @@ public:
 	virtual	~SVNMainDirector();
 
 	const JString&	GetPath() const;	// explodes if !HasPath()
-	JBoolean		HasPath() const;
-	JBoolean		GetPath(JString* path) const;
-	JBoolean		GetRepoPath(JString* path) const;
+	bool		HasPath() const;
+	bool		GetPath(JString* path) const;
+	bool		GetRepoPath(JString* path) const;
 	void			RefreshRepo();
 	void			BrowseRepo(const JString& rev);
-	JBoolean		GetRepoWidget(SVNRepoView** widget);
+	bool		GetRepoWidget(SVNRepoView** widget);
 	void			RefreshStatus();
 	void			ScheduleStatusRefresh();
 	void			UpdateWorkingCopy();
@@ -51,17 +51,17 @@ public:
 	void			ShowProperties(SVNTabBase* tab);
 	void			ShowProperties(const JString& fullName);
 
-	JBoolean	OKToStartActionProcess() const;
+	bool	OKToStartActionProcess() const;
 	void		RegisterActionProcess(SVNTabBase* tab, JProcess* p,
-									  const JBoolean refreshRepo,
-									  const JBoolean refreshStatus,
-									  const JBoolean reload);
+									  const bool refreshRepo,
+									  const bool refreshStatus,
+									  const bool reload);
 
 	static void	CheckOut(const JString& url);
 
 	void	Execute(const JUtf8Byte* tabStringID, const JString& cmd,
-					const JBoolean refreshRepo, const JBoolean refreshStatus,
-					const JBoolean reloadOpenFiles);
+					const bool refreshRepo, const bool refreshStatus,
+					const bool reloadOpenFiles);
 
 	void	StreamOut(std::ostream& output);
 
@@ -76,9 +76,9 @@ private:
 
 	JProcess*	itsActionProcess;
 	JProcess*	itsCheckOutProcess;
-	JBoolean	itsRefreshRepoFlag;
-	JBoolean	itsRefreshStatusFlag;
-	JBoolean	itsReloadOpenFilesFlag;
+	bool	itsRefreshRepoFlag;
+	bool	itsRefreshStatusFlag;
+	bool	itsReloadOpenFilesFlag;
 
 	SVNTabGroup*			itsTabGroup;
 	SVNRepoView*			itsRepoWidget;		// can be nullptr
@@ -145,11 +145,11 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 SVNMainDirector::HasPath()
 	const
 {
-	return JNegate( itsPath.IsEmpty() );
+	return !itsPath.IsEmpty();
 }
 
 /******************************************************************************
@@ -157,7 +157,7 @@ SVNMainDirector::HasPath()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 SVNMainDirector::GetPath
 	(
 	JString* path
@@ -165,7 +165,7 @@ SVNMainDirector::GetPath
 	const
 {
 	*path = itsPath;
-	return JNegate( itsPath.IsEmpty() );
+	return !itsPath.IsEmpty();
 }
 
 /******************************************************************************
@@ -173,14 +173,14 @@ SVNMainDirector::GetPath
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 SVNMainDirector::GetRepoWidget
 	(
 	SVNRepoView** widget
 	)
 {
 	*widget = itsRepoWidget;
-	return JI2B( itsRepoWidget != nullptr );
+	return itsRepoWidget != nullptr;
 }
 
 /******************************************************************************
@@ -188,11 +188,11 @@ SVNMainDirector::GetRepoWidget
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 SVNMainDirector::OKToStartActionProcess()
 	const
 {
-	return JI2B( itsActionProcess == nullptr );
+	return itsActionProcess == nullptr;
 }
 
 #endif

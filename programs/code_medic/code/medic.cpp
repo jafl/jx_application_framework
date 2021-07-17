@@ -44,7 +44,7 @@ main
 		return 0;
 		}
 
-	JBoolean displayAbout;
+	bool displayAbout;
 	JString prevVersStr;
 	CMApp* app = jnew CMApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
@@ -67,7 +67,7 @@ main
 
 	if (displayAbout)
 		{
-		app->DisplayAbout(prevVersStr, kJTrue);
+		app->DisplayAbout(prevVersStr, true);
 		}
 
 	app->Run();

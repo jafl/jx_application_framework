@@ -28,28 +28,28 @@ class CBProjectNode : public JNamedTreeNode
 public:
 
 	CBProjectNode(CBProjectTree* tree, const CBProjectNodeType type,
-				  const JString& name, const JBoolean isOpenable);
+				  const JString& name, const bool isOpenable);
 
 	virtual ~CBProjectNode();
 
 	CBProjectNodeType	GetType() const;
-	virtual JBoolean	IncludedInMakefile() const;
-	virtual JBoolean	IncludedInCMakeData() const;
-	virtual JBoolean	IncludedInQMakeData() const;
+	virtual bool	IncludedInMakefile() const;
+	virtual bool	IncludedInCMakeData() const;
+	virtual bool	IncludedInQMakeData() const;
 
 	CBProjectDocument*	GetProjectDoc() const;
 
 	virtual void		OpenFile() const;
 	virtual void		OpenComplementFile() const;
-	virtual JBoolean	GetFullName(JString* fullName) const;
+	virtual bool	GetFullName(JString* fullName) const;
 	virtual void		ShowFileLocation() const;
-	virtual void		ViewPlainDiffs(const JBoolean silent) const;
-	virtual void		ViewVCSDiffs(const JBoolean silent) const;
+	virtual void		ViewPlainDiffs(const bool silent) const;
+	virtual void		ViewVCSDiffs(const bool silent) const;
 
-	JBoolean	Includes(const JString& fullName) const;
-	JBoolean	FindFile(const JString& fullName,
+	bool	Includes(const JString& fullName) const;
+	bool	FindFile(const JString& fullName,
 						 const CBProjectNode** node) const;
-	JBoolean	FindFile(const JString& fullName, CBProjectNode** node);
+	bool	FindFile(const JString& fullName, CBProjectNode** node);
 
 	virtual void		BuildMakeFiles(JString* text,
 									   JPtrArray<JTreeNode>* invalidList,
@@ -60,7 +60,7 @@ public:
 	virtual void		BuildQMakeData(JString* src, JString* hdr,
 									   JPtrArray<JTreeNode>* invalidList) const;
 
-	virtual JBoolean	ParseFiles(CBFileListTable* parser,
+	virtual bool	ParseFiles(CBFileListTable* parser,
 								   const JPtrArray<JString>& allSuffixList,
 								   CBSymbolList* symbolList,
 								   CBCTree* cTree, CBDTree* dTree, CBGoTree* goTree,
@@ -83,8 +83,8 @@ public:
 
 	CBProjectNode*			GetProjectParent();
 	const CBProjectNode*	GetProjectParent() const;
-	JBoolean				GetProjectParent(CBProjectNode** parent);
-	JBoolean				GetProjectParent(const CBProjectNode** parent) const;
+	bool				GetProjectParent(CBProjectNode** parent);
+	bool				GetProjectParent(const CBProjectNode** parent) const;
 
 	CBProjectNode*			GetProjectChild(const JIndex index);
 	const CBProjectNode*	GetProjectChild(const JIndex index) const;
@@ -93,9 +93,9 @@ protected:
 
 	CBProjectNode(std::istream& input, const JFileVersion vers,
 				  CBProjectNode* parent, const CBProjectNodeType type,
-				  const JBoolean isOpenable);
+				  const bool isOpenable);
 
-	virtual JBoolean	FindFile1(const JString& fullName,
+	virtual bool	FindFile1(const JString& fullName,
 								  CBProjectNode** node);
 
 private:
@@ -128,7 +128,7 @@ CBProjectNode::GetType()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBProjectNode::Includes
 	(
 	const JString& fullName

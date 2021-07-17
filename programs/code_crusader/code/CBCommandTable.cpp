@@ -46,16 +46,6 @@ const JCoordinate kInitColWidth[] =
 	100, 80, 80, 200, 50, 80
 };
 
-static const JUtf8Byte* kColTitle[] =
-{
-	"Menu text",
-	"Menu shortcut",
-	"Name",
-	"Command to execute",
-	"Options",
-	"Directory"
-};
-
 const JSize kColCount = sizeof(kInitColWidth) / sizeof(JCoordinate);
 
 // geometry information
@@ -372,7 +362,7 @@ CBCommandTable::TableDrawCell
 			{
 			s = info.path;
 			style.color =
-				CBCommandPathInput::GetTextColor(*s, itsBasePath, kJFalse);
+				CBCommandPathInput::GetTextColor(*s, itsBasePath, false);
 			}
 		assert( s != nullptr );
 
@@ -467,7 +457,7 @@ CBCommandTable::GetDNDAction
 	const JXKeyModifiers&	modifiers
 	)
 {
-	const JBoolean meta =
+	const bool meta =
 		modifiers.GetState(JXMenu::AdjustNMShortcutModifier(kJXMetaKeyIndex));
 
 	if ((target == this && !meta) ||
@@ -488,7 +478,7 @@ CBCommandTable::GetDNDAction
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandTable::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -500,11 +490,11 @@ CBCommandTable::WillAcceptDrop
 {
 	if (source == this)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (source == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JSize typeCount = typeList.GetElementCount();
@@ -512,11 +502,11 @@ CBCommandTable::WillAcceptDrop
 		{
 		if (typeList.GetElement(i) == itsCommandXAtom)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -688,7 +678,7 @@ CBCommandTable::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	JBoolean cleared = kJFalse;
+	bool cleared = false;
 	if (c == kJDeleteKey || c == kJForwardDeleteKey)
 		{
 		JTableSelection& s = GetTableSelection();
@@ -699,17 +689,17 @@ CBCommandTable::HandleKeyPress
 			if (cell.x == kMenuTextColumn)
 				{
 				info.menuText->Clear();
-				cleared = kJTrue;
+				cleared = true;
 				}
 			else if (cell.x == kMenuShortcutColumn)
 				{
 				info.menuShortcut->Clear();
-				cleared = kJTrue;
+				cleared = true;
 				}
 			else if (cell.x == kScriptNameColumn)
 				{
 				info.name->Clear();
-				cleared = kJTrue;
+				cleared = true;
 				}
 			}
 		}
@@ -733,14 +723,14 @@ CBCommandTable::HandleKeyPress
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandTable::IsEditable
 	(
 	const JPoint& cell
 	)
 	const
 {
-	return JI2B( cell.x != kOptionsColumn );
+	return cell.x != kOptionsColumn;
 }
 
 /******************************************************************************
@@ -814,7 +804,7 @@ CBCommandTable::CreateXInputField
 
 static const JRegex illegalNamePattern = "[[:space:]]+";
 
-JBoolean
+bool
 CBCommandTable::ExtractInputData
 	(
 	const JPoint& cell
@@ -840,7 +830,7 @@ CBCommandTable::ExtractInputData
 		if (illegalNamePattern.Match(text))
 			{
 			JGetUserNotification()->ReportError(JGetString("NoSpacesInCmdName::CBCommandTable"));
-			return kJFalse;
+			return false;
 			}
 		s = info.name;
 		}
@@ -858,11 +848,11 @@ CBCommandTable::ExtractInputData
 		{
 		*s = text;
 		s->TrimWhitespace();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1016,11 +1006,11 @@ CBCommandTable::ExportAllCommands()
 	const JSize count = itsCmdList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		output << JBoolToString(kJTrue);
+		output << JBoolToString(true);
 		CBCommandManager::WriteCmdInfo(output, itsCmdList->GetElement(i));
 		}
 
-	output << JBoolToString(kJFalse) << '\n';
+	output << JBoolToString(false) << '\n';
 }
 
 /******************************************************************************
@@ -1082,7 +1072,7 @@ CBCommandTable::ImportCommands()
 
 		while (1)
 			{
-			JBoolean keepGoing;
+			bool keepGoing;
 			input >> JBoolFromString(keepGoing);
 			if (input.fail() || !keepGoing)
 				{
@@ -1118,28 +1108,28 @@ void
 CBCommandTable::UpdateOptionsMenu()
 {
 	JPoint cell;
-	const JBoolean ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const bool ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
 	assert( ok );
 
-	JBoolean changed = kJFalse;
+	bool changed = false;
 
 	CBCommandManager::CmdInfo info = itsCmdList->GetElement(cell.y);
 	if (info.isMake)
 		{
 		itsOptionsMenu->CheckItem(kIsMakeCmd);
-		info.saveAll   = kJTrue;
-		info.useWindow = kJTrue;
-		changed        = kJTrue;
+		info.saveAll   = true;
+		info.useWindow = true;
+		changed        = true;
 		}
 
 	if (info.isVCS)
 		{
 		itsOptionsMenu->CheckItem(kIsCVSCmd);
-		info.saveAll = kJTrue;
-		changed      = kJTrue;
+		info.saveAll = true;
+		changed      = true;
 		}
 
-	itsOptionsMenu->SetItemEnable(kSaveAllCmd, JNegate(info.isMake || info.isVCS));
+	itsOptionsMenu->SetItemEnable(kSaveAllCmd, !info.isMake && !info.isVCS);
 	if (info.saveAll)
 		{
 		itsOptionsMenu->CheckItem(kSaveAllCmd);
@@ -1157,8 +1147,8 @@ CBCommandTable::UpdateOptionsMenu()
 		}
 	else
 		{
-		info.raiseWindowWhenStart = kJFalse;
-		changed                   = kJTrue;
+		info.raiseWindowWhenStart = false;
+		changed                   = true;
 		}
 
 	itsOptionsMenu->SetItemEnable(kRaisedWhenStartCmd, info.useWindow);
@@ -1196,7 +1186,7 @@ CBCommandTable::HandleOptionsMenu
 	)
 {
 	JPoint cell;
-	const JBoolean ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const bool ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	CBCommandManager::CmdInfo info = itsCmdList->GetElement(cell.y);
@@ -1205,8 +1195,8 @@ CBCommandTable::HandleOptionsMenu
 		info.isMake = !info.isMake;
 		if (info.isMake)
 			{
-			info.saveAll   = kJTrue;
-			info.useWindow = kJTrue;
+			info.saveAll   = true;
+			info.useWindow = true;
 			}
 		}
 	else if (index == kIsCVSCmd)
@@ -1214,7 +1204,7 @@ CBCommandTable::HandleOptionsMenu
 		info.isVCS = !info.isVCS;
 		if (info.isVCS)
 			{
-			info.saveAll = kJTrue;
+			info.saveAll = true;
 			}
 		}
 	else if (index == kSaveAllCmd)
@@ -1230,7 +1220,7 @@ CBCommandTable::HandleOptionsMenu
 		info.useWindow = !info.useWindow;
 		if (!info.useWindow)
 			{
-			info.raiseWindowWhenStart = kJFalse;
+			info.raiseWindowWhenStart = false;
 			}
 		}
 	else if (index == kRaisedWhenStartCmd)
@@ -1337,8 +1327,5 @@ CBCommandTable::SetColTitles
 	)
 	const
 {
-	for (JIndex i=1; i<=kColCount; i++)
-		{
-		widget->SetColTitle(i, JString(kColTitle[i-1], kJFalse));
-		}
+	widget->SetColumnTitles("CBCommandTable", kColCount);
 }

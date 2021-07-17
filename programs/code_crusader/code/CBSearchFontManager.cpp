@@ -63,7 +63,7 @@ CBSearchFontManager::GetMonospaceFontNames
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchFontManager::GetFontSizes
 	(
 	const JString&	name,
@@ -74,7 +74,7 @@ CBSearchFontManager::GetFontSizes
 {
 	*minSize = *maxSize = 0;
 	sizeList->RemoveAll();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -133,13 +133,13 @@ CBSearchFontManager::GetStringWidth
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchFontManager::IsExact
 	(
 	const JFontID id
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -147,14 +147,14 @@ CBSearchFontManager::IsExact
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchFontManager::HasGlyphForCharacter
 	(
 	const JFontID			id,
 	const JUtf8Character&	c
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -162,7 +162,7 @@ CBSearchFontManager::HasGlyphForCharacter
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchFontManager::GetSubstituteFontName
 	(
 	const JFont&			f,
@@ -170,5 +170,5 @@ CBSearchFontManager::GetSubstituteFontName
 	JString*				name
 	)
 {
-	return kJFalse;
+	return false;
 }

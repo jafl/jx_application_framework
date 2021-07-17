@@ -31,8 +31,8 @@ public:
 
 	virtual ~CBSymbolTable();
 
-	JBoolean	HasSelection() const;
-	void		SelectSingleEntry(const JIndex index, const JBoolean scroll = kJTrue);
+	bool	HasSelection() const;
+	void		SelectSingleEntry(const JIndex index, const bool scroll = true);
 	void		ClearSelection();
 	void		CopySelectedSymbolNames() const;
 	void		DisplaySelectedSymbols() const;
@@ -41,7 +41,7 @@ public:
 										 JArray<JIndex>* lineIndexList) const;
 
 	void	ShowAll();
-	JError	SetNameFilter(const JString& filterStr, const JBoolean isRegex);
+	JError	SetNameFilter(const JString& filterStr, const bool isRegex);
 	void	SetDisplayList(const JArray<JIndex>& list);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c,
@@ -71,7 +71,7 @@ private:
 	CBSymbolDirector*	itsSymbolDirector;			// not owned
 	CBSymbolList*		itsSymbolList;				// not owned
 	JArray<JIndex>*		itsVisibleList;				// index of each visible symbol
-	JBoolean			itsVisibleListLockedFlag;	// kJTrue => RebuildTable() doesn't change it
+	bool			itsVisibleListLockedFlag;	// true => RebuildTable() doesn't change it
 	JRegex*				itsNameFilter;				// nullptr if not used
 	JString*			itsNameLiteral;				// nullptr if not used
 
@@ -81,7 +81,7 @@ private:
 private:
 
 	void		RebuildTable();
-	JBoolean	CalcColWidths(const JString& symbolName, const JString* signature);
+	bool	CalcColWidths(const JString& symbolName, const JString* signature);
 	void		AdjustColWidths();
 
 	JIndex	CellToSymbolIndex(const JPoint& cell) const;

@@ -108,10 +108,10 @@ JXDocktab::Draw
 		focusWindow == w)
 		{
 		p.SetPenColor(itsFocusColor);
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.JPainter::Rect(rect);
 		p.SetPenColor(JColorManager::GetBlackColor());
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 
 		p.SetPenColor(JColorManager::GetWhiteColor());
 		}
@@ -277,7 +277,7 @@ JXDocktab::UpdateActionMenu()
 		itsActionMenu->AppendItem(itemText);
 		}
 
-	const JBoolean isDocked = GetWindow()->IsDocked();
+	const bool isDocked = GetWindow()->IsDocked();
 	itsActionMenu->SetItemEnable(kUndockCmd, isDocked);
 	itsActionMenu->SetItemEnable(kUndockAllCompartmentCmd, isDocked);
 	itsActionMenu->SetItemEnable(kUndockAllDockCmd, isDocked);
@@ -351,11 +351,11 @@ JXDocktab::HandleActionMenu
 
 	else if (index == kCreateDockHorizCmd)
 		{
-		dockMgr->CreateDock(kJTrue);
+		dockMgr->CreateDock(true);
 		}
 	else if (index == kCreateDockVertCmd)
 		{
-		dockMgr->CreateDock(kJFalse);
+		dockMgr->CreateDock(false);
 		}
 	else if (index == kDockAllDefConfigCmd)
 		{
@@ -406,7 +406,7 @@ JXDocktab::DockFinder::~DockFinder()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDocktab::DockFinder::FindTarget
 	(
 	const JXContainer*	coordOwner,
@@ -433,6 +433,6 @@ JXDocktab::DockFinder::FindTarget
 		*target    = nullptr;
 		*msgWindow = *xWindow;
 		*vers      = 0;
-		return kJFalse;
+		return false;
 		}
 }

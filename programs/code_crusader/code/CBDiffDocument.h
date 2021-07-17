@@ -24,26 +24,26 @@ public:
 								const JFontStyle& defStyle,
 								const JString& name1, const JFontStyle& removeStyle,
 								const JString& name2, const JFontStyle& insertStyle,
-								const JBoolean silent = kJFalse,
+								const bool silent = false,
 								CBDiffDocument* origDoc = nullptr);
 	static JError	CreateCVS(const JString& fullName, const JString& getCmd,
 							  const JString& diffCmd, const JFontStyle& defStyle,
 							  const JString& name1, const JFontStyle& removeStyle,
 							  const JString& name2, const JFontStyle& insertStyle,
-							  const JBoolean silent = kJFalse,
+							  const bool silent = false,
 							  CBDiffDocument* origDoc = nullptr);
 	static JError	CreateSVN(const JString& fullName, const JString& getCmd,
 							  const JString& diffCmd, const JFontStyle& defStyle,
 							  const JString& name1, const JFontStyle& removeStyle,
 							  const JString& name2, const JFontStyle& insertStyle,
-							  const JBoolean silent = kJFalse,
+							  const bool silent = false,
 							  CBDiffDocument* origDoc = nullptr);
 	static JError	CreateGit(const JString& fullName,
 							  const JString& get1Cmd, const JString& get2Cmd,
 							  const JString& diffCmd, const JFontStyle& defStyle,
 							  const JString& name1, const JFontStyle& removeStyle,
 							  const JString& name2, const JFontStyle& insertStyle,
-							  const JBoolean silent = kJFalse,
+							  const bool silent = false,
 							  CBDiffDocument* origDoc = nullptr);
 
 	virtual ~CBDiffDocument();
@@ -119,7 +119,7 @@ public:
 		{
 		public:
 
-			DiffFailed(const JString& s, const JBoolean isFileName);
+			DiffFailed(const JString& s, const bool isFileName);
 			DiffFailed(const JError& err);
 
 		private:

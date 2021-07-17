@@ -119,9 +119,9 @@ CBFunctionMenu::TextChanged
 	)
 {
 	itsFileType    = type;
-	itsNeedsUpdate = kJTrue;
+	itsNeedsUpdate = true;
 
-	SetTitle(CBCtagsUser::GetFunctionMenuTitle(type), nullptr, kJFalse);
+	SetTitle(CBCtagsUser::GetFunctionMenuTitle(type), nullptr, false);
 
 #ifdef CODE_MEDIC
 
@@ -171,19 +171,19 @@ CBFunctionMenu::UpdateMenu()
 	CBFnMenuUpdater* updater        = CBMGetFnMenuUpdater();
 	const JXKeyModifiers& modifiers = GetDisplay()->GetLatestKeyModifiers();
 
-	JBoolean sort = updater->WillSortFnNames();
+	bool sort = updater->WillSortFnNames();
 	if (modifiers.meta())
 		{
 		sort = !sort;
 		}
 
-	JBoolean includeNS = updater->WillIncludeNamespace();
+	bool includeNS = updater->WillIncludeNamespace();
 	if (modifiers.shift())
 		{
 		includeNS = !includeNS;
 		}
 
-	const JBoolean pack = updater->WillPackFnNames();
+	const bool pack = updater->WillPackFnNames();
 
 	if (itsNeedsUpdate || sort != itsSortFlag ||
 		includeNS != itsIncludeNSFlag || pack != itsPackFlag)
@@ -193,7 +193,7 @@ CBFunctionMenu::UpdateMenu()
 		assert( itsDoc != nullptr );
 
 		JString fileName;
-		JBoolean deleteFile = kJFalse;
+		bool deleteFile = false;
 		if (itsDoc->NeedsSave())
 			{
 			itsDoc->SafetySave(JXDocumentManager::kTimer);
@@ -202,7 +202,7 @@ CBFunctionMenu::UpdateMenu()
 				{
 				// directory may not be writable
 
-				deleteFile = kJTrue;
+				deleteFile = true;
 
 				// itsDoc can't be CBTextDocument, because Code Medic uses us
 
@@ -215,7 +215,7 @@ CBFunctionMenu::UpdateMenu()
 			}
 		else
 			{
-			JBoolean onDisk;
+			bool onDisk;
 			fileName = itsDoc->GetFullName(&onDisk);
 			if (!onDisk)
 				{
@@ -246,7 +246,7 @@ CBFunctionMenu::UpdateMenu()
 			SetEmptyMenuItems();
 			}
 
-		itsNeedsUpdate    = kJFalse;
+		itsNeedsUpdate    = false;
 		itsSortFlag       = sort;
 		itsIncludeNSFlag  = includeNS;
 		itsPackFlag       = pack;
@@ -269,7 +269,7 @@ CBFunctionMenu::UpdateMenu()
 		{
 		if (itsCaretItemIndex > 0)
 			{
-			ShowSeparatorAfter(itsCaretItemIndex, kJFalse);
+			ShowSeparatorAfter(itsCaretItemIndex, false);
 			itsCaretItemIndex = 0;
 			}
 
@@ -288,7 +288,7 @@ CBFunctionMenu::UpdateMenu()
 				itsCaretItemIndex = i-1;
 				if (itsCaretItemIndex > 0)
 					{
-					ShowSeparatorAfter(itsCaretItemIndex, kJTrue);
+					ShowSeparatorAfter(itsCaretItemIndex, true);
 					}
 				break;
 				}

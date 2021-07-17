@@ -125,7 +125,7 @@ GPMSystemStats::Draw
 	const JFloat angle1 = 360 * otherMemoryPercentage / 100;
 	const JFloat angle2 = 360 * userMemoryPercentage / 100;
 
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.SetPenColor(otherMem);
 	p.JPainter::Arc(r, 90, -360);
 	p.SetPenColor(userMem);
@@ -257,9 +257,9 @@ GPMSystemStats::ComputeStats
 			{
 			line = JReadLine(ms);
 
-			const JStringMatch m1 = freeMemoryPattern.Match(line, kJTrue),
-							   m2 = bufferMemoryPattern.Match(line, kJTrue),
-							   m3 = cacheMemoryPattern.Match(line, kJTrue);
+			const JStringMatch m1 = freeMemoryPattern.Match(line, true),
+							   m2 = bufferMemoryPattern.Match(line, true),
+							   m3 = cacheMemoryPattern.Match(line, true);
 			if (!m1.IsEmpty())
 				{
 				m1.GetSubstring(1).ConvertToUInt(&freeMem);	// usually kB

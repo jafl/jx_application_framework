@@ -70,11 +70,11 @@ JXApplication::JXApplication
 	)
 	:
 	JXDirector(nullptr),
-	itsIgnoreDisplayDeletedFlag(kJFalse),
-	itsIgnoreTaskDeletedFlag(kJFalse),
+	itsIgnoreDisplayDeletedFlag(false),
+	itsIgnoreTaskDeletedFlag(false),
 	itsRunningUrgentTasks(nullptr),
-	itsSignature(appSignature, 0),
-	itsRestartCmd(argv[0], 0)
+	itsSignature(appSignature),
+	itsRestartCmd(argv[0])
 {
 	std::cout << std::boolalpha;	// since it will only be used for debugging
 	std::cerr << std::boolalpha;
@@ -107,9 +107,9 @@ JXApplication::JXApplication
 	itsUrgentTasks = jnew JPtrArray<JXUrgentTask>(JPtrArrayT::kDeleteAll);
 	assert( itsUrgentTasks != nullptr );
 
-	itsHasBlockingWindowFlag = kJFalse;
-	itsHadBlockingWindowFlag = kJFalse;
-	itsRequestQuitFlag       = kJFalse;
+	itsHasBlockingWindowFlag = false;
+	itsHadBlockingWindowFlag = false;
+	itsRequestQuitFlag       = false;
 
 	// if no path info specified, assume it's on exec path
 
@@ -177,12 +177,12 @@ JXApplication::~JXApplication()
 {
 	JXCloseDirectors();
 
-	itsIgnoreDisplayDeletedFlag = kJTrue;
+	itsIgnoreDisplayDeletedFlag = true;
 
 	jdelete itsDisplayList;
 	JXDeleteGlobals1();
 
-	itsIgnoreTaskDeletedFlag = kJTrue;
+	itsIgnoreTaskDeletedFlag = true;
 
 	jdelete itsIdleTaskStack;
 	jdelete itsIdleTasks;
@@ -226,7 +226,7 @@ JXApplication::Resume()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXApplication::OpenDisplay
 	(
 	const JString&	displayName,
@@ -240,7 +240,7 @@ JXApplication::OpenDisplay
 		{
 		// DisplayOpened() appends new JXDisplay* to our list
 		*displayIndex = itsDisplayList->GetElementCount();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -251,7 +251,7 @@ JXApplication::OpenDisplay
 		JGetUserNotification()->ReportError(JGetString("DisplayConnectError", map, sizeof(map)));
 
 		*displayIndex = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -321,11 +321,11 @@ JXApplication::SetCurrentDisplay
 /******************************************************************************
  FindDisplay
 
-	Returns kJTrue if the given display exists.
+	Returns true if the given display exists.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXApplication::FindDisplay
 	(
 	const Display*	xDisplay,
@@ -337,12 +337,12 @@ JXApplication::FindDisplay
 		if (d->GetXDisplay() == xDisplay)
 			{
 			*display = d;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*display = nullptr;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -405,7 +405,7 @@ JXApplication::Run()
 	if (setjmp(JThisProcess::GetSigintJumpBuffer()) != 0)
 		{
 		// assert fired is the closest to what we want - we are locked up, so user hit ctrl-c
-		Abort(JXDocumentManager::kAssertFired, kJFalse);
+		Abort(JXDocumentManager::kAssertFired, false);
 		// does not return
 		}
 
@@ -415,14 +415,14 @@ JXApplication::Run()
 
 		if (itsRequestQuitFlag || !HasSubdirectors())
 			{
-			itsRequestQuitFlag = kJTrue;
+			itsRequestQuitFlag = true;
 			if (Close())
 				{
 				break;		// we have been deleted
 				}
 			else
 				{
-				itsRequestQuitFlag = kJFalse;
+				itsRequestQuitFlag = false;
 				}
 			}
 		}
@@ -440,7 +440,7 @@ JXApplication::Run()
 void
 JXApplication::Quit()
 {
-	itsRequestQuitFlag = kJTrue;
+	itsRequestQuitFlag = true;
 }
 
 /******************************************************************************
@@ -450,7 +450,7 @@ JXApplication::Quit()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXApplication::Close()
 {
 	assert( itsRequestQuitFlag );
@@ -499,13 +499,13 @@ JXApplication::UpdateCurrentTime()
 void
 JXApplication::HandleOneEvent()
 {
-	itsHadBlockingWindowFlag = kJFalse;
+	itsHadBlockingWindowFlag = false;
 
 	UpdateCurrentTime();
-	const JBoolean allowSleep = HandleCustomEvent();
+	const bool allowSleep = HandleCustomEvent();
 
 	UpdateCurrentTime();
-	JBoolean hasEvents = kJFalse;
+	bool hasEvents = false;
 
 	JPtrArrayIterator<JXDisplay> iter(itsDisplayList);
 	JXDisplay* display;
@@ -516,7 +516,7 @@ JXApplication::HandleOneEvent()
 		itsCurrDisplayIndex = displayIndex;		// itsCurrDisplayIndex might change during event
 		if (XPending(*display) != 0)
 			{
-			hasEvents = kJTrue;
+			hasEvents = true;
 
 			// get the next event
 
@@ -560,17 +560,17 @@ JXApplication::HandleOneEvent()
 	interface will react sluggishly.
 
 	The return value controls whether or not the main event loop idles
-	by calling JWait().  The default is to return kJTrue to avoid hogging
+	by calling JWait().  The default is to return true to avoid hogging
 	CPU time.  If the derived class handles the sleeping via some other
-	system call, then it should return kJFalse.  Otherwise, it might return
-	kJTrue if there were no events and kJFalse if there were.
+	system call, then it should return false.  Otherwise, it might return
+	true if there were no events and false if there were.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXApplication::HandleCustomEvent()
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -583,7 +583,7 @@ JXApplication::HandleCustomEvent()
 	In order to allow menus inside the window, we always pass all events
 	to the current mouse and keyboard grabber windows.
 
-	Returns kJTrue if we processed an event for the specified window.
+	Returns true if we processed an event for the specified window.
 
  ******************************************************************************/
 
@@ -600,17 +600,17 @@ struct DiscardEventInfo
 		{ };
 };
 
-JBoolean
+bool
 JXApplication::HandleOneEventForWindow
 	(
 	JXWindow*		window,
-	const JBoolean	origAllowSleep
+	const bool	origAllowSleep
 	)
 {
-	const JBoolean origHadBlockingWindowFlag = itsHadBlockingWindowFlag;
+	const bool origHadBlockingWindowFlag = itsHadBlockingWindowFlag;
 
-	itsHasBlockingWindowFlag = kJTrue;
-	itsHadBlockingWindowFlag = kJFalse;		// req'd by JXWindow
+	itsHasBlockingWindowFlag = true;
+	itsHadBlockingWindowFlag = false;		// req'd by JXWindow
 
 	{
 	std::lock_guard lock(*itsTaskMutex);
@@ -620,11 +620,11 @@ JXApplication::HandleOneEventForWindow
 		}
 	}
 	UpdateCurrentTime();
-	const JBoolean allowSleep =
-		JI2B(origAllowSleep && HandleCustomEventWhileBlocking());
+	const bool allowSleep =
+		origAllowSleep && HandleCustomEventWhileBlocking();
 
 	UpdateCurrentTime();
-	JBoolean windowHasEvents = kJFalse;
+	bool windowHasEvents = false;
 
 	const JXDisplay* uiDisplay = window->GetDisplay();
 
@@ -671,7 +671,7 @@ JXApplication::HandleOneEventForWindow
 				XCheckIfEvent(*display, &xEvent, GetNextWindowEvent,
 							  reinterpret_cast<char*>(eventWindow)))
 				{
-				windowHasEvents = kJTrue;
+				windowHasEvents = true;
 				if (xEvent.type != MotionNotify)
 					{
 					itsLastIdleTime = itsCurrentTime;
@@ -718,8 +718,8 @@ JXApplication::HandleOneEventForWindow
 
 	PerformTasks(windowHasEvents, allowSleep);
 
-	itsHasBlockingWindowFlag = kJFalse;
-	itsHadBlockingWindowFlag = kJTrue;
+	itsHasBlockingWindowFlag = false;
+	itsHadBlockingWindowFlag = true;
 
 	return windowHasEvents;
 }
@@ -816,8 +816,8 @@ JXApplication::DiscardNextEvent
 void
 JXApplication::PerformTasks
 	(
-	const JBoolean hadEvents,
-	const JBoolean allowSleep
+	const bool hadEvents,
+	const bool allowSleep
 	)
 {
 	if (!hadEvents)
@@ -864,17 +864,17 @@ JXApplication::PerformTasks
 	the main event loop.
 
 	The return value controls whether or not the main event loop idles
-	by calling JWait().  The default is to return kJTrue to avoid hogging
+	by calling JWait().  The default is to return true to avoid hogging
 	CPU time.  If the derived class handles the sleeping via some other
-	system call, then it should return kJFalse.  Otherwise, it might return
-	kJTrue if there were no events and kJFalse if there were.
+	system call, then it should return false.  Otherwise, it might return
+	true if there were no events and false if there were.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXApplication::HandleCustomEventWhileBlocking()
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -968,7 +968,7 @@ JXApplication::PopIdleTaskStack()
 		itsIdleTasks                = itsIdleTaskStack->GetLastElement();
 		itsIdleTaskStack->RemoveElement(itsIdleTaskStack->GetElementCount());
 
-		itsIdleTasks->CopyPointers(*list, JPtrArrayT::kDeleteAll, kJTrue);
+		itsIdleTasks->CopyPointers(*list, JPtrArrayT::kDeleteAll, true);
 		list->SetCleanUpAction(JPtrArrayT::kForgetAll);
 		jdelete list;
 		}
@@ -1033,7 +1033,7 @@ JXApplication::PerformIdleTasks()
 		itsWaitForChildCounter++;
 		if (itsWaitForChildCounter >= kWaitForChildCount)
 			{
-			JProcess::CheckForFinishedChild(kJFalse);
+			JProcess::CheckForFinishedChild(false);
 			itsWaitForChildCounter = 0;
 			}
 		}
@@ -1177,7 +1177,7 @@ JXApplication::ParseBaseOptions
 {
 	displayName->Clear();
 
-	JBoolean ftcNoop = kJFalse, ftcOverlap = kJFalse;
+	bool ftcNoop = false, ftcOverlap = false;
 
 	for (long i=1; i<*argc; i++)
 		{
@@ -1201,25 +1201,25 @@ JXApplication::ParseBaseOptions
 			}
 		else if (strcmp(argv[i], kFTCHorizDebugOptionName) == 0)
 			{
-			JXContainer::DebugExpandToFitContent(kJTrue);
+			JXContainer::DebugExpandToFitContent(true);
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
 			}
 		else if (strcmp(argv[i], kFTCVertDebugOptionName) == 0)
 			{
-			JXContainer::DebugExpandToFitContent(kJFalse);
+			JXContainer::DebugExpandToFitContent(false);
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
 			}
 		else if (strcmp(argv[i], kFTCDebugNoopOptionName) == 0)
 			{
-			ftcNoop = kJTrue;
+			ftcNoop = true;
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
 			}
 		else if (strcmp(argv[i], kFTCDebugOverlapOptionName) == 0)
 			{
-			ftcOverlap = kJTrue;
+			ftcOverlap = true;
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
 			}
@@ -1309,7 +1309,7 @@ JXApplication::ReceiveWithFeedback
 {
 	if (sender == JThisProcess::Instance() && message->Is(JThisProcess::kTerminate))
 		{
-		Abort(JXDocumentManager::kKillSignal, kJFalse);
+		Abort(JXDocumentManager::kKillSignal, false);
 		}
 	else
 		{
@@ -1330,7 +1330,7 @@ JXApplication::JXIOErrorHandler
 	Display* xDisplay
 	)
 {
-	Abort(JXDocumentManager::kServerDead, kJFalse);
+	Abort(JXDocumentManager::kServerDead, false);
 	return 0;	// does not return - just keep compiler happy
 }
 
@@ -1346,18 +1346,18 @@ JXApplication::JXIOErrorHandler
 
  ******************************************************************************/
 
-static JBoolean abortCalled = kJFalse;
+static bool abortCalled = false;
 
 void
 JXApplication::Abort
 	(
 	const JXDocumentManager::SafetySaveReason	reason,
-	const JBoolean								dumpCore
+	const bool								dumpCore
 	)
 {
 	if (!abortCalled)
 		{
-		abortCalled = kJTrue;
+		abortCalled = true;
 
 		JXDocumentManager* docMgr = nullptr;
 		if (JXGetDocumentManager(&docMgr))

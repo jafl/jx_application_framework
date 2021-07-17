@@ -15,7 +15,7 @@ class LLDBWelcomeTask : public JXUrgentTask
 {
 public:
 
-	LLDBWelcomeTask(const JString& msg, const JBoolean restart);
+	LLDBWelcomeTask(const JString& msg, const bool restart);
 
 	virtual ~LLDBWelcomeTask();
 
@@ -24,7 +24,7 @@ public:
 private:
 
 	JString		itsMessage;
-	JBoolean	itsRestartFlag;
+	bool	itsRestartFlag;
 
 private:
 

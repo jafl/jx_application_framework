@@ -30,8 +30,8 @@ public:
 	void	SetPeriod(const Time period);
 
 	void		ResetTimer();
-	JBoolean	TimeToPerform(const Time delta, Time* maxSleepTime);
-	JBoolean	CheckIfTimeToPerform(const Time delta);
+	bool	TimeToPerform(const Time delta, Time* maxSleepTime);
+	bool	CheckIfTimeToPerform(const Time delta);
 
 private:
 
@@ -82,18 +82,18 @@ JXIdleTask::ResetTimer()
 /******************************************************************************
  CheckIfTimeToPerform
 
-	Returns kJTrue if it is time to perform the task again but does not
+	Returns true if it is time to perform the task again but does not
 	reset the timer.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXIdleTask::CheckIfTimeToPerform
 	(
 	const Time delta
 	)
 {
-	return JI2B(itsElapsedTime + delta >= itsPeriod);
+	return itsElapsedTime + delta >= itsPeriod;
 }
 
 #endif

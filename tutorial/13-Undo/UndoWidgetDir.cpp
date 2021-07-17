@@ -110,7 +110,7 @@ UndoWidgetDir::BuildWindow()
 	assert( itsWidget != nullptr );
 
 	// Fit the widget within the scrollbarset enclosure
-	itsWidget->FitToEnclosure(kJTrue, kJTrue);
+	itsWidget->FitToEnclosure(true, true);
 }
 
 /******************************************************************************

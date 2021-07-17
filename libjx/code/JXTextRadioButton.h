@@ -49,7 +49,7 @@ protected:
 
 	virtual void		Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual void		DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
 private:
 

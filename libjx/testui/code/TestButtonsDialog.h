@@ -25,7 +25,7 @@ public:
 
 protected:
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

@@ -41,7 +41,7 @@ main
 		return 0;
 		}
 
-	JBoolean displayAbout;
+	bool displayAbout;
 	JString prevVersStr;
 
 	GLPlotApp* app =

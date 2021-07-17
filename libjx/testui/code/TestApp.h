@@ -18,16 +18,16 @@ class TestApp : public JXApplication
 {
 public:
 
-	TestApp(int* argc, char* argv[], const JBoolean wantMDI);
+	TestApp(int* argc, char* argv[], const bool wantMDI);
 
 	virtual ~TestApp();
 
 	void				OpenDocuments();
-	virtual JBoolean	Close() override;
+	virtual bool	Close() override;
 
 	void	DisplayAbout(JXDisplay* display);
 
-	JBoolean	GetMainDirector(TestDirector** dir) const;
+	bool	GetMainDirector(TestDirector** dir) const;
 	void		SetMainDirector(TestDirector* dir);
 
 	static const JUtf8Byte*	GetAppSignature();
@@ -57,7 +57,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 TestApp::GetMainDirector
 	(
 	TestDirector** dir
@@ -65,7 +65,7 @@ TestApp::GetMainDirector
 	const
 {
 	*dir = itsMainDirector;
-	return JConvertToBoolean( *dir != nullptr );
+	return *dir != nullptr;
 }
 
 /******************************************************************************

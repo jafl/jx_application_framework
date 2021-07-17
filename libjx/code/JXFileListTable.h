@@ -30,37 +30,37 @@ public:
 
 	virtual ~JXFileListTable();
 
-	JBoolean	AddFile(const JString& fullName, JIndex* fullNameIndex = nullptr);
+	bool	AddFile(const JString& fullName, JIndex* fullNameIndex = nullptr);
 	void		RemoveFile(const JString& fullName);
 	void		RemoveFiles(const JPtrArray<JString>& fileList);
 	void		RemoveSelectedFiles();
 	void		RemoveAllFiles();
-	JBoolean	GetFullName(const JIndex rowIndex, JString* fullName) const;
-//	JBoolean	GetFullName(const JString& fileName, JString* fullName) const;
+	bool	GetFullName(const JIndex rowIndex, JString* fullName) const;
+//	bool	GetFullName(const JString& fileName, JString* fullName) const;
 
 	const JPtrArray<JString>&	GetFullNameList() const;
 	JIndex		RowIndexToFileIndex(const JIndex rowIndex) const;
 
-	JBoolean	GetFilterRegex(JString* regexStr) const;
+	bool	GetFilterRegex(JString* regexStr) const;
 	JError		SetFilterRegex(const JString& regexStr);
 	void		ClearFilterRegex();
 
-	JBoolean	HasSelection() const;
-	JBoolean	GetSelection(JPtrArray<JString>* fileList) const;
-	void		SelectSingleEntry(const JIndex index, const JBoolean scroll = kJTrue);
+	bool	HasSelection() const;
+	bool	GetSelection(JPtrArray<JString>* fileList) const;
+	void		SelectSingleEntry(const JIndex index, const bool scroll = true);
 	void		SelectAll();
 	void		ClearSelection();
 
 	void		ShowSelectedFileLocations() const;
 
-	JBoolean	GetEditMenuProvider(JXTEBase** te) const;
+	bool	GetEditMenuProvider(JXTEBase** te) const;
 	void		SetEditMenuProvider(JXTEBase* te);
 
-	JBoolean	WillAcceptFileDrop() const;
-	void		ShouldAcceptFileDrop(const JBoolean accept = kJTrue);
+	bool	WillAcceptFileDrop() const;
+	void		ShouldAcceptFileDrop(const bool accept = true);
 
-	JBoolean	BackspaceWillRemoveSelectedFiles() const;
-	void		BackspaceShouldRemoveSelectedFiles(const JBoolean remove = kJTrue);
+	bool	BackspaceWillRemoveSelectedFiles() const;
+	void		BackspaceShouldRemoveSelectedFiles(const bool remove = true);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
@@ -71,7 +71,7 @@ protected:
 	JCollection*	GetFullNameDataList() const;
 	JString			GetFileName(const JIndex rowIndex) const;
 
-	virtual JBoolean	ResolveFullName(JString* name);
+	virtual bool	ResolveFullName(JString* name);
 
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
@@ -93,9 +93,9 @@ protected:
 								 const JXButtonStates& buttonStates,
 								 const JXKeyModifiers& modifiers) override;
 	virtual void	HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action) override;
+									  const bool dropAccepted, const Atom action) override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
@@ -126,8 +126,8 @@ private:
 	JArray<VisInfo>*	itsVisibleList;			// info about each visible item
 	JRegex*				itsRegex;				// can be nullptr
 
-	JBoolean			itsAcceptFileDropFlag;	// kJTrue => accept drop of url/url
-	JBoolean			itsBSRemoveSelFlag;		// kJTrue => backspace removes selected files
+	bool			itsAcceptFileDropFlag;	// true => accept drop of url/url
+	bool			itsBSRemoveSelFlag;		// true => backspace removes selected files
 	JSize				itsMaxStringWidth;
 	JXImage*			itsFileIcon;			// not owned
 	JString				itsKeyBuffer;
@@ -144,15 +144,15 @@ private:
 
 private:
 
-	void	RebuildTable(const JBoolean maintainScroll = kJFalse);
+	void	RebuildTable(const bool maintainScroll = false);
 	void	FilterFile(const JIndex fileIndex);
 	void	AdjustColWidths();
 
-	JBoolean	ClosestMatch(const JString& prefixStr, JIndex* index) const;
-//	JBoolean	FileNameToFileIndex(const JString& name, JIndex* index) const;
-	JBoolean	MainResolveFullName(const JIndex rowIndex, const JIndex fileIndex,
+	bool	ClosestMatch(const JString& prefixStr, JIndex* index) const;
+//	bool	FileNameToFileIndex(const JString& name, JIndex* index) const;
+	bool	MainResolveFullName(const JIndex rowIndex, const JIndex fileIndex,
 									JString* name);
-	JBoolean	IsInactive(const JString& fullName) const;
+	bool	IsInactive(const JString& fullName) const;
 	JIndex		UpdateDrawIndex(const JIndex firstIndex, const JString& fileName) const;
 
 	void	UpdateEditMenu();
@@ -202,7 +202,7 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileListTable::WillAcceptFileDrop()
 	const
 {
@@ -212,7 +212,7 @@ JXFileListTable::WillAcceptFileDrop()
 inline void
 JXFileListTable::ShouldAcceptFileDrop
 	(
-	const JBoolean accept
+	const bool accept
 	)
 {
 	itsAcceptFileDropFlag = accept;
@@ -223,7 +223,7 @@ JXFileListTable::ShouldAcceptFileDrop
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileListTable::BackspaceWillRemoveSelectedFiles()
 	const
 {
@@ -233,7 +233,7 @@ JXFileListTable::BackspaceWillRemoveSelectedFiles()
 inline void
 JXFileListTable::BackspaceShouldRemoveSelectedFiles
 	(
-	const JBoolean remove
+	const bool remove
 	)
 {
 	itsBSRemoveSelFlag = remove;
@@ -274,7 +274,7 @@ JXFileListTable::GetFullNameDataList()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileListTable::GetEditMenuProvider
 	(
 	JXTEBase** te
@@ -282,7 +282,7 @@ JXFileListTable::GetEditMenuProvider
 	const
 {
 	*te = itsEditMenuProvider;
-	return JI2B( itsEditMenuProvider != nullptr );
+	return itsEditMenuProvider != nullptr;
 }
 
 /******************************************************************************

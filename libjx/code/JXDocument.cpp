@@ -14,14 +14,14 @@
 	Derived classes must also override the following function:
 
 		NeedsSave
-			Returns kJTrue if the data needs to be saved.
+			Returns true if the data needs to be saved.
 
 		OKToRevert
 			Ask the user if it is OK to revert to the latest saved version
 			of this document.
 
 		CanRevert
-			Returns kJTrue if it is possible to revert to a saved version
+			Returns true if it is possible to revert to a saved version
 			of this document.
 
 		SafetySave
@@ -47,7 +47,7 @@
 			this to return the name of its file.
 
 		NeedDocument
-			Return kJTrue if you need the given document to stay open.
+			Return true if you need the given document to stay open.
 			The document dependency graph must be acyclic.
 
 	BASE CLASS = JXWindowDirector
@@ -98,16 +98,16 @@ JXDocument::~JXDocument()
 /******************************************************************************
  Close
 
-	Returns kJTrue if the user ok's it and nobody needs us.
+	Returns true if the user ok's it and nobody needs us.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDocument::Close()
 {
 	if (!OKToClose())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if ((JXGetDocumentManager())->OKToCloseDocument(this))
@@ -132,20 +132,20 @@ JXDocument::Close()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDocument::Deactivate()
 {
 	if (JXWindowDirector::Deactivate())
 		{
 		if (NeedsSave())
 			{
-			DiscardChanges();	// OKToDeactivate() returned kJTrue
+			DiscardChanges();	// OKToDeactivate() returned true
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -156,7 +156,7 @@ JXDocument::Deactivate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDocument::OKToDeactivate()
 {
 	return OKToClose();
@@ -167,7 +167,7 @@ JXDocument::OKToDeactivate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDocument::GetMenuIcon
 	(
 	const JXImage** icon
@@ -175,7 +175,7 @@ JXDocument::GetMenuIcon
 	const
 {
 	*icon = (JXGetDocumentManager())->GetDefaultMenuIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -186,12 +186,12 @@ JXDocument::GetMenuIcon
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDocument::NeedsSave()
 	const
 {
 	assert_msg( 0, "programmer forgot to override JXDocument::NeedsSave()" );
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -218,12 +218,12 @@ JXDocument::RevertToSaved()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDocument::NeedDocument
 	(
 	JXDocument* doc
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }

@@ -43,7 +43,7 @@ JXExprInput::JXExprInput
 	)
 	:
 	JXInputField(enclosure, hSizing, vSizing, x,y, w,h),
-	itsGreekFlag(kJFalse)
+	itsGreekFlag(false)
 {
 	itsFontMenu = nullptr;
 }
@@ -189,10 +189,10 @@ JXExprInput::HandleFontMenu
 {
 	if (item == kNormalFontCmd)
 		{
-		itsGreekFlag = kJFalse;
+		itsGreekFlag = false;
 		}
 	else if (item == kGreekFontCmd)
 		{
-		itsGreekFlag = kJTrue;
+		itsGreekFlag = true;
 		}
 }

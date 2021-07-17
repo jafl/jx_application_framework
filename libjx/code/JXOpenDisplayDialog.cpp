@@ -22,7 +22,7 @@ JXOpenDisplayDialog::JXOpenDisplayDialog
 	)
 	:
 	JXGetStringDialog(supervisor, JGetString("WindowTitle::JXOpenDisplayDialog"),
-					  JGetString("Prompt::JXOpenDisplayDialog"), JString::empty, kJTrue)
+					  JGetString("Prompt::JXOpenDisplayDialog"), JString::empty, true)
 {
 }
 
@@ -40,16 +40,16 @@ JXOpenDisplayDialog::~JXOpenDisplayDialog()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXOpenDisplayDialog::OKToDeactivate()
 {
 	if (!JXGetStringDialog::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	const JString& displayName = GetString();
@@ -57,10 +57,10 @@ JXOpenDisplayDialog::OKToDeactivate()
 	if (JXGetApplication()->OpenDisplay(displayName, &displayIndex))
 		{
 		itsDisplayIndex = displayIndex;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

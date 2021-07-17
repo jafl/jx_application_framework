@@ -33,15 +33,15 @@ GLPlotFitFunction::GLPlotFitFunction
 	itsDiffData(nullptr)
 {
 	itsData = fitData;
-	itsHasXErrors = kJFalse;
-	itsHasYErrors = kJFalse;
+	itsHasXErrors = false;
+	itsHasYErrors = false;
 	if (itsData->HasXErrors())
 		{
-		itsHasXErrors = kJTrue;
+		itsHasXErrors = true;
 		}
 	if (itsData->HasYErrors())
 		{
-		itsHasYErrors = kJTrue;
+		itsHasYErrors = true;
 		}
 }
 
@@ -105,7 +105,7 @@ GLPlotFitFunction::GenerateDiffData()
 				}
 			}
 		}
-	J2DPlotData::Create(&itsDiffData, xdata, ydata, kJFalse);
+	J2DPlotData::Create(&itsDiffData, xdata, ydata, false);
 	itsDiffData->SetYErrors(yerrdata);
 	if (itsHasXErrors)
 		{
@@ -189,13 +189,13 @@ GLPlotFitFunction::AdjustDiffDataValue
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitFunction::DataElementValid
 	(
 	const JIndex index
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -204,19 +204,19 @@ GLPlotFitFunction::DataElementValid
 
  *****************************************************************************/
 
-JBoolean
+bool
 GLPlotFitFunction::GetDataElement
 	(
 	const JIndex index,
 	J2DDataPoint* point
 	)
 {
-	JBoolean valid = DataElementValid(index);
+	bool valid = DataElementValid(index);
 	if (!valid)
 		{
-		return kJFalse;
+		return false;
 		}
 	const JPlotDataBase* data = GetData();
 	data->GetElement(index, point);
-	return kJTrue;
+	return true;
 }

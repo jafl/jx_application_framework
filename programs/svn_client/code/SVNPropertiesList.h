@@ -28,20 +28,20 @@ public:
 
 	virtual void		UpdateActionsMenu(JXTextMenu* menu) override;
 	virtual void		GetSelectedFiles(JPtrArray<JString>* fullNameList,
-										 const JBoolean includeDeleted = kJFalse) override;
+										 const bool includeDeleted = false) override;
 	virtual void		OpenSelectedItems() override;
-	virtual JBoolean	CreateProperty() override;
-	virtual JBoolean	SchedulePropertiesForRemove() override;
+	virtual bool	CreateProperty() override;
+	virtual bool	SchedulePropertiesForRemove() override;
 
 protected:
 
-	virtual JBoolean	ShouldDisplayLine(JString* line) const override;
+	virtual bool	ShouldDisplayLine(JString* line) const override;
 	virtual void		StyleLine(const JIndex index, const JString& line,
 								  const JFontStyle& errorStyle,
 								  const JFontStyle& addStyle,
 								  const JFontStyle& removeStyle) override;
 	virtual JString		ExtractRelativePath(const JString& line) const override;
-	virtual void		CopySelectedItems(const JBoolean fullPath) override;
+	virtual void		CopySelectedItems(const bool fullPath) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -56,8 +56,8 @@ private:
 
 	static JString	GetCommand(const JString& fullName);
 
-	JBoolean	CreateProperty1();
-	JBoolean	RemoveNextProperty();
+	bool	CreateProperty1();
+	bool	RemoveNextProperty();
 
 	// not allowed
 

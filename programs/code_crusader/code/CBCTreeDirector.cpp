@@ -76,7 +76,7 @@ CBCTreeDirector::CBCTreeDirector
 	std::istream*		symInput,
 	const JFileVersion	symVers,
 	CBProjectDocument*	supervisor,
-	const JBoolean		subProject,
+	const bool		subProject,
 	CBDirList*			dirList
 	)
 	:
@@ -86,7 +86,7 @@ CBCTreeDirector::CBCTreeDirector
 				   "CBCTreeHelp", jcc_c_tree_window,
 				   kTreeMenuStr, "CBCTreeDirector",
 				   kCBCTreeToolBarID, InitCTreeToolBar,
-				   dirList, kJTrue)
+				   dirList, true)
 {
 	CBCTreeDirectorX();
 }
@@ -168,7 +168,7 @@ CBCTreeDirector::UpdateTreeMenu()
 			}
 		}
 
-	JBoolean hasSelection, canCollapse, canExpand;
+	bool hasSelection, canCollapse, canExpand;
 	itsCTree->GetMenuInfo(&hasSelection, &canCollapse, &canExpand);
 	if (hasSelection)
 		{
@@ -245,11 +245,11 @@ CBCTreeDirector::HandleTreeMenu
 
 	else if (index == kTreeCollapseCmd)
 		{
-		itsCTree->CollapseExpandSelectedClasses(kJTrue);
+		itsCTree->CollapseExpandSelectedClasses(true);
 		}
 	else if (index == kTreeExpandCmd)
 		{
-		itsCTree->CollapseExpandSelectedClasses(kJFalse);
+		itsCTree->CollapseExpandSelectedClasses(false);
 		}
 	else if (index == kTreeExpandAllCmd)
 		{

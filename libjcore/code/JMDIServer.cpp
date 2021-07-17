@@ -11,7 +11,7 @@
 	The derived class must implement the following functions:
 
 		CanAcceptMDIReqest
-			Return kJFalse if the application is busy and cannot accept
+			Return false if the application is busy and cannot accept
 			the request (e.g. due to re-entrancy problems).
 
 		HandleMDIRequest
@@ -45,8 +45,8 @@ const JUtf8Byte kEndOfMessage = '\0';
 
 const JUtf8Byte* JMDIServer::kQuitOptionName = "--quit";
 
-static const JString kServerReadyMsg("JMDIServer ready", kJFalse);
-static const JString kServerBusyMsg ("JMDIServer busy",  kJFalse);
+static const JString kServerReadyMsg("JMDIServer ready", JString::kNoCopy);
+static const JString kServerBusyMsg ("JMDIServer busy",  JString::kNoCopy);
 
 /******************************************************************************
  Constructor
@@ -58,7 +58,7 @@ JMDIServer::JMDIServer
 	const JUtf8Byte* signature
 	)
 	:
-	itsFirstTimeFlag(kJTrue)
+	itsFirstTimeFlag(true)
 {
 	const JString socketName = GetMDISocketName(signature);
 	ACE_OS::unlink(socketName.GetBytes());
@@ -89,12 +89,12 @@ JMDIServer::~JMDIServer()
  WillBeMDIServer (static)
 
 	If the application supports MDI, main() should call this before creating
-	an application object.  If this function returns kJFalse, main() can
+	an application object.  If this function returns false, main() can
 	exit immediately.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JMDIServer::WillBeMDIServer
 	(
 	const JUtf8Byte*	signature,
@@ -113,7 +113,7 @@ JMDIServer::WillBeMDIServer
 			{
 			if (strcmp(argv[i], JMDIServer::kQuitOptionName) == 0)
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 
@@ -123,7 +123,7 @@ JMDIServer::WillBeMDIServer
 			std::cerr << "exists as something else." << std::endl;
 			exit(1);
 			}
-		return kJTrue;
+		return true;
 		}
 
 	// open a connection to the existing server
@@ -134,20 +134,20 @@ JMDIServer::WillBeMDIServer
 	if (connector.connect(socket, addr) == -1)
 		{
 		ACE_OS::unlink(socketName.GetBytes());
-		return kJTrue;
+		return true;
 		}
 
-	JBoolean receivedFinishedFlag = kJFalse;
+	bool receivedFinishedFlag = false;
 
 	// wait for "server ok" message
 
 	JString serverStatus;
-	const JBoolean serverOK =
-		ReceiveLine(socket, kJTrue, &serverStatus, &receivedFinishedFlag);
+	const bool serverOK =
+		ReceiveLine(socket, true, &serverStatus, &receivedFinishedFlag);
 	if (!serverOK && !JUNIXSocketExists(socketName))		// user deleted dead socket
 		{
 		socket.close();
-		return kJTrue;
+		return true;
 		}
 	else if (!serverOK && ACE_OS::unlink(socketName.GetBytes()) == -1)
 		{
@@ -159,7 +159,7 @@ JMDIServer::WillBeMDIServer
 	else if (!serverOK)
 		{
 		socket.close();
-		return kJTrue;
+		return true;
 		}
 
 	if (serverStatus == kServerBusyMsg)
@@ -167,7 +167,7 @@ JMDIServer::WillBeMDIServer
 		std::cerr << argv[0] << " is busy, probably because of a blocking window." << std::endl;
 		std::cerr << "(e.g. a dialog or an error message)" << std::endl;
 		WaitForFinished(socket, receivedFinishedFlag);
-		return kJFalse;
+		return false;
 		}
 
 	assert( serverStatus == kServerReadyMsg );
@@ -179,11 +179,11 @@ JMDIServer::WillBeMDIServer
 
 	for (int i=0; i<argc; i++)
 		{
-		SendLine(socket, JString(argv[i], kJFalse));
+		SendLine(socket, JString(argv[i], JString::kNoCopy));
 		}
 
 	WaitForFinished(socket, receivedFinishedFlag);
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -207,7 +207,7 @@ JMDIServer::HandleCmdLineOptions
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 	for (JUnsignedOffset i=0; i < (JIndex) argc; i++)
 		{
-		argList.Append(JString(argv[i], kJFalse));
+		argList.Append(JString(argv[i], JString::kNoCopy));
 		}
 
 	HandleMDIRequest(dir, argList);
@@ -241,9 +241,9 @@ JMDIServer::CheckForConnections()
 void
 JMDIServer::ProcessMDIMessage()
 {
-	itsFirstTimeFlag = kJFalse;
+	itsFirstTimeFlag = false;
 
-	JBoolean receivedFinishedFlag = kJFalse;
+	bool receivedFinishedFlag = false;
 
 	// tell them our status
 
@@ -261,7 +261,7 @@ JMDIServer::ProcessMDIMessage()
 	// receive their message
 
 	JString dir;
-	if (!ReceiveLine(*itsSocket, kJFalse, &dir, &receivedFinishedFlag))
+	if (!ReceiveLine(*itsSocket, false, &dir, &receivedFinishedFlag))
 		{
 		itsSocket->close();
 		return;
@@ -269,7 +269,7 @@ JMDIServer::ProcessMDIMessage()
 
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 	JString tempStr;
-	while (ReceiveLine(*itsSocket, kJFalse, &tempStr, &receivedFinishedFlag))
+	while (ReceiveLine(*itsSocket, false, &tempStr, &receivedFinishedFlag))
 		{
 		argList.Append(tempStr);
 		}
@@ -314,7 +314,7 @@ JMDIServer::GetMDISocketName
 	)
 {
 	JString path;
-	const JBoolean ok = JGetTempDirectory(&path);
+	const bool ok = JGetTempDirectory(&path);
 	assert( ok );
 
 	JString name = path;
@@ -346,17 +346,17 @@ JMDIServer::SendLine
 /******************************************************************************
  ReceiveLine (static private)
 
-	Returns kJFalse if the connection times out.
+	Returns false if the connection times out.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JMDIServer::ReceiveLine
 	(
 	ACE_LSOCK_Stream&	socket,
-	const JBoolean		block,
+	const bool		block,
 	JString*			line,
-	JBoolean*			receivedFinishedFlag
+	bool*			receivedFinishedFlag
 	)
 {
 	line->Clear();
@@ -377,13 +377,13 @@ JMDIServer::ReceiveLine
 
 		if (result == 1 && c == kEndOfLine)
 			{
-			return kJTrue;
+			return true;
 			}
 		else if ((result == 1 && c == kEndOfMessage) ||
 				 jerrno() == ETIME)
 			{
-			*receivedFinishedFlag = kJTrue;
-			return kJFalse;
+			*receivedFinishedFlag = true;
+			return false;
 			}
 		else if (result == 1)
 			{
@@ -391,7 +391,7 @@ JMDIServer::ReceiveLine
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -405,7 +405,7 @@ void
 JMDIServer::WaitForFinished
 	(
 	ACE_LSOCK_Stream&	socket,
-	const JBoolean		receivedFinishedFlag
+	const bool		receivedFinishedFlag
 	)
 {
 	// Tell the other end that we are finished.

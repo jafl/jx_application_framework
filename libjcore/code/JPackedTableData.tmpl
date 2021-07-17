@@ -164,7 +164,7 @@ JPackedTableData<T>::SetElement
 
 	JRunArrayIterator<T> iter(itsData, kJIteratorStartBefore, index);
 	T origData;
-	iter.Next(&origData, kJFalse);
+	iter.Next(&origData, kJIteratorStay);
 
 	if (data != origData)
 		{
@@ -450,7 +450,7 @@ JPackedTableData<T>::ApplyToRect
 		for (JIndex i=y; i<=y2; i++)
 			{
 			iter.MoveTo(kJIteratorStartBefore, RCToI(i,j));
-			iter.Next(&element, kJFalse);
+			iter.Next(&element, kJIteratorStay);
 			iter.SetNext(f(element));
 			}
 		}
@@ -491,7 +491,7 @@ JPackedTableData<T>::InsertRows
 			{
 			if (initIter != nullptr)
 				{
-				const JBoolean ok = initIter->Prev(&v);
+				const bool ok = initIter->Prev(&v);
 				assert( ok );
 				}
 
@@ -946,16 +946,16 @@ JPackedTableData<T>::ClearAllElements()
 /******************************************************************************
  AllElementsEqual
 
-	If all the elements are equal, this function returns kJTrue and sets
+	If all the elements are equal, this function returns true and sets
 	data to the single value.
 
-	If there are no elements, it returns kJFalse, mainly because the
+	If there are no elements, it returns false, mainly because the
 	second version of the function doesn't have any data to return.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean	
+bool	
 JPackedTableData<T>::AllElementsEqual
 	(
 	T* data

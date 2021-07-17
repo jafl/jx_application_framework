@@ -26,7 +26,7 @@ class JPrefsManager : public JContainer
 public:
 
 	JPrefsManager(const JString& fileName, const JFileVersion currentVersion,
-				  const JBoolean eraseFileIfOpen);
+				  const bool eraseFileIfOpen);
 
 	virtual ~JPrefsManager();
 
@@ -36,8 +36,8 @@ public:
 
 protected:
 
-	JBoolean	IDValid(const JPrefID& id) const;
-	JBoolean	GetData(const JPrefID& id, std::string* data) const;
+	bool	IDValid(const JPrefID& id) const;
+	bool	GetData(const JPrefID& id, std::string* data) const;
 
 	void	SetData(const JPrefID& id, std::ostringstream& data);
 	void	SetData(const JPrefID& id, std::string& data);
@@ -46,8 +46,8 @@ protected:
 
 	void	RemoveData(const JPrefID& id);
 
-	JBoolean		UpgradeData(const JBoolean reportError = kJTrue);
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion) = 0;
+	bool		UpgradeData(const bool reportError = true);
+	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion) = 0;
 
 private:
 
@@ -71,14 +71,14 @@ private:
 
 	JString*			itsFileName;
 	const JFileVersion	itsCurrentFileVersion;
-	const JBoolean		itsEraseFileIfOpenFlag;		// kJTrue => delete file if somebody left it open
+	const bool		itsEraseFileIfOpenFlag;		// true => delete file if somebody left it open
 	JFileVersion		itsPrevFileVersion;
 
 	JArray<PrefItem>*	itsData;
 
 private:
 
-	JError	Open(JPrefsFile** file, const JBoolean allowPrevVers = kJFalse) const;
+	JError	Open(JPrefsFile** file, const bool allowPrevVers = false) const;
 	void	LoadData(JPrefsFile* file);
 	JError	DeletePrefsFile(const JString& fileName) const;
 
@@ -177,7 +177,7 @@ JPrefsManager::GetPrevPrefsVersion()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JPrefsManager::IDValid
 	(
 	const JPrefID& id

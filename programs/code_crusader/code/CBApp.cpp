@@ -79,15 +79,15 @@ CBApp::CBApp
 	(
 	int*			argc,
 	char*			argv[],
-	const JBoolean	useMDI,
-	JBoolean*		displayAbout,
+	const bool	useMDI,
+	bool*		displayAbout,
 	JString*		prevVersStr
 	)
 	:
 	JXApplication(argc, argv, kAppSignature, kCBDefaultStringData),
 	JPrefObject(nullptr, kCBAppID)
 {
-	itsWarnBeforeQuitFlag = kJFalse;
+	itsWarnBeforeQuitFlag = false;
 
 	itsSystemIncludeDirs = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsSystemIncludeDirs != NULL );
@@ -105,7 +105,7 @@ CBApp::CBApp
 			}
 		else
 			{
-			*displayAbout = kJTrue;
+			*displayAbout = true;
 			}
 		}
 	else
@@ -118,7 +118,7 @@ CBApp::CBApp
 	// Write shared prefs, if they don't exist.
 	// (must be done after everything created)
 
-	CBMWriteSharedPrefs(kJFalse);
+	CBMWriteSharedPrefs(false);
 }
 
 /******************************************************************************
@@ -139,14 +139,14 @@ CBApp::~CBApp()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBApp::Close()
 {
 	// --man with no args must leave window open
 
 	if ((CBGetViewManPageDialog())->IsActive())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	CBGetPrefsManager()->SaveProgramState();
@@ -155,12 +155,12 @@ CBApp::Close()
 
 	if (!CBGetDocumentManager()->CloseProjectDocuments())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// close everything else
 
-	const JBoolean success = JXApplication::Close();	// deletes us if successful
+	const bool success = JXApplication::Close();	// deletes us if successful
 	if (!success)
 		{
 		CBGetPrefsManager()->ForgetProgramState();
@@ -195,7 +195,7 @@ void
 CBApp::DisplayAbout
 	(
 	const JString&	prevVersStr,
-	const JBoolean	init
+	const bool	init
 	)
 {
 	CBAboutDialog* dlog = jnew CBAboutDialog(this, prevVersStr);
@@ -337,22 +337,22 @@ CBApp::HandleHelpMenu
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBApp::FindFile
 	(
-	const JString&	fileName,
-	const JBoolean	caseSensitive,
-	JString*		fullName
+	const JString&		fileName,
+	const JString::Case	caseSensitive,
+	JString*			fullName
 	)
 	const
 {
-	JBoolean cancelled = kJFalse;
+	bool cancelled = false;
 
-	const JBoolean relative = JIsRelativePath(fileName);
+	const bool relative = JIsRelativePath(fileName);
 	if (!relative && JFileExists(fileName))
 		{
 		*fullName = fileName;
-		return kJTrue;
+		return true;
 		}
 	else if (relative)
 		{
@@ -361,7 +361,7 @@ CBApp::FindFile
 		const JSize dirCount = searchPaths.GetElementCount(),
 					sysCount = itsSystemIncludeDirs->GetElementCount();
 
-		JBoolean found = kJFalse;
+		bool found = false;
 
 		JLatentPG pg;
 
@@ -370,7 +370,7 @@ CBApp::FindFile
 			"name", fileName.GetBytes()
 		};
 		const JString msg = JGetString("FileSearch::CBApp", map, sizeof(map));
-		pg.FixedLengthProcessBeginning(dirCount+sysCount, msg, kJTrue, kJFalse);
+		pg.FixedLengthProcessBeginning(dirCount+sysCount, msg, true, false);
 
 		JString path, newName;
 		for (JIndex i=1; i<=dirCount; i++)
@@ -381,15 +381,15 @@ CBApp::FindFile
 				*fullName = JCombinePathAndName(*(info.path), fileName);
 				if (JFileExists(*fullName))
 					{
-					found = kJTrue;
+					found = true;
 					break;
 					}
 				}
-			else if (JSearchSubdirs(*(info.path), fileName, kJTrue, caseSensitive,
+			else if (JSearchSubdirs(*(info.path), fileName, true, caseSensitive,
 									&path, &newName, nullptr, &cancelled))
 				{
 				*fullName = JCombinePathAndName(path, newName);
-				found     = kJTrue;
+				found     = true;
 				break;
 				}
 			else if (cancelled)
@@ -399,7 +399,7 @@ CBApp::FindFile
 
 			if (!pg.IncrementProgress())
 				{
-				cancelled = kJTrue;
+				cancelled = true;
 				break;
 				}
 			}
@@ -411,11 +411,11 @@ CBApp::FindFile
 
 			for (JIndex i=1; i<=sysCount; i++)
 				{
-				if (JSearchSubdirs(*itsSystemIncludeDirs->GetElement(i), fileName, kJTrue, caseSensitive,
+				if (JSearchSubdirs(*itsSystemIncludeDirs->GetElement(i), fileName, true, caseSensitive,
 								   &path, &newName, nullptr, &cancelled))
 					{
 					*fullName = JCombinePathAndName(path, newName);
-					found     = kJTrue;
+					found     = true;
 					break;
 					}
 				else if (cancelled)
@@ -425,7 +425,7 @@ CBApp::FindFile
 
 				if (!pg.IncrementProgress())
 					{
-					cancelled = kJTrue;
+					cancelled = true;
 					break;
 					}
 				}
@@ -435,7 +435,7 @@ CBApp::FindFile
 		searchPaths.DeleteAll();
 		if (found)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -450,7 +450,7 @@ CBApp::FindFile
 		}
 
 	fullName->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -463,7 +463,7 @@ CBApp::GetSystemIncludeDirectories()
 {
 	for (const JUtf8Byte* s : kExtraSysIncludeDir)
 		{
-		if (JDirectoryExists(JString(s, 0, kJFalse)))
+		if (JDirectoryExists(JString(s, JString::kNoCopy)))
 			{
 			JString* p = jnew JString(s);
 			assert( p != nullptr );
@@ -472,7 +472,7 @@ CBApp::GetSystemIncludeDirectories()
 		}
 
 	int pid, fd, inFD;
-	const JError err = JExecute(JString("gcc -Wp,-v -x c++ -fsyntax-only -", kJFalse), &pid,
+	const JError err = JExecute(JString("gcc -Wp,-v -x c++ -fsyntax-only -", JString::kNoCopy), &pid,
 								kJCreatePipe, &inFD,
 								kJCreatePipe, &fd,
 								kJAttachToFromFD);
@@ -480,7 +480,7 @@ CBApp::GetSystemIncludeDirectories()
 		{
 		for (const JUtf8Byte* s : kDefaultSysIncludeDir)
 			{
-			if (JDirectoryExists(JString(s, 0, kJFalse)))
+			if (JDirectoryExists(JString(s, JString::kNoCopy)))
 				{
 				JString* p = jnew JString(s);
 				assert( p != nullptr );
@@ -535,7 +535,7 @@ CBApp::CollectSearchPaths
 
 	const JSize docCount = docList->GetElementCount();
 	JString truePath;
-	JBoolean recurse;
+	bool recurse;
 	for (JIndex j=1; j<=docCount; j++)
 		{
 		CBProjectDocument* doc   = docList->GetElement(j);
@@ -549,7 +549,7 @@ CBApp::CollectSearchPaths
 				assert( newInfo.path != nullptr );
 				newInfo.projIndex = j;
 
-				JBoolean found;
+				bool found;
 				const JIndex index =
 					searchPaths->SearchSorted1(newInfo, JListT::kAnyMatch, &found);
 				if (found)
@@ -559,7 +559,7 @@ CBApp::CollectSearchPaths
 					CBDirInfo existingInfo = searchPaths->GetElement(index);
 					if (newInfo.recurse && !existingInfo.recurse)
 						{
-						existingInfo.recurse = kJTrue;
+						existingInfo.recurse = true;
 						searchPaths->SetElement(index, existingInfo);
 						}
 					jdelete newInfo.path;
@@ -584,12 +584,12 @@ CBApp::CollectSearchPaths
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBApp::FindAndViewFile
 	(
 	const JString&		fileName,
 	const JIndexRange	lineRange,		// not reference because of default value
-	const JBoolean		caseSensitive
+	const JString::Case	caseSensitive
 	)
 	const
 {
@@ -597,11 +597,11 @@ CBApp::FindAndViewFile
 	if (FindFile(fileName, caseSensitive, &fullName))
 		{
 		CBGetDocumentManager()->OpenSomething(fullName, lineRange);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

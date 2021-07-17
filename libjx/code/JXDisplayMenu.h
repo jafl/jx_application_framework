@@ -34,7 +34,7 @@ public:
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Woverloaded-virtual"
 
-	void	SetToPopupChoice(const JBoolean isPopup = kJTrue);
+	void	SetToPopupChoice(const bool isPopup = true);
 
 #pragma GCC diagnostic pop
 

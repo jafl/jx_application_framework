@@ -63,7 +63,7 @@ CBDiffDocument::CreatePlain
 	const JFontStyle&	removeStyle,
 	const JString&		name2,
 	const JFontStyle&	insertStyle,
-	const JBoolean		silent,
+	const bool		silent,
 	CBDiffDocument*		origDoc
 	)
 {
@@ -154,7 +154,7 @@ CBDiffDocument::CreatePlain
 				doc->Close();
 				}
 			close(errFileFD);
-			err = DiffFailed(errFileName, kJTrue);
+			err = DiffFailed(errFileName, true);
 			}
 
 		jdelete p;
@@ -193,7 +193,7 @@ CBDiffDocument::CreateCVS
 	const JFontStyle&	removeStyle,
 	const JString&		name2,
 	const JFontStyle&	insertStyle,
-	const JBoolean		silent,
+	const bool		silent,
 	CBDiffDocument*		origDoc
 	)
 {
@@ -225,8 +225,8 @@ CBDiffDocument::CreateCVS
 		{
 		// let diff chug along while we load the contents of file 1
 
-		JString s = JCombinePathAndName(diskPath, JString("CVS", kJFalse));
-		s         = JCombinePathAndName(s, JString("Repository", kJFalse));
+		JString s = JCombinePathAndName(diskPath, JString("CVS", JString::kNoCopy));
+		s         = JCombinePathAndName(s, JString("Repository", JString::kNoCopy));
 
 		JString cvsPath;
 		JReadFile(s, &cvsPath);
@@ -262,7 +262,7 @@ CBDiffDocument::CreateCVS
 			p1->WaitUntilFinished();
 			if (!p1->SuccessfulFinish())
 				{
-				err = DiffFailed(errOutput, kJFalse);
+				err = DiffFailed(errOutput, false);
 				}
 			}
 		jdelete p1;
@@ -306,7 +306,7 @@ CBDiffDocument::CreateCVS
 				if ((JGetFileLength(errFileName, &length)).OK() && length > 0)
 					{
 					close(errFileFD);
-					err = DiffFailed(errFileName, kJTrue);
+					err = DiffFailed(errFileName, true);
 					}
 				else if (!silent)
 					{
@@ -363,7 +363,7 @@ CBDiffDocument::CreateCVS
 			close(errFileFD);
 			if (err.OK())	// could be set by checkout process
 				{
-				err = DiffFailed(errFileName, kJTrue);
+				err = DiffFailed(errFileName, true);
 				}
 			}
 
@@ -403,7 +403,7 @@ CBDiffDocument::CreateSVN
 	const JFontStyle&	removeStyle,
 	const JString&		name2,
 	const JFontStyle&	insertStyle,
-	const JBoolean		silent,
+	const bool		silent,
 	CBDiffDocument*		origDoc
 	)
 {
@@ -472,7 +472,7 @@ CBDiffDocument::CreateSVN
 				if ((JGetFileLength(errFileName, &length)).OK() && length > 0)
 					{
 					close(errFileFD);
-					err = DiffFailed(errFileName, kJTrue);
+					err = DiffFailed(errFileName, true);
 					}
 				else if (!silent)
 					{
@@ -529,7 +529,7 @@ CBDiffDocument::CreateSVN
 			close(errFileFD);
 			if (err.OK())	// could be set by checkout process
 				{
-				err = DiffFailed(errFileName, kJTrue);
+				err = DiffFailed(errFileName, true);
 				}
 			}
 
@@ -570,7 +570,7 @@ CBDiffDocument::CreateGit
 	const JFontStyle&	removeStyle,
 	const JString&		name2,
 	const JFontStyle&	insertStyle,
-	const JBoolean		silent,
+	const bool		silent,
 	CBDiffDocument*		origDoc
 	)
 {
@@ -588,7 +588,7 @@ CBDiffDocument::CreateGit
 		return err;
 		}
 
-	JBoolean removeF2 = kJFalse;
+	bool removeF2 = false;
 	if (strncmp(get2Cmd.GetBytes(), "file:", 5) == 0)
 		{
 		f2.Set(get2Cmd.GetBytes() + 5);
@@ -600,7 +600,7 @@ CBDiffDocument::CreateGit
 			{
 			return err;
 			}
-		removeF2 = kJTrue;
+		removeF2 = true;
 		}
 
 	CBDiffDocument* doc = origDoc;
@@ -657,7 +657,7 @@ CBDiffDocument::DiffFailed::DiffFailed
 CBDiffDocument::DiffFailed::DiffFailed
 	(
 	const JString&	s,
-	const JBoolean	isFileName
+	const bool	isFileName
 	)
 	:
 	JError(kDiffFailed)
@@ -768,7 +768,7 @@ CBDiffDocument::FillOutputFile
 			p->WaitUntilFinished();
 			if (!p->SuccessfulFinish())
 				{
-				err = DiffFailed(errFileName, kJTrue);
+				err = DiffFailed(errFileName, true);
 				}
 			}
 		jdelete p;
@@ -808,7 +808,7 @@ CBDiffDocument::CBDiffDocument
 	const JFontStyle&	insertStyle
 	)
 	:
-	CBTextDocument(kCBDiffOutputFT, "CBDiffHelp", kJTrue, ConstructDiffEditor),
+	CBTextDocument(kCBDiffOutputFT, "CBDiffHelp", true, ConstructDiffEditor),
 	itsType(type),
 	itsFullName(fullName),
 	itsGetCmd(getCmd),
@@ -832,7 +832,7 @@ CBDiffDocument::CBDiffDocument
 	// allow Meta-_ to parallel Shift key required for Meta-plus
 
 	JXKeyModifiers modifiers(GetDisplay());
-	modifiers.SetState(kJXMetaKeyIndex, kJTrue);
+	modifiers.SetState(kJXMetaKeyIndex, true);
 	GetWindow()->InstallMenuShortcut(itsDiffMenu, kPrevDiffCmd, '_', modifiers);
 
 	// button in upper right
@@ -886,7 +886,7 @@ CBDiffDocument::Init
 	const JString& fullName
 	)
 {
-	ReadFile(fullName, kJFalse);
+	ReadFile(fullName, false);
 
 	// set window title and claim that it is not on disk
 	// (must be before reading text to avoid styling based on content)
@@ -897,11 +897,11 @@ CBDiffDocument::Init
 		"name2", itsName2.GetBytes()
 		};
 	const JString windowTitle = JGetString("WindowTitle::CBDiffDocument", map, sizeof(map));
-	FileChanged(windowTitle, kJFalse);
+	FileChanged(windowTitle, false);
 
 	// word wrap messes up the line numbers
 
-	itsDiffEditor->SetBreakCROnly(kJTrue);
+	itsDiffEditor->SetBreakCROnly(true);
 
 	// start with default style
 
@@ -911,7 +911,7 @@ CBDiffDocument::Init
 			JStyledText::TextRange(
 				JStyledText::TextIndex(1,1),
 				itsDiffEditor->GetText()->GetBeyondEnd()),
-			itsDefaultStyle, kJTrue);
+			itsDefaultStyle, true);
 		}
 	itsDiffEditor->GetText()->SetDefaultFontStyle(itsDefaultStyle);
 
@@ -987,19 +987,19 @@ CBDiffDocument::Receive
 			{
 			err = CreatePlain(itsFullName, itsDiffCmd, itsDefaultStyle,
 							  itsName1, itsRemoveStyle, itsName2, itsInsertStyle,
-							  kJFalse, this);
+							  false, this);
 			}
 		else if (itsType == kCVSType)
 			{
 			err = CreateCVS(itsFullName, itsGetCmd, itsDiffCmd, itsDefaultStyle, 
 							itsName1, itsRemoveStyle, itsName2, itsInsertStyle,
-							kJFalse, this);
+							false, this);
 			}
 		else if (itsType == kSVNType)
 			{
 			err = CreateSVN(itsFullName, itsGetCmd, itsDiffCmd, itsDefaultStyle, 
 							itsName1, itsRemoveStyle, itsName2, itsInsertStyle,
-							kJFalse, this);
+							false, this);
 			}
 		else
 			{
@@ -1012,7 +1012,7 @@ CBDiffDocument::Receive
 			err = CreateGit(itsFullName, *s.GetElement(1), *s.GetElement(2),
 							itsDiffCmd, itsDefaultStyle, 
 							itsName1, itsRemoveStyle, itsName2, itsInsertStyle,
-							kJFalse, this);
+							false, this);
 			}
 		err.ReportIfError();
 		}

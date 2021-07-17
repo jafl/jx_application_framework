@@ -91,7 +91,7 @@ JPSPrinter::~JPSPrinter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JPSPrinter::WillPrintBlackWhite()
 	const
 {
@@ -127,7 +127,7 @@ JPSPrinter::ReadPSSetup
 	input >> vers;
 	assert( vers > 0 );		// JXPSPrinter reads all of version 0
 
-	JBoolean bwFlag = kJFalse;
+	bool bwFlag = false;
 	if (vers <= 3)
 		{
 		ImageOrientation orient;
@@ -177,7 +177,7 @@ JPSPrinter::WritePSSetup
 
  ******************************************************************************/
 
-JBoolean
+bool
 JPSPrinter::OpenDocument()
 {
 	SetPageIndex(0);
@@ -185,14 +185,14 @@ JPSPrinter::OpenDocument()
 
 	if (!PSOpenDocument())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	assert( itsPG == nullptr );
 	itsPG = jnew JLatentPG;
-	itsPG->VariableLengthProcessBeginning(JGetString("Printing::JPSPrinter"), kJTrue, kJFalse);
+	itsPG->VariableLengthProcessBeginning(JGetString("Printing::JPSPrinter"), true, false);
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -251,11 +251,11 @@ JPSPrinter::PSPrintSetupComments
 /******************************************************************************
  NewPage (virtual)
 
-	Returns kJFalse if printing was cancelled.
+	Returns false if printing was cancelled.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JPSPrinter::NewPage()
 {
 	assert( PSDocumentIsOpen() );
@@ -264,14 +264,14 @@ JPSPrinter::NewPage()
 	if (!itsPG->IncrementProgress())
 		{
 		CancelDocument();
-		return kJFalse;
+		return false;
 		}
 	else if (output.fail())
 		{
 		JGetUserNotification()->ReportError(JGetString("Error::JPSPrinter"));
 
 		CancelDocument();
-		return kJFalse;
+		return false;
 		}
 
 	JIndex pageIndex = GetPageIndex();
@@ -304,7 +304,7 @@ JPSPrinter::NewPage()
 							 GetPaperWidth()  - kMarginWidth));
 	SetClipRect(JRect(0,0, GetPageHeight(), GetPageWidth()));
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -335,15 +335,14 @@ JPSPrinter::ClosePage()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JPSPrinter::PSShouldPrintCurrentPage()
 	const
 {
 	const JIndex currPageIndex = GetPageIndex();
-	return JConvertToBoolean(
-			currPageIndex > 0 &&
+	return currPageIndex > 0 &&
 			itsFirstPageIndex <= currPageIndex &&
-			(itsLastPageIndex == 0 || currPageIndex <= itsLastPageIndex) );
+			(itsLastPageIndex == 0 || currPageIndex <= itsLastPageIndex);
 }
 
 /******************************************************************************

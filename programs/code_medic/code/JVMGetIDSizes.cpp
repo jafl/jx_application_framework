@@ -19,7 +19,7 @@
 
 JVMGetIDSizes::JVMGetIDSizes()
 	:
-	CMCommand("", kJTrue, kJFalse)
+	CMCommand("", true, false)
 {
 	Send();
 }

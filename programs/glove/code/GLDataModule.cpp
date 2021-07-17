@@ -33,7 +33,7 @@
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLDataModule::Create
 	(
 	GLDataModule** module,
@@ -53,14 +53,14 @@ GLDataModule::Create
 
 	if (err.OK())
 		{
-		JOutPipeStream* op = jnew JOutPipeStream(outFD, kJTrue);
+		JOutPipeStream* op = jnew JOutPipeStream(outFD, true);
 		assert( op != nullptr );
 		assert( op->good() );
 		*module = jnew GLDataModule(table, data, process, inFD, op);
-		return kJTrue;
+		return true;
 		}
 		
-	return kJFalse;
+	return false;
 }
 
 /*******************************************************************************
@@ -89,8 +89,8 @@ GLDataModule::GLDataModule
 
 	itsOutput = output;
 //	ListenTo(output);
-	itsHeaderRead = kJFalse;
-	itsSentData = kJFalse;
+	itsHeaderRead = false;
+	itsSentData = false;
 	itsPG = nullptr;
 	itsCols = jnew JArray<JIndex>;
 	assert(itsCols != nullptr);
@@ -219,14 +219,14 @@ GLDataModule::HandleInput
 				int cols;
 				iss >> cols;
 				iss >> std::ws;
-				JBoolean success = itsTable->WriteDataCols(*itsOutput, cols);
+				bool success = itsTable->WriteDataCols(*itsOutput, cols);
 				if (!success)
 					{
 					JGetUserNotification()->ReportError(JGetString("Error::GLDataModule"));
 					JXDeleteObjectTask<GLDataModule>::Delete(this);
 					return;
 					}
-				itsSentData = kJTrue;
+				itsSentData = true;
 				return;
 				}
 			}
@@ -234,16 +234,16 @@ GLDataModule::HandleInput
 		iss >> std::ws;
 		if (eval == kGloveDataDump)
 			{
-			itsDataIsDump = kJTrue;
+			itsDataIsDump = true;
 			}
 		else
 			{
-			itsDataIsDump = kJFalse;
+			itsDataIsDump = false;
 			}
 		iss >> eval;
 		iss >> std::ws;
 		HandlePrepareCols(eval);
-		itsHeaderRead = kJTrue;
+		itsHeaderRead = true;
 		}
 }
 
@@ -288,7 +288,7 @@ GLDataModule::HandleDataRead
 		{
 		itsPG = JGetCreatePG()->New();
 		itsPG->VariableLengthProcessBeginning(
-			JGetString("Loading::DateModule"), kJTrue, kJTrue);
+			JGetString("Loading::DateModule"), true, true);
 		}
 	std::string s(str.GetRawBytes(), str.GetByteCount());
 	std::istringstream iss(s);
@@ -376,7 +376,7 @@ GLDataModule::HandleDataRead
 			return;		
 			}
 		}
-	const JBoolean keepGoing = itsPG->IncrementProgress();
+	const bool keepGoing = itsPG->IncrementProgress();
 	if (!keepGoing)
 		{
 		JXDeleteObjectTask<GLDataModule>::Delete(this);

@@ -66,57 +66,57 @@ public:
 
 	const JString&	GetFullName() const;
 	const JString&	GetName() const;
-	JBoolean		GetFileID(JFAID_t* id) const;
-	JBoolean		GetFileName(JString* fileName) const;
+	bool		GetFileID(JFAID_t* id) const;
+	bool		GetFileName(JString* fileName) const;
 
 	virtual void	ViewSource() const;
 	virtual void	ViewHeader() const;
 
 	DeclareType		GetDeclareType() const;
-	JBoolean		IsAbstract() const;
-	void			SetAbstract(const JBoolean abstract = kJTrue);
-	JBoolean		IsTemplate() const;
-	void			SetTemplate(const JBoolean tmpl = kJTrue);
-	JBoolean		IsGhost() const;
+	bool		IsAbstract() const;
+	void			SetAbstract(const bool abstract = true);
+	bool		IsTemplate() const;
+	void			SetTemplate(const bool tmpl = true);
+	bool		IsGhost() const;
 
 	void			AddParent(const InheritType type, const JString& name);
-	JBoolean		FindParents(const JBoolean okToCreateGhost);
-	JBoolean		HasParents() const;
+	bool		FindParents(const bool okToCreateGhost);
+	bool		HasParents() const;
 	JSize			GetParentCount() const;
 	const JString&	GetParentName(const JIndex index) const;
 	InheritType		GetParentType(const JIndex index) const;
-	JBoolean		GetParent(const JIndex index, CBClass** parent) const;
-	JBoolean		GetParent(const JIndex index, const CBClass** parent) const;
-	JBoolean		IsAncestor(const CBClass* child) const;
+	bool		GetParent(const JIndex index, CBClass** parent) const;
+	bool		GetParent(const JIndex index, const CBClass** parent) const;
+	bool		IsAncestor(const CBClass* child) const;
 
-	JBoolean		HasChildren() const;
-	JBoolean		HasPrimaryChildren() const;
-	JBoolean		HasSecondaryChildren() const;
+	bool		HasChildren() const;
+	bool		HasPrimaryChildren() const;
+	bool		HasSecondaryChildren() const;
 
-	JBoolean		Implements(const JString& name, const JBoolean caseSensitive) const;
+	bool		Implements(const JString& name, const bool caseSensitive) const;
 
 	void	Draw(JPainter& p, const JRect& rect) const;
 	void	DrawMILinks(JPainter& p, const JRect& rect) const;
 	void	DrawText(JPainter& p, const JRect& rect) const;
 
 	const JRect&		GetFrame() const;
-	JBoolean			Contains(const JPoint& pt) const;
+	bool			Contains(const JPoint& pt) const;
 	JCoordinate			GetTotalWidth() const;
 	JCoordinate			GetTotalHeight() const;
 	static JCoordinate	GetTotalHeight(CBTree* tree, JFontManager* fontManager);
 	void				GetCoords(JCoordinate* x, JCoordinate* y) const;
 	void				SetCoords(const JCoordinate x, const JCoordinate y);
 
-	JBoolean	IsVisible() const;
-	void		SetVisible(const JBoolean visible);
+	bool	IsVisible() const;
+	void		SetVisible(const bool visible);
 	void		ForceVisible();
 
-	JBoolean	IsSelected() const;
-	void		SetSelected(const JBoolean selected);
+	bool	IsSelected() const;
+	void		SetSelected(const bool selected);
 	void		ToggleSelected();
 
-	JBoolean	IsCollapsed() const;
-	void		SetCollapsed(const JBoolean collapse);
+	bool	IsCollapsed() const;
+	void		SetCollapsed(const bool collapse);
 
 	virtual void	StreamOut(std::ostream& output) const;
 
@@ -178,38 +178,38 @@ private:
 	JString		itsName;						// class name
 	DeclareType	itsDeclType;
 	JFAID_t		itsFileID;
-	JBoolean	itsIsAbstractFlag;				// kJTrue if contains pure virtual functions
-	JBoolean	itsIsTemplateFlag;
+	bool	itsIsAbstractFlag;				// true if contains pure virtual functions
+	bool	itsIsTemplateFlag;
 
 	JCoordinate	itsHCoord;						// coordinates in class tree
 	JCoordinate	itsVCoord;
 	JRect		itsFrame;
 
-	JBoolean	itsVisibleFlag;
-	JBoolean	itsCollapsedFlag;				// kJTrue => children are invisible
-	JBoolean	itsIsSelectedFlag;
+	bool	itsVisibleFlag;
+	bool	itsCollapsedFlag;				// true => children are invisible
+	bool	itsIsSelectedFlag;
 
 	CBTree*				itsTree;				// our owner
 	JArray<ParentInfo>*	itsParentInfo;
 
-	JBoolean	itsHasPrimaryChildrenFlag;
-	JBoolean	itsHasSecondaryChildrenFlag;
+	bool	itsHasPrimaryChildrenFlag;
+	bool	itsHasSecondaryChildrenFlag;
 
 	static JColorID	theGhostNameColor;
 
 private:
 
 	void		CBClassX(CBTree* tree);
-	JBoolean	FindParent(ParentInfo* pInfo, const JBoolean okToSearchGhosts);
-	void		AddChild(CBClass* child, const JBoolean primary);
+	bool	FindParent(ParentInfo* pInfo, const bool okToSearchGhosts);
+	void		AddChild(CBClass* child, const bool primary);
 
 	static JCoordinate	CalcFrameHeight(JFontManager* fontManager,
 										const JSize fontSize);
 
-	JBoolean	NeedDrawName() const;
+	bool	NeedDrawName() const;
 	JString		GetDrawName() const;
 
-	JBoolean	NeedToDrawLink(const JPoint& pt1, const JPoint& pt2,
+	bool	NeedToDrawLink(const JPoint& pt1, const JPoint& pt2,
 							   const JRect& visRect) const;
 	JPoint		GetLinkFromPt() const;
 	JPoint		GetLinkToPt() const;
@@ -275,18 +275,18 @@ CBClass::GetDeclareType()
 	return itsDeclType;
 }
 
-inline JBoolean
+inline bool
 CBClass::IsAbstract()
 	const
 {
 	return itsIsAbstractFlag;
 }
 
-inline JBoolean
+inline bool
 CBClass::IsGhost()
 	const
 {
-	return JConvertToBoolean( itsDeclType == kGhostType );
+	return itsDeclType == kGhostType;
 }
 
 /******************************************************************************
@@ -297,7 +297,7 @@ CBClass::IsGhost()
 inline void
 CBClass::SetAbstract
 	(
-	const JBoolean abstract
+	const bool abstract
 	)
 {
 	itsIsAbstractFlag = abstract;
@@ -308,7 +308,7 @@ CBClass::SetAbstract
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBClass::IsTemplate()
 	const
 {
@@ -318,7 +318,7 @@ CBClass::IsTemplate()
 inline void
 CBClass::SetTemplate
 	(
-	const JBoolean tmpl
+	const bool tmpl
 	)
 {
 	itsIsTemplateFlag = tmpl;
@@ -330,7 +330,7 @@ CBClass::SetTemplate
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBClass::GetFileID
 	(
 	JFAID_t* id
@@ -338,7 +338,7 @@ CBClass::GetFileID
 	const
 {
 	*id = itsFileID;
-	return JI2B( itsFileID != JFAID::kInvalidID );
+	return itsFileID != JFAID::kInvalidID;
 }
 
 /******************************************************************************
@@ -346,7 +346,7 @@ CBClass::GetFileID
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBClass::HasParents()
 	const
 {
@@ -400,22 +400,21 @@ CBClass::GetParentType
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBClass::HasChildren()
 	const
 {
-	return JConvertToBoolean(
-			itsHasPrimaryChildrenFlag || itsHasSecondaryChildrenFlag );
+	return itsHasPrimaryChildrenFlag || itsHasSecondaryChildrenFlag;
 }
 
-inline JBoolean
+inline bool
 CBClass::HasPrimaryChildren()
 	const
 {
 	return itsHasPrimaryChildrenFlag;
 }
 
-inline JBoolean
+inline bool
 CBClass::HasSecondaryChildren()
 	const
 {
@@ -473,7 +472,7 @@ CBClass::GetFrame()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBClass::Contains
 	(
 	const JPoint& pt
@@ -488,7 +487,7 @@ CBClass::Contains
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBClass::IsVisible()
 	const
 {
@@ -498,7 +497,7 @@ CBClass::IsVisible()
 inline void
 CBClass::SetVisible
 	(
-	const JBoolean visible
+	const bool visible
 	)
 {
 	itsVisibleFlag = visible;
@@ -509,7 +508,7 @@ CBClass::SetVisible
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBClass::IsSelected()
 	const
 {
@@ -527,7 +526,7 @@ CBClass::ToggleSelected()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBClass::IsCollapsed()
 	const
 {
@@ -537,7 +536,7 @@ CBClass::IsCollapsed()
 inline void
 CBClass::SetCollapsed
 	(
-	const JBoolean collapse
+	const bool collapse
 	)
 {
 	itsCollapsedFlag = collapse;

@@ -51,8 +51,8 @@ JXPSPrintSetupDialog::Create
 	const JXPSPrinter::Destination	dest,
 	const JString&					printCmd,
 	const JString&					fileName,
-	const JBoolean					collate,
-	const JBoolean					bw
+	const bool					collate,
+	const bool					bw
 	)
 {
 	JXPSPrintSetupDialog* dlog = jnew JXPSPrintSetupDialog;
@@ -68,7 +68,7 @@ JXPSPrintSetupDialog::Create
 
 JXPSPrintSetupDialog::JXPSPrintSetupDialog()
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue)
+	JXDialogDirector(JXGetApplication(), true)
 {
 }
 
@@ -92,8 +92,8 @@ JXPSPrintSetupDialog::BuildWindow
 	const JXPSPrinter::Destination	dest,
 	const JString&					printCmd,
 	const JString&					fileName,
-	const JBoolean					collate,
-	const JBoolean					bw
+	const bool					collate,
+	const bool					bw
 	)
 {
 // begin JXLayout
@@ -232,9 +232,9 @@ JXPSPrintSetupDialog::SetObjects
 	const JString&					fileName,
 	JXIntegerInput*					copyCount,
 	JXTextCheckbox*					collateCheckbox,
-	const JBoolean					collate,
+	const bool					collate,
 	JXTextCheckbox*					bwCheckbox,
-	const JBoolean					bw,
+	const bool					bw,
 	JXTextCheckbox*					printAllCheckbox,
 	JXStaticText*					firstPageIndexLabel,
 	JXIntegerInput*					firstPageIndex,
@@ -283,13 +283,13 @@ JXPSPrintSetupDialog::SetObjects
 	ListenTo(itsChooseFileButton);
 	ListenTo(itsPrintAllCB);
 
-	JBoolean foundDest = kJFalse;
+	bool foundDest = false;
 	for (JIndex i=1; i<=kDestCount; i++)
 		{
 		if (kIndexToDest[i-1] == dest)
 			{
 			SetDestination(i);
-			foundDest = kJTrue;
+			foundDest = true;
 			break;
 			}
 		}
@@ -298,13 +298,13 @@ JXPSPrintSetupDialog::SetObjects
 	itsCopyCount->SetValue(1);
 	itsCopyCount->SetLowerLimit(1);
 
-	PrintAllPages(kJTrue);
+	PrintAllPages(true);
 
 	itsFirstPageIndex->SetLowerLimit(1);
-	itsFirstPageIndex->SetIsRequired(kJFalse);
+	itsFirstPageIndex->SetIsRequired(false);
 
 	itsLastPageIndex->SetLowerLimit(1);
-	itsLastPageIndex->SetIsRequired(kJFalse);
+	itsLastPageIndex->SetIsRequired(false);
 
 	itsCollateCB->SetState(collate);
 	itsBWCheckbox->SetState(bw);
@@ -325,9 +325,8 @@ JXPSPrintSetupDialog::SetObjects
 void
 JXPSPrintSetupDialog::UpdateDisplay()
 {
-	itsPrintButton->SetActive(JI2B(
-		itsDestination->GetSelectedItem() == kPrintToPrinterID ||
-		!itsFileInput->GetText()->IsEmpty()));
+	itsPrintButton->SetActive(itsDestination->GetSelectedItem() == kPrintToPrinterID ||
+		!itsFileInput->GetText()->IsEmpty());
 }
 
 /******************************************************************************
@@ -335,16 +334,16 @@ JXPSPrintSetupDialog::UpdateDisplay()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPSPrintSetupDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	if (itsDestination->GetSelectedItem() == kPrintToFileID)
@@ -353,7 +352,7 @@ JXPSPrintSetupDialog::OKToDeactivate()
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -362,7 +361,7 @@ JXPSPrintSetupDialog::OKToDeactivate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPSPrintSetupDialog::OKToDeactivate
 	(
 	const JString& origFullName
@@ -371,7 +370,7 @@ JXPSPrintSetupDialog::OKToDeactivate
 	if (origFullName.IsEmpty())
 		{
 		JGetUserNotification()->ReportError(JGetString("MissingFileName::JXPSPrintSetupDialog"));
-		return kJFalse;
+		return false;
 		}
 
 	JString s, path, fileName;
@@ -379,23 +378,23 @@ JXPSPrintSetupDialog::OKToDeactivate
 	if (!JConvertToAbsolutePath(s, JString::empty, &path) || !JDirectoryExists(path))
 		{
 		JGetUserNotification()->ReportError(JGetString("DirectoryDoesNotExist::JXGlobal"));
-		return kJFalse;
+		return false;
 		}
 
 	const JString fullName    = JCombinePathAndName(path, fileName);
-	const JBoolean fileExists = JFileExists(fullName);
+	const bool fileExists = JFileExists(fullName);
 	if (!fileExists && !JDirectoryWritable(path))
 		{
 		JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXPSPrintSetupDialog"));
-		return kJFalse;
+		return false;
 		}
 	else if (fileExists && !JFileWritable(fullName))
 		{
 		JGetUserNotification()->ReportError(JGetString("FileNotWritable::JXGlobal"));
-		return kJFalse;
+		return false;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -458,7 +457,7 @@ JXPSPrintSetupDialog::SetDestination
 		itsPrintButton->Activate();
 		itsPrintCmdLabel->Show();
 		itsPrintCmd->Show();
-		itsPrintCmd->SetIsRequired(kJTrue);
+		itsPrintCmd->SetIsRequired(true);
 		itsPrintCmd->Focus();
 		itsCollateCB->Show();
 		itsChooseFileButton->Hide();
@@ -470,7 +469,7 @@ JXPSPrintSetupDialog::SetDestination
 
 		itsPrintCmdLabel->Hide();
 		itsPrintCmd->Hide();
-		itsPrintCmd->SetIsRequired(kJFalse);
+		itsPrintCmd->SetIsRequired(false);
 		itsCollateCB->Hide();
 		itsChooseFileButton->Show();
 		itsFileInput->Show();
@@ -492,7 +491,7 @@ JXPSPrintSetupDialog::SetDestination
 void
 JXPSPrintSetupDialog::PrintAllPages
 	(
-	const JBoolean all
+	const bool all
 	)
 {
 	itsPrintAllCB->SetState(all);
@@ -535,7 +534,7 @@ JXPSPrintSetupDialog::ChooseDestinationFile()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPSPrintSetupDialog::SetParameters
 	(
 	JXPSPrinter* p
@@ -545,10 +544,9 @@ JXPSPrintSetupDialog::SetParameters
 	const JXPSPrinter::Destination newDest =
 		kIndexToDest[ itsDestination->GetSelectedItem()-1 ];
 
-	JBoolean changed = JI2B(
-		newDest                            != p->GetDestination() ||
+	bool changed = newDest                            != p->GetDestination() ||
 		itsPrintCmd->GetText()->GetText()  != p->GetPrintCmd()    ||
-		itsFileInput->GetText()->GetText() != p->GetFileName());
+		itsFileInput->GetText()->GetText() != p->GetFileName();
 
 	JString fullName;
 	itsFileInput->GetFile(&fullName);
@@ -556,18 +554,18 @@ JXPSPrintSetupDialog::SetParameters
 	p->SetDestination(newDest, itsPrintCmd->GetText()->GetText(), fullName);
 
 	JInteger copyCount;
-	const JBoolean ok = itsCopyCount->GetValue(&copyCount);
+	const bool ok = itsCopyCount->GetValue(&copyCount);
 	assert( ok );
 	p->SetCopyCount(copyCount);
 
-	const JBoolean printAll = itsPrintAllCB->IsChecked();
+	const bool printAll = itsPrintAllCB->IsChecked();
 	p->PrintAllPages();
 
 	if (!printAll)
 		{
 		JInteger p1, p2;
-		const JBoolean ok1 = itsFirstPageIndex->GetValue(&p1);
-		const JBoolean ok2 = itsLastPageIndex->GetValue(&p2);
+		const bool ok1 = itsFirstPageIndex->GetValue(&p1);
+		const bool ok2 = itsLastPageIndex->GetValue(&p2);
 		if (ok1 && ok2)
 			{
 			p->SetFirstPageToPrint(JMin(p1, p2));
@@ -586,9 +584,9 @@ JXPSPrintSetupDialog::SetParameters
 			}
 		}
 
-	changed = JI2B(changed ||
+	changed = changed ||
 		itsCollateCB->IsChecked()  != p->WillCollatePages() ||
-		itsBWCheckbox->IsChecked() != p->WillPrintBlackWhite());
+		itsBWCheckbox->IsChecked() != p->WillPrintBlackWhite();
 
 	p->CollatePages(itsCollateCB->IsChecked());
 	p->PSPrintBlackWhite(itsBWCheckbox->IsChecked());

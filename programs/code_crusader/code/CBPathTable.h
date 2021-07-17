@@ -35,7 +35,7 @@ public:
 	void	AddDirectories(const JPtrArray<JString>& list);
 	void	GetPathList(CBDirList* pathList) const;
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const override;
+	virtual bool	IsEditable(const JPoint& cell) const override;
 
 protected:
 
@@ -48,10 +48,10 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual bool		ExtractInputData(const JPoint& cell) override;
 	virtual void			PrepareDeleteXInputField() override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,

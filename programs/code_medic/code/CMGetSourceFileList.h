@@ -30,7 +30,7 @@ protected:
 private:
 
 	CMFileListDir*	itsFileList;			// not owned
-	JBoolean		itsNeedRedoOnFirstStop;
+	bool		itsNeedRedoOnFirstStop;
 
 private:
 

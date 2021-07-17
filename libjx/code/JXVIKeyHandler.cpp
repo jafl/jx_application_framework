@@ -57,16 +57,16 @@ JXVIKeyHandler::Initialize
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXVIKeyHandler::HandleKeyPress
 	(
 	const JUtf8Character&			key,
-	const JBoolean					selectText,
+	const bool					selectText,
 	const JTextEditor::CaretMotion	motion,
-	const JBoolean					deleteToTabStop
+	const bool					deleteToTabStop
 	)
 {
-	JBoolean result;
+	bool result;
 	if (PrehandleKeyPress(key, &result))
 		{
 		return result;
@@ -83,28 +83,28 @@ JXVIKeyHandler::HandleKeyPress
 				lineCount = -lineCount;
 				}
 
-			const JBoolean save = JXTEBase::CaretWillFollowScroll();
-			JXTEBase::CaretShouldFollowScroll(kJFalse);
+			const bool save = JXTEBase::CaretWillFollowScroll();
+			JXTEBase::CaretShouldFollowScroll(false);
 			v->StepLine(lineCount);
 			JXTEBase::CaretShouldFollowScroll(save);
 
 			MoveCaretVert(lineCount);
 			}
 		ClearKeyBuffers();
-		return kJTrue;
+		return true;
 		}
 	else if (key == JXCtrl('B') || key == JXCtrl('F'))
 		{
 		JXScrollbar *h, *v;
 		if (itsJXTE->GetScrollbars(&h, &v))
 			{
-			const JBoolean save = JXTEBase::CaretWillFollowScroll();
-			JXTEBase::CaretShouldFollowScroll(kJTrue);
+			const bool save = JXTEBase::CaretWillFollowScroll();
+			JXTEBase::CaretShouldFollowScroll(true);
 			v->StepPage(key == JXCtrl('B') ? -1 : +1);
 			JXTEBase::CaretShouldFollowScroll(save);
 			}
 		ClearKeyBuffers();
-		return kJTrue;
+		return true;
 		}
 
 	else if (key == '/' || key == '?')
@@ -113,13 +113,13 @@ JXVIKeyHandler::HandleKeyPress
 		dlog->SetRegexSearch();
 		dlog->Activate();
 		ClearKeyBuffers();
-		return kJTrue;
+		return true;
 		}
 	else if (key == 'n')
 		{
 		itsJXTE->SearchForward();
 		ClearKeyBuffers();
-		return kJTrue;
+		return true;
 		}
 
 	else

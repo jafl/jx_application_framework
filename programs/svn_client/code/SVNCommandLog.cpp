@@ -23,9 +23,9 @@ SVNCommandLog::SVNCommandLog
 	SVNMainDirector*	director,
 	JXTextMenu*			editMenu,
 	const JString&		cmd,
-	const JBoolean		refreshRepo,
-	const JBoolean		refreshStatus,
-	const JBoolean		reloadOpenFiles,
+	const bool		refreshRepo,
+	const bool		refreshStatus,
+	const bool		reloadOpenFiles,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption hSizing,
@@ -38,7 +38,7 @@ SVNCommandLog::SVNCommandLog
 	:
 	SVNTextBase(director, editMenu, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
 	itsCmd(cmd),
-	itsHasRefreshedFlag(kJFalse),
+	itsHasRefreshedFlag(false),
 	itsRefreshRepoFlag(refreshRepo),
 	itsRefreshStatusFlag(refreshStatus),
 	itsReloadOpenFilesFlag(reloadOpenFiles)
@@ -65,7 +65,7 @@ SVNCommandLog::RefreshContent()
 	if (!itsHasRefreshedFlag)
 	{
 		SVNTextBase::RefreshContent();
-		itsHasRefreshedFlag = kJTrue;
+		itsHasRefreshedFlag = true;
 	}
 }
 
@@ -133,7 +133,7 @@ void
 SVNCommandLog::GetSelectedFiles
 	(
 	JPtrArray<JString>*	fullNameList,
-	const JBoolean		includeDeleted
+	const bool		includeDeleted
 	)
 {
 	fullNameList->CleanOut();

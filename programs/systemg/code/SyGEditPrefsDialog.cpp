@@ -32,12 +32,12 @@ SyGEditPrefsDialog::SyGEditPrefsDialog
 	const JString&	gitStatusCmd,
 	const JString&	gitHistoryCmd,
 	const JString&	postCheckoutCmd,
-	const JBoolean	del,
-	const JBoolean	newWindows,
-	const JBoolean	perFolderPrefs
+	const bool	del,
+	const bool	newWindows,
+	const bool	perFolderPrefs
 	)
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue)
+	JXDialogDirector(JXGetApplication(), true)
 {
 	BuildWindow(terminalCmd, manViewCmd, gitStatusCmd, gitHistoryCmd,
 				postCheckoutCmd, del, newWindows, perFolderPrefs);
@@ -65,9 +65,9 @@ SyGEditPrefsDialog::BuildWindow
 	const JString&	gitStatusCmd,
 	const JString&	gitHistoryCmd,
 	const JString&	postCheckoutCmd,
-	const JBoolean	del,
-	const JBoolean	newWindows,
-	const JBoolean	perFolderPrefs
+	const bool	del,
+	const bool	newWindows,
+	const bool	perFolderPrefs
 	)
 {
 // begin JXLayout
@@ -236,9 +236,9 @@ SyGEditPrefsDialog::GetPrefs
 	JString*	gitStatusCmd,
 	JString*	gitHistoryCmd,
 	JString*	postCheckoutCmd,
-	JBoolean*	del,
-	JBoolean*	newWindows,
-	JBoolean*	perFolderPrefs
+	bool*	del,
+	bool*	newWindows,
+	bool*	perFolderPrefs
 	)
 	const
 {

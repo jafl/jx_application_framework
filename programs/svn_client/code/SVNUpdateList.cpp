@@ -15,7 +15,7 @@
 #include <jAssert.h>
 
 static const JRegex revisionPattern = "revision [0-9]+\\.$";
-static const JString conflictPattern("conflicts:", kJFalse);
+static const JString conflictPattern("conflicts:", JString::kNoCopy);
 
 /******************************************************************************
  Constructor
@@ -36,10 +36,10 @@ SVNUpdateList::SVNUpdateList
 	const JCoordinate	h
 	)
 	:
-	SVNListBase(director, editMenu, JString("svn --non-interactive update", kJFalse),
-				kJFalse, kJTrue, kJTrue, kJTrue,
+	SVNListBase(director, editMenu, JString("svn --non-interactive update", JString::kNoCopy),
+				false, true, true, true,
 				scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
-	itsHasRefreshedFlag(kJFalse)
+	itsHasRefreshedFlag(false)
 {
 }
 
@@ -63,7 +63,7 @@ SVNUpdateList::RefreshContent()
 	if (!itsHasRefreshedFlag)
 	{
 		SVNListBase::RefreshContent();
-		itsHasRefreshedFlag = kJTrue;
+		itsHasRefreshedFlag = true;
 	}
 }
 
@@ -120,11 +120,11 @@ SVNUpdateList::ExtractRelativePath
 /******************************************************************************
  ShouldDisplayLine (virtual protected)
 
-	Return kJFalse if the line should not be displayed.
+	Return false if the line should not be displayed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNUpdateList::ShouldDisplayLine
 	(
 	JString* line
@@ -156,7 +156,7 @@ SVNUpdateList::Receive
 			if (revisionPattern.Match(*line))
 				{
 				list->MoveElementToIndex(i, 1);
-				SetStyle(1, JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+				SetStyle(1, JFontStyle(true, false, 0, false));
 				break;
 				}
 			}

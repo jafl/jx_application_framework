@@ -22,7 +22,7 @@ const JUtf8Byte* CMVarCommand::kValueFailed  = "CMVarCommand::kValueFailed";
 
 CMVarCommand::CMVarCommand()
 	:
-	CMCommand("", kJFalse, kJTrue)
+	CMCommand("", false, true)
 {
 }
 

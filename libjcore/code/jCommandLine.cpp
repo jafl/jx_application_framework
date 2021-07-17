@@ -82,14 +82,14 @@ JCheckForValues
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIsVersionRequest
 	(
 	const JUtf8Byte* arg
 	)
 {
-	return JI2B(strcmp(arg, "-v")        == 0 ||
-				strcmp(arg, "--version") == 0);
+	return strcmp(arg, "-v")        == 0 ||
+				strcmp(arg, "--version") == 0;
 }
 
 /******************************************************************************
@@ -97,13 +97,13 @@ JIsVersionRequest
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIsHelpRequest
 	(
 	const JUtf8Byte* arg
 	)
 {
-	return JI2B(strcmp(arg, "-h")     == 0 ||
+	return strcmp(arg, "-h")     == 0 ||
 				strcmp(arg, "-?")     == 0 ||
-				strcmp(arg, "--help") == 0);
+				strcmp(arg, "--help") == 0;
 }

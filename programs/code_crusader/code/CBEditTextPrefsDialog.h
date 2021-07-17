@@ -92,7 +92,7 @@ private:
 	void	BuildWindow(CBTextDocument* doc);
 	void	UpdateSettings();
 
-	JBoolean	HandleColorButton(JBroadcaster* sender);
+	bool	HandleColorButton(JBroadcaster* sender);
 	void		SetDefaultColors();
 	void		SetReverseVideoColors();
 	void		ChangeColor(const JIndex colorIndex, const JColorID color);

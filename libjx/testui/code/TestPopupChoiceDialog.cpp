@@ -29,7 +29,7 @@ TestPopupChoiceDialog::TestPopupChoiceDialog
 	JXWindowDirector* supervisor
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow();
 }
@@ -109,7 +109,7 @@ TestPopupChoiceDialog::BuildWindow()
 		{
 		JXImage* image = jnew JXImage(display, kSmileyBitmap[i], kSmileyColor[i]);
 		assert( image != nullptr );
-		iconMenu->AppendItem(image, kJTrue);
+		iconMenu->AppendItem(image, true);
 
 		if (i == 0)
 			{
@@ -118,10 +118,10 @@ TestPopupChoiceDialog::BuildWindow()
 		}
 
 	// set title to image so SetToPopupChoice() will change the title
-	iconMenu->SetTitle(JString::empty, titleImage, kJFalse);
+	iconMenu->SetTitle(JString::empty, titleImage, false);
 
 	iconMenu->SetUpdateAction(JXMenu::kDisableNone);
-	iconMenu->SetToPopupChoice(kJTrue, 1);
+	iconMenu->SetToPopupChoice(true, 1);
 	iconMenu->SetPopupArrowDirection(JXMenu::kArrowPointsUp);
 
 	// We should actually set all the items on iconMenu to be radio buttons

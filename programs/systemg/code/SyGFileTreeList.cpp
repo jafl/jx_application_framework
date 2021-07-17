@@ -105,11 +105,11 @@ SyGFileTreeList::GetDirEntry
 /******************************************************************************
  ShouldOpenSibling (virtual)
 
-	Returns kJTrue if sibling should be opened.
+	Returns true if sibling should be opened.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGFileTreeList::ShouldOpenSibling
 	(
 	const JTreeNode* node
@@ -124,11 +124,11 @@ SyGFileTreeList::ShouldOpenSibling
 /******************************************************************************
  ShouldOpenDescendant (virtual)
 
-	Returns kJTrue if sibling should be opened.
+	Returns true if sibling should be opened.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGFileTreeList::ShouldOpenDescendant
 	(
 	const JTreeNode* node

@@ -21,7 +21,7 @@ XDGetFrame::XDGetFrame
 	CMStackWidget* widget
 	)
 	:
-	CMGetFrame(JString("status", kJFalse)),
+	CMGetFrame(JString("status", JString::kNoCopy)),
 	itsWidget(widget)
 {
 }

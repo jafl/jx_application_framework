@@ -51,21 +51,21 @@ public:
 
 	CMCommandDirector*	GetCommandDirector();
 
-	JBoolean	IsMainSourceWindow() const;
-	JBoolean	GetFileName(const JString** fileName) const;
+	bool	IsMainSourceWindow() const;
+	bool	GetFileName(const JString** fileName) const;
 	JIndex		GetCurrentExecLine() const;
 
-	JBoolean	GetFunctionName(const JString** fnName) const;
+	bool	GetFunctionName(const JString** fnName) const;
 
 	void	DisplayFile(const JString& fileName, const JIndex lineNumber = 0,
-						const JBoolean markLine = kJTrue);
+						const bool markLine = true);
 	void	DisplayDisassembly(const CMLocation& loc);
-	void	DisplayLine(const JSize lineNumber, const JBoolean markLine = kJTrue);
+	void	DisplayLine(const JSize lineNumber, const bool markLine = true);
 	void	ClearDisplay();
 
 	Type					GetType() const;
 	virtual const JString&	GetName() const override;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
+	virtual bool		GetMenuIcon(const JXImage** icon) const override;
 
 	// called by GDBGetAssembly
 
@@ -160,11 +160,11 @@ CMSourceDirector::GetType()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CMSourceDirector::IsMainSourceWindow()
 	const
 {
-	return JI2B( itsType != kSourceType && itsType != kAsmType );
+	return itsType != kSourceType && itsType != kAsmType;
 }
 
 /******************************************************************************
@@ -172,7 +172,7 @@ CMSourceDirector::IsMainSourceWindow()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CMSourceDirector::GetFileName
 	(
 	const JString** fileName
@@ -188,7 +188,7 @@ CMSourceDirector::GetFileName
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CMSourceDirector::GetFunctionName
 	(
 	const JString** fnName

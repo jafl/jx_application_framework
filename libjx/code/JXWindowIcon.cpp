@@ -148,7 +148,7 @@ JXWindowIcon::HandleMouseEnter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindowIcon::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,

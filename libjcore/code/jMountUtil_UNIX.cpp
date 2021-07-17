@@ -50,16 +50,16 @@
 #include "jAssert.h"
 
 #if defined JMOUNT_OSX
-static const JString kMountCmd("mount", kJFalse);
+static const JString kMountCmd("mount", JString::kNoCopy);
 #elif defined JMOUNT_BSD
-static const JString kAvailInfoName(_PATH_FSTAB, kJFalse);
+static const JString kAvailInfoName(_PATH_FSTAB, JString::kNoCopy);
 #elif defined JMOUNT_SYSV
-static const JString kAvailInfoName(VFSTAB, kJFalse);
+static const JString kAvailInfoName(VFSTAB, JString::kNoCopy);
 static const JUtf8Byte* kMountedInfoName = MNTTAB;
 #elif defined _J_CYGWIN
 static const JUtf8Byte* kMountedInfoName = MOUNTED;
 #else
-static const JString kAvailInfoName(_PATH_FSTAB, kJFalse);
+static const JString kAvailInfoName(_PATH_FSTAB, JString::kNoCopy);
 static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 #endif
 
@@ -95,7 +95,7 @@ static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 	If state != nullptr, its value is compared with the mod time of /etc/fstab
 	or equivalent.  If the state is the same, nothing is done.
 
-	Returns kJTrue if /etc/fstab was read in, i.e., if state was nullptr or
+	Returns true if /etc/fstab was read in, i.e., if state was nullptr or
 	outdated.
 
  ******************************************************************************/
@@ -104,7 +104,7 @@ static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 
 static const JRegex theLinePattern = "^(/[^\\s]+)\\s+on\\s+(/[^)]+?)\\s+\\((.+)\\)";
 
-JBoolean
+bool
 JGetUserMountPointList
 	(
 	JMountPointList*	list,
@@ -124,14 +124,14 @@ JGetUserMountPointList
 			jdelete state->mountCmdOutput;
 			state->mountCmdOutput = nullptr;
 			}
-		return kJFalse;
+		return false;
 		}
 
 	JString mountData;
 	JReadAll(outFD, &mountData);
 
 	p->WaitUntilFinished();
-	const JBoolean success = p->SuccessfulFinish();
+	const bool success = p->SuccessfulFinish();
 	jdelete p;
 	p = nullptr;
 
@@ -142,13 +142,13 @@ JGetUserMountPointList
 			jdelete state->mountCmdOutput;
 			state->mountCmdOutput = nullptr;
 			}
-		return kJFalse;
+		return false;
 		}
 
 	if (state != nullptr && state->mountCmdOutput != nullptr &&
 		mountData == *(state->mountCmdOutput))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	list->CleanOut();
@@ -200,12 +200,12 @@ JGetUserMountPointList
 		list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 		}
 
-	return kJTrue;
+	return true;
 }
 
 #elif defined JMOUNT_BSD
 
-JBoolean
+bool
 JGetUserMountPointList
 	(
 	JMountPointList*	list,
@@ -217,7 +217,7 @@ JGetUserMountPointList
 		(!(JGetModificationTime(_PATH_FSTAB, &t)).OK() ||
 		 t == state->modTime))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	list->CleanOut();
@@ -228,23 +228,23 @@ JGetUserMountPointList
 
 	endfsent();
 
-	const JBoolean isRoot = JI2B( getuid() == 0 );
+	const bool isRoot = getuid() == 0;
 
 	if (isRoot)
 		{
 		ACE_stat stbuf;
 		while (const fstab* info = getfsent())
 			{
-			if (JIsRootDirectory(JString(info->fs_file, kJFalse)) ||
+			if (JIsRootDirectory(JString(info->fs_file, false)) ||
 				strcmp(info->fs_type, FSTAB_SW) == 0)	// swap partition
 				{
 				continue;
 				}
 
 			const JMountType type = JGetUserMountPointType(
-				JString(info->fs_file, kJFalse),
-				JString(info->fs_spec, kJFalse),
-				JString(info->fs_vfstype, kJFalse));
+				JString(info->fs_file, false),
+				JString(info->fs_spec, false),
+				JString(info->fs_vfstype, false));
 
 			if (type == kJUnknownMountType ||
 				ACE_OS::stat(info->fs_file, &stbuf) != 0)
@@ -259,7 +259,7 @@ JGetUserMountPointList
 				}
 
 			JFileSystemType fsType = kOtherFSType;
-			if (JString::Compare(info->fs_vfstype, "vfat", kJFalse) == 0)
+			if (JString::Compare(info->fs_vfstype, "vfat", JString::kIgnoreCase) == 0)
 				{
 				fsType = kVFATType;
 				}
@@ -273,12 +273,12 @@ JGetUserMountPointList
 		}
 
 	endfsent();
-	return kJTrue;
+	return true;
 }
 
 #elif defined JMOUNT_SYSV
 
-JBoolean
+bool
 JGetUserMountPointList
 	(
 	JMountPointList*	list,
@@ -290,7 +290,7 @@ JGetUserMountPointList
 		(!(JGetModificationTime(kAvailInfoName, &t)).OK() ||
 		 t == state->modTime))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	list->CleanOut();
@@ -302,10 +302,10 @@ JGetUserMountPointList
 	FILE* f = fopen(kAvailInfoName.GetBytes(), "r");
 	if (f == nullptr)
 		{
-		return kJTrue;	// did clear list
+		return true;	// did clear list
 		}
 
-	const JBoolean isRoot = JI2B( getuid() == 0 );
+	const bool isRoot = getuid() == 0;
 
 	if (isRoot)
 		{
@@ -320,9 +320,9 @@ JGetUserMountPointList
 				}
 
 			const JMountType type = JGetUserMountPointType(
-				JString(info.vfs_mountp, kJFalse),
-				JString(info.vfs_special, kJFalse),
-				JString(info.vfs_fstype, kJFalse));
+				JString(info.vfs_mountp, false),
+				JString(info.vfs_special, false),
+				JString(info.vfs_fstype, false));
 
 			if (type == kJUnknownMountType ||
 				ACE_OS::stat(info.vfs_mountp, &stbuf) != 0)
@@ -331,7 +331,7 @@ JGetUserMountPointList
 				}
 
 			JFileSystemType fsType = kOtherFSType;
-			if (JString::Compare(info.fs_vfstype, "vfat", kJFalse) == 0)
+			if (JString::Compare(info.fs_vfstype, "vfat", JString::kIgnoreCase) == 0)
 				{
 				fsType = kVFATType;
 				}
@@ -345,12 +345,12 @@ JGetUserMountPointList
 		}
 
 	fclose(f);
-	return kJTrue;
+	return true;
 }
 
 #elif defined _J_CYGWIN
 
-JBoolean
+bool
 JGetUserMountPointList
 	(
 	JMountPointList*	list,
@@ -358,7 +358,7 @@ JGetUserMountPointList
 	)
 {
 	list->CleanOut();
-	return kJFalse;
+	return false;
 }
 
 #else
@@ -373,7 +373,7 @@ jUserOwnsDevice
 	return ((JGetOwnerID(name, &uid)).OK() && uid == getuid());
 }
 
-JBoolean
+bool
 JGetUserMountPointList
 	(
 	JMountPointList*	list,
@@ -385,7 +385,7 @@ JGetUserMountPointList
 		(!(JGetModificationTime(kAvailInfoName, &t)).OK() ||
 		 t == state->modTime))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	list->CleanOut();
@@ -397,10 +397,10 @@ JGetUserMountPointList
 	FILE* f = setmntent(kAvailInfoName.GetBytes(), "r");
 	if (f == nullptr)
 		{
-		return kJTrue;	// did clear list
+		return true;	// did clear list
 		}
 
-	const JBoolean isRoot = JI2B( getuid() == 0 );
+	const bool isRoot = getuid() == 0;
 
 	ACE_stat stbuf;
 	while (const mntent* info = getmntent(f))
@@ -409,18 +409,18 @@ JGetUserMountPointList
 			  hasmntopt(info, "user") != nullptr  ||
 			  hasmntopt(info, "users") != nullptr ||
 			  hasmntopt(info, "pamconsole") != nullptr ||
-			  (jUserOwnsDevice(JString(info->mnt_fsname, kJFalse)) &&
+			  (jUserOwnsDevice(JString(info->mnt_fsname, false)) &&
 			   hasmntopt(info, "owner") != nullptr)) ||
-			JIsRootDirectory(JString(info->mnt_dir, kJFalse)) ||
+			JIsRootDirectory(JString(info->mnt_dir, false)) ||
 			strcmp(info->mnt_type, MNTTYPE_SWAP) == 0)
 			{
 			continue;
 			}
 
 		const JMountType type =
-			JGetUserMountPointType(JString(info->mnt_dir, kJFalse),
-								   JString(info->mnt_fsname, kJFalse),
-								   JString(info->mnt_type, kJFalse));
+			JGetUserMountPointType(JString(info->mnt_dir, false),
+								   JString(info->mnt_fsname, false),
+								   JString(info->mnt_type, false));
 		if (type == kJUnknownMountType ||
 			ACE_OS::stat(info->mnt_dir, &stbuf) != 0)
 			{
@@ -428,7 +428,7 @@ JGetUserMountPointList
 			}
 
 		JFileSystemType fsType = kOtherFSType;
-		if (JString::Compare(info->mnt_type, "vfat", kJFalse) == 0)
+		if (JString::Compare(info->mnt_type, "vfat", JString::kIgnoreCase) == 0)
 			{
 			fsType = kVFATType;
 			}
@@ -441,7 +441,7 @@ JGetUserMountPointList
 		}
 
 	endmntent(f);
-	return kJTrue;
+	return true;
 }
 
 #endif
@@ -592,12 +592,12 @@ JGetUserMountPointType
 
 #if defined JMOUNT_BSD || defined JMOUNT_OSX
 
-JBoolean
+bool
 JIsMounted
 	(
 	const JString&		path,
-	JBoolean*			writable,
-	JBoolean*			isTop,
+	bool*				writable,
+	bool*				isTop,
 	JString*			device,
 	JFileSystemType*	fsType,
 	JString*			fsTypeString
@@ -606,10 +606,10 @@ JIsMounted
 	struct stat stbuf1, stbuf2;
 	if (stat(path.GetBytes(), &stbuf1) != 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
-	JBoolean isMounted = kJFalse;
+	bool isMounted = false;
 
 	struct statfs* info;
 	const JSize count = getmntinfo(&info, MNT_WAIT);
@@ -621,14 +621,14 @@ JIsMounted
 			stat(info[i].f_mntonname, &stbuf2) == 0 &&
 			stbuf1.st_dev == stbuf2.st_dev)
 			{
-			isMounted = kJTrue;
+			isMounted = true;
 			if (writable != nullptr)
 				{
-				*writable = JNegate((info[i].f_flags & MNT_RDONLY) != 0);
+				*writable = (info[i].f_flags & MNT_RDONLY) == 0;
 				}
 			if (isTop != nullptr)
 				{
-				*isTop = JI2B(stbuf1.st_ino == stbuf2.st_ino);
+				*isTop = stbuf1.st_ino == stbuf2.st_ino;
 				}
 			if (device != nullptr)
 				{
@@ -637,8 +637,8 @@ JIsMounted
 			if (fsType != nullptr)
 				{
 				*fsType = kOtherFSType;
-				if (JString::Compare(info[i].f_fstypename, "vfat", kJFalse) == 0 ||	// UNIX
-					JString::Compare(info[i].f_fstypename, "msdos", kJFalse) == 0)	// OSX
+				if (JString::Compare(info[i].f_fstypename, "vfat", JString::kIgnoreCase) == 0 ||	// UNIX
+					JString::Compare(info[i].f_fstypename, "msdos", JString::kIgnoreCase) == 0)		// OSX
 					{
 					*fsType = kVFATType;
 					}
@@ -656,12 +656,12 @@ JIsMounted
 
 #elif defined JMOUNT_SYSV
 
-JBoolean
+bool
 JIsMounted
 	(
 	const JString&		path,
-	JBoolean*			writable,
-	JBoolean*			isTop,
+	bool*				writable,
+	bool*				isTop,
 	JString*			device,
 	JFileSystemType*	fsType,
 	JString*			fsTypeString
@@ -670,16 +670,16 @@ JIsMounted
 	struct stat stbuf1, stbuf2;
 	if (stat(path, &stbuf1) != 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	FILE* f = fopen(kMountedInfoName, "r");
 	if (f == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
-	JBoolean isMounted = kJFalse;
+	bool isMounted = false;
 	JString p;
 	mnttab info;
 	while (getmntent(f, &info) == 0)
@@ -688,14 +688,14 @@ JIsMounted
 			stat(info.mnt_mountp, &stbuf2) == 0 &&
 			stbuf1.st_dev == stbuf2.st_dev)
 			{
-			isMounted = kJTrue;
+			isMounted = true;
 			if (writable != nullptr)
 				{
-				*writable = JI2B(hasmntopt(&info, "ro") == nullptr);
+				*writable = hasmntopt(&info, "ro") == nullptr;
 				}
 			if (isTop != nullptr)
 				{
-				*isTop = JI2B(stbuf1.st_ino == stbuf2.st_ino);
+				*isTop = stbuf1.st_ino == stbuf2.st_ino;
 				}
 			if (device != nullptr)
 				{
@@ -704,7 +704,7 @@ JIsMounted
 			if (fsType != nullptr)
 				{
 				*fsType = kOtherFSType;
-				if (JString::Compare(info.mnt_fstype, "vfat", kJFalse) == 0)
+				if (JString::Compare(info.mnt_fstype, "vfat", JString::kIgnoreCase) == 0)
 					{
 					*fsType = kVFATType;
 					}
@@ -723,12 +723,12 @@ JIsMounted
 
 #elif defined _J_CYGWIN
 
-JBoolean
+bool
 JIsMounted
 	(
 	const JString&		path,
-	JBoolean*			writable,
-	JBoolean*			isTop,
+	bool*				writable,
+	bool*				isTop,
 	JString*			device,
 	JFileSystemType*	fsType,
 	JString*			fsTypeString
@@ -737,16 +737,16 @@ JIsMounted
 	struct stat stbuf1, stbuf2;
 	if (stat(path, &stbuf1) != 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	FILE* f = setmntent(kMountedInfoName, "r");
 	if (f == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
-	JBoolean isMounted = kJFalse;
+	bool isMounted = false;
 	JString p;
 	while (const mntent* info = getmntent(f))
 		{
@@ -754,14 +754,14 @@ JIsMounted
 			stat(info->mnt_dir, &stbuf2) == 0 &&
 			stbuf1.st_dev == stbuf2.st_dev)
 			{
-			isMounted = kJTrue;
+			isMounted = true;
 			if (writable != nullptr)
 				{
-				*writable = kJTrue;
+				*writable = true;
 				}
 			if (isTop != nullptr)
 				{
-				*isTop = JI2B(stbuf1.st_ino == stbuf2.st_ino);
+				*isTop = stbuf1.st_ino == stbuf2.st_ino;
 				}
 			if (device != nullptr)
 				{
@@ -770,7 +770,7 @@ JIsMounted
 			if (fsType != nullptr)
 				{
 				*fsType = kOtherFSType;
-				if (JString::Compare(info->mnt_type, "vfat", kJFalse) == 0)
+				if (JString::Compare(info->mnt_type, "vfat", JString::kIgnoreCase) == 0)
 					{
 					*fsType = kVFATType;
 					}
@@ -789,12 +789,12 @@ JIsMounted
 
 #else
 
-JBoolean
+bool
 JIsMounted
 	(
 	const JString&		path,
-	JBoolean*			writable,
-	JBoolean*			isTop,
+	bool*				writable,
+	bool*				isTop,
 	JString*			device,
 	JFileSystemType*	fsType,
 	JString*			fsTypeString
@@ -803,16 +803,16 @@ JIsMounted
 	struct stat stbuf1, stbuf2;
 	if (stat(path.GetBytes(), &stbuf1) != 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	FILE* f = setmntent(kMountedInfoName, "r");
 	if (f == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
-	JBoolean isMounted = kJFalse;
+	bool isMounted = false;
 	JString p;
 	while (const mntent* info = getmntent(f))
 		{
@@ -820,14 +820,14 @@ JIsMounted
 			stat(info->mnt_dir, &stbuf2) == 0 &&
 			stbuf1.st_dev == stbuf2.st_dev)
 			{
-			isMounted = kJTrue;
+			isMounted = true;
 			if (writable != nullptr)
 				{
-				*writable = JI2B(hasmntopt(info, MNTOPT_RO) == nullptr);
+				*writable = hasmntopt(info, MNTOPT_RO) == nullptr;
 				}
 			if (isTop != nullptr)
 				{
-				*isTop = JI2B(stbuf1.st_ino == stbuf2.st_ino);
+				*isTop = stbuf1.st_ino == stbuf2.st_ino;
 				}
 			if (device != nullptr)
 				{
@@ -836,7 +836,7 @@ JIsMounted
 			if (fsType != nullptr)
 				{
 				*fsType = kOtherFSType;
-				if (JString::Compare(info->mnt_type, "vfat", kJFalse) == 0)
+				if (JString::Compare(info->mnt_type, "vfat", JString::kIgnoreCase) == 0)
 					{
 					*fsType = kVFATType;
 					}
@@ -858,11 +858,11 @@ JIsMounted
 /******************************************************************************
  JFindUserMountPoint
 
-	Returns kJTrue if the given path is on a mounted partition.
+	Returns true if the given path is on a mounted partition.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFindUserMountPoint
 	(
 	const JString&			path,
@@ -875,7 +875,7 @@ JFindUserMountPoint
 	struct stat stbuf;
 	if (stat(path.GetBytes(), &stbuf) != 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JSize count = list.GetElementCount();
@@ -885,20 +885,20 @@ JFindUserMountPoint
 		if (pt.device == stbuf.st_dev)
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  JMount
 
 	To determine whether or not this function succeeded, call it with
-	block=kJTrue and then check JIsMounted().
+	block=true and then check JIsMounted().
 
-	If mount = kJFalse, the file system is unmounted instead.
+	If mount = false, the file system is unmounted instead.
 
  ******************************************************************************/
 
@@ -906,8 +906,8 @@ void
 JMount
 	(
 	const JString&	path,
-	const JBoolean	mount,
-	const JBoolean	block
+	const bool	mount,
+	const bool	block
 	)
 {
 	const JUtf8Byte* argv[] = { mount ? "mount" : "umount", path.GetBytes(), nullptr };
@@ -950,24 +950,24 @@ jGetFullHostName
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 jTranslateLocalToRemote1
 	(
 	const JString&		localPath,
 	const JUtf8Byte*	mountDev,
 	const JUtf8Byte*	mountDir,
-	JBoolean*			found,
+	bool*				found,
 	JString*			host,
 	JString*			remotePath
 	)
 {
-	const JString dir(mountDir, kJFalse);
+	const JString dir(mountDir, JString::kNoCopy);
 	if (!JIsSamePartition(localPath, dir))
 		{
-		return kJFalse;
+		return false;
 		}
 
-	const JString dev(mountDev, kJFalse);
+	const JString dev(mountDev, JString::kNoCopy);
 	JStringIterator iter(dev);
 	iter.BeginMatch();
 	if (iter.Next(":/") && iter.GetPrevCharacterIndex() > 2)
@@ -981,8 +981,8 @@ jTranslateLocalToRemote1
 			*host       = JGetHostName();
 			*remotePath = localPath;
 			JCleanPath(remotePath);
-			*found = kJTrue;
-			return kJTrue;
+			*found = true;
+			return true;
 			}
 		#endif
 
@@ -1000,15 +1000,15 @@ jTranslateLocalToRemote1
 		*remotePath += iter2.FinishMatch().GetString();
 		JCleanPath(remotePath);
 
-		*found = kJTrue;
+		*found = true;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 #if defined JMOUNT_BSD || defined JMOUNT_OSX
 
-JBoolean
+bool
 JTranslateLocalToRemote
 	(
 	const JString&	localPathStr,
@@ -1022,13 +1022,13 @@ JTranslateLocalToRemote
 	JString localPath;
 	if (!JGetTrueName(localPathStr, &localPath))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	struct statfs* info;
 	const JSize count = getmntinfo(&info, MNT_WAIT);
 
-	JBoolean found = kJFalse;
+	bool found = false;
 	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		if (jTranslateLocalToRemote1(localPath, info[i].f_mntfromname,
@@ -1044,7 +1044,7 @@ JTranslateLocalToRemote
 
 #elif defined JMOUNT_SYSV
 
-JBoolean
+bool
 JTranslateLocalToRemote
 	(
 	const JString&	localPathStr,
@@ -1059,16 +1059,15 @@ JTranslateLocalToRemote
 	FILE* f = fopen(kMountedInfoName, "r");
 	if (f == nullptr || !JGetTrueName(localPathStr, &localPath))
 		{
-		return kJFalse;
+		return false;
 		}
 
-	JBoolean found = kJFalse;
+	bool found = false;
 	mnttab info;
 	while (getmntent(f, &info) == 0)
 		{
 		if (jTranslateLocalToRemote1(localPath, info.mnt_special,
-									 info.mnt_mountp,
-									 &found, host, remotePath))
+									 info.mnt_mountp, &found, host, remotePath))
 			{
 			break;		// localPath only on one partition
 			}
@@ -1080,7 +1079,7 @@ JTranslateLocalToRemote
 
 #else
 
-JBoolean
+bool
 JTranslateLocalToRemote
 	(
 	const JString&	localPathStr,
@@ -1095,15 +1094,14 @@ JTranslateLocalToRemote
 	FILE* f = setmntent(kMountedInfoName, "r");
 	if (f == nullptr || !JGetTrueName(localPathStr, &localPath))
 		{
-		return kJFalse;
+		return false;
 		}
 
-	JBoolean found = kJFalse;
+	bool found = false;
 	while (const mntent* info = getmntent(f))
 		{
 		if (jTranslateLocalToRemote1(localPath, info->mnt_fsname,
-									 info->mnt_dir,
-									 &found, host, remotePath))
+									 info->mnt_dir, &found, host, remotePath))
 			{
 			break;		// localPath only on one partition
 			}
@@ -1125,7 +1123,7 @@ JTranslateLocalToRemote
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 jTranslateRemoteToLocal1
 	(
 	const JString&		host,
@@ -1135,7 +1133,7 @@ jTranslateRemoteToLocal1
 	JString*			localPath
 	)
 {
-	const JString dev(mountDev, kJFalse);
+	const JString dev(mountDev, JString::kNoCopy);
 	JStringIterator iter(dev);
 	iter.BeginMatch();
 	if (iter.Next(":/") && iter.GetPrevCharacterIndex() > 2)
@@ -1157,19 +1155,19 @@ jTranslateRemoteToLocal1
 			iter2.BeginMatch();
 			iter2.MoveTo(kJIteratorStartAfter, p.GetCharacterCount()-1);
 			iter2.FinishMatch();
-			iter2.ReplaceLastMatch(JString(mountDir, kJFalse));
+			iter2.ReplaceLastMatch(JString(mountDir, JString::kNoCopy));
 
 			JCleanPath(localPath);
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 #if defined JMOUNT_BSD || defined JMOUNT_OSX
 
-JBoolean
+bool
 JTranslateRemoteToLocal
 	(
 	const JString&	hostStr,
@@ -1182,13 +1180,13 @@ JTranslateRemoteToLocal
 	struct statfs* info;
 	const JSize count = getmntinfo(&info, MNT_WAIT);
 
-	JBoolean found = kJFalse;
+	bool found = false;
 	for (JUnsignedOffset i=0; i<count; i++)
 		{
 		if (jTranslateRemoteToLocal1(hostStr, remotePath, info[i].f_mntfromname,
 									 info[i].f_mntonname, localPath))
 			{
-			found = kJTrue;
+			found = true;
 			break;
 			}
 		}
@@ -1198,7 +1196,7 @@ JTranslateRemoteToLocal
 
 #elif defined JMOUNT_SYSV
 
-JBoolean
+bool
 JTranslateRemoteToLocal
 	(
 	const JString&	host,
@@ -1211,19 +1209,19 @@ JTranslateRemoteToLocal
 	FILE* f = fopen(kMountedInfoName, "r");
 	if (f == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JString remotePath = remotePathStr;
 
-	JBoolean found = kJFalse;
+	bool found = false;
 	mnttab info;
 	while (getmntent(f, &info) == 0)
 		{
 		if (jTranslateRemoteToLocal1(host, remotePath, info.mnt_special,
 									 info.mnt_mountp, localPath))
 			{
-			found = kJTrue;
+			found = true;
 			break;
 			}
 		}
@@ -1234,7 +1232,7 @@ JTranslateRemoteToLocal
 
 #else
 
-JBoolean
+bool
 JTranslateRemoteToLocal
 	(
 	const JString&	host,
@@ -1247,18 +1245,18 @@ JTranslateRemoteToLocal
 	FILE* f = setmntent(kMountedInfoName, "r");
 	if (f == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JString remotePath = remotePathStr;
 
-	JBoolean found = kJFalse;
+	bool found = false;
 	while (const mntent* info = getmntent(f))
 		{
 		if (jTranslateRemoteToLocal1(host, remotePath, info->mnt_fsname,
 									 info->mnt_dir, localPath))
 			{
-			found = kJTrue;
+			found = true;
 			break;
 			}
 		}
@@ -1291,11 +1289,11 @@ JFormatPartition
 	JProcess**		process
 	)
 {
-	JBoolean writable, isTop;
+	bool writable, isTop;
 	JString device;
 	if (JIsMounted(path, &writable, &isTop, &device) && isTop)
 		{
-		JMount(path, kJFalse, kJTrue);
+		JMount(path, false, true);
 		if (!JIsMounted(path))
 			{
 			const JUtf8Byte* argv[] = { "xterm", "-T", "Format disk", "-n", "Format disk",
@@ -1319,11 +1317,11 @@ JFormatPartition
 /******************************************************************************
  JIsSamePartition
 
-	Returns kJTrue if the two directories are on the same partition.
+	Returns true if the two directories are on the same partition.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIsSamePartition
 	(
 	const JString& path1,
@@ -1331,9 +1329,9 @@ JIsSamePartition
 	)
 {
 	ACE_stat stbuf1, stbuf2;
-	return JI2B(ACE_OS::stat(path1.GetBytes(), &stbuf1) == 0 &&
+	return ACE_OS::stat(path1.GetBytes(), &stbuf1) == 0 &&
 				ACE_OS::stat(path2.GetBytes(), &stbuf2) == 0 &&
-				stbuf1.st_dev == stbuf2.st_dev);
+				stbuf1.st_dev == stbuf2.st_dev;
 }
 
 /******************************************************************************

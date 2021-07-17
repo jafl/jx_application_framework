@@ -60,19 +60,19 @@ static const JUtf8Byte* kUnusedKeyword[] =
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStylerBase*
 CBJavaStyler::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBJavaStyler;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -117,15 +117,15 @@ CBJavaStyler::CBJavaStyler()
 
 	SetTypeStyle(kComment              - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
 	SetTypeStyle(kDocCommentHTMLTag    - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
-	SetTypeStyle(kDocCommentSpecialTag - kWhitespace, JFontStyle(kJFalse, kJFalse, 1, kJFalse));
+	SetTypeStyle(kDocCommentSpecialTag - kWhitespace, JFontStyle(false, false, 1, false));
 
 	SetTypeStyle(kError                - kWhitespace, JFontStyle(red));
 
-	SetWordStyle(JString("goto", kJFalse), JFontStyle(kJTrue, kJFalse, 0, kJFalse, red));
+	SetWordStyle(JString("goto", JString::kNoCopy), JFontStyle(true, false, 0, false, red));
 
 	for (const JUtf8Byte* kw : kUnusedKeyword)
 		{
-		SetWordStyle(JString(kw, kJFalse), JFontStyle(red));
+		SetWordStyle(JString(kw, JString::kNoCopy), JFontStyle(red));
 		}
 
 	JPrefObject::ReadPrefs();
@@ -207,7 +207,7 @@ CBJavaStyler::Scan
 				ExtendCheckRange(token.range.charRange.last+1);
 				}
 
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy));
 			}
 		}
 		while (SetStyle(token.range.charRange, style));
@@ -258,7 +258,7 @@ CBJavaStyler::Receive
 		assert( info != nullptr );
 		if (info->Successful())
 			{
-			CBMWriteSharedPrefs(kJTrue);
+			CBMWriteSharedPrefs(true);
 			}
 		}
 

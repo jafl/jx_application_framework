@@ -153,11 +153,11 @@ JXFloatTable::CreateFloatTableInput
 	Extract the information from the active input field, check it,
 	and delete the input field if successful.
 
-	Returns kJTrue if the data is valid and the process succeeded.
+	Returns true if the data is valid and the process succeeded.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFloatTable::ExtractInputData
 	(
 	const JPoint& cell
@@ -168,14 +168,14 @@ JXFloatTable::ExtractInputData
 	if (itsFloatInputField->InputValid())
 		{
 		JFloat value;
-		const JBoolean valid = itsFloatInputField->GetValue(&value);
+		const bool valid = itsFloatInputField->GetValue(&value);
 		assert( valid );
 		itsFloatData->SetElement(cell, value);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

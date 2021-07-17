@@ -44,24 +44,24 @@ public:
 	virtual void		UpdateInfoMenu(JXTextMenu* menu) override;
 	virtual void		RefreshContent() override;
 	virtual void		GetSelectedFiles(JPtrArray<JString>* fullNameList,
-										 const JBoolean includeDeleted = kJFalse) override;
+										 const bool includeDeleted = false) override;
 	virtual void		GetSelectedFilesForDiff(JPtrArray<JString>* fullNameList,
 												JArray<JIndex>* revList) override;
-	virtual JBoolean	GetBaseRevision(JString* rev) override;
+	virtual bool	GetBaseRevision(JString* rev) override;
 	virtual void		OpenFiles() override;
 	virtual void		ShowFiles() override;
-	virtual JBoolean	ScheduleForRemove() override;
-	virtual JBoolean	CreateDirectory() override;
-	virtual JBoolean	DuplicateItem() override;
+	virtual bool	ScheduleForRemove() override;
+	virtual bool	CreateDirectory() override;
+	virtual bool	DuplicateItem() override;
 
-	virtual JBoolean	CanCheckOutSelection() const override;
+	virtual bool	CanCheckOutSelection() const override;
 	virtual void		CheckOutSelection() override;
 
 	static void	SkipSetup(std::istream& input, JFileVersion vers);
-	void		ReadSetup(const JBoolean hadSetup, std::istream& input, JFileVersion vers);
+	void		ReadSetup(const bool hadSetup, std::istream& input, JFileVersion vers);
 	void		WriteSetup(std::ostream& output) const;
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const override;
+	virtual bool	IsEditable(const JPoint& cell) const override;
 	virtual void		HandleKeyPress(const JUtf8Character& c,
 									   const int keySym, const JXKeyModifiers& modifiers) override;
 
@@ -69,7 +69,7 @@ protected:
 
 	virtual void		AdjustToTree() override;
 	virtual void		TableDrawCell(JPainter &p, const JPoint& cell, const JRect& rect) override;
-	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const override;
+	virtual bool	GetImage(const JIndex index, const JXImage** image) const override;
 	virtual JSize		GetMinCellWidth(const JPoint& cell) const override;
 
 	virtual void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers) override;
@@ -83,7 +83,7 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDEnter() override;
@@ -97,7 +97,7 @@ protected:
 									  const JXButtonStates& buttonStates,
 									  const JXKeyModifiers& modifiers) override;
 	virtual void		HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action) override;
+									  const bool dropAccepted, const Atom action) override;
 
 	virtual JXInputField*
 		CreateTreeListInput(const JPoint& cell, JXContainer* enclosure,
@@ -105,7 +105,7 @@ protected:
 							const JCoordinate x, const JCoordinate y,
 							const JCoordinate w, const JCoordinate h) override;
 
-	virtual JBoolean	ExtractInputData(const JPoint& cell) override;
+	virtual bool	ExtractInputData(const JPoint& cell) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -141,12 +141,12 @@ private:
 	JPoint		itsStartPt;
 	JPoint		itsPrevPt;
 	JSize		itsLastClickCount;
-	JBoolean	itsWaitingForDragFlag;
-	JBoolean	itsClearIfNotDNDFlag;
+	bool	itsWaitingForDragFlag;
+	bool	itsClearIfNotDNDFlag;
 
 	// delayed editing
 
-	JBoolean				itsWaitingToEditFlag;
+	bool				itsWaitingToEditFlag;
 	SVNBeginEditingTask*	itsEditTask;	// nullptr unless waiting to edit
 	JPoint					itsEditCell;
 	SVNRepoTreeNode*		itsSortNode;	// sort when mouse released
@@ -167,10 +167,10 @@ private:
 	void	UpdateContextMenu();
 	void	HandleContextMenu(const JIndex index);
 
-	void		CopySelectedFiles(const JBoolean fullPath);
-	JBoolean	CreateDirectory1();
-	JBoolean	DuplicateItem1();
-	JBoolean	CopyItem();
+	void		CopySelectedFiles(const bool fullPath);
+	bool	CreateDirectory1();
+	bool	DuplicateItem1();
+	bool	CopyItem();
 
 	// not allowed
 

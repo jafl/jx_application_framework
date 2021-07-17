@@ -340,7 +340,7 @@ JXStringList::ClearIncrementalSearchBuffer()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXStringList::ClosestMatch
 	(
 	const JString&	prefixStr,
@@ -351,17 +351,17 @@ JXStringList::ClosestMatch
 	if (itsSortedList == nullptr)
 		{
 		*index = 0;
-		return kJFalse;
+		return false;
 		}
 
-	JBoolean found;
+	bool found;
 	*index = itsSortedList->SearchSorted1(const_cast<JString*>(&prefixStr),
 										  JListT::kFirstMatch, &found);
 	if (*index > GetRowCount())		// insert beyond end of list
 		{
 		*index = GetRowCount();
 		}
-	return JConvertToBoolean( *index > 0 );
+	return *index > 0;
 }
 
 /******************************************************************************

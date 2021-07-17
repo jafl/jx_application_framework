@@ -25,7 +25,7 @@ const JSize kMenuButtonWidth = 60;
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBShellDocument::Create
 	(
 	CBShellDocument** doc
@@ -44,13 +44,13 @@ CBShellDocument::Create
 		assert( *doc != nullptr );
 
 		(**doc).Activate();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		err.ReportIfError();
 		*doc = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -66,7 +66,7 @@ CBShellDocument::CBShellDocument
 	const int	outFD
 	)
 	:
-	CBTextDocument(kCBShellOutputFT, "CBShellHelp", kJFalse, ConstructShellEditor)
+	CBTextDocument(kCBShellOutputFT, "CBShellHelp", false, ConstructShellEditor)
 {
 	itsShellEditor = (CBShellEditor*) GetTextEditor();
 	itsProcess     = nullptr;
@@ -155,7 +155,7 @@ CBShellDocument::SetConnection
 	assert( itsDataLink != nullptr );
 	ListenTo(itsDataLink);
 
-	itsCmdStream = jnew JOutPipeStream(outFD, kJTrue);
+	itsCmdStream = jnew JOutPipeStream(outFD, true);
 	assert( itsCmdStream != nullptr );
 
 	UpdateButtons();

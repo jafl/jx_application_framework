@@ -11,7 +11,7 @@
 	Derived classes can override:
 
 		GetImage
-			Returns kJTrue if an image should be displayed to the left
+			Returns true if an image should be displayed to the left
 			of the node's name.
 
 		CreateTreeListInput
@@ -62,9 +62,9 @@ JXNamedTreeListWidget::JXNamedTreeListWidget
 {
 	itsNamedTreeList       = treeList;
 	itsNameInputField      = nullptr;
-	itsHilightTextOnlyFlag = kJFalse;
+	itsHilightTextOnlyFlag = false;
 
-	WantInput(kJTrue);
+	WantInput(true);
 
 	ListenTo(&(GetStyleData()));	// could stick in JXTreeListWidgetX() if crashes
 }
@@ -116,7 +116,7 @@ JXNamedTreeListWidget::TLWDrawNode
 	)
 {
 	const JXImage* image;
-	const JBoolean hasImage = GetImage(cell.y, &image);
+	const bool hasImage = GetImage(cell.y, &image);
 	if (hasImage)
 		{
 		JRect r = rect;
@@ -155,7 +155,7 @@ JXNamedTreeListWidget::TLWDrawNode
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXNamedTreeListWidget::GetImage
 	(
 	const JIndex	index,
@@ -164,7 +164,7 @@ JXNamedTreeListWidget::GetImage
 	const
 {
 	*image = nullptr;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -193,11 +193,11 @@ JXNamedTreeListWidget::GetImageWidth
 /******************************************************************************
  GetImageRect
 
-	Returns kJFalse if there is no image.
+	Returns false if there is no image.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXNamedTreeListWidget::GetImageRect
 	(
 	const JIndex	index,
@@ -211,11 +211,11 @@ JXNamedTreeListWidget::GetImageRect
 		*rect       = GetCellRect(JPoint(GetNodeColIndex(), index));
 		rect->left += GetNodeIndent(index);
 		rect->right = rect->left + GetIndentWidth();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -511,11 +511,11 @@ JXNamedTreeListWidget::CreateTreeListInput
 	Extract the information from the active input field, check it,
 	and delete the input field if successful.
 
-	Returns kJTrue if the data is valid and the process succeeded.
+	Returns true if the data is valid and the process succeeded.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXNamedTreeListWidget::ExtractInputData
 	(
 	const JPoint& cell
@@ -527,11 +527,11 @@ JXNamedTreeListWidget::ExtractInputData
 		{
 		itsNamedTreeList->SetNodeName(cell.y, itsNameInputField->GetText()->GetText());
 		NeedsAdjustToTree();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -562,7 +562,7 @@ JXNamedTreeListWidget::PlaceInputField
 	)
 {
 	JPoint cell;
-	const JBoolean ok = GetEditedCell(&cell);
+	const bool ok = GetEditedCell(&cell);
 	assert( ok );
 	JXTreeListWidget::PlaceInputField(
 		JIndex(cell.x) == GetNodeColIndex() ? x + GetInputFieldIndent(cell.y) : x, y);
@@ -576,7 +576,7 @@ JXNamedTreeListWidget::SetInputFieldSize
 	)
 {
 	JPoint cell;
-	const JBoolean ok = GetEditedCell(&cell);
+	const bool ok = GetEditedCell(&cell);
 	assert( ok );
 	JXTreeListWidget::SetInputFieldSize(
 		JIndex(cell.x) == GetNodeColIndex() ? w - GetInputFieldIndent(cell.y) : w, h);
@@ -606,7 +606,7 @@ JXNamedTreeListWidget::GetInputFieldIndent
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXNamedTreeListWidget::GetNode
 	(
 	const JPoint&	pt,
@@ -617,17 +617,17 @@ JXNamedTreeListWidget::GetNode
 {
 	if (!GetCell(pt, cell))
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (JIndex(cell->x) == GetToggleOpenColIndex())
 		{
 		*part = kToggleColumn;
-		return kJTrue;
+		return true;
 		}
 	else if (JIndex(cell->x) != GetNodeColIndex())
 		{
 		*part = kOtherColumn;
-		return kJTrue;
+		return true;
 		}
 
 	const JRect r = GetCellRect(*cell);
@@ -635,18 +635,18 @@ JXNamedTreeListWidget::GetNode
 	if (x < 0)
 		{
 		*part = kBeforeImage;
-		return kJTrue;
+		return true;
 		}
 
 	x -= GetImageWidth(cell->y);
 	if (x < 0)
 		{
 		*part = kInImage;
-		return kJTrue;
+		return true;
 		}
 
 	*part = (x <= (JCoordinate) GetTextWidth(cell->y) ? kInText : kAfterText);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -654,7 +654,7 @@ JXNamedTreeListWidget::GetNode
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXNamedTreeListWidget::HitSamePart
 	(
 	const JPoint& pt1,
@@ -664,7 +664,7 @@ JXNamedTreeListWidget::HitSamePart
 {
 	JPoint cell1, cell2;
 	NodePart part1, part2;
-	return JConvertToBoolean( GetNode(pt1, &cell1, &part1) &&
+	return GetNode(pt1, &cell1, &part1) &&
 							  GetNode(pt2, &cell2, &part2) &&
-							  cell1 == cell2 && part1 == part2 );
+							  cell1 == cell2 && part1 == part2;
 }

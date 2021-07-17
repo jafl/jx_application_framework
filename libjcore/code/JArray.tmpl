@@ -650,7 +650,7 @@ JArray<T>::Sort()
 		return;
 		}
 
-	JBoolean isDuplicate;
+	bool isDuplicate;
 	for (JIndex i=2; i<=count; i++)
 		{
 		const T& data = ProtectedGetElement(i);
@@ -669,23 +669,23 @@ JArray<T>::Sort()
 /******************************************************************************
  InsertSorted
 
-	Returns kJTrue if the element was inserted.  Obviously, this is only
-	useful if insertIfDuplicate==kJFalse.
+	Returns true if the element was inserted.  Obviously, this is only
+	useful if insertIfDuplicate==false.
 
 	If index!=nullptr, it contains the index where the element was inserted.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JArray<T>::InsertSorted
 	(
 	const T&		data,
-	const JBoolean	insertIfDuplicate,
+	const bool	insertIfDuplicate,
 	JIndex*			index
 	)
 {
-	JBoolean isDuplicate;
+	bool isDuplicate;
 	const JIndex i = GetInsertionSortIndex(data, &isDuplicate);
 	if (!isDuplicate || insertIfDuplicate)
 		{
@@ -694,7 +694,7 @@ JArray<T>::InsertSorted
 			{
 			*index = i;
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -702,7 +702,7 @@ JArray<T>::InsertSorted
 			{
 			*index = 0;
 			}
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -711,7 +711,7 @@ JArray<T>::InsertSorted
 
 	Returns index where jnew element should be inserted in order to keep
 	the list sorted.  If there is an element that matches the given one,
-	*isDuplicate is set to kJTrue.
+	*isDuplicate is set to true.
 
  ******************************************************************************/
 
@@ -720,11 +720,11 @@ JIndex
 JArray<T>::GetInsertionSortIndex
 	(
 	const T&	data,
-	JBoolean*	isDuplicate
+	bool*	isDuplicate
 	)
 	const
 {
-	JBoolean found;
+	bool found;
 	JIndex index = SearchSorted1(data, JListT::kLastMatch, &found);
 	if (found)
 		{
@@ -741,7 +741,7 @@ JArray<T>::GetInsertionSortIndex
 /******************************************************************************
  SearchSorted
 
-	Returns kJTrue if the specified target is found.
+	Returns true if the specified target is found.
 
 	"which" specifies what to return if more than one element matches
 	the given target.
@@ -749,7 +749,7 @@ JArray<T>::GetInsertionSortIndex
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JArray<T>::SearchSorted
 	(
 	const T&							target,
@@ -758,7 +758,7 @@ JArray<T>::SearchSorted
 	)
 	const
 {
-	JBoolean found;
+	bool found;
 	*index = SearchSorted1(target, which, &found);
 	if (!found)
 		{
@@ -772,7 +772,7 @@ JArray<T>::SearchSorted
 
 	Returns index where the element is or where it should be inserted in
 	order to keep the list sorted.  If there is an element that matches the
-	given one, *found is set to kJTrue.
+	given one, *found is set to true.
 
 	Since lookup's in Arrays are O(1), we override this function to use a
 	binary search, yielding O(log N) instead of the default O(N).
@@ -785,16 +785,16 @@ JArray<T>::SearchSorted1
 	(
 	const T&					target,
 	const JListT::SearchReturn	which,
-	JBoolean*					found
+	bool*					found
 	)
 	const
 {
 	const JElementComparison<T>* compareObj = nullptr;
-	const JBoolean hasCompare = JList<T>::GetCompareObject(&compareObj);
+	const bool hasCompare = JList<T>::GetCompareObject(&compareObj);
 	assert( hasCompare );
 
 	const JListT::SortOrder sortOrder = JList<T>::GetSortOrder();
-	*found = kJFalse;
+	*found = false;
 
 	const JSize count = this->GetElementCount();
 	if (count == 0)
@@ -813,7 +813,7 @@ JArray<T>::SearchSorted1
 	if (r1 == JListT::kFirstEqualSecond &&
 		(count == 1 || which != JListT::kLastMatch))
 		{
-		*found = kJTrue;
+		*found = true;
 		return 1;
 		}
 	else if ((sortOrder == JListT::kSortAscending &&
@@ -840,7 +840,7 @@ JArray<T>::SearchSorted1
 	if (r2 == JListT::kFirstEqualSecond &&
 		(count == 2 || which != JListT::kFirstMatch))
 		{
-		*found = kJTrue;
+		*found = true;
 		return count;
 		}
 	else if ((sortOrder == JListT::kSortAscending &&
@@ -871,7 +871,7 @@ JArray<T>::SearchSorted1
 			{
 			if (which == JListT::kAnyMatch)
 				{
-				*found = kJTrue;
+				*found = true;
 				return i;
 				}
 			else if (which == JListT::kFirstMatch)
@@ -915,7 +915,7 @@ JArray<T>::SearchSorted1
 
 			// At this point, we know that we found a match.
 
-			*found = kJTrue;
+			*found = true;
 			if (which == JListT::kFirstMatch)
 				{
 				assert( r2 == JListT::kFirstEqualSecond );

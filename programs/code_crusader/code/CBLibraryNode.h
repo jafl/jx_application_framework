@@ -26,10 +26,10 @@ public:
 	virtual void	OpenComplementFile() const override;
 	void			EditSubprojectConfig();
 
-	JBoolean	OpenProject(const JBoolean silent = kJFalse);
+	bool	OpenProject(const bool silent = false);
 
 	virtual void		StreamOut(std::ostream& output) const override;
-	virtual JBoolean	IncludedInMakefile() const override;
+	virtual bool	IncludedInMakefile() const override;
 	virtual void		BuildMakeFiles(JString* text,
 									   JPtrArray<JTreeNode>* invalidList,
 									   JPtrArray<JString>* libFileList,
@@ -41,9 +41,9 @@ protected:
 
 private:
 
-	JBoolean	itsIncludeInDepListFlag;	// kJTrue => include in Make.files
+	bool	itsIncludeInDepListFlag;	// true => include in Make.files
 	JString		itsProjFileName;			// can be relative
-	JBoolean	itsShouldBuildFlag;			// kJTrue => open and build sub-project
+	bool	itsShouldBuildFlag;			// true => open and build sub-project
 
 	CBSubprojectConfigDialog*	itsSubprojDialog;
 

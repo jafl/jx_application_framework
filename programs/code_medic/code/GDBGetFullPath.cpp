@@ -72,7 +72,7 @@ GDBGetFullPath::HandleSuccess
 	const JString& cmdData
 	)
 {
-	const JStringMatch m1 = redirectPattern.Match(cmdData, kJTrue);
+	const JStringMatch m1 = redirectPattern.Match(cmdData, JRegex::kIncludeSubmatches);
 	if (!m1.IsEmpty())
 		{
 		const JString fullName = m1.GetSubstring(1);
@@ -96,7 +96,7 @@ GDBGetFullPath::HandleSuccess
 		}
 
 	const JString& data = GetLastResult();
-	JBoolean fileOK     = kJFalse;
+	bool fileOK     = false;
 
 	const JPtrArray<JString>& resultList = GetResults();
 	JString data1;
@@ -105,13 +105,13 @@ GDBGetFullPath::HandleSuccess
 		data1 = *(resultList.GetFirstElement());
 		}
 
-	const JStringMatch m2 = pathPattern.Match(data, kJTrue);
+	const JStringMatch m2 = pathPattern.Match(data, JRegex::kIncludeSubmatches);
 	if (!data1.Contains("No source file") && !m2.IsEmpty())
 		{
 		const JString fullName = m2.GetSubstring(1);
 		if (JFileReadable(fullName))
 			{
-			fileOK = kJTrue;
+			fileOK = true;
 			CMGetLink()->RememberFile(GetFileName(), fullName);
 			Broadcast(FileFound(fullName, GetLineIndex()));
 			}

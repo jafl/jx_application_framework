@@ -48,7 +48,7 @@ CBMacroSetTable::CBMacroSetTable
 	itsFirstNewID(firstUnusedID)
 {
 	itsMacroList         = macroList;
-	itsOwnsMacroListFlag = kJTrue;
+	itsOwnsMacroListFlag = true;
 	itsLastNewID         = itsFirstNewID - 1;
 	itsMacroIndex        = 0;
 
@@ -114,15 +114,15 @@ CBMacroSetTable::~CBMacroSetTable()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBMacroSetTable::ContentsValid()
 	const
 {
 	CBMacroSetTable* me = const_cast<CBMacroSetTable*>(this);
 
-	return JI2B(me->EndEditing() &&
+	return me->EndEditing() &&
 				itsActionTable->ContentsValid() &&
-				itsMacroTable->ContentsValid());
+				itsMacroTable->ContentsValid();
 }
 
 /******************************************************************************
@@ -130,7 +130,7 @@ CBMacroSetTable::ContentsValid()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBMacroSetTable::GetCurrentMacroSetName
 	(
 	JString* name
@@ -141,12 +141,12 @@ CBMacroSetTable::GetCurrentMacroSetName
 		const_cast<CBMacroSetTable*>(this)->EndEditing())
 		{
 		*name = GetStringData()->GetString(itsMacroIndex, 1);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		name->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -189,7 +189,7 @@ CBMacroSetTable::GetMacroList
 	*firstNewID = itsFirstNewID;
 	*lastNewID  = itsLastNewID;
 
-	itsOwnsMacroListFlag = kJFalse;
+	itsOwnsMacroListFlag = false;
 	return itsMacroList;
 }
 
@@ -305,7 +305,7 @@ CBMacroSetTable::RemoveRow()
 	else if (itsFirstNewID <= info.id && info.id < itsLastNewID)
 		{
 		JIndex index;
-		const JBoolean found =
+		const bool found =
 			CBPrefsManager::FindMacroID(*itsMacroList, itsLastNewID, &index);
 		assert( found );
 

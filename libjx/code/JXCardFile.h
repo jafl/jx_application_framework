@@ -24,8 +24,8 @@ public:
 	virtual ~JXCardFile();
 
 	JSize		GetCardCount() const;
-	JBoolean	GetCurrentCardIndex(JIndex* index) const;
-	JBoolean	GetCardIndex(JXContainer* card, JIndex* index) const;
+	bool	GetCurrentCardIndex(JIndex* index) const;
+	bool	GetCardIndex(JXContainer* card, JIndex* index) const;
 
 	JXContainer*	InsertCard(const JIndex index);
 	JXContainer*	PrependCard();
@@ -39,8 +39,8 @@ public:
 	void			DeleteCard(const JIndex index);
 	void			KillFocusOnCurrentCard();
 
-	JBoolean		ShowCard(const JIndex index);
-	JBoolean		ShowCard(JXContainer* card);
+	bool		ShowCard(const JIndex index);
+	bool		ShowCard(JXContainer* card);
 
 protected:
 
@@ -70,14 +70,14 @@ protected:
 				itsCardIndex(cardIndex)
 				{ };
 
-			JBoolean
+			bool
 			IsCardVisible()
 				const
 			{
-				return JI2B(itsCardIndex > 0);
+				return itsCardIndex > 0;
 			};
 
-			JBoolean
+			bool
 			GetCardIndex
 				(
 				JIndex* index
@@ -85,7 +85,7 @@ protected:
 				const
 			{
 				*index = itsCardIndex;
-				return JI2B(itsCardIndex > 0);
+				return itsCardIndex > 0;
 			};
 
 		private:
@@ -150,7 +150,7 @@ JXCardFile::GetCardCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXCardFile::GetCurrentCardIndex
 	(
 	JIndex* index
@@ -166,7 +166,7 @@ JXCardFile::GetCurrentCardIndex
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXCardFile::GetCardIndex
 	(
 	JXContainer*	card,

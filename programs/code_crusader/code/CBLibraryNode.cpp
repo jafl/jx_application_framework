@@ -58,8 +58,8 @@ CBLibraryNode::CBLibraryNode
 void
 CBLibraryNode::CBLibraryNodeX()
 {
-	itsIncludeInDepListFlag = kJTrue;
-	itsShouldBuildFlag      = kJTrue;
+	itsIncludeInDepListFlag = true;
+	itsShouldBuildFlag      = true;
 	itsSubprojDialog        = nullptr;
 }
 
@@ -122,13 +122,13 @@ CBLibraryNode::OpenComplementFile()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBLibraryNode::IncludedInMakefile()
 	const
 {
-	return JI2B(itsIncludeInDepListFlag &&
+	return itsIncludeInDepListFlag &&
 				(GetProjectDoc()->GetBuildManager())->GetMakefileMethod() ==
-					CBBuildManager::kMakemake);
+					CBBuildManager::kMakemake;
 }
 
 /******************************************************************************
@@ -147,7 +147,7 @@ CBLibraryNode::BuildMakeFiles
 	const
 {
 	JString projFullName;
-	const JBoolean projExists = GetFullName(itsProjFileName, &projFullName);
+	const bool projExists = GetFullName(itsProjFileName, &projFullName);
 
 	if (itsShouldBuildFlag && projExists &&
 		(GetProjectDoc()->GetBuildManager())->GetMakefileMethod() ==
@@ -205,17 +205,17 @@ CBLibraryNode::UpdateSubprojectConfig()
 {
 	assert( itsSubprojDialog != nullptr );
 
-	JBoolean include, build;
+	bool include, build;
 	itsSubprojDialog->GetConfig(&include, &itsProjFileName, &build);
 
-	const JBoolean changed =
-		JI2B( include != itsIncludeInDepListFlag ||
-			  build   != itsShouldBuildFlag );
+	const bool changed =
+		include != itsIncludeInDepListFlag ||
+			  build   != itsShouldBuildFlag;
 
 	JTree* tree;
 	if (changed && GetTree(&tree))
 		{
-		itsIncludeInDepListFlag = kJTrue;		// force rebuild
+		itsIncludeInDepListFlag = true;		// force rebuild
 		tree->BroadcastChange(this);
 		}
 	itsIncludeInDepListFlag = include;
@@ -227,10 +227,10 @@ CBLibraryNode::UpdateSubprojectConfig()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBLibraryNode::OpenProject
 	(
-	const JBoolean silent
+	const bool silent
 	)
 {
 	JString fullName;
@@ -238,11 +238,11 @@ CBLibraryNode::OpenProject
 		{
 		CBProjectDocument* doc;
 		CBProjectDocument::Create(fullName, silent, &doc);
-		return JI2B( doc != nullptr );
+		return doc != nullptr;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

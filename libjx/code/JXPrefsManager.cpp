@@ -25,7 +25,7 @@ const Time kSafetySaveInterval = 15 * 60 * 1000;	// 15 minutes (ms)
 JXPrefsManager::JXPrefsManager
 	(
 	const JFileVersion	currentVersion,
-	const JBoolean		eraseFileIfOpen
+	const bool		eraseFileIfOpen
 	)
 	:
 	JPrefsManager(JXGetApplication()->GetSignature(),

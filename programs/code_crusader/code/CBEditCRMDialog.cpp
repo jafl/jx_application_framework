@@ -36,7 +36,7 @@ CBEditCRMDialog::CBEditCRMDialog
 	const JIndex								firstUnusedID
 	)
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue),
+	JXDialogDirector(JXGetApplication(), true),
 	JPrefObject(CBGetPrefsManager(), kCBEditCRMDialogID)
 {
 	BuildWindow(crmList, initialSelection, firstUnusedID);
@@ -122,7 +122,7 @@ CBEditCRMDialog::BuildWindow
 
 	window->SetTitle(JGetString("WindowTitle::CBEditCRMDialog"));
 	SetButtons(okButton, cancelButton);
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 
@@ -243,7 +243,7 @@ CBEditCRMDialog::BuildWindow
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBEditCRMDialog::GetCurrentCRMRuleSetName
 	(
 	JString* name

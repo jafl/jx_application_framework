@@ -46,50 +46,50 @@ public:
 
 	virtual ~CBDocumentManager();
 
-	JBoolean	GetTemplateDirectory(const JUtf8Byte* dirName,
-									 const JBoolean create, JString* fullName);
-	JBoolean	GetTextTemplateDirectory(const JBoolean create, JString* tmplDir);
+	bool	GetTemplateDirectory(const JUtf8Byte* dirName,
+									 const bool create, JString* fullName);
+	bool	GetTextTemplateDirectory(const bool create, JString* tmplDir);
 
-	JBoolean	NewProjectDocument(CBProjectDocument** doc = nullptr);
+	bool	NewProjectDocument(CBProjectDocument** doc = nullptr);
 	void		NewTextDocument();
 	void		NewTextDocumentFromTemplate();
 	void		NewShellDocument();
-	JBoolean	OpenTextDocument(const JString& fileName,
+	bool	OpenTextDocument(const JString& fileName,
 								 const JIndex lineIndex = 0,
 								 CBTextDocument** doc = nullptr,
-								 const JBoolean iconify = kJFalse,
-								 const JBoolean forceReload = kJFalse);
-	JBoolean	OpenTextDocument(const JString& fileName,
+								 const bool iconify = false,
+								 const bool forceReload = false);
+	bool	OpenTextDocument(const JString& fileName,
 								 const JIndexRange& lineRange,
 								 CBTextDocument** doc = nullptr,
-								 const JBoolean iconify = kJFalse,
-								 const JBoolean forceReload = kJFalse);
-	static JBoolean	WarnFileSize(const JString& fileName);
+								 const bool iconify = false,
+								 const bool forceReload = false);
+	static bool	WarnFileSize(const JString& fileName);
 
 	void	OpenBinaryDocument(const JString& fileName);
 
 	void	OpenSomething(const JString& fileName = JString::empty,
 						  const JIndexRange lineRange = JIndexRange(),
-						  const JBoolean iconify = kJFalse,
-						  const JBoolean forceReload = kJFalse);
+						  const bool iconify = false,
+						  const bool forceReload = false);
 	void	OpenSomething(const JPtrArray<JString>& fileNameList);
 
 	void	ReadFromProject(std::istream& input, const JFileVersion vers);
 	void	WriteForProject(std::ostream& output) const;
 
-	JBoolean	HasProjectDocuments() const;
-	JBoolean	GetActiveProjectDocument(CBProjectDocument** doc) const;
-	JBoolean	ProjectDocumentIsOpen(const JString& fileName,
+	bool	HasProjectDocuments() const;
+	bool	GetActiveProjectDocument(CBProjectDocument** doc) const;
+	bool	ProjectDocumentIsOpen(const JString& fileName,
 									  CBProjectDocument** doc) const;
-	JBoolean	CloseProjectDocuments();
+	bool	CloseProjectDocuments();
 
-	JBoolean	HasTextDocuments() const;
+	bool	HasTextDocuments() const;
 	JSize		GetTextDocumentCount() const;
-	JBoolean	GetActiveTextDocument(CBTextDocument** doc) const;
-	JBoolean	TextDocumentsNeedSave();
-	JBoolean	SaveTextDocuments(const JBoolean saveUntitled);
-	void		ReloadTextDocuments(const JBoolean force);
-	JBoolean	CloseTextDocuments();
+	bool	GetActiveTextDocument(CBTextDocument** doc) const;
+	bool	TextDocumentsNeedSave();
+	bool	SaveTextDocuments(const bool saveUntitled);
+	void		ReloadTextDocuments(const bool force);
+	bool	CloseTextDocuments();
 	void		FileRenamed(const JString& origFullName, const JString& newFullName);
 	void		StylerChanged(JSTStyler* styler);
 
@@ -102,16 +102,16 @@ public:
 	void	SetActiveTextDocument(CBTextDocument* doc);
 	void	TextDocumentNeedsSave();
 
-	JBoolean	GetActiveListDocument(CBExecOutputDocument** doc) const;
+	bool	GetActiveListDocument(CBExecOutputDocument** doc) const;
 	void		SetActiveListDocument(CBExecOutputDocument* doc);
 
-	JBoolean	OpenComplementFile(const JString& fullName, const CBTextFileType type,
+	bool	OpenComplementFile(const JString& fullName, const CBTextFileType type,
 								   CBProjectDocument* projDoc = nullptr,
-								   const JBoolean searchDirs = kJTrue);
-	JBoolean	GetComplementFile(const JString& inputName, const CBTextFileType inputType,
+								   const bool searchDirs = true);
+	bool	GetComplementFile(const JString& inputName, const CBTextFileType inputType,
 								  JString* outputName, CBProjectDocument* projDoc = nullptr,
-								  const JBoolean searchDirs = kJTrue) const;
-	JBoolean	GetOpenComplementFile(const JString& inputName,
+								  const bool searchDirs = true) const;
+	bool	GetOpenComplementFile(const JString& inputName,
 									  const CBTextFileType inputType,
 									  JXFileDocument** doc) const;
 
@@ -126,20 +126,20 @@ public:
 	void	RefreshVCSStatus();
 
 	void		ChooseEditors();
-	JBoolean	WillEditTextFilesLocally() const;
-	void		ShouldEditTextFilesLocally(const JBoolean local);
-	JBoolean	WillEditBinaryFilesLocally() const;
-	void		ShouldEditBinaryFilesLocally(const JBoolean local);
+	bool	WillEditTextFilesLocally() const;
+	void		ShouldEditTextFilesLocally(const bool local);
+	bool	WillEditBinaryFilesLocally() const;
+	void		ShouldEditBinaryFilesLocally(const bool local);
 
 	// called by CBPrefsManager
 
-	JBoolean	RestoreState(std::istream& input);
-	JBoolean	SaveState(std::ostream& output) const;
+	bool	RestoreState(std::istream& input);
+	bool	SaveState(std::ostream& output) const;
 
 	// called by CBEditGenPrefsDialog
 
-	void	GetWarnings(JBoolean* warnBeforeSaveAll, JBoolean* warnBeforeCloseAll) const;
-	void	SetWarnings(const JBoolean warnBeforeSaveAll, const JBoolean warnBeforeCloseAll);
+	void	GetWarnings(bool* warnBeforeSaveAll, bool* warnBeforeCloseAll) const;
+	void	SetWarnings(const bool warnBeforeSaveAll, const bool warnBeforeCloseAll);
 
 	// called by CBCreateGlobals()
 
@@ -162,10 +162,10 @@ private:
 
 	JPtrArray<CBTextDocument>*		itsTextDocuments;
 	CBExecOutputDocument*			itsListDocument;
-	JBoolean						itsTextNeedsSaveFlag;
+	bool						itsTextNeedsSaveFlag;
 
-	JBoolean	itsWarnBeforeSaveAllFlag;
-	JBoolean	itsWarnBeforeCloseAllFlag;
+	bool	itsWarnBeforeSaveAllFlag;
+	bool	itsWarnBeforeCloseAllFlag;
 
 	// recent files
 
@@ -174,11 +174,11 @@ private:
 
 	// external editors
 
-	JBoolean	itsEditTextLocalFlag;
+	bool	itsEditTextLocalFlag;
 	JString		itsEditTextFileCmd;
 	JString		itsEditTextFileLineCmd;
 
-	JBoolean	itsEditBinaryLocalFlag;
+	bool	itsEditBinaryLocalFlag;
 	JString		itsEditBinaryFileCmd;
 
 	CBExtEditorDialog*	itsExtEditorDialog;
@@ -187,29 +187,29 @@ private:
 
 	void		PrivateOpenSomething(const JString& fileName,
 									 const JIndexRange& lineRange,
-									 const JBoolean iconify,
-									 const JBoolean forceReload);
-	JBoolean	PrivateOpenTextDocument(const JString& fullName,
+									 const bool iconify,
+									 const bool forceReload);
+	bool	PrivateOpenTextDocument(const JString& fullName,
 										const JIndexRange& lineRange,
-										const JBoolean iconify,
-										const JBoolean forceReload,
+										const bool iconify,
+										const bool forceReload,
 										CBTextDocument** doc) const;
 	void		PrivateOpenBinaryDocument(const JString& fullName,
-										  const JBoolean iconify,
-										  const JBoolean forceReload) const;
+										  const bool iconify,
+										  const bool forceReload) const;
 
-	JBoolean	FindComplementFile(const JString& inputName,
+	bool	FindComplementFile(const JString& inputName,
 								   const CBTextFileType outputType,
 								   JString* outputName,
 								   CBProjectDocument* projDoc,
-								   const JBoolean searchDirs) const;
-	JBoolean	SearchForComplementFile(CBProjectDocument* projDoc,
+								   const bool searchDirs) const;
+	bool	SearchForComplementFile(CBProjectDocument* projDoc,
 										const JString& origFullName,
 										const JString& baseFullName,
 										const JPtrArray<JString>& suffixList,
 										JString* outputName) const;
 
-	JBoolean	FindOpenComplementFile(const JString& inputName,
+	bool	FindOpenComplementFile(const JString& inputName,
 									   const CBTextFileType outputType,
 									   JXFileDocument** doc) const;
 
@@ -326,7 +326,7 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBDocumentManager::HasTextDocuments()
 	const
 {
@@ -362,10 +362,10 @@ CBDocumentManager::GetTextDocList()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBDocumentManager::TextDocumentsNeedSave()
 {
-	return JConvertToBoolean( !itsTextDocuments->IsEmpty() && itsTextNeedsSaveFlag );
+	return !itsTextDocuments->IsEmpty() && itsTextNeedsSaveFlag;
 }
 
 /******************************************************************************
@@ -378,7 +378,7 @@ CBDocumentManager::TextDocumentsNeedSave()
 inline void
 CBDocumentManager::TextDocumentNeedsSave()
 {
-	itsTextNeedsSaveFlag = kJTrue;
+	itsTextNeedsSaveFlag = true;
 }
 
 /******************************************************************************
@@ -386,7 +386,7 @@ CBDocumentManager::TextDocumentNeedsSave()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBDocumentManager::HasProjectDocuments()
 	const
 {
@@ -433,8 +433,8 @@ CBDocumentManager::SetActiveProjectDocument
 inline void
 CBDocumentManager::GetWarnings
 	(
-	JBoolean* warnBeforeSaveAll,
-	JBoolean* warnBeforeCloseAll
+	bool* warnBeforeSaveAll,
+	bool* warnBeforeCloseAll
 	)
 	const
 {
@@ -445,8 +445,8 @@ CBDocumentManager::GetWarnings
 inline void
 CBDocumentManager::SetWarnings
 	(
-	const JBoolean warnBeforeSaveAll,
-	const JBoolean warnBeforeCloseAll
+	const bool warnBeforeSaveAll,
+	const bool warnBeforeCloseAll
 	)
 {
 	itsWarnBeforeSaveAllFlag  = warnBeforeSaveAll;
@@ -458,7 +458,7 @@ CBDocumentManager::SetWarnings
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBDocumentManager::WillEditTextFilesLocally()
 	const
 {
@@ -468,13 +468,13 @@ CBDocumentManager::WillEditTextFilesLocally()
 inline void
 CBDocumentManager::ShouldEditTextFilesLocally
 	(
-	const JBoolean local
+	const bool local
 	)
 {
 	itsEditTextLocalFlag = local;
 }
 
-inline JBoolean
+inline bool
 CBDocumentManager::WillEditBinaryFilesLocally()
 	const
 {
@@ -484,7 +484,7 @@ CBDocumentManager::WillEditBinaryFilesLocally()
 inline void
 CBDocumentManager::ShouldEditBinaryFilesLocally
 	(
-	const JBoolean local
+	const bool local
 	)
 {
 	itsEditBinaryLocalFlag = local;

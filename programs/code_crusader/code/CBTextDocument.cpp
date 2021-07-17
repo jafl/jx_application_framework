@@ -225,43 +225,43 @@ CBTextDocument::CBTextDocument
 	(
 	const CBTextFileType	type,		// first to avoid conflict with fileName
 	const JUtf8Byte*		helpSectionName,
-	const JBoolean			setWMClass,
+	const bool			setWMClass,
 	CBTextEditorCtorFn*		teCtorFn
 	)
 	:
 	JXFileDocument(CBGetApplication(),
 				   CBGetDocumentManager()->GetNewFileName(),
-				   kJFalse, kJTrue, ""),
+				   false, true, ""),
 	JPrefObject(CBGetPrefsManager(), kCBTextDocID),
 	itsHelpSectionName(helpSectionName)
 {
 	CBTextDocumentX1(type);
 	BuildWindow(setWMClass, teCtorFn);
-	CBTextDocumentX2(kJTrue);
+	CBTextDocumentX2(true);
 }
 
 CBTextDocument::CBTextDocument
 	(
 	const JString&			fileName,
 	const CBTextFileType	type,
-	const JBoolean			tmpl
+	const bool			tmpl
 	)
 	:
-	JXFileDocument(CBGetApplication(), fileName, !tmpl, kJTrue, ""),
+	JXFileDocument(CBGetApplication(), fileName, !tmpl, true, ""),
 	JPrefObject(CBGetPrefsManager(), kCBTextDocID),
 	itsHelpSectionName("CBOverviewHelp")
 {
 	CBTextDocumentX1(type);
-	BuildWindow(kJTrue, ConstructTextEditor);
+	BuildWindow(true, ConstructTextEditor);
 
-	ReadFile(fileName, kJTrue);
-	CBTextDocumentX2(kJTrue);
+	ReadFile(fileName, true);
+	CBTextDocumentX2(true);
 
 	if (tmpl)
 		{
 		JString path, name;
 		JSplitPathAndName(fileName, &path, &name);
-		FileChanged(name, kJFalse);
+		FileChanged(name, false);
 		}
 }
 
@@ -269,17 +269,17 @@ CBTextDocument::CBTextDocument
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
-	JBoolean*			keep
+	bool*			keep
 	)
 	:
-	JXFileDocument(CBGetApplication(), JString::empty, kJFalse, kJTrue, ""),
+	JXFileDocument(CBGetApplication(), JString::empty, false, true, ""),
 	JPrefObject(CBGetPrefsManager(), kCBTextDocID),
 	itsHelpSectionName("CBOverviewHelp")
 {
 	CBTextDocumentX1(kCBUnknownFT);
-	BuildWindow(kJTrue, ConstructTextEditor);
+	BuildWindow(true, ConstructTextEditor);
 	*keep = ReadFromProject(input, vers);
-	CBTextDocumentX2(kJFalse);
+	CBTextDocumentX2(false);
 
 	JXDockWidget* dock;
 	if (*keep && GetWindow()->GetDockWidget(&dock))
@@ -298,9 +298,9 @@ CBTextDocument::CBTextDocumentX1
 {
 	ListenTo(this);
 
-	itsOpenOverComplementFlag = kJFalse;
+	itsOpenOverComplementFlag = false;
 	itsFileFormat             = JStyledText::kUNIXText;
-	itsUpdateFileTypeFlag     = kJFalse;
+	itsUpdateFileTypeFlag     = false;
 
 	itsFileType    = type;
 	itsActionMgr   = nullptr;
@@ -311,7 +311,7 @@ CBTextDocument::CBTextDocumentX1
 
 	for (JUnsignedOffset i=0; i<kSettingCount; i++)
 		{
-		itsOverrideFlag[i] = kJFalse;
+		itsOverrideFlag[i] = false;
 		}
 
 	CBGetDocumentManager()->TextDocumentCreated(this);
@@ -320,7 +320,7 @@ CBTextDocument::CBTextDocumentX1
 void
 CBTextDocument::CBTextDocumentX2
 	(
-	const JBoolean setWindowSize
+	const bool setWindowSize
 	)
 {
 	itsTextEditor->SetPTPrinter(CBGetPTTextPrinter());
@@ -328,8 +328,8 @@ CBTextDocument::CBTextDocumentX2
 
 	// must do this after reading file
 
-	itsUpdateFileTypeFlag = kJTrue;
-	UpdateFileType(kJTrue);
+	itsUpdateFileTypeFlag = true;
+	UpdateFileType(true);
 
 	// must do this after reading prefs and calculating file type
 
@@ -360,7 +360,7 @@ CBTextDocument::ConstructTextEditor
 	)
 {
 	CBTextEditor* te =
-		jnew CBTextEditor(document, fileName, menuBar, lineInput, colInput, kJFalse,
+		jnew CBTextEditor(document, fileName, menuBar, lineInput, colInput, false,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( te != nullptr );
@@ -431,7 +431,7 @@ CBTextDocument::ConvertSelectionToFullPath
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTextDocument::GetMenuIcon
 	(
 	const JXImage** icon
@@ -439,9 +439,9 @@ CBTextDocument::GetMenuIcon
 	const
 {
 	CBExecOutputDocument* doc;
-	*icon = CBGetTextFileIcon(JI2B(CBGetDocumentManager()->GetActiveListDocument(&doc) &&
-								   doc == const_cast<CBTextDocument*>(this)));
-	return kJTrue;
+	*icon = CBGetTextFileIcon(CBGetDocumentManager()->GetActiveListDocument(&doc) &&
+								   doc == const_cast<CBTextDocument*>(this));
+	return true;
 }
 
 /******************************************************************************
@@ -476,7 +476,7 @@ CBTextDocument::GetMenuIcon
 void
 CBTextDocument::BuildWindow
 	(
-	const JBoolean		setWMClass,
+	const bool		setWMClass,
 	CBTextEditorCtorFn*	teCtorFn
 	)
 {
@@ -555,7 +555,7 @@ CBTextDocument::BuildWindow
 		{
 		window->SetWMClass(CBGetWMClassInstance(), CBGetEditorWindowClass());
 		}
-	window->ShouldFocusWhenShow(kJTrue);	// necessary for click-to-focus
+	window->ShouldFocusWhenShow(true);	// necessary for click-to-focus
 
 	JPoint p = itsSettingsMenu->GetTitlePadding();
 	p.y      = 0;
@@ -567,7 +567,7 @@ CBTextDocument::BuildWindow
 	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = GetFullName(&onDisk);
 	DisplayFileName(fullName);
 
@@ -676,7 +676,7 @@ CBTextDocument::BuildWindow
 	if (itsToolBar->IsEmpty())
 		{
 		JXTextMenu* editMenu;
-		JBoolean ok = itsTextEditor->GetEditMenu(&editMenu);
+		bool ok = itsTextEditor->GetEditMenu(&editMenu);
 		assert( ok );
 
 		JIndex undo, redo, cut, copy, paste, left, right;
@@ -730,7 +730,7 @@ CBTextDocument::InsertTextMenu
 	)
 {
 	JIndex i;
-	const JBoolean found = itsMenuBar->FindMenu(itsWindowMenu, &i);
+	const bool found = itsMenuBar->FindMenu(itsWindowMenu, &i);
 	assert( found );
 	return itsMenuBar->InsertTextMenu(i, title);
 }
@@ -762,7 +762,7 @@ CBTextDocument::GetFileDisplayInfo
 void
 CBTextDocument::SetFileDisplayVisible
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	itsFileDragSource->SetVisible(show);
@@ -783,7 +783,7 @@ CBTextDocument::DisplayFileName
 	)
 {
 	itsFileDisplay->GetText()->SetText(ExistsOnDisk() ? name : JString::empty);
-	itsFileDisplay->DiskCopyIsModified(kJFalse);
+	itsFileDisplay->DiskCopyIsModified(false);
 }
 
 /******************************************************************************
@@ -796,21 +796,21 @@ CBTextDocument::DisplayFileName
 void
 CBTextDocument::HandleFileModifiedByOthers
 	(
-	const JBoolean modTimeChanged,
-	const JBoolean permsChanged
+	const bool modTimeChanged,
+	const bool permsChanged
 	)
 {
 	JXFileDocument::HandleFileModifiedByOthers(modTimeChanged, permsChanged);
 
 	if (modTimeChanged)
 		{
-		itsFileDisplay->DiskCopyIsModified(kJTrue);
+		itsFileDisplay->DiskCopyIsModified(true);
 		}
 
 	// if file becomes writable, update "Read only" setting
 	// (Never automatically go the other way, because that is annoying!)
 
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = GetFullName(&onDisk);
 	if (onDisk && JFileWritable(fullName))
 		{
@@ -826,7 +826,7 @@ CBTextDocument::HandleFileModifiedByOthers
 void
 CBTextDocument::RefreshVCSStatus()
 {
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = GetFullName(&onDisk);
 	if (onDisk)
 		{
@@ -943,7 +943,7 @@ CBTextDocument::Receive
 		{
 		if (itsTextEditor->GetText()->IsAtLastSaveLocation())
 			{
-			DataReverted(kJTrue);
+			DataReverted(true);
 			}
 		else
 			{
@@ -997,35 +997,35 @@ CBTextDocument::UpdateFileMenu()
 	itsFileMenu->SetItemEnable(kSaveAllFilesCmd,
 							   CBGetDocumentManager()->TextDocumentsNeedSave());
 
-	JBoolean enable, onDisk;
+	bool enable, onDisk;
 	const JString fullName = GetFullName(&onDisk);
 	itsFileMenu->SetItemText(kDiffSmartCmd,
 		(CBGetDiffFileDialog())->GetSmartDiffItemText(onDisk, fullName, &enable));
 	itsFileMenu->SetItemEnable(kDiffSmartCmd, enable);
 
-	enable = kJFalse;
+	enable = false;
 	const JString* s;
 	if (onDisk)
 		{
 		const JVCSType type = JGetVCSType(GetFilePath());
 		if (type == kJCVSType)
 			{
-			enable = kJTrue;
+			enable = true;
 			s = & JGetString("DiffCVSMenuText::CBTextDocument");
 			}
 		else if (type == kJSVNType)
 			{
-			enable = kJTrue;
+			enable = true;
 			s = & JGetString("DiffSVNMenuText::CBTextDocument");
 			}
 		else if (type == kJGitType)
 			{
-			enable = kJTrue;
+			enable = true;
 			s = & JGetString("DiffGitMenuText::CBTextDocument");
 			}
 		else
 			{
-			enable = kJTrue;
+			enable = true;
 			s = & JGetString("DiffVCSMenuText::CBTextDocument");
 			}
 		}
@@ -1036,12 +1036,12 @@ CBTextDocument::UpdateFileMenu()
 	itsFileMenu->SetItemText(kDiffVCSCmd, *s);
 	itsFileMenu->SetItemEnable(kDiffVCSCmd, enable);
 
-	const JBoolean hasText = !itsTextEditor->GetText()->IsEmpty();
+	const bool hasText = !itsTextEditor->GetText()->IsEmpty();
 	itsFileMenu->SetItemEnable(kPrintPTCmd, hasText);
 
-	const JBoolean isStyled = JI2B(itsTextEditor->GetText()->GetStyles().GetRunCount() > 1);
+	const bool isStyled = itsTextEditor->GetText()->GetStyles().GetRunCount() > 1;
 	itsFileMenu->SetItemEnable(kPSPageSetupCmd, isStyled);
-	itsFileMenu->SetItemEnable(kPrintPSCmd, JI2B(hasText && isStyled));
+	itsFileMenu->SetItemEnable(kPrintPSCmd, hasText && isStyled);
 }
 
 /******************************************************************************
@@ -1084,7 +1084,7 @@ CBTextDocument::HandleFileMenu
 		}
 	else if (index == kSaveFileAsCmd)
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		const JString fullName = GetFullName(&onDisk);
 		CBGetDocumentManager()->
 			AddToFileHistoryMenu(CBDocumentManager::kTextFileHistory, fullName);
@@ -1103,7 +1103,7 @@ CBTextDocument::HandleFileMenu
 	else if (index == kSaveAsTemplateCmd)
 		{
 		JString origName;
-		if (CBGetDocumentManager()->GetTextTemplateDirectory(kJTrue, &origName))
+		if (CBGetDocumentManager()->GetTextTemplateDirectory(true, &origName))
 			{
 			origName = JCombinePathAndName(origName, GetFileName());
 			SaveCopyInNewFile(origName);
@@ -1115,7 +1115,7 @@ CBTextDocument::HandleFileMenu
 		}
 	else if (index == kSaveAllFilesCmd)
 		{
-		CBGetDocumentManager()->SaveTextDocuments(kJTrue);
+		CBGetDocumentManager()->SaveTextDocuments(true);
 		}
 
 	else if (index == kDiffFilesCmd)
@@ -1124,7 +1124,7 @@ CBTextDocument::HandleFileMenu
 		}
 	else if (index == kDiffSmartCmd)
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		const JString fullName = GetFullName(&onDisk);
 		if (onDisk)
 			{
@@ -1134,7 +1134,7 @@ CBTextDocument::HandleFileMenu
 		}
 	else if (index == kDiffVCSCmd)
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		const JString fullName = GetFullName(&onDisk);
 		if (onDisk)
 			{
@@ -1145,7 +1145,7 @@ CBTextDocument::HandleFileMenu
 
 	else if (index == kShowInFileMgrCmd)
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		const JString fullName = GetFullName(&onDisk);
 		if (onDisk)
 			{
@@ -1159,7 +1159,7 @@ CBTextDocument::HandleFileMenu
 		}
 	else if (index == kPrintPTCmd)
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		const JString fullName = GetFullName(&onDisk);
 		CBPTPrinter* p = CBGetPTTextPrinter();
 		p->SetHeaderName(fullName);
@@ -1173,7 +1173,7 @@ CBTextDocument::HandleFileMenu
 		}
 	else if (index == kPrintPSCmd)
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		const JString fullName = GetFullName(&onDisk);
 		(CBGetPSTextPrinter())->SetPrintInfo(itsTextEditor, fullName);
 		itsTextEditor->PrintPS();
@@ -1200,11 +1200,11 @@ CBTextDocument::HandleFileMenu
 	If "Open..." is invoked from an empty, unmodified document that is
 	not on disk, and the user opens a text document, then we close ourselves.
 
-	Returns kJTrue if we closed ourselves.
+	Returns true if we closed ourselves.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTextDocument::OpenSomething()
 {
 	CBDocumentManager* docMgr = CBGetDocumentManager();
@@ -1217,11 +1217,11 @@ CBTextDocument::OpenSomething()
 		!NeedsSave() && !ExistsOnDisk())
 		{
 		Close();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1233,7 +1233,7 @@ CBTextDocument::OpenSomething()
 void
 CBTextDocument::DiscardChanges()
 {
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = GetFullName(&onDisk);
 	if (onDisk)
 		{
@@ -1245,7 +1245,7 @@ CBTextDocument::DiscardChanges()
 		// re-read file
 
 		DataReverted();			// must come first since file may need cleaning
-		ReadFile(fullName, kJFalse);
+		ReadFile(fullName, false);
 		itsTextEditor->UpdateWritable(fullName);
 
 		// restore location of caret and scrollbars
@@ -1265,18 +1265,18 @@ CBTextDocument::DiscardChanges()
 		DataReverted();
 		}
 
-	itsFileDisplay->DiskCopyIsModified(kJFalse);
+	itsFileDisplay->DiskCopyIsModified(false);
 }
 
 /******************************************************************************
  OpenAsBinaryFile (static)
 
-	Returns kJTrue if the file contains illegal characters and the user
+	Returns true if the file contains illegal characters and the user
 	wants to open it as a binary file.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTextDocument::OpenAsBinaryFile
 	(
 	const JString& fileName
@@ -1296,7 +1296,7 @@ CBTextDocument::OpenAsBinaryFile
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1309,7 +1309,7 @@ void
 CBTextDocument::ReadFile
 	(
 	const JString&	fileName,
-	const JBoolean	firstTime
+	const bool	firstTime
 	)
 {
 	if (!itsTextEditor->GetText()->ReadPlainText(fileName, &itsFileFormat))
@@ -1317,19 +1317,19 @@ CBTextDocument::ReadFile
 		// Don't let them overwrite it without thinking about it.
 
 		const JString name = JGetString("BinaryFilePrefix::CBTextDocument") + GetFileName();
-		FileChanged(name, kJFalse);
+		FileChanged(name, false);
 
 		// Display the full path of the original file.
 		// (FileChanged() changes the display.)
 
 		JString fullName;
-		const JBoolean ok = JGetTrueName(fileName, &fullName);
+		const bool ok = JGetTrueName(fileName, &fullName);
 		assert( ok );
 		DisplayFileName(fullName);
 		itsTextEditor->UpdateWritable(fullName);
 		}
 
-	JBoolean setTabWidth, setTabMode, tabInsertsSpaces, setAutoIndent, autoIndent;
+	bool setTabWidth, setTabMode, tabInsertsSpaces, setAutoIndent, autoIndent;
 	JSize tabWidth;
 	CBMParseEditorOptions(fileName, itsTextEditor->GetText()->GetText(), &setTabWidth, &tabWidth,
 						  &setTabMode, &tabInsertsSpaces, &setAutoIndent, &autoIndent);
@@ -1349,7 +1349,7 @@ CBTextDocument::ReadFile
 
 	if (firstTime)
 		{
-		const JBoolean spaces = itsTextEditor->GetText()->TabInsertsSpaces();
+		const bool spaces = itsTextEditor->GetText()->TabInsertsSpaces();
 
 		JSize tabWidth = itsTextEditor->GetTabCharCount();
 		itsTextEditor->AnalyzeWhitespace(&tabWidth);
@@ -1389,7 +1389,7 @@ void
 CBTextDocument::WriteTextFile
 	(
 	std::ostream&	output,
-	const JBoolean	safetySave
+	const bool	safetySave
 	)
 	const
 {
@@ -1404,7 +1404,7 @@ CBTextDocument::WriteTextFile
 
 			const_cast<CBTextDocument*>(this)->UpdateFileType();
 
-			itsFileDisplay->DiskCopyIsModified(kJFalse);
+			itsFileDisplay->DiskCopyIsModified(false);
 
 			const_cast<CBTextDocument*>(this)->Broadcast(Saved());
 			}
@@ -1414,22 +1414,22 @@ CBTextDocument::WriteTextFile
 /******************************************************************************
  ReadFromProject (private)
 
-	Returns kJFalse if it cannot find the file.
+	Returns false if it cannot find the file.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTextDocument::ReadFromProject
 	(
 	std::istream&		input,
 	const JFileVersion	vers
 	)
 {
-	JBoolean onDisk;
+	bool onDisk;
 	input >> JBoolFromString(onDisk);
 	if (!onDisk)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JString fullName, ptPrintName, psPrintName;
@@ -1444,7 +1444,7 @@ CBTextDocument::ReadFromProject
 	JIndex insertionIndex;
 	input >> insertionIndex;
 
-	JBoolean autoIndent, tabInsertsSpaces, showWS, wordWrap, readOnly;
+	bool autoIndent, tabInsertsSpaces, showWS, wordWrap, readOnly;
 	JSize tabCharCount;
 	if (vers >= 68)
 		{
@@ -1459,7 +1459,7 @@ CBTextDocument::ReadFromProject
 		}
 	if (70 <= vers && vers < 84)
 		{
-		JBoolean override;
+		bool override;
 		JString charSet;
 		input >> JBoolFromString(override) >> charSet;
 		}
@@ -1472,8 +1472,8 @@ CBTextDocument::ReadFromProject
 	if (JFileReadable(fullName) &&
 		!(JXGetDocumentManager())->FileDocumentIsOpen(fullName, &existingDoc))
 		{
-		FileChanged(fullName, kJTrue);
-		ReadFile(fullName, kJTrue);
+		FileChanged(fullName, true);
+		ReadFile(fullName, true);
 
 		itsTextEditor->SetPTPrintFileName(ptPrintName);
 		itsTextEditor->SetPSPrintFileName(psPrintName);
@@ -1510,7 +1510,7 @@ CBTextDocument::ReadFromProject
 		else if (vers >= 18)
 			{
 			JXScrollbar *hScrollbar, *vScrollbar;
-			const JBoolean ok = itsTextEditor->GetScrollbars(&hScrollbar, &vScrollbar);
+			const bool ok = itsTextEditor->GetScrollbars(&hScrollbar, &vScrollbar);
 			assert( ok );
 			vScrollbar->ReadSetup(input);
 			}
@@ -1520,7 +1520,7 @@ CBTextDocument::ReadFromProject
 			{
 			itsTextEditor->GoToLine(lineIndex);
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -1533,7 +1533,7 @@ CBTextDocument::ReadFromProject
 			JXScrollbar::SkipSetup(input);
 			}
 
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1549,7 +1549,7 @@ CBTextDocument::WriteForProject
 	)
 	const
 {
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = GetFullName(&onDisk);
 	output << JBoolToString(onDisk);
 
@@ -1601,7 +1601,7 @@ CBTextDocument::ReadStaticGlobalPrefs
 {
 	if (vers < 25)
 		{
-		JBoolean copyWhenSelect;
+		bool copyWhenSelect;
 		input >> JBoolFromString(copyWhenSelect);
 
 		if (JXGetSharedPrefsManager()->WasNew())
@@ -1612,7 +1612,7 @@ CBTextDocument::ReadStaticGlobalPrefs
 
 	if (21 <= vers && vers < 25)
 		{
-		JBoolean windowsHomeEnd, scrollCaret;
+		bool windowsHomeEnd, scrollCaret;
 		input >> JBoolFromString(windowsHomeEnd) >> JBoolFromString(scrollCaret);
 
 		if (JXGetSharedPrefsManager()->WasNew())
@@ -1624,7 +1624,7 @@ CBTextDocument::ReadStaticGlobalPrefs
 
 	if (vers >= 17)
 		{
-		JBoolean askOKToClose;
+		bool askOKToClose;
 		input >> JBoolFromString(askOKToClose);
 		JXFileDocument::ShouldAskOKToClose(askOKToClose);
 		}
@@ -1707,10 +1707,10 @@ CBTextDocument::HandleFileFormatMenu
 void
 CBTextDocument::UpdateDiffMenu()
 {
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = GetFullName(&onDisk);
 
-	JBoolean enable = kJFalse;
+	bool enable = false;
 	JString s("...");
 	if (onDisk)
 		{
@@ -1720,17 +1720,17 @@ CBTextDocument::UpdateDiffMenu()
 		const JVCSType type = JGetVCSType(GetFilePath());
 		if (type == kJCVSType)
 			{
-			enable = kJTrue;
+			enable = true;
 			s.Prepend(JGetString("DiffCVSMenuText::CBTextDocument"));
 			}
 		else if (type == kJSVNType)
 			{
-			enable = kJTrue;
+			enable = true;
 			s.Prepend(JGetString("DiffSVNMenuText::CBTextDocument"));
 			}
 		else if (type == kJGitType)
 			{
-			enable = kJTrue;
+			enable = true;
 			s.Prepend(JGetString("DiffGitMenuText::CBTextDocument"));
 			}
 		else
@@ -1758,7 +1758,7 @@ CBTextDocument::HandleDiffMenu
 	const JIndex index
 	)
 {
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = GetFullName(&onDisk);
 	if (!onDisk)
 		{
@@ -1979,7 +1979,7 @@ CBTextDocument::OverrideTabWidth
 	const JSize tabWidth
 	)
 {
-	itsOverrideFlag[ kTabWidthIndex ] = kJTrue;
+	itsOverrideFlag[ kTabWidthIndex ] = true;
 	itsTextEditor->SetTabCharCount(tabWidth);
 }
 
@@ -1991,10 +1991,10 @@ CBTextDocument::OverrideTabWidth
 void
 CBTextDocument::OverrideAutoIndent
 	(
-	const JBoolean autoIndent
+	const bool autoIndent
 	)
 {
-	itsOverrideFlag[ kAutoIndentIndex ] = kJTrue;
+	itsOverrideFlag[ kAutoIndentIndex ] = true;
 	itsTextEditor->GetText()->ShouldAutoIndent(autoIndent);
 }
 
@@ -2006,10 +2006,10 @@ CBTextDocument::OverrideAutoIndent
 void
 CBTextDocument::OverrideTabInsertsSpaces
 	(
-	const JBoolean insertSpaces
+	const bool insertSpaces
 	)
 {
-	itsOverrideFlag[ kTabInsertsSpacesIndex ] = kJTrue;
+	itsOverrideFlag[ kTabInsertsSpacesIndex ] = true;
 	itsTextEditor->GetText()->TabShouldInsertSpaces(insertSpaces);
 }
 
@@ -2021,10 +2021,10 @@ CBTextDocument::OverrideTabInsertsSpaces
 void
 CBTextDocument::OverrideShowWhitespace
 	(
-	const JBoolean showWhitespace
+	const bool showWhitespace
 	)
 {
-	itsOverrideFlag[ kShowWhitespaceIndex ] = kJTrue;
+	itsOverrideFlag[ kShowWhitespaceIndex ] = true;
 	itsTextEditor->ShouldShowWhitespace(showWhitespace);
 }
 
@@ -2036,10 +2036,10 @@ CBTextDocument::OverrideShowWhitespace
 void
 CBTextDocument::OverrideBreakCROnly
 	(
-	const JBoolean breakCROnly
+	const bool breakCROnly
 	)
 {
-	itsOverrideFlag[ kWordWrapIndex ] = kJTrue;
+	itsOverrideFlag[ kWordWrapIndex ] = true;
 	itsTextEditor->SetBreakCROnly(breakCROnly);
 }
 
@@ -2051,10 +2051,10 @@ CBTextDocument::OverrideBreakCROnly
 void
 CBTextDocument::OverrideReadOnly
 	(
-	const JBoolean readOnly
+	const bool readOnly
 	)
 {
-	itsOverrideFlag[ kReadOnlyIndex ] = kJTrue;
+	itsOverrideFlag[ kReadOnlyIndex ] = true;
 	itsTextEditor->SetWritable(!readOnly);
 }
 
@@ -2096,7 +2096,7 @@ CBTextDocument::SelectLines
 void
 CBTextDocument::UpdateFileType
 	(
-	const JBoolean init
+	const bool init
 	)
 {
 	if (!itsUpdateFileTypeFlag)
@@ -2110,7 +2110,7 @@ CBTextDocument::UpdateFileType
 	CBGetStyler(itsFileType, &origStyler);
 
 	JString scriptPath;
-	JBoolean wordWrap;
+	bool wordWrap;
 	itsFileType =
 		CBGetPrefsManager()->GetFileType(*this, &itsActionMgr, &itsMacroMgr,
 										 &itsCRMRuleList, &scriptPath, &wordWrap);
@@ -2119,7 +2119,7 @@ CBTextDocument::UpdateFileType
 		{
 		itsTextEditor->SetBreakCROnly(!wordWrap);
 		}
-	itsTextEditor->GetText()->SetCRMRuleList(itsCRMRuleList, kJFalse);
+	itsTextEditor->GetText()->SetCRMRuleList(itsCRMRuleList, false);
 	itsTextEditor->SetScriptPath(scriptPath);
 
 	CBStylerBase* newStyler;
@@ -2187,14 +2187,14 @@ CBTextDocument::StylerChanged
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTextDocument::GetStyler
 	(
 	CBStylerBase** styler
 	)
 	const
 {
-	return JI2B( CBGetStyler(itsFileType, styler) && (**styler).IsActive() );
+	return CBGetStyler(itsFileType, styler) && (**styler).IsActive();
 }
 
 /******************************************************************************
@@ -2221,7 +2221,7 @@ CBTextDocument::HandleActionButton()
 {
 	if (itsActionButton->IsVisible())
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		const JString fullName = GetFullName(&onDisk);
 
 		if ((itsFileType == kCBHTMLFT || itsFileType == kCBXMLFT) && Save())
@@ -2242,7 +2242,7 @@ CBTextDocument::HandleActionButton()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTextDocument::GetWindowSize
 	(
 	JPoint*			desktopLoc,
@@ -2261,7 +2261,7 @@ CBTextDocument::GetWindowSize
 		return prefsMgr->GetWindowSize(kCBSearchOutputWindSizeID, desktopLoc, width, height);
 		}
 
-	JBoolean onDisk;
+	bool onDisk;
 	const JString thisFile = GetFullName(&onDisk);
 
 	CBDocumentManager* docMgr = CBGetDocumentManager();
@@ -2274,7 +2274,7 @@ CBTextDocument::GetWindowSize
 		*desktopLoc      = window->GetDesktopLocation();
 		*width           = window->GetFrameWidth();
 		*height          = window->GetFrameHeight();
-		return kJTrue;
+		return true;
 		}
 
 	else if (CBUseCSourceWindowSize(itsFileType))
@@ -2358,19 +2358,19 @@ CBTextDocument::ReadPrefs
 
 	if (vers == 0)
 		{
-		JBoolean openOverComplement;
+		bool openOverComplement;
 		input >> JBoolFromString(openOverComplement);
 		ShouldOpenComplFileOnTop(openOverComplement);
 		}
 	else if (vers == 1)
 		{
-		JBoolean breakCodeCROnly, openOverComplement;
+		bool breakCodeCROnly, openOverComplement;
 		input >> JBoolFromString(breakCodeCROnly) >> JBoolFromString(openOverComplement);
 		ShouldOpenComplFileOnTop(openOverComplement);
 		}
 	else if (vers <= kCurrentSetupVersion)
 		{
-		JBoolean openOverComplement;
+		bool openOverComplement;
 		input >> JBoolFromString(openOverComplement);
 		ShouldOpenComplFileOnTop(openOverComplement);
 		}

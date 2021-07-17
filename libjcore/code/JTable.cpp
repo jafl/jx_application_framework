@@ -32,7 +32,7 @@
 
 		TableScrollToCell
 			Scroll the table to display the specified cell rectangle.
-			Return kJFalse if no scrolling was necessary.
+			Return false if no scrolling was necessary.
 
 		TableGetApertureWidth
 			Return the width of the visible portion of the table.
@@ -57,25 +57,25 @@
 	overriding:
 
 		IsSelectable
-			Returns kJTrue if the specified cell is selectable.
+			Returns true if the specified cell is selectable.
 
 	To use our editing mechanism, a derived class must override the
 	following routines:
 
 		IsEditable
-			Return kJTrue if the specified cell can be edited.
+			Return true if the specified cell can be edited.
 
 		CreateInputField
 			Create or activate an input field to edit the specified cell.
-			Returns kJTrue if successful.
+			Returns true if successful.
 
 		ExtractInputData
 			Check the data in the active input field, and save it if
-			it is valid.  Return kJTrue if it is valid.
+			it is valid.  Return true if it is valid.
 
 		DeleteInputField
 			Delete or deactivate the active input field.  Called when
-			editing is cancelled or when ExtractInputData returns kJTrue.
+			editing is cancelled or when ExtractInputData returns true.
 
 		PlaceInputField
 		MoveInputField
@@ -139,7 +139,7 @@ JTable::JTable
 	itsSelectionColor(selectionColor)
 {
 	itsDrawOrder    = kDrawByCol;
-	itsIs1DListFlag = kJFalse;
+	itsIs1DListFlag = false;
 
 	itsWidth = itsHeight = 0;
 
@@ -157,11 +157,11 @@ JTable::JTable
 	itsAuxDataList = jnew JPtrArray<JBroadcaster>(JPtrArrayT::kForgetAll);
 	assert( itsAuxDataList != nullptr );
 
-	itsIsEditingFlag = kJFalse;
+	itsIsEditingFlag = false;
 
 	itsSelDragType             = kInvalidDrag;
-	itsAllowSelectMultipleFlag = kJFalse;
-	itsAllowSelectDiscontFlag  = kJFalse;
+	itsAllowSelectMultipleFlag = false;
+	itsAllowSelectDiscontFlag  = false;
 
 	itsRowHdrTable = nullptr;
 	itsColHdrTable = nullptr;
@@ -348,7 +348,7 @@ JTable::TableDraw
 	(
 	JPainter&		p,
 	const JRect&	r,
-	const JBoolean	drawLowerRightBorder
+	const bool	drawLowerRightBorder
 	)
 {
 	// determine which cells to draw
@@ -388,7 +388,7 @@ JTable::TableDraw
 				if (j < lastCol)
 					{
 					JCoordinate colWidth;
-					const JBoolean ok = iter.Next(&colWidth);
+					const bool ok = iter.Next(&colWidth);
 					assert( ok );
 					cellRect.left  = cellRect.right + itsColBorderInfo.width;
 					cellRect.right = cellRect.left  + colWidth;
@@ -417,7 +417,7 @@ JTable::TableDraw
 				if (i < lastRow)
 					{
 					JCoordinate rowHeight;
-					const JBoolean ok = iter.Next(&rowHeight);
+					const bool ok = iter.Next(&rowHeight);
 					assert( ok );
 					cellRect.top    = cellRect.bottom + itsRowBorderInfo.width;
 					cellRect.bottom = cellRect.top    + rowHeight;
@@ -446,7 +446,7 @@ JTable::TableDrawRowBorders
 	const JRect&	r,
 	const JIndex	firstRow,
 	const JIndex	lastRow,
-	const JBoolean	drawBottomBorder
+	const bool	drawBottomBorder
 	)
 {
 	if (itsRowBorderInfo.width <= 0)
@@ -473,7 +473,7 @@ JTable::TableDrawRowBorders
 		 i++)
 		{
 		JCoordinate rowHeight;
-		const JBoolean ok = iter.Next(&rowHeight);
+		const bool ok = iter.Next(&rowHeight);
 		assert( ok );
 
 		y += rowHeight + itsRowBorderInfo.width;
@@ -492,7 +492,7 @@ JTable::TableDrawColBorders
 	const JRect&	r,
 	const JIndex	firstCol,
 	const JIndex	lastCol,
-	const JBoolean	drawRightBorder
+	const bool	drawRightBorder
 	)
 {
 	if (itsColBorderInfo.width <= 0)
@@ -519,7 +519,7 @@ JTable::TableDrawColBorders
 		 i++)
 		{
 		JCoordinate colWidth;
-		const JBoolean ok = iter.Next(&colWidth);
+		const bool ok = iter.Next(&colWidth);
 		assert( ok );
 
 		x += colWidth + itsColBorderInfo.width;
@@ -536,7 +536,7 @@ JTable::TableDrawColBorders
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::GetVisibleRange
 	(
 	const JCoordinate		min,
@@ -553,14 +553,14 @@ JTable::GetVisibleRange
 
 	if (lengths.IsEmpty() || min == max)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JInteger v;
 	sBorderWidth = borderWidth;
 	lengths.FindPositiveSum(min,       1,           firstIndex, &v, GetCellSize);
 	lengths.FindPositiveSum(max-1 - v, *firstIndex, lastIndex,  &v, GetCellSize);
-	return kJTrue;
+	return true;
 /*
 	JRunArrayIterator<JCoordinate> iter(&lengths);
 
@@ -572,7 +572,7 @@ JTable::GetVisibleRange
 		{
 		(*firstIndex)++;
 		JCoordinate length;
-		const JBoolean ok = iter.Next(&length);
+		const bool ok = iter.Next(&length);
 		assert( ok );
 		totalLength += length + borderWidth;
 		}
@@ -582,12 +582,12 @@ JTable::GetVisibleRange
 		{
 		(*lastIndex)++;
 		JCoordinate length;
-		const JBoolean ok = iter.Next(&length);
+		const bool ok = iter.Next(&length);
 		assert( ok );
 		totalLength += length + borderWidth;
 		}
 
-	return kJTrue;
+	return true;
 */
 }
 
@@ -641,10 +641,10 @@ JTable::HilightIfSelected
 	if (itsTableSelection->IsSelected(cell))
 		{
 		const JColorID origColor = p.GetPenColor();
-		const JBoolean origFill     = p.IsFilling();
+		const bool origFill     = p.IsFilling();
 
 		p.SetPenColor(itsSelectionColor);
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Rect(rect);
 
 		p.SetPenColor(origColor);
@@ -662,47 +662,46 @@ JTable::HilightIfSelected
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::Paginate
 	(
 	const JCoordinate		origPageWidth,
 	const JCoordinate		origPageHeight,
-	const JBoolean			userPrintRowHeader,
+	const bool			userPrintRowHeader,
 	JArray<JCoordinate>*	rowBreakpts,
-	JBoolean*				printRowHeader,
-	const JBoolean			userPrintColHeader,
+	bool*				printRowHeader,
+	const bool			userPrintColHeader,
 	JArray<JCoordinate>*	colBreakpts,
-	JBoolean*				printColHeader
+	bool*				printColHeader
 	)
 	const
 {
 	JCoordinate pageWidth  = origPageWidth;
 	JCoordinate pageHeight = origPageHeight;
 
-	*printRowHeader = kJFalse;
+	*printRowHeader = false;
 	if (userPrintRowHeader &&
 		itsRowHdrTable != nullptr && itsRowHdrTable->itsWidth < pageWidth)
 		{
 		pageWidth      -= itsRowHdrTable->itsWidth;
-		*printRowHeader = kJTrue;
+		*printRowHeader = true;
 		}
 
-	*printColHeader = kJFalse;
+	*printColHeader = false;
 	if (userPrintColHeader &&
 		itsColHdrTable != nullptr && itsColHdrTable->itsHeight < pageHeight)
 		{
 		pageHeight     -= itsColHdrTable->itsHeight;
-		*printColHeader = kJTrue;
+		*printColHeader = true;
 		}
 
-	return JConvertToBoolean(
-		Paginate(pageHeight, *itsRowHeights, itsRowBorderInfo.width, rowBreakpts) &&
-		Paginate(pageWidth,  *itsColWidths,  itsColBorderInfo.width, colBreakpts) );
+	return Paginate(pageHeight, *itsRowHeights, itsRowBorderInfo.width, rowBreakpts) &&
+		Paginate(pageWidth,  *itsColWidths,  itsColBorderInfo.width, colBreakpts);
 }
 
 // private
 
-JBoolean
+bool
 JTable::Paginate
 	(
 	const JCoordinate		stripLength,
@@ -716,7 +715,7 @@ JTable::Paginate
 
 	if (lengths.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	breakpts->RemoveAll();
@@ -744,7 +743,7 @@ JTable::Paginate
 			{
 			i++;
 			JCoordinate length;
-			const JBoolean ok = iter.Next(&length);
+			const bool ok = iter.Next(&length);
 			assert( ok );
 			totalLength += length + borderWidth;
 			}
@@ -756,7 +755,7 @@ JTable::Paginate
 			// so leave it for the next page.
 
 			JCoordinate length;
-			const JBoolean ok = iter.Prev(&length);
+			const bool ok = iter.Prev(&length);
 			assert( ok );
 			pageLen -= length + borderWidth;
 			i--;
@@ -797,7 +796,7 @@ JTable::Paginate
 		breakpts->SetElement(breakpts->GetElementCount(), lastBreakpt - borderWidth+1);
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -811,8 +810,8 @@ void
 JTable::Print
 	(
 	JPagePrinter&	p,
-	const JBoolean	userPrintRowHeader,
-	const JBoolean	userPrintColHeader
+	const bool	userPrintRowHeader,
+	const bool	userPrintColHeader
 	)
 {
 	assert( !itsIsEditingFlag );
@@ -826,8 +825,8 @@ JTable::Print
 	const JCoordinate footerHeight = GetPrintFooterHeight(p);
 
 	JArray<JCoordinate> rowBreakpts, colBreakpts;
-	JBoolean printRowHeader, printColHeader;
-	const JBoolean ok =
+	bool printRowHeader, printColHeader;
+	const bool ok =
 		Paginate(p.GetPageWidth(), p.GetPageHeight()-headerHeight-footerHeight,
 				 userPrintRowHeader, &rowBreakpts, &printRowHeader,
 				 userPrintColHeader, &colBreakpts, &printColHeader);
@@ -836,14 +835,14 @@ JTable::Print
 	const JSize rowCount = rowBreakpts.GetElementCount() - 1;
 	const JSize colCount = colBreakpts.GetElementCount() - 1;
 
-	JBoolean cancelled = kJFalse;
+	bool cancelled = false;
 	for (JIndex j=1; j<=colCount; j++)
 		{
 		for (JIndex i=1; i<=rowCount; i++)
 			{
 			if (!p.NewPage())
 				{
-				cancelled = kJTrue;
+				cancelled = true;
 				break;
 				}
 
@@ -893,7 +892,7 @@ JTable::Print
 				const JPoint hdrTopLeft(0, tableTopLeft.y);
 				const JPoint hdrBotRight(itsRowHdrTable->itsWidth, tableBotRight.y);
 				const JPoint offset(0, hdrOffset.y);
-				itsRowHdrTable->PrintPage(p, hdrTopLeft, hdrBotRight, offset, kJFalse);
+				itsRowHdrTable->PrintPage(p, hdrTopLeft, hdrBotRight, offset, false);
 				}
 
 			if (printColHeader)
@@ -901,13 +900,13 @@ JTable::Print
 				const JPoint hdrTopLeft(tableTopLeft.x, 0);
 				const JPoint hdrBotRight(tableBotRight.x, itsColHdrTable->itsHeight);
 				const JPoint offset(hdrOffset.x, 0);
-				itsColHdrTable->PrintPage(p, hdrTopLeft, hdrBotRight, offset, kJFalse);
+				itsColHdrTable->PrintPage(p, hdrTopLeft, hdrBotRight, offset, false);
 				}
 
 			// draw the visible part of the table last so it overwrites slop
 			// from row and column headers
 
-			PrintPage(p, tableTopLeft, tableBotRight, hdrOffset, kJTrue);
+			PrintPage(p, tableTopLeft, tableBotRight, hdrOffset, true);
 			}
 
 		if (cancelled)
@@ -934,7 +933,7 @@ JTable::PrintPage
 	const JPoint&	topLeft,
 	const JPoint&	botRight,
 	const JPoint&	offset,
-	const JBoolean	drawFrame
+	const bool	drawFrame
 	)
 {
 	// draw the visible part of the table
@@ -1015,8 +1014,8 @@ void
 JTable::Print
 	(
 	JEPSPrinter&	p,
-	const JBoolean	userPrintRowHeader,
-	const JBoolean	userPrintColHeader
+	const bool	userPrintRowHeader,
+	const bool	userPrintColHeader
 	)
 {
 	assert( !itsIsEditingFlag );
@@ -1025,18 +1024,18 @@ JTable::Print
 
 	JRect r(0, 0, itsHeight, itsWidth);
 
-	JBoolean printRowHeader = kJFalse;
+	bool printRowHeader = false;
 	if (userPrintRowHeader && itsRowHdrTable != nullptr)
 		{
 		r.right       += itsRowHdrTable->itsWidth;
-		printRowHeader = kJTrue;
+		printRowHeader = true;
 		}
 
-	JBoolean printColHeader = kJFalse;
+	bool printColHeader = false;
 	if (userPrintColHeader && itsColHdrTable != nullptr)
 		{
 		r.bottom      += itsColHdrTable->itsHeight;
-		printColHeader = kJTrue;
+		printColHeader = true;
 		}
 
 	// preview
@@ -1066,8 +1065,8 @@ JTable::PrintEPS1
 	(
 	JPainter&		p,
 	const JPoint&	topLeft,
-	const JBoolean	printRowHeader,
-	const JBoolean	printColHeader
+	const bool	printRowHeader,
+	const bool	printColHeader
 	)
 {
 	// calculate shift from row and column headers
@@ -1089,7 +1088,7 @@ JTable::PrintEPS1
 		const JPoint hdrTopLeft(0,0);
 		const JPoint hdrBotRight(itsRowHdrTable->itsWidth, itsHeight);
 		const JPoint offset(topLeft.x, hdrOffset.y);
-		itsRowHdrTable->PrintPage(p, hdrTopLeft, hdrBotRight, offset, kJFalse);
+		itsRowHdrTable->PrintPage(p, hdrTopLeft, hdrBotRight, offset, false);
 		}
 
 	if (printColHeader)
@@ -1097,14 +1096,14 @@ JTable::PrintEPS1
 		const JPoint hdrTopLeft(0,0);
 		const JPoint hdrBotRight(itsWidth, itsColHdrTable->itsHeight);
 		const JPoint offset(hdrOffset.x, topLeft.y);
-		itsColHdrTable->PrintPage(p, hdrTopLeft, hdrBotRight, offset, kJFalse);
+		itsColHdrTable->PrintPage(p, hdrTopLeft, hdrBotRight, offset, false);
 		}
 
 	// draw the table last so it overwrites slop from row and column headers
 
 	const JPoint tableTopLeft(0,0);
 	const JPoint tableBotRight(itsWidth, itsHeight);
-	PrintPage(p, tableTopLeft, tableBotRight, hdrOffset, kJTrue);
+	PrintPage(p, tableTopLeft, tableBotRight, hdrOffset, true);
 }
 
 /******************************************************************************
@@ -1121,16 +1120,16 @@ JTable::DrawForPrint
 	(
 	JPainter&		p,
 	const JPoint&	topLeft,
-	const JBoolean	userPrintRowHeader,
-	const JBoolean	userPrintColHeader
+	const bool	userPrintRowHeader,
+	const bool	userPrintColHeader
 	)
 {
 	assert( !itsIsEditingFlag );
 
-	const JBoolean printRowHeader =
-		JI2B(userPrintRowHeader && itsRowHdrTable != nullptr);
-	const JBoolean printColHeader =
-		JI2B(userPrintColHeader && itsColHdrTable != nullptr);
+	const bool printRowHeader =
+		userPrintRowHeader && itsRowHdrTable != nullptr;
+	const bool printColHeader =
+		userPrintColHeader && itsColHdrTable != nullptr;
 
 	PrintEPS1(p, topLeft, printRowHeader, printColHeader);
 }
@@ -1255,7 +1254,7 @@ JTable::SetRowHeight
 	JRunArrayIterator<JCoordinate> iter(itsRowHeights, kJIteratorStartBefore, index);
 
 	JCoordinate oldHeight;
-	iter.Next(&oldHeight, kJFalse);
+	iter.Next(&oldHeight, kJIteratorStay);
 
 	if (rowHeight != oldHeight)
 		{
@@ -1562,7 +1561,7 @@ JTable::SetColWidth
 	JRunArrayIterator<JCoordinate> iter(itsColWidths, kJIteratorStartBefore, index);
 
 	JCoordinate oldWidth;
-	iter.Next(&oldWidth, kJFalse);
+	iter.Next(&oldWidth, kJIteratorStay);
 
 	if (colWidth != oldWidth)
 		{
@@ -1854,11 +1853,11 @@ JTable::SetColBorderInfo
 /******************************************************************************
  GetCell
 
-	Returns kJTrue if the specified pt is inside the table's boundaries.
+	Returns true if the specified pt is inside the table's boundaries.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::GetCell
 	(
 	const JPoint&	pt,
@@ -1869,7 +1868,7 @@ JTable::GetCell
 	if (pt.x < 0 || pt.x >= itsWidth ||
 		pt.y < 0 || pt.y >= itsHeight)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JIndex row,col;
@@ -1877,22 +1876,22 @@ JTable::GetCell
 		GetCellIndex(pt.y, *itsRowHeights, itsRowBorderInfo.width, &row))
 		{
 		*cell = JPoint(col,row);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  GetCellIndex (private)
 
-	Returns kJTrue if the specified pt is inside the table's boundaries.
+	Returns true if the specified pt is inside the table's boundaries.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::GetCellIndex
 	(
 	const JCoordinate		coord,
@@ -1904,7 +1903,7 @@ JTable::GetCellIndex
 {
 	if (coord < 0)
 		{
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -1969,11 +1968,11 @@ JTable::GetCellBoundaries
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::TableScrollToCell
 	(
 	const JPoint&	cell,
-	const JBoolean	centerInDisplay
+	const bool	centerInDisplay
 	)
 {
 	JRect r = GetCellRect(cell);
@@ -2008,7 +2007,7 @@ JTable::GetMin1DVisibleWidth
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::GetEditedCell
 	(
 	JPoint* editCell
@@ -2018,11 +2017,11 @@ JTable::GetEditedCell
 	if (itsIsEditingFlag)
 		{
 		*editCell = itsEditCell;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2034,14 +2033,14 @@ JTable::GetEditedCell
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::IsEditable
 	(
 	const JPoint& cell
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -2061,11 +2060,11 @@ JTable::IsEditable
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::BeginEditing
 	(
 	const JPoint&	cell,
-	const JBoolean	scrollToCell
+	const bool	scrollToCell
 	)
 {
 	if (itsIsEditingFlag && cell == itsEditCell)
@@ -2074,27 +2073,27 @@ JTable::BeginEditing
 			{
 			TableScrollToCell(cell);
 			}
-		return kJTrue;
+		return true;
 		}
 	else if (!IsEditable(cell) || !EndEditing())
 		{
 		// We check IsEditable() first so clicking on a static cell
 		// doesn't turn off editing.
 
-		return kJFalse;
+		return false;
 		}
 	else if (!CreateInputField(cell, GetCellRect(cell)))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (scrollToCell)
 		{
 		TableScrollToCell(cell);
 		}
-	itsIsEditingFlag = kJTrue;
+	itsIsEditingFlag = true;
 	itsEditCell      = cell;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -2105,23 +2104,23 @@ JTable::BeginEditing
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::ShiftEditing
 	(
 	const JCoordinate	dx,
 	const JCoordinate	dy,
-	const JBoolean		scrollToCell
+	const bool		scrollToCell
 	)
 {
 	if (!itsIsEditingFlag)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JPoint newCell = itsEditCell;
 
-	JBoolean search = JI2B( (dx == 0 && (dy == 1 || dy == -1)) ||
-							(dy == 0 && (dx == 1 || dx == -1)));
+	bool search = (dx == 0 && (dy == 1 || dy == -1)) ||
+							(dy == 0 && (dx == 1 || dx == -1));
 
 	const JSize rowCount = GetRowCount();
 	const JSize colCount = GetColCount();
@@ -2132,23 +2131,23 @@ JTable::ShiftEditing
 		if (newCell.x < 1)
 			{
 			newCell.x = 1;
-			search    = kJFalse;
+			search    = false;
 			}
 		else if (((JIndex) newCell.x) > colCount)
 			{
 			newCell.x = colCount;
-			search    = kJFalse;
+			search    = false;
 			}
 
 		if (newCell.y < 1)
 			{
 			newCell.y = 1;
-			search    = kJFalse;
+			search    = false;
 			}
 		else if (((JIndex) newCell.y) > rowCount)
 			{
 			newCell.y = rowCount;
-			search    = kJFalse;
+			search    = false;
 			}
 		}
 		while (search && !IsEditable(newCell));
@@ -2166,19 +2165,19 @@ JTable::ShiftEditing
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::EndEditing()
 {
 	const JPoint cell = itsEditCell;	// make local copy before calling ExtractInputData()
 	if (!itsIsEditingFlag)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (ExtractInputData(cell))
 		{
-		itsIsEditingFlag = kJFalse;
+		itsIsEditingFlag = false;
 		DeleteInputField();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -2186,7 +2185,7 @@ JTable::EndEditing()
 			{
 			TableScrollToCell(cell);
 			}
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2202,7 +2201,7 @@ JTable::CancelEditing()
 {
 	if (itsIsEditingFlag)
 		{
-		itsIsEditingFlag = kJFalse;
+		itsIsEditingFlag = false;
 		DeleteInputField();
 		}
 }
@@ -2220,7 +2219,7 @@ JTable::CancelEditing()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::CreateInputField
 	(
 	const JPoint&	cell,
@@ -2228,7 +2227,7 @@ JTable::CreateInputField
 	)
 {
 	assert_msg( 0, "The programmer forgot to override JTable::CreateInputField()" );
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -2237,18 +2236,18 @@ JTable::CreateInputField
 	Derived class must override to extract the information from its active
 	input field, check it, and delete the input field if successful.
 
-	Should return kJTrue if the data is valid and the process succeeded.
+	Should return true if the data is valid and the process succeeded.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::ExtractInputData
 	(
 	const JPoint& cell
 	)
 {
 	assert_msg( 0, "The programmer forgot to override JTable::ExtractInputData()" );
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -2325,8 +2324,8 @@ void
 JTable::BeginSelectionDrag
 	(
 	const JPoint&	cell,
-	const JBoolean	extendSelection,
-	const JBoolean	selectDiscont
+	const bool	extendSelection,
+	const bool	selectDiscont
 	)
 {
 	itsSelDragType = kInvalidDrag;
@@ -2347,7 +2346,7 @@ JTable::BeginSelectionDrag
 			itsSelDragType = kDeselectCellDrag;
 			itsTableSelection->ClearBoat();
 			itsTableSelection->ClearAnchor();
-			itsTableSelection->SelectCell(cell, kJFalse);
+			itsTableSelection->SelectCell(cell, false);
 			}
 		}
 	else if (selectDiscont)
@@ -2357,14 +2356,14 @@ JTable::BeginSelectionDrag
 			itsSelDragType = kSelectCellDrag;
 			itsTableSelection->SetBoat(cell);
 			itsTableSelection->SetAnchor(cell);
-			itsTableSelection->SelectCell(cell, kJTrue);
+			itsTableSelection->SelectCell(cell, true);
 			}
 		}
 	else
 		{
 		itsSelDragType =
 			itsAllowSelectMultipleFlag ? kSelectRangeDrag : kSelectSingleDrag;
-		SelectSingleCell(cell, kJFalse);
+		SelectSingleCell(cell, false);
 		}
 
 	itsPrevSelDragCell = cell;
@@ -2391,17 +2390,17 @@ JTable::ContinueSelectionDrag
 
 	if (itsSelDragType == kSelectSingleDrag)
 		{
-		SelectSingleCell(cell, kJFalse);
+		SelectSingleCell(cell, false);
 		}
 	else if (itsSelDragType == kSelectCellDrag)
 		{
 		itsTableSelection->SetBoat(cell);
 		itsTableSelection->SetAnchor(cell);
-		itsTableSelection->SelectCell(cell, kJTrue);
+		itsTableSelection->SelectCell(cell, true);
 		}
 	else if (itsSelDragType == kDeselectCellDrag)
 		{
-		itsTableSelection->SelectCell(cell, kJFalse);
+		itsTableSelection->SelectCell(cell, false);
 		}
 	else if (itsSelDragType == kSelectRangeDrag)
 		{
@@ -2425,15 +2424,15 @@ JTable::FinishSelectionDrag()
 /******************************************************************************
  HandleSelectionKeyPress (protected)
 
-	Returns kJTrue if we handled the key.
+	Returns true if we handled the key.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::HandleSelectionKeyPress
 	(
 	const JUtf8Character&	key,
-	const JBoolean			extendSelection
+	const bool			extendSelection
 	)
 {
 	JPoint delta;
@@ -2455,11 +2454,11 @@ JTable::HandleSelectionKeyPress
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JPoint topSelCell;
-	const JBoolean hadSelection =
+	const bool hadSelection =
 		itsTableSelection->GetFirstSelectedCell(&topSelCell);
 
 	JPoint cell = topSelCell;
@@ -2468,7 +2467,7 @@ JTable::HandleSelectionKeyPress
 		if (itsTableSelection->OKToExtendSelection())
 			{
 			cell = itsTableSelection->GetBoat();
-			if (GetNextSelectableCell(&cell, delta, kJTrue))
+			if (GetNextSelectableCell(&cell, delta, true))
 				{
 				itsTableSelection->ExtendSelection(cell);
 				TableScrollToCell(cell);
@@ -2479,7 +2478,7 @@ JTable::HandleSelectionKeyPress
 				}
 			}
 		}
-	else if (hadSelection && GetNextSelectableCell(&cell, delta, kJFalse))
+	else if (hadSelection && GetNextSelectableCell(&cell, delta, false))
 		{
 		SelectSingleCell(cell);
 		}
@@ -2492,28 +2491,28 @@ JTable::HandleSelectionKeyPress
 		SelectSingleCell(JPoint(1,1));
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  GetNextSelectableCell
 
-	Returns kJFalse if it can't find a selectable cell in the direction delta.
+	Returns false if it can't find a selectable cell in the direction delta.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::GetNextSelectableCell
 	(
 	JPoint*			cell,
 	const JPoint&	delta,
-	const JBoolean	forExtend
+	const bool	forExtend
 	)
 	const
 {
 	if (!CellValid(*cell))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	*cell += delta;
@@ -2528,20 +2527,20 @@ JTable::GetNextSelectableCell
 /******************************************************************************
  IsSelectable (virtual)
 
-	The default is for all cells to be selectable.  forExtend is kJTrue if
+	The default is for all cells to be selectable.  forExtend is true if
 	the cell will be selected as part of an "extend selection" operation.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTable::IsSelectable
 	(
 	const JPoint&	cell,
-	const JBoolean	forExtend
+	const bool	forExtend
 	)
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -2556,7 +2555,7 @@ void
 JTable::SelectSingleCell
 	(
 	const JPoint&	cell,
-	const JBoolean	scroll
+	const bool	scroll
 	)
 {
 	itsTableSelection->ClearSelection();
@@ -2585,7 +2584,7 @@ JTable::Receive
 	const Message&	message
 	)
 {
-	const JBoolean isAuxData = itsAuxDataList->Includes(sender);
+	const bool isAuxData = itsAuxDataList->Includes(sender);
 
 	// notify all JAuxTableData objects before updating the table
 
@@ -2742,7 +2741,7 @@ JTable::RowsInserted::AdjustIndex
 	JAdjustIndexAfterInsert(GetFirstIndex(), GetCount(), index);
 }
 
-JBoolean
+bool
 JTable::RowsRemoved::AdjustIndex
 	(
 	JIndex* index
@@ -2762,7 +2761,7 @@ JTable::ColsInserted::AdjustIndex
 	JAdjustIndexAfterInsert(GetFirstIndex(), GetCount(), index);
 }
 
-JBoolean
+bool
 JTable::ColsRemoved::AdjustIndex
 	(
 	JIndex* index

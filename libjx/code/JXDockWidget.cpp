@@ -40,7 +40,7 @@ JXDockWidget::JXDockWidget
 	(
 	JXDockDirector*		director,
 	JXPartition*		partition,
-	const JBoolean		isHorizPartition,
+	const bool		isHorizPartition,
 	JXTabGroup*			tabGroup,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -136,7 +136,7 @@ JXDockWidget::SetID
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockWidget::WindowWillFit
 	(
 	JXWindow* w
@@ -144,8 +144,8 @@ JXDockWidget::WindowWillFit
 	const
 {
 	const JPoint minSize = w->GetMinSize();
-	return JI2B(GetApertureWidth()  >= minSize.x &&
-				GetApertureHeight() >= minSize.y);
+	return GetApertureWidth()  >= minSize.x &&
+				GetApertureHeight() >= minSize.y;
 }
 
 /******************************************************************************
@@ -153,26 +153,26 @@ JXDockWidget::WindowWillFit
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockWidget::Dock
 	(
 	JXWindowDirector*	d,
-	const JBoolean		reportError
+	const bool		reportError
 	)
 {
 	return Dock(d->GetWindow(), reportError);
 }
 
-JBoolean
+bool
 JXDockWidget::Dock
 	(
 	JXWindow*		w,
-	const JBoolean	reportError
+	const bool	reportError
 	)
 {
 	if (itsChildPartition != nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JRect geom = GetApertureGlobal();
@@ -193,7 +193,7 @@ JXDockWidget::Dock
 		itsTabGroup->InsertTab(index, w->GetTitle());
 		// tab will be selected when window shows itself
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -201,7 +201,7 @@ JXDockWidget::Dock
 			{
 			JGetUserNotification()->ReportError(JGetString("WindowWillNotFit::JXDockWidget"));
 			}
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -237,7 +237,7 @@ JXDockWidget::GetTabInsertionIndex
 
 		const JUtf8Byte* t =
 			JXFileDocument::SkipNeedsSavePrefix((itsWindowList->GetElement(i))->GetTitle().GetBytes());
-		if (JString::Compare(title, t, kJFalse) < 0)
+		if (JString::Compare(title, t, JString::kIgnoreCase) < 0)
 			{
 			index = i;
 			break;
@@ -251,17 +251,17 @@ JXDockWidget::GetTabInsertionIndex
  TransferAll
 
 	Transfers as many windows as possible to the target docking location.
-	Returns kJFalse if not all windows could be transferred.
+	Returns false if not all windows could be transferred.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockWidget::TransferAll
 	(
 	JXDockWidget* target
 	)
 {
-	JBoolean success = kJTrue;
+	bool success = true;
 
 	if (itsWindowList != nullptr)
 		{
@@ -271,7 +271,7 @@ JXDockWidget::TransferAll
 			JXWindow* w = itsWindowList->GetElement(i);
 			if (!target->Dock(w))
 				{
-				success = kJFalse;
+				success = false;
 				}
 			}
 		}
@@ -310,7 +310,7 @@ JXDockWidget::UndockAll()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockWidget::CloseAll()
 {
 	if (itsWindowList != nullptr)
@@ -338,13 +338,13 @@ JXDockWidget::CloseAll()
 					}
 				else
 					{
-					return kJFalse;
+					return false;
 					}
 				}
 			else
 				{
 				UpdateMinSize();
-				return kJFalse;
+				return false;
 				}
 			}
 
@@ -354,7 +354,7 @@ JXDockWidget::CloseAll()
 		UpdateMinSize();
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -384,7 +384,7 @@ JXDockWidget::ShowNextWindow()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockWidget::GetHorizChildPartition
 	(
 	JXHorizDockPartition** p
@@ -395,12 +395,12 @@ JXDockWidget::GetHorizChildPartition
 		{
 		*p = dynamic_cast<JXHorizDockPartition*>(itsChildPartition);
 		assert( *p != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*p = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -409,7 +409,7 @@ JXDockWidget::GetHorizChildPartition
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockWidget::GetVertChildPartition
 	(
 	JXVertDockPartition** p
@@ -420,12 +420,12 @@ JXDockWidget::GetVertChildPartition
 		{
 		*p = dynamic_cast<JXVertDockPartition*>(itsChildPartition);
 		assert( *p != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*p = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -464,7 +464,7 @@ JXDockWidget::SetChildPartition
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockWidget::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -478,14 +478,14 @@ JXDockWidget::WillAcceptDrop
 
 	if (source == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// we accept drops of type JXDockDragData
 
 	const Atom minSizeAtom = (JXGetDockManager())->GetDNDMinSizeAtom();
 
-	JBoolean acceptDrop = kJFalse;
+	bool acceptDrop = false;
 	for (const Atom type : typeList)
 		{
 		if (type != minSizeAtom)
@@ -514,7 +514,7 @@ JXDockWidget::WillAcceptDrop
 				if (GetApertureWidth()  >= minSize->x &&
 					GetApertureHeight() >= minSize->y)
 					{
-					acceptDrop = kJTrue;
+					acceptDrop = true;
 					}
 				}
 			selMgr->DeleteData(&data, delMethod);
@@ -534,7 +534,7 @@ JXDockWidget::WillAcceptDrop
 		assert( itsHintDirector != nullptr );
 		itsHintDirector->Activate();
 
-		itsDeleteHintTask = jnew JXTimerTask(kDeleteHintDelay, kJTrue);
+		itsDeleteHintTask = jnew JXTimerTask(kDeleteHintDelay, true);
 		assert( itsDeleteHintTask != nullptr );
 		itsDeleteHintTask->Start();
 		ListenTo(itsDeleteHintTask);
@@ -577,7 +577,7 @@ JXDockWidget::HandleDNDDrop
 		if (returnType == XA_WINDOW &&
 			GetDisplay()->FindXWindow(* (Window*) data, &window))
 			{
-			Dock(window, kJTrue);
+			Dock(window, true);
 			}
 
 		selMgr->DeleteData(&data, delMethod);
@@ -721,7 +721,7 @@ JXDockWidget::Receive
 					}
 
 				JIndex currIndex;
-				const JBoolean hadSelection = itsTabGroup->GetCurrentTabIndex(&currIndex);
+				const bool hadSelection = itsTabGroup->GetCurrentTabIndex(&currIndex);
 
 				JXWidgetSet* card = dynamic_cast<JXWidgetSet*>(itsTabGroup->RemoveTab(i));
 				itsTabGroup->InsertTab(index, w->GetTitle(), card);
@@ -798,7 +798,7 @@ JXDockWidget::ReceiveGoingAway
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockWidget::FindWindow
 	(
 	JBroadcaster*	sender,
@@ -817,14 +817,14 @@ JXDockWidget::FindWindow
 				{
 				*window = w;
 				*index  = i;
-				return kJTrue;
+				return true;
 				}
 			}
 		}
 
 	*window = nullptr;
 	*index  = 0;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -832,7 +832,7 @@ JXDockWidget::FindWindow
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockWidget::RemoveWindow
 	(
 	JBroadcaster* sender
@@ -855,12 +855,12 @@ JXDockWidget::RemoveWindow
 					}
 
 				UpdateMinSize();
-				return kJTrue;
+				return true;
 				}
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -868,7 +868,7 @@ JXDockWidget::RemoveWindow
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockWidget::HasWindows()
 	const
 {
@@ -884,18 +884,18 @@ JXDockWidget::HasWindows()
 		{
 		if (itsWindowList == nullptr || itsWindowList->IsEmpty())
 			{
-			return kJFalse;
+			return false;
 			}
 
 		for (JXWindow* w : *itsWindowList)
 			{
 			if (w->IsVisible())
 				{
-				return kJTrue;
+				return true;
 				}
 			}
 
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -904,7 +904,7 @@ JXDockWidget::HasWindows()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockWidget::CloseAllWindows()
 {
 	if (itsChildPartition != nullptr && itsIsHorizFlag)

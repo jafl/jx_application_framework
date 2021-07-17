@@ -44,7 +44,7 @@ CBStylerTableMenu::CBStylerTableMenu
 	SetUpdateAction(kDisableNone);
 
 	Hide();
-	SetToHiddenPopupMenu(kJTrue);
+	SetToHiddenPopupMenu(true);
 }
 
 /******************************************************************************

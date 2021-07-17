@@ -26,8 +26,8 @@ public:
 
 	// printing parameters
 
-	JBoolean	WillPrintHeader() const;
-	void		ShouldPrintHeader(const JBoolean print);
+	bool	WillPrintHeader() const;
+	void		ShouldPrintHeader(const bool print);
 
 protected:
 
@@ -40,14 +40,14 @@ protected:
 	virtual JXPTPrintSetupDialog*
 		CreatePrintSetupDialog(const Destination destination,
 							   const JString& printCmd, const JString& fileName,
-							   const JBoolean printLineNumbers);
+							   const bool printLineNumbers);
 
-	virtual JBoolean	EndUserPrintSetup(const JBroadcaster::Message& message,
-										  JBoolean* changed);
+	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
+										  bool* changed);
 
 private:
 
-	JBoolean	itsPrintHeaderFlag;
+	bool	itsPrintHeaderFlag;
 	JString		itsHeaderName;
 
 	CBPTPrintSetupDialog*	itsCBPrintSetupDialog;
@@ -80,7 +80,7 @@ CBPTPrinter::SetHeaderName
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBPTPrinter::WillPrintHeader()
 	const
 {
@@ -90,7 +90,7 @@ CBPTPrinter::WillPrintHeader()
 inline void
 CBPTPrinter::ShouldPrintHeader
 	(
-	const JBoolean print
+	const bool print
 	)
 {
 	itsPrintHeaderFlag = print;

@@ -20,8 +20,8 @@
 #include <JSimpleProcess.h>
 #include <jAssert.h>
 
-static const JString kPropEditCmd("svn propedit $prop_name $file_name", kJFalse);
-static const JString kPropRemoveCmd("svn propdel $prop_name $file_name", kJFalse);
+static const JString kPropEditCmd("svn propedit $prop_name $file_name", JString::kNoCopy);
+static const JString kPropRemoveCmd("svn propdel $prop_name $file_name", JString::kNoCopy);
 
 static const JUtf8Byte* kSpecialPropertyList[] =
 {
@@ -56,7 +56,7 @@ SVNPropertiesList::SVNPropertiesList
 	const JCoordinate	h
 	)
 	:
-	SVNListBase(director, editMenu, GetCommand(fullName), kJFalse, kJFalse, kJFalse, kJFalse,
+	SVNListBase(director, editMenu, GetCommand(fullName), false, false, false, false,
 				scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
 	itsFullName(fullName),
 	itsCreatePropertyDialog(nullptr)
@@ -98,11 +98,11 @@ SVNPropertiesList::GetCommand
 /******************************************************************************
  ShouldDisplayLine (virtual protected)
 
-	Return kJFalse if the line should not be displayed.
+	Return false if the line should not be displayed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNPropertiesList::ShouldDisplayLine
 	(
 	JString* line
@@ -112,11 +112,11 @@ SVNPropertiesList::ShouldDisplayLine
 	if (line->BeginsWith(" "))
 		{
 		line->TrimWhitespace();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -125,7 +125,7 @@ SVNPropertiesList::ShouldDisplayLine
 
  ******************************************************************************/
 
-static const JFontStyle theBoldStyle(kJTrue, kJFalse, 0, kJFalse);
+static const JFontStyle theBoldStyle(true, false, 0, false);
 
 void
 SVNPropertiesList::StyleLine
@@ -170,7 +170,7 @@ SVNPropertiesList::OpenSelectedItems()
 		subst.DefineVariable("file_name", file);
 		subst.Substitute(&cmd);
 
-		JSimpleProcess::Create(cmd, kJTrue);
+		JSimpleProcess::Create(cmd, true);
 		}
 }
 
@@ -182,7 +182,7 @@ SVNPropertiesList::OpenSelectedItems()
 void
 SVNPropertiesList::CopySelectedItems
 	(
-	const JBoolean fullPath
+	const bool fullPath
 	)
 {
 	JTableSelection& s = GetTableSelection();
@@ -214,7 +214,7 @@ void
 SVNPropertiesList::GetSelectedFiles
 	(
 	JPtrArray<JString>*	fullNameList,
-	const JBoolean		includeDeleted
+	const bool		includeDeleted
 	)
 {
 	fullNameList->CleanOut();
@@ -307,7 +307,7 @@ SVNPropertiesList::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNPropertiesList::CreateProperty()
 {
 	assert( itsCreatePropertyDialog == nullptr );
@@ -319,7 +319,7 @@ SVNPropertiesList::CreateProperty()
 	assert( itsCreatePropertyDialog != nullptr );
 	ListenTo(itsCreatePropertyDialog);
 	itsCreatePropertyDialog->BeginDialog();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -327,7 +327,7 @@ SVNPropertiesList::CreateProperty()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNPropertiesList::CreateProperty1()
 {
 	assert( itsCreatePropertyDialog != nullptr );
@@ -343,17 +343,17 @@ SVNPropertiesList::CreateProperty1()
 	subst.Substitute(&cmd);
 
 	JSimpleProcess* p;
-	const JError err = JSimpleProcess::Create(&p, cmd, kJTrue);
+	const JError err = JSimpleProcess::Create(&p, cmd, true);
 	if (err.OK())
 		{
 		itsProcessList->Append(p);
 		ListenTo(p);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		err.ReportIfError();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -362,7 +362,7 @@ SVNPropertiesList::CreateProperty1()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNPropertiesList::SchedulePropertiesForRemove()
 {
 	JTableSelection& s = GetTableSelection();
@@ -385,7 +385,7 @@ SVNPropertiesList::SchedulePropertiesForRemove()
 		}
 
 	RemoveNextProperty();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -393,7 +393,7 @@ SVNPropertiesList::SchedulePropertiesForRemove()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNPropertiesList::RemoveNextProperty()
 {
 	if (!itsRemovePropertyCmdList->IsEmpty())
@@ -402,17 +402,17 @@ SVNPropertiesList::RemoveNextProperty()
 		itsRemovePropertyCmdList->DeleteElement(1);
 
 		JSimpleProcess* p;
-		const JError err = JSimpleProcess::Create(&p, cmd, kJTrue);
+		const JError err = JSimpleProcess::Create(&p, cmd, true);
 		if (err.OK())
 			{
 			itsProcessList->Append(p);
 			ListenTo(p);
-			return kJTrue;
+			return true;
 			}
 		else
 			{
 			err.ReportIfError();
-			return kJFalse;
+			return false;
 			}
 		}
 	else
@@ -423,6 +423,6 @@ SVNPropertiesList::RemoveNextProperty()
 			}
 
 		GetDirector()->ScheduleStatusRefresh();
-		return kJTrue;
+		return true;
 		}
 }

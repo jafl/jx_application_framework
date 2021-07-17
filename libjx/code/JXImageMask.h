@@ -28,7 +28,7 @@ public:
 
 	JXImageMask(JXDisplay* display,
 				const JCoordinate width, const JCoordinate height,
-				const JBoolean filled);
+				const bool filled);
 
 	JXImageMask(JXDisplay* display, const JConstBitmap& bitmap);
 
@@ -50,7 +50,7 @@ public:
 
 	virtual JXImage*	Copy() const;
 
-	virtual JBoolean	ContainsPixel(const JCoordinate x, const JCoordinate y) const;
+	virtual bool	ContainsPixel(const JCoordinate x, const JCoordinate y) const;
 	virtual void		AddPixel(const JCoordinate x, const JCoordinate y);
 	virtual void		RemovePixel(const JCoordinate x, const JCoordinate y);
 

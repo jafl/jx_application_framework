@@ -23,8 +23,8 @@ public:
 
 	virtual ~SyGChooseSaveFile();
 
-	void		ShouldOpenInNewWindow(const JBoolean newWindow);
-	JBoolean	IsOpeningInNewWindow() const;
+	void		ShouldOpenInNewWindow(const bool newWindow);
+	bool	IsOpeningInNewWindow() const;
 
 	void		SGReadSetup(std::istream& input);
 	void		SGWriteSetup(std::ostream& output) const;
@@ -39,12 +39,12 @@ protected:
 //	virtual JXChooseFileDialog*
 //	CreateChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 //						   const JString& fileFilter, const JString& origName,
-//						   const JBoolean allowSelectMultiple, const JString& message) override;
+//						   const bool allowSelectMultiple, const JString& message) override;
 
 	virtual JXChoosePathDialog*
 	CreateChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 						   const JString& fileFilter,
-						   const JBoolean selectOnlyWritable,
+						   const bool selectOnlyWritable,
 						   const JString& message) override;
 
 	virtual void	ReadPrefs(std::istream& input) override;
@@ -55,7 +55,7 @@ protected:
 private:
 
 	SyGChoosePathDialog*	itsPathDialog;
-	JBoolean				itsOpenInNewWindow;
+	bool				itsOpenInNewWindow;
 
 private:
 

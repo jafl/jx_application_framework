@@ -73,8 +73,8 @@ JXFileListTable::JXFileListTable
 	JXTable(10, 10, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
 	itsRegex              = nullptr;
-	itsAcceptFileDropFlag = kJFalse;
-	itsBSRemoveSelFlag    = kJFalse;
+	itsAcceptFileDropFlag = false;
+	itsBSRemoveSelFlag    = false;
 	itsDragType           = kInvalidDrag;
 	itsMaxStringWidth     = 0;
 	itsEditMenuProvider   = nullptr;
@@ -100,7 +100,7 @@ JXFileListTable::JXFileListTable
 	SetDefaultRowHeight(JFontManager::GetDefaultFont().GetLineHeight(GetFontManager()) +
 						2*kVMarginWidth);
 
-	SetSelectionBehavior(kJTrue, kJTrue);
+	SetSelectionBehavior(true, true);
 }
 
 /******************************************************************************
@@ -122,20 +122,20 @@ JXFileListTable::~JXFileListTable()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileListTable::IsInactive
 	(
 	const JString& fullName
 	)
 	const
 {
-	return JI2B(fullName.GetFirstCharacter() == kInactiveChar);
+	return fullName.GetFirstCharacter() == kInactiveChar;
 }
 
 /******************************************************************************
  AddFile
 
-	Returns kJTrue if the file was inserted.  Returns kJFalse if the file
+	Returns true if the file was inserted.  Returns false if the file
 	was already in the list.
 
 	If a relative path is added, then GetFullName() will call the virtual
@@ -146,7 +146,7 @@ JXFileListTable::IsInactive
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileListTable::AddFile
 	(
 	const JString&	fullName,
@@ -165,7 +165,7 @@ JXFileListTable::AddFile
 	JString* s = jnew JString(fullName);
 	assert( s != nullptr );
 
-	JBoolean found;
+	bool found;
 	const JIndex index = itsFileList->SearchSorted1(s, JListT::kAnyMatch, &found);
 	if (fullNameIndex != nullptr)
 		{
@@ -177,12 +177,12 @@ JXFileListTable::AddFile
 		itsFileList->InsertAtIndex(index, s);
 		FilterFile(index);
 		AdjustColWidths();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		jdelete s;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -268,7 +268,7 @@ JXFileListTable::RemoveAllFiles()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileListTable::GetFilterRegex
 	(
 	JString* regexStr
@@ -278,12 +278,12 @@ JXFileListTable::GetFilterRegex
 	if (itsRegex != nullptr)
 		{
 		*regexStr = itsRegex->GetPattern();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		regexStr->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -308,7 +308,7 @@ JXFileListTable::SetFilterRegex
 		itsRegex = jnew JRegex;
 		assert( itsRegex != nullptr );
 		const JError err = itsRegex->SetPattern(regexStr);
-		itsRegex->SetCaseSensitive(kJFalse);
+		itsRegex->SetCaseSensitive(false);
 		if (err.OK())
 			{
 			RebuildTable();
@@ -369,7 +369,7 @@ JXFileListTable::ClearFilterRegex()
 void
 JXFileListTable::RebuildTable
 	(
-	const JBoolean maintainScroll
+	const bool maintainScroll
 	)
 {
 	const JPoint scrollPt = (GetAperture()).topLeft();
@@ -421,13 +421,13 @@ JXFileListTable::FilterFile
 
 	iter.Invalidate();
 
-	if (itsRegex == nullptr || itsRegex->Match(JString(fullName->GetBytes() + info.nameIndex-1, kJFalse)))
+	if (itsRegex == nullptr || itsRegex->Match(JString(fullName->GetBytes() + info.nameIndex-1, JString::kNoCopy)))
 		{
 		const JString fileName(*fullName, JCharacterRange(info.nameIndex, fullName->GetCharacterCount()));
 		itsVisibleList->SetCompareObject(PrefixMatch(fileName, *itsFileList));
 
 		info.fileIndex = 0;
-		JBoolean found;
+		bool found;
 		const JIndex rowIndex = itsVisibleList->SearchSorted1(info, JListT::kFirstMatch, &found);
 
 		info.fileIndex = fileIndex;
@@ -449,7 +449,7 @@ JXFileListTable::FilterFile
 			info = itsVisibleList->GetElement(i);
 			const JString drawStr = JString(
 				(itsFileList->GetElement(info.fileIndex))->GetBytes() + info.drawIndex-1,
-				0, kJFalse);
+				JString::kNoCopy);
 			const JSize w = JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), drawStr);
 			if (w > itsMaxStringWidth)
 				{
@@ -486,7 +486,7 @@ JIndex i;
 		const VisInfo info = itsVisibleList->GetElement(lastIndex);
 		const JUtf8Byte* n =
 			(itsFileList->GetElement(info.fileIndex))->GetBytes() + info.nameIndex-1;
-		if (JString::Compare(n, fileName, kJFalse) != 0)
+		if (JString::Compare(n, fileName, JString::kIgnoreCase) != 0)
 			{
 			break;
 			}
@@ -557,7 +557,7 @@ JXFileListTable::GetFileName
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileListTable::GetFullName
 	(
 	const JIndex	rowIndex,
@@ -570,14 +570,14 @@ JXFileListTable::GetFullName
 	if (IsInactive(*n))
 		{
 		fullName->Clear();
-		return kJFalse;
+		return false;
 		}
 	else if (JIsAbsolutePath(*n) ||
 			 const_cast<JXFileListTable*>(this)->
 				MainResolveFullName(rowIndex, fileIndex, n))
 		{
 		*fullName = *n;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -591,7 +591,7 @@ JXFileListTable::GetFullName
 		itsFileList->Sort();	// after updating VisInfo
 
 		fullName->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -600,7 +600,7 @@ JXFileListTable::GetFullName
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileListTable::MainResolveFullName
 	(
 	const JIndex	rowIndex,
@@ -614,11 +614,11 @@ JXFileListTable::MainResolveFullName
 		*name = n;
 		itsFileList->Sort();
 		RebuildTable();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -629,17 +629,17 @@ JXFileListTable::MainResolveFullName
 	with relative paths and then find the files later on.
 
 	On input, *name is a relative path.  If it can be converted to
-	an absolute path, the function should return kJTrue.
+	an absolute path, the function should return true.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileListTable::ResolveFullName
 	(
 	JString* name
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 #if 0
@@ -647,11 +647,11 @@ JXFileListTable::ResolveFullName
 /******************************************************************************
  GetFullName
 
-	Get the full name for the specified file.  Returns kJTrue if successful.
+	Get the full name for the specified file.  Returns true if successful.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileListTable::GetFullName
 	(
 	const JString&	fileName,
@@ -663,12 +663,12 @@ JXFileListTable::GetFullName
 	if (FileNameToFileIndex(fileName, &index))
 		{
 		*fullName = *(itsFileList->GetElement(index));
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		fullName->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -679,7 +679,7 @@ JXFileListTable::GetFullName
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileListTable::FileNameToFileIndex
 	(
 	const JString&	name,
@@ -699,12 +699,12 @@ JXFileListTable::FileNameToFileIndex
 			 f->GetCharacter(len - nameLen) == ACE_DIRECTORY_SEPARATOR_CHAR))
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
-	return kJFalse;
+	return false;
 }
 
 #endif
@@ -714,7 +714,7 @@ JXFileListTable::FileNameToFileIndex
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileListTable::HasSelection()
 	const
 {
@@ -726,7 +726,7 @@ JXFileListTable::HasSelection()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileListTable::GetSelection
 	(
 	JPtrArray<JString>* fileList
@@ -759,7 +759,7 @@ void
 JXFileListTable::SelectSingleEntry
 	(
 	const JIndex	index,
-	const JBoolean	scroll
+	const bool	scroll
 	)
 {
 	SelectSingleCell(JPoint(1, index), scroll);
@@ -850,7 +850,7 @@ JXFileListTable::TableDrawCell
 
 	r = rect;
 	r.left += kIconWidth + kHMarginWidth;
-	p.String(r, JString(s, kJFalse), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+	p.String(r, JString(s, JString::kNoCopy), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 }
 
 /******************************************************************************
@@ -870,7 +870,7 @@ JXFileListTable::HandleMouseDown
 {
 	ClearIncrementalSearchBuffer();
 	JTableSelection& s   = GetTableSelection();
-	const JBoolean noMod = JNegate( modifiers.shift() || modifiers.control() );
+	const bool noMod = !modifiers.shift() && !modifiers.control();
 
 	JPoint cell;
 
@@ -889,7 +889,7 @@ JXFileListTable::HandleMouseDown
 		itsMouseDownPt = pt;
 		if (!s.IsSelected(cell))
 			{
-			SelectSingleEntry(cell.y, kJFalse);
+			SelectSingleEntry(cell.y, false);
 			}
 		}
 	else if (button == kJXLeftButton && clickCount == 2 && noMod)
@@ -948,9 +948,9 @@ JXFileListTable::HandleMouseUp
 	if (itsDragType == kWaitForDND)		// DND never started
 		{
 		JPoint cell;
-		const JBoolean ok = GetCell(itsMouseDownPt, &cell);
+		const bool ok = GetCell(itsMouseDownPt, &cell);
 		assert( ok );
-		SelectSingleEntry(cell.y, kJFalse);
+		SelectSingleEntry(cell.y, false);
 		}
 	else
 		{
@@ -987,7 +987,7 @@ JXFileListTable::HandleKeyPress
 {
 	JPoint topSelCell;
 	JTableSelection& s          = GetTableSelection();
-	const JBoolean hadSelection = s.GetFirstSelectedCell(&topSelCell);
+	const bool hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
 	if (c == ' ')
 		{
@@ -1071,7 +1071,7 @@ JXFileListTable::ClearIncrementalSearchBuffer()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileListTable::ClosestMatch
 	(
 	const JString&	prefixStr,
@@ -1079,7 +1079,7 @@ JXFileListTable::ClosestMatch
 	)
 	const
 {
-	JBoolean found;
+	bool found;
 
 	VisInfo target;
 	target.fileIndex = 0;
@@ -1090,7 +1090,7 @@ JXFileListTable::ClosestMatch
 		{
 		*index = itsVisibleList->GetElementCount();
 		}
-	return JConvertToBoolean( *index > 0 );
+	return *index > 0;
 }
 
 /******************************************************************************
@@ -1133,7 +1133,7 @@ JXFileListTable::PrefixMatch::Compare
 		 itsPrefix.GetBytes() :
 		 (itsFileList.GetElement(i2.fileIndex))->GetBytes() + i2.nameIndex-1);
 
-	const int r = JString::Compare(s1, s2, kJFalse);
+	const int r = JString::Compare(s1, s2, JString::kIgnoreCase);
 	if (r > 0)
 		{
 		return JListT::kFirstGreaterSecond;
@@ -1284,7 +1284,7 @@ JXFileListTable::Receive
 void
 JXFileListTable::UpdateEditMenu()
 {
-JBoolean ok;
+bool ok;
 JIndex index;
 
 	if (HasSelection())
@@ -1422,7 +1422,7 @@ void
 JXFileListTable::HandleDNDResponse
 	(
 	const JXContainer*	target,
-	const JBoolean		dropAccepted,
+	const bool		dropAccepted,
 	const Atom			action
 	)
 {
@@ -1436,7 +1436,7 @@ JXFileListTable::HandleDNDResponse
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileListTable::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -1450,7 +1450,7 @@ JXFileListTable::WillAcceptDrop
 
 	if (!itsAcceptFileDropFlag || this == const_cast<JXWidget*>(source))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// we accept drops of type text/uri-list
@@ -1462,11 +1462,11 @@ JXFileListTable::WillAcceptDrop
 		if (type == urlXAtom)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

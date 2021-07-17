@@ -71,7 +71,7 @@ JImagPart::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JImagPart::Evaluate
 	(
 	JFloat* result
@@ -82,15 +82,15 @@ JImagPart::Evaluate
 	if (GetArg()->Evaluate(&value))
 		{
 		*result = imag(value);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JImagPart::Evaluate
 	(
 	JComplex* result
@@ -101,10 +101,10 @@ JImagPart::Evaluate
 	if (GetArg()->Evaluate(&value))
 		{
 		*result = imag(value);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

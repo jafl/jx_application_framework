@@ -67,7 +67,7 @@ private:
 
 private:
 
-	JBoolean	ClosestMatch(const JString& prefixStr, JIndex* index) const;
+	bool	ClosestMatch(const JString& prefixStr, JIndex* index) const;
 
 	// not allowed
 

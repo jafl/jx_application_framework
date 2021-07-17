@@ -21,7 +21,7 @@ class CBEditStylerDialog : public JXDialogDirector
 {
 public:
 
-	CBEditStylerDialog(const JString& windowTitle, const JBoolean active,
+	CBEditStylerDialog(const JString& windowTitle, const bool active,
 					   const JUtf8Byte** typeNames,
 					   const JArray<JFontStyle>& typeStyles,
 					   const JArray<CBStylerBase::WordStyle>& wordList,
@@ -29,7 +29,7 @@ public:
 
 	virtual ~CBEditStylerDialog();
 
-	void	GetData(JBoolean* active, JArray<JFontStyle>* typeStyles,
+	void	GetData(bool* active, JArray<JFontStyle>* typeStyles,
 					JStringMap<JFontStyle>* wordStyles) const;
 
 protected:
@@ -50,7 +50,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JString& windowTitle, const JBoolean active,
+	void	BuildWindow(const JString& windowTitle, const bool active,
 						const JUtf8Byte** typeNames,
 						const JArray<JFontStyle>& typeStyles,
 						const JArray<CBStylerBase::WordStyle>& wordList,

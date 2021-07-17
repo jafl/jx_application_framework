@@ -25,8 +25,8 @@
 
 JXStyledText::JXStyledText
 	(
-	const JBoolean	useMultipleUndo,
-	const JBoolean	pasteStyledText,
+	const bool	useMultipleUndo,
+	const bool	pasteStyledText,
 	JFontManager*	fontManager
 	)
 	:
@@ -64,7 +64,7 @@ JXStyledText::~JXStyledText()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXStyledText::NeedsToAdjustFontToDisplayGlyphs
 	(
 	const JString&			text,
@@ -74,7 +74,7 @@ JXStyledText::NeedsToAdjustFontToDisplayGlyphs
 {
 	if (itsFontManager == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JStringIterator siter(text);
@@ -84,16 +84,16 @@ JXStyledText::NeedsToAdjustFontToDisplayGlyphs
 	JFont f;
 	while (siter.Next(&c))
 		{
-		const JBoolean ok = fiter.Next(&f);
+		const bool ok = fiter.Next(&f);
 		assert( ok );
 
 		if (!f.HasGlyphForCharacter(itsFontManager, c))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -103,7 +103,7 @@ JXStyledText::NeedsToAdjustFontToDisplayGlyphs
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXStyledText::AdjustFontToDisplayGlyphs
 	(
 	const TextRange&	range,
@@ -113,7 +113,7 @@ JXStyledText::AdjustFontToDisplayGlyphs
 {
 	if (itsFontManager == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (range.charRange.GetCount() > 1e4)
@@ -121,7 +121,7 @@ JXStyledText::AdjustFontToDisplayGlyphs
 		Broadcast(WillBeBusy());
 		}
 
-	JBoolean changed = kJFalse;
+	bool changed = false;
 
 	JStringIterator siter(text);
 	JRunArrayIterator<JFont> fiter(style);
@@ -130,13 +130,13 @@ JXStyledText::AdjustFontToDisplayGlyphs
 	JFont f;
 	while (siter.Next(&c))
 		{
-		const JBoolean ok = fiter.Next(&f);
+		const bool ok = fiter.Next(&f);
 		assert( ok );
 
 		if (f.SubstituteToDisplayGlyph(itsFontManager, c))
 			{
-			fiter.SetPrev(f, kJFalse);
-			changed = kJTrue;
+			fiter.SetPrev(f, kJIteratorStay);
+			changed = true;
 			}
 		}
 

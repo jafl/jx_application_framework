@@ -27,8 +27,8 @@ public:
 
 	virtual void	Activate() override;
 
-	JBoolean	RunScript();
-	JBoolean	RunSimpleScript(const JString& scriptName, JTextEditor* te,
+	bool	RunScript();
+	bool	RunSimpleScript(const JString& scriptName, JTextEditor* te,
 								const JString& fileName);
 
 protected:
@@ -55,8 +55,8 @@ private:
 
 	void		BuildWindow();
 	void		UpdateDisplay();
-	JBoolean	RunScript(JTextEditor* te, const JString& fullName);
-	JBoolean	RunScript(const JString& cmd, JTextEditor* te,
+	bool	RunScript(JTextEditor* te, const JString& fullName);
+	bool	RunScript(const JString& cmd, JTextEditor* te,
 						  const JString& fullName);
 	void		ReplaceVariables(JString* cmd, JTextEditor* te,
 								 const JString& fullName);

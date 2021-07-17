@@ -36,7 +36,7 @@ JXSpellChecker::JXSpellChecker()
 	JXSharedPrefObject(kCurrentPrefsVersion,
 					   JXSharedPrefsManager::kLatestSpellCheckerVersionID,
 					   kVersList, kVersCount),
-	itsReportNoErrorsFlag(kJTrue)
+	itsReportNoErrorsFlag(true)
 {
 	JXSharedPrefObject::ReadPrefs();
 }
@@ -104,7 +104,7 @@ JXSpellChecker::CheckSelection
 void
 JXSpellChecker::ShouldReportNoErrors
 	(
-	const JBoolean report
+	const bool report
 	)
 {
 	itsReportNoErrorsFlag = report;

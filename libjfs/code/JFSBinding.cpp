@@ -29,8 +29,8 @@ JFSBinding::JFSBinding
 	const JString&		pattern,
 	const JString&		cmd,
 	const CommandType	type,
-	const JBoolean		singleFile,
-	const JBoolean		isSystem
+	const bool		singleFile,
+	const bool		isSystem
 	)
 	:
 	itsPattern(pattern),
@@ -48,9 +48,9 @@ JFSBinding::JFSBinding
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
-	const JBoolean		isSystem,
-	JBoolean*			isDefault,
-	JBoolean*			del
+	const bool		isSystem,
+	bool*			isDefault,
+	bool*			del
 	)
 	:
 	itsIsSystemFlag(isSystem),
@@ -64,7 +64,7 @@ JFSBinding::JFSBinding
 		ConvertCommand(&itsCmd);
 		JIgnoreLine(input);		// alternate cmd
 
-		*isDefault = JI2B(itsPattern == kOrigDefaultMarker);
+		*isDefault = itsPattern == kOrigDefaultMarker;
 		if (*isDefault)
 			{
 			itsPattern.Clear();
@@ -104,7 +104,7 @@ JFSBinding::~JFSBinding()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFSBinding::Match
 	(
 	const JString& fileName,
@@ -114,12 +114,12 @@ JFSBinding::Match
 {
 	if (itsCmd.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (itsContentRegex != nullptr)
 		{
-		return JI2B(content.BeginsWith(itsLiteralPrefix) &&
-					itsContentRegex->Match(content));
+		return (content.BeginsWith(itsLiteralPrefix) &&
+				itsContentRegex->Match(content));
 		}
 	else if (itsNameRegex != nullptr)
 		{
@@ -127,8 +127,8 @@ JFSBinding::Match
 		}
 	else
 		{
-		return JI2B(!itsPattern.IsEmpty() &&
-					fileName.EndsWith(itsPattern, kJFalse));
+		return (!itsPattern.IsEmpty() &&
+				fileName.EndsWith(itsPattern, JString::kIgnoreCase));
 		}
 }
 
@@ -149,7 +149,7 @@ JFSBinding::UpdateRegex()
 			{
 			itsContentRegex = jnew JRegex;
 			assert( itsContentRegex != nullptr );
-			itsContentRegex->SetSingleLine(kJTrue);
+			itsContentRegex->SetSingleLine(true);
 			}
 
 		if (itsContentRegex->SetPattern(itsPattern).OK())
@@ -174,7 +174,7 @@ JFSBinding::UpdateRegex()
 			}
 
 		JString s;
-		const JBoolean ok = JDirInfo::BuildRegexFromWildcardFilter(itsPattern, &s);
+		const bool ok = JDirInfo::BuildRegexFromWildcardFilter(itsPattern, &s);
 		assert( ok );
 		if (!itsNameRegex->SetPattern(s).OK())
 			{
@@ -197,7 +197,7 @@ JFSBinding::UpdateRegex()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFSBinding::WillBeRegex
 	(
 	const JString& pattern
@@ -263,8 +263,8 @@ JFSBinding::ConvertCommand
 JFSBinding::CommandType
 JFSBinding::GetCommandType
 	(
-	const JBoolean shell,
-	const JBoolean window
+	const bool shell,
+	const bool window
 	)
 {
 	if (window)
@@ -315,7 +315,7 @@ operator<<
 	)
 {
 	JFSBinding::CommandType type;
-	JBoolean singleFile;
+	bool singleFile;
 
 	output << binding.GetPattern();
 	output << ' ' << binding.GetCommand(&type, &singleFile);

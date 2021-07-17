@@ -35,7 +35,7 @@ static const JUtf8Byte* kVersionStr =
 void GetOptions(const JSize argc, char* argv[],
 				JPtrArray<JString>* inputFileList,
 				JString* dataVarName, JString* outputFileName,
-				JString* databaseFileName, JBoolean* debug);
+				JString* databaseFileName, bool* debug);
 
 void PrintHelp();
 void PrintVersion();
@@ -56,7 +56,7 @@ main
 
 	JPtrArray<JString> inputFileList(JPtrArrayT::kDeleteAll);
 	JString dataVarName, outputFileName, databaseFileName;
-	JBoolean debug;
+	bool debug;
 	GetOptions(argc, argv, &inputFileList,
 			   &dataVarName, &outputFileName, &databaseFileName, &debug);
 
@@ -72,7 +72,7 @@ main
 	time_t outputTime;
 	if ((JGetModificationTime(outputFileName, &outputTime)).OK())
 		{
-		JBoolean changed = kJFalse;
+		bool changed = false;
 
 		for (JIndex i=1; i<=inputCount; i++)
 			{
@@ -85,7 +85,7 @@ main
 				}
 			else if (t >= outputTime)
 				{
-				changed = kJTrue;
+				changed = true;
 				break;
 				}
 			}
@@ -146,7 +146,7 @@ main
 				}
 			else if (c == "\n")
 				{
-				iter.SetNext(JUtf8Character('n'), kJFalse);
+				iter.SetNext(JUtf8Character('n'), kJIteratorStay);
 				iter.Insert("\\");
 				}
 			}
@@ -229,14 +229,14 @@ GetOptions
 	JString*			dataVarName,
 	JString*			outputFileName,
 	JString*			databaseFileName,
-	JBoolean*			debug
+	bool*			debug
 	)
 {
 	inputFileList->CleanOut();
 	dataVarName->Clear();
 	outputFileName->Clear();
 	databaseFileName->Clear();
-	*debug = kJFalse;
+	*debug = false;
 
 	JIndex index = 1;
 	while (index < argc)
@@ -268,7 +268,7 @@ GetOptions
 
 		else if (strcmp(argv[index], "--debug") == 0)
 			{
-			*debug = kJTrue;
+			*debug = true;
 			}
 
 		else if (argv[index][0] == '-')
@@ -278,7 +278,7 @@ GetOptions
 
 		else
 			{
-			JString* inputFileName = jnew JString(argv[index], 0);
+			JString* inputFileName = jnew JString(argv[index]);
 			assert( inputFileName != nullptr );
 
 			if (inputFileName->EndsWith("~") ||

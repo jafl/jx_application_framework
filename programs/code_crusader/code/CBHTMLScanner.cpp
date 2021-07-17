@@ -22,7 +22,7 @@
 CBHTMLScanner::CBHTMLScanner()
 	:
 	CBPHPFlexLexer(),
-	itsResetFlag(kJFalse)
+	itsResetFlag(false)
 {
 }
 
@@ -48,7 +48,7 @@ CBHTMLScanner::BeginScan
 	const yy_state_type				startState
 	)
 {
-	itsResetFlag  = kJTrue;
+	itsResetFlag  = true;
 	itsStartState = startState;
 
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
@@ -57,7 +57,7 @@ CBHTMLScanner::BeginScan
 	itsScriptLanguage.Clear();
 	itsPHPHereDocTag.Clear();
 	itsPHPNowDocTag.Clear();
-	itsProbableJSOperatorFlag = kJFalse;
+	itsProbableJSOperatorFlag = false;
 
 	switch_streams(&input, nullptr);
 }
@@ -66,7 +66,7 @@ CBHTMLScanner::BeginScan
  IsScript (private)
 
 	Extracts the language and the start of the script range and returns
-	kJTrue if the last tag was the start of a script.
+	true if the last tag was the start of a script.
 
  ******************************************************************************/
 
@@ -77,43 +77,43 @@ static JRegex scriptTagPattern2 =
 static JRegex scriptTagPattern3 =
 	"^<[[:space:]]*script(>|[[:space:]])";
 
-JBoolean
+bool
 CBHTMLScanner::IsScript
 	(
 	JString* language
 	)
 	const
 {
-	scriptTagPattern1.SetCaseSensitive(kJFalse);
-	scriptTagPattern2.SetCaseSensitive(kJFalse);
-	scriptTagPattern3.SetCaseSensitive(kJFalse);
+	scriptTagPattern1.SetCaseSensitive(false);
+	scriptTagPattern2.SetCaseSensitive(false);
+	scriptTagPattern3.SetCaseSensitive(false);
 
 	language->Clear();
 
-	const JString s(GetScannedText().GetRawBytes(), itsCurrentRange.byteRange, kJFalse);
+	const JString s(GetScannedText().GetRawBytes(), itsCurrentRange.byteRange, JString::kNoCopy);
 
-	const JStringMatch m1 = scriptTagPattern1.Match(s, kJTrue);
+	const JStringMatch m1 = scriptTagPattern1.Match(s, JRegex::kIncludeSubmatches);
 	if (!m1.IsEmpty())
 		{
 		*language = m1.GetSubstring(1);
-		return kJTrue;
+		return true;
 		}
 
-	const JStringMatch m2 = scriptTagPattern2.Match(s, kJTrue);
+	const JStringMatch m2 = scriptTagPattern2.Match(s, JRegex::kIncludeSubmatches);
 	if (!m2.IsEmpty())
 		{
 		*language = m2.GetSubstring(1);
-		return kJTrue;
+		return true;
 		}
 
-	const JStringMatch m3 = scriptTagPattern3.Match(s, kJFalse);
+	const JStringMatch m3 = scriptTagPattern3.Match(s, JRegex::kIgnoreSubmatches);
 	if (!m3.IsEmpty())
 		{
 		*language = "JavaScript";
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

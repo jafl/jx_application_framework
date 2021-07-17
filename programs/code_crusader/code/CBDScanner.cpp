@@ -22,7 +22,7 @@
 CBDScanner::CBDScanner()
 	:
 	CBDFlexLexer(),
-	itsResetFlag(kJFalse),
+	itsResetFlag(false),
 	itsCurrentRange()
 {
 }
@@ -48,7 +48,7 @@ CBDScanner::BeginScan
 	std::istream&					input
 	)
 {
-	itsResetFlag = kJTrue;
+	itsResetFlag = true;
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 

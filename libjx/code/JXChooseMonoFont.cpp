@@ -43,7 +43,7 @@ JXChooseMonoFont::JXChooseMonoFont
 	:
 	JXWidgetSet(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	const JBoolean ok =
+	const bool ok =
 		JXXFontMenu::Create(fontRegex, CompareFontNames, JGetString("FontMenuTitle::JXChooseMonoFont"), this,
 							kFixedLeft, kFixedTop, 0,0, w,25, &itsFontMenu);
 	assert( ok );
@@ -59,7 +59,7 @@ JXChooseMonoFont::JXChooseMonoFont
 	itsSizeMenu->SetToPopupChoice();
 	ListenTo(itsSizeMenu);
 
-	UpdateMenus(kJTrue);
+	UpdateMenus(true);
 
 	SetNeedsInternalFTC();
 }
@@ -121,13 +121,13 @@ JXChooseMonoFont::Receive
 	if (sender == itsFontMenu && message.Is(JXXFontMenu::kNameChanged))
 		{
 		StopListening(itsSizeMenu);
-		UpdateMenus(kJTrue);
+		UpdateMenus(true);
 		ListenTo(itsSizeMenu);
 		Broadcast(FontChanged());
 		}
 	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged))
 		{
-		UpdateMenus(kJFalse);
+		UpdateMenus(false);
 		Broadcast(FontChanged());
 		}
 	else
@@ -144,7 +144,7 @@ JXChooseMonoFont::Receive
 void
 JXChooseMonoFont::UpdateMenus
 	(
-	const JBoolean updateSize
+	const bool updateSize
 	)
 {
 	const JString& fontName = itsFontMenu->GetFontName();

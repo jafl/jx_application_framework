@@ -299,7 +299,7 @@ JError
 JDirEntry::SetMode
 	(
 	const ModeBit	bit,
-	const JBoolean	allow
+	const bool	allow
 	)
 {
 	mode_t mode;
@@ -336,11 +336,11 @@ JDirEntry::GetModeString()
 /******************************************************************************
  NeedsUpdate
 
-	Returns kJTrue if the entry needs to be updated.
+	Returns true if the entry needs to be updated.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirEntry::NeedsUpdate()
 	const
 {
@@ -351,43 +351,43 @@ JDirEntry::NeedsUpdate()
 		{
 		const_cast<JDirEntry*>(this)->itsAccessTime = linfo.st_atime;
 
-		return JI2B(itsModTime     != (time_t) linfo.st_mtime ||
+		return itsModTime     != (time_t) linfo.st_mtime ||
 					itsStatusTime  != (time_t) linfo.st_ctime ||
 					itsSModTime    != (time_t)  info.st_mtime ||
-					itsSStatusTime != (time_t)  info.st_ctime);
+					itsSStatusTime != (time_t)  info.st_ctime;
 		}
 	else if (lstatErr == 0 && statErr == -1)
 		{
-		return JI2B(itsType != kBrokenLink);
+		return itsType != kBrokenLink;
 		}
 	else
 		{
-		return JI2B(itsType != kDoesNotExist);
+		return itsType != kDoesNotExist;
 		}
 }
 
 /******************************************************************************
  Update
 
-	If necessary, updates the entry.  Returns kJTrue if the entry needed to
+	If necessary, updates the entry.  Returns true if the entry needed to
 	be updated.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirEntry::Update
 	(
-	const JBoolean force
+	const bool force
 	)
 {
 	if (force || NeedsUpdate())
 		{
 		ForceUpdate();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -415,7 +415,7 @@ JDirEntry::ForceUpdate()
 	itsUserID      = 0;
 	itsGroupID     = 0;
 
-	itsIsReadableFlag = itsIsWritableFlag = itsIsExecutableFlag = kJFalse;
+	itsIsReadableFlag = itsIsWritableFlag = itsIsExecutableFlag = false;
 
 	jdelete itsLinkName;
 	itsLinkName = nullptr;
@@ -500,26 +500,26 @@ JDirEntry::ForceUpdate()
 
 	if (JUserIsAdmin())
 		{
-		itsIsReadableFlag   = kJTrue;
-		itsIsWritableFlag   = kJTrue;
-		itsIsExecutableFlag = JI2B( (stbuf.st_mode & S_IXUSR) != 0 );
+		itsIsReadableFlag   = true;
+		itsIsWritableFlag   = true;
+		itsIsExecutableFlag = (stbuf.st_mode & S_IXUSR) != 0;
 		}
 	else
 		{
-		itsIsReadableFlag   = JI2B( access(itsFullName.GetBytes(), R_OK) == 0 );
-		itsIsWritableFlag   = JI2B( access(itsFullName.GetBytes(), W_OK) == 0 );
-		itsIsExecutableFlag = JI2B( access(itsFullName.GetBytes(), X_OK) == 0 );
+		itsIsReadableFlag   = access(itsFullName.GetBytes(), R_OK) == 0;
+		itsIsWritableFlag   = access(itsFullName.GetBytes(), W_OK) == 0;
+		itsIsExecutableFlag = access(itsFullName.GetBytes(), X_OK) == 0;
 		}
 }
 
 /******************************************************************************
  MatchesContentFilter
 
-	This returns kJTrue for any file that matches the regex.
+	This returns true for any file that matches the regex.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirEntry::MatchesContentFilter
 	(
 	const JRegex&	regex,
@@ -532,13 +532,13 @@ JDirEntry::MatchesContentFilter
 		ACE_stat lstbuf;
 		if (ACE_OS::lstat(itsFullName.GetBytes(), &lstbuf) != 0)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		const int fd = open(itsFullName.GetBytes(), O_RDONLY);
 		if (fd == -1)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		JUtf8Byte* data = jnew JUtf8Byte [ kBlockSize+1 ];
@@ -546,7 +546,7 @@ JDirEntry::MatchesContentFilter
 		close(fd);
 		if (count < 0)
 			{
-			return kJFalse;
+			return false;
 			}
 		data[ count ] = '\0';
 
@@ -555,14 +555,14 @@ JDirEntry::MatchesContentFilter
 		ubuf.modtime = lstbuf.st_mtime;
 		utime(itsFullName.GetBytes(), &ubuf);		// restore access time
 
-		const JBoolean match = regex.Match(JString(data, count, kJFalse));
+		const bool match = regex.Match(JString(data, count, JString::kNoCopy));
 
 		jdelete [] data;
 		return match;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

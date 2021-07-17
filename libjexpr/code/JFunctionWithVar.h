@@ -38,11 +38,11 @@ public:
 
 	const JFunction*	GetArrayIndex() const;
 	void				SetArrayIndex(JFunction* theArrayIndex);
-	JBoolean			EvaluateArrayIndex(JIndex* index) const;
+	bool			EvaluateArrayIndex(JIndex* index) const;
 
 	// called by JVariableList
 
-	virtual JBoolean	UsesVariable(const JIndex variableIndex) const override;
+	virtual bool	UsesVariable(const JIndex variableIndex) const override;
 	virtual void		VariablesInserted(const JIndex firstIndex, const JSize count) override;
 	virtual void		VariablesRemoved(const JIndex firstIndex, const JSize count) override;
 	virtual void		VariableMoved(const JIndex origIndex, const JIndex newIndex) override;

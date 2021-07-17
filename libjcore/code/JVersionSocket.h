@@ -27,8 +27,8 @@ public:
 	virtual ~JVersionSocket();
 
 	const JString&	GetLatestVersion() const;
-	JBoolean		TimeToCheck() const;
-	JBoolean		TimeToRemind();
+	bool		TimeToCheck() const;
+	bool		TimeToRemind();
 
 	virtual int	open(void*) override;
 	virtual int	handle_input(ACE_HANDLE) override;

@@ -59,7 +59,7 @@ GDBVarCommand::HandleSuccess
 	JString s = data;
 	s.TrimWhitespace();
 
-	JBoolean success = kJFalse;
+	bool success = false;
 
 	prefixPattern.SetSingleLine();
 
@@ -74,7 +74,7 @@ GDBVarCommand::HandleSuccess
 		if (parser.yyparse() == 0)
 			{
 			parser.ReportRecoverableError();
-			success = kJTrue;
+			success = true;
 			Broadcast(ValueMessage(kValueUpdated, parser.GetRootNode()));
 			}
 		}

@@ -104,24 +104,24 @@ JGetFStreamLength
 
  ******************************************************************************/
 
-JBoolean
+bool
 JConvertToStream
 	(
 	const int		input,
 	std::ifstream*		input2,
 	JString*		tempFullName,
-	const JBoolean	closeInput
+	const bool	closeInput
 	)
 {
 	JString data;
 	if (!JReadAll(input, &data, closeInput))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (!(JCreateTempFile(tempFullName)).OK())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	std::ofstream output(tempFullName->GetBytes());
@@ -129,7 +129,7 @@ JConvertToStream
 	output.close();
 
 	input2->open(tempFullName->GetBytes());
-	return JI2B(input2->good());
+	return input2->good();
 }
 
 #if 0

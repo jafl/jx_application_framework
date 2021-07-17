@@ -19,7 +19,7 @@ int main()
 
 JTEST(Basic)
 {
-	JStyledText* st = jnew JStyledText(kJFalse, kJFalse);
+	JStyledText* st = jnew JStyledText(false, false);
 	assert( st != nullptr );
 
 	CBStylerBase* styler = CBCShellStyler::Instance();

@@ -31,8 +31,8 @@ private:
 	void	ParseOther(JStringPtrMap<JString>& map,
 					   JPtrArray<CMBreakpoint>* list);
 
-	JBoolean	ParseCommon(JStringPtrMap<JString>& map, JIndex* bpIndex,
-							CMBreakpoint::Action* action, JBoolean* enabled,
+	bool	ParseCommon(JStringPtrMap<JString>& map, JIndex* bpIndex,
+							CMBreakpoint::Action* action, bool* enabled,
 							JSize* ignoreCount);
 
 	// not allowed

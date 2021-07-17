@@ -66,7 +66,7 @@ CBSymbolTable::CBSymbolTable
 	itsVisibleList = jnew JArray<JIndex>(CBSymbolList::kBlockSize);
 	assert( itsVisibleList != nullptr );
 
-	itsVisibleListLockedFlag = kJFalse;
+	itsVisibleListLockedFlag = false;
 	itsNameFilter            = nullptr;
 	itsNameLiteral           = nullptr;
 
@@ -78,7 +78,7 @@ CBSymbolTable::CBSymbolTable
 	SetDefaultRowHeight(JFontManager::GetDefaultFont().GetLineHeight(GetFontManager()) +
 						2*kVMarginWidth);
 
-	SetSelectionBehavior(kJTrue, kJTrue);
+	SetSelectionBehavior(true, true);
 
 	ListenTo(itsSymbolList);
 	ListenTo(CBGetSymbolTypeList());
@@ -101,7 +101,7 @@ CBSymbolTable::~CBSymbolTable()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSymbolTable::HasSelection()
 	const
 {
@@ -117,7 +117,7 @@ void
 CBSymbolTable::SelectSingleEntry
 	(
 	const JIndex	index,
-	const JBoolean	scroll
+	const bool	scroll
 	)
 {
 	SelectSingleCell(JPoint(1, index), scroll);
@@ -296,7 +296,7 @@ CBSymbolTable::GetFileNamesForSelection
 void
 CBSymbolTable::ShowAll()
 {
-	itsVisibleListLockedFlag = kJFalse;
+	itsVisibleListLockedFlag = false;
 	itsVisibleList->RemoveAll();	// force rebuild of entire list
 
 	jdelete itsNameFilter;
@@ -318,7 +318,7 @@ JError
 CBSymbolTable::SetNameFilter
 	(
 	const JString&	filterStr,
-	const JBoolean	isRegex
+	const bool	isRegex
 	)
 {
 	jdelete itsNameFilter;
@@ -345,7 +345,7 @@ CBSymbolTable::SetNameFilter
 		assert( itsNameLiteral != nullptr );
 		}
 
-	itsVisibleListLockedFlag = kJFalse;
+	itsVisibleListLockedFlag = false;
 
 	ScrollTo(0,0);
 	RebuildTable();
@@ -365,7 +365,7 @@ CBSymbolTable::SetDisplayList
 {
 	*itsVisibleList = list;
 	itsVisibleList->SetBlockSize(CBSymbolList::kBlockSize);
-	itsVisibleListLockedFlag = kJTrue;
+	itsVisibleListLockedFlag = true;
 	ScrollTo(0,0);
 	RebuildTable();
 }
@@ -457,14 +457,14 @@ CBSymbolTable::HandleMouseDown
 			 clickCount == 2 &&
 			 !modifiers.shift() && modifiers.meta() && modifiers.control())
 		{
-		SelectSingleCell(cell, kJFalse);
+		SelectSingleCell(cell, false);
 		DisplaySelectedSymbols();
 		GetWindow()->Close();
 		return;
 		}
 	else if (clickCount == 2 && modifiers.meta())
 		{
-		SelectSingleCell(cell, kJFalse);
+		SelectSingleCell(cell, false);
 		FindSelectedSymbols(button);
 		}
 	else if (button == kJXLeftButton &&
@@ -539,7 +539,7 @@ CBSymbolTable::HandleKeyPress
 {
 	JPoint topSelCell;
 	JTableSelection& s          = GetTableSelection();
-	const JBoolean hadSelection = s.GetFirstSelectedCell(&topSelCell);
+	const bool hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
 	if (c == ' ')
 		{
@@ -717,7 +717,7 @@ CBSymbolTable::RebuildTable()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSymbolTable::CalcColWidths
 	(
 	const JString& symbolName,
@@ -734,11 +734,11 @@ CBSymbolTable::CalcColWidths
 	if (w > itsMaxStringWidth)
 		{
 		itsMaxStringWidth = w;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

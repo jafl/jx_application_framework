@@ -51,17 +51,17 @@ public:
 
 	CBTextDocument(const CBTextFileType type = kCBUnknownFT,
 				   const JUtf8Byte* helpSectionName = "CBEditorHelp",
-				   const JBoolean setWMClass = kJTrue,
+				   const bool setWMClass = true,
 				   CBTextEditorCtorFn* teCtorFn = ConstructTextEditor);
 	CBTextDocument(const JString& fileName,
 				   const CBTextFileType type = kCBUnknownFT,
-				   const JBoolean tmpl = kJFalse);
-	CBTextDocument(std::istream& input, const JFileVersion vers, JBoolean* keep);
+				   const bool tmpl = false);
+	CBTextDocument(std::istream& input, const JFileVersion vers, bool* keep);
 
 	virtual ~CBTextDocument();
 
 	virtual void		Activate() override;
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
+	virtual bool	GetMenuIcon(const JXImage** icon) const override;
 
 	void	GoToLine(const JIndex lineIndex) const;
 	void	SelectLines(const JIndexRange& range) const;
@@ -70,44 +70,44 @@ public:
 
 	void	WriteForProject(std::ostream& output) const;
 
-	JBoolean	GetWindowSize(JPoint* desktopLoc,
+	bool	GetWindowSize(JPoint* desktopLoc,
 							  JCoordinate* width, JCoordinate* height) const;
 	void		SaveWindowSize() const;
 
-	JBoolean	WillOpenComplFileOnTop() const;
-	void		ShouldOpenComplFileOnTop(const JBoolean doIt);
+	bool	WillOpenComplFileOnTop() const;
+	void		ShouldOpenComplFileOnTop(const bool doIt);
 
 	CBTextEditor*	GetTextEditor() const;
 	JXMenuBar*		GetMenuBar() const;
 	JXToolBar*		GetToolBar() const;
 	JRect			GetFileDisplayInfo(JXWidget::HSizingOption* hSizing,
 									   JXWidget::VSizingOption* vSizing) const;
-	void			SetFileDisplayVisible(const JBoolean show);
+	void			SetFileDisplayVisible(const bool show);
 
 	CBTextFileType	GetFileType() const;
-	JBoolean		GetStyler(CBStylerBase** styler) const;
-	JBoolean		GetStringCompleter(CBStringCompleter** completer) const;
-	JBoolean		GetCharActionManager(CBCharActionManager** mgr) const;
-	JBoolean		GetMacroManager(CBMacroManager** mgr) const;
+	bool		GetStyler(CBStylerBase** styler) const;
+	bool		GetStringCompleter(CBStringCompleter** completer) const;
+	bool		GetCharActionManager(CBCharActionManager** mgr) const;
+	bool		GetMacroManager(CBMacroManager** mgr) const;
 
 	void	OverrideTabWidth(const JSize tabWidth);
-	void	OverrideAutoIndent(const JBoolean autoIndent);
-	void	OverrideTabInsertsSpaces(const JBoolean insertSpaces);
-	void	OverrideShowWhitespace(const JBoolean showWhitespace);
-	void	OverrideBreakCROnly(const JBoolean breakCROnly);
-	void	OverrideReadOnly(const JBoolean readOnly);
+	void	OverrideAutoIndent(const bool autoIndent);
+	void	OverrideTabInsertsSpaces(const bool insertSpaces);
+	void	OverrideShowWhitespace(const bool showWhitespace);
+	void	OverrideBreakCROnly(const bool breakCROnly);
+	void	OverrideReadOnly(const bool readOnly);
 
 	static void	ReadStaticGlobalPrefs(std::istream& input, const JFileVersion vers);
 	static void	WriteStaticGlobalPrefs(std::ostream& output);
 
 	// called by CBDocumentManager
 
-	void	UpdateFileType(const JBoolean init = kJFalse);
+	void	UpdateFileType(const bool init = false);
 	void	StylerChanged(JSTStyler* styler);
 
 	void	RefreshVCSStatus();
 
-	static JBoolean	OpenAsBinaryFile(const JString& fileName);
+	static bool	OpenAsBinaryFile(const JString& fileName);
 
 	// called by CBTextEditor
 
@@ -118,12 +118,12 @@ protected:
 	JXTextMenu*		InsertTextMenu(const JString& title);
 	CBCommandMenu*	GetCommandMenu();
 
-	void			ReadFile(const JString& fileName, const JBoolean firstTime);
-	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const override;
+	void			ReadFile(const JString& fileName, const bool firstTime);
+	virtual void	WriteTextFile(std::ostream& output, const bool safetySave) const override;
 	virtual void	DiscardChanges() override;
 
-	virtual void	HandleFileModifiedByOthers(const JBoolean modTimeChanged,
-											   const JBoolean permsChanged) override;
+	virtual void	HandleFileModifiedByOthers(const bool modTimeChanged,
+											   const bool permsChanged) override;
 
 	virtual void	ReadPrefs(std::istream& input) override;
 	virtual void	WritePrefs(std::ostream& output) const override;
@@ -147,7 +147,7 @@ private:
 private:
 
 	CBTextEditor*		itsTextEditor;				// owned by its enclosure
-	JBoolean			itsOpenOverComplementFlag;	// kJTrue if open window over complement file
+	bool			itsOpenOverComplementFlag;	// true if open window over complement file
 	JXTextMenu*			itsFileMenu;
 	JXTextMenu*			itsFileFormatMenu;
 	JXTextMenu*			itsDiffMenu;
@@ -163,8 +163,8 @@ private:
 	JStyledText::CRMRuleList*	itsCRMRuleList;		// not owned; can be nullptr
 
 	const JUtf8Byte*	itsHelpSectionName;
-	JBoolean			itsUpdateFileTypeFlag;		// kJFalse while constructing
-	JBoolean			itsOverrideFlag[ kSettingCount ];
+	bool			itsUpdateFileTypeFlag;		// false while constructing
+	bool			itsOverrideFlag[ kSettingCount ];
 
 	JStyledText::PlainTextFormat	itsFileFormat;
 
@@ -184,15 +184,15 @@ private:
 private:
 
 	void	CBTextDocumentX1(const CBTextFileType type);
-	void	CBTextDocumentX2(const JBoolean setWindowSize);
-	void	BuildWindow(const JBoolean setWMClass,
+	void	CBTextDocumentX2(const bool setWindowSize);
+	void	BuildWindow(const bool setWMClass,
 						CBTextEditorCtorFn* teCtorFn);
 	void	DisplayFileName(const JString& name);
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex item);
 
-	JBoolean	OpenSomething();
+	bool	OpenSomething();
 
 	void	UpdateFileFormatMenu();
 	void	HandleFileFormatMenu(const JIndex item);
@@ -209,7 +209,7 @@ private:
 	void	UpdateSettingsMenu();
 	void	HandleSettingsMenu(const JIndex index);
 
-	JBoolean	ReadFromProject(std::istream& input, const JFileVersion vers);
+	bool	ReadFromProject(std::istream& input, const JFileVersion vers);
 
 	void	UpdateReadOnlyDisplay();
 
@@ -248,7 +248,7 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTextDocument::WillOpenComplFileOnTop()
 	const
 {
@@ -258,7 +258,7 @@ CBTextDocument::WillOpenComplFileOnTop()
 inline void
 CBTextDocument::ShouldOpenComplFileOnTop
 	(
-	const JBoolean doIt
+	const bool doIt
 	)
 {
 	itsOpenOverComplementFlag = doIt;
@@ -307,7 +307,7 @@ CBTextDocument::GetFileType()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTextDocument::GetStringCompleter
 	(
 	CBStringCompleter** completer
@@ -324,7 +324,7 @@ CBTextDocument::GetStringCompleter
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTextDocument::GetCharActionManager
 	(
 	CBCharActionManager** mgr
@@ -332,7 +332,7 @@ CBTextDocument::GetCharActionManager
 	const
 {
 	*mgr = itsActionMgr;
-	return JI2B( itsActionMgr != nullptr );
+	return itsActionMgr != nullptr;
 }
 
 /******************************************************************************
@@ -342,7 +342,7 @@ CBTextDocument::GetCharActionManager
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTextDocument::GetMacroManager
 	(
 	CBMacroManager** mgr
@@ -350,7 +350,7 @@ CBTextDocument::GetMacroManager
 	const
 {
 	*mgr = itsMacroMgr;
-	return JI2B( itsMacroMgr != nullptr );
+	return itsMacroMgr != nullptr;
 }
 
 /******************************************************************************

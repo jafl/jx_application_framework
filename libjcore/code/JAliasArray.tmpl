@@ -10,7 +10,7 @@
 	duplicate the data itself.
 
 	We are obviously dead in the water if itsData is deleted.  Rather than
-	making a mess of the interface and returning JBoolean everywhere, we
+	making a mess of the interface and returning bool everywhere, we
 	instead require that the JAliasArray be tossed when the data goes away.
 	By blowing up in any member function instead of blowing up in
 	ReceiveGoingAway(), we allow the data to be deleted before the
@@ -333,7 +333,7 @@ private:
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JAliasArray<T>::GetCompareFunction
 	(
 	JListT::CompareResult (**compareFn)(const T&, const T&)
@@ -341,7 +341,7 @@ JAliasArray<T>::GetCompareFunction
 	const
 {
 	*compareFn = itsCompareFn;
-	return JI2B( itsCompareFn != nullptr );
+	return itsCompareFn != nullptr;
 }
 
 template <class T>
@@ -422,7 +422,7 @@ JAliasArray<T>::SetSortOrder
 /******************************************************************************
  SearchSorted
 
-	Returns kJTrue if the specified target is found.
+	Returns true if the specified target is found.
 
 	"which" specifies what to return if more than one element matches
 	the given target.
@@ -430,7 +430,7 @@ JAliasArray<T>::SetSortOrder
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JAliasArray<T>::SearchSorted
 	(
 	const T&					target,
@@ -439,7 +439,7 @@ JAliasArray<T>::SearchSorted
 	)
 	const
 {
-	JBoolean found;
+	bool found;
 	*index = SearchSorted1(target, which, &found);
 	if (!found)
 		{
@@ -453,7 +453,7 @@ JAliasArray<T>::SearchSorted
 
 	Returns index where the element is or where it should be inserted in
 	order to keep the list sorted.  If there is an element that matches the
-	given one, *found is set to kJTrue.
+	given one, *found is set to true.
 
 	"which" specifies what to return if more than one element matches
 	the given target.
@@ -466,7 +466,7 @@ JAliasArray<T>::SearchSorted1
 	(
 	const T&					target,
 	const JListT::SearchReturn	which,
-	JBoolean*					found
+	bool*					found
 	)
 	const
 {

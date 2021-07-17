@@ -353,7 +353,7 @@ SelectionTable::HandleTableMenu
 
 		// This finds the first selected cell, which in our case is
 		// the only selected cell.
-		const JBoolean ok = selection.GetFirstSelectedCell(&cell);
+		const bool ok = selection.GetFirstSelectedCell(&cell);
 		assert(ok);
 
 		// The default value is inserted before the selected cell.

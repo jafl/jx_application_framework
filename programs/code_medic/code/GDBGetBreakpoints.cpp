@@ -26,7 +26,7 @@
 
 GDBGetBreakpoints::GDBGetBreakpoints()
 	:
-	CMGetBreakpoints(JString("-break-list", kJFalse))
+	CMGetBreakpoints(JString("-break-list", JString::kNoCopy))
 {
 }
 
@@ -52,7 +52,7 @@ GDBGetBreakpoints::HandleSuccess
 	const JString& cmdData
 	)
 {
-	(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(kJFalse);
+	(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(false);
 
 	JPtrArray<CMBreakpoint> bpList(JPtrArrayT::kForgetAll);		// ownership taken by CMBreakpointManager
 	bpList.SetCompareFunction(CMBreakpointManager::CompareBreakpointLocations);
@@ -109,7 +109,7 @@ GDBGetBreakpoints::ParseBreakpoint
 {
 	JIndex bpIndex;
 	CMBreakpoint::Action action;
-	JBoolean enabled;
+	bool enabled;
 	JSize ignoreCount;
 	if (!ParseCommon(map, &bpIndex, &action, &enabled, &ignoreCount))
 		{
@@ -216,7 +216,7 @@ GDBGetBreakpoints::ParseOther
 {
 	JIndex bpIndex;
 	CMBreakpoint::Action action;
-	JBoolean enabled;
+	bool enabled;
 	JSize ignoreCount;
 	if (!ParseCommon(map, &bpIndex, &action, &enabled, &ignoreCount))
 		{
@@ -244,7 +244,7 @@ GDBGetBreakpoints::ParseOther
 
 	if (fn.Contains("watchpoint"))		// may be deleted when go out of scope
 		{
-		(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(kJTrue);
+		(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(true);
 		}
 }
 
@@ -253,13 +253,13 @@ GDBGetBreakpoints::ParseOther
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBGetBreakpoints::ParseCommon
 	(
 	JStringPtrMap<JString>&	map,
 	JIndex*					bpIndex,
 	CMBreakpoint::Action*	action,
-	JBoolean*				enabled,
+	bool*				enabled,
 	JSize*					ignoreCount
 	)
 {
@@ -267,24 +267,24 @@ GDBGetBreakpoints::ParseCommon
 	if (!map.GetElement("number", &s))
 		{
 		CMGetLink()->Log("missing otherpoint number");
-		return kJFalse;
+		return false;
 		}
 	if (!s->ConvertToUInt(bpIndex))
 		{
 		CMGetLink()->Log("otherpoint number is not integer");
-		return kJFalse;
+		return false;
 		}
 
 	if (!map.GetElement("disp", &s))
 		{
 		CMGetLink()->Log("missing otherpoint action");
-		return kJFalse;
+		return false;
 		}
-	if (JString::Compare(*s, "del", kJFalse) == 0)
+	if (JString::Compare(*s, "del", JString::kIgnoreCase) == 0)
 		{
 		*action = CMBreakpoint::kRemoveBreakpoint;
 		}
-	else if (JString::Compare(*s, "dis", kJFalse) == 0)
+	else if (JString::Compare(*s, "dis", JString::kIgnoreCase) == 0)
 		{
 		*action = CMBreakpoint::kDisableBreakpoint;
 		}
@@ -296,24 +296,24 @@ GDBGetBreakpoints::ParseCommon
 	if (!map.GetElement("enabled", &s))
 		{
 		CMGetLink()->Log("missing otherpoint enable status");
-		return kJFalse;
+		return false;
 		}
-	*enabled = JI2B(*s == "y" || *s == "Y");
+	*enabled = *s == "y" || *s == "Y";
 
 	*ignoreCount = 0;
 	if (map.GetElement("ignore", &s) && !s->IsEmpty() &&
 		!s->ConvertToUInt(ignoreCount))
 		{
 		CMGetLink()->Log("ignore count is not integer");
-		return kJFalse;
+		return false;
 		}
 
 	// may be deleted or other status change
 
 	if (*action != CMBreakpoint::kKeepBreakpoint || *ignoreCount > 0)
 		{
-		(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(kJTrue);
+		(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(true);
 		}
 
-	return kJTrue;
+	return true;
 }

@@ -77,25 +77,25 @@ TestTextEditDocument::TestTextEditDocument
 	:
 	JXFileDocument(supervisor,
 				   (JXGetDocumentManager())->GetNewFileName(),
-				   kJFalse, kJTrue, ""),
+				   false, true, ""),
 	itsEmulatorType(kNoEmulator),
-	itsWritePrivateFmtFlag(kJFalse)
+	itsWritePrivateFmtFlag(false)
 {
-	BuildWindow(kJTrue);
+	BuildWindow(true);
 
 	// start with some challenging glyphs
 
-	itsText->SetText(JString("ABC Ж Җ ζ Ǽ ậ ϖ Ӝ ἆ Ɽ 转 燜 ㄊ 먄 욶 א ݣ ﺺ Բարեւ", kJFalse));
+	itsText->SetText(JString("ABC Ж Җ ζ Ǽ ậ ϖ Ӝ ἆ Ɽ 转 燜 ㄊ 먄 욶 א ݣ ﺺ Բարեւ", false));
 }
 
 TestTextEditDocument::TestTextEditDocument
 	(
 	JXDirector*		supervisor,
 	const JString&	fileName,
-	const JBoolean	privateFmt
+	const bool	privateFmt
 	)
 	:
-	JXFileDocument(supervisor, fileName, kJTrue, kJTrue, ""),
+	JXFileDocument(supervisor, fileName, true, true, ""),
 	itsEmulatorType(kNoEmulator),
 	itsWritePrivateFmtFlag(privateFmt)
 {
@@ -103,7 +103,7 @@ TestTextEditDocument::TestTextEditDocument
 
 	BuildWindow(JFileWritable(fileName));
 	ReadFile(fileName);
-	itsWritePrivateFmtFlag = kJFalse;
+	itsWritePrivateFmtFlag = false;
 }
 
 /******************************************************************************
@@ -124,7 +124,7 @@ TestTextEditDocument::~TestTextEditDocument()
 void
 TestTextEditDocument::BuildWindow
 	(
-	const JBoolean fileWritable
+	const bool fileWritable
 	)
 {
 	JArray<JCoordinate> sizes;
@@ -157,7 +157,7 @@ TestTextEditDocument::BuildWindow
 	window->SetWMClass("testjx", "TestTextEditDocument");
 	window->SetMinSize(20,50);
 
-	itsText = jnew JXStyledText(kJTrue, kJTrue, GetDisplay()->GetFontManager());
+	itsText = jnew JXStyledText(true, true, GetDisplay()->GetFontManager());
 	assert( itsText != nullptr );
 	ListenTo(itsText);
 
@@ -169,27 +169,27 @@ TestTextEditDocument::BuildWindow
 	scrollbarSet->FitToEnclosure();
 
 	itsTextEditor1 =
-		jnew TestTextEditor(itsText, kJFalse, fileWritable, menuBar, scrollbarSet,
+		jnew TestTextEditor(itsText, false, fileWritable, menuBar, scrollbarSet,
 							scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsTextEditor1 != nullptr );
 	itsTextEditor1->FitToEnclosure();
-	itsTextEditor1->ShouldAlwaysShowSelection(kJTrue);
+	itsTextEditor1->ShouldAlwaysShowSelection(true);
 
 	compartment = partition->GetCompartment(2);
 
 	scrollbarSet =
 		jnew JXScrollbarSet(compartment, JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != nullptr );
-	scrollbarSet->FitToEnclosure(kJTrue, kJTrue);
+	scrollbarSet->FitToEnclosure(true, true);
 
 	itsTextEditor2 =
-		jnew TestTextEditor(itsText, kJFalse, fileWritable, nullptr, scrollbarSet,
+		jnew TestTextEditor(itsText, false, fileWritable, nullptr, scrollbarSet,
 							scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsTextEditor2 != nullptr );
 	itsTextEditor2->FitToEnclosure();
-	itsTextEditor2->ShouldAlwaysShowSelection(kJTrue);
+	itsTextEditor2->ShouldAlwaysShowSelection(true);
 	itsTextEditor2->ShareMenus(itsTextEditor1);
 
 	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
@@ -319,15 +319,15 @@ TestTextEditDocument::HandleFileMenu
 
 	else if (index == kReadPrivateFmtCmd)
 		{
-		itsWritePrivateFmtFlag = kJTrue;
+		itsWritePrivateFmtFlag = true;
 		OpenFiles();
-		itsWritePrivateFmtFlag = kJFalse;
+		itsWritePrivateFmtFlag = false;
 		}
 	else if (index == kWritePrivateFmtCmd)
 		{
-		itsWritePrivateFmtFlag = kJTrue;
+		itsWritePrivateFmtFlag = true;
 		SaveCopyInNewFile();
-		itsWritePrivateFmtFlag = kJFalse;
+		itsWritePrivateFmtFlag = false;
 		}
 
 	else if (index == kPageSetupCmd)
@@ -360,7 +360,7 @@ TestTextEditDocument::OpenFiles()
 		const JSize count = fullNameList.GetElementCount();
 		JXStandAlonePG pg;
 		pg.RaiseWhenUpdate();
-		pg.FixedLengthProcessBeginning(count, JGetString("OpenFilesProgress::TestTextEditDocument"), kJTrue, kJFalse);
+		pg.FixedLengthProcessBeginning(count, JGetString("OpenFilesProgress::TestTextEditDocument"), true, false);
 
 		for (JString* fileName : fullNameList)
 			{
@@ -404,7 +404,7 @@ TestTextEditDocument::RevertToSaved()
 void
 TestTextEditDocument::DiscardChanges()
 {
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = GetFullName(&onDisk);
 	if (onDisk)
 		{
@@ -463,7 +463,7 @@ void
 TestTextEditDocument::WriteTextFile
 	(
 	std::ostream&	output,
-	const JBoolean	safetySave
+	const bool	safetySave
 	)
 	const
 {

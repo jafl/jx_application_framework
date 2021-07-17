@@ -19,18 +19,18 @@ public:
 	static JXChooseFileDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
 			   const JString& fileFilter,
-			   const JBoolean allowSelectMultiple,
+			   const bool allowSelectMultiple,
 			   const JString& origName, const JString& message);
 
 	virtual ~JXChooseFileDialog();
 
-	JBoolean	GetFullName(JString* fullName) const;
-	JBoolean	GetFullNames(JPtrArray<JString>* fullNameList) const;
+	bool	GetFullName(JString* fullName) const;
+	bool	GetFullNames(JPtrArray<JString>* fullNameList) const;
 
 protected:
 
 	JXChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-					   const JString& fileFilter, const JBoolean allowSelectMultiple);
+					   const JString& fileFilter, const bool allowSelectMultiple);
 
 	void	SetObjects(JXScrollbarSet* scrollbarSet,
 					   JXStaticText* pathLabel, JXPathInput* pathInput,
@@ -47,12 +47,12 @@ protected:
 	virtual void	AdjustSizings() override;
 	virtual void	UpdateDisplay() override;
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	const JBoolean	itsSelectMultipleFlag;
+	const bool	itsSelectMultipleFlag;
 
 	JXTextButton*	itsOpenButton;
 	JXTextButton*	itsSelectAllButton;

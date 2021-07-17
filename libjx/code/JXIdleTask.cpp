@@ -21,7 +21,7 @@
 
 	Since most tasks will perform at regular intervals, we provide
 	TimeToPerform() to handle this case.  The constructor asks for the time
-	between performances, and TimeToPerform() returns kJTrue whenever the
+	between performances, and TimeToPerform() returns true whenever the
 	elapsed time exceeds the period.  It also sets maxSleepTime to the
 	period, for convenience.
 
@@ -87,11 +87,11 @@ JXIdleTask::Stop()
 /******************************************************************************
  TimeToPerform
 
-	Returns kJTrue if it is time to perform the task again.
+	Returns true if it is time to perform the task again.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXIdleTask::TimeToPerform
 	(
 	const Time	delta,
@@ -107,10 +107,10 @@ JXIdleTask::TimeToPerform
 	if (itsElapsedTime >= itsPeriod)
 		{
 		ResetTimer();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

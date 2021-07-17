@@ -108,14 +108,14 @@ JVector::GetDimensionCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JDimensionsEqual
 	(
 	const JVector& v1,
 	const JVector& v2
 	)
 {
-	return JConvertToBoolean( v1.GetDimensionCount() == v2.GetDimensionCount() );
+	return v1.GetDimensionCount() == v2.GetDimensionCount();
 }
 
 /******************************************************************************

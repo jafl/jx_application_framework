@@ -63,7 +63,7 @@ JStringMap<V>::~JStringMap()
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JStringMap<V>::Contains
 	(
 	const JString& key
@@ -81,13 +81,13 @@ JStringMap<V>::Contains
 /******************************************************************************
  GetElement
 
-	If the element is found, sets value to it and returns kJTrue; otherwise,
-	leaves value unmodified and returns kJFalse.
+	If the element is found, sets value to it and returns true; otherwise,
+	leaves value unmodified and returns false.
 
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JStringMap<V>::GetElement
 	(
 	const JString& key,
@@ -98,11 +98,11 @@ JStringMap<V>::GetElement
 	if (Contains(key))
 		{
 		*value = JHashTable< JStrValue<V> >::GetCursor()->GetValue().value;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -112,20 +112,20 @@ JStringMap<V>::GetElement
 	The element is set if it already existed and 'type' is kIfOld or kAlways
 	(the default) or if it did not exist and 'type' is kIfNew or kAlways.
 
-	Returns kJTrue if the element was set, kJFalse otherwise.
-	*existed is set to kJTrue if there was something already there.
+	Returns true if the element was set, false otherwise.
+	*existed is set to true if there was something already there.
 
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JStringMap<V>::SetElement
 	(
 	const JString&                     key,
 	const V&                           value,
 	const JPtrArrayT::SetElementAction action,
 	const JStringMapT::SetType         type,
-	JBoolean*                          existed
+	bool*                          existed
 	)
 {
 	JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
@@ -136,10 +136,10 @@ JStringMap<V>::SetElement
 
 	if ( cursor->IsFull() )
 		{
-		*existed = kJTrue;
+		*existed = true;
 		if (type == JStringMapT::kIfNew)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		PrepareForSet(action);
@@ -147,21 +147,21 @@ JStringMap<V>::SetElement
 		// Otherwise we'd pass in the client's key!
 		hashEntry.key = cursor->GetValue().key;
 		cursor->Set(hashEntry);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		*existed = kJFalse;
+		*existed = false;
 		if (type == JStringMapT::kIfOld)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		hashEntry.key = jnew JString(key);
 		assert( hashEntry.key != nullptr );
 		cursor->Set(cursor->GetCursorHashValue(), hashEntry);
 
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -188,7 +188,7 @@ JStringMap<V>::PrepareForSet
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JStringMap<V>::RemoveElement
 	(
 	const JString&                     key,
@@ -203,11 +203,11 @@ JStringMap<V>::RemoveElement
 		jdelete const_cast<JString*>(cursor->GetValue().key);
 
 		cursor->Remove();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -250,14 +250,14 @@ JStringMap<V>::RemoveAll
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JStringMap<V>::Compare
 	(
 	const JStrValue<V>& lhs,
 	const JStrValue<V>& rhs
 	)
 {
-	return JI2B(*(lhs.key) == *(rhs.key));
+	return *(lhs.key) == *(rhs.key);
 }
 
 /******************************************************************************

@@ -169,7 +169,7 @@ TestTabDirector::Receive
 		{
 		JString s(itsNextTabIndex, 0);
 		s.Prepend(JGetString("TabLabelPrefix::TestTabDirector"));
-		JXContainer* card = itsTabGroup->AppendTab(s, kJTrue);
+		JXContainer* card = itsTabGroup->AppendTab(s, true);
 		itsNextTabIndex++;
 
 		JXTextButton* removeButton =

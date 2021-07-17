@@ -48,17 +48,17 @@ public:
 	JFAID	GetElementID(const JFAIndex& index) const;
 	void	SetElementID(const JFAIndex& index, const JFAID& id);
 
-	JBoolean	GetElementIndexFromID(const JFAID& id, JFAIndex* index) const;
+	bool	GetElementIndexFromID(const JFAID& id, JFAIndex* index) const;
 	JFAID		GetUniqueID() const;
 
 	void		SetToEmbeddedFile(const JFAIndex& index);
-	JBoolean	IsEmbeddedFile(const JFAIndex& index) const;
+	bool	IsEmbeddedFile(const JFAIndex& index) const;
 
 	void		EmbeddedFileOpened(const JFAIndex& index, JFileArray* theEmbeddedFile);
 	void		EmbeddedFileClosed(const JFAIndex& index);
 
-	JBoolean	EmbeddedFileIsClosed(const JFAIndex& index) const;
-	JBoolean	AllEmbeddedFilesAreClosed() const;
+	bool	EmbeddedFileIsClosed(const JFAIndex& index) const;
+	bool	AllEmbeddedFilesAreClosed() const;
 
 	void		ReplaceEmbeddedFileStreams(std::fstream* newStream);
 

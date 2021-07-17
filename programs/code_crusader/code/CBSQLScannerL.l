@@ -49,7 +49,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}

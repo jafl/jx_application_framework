@@ -54,8 +54,8 @@ public:
 	void	SetWildcardFilter(const JString& filter);
 	void	SavePreferences(std::ostream& os);
 
-	JBoolean	FilterVisible() const;
-	void		ShowFilter(const JBoolean show);
+	bool	FilterVisible() const;
+	void		ShowFilter(const bool show);
 	void		ToggleFilter();
 	void		SaveFilterPref();
 

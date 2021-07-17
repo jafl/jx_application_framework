@@ -28,8 +28,8 @@
 
 JUndo::JUndo()
 {
-	itsActiveFlag = kJTrue;
-	itsIsRedoFlag = kJFalse;
+	itsActiveFlag = true;
+	itsIsRedoFlag = false;
 }
 
 /******************************************************************************

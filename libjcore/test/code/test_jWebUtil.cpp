@@ -18,15 +18,15 @@ int main()
 
 JTEST(URL)
 {
-	JAssertTrue(JIsURL(JString("http://google.com", kJFalse)));
-	JAssertTrue(JIsURL(JString("https://google.com", kJFalse)));
-	JAssertTrue(JIsURL(JString("http://google.com/test", kJFalse)));
-	JAssertFalse(JIsURL(JString("/usr/local", kJFalse)));
+	JAssertTrue(JIsURL(JString("http://google.com", JString::kNoCopy)));
+	JAssertTrue(JIsURL(JString("https://google.com", JString::kNoCopy)));
+	JAssertTrue(JIsURL(JString("http://google.com/test", JString::kNoCopy)));
+	JAssertFalse(JIsURL(JString("/usr/local", JString::kNoCopy)));
 
 	JString protocol, host, path;
 	JIndex port;
 	JAssertTrue(JParseURL(
-		JString("http://google.com", kJFalse),
+		JString("http://google.com", JString::kNoCopy),
 		&protocol, &host, &port, &path));
 	JAssertStringsEqual("http", protocol);
 	JAssertStringsEqual("google.com", host);
@@ -34,7 +34,7 @@ JTEST(URL)
 	JAssertStringsEqual("/", path);
 
 	JAssertTrue(JParseURL(
-		JString("https://google.com:8443/foo/bar", kJFalse),
+		JString("https://google.com:8443/foo/bar", JString::kNoCopy),
 		&protocol, &host, &port, &path));
 	JAssertStringsEqual("https", protocol);
 	JAssertStringsEqual("google.com", host);
@@ -42,6 +42,6 @@ JTEST(URL)
 	JAssertStringsEqual("/foo/bar", path);
 
 	JAssertFalse(JParseURL(
-		JString("/usr/local", kJFalse),
+		JString("/usr/local", JString::kNoCopy),
 		&protocol, &host, &port, &path));
 }

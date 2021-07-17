@@ -23,7 +23,7 @@
 JXTextEditorSet::JXTextEditorSet
 	(
 	JStyledText*		text,
-	const JBoolean		ownsText,
+	const bool		ownsText,
 	JXTextEditor**		textEditor,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -60,7 +60,7 @@ JXTextEditorSet::JXTextEditorSet
 	(
 	JXMenuBar*			menuBar,
 	JStyledText*		text,
-	const JBoolean		ownsText,
+	const bool		ownsText,
 	JXTextEditor**		textEditor,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,

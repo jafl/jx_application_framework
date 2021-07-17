@@ -29,7 +29,7 @@ static GLMDIServer*		itsMDIServer	= nullptr;
 
  ******************************************************************************/
 
-JBoolean 
+bool 
 InitGLGlobals
 	(
 	GLPlotApp* app
@@ -37,7 +37,7 @@ InitGLGlobals
 {
 	itsApplication = app;
 
-	JBoolean isNew;
+	bool isNew;
 	itsPrefsMgr = jnew GLPrefsMgr(&isNew);
 	assert(itsPrefsMgr != nullptr);
 	

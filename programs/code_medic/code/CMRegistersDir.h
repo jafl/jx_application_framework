@@ -24,9 +24,9 @@ public:
 	virtual	~CMRegistersDir();
 
 	virtual void			Activate() override;
-	virtual JBoolean		Deactivate() override;
+	virtual bool		Deactivate() override;
 	virtual const JString&	GetName() const override;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
+	virtual bool		GetMenuIcon(const JXImage** icon) const override;
 
 	void	Update(const JString& data);
 
@@ -40,8 +40,8 @@ private:
 	CMCommandDirector*	itsCommandDir;
 	JXStaticText*		itsWidget;
 	CMGetRegisters*		itsCmd;			// can be nullptr
-	JBoolean			itsShouldUpdateFlag;
-	JBoolean			itsNeedsUpdateFlag;
+	bool			itsShouldUpdateFlag;
+	bool			itsNeedsUpdateFlag;
 
 	JXTextMenu*			itsFileMenu;
 	JXTextMenu*			itsHelpMenu;

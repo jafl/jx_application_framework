@@ -69,7 +69,7 @@ JXToolBarEditWidget::~JXToolBarEditWidget()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXToolBarEditWidget::GetImage
 	(
 	const JIndex	index,
@@ -81,14 +81,14 @@ JXToolBarEditWidget::GetImage
 	if (node->IsOpenable())
 		{
 		*image = itsMenuImage;
-		return kJTrue;
+		return true;
 		}
 
 	const JXToolBarNode* tbnode = dynamic_cast<const JXToolBarNode*>(node);
 	assert( tbnode != nullptr );
 
 	*image = tbnode->IsChecked() ? itsCheckedItemImage : itsUncheckedItemImage;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

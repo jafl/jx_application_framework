@@ -121,10 +121,10 @@ JXColorWheel::Draw
 	const JCoordinate center = size/2 + kWheelMargin;
 	if (itsImage == nullptr || itsImage->GetWidth() != max || itsColor.brightness != itsLastDrawBrightness)
 		{
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.SetPenColor(black);
 		p.Ellipse(kWheelMargin, kWheelMargin, size, size);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 
 		JRect r  = bounds;
 		r.bottom = r.top  + max;
@@ -167,9 +167,9 @@ JXColorWheel::Draw
 	JRect mark(y-kWheelMargin, x-kWheelMargin, y+kWheelMargin+1, x+kWheelMargin+1);
 
 	p.SetPenColor(JColorManager::GetWhiteColor());
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.JPainter::Rect(mark);
-	p.SetFilling(kJFalse);
+	p.SetFilling(false);
 	p.SetPenColor(black);
 	p.JPainter::Rect(mark);
 }

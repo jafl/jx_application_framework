@@ -31,9 +31,9 @@ JX2DPlotRangeDialog::JX2DPlotRangeDialog
 	const JFloat yMin
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
-	itsClearRangeFlag = kJFalse;
+	itsClearRangeFlag = false;
 
 	BuildWindow();
 	itsXMax->SetValue(xMax);
@@ -135,11 +135,11 @@ JX2DPlotRangeDialog::BuildWindow()
 /******************************************************************************
  GetRangeValues (public)
 
-	Returns kJTrue if the range should not be cleared.
+	Returns true if the range should not be cleared.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JX2DPlotRangeDialog::GetRangeValues
 	(
 	JFloat* xMax,
@@ -175,8 +175,8 @@ JX2DPlotRangeDialog::Receive
 {
 	if (sender == itsClearButton && message.Is(JXButton::kPushed))
 		{
-		itsClearRangeFlag = kJTrue;
-		EndDialog(kJTrue);
+		itsClearRangeFlag = true;
+		EndDialog(true);
 		}
 	else
 		{

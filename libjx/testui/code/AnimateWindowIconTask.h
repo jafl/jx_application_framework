@@ -47,7 +47,7 @@ private:
 	void	DisplaySillyIcon();
 
 	JXImage*	CreateIcon(const JConstBitmap& bitmap, const JConstBitmap& mask,
-						   const JBoolean drop);
+						   const bool drop);
 
 	// not allowed
 

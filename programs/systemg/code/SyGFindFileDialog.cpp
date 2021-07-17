@@ -171,7 +171,7 @@ SyGFindFileDialog::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 
 	itsActionRG->SetBorderWidth(0);
 
@@ -193,7 +193,7 @@ SyGFindFileDialog::BuildWindow()
 	itsExprInput->SetFont(font);
 	ListenTo(itsExprInput);
 
-	itsStayOpenCB->SetState(kJTrue);
+	itsStayOpenCB->SetState(true);
 
 	UpdateDisplay();
 }
@@ -282,7 +282,7 @@ SyGFindFileDialog::Receive
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{
-		(SyGGetManPageDialog())->ViewManPage(JString("find", kJFalse));
+		(SyGGetManPageDialog())->ViewManPage(JString("find", JString::kNoCopy));
 		}
 
 	else if (sender == itsChoosePathButton && message.Is(JXButton::kPushed))
@@ -313,20 +313,20 @@ SyGFindFileDialog::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGFindFileDialog::Search()
 {
-	itsPathInput->ShouldAllowInvalidPath(kJFalse);
+	itsPathInput->ShouldAllowInvalidPath(false);
 	if (!itsPathInput->InputValid())
 		{
-		itsPathInput->ShouldAllowInvalidPath(kJTrue);
+		itsPathInput->ShouldAllowInvalidPath(true);
 		itsPathInput->Focus();
-		return kJFalse;
+		return false;
 		}
-	itsPathInput->ShouldAllowInvalidPath(kJTrue);
+	itsPathInput->ShouldAllowInvalidPath(true);
 
 	JString path;
-	const JBoolean ok = itsPathInput->GetPath(&path);
+	const bool ok = itsPathInput->GetPath(&path);
 	assert( ok );
 
 	const JIndex action = itsActionRG->GetSelectedItem();
@@ -339,7 +339,7 @@ SyGFindFileDialog::Search()
 		SearchExpr(path, itsExprInput->GetText()->GetText());
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -401,7 +401,7 @@ SyGFindFileDialog::SearchExpr
 		}
 
 	SyGTreeDir* dir;
-	if ((SyGGetApplication())->OpenDirectory(path, &dir, nullptr, kJTrue, kJTrue, kJFalse, kJTrue))
+	if ((SyGGetApplication())->OpenDirectory(path, &dir, nullptr, true, true, false, true))
 		{
 		SyGFindFileTask* task;
 		SyGFindFileTask::Create(dir, path, e, &task);
@@ -430,7 +430,7 @@ SyGFindFileDialog::ReadPrefs
 	window->ReadGeometry(input);
 	window->Deiconify();
 
-	JBoolean stayOpen;
+	bool stayOpen;
 	input >> JBoolFromString(stayOpen);
 	itsStayOpenCB->SetState(stayOpen);
 }

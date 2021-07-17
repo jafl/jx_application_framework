@@ -35,7 +35,7 @@ public:
 	virtual JFunction*			GetArg(const JIndex index) = 0;
 	virtual void				SetArg(const JIndex index, JFunction* arg) = 0;
 
-	JBoolean	ReplaceArg(const JFunction* origArg, JFunction* newArg);
+	bool	ReplaceArg(const JFunction* origArg, JFunction* newArg);
 
 private:
 

@@ -67,28 +67,28 @@ public:
 	const JString&	GetPath() const;
 	const JString&	GetName() const;
 	const JString&	GetFullName() const;
-	JBoolean		GetLinkName(const JString** linkName) const;
+	bool		GetLinkName(const JString** linkName) const;
 	const JString&	GetUserName() const;
 	const JString&	GetGroupName() const;
 
 	Type		GetType() const;
-	JBoolean	IsFile() const;
-	JBoolean	IsDirectory() const;
-	JBoolean	IsLink() const;
-	JBoolean	IsWorkingLink() const;
-	JBoolean	IsBrokenLink() const;
-	JBoolean	IsUnknown() const;
+	bool	IsFile() const;
+	bool	IsDirectory() const;
+	bool	IsLink() const;
+	bool	IsWorkingLink() const;
+	bool	IsBrokenLink() const;
+	bool	IsUnknown() const;
 
 	JSize	GetSize() const;
 
 	mode_t	GetMode() const;
 	JError	SetMode(const mode_t mode);
-	JError	SetMode(const ModeBit bit, const JBoolean allow);
+	JError	SetMode(const ModeBit bit, const bool allow);
 	JString	GetModeString() const;
 
-	JBoolean	IsReadable() const;
-	JBoolean	IsWritable() const;
-	JBoolean	IsExecutable() const;
+	bool	IsReadable() const;
+	bool	IsWritable() const;
+	bool	IsExecutable() const;
 
 	time_t	GetModTime() const;
 	time_t	GetStatusTime() const;
@@ -99,11 +99,11 @@ public:
 
 	JDirEntry	FollowLink() const;
 
-	JBoolean	NeedsUpdate() const;
-	JBoolean	Update(const JBoolean force = kJFalse);		// updates if necessary
+	bool	NeedsUpdate() const;
+	bool	Update(const bool force = false);		// updates if necessary
 	void		ForceUpdate();								// updates regardless
 
-	JBoolean	MatchesContentFilter(const JRegex& regex,
+	bool	MatchesContentFilter(const JRegex& regex,
 									 const JSize kBlockSize = 1024) const;
 
 	static JListT::CompareResult
@@ -133,9 +133,9 @@ private:
 	gid_t		itsGroupID;
 	JString*	itsGroupName;		// nullptr until first needed
 
-	JBoolean	itsIsReadableFlag;
-	JBoolean	itsIsWritableFlag;
-	JBoolean	itsIsExecutableFlag;
+	bool	itsIsReadableFlag;
+	bool	itsIsWritableFlag;
+	bool	itsIsExecutableFlag;
 
 private:
 
@@ -159,48 +159,48 @@ JDirEntry::GetType()
 	return itsType;
 }
 
-inline JBoolean
+inline bool
 JDirEntry::IsFile()
 	const
 {
-	return JConvertToBoolean( itsType == kFile || itsType == kFileLink );
+	return itsType == kFile || itsType == kFileLink;
 }
 
-inline JBoolean
+inline bool
 JDirEntry::IsDirectory()
 	const
 {
-	return JConvertToBoolean( itsType == kDir || itsType == kDirLink );
+	return itsType == kDir || itsType == kDirLink;
 }
 
-inline JBoolean
+inline bool
 JDirEntry::IsLink()
 	const
 {
-	return JConvertToBoolean( itsType == kFileLink || itsType == kDirLink ||
-							  itsType == kBrokenLink || itsType == kUnknownLink );
+	return itsType == kFileLink || itsType == kDirLink ||
+							  itsType == kBrokenLink || itsType == kUnknownLink;
 }
 
-inline JBoolean
+inline bool
 JDirEntry::IsWorkingLink()
 	const
 {
-	return JConvertToBoolean( itsType == kFileLink || itsType == kDirLink ||
-							  itsType == kUnknownLink );
+	return itsType == kFileLink || itsType == kDirLink ||
+							  itsType == kUnknownLink;
 }
 
-inline JBoolean
+inline bool
 JDirEntry::IsBrokenLink()
 	const
 {
-	return JConvertToBoolean( itsType == kBrokenLink );
+	return itsType == kBrokenLink;
 }
 
-inline JBoolean
+inline bool
 JDirEntry::IsUnknown()
 	const
 {
-	return JConvertToBoolean( itsType == kUnknown || itsType == kUnknownLink );
+	return itsType == kUnknown || itsType == kUnknownLink;
 }
 
 /*****************************************************************************
@@ -244,7 +244,7 @@ JDirEntry::GetFullName()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JDirEntry::GetLinkName
 	(
 	const JString** linkName
@@ -252,7 +252,7 @@ JDirEntry::GetLinkName
 	const
 {
 	*linkName = itsLinkName;
-	return JI2B( itsLinkName != nullptr );
+	return itsLinkName != nullptr;
 }
 
 /*****************************************************************************
@@ -320,21 +320,21 @@ JDirEntry::GetAccessTime()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JDirEntry::IsReadable()
 	const
 {
 	return itsIsReadableFlag;
 }
 
-inline JBoolean
+inline bool
 JDirEntry::IsWritable()
 	const
 {
 	return itsIsWritableFlag;
 }
 
-inline JBoolean
+inline bool
 JDirEntry::IsExecutable()
 	const
 {

@@ -21,7 +21,7 @@ CBProjectTree::CBProjectTree
 	CBProjectDocument* doc
 	)
 	:
-	JTree(jnew CBProjectNode(nullptr, kCBRootNT, JString("root", kJFalse), kJTrue))
+	JTree(jnew CBProjectNode(nullptr, kCBRootNT, JString("root", JString::kNoCopy), true))
 {
 	itsDoc = doc;
 }
@@ -80,11 +80,11 @@ CBProjectTree::GetProjectRoot()
 /******************************************************************************
  BuildMakeFiles
 
-	Returns kJTrue if all the source files exist.
+	Returns true if all the source files exist.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectTree::BuildMakeFiles
 	(
 	JString*				text,
@@ -103,11 +103,11 @@ CBProjectTree::BuildMakeFiles
 /******************************************************************************
  BuildCMakeData
 
-	Returns kJTrue if all the source files exist.
+	Returns true if all the source files exist.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectTree::BuildCMakeData
 	(
 	JString*				src,
@@ -126,11 +126,11 @@ CBProjectTree::BuildCMakeData
 /******************************************************************************
  BuildQMakeData
 
-	Returns kJTrue if all the source files exist.
+	Returns true if all the source files exist.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectTree::BuildQMakeData
 	(
 	JString*				src,

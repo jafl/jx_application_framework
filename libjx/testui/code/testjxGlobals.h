@@ -15,11 +15,11 @@
 #include "TestMDIServer.h"
 
 TestApp*	TestjxGetApplication();
-JBoolean	TestjxGetMDIServer(TestMDIServer** server);
+bool	TestjxGetMDIServer(TestMDIServer** server);
 
 	// called by TestApp
 
-void TestjxCreateGlobals(TestApp* app, const JBoolean wantMDI);
+void TestjxCreateGlobals(TestApp* app, const bool wantMDI);
 void TestjxDeleteGlobals();
 
 #endif

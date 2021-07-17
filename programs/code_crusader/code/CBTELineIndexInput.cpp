@@ -82,9 +82,9 @@ CBTELineIndexInput::HandleKeyPress
 	if ((c == '\r' || c == '\n') &&
 		!modifiers.meta() && !modifiers.control() && modifiers.shift())
 		{
-		ShouldAct(kJTrue);
+		ShouldAct(true);
 		itsColInput->Focus();	// trigger HandleUnfocusEvent()
-		ShouldAct(kJFalse);
+		ShouldAct(false);
 		}
 	else if ((c == '\r' || c == '\n') &&
 			 !modifiers.GetState(JXMenu::AdjustNMShortcutModifier(kJXMetaKeyIndex))    &&
@@ -99,9 +99,9 @@ CBTELineIndexInput::HandleKeyPress
 			GetText()->SetText(s);
 			}
 
-		ShouldAct(kJTrue);
+		ShouldAct(true);
 		te->Focus();				// trigger HandleUnfocusEvent()
-		ShouldAct(kJFalse);
+		ShouldAct(false);
 		}
 	else
 		{
@@ -112,7 +112,7 @@ CBTELineIndexInput::HandleKeyPress
 		const JString& s = GetText()->GetText();
 		if (s == "0")
 			{
-			GetText()->SetText(JString("1", kJFalse));
+			GetText()->SetText(JString("1", JString::kNoCopy));
 			GoToEndOfLine();
 			}
 		if (s == "$")

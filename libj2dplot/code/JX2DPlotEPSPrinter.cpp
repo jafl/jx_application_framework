@@ -37,7 +37,7 @@ JX2DPlotEPSPrinter::JX2DPlotEPSPrinter
 
 	itsUnit = JX2DPlotPrintEPSDialog::kCentimeters;
 
-	itsUsePlotSetupFlag = kJTrue;
+	itsUsePlotSetupFlag = true;
 	itsPlotSetupDialog  = nullptr;
 }
 
@@ -110,8 +110,8 @@ JXEPSPrintSetupDialog*
 JX2DPlotEPSPrinter::CreatePrintSetupDialog
 	(
 	const JString&	fileName,
-	const JBoolean	preview,
-	const JBoolean	bw
+	const bool	preview,
+	const bool	bw
 	)
 {
 	assert( itsPlotSetupDialog == nullptr );
@@ -132,29 +132,29 @@ JX2DPlotEPSPrinter::CreatePrintSetupDialog
 /******************************************************************************
  EndUserPrintSetup (virtual protected)
 
-	Returns kJTrue if caller should continue the printing process.
+	Returns true if caller should continue the printing process.
 	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JX2DPlotEPSPrinter::EndUserPrintSetup
 	(
 	const JBroadcaster::Message&	message,
-	JBoolean*						changed
+	bool*						changed
 	)
 {
-	const JBoolean ok = JXEPSPrinter::EndUserPrintSetup(message, changed);
+	const bool ok = JXEPSPrinter::EndUserPrintSetup(message, changed);
 	if (itsPlotSetupDialog != nullptr)
 		{
 		JCoordinate w,h;
 		JX2DPlotPrintEPSDialog::Unit u;
 		itsPlotSetupDialog->GetPlotSize(&w, &h, &u);
 
-		*changed = JI2B(*changed ||
+		*changed = *changed ||
 			w != itsPlotWidth  ||
 			h != itsPlotHeight ||
-			u != itsUnit);
+			u != itsUnit;
 
 		itsPlotWidth  = w;
 		itsPlotHeight = h;

@@ -271,7 +271,7 @@ GPMProcessTreeList::HandleMouseDown
 	if (cell.x == GPMProcessList::kTreeState)
 		{
 		const GPMProcessEntry* entry;
-		const JBoolean ok = GetSelectedProcess(&entry);
+		const bool ok = GetSelectedProcess(&entry);
 		assert( ok );
 
 		GPMProcessTable::ToggleProcessState(*entry);
@@ -326,7 +326,7 @@ GPMProcessTreeList::HandleContextMenu
 
  ******************************************************************************/
 
-JBoolean
+bool
 GPMProcessTreeList::GetSelectedProcess
 	(
 	const GPMProcessEntry** entry
@@ -339,12 +339,12 @@ GPMProcessTreeList::GetSelectedProcess
 	if (!list.IsEmpty())
 		{
 		*entry = dynamic_cast<GPMProcessEntry*>(list.GetFirstElement());
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*entry = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 

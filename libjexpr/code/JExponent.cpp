@@ -79,7 +79,7 @@ JExponent::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExponent::Evaluate
 	(
 	JFloat* result
@@ -89,18 +89,18 @@ JExponent::Evaluate
 	JFloat value, exponent;
 	if (!(GetArg1())->Evaluate(&value))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (!(GetArg2())->Evaluate(&exponent))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = pow(value, exponent);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JExponent::Evaluate
 	(
 	JComplex* result
@@ -110,11 +110,11 @@ JExponent::Evaluate
 	JComplex value, exponent;
 	if (!(GetArg1())->Evaluate(&value))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (!(GetArg2())->Evaluate(&exponent))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// avoid bug in g++ implementation
@@ -128,7 +128,7 @@ JExponent::Evaluate
 			{
 			*result = 0.0;		// 0 ^ x, x != 0.0
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -223,7 +223,7 @@ JExponent::Render
 	if (JParenthesizeArgForRender(*this, *base))
 		{
 		JIndex baseIndex;
-		const JBoolean found = rectList.FindFunction(base, &baseIndex);
+		const bool found = rectList.FindFunction(base, &baseIndex);
 		assert( found );
 		renderer.DrawParentheses(rectList.GetRect(baseIndex));
 		}

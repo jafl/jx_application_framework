@@ -41,29 +41,28 @@ JTEDefaultKeyHandler::~JTEDefaultKeyHandler()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTEDefaultKeyHandler::HandleKeyPress
 	(
 	const JUtf8Character&			key,
-	const JBoolean					selectText,
+	const bool					selectText,
 	const JTextEditor::CaretMotion	motion,
-	const JBoolean					deleteToTabStop
+	const bool					deleteToTabStop
 	)
 {
 	JTextEditor* te       = GetTE();
 	JStyledText* st       = te->GetText();
-	JBoolean hasSelection = te->HasSelection();
+	bool hasSelection = te->HasSelection();
 
 	// We select text by selecting to where the caret ends up.
 
-	const JBoolean isArrowKey = JI2B(
-		key == kJLeftArrow || key == kJRightArrow ||
-		key == kJUpArrow   || key == kJDownArrow);
-	const JBoolean willSelectText = JI2B( selectText && isArrowKey );
+	const bool isArrowKey = key == kJLeftArrow || key == kJRightArrow ||
+		key == kJUpArrow   || key == kJDownArrow;
+	const bool willSelectText = selectText && isArrowKey;
 
 	if (willSelectText)
 		{
-		JBoolean restoreCaretX        = kJTrue;
+		bool restoreCaretX        = true;
 		const JCoordinate savedCaretX = te->itsCaretX;
 
 		if (hasSelection && te->itsSelectionPivot.charIndex == te->itsSelection.charRange.last+1)
@@ -77,7 +76,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 		else if (hasSelection)	// SetSelection() was called by outsider
 			{
 			te->itsSelectionPivot = te->itsSelection.GetFirst();
-			restoreCaretX         = kJFalse;
+			restoreCaretX         = false;
 			te->SetCaretLocation(te->itsSelection.GetAfter());
 			}
 		else
@@ -92,12 +91,12 @@ JTEDefaultKeyHandler::HandleKeyPress
 		}
 	else if (te->GetType() == JTextEditor::kSelectableText && !isArrowKey)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	hasSelection = te->HasSelection();
 
-	JBoolean processed = kJTrue;
+	bool processed = true;
 
 	// left arrow
 
@@ -250,7 +249,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 
 	else
 		{
-		processed = kJFalse;
+		processed = false;
 		}
 
 	// finish selection process
@@ -262,13 +261,13 @@ JTEDefaultKeyHandler::HandleKeyPress
 			{
 			te->SetSelection(
 				TextRange(te->itsCaret.location, te->itsSelectionPivot),
-				kJFalse);
+				false);
 			}
 		else if (te->itsCaret.location.charIndex > te->itsSelectionPivot.charIndex)
 			{
 			te->SetSelection(
 				TextRange(te->itsSelectionPivot, te->itsCaret.location),
-				kJFalse);
+				false);
 			}
 
 		te->itsPrevDragType = JTextEditor::kSelectDrag;

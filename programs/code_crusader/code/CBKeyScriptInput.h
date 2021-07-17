@@ -31,7 +31,7 @@ protected:
 
 		StyledText(JFontManager* fontManager)
 			:
-			JXInputField::StyledText(kJFalse, fontManager)
+			JXInputField::StyledText(false, fontManager)
 		{ };
 
 		protected:
@@ -40,7 +40,7 @@ protected:
 							const JString& text, JRunArray<JFont>* styles,
 							JStyledText::TextRange* recalcRange,
 							JStyledText::TextRange* redrawRange,
-							const JBoolean deletion) override;
+							const bool deletion) override;
 	};
 
 private:

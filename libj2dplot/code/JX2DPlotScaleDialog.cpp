@@ -31,14 +31,14 @@ JX2DPlotScaleDialog::JX2DPlotScaleDialog
 	const JFloat xMin,
 	const JFloat xMax,
 	const JFloat xInc,
-	const JBoolean xLinear,
+	const bool xLinear,
 	const JFloat yMin,
 	const JFloat yMax,
 	const JFloat yInc,
-	const JBoolean yLinear
+	const bool yLinear
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow();
 
@@ -89,7 +89,7 @@ JX2DPlotScaleDialog::~JX2DPlotScaleDialog()
 void
 JX2DPlotScaleDialog::EditXAxis
 	(
-	const JBoolean xAxis
+	const bool xAxis
 	)
 {
 	if (!xAxis)
@@ -239,11 +239,11 @@ JX2DPlotScaleDialog::GetScaleValues
 	JFloat*		xMin,
 	JFloat*		xMax,
 	JFloat*		xInc,
-	JBoolean*	xLinear,
+	bool*	xLinear,
 	JFloat*		yMin,
 	JFloat*		yMax,
 	JFloat*		yInc,
-	JBoolean*	yLinear
+	bool*	yLinear
 	)
 {
 	JFloat min, max;
@@ -254,7 +254,7 @@ JX2DPlotScaleDialog::GetScaleValues
 
 	*xMin    = JMin(max,min);
 	*xMax    = JMax(max,min);
-	*xLinear = JI2B(itsXAxisTypeRG->GetSelectedItem() == kLinear);
+	*xLinear = itsXAxisTypeRG->GetSelectedItem() == kLinear;
 
 	itsYMin->GetValue(&min);
 	itsYMax->GetValue(&max);
@@ -262,7 +262,7 @@ JX2DPlotScaleDialog::GetScaleValues
 
 	*yMin    = JMin(max,min);
 	*yMax    = JMax(max,min);
-	*yLinear = JI2B(itsYAxisTypeRG->GetSelectedItem() == kLinear);
+	*yLinear = itsYAxisTypeRG->GetSelectedItem() == kLinear;
 }
 
 /******************************************************************************
@@ -272,18 +272,18 @@ JX2DPlotScaleDialog::GetScaleValues
 
  ******************************************************************************/
 
-JBoolean
+bool
 JX2DPlotScaleDialog::OKToDeactivate()
 {
 JFloat value, min,max;
 
 	if (!JXDialogDirector::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	else if (itsXMin->GetValue(&min) && itsXMax->GetValue(&max) &&
@@ -291,14 +291,14 @@ JFloat value, min,max;
 		{
 		JGetUserNotification()->ReportError(JGetString("LimitsMustBeDifferent::JX2DPlotScaleDialog"));
 		itsXMin->Focus();
-		return kJFalse;
+		return false;
 		}
 	else if (itsYMin->GetValue(&min) && itsYMax->GetValue(&max) &&
 			 min == max)
 		{
 		JGetUserNotification()->ReportError(JGetString("LimitsMustBeDifferent::JX2DPlotScaleDialog"));
 		itsYMin->Focus();
-		return kJFalse;
+		return false;
 		}
 
 	else if (itsXAxisTypeRG->GetSelectedItem() == kLog &&
@@ -306,14 +306,14 @@ JFloat value, min,max;
 		{
 		JGetUserNotification()->ReportError(JGetString("PositiveLimitsForLog::JX2DPlotScaleDialog"));
 		itsXMin->Focus();
-		return kJFalse;
+		return false;
 		}
 	else if (itsXAxisTypeRG->GetSelectedItem() == kLog &&
 			 itsXMax->GetValue(&value) && value <= 0.0)
 		{
 		JGetUserNotification()->ReportError(JGetString("PositiveLimitsForLog::JX2DPlotScaleDialog"));
 		itsXMax->Focus();
-		return kJFalse;
+		return false;
 		}
 
 	else if (itsYAxisTypeRG->GetSelectedItem() == kLog &&
@@ -321,19 +321,19 @@ JFloat value, min,max;
 		{
 		JGetUserNotification()->ReportError(JGetString("PositiveLimitsForLog::JX2DPlotScaleDialog"));
 		itsYMin->Focus();
-		return kJFalse;
+		return false;
 		}
 	else if (itsYAxisTypeRG->GetSelectedItem() == kLog &&
 			 itsYMax->GetValue(&value) && value <= 0.0)
 		{
 		JGetUserNotification()->ReportError(JGetString("PositiveLimitsForLog::JX2DPlotScaleDialog"));
 		itsYMax->Focus();
-		return kJFalse;
+		return false;
 		}
 
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 

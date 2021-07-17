@@ -12,14 +12,14 @@
 	class because we do not know the best way to store the values.  Some may
 	choose to store everything as JComplex.  In this case,
 	GetNumericValue(..., JFloat*) can either return the real part or return
-	kJFalse.  Others may choose to store a mixture of JFloat and JComplex.
+	false.  Others may choose to store a mixture of JFloat and JComplex.
 	In some applications, one may even store only JFloat because one never uses
 	JComplex at all.
 
 	By providing functions for keeping an evalutation stack, we allow derived
 	classes to catch variables defined in terms of themselves and to avoid the
 	resulting infinite recursion that GetNumericValue() would get stuck in.
-	The stack is implemented as an array of JBoolean so all operations are
+	The stack is implemented as an array of bool so all operations are
 	merely array look-ups.
 
 	BASE CLASS = JContainer
@@ -93,18 +93,18 @@ JVariableList::JVariableListX()
 	itsVarUserList = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll);
 	assert( itsVarUserList != nullptr );
 
-	itsEvalStack = jnew JArray<JBoolean>(10);
+	itsEvalStack = jnew JArray<bool>(10);
 	assert( itsEvalStack != nullptr );
 }
 
 /******************************************************************************
  ParseVariableName
 
-	Returns kJTrue if expr is the name of a variable.
+	Returns true if expr is the name of a variable.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JVariableList::ParseVariableName
 	(
 	const JString&	name,
@@ -113,15 +113,15 @@ JVariableList::ParseVariableName
 	const
 {
 	const JString* n   = &name;
-	JBoolean allocated = kJFalse;
+	bool allocated = false;
 	if (n->Contains(JUserInputFunction::kSwitchFontCharacter))
 		{
 		n = jnew JString(JUserInputFunction::ConvertToGreek(name));
 		assert( n != nullptr );
-		allocated = kJTrue;
+		allocated = true;
 		}
 
-	JBoolean found = kJFalse;
+	bool found = false;
 
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -129,7 +129,7 @@ JVariableList::ParseVariableName
 		if (*n == GetVariableName(i))
 			{
 			*index = i;
-			found  = kJTrue;
+			found  = true;
 			break;
 			}
 		}
@@ -156,7 +156,7 @@ JVariableList::PushOnEvalStack
 {
 	assert( !IsOnEvalStack(variableIndex) );
 
-	itsEvalStack->SetElement(variableIndex, kJTrue);
+	itsEvalStack->SetElement(variableIndex, true);
 }
 
 /******************************************************************************
@@ -173,7 +173,7 @@ JVariableList::PopOffEvalStack
 {
 	assert( IsOnEvalStack(variableIndex) );
 
-	itsEvalStack->SetElement(variableIndex, kJFalse);
+	itsEvalStack->SetElement(variableIndex, false);
 }
 
 /******************************************************************************
@@ -185,14 +185,14 @@ JVariableList::PopOffEvalStack
 
 static const JRegex namePattern = "^[[:alpha:]`][[:alnum:]`_]*$";
 
-JBoolean
+bool
 JVariableList::NameValid
 	(
 	const JString& name
 	)
 {
-	return JI2B( namePattern.Match(name) &&
-				 !JNamedConstant::IsNamedConstant(name) );
+	return namePattern.Match(name) &&
+				 !JNamedConstant::IsNamedConstant(name);
 }
 
 /******************************************************************************
@@ -202,7 +202,7 @@ JVariableList::NameValid
 
  ******************************************************************************/
 
-JBoolean
+bool
 JVariableList::OKToRemoveVariable
 	(
 	const JIndex variableIndex
@@ -214,11 +214,11 @@ JVariableList::OKToRemoveVariable
 		{
 		if ((itsVarUserList->GetElement(i))->UsesVariable(variableIndex))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -263,7 +263,7 @@ JVariableList::VariablesInserted
 {
 	for (JIndex i=1; i<=info.GetCount(); i++)
 		{
-		itsEvalStack->InsertElementAtIndex(info.GetFirstIndex(), kJFalse);
+		itsEvalStack->InsertElementAtIndex(info.GetFirstIndex(), false);
 		}
 
 	const JSize count = itsVarUserList->GetElementCount();
@@ -431,7 +431,7 @@ JVariableList::VarInserted::AdjustIndex
 
  ******************************************************************************/
 
-JBoolean
+bool
 JVariableList::VarRemoved::AdjustIndex
 	(
 	JIndex* index

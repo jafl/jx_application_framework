@@ -20,7 +20,7 @@
 
 GDBGetProgramName::GDBGetProgramName()
 	:
-	CMCommand("info files", kJTrue, kJFalse)
+	CMCommand("info files", true, false)
 {
 	Send();
 }
@@ -49,7 +49,7 @@ GDBGetProgramName::HandleSuccess
 {
 	JString fileName;
 
-	const JStringMatch m = fileNamePattern.Match(data, kJTrue);
+	const JStringMatch m = fileNamePattern.Match(data, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
 		{
 		fileName = m.GetSubstring(1);

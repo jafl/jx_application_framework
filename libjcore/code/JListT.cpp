@@ -45,7 +45,7 @@ JListT::ElementsInserted::AdjustIndex
 	JAdjustIndexAfterInsert(GetFirstIndex(), GetCount(), index);
 }
 
-JBoolean
+bool
 JListT::ElementsRemoved::AdjustIndex
 	(
 	JIndex* index

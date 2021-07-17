@@ -45,26 +45,26 @@ public:
 	virtual ~JXSearchTextDialog();
 
 	virtual void		Activate() override;
-	virtual JBoolean	Deactivate() override;
+	virtual bool	Deactivate() override;
 
-	JBoolean	HasActiveTE() const;
-	JBoolean	GetActiveTE(JXTEBase** te) const;
+	bool	HasActiveTE() const;
+	bool	GetActiveTE(JXTEBase** te) const;
 	void		SetActiveTE(JXTEBase* te);
 	void		TEDeactivated(JXTEBase* te);
 
-	JBoolean		HasSearchText() const;
+	bool		HasSearchText() const;
 	const JString&	GetSearchText() const;
 	void			SetSearchText(const JString& str);
-	void			SetRegexSearch(const JBoolean regex = kJTrue);
+	void			SetRegexSearch(const bool regex = true);
 
-	JBoolean	HasReplaceText() const;
+	bool	HasReplaceText() const;
 	void		SetReplaceText(const JString& str);
-	void		SetRegexReplace(const JBoolean regex = kJTrue);
+	void		SetRegexReplace(const bool regex = true);
 
-	JBoolean	GetSearchParameters(JRegex** searchRegex, JBoolean* entireWord,
-									JBoolean* wrapSearch,
+	bool	GetSearchParameters(JRegex** searchRegex, bool* entireWord,
+									bool* wrapSearch,
 									JString* replaceStr, JInterpolate** interpolator,
-									JBoolean* preserveCase) const;
+									bool* preserveCase) const;
 
 	void	SetFont(const JFont& font);
 
@@ -127,8 +127,8 @@ private:
 	Window	itsVersionWindow;		// None if init failed
 	Window	itsDataWindow;			// None if init failed
 
-	mutable JBoolean	itsNeedXSearchBcastFlag;		// kJTrue => bcast in GetSearchParameters()
-	JBoolean			itsIgnoreXSearchChangeFlag;		// kJTrue => ignore in Receive()
+	mutable bool	itsNeedXSearchBcastFlag;		// true => bcast in GetSearchParameters()
+	bool			itsIgnoreXSearchChangeFlag;		// true => ignore in Receive()
 
 // begin JXLayout
 
@@ -164,10 +164,10 @@ private:
 
 	void	InitXSearch();
 	void	GetXSearch();
-	void	SetXSearch(const JBoolean grabServer = kJTrue) const;
+	void	SetXSearch(const bool grabServer = true) const;
 	void	ReadXSearch(std::istream& input, const Atom vers);
 	void	SetStateForXSearch(JXTextCheckbox* cb,
-							   const JUtf8Byte state, const JBoolean negate);
+							   const JUtf8Byte state, const bool negate);
 	void	WriteXSearchV1(std::ostream& output) const;
 
 	// not allowed
@@ -182,14 +182,14 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXSearchTextDialog::HasActiveTE()
 	const
 {
-	return JI2B(itsTE != nullptr);
+	return itsTE != nullptr;
 }
 
-inline JBoolean
+inline bool
 JXSearchTextDialog::GetActiveTE
 	(
 	JXTEBase** te
@@ -197,7 +197,7 @@ JXSearchTextDialog::GetActiveTE
 	const
 {
 	*te = itsTE;
-	return JI2B(itsTE != nullptr);
+	return itsTE != nullptr;
 }
 
 inline void

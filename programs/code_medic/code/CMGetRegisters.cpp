@@ -22,7 +22,7 @@ CMGetRegisters::CMGetRegisters
 	CMRegistersDir*	dir
 	)
 	:
-	CMCommand(cmd, kJFalse, kJTrue),
+	CMCommand(cmd, false, true),
 	itsDir(dir)
 {
 }

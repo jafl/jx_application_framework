@@ -24,7 +24,7 @@
 JXDockDirector::JXDockDirector
 	(
 	const JString&	title,
-	const JBoolean	splitHoriz
+	const bool	splitHoriz
 	)
 	:
 	JXWindowDirector(JXGetDockManager()),
@@ -47,7 +47,7 @@ JXDockDirector::JXDockDirector
 	itsVertPartition(nullptr),
 	itsFocusWindow(nullptr)
 {
-	JBoolean splitHoriz;
+	bool splitHoriz;
 	input >> JBoolFromString(splitHoriz);
 
 	BuildWindow(title, splitHoriz);
@@ -84,7 +84,7 @@ JXDockDirector::StreamOut
 	)
 	const
 {
-	output << ' ' << JBoolToString(JI2B(itsHorizPartition != nullptr));
+	output << ' ' << JBoolToString(itsHorizPartition != nullptr);
 
 	GetWindow()->WriteGeometry(output);
 
@@ -106,7 +106,7 @@ JXDockDirector::StreamOut
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockDirector::Close()
 {
 	JXApplication* app = JXGetApplication();
@@ -114,7 +114,7 @@ JXDockDirector::Close()
 	if (mgr->IsLastDock(this) && !app->IsQuitting() && HasWindows())
 		{
 		app->Quit();
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -122,7 +122,7 @@ JXDockDirector::Close()
 		// otherwise, we will get a Draw event after partially destructing
 		// if a document needs to ask the user whether or not to close.
 
-		return JI2B( CloseAllWindows() && JXWindowDirector::Close() );
+		return CloseAllWindows() && JXWindowDirector::Close();
 		}
 }
 
@@ -135,7 +135,7 @@ void
 JXDockDirector::BuildWindow
 	(
 	const JString&	title,
-	const JBoolean	splitHoriz
+	const bool	splitHoriz
 	)
 {
 	const JCoordinate kSize = 300;
@@ -186,7 +186,7 @@ JXDockDirector::BuildWindow
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockDirector::FindDock
 	(
 	const JIndex	id,
@@ -208,7 +208,7 @@ JXDockDirector::FindDock
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockDirector::HasWindows()
 	const
 {
@@ -227,7 +227,7 @@ JXDockDirector::HasWindows()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockDirector::CloseAllWindows()
 {
 	if (itsHorizPartition != nullptr)
@@ -265,7 +265,7 @@ JXDockDirector::UpdateMinSize()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockDirector::GetHorizPartition
 	(
 	JXHorizDockPartition** p
@@ -276,12 +276,12 @@ JXDockDirector::GetHorizPartition
 		{
 		*p = itsHorizPartition;
 		assert( *p != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*p = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -290,7 +290,7 @@ JXDockDirector::GetHorizPartition
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockDirector::GetVertPartition
 	(
 	JXVertDockPartition** p
@@ -301,12 +301,12 @@ JXDockDirector::GetVertPartition
 		{
 		*p = itsVertPartition;
 		assert( *p != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*p = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -315,14 +315,14 @@ JXDockDirector::GetVertPartition
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockDirector::GetFocusWindow
 	(
 	JXWindow** window
 	)
 {
 	*window = itsFocusWindow;
-	return JI2B( itsFocusWindow != nullptr );
+	return itsFocusWindow != nullptr;
 }
 
 void

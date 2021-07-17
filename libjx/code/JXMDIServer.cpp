@@ -38,11 +38,11 @@ JXMDIServer::~JXMDIServer()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMDIServer::CanAcceptMDIRequest()
 {
 	JXApplication* app = JXGetApplication();
-	return JNegate( app->HasBlockingWindow() || app->IsSuspended() );
+	return !app->HasBlockingWindow() && !app->IsSuspended();
 }
 
 /******************************************************************************

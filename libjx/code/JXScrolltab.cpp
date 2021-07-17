@@ -166,8 +166,8 @@ JXScrolltab::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	const JBoolean shiftOn = modifiers.shift();
-	const JBoolean metaOn  = modifiers.meta();
+	const bool shiftOn = modifiers.shift();
+	const bool metaOn  = modifiers.meta();
 
 	if (button == kJXLeftButton && metaOn && shiftOn)
 		{

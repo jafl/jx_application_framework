@@ -138,11 +138,11 @@ JAdjustIndexAfterInsert
  JAdjustIndexAfterRemove
 
 	The default way to adjust all indices after a block of elements have been removed.
-	Returns kJFalse and sets *index=0 if this was one of the elements that were removed.
+	Returns false and sets *index=0 if this was one of the elements that were removed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JAdjustIndexAfterRemove
 	(
 	const JIndex	firstRemovedIndex,
@@ -154,17 +154,17 @@ JAdjustIndexAfterRemove
 		{
 		// putting this first reduces the number of comparisons
 
-		return kJTrue;
+		return true;
 		}
 	else if (*indexToAdjust > firstRemovedIndex + count-1)
 		{
 		*indexToAdjust -= count;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*indexToAdjust = 0;
-		return kJFalse;
+		return false;
 		}
 }
 

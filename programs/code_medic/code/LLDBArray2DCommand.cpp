@@ -83,23 +83,23 @@ LLDBArray2DCommand::HandleSuccess
 		lldb::SBValue v   = f.EvaluateExpression(expr.GetBytes());
 		if (!v.IsValid())
 			{
-			HandleFailure(i, JString(v.GetError().GetCString(), kJFalse));
+			HandleFailure(i, JString(v.GetError().GetCString(), JString::kNoCopy));
 			continue;
 			}
 
 		const JUtf8Byte* value = v.GetValue();
 		if (value == nullptr)
 			{
-			HandleFailure(i, JString(v.GetError().GetCString(), kJFalse));
+			HandleFailure(i, JString(v.GetError().GetCString(), JString::kNoCopy));
 			continue;
 			}
 
 		const JString& origValue = GetData()->GetString(cell);
-		const JBoolean isNew     = JI2B(!origValue.IsEmpty() && origValue != value);
+		const bool isNew     = !origValue.IsEmpty() && origValue != value;
 
-		GetData()->SetString(cell, JString(value, kJFalse));
+		GetData()->SetString(cell, JString(value, JString::kNoCopy));
 		GetTable()->SetCellStyle(cell,
-			CMVarNode::GetFontStyle(kJTrue, isNew));
+			CMVarNode::GetFontStyle(true, isNew));
 		}
 
 	GetDirector()->UpdateNext();

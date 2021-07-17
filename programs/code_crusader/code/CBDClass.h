@@ -15,7 +15,7 @@ class CBDClass : public CBClass
 public:
 
 	CBDClass(const JString& name, const DeclareType declType,
-			 const JFAID_t fileID, CBTree* tree, const JBoolean isFinal);
+			 const JFAID_t fileID, CBTree* tree, const bool isFinal);
 	CBDClass(std::istream& input, const JFileVersion vers, CBTree* tree);
 
 	virtual ~CBDClass();
@@ -33,7 +33,7 @@ protected:
 
 private:
 
-	JBoolean	itsIsFinalFlag;
+	bool	itsIsFinalFlag;
 
 private:
 

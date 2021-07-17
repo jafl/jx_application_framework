@@ -53,7 +53,7 @@ GFGProtocol<ACE_PEER_STREAM_2>::GFGProtocolX()
 	itsBuffer = jnew JCharacter [ itsBufferSize ];
 	assert( itsBuffer != nullptr );
 
-	itsInHandleInputFlag = kJFalse;
+	itsInHandleInputFlag = false;
 }
 
 /******************************************************************************
@@ -88,7 +88,7 @@ GFGProtocol<ACE_PEER_STREAM_2>::Read
  Write
 
 	Stores the next complete line in *line and removes it from the queue.
-	Returns kJFalse if no complete lines are available.
+	Returns false if no complete lines are available.
 
  ******************************************************************************/
 
@@ -137,7 +137,7 @@ GFGProtocol<ACE_PEER_STREAM_2>::handle_input
 		{
 		return 0;
 		}
-	itsInHandleInputFlag = kJTrue;
+	itsInHandleInputFlag = true;
 
 	// read newly received data
 
@@ -148,7 +148,7 @@ GFGProtocol<ACE_PEER_STREAM_2>::handle_input
 		Broadcast(GFGProtocolT::ReadReady());
 		}
 
-	itsInHandleInputFlag = kJFalse;
+	itsInHandleInputFlag = false;
 	return 0;
 }
 

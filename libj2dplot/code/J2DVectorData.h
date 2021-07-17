@@ -17,12 +17,12 @@ class J2DVectorData : public JPlotDataBase
 {
 public:
 
-	static JBoolean	Create( J2DVectorData** plotData,
+	static bool	Create( J2DVectorData** plotData,
 							const JArray<JFloat>& x,  const JArray<JFloat>& y,
 							const JArray<JFloat>& vx, const JArray<JFloat>& vy,
-							const JBoolean listen);
+							const bool listen);
 
-	static JBoolean	OKToCreate( const JArray<JFloat>& x,  const JArray<JFloat>& y,
+	static bool	OKToCreate( const JArray<JFloat>& x,  const JArray<JFloat>& y,
 								const JArray<JFloat>& vx, const JArray<JFloat>& vy);
 
 	J2DVectorData();
@@ -33,8 +33,8 @@ public:
 	virtual void		GetElement(const JIndex index, J2DVectorPoint* data) const override;
 
 	virtual void		GetXRange(JFloat* min, JFloat* max) const override;
-	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const JBoolean xLinear,
+	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
+								  const bool xLinear,
 								  JFloat* yMin, JFloat* yMax) const override;
 
 	void	AddElement(const JFloat x,  const JFloat y,
@@ -42,23 +42,23 @@ public:
 	void	AddElement(const J2DVectorPoint& data);
 	void	RemoveElement(const JIndex index);
 
-	JBoolean	IsValid() const;
+	bool	IsValid() const;
 
 	const JArray<JFloat>&	GetXData() const;
 	const JArray<JFloat>&	GetYData() const;
 	const JArray<JFloat>&	GetVXData() const;
 	const JArray<JFloat>&	GetVYData() const;
 
-	JBoolean	IsListening() const;
+	bool	IsListening() const;
 	void		IgnoreDataChanges();
 
-	JBoolean	ArrayInData(const JArray<JFloat>* array) const;
+	bool	ArrayInData(const JArray<JFloat>* array) const;
 
 protected:
 
 	J2DVectorData(const JArray<JFloat>& x,  const JArray<JFloat>& y,
 				  const JArray<JFloat>& vx, const JArray<JFloat>& vy,
-				  const JBoolean listen);
+				  const bool listen);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
@@ -70,8 +70,8 @@ private:
 	JArray<JFloat>*	itsVXData;
 	JArray<JFloat>*	itsVYData;
 
-	JBoolean	itsIsValidFlag;
-	JBoolean	itsIsListeningFlag;
+	bool	itsIsValidFlag;
+	bool	itsIsListeningFlag;
 
 	mutable JFloat	itsCurrentXMin;
 	mutable JFloat	itsCurrentXMax;
@@ -95,7 +95,7 @@ private:
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DVectorData::IsValid()
 	const
 {
@@ -155,7 +155,7 @@ J2DVectorData::GetVYData()
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DVectorData::IsListening()
 	const
 {
@@ -167,15 +167,15 @@ J2DVectorData::IsListening()
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DVectorData::ArrayInData
 	(
 	const JArray<JFloat>* array
 	)
 	const
 {
-	return JI2B(array == itsXData  || array == itsYData ||
-				array == itsVXData || array == itsVYData);
+	return array == itsXData  || array == itsYData ||
+				array == itsVXData || array == itsVYData;
 }
 
 /*********************************************************************************

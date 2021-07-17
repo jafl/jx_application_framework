@@ -16,21 +16,21 @@ class CMApp : public JXApplication
 {
 public:
 
-	CMApp(int* argc, char* argv[], JBoolean* displayAbout, JString* prevVersStr);
+	CMApp(int* argc, char* argv[], bool* displayAbout, JString* prevVersStr);
 
 	virtual	~CMApp();
 
 	void	EditFile(const JString& fileName, const JIndex lineIndex = 0) const;
 
 	void	DisplayAbout(const JString& prevVersStr = JString::empty,
-						 const JBoolean init = kJFalse);
+						 const bool init = false);
 
 	static void				InitStrings();
 	static const JUtf8Byte*	GetAppSignature();
 
 protected:
 
-	virtual JBoolean	HandleCustomEvent();
+	virtual bool	HandleCustomEvent();
 	virtual void		CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
 private:

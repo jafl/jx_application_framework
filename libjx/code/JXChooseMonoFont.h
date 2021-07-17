@@ -41,7 +41,7 @@ private:
 private:
 
 	void	PrependOtherMonospaceFonts(JXXFontMenu* menu);
-	void	UpdateMenus(const JBoolean updateSize);
+	void	UpdateMenus(const bool updateSize);
 
 	static JListT::CompareResult
 		CompareFontNames(JString * const &, JString * const &);

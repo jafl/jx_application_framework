@@ -34,15 +34,15 @@ public:
 
 	Atom		GetSelectionName() const;
 	Time		GetStartTime() const;
-	JBoolean	IsCurrent() const;
-	JBoolean	GetEndTime(Time* t) const;
+	bool	IsCurrent() const;
+	bool	GetEndTime(Time* t) const;
 	void		SetSelectionInfo(const Atom selectionName, const Time startTime);
 	void		SetEndTime(const Time endTime);
 
 	const JArray<Atom>&	GetTypeList() const;
 
 	void		Resolve() const;
-	JBoolean	Convert(const Atom requestType, Atom* returnType,
+	bool	Convert(const Atom requestType, Atom* returnType,
 						unsigned char** data, JSize* dataLength,
 						JSize* bitsPerBlock) const;
 
@@ -53,7 +53,7 @@ protected:
 	void	RemoveType(const Atom type);
 
 	virtual void		AddTypes(const Atom selectionName) = 0;
-	virtual JBoolean	ConvertData(const Atom requestType, Atom* returnType,
+	virtual bool	ConvertData(const Atom requestType, Atom* returnType,
 									unsigned char** data, JSize* dataLength,
 									JSize* bitsPerBlock) const = 0;
 
@@ -127,11 +127,11 @@ JXSelectionData::GetStartTime()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXSelectionData::IsCurrent()
 	const
 {
-	return JI2B( itsEndTime == CurrentTime );
+	return itsEndTime == CurrentTime;
 }
 
 /******************************************************************************
@@ -139,7 +139,7 @@ JXSelectionData::IsCurrent()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXSelectionData::GetEndTime
 	(
 	Time* t
@@ -147,7 +147,7 @@ JXSelectionData::GetEndTime
 	const
 {
 	*t = itsEndTime;
-	return JI2B( itsEndTime != CurrentTime );
+	return itsEndTime != CurrentTime;
 }
 
 inline void
@@ -184,7 +184,7 @@ JXSelectionData::AddType
 	const Atom type
 	)
 {
-	itsTypeList->InsertSorted(type, kJFalse);
+	itsTypeList->InsertSorted(type, false);
 }
 
 #endif

@@ -29,10 +29,10 @@ const JUtf8Byte* SyGPrefsMgr::kPrefsChanged = "PrefsChanged::SyGPrefsMgr";
 
 SyGPrefsMgr::SyGPrefsMgr
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue)
+	JXPrefsManager(kCurrentPrefsFileVersion, true)
 {
 	itsDialog = nullptr;
 	*isNew    = JPrefsManager::UpgradeData();
@@ -93,16 +93,16 @@ SyGPrefsMgr::GetSystemGVersionStr()
 void
 SyGPrefsMgr::UpgradeData
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JFileVersion	currentVersion
 	)
 {
 	if (isNew)
 		{
-		const JBoolean prefs[kSyGTreePrefCount] =
-			{kJFalse,kJFalse,kJFalse,kJFalse,kJFalse,kJFalse,kJFalse};
+		const bool prefs[kSyGTreePrefCount] =
+			{false,false,false,false,false,false,false};
 		SetTreePreferences(prefs);
-		SaveFilterStatePref(kJFalse);
+		SaveFilterStatePref(false);
 		}
 
 	if (currentVersion < 5)
@@ -123,7 +123,7 @@ SyGPrefsMgr::UpgradeData
 		RemoveData(15);
 		RemoveData(20);
 
-		DelShouldDelete(kJFalse);
+		DelShouldDelete(false);
 		}
 
 	if (currentVersion < 7)
@@ -157,12 +157,12 @@ SyGPrefsMgr::UpgradeData
 
 	if (currentVersion < 10)
 		{
-		ShouldOpenNewWindows(kJTrue);
+		ShouldOpenNewWindows(true);
 		}
 
 	if (currentVersion < 11)
 		{
-		ShouldSaveFolderPrefs(kJTrue);
+		ShouldSaveFolderPrefs(true);
 		}
 }
 
@@ -231,7 +231,7 @@ SyGPrefsMgr::UpdatePrefs()
 	assert( itsDialog != nullptr );
 
 	JString manCmd, termCmd, gitStatusCmd, gitHistoryCmd, postCheckoutCmd;
-	JBoolean del, newWindows, perFolderPrefs;
+	bool del, newWindows, perFolderPrefs;
 	itsDialog->GetPrefs(&termCmd, &manCmd, &gitStatusCmd, &gitHistoryCmd,
 						&postCheckoutCmd, &del, &newWindows, &perFolderPrefs);
 
@@ -255,7 +255,7 @@ SyGPrefsMgr::UpdatePrefs()
 void
 SyGPrefsMgr::SetTreePreferences
 	(
-	const JBoolean prefs[]
+	const bool prefs[]
 	)
 {
 	std::ostringstream data;
@@ -270,12 +270,12 @@ SyGPrefsMgr::SetTreePreferences
 void
 SyGPrefsMgr::GetTreePreferences
 	(
-	JBoolean prefs[]
+	bool prefs[]
 	)
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(kSTreeOptionsID, &data);
+	const bool ok = GetData(kSTreeOptionsID, &data);
 	assert( ok );
 
 	std::istringstream dataStream(data);
@@ -290,7 +290,7 @@ SyGPrefsMgr::GetTreePreferences
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGPrefsMgr::GetDefaultWindowSize
 	(
 	JSize* w,
@@ -304,11 +304,11 @@ SyGPrefsMgr::GetDefaultWindowSize
 		std::istringstream dataStream(data);
 		dataStream >> *w;
 		dataStream >> *h;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -332,7 +332,7 @@ SyGPrefsMgr::SaveDefaultWindowSize
 void
 SyGPrefsMgr::SaveFilterStatePref
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	std::ostringstream data;
@@ -340,11 +340,11 @@ SyGPrefsMgr::SaveFilterStatePref
 	SetData(kSFilterVisibleID, data);
 }
 
-JBoolean
+bool
 SyGPrefsMgr::GetFilterStatePref()
 	const
 {
-	JBoolean show = kJFalse;
+	bool show = false;
 	if (IDValid(kSFilterVisibleID))
 		{
 		std::string data;
@@ -360,7 +360,7 @@ SyGPrefsMgr::GetFilterStatePref()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGPrefsMgr::RestoreProgramState
 	(
 	JPtrArray<JString>* children
@@ -374,11 +374,11 @@ SyGPrefsMgr::RestoreProgramState
 		dataStream >> *children;
 
 		RemoveData(kSChildWindowListID);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -398,14 +398,14 @@ SyGPrefsMgr::SaveProgramState
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGPrefsMgr::DelWillDelete()
 	const
 {
 	std::string data;
 	GetData(kSDelDeleteID, &data);
 	std::istringstream dataStream(data);
-	JBoolean del;
+	bool del;
 	dataStream >> JBoolFromString(del);
 	return del;
 }
@@ -413,7 +413,7 @@ SyGPrefsMgr::DelWillDelete()
 void
 SyGPrefsMgr::DelShouldDelete
 	(
-	const JBoolean del
+	const bool del
 	)
 {
 	std::ostringstream data;
@@ -426,14 +426,14 @@ SyGPrefsMgr::DelShouldDelete
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGPrefsMgr::WillOpenNewWindows()
 	const
 {
 	std::string data;
 	GetData(kSNewWindowsID, &data);
 	std::istringstream dataStream(data);
-	JBoolean newWindows;
+	bool newWindows;
 	dataStream >> JBoolFromString(newWindows);
 	return newWindows;
 }
@@ -441,7 +441,7 @@ SyGPrefsMgr::WillOpenNewWindows()
 void
 SyGPrefsMgr::ShouldOpenNewWindows
 	(
-	const JBoolean newWindows
+	const bool newWindows
 	)
 {
 	std::ostringstream data;
@@ -454,14 +454,14 @@ SyGPrefsMgr::ShouldOpenNewWindows
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGPrefsMgr::WillSaveFolderPrefs()
 	const
 {
 	std::string data;
 	GetData(kSPerFolderPrefsID, &data);
 	std::istringstream dataStream(data);
-	JBoolean perFolder;
+	bool perFolder;
 	dataStream >> JBoolFromString(perFolder);
 	return perFolder;
 }
@@ -469,7 +469,7 @@ SyGPrefsMgr::WillSaveFolderPrefs()
 void
 SyGPrefsMgr::ShouldSaveFolderPrefs
 	(
-	const JBoolean perFolder
+	const bool perFolder
 	)
 {
 	std::ostringstream data;

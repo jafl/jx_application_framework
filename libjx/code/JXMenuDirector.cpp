@@ -27,7 +27,7 @@ JXMenuDirector::JXMenuDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	JXWindow* window = jnew JXWindow(this, 10,10, JString::empty, kJTrue);
+	JXWindow* window = jnew JXWindow(this, 10,10, JString::empty, true);
 	assert( window != nullptr );
 
 	itsMenuTable = nullptr;
@@ -104,7 +104,7 @@ JXMenuDirector::BuildWindow
 		}
 
 	JCoordinate windowY, windowHeight = h;
-	JBoolean scrollBottom = kJFalse;
+	bool scrollBottom = false;
 	if (usedPtR.y + h <= rootBounds.bottom)
 		{
 		windowY = usedPtR.y;
@@ -123,7 +123,7 @@ JXMenuDirector::BuildWindow
 		{
 		windowY      = rootBounds.top;
 		windowHeight = usedPtR.y - sourceHeight - rootBounds.top;
-		scrollBottom = kJTrue;
+		scrollBottom = true;
 		}
 	else
 		{

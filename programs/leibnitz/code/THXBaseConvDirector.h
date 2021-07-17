@@ -38,7 +38,7 @@ protected:
 
 private:
 
-	JBoolean		itsIgnoreTextFlag;
+	bool		itsIgnoreTextFlag;
 	JXInputField*	itsInput[ kTHXBaseCount ];
 
 // begin JXLayout

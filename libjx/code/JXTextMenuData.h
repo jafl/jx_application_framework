@@ -64,31 +64,31 @@ public:
 
 	const JFont&	GetDefaultFont() const;
 
-	void	SetDefaultFontName(const JString& name, const JBoolean updateExisting);
-	void	SetDefaultFontSize(const JSize size, const JBoolean updateExisting);
-	void	SetDefaultFontStyle(const JFontStyle& style, const JBoolean updateExisting);
-	void	SetDefaultFont(const JFont& font, const JBoolean updateExisting);
+	void	SetDefaultFontName(const JString& name, const bool updateExisting);
+	void	SetDefaultFontSize(const JSize size, const bool updateExisting);
+	void	SetDefaultFontStyle(const JFontStyle& style, const bool updateExisting);
+	void	SetDefaultFont(const JFont& font, const bool updateExisting);
 
-	JBoolean	GetImage(const JIndex index, const JXImage** image) const;
+	bool	GetImage(const JIndex index, const JXImage** image) const;
 	void		SetImage(const JIndex index, JXImage* image,
-						 const JBoolean menuOwnsImage);
+						 const bool menuOwnsImage);
 	void		ClearImage(const JIndex index);
 
-	JBoolean	GetNMShortcut(const JIndex index, const JString** str) const;
+	bool	GetNMShortcut(const JIndex index, const JString** str) const;
 	void		SetNMShortcut(const JIndex index, const JString& str);
 
-	JBoolean	HasSeparator(const JIndex index) const;
-	void		ShowSeparatorAfter(const JIndex index, const JBoolean show = kJTrue);
+	bool	HasSeparator(const JIndex index) const;
+	void		ShowSeparatorAfter(const JIndex index, const bool show = true);
 
-	JBoolean	HeightCompressed() const;
-	void		CompressHeight(const JBoolean compress = kJTrue);
+	bool	HeightCompressed() const;
+	void		CompressHeight(const bool compress = true);
 
 	// called by JXTextMenuTable
 
 	void	ConfigureTable(JXTextMenuTable* table);
 
 	const JString&	GetText(const JIndex index, JIndex* ulIndex, JFont* font) const;
-	JBoolean		GetNMShortcut(const JIndex index, const JString** str,
+	bool		GetNMShortcut(const JIndex index, const JString** str,
 								  JFont* font) const;
 
 protected:
@@ -104,19 +104,19 @@ private:
 		JString*	nmShortcut;			// can be nullptr
 		JFont		font;
 		JXImage*	image;				// can be nullptr
-		JBoolean	ownsImage;			// kJTrue if we should delete image
-		JBoolean	separator;			// kJTrue if item is followed by separator
+		bool	ownsImage;			// true if we should delete image
+		bool	separator;			// true if item is followed by separator
 
 		TextItemData()
 			:
 			text( nullptr ), ulIndex( 0 ), nmShortcut( nullptr ),
-			image( nullptr ), ownsImage( kJTrue ), separator( kJFalse )
+			image( nullptr ), ownsImage( true ), separator( false )
 		{ };
 
 		TextItemData(JString* str, const JFont& f)
 			:
 			text( str ), ulIndex( 0 ), nmShortcut( nullptr ), font( f ),
-			image( nullptr ), ownsImage( kJTrue ), separator( kJFalse )
+			image( nullptr ), ownsImage( true ), separator( false )
 		{ };
 	};
 
@@ -127,23 +127,23 @@ private:
 
 	JFont	itsDefaultFont;
 
-	JBoolean				itsNeedGeomRecalcFlag;
+	bool				itsNeedGeomRecalcFlag;
 	JCoordinate				itsMaxImageWidth;
 	JCoordinate				itsMaxTextWidth;
 	JCoordinate				itsMaxShortcutWidth;
-	JBoolean				itsHasNMShortcutsFlag;
-	JBoolean				itsCompressHeightFlag;
+	bool				itsHasNMShortcutsFlag;
+	bool				itsCompressHeightFlag;
 	JRunArray<JCoordinate>*	itsItemHeights;
 
 private:
 
-	void	ParseMenuItemStr(JString* text, JBoolean* isActive,
-							 JBoolean* hasSeparator, JXMenu::ItemType* type,
+	void	ParseMenuItemStr(JString* text, bool* isActive,
+							 bool* hasSeparator, JXMenu::ItemType* type,
 							 JString* shortcuts, JString* nmShortcut,
 							 JString* id) const;
 	void	CleanOutTextItem(TextItemData* itemData);
 
-	JBoolean	ParseNMShortcut(JString* str, int* key,
+	bool	ParseNMShortcut(JString* str, int* key,
 								JXKeyModifiers* modifiers);
 	void		AdjustNMShortcutString(JString* str, const JUtf8Byte* origStr,
 									   const JXModifierKey newKey);
@@ -289,7 +289,7 @@ JXTextMenuData::GetDefaultFont()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTextMenuData::HasSeparator
 	(
 	const JIndex index
@@ -307,7 +307,7 @@ JXTextMenuData::HasSeparator
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTextMenuData::HeightCompressed()
 	const
 {
@@ -317,13 +317,13 @@ JXTextMenuData::HeightCompressed()
 inline void
 JXTextMenuData::CompressHeight
 	(
-	const JBoolean compress
+	const bool compress
 	)
 {
 	if (itsCompressHeightFlag != compress)
 		{
 		itsCompressHeightFlag = compress;
-		itsNeedGeomRecalcFlag = kJTrue;
+		itsNeedGeomRecalcFlag = true;
 		}
 }
 

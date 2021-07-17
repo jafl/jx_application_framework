@@ -254,29 +254,29 @@ public:
 
 	virtual ~CBCtagsUser();
 
-	JBoolean		IsActive() const;
-	static JBoolean	HasExuberantCtags();
-	static JBoolean	IsParsed(const CBTextFileType type);
-	static JBoolean	IsParsedForFunctionMenu(const CBTextFileType type);
+	bool		IsActive() const;
+	static bool	HasExuberantCtags();
+	static bool	IsParsed(const CBTextFileType type);
+	static bool	IsParsedForFunctionMenu(const CBTextFileType type);
 
 	static const JString&	GetFunctionMenuTitle(const CBTextFileType type);
 
 	// Type groups
 
-	static JBoolean	IsClass(const Type type);
-	static JBoolean	IsPrototype(const Type type);
-	static JBoolean	IsFunction(const Type type);
-	static JBoolean	IsFileScope(const Type type);
+	static bool	IsClass(const Type type);
+	static bool	IsPrototype(const Type type);
+	static bool	IsFunction(const Type type);
+	static bool	IsFileScope(const Type type);
 
-	static JBoolean	ShouldSmartScroll(const Type type);
+	static bool	ShouldSmartScroll(const Type type);
 
-	static JBoolean	IgnoreSymbol(const JString& s);
+	static bool	IgnoreSymbol(const JString& s);
 
 protected:
 
 	void	SetCtagsArgs(const JUtf8Byte* args);
 
-	JBoolean	ProcessFile(const JString& fileName, const CBTextFileType fileType,
+	bool	ProcessFile(const JString& fileName, const CBTextFileType fileType,
 							JString* result, CBLanguage* lang);
 	void		ReadExtensionFlags(std::istream& input, JStringPtrMap<JString>* flags) const;
 	Type		DecodeSymbolType(const CBLanguage lang, const JUtf8Byte c) const;
@@ -301,14 +301,14 @@ private:
 	JString				itsArgs;
 	JOutPipeStream*		itsCmdPipe;
 	int					itsResultFD;
-	JBoolean			itsIsActiveFlag;
-	JBoolean			itsTryRestartFlag;
+	bool			itsIsActiveFlag;
+	bool			itsTryRestartFlag;
 
 	static CtagsStatus	itsHasExuberantCtagsFlag;
 
 private:
 
-	JBoolean	StartProcess(const CBTextFileType fileType, CBLanguage* lang);
+	bool	StartProcess(const CBTextFileType fileType, CBLanguage* lang);
 
 	// not allowed
 
@@ -322,7 +322,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBCtagsUser::IsActive()
 	const
 {
@@ -334,13 +334,13 @@ CBCtagsUser::IsActive()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBCtagsUser::IsClass
 	(
 	const Type type
 	)
 {
-	return JI2B(type == kCClassST           ||
+	return type == kCClassST           ||
 				type == kCStructST          ||
 				type == kCEnumST            ||
 				type == kCSharpClassST      ||
@@ -354,29 +354,29 @@ CBCtagsUser::IsClass
 				type == kPythonClassST      ||
 				type == kSMLStructureST     ||
 				type == kTCLClassST         ||
-				type == kVeraClassST);
+				type == kVeraClassST;
 }
 
-inline JBoolean
+inline bool
 CBCtagsUser::IsPrototype
 	(
 	const Type type
 	)
 {
-	return JI2B(type == kBisonNonterminalDeclST ||
+	return type == kBisonNonterminalDeclST ||
 				type == kBisonTerminalDeclST    ||
 				type == kCPrototypeST           ||
 				type == kSQLPrototypeST         ||
-				type == kVeraPrototypeST);
+				type == kVeraPrototypeST;
 }
 
-inline JBoolean
+inline bool
 CBCtagsUser::IsFunction
 	(
 	const Type type
 	)
 {
-	return JI2B(type == kAWKFunctionST         ||
+	return type == kAWKFunctionST         ||
 				type == kBisonNonterminalDefST ||
 				type == kBourneShellFunctionST ||
 				type == kCFunctionST           ||
@@ -406,16 +406,16 @@ CBCtagsUser::IsFunction
 				type == kTCLMethodST           ||
 				type == kVeraFunctionST        ||
 				type == kVerilogFunctionST     ||
-				type == kVimFunctionST);
+				type == kVimFunctionST;
 }
 
-inline JBoolean
+inline bool
 CBCtagsUser::IsFileScope
 	(
 	const Type type
 	)
 {
-	return JI2B(type == kAntTargetST           ||
+	return type == kAntTargetST           ||
 				type == kAssemblyLabelST       ||
 				type == kAWKFunctionST         ||
 				type == kBourneShellFunctionST ||
@@ -438,16 +438,16 @@ CBCtagsUser::IsFileScope
 				type == kSQLLocalVariableST    ||
 				type == kSQLLabelST            ||
 				type == kTCLProcedureST        ||
-				type == kVimFunctionST);
+				type == kVimFunctionST;
 }
 
-inline JBoolean
+inline bool
 CBCtagsUser::ShouldSmartScroll
 	(
 	const Type type
 	)
 {
-	return JI2B( IsClass(type) || IsFunction(type) );
+	return IsClass(type) || IsFunction(type);
 }
 
 #endif

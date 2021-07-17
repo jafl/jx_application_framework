@@ -25,9 +25,9 @@ public:
 
 	virtual ~JXIntegerInput();
 
-	JBoolean	GetValue(JInteger* value) const;
+	bool	GetValue(JInteger* value) const;
 	void		SetValue(const JInteger value);
-	JBoolean	ValueValid(const JInteger value) const;
+	bool	ValueValid(const JInteger value) const;
 
 	void	SetLimits(const JInteger minValue, const JInteger maxValue);
 
@@ -39,14 +39,14 @@ public:
 	void		SetUpperLimit(const JInteger maxValue);
 	void		ClearUpperLimit();
 
-	virtual JBoolean	InputValid();
+	virtual bool	InputValid();
 
 private:
 
-	JBoolean	itsHasLowerLimitFlag;
+	bool	itsHasLowerLimitFlag;
 	JInteger	itsLowerLimit;
 
-	JBoolean	itsHasUpperLimitFlag;
+	bool	itsHasUpperLimitFlag;
 	JInteger	itsUpperLimit;
 
 private:
@@ -72,7 +72,7 @@ JXIntegerInput::GetLowerLimit()
 inline void
 JXIntegerInput::ClearLowerLimit()
 {
-	itsHasLowerLimitFlag = kJFalse;
+	itsHasLowerLimitFlag = false;
 }
 
 inline JInteger
@@ -85,7 +85,7 @@ JXIntegerInput::GetUpperLimit()
 inline void
 JXIntegerInput::ClearUpperLimit()
 {
-	itsHasUpperLimitFlag = kJFalse;
+	itsHasUpperLimitFlag = false;
 }
 
 /******************************************************************************
@@ -93,15 +93,15 @@ JXIntegerInput::ClearUpperLimit()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXIntegerInput::ValueValid
 	(
 	const JInteger value
 	)
 	const
 {
-	return JNegate((itsHasLowerLimitFlag && value < itsLowerLimit) ||
-				   (itsHasUpperLimitFlag && value > itsUpperLimit));
+	return !((itsHasLowerLimitFlag && value < itsLowerLimit) ||
+			 (itsHasUpperLimitFlag && value > itsUpperLimit));
 }
 
 #endif

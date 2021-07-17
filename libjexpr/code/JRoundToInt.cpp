@@ -72,7 +72,7 @@ JRoundToInt::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JRoundToInt::Evaluate
 	(
 	JFloat* result
@@ -88,11 +88,11 @@ JRoundToInt::Evaluate
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JRoundToInt::Evaluate
 	(
 	JComplex* result
@@ -108,6 +108,6 @@ JRoundToInt::Evaluate
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

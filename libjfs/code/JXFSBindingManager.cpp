@@ -32,20 +32,20 @@ const Time kUpdateInterval = 1000;	// milliseconds
 
  ******************************************************************************/
 
-static JBoolean initSelf = kJFalse;
+static bool initSelf = false;
 
 JXFSBindingManager*
 JXFSBindingManager::Instance()
 {
 	if (itsSelf == nullptr && !initSelf)
 		{
-		initSelf = kJTrue;
+		initSelf = true;
 
 		JString needUserCheck;
 		itsSelf = jnew JXFSBindingManager(&needUserCheck);
 		assert( itsSelf != nullptr );
 
-		initSelf = kJFalse;
+		initSelf = false;
 
 		if (!needUserCheck.IsEmpty())
 			{
@@ -69,7 +69,7 @@ JXFSBindingManager::Destroy()
 	jdelete itsSelf;
 	itsSelf = nullptr;
 
-	initSelf = kJFalse;
+	initSelf = false;
 }
 
 /******************************************************************************
@@ -161,7 +161,7 @@ void
 JXFSBindingManager::Exec
 	(
 	const JString&	fullProgramName,
-	const JBoolean	askForArgs
+	const bool	askForArgs
 	)
 {
 	JXFSBindingManager* me = Instance();
@@ -198,7 +198,7 @@ void
 JXFSBindingManager::Exec
 	(
 	const JPtrArray<JString>&	fileList,
-	const JBoolean				ignoreBindings
+	const bool				ignoreBindings
 	)
 {
 	if (fileList.IsEmpty())
@@ -217,9 +217,9 @@ JXFSBindingManager::Exec
 
 	for (const JString* fileName : fileList)
 		{
-		JFSBinding* f = jnew JFSBinding(*fileName, JString::empty, JFSBinding::kRunPlain, kJTrue, kJFalse);
+		JFSBinding* f = jnew JFSBinding(*fileName, JString::empty, JFSBinding::kRunPlain, true, false);
 		assert( f != nullptr );
-		if (!me->itsFileList->InsertSorted(f, kJFalse))
+		if (!me->itsFileList->InsertSorted(f, false))
 			{
 			jdelete f;
 			}
@@ -234,11 +234,11 @@ JXFSBindingManager::Exec
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFSBindingManager::HasFiles()
 	const
 {
-	return JI2B( itsFileList != nullptr && !itsFileList->IsEmpty() );
+	return itsFileList != nullptr && !itsFileList->IsEmpty();
 }
 
 /******************************************************************************
@@ -262,7 +262,7 @@ JXFSBindingManager::ProcessFiles()
 		const JString& fileName = f->GetPattern();
 
 		JFSBinding::CommandType type;
-		JBoolean singleFile;
+		bool singleFile;
 		const JString& cmd = f->GetCommand(&type, &singleFile);
 
 		const JFSBinding* b;
@@ -277,7 +277,7 @@ JXFSBindingManager::ProcessFiles()
 			assert( itsRunFileDialog == nullptr );
 			itsRunFileDialog =
 				jnew JXFSRunFileDialog(fileName,
-					JNegate(itsFileList->GetElementCount() > 1 && itsIgnoreBindingsFlag));
+					itsFileList->GetElementCount() <= 1 || !itsIgnoreBindingsFlag);
 			assert( itsRunFileDialog != nullptr );
 			ListenTo(itsRunFileDialog);
 			itsRunFileDialog->BeginDialog();
@@ -295,7 +295,7 @@ JXFSBindingManager::ProcessFiles()
 	for (i=itsFileList->GetElementCount(); i>=1; i--)
 		{
 		JFSBinding::CommandType t;
-		JBoolean singleFile;
+		bool singleFile;
 		itsFileList->GetElement(i)->GetCommand(&t, &singleFile);
 
 		if (singleFile)
@@ -320,7 +320,7 @@ JXFSBindingManager::ProcessFiles()
 		for (JFSBinding* f : *itsFileList)
 			{
 			JFSBinding::CommandType t;
-			JBoolean singleFile;
+			bool singleFile;
 			const JString& c = f->GetCommand(&t, &singleFile);
 			assert( !singleFile );
 
@@ -365,7 +365,7 @@ JXFSBindingManager::Exec
 {
 	// check if same path for all files
 
-	JBoolean samePath = kJTrue;
+	bool samePath = true;
 
 	JString path, name;
 	if (endIndex > startIndex)
@@ -377,7 +377,7 @@ JXFSBindingManager::Exec
 			JSplitPathAndName(fullName, &p, &name);
 			if (i > startIndex && p != path)
 				{
-				samePath = kJFalse;
+				samePath = false;
 				break;
 				}
 			path = p;
@@ -419,7 +419,7 @@ JXFSBindingManager::Exec
 	JSplitPathAndName(f->GetPattern(), &path, &name);
 
 	JFSBinding::CommandType type;
-	JBoolean singleFile;
+	bool singleFile;
 	JString cmd = f->GetCommand(&type, &singleFile);
 
 	assert( ( singleFile && startIndex == endIndex) ||
@@ -472,7 +472,7 @@ JXFSBindingManager::Exec
 
 	// exec command
 
-	return JSimpleProcess::Create(path, cmd, kJTrue);
+	return JSimpleProcess::Create(path, cmd, true);
 }
 
 /******************************************************************************
@@ -535,7 +535,7 @@ JXFSBindingManager::Receive
 			assert( HasFiles() );
 
 			JFSBinding::CommandType type;
-			JBoolean singleFile, saveBinding;
+			bool singleFile, saveBinding;
 			const JString& cmd = itsRunFileDialog->GetCommand(&type, &singleFile, &saveBinding);
 
 			if (itsIgnoreBindingsFlag && itsRunFileIndex == 1)
@@ -611,7 +611,7 @@ JXFSBindingManager::SaveBinding
 	const JString&					fileName,
 	const JString&					cmd,
 	const JFSBinding::CommandType	type,
-	const JBoolean					singleFile
+	const bool					singleFile
 	)
 {
 	JString root, suffix;
@@ -660,7 +660,7 @@ JXFSBindingManager::CompareCommands
 	)
 {
 	JFSBinding::CommandType t1, t2;
-	JBoolean s1, s2;
+	bool s1, s2;
 	const JString& c1 = b1->GetCommand(&t1, &s1);
 	const JString& c2 = b2->GetCommand(&t2, &s2);
 

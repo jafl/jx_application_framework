@@ -32,7 +32,7 @@ JRenameFile
 	(
 	const JString&	oldName,
 	const JString&	newName,
-	const JBoolean	forceReplace
+	const bool	forceReplace
 	)
 {
 	if (forceReplace)
@@ -76,12 +76,12 @@ JCombinePathAndName
 
 	Splits fullName into a path and name.
 
-	If fullName doesn't contain a directory separator, it returns kJFalse
+	If fullName doesn't contain a directory separator, it returns false
 	and *path is the result of JGetCurrentDirectory().
 
  ******************************************************************************/
 
-JBoolean
+bool
 JSplitPathAndName
 	(
 	const JString&	fullName,
@@ -98,7 +98,7 @@ JSplitPathAndName
 		{
 		*path = pathAndName;
 		name->Clear();
-		return kJFalse;
+		return false;
 		}
 
 	JStringIterator iter(pathAndName, kJIteratorStartAtEnd);
@@ -113,13 +113,13 @@ JSplitPathAndName
 		*path = iter.FinishMatch().GetString();
 
 		JCleanPath(path);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*path = JGetCurrentDirectory();
 		*name = pathAndName;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -181,42 +181,6 @@ JPrintFileSize
 }
 
 /******************************************************************************
- JSearchFile
-
-	Returns the index of the first line that contains the given string.
-
- ******************************************************************************/
-
-JBoolean
-JSearchFile
-	(
-	const JString&	fileName,
-	const JString&	searchStr,
-	const JBoolean	caseSensitive,
-	JIndex*			lineIndex
-	)
-{
-	std::ifstream input(fileName.GetBytes());
-
-	*lineIndex = 0;
-	while (!input.eof())
-		{
-		(*lineIndex)++;
-		const JString line = JReadLine(input);
-		if (input.fail())
-			{
-			break;
-			}
-		if (line.Contains(searchStr, caseSensitive))
-			{
-			return kJTrue;
-			}
-		}
-
-	return kJFalse;
-}
-
-/******************************************************************************
  JExtractFileAndLine
 
 	Extracts file name and line index from "file:line-line".
@@ -244,7 +208,7 @@ JExtractFileAndLine
 		{
 		const JStringMatch& m = iter.GetLastMatch();
 
-		JBoolean ok = m.GetSubstring(1).ConvertToUInt(startLineIndex);
+		bool ok = m.GetSubstring(1).ConvertToUInt(startLineIndex);
 		assert( ok );
 
 		const JCharacterRange endRange = m.GetCharacterRange(2);
@@ -300,13 +264,13 @@ JCombineRootAndSuffix
 	after the last period.  [0-9]+ does not count as a suffix.  Neither does
 	starting or ending in a period.
 
-	Returns kJTrue if *suffix is not empty.
+	Returns true if *suffix is not empty.
 
  ******************************************************************************/
 
 static const JRegex suffixPattern = "\\.([^.]*[^.0-9][^.]*)$";
 
-JBoolean
+bool
 JSplitRootAndSuffix
 	(
 	const JString&	name,
@@ -353,13 +317,13 @@ JFileNameToURL
 		file = fileName;
 		}
 
-	JString url("file://", 0);
+	JString url("file://");
 	url += host;
 	url += file;
 	return url;
 }
 
-JBoolean
+bool
 JURLToFileName
 	(
 	const JString&	url,
@@ -376,7 +340,7 @@ JURLToFileName
 		iter.BeginMatch();
 		if (!iter.Next("/") || iter.GetPrevCharacterIndex() == 1)
 			{
-			return kJFalse;
+			return false;
 			}
 		const JStringMatch& m1    = iter.FinishMatch();
 		const JString urlHostName = m1.GetString();
@@ -390,7 +354,7 @@ JURLToFileName
 		if (urlHostName == JGetHostName())
 			{
 			*fileName = urlFileName;
-			return kJTrue;
+			return true;
 			}
 		else
 			{
@@ -400,7 +364,7 @@ JURLToFileName
 	else
 		{
 		fileName->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 

@@ -14,7 +14,7 @@ class CBGroupNode : public CBProjectNode
 {
 public:
 
-	CBGroupNode(CBProjectTree* tree, const JBoolean append = kJTrue);
+	CBGroupNode(CBProjectTree* tree, const bool append = true);
 	CBGroupNode(std::istream& input, const JFileVersion vers,
 				CBProjectNode* parent);
 
@@ -22,8 +22,8 @@ public:
 
 	virtual void	Print(JString* text) const;
 	virtual void	ShowFileLocation() const;
-	virtual void	ViewPlainDiffs(const JBoolean silent) const;
-	virtual void	ViewVCSDiffs(const JBoolean silent) const;
+	virtual void	ViewPlainDiffs(const bool silent) const;
+	virtual void	ViewVCSDiffs(const bool silent) const;
 
 private:
 

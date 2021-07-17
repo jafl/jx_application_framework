@@ -187,11 +187,11 @@ JXDockWindowTask::Perform
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockWindowTask::IsDone()
 	const
 {
-	return JI2B(itsState == kShowWindow);
+	return itsState == kShowWindow;
 }
 
 /******************************************************************************

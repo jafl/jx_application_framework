@@ -24,7 +24,7 @@ public:
 	virtual ~SVNStatusList();
 
 	virtual void		UpdateActionsMenu(JXTextMenu* menu) override;
-	virtual JBoolean	Ignore() override;
+	virtual bool	Ignore() override;
 
 protected:
 

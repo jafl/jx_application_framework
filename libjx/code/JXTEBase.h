@@ -43,7 +43,7 @@ public:
 	{
 		JXScrollableWidget::DisplayState	scroll;
 
-		JBoolean		hadSelection;
+		bool		hadSelection;
 		JCharacterRange	range;
 	};
 
@@ -63,69 +63,69 @@ public:
 
 	JXTextMenu*		AppendEditMenu(JXMenuBar* menuBar);	// no extras
 	JXTextMenu*		AppendEditMenu(JXMenuBar* menuBar,
-								   const JBoolean showCheckSpellingCmds,
-								   const JBoolean allowCheckSpelling,
-								   const JBoolean showAdjustMarginsCmds,
-								   const JBoolean allowAdjustMargins,
-								   const JBoolean showCleanWhitespaceCmds,
-								   const JBoolean allowCleanWhitespace,
-								   const JBoolean showToggleReadOnly,
-								   const JBoolean allowToggleReadOnly);
+								   const bool showCheckSpellingCmds,
+								   const bool allowCheckSpelling,
+								   const bool showAdjustMarginsCmds,
+								   const bool allowAdjustMargins,
+								   const bool showCleanWhitespaceCmds,
+								   const bool allowCleanWhitespace,
+								   const bool showToggleReadOnly,
+								   const bool allowToggleReadOnly);
 	JXTextMenu*		ShareEditMenu(JXTEBase* te);		// no extras
 	JXTextMenu*		ShareEditMenu(JXTEBase* te,
-								  const JBoolean allowCheckSpelling,
-								  const JBoolean allowAdjustMargins,
-								  const JBoolean allowCleanWhitespace,
-								  const JBoolean allowToggleReadOnly);
+								  const bool allowCheckSpelling,
+								  const bool allowAdjustMargins,
+								  const bool allowCleanWhitespace,
+								  const bool allowToggleReadOnly);
 	void			ShareEditMenu(JXTextMenu* menu);	// no extras
 	void			ShareEditMenu(JXTextMenu* menu,
-								  const JBoolean allowCheckSpelling,
-								  const JBoolean allowAdjustMargins,
-								  const JBoolean allowCleanWhitespace,
-								  const JBoolean allowToggleReadOnly);
-	JBoolean		HasEditMenu() const;
-	JBoolean		GetEditMenu(JXTextMenu** menu) const;
-	JBoolean		EditMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
-	JBoolean		EditMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
+								  const bool allowCheckSpelling,
+								  const bool allowAdjustMargins,
+								  const bool allowCleanWhitespace,
+								  const bool allowToggleReadOnly);
+	bool		HasEditMenu() const;
+	bool		GetEditMenu(JXTextMenu** menu) const;
+	bool		EditMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
+	bool		EditMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
 
 	static JXTextMenu*	StaticAppendEditMenu(JXMenuBar* menuBar,
-											 const JBoolean showCheckSpellingCmds,
-											 const JBoolean allowCheckSpelling,
-											 const JBoolean showAdjustMarginsCmds,
-											 const JBoolean allowAdjustMargins,
-											 const JBoolean showCleanWhitespaceCmds,
-											 const JBoolean allowCleanWhitespace,
-											 const JBoolean showToggleReadOnly,
-											 const JBoolean allowToggleReadOnly);
+											 const bool showCheckSpellingCmds,
+											 const bool allowCheckSpelling,
+											 const bool showAdjustMarginsCmds,
+											 const bool allowAdjustMargins,
+											 const bool showCleanWhitespaceCmds,
+											 const bool allowCleanWhitespace,
+											 const bool showToggleReadOnly,
+											 const bool allowToggleReadOnly);
 
 	JXTextMenu*		AppendSearchMenu(JXMenuBar* menuBar);
 	JXTextMenu*		AppendSearchReplaceMenu(JXMenuBar* menuBar);
 	JXTextMenu*		ShareSearchMenu(JXTEBase* te);		// uses whichever one is available
 	void			ShareSearchMenu(JXTextMenu* menu);
 	void			ShareSearchReplaceMenu(JXTextMenu* menu);
-	JBoolean		HasSearchMenu() const;
-	JBoolean		GetSearchMenu(JXTextMenu** menu) const;
-	JBoolean		SearchMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
-	JBoolean		SearchMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
-	JBoolean		HasSearchReplaceMenu() const;
-	JBoolean		GetSearchReplaceMenu(JXTextMenu** menu) const;
-	JBoolean		SearchReplaceMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
-	JBoolean		SearchReplaceMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
+	bool		HasSearchMenu() const;
+	bool		GetSearchMenu(JXTextMenu** menu) const;
+	bool		SearchMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
+	bool		SearchMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
+	bool		HasSearchReplaceMenu() const;
+	bool		GetSearchReplaceMenu(JXTextMenu** menu) const;
+	bool		SearchReplaceMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
+	bool		SearchReplaceMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
 
-	JBoolean	SearchForward(const JBoolean reportNotFound = kJTrue);
-	JBoolean	SearchBackward();
-	JBoolean	EnterSearchSelection();
-	JBoolean	EnterReplaceSelection();
-	JBoolean	SearchSelectionForward();
-	JBoolean	SearchSelectionBackward();
-	JBoolean	SearchClipboardForward();
-	JBoolean	SearchClipboardBackward();
-	JBoolean	ReplaceSelection();
-	JBoolean	ReplaceAndSearchForward();
-	JBoolean	ReplaceAndSearchBackward();
-	JBoolean	ReplaceAll(const JBoolean restrictToSelection);
+	bool	SearchForward(const bool reportNotFound = true);
+	bool	SearchBackward();
+	bool	EnterSearchSelection();
+	bool	EnterReplaceSelection();
+	bool	SearchSelectionForward();
+	bool	SearchSelectionBackward();
+	bool	SearchClipboardForward();
+	bool	SearchClipboardBackward();
+	bool	ReplaceSelection();
+	bool	ReplaceAndSearchForward();
+	bool	ReplaceAndSearchBackward();
+	bool	ReplaceAll(const bool restrictToSelection);
 
-	virtual JBoolean	TEHasSearchText() const override;
+	virtual bool	TEHasSearchText() const override;
 
 	void			SetPSPrinter(JXPSPrinter* p);
 	const JString&	GetPSPrintFileName() const;
@@ -142,14 +142,14 @@ public:
 	static PartialWordModifier	GetPartialWordModifier();
 	static void					SetPartialWordModifier(const PartialWordModifier mod);
 
-	static JBoolean	CaretWillFollowScroll();
-	static void		CaretShouldFollowScroll(const JBoolean follow);
+	static bool	CaretWillFollowScroll();
+	static void		CaretShouldFollowScroll(const bool follow);
 
-	static JBoolean	WillUseWindowsHomeEnd();
-	static void		ShouldUseWindowsHomeEnd(const JBoolean use);
+	static bool	WillUseWindowsHomeEnd();
+	static void		ShouldUseWindowsHomeEnd(const bool use);
 
-	static JBoolean	MiddleButtonWillPaste();
-	static void		MiddleButtonShouldPaste(const JBoolean paste);
+	static bool	MiddleButtonWillPaste();
+	static void		MiddleButtonShouldPaste(const bool paste);
 
 	void	AskForLine();
 	void	MoveCaretToEdge(const JUtf8Character& c);
@@ -162,8 +162,8 @@ public:
 
 protected:
 
-	JXTEBase(const Type type, JStyledText* text, const JBoolean ownsText,
-			 const JBoolean breakCROnly,
+	JXTEBase(const Type type, JStyledText* text, const bool ownsText,
+			 const bool breakCROnly,
 			 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 			 const HSizingOption hSizing, const VSizingOption vSizing,
 			 const JCoordinate x, const JCoordinate y,
@@ -185,10 +185,10 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
+	virtual bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
-	virtual JBoolean	TEBeginDND() override;
-	virtual void		DNDFinish(const JBoolean isDrop, const JXContainer* target) override;
+	virtual bool	TEBeginDND() override;
+	virtual void		DNDFinish(const bool isDrop, const JXContainer* target) override;
 	virtual Atom		GetDNDAction(const JXContainer* target,
 									 const JXButtonStates& buttonStates,
 									 const JXKeyModifiers& modifiers) override;
@@ -199,7 +199,7 @@ protected:
 	virtual void		GetSelectionData(JXSelectionData* data,
 										 const JString& id) override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDEnter() override;
@@ -210,10 +210,10 @@ protected:
 									  const JXWidget* source) override;
 	virtual void		TEPasteDropData() override;
 
-	virtual JBoolean	TEXWillAcceptDrop(const JArray<Atom>& typeList,
+	virtual bool	TEXWillAcceptDrop(const JArray<Atom>& typeList,
 										  const Atom action, const Time time,
 										  const JXWidget* source);
-	virtual JBoolean	TEXConvertDropData(const JArray<Atom>& typeList,
+	virtual bool	TEXConvertDropData(const JArray<Atom>& typeList,
 										   const Atom action, const Time time,
 										   JString* text, JRunArray<JFont>* style);
 
@@ -232,17 +232,17 @@ protected:
 	virtual void		TERedraw() override;
 	virtual void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
 									   const JCoordinate changeY) override;
-	virtual JBoolean	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
-	virtual JBoolean	TEScrollToRect(const JRect& rect,
-									   const JBoolean centerInDisplay) override;
-	virtual JBoolean	TEScrollForDrag(const JPoint& pt) override;
-	virtual JBoolean	TEScrollForDND(const JPoint& pt) override;
+	virtual bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
+	virtual bool	TEScrollToRect(const JRect& rect,
+									   const bool centerInDisplay) override;
+	virtual bool	TEScrollForDrag(const JPoint& pt) override;
+	virtual bool	TEScrollForDND(const JPoint& pt) override;
 	virtual void		TESetVertScrollStep(const JCoordinate vStep) override;
 
-	virtual void		TECaretShouldBlink(const JBoolean blink) override;
+	virtual void		TECaretShouldBlink(const bool blink) override;
 
 	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
-	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
+	virtual bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
 
 	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const override;
 	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight) override;
@@ -288,24 +288,24 @@ private:
 	JString*		itsPTPrintName;				// file name when printing to a file; can be nullptr
 
 	Atom			itsStyledText0XAtom;
-	JBoolean		itsWillPasteCustomFlag;		// kJTrue => call TEXConvertDropData() in TEPasteDropData()
+	bool		itsWillPasteCustomFlag;		// true => call TEXConvertDropData() in TEPasteDropData()
 
 	static PartialWordModifier	thePWMod;		// which modifier to use for partial word movement
 
 	JXTEBlinkCaretTask*	itsBlinkTask;
 	JXGoToLineDialog*	itsGoToLineDialog;
 
-	static JBoolean		theWindowsHomeEndFlag;	// kJTrue => use Windows/Motif Home/End action
-	static JBoolean		theScrollCaretFlag;		// kJTrue => caret follows when text scrolls
-	static JBoolean		theMiddleButtonPasteFlag;
+	static bool		theWindowsHomeEndFlag;	// true => use Windows/Motif Home/End action
+	static bool		theScrollCaretFlag;		// true => caret follows when text scrolls
+	static bool		theMiddleButtonPasteFlag;
 
 	// edit menu
 
 	JXTextMenu*		itsEditMenu;				// can be nullptr
-	JBoolean		itsCanCheckSpellingFlag;	// kJTrue => menu items usable
-	JBoolean		itsCanAdjustMarginsFlag;	// kJTrue => menu items usable
-	JBoolean		itsCanCleanWhitespaceFlag;	// kJTrue => menu items usable
-	JBoolean		itsCanToggleReadOnlyFlag;	// kJTrue => menu items usable
+	bool		itsCanCheckSpellingFlag;	// true => menu items usable
+	bool		itsCanAdjustMarginsFlag;	// true => menu items usable
+	bool		itsCanCleanWhitespaceFlag;	// true => menu items usable
+	bool		itsCanToggleReadOnlyFlag;	// true => menu items usable
 
 	// search/replace menu
 
@@ -333,9 +333,9 @@ private:
 
 	void	HandleSearchReplaceCmd(const CmdIndex cmd);
 
-	JBoolean	GetAvailDataTypes(const JArray<Atom>& typeList,
-								  JBoolean* canGetStyledText,
-								  JBoolean* canGetText, Atom* textType) const;
+	bool	GetAvailDataTypes(const JArray<Atom>& typeList,
+								  bool* canGetStyledText,
+								  bool* canGetText, Atom* textType) const;
 	JError		GetSelectionData(const Atom selectionName, const Time time,
 								 JString* text, JRunArray<JFont>* style) const;
 	JError		GetSelectionData(const Atom selectionName,
@@ -386,14 +386,14 @@ std::ostream& operator<<(std::ostream& output, const JXTEBase::PartialWordModifi
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTEBase::HasEditMenu()
 	const
 {
-	return JConvertToBoolean( itsEditMenu != nullptr );
+	return itsEditMenu != nullptr;
 }
 
-inline JBoolean
+inline bool
 JXTEBase::GetEditMenu
 	(
 	JXTextMenu** menu
@@ -401,7 +401,7 @@ JXTEBase::GetEditMenu
 	const
 {
 	*menu = itsEditMenu;
-	return JConvertToBoolean( itsEditMenu != nullptr );
+	return itsEditMenu != nullptr;
 }
 
 /******************************************************************************
@@ -415,7 +415,7 @@ JXTEBase::AppendEditMenu
 	JXMenuBar* menuBar
 	)
 {
-	return AppendEditMenu(menuBar, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse);
+	return AppendEditMenu(menuBar, false, false, false, false, false, false, false, false);
 }
 
 /******************************************************************************
@@ -429,7 +429,7 @@ JXTEBase::ShareEditMenu
 	JXTEBase* te
 	)
 {
-	return ShareEditMenu(te, kJFalse, kJFalse, kJFalse, kJFalse);
+	return ShareEditMenu(te, false, false, false, false);
 }
 
 inline void
@@ -438,7 +438,7 @@ JXTEBase::ShareEditMenu
 	JXTextMenu* menu
 	)
 {
-	return ShareEditMenu(menu, kJFalse, kJFalse, kJFalse, kJFalse);
+	return ShareEditMenu(menu, false, false, false, false);
 }
 
 /******************************************************************************
@@ -446,14 +446,14 @@ JXTEBase::ShareEditMenu
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTEBase::HasSearchMenu()
 	const
 {
-	return JConvertToBoolean( itsSearchMenu != nullptr );
+	return itsSearchMenu != nullptr;
 }
 
-inline JBoolean
+inline bool
 JXTEBase::GetSearchMenu
 	(
 	JXTextMenu** menu
@@ -461,7 +461,7 @@ JXTEBase::GetSearchMenu
 	const
 {
 	*menu = itsSearchMenu;
-	return JConvertToBoolean( itsSearchMenu != nullptr );
+	return itsSearchMenu != nullptr;
 }
 
 /******************************************************************************
@@ -469,14 +469,14 @@ JXTEBase::GetSearchMenu
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTEBase::HasSearchReplaceMenu()
 	const
 {
-	return JConvertToBoolean( itsReplaceMenu != nullptr );
+	return itsReplaceMenu != nullptr;
 }
 
-inline JBoolean
+inline bool
 JXTEBase::GetSearchReplaceMenu
 	(
 	JXTextMenu** menu
@@ -484,7 +484,7 @@ JXTEBase::GetSearchReplaceMenu
 	const
 {
 	*menu = itsReplaceMenu;
-	return JConvertToBoolean( itsReplaceMenu != nullptr );
+	return itsReplaceMenu != nullptr;
 }
 
 /******************************************************************************
@@ -492,16 +492,16 @@ JXTEBase::GetSearchReplaceMenu
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTEBase::SearchSelectionForward()
 {
-	return JConvertToBoolean( EnterSearchSelection() && SearchForward() );
+	return EnterSearchSelection() && SearchForward();
 }
 
-inline JBoolean
+inline bool
 JXTEBase::SearchSelectionBackward()
 {
-	return JConvertToBoolean( EnterSearchSelection() && SearchBackward() );
+	return EnterSearchSelection() && SearchBackward();
 }
 
 /******************************************************************************
@@ -509,16 +509,16 @@ JXTEBase::SearchSelectionBackward()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTEBase::ReplaceAndSearchForward()
 {
-	return JI2B(ReplaceSelection() && SearchForward());
+	return ReplaceSelection() && SearchForward();
 }
 
-inline JBoolean
+inline bool
 JXTEBase::ReplaceAndSearchBackward()
 {
-	return JI2B(ReplaceSelection() && SearchBackward());
+	return ReplaceSelection() && SearchBackward();
 }
 
 /******************************************************************************
@@ -568,7 +568,7 @@ JXTEBase::SetPartialWordModifier
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTEBase::CaretWillFollowScroll()
 {
 	return theScrollCaretFlag;
@@ -577,7 +577,7 @@ JXTEBase::CaretWillFollowScroll()
 inline void
 JXTEBase::CaretShouldFollowScroll
 	(
-	const JBoolean follow
+	const bool follow
 	)
 {
 	theScrollCaretFlag = follow;
@@ -588,7 +588,7 @@ JXTEBase::CaretShouldFollowScroll
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTEBase::WillUseWindowsHomeEnd()
 {
 	return theWindowsHomeEndFlag;
@@ -597,7 +597,7 @@ JXTEBase::WillUseWindowsHomeEnd()
 inline void
 JXTEBase::ShouldUseWindowsHomeEnd
 	(
-	const JBoolean use
+	const bool use
 	)
 {
 	theWindowsHomeEndFlag = use;
@@ -608,7 +608,7 @@ JXTEBase::ShouldUseWindowsHomeEnd
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTEBase::MiddleButtonWillPaste()
 {
 	return theMiddleButtonPasteFlag;
@@ -617,7 +617,7 @@ JXTEBase::MiddleButtonWillPaste()
 inline void
 JXTEBase::MiddleButtonShouldPaste
 	(
-	const JBoolean paste
+	const bool paste
 	)
 {
 	theMiddleButtonPasteFlag = paste;

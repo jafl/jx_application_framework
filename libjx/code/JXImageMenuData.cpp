@@ -38,7 +38,7 @@ JXImageMenuData::JXImageMenuData
 
 	itsColumnCount = columnCount;
 
-	itsNeedGeomRecalcFlag = kJTrue;
+	itsNeedGeomRecalcFlag = true;
 	itsRowHeight          = 1;
 	itsColWidth           = 1;
 }
@@ -64,7 +64,7 @@ JXImageMenuData::InsertItem
 	(
 	const JIndex			index,
 	JXImage*				image,
-	const JBoolean			menuOwnsImage,
+	const bool			menuOwnsImage,
 	const JXMenu::ItemType	type,
 	const JString&			id
 	)
@@ -76,7 +76,7 @@ JXImageMenuData::InsertItem
 
 	JXMenuData::InsertItem(index, type, JString::empty, id);
 
-	itsNeedGeomRecalcFlag = kJTrue;
+	itsNeedGeomRecalcFlag = true;
 }
 
 /******************************************************************************
@@ -96,7 +96,7 @@ JXImageMenuData::DeleteItem
 
 	JXMenuData::DeleteItem(index);
 
-	itsNeedGeomRecalcFlag = kJTrue;
+	itsNeedGeomRecalcFlag = true;
 }
 
 /******************************************************************************
@@ -115,7 +115,7 @@ JXImageMenuData::DeleteAll()
 
 	JXMenuData::DeleteAll();
 
-	itsNeedGeomRecalcFlag = kJTrue;
+	itsNeedGeomRecalcFlag = true;
 }
 
 /******************************************************************************
@@ -146,7 +146,7 @@ JXImageMenuData::SetImage
 	(
 	const JIndex	index,
 	JXImage*		image,
-	const JBoolean	menuOwnsImage
+	const bool	menuOwnsImage
 	)
 {
 	assert( image != nullptr );
@@ -156,7 +156,7 @@ JXImageMenuData::SetImage
 	if (itemData.image == nullptr ||
 		(itemData.image->GetBounds()) != image->GetBounds())
 		{
-		itsNeedGeomRecalcFlag = kJTrue;
+		itsNeedGeomRecalcFlag = true;
 		}
 
 	if (itemData.ownsImage)
@@ -175,7 +175,7 @@ JXImageMenuData::SetImage
  ConfigureTable
 
 	Called by JXImageMenuTable constructor.
-	Returns kJTrue if any of the items has a submenu.
+	Returns true if any of the items has a submenu.
 
  ******************************************************************************/
 
@@ -183,8 +183,8 @@ void
 JXImageMenuData::ConfigureTable
 	(
 	JXImageMenuTable*	table,
-	JBoolean*			hasCheckboxes,
-	JBoolean*			hasSubmenus
+	bool*			hasCheckboxes,
+	bool*			hasSubmenus
 	)
 {
 	*hasCheckboxes = HasCheckboxes();
@@ -192,7 +192,7 @@ JXImageMenuData::ConfigureTable
 
 	if (itsNeedGeomRecalcFlag)
 		{
-		itsNeedGeomRecalcFlag = kJFalse;
+		itsNeedGeomRecalcFlag = false;
 		itsRowHeight          = kMinCellSize;
 		itsColWidth           = kMinCellSize;
 

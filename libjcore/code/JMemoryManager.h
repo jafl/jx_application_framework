@@ -55,13 +55,13 @@ public:
 
 	struct RecordFilter
 	{
-		JBoolean	includeInternal;
+		bool	includeInternal;
 		JSize		minSize;
 		JString*	fileName;
 
 		RecordFilter()
 			:
-			includeInternal(kJFalse), minSize(0), fileName(nullptr)
+			includeInternal(false), minSize(0), fileName(nullptr)
 			{ };
 
 		~RecordFilter()
@@ -69,7 +69,7 @@ public:
 			jdelete fileName;
 		};
 
-		JBoolean	Match(const JMMRecord& record) const;
+		bool	Match(const JMMRecord& record) const;
 
 		void	Read(std::istream& input);
 		void	Write(std::ostream& output) const;
@@ -84,13 +84,13 @@ public:
 	static JMemoryManager* Instance();
 
 	static void* New(const size_t size, const JUtf8Byte* file,
-					 const JUInt32 line,  const JBoolean isArray);
+					 const JUInt32 line,  const bool isArray);
 
-	void  Delete(void* memory, JBoolean isArray);
+	void  Delete(void* memory, bool isArray);
 
 // Record keeping
 
-	JBoolean RecordingAllocated() const;
+	bool RecordingAllocated() const;
 
 	unsigned char GetAllocateGarbage() const;
 	unsigned char GetDeallocateGarbage() const;
@@ -99,27 +99,27 @@ public:
 
 	void PrintMemoryStats();
 
-	JBoolean GetPrintExitStats() const;
-	void     SetPrintExitStats(const JBoolean yesNo);
+	bool GetPrintExitStats() const;
+	void     SetPrintExitStats(const bool yesNo);
 
-	JBoolean GetPrintInternalStats() const;
-	void     SetPrintInternalStats(const JBoolean yesNo);
+	bool GetPrintInternalStats() const;
+	void     SetPrintInternalStats(const bool yesNo);
 
 	void PrintAllocated() const;
 
 // Error notification
 
-	JBoolean GetBroadcastErrors() const;
-	void     SetBroadcastErrors(const JBoolean broadcast);
+	bool GetBroadcastErrors() const;
+	void     SetBroadcastErrors(const bool broadcast);
 
-	JBoolean GetCheckDoubleAllocation() const;
-	void     SetCheckDoubleAllocation(const JBoolean yesNo);
+	bool GetCheckDoubleAllocation() const;
+	void     SetCheckDoubleAllocation(const bool yesNo);
 
-	static JBoolean GetAbortUnknownAlloc();
-	static void     SetAbortUnknownAlloc(const JBoolean yesNo);
+	static bool GetAbortUnknownAlloc();
+	static void     SetAbortUnknownAlloc(const bool yesNo);
 
-	JBoolean GetPrintErrors() const;
-	void     SetPrintErrors(const JBoolean print);
+	bool GetPrintErrors() const;
+	void     SetPrintErrors(const bool print);
 
 // Debug link
 
@@ -138,9 +138,9 @@ protected:
 	void HandleArrayDeletedAsObject(const JMMRecord& record);
 
 	void HandleUnallocatedDeletion(const JUtf8Byte* file, const JUInt32 line,
-								   const JBoolean isArray);
+								   const bool isArray);
 	void HandleMultipleDeletion(const JMMRecord& thisRecord, const JUtf8Byte* file,
-								const JUInt32 line, const JBoolean isArray);
+								const JUInt32 line, const bool isArray);
 
 	void HandleMultipleAllocation(const JMMRecord& thisRecord,
 								  const JMMRecord& firstRecord);
@@ -152,13 +152,13 @@ private:
 		void*            address;
 		const JUtf8Byte* file;
 		JUInt32          line;
-		JBoolean         array;
+		bool         array;
 	};
 
 // Static data
 
-	static JBoolean theConstructingFlag;
-	static JBoolean theInternalFlag;
+	static bool theConstructingFlag;
+	static bool theInternalFlag;
 
 	static JMMRecord theAllocStack[];
 	static JSize     theAllocStackSize;
@@ -166,7 +166,7 @@ private:
 	static DeleteRequest theDeallocStack[];
 	static JSize         theDeallocStackSize;
 
-	static JBoolean      theAbortUnknownAllocFlag;
+	static bool      theAbortUnknownAllocFlag;
 
 // Member data
 
@@ -180,14 +180,14 @@ private:
 
 	// Statistics
 
-	JBoolean itsBroadcastErrorsFlag;
+	bool itsBroadcastErrorsFlag;
 
-	JBoolean itsPrintExitStatsFlag;
-	JBoolean itsPrintInternalStatsFlag;
+	bool itsPrintExitStatsFlag;
+	bool itsPrintInternalStatsFlag;
 
 	// Error notification
 
-	JBoolean itsCheckDoubleAllocationFlag;
+	bool itsCheckDoubleAllocationFlag;
 
 private:
 
@@ -202,7 +202,7 @@ private:
 	void	WriteExitStats() const;
 
 	void AddNewRecord(const JMMRecord& record);
-	void DeleteRecord(void* block, const JUtf8Byte* file, const JUInt32 line, const JBoolean isArray);
+	void DeleteRecord(void* block, const JUtf8Byte* file, const JUInt32 line, const bool isArray);
 
 	static void BeginRecursiveBlock();
 	static void EndRecursiveBlock();
@@ -216,7 +216,7 @@ private:
 	void HandleExit();
 	void HandleACEExit();
 
-	void ReadValue(JBoolean* hasValue, unsigned char* value, const JUtf8Byte* string);
+	void ReadValue(bool* hasValue, unsigned char* value, const JUtf8Byte* string);
 
 	// not allowed
 
@@ -290,7 +290,7 @@ public:
 		public:
 
 			UnallocatedDeletion(const JUtf8Byte* file, const JUInt32 line,
-								const JBoolean isArray)
+								const bool isArray)
 				:
 				Message(kUnallocatedDeletion),
 				itsFile(file),
@@ -300,13 +300,13 @@ public:
 
 			const JUtf8Byte* GetFile() const { return itsFile; };
 			JUInt32          GetLine() const { return itsLine; };
-			JBoolean         IsArray() const { return itsArrayFlag; };
+			bool         IsArray() const { return itsArrayFlag; };
 
 		private:
 
 			const JUtf8Byte* itsFile;
 			const JUInt32    itsLine;
-			const JBoolean   itsArrayFlag;
+			const bool   itsArrayFlag;
 		};
 
 	/******************************************************************************
@@ -322,7 +322,7 @@ public:
 		public:
 
 			MultipleDeletion(const JMMRecord& record, const JUtf8Byte* file,
-							 const JUInt32 line, const JBoolean isArray)
+							 const JUInt32 line, const bool isArray)
 				:
 				Message(kMultipleDeletion),
 				itsRecord(record),
@@ -334,14 +334,14 @@ public:
 			const JMMRecord& GetRecord() const { return itsRecord; };
 			const JUtf8Byte* GetFile() const { return itsFile; };
 			JUInt32          GetLine() const { return itsLine; };
-			JBoolean         IsArray() const { return itsArrayFlag; };
+			bool         IsArray() const { return itsArrayFlag; };
 
 		private:
 
 			const JMMRecord& itsRecord;
 			const JUtf8Byte* itsFile;
 			const JUInt32    itsLine;
-			const JBoolean   itsArrayFlag;
+			const bool   itsArrayFlag;
 		};
 
 	/******************************************************************************
@@ -379,10 +379,10 @@ public:
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JMemoryManager::RecordingAllocated() const
 {
-	return JI2B(itsMemoryTable != nullptr);
+	return itsMemoryTable != nullptr;
 }
 
 /******************************************************************************
@@ -390,7 +390,7 @@ JMemoryManager::RecordingAllocated() const
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JMemoryManager::GetPrintExitStats() const
 {
 	return itsPrintExitStatsFlag;
@@ -408,7 +408,7 @@ JMemoryManager::GetPrintExitStats() const
 inline void
 JMemoryManager::SetPrintExitStats
 	(
-	const JBoolean yesNo
+	const bool yesNo
 	)
 {
 	itsPrintExitStatsFlag = yesNo;
@@ -419,7 +419,7 @@ JMemoryManager::SetPrintExitStats
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JMemoryManager::GetPrintInternalStats() const
 {
 	return itsPrintInternalStatsFlag;
@@ -438,7 +438,7 @@ JMemoryManager::GetPrintInternalStats() const
 inline void
 JMemoryManager::SetPrintInternalStats
 	(
-	const JBoolean yesNo
+	const bool yesNo
 	)
 {
 	itsPrintInternalStatsFlag = yesNo;
@@ -449,7 +449,7 @@ JMemoryManager::SetPrintInternalStats
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JMemoryManager::GetBroadcastErrors() const
 {
 	return itsBroadcastErrorsFlag;
@@ -466,7 +466,7 @@ JMemoryManager::GetBroadcastErrors() const
 inline void
 JMemoryManager::SetBroadcastErrors
 	(
-	const JBoolean broadcast
+	const bool broadcast
 	)
 {
 	itsBroadcastErrorsFlag = broadcast;
@@ -477,7 +477,7 @@ JMemoryManager::SetBroadcastErrors
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JMemoryManager::GetCheckDoubleAllocation() const
 {
 	return itsCheckDoubleAllocationFlag;
@@ -494,7 +494,7 @@ JMemoryManager::GetCheckDoubleAllocation() const
 inline void
 JMemoryManager::SetCheckDoubleAllocation
 	(
-	const JBoolean yesNo
+	const bool yesNo
 	)
 {
 	itsCheckDoubleAllocationFlag = yesNo;
@@ -505,7 +505,7 @@ JMemoryManager::SetCheckDoubleAllocation
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JMemoryManager::GetAbortUnknownAlloc()
 {
 	return theAbortUnknownAllocFlag;
@@ -525,7 +525,7 @@ JMemoryManager::GetAbortUnknownAlloc()
 inline void
 JMemoryManager::SetAbortUnknownAlloc
 	(
-	const JBoolean yesNo
+	const bool yesNo
 	)
 {
 	theAbortUnknownAllocFlag = yesNo;

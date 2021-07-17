@@ -52,18 +52,18 @@ public:
 	virtual void	Redraw() const override;
 	void			RedrawRect(const JRect& rect) const;
 
-	JBoolean			Focus();
-	JBoolean			Unfocus();
-	JBoolean			HasFocus() const;
-	JBoolean			WillAcceptFocus() const;
+	bool			Focus();
+	bool			Unfocus();
+	bool			HasFocus() const;
+	bool			WillAcceptFocus() const;
 	void				SetSingleFocusWidget();
-	virtual JBoolean	OKToUnfocus();
-	JBoolean			WantsTab() const;
-	JBoolean			WantsModifiedTab() const;
+	virtual bool	OKToUnfocus();
+	bool			WantsTab() const;
+	bool			WantsModifiedTab() const;
 	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,	// must call inherited
 									   const JXKeyModifiers& modifiers);
 
-	JBoolean		WillAcceptShortcut() const;
+	bool		WillAcceptShortcut() const;
 	virtual void	HandleShortcut(const int key,					// must call inherited
 								   const JXKeyModifiers& modifiers);
 
@@ -78,14 +78,14 @@ public:
 	VSizingOption	GetVSizing() const;
 	void			SetSizing(const HSizingOption hSizing, const VSizingOption vSizing);
 
-	void	CenterWithinEnclosure(const JBoolean adjustHoriz, const JBoolean adjustVert);
-	void	FitToEnclosure(const JBoolean fitHoriz = kJTrue, const JBoolean fitVert = kJTrue);
+	void	CenterWithinEnclosure(const bool adjustHoriz, const bool adjustVert);
+	void	FitToEnclosure(const bool fitHoriz = true, const bool fitVert = true);
 
-	JBoolean	Scroll(const JCoordinate dx, const JCoordinate dy);
-	JBoolean	ScrollTo(const JCoordinate x, const JCoordinate y);
-	JBoolean	ScrollTo(const JPoint& pt);
-	JBoolean	ScrollToRect(const JRect& r);
-	JBoolean	ScrollToRectCentered(const JRect& r, const JBoolean forceScroll);
+	bool	Scroll(const JCoordinate dx, const JCoordinate dy);
+	bool	ScrollTo(const JCoordinate x, const JCoordinate y);
+	bool	ScrollTo(const JPoint& pt);
+	bool	ScrollToRect(const JRect& r);
+	bool	ScrollToRectCentered(const JRect& r, const bool forceScroll);
 
 	virtual JRect	GetBoundsGlobal() const override;
 	virtual JRect	GetFrameGlobal() const override;
@@ -110,9 +110,9 @@ protected:
 			 const JCoordinate x, const JCoordinate y,
 			 const JCoordinate w, const JCoordinate h);
 
-	void	WantInput(const JBoolean wantInput,
-					  const JBoolean wantTab = kJFalse,
-					  const JBoolean wantModifiedTab = kJFalse);
+	void	WantInput(const bool wantInput,
+					  const bool wantTab = false,
+					  const bool wantModifiedTab = false);
 
 	virtual void	HandleFocusEvent();			// must call inherited
 	virtual void	HandleUnfocusEvent();		// must call inherited
@@ -125,15 +125,15 @@ protected:
 	void	AdjustBounds(const JCoordinate dw, const JCoordinate dh);
 
 	virtual void		DrawBackground(JXWindowPainter& p, const JRect& frame) override;
-	virtual JBoolean	AcceptDrag(const JPoint& pt, const JXMouseButton button,
+	virtual bool	AcceptDrag(const JPoint& pt, const JXMouseButton button,
 								   const JXKeyModifiers& modifiers) override;
 
 	// drawing during a mouse drag
 
 	JXDragPainter*	CreateDragInsidePainter();
 	JXDragPainter*	CreateDragOutsidePainter();
-	JBoolean		GetDragPainter(JXDragPainter** p) const;
-	JBoolean		GetDragPainter(JPainter** p) const;
+	bool		GetDragPainter(JXDragPainter** p) const;
+	bool		GetDragPainter(JPainter** p) const;
 	void			DeleteDragPainter();
 
 	// position and size adjustments -- must call inherited
@@ -149,14 +149,14 @@ protected:
 
 	// Drag-And-Drop routines
 
-	JBoolean		BeginDND(const JPoint& pt, const JXButtonStates& buttonStates,
+	bool		BeginDND(const JPoint& pt, const JXButtonStates& buttonStates,
 							 const JXKeyModifiers& modifiers,
 							 JXSelectionData* data,
 							 JXDNDManager::TargetFinder* targetFinder = nullptr);
 	virtual void	DNDInit(const JPoint& pt, const JXButtonStates& buttonStates,
 							const JXKeyModifiers& modifiers);
 	virtual void	GetSelectionData(JXSelectionData* data, const JString& id);
-	virtual void	DNDFinish(const JBoolean isDrop, const JXContainer* target);
+	virtual void	DNDFinish(const bool isDrop, const JXContainer* target);
 	virtual void	DNDCompletelyFinished();
 	virtual Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
@@ -166,20 +166,20 @@ protected:
 									 JArray<Atom>* askActionList,
 									 JPtrArray<JString>* askDescriptionList);
 	virtual void	HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action);
+									  const bool dropAccepted, const Atom action);
 
 	// use with extreme caution
 
-	JBoolean	WillAllowUnboundedScrolling() const;
-	void		ShouldAllowUnboundedScrolling(const JBoolean allow);
+	bool	WillAllowUnboundedScrolling() const;
+	void		ShouldAllowUnboundedScrolling(const bool allow);
 
 private:
 
 	JRect		itsFrameG;				// global coords
 	JRect		itsBoundsG;				// global coords
-	JBoolean	itsApertureBoundedFlag;	// kJTrue if we are bounded by aperture
+	bool	itsApertureBoundedFlag;	// true if we are bounded by aperture
 	JSize		itsBorderWidth;
-	JBoolean	itsAllowUnboundedScrollingFlag;	// kJTrue if scroll offset is not restricted
+	bool	itsAllowUnboundedScrollingFlag;	// true if scroll offset is not restricted
 	// aperture is calculated when needed
 
 	// resizing information
@@ -189,9 +189,9 @@ private:
 
 	// focus information
 
-	JBoolean	itsWantInputFlag;
-	JBoolean	itsWantTabFlag;
-	JBoolean	itsWantModTabFlag;
+	bool	itsWantInputFlag;
+	bool	itsWantTabFlag;
+	bool	itsWantModTabFlag;
 
 	// background colors
 
@@ -206,7 +206,7 @@ private:
 private:
 
 	JXDragPainter*	CreateDragPainter(const JXContainer* widget);
-	JBoolean		KeepApertureInsideBounds(JCoordinate* dx, JCoordinate* dy) const;
+	bool		KeepApertureInsideBounds(JCoordinate* dx, JCoordinate* dy) const;
 
 	// called by JXWindow
 
@@ -290,7 +290,7 @@ JXWidget::CreateDragOutsidePainter()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWidget::GetDragPainter
 	(
 	JXDragPainter** p
@@ -298,7 +298,7 @@ JXWidget::GetDragPainter
 	const
 {
 	*p = itsDragPainter;
-	return JI2B(itsDragPainter != nullptr);
+	return itsDragPainter != nullptr;
 }
 
 /******************************************************************************
@@ -311,7 +311,7 @@ JXWidget::GetDragPainter
 inline void
 JXWidget::UnlockBounds()
 {
-	itsApertureBoundedFlag = kJFalse;
+	itsApertureBoundedFlag = false;
 }
 
 /******************************************************************************
@@ -319,7 +319,7 @@ JXWidget::UnlockBounds()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWidget::ScrollTo
 	(
 	const JPoint& pt
@@ -363,14 +363,14 @@ JXWidget::SetSizing
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWidget::WantsTab()
 	const
 {
 	return itsWantTabFlag;
 }
 
-inline JBoolean
+inline bool
 JXWidget::WantsModifiedTab()
 	const
 {
@@ -438,16 +438,16 @@ JXWidget::SetFocusColor
 /******************************************************************************
  WillAcceptFocus
 
-	Returns kJTrue if the widget will accept a Focus() message in its
+	Returns true if the widget will accept a Focus() message in its
 	current state.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWidget::WillAcceptFocus()
 	const
 {
-	return JConvertToBoolean( itsWantInputFlag && IsVisible() && IsActive() );
+	return itsWantInputFlag && IsVisible() && IsActive();
 }
 
 /******************************************************************************
@@ -467,16 +467,16 @@ JXWidget::SetSingleFocusWidget()
 /******************************************************************************
  WillAcceptShortcut
 
-	Returns kJTrue if the widget will accept a HandleShortcut() message in its
+	Returns true if the widget will accept a HandleShortcut() message in its
 	current state.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWidget::WillAcceptShortcut()
 	const
 {
-	return JConvertToBoolean( IsVisible() && IsActive() );
+	return IsVisible() && IsActive();
 }
 
 /******************************************************************************
@@ -486,7 +486,7 @@ JXWidget::WillAcceptShortcut()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWidget::WillAllowUnboundedScrolling()
 	const
 {

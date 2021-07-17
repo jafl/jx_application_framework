@@ -37,20 +37,20 @@ public:
 	virtual ~JVIKeyHandler();
 
 	virtual void		Initialize(JTextEditor* te) override;
-	virtual JBoolean	HandleKeyPress(const JUtf8Character& key, const JBoolean selectText,
+	virtual bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,
 									   const JTextEditor::CaretMotion motion,
-									   const JBoolean deleteToTabStop) override;
+									   const bool deleteToTabStop) override;
 
 public:
 
 	struct CutBuffer
 	{
 		JString*	buf;
-		JBoolean	line;
+		bool	line;
 
 		CutBuffer()
 			:
-			buf(nullptr), line(kJFalse)
+			buf(nullptr), line(false)
 			{ };
 
 		~CutBuffer()
@@ -58,7 +58,7 @@ public:
 			jdelete buf;
 		};
 
-		void Set(const JString& s, const JBoolean l);
+		void Set(const JString& s, const bool l);
 	};
 
 protected:
@@ -67,15 +67,15 @@ protected:
 	void	SetMode(const Mode mode);
 
 	JSize		GetOperationCount() const;
-	JBoolean	GetPrevCharacter(JUtf8Character* c) const;
+	bool	GetPrevCharacter(JUtf8Character* c) const;
 
 	const JString&	GetCommandLine() const;
 	void			AppendToCommandLine(const JUtf8Character& key);
 	void			ClearKeyBuffers();
 
-	JBoolean	PrehandleKeyPress(const JUtf8Character& key, JBoolean* result);
-	void		YankLines(const JStringMatch& match, const JBoolean del);
-	void		YankToEndOfLine(const JBoolean del, const JBoolean ins);
+	bool	PrehandleKeyPress(const JUtf8Character& key, bool* result);
+	void		YankLines(const JStringMatch& match, const bool del);
+	void		YankToEndOfLine(const bool del, const bool ins);
 
 	CutBuffer*	GetCutBuffer(const JRegex& r) const;
 	CutBuffer*	GetCutBuffer(const JRegex& r, const JStringMatch& match) const;

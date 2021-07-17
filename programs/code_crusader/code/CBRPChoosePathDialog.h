@@ -20,7 +20,7 @@ public:
 	static CBRPChoosePathDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
 			   const JString& fileFilter,
-			   const JBoolean selectOnlyWritable,
+			   const bool selectOnlyWritable,
 			   const CBRelPathCSF::PathType pathType,
 			   const JString& message = JString::empty);
 
@@ -32,7 +32,7 @@ protected:
 
 	CBRPChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 						 const JString& fileFilter,
-						 const JBoolean selectOnlyWritable);
+						 const bool selectOnlyWritable);
 
 private:
 

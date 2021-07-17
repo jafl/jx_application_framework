@@ -59,10 +59,10 @@ const JFileVersion kCurrentPrefsVersion = 1;
 
 JWebBrowser::JWebBrowser()
 	:
-	itsShowURLCmd(kDefShowURLCmd, 0),
-	itsShowFileContentCmd(kDefShowFileContentCmd, 0),
-	itsShowFileLocationCmd(kDefShowFileLocationCmd, 0),
-	itsComposeMailCmd(kDefComposeMailCmd, 0)
+	itsShowURLCmd(kDefShowURLCmd),
+	itsShowFileContentCmd(kDefShowFileContentCmd),
+	itsShowFileLocationCmd(kDefShowFileLocationCmd),
+	itsComposeMailCmd(kDefComposeMailCmd)
 {
 }
 
@@ -90,7 +90,7 @@ JWebBrowser::ShowURL
 		{
 		ComposeMail(JString(url,
 			JCharacterRange(strlen(kMailURLPrefix)+1, url.GetCharacterCount()),
-			kJFalse));
+			JString::kNoCopy));
 		return;
 		}
 
@@ -98,7 +98,7 @@ JWebBrowser::ShowURL
 		{
 		ShowFileContent(JString(url,
 			JCharacterRange(strlen(kFileURLPrefix)+1, url.GetCharacterCount()),
-			kJFalse));
+			JString::kNoCopy));
 		return;
 		}
 
@@ -151,7 +151,7 @@ JWebBrowser::ShowFileLocations
 			s += JPrepArgForExec(*f);
 			}
 
-		JSimpleProcess::Create(s, kJTrue);
+		JSimpleProcess::Create(s, true);
 		}
 }
 
@@ -188,7 +188,7 @@ JWebBrowser::ShowFileLocation
 			s += "'";
 			}
 		JGetStringManager()->Replace(&s, map, sizeof(map));
-		JSimpleProcess::Create(s, kJTrue);
+		JSimpleProcess::Create(s, true);
 		}
 }
 
@@ -229,7 +229,7 @@ JWebBrowser::Exec
 
 		JString s = cmd;
 		JGetStringManager()->Replace(&s, map, sizeof(map));
-		JSimpleProcess::Create(s, kJTrue);
+		JSimpleProcess::Create(s, true);
 		}
 }
 

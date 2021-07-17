@@ -37,7 +37,7 @@ JLatentPG::JLatentPG
 	)
 {
 	itsPG         = JNewPG();
-	itsOwnsPGFlag = kJTrue;
+	itsOwnsPGFlag = true;
 
 	itsMaxSilentTime = kDefMaxSilentTime;
 	itsScaleFactor   = scaleFactor;
@@ -46,7 +46,7 @@ JLatentPG::JLatentPG
 JLatentPG::JLatentPG
 	(
 	JProgressDisplay*	pg,
-	const JBoolean		ownIt,
+	const bool		ownIt,
 	const JSize			scaleFactor
 	)
 {
@@ -82,13 +82,13 @@ JLatentPG::~JLatentPG()
 void
 JLatentPG::UseDefaultPG()
 {
-	SetPG(JNewPG(), kJTrue);
+	SetPG(JNewPG(), true);
 }
 
 /******************************************************************************
  SetPG
 
-	If ownIt == kJTrue, we delete the progress display when we no longer
+	If ownIt == true, we delete the progress display when we no longer
 	need it.
 
 	This can only be called when a process is not running.
@@ -99,7 +99,7 @@ void
 JLatentPG::SetPG
 	(
 	JProgressDisplay*	pg,
-	const JBoolean		ownIt
+	const bool		ownIt
 	)
 {
 	assert( !ProcessRunning() );
@@ -125,8 +125,8 @@ JLatentPG::ProcessBeginning
 	const ProcessType	processType,
 	const JSize			stepCount,
 	const JString&		message,
-	const JBoolean		allowCancel,
-	const JBoolean		allowBackground
+	const bool		allowCancel,
+	const bool		allowBackground
 	)
 {
 	JProgressDisplay::ProcessBeginning(processType, stepCount, message,
@@ -170,7 +170,7 @@ JLatentPG::StartInternalProcess()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JLatentPG::IncrementProgress
 	(
 	const JString& message
@@ -184,7 +184,7 @@ JLatentPG::IncrementProgress
 
  ******************************************************************************/
 
-JBoolean
+bool
 JLatentPG::IncrementProgress
 	(
 	const JSize delta
@@ -194,8 +194,8 @@ JLatentPG::IncrementProgress
 
 	IncrementStepCount(delta);
 
-	const JBoolean pgRunning = itsPG->ProcessRunning();
-	JBoolean result          = kJTrue;
+	const bool pgRunning = itsPG->ProcessRunning();
+	bool result          = true;
 
 	itsCounter++;
 	if (!pgRunning && TimeToStart())
@@ -220,7 +220,7 @@ JLatentPG::IncrementProgress
 
  ******************************************************************************/
 
-JBoolean
+bool
 JLatentPG::IncrementProgress
 	(
 	const JString&	message,
@@ -231,8 +231,8 @@ JLatentPG::IncrementProgress
 
 	IncrementStepCount(delta);
 
-	const JBoolean pgRunning = itsPG->ProcessRunning();
-	JBoolean result          = kJTrue;
+	const bool pgRunning = itsPG->ProcessRunning();
+	bool result          = true;
 
 	itsCounter++;
 	if (!pgRunning && (TimeToStart() || !message.IsEmpty()))
@@ -274,7 +274,7 @@ JLatentPG::IncrementProgress
 
  ******************************************************************************/
 
-JBoolean
+bool
 JLatentPG::ProcessContinuing()
 {
 	if (itsPG->ProcessRunning())
@@ -283,7 +283,7 @@ JLatentPG::ProcessContinuing()
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -292,10 +292,10 @@ JLatentPG::ProcessContinuing()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JLatentPG::CheckForCancel()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

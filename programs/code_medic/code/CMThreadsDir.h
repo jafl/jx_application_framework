@@ -26,7 +26,7 @@ public:
 
 	virtual void			Activate() override;
 	virtual const JString&	GetName() const override;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
+	virtual bool		GetMenuIcon(const JXImage** icon) const override;
 
 protected:
 

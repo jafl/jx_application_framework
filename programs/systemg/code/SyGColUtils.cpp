@@ -22,11 +22,11 @@ const JCoordinate kGFMBufferWidth = 6;
 
  ******************************************************************************/
 
-JBoolean
+bool
 InsertFMCol
 	(
 	JXTable*			table,
-	JBoolean			visibleCols[],
+	bool			visibleCols[],
 	const JIndex		leadingCols,
 	const GFMColType	type,
 	JIndex*			index,
@@ -35,7 +35,7 @@ InsertFMCol
 {
 	if (GFMTypeVisible(visibleCols, type))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	*index = leadingCols + 1;
@@ -43,13 +43,13 @@ InsertFMCol
 	if (type == kGFMUID)
 		{
 		*retWidth = kUIDWidth;
-		visibleCols[kGFMUID] = kJTrue;
-		return kJTrue;
+		visibleCols[kGFMUID] = true;
+		return true;
 		}
 
 	if (type >= kGFMGID)
 		{
-		JBoolean found = kJFalse;
+		bool found = false;
 		JSize i = 3;
 
 		while(i <= GetFMColCount(visibleCols, leadingCols) && !(found))
@@ -57,7 +57,7 @@ InsertFMCol
 			if (GetFMColType(i, leadingCols, visibleCols) > type)
 				{
 				*index = i;
-				found = kJTrue;
+				found = true;
 				}
 			i++;
 			}
@@ -70,35 +70,35 @@ InsertFMCol
 		if (type == kGFMUID)
 			{
 			*retWidth = kUIDWidth;
-			visibleCols[kGFMUID] = kJTrue;
+			visibleCols[kGFMUID] = true;
 			}
 
 		else if (type == kGFMGID)
 			{
 			*retWidth = kGIDWidth;
-			visibleCols[kGFMGID] = kJTrue;
+			visibleCols[kGFMGID] = true;
 			}
 
 		else if (type == kGFMSize)
 			{
 			*retWidth = kSizeWidth;
-			visibleCols[kGFMSize] = kJTrue;
+			visibleCols[kGFMSize] = true;
 			}
 
 		else if (type == kGFMMode)
 			{
 			*retWidth = kModeWidth;
-			visibleCols[kGFMMode] = kJTrue;
+			visibleCols[kGFMMode] = true;
 			}
 
 		else if (type == kGFMDate)
 			{
 			*retWidth = kDateWidth;
-			visibleCols[kGFMDate] = kJTrue;
+			visibleCols[kGFMDate] = true;
 			}
 		}
 
-	return kJTrue;
+	return true;
 
 
 }
@@ -108,25 +108,25 @@ InsertFMCol
 
  ******************************************************************************/
 
-JBoolean
+bool
 RemoveFMCol
 	(
 	JXTable*			table,
-	JBoolean			visibleCols[],
+	bool			visibleCols[],
 	const JIndex		leadingCols,
 	const GFMColType	type,
 	JIndex*			index
 	)
 {
 	JSize i		= leadingCols + 1;
-	JBoolean found	= kJFalse;
+	bool found	= false;
 
 	while (i <= GetFMColCount(visibleCols, leadingCols) && !(found))
 		{
 		if (type == GetFMColType(i, leadingCols, visibleCols))
 			{
 			*index = i;
-			found = kJTrue;
+			found = true;
 			}
 		i++;
 		}
@@ -136,33 +136,33 @@ RemoveFMCol
 
 		if (type == kGFMUID)
 			{
-			visibleCols[kGFMUID] = kJFalse;
+			visibleCols[kGFMUID] = false;
 			}
 
 		else if (type == kGFMGID)
 			{
-			visibleCols[kGFMGID] = kJFalse;
+			visibleCols[kGFMGID] = false;
 			}
 
 		else if (type == kGFMSize)
 			{
-			visibleCols[kGFMSize] = kJFalse;
+			visibleCols[kGFMSize] = false;
 			}
 
 		else if (type == kGFMMode)
 			{
-			visibleCols[kGFMMode] = kJFalse;
+			visibleCols[kGFMMode] = false;
 			}
 
 		else if (type == kGFMDate)
 			{
-			visibleCols[kGFMDate] = kJFalse;
+			visibleCols[kGFMDate] = false;
 			}
 
-		return kJTrue;
+		return true;
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -173,7 +173,7 @@ RemoveFMCol
 JSize
 GetFMColCount
 	(
-	const JBoolean	 visibleCols[],
+	const bool	 visibleCols[],
 	const JIndex	leadingCols
 	)
 {
@@ -215,7 +215,7 @@ GetFMColCount
 JSize
 GetFMColWidth
 	(
-	const JBoolean	visibleCols[],
+	const bool	visibleCols[],
 	const JIndex	leadingCols,
 	const JIndex	index
 	)
@@ -259,11 +259,11 @@ GetFMColWidth
 void
 SetFMCols
 	(
-	JBoolean kShowUID,
-	JBoolean kShowGID,
-	JBoolean kShowSize,
-	JBoolean kShowMode,
-	JBoolean kShowDate
+	bool kShowUID,
+	bool kShowGID,
+	bool kShowSize,
+	bool kShowMode,
+	bool kShowDate
 	)
 {
 
@@ -277,11 +277,11 @@ SetFMCols
 void
 GetFMCols
 	(
-	JBoolean* kShowUID,
-	JBoolean* kShowGID,
-	JBoolean* kShowSize,
-	JBoolean* kShowMode,
-	JBoolean* kShowDate
+	bool* kShowUID,
+	bool* kShowGID,
+	bool* kShowSize,
+	bool* kShowMode,
+	bool* kShowDate
 	)
 {
 
@@ -297,12 +297,12 @@ GetFMColType
 	(
 	const JIndex	index,
 	const JIndex	leadingCols,
-	const JBoolean	visibleCols[]
+	const bool	visibleCols[]
 	)
 {
 	JIndex temp = leadingCols;
 
-	if (visibleCols[kGFMUID] == kJTrue)
+	if (visibleCols[kGFMUID] == true)
 		{
 		temp++;
 		if (temp == index)
@@ -311,7 +311,7 @@ GetFMColType
 			}
 		}
 
-	if (visibleCols[kGFMGID] == kJTrue)
+	if (visibleCols[kGFMGID] == true)
 		{
 		temp++;
 		if (temp == index)
@@ -320,7 +320,7 @@ GetFMColType
 			}
 		}
 
-	if (visibleCols[kGFMSize] == kJTrue)
+	if (visibleCols[kGFMSize] == true)
 		{
 		temp++;
 		if (temp == index)
@@ -329,7 +329,7 @@ GetFMColType
 			}
 		}
 
-	if (visibleCols[kGFMMode] == kJTrue)
+	if (visibleCols[kGFMMode] == true)
 		{
 		temp++;
 		if (temp == index)
@@ -338,7 +338,7 @@ GetFMColType
 			}
 		}
 
-	if (visibleCols[kGFMDate] == kJTrue)
+	if (visibleCols[kGFMDate] == true)
 		{
 		temp++;
 		if (temp == index)
@@ -355,54 +355,54 @@ GetFMColType
 
  ******************************************************************************/
 
-JBoolean
+bool
 GFMTypeVisible
 	(
-	const JBoolean	 visibleCols[],
+	const bool	 visibleCols[],
 	const GFMColType type
 	)
 {
 	if (type == kGFMUID)
 		{
-		if (visibleCols[kGFMUID] == kJTrue)
+		if (visibleCols[kGFMUID] == true)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	else if (type == kGFMGID)
 		{
-		if (visibleCols[kGFMGID] == kJTrue)
+		if (visibleCols[kGFMGID] == true)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	else if (type == kGFMSize)
 		{
-		if (visibleCols[kGFMSize] == kJTrue)
+		if (visibleCols[kGFMSize] == true)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	else if (type == kGFMMode)
 		{
-		if (visibleCols[kGFMMode] == kJTrue)
+		if (visibleCols[kGFMMode] == true)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	else if (type == kGFMDate)
 		{
-		if (visibleCols[kGFMDate] == kJTrue)
+		if (visibleCols[kGFMDate] == true)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -413,7 +413,7 @@ GFMTypeVisible
 void
 GetFMColTitle
 	(
-	const JBoolean	visibleCols[],
+	const bool	visibleCols[],
 	const JIndex	leadingCols,
 	const JIndex	index,
 	JString*		str
@@ -461,7 +461,7 @@ GetFMColTitle
 JCoordinate
 GetFMBufferWidth
 	(
-	const JBoolean	visibleCols[],
+	const bool	visibleCols[],
 	const JIndex	leadingCols,
 	const JIndex	index
 	)
@@ -478,7 +478,7 @@ GetFMBufferWidth
 GFMColType
 GetRealColType
 	(
-	const JBoolean	visibleCols[],
+	const bool	visibleCols[],
 	const JIndex	leadingCols,
 	const JIndex	index,
 	JIndex*		subIndex
@@ -499,7 +499,7 @@ GetRealColType
 		}
 
 	JIndex i         = leadingCols + 1;
-	JBoolean found   = kJFalse;
+	bool found   = false;
 	JIndex tempIndex = 0;
 
 	while (i <= GetFMColCount(visibleCols, leadingCols) && !(found))
@@ -507,7 +507,7 @@ GetRealColType
 		if (GetFMColType(i, leadingCols, visibleCols) == kGFMMode)
 			{
 			tempIndex = i;
-			found = kJTrue;
+			found = true;
 			}
 		i++;
 		}
@@ -531,7 +531,7 @@ GetRealColType
 JSize
 GetFMWidthUsed
 	(
-	const JBoolean visibleCols[]
+	const bool visibleCols[]
 	)
 {
 	JSize width = 0;

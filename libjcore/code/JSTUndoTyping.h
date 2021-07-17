@@ -28,7 +28,7 @@ public:
 
 	void	HandleCharacters(const JStyledText::TextCount& count);
 
-	JBoolean	MatchesCurrentIndex(const JStyledText::TextIndex& index) const;
+	bool	MatchesCurrentIndex(const JStyledText::TextIndex& index) const;
 
 private:
 

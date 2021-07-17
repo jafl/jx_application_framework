@@ -23,11 +23,11 @@ public:
 	virtual ~SyGFileTree();
 
 	const JString&	GetDirectory() const;
-	JBoolean		Update(const JBoolean force = kJFalse,
+	bool		Update(const bool force = false,
 						   JFSFileTreeNodeBase** updateNode = nullptr);
 
-	JBoolean	HiddenVisible() const;
-	void		ShowHidden(const JBoolean show);
+	bool	HiddenVisible() const;
+	void		ShowHidden(const bool show);
 
 	void	SetWildcardFilter(const JString& filter);
 	void	ClearWildcardFilter();

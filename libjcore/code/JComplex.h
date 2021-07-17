@@ -26,8 +26,8 @@ enum JComplexDisplayMode
 JComplexDisplayMode	JGetComplexDisplayMode();
 void				JSetComplexDisplayMode(const JComplexDisplayMode mode);
 
-JBoolean			JUsingEEImag();
-void				JUseEEImag(const JBoolean useEEImag);
+bool			JUsingEEImag();
+void				JUseEEImag(const bool useEEImag);
 const JUtf8Byte*	JGetCurrentImagString();
 const JUtf8Byte*	JGetMathImagString();
 const JUtf8Byte*	JGetEEImagString();
@@ -35,6 +35,6 @@ const JUtf8Byte*	JGetEEImagString();
 JString	JPrintComplexNumber(const JComplex& value);
 JString	JPrintComplexNumber(const JComplex& value,
 							const JComplexDisplayMode mode,
-							const JBoolean useEEImag);
+							const bool useEEImag);
 
 #endif

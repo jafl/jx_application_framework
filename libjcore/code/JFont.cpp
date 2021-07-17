@@ -116,7 +116,7 @@ JFont::SetStyle
 void
 JFont::SetBold
 	(
-	const JBoolean bold
+	const bool bold
 	)
 {
 	if (bold != itsStyle.bold)
@@ -129,7 +129,7 @@ JFont::SetBold
 void
 JFont::SetItalic
 	(
-	const JBoolean italic
+	const bool italic
 	)
 {
 	if (italic != itsStyle.italic)
@@ -151,7 +151,7 @@ JFont::SetUnderlineCount
 void
 JFont::SetStrike
 	(
-	const JBoolean strike
+	const bool strike
 	)
 {
 	itsStyle.strike = strike;
@@ -237,7 +237,7 @@ JFont::GetUnderlineThickness()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFont::IsExact
 	(
 	JFontManager* fontManager
@@ -252,7 +252,7 @@ JFont::IsExact
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFont::HasGlyphsForString
 	(
 	JFontManager*	fontManager,
@@ -266,11 +266,11 @@ JFont::HasGlyphsForString
 		{
 		if (!fontManager->HasGlyphForCharacter(itsID, c))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -278,7 +278,7 @@ JFont::HasGlyphsForString
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFont::HasGlyphForCharacter
 	(
 	JFontManager*			fontManager,
@@ -292,11 +292,11 @@ JFont::HasGlyphForCharacter
 /******************************************************************************
  SubstituteToDisplayGlyph
 
-	Returns kJTrue if the font name had to be changed
+	Returns true if the font name had to be changed
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFont::SubstituteToDisplayGlyph
 	(
 	JFontManager*			fontManager,
@@ -309,11 +309,11 @@ JFont::SubstituteToDisplayGlyph
 		if (fontManager->GetSubstituteFontName(*this, c, &name))
 			{
 			SetName(name);
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

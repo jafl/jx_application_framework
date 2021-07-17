@@ -61,11 +61,11 @@ JXGC::JXGC
 	itsClipRegion = nullptr;
 	itsClipPixmap = None;
 
-	itsLastColorInit     = kJFalse;
+	itsLastColorInit     = false;
 	itsLastColor         = JColorManager::GetBlackColor();
 	itsLastFunction      = GXcopy;
 	itsLastLineWidth     = 0;
-	itsDashedLinesFlag   = kJFalse;
+	itsDashedLinesFlag   = false;
 	itsLastFontID        = 0;
 	itsLastSubwindowMode = ClipByChildren;
 }
@@ -84,13 +84,13 @@ JXGC::~JXGC()
 /******************************************************************************
  GetClipping
 
-	Returns kJTrue if we have any clipping set.  *region is created, if
+	Returns true if we have any clipping set.  *region is created, if
 	necessary.  *pixmap is set to the current pixmap, if any.
 	Thus, the caller owns the resulting region, but we own the resulting pixmap.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXGC::GetClipping
 	(
 	JPoint*			offset,
@@ -119,7 +119,7 @@ JXGC::GetClipping
 		*pixmap = nullptr;
 		}
 
-	return JConvertToBoolean( itsClipRegion != nullptr || itsClipPixmap != None );
+	return itsClipRegion != nullptr || itsClipPixmap != None;
 }
 
 /******************************************************************************
@@ -260,7 +260,7 @@ JXGC::SetDrawingColor
 {
 	if (color != itsLastColor || !itsLastColorInit)
 		{
-		itsLastColorInit = kJTrue;
+		itsLastColorInit = true;
 		itsLastColor     = color;
 
 		unsigned long xPixel;
@@ -324,7 +324,7 @@ JXGC::SetLineWidth
 void
 JXGC::DrawDashedLines
 	(
-	const JBoolean on
+	const bool on
 	)
 {
 	if (on != itsDashedLinesFlag)
@@ -372,7 +372,7 @@ JXGC::SetDashList
 inline int
 JXGC::GetXLineStyle
 	(
-	const JBoolean drawDashedLines
+	const bool drawDashedLines
 	)
 	const
 {
@@ -644,7 +644,7 @@ JXGC::DrawString
 
 		if (offset + count < byteCount)
 			{
-			x += itsDisplay->GetXFontManager()->GetStringWidth(itsLastFontID, JString(s, count, kJFalse));
+			x += itsDisplay->GetXFontManager()->GetStringWidth(itsLastFontID, JString(s, count, JString::kNoCopy));
 			}
 		offset += count;
 		}

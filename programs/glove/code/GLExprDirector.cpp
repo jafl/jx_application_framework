@@ -30,7 +30,7 @@ GLExprDirector::GLExprDirector
 	const JString& function
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	JXWindow* window = jnew JXWindow(this, 300,240, JGetString("WindowTitle::GLExprDirector"));
 	assert( window != nullptr );

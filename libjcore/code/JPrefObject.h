@@ -18,8 +18,8 @@ public:
 
 	virtual ~JPrefObject();
 
-	JBoolean	PrefInfoValid() const;
-	JBoolean	GetPrefInfo(JPrefsManager** mgr, JIndex* id) const;
+	bool	PrefInfoValid() const;
+	bool	GetPrefInfo(JPrefsManager** mgr, JIndex* id) const;
 	void		SetPrefInfo(JPrefsManager* prefsMgr, const JPrefID& id);
 
 	void	ReadPrefs();
@@ -51,14 +51,14 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JPrefObject::PrefInfoValid()
 	const
 {
-	return JI2B( itsPrefsMgr != nullptr && itsID.IsValid() );
+	return itsPrefsMgr != nullptr && itsID.IsValid();
 }
 
-inline JBoolean
+inline bool
 JPrefObject::GetPrefInfo
 	(
 	JPrefsManager**	mgr,

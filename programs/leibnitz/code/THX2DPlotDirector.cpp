@@ -95,7 +95,7 @@ THX2DPlotDirector::THX2DPlotDirector
 		input >> expr;
 
 		JFunction* f;
-		const JBoolean ok = p.Parse(expr, &f);
+		const bool ok = p.Parse(expr, &f);
 		assert( ok );
 
 		AddFunction(varList, f, JString::empty, xMin, xMax);
@@ -274,11 +274,11 @@ THX2DPlotDirector::AddFunction
 	)
 {
 	J2DPlotJFunction* data =
-		jnew J2DPlotJFunction(itsPlotWidget, varList, f, kJTrue,
+		jnew J2DPlotJFunction(itsPlotWidget, varList, f, true,
 							 THXVarList::kXIndex, xMin, xMax);
 	assert( data != nullptr );
 
-	itsPlotWidget->AddCurve(data, kJTrue, name);
+	itsPlotWidget->AddCurve(data, true, name);
 
 	itsFnList->Append(data);
 	ListenTo(data);
@@ -541,7 +541,7 @@ THX2DPlotDirector::UpdateFunction()
 	itsEditFnDialog->GetSettings(&plotIndex, &f, &curveName, &xMin, &xMax);
 
 	J2DPlotJFunction* curve = itsFnList->GetElement(itsEditFnIndex);
-	curve->SetFunction((THXGetApplication())->GetVariableList(), f->Copy(), kJTrue,
+	curve->SetFunction((THXGetApplication())->GetVariableList(), f->Copy(), true,
 					   THXVarList::kXIndex, xMin, xMax);
 
 	itsPlotWidget->SetCurveName(itsEditFnIndex, curveName);

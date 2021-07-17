@@ -21,8 +21,8 @@ public:
 	virtual	~CMMDIServer();
 
 	static void	UpdateDebuggerType(const JString& program);
-	static JBoolean	IsBinary(const JString& fileName);
-	static JBoolean	GetLanguage(const JString& fileName, JString* language);
+	static bool	IsBinary(const JString& fileName);
+	static bool	GetLanguage(const JString& fileName, JString* language);
 
 protected:
 
@@ -31,7 +31,7 @@ protected:
 
 private:
 
-	JBoolean	itsFirstTimeFlag;
+	bool	itsFirstTimeFlag;
 
 private:
 

@@ -82,7 +82,7 @@ JXTreeListWidget::JXTreeListWidget
 	ListenTo(itsTreeList->GetTree());
 
 	itsIndentWidth       = kDefaultIndent;
-	itsDrawSelectionFlag = kJTrue;
+	itsDrawSelectionFlag = true;
 	itsAdjustToTreeTask  = nullptr;
 	itsToggleDragIndex   = 0;
 	itsDNDTargetIndex    = 0;
@@ -236,8 +236,8 @@ JXTreeListWidget::SelectNodes
 void
 JXTreeListWidget::OpenSelectedNodes
 	(
-	const JBoolean openSiblings,
-	const JBoolean openDescendants
+	const bool openSiblings,
+	const bool openDescendants
 	)
 {
 	JTableSelectionIterator iter(&(GetTableSelection()));
@@ -275,8 +275,8 @@ JXTreeListWidget::OpenSelectedNodes
 void
 JXTreeListWidget::CloseSelectedNodes
 	(
-	const JBoolean closeSiblings,
-	const JBoolean closeDescendants
+	const bool closeSiblings,
+	const bool closeDescendants
 	)
 {
 	JTableSelectionIterator iter(&(GetTableSelection()));
@@ -328,20 +328,20 @@ JXTreeListWidget::GetDefaultIndentWidth()
  IsSelectable (virtual)
 
 	The default is for all cells other than the ToggleOpen column to be
-	selectable.  forExtend is kJTrue if the cell will be selected as part
+	selectable.  forExtend is true if the cell will be selected as part
 	of an "extend selection" operation.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTreeListWidget::IsSelectable
 	(
 	const JPoint&	cell,
-	const JBoolean	forExtend
+	const bool	forExtend
 	)
 	const
 {
-	return JI2B( JIndex(cell.x) == itsNodeColIndex );
+	return JIndex(cell.x) == itsNodeColIndex;
 }
 
 /******************************************************************************
@@ -352,14 +352,14 @@ JXTreeListWidget::IsSelectable
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTreeListWidget::IsEditable
 	(
 	const JPoint& cell
 	)
 	const
 {
-	return JI2B( JIndex(cell.x) != itsToggleOpenColIndex );
+	return JIndex(cell.x) != itsToggleOpenColIndex;
 }
 
 /******************************************************************************
@@ -403,17 +403,17 @@ JXTreeListWidget::TableDrawCell
 		if ((itsToggleDragIndex == cell.y && itsMouseInToggleFlag) ||
 			itsDNDTargetIndex == JIndex(cell.y))
 			{
-			p.SetFilling(kJTrue);
+			p.SetFilling(true);
 			p.SetPenColor(JColorManager::GetBlackColor());
 			p.Polygon(*triangle);
 			}
 		else
 			{
-			p.SetFilling(kJTrue);
+			p.SetFilling(true);
 			p.SetPenColor(JColorManager::GetGrayColor(90));
 			p.Polygon(*triangle);
 
-			p.SetFilling(kJFalse);
+			p.SetFilling(false);
 			p.SetPenColor(JColorManager::GetBlackColor());
 			p.Polygon(*triangle);
 			}
@@ -449,13 +449,13 @@ JXTreeListWidget::HandleMouseDown
 	itsToggleDragIndex = 0;
 
 	JPoint cell;
-	const JBoolean inCell = GetCell(pt, &cell);
+	const bool inCell = GetCell(pt, &cell);
 
 	if (button == kJXLeftButton &&
 		inCell && JIndex(cell.x) == itsToggleOpenColIndex &&
 		(itsTreeList->GetNode(cell.y))->IsOpenable())
 		{
-		itsMouseInToggleFlag = kJTrue;
+		itsMouseInToggleFlag = true;
 		itsToggleDragIndex   = cell.y;
 		TableRefreshCell(cell);
 		}
@@ -496,13 +496,13 @@ JXTreeListWidget::HandleMouseDrag
 		{
 		if (!itsMouseInToggleFlag)
 			{
-			itsMouseInToggleFlag = kJTrue;
+			itsMouseInToggleFlag = true;
 			TableRefreshCell(itsToggleDragIndex, itsToggleOpenColIndex);
 			}
 		}
 	else if (itsToggleDragIndex > 0 && itsMouseInToggleFlag)
 		{
-		itsMouseInToggleFlag = kJFalse;
+		itsMouseInToggleFlag = false;
 		TableRefreshCell(itsToggleDragIndex, itsToggleOpenColIndex);
 		}
 }
@@ -532,7 +532,7 @@ JXTreeListWidget::HandleMouseUp
 		Refresh();
 		}
 
-	itsMouseInToggleFlag = kJFalse;
+	itsMouseInToggleFlag = false;
 	itsToggleDragIndex   = 0;
 }
 
@@ -545,11 +545,11 @@ void
 JXTreeListWidget::ToggleNode
 	(
 	const JIndex	index,
-	const JBoolean	siblings,
-	const JBoolean	descendants
+	const bool	siblings,
+	const bool	descendants
 	)
 {
-	const JBoolean wasOpen = itsTreeList->IsOpen(index);
+	const bool wasOpen = itsTreeList->IsOpen(index);
 
 	if (siblings && wasOpen)
 		{
@@ -688,7 +688,7 @@ JXTreeListWidget::Receive
 			{
 			const ColsRemoved* info = dynamic_cast<const ColsRemoved*>(&message);
 			assert( info != nullptr );
-			JBoolean ok = info->AdjustIndex(&itsToggleOpenColIndex);
+			bool ok = info->AdjustIndex(&itsToggleOpenColIndex);
 			assert( ok );
 			ok = info->AdjustIndex(&itsNodeColIndex);
 			assert( ok );

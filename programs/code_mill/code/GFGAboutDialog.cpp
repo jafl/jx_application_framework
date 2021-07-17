@@ -30,9 +30,9 @@ GFGAboutDialog::GFGAboutDialog
 	const JString&	prevVersStr
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
-	itsIsUpgradeFlag = kJFalse;
+	itsIsUpgradeFlag = false;
 
 	BuildWindow(prevVersStr);
 }
@@ -111,7 +111,7 @@ GFGAboutDialog::BuildWindow
 		text += JGetString("UpgradeNotice::GFGAboutDialog");
 		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::GFGAboutDialog"));
-		itsIsUpgradeFlag = kJTrue;
+		itsIsUpgradeFlag = true;
 		}
 	textWidget->GetText()->SetText(text);
 
@@ -147,13 +147,13 @@ GFGAboutDialog::Receive
 			{
 			(JXGetHelpManager())->ShowSection("GFGOverviewHelp");
 			}
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
 		(JXGetHelpManager())->ShowCredits();
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else

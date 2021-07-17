@@ -192,11 +192,11 @@ enum
 TestDirector::TestDirector
 	(
 	JXDirector*		supervisor,
-	const JBoolean	isMaster,
-	const JBoolean	startIconic,
-	const JBoolean	bufferTestWidget,
-	const JBoolean	testWidgetIsImage,
-	const JBoolean	snoopWindow
+	const bool	isMaster,
+	const bool	startIconic,
+	const bool	bufferTestWidget,
+	const bool	testWidgetIsImage,
+	const bool	snoopWindow
 	)
 	:
 	JXWindowDirector(supervisor)
@@ -221,7 +221,7 @@ TestDirector::TestDirector
 		itsWindowSnooper = nullptr;
 		}
 
-	if (isMaster && JFileExists(JString(kWindowGeomFileName, kJFalse)))
+	if (isMaster && JFileExists(JString(kWindowGeomFileName, false)))
 		{
 		std::ifstream input(kWindowGeomFileName);
 		window->ReadGeometry(input);
@@ -275,7 +275,7 @@ TestDirector::OpenTextFile
 {
 	if (JFileReadable(fileName))
 		{
-		TestTextEditDocument* doc = jnew TestTextEditDocument(this, fileName, kJFalse);
+		TestTextEditDocument* doc = jnew TestTextEditDocument(this, fileName, false);
 		assert( doc != nullptr );
 		doc->Activate();
 		}
@@ -298,9 +298,9 @@ TestDirector::OpenTextFile
 void
 TestDirector::BuildWindow
 	(
-	const JBoolean isMaster,
-	const JBoolean bufferTestWidget,
-	const JBoolean testWidgetIsImage
+	const bool isMaster,
+	const bool bufferTestWidget,
+	const bool testWidgetIsImage
 	)
 {
 	JXDisplay* display = JXGetApplication()->GetCurrentDisplay();
@@ -344,7 +344,7 @@ TestDirector::BuildWindow
 	JXImage* aboutTitleImage =
 		jnew JXImage(display, kSmileyBitmap[ kHappySmileyIndex ], JColorManager::GetRedColor());
 	assert( aboutTitleImage != nullptr );
-	itsAboutMenu = menuBar->AppendTextMenu(aboutTitleImage, kJTrue);
+	itsAboutMenu = menuBar->AppendTextMenu(aboutTitleImage, true);
 	itsAboutMenu->SetShortcuts(JGetString("AboutMenuShortcut::TestDirector"));
 	itsAboutMenu->SetMenuItems(kAboutMenuStr, "TestDirector");
 	itsAboutMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -403,7 +403,7 @@ TestDirector::BuildWindow
 					   JXWidget::kHElastic, JXWidget::kVElastic,
 					   0,0, 10,10);
 	assert( itsWidget != nullptr );
-	itsWidget->FitToEnclosure(kJTrue, kJTrue);
+	itsWidget->FitToEnclosure(true, true);
 	itsWidget->SetSingleFocusWidget();
 
 	BuildIconMenus(window, menuBar);
@@ -460,7 +460,7 @@ TestDirector::BuildIconMenus
 
 	for (JXImage* i : image)
 		{
-		itsSmileyMenu->AppendItem(i, kJTrue);
+		itsSmileyMenu->AppendItem(i, true);
 		}
 
 	// create 2x2 submenu of radio buttons
@@ -471,7 +471,7 @@ TestDirector::BuildIconMenus
 
 	for (JXImage* i : image)
 		{
-		itsIconMenu->AppendItem(i, kJFalse, JXMenu::kRadioType);
+		itsIconMenu->AppendItem(i, false, JXMenu::kRadioType);
 		}
 
 	itsIconMenuItem = 1;
@@ -487,7 +487,7 @@ TestDirector::BuildIconMenus
 		{
 		for (JXImage* i : image)
 			{
-			submenu->AppendItem(i, kJFalse);
+			submenu->AppendItem(i, false);
 			}
 		}
 }
@@ -670,7 +670,7 @@ TestDirector::HandleAboutMenu
 		}
 	else if (index == kTipCmd)
 		{
-		JXTipOfTheDayDialog* dlog = jnew JXTipOfTheDayDialog(kJTrue, kJFalse);
+		JXTipOfTheDayDialog* dlog = jnew JXTipOfTheDayDialog(true, false);
 		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		ListenTo(dlog);
@@ -753,7 +753,7 @@ TestDirector::HandleTestMenu
 			{
 			itsDisplayMenu->SelectCurrentDisplay();
 			}
-		TestDirector* dir = jnew TestDirector(TestjxGetApplication(), kJFalse);
+		TestDirector* dir = jnew TestDirector(TestjxGetApplication(), false);
 		assert( dir != nullptr );
 		dir->Activate();
 		}
@@ -874,15 +874,15 @@ TestDirector::HandleTestMenu
 
 	else if (index == kSendEmailCmd)
 		{
-		JXGetWebBrowser()->ShowURL(JString("mailto:me@example.com", kJFalse));
+		JXGetWebBrowser()->ShowURL(JString("mailto:me@example.com", false));
 		}
 	else if (index == kShowFileContentCmd)
 		{
-		JXGetWebBrowser()->ShowURL(JString("file:/etc/hosts", kJFalse));
+		JXGetWebBrowser()->ShowURL(JString("file:/etc/hosts", false));
 		}
 	else if (index == kShowWebPageCmd)
 		{
-		JXGetWebBrowser()->ShowURL(JString("http://example.com", kJFalse));
+		JXGetWebBrowser()->ShowURL(JString("http://example.com", false));
 		}
 
 	else if (index == kTestDisabledMenuCmd)
@@ -894,7 +894,7 @@ TestDirector::HandleTestMenu
 		{
 		pid_t pid;
 		std::cout << std::endl;
-		const JError err = JExecute(JString("ls", kJFalse), &pid);
+		const JError err = JExecute(JString("ls", false), &pid);
 		std::cout << std::endl;
 		if (err.OK())
 			{
@@ -1010,7 +1010,7 @@ TestDirector::TestFontSubstitutionTiming()
 	JStopWatch w;
 	w.StartTimer();
 
-	JBoolean hasGlyphs = f.HasGlyphsForString(fontMgr, s);
+	bool hasGlyphs = f.HasGlyphsForString(fontMgr, s);
 
 	w.StopTimer();
 	std::cout << "check ascii glyphs: " << JBoolToString(hasGlyphs) << ' ' << w.PrintTimeInterval() << std::endl;
@@ -1116,7 +1116,7 @@ TestDirector::HandleCSFMenu
 {
 	JChooseSaveFile* csf = JGetChooseSaveFile();
 
-	JBoolean ok = kJFalse;
+	bool ok = false;
 	JString resultStr;
 	if (index == kChooseFileCmd)
 		{
@@ -1205,19 +1205,19 @@ TestDirector::HandlePGMenu
 {
 	if (index == kFixLenFGCmd)
 		{
-		FGProcess(kJTrue);
+		FGProcess(true);
 		}
 	else if (index == kVarLenFGCmd)
 		{
-		FGProcess(kJFalse);
+		FGProcess(false);
 		}
 	else if (index == kFixLenBGCmd)
 		{
-		BeginBGProcess(kJTrue);
+		BeginBGProcess(true);
 		}
 	else if (index == kVarLenBGCmd)
 		{
-		BeginBGProcess(kJFalse);
+		BeginBGProcess(false);
 		}
 }
 
@@ -1229,7 +1229,7 @@ TestDirector::HandlePGMenu
 void
 TestDirector::FGProcess
 	(
-	const JBoolean fixedLength
+	const bool fixedLength
 	)
 {
 	JProgressDisplay* pg = JNewPG();
@@ -1239,12 +1239,12 @@ TestDirector::FGProcess
 	if (fixedLength)
 		{
 		pg->FixedLengthProcessBeginning(
-			stepCount, JGetString("ProgressMessage::TestDirector"), kJTrue, kJFalse);
+			stepCount, JGetString("ProgressMessage::TestDirector"), true, false);
 		}
 	else
 		{
 		pg->VariableLengthProcessBeginning(
-			JGetString("ProgressMessage::TestDirector"), kJTrue, kJFalse);
+			JGetString("ProgressMessage::TestDirector"), true, false);
 		}
 
 	for (JIndex i=1; i<=stepCount; i++)
@@ -1272,7 +1272,7 @@ TestDirector::FGProcess
 void
 TestDirector::BeginBGProcess
 	(
-	const JBoolean fixedLength
+	const bool fixedLength
 	)
 {
 	TestPGTask* task = jnew TestPGTask(fixedLength);

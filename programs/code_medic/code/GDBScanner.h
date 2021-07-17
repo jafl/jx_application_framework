@@ -116,7 +116,7 @@ private:
 	JString	itsInputBuffer;
 	JSize	itsBytesRead;
 
-	JBoolean	itsResetFlag;
+	bool	itsResetFlag;
 
 	// "Registers" -- temporary buffers for use in Token
 	// (not in .l file to allow multiple instances)

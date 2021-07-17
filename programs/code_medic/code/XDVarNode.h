@@ -14,14 +14,14 @@ class XDVarNode : public CMVarNode
 {
 public:
 
-	XDVarNode(const JBoolean shouldUpdate = kJTrue);
+	XDVarNode(const bool shouldUpdate = true);
 
 	XDVarNode(JTreeNode* parent, const JString& name,
 			  const JString& fullName, const JString& value);
 
 	virtual	~XDVarNode();
 
-	virtual JString	GetFullName(JBoolean* isPointer = nullptr) const override;
+	virtual JString	GetFullName(bool* isPointer = nullptr) const override;
 
 protected:
 

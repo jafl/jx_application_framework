@@ -28,14 +28,14 @@ JX2DCurveOptionsDialog::JX2DCurveOptionsDialog
 	(
 	JXWindowDirector*			supervisor,
 	const JArray<J2DCurveInfo>&	array,
-	const JArray<JBoolean>&		hasXErrors,
-	const JArray<JBoolean>&		hasYErrors,
-	const JArray<JBoolean>&		isFunction,
-	const JArray<JBoolean>&		isScatter,
+	const JArray<bool>&		hasXErrors,
+	const JArray<bool>&		hasYErrors,
+	const JArray<bool>&		isFunction,
+	const JArray<bool>&		isScatter,
 	const JIndex				startIndex
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue),
+	JXDialogDirector(supervisor, true),
 	itsCurrentIndex(startIndex)
 {
 	assert( array.IndexValid(startIndex) );
@@ -52,16 +52,16 @@ JX2DCurveOptionsDialog::JX2DCurveOptionsDialog
 		itsCurveInfo->AppendElement(info);
 		}
 
-	itsHasXErrors = jnew JArray<JBoolean>(hasXErrors);
+	itsHasXErrors = jnew JArray<bool>(hasXErrors);
 	assert( itsHasXErrors != nullptr );
 
-	itsHasYErrors = jnew JArray<JBoolean>(hasYErrors);
+	itsHasYErrors = jnew JArray<bool>(hasYErrors);
 	assert( itsHasYErrors != nullptr );
 
-	itsIsFunction = jnew JArray<JBoolean>(isFunction);
+	itsIsFunction = jnew JArray<bool>(isFunction);
 	assert( itsIsFunction != nullptr );
 
-	itsIsScatter = jnew JArray<JBoolean>(isScatter);
+	itsIsScatter = jnew JArray<bool>(isScatter);
 	assert( itsIsScatter != nullptr );
 
 	BuildWindow();
@@ -212,7 +212,7 @@ JX2DCurveOptionsDialog::Receive
 			}
 		else
 			{
-			EndDialog(kJFalse);
+			EndDialog(false);
 			}
 		}
 
@@ -327,23 +327,23 @@ JX2DCurveOptionsDialog::DecodeCurveStyle
 	const JIndex style = itsCurveStyleRG->GetSelectedItem();
 	if (style == kShowPoints)
 		{
-		info->symbols = kJFalse;
-		info->lines   = kJFalse;
+		info->symbols = false;
+		info->lines   = false;
 		}
 	else if (style == kShowSymbols)
 		{
-		info->symbols = kJTrue;
-		info->lines   = kJFalse;
+		info->symbols = true;
+		info->lines   = false;
 		}
 	else if (style == kShowLines)
 		{
-		info->symbols = kJFalse;
-		info->lines   = kJTrue;
+		info->symbols = false;
+		info->lines   = true;
 		}
 	else if (style == kShowBoth)
 		{
-		info->symbols = kJTrue;
-		info->lines   = kJTrue;
+		info->symbols = true;
+		info->lines   = true;
 		}
 }
 
@@ -352,20 +352,20 @@ JX2DCurveOptionsDialog::DecodeCurveStyle
 
  ******************************************************************************/
 
-JBoolean
+bool
 JX2DCurveOptionsDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		SaveSettings();
-		return kJTrue;
+		return true;
 		}
 }

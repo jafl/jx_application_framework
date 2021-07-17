@@ -86,7 +86,7 @@ THXVarDirector::THXVarDirector
 	input >> colWidth;
 	itsVarTable->SetColWidth(THXVarTable::kNameColumn, colWidth);
 
-	JBoolean active;
+	bool active;
 	input >> JBoolFromString(active);
 	if (active)
 		{
@@ -121,7 +121,7 @@ THXVarDirector::WriteState
 	itsVarTable->WriteScrollSetup(output);
 
 	output << ' ' << itsVarTable->GetColWidth(THXVarTable::kNameColumn);
-	output << ' ' << JBoolToString(JI2B(IsActive() && !GetWindow()->IsIconified()));
+	output << ' ' << JBoolToString(IsActive() && !GetWindow()->IsIconified());
 }
 
 /******************************************************************************
@@ -161,7 +161,7 @@ THXVarDirector::BuildWindow
 	window->SetWMClass(THXGetWMClassInstance(), THXGetVarWindowClass());
 	window->SetMinSize(150,150);
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 
 	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::thxGlobals"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
@@ -297,7 +297,7 @@ THXVarDirector::HandleActionsMenu
 
  ******************************************************************************/
 
-JBoolean
+bool
 THXVarDirector::OKToDeactivate()
 {
 	return JXWindowDirector::OKToDeactivate();

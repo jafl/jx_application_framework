@@ -26,11 +26,11 @@ public:
 	virtual ~CBFileNameDisplay();
 
 	void	SetTE(JXTEBase* te);
-	void	DiskCopyIsModified(const JBoolean mod);
+	void	DiskCopyIsModified(const bool mod);
 
 	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
-	virtual JBoolean	InputValid() override;
+	virtual bool	InputValid() override;
 
 protected:
 
@@ -50,7 +50,7 @@ protected:
 							const JString& text, JRunArray<JFont>* styles,
 							JStyledText::TextRange* recalcRange,
 							JStyledText::TextRange* redrawRange,
-							const JBoolean deletion) override;
+							const bool deletion) override;
 
 		private:
 
@@ -79,12 +79,12 @@ private:
 
 	CBTextDocument*		itsDoc;			// not owned
 	CBFileDragSource*	itsDragSource;	// not owned
-	JBoolean			itsDiskModFlag;
-	JBoolean			itsCBHasFocusFlag;
+	bool			itsDiskModFlag;
+	bool			itsCBHasFocusFlag;
 
 private:
 
-	void	UpdateDisplay(const JBoolean hasFocus);
+	void	UpdateDisplay(const bool hasFocus);
 
 	// not allowed
 

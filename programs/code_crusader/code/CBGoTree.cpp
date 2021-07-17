@@ -114,7 +114,7 @@ CBGoTree::StreamInGoClass
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBGoTree::UpdateFinished
 	(
 	const JArray<JFAID_t>& deadFileList

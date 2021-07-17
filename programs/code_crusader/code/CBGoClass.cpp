@@ -29,7 +29,7 @@ CBGoClass::CBGoClass
 	const DeclareType	declType,
 	const JFAID_t		fileID,
 	CBTree*				tree,
-	const JBoolean		isPublic
+	const bool		isPublic
 	)
 	:
 	CBClass(name, declType, fileID, tree, kNamespaceOperator),
@@ -45,7 +45,7 @@ CBGoClass::CBGoClass
 	)
 	:
 	CBClass(input, vers, tree, kNamespaceOperator),
-	itsIsPublicFlag(kJTrue)
+	itsIsPublicFlag(true)
 {
 	if (vers >= 88)
 		{
@@ -108,9 +108,9 @@ CBGoClass::ViewSource()
 			te->SetCaretLocation(1);
 
 			const JStyledText::TextIndex start(1,1);
-			JBoolean wrapped;
+			bool wrapped;
 			const JStringMatch m =
-				te->GetText()->SearchForward(start, r, kJFalse, kJFalse, &wrapped);
+				te->GetText()->SearchForward(start, r, false, false, &wrapped);
 			if (!m.IsEmpty())
 				{
 				te->SelectLine(te->GetLineForChar(m.GetCharacterRange().first));
@@ -161,7 +161,7 @@ CBGoClass::NewGhost
 	)
 {
 	CBGoClass* newClass = jnew CBGoClass(name, kGhostType, JFAID::kInvalidID, tree,
-										 kJTrue);
+										 true);
 	assert( newClass != nullptr );
 	return newClass;
 }

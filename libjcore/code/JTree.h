@@ -31,7 +31,7 @@ public:
 private:
 
 	JTreeNode*	itsRoot;
-	JBoolean	itsIsDestructingFlag;
+	bool	itsIsDestructingFlag;
 
 private:
 

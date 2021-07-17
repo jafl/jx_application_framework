@@ -46,7 +46,7 @@ CBMacroSubstitute::~CBMacroSubstitute()
 
  *****************************************************************************/
 
-JBoolean
+bool
 CBMacroSubstitute::Evaluate
 	(
 	JStringIterator&	iter,
@@ -55,7 +55,7 @@ CBMacroSubstitute::Evaluate
 	const
 {
 	JUtf8Character c;
-	if (iter.Next(&c, kJFalse) && c == '(')
+	if (iter.Next(&c, kJIteratorStay) && c == '(')
 		{
 		iter.SkipNext();
 		iter.BeginMatch();
@@ -107,7 +107,7 @@ CBMacroSubstitute::Evaluate
 			value->Clear();
 			}
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{

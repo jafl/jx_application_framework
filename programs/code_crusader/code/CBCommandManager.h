@@ -36,43 +36,43 @@ public:
 		JString*	cmd;
 		JString*	name;
 
-		JBoolean	isMake;
-		JBoolean	isVCS;
-		JBoolean	saveAll;
-		JBoolean	oneAtATime;
-		JBoolean	useWindow;
-		JBoolean	raiseWindowWhenStart;
-		JBoolean	beepWhenFinished;
+		bool	isMake;
+		bool	isVCS;
+		bool	saveAll;
+		bool	oneAtATime;
+		bool	useWindow;
+		bool	raiseWindowWhenStart;
+		bool	beepWhenFinished;
 
 		JString*	menuText;
 		JString*	menuShortcut;
 		JString*	menuID;
-		JBoolean	separator;
+		bool	separator;
 
 		CmdInfo()
 			:
 			path(nullptr), cmd(nullptr), name(nullptr),
-			isMake(kJFalse), isVCS(kJFalse), saveAll(kJFalse),
-			oneAtATime(kJTrue), useWindow(kJTrue),
-			raiseWindowWhenStart(kJFalse), beepWhenFinished(kJFalse),
-			menuText(nullptr), menuShortcut(nullptr), menuID(nullptr), separator(kJFalse)
+			isMake(false), isVCS(false), saveAll(false),
+			oneAtATime(true), useWindow(true),
+			raiseWindowWhenStart(false), beepWhenFinished(false),
+			menuText(nullptr), menuShortcut(nullptr), menuID(nullptr), separator(false)
 		{ };
 
 		CmdInfo(JString* p, JString* c, JString* cn,
 				JString* mt, JString* ms, JString* mi)
 			:
 			path(p), cmd(c), name(cn),
-			isMake(kJFalse), isVCS(kJFalse), saveAll(kJFalse),
-			oneAtATime(kJTrue), useWindow(kJTrue),
-			raiseWindowWhenStart(kJFalse), beepWhenFinished(kJFalse),
-			menuText(mt), menuShortcut(ms), menuID(mi), separator(kJFalse)
+			isMake(false), isVCS(false), saveAll(false),
+			oneAtATime(true), useWindow(true),
+			raiseWindowWhenStart(false), beepWhenFinished(false),
+			menuText(mt), menuShortcut(ms), menuID(mi), separator(false)
 		{ };
 
 		CmdInfo(JString* p, JString* c, JString* cn,
-				const JBoolean mk, const JBoolean vcs,
-				const JBoolean sa, const JBoolean oaat,
-				const JBoolean uw, const JBoolean raise, const JBoolean beep,
-				JString* mt, JString* ms, JString* mi, const JBoolean sep)
+				const bool mk, const bool vcs,
+				const bool sa, const bool oaat,
+				const bool uw, const bool raise, const bool beep,
+				JString* mt, JString* ms, JString* mi, const bool sep)
 			:
 			path(p), cmd(c), name(cn),
 			isMake(mk), isVCS(vcs), saveAll(sa), oneAtATime(oaat), useWindow(uw),
@@ -109,22 +109,22 @@ public:
 					 const JPtrArray<JString>& fullNameList,
 					 const JArray<JIndex>& lineIndexList);
 
-	JBoolean	Prepare(const JString& cmdName, CBProjectDocument* projDoc,
+	bool	Prepare(const JString& cmdName, CBProjectDocument* projDoc,
 						const JPtrArray<JString>& fullNameList,
 						const JArray<JIndex>& lineIndexList,
 						CBCommand** cmd, CmdInfo** returnInfo,
 						CBFunctionStack* fnStack);
 
-	JBoolean	GetMakeDependCmdStr(CBProjectDocument* projDoc, const JBoolean reportError,
+	bool	GetMakeDependCmdStr(CBProjectDocument* projDoc, const bool reportError,
 									JString* cmdStr) const;
-	JBoolean	MakeDepend(CBProjectDocument* projDoc,
+	bool	MakeDepend(CBProjectDocument* projDoc,
 						   CBExecOutputDocument* compileDoc,
 						   CBCommand** resultCmd);
 
 	const JString&	GetMakeDependCommand() const;
 	void			SetMakeDependCommand(const JString& cmd);
 
-	JBoolean	Substitute(CBProjectDocument* projDoc, const JBoolean reportError,
+	bool	Substitute(CBProjectDocument* projDoc, const bool reportError,
 						   JString* cmdStr) const;
 
 	JSize		GetCommandCount() const;
@@ -132,28 +132,28 @@ public:
 
 	void	AppendCommand(const JString& path, const JString& cmd,
 						  const JString& name,
-						  const JBoolean isMake, const JBoolean isVCS,
-						  const JBoolean saveAll,
-						  const JBoolean oneAtATime, const JBoolean useWindow,
-						  const JBoolean raise, const JBoolean beep,
+						  const bool isMake, const bool isVCS,
+						  const bool saveAll,
+						  const bool oneAtATime, const bool useWindow,
+						  const bool raise, const bool beep,
 						  const JString& menuText, const JString& menuShortcut,
-						  const JBoolean separator);
+						  const bool separator);
 
 	void	UpdateAllCommandMenus();
-	void	AppendMenuItems(JXTextMenu* menu, const JBoolean hasProject) const;
+	void	AppendMenuItems(JXTextMenu* menu, const bool hasProject) const;
 
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;
 
-	static JBoolean	ReadCommands(std::istream& input,
+	static bool	ReadCommands(std::istream& input,
 								 JString* makeDependCmd, CmdList* cmdList,
 								 JFileVersion* returnVers = nullptr);
 
 	void	ConvertCompileDialog(std::istream& input, const JFileVersion vers,
 								 CBBuildManager* buildMgr,
-								 const JBoolean readWindGeom);
+								 const bool readWindGeom);
 	void	ConvertRunDialog(std::istream& input, const JFileVersion vers,
-							 const JBoolean readWindGeom);
+							 const bool readWindGeom);
 
 	// stored in project template
 
@@ -195,36 +195,36 @@ private:
 private:
 
 	void	InitCommandList();
-	void	UpdateFileMarkers(const JBoolean convertFromAncient, JString* s);
+	void	UpdateFileMarkers(const bool convertFromAncient, JString* s);
 
-	static JBoolean	Prepare(const CmdInfo& info, CBProjectDocument* projDoc,
+	static bool	Prepare(const CmdInfo& info, CBProjectDocument* projDoc,
 							const JPtrArray<JString>& fullNameList,
 							const JArray<JIndex>& lineIndexList, CBCommand** cmd,
 							CBFunctionStack* fnStack);
-	JBoolean		FindCommandName(const JString& name, CmdInfo* info) const;
-	static JBoolean	Parse(const JString& cmd, CBCmdQueue* cmdQueue,
+	bool		FindCommandName(const JString& name, CmdInfo* info) const;
+	static bool	Parse(const JString& cmd, CBCmdQueue* cmdQueue,
 						  CBFunctionStack* fnStack);
-	static JBoolean	BuildCmdPath(JString* cmdPath, CBProjectDocument* projDoc,
-								 const JString& fullName, const JBoolean reportError);
-	static JBoolean	ProcessCmdQueue(const JString& cmdPath, const CBCmdQueue& cmdQueue,
+	static bool	BuildCmdPath(JString* cmdPath, CBProjectDocument* projDoc,
+								 const JString& fullName, const bool reportError);
+	static bool	ProcessCmdQueue(const JString& cmdPath, const CBCmdQueue& cmdQueue,
 									const CmdInfo& info, CBProjectDocument* projDoc,
 									const JPtrArray<JString>& fullNameList,
 									const JArray<JIndex>& lineIndexList,
-									const JBoolean reportError,
+									const bool reportError,
 									CBCommand** cmd, CBFunctionStack* fnStack);
-	static JBoolean	Substitute(JString* arg, CBProjectDocument* projDoc,
+	static bool	Substitute(JString* arg, CBProjectDocument* projDoc,
 							   const JString& fullName, const JIndex lineIndex,
-							   const JBoolean reportError);
-	static JBoolean	Add(const JString& path, const JPtrArray<JString>& cmdArgs,
+							   const bool reportError);
+	static bool	Add(const JString& path, const JPtrArray<JString>& cmdArgs,
 						const CmdInfo& info, CBProjectDocument* projDoc,
 						const JPtrArray<JString>& fullNameList,
 						const JArray<JIndex>& lineIndexList,
 						CBCommand** cmd, CBFunctionStack* fnStack);
-	static JBoolean	UsesFile(const JString& arg);
+	static bool	UsesFile(const JString& arg);
 
 	JString	GetUniqueMenuID();
 
-	JBoolean	DocumentDeleted(JBroadcaster* sender);
+	bool	DocumentDeleted(JBroadcaster* sender);
 
 	static void	UpgradeCommand(CmdInfo* info);
 

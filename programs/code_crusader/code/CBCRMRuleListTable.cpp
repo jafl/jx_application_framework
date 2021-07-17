@@ -44,7 +44,7 @@ CBCRMRuleListTable::CBCRMRuleListTable
 	itsFirstNewID(firstUnusedID)
 {
 	itsCRMList         = crmList;
-	itsOwnsCRMListFlag = kJTrue;
+	itsOwnsCRMListFlag = true;
 	itsLastNewID       = itsFirstNewID - 1;
 	itsCRMIndex        = 0;
 
@@ -109,7 +109,7 @@ CBCRMRuleListTable::~CBCRMRuleListTable()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCRMRuleListTable::GetCurrentCRMRuleSetName
 	(
 	JString* name
@@ -120,12 +120,12 @@ CBCRMRuleListTable::GetCurrentCRMRuleSetName
 		const_cast<CBCRMRuleListTable*>(this)->EndEditing())
 		{
 		*name = GetStringData()->GetString(itsCRMIndex, 1);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		name->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -166,7 +166,7 @@ CBCRMRuleListTable::GetCRMRuleLists
 	*firstNewID = itsFirstNewID;
 	*lastNewID  = itsLastNewID;
 
-	itsOwnsCRMListFlag = kJFalse;
+	itsOwnsCRMListFlag = false;
 	return itsCRMList;
 }
 
@@ -279,7 +279,7 @@ CBCRMRuleListTable::RemoveRow()
 	else if (itsFirstNewID <= info.id && info.id < itsLastNewID)
 		{
 		JIndex index;
-		const JBoolean found =
+		const bool found =
 			CBPrefsManager::FindCRMRuleListID(*itsCRMList, itsLastNewID, &index);
 		assert( found );
 

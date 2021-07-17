@@ -61,13 +61,13 @@ JXChooseSaveFile::~JXChooseSaveFile()
 
 	Displays the prompt and asks the user to choose a file.
 
-	Returns kJFalse if user cancels.
+	Returns false if user cancels.
 
 	To change which files are display, override SetChooseFileFilters().
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXChooseSaveFile::ChooseFile
 	(
 	const JString&	prompt,
@@ -76,10 +76,10 @@ JXChooseSaveFile::ChooseFile
 	)
 {
 	itsResultStr = fullName;
-	return ChooseFile(prompt, instructions, JString::empty, kJFalse);
+	return ChooseFile(prompt, instructions, JString::empty, false);
 }
 
-JBoolean
+bool
 JXChooseSaveFile::ChooseFile
 	(
 	const JString&	prompt,
@@ -89,10 +89,10 @@ JXChooseSaveFile::ChooseFile
 	)
 {
 	itsResultStr = fullName;
-	return ChooseFile(prompt, instructions, origName, kJFalse);
+	return ChooseFile(prompt, instructions, origName, false);
 }
 
-JBoolean
+bool
 JXChooseSaveFile::ChooseFiles
 	(
 	const JString&		prompt,
@@ -101,10 +101,10 @@ JXChooseSaveFile::ChooseFiles
 	)
 {
 	itsResultList = fullNameList;
-	return ChooseFile(prompt, instructions, JString::empty, kJTrue);
+	return ChooseFile(prompt, instructions, JString::empty, true);
 }
 
-JBoolean
+bool
 JXChooseSaveFile::ChooseFile
 	(
 	const JString&	prompt,
@@ -118,13 +118,13 @@ JXChooseSaveFile::ChooseFile
 	itsUserFilter            = wildcardFilter;
 
 	itsResultStr      = fullName;
-	const JBoolean ok = ChooseFile(prompt, instructions, origName, kJFalse);
+	const bool ok = ChooseFile(prompt, instructions, origName, false);
 
 	itsUserFilter = origFilter;
 	return ok;
 }
 
-JBoolean
+bool
 JXChooseSaveFile::ChooseFiles
 	(
 	const JString&		prompt,
@@ -137,7 +137,7 @@ JXChooseSaveFile::ChooseFiles
 	itsUserFilter            = wildcardFilter;
 
 	itsResultList     = fullNameList;
-	const JBoolean ok = ChooseFile(prompt, instructions, JString::empty, kJTrue);
+	const bool ok = ChooseFile(prompt, instructions, JString::empty, true);
 
 	itsUserFilter = origFilter;
 	return ok;
@@ -145,17 +145,17 @@ JXChooseSaveFile::ChooseFiles
 
 // private
 
-JBoolean
+bool
 JXChooseSaveFile::ChooseFile
 	(
 	const JString&	prompt,
 	const JString&	instructions,
 	const JString&	originalName,
-	const JBoolean	allowSelectMultiple
+	const bool	allowSelectMultiple
 	)
 {
 	JDirInfo* dirInfo       = GetDirInfo();
-	JBoolean restorePath    = kJFalse;
+	bool restorePath    = false;
 	const JString savedPath = dirInfo->GetDirectory();
 
 	JString origName;
@@ -164,7 +164,7 @@ JXChooseSaveFile::ChooseFile
 		JString path;
 		JSplitPathAndName(originalName, &path, &origName);
 		dirInfo->GoToClosest(path);
-		restorePath = kJTrue;
+		restorePath = true;
 		if (!JSameDirEntry(path, dirInfo->GetDirectory()))
 			{
 			origName.Clear();
@@ -201,7 +201,7 @@ JXChooseSaveFile::CreateChooseFileDialog
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	allowSelectMultiple,
+	const bool	allowSelectMultiple,
 	const JString&	origName,
 	const JString&	message
 	)
@@ -232,11 +232,11 @@ JXChooseSaveFile::SetChooseFileFilters
 
 	Displays the prompt and asks the user to choose a readable path.
 
-	Returns kJFalse if user cancels.
+	Returns false if user cancels.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXChooseSaveFile::ChooseRPath
 	(
 	const JString&	prompt,
@@ -245,7 +245,7 @@ JXChooseSaveFile::ChooseRPath
 	JString*		newPath
 	)
 {
-	return ChoosePath(kJFalse, instructions, origPath, newPath);
+	return ChoosePath(false, instructions, origPath, newPath);
 }
 
 /******************************************************************************
@@ -253,11 +253,11 @@ JXChooseSaveFile::ChooseRPath
 
 	Displays the prompt and asks the user to choose a writable path.
 
-	Returns kJFalse if user cancels.
+	Returns false if user cancels.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXChooseSaveFile::ChooseRWPath
 	(
 	const JString&	prompt,
@@ -266,7 +266,7 @@ JXChooseSaveFile::ChooseRWPath
 	JString*		newPath
 	)
 {
-	return ChoosePath(kJTrue, instructions, origPath, newPath);
+	return ChoosePath(true, instructions, origPath, newPath);
 }
 
 /******************************************************************************
@@ -276,10 +276,10 @@ JXChooseSaveFile::ChooseRWPath
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXChooseSaveFile::ChoosePath
 	(
-	const JBoolean	selectOnlyWritable,
+	const bool	selectOnlyWritable,
 	const JString&	instructions,
 	const JString&	origPath,
 	JString*		newPath
@@ -288,13 +288,13 @@ JXChooseSaveFile::ChoosePath
 	itsResultStr = newPath;
 
 	JDirInfo* dirInfo       = GetDirInfo();
-	JBoolean restorePath    = kJFalse;
+	bool restorePath    = false;
 	const JString savedPath = dirInfo->GetDirectory();
 
 	if (!origPath.IsEmpty())
 		{
 		dirInfo->GoToClosest(origPath);
-		restorePath = kJTrue;
+		restorePath = true;
 		}
 
 	assert( itsChoosePathDialog == nullptr );
@@ -326,7 +326,7 @@ JXChooseSaveFile::CreateChoosePathDialog
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	selectOnlyWritable,
+	const bool	selectOnlyWritable,
 	const JString&	message
 	)
 {
@@ -339,11 +339,11 @@ JXChooseSaveFile::CreateChoosePathDialog
 
 	Displays the prompts and asks the user for a file name.
 
-	Returns kJFalse if user cancels.
+	Returns false if user cancels.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXChooseSaveFile::SaveFile
 	(
 	const JString&	prompt,
@@ -355,7 +355,7 @@ JXChooseSaveFile::SaveFile
 	itsResultStr = newFullName;
 
 	JDirInfo* dirInfo       = GetDirInfo();
-	JBoolean restorePath    = kJFalse;
+	bool restorePath    = false;
 	const JString savedPath = dirInfo->GetDirectory();
 
 	JString origName = originalName;
@@ -364,7 +364,7 @@ JXChooseSaveFile::SaveFile
 		JString path;
 		JSplitPathAndName(originalName, &path, &origName);
 		dirInfo->GoToClosest(path);
-		restorePath = kJTrue;
+		restorePath = true;
 		}
 
 	assert( itsSaveFileDialog == nullptr );
@@ -430,13 +430,13 @@ JXChooseSaveFile::Receive
 
 		if (itsResponse && sender == itsChooseFileDialog && itsResultList != nullptr)
 			{
-			const JBoolean ok = itsChooseFileDialog->GetFullNames(itsResultList);
+			const bool ok = itsChooseFileDialog->GetFullNames(itsResultList);
 			assert( ok );
 			}
 		else if (itsResponse && sender == itsChooseFileDialog)
 			{
 			assert( itsResultStr != nullptr );
-			const JBoolean ok = itsChooseFileDialog->GetFullName(itsResultStr);
+			const bool ok = itsChooseFileDialog->GetFullName(itsResultStr);
 			assert( ok );
 			}
 		else if (itsResponse && sender == itsChoosePathDialog)
@@ -448,7 +448,7 @@ JXChooseSaveFile::Receive
 			{
 			assert( itsResultStr != nullptr );
 			JString name;
-			const JBoolean ok = itsSaveFileDialog->GetFileName(&name);
+			const bool ok = itsSaveFileDialog->GetFileName(&name);
 			assert( ok );
 			*itsResultStr = JCombinePathAndName(itsSaveFileDialog->GetPath(), name);
 			}
@@ -517,7 +517,7 @@ void
 JXChooseSaveFile::RestoreState
 	(
 	JXCSFDialogBase*	dlog,
-	const JBoolean		ignoreScroll
+	const bool		ignoreScroll
 	)
 {
 	(dlog->GetWindow())->PlaceAsDialogWindow();
@@ -651,7 +651,7 @@ JXChooseSaveFile::GetDirInfo()
 		JString dirName = JGetCurrentDirectory();
 		if (!JDirInfo::Create(dirName, &itsDirInfo))
 			{
-			JBoolean ok = JGetHomeDirectory(&dirName);
+			bool ok = JGetHomeDirectory(&dirName);
 			if (!ok || !JDirInfo::Create(dirName, &itsDirInfo))
 				{
 				dirName = JGetRootDirectory();
@@ -659,7 +659,7 @@ JXChooseSaveFile::GetDirInfo()
 				assert( ok );
 				}
 			}
-		itsDirInfo->ShowHidden(kJFalse);
+		itsDirInfo->ShowHidden(false);
 		return itsDirInfo;
 		}
 	else if (itsDirInfo == nullptr)
@@ -719,11 +719,11 @@ JXChooseSaveFile::GetDialogState()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXChooseSaveFile::IsCharacterInWord
 	(
 	const JUtf8Character& c
 	)
 {
-	return JI2B( c.IsAlnum() || c == '_' );
+	return c.IsAlnum() || c == '_';
 }

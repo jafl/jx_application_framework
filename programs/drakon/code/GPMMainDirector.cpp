@@ -190,7 +190,7 @@ GPMMainDirector::BuildWindow()
 	assert( itsToolBar != nullptr );
 
 	itsFullCmdDisplay =
-		jnew JXStaticText(JString::empty, kJFalse, kJTrue, kJFalse, NULL, window,
+		jnew JXStaticText(JString::empty, false, true, false, NULL, window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,330, 530,20);
 	assert( itsFullCmdDisplay != nullptr );
 
@@ -212,7 +212,7 @@ GPMMainDirector::BuildWindow()
 					   JXWidget::kHElastic, JXWidget::kFixedTop,
 					   0,kStatusMargin, 100,kStatusHeight);
 	assert( itsSystemStats != nullptr );
-	itsSystemStats->FitToEnclosure(kJTrue, kJFalse);
+	itsSystemStats->FitToEnclosure(true, false);
 
 	// tab group
 
@@ -248,7 +248,7 @@ GPMMainDirector::BuildWindow()
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kHeaderHeight, 100,tableHeight);
 	assert( itsProcessTable != nullptr );
-	itsProcessTable->FitToEnclosure(kJTrue, kJFalse);
+	itsProcessTable->FitToEnclosure(true, false);
 
 	GPMListHeaderWidget* tableHeader =
 		jnew GPMListHeaderWidget(itsProcessTable, itsProcessList,
@@ -256,7 +256,7 @@ GPMMainDirector::BuildWindow()
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, 100,kHeaderHeight);
 	assert( tableHeader != nullptr );
-	tableHeader->FitToEnclosure(kJTrue, kJFalse);
+	tableHeader->FitToEnclosure(true, false);
 
 	// tree view
 
@@ -275,7 +275,7 @@ GPMMainDirector::BuildWindow()
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kHeaderHeight, 100,tableHeight);
 	assert( itsProcessTree != nullptr );
-	itsProcessTree->FitToEnclosure(kJTrue, kJFalse);
+	itsProcessTree->FitToEnclosure(true, false);
 
 	GPMTreeHeaderWidget* treeHeader =
 		jnew GPMTreeHeaderWidget(itsProcessTree, itsProcessList,
@@ -283,7 +283,7 @@ GPMMainDirector::BuildWindow()
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, 100,kHeaderHeight);
 	assert( treeHeader != nullptr );
-	treeHeader->FitToEnclosure(kJTrue, kJFalse);
+	treeHeader->FitToEnclosure(true, false);
 
 	itsProcessTable->SetDefaultRowHeight(itsProcessTree->GetDefaultRowHeight());
 
@@ -414,7 +414,7 @@ GPMMainDirector::Receive
 			 message.Is(JXCardFile::kCardIndexChanged))
 		{
 		JIndex index;
-		const JBoolean ok = itsTabGroup->GetCurrentTabIndex(&index);
+		const bool ok = itsTabGroup->GetCurrentTabIndex(&index);
 		assert( ok );
 
 		const GPMProcessEntry* entry;
@@ -476,7 +476,7 @@ GPMMainDirector::UpdateProcessMenu()
 		}
 
 	JIndex tabIndex;
-	const JBoolean ok = itsTabGroup->GetCurrentTabIndex(&tabIndex);
+	const bool ok = itsTabGroup->GetCurrentTabIndex(&tabIndex);
 	assert( ok );
 
 	const GPMProcessEntry* entry;
@@ -485,7 +485,7 @@ GPMMainDirector::UpdateProcessMenu()
 		{
 		if (entry->GetState() != GPMProcessEntry::kZombie)
 			{
-			const JBoolean notSelf = JI2B(entry->GetPID() != getpid());
+			const bool notSelf = entry->GetPID() != getpid();
 			itsProcessMenu->EnableItem(kEndCmd);
 			itsProcessMenu->EnableItem(kKillCmd);
 			itsProcessMenu->SetItemEnable(kPauseCmd, notSelf);
@@ -513,7 +513,7 @@ GPMMainDirector::HandleProcessMenu
 		}
 
 	JIndex tabIndex;
-	const JBoolean ok = itsTabGroup->GetCurrentTabIndex(&tabIndex);
+	const bool ok = itsTabGroup->GetCurrentTabIndex(&tabIndex);
 	assert( ok );
 
 	const GPMProcessEntry* entry;
@@ -568,7 +568,7 @@ GPMMainDirector::HandleProcessMenu
 			cmd += " ";
 			cmd += JString((JUInt64) pid);
 			cmd += "'";
-			JSimpleProcess::Create(cmd, kJTrue);
+			JSimpleProcess::Create(cmd, true);
 			}
 		}
 }
@@ -669,7 +669,7 @@ GPMMainDirector::ReadPrefs
 
 	if (vers >= 1)
 		{
-		JBoolean show;
+		bool show;
 		input >> JBoolFromString(show);
 		itsProcessList->ShouldShowUserOnly(show);
 		}
@@ -682,7 +682,7 @@ GPMMainDirector::ReadPrefs
 
 	if (3 <= vers && vers < 6)
 		{
-		JBoolean full;
+		bool full;
 		input >> JBoolFromString(full);
 		}
 
@@ -729,7 +729,7 @@ GPMMainDirector::WritePrefs
 	output << ' ' << (int) itsProcessList->GetSelectedTreeCol();
 
 	JIndex tabIndex;
-	const JBoolean ok = itsTabGroup->GetCurrentTabIndex(&tabIndex);
+	const bool ok = itsTabGroup->GetCurrentTabIndex(&tabIndex);
 	assert( ok );
 	output << ' ' << tabIndex;
 }

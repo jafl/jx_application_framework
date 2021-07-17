@@ -31,7 +31,7 @@ JXChooseColorDialog::JXChooseColorDialog
 	const JColorID		colorIndex
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(colorIndex);
 }
@@ -300,7 +300,7 @@ void
 JXChooseColorDialog::UpdateRGBColor()
 {
 	JInteger r,g,b;
-	JBoolean ok = itsRInput->GetValue(&r);
+	bool ok = itsRInput->GetValue(&r);
 	assert( ok );
 	ok = itsGInput->GetValue(&g);
 	assert( ok );
@@ -379,7 +379,7 @@ JXChooseColorDialog::UpdateInputFields
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXChooseColorDialog::OKToDeactivate()
 {
 	UpdateRGBColor();

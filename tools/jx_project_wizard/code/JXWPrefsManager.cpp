@@ -21,10 +21,10 @@ const JFileVersion kCurrentPrefsFileVersion = 0;
 
 JXWPrefsManager::JXWPrefsManager
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue)
+	JXPrefsManager(kCurrentPrefsFileVersion, true)
 {
 	*isNew = JPrefsManager::UpgradeData();
 
@@ -64,7 +64,7 @@ JXWPrefsManager::SaveAllBeforeDestruct()
 void
 JXWPrefsManager::UpgradeData
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JFileVersion	currentVersion
 	)
 {
@@ -84,7 +84,7 @@ JXWPrefsManager::GetPrevVersionStr()
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(kJXWProgramVersionID, &data);
+	const bool ok = GetData(kJXWProgramVersionID, &data);
 	assert( ok );
 	return JString(data);
 }

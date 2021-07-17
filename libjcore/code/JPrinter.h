@@ -36,13 +36,13 @@ public:
 		{
 		public:
 
-			PageSetupFinished(const JBoolean changed)
+			PageSetupFinished(const bool changed)
 				:
 				JBroadcaster::Message(kPageSetupFinished),
 				itsChangedFlag(changed)
 				{ };
 
-			JBoolean
+			bool
 			Changed() const
 			{
 				return itsChangedFlag;
@@ -50,26 +50,26 @@ public:
 
 		private:
 
-			const JBoolean	itsChangedFlag;
+			const bool	itsChangedFlag;
 		};
 
 	class PrintSetupFinished : public JBroadcaster::Message
 		{
 		public:
 
-			PrintSetupFinished(const JBoolean success, const JBoolean changed)
+			PrintSetupFinished(const bool success, const bool changed)
 				:
 				JBroadcaster::Message(kPrintSetupFinished),
 				itsSuccessFlag(success), itsChangedFlag(changed)
 				{ };
 
-			JBoolean
+			bool
 			Successful() const
 			{
 				return itsSuccessFlag;
 			};
 
-			JBoolean
+			bool
 			Changed() const
 			{
 				return itsChangedFlag;
@@ -77,8 +77,8 @@ public:
 
 		private:
 
-			const JBoolean	itsSuccessFlag;
-			const JBoolean	itsChangedFlag;
+			const bool	itsSuccessFlag;
+			const bool	itsChangedFlag;
 		};
 };
 

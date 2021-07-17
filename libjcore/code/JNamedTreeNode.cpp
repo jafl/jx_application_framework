@@ -25,13 +25,13 @@ JNamedTreeNode::JNamedTreeNode
 	(
 	JTree*			tree,
 	const JString&	name,
-	const JBoolean	isOpenable
+	const bool	isOpenable
 	)
 	:
 	JTreeNode(tree, isOpenable),
 	itsName(name)
 {
-	SetChildCompareFunction(DynamicCastCompareNames, JListT::kSortAscending, kJFalse);
+	SetChildCompareFunction(DynamicCastCompareNames, JListT::kSortAscending, false);
 }
 
 /******************************************************************************
@@ -86,7 +86,7 @@ JNamedTreeNode::NameChanged()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JNamedTreeNode::FindNamedChild
 	(
 	const JString&		name,
@@ -94,7 +94,7 @@ JNamedTreeNode::FindNamedChild
 	)
 {
 	const JNamedTreeNode* n;
-	const JBoolean found = FindNamedChild(name, &n);
+	const bool found = FindNamedChild(name, &n);
 	if (found)
 		{
 		*node = const_cast<JNamedTreeNode*>(n);
@@ -102,7 +102,7 @@ JNamedTreeNode::FindNamedChild
 	return found;
 }
 
-JBoolean
+bool
 JNamedTreeNode::FindNamedChild
 	(
 	const JString&			name,
@@ -116,12 +116,12 @@ JNamedTreeNode::FindNamedChild
 		*node = GetNamedChild(i);
 		if ((**node).GetName() == name)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*node = nullptr;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -146,7 +146,7 @@ JNamedTreeNode::GetNamedParent()
 	return node;
 }
 
-JBoolean
+bool
 JNamedTreeNode::GetNamedParent
 	(
 	JNamedTreeNode** parent
@@ -157,16 +157,16 @@ JNamedTreeNode::GetNamedParent
 		{
 		*parent = dynamic_cast<JNamedTreeNode*>(p);
 		assert( *parent != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JNamedTreeNode::GetNamedParent
 	(
 	const JNamedTreeNode** parent
@@ -178,12 +178,12 @@ JNamedTreeNode::GetNamedParent
 		{
 		*parent = dynamic_cast<const JNamedTreeNode*>(p);
 		assert( *parent != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 

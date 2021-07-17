@@ -25,7 +25,7 @@ int main()
 JTEST(Patterns)
 {
 	JRegex r = "[[:alpha:]`][[:alnum:]`_]*";
-	JAssertTrue(r.Match(JString("\xCF\x80", kJFalse)));
+	JAssertTrue(r.Match(JString("\xCF\x80", JString::kNoCopy)));
 }
 
 JTEST(RealFunction)
@@ -38,14 +38,14 @@ JTEST(RealFunction)
 	JString expr, msg;
 	while (1)
 		{
-		JBoolean expectedParseOK;
+		bool expectedParseOK;
 		input >> JBoolFromString(expectedParseOK);
 		if (!input.good())
 			{
 			break;
 			}
 
-		JBoolean expectedEvalOK;
+		bool expectedEvalOK;
 		input >> JBoolFromString(expectedEvalOK);
 
 		JFloat expectedResult;
@@ -89,14 +89,14 @@ JTEST(ComplexFunction)
 	JString expr, msg;
 	while (1)
 		{
-		JBoolean expectedParseOK;
+		bool expectedParseOK;
 		input >> JBoolFromString(expectedParseOK);
 		if (!input.good())
 			{
 			break;
 			}
 
-		JBoolean expectedEvalOK;
+		bool expectedEvalOK;
 		input >> JBoolFromString(expectedEvalOK);
 
 		JComplex expectedResult;
@@ -150,7 +150,7 @@ JTEST(Printing)
 			}
 
 		JFunction* f;
-		JBoolean ok = p.Parse(expr, &f);
+		bool ok = p.Parse(expr, &f);
 		JAssertTrue(ok);
 
 		if (ok)

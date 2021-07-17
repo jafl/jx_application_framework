@@ -166,7 +166,7 @@ DragWidget::HandleMouseDrag
 	)
 {
 	// Check to see if the window was scrolled
-	const JBoolean scrolled = ScrollForDrag(pt);
+	const bool scrolled = ScrollForDrag(pt);
 
 	// Get the drag painter that we created in mouse down
 	JPainter* p = nullptr;

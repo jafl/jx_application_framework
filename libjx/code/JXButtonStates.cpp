@@ -36,7 +36,7 @@ JXButtonStates::JXButtonStates
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXButtonStates::GetState
 	(
 	const JIndex i
@@ -52,13 +52,12 @@ JXButtonStates::GetState
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXButtonStates::AllOff()
 	const
 {
-	return JI2B(
-		std::all_of(std::begin(itsState), std::end(itsState),
-					[] (const JBoolean v) { return !v; }));
+	return std::all_of(std::begin(itsState), std::end(itsState),
+						[] (const bool v) { return !v; });
 }
 
 /******************************************************************************
@@ -72,7 +71,7 @@ void
 JXButtonStates::SetState
 	(
 	const JIndex	i,
-	const JBoolean	pushed
+	const bool	pushed
 	)
 {
 	assert( 0 < i && i <= kXButtonCount );
@@ -91,7 +90,7 @@ JXButtonStates::GetState()
 	const
 {
 	unsigned int state = 0, i = 0;
-	for (const JBoolean b : itsState)
+	for (const bool b : itsState)
 		{
 		if (b)
 			{
@@ -117,7 +116,7 @@ JXButtonStates::SetState
 {
 	for (JUnsignedOffset i=0; i<kXButtonCount; i++)
 		{
-		itsState[i] = JConvertToBoolean( (state & (1L << (i+8))) != 0 );
+		itsState[i] = (state & (1L << (i+8))) != 0;
 		}
 }
 
@@ -129,7 +128,7 @@ JXButtonStates::SetState
 void
 JXButtonStates::Clear()
 {
-	std::fill(std::begin(itsState), std::end(itsState), kJFalse);
+	std::fill(std::begin(itsState), std::end(itsState), false);
 }
 
 /******************************************************************************
@@ -139,7 +138,7 @@ JXButtonStates::Clear()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXButtonStates::GetState
 	(
 	const unsigned int	state,
@@ -147,7 +146,7 @@ JXButtonStates::GetState
 	)
 {
 	assert( 0 < i && i <= kXButtonCount );
-	return JConvertToBoolean( (state & (1L << (i+7))) != 0 );
+	return (state & (1L << (i+7))) != 0;
 }
 
 /******************************************************************************
@@ -162,7 +161,7 @@ JXButtonStates::SetState
 	(
 	const unsigned int	state,
 	const JIndex		i,
-	const JBoolean		pushed
+	const bool		pushed
 	)
 {
 	if (pushed)

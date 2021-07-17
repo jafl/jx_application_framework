@@ -71,7 +71,7 @@ JPhaseAngle::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JPhaseAngle::Evaluate
 	(
 	JFloat* result
@@ -87,11 +87,11 @@ JPhaseAngle::Evaluate
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JPhaseAngle::Evaluate
 	(
 	JComplex* result
@@ -107,6 +107,6 @@ JPhaseAngle::Evaluate
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

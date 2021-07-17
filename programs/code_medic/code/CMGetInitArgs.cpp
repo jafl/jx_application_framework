@@ -26,7 +26,7 @@ CMGetInitArgs::CMGetInitArgs
 	const JString& cmd
 	)
 	:
-	CMCommand(cmd, kJTrue, kJFalse)
+	CMCommand(cmd, true, false)
 {
 }
 

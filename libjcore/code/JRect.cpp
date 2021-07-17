@@ -19,12 +19,12 @@
 /******************************************************************************
  JIntersection
 
-	Returns kJTrue if the intersection of r1 and r2 is not empty.
+	Returns true if the intersection of r1 and r2 is not empty.
 	It is safe for r1 or r2 to also be the result.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIntersection
 	(
 	const JRect&	r1,
@@ -39,12 +39,12 @@ JIntersection
 
 	if (result->top < result->bottom && result->left < result->right)
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		result->Set(0,0,0,0);
-		return kJFalse;
+		return false;
 		}
 }
 

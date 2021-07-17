@@ -35,7 +35,7 @@ public:
 public:
 
 	CBBuildManager(CBProjectDocument* doc, const MakefileMethod method = kMakemake,
-				   const JBoolean needWriteMakeFiles = kJTrue,
+				   const bool needWriteMakeFiles = true,
 				   const JString& targetName = JString::empty,
 				   const JString& depListExpr = JString::empty);
 	CBBuildManager(std::istream& projInput, const JFileVersion projVers,
@@ -45,13 +45,13 @@ public:
 	virtual ~CBBuildManager();
 
 	void		CreateMakeFiles(const MakefileMethod method);
-	JBoolean	UpdateMakeFiles(const JBoolean reportError = kJTrue);
-	JBoolean	UpdateMakefile(CBExecOutputDocument* compileDoc = nullptr,
+	bool	UpdateMakeFiles(const bool reportError = true);
+	bool	UpdateMakefile(CBExecOutputDocument* compileDoc = nullptr,
 							   CBCommand** cmd = nullptr,
-							   const JBoolean force = kJFalse);
+							   const bool force = false);
 
 	void		EditProjectConfig();
-	JBoolean	EditMakeConfig();
+	bool	EditMakeConfig();
 
 	const JString&	GetBuildTargetName() const;
 	void			SetBuildTargetName(const JString& targetName);
@@ -60,8 +60,8 @@ public:
 
 	static const JString&	GetSubProjectBuildSuffix();
 
-	static JBoolean	WillRebuildMakefileDaily();
-	static void		ShouldRebuildMakefileDaily(const JBoolean rebuild);
+	static bool	WillRebuildMakefileDaily();
+	static void		ShouldRebuildMakefileDaily(const bool rebuild);
 
 	// stored in project
 
@@ -93,7 +93,7 @@ public:
 
 	// called by CBProjectConfigDialog
 
-	static JBoolean	UpdateMakeDependCmd(const MakefileMethod oldMethod,
+	static bool	UpdateMakeDependCmd(const MakefileMethod oldMethod,
 										const MakefileMethod newMethod,
 										JString* cmd);
 
@@ -123,7 +123,7 @@ private:
 private:
 
 	MakefileMethod	itsMakefileMethod;
-	JBoolean		itsNeedWriteMakeFilesFlag;	// kJTrue => Make.files changed
+	bool		itsNeedWriteMakeFilesFlag;	// true => Make.files changed
 	JString			itsTargetName;				// name of target in Make.files
 	JString			itsDepListExpr;				// "literal:" at end of Make.files
 	JString			itsSubProjectBuildCmd;
@@ -136,25 +136,25 @@ private:
 	CBCommand*				itsMakeDependCmd;	// not owned; nullptr unless running
 	CBProjectConfigDialog*	itsProjectConfigDialog;
 
-	static JBoolean	itsRebuildMakefileDailyFlag;
+	static bool	itsRebuildMakefileDailyFlag;
 
 private:
 
 	void	UpdateProjectConfig();
 
 	void		PrintTargetName(std::ostream& output) const;
-	JBoolean	SaveOpenFile(const JString& fileName);
+	bool	SaveOpenFile(const JString& fileName);
 
 	void		CreateMakemakeFiles(const JString& makeHeaderText,
 									const JString& makeFilesText,
-									const JBoolean readingTemplate);
+									const bool readingTemplate);
 	void		CreateCMakeFiles(const JString& cmakeHeaderText,
-								 const JBoolean readingTemplate);
+								 const bool readingTemplate);
 	void		CreateQMakeFiles(const JString& qmakeHeaderText,
-								 const JBoolean readingTemplate);
+								 const bool readingTemplate);
 	void		RecreateMakeHeaderFile();
 
-	JBoolean	WriteSubProjectBuildFile(const JBoolean reportError);
+	bool	WriteSubProjectBuildFile(const bool reportError);
 
 	void		UpdateMakeHeader(const JString& fileName,
 								 const JPtrArray<JString>& libFileList,
@@ -168,11 +168,11 @@ private:
 								const JString& src, const JString& hdr,
 								const JString& outputFileName) const;
 
-	JBoolean	MakeFilesChanged() const;
-	JBoolean	CMakeHeaderChanged() const;
-	JBoolean	QMakeHeaderChanged() const;
+	bool	MakeFilesChanged() const;
+	bool	CMakeHeaderChanged() const;
+	bool	QMakeHeaderChanged() const;
 	ModTime		SaveMakeFileModTimes();
-	JBoolean	MakefileExists() const;
+	bool	MakefileExists() const;
 
 	void		GetMakefileNames(JPtrArray<JString>* list) const;
 	void		GetMakemakeFileNames(JString* makeHeaderName,
@@ -234,7 +234,7 @@ CBBuildManager::GetMakefileMethod()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBBuildManager::WillRebuildMakefileDaily()
 {
 	return itsRebuildMakefileDailyFlag;
@@ -243,7 +243,7 @@ CBBuildManager::WillRebuildMakefileDaily()
 inline void
 CBBuildManager::ShouldRebuildMakefileDaily
 	(
-	const JBoolean rebuild
+	const bool rebuild
 	)
 {
 	itsRebuildMakefileDailyFlag = rebuild;

@@ -24,7 +24,7 @@ JString				MDGetVersionStr();
 
 	// called by MDApp
 
-JBoolean	MDCreateGlobals(MDApp* app);
+bool	MDCreateGlobals(MDApp* app);
 void		MDDeleteGlobals();
 void		MDCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 

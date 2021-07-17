@@ -47,24 +47,24 @@ JPtrArrayIterator<T>::JPtrArrayIterator
 /******************************************************************************
  SetPrev
 
-	Returns kJTrue if we have a non-const JPtrArray<T>* and
+	Returns true if we have a non-const JPtrArray<T>* and
 	there is a previous item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JPtrArrayIterator<T>::SetPrev
 	(
 	T*									dataPtr,
 	const JPtrArrayT::SetElementAction	action,
-	const JBoolean						move
+	const JIteratorAction				move
 	)
 {
 	JList<T*>* obj;
 	if (!JPtrArrayIterator<T>::GetList(&obj) || JListIterator<T*>::AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
@@ -77,30 +77,30 @@ JPtrArrayIterator<T>::SetPrev
 		{
 		this->SetCursor(cursorPos-1);
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  SetNext
 
-	Returns kJTrue if we have a non-const JPtrArray<T>* and
+	Returns true if we have a non-const JPtrArray<T>* and
 	there is a next item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JPtrArrayIterator<T>::SetNext
 	(
 	T*									dataPtr,
 	const JPtrArrayT::SetElementAction	action,
-	const JBoolean						move
+	const JIteratorAction				move
 	)
 {
 	JList<T*>* obj;
 	if (!JPtrArrayIterator<T>::GetList(&obj) || JListIterator<T*>::AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
@@ -113,107 +113,107 @@ JPtrArrayIterator<T>::SetNext
 		{
 		this->SetCursor(cursorPos);
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  DeletePrev
 
-	Returns kJTrue if we have a non-const JPtrArray<T>* and
+	Returns true if we have a non-const JPtrArray<T>* and
 	there is a previous item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JPtrArrayIterator<T>::DeletePrev()
 {
 	JList<T*>* obj;
 	if (!JPtrArrayIterator<T>::GetList(&obj) || JListIterator<T*>::AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
 	assert( ptr != nullptr );
 
 	ptr->DeleteElement(JListIterator<T*>::GetCursor());
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  DeleteNext
 
-	Returns kJTrue if we have a non-const JPtrArray<T>* and
+	Returns true if we have a non-const JPtrArray<T>* and
 	there is a next item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JPtrArrayIterator<T>::DeleteNext()
 {
 	JList<T*>* obj;
 	if (!JPtrArrayIterator<T>::GetList(&obj) || JListIterator<T*>::AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
 	assert( ptr != nullptr );
 
 	ptr->DeleteElement(JListIterator<T*>::GetCursor()+1);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  DeletePrevAsArray
 
-	Returns kJTrue if we have a non-const JPtrArray<T>* and
+	Returns true if we have a non-const JPtrArray<T>* and
 	there is a previous item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JPtrArrayIterator<T>::DeletePrevAsArray()
 {
 	JList<T*>* obj;
 	if (!JPtrArrayIterator<T>::GetList(&obj) || JListIterator<T*>::AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
 	assert( ptr != nullptr );
 
 	ptr->DeleteElementAsArray(JListIterator<T*>::GetCursor());
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  DeleteNextAsArray
 
-	Returns kJTrue if we have a non-const JPtrArray<T>* and
+	Returns true if we have a non-const JPtrArray<T>* and
 	there is a next item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JPtrArrayIterator<T>::DeleteNextAsArray()
 {
 	JList<T*>* obj;
 	if (!JPtrArrayIterator<T>::GetList(&obj) || JListIterator<T*>::AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JPtrArray<T>* ptr = dynamic_cast<JPtrArray<T>*>(obj);
 	assert( ptr != nullptr );
 
 	ptr->DeleteElementAsArray(JListIterator<T*>::GetCursor()+1);
-	return kJTrue;
+	return true;
 }
 
 #endif

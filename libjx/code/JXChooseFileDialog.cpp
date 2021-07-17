@@ -39,7 +39,7 @@ JXChooseFileDialog::Create
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	allowSelectMultiple,
+	const bool	allowSelectMultiple,
 	const JString&	origName,
 	const JString&	message
 	)
@@ -61,7 +61,7 @@ JXChooseFileDialog::JXChooseFileDialog
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	allowSelectMultiple
+	const bool	allowSelectMultiple
 	)
 	:
 	JXCSFDialogBase(supervisor, dirInfo, fileFilter),
@@ -83,7 +83,7 @@ JXChooseFileDialog::~JXChooseFileDialog()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXChooseFileDialog::GetFullName
 	(
 	JString* fullName
@@ -94,11 +94,11 @@ JXChooseFileDialog::GetFullName
 	if (GetFileBrowser()->GetFirstSelection(&entry))
 		{
 		*fullName = entry->GetFullName();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -107,7 +107,7 @@ JXChooseFileDialog::GetFullName
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXChooseFileDialog::GetFullNames
 	(
 	JPtrArray<JString>* fullNameList
@@ -125,11 +125,11 @@ JXChooseFileDialog::GetFullNames
 			assert( s != nullptr );
 			fullNameList->Append(s);
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -219,7 +219,7 @@ JXChooseFileDialog::BuildWindow
 	assert( selectAllButton != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu(JString("/", kJFalse), window,
+		jnew JXCurrentPathMenu(JString("/", JString::kNoCopy), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 
@@ -284,7 +284,7 @@ JXChooseFileDialog::SetObjects
 		currPathMenu, message);
 
 	JXDirTable* fileBrowser = GetFileBrowser();
-	fileBrowser->AllowSelectFiles(kJTrue, itsSelectMultipleFlag);
+	fileBrowser->AllowSelectFiles(true, itsSelectMultipleFlag);
 	ListenTo(fileBrowser);
 	ListenTo(&(fileBrowser->GetTableSelection()));
 
@@ -350,7 +350,7 @@ JXChooseFileDialog::Receive
 		assert( info != nullptr );
 		if (info->IsActive())
 			{
-			EndDialog(kJTrue);
+			EndDialog(true);
 			}
 		}
 
@@ -405,36 +405,36 @@ JXChooseFileDialog::UpdateDisplay()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXChooseFileDialog::OKToDeactivate()
 {
 	if (!JXCSFDialogBase::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	JXPathInput* pathInput = GetPathInput();
 	if (pathInput->HasFocus())
 		{
 		GoToItsPath();
-		return kJFalse;
+		return false;
 		}
 
 	JXInputField* filterInput = GetFilterInput();
 	if (filterInput->HasFocus())
 		{
 		AdjustFilter();
-		return kJFalse;
+		return false;
 		}
 
 	JXDirTable* fileBrowser = GetFileBrowser();
 	if (fileBrowser->GoToSelectedDirectory())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JPtrArray<JDirEntry> entryList(JPtrArrayT::kDeleteAll);
@@ -446,13 +446,13 @@ JXChooseFileDialog::OKToDeactivate()
 			if (!entry->IsFile())
 				{
 				GetDirInfo()->ForceUpdate();
-				return kJFalse;
+				return false;
 				}
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

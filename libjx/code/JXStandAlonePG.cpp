@@ -3,9 +3,9 @@
 
 	Class to display the progress of a long process in a separate window.
 
-	If the allowBackground flag is kJFalse, we call
+	If the allowBackground flag is false, we call
 	JXApplication::ProcessOneEventForWindow() so we can detect the cancel
-	button.  If the allowBackground flag is kJTrue, we do nothing, because we
+	button.  If the allowBackground flag is true, we do nothing, because we
 	assume that the client is using an IdleTask to schedule the processing time.
 
 	BASE CLASS = JXProgressDisplay
@@ -44,7 +44,7 @@ JXStandAlonePG::JXStandAlonePG()
 {
 	itsWindowIndex      = 0;
 	itsProgressDirector = nullptr;
-	itsRaiseWindowFlag  = kJFalse;
+	itsRaiseWindowFlag  = false;
 }
 
 /******************************************************************************
@@ -68,8 +68,8 @@ JXStandAlonePG::ProcessBeginning
 	const ProcessType	processType,
 	const JSize			stepCount,
 	const JString&		message,
-	const JBoolean		allowCancel,
-	const JBoolean		allowBackground
+	const bool		allowCancel,
+	const bool		allowBackground
 	)
 {
 	// create the window
@@ -161,17 +161,17 @@ JXStandAlonePG::ProcessBeginning
 	Derived classes should give the system some background time (system dependent)
 	without updating the progress display.
 
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXStandAlonePG::ProcessContinuing()
 {
 	JXWindow* window = itsProgressDirector->GetWindow();
 	if (itsProgressDirector->IsActive() && itsRaiseWindowFlag)
 		{
-		window->Raise(kJFalse);
+		window->Raise(false);
 		}
 
 	if (itsStepCount == 0)
@@ -188,7 +188,7 @@ JXStandAlonePG::ProcessContinuing()
 
 	if (!AllowBackground())
 		{
-		while (JXGetApplication()->HandleOneEventForWindow(window, kJFalse))
+		while (JXGetApplication()->HandleOneEventForWindow(window, false))
 			{ };
 		}
 

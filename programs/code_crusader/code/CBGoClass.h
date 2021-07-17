@@ -16,7 +16,7 @@ public:
 
 	CBGoClass(const JString& name, const DeclareType declType,
 			  const JFAID_t fileID, CBTree* tree,
-			  const JBoolean isPublic);
+			  const bool isPublic);
 	CBGoClass(std::istream& input, const JFileVersion vers, CBTree* tree);
 
 	virtual ~CBGoClass();
@@ -34,7 +34,7 @@ protected:
 
 private:
 
-	JBoolean	itsIsPublicFlag;
+	bool	itsIsPublicFlag;
 
 private:
 

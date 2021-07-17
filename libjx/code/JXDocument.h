@@ -21,12 +21,12 @@ public:
 
 	virtual ~JXDocument();
 
-	virtual JBoolean	Close();
-	virtual JBoolean	Deactivate();
+	virtual bool	Close();
+	virtual bool	Deactivate();
 
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const;
-	virtual JBoolean	NeedsSave() const;
-	virtual JBoolean	NeedDocument(JXDocument* doc) const;
+	virtual bool	GetMenuIcon(const JXImage** icon) const;
+	virtual bool	NeedsSave() const;
+	virtual bool	NeedDocument(JXDocument* doc) const;
 
 	void	RevertToSaved();
 
@@ -34,11 +34,11 @@ public:
 
 protected:
 
-	virtual JBoolean	OKToClose()      = 0;
-	virtual JBoolean	OKToRevert()     = 0;
-	virtual JBoolean	CanRevert()      = 0;
+	virtual bool	OKToClose()      = 0;
+	virtual bool	OKToRevert()     = 0;
+	virtual bool	CanRevert()      = 0;
 	virtual void		DiscardChanges() = 0;
-	virtual JBoolean	OKToDeactivate();
+	virtual bool	OKToDeactivate();
 
 private:
 

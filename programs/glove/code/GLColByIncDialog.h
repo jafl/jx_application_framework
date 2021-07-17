@@ -37,11 +37,11 @@ public:
 	
 	void GetValues(JFloat* beg, JFloat* inc, JInteger* count);
 				
-	JBoolean IsAscending();
+	bool IsAscending();
 	
 protected:
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	
 private:

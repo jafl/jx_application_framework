@@ -27,8 +27,8 @@ public:
 	const JString&	GetNodeName(const JIndex index) const;
 	void			SetNodeName(const JIndex index, const JString& name);
 
-	JBoolean	Find(const JString& name, JIndex* index) const;
-	JBoolean	ClosestMatch(const JString& prefixStr, JIndex* index) const;
+	bool	Find(const JString& name, JIndex* index) const;
+	bool	ClosestMatch(const JString& prefixStr, JIndex* index) const;
 
 protected:
 

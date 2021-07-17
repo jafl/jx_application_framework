@@ -29,7 +29,7 @@ JXCharInput::JXCharInput
 	:
 	JXInputField(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	GetText()->SetText(JString(" ", kJFalse));
+	GetText()->SetText(JString(" ", JString::kNoCopy));
 	SetLengthLimits(1,1);
 }
 
@@ -67,7 +67,7 @@ JXCharInput::SetCharacter
 	const JUtf8Character& c
 	)
 {
-	GetText()->SetText(JString(c.GetBytes(), kJFalse));
+	GetText()->SetText(JString(c.GetBytes(), JString::kNoCopy));
 	SelectAll();
 }
 
@@ -103,8 +103,8 @@ JXCharInput::HandleKeyPress
 	)
 {
 	JXEditTable* table;
-	const JBoolean willDie = JI2B( GetTable(&table) &&
-								   table->WantsInputFieldKey(c, keySym, modifiers) );
+	const bool willDie = GetTable(&table) &&
+								   table->WantsInputFieldKey(c, keySym, modifiers);
 
 	SelectAll();
 	JXInputField::HandleKeyPress(c, keySym, modifiers);
@@ -119,7 +119,7 @@ JXCharInput::HandleKeyPress
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXCharInput::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -129,5 +129,5 @@ JXCharInput::WillAcceptDrop
 	const JXWidget*		source
 	)
 {
-	return kJFalse;
+	return false;
 }

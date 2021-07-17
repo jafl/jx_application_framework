@@ -19,8 +19,8 @@ public:
 
 	virtual ~JXFSInputBase();
 
-	JBoolean	HasBasePath() const;
-	JBoolean	GetBasePath(JString* path) const;
+	bool	HasBasePath() const;
+	bool	GetBasePath(JString* path) const;
 	void		SetBasePath(const JString& path);
 	void		ClearBasePath();
 
@@ -28,9 +28,9 @@ public:
 								   const JXKeyModifiers& modifiers) override;
 
 	static JFont		GetFont();
-	static JBoolean		IsCharacterInWord(const JUtf8Character& c);
+	static bool		IsCharacterInWord(const JUtf8Character& c);
 
-	static JBoolean		Complete(JXInputField* te, const JString& basePath,
+	static bool		Complete(JXInputField* te, const JString& basePath,
 								 JDirInfo* completer,
 								 JXStringCompletionMenu** menu);
 
@@ -42,7 +42,7 @@ protected:
 
 		StyledText(JXFSInputBase* field, JFontManager* fontManager)
 			:
-			JXInputField::StyledText(kJFalse, fontManager),
+			JXInputField::StyledText(false, fontManager),
 			itsField(field)
 		{ };
 
@@ -52,7 +52,7 @@ protected:
 							const JString& text, JRunArray<JFont>* styles,
 							JStyledText::TextRange* recalcRange,
 							JStyledText::TextRange* redrawRange,
-							const JBoolean deletion) override;
+							const bool deletion) override;
 
 		virtual JSize	ComputeErrorLength(JXFSInputBase* field,
 										   const JSize totalLength,
@@ -65,7 +65,7 @@ protected:
 
 protected:
 
-	JXFSInputBase(StyledText* text, const JBoolean showFilesForCompletion,
+	JXFSInputBase(StyledText* text, const bool showFilesForCompletion,
 				  const JUtf8Byte* defaultHintID, JXContainer* enclosure,
 				  const HSizingOption hSizing, const VSizingOption vSizing,
 				  const JCoordinate x, const JCoordinate y,
@@ -81,7 +81,7 @@ protected:
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDEnter() override;
@@ -91,17 +91,17 @@ protected:
 									  const Atom action, const Time time,
 									  const JXWidget* source) override;
 
-	JBoolean	GetDroppedEntry(const Time time, const JBoolean reportErrors,
+	bool	GetDroppedEntry(const Time time, const bool reportErrors,
 								JString* name);
 
 private:
 
 	JString		itsBasePath;
-	JBoolean	itsExpectURLDropFlag;
+	bool	itsExpectURLDropFlag;
 
 	JDirInfo*				itsCompleter;		// nullptr until first needed
 	JXStringCompletionMenu*	itsCompletionMenu;	// nullptr until first needed
-	const JBoolean			itsShowFilesForCompletionFlag;
+	const bool			itsShowFilesForCompletionFlag;
 
 	const JUtf8Byte*	itsDefaultHintID;
 
@@ -119,7 +119,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFSInputBase::HasBasePath()
 	const
 {
@@ -131,7 +131,7 @@ JXFSInputBase::HasBasePath()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFSInputBase::GetBasePath
 	(
 	JString* path

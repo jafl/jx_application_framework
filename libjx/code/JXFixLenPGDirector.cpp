@@ -27,7 +27,7 @@ JXFixLenPGDirector::JXFixLenPGDirector
 	JXDirector*			supervisor,
 	JXProgressDisplay*	pg,
 	const JString&		message,
-	const JBoolean		allowCancel
+	const bool		allowCancel
 	)
 	:
 	JXPGDirectorBase(supervisor)
@@ -54,7 +54,7 @@ JXFixLenPGDirector::BuildWindow
 	(
 	JXProgressDisplay*	pg,
 	const JString&		message,
-	const JBoolean		allowCancel
+	const bool		allowCancel
 	)
 {
 // begin JXLayout

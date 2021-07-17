@@ -30,7 +30,7 @@
 JXFSInputBase::JXFSInputBase
 	(
 	StyledText*			text,
-	const JBoolean		showFilesForCompletion,
+	const bool		showFilesForCompletion,
 	const JUtf8Byte*	defaultHintID,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -42,7 +42,7 @@ JXFSInputBase::JXFSInputBase
 	)
 	:
 	JXInputField(text, enclosure, hSizing, vSizing, x,y, w,h),
-	itsExpectURLDropFlag(kJFalse),
+	itsExpectURLDropFlag(false),
 	itsCompleter(nullptr),
 	itsCompletionMenu(nullptr),
 	itsShowFilesForCompletionFlag(showFilesForCompletion),
@@ -155,9 +155,9 @@ JXFSInputBase::Receive
 	else if (sender == this && message.Is(JTextEditor::kCaretLocationChanged))
 		{
 		JIndex i;
-		WantInput(kJTrue,
-				  JI2B(GetCaretLocation(&i) && i == GetText()->GetText().GetCharacterCount()+1),
-				  WantsModifiedTab());
+		WantInput(true,
+				  GetCaretLocation(&i) && i == GetText()->GetText().GetCharacterCount()+1),
+				  WantsModifiedTab();
 		}
 }
 
@@ -193,7 +193,7 @@ JXFSInputBase::SetBasePath
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSInputBase::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -203,18 +203,18 @@ JXFSInputBase::WillAcceptDrop
 	const JXWidget*		source
 	)
 {
-	itsExpectURLDropFlag = kJFalse;
+	itsExpectURLDropFlag = false;
 
 	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	JString name;
 	for (const Atom type : typeList)
 		{
-		if (type == urlXAtom && GetDroppedEntry(time, kJFalse, &name))
+		if (type == urlXAtom && GetDroppedEntry(time, false, &name))
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
-			itsExpectURLDropFlag = kJTrue;
-			return kJTrue;
+			itsExpectURLDropFlag = true;
+			return true;
 			}
 		}
 
@@ -298,7 +298,7 @@ JXFSInputBase::HandleDNDDrop
 		{
 		JXInputField::HandleDNDDrop(pt, typeList, action, time, source);
 		}
-	else if (Focus() && GetDroppedEntry(time, kJTrue, &name))
+	else if (Focus() && GetDroppedEntry(time, true, &name))
 		{
 		GetText()->SetText(name);
 		}
@@ -309,11 +309,11 @@ JXFSInputBase::HandleDNDDrop
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSInputBase::GetDroppedEntry
 	(
 	const Time		time,
-	const JBoolean	reportErrors,
+	const bool	reportErrors,
 	JString*		name
 	)
 {
@@ -354,13 +354,13 @@ JXFSInputBase::GetDroppedEntry
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSInputBase::IsCharacterInWord
 	(
 	const JUtf8Character& c
 	)
 {
-	return JI2B( c != ACE_DIRECTORY_SEPARATOR_CHAR );
+	return c != ACE_DIRECTORY_SEPARATOR_CHAR;
 }
 
 /******************************************************************************
@@ -384,9 +384,9 @@ JXFSInputBase::HandleKeyPress
 				{
 				return;
 				}
-			itsCompleter->ShowHidden(kJTrue);
-			itsCompleter->ShowVCSDirs(kJFalse);
-			itsCompleter->ShowDirs(kJTrue);
+			itsCompleter->ShowHidden(true);
+			itsCompleter->ShowVCSDirs(false);
+			itsCompleter->ShowDirs(true);
 			itsCompleter->ShowFiles(itsShowFilesForCompletionFlag);
 			itsCompleter->ShouldApplyWildcardFilterToDirs();
 			}
@@ -428,7 +428,7 @@ JXFSInputBase::HandleMouseDown
 /******************************************************************************
  Complete (static)
 
-	Returns kJTrue if the path or file name was completed.
+	Returns true if the path or file name was completed.
 
 	basePath can be nullptr.  *menu will be constructed if it is nullptr.
 
@@ -466,7 +466,7 @@ jGetName
 	return name;
 }
 
-JBoolean
+bool
 JXFSInputBase::Complete
 	(
 	JXInputField*				te,
@@ -481,7 +481,7 @@ JXFSInputBase::Complete
 	if (!te->GetCaretLocation(&caretIndex) ||
 		caretIndex != te->GetText()->GetText().GetCharacterCount()+1)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// catch empty path
@@ -490,7 +490,7 @@ JXFSInputBase::Complete
 		{
 		const JString path = JGetRootDirectory();
 		te->Paste(path);
-		return kJTrue;
+		return true;
 		}
 
 	// convert to absolute path
@@ -498,13 +498,13 @@ JXFSInputBase::Complete
 	JString fullName;
 	if (!JExpandHomeDirShortcut(te->GetText()->GetText(), &fullName))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (JIsRelativePath(fullName))
 		{
 		if (basePath.IsEmpty())
 			{
-			return kJFalse;
+			return false;
 			}
 		fullName = JCombinePathAndName(basePath, fullName);
 		}
@@ -535,13 +535,13 @@ JXFSInputBase::Complete
 
 	if (!(completer->GoTo(path)).OK())
 		{
-		return kJFalse;
+		return false;
 		}
 
-	completer->SetWildcardFilter(name, kJFalse, kJTrue);
+	completer->SetWildcardFilter(name, false, true);
 	if (completer->IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// check for characters common to all matches
@@ -581,7 +581,7 @@ JXFSInputBase::Complete
 			(**menu).ClearRequestCount();
 			}
 
-		return kJTrue;
+		return true;
 		}
 	else if (matchCount > 1)
 		{
@@ -589,7 +589,7 @@ JXFSInputBase::Complete
 
 		if (*menu == nullptr)
 			{
-			*menu = jnew JXStringCompletionMenu(te, kJFalse);
+			*menu = jnew JXStringCompletionMenu(te, false);
 			assert( *menu != nullptr );
 			}
 		else
@@ -604,11 +604,11 @@ JXFSInputBase::Complete
 			}
 
 		(**menu).CompletionRequested(name.GetCharacterCount()-1);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -632,7 +632,7 @@ JXFSInputBase::StyledText::AdjustStylesBeforeBroadcast
 	JRunArray<JFont>*		styles,
 	JStyledText::TextRange*	recalcRange,
 	JStyledText::TextRange*	redrawRange,
-	const JBoolean			deletion
+	const bool			deletion
 	)
 {
 	const JSize totalLength = text.GetCharacterCount();

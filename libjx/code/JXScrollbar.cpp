@@ -105,13 +105,13 @@ JXScrollbar::JXScrollbar
 	itsContScrollDelay = kContinuousScrollDelay;
 
 	itsScrolltabList              = nullptr;
-	itsIgnoreScrolltabDeletedFlag = kJFalse;
+	itsIgnoreScrolltabDeletedFlag = false;
 
 	itsActionMenu = nullptr;
 
 	itsDragAction = kInvalidClick;
-	itsDecrPushedFlag     = itsIncrPushedFlag     = kJFalse;
-	itsDecrPagePushedFlag = itsIncrPagePushedFlag = kJFalse;
+	itsDecrPushedFlag     = itsIncrPushedFlag     = false;
+	itsDecrPagePushedFlag = itsIncrPagePushedFlag = false;
 
 	SetBorderWidth(kJXDefaultBorderWidth);
 	SetBackColor(JColorManager::GetDefaultSliderBackColor());
@@ -126,7 +126,7 @@ JXScrollbar::JXScrollbar
 
 JXScrollbar::~JXScrollbar()
 {
-	itsIgnoreScrolltabDeletedFlag = kJTrue;
+	itsIgnoreScrolltabDeletedFlag = true;
 	DeleteEnclosedObjects();				// tabs talk to us when deleted
 	jdelete itsScrolltabList;
 }
@@ -154,7 +154,7 @@ JXScrollbar::Draw
 
 	// draw the thumb
 
-	JXDrawUpFrame(p, itsThumbRect, GetBorderWidth(), kJTrue,
+	JXDrawUpFrame(p, itsThumbRect, GetBorderWidth(), true,
 				  JColorManager::GetDefaultBackColor());
 }
 
@@ -166,7 +166,7 @@ JXScrollbar::DrawHoriz
 	JPainter& p
 	)
 {
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 
 	const JRect bounds = GetBounds();
 
@@ -236,24 +236,24 @@ JXScrollbar::DrawHoriz
 
 	if (itsDecrPushedFlag)
 		{
-		JXDrawDownArrowLeft(p, itsDecrArrowRect[0], borderWidth, kJTrue, backColor);
-		JXDrawDownArrowLeft(p, itsDecrArrowRect[1], borderWidth, kJTrue, backColor);
+		JXDrawDownArrowLeft(p, itsDecrArrowRect[0], borderWidth, true, backColor);
+		JXDrawDownArrowLeft(p, itsDecrArrowRect[1], borderWidth, true, backColor);
 		}
 	else
 		{
-		JXDrawUpArrowLeft(p, itsDecrArrowRect[0], borderWidth, kJTrue, backColor);
-		JXDrawUpArrowLeft(p, itsDecrArrowRect[1], borderWidth, kJTrue, backColor);
+		JXDrawUpArrowLeft(p, itsDecrArrowRect[0], borderWidth, true, backColor);
+		JXDrawUpArrowLeft(p, itsDecrArrowRect[1], borderWidth, true, backColor);
 		}
 
 	if (itsIncrPushedFlag)
 		{
-		JXDrawDownArrowRight(p, itsIncrArrowRect[0], borderWidth, kJTrue, backColor);
-		JXDrawDownArrowRight(p, itsIncrArrowRect[1], borderWidth, kJTrue, backColor);
+		JXDrawDownArrowRight(p, itsIncrArrowRect[0], borderWidth, true, backColor);
+		JXDrawDownArrowRight(p, itsIncrArrowRect[1], borderWidth, true, backColor);
 		}
 	else
 		{
-		JXDrawUpArrowRight(p, itsIncrArrowRect[0], borderWidth, kJTrue, backColor);
-		JXDrawUpArrowRight(p, itsIncrArrowRect[1], borderWidth, kJTrue, backColor);
+		JXDrawUpArrowRight(p, itsIncrArrowRect[0], borderWidth, true, backColor);
+		JXDrawUpArrowRight(p, itsIncrArrowRect[1], borderWidth, true, backColor);
 		}
 
 	// place the scrolltabs
@@ -273,7 +273,7 @@ JXScrollbar::DrawVert
 	JPainter& p
 	)
 {
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 
 	const JRect bounds = GetBounds();
 
@@ -343,24 +343,24 @@ JXScrollbar::DrawVert
 
 	if (itsDecrPushedFlag)
 		{
-		JXDrawDownArrowUp(p, itsDecrArrowRect[0], borderWidth, kJTrue, backColor);
-		JXDrawDownArrowUp(p, itsDecrArrowRect[1], borderWidth, kJTrue, backColor);
+		JXDrawDownArrowUp(p, itsDecrArrowRect[0], borderWidth, true, backColor);
+		JXDrawDownArrowUp(p, itsDecrArrowRect[1], borderWidth, true, backColor);
 		}
 	else
 		{
-		JXDrawUpArrowUp(p, itsDecrArrowRect[0], borderWidth, kJTrue, backColor);
-		JXDrawUpArrowUp(p, itsDecrArrowRect[1], borderWidth, kJTrue, backColor);
+		JXDrawUpArrowUp(p, itsDecrArrowRect[0], borderWidth, true, backColor);
+		JXDrawUpArrowUp(p, itsDecrArrowRect[1], borderWidth, true, backColor);
 		}
 
 	if (itsIncrPushedFlag)
 		{
-		JXDrawDownArrowDown(p, itsIncrArrowRect[0], borderWidth, kJTrue, backColor);
-		JXDrawDownArrowDown(p, itsIncrArrowRect[1], borderWidth, kJTrue, backColor);
+		JXDrawDownArrowDown(p, itsIncrArrowRect[0], borderWidth, true, backColor);
+		JXDrawDownArrowDown(p, itsIncrArrowRect[1], borderWidth, true, backColor);
 		}
 	else
 		{
-		JXDrawUpArrowDown(p, itsIncrArrowRect[0], borderWidth, kJTrue, backColor);
-		JXDrawUpArrowDown(p, itsIncrArrowRect[1], borderWidth, kJTrue, backColor);
+		JXDrawUpArrowDown(p, itsIncrArrowRect[0], borderWidth, true, backColor);
+		JXDrawUpArrowDown(p, itsIncrArrowRect[1], borderWidth, true, backColor);
 		}
 
 	// place the scrolltabs
@@ -425,18 +425,18 @@ JXScrollbar::HandleMouseDown
 	else if (itsDecrArrowRect[0].Contains(pt) || itsDecrArrowRect[1].Contains(pt))
 		{
 		itsDragAction     = kDecrementValue;
-		itsDecrPushedFlag = kJTrue;		// redraw correctly
+		itsDecrPushedFlag = true;		// redraw correctly
 		StepArrow(-1, modifiers);
 		ScrollWait(kInitialScrollDelay);
-		itsDecrPushedFlag = kJFalse;		// ignore first HandleMouseDrag()
+		itsDecrPushedFlag = false;		// ignore first HandleMouseDrag()
 		}
 	else if (itsIncrArrowRect[0].Contains(pt) || itsIncrArrowRect[1].Contains(pt))
 		{
 		itsDragAction     = kIncrementValue;
-		itsIncrPushedFlag = kJTrue;		// redraw correctly
+		itsIncrPushedFlag = true;		// redraw correctly
 		StepArrow(+1, modifiers);
 		ScrollWait(kInitialScrollDelay);
-		itsIncrPushedFlag = kJFalse;		// ignore first HandleMouseDrag()
+		itsIncrPushedFlag = false;		// ignore first HandleMouseDrag()
 		}
 	else if (button == kJXMiddleButton && itsThumbDragRect.Contains(pt))
 		{
@@ -460,14 +460,14 @@ JXScrollbar::HandleMouseDown
 	else if (itsDecrementPageRect.Contains(pt))
 		{
 		itsDragAction         = kDecrementPage;
-		itsDecrPagePushedFlag = kJFalse;		// ignore first HandleMouseDrag()
+		itsDecrPagePushedFlag = false;		// ignore first HandleMouseDrag()
 		StepPage(-1);
 		ScrollWait(kInitialScrollDelay);
 		}
 	else if (itsIncrementPageRect.Contains(pt))
 		{
 		itsDragAction         = kIncrementPage;
-		itsIncrPagePushedFlag = kJFalse;		// ignore first HandleMouseDrag()
+		itsIncrPagePushedFlag = false;		// ignore first HandleMouseDrag()
 		StepPage(+1);
 		ScrollWait(kInitialScrollDelay);
 		}
@@ -493,8 +493,8 @@ JXScrollbar::HandleMouseDrag
 		}
 	else if (itsDragAction == kDecrementValue)
 		{
-		const JBoolean newDecrPushedFlag =
-			JI2B( itsDecrArrowRect[0].Contains(pt) || itsDecrArrowRect[1].Contains(pt) );
+		const bool newDecrPushedFlag =
+			itsDecrArrowRect[0].Contains(pt) || itsDecrArrowRect[1].Contains(pt);
 		if (itsDecrPushedFlag != newDecrPushedFlag)
 			{
 			itsDecrPushedFlag = newDecrPushedFlag;
@@ -508,8 +508,8 @@ JXScrollbar::HandleMouseDrag
 		}
 	else if (itsDragAction == kIncrementValue)
 		{
-		const JBoolean newIncrPushedFlag =
-			JI2B( itsIncrArrowRect[0].Contains(pt) || itsIncrArrowRect[1].Contains(pt) );
+		const bool newIncrPushedFlag =
+			itsIncrArrowRect[0].Contains(pt) || itsIncrArrowRect[1].Contains(pt);
 		if (itsIncrPushedFlag != newIncrPushedFlag)
 			{
 			itsIncrPushedFlag = newIncrPushedFlag;
@@ -531,7 +531,7 @@ JXScrollbar::HandleMouseDrag
 			}
 		else
 			{
-			itsDecrPagePushedFlag = kJTrue;
+			itsDecrPagePushedFlag = true;
 			}
 		}
 	else if (itsDragAction == kIncrementPage &&
@@ -544,7 +544,7 @@ JXScrollbar::HandleMouseDrag
 			}
 		else
 			{
-			itsIncrPagePushedFlag = kJTrue;
+			itsIncrPagePushedFlag = true;
 			}
 		}
 }
@@ -564,8 +564,8 @@ JXScrollbar::HandleMouseUp
 	)
 {
 	itsDragAction = kInvalidClick;
-	itsDecrPushedFlag     = itsIncrPushedFlag     = kJFalse;
-	itsDecrPagePushedFlag = itsIncrPagePushedFlag = kJFalse;
+	itsDecrPushedFlag     = itsIncrPushedFlag     = false;
+	itsDecrPagePushedFlag = itsIncrPagePushedFlag = false;
 	Refresh();
 }
 
@@ -796,9 +796,9 @@ JXScrollbar::RemoveAllScrolltabs()
 {
 	if (itsScrolltabList != nullptr)
 		{
-		itsIgnoreScrolltabDeletedFlag = kJTrue;
+		itsIgnoreScrolltabDeletedFlag = true;
 		itsScrolltabList->DeleteAll();
-		itsIgnoreScrolltabDeletedFlag = kJFalse;
+		itsIgnoreScrolltabDeletedFlag = false;
 
 		jdelete itsScrolltabList;
 		itsScrolltabList = nullptr;
@@ -1169,7 +1169,7 @@ JXScrollbar::OpenActionMenu
 		itsActionMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsActionMenu != nullptr );
 		itsActionMenu->Hide();
-		itsActionMenu->SetToHiddenPopupMenu(kJTrue);
+		itsActionMenu->SetToHiddenPopupMenu(true);
 		itsActionMenu->SetMenuItems(kActionMenuStr);
 		itsActionMenu->SetUpdateAction(JXMenu::kDisableNone);
 		ListenTo(itsActionMenu);

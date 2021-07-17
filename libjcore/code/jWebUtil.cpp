@@ -25,7 +25,7 @@
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIsURL
 	(
 	const JString& s
@@ -47,7 +47,7 @@ JIsURL
 
 static const JRegex urlPattern = "^([^:]+)://([^/:]+)(?::([0-9]+))?(.*)";
 
-JBoolean
+bool
 JParseURL
 	(
 	const JString&	url,
@@ -59,7 +59,7 @@ JParseURL
 {
 	*path = url;
 
-	const JStringMatch m = urlPattern.Match(url, kJTrue);
+	const JStringMatch m = urlPattern.Match(url, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
 		{
 		protocol->Set(m.GetSubstring(1));
@@ -79,55 +79,55 @@ JParseURL
 			*path = "/";
 			}
 
-		return kJTrue;
+		return true;
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  JGetDefaultPort
 
-	Returns kJTrue if it recognizes the protocol.
+	Returns true if it recognizes the protocol.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGetDefaultPort
 	(
 	const JString&	protocol,
 	JIndex*			port
 	)
 {
-	if (JString::Compare(protocol, "http", kJFalse) == 0)
+	if (JString::Compare(protocol, "http", JString::kIgnoreCase) == 0)
 		{
 		*port = kJDefaultHTTPPort;
-		return kJTrue;
+		return true;
 		}
-	else if (JString::Compare(protocol, "https", kJFalse) == 0)
+	else if (JString::Compare(protocol, "https", JString::kIgnoreCase) == 0)
 		{
 		*port = kJDefaultHTTPSPort;
-		return kJTrue;
+		return true;
 		}
-	else if (JString::Compare(protocol, "ftp", kJFalse) == 0)
+	else if (JString::Compare(protocol, "ftp", JString::kIgnoreCase) == 0)
 		{
 		*port = kJDefaultFTPPort;
-		return kJTrue;
+		return true;
 		}
-	else if (JString::Compare(protocol, "sftp", kJFalse) == 0)
+	else if (JString::Compare(protocol, "sftp", JString::kIgnoreCase) == 0)
 		{
 		*port = kJDefaultSFTPPort;
-		return kJTrue;
+		return true;
 		}
-	else if (JString::Compare(protocol, "ssh", kJFalse) == 0)
+	else if (JString::Compare(protocol, "ssh", JString::kIgnoreCase) == 0)
 		{
 		*port = kJDefaultSSHPort;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*port = 0;
-		return kJFalse;
+		return false;
 		}
 }
 

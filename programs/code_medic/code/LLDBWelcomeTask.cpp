@@ -22,7 +22,7 @@
 LLDBWelcomeTask::LLDBWelcomeTask
 	(
 	const JString&	msg,
-	const JBoolean	restart
+	const bool	restart
 	)
 	:
 	itsMessage(msg),

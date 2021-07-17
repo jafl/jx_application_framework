@@ -174,14 +174,14 @@ CMEditCommandsTable::HandleMouseDown
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMEditCommandsTable::ExtractInputData
 	(
 	const JPoint& cell
 	)
 {
 	itsDialog->SetString(cell.y, itsCmdInput->GetText()->GetText());
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

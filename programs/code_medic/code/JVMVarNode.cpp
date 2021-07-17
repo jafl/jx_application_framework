@@ -21,7 +21,7 @@
 
 JVMVarNode::JVMVarNode				// root node
 	(
-	const JBoolean shouldUpdate		// kJFalse for Local Variables
+	const bool shouldUpdate		// false for Local Variables
 	)
 	:
 	CMVarNode(shouldUpdate)
@@ -60,7 +60,7 @@ JVMVarNode::~JVMVarNode()
 JString
 JVMVarNode::GetFullName
 	(
-	JBoolean* isPointer
+	bool* isPointer
 	)
 	const
 {

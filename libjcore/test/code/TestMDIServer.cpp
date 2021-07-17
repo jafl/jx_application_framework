@@ -23,7 +23,7 @@ TestMDIServer::TestMDIServer
 	)
 	:
 	JMDIServer(signature),
-	itsQuitFlag(kJFalse)
+	itsQuitFlag(false)
 {
 }
 
@@ -41,10 +41,10 @@ TestMDIServer::~TestMDIServer()
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestMDIServer::CanAcceptMDIRequest()
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -62,6 +62,6 @@ TestMDIServer::HandleMDIRequest
 	const JSize argCount = argList.GetElementCount();
 	if (argCount == 2 && *argList.GetElement(2) == "--quit")
 		{
-		itsQuitFlag = kJTrue;
+		itsQuitFlag = true;
 		}
 }

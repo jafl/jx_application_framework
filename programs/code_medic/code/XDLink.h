@@ -26,32 +26,32 @@ public:
 
 	virtual	~XDLink();
 
-	virtual JBoolean	DebuggerHasStarted() const override;
-	virtual JBoolean	HasLoadedSymbols() const override;
-	virtual JBoolean	IsDebugging() const override;
-	virtual JBoolean	IsDefiningScript() const override;
+	virtual bool	DebuggerHasStarted() const override;
+	virtual bool	HasLoadedSymbols() const override;
+	virtual bool	IsDebugging() const override;
+	virtual bool	IsDefiningScript() const override;
 
-	virtual JBoolean	ChangeDebugger() override;
-	virtual JBoolean	RestartDebugger() override;
+	virtual bool	ChangeDebugger() override;
+	virtual bool	RestartDebugger() override;
 
 	virtual JString		GetChooseProgramInstructions() const override;
-	virtual JBoolean	HasProgram() const override;
-	virtual JBoolean	GetProgram(JString* fullName) const override;
+	virtual bool	HasProgram() const override;
+	virtual bool	GetProgram(JString* fullName) const override;
 	virtual void		SetProgram(const JString& fullName) override;
 	virtual void		ReloadProgram() override;
-	virtual JBoolean	HasCore() const override;
-	virtual JBoolean	GetCore(JString* fullName) const override;
+	virtual bool	HasCore() const override;
+	virtual bool	GetCore(JString* fullName) const override;
 	virtual void		SetCore(const JString& fullName) override;
 	virtual void		AttachToProcess(const pid_t pid) override;
 
 	virtual void		RunProgram(const JString& args) override;
 	virtual void		StopProgram() override;
 	virtual void		KillProgram() override;
-	virtual JBoolean	ProgramIsRunning() const override;
-	virtual JBoolean	ProgramIsStopped() const override;
-	virtual JBoolean	OKToDetachOrKill() const override;
+	virtual bool	ProgramIsRunning() const override;
+	virtual bool	ProgramIsStopped() const override;
+	virtual bool	OKToDetachOrKill() const override;
 
-	virtual JBoolean	OKToSendCommands(const JBoolean background) const override;
+	virtual bool	OKToSendCommands(const bool background) const override;
 	void				Send(const JUtf8Byte* text);
 	void				Send(const JString& text);
 
@@ -59,16 +59,16 @@ public:
 
 	virtual void	ShowBreakpointInfo(const JIndex debuggerIndex) override;
 	virtual void	SetBreakpoint(const JString& fileName, const JIndex lineIndex,
-								  const JBoolean temporary = kJFalse) override;
+								  const bool temporary = false) override;
 	virtual void	SetBreakpoint(const JString& address,
-								  const JBoolean temporary = kJFalse) override;
+								  const bool temporary = false) override;
 	virtual void	RemoveBreakpoint(const JIndex debuggerIndex) override;
 	virtual void	RemoveAllBreakpointsOnLine(const JString& fileName,
 										   const JIndex lineIndex) override;
 	virtual void	RemoveAllBreakpointsAtAddress(const JString& addr) override;
 	virtual void	RemoveAllBreakpoints() override;
-	virtual void	SetBreakpointEnabled(const JIndex debuggerIndex, const JBoolean enabled,
-									 const JBoolean once = kJFalse) override;
+	virtual void	SetBreakpointEnabled(const JIndex debuggerIndex, const bool enabled,
+									 const bool once = false) override;
 	virtual void	SetBreakpointCondition(const JIndex debuggerIndex,
 									   const JString& condition) override;
 	virtual void	RemoveBreakpointCondition(const JIndex debuggerIndex) override;
@@ -117,7 +117,7 @@ public:
 	virtual CMGetSourceFileList*	CreateGetSourceFileList(CMFileListDir* fileList) override;
 	virtual CMVarCommand*			CreateVarValueCommand(const JString& expr) override;
 	virtual CMVarCommand*			CreateVarContentCommand(const JString& expr) override;
-	virtual CMVarNode*				CreateVarNode(const JBoolean shouldUpdate = kJTrue) override;
+	virtual CMVarNode*				CreateVarNode(const bool shouldUpdate = true) override;
 	virtual CMVarNode*				CreateVarNode(JTreeNode* parent, const JString& name,
 												  const JString& fullName, const JString& value) override;
 	virtual JString					Build1DArrayExpression(const JString& expr,
@@ -131,7 +131,7 @@ public:
 
 	// called by XD commands
 
-	JBoolean	GetParsedData(xmlNode** root);
+	bool	GetParsedData(xmlNode** root);
 
 	// called by XDSocket
 
@@ -140,7 +140,7 @@ public:
 
 	// called by XDWelcomeTask
 
-	void	BroadcastWelcome(const JString& msg, const JBoolean error);
+	void	BroadcastWelcome(const JString& msg, const bool error);
 
 	// called by XDSetProgramTask
 
@@ -169,9 +169,9 @@ private:
 	JString		itsIDEKey;
 	JString		itsScriptURI;
 	JIndex		itsStackFrameIndex;
-	JBoolean	itsInitFinishedFlag;		// debugger has been fully initialized
-	JBoolean	itsProgramIsStoppedFlag;	// the process is stopped
-	JBoolean	itsDebuggerBusyFlag;		// debugger is busy
+	bool	itsInitFinishedFlag;		// debugger has been fully initialized
+	bool	itsProgramIsStoppedFlag;	// the process is stopped
+	bool	itsDebuggerBusyFlag;		// debugger is busy
 	JString		itsProgramConfigFileName;	// .medic config file
 	JString		itsProgramName;				// can be empty
 
@@ -181,7 +181,7 @@ private:
 
 private:
 
-	JBoolean	StartDebugger();
+	bool	StartDebugger();
 	void		InitFlags();
 	void		StopDebugger();
 	void		ReceiveMessageFromDebugger();
@@ -204,7 +204,7 @@ inline void
 XDLink::BroadcastWelcome
 	(
 	const JString&	msg,
-	const JBoolean		error
+	const bool		error
 	)
 {
 	Broadcast(DebuggerBusy());
@@ -228,14 +228,14 @@ XDLink::GetSourcePathList()
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 XDLink::GetParsedData
 	(
 	xmlNode** root
 	)
 {
 	*root = itsParsedDataRoot;
-	return JI2B(itsParsedDataRoot != nullptr);
+	return itsParsedDataRoot != nullptr;
 }
 
 /******************************************************************************

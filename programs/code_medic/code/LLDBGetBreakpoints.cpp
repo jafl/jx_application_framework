@@ -63,7 +63,7 @@ LLDBGetBreakpoints::HandleSuccess
 		return;
 		}
 
-	(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(kJFalse);
+	(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(false);
 
 	JPtrArray<CMBreakpoint> bpList(JPtrArrayT::kForgetAll);	// ownership taken by CMBreakpointManager
 	bpList.SetCompareFunction(CMBreakpointManager::CompareBreakpointLocations);
@@ -115,11 +115,11 @@ LLDBGetBreakpoints::HandleSuccess
 		if (file.IsValid())
 			{
 			const JString fullName = JCombinePathAndName(
-				JString(file.GetDirectory(), kJFalse),
-				JString(file.GetFilename(), kJFalse));
+				JString(file.GetDirectory(), JString::kNoCopy),
+				JString(file.GetFilename(), JString::kNoCopy));
 
 			bp = jnew CMBreakpoint(b.GetID(), fullName, e.GetLine(), func, addr,
-								  JI2B(b.IsEnabled()), action,
+								  b.IsEnabled(), action,
 								  cond, b.GetIgnoreCount());
 			assert( bp != nullptr );
 			}
@@ -127,7 +127,7 @@ LLDBGetBreakpoints::HandleSuccess
 			{
 			CMLocation loc;
 			bp = jnew CMBreakpoint(b.GetID(), loc, func, addr,
-								  JI2B(b.IsEnabled()), action,
+								  b.IsEnabled(), action,
 								  cond, b.GetIgnoreCount());
 			assert( bp != nullptr );
 			}
@@ -140,7 +140,7 @@ LLDBGetBreakpoints::HandleSuccess
 
 			if (action != CMBreakpoint::kKeepBreakpoint || b.GetIgnoreCount() > 0)
 				{
-				(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(kJTrue);
+				(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(true);
 				}
 			}
 		}
@@ -148,7 +148,7 @@ LLDBGetBreakpoints::HandleSuccess
 	count = t.GetNumWatchpoints();
 	if (count > 0)	// may be deleted when go out of scope
 		{
-		(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(kJTrue);
+		(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(true);
 		}
 
 	for (JUnsignedOffset i=0; i<count; i++)
@@ -168,8 +168,8 @@ LLDBGetBreakpoints::HandleSuccess
 			}
 
 		CMBreakpoint* bp = jnew CMBreakpoint(w.GetID(), loc, JString::empty, addr,
-											JI2B(w.IsEnabled()), CMBreakpoint::kKeepBreakpoint,
-											cond, w.GetIgnoreCount());
+											 w.IsEnabled(), CMBreakpoint::kKeepBreakpoint,
+											 cond, w.GetIgnoreCount());
 		assert( bp != nullptr );
 		bpList.InsertSorted(bp);
 		}

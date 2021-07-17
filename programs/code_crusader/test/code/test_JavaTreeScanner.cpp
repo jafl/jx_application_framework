@@ -44,10 +44,10 @@ JTEST(Basic)
 	JArray<JFAID_t> deadFileList;
 
 	TestJavaTree tree;
-	tree.PrepareForUpdate(kJFalse);
-	tree.ParseFile(JString("./data/tree/java/AccessibilityController.java", kJFalse), 1);
-	tree.ParseFile(JString("./data/tree/java/PowerNotificationWarnings.java", kJFalse), 2);
-	tree.ParseFile(JString("./data/tree/java/PizzaStatus.java", kJFalse), 3);
+	tree.PrepareForUpdate(false);
+	tree.ParseFile(JString("./data/tree/java/AccessibilityController.java", false), 1);
+	tree.ParseFile(JString("./data/tree/java/PowerNotificationWarnings.java", false), 2);
+	tree.ParseFile(JString("./data/tree/java/PizzaStatus.java", false), 3);
 	tree.UpdateFinished(deadFileList);
 
 	const TestJavaTree& constTree  = tree;
@@ -108,10 +108,10 @@ JTEST(Template)
 	JArray<JFAID_t> deadFileList;
 
 	TestJavaTree tree;
-	tree.PrepareForUpdate(kJFalse);
-	tree.ParseFile(JString("./data/tree/java/DateVerifier.java", kJFalse), 1);
-	tree.ParseFile(JString("./data/tree/java/IdVerifier.java", kJFalse), 2);
-	tree.ParseFile(JString("./data/tree/java/StartDateVerifier.java", kJFalse), 3);
+	tree.PrepareForUpdate(false);
+	tree.ParseFile(JString("./data/tree/java/DateVerifier.java", false), 1);
+	tree.ParseFile(JString("./data/tree/java/IdVerifier.java", false), 2);
+	tree.ParseFile(JString("./data/tree/java/StartDateVerifier.java", false), 3);
 	tree.UpdateFinished(deadFileList);
 
 	const TestJavaTree& constTree  = tree;
@@ -158,8 +158,8 @@ JTEST(Template)
 	JAssertEqual(5, found);
 }
 
-JBoolean
+bool
 CBInUpdateThread()
 {
-	return kJTrue;
+	return true;
 }

@@ -30,37 +30,37 @@ public:
 
 	virtual ~JXChooseSaveFile();
 
-	virtual JBoolean ChooseFile(const JString& prompt,
+	virtual bool ChooseFile(const JString& prompt,
 								const JString& instructions,
 								JString* fullName) override;
-	virtual JBoolean ChooseFile(const JString& prompt,
+	virtual bool ChooseFile(const JString& prompt,
 								const JString& instructions,
 								const JString& origName,
 								JString* fullName) override;
-	virtual JBoolean ChooseFiles(const JString& prompt,
+	virtual bool ChooseFiles(const JString& prompt,
 								 const JString& instructions,
 								 JPtrArray<JString>* fullNameList) override;
 
-	JBoolean ChooseFile(const JString& prompt,
+	bool ChooseFile(const JString& prompt,
 						const JString& instructions,
 						const JString& wildcardFilter,
 						const JString& origName,
 						JString* fullName);
-	JBoolean ChooseFiles(const JString& prompt,
+	bool ChooseFiles(const JString& prompt,
 						 const JString& instructions,
 						 const JString& wildcardFilter,
 						 JPtrArray<JString>* fullNameList);
 
-	virtual JBoolean ChooseRPath(const JString& prompt,
+	virtual bool ChooseRPath(const JString& prompt,
 								 const JString& instructions,
 								 const JString& origPath,
 								 JString* newPath) override;
-	virtual JBoolean ChooseRWPath(const JString& prompt,
+	virtual bool ChooseRWPath(const JString& prompt,
 								  const JString& instructions,
 								  const JString& origPath,
 								  JString* newPath) override;
 
-	virtual JBoolean SaveFile(const JString& prompt,
+	virtual bool SaveFile(const JString& prompt,
 							  const JString& instructions,
 							  const JString& originalName,
 							  JString* newFullName) override;
@@ -68,14 +68,14 @@ public:
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;
 
-	static JBoolean	IsCharacterInWord(const JUtf8Character& c);
+	static bool	IsCharacterInWord(const JUtf8Character& c);
 
 protected:
 
 	virtual JXChooseFileDialog*
 	CreateChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 						   const JString& fileFilter,
-						   const JBoolean allowSelectMultiple,
+						   const bool allowSelectMultiple,
 						   const JString& origName, const JString& message);
 
 	virtual void	SetChooseFileFilters(JDirInfo* dirInfo);
@@ -83,7 +83,7 @@ protected:
 	virtual JXChoosePathDialog*
 	CreateChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 						   const JString& fileFilter,
-						   const JBoolean selectOnlyWritable, const JString& message);
+						   const bool selectOnlyWritable, const JString& message);
 
 	virtual JXSaveFileDialog*
 	CreateSaveFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
@@ -108,18 +108,18 @@ private:
 	JXSaveFileDialog*	itsSaveFileDialog;
 	JXCSFDialogBase*	itsCurrentDialog;
 
-	JBoolean			itsResponse;
+	bool			itsResponse;
 	JString*			itsResultStr;	// not owned; non-nullptr if any other dialog is open
 	JPtrArray<JString>*	itsResultList;	// not owned; non-nullptr if choose multiple file dialog is open
 
 private:
 
-	JBoolean	ChooseFile(const JString& prompt,
+	bool	ChooseFile(const JString& prompt,
 						   const JString& instructions,
 						   const JString& origName,
-						   const JBoolean allowSelectMultiple);
+						   const bool allowSelectMultiple);
 
-	JBoolean	ChoosePath(const JBoolean selectOnlyWritable,
+	bool	ChoosePath(const bool selectOnlyWritable,
 						   const JString& instructions,
 						   const JString& origPath,
 						   JString* newPath);
@@ -127,7 +127,7 @@ private:
 	void	WaitForResponse(JXCSFDialogBase* dlog);
 
 	void	RestoreState(JXCSFDialogBase* dlog,
-						 const JBoolean ignoreScroll);
+						 const bool ignoreScroll);
 	void	SaveState(JXCSFDialogBase* dlog);
 
 	const JString&	GetDialogState() const;

@@ -88,13 +88,13 @@ THXVarTable::NewConstant()
 
  ******************************************************************************/
 
-JBoolean
+bool
 THXVarTable::OKToRemoveSelectedConstant()
 	const
 {
 	JPoint cell;
-	return JI2B( GetEditedCell(&cell) &&
-				 itsVarList->OKToRemoveFunction(cell.y + THXVarList::kUserFnOffset) );
+	return GetEditedCell(&cell) &&
+				 itsVarList->OKToRemoveFunction(cell.y + THXVarList::kUserFnOffset);
 }
 
 /******************************************************************************
@@ -219,7 +219,7 @@ THXVarTable::CreateXInputField
 
  ******************************************************************************/
 
-JBoolean
+bool
 THXVarTable::ExtractInputData
 	(
 	const JPoint& cell
@@ -230,11 +230,11 @@ THXVarTable::ExtractInputData
 	const JString s = itsTextInput->GetVarName();
 	if (s == itsOrigText)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (itsTextInput->InputValid())
 		{
-		JBoolean ok;
+		bool ok;
 		const JIndex varIndex = cell.y + THXVarList::kUserFnOffset;
 		if (cell.x == kNameColumn)
 			{
@@ -250,7 +250,7 @@ THXVarTable::ExtractInputData
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

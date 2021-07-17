@@ -146,7 +146,7 @@ JTableData::RowsInserted::AdjustIndex
 	JAdjustIndexAfterInsert(GetFirstIndex(), GetCount(), index);
 }
 
-JBoolean
+bool
 JTableData::RowsRemoved::AdjustIndex
 	(
 	JIndex* index
@@ -166,7 +166,7 @@ JTableData::ColsInserted::AdjustIndex
 	JAdjustIndexAfterInsert(GetFirstIndex(), GetCount(), index);
 }
 
-JBoolean
+bool
 JTableData::ColsRemoved::AdjustIndex
 	(
 	JIndex* index

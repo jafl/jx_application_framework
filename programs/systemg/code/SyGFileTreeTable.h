@@ -61,19 +61,19 @@ public:
 	void	RunCommand();
 	void	FormatDisk();
 
-	void	UpdateDisplay(const JBoolean force = kJFalse);
+	void	UpdateDisplay(const bool force = false);
 	void	SetWindowIcon();
-	void	GoUp(const JBoolean sameWindow);
-	void	GoTo(const JString& path, const JBoolean sameWindow);
+	void	GoUp(const bool sameWindow);
+	void	GoTo(const JString& path, const bool sameWindow);
 
-	JBoolean	SelectName(const JString& name, const SyGFileTreeNode* parent,
+	bool	SelectName(const JString& name, const SyGFileTreeNode* parent,
 						   JPoint* cell,
-						   const JBoolean updateContent = kJTrue,
-						   const JBoolean updateView = kJTrue);
-	JBoolean	SelectName(const JPtrArray<JString>& pathList,
+						   const bool updateContent = true,
+						   const bool updateView = true);
+	bool	SelectName(const JPtrArray<JString>& pathList,
 						   const JString& name, JPoint* cell,
-						   const JBoolean clearSelection = kJTrue,
-						   const JBoolean updateContent = kJTrue);
+						   const bool clearSelection = true,
+						   const bool updateContent = true);
 
 	void	LoadToolBarDefaults(JXToolBar* toolBar);
 
@@ -87,11 +87,11 @@ public:
 
 	JString		GetColTitle(const JIndex index) const;
 	JCoordinate	GetBufferWidth(const JIndex index) const;
-	JBoolean	IsCurrentCol(const JIndex index) const;
+	bool	IsCurrentCol(const JIndex index) const;
 	void		SetCurrentColIndex(const JIndex index);
 	void		SetCurrentColType(const GFMColType type);
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const override;
+	virtual bool	IsEditable(const JPoint& cell) const override;
 	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
 	virtual void		HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
@@ -104,7 +104,7 @@ protected:
 	virtual void		AdjustToTree() override;
 	virtual JSize		GetMinCellWidth(const JPoint& cell) const override;
 	virtual void		TableDrawCell(JPainter &p, const JPoint& cell, const JRect& rect) override;
-	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const override;
+	virtual bool	GetImage(const JIndex index, const JXImage** image) const override;
 
 	virtual void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
@@ -117,7 +117,7 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDEnter() override;
@@ -137,7 +137,7 @@ protected:
 									  JArray<Atom>* askActionList,
 									  JPtrArray<JString>* askDescriptionList) override;
 	virtual void		HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action) override;
+									  const bool dropAccepted, const Atom action) override;
 
 	virtual JXInputField*
 		CreateTreeListInput(const JPoint& cell, JXContainer* enclosure,
@@ -145,7 +145,7 @@ protected:
 							const JCoordinate x, const JCoordinate y,
 							const JCoordinate w, const JCoordinate h) override;
 
-	virtual JBoolean	ExtractInputData(const JPoint& cell) override;
+	virtual bool	ExtractInputData(const JPoint& cell) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
@@ -159,11 +159,11 @@ private:
 	JXTimerTask*		itsUpdateTask;
 	JFSFileTreeNodeBase*itsUpdateNode;
 
-	JBoolean			itsVisibleCols[5];
+	bool			itsVisibleCols[5];
 	GFMColType			itsCurrentColType;
 	JColorID			itsAltRowColor;
 	JCoordinate			itsPermCharWidth;
-	JBoolean			itsIgnoreExecPermFlag;
+	bool			itsIgnoreExecPermFlag;
 
 	JXMenuBar*			itsMenuBar;
 	JXTextMenu*			itsFileMenu;
@@ -220,12 +220,12 @@ private:
 	JPoint		itsStartPt;
 	JPoint		itsPrevPt;
 	JSize		itsLastClickCount;
-	JBoolean	itsWaitingForDragFlag;
-	JBoolean	itsClearIfNotDNDFlag;
+	bool	itsWaitingForDragFlag;
+	bool	itsClearIfNotDNDFlag;
 
 	// delayed editing
 
-	JBoolean				itsWaitingToEditFlag;
+	bool				itsWaitingToEditFlag;
 	SyGBeginEditingTask*	itsEditTask;	// nullptr unless waiting to edit
 	JPoint					itsEditCell;
 	SyGFileTreeNode*		itsSortNode;	// sort when mouse released
@@ -246,26 +246,26 @@ private:
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);
 
-	void	OpenSelection(const JBoolean alternate, const JBoolean alwaysRunCmd,
-						  const JBoolean iconifyAfter, const JBoolean closeAfter);
+	void	OpenSelection(const bool alternate, const bool alwaysRunCmd,
+						  const bool iconifyAfter, const bool closeAfter);
 
 	void	MakeLinkToFile(const JString& src, const SyGFileTreeNode* parentNode,
-						   const JBoolean allowRelative);
+						   const bool allowRelative);
 	JString	GetCommandPath() const;
 
-	void	ChangeExecPermission(const JBoolean canExec);
+	void	ChangeExecPermission(const bool canExec);
 
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex item);
 
-	void	CopySelectedFileNames(const JBoolean useFullPath) const;
+	void	CopySelectedFileNames(const bool useFullPath) const;
 
 	void	InitGitBranchMenus();
-	void	UpdateGitMenus(const JBoolean shortcut);
+	void	UpdateGitMenus(const bool shortcut);
 	void	UpdateGitLocalBranchMenu();
 	void	HandleGitMenu(const JIndex index);
 
-	JBoolean	GetGitBranches(const JUtf8Byte* cmd,
+	bool	GetGitBranches(const JUtf8Byte* cmd,
 							   JPtrArray<JString>* branchList, JIndex* currentIndex,
 							   JPtrArray<JString>* repoList);
 	void		CreateGitBranch(const JString& branchName);
@@ -278,14 +278,14 @@ private:
 	void		FetchRemoteGitBranch2(const JString& name);
 	void		PullBranch(const JString& repo);
 	void		PushBranch(const JString& repo);
-	JBoolean	RemoveGitBranch(const JString& branch, const JBoolean force = kJFalse);
+	bool	RemoveGitBranch(const JString& branch, const bool force = false);
 	void		PruneLocalBranches();
 
-	JBoolean	GetGitStashList(JPtrArray<JString>* idList, JPtrArray<JString>* nameList);
+	bool	GetGitStashList(JPtrArray<JString>* idList, JPtrArray<JString>* nameList);
 	void		Stash(const JString& name);
 	void		Unstash(const JUtf8Byte* action, const JString& stashId);
 
-	static JBoolean	FindGitStash(const JString& branchName,
+	static bool	FindGitStash(const JString& branchName,
 								 const JPtrArray<JString>& idList,
 								 const JPtrArray<JString>& nameList,
 								 JString* id);
@@ -300,8 +300,8 @@ private:
 	void	InsertFMTreeCol(const GFMColType type);
 	void	RemoveFMTreeCol(const GFMColType type);
 
-	void	SetPreferences(const JBoolean prefs[]);
-	void	GetPreferences(JBoolean prefs[]);
+	void	SetPreferences(const bool prefs[]);
+	void	GetPreferences(bool prefs[]);
 	void	TogglePref(const JIndex i);
 
 	void	UpdateShortcutMenu();
@@ -311,11 +311,11 @@ private:
 	void	HandleContextMenu(const JIndex index);
 
 	void		ChooseDNDCursors();
-	JBoolean	HandleFileDrop(const Time time, const Atom type, const JXWidget* source);
-	JBoolean	GetTrueDropAction(Atom* action);
+	bool	HandleFileDrop(const Time time, const Atom type, const JXWidget* source);
+	bool	GetTrueDropAction(Atom* action);
 
-	JIndex		GetNearestDirIndex(const JIndex index, const JBoolean requireWritable);
-	JBoolean	WarnForDelete() const;
+	JIndex		GetNearestDirIndex(const JIndex index, const bool requireWritable);
+	bool	WarnForDelete() const;
 
 	// not allowed
 

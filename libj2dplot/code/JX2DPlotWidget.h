@@ -73,7 +73,7 @@ protected:
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 
 	virtual JCoordinate	GetMarksHeight() const override;
-	virtual JBoolean	PrintMarks(JPagePrinter& p, const JBoolean putOnSamePage,
+	virtual bool	PrintMarks(JPagePrinter& p, const bool putOnSamePage,
 									const JRect& partialPageRect) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
@@ -91,7 +91,7 @@ protected:
 	virtual JSize	PWGetGUIHeight() const override;
 
 	virtual JPainter*	PWCreateDragInsidePainter() override;
-	virtual JBoolean	PWGetDragPainter(JPainter** p) const override;
+	virtual bool	PWGetDragPainter(JPainter** p) const override;
 	virtual void		PWDeleteDragPainter() override;
 
 	virtual void	PWRefreshRect(const JRect& rect) override;
@@ -103,7 +103,7 @@ protected:
 	virtual void	ProtectionChanged() override;
 	virtual void	ChangeCurveOptions(const JIndex index) override;
 	virtual void	ChangeLabels(const LabelSelection selection) override;
-	virtual void	ChangeScale(const JBoolean xAxis) override;
+	virtual void	ChangeScale(const bool xAxis) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -113,7 +113,7 @@ private:
 	JXTextMenu*				itsRemoveCurveMenu;
 	JXTextMenu*				itsCursorMenu;
 	JXTextMenu*				itsMarkMenu;
-	JBoolean				itsIsSharingMenusFlag;
+	bool				itsIsSharingMenusFlag;
 	JX2DPlotLabelDialog*	itsPlotLabelDialog;
 	JX2DPlotScaleDialog*	itsPlotScaleDialog;
 	JX2DPlotRangeDialog*	itsPlotRangeDialog;
@@ -135,7 +135,7 @@ private:
 	JString					itsEPSPlotName;		// output file name
 	JRect					itsEPSPlotBounds;	// bounding rect when printed
 	JString					itsEPSMarksName;	// output file name
-	JBoolean				itsPrintEPSPlotFlag;
+	bool				itsPrintEPSPlotFlag;
 
 private:
 

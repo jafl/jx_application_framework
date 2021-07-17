@@ -47,7 +47,7 @@ public:
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Woverloaded-virtual"
 
-	void	SetToPopupChoice(const JBoolean isPopup = kJTrue);
+	void	SetToPopupChoice(const bool isPopup = true);
 
 #pragma GCC diagnostic pop
 
@@ -61,7 +61,7 @@ private:
 	JSize			itsFontSize;
 	JIndex			itsCurrIndex;
 	JIndex			itsVarSizeIndex;	// 0 if font not rescalable
-	JBoolean		itsBroadcastChangeFlag;
+	bool		itsBroadcastChangeFlag;
 
 	// used when selecting arbitrary font size
 

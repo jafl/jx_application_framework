@@ -31,7 +31,7 @@ const JUtf8Byte* kFitName		= "GetFitName";
 
  *****************************************************************************/
 
-JBoolean
+bool
 GLDLFitModule::Create
 	(
 	const JString&		moduleName,
@@ -41,43 +41,43 @@ GLDLFitModule::Create
 	ACE_DLL* module = jnew ACE_DLL(moduleName.GetBytes());
 	assert(module != nullptr);
 
-	JBoolean ok	= kJTrue;
+	bool ok	= true;
 
 	EvalFn*	fn	= (EvalFn*)module->symbol(kFNName);
 	if (fn == nullptr)
 		{
-		ok	= kJFalse;
+		ok	= false;
 		}
 	EvalFn*	fnprimed	= (EvalFn*)module->symbol(kFNPrimedName);
 	GetParmsFn* pf		= (GetParmsFn*)module->symbol(kGetParmsName);
 	if (pf == nullptr)
 		{
-		ok	= kJFalse;
+		ok	= false;
 		}
 	GetParmCountFn* pc	= (GetParmCountFn*)module->symbol(kParmCountName);
 	if (pc == nullptr)
 		{
-		ok	= kJFalse;
+		ok	= false;
 		}
 	GetNameFn* ff		= (GetNameFn*)module->symbol(kFormName);
 	if (ff == nullptr)
 		{
-		ok	= kJFalse;
+		ok	= false;
 		}
 	GetNameFn* fname	= (GetNameFn*)module->symbol(kFitName);
 	if (fname == nullptr)
 		{
-		ok	= kJFalse;
+		ok	= false;
 		}
 	InitialValFn* ifn	= (InitialValFn*)module->symbol(kInitValName);
 	if (!ok)
 		{
 		jdelete module;
-		return kJFalse;
+		return false;
 		}
 	*fit	= jnew GLDLFitModule(module, fn, fnprimed, ifn, pc(), pf(), ff(), fname());
 	assert(*fit != nullptr);
-	return kJTrue;
+	return true;
 }
 
 GLDLFitModule::GLDLFitModule
@@ -131,11 +131,11 @@ GLDLFitModule::~GLDLFitModule()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLDLFitModule::HasStartValues()
 	const
 {
-	return JI2B(itsGetStartValFn != nullptr);
+	return itsGetStartValFn != nullptr;
 }
 
 /******************************************************************************
@@ -145,7 +145,7 @@ GLDLFitModule::HasStartValues()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLDLFitModule::GetStartValues
 	(
 	const JArray<JFloat>* x, 
@@ -157,7 +157,7 @@ GLDLFitModule::GetStartValues
 {
 	if (itsGetStartValFn == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	assert(x != nullptr);
@@ -167,7 +167,7 @@ GLDLFitModule::GetStartValues
 
 //	itsGetStartValFn(x->GetElementCount(), 
 	
-	return kJTrue;
+	return true;
 }
 
 
@@ -190,11 +190,11 @@ GLDLFitModule::Function
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLDLFitModule::HasFPrimed()
 	const
 {
-	return JI2B(itsFPrimed != nullptr);
+	return itsFPrimed != nullptr;
 }
 
 /******************************************************************************

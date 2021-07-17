@@ -29,13 +29,13 @@ public:
 
 	// printing control
 
-	JBoolean	OpenDocument(const JRect& bounds);
+	bool	OpenDocument(const JRect& bounds);
 	void		CloseDocument();
 
 	// printing parameters
 
-	JBoolean	WantsPreview() const;
-	void		ShouldPrintPreview(const JBoolean doIt);
+	bool	WantsPreview() const;
+	void		ShouldPrintPreview(const bool doIt);
 
 	virtual JPainter&	GetPreviewPainter(const JRect& bounds) = 0;
 
@@ -78,14 +78,14 @@ public:
 
 protected:
 
-	virtual JBoolean	GetPreviewImage(const JImage** image) const = 0;
+	virtual bool	GetPreviewImage(const JImage** image) const = 0;
 	virtual void		DeletePreviewData() = 0;
 
 	virtual const JPoint&	PSGetOrigin() const;
 	virtual void			PSResetCoordinates();
 	virtual JCoordinate		PSGetPrintableHeight() const;
 
-	virtual JBoolean	PSShouldPrintCurrentPage() const;
+	virtual bool	PSShouldPrintCurrentPage() const;
 	virtual void		PSPrintVersionComment(std::ostream& output);
 	virtual void		PSPrintHeaderComments(std::ostream& output);
 	virtual void		PSPrintSetupComments(std::ostream& output);
@@ -93,7 +93,7 @@ protected:
 private:
 
 	JRect		itsBounds;
-	JBoolean	itsIncludePreviewFlag;
+	bool	itsIncludePreviewFlag;
 
 private:
 
@@ -111,7 +111,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JEPSPrinter::WantsPreview()
 	const
 {
@@ -121,7 +121,7 @@ JEPSPrinter::WantsPreview()
 inline void
 JEPSPrinter::ShouldPrintPreview
 	(
-	const JBoolean doIt
+	const bool doIt
 	)
 {
 	itsIncludePreviewFlag = doIt;

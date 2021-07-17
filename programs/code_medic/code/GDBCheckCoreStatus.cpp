@@ -20,7 +20,7 @@
 
 GDBCheckCoreStatus::GDBCheckCoreStatus()
 	:
-	CMCommand("info files", kJTrue, kJFalse)
+	CMCommand("info files", true, false)
 {
 	Send();
 }
@@ -49,7 +49,7 @@ GDBCheckCoreStatus::HandleSuccess
 {
 	JString fileName;
 
-	const JStringMatch m = coreFilePattern.Match(data, kJTrue);
+	const JStringMatch m = coreFilePattern.Match(data, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
 		{
 		fileName = m.GetSubstring(1);

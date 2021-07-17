@@ -29,8 +29,8 @@ CBJavaClass::CBJavaClass
 	const DeclareType	declType,
 	const JFAID_t		fileID,
 	CBTree*				tree,
-	const JBoolean		isPublic,
-	const JBoolean		isFinal
+	const bool		isPublic,
+	const bool		isFinal
 	)
 	:
 	CBClass(name, declType, fileID, tree, kNamespaceOperator),
@@ -47,8 +47,8 @@ CBJavaClass::CBJavaClass
 	)
 	:
 	CBClass(input, vers, tree, kNamespaceOperator),
-	itsIsPublicFlag(kJTrue),
-	itsIsFinalFlag(kJFalse)
+	itsIsPublicFlag(true),
+	itsIsFinalFlag(false)
 {
 	if (vers >= 52)
 		{
@@ -113,9 +113,9 @@ CBJavaClass::ViewSource()
 			te->SetCaretLocation(1);
 
 			const JStyledText::TextIndex start(1,1);
-			JBoolean wrapped;
+			bool wrapped;
 			const JStringMatch m =
-				te->GetText()->SearchForward(start, r, kJFalse, kJFalse, &wrapped);
+				te->GetText()->SearchForward(start, r, false, false, &wrapped);
 			if (!m.IsEmpty())
 				{
 				te->SelectLine(te->GetLineForChar(m.GetCharacterRange().first));
@@ -166,7 +166,7 @@ CBJavaClass::NewGhost
 	)
 {
 	CBJavaClass* newClass = jnew CBJavaClass(name, kGhostType, JFAID::kInvalidID, tree,
-											kJTrue, kJFalse);
+											true, false);
 	assert( newClass != nullptr );
 	return newClass;
 }
@@ -194,7 +194,7 @@ CBJavaClass::AdjustNameStyle
 
 		if (itsIsFinalFlag)
 			{
-			style->bold = kJTrue;
+			style->bold = true;
 			}
 		}
 }

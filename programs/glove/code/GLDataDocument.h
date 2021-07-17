@@ -29,19 +29,19 @@ class GLDataDocument : public JXFileDocument
 public:
 
 	GLDataDocument(JXDirector* supervisor, const JString& fileName,
-					const JBoolean onDisk);
+					const bool onDisk);
 
 	virtual ~GLDataDocument();
 
 	void CreateNewPlot(	const JIndex type,
 						const JArray<JFloat>& xCol, const JArray<JFloat>* xErrCol,
 						const JArray<JFloat>& yCol, const JArray<JFloat>* yErrCol,
-						const JBoolean linked, const JString& label );
+						const bool linked, const JString& label );
 						
 	void AddToPlot( const JIndex plotIndex, const JIndex type,
 					const JArray<JFloat>& xCol, const JArray<JFloat>* xErrCol,
 					const JArray<JFloat>& yCol, const JArray<JFloat>* yErrCol,
-					const JBoolean linked, const JString& label );
+					const bool linked, const JString& label );
 	
 	void 					GetPlotNames(JPtrArray<JString>& names);
 	GLRaggedFloatTableData*	GetData();
@@ -52,7 +52,7 @@ protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	DirectorClosed(JXDirector* theDirector) override;
-	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const override;
+	virtual void	WriteTextFile(std::ostream& output, const bool safetySave) const override;
 	virtual void	DiscardChanges() override;
 			
 private:
@@ -70,7 +70,7 @@ private:
 
 	JPtrArray<GLPlotDir>* itsPlotWindows;
 	JSize				itsPlotNumber;
-	JBoolean			itsListenToData;
+	bool			itsListenToData;
 
 	JXScrollbarSet*		itsScrollbarSet;
 
@@ -92,7 +92,7 @@ private:
 
 	void		HandleHelpMenu(const JIndex item);
 
-	JBoolean	LoadNativeFile(std::istream& is);
+	bool	LoadNativeFile(std::istream& is);
 	void		LoadImportFile();
 	void		LoadDelimitedFile();
 	void		LoadInternalFile(const JIndex index);

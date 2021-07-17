@@ -25,7 +25,7 @@ SyGNewGitRemoteDialog::SyGNewGitRemoteDialog
 	JXDirector* supervisor
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow();
 }

@@ -23,7 +23,7 @@ CMStackArgNode::CMStackArgNode
 	const JString&		value
 	)
 	:
-	JNamedTreeNode(nullptr, name, kJFalse),
+	JNamedTreeNode(nullptr, name, false),
 	itsValue(value)
 {
 	assert( parent != nullptr );

@@ -37,37 +37,37 @@ public:
 	JXButtonStates();
 	JXButtonStates(const unsigned int state);
 
-	JBoolean		GetState(const JIndex i) const;
-	void			SetState(const JIndex i, const JBoolean pushed);
-	JBoolean		AllOff() const;
+	bool		GetState(const JIndex i) const;
+	void			SetState(const JIndex i, const bool pushed);
+	bool		AllOff() const;
 
 	unsigned int	GetState() const;
 	void			SetState(const unsigned int state);
 
 	void			Clear();
 
-	JBoolean
+	bool
 	button(const JIndex i)
 		const
 	{
 		return GetState(i);
 	};
 
-	JBoolean
+	bool
 	left()
 		const
 	{
 		return itsState[0];
 	};
 
-	JBoolean
+	bool
 	middle()
 		const
 	{
 		return itsState[1];
 	};
 
-	JBoolean
+	bool
 	right()
 		const
 	{
@@ -80,15 +80,15 @@ public:
 		SetState(i, !GetState(i));
 	};
 
-	static JBoolean
+	static bool
 	AllOff(const unsigned int state)
 	{
-		return JConvertToBoolean( (state & 0x1F00) == 0 );
+		return (state & 0x1F00) == 0;
 	};
 
-	static JBoolean		GetState(const unsigned int state, const JIndex i);
+	static bool		GetState(const unsigned int state, const JIndex i);
 	static unsigned int	SetState(const unsigned int state,
-								 const JIndex i, const JBoolean pushed);
+								 const JIndex i, const bool pushed);
 
 	static unsigned int
 	ToggleState(const unsigned int state, const JIndex i)
@@ -98,7 +98,7 @@ public:
 
 private:
 
-	JBoolean itsState[ kXButtonCount ];
+	bool itsState[ kXButtonCount ];
 };
 
 

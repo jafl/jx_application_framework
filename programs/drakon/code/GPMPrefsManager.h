@@ -25,7 +25,7 @@ class GPMPrefsManager : public JXPrefsManager
 {
 public:
 
-	GPMPrefsManager(JBoolean* isNew);
+	GPMPrefsManager(bool* isNew);
 
 	virtual ~GPMPrefsManager();
 
@@ -33,7 +33,7 @@ public:
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion);
+	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion);
 	virtual void	SaveAllBeforeDestruct();
 
 private:

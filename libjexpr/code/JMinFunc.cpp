@@ -72,7 +72,7 @@ JMinFunc::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JMinFunc::Evaluate
 	(
 	JFloat* result
@@ -83,7 +83,7 @@ JMinFunc::Evaluate
 
 	if (GetArgCount() == 0 || !(GetArg(1))->Evaluate(result))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// find the minimum of all the arguments
@@ -94,17 +94,17 @@ JMinFunc::Evaluate
 		JFloat argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
 			{
-			return kJFalse;
+			return false;
 			}
 		if (argValue < *result)
 			{
 			*result = argValue;
 			}
 		}
-	return kJTrue;
+	return true;
 }
 
-JBoolean
+bool
 JMinFunc::Evaluate
 	(
 	JComplex* result
@@ -115,7 +115,7 @@ JMinFunc::Evaluate
 
 	if (GetArgCount() == 0 || !(GetArg(1))->Evaluate(result))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// find the minimum real part of all the arguments
@@ -126,7 +126,7 @@ JMinFunc::Evaluate
 		JComplex argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
 			{
-			return kJFalse;
+			return false;
 			}
 		if (real(argValue) < real(*result))
 			{
@@ -135,5 +135,5 @@ JMinFunc::Evaluate
 		}
 
 	*result = real(*result);
-	return kJTrue;
+	return true;
 }

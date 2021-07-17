@@ -30,8 +30,8 @@ THXTapeText::THXTapeText
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, jnew JXStyledText(kJTrue, kJFalse, enclosure->GetFontManager()), kJTrue,
-			 kJFalse, scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
+	JXTEBase(kFullEditor, jnew JXStyledText(true, false, enclosure->GetFontManager()), true,
+			 false, scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
 {
 }
 

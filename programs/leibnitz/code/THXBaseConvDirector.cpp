@@ -39,7 +39,7 @@ THXBaseConvDirector::THXBaseConvDirector
 	)
 	:
 	JXWindowDirector(supervisor),
-	itsIgnoreTextFlag(kJFalse)
+	itsIgnoreTextFlag(false)
 {
 	BuildWindow();
 }
@@ -52,7 +52,7 @@ THXBaseConvDirector::THXBaseConvDirector
 	)
 	:
 	JXWindowDirector(supervisor),
-	itsIgnoreTextFlag(kJFalse)
+	itsIgnoreTextFlag(false)
 {
 	BuildWindow();
 
@@ -82,7 +82,7 @@ THXBaseConvDirector::THXBaseConvDirector
 	JXWindow* window = GetWindow();
 	window->ReadGeometry(input);
 
-	JBoolean active;
+	bool active;
 	input >> JBoolFromString(active);
 	if (active)
 		{
@@ -196,7 +196,7 @@ THXBaseConvDirector::BuildWindow()
 	window->SetWMClass(THXGetWMClassInstance(), THXGetBaseConvWindowClass());
 	window->LockCurrentMinSize();
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->PlaceAsDialogWindow();
 
 	JXDisplay* display = GetDisplay();
@@ -247,9 +247,9 @@ THXBaseConvDirector::Receive
 			(message.Is(JStyledText::kTextSet) ||
 			 message.Is(JStyledText::kTextChanged)))
 			{
-			itsIgnoreTextFlag = kJTrue;
+			itsIgnoreTextFlag = true;
 			Convert(sender);
-			itsIgnoreTextFlag = kJFalse;
+			itsIgnoreTextFlag = false;
 			}
 
 		JXWindowDirector::Receive(sender, message);
@@ -302,7 +302,7 @@ THXBaseConvDirector::Convert
 		{
 		if (itsInput[i] != input)
 			{
-			const JString s(value, kBase[i], kJTrue);
+			const JString s(value, kBase[i], true);
 			itsInput[i]->GetText()->SetText(s);
 			}
 		}

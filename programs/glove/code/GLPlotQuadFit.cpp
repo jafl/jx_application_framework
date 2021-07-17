@@ -82,7 +82,7 @@ GLPlotQuadFit::GLPlotQuadFit
 	:
 	GLPlotFitFunction(plot, fitData, xMin, xMax)
 {
-	itsUsingRange = kJFalse;
+	itsUsingRange = false;
 	JPlotQuadFitX(plot, fitData);
 	GLPlotFitQuad junk(plot, fitData, xMin, xMax);
 //	GLPlotFitQuad2 junk2(plot, fitData, xMin, xMax);
@@ -120,7 +120,7 @@ GLPlotQuadFit::GLPlotQuadFit
 		itsRangeYMax = ymin;
 		itsRangeYMin = ymax;
 		}
-	itsUsingRange = kJTrue;
+	itsUsingRange = true;
 	JPlotQuadFitX(plot, fitData);
 }
 
@@ -134,17 +134,17 @@ GLPlotQuadFit::JPlotQuadFitX
 	itsP 	= nullptr;
 	itsXi	= nullptr;
 
-	SetHasParameterErrors(kJTrue);
+	SetHasParameterErrors(true);
 	if (fitData->HasXErrors() || fitData->HasYErrors())
 		{
-		SetHasParameterErrors(kJTrue);
+		SetHasParameterErrors(true);
 		}
 	else
 		{
-		SetHasParameterErrors(kJFalse);
+		SetHasParameterErrors(false);
 		}
 	SetParameterCount(3);
-	SetHasGoodnessOfFit(kJTrue);
+	SetHasGoodnessOfFit(true);
 	itsFunctionName.Set("y = a + bx + cx^2");
 
 	itsRealCount = 0;
@@ -182,7 +182,7 @@ GLPlotQuadFit::~GLPlotQuadFit()
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotQuadFit::GetYValue
 	(
 	const JFloat 	x,
@@ -197,7 +197,7 @@ GLPlotQuadFit::GetYValue
 	GetParameter(2, &b);
 	GetParameter(3, &c);
 	*y = a + b*x + c*x*x;
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -206,7 +206,7 @@ GLPlotQuadFit::GetYValue
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotQuadFit::GetParameterName
 	(
 	const JIndex index,
@@ -216,7 +216,7 @@ GLPlotQuadFit::GetParameterName
 {
 	if ((index > 3) || (index < 1))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index == 1)
 		{
@@ -230,7 +230,7 @@ GLPlotQuadFit::GetParameterName
 		{
 		*name = "c";
 		}
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -239,7 +239,7 @@ GLPlotQuadFit::GetParameterName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotQuadFit::GetParameter
 	(
 	const JIndex index,
@@ -249,7 +249,7 @@ GLPlotQuadFit::GetParameter
 {
 	if ((index > 3) || (index < 1))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index == 1)
 		{
@@ -263,7 +263,7 @@ GLPlotQuadFit::GetParameter
 		{
 		*value = itsCParameter;
 		}
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -272,7 +272,7 @@ GLPlotQuadFit::GetParameter
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotQuadFit::GetParameterError
 	(
 	const JIndex index,
@@ -283,7 +283,7 @@ GLPlotQuadFit::GetParameterError
 	const JPlotDataBase* data = GetDataToFit();
 	if (!data->HasXErrors() && !data->HasYErrors())
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index == 1)
 		{
@@ -297,7 +297,7 @@ GLPlotQuadFit::GetParameterError
 		{
 		*value = itsCErrParameter;
 		}
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -306,7 +306,7 @@ GLPlotQuadFit::GetParameterError
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotQuadFit::GetGoodnessOfFitName
 	(
 	JString* name
@@ -322,7 +322,7 @@ GLPlotQuadFit::GetGoodnessOfFitName
 		{
 		*name = "Std dev";
 		}
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -331,7 +331,7 @@ GLPlotQuadFit::GetGoodnessOfFitName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotQuadFit::GetGoodnessOfFit
 	(
 	JFloat* value
@@ -348,7 +348,7 @@ GLPlotQuadFit::GetGoodnessOfFit
 		*value = GetStdDev();
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -679,7 +679,7 @@ GLPlotQuadFit::CalcError
 
 	JFloat chiplus 	= sqrt(itsChi2 + 1);
 	JIndex i = 0;
-	JBoolean ok = kJTrue;
+	bool ok = true;
 	JSize iter;
 	JFloat chitemp = MinimizeN(p, xi, &iter, fitType);
 	JFloat lastchi;
@@ -688,7 +688,7 @@ GLPlotQuadFit::CalcError
 		{
 		if (chitemp > chiplus)
 			{
-			ok = kJFalse;
+			ok = false;
 			}
 		else
 			{
@@ -705,7 +705,7 @@ GLPlotQuadFit::CalcError
 	sig /= 10;
 	chitemp = lastchi;
 
-	ok = kJTrue;
+	ok = true;
 	i = 2;
 	JFloat chi1, chi2, chi3 = lastchi;
 	do
@@ -731,7 +731,7 @@ GLPlotQuadFit::CalcError
 			JFloat tsig = fabs((-e2+JSign(parameter)*sqrt(e2*e2+4*e3*(chiplus-e1)))/2/e3);
 			sig = tsig;
 			//std::cout << "3: " << sig << " " << chitemp << std::endl;
-			ok = kJFalse;
+			ok = false;
 			}
 		i++;
 		}
@@ -767,12 +767,12 @@ GLPlotQuadFit::CalcError
 //std::cout << "1b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 
 	i = 0;
-	ok = kJTrue;
+	ok = true;
 	do
 		{
 		if (chitemp > chiplus)
 			{
-			ok = kJFalse;
+			ok = false;
 			}
 		else
 			{
@@ -792,7 +792,7 @@ GLPlotQuadFit::CalcError
 	sig /= 10;
 	chitemp = lastchi;
 
-	ok = kJTrue;
+	ok = true;
 	i = 2;
 	chi3 = lastchi;
 	do
@@ -831,7 +831,7 @@ GLPlotQuadFit::CalcError
 				}
 			//std::cout << "*****" << tsig << "*****" << std::endl;
 			return tsig;
-			ok = kJFalse;
+			ok = false;
 			}
 		i++;
 		}
@@ -1438,7 +1438,7 @@ GLPlotQuadFit::SetFunctionName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotQuadFit::DataElementValid
 	(
 	const JIndex index
@@ -1455,14 +1455,14 @@ GLPlotQuadFit::DataElementValid
 			(point.y >= itsRangeYMin) &&
 			(point.y <= itsRangeYMax))
 			{
-			return kJTrue;
+			return true;
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1471,21 +1471,21 @@ GLPlotQuadFit::DataElementValid
 
  *****************************************************************************/
 
-JBoolean
+bool
 GLPlotQuadFit::GetDataElement
 	(
 	const JIndex index,
 	J2DDataPoint* point
 	)
 {
-	JBoolean valid = DataElementValid(index);
+	bool valid = DataElementValid(index);
 	if (!valid)
 		{
-		return kJFalse;
+		return false;
 		}
 	const JPlotDataBase* data = GetDataToFit();
 	data->GetElement(index, point);
-	return kJTrue;
+	return true;
 }
 
 /*****************************************************************************

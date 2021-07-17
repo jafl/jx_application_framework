@@ -24,8 +24,8 @@
 	selection from JXDNDManager::GetDNDSelectionName().)
 
 	Since each class will only accept certain data types, each derived class
-	should override WillAcceptDrop() and return kJTrue if they will accept
-	at least one of the given data types.  If the function returns kJFalse,
+	should override WillAcceptDrop() and return true if they will accept
+	at least one of the given data types.  If the function returns false,
 	the object will not receive any DND messages.
 
 	Since Widgets are the ones that actually own data, only Widgets can
@@ -54,11 +54,11 @@
 #include <sstream>
 #include <jAssert.h>
 
-JBoolean JXContainer::theDebugFTCFlag                         = kJFalse;
-JBoolean JXContainer::theDebugHorizFTCFlag                    = kJFalse;
-JBoolean JXContainer::theDebugVertFTCFlag                     = kJFalse;
-JBoolean JXContainer::theDebugFTCNoopExaminations             = kJFalse;
-JBoolean JXContainer::theDebugFTCWillOverlapNonincludedWidget = kJFalse;
+bool JXContainer::theDebugFTCFlag                         = false;
+bool JXContainer::theDebugHorizFTCFlag                    = false;
+bool JXContainer::theDebugVertFTCFlag                     = false;
+bool JXContainer::theDebugFTCNoopExaminations             = false;
+bool JXContainer::theDebugFTCWillOverlapNonincludedWidget = false;
 std::ostream* JXContainer::theDebugFTCLogBuffer               = nullptr;
 
 /******************************************************************************
@@ -104,14 +104,14 @@ JXContainer::JXContainerX
 	itsWindow          = window;
 	itsEnclosure       = enclosure;
 	itsEnclosedObjs    = nullptr;
-	itsActiveFlag      = kJFalse;
-	itsWasActiveFlag   = kJTrue;
-	itsVisibleFlag     = kJFalse;
-	itsWasVisibleFlag  = kJTrue;
+	itsActiveFlag      = false;
+	itsWasActiveFlag   = true;
+	itsVisibleFlag     = false;
+	itsWasVisibleFlag  = true;
 	itsSuspendCount    = 0;
-	itsIsDNDSourceFlag = kJFalse;
-	itsIsDNDTargetFlag = kJFalse;
-	itsGoingAwayFlag   = kJFalse;
+	itsIsDNDSourceFlag = false;
+	itsIsDNDTargetFlag = false;
+	itsGoingAwayFlag   = false;
 
 	if (enclosure != nullptr)
 		{
@@ -122,14 +122,14 @@ JXContainer::JXContainerX
 		itsSuspendCount = enclosure->itsSuspendCount;
 		}
 
-	itsIsShowingFlag      = kJFalse;
-	itsIsHidingFlag       = kJFalse;
-	itsIsActivatingFlag   = kJFalse;
-	itsIsDeactivatingFlag = kJFalse;
+	itsIsShowingFlag      = false;
+	itsIsHidingFlag       = false;
+	itsIsActivatingFlag   = false;
+	itsIsDeactivatingFlag = false;
 
 	itsDefCursor         = kJXDefaultCursor;
 	itsInvisibleCursor   = JXGetInvisibleCursor(display);
-	itsCursorVisibleFlag = kJTrue;
+	itsCursorVisibleFlag = true;
 	itsCurrCursor        = kJXDefaultCursor;
 	itsCursorAnim        = nullptr;
 	itsCursorAnimTask    = nullptr;
@@ -175,17 +175,17 @@ JXContainer::~JXContainer()
 void
 JXContainer::TurnOnBufferedDrawing()
 {
-	itsWindow->BufferDrawing(kJTrue);
+	itsWindow->BufferDrawing(true);
 }
 
 /******************************************************************************
  IsAncestor
 
-	Returns kJTrue if we are an ancestor of the given object.
+	Returns true if we are an ancestor of the given object.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::IsAncestor
 	(
 	JXContainer* obj
@@ -197,11 +197,11 @@ JXContainer::IsAncestor
 		{
 		if (encl == this)
 			{
-			return kJTrue;
+			return true;
 			}
 		else if (encl == nullptr)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		encl = encl->itsEnclosure;
@@ -211,7 +211,7 @@ JXContainer::IsAncestor
 /******************************************************************************
  SetEnclosure
 
-	Returns kJFalse if we are a JXWindow or obj is in a different JXWindow.
+	Returns false if we are a JXWindow or obj is in a different JXWindow.
 
 	Before we can implement this, we need to define pure virtual
 	EnclosureChanged() so derived classes can update their state.  This may
@@ -220,7 +220,7 @@ JXContainer::IsAncestor
 
  ******************************************************************************/
 /*
-JBoolean
+bool
 JXContainer::SetEnclosure
 	(
 	JXContainer* obj
@@ -232,11 +232,11 @@ JXContainer::SetEnclosure
 		itsEnclosure = obj;
 		itsEnclosure->AddEnclosedObject(this);
 		itsWindow->Refresh();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 */
@@ -259,7 +259,7 @@ JXContainer::DrawAll
 		}
 
 	JRect apClipRectG = GetApertureGlobal();
-	const JBoolean apVisible =
+	const bool apVisible =
 		JIntersection(apClipRectG, origFrameG, &apClipRectG);
 
 	// draw enclosed objects first, if visible
@@ -399,11 +399,11 @@ JXContainer::DrawAll
  GetVisibleRectGlobal
 
 	Calculates the portion of the given rectangle that is actually visible,
-	in global coords.  Returns kJTrue if the visible rectangle is not empty.
+	in global coords.  Returns true if the visible rectangle is not empty.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::GetVisibleRectGlobal
 	(
 	const JRect&	origRectG,
@@ -419,14 +419,14 @@ JXContainer::GetVisibleRectGlobal
 		JRect enclRect = encl->GetApertureGlobal();
 		if (!JIntersection(*visRectG, enclRect, visRectG))
 			{
-			return kJFalse;
+			return false;
 			}
 		encl = encl->GetEnclosure();
 		}
 
-	// it isn't empty because JIntersection never returned kJFalse
+	// it isn't empty because JIntersection never returned false
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -436,7 +436,7 @@ JXContainer::GetVisibleRectGlobal
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::FindContainer
 	(
 	const JPoint&	ptG,
@@ -447,7 +447,7 @@ JXContainer::FindContainer
 	if (!IsVisible() || !IsActive() || !(GetFrameGlobal()).Contains(ptG))
 		{
 		*container = nullptr;
-		return kJFalse;
+		return false;
 		}
 
 	// check if enclosed object contains it
@@ -458,7 +458,7 @@ JXContainer::FindContainer
 			{
 			if (obj->FindContainer(ptG, container))
 				{
-				return kJTrue;
+				return true;
 				}
 			}
 		}
@@ -466,7 +466,7 @@ JXContainer::FindContainer
 	// we contain it
 
 	*container = const_cast<JXContainer*>(this);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -518,10 +518,10 @@ JXContainer::DispatchNewMouseEvent
 
 		const JPoint pt = GlobalToLocal(ptG);
 		const JXKeyModifiers modifiers(GetDisplay(), state);
-		const JBoolean wantDrag = AcceptDrag(pt, button, modifiers);
+		const bool wantDrag = AcceptDrag(pt, button, modifiers);
 		if (wantDrag)
 			{
-			itsWindow->SetWantDrag(kJTrue);
+			itsWindow->SetWantDrag(true);
 			const JSize clickCount = itsWindow->CountClicks(this, pt);
 			MouseDown(pt, button, clickCount,
 					  JXButtonStates(state), modifiers);	// can delete us
@@ -592,11 +592,11 @@ JXContainer::DispatchMouseUp
 /******************************************************************************
  GetHint
 
-	Returns kJTrue if this button has a hint.
+	Returns true if this button has a hint.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::GetHint
 	(
 	JString* text
@@ -606,12 +606,12 @@ JXContainer::GetHint
 	if (itsHintMgr != nullptr)
 		{
 		*text = itsHintMgr->GetText();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		text->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -748,7 +748,7 @@ JXContainer::HandleMouseLeave()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::AcceptDrag
 	(
 	const JPoint&			pt,
@@ -843,11 +843,11 @@ JXContainer::HandleMouseUp
 /******************************************************************************
  HitSamePart (virtual protected)
 
-	This default implementation always returns kJTrue.
+	This default implementation always returns true.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::HitSamePart
 	(
 	const JPoint& pt1,
@@ -855,7 +855,7 @@ JXContainer::HitSamePart
 	)
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -866,7 +866,7 @@ JXContainer::HitSamePart
 void
 JXContainer::BecomeDNDSource()
 {
-	itsIsDNDSourceFlag = kJTrue;
+	itsIsDNDSourceFlag = true;
 }
 
 /******************************************************************************
@@ -877,14 +877,14 @@ JXContainer::BecomeDNDSource()
 void
 JXContainer::FinishDNDSource()
 {
-	itsIsDNDSourceFlag = kJFalse;
+	itsIsDNDSourceFlag = false;
 }
 
 /******************************************************************************
  WillAcceptDrop (virtual protected)
 
 	Derived classes that accept drops should override this function and
-	return kJTrue if they will accept the current drop.  If they return kJFalse,
+	return true if they will accept the current drop.  If they return false,
 	they will not receive any DND messages.
 
 	source is non-nullptr if the drag is between widgets in the same program.
@@ -893,7 +893,7 @@ JXContainer::FinishDNDSource()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -903,7 +903,7 @@ JXContainer::WillAcceptDrop
 	const JXWidget*		source
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -916,7 +916,7 @@ JXContainer::DNDEnter()
 {
 	if (!itsIsDNDTargetFlag)
 		{
-		itsIsDNDTargetFlag = kJTrue;
+		itsIsDNDTargetFlag = true;
 		Refresh();
 		HandleDNDEnter();
 		}
@@ -1015,7 +1015,7 @@ JXContainer::DNDLeave()
 	if (itsIsDNDTargetFlag)
 		{
 		HandleDNDLeave();
-		itsIsDNDTargetFlag = kJFalse;
+		itsIsDNDTargetFlag = false;
 		Refresh();
 		}
 }
@@ -1050,7 +1050,7 @@ JXContainer::DNDDrop
 	if (itsIsDNDTargetFlag)
 		{
 		HandleDNDDrop(pt, typeList, action, time, source);
-		itsIsDNDTargetFlag = kJFalse;
+		itsIsDNDTargetFlag = false;
 		Refresh();
 		}
 }
@@ -1079,12 +1079,12 @@ JXContainer::HandleDNDDrop
  DispatchClientMessage (protected)
 
 	We send the message to every object since we don't know anything about
-	who wants.  If somebody returns kJTrue, then it means that it was for
+	who wants.  If somebody returns true, then it means that it was for
 	them, so we stop passing it around.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::DispatchClientMessage
 	(
 	const XClientMessageEvent& clientMessage
@@ -1092,7 +1092,7 @@ JXContainer::DispatchClientMessage
 {
 	if (HandleClientMessage(clientMessage))
 		{
-		return kJTrue;
+		return true;
 		}
 
 	if (itsEnclosedObjs != nullptr)
@@ -1101,28 +1101,28 @@ JXContainer::DispatchClientMessage
 			{
 			if (obj->DispatchClientMessage(clientMessage))
 				{
-				return kJTrue;
+				return true;
 				}
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  HandleClientMessage (virtual protected)
 
-	Derived class should return kJTrue if message was only for it.
+	Derived class should return true if message was only for it.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::HandleClientMessage
 	(
 	const XClientMessageEvent& clientMessage
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1133,17 +1133,17 @@ JXContainer::HandleClientMessage
 void
 JXContainer::Show()
 {
-	itsIsShowingFlag = kJTrue;
+	itsIsShowingFlag = true;
 
 	if (itsEnclosure != nullptr &&
 		(!itsEnclosure->IsVisible() || itsEnclosure->itsIsHidingFlag))
 		{
 //		assert( !itsVisibleFlag );
-		itsWasVisibleFlag = kJTrue;
+		itsWasVisibleFlag = true;
 		}
 	else if (!itsVisibleFlag)
 		{
-		itsVisibleFlag = kJTrue;
+		itsVisibleFlag = true;
 		if (itsEnclosedObjs != nullptr)
 			{
 			for (JXContainer* obj : *itsEnclosedObjs)
@@ -1164,7 +1164,7 @@ JXContainer::Show()
 			}
 		}
 
-	itsIsShowingFlag = kJFalse;
+	itsIsShowingFlag = false;
 }
 
 /******************************************************************************
@@ -1175,12 +1175,12 @@ JXContainer::Show()
 void
 JXContainer::Hide()
 {
-	itsIsHidingFlag = kJTrue;
+	itsIsHidingFlag = true;
 
 	if (itsEnclosure != nullptr && !itsEnclosure->IsVisible())
 		{
 //		assert( !itsVisibleFlag );
-		itsWasVisibleFlag = kJFalse;
+		itsWasVisibleFlag = false;
 		}
 	else if (itsVisibleFlag)
 		{
@@ -1197,7 +1197,7 @@ JXContainer::Hide()
 			{
 			for (JXContainer* obj : *itsEnclosedObjs)
 				{
-				const JBoolean wasVisible = obj->IsVisible();
+				const bool wasVisible = obj->IsVisible();
 				if (wasVisible)
 					{
 					obj->Hide();
@@ -1209,8 +1209,8 @@ JXContainer::Hide()
 		// we have to set our status after everybody else
 		// to avoid the first if condition
 
-		itsVisibleFlag    = kJFalse;
-		itsWasVisibleFlag = kJTrue;
+		itsVisibleFlag    = false;
+		itsWasVisibleFlag = true;
 
 		if (itsEnclosure == nullptr ||
 			!(itsEnclosure->itsIsShowingFlag ||
@@ -1220,7 +1220,7 @@ JXContainer::Hide()
 			}
 		}
 
-	itsIsHidingFlag = kJFalse;
+	itsIsHidingFlag = false;
 }
 
 /******************************************************************************
@@ -1228,7 +1228,7 @@ JXContainer::Hide()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::WouldBeVisible()
 	const
 {
@@ -1250,17 +1250,17 @@ JXContainer::WouldBeVisible()
 void
 JXContainer::Activate()
 {
-	itsIsActivatingFlag = kJTrue;
+	itsIsActivatingFlag = true;
 
 	if (itsEnclosure != nullptr &&
 		(!itsEnclosure->itsActiveFlag || itsEnclosure->itsIsDeactivatingFlag))
 		{
 //		assert( !itsActiveFlag );
-		itsWasActiveFlag = kJTrue;
+		itsWasActiveFlag = true;
 		}
 	else if (!itsActiveFlag)
 		{
-		itsActiveFlag = kJTrue;
+		itsActiveFlag = true;
 		if (itsEnclosedObjs != nullptr)
 			{
 			for (JXContainer* obj : *itsEnclosedObjs)
@@ -1281,7 +1281,7 @@ JXContainer::Activate()
 			}
 		}
 
-	itsIsActivatingFlag = kJFalse;
+	itsIsActivatingFlag = false;
 }
 
 /******************************************************************************
@@ -1292,12 +1292,12 @@ JXContainer::Activate()
 void
 JXContainer::Deactivate()
 {
-	itsIsDeactivatingFlag = kJTrue;
+	itsIsDeactivatingFlag = true;
 
 	if (itsEnclosure != nullptr && !itsEnclosure->itsActiveFlag)
 		{
 //		assert( !itsActiveFlag );
-		itsWasActiveFlag = kJFalse;
+		itsWasActiveFlag = false;
 		}
 	else if (itsActiveFlag)
 		{
@@ -1305,7 +1305,7 @@ JXContainer::Deactivate()
 			{
 			for (JXContainer* obj : *itsEnclosedObjs)
 				{
-				const JBoolean wasActive = obj->itsActiveFlag;
+				const bool wasActive = obj->itsActiveFlag;
 				if (wasActive)
 					{
 					obj->Deactivate();
@@ -1317,8 +1317,8 @@ JXContainer::Deactivate()
 		// we have to set our status after everybody else
 		// to avoid the first if condition
 
-		itsActiveFlag    = kJFalse;
-		itsWasActiveFlag = kJTrue;
+		itsActiveFlag    = false;
+		itsWasActiveFlag = true;
 
 		if (itsEnclosure == nullptr ||
 			!(itsEnclosure->itsIsActivatingFlag ||
@@ -1329,7 +1329,7 @@ JXContainer::Deactivate()
 			}
 		}
 
-	itsIsDeactivatingFlag = kJFalse;
+	itsIsDeactivatingFlag = false;
 }
 
 /******************************************************************************
@@ -1337,7 +1337,7 @@ JXContainer::Deactivate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::WouldBeActive()
 	const
 {
@@ -1413,7 +1413,7 @@ JXContainer::Resume()
 void
 JXContainer::ShowCursor()
 {
-	itsCursorVisibleFlag = kJTrue;
+	itsCursorVisibleFlag = true;
 	if (IsVisible())
 		{
 		itsWindow->DispatchCursor();
@@ -1428,7 +1428,7 @@ JXContainer::ShowCursor()
 void
 JXContainer::HideCursor()
 {
-	itsCursorVisibleFlag = kJFalse;
+	itsCursorVisibleFlag = false;
 	if (IsVisible())
 		{
 		itsWindow->DispatchCursor();
@@ -1498,7 +1498,7 @@ JXContainer::ActivateCursor
 {
 	assert( IsVisible() );
 
-	const JBoolean isActive = IsActive();
+	const bool isActive = IsActive();
 	if (isActive && itsCursorAnim != nullptr)
 		{
 		itsCursorAnim->Activate();
@@ -1800,11 +1800,11 @@ JXContainer::NotifyBoundsResized
 /******************************************************************************
  GetEnclosedObjects (protected)
 
-	Returns kJFalse if there are no enclosed objects.
+	Returns false if there are no enclosed objects.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::GetEnclosedObjects
 	(
 	JPtrArrayIterator<JXContainer>** iter
@@ -1820,7 +1820,7 @@ JXContainer::GetEnclosedObjects
 		*iter = nullptr;
 		}
 
-	return JNegate( *iter == nullptr );
+	return *iter != nullptr;
 }
 
 /******************************************************************************
@@ -1833,9 +1833,9 @@ JXContainer::DeleteEnclosedObjects()
 {
 	if (itsEnclosedObjs != nullptr)
 		{
-		itsGoingAwayFlag = kJTrue;		// ignore RemoveEnclosedObject messages
+		itsGoingAwayFlag = true;		// ignore RemoveEnclosedObject messages
 		itsEnclosedObjs->DeleteAll();
-		itsGoingAwayFlag = kJFalse;
+		itsGoingAwayFlag = false;
 		jdelete itsEnclosedObjs;
 		itsEnclosedObjs = nullptr;
 		}
@@ -1913,18 +1913,18 @@ JXContainer::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::IsMenu()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
-JBoolean
+bool
 JXContainer::IsMenuTable()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 #include "JXFTCCell.h"
@@ -1938,19 +1938,19 @@ JXContainer::IsMenuTable()
 void
 JXContainer::DebugExpandToFitContent
 	(
-	const JBoolean horiz
+	const bool horiz
 	)
 {
 	if (horiz)
 		{
-		theDebugHorizFTCFlag = kJTrue;
+		theDebugHorizFTCFlag = true;
 		}
 	else
 		{
-		theDebugVertFTCFlag = kJTrue;
+		theDebugVertFTCFlag = true;
 		}
 
-	theDebugFTCFlag = kJTrue;
+	theDebugFTCFlag = true;
 }
 
 /******************************************************************************
@@ -1961,8 +1961,8 @@ JXContainer::DebugExpandToFitContent
 void
 JXContainer::DebugExpandToFitContentExtras
 	(
-	const JBoolean noop,
-	const JBoolean overlap
+	const bool noop,
+	const bool overlap
 	)
 {
 	theDebugFTCNoopExaminations             = noop;
@@ -1992,11 +1992,11 @@ JXContainer::ExpandToFitContent()
 	// expand horizontally - translations
 
 	JXFTCCell* root;
-	if (FTCBuildLayout(kJTrue, &root))
+	if (FTCBuildLayout(true, &root))
 		{
 		const JCoordinate w = GetBoundsWidth(),
 						  b = w - root->GetBoundsWidth(),
-						  v = root->Expand(kJTrue) + b;
+						  v = root->Expand(true) + b;
 
 		if (v != w)
 			{
@@ -2018,11 +2018,11 @@ JXContainer::ExpandToFitContent()
 
 	// expand vertically - translation font size
 
-	if (FTCBuildLayout(kJFalse, &root))
+	if (FTCBuildLayout(false, &root))
 		{
 		const JCoordinate h = GetBoundsHeight(),
 						  b = h - root->GetBoundsHeight(),
-						  v = root->Expand(kJFalse) + b;
+						  v = root->Expand(false) + b;
 
 		if (v != h)
 			{
@@ -2066,10 +2066,10 @@ JXContainer::ExpandToFitContent()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::FTCBuildLayout
 	(
-	const JBoolean	expandHorizontally,
+	const bool	expandHorizontally,
 	JXFTCCell**		root
 	)
 	const
@@ -2077,7 +2077,7 @@ JXContainer::FTCBuildLayout
 	if (itsEnclosedObjs == nullptr)
 		{
 		*root = nullptr;
-		return kJFalse;
+		return false;
 		}
 
 	if (theDebugFTCFlag)
@@ -2105,7 +2105,7 @@ JXContainer::FTCBuildLayout
 			}
 		}
 
-	JBoolean horizontal = !expandHorizontally, exact = kJTrue, first = kJTrue;
+	bool horizontal = !expandHorizontally, exact = true, first = true;
 	JSize count = 0, noChangeCount = 0;
 	do {
 		if (!exact)
@@ -2115,7 +2115,7 @@ JXContainer::FTCBuildLayout
 			}
 
 		const JSize objCount = objList.GetElementCount();
-		fullObjList.CopyPointers(objList, JPtrArrayT::kForgetAll, kJFalse);
+		fullObjList.CopyPointers(objList, JPtrArrayT::kForgetAll, false);
 
 		if (theDebugFTCFlag)
 			{
@@ -2157,20 +2157,20 @@ JXContainer::FTCBuildLayout
 				theDebugFTCLogBuffer = nullptr;
 				}
 			}
-		objList.CopyPointers(cellList, JPtrArrayT::kForgetAll, kJFalse);	// resets iter
+		objList.CopyPointers(cellList, JPtrArrayT::kForgetAll, false);	// resets iter
 		cellList.RemoveAll();
 
 		count++;
 		horizontal = ! horizontal;
-		first      = kJFalse;
+		first      = false;
 
-		const JBoolean noChange = JI2B( objCount == objList.GetElementCount() );
+		const bool noChange = objCount == objList.GetElementCount();
 		if (noChange)
 			{
 			noChangeCount++;
 			if (exact && noChangeCount >= 2)
 				{
-				exact         = kJFalse;
+				exact         = false;
 				horizontal    = !expandHorizontally;	// reset to original direction
 				noChangeCount = 0;
 				}
@@ -2189,7 +2189,7 @@ JXContainer::FTCBuildLayout
 	if (objList.GetElementCount() == 1)
 		{
 		*root = dynamic_cast<JXFTCCell*>(objList.GetFirstElement());
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -2209,7 +2209,7 @@ JXContainer::FTCBuildLayout
 			}
 
 		*root = nullptr;	// unable to enclose everything in a single table
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2240,7 +2240,7 @@ inline JIntRange
 ftcGetInterval
 	(
 	const JRect&	r,
-	const JBoolean	horizontal
+	const bool	horizontal
 	)
 {
 	return JIntRange(
@@ -2260,9 +2260,9 @@ JXContainer::FTCGroupAlignedObjects
 	JXContainer*			target,
 	JPtrArray<JXContainer>*	objList,
 	JPtrArray<JXContainer>*	fullObjList,
-	const JBoolean			horizontal,
-	const JBoolean			exact,
-	const JBoolean			first
+	const bool			horizontal,
+	const bool			exact,
+	const bool			first
 	)
 	const
 {
@@ -2411,7 +2411,7 @@ JXContainer::FTCGroupAlignedObjects
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::FTCWillOverlapNonincludedWidget
 	(
 	const JXContainer*				obj1,
@@ -2442,8 +2442,7 @@ JXContainer::FTCWillOverlapNonincludedWidget
 	JRect r;
 	while (iter.Next(&obj))
 		{
-		const JBoolean check = JI2B(
-			obj != obj1 && obj != obj2 && !matchedList.Includes(obj));
+		const bool check = obj != obj1 && obj != obj2 && !matchedList.Includes(obj);
 
 		if (theDebugFTCWillOverlapNonincludedWidget && theDebugFTCFlag && check)
 			{
@@ -2457,7 +2456,7 @@ JXContainer::FTCWillOverlapNonincludedWidget
 				GetFTCLog() << "----- T" << std::endl;
 				}
 
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -2465,7 +2464,7 @@ JXContainer::FTCWillOverlapNonincludedWidget
 		{
 		GetFTCLog() << "----- F" << std::endl;
 		}
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -2483,13 +2482,13 @@ JXContainer::FTCTrimBlockedMatches
 	const JXContainer*				target,
 	const JPtrArray<JXContainer>&	fullObjList,
 	const JPtrArray<JXContainer>&	matchedList,
-	const JBoolean					horizontal,
-	const JBoolean					deleteBlockedWidgetCells,
+	const bool					horizontal,
+	const bool					deleteBlockedWidgetCells,
 	JPtrArray<JXFTCCell>*			cellList
 	)
 	const
 {
-	const JBoolean vertical = ! horizontal;
+	const bool vertical = ! horizontal;
 
 	const JRect targetRect         = target->GetFrameForFTC();
 	const JIntRange targetInterval = ftcGetInterval(targetRect, horizontal);
@@ -2510,9 +2509,8 @@ JXContainer::FTCTrimBlockedMatches
 		const JRect rect         = obj->GetFrameForFTC();
 		const JIntRange interval = ftcGetInterval(rect, horizontal);
 
-		const JBoolean overlaps = JI2B(
-			JIntersection(targetInterval, interval, &intersection) &&
-			intersection.GetCount() > 1);
+		const bool overlaps = JIntersection(targetInterval, interval, &intersection) &&
+			intersection.GetCount() > 1;
 
 		if (overlaps &&
 			((horizontal && rect.right  <= targetRect.left) ||
@@ -2578,11 +2576,11 @@ JXContainer::FTCTrimBlockedMatches
 /******************************************************************************
  IncludeInFTC (virtual protected)
 
-	Return kJFalse to be ignored.
+	Return false to be ignored.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::IncludeInFTC()
 	const
 {
@@ -2593,15 +2591,15 @@ JXContainer::IncludeInFTC()
 /******************************************************************************
  NeedsInternalFTC (virtual protected)
 
-	Return kJTrue if the contents are a set of widgets that need to expand.
+	Return true if the contents are a set of widgets that need to expand.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::NeedsInternalFTC()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -2611,10 +2609,10 @@ JXContainer::NeedsInternalFTC()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXContainer::RunInternalFTC
 	(
-	const JBoolean	horizontal,
+	const bool	horizontal,
 	JCoordinate*	newSize
 	)
 {
@@ -2623,12 +2621,12 @@ JXContainer::RunInternalFTC
 		{
 		*newSize = root->Expand(horizontal);
 		jdelete root;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*newSize = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2672,7 +2670,7 @@ JXContainer::ComputePaddingForInternalFTC()
 JCoordinate
 JXContainer::GetFTCMinContentSize
 	(
-	const JBoolean horizontal
+	const bool horizontal
 	)
 	const
 {

@@ -55,12 +55,12 @@ private:
 	void	UpdateAddToProjectMenu();
 	void	HandleAddToProjectMenu(const JIndex index);
 
-	JBoolean	CanAddToProject() const;
+	bool	CanAddToProject() const;
 
 	void	UpdateManageProjectMenu();
 	void	HandleManageProjectMenu(const JIndex index);
 
-	JBoolean	GetProjectDocument(CBProjectDocument** doc) const;
+	bool	GetProjectDocument(CBProjectDocument** doc) const;
 
 	void	BuildTargetInfo(GetTargetInfo* info);
 
@@ -85,7 +85,7 @@ public:
 				itsFileList(JPtrArrayT::kDeleteAll)
 				{ };
 
-			JBoolean
+			bool
 			HasFiles() const
 			{
 				return !itsFileList.IsEmpty();

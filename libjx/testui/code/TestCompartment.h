@@ -34,7 +34,7 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
 private:
 
@@ -42,7 +42,7 @@ private:
 
 private:
 
-	JBoolean	IsElastic() const;
+	bool	IsElastic() const;
 
 	// not allowed
 

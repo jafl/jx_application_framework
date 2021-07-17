@@ -35,10 +35,10 @@ SVNRepoTreeNode::SVNRepoTreeNode
 	const JSize		size
 	)
 	:
-	JNamedTreeNode(tree, name, JI2B(type == kDirectory)),
+	JNamedTreeNode(tree, name, type == kDirectory),
 	itsRepoPath(repoPath),
 	itsRepoRevision(repoRevision),
-	itsNeedUpdateFlag(kJTrue),
+	itsNeedUpdateFlag(true),
 	itsType(type),
 	itsRevision(revision),
 	itsModTime(modTime),
@@ -92,7 +92,7 @@ SVNRepoTreeNode::GetAgeString()
 /******************************************************************************
  Rename
 
-	If sort==kJFalse, it is the caller's responsibility to call
+	If sort==false, it is the caller's responsibility to call
 	(node->GetParent())->SortChildren().
 
  ******************************************************************************/
@@ -101,7 +101,7 @@ JError
 SVNRepoTreeNode::Rename
 	(
 	const JString&	newName,
-	const JBoolean	sort
+	const bool	sort
 	)
 {
 	if (newName == GetName())
@@ -121,7 +121,7 @@ SVNRepoTreeNode::Rename
 	JXGetApplication()->DisplayBusyCursor();
 
 	JSimpleProcess* p;
-	JSimpleProcess::Create(&p, cmd, kJFalse);
+	JSimpleProcess::Create(&p, cmd, false);
 	p->WaitUntilFinished();
 	if (p->SuccessfulFinish())
 		{
@@ -129,7 +129,7 @@ SVNRepoTreeNode::Rename
 		itsRepoPath = newRepoPath;
 		if (itsType == kDirectory)
 			{
-			itsNeedUpdateFlag = kJTrue;
+			itsNeedUpdateFlag = true;
 			}
 
 // newName may be invalid beyond this point if text is from input field
@@ -152,23 +152,23 @@ SVNRepoTreeNode::Rename
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNRepoTreeNode::OKToOpen()
 	const
 {
 	if (!JNamedTreeNode::OKToOpen())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	SVNRepoTreeNode* me = const_cast<SVNRepoTreeNode*>(this);
 	if (itsNeedUpdateFlag)
 		{
-		me->itsNeedUpdateFlag = kJFalse;
+		me->itsNeedUpdateFlag = false;
 		me->Update();
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -297,7 +297,7 @@ SVNRepoTreeNode::ReceiveErrorLine()
 	assert( itsErrorLink != nullptr );
 
 	JString line;
-	const JBoolean ok = itsErrorLink->GetNextMessage(&line);
+	const bool ok = itsErrorLink->GetNextMessage(&line);
 	assert( ok );
 
 	itsErrorList->Append(line);
@@ -475,7 +475,7 @@ SVNRepoTreeNode::GetRepoParent()
 	return n;
 }
 
-JBoolean
+bool
 SVNRepoTreeNode::GetRepoParent
 	(
 	SVNRepoTreeNode** parent
@@ -486,16 +486,16 @@ SVNRepoTreeNode::GetRepoParent
 		{
 		*parent = dynamic_cast<SVNRepoTreeNode*>(p);
 		assert( *parent != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 SVNRepoTreeNode::GetRepoParent
 	(
 	const SVNRepoTreeNode** parent
@@ -507,12 +507,12 @@ SVNRepoTreeNode::GetRepoParent
 		{
 		*parent = dynamic_cast<const SVNRepoTreeNode*>(p);
 		assert( *parent != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 

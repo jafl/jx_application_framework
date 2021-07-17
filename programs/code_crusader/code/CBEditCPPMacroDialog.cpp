@@ -33,7 +33,7 @@ CBEditCPPMacroDialog::CBEditCPPMacroDialog
 	const CBCPreprocessor&	cpp
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue),
+	JXDialogDirector(supervisor, true),
 	JPrefObject(CBGetPrefsManager(), kCBEditCPPMacroDialogID)
 {
 	BuildWindow(cpp);
@@ -54,11 +54,11 @@ CBEditCPPMacroDialog::~CBEditCPPMacroDialog()
 /******************************************************************************
  UpdateMacros
 
-	Returns kJTrue if anything changed.
+	Returns true if anything changed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBEditCPPMacroDialog::UpdateMacros
 	(
 	CBCPreprocessor* cpp
@@ -139,7 +139,7 @@ CBEditCPPMacroDialog::BuildWindow
 	window->SetTitle(JGetString("WindowTitle::CBEditCPPMacroDialog"));
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	SetButtons(okButton, cancelButton);
 
 	ListenTo(itsHelpButton);
@@ -189,12 +189,11 @@ CBEditCPPMacroDialog::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBEditCPPMacroDialog::OKToDeactivate()
 {
-	return JConvertToBoolean(
-		Cancelled() ||
-		(JXDialogDirector::OKToDeactivate() && itsTable->ContentsValid()) );
+	return Cancelled() ||
+		(JXDialogDirector::OKToDeactivate() && itsTable->ContentsValid());
 }
 
 /******************************************************************************

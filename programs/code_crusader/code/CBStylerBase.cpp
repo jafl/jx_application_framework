@@ -141,7 +141,7 @@ JIndex i;
 		return;
 		}
 
-	JBoolean active;
+	bool active;
 	input >> JBoolFromString(active);
 
 	// type styles
@@ -246,7 +246,7 @@ JIndex i;
 	// word styles
 
 	JArray<WordStyle> wordList;
-	GetWordList(*itsWordStyles, &wordList, kJFalse);
+	GetWordList(*itsWordStyles, &wordList, false);
 
 	const JSize wordCount = wordList.GetElementCount();
 	output << ' ' << wordCount;
@@ -297,7 +297,7 @@ CBStylerBase::GetWordList
 	(
 	const JStringMap<JFontStyle>&	wordStyles,
 	JArray<WordStyle>*				wordList,
-	const JBoolean					sort
+	const bool					sort
 	)
 	const
 {
@@ -333,7 +333,7 @@ CBStylerBase::CompareWords
 	const WordStyle& w2
 	)
 {
-	const int result = JString::Compare(*w1.key, *w2.key, kJFalse);
+	const int result = JString::Compare(*w1.key, *w2.key, JString::kIgnoreCase);
 
 	if (result < 0)
 		{
@@ -419,7 +419,7 @@ JIndex i;
 			}
 
 		JArray<WordStyle> wordList;
-		GetWordList(*itsWordStyles, &wordList, kJFalse);
+		GetWordList(*itsWordStyles, &wordList, false);
 		const JSize wordCount = wordList.GetElementCount();
 		for (i=1; i<=wordCount; i++)
 			{
@@ -448,7 +448,7 @@ CBStylerBase::EditStyles()
 	assert( itsEditDialog == nullptr );
 
 	JArray<WordStyle> wordList;
-	GetWordList(*itsWordStyles, &wordList, kJTrue);
+	GetWordList(*itsWordStyles, &wordList, true);
 
 	itsEditDialog = jnew CBEditStylerDialog(itsDialogTitle, IsActive(),
 										   itsTypeNames, *itsTypeStyles,
@@ -473,7 +473,7 @@ CBStylerBase::ExtractStyles()
 {
 	assert( itsEditDialog != nullptr );
 
-	JBoolean active;
+	bool active;
 	JArray<JFontStyle> newTypeStyles = *itsTypeStyles;
 	JStringMap<JFontStyle> newWordStyles;
 	itsEditDialog->GetData(&active, &newTypeStyles, &newWordStyles);
@@ -497,7 +497,7 @@ CBStylerBase::ExtractStyles()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBStylerBase::TypeStylesChanged
 	(
 	const JArray<JFontStyle>& newTypeStyles
@@ -511,11 +511,11 @@ CBStylerBase::TypeStylesChanged
 		{
 		if (itsTypeStyles->GetElement(i) != newTypeStyles.GetElement(i))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -523,7 +523,7 @@ CBStylerBase::TypeStylesChanged
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBStylerBase::WordStylesChanged
 	(
 	const JStringMap<JFontStyle>& newWordStyles
@@ -533,18 +533,18 @@ CBStylerBase::WordStylesChanged
 	const JSize count = itsWordStyles->GetElementCount();
 	if (newWordStyles.GetElementCount() != count)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (count == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JArray<WordStyle> oldWordList(count);
-	GetWordList(*itsWordStyles, &oldWordList, kJTrue);
+	GetWordList(*itsWordStyles, &oldWordList, true);
 
 	JArray<WordStyle> newWordList(count);
-	GetWordList(newWordStyles, &newWordList, kJTrue);
+	GetWordList(newWordStyles, &newWordList, true);
 
 	for (JIndex i=1; i<=count; i++)
 		{
@@ -552,9 +552,9 @@ CBStylerBase::WordStylesChanged
 		const WordStyle w2 = newWordList.GetElement(i);
 		if (*w1.key != *w2.key || w1.value != w2.value)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }

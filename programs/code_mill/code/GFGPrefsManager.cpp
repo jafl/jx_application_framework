@@ -25,10 +25,10 @@ const JFileVersion kCurrentPrefsFileVersion = 0;
 
 GFGPrefsManager::GFGPrefsManager
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue)
+	JXPrefsManager(kCurrentPrefsFileVersion, true)
 {
 	itsDialog = nullptr;
 	*isNew    = JPrefsManager::UpgradeData();
@@ -69,7 +69,7 @@ GFGPrefsManager::SaveAllBeforeDestruct()
 void
 GFGPrefsManager::UpgradeData
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JFileVersion	currentVersion
 	)
 {
@@ -89,7 +89,7 @@ GFGPrefsManager::GetPrevVersionStr()
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(kGFGProgramVersionID, &data);
+	const bool ok = GetData(kGFGProgramVersionID, &data);
 	assert( ok );
 	return JString(data);
 }
@@ -192,7 +192,7 @@ GFGPrefsManager::GetHeaderComment
 		
 	if (!classname.IsEmpty())
 		{
-		JString copyright = GetCopyright(kJTrue);
+		JString copyright = GetCopyright(true);
 		const JUtf8Byte* map[] =
 			{
 			"class",     classname.GetBytes(),
@@ -312,7 +312,7 @@ GFGPrefsManager::SetYear
 JString
 GFGPrefsManager::GetCopyright
 	(
-	const JBoolean replaceVars
+	const bool replaceVars
 	)
 	const
 {
@@ -386,7 +386,7 @@ GFGPrefsManager::GetSourceComment
 		
 	if (!classname.IsEmpty())
 		{
-		JString copyright = GetCopyright(kJTrue);
+		JString copyright = GetCopyright(true);
 		const JUtf8Byte* map[] =
 			{
 			"class",     classname.GetBytes(),

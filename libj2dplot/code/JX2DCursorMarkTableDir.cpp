@@ -116,7 +116,7 @@ JX2DCursorMarkTableDir::ReadSetup
 	if (vers == 0)
 		{
 		JXScrollbar *hScrollbar, *vScrollbar;
-		const JBoolean hasScrollbars = itsTable->GetScrollbars(&hScrollbar, &vScrollbar);
+		const bool hasScrollbars = itsTable->GetScrollbars(&hScrollbar, &vScrollbar);
 		assert( hasScrollbars );
 
 		vScrollbar->ReadSetup(input);

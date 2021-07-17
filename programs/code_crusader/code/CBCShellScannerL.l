@@ -36,7 +36,7 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}

@@ -46,9 +46,9 @@ public:
 
 // Get...
 	JHashRecordT::State GetState() const;
-	JBoolean   IsEmpty() const;
-	JBoolean   IsDeleted() const;
-	JBoolean   IsFull() const;
+	bool   IsEmpty() const;
+	bool   IsDeleted() const;
+	bool   IsFull() const;
 	JHashValue GetHashValue() const;
 	const V&   GetValue() const;
 
@@ -86,10 +86,10 @@ JHashRecord<V>::GetState() const
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JHashRecord<V>::IsEmpty() const
 {
-	return JConvertToBoolean(itsState == JHashRecordT::kEmpty);
+	return itsState == JHashRecordT::kEmpty;
 }
 
 /******************************************************************************
@@ -98,10 +98,10 @@ JHashRecord<V>::IsEmpty() const
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JHashRecord<V>::IsDeleted() const
 {
-	return JConvertToBoolean(itsState == JHashRecordT::kDeleted);
+	return itsState == JHashRecordT::kDeleted;
 }
 
 /******************************************************************************
@@ -110,10 +110,10 @@ JHashRecord<V>::IsDeleted() const
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JHashRecord<V>::IsFull() const
 {
-	return JConvertToBoolean(itsState == JHashRecordT::kFull);
+	return itsState == JHashRecordT::kFull;
 }
 
 /******************************************************************************

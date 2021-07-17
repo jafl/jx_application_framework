@@ -91,7 +91,7 @@ AnimateHelpMenuTask::Perform
 			}
 
 		itsMenu->SetItemImage(itsMenuItem, itsImageList->GetElement(itsCurrentImage),
-							  kJFalse);
+							  false);
 		}
 
 	if (!itsMenu->IsOpen())
@@ -109,5 +109,5 @@ void
 AnimateHelpMenuTask::Reset()
 {
 	itsCurrentImage = 0;
-	itsMenu->SetItemImage(itsMenuItem, itsImageList->GetLastElement(), kJFalse);
+	itsMenu->SetItemImage(itsMenuItem, itsImageList->GetLastElement(), false);
 }

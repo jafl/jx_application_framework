@@ -41,7 +41,7 @@ protected:
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
 	virtual void			PrepareDeleteXInputField() override;
-	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual bool		ExtractInputData(const JPoint& cell) override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 

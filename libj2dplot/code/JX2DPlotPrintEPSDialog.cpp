@@ -69,7 +69,7 @@ static const JPSPrinter::PaperType kPaperType[] =
 const JSize kPaperTypeCount  = sizeof(kPaperType) / sizeof(JPSPrinter::PaperType);
 const JSize kPredefSizeCount = 4;
 
-static JBoolean kPredefInit = kJFalse;
+static bool kPredefInit = false;
 static JCoordinate kPredefWidth  [ kPaperTypeCount * kPredefSizeCount ];
 static JCoordinate kPredefHeight [ kPaperTypeCount * kPredefSizeCount ];
 
@@ -82,8 +82,8 @@ JX2DPlotPrintEPSDialog*
 JX2DPlotPrintEPSDialog::Create
 	(
 	const JString&		fileName,
-	const JBoolean		printPreview,
-	const JBoolean		bw,
+	const bool		printPreview,
+	const bool		bw,
 	const JCoordinate	w,
 	const JCoordinate	h,
 	const Unit			unit
@@ -128,7 +128,7 @@ JX2DPlotPrintEPSDialog::JX2DPlotPrintEPSDialog()
 														&kPredefHeight[ offset + 3 ]);
 			}
 
-		kPredefInit = kJTrue;
+		kPredefInit = true;
 		}
 }
 
@@ -156,7 +156,7 @@ JX2DPlotPrintEPSDialog::GetPlotSize
 {
 JFloat v;
 
-	JBoolean ok = itsWidthInput->GetValue(&v);
+	bool ok = itsWidthInput->GetValue(&v);
 	assert( ok );
 	*w = JRound(v * kUnitToPixel [ itsUnit ]);
 
@@ -176,8 +176,8 @@ void
 JX2DPlotPrintEPSDialog::BuildWindow
 	(
 	const JString&		fileName,
-	const JBoolean		printPreview,
-	const JBoolean		bw,
+	const bool		printPreview,
+	const bool		bw,
 	const JCoordinate	w,
 	const JCoordinate	h,
 	const Unit			unit
@@ -272,7 +272,7 @@ JX2DPlotPrintEPSDialog::BuildWindow
 
 	itsUnitMenu->SetMenuItems(kUnitMenuStr);
 	itsUnitMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsUnitMenu->SetToPopupChoice(kJTrue, unit);
+	itsUnitMenu->SetToPopupChoice(true, unit);
 	ListenTo(itsUnitMenu);
 
 	// predefined sizes
@@ -292,26 +292,26 @@ JX2DPlotPrintEPSDialog::BuildWindow
 
  ******************************************************************************/
 
-JBoolean
+bool
 JX2DPlotPrintEPSDialog::OKToDeactivate()
 {
 	if (!JXEPSPrintSetupDialog::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (!itsWidthInput->InputValid())
 		{
 		itsWidthInput->Focus();
-		return kJFalse;
+		return false;
 		}
 	else if (!itsHeightInput->InputValid())
 		{
 		itsHeightInput->Focus();
-		return kJFalse;
+		return false;
 		}
 
 	JCoordinate w,h;
@@ -320,11 +320,11 @@ JX2DPlotPrintEPSDialog::OKToDeactivate()
 	if (w < 50 || h < 50)
 		{
 		JGetUserNotification()->ReportError(JGetString("TooSmall::JX2DPlotPrintEPSDialog"));
-		return kJFalse;
+		return false;
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 

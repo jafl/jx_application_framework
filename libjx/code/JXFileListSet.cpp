@@ -186,7 +186,7 @@ JXFileListSet::SetTable
 	)
 {
 	JXTEBase* te;
-	const JBoolean hadEditMenu = itsTable->GetEditMenuProvider(&te);
+	const bool hadEditMenu = itsTable->GetEditMenuProvider(&te);
 
 	jdelete itsTable;
 	itsTable = table;
@@ -357,7 +357,7 @@ JXFileListSet::ReadSetup
 	input >> vers;
 	assert( vers <= kCurrentSetupVersion );
 
-	JBoolean hadFilter;
+	bool hadFilter;
 	input >> JBoolFromString(hadFilter);
 	if (hadFilter)
 		{
@@ -426,11 +426,11 @@ JXFileListSet::WriteSetup
 	JString regexStr;
 	if (itsTable->GetFilterRegex(&regexStr))
 		{
-		output << JBoolToString(kJTrue) << ' ' << regexStr;
+		output << JBoolToString(true) << ' ' << regexStr;
 		}
 	else
 		{
-		output << JBoolToString(kJFalse);
+		output << JBoolToString(false);
 		}
 
 	output << ' ' << (long) itsFilterType;

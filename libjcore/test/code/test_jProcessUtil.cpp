@@ -46,7 +46,7 @@ Test
 		const JUtf8Byte* expected = va_arg(ap, const JUtf8Byte*);
 		const JString* arg        = argList.GetElement(i);
 		JAssertStringsEqualWithMessage(expected, *arg,
-			(JString(origCmd, kJFalse) + ", " + JString((JUInt64) i)).GetBytes());
+			(JString(origCmd, JString::kNoCopy) + ", " + JString((JUInt64) i)).GetBytes());
 		}
 
 	va_end(ap);
@@ -54,8 +54,8 @@ Test
 
 JTEST(ProgramAvailable)
 {
-	JAssertTrue(JProgramAvailable(JString("ls", kJFalse)));
-	JAssertFalse(JProgramAvailable(JString("foo_bar_baz_shug", kJFalse)));
+	JAssertTrue(JProgramAvailable(JString("ls", JString::kNoCopy)));
+	JAssertFalse(JProgramAvailable(JString("foo_bar_baz_shug", JString::kNoCopy)));
 }
 
 JTEST(CleanArg)

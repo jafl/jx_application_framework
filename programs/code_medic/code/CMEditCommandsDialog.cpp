@@ -27,7 +27,7 @@ const JFileVersion kCurrentSetupVersion = 0;
 
 CMEditCommandsDialog::CMEditCommandsDialog()
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue),
+	JXDialogDirector(JXGetApplication(), true),
 	JPrefObject(CMGetPrefsManager(), kEditCommandsDialogID)
 {
 	itsCommands	= jnew JPtrArray<JString>(JPtrArrayT::kForgetAll);
@@ -111,7 +111,7 @@ CMEditCommandsDialog::BuildWindow()
 	window->SetTitle(JGetString("WindowTitle::CMEditCommandsDialog"));
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	SetButtons(okButton, cancelButton);
 
 	ListenTo(itsNewButton);
@@ -124,7 +124,7 @@ CMEditCommandsDialog::BuildWindow()
 								0,0, 10,10);
 	assert(itsWidget != nullptr);
 	itsWidget->SyncWithData();
-	itsWidget->FitToEnclosure(kJTrue, kJTrue);	// requires sync
+	itsWidget->FitToEnclosure(true, true);	// requires sync
 }
 
 /******************************************************************************
@@ -202,21 +202,21 @@ CMEditCommandsDialog::DeleteString
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMEditCommandsDialog::OKToDeactivate()
 {
 	if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	if (!itsWidget->EndEditing())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	CMGetPrefsManager()->SetCmdList(*itsCommands);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

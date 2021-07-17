@@ -88,7 +88,7 @@ GLMDIServer::HandleMDIRequest
 	pg.RaiseWhenUpdate();
 	if (argCount > 4)
 		{
-		pg.FixedLengthProcessBeginning(argCount-1, JGetString("OpenFilesProgress::GLMDIServer"), kJTrue, kJFalse);
+		pg.FixedLengthProcessBeginning(argCount-1, JGetString("OpenFilesProgress::GLMDIServer"), true, false);
 		}
 
 	for (JIndex i=2; i<=argCount; i++)
@@ -99,9 +99,9 @@ GLMDIServer::HandleMDIRequest
 			continue;
 			}
 
-		JBoolean shouldOpen = kJTrue;
+		bool shouldOpen = true;
 
-		const JBoolean isFile = JFileExists(fileName);
+		const bool isFile = JFileExists(fileName);
 		if (!isFile && JNameUsed(fileName))
 			{
 			const JUtf8Byte* map[] =
@@ -110,17 +110,17 @@ GLMDIServer::HandleMDIRequest
 			};
 			const JString msg = JGetString("NotAFile::GLMDIServer", map, sizeof(map));
 			un->ReportError(msg);
-			shouldOpen = kJFalse;
+			shouldOpen = false;
 			}
 		else if (!isFile)
 			{
-			shouldOpen = kJFalse;
+			shouldOpen = false;
 /*			JString msg = "\"";
 			msg += fileName;
 			msg += "\" does not exist.  Do you want to create it?";
 			if (!un->AskUserYes(msg))
 				{
-				shouldOpen = kJFalse;
+				shouldOpen = false;
 				}
 			else
 				{
@@ -129,7 +129,7 @@ GLMDIServer::HandleMDIRequest
 					{
 					un->ReportError("Unable to create it.  "
 						"Please check that the directory is writable.");
-					shouldOpen = kJFalse;
+					shouldOpen = false;
 					}
 				}*/
 			}

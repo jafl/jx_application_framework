@@ -30,7 +30,7 @@ JXEditWWWPrefsDialog::JXEditWWWPrefsDialog
 	const JString&	composeMailCmd
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(showURLCmd, showFileContentCmd, showFileLocationCmd, composeMailCmd);
 }

@@ -31,8 +31,8 @@ public:
 
 	SyGFileTreeNode*		GetSyGParent();
 	const SyGFileTreeNode*	GetSyGParent() const;
-	JBoolean				GetSyGParent(SyGFileTreeNode** parent);
-	JBoolean				GetSyGParent(const SyGFileTreeNode** parent) const;
+	bool				GetSyGParent(SyGFileTreeNode** parent);
+	bool				GetSyGParent(const SyGFileTreeNode** parent) const;
 
 	SyGFileTreeNode*		GetSyGChild(const JIndex index);
 	const SyGFileTreeNode*	GetSyGChild(const JIndex index) const;

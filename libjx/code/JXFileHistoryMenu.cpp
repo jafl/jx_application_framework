@@ -68,7 +68,7 @@ JXFileHistoryMenu::JXFileHistoryMenu
 void
 JXFileHistoryMenu::JXFileHistoryMenuX()
 {
-	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small), kJFalse);
+	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small), false);
 }
 
 /******************************************************************************
@@ -109,7 +109,7 @@ JXFileHistoryMenu::GetFile
 	const
 {
 	JString path;
-	const JBoolean ok = GetItemNMShortcut(index, &path);
+	const bool ok = GetItemNMShortcut(index, &path);
 	assert( ok );
 	path.TrimWhitespace();
 
@@ -147,7 +147,7 @@ JXFileHistoryMenu::AddFile
 		return;
 		}
 
-	JString path(" ", 1);
+	JString path(" ");
 	path.Append(origPath);
 	path.Append(" ");
 

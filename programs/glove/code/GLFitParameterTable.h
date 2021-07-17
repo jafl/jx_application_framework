@@ -34,15 +34,15 @@ public:
 	void	CopyParmValuesToStart();
 	void	GetValueString(JString* text);
 
-	void		ShowStartCol(const JBoolean show = kJTrue);
-	JBoolean	IsShowingStartCol() const;
+	void		ShowStartCol(const bool show = true);
+	bool	IsShowingStartCol() const;
 
 	const JArray<JFloat>&	GetStartValues() const;
 
 	virtual void	HandleKeyPress(const JUtf8Character& c,
 								   const int keySym, const JXKeyModifiers& modifiers) override;
 
-	JBoolean		BeginEditingStartValues();
+	bool		BeginEditingStartValues();
 	void			PrintOnPage(JPagePrinter& p, JCoordinate* height);
 
 protected:
@@ -57,7 +57,7 @@ protected:
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
 	virtual void			PrepareDeleteXInputField() override;
-	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual bool		ExtractInputData(const JPoint& cell) override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
@@ -69,7 +69,7 @@ private:
 	JArray<JFloat>*		itsErrorValues;
 	JCoordinate			itsMinColWidth;
 	JXFloatInput*		itsInput;
-	JBoolean			itsHasStartValues;
+	bool			itsHasStartValues;
 
 	GLParmColHeaderWidget*	itsColHeaderWidget;
 
@@ -123,7 +123,7 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GLFitParameterTable::IsShowingStartCol()
 	const
 {

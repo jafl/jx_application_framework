@@ -71,7 +71,7 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}
@@ -221,13 +221,13 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 
 [uU]?[rR]?\" {
 	StartToken();
-	itsDoubleQuoteFlag = kJTrue;
+	itsDoubleQuoteFlag = true;
 	BEGIN(SHORT_STRING_STATE);
 	}
 
 [uU]?[rR]?\' {
 	StartToken();
-	itsDoubleQuoteFlag = kJFalse;
+	itsDoubleQuoteFlag = false;
 	BEGIN(SHORT_STRING_STATE);
 	}
 
@@ -277,13 +277,13 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 
 [uU]?[rR]?\"\"\" {
 	StartToken();
-	itsDoubleQuoteFlag = kJTrue;
+	itsDoubleQuoteFlag = true;
 	BEGIN(LONG_STRING_STATE);
 	}
 
 [uU]?[rR]?\'\'\' {
 	StartToken();
-	itsDoubleQuoteFlag = kJFalse;
+	itsDoubleQuoteFlag = false;
 	BEGIN(LONG_STRING_STATE);
 	}
 

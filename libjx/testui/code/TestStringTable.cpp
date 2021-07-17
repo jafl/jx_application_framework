@@ -183,7 +183,7 @@ TestStringTable::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	itsIsDraggingFlag = kJFalse;
+	itsIsDraggingFlag = false;
 	if (button > kJXRightButton)
 		{
 		ScrollForWheel(button, modifiers);
@@ -212,7 +212,7 @@ TestStringTable::HandleMouseDown
 			s.SetBoat(cell);
 			s.SetAnchor(cell);
 			s.SelectCell(cell);
-			itsIsDraggingFlag = kJTrue;
+			itsIsDraggingFlag = true;
 			}
 		else
 			{
@@ -333,7 +333,7 @@ TestStringTable::HandleMouseDrag
 		ScrollForDrag(pt);
 
 		JPoint cell;
-		const JBoolean ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
+		const bool ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
 		assert( ok );
 		(GetTableSelection()).ExtendSelection(cell);
 		}
@@ -475,7 +475,7 @@ TestStringTable::HandleTableMenu
 		// SetCol() would be the fastest in this case.  But it's a good stress test.
 
 		JProgressDisplay* pg = JNewPG();
-		pg->FixedLengthProcessBeginning(40, JGetString("Progress::TestStringTable"), kJTrue, kJFalse);
+		pg->FixedLengthProcessBeginning(40, JGetString("Progress::TestStringTable"), true, false);
 
 		JStringTableData* data   = GetStringData();
 		const JSize origRowCount = GetRowCount();

@@ -22,10 +22,10 @@ public:
 
 	virtual void	OpenFile() const override;
 	virtual void	OpenComplementFile() const override;
-	virtual void	ViewPlainDiffs(const JBoolean silent) const override;
-	virtual void	ViewVCSDiffs(const JBoolean silent) const override;
+	virtual void	ViewPlainDiffs(const bool silent) const override;
+	virtual void	ViewVCSDiffs(const bool silent) const override;
 
-	virtual JBoolean	ParseFiles(CBFileListTable* parser,
+	virtual bool	ParseFiles(CBFileListTable* parser,
 								   const JPtrArray<JString>& allSuffixList,
 								   CBSymbolList* symbolList,
 								   CBCTree* cTree, CBDTree* dTree, CBGoTree* goTree,
@@ -38,7 +38,7 @@ public:
 
 private:
 
-	JBoolean	ParseFile(const JString& fullName, CBFileListTable* parser,
+	bool	ParseFile(const JString& fullName, CBFileListTable* parser,
 						  const JPtrArray<JString>& allSuffixList,
 						  CBSymbolList* symbolList,
 						  CBCTree* cTree, CBDTree* dTree, CBGoTree* goTree,

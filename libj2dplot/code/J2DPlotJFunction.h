@@ -18,13 +18,13 @@ class J2DPlotJFunction : public JPlotFunctionBase
 {
 public:
 
-	static JBoolean Create(	J2DPlotJFunction **plotfunction, J2DPlotWidget* plot,
+	static bool Create(	J2DPlotJFunction **plotfunction, J2DPlotWidget* plot,
 							JVariableList* varList, JFontManager* fontManager,
 							const JString& function,
 							const JIndex xIndex, const JFloat xMin, const JFloat xMax);
 
 	J2DPlotJFunction(J2DPlotWidget* plot, JVariableList* varList, JFunction* f,
-					const JBoolean ownsFn, const JIndex xIndex,
+					const bool ownsFn, const JIndex xIndex,
 					const JFloat xMin, const JFloat xMax);
 
 	virtual ~J2DPlotJFunction();
@@ -32,10 +32,10 @@ public:
 	const JVariableList*	GetVariableList() const;
 	const JFunction&		GetFunction() const;
 	virtual JString			GetFunctionString() const override;
-	virtual JBoolean		GetYValue(const JFloat x, JFloat* y) const override;
+	virtual bool		GetYValue(const JFloat x, JFloat* y) const override;
 
 	void	SetFunction(JVariableList* varList, JFunction* f,
-						const JBoolean ownsFn, const JIndex xIndex,
+						const bool ownsFn, const JIndex xIndex,
 						const JFloat xMin, const JFloat xMax);
 
 protected:
@@ -46,7 +46,7 @@ private:
 
 	JVariableList*	itsVarList;		// not owned
 	JFunction*		itsFunction;
-	JBoolean		itsOwnsFnFlag;	// kJTrue => delete itsFunction when destructed
+	bool		itsOwnsFnFlag;	// true => delete itsFunction when destructed
 	JIndex			itsXIndex;
 };
 

@@ -23,8 +23,8 @@
 CBCSharpScanner::CBCSharpScanner()
 	:
 	CBCSharpFlexLexer(),
-	itsResetFlag(kJFalse),
-	itsIsDocCommentFlag(kJFalse)
+	itsResetFlag(false),
+	itsIsDocCommentFlag(false)
 {
 }
 
@@ -49,7 +49,7 @@ CBCSharpScanner::BeginScan
 	std::istream&					input
 	)
 {
-	itsResetFlag = kJTrue;
+	itsResetFlag = true;
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 

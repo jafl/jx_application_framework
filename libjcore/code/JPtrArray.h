@@ -48,7 +48,7 @@ public:
 
 	const JPtrArray<T>& CopyPointers(const JPtrArray<T>& source,
 									 const JPtrArrayT::CleanUpAction action,
-									 const JBoolean append);
+									 const bool append);
 
 	void	InsertAtIndex(const JIndex index, T* dataPtr);
 	void	Prepend(T* dataPtr);
@@ -64,7 +64,7 @@ public:
 
 	const JPtrArray<T>& CopyObjects(const JPtrArray<T>& source,
 									const JPtrArrayT::CleanUpAction action,
-									const JBoolean append);
+									const bool append);
 
 	void		InsertAtIndex(const JIndex index, const T& data);
 	void		Prepend(const T& data);
@@ -74,14 +74,14 @@ public:
 	void		SetElement(const JIndex index, const T& data,
 						   const JPtrArrayT::SetElementAction action);
 
-	JBoolean	Remove(const T* dataPtr);
+	bool	Remove(const T* dataPtr);
 	void		DeleteElement(const JIndex index);
 	void		DeleteAll();
 	void		DeleteElementAsArray(const JIndex index);
 	void		DeleteAllAsArrays();
 
-	JBoolean	Includes(const T* dataPtr) const;
-	JBoolean	Find(const T* dataPtr, JIndex* elementIndex) const;
+	bool	Includes(const T* dataPtr) const;
+	bool	Find(const T* dataPtr, JIndex* elementIndex) const;
 
 	JPtrArrayT::CleanUpAction	GetCleanUpAction() const;
 	void						SetCleanUpAction(const JPtrArrayT::CleanUpAction action);
@@ -141,16 +141,16 @@ public:
 
 	// only allowed if constructed from non-const JList<T>*
 
-	JBoolean	SetPrev(T* dataPtr, const JPtrArrayT::SetElementAction action,
-						const JBoolean move = kJTrue);
-	JBoolean	SetNext(T* dataPtr, const JPtrArrayT::SetElementAction action,
-						const JBoolean move = kJTrue);
+	bool	SetPrev(T* dataPtr, const JPtrArrayT::SetElementAction action,
+					const JIteratorAction move = kJIteratorMove);
+	bool	SetNext(T* dataPtr, const JPtrArrayT::SetElementAction action,
+					const JIteratorAction move = kJIteratorMove);
 
-	JBoolean	DeletePrev();
-	JBoolean	DeleteNext();
+	bool	DeletePrev();
+	bool	DeleteNext();
 
-	JBoolean	DeletePrevAsArray();
-	JBoolean	DeleteNextAsArray();
+	bool	DeletePrevAsArray();
+	bool	DeleteNextAsArray();
 };
 
 #pragma GCC diagnostic pop

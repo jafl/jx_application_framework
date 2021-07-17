@@ -38,11 +38,11 @@ JRTTIBase::~JRTTIBase()
 /******************************************************************************
  Is
 
-	Returns kJTrue if we are of the given type.
+	Returns true if we are of the given type.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JRTTIBase::Is
 	(
 	const JUtf8Byte* type
@@ -50,5 +50,5 @@ JRTTIBase::Is
 	const
 {
 	assert( type != nullptr );
-	return JI2B( type == itsType || strcmp(type, itsType) == 0 );
+	return type == itsType || strcmp(type, itsType) == 0;
 }

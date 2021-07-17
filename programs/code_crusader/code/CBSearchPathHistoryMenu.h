@@ -26,10 +26,10 @@ public:
 
 	virtual ~CBSearchPathHistoryMenu();
 
-	void	AddPath(const JString& fullName, const JBoolean recurse);
+	void	AddPath(const JString& fullName, const bool recurse);
 
-	const JString&	GetPath(const Message& message, JBoolean* recurse) const;
-	const JString&	GetPath(const JIndex index, JBoolean* recurse) const;
+	const JString&	GetPath(const Message& message, bool* recurse) const;
+	const JString&	GetPath(const JIndex index, bool* recurse) const;
 
 protected:
 

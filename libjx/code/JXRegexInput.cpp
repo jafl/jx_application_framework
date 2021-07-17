@@ -21,7 +21,7 @@
 JXRegexInput::JXRegexInput
 	(
 	JRegex*				testRegex,
-	const JBoolean		widgetOwnsRegex,
+	const bool		widgetOwnsRegex,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -57,12 +57,12 @@ JXRegexInput::~JXRegexInput()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXRegexInput::InputValid()
 {
 	if (!JXInputField::InputValid())
 		{
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -70,18 +70,18 @@ JXRegexInput::InputValid()
 
 		if (!IsRequired() && text.IsEmpty())
 			{
-			return kJTrue;
+			return true;
 			}
 
 		const JError err = itsTestRegex->SetPattern(text);
 		if (err.OK())
 			{
-			return kJTrue;
+			return true;
 			}
 		else
 			{
 			err.ReportIfError();
-			return kJFalse;
+			return false;
 			}
 		}
 }

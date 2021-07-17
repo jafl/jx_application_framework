@@ -18,35 +18,35 @@ class JXDialogDirector : public JXWindowDirector
 {
 public:
 
-	JXDialogDirector(JXDirector* supervisor, const JBoolean modal);
+	JXDialogDirector(JXDirector* supervisor, const bool modal);
 
 	virtual ~JXDialogDirector();
 
-	JBoolean	IsModal() const;
+	bool	IsModal() const;
 	JXButton*	GetOKButton() const;
 	JXButton*	GetCancelButton() const;
 	void		SetButtons(JXButton* okButton, JXButton* cancelButton);
 
 	void	BeginDialog();
-	void	EndDialog(const JBoolean success);
+	void	EndDialog(const bool success);
 
 	virtual void		Activate() override;
-	virtual JBoolean	Deactivate() override;
+	virtual bool	Deactivate() override;
 
 protected:
 
-	void	UseModalPlacement(const JBoolean doIt);
+	void	UseModalPlacement(const bool doIt);
 
-	virtual JBoolean	OKToDeactivate() override;
-	JBoolean			Cancelled() const;		// for use in OKToDeactivate()
+	virtual bool	OKToDeactivate() override;
+	bool			Cancelled() const;		// for use in OKToDeactivate()
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	const JBoolean	itsModalFlag;
-	JBoolean		itsAutoGeomFlag;
-	JBoolean		itsCancelFlag;
+	const bool	itsModalFlag;
+	bool		itsAutoGeomFlag;
+	bool		itsCancelFlag;
 	JXButton*		itsOKButton;
 	JXButton*		itsCancelButton;
 
@@ -67,13 +67,13 @@ public:
 		{
 		public:
 
-			Deactivated(const JBoolean success)
+			Deactivated(const bool success)
 				:
 				JBroadcaster::Message(kDeactivated),
 				itsSuccessFlag(success)
 				{ };
 
-			JBoolean
+			bool
 			Successful() const
 			{
 				return itsSuccessFlag;
@@ -81,7 +81,7 @@ public:
 
 		private:
 
-			const JBoolean	itsSuccessFlag;
+			const bool	itsSuccessFlag;
 		};
 };
 
@@ -91,7 +91,7 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDialogDirector::IsModal()
 	const
 {
@@ -112,7 +112,7 @@ JXDialogDirector::BeginDialog()
 /******************************************************************************
  EndDialog
 
-	If success is kJTrue, we close ourselves with success.
+	If success is true, we close ourselves with success.
 	Otherwise, we close as if cancelled.
 
 	We don't bother to return the result of Deactivate() because, if it
@@ -123,13 +123,13 @@ JXDialogDirector::BeginDialog()
 inline void
 JXDialogDirector::EndDialog
 	(
-	const JBoolean success
+	const bool success
 	)
 {
 	itsCancelFlag = !success;
 	if (!Deactivate())
 		{
-		itsCancelFlag = kJTrue;		// so WM_DELETE_WINDOW => cancel
+		itsCancelFlag = true;		// so WM_DELETE_WINDOW => cancel
 		}
 }
 
@@ -137,14 +137,14 @@ JXDialogDirector::EndDialog
  UseModalPlacement (protected)
 
 	Modal dialogs are normally centered on the screen so the user will
-	instantly notice them.  Call this with kJFalse to turn off this behavior.
+	instantly notice them.  Call this with false to turn off this behavior.
 
  ******************************************************************************/
 
 inline void
 JXDialogDirector::UseModalPlacement
 	(
-	const JBoolean doIt
+	const bool doIt
 	)
 {
 	itsAutoGeomFlag = doIt;
@@ -155,7 +155,7 @@ JXDialogDirector::UseModalPlacement
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDialogDirector::Cancelled()
 	const
 {

@@ -157,12 +157,12 @@ JXFSDirMenu::JXFSDirMenuX()
 void
 JXFSDirMenu::JXFSDirMenuX1()
 {
-	itsOwnsFileIcon = kJFalse;
-	itsOwnsExecIcon = kJFalse;
+	itsOwnsFileIcon = false;
+	itsOwnsExecIcon = false;
 
-	itsShowPathFlag          = kJFalse;
-	itsDereferenceLinksFlag  = kJFalse;
-	itsDeleteBrokenLinksFlag = kJFalse;
+	itsShowPathFlag          = false;
+	itsDereferenceLinksFlag  = false;
+	itsDeleteBrokenLinksFlag = false;
 
 	CompressHeight();
 	SetUpdateAction(JXMenu::kDisableNone);
@@ -199,7 +199,7 @@ JXFSDirMenu::~JXFSDirMenu()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSDirMenu::GetDirInfo
 	(
 	JDirInfo** info
@@ -216,7 +216,7 @@ JXFSDirMenu::GetDirInfo
 		}
 
 	*info = itsDirInfo;
-	return JI2B(*info != nullptr);
+	return *info != nullptr;
 }
 
 /******************************************************************************
@@ -276,7 +276,7 @@ JXFSDirMenu::SetFileIcon
 	itsFileIcon = jnew JXImage(image);
 	assert( itsFileIcon != nullptr );
 
-	itsOwnsFileIcon = kJTrue;
+	itsOwnsFileIcon = true;
 }
 
 void
@@ -291,7 +291,7 @@ JXFSDirMenu::SetFileIcon
 		}
 
 	itsFileIcon     = GetDisplay()->GetImageCache()->GetImage(data);
-	itsOwnsFileIcon = kJFalse;
+	itsOwnsFileIcon = false;
 }
 
 /******************************************************************************
@@ -313,7 +313,7 @@ JXFSDirMenu::SetExecIcon
 	itsExecIcon = jnew JXImage(image);
 	assert( itsExecIcon != nullptr );
 
-	itsOwnsExecIcon = kJTrue;
+	itsOwnsExecIcon = true;
 }
 
 void
@@ -328,7 +328,7 @@ JXFSDirMenu::SetExecIcon
 		}
 
 	itsExecIcon     = GetDisplay()->GetImageCache()->GetImage(data);
-	itsOwnsExecIcon = kJFalse;
+	itsOwnsExecIcon = false;
 }
 
 /******************************************************************************
@@ -397,7 +397,7 @@ JXFSDirMenu::UpdateSelf()
 
 	if (itsDirInfo == nullptr)
 		{
-		JBoolean ok;
+		bool ok;
 		if (itsParent != nullptr && itsParent->itsDirInfo != nullptr)
 			{
 			// copy options
@@ -491,22 +491,22 @@ JXFSDirMenu::AppendEntry
 			{
 			DisableItem(i);
 			}
-		SetItemImage(i, itsFolderIcon, kJFalse);
+		SetItemImage(i, itsFolderIcon, false);
 		}
 	else if (entry.IsFile())
 		{
 		if (entry.IsExecutable())
 			{
-			SetItemImage(i, itsExecIcon, kJFalse);
+			SetItemImage(i, itsExecIcon, false);
 			}
 		else
 			{
-			SetItemImage(i, itsFileIcon, kJFalse);
+			SetItemImage(i, itsFileIcon, false);
 			}
 		}
 	else
 		{
-		SetItemImage(i, itsUnknownIcon, kJFalse);
+		SetItemImage(i, itsUnknownIcon, false);
 		}
 }
 

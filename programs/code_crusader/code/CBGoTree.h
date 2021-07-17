@@ -31,7 +31,7 @@ public:
 	virtual void	StreamOut(std::ostream& projOutput, std::ostream* setOutput,
 							  std::ostream* symOutput, const CBDirList* dirList) const override;
 
-	virtual JBoolean	UpdateFinished(const JArray<JFAID_t>& deadFileList) override;
+	virtual bool	UpdateFinished(const JArray<JFAID_t>& deadFileList) override;
 
 protected:
 

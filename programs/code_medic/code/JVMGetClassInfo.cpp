@@ -22,7 +22,7 @@ JVMGetClassInfo::JVMGetClassInfo
 	const JUInt64 id
 	)
 	:
-	CMCommand("", kJTrue, kJFalse),
+	CMCommand("", true, false),
 	itsID(id)
 {
 	CMCommand::Send();

@@ -28,7 +28,7 @@ const JSize kQuiescentPeriod = 1000;	// 1 second (milliseconds)
 
 TestPGTask::TestPGTask
 	(
-	const JBoolean fixedLength
+	const bool fixedLength
 	)
 	:
 	JXIdleTask(kQuiescentPeriod)
@@ -39,11 +39,11 @@ TestPGTask::TestPGTask
 	if (fixedLength)
 		{
 		itsPG->FixedLengthProcessBeginning(kStepCount, JGetString("ProcessText::TestPGTask"),
-										   kJTrue, kJTrue);
+										   true, true);
 		}
 	else
 		{
-		itsPG->VariableLengthProcessBeginning(JGetString("ProcessText::TestPGTask"), kJTrue, kJTrue);
+		itsPG->VariableLengthProcessBeginning(JGetString("ProcessText::TestPGTask"), true, true);
 		}
 }
 
@@ -73,7 +73,7 @@ TestPGTask::Perform
 	Time*		maxSleepTime
 	)
 {
-	JBoolean keepGoing = kJTrue;
+	bool keepGoing = true;
 	if (TimeToPerform(delta, maxSleepTime))
 		{
 		JWait(0.5);		// simulate massive, greedy number crunching

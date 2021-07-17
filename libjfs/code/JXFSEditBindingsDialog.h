@@ -31,18 +31,18 @@ public:
 	void	CheckIfNeedRevert();
 	void	AddBinding(const JString& suffix, const JString& cmd,
 					   const JFSBinding::CommandType type,
-					   const JBoolean singleFile);
+					   const bool singleFile);
 
 protected:
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
 	JXFSBindingTable*	itsTable;
 	JFSBindingList*		itsBindingList;
-	JBoolean			itsNeedsSaveFlag;
+	bool			itsNeedsSaveFlag;
 	JFSBindingList*		itsOrigBindingList;		// not owned
 
 // begin JXLayout
@@ -67,11 +67,11 @@ private:
 	void		BuildWindow();
 	void		NeedsSave();
 	void		DataReverted();
-	JBoolean	Save(const JBoolean askReplace);
-	void		Revert(const JBoolean updateList);
-	JBoolean	CheckData();
+	bool	Save(const bool askReplace);
+	void		Revert(const bool updateList);
+	bool	CheckData();
 
-	JBoolean	ReadSetup();
+	bool	ReadSetup();
 	void		WriteSetup();
 
 	void		ReadSetup(std::istream& input);

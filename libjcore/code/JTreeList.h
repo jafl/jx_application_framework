@@ -25,17 +25,17 @@ public:
 	JTree*			GetTree();
 	const JTree*	GetTree() const;
 
-	JBoolean			IndexValid(const JIndex index) const;
+	bool			IndexValid(const JIndex index) const;
 	JTreeNode*			GetNode(const JIndex index);
 	const JTreeNode*	GetNode(const JIndex index) const;
-	JBoolean			FindNode(const JTreeNode* node, JIndex* index) const;
+	bool			FindNode(const JTreeNode* node, JIndex* index) const;
 
-	JBoolean	IsVisible(const JTreeNode* node) const;
+	bool	IsVisible(const JTreeNode* node) const;
 	void		MakeVisible(const JTreeNode* node);
-	JBoolean	IsOpen(const JIndex index) const;
-	JBoolean	IsOpen(const JTreeNode* node) const;
-	JBoolean	Open(const JIndex index);
-	JBoolean	Open(const JTreeNode* node);
+	bool	IsOpen(const JIndex index) const;
+	bool	IsOpen(const JTreeNode* node) const;
+	bool	Open(const JIndex index);
+	bool	Open(const JTreeNode* node);
 	void		Close(const JIndex index);
 	void		Close(const JTreeNode* node);
 	void		Toggle(const JIndex index);
@@ -45,15 +45,15 @@ public:
 	void		OpenSiblings(const JTreeNode* node);
 	void		CloseSiblings(const JIndex index);
 	void		CloseSiblings(const JTreeNode* node);
-	JBoolean	OpenDescendants(const JIndex index, const JSize maxDepth);
-	JBoolean	OpenDescendants(const JTreeNode* node, const JSize maxDepth);
+	bool	OpenDescendants(const JIndex index, const JSize maxDepth);
+	bool	OpenDescendants(const JTreeNode* node, const JSize maxDepth);
 	void		CloseDescendants(const JIndex index);
 	void		CloseDescendants(const JTreeNode* node);
 
 protected:
 
-	virtual JBoolean	ShouldOpenSibling(const JTreeNode* node);
-	virtual JBoolean	ShouldOpenDescendant(const JTreeNode* node);
+	virtual bool	ShouldOpenSibling(const JTreeNode* node);
+	virtual bool	ShouldOpenDescendant(const JTreeNode* node);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -62,7 +62,7 @@ private:
 	JTree*					itsTree;
 	JPtrArray<JTreeNode>*	itsVisibleNodeList;		// contents owned by itsTree
 	JPtrArray<JTreeNode>*	itsOpenNodeList;		// contents owned by itsTree
-	JBoolean				itsWasOpenBeforeMoveFlag;
+	bool				itsWasOpenBeforeMoveFlag;
 
 private:
 
@@ -74,7 +74,7 @@ private:
 	void	RemoveElement(const JIndex index);
 
 	void		ShowChildren(const JIndex index, const JTreeNode* parent);
-	JBoolean	OpenDescendants1(const JTreeNode* node, JSize* depth,
+	bool	OpenDescendants1(const JTreeNode* node, JSize* depth,
 								 const JSize maxDepth);
 
 	// not allowed
@@ -202,7 +202,7 @@ JTreeList::GetTree()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeList::IndexValid
 	(
 	const JIndex index
@@ -241,7 +241,7 @@ JTreeList::GetNode
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeList::FindNode
 	(
 	const JTreeNode*	node,
@@ -257,7 +257,7 @@ JTreeList::FindNode
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeList::IsVisible
 	(
 	const JTreeNode* node
@@ -272,7 +272,7 @@ JTreeList::IsVisible
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeList::IsOpen
 	(
 	const JIndex index
@@ -282,7 +282,7 @@ JTreeList::IsOpen
 	return itsOpenNodeList->Includes(GetNode(index));
 }
 
-inline JBoolean
+inline bool
 JTreeList::IsOpen
 	(
 	const JTreeNode* node
@@ -297,7 +297,7 @@ JTreeList::IsOpen
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeList::Open
 	(
 	const JIndex index
@@ -353,7 +353,7 @@ JTreeList::CloseSiblings
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTreeList::OpenDescendants
 	(
 	const JIndex	index,

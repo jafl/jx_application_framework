@@ -38,8 +38,8 @@ const JUtf8Byte* CBCommand::kFinished = "Finished::CBCommand";
 CBCommand::CBCommand
 	(
 	const JString&		path,
-	const JBoolean		refreshVCSStatusWhenFinished,
-	const JBoolean		beepWhenFinished,
+	const bool		refreshVCSStatusWhenFinished,
+	const bool		beepWhenFinished,
 	CBProjectDocument*	projDoc
 	)
 	:
@@ -48,15 +48,15 @@ CBCommand::CBCommand
 	itsOutputDoc(nullptr),
 	itsBeepFlag(beepWhenFinished),
 	itsRefreshVCSStatusFlag(refreshVCSStatusWhenFinished),
-	itsUpdateSymbolDatabaseFlag(kJFalse),
-	itsInQueueFlag(kJFalse),
-	itsSuccessFlag(kJTrue),
-	itsCancelledFlag(kJFalse),
+	itsUpdateSymbolDatabaseFlag(false),
+	itsInQueueFlag(false),
+	itsSuccessFlag(true),
+	itsCancelledFlag(false),
 	itsMakeDependCmd(nullptr),
 	itsBuildOutputDoc(nullptr),
 	itsRunOutputDoc(nullptr),
 	itsParent(nullptr),
-	itsCallParentProcessFinishedFlag(kJTrue)
+	itsCallParentProcessFinishedFlag(true)
 {
 	assert( JIsAbsolutePath(path) );
 
@@ -94,7 +94,7 @@ CBCommand::~CBCommand()
 
 	if (itsParent != nullptr && itsRefreshVCSStatusFlag)
 		{
-		itsParent->itsRefreshVCSStatusFlag = kJTrue;
+		itsParent->itsRefreshVCSStatusFlag = true;
 		}
 	else if (itsRefreshVCSStatusFlag)
 		{
@@ -111,7 +111,7 @@ CBCommand::~CBCommand()
 	for (JIndex i=1; i<=count; i++)
 		{
 		CmdInfo info = itsCmdList->GetElement(i);
-		info.Free(kJTrue);
+		info.Free(true);
 		}
 	jdelete itsCmdList;
 
@@ -162,7 +162,7 @@ CBCommand::FinishWindow
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommand::Add
 	(
 	const JPtrArray<JString>&	cmdArgs,
@@ -186,7 +186,7 @@ CBCommand::Add
 			if (strcmp(cmdName, fnStack->Peek(j)) == 0)
 				{
 				ReportInfiniteLoop(*fnStack, j);
-				return kJFalse;
+				return false;
 				}
 			}
 
@@ -198,15 +198,16 @@ CBCommand::Add
 			(itsProjDoc != nullptr ? itsProjDoc->GetCommandManager() : CBGetCommandManager());
 		CBCommand* cmdObj;
 		CBCommandManager::CmdInfo* cmdInfo;
-		if (mgr->Prepare(JString(cmdName, kJFalse), itsProjDoc, fullNameList, lineIndexList,
+		if (mgr->Prepare(JString(cmdName, JString::kNoCopy),
+						 itsProjDoc, fullNameList, lineIndexList,
 						 &cmdObj, &cmdInfo, fnStack))
 			{
 			cmdObj->SetParent(this);
-			itsCmdList->AppendElement(CmdInfo(nullptr, cmdObj, cmdInfo, kJFalse));
+			itsCmdList->AppendElement(CmdInfo(nullptr, cmdObj, cmdInfo, false));
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 
 		fnStack->Pop();
@@ -215,12 +216,12 @@ CBCommand::Add
 		{
 		JPtrArray<JString>* args = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( args != nullptr );
-		args->CopyObjects(cmdArgs, JPtrArrayT::kDeleteAll, kJFalse);
+		args->CopyObjects(cmdArgs, JPtrArrayT::kDeleteAll, false);
 
-		itsCmdList->AppendElement(CmdInfo(args, nullptr, nullptr, kJFalse));
+		itsCmdList->AppendElement(CmdInfo(args, nullptr, nullptr, false));
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -241,7 +242,7 @@ CBCommand::Add
 	assert( info != nullptr );
 	*info = cmdInfo.Copy();
 
-	itsCmdList->AppendElement(CmdInfo(nullptr, subCmd, info, kJFalse));
+	itsCmdList->AppendElement(CmdInfo(nullptr, subCmd, info, false));
 }
 
 /******************************************************************************
@@ -291,11 +292,11 @@ CBCommand::MarkEndOfSequence()
 /******************************************************************************
  Start
 
-	Returns kJFalse if it deletes us.
+	Returns false if it deletes us.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommand::Start
 	(
 	const CBCommandManager::CmdInfo& info
@@ -306,7 +307,7 @@ CBCommand::Start
 
 	if (info.isMake)
 		{
-		itsUpdateSymbolDatabaseFlag = kJTrue;
+		itsUpdateSymbolDatabaseFlag = true;
 
 		CBCommand* p = itsParent;
 		while (p != nullptr)
@@ -363,13 +364,13 @@ CBCommand::Start
 
 	if (info.saveAll)	// ok, now that we have decided that command can be executed
 		{
-		CBGetDocumentManager()->SaveTextDocuments(kJFalse);
+		CBGetDocumentManager()->SaveTextDocuments(false);
 		JWait(1.1);		// ensure timestamp is different if any other program modifies the files and then does --revert-all-saved
 		}
 
 	if (info.isVCS)
 		{
-		itsUpdateSymbolDatabaseFlag = kJTrue;
+		itsUpdateSymbolDatabaseFlag = true;
 		}
 
 	if (itsUpdateSymbolDatabaseFlag)
@@ -379,7 +380,7 @@ CBCommand::Start
 
 	// after saving all files, update Makefile
 
-	JBoolean waitForMakeDepend = kJFalse;
+	bool waitForMakeDepend = false;
 	if (info.isMake && itsProjDoc != nullptr)
 		{
 		waitForMakeDepend =
@@ -390,14 +391,14 @@ CBCommand::Start
 		{
 		if (itsMakeDependCmd != nullptr)
 			{
-			itsCmdList->PrependElement(CmdInfo(nullptr, itsMakeDependCmd, nullptr, kJTrue));
+			itsCmdList->PrependElement(CmdInfo(nullptr, itsMakeDependCmd, nullptr, true));
 			ListenTo(itsMakeDependCmd);		// many may need to hear; can't use SetParent()
-			return kJTrue;
+			return true;
 			}
 		else
 			{
 			DeleteThis();
-			return kJFalse;
+			return false;
 			}
 		}
 	else if (StartProcess())
@@ -407,11 +408,11 @@ CBCommand::Start
 			itsOutputDoc->Activate();
 			}
 
-		return kJTrue;
+		return true;
 		}
 	else	// we have been deleted
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -420,7 +421,7 @@ CBCommand::Start
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommand::StartMakeProcess
 	(
 	CBExecOutputDocument* outputDoc
@@ -460,11 +461,11 @@ CBCommand::SetCompileDocStrings()
 /******************************************************************************
  StartProcess (private)
 
-	Returns kJFalse if it deletes us.
+	Returns false if it deletes us.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommand::StartProcess()
 {
 	// check if we are finished
@@ -472,7 +473,7 @@ CBCommand::StartProcess()
 	while (!itsCmdList->IsEmpty() && (itsCmdList->GetElement(1)).IsEndOfSequence())
 		{
 		CmdInfo info = itsCmdList->GetElement(1);
-		info.Free(kJTrue);
+		info.Free(true);
 		itsCmdList->RemoveElement(1);
 		}
 	if (itsCmdList->IsEmpty())
@@ -482,17 +483,17 @@ CBCommand::StartProcess()
 			(JXGetApplication()->GetCurrentDisplay())->Beep();
 			}
 		DeleteThis();
-		return kJFalse;
+		return false;
 		}
 
 	// check if we can use the window
 
-	itsInQueueFlag = kJFalse;
+	itsInQueueFlag = false;
 	if (itsOutputDoc != nullptr && itsOutputDoc->ProcessRunning())
 		{
-		itsInQueueFlag = kJTrue;
+		itsInQueueFlag = true;
 		ListenTo(itsOutputDoc);
-		return kJTrue;	// wait for message from itsOutputDoc
+		return true;	// wait for message from itsOutputDoc
 		}
 
 	// check if need to run a subroutine
@@ -501,8 +502,8 @@ CBCommand::StartProcess()
 	if (info.cmdObj != nullptr)
 		{
 		StopListening(itsOutputDoc);	// wait for CBCommand to notify us
-		const JBoolean result = (info.cmdObj)->Start(*(info.cmdInfo));
-		info.Free(kJFalse);
+		const bool result = (info.cmdObj)->Start(*(info.cmdInfo));
+		info.Free(false);
 		itsCmdList->RemoveElement(1);
 		return result;
 		}
@@ -511,7 +512,7 @@ CBCommand::StartProcess()
 
 	assert( info.cmd != nullptr );
 
-	JShouldIncludeCWDOnPath(kJTrue);
+	JShouldIncludeCWDOnPath(true);
 
 	JProcess* p;
 	int toFD, fromFD;
@@ -526,17 +527,17 @@ CBCommand::StartProcess()
 	else
 		{
 		JSimpleProcess* p1;
-		execErr = JSimpleProcess::Create(&p1, itsCmdPath, *(info.cmd), kJTrue);
+		execErr = JSimpleProcess::Create(&p1, itsCmdPath, *(info.cmd), true);
 		p       = p1;
 		}
 
-	JShouldIncludeCWDOnPath(kJFalse);
+	JShouldIncludeCWDOnPath(false);
 
 	if (!execErr.OK())
 		{
 		execErr.ReportIfError();
 		DeleteThis();
-		return kJFalse;
+		return false;
 		}
 
 	if (itsOutputDoc != nullptr)
@@ -550,7 +551,7 @@ CBCommand::StartProcess()
 			}
 
 		itsOutputDoc->SetConnection(p, fromFD, toFD, itsWindowTitle, itsDontCloseMsg,
-									itsCmdPath, cmd, kJTrue);
+									itsCmdPath, cmd, true);
 
 		// We can't do this in Start() because we might be waiting for
 		// itsMakeDependCmd.  We must not listen to both at the same time.
@@ -563,9 +564,9 @@ CBCommand::StartProcess()
 		JThisProcess::Ignore(p);
 		}
 
-	info.Free(kJTrue);
+	info.Free(true);
 	itsCmdList->RemoveElement(1);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -576,13 +577,13 @@ CBCommand::StartProcess()
 void
 CBCommand::ProcessFinished
 	(
-	const JBoolean success,
-	const JBoolean cancelled
+	const bool success,
+	const bool cancelled
 	)
 {
 	if (!itsInQueueFlag)
 		{
-		itsSuccessFlag   = JI2B(itsSuccessFlag && success);
+		itsSuccessFlag   = itsSuccessFlag && success;
 		itsCancelledFlag = cancelled;
 		}
 
@@ -592,7 +593,7 @@ CBCommand::ProcessFinished
 			{
 			assert( !itsInQueueFlag );
 			CmdInfo info = itsCmdList->GetElement(1);
-			info.Free(kJFalse);			// don't delete CBCommand because it is deleting itself
+			info.Free(false);			// don't delete CBCommand because it is deleting itself
 			itsCmdList->RemoveElement(1);
 			}
 		StartProcess();		// may delete us
@@ -600,7 +601,7 @@ CBCommand::ProcessFinished
 	else if (!itsCmdList->IsEmpty() && (itsCmdList->GetElement(1)).isMakeDepend)
 		{
 		CmdInfo info = itsCmdList->GetElement(1);
-		info.Free(kJFalse);				// don't delete CBCommand because it is deleting itself
+		info.Free(false);				// don't delete CBCommand because it is deleting itself
 		itsCmdList->RemoveElement(1);
 
 		DeleteThis();
@@ -611,7 +612,7 @@ CBCommand::ProcessFinished
 			   !(itsCmdList->GetElement(1)).IsEndOfSequence())
 			{
 			CmdInfo info = itsCmdList->GetElement(1);
-			info.Free(kJTrue);
+			info.Free(true);
 			itsCmdList->RemoveElement(1);
 			}
 		StartProcess();		// may delete us
@@ -639,17 +640,17 @@ CBCommand::Receive
 		const JProcess::Finished* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
 		assert( info != nullptr );
-		const JBoolean cancelled = JI2B(info->GetReason() != kJChildFinished);
-		ProcessFinished(JI2B(info->Successful() && !cancelled), cancelled);
+		const bool cancelled = info->GetReason() != kJChildFinished;
+		ProcessFinished(info->Successful() && !cancelled, cancelled);
 		}
 	else if (sender == itsMakeDependCmd && message.Is(CBCommand::kFinished))
 		{
 		const CBCommand::Finished* info =
 			dynamic_cast<const CBCommand::Finished*>(&message);
 		assert( info != nullptr );
-		itsMakeDependCmd         = nullptr;
-		const JBoolean cancelled = info->Cancelled();
-		ProcessFinished(JI2B(info->Successful() && !cancelled), cancelled);
+		itsMakeDependCmd     = nullptr;
+		const bool cancelled = info->Cancelled();
+		ProcessFinished(info->Successful() && !cancelled, cancelled);
 		}
 	else
 		{
@@ -692,11 +693,11 @@ CBCommand::ReceiveWithFeedback
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommand::CmdInfo::IsEndOfSequence()
 	const
 {
-	return JI2B( cmd == nullptr && cmdObj == nullptr );
+	return cmd == nullptr && cmdObj == nullptr;
 }
 
 /******************************************************************************
@@ -704,11 +705,11 @@ CBCommand::CmdInfo::IsEndOfSequence()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommand::CmdInfo::IsSubroutine()
 	const
 {
-	return JI2B( cmd == nullptr && cmdObj != nullptr );
+	return cmd == nullptr && cmdObj != nullptr;
 }
 
 /******************************************************************************
@@ -719,7 +720,7 @@ CBCommand::CmdInfo::IsSubroutine()
 void
 CBCommand::CmdInfo::Free
 	(
-	const JBoolean deleteCmdObj
+	const bool deleteCmdObj
 	)
 {
 	jdelete cmd;
@@ -727,7 +728,7 @@ CBCommand::CmdInfo::Free
 
 	if (deleteCmdObj && cmdObj != nullptr)
 		{
-		cmdObj->itsCallParentProcessFinishedFlag = kJFalse;
+		cmdObj->itsCallParentProcessFinishedFlag = false;
 		jdelete cmdObj;
 		cmdObj = nullptr;
 		}

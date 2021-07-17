@@ -28,7 +28,7 @@ SyGChooseSaveFile::SyGChooseSaveFile
 	:
 	JXChooseSaveFile(prefsMgr, id),
 	itsPathDialog(nullptr),
-	itsOpenInNewWindow(kJTrue)
+	itsOpenInNewWindow(true)
 {
 	JPrefObject::ReadPrefs();
 }
@@ -78,7 +78,7 @@ SyGChooseSaveFile::CreateChooseFileDialog
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
 	const JString&	origName,
-	const JBoolean	allowSelectMultiple,
+	const bool	allowSelectMultiple,
 	const JString&	message
 	)
 {
@@ -101,7 +101,7 @@ SyGChooseSaveFile::CreateChoosePathDialog
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	selectOnlyWritable,
+	const bool	selectOnlyWritable,
 	const JString&	message
 	)
 {
@@ -117,7 +117,7 @@ SyGChooseSaveFile::CreateChoosePathDialog
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGChooseSaveFile::IsOpeningInNewWindow()
 	const
 {
@@ -127,7 +127,7 @@ SyGChooseSaveFile::IsOpeningInNewWindow()
 void
 SyGChooseSaveFile::ShouldOpenInNewWindow
 	(
-	const JBoolean newWindow
+	const bool newWindow
 	)
 {
 	itsOpenInNewWindow = newWindow;

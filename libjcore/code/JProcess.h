@@ -86,35 +86,35 @@ public:
 	void	Kill();
 
 	void		WaitUntilFinished();
-	JBoolean	IsFinished() const;
-	JBoolean	SuccessfulFinish() const;
-	JBoolean	GetFinishReason(JChildExitReason* reason, int* result) const;
-	JBoolean	GetReturnValue(int* result) const;
-	JBoolean	GetTermSignal(int* result) const;
-	JBoolean	GetStopSignal(int* result) const;
+	bool	IsFinished() const;
+	bool	SuccessfulFinish() const;
+	bool	GetFinishReason(JChildExitReason* reason, int* result) const;
+	bool	GetReturnValue(int* result) const;
+	bool	GetTermSignal(int* result) const;
+	bool	GetStopSignal(int* result) const;
 
 	JError	SendSignal(const int signal);
 	JError	SendSignalToGroup(const int signal);
 
 	JError	SetPriority(const int priority);
 
-	JBoolean	WillDeleteWhenFinished() const;
-	void		ShouldDeleteWhenFinished(const JBoolean deleteObj = kJTrue);
+	bool	WillDeleteWhenFinished() const;
+	void		ShouldDeleteWhenFinished(const bool deleteObj = true);
 
-	static void	CheckForFinishedChild(const JBoolean block);
+	static void	CheckForFinishedChild(const bool block);
 
-	JBoolean	WillQuitAtExit() const;
-	void		QuitAtExit(const JBoolean quit = kJTrue);
+	bool	WillQuitAtExit() const;
+	void		QuitAtExit(const bool quit = true);
 
-	JBoolean	WillKillAtExit() const;
-	void		KillAtExit(const JBoolean kill = kJTrue);
+	bool	WillKillAtExit() const;
+	void		KillAtExit(const bool kill = true);
 
 private:
 
 	const pid_t	itsPID;
-	JBoolean	itsIsFinishedFlag;
+	bool	itsIsFinishedFlag;
 	int			itsFinishedStatus;
-	JBoolean	itsAutoDeleteFlag;	// kJTrue => delete when process is finished
+	bool	itsAutoDeleteFlag;	// true => delete when process is finished
 
 	static JPtrArray<JProcess>	theProcessList;		// sorted by pid
 
@@ -146,12 +146,12 @@ public:
 				itsStatus(status)
 				{ };
 
-			JBoolean
+			bool
 			Successful() const
 			{
 				int result;
 				const JChildExitReason reason = JDecodeChildExitReason(itsStatus, &result);
-				return JConvertToBoolean( reason == kJChildFinished && result == 0 );
+				return reason == kJChildFinished && result == 0;
 			};
 
 			JChildExitReason
@@ -167,28 +167,28 @@ public:
 				return JDecodeChildExitReason(itsStatus, result);
 			};
 
-			JBoolean
+			bool
 			GetReturnValue(int* result) const
 			{
 				const JChildExitReason reason =
 					JDecodeChildExitReason(itsStatus, result);
-				return JConvertToBoolean( reason == kJChildFinished );
+				return reason == kJChildFinished;
 			};
 
-			JBoolean
+			bool
 			GetTermSignal(int* result) const
 			{
 				const JChildExitReason reason =
 					JDecodeChildExitReason(itsStatus, result);
-				return JConvertToBoolean( reason == kJChildSignalled );
+				return reason == kJChildSignalled;
 			};
 
-			JBoolean
+			bool
 			GetStopSignal(int* result) const
 			{
 				const JChildExitReason reason =
 					JDecodeChildExitReason(itsStatus, result);
-				return JConvertToBoolean( reason == kJChildStopped );
+				return reason == kJChildStopped;
 			};
 
 		private:
@@ -230,23 +230,23 @@ JProcess::GetPGID
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JProcess::IsFinished()
 	const
 {
 	return itsIsFinishedFlag;
 }
 
-inline JBoolean
+inline bool
 JProcess::SuccessfulFinish()
 	const
 {
 	int result;
 	const JChildExitReason reason = JDecodeChildExitReason(itsFinishedStatus, &result);
-	return JConvertToBoolean( itsIsFinishedFlag && reason == kJChildFinished && result == 0 );
+	return itsIsFinishedFlag && reason == kJChildFinished && result == 0;
 }
 
-inline JBoolean
+inline bool
 JProcess::GetFinishReason
 	(
 	JChildExitReason*	reason,
@@ -258,7 +258,7 @@ JProcess::GetFinishReason
 	return itsIsFinishedFlag;
 }
 
-inline JBoolean
+inline bool
 JProcess::GetReturnValue
 	(
 	int* result
@@ -267,10 +267,10 @@ JProcess::GetReturnValue
 {
 	const JChildExitReason reason =
 		JDecodeChildExitReason(itsFinishedStatus, result);
-	return JConvertToBoolean( itsIsFinishedFlag && reason == kJChildFinished );
+	return itsIsFinishedFlag && reason == kJChildFinished;
 }
 
-inline JBoolean
+inline bool
 JProcess::GetTermSignal
 	(
 	int* result
@@ -279,10 +279,10 @@ JProcess::GetTermSignal
 {
 	const JChildExitReason reason =
 		JDecodeChildExitReason(itsFinishedStatus, result);
-	return JConvertToBoolean( itsIsFinishedFlag && reason == kJChildSignalled );
+	return itsIsFinishedFlag && reason == kJChildSignalled;
 }
 
-inline JBoolean
+inline bool
 JProcess::GetStopSignal
 	(
 	int* result
@@ -291,7 +291,7 @@ JProcess::GetStopSignal
 {
 	const JChildExitReason reason =
 		JDecodeChildExitReason(itsFinishedStatus, result);
-	return JConvertToBoolean( itsIsFinishedFlag && reason == kJChildStopped );
+	return itsIsFinishedFlag && reason == kJChildStopped;
 }
 
 /******************************************************************************
@@ -349,7 +349,7 @@ JProcess::SetPriority
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JProcess::WillDeleteWhenFinished()
 	const
 {
@@ -359,7 +359,7 @@ JProcess::WillDeleteWhenFinished()
 inline void
 JProcess::ShouldDeleteWhenFinished
 	(
-	const JBoolean deleteObj
+	const bool deleteObj
 	)
 {
 	itsAutoDeleteFlag = deleteObj;

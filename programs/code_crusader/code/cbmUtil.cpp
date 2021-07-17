@@ -50,7 +50,7 @@ const JFileVersion kCurrentSharedPrefsVersion = 7;
 
 // Prototypes
 
-JBoolean	CBMGetSharedPrefsFileName(JString* fileName);
+bool	CBMGetSharedPrefsFileName(JString* fileName);
 
 #if defined CODE_CRUSADER
 
@@ -62,7 +62,7 @@ JBoolean	CBMGetSharedPrefsFileName(JString* fileName);
 void
 CBMWriteSharedPrefs
 	(
-	const JBoolean replace
+	const bool replace
 	)
 {
 JIndex i;
@@ -192,16 +192,16 @@ JIndex i;
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBMReadSharedPrefs
 	(
 	JString*			fontName,
 	JSize*				fontSize,
 	JSize*				tabCharCount,
-	JBoolean*			sortFnNames,
-	JBoolean*			includeNS,
-	JBoolean*			packFnNames,
-	JBoolean*			openComplFileOnTop,
+	bool*			sortFnNames,
+	bool*			includeNS,
+	bool*			packFnNames,
+	bool*			openComplFileOnTop,
 	const JSize			userColorCount,
 	JRGB				colorList[],
 	JPtrArray<JString>*	cSourceSuffixList,
@@ -216,20 +216,20 @@ CBMReadSharedPrefs
 	JString fileName;
 	if (!CBMGetSharedPrefsFileName(&fileName))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	std::ifstream input(fileName.GetBytes());
 	if (!input.good())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JFileVersion vers;
 	input >> vers;
 	if (vers > kCurrentSharedPrefsVersion)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// font
@@ -240,13 +240,13 @@ CBMReadSharedPrefs
 
 	input >> *tabCharCount >> JBoolFromString(*sortFnNames);
 
-	*includeNS = kJFalse;
+	*includeNS = false;
 	if (vers >= 3)
 		{
 		input >> JBoolFromString(*includeNS);
 		}
 
-	*packFnNames = kJFalse;
+	*packFnNames = false;
 	if (vers >= 1)
 		{
 		input >> JBoolFromString(*packFnNames);
@@ -329,7 +329,7 @@ CBMReadSharedPrefs
 		goSuffixList->DeleteAll();
 		}
 
-	return kJTrue;
+	return true;
 }
 
 #endif
@@ -337,11 +337,11 @@ CBMReadSharedPrefs
 /******************************************************************************
  CBMGetSharedPrefsFileName
 
-	Returns kJTrue if the user has a home directory.
+	Returns true if the user has a home directory.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBMGetSharedPrefsFileName
 	(
 	JString* fileName
@@ -350,12 +350,12 @@ CBMGetSharedPrefsFileName
 	if (JGetPrefsDirectory(fileName))
 		{
 		*fileName = JCombinePathAndName(*fileName, kSharedPrefsFileName);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		fileName->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -389,28 +389,28 @@ CBMParseEditorOptions
 	(
 	const JString&	fullName,
 	const JString&	text,
-	JBoolean*		setTabWidth,
+	bool*		setTabWidth,
 	JSize*			tabWidth,
-	JBoolean*		setTabMode,
-	JBoolean*		tabInsertsSpaces,
-	JBoolean*		setAutoIndent,
-	JBoolean*		autoIndent
+	bool*		setTabMode,
+	bool*		tabInsertsSpaces,
+	bool*		setAutoIndent,
+	bool*		autoIndent
 	)
 {
 	// configure patterns
 
-	emacsTopTabWidthOption.SetCaseSensitive(kJFalse);
-	emacsTopTabWidthOption.SetSingleLine(kJTrue);
-	emacsTopTabModeOption.SetCaseSensitive(kJFalse);
-	emacsTopTabModeOption.SetSingleLine(kJTrue);
-	emacsTabWidthOption.SetCaseSensitive(kJFalse);
-	emacsTabModeOption.SetCaseSensitive(kJFalse);
+	emacsTopTabWidthOption.SetCaseSensitive(false);
+	emacsTopTabWidthOption.SetSingleLine(true);
+	emacsTopTabModeOption.SetCaseSensitive(false);
+	emacsTopTabModeOption.SetSingleLine(true);
+	emacsTabWidthOption.SetCaseSensitive(false);
+	emacsTabModeOption.SetCaseSensitive(false);
 
 	// process file
 
-	*setTabWidth   = kJFalse;
-	*setTabMode    = kJFalse;
-	*setAutoIndent = kJFalse;
+	*setTabWidth   = false;
+	*setTabMode    = false;
+	*setAutoIndent = false;
 
 	{
 	editorconfig_handle eh = editorconfig_handle_init();
@@ -424,8 +424,8 @@ CBMParseEditorOptions
 			editorconfig_handle_get_name_value(eh, i, &name, &value);
 			if (strcmp(name, "indent_style") == 0)
 				{
-				*setTabMode       = kJTrue;
-				*tabInsertsSpaces = JI2B( strcmp(value, "space") == 0 );
+				*setTabMode       = true;
+				*tabInsertsSpaces = strcmp(value, "space") == 0;
 				}
 			}
 
@@ -452,13 +452,13 @@ CBMParseEditorOptions
 	}
 
 	const JStringMatch
-		emacsTopTabWidthMatch = emacsTopTabWidthOption.Match(text, kJTrue),
-		emacsTabWidthMatch    = emacsTabWidthOption.Match(text, kJTrue),
-		viTabWidthMatch       = viTabWidthOption.Match(text, kJTrue),
-		emacsTopTabModeMatch  = emacsTopTabModeOption.Match(text, kJTrue),
-		emacsTabModeMatch     = emacsTabModeOption.Match(text, kJTrue),
-		viTabModeMatch        = viTabModeOption.Match(text, kJTrue),
-		viAutoIndentMatch     = viAutoIndentOption.Match(text, kJTrue);
+		emacsTopTabWidthMatch = emacsTopTabWidthOption.Match(text, JRegex::kIncludeSubmatches),
+		emacsTabWidthMatch    = emacsTabWidthOption.Match(text, JRegex::kIncludeSubmatches),
+		viTabWidthMatch       = viTabWidthOption.Match(text, JRegex::kIncludeSubmatches),
+		emacsTopTabModeMatch  = emacsTopTabModeOption.Match(text, JRegex::kIncludeSubmatches),
+		emacsTabModeMatch     = emacsTabModeOption.Match(text, JRegex::kIncludeSubmatches),
+		viTabModeMatch        = viTabModeOption.Match(text, JRegex::kIncludeSubmatches),
+		viAutoIndentMatch     = viAutoIndentOption.Match(text, JRegex::kIncludeSubmatches);
 
 	if (!emacsTopTabWidthMatch.IsEmpty())
 		{
@@ -479,26 +479,26 @@ CBMParseEditorOptions
 	if (!emacsTopTabModeMatch.IsEmpty())
 		{
 		const JString s   = emacsTopTabModeMatch.GetSubstring(1);
-		*setTabMode       = kJTrue;
-		*tabInsertsSpaces = JI2B(s == "nil");
+		*setTabMode       = true;
+		*tabInsertsSpaces = s == "nil";
 		}
 	else if (!emacsTabModeMatch.IsEmpty())
 		{
 		const JString s   = emacsTabModeMatch.GetSubstring(1);
-		*setTabMode       = kJTrue;
-		*tabInsertsSpaces = JI2B(s == "nil");
+		*setTabMode       = true;
+		*tabInsertsSpaces = s == "nil";
 		}
 	else if (!viTabModeMatch.IsEmpty())
 		{
 		const JString s   = viTabModeMatch.GetSubstring(1);
-		*setTabMode       = kJTrue;
-		*tabInsertsSpaces = JI2B(s == "s");
+		*setTabMode       = true;
+		*tabInsertsSpaces = s == "s";
 		}
 
 	if (!viAutoIndentMatch.IsEmpty())
 		{
 		const JString s = viAutoIndentMatch.GetSubstring(1);
-		*setAutoIndent  = kJTrue;
+		*setAutoIndent  = true;
 		*autoIndent     = !s.BeginsWith("no");
 		}
 }
@@ -585,7 +585,7 @@ CBMScrollForDefinition
 		{
 		// search backwards for line that is neither comment nor empty
 
-		makeCommentPattern.SetCaseSensitive(kJFalse);
+		makeCommentPattern.SetCaseSensitive(false);
 		cbmIncludeScriptComments(iter, makeCommentPattern);
 		}
 	else if (lang == kCBAntLang)
@@ -677,7 +677,7 @@ CBMBalanceFromSelection
 	)
 {
 	JCharacterRange sel;
-	JBoolean hasSelection = te->GetSelection(&sel);
+	bool hasSelection = te->GetSelection(&sel);
 
 	JStringIterator openIter(te->GetText()->GetText(), kJIteratorStartBefore, te->GetInsertionCharIndex());
 
@@ -686,27 +686,27 @@ CBMBalanceFromSelection
 	JUtf8Character c;
 	if (hasSelection && sel.first == sel.last)
 		{
-		openIter.Next(&c, kJFalse);
+		openIter.Next(&c, kJIteratorStay);
 		if (CBMIsOpenGroup(lang, c))
 			{
-			hasSelection = kJFalse;
+			hasSelection = false;
 			openIter.SkipNext();
 			}
 		else if (CBMIsCloseGroup(lang, c))
 			{
-			hasSelection = kJFalse;
+			hasSelection = false;
 			}
 		}
-	else if (openIter.Next(&c, kJFalse) && CBMIsOpenGroup(lang, c) &&
+	else if (openIter.Next(&c, kJIteratorStay) && CBMIsOpenGroup(lang, c) &&
 			 (openIter.AtBeginning() ||
-			  (openIter.Prev(&c, kJFalse) &&
+			  (openIter.Prev(&c, kJIteratorStay) &&
 			   !CBMIsOpenGroup(lang, c) && !CBMIsCloseGroup(lang, c))))
 		{
 		openIter.SkipNext();
 		}
-	else if (openIter.Prev(&c, kJFalse) && CBMIsCloseGroup(lang, c) &&
+	else if (openIter.Prev(&c, kJIteratorStay) && CBMIsCloseGroup(lang, c) &&
 			 (openIter.AtEnd() ||
-			  (openIter.Next(&c, kJFalse) &&
+			  (openIter.Next(&c, kJIteratorStay) &&
 			   !CBMIsOpenGroup(lang, c) && !CBMIsCloseGroup(lang, c))))
 		{
 		openIter.SkipPrev();
@@ -718,7 +718,7 @@ CBMBalanceFromSelection
 		return;
 		}
 
-	const JString s(te->GetText()->GetText(), kJFalse);
+	const JString s(te->GetText()->GetText(), JString::kNoCopy);
 	JStringIterator closeIter(s, kJIteratorStartBefore, openIter.GetNextCharacterIndex());
 
 	// balance groupers until the selection is enclosed or we get an error
@@ -726,10 +726,10 @@ CBMBalanceFromSelection
 	while (1)
 		{
 		JUtf8Character cOpen;
-		const JBoolean foundOpen = CBMBalanceBackward(lang, &openIter, &cOpen);
+		const bool foundOpen = CBMBalanceBackward(lang, &openIter, &cOpen);
 
 		JUtf8Character cClose;
-		const JBoolean foundClose = CBMBalanceForward(lang, &closeIter, &cClose);
+		const bool foundClose = CBMBalanceForward(lang, &closeIter, &cClose);
 
 		if (foundOpen && foundClose && CBMIsMatchingPair(lang, cOpen, cClose))
 			{
@@ -788,7 +788,7 @@ CBMBalanceFromSelection
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBMBalanceForward
 	(
 	const CBLanguage	lang,
@@ -800,8 +800,8 @@ CBMBalanceForward
 
 	while (iter->Next(c))
 		{
-		const JBoolean isOpen  = CBMIsOpenGroup(lang, *c);
-		const JBoolean isClose = CBMIsCloseGroup(lang, *c);
+		const bool isOpen  = CBMIsOpenGroup(lang, *c);
+		const bool isClose = CBMIsCloseGroup(lang, *c);
 
 		if (isOpen)
 			{
@@ -809,22 +809,22 @@ CBMBalanceForward
 			}
 		else if (isClose && openList.IsEmpty())
 			{
-			return kJTrue;
+			return true;
 			}
 		else if (isClose)
 			{
 			const JUtf8Byte c1 = openList.Pop();
 			if (!CBMIsMatchingPair(lang, JUtf8Character(c1), *c))
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
-JBoolean
+bool
 CBMBalanceBackward
 	(
 	const CBLanguage	lang,
@@ -836,8 +836,8 @@ CBMBalanceBackward
 
 	while (iter->Prev(c))
 		{
-		const JBoolean isOpen  = CBMIsOpenGroup(lang, *c);
-		const JBoolean isClose = CBMIsCloseGroup(lang, *c);
+		const bool isOpen  = CBMIsOpenGroup(lang, *c);
+		const bool isClose = CBMIsCloseGroup(lang, *c);
 
 		if (isClose)
 			{
@@ -845,19 +845,19 @@ CBMBalanceBackward
 			}
 		else if (isOpen && closeList.IsEmpty())
 			{
-			return kJTrue;
+			return true;
 			}
 		else if (isOpen)
 			{
 			const JUtf8Byte c1 = closeList.Pop();
 			if (!CBMIsMatchingPair(lang, *c, JUtf8Character(c1)))
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -868,13 +868,13 @@ CBMBalanceBackward
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBMIsCharacterInWord
 	(
 	const JUtf8Character& c
 	)
 {
-	return JI2B( c.IsAlnum() || c == '_' );
+	return c.IsAlnum() || c == '_';
 }
 
 #ifdef CODE_CRUSADER

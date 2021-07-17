@@ -18,9 +18,9 @@ public:
 
 	virtual ~JTEKeyHandler();
 
-	virtual JBoolean	HandleKeyPress(const JUtf8Character& c, const JBoolean selectText,
+	virtual bool	HandleKeyPress(const JUtf8Character& c, const bool selectText,
 									   const JTextEditor::CaretMotion motion,
-									   const JBoolean deleteToTabStop) = 0;
+									   const bool deleteToTabStop) = 0;
 
 	// called by JTextEditor
 
@@ -30,8 +30,8 @@ protected:
 
 	JTextEditor*	GetTE() const;
 	void			InsertKeyPress(const JUtf8Character& c);
-	void			BackwardDelete(const JBoolean deleteToTabStop, JString* text = nullptr);
-	void			ForwardDelete(const JBoolean deleteToTabStop, JString* text = nullptr);
+	void			BackwardDelete(const bool deleteToTabStop, JString* text = nullptr);
+	void			ForwardDelete(const bool deleteToTabStop, JString* text = nullptr);
 	void			MoveCaretVert(const JInteger deltaLines);
 
 private:

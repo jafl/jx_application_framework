@@ -20,10 +20,10 @@
 
 StyledText::StyledText
 	(
-	const JBoolean useMultipleUndo
+	const bool useMultipleUndo
 	)
 	:
-	JStyledText(useMultipleUndo, kJTrue),
+	JStyledText(useMultipleUndo, true),
 	itsStyler(nullptr),
 	itsTokenStartList(nullptr)
 {
@@ -51,7 +51,7 @@ StyledText::AdjustStylesBeforeBroadcast
 	JRunArray<JFont>*	styles,
 	TextRange*			recalcRange,
 	TextRange*			redrawRange,
-	const JBoolean		deletion
+	const bool		deletion
 	)
 {
 	if (itsStyler != nullptr)

@@ -341,7 +341,7 @@ JTEST(Sort)
 	long element[]    = { 3, -1, 10 };
 	const long eCount = sizeof(element)/sizeof(long);
 
-	JBoolean isDuplicate;
+	bool isDuplicate;
 	for (JIndex i=0; i<eCount; i++)
 		{
 		const JIndex j = a.GetInsertionSortIndex(element[i], &isDuplicate);
@@ -352,18 +352,18 @@ JTEST(Sort)
 	verify("-1 1 1 1 3 3 5 10", a);
 
 	JAssertTrue(a.InsertSorted(4));
-	JAssertFalse(a.InsertSorted(3, kJFalse));
+	JAssertFalse(a.InsertSorted(3, false));
 	verify("-1 1 1 1 3 3 4 5 10", a);
 
 // test binary search (sorted ascending)
 
 	{
 	long element[]   = {     2,     1,    -1,    10,     -3,     20};
-	JBoolean found[] = {kJFalse, kJTrue, kJTrue, kJTrue, kJFalse, kJFalse};
+	bool found[] = {false, true, true, true, false, false};
 	JIndex first[]   = {     0,     2,     1,     9,      0,      0};
 	JIndex last[]    = {     0,     4,     1,     9,      0,      0};
 	const long eCount = sizeof(element)/sizeof(long);
-	assert( eCount == sizeof(found)/sizeof(JBoolean) );
+	assert( eCount == sizeof(found)/sizeof(bool) );
 
 	for (JIndex i=0; i<eCount; i++)
 		{
@@ -388,11 +388,11 @@ JTEST(Sort)
 
 	{
 	long element[]   = {     2,     1,    -1,    10,     -3,     20};
-	JBoolean found[] = {kJFalse, kJTrue, kJTrue, kJTrue, kJFalse, kJFalse};
+	bool found[] = {false, true, true, true, false, false};
 	JIndex first[]   = {     0,     6,     9,     1,      0,      0};
 	JIndex last[]    = {     0,     8,     9,     1,      0,      0};
 	const long eCount = sizeof(element)/sizeof(long);
-	assert( eCount == sizeof(found)/sizeof(JBoolean) );
+	assert( eCount == sizeof(found)/sizeof(bool) );
 
 	for (JIndex i=0; i<eCount; i++)
 		{
@@ -423,26 +423,26 @@ JTEST(SearchSorted1EdgeCases)
 
 	// one element: 1
 
-	const JBoolean found1[] = { kJFalse, kJTrue, kJFalse };
+	const bool found1[] = { false, true, false };
 	const JIndex index1[]   = {      1,     1,      2 };
 
 	// two different elements: 1 3
 
-	const JBoolean found2[] = { kJFalse, kJTrue, kJFalse, kJTrue, kJFalse };
+	const bool found2[] = { false, true, false, true, false };
 	const JIndex index2[]   = {      1,     1,      2,     2,      3 };
 
 	// two equal elements: 1 1
 
-	const JBoolean found2_same_first[] = { kJFalse, kJTrue, kJFalse };
+	const bool found2_same_first[] = { false, true, false };
 	const JIndex index2_same_first[]   = {      1,     1,      3 };
 
-	const JBoolean found2_same_any[] = { kJFalse, kJTrue, kJFalse };
+	const bool found2_same_any[] = { false, true, false };
 	const JIndex index2_same_any[]   = {      1,     1,      3 };
 
-	const JBoolean found2_same_last[] = { kJFalse, kJTrue, kJFalse };
+	const bool found2_same_last[] = { false, true, false };
 	const JIndex index2_same_last[]   = {      1,     2,      3 };
 
-	const JBoolean* found2_same[] = { found2_same_first, found2_same_any, found2_same_last };
+	const bool* found2_same[] = { found2_same_first, found2_same_any, found2_same_last };
 	const JIndex* index2_same[]   = { index2_same_first, index2_same_any, index2_same_last };
 
 	JArray<long> a3(1); // Ridiculous block size to really exercise resizer
@@ -452,13 +452,13 @@ JTEST(SearchSorted1EdgeCases)
 	for (const JListT::SortOrder o : order)
 		{
 		a3.SetSortOrder(o);
-		const JBoolean asc = JI2B(o == JListT::kSortAscending);
+		const bool asc = o == JListT::kSortAscending;
 
 		long j = 0;
 		for (const JListT::SearchReturn s : search)
 			{
 			int k;
-			JBoolean found;
+			bool found;
 
 			a3.RemoveAll();
 			a3.AppendElement(1);
@@ -552,14 +552,14 @@ JTEST(MoveCtor)
 	JAssertEqual(5, a2.GetElement(3));
 }
 
-JBoolean matchGreater(const long v)
+bool matchGreater(const long v)
 {
-	return JI2B( v > 3 );
+	return v > 3;
 };
 
-JBoolean matchLess(const long v)
+bool matchLess(const long v)
 {
-	return JI2B( v < 3 );
+	return v < 3;
 };
 
 JTEST(Iterator)
@@ -705,8 +705,8 @@ JTEST(IteratorModification)
 	iter->SkipPrev();
 	verify("-2 -4 -1 5 4 3 2 1 -3", a);
 
-	iter->SetPrev(-4, kJFalse);
-	iter->SetNext(-3, kJFalse);
+	iter->SetPrev(-4, kJIteratorStay);
+	iter->SetNext(-3, kJIteratorStay);
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(-3, j);
 	iter->SkipPrev();

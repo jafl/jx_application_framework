@@ -27,37 +27,37 @@ public:
 public:
 
 	JFSBinding(const JString& pattern, const JString& cmd,
-			   const CommandType type, const JBoolean singleFile,
-			   const JBoolean isSystem);
-	JFSBinding(std::istream& input, const JFileVersion vers, const JBoolean isSystem,
-			   JBoolean* isDefault, JBoolean* del);
+			   const CommandType type, const bool singleFile,
+			   const bool isSystem);
+	JFSBinding(std::istream& input, const JFileVersion vers, const bool isSystem,
+			   bool* isDefault, bool* del);
 
 	virtual	~JFSBinding();
 
-	JBoolean		IsContentBinding() const;
-	JBoolean		Match(const JString& fileName, const JString& content) const;
+	bool		IsContentBinding() const;
+	bool		Match(const JString& fileName, const JString& content) const;
 
 	const JString&	GetPattern() const;
 	void			SetPattern(const JString& pattern);
 
-	const JString&	GetCommand(CommandType* type, JBoolean* singleFile) const;
+	const JString&	GetCommand(CommandType* type, bool* singleFile) const;
 	void			SetCommand(const JString& cmd, const CommandType type,
-							   const JBoolean singleFile);
+							   const bool singleFile);
 
 	CommandType		GetCommandType() const;
 	void			SetCommandType(const CommandType type);
 
-	JBoolean		IsSingleFileCommand() const;
-	void			SetSingleFileCommand(const JBoolean singleFile);
+	bool		IsSingleFileCommand() const;
+	void			SetSingleFileCommand(const bool singleFile);
 
-	JBoolean		IsSystemBinding() const;
+	bool		IsSystemBinding() const;
 
 	static void		ConvertCommand(JString* cmd);
 	static JRegex*	CreateContentRegex();
-	static JBoolean	WillBeRegex(const JString& pattern);
+	static bool	WillBeRegex(const JString& pattern);
 
-	static JFSBinding::CommandType	GetCommandType(const JBoolean shell,
-												   const JBoolean window);
+	static JFSBinding::CommandType	GetCommandType(const bool shell,
+												   const bool window);
 
 	static JListT::CompareResult
 		ComparePatterns(JFSBinding* const & n1, JFSBinding* const & n2);
@@ -67,8 +67,8 @@ private:
 	JString			itsPattern;			// can be empty
 	JString			itsCmd;				// can be empty
 	CommandType		itsCmdType;
-	JBoolean		itsSingleFileFlag;
-	const JBoolean	itsIsSystemFlag;
+	bool		itsSingleFileFlag;
+	const bool	itsIsSystemFlag;
 
 	JRegex*			itsNameRegex;		// can be nullptr
 	JRegex*			itsContentRegex;	// can be nullptr
@@ -125,7 +125,7 @@ inline const JString&
 JFSBinding::GetCommand
 	(
 	CommandType*	type,
-	JBoolean*		singleFile
+	bool*		singleFile
 	)
 	const
 {
@@ -139,7 +139,7 @@ JFSBinding::SetCommand
 	(
 	const JString&		cmd,
 	const CommandType	type,
-	const JBoolean		singleFile
+	const bool		singleFile
 	)
 {
 	itsCmd            = cmd;
@@ -173,7 +173,7 @@ JFSBinding::SetCommandType
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JFSBinding::IsSingleFileCommand()
 	const
 {
@@ -183,7 +183,7 @@ JFSBinding::IsSingleFileCommand()
 inline void
 JFSBinding::SetSingleFileCommand
 	(
-	const JBoolean singleFile
+	const bool singleFile
 	)
 {
 	itsSingleFileFlag = singleFile;
@@ -194,11 +194,11 @@ JFSBinding::SetSingleFileCommand
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JFSBinding::IsContentBinding()
 	const
 {
-	return JI2B(itsContentRegex != nullptr);
+	return itsContentRegex != nullptr;
 }
 
 /******************************************************************************
@@ -206,7 +206,7 @@ JFSBinding::IsContentBinding()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JFSBinding::IsSystemBinding()
 	const
 {

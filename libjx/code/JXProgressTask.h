@@ -18,7 +18,7 @@ class JXProgressTask : public JXIdleTask, virtual public JBroadcaster
 {
 public:
 
-	JXProgressTask(const JString& message, const JBoolean allowCancel);
+	JXProgressTask(const JString& message, const bool allowCancel);
 	JXProgressTask(JProgressDisplay* pg);
 
 	virtual ~JXProgressTask();
@@ -28,11 +28,11 @@ public:
 private:
 
 	JProgressDisplay*	itsPG;
-	JBoolean			itsOwnsPGFlag;
+	bool			itsOwnsPGFlag;
 
 private:
 
-	void	JXProgressTaskX(const JString& message, const JBoolean allowCancel);
+	void	JXProgressTaskX(const JString& message, const bool allowCancel);
 
 	// not allowed
 

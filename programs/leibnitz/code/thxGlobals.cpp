@@ -43,7 +43,7 @@ THXCreateGlobals
 {
 	theApplication = app;
 
-	JBoolean isNew;
+	bool isNew;
 	thePrefsManager	= jnew THXPrefsManager(&isNew);
 	assert( thePrefsManager != nullptr );
 

@@ -23,7 +23,7 @@
 
 JFileID::JFileID()
 	:
-	itsValidFlag(kJFalse)
+	itsValidFlag(false)
 {
 }
 
@@ -47,7 +47,7 @@ JFileID::SetFileName
 	)
 {
 	ACE_stat stbuf;
-	itsValidFlag = JI2B( ACE_OS::stat(fullName.GetBytes(), &stbuf) == 0 );
+	itsValidFlag = ACE_OS::stat(fullName.GetBytes(), &stbuf) == 0;
 	itsDevice    = stbuf.st_dev;
 	itsINode     = stbuf.st_ino;
 }
@@ -57,16 +57,16 @@ JFileID::SetFileName
 
  *****************************************************************************/
 
-JBoolean
+bool
 operator==
 	(
 	const JFileID& lhs,
 	const JFileID& rhs
 	)
 {
-	return JI2B(lhs.itsValidFlag == rhs.itsValidFlag &&
+	return lhs.itsValidFlag == rhs.itsValidFlag &&
 				lhs.itsDevice    == rhs.itsDevice    &&
-				lhs.itsINode     == rhs.itsINode);
+				lhs.itsINode     == rhs.itsINode;
 }
 
 /******************************************************************************

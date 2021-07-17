@@ -39,6 +39,6 @@ CBCTreeScanner::~CBCTreeScanner()
 void
 CBCTreeScanner::ResetState()
 {
-	itsTemplateFlag = kJFalse;
+	itsTemplateFlag = false;
 	itsCurrentClass = nullptr;
 }

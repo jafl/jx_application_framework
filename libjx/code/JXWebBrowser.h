@@ -34,7 +34,7 @@ protected:
 private:
 
 	JXEditWWWPrefsDialog*	itsPrefsDialog;
-	JBoolean				itsSaveChangesFlag;		// optimization
+	bool				itsSaveChangesFlag;		// optimization
 
 private:
 

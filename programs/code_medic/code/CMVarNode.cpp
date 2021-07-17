@@ -25,14 +25,14 @@
 
 CMVarNode::CMVarNode				// root node
 	(
-	const JBoolean shouldUpdate		// kJFalse for Local Variables
+	const bool shouldUpdate		// false for Local Variables
 	)
 	:
 	JNamedTreeNode(nullptr, JString::empty),
 	itsShouldListenToLinkFlag(shouldUpdate)
 {
 	VarTreeNodeX();
-	itsValidFlag = kJTrue;
+	itsValidFlag = true;
 
 	if (itsShouldListenToLinkFlag)
 		{
@@ -47,8 +47,8 @@ CMVarNode::CMVarNode
 	const JString&	value
 	)
 	:
-	JNamedTreeNode(nullptr, name.IsEmpty() ? JString(" ", kJFalse) : name, kJFalse),
-	itsShouldListenToLinkFlag(kJFalse),
+	JNamedTreeNode(nullptr, name.IsEmpty() ? JString(" ", JString::kNoCopy) : name, false),
+	itsShouldListenToLinkFlag(false),
 	itsValue(value)
 {
 	VarTreeNodeX();
@@ -71,16 +71,16 @@ void
 CMVarNode::VarTreeNodeX()
 {
 	itsValueCommand		= nullptr;
-	itsIsPointerFlag	= kJFalse;
+	itsIsPointerFlag	= false;
 	itsValidFlag		= !itsValue.IsEmpty();
-	itsNewValueFlag		= kJFalse;
+	itsNewValueFlag		= false;
 	itsContentCommand	= nullptr;
 
-	itsShouldUpdateFlag = kJFalse;	// window is always initially hidden
-	itsNeedsUpdateFlag  = kJFalse;
+	itsShouldUpdateFlag = false;	// window is always initially hidden
+	itsNeedsUpdateFlag  = false;
 
 	itsBase               = 0;
-	itsCanConvertBaseFlag = kJFalse;
+	itsCanConvertBaseFlag = false;
 	itsOrigValue          = nullptr;
 	ConvertToBase();
 }
@@ -108,7 +108,7 @@ CMVarNode::SetValue
 	const JString& value
 	)
 {
-	itsNewValueFlag = JI2B(!itsValue.IsEmpty() && value != itsValue);
+	itsNewValueFlag = !itsValue.IsEmpty() && value != itsValue;
 	itsValue        = value;	// set *after* checking value
 
 	itsValue.TrimWhitespace();
@@ -158,7 +158,7 @@ const JSize kSpecialCharCount = sizeof(kSpecialCharInfo) / sizeof(CMSpecialCharI
 void
 CMVarNode::ConvertToBase()
 {
-	itsCanConvertBaseFlag = kJFalse;
+	itsCanConvertBaseFlag = false;
 	if (itsOrigValue != nullptr && !itsOrigValue->IsEmpty())
 		{
 		JTree* tree;
@@ -174,7 +174,7 @@ CMVarNode::ConvertToBase()
 		return;		// avoid JRegex match
 		}
 
-	const JStringMatch m = valuePattern.Match(itsValue, kJTrue);
+	const JStringMatch m = valuePattern.Match(itsValue, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
 		{
 		JString vStr = m.GetSubstring(1);
@@ -183,9 +183,8 @@ CMVarNode::ConvertToBase()
 		if (vStr.GetFirstCharacter() == '-')
 			{
 			JInteger v1;
-			itsCanConvertBaseFlag = JI2B(
-				itsBase != 1 &&
-				vStr.ConvertToInteger(&v1, 10));
+			itsCanConvertBaseFlag = itsBase != 1 &&
+				vStr.ConvertToInteger(&v1, 10);
 			if (itsCanConvertBaseFlag)
 				{
 				v = (JUInt) v1;
@@ -193,9 +192,8 @@ CMVarNode::ConvertToBase()
 			}
 		else
 			{
-			itsCanConvertBaseFlag = JI2B(
-				vStr.ConvertToUInt(&v, vStr.GetFirstCharacter() == '0' ? 8 : 10) &&
-				(itsBase != 1 || v <= 255));
+			itsCanConvertBaseFlag = vStr.ConvertToUInt(&v, vStr.GetFirstCharacter() == '0' ? 8 : 10) &&
+				(itsBase != 1 || v <= 255);
 			}
 
 		if (itsCanConvertBaseFlag)
@@ -211,16 +209,16 @@ CMVarNode::ConvertToBase()
 				{
 				assert( 0 <= v && v <= 255 );
 
-				vStr  = JString(v, JString::kBase16, kJTrue);
+				vStr  = JString(v, JString::kBase16, true);
 				vStr += " '";
 
-				JBoolean found = kJFalse;
+				bool found = false;
 				for (JUnsignedOffset i=0; i<kSpecialCharCount; i++)
 					{
 					if (JUtf8Character(v) == kSpecialCharInfo[i].c)
 						{
 						vStr += kSpecialCharInfo[i].s;
-						found = kJTrue;
+						found = true;
 						}
 					}
 				if (!found)
@@ -232,7 +230,7 @@ CMVarNode::ConvertToBase()
 				}
 			else
 				{
-				vStr = JString(v, (JString::Base) itsBase, kJTrue);
+				vStr = JString(v, (JString::Base) itsBase, true);
 				if (itsBase == 8)
 					{
 					vStr.Prepend("0");
@@ -264,7 +262,7 @@ CMVarNode::ConvertToBase()
 void
 CMVarNode::SetValid
 	(
-	const JBoolean valid
+	const bool valid
 	)
 {
 	if (valid != itsValidFlag)
@@ -317,8 +315,8 @@ CMVarNode::GetFontStyle()
 JFontStyle
 CMVarNode::GetFontStyle
 	(
-	const JBoolean isValid,
-	const JBoolean isNew
+	const bool isValid,
+	const bool isNew
 	)
 {
 	if (!isValid)
@@ -342,7 +340,7 @@ CMVarNode::GetFontStyle
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMVarNode::OKToOpen()
 	const
 {
@@ -376,7 +374,7 @@ CMVarNode::Receive
 			}
 		else
 			{
-			itsNeedsUpdateFlag = kJTrue;
+			itsNeedsUpdateFlag = true;
 			}
 		}
 
@@ -386,14 +384,14 @@ CMVarNode::Receive
 		const CMVarCommand::ValueMessage& info =
 			dynamic_cast<const CMVarCommand::ValueMessage&>(message);
 
-		SetValid(kJTrue);
+		SetValid(true);
 		Update(info.GetRootNode());
 		}
 	else if (sender == itsValueCommand &&
 			 message.Is(CMVarCommand::kValueFailed))
 		{
 		SetValue(itsValueCommand->GetData());
-		MakePointer(kJFalse);
+		MakePointer(false);
 		}
 
 	else if (sender == itsContentCommand &&
@@ -433,7 +431,7 @@ CMVarNode::Receive
 		DeleteAllChildren();
 		CMVarNode* child = CMGetLink()->CreateVarNode(this, JString::empty, JString::empty, itsContentCommand->GetData());
 		assert( child != nullptr );
-		child->SetValid(kJFalse);
+		child->SetValid(false);
 		}
 
 	else
@@ -466,7 +464,7 @@ CMVarNode::ReceiveGoingAway
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMVarNode::ShouldUpdate
 	(
 	const Message& message
@@ -478,17 +476,17 @@ CMVarNode::ShouldUpdate
 			dynamic_cast<const CMLink::ProgramStopped&>(message);
 
 		const CMLocation* loc;
-		return JI2B(info.GetLocation(&loc) && !(loc->GetFileName()).IsEmpty());
+		return info.GetLocation(&loc) && !(loc->GetFileName()).IsEmpty();
 		}
 	else
 		{
-		return JI2B(message.Is(CMLink::kValueChanged)      ||
+		return message.Is(CMLink::kValueChanged)      ||
 					message.Is(CMLink::kThreadChanged)     ||
 					message.Is(CMLink::kFrameChanged)      ||
 					message.Is(CMLink::kCoreLoaded)        ||
 					message.Is(CMLink::kCoreCleared)       ||
 					message.Is(CMLink::kAttachedToProcess) ||
-					message.Is(CMLink::kDetachedFromProcess));
+					message.Is(CMLink::kDetachedFromProcess);
 		}
 }
 
@@ -559,7 +557,7 @@ CMVarNode::TrimExpression
 void
 CMVarNode::ShouldUpdate
 	(
-	const JBoolean update
+	const bool update
 	)
 {
 	itsShouldUpdateFlag = update;
@@ -583,7 +581,7 @@ CMVarNode::UpdateChildren()
 		(GetVarChild(i))->UpdateValue();
 		}
 
-	itsNeedsUpdateFlag = kJFalse;
+	itsNeedsUpdateFlag = false;
 }
 
 /******************************************************************************
@@ -604,7 +602,7 @@ CMVarNode::UpdateValue()
 		itsValueCommand = CMGetLink()->CreateVarValueCommand(expr);
 		ListenTo(itsValueCommand);
 
-		SetValid(kJFalse);
+		SetValid(false);
 		itsValueCommand->CMCommand::Send();
 		}
 	else
@@ -626,7 +624,7 @@ CMVarNode::UpdateValue
 	CMVarNode* root
 	)
 {
-	SetValid(kJTrue);
+	SetValid(true);
 	Update(root);
 }
 
@@ -644,8 +642,8 @@ CMVarNode::UpdateFailed
 	)
 {
 	SetValue(data);
-	MakePointer(kJFalse);
-	SetValid(kJFalse);		// faster after deleting children
+	MakePointer(false);
+	SetValid(false);		// faster after deleting children
 }
 
 /******************************************************************************
@@ -677,12 +675,12 @@ CMVarNode::Update
 
 	else if (SameElements(node))
 		{
-		MakePointer(node->itsIsPointerFlag, kJFalse);
+		MakePointer(node->itsIsPointerFlag, false);
 		MergeChildren(node);
 		}
 	else
 		{
-		MakePointer(node->itsIsPointerFlag, kJFalse);
+		MakePointer(node->itsIsPointerFlag, false);
 		StealChildren(node);
 		}
 }
@@ -690,30 +688,30 @@ CMVarNode::Update
 /******************************************************************************
  SameElements (private)
 
-	Returns kJTrue if the given node has the same number of children with
+	Returns true if the given node has the same number of children with
 	the same names as we do.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMVarNode::SameElements
 	(
 	const CMVarNode* node
 	)
 	const
 {
-	JBoolean sameElements = kJFalse;
+	bool sameElements = false;
 
 	if (node->GetChildCount() == GetChildCount())
 		{
-		sameElements = kJTrue;
+		sameElements = true;
 
 		const JSize count = GetChildCount();
 		for (JIndex i=1; i<=count; i++)
 			{
 			if ((GetVarChild(i))->GetName() != (node->GetVarChild(i))->GetName())
 				{
-				sameElements = kJFalse;
+				sameElements = false;
 				break;
 				}
 			}
@@ -730,8 +728,8 @@ CMVarNode::SameElements
 void
 CMVarNode::MakePointer
 	(
-	const JBoolean pointer,
-	const JBoolean adjustOpenable
+	const bool pointer,
+	const bool adjustOpenable
 	)
 {
 	itsIsPointerFlag = pointer;
@@ -845,7 +843,7 @@ CMVarNode::GetVarParent()
 	return n;
 }
 
-JBoolean
+bool
 CMVarNode::GetVarParent
 	(
 	CMVarNode** parent
@@ -856,16 +854,16 @@ CMVarNode::GetVarParent
 		{
 		*parent = dynamic_cast<CMVarNode*>(p);
 		assert( *parent != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 CMVarNode::GetVarParent
 	(
 	const CMVarNode** parent
@@ -877,12 +875,12 @@ CMVarNode::GetVarParent
 		{
 		*parent = dynamic_cast<const CMVarNode*>(p);
 		assert( *parent != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -922,7 +920,7 @@ CMVarNode::GetVarChild
 JString
 CMVarNode::GetFullNameForCFamilyLanguage
 	(
-	JBoolean* isPointer
+	bool* isPointer
 	)
 	const
 {
@@ -941,7 +939,7 @@ CMVarNode::GetFullNameForCFamilyLanguage
 	else if (name.IsEmpty())
 		{
 		JIndex i;
-		const JBoolean found = parent->FindChild(this, &i);
+		const bool found = parent->FindChild(this, &i);
 		assert( found );
 		str = parent->GetFullName(isPointer);
 		if (!str.BeginsWith("(") || !str.EndsWith(")"))
@@ -996,7 +994,7 @@ CMVarNode::GetPathForCFamilyLanguage()
 		return str;
 		}
 
-	JBoolean isPointer = IsPointer();
+	bool isPointer = IsPointer();
 	str  = GetFullName(&isPointer);
 	str += isPointer ? "->" : ".";
 	return str;

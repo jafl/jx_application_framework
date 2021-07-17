@@ -24,7 +24,7 @@ XDGetLocalVars::XDGetLocalVars
 	CMVarNode* rootNode
 	)
 	:
-	CMGetLocalVars(JString("context_names", kJFalse)),
+	CMGetLocalVars(JString("context_names", JString::kNoCopy)),
 	itsRootNode(rootNode)
 {
 }

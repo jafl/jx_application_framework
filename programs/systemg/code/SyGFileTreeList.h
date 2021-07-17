@@ -33,8 +33,8 @@ public:
 
 protected:
 
-	virtual JBoolean	ShouldOpenSibling(const JTreeNode* node);
-	virtual JBoolean	ShouldOpenDescendant(const JTreeNode* node);
+	virtual bool	ShouldOpenSibling(const JTreeNode* node);
+	virtual bool	ShouldOpenDescendant(const JTreeNode* node);
 
 private:
 

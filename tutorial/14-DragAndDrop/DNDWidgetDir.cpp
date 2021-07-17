@@ -70,5 +70,5 @@ DNDWidgetDir::BuildWindow()
 	assert( widget != nullptr );
 
 	// Fit the widget within the scrollbarset enclosure
-	widget->FitToEnclosure(kJTrue, kJTrue);
+	widget->FitToEnclosure(true, true);
 }

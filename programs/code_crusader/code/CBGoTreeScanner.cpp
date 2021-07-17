@@ -58,7 +58,7 @@ CBGoTreeScanner::ParseTypeContent
 		{
 		line->TrimWhitespace();
 
-		const JStringMatch m = nsid.Match(*line, kJTrue);
+		const JStringMatch m = nsid.Match(*line, JRegex::kIncludeSubmatches);
 		if (m.IsEmpty())
 			{
 			continue;

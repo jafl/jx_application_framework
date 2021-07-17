@@ -29,21 +29,21 @@ class JXSharedPrefsManager;
 JXApplication*			JXGetApplication();
 JXChooseSaveFile*		JXGetChooseSaveFile();
 JXAssert*				JXGetAssertHandler();
-JBoolean				JXGetComposeRuleList(JXComposeRuleList** ruleList);
+bool				JXGetComposeRuleList(JXComposeRuleList** ruleList);
 JXSharedPrefsManager*	JXGetSharedPrefsManager();
 
 JXDocumentManager*		JXGetDocumentManager();		// asserts if doesn't exist
 JXHelpManager*			JXGetHelpManager();			// asserts if doesn't exist
 JXDockManager*			JXGetDockManager();
-JBoolean				JXGetDockManager(JXDockManager** dockMgr);
-JBoolean				JXGetMDIServer(JXMDIServer** server);
+bool				JXGetDockManager(JXDockManager** dockMgr);
+bool				JXGetMDIServer(JXMDIServer** server);
 JXWebBrowser*			JXGetWebBrowser();
 JXSpellChecker*			JXGetSpellChecker();
 
 JXDirector*				JXGetPersistentWindowOwner();
 JXSearchTextDialog*		JXGetSearchTextDialog();
 
-JBoolean				JXGetProgramDataDirectories(const JUtf8Byte* dirName,
+bool				JXGetProgramDataDirectories(const JUtf8Byte* dirName,
 													JString* sysDir, JString* userDir);
 
 const JUtf8Byte*		JXGetInvisibleWindowClass();
@@ -51,7 +51,7 @@ const JUtf8Byte*		JXGetDockWindowClass();
 
 	// called by main() or derived classes of JXApplication
 
-void	JXCreateDefaultDocumentManager(const JBoolean wantShortcuts = kJTrue);
+void	JXCreateDefaultDocumentManager(const bool wantShortcuts = true);
 
 void	JXInitHelp();
 
@@ -74,10 +74,10 @@ void JXResumePersistentWindows();
 
 	// called by JX objects
 
-JBoolean	JXGetApplication(JXApplication** app);
-JBoolean	JXGetDocumentManager(JXDocumentManager** docManager);
-JBoolean	JXGetHelpManager(JXHelpManager** helpMgr);
-JBoolean	JXGetSearchTextDialog(JXSearchTextDialog** dlog);
+bool	JXGetApplication(JXApplication** app);
+bool	JXGetDocumentManager(JXDocumentManager** docManager);
+bool	JXGetHelpManager(JXHelpManager** helpMgr);
+bool	JXGetSearchTextDialog(JXSearchTextDialog** dlog);
 void		JXSetDockManager(JXDockManager* dockMgr);
 
 #endif

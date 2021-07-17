@@ -22,8 +22,8 @@ class CBApp : public JXApplication, public JPrefObject
 {
 public:
 
-	CBApp(int* argc, char* argv[], const JBoolean useMDI,
-		  JBoolean* displayAbout, JString* prevVersStr);
+	CBApp(int* argc, char* argv[], const bool useMDI,
+		  bool* displayAbout, JString* prevVersStr);
 
 	virtual ~CBApp();
 
@@ -33,7 +33,7 @@ public:
 	static const JUtf8Byte*	GetAppSignature();
 
 	void	DisplayAbout(const JString& prevVersStr = JString::empty,
-						 const JBoolean init = kJFalse);
+						 const bool init = false);
 	void	EditMiscPrefs();
 
 	JXTextMenu*	CreateHelpMenu(JXMenuBar* menuBar, const JUtf8Byte* idNamespace);
@@ -42,28 +42,28 @@ public:
 	void		HandleHelpMenu(JXTextMenu* menu, const JUtf8Byte* windowSectionName,
 							   const JIndex index);
 
-	JBoolean	FindFile(const JString& fileName, const JBoolean caseSensitive,
-						 JString* fullName) const;
-	JBoolean	FindAndViewFile(const JString& fileName,
-								const JIndexRange lineRange = JIndexRange(),
-								const JBoolean caseSensitive = kJTrue) const;
+	bool	FindFile(const JString& fileName, const JString::Case caseSensitive,
+					 JString* fullName) const;
+	bool	FindAndViewFile(const JString& fileName,
+							const JIndexRange lineRange = JIndexRange(),
+							const JString::Case caseSensitive = JString::kCompareCase) const;
 
 	// called by CBEditGenPrefsDialog
 
-	void	GetWarnings(JBoolean* warnBeforeQuit) const;
-	void	SetWarnings(const JBoolean warnBeforeQuit);
+	void	GetWarnings(bool* warnBeforeQuit) const;
+	void	SetWarnings(const bool warnBeforeQuit);
 
 protected:
 
 	virtual void	ReadPrefs(std::istream& input);
 	virtual void	WritePrefs(std::ostream& output) const;
 
-	virtual JBoolean	Close();
-	virtual void		CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
+	virtual bool	Close();
+	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
 private:
 
-	JBoolean			itsWarnBeforeQuitFlag;
+	bool				itsWarnBeforeQuitFlag;
 	JPtrArray<JString>*	itsSystemIncludeDirs;
 
 private:
@@ -86,7 +86,7 @@ private:
 inline void
 CBApp::GetWarnings
 	(
-	JBoolean* warnBeforeQuit
+	bool* warnBeforeQuit
 	)
 	const
 {
@@ -96,7 +96,7 @@ CBApp::GetWarnings
 inline void
 CBApp::SetWarnings
 	(
-	const JBoolean warnBeforeQuit
+	const bool warnBeforeQuit
 	)
 {
 	itsWarnBeforeQuitFlag = warnBeforeQuit;

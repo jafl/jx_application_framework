@@ -36,7 +36,7 @@ BUILTINCMD     (true|false|source|alias|bg|bind|break|builtin|cd|command|continu
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}

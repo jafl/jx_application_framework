@@ -14,7 +14,7 @@ class JXWApp : public JXApplication
 {
 public:
 
-	JXWApp(int* argc, char* argv[], JBoolean* displayLicense);
+	JXWApp(int* argc, char* argv[], bool* displayLicense);
 
 	virtual ~JXWApp();
 

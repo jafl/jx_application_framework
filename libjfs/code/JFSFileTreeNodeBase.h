@@ -17,23 +17,23 @@ class JFSFileTreeNodeBase : public JNamedTreeNode
 {
 public:
 
-	JFSFileTreeNodeBase(const JBoolean isOpenable);
+	JFSFileTreeNodeBase(const bool isOpenable);
 
 	virtual ~JFSFileTreeNodeBase();
 
-	virtual JBoolean	Update(const JBoolean force = kJFalse,
+	virtual bool	Update(const bool force = false,
 							   JFSFileTreeNodeBase** updateNode = nullptr);
 
-	virtual JBoolean	GetDirInfo(JDirInfo** info) = 0;
-	virtual JBoolean	GetDirInfo(const JDirInfo** info) const = 0;
+	virtual bool	GetDirInfo(JDirInfo** info) = 0;
+	virtual bool	GetDirInfo(const JDirInfo** info) const = 0;
 
 	JFSFileTree*			GetFSFileTree();
 	const JFSFileTree*		GetFSFileTree() const;
 
 	JFSFileTreeNodeBase*		GetFSParent();
 	const JFSFileTreeNodeBase*	GetFSParent() const;
-	JBoolean					GetFSParent(JFSFileTreeNodeBase** parent);
-	JBoolean					GetFSParent(const JFSFileTreeNodeBase** parent) const;
+	bool					GetFSParent(JFSFileTreeNodeBase** parent);
+	bool					GetFSParent(const JFSFileTreeNodeBase** parent) const;
 
 private:
 

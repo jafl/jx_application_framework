@@ -16,7 +16,7 @@ public:
 
 	CBJavaClass(const JString& name, const DeclareType declType,
 				const JFAID_t fileID, CBTree* tree,
-				const JBoolean isPublic, const JBoolean isFinal);
+				const bool isPublic, const bool isFinal);
 	CBJavaClass(std::istream& input, const JFileVersion vers, CBTree* tree);
 
 	virtual ~CBJavaClass();
@@ -34,8 +34,8 @@ protected:
 
 private:
 
-	JBoolean	itsIsPublicFlag;
-	JBoolean	itsIsFinalFlag;
+	bool	itsIsPublicFlag;
+	bool	itsIsFinalFlag;
 
 private:
 

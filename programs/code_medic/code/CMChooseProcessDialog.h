@@ -18,8 +18,8 @@ class CMChooseProcessDialog : public JXDialogDirector
 public:
 
 	CMChooseProcessDialog(JXDirector* supervisor,
-						  const JBoolean attachToSelection = kJTrue,
-						  const JBoolean stopProgram = kJFalse);
+						  const bool attachToSelection = true,
+						  const bool stopProgram = false);
 
 	virtual	~CMChooseProcessDialog();
 
@@ -32,8 +32,8 @@ protected:
 private:
 
 	CMProcessText*	itsText;
-	const JBoolean	itsAttachToSelectionFlag;
-	const JBoolean	itsStopProgramFlag;
+	const bool	itsAttachToSelectionFlag;
+	const bool	itsStopProgramFlag;
 
 // begin JXLayout
 

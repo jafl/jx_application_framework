@@ -138,7 +138,7 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 			{
 			yy_push_state(itsStartState);
 			}
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}
@@ -204,8 +204,8 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 
 ">" {
 	ContinueToken();
-	const JBoolean isScript = IsScript(&itsScriptLanguage);
-	if (isScript && JString::Compare(itsScriptLanguage, "javascript", kJFalse) == 0)
+	const bool isScript = IsScript(&itsScriptLanguage);
+	if (isScript && JString::Compare(itsScriptLanguage, "javascript", JString::kIgnoreCase) == 0)
 		{
 		BEGIN(JAVA_SCRIPT_STATE);
 		return ScriptToken();
@@ -514,7 +514,7 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 
 .|\n {
 	yyless(0);
-	const JBoolean isText = JI2B(yy_top_state() == INITIAL);
+	const bool isText = yy_top_state() == INITIAL;
 	yy_pop_state();
 	const Token t = ThisToken(isText ? kHTMLText : kHTMLTag);
 	InitToken();	/* req'd when reentering tag */
@@ -522,7 +522,7 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 	}
 
 <<EOF>> {
-	const JBoolean isText = JI2B(yy_top_state() == INITIAL);
+	const bool isText = yy_top_state() == INITIAL;
 	BEGIN(INITIAL);
 	return ThisToken(isText ? kHTMLText : kHTMLTag);
 	}
@@ -1749,7 +1749,7 @@ euro;?     {
 "..."  |
 "::"   {
 	StartToken();
-	itsProbableJSOperatorFlag = kJFalse;
+	itsProbableJSOperatorFlag = false;
 	return ThisToken(kJSOperator);
 	}
 
@@ -1762,7 +1762,7 @@ euro;?     {
 "</" |
 "/>" {
 	StartToken();
-	itsProbableJSOperatorFlag = kJFalse;
+	itsProbableJSOperatorFlag = false;
 	return ThisToken(kJSOperator);
 	}
 
@@ -1779,14 +1779,14 @@ euro;?     {
 "," |
 ";" {
 	StartToken();
-	itsProbableJSOperatorFlag = kJFalse;
+	itsProbableJSOperatorFlag = false;
 	return ThisToken(kJSDelimiter);
 	}
 
 ")" |
 "]" {
 	StartToken();
-	itsProbableJSOperatorFlag = kJTrue;
+	itsProbableJSOperatorFlag = true;
 	return ThisToken(kJSDelimiter);
 	}
 
@@ -1798,37 +1798,37 @@ euro;?     {
 
 {JS_KEYWORD} {
 	StartToken();
-	itsProbableJSOperatorFlag = kJFalse;
+	itsProbableJSOperatorFlag = false;
 	return ThisToken(kJSReservedKeyword);
 	}
 
 {JS_ID} {
 	StartToken();
-	itsProbableJSOperatorFlag = kJTrue;
+	itsProbableJSOperatorFlag = true;
 	return ThisToken(kJSID);
 	}
 
 {JS_DECIMAL} {
 	StartToken();
-	itsProbableJSOperatorFlag = kJTrue;
+	itsProbableJSOperatorFlag = true;
 	return ThisToken(kDecimalInt);
 	}
 
 {JS_HEX} {
 	StartToken();
-	itsProbableJSOperatorFlag = kJTrue;
+	itsProbableJSOperatorFlag = true;
 	return ThisToken(kHexInt);
 	}
 
 {JS_BADHEX} {
 	StartToken();
-	itsProbableJSOperatorFlag = kJTrue;
+	itsProbableJSOperatorFlag = true;
 	return ThisToken(kBadHex);
 	}
 
 {FLOAT} {
 	StartToken();
-	itsProbableJSOperatorFlag = kJTrue;
+	itsProbableJSOperatorFlag = true;
 	return ThisToken(kFloat);
 	}
 
@@ -1840,19 +1840,19 @@ euro;?     {
 
 \' {
 	StartToken();
-	itsProbableJSOperatorFlag = kJTrue;
+	itsProbableJSOperatorFlag = true;
 	BEGIN(JS_SINGLE_STRING_STATE);
 	}
 
 \" {
 	StartToken();
-	itsProbableJSOperatorFlag = kJTrue;
+	itsProbableJSOperatorFlag = true;
 	BEGIN(JS_DOUBLE_STRING_STATE);
 	}
 
 \` {
 	StartToken();
-	itsProbableJSOperatorFlag = kJTrue;
+	itsProbableJSOperatorFlag = true;
 	BEGIN(JS_TEMPLATE_STRING_STATE);
 	}
 
@@ -1866,13 +1866,13 @@ euro;?     {
 	if (itsProbableJSOperatorFlag)
 		{
 		StartToken();
-		itsProbableJSOperatorFlag = kJFalse;
+		itsProbableJSOperatorFlag = false;
 		return ThisToken(kJSOperator);
 		}
 	else
 		{
 		StartToken();
-		itsProbableJSOperatorFlag = kJTrue;
+		itsProbableJSOperatorFlag = true;
 		BEGIN(JS_REGEX_SEARCH_STATE);
 		}
 	}
@@ -2206,22 +2206,22 @@ euro;?     {
 
 %%
 
-JBoolean
+bool
 CBHTMLScanner::InTagState()
 	const
 {
 	return InTagState(YY_START);
 }
 
-JBoolean
+bool
 CBHTMLScanner::InTagState
 	(
 	const int state
 	)
 	const
 {
-	return JI2B( state == TAG_STATE               ||
+	return state == TAG_STATE               ||
 				 state == QUOTED_ATTR_VALUE_STATE ||
 				 (state == CHAR_ESC_STATE &&
-				  InTagState(const_cast<CBHTMLScanner*>(this)->yy_top_state())) );
+				  InTagState(const_cast<CBHTMLScanner*>(this)->yy_top_state()));
 }

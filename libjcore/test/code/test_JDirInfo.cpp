@@ -19,7 +19,7 @@ int main()
 
 JTEST(Exercise)
 {
-	const JString path("/tmp/test_JDirInfo/", kJFalse);
+	const JString path("/tmp/test_JDirInfo/", JString::kNoCopy);
 	JAssertOK(JCreateDirectory(path));
 	JAssertOK(JChangeDirectory(path));
 
@@ -38,29 +38,29 @@ JTEST(Exercise)
 	system("mkdir bar");
 	system("mkdir baz");
 
-	JAssertTrue(JDirInfo::Empty(JString("bar", kJFalse)));
+	JAssertTrue(JDirInfo::Empty(JString("bar", JString::kNoCopy)));
 
 	info->ForceUpdate();
 	JAssertEqual(5, info->GetEntryCount());
 
-	info->ShowDirs(kJFalse);
+	info->ShowDirs(false);
 	JAssertEqual(3, info->GetEntryCount());
-	info->ShowDirs(kJTrue);
+	info->ShowDirs(true);
 
-	info->ShowFiles(kJFalse);
+	info->ShowFiles(false);
 	JAssertEqual(2, info->GetEntryCount());
-	info->ShowFiles(kJTrue);
+	info->ShowFiles(true);
 
-	info->SetWildcardFilter(JString("*oob*", kJFalse));
+	info->SetWildcardFilter(JString("*oob*", JString::kNoCopy));
 	JAssertTrue(info->HasWildcardFilter());
 	JAssertEqual(4, info->GetEntryCount());		// 2 files + 2 dirs
 	info->ShouldApplyWildcardFilterToDirs();
 	JAssertEqual(2, info->GetEntryCount());		// 2 files
 	info->ClearWildcardFilter();
 	JAssertFalse(info->HasWildcardFilter());
-	info->ShouldApplyWildcardFilterToDirs(kJFalse);
+	info->ShouldApplyWildcardFilterToDirs(false);
 
-	JAssertOK(info->GoDown(JString("bar", kJFalse)));
+	JAssertOK(info->GoDown(JString("bar", JString::kNoCopy)));
 	JAssertTrue(info->DirectoryExists());
 	JAssertEqual(0, info->GetEntryCount());
 	JAssertOK(info->GoUp());
@@ -70,9 +70,9 @@ JTEST(Exercise)
 	info->ForceUpdate();
 	JAssertEqual(6, info->GetEntryCount());
 
-	info->SetWildcardFilter(JString("*oof*", kJFalse));
+	info->SetWildcardFilter(JString("*oof*", JString::kNoCopy));
 	JIndex i;
-	JAssertTrue(info->FindEntry(JString("zaboof", kJFalse), &i));
+	JAssertTrue(info->FindEntry(JString("zaboof", JString::kNoCopy), &i));
 	const JDirEntry& e1 = info->GetEntry(i);
 	JAssertTrue(e1.IsFile());
 	JAssertTrue(e1.IsLink());
@@ -89,15 +89,15 @@ JTEST(Exercise)
 	JAssertEqual(0, e2.GetSize());
 	info->ClearWildcardFilter();
 
-	JAssertTrue(info->ClosestMatch(JString("za", kJFalse), &i));
+	JAssertTrue(info->ClosestMatch(JString("za", JString::kNoCopy), &i));
 	const JDirEntry& e3 = info->GetEntry(i);
 	JAssertStringsEqual("zaboof", e3.GetName());
 
-	JAssertTrue(info->ClosestMatch(JString("dx", kJFalse), &i));
+	JAssertTrue(info->ClosestMatch(JString("dx", JString::kNoCopy), &i));
 	const JDirEntry& e4 = info->GetEntry(i);
 	JAssertStringsEqual("foobar", e4.GetName());
 
-	JAssertTrue(info->ClosestMatch(JString("fook", kJFalse), &i));
+	JAssertTrue(info->ClosestMatch(JString("fook", JString::kNoCopy), &i));
 	const JDirEntry& e5 = info->GetEntry(i);
 	JAssertStringsEqual("fooshug", e5.GetName());
 

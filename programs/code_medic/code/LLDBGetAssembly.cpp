@@ -102,7 +102,7 @@ LLDBGetAssembly::HandleSuccess
 				s.TrimWhitespace();
 				addrList.Append(s);
 
-				const JStringMatch m = offsetPattern.Match(s, kJFalse);
+				const JStringMatch m = offsetPattern.Match(s, JRegex::kIgnoreSubmatches);
 				if (!m.IsEmpty())
 					{
 					maxOffsetLength = JMax(maxOffsetLength, m.GetCharacterRange().GetCount());
@@ -127,7 +127,7 @@ LLDBGetAssembly::HandleSuccess
 			JString* s = addrList.GetElement(i);
 
 			JStringIterator iter(s);
-			const JStringMatch m = offsetPattern.Match(*s, kJFalse);
+			const JStringMatch m = offsetPattern.Match(*s, JRegex::kIgnoreSubmatches);
 			if (iter.Next(offsetPattern))
 				{
 				const JSize count = iter.GetLastMatch().GetCharacterRange().GetCount();

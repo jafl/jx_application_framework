@@ -23,7 +23,7 @@ class CMVarTreeWidget : public JXNamedTreeListWidget
 public:
 
 	CMVarTreeWidget(CMCommandDirector* dir,
-					const JBoolean mainDisplay, JXMenuBar* menuBar,
+					const bool mainDisplay, JXMenuBar* menuBar,
 					JTree* tree, JNamedTreeList* treeList,
 					JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 					const HSizingOption hSizing, const VSizingOption vSizing,
@@ -36,7 +36,7 @@ public:
 	CMVarNode*	DisplayExpression(const JString& expr);
 	void		ShowNode(const CMVarNode* node);
 
-	JBoolean	HasSelection() const;
+	bool	HasSelection() const;
 	void		RemoveSelection();
 
 	void	WatchExpression();
@@ -46,11 +46,11 @@ public:
 	void	Plot1DArray();
 	void	Display2DArray();
 	void	ExamineMemory(const CMMemoryDir::DisplayType type);
-	void	ShouldUpdate(const JBoolean update);
+	void	ShouldUpdate(const bool update);
 
 	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
-	virtual JBoolean	IsEditable(const JPoint& cell) const override;
+	virtual bool	IsEditable(const JPoint& cell) const override;
 
 	void	ReadSetup(std::istream& input, const JFileVersion vers);
 	void	WriteSetup(std::ostream& output) const;
@@ -73,7 +73,7 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual bool		ExtractInputData(const JPoint& cell) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
@@ -91,8 +91,8 @@ private:
 
 	CMCommandDirector*	itsDir;
 	JTree*				itsTree;
-	const JBoolean		itsIsMainDisplayFlag;
-	JBoolean			itsWaitingForReloadFlag;
+	const bool		itsIsMainDisplayFlag;
+	bool			itsWaitingForReloadFlag;
 	DragType			itsDragType;
 
 	JXTextMenu*	itsEditMenu;			// not owned
@@ -104,7 +104,7 @@ private:
 
 	// used while editing
 
-	JBoolean	itsEditingNewNodeFlag;
+	bool	itsEditingNewNodeFlag;
 	JString		itsOrigEditValue;
 
 private:
@@ -114,8 +114,8 @@ private:
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex item);
 
-	void	CopySelectedItems(const JBoolean useFullName,
-							  const JBoolean copyValue) const;
+	void	CopySelectedItems(const bool useFullName,
+							  const bool copyValue) const;
 
 	void	UpdateBaseMenu(JXTextMenu* menu);
 	void	HandleBaseMenu(const JIndex item);

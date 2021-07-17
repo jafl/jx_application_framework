@@ -38,7 +38,7 @@ protected:
 							const JString& text, JRunArray<JFont>* styles,
 							JStyledText::TextRange* recalcRange,
 							JStyledText::TextRange* redrawRange,
-							const JBoolean deletion) override;
+							const bool deletion) override;
 	};
 
 private:

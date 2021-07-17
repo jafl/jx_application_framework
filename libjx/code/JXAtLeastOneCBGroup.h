@@ -39,7 +39,7 @@ private:
 private:
 
 	Direction	itsDirection;
-	JBoolean	itsIgnoreChangeFlag;
+	bool	itsIgnoreChangeFlag;
 
 private:
 

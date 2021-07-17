@@ -26,7 +26,7 @@ JXGetNewDirDialog::JXGetNewDirDialog
 	const JString&	prompt,
 	const JString&	initialName,
 	const JString&	basePath,
-	const JBoolean	modal
+	const bool	modal
 	)
 	:
 	JXGetStringDialog(supervisor, windowTitle, prompt, initialName, modal),
@@ -68,31 +68,31 @@ JXGetNewDirDialog::GetNewDirName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXGetNewDirDialog::OKToDeactivate()
 {
 	if (!JXGetStringDialog::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	const JString pathName = GetNewDirName();
 	if (JDirectoryExists(pathName))
 		{
 		JGetUserNotification()->ReportError(JGetString("DirectoryExists::JXGlobal"));
-		return kJFalse;
+		return false;
 		}
 	else if (JNameUsed(pathName))
 		{
 		JGetUserNotification()->ReportError(JGetString("NameUsed::JXGetNewDirDialog"));
-		return kJFalse;
+		return false;
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }

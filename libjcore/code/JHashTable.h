@@ -38,7 +38,7 @@ public:
 
 // Useful for any hash table
 
-	JBoolean IsEmpty() const;
+	bool IsEmpty() const;
 	JSize    GetElementCount() const;
 
 // Statistics
@@ -51,8 +51,8 @@ public:
 	JFloat GetLoadFactor() const;
 
 // Should this really be part of the *public* interface?!?
-	JBoolean GetResizeEnabled() const;
-	void     SetResizeEnabled(const JBoolean enabled);
+	bool GetResizeEnabled() const;
+	void     SetResizeEnabled(const bool enabled);
 
 	JFloat GetMaxLoadFactor() const;
 	void   SetMaxLoadFactor(const JFloat newMax);
@@ -63,7 +63,7 @@ public:
 	JSize  GetMinTableSize() const;
 	void   SetMinTableSize(const JSize newMin);
 
-	JBoolean IsOK() const;
+	bool IsOK() const;
 
 protected:
 
@@ -75,12 +75,12 @@ protected:
 	JConstHashCursor<V>* GetCursor() const;
 
 // Key manipulation functions
-	void SetKeyComparison(JBoolean (* const keysEqual)(const V&, const V&) );
-	void GetKeyComparison( JBoolean (**keysEqual)(const V&, const V&) ) const;
+	void SetKeyComparison(bool (* const keysEqual)(const V&, const V&) );
+	void GetKeyComparison( bool (**keysEqual)(const V&, const V&) ) const;
 
 	// Predefined comparison functions
-	static JBoolean AssertReturnTrue(const V& value1, const V& value2);
-	static JBoolean ReturnTrue(const V& value1, const V& value2);
+	static bool AssertReturnTrue(const V& value1, const V& value2);
+	static bool ReturnTrue(const V& value1, const V& value2);
 
 	void SetHashFunction(JHashValue (* const hashFunction)(const V&) );
 	void GetHashFunction(JHashValue (**hashFunction)(const V&) ) const;
@@ -92,9 +92,9 @@ protected:
 	const JHashRecord<V>& GetRecord(const JSize index) const;
 
 	JHashRecordT::State GetState(const JSize index) const;
-	JBoolean            IsEmpty(const JSize index) const;
-	JBoolean            IsDeleted(const JSize index) const;
-	JBoolean            IsFull(const JSize index) const;
+	bool            IsEmpty(const JSize index) const;
+	bool            IsDeleted(const JSize index) const;
+	bool            IsFull(const JSize index) const;
 
 	JHashValue          GetHashValue(const JSize index) const;
 
@@ -112,12 +112,12 @@ protected:
 
 
 // Low-level resizing interface--useful when overriding FitToLimits
-	JBoolean TryResizeTable(const JSize lgSize);
+	bool TryResizeTable(const JSize lgSize);
 	void ResizeTable(const JSize lgTrialSize);
 
 // Main resize function
-	virtual JBoolean FitToLimits(const JSize required = 0,
-								 const JBoolean force = kJFalse);
+	virtual bool FitToLimits(const JSize required = 0,
+								 const bool force = false);
 
 // For use by cursors
 	JSize HashToIndex(JHashValue hash) const;
@@ -133,21 +133,21 @@ private:
 	JSize itsElementCount; // Number that are full, different than the array size!
 	JSize itsLoadCount;
 
-	JBoolean itsResizeFlag;
+	bool itsResizeFlag;
 	JFloat   itsMaxLoadFactor;
 	JFloat   itsMinFillFactor;
 	JSize    itsLgMinTableSize;
 
-	JBoolean (*itsEqual)(const V&, const V&);
+	bool (*itsEqual)(const V&, const V&);
 	JHashValue (*itsHashFunction)(const V&);
 
-	JBoolean itsAllowCursorFlag;
+	bool itsAllowCursorFlag;
 
 private:
 
 	void     _MarkAllEmpty();
-	JBoolean TryInsert(const JHashRecord<V>& record);
-	JBoolean TryInsertAll(const JHashTable<V>* source);
+	bool TryInsert(const JHashRecord<V>& record);
+	bool TryInsertAll(const JHashTable<V>* source);
 
 	// not allowed
 
@@ -161,10 +161,10 @@ private:
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JHashTable<V>::IsEmpty() const
 {
-	return JI2B(itsElementCount == 0);
+	return itsElementCount == 0;
 }
 
 /******************************************************************************
@@ -245,7 +245,7 @@ JHashTable<V>::GetLoadFactor() const
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JHashTable<V>::GetResizeEnabled() const
 {
 	return itsResizeFlag;
@@ -296,7 +296,7 @@ template <class V>
 inline void
 JHashTable<V>::GetKeyComparison
 	(
-	JBoolean (**keysEqual)(const V&, const V&)
+	bool (**keysEqual)(const V&, const V&)
 	)
 	const
 {
@@ -328,7 +328,7 @@ template <class V>
 inline void
 JHashTable<V>::AllowCursors()
 {
-	itsAllowCursorFlag = kJTrue;
+	itsAllowCursorFlag = true;
 }
 
 /******************************************************************************
@@ -340,7 +340,7 @@ template <class V>
 inline void
 JHashTable<V>::DisallowCursors()
 {
-	itsAllowCursorFlag = kJFalse;
+	itsAllowCursorFlag = false;
 }
 
 /******************************************************************************
@@ -409,7 +409,7 @@ JHashTable<V>::GetState
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JHashTable<V>::IsEmpty
 	(
 	const JSize index
@@ -428,7 +428,7 @@ JHashTable<V>::IsEmpty
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JHashTable<V>::IsDeleted
 	(
 	const JSize index
@@ -447,7 +447,7 @@ JHashTable<V>::IsDeleted
  *****************************************************************************/
 
 template <class V>
-inline JBoolean
+inline bool
 JHashTable<V>::IsFull
 	(
 	const JSize index

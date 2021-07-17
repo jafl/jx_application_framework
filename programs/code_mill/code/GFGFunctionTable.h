@@ -58,7 +58,7 @@ protected:
 private:
 
 	GFGClass*		itsList;	// we don't own this.
-	JBoolean		itsNeedsAdjustment;
+	bool		itsNeedsAdjustment;
 
 private:
 

@@ -29,7 +29,7 @@ XDGetStack::XDGetStack
 	CMStackWidget*	widget
 	)
 	:
-	CMGetStack(JString("stack_get", kJFalse), tree, widget)
+	CMGetStack(JString("stack_get", JString::kNoCopy), tree, widget)
 {
 }
 
@@ -68,7 +68,7 @@ XDGetStack::HandleSuccess
 		{
 		frameIndexStr = JGetXMLNodeAttr(frame, "level");
 		JUInt frameIndex;
-		JBoolean ok = frameIndexStr.ConvertToUInt(&frameIndex);
+		bool ok = frameIndexStr.ConvertToUInt(&frameIndex);
 		assert( ok );
 
 		fileName = JGetXMLNodeAttr(frame, "filename");

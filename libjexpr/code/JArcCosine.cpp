@@ -73,7 +73,7 @@ JArcCosine::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JArcCosine::Evaluate
 	(
 	JFloat* result
@@ -83,14 +83,14 @@ JArcCosine::Evaluate
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue) || !(-1.0 <= argValue && argValue <= 1.0))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = acos(argValue);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JArcCosine::Evaluate
 	(
 	JComplex* result
@@ -100,7 +100,7 @@ JArcCosine::Evaluate
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = acos(argValue);

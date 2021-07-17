@@ -31,7 +31,7 @@ public:
 private:
 
 	JXWindow*	itsWindow;	// not owned
-	JBoolean	itShowWindowAfterFTCFlag;
+	bool	itShowWindowAfterFTCFlag;
 	JXWidget*	itsFocusWidget;
 
 private:
@@ -51,7 +51,7 @@ private:
 inline void
 JXExpandWindowToFitContentTask::ShowAfterFTC()
 {
-	itShowWindowAfterFTCFlag = kJTrue;
+	itShowWindowAfterFTCFlag = true;
 }
 
 /******************************************************************************

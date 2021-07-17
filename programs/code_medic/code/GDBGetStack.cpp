@@ -31,7 +31,7 @@ GDBGetStack::GDBGetStack
 	CMStackWidget*	widget
 	)
 	:
-	CMGetStack(JString("-stack-list-frames", kJFalse), tree, widget)
+	CMGetStack(JString("-stack-list-frames", JString::kNoCopy), tree, widget)
 {
 	itsArgsCmd = jnew GDBGetStackArguments(tree);
 }
@@ -68,7 +68,7 @@ GDBGetStack::HandleSuccess
 
 	JStringPtrMap<JString> map(JPtrArrayT::kDeleteAll);
 	JString frameName, fileName;
-	JBoolean selectNextFrame = kJFalse;
+	bool selectNextFrame = false;
 
 	JStringIterator iter(data);
 	while (iter.Next(framePattern))
@@ -131,11 +131,11 @@ GDBGetStack::HandleSuccess
 		if (selectNextFrame)
 			{
 			initFrameIndex  = frameIndex;
-			selectNextFrame = kJFalse;
+			selectNextFrame = false;
 			}
 		else if (assertPattern.Match(*fnName))
 			{
-			selectNextFrame = kJTrue;
+			selectNextFrame = true;
 			}
 		}
 

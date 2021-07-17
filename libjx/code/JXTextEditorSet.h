@@ -20,13 +20,13 @@ class JXTextEditorSet : public JXWidgetSet
 {
 public:
 
-	JXTextEditorSet(JStyledText* text, const JBoolean ownsText,
+	JXTextEditorSet(JStyledText* text, const bool ownsText,
 					JXTextEditor** textEditor, JXContainer* enclosure,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	JXTextEditorSet(JXMenuBar* menuBar, JStyledText* text, const JBoolean ownsText,
+	JXTextEditorSet(JXMenuBar* menuBar, JStyledText* text, const bool ownsText,
 					JXTextEditor** textEditor, JXContainer* enclosure,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,

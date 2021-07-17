@@ -18,7 +18,7 @@ class JXRegexReplaceInput : public JXInputField
 {
 public:
 
-	JXRegexReplaceInput(JInterpolate* testInterpolator, const JBoolean widgetOwnsInterpolator,
+	JXRegexReplaceInput(JInterpolate* testInterpolator, const bool widgetOwnsInterpolator,
 						JXContainer* enclosure,
 						const HSizingOption hSizing, const VSizingOption vSizing,
 						const JCoordinate x, const JCoordinate y,
@@ -26,12 +26,12 @@ public:
 
 	virtual ~JXRegexReplaceInput();
 
-	virtual JBoolean	InputValid();
+	virtual bool	InputValid();
 
 private:
 
 	JInterpolate*	itsTestInterpolator;
-	JBoolean		itsOwnsInterpolatorFlag;
+	bool		itsOwnsInterpolatorFlag;
 
 private:
 

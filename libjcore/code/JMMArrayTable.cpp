@@ -26,7 +26,7 @@
 JMMArrayTable::JMMArrayTable
 	(
 	JMemoryManager* manager,
-	const JBoolean  recordDelete
+	const bool  recordDelete
 	)
 	:
 	JMMTable(manager),
@@ -120,7 +120,7 @@ JMMArrayTable::GetTotalCount() const
 void
 JMMArrayTable::PrintAllocated
 	(
-	const JBoolean printInternal // = kJFalse
+	const bool printInternal // = false
 	)
 	const
 {
@@ -171,13 +171,13 @@ JMMArrayTable::StreamAllocatedForDebug
 		const JMMRecord thisRecord = itsAllocatedTable->GetElement(i);
 		if (filter.Match(thisRecord))
 			{
-			output << ' ' << JBoolToString(kJTrue);
+			output << ' ' << JBoolToString(true);
 			output << ' ';
 			thisRecord.StreamForDebug(output);
 			}
 		}
 
-	output << ' ' << JBoolToString(kJFalse);
+	output << ' ' << JBoolToString(false);
 }
 
 /******************************************************************************
@@ -213,7 +213,7 @@ void
 JMMArrayTable::_AddNewRecord
 	(
 	const JMMRecord& record,
-	const JBoolean   checkDoubleAllocation
+	const bool   checkDoubleAllocation
 	)
 {
 	JSize index = 0;
@@ -248,14 +248,14 @@ JMMArrayTable::_AddNewRecord
 
  *****************************************************************************/
 
-JBoolean
+bool
 JMMArrayTable::_SetRecordDeleted
 	(
 	JMMRecord*       record,
 	const void*      block,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 	JSize index = FindAllocatedBlock(block);
@@ -286,7 +286,7 @@ JMMArrayTable::_SetRecordDeleted
 			}
 
 		*record = thisRecord;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -304,7 +304,7 @@ JMMArrayTable::_SetRecordDeleted
 			NotifyMultipleDeletion(thisRecord, file, line, isArray);
 			}
 
-		return kJFalse;
+		return false;
 		}
 }
 

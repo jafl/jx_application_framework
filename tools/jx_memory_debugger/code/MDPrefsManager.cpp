@@ -17,7 +17,7 @@
 
 const JFileVersion kCurrentPrefsFileVersion = 0;
 
-static const JString kDefaultOpenFileCmd("jcc $f:$l", kJFalse);
+static const JString kDefaultOpenFileCmd("jcc $f:$l", JString::kNoCopy);
 
 /******************************************************************************
  Constructor
@@ -26,10 +26,10 @@ static const JString kDefaultOpenFileCmd("jcc $f:$l", kJFalse);
 
 MDPrefsManager::MDPrefsManager
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue),
+	JXPrefsManager(kCurrentPrefsFileVersion, true),
 	itsPrefsDialog(nullptr)
 {
 	*isNew = JPrefsManager::UpgradeData();
@@ -70,7 +70,7 @@ MDPrefsManager::SaveAllBeforeDestruct()
 void
 MDPrefsManager::UpgradeData
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JFileVersion	currentVersion
 	)
 {
@@ -90,7 +90,7 @@ MDPrefsManager::GetPrevVersionStr()
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(kMDProgramVersionID, &data);
+	const bool ok = GetData(kMDProgramVersionID, &data);
 	assert( ok );
 	return JString(data);
 }
@@ -118,7 +118,7 @@ MDPrefsManager::EditPrefs()
 
  ******************************************************************************/
 
-JBoolean
+bool
 MDPrefsManager::GetWindowSize
 	(
 	const JPrefID&	id,
@@ -133,11 +133,11 @@ MDPrefsManager::GetWindowSize
 		{
 		std::istringstream dataStream(data);
 		dataStream >> *desktopLoc >> *width >> *height;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -166,7 +166,7 @@ MDPrefsManager::SaveWindowSize
 
  ******************************************************************************/
 
-JBoolean
+bool
 MDPrefsManager::LoadPrintSetup
 	(
 	JXPSPrinter* p
@@ -178,11 +178,11 @@ MDPrefsManager::LoadPrintSetup
 		{
 		std::istringstream dataStream(data);
 		p->ReadXPSSetup(dataStream);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

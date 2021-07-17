@@ -28,7 +28,7 @@ CBDClass::CBDClass
 	const DeclareType	declType,
 	const JFAID_t		fileID,
 	CBTree*				tree,
-	const JBoolean		isFinal
+	const bool		isFinal
 	)
 	:
 	CBClass(name, declType, fileID, tree, kNamespaceOperator),
@@ -44,7 +44,7 @@ CBDClass::CBDClass
 	)
 	:
 	CBClass(input, vers, tree, kNamespaceOperator),
-	itsIsFinalFlag(kJFalse)
+	itsIsFinalFlag(false)
 {
 	if (vers >= 88)
 		{
@@ -107,9 +107,9 @@ CBDClass::ViewSource()
 			te->SetCaretLocation(1);
 
 			const JStyledText::TextIndex start(1,1);
-			JBoolean wrapped;
+			bool wrapped;
 			const JStringMatch m =
-				te->GetText()->SearchForward(start, r, kJFalse, kJFalse, &wrapped);
+				te->GetText()->SearchForward(start, r, false, false, &wrapped);
 			if (!m.IsEmpty())
 				{
 				te->SelectLine(te->GetLineForChar(m.GetCharacterRange().first));
@@ -160,7 +160,7 @@ CBDClass::NewGhost
 	CBTree*			tree
 	)
 {
-	CBDClass* newClass = jnew CBDClass(name, kGhostType, JFAID::kInvalidID, tree, kJFalse);
+	CBDClass* newClass = jnew CBDClass(name, kGhostType, JFAID::kInvalidID, tree, false);
 	assert( newClass != nullptr );
 	return newClass;
 }
@@ -183,7 +183,7 @@ CBDClass::AdjustNameStyle
 		{
 		if (itsIsFinalFlag)
 			{
-			style->bold = kJTrue;
+			style->bold = true;
 			}
 		}
 }

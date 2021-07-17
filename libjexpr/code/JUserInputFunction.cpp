@@ -31,7 +31,7 @@
 
 const JUtf8Character JUserInputFunction::kSwitchFontCharacter('`');
 
-static const JString kEmptyString("?", kJFalse);
+static const JString kEmptyString("?", JString::kNoCopy);
 
 const JCoordinate kHMarginWidth = 2;
 const JCoordinate kVMarginWidth = 1;
@@ -47,15 +47,15 @@ JUserInputFunction::JUserInputFunction
 	const JString&	text
 	)
 	:
-	JTextEditor(kFullEditor, editor->BuildStyledText(), kJTrue,
-				editor->GetFontManager(), kJTrue,
+	JTextEditor(kFullEditor, editor->BuildStyledText(), true,
+				editor->GetFontManager(), true,
 				JColorManager::GetBlackColor(),				// caret
 				JColorManager::GetDefaultSelectionColor(),	// selection
 				JColorManager::GetBlueColor(),				// outline
 				JColorManager::GetBlackColor(),				// whitespace (not used)
 				1),
 	itsEditor(editor),
-	itsGreekFlag(kJFalse)
+	itsGreekFlag(false)
 {
 	assert( itsEditor != nullptr );
 
@@ -64,10 +64,10 @@ JUserInputFunction::JUserInputFunction
 	itsWidth  = 0;
 	itsHeight = 0;
 
-	itsNeedRedrawFlag = kJFalse;
-	itsNeedRenderFlag = kJFalse;
+	itsNeedRedrawFlag = false;
+	itsNeedRenderFlag = false;
 
-	TECaretShouldBlink(kJTrue);
+	TECaretShouldBlink(true);
 	TEActivateSelection();
 
 	RecalcAll();
@@ -98,13 +98,13 @@ JUserInputFunction::JUserInputFunction
 	itsEditor(source.itsEditor),
 	itsWidth(source.itsWidth),
 	itsHeight(source.itsHeight),
-	itsGreekFlag(kJFalse),
-	itsNeedRedrawFlag(kJTrue),
-	itsNeedRenderFlag(kJTrue)
+	itsGreekFlag(false),
+	itsNeedRedrawFlag(true),
+	itsNeedRenderFlag(true)
 {
 	GetText()->SetText(source.GetText().GetText());
 
-	TECaretShouldBlink(kJTrue);
+	TECaretShouldBlink(true);
 	TEActivateSelection();
 }
 
@@ -138,7 +138,7 @@ JUserInputFunction::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::Evaluate
 	(
 	JFloat* result
@@ -146,10 +146,10 @@ JUserInputFunction::Evaluate
 	const
 {
 	*result = 0.0;
-	return kJTrue;
+	return true;
 }
 
-JBoolean
+bool
 JUserInputFunction::Evaluate
 	(
 	JComplex* result
@@ -157,7 +157,7 @@ JUserInputFunction::Evaluate
 	const
 {
 	*result = 0.0;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -192,12 +192,12 @@ JUserInputFunction::Layout
 	JExprRectList*			rectList
 	)
 {
-	itsNeedRenderFlag = kJFalse;
+	itsNeedRenderFlag = false;
 
 	if (fontSize != GetText()->GetDefaultFont().GetSize())
 		{
 		JStyledText::TextRange sel;
-		const JBoolean hasSelection = GetSelection(&sel);
+		const bool hasSelection = GetSelection(&sel);
 
 		CaretLocation caret;
 		GetCaretLocation(&caret);
@@ -242,12 +242,12 @@ JUserInputFunction::Render
 	JUserInputFunction* me = const_cast<JUserInputFunction*>(this);
 	assert( me != nullptr );
 
-	itsNeedRedrawFlag = kJFalse;
+	itsNeedRedrawFlag = false;
 
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);
@@ -278,11 +278,11 @@ JUserInputFunction::Render
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::IsEmpty()
 	const
 {
-	return JI2B( GetText().GetText() == kEmptyString );
+	return GetText().GetText() == kEmptyString;
 }
 
 /******************************************************************************
@@ -310,15 +310,15 @@ JUserInputFunction::GetEmptyString()
 /******************************************************************************
  HandleMouseDown
 
-	Returns kJTrue if the object needs to be redrawn.
+	Returns true if the object needs to be redrawn.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::HandleMouseDown
 	(
 	const JPoint&			pt,
-	const JBoolean			extendSelection,
+	const bool			extendSelection,
 	const JExprRectList&	rectList,
 	const JExprRenderer&	renderer
 	)
@@ -326,25 +326,25 @@ JUserInputFunction::HandleMouseDown
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);
 
 	// JTextEditor does the work
 
-	TEHandleMouseDown(pt - ourRect.topLeft(), 1, extendSelection, kJFalse);
+	TEHandleMouseDown(pt - ourRect.topLeft(), 1, extendSelection, false);
 	return itsNeedRedrawFlag;
 }
 
 /******************************************************************************
  HandleMouseDrag
 
-	Returns kJTrue if the object needs to be redrawn.
+	Returns true if the object needs to be redrawn.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::HandleMouseDrag
 	(
 	const JPoint&			pt,
@@ -355,7 +355,7 @@ JUserInputFunction::HandleMouseDrag
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);
@@ -369,11 +369,11 @@ JUserInputFunction::HandleMouseDrag
 /******************************************************************************
  HandleMouseUp
 
-	Returns kJTrue if the object needs to be redrawn.
+	Returns true if the object needs to be redrawn.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::HandleMouseUp()
 {
 	TEHandleMouseUp();
@@ -388,33 +388,33 @@ JUserInputFunction::HandleMouseUp()
 	cursor is, both because we can't parse it otherwise, and because it is
 	more convenient for the user after editing what was typed in.
 
-	Returns kJTrue if the object needs to be redrawn.
+	Returns true if the object needs to be redrawn.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::HandleKeyPress
 	(
 	const JUtf8Character&	c,
-	JBoolean*				needParse,
-	JBoolean*				needRender
+	bool*				needParse,
+	bool*				needRender
 	)
 {
-	*needRender = kJFalse;
-	*needParse  = kJFalse;
+	*needRender = false;
+	*needParse  = false;
 
 	if (c == kSwitchFontCharacter)
 		{
 		itsGreekFlag = ! itsGreekFlag;
-		return kJTrue;
+		return true;
 		}
 
 	const JString& text = GetText()->GetText();
 
-	const JBoolean isEmpty = IsEmpty();
+	const bool isEmpty = IsEmpty();
 	if (isEmpty && (c == '(' || c == '['))
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (isEmpty)
 		{
@@ -423,12 +423,12 @@ JUserInputFunction::HandleKeyPress
 	else if (c == '(' || c == '[' ||
 			 (c.ToLower() == 'e' && !IsEmpty() && !text.IsHexValue() && text.IsFloat()))
 		{
-		*needParse = kJTrue;
-		return kJFalse;
+		*needParse = true;
+		return false;
 		}
 
 	TEHandleKeyPress(itsGreekFlag ? ConvertToGreek(c) : c,
-					 kJFalse, kMoveByCharacter, kJFalse);
+					 false, kMoveByCharacter, false);
 
 	if (GetText()->GetText().IsEmpty())
 		{
@@ -516,7 +516,7 @@ static const GreekCharacterMapping kGreekData[] =
 
 const JSize kGreekCount = sizeof(kGreekData) / sizeof(GreekCharacterMapping);
 
-static JBoolean theInitGreekMappingFlag = kJFalse;
+static bool theInitGreekMappingFlag = false;
 static GreekCharacterMapping kGreekMapping[1+int('Z')];
 
 JUtf8Character
@@ -534,7 +534,7 @@ JUserInputFunction::ConvertToGreek
 			kGreekMapping[ int(kGreekData[i].ascii) ] = kGreekData[i];
 			}
 
-		theInitGreekMappingFlag = kJTrue;
+		theInitGreekMappingFlag = true;
 		}
 
 	JUtf8Character g   = c;
@@ -561,24 +561,24 @@ JUserInputFunction::ConvertToGreek
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::Parse
 	(
 	const JUtf8Character&	c,
 	JFunction**				f,
 	JUserInputFunction**	newUIF,
-	JBoolean*				needRender
+	bool*				needRender
 	)
 {
 	*f          = nullptr;
 	*newUIF     = nullptr;
-	*needRender = kJFalse;
+	*needRender = false;
 
 	JString buffer = GetText()->GetText();
 	if (buffer == kEmptyString)
 		{
 		JGetUserNotification()->ReportError(JGetString("EmptyFunction::JExprEditor"));
-		return kJFalse;
+		return false;
 		}
 
 	buffer.TrimWhitespace();
@@ -590,7 +590,7 @@ JUserInputFunction::Parse
 		JUserInputFunction* extraUIF;
 		JUserInputFunction* tempUIF = jnew JUserInputFunction(itsEditor);
 		assert( tempUIF != nullptr );
-		const JBoolean ok = itsEditor->ApplyFunction(buffer, *tempUIF, f, &newArg, &extraUIF);
+		const bool ok = itsEditor->ApplyFunction(buffer, *tempUIF, f, &newArg, &extraUIF);
 		jdelete tempUIF;
 		if (ok)
 			{
@@ -611,11 +611,11 @@ JUserInputFunction::Parse
 			*newUIF = jnew JUserInputFunction(itsEditor);
 			assert( *newUIF != nullptr );
 			fwv->SetArrayIndex(*newUIF);
-			return kJTrue;
+			return true;
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 	else if (c.ToLower() == 'e' && !IsEmpty() && !buffer.IsHexValue() &&
@@ -641,7 +641,7 @@ JUserInputFunction::Parse
 			product->SetArg(2, exponent);
 			*f = product;
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -658,7 +658,7 @@ JUserInputFunction::Parse
 void
 JUserInputFunction::TERefresh()
 {
-	itsNeedRedrawFlag = kJTrue;
+	itsNeedRedrawFlag = true;
 }
 
 /******************************************************************************
@@ -672,7 +672,7 @@ JUserInputFunction::TERefreshRect
 	const JRect& rect
 	)
 {
-	itsNeedRedrawFlag = kJTrue;
+	itsNeedRedrawFlag = true;
 }
 
 /******************************************************************************
@@ -683,7 +683,7 @@ JUserInputFunction::TERefreshRect
 void
 JUserInputFunction::TERedraw()
 {
-	itsNeedRedrawFlag = kJTrue;
+	itsNeedRedrawFlag = true;
 }
 
 /******************************************************************************
@@ -702,7 +702,7 @@ JUserInputFunction::TESetGUIBounds
 	itsWidth  = w + 2*kHMarginWidth;
 	itsHeight = h + 2*kVMarginWidth;
 
-	itsNeedRenderFlag = kJTrue;
+	itsNeedRenderFlag = true;
 }
 
 /******************************************************************************
@@ -710,14 +710,14 @@ JUserInputFunction::TESetGUIBounds
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::TEWidthIsBeyondDisplayCapacity
 	(
 	const JSize width
 	)
 	const
 {
-	return JI2B( width > 16000 );	// X uses 2 bytes for coordinate value
+	return width > 16000;	// X uses 2 bytes for coordinate value
 }
 
 /******************************************************************************
@@ -727,14 +727,14 @@ JUserInputFunction::TEWidthIsBeyondDisplayCapacity
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::TEScrollToRect
 	(
 	const JRect&	rect,
-	const JBoolean	centerInDisplay
+	const bool	centerInDisplay
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -744,13 +744,13 @@ JUserInputFunction::TEScrollToRect
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::TEScrollForDrag
 	(
 	const JPoint& pt
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -760,13 +760,13 @@ JUserInputFunction::TEScrollForDrag
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::TEScrollForDND
 	(
 	const JPoint& pt
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -806,7 +806,7 @@ JUserInputFunction::TEUpdateClipboard
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::TEGetClipboard
 	(
 	JString*			text,
@@ -814,7 +814,7 @@ JUserInputFunction::TEGetClipboard
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -824,10 +824,10 @@ JUserInputFunction::TEGetClipboard
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::TEBeginDND()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -852,7 +852,7 @@ JUserInputFunction::TEPasteDropData()
 void
 JUserInputFunction::TECaretShouldBlink
 	(
-	const JBoolean blink
+	const bool blink
 	)
 {
 	if (blink)
@@ -870,11 +870,11 @@ JUserInputFunction::TECaretShouldBlink
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUserInputFunction::TEHasSearchText()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -891,7 +891,7 @@ JUserInputFunction::AdjustStylesBeforeBroadcast
 	JRunArray<JFont>*		styles,
 	JStyledText::TextRange*	recalcRange,
 	JStyledText::TextRange*	redrawRange,
-	const JBoolean			deletion
+	const bool			deletion
 	)
 {
 	const JSize totalLength = text.GetCharacterCount();

@@ -24,7 +24,7 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	JXImageMenu(JXImage* image, const JBoolean menuOwnsImage,
+	JXImageMenu(JXImage* image, const bool menuOwnsImage,
 				const JSize columnCount, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
@@ -36,19 +36,19 @@ public:
 	virtual ~JXImageMenu();
 
 	void			InsertItem(const JIndex index, JXImage* image,
-							   const JBoolean menuOwnsImage,
+							   const bool menuOwnsImage,
 							   const ItemType type = kPlainType,
 							   const JString& id = JString::empty);
-	void			PrependItem(JXImage* image, const JBoolean menuOwnsImage,
+	void			PrependItem(JXImage* image, const bool menuOwnsImage,
 							   const ItemType type = kPlainType,
 								const JString& id = JString::empty);
-	void			AppendItem(JXImage* image, const JBoolean menuOwnsImage,
+	void			AppendItem(JXImage* image, const bool menuOwnsImage,
 							   const ItemType type = kPlainType,
 							   const JString& id = JString::empty);
 
 	const JXImage*	GetItemImage(const JIndex index) const;
 	void			SetItemImage(const JIndex index, JXImage* image,
-								 const JBoolean menuOwnsImage);
+								 const bool menuOwnsImage);
 	void			SetItemImage(const JIndex index, const JXPM& data);
 
 protected:

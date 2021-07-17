@@ -35,7 +35,7 @@ SyGChoosePathDialog::SyGChoosePathDialog
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	selectOnlyWritable
+	const bool	selectOnlyWritable
 	)
 	:
 	JXChoosePathDialog(supervisor, dirInfo, fileFilter, selectOnlyWritable)
@@ -59,7 +59,7 @@ SyGChoosePathDialog::~SyGChoosePathDialog()
 void
 SyGChoosePathDialog::BuildWindow
 	(
-	const JBoolean	newWindow,
+	const bool	newWindow,
 	const JString&	message
 	)
 {
@@ -199,7 +199,7 @@ SyGChoosePathDialog::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGChoosePathDialog::OpenInNewWindow()
 	const
 {

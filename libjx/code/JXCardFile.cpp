@@ -171,11 +171,11 @@ JXCardFile::KillFocusOnCurrentCard()
  ShowCard
 
 	If the current card is willing to disappear, then we show the requested
-	one and return kJTrue.  Otherwise, we return kJFalse.
+	one and return true.  Otherwise, we return false.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXCardFile::ShowCard
 	(
 	JXContainer* card
@@ -188,11 +188,11 @@ JXCardFile::ShowCard
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JXCardFile::ShowCard
 	(
 	const JIndex index
@@ -200,7 +200,7 @@ JXCardFile::ShowCard
 {
 	if (itsCurrCardIndex == index)
 		{
-		return kJTrue;
+		return true;
 		}
 
 	JXWindow* window = GetWindow();
@@ -208,7 +208,7 @@ JXCardFile::ShowCard
 	// If a card is visible and a widget on this card has focus,
 	// then make sure that it is willing to give up focus.
 
-	JBoolean hadFocus = kJFalse;
+	bool hadFocus = false;
 	if (itsCurrCardIndex > 0)
 		{
 		JXContainer* currCard = itsCards->GetElement(itsCurrCardIndex);
@@ -219,11 +219,11 @@ JXCardFile::ShowCard
 			{
 			if (widget->OKToUnfocus())
 				{
-				hadFocus = kJTrue;
+				hadFocus = true;
 				}
 			else
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 
@@ -242,7 +242,7 @@ JXCardFile::ShowCard
 		}
 
 	Broadcast(CardIndexChanged(itsCurrCardIndex));
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

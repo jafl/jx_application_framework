@@ -91,7 +91,7 @@ const JUtf8Byte kSetupDataEndDelimiter  = '\1';
 
 #include <jx_run_script.xpm>
 
-static const JString kExecScriptAction("ExecScript::CBTextEditor", 0, kJFalse);
+static const JString kExecScriptAction("ExecScript::CBTextEditor", JString::kNoCopy);
 
 // Search menu
 
@@ -168,7 +168,7 @@ CBTextEditor::CBTextEditor
 	JXMenuBar*			menuBar,
 	CBTELineIndexInput*	lineInput,
 	CBTEColIndexInput*	colInput,
-	const JBoolean		pasteStyledText,
+	const bool		pasteStyledText,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -179,8 +179,8 @@ CBTextEditor::CBTextEditor
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, jnew StyledText(document, enclosure->GetFontManager(), pasteStyledText), kJTrue,
-			 kJFalse, scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
+	JXTEBase(kFullEditor, jnew StyledText(document, enclosure->GetFontManager(), pasteStyledText), true,
+			 false, scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
 	itsLastModifiers(GetDisplay())
 {
 	itsDoc = document;
@@ -194,15 +194,15 @@ CBTextEditor::CBTextEditor
 	itsColInput = colInput;
 	itsColInput->SetTE(this);
 
-	itsBalanceWhileTypingFlag     = kJTrue;
-	itsScrollToBalanceFlag        = kJTrue;
-	itsBeepWhenTypeUnbalancedFlag = kJTrue;
+	itsBalanceWhileTypingFlag     = true;
+	itsScrollToBalanceFlag        = true;
+	itsBeepWhenTypeUnbalancedFlag = true;
 
-	itsSmartTabFlag = kJTrue;
+	itsSmartTabFlag = true;
 
 	// create edit menu
 
-	JXTextMenu* editMenu = AppendEditMenu(menuBar, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJFalse, kJFalse);
+	JXTextMenu* editMenu = AppendEditMenu(menuBar, true, true, true, true, true, true, false, false);
 	const JSize editCount = editMenu->GetItemCount();
 	editMenu->ShowSeparatorAfter(editCount);
 
@@ -254,7 +254,7 @@ CBTextEditor::CBTextEditor
 
 	// right margin
 
-	itsDrawRightMarginFlag = kJFalse;
+	itsDrawRightMarginFlag = false;
 	itsRightMarginWidth    = 80;
 	itsRightMarginColor    = prefsMgr->GetColor(CBPrefsManager::kRightMarginColorIndex);
 	SetWhitespaceColor(itsRightMarginColor);
@@ -267,17 +267,17 @@ CBTextEditor::CBTextEditor
 	scrollbarSet->GetVScrollbar()->SetScrollDelay(0);
 
 	GetText()->SetLastSaveLocation();
-	GetText()->ShouldAutoIndent(kJTrue);
-	CBShouldAllowDragAndDrop(kJTrue);	// new users expect it
-	ShouldMoveToFrontOfText(kJTrue);
+	GetText()->ShouldAutoIndent(true);
+	CBShouldAllowDragAndDrop(true);	// new users expect it
+	ShouldMoveToFrontOfText(true);
 
 	itsLineInput->ShareEditMenu(this);
 	itsColInput->ShareEditMenu(this);
 
 	GetText()->SetCharacterInWordFunction([this] (const JUtf8Character& c)
 		{
-		return JI2B(CBMIsCharacterInWord(c) ||
-					CBIsCharacterInWord(this->itsDoc->GetFileType(), c));
+		return CBMIsCharacterInWord(c) ||
+					CBIsCharacterInWord(this->itsDoc->GetFileType(), c);
 		});
 
 	JTEKeyHandler* handler;
@@ -317,14 +317,14 @@ CBTextEditor::ReadSetup
 			}
 
 		JSize tabCharCount;
-		JBoolean autoIndent;
+		bool autoIndent;
 		input >> tabCharCount >> JBoolFromString(autoIndent);
 		SetTabCharCount(tabCharCount);
 		GetText()->ShouldAutoIndent(autoIndent);
 
 		if (vers >= 2)
 			{
-			JBoolean allowDND, moveFrontOfText;
+			bool allowDND, moveFrontOfText;
 			JSize undoDepth;
 			input >> JBoolFromString(allowDND) >> JBoolFromString(moveFrontOfText) >> undoDepth;
 
@@ -353,7 +353,7 @@ CBTextEditor::ReadSetup
 
 		if (vers == 5)
 			{
-			JBoolean newLineAfterSemiFlag;
+			bool newLineAfterSemiFlag;
 			input >> JBoolFromString(newLineAfterSemiFlag);
 			}
 
@@ -375,7 +375,7 @@ CBTextEditor::ReadSetup
 
 		if (vers >= 9)
 			{
-			JBoolean tabToSpaces;
+			bool tabToSpaces;
 			input >> JBoolFromString(tabToSpaces);
 			GetText()->TabShouldInsertSpaces(tabToSpaces);
 			}
@@ -455,7 +455,7 @@ CBTextEditor::Receive
 		const JXFSDirMenu::FileSelected* info =
 			dynamic_cast<const JXFSDirMenu::FileSelected*>(&message);
 		assert( info != nullptr );
-		JBoolean onDisk;
+		bool onDisk;
 		const JString fullName = itsDoc->GetFullName(&onDisk);
 		if (onDisk)
 			{
@@ -466,7 +466,7 @@ CBTextEditor::Receive
 	else
 		{
 		JXTextMenu* editMenu;
-		JBoolean ok = GetEditMenu(&editMenu);
+		bool ok = GetEditMenu(&editMenu);
 		assert( ok );
 
 		JXTextMenu* searchMenu;
@@ -530,7 +530,7 @@ void
 CBTextEditor::UpdateCustomEditMenuItems()
 {
 	JXTextMenu* editMenu;
-	const JBoolean ok = GetEditMenu(&editMenu);
+	const bool ok = GetEditMenu(&editMenu);
 	assert( ok );
 
 	if (GetType() == kFullEditor)
@@ -546,11 +546,11 @@ CBTextEditor::UpdateCustomEditMenuItems()
 /******************************************************************************
  HandleCustomEditMenuItems (private)
 
-	Returns kJTrue if it is one of our items.
+	Returns true if it is one of our items.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTextEditor::HandleCustomEditMenuItems
 	(
 	const JIndex index
@@ -561,11 +561,11 @@ CBTextEditor::HandleCustomEditMenuItems
 	if (index == itsExecScriptCmdIndex)
 		{
 		(CBGetRunTEScriptDialog())->Activate();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -578,7 +578,7 @@ void
 CBTextEditor::UpdateCustomSearchMenuItems()
 {
 	JXTextMenu* searchMenu;
-	const JBoolean ok = GetSearchReplaceMenu(&searchMenu);
+	const bool ok = GetSearchReplaceMenu(&searchMenu);
 	assert( ok );
 
 	searchMenu->EnableItem(itsFirstSearchMenuItem + kGoToLineCmd);
@@ -628,7 +628,7 @@ CBTextEditor::UpdateCustomSearchMenuItems()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTextEditor::HandleCustomSearchMenuItems
 	(
 	const JIndex origIndex
@@ -644,55 +644,55 @@ CBTextEditor::HandleCustomSearchMenuItems
 	if (index == kBalanceCmd)
 		{
 		CBMBalanceFromSelection(this, CBGetLanguage(itsDoc->GetFileType()));
-		return kJTrue;
+		return true;
 		}
 
 	else if (index == kGoToLineCmd)
 		{
 		itsLineInput->Focus();
-		return kJTrue;
+		return true;
 		}
 	else if (index == kGoToColCmd)
 		{
 		itsColInput->Focus();
-		return kJTrue;
+		return true;
 		}
 	else if (index == kPlaceBookmarkCmd)
 		{
 		PlaceBookmark();
-		return kJTrue;
+		return true;
 		}
 
 	else if (index == kOpenSelectionAsFileCmd)
 		{
 		OpenSelection();
-		return kJTrue;
+		return true;
 		}
 	else if (index == kFindSourceFileCmd)
 		{
 		(CBGetFindFileDialog())->Activate();
-		return kJTrue;
+		return true;
 		}
 
 	else if (index == kFindSelectionAsSymbolCmd)
 		{
-		FindSelectedSymbol(kJXLeftButton, kJTrue);
-		return kJTrue;
+		FindSelectedSymbol(kJXLeftButton, true);
+		return true;
 		}
 	else if (index == kFindSelectionAsSymbolNoContextCmd)
 		{
-		FindSelectedSymbol(kJXLeftButton, kJFalse);
-		return kJTrue;
+		FindSelectedSymbol(kJXLeftButton, false);
+		return true;
 		}
 	else if (index == kFindSelectionInManPageCmd)
 		{
 		DisplayManPage();
-		return kJTrue;
+		return true;
 		}
 	else if (index == kViewManPageCmd)
 		{
 		(CBGetViewManPageDialog())->Activate();
-		return kJTrue;
+		return true;
 		}
 
 	else if (index == kOpenPrevListItemCmd)
@@ -702,7 +702,7 @@ CBTextEditor::HandleCustomSearchMenuItems
 			{
 			listDoc->OpenPrevListItem();
 			}
-		return kJTrue;
+		return true;
 		}
 	else if (index == kOpenNextListItemCmd)
 		{
@@ -711,12 +711,12 @@ CBTextEditor::HandleCustomSearchMenuItems
 			{
 			listDoc->OpenNextListItem();
 			}
-		return kJTrue;
+		return true;
 		}
 
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -729,7 +729,7 @@ void
 CBTextEditor::PlaceBookmark()
 {
 	JXScrollbar *hScrollbar, *vScrollbar;
-	const JBoolean hasScroll = GetScrollbars(&hScrollbar, &vScrollbar);
+	const bool hasScroll = GetScrollbars(&hScrollbar, &vScrollbar);
 	assert( hasScroll );
 	vScrollbar->PlaceScrolltab();
 }
@@ -742,7 +742,7 @@ CBTextEditor::PlaceBookmark()
 void
 CBTextEditor::UpdateContextMenu()
 {
-	const JBoolean hasSelection = HasSelection();
+	const bool hasSelection = HasSelection();
 	itsContextMenu->SetItemEnable(kContextCutCmd, hasSelection);
 	itsContextMenu->SetItemEnable(kContextCopyCmd, hasSelection);
 }
@@ -827,12 +827,12 @@ CBTextEditor::HandleContextMenu
 	else if (index == kContextFindSymbolCmd)
 		{
 		SelectWordIfNoSelection();
-		FindSelectedSymbol(kJXLeftButton, kJTrue);
+		FindSelectedSymbol(kJXLeftButton, true);
 		}
 	else if (index == kContextFindSymbolNoContextCmd)
 		{
 		SelectWordIfNoSelection();
-		FindSelectedSymbol(kJXLeftButton, kJFalse);
+		FindSelectedSymbol(kJXLeftButton, false);
 		}
 	else if (index == kContextFindSymbolManPageCmd)
 		{
@@ -847,7 +847,7 @@ CBTextEditor::HandleContextMenu
 		}
 	else if (index == kShowInFileMgrCmd)
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		const JString fullName = itsDoc->GetFullName(&onDisk);
 		if (onDisk)
 			{
@@ -876,7 +876,7 @@ CBTextEditor::SelectWordIfNoSelection()
 	if (!HasSelection())
 		{
 		JStyledText::TextRange r;
-		TEGetDoubleClickSelection(GetInsertionIndex(), kJFalse, kJFalse, &r);
+		TEGetDoubleClickSelection(GetInsertionIndex(), false, false, &r);
 		SetSelection(r);
 		}
 }
@@ -922,7 +922,7 @@ CBTextEditor::AdjustCursor
 	const JXKeyModifiers&	modifiers
 	)
 {
-	const JBoolean selectionSpecial =
+	const bool selectionSpecial =
 		modifiers.meta() ? !itsAllowDNDFlag : itsAllowDNDFlag;
 	ShouldAllowDragAndDrop(selectionSpecial);
 	if (selectionSpecial && PointInSelection(pt))
@@ -955,9 +955,9 @@ CBTextEditor::HandleMouseDown
 		{
 		itsCompletionMenu->ClearRequestCount();
 		}
-	itsColInput->ShouldOptimizeUpdate(kJTrue);
+	itsColInput->ShouldOptimizeUpdate(true);
 
-	const JBoolean selectionSpecial =
+	const bool selectionSpecial =
 		modifiers.meta() ? !itsAllowDNDFlag : itsAllowDNDFlag;
 	ShouldAllowDragAndDrop(selectionSpecial);
 
@@ -1004,7 +1004,7 @@ CBTextEditor::HandleMouseUp
 	JXTEBase::HandleMouseUp(pt, button, buttonStates, modifiers);
 	if (buttonStates.AllOff())
 		{
-		itsColInput->ShouldOptimizeUpdate(kJFalse);
+		itsColInput->ShouldOptimizeUpdate(false);
 		}
 
 	if (button <= kJXRightButton && itsLastClickCount == 2 &&
@@ -1076,7 +1076,7 @@ CBTextEditor::CreateScriptMenu
 	ListenTo(menu);
 
 	JXTextMenu* editMenu;
-	JBoolean ok = GetEditMenu(&editMenu);
+	bool ok = GetEditMenu(&editMenu);
 	assert( ok );
 	const JXImage* image;
 	ok = editMenu->GetItemImage(itsExecScriptCmdIndex, &image);
@@ -1102,12 +1102,12 @@ CBTextEditor::HandleKeyPress
 {
 	CBGetDocumentManager()->SetActiveTextDocument(itsDoc);
 
-	const JBoolean controlOn = modifiers.control();
-	const JBoolean metaOn    = modifiers.meta();
-	const JBoolean shiftOn   = modifiers.shift();
+	const bool controlOn = modifiers.control();
+	const bool metaOn    = modifiers.meta();
+	const bool shiftOn   = modifiers.shift();
 
 	CBStringCompleter* completer = nullptr;
-	JBoolean clearRequestCount   = kJTrue;
+	bool clearRequestCount   = true;
 
 	CBMacroManager* macroMgr = nullptr;
 	CaretLocation caretIndex;
@@ -1127,10 +1127,10 @@ CBTextEditor::HandleKeyPress
 		if (!HasSelection())
 			{
 			JStyledText::TextRange r;
-			TEGetDoubleClickSelection(GetInsertionIndex(), kJFalse, kJFalse, &r);
+			TEGetDoubleClickSelection(GetInsertionIndex(), false, false, &r);
 			SetSelection(r);
 			}
-		FindSelectedSymbol(shiftOn ? kJXMiddleButton : kJXLeftButton, kJTrue);
+		FindSelectedSymbol(shiftOn ? kJXMiddleButton : kJXLeftButton, true);
 		}
 
 	else if (controlOn && (c == kJUpArrow || c == kJDownArrow) && !metaOn)
@@ -1161,7 +1161,7 @@ CBTextEditor::HandleKeyPress
 			 completer->Complete(this, itsCompletionMenu))
 		{
 		// Complete() does the work
-		clearRequestCount = kJFalse;
+		clearRequestCount = false;
 		}
 
 	else if (type == kFullEditor &&
@@ -1169,7 +1169,7 @@ CBTextEditor::HandleKeyPress
 			 itsDoc->GetStringCompleter(&completer))
 		{
 		completer->Complete(this, itsCompletionMenu);	// prevent other Ctrl-space behavior
-		clearRequestCount = kJFalse;
+		clearRequestCount = false;
 		}
 
 	else
@@ -1184,14 +1184,14 @@ CBTextEditor::HandleKeyPress
 		if (!(shiftOn && (c == kJUpArrow   || c == kJDownArrow ||
 						  c == kJLeftArrow || c == kJRightArrow)))
 			{
-			itsColInput->ShouldOptimizeUpdate(kJTrue);
+			itsColInput->ShouldOptimizeUpdate(true);
 			}
 		JXTEBase::HandleKeyPress(c, keySym, modifiers);
-		itsColInput->ShouldOptimizeUpdate(kJFalse);
+		itsColInput->ShouldOptimizeUpdate(false);
 
 		if (ruleList != nullptr)
 			{
-			GetText()->SetCRMRuleList(const_cast<JStyledText::CRMRuleList*>(ruleList), kJFalse);
+			GetText()->SetCRMRuleList(const_cast<JStyledText::CRMRuleList*>(ruleList), false);
 			}
 
 		if (itsBalanceWhileTypingFlag &&
@@ -1257,7 +1257,7 @@ CBTextEditor::FileTypeChanged
 			assert( itsFnMenu != nullptr );
 
 			JXTextMenu* searchMenu;
-			const JBoolean ok = GetSearchReplaceMenu(&searchMenu);
+			const bool ok = GetSearchReplaceMenu(&searchMenu);
 			assert( ok );
 
 			menuBar->InsertMenuAfter(searchMenu, itsFnMenu);
@@ -1276,7 +1276,7 @@ CBTextEditor::FileTypeChanged
 	CBStringCompleter* completer = nullptr;
 	if (itsDoc->GetStringCompleter(&completer))
 		{
-		itsCompletionMenu = jnew JXStringCompletionMenu(this, kJTrue);
+		itsCompletionMenu = jnew JXStringCompletionMenu(this, true);
 		assert( itsCompletionMenu != nullptr );
 		}
 	else
@@ -1297,7 +1297,7 @@ CBTextEditor::UpdateWritable
 	const JString& name
 	)
 {
-	SetWritable( JI2B( !JFileExists(name) || JFileWritable(name) ) );
+	SetWritable( !JFileExists(name) || JFileWritable(name) );
 }
 
 /******************************************************************************
@@ -1310,7 +1310,7 @@ CBTextEditor::UpdateWritable
 void
 CBTextEditor::SetWritable
 	(
-	const JBoolean writable
+	const bool writable
 	)
 {
 	SetType(writable ? kFullEditor : kSelectableText);
@@ -1326,7 +1326,7 @@ CBTextEditor::SetWritable
 void
 CBTextEditor::UpdateTabHandling()
 {
-	WantInput(kJTrue, JI2B(GetType() == kFullEditor), kJTrue);
+	WantInput(true, GetType() == kFullEditor, true);
 }
 
 /******************************************************************************
@@ -1340,13 +1340,13 @@ void
 CBTextEditor::FindSelectedSymbol
 	(
 	const JXMouseButton button,
-	const JBoolean		useContext
+	const bool		useContext
 	)
 {
 	JString str;
 	CBProjectDocument* projDoc = nullptr;
 
-	JBoolean onDisk;
+	bool onDisk;
 	JString fullName = itsDoc->GetFullName(&onDisk);
 	if (!onDisk || !useContext)
 		{
@@ -1385,7 +1385,7 @@ CBTextEditor::DisplayManPage()
 	if (GetSelection(&sel))
 		{
 		const JString& text  = GetText()->GetText();
-		const JStringMatch m = manRegex.Match(JString(text.GetBytes() + sel.byteRange.first-1, 0, kJFalse), kJTrue);
+		const JStringMatch m = manRegex.Match(JString(text.GetBytes() + sel.byteRange.first-1, JString::kNoCopy), JRegex::kIncludeSubmatches);
 		if (!m.IsEmpty())
 			{
 			CBManPageDocument::Create(nullptr, m.GetSubstring(1), m.GetSubstring(2));
@@ -1479,7 +1479,7 @@ CBTextEditor::OpenSelection()
 				{
 				break;
 				}
-			else if (c == ':' && iter->Next(&c, kJFalse) && c.IsDigit())
+			else if (c == ':' && iter->Next(&c, kJIteratorStay) && c.IsDigit())
 				{
 				lineIndex = GetLineIndex(
 					JStyledText::TextIndex(
@@ -1585,7 +1585,7 @@ static const JRegex bisonErrorRegex  = "\\(\"(.+)\", line ([0-9]+)\\) error: ";
 static const JRegex absoftErrorRegex = " error on line ([0-9]+) of ([^:]+): ";
 static const JRegex mavenErrorRegex  = "(?:\\[[^]]+\\]\\s+)?([^:]+):\\[([0-9]+),";
 
-JBoolean
+bool
 cbExtractFileAndLine
 	(
 	const JStyledText::TextIndex&	caretIndex,
@@ -1599,7 +1599,7 @@ cbExtractFileAndLine
 	JIndex*							lineIndex
 	)
 {
-	const JStringMatch match = pattern.Match(line, kJTrue);
+	const JStringMatch match = pattern.Match(line, JRegex::kIncludeSubmatches);
 	if (!match.IsEmpty() &&
 		match.GetCharacterRange(fileSubindex).Contains(caretIndex.charIndex - startIndex.charIndex + 1))
 		{
@@ -1612,18 +1612,18 @@ cbExtractFileAndLine
 				JUtf8ByteRange(
 					match.GetUtf8ByteRange(fileSubindex)  + (startIndex.byteIndex - 1)));
 
-		const JBoolean ok = match.GetSubstring(lineSubindex).ConvertToUInt(lineIndex);
+		const bool ok = match.GetSubstring(lineSubindex).ConvertToUInt(lineIndex);
 		assert( ok );
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 CBTextEditor::IsNonstdError
 	(
 	JString*				fileName,
@@ -1643,15 +1643,14 @@ CBTextEditor::IsNonstdError
 	GetText().DisposeConstIterator(iter);
 	iter = nullptr;
 
-	return JI2B(
-		cbExtractFileAndLine(caretIndex, startIndex, line, flexErrorRegex, 1, 2,
+	return cbExtractFileAndLine(caretIndex, startIndex, line, flexErrorRegex, 1, 2,
 							 fileName, fileNameRange, lineIndex) ||
 		cbExtractFileAndLine(caretIndex, startIndex, line, bisonErrorRegex, 1, 2,
 							 fileName, fileNameRange, lineIndex) ||
 		cbExtractFileAndLine(caretIndex, startIndex, line, absoftErrorRegex, 2, 1,
 							 fileName, fileNameRange, lineIndex) ||
 		cbExtractFileAndLine(caretIndex, startIndex, line, mavenErrorRegex, 1, 2,
-							 fileName, fileNameRange, lineIndex));
+							 fileName, fileNameRange, lineIndex);
 }
 
 /******************************************************************************
@@ -1668,13 +1667,13 @@ CBTextEditor::SetFont
 	const JString&	name,
 	const JSize		size,
 	const JSize		tabCharCount,
-	const JBoolean	breakCROnly
+	const bool	breakCROnly
 	)
 {
 	PrivateSetTabCharCount(tabCharCount);
 	SetAllFontNameAndSize(name, size,
 		CalcTabWidth(JFontManager::GetFont(name, size), tabCharCount),
-		breakCROnly, kJFalse);
+		breakCROnly, false);
 }
 
 /******************************************************************************
@@ -1705,10 +1704,10 @@ CBTextEditor::StyledText::StyledText
 	(
 	CBTextDocument*	doc,
 	JFontManager*	fontManager,
-	const JBoolean	pasteStyledText
+	const bool	pasteStyledText
 	)
 	:
-	JXStyledText(kJTrue, pasteStyledText, fontManager),
+	JXStyledText(true, pasteStyledText, fontManager),
 	itsDoc(doc)
 {
 	itsTokenStartList = JSTStyler::NewTokenStartList();
@@ -1726,7 +1725,7 @@ CBTextEditor::StyledText::AdjustStylesBeforeBroadcast
 	JRunArray<JFont>*			styles,
 	JStyledText::TextRange*		recalcRange,
 	JStyledText::TextRange*		redrawRange,
-	const JBoolean				deletion
+	const bool				deletion
 	)
 {
 	CBStylerBase* styler = nullptr;
@@ -1771,7 +1770,7 @@ CBTextEditor::RecalcStyles()
 		{
 		JFont font = GetText()->GetFont(1);
 		font.ClearStyle();
-		GetText()->SetFont(GetText()->SelectAll(), font, kJFalse);
+		GetText()->SetFont(GetText()->SelectAll(), font, false);
 		}
 }
 
@@ -1804,7 +1803,7 @@ CBTextEditor::ShowBalancingOpenGroup()
 		const JStyledText::TextIndex i(iter->GetNextCharacterIndex(), iter->GetNextByteIndex());
 		SetSelection(JStyledText::TextRange(i, GetText()->AdjustTextIndex(i, +1)));
 
-		if (!TEScrollToSelection(kJFalse) || itsScrollToBalanceFlag)
+		if (!TEScrollToSelection(false) || itsScrollToBalanceFlag)
 			{
 			GetWindow()->Update();
 			JWait(kBalanceWhileTypingDelay);
@@ -1854,7 +1853,7 @@ CBTextEditor::SetFontBeforePrintPS
 	if (fontName != "Courier")
 		{
 		itsSavedBreakCROnlyFlag = WillBreakCROnly();
-		SetFont(JString("Courier", kJFalse), fontSize, itsTabCharCount, kJFalse);
+		SetFont(JString("Courier", JString::kNoCopy), fontSize, itsTabCharCount, false);
 		}
 }
 

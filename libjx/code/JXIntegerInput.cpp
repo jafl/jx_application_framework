@@ -32,7 +32,7 @@ JXIntegerInput::JXIntegerInput
 	JXInputField(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	SetIsRequired();
-	itsHasLowerLimitFlag = itsHasUpperLimitFlag = kJFalse;
+	itsHasLowerLimitFlag = itsHasUpperLimitFlag = false;
 	SetValue(0);
 }
 
@@ -50,14 +50,14 @@ JXIntegerInput::~JXIntegerInput()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXIntegerInput::GetValue
 	(
 	JInteger* value
 	)
 	const
 {
-	return JI2B( GetText().GetText().ConvertToInteger(value) && ValueValid(*value) );
+	return GetText().GetText().ConvertToInteger(value) && ValueValid(*value);
 }
 
 /******************************************************************************
@@ -106,7 +106,7 @@ JXIntegerInput::SetLowerLimit
 {
 	assert( !itsHasUpperLimitFlag || minValue < itsUpperLimit );
 
-	itsHasLowerLimitFlag = kJTrue;
+	itsHasLowerLimitFlag = true;
 	itsLowerLimit = minValue;
 
 	JInteger v;
@@ -124,7 +124,7 @@ JXIntegerInput::SetUpperLimit
 {
 	assert( !itsHasLowerLimitFlag || itsLowerLimit < maxValue );
 
-	itsHasUpperLimitFlag = kJTrue;
+	itsHasUpperLimitFlag = true;
 	itsUpperLimit = maxValue;
 
 	JInteger v;
@@ -139,12 +139,12 @@ JXIntegerInput::SetUpperLimit
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXIntegerInput::InputValid()
 {
 	if (!JXInputField::InputValid())
 		{
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -152,17 +152,17 @@ JXIntegerInput::InputValid()
 
 		if (!IsRequired() && text.IsEmpty())
 			{
-			return kJTrue;
+			return true;
 			}
 
 		JInteger value;
 		if (!text.ConvertToInteger(&value))
 			{
 			JGetUserNotification()->ReportError(JGetString("NotANumber::JXIntegerInput"));
-			return kJFalse;
+			return false;
 			}
 
-		const JBoolean valid = ValueValid(value);
+		const bool valid = ValueValid(value);
 		JString errorStr;
 		if (!valid && itsHasLowerLimitFlag && itsHasUpperLimitFlag)
 			{

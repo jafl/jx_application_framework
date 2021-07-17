@@ -13,8 +13,8 @@
 
 class CMLocation
 {
-	friend JBoolean operator==(const CMLocation& lhs, const CMLocation& rhs);
-	friend JBoolean operator!=(const CMLocation& lhs, const CMLocation& rhs);
+	friend bool operator==(const CMLocation& lhs, const CMLocation& rhs);
+	friend bool operator!=(const CMLocation& lhs, const CMLocation& rhs);
 
 public:
 
@@ -149,14 +149,14 @@ CMLocation::SetMemoryAddress
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 operator!=
 	(
 	const CMLocation& lhs,
 	const CMLocation& rhs
 	)
 {
-	return JNegate(lhs == rhs);
+	return lhs != rhs;
 }
 
 #endif

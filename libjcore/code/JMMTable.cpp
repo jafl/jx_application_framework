@@ -49,7 +49,7 @@ void
 JMMTable::AddNewRecord
 	(
 	const JMMRecord& record,
-	const JBoolean checkDoubleAllocation
+	const bool checkDoubleAllocation
 	)
 {
 	BeginRecursiveBlock();
@@ -60,23 +60,23 @@ JMMTable::AddNewRecord
 /******************************************************************************
  SetRecordDeleted
 
-	If the block is currently allocated, *record is set to its record and kJTrue
-	is return.  If not, *record is unchanged and kJFalse is returned.
+	If the block is currently allocated, *record is set to its record and true
+	is return.  If not, *record is unchanged and false is returned.
 
  *****************************************************************************/
 
-JBoolean
+bool
 JMMTable::SetRecordDeleted
 	(
 	JMMRecord*       record,
 	const void*      block,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 	BeginRecursiveBlock();
-	JBoolean wasAllocated = _SetRecordDeleted(record, block, file, line, isArray);
+	bool wasAllocated = _SetRecordDeleted(record, block, file, line, isArray);
 	EndRecursiveBlock();
 	return wasAllocated;
 }
@@ -171,7 +171,7 @@ JMMTable::NotifyUnallocatedDeletion
 	(
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 	itsManager->HandleUnallocatedDeletion(file, line, isArray);
@@ -188,7 +188,7 @@ JMMTable::NotifyMultipleDeletion
 	const JMMRecord& firstRecord,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 	itsManager->HandleMultipleDeletion(firstRecord, file, line, isArray);
@@ -258,13 +258,13 @@ JMMTable::AddToHistogram
 	max       <<= 32 - (JMemoryManager::kHistogramSlotCount - 1);
 
 	JIndex slot    = 0;
-	JBoolean found = kJFalse;
+	bool found = false;
 	while (slot < JMemoryManager::kHistogramSlotCount - 1)
 		{
 		if (size <= max)
 			{
 			histo[ slot ]++;
-			found = kJTrue;
+			found = true;
 			break;
 			}
 		max <<= 1;

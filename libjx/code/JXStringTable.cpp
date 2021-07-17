@@ -147,11 +147,11 @@ JXStringTable::CreateStringTableInput
 	Extract the information from the active input field, check it,
 	and delete the input field if successful.
 
-	Returns kJTrue if the data is valid and the process succeeded.
+	Returns true if the data is valid and the process succeeded.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXStringTable::ExtractInputData
 	(
 	const JPoint& cell
@@ -162,11 +162,11 @@ JXStringTable::ExtractInputData
 	if (itsStringInputField->InputValid())
 		{
 		itsStringData->SetString(cell, itsStringInputField->GetText()->GetText());
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

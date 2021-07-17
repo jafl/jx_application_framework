@@ -1378,7 +1378,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_South FL_NoGravity
 name: (currPathMenu)
 callback: 
-argument: JString("/", kJFalse)
+argument: JString("/", JString::kNoCopy)
 
 --------------------
 class: FL_BUTTON
@@ -1708,7 +1708,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_South FL_NoGravity
 name: (currPathMenu)
 callback: 
-argument: JString("/", kJFalse)
+argument: JString("/", JString::kNoCopy)
 
 --------------------
 class: FL_BUTTON
@@ -2038,7 +2038,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_South FL_NoGravity
 name: (currPathMenu)
 callback: 
-argument: JString("/", kJFalse)
+argument: JString("/", JString::kNoCopy)
 
 --------------------
 class: FL_BUTTON
@@ -4075,7 +4075,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsFindBackButton
 callback: 
-argument: kJFalse
+argument: false
 
 --------------------
 class: FL_BOX
@@ -4093,7 +4093,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsFindFwdButton
 callback: 
-argument: kJTrue
+argument: true
 
 --------------------
 class: FL_TEXT
@@ -4129,7 +4129,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsReplaceFindBackButton
 callback: 
-argument: kJFalse
+argument: false
 
 --------------------
 class: FL_BOX
@@ -4147,7 +4147,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthEast FL_NoGravity
 name: itsReplaceFindFwdButton
 callback: 
-argument: kJTrue
+argument: true
 
 --------------------
 class: FL_BUTTON
@@ -4219,7 +4219,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
 name: itsSearchInput
 callback: 
-argument: kJTrue, kJFalse
+argument: true, false
 
 --------------------
 class: FL_INPUT
@@ -4237,7 +4237,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
 name: itsReplaceInput
 callback: 
-argument: kJTrue, kJFalse
+argument: true, false
 
 --------------------
 class: FL_BUTTON

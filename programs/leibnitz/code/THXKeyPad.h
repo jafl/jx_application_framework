@@ -65,7 +65,7 @@ private:
 private:
 
 	void		CreateButtons();
-	JBoolean	HandleButton(JBroadcaster* sender) const;
+	bool	HandleButton(JBroadcaster* sender) const;
 
 	// not allowed
 

@@ -73,7 +73,7 @@ JRotateComplex::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JRotateComplex::Evaluate
 	(
 	JFloat* result
@@ -81,10 +81,10 @@ JRotateComplex::Evaluate
 	const
 {
 	*result = 0.0;
-	return kJFalse;
+	return false;
 }
 
-JBoolean
+bool
 JRotateComplex::Evaluate
 	(
 	JComplex* result
@@ -94,13 +94,13 @@ JRotateComplex::Evaluate
 	JComplex x;
 	if (!(GetArg1())->Evaluate(&x))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JFloat a;
 	if (!(GetArg2())->Evaluate(&a))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	jclear_errno();

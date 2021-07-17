@@ -30,7 +30,7 @@
 
 JStopWatch::JStopWatch()
 {
-	itsOnFlag = kJFalse;
+	itsOnFlag = false;
 	itsStartClock = itsStopClock = 0;
 	itsStartTime  = itsStopTime  = 0;
 }
@@ -54,7 +54,7 @@ JStopWatch::StartTimer()
 {
 	if (!itsOnFlag)
 		{
-		itsOnFlag     = kJTrue;
+		itsOnFlag     = true;
 		itsStartClock = itsStopClock = clock();
 		itsStartTime  = itsStopTime  = time(nullptr);
 		}
@@ -70,7 +70,7 @@ JStopWatch::StopTimer()
 {
 	if (itsOnFlag)
 		{
-		itsOnFlag    = kJFalse;
+		itsOnFlag    = false;
 		itsStopClock = clock();
 		itsStopTime  = time(nullptr);
 		}

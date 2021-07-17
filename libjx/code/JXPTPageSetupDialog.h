@@ -26,11 +26,11 @@ public:
 		Create(const JString& printCmd,
 			   const JSize pageWidth, const JSize pageHeight,
 			   const JSize minPageHeight,
-			   const JBoolean printReverseOrder);
+			   const bool printReverseOrder);
 
 	virtual ~JXPTPageSetupDialog();
 
-	JBoolean	SetParameters(JXPTPrinter* p) const;
+	bool	SetParameters(JXPTPrinter* p) const;
 
 protected:
 
@@ -41,7 +41,7 @@ protected:
 					   JXIntegerInput* widthInput, const JSize pageWidth,
 					   JXIntegerInput* heightInput, const JSize pageHeight,
 					   const JSize minPageHeight, JXTextButton* printTestButton,
-					   JXTextCheckbox* printReverseOrderCB, const JBoolean printReverseOrder);
+					   JXTextCheckbox* printReverseOrderCB, const bool printReverseOrder);
 
 	JXIntegerInput*	GetWidthInput() const;
 	JXIntegerInput*	GetHeightInput() const;
@@ -65,7 +65,7 @@ private:
 	void	BuildWindow(const JString& printCmd,
 						const JSize pageWidth, const JSize pageHeight,
 						const JSize minPageHeight,
-						const JBoolean printReverseOrder);
+						const bool printReverseOrder);
 
 	void	PrintTestPage();
 

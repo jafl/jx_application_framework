@@ -142,7 +142,7 @@ CMArray1DDir::CMArray1DDirX
 
 	itsCommandDir           = supervisor;
 	itsCurrentNode          = nullptr;
-	itsWaitingForReloadFlag = kJFalse;
+	itsWaitingForReloadFlag = false;
 	itsDisplayRange.SetToEmptyAt(0);
 
 	BuildWindow();
@@ -186,7 +186,7 @@ void
 CMArray1DDir::Activate()
 {
 	JXWindowDirector::Activate();
-	itsWidget->ShouldUpdate(kJTrue);
+	itsWidget->ShouldUpdate(true);
 }
 
 /******************************************************************************
@@ -194,10 +194,10 @@ CMArray1DDir::Activate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMArray1DDir::Deactivate()
 {
-	itsWidget->ShouldUpdate(kJFalse);
+	itsWidget->ShouldUpdate(false);
 	return JXWindowDirector::Deactivate();
 }
 
@@ -276,7 +276,7 @@ CMArray1DDir::BuildWindow()
 // end JXLayout
 
 	window->SetMinSize(300, 200);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetArray1DWindowClass());
 
 	UpdateWindowTitle();
@@ -286,7 +286,7 @@ CMArray1DDir::BuildWindow()
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
-	CMGetPrefsManager()->GetWindowSize(kArray1DWindSizeID, window, kJTrue);
+	CMGetPrefsManager()->GetWindowSize(kArray1DWindSizeID, window, true);
 
 	CMVarNode* root = itsLink->CreateVarNode();
 	assert( root != nullptr );
@@ -296,7 +296,7 @@ CMArray1DDir::BuildWindow()
 	assert( treeList != nullptr );
 
 	itsWidget =
-		jnew CMVarTreeWidget(itsCommandDir, kJFalse, menuBar, itsTree, treeList,
+		jnew CMVarTreeWidget(itsCommandDir, false, menuBar, itsTree, treeList,
 							scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert(itsWidget != nullptr);
@@ -374,7 +374,7 @@ CMArray1DDir::UpdateWindowTitle()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMArray1DDir::GetMenuIcon
 	(
 	const JXImage** icon
@@ -382,7 +382,7 @@ CMArray1DDir::GetMenuIcon
 	const
 {
 	*icon = CMGetArray1DIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -454,7 +454,7 @@ CMArray1DDir::Receive
 
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerRestarted))
 		{
-		itsWaitingForReloadFlag = kJTrue;
+		itsWaitingForReloadFlag = true;
 		}
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerStarted))
 		{
@@ -462,7 +462,7 @@ CMArray1DDir::Receive
 			{
 			JXCloseDirectorTask::Close(this);	// close after bcast is finished
 			}
-		itsWaitingForReloadFlag = kJFalse;
+		itsWaitingForReloadFlag = false;
 		}
 
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))

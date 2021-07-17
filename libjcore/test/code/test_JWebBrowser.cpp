@@ -18,7 +18,7 @@ int main()
 
 JTEST(ConvertVarNames)
 {
-	JString s("xterm \\' %f %g %y $f", kJFalse);
+	JString s("xterm \\' %f %g %y $f", JString::kNoCopy);
 	JWebBrowser::ConvertVarNames(&s, "fgx");
 	JAssertStringsEqual("xterm \\\\' $f $g %y \\$f", s);
 }

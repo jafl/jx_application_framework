@@ -30,7 +30,7 @@ JTEST(Print)
 	JAssertStringsEqual("1 - 2 i", JPrintComplexNumber(JComplex(1,-2)));
 
 	JAssertFalse(JUsingEEImag());
-	JUseEEImag(kJTrue);
+	JUseEEImag(true);
 	JAssertTrue(JUsingEEImag());
 	JAssertStringsEqual("1 + 2 j", JPrintComplexNumber(JComplex(1,2)));
 

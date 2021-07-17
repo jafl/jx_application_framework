@@ -26,7 +26,7 @@ CBTabWidthDialog::CBTabWidthDialog
 	const JSize			tabWidth
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(tabWidth);
 }

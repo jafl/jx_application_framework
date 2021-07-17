@@ -69,7 +69,7 @@ const JUtf8Byte* JXWDManager::kWDMenuNeedsUpdate = "WDMenuNeedsUpdate::JXWDManag
 JXWDManager::JXWDManager
 	(
 	JXDisplay*		display,
-	const JBoolean	wantShortcuts
+	const bool	wantShortcuts
 	)
 	:
 	itsWantShortcutFlag(wantShortcuts),
@@ -173,7 +173,7 @@ JXWDManager::DirectorCreated
 
 	if (!JString::IsEmpty(id))
 		{
-		info.itemID = jnew JString(id, 0);
+		info.itemID = jnew JString(id);
 		assert( info.itemID != nullptr );
 		}
 
@@ -191,18 +191,17 @@ JXWDManager::DirectorCreated
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWDManager::ShortcutUsed
 	(
 	const JArray<WindowInfo>&	windowList,
 	const JInteger				shortcutIndex
 	)
 {
-	return JI2B(
-		std::any_of(begin(windowList), end(windowList),
+	return std::any_of(begin(windowList), end(windowList),
 			[shortcutIndex] (const WindowInfo& info)
 				{ return (info.shortcutStr   == nullptr &&
-						  info.shortcutIndex == shortcutIndex); }));
+						  info.shortcutIndex == shortcutIndex); });
 }
 
 /******************************************************************************
@@ -224,9 +223,9 @@ JXWDManager::DirectorDeleted
 		}
 }
 
-// private -- returns kJTrue if found dir in windowList
+// private -- returns true if found dir in windowList
 
-JBoolean
+bool
 JXWDManager::DirectorDeleted1
 	(
 	JArray<WindowInfo>*	windowList,
@@ -269,11 +268,11 @@ JXWDManager::DirectorDeleted1
 				WDMenusNeedUpdate();
 				}
 
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -407,7 +406,7 @@ JXWDManager::UpdateWDMenu1
 		if ((info.dir)->GetMenuIcon(&icon) &&
 			icon->GetDisplay() == menu->GetDisplay())
 			{
-			menu->SetItemImage(menuIndex, const_cast<JXImage*>(icon), kJFalse);
+			menu->SetItemImage(menuIndex, const_cast<JXImage*>(icon), false);
 			}
 
 		if (info.shortcutStr != nullptr)

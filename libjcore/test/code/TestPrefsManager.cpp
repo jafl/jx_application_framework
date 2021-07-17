@@ -22,7 +22,7 @@ TestPrefsManager::TestPrefsManager
 	const JFileVersion	currentVersion
 	)
 	:
-	JPrefsManager(JString(signature, kJFalse), currentVersion, kJTrue)
+	JPrefsManager(JString(signature, JString::kNoCopy), currentVersion, true)
 {
 }
 
@@ -44,7 +44,7 @@ TestPrefsManager::~TestPrefsManager()
 void
 TestPrefsManager::UpgradeData
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JFileVersion	currentVersion
 	)
 {

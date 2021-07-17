@@ -44,7 +44,7 @@ public:
 	JCoordinate	GetDefaultColWidth() const;
 	void		SetDefaultColWidth(const JCoordinate defColWidth);
 
-	JBoolean	GetCell(const JPoint& pt, JPoint* cell) const;
+	bool	GetCell(const JPoint& pt, JPoint* cell) const;
 	JRect		GetCellRect(const JPoint& cell) const;
 	JCoordinate	GetRowTop(const JIndex index) const;
 	JCoordinate	GetColLeft(const JIndex index) const;
@@ -52,32 +52,32 @@ public:
 	JTableSelection&		GetTableSelection();
 	const JTableSelection&	GetTableSelection() const;
 
-	virtual JBoolean	IsSelectable(const JPoint& cell,
-									 const JBoolean forExtend) const;
+	virtual bool	IsSelectable(const JPoint& cell,
+									 const bool forExtend) const;
 	void				SelectSingleCell(const JPoint& cell,
-										 const JBoolean scroll = kJTrue);
-	JBoolean			GetNextSelectableCell(JPoint* cell, const JPoint& delta,
-											  const JBoolean forExtend) const;
+										 const bool scroll = true);
+	bool			GetNextSelectableCell(JPoint* cell, const JPoint& delta,
+											  const bool forExtend) const;
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const;
-	JBoolean			BeginEditing(const JPoint& cell, const JBoolean scrollToCell = kJTrue);
-	JBoolean			ShiftEditing(const JCoordinate dx, const JCoordinate dy,
-									 const JBoolean scrollToCell = kJTrue);
-	JBoolean			EndEditing();
+	virtual bool	IsEditable(const JPoint& cell) const;
+	bool			BeginEditing(const JPoint& cell, const bool scrollToCell = true);
+	bool			ShiftEditing(const JCoordinate dx, const JCoordinate dy,
+									 const bool scrollToCell = true);
+	bool			EndEditing();
 	void				CancelEditing();
 
-	JBoolean	IsEditing() const;
-	JBoolean	GetEditedCell(JPoint* editCell) const;
+	bool	IsEditing() const;
+	bool	GetEditedCell(JPoint* editCell) const;
 
 	void	Print(JPagePrinter& p,
-				  const JBoolean printRowHeader = kJTrue,
-				  const JBoolean printColHeader = kJTrue);
+				  const bool printRowHeader = true,
+				  const bool printColHeader = true);
 	void	Print(JEPSPrinter& p,
-				  const JBoolean printRowHeader = kJTrue,
-				  const JBoolean printColHeader = kJTrue);
+				  const bool printRowHeader = true,
+				  const bool printColHeader = true);
 	void	DrawForPrint(JPainter& p, const JPoint& topLeft,
-						 const JBoolean userPrintRowHeader,
-						 const JBoolean userPrintColHeader);
+						 const bool userPrintRowHeader,
+						 const bool userPrintColHeader);
 
 	void	GetRowBorderInfo(JCoordinate* lineWidth, JColorID* color) const;
 	void	SetRowBorderInfo(const JCoordinate lineWidth, const JColorID color);
@@ -88,17 +88,17 @@ public:
 	JColorID	GetSelectionColor() const;
 	void		SetSelectionColor(const JColorID color);
 
-	JBoolean	GetRowHeader(const JTable** table) const;
+	bool	GetRowHeader(const JTable** table) const;
 	void		SetRowHeader(JTable* table);
-	JBoolean	GetColHeader(const JTable** table) const;
+	bool	GetColHeader(const JTable** table) const;
 	void		SetColHeader(JTable* table);
 
-	JBoolean	RowIndexValid(const JIndex index) const;
-	JBoolean	ColIndexValid(const JIndex index) const;
-	JBoolean	CellValid(const JPoint& cell) const;
+	bool	RowIndexValid(const JIndex index) const;
+	bool	ColIndexValid(const JIndex index) const;
+	bool	CellValid(const JPoint& cell) const;
 
-	JBoolean	TableScrollToCell(const JPoint& cell,
-								  const JBoolean centerInDisplay = kJFalse);
+	bool	TableScrollToCell(const JPoint& cell,
+								  const bool centerInDisplay = false);
 
 	// automatically called by JAuxTableData
 
@@ -123,22 +123,22 @@ protected:
 	void			TableRefreshRow(const JIndex index);
 	void			TableRefreshCol(const JIndex index);
 
-	JBoolean		WillActLike1DList() const;
-	void			ShouldActLike1DList(const JBoolean act1D = kJTrue);
+	bool		WillActLike1DList() const;
+	void			ShouldActLike1DList(const bool act1D = true);
 
 	void			SetDrawOrder(const DrawOrder order);
 	void			TableDraw(JPainter& p, const JRect& r,
-							  const JBoolean drawLowerRightBorder = kJFalse);
+							  const bool drawLowerRightBorder = false);
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) = 0;
 	virtual void	TablePrepareToDrawRow(const JIndex rowIndex,
 										  const JIndex firstCol, const JIndex lastCol);
 	virtual void	TablePrepareToDrawCol(const JIndex colIndex,
 										  const JIndex firstRow, const JIndex lastRow);
-	JBoolean		Paginate(const JCoordinate pageWidth, const JCoordinate pageHeight,
-							 const JBoolean userPrintRowHeader,
-							 JArray<JCoordinate>* rowBreakpts, JBoolean* printRowHeader,
-							 const JBoolean userPrintColHeader,
-							 JArray<JCoordinate>* colBreakpts, JBoolean* printColHeader) const;
+	bool		Paginate(const JCoordinate pageWidth, const JCoordinate pageHeight,
+							 const bool userPrintRowHeader,
+							 JArray<JCoordinate>* rowBreakpts, bool* printRowHeader,
+							 const bool userPrintColHeader,
+							 JArray<JCoordinate>* colBreakpts, bool* printColHeader) const;
 	void			HilightIfSelected(JPainter& p, const JPoint& cell,
 									  const JRect& rect) const;
 
@@ -171,13 +171,13 @@ protected:
 	virtual void		TableWidthScaled(const JFloat scaleFactor) = 0;
 	virtual void		TableColMoved(const JCoordinate origX, const JSize width,
 									  const JCoordinate newX) = 0;
-	virtual JBoolean	TableScrollToCellRect(const JRect& cellRect,
-											  const JBoolean centerInDisplay = kJFalse) = 0;
+	virtual bool	TableScrollToCellRect(const JRect& cellRect,
+											  const bool centerInDisplay = false) = 0;
 	virtual JCoordinate	TableGetApertureWidth() const = 0;
 	virtual JCoordinate	GetMin1DVisibleWidth(const JPoint& cell) const;
 
-	virtual JBoolean	CreateInputField(const JPoint& cell, const JRect& cellRect);
-	virtual JBoolean	ExtractInputData(const JPoint& cell);
+	virtual bool	CreateInputField(const JPoint& cell, const JRect& cellRect);
+	virtual bool	ExtractInputData(const JPoint& cell);
 	virtual void		DeleteInputField();
 	virtual void		PlaceInputField(const JCoordinate x, const JCoordinate y);
 	virtual void		MoveInputField(const JCoordinate dx, const JCoordinate dy);
@@ -189,15 +189,15 @@ protected:
 	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight);
 	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight);
 
-	JBoolean	IsDraggingSelection() const;
-	void		SetSelectionBehavior(const JBoolean allowMultiple,
-									 const JBoolean allowDiscont);
-	void		BeginSelectionDrag(const JPoint& cell, const JBoolean extendSelection,
-								   const JBoolean selectDiscont);
+	bool	IsDraggingSelection() const;
+	void		SetSelectionBehavior(const bool allowMultiple,
+									 const bool allowDiscont);
+	void		BeginSelectionDrag(const JPoint& cell, const bool extendSelection,
+								   const bool selectDiscont);
 	void		ContinueSelectionDrag(const JPoint& cell);
 	void		FinishSelectionDrag();
-	JBoolean	HandleSelectionKeyPress(const JUtf8Character& key,
-										const JBoolean extendSelection);
+	bool	HandleSelectionKeyPress(const JUtf8Character& key,
+										const bool extendSelection);
 
 	void	AdjustToTableData();
 
@@ -228,7 +228,7 @@ private:
 private:
 
 	DrawOrder	itsDrawOrder;
-	JBoolean	itsIs1DListFlag;
+	bool	itsIs1DListFlag;
 
 	JCoordinate	itsWidth;
 	JCoordinate	itsHeight;
@@ -254,33 +254,33 @@ private:
 
 	// used while editing contents of a cell
 
-	JBoolean	itsIsEditingFlag;
+	bool	itsIsEditingFlag;
 	JPoint		itsEditCell;
 
 	// used while dragging selection
 
 	SelDragType	itsSelDragType;
 	JPoint		itsPrevSelDragCell;
-	JBoolean	itsAllowSelectMultipleFlag;
-	JBoolean	itsAllowSelectDiscontFlag;
+	bool	itsAllowSelectMultipleFlag;
+	bool	itsAllowSelectDiscontFlag;
 
 private:
 
-	JBoolean	GetVisibleRange(const JCoordinate min, const JCoordinate max,
+	bool	GetVisibleRange(const JCoordinate min, const JCoordinate max,
 								JRunArray<JCoordinate>& lengths,
 								const JCoordinate borderWidth,
 								JIndex* firstIndex, JIndex* lastIndex) const;
-	JBoolean	Paginate(const JCoordinate stripLength,
+	bool	Paginate(const JCoordinate stripLength,
 						 JRunArray<JCoordinate>& lengths,
 						 const JCoordinate borderWidth,
 						 JArray<JCoordinate>* breakpts) const;
 	void		PrintPage(JPainter& p, const JPoint& topLeft, const JPoint& botRight,
-						  const JPoint& offset, const JBoolean drawFrame);
+						  const JPoint& offset, const bool drawFrame);
 	void		PrintEPS1(JPainter& p, const JPoint& topLeft,
-						  const JBoolean printRowHeader,
-						  const JBoolean printColHeader);
+						  const bool printRowHeader,
+						  const bool printColHeader);
 
-	JBoolean	GetCellIndex(const JCoordinate coord, JRunArray<JCoordinate>& lengths,
+	bool	GetCellIndex(const JCoordinate coord, JRunArray<JCoordinate>& lengths,
 							 const JCoordinate borderWidth, JIndex* index) const;
 	void		GetCellBoundaries(const JIndex index, JRunArray<JCoordinate>& lengths,
 								  const JCoordinate borderWidth,
@@ -288,10 +288,10 @@ private:
 
 	void	TableDrawRowBorders(JPainter& p, const JRect& r,
 								const JIndex firstRow, const JIndex lastRow,
-								const JBoolean drawBottomBorder);
+								const bool drawBottomBorder);
 	void	TableDrawColBorders(JPainter& p, const JRect& r,
 								const JIndex firstCol, const JIndex lastCol,
-								const JBoolean drawRightBorder);
+								const bool drawRightBorder);
 
 	void	TableSetBounds(const JCoordinate w, const JCoordinate h);
 	void	TableAdjustBounds(const JCoordinate dw, const JCoordinate dh);
@@ -359,11 +359,10 @@ protected:
 				return itsCount;
 			};
 
-			JBoolean
+			bool
 			Contains(const JIndex index) const
 			{
-				return JConvertToBoolean(
-						GetFirstIndex() <= index && index <= GetLastIndex() );
+				return GetFirstIndex() <= index && index <= GetLastIndex();
 			};
 
 		private:
@@ -539,13 +538,13 @@ public:
 				RowColMessage(kRowsRemoved, firstIndex, count)
 				{ };
 
-			JBoolean	AdjustIndex(JIndex* index) const;
+			bool	AdjustIndex(JIndex* index) const;
 
-			JBoolean
+			bool
 			AdjustCell(JPoint* cell) const
 			{
 				JIndex rowIndex   = cell->y;
-				const JBoolean ok = AdjustIndex(&rowIndex);
+				const bool ok = AdjustIndex(&rowIndex);
 				cell->y           = rowIndex;
 				return ok;
 			};
@@ -683,13 +682,13 @@ public:
 				RowColMessage(kColsRemoved, firstIndex, count)
 				{ };
 
-			JBoolean	AdjustIndex(JIndex* index) const;
+			bool	AdjustIndex(JIndex* index) const;
 
-			JBoolean
+			bool
 			AdjustCell(JPoint* cell) const
 			{
 				JIndex colIndex   = cell->x;
-				const JBoolean ok = AdjustIndex(&colIndex);
+				const bool ok = AdjustIndex(&colIndex);
 				cell->x           = colIndex;
 				return ok;
 			};
@@ -787,14 +786,14 @@ JTable::GetRowCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTable::RowIndexValid
 	(
 	const JIndex index
 	)
 	const
 {
-	return JConvertToBoolean( 1 <= index && index <= GetRowCount() );
+	return 1 <= index && index <= GetRowCount();
 }
 
 /******************************************************************************
@@ -905,14 +904,14 @@ JTable::GetColCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTable::ColIndexValid
 	(
 	const JIndex index
 	)
 	const
 {
-	return JConvertToBoolean( 1 <= index && index <= GetColCount() );
+	return 1 <= index && index <= GetColCount();
 }
 
 /******************************************************************************
@@ -1011,14 +1010,14 @@ JTable::RemovePrevCols
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTable::CellValid
 	(
 	const JPoint& cell
 	)
 	const
 {
-	return JConvertToBoolean( RowIndexValid(cell.y) && ColIndexValid(cell.x) );
+	return RowIndexValid(cell.y) && ColIndexValid(cell.x);
 }
 
 /******************************************************************************
@@ -1026,7 +1025,7 @@ JTable::CellValid
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTable::WillActLike1DList()
 	const
 {
@@ -1036,7 +1035,7 @@ JTable::WillActLike1DList()
 inline void
 JTable::ShouldActLike1DList
 	(
-	const JBoolean act1D
+	const bool act1D
 	)
 {
 	itsIs1DListFlag = act1D;
@@ -1159,7 +1158,7 @@ JTable::TableRefreshCol
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTable::GetRowHeader
 	(
 	const JTable** table
@@ -1167,7 +1166,7 @@ JTable::GetRowHeader
 	const
 {
 	*table = itsRowHdrTable;
-	return JI2B( itsRowHdrTable != nullptr );
+	return itsRowHdrTable != nullptr;
 }
 
 inline void
@@ -1179,7 +1178,7 @@ JTable::SetRowHeader
 	itsRowHdrTable = table;
 }
 
-inline JBoolean
+inline bool
 JTable::GetColHeader
 	(
 	const JTable** table
@@ -1187,7 +1186,7 @@ JTable::GetColHeader
 	const
 {
 	*table = itsColHdrTable;
-	return JI2B( itsColHdrTable != nullptr );
+	return itsColHdrTable != nullptr;
 }
 
 inline void
@@ -1244,7 +1243,7 @@ JTable::SetSelectionColor
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTable::IsEditing()
 	const
 {
@@ -1256,11 +1255,11 @@ JTable::IsEditing()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTable::IsDraggingSelection()
 	const
 {
-	return JI2B( itsSelDragType != kInvalidDrag );
+	return itsSelDragType != kInvalidDrag;
 }
 
 /******************************************************************************
@@ -1271,8 +1270,8 @@ JTable::IsDraggingSelection()
 inline void
 JTable::SetSelectionBehavior
 	(
-	const JBoolean allowMultiple,
-	const JBoolean allowDiscont
+	const bool allowMultiple,
+	const bool allowDiscont
 	)
 {
 	itsAllowSelectMultipleFlag = allowMultiple;

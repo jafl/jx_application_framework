@@ -56,9 +56,9 @@
 #include <jAssert.h>
 
 JXTEBase::PartialWordModifier JXTEBase::thePWMod = JXTEBase::kCtrlMetaPWMod;
-JBoolean JXTEBase::theWindowsHomeEndFlag         = kJTrue;
-JBoolean JXTEBase::theScrollCaretFlag            = kJFalse;
-JBoolean JXTEBase::theMiddleButtonPasteFlag      = kJTrue;
+bool JXTEBase::theWindowsHomeEndFlag         = true;
+bool JXTEBase::theScrollCaretFlag            = false;
+bool JXTEBase::theMiddleButtonPasteFlag      = true;
 
 static const JUtf8Byte* kSelectionDataID = "JXTEBase";
 
@@ -306,8 +306,8 @@ JXTEBase::JXTEBase
 	(
 	const Type			type,
 	JStyledText*		text,
-	const JBoolean		ownsText,
-	const JBoolean		breakCROnly,
+	const bool		ownsText,
+	const bool		breakCROnly,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -326,16 +326,16 @@ JXTEBase::JXTEBase
 				JColorManager::GetGrayColor(70),			// whitespace
 				GetApertureWidth()),
 
-	itsWillPasteCustomFlag( kJFalse )
+	itsWillPasteCustomFlag( false )
 {
 	itsEditMenu    = nullptr;
 	itsSearchMenu  = nullptr;
 	itsReplaceMenu = nullptr;
 
-	itsCanCheckSpellingFlag   = kJFalse;
-	itsCanAdjustMarginsFlag   = kJFalse;
-	itsCanCleanWhitespaceFlag = kJFalse;
-	itsCanToggleReadOnlyFlag  = kJFalse;
+	itsCanCheckSpellingFlag   = false;
+	itsCanAdjustMarginsFlag   = false;
+	itsCanCleanWhitespaceFlag = false;
+	itsCanToggleReadOnlyFlag  = false;
 
 	itsPSPrinter      = nullptr;
 	itsPSPrintName    = nullptr;
@@ -349,7 +349,7 @@ JXTEBase::JXTEBase
 
 	itsBlinkTask = jnew JXTEBlinkCaretTask(this);
 	assert( itsBlinkTask != nullptr );
-	TECaretShouldBlink(kJTrue);
+	TECaretShouldBlink(true);
 
 	itsMinWidth = itsMinHeight = 0;
 	RecalcAll();
@@ -359,11 +359,11 @@ JXTEBase::JXTEBase
 
 	if (type == kStaticText)
 		{
-		WantInput(kJFalse);
+		WantInput(false);
 		}
 	else
 		{
-		WantInput(kJTrue);
+		WantInput(true);
 		SetDefaultCursor(kJXTextEditCursor);
 		}
 
@@ -481,19 +481,17 @@ JXTEBase::HandleMouseDown
 
 		if (button == kJXMiddleButton && type == kFullEditor && theMiddleButtonPasteFlag)
 			{
-			TEHandleMouseDown(pt, 1, kJFalse, kJFalse);
+			TEHandleMouseDown(pt, 1, false, false);
 			TEHandleMouseUp();
 			Paste();
 			}
 		else if (button != kJXMiddleButton)
 			{
-			const JBoolean extendSelection = JI2B(
-				button == kJXRightButton || modifiers.shift() );
-			const JBoolean partialWord = JI2B(
-				(thePWMod == kCtrlMetaPWMod &&
+			const bool extendSelection = button == kJXRightButton || modifiers.shift();
+			const bool partialWord = (thePWMod == kCtrlMetaPWMod &&
 				 modifiers.control() && modifiers.meta()) ||
 				(thePWMod != kCtrlMetaPWMod &&
-				 modifiers.GetState(kJXMod2KeyIndex + thePWMod - kMod2PWMod)));
+				 modifiers.GetState(kJXMod2KeyIndex + thePWMod - kMod2PWMod));
 			TEHandleMouseDown(pt, clickCount, extendSelection, partialWord);
 			}
 		}
@@ -542,7 +540,7 @@ JXTEBase::HandleMouseUp
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::HitSamePart
 	(
 	const JPoint& pt1,
@@ -558,7 +556,7 @@ JXTEBase::HitSamePart
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::TEBeginDND()
 {
 	assert( itsDNDDragInfo != nullptr );
@@ -578,7 +576,7 @@ JXTEBase::TEBeginDND()
 void
 JXTEBase::DNDFinish
 	(
-	const JBoolean		isDrop,
+	const bool		isDrop,
 	const JXContainer*	target
 	)
 {
@@ -648,11 +646,11 @@ JXTEBase::GetDNDAskActions
 	askActionList->AppendElement(dndMgr->GetDNDActionCopyXAtom());
 	askActionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
 
-	JString* s = jnew JString("CopyDescription::JXTEBase", kJFalse);
+	JString* s = jnew JString("CopyDescription::JXTEBase", JString::kNoCopy);
 	assert( s != nullptr );
 	askDescriptionList->Append(s);
 
-	s = jnew JString("MoveDescription::JXTEBase", kJFalse);
+	s = jnew JString("MoveDescription::JXTEBase", JString::kNoCopy);
 	assert( s != nullptr );
 	askDescriptionList->Append(s);
 }
@@ -686,14 +684,14 @@ JXTEBase::GetSelectionData
 		JRunArray<JFont>* style = jnew JRunArray<JFont>;
 		assert( style != nullptr );
 
-		const JBoolean ok = GetSelection(text, style);
+		const bool ok = GetSelection(text, style);
 		assert( ok );
 		textData->SetData(text, style);
 
 		if (GetType() == kFullEditor)
 			{
 			JCharacterRange r;
-			const JBoolean ok = GetSelection(&r);
+			const bool ok = GetSelection(&r);
 			assert( ok );
 			textData->SetTextEditor(this, r);
 			}
@@ -709,7 +707,7 @@ JXTEBase::GetSelectionData
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -719,31 +717,30 @@ JXTEBase::WillAcceptDrop
 	const JXWidget*		source
 	)
 {
-	itsWillPasteCustomFlag = kJFalse;
+	itsWillPasteCustomFlag = false;
 
 	if (GetType() != kFullEditor)
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (source == this)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (TEXWillAcceptDrop(typeList, *action, time, source))
 		{
-		itsWillPasteCustomFlag = kJTrue;
-		return kJTrue;
+		itsWillPasteCustomFlag = true;
+		return true;
 		}
 	else
 		{
 		JXDNDManager* dndMgr = GetDNDManager();
-		JBoolean canGetStyledText, canGetText;
+		bool canGetStyledText, canGetText;
 		Atom textType;
-		return JI2B(
-			(*action == dndMgr->GetDNDActionCopyXAtom() ||
+		return (*action == dndMgr->GetDNDActionCopyXAtom() ||
 			 *action == dndMgr->GetDNDActionMoveXAtom() ||
 			 *action == dndMgr->GetDNDActionAskXAtom()) &&
-			GetAvailDataTypes(typeList, &canGetStyledText, &canGetText, &textType));
+			GetAvailDataTypes(typeList, &canGetStyledText, &canGetText, &textType);
 		}
 }
 
@@ -751,7 +748,7 @@ JXTEBase::WillAcceptDrop
  TEXWillAcceptDrop (virtual protected)
 
 	Derived classes can override this to accept other data types that
-	can be pasted.  Returning kJTrue guarantees that TEXConvertDropData()
+	can be pasted.  Returning true guarantees that TEXConvertDropData()
 	will be called, and this can be used to accept a different data type
 	even when one of the default types (e.g. text/plain) is available.
 
@@ -767,7 +764,7 @@ JXTEBase::WillAcceptDrop
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::TEXWillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -776,7 +773,7 @@ JXTEBase::TEXWillAcceptDrop
 	const JXWidget*		source
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -806,7 +803,7 @@ JXTEBase::HandleDNDHere
 	const JXWidget*	source
 	)
 {
-	TEHandleDNDHere(pt, JI2B(source == this));
+	TEHandleDNDHere(pt, source == this);
 }
 
 /******************************************************************************
@@ -862,8 +859,7 @@ JXTEBase::HandleDNDDrop
 			}
 		}
 
-	TEHandleDNDDrop(pt, JI2B(source == this),
-					JI2B(itsDNDDropInfo->action == copyAction));
+	TEHandleDNDDrop(pt, source == this, itsDNDDropInfo->action == copyAction);
 
 	itsDNDDropInfo = nullptr;
 }
@@ -911,15 +907,15 @@ JXTEBase::TEPasteDropData()
  TEXConvertDropData (virtual protected)
 
 	Derived classes can override this to convert other data types into
-	text and styles that can be pasted.  Return kJTrue to paste the contents
+	text and styles that can be pasted.  Return true to paste the contents
 	of text and style.  To paste unstyled text, leave style empty.
 
 	This function will only be called if the derived class implemented
-	TEXWillAcceptDrop() and returned kJTrue.
+	TEXWillAcceptDrop() and returned true.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::TEXConvertDropData
 	(
 	const JArray<Atom>&	typeList,
@@ -929,7 +925,7 @@ JXTEBase::TEXConvertDropData
 	JRunArray<JFont>*	style
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1097,7 +1093,7 @@ JXTEBase::HandleWindowUnfocusEvent()
 void
 JXTEBase::TECaretShouldBlink
 	(
-	const JBoolean blink
+	const bool blink
 	)
 {
 	itsBlinkTask->ShouldBlink(blink);
@@ -1131,9 +1127,9 @@ JXTEBase::HandleKeyPress
 		RemapWindowsHomeEnd(&keySym, &modifiers);
 		}
 
-	const JBoolean controlOn = modifiers.control();
-	const JBoolean metaOn    = modifiers.meta();
-	const JBoolean shiftOn   = modifiers.shift();
+	const bool controlOn = modifiers.control();
+	const bool metaOn    = modifiers.meta();
+	const bool shiftOn   = modifiers.shift();
 
 	const Type type = GetType();
 	if (type == kFullEditor && !controlOn && !metaOn &&
@@ -1142,40 +1138,40 @@ JXTEBase::HandleKeyPress
 		HideCursor();
 		}
 
-	JBoolean processed = kJFalse;
+	bool processed = false;
 
 	if (type == kFullEditor &&
 		(((c == 'z' || c == 'Z') && !controlOn &&  metaOn && !shiftOn) ||
 		 (c == JXCtrl('Z')       &&  controlOn && !metaOn && !shiftOn)))
 		{
 		GetText()->Undo();
-		processed = kJTrue;
+		processed = true;
 		}
 	else if (type == kFullEditor &&
 			 (((c == 'x' || c == 'X') && !controlOn &&  metaOn && !shiftOn) ||
 			  (c == JXCtrl('X')       &&  controlOn && !metaOn && !shiftOn)))
 		{
 		Cut();
-		processed = kJTrue;
+		processed = true;
 		}
 	else if (((c == 'c' || c == 'C') && !controlOn &&  metaOn && !shiftOn) ||
 			 (c == JXCtrl('C')       &&  controlOn && !metaOn && !shiftOn))
 		{
 		Copy();
-		processed = kJTrue;
+		processed = true;
 		}
 	else if (type == kFullEditor &&
 			 (((c == 'v' || c == 'V') && !controlOn &&  metaOn && !shiftOn) ||
 			  (c == JXCtrl('V')       &&  controlOn && !metaOn && !shiftOn)))
 		{
 		Paste();
-		processed = kJTrue;
+		processed = true;
 		}
 	else if (((c == 'a' || c == 'A') && !controlOn &&  metaOn && !shiftOn) ||
 			 (c == JXCtrl('A')       &&  controlOn && !metaOn && !shiftOn))
 		{
 		SelectAll();
-		processed = kJTrue;
+		processed = true;
 		}
 
 	else if (c == kJLeftArrow || c == kJRightArrow ||
@@ -1199,11 +1195,11 @@ JXTEBase::HandleKeyPress
 
 		if (type == kFullEditor || shiftOn || motion != kMoveByCharacter)
 			{
-			processed = TEHandleKeyPress(c, shiftOn, motion, kJFalse);
+			processed = TEHandleKeyPress(c, shiftOn, motion, false);
 			}
 		else
 			{
-			processed = kJFalse;
+			processed = false;
 			}
 		}
 
@@ -1212,7 +1208,7 @@ JXTEBase::HandleKeyPress
 			   '1' <= c.GetBytes()[0] && c.GetBytes()[0] <= '9') &&
 			 !c.IsBlank())
 		{
-		JBoolean deleteToTabStop = GetText()->TabInsertsSpaces();
+		bool deleteToTabStop = GetText()->TabInsertsSpaces();
 		if (shiftOn)
 			{
 			deleteToTabStop = !deleteToTabStop;
@@ -1290,17 +1286,17 @@ JXTEBase::RemapWindowsHomeEnd
 		 *key == XK_End  || *key == XK_KP_End) &&
 		modifiers->control())
 		{
-		modifiers->SetState(kJXControlKeyIndex, kJFalse);
+		modifiers->SetState(kJXControlKeyIndex, false);
 		}
 	else if (*key == XK_Home || *key == XK_KP_Home)
 		{
 		*key = kJLeftArrow;
-		modifiers->SetState(kJXMetaKeyIndex, kJTrue);
+		modifiers->SetState(kJXMetaKeyIndex, true);
 		}
 	else if (*key == XK_End || *key == XK_KP_End)
 		{
 		*key = kJRightArrow;
-		modifiers->SetState(kJXMetaKeyIndex, kJTrue);
+		modifiers->SetState(kJXMetaKeyIndex, true);
 		}
 }
 
@@ -1371,7 +1367,7 @@ JXTEBase::AdjustCursor
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (TEWillDragAndDrop(pt, kJFalse, modifiers.meta()))
+	if (TEWillDragAndDrop(pt, false, modifiers.meta()))
 		{
 		DisplayCursor(kJXDefaultCursor);
 		}
@@ -1520,14 +1516,14 @@ JXTEBase::TESetGUIBounds
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::TEWidthIsBeyondDisplayCapacity
 	(
 	const JSize width
 	)
 	const
 {
-	return JI2B( width > 16000 );	// X uses 2 bytes for coordinate value
+	return width > 16000;	// X uses 2 bytes for coordinate value
 }
 
 /******************************************************************************
@@ -1535,22 +1531,22 @@ JXTEBase::TEWidthIsBeyondDisplayCapacity
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::TEScrollToRect
 	(
 	const JRect&	rect,
-	const JBoolean	centerInDisplay
+	const bool	centerInDisplay
 	)
 {
 	if (centerInDisplay && rect.right <= GetApertureWidth())
 		{
 		JRect r = rect;
 		r.left  = 0;
-		return ScrollToRectCentered(r, kJFalse);
+		return ScrollToRectCentered(r, false);
 		}
 	else if (centerInDisplay)
 		{
-		return ScrollToRectCentered(rect, kJFalse);
+		return ScrollToRectCentered(rect, false);
 		}
 	else
 		{
@@ -1565,7 +1561,7 @@ JXTEBase::TEScrollToRect
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::TEScrollForDrag
 	(
 	const JPoint& pt
@@ -1581,13 +1577,13 @@ JXTEBase::TEScrollForDrag
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::TEScrollForDND
 	(
 	const JPoint& pt
 	)
 {
-	return kJFalse;		// JXContainer does it for us
+	return false;		// JXContainer does it for us
 }
 
 /******************************************************************************
@@ -1630,11 +1626,11 @@ JXTEBase::TEUpdateClipboard
 /******************************************************************************
  TEGetClipboard (virtual protected)
 
-	Returns kJTrue if there is something pasteable on the system clipboard.
+	Returns true if there is something pasteable on the system clipboard.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::TEGetClipboard
 	(
 	JString*			text,
@@ -1645,7 +1641,7 @@ JXTEBase::TEGetClipboard
 	const JError err = GetSelectionData(kJXClipboardName, CurrentTime, text, style);
 	if (err.OK())
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -1653,29 +1649,29 @@ JXTEBase::TEGetClipboard
 			{
 			err.ReportIfError();
 			}
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  GetAvailDataTypes (private)
 
-	Returns kJTrue if it can find a data type that we understand.
+	Returns true if it can find a data type that we understand.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::GetAvailDataTypes
 	(
 	const JArray<Atom>&	typeList,
-	JBoolean*			canGetStyledText,
-	JBoolean*			canGetText,
+	bool*			canGetStyledText,
+	bool*			canGetText,
 	Atom*				textType
 	)
 	const
 {
-	*canGetStyledText = kJFalse;
-	*canGetText       = kJFalse;
+	*canGetStyledText = false;
+	*canGetText       = false;
 	*textType         = None;
 
 	JXSelectionManager* selMgr = GetSelectionManager();
@@ -1685,14 +1681,14 @@ JXTEBase::GetAvailDataTypes
 		if (type == selMgr->GetUtf8StringXAtom() ||
 			type == selMgr->GetMimePlainTextUTF8XAtom())
 			{
-			*canGetText = kJTrue;
+			*canGetText = true;
 			*textType   = type;
 			}
 		else if (!*canGetText &&
 				 (type == XA_STRING ||
 				  type == selMgr->GetMimePlainTextXAtom()))
 			{
-			*canGetText = kJTrue;
+			*canGetText = true;
 			*textType   = type;
 			}
 
@@ -1701,17 +1697,17 @@ JXTEBase::GetAvailDataTypes
 
 		else if (type == itsStyledText0XAtom && GetText().WillPasteStyledText())
 			{
-			*canGetStyledText = kJTrue;
+			*canGetStyledText = true;
 			}
 		}
 
-	return JI2B( *canGetStyledText || *canGetText );
+	return *canGetStyledText || *canGetText;
 }
 
 /******************************************************************************
  GetSelectionData (private)
 
-	Returns kJTrue if there is something pasteable in the given selection.
+	Returns true if there is something pasteable in the given selection.
 
  ******************************************************************************/
 
@@ -1740,7 +1736,7 @@ JXTEBase::GetSelectionData
 /******************************************************************************
  GetSelectionData (private)
 
-	Returns kJTrue if there is something pasteable in the given selection.
+	Returns true if there is something pasteable in the given selection.
 
  ******************************************************************************/
 
@@ -1758,13 +1754,13 @@ JXTEBase::GetSelectionData
 	text->Clear();
 	style->RemoveAll();
 
-	JBoolean canGetStyledText, canGetText;
+	bool canGetStyledText, canGetText;
 	Atom textType;
 	if (GetAvailDataTypes(typeList, &canGetStyledText, &canGetText, &textType))
 		{
 		JXSelectionManager* selMgr = GetSelectionManager();
 
-		JBoolean gotData = kJFalse;
+		bool gotData = false;
 		JError err       = JNoError();
 
 		Atom returnType, textReturnType;
@@ -1778,7 +1774,7 @@ JXTEBase::GetSelectionData
 			{
 			if (returnType == itsStyledText0XAtom)
 				{
-				gotData = kJTrue;
+				gotData = true;
 				const std::string s(reinterpret_cast<char*>(data), dataLength);
 				std::istringstream input(s);
 				if (!JStyledText::ReadPrivateFormat(input, text, style))
@@ -1798,7 +1794,7 @@ JXTEBase::GetSelectionData
 				textReturnType == selMgr->GetMimePlainTextXAtom() ||
 				textReturnType == selMgr->GetMimePlainTextUTF8XAtom())
 				{
-				gotData = kJTrue;
+				gotData = true;
 				text->Set(reinterpret_cast<JUtf8Byte*>(data), dataLength);
 				}
 			selMgr->DeleteData(&data, delMethod);
@@ -1871,14 +1867,14 @@ JXTextMenu*
 JXTEBase::AppendEditMenu
 	(
 	JXMenuBar*		menuBar,
-	const JBoolean	showCheckSpellingCmds,
-	const JBoolean	allowCheckSpelling,
-	const JBoolean	showAdjustMarginsCmds,
-	const JBoolean	allowAdjustMargins,
-	const JBoolean	showCleanWhitespaceCmds,
-	const JBoolean	allowCleanWhitespace,
-	const JBoolean	showToggleReadOnly,
-	const JBoolean	allowToggleReadOnly
+	const bool	showCheckSpellingCmds,
+	const bool	allowCheckSpelling,
+	const bool	showAdjustMarginsCmds,
+	const bool	allowAdjustMargins,
+	const bool	showCleanWhitespaceCmds,
+	const bool	allowCleanWhitespace,
+	const bool	showToggleReadOnly,
+	const bool	allowToggleReadOnly
 	)
 {
 	JXTextMenu* editMenu =
@@ -1896,14 +1892,14 @@ JXTextMenu*
 JXTEBase::StaticAppendEditMenu
 	(
 	JXMenuBar*		menuBar,
-	const JBoolean	showCheckSpellingCmds,
-	const JBoolean	allowCheckSpelling,
-	const JBoolean	showAdjustMarginsCmds,
-	const JBoolean	allowAdjustMargins,
-	const JBoolean	showCleanWhitespaceCmds,
-	const JBoolean	allowCleanWhitespace,
-	const JBoolean	showToggleReadOnly,
-	const JBoolean	allowToggleReadOnly
+	const bool	showCheckSpellingCmds,
+	const bool	allowCheckSpelling,
+	const bool	showAdjustMarginsCmds,
+	const bool	allowAdjustMargins,
+	const bool	showCleanWhitespaceCmds,
+	const bool	allowCleanWhitespace,
+	const bool	showToggleReadOnly,
+	const bool	allowToggleReadOnly
 	)
 {
 	// create basic menu
@@ -2027,10 +2023,10 @@ JXTextMenu*
 JXTEBase::ShareEditMenu
 	(
 	JXTEBase*		te,
-	const JBoolean	allowCheckSpelling,
-	const JBoolean	allowAdjustMargins,
-	const JBoolean	allowCleanWhitespace,
-	const JBoolean	allowToggleReadOnly
+	const bool	allowCheckSpelling,
+	const bool	allowAdjustMargins,
+	const bool	allowCleanWhitespace,
+	const bool	allowToggleReadOnly
 	)
 {
 	ShareEditMenu(te->itsEditMenu, allowCheckSpelling, allowAdjustMargins,
@@ -2042,10 +2038,10 @@ void
 JXTEBase::ShareEditMenu
 	(
 	JXTextMenu*		menu,
-	const JBoolean	allowCheckSpelling,
-	const JBoolean	allowAdjustMargins,
-	const JBoolean	allowCleanWhitespace,
-	const JBoolean	allowToggleReadOnly
+	const bool	allowCheckSpelling,
+	const bool	allowAdjustMargins,
+	const bool	allowCleanWhitespace,
+	const bool	allowToggleReadOnly
 	)
 {
 	assert( itsEditMenu == nullptr && menu != nullptr );
@@ -2314,7 +2310,7 @@ JXTEBase::Receive
 		assert( info != nullptr );
 		if (info->Successful())
 			{
-			JBoolean physicalLineIndexFlag;
+			bool physicalLineIndexFlag;
 			JIndex lineIndex = itsGoToLineDialog->GetLineIndex(&physicalLineIndexFlag);
 			if (physicalLineIndexFlag)
 				{
@@ -2359,8 +2355,8 @@ JXTEBase::UpdateEditMenu()
 	assert( itsEditMenu != nullptr );
 
 	JString crmActionText, crm2ActionText;
-	JBoolean isReadOnly;
-	const JArray<JBoolean> enableFlags =
+	bool isReadOnly;
+	const JArray<bool> enableFlags =
 		GetCmdStatus(&crmActionText, &crm2ActionText, &isReadOnly);
 
 	const JSize count = itsEditMenu->GetItemCount();
@@ -2369,11 +2365,11 @@ JXTEBase::UpdateEditMenu()
 		CmdIndex cmd;
 		if (EditMenuIndexToCmd(i, &cmd))
 			{
-			JBoolean enable = kJTrue;
+			bool enable = true;
 			if (cmd == kCheckSpellingCmd ||
 				cmd == kCheckSpellingSelCmd)
 				{
-				enable = JI2B(itsCanCheckSpellingFlag && (JXGetSpellChecker())->IsAvailable());
+				enable = itsCanCheckSpellingFlag && (JXGetSpellChecker())->IsAvailable();
 				}
 			else if (cmd == kCleanRightMarginCmd)
 				{
@@ -2415,7 +2411,7 @@ JXTEBase::UpdateEditMenu()
 				enable = itsCanToggleReadOnlyFlag;
 				}
 
-			itsEditMenu->SetItemEnable(i, JI2B(enable && enableFlags.GetElement(cmd)));
+			itsEditMenu->SetItemEnable(i, enable && enableFlags.GetElement(cmd));
 			}
 		}
 }
@@ -2487,12 +2483,12 @@ JXTEBase::HandleEditMenu
 	else if (cmd == kCleanRightMarginCmd)
 		{
 		JCharacterRange range;
-		GetText()->CleanRightMargin(kJFalse, &range);
+		GetText()->CleanRightMargin(false, &range);
 		}
 	else if (cmd == kCoerceRightMarginCmd)
 		{
 		JCharacterRange range;
-		GetText()->CleanRightMargin(kJTrue, &range);
+		GetText()->CleanRightMargin(true, &range);
 		}
 	else if (cmd == kShiftSelLeftCmd)
 		{
@@ -2504,7 +2500,7 @@ JXTEBase::HandleEditMenu
 		}
 	else if (cmd == kForceShiftSelLeftCmd)
 		{
-		TabSelectionLeft(1, kJTrue);
+		TabSelectionLeft(1, true);
 		}
 
 	else if (cmd == kShowWhitespaceCmd)
@@ -2513,19 +2509,19 @@ JXTEBase::HandleEditMenu
 		}
 	else if (cmd == kCleanAllWhitespaceCmd)
 		{
-		CleanAllWhitespace(kJFalse);
+		CleanAllWhitespace(false);
 		}
 	else if (cmd == kCleanWhitespaceSelCmd)
 		{
-		CleanSelectedWhitespace(kJFalse);
+		CleanSelectedWhitespace(false);
 		}
 	else if (cmd == kCleanAllWSAlignCmd)
 		{
-		CleanAllWhitespace(kJTrue);
+		CleanAllWhitespace(true);
 		}
 	else if (cmd == kCleanWSAlignSelCmd)
 		{
-		CleanSelectedWhitespace(kJTrue);
+		CleanSelectedWhitespace(true);
 		}
 
 	else if (cmd == kToggleReadOnlyCmd)
@@ -2573,14 +2569,14 @@ JXTEBase::UpdateSearchMenu()
 	assert( itsSearchMenu != nullptr );
 
 	JString crmActionText, crm2ActionText;
-	JBoolean isReadOnly;
-	JArray<JBoolean> enableFlags =
+	bool isReadOnly;
+	JArray<bool> enableFlags =
 		GetCmdStatus(&crmActionText, &crm2ActionText, &isReadOnly);
 
 	if (!GetText()->IsEmpty())
 		{
-		enableFlags.SetElement(kFindSelectionBackwardCmd, kJTrue);
-		enableFlags.SetElement(kFindSelectionForwardCmd,  kJTrue);
+		enableFlags.SetElement(kFindSelectionBackwardCmd, true);
+		enableFlags.SetElement(kFindSelectionForwardCmd,  true);
 		}
 
 	const JSize count = itsSearchMenu->GetItemCount();
@@ -2644,14 +2640,14 @@ JXTEBase::UpdateReplaceMenu()
 	assert( itsReplaceMenu != nullptr );
 
 	JString crmActionText, crm2ActionText;
-	JBoolean isReadOnly;
-	JArray<JBoolean> enableFlags =
+	bool isReadOnly;
+	JArray<bool> enableFlags =
 		GetCmdStatus(&crmActionText, &crm2ActionText, &isReadOnly);
 
 	if (!GetText()->IsEmpty())
 		{
-		enableFlags.SetElement(kFindSelectionBackwardCmd, kJTrue);
-		enableFlags.SetElement(kFindSelectionForwardCmd,  kJTrue);
+		enableFlags.SetElement(kFindSelectionBackwardCmd, true);
+		enableFlags.SetElement(kFindSelectionForwardCmd,  true);
 		}
 
 	const JSize count = itsReplaceMenu->GetItemCount();
@@ -2723,7 +2719,7 @@ JXTEBase::HandleSearchReplaceCmd
 		if (!HasSelection())
 			{
 			JStyledText::TextRange r;
-			TEGetDoubleClickSelection(GetInsertionIndex(), kJFalse, kJFalse, &r);
+			TEGetDoubleClickSelection(GetInsertionIndex(), false, false, &r);
 			SetSelection(r);
 			}
 		SearchSelectionBackward();
@@ -2733,7 +2729,7 @@ JXTEBase::HandleSearchReplaceCmd
 		if (!HasSelection())
 			{
 			JStyledText::TextRange r;
-			TEGetDoubleClickSelection(GetInsertionIndex(), kJFalse, kJFalse, &r);
+			TEGetDoubleClickSelection(GetInsertionIndex(), false, false, &r);
 			SetSelection(r);
 			}
 		SearchSelectionForward();
@@ -2761,11 +2757,11 @@ JXTEBase::HandleSearchReplaceCmd
 		}
 	else if (cmd == kReplaceAllCmd)
 		{
-		ReplaceAll(kJFalse);
+		ReplaceAll(false);
 		}
 	else if (cmd == kReplaceAllInSelectionCmd)
 		{
-		ReplaceAll(kJTrue);
+		ReplaceAll(true);
 		}
 }
 
@@ -2793,7 +2789,7 @@ JXTEBase::HandleSearchReplaceCmd
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::TEHasSearchText()
 	const
 {
@@ -2808,21 +2804,21 @@ JXTEBase::TEHasSearchText()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::SearchForward
 	(
-	const JBoolean reportNotFound
+	const bool reportNotFound
 	)
 {
 	JRegex* searchRegex;
 	JString replaceStr;
 	JInterpolate* interpolator;
-	JBoolean entireWord, wrapSearch, preserveCase;
+	bool entireWord, wrapSearch, preserveCase;
 	if (!JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (GetType() != kFullEditor && !HasSelection())	// caret not visible
@@ -2830,12 +2826,12 @@ JXTEBase::SearchForward
 		SetCaretLocation(1);
 		}
 
-	JBoolean wrapped;
+	bool wrapped;
 	const JStringMatch m = JTextEditor::SearchForward(*searchRegex, entireWord, wrapSearch, &wrapped);
 
 	if (!m.IsEmpty())
 		{
-		TEScrollToSelection(kJTrue);
+		TEScrollToSelection(true);
 		}
 
 	if ((m.IsEmpty() && reportNotFound) || wrapped)
@@ -2854,18 +2850,18 @@ JXTEBase::SearchForward
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::SearchBackward()
 {
 	JRegex* searchRegex;
 	JString replaceStr;
 	JInterpolate* interpolator;
-	JBoolean entireWord, wrapSearch, preserveCase;
+	bool entireWord, wrapSearch, preserveCase;
 	if (!JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (GetType() != kFullEditor && !HasSelection())	// caret not visible
@@ -2873,12 +2869,12 @@ JXTEBase::SearchBackward()
 		SetCaretLocation(GetText()->GetBeyondEnd());
 		}
 
-	JBoolean wrapped;
+	bool wrapped;
 	const JStringMatch m = JTextEditor::SearchBackward(*searchRegex, entireWord, wrapSearch, &wrapped);
 
 	if (!m.IsEmpty())
 		{
-		TEScrollToSelection(kJTrue);
+		TEScrollToSelection(true);
 		}
 
 	if (m.IsEmpty() || wrapped)
@@ -2894,7 +2890,7 @@ JXTEBase::SearchBackward()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::SearchClipboardForward()
 {
 	JString text;
@@ -2906,11 +2902,11 @@ JXTEBase::SearchClipboardForward()
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JXTEBase::SearchClipboardBackward()
 {
 	JString text;
@@ -2922,7 +2918,7 @@ JXTEBase::SearchClipboardBackward()
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2930,22 +2926,22 @@ JXTEBase::SearchClipboardBackward()
  EnterSearchSelection
 
 	Copy the selection into the search field of the SearchTextDialog.
-	Returns kJTrue if there was something selected.
+	Returns true if there was something selected.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::EnterSearchSelection()
 {
 	JString selText;
 	if (GetSelection(&selText))
 		{
 		JXGetSearchTextDialog()->SetSearchText(selText);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2953,22 +2949,22 @@ JXTEBase::EnterSearchSelection()
  EnterReplaceSelection
 
 	Copy the selection into the replace field of the SearchTextDialog.
-	Returns kJTrue if there was something selected.
+	Returns true if there was something selected.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::EnterReplaceSelection()
 {
 	JString selText;
 	if (GetSelection(&selText))
 		{
 		JXGetSearchTextDialog()->SetReplaceText(selText);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2976,24 +2972,24 @@ JXTEBase::EnterReplaceSelection()
  ReplaceSelection
 
 	Replace the current selection with the replace string from the
-	SearchTextDialog.  Returns kJFalse if nothing is selected or if the
+	SearchTextDialog.  Returns false if nothing is selected or if the
 	current selection doesn't match the search string.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::ReplaceSelection()
 {
 	JRegex* searchRegex;
 	JString replaceStr;
 	JInterpolate* interpolator;
-	JBoolean entireWord, wrapSearch, preserveCase;
+	bool entireWord, wrapSearch, preserveCase;
 	if (GetType() != kFullEditor ||
 		!JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JStringMatch m = SelectionMatches(*searchRegex, entireWord);
@@ -3001,12 +2997,12 @@ JXTEBase::ReplaceSelection()
 	if (!m.IsEmpty())
 		{
 		JTextEditor::ReplaceSelection(m, replaceStr, interpolator, preserveCase);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		GetDisplay()->Beep();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -3014,20 +3010,20 @@ JXTEBase::ReplaceSelection()
  ReplaceAll
 
 	Replace every occurrence of the search string with the replace string.
-	Returns kJTrue if it replaced anything.
+	Returns true if it replaced anything.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTEBase::ReplaceAll
 	(
-	const JBoolean restrictToSelection
+	const bool restrictToSelection
 	)
 {
 	JRegex* searchRegex;
 	JString replaceStr;
 	JInterpolate* interpolator;
-	JBoolean entireWord, wrapSearch, preserveCase;
+	bool entireWord, wrapSearch, preserveCase;
 	if (GetType() == kFullEditor &&
 		JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
@@ -3041,7 +3037,7 @@ JXTEBase::ReplaceAll
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

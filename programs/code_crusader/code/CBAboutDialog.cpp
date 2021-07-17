@@ -30,8 +30,8 @@ CBAboutDialog::CBAboutDialog
 	const JString&	prevVersStr
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue),
-	itsIsUpgradeFlag(kJFalse)
+	JXDialogDirector(supervisor, true),
+	itsIsUpgradeFlag(false)
 {
 	BuildWindow(prevVersStr);
 }
@@ -116,7 +116,7 @@ CBAboutDialog::BuildWindow
 		text += JGetString("UpgradeNotice::CBAboutDialog");
 		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::CBAboutDialog"));
-		itsIsUpgradeFlag = kJTrue;
+		itsIsUpgradeFlag = true;
 		}
 	textWidget->GetText()->SetText(text);
 
@@ -164,13 +164,13 @@ CBAboutDialog::Receive
 			{
 			(JXGetHelpManager())->ShowTOC();
 			}
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
 		(JXGetHelpManager())->ShowCredits();
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else

@@ -145,7 +145,7 @@ JXImageSelection::SetData
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXImageSelection::ConvertData
 	(
 	const Atom		requestType,
@@ -163,13 +163,13 @@ JXImageSelection::ConvertData
 
 	if (itsImage == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JString fileName;
 	if (!(JCreateTempFile(&fileName)).OK())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JError err = JUnknownError(1);
@@ -179,7 +179,7 @@ JXImageSelection::ConvertData
 		}
 	else if (requestType == itsGIFAtom)
 		{
-		err = itsImage->WriteGIF(fileName, kJFalse);	// if too many colors, use PNG
+		err = itsImage->WriteGIF(fileName, false);	// if too many colors, use PNG
 		}
 	else if (requestType == itsPNGAtom)
 		{
@@ -199,11 +199,11 @@ JXImageSelection::ConvertData
 		*returnType = requestType;
 		*dataLength = imageData.GetByteCount();
 		*data       = (unsigned char*) imageData.AllocateBytes();
-		return kJTrue;
+		return true;
 		}
 
 	JRemoveFile(fileName);
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -240,7 +240,7 @@ JXImageSelection::GetJPEGXAtomName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXImageSelection::GetImage
 	(
 	const Atom		selectionName,
@@ -252,7 +252,7 @@ JXImageSelection::GetImage
 	return GetImage(display->GetSelectionManager(), selectionName, time, image);
 }
 
-JBoolean
+bool
 JXImageSelection::GetImage
 	(
 	JXSelectionManager* selMgr,
@@ -268,14 +268,14 @@ JXImageSelection::GetImage
 	JArray<Atom> typeList;
 	if (selMgr->GetAvailableTypes(selectionName, time, &typeList))
 		{
-		JBoolean xpm=kJFalse, gif=kJFalse, png=kJFalse, jpeg=kJFalse;
+		bool xpm=false, gif=false, png=false, jpeg=false;
 
 		for (const Atom type : typeList)
 			{
-			xpm  = JI2B( xpm  || type == atoms[ kXPMAtomIndex ]  );
-			gif  = JI2B( gif  || type == atoms[ kGIFAtomIndex ]  );
-			png  = JI2B( png  || type == atoms[ kPNGAtomIndex ]  );
-			jpeg = JI2B( jpeg || type == atoms[ kJPEGAtomIndex ] );
+			xpm  = xpm  || type == atoms[ kXPMAtomIndex ];
+			gif  = gif  || type == atoms[ kGIFAtomIndex ];
+			png  = png  || type == atoms[ kPNGAtomIndex ];
+			jpeg = jpeg || type == atoms[ kJPEGAtomIndex ];
 			}
 
 		while (xpm || gif || png || jpeg)
@@ -283,22 +283,22 @@ JXImageSelection::GetImage
 			Atom type = None;
 			if (png)
 				{
-				png  = kJFalse;
+				png  = false;
 				type = atoms[ kPNGAtomIndex ];
 				}
 			else if (gif)
 				{
-				gif  = kJFalse;
+				gif  = false;
 				type = atoms[ kGIFAtomIndex ];
 				}
 			else if (xpm)
 				{
-				xpm  = kJFalse;
+				xpm  = false;
 				type = atoms[ kXPMAtomIndex ];
 				}
 			else if (jpeg)		// JPEG is lossy
 				{
-				jpeg = kJFalse;
+				jpeg = false;
 				type = atoms[ kJPEGAtomIndex ];
 				}
 
@@ -323,12 +323,12 @@ JXImageSelection::GetImage
 
 				if (err.OK())
 					{
-					return kJTrue;
+					return true;
 					}
 				}
 			}
 		}
 
 	*image = nullptr;
-	return kJFalse;
+	return false;
 }

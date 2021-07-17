@@ -25,11 +25,11 @@
 
 static const JUtf8Byte* kAppSignature = "glove";
 
-static const JString kCursorSubPath("/cursormodule/", kJFalse);
-static const JString kDataSubPath("/datamodule/", kJFalse);
-static const JString kImportSubPath("/importmodule/", kJFalse);
-static const JString kExportSubPath("/exportmodule/", kJFalse);
-static const JString kFitSubPath("/fitmodule/", kJFalse);
+static const JString kCursorSubPath("/cursormodule/", JString::kNoCopy);
+static const JString kDataSubPath("/datamodule/", JString::kNoCopy);
+static const JString kImportSubPath("/importmodule/", JString::kNoCopy);
+static const JString kExportSubPath("/exportmodule/", JString::kNoCopy);
+static const JString kFitSubPath("/fitmodule/", JString::kNoCopy);
 
 /******************************************************************************
  Constructor
@@ -40,7 +40,7 @@ GLPlotApp::GLPlotApp
 	(
 	int* 		argc, 
 	char* 		argv[],
-	JBoolean* 	displayAbout, 
+	bool* 	displayAbout, 
 	JString* 	prevVersStr
 	)
 	:
@@ -78,7 +78,7 @@ GLPlotApp::GLPlotApp
 			}
 		else
 			{
-			*displayAbout = kJTrue;
+			*displayAbout = true;
 			}
 		}
 	else
@@ -89,14 +89,14 @@ GLPlotApp::GLPlotApp
 //	itsFileImpProgs = jnew JPtrArray<JString>();
 
 
-	JXCreateDefaultDocumentManager(kJTrue);
+	JXCreateDefaultDocumentManager(true);
 	
 /*
 	JString fihome = homeDir + ".glove/fileimport/";
-	foundFileImpDir = kJFalse;
+	foundFileImpDir = false;
 	if (JDirInfo::Create(fihome, &itsFileImpDir))
 		{
-		foundFileImpDir = kJTrue;
+		foundFileImpDir = true;
 		UpdateFileImpProgs();
 		}
 */
@@ -197,7 +197,7 @@ GLPlotApp::ReloadImportModules()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotApp::GetImportModulePath
 	(
 	const JIndex index,
@@ -209,7 +209,7 @@ GLPlotApp::GetImportModulePath
 	JIndex mIndex = itsImportPathIndex->GetElement(index);
 	*path = *(itsModulePath->GetElement(mIndex)) + kImportSubPath +
 				*(itsImportModules->GetElement(index));
-	return kJTrue;
+	return true;
 /*	
 	if (foundFileImpDir)
 		{
@@ -219,10 +219,10 @@ GLPlotApp::GetImportModulePath
 		JAppendDirSeparator(&str);
 		str += *(itsFileImpProgs->GetElement(index));
 		*path = str;
-		return kJTrue;
+		return true;
 		}
 		
-	return kJFalse;
+	return false;
 */		
 }
 
@@ -307,7 +307,7 @@ GLPlotApp::NewFile()
 {
 	JString str = "Untitled " + JString((JUInt64) itsDirNumber);
 	itsDirNumber++;
-	GLDataDocument* tableDir = jnew GLDataDocument(this, str, kJFalse);
+	GLDataDocument* tableDir = jnew GLDataDocument(this, str, false);
 	assert( tableDir != nullptr);
 	tableDir->Activate();
 }
@@ -342,7 +342,7 @@ GLPlotApp::OpenFile
 		}
 	else
 		{
-		GLDataDocument* tableDir = jnew GLDataDocument(this, fileName, kJTrue);
+		GLDataDocument* tableDir = jnew GLDataDocument(this, fileName, true);
 		assert( tableDir != nullptr);
 		tableDir->Activate();
 		}
@@ -386,7 +386,7 @@ GLPlotApp::ReloadDataModules()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotApp::GetDataModulePath
 	(
 	const JIndex index,
@@ -398,7 +398,7 @@ GLPlotApp::GetDataModulePath
 	JIndex mIndex = itsDataPathIndex->GetElement(index);
 	*path = *(itsModulePath->GetElement(mIndex)) + kDataSubPath + 
 				*(itsDataModules->GetElement(index));
-	return kJTrue;
+	return true;
 		
 }
 
@@ -451,7 +451,7 @@ GLPlotApp::ReloadCursorModules()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotApp::GetCursorModulePath
 	(
 	const JIndex index,
@@ -463,7 +463,7 @@ GLPlotApp::GetCursorModulePath
 	JIndex mIndex = itsCursorPathIndex->GetElement(index);
 	*path = *(itsModulePath->GetElement(mIndex)) + kCursorSubPath +
 				*(itsCursorModules->GetElement(index));
-	return kJTrue;
+	return true;
 		
 }
 
@@ -516,7 +516,7 @@ GLPlotApp::ReloadExportModules()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotApp::GetExportModulePath
 	(
 	const JIndex index,
@@ -528,7 +528,7 @@ GLPlotApp::GetExportModulePath
 	JIndex mIndex = itsExportPathIndex->GetElement(index);
 	*path = *(itsModulePath->GetElement(mIndex)) + kExportSubPath +
 				*(itsExportModules->GetElement(index));
-	return kJTrue;
+	return true;
 		
 }
 
@@ -581,7 +581,7 @@ GLPlotApp::ReloadFitModules()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotApp::GetFitModulePath
 	(
 	const JIndex index,
@@ -593,7 +593,7 @@ GLPlotApp::GetFitModulePath
 	JIndex mIndex = itsFitPathIndex->GetElement(index);
 	*path = *(itsModulePath->GetElement(mIndex)) + kFitSubPath +
 				*(itsFitModules->GetElement(index));
-	return kJTrue;
+	return true;
 		
 }
 

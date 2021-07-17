@@ -21,8 +21,8 @@ public:
 	static JError	Create(const JPtrArray<JString>& fileList,
 						   const JPtrArray<JString>& nameList,
 						   const JRegex& searchRegex,
-						   const JBoolean onlyListFiles,
-						   const JBoolean listFilesWithoutMatch);
+						   const bool onlyListFiles,
+						   const bool listFilesWithoutMatch);
 
 	static JError	Create(const JPtrArray<JString>& fileList,
 						   const JPtrArray<JString>& nameList,
@@ -38,23 +38,23 @@ public:
 
 protected:
 
-	CBSearchDocument(const JBoolean isReplace, const JBoolean onlyListFiles,
+	CBSearchDocument(const bool isReplace, const bool onlyListFiles,
 					 const JSize fileCount,
 					 JProcess* p, const int fd,
 					 const JString& windowTitle);
 
 	virtual void		PlaceCmdLineWidgets() override;
 	virtual void		AppendText(const JString& text) override;
-	virtual JBoolean	ProcessFinished(const JProcess::Finished& info) override;
-	virtual JBoolean	NeedsFormattedData() const override;
+	virtual bool	ProcessFinished(const JProcess::Finished& info) override;
+	virtual bool	NeedsFormattedData() const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	const JBoolean			itsIsReplaceFlag;
-	const JBoolean			itsOnlyListFilesFlag;
-	JBoolean				itsFoundFlag;			// kJTrue => something matched
+	const bool			itsIsReplaceFlag;
+	const bool			itsOnlyListFilesFlag;
+	bool				itsFoundFlag;			// true => something matched
 	JStyledText::TextIndex	itsPrevQuoteIndex;		// start of previous quote from file
 
 	JXTextMenu*				itsMatchMenu;
@@ -69,8 +69,8 @@ private:
 	void	HandleMatchMenu(const JIndex index);
 
 	void		ShowFirstMatch();
-	JBoolean	ShowPrevMatch();
-	JBoolean	ShowNextMatch();
+	bool	ShowPrevMatch();
+	bool	ShowNextMatch();
 
 	JFontStyle	GetFileNameStyle() const;
 	JFontStyle	GetMatchStyle() const;

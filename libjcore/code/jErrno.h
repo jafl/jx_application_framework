@@ -47,10 +47,10 @@ jclear_errno()
 	#endif
 }
 
-inline JBoolean
+inline bool
 jerrno_is_clear()
 {
-	return JConvertToBoolean( jerrno() == 0 );
+	return jerrno() == 0;
 }
 
 #endif

@@ -90,7 +90,7 @@ GFGFunctionTable::GFGFunctionTable
 void
 GFGFunctionTable::GFGFunctionTableX()
 {
-	itsNeedsAdjustment	= kJTrue;
+	itsNeedsAdjustment	= true;
 	
 	SetRowBorderInfo(0, JColorManager::GetBlackColor());
 	SetColBorderInfo(0, JColorManager::GetBlackColor());
@@ -128,7 +128,7 @@ GFGFunctionTable::Receive
 		if (delta != 0)
 			{
 			AppendCols(delta);
-			itsNeedsAdjustment	= kJTrue;
+			itsNeedsAdjustment	= true;
 			}
 		}
 	else
@@ -184,9 +184,9 @@ GFGFunctionTable::TableDrawCell
 	if (JRound(cell.y/2)*2 != cell.y)
 		{
 		p.SetPenColor(JColorManager::GetGrayColor(95));
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Rect(rect);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		}
 
 	const GFGMemberFunction* fn	= itsList->GetElement(cell.y);
@@ -198,7 +198,7 @@ GFGFunctionTable::TableDrawCell
 			JRect r(rect.ycenter(), rect.xcenter(), rect.ycenter(), rect.xcenter());
 			r.Expand(kBulletRadius, kBulletRadius);
 			p.SetPenColor(JColorManager::GetBlackColor());
-			p.SetFilling(kJTrue);
+			p.SetFilling(true);
 			p.Ellipse(r);
 			}
 		return;
@@ -209,7 +209,7 @@ GFGFunctionTable::TableDrawCell
 
 	if (fn->IsRequired())
 		{
-		style.italic = kJTrue;
+		style.italic = true;
 		}
 
 	if (fn->IsProtected())
@@ -284,7 +284,7 @@ GFGFunctionTable::AdjustColumnWidths()
 		{
 		return;
 		}
-	itsNeedsAdjustment = kJFalse;
+	itsNeedsAdjustment = false;
 
 	JFontManager* fontMgr = GetFontManager();
 	const JFont& font     = JFontManager::GetDefaultMonospaceFont();

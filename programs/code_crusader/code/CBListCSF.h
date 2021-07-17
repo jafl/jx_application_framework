@@ -21,14 +21,14 @@ public:
 
 	virtual ~CBListCSF();
 
-	JBoolean	ReplaceExisting() const;
+	bool	ReplaceExisting() const;
 
 protected:
 
 	virtual JXChooseFileDialog*
 	CreateChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 						   const JString& fileFilter,
-						   const JBoolean allowSelectMultiple,
+						   const bool allowSelectMultiple,
 						   const JString& origName, const JString& message) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -36,7 +36,7 @@ protected:
 private:
 
 	CBListChooseFileDialog*	itsChooseDialog;
-	JBoolean				itsReplaceExistingFlag;
+	bool				itsReplaceExistingFlag;
 	JString					itsReplaceListStr;
 	JString					itsAppendToListStr;
 
@@ -54,7 +54,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBListCSF::ReplaceExisting()
 	const
 {

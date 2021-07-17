@@ -66,9 +66,9 @@ GLPlotFitExp::JPlotFitExpX
 	itsBParm	= 0;
 	itsAErr	= 0;
 	itsBErr	= 0;
-	SetFunctionString(JString("a*e^(b*x)", kJFalse));
+	SetFunctionString(JString("a*e^(b*x)", JString::kNoCopy));
 	SetParameterCount(2);
-	SetHasGoodnessOfFit(kJTrue);
+	SetHasGoodnessOfFit(true);
 }
 
 
@@ -104,7 +104,7 @@ GLPlotFitExp::GenerateFit()
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitExp::GetYValue
 	(
 	const JFloat 	x,
@@ -113,7 +113,7 @@ GLPlotFitExp::GetYValue
 	const
 {
 	*y =  itsAParm * exp(itsBParm * x);
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -122,7 +122,7 @@ GLPlotFitExp::GetYValue
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitExp::GetParameterName
 	(
 	const JIndex index, 
@@ -140,9 +140,9 @@ GLPlotFitExp::GetParameterName
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}		
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -151,7 +151,7 @@ GLPlotFitExp::GetParameterName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitExp::GetParameter
 	(
 	const JIndex index, 
@@ -169,9 +169,9 @@ GLPlotFitExp::GetParameter
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}		
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -180,7 +180,7 @@ GLPlotFitExp::GetParameter
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitExp::GetParameterError
 	(
 	const JIndex index, 
@@ -191,7 +191,7 @@ GLPlotFitExp::GetParameterError
 	const JPlotDataBase* data = GetData();
 	if (!data->HasXErrors() && !data->HasYErrors())
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index == 1)
 		{
@@ -203,9 +203,9 @@ GLPlotFitExp::GetParameterError
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}		
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

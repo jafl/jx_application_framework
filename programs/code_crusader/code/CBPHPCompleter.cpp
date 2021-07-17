@@ -49,19 +49,19 @@ const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStringCompleter*
 CBPHPCompleter::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBPHPCompleter;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -85,7 +85,7 @@ CBPHPCompleter::Shutdown()
 
 CBPHPCompleter::CBPHPCompleter()
 	:
-	CBStringCompleter(kCBPHPLang, kKeywordCount, kKeywordList, kJTrue)
+	CBStringCompleter(kCBPHPLang, kKeywordCount, kKeywordList, JString::kCompareCase)
 {
 	UpdateWordList();	// include HTML and JavaScript
 	ListenTo(CBHTMLStyler::Instance());
@@ -110,15 +110,15 @@ CBPHPCompleter::~CBPHPCompleter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPHPCompleter::IsWordCharacter
 	(
 	const JUtf8Character&	c,
-	const JBoolean			includeNS
+	const bool			includeNS
 	)
 	const
 {
-	return JI2B(c.IsAlnum() || c == '_' || (includeNS && c == ':'));
+	return c.IsAlnum() || c == '_' || (includeNS && c == ':');
 }
 
 /******************************************************************************
@@ -161,7 +161,7 @@ CBPHPCompleter::UpdateWordList()
 	JSize count = CBHTMLCompleter::GetDefaultWordList(&htmlWordList);
 	for (JUnsignedOffset i=0; i<count; i++)
 		{
-		Add(JString(htmlWordList[i], kJFalse));
+		Add(JString(htmlWordList[i], JString::kNoCopy));
 		}
 
 	CopyWordsFromStyler(CBHTMLStyler::Instance());
@@ -172,7 +172,7 @@ CBPHPCompleter::UpdateWordList()
 	count = CBJavaScriptCompleter::GetDefaultWordList(&jsWordList);
 	for (JUnsignedOffset i=0; i<count; i++)
 		{
-		Add(JString(jsWordList[i], kJFalse));
+		Add(JString(jsWordList[i], JString::kNoCopy));
 		}
 
 	CopyWordsFromStyler(CBJavaScriptStyler::Instance());

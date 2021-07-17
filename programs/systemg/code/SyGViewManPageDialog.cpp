@@ -26,9 +26,9 @@
 
 const JSize kHistoryLength = 20;
 
-static const JString kDefaultViewCmd("jcc --man", kJFalse);
-static const JString kDefaultViewBin("jcc", kJFalse);
-static const JString kDefaultViewArg(" --man ", kJFalse);
+static const JString kDefaultViewCmd("jcc --man", JString::kNoCopy);
+static const JString kDefaultViewBin("jcc", JString::kNoCopy);
+static const JString kDefaultViewArg(" --man ", JString::kNoCopy);
 
 JString SyGViewManPageDialog::itsViewCmd = kDefaultViewCmd;
 
@@ -158,7 +158,7 @@ SyGViewManPageDialog::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 
 	ListenTo(itsViewButton);
 	ListenTo(itsCloseButton);
@@ -168,8 +168,8 @@ SyGViewManPageDialog::BuildWindow()
 	itsFnName->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsFnName);
 
-	itsManIndex->SetIsRequired(kJFalse);
-	itsStayOpenCB->SetState(kJTrue);
+	itsManIndex->SetIsRequired(false);
+	itsStayOpenCB->SetState(true);
 
 	UpdateDisplay();
 }
@@ -274,7 +274,7 @@ SyGViewManPageDialog::ViewManPage
 	(
 	const JString&			item,
 	const JUtf8Character&	index,
-	const JBoolean			apropos
+	const bool			apropos
 	)
 {
 	JString cmd = itsViewCmd;
@@ -297,7 +297,7 @@ SyGViewManPageDialog::ViewManPage
 		}
 	cmd += JPrepArgForExec(item);
 
-	JSimpleProcess::Create(cmd, kJTrue);
+	JSimpleProcess::Create(cmd, true);
 }
 
 /******************************************************************************
@@ -322,7 +322,7 @@ SyGViewManPageDialog::ViewManPages
 			cmd += JPrepArgForExec(*(list.GetElement(i)));
 			}
 
-		JSimpleProcess::Create(cmd, kJTrue);
+		JSimpleProcess::Create(cmd, true);
 		}
 	else
 		{
@@ -353,7 +353,7 @@ SyGViewManPageDialog::SetFunction
 		JStringIterator iter(&fnName, kJIteratorStartAtEnd);
 		iter.SkipPrev();
 
-		const JBoolean ok = iter.Prev(&manIndex);
+		const bool ok = iter.Prev(&manIndex);
 		assert( ok );
 
 		iter.SkipPrev(2);
@@ -363,11 +363,11 @@ SyGViewManPageDialog::SetFunction
 	if (manIndex == '*')
 		{
 		manIndex = '\0';
-		itsAproposCheckbox->SetState(kJTrue);
+		itsAproposCheckbox->SetState(true);
 		}
 	else
 		{
-		itsAproposCheckbox->SetState(kJFalse);
+		itsAproposCheckbox->SetState(false);
 		}
 
 	itsFnName->GetText()->SetText(fnName);
@@ -400,7 +400,7 @@ SyGViewManPageDialog::ReadPrefs
 
 	if (vers >= 1)
 		{
-		JBoolean stayOpen;
+		bool stayOpen;
 		input >> JBoolFromString(stayOpen);
 		itsStayOpenCB->SetState(stayOpen);
 		}
@@ -445,7 +445,7 @@ SyGViewManPageDialog::AddToHistory
 	(
 	const JString&			pageName,
 	const JUtf8Character&	pageIndex,
-	const JBoolean			apropos
+	const bool			apropos
 	)
 {
 	JString historyStr = pageName;

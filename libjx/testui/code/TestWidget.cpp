@@ -159,8 +159,8 @@ static const char * home_xpm[] = {
 
 TestWidget::TestWidget
 	(
-	const JBoolean		isMaster,
-	const JBoolean		isImage,
+	const bool		isMaster,
+	const bool		isImage,
 	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -177,7 +177,7 @@ TestWidget::TestWidget
 {
 JIndex i;
 
-	itsFillFlag       = kJFalse;
+	itsFillFlag       = false;
 	itsRandPointCount = 10;
 	itsResizeDialog   = nullptr;
 
@@ -223,7 +223,7 @@ JIndex i;
 		if (i == kAdviceBoldMenuIndex)
 			{
 			adviceMenu->SetItemFontStyle(2,
-				JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetBlackColor()));
+				JFontStyle(true, false, 0, false, JColorManager::GetBlackColor()));
 			}
 
 		prevMenu      = adviceMenu;
@@ -238,7 +238,7 @@ JIndex i;
 	assert( itsSecretMenu != nullptr );
 	itsSecretMenu->SetMenuItems(kSecretMenuStr);
 	itsSecretMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsSecretMenu->SetToHiddenPopupMenu(kJTrue);		// will assert() otherwise
+	itsSecretMenu->SetToHiddenPopupMenu(true);		// will assert() otherwise
 	itsSecretMenu->Hide();
 	ListenTo(itsSecretMenu);
 
@@ -296,8 +296,8 @@ JIndex i;
 							  x,y, 50,30);
 		assert( itsQuitButton != nullptr );
 
-		itsQuitButton->CenterWithinEnclosure(kJTrue, kJTrue);
-		itsQuitButton->SetFontStyle(JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor()));
+		itsQuitButton->CenterWithinEnclosure(true, true);
+		itsQuitButton->SetFontStyle(JFontStyle(true, false, 0, false, JColorManager::GetRedColor()));
 		itsQuitButton->SetNormalColor(JColorManager::GetCyanColor());
 		itsQuitButton->SetPushedColor(JColorManager::GetBlueColor());
 
@@ -313,7 +313,7 @@ JIndex i;
 	// drops on iconfied window
 
 	JXWindowIcon* windowIcon;
-	const JBoolean hasIconWindow = GetWindow()->GetIconWidget(&windowIcon);
+	const bool hasIconWindow = GetWindow()->GetIconWidget(&windowIcon);
 	assert( hasIconWindow );
 	ListenTo(windowIcon);
 }
@@ -352,12 +352,12 @@ TestWidget::Print
 
 	const JString dateStr = JGetTimeStamp();
 
-	JBoolean cancelled = kJFalse;
+	bool cancelled = false;
 	for (JIndex i : { 1,2,3 })
 		{
 		if (!p.NewPage())
 			{
-			cancelled = kJTrue;
+			cancelled = true;
 			break;
 			}
 
@@ -459,14 +459,14 @@ JIndex i;
 
 	if (itsFillFlag)
 		{
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		}
 
 	JRect ap = GetAperture();
 	p.Line(ap.topLeft(), ap.bottomRight());
 	p.Line(ap.topRight(), ap.bottomLeft());
 
-	const JString timesFontName("Times", kJFalse);
+	const JString timesFontName("Times", false);
 
 	p.SetLineWidth(2);
 	p.SetFontName(timesFontName);
@@ -478,7 +478,7 @@ JIndex i;
 	p.SetPenColor(JColorManager::GetRedColor());
 	p.Rect(its2Rect);
 	p.SetFontStyle(JColorManager::GetRedColor());
-	p.String(its2Rect.topLeft(), JString("2", kJFalse),
+	p.String(its2Rect.topLeft(), JString("2", false),
 			 its2Rect.width(),  JPainter::kHAlignCenter,
 			 its2Rect.height(), JPainter::kVAlignCenter);
 
@@ -486,7 +486,7 @@ JIndex i;
 	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Rect(its3Rect);
 	p.SetFontStyle(JColorManager::GetBlueColor());
-	p.String(its3Rect.topLeft(), JString("3", kJFalse),
+	p.String(its3Rect.topLeft(), JString("3", false),
 			 its3Rect.width(),  JPainter::kHAlignCenter,
 			 its3Rect.height(), JPainter::kVAlignCenter);
 
@@ -510,7 +510,7 @@ JIndex i;
 
 	p.ShiftOrigin(2,0);
 
-	const JString helloStr("Hello", kJFalse);
+	const JString helloStr("Hello", false);
 
 	JPoint textPt(40,30);
 	p.String(  0.0, textPt, helloStr);
@@ -569,9 +569,9 @@ JIndex i;
 	p.String(200, 10+2*p.GetLineHeight(), helloStr, 100, JPainter::kHAlignRight);
 
 	p.SetPenColor(JColorManager::GetDarkGreenColor());
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.Rect(290, 160, 100, 80);
-	p.SetFilling(kJFalse);
+	p.SetFilling(false);
 /*
 	for (JCoordinate y=160; y<240; y++)
 		{
@@ -639,7 +639,7 @@ JIndex i;
 	// test filling rule
 
 	p.SetPenColor(JColorManager::GetRedColor());
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 
 	JPolygon fillRulePoly;
 	fillRulePoly.AppendElement(JPoint(175,45));
@@ -649,11 +649,11 @@ JIndex i;
 	fillRulePoly.AppendElement(JPoint(185,65));
 	p.Polygon(fillRulePoly);
 
-	p.SetFilling(kJFalse);
+	p.SetFilling(false);
 
 	// dashed lines
 
-	p.DrawDashedLines(kJTrue);
+	p.DrawDashedLines(true);
 
 	p.SetPenColor(JColorManager::GetBlackColor());
 
@@ -670,8 +670,8 @@ JIndex i;
 	p.SetDashList(dashList);
 	p.Line(100,112, 200,112);
 
-	p.SetFontStyle(JFontStyle(kJFalse, kJFalse, 1, kJFalse));
-	p.String(130,155, JString("underline without dashes", kJFalse));
+	p.SetFontStyle(JFontStyle(false, false, 1, false));
+	p.String(130,155, JString("underline without dashes", false));
 
 	p.SetDashList(dashList, 3);		// test offset
 	p.Line(100,116, 200,116);
@@ -690,11 +690,11 @@ JIndex i;
 	p.Line(100,122, 200,122);
 
 	p.Ellipse(210,110, 20,20);
-	p.DrawDashedLines(kJFalse);
+	p.DrawDashedLines(false);
 	p.Ellipse(213,113, 14,14);
 	p.Rect(207,107, 26,26);
 	p.SetPenColor(JColorManager::GetYellowColor());
-	p.DrawDashedLines(kJTrue);
+	p.DrawDashedLines(true);
 	p.Ellipse(213,113, 14,14);
 
 	// icons
@@ -887,7 +887,7 @@ TestWidget::HandleMouseDrag
 	const JXKeyModifiers&	modifiers
 	)
 {
-	const JBoolean scrolled = ScrollForDrag(pt);
+	const bool scrolled = ScrollForDrag(pt);
 
 	JPainter* p = nullptr;
 	if (buttonStates.left() && pt != itsPrevPt && GetDragPainter(&p))	// no painter for multiple click
@@ -942,7 +942,7 @@ TestWidget::HandleMouseUp
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestWidget::HitSamePart
 	(
 	const JPoint& pt1,
@@ -950,9 +950,8 @@ TestWidget::HitSamePart
 	)
 	const
 {
-	return JConvertToBoolean(
-			(its2Rect.Contains(pt1) && its2Rect.Contains(pt2)) ||
-			(its3Rect.Contains(pt1) && its3Rect.Contains(pt2)));
+	return (its2Rect.Contains(pt1) && its2Rect.Contains(pt2)) ||
+			(its3Rect.Contains(pt1) && its3Rect.Contains(pt2));
 }
 
 /******************************************************************************
@@ -978,7 +977,7 @@ TestWidget::GetDNDAction
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestWidget::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -991,7 +990,7 @@ TestWidget::WillAcceptDrop
 	JXDNDManager* dndMgr = GetDNDManager();
 	JXDisplay* display   = GetDisplay();
 
-	JBoolean hasURIList = kJFalse;
+	bool hasURIList = false;
 
 	std::cout << std::endl;
 	std::cout << "Data types available from DND source:" << std::endl;
@@ -1003,7 +1002,7 @@ TestWidget::WillAcceptDrop
 
 		if (type == GetSelectionManager()->GetURLXAtom())
 			{
-			hasURIList = kJTrue;
+			hasURIList = true;
 			}
 		}
 
@@ -1016,11 +1015,11 @@ TestWidget::WillAcceptDrop
 			std::cout << std::endl;
 
 			*action = dndMgr->GetDNDActionPrivateXAtom();
-			return kJTrue;
+			return true;
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 	else if (*action == dndMgr->GetDNDActionCopyXAtom())
@@ -1035,7 +1034,7 @@ TestWidget::WillAcceptDrop
 			PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
 							   GetSelectionManager()->GetMimePlainTextUTF8XAtom());
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -1051,7 +1050,7 @@ TestWidget::WillAcceptDrop
 							   GetSelectionManager()->GetMimePlainTextUTF8XAtom());
 			}
 
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1160,7 +1159,7 @@ TestWidget::PrintSelectionTargets
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestWidget::PrintSelectionText
 	(
 	const Atom selectionName,
@@ -1200,12 +1199,12 @@ TestWidget::PrintSelectionText
 			}
 
 		selMgr->DeleteData(&data, delMethod);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		std::cout << "Data could not be retrieved as " << XGetAtomName(*display, type) << "." << std::endl << std::endl;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1295,7 +1294,7 @@ TestWidget::HandleKeyPress
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestWidget::HandleClientMessage
 	(
 	const XClientMessageEvent& clientMessage
@@ -1349,9 +1348,9 @@ TestWidget::UpdateActionsMenu()
 		}
 
 	itsActionsMenu->SetItemEnable(kShowHideQuitCmd,
-								  JI2B(itsQuitButton != nullptr));
+								  itsQuitButton != nullptr);
 	itsActionsMenu->SetItemEnable(kActDeactQuitCmd,
-								  JI2B(itsQuitButton != nullptr));
+								  itsQuitButton != nullptr);
 }
 
 /******************************************************************************
@@ -1649,7 +1648,7 @@ TestWidget::BuildXlsfontsMenu
 
 	menu->AppendItem(JGetString("XFontMenuLastItem::TestWidget"));
 	const JSize count = menu->GetItemCount();
-	menu->SetItemFontStyle(count, JFontStyle(kJTrue, kJFalse, 0, kJFalse,
+	menu->SetItemFontStyle(count, JFontStyle(true, false, 0, false,
 											 JColorManager::GetBlackColor()));
 	if (count > 1)
 		{

@@ -1,4 +1,4 @@
-jx_browser_data 87
+jx_browser_data 88
 # project tree
 0 "root"
 T
@@ -35,7 +35,7 @@ F
 # tasks
 4
 "makemake"
-T "./" "make -k personal" "" T F T T T F F "" "" "" F
+T "./" "make -k personal" "" TFTTTFF "" "" "" F
 F
 # build settings
 1

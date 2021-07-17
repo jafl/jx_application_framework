@@ -34,8 +34,8 @@ public:
 
 	CBExecOutputDocument(const CBTextFileType fileType = kCBExecOutputFT,
 						 const JUtf8Byte* helpSectionName = "CBRunProgramHelp",
-						 const JBoolean focusToCmd = kJTrue,
-						 const JBoolean allowStop = kJTrue);
+						 const bool focusToCmd = true,
+						 const bool allowStop = true);
 
 	virtual ~CBExecOutputDocument();
 
@@ -49,9 +49,9 @@ public:
 								  const JString& dontCloseMsg,
 								  const JString& execDir,
 								  const JString& execCmd,
-								  const JBoolean showPID);
+								  const bool showPID);
 
-	JBoolean	ProcessRunning() const;
+	bool	ProcessRunning() const;
 	void		SendText(const JString& text);
 
 	virtual void	OpenPrevListItem();
@@ -61,7 +61,7 @@ public:
 
 protected:
 
-	JBoolean	ShouldClearWhenStart() const;
+	bool	ShouldClearWhenStart() const;
 
 	void	ToggleProcessRunning();
 	void	StopProcess();
@@ -69,23 +69,23 @@ protected:
 
 	virtual void		PlaceCmdLineWidgets();
 	virtual void		AppendText(const JString& text);
-	virtual JBoolean	ProcessFinished(const JProcess::Finished& info);
-	virtual JBoolean	NeedsFormattedData() const;
+	virtual bool	ProcessFinished(const JProcess::Finished& info);
+	virtual bool	NeedsFormattedData() const;
 
-	JBoolean	GetRecordLink(RecordLink** link) const;
-	JBoolean	GetDataLink(DataLink** link) const;
+	bool	GetRecordLink(RecordLink** link) const;
+	bool	GetDataLink(DataLink** link) const;
 
-	virtual JBoolean	OKToClose() override;
+	virtual bool	OKToClose() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
 	JProcess*		itsProcess;				// deleted when we get a new one
 	JString			itsPath;
-	JBoolean		itsReceivedDataFlag;
-	JBoolean		itsProcessPausedFlag;
+	bool		itsReceivedDataFlag;
+	bool		itsProcessPausedFlag;
 	JString			itsDontCloseMsg;
-	JBoolean		itsClearWhenStartFlag;
+	bool		itsClearWhenStartFlag;
 	JSize			itsUseCount;
 
 	RecordLink*		itsRecordLink;			// can be nullptr
@@ -99,7 +99,7 @@ private:
 	JXStaticText*	itsCmdPrompt;
 	CBCmdLineInput*	itsCmdInput;
 	JXTextButton*	itsEOFButton;
-	const JBoolean	itsFocusToCmdFlag;
+	const bool	itsFocusToCmdFlag;
 
 private:
 
@@ -130,27 +130,27 @@ public:
 		{
 		public:
 
-			Finished(const JBoolean success, const JBoolean cancelled)
+			Finished(const bool success, const bool cancelled)
 				:
 				JBroadcaster::Message(kFinished),
-				itsSuccessFlag(JI2B(success && !cancelled)),
+				itsSuccessFlag(success && !cancelled),
 				itsCancelledFlag(cancelled),
-				itsSomebodyIsWaitingFlag(kJFalse)
+				itsSomebodyIsWaitingFlag(false)
 				{ };
 
-			JBoolean
+			bool
 			Successful() const
 			{
 				return itsSuccessFlag;
 			};
 
-			JBoolean
+			bool
 			Cancelled() const
 			{
 				return itsCancelledFlag;
 			};
 
-			JBoolean
+			bool
 			SomebodyIsWaiting()
 			{
 				return itsSomebodyIsWaitingFlag;
@@ -159,14 +159,14 @@ public:
 			void
 			SetSomebodyIsWaiting()
 			{
-				itsSomebodyIsWaitingFlag = kJTrue;
+				itsSomebodyIsWaitingFlag = true;
 			};
 
 		private:
 
-			JBoolean	itsSuccessFlag;
-			JBoolean	itsCancelledFlag;
-			JBoolean	itsSomebodyIsWaitingFlag;
+			bool	itsSuccessFlag;
+			bool	itsCancelledFlag;
+			bool	itsSomebodyIsWaitingFlag;
 		};
 };
 
@@ -176,11 +176,11 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBExecOutputDocument::ProcessRunning()
 	const
 {
-	return JI2B( itsProcess != nullptr && !itsProcess->IsFinished() );
+	return itsProcess != nullptr && !itsProcess->IsFinished();
 }
 
 /******************************************************************************
@@ -188,7 +188,7 @@ CBExecOutputDocument::ProcessRunning()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBExecOutputDocument::GetRecordLink
 	(
 	RecordLink** link
@@ -196,7 +196,7 @@ CBExecOutputDocument::GetRecordLink
 	const
 {
 	*link = itsRecordLink;
-	return JI2B( itsRecordLink != nullptr );
+	return itsRecordLink != nullptr;
 }
 
 /******************************************************************************
@@ -204,7 +204,7 @@ CBExecOutputDocument::GetRecordLink
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBExecOutputDocument::GetDataLink
 	(
 	DataLink** link
@@ -212,7 +212,7 @@ CBExecOutputDocument::GetDataLink
 	const
 {
 	*link = itsDataLink;
-	return JI2B( itsDataLink != nullptr );
+	return itsDataLink != nullptr;
 }
 
 /******************************************************************************
@@ -220,7 +220,7 @@ CBExecOutputDocument::GetDataLink
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBExecOutputDocument::ShouldClearWhenStart()
 	const
 {

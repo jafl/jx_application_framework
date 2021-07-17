@@ -31,8 +31,8 @@ public:
 
 	virtual ~JRunArrayIterator();
 
-	virtual JBoolean	Prev(T* item, const JBoolean move = kJTrue) override;
-	virtual JBoolean	Next(T* item, const JBoolean move = kJTrue) override;
+	virtual bool	Prev(T* item, const JIteratorAction move = kJIteratorMove) override;
+	virtual bool	Next(T* item, const JIteratorAction move = kJIteratorMove) override;
 
 	virtual void		SkipPrev(const JSize count = 1) override;
 	virtual void		SkipNext(const JSize count = 1) override;
@@ -41,24 +41,24 @@ public:
 
 	// only allowed if constructed from non-const JList<T>*
 
-	virtual JBoolean	SetPrev(const T& data, const JBoolean move = kJTrue) override;
-	virtual JBoolean	SetNext(const T& data, const JBoolean move = kJTrue) override;
+	virtual bool	SetPrev(const T& data, const JIteratorAction move = kJIteratorMove) override;
+	virtual bool	SetNext(const T& data, const JIteratorAction move = kJIteratorMove) override;
 
-	JBoolean			SetPrev(const T& data, const JSize count, const JBoolean move = kJTrue);
-	JBoolean			SetNext(const T& data, const JSize count, const JBoolean move = kJTrue);
+	bool			SetPrev(const T& data, const JSize count, const JIteratorAction move = kJIteratorMove);
+	bool			SetNext(const T& data, const JSize count, const JIteratorAction move = kJIteratorMove);
 
-	virtual JBoolean	RemovePrev(const JSize count = 1) override;
-	virtual JBoolean	RemoveNext(const JSize count = 1) override;
+	virtual bool	RemovePrev(const JSize count = 1) override;
+	virtual bool	RemoveNext(const JSize count = 1) override;
 
-	virtual JBoolean	Insert(const T& data) override;
-	JBoolean			Insert(const T& data, const JSize count);
-	JBoolean			InsertSlice(const JRunArray<T>& source, const JIndexRange& range);
+	virtual bool	Insert(const T& data) override;
+	bool			Insert(const T& data, const JSize count);
+	bool			InsertSlice(const JRunArray<T>& source, const JIndexRange& range);
 
-	JBoolean	AtFirstRun() const;
-	JBoolean	AtLastRun() const;
+	bool	AtFirstRun() const;
+	bool	AtLastRun() const;
 
-	JBoolean	PrevRun();
-	JBoolean	NextRun();
+	bool	PrevRun();
+	bool	NextRun();
 
 	JIndex		GetRunStart() const;
 	JIndex		GetRunEnd() const;
@@ -75,13 +75,13 @@ private:
 	JRunArray<T>*	itsRunArray;
 	JIndex			itsRunIndex;
 	JIndex			itsOffsetInRun;
-	JBoolean		itsIgnoreListChangedFlag;
+	bool		itsIgnoreListChangedFlag;
 
 private:
 
 	void	PrivateMoveTo(const JCursorPosition origPosition,
 						  const JIteratorPosition newPosition, const JIndex index,
-						  const JBoolean wasAtLimit);
+						  const bool wasAtLimit);
 
 	// not allowed
 

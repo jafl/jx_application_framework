@@ -28,7 +28,7 @@ public:
 	GFGLink();
 	virtual ~GFGLink();
 
-	JBoolean	StartCTags();
+	bool	StartCTags();
 	void		ParseClass(GFGClass* list, const JString& filename, const JString& classname);
 	
 private:

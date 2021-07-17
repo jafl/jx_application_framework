@@ -37,7 +37,7 @@ public:
 	virtual void	Suspend() override;
 	virtual void	Resume() override;
 	virtual void	Quit();
-	JBoolean		IsQuitting() const;
+	bool		IsQuitting() const;
 
 	void	DisplayBusyCursor();
 	void	DisplayInactiveCursor();
@@ -58,13 +58,13 @@ public:
 
 	JSize		GetDisplayCount() const;
 	JXDisplay*	GetDisplay(const JIndex index) const;
-	JBoolean	GetDisplayIndex(JXDisplay* display, JIndex* index) const;
+	bool	GetDisplayIndex(JXDisplay* display, JIndex* index) const;
 
 	const JPtrArray<JXDisplay>*	GetDisplayList() const;
 
-	JBoolean	OpenDisplay(const JString& displayName, JIndex* displayIndex);
-	JBoolean	DisplayExists(const Display* xDisplay);
-	JBoolean	FindDisplay(const Display* xDisplay, JXDisplay** display);
+	bool	OpenDisplay(const JString& displayName, JIndex* displayIndex);
+	bool	DisplayExists(const Display* xDisplay);
+	bool	FindDisplay(const Display* xDisplay, JXDisplay** display);
 
 	// for use by networking clean-up code
 
@@ -87,8 +87,8 @@ public:
 
 	// for use by special windows that block until dismissed
 
-	JBoolean	HasBlockingWindow() const;
-	JBoolean	HadBlockingWindow() const;
+	bool	HasBlockingWindow() const;
+	bool	HadBlockingWindow() const;
 
 	// required by JXInitGlobals()
 
@@ -97,7 +97,7 @@ public:
 	// called by JXAssert
 
 	static void	Abort(const JXDocumentManager::SafetySaveReason reason,
-					  const JBoolean dumpCore);
+					  const bool dumpCore);
 
 	// called by JXMDIServer
 
@@ -106,10 +106,10 @@ public:
 protected:
 
 	void				UpdateCurrentTime();
-	virtual JBoolean	HandleCustomEvent();
-	virtual JBoolean	HandleCustomEventWhileBlocking();
+	virtual bool	HandleCustomEvent();
+	virtual bool	HandleCustomEventWhileBlocking();
 
-	virtual JBoolean	Close() override;	// use Quit() instead
+	virtual bool	Close() override;	// use Quit() instead
 
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
@@ -122,8 +122,8 @@ private:
 
 	JPtrArray<JXDisplay>*	itsDisplayList;
 	JIndex					itsCurrDisplayIndex;
-	JBoolean				itsIgnoreDisplayDeletedFlag;
-	JBoolean				itsIgnoreTaskDeletedFlag;
+	bool				itsIgnoreDisplayDeletedFlag;
+	bool				itsIgnoreTaskDeletedFlag;
 
 	Time					itsCurrentTime;			// in milliseconds
 	JPtrArray<JXIdleTask>*	itsIdleTasks;
@@ -135,19 +135,19 @@ private:
 
 	JPtrArray<JXUrgentTask>*	itsUrgentTasks;
 	JPtrArray<JXUrgentTask>*	itsRunningUrgentTasks;	// usually nullptr; not owned
-	JBoolean					itsHasBlockingWindowFlag;
-	JBoolean					itsHadBlockingWindowFlag;
+	bool					itsHasBlockingWindowFlag;
+	bool					itsHadBlockingWindowFlag;
 
 	std::recursive_mutex*	itsTaskMutex;
 
 	JString		itsSignature;
 	JString		itsRestartCmd;		// for session managers
-	JBoolean	itsRequestQuitFlag;
+	bool	itsRequestQuitFlag;
 
 private:
 
 	void	HandleOneEvent();
-	void	PerformTasks(const JBoolean hadEvents, const JBoolean allowSleep);
+	void	PerformTasks(const bool hadEvents, const bool allowSleep);
 	void	PerformIdleTasks();
 	void	PerformUrgentTasks();
 
@@ -165,8 +165,8 @@ private:
 
 	void		PrepareForBlockingWindow();
 	void		BlockingWindowFinished();
-	JBoolean	HandleOneEventForWindow(JXWindow* window,
-										const JBoolean allowSleep = kJTrue);
+	bool	HandleOneEventForWindow(JXWindow* window,
+										const bool allowSleep = true);
 
 	friend class JXCSFDialogBase;
 	friend class JXChooseSaveFile;
@@ -238,7 +238,7 @@ JXApplication::GetDisplay
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXApplication::GetDisplayIndex
 	(
 	JXDisplay*	display,
@@ -264,11 +264,11 @@ JXApplication::GetDisplayList()
 /******************************************************************************
  DisplayExists
 
-	Returns kJTrue if the given display hasn't been deleted.
+	Returns true if the given display hasn't been deleted.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXApplication::DisplayExists
 	(
 	const Display* xDisplay
@@ -283,14 +283,14 @@ JXApplication::DisplayExists
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXApplication::HasBlockingWindow()
 	const
 {
 	return itsHasBlockingWindowFlag;
 }
 
-inline JBoolean
+inline bool
 JXApplication::HadBlockingWindow()
 	const
 {
@@ -343,7 +343,7 @@ JXApplication::GetRestartCommand()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXApplication::IsQuitting()
 	const
 {

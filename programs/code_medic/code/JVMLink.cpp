@@ -53,23 +53,23 @@
 
 const JIndex kJavaPort = 9001;
 
-static const JBoolean kFeatures[]=
+static const bool kFeatures[]=
 {
-	kJTrue,		// kSetProgram
-	kJTrue,		// kSetArgs
-	kJFalse,	// kSetCore
-	kJFalse,	// kSetProcess
-	kJTrue,		// kRunProgram
-	kJTrue,		// kStopProgram
-	kJFalse,	// kSetExecutionPoint
-	kJFalse,	// kExecuteBackwards
-	kJTrue,		// kShowBreakpointInfo
-	kJFalse,	// kSetBreakpointCondition
-	kJTrue,		// kSetBreakpointIgnoreCount
-	kJFalse,	// kWatchExpression
-	kJFalse,	// kWatchLocation
-	kJFalse,	// kExamineMemory
-	kJFalse,	// kDisassembleMemory
+	true,		// kSetProgram
+	true,		// kSetArgs
+	false,	// kSetCore
+	false,	// kSetProcess
+	true,		// kRunProgram
+	true,		// kStopProgram
+	false,	// kSetExecutionPoint
+	false,	// kExecuteBackwards
+	true,		// kShowBreakpointInfo
+	false,	// kSetBreakpointCondition
+	true,		// kSetBreakpointIgnoreCount
+	false,	// kWatchExpression
+	false,	// kWatchLocation
+	false,	// kExamineMemory
+	false,	// kDisassembleMemory
 };
 
 // JBroadcaster message types
@@ -160,8 +160,8 @@ JVMLink::~JVMLink()
 void
 JVMLink::InitFlags()
 {
-	itsInitFinishedFlag     = kJFalse;
-	itsProgramIsStoppedFlag = kJFalse;
+	itsInitFinishedFlag     = false;
+	itsProgramIsStoppedFlag = false;
 	itsCurrentThreadID      = JVMThreadNode::kRootThreadGroupID;
 }
 
@@ -194,11 +194,11 @@ JVMLink::GetScriptPrompt()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JVMLink::DebuggerHasStarted()
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -218,11 +218,11 @@ JVMLink::GetChooseProgramInstructions()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JVMLink::HasProgram()
 	const
 {
-	return JI2B(!itsJVMExecArgs.IsEmpty() || itsDebugLink != nullptr);
+	return !itsJVMExecArgs.IsEmpty() || itsDebugLink != nullptr;
 }
 
 /******************************************************************************
@@ -230,7 +230,7 @@ JVMLink::HasProgram()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JVMLink::GetProgram
 	(
 	JString* fullName
@@ -253,7 +253,7 @@ JVMLink::GetProgram
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -261,11 +261,11 @@ JVMLink::GetProgram
 
  ******************************************************************************/
 
-JBoolean
+bool
 JVMLink::HasCore()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -273,7 +273,7 @@ JVMLink::HasCore()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JVMLink::GetCore
 	(
 	JString* fullName
@@ -281,7 +281,7 @@ JVMLink::GetCore
 	const
 {
 	fullName->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -289,11 +289,11 @@ JVMLink::GetCore
 
  ******************************************************************************/
 
-JBoolean
+bool
 JVMLink::HasLoadedSymbols()
 	const
 {
-	return JI2B(itsDebugLink != nullptr);
+	return itsDebugLink != nullptr;
 }
 
 /******************************************************************************
@@ -301,11 +301,11 @@ JVMLink::HasLoadedSymbols()
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::IsDebugging()
 	const
 {
-	return JI2B(itsDebugLink != nullptr);
+	return itsDebugLink != nullptr;
 }
 
 /******************************************************************************
@@ -313,11 +313,11 @@ JVMLink::IsDebugging()
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::ProgramIsRunning()
 	const
 {
-	return JI2B(itsDebugLink != nullptr && !itsProgramIsStoppedFlag);
+	return itsDebugLink != nullptr && !itsProgramIsStoppedFlag;
 }
 
 /******************************************************************************
@@ -325,11 +325,11 @@ JVMLink::ProgramIsRunning()
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::ProgramIsStopped()
 	const
 {
-	return JI2B(itsDebugLink != nullptr && itsProgramIsStoppedFlag);
+	return itsDebugLink != nullptr && itsProgramIsStoppedFlag;
 }
 
 /******************************************************************************
@@ -337,14 +337,14 @@ JVMLink::ProgramIsStopped()
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::OKToSendCommands
 	(
-	const JBoolean background
+	const bool background
 	)
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -354,11 +354,11 @@ JVMLink::OKToSendCommands
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::IsDefiningScript()
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -443,7 +443,7 @@ JVMLink::ReceiveMessageFromJVM
 			{
 			itsLatestMsg = &info;
 
-			cmd->Finished(JI2B(info.GetErrorCode() == 0));
+			cmd->Finished(info.GetErrorCode() == 0);
 
 			itsLatestMsg = nullptr;
 
@@ -493,7 +493,7 @@ JVMLink::DispatchEventsFromJVM
 
 		if (type == kVMDeathEvent)
 			{
-			itsJVMDeathTask = jnew JXTimerTask(1000, kJTrue);
+			itsJVMDeathTask = jnew JXTimerTask(1000, true);
 			assert( itsJVMDeathTask != nullptr );
 			itsJVMDeathTask->Start();
 			ListenTo(itsJVMDeathTask);
@@ -626,7 +626,7 @@ JVMLink::ThreadDeleted
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::FindThread
 	(
 	const JUInt64	id,
@@ -639,12 +639,12 @@ JVMLink::FindThread
 	if (itsThreadList->SearchSorted(&target, JListT::kAnyMatch, &i))
 		{
 		*node = itsThreadList->GetElement(i);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*node = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -682,7 +682,7 @@ JVMLink::CheckNextThreadGroup()
 			}
 		}
 
-	CMCommand* cmd = jnew JVMGetThreadParent(node, kJTrue);
+	CMCommand* cmd = jnew JVMGetThreadParent(node, true);
 	assert( cmd != nullptr );
 
 	itsCullThreadGroupIndex++;
@@ -764,7 +764,7 @@ JVMLink::AddClass
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::GetClassName
 	(
 	const JUInt64	id,
@@ -778,7 +778,7 @@ JVMLink::GetClassName
 		{
 		target = itsClassByIDList->GetElement(i);
 		*name  = *(target.name);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -786,7 +786,7 @@ JVMLink::GetClassName
 		assert( cmd != nullptr );
 
 		name->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -795,7 +795,7 @@ JVMLink::GetClassName
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::GetClassSourceFile
 	(
 	const JUInt64	id,
@@ -811,12 +811,12 @@ JVMLink::GetClassSourceFile
 		if (target.path != nullptr)
 			{
 			*fullName = *(target.path);
-			return kJTrue;
+			return true;
 			}
 		}
 
 	fullName->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -835,7 +835,7 @@ JVMLink::AddMethod
 	ClassInfo target;
 	target.id = classID;
 	JIndex i;
-	const JBoolean found = itsClassByIDList->SearchSorted(target, JListT::kAnyMatch, &i);
+	const bool found = itsClassByIDList->SearchSorted(target, JListT::kAnyMatch, &i);
 	assert( found );
 
 	target = itsClassByIDList->GetElement(i);
@@ -860,7 +860,7 @@ JVMLink::AddMethod
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::GetMethodName
 	(
 	const JUInt64	classID,
@@ -874,7 +874,7 @@ JVMLink::GetMethodName
 	if (!itsClassByIDList->SearchSorted(target1, JListT::kAnyMatch, &i))
 		{
 		name->Clear();
-		return kJFalse;
+		return false;
 		}
 
 	target1 = itsClassByIDList->GetElement(i);
@@ -885,12 +885,12 @@ JVMLink::GetMethodName
 		{
 		target2 = target1.methods->GetElement(i);
 		*name   = *(target2.name);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		name->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -976,7 +976,7 @@ JVMLink::ClassNameToResourcePath
 
  ******************************************************************************/
 
-JBoolean
+bool
 JVMLink::ClassSignatureToFile
 	(
 	const JString&	signature,
@@ -994,12 +994,12 @@ JVMLink::ClassSignatureToFile
 		*fullName           = JCombinePathAndName(*path, file);
 		if (JFileReadable(*fullName))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	fullName->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1110,7 +1110,7 @@ JVMLink::AddFrame
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::GetFrame
 	(
 	const JUInt64	id,
@@ -1125,12 +1125,12 @@ JVMLink::GetFrame
 		if (info.id == id)
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1143,7 +1143,7 @@ JVMLink::ReadFromProcess()
 {
 	JString data;
 	itsInputLink->Read(&data);
-	Broadcast(UserOutput(data, kJFalse, kJTrue));
+	Broadcast(UserOutput(data, false, true));
 }
 
 /******************************************************************************
@@ -1174,22 +1174,22 @@ JVMLink::SetProgram
 		!JFileReadable(fullName))
 		{
 		const JString error = JGetString("ConfigFileUnreadable::JVMLink");
-		Broadcast(UserOutput(error, kJTrue));
+		Broadcast(UserOutput(error, true));
 		return;
 		}
 	else if (CMMDIServer::IsBinary(fullName))
 		{
 		const JString error = JGetString("ConfigFileIsBinary::JVMLink");
-		Broadcast(UserOutput(error, kJTrue));
+		Broadcast(UserOutput(error, true));
 		return;
 		}
 
 	JString line;
 	if (!CMMDIServer::GetLanguage(fullName, &line) ||
-		JString::Compare(line, "java", kJFalse) != 0)
+		JString::Compare(line, "java", JString::kIgnoreCase) != 0)
 		{
 		const JString error = JGetString("ConfigFileWrongLanguage::JVMLink");
-		Broadcast(UserOutput(error, kJTrue));
+		Broadcast(UserOutput(error, true));
 		return;
 		}
 
@@ -1248,7 +1248,7 @@ JVMLink::SetProgram
 			{
 			line.Prepend("Unknown option: ");
 			line.Append("\n");
-			Broadcast(UserOutput(line, kJTrue));
+			Broadcast(UserOutput(line, true));
 			}
 
 		if (!input.good())
@@ -1278,7 +1278,7 @@ JVMLink::BroadcastProgramSet()
 	JString programName;
 	GetProgram(&programName);
 
-	Broadcast(SymbolsLoaded(kJFalse, programName));
+	Broadcast(SymbolsLoaded(false, programName));
 }
 
 /******************************************************************************
@@ -1406,7 +1406,7 @@ JVMLink::SetBreakpoint
 	(
 	const JString&	fileName,
 	const JIndex	lineIndex,
-	const JBoolean	temporary
+	const bool	temporary
 	)
 {
 	JArray<unsigned char> data;
@@ -1432,7 +1432,7 @@ void
 JVMLink::SetBreakpoint
 	(
 	const JString&	address,
-	const JBoolean	temporary
+	const bool	temporary
 	)
 {
 }
@@ -1497,8 +1497,8 @@ void
 JVMLink::SetBreakpointEnabled
 	(
 	const JIndex	debuggerIndex,
-	const JBoolean	enabled,
-	const JBoolean	once
+	const bool	enabled,
+	const bool	once
 	)
 {
 }
@@ -1650,7 +1650,7 @@ JVMLink::StepOut()
 void
 JVMLink::Continue()
 {
-	itsProgramIsStoppedFlag = kJFalse;
+	itsProgramIsStoppedFlag = false;
 	itsDebugLink->Send(GetNextTransactionID(), kVirtualMachineCmdSet, kVMResumeCmd, nullptr, 0);
 	Broadcast(ProgramRunning());
 }
@@ -1667,7 +1667,7 @@ JVMLink::RunUntil
 	const JIndex	lineIndex
 	)
 {
-	SetBreakpoint(fileName, lineIndex, kJTrue);
+	SetBreakpoint(fileName, lineIndex, true);
 	Continue();
 }
 
@@ -1946,7 +1946,7 @@ JVMLink::CreateVarContentCommand
 CMVarNode*
 JVMLink::CreateVarNode
 	(
-	const JBoolean shouldUpdate		// kJFalse for Local Variables
+	const bool shouldUpdate		// false for Local Variables
 	)
 {
 	CMVarNode* node = jnew JVMVarNode(shouldUpdate);
@@ -2067,7 +2067,7 @@ JVMLink::SendRaw
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::Send
 	(
 	CMCommand* command
@@ -2077,7 +2077,7 @@ JVMLink::Send
 		{
 		command->SetTransactionID(GetNextTransactionID());
 		SendMedicCommand(command);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -2100,7 +2100,7 @@ JVMLink::SendMedicCommand
 
 	if (command->GetCommand() == "NOP")
 		{
-		command->Finished(kJTrue);
+		command->Finished(true);
 		Cancel(command);
 
 		if (!HasForegroundCommands())
@@ -2162,7 +2162,7 @@ JVMLink::ProgramFinished1
 			}
 		reasonStr += "\n\n";
 
-		Broadcast(UserOutput(reasonStr, kJFalse));
+		Broadcast(UserOutput(reasonStr, false));
 		Broadcast(ProgramFinished());
 
 		StartDebugger();
@@ -2182,7 +2182,7 @@ JVMLink::ProgramFinished1
 void
 JVMLink::StopProgram()
 {
-	itsProgramIsStoppedFlag = kJTrue;
+	itsProgramIsStoppedFlag = true;
 	itsDebugLink->Send(GetNextTransactionID(), kVirtualMachineCmdSet, kVMSuspendCmd, nullptr, 0);
 	Broadcast(ProgramStopped(CMLocation(JString::empty, 1)));
 }
@@ -2205,7 +2205,7 @@ JVMLink::KillProgram()
 		JVMSocket::Pack4(1, data);
 		itsDebugLink->Send(GetNextTransactionID(), kVirtualMachineCmdSet, kVMExitCmd, data, sizeof(data));
 
-		itsJVMDeathTask = jnew JXTimerTask(1000, kJTrue);
+		itsJVMDeathTask = jnew JXTimerTask(1000, true);
 		assert( itsJVMDeathTask != nullptr );
 		itsJVMDeathTask->Start();
 		ListenTo(itsJVMDeathTask);
@@ -2235,7 +2235,7 @@ JVMLink::DetachOrKill()
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::OKToDetachOrKill()
 	const
 {
@@ -2249,7 +2249,7 @@ JVMLink::OKToDetachOrKill()
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -2258,7 +2258,7 @@ JVMLink::OKToDetachOrKill()
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::StartDebugger()
 {
 	if (itsAcceptor == nullptr)
@@ -2279,10 +2279,10 @@ JVMLink::StartDebugger()
 			};
 		const JString msg = JGetString("ListenError::JVMLink", map, sizeof(map));
 
-		JVMWelcomeTask* task = jnew JVMWelcomeTask(msg, kJTrue);
+		JVMWelcomeTask* task = jnew JVMWelcomeTask(msg, true);
 		assert( task != nullptr );
 		task->Go();
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -2292,10 +2292,10 @@ JVMLink::StartDebugger()
 			};
 		JString msg = JGetString("Welcome::JVMLink", map, sizeof(map));
 
-		JVMWelcomeTask* task = jnew JVMWelcomeTask(msg, kJFalse);
+		JVMWelcomeTask* task = jnew JVMWelcomeTask(msg, false);
 		assert( task != nullptr );
 		task->Go();
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -2307,7 +2307,7 @@ JVMLink::StartDebugger()
 void
 JVMLink::InitDebugger()
 {
-	itsInitFinishedFlag = kJTrue;
+	itsInitFinishedFlag = true;
 }
 
 /******************************************************************************
@@ -2317,13 +2317,13 @@ JVMLink::InitDebugger()
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::ChangeDebugger()
 {
 	CMPrefsManager* mgr = CMGetPrefsManager();
 	if (itsJVMCmd != mgr->GetJVMCommand() && itsProcess != nullptr)
 		{
-		const JBoolean ok = RestartDebugger();
+		const bool ok = RestartDebugger();
 		if (ok)
 			{
 			RunProgram(itsJVMProcessArgs);
@@ -2332,7 +2332,7 @@ JVMLink::ChangeDebugger()
 		return ok;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -2340,11 +2340,11 @@ JVMLink::ChangeDebugger()
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMLink::RestartDebugger()
 {
 	StopDebugger();
-	const JBoolean ok = StartDebugger();
+	const bool ok = StartDebugger();
 
 	if (ok)
 		{
@@ -2382,7 +2382,7 @@ JVMLink::ConnectionEstablished
 	)
 {
 	InitFlags();
-	itsProgramIsStoppedFlag = kJTrue;
+	itsProgramIsStoppedFlag = true;
 
 	itsDebugLink = socket;
 	ListenTo(itsDebugLink);
@@ -2425,8 +2425,8 @@ JVMLink::ConnectionEstablished
 	GetProgram(&programName);
 
 	Broadcast(DebuggerReadyForInput());
-	Broadcast(UserOutput(JGetString("Connected::JVMLink"), kJFalse));
-	Broadcast(SymbolsLoaded(kJTrue, programName));
+	Broadcast(UserOutput(JGetString("Connected::JVMLink"), false));
+	Broadcast(SymbolsLoaded(true, programName));
 	Broadcast(ProgramStopped(CMLocation(JString::empty, 1)));
 
 	// show main()

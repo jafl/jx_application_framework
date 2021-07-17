@@ -131,7 +131,7 @@ JMMMonitor::HandleUnallocatedDeletion
 	(
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 }
@@ -153,7 +153,7 @@ JMMMonitor::HandleMultipleDeletion
 	const JMMRecord& originalRecord,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 }

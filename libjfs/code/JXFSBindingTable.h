@@ -36,7 +36,7 @@ public:
 
 	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
-	virtual JBoolean	IsEditable(const JPoint& cell) const override;
+	virtual bool	IsEditable(const JPoint& cell) const override;
 
 protected:
 
@@ -51,7 +51,7 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 									const JCoordinate x, const JCoordinate y,
 									const JCoordinate w, const JCoordinate h) override;
-	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual bool		ExtractInputData(const JPoint& cell) override;
 	virtual void			PrepareDeleteXInputField() override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;

@@ -47,7 +47,7 @@ JXDirectSaveSource::JXDirectSaveSource
 	itsDialog    = dialog;
 	itsNameInput = nameInput;
 
-	SetImage(GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small), kJFalse);
+	SetImage(GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small), false);
 	SetHint(JGetString("Hint::JXDirectSaveSource"));
 }
 
@@ -146,7 +146,7 @@ void
 JXDirectSaveSource::HandleDNDResponse
 	(
 	const JXContainer*	target,
-	const JBoolean		dropAccepted,
+	const bool		dropAccepted,
 	const Atom			action
 	)
 {

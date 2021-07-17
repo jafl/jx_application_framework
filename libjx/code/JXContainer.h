@@ -43,28 +43,28 @@ public:
 
 	virtual ~JXContainer();
 
-	JBoolean		IsAncestor(JXContainer* obj) const;
+	bool		IsAncestor(JXContainer* obj) const;
 
 	virtual void	Show();					// must call inherited
 	virtual void	Hide();					// must call inherited
 	virtual void	Refresh() const = 0;
 	virtual void	Redraw() const = 0;
-	JBoolean		IsVisible() const;
-	void			SetVisible(const JBoolean vis);
-	JBoolean		WouldBeVisible() const;
+	bool		IsVisible() const;
+	void			SetVisible(const bool vis);
+	bool		WouldBeVisible() const;
 
 	virtual void	Activate();				// must call inherited
 	virtual void	Deactivate();			// must call inherited
-	JBoolean		IsActive() const;
-	void			SetActive(const JBoolean active);
-	JBoolean		WouldBeActive() const;
+	bool		IsActive() const;
+	void			SetActive(const bool active);
+	bool		WouldBeActive() const;
 
 	virtual void	Suspend();
 	virtual void	Resume();
-	JBoolean		IsSuspended() const;
+	bool		IsSuspended() const;
 
-	JBoolean		IsDNDSource() const;
-	JBoolean		IsDNDTarget() const;
+	bool		IsDNDSource() const;
+	bool		IsDNDTarget() const;
 
 	virtual JPoint	GlobalToLocal(const JCoordinate x, const JCoordinate y) const = 0;
 	JPoint			GlobalToLocal(const JPoint& pt) const;
@@ -98,7 +98,7 @@ public:
 	JXWindow*		GetWindow() const;
 
 	JXContainer*	GetEnclosure() const;
-//	JBoolean		SetEnclosure(JXContainer* obj);
+//	bool		SetEnclosure(JXContainer* obj);
 
 	JFontManager*		GetFontManager() const;
 	JXFontManager*		GetXFontManager() const;
@@ -108,34 +108,34 @@ public:
 
 	JCursorIndex	GetDefaultCursor() const;
 
-	JBoolean	GetHint(JString* text) const;
+	bool	GetHint(JString* text) const;
 	void		SetHint(const JString& text);
 	void		ClearHint();
 
-	JBoolean	GetVisibleRectGlobal(const JRect& origRectG,
+	bool	GetVisibleRectGlobal(const JRect& origRectG,
 									 JRect* visRectG) const;
 
 	// primarily invoked (automagically) after BuildWindow() finishes
 
 	void	ExpandToFitContent();
 
-	static void	DebugExpandToFitContent(const JBoolean horiz);
-	static void	DebugExpandToFitContentExtras(const JBoolean noop, const JBoolean overlap);
+	static void	DebugExpandToFitContent(const bool horiz);
+	static void	DebugExpandToFitContentExtras(const bool noop, const bool overlap);
 
 	// public only because it has to be called in special cases
-	virtual JBoolean	RunInternalFTC(const JBoolean horizontal, JCoordinate* newSize);
+	virtual bool	RunInternalFTC(const bool horizontal, JCoordinate* newSize);
 	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
 	JRect				ComputePaddingForInternalFTC() const;
 
 	// called by JXDisplay
 
-	JBoolean	FindContainer(const JPoint& ptG,
+	bool	FindContainer(const JPoint& ptG,
 							  JXContainer** container) const;
 
 	// called by Menu objects
 
-	virtual JBoolean	IsMenu() const;
-	virtual JBoolean	IsMenuTable() const;
+	virtual bool	IsMenu() const;
+	virtual bool	IsMenuTable() const;
 
 protected:
 
@@ -152,7 +152,7 @@ protected:
 	virtual void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers);
 	virtual void	HandleMouseLeave();
 
-	virtual JBoolean	AcceptDrag(const JPoint& pt, const JXMouseButton button,
+	virtual bool	AcceptDrag(const JPoint& pt, const JXMouseButton button,
 								   const JXKeyModifiers& modifiers);	// must call inherited
 	virtual void		HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 										const JSize clickCount,
@@ -163,9 +163,9 @@ protected:
 	virtual void		HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 									  const JXButtonStates& buttonStates,
 									  const JXKeyModifiers& modifiers);
-	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const;
+	virtual bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source);
 	virtual void		HandleDNDEnter();
@@ -179,8 +179,8 @@ protected:
 	virtual void	HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
 									const JXKeyModifiers& modifiers);
 
-	JBoolean			DispatchClientMessage(const XClientMessageEvent& clientMessage);
-	virtual JBoolean	HandleClientMessage(const XClientMessageEvent& clientMessage);
+	bool			DispatchClientMessage(const XClientMessageEvent& clientMessage);
+	virtual bool	HandleClientMessage(const XClientMessageEvent& clientMessage);
 							// must call inherited
 
 	void			NotifyBoundsMoved(const JCoordinate dx, const JCoordinate dy);
@@ -191,12 +191,12 @@ protected:
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 
-	virtual JBoolean	IncludeInFTC() const;
-	virtual JBoolean	NeedsInternalFTC() const;
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const;
+	virtual bool	IncludeInFTC() const;
+	virtual bool	NeedsInternalFTC() const;
+	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const;
 	virtual JRect		GetFrameForFTC() const;
 
-	JBoolean	GetEnclosedObjects(JPtrArrayIterator<JXContainer>** iter) const;
+	bool	GetEnclosedObjects(JPtrArrayIterator<JXContainer>** iter) const;
 	void		DeleteEnclosedObjects();
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -231,29 +231,29 @@ private:
 	JXWindow*				itsWindow;
 	JXContainer*			itsEnclosure;
 	JPtrArray<JXContainer>*	itsEnclosedObjs;	// nullptr if empty
-	JBoolean				itsGoingAwayFlag;
+	bool				itsGoingAwayFlag;
 
-	JBoolean	itsActiveFlag;
-	JBoolean	itsWasActiveFlag;	// kJTrue => activate when enclosure is activated
-	JBoolean	itsVisibleFlag;
-	JBoolean	itsWasVisibleFlag;	// kJTrue => show when enclosure is made visible
+	bool	itsActiveFlag;
+	bool	itsWasActiveFlag;	// true => activate when enclosure is activated
+	bool	itsVisibleFlag;
+	bool	itsWasVisibleFlag;	// true => show when enclosure is made visible
 	JSize		itsSuspendCount;
 
-	JBoolean	itsIsDNDSourceFlag;
-	JBoolean	itsIsDNDTargetFlag;
+	bool	itsIsDNDSourceFlag;
+	bool	itsIsDNDTargetFlag;
 
 	// avoids repeated DispatchMouse()
 
-	JBoolean	itsIsShowingFlag;
-	JBoolean	itsIsHidingFlag;
-	JBoolean	itsIsActivatingFlag;
-	JBoolean	itsIsDeactivatingFlag;
+	bool	itsIsShowingFlag;
+	bool	itsIsHidingFlag;
+	bool	itsIsActivatingFlag;
+	bool	itsIsDeactivatingFlag;
 
 	// cursor information
 
 	JCursorIndex			itsDefCursor;
 	JCursorIndex			itsInvisibleCursor;
-	JBoolean				itsCursorVisibleFlag;
+	bool				itsCursorVisibleFlag;
 	JCursorIndex			itsCurrCursor;
 	JXCursorAnimator*		itsCursorAnim;
 	JXCursorAnimationTask*	itsCursorAnimTask;
@@ -264,11 +264,11 @@ private:
 
 	// FTC
 
-	static JBoolean			theDebugFTCFlag;
-	static JBoolean			theDebugHorizFTCFlag;
-	static JBoolean			theDebugVertFTCFlag;
-	static JBoolean			theDebugFTCNoopExaminations;
-	static JBoolean			theDebugFTCWillOverlapNonincludedWidget;
+	static bool			theDebugFTCFlag;
+	static bool			theDebugHorizFTCFlag;
+	static bool			theDebugVertFTCFlag;
+	static bool			theDebugFTCNoopExaminations;
+	static bool			theDebugFTCWillOverlapNonincludedWidget;
 	static std::ostream*	theDebugFTCLogBuffer;
 
 private:
@@ -279,22 +279,22 @@ private:
 	void	AddEnclosedObject(JXContainer* theObject);
 	void	RemoveEnclosedObject(JXContainer* theObject);
 
-	JBoolean	FTCBuildLayout(const JBoolean expandHorizontally, JXFTCCell** root) const;
+	bool	FTCBuildLayout(const bool expandHorizontally, JXFTCCell** root) const;
 	JXFTCCell*	FTCGroupAlignedObjects(JXContainer* target,
 									   JPtrArray<JXContainer>* objList,
 									   JPtrArray<JXContainer>* fullObjList,
-									   const JBoolean horizontal,
-									   const JBoolean exact,
-									   const JBoolean first) const;
-	JBoolean	FTCWillOverlapNonincludedWidget(const JXContainer* obj1,
+									   const bool horizontal,
+									   const bool exact,
+									   const bool first) const;
+	bool	FTCWillOverlapNonincludedWidget(const JXContainer* obj1,
 												const JXContainer* obj2,
 												const JPtrArray<JXContainer>& fullObjList,
 												const JPtrArray<JXContainer>& matchedList) const;
 	void		FTCTrimBlockedMatches(const JXContainer* target,
 									  const JPtrArray<JXContainer>& fullObjList,
 									  const JPtrArray<JXContainer>& matchedList,
-									  const JBoolean horizontal,
-									  const JBoolean deleteBlockedWidgetCells,
+									  const bool horizontal,
+									  const bool deleteBlockedWidgetCells,
 									  JPtrArray<JXFTCCell>* cellList) const;
 
 	static JListT::CompareResult
@@ -346,7 +346,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXContainer::IsVisible()
 	const
 {
@@ -361,7 +361,7 @@ JXContainer::IsVisible()
 inline void
 JXContainer::SetVisible
 	(
-	const JBoolean vis
+	const bool vis
 	)
 {
 	if (vis && !WouldBeVisible())
@@ -379,11 +379,11 @@ JXContainer::SetVisible
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXContainer::IsActive()
 	const
 {
-	return JI2B(itsActiveFlag && itsSuspendCount == 0);
+	return itsActiveFlag && itsSuspendCount == 0;
 }
 
 /******************************************************************************
@@ -394,7 +394,7 @@ JXContainer::IsActive()
 inline void
 JXContainer::SetActive
 	(
-	const JBoolean active
+	const bool active
 	)
 {
 	if (active && !WouldBeActive())
@@ -412,11 +412,11 @@ JXContainer::SetActive
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXContainer::IsSuspended()
 	const
 {
-	return JI2B(itsSuspendCount > 0);
+	return itsSuspendCount > 0;
 }
 
 /******************************************************************************
@@ -424,7 +424,7 @@ JXContainer::IsSuspended()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXContainer::IsDNDSource()
 	const
 {
@@ -436,7 +436,7 @@ JXContainer::IsDNDSource()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXContainer::IsDNDTarget()
 	const
 {

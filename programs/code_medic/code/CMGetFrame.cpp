@@ -20,7 +20,7 @@ CMGetFrame::CMGetFrame
 	const JString& cmd
 	)
 	:
-	CMCommand(cmd, kJFalse, kJFalse)
+	CMCommand(cmd, false, false)
 {
 }
 

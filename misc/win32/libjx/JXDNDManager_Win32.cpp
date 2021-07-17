@@ -53,13 +53,13 @@ JXDNDManager::~JXDNDManager()
 /******************************************************************************
  BeginDND
 
-	Returns kJFalse if we are unable to initiate DND.
+	Returns false if we are unable to initiate DND.
 
 	We do not take ownership of targetFinder.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::BeginDND
 	(
 	JXWidget*				widget,
@@ -70,7 +70,7 @@ JXDNDManager::BeginDND
 	TargetFinder*			targetFinder
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -101,14 +101,14 @@ JXDNDManager::FinishDND()
 /******************************************************************************
  CancelDND
 
-	Returns kJTrue if the cancel was during a drag.
+	Returns true if the cancel was during a drag.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::CancelDND()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -133,14 +133,14 @@ JXDNDManager::EnableDND
 /******************************************************************************
  IsDNDAware
 
-	Returns kJTrue if the given X window supports the XDND protocol.
+	Returns true if the given X window supports the XDND protocol.
 
 	*proxy is the window to which the client messages should be sent.
 	*vers is the version to use.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::IsDNDAware
 	(
 	const Window	xWindow,
@@ -149,7 +149,7 @@ JXDNDManager::IsDNDAware
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -164,7 +164,7 @@ JXDNDManager::IsDNDAware
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::GetAskActions
 	(
 	JArray<Atom>*		actionList,
@@ -172,20 +172,20 @@ JXDNDManager::GetAskActions
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  ChooseDropAction
 
-	Asks the user which action to perform.  Returns kJFalse if cancelled.
+	Asks the user which action to perform.  Returns false if cancelled.
 
 	If the initial value of *action is one of the elements in actionList,
 	the corresponding radio button becomes the initial choice.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::ChooseDropAction
 	(
 	const JArray<Atom>&			actionList,
@@ -193,7 +193,7 @@ JXDNDManager::ChooseDropAction
 	Atom*						action
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -236,13 +236,13 @@ JXDNDManager::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::HandleClientMessage
 	(
 	const XClientMessageEvent& clientMessage
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -271,13 +271,13 @@ JXDNDManager::ReceiveWithFeedback
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::HandleDestroyNotify
 	(
 	const XDestroyWindowEvent& xEvent
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -310,7 +310,7 @@ JXDNDManager::ReceiveGoingAway
 JCursorIndex
 JXDNDManager::GetDNDCursor
 	(
-	const JBoolean		dropAccepted,
+	const bool		dropAccepted,
 	const Atom			action,
 	const JCursorIndex*	cursor
 	)
@@ -326,7 +326,7 @@ JXDNDManager::GetDNDCursor
 
 	Derived classes must override FindTarget().  The return values are:
 
-		return JBoolean		target supports XDND
+		return bool		target supports XDND
 		*xWindow			window containing mouse
 		*msgWindow			window to which DND messages should be sent
 		*target				JXContainer containing mouse, if any

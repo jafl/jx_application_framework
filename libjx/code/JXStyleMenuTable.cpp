@@ -65,8 +65,8 @@ JXStyleMenuTable::TableDrawCell
 		colorRect.Shrink(0, kHilightBorderWidth);
 		colorRect.right = colorRect.left + colorRect.height();
 
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
+		const bool origFill = p.IsFilling();
+		p.SetFilling(true);
 		p.SetPenColor(itsMenu->IndexToColor(cell.y));
 		p.Rect(colorRect);
 		p.SetFilling(origFill);

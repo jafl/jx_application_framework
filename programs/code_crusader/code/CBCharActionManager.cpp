@@ -84,7 +84,7 @@ CBCharActionManager::Perform
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCharActionManager::GetAction
 	(
 	const unsigned char	c,
@@ -96,12 +96,12 @@ CBCharActionManager::GetAction
 	if (s != nullptr)
 		{
 		*script = *s;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		script->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 

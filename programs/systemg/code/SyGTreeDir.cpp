@@ -38,8 +38,8 @@
 
 #include <jx_help_toc.xpm>
 
-const JString kDirPrefsName    (".systemg_folder_prefs_", kJFalse);
-const JString kOrigDirPrefsName(".systemG.Desktop", kJFalse);
+const JString kDirPrefsName    (".systemg_folder_prefs_", JString::kNoCopy);
+const JString kOrigDirPrefsName(".systemG.Desktop", JString::kNoCopy);
 
 // Preferences menu
 
@@ -88,14 +88,14 @@ SyGTreeDir::SyGTreeDir
 	)
 	:
 	JXWindowDirector(JXGetApplication()),
-	itsAutoMountFlag(kJFalse)
+	itsAutoMountFlag(false)
 {
 	if ((SyGGetApplication())->IsMountPoint(startPath) &&
 		!JIsMounted(startPath))
 		{
-		itsAutoMountFlag = kJTrue;
+		itsAutoMountFlag = true;
 		(SyGGetApplication())->DisplayBusyCursor();
-		JMount(startPath, kJTrue, kJTrue);
+		JMount(startPath, true, true);
 		}
 
 	BuildWindow(startPath);
@@ -111,7 +111,7 @@ SyGTreeDir::~SyGTreeDir()
 	if (itsAutoMountFlag)
 		{
 		(SyGGetApplication())->DisplayBusyCursor();		// can take time to flush buffers
-		JMount(GetDirectory(), kJFalse);
+		JMount(GetDirectory(), false);
 		}
 }
 
@@ -120,7 +120,7 @@ SyGTreeDir::~SyGTreeDir()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGTreeDir::Close()
 {
 	SaveState();
@@ -163,7 +163,7 @@ SyGTreeDir::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGTreeDir::GetMenuIcon
 	(
 	const JXImage** icon
@@ -171,7 +171,7 @@ SyGTreeDir::GetMenuIcon
 	const
 {
 	*icon = SyGGetDirectorySmallIcon(GetDirectory());
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -286,7 +286,7 @@ SyGTreeDir::BuildWindow
 		}
 	window->SetCloseAction(JXWindow::kCloseDirector);
 	window->SetWMClass(SyGGetWMClassInstance(), SyGGetFolderWindowClass());
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetMinSize(150, 150);
 
 	// Up button

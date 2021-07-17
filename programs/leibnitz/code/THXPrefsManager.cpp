@@ -22,10 +22,10 @@ const JFileVersion kCurrentPrefsFileVersion = 0;
 
 THXPrefsManager::THXPrefsManager
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue)
+	JXPrefsManager(kCurrentPrefsFileVersion, true)
 {
 	*isNew = JPrefsManager::UpgradeData();
 }
@@ -48,7 +48,7 @@ THXPrefsManager::~THXPrefsManager()
 void
 THXPrefsManager::UpgradeData
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JFileVersion	currentVersion
 	)
 {

@@ -23,7 +23,7 @@ public:
 	JRange();
 	JRange(const T firstIndex, const T lastIndex);
 
-	JBoolean
+	bool
 	Is
 		(
 		const T firstIndex,
@@ -31,13 +31,13 @@ public:
 		)
 		const
 	{
-		return JI2B( first == firstIndex && last == lastIndex );
+		return first == firstIndex && last == lastIndex;
 	};
 
-	JBoolean
+	bool
 	IsEmpty() const
 	{
-		return JI2B( last < first || (min == 0 && last == 0) );
+		return last < first || (min == 0 && last == 0);
 	};
 
 	JSize
@@ -46,28 +46,28 @@ public:
 		return (first <= last && (min != 0 || last > 0) ? last-first+1 : 0);
 	};
 
-	JBoolean
+	bool
 	Contains
 		(
 		const T index
 		)
 		const
 	{
-		return JI2B( first <= index && index <= last && (min != 0 || last > 0) );
+		return first <= index && index <= last && (min != 0 || last > 0);
 	};
 
-	JBoolean
+	bool
 	Contains
 		(
 		const JRange<T>& range
 		)
 		const
 	{
-		const JBoolean e1 = IsEmpty();
-		const JBoolean e2 = range.IsEmpty();
-		return JI2B((IsNothing() && range.IsNothing()) ||
+		const bool e1 = IsEmpty();
+		const bool e2 = range.IsEmpty();
+		return (IsNothing() && range.IsNothing()) ||
 					( e1 && e2 && first == range.first) ||
-					(!e1 && first <= range.first && range.last <= last));
+					(!e1 && first <= range.first && range.last <= last);
 	};
 
 	void
@@ -92,10 +92,10 @@ public:
 		last  = firstIndex + count - 1;
 	};
 
-	JBoolean
+	bool
 	IsNothing() const
 	{
-		return JI2B( first == 0 && last == 0 );
+		return first == 0 && last == 0;
 	};
 
 	void
@@ -138,14 +138,14 @@ public:
 
 	JRange& operator+=(const JRange& range);	// covering
 
-//	JBoolean	Complement(const JArray<JRange>& subsetList,
+//	bool	Complement(const JArray<JRange>& subsetList,
 //						   JArray<JRange>* complement);
 };
 
 template <class T> std::istream& operator>>(std::istream& input, JRange<T>& range);
 template <class T> std::ostream& operator<<(std::ostream& output, const JRange<T>& range);
 
-template <class T> JBoolean		JIntersection(const JRange<T>& r1, const JRange<T>& r2, JRange<T>* result);
+template <class T> bool		JIntersection(const JRange<T>& r1, const JRange<T>& r2, JRange<T>* result);
 template <class T> JRange<T>	JCovering(const JRange<T>& r1, const JRange<T>& r2);
 
 template <class T>

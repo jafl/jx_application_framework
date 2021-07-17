@@ -136,17 +136,17 @@ operator<<
 /******************************************************************************
  JSameStrings
 
-	Returns kJTrue if the two lists contain the same strings.
+	Returns true if the two lists contain the same strings.
 	This function does not assume that the lists are sorted.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JSameStrings
 	(
 	const JPtrArray<JString>&	list1,
 	const JPtrArray<JString>&	list2,
-	const JBoolean				caseSensitive
+	const JString::Case			caseSensitive
 	)
 {
 JIndex i;
@@ -154,42 +154,42 @@ JIndex i;
 	const JSize count = list1.GetElementCount();
 	if (list2.GetElementCount() != count)
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (count == 0)
 		{
-		return kJTrue;
+		return true;
 		}
 
-	JArray<JBoolean> matched(count);
+	JArray<bool> matched(count);
 	for (i=1; i<=count; i++)
 		{
-		matched.AppendElement(kJFalse);
+		matched.AppendElement(false);
 		}
 
 	for (i=1; i<=count; i++)
 		{
 		const JString* s1 = list1.GetElement(i);
-		JBoolean found    = kJFalse;
+		bool found    = false;
 
 		for (JIndex j=1; j<=count; j++)
 			{
 			if (!matched.GetElement(j) &&
 				JString::Compare(*s1, *(list2.GetElement(j)), caseSensitive) == 0)
 				{
-				found = kJTrue;
-				matched.SetElement(j, kJTrue);
+				found = true;
+				matched.SetElement(j, true);
 				break;
 				}
 			}
 
 		if (!found)
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -204,7 +204,7 @@ JCompareStringsCaseSensitive
 	JString* const & s2
 	)
 {
-	const int r = JString::Compare(*s1, *s2, kJTrue);
+	const int r = JString::Compare(*s1, *s2, JString::kCompareCase);
 
 	if (r > 0)
 		{
@@ -232,7 +232,7 @@ JCompareStringsCaseInsensitive
 	JString* const & s2
 	)
 {
-	const int r = JString::Compare(*s1, *s2, kJFalse);
+	const int r = JString::Compare(*s1, *s2, JString::kIgnoreCase);
 
 	if (r > 0)
 		{
@@ -275,7 +275,7 @@ JStringJoin
 {
 	JString s;
 
-	JBoolean first = kJTrue;
+	bool first = true;
 	for (JString* s1 : list)
 		{
 		if (!first)
@@ -284,7 +284,7 @@ JStringJoin
 			}
 
 		s    += *s1;
-		first = kJFalse;
+		first = false;
 		}
 
 	return s;

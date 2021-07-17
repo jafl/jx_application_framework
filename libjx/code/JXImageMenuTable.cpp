@@ -80,7 +80,7 @@ JXImageMenuTable::TableDrawCell
 		return;
 		}
 
-	const JBoolean hilight = JConvertToBoolean(cell == itsHilightCell);
+	const bool hilight = cell == itsHilightCell;
 	if (hilight)
 		{
 		JXDrawUpFrame(p, origRect, kHilightBorderWidth);
@@ -114,7 +114,7 @@ JXImageMenuTable::TableDrawCell
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXImageMenuTable::CellToItemIndex
 	(
 	const JPoint&	pt,

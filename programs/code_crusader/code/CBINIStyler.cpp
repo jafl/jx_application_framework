@@ -47,19 +47,19 @@ const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStylerBase*
 CBINIStyler::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBINIStyler;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -94,7 +94,7 @@ CBINIStyler::CBINIStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	SetTypeStyle(kSectionName       - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+	SetTypeStyle(kSectionName       - kWhitespace, JFontStyle(true, false, 0, false));
 
 	SetTypeStyle(kSingleQuoteString - kWhitespace, JFontStyle(JColorManager::GetBrownColor()));
 	SetTypeStyle(kDoubleQuoteString - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
@@ -177,14 +177,14 @@ CBINIStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy));
 			}
 		}
 		while (SetStyle(token.range.charRange, style));

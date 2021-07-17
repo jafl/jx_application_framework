@@ -68,8 +68,8 @@ CBPSPrinter::CreatePrintSetupDialog
 	const Destination	destination,
 	const JString&		printCmd,
 	const JString&		fileName,
-	const JBoolean		collate,
-	const JBoolean		bw
+	const bool		collate,
+	const bool		bw
 	)
 {
 	assert( itsCBPrintSetupDialog == nullptr );
@@ -79,11 +79,11 @@ CBPSPrinter::CreatePrintSetupDialog
 		JString fontName;
 		CBGetPrefsManager()->GetDefaultFont(&fontName, &itsFontSize);
 
-		const JStringMatch m = nxmRegex.Match(fontName, kJTrue);
+		const JStringMatch m = nxmRegex.Match(fontName, JRegex::kIncludeSubmatches);
 		if (!m.IsEmpty())
 			{
 			const JString hStr = m.GetSubstring(1);
-			const JBoolean ok  = hStr.ConvertToUInt(&itsFontSize);
+			const bool ok  = hStr.ConvertToUInt(&itsFontSize);
 			assert( ok );
 			itsFontSize--;
 			}
@@ -99,30 +99,30 @@ CBPSPrinter::CreatePrintSetupDialog
 /******************************************************************************
  EndUserPrintSetup (virtual protected)
 
-	Returns kJTrue if caller should continue the printing process.
+	Returns true if caller should continue the printing process.
 	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPSPrinter::EndUserPrintSetup
 	(
 	const JBroadcaster::Message&	message,
-	JBoolean*						changed
+	bool*						changed
 	)
 {
 	assert( itsCBPrintSetupDialog != nullptr );
 
-	const JBoolean ok = JXPSPrinter::EndUserPrintSetup(message, changed);
+	const bool ok = JXPSPrinter::EndUserPrintSetup(message, changed);
 	if (ok)
 		{
 		JSize fontSize;
-		JBoolean printHeader;
+		bool printHeader;
 		itsCBPrintSetupDialog->CBGetSettings(&fontSize, &printHeader);
 
-		*changed = JI2B(*changed ||
+		*changed = *changed ||
 			fontSize    != itsFontSize ||
-			printHeader != CBGetPTTextPrinter()->WillPrintHeader());
+			printHeader != CBGetPTTextPrinter()->WillPrintHeader();
 
 		itsFontSize = fontSize;
 		CBGetPTTextPrinter()->ShouldPrintHeader(printHeader);
@@ -182,7 +182,7 @@ CBPSPrinter::WritePrefs
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPSPrinter::OpenDocument()
 {
 	assert( itsTE != nullptr );
@@ -193,11 +193,11 @@ CBPSPrinter::OpenDocument()
 		{
 		assert( itsFontSize != kUnsetFontSize );
 		itsTE->SetFontBeforePrintPS(itsFontSize);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

@@ -44,7 +44,7 @@ public:
 	virtual ~SVNRepoTreeNode();
 
 	const JString&	GetRepoPath() const;
-	JBoolean		GetRepoRevision(JString* rev) const;
+	bool		GetRepoRevision(JString* rev) const;
 	Type			GetType() const;
 	JIndex			GetRevision() const;
 	time_t			GetModTime() const;
@@ -53,22 +53,22 @@ public:
 	JSize			GetFileSize() const;
 
 	void	Update();
-	JError	Rename(const JString& newName, const JBoolean sort = kJTrue);
+	JError	Rename(const JString& newName, const bool sort = true);
 
 	SVNRepoTree*			GetRepoTree();
 	const SVNRepoTree*		GetRepoTree() const;
 
 	SVNRepoTreeNode*		GetRepoParent();
 	const SVNRepoTreeNode*	GetRepoParent() const;
-	JBoolean				GetRepoParent(SVNRepoTreeNode** parent);
-	JBoolean				GetRepoParent(const SVNRepoTreeNode** parent) const;
+	bool				GetRepoParent(SVNRepoTreeNode** parent);
+	bool				GetRepoParent(const SVNRepoTreeNode** parent) const;
 
 	SVNRepoTreeNode*		GetRepoChild(const JIndex index);
 	const SVNRepoTreeNode*	GetRepoChild(const JIndex index) const;
 
 protected:
 
-	virtual JBoolean	OKToOpen() const override;
+	virtual bool	OKToOpen() const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
@@ -77,7 +77,7 @@ private:
 
 	JString		itsRepoPath;
 	JString		itsRepoRevision;
-	JBoolean	itsNeedUpdateFlag;
+	bool	itsNeedUpdateFlag;
 
 	Type		itsType;
 	JIndex		itsRevision;
@@ -122,7 +122,7 @@ SVNRepoTreeNode::GetRepoPath()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 SVNRepoTreeNode::GetRepoRevision
 	(
 	JString* rev
@@ -130,7 +130,7 @@ SVNRepoTreeNode::GetRepoRevision
 	const
 {
 	*rev = itsRepoRevision;
-	return JNegate( itsRepoRevision.IsEmpty() );
+	return !itsRepoRevision.IsEmpty();
 }
 
 /******************************************************************************

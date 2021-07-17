@@ -33,7 +33,7 @@ SVNPrefsDialog::SVNPrefsDialog
 	const JString&						reloadChangedCmd
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(type, commitEditor,diffCmd, reloadChangedCmd);
 }
@@ -209,8 +209,7 @@ SVNPrefsDialog::UpdateDisplay()
 			}
 		}
 
-	const JBoolean enableCmds = JI2B(
-		itsIntegrationRG->GetSelectedItem() == SVNPrefsManager::kCustom);
+	const bool enableCmds = itsIntegrationRG->GetSelectedItem() == SVNPrefsManager::kCustom;
 
 	itsCommitEditor->SetActive(enableCmds);
 	itsDiffCmd->SetActive(enableCmds);

@@ -31,43 +31,43 @@ public:
 
 	const JString&	GetPath() const;
 
-	JBoolean	HasSelection() const;
-	JBoolean	HasSingleSelection() const;
-	JBoolean	GetFirstSelection(const JDirEntry** theEntry) const;
-	JBoolean	GetSelection(JPtrArray<JDirEntry>* entryList) const;
-	JBoolean	SelectSingleEntry(const JIndex index, const JBoolean scroll = kJTrue);
-	void		SelectFirstEntry(const JBoolean scroll = kJTrue);
-	void		SelectLastEntry(const JBoolean scroll = kJTrue);
+	bool	HasSelection() const;
+	bool	HasSingleSelection() const;
+	bool	GetFirstSelection(const JDirEntry** theEntry) const;
+	bool	GetSelection(JPtrArray<JDirEntry>* entryList) const;
+	bool	SelectSingleEntry(const JIndex index, const bool scroll = true);
+	void		SelectFirstEntry(const bool scroll = true);
+	void		SelectLastEntry(const bool scroll = true);
 	void		SelectAll();
-	JBoolean	ClosestMatch(const JString& prefixStr, JIndex* index) const;
+	bool	ClosestMatch(const JString& prefixStr, JIndex* index) const;
 
-	void	ShowHidden(const JBoolean showHidden);
-	void	AllowSelectFiles(const JBoolean allowSelectFiles, const JBoolean allowMultiple);
-	void	AllowDblClickInactive(const JBoolean allow);
+	void	ShowHidden(const bool showHidden);
+	void	AllowSelectFiles(const bool allowSelectFiles, const bool allowMultiple);
+	void	AllowDblClickInactive(const bool allow);
 	void	InstallShortcuts();
 
-	JBoolean	GoToSelectedDirectory();
+	bool	GoToSelectedDirectory();
 
-	JBoolean	WillSelectWhenChangePath() const;
-	void		ShouldSelectWhenChangePath(const JBoolean select);
+	bool	WillSelectWhenChangePath() const;
+	void		ShouldSelectWhenChangePath(const bool select);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
 	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	IsSelectable(const JPoint& cell,
-									 const JBoolean forExtend) const override;
+	virtual bool	IsSelectable(const JPoint& cell,
+									 const bool forExtend) const override;
 
 protected:
 
-	JBoolean	ItemIsActive(const JIndex index) const;
-	JBoolean	ItemIsFile(const JIndex index) const;
+	bool	ItemIsActive(const JIndex index) const;
+	bool	ItemIsFile(const JIndex index) const;
 
-	JBoolean	GetNextSelectable(const JIndex startIndex, const JBoolean forMulti,
+	bool	GetNextSelectable(const JIndex startIndex, const bool forMulti,
 								  JIndex* nextIndex) const;
-	JBoolean	GetPrevSelectable(const JIndex startIndex, const JBoolean forMulti,
+	bool	GetPrevSelectable(const JIndex startIndex, const bool forMulti,
 								  JIndex* nextIndex) const;
-	JBoolean	ItemIsSelectable(const JIndex index, const JBoolean forMulti) const;
+	bool	ItemIsSelectable(const JIndex index, const bool forMulti) const;
 
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
@@ -81,7 +81,7 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
@@ -96,18 +96,18 @@ protected:
 private:
 
 	JDirInfo*			itsDirInfo;			// not owned
-	JArray<JBoolean>*	itsActiveCells;
+	JArray<bool>*	itsActiveCells;
 	JXTimerTask*		itsDirUpdateTask;
 
-	JBoolean	itsIgnoreSelChangesFlag;		// kJTrue while cleaning selection
-	JBoolean	itsAllowSelectFilesFlag;
-	JBoolean	itsAllowSelectMultipleFlag;		// kJTrue => select multiple files, but not directories
-	JBoolean	itsAllowDblClickInactiveFlag;	// kJTrue => broadcast FileDblClicked even if inactive
-	JBoolean	itsSelectWhenChangePathFlag;	// kJTrue => select first entry when path changes
+	bool	itsIgnoreSelChangesFlag;		// true while cleaning selection
+	bool	itsAllowSelectFilesFlag;
+	bool	itsAllowSelectMultipleFlag;		// true => select multiple files, but not directories
+	bool	itsAllowDblClickInactiveFlag;	// true => broadcast FileDblClicked even if inactive
+	bool	itsSelectWhenChangePathFlag;	// true => select first entry when path changes
 	JSize		itsMaxStringWidth;
 	JString		itsKeyBuffer;
 
-	JBoolean			itsReselectFlag;		// kJFalse => select first item in directory
+	bool			itsReselectFlag;		// false => select first item in directory
 	JPtrArray<JString>*	itsReselectNameList;	// non-empty => reselect after AdjustTableContents()
 	JPoint				itsReselectScrollOffset;
 
@@ -146,7 +146,7 @@ public:
 		{
 		public:
 
-			FileDblClicked(const JDirEntry& entry, const JBoolean active)
+			FileDblClicked(const JDirEntry& entry, const bool active)
 				:
 				JBroadcaster::Message(kFileDblClicked),
 				itsDirEntry(entry),
@@ -159,7 +159,7 @@ public:
 				return itsDirEntry;
 			};
 
-			JBoolean
+			bool
 			IsActive() const
 			{
 				return itsActiveFlag;
@@ -168,7 +168,7 @@ public:
 		private:
 
 			const JDirEntry&	itsDirEntry;
-			JBoolean			itsActiveFlag;
+			bool			itsActiveFlag;
 		};
 };
 
@@ -181,7 +181,7 @@ public:
 inline void
 JXDirTable::AllowDblClickInactive
 	(
-	const JBoolean allow
+	const bool allow
 	)
 {
 	itsAllowDblClickInactiveFlag = allow;
@@ -192,7 +192,7 @@ JXDirTable::AllowDblClickInactive
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDirTable::WillSelectWhenChangePath()
 	const
 {
@@ -202,7 +202,7 @@ JXDirTable::WillSelectWhenChangePath()
 inline void
 JXDirTable::ShouldSelectWhenChangePath
 	(
-	const JBoolean select
+	const bool select
 	)
 {
 	itsSelectWhenChangePathFlag = select;
@@ -213,7 +213,7 @@ JXDirTable::ShouldSelectWhenChangePath
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDirTable::ItemIsActive
 	(
 	const JIndex index
@@ -228,15 +228,15 @@ JXDirTable::ItemIsActive
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDirTable::ItemIsSelectable
 	(
 	const JIndex	index,
-	const JBoolean	forMulti
+	const bool	forMulti
 	)
 	const
 {
-	return JI2B( ItemIsActive(index) && (!forMulti || ItemIsFile(index)) );
+	return ItemIsActive(index) && (!forMulti || ItemIsFile(index));
 }
 
 #endif

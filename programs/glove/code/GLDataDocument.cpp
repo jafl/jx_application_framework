@@ -145,10 +145,10 @@ GLDataDocument::GLDataDocument
 	(
 	JXDirector*		supervisor,
 	const JString&	fileName,
-	const JBoolean	onDisk
+	const bool	onDisk
 	)
 	:
-	JXFileDocument(supervisor, fileName, onDisk, kJFalse, ".glv")
+	JXFileDocument(supervisor, fileName, onDisk, false, ".glv")
 {
 	itsData = jnew GLRaggedFloatTableData(0.0);
 	assert( itsData != nullptr );
@@ -168,7 +168,7 @@ GLDataDocument::GLDataDocument
 
 	itsPlotNumber = 1;
 	UpdateExportMenu();
-	itsListenToData = kJTrue;
+	itsListenToData = true;
 	ListenTo(itsData);
 
 	if (onDisk)
@@ -225,19 +225,19 @@ GLDataDocument::BuildWindow()
 
 	JXImage* image = jnew JXImage(GetDisplay(), JXPM(filenew));
 	assert(image != nullptr);
-	itsFileMenu->SetItemImage(kNewCmd, image, kJTrue);
+	itsFileMenu->SetItemImage(kNewCmd, image, true);
 
 	image = jnew JXImage(GetDisplay(), JXPM(fileopen));
 	assert(image != nullptr);
-	itsFileMenu->SetItemImage(kOpenCmd, image, kJTrue);
+	itsFileMenu->SetItemImage(kOpenCmd, image, true);
 
 	image = jnew JXImage(GetDisplay(), JXPM(filefloppy));
 	assert(image != nullptr);
-	itsFileMenu->SetItemImage(kSaveCmd, image, kJTrue);
+	itsFileMenu->SetItemImage(kSaveCmd, image, true);
 
 	image = jnew JXImage(GetDisplay(), JXPM(fileprint));
 	assert(image != nullptr);
-	itsFileMenu->SetItemImage(kPrintCmd, image, kJTrue);
+	itsFileMenu->SetItemImage(kPrintCmd, image, true);
 
 	const JCoordinate scrollheight =
 		toolBar->GetWidgetEnclosure()->GetBoundsHeight();
@@ -310,7 +310,7 @@ GLDataDocument::BuildWindow()
 
 	image = jnew JXImage(GetDisplay(), JXPM(manual));
 	assert(image != nullptr);
-	itsHelpMenu->SetItemImage(kTOCCmd, image, kJTrue);
+	itsHelpMenu->SetItemImage(kTOCCmd, image, true);
 
 	toolBar->LoadPrefs();
 	if (toolBar->IsEmpty())
@@ -527,7 +527,7 @@ GLDataDocument::LoadFile
 		else
 			{
 			is.close();
-			FileChanged(fileName, kJFalse);
+			FileChanged(fileName, false);
 			itsCurrentFileName = fileName;
 			ChooseFileFilter();
 			}
@@ -539,7 +539,7 @@ GLDataDocument::LoadFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLDataDocument::LoadNativeFile
 	(
 	std::istream& is
@@ -550,10 +550,10 @@ GLDataDocument::LoadNativeFile
 
 	if (version > (JFloat) kCurrentGloveVersion)
 		{
-		return kJFalse;
+		return false;
 		}
 
-	itsListenToData = kJFalse;
+	itsListenToData = false;
 	itsTable->ReadData(is, version);
 	if (version > 0.5)
 		{
@@ -564,9 +564,9 @@ GLDataDocument::LoadNativeFile
 		JXScrollbar* hscroll = itsScrollbarSet->GetHScrollbar();
 		hscroll->ReadSetup(is);
 		}
-	itsListenToData = kJTrue;
+	itsListenToData = true;
 	DataReverted();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -633,12 +633,12 @@ GLDataDocument::LoadImportFile()
 				return;
 				}
 
-			itsData->ShouldBroadcast(kJFalse);
-			itsListenToData = kJFalse;
+			itsData->ShouldBroadcast(false);
+			itsListenToData = false;
 
 			JLatentPG pg(10);
-			pg.VariableLengthProcessBeginning(JGetString("FilterProcess::GLDataDocument"), kJTrue, kJFalse);
-			JBoolean keepGoing = kJTrue;
+			pg.VariableLengthProcessBeginning(JGetString("FilterProcess::GLDataDocument"), true, false);
+			bool keepGoing = true;
 
 			if (type == kGloveMatrixDataFormat)
 				{
@@ -658,7 +658,7 @@ GLDataDocument::LoadImportFile()
 						ip >> value;
 						if (ip.fail() || (ip.eof() && i < colCount))
 							{
-							keepGoing = kJFalse;
+							keepGoing = false;
 							break;
 							}
 						itsData->AppendElement(i, value);
@@ -685,7 +685,7 @@ GLDataDocument::LoadImportFile()
 						ip >> value;
 						if (ip.fail() || (ip.eof() && rowIndex < rowCount))
 							{
-							keepGoing = kJFalse;
+							keepGoing = false;
 							break;
 							}
 						itsData->AppendElement(colIndex, value);
@@ -701,8 +701,8 @@ GLDataDocument::LoadImportFile()
 			pg.ProcessFinished();
 			}
 
-		itsListenToData = kJTrue;
-		itsData->ShouldBroadcast(kJTrue);
+		itsListenToData = true;
+		itsData->ShouldBroadcast(true);
 		}
 }
 
@@ -719,7 +719,7 @@ GLDataDocument::CreateNewPlot
 	const JArray<JFloat>* 	x2Col,
 	const JArray<JFloat>& 	yCol,
 	const JArray<JFloat>* 	y2Col,
-	const JBoolean			linked,
+	const bool			linked,
 	const JString&			label
 	)
 {
@@ -759,7 +759,7 @@ GLDataDocument::AddToPlot
 	const JArray<JFloat>*	x2Col,
 	const JArray<JFloat>&	yCol,
 	const JArray<JFloat>*	y2Col,
-	const JBoolean			linked,
+	const bool			linked,
 	const JString&			label
 	)
 {
@@ -777,7 +777,7 @@ GLDataDocument::AddToPlot
 		J2DPlotData* curve;
 		if (J2DPlotData::Create(&curve, xCol, yCol, linked))
 			{
-			plot->AddCurve(curve, kJTrue, label);
+			plot->AddCurve(curve, true, label);
 			}
 		else
 			{
@@ -798,7 +798,7 @@ GLDataDocument::AddToPlot
 		J2DVectorData* curve;
 		if (J2DVectorData::Create(&curve, xCol, yCol, *x2Col, *y2Col, linked))
 			{
-			plot->AddCurve(curve, kJTrue, label);
+			plot->AddCurve(curve, true, label);
 			}
 		else
 			{
@@ -872,7 +872,7 @@ void
 GLDataDocument::WriteTextFile
 	(
 	std::ostream& output,
-	const JBoolean safetySave
+	const bool safetySave
 	)
 	const
 {
@@ -968,7 +968,7 @@ GLDataDocument::HandleExportMenu
 			JString tempName;
 			if (JConvertToStream(inFD, &ip, &tempName))
 				{
-				JOutPipeStream op(outFD, kJTrue);
+				JOutPipeStream op(outFD, true);
 				assert( op.good() );
 
 				int type;
@@ -1071,7 +1071,7 @@ GLDataDocument::GetInternalModuleName
 {
 	assert(index <= kInternalModuleCount);
 	assert(index > 0);
-	return JString(kInternalModuleNames[index - 1], kJFalse);
+	return JString(kInternalModuleNames[index - 1], JString::kNoCopy);
 }
 
 /******************************************************************************
@@ -1152,14 +1152,14 @@ GLDataDocument::LoadDelimitedFile()
 			}
 		}
 
-	itsData->ShouldBroadcast(kJFalse);
-	itsListenToData = kJFalse;
+	itsData->ShouldBroadcast(false);
+	itsListenToData = false;
 
-	const JBoolean hasComments = itsDelimiterDialog->HasComments();
+	const bool hasComments = itsDelimiterDialog->HasComments();
 	const JString& commentStr  = itsDelimiterDialog->GetCommentString();
 
 	JLatentPG pg(100);
-	pg.VariableLengthProcessBeginning(JGetString("FilterProcess::GLDataDocument"), kJTrue, kJFalse);
+	pg.VariableLengthProcessBeginning(JGetString("FilterProcess::GLDataDocument"), true, false);
 
 	JIndex row = 0;
 	JString line, strVal;
@@ -1197,7 +1197,7 @@ GLDataDocument::LoadDelimitedFile()
 			}
 		else
 			{
-			JBoolean found = kJTrue;
+			bool found = true;
 			while (found)
 				{
 				strVal = JReadUntil(iss, delim, &found);
@@ -1218,6 +1218,6 @@ GLDataDocument::LoadDelimitedFile()
 
 	pg.ProcessFinished();
 
-	itsListenToData = kJTrue;
-	itsData->ShouldBroadcast(kJTrue);
+	itsListenToData = true;
+	itsData->ShouldBroadcast(true);
 }

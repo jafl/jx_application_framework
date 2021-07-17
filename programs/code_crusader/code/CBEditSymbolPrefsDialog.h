@@ -19,7 +19,7 @@ class CBEditSymbolPrefsDialog : public JXDialogDirector
 {
 public:
 
-	CBEditSymbolPrefsDialog(const JBoolean raiseTreeOnRightClick);
+	CBEditSymbolPrefsDialog(const bool raiseTreeOnRightClick);
 
 	virtual ~CBEditSymbolPrefsDialog();
 
@@ -38,7 +38,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JBoolean raiseTreeOnRightClick);
+	void	BuildWindow(const bool raiseTreeOnRightClick);
 	void	UpdateSettings();
 
 	// not allowed

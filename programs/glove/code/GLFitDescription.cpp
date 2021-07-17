@@ -33,8 +33,8 @@ GLFitDescription::GLFitDescription
 	itsType(type),
 	itsFnForm(form),
 	itsFnName(name.IsEmpty() ? JGetString("DefaultLabel::GLGlobal") : name),
-	itsRequiresStartValues(kJFalse),
-	itsCanUseStartValues(kJTrue)
+	itsRequiresStartValues(false),
+	itsCanUseStartValues(true)
 {
 	itsVarList	= jnew GLVarList();
 	assert(itsVarList != nullptr);
@@ -42,7 +42,7 @@ GLFitDescription::GLFitDescription
 	itsVarList->AddVariable(JGetString("DefaultVarName::GLGlobal"), 0);
 }
 
-JBoolean
+bool
 GLFitDescription::Create
 	(
 	std::istream& 			is,
@@ -53,7 +53,7 @@ GLFitDescription::Create
 	is >> version;
 	if (version > kCurrentSetupVersion)
 		{
-		return kJFalse;
+		return false;
 		}
 		
 	int type;
@@ -92,14 +92,14 @@ GLFitDescription::Create
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 
 	vars.DeleteAll();
 	(*fd)->itsFnName	= name;
 	(*fd)->itsFnForm	= form;
 		
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -162,7 +162,7 @@ GLFitDescription::SetFnName
 void
 GLFitDescription::DoesRequireStartValues
 	(
-	const JBoolean require
+	const bool require
 	)
 {
 	itsRequiresStartValues	= require;
@@ -176,7 +176,7 @@ GLFitDescription::DoesRequireStartValues
 void
 GLFitDescription::SetCanUseStartValues
 	(
-	const JBoolean use
+	const bool use
 	)
 {
 	itsCanUseStartValues	= use;
@@ -187,7 +187,7 @@ GLFitDescription::SetCanUseStartValues
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLFitDescription::GetParameterName
 	(
 	const JIndex 	index, 
@@ -196,7 +196,7 @@ GLFitDescription::GetParameterName
 	const
 {
 	*name	= itsVarList->GetVariableName(index + 1);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -204,7 +204,7 @@ GLFitDescription::GetParameterName
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLFitDescription::GetParameter
 	(
 	const JIndex 	index, 
@@ -212,7 +212,7 @@ GLFitDescription::GetParameter
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

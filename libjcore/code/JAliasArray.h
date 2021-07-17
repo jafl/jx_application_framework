@@ -41,7 +41,7 @@ public:
 
 	// sorting functions -- the reason this class exists
 
-	JBoolean	GetCompareFunction(JListT::CompareResult (**compareFn)(const T&, const T&)) const;
+	bool	GetCompareFunction(JListT::CompareResult (**compareFn)(const T&, const T&)) const;
 	void		SetCompareFunction(JListT::CompareResult (*compareFn)(const T&, const T&));
 
 	const JElementComparison<T>&	GetCompareObject() const;
@@ -50,12 +50,12 @@ public:
 	JListT::SortOrder	GetSortOrder() const;
 	void				SetSortOrder(const JListT::SortOrder order);
 
-	JBoolean	SearchSorted(const T& target, const JListT::SearchReturn which,
+	bool	SearchSorted(const T& target, const JListT::SearchReturn which,
 							 JIndex* index) const;
 
 	JIndex		SearchSorted1(const T& target,
 							  const JListT::SearchReturn which,
-							  JBoolean* found) const;
+							  bool* found) const;
 
 protected:
 

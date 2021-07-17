@@ -44,11 +44,11 @@ const JUtf8Byte* JXTipOfTheDayDialog::kShowAtStartup = "ShowAtStartup::JXTipOfTh
 
 JXTipOfTheDayDialog::JXTipOfTheDayDialog
 	(
-	const JBoolean showStartupCB,
-	const JBoolean showAtStartup
+	const bool showStartupCB,
+	const bool showAtStartup
 	)
 	:
-	JXDialogDirector(JXGetPersistentWindowOwner(), kJFalse)
+	JXDialogDirector(JXGetPersistentWindowOwner(), false)
 {
 	itsTipList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsTipList != nullptr );
@@ -79,8 +79,8 @@ JXTipOfTheDayDialog::~JXTipOfTheDayDialog()
 void
 JXTipOfTheDayDialog::BuildWindow
 	(
-	const JBoolean showStartupCB,
-	const JBoolean showAtStartup
+	const bool showStartupCB,
+	const bool showAtStartup
 	)
 {
 // begin JXLayout
@@ -132,7 +132,7 @@ JXTipOfTheDayDialog::BuildWindow
 	window->PlaceAsDialogWindow();
 
 	JXImage* wIcon;
-	const JError err = JXImage::CreateFromXPM(GetDisplay(), jx_tip_of_the_day, &wIcon);
+	const JError err = JXImage::CreateFromXPM(GetDisplay(), JXPM(jx_tip_of_the_day), &wIcon);
 	assert_ok( err );
 	window->SetIcon(wIcon);
 
@@ -146,11 +146,11 @@ JXTipOfTheDayDialog::BuildWindow
 	title->GetText()->SetFont(title->GetText()->SelectAll(),
 		JFontManager::GetFont(
 			JGetString("FontName::JXTipOfTheDayDialog"), 18,
-			JFontStyle(kJTrue, kJFalse, 0, kJFalse)),
-		kJTrue);
+			JFontStyle(true, false, 0, false)),
+		true);
 
 	itsText =
-		jnew JXStaticText(JString::empty, kJTrue, kJFalse, kJTrue,
+		jnew JXStaticText(JString::empty, true, false, true,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsText != nullptr );

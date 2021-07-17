@@ -24,18 +24,18 @@ public:
 	const JString&	GetFileName() const;
 	void			SetFileName(const JString& fileName);
 
-	virtual JBoolean	GetFullName(JString* fullName) const override;
+	virtual bool	GetFullName(JString* fullName) const override;
 
 	virtual void		StreamOut(std::ostream& output) const override;
-	virtual JBoolean	IncludedInMakefile() const override;
+	virtual bool	IncludedInMakefile() const override;
 	virtual void		BuildMakeFiles(JString* text,
 									   JPtrArray<JTreeNode>* invalidList,
 									   JPtrArray<JString>* libFileList,
 									   JPtrArray<JString>* libProjPathList) const override;
-	virtual JBoolean	IncludedInCMakeData() const override;
+	virtual bool	IncludedInCMakeData() const override;
 	virtual void		BuildCMakeData(JString* src, JString* hdr,
 									   JPtrArray<JTreeNode>* invalidList) const override;
-	virtual JBoolean	IncludedInQMakeData() const override;
+	virtual bool	IncludedInQMakeData() const override;
 	virtual void		BuildQMakeData(JString* src, JString* hdr,
 									   JPtrArray<JTreeNode>* invalidList) const override;
 	virtual void		Print(JString* text) const override;
@@ -46,10 +46,10 @@ public:
 
 protected:
 
-	JBoolean	GetFullName(const JString& fileName, JString* fullName) const;
+	bool	GetFullName(const JString& fileName, JString* fullName) const;
 	void		ReportNotFound() const;
 
-	virtual JBoolean	FindFile1(const JString& fullName,
+	virtual bool	FindFile1(const JString& fullName,
 								  CBProjectNode** node) override;
 
 private:

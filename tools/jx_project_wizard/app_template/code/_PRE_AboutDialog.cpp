@@ -35,9 +35,9 @@ static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::<PRE>AboutDi
 	const JCharacter*	prevVersStr
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
-	itsIsUpgradeFlag = kJFalse;
+	itsIsUpgradeFlag = false;
 
 	BuildWindow(prevVersStr);
 }
@@ -115,7 +115,7 @@ void
 		text += JGetString(kUpgradeNoticeID);
 		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString(kChangeButtonLabelID));
-		itsIsUpgradeFlag = kJTrue;
+		itsIsUpgradeFlag = true;
 		}
 	textWidget->SetText(text);
 
@@ -151,13 +151,13 @@ void
 			{
 			(JXGetHelpManager())->ShowTOC();
 			}
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
 		(JXGetHelpManager())->ShowCredits();
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else

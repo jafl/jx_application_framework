@@ -20,7 +20,7 @@ public:
 
 protected:
 
-	virtual JBoolean	Evaluate(JStringIterator& iter, JString* value) const override;
+	virtual bool	Evaluate(JStringIterator& iter, JString* value) const override;
 
 private:
 

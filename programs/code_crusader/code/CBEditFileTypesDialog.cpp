@@ -34,11 +34,11 @@ CBEditFileTypesDialog::CBEditFileTypesDialog
 	const JArray<CBPrefsManager::FileTypeInfo>&		fileTypeList,
 	const JArray<CBPrefsManager::MacroSetInfo>&		macroList,
 	const JArray<CBPrefsManager::CRMRuleListInfo>&	crmList,
-	const JBoolean									execOutputWordWrap,
-	const JBoolean									unknownTypeWordWrap
+	const bool									execOutputWordWrap,
+	const bool									unknownTypeWordWrap
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue),
+	JXDialogDirector(supervisor, true),
 	JPrefObject(CBGetPrefsManager(), kCBEditFileTypesDialogID)
 {
 	BuildWindow(fileTypeList, macroList, crmList,
@@ -67,8 +67,8 @@ CBEditFileTypesDialog::BuildWindow
 	const JArray<CBPrefsManager::FileTypeInfo>&		fileTypeList,
 	const JArray<CBPrefsManager::MacroSetInfo>&		macroList,
 	const JArray<CBPrefsManager::CRMRuleListInfo>&	crmList,
-	const JBoolean									execOutputWordWrap,
-	const JBoolean									unknownTypeWordWrap
+	const bool									execOutputWordWrap,
+	const bool									unknownTypeWordWrap
 	)
 {
 // begin JXLayout
@@ -129,7 +129,7 @@ CBEditFileTypesDialog::BuildWindow
 
 	window->SetTitle(JGetString("WindowTitle::CBEditFileTypesDialog"));
 	SetButtons(okButton, cancelButton);
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 
@@ -169,8 +169,8 @@ void
 CBEditFileTypesDialog::GetFileTypeInfo
 	(
 	JArray<CBPrefsManager::FileTypeInfo>*	fileTypeList,
-	JBoolean*								execOutputWordWrap,
-	JBoolean*								unknownTypeWordWrap
+	bool*								execOutputWordWrap,
+	bool*								unknownTypeWordWrap
 	)
 	const
 {

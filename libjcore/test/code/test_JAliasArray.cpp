@@ -240,7 +240,7 @@ JTEST(Sort)
 	long element[]    = { 3, -1, 10 };
 	const long eCount = sizeof(element)/sizeof(long);
 
-	JBoolean isDuplicate;
+	bool isDuplicate;
 	for (JIndex i=0; i<eCount; i++)
 		{
 		const JIndex j = a.GetInsertionSortIndex(element[i], &isDuplicate);
@@ -252,7 +252,7 @@ JTEST(Sort)
 	verifyalias("10 5 3 3 1 1 1 -1", aa);
 
 	JAssertTrue(a.InsertSorted(4));
-	JAssertFalse(a.InsertSorted(3, kJFalse));
+	JAssertFalse(a.InsertSorted(3, false));
 	verify("-1 1 1 1 3 3 4 5 10", a);
 	verifyalias("10 5 4 3 3 1 1 1 -1", aa);
 

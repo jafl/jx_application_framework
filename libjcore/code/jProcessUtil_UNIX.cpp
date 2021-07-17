@@ -50,7 +50,7 @@ JRunProgram
 		JReadAll(errFD, errOutput);
 
 		p->WaitUntilFinished();
-		const JBoolean success = p->SuccessfulFinish();
+		const bool success = p->SuccessfulFinish();
 		jdelete p;
 
 		errOutput->TrimWhitespace();

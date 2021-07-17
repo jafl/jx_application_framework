@@ -194,16 +194,16 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 
 	static const JSize theStackMax = 50;
 
-	JBoolean  JMemoryManager::theConstructingFlag = kJFalse;
+	bool  JMemoryManager::theConstructingFlag = false;
 	JMMRecord JMemoryManager::theAllocStack[theStackMax];
 	JSize     JMemoryManager::theAllocStackSize = 0;
 
-	JBoolean JMemoryManager::theInternalFlag = kJFalse;
+	bool JMemoryManager::theInternalFlag = false;
 
 	JMemoryManager::DeleteRequest JMemoryManager::theDeallocStack[theStackMax];
 	JSize                         JMemoryManager::theDeallocStackSize = 0;
 
-	JBoolean      JMemoryManager::theAbortUnknownAllocFlag = kJFalse;
+	bool      JMemoryManager::theAbortUnknownAllocFlag = false;
 
 	const JUtf8Byte* JMemoryManager::kUnknownFile = "<UNKNOWN>";
 
@@ -232,59 +232,59 @@ JMemoryManager::JMemoryManager()
 	itsErrorStream(nullptr),
 	itsExitStatsFileName(nullptr),
 	itsExitStatsStream(nullptr),
-	itsBroadcastErrorsFlag(kJFalse),
-	itsPrintExitStatsFlag(kJFalse),
-	itsPrintInternalStatsFlag(kJFalse),
-	itsCheckDoubleAllocationFlag(kJFalse)
+	itsBroadcastErrorsFlag(false),
+	itsPrintExitStatsFlag(false),
+	itsPrintInternalStatsFlag(false),
+	itsCheckDoubleAllocationFlag(false)
 {
 	itsMutex = new std::recursive_mutex;
 	assert( itsMutex != nullptr );
 
 	// Instance() must set the flag
-	assert(theConstructingFlag == kJTrue);
+	assert(theConstructingFlag == true);
 
 	const JUtf8Byte* abortUnknownAlloc = getenv("JMM_ABORT_UNKNOWN_ALLOC");
-	if (abortUnknownAlloc != nullptr && JString::Compare(abortUnknownAlloc, "yes", kJFalse) == 0)
+	if (abortUnknownAlloc != nullptr && JString::Compare(abortUnknownAlloc, "yes", JString::kIgnoreCase) == 0)
 		{
-		theAbortUnknownAllocFlag = kJTrue;
+		theAbortUnknownAllocFlag = true;
 		}
 
 	const JUtf8Byte* broadcastErrors = getenv("JMM_BROADCAST_ERRORS");
-	if (broadcastErrors != nullptr && JString::Compare(broadcastErrors, "yes", kJFalse) == 0)
+	if (broadcastErrors != nullptr && JString::Compare(broadcastErrors, "yes", JString::kIgnoreCase) == 0)
 		{
-		itsBroadcastErrorsFlag = kJTrue;
+		itsBroadcastErrorsFlag = true;
 		}
 
 	const JUtf8Byte* printExitStats = getenv("JMM_PRINT_EXIT_STATS");
-	if (printExitStats != nullptr && JString::Compare(printExitStats, "yes", kJFalse) == 0)
+	if (printExitStats != nullptr && JString::Compare(printExitStats, "yes", JString::kIgnoreCase) == 0)
 		{
-		itsPrintExitStatsFlag = kJTrue;
+		itsPrintExitStatsFlag = true;
 		}
 
 	const JUtf8Byte* printInternalStats = getenv("JMM_PRINT_INTERNAL_STATS");
-	if (printInternalStats != nullptr && JString::Compare(printInternalStats, "yes", kJFalse) == 0)
+	if (printInternalStats != nullptr && JString::Compare(printInternalStats, "yes", JString::kIgnoreCase) == 0)
 		{
-		itsPrintInternalStatsFlag = kJTrue;
+		itsPrintInternalStatsFlag = true;
 		}
 
 	const JUtf8Byte* checkDoubleAllocation = getenv("JMM_CHECK_DOUBLE_ALLOCATION");
-	if (checkDoubleAllocation != nullptr && JString::Compare(checkDoubleAllocation, "yes", kJFalse) == 0)
+	if (checkDoubleAllocation != nullptr && JString::Compare(checkDoubleAllocation, "yes", JString::kIgnoreCase) == 0)
 		{
-		itsCheckDoubleAllocationFlag = kJTrue;
+		itsCheckDoubleAllocationFlag = true;
 		}
 
 	const JUtf8Byte* recordAllocated = getenv("JMM_RECORD_ALLOCATED");
-	if (recordAllocated != nullptr && JString::Compare(recordAllocated, "yes", kJFalse) == 0)
+	if (recordAllocated != nullptr && JString::Compare(recordAllocated, "yes", JString::kIgnoreCase) == 0)
 		{
 		const JUtf8Byte* tableType = getenv("JMM_TABLE_TYPE");
 		JUtf8Byte* recordDeallocated = getenv("JMM_RECORD_DEALLOCATED");
-		JBoolean recordDeallocatedFlag = kJFalse;
-		if (recordDeallocated != nullptr && JString::Compare(recordDeallocated, "yes", kJFalse) == 0)
+		bool recordDeallocatedFlag = false;
+		if (recordDeallocated != nullptr && JString::Compare(recordDeallocated, "yes", JString::kIgnoreCase) == 0)
 			{
-			recordDeallocatedFlag = kJTrue;
+			recordDeallocatedFlag = true;
 			}
 
-		if (tableType != nullptr && JString::Compare(tableType, "array", kJFalse) == 0)
+		if (tableType != nullptr && JString::Compare(tableType, "array", JString::kIgnoreCase) == 0)
 			{
 			itsMemoryTable = new JMMArrayTable(this, recordDeallocatedFlag);
 			}
@@ -323,7 +323,7 @@ JMemoryManager::Instance()
 
 	if (manager == nullptr)
 		{
-		theConstructingFlag = kJTrue;
+		theConstructingFlag = true;
 		manager = new JMemoryManager;
 		assert(manager != nullptr);
 
@@ -341,14 +341,14 @@ JMemoryManager::Instance()
 			assert(manager->itsErrorStream != nullptr);
 			}
 
-		theConstructingFlag = kJFalse;
+		theConstructingFlag = false;
 		manager->EmptyStacks();
 
 		// do it here since it calls delete as well as new
 
 		if (!JString::IsEmpty(pipeName))
 			{
-			theInternalFlag = kJTrue;
+			theInternalFlag = true;
 
 			manager->ConnectToDebugger(pipeName);
 			ACE_Object_Manager::at_exit(nullptr, ::JMMHandleACEExit, nullptr);
@@ -369,7 +369,7 @@ JMemoryManager::Instance()
 				std::cerr << err.GetMessage() << std::endl;
 				}
 
-			theInternalFlag = kJFalse;
+			theInternalFlag = false;
 			}
 		}
 
@@ -387,7 +387,7 @@ JMemoryManager::New
 	const size_t     size,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 	if (theAbortUnknownAllocFlag && line == 0)
@@ -410,8 +410,8 @@ JMemoryManager::New
 		Instance()->itsMutex->lock();
 		}
 
-	const JBoolean useStack  = JI2B(theConstructingFlag || theRecursionDepth > 0);
-	const JBoolean isManager = JI2B(useStack || theInternalFlag);
+	const bool useStack  = theConstructingFlag || theRecursionDepth > 0;
+	const bool isManager = useStack || theInternalFlag;
 	JMMRecord newRecord(GetNewID(), newBlock, trueSize, file, line, isArray, isManager);
 
 	if (useStack)
@@ -442,7 +442,7 @@ void
 JMemoryManager::Delete
 	(
 	void*          block,
-	const JBoolean isArray
+	const bool isArray
 	)
 {
 	std::lock_guard lock(*itsMutex);
@@ -515,7 +515,7 @@ JMemoryManager::PrintAllocated() const
 
  *****************************************************************************/
 
-JBoolean
+bool
 JMemoryManager::GetPrintErrors() const
 {
 	return itsErrorPrinter->GetPrintErrors();
@@ -532,7 +532,7 @@ JMemoryManager::GetPrintErrors() const
 void
 JMemoryManager::SetPrintErrors
 	(
-	const JBoolean print
+	const bool print
 	)
 {
 	itsErrorPrinter->SetPrintErrors(print);
@@ -567,7 +567,7 @@ JMemoryManager::DeleteRecord
 	void*            block,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 	if (block == nullptr)
@@ -577,9 +577,8 @@ JMemoryManager::DeleteRecord
 		}
 
 	JMMRecord record;
-	const JBoolean wasAllocated = JI2B(
-		itsMemoryTable == nullptr ||	// Have to trust the client
-		itsMemoryTable->SetRecordDeleted(&record, block, file, line, isArray));
+	const bool wasAllocated = itsMemoryTable == nullptr ||	// Have to trust the client
+		itsMemoryTable->SetRecordDeleted(&record, block, file, line, isArray);
 
 	// Try to avoid a seg fault so the program can continue
 	if (wasAllocated)
@@ -701,14 +700,14 @@ JMemoryManager::HandleACEExit()
 {
 	if (itsLink != nullptr)
 		{
-		theInternalFlag = kJTrue;
+		theInternalFlag = true;
 
 		SendExitStats();
 		itsLink->SendDisconnect();
 		itsLink->Flush();
 		itsLink = nullptr;
 
-		theInternalFlag = kJFalse;
+		theInternalFlag = false;
 		}
 }
 
@@ -758,9 +757,9 @@ JMemoryManager::Receive
 {
 	if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
 		{
-		theInternalFlag = kJTrue;
+		theInternalFlag = true;
 		HandleDebugRequest();
-		theInternalFlag = kJFalse;
+		theInternalFlag = false;
 		}
 	else
 		{
@@ -813,7 +812,7 @@ JMemoryManager::HandleDebugRequest()
 	assert( itsLink != nullptr );
 
 	JString text;
-	const JBoolean ok = itsLink->GetNextMessage(&text);
+	const bool ok = itsLink->GetNextMessage(&text);
 	assert( ok );
 
 	std::string s(text.GetBytes(), text.GetByteCount());
@@ -1037,7 +1036,7 @@ JMemoryManager::SendDebugMessage
 		}
 
 	std::lock_guard lock(*itsMutex);
-	itsLink->SendMessage(JString(s.c_str(), s.length(), kJFalse));
+	itsLink->SendMessage(JString(s.c_str(), s.length(), JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1105,7 +1104,7 @@ JMemoryManager::HandleUnallocatedDeletion
 	(
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 	if (itsBroadcastErrorsFlag && line != 0)
@@ -1125,7 +1124,7 @@ JMemoryManager::HandleMultipleDeletion
 	const JMMRecord& thisRecord,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 	if (itsBroadcastErrorsFlag)
@@ -1160,12 +1159,12 @@ JMemoryManager::HandleMultipleAllocation
 void
 JMemoryManager::ReadValue
 	(
-	JBoolean*        hasValue,
+	bool*        hasValue,
 	unsigned char*   value,
 	const JUtf8Byte* string
 	)
 {
-	*hasValue = JI2B( string != nullptr && JString::Compare(string, "no", kJFalse) != 0 );
+	*hasValue = string != nullptr && JString::Compare(string, "no", JString::kIgnoreCase) != 0;
 
 	if (*hasValue)
 		{
@@ -1191,23 +1190,23 @@ JMemoryManager::ReadValue
 
  *****************************************************************************/
 
-JBoolean
+bool
 JMemoryManager::RecordFilter::Match
 	(
 	const JMMRecord& record
 	)
 	const
 {
-	JBoolean match = kJTrue;
+	bool match = true;
 
 	if (!includeInternal && record.IsManagerMemory())
 		{
-		match = kJFalse;
+		match = false;
 		}
 
 	if (record.GetSize() < minSize)
 		{
-		match = kJFalse;
+		match = false;
 		}
 
 	const JSize newFileLength = strlen(record.GetNewFile());
@@ -1215,7 +1214,7 @@ JMemoryManager::RecordFilter::Match
 		{
 		if (record.GetNewFile() != *fileName)
 			{
-			match = kJFalse;
+			match = false;
 			}
 		}
 	else if (match && fileName != nullptr)
@@ -1240,7 +1239,7 @@ JMemoryManager::RecordFilter::Match
 		if (*(s1 + l1 - l2 - 1) != ACE_DIRECTORY_SEPARATOR_CHAR ||
 			strcmp(s1 + l1 - l2, s2) != 0)
 			{
-			match = kJFalse;
+			match = false;
 			}
 		}
 
@@ -1256,7 +1255,7 @@ JMemoryManager::RecordFilter::Read
 	input >> JBoolFromString(includeInternal);
 	input >> minSize;
 
-	JBoolean hasFile;
+	bool hasFile;
 	input >> JBoolFromString(hasFile);
 
 	if (hasFile)
@@ -1281,7 +1280,7 @@ JMemoryManager::RecordFilter::Write
 	output << JBoolToString(includeInternal);
 	output << ' ' << minSize;
 
-	const JBoolean hasFile = JI2B(fileName != nullptr && !fileName->IsEmpty());
+	const bool hasFile = fileName != nullptr && !fileName->IsEmpty();
 	output << ' ' << JBoolToString(hasFile);
 	if (hasFile)
 		{

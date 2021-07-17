@@ -37,7 +37,7 @@ const JCoordinate kRecurseColumn = 1;
 const JCoordinate kIconColumn    = 2;
 const JCoordinate kTextColumn    = 3;
 
-static const JString kFlagOnStr("R", kJFalse);
+static const JString kFlagOnStr("R", JString::kNoCopy);
 static const JString kFlagOffStr;		// must be empty
 
 /******************************************************************************
@@ -91,7 +91,7 @@ CBPathTable::CBPathTable
 
 	for (JIndex i=1; i<=rowCount; i++)
 		{
-		JBoolean recurse;
+		bool recurse;
 		const JString& path = pathList.GetPath(i, &recurse);
 		if (recurse)
 			{
@@ -224,7 +224,7 @@ CBPathTable::TableDrawCell
 		const JString& str = itsData->GetString(cell);
 
 		JFont f = JXFSInputBase::GetFont();
-		f.SetColor(JXPathInput::GetTextColor(str, itsBasePath, kJFalse));
+		f.SetColor(JXPathInput::GetTextColor(str, itsBasePath, false));
 		p.SetFont(f);
 
 		JRect r = rect;
@@ -281,14 +281,14 @@ CBPathTable::HandleMouseDown
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPathTable::IsEditable
 	(
 	const JPoint& cell
 	)
 	const
 {
-	return JI2B(cell.x == kTextColumn);
+	return cell.x == kTextColumn;
 }
 
 /******************************************************************************
@@ -324,11 +324,11 @@ CBPathTable::CreateXInputField
 	Extract the information from the active input field, check it,
 	and delete the input field if successful.
 
-	Returns kJTrue if the data is valid and the process succeeded.
+	Returns true if the data is valid and the process succeeded.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPathTable::ExtractInputData
 	(
 	const JPoint& cell
@@ -339,11 +339,11 @@ CBPathTable::ExtractInputData
 	if (itsPathInput->InputValid())
 		{
 		itsData->SetString(cell, itsPathInput->GetText()->GetText());
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -414,7 +414,7 @@ CBPathTable::ChoosePath()
 	if (itsPathInput != nullptr && GetEditedCell(&cell))
 		{
 		JString path      = itsPathInput->GetText()->GetText();
-		const JBoolean ok = itsCSF->ChooseRelRPath(JString::empty, JString::empty, path, &path);	// kills itsPathInput
+		const bool ok = itsCSF->ChooseRelRPath(JString::empty, JString::empty, path, &path);	// kills itsPathInput
 		if (BeginEditing(cell) && ok && itsPathInput != nullptr)
 			{
 			itsPathInput->GetText()->SetText(path);
@@ -467,7 +467,7 @@ CBPathTable::ApertureResized
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPathTable::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -486,11 +486,11 @@ CBPathTable::WillAcceptDrop
 		if (a == urlXAtom)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

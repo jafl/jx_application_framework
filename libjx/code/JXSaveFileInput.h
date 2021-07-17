@@ -23,8 +23,8 @@ public:
 
 	virtual ~JXSaveFileInput();
 
-	static JBoolean	WillAllowSpace();
-	static void		ShouldAllowSpace(const JBoolean allow);
+	static bool	WillAllowSpace();
+	static void		ShouldAllowSpace(const bool allow);
 
 protected:
 
@@ -38,22 +38,22 @@ private:
 
 		StyledText(JFontManager* fontManager)
 			:
-			JXInputField::StyledText(kJFalse, fontManager)
+			JXInputField::StyledText(false, fontManager)
 		{ };
 
 		protected:
 
-		virtual JBoolean	NeedsToFilterText(const JString& text) const override;
-		virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style) override;
+		virtual bool	NeedsToFilterText(const JString& text) const override;
+		virtual bool	FilterText(JString* text, JRunArray<JFont>* style) override;
 	};
 
 private:
 
-	static JBoolean	theAllowSpaceFlag;
+	static bool	theAllowSpaceFlag;
 
 private:
 
-	static JBoolean	IsCharacterInWord(const JUtf8Character& c);
+	static bool	IsCharacterInWord(const JUtf8Character& c);
 
 	// not allowed
 
@@ -66,7 +66,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXSaveFileInput::WillAllowSpace()
 {
 	return theAllowSpaceFlag;
@@ -75,7 +75,7 @@ JXSaveFileInput::WillAllowSpace()
 inline void
 JXSaveFileInput::ShouldAllowSpace
 	(
-	const JBoolean allow
+	const bool allow
 	)
 {
 	theAllowSpaceFlag = allow;

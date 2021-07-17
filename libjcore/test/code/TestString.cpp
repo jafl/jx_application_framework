@@ -15,12 +15,12 @@
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestString::TestSearchForward
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
-	const JBoolean		caseSensitive,
+	const JString::Case	caseSensitive,
 	JIndex*				byteIndex
 	)
 	const
@@ -33,12 +33,12 @@ TestString::TestSearchForward
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestString::TestSearchBackward
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
-	const JBoolean		caseSensitive,
+	const JString::Case	caseSensitive,
 	JIndex*				byteIndex
 	)
 	const

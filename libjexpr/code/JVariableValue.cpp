@@ -75,12 +75,12 @@ JVariableValue::Copy()
 /******************************************************************************
  Evaluate
 
-	If the variable value is known, stores value in result and returns kJTrue.
-	Otherwise, returns kJFalse.
+	If the variable value is known, stores value in result and returns true.
+	Otherwise, returns false.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JVariableValue::Evaluate
 	(
 	JFloat* result
@@ -95,11 +95,11 @@ JVariableValue::Evaluate
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JVariableValue::Evaluate
 	(
 	JComplex* result
@@ -114,7 +114,7 @@ JVariableValue::Evaluate
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

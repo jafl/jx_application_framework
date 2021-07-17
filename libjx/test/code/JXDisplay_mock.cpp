@@ -15,7 +15,7 @@
 
 JXDisplay::JXDisplay
 	(
-	const JBoolean isOSX
+	const bool isOSX
 	)
 	:
 	itsXDisplay(nullptr),
@@ -46,7 +46,7 @@ JXDisplay::JXDisplay
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDisplay::KeycodeToModifier
 	(
 	const KeyCode	keycode,
@@ -54,5 +54,5 @@ JXDisplay::KeycodeToModifier
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }

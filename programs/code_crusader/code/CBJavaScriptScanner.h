@@ -85,9 +85,9 @@ public:
 
 private:
 
-	JBoolean				itsResetFlag;
+	bool				itsResetFlag;
 	JStyledText::TextRange	itsCurrentRange;
-	JBoolean				itsProbableOperatorFlag;	// kTrue if / is most likely operator instead of regex
+	bool				itsProbableOperatorFlag;	// kTrue if / is most likely operator instead of regex
 
 private:
 

@@ -14,15 +14,15 @@
 struct CBDirInfo
 {
 	JString*	path;
-	JBoolean	recurse;
+	bool	recurse;
 	JIndex		projIndex;	// for use by CBApp::CollectSearchPaths()
 
 	CBDirInfo()
 		:
-		path(nullptr), recurse(kJTrue), projIndex(0)
+		path(nullptr), recurse(true), projIndex(0)
 	{ };
 
-	CBDirInfo(JString* p, const JBoolean r)
+	CBDirInfo(JString* p, const bool r)
 		:
 		path(p), recurse(r), projIndex(0)
 	{ };
@@ -51,19 +51,19 @@ public:
 
 	const CBDirList& operator=(const CBDirList& source);
 
-	JBoolean	GetFullPath(const JIndex index, JString* fullPath,
-							JBoolean* recurse) const;
-	JBoolean	GetTruePath(const JIndex index, JString* truePath,
-							JBoolean* recurse) const;
+	bool	GetFullPath(const JIndex index, JString* fullPath,
+							bool* recurse) const;
+	bool	GetTruePath(const JIndex index, JString* truePath,
+							bool* recurse) const;
 
-	const JString&	GetPath(const JIndex index, JBoolean* recurse) const;
-	void			AddPath(const JString& path, const JBoolean recurse);
+	const JString&	GetPath(const JIndex index, bool* recurse) const;
+	void			AddPath(const JString& path, const bool recurse);
 	void			RemoveAll();
 
 	const JString&	GetBasePath() const;
 	void			SetBasePath(const JString& path);
 
-	JBoolean		Contains(const JString& path) const;
+	bool		Contains(const JString& path) const;
 
 	void	ReadDirectories(std::istream& input, const JFileVersion vers);
 	void	WriteDirectories(std::ostream& output) const;

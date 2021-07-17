@@ -24,20 +24,20 @@ public:
 	GLHistoryDir(JXDirector* supervisor);
 
 	virtual ~GLHistoryDir();
-	void	AppendText(const JString& text, const JBoolean show = kJTrue);
+	void	AppendText(const JString& text, const bool show = true);
 	void	Print();
 	void	WriteData(std::ostream& os);
 	void	ReadData(std::istream& is);
-	virtual JBoolean	NeedsSave() const override;
+	virtual bool	NeedsSave() const override;
 	virtual void		SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
+	virtual bool	GetMenuIcon(const JXImage** icon) const override;
 
 protected:
 
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
-	virtual JBoolean	OKToClose() override;
-	virtual JBoolean	OKToRevert() override;
-	virtual JBoolean	CanRevert() override;
+	virtual bool	OKToClose() override;
+	virtual bool	OKToRevert() override;
+	virtual bool	CanRevert() override;
 	virtual void		DiscardChanges() override;
 
 private:

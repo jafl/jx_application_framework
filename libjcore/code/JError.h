@@ -36,7 +36,7 @@ public:
 	const JString&	GetMessage() const;
 	void			ReportIfError() const;
 
-	JBoolean
+	bool
 	OK() const
 	{
 		return Is(kJNoError);

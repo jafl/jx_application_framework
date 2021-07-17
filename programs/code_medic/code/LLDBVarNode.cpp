@@ -22,7 +22,7 @@
 
 LLDBVarNode::LLDBVarNode			// root node
 	(
-	const JBoolean shouldUpdate		// kJFalse for Local Variables
+	const bool shouldUpdate		// false for Local Variables
 	)
 	:
 	CMVarNode(shouldUpdate)
@@ -60,7 +60,7 @@ LLDBVarNode::~LLDBVarNode()
 JString
 LLDBVarNode::GetFullName
 	(
-	JBoolean* isPointer
+	bool* isPointer
 	)
 	const
 {
@@ -86,8 +86,8 @@ LLDBVarNode::BuildTree
 		}
 
 	JString value(s);
-	JBoolean isPointer = kJFalse;
-	JBoolean isSpecial = kJFalse;
+	bool isPointer = false;
+	bool isSpecial = false;
 
 	JString name;
 	if (v.GetName() != nullptr)
@@ -110,11 +110,11 @@ LLDBVarNode::BuildTree
 				value += v.GetSummary();
 				}
 #endif
-			isSpecial = kJTrue;
+			isSpecial = true;
 			}
 		else
 			{
-			isPointer = kJTrue;
+			isPointer = true;
 			}
 		}
 	else if (v.GetType().GetTypeClass() == lldb::eTypeClassArray)
@@ -131,7 +131,7 @@ LLDBVarNode::BuildTree
 				value += v.GetSummary();
 				}
 #endif
-			isSpecial = kJTrue;
+			isSpecial = true;
 			}
 		}
 	else if (v.GetType().GetTypeClass() == lldb::eTypeClassClass &&
@@ -148,7 +148,7 @@ LLDBVarNode::BuildTree
 
 	if (isPointer)
 		{
-		node->MakePointer(kJTrue);
+		node->MakePointer(true);
 		return node;
 		}
 	else if (isSpecial)

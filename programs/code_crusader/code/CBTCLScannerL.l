@@ -40,7 +40,7 @@ PREDEFWORD   (after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}

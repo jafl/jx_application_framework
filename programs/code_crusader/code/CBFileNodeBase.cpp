@@ -31,7 +31,7 @@ CBFileNodeBase::CBFileNodeBase
 	const JString&			fileName
 	)
 	:
-	CBProjectNode(tree, type, JString::empty, kJFalse),
+	CBProjectNode(tree, type, JString::empty, false),
 	itsFileName(fileName)
 {
 	JString path, name;
@@ -47,7 +47,7 @@ CBFileNodeBase::CBFileNodeBase
 	const CBProjectNodeType	type
 	)
 	:
-	CBProjectNode(input, vers, parent, type, kJFalse)
+	CBProjectNode(input, vers, parent, type, false)
 {
 	input >> itsFileName;
 }
@@ -94,7 +94,7 @@ CBFileNodeBase::SetFileName
 
 		JString path, name;
 		JSplitPathAndName(fileName, &path, &name);
-		const JBoolean nameChanged = JI2B( name != GetName() );
+		const bool nameChanged = name != GetName();
 		SetName(name);
 
 		JTree* tree;
@@ -108,11 +108,11 @@ CBFileNodeBase::SetFileName
 /******************************************************************************
  GetFullName (virtual)
 
-	Returns kJTrue if this file can be found.
+	Returns true if this file can be found.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFileNodeBase::GetFullName
 	(
 	JString* fullName
@@ -125,11 +125,11 @@ CBFileNodeBase::GetFullName
 /******************************************************************************
  GetFullName (protected)
 
-	Returns kJTrue if the specified file can be found.
+	Returns true if the specified file can be found.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFileNodeBase::GetFullName
 	(
 	const JString&	fileName,
@@ -141,8 +141,8 @@ CBFileNodeBase::GetFullName
 	assert( projTree != nullptr );
 
 	const JString& basePath = (projTree->GetProjectDoc())->GetFilePath();
-	return JI2B(!fileName.IsEmpty() &&
-				JConvertToAbsolutePath(fileName, basePath, fullName));
+	return !fileName.IsEmpty() &&
+				JConvertToAbsolutePath(fileName, basePath, fullName);
 }
 
 /******************************************************************************
@@ -150,7 +150,7 @@ CBFileNodeBase::GetFullName
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFileNodeBase::FindFile1
 	(
 	const JString&	fullName,
@@ -162,12 +162,12 @@ CBFileNodeBase::FindFile1
 		JSameDirEntry(name, fullName))
 		{
 		*node = this;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*node = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -178,7 +178,7 @@ CBFileNodeBase::FindFile1
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFileNodeBase::IncludedInMakefile()
 	const
 {
@@ -230,12 +230,12 @@ CBFileNodeBase::BuildMakeFiles
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFileNodeBase::IncludedInCMakeData()
 	const
 {
 	const CBTextFileType type = CBGetPrefsManager()->GetFileType(itsFileName);
-	return JI2B(CBIncludeInCMakeSource(type) || CBIncludeInCMakeHeader(type));
+	return CBIncludeInCMakeSource(type) || CBIncludeInCMakeHeader(type);
 }
 
 /******************************************************************************
@@ -266,7 +266,7 @@ CBFileNodeBase::BuildCMakeData
 				JString complName;
 				if (CBGetDocumentManager()->
 						GetComplementFile(fullName, type, &complName,
-										  GetProjectDoc(), kJFalse) &&
+										  GetProjectDoc(), false) &&
 					!(GetProjectTree()->GetProjectRoot())->Includes(complName))
 					{
 					const CBRelPathCSF::PathType pathType =
@@ -300,12 +300,12 @@ CBFileNodeBase::BuildCMakeData
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFileNodeBase::IncludedInQMakeData()
 	const
 {
 	const CBTextFileType type = CBGetPrefsManager()->GetFileType(itsFileName);
-	return JI2B(CBIncludeInQMakeSource(type) || CBIncludeInQMakeHeader(type));
+	return CBIncludeInQMakeSource(type) || CBIncludeInQMakeHeader(type);
 }
 
 /******************************************************************************
@@ -336,7 +336,7 @@ CBFileNodeBase::BuildQMakeData
 				JString complName;
 				if (CBGetDocumentManager()->
 						GetComplementFile(fullName, type, &complName,
-										  GetProjectDoc(), kJFalse) &&
+										  GetProjectDoc(), false) &&
 					!(GetProjectTree()->GetProjectRoot())->Includes(complName))
 					{
 					const CBRelPathCSF::PathType pathType =
@@ -402,7 +402,7 @@ CBFileNodeBase::FileRenamed
 	else if (type == CBRelPathCSF::kHomeRelative)
 		{
 		JString s;
-		const JBoolean ok = JExpandHomeDirShortcut(itsFileName, &s);
+		const bool ok = JExpandHomeDirShortcut(itsFileName, &s);
 		assert( ok );
 		if (s == origFullName)
 			{

@@ -28,7 +28,7 @@ JLinkedListIterator<T>::JLinkedListIterator
 	)
 	:
 	JListIterator<T>(theLinkedList, start, index),
-	itsIgnoreListChangedFlag(kJFalse)
+	itsIgnoreListChangedFlag(false)
 {
 	itsLinkedList  = const_cast<JLinkedList<T>*>(&theLinkedList);
 	itsCurrElement = itsLinkedList->itsFirstElement;
@@ -47,7 +47,7 @@ JLinkedListIterator<T>::JLinkedListIterator
 	)
 	:
 	JListIterator<T>(theLinkedList, start, index),
-	itsIgnoreListChangedFlag(kJFalse)
+	itsIgnoreListChangedFlag(false)
 {
 	itsLinkedList  = theLinkedList;
 	itsCurrElement = itsLinkedList->itsFirstElement;
@@ -69,7 +69,7 @@ JLinkedListIterator<T>::JLinkedListIterator
 	)
 	:
 	JListIterator<T>(source),
-	itsIgnoreListChangedFlag(kJFalse)
+	itsIgnoreListChangedFlag(false)
 {
 	itsLinkedList  = source.itsLinkedList;
 	itsCurrElement = source.itsCurrElement;
@@ -88,23 +88,23 @@ JLinkedListIterator<T>::~JLinkedListIterator()
 /******************************************************************************
  Prev (virtual)
 
-	Return kJTrue if there is a previous item, fetching the previous
+	Return true if there is a previous item, fetching the previous
 	item in the list and decrementing the iterator position.
-	Otherwise return kJFalse without fetching or decrementing.
+	Otherwise return false without fetching or decrementing.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JLinkedListIterator<T>::Prev
 	(
-	T*				item,
-	const JBoolean	move
+	T*						item,
+	const JIteratorAction	move
 	)
 {
 	if (itsLinkedList == nullptr || this->AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	*item = itsCurrElement->data;
@@ -119,29 +119,29 @@ JLinkedListIterator<T>::Prev
 
 		this->SetCursor(cursorPos-1);
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  Next (virtual)
 
-	Return kJTrue if there is a next item, fetching the next
+	Return true if there is a next item, fetching the next
 	item in the list and decrementing the iterator position.
-	Otherwise return kJFalse without fetching or decrementing.
+	Otherwise return false without fetching or decrementing.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JLinkedListIterator<T>::Next
 	(
-	T*				item,
-	const JBoolean	move
+	T*						item,
+	const JIteratorAction	move
 	)
 {
 	if (itsLinkedList == nullptr || this->AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JLinkedListElement<T>* e = itsCurrElement;
@@ -159,7 +159,7 @@ JLinkedListIterator<T>::Next
 		itsCurrElement = e;
 		this->SetCursor(cursorPos+1);
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -228,23 +228,23 @@ JLinkedListIterator<T>::SkipNext
 /******************************************************************************
  SetPrev (virtual)
 
-	Returns kJTrue if we have a non-const JLinkedList<T>* and
+	Returns true if we have a non-const JLinkedList<T>* and
 	there is a previous item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JLinkedListIterator<T>::SetPrev
 	(
-	const T&		data,
-	const JBoolean	move
+	const T&				data,
+	const JIteratorAction	move
 	)
 {
 	JList<T>* obj;
 	if (!this->GetList(&obj) || this->AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JCursorPosition cursorPos = this->GetCursor();
@@ -260,29 +260,29 @@ JLinkedListIterator<T>::SetPrev
 
 		this->SetCursor(cursorPos-1);
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  SetNext (virtual)
 
-	Returns kJTrue if we have a non-const JLinkedList<T>* and
+	Returns true if we have a non-const JLinkedList<T>* and
 	there is a next item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JLinkedListIterator<T>::SetNext
 	(
-	const T&		data,
-	const JBoolean	move
+	const T&				data,
+	const JIteratorAction	move
 	)
 {
 	JList<T>* obj;
 	if (!this->GetList(&obj) || this->AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	assert( itsCurrElement->next != nullptr );
@@ -301,19 +301,19 @@ JLinkedListIterator<T>::SetNext
 		itsCurrElement = e;
 		this->SetCursor(cursorPos+1);
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  RemovePrev (virtual)
 
-	Returns kJTrue if we have a non-const JLinkedList<T>* and
+	Returns true if we have a non-const JLinkedList<T>* and
 	there is at least one previous item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JLinkedListIterator<T>::RemovePrev
 	(
 	const JSize count
@@ -322,14 +322,14 @@ JLinkedListIterator<T>::RemovePrev
 	JList<T>* obj;
 	if (!this->GetList(&obj) || this->AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JLinkedListElement<T>* e = itsCurrElement->next;
 
-	itsIgnoreListChangedFlag = kJTrue;
+	itsIgnoreListChangedFlag = true;
 	itsLinkedList->IteratorRemovePrevElements(this->GetCursor(), count, itsCurrElement);
-	itsIgnoreListChangedFlag = kJFalse;
+	itsIgnoreListChangedFlag = false;
 
 	if (this->AtBeginning())
 		{
@@ -344,19 +344,19 @@ JLinkedListIterator<T>::RemovePrev
 		itsCurrElement = e->prev;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  RemoveNext (virtual)
 
-	Returns kJTrue if we have a non-const JLinkedList<T>* and
+	Returns true if we have a non-const JLinkedList<T>* and
 	there is at least one next item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JLinkedListIterator<T>::RemoveNext
 	(
 	const JSize count
@@ -365,7 +365,7 @@ JLinkedListIterator<T>::RemoveNext
 	JList<T>* obj;
 	if (!this->GetList(&obj) || this->AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JLinkedListElement<T>* e = itsCurrElement;
@@ -376,27 +376,27 @@ JLinkedListIterator<T>::RemoveNext
 		e = e->next;
 		}
 
-	itsIgnoreListChangedFlag = kJTrue;
+	itsIgnoreListChangedFlag = true;
 	itsLinkedList->IteratorRemoveNextElements(cursorPos+1, count, e);
-	itsIgnoreListChangedFlag = kJFalse;
+	itsIgnoreListChangedFlag = false;
 
 	if (this->AtBeginning())
 		{
 		itsCurrElement = itsLinkedList->itsFirstElement;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  Insert (virtual)
 
-	Returns kJTrue if we have a non-const JLinkedList<T>*.
+	Returns true if we have a non-const JLinkedList<T>*.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JLinkedListIterator<T>::Insert
 	(
 	const T& data
@@ -405,24 +405,24 @@ JLinkedListIterator<T>::Insert
 	JList<T>* obj;
 	if (!this->GetList(&obj))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (this->AtBeginning())
 		{
-		itsIgnoreListChangedFlag = kJTrue;
+		itsIgnoreListChangedFlag = true;
 		itsLinkedList->PrependElement(data);
-		itsIgnoreListChangedFlag = kJFalse;
+		itsIgnoreListChangedFlag = false;
 
 		itsCurrElement = itsLinkedList->itsFirstElement;
 		}
 	else
 		{
-		itsIgnoreListChangedFlag = kJTrue;
+		itsIgnoreListChangedFlag = true;
 		itsLinkedList->IteratorInsertElementAfter(this->GetCursor(), data, itsCurrElement);
-		itsIgnoreListChangedFlag = kJFalse;
+		itsIgnoreListChangedFlag = false;
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

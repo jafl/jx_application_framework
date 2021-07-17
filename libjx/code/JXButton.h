@@ -30,7 +30,7 @@ protected:
 			 const JCoordinate x, const JCoordinate y,
 			 const JCoordinate w, const JCoordinate h);
 
-	JBoolean	IsPushed() const;
+	bool	IsPushed() const;
 
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
@@ -48,8 +48,8 @@ protected:
 
 private:
 
-	JBoolean	itsIsReturnButtonFlag;
-	JBoolean	itsIsPushedFlag;
+	bool	itsIsReturnButtonFlag;
+	bool	itsIsPushedFlag;
 
 private:
 
@@ -81,7 +81,7 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXButton::IsPushed()
 	const
 {

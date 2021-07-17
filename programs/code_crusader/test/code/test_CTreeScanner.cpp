@@ -46,11 +46,11 @@ JTEST(Basic)
 
 	TestCTree tree;
 	tree.GetCPreprocessor()->DefineMacro(
-		JString("TEST_MACRO", kJFalse),
-		JString("CBCtagsUser", kJFalse));
+		JString("TEST_MACRO", false),
+		JString("CBCtagsUser", false));
 
-	tree.PrepareForUpdate(kJFalse);
-	tree.ParseFile(JString("./data/tree/c/CBTestTree.h", kJFalse), 1);
+	tree.PrepareForUpdate(false);
+	tree.ParseFile(JString("./data/tree/c/CBTestTree.h", false), 1);
 	tree.UpdateFinished(deadFileList);
 
 	const TestCTree& constTree     = tree;
@@ -92,8 +92,8 @@ JTEST(Namespace)
 	JArray<JFAID_t> deadFileList;
 
 	TestCTree tree;
-	tree.PrepareForUpdate(kJFalse);
-	tree.ParseFile(JString("./data/tree/c/namespace.h", kJFalse), 1);
+	tree.PrepareForUpdate(false);
+	tree.ParseFile(JString("./data/tree/c/namespace.h", false), 1);
 	tree.UpdateFinished(deadFileList);
 
 	const TestCTree& constTree     = tree;
@@ -144,8 +144,8 @@ JTEST(Template)
 	JArray<JFAID_t> deadFileList;
 
 	TestCTree tree;
-	tree.PrepareForUpdate(kJFalse);
-	tree.ParseFile(JString("./data/tree/c/template.h", kJFalse), 1);
+	tree.PrepareForUpdate(false);
+	tree.ParseFile(JString("./data/tree/c/template.h", false), 1);
 	tree.UpdateFinished(deadFileList);
 
 	const TestCTree& constTree     = tree;
@@ -157,8 +157,8 @@ JTEST(Template)
 	JAssertStringsEqual("Foo", c->GetName());
 }
 
-JBoolean
+bool
 CBInUpdateThread()
 {
-	return kJTrue;
+	return true;
 }

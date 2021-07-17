@@ -21,8 +21,8 @@ public:
 
 	virtual ~CMDebuggerProgramInput();
 
-	virtual JBoolean	InputValid() override;
-	virtual JBoolean	GetFile(JString* fullName) const override;
+	virtual bool	InputValid() override;
+	virtual bool	GetFile(JString* fullName) const override;
 
 protected:
 

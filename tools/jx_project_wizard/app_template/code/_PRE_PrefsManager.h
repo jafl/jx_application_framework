@@ -30,20 +30,20 @@ class <PRE>PrefsManager : public JXPrefsManager
 {
 public:
 
-	<PRE>PrefsManager(JBoolean* isNew);
+	<PRE>PrefsManager(bool* isNew);
 
 	virtual	~<PRE>PrefsManager();
 
 	JString GetPrevVersionStr() const;
 	void	EditPrefs();
 
-	JBoolean	GetWindowSize(const JPrefID& id, JPoint* desktopLoc,
+	bool	GetWindowSize(const JPrefID& id, JPoint* desktopLoc,
 							  JCoordinate* width, JCoordinate* height) const;
 	void		SaveWindowSize(const JPrefID& id, JXWindow* window);
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion);
+	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion);
 	virtual void	SaveAllBeforeDestruct();
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

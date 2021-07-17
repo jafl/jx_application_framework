@@ -253,7 +253,7 @@ JStringMatch::GetSubstring
 		const JUtf8ByteRange r = itsSubmatchList->GetElement(index);
 		if (!r.IsEmpty())
 			{
-			return JString(itsTarget.GetRawBytes(), r, kJFalse);
+			return JString(itsTarget.GetRawBytes(), r, JString::kNoCopy);
 			}
 		}
 

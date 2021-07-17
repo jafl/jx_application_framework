@@ -16,8 +16,8 @@ class ACE_SOCK_Stream;
 
 const JSize kMaxWaitSeconds = 5;
 
-JBoolean	TalkToClient(ACE_SOCK_Stream& socket);
+bool	TalkToClient(ACE_SOCK_Stream& socket);
 void		TalkToServer(ACE_SOCK_Stream& socket);
-JBoolean	ReceiveMessage(ACE_SOCK_Stream& socket);
+bool	ReceiveMessage(ACE_SOCK_Stream& socket);
 
 #endif

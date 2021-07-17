@@ -28,7 +28,7 @@ CBStringCompleter::CBStringCompleter
 	const CBLanguage	lang,
 	const JSize			keywordCount,
 	const JUtf8Byte**	keywordList,
-	const JBoolean		caseSensitive
+	const JString::Case	caseSensitive
 	)
 	:
 	itsLanguage(lang),
@@ -100,7 +100,7 @@ CBStringCompleter::Reset()
 
 	for (JUnsignedOffset i=0; i<itsPredefKeywordCount; i++)
 		{
-		Add(JString(itsPrefefKeywordList[i], kJFalse));
+		Add(JString(itsPrefefKeywordList[i], JString::kNoCopy));
 		}
 }
 
@@ -117,7 +117,7 @@ CBStringCompleter::Add
 {
 	JString* s = jnew JString(str);
 	assert( s != nullptr );
-	if (itsStringList->InsertSorted(s, kJFalse))
+	if (itsStringList->InsertSorted(s, false))
 		{
 		itsOwnedList->Append(s);
 		}
@@ -135,7 +135,7 @@ CBStringCompleter::Add
 	JString* s
 	)
 {
-	itsStringList->InsertSorted(s, kJFalse);
+	itsStringList->InsertSorted(s, false);
 }
 
 /******************************************************************************
@@ -153,27 +153,27 @@ CBStringCompleter::RemoveAll()
 /******************************************************************************
  Complete
 
-	Returns kJTrue if the text behind the caret was completed.
+	Returns true if the text behind the caret was completed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBStringCompleter::Complete
 	(
 	JTextEditor*			te,
 	JXStringCompletionMenu*	menu
 	)
 {
-	return Complete(te, kJTrue, menu);
+	return Complete(te, true, menu);
 }
 
 // private
 
-JBoolean
+bool
 CBStringCompleter::Complete
 	(
 	JTextEditor*			te,
-	const JBoolean			includeNS,
+	const bool			includeNS,
 	JXStringCompletionMenu*	menu
 	)
 {
@@ -182,7 +182,7 @@ CBStringCompleter::Complete
 	JIndex caretIndex;
 	if (!te->GetCaretLocation(&caretIndex))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JString& text = te->GetText()->GetText();
@@ -190,7 +190,7 @@ CBStringCompleter::Complete
 	JStringIterator iter(text, kJIteratorStartBefore, caretIndex);
 	iter.BeginMatch();
 	JUtf8Character c;
-	while (iter.Prev(&c, kJFalse) && IsWordCharacter(c, includeNS))
+	while (iter.Prev(&c, kJIteratorStay) && IsWordCharacter(c, includeNS))
 		{
 		iter.SkipPrev();
 		}
@@ -198,7 +198,7 @@ CBStringCompleter::Complete
 	if ((iter.AtEnd() && caretIndex > text.GetCharacterCount()) ||
 		iter.GetNextCharacterIndex() == caretIndex)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JStringMatch m    = iter.FinishMatch();	// must exist after invalidating iterator
@@ -211,22 +211,22 @@ CBStringCompleter::Complete
 	if (matchCount > 0 &&
 		s.GetCharacterCount() > matchLength)
 		{
-		te->Paste(JString(s.GetBytes() + m.GetUtf8ByteRange().GetCount(), kJFalse));
+		te->Paste(JString(s.GetBytes() + m.GetUtf8ByteRange().GetCount(), JString::kNoCopy));
 		menu->ClearRequestCount();
-		return kJTrue;
+		return true;
 		}
 	else if (matchCount > 1)
 		{
 		menu->CompletionRequested(matchLength);
-		return kJTrue;
+		return true;
 		}
 	else if (matchCount == 0 && includeNS)
 		{
 		// try once more without namespace
-		return Complete(te, kJFalse, menu);
+		return Complete(te, false, menu);
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -255,7 +255,7 @@ CBStringCompleter::Complete
 {
 	menu->RemoveAllItems();
 
-	JBoolean found;
+	bool found;
 	const JIndex startIndex =
 		itsStringList->SearchSorted1(const_cast<JString*>(&prefix),
 									 JListT::kAnyMatch, &found);
@@ -271,7 +271,7 @@ CBStringCompleter::Complete
 	*maxPrefix = *(itsStringList->GetElement(startIndex));
 
 	JSize matchCount   = 0;
-	JBoolean addString = kJTrue;
+	bool addString = true;
 	for (JIndex i=startIndex; i<=stringCount; i++)
 		{
 		const JString* s = itsStringList->GetElement(i);
@@ -462,7 +462,7 @@ CBStringCompleter::CopySymbolsForLanguage
 			{
 			CBLanguage l;
 			CBSymbolList::Type type;
-			JBoolean fullyQualifiedFileScope;
+			bool fullyQualifiedFileScope;
 			const JString& symbolName =
 				symbolList->GetSymbol(j, &l, &type, &fullyQualifiedFileScope);
 			if (l == lang && !fullyQualifiedFileScope)

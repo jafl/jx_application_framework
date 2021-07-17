@@ -52,29 +52,29 @@ public:
 
 public:
 
-	SVNPrefsManager(JBoolean* isNew);
+	SVNPrefsManager(bool* isNew);
 
 	virtual	~SVNPrefsManager();
 
-	JBoolean	GetExpirationTimeStamp(time_t* t) const;
+	bool	GetExpirationTimeStamp(time_t* t) const;
 	void		SetExpirationTimeStamp(const time_t t);
 
 	JString GetPrevVersionStr() const;
 	void	EditPrefs();
 
-	JBoolean	RestoreProgramState();
+	bool	RestoreProgramState();
 	void		SaveProgramState();
 	void		ForgetProgramState();
 
-	JBoolean	GetWindowSize(const JPrefID& id, JPoint* desktopLoc,
+	bool	GetWindowSize(const JPrefID& id, JPoint* desktopLoc,
 							  JCoordinate* width, JCoordinate* height) const;
 	void		SaveWindowSize(const JPrefID& id, JXWindow* window);
 
-	JBoolean	GetCommand(const Command cmdType, Integration* type, JString* cmd) const;
+	bool	GetCommand(const Command cmdType, Integration* type, JString* cmd) const;
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion) override;
+	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
 	virtual void	SaveAllBeforeDestruct() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -84,7 +84,7 @@ private:
 
 private:
 
-	JBoolean	GetIntegration(Integration* type, JString* commitEditor,
+	bool	GetIntegration(Integration* type, JString* commitEditor,
 							   JString* diffCmd, JString* reloadChangedCmd) const;
 	void		SetIntegration(const Integration type, const JString& commitEditor,
 							   const JString& diffCmd, const JString& reloadChangedCmd);

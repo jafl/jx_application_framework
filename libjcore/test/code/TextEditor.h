@@ -14,15 +14,15 @@ class TextEditor : public JTextEditor
 {
 public:
 
-	TextEditor(JStyledText* text, const JBoolean breakCROnly, const JCoordinate width);
+	TextEditor(JStyledText* text, const bool breakCROnly, const JCoordinate width);
 
 	virtual ~TextEditor();
 
 	JCoordinate	GetWidth() const;
 	JCoordinate	GetHeight() const;
 
-	virtual JBoolean	TEHasSearchText() const override;
-	void				SetHasSearchText(const JBoolean has);
+	virtual bool	TEHasSearchText() const override;
+	void				SetHasSearchText(const bool has);
 
 	// expose protected functionality
 
@@ -34,24 +34,24 @@ public:
 	JIndex	GetLineCharLength(const JIndex lineIndex) const;
 
 	JIndex		CalcCaretCharLocation(const JPoint& pt) const;
-	JBoolean	TestPointInSelection(const JPoint& pt) const;
+	bool	TestPointInSelection(const JPoint& pt) const;
 	void		TestMoveCaretVert(const JInteger deltaLines);
 
 	void	Draw();
 
 	void	TestReplaceSelection(const JStringMatch& match, const JString& replaceStr,
-								 JInterpolate* interpolator, const JBoolean preserveCase);
+								 JInterpolate* interpolator, const bool preserveCase);
 
 	void	Activate();
 	void	CheckCmdStatus(const JArray<bool>& expected) const;
 
 	void	GetDoubleClickSelection(const JStyledText::TextIndex& charIndex,
-									const JBoolean partialWord,
-									const JBoolean dragging,
+									const bool partialWord,
+									const bool dragging,
 									JStyledText::TextRange* range);
 
-	JBoolean	HandleKeyPress(const JUtf8Character& key, const JBoolean selectText,
-							   const CaretMotion motion, const JBoolean deleteToTabStop);
+	bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,
+							   const CaretMotion motion, const bool deleteToTabStop);
 
 protected:
 
@@ -60,17 +60,17 @@ protected:
 	virtual void		TERedraw() override;
 	virtual void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
 									   const JCoordinate changeY) override;
-	virtual JBoolean	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
-	virtual JBoolean	TEScrollToRect(const JRect& rect,
-									   const JBoolean centerInDisplay) override;
-	virtual JBoolean	TEScrollForDrag(const JPoint& pt) override;
-	virtual JBoolean	TEScrollForDND(const JPoint& pt) override;
+	virtual bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
+	virtual bool	TEScrollToRect(const JRect& rect,
+									   const bool centerInDisplay) override;
+	virtual bool	TEScrollForDrag(const JPoint& pt) override;
+	virtual bool	TEScrollForDND(const JPoint& pt) override;
 	virtual void		TESetVertScrollStep(const JCoordinate vStep) override;
 	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
-	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
-	virtual JBoolean	TEBeginDND() override;
+	virtual bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
+	virtual bool	TEBeginDND() override;
 	virtual void		TEPasteDropData() override;
-	virtual void		TECaretShouldBlink(const JBoolean blink) override;
+	virtual void		TECaretShouldBlink(const bool blink) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -81,7 +81,7 @@ private:
 	mutable JString*			itsClipText;
 	mutable JRunArray<JFont>*	itsClipStyle;
 
-	JBoolean	itsHasSearchTextFlag;
+	bool	itsHasSearchTextFlag;
 
 private:
 
@@ -123,7 +123,7 @@ TextEditor::SetAllFontNameAndSize
 	const JSize		size
 	)
 {
-	JTextEditor::SetAllFontNameAndSize(name, size, 36, kJTrue, kJFalse);
+	JTextEditor::SetAllFontNameAndSize(name, size, 36, true, false);
 }
 
 /******************************************************************************
@@ -195,7 +195,7 @@ TextEditor::CalcCaretCharLocation
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 TextEditor::TestPointInSelection
 	(
 	const JPoint& pt

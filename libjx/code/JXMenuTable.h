@@ -37,7 +37,7 @@ public:
 
 	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
-	virtual JBoolean	IsMenuTable() const override;
+	virtual bool	IsMenuTable() const override;
 
 	// called by JXMenuDirector
 
@@ -50,7 +50,7 @@ protected:
 
 	void	DrawCheckbox(JPainter& p, const JIndex itemIndex, const JRect& rect);
 	void	DrawSubmenuIndicator(JPainter& p, const JIndex itemIndex, const JRect& rect,
-								 const JBoolean hilighted);
+								 const bool hilighted);
 	void	DrawScrollRegions(JPainter& p);
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
@@ -63,7 +63,7 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	CellToItemIndex(const JPoint& pt, const JPoint& cell,
+	virtual bool	CellToItemIndex(const JPoint& pt, const JPoint& cell,
 										JIndex* itemIndex) const = 0;
 	virtual void		MenuHilightItem(const JIndex itemIndex) = 0;
 	virtual void		MenuUnhilightItem(const JIndex itemIndex) = 0;
@@ -83,19 +83,19 @@ private:
 
 	JIndex		itsPrevItemIndex;
 	JXMenu*		itsOpenSubmenu;				// we don't own this
-	JBoolean	itsSwitchingDragFlag;
+	bool	itsSwitchingDragFlag;
 	JPoint		itsMouseDownPt;
 	JPoint		itsPrevPt;
 	JPoint		itsCurrPt;
-	JBoolean	itsIsFirstDragFlag;
+	bool	itsIsFirstDragFlag;
 
-	JBoolean	itsHasScrollUpFlag;
-	JBoolean	itsMouseInScrollUpFlag;
+	bool	itsHasScrollUpFlag;
+	bool	itsMouseInScrollUpFlag;
 	JRect		itsScrollUpRect;
 	JRect		itsScrollUpArrowRect;
 
-	JBoolean	itsHasScrollDownFlag;
-	JBoolean	itsMouseInScrollDownFlag;
+	bool	itsHasScrollDownFlag;
+	bool	itsMouseInScrollDownFlag;
 	JRect		itsScrollDownRect;
 	JRect		itsScrollDownArrowRect;
 
@@ -104,18 +104,18 @@ private:
 	void		MenuHandleMouseAction(const JPoint& pt,
 									  const JXButtonStates& buttonStates,
 									  const JXKeyModifiers& modifiers,
-									  const JBoolean closeIfOutside);
+									  const bool closeIfOutside);
 	void		MouseOutsideTable(const JPoint& pt,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers,
 								  JXContainer* trueMouseContainer,
-								  const JBoolean shouldClose);
-	JBoolean	GetMenuWidgetToActivate(const JPoint& pt, JXContainer** widget);
-	JBoolean	CloseMenuOnMouseUp(const JPoint& pt) const;
+								  const bool shouldClose);
+	bool	GetMenuWidgetToActivate(const JPoint& pt, JXContainer** widget);
+	bool	CloseMenuOnMouseUp(const JPoint& pt) const;
 
 	void	MenuSelectCell(const JPoint& pt, const JPoint& cell);
 	void	MenuSelectItem(const JIndex newItemIndex,
-						   const JBoolean checkMovement = kJTrue);
+						   const bool checkMovement = true);
 
 	void	UpdateScrollRegions();
 	void	ScrollUp(const JCoordinate y);

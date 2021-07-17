@@ -31,7 +31,7 @@ main
 {
 	ParseTextOptions(argc, argv);
 
-	JBoolean displayLicense;
+	bool displayLicense;
 	JXWApp* app = jnew JXWApp(&argc, argv, &displayLicense);
 	assert( app != nullptr );
 

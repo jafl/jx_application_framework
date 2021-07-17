@@ -22,14 +22,14 @@ public:
 	const JString&	GetFnName() const;
 	void			SetFnName(const JString& str);
 
-	JBoolean		IsProtected() const;
-	void			ShouldBeProtected(const JBoolean protect);
+	bool		IsProtected() const;
+	void			ShouldBeProtected(const bool protect);
 
-	JBoolean		IsRequired() const;
-	void			ShouldBeRequired(const JBoolean require);
+	bool		IsRequired() const;
+	void			ShouldBeRequired(const bool require);
 
-	JBoolean		IsUsed() const;
-	void			ShouldBeUsed(const JBoolean use);
+	bool		IsUsed() const;
+	void			ShouldBeUsed(const bool use);
 
 	const JString&	GetInterface() const;
 	void			SetInterface(const JString& str);
@@ -37,8 +37,8 @@ public:
 	const JString&	GetReturnType() const;
 	void			SetReturnType(const JString& type);
 
-	JBoolean		IsConst() const;
-	void			ShouldBeConst(const JBoolean isConst);
+	bool		IsConst() const;
+	void			ShouldBeConst(const bool isConst);
 
 	JSize			GetArgCount() const;
 	const JString&	GetArg(const JIndex index) const;
@@ -53,12 +53,12 @@ protected:
 private:
 
 	JString		itsFnName;
-	JBoolean	itsIsProtected;
-	JBoolean	itsIsRequired;	// if base class has pure virtual function
-	JBoolean	itsIsUsed;
+	bool	itsIsProtected;
+	bool	itsIsRequired;	// if base class has pure virtual function
+	bool	itsIsUsed;
 	JString		itsInterface;
 	JString		itsReturnType;
-	JBoolean	itsIsConst;
+	bool	itsIsConst;
 	
 	JPtrArray<JString>*	itsArgs;
 	JString				itsArgString;
@@ -104,7 +104,7 @@ GFGMemberFunction::SetFnName
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GFGMemberFunction::IsProtected()
 	const
 {
@@ -119,7 +119,7 @@ GFGMemberFunction::IsProtected()
 inline void
 GFGMemberFunction::ShouldBeProtected
 	(
-	const JBoolean protect
+	const bool protect
 	)
 {
 	itsIsProtected	= protect;
@@ -130,7 +130,7 @@ GFGMemberFunction::ShouldBeProtected
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GFGMemberFunction::IsRequired()
 	const
 {
@@ -145,7 +145,7 @@ GFGMemberFunction::IsRequired()
 inline void
 GFGMemberFunction::ShouldBeRequired
 	(
-	const JBoolean require
+	const bool require
 	)
 {
 	itsIsRequired	= require;
@@ -156,7 +156,7 @@ GFGMemberFunction::ShouldBeRequired
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GFGMemberFunction::IsUsed()
 	const
 {
@@ -171,7 +171,7 @@ GFGMemberFunction::IsUsed()
 inline void
 GFGMemberFunction::ShouldBeUsed
 	(
-	const JBoolean use
+	const bool use
 	)
 {
 	itsIsUsed = use;
@@ -220,7 +220,7 @@ GFGMemberFunction::SetReturnType
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GFGMemberFunction::IsConst()
 	const
 {
@@ -235,7 +235,7 @@ GFGMemberFunction::IsConst()
 inline void
 GFGMemberFunction::ShouldBeConst
 	(
-	const JBoolean isConst
+	const bool isConst
 	)
 {
 	itsIsConst = isConst;

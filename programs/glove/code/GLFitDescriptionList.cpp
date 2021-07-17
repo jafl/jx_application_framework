@@ -260,7 +260,7 @@ GLFitDescriptionList::PrepareDeleteXInputField()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLFitDescriptionList::ExtractInputData
 	(
 	const JPoint& cell
@@ -270,11 +270,11 @@ GLFitDescriptionList::ExtractInputData
 	if (!name.IsEmpty())
 		{
 		*(itsNameList->GetElement(cell.y)) = name;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -326,7 +326,7 @@ GLFitDescriptionList::HandleKeyPress
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLFitDescriptionList::GetCurrentFitIndex
 	(
 	JIndex* index
@@ -336,9 +336,9 @@ GLFitDescriptionList::GetCurrentFitIndex
 	if (GetTableSelection().GetSingleSelectedCell(&cell))
 		{
 		*index	= cell.y;
-		return kJTrue;
+		return true;
 		}
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

@@ -47,7 +47,7 @@ JX2DCursorMarkTable::JX2DCursorMarkTable
 	JXTable(1,kDefColWidth, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
 	itsPlot         = plot;
-	itsPrintingFlag = kJFalse;
+	itsPrintingFlag = false;
 
 	AppendCols(2, kDefColWidth);
 	SetColBorderInfo(1, JColorManager::GetGrayColor(80));
@@ -185,19 +185,19 @@ JX2DCursorMarkTable::AdjustTable()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JX2DCursorMarkTable::Print
 	(
 	JPagePrinter&	p,
-	const JBoolean	putOnSamePage,
+	const bool	putOnSamePage,
 	const JRect&	partialPageRect
 	)
 {
-	const JBoolean hasXMarks = JConvertToBoolean(itsPlot->GetXMarkCount() > 0);
-	const JBoolean hasYMarks = JConvertToBoolean(itsPlot->GetYMarkCount() > 0);
+	const bool hasXMarks = itsPlot->GetXMarkCount() > 0;
+	const bool hasYMarks = itsPlot->GetYMarkCount() > 0;
 	if (!hasXMarks && !hasYMarks)
 		{
-		return kJTrue;
+		return true;
 		}
 
 	JCoordinate lineWidth;
@@ -222,9 +222,9 @@ JX2DCursorMarkTable::Print
 
 	// This fills the end of the first page
 
-	itsPrintingFlag = kJTrue;
+	itsPrintingFlag = true;
 
-	JBoolean keepGoing = kJTrue, result = kJTrue;
+	bool keepGoing = true, result = true;
 	if (putOnSamePage)
 		{
 		assert( !partialPageRect.IsEmpty() );
@@ -237,13 +237,13 @@ JX2DCursorMarkTable::Print
 		{
 		if (!p.NewPage())
 			{
-			result = kJFalse;
+			result = false;
 			break;
 			}
 		keepGoing = DrawRegions(p, p.GetPageRect(), width, &currentRow);
 		}
 
-	itsPrintingFlag = kJFalse;
+	itsPrintingFlag = false;
 
 	SetColBorderInfo(lineWidth, color);
 	SetRowBorderInfo(lineWidth, color);
@@ -253,11 +253,11 @@ JX2DCursorMarkTable::Print
 /******************************************************************************
  DrawRegions (private)
 
-	Returns kJFalse when the last row has been drawn.
+	Returns false when the last row has been drawn.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JX2DCursorMarkTable::DrawRegions
 	(
 	JPainter&			p,
@@ -283,10 +283,10 @@ JX2DCursorMarkTable::DrawRegions
 
 		if (*currentRow > GetRowCount())
 			{
-			return kJFalse;
+			return false;
 			}
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

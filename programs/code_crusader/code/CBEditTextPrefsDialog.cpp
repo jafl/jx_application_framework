@@ -67,7 +67,7 @@ CBEditTextPrefsDialog::CBEditTextPrefsDialog
 	CBTextDocument* doc
 	)
 	:
-	JXDialogDirector(CBGetApplication(), kJTrue)
+	JXDialogDirector(CBGetApplication(), true)
 {
 	itsDoc               = doc;
 	itsChooseColorDialog = nullptr;
@@ -378,7 +378,7 @@ CBEditTextPrefsDialog::BuildWindow
 
 	itsEmulatorMenu->SetMenuItems(kEmulatorMenuStr);
 	itsEmulatorMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsEmulatorMenu->SetToPopupChoice(kJTrue, itsEmulatorIndex);
+	itsEmulatorMenu->SetToPopupChoice(true, itsEmulatorIndex);
 	ListenTo(itsEmulatorMenu);
 
 	itsCreateBackupCB->SetState(doc->WillMakeBackupFile());
@@ -545,9 +545,8 @@ CBEditTextPrefsDialog::UpdateSettings()
 	JString fontName;
 	JSize fontSize;
 	itsFontMenu->GetFont(&fontName, &fontSize);
-	const JBoolean fontChanged = JI2B(
-		fontName != te->GetText()->GetDefaultFont().GetName() ||
-		fontSize != te->GetText()->GetDefaultFont().GetSize() );
+	const bool fontChanged = fontName != te->GetText()->GetDefaultFont().GetName() ||
+		fontSize != te->GetText()->GetDefaultFont().GetSize();
 
 	JFontManager* fontMgr = GetDisplay()->GetFontManager();
 
@@ -560,7 +559,7 @@ CBEditTextPrefsDialog::UpdateSettings()
 		}
 
 	JInteger tabCharCount;
-	JBoolean ok = itsTabCharCountInput->GetValue(&tabCharCount);
+	bool ok = itsTabCharCountInput->GetValue(&tabCharCount);
 	assert( ok );
 
 	JInteger crmLineWidth;
@@ -576,9 +575,9 @@ CBEditTextPrefsDialog::UpdateSettings()
 	assert( ok );
 
 	CBPrefsManager* prefsMgr = CBGetPrefsManager();
-	const JBoolean textColorChanged = JNegate(
-		itsColor[ CBPrefsManager::kTextColorIndex-1 ] ==
-		prefsMgr->GetColor(CBPrefsManager::kTextColorIndex));
+	const bool textColorChanged =
+		itsColor[ CBPrefsManager::kTextColorIndex-1 ] !=
+		prefsMgr->GetColor(CBPrefsManager::kTextColorIndex);
 
 	// set colors before RecalcStyles() so stylers update themselves
 
@@ -592,7 +591,7 @@ CBEditTextPrefsDialog::UpdateSettings()
 	const JSize docCount = docList->GetElementCount();
 
 	JProgressDisplay* pg = JNewPG();
-	pg->FixedLengthProcessBeginning(docCount, JGetString("UpdatingPrefs::CBEditTextPrefsDialog"), kJFalse, kJFalse);
+	pg->FixedLengthProcessBeginning(docCount, JGetString("UpdatingPrefs::CBEditTextPrefsDialog"), false, false);
 
 	for (JIndex i=1; i<=docCount; i++)
 		{
@@ -625,7 +624,7 @@ CBEditTextPrefsDialog::UpdateSettings()
 		if (fontChanged)
 			{
 			JXScrollbar *hScrollbar, *vScrollbar;
-			const JBoolean ok = te->GetScrollbars(&hScrollbar, &vScrollbar);
+			const bool ok = te->GetScrollbars(&hScrollbar, &vScrollbar);
 			assert( ok );
 			vScrollbar->PrepareForScaledMaxValue(vScrollScale);
 
@@ -686,7 +685,7 @@ CBEditTextPrefsDialog::UpdateSettings()
 		prefsMgr->SetEmulator(kMenuIndexToEmulator[ itsEmulatorIndex-1 ]);
 		}
 
-	CBMWriteSharedPrefs(kJTrue);
+	CBMWriteSharedPrefs(true);
 
 	pg->ProcessFinished();
 	jdelete pg;
@@ -695,11 +694,11 @@ CBEditTextPrefsDialog::UpdateSettings()
 /******************************************************************************
  HandleColorButton (private)
 
-	Returns kJTrue if the sender is one of our color buttons.
+	Returns true if the sender is one of our color buttons.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBEditTextPrefsDialog::HandleColorButton
 	(
 	JBroadcaster* sender
@@ -717,7 +716,7 @@ CBEditTextPrefsDialog::HandleColorButton
 
 	if (itsChooseColorIndex == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	assert( itsChooseColorDialog == nullptr );
@@ -729,7 +728,7 @@ CBEditTextPrefsDialog::HandleColorButton
 	ListenTo(itsChooseColorDialog);
 	itsChooseColorDialog->BeginDialog();
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

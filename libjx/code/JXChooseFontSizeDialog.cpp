@@ -26,7 +26,7 @@ JXChooseFontSizeDialog::JXChooseFontSizeDialog
 	const JSize			fontSize
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(fontSize);
 }
@@ -97,7 +97,7 @@ JXChooseFontSizeDialog::GetFontSize()
 	const
 {
 	JInteger size;
-	const JBoolean ok = itsFontSize->GetValue(&size);
+	const bool ok = itsFontSize->GetValue(&size);
 	assert( ok );
 	return size;
 }

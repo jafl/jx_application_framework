@@ -42,7 +42,7 @@ GLGetDelimiterDialog::GLGetDelimiterDialog
 	const JString& 		text
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue),
+	JXDialogDirector(supervisor, true),
 	JPrefObject(GLGetPrefsMgr(), kDelimiterPrefsID)
 {
 	BuildWindow();
@@ -174,7 +174,7 @@ GLGetDelimiterDialog::BuildWindow()
 	SetButtons(okButton, cancelButton);
 
 	itsFileText =
-		jnew JXStaticText(JString::empty, kJFalse, kJFalse, kJFalse,
+		jnew JXStaticText(JString::empty, false, false, false,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
 	assert(itsFileText != nullptr);
@@ -192,7 +192,7 @@ GLGetDelimiterDialog::BuildWindow()
 	ListenTo(itsSkipCB);
 	ListenTo(itsCommentCB);
 
-	itsCommentInput->GetText()->SetText(JString("#", kJFalse));
+	itsCommentInput->GetText()->SetText(JString("#", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -277,7 +277,7 @@ GLGetDelimiterDialog::GetCharacter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLGetDelimiterDialog::IsSkippingLines()
 {
 	return itsSkipCB->IsChecked();
@@ -304,7 +304,7 @@ GLGetDelimiterDialog::GetSkipLineCount()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLGetDelimiterDialog::HasComments()
 {
 	return itsCommentCB->IsChecked();
@@ -341,10 +341,10 @@ GLGetDelimiterDialog::ReadPrefs
 		JString str;
 		input >> str;
 		itsCharInput->GetText()->SetText(str);
-		JBoolean checked;
+		bool checked;
 		input >> JBoolFromString(checked);
 		itsSkipCB->SetState(checked);
-		JBoolean ok;
+		bool ok;
 		input >> JBoolFromString(ok);
 		if (ok)
 			{
@@ -384,7 +384,7 @@ GLGetDelimiterDialog::WritePrefs
 	output << itsCharInput->GetText() << ' ';
 	output << JBoolToString(itsSkipCB->IsChecked()) << ' ';
 	JInteger value;
-	JBoolean ok = itsSkipCountInput->GetValue(&value);
+	bool ok = itsSkipCountInput->GetValue(&value);
 	output << JBoolToString(ok) << ' ';
 	if (ok)
 		{

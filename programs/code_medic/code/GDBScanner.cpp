@@ -26,7 +26,7 @@ GDBScanner::GDBScanner()
 	:
 	GDBOutputFlexLexer(),
 	itsBytesRead(0),
-	itsResetFlag(kJTrue)
+	itsResetFlag(true)
 {
 }
 
@@ -47,7 +47,7 @@ GDBScanner::~GDBScanner()
 void
 GDBScanner::Reset()
 {
-	itsResetFlag = kJTrue;
+	itsResetFlag = true;
 }
 
 /******************************************************************************
@@ -173,7 +173,7 @@ GDBScanner::ExtractCommandId
 		s--;
 		}
 	const_cast<JUtf8Byte*>(yytext)[yyleng-3] = '\0';
-	const JBoolean ok = JString::ConvertToUInt(s, &itsData.number);
+	const bool ok = JString::ConvertToUInt(s, &itsData.number);
 	assert( ok );
 }
 

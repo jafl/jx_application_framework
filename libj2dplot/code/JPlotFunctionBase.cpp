@@ -54,11 +54,11 @@ JPlotFunctionBase::~JPlotFunctionBase()
 
  ********************************************************************************/
 
-JBoolean
+bool
 JPlotFunctionBase::IsFunction()
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -101,12 +101,12 @@ JPlotFunctionBase::GetXRange
 
  ********************************************************************************/
 
-JBoolean
+bool
 JPlotFunctionBase::GetYRange
 	(
 	const JFloat	xMin,
 	const JFloat	xMax,
-	const JBoolean	xLinear,
+	const bool	xLinear,
 	JFloat*			yMin,
 	JFloat*			yMax
 	)
@@ -192,7 +192,7 @@ JPlotFunctionBase::EvaluateFunction
 	(
 	const JFloat	min,
 	const JFloat	max,
-	const JBoolean	linear,
+	const bool	linear,
 	const JSize		stepCount,
 	JArray<Point>*	list
 	)

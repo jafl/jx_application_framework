@@ -38,8 +38,8 @@
 #include "jAssert.h"
 
 JSize JString::theDefaultBlockSize = 1024;
-const JString JString::empty("", kJFalse);
-const JString JString::newline("\n", kJFalse);
+const JString JString::empty("", JString::kNoCopy);
+const JString JString::newline("\n", JString::kNoCopy);
 
 static thread_local JString* theCurrentlyConstructingObject;
 
@@ -55,10 +55,10 @@ static void	double2str(double doubleVal, int afterDec, int sigDigitCount,
 
 JString::JString
 	(
-	const JBoolean normalize
+	const bool normalize
 	)
 	:
-	itsOwnerFlag(kJTrue),
+	itsOwnerFlag(true),
 	itsNormalizeFlag(normalize),
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -76,11 +76,11 @@ JString::JString
 
 JString::JString
 	(
-	const JString& source,
-	const JBoolean copy
+	const JString&	source,
+	const Copy		copy
 	)
 	:
-	itsOwnerFlag(kJTrue),
+	itsOwnerFlag(true),
 	itsNormalizeFlag(source.itsNormalizeFlag),
 	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
@@ -96,7 +96,7 @@ JString::JString
 		}
 	else
 		{
-		itsOwnerFlag      = kJFalse;
+		itsOwnerFlag      = false;
 		itsBytes          = const_cast<JUtf8Byte*>(source.GetRawBytes());	// we promise not to modify it
 		itsByteCount      = source.itsByteCount;
 		itsCharacterCount = source.itsCharacterCount;
@@ -109,11 +109,11 @@ JString::JString
 	(
 	const JString&			str,
 	const JCharacterRange&	charRange,
-	const JBoolean			copy
+	const Copy				copy
 	)
 	:
-	itsOwnerFlag(kJTrue),
-	itsNormalizeFlag(kJTrue),
+	itsOwnerFlag(true),
+	itsNormalizeFlag(true),
 	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -129,7 +129,7 @@ JString::JString
 		}
 	else
 		{
-		itsOwnerFlag      = kJFalse;
+		itsOwnerFlag      = false;
 		itsBytes          = const_cast<JUtf8Byte*>(str.GetRawBytes() + byteRange.first-1);	// we promise not to modify it
 		itsByteCount      = byteRange.GetCount();
 		itsCharacterCount = charRange.GetCount();
@@ -141,7 +141,7 @@ JString::JString
 JString::JString
 	(
 	const JUtf8Byte*	str,
-	const JBoolean		copy
+	const Copy			copy
 	)
 	:
 	JString(str, 0, copy)
@@ -152,11 +152,11 @@ JString::JString
 	(
 	const JUtf8Byte*	str,
 	const JSize			origByteCount,
-	const JBoolean		copy
+	const Copy			copy
 	)
 	:
-	itsOwnerFlag(kJTrue),
-	itsNormalizeFlag(kJTrue),
+	itsOwnerFlag(true),
+	itsNormalizeFlag(true),
 	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -177,7 +177,7 @@ JString::JString
 		}
 	else
 		{
-		itsOwnerFlag      = kJFalse;
+		itsOwnerFlag      = false;
 		itsBytes          = const_cast<JUtf8Byte*>(str);	// we promise not to modify it
 		itsByteCount      = byteCount;
 		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
@@ -190,11 +190,11 @@ JString::JString
 	(
 	const JUtf8Byte*		str,
 	const JUtf8ByteRange&	range,
-	const JBoolean			copy
+	const Copy				copy
 	)
 	:
-	itsOwnerFlag(kJTrue),
-	itsNormalizeFlag(kJTrue),
+	itsOwnerFlag(true),
+	itsNormalizeFlag(true),
 	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -209,7 +209,7 @@ JString::JString
 		}
 	else
 		{
-		itsOwnerFlag      = kJFalse;
+		itsOwnerFlag      = false;
 		itsBytes          = const_cast<JUtf8Byte*>(str) + range.first-1;	// we promise not to modify it
 		itsByteCount      = range.GetCount();
 		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
@@ -233,8 +233,8 @@ JString::JString
 	const JUtf8ByteRange&	range
 	)
 	:
-	itsOwnerFlag(kJTrue),
-	itsNormalizeFlag(kJTrue),
+	itsOwnerFlag(true),
+	itsNormalizeFlag(true),
 	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -268,11 +268,11 @@ JString::JString
 	(
 	const JUInt64	number,
 	const Base		base,
-	const JBoolean	pad
+	const bool		pad
 	)
 	:
-	itsOwnerFlag(kJTrue),
-	itsNormalizeFlag(kJTrue),
+	itsOwnerFlag(true),
+	itsNormalizeFlag(true),
 	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -340,8 +340,8 @@ JString::JString
 	const JInteger			sigDigitCount
 	)
 	:
-	itsOwnerFlag(kJTrue),
-	itsNormalizeFlag(kJTrue),
+	itsOwnerFlag(true),
+	itsNormalizeFlag(true),
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(theDefaultBlockSize),
@@ -400,7 +400,7 @@ JString::operator new
 	)
 	noexcept
 {
-	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, kJFalse);
+	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, false);
 	theCurrentlyConstructingObject = static_cast<JString*>(memory);
 	return memory;
 }
@@ -414,7 +414,7 @@ JString::operator new
 	)
 	noexcept
 {
-	void* memory = JMemoryManager::New(sz, file, line, kJFalse);
+	void* memory = JMemoryManager::New(sz, file, line, false);
 	theCurrentlyConstructingObject = static_cast<JString*>(memory);
 	return memory;
 }
@@ -423,11 +423,11 @@ void*
 JString::operator new
 	(
 	std::size_t		sz,
-	const JBoolean	forceShallow
+	const bool	forceShallow
 	)
 	noexcept
 {
-	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, kJFalse);
+	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, false);
 	theCurrentlyConstructingObject = forceShallow ? NULL : static_cast<JString*>(memory);
 	return memory;
 }
@@ -503,7 +503,7 @@ JString::CopyToPrivateBuffer
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
-	const JBoolean		invalidateIterator
+	const bool		invalidateIterator
 	)
 {
 	assert( itsBytes == nullptr || !(itsBytes <= str && str < itsBytes + itsByteCount) );
@@ -522,7 +522,7 @@ JString::CopyToPrivateBuffer
 			jdelete [] itsBytes;
 			}
 		itsBytes     = newString;
-		itsOwnerFlag = kJTrue;
+		itsOwnerFlag = true;
 		}
 
 	// copy normalized characters to the new string
@@ -589,7 +589,7 @@ JString::GetBytes()
 
 		const JUtf8Byte* bytes = itsBytes;
 		self->itsBytes = nullptr;	// don't confuse CopyToPrivateBuffer()
-		self->CopyToPrivateBuffer(bytes, itsByteCount, kJFalse);
+		self->CopyToPrivateBuffer(bytes, itsByteCount, false);
 		}
 	return itsBytes;
 }
@@ -762,7 +762,7 @@ JString::ReplaceBytes
 			jdelete [] itsBytes;
 			}
 		itsBytes     = newString;
-		itsOwnerFlag = kJTrue;
+		itsOwnerFlag = true;
 		}
 
 	// Otherwise, shift characters to make space.
@@ -829,7 +829,7 @@ JString::Clear()
 
 		itsBytes = jnew JUtf8Byte [ itsAllocCount + 1 ];
 		assert( itsBytes != nullptr );
-		itsOwnerFlag = kJTrue;
+		itsOwnerFlag = true;
 		}
 
 	// clear the string
@@ -923,7 +923,7 @@ JString::TrimWhitespace()
 			jdelete [] itsBytes;
 			}
 		itsBytes     = newString;
-		itsOwnerFlag = kJTrue;
+		itsOwnerFlag = true;
 		}
 
 	// Otherwise, just shift the characters.
@@ -955,7 +955,7 @@ JString::TrimWhitespace()
 void
 JString::ToLower()
 {
-	FoldCase(kJFalse);
+	FoldCase(false);
 }
 
 /******************************************************************************
@@ -968,7 +968,7 @@ JString::ToLower()
 void
 JString::ToUpper()
 {
-	FoldCase(kJTrue);
+	FoldCase(true);
 }
 
 /******************************************************************************
@@ -979,7 +979,7 @@ JString::ToUpper()
 void
 JString::FoldCase
 	(
-	const JBoolean upper
+	const bool upper
 	)
 {
 	if (itsByteCount == 0)
@@ -1035,7 +1035,7 @@ JString::FoldCase
 		jdelete [] itsBytes;
 		}
 	itsBytes     = newString;
-	itsOwnerFlag = kJTrue;
+	itsOwnerFlag = true;
 
 	if (itsIterator != nullptr)
 		{
@@ -1050,17 +1050,17 @@ JString::FoldCase
 	of the given sequence in our string, starting at *byteIndex.
 
 	In:  *byteIndex is first location to consider
-	Out: If function returns kJTrue, *byteIndex is location of next occurrence.
+	Out: If function returns true, *byteIndex is location of next occurrence.
 		 Otherwise, *byteIndex is beyond end of string.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::SearchForward
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
-	const JBoolean		caseSensitive,
+	const Case			caseSensitive,
 	JIndex*				byteIndex
 	)
 	const
@@ -1068,11 +1068,11 @@ JString::SearchForward
 	if (IsEmpty())
 		{
 		*byteIndex = 1;
-		return kJFalse;
+		return false;
 		}
 	else if (byteCount == 0 || *byteIndex > itsByteCount)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	assert( *byteIndex != 0 );
@@ -1085,7 +1085,7 @@ JString::SearchForward
 	UCollator* coll;
 	if (!CreateCollator(&coll, caseSensitive))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	for (JIndex i=*byteIndex; i<=itsByteCount; )
@@ -1095,7 +1095,7 @@ JString::SearchForward
 			{
 			*byteIndex = i;
 			ucol_close(coll);
-			return kJTrue;
+			return true;
 			}
 
 		// accept invalid byte sequences as single characters
@@ -1110,7 +1110,7 @@ JString::SearchForward
 	// if we fall through, there was no match
 
 	*byteIndex = itsByteCount+1;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1120,17 +1120,17 @@ JString::SearchForward
 	occurrence of the given sequence in our string, starting at *byteIndex.
 
 	In:  *byteIndex is first location to consider
-	Out: If function returns kJTrue, *byteIndex is location of prev occurrence.
+	Out: If function returns true, *byteIndex is location of prev occurrence.
 		 Otherwise, *byteIndex is zero.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::SearchBackward
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
-	const JBoolean		caseSensitive,
+	const Case			caseSensitive,
 	JIndex*				byteIndex
 	)
 	const
@@ -1138,7 +1138,7 @@ JString::SearchBackward
 	if (IsEmpty() || *byteIndex == 0 || byteCount == 0)
 		{
 		*byteIndex = 0;
-		return kJFalse;
+		return false;
 		}
 
 	assert( *byteIndex <= itsByteCount );
@@ -1151,7 +1151,7 @@ JString::SearchBackward
 	UCollator* coll;
 	if (!CreateCollator(&coll, caseSensitive))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	for (JIndex i=*byteIndex; i>=1; )
@@ -1161,7 +1161,7 @@ JString::SearchBackward
 			{
 			*byteIndex = i;
 			ucol_close(coll);
-			return kJTrue;
+			return true;
 			}
 
 		// accept invalid byte sequences as single characters
@@ -1188,7 +1188,7 @@ JString::SearchBackward
 	// if we fall through, there was no match
 
 	*byteIndex = 0;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1196,18 +1196,18 @@ JString::SearchBackward
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::BeginsWith
 	(
 	const JUtf8Byte*		str,
 	const JUtf8ByteRange&	range,
-	const JBoolean			caseSensitive
+	const Case				caseSensitive
 	)
 	const
 {
 	if (range.IsEmpty())
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -1221,18 +1221,18 @@ JString::BeginsWith
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::Contains
 	(
 	const JUtf8Byte*		str,
 	const JUtf8ByteRange&	range,
-	const JBoolean			caseSensitive
+	const Case				caseSensitive
 	)
 	const
 {
 	if (range.IsEmpty())
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -1246,36 +1246,36 @@ JString::Contains
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::EndsWith
 	(
 	const JUtf8Byte*		str,
 	const JUtf8ByteRange&	range,
-	const JBoolean			caseSensitive
+	const Case				caseSensitive
 	)
 	const
 {
 	if (range.IsEmpty())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	const JSize charCount = CountCharacters(str, range);
 	if (itsCharacterCount > charCount)
 		{
 		JSize byteCount;
-		const JBoolean ok = CountBytesBackward(itsBytes, itsByteCount, charCount, &byteCount);
+		const bool ok = CountBytesBackward(itsBytes, itsByteCount, charCount, &byteCount);
 		assert( ok );
 
-		return JI2B(Compare(itsBytes + itsByteCount - byteCount, byteCount,
+		return Compare(itsBytes + itsByteCount - byteCount, byteCount,
 							str + range.first-1, range.GetCount(),
-							caseSensitive) == 0);
+							caseSensitive) == 0;
 		}
 	else
 		{
-		return JI2B(Compare(itsBytes, itsByteCount,
+		return Compare(itsBytes, itsByteCount,
 							str + range.first-1, range.GetCount(),
-							caseSensitive) == 0);
+							caseSensitive) == 0;
 		}
 }
 
@@ -1295,13 +1295,13 @@ JString::EndsWith
 /******************************************************************************
  ConvertToFloat (static private)
 
-	Convert string to a floating point value.  Returns kJTrue if successful.
+	Convert string to a floating point value.  Returns true if successful.
 
 	This function accepts hex values like 0x2A.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::ConvertToFloat
 	(
 	const JUtf8Byte*	str,
@@ -1312,7 +1312,7 @@ JString::ConvertToFloat
 	if (IsHexValue(str, byteCount))
 		{
 		JUInt v;
-		const JBoolean ok = ConvertToUInt(str, byteCount, &v);
+		const bool ok = ConvertToUInt(str, byteCount, &v);
 		*value = v;
 		return ok;
 		}
@@ -1322,26 +1322,26 @@ JString::ConvertToFloat
 	*value = strtod(str, &endPtr);
 	if (jerrno_is_clear() && CompleteConversion(str, byteCount, endPtr))
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*value = 0.0;
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  ConvertToInteger (static private)
 
-	Convert string to a signed integer.  Returns kJTrue if successful.
+	Convert string to a signed integer.  Returns true if successful.
 
 	base must be between 2 and 36 inclusive.
 	If the string begins with 0x or 0X, base is forced to 16.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::ConvertToInteger
 	(
 	const JUtf8Byte*	str,
@@ -1361,26 +1361,26 @@ JString::ConvertToInteger
 	*value = strtol(str, &endPtr, base);
 	if (jerrno_is_clear() && CompleteConversion(str, byteCount, endPtr))
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*value = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  ConvertToUInt (static private)
 
-	Convert string to an unsigned integer.  Returns kJTrue if successful.
+	Convert string to an unsigned integer.  Returns true if successful.
 
 	base must be between 2 and 36 inclusive.
 	If the string begins with 0x or 0X, base is forced to 16.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::ConvertToUInt
 	(
 	const JUtf8Byte*	str,
@@ -1406,7 +1406,7 @@ JString::ConvertToUInt
 		if (i < byteCount && str[i] == '-')
 			{
 			*value = 0;
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -1415,23 +1415,23 @@ JString::ConvertToUInt
 	*value = strtoul(str, &endPtr, base);
 	if (jerrno_is_clear() && CompleteConversion(str, byteCount, endPtr))
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*value = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  IsHexValue (static private)
 
-	Returns kJTrue if string begins with whitespace+"0x".
+	Returns true if string begins with whitespace+"0x".
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::IsHexValue
 	(
 	const JUtf8Byte*	str,
@@ -1444,19 +1444,19 @@ JString::IsHexValue
 		i++;
 		}
 
-	return JI2B(i < byteCount-2 && str[i] == '0' &&
-				(str[i+1] == 'x' || str[i+1] == 'X'));
+	return i < byteCount-2 && str[i] == '0' &&
+				(str[i+1] == 'x' || str[i+1] == 'X');
 }
 
 /******************************************************************************
  CompleteConversion (static private)
 
-	Returns kJTrue if convEndPtr is beyond the end of the string or the
+	Returns true if convEndPtr is beyond the end of the string or the
 	remainder is only whitespace.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::CompleteConversion
 	(
 	const JUtf8Byte*	startPtr,
@@ -1466,7 +1466,7 @@ JString::CompleteConversion
 {
 	if (convEndPtr == startPtr)		// avoid behavior guaranteed by strto*()
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JUtf8Byte* endPtr = startPtr + byteCount;
@@ -1474,11 +1474,11 @@ JString::CompleteConversion
 		{
 		if (!isspace(*convEndPtr))
 			{
-			return kJFalse;
+			return false;
 			}
 		convEndPtr++;
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1501,7 +1501,7 @@ JString::EncodeBase64()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::DecodeBase64
 	(
 	JString* str
@@ -1513,12 +1513,12 @@ JString::DecodeBase64
 	if (JDecodeBase64(input, output))
 		{
 		str->Set(output.str());
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		str->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1555,7 +1555,7 @@ JString::Read
 			jdelete [] itsBytes;
 			}
 		itsBytes     = newString;
-		itsOwnerFlag = kJTrue;
+		itsOwnerFlag = true;
 		}
 
 	JUtf8Byte* p = itsBytes;
@@ -1714,7 +1714,7 @@ JString::PrintHex
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::IsValid
 	(
 	const JUtf8Byte*		str,
@@ -1727,12 +1727,12 @@ JString::IsValid
 		{
 		if (!JUtf8Character::GetCharacterByteCount(str + i, &byteCount))
 			{
-			return kJFalse;
+			return false;
 			}
 		i += byteCount;
 		}
 
-	return JI2B(i == range.last);
+	return i == range.last;
 }
 
 /******************************************************************************
@@ -1806,12 +1806,12 @@ JString::CountBytes
 /******************************************************************************
  CountBytesBackward (static)
 
-	Works backwards from the given offset.  Returns kJFalse if it prematurely
+	Works backwards from the given offset.  Returns false if it prematurely
 	hits the start of the string.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::CountBytesBackward
 	(
 	const JUtf8Byte*	str,
@@ -1828,7 +1828,7 @@ JString::CountBytesBackward
 
 		if (*byteCount >= byteOffset)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		// accept invalid byte sequences as single characters
@@ -1836,7 +1836,7 @@ JString::CountBytesBackward
 		*byteCount += count;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1880,7 +1880,7 @@ JString::Compare
 	const JSize			length1,
 	const JUtf8Byte*	s2,
 	const JSize			length2,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 {
 	UCollator* coll;
@@ -1899,11 +1899,11 @@ JString::Compare
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::CreateCollator
 	(
 	UCollator**		coll,
-	const JBoolean	caseSensitive
+	const Case		caseSensitive
 	)
 {
 	UErrorCode err = U_ZERO_ERROR;
@@ -1911,7 +1911,7 @@ JString::CreateCollator
 	*coll = ucol_open(nullptr, &err);
 	if (*coll == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (caseSensitive)
@@ -1924,7 +1924,7 @@ JString::CreateCollator
 		ucol_setStrength(*coll, UCOL_PRIMARY);
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1943,7 +1943,7 @@ JString::Compare
 	const JSize			length1,
 	const JUtf8Byte*	s2,
 	const JSize			length2,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 {
 	UErrorCode err  = U_ZERO_ERROR;
@@ -1999,7 +1999,7 @@ JString::CompareMaxNBytes
 	const JUtf8Byte*	s1,
 	const JUtf8Byte*	s2,
 	const JSize			N,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 {
 	JSize M = N;
@@ -2023,7 +2023,7 @@ JString::CompareMaxNBytes
 
 	CalcMatchLength("abc", "abd")          -> 2
 	CalcMatchLength("abc", "xyz")          -> 0
-	CalcMatchLength("abc", "aBd", kJFalse) -> 2
+	CalcMatchLength("abc", "aBd", false) -> 2
 
  *****************************************************************************/
 
@@ -2032,7 +2032,7 @@ JString::CalcCharacterMatchLength
 	(
 	const JString&	s1,
 	const JString&	s2,
-	const JBoolean	caseSensitive
+	const Case		caseSensitive
 	)
 {
 	UErrorCode err  = U_ZERO_ERROR;
@@ -2182,14 +2182,14 @@ JString::CopyNormalizedBytes
 
  ******************************************************************************/
 
-JBoolean
+bool
 JString::MatchCase
 	(
 	const JString&			source,
 	const JCharacterRange&	sourceRange
 	)
 {
-	const JBoolean changed =
+	const bool changed =
 		MatchCase(source.itsBytes, source.CharacterToUtf8ByteRange(sourceRange),
 				  JUtf8ByteRange(1, itsByteCount));
 
@@ -2200,7 +2200,7 @@ JString::MatchCase
 	return changed;
 }
 
-JBoolean
+bool
 JString::MatchCase
 	(
 	const JString&			source,
@@ -2208,7 +2208,7 @@ JString::MatchCase
 	const JCharacterRange&	destRange
 	)
 {
-	const JBoolean changed =
+	const bool changed =
 		MatchCase(source.itsBytes, source.CharacterToUtf8ByteRange(sourceRange),
 				  CharacterToUtf8ByteRange(destRange));
 
@@ -2219,14 +2219,14 @@ JString::MatchCase
 	return changed;
 }
 
-JBoolean
+bool
 JString::MatchCase
 	(
 	const JUtf8Byte*		source,
 	const JUtf8ByteRange&	sourceRange
 	)
 {
-	const JBoolean changed =
+	const bool changed =
 		MatchCase(source, sourceRange, JUtf8ByteRange(1, itsByteCount));
 
 	if (changed && itsIterator != nullptr)
@@ -2236,7 +2236,7 @@ JString::MatchCase
 	return changed;
 }
 
-JBoolean
+bool
 JString::MatchCase
 	(
 	const JUtf8Byte*		source,
@@ -2244,7 +2244,7 @@ JString::MatchCase
 	const JCharacterRange&	destRange
 	)
 {
-	const JBoolean changed =
+	const bool changed =
 		MatchCase(source, sourceRange, CharacterToUtf8ByteRange(destRange));
 
 	if (changed && itsIterator != nullptr)
@@ -2254,14 +2254,14 @@ JString::MatchCase
 	return changed;
 }
 
-JBoolean
+bool
 JString::MatchCase
 	(
 	const std::string&		source,
 	const JUtf8ByteRange&	sourceRange
 	)
 {
-	const JBoolean changed =
+	const bool changed =
 		MatchCase(source.data(), sourceRange, JUtf8ByteRange(1, itsByteCount));
 
 	if (changed && itsIterator != nullptr)
@@ -2271,7 +2271,7 @@ JString::MatchCase
 	return changed;
 }
 
-JBoolean
+bool
 JString::MatchCase
 	(
 	const std::string&		source,
@@ -2279,7 +2279,7 @@ JString::MatchCase
 	const JCharacterRange&	destRange
 	)
 {
-	const JBoolean changed =
+	const bool changed =
 		MatchCase(source.data(), sourceRange, CharacterToUtf8ByteRange(destRange));
 
 	if (changed && itsIterator != nullptr)
@@ -2293,7 +2293,7 @@ JString::MatchCase
  MatchCase (protected)
 
 	Adjusts the case of destRange to match the case of sourceRange in
-	source.  Returns kJTrue if any changes were made.
+	source.  Returns true if any changes were made.
 
 	If sourceRange and destRange have the same number of characters, we
 	match the case of each character individually.
@@ -2309,7 +2309,7 @@ JString::MatchCase
 
  *****************************************************************************/
 
-JBoolean
+bool
 JString::MatchCase
 	(
 	const JUtf8Byte*		source,
@@ -2320,12 +2320,12 @@ JString::MatchCase
 	if (JString::IsEmpty(source) || sourceRange.IsEmpty() ||
 		IsEmpty()                || destRange.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	assert( RangeValid(destRange) );
 
-	JBoolean changed      = kJFalse;
+	bool changed      = false;
 	const JSize sourceLen = CountCharacters(source, sourceRange);
 	const JSize destLen   = CountCharacters(itsBytes, destRange);
 
@@ -2334,18 +2334,18 @@ JString::MatchCase
 	JUtf8Character c;
 	if (destLen > 1 && sourceLen != destLen)
 		{
-		JBoolean hasUpper = kJFalse;
-		JBoolean hasLower = kJFalse;
+		bool hasUpper = false;
+		bool hasLower = false;
 		for (JIndex i = sourceRange.first; i <= sourceRange.last; )
 			{
 			c.Set(source + i-1);
 			if (c.IsLower())
 				{
-				hasLower = kJTrue;
+				hasLower = true;
 				}
 			else if (c.IsUpper())
 				{
-				hasUpper = kJTrue;
+				hasUpper = true;
 				}
 
 			if (hasLower && hasUpper)
@@ -2379,7 +2379,7 @@ JString::MatchCase
 					}
 				i += c1.GetByteCount();
 				}
-			changed = kJTrue;
+			changed = true;
 			}
 		}
 
@@ -2399,13 +2399,13 @@ JString::MatchCase
 			{
 			c3 = c2.ToLower();
 			ReplaceBytes(JUtf8ByteRange(k, k + c2.GetByteCount() - 1), c3.GetBytes(), c3.GetByteCount());
-			changed = kJTrue;
+			changed = true;
 			}
 		else if (c1.IsUpper() && c2.IsLower())
 			{
 			c3 = c2.ToUpper();
 			ReplaceBytes(JUtf8ByteRange(k, k + c2.GetByteCount() - 1), c3.GetBytes(), c3.GetByteCount());
-			changed = kJTrue;
+			changed = true;
 			}
 
 		j += c1.GetByteCount();
@@ -2582,10 +2582,10 @@ int i,j;
 		sigDigitCount = JString::kDefSigDigitCount;
 		}
 
-	JBoolean neg=kJFalse;
+	bool neg=false;
 	if (doubleVal<0.0)					// can't take log of x<0
 		{
-		neg       = kJTrue;
+		neg       = true;
 		doubleVal = -doubleVal;
 		}
 
@@ -2596,12 +2596,12 @@ int i,j;
 	// compute digit values
 
 	int      D[ JString::kDefSigDigitCount+1 ];
-	JBoolean A[ JString::kDefSigDigitCount+1 ];
+	bool A[ JString::kDefSigDigitCount+1 ];
 
 	double chewedVal = doubleVal / pow(10.0, exp-1);
 	for (i=0; i<=sigDigitCount; i++)
 		{
-		A[i]      = kJTrue;
+		A[i]      = true;
 		D[i]      = JLFloor(chewedVal) - 10*JLFloor(chewedVal/10.0);
 		chewedVal = (chewedVal - D[i]) * 10.0 ;
 		}
@@ -2661,11 +2661,11 @@ int i,j;
 
 	if (afterDec != -1)
 		{
-		JBoolean truncate = kJFalse;
+		bool truncate = false;
 		if (afterDec == -2)
 			{
 			afterDec = 0;
-			truncate = kJTrue;
+			truncate = true;
 			}
 
 		// adjust for spec'd # digits after dp
@@ -2701,7 +2701,7 @@ int i,j;
 		{
 		if (D[i]==0)
 			{
-			A[i]=kJFalse;
+			A[i]=false;
 			}
 		else
 			{
@@ -2732,7 +2732,7 @@ int i,j;
 	else if (returnStr[0] == '0' &&
 			 returnStr[1] == '\0')		// "-0" is silly
 		{
-		neg=kJFalse;
+		neg=false;
 		}
 
 	// prepend leading zero's and decimal point

@@ -14,7 +14,7 @@ class SVNApp : public JXApplication
 {
 public:
 
-	SVNApp(int* argc, char* argv[], JBoolean* displayAbout, JString* prevVersStr);
+	SVNApp(int* argc, char* argv[], bool* displayAbout, JString* prevVersStr);
 
 	virtual	~SVNApp();
 
@@ -27,7 +27,7 @@ public:
 
 protected:
 
-	virtual JBoolean	Close();
+	virtual bool	Close();
 	virtual void		CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
 private:

@@ -21,12 +21,12 @@ class JXFSRunFileDialog : public JXDialogDirector
 {
 public:
 
-	JXFSRunFileDialog(const JString& fileName, const JBoolean allowSaveCmd);
+	JXFSRunFileDialog(const JString& fileName, const bool allowSaveCmd);
 
 	virtual ~JXFSRunFileDialog();
 
 	const JString&	GetCommand(JFSBinding::CommandType* type,
-							   JBoolean* singleFile, JBoolean* saveBinding) const;
+							   bool* singleFile, bool* saveBinding) const;
 
 	static void	HandleHistoryMenu(const Message& message, JXFSCommandHistoryMenu* menu,
 								  JXInputField* cmdInput, JXTextCheckbox* shellCB,
@@ -36,7 +36,7 @@ public:
 protected:
 
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 
 private:
 
@@ -56,10 +56,10 @@ private:
 
 private:
 
-	void		BuildWindow(const JString& fileName, const JBoolean allowSaveCmd);
+	void		BuildWindow(const JString& fileName, const bool allowSaveCmd);
 	void		UpdateDisplay();
 
-	JBoolean	ReadSetup();
+	bool	ReadSetup();
 	void		WriteSetup();
 
 	void		ReadSetup(std::istream& input);

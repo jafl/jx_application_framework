@@ -65,7 +65,7 @@ THXExprEditor::HandleKeyPress
 	if (c == '=')
 		{
 		JIndex selection;
-		const JBoolean hadSelection = GetSelection(&selection);
+		const bool hadSelection = GetSelection(&selection);
 		if (hadSelection)
 			{
 			ClearSelection();

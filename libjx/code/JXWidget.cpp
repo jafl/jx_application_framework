@@ -27,7 +27,7 @@
 	for the events that they support.
 
 	If the contents of the object must be validated before focus can shift
-	to something else, override OKToUnfocus().  If this returns kJFalse,
+	to something else, override OKToUnfocus().  If this returns false,
 	you will retain the focus.
 
 	HandleKeyPress is public because key press events have to propagate from
@@ -82,16 +82,16 @@ JXWidget::JXWidget
 	itsFocusColor  = JColorManager::GetDefaultFocusColor();
 	itsDragPainter = nullptr;
 
-	itsAllowUnboundedScrollingFlag = kJFalse;
+	itsAllowUnboundedScrollingFlag = false;
 
-	itsWantInputFlag  = kJFalse;
-	itsWantTabFlag    = kJFalse;
-	itsWantModTabFlag = kJFalse;
+	itsWantInputFlag  = false;
+	itsWantTabFlag    = false;
+	itsWantModTabFlag = false;
 
 	const JPoint pt = enclosure->LocalToGlobal(x,y);
 	itsFrameG       = JRect(pt.y, pt.x, pt.y+h, pt.x+w);
 
-	itsApertureBoundedFlag = kJTrue;
+	itsApertureBoundedFlag = true;
 	itsBoundsG             = GetApertureGlobal();
 
 	Refresh();
@@ -221,7 +221,7 @@ JXWidget::DrawBackground
 	)
 {
 	p.SetPenColor(GetCurrBackColor());
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.JPainter::Rect(frame);
 }
 
@@ -245,7 +245,7 @@ JXWidget::Deactivate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidget::AcceptDrag
 	(
 	const JPoint&			pt,
@@ -253,9 +253,8 @@ JXWidget::AcceptDrag
 	const JXKeyModifiers&	modifiers
 	)
 {
-	return JConvertToBoolean(
-			JXContainer::AcceptDrag(pt, button, modifiers) &&
-			(!itsWantInputFlag || GetWindow()->SwitchFocusToWidget(this)));
+	return JXContainer::AcceptDrag(pt, button, modifiers) &&
+			(!itsWantInputFlag || GetWindow()->SwitchFocusToWidget(this));
 }
 
 /******************************************************************************
@@ -274,9 +273,9 @@ JXWidget::AcceptDrag
 void
 JXWidget::WantInput
 	(
-	const JBoolean wantInput,
-	const JBoolean wantTab,
-	const JBoolean wantModifiedTab
+	const bool wantInput,
+	const bool wantTab,
+	const bool wantModifiedTab
 	)
 {
 	itsWantInputFlag  = wantInput;
@@ -296,11 +295,11 @@ JXWidget::WantInput
 /******************************************************************************
  Focus
 
-	Returns kJTrue if successful.
+	Returns true if successful.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidget::Focus()
 {
 	return GetWindow()->SwitchFocusToWidget(this);
@@ -325,11 +324,11 @@ JXWidget::Focus
 /******************************************************************************
  Unfocus
 
-	Returns kJTrue if we had focus and were able to lose it.
+	Returns true if we had focus and were able to lose it.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidget::Unfocus()
 {
 	if (HasFocus())
@@ -338,7 +337,7 @@ JXWidget::Unfocus()
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -347,14 +346,13 @@ JXWidget::Unfocus()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidget::HasFocus()
 	const
 {
 	JXWidget* focusWidget;
-	return JConvertToBoolean(
-			GetWindow()->GetFocusWidget(&focusWidget) &&
-			focusWidget == this);
+	return GetWindow()->GetFocusWidget(&focusWidget) &&
+			focusWidget == this;
 }
 
 /******************************************************************************
@@ -382,10 +380,10 @@ JXWidget::NotifyFocusLost()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidget::OKToUnfocus()
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -609,8 +607,8 @@ JXWidget::FTCAdjustSize
 void
 JXWidget::CenterWithinEnclosure
 	(
-	const JBoolean adjustHoriz,
-	const JBoolean adjustVert
+	const bool adjustHoriz,
+	const bool adjustVert
 	)
 {
 	const JRect frame      = GetFrame();
@@ -638,8 +636,8 @@ JXWidget::CenterWithinEnclosure
 void
 JXWidget::FitToEnclosure
 	(
-	const JBoolean fitHoriz,
-	const JBoolean fitVert
+	const bool fitHoriz,
+	const bool fitVert
 	)
 {
 	const JRect frame      = GetFrame();
@@ -827,7 +825,7 @@ JXWidget::ApertureResized
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidget::KeepApertureInsideBounds
 	(
 	JCoordinate* dx,
@@ -866,7 +864,7 @@ JXWidget::KeepApertureInsideBounds
 			}
 		}
 
-	return JConvertToBoolean(*dx != 0 || *dy != 0);
+	return *dx != 0 || *dy != 0;
 }
 
 /******************************************************************************
@@ -917,7 +915,7 @@ JXWidget::AdjustBounds
 void
 JXWidget::ShouldAllowUnboundedScrolling
 	(
-	const JBoolean allow
+	const bool allow
 	)
 {
 	itsAllowUnboundedScrollingFlag = allow;
@@ -942,11 +940,11 @@ JXWidget::ShouldAllowUnboundedScrolling
 	Unlike on the Mac, we can't optimize scrolling via XCopyArea() because
 	PointToFocus means that part of the window could be obscured.
 
-	Returns kJTrue if Bounds had to be scrolled.
+	Returns true if Bounds had to be scrolled.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidget::Scroll
 	(
 	const JCoordinate userdx,
@@ -1016,11 +1014,11 @@ JXWidget::Scroll
 				Refresh();
 //				}
 
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1029,11 +1027,11 @@ JXWidget::Scroll
 	Scroll to place the given point (in local coords) at the top left
 	corner of the aperture.
 
-	Returns kJTrue if Bounds had to be scrolled.
+	Returns true if Bounds had to be scrolled.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidget::ScrollTo
 	(
 	const JCoordinate x,
@@ -1050,7 +1048,7 @@ JXWidget::ScrollTo
 	Scroll the minimum distance to make the given rectangle visible in Aperture.
 	If rectangle is larger than Aperture, top left corner has priority.
 
-	Returns kJTrue if Bounds had to be scrolled.
+	Returns true if Bounds had to be scrolled.
 
 	To scroll a rectangle that is below the aperture to the top of the
 	aperture, extend the rectangle's bottom to the Bounds' bottom and scroll
@@ -1058,7 +1056,7 @@ JXWidget::ScrollTo
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidget::ScrollToRect
 	(
 	const JRect& r
@@ -1067,7 +1065,7 @@ JXWidget::ScrollToRect
 	JRect rG = JXContainer::LocalToGlobal(r);
 	if (!JIntersection(rG, itsBoundsG, &rG))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JRect ap = GetApertureGlobal();
@@ -1113,21 +1111,21 @@ JXWidget::ScrollToRect
 	it symmetrically to fill the aperture.  Otherwise, we leave it alone.
 	Then we can use ScrollToRect().
 
-	Returns kJTrue if Bounds had to be scrolled.
+	Returns true if Bounds had to be scrolled.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidget::ScrollToRectCentered
 	(
 	const JRect&	origRect,
-	const JBoolean	forceScroll
+	const bool	forceScroll
 	)
 {
 	const JRect ap = GetAperture();
 	if (!forceScroll && ap.Contains(origRect))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JRect r = origRect;
@@ -1233,7 +1231,7 @@ JXWidget::CreateDragPainter
 	assert( itsDragPainter == nullptr );
 
 	JRect clipRect;
-	const JBoolean visible =
+	const bool visible =
 		widget->GetVisibleRectGlobal(widget->GetApertureGlobal(), &clipRect);
 	assert( visible );
 
@@ -1252,7 +1250,7 @@ JXWidget::CreateDragPainter
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidget::GetDragPainter
 	(
 	JPainter** p
@@ -1260,7 +1258,7 @@ JXWidget::GetDragPainter
 	const
 {
 	*p = itsDragPainter;
-	return JI2B(itsDragPainter != nullptr);
+	return itsDragPainter != nullptr;
 }
 
 /******************************************************************************
@@ -1278,7 +1276,7 @@ JXWidget::DeleteDragPainter()
 /******************************************************************************
  BeginDND (protected)
 
-	Call this to begin the DND process.  If this returns kJTrue, you will
+	Call this to begin the DND process.  If this returns true, you will
 	not get any more HandleMouseDrag() messages, nor will you get a
 	HandleMouseUp() message.
 
@@ -1286,13 +1284,13 @@ JXWidget::DeleteDragPainter()
 	unless the copying is always very fast because one should never make
 	the user wait when the drag begins.
 
-	*** The caller should not delete data even if this function returns kJFalse.
+	*** The caller should not delete data even if this function returns false.
 
 	*** The caller retains ownership of targetFinder.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidget::BeginDND
 	(
 	const JPoint&				pt,
@@ -1357,7 +1355,7 @@ JXWidget::GetSelectionData
 void
 JXWidget::DNDFinish
 	(
-	const JBoolean		isDrop,
+	const bool		isDrop,
 	const JXContainer*	target
 	)
 {
@@ -1458,7 +1456,7 @@ void
 JXWidget::HandleDNDResponse
 	(
 	const JXContainer*	target,
-	const JBoolean		dropAccepted,
+	const bool		dropAccepted,
 	const Atom			action
 	)
 {

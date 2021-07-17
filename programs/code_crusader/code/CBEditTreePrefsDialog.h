@@ -21,9 +21,9 @@ class CBEditTreePrefsDialog : public JXDialogDirector
 {
 public:
 
-	CBEditTreePrefsDialog(const JSize fontSize, const JBoolean showInheritedFns,
-						  const JBoolean autoMinMILinks, const JBoolean drawMILinksOnTop,
-						  const JBoolean raiseWhenSingleMatch);
+	CBEditTreePrefsDialog(const JSize fontSize, const bool showInheritedFns,
+						  const bool autoMinMILinks, const bool drawMILinksOnTop,
+						  const bool raiseWhenSingleMatch);
 
 	virtual ~CBEditTreePrefsDialog();
 
@@ -54,9 +54,9 @@ private:
 
 private:
 
-	void	BuildWindow(const JSize fontSize, const JBoolean showInheritedFns,
-						const JBoolean autoMinMILinks, const JBoolean drawMILinksOnTop,
-						const JBoolean raiseWhenSingleMatch);
+	void	BuildWindow(const JSize fontSize, const bool showInheritedFns,
+						const bool autoMinMILinks, const bool drawMILinksOnTop,
+						const bool raiseWhenSingleMatch);
 	void	UpdateSettings();
 
 	// not allowed

@@ -195,8 +195,8 @@ JConstHashCursor<V>::~JConstHashCursor()
  Next...
 
 	These functions are the cursor's reason for being.  If an appropriate
-	unvisited element remains, advances to the next one and returns kJTrue;
-	otherwise, returns kJFalse.  They only differ in what kinds of elements
+	unvisited element remains, advances to the next one and returns true;
+	otherwise, returns false.  They only differ in what kinds of elements
 	they seek and which they skip over.  Calls to different Next... functions
 	may be freely intermixed with each other without a Reset.
 
@@ -211,14 +211,14 @@ JConstHashCursor<V>::~JConstHashCursor()
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JConstHashCursor<V>::Next()
 {
 	switch (itsInitialCount)
 	{
 	case 0:
 		++itsInitialCount;
-		return kJTrue;
+		return true;
 		break;
 
 	case 1:
@@ -226,18 +226,18 @@ JConstHashCursor<V>::Next()
 		if (GetIndex() == itsInitialIndex)
 			{
 			++itsInitialCount;
-			return kJFalse;
+			return false;
 			}
-		return kJTrue;
+		return true;
 		break;
 
 	case 2:
-		return kJFalse;
+		return false;
 		break;
 
 	default:
 		assert(0); // Should never happen!
-		return kJFalse;
+		return false;
 		break;
 	}
 }
@@ -245,11 +245,11 @@ JConstHashCursor<V>::Next()
 
 // Is this function worth having?
 template <class V>
-JBoolean
+bool
 JConstHashCursor<V>::Next
 	(
-	JBoolean (*NextRecordType)(const JHashRecord<V>&),
-	const JBoolean stopOnEmpty
+	bool (*NextRecordType)(const JHashRecord<V>&),
+	const bool stopOnEmpty
 	)
 {
 	switch (itsInitialCount)
@@ -262,14 +262,14 @@ JConstHashCursor<V>::Next
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 		if (stopOnEmpty && IsEmpty() )
 			{
 			++itsInitialCount;
 			}
-		return kJTrue;
+		return true;
 		break;
 
 	case 1:
@@ -279,7 +279,7 @@ JConstHashCursor<V>::Next
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 			while ( !NextRecordType( GetRecord() ) );
@@ -287,16 +287,16 @@ JConstHashCursor<V>::Next
 			{
 			++itsInitialCount;
 			}
-		return kJTrue;
+		return true;
 		break;
 
 	case 2:
-		return kJFalse;
+		return false;
 		break;
 
 	default:
 		assert(0); // Should never happen!
-		return kJFalse;
+		return false;
 		break;
 	}
 }
@@ -310,7 +310,7 @@ JConstHashCursor<V>::Next
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JConstHashCursor<V>::NextFull()
 {
 	switch (itsInitialCount)
@@ -323,10 +323,10 @@ JConstHashCursor<V>::NextFull()
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
-		return kJTrue;
+		return true;
 		break;
 
 	case 1:
@@ -336,20 +336,20 @@ JConstHashCursor<V>::NextFull()
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 			while ( !IsFull() );
-		return kJTrue;
+		return true;
 		break;
 
 	case 2:
-		return kJFalse;
+		return false;
 		break;
 
 	default:
 		assert(0); // Should never happen!
-		return kJFalse;
+		return false;
 		break;
 	}
 }
@@ -365,7 +365,7 @@ JConstHashCursor<V>::NextFull()
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JConstHashCursor<V>::NextOpen()
 {
 	switch (itsInitialCount)
@@ -378,14 +378,14 @@ JConstHashCursor<V>::NextOpen()
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 		if ( IsEmpty() )
 			{
 			++itsInitialCount;
 			}
-		return kJTrue;
+		return true;
 		break;
 
 	case 1:
@@ -395,7 +395,7 @@ JConstHashCursor<V>::NextOpen()
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 			while ( IsFull() );
@@ -403,16 +403,16 @@ JConstHashCursor<V>::NextOpen()
 			{
 			++itsInitialCount;
 			}
-		return kJTrue;
+		return true;
 		break;
 
 	case 2:
-		return kJFalse;
+		return false;
 		break;
 
 	default:
 		assert(0); // Should never happen!
-		return kJFalse;
+		return false;
 		break;
 	}
 }
@@ -423,18 +423,18 @@ JConstHashCursor<V>::NextOpen()
 	Only visits records with the same hash value as was used to initialize the
 	cursor (and so it better have been initialized with a key or hash value).
 
-	If the argument is kJFalse (the default) NextHash will return kJFalse as soon
+	If the argument is false (the default) NextHash will return false as soon
 	as it steps to an empty record, so the client code never sees the empty
-	record.  If kJTrue, it will return kJTrue for the last time when it steps to
-	an empty record.  In either case all subsequent calls will return kJFalse.
+	record.  If true, it will return true for the last time when it steps to
+	an empty record.  In either case all subsequent calls will return false.
 
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JConstHashCursor<V>::NextHash
 	(
-	const JBoolean allowEmpty // = kJFalse
+	const bool allowEmpty // = false
 	)
 {
 	switch (itsInitialCount)
@@ -447,7 +447,7 @@ JConstHashCursor<V>::NextHash
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 		if ( IsEmpty() )
@@ -457,7 +457,7 @@ JConstHashCursor<V>::NextHash
 			}
 		else
 			{
-			return kJTrue;
+			return true;
 			}
 		break;
 
@@ -468,7 +468,7 @@ JConstHashCursor<V>::NextHash
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 			while ( IsDeleted() || (IsFull() && GetHashValue() != itsHashValue) );
@@ -479,17 +479,17 @@ JConstHashCursor<V>::NextHash
 			}
 		else
 			{
-			return kJTrue;
+			return true;
 			}
 		break;
 
 	case 2:
-		return kJFalse;
+		return false;
 		break;
 
 	default:
 		assert(0); // Should never happen!
-		return kJFalse;
+		return false;
 		break;
 	}
 }
@@ -505,7 +505,7 @@ JConstHashCursor<V>::NextHash
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JConstHashCursor<V>::NextHashOrOpen()
 {
 	switch (itsInitialCount)
@@ -518,14 +518,14 @@ JConstHashCursor<V>::NextHashOrOpen()
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 		if ( IsEmpty() )
 			{
 			++itsInitialCount;
 			}
-		return kJTrue;
+		return true;
 		break;
 
 	case 1:
@@ -535,7 +535,7 @@ JConstHashCursor<V>::NextHashOrOpen()
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 			while (IsFull() && GetHashValue() != itsHashValue);
@@ -543,16 +543,16 @@ JConstHashCursor<V>::NextHashOrOpen()
 			{
 			++itsInitialCount;
 			}
-		return kJTrue;
+		return true;
 		break;
 
 	case 2:
-		return kJFalse;
+		return false;
 		break;
 
 	default:
 		assert(0); // Should never happen!
-		return kJFalse;
+		return false;
 		break;
 	}
 }
@@ -564,18 +564,18 @@ JConstHashCursor<V>::NextHashOrOpen()
 	(and so it better have been initialized with a key).  Naturally, the key
 	whose address was passed in must still exist.
 
-	If the argument is kJFalse (the default) NextKey will return kJFalse as soon
+	If the argument is false (the default) NextKey will return false as soon
 	as it steps to an empty record, so the client code never sees the empty
-	record.  If kJTrue, it will return kJTrue for the last time when it steps to
-	an empty record.  In either case all subsequent calls will return kJFalse.
+	record.  If true, it will return true for the last time when it steps to
+	an empty record.  In either case all subsequent calls will return false.
 
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JConstHashCursor<V>::NextKey
 	(
-	const JBoolean allowEmpty // = kJFalse
+	const bool allowEmpty // = false
 	)
 {
 	assert(itsValue != nullptr);
@@ -599,7 +599,7 @@ JConstHashCursor<V>::NextKey
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 		if ( IsEmpty() )
@@ -609,7 +609,7 @@ JConstHashCursor<V>::NextKey
 			}
 		else
 			{
-			return kJTrue;
+			return true;
 			}
 		break;
 
@@ -620,7 +620,7 @@ JConstHashCursor<V>::NextKey
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 			while
@@ -640,17 +640,17 @@ JConstHashCursor<V>::NextKey
 			}
 		else
 			{
-			return kJTrue;
+			return true;
 			}
 		break;
 
 	case 2:
-		return kJFalse;
+		return false;
 		break;
 
 	default:
 		assert(0); // Should never happen!
-		return kJFalse;
+		return false;
 		break;
 	}
 }
@@ -666,7 +666,7 @@ JConstHashCursor<V>::NextKey
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JConstHashCursor<V>::NextKeyOrOpen()
 {
 	assert(itsValue != nullptr);
@@ -681,14 +681,14 @@ JConstHashCursor<V>::NextKeyOrOpen()
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 		if ( IsEmpty() )
 			{
 			++itsInitialCount;
 			}
-		return kJTrue;
+		return true;
 		break;
 
 	case 1:
@@ -698,7 +698,7 @@ JConstHashCursor<V>::NextKeyOrOpen()
 			if (GetIndex() == itsInitialIndex)
 				{
 				++itsInitialCount;
-				return kJFalse;
+				return false;
 				}
 			}
 			while (IsFull() && GetHashValue() != itsHashValue && Equal(GetValue(), *itsValue) );
@@ -706,16 +706,16 @@ JConstHashCursor<V>::NextKeyOrOpen()
 			{
 			++itsInitialCount;
 			}
-		return kJTrue;
+		return true;
 		break;
 
 	case 2:
-		return kJFalse;
+		return false;
 		break;
 
 	default:
 		assert(0); // Should never happen!
-		return kJFalse;
+		return false;
 		break;
 	}
 }
@@ -730,16 +730,16 @@ JConstHashCursor<V>::NextKeyOrOpen()
 	implementing this behavior in a data structure which has no such
 	intrinsic behavior is somewhat complex complex.
 
-	Starting from the current position, it returns kJTrue positioned at the
+	Starting from the current position, it returns true positioned at the
 	first slot that has the hash value the cursor was initialized with (so
 	you better have initialized it with a hash value or key).  If it finds
 	no such hash value before the scan terminates (at an empty slot or by
 	wrapping over the entire table), it backs up to the first deleted slot
-	it encountered.  If there was no deleted slot, it returns kJTrue at the
+	it encountered.  If there was no deleted slot, it returns true at the
 	empty slot which stopped the scan; in this case the cursor is finished
-	and will return kJFalse on all subsequent calls.  If there is no empty
+	and will return false on all subsequent calls.  If there is no empty
 	slot (which means the table is full, so it shouldn't happen normally)
-	it returns kJFalse (and of course is also finished).
+	it returns false (and of course is also finished).
 
 	A key- rather than hash-based search could be implemented by repeated
 	calls to NextMapInsertHash, but NextMapInsertKey() does the job
@@ -749,7 +749,7 @@ JConstHashCursor<V>::NextKeyOrOpen()
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JConstHashCursor<V>::NextMapInsertHash()
 {
 	while ( NextHashOrOpen() )
@@ -758,7 +758,7 @@ JConstHashCursor<V>::NextMapInsertHash()
 			{
 			const JSize deleted = itsIndex;
 			const JSize initialCount = itsInitialCount;
-			while ( NextHash(kJTrue) )
+			while ( NextHash(true) )
 				{
 				if ( IsEmpty() )
 					{
@@ -766,21 +766,21 @@ JConstHashCursor<V>::NextMapInsertHash()
 					}
 				else if (GetHashValue() == itsHashValue)
 					{
-					return kJTrue;
+					return true;
 					}
 				}
 			// Back up
 			itsIndex = deleted;
 			itsInitialCount = initialCount;
-			return kJTrue;
+			return true;
 			}
 		else if (GetHashValue() == itsHashValue || IsEmpty() )
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -793,7 +793,7 @@ JConstHashCursor<V>::NextMapInsertHash()
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JConstHashCursor<V>::NextMapInsertKey()
 {
 	while ( NextHashOrOpen() )
@@ -802,7 +802,7 @@ JConstHashCursor<V>::NextMapInsertKey()
 			{
 			const JSize deleted = itsIndex;
 			const JSize initialCount = itsInitialCount;
-			while ( NextHash(kJTrue) )
+			while ( NextHash(true) )
 				{
 				if ( IsEmpty() )
 					{
@@ -810,28 +810,28 @@ JConstHashCursor<V>::NextMapInsertKey()
 					}
 				else if ( GetHashValue() == itsHashValue && Equal(GetValue(), *itsValue) )
 					{
-					return kJTrue;
+					return true;
 					}
 				}
 			// Back up
 			itsIndex = deleted;
 			itsInitialCount = initialCount;
-			return kJTrue;
+			return true;
 			}
 		else if ( IsEmpty() || ( GetHashValue() == itsHashValue && Equal(GetValue(), *itsValue) ) )
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  Reset
 
-	With a boolean argument, kJTrue makes the cursor ready for an iteration
-	starting at index zero, stepping by one.  If the argument is kJFalse (the
+	With a boolean argument, true makes the cursor ready for an iteration
+	starting at index zero, stepping by one.  If the argument is false (the
 	default) makes ready for a new iteration using the previous parameters
 	(either the same hash value or single-stepping with no hash value).
 
@@ -852,7 +852,7 @@ template <class V>
 void
 JConstHashCursor<V>::Reset
 	(
-	const JBoolean clear // = kJFalse
+	const bool clear // = false
 	)
 {
 	if (clear)

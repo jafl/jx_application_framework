@@ -29,7 +29,7 @@ public:
 
 	virtual ~JXPSPageSetupDialog();
 
-	JBoolean	SetParameters(JXPSPrinter* p) const;
+	bool	SetParameters(JXPSPrinter* p) const;
 
 protected:
 

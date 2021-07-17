@@ -28,7 +28,7 @@ const JCoordinate kHeaderHeight = 20;
 
 // setup information
 
-static const JString kPrefsFileRoot("jx/jfs/edit_bindings_dialog", kJFalse);
+static const JString kPrefsFileRoot("jx/jfs/edit_bindings_dialog", JString::kNoCopy);
 const JFileVersion kCurrentPrefsVersion = 0;
 
 /******************************************************************************
@@ -43,7 +43,7 @@ JXFSEditBindingsDialog::JXFSEditBindingsDialog
 	JFSBindingList* list
 	)
 	:
-	JXDialogDirector(JXGetApplication(), kJFalse),
+	JXDialogDirector(JXGetApplication(), false),
 	itsBindingList(JFSBindingList::Create(&kUserMsg)),
 	itsOrigBindingList(list)
 {
@@ -67,20 +67,20 @@ JXFSEditBindingsDialog::~JXFSEditBindingsDialog()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSEditBindingsDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (!CheckData())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (itsNeedsSaveFlag)
@@ -89,15 +89,15 @@ JXFSEditBindingsDialog::OKToDeactivate()
 			JGetUserNotification()->OKToClose(JGetString("OKToClose::JXFSEditBindingsDialog"));
 		if (action == JUserNotification::kDontClose)
 			{
-			return kJFalse;
+			return false;
 			}
 		else if (action == JUserNotification::kSaveData)
 			{
-			return Save(kJTrue);
+			return Save(true);
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -105,13 +105,13 @@ JXFSEditBindingsDialog::OKToDeactivate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSEditBindingsDialog::CheckData()
 {
 	if (!JXWindowDirector::OKToDeactivate() ||
 		!itsTable->EndEditing())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (!(itsShellCmd->GetText()->GetText()).Contains("$q") &&
@@ -119,17 +119,17 @@ JXFSEditBindingsDialog::CheckData()
 		{
 		itsShellCmd->Focus();
 		JGetUserNotification()->ReportError(JGetString("MissingUorQ::JXFSEditBindingsDialog"));
-		return kJFalse;
+		return false;
 		}
 	else if (!(itsWindowCmd->GetText()->GetText()).Contains("$q") &&
 			 !(itsWindowCmd->GetText()->GetText()).Contains("$u"))
 		{
 		itsWindowCmd->Focus();
 		JGetUserNotification()->ReportError(JGetString("MissingUorQ::JXFSEditBindingsDialog"));
-		return kJFalse;
+		return false;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -280,7 +280,7 @@ JXFSEditBindingsDialog::BuildWindow()
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, 100,kHeaderHeight);
 	assert( header != nullptr );
-	header->FitToEnclosure(kJTrue, kJFalse);
+	header->FitToEnclosure(true, false);
 
 	itsTable->SetColTitles(header);
 	ListenTo(itsTable);
@@ -298,7 +298,7 @@ JXFSEditBindingsDialog::BuildWindow()
 	itsWindowCmd->SetFont(font);
 	itsWindowCmd->SetIsRequired();
 
-	Revert(kJFalse);
+	Revert(false);
 
 	ListenTo(itsSaveButton);
 	ListenTo(itsRevertButton);
@@ -334,15 +334,15 @@ JXFSEditBindingsDialog::Receive
 {
 	if (sender == itsSaveButton && message.Is(JXButton::kPushed))
 		{
-		Save(kJTrue);
+		Save(true);
 		}
 	else if (sender == itsRevertButton && message.Is(JXButton::kPushed))
 		{
-		Revert(kJTrue);
+		Revert(true);
 		}
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
 		{
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
@@ -374,7 +374,7 @@ JXFSEditBindingsDialog::Receive
 void
 JXFSEditBindingsDialog::NeedsSave()
 {
-	itsNeedsSaveFlag = kJTrue;
+	itsNeedsSaveFlag = true;
 	itsSaveButton->Activate();
 	itsRevertButton->Activate();
 }
@@ -387,7 +387,7 @@ JXFSEditBindingsDialog::NeedsSave()
 void
 JXFSEditBindingsDialog::DataReverted()
 {
-	itsNeedsSaveFlag = kJFalse;
+	itsNeedsSaveFlag = false;
 	itsSaveButton->Deactivate();
 	itsRevertButton->Deactivate();
 }
@@ -397,17 +397,17 @@ JXFSEditBindingsDialog::DataReverted()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSEditBindingsDialog::Save
 	(
-	const JBoolean askReplace
+	const bool askReplace
 	)
 {
 	if (!CheckData() ||
 		(askReplace && itsBindingList->NeedsRevert() &&
 		 !JGetUserNotification()->AskUserYes(JGetString("WarnOverwrite::JXFSEditBindingsDialog"))))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	itsBindingList->ShouldUseDefaultCommand(itsUseDefaultCB->IsChecked());
@@ -426,12 +426,12 @@ JXFSEditBindingsDialog::Save
 		{
 		itsOrigBindingList->Revert();
 		DataReverted();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		err.ReportIfError();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -446,7 +446,7 @@ JXFSEditBindingsDialog::AddBinding
 	const JString&					suffix,
 	const JString&					cmd,
 	const JFSBinding::CommandType	type,
-	const JBoolean					singleFile
+	const bool					singleFile
 	)
 {
 	if (itsNeedsSaveFlag)
@@ -456,7 +456,7 @@ JXFSEditBindingsDialog::AddBinding
 		}
 	else
 		{
-		Revert(kJTrue);
+		Revert(true);
 		}
 }
 
@@ -470,7 +470,7 @@ JXFSEditBindingsDialog::CheckIfNeedRevert()
 {
 	if (itsBindingList->NeedsRevert() && !itsNeedsSaveFlag)
 		{
-		Revert(kJTrue);
+		Revert(true);
 		}
 }
 
@@ -482,7 +482,7 @@ JXFSEditBindingsDialog::CheckIfNeedRevert()
 void
 JXFSEditBindingsDialog::Revert
 	(
-	const JBoolean updateList
+	const bool updateList
 	)
 {
 	if (updateList)
@@ -495,11 +495,11 @@ JXFSEditBindingsDialog::Revert
 
 	const JFSBinding* b = itsBindingList->GetDefaultCommand();
 	JFSBinding::CommandType type;
-	JBoolean singleFile;
+	bool singleFile;
 	itsDefCmd->GetText()->SetText(b->GetCommand(&type, &singleFile));
 
-	itsDefShellCB->SetState(JI2B( type == JFSBinding::kRunInShell ));
-	itsDefWindowCB->SetState(JI2B( type == JFSBinding::kRunInWindow ));
+	itsDefShellCB->SetState(type == JFSBinding::kRunInShell );
+	itsDefWindowCB->SetState(type == JFSBinding::kRunInWindow );
 	itsDefSingleCB->SetState(singleFile);
 
 	itsShellCmd->GetText()->SetText(itsBindingList->GetShellCommand());
@@ -515,16 +515,16 @@ JXFSEditBindingsDialog::Revert
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSEditBindingsDialog::ReadSetup()
 {
-	JBoolean found = kJFalse;
+	bool found = false;
 
 	JPrefsFile* file = nullptr;
 	if ((JPrefsFile::Create(kPrefsFileRoot, &file,
 							JFileArray::kDeleteIfWaitTimeout)).OK())
 		{
-		for (JFileVersion vers = kCurrentPrefsVersion; kJTrue; vers--)
+		for (JFileVersion vers = kCurrentPrefsVersion; true; vers--)
 			{
 			if (file->IDValid(vers))
 				{
@@ -532,7 +532,7 @@ JXFSEditBindingsDialog::ReadSetup()
 				file->GetData(vers, &data);
 				std::istringstream input(data);
 				ReadSetup(input);
-				found = kJTrue;
+				found = true;
 				break;
 				}
 

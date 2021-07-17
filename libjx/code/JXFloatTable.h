@@ -39,7 +39,7 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h);
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
+	virtual bool		ExtractInputData(const JPoint& cell);
 	virtual void			PrepareDeleteXInputField();
 
 	virtual JXFloatInput*
@@ -48,7 +48,7 @@ protected:
 							  const JCoordinate x, const JCoordinate y,
 							  const JCoordinate w, const JCoordinate h);
 
-	JBoolean	GetInputField(JXFloatInput** widget) const;
+	bool	GetInputField(JXFloatInput** widget) const;
 
 private:
 
@@ -82,7 +82,7 @@ JXFloatTable::GetFloatData()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFloatTable::GetInputField
 	(
 	JXFloatInput** widget
@@ -90,7 +90,7 @@ JXFloatTable::GetInputField
 	const
 {
 	*widget = itsFloatInputField;
-	return JI2B(*widget != nullptr);
+	return *widget != nullptr;
 }
 
 #endif

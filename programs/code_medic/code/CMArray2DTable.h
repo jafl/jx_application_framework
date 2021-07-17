@@ -42,7 +42,7 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual bool		ExtractInputData(const JPoint& cell) override;
 
 	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
 	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight) override;

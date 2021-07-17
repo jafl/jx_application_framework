@@ -19,7 +19,7 @@ class JMMHashTable : public JMMTable
 {
 public:
 
-	JMMHashTable(JMemoryManager* manager, const JBoolean recordDelete);
+	JMMHashTable(JMemoryManager* manager, const bool recordDelete);
 	virtual ~JMMHashTable();
 
 	virtual JSize GetAllocatedCount() const override;
@@ -27,18 +27,18 @@ public:
 	virtual JSize GetDeletedCount() const override;
 	virtual JSize GetTotalCount() const override;
 
-	virtual void PrintAllocated(const JBoolean printInternal = kJFalse) const override;
+	virtual void PrintAllocated(const bool printInternal = false) const override;
 	virtual void StreamAllocatedForDebug(std::ostream& output, const JMemoryManager::RecordFilter& filter) const override;
 	virtual void StreamAllocationSizeHistogram(std::ostream& output) const override;
 
 protected:
 
 	virtual void _AddNewRecord(const JMMRecord& record,
-									   const JBoolean checkDoubleAllocation) override;
+									   const bool checkDoubleAllocation) override;
 
-	virtual JBoolean _SetRecordDeleted(JMMRecord* record, const void* block,
+	virtual bool _SetRecordDeleted(JMMRecord* record, const void* block,
 									   const JUtf8Byte* file, const JUInt32 line,
-									   const JBoolean isArray) override;
+									   const bool isArray) override;
 
 private:
 

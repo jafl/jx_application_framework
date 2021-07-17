@@ -23,12 +23,12 @@ public:
 	virtual void		DisplayMessage(const JString& message);
 	virtual void		ReportError(const JString& message);
 
-	virtual JBoolean	AskUserYes(const JString& message);
-	virtual JBoolean	AskUserNo(const JString& message);
+	virtual bool	AskUserYes(const JString& message);
+	virtual bool	AskUserNo(const JString& message);
 
 	virtual CloseAction	OKToClose(const JString& message);
 
-	virtual JBoolean	AcceptLicense();
+	virtual bool	AcceptLicense();
 
 private:
 

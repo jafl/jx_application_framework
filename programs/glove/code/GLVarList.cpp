@@ -94,7 +94,7 @@ GLVarList::GLVarList
 			else
 				{
 				JStringIterator iter(&name);
-				const JBoolean foundBracket = iter.Next("[");
+				const bool foundBracket = iter.Next("[");
 				assert( foundBracket && !iter.AtEnd() );
 
 				iter.BeginMatch();
@@ -105,7 +105,7 @@ GLVarList::GLVarList
 				iter.Invalidate();
 
 				JFloat x;
-				const JBoolean isNumber = sizeStr.ConvertToFloat(&x);
+				const bool isNumber = sizeStr.ConvertToFloat(&x);
 				assert( isNumber );
 				const JSize arraySize = JRound(x);
 				GNArray values(arraySize);
@@ -168,7 +168,7 @@ GLVarList::~GLVarList()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLVarList::AddVariable
 	(
 	const JString&	name,
@@ -183,12 +183,12 @@ GLVarList::AddVariable
 		itsNames->Append(varName);
 		itsValues->AppendElement(value);
 		itsArrays->AppendElement(static_cast<GNArray*>(nullptr));
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		JGetUserNotification()->ReportError(JGetString("NameUsed::GLVarList"));
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -215,7 +215,7 @@ GLVarList::RemoveVariable
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLVarList::AddArray
 	(
 	const JString&	name,
@@ -231,11 +231,11 @@ GLVarList::AddArray
 		GNArray* newArray = jnew GNArray(values);
 		assert( newArray != nullptr );
 		itsArrays->AppendElement(newArray);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -244,7 +244,7 @@ GLVarList::AddArray
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLVarList::SetValue
 	(
 	const JIndex	index,
@@ -259,11 +259,11 @@ GLVarList::SetValue
 			itsValues->SetElement(index, value);
 			Broadcast(JVariableList::VarValueChanged(index,1));
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -356,7 +356,7 @@ GLVarList::GetVariableName
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLVarList::SetVariableName
 	(
 	const JIndex 	varIndex, 
@@ -366,19 +366,19 @@ GLVarList::SetVariableName
 	JIndex index;
 	if (!NameValid(str))
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (ParseVariableName(str, &index) && index != varIndex)
 		{
 		JGetUserNotification()->ReportError(JGetString("NameUsed::GLVarList"));
-		return kJFalse;
+		return false;
 		}
 	else
 		{
 		JString* varName = itsNames->GetElement(varIndex);
 		*varName = str;
 		Broadcast(VarNameChanged(varIndex));
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -387,14 +387,14 @@ GLVarList::SetVariableName
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLVarList::IsArray
 	(
 	const JIndex index
 	)
 	const
 {
-	return JConvertToBoolean( itsArrays->GetElement(index) != nullptr );
+	return itsArrays->GetElement(index) != nullptr;
 }
 
 /******************************************************************************
@@ -402,7 +402,7 @@ GLVarList::IsArray
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLVarList::ArrayIndexValid
 	(
 	const JIndex variableIndex,
@@ -410,10 +410,9 @@ GLVarList::ArrayIndexValid
 	)
 	const
 {
-	return JConvertToBoolean(
-			elementIndex == 1 ||
+	return elementIndex == 1 ||
 			(IsArray(variableIndex) &&
-			 (itsArrays->GetElement(variableIndex))->IndexValid(elementIndex)));
+			 (itsArrays->GetElement(variableIndex))->IndexValid(elementIndex));
 }
 
 /******************************************************************************
@@ -421,7 +420,7 @@ GLVarList::ArrayIndexValid
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLVarList::GetNumericValue
 	(
 	const JIndex	variableIndex,
@@ -434,20 +433,20 @@ GLVarList::GetNumericValue
 	if (values == nullptr && elementIndex == 1)
 		{
 		*value = itsValues->GetElement(variableIndex);
-		return kJTrue;
+		return true;
 		}
 	else if (values != nullptr && values->IndexValid(elementIndex))
 		{
 		*value = values->GetElement(elementIndex);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 GLVarList::GetNumericValue
 	(
 	const JIndex	variableIndex,
@@ -460,11 +459,11 @@ GLVarList::GetNumericValue
 	if (GetNumericValue(variableIndex, elementIndex, &x))
 		{
 		*value = x;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

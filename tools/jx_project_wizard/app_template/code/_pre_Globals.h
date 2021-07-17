@@ -27,7 +27,7 @@ JString				<PRE>GetVersionStr();
 
 	// called by <PRE>App
 
-JBoolean	<PRE>CreateGlobals(<PRE>App* app);
+bool	<PRE>CreateGlobals(<PRE>App* app);
 void		<PRE>DeleteGlobals();
 void		<PRE>CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 

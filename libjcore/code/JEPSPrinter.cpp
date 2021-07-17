@@ -5,7 +5,7 @@
 	Encapsulated PostScript file.
 
 	Clients are required to check WantsPreview() before calling
-	OpenDocument().  If this returns kJTrue, they should call
+	OpenDocument().  If this returns true, they should call
 	GetPreviewPainter() and draw to the resulting JPainter.
 	OpenDocument() then prints the preview automatically.
 
@@ -21,7 +21,7 @@
 
 		DeletePreviewData
 			Delete the image and painter created in GetPreviewPainter().
-			This is only called if GetPreviewImage() returns kJTrue;
+			This is only called if GetPreviewImage() returns true;
 
 	BASE CLASS = JPainter, JPrinter, JPSPrinterBase
 
@@ -59,7 +59,7 @@ JEPSPrinter::JEPSPrinter
 	JPSPrinterBase(fontManager),
 	itsBounds(0,0,0,0)
 {
-	itsIncludePreviewFlag = kJFalse;
+	itsIncludePreviewFlag = false;
 	PSResetCoordinates();
 }
 
@@ -94,7 +94,7 @@ JEPSPrinter::ReadEPSSetup
 
 		input >> JBoolFromString(itsIncludePreviewFlag);
 
-		JBoolean bwFlag;
+		bool bwFlag;
 		input >> JBoolFromString(bwFlag);
 		PSPrintBlackWhite(bwFlag);
 		}
@@ -126,7 +126,7 @@ JEPSPrinter::WriteEPSSetup
 
  ******************************************************************************/
 
-JBoolean
+bool
 JEPSPrinter::OpenDocument
 	(
 	const JRect& bounds
@@ -145,14 +145,14 @@ JEPSPrinter::OpenDocument
 		Reset();
 		SetDefaultClipRect(itsBounds);
 		SetClipRect(itsBounds);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		JGetUserNotification()->ReportError(JGetString("Error::JEPSPrinter"));
 
 		DeletePreviewData();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -290,11 +290,11 @@ JEPSPrinter::CloseDocument()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JEPSPrinter::PSShouldPrintCurrentPage()
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

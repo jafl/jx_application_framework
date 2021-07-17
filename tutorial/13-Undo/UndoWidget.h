@@ -35,8 +35,8 @@ public:
 	
 	void			Undo();
 	void			Redo();
-	JBoolean		HasUndo() const;
-	JBoolean		HasRedo() const;
+	bool		HasUndo() const;
+	bool		HasRedo() const;
 	
 protected:
 	
@@ -80,8 +80,8 @@ private:
 
 	// needed by undo
 
-	JBoolean 	GetCurrentRedo(JUndo** undo) const;
-	JBoolean	GetCurrentUndo(JUndo** undo) const;
+	bool 	GetCurrentRedo(JUndo** undo) const;
+	bool	GetCurrentUndo(JUndo** undo) const;
 	void 		NewUndo(JUndo* undo);
 	void 		AddLine(const JPoint& start, const JPoint& end);
 	void 		RemoveLastLine(); 

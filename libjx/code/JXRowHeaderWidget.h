@@ -29,7 +29,7 @@ public:
 	void	TurnOnRowResizing(const JCoordinate minRowHeight = 20);
 	void	TurnOffRowResizing();
 
-	JBoolean	GetRowTitle(const JIndex index, JString* title) const;
+	bool	GetRowTitle(const JIndex index, JString* title) const;
 	void		SetRowTitle(const JIndex index, const JString& title);
 	void		ClearRowTitle(const JIndex index);
 
@@ -62,7 +62,7 @@ protected:
 								  const JXKeyModifiers& modifiers) override;
 
 	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
-	JBoolean		InDragRegion(const JPoint& pt, JPoint* cell) const;
+	bool		InDragRegion(const JPoint& pt, JPoint* cell) const;
 	DragType		GetDragType() const;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
@@ -79,7 +79,7 @@ private:
 	const JXScrollbar*	itsVScrollbar;	// we don't own this
 	JPtrArray<JString>*	itsTitles;		// can be nullptr; elements can be nullptr
 
-	JBoolean	itsAllowRowResizingFlag;
+	bool	itsAllowRowResizingFlag;
 	JCoordinate	itsMinRowHeight;
 	JCoordinate	itsHMarginWidth;		// minimum margin on either side of number
 	JCoordinate	itsMaxBcastWidth;		// largest min width that has broadcast
@@ -140,7 +140,7 @@ public:
 inline void
 JXRowHeaderWidget::TurnOffRowResizing()
 {
-	itsAllowRowResizingFlag = kJFalse;
+	itsAllowRowResizingFlag = false;
 }
 
 /******************************************************************************

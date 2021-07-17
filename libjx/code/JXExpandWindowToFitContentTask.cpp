@@ -24,7 +24,7 @@ JXExpandWindowToFitContentTask::JXExpandWindowToFitContentTask
 	)
 	:
 	itsWindow(window),
-	itShowWindowAfterFTCFlag(kJFalse),
+	itShowWindowAfterFTCFlag(false),
 	itsFocusWidget(nullptr)
 {
 	ClearWhenGoingAway(itsWindow, &itsWindow);

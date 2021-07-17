@@ -64,32 +64,32 @@ public:
 
 	struct WMBehavior
 	{
-		JBoolean	desktopMapsWindowsFlag;	// windows on virtual desktops are unmapped
-		JBoolean	frameCompensateFlag;	// compensate for wm frame when placing
+		bool	desktopMapsWindowsFlag;	// windows on virtual desktops are unmapped
+		bool	frameCompensateFlag;	// compensate for wm frame when placing
 		JPoint		reshowOffset;			// re-showing a window also moves it
 
 		WMBehavior()
 			:
-			desktopMapsWindowsFlag(kJTrue),
-			frameCompensateFlag(kJFalse)
+			desktopMapsWindowsFlag(true),
+			frameCompensateFlag(false)
 		{ };
 
-		JBoolean	Load(JXDisplay* display);
+		bool	Load(JXDisplay* display);
 		void		Save(JXDisplay* display) const;
 
 		private:
 
-		JBoolean	Read(std::istream& input, const JFileVersion vers);
+		bool	Read(std::istream& input, const JFileVersion vers);
 		void		WriteV0(std::ostream& output) const;
 	};
 
 public:
 
-	static JBoolean	Create(const JString& displayName, JXDisplay** display);
+	static bool	Create(const JString& displayName, JXDisplay** display);
 
 	virtual ~JXDisplay();
 
-	JBoolean	Close();
+	bool	Close();
 
 	operator Display*() const;
 
@@ -97,21 +97,21 @@ public:
 	Display*		GetXDisplay() const;
 	JXColorManager*	GetColorManager() const;
 	JSize			GetMaxStringByteCount() const;
-	JBoolean		IsOSX() const;
+	bool		IsOSX() const;
 
 	JFontManager*		GetFontManager() const;
 	JXFontManager*		GetXFontManager() const;
 	JXSelectionManager*	GetSelectionManager() const;
 	JXDNDManager*		GetDNDManager() const;
 	JXMenuManager*		GetMenuManager() const;
-	JBoolean			GetWDManager(JXWDManager** mgr) const;
+	bool			GetWDManager(JXWDManager** mgr) const;
 	JXImageCache*		GetImageCache() const;
 
 	JCursorIndex	CreateBuiltInCursor(const JUtf8Byte* name,
 										const unsigned int shape);
 	JCursorIndex	CreateCustomCursor(const JUtf8Byte* name,
 									   const JXCursor& cursor);
-	JBoolean		GetCursor(const JUtf8Byte* name,
+	bool		GetCursor(const JUtf8Byte* name,
 							  JCursorIndex* index) const;
 	void			DisplayCursorInAllWindows(const JCursorIndex index);
 
@@ -132,8 +132,8 @@ public:
 	const JXButtonStates&	GetLatestButtonStates() const;
 	const JXKeyModifiers&	GetLatestKeyModifiers() const;
 
-	JBoolean	KeysymToModifier(const KeySym keysym, JIndex* modifierIndex) const;
-	JBoolean	KeycodeToModifier(const KeyCode keycode, JIndex* modifierIndex) const;
+	bool	KeysymToModifier(const KeySym keysym, JIndex* modifierIndex) const;
+	bool	KeycodeToModifier(const KeyCode keycode, JIndex* modifierIndex) const;
 
 	// XFlush() and XSync()
 
@@ -144,9 +144,9 @@ public:
 
 	// useful for Drag-And-Drop, and for Menu objects
 
-	JBoolean	FindMouseContainer(JXContainer** obj, Window* xWindow = nullptr,
+	bool	FindMouseContainer(JXContainer** obj, Window* xWindow = nullptr,
 								   JPoint* ptG = nullptr, JPoint* ptR = nullptr) const;
-	JBoolean	FindMouseContainer(const JXContainer* coordOwner,
+	bool	FindMouseContainer(const JXContainer* coordOwner,
 								   const JPoint& pt, JXContainer** obj,
 								   Window* xWindow = nullptr,
 								   JPoint* ptG = nullptr, JPoint* ptR = nullptr) const;
@@ -168,14 +168,14 @@ public:
 	void	WindowDeleted(JXWindow* window);
 	void	WindowNeedsUpdate(JXWindow* window);
 
-	JBoolean	GetMouseContainer(JXWindow** window) const;
+	bool	GetMouseContainer(JXWindow** window) const;
 	void		SetMouseContainer(JXWindow* window);
-	JBoolean	GetMouseGrabber(JXWindow** window) const;
+	bool	GetMouseGrabber(JXWindow** window) const;
 	void		SetMouseGrabber(JXWindow* window);
 
 	Cursor		GetXCursorID(const JCursorIndex index) const;
 
-	static JBoolean	WindowExists(JXDisplay* display, const Display* xDisplay,
+	static bool	WindowExists(JXDisplay* display, const Display* xDisplay,
 								 const Window xWindow);
 
 	Atom	GetWMProtocolsXAtom() const;
@@ -197,12 +197,12 @@ public:
 
 	// called by Menu objects
 
-	JBoolean	SwitchDrag(JXContainer* fromObj, const JPoint& fromObjPt,
+	bool	SwitchDrag(JXContainer* fromObj, const JPoint& fromObjPt,
 						   const JXButtonStates& buttonStates,
 						   const JXKeyModifiers& modifiers,
 						   JXContainer* toObj);
 
-	JBoolean	GetKeyboardGrabber(JXWindow** window) const;
+	bool	GetKeyboardGrabber(JXWindow** window) const;
 	void		SetKeyboardGrabber(JXWindow* window);
 
 	// called by JXWDManager, etc.
@@ -227,7 +227,7 @@ public:
 	Atom	RegisterXAtom(const JUtf8Byte* name);
 	void	RegisterXAtoms(const JSize count, const JUtf8Byte** name, Atom* atom);
 
-	JBoolean	FindXWindow(const Window xWindow, JXWindow** window) const;
+	bool	FindXWindow(const Window xWindow, JXWindow** window) const;
 
 	const int*	GetJXKeyModifierMapping() const;
 	XIM			GetXIM() const;
@@ -284,7 +284,7 @@ private:
 	Display*				itsXDisplay;
 	JXColorManager*			itsColorManager;
 	const JSize				itsMaxStringByteCount;
-	JBoolean				itsIsOSXFlag;	// scroll wheel is fine-grain on OS X
+	bool				itsIsOSXFlag;	// scroll wheel is fine-grain on OS X
 	mutable JArray<JRect>*	itsBounds;
 	JSize					itsShrinkDisplayToScreenRefCount;
 
@@ -303,7 +303,7 @@ private:
 	JXGC*				itsDefaultGC;
 
 	JArray<WindowInfo>*	itsWindowList;
-	JBoolean			itsNeedsUpdateFlag;
+	bool			itsNeedsUpdateFlag;
 	JXWindow*			itsMouseContainer;		// can be nullptr
 	JXWindow*			itsMouseGrabber;		// usually nullptr
 	JXWindow*			itsKeyboardGrabber;		// usually nullptr
@@ -321,7 +321,7 @@ private:
 
 private:
 
-	JBoolean	FindMouseContainer(const Window rootWindow,
+	bool	FindMouseContainer(const Window rootWindow,
 								   const JCoordinate xRoot, const JCoordinate yRoot,
 								   const Window origChildWindow,
 								   JXContainer** obj, Window* xWindow = nullptr,
@@ -350,7 +350,7 @@ public:
 				:
 				JBroadcaster::Message(kXEventMessage),
 				itsXEvent(event),
-				itsProcessedFlag(kJFalse)
+				itsProcessedFlag(false)
 				{ };
 
 			const XEvent&
@@ -359,7 +359,7 @@ public:
 				return itsXEvent;
 			};
 
-			JBoolean
+			bool
 			WasProcessed() const
 			{
 				return itsProcessedFlag;
@@ -368,13 +368,13 @@ public:
 			void
 			SetProcessed()
 			{
-				itsProcessedFlag = kJTrue;
+				itsProcessedFlag = true;
 			};
 
 		private:
 
 			const XEvent&	itsXEvent;
-			JBoolean		itsProcessedFlag;
+			bool		itsProcessedFlag;
 		};
 
 	class XError : public JBroadcaster::Message
@@ -385,7 +385,7 @@ public:
 				:
 				JBroadcaster::Message(kXError),
 				itsXError(error),
-				itsCaughtFlag(kJFalse)
+				itsCaughtFlag(false)
 				{ };
 
 			int
@@ -406,7 +406,7 @@ public:
 				return itsXError;
 			};
 
-			JBoolean
+			bool
 			WasCaught() const
 			{
 				return itsCaughtFlag;
@@ -415,13 +415,13 @@ public:
 			void
 			SetCaught()
 			{
-				itsCaughtFlag = kJTrue;
+				itsCaughtFlag = true;
 			};
 
 		private:
 
 			const XErrorEvent&	itsXError;
-			JBoolean			itsCaughtFlag;
+			bool			itsCaughtFlag;
 		};
 };
 
@@ -604,7 +604,7 @@ JXDisplay::GetMaxStringByteCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDisplay::IsOSX()
 	const
 {
@@ -862,7 +862,7 @@ JXDisplay::GetMenuManager()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDisplay::GetWDManager
 	(
 	JXWDManager** mgr
@@ -870,7 +870,7 @@ JXDisplay::GetWDManager
 	const
 {
 	*mgr = itsWDManager;
-	return JI2B( itsWDManager != nullptr );
+	return itsWDManager != nullptr;
 }
 
 /******************************************************************************
@@ -896,7 +896,7 @@ JXDisplay::WindowNeedsUpdate
 	JXWindow* window
 	)
 {
-	itsNeedsUpdateFlag = kJTrue;
+	itsNeedsUpdateFlag = true;
 }
 
 /******************************************************************************
@@ -904,7 +904,7 @@ JXDisplay::WindowNeedsUpdate
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDisplay::GetMouseContainer
 	(
 	JXWindow** window
@@ -912,7 +912,7 @@ JXDisplay::GetMouseContainer
 	const
 {
 	*window = itsMouseContainer;
-	return JConvertToBoolean( *window != nullptr );
+	return *window != nullptr;
 }
 
 inline void
@@ -929,7 +929,7 @@ JXDisplay::SetMouseContainer
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDisplay::GetMouseGrabber
 	(
 	JXWindow** window
@@ -937,7 +937,7 @@ JXDisplay::GetMouseGrabber
 	const
 {
 	*window = itsMouseGrabber;
-	return JConvertToBoolean( *window != nullptr );
+	return *window != nullptr;
 }
 
 inline void
@@ -949,7 +949,7 @@ JXDisplay::SetMouseGrabber
 	itsMouseGrabber = window;
 }
 
-inline JBoolean
+inline bool
 JXDisplay::GetKeyboardGrabber
 	(
 	JXWindow** window
@@ -957,7 +957,7 @@ JXDisplay::GetKeyboardGrabber
 	const
 {
 	*window = itsKeyboardGrabber;
-	return JConvertToBoolean( *window != nullptr );
+	return *window != nullptr;
 }
 
 inline void

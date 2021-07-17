@@ -39,7 +39,7 @@ public:
 	void	WriteGeometry(std::ostream& output) const;
 	void	SetColTitles(JXColHeaderWidget* widget) const;
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const override;
+	virtual bool	IsEditable(const JPoint& cell) const override;
 	virtual void		HandleKeyPress(const JUtf8Character& c,
 									   const int keySym, const JXKeyModifiers& modifiers) override;
 
@@ -62,7 +62,7 @@ protected:
 								 const JXButtonStates& buttonStates,
 								 const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDEnter() override;
@@ -76,7 +76,7 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual bool		ExtractInputData(const JPoint& cell) override;
 	virtual void			PrepareDeleteXInputField() override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;

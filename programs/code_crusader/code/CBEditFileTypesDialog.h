@@ -26,14 +26,14 @@ public:
 						  const JArray<CBPrefsManager::FileTypeInfo>& fileTypeList,
 						  const JArray<CBPrefsManager::MacroSetInfo>& macroList,
 						  const JArray<CBPrefsManager::CRMRuleListInfo>& crmList,
-						  const JBoolean execOutputWordWrap,
-						  const JBoolean unknownTypeWordWrap);
+						  const bool execOutputWordWrap,
+						  const bool unknownTypeWordWrap);
 
 	virtual ~CBEditFileTypesDialog();
 
 	void	GetFileTypeInfo(JArray<CBPrefsManager::FileTypeInfo>* fileTypeList,
-							JBoolean* execOutputWordWrap,
-							JBoolean* unknownTypeWordWrap) const;
+							bool* execOutputWordWrap,
+							bool* unknownTypeWordWrap) const;
 
 protected:
 
@@ -59,8 +59,8 @@ private:
 	void	BuildWindow(const JArray<CBPrefsManager::FileTypeInfo>& fileTypeList,
 						const JArray<CBPrefsManager::MacroSetInfo>& macroList,
 						const JArray<CBPrefsManager::CRMRuleListInfo>& crmList,
-						const JBoolean execOutputWordWrap,
-						const JBoolean unknownTypeWordWrap);
+						const bool execOutputWordWrap,
+						const bool unknownTypeWordWrap);
 
 	// not allowed
 

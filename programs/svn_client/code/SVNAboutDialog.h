@@ -26,7 +26,7 @@ protected:
 
 private:
 
-	JBoolean	itsIsUpgradeFlag;
+	bool	itsIsUpgradeFlag;
 
 // begin JXLayout
 

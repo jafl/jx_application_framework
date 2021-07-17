@@ -33,7 +33,7 @@ GFGPrefsDialog::GFGPrefsDialog
 	const JString& function
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(header, source, constructor, destructor, function);
 }
@@ -74,7 +74,7 @@ GFGPrefsDialog::BuildWindow
 	headerCommentLabel->SetToLabel();
 
 	itsHeaderInput =
-		jnew JXInputField(kJFalse, kJTrue, window,
+		jnew JXInputField(false, true, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 470,60);
 	assert( itsHeaderInput != nullptr );
 
@@ -85,7 +85,7 @@ GFGPrefsDialog::BuildWindow
 	sourceCommentLabel->SetToLabel();
 
 	itsSourceInput =
-		jnew JXInputField(kJFalse, kJTrue, window,
+		jnew JXInputField(false, true, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,135, 470,60);
 	assert( itsSourceInput != nullptr );
 
@@ -96,7 +96,7 @@ GFGPrefsDialog::BuildWindow
 	ctorCommentLabel->SetToLabel();
 
 	itsConstructorInput =
-		jnew JXInputField(kJFalse, kJTrue, window,
+		jnew JXInputField(false, true, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,230, 470,60);
 	assert( itsConstructorInput != nullptr );
 
@@ -107,7 +107,7 @@ GFGPrefsDialog::BuildWindow
 	dtorCommentLabel->SetToLabel();
 
 	itsDestructorInput =
-		jnew JXInputField(kJFalse, kJTrue, window,
+		jnew JXInputField(false, true, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,325, 470,60);
 	assert( itsDestructorInput != nullptr );
 
@@ -118,7 +118,7 @@ GFGPrefsDialog::BuildWindow
 	fnCommentLabel->SetToLabel();
 
 	itsFunctionInput =
-		jnew JXInputField(kJFalse, kJTrue, window,
+		jnew JXInputField(false, true, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,420, 470,60);
 	assert( itsFunctionInput != nullptr );
 
@@ -185,7 +185,7 @@ GFGPrefsDialog::GetValues
 
  *****************************************************************************/
 
-JBoolean
+bool
 GFGPrefsDialog::OKToDeactivate()
 {
 	if (Cancelled())
@@ -193,7 +193,7 @@ GFGPrefsDialog::OKToDeactivate()
 		return JXDialogDirector::OKToDeactivate();
 		}
 
-	JBoolean ok	= JXDialogDirector::OKToDeactivate();
+	bool ok	= JXDialogDirector::OKToDeactivate();
 	if (ok)
 		{
 		if (!itsHeaderInput->InputValid() ||
@@ -202,7 +202,7 @@ GFGPrefsDialog::OKToDeactivate()
 			!itsDestructorInput->InputValid() ||
 			!itsFunctionInput->InputValid())
 			{
-			ok	= kJFalse;
+			ok	= false;
 			}
 		}
 

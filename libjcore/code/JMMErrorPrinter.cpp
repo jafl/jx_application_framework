@@ -31,12 +31,12 @@ JMMErrorPrinter::JMMErrorPrinter
 	)
 	:
 	JMMMonitor(),
-	itsPrintErrorsFlag(kJTrue)
+	itsPrintErrorsFlag(true)
 {
 	const JUtf8Byte* printErrors = getenv("JMM_NO_PRINT_ERRORS");
-	if (printErrors != nullptr && JString::Compare(printErrors, "yes", kJFalse) == 0)
+	if (printErrors != nullptr && JString::Compare(printErrors, "yes", JString::kIgnoreCase) == 0)
 		{
-		itsPrintErrorsFlag = kJFalse;
+		itsPrintErrorsFlag = false;
 		}
 }
 
@@ -101,7 +101,7 @@ JMMErrorPrinter::HandleUnallocatedDeletion
 	(
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 	if (itsPrintErrorsFlag)
@@ -124,7 +124,7 @@ JMMErrorPrinter::HandleMultipleDeletion
 	const JMMRecord& originalRecord,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 	if (itsPrintErrorsFlag)

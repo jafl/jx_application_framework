@@ -30,8 +30,8 @@ public:
 
 	virtual ~JLinkedListIterator();
 
-	virtual JBoolean	Prev(T* item, const JBoolean move = kJTrue) override;
-	virtual JBoolean	Next(T* item, const JBoolean move = kJTrue) override;
+	virtual bool	Prev(T* item, const JIteratorAction move = kJIteratorMove) override;
+	virtual bool	Next(T* item, const JIteratorAction move = kJIteratorMove) override;
 
 	virtual void		SkipPrev(const JSize count = 1) override;
 	virtual void		SkipNext(const JSize count = 1) override;
@@ -40,13 +40,13 @@ public:
 
 	// only allowed if constructed from non-const JList<T>*
 
-	virtual JBoolean	SetPrev(const T& data, const JBoolean move = kJTrue) override;
-	virtual JBoolean	SetNext(const T& data, const JBoolean move = kJTrue) override;
+	virtual bool	SetPrev(const T& data, const JIteratorAction move = kJIteratorMove) override;
+	virtual bool	SetNext(const T& data, const JIteratorAction move = kJIteratorMove) override;
 
-	virtual JBoolean	RemovePrev(const JSize count = 1) override;
-	virtual JBoolean	RemoveNext(const JSize count = 1) override;
+	virtual bool	RemovePrev(const JSize count = 1) override;
+	virtual bool	RemoveNext(const JSize count = 1) override;
 
-	virtual JBoolean	Insert(const T& data) override;
+	virtual bool	Insert(const T& data) override;
 
 protected:
 
@@ -56,7 +56,7 @@ private:
 
 	JLinkedList<T>*			itsLinkedList;
 	JLinkedListElement<T>*	itsCurrElement;		// if cursor > 0, it is after this element
-	JBoolean				itsIgnoreListChangedFlag;
+	bool				itsIgnoreListChangedFlag;
 
 private:
 

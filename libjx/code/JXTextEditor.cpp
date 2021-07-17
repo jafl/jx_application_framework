@@ -28,7 +28,7 @@
 JXTextEditor::JXTextEditor
 	(
 	JStyledText*		text,
-	const JBoolean		ownsText,
+	const bool		ownsText,
 	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -40,14 +40,14 @@ JXTextEditor::JXTextEditor
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kFullEditor, text, ownsText, kJFalse, scrollbarSet,
+	JXTEBase(kFullEditor, text, ownsText, false, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y, w,h),
 	itsFontMenu(nullptr),
 	itsSizeMenu(nullptr),
 	itsStyleMenu(nullptr)
 {
-	WantInput(kJTrue, kJTrue);
-	ShouldAllowDragAndDrop(kJTrue);
+	WantInput(true, true);
+	ShouldAllowDragAndDrop(true);
 	GetText()->SetLastSaveLocation();
 
 	(scrollbarSet->GetVScrollbar())->SetScrollDelay(0);
@@ -58,7 +58,7 @@ JXTextEditor::JXTextEditor
 
 	if (itsMenuBar != nullptr)
 		{
-		AppendEditMenu(menuBar, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue);
+		AppendEditMenu(menuBar, true, true, true, true, true, true, true, true);
 		AppendSearchReplaceMenu(menuBar);
 
 		itsFontMenu = jnew JXFontNameMenu(JGetString("FontMenuTitle::JXGlobal"), menuBar,
@@ -104,7 +104,7 @@ JXTextEditor::ShareMenus
 	JXTextEditor* te
 	)
 {
-	ShareEditMenu(te, kJTrue, kJTrue, kJTrue, kJTrue);
+	ShareEditMenu(te, true, true, true, true);
 	ShareSearchMenu(te);
 
 	itsMenuBar = te->itsMenuBar;
@@ -204,7 +204,7 @@ JXTextEditor::AdjustMenuBar()
 		return;
 		}
 
-	const JBoolean active = JI2B(GetType() == kFullEditor);
+	const bool active = GetType() == kFullEditor;
 
 	itsFontMenu->SetActive(active);
 	itsSizeMenu->SetActive(active);

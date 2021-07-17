@@ -24,7 +24,7 @@ CMBreakpoint::CMBreakpoint
 	const CMLocation&	location,
 	const JString&		fn,
 	const JString&		addr,
-	const JBoolean		enabled,
+	const bool		enabled,
 	const Action		action,
 	const JString&		condition,
 	const JSize			ignoreCount
@@ -49,7 +49,7 @@ CMBreakpoint::CMBreakpoint
 	const JSize		lineIndex,
 	const JString&	fn,
 	const JString&	addr,
-	const JBoolean	enabled,
+	const bool	enabled,
 	const Action	action,
 	const JString&	condition,
 	const JSize		ignoreCount
@@ -77,7 +77,7 @@ CMBreakpoint::CMBreakpoint
 	:
 	itsDebuggerIndex(0),
 	itsLocation(fileName, lineIndex),
-	itsEnabledFlag(kJTrue),
+	itsEnabledFlag(true),
 	itsAction(kKeepBreakpoint),
 	itsIgnoreCount(0)
 {
@@ -91,7 +91,7 @@ CMBreakpoint::CMBreakpoint
 	:
 	itsDebuggerIndex(0),
 	itsAddr(addr),
-	itsEnabledFlag(kJTrue),
+	itsEnabledFlag(true),
 	itsAction(kKeepBreakpoint),
 	itsIgnoreCount(0)
 {
@@ -106,7 +106,7 @@ CMBreakpoint::CMBreakpointX()
 	const JString& fileName = GetFileName();
 	if (!fileName.IsEmpty())	// search target may have empty file name
 		{
-		JBoolean exists;
+		bool exists;
 		JString fullName;
 		if (CMGetLink()->FindFile(fileName, &exists, &fullName))
 			{

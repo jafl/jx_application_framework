@@ -26,17 +26,17 @@ public:
 
 	virtual ~JXMenuData();
 
-	JBoolean	HasCheckboxes() const;
-	JBoolean	HasSubmenus() const;
+	bool	HasCheckboxes() const;
+	bool	HasSubmenus() const;
 
-	JBoolean			IsEnabled(const JIndex index) const;
+	bool			IsEnabled(const JIndex index) const;
 	JXMenu::ItemType	GetType(const JIndex index) const;
-	JBoolean			IsChecked(const JIndex index) const;
+	bool			IsChecked(const JIndex index) const;
 
-	JBoolean	HasSubmenu(const JIndex index) const;
-	JBoolean	GetSubmenu(const JIndex index, JXMenu** menu) const;
+	bool	HasSubmenu(const JIndex index) const;
+	bool	GetSubmenu(const JIndex index, JXMenu** menu) const;
 
-	JBoolean	ShortcutToIndex(const JUtf8Character& c, JIndex* index) const;
+	bool	ShortcutToIndex(const JUtf8Character& c, JIndex* index) const;
 
 protected:
 
@@ -53,18 +53,18 @@ protected:
 	virtual void	DeleteItem(const JIndex index);		// must call inherited
 	virtual void	DeleteAll();						// must call inherited
 
-	JBoolean		GetItemShortcuts(const JIndex index, const JString** shortcuts) const;
+	bool		GetItemShortcuts(const JIndex index, const JString** shortcuts) const;
 	void			SetItemShortcuts(const JIndex index, const JString& shortcuts);
 	virtual void	ItemShortcutsChanged(const JIndex index, const JString* shortcuts);
 
-	JBoolean	GetItemID(const JIndex index, const JString** id) const;
+	bool	GetItemID(const JIndex index, const JString** id) const;
 	void		SetItemID(const JIndex index, const JString& id);
 
 	void	EnableItem(const JIndex index);
 	void	EnableAll();
 	void	DisableItem(const JIndex index);
 	void	DisableAll();
-	void	SetItemEnable(const JIndex index, const JBoolean enabled);
+	void	SetItemEnable(const JIndex index, const bool enabled);
 
 	// must call inherited
 
@@ -74,23 +74,23 @@ private:
 
 	struct BaseItemData
 	{
-		JBoolean			enabled;
+		bool			enabled;
 		JString*			shortcuts;	// can be nullptr
 		JString*			id;			// can be nullptr
 
 		JXMenu*				submenu;	// this overrides isCheckbox; we own it; can be nullptr
 
 		JXMenu::ItemType	type;
-		JBoolean			isChecked;	// only used when menu is visible
+		bool			isChecked;	// only used when menu is visible
 
 		BaseItemData()
 			:
-			enabled( kJTrue ),
+			enabled( true ),
 			shortcuts( nullptr ),
 			id( nullptr ),
 			submenu( nullptr ),
 			type( JXMenu::kPlainType ),
-			isChecked( kJFalse )
+			isChecked( false )
 		{ };
 	};
 
@@ -103,10 +103,10 @@ private:
 	void	CheckItem(const JIndex index);
 
 	void		AttachSubmenu(const JIndex index, JXMenu* submenu);
-	JBoolean	RemoveSubmenu(const JIndex index, JXMenu** theMenu);
+	bool	RemoveSubmenu(const JIndex index, JXMenu** theMenu);
 	void		RemoveSubmenu(JXMenu* theMenu);
 	void		DeleteSubmenu(const JIndex index);
-	JBoolean	FindSubmenu(JXMenu* theMenu, JIndex* index) const;
+	bool	FindSubmenu(JXMenu* theMenu, JIndex* index) const;
 
 	void	CleanOutBaseItem(BaseItemData* itemData);
 
@@ -149,7 +149,7 @@ JXMenuData::AppendItem
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXMenuData::IsEnabled
 	(
 	const JIndex index
@@ -171,7 +171,7 @@ JXMenuData::EnableItem
 	const JIndex index
 	)
 {
-	SetItemEnable(index, kJTrue);
+	SetItemEnable(index, true);
 }
 
 /******************************************************************************
@@ -185,7 +185,7 @@ JXMenuData::DisableItem
 	const JIndex index
 	)
 {
-	SetItemEnable(index, kJFalse);
+	SetItemEnable(index, false);
 }
 
 /******************************************************************************
@@ -209,7 +209,7 @@ JXMenuData::GetType
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXMenuData::IsChecked
 	(
 	const JIndex index
@@ -225,7 +225,7 @@ JXMenuData::IsChecked
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXMenuData::HasSubmenu
 	(
 	const JIndex index
@@ -233,7 +233,7 @@ JXMenuData::HasSubmenu
 	const
 {
 	const BaseItemData itemData = itsBaseItemData->GetElement(index);
-	return JConvertToBoolean( itemData.submenu != nullptr );
+	return itemData.submenu != nullptr;
 }
 
 /******************************************************************************
@@ -241,7 +241,7 @@ JXMenuData::HasSubmenu
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXMenuData::GetSubmenu
 	(
 	const JIndex	index,
@@ -251,7 +251,7 @@ JXMenuData::GetSubmenu
 {
 	const BaseItemData itemData = itsBaseItemData->GetElement(index);
 	*menu = itemData.submenu;
-	return JConvertToBoolean( itemData.submenu != nullptr );
+	return itemData.submenu != nullptr;
 }
 
 /******************************************************************************
@@ -259,7 +259,7 @@ JXMenuData::GetSubmenu
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXMenuData::GetItemShortcuts
 	(
 	const JIndex	index,
@@ -268,7 +268,7 @@ JXMenuData::GetItemShortcuts
 	const
 {
 	*shortcuts = (itsBaseItemData->GetElement(index)).shortcuts;
-	return JI2B(*shortcuts != nullptr);
+	return *shortcuts != nullptr;
 }
 
 /******************************************************************************
@@ -276,7 +276,7 @@ JXMenuData::GetItemShortcuts
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXMenuData::GetItemID
 	(
 	const JIndex	index,
@@ -285,7 +285,7 @@ JXMenuData::GetItemID
 	const
 {
 	*id = (itsBaseItemData->GetElement(index)).id;
-	return JI2B(*id != nullptr);
+	return *id != nullptr;
 }
 
 #endif

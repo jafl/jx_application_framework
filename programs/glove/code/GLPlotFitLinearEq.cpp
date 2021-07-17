@@ -83,7 +83,7 @@ GLPlotFitLinearEq::InitializePolynomial
 	assert(itsPowers != nullptr);
 	const JSize count	= itsPowers->GetElementCount();
 	SetParameterCount(count);
-	SetHasGoodnessOfFit(kJTrue);
+	SetHasGoodnessOfFit(true);
 	JString name;
 	for (JIndex i = 1; i <= count; i++)
 		{
@@ -144,7 +144,7 @@ GLPlotFitLinearEq::GenerateFit()
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitLinearEq::GetYValue
 	(
 	const JFloat 	x,
@@ -172,7 +172,7 @@ GLPlotFitLinearEq::GetYValue
 		*y += term;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 
@@ -182,7 +182,7 @@ GLPlotFitLinearEq::GetYValue
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitLinearEq::GetParameterName
 	(
 	const JIndex index, 
@@ -192,10 +192,10 @@ GLPlotFitLinearEq::GetParameterName
 {
 	if (index > itsPowers->GetElementCount())
 		{
-		return kJFalse;
+		return false;
 		}
 	*name = "a" + JString((JUInt64) index - 1);
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -204,7 +204,7 @@ GLPlotFitLinearEq::GetParameterName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitLinearEq::GetParameter
 	(
 	const JIndex index, 
@@ -214,10 +214,10 @@ GLPlotFitLinearEq::GetParameter
 {
 	if (index > itsPowers->GetElementCount())
 		{
-		return kJFalse;
+		return false;
 		}
 	*value	= itsParameters->GetElement(index);
-	return kJTrue;		
+	return true;		
 }
 
 /*********************************************************************************
@@ -226,7 +226,7 @@ GLPlotFitLinearEq::GetParameter
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitLinearEq::GetParameterError
 	(
 	const JIndex index, 
@@ -237,14 +237,14 @@ GLPlotFitLinearEq::GetParameterError
 	const JPlotDataBase* data = GetData();
 	if (!data->HasXErrors() && !data->HasYErrors())
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index > itsPowers->GetElementCount())
 		{
-		return kJFalse;
+		return false;
 		}
 	*value	= itsErrors->GetElement(index);
-	return kJTrue;		
+	return true;		
 }
 
 /*********************************************************************************

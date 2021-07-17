@@ -66,7 +66,7 @@ const JString&
 CBSearchFilterHistoryMenu::GetFilter
 	(
 	const Message&	message,
-	JBoolean*		invert
+	bool*		invert
 	)
 	const
 {
@@ -83,12 +83,12 @@ const JString&
 CBSearchFilterHistoryMenu::GetFilter
 	(
 	const JIndex	index,
-	JBoolean*		invert
+	bool*		invert
 	)
 	const
 {
 	JString s;
-	*invert = JI2B(GetItemNMShortcut(index, &s) && s == JGetString("InvertFlag::CBSearchFilterHistoryMenu"));
+	*invert = GetItemNMShortcut(index, &s) && s == JGetString("InvertFlag::CBSearchFilterHistoryMenu");
 
 	return JXTextMenu::GetItemText(index);
 }
@@ -105,7 +105,7 @@ void
 CBSearchFilterHistoryMenu::AddFilter
 	(
 	const JString&	filter,
-	const JBoolean	invert
+	const bool	invert
 	)
 {
 	if (!filter.IsEmpty())

@@ -26,7 +26,7 @@ static const JRegex endMarkerPattern = "['`]";
 
 // static data
 
-JBoolean CBCompileDocument::theDoubleSpaceFlag = kJTrue;
+bool CBCompileDocument::theDoubleSpaceFlag = true;
 
 // Error menu
 
@@ -53,9 +53,9 @@ CBCompileDocument::CBCompileDocument
 	CBProjectDocument* projDoc
 	)
 	:
-	CBExecOutputDocument(kCBExecOutputFT, "CBCompileHelp", kJFalse),
+	CBExecOutputDocument(kCBExecOutputFT, "CBCompileHelp", false),
 	itsProjDoc(projDoc),
-	itsHasErrorsFlag(kJFalse)
+	itsHasErrorsFlag(false)
 {
 	itsErrorMenu = InsertTextMenu(JGetString("ErrorMenuTitle::CBCompileDocument"));
 	itsErrorMenu->SetMenuItems(kErrorMenuStr, "CBCompileDocument");
@@ -67,7 +67,7 @@ CBCompileDocument::CBCompileDocument
 	// allow Meta-_ to parallel Shift key required for Meta-plus
 
 	JXKeyModifiers modifiers(GetDisplay());
-	modifiers.SetState(kJXMetaKeyIndex, kJTrue);
+	modifiers.SetState(kJXMetaKeyIndex, true);
 	GetWindow()->InstallMenuShortcut(itsErrorMenu, kPrevErrorCmd, '_', modifiers);
 
 	GetWindow()->SetWMClass(CBGetWMClassInstance(), CBGetCompileOutputWindowClass());
@@ -89,11 +89,11 @@ CBCompileDocument::~CBCompileDocument()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCompileDocument::NeedsFormattedData()
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -111,7 +111,7 @@ CBCompileDocument::SetConnection
 	const JString&	dontCloseMsg,
 	const JString&	execDir,
 	const JString&	execCmd,
-	const JBoolean	showPID
+	const bool	showPID
 	)
 {
 	CBGetDocumentManager()->SetActiveListDocument(this);
@@ -120,7 +120,7 @@ CBCompileDocument::SetConnection
 
 	if (ShouldClearWhenStart())
 		{
-		itsHasErrorsFlag = kJFalse;
+		itsHasErrorsFlag = false;
 		}
 	if (!itsHasErrorsFlag)
 		{
@@ -128,7 +128,7 @@ CBCompileDocument::SetConnection
 		}
 
 	CBExecOutputDocument::SetConnection(p, inFD, outFD, windowTitle,
-										dontCloseMsg, execDir, execCmd, kJFalse);
+										dontCloseMsg, execDir, execCmd, false);
 
 	if (!execCmd.IsEmpty())
 		{
@@ -139,7 +139,7 @@ CBCompileDocument::SetConnection
 			"d", execDir.GetBytes()
 			};
 		te->Paste(JGetString("ChangeDirectory::CBCompileDocument", map, sizeof(map)));
-		te->Paste(JString("\n\n", kJFalse));
+		te->Paste(JString("\n\n", JString::kNoCopy));
 		te->GetText()->ClearUndo();
 		}
 }
@@ -151,7 +151,7 @@ CBCompileDocument::SetConnection
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCompileDocument::ProcessFinished
 	(
 	const JProcess::Finished& info
@@ -159,7 +159,7 @@ CBCompileDocument::ProcessFinished
 {
 	if (!CBExecOutputDocument::ProcessFinished(info))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (!GetTextEditor()->HasSelection())
@@ -167,7 +167,7 @@ CBCompileDocument::ProcessFinished
 		ShowFirstError();
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -238,31 +238,30 @@ CBCompileDocument::AppendText
 	const JString& text
 	)
 {
-	const JBoolean isJavacError = javacOutputRegex.Match(text);
+	const bool isJavacError = javacOutputRegex.Match(text);
 
-	const JStringMatch gccMatch         = gccErrorRegex.Match(text, kJFalse),
-					   gccPrevLineMatch = gccErrorRegex.Match(itsPrevLine, kJFalse);
+	const JStringMatch gccMatch         = gccErrorRegex.Match(text, JRegex::kIgnoreSubmatches),
+					   gccPrevLineMatch = gccErrorRegex.Match(itsPrevLine, JRegex::kIgnoreSubmatches);
 
-	const JBoolean isGCCError = JI2B(!isJavacError && !gccMatch.IsEmpty());
+	const bool isGCCError = !isJavacError && !gccMatch.IsEmpty();
 
-	const JStringMatch flexMatch = flexErrorRegex.Match(text, kJFalse);
-	const JBoolean isFlexError   = !flexMatch.IsEmpty();
+	const JStringMatch flexMatch = flexErrorRegex.Match(text, JRegex::kIgnoreSubmatches);
+	const bool isFlexError   = !flexMatch.IsEmpty();
 
-	const JStringMatch bisonMatch = bisonErrorRegex.Match(text, kJFalse);
-	const JBoolean isBisonError   = !bisonMatch.IsEmpty();
+	const JStringMatch bisonMatch = bisonErrorRegex.Match(text, JRegex::kIgnoreSubmatches);
+	const bool isBisonError   = !bisonMatch.IsEmpty();
 
-	const JStringMatch makeMatch = makeErrorRegex.Match(text, kJFalse);
-	const JBoolean isMakeError   = JI2B(
-		!makeMatch.IsEmpty() && !text.EndsWith(makeIgnoreErrorStr) );
+	const JStringMatch makeMatch = makeErrorRegex.Match(text, JRegex::kIgnoreSubmatches);
+	const bool isMakeError   = !makeMatch.IsEmpty() && !text.EndsWith(makeIgnoreErrorStr);
 
-	const JStringMatch absoftMatch = absoftErrorRegex.Match(text, kJTrue);
-	const JBoolean isAbsoftError   = !absoftMatch.IsEmpty();
+	const JStringMatch absoftMatch = absoftErrorRegex.Match(text, JRegex::kIncludeSubmatches);
+	const bool isAbsoftError   = !absoftMatch.IsEmpty();
 
-	const JStringMatch maven2Match = maven2ErrorRegex.Match(text, kJTrue);
-	const JBoolean isMaven2Error   = !maven2Match.IsEmpty();
+	const JStringMatch maven2Match = maven2ErrorRegex.Match(text, JRegex::kIncludeSubmatches);
+	const bool isMaven2Error   = !maven2Match.IsEmpty();
 
-	const JStringMatch maven3Match = maven3ErrorRegex.Match(text, kJTrue);
-	const JBoolean isMaven3Error   = !maven3Match.IsEmpty();
+	const JStringMatch maven3Match = maven3ErrorRegex.Match(text, JRegex::kIncludeSubmatches);
+	const bool isMaven3Error   = !maven3Match.IsEmpty();
 
 	CBTextEditor* te = GetTextEditor();
 
@@ -273,7 +272,7 @@ CBCompileDocument::AppendText
 		JString s = text;
 		JStringIterator iter(&s, kJIteratorStartAfterByte, kGCCMultilinePrefixLength);
 		JUtf8Character c;
-		if (iter.Next(&c, kJFalse) && !c.IsSpace())
+		if (iter.Next(&c, kJIteratorStay) && !c.IsSpace())
 			{
 			iter.RemoveAllPrev();
 			iter.Invalidate();
@@ -289,7 +288,7 @@ CBCompileDocument::AppendText
 	CBExecOutputDocument::AppendText(text);
 	if (theDoubleSpaceFlag)
 		{
-		te->Paste(JString("\n", kJFalse));
+		te->Paste(JString::newline);
 		}
 
 	itsPrevLine = text;
@@ -299,7 +298,7 @@ CBCompileDocument::AppendText
 	JStyledText::TextRange boldRange(startIndex, JStyledText::TextCount());
 	if (isJavacError)
 		{
-		const JStringMatch javacMatch = javacErrorRegex.Match(text, kJFalse);
+		const JStringMatch javacMatch = javacErrorRegex.Match(text, JRegex::kIncludeSubmatches);
 		if (!javacMatch.IsEmpty())
 			{
 			boldRange = cbComputeErrorRangeFromFirstSubmatch(startIndex, javacMatch);
@@ -339,11 +338,11 @@ CBCompileDocument::AppendText
 
 	if (!boldRange.IsEmpty())
 		{
-		te->GetText()->SetFontBold(boldRange, kJTrue, kJTrue);
+		te->GetText()->SetFontBold(boldRange, true, true);
 
 		if (!itsHasErrorsFlag)
 			{
-			itsHasErrorsFlag = kJTrue;
+			itsHasErrorsFlag = true;
 			itsErrorMenu->Activate();
 
 			JXWindow* window    = GetWindow();
@@ -375,7 +374,7 @@ CBCompileDocument::OpenPrevListItem()
 	JString s;
 	while (ShowPrevError())
 		{
-		const JBoolean ok = te->GetSelection(&s);
+		const bool ok = te->GetSelection(&s);
 		assert( ok );
 		if (makeErrorRegex.Match(s))
 			{
@@ -401,7 +400,7 @@ CBCompileDocument::OpenNextListItem()
 	JString s;
 	while (ShowNextError())
 		{
-		const JBoolean ok = te->GetSelection(&s);
+		const bool ok = te->GetSelection(&s);
 		assert( ok );
 		if (makeErrorRegex.Match(s))
 			{
@@ -573,7 +572,7 @@ CBCompileDocument::ShowFirstError()
 
  ******************************************************************************/
 
-JBoolean
+bool
 jMatchErrorStyle
 	(
 	const JFont& font
@@ -582,22 +581,22 @@ jMatchErrorStyle
 	return font.GetStyle().bold;
 }
 
-JBoolean
+bool
 CBCompileDocument::ShowPrevError()
 {
 	CBTextEditor* te = GetTextEditor();
 	te->Focus();
 
-	JBoolean wrapped;
-	if (te->JTextEditor::SearchBackward(jMatchErrorStyle, kJFalse, &wrapped))
+	bool wrapped;
+	if (te->JTextEditor::SearchBackward(jMatchErrorStyle, false, &wrapped))
 		{
-		te->TEScrollToSelection(kJTrue);
-		return kJTrue;
+		te->TEScrollToSelection(true);
+		return true;
 		}
 	else
 		{
 		GetDisplay()->Beep();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -606,21 +605,21 @@ CBCompileDocument::ShowPrevError()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCompileDocument::ShowNextError()
 {
 	CBTextEditor* te = GetTextEditor();
 	te->Focus();
 
-	JBoolean wrapped;
-	if (te->JTextEditor::SearchForward(jMatchErrorStyle, kJFalse, &wrapped))
+	bool wrapped;
+	if (te->JTextEditor::SearchForward(jMatchErrorStyle, false, &wrapped))
 		{
-		te->TEScrollToSelection(kJTrue);
-		return kJTrue;
+		te->TEScrollToSelection(true);
+		return true;
 		}
 	else
 		{
 		GetDisplay()->Beep();
-		return kJFalse;
+		return false;
 		}
 }

@@ -148,14 +148,14 @@ JTEST(Runs)
 	verify("1 2 3 4 4 5 5", a);
 
 	iter->MoveTo(kJIteratorStartBefore, 3);
-	iter->SetNext(4, kJFalse);
+	iter->SetNext(4, kJIteratorStay);
 	verify("1 2 4 4 4 5 5", a);
 
 	iter->MoveTo(kJIteratorStartAfter, 3);
-	iter->SetNext(2, kJFalse);
+	iter->SetNext(2, kJIteratorStay);
 	verify("1 2 4 2 4 5 5", a);
 
-	iter->SetNext(4, kJFalse);
+	iter->SetNext(4, kJIteratorStay);
 	verify("1 2 4 4 4 5 5", a);
 
 	JSetList("-1 1 1 1 1 2 3 3 3 4 5 5 10", &a);
@@ -213,20 +213,20 @@ JTEST(Runs)
 	verify("0 -1 0 -1 -1 1 1 1 1 1 2 2 2 2 3 3 3 5 5 5 10 10 10 11 11", a);
 
 	runiter->MoveTo(kJIteratorStartAfter, 10);
-	runiter->SetPrev(-1, 3, kJFalse);
+	runiter->SetPrev(-1, 3, kJIteratorStay);
 	verify("0 -1 0 -1 -1 1 1 -1 -1 -1 2 2 2 2 3 3 3 5 5 5 10 10 10 11 11", a);
 
-	runiter->SetNext(-2, 3, kJFalse);
+	runiter->SetNext(-2, 3, kJIteratorStay);
 	verify("0 -1 0 -1 -1 1 1 -1 -1 -1 -2 -2 -2 2 3 3 3 5 5 5 10 10 10 11 11", a);
 
-	runiter->SetPrev(1, 3, kJFalse);
+	runiter->SetPrev(1, 3, kJIteratorStay);
 	verify("0 -1 0 -1 -1 1 1 1 1 1 -2 -2 -2 2 3 3 3 5 5 5 10 10 10 11 11", a);
 
-	runiter->SetNext(1, 3, kJFalse);
+	runiter->SetNext(1, 3, kJIteratorStay);
 	verify("0 -1 0 -1 -1 1 1 1 1 1 1 1 1 2 3 3 3 5 5 5 10 10 10 11 11", a);
 
 	runiter->MoveTo(kJIteratorStartAfter, 4);
-	runiter->SetPrev(5, 3, kJFalse);
+	runiter->SetPrev(5, 3, kJIteratorStay);
 	verify("0 5 5 5 -1 1 1 1 1 1 1 1 1 2 3 3 3 5 5 5 10 10 10 11 11", a);
 
 	runiter->SetPrev(-1);
@@ -235,8 +235,8 @@ JTEST(Runs)
 	verify("0 -1 0 -1 -1 1 1 1 1 1 1 1 1 2 3 3 3 5 5 5 10 10 10 11 11", a);
 
 	runiter->MoveTo(kJIteratorStartAfter, 10);
-	runiter->SetNext(-2, 3, kJFalse);
-	runiter->SetPrev(-1, 3, kJFalse);
+	runiter->SetNext(-2, 3, kJIteratorStay);
+	runiter->SetPrev(-1, 3, kJIteratorStay);
 	verify("0 -1 0 -1 -1 1 1 -1 -1 -1 -2 -2 -2 2 3 3 3 5 5 5 10 10 10 11 11", a);
 
 	long j;
@@ -888,8 +888,8 @@ JTEST(IteratorModification)
 	iter->SkipPrev();
 	verify("-2 -2 5 5 4 4 2 1 -3", a);
 
-	iter->SetPrev(-4, kJFalse);
-	iter->SetNext(-4, kJFalse);
+	iter->SetPrev(-4, kJIteratorStay);
+	iter->SetNext(-4, kJIteratorStay);
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(-4, j);
 	iter->SkipPrev();

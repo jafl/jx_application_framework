@@ -1,4 +1,4 @@
-jx_browser_data 87
+jx_browser_data 88
 # project tree
 0 "root"
 T
@@ -106,11 +106,11 @@ F
 # tasks
 4
 "makemake"
-T "./" "make -k" "" T F T F T F T "" "" "" T
-T "./" "make CHECKSTRING=$file_name checksyntax" "" T F T T T T F "" "" "" F
-T "./" "make $file_name_root" "" T F T T T T F "" "" "" T
-T "./" "libjfs" "" F F F F T T F "" "" "" T
-T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
+T "./" "make -k" "" TFTFTFT "" "" "" T
+T "./" "make CHECKSTRING=$file_name checksyntax" "" TFTTTTF "" "" "" F
+T "./" "make $file_name_root" "" TFTTTTF "" "" "" T
+T "./" "libjfs" "" FFFFTTF "" "" "" T
+T "./" "medic -f +$line $full_name" "" FFFTFFF "" "" "" T
 F
 # build settings
 1

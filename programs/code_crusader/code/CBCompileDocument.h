@@ -27,21 +27,21 @@ public:
 								  const JString& dontCloseMsg,
 								  const JString& execDir,
 								  const JString& execCmd,
-								  const JBoolean showPID) override;
+								  const bool showPID) override;
 
 	virtual void	OpenPrevListItem() override;
 	virtual void	OpenNextListItem() override;
 
 	virtual void	ConvertSelectionToFullPath(JString* fileName) const override;
 
-	static JBoolean	WillDoubleSpace();
-	static void		ShouldDoubleSpace(const JBoolean ds);
+	static bool	WillDoubleSpace();
+	static void		ShouldDoubleSpace(const bool ds);
 
 protected:
 
 	virtual void		AppendText(const JString& text) override;
-	virtual JBoolean	ProcessFinished(const JProcess::Finished& info) override;
-	virtual JBoolean	NeedsFormattedData() const override;
+	virtual bool	ProcessFinished(const JProcess::Finished& info) override;
+	virtual bool	NeedsFormattedData() const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -49,10 +49,10 @@ private:
 
 	CBProjectDocument*	itsProjDoc;			// nullptr is allowed
 	JString				itsPrevLine;
-	JBoolean			itsHasErrorsFlag;	// kJTrue => found errors
+	bool			itsHasErrorsFlag;	// true => found errors
 	JXTextMenu*			itsErrorMenu;		// not owned
 
-	static JBoolean	theDoubleSpaceFlag;
+	static bool	theDoubleSpaceFlag;
 
 private:
 
@@ -60,8 +60,8 @@ private:
 	void	HandleErrorMenu(const JIndex index);
 
 	void		ShowFirstError();
-	JBoolean	ShowPrevError();
-	JBoolean	ShowNextError();
+	bool	ShowPrevError();
+	bool	ShowNextError();
 
 	// not allowed
 
@@ -75,7 +75,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBCompileDocument::WillDoubleSpace()
 {
 	return theDoubleSpaceFlag;
@@ -84,7 +84,7 @@ CBCompileDocument::WillDoubleSpace()
 inline void
 CBCompileDocument::ShouldDoubleSpace
 	(
-	const JBoolean ds
+	const bool ds
 	)
 {
 	theDoubleSpaceFlag = ds;

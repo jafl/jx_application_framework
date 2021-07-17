@@ -25,11 +25,11 @@ struct J2DDataRect
 		xmin(xn), xmax(xx), ymin(yn), ymax(yx)
 	{ };
 
-	JBoolean
+	bool
 	Contains(const JFloat x, const JFloat y) const
 	{
-		return JI2B(xmin <= x && x <= xmax &&
-					ymin <= y && y <= ymax);
+		return xmin <= x && x <= xmax &&
+					ymin <= y && y <= ymax;
 	};
 };
 

@@ -130,7 +130,7 @@ JStringIterator::GetLastMatch()
 /******************************************************************************
  ClearLastMatch (private)
 
-	Return kJTrue if iterator is positioned at the end of the string
+	Return true if iterator is positioned at the end of the string
 	or if the iterator has been invalidated.
 
  ******************************************************************************/
@@ -318,13 +318,13 @@ JStringIterator::UnsafeMoveTo
 /******************************************************************************
  SkipPrev
 
-	If there are enough previous characters, skips them and returns kJTrue.
+	If there are enough previous characters, skips them and returns true.
 	Otherwise, moves iterator position to the beginning and returns
-	kJFalse.
+	false.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::SkipPrev
 	(
 	const JSize characterCount
@@ -332,11 +332,11 @@ JStringIterator::SkipPrev
 {
 	if (AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JSize byteCount;
-	const JBoolean ok =
+	const bool ok =
 		JString::CountBytesBackward(itsConstString->GetRawBytes(), itsByteOffset,
 									characterCount, &byteCount);
 	if (ok)
@@ -356,12 +356,12 @@ JStringIterator::SkipPrev
 /******************************************************************************
  SkipNext
 
-	If there are enough following characters, skips them and returns kJTrue.
-	Otherwise, moves iterator position to the end and returns kJFalse.
+	If there are enough following characters, skips them and returns true.
+	Otherwise, moves iterator position to the end and returns false.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::SkipNext
 	(
 	const JSize characterCount
@@ -369,7 +369,7 @@ JStringIterator::SkipNext
 {
 	if (AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JSize maxPosition = itsConstString->GetByteCount();
@@ -386,29 +386,29 @@ JStringIterator::SkipNext
 			{
 			itsByteOffset      = maxPosition;
 			itsCharacterOffset = itsConstString->GetCharacterCount();
-			return kJFalse;
+			return false;
 			}
 
 		bytes += byteCount;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  Prev
 
-	Returns kJTrue if there is a previous character, fetching the previous
+	Returns true if there is a previous character, fetching the previous
 	character in the string and (if requested) decrementing the iterator
-	position.  Otherwise returns kJFalse without fetching or decrementing.
+	position.  Otherwise returns false without fetching or decrementing.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::Prev
 	(
-	JUtf8Character*	c,
-	const JBoolean	move
+	JUtf8Character*			c,
+	const JIteratorAction	move
 	)
 {
 	const JUtf8Byte* ptr = itsConstString->GetRawBytes() + itsByteOffset - 1;
@@ -416,28 +416,28 @@ JStringIterator::Prev
 	JSize byteCount;
 	if (!PreparePrev(move, &byteCount))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	ptr -= byteCount-1;
 	c->Set(ptr);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  Next
 
-	Returns kJTrue if there is a next character, fetching the next
+	Returns true if there is a next character, fetching the next
 	character in the list and (if requested) incrementing the iterator
-	position.  Otherwise returns kJFalse without fetching or incrementing.
+	position.  Otherwise returns false without fetching or incrementing.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::Next
 	(
-	JUtf8Character*	c,
-	const JBoolean	move
+	JUtf8Character*			c,
+	const JIteratorAction	move
 	)
 {
 	const JUtf8Byte* ptr = itsConstString->GetRawBytes() + itsByteOffset;
@@ -445,17 +445,17 @@ JStringIterator::Next
 	JSize byteCount;
 	if (!PrepareNext(move, &byteCount))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	c->Set(ptr);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  Prev
 
-	Returns kJTrue if a match is found earlier in the string.  Match
+	Returns true if a match is found earlier in the string.  Match
 	details can be retrieved from GetLastMatch().
 
 	If a match is found, the cursor position is set to the start of the
@@ -464,18 +464,18 @@ JStringIterator::Next
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::Prev
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
-	const JBoolean		caseSensitive
+	const JString::Case	caseSensitive
 	)
 {
 	ClearLastMatch();
 	if (AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JIndex i = itsByteOffset;
@@ -500,20 +500,20 @@ JStringIterator::Prev
 		assert( itsLastMatch != nullptr );
 		itsLastMatch->SetFirstCharacterIndex(itsCharacterOffset + 1);
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		itsByteOffset      = 0;
 		itsCharacterOffset = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  Next
 
-	Returns kJTrue if a match is found later in the string.  Match
+	Returns true if a match is found later in the string.  Match
 	details can be retrieved from GetLastMatch().
 
 	If a match is found, the cursor position is set beyond the end of the
@@ -522,18 +522,18 @@ JStringIterator::Prev
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::Next
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
-	const JBoolean		caseSensitive
+	const JString::Case	caseSensitive
 	)
 {
 	ClearLastMatch();
 	if (AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JIndex i = itsByteOffset + 1;
@@ -552,20 +552,20 @@ JStringIterator::Next
 		assert( itsLastMatch != nullptr );
 		itsLastMatch->SetLastCharacterIndex(itsCharacterOffset);
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		itsByteOffset      = itsConstString->GetByteCount();
 		itsCharacterOffset = itsConstString->GetCharacterCount();
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  Prev
 
-	Returns kJTrue if a match is found earlier in the string.  Match
+	Returns true if a match is found earlier in the string.  Match
 	details can be retrieved from GetLastMatch().
 
 	If a match is found, the cursor position is set to the start of the
@@ -574,7 +574,7 @@ JStringIterator::Next
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::Prev
 	(
 	const JRegex& pattern
@@ -583,7 +583,7 @@ JStringIterator::Prev
 	ClearLastMatch();
 	if (AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JStringMatch m = pattern.MatchBackward(*itsConstString, itsByteOffset);
@@ -598,20 +598,20 @@ JStringIterator::Prev
 		itsLastMatch = jnew JStringMatch(m);
 		assert( itsLastMatch != nullptr );
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		itsByteOffset      = 0;
 		itsCharacterOffset = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  Next
 
-	Returns kJTrue if a match is found later in the string.  Match
+	Returns true if a match is found later in the string.  Match
 	details can be retrieved from GetLastMatch().
 
 	If a match is found, the cursor position is set beyond the end of the
@@ -620,7 +620,7 @@ JStringIterator::Prev
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::Next
 	(
 	const JRegex& pattern
@@ -629,7 +629,7 @@ JStringIterator::Next
 	ClearLastMatch();
 	if (AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JStringMatch& m = pattern.MatchForward(*itsConstString, itsByteOffset + 1);
@@ -645,13 +645,13 @@ JStringIterator::Next
 		assert( itsLastMatch != nullptr );
 		itsLastMatch->SetLastCharacterIndex(itsCharacterOffset);
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		itsByteOffset      = itsConstString->GetByteCount();
 		itsCharacterOffset = itsConstString->GetCharacterCount();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -668,7 +668,7 @@ JStringIterator::Next
 const JStringMatch&
 JStringIterator::FinishMatch
 	(
-	const JBoolean includeLastMatch
+	const bool includeLastMatch
 	)
 {
 	JCursorPosition pos = itsByteOffset;
@@ -716,17 +716,17 @@ JStringIterator::FinishMatch
  SetPrev
 
 	If there is a previous character, sets it, (if requested) decrements
-	the iterator position, and returns kJTrue.  Otherwise, returns kJFalse.
+	the iterator position, and returns true.  Otherwise, returns false.
 
 	*** Only allowed if iterator was constructed with non-const JString.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::SetPrev
 	(
 	const JUtf8Character&	c,
-	const JBoolean			move
+	const JIteratorAction	move
 	)
 {
 	assert( itsString != nullptr );
@@ -738,29 +738,29 @@ JStringIterator::SetPrev
 	JSize byteCount;
 	if (!PreparePrev(move, &byteCount))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	r.first = r.last - byteCount + 1;
 	itsString->ReplaceBytes(r, c.GetBytes(), c.GetByteCount());
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  SetNext
 
 	If there is a next character, sets it, (if requested) increments the
-	iterator position, and returns kJTrue.  Otherwise, returns kJFalse.
+	iterator position, and returns true.  Otherwise, returns false.
 
 	*** Only allowed if iterator was constructed with non-const JString.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::SetNext
 	(
 	const JUtf8Character&	c,
-	const JBoolean			move
+	const JIteratorAction	move
 	)
 {
 	assert( itsString != nullptr );
@@ -772,7 +772,7 @@ JStringIterator::SetNext
 	JSize byteCount;
 	if (!PrepareNext(move, &byteCount))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	r.last = r.first + byteCount - 1;
@@ -785,20 +785,20 @@ JStringIterator::SetNext
 		// itsCharacterOffset does not change
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  RemovePrev
 
 	If there are enough previous characters, removes them and returns
-	kJTrue.  Otherwise, removes all preceding characters and returns kJFalse.
+	true.  Otherwise, removes all preceding characters and returns false.
 
 	*** Only allowed if iterator was constructed with non-const JString.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::RemovePrev
 	(
 	const JSize characterCount
@@ -810,7 +810,7 @@ JStringIterator::RemovePrev
 	JUtf8ByteRange r;
 	r.last = itsByteOffset;
 
-	const JBoolean result = SkipPrev(characterCount);
+	const bool result = SkipPrev(characterCount);
 
 	r.first = itsByteOffset + 1;
 	itsString->ReplaceBytes(r, nullptr, 0);
@@ -821,13 +821,13 @@ JStringIterator::RemovePrev
  RemoveNext
 
 	If there are enough following characters, removes them and returns
-	kJTrue.  Otherwise, removes all following characters and returns kJFalse.
+	true.  Otherwise, removes all following characters and returns false.
 
 	*** Only allowed if iterator was constructed with non-const JString.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::RemoveNext
 	(
 	const JSize characterCount
@@ -842,7 +842,7 @@ JStringIterator::RemoveNext
 	JUtf8ByteRange r;
 	r.first = itsByteOffset + 1;
 
-	const JBoolean result = SkipNext(characterCount);
+	const bool result = SkipNext(characterCount);
 
 	r.last = itsByteOffset;
 	itsString->ReplaceBytes(r, nullptr, 0);
@@ -908,13 +908,13 @@ JStringIterator::ReplaceLastMatch
 	(
 	const JUtf8Byte*		str,
 	const JUtf8ByteRange&	range,
-	const JBoolean			matchCase
+	const bool			matchCase
 	)
 {
 	assert( itsLastMatch != nullptr );
 	assert( itsString != nullptr );
 
-	JString s(str, range, kJFalse);
+	JString s(str, range, JString::kNoCopy);
 
 	if (matchCase)
 		{
@@ -973,16 +973,16 @@ JStringIterator::Insert
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::PreparePrev
 	(
-	const JBoolean	move,
+	const bool	move,
 	JSize*			byteCount
 	)
 {
 	if (AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JUtf8Byte* ptr = itsConstString->GetRawBytes() + itsByteOffset - 1;
@@ -993,7 +993,7 @@ JStringIterator::PreparePrev
 		{
 		itsByteOffset      = 0;
 		itsCharacterOffset = 0;
-		return kJFalse;
+		return false;
 		}
 
 	if (move)
@@ -1002,7 +1002,7 @@ JStringIterator::PreparePrev
 		itsCharacterOffset--;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1010,16 +1010,16 @@ JStringIterator::PreparePrev
 
  ******************************************************************************/
 
-JBoolean
+bool
 JStringIterator::PrepareNext
 	(
-	const JBoolean	move,
+	const bool	move,
 	JSize*			byteCount
 	)
 {
 	if (AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JUtf8Byte* ptr = itsConstString->GetRawBytes() + itsByteOffset;
@@ -1037,8 +1037,8 @@ JStringIterator::PrepareNext
 		{
 		itsByteOffset      = maxPosition;
 		itsCharacterOffset = itsConstString->GetCharacterCount();
-		return kJFalse;
+		return false;
 		}
 
-	return kJTrue;
+	return true;
 }

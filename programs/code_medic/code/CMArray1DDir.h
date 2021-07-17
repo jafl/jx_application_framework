@@ -33,8 +33,8 @@ public:
 	virtual	~CMArray1DDir();
 
 	virtual void		Activate() override;
-	virtual JBoolean	Deactivate() override;
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
+	virtual bool	Deactivate() override;
+	virtual bool	GetMenuIcon(const JXImage** icon) const override;
 
 	void	StreamOut(std::ostream& output);
 
@@ -53,7 +53,7 @@ private:
 	JIntRange			itsDisplayRange;
 	JIntRange			itsRequestRange;
 	JTreeNode*			itsCurrentNode;		// owned by itsTree
-	JBoolean			itsWaitingForReloadFlag;
+	bool			itsWaitingForReloadFlag;
 
 	JXTextMenu*			itsFileMenu;
 	JXTextMenu*			itsActionMenu;

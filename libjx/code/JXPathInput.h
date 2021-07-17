@@ -24,20 +24,20 @@ public:
 
 	virtual ~JXPathInput();
 
-	virtual JBoolean	InputValid() override;
-	virtual JBoolean	GetPath(JString* path) const;
+	virtual bool	InputValid() override;
+	virtual bool	GetPath(JString* path) const;
 	virtual JString		GetTextForChoosePath() const;
 
-	JBoolean	WillAllowInvalidPath() const;
-	void		ShouldAllowInvalidPath(const JBoolean allow = kJTrue);
+	bool	WillAllowInvalidPath() const;
+	void		ShouldAllowInvalidPath(const bool allow = true);
 
-	JBoolean	WillRequireWritable() const;
-	void		ShouldRequireWritable(const JBoolean require = kJTrue);
+	bool	WillRequireWritable() const;
+	void		ShouldRequireWritable(const bool require = true);
 
-	JBoolean	ChoosePath(const JString& prompt, const JString& instr = JString::empty);
+	bool	ChoosePath(const JString& prompt, const JString& instr = JString::empty);
 
 	static JColorID		GetTextColor(const JString& path, const JString& base,
-									 const JBoolean requireWrite);
+									 const bool requireWrite);
 
 protected:
 
@@ -66,9 +66,9 @@ protected:
 
 private:
 
-	JBoolean	itsAllowInvalidPathFlag;
-	JBoolean	itsRequireWriteFlag;
-	JBoolean	itsExpectURLDropFlag;
+	bool	itsAllowInvalidPathFlag;
+	bool	itsRequireWriteFlag;
+	bool	itsExpectURLDropFlag;
 
 private:
 
@@ -86,7 +86,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXPathInput::WillAllowInvalidPath()
 	const
 {
@@ -96,7 +96,7 @@ JXPathInput::WillAllowInvalidPath()
 inline void
 JXPathInput::ShouldAllowInvalidPath
 	(
-	const JBoolean allow
+	const bool allow
 	)
 {
 	itsAllowInvalidPathFlag = allow;
@@ -107,7 +107,7 @@ JXPathInput::ShouldAllowInvalidPath
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXPathInput::WillRequireWritable()
 	const
 {
@@ -117,7 +117,7 @@ JXPathInput::WillRequireWritable()
 inline void
 JXPathInput::ShouldRequireWritable
 	(
-	const JBoolean require
+	const bool require
 	)
 {
 	itsRequireWriteFlag = require;

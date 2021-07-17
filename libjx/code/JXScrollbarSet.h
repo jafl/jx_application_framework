@@ -35,7 +35,7 @@ public:
 	void	ShowVScrollbar();
 	void	HideVScrollbar();
 
-	void	ShowScrollbars(const JBoolean showH, const JBoolean showV);
+	void	ShowScrollbars(const bool showH, const bool showV);
 
 private:
 

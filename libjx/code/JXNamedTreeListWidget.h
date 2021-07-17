@@ -32,8 +32,8 @@ public:
 	JNamedTreeNode*			GetNamedTreeNode(const JIndex index);
 	const JNamedTreeNode*	GetNamedTreeNode(const JIndex index) const;
 
-	JBoolean	WillHilightTextOnly() const;
-	void		ShouldHilightTextOnly(const JBoolean textOnly);
+	bool	WillHilightTextOnly() const;
+	void		ShouldHilightTextOnly(const bool textOnly);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
@@ -53,16 +53,16 @@ protected:
 
 protected:
 
-	JBoolean			GetNode(const JPoint& pt, JPoint* cell, NodePart* part) const;
-	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
+	bool			GetNode(const JPoint& pt, JPoint* cell, NodePart* part) const;
+	virtual bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	virtual void		AdjustToTree() override;
 	virtual JSize		GetMinCellWidth(const JPoint& cell) const override;
 
 	virtual void		TLWDrawNode(JPainter& p, const JPoint& cell, const JRect& rect) override;
-	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const;
+	virtual bool	GetImage(const JIndex index, const JXImage** image) const;
 	JSize				GetImageWidth(const JIndex index) const;
-	JBoolean			GetImageRect(const JIndex index, JRect* rect) const;
+	bool			GetImageRect(const JIndex index, JRect* rect) const;
 
 	JSize	GetTextWidth(const JIndex index) const;
 	JRect	GetTextRect(const JIndex index) const;
@@ -71,7 +71,7 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual bool		ExtractInputData(const JPoint& cell) override;
 	virtual void			PrepareDeleteXInputField() override;
 	virtual void			PlaceInputField(const JCoordinate x, const JCoordinate y) override;
 	virtual void			SetInputFieldSize(const JCoordinate w, const JCoordinate h) override;
@@ -91,7 +91,7 @@ private:
 	JNamedTreeList*	itsNamedTreeList;	// owned by base class
 	JString			itsKeyBuffer;
 	JSize			itsMaxNodeWidth;
-	JBoolean		itsHilightTextOnlyFlag;
+	bool		itsHilightTextOnlyFlag;
 	JXInputField*	itsNameInputField;
 
 private:
@@ -129,7 +129,7 @@ JXNamedTreeListWidget::GetNamedTreeList()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXNamedTreeListWidget::WillHilightTextOnly()
 	const
 {
@@ -139,7 +139,7 @@ JXNamedTreeListWidget::WillHilightTextOnly()
 inline void
 JXNamedTreeListWidget::ShouldHilightTextOnly
 	(
-	const JBoolean textOnly
+	const bool textOnly
 	)
 {
 	itsHilightTextOnlyFlag = textOnly;

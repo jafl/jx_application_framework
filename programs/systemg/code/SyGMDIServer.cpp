@@ -56,11 +56,11 @@ SyGMDIServer::HandleMDIRequest
 		return;
 		}
 
-	JBoolean restore = IsFirstTime();
+	bool restore = IsFirstTime();
 	if (argCount == 2 && *(argList.GetLastElement()) == "--choose")
 		{
 		app->OpenDirectory();
-		restore = kJFalse;
+		restore = false;
 		}
 	else if (argCount == 2 && *(argList.GetLastElement()) == "--open")
 		{
@@ -76,28 +76,28 @@ SyGMDIServer::HandleMDIRequest
 		}
 	else if (argCount > 1)
 		{
-		JBoolean forceNew       = kJTrue;
-		JBoolean clearSelection = kJTrue;
+		bool forceNew       = true;
+		bool clearSelection = true;
 		for (JIndex i=2; i<=argCount; i++)
 			{
 			const JString& arg = *(argList.GetElement(i));
 			if (arg == "--no-force-new")
 				{
-				forceNew = kJFalse;
+				forceNew = false;
 				}
 			else if (arg == "--force-new")
 				{
-				forceNew = kJTrue;
+				forceNew = true;
 				}
 			else
 				{
 				JString path;
 				if (JConvertToAbsolutePath(arg, JString::empty, &path))
 					{
-					app->OpenDirectory(path, nullptr, nullptr, kJTrue, kJTrue, forceNew, clearSelection);
-					clearSelection = kJFalse;
+					app->OpenDirectory(path, nullptr, nullptr, true, true, forceNew, clearSelection);
+					clearSelection = false;
 					}
-				restore = kJFalse;
+				restore = false;
 				}
 			}
 		}

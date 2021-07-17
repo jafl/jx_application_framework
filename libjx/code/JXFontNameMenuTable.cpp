@@ -69,7 +69,7 @@ JXFontNameMenuTable::HandleKeyPress
 	for (JIndex i=itsMenu->GetHistoryCount()+1; i<=count; i++)
 		{
 		s2.Set(itsMenu->GetItemText(i).GetFirstCharacter());
-		if (JString::Compare(s1, s2, kJFalse) == 0)
+		if (JString::Compare(s1, s2, JString::kIgnoreCase) == 0)
 			{
 			ScrollTo(GetCellRect(JPoint(1,i-1)).topLeft());
 			break;

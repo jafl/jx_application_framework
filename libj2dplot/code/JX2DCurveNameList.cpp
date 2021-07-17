@@ -211,7 +211,7 @@ JX2DCurveNameList::PrepareDeleteXInputField()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JX2DCurveNameList::ExtractInputData
 	(
 	const JPoint& cell
@@ -221,11 +221,11 @@ JX2DCurveNameList::ExtractInputData
 	if (!name.IsEmpty())
 		{
 		*(itsNameList->GetElement(cell.y)) = name;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -244,7 +244,7 @@ JX2DCurveNameList::HandleKeyPress
 {
 	JPoint cell;
 	JTableSelection& s = GetTableSelection();
-	const JBoolean ok  = s.GetFirstSelectedCell(&cell);
+	const bool ok  = s.GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	if (c == kJUpArrow)

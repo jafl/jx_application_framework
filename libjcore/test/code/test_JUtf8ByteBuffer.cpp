@@ -29,8 +29,8 @@ JTEST(Exercise)
 	JAssertTrue(buf.IsEmpty());
 
 	buf.Append("\xA5\xE2\x9C\x94\n", 5);
-	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
+	JUtf8Character::SetIgnoreBadUtf8(true);
 	JAssertStringsEqual("\xEF\xBF\xBD\xE2\x9C\x94\n", buf.ExtractCharacters());
-	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
+	JUtf8Character::SetIgnoreBadUtf8(false);
 	JAssertTrue(buf.IsEmpty());
 }

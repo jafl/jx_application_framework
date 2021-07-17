@@ -47,12 +47,12 @@ JXToolBarButton::JXToolBarButton
 	itsToolBar(toolBar),
 	itsMenu(menu),
 	itsMenuItemID(itemID),
-	itsIsCheckedFlag(kJFalse),
+	itsIsCheckedFlag(false),
 	itsType(type),
 	itsFont(JFontManager::GetDefaultFont()),
 	itsImage(nullptr)
 {
-	JBoolean invalid;
+	bool invalid;
 	NeedsGeometryAdjustment(&invalid);	// gets actual font to use
 	assert( !invalid );
 }
@@ -71,7 +71,7 @@ JXToolBarButton::~JXToolBarButton()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXToolBarButton::GetMenuItemIndex
 	(
 	JIndex* itemIndex
@@ -179,24 +179,24 @@ JXToolBarButton::DrawBorder
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXToolBarButton::NeedsGeometryAdjustment
 	(
-	JBoolean* invalid
+	bool* invalid
 	)
 {
 	JIndex itemIndex;
 	if (!GetMenuItemIndex(&itemIndex))
 		{
-		*invalid = kJTrue;
-		return kJTrue;
+		*invalid = true;
+		return true;
 		}
 
-	*invalid = kJFalse;
+	*invalid = false;
 
 	// refresh if state changed
 
-	const JBoolean checked = itsMenu->IsChecked(itemIndex);
+	const bool checked = itsMenu->IsChecked(itemIndex);
 	if (checked != itsIsCheckedFlag)
 		{
 		itsIsCheckedFlag = checked;
@@ -228,7 +228,7 @@ JXToolBarButton::NeedsGeometryAdjustment
 			hint += "   " + shortCut;
 			}
 		SetHint(hint);
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -245,11 +245,11 @@ JXToolBarButton::NeedsGeometryAdjustment
 		if (delta != 0)
 			{
 			AdjustSize(delta,0);
-			return kJTrue;
+			return true;
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 }
@@ -259,7 +259,7 @@ JXToolBarButton::NeedsGeometryAdjustment
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXToolBarButton::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -273,7 +273,7 @@ JXToolBarButton::WillAcceptDrop
 	if (GetMenuItemIndex(&itemIndex))
 		{
 		const JString* id;
-		const JBoolean hasID = itsMenu->GetItemID(itemIndex, &id);
+		const bool hasID = itsMenu->GetItemID(itemIndex, &id);
 		assert( hasID );
 
 		JXToolBar::WantsToDrop msg(*id, typeList, *action, time, source);
@@ -282,7 +282,7 @@ JXToolBarButton::WillAcceptDrop
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -308,7 +308,7 @@ JXToolBarButton::HandleDNDDrop
 	if (GetMenuItemIndex(&itemIndex))
 		{
 		const JString* id;
-		const JBoolean hasID = itsMenu->GetItemID(itemIndex, &id);
+		const bool hasID = itsMenu->GetItemID(itemIndex, &id);
 		assert( hasID );
 
 		JXToolBar::HandleDrop msg(*id, typeList, action, time, source);

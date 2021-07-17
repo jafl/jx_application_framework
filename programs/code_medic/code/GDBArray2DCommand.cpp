@@ -106,10 +106,10 @@ GDBArray2DCommand::HandleSuccess
 
 		const JPoint cell        = GetCell(i);
 		const JString& origValue = GetData()->GetString(cell);
-		const JBoolean isNew     = JI2B(!origValue.IsEmpty() && origValue != value);
+		const bool isNew     = !origValue.IsEmpty() && origValue != value;
 
 		GetData()->SetString(cell, value);
-		GetTable()->SetCellStyle(cell, CMVarNode::GetFontStyle(kJTrue, isNew));
+		GetTable()->SetCellStyle(cell, CMVarNode::GetFontStyle(true, isNew));
 
 		i++;
 		}

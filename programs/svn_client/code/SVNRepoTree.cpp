@@ -62,7 +62,7 @@ void
 SVNRepoTree::Update
 	(
 	SVNRepoTreeList*	view,
-	const JBoolean		fresh
+	const bool		fresh
 	)
 {
 	if (fresh)

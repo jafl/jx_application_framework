@@ -36,13 +36,13 @@ JSpellChecker::JSpellChecker()
 		}
 
 	int toFD, fromFD;
-	JError err = JProcess::Create(&itsProcess, JString("aspell -a", kJFalse),
+	JError err = JProcess::Create(&itsProcess, JString("aspell -a", JString::kNoCopy),
 								  kJCreatePipe, &toFD,
 								  kJCreatePipe, &fromFD,
 								  kJTossOutput, nullptr);
 	if (!err.OK())
 		{
-		err = JProcess::Create(&itsProcess, JString("ispell -a", kJFalse),
+		err = JProcess::Create(&itsProcess, JString("ispell -a", JString::kNoCopy),
 							   kJCreatePipe, &toFD,
 							   kJCreatePipe, &fromFD,
 							   kJTossOutput, nullptr);
@@ -53,7 +53,7 @@ JSpellChecker::JSpellChecker()
 		itsInFD = fromFD;
 		assert(itsInFD != ACE_INVALID_HANDLE);
 
-		itsOutPipe = jnew JOutPipeStream(toFD, kJTrue);
+		itsOutPipe = jnew JOutPipeStream(toFD, true);
 		assert(itsOutPipe != nullptr);
 
 		JIgnoreUntil(itsInFD, '\n');
@@ -81,19 +81,19 @@ JSpellChecker::~JSpellChecker()
 
 static const JRegex resultSplitPattern = "\\s*,\\s*";
 
-JBoolean
+bool
 JSpellChecker::CheckWord
 	(
 	const JString&		word,
 	JPtrArray<JString>*	suggestionList,
-	JBoolean*			goodFirstSuggestion
+	bool*			goodFirstSuggestion
 	)
 {
 	suggestionList->DeleteAll();
 
 	if (!word.IsAscii())	// ispell *may* split on non-english characters
 		{
-		return kJTrue;
+		return true;
 		}
 
 	JStringIterator iter1(word);
@@ -102,7 +102,7 @@ JSpellChecker::CheckWord
 		{
 		if (!c.IsAlpha())	// ispell splits on non-alpha characters
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 	iter1.Invalidate();
@@ -113,7 +113,7 @@ JSpellChecker::CheckWord
 	JString test = JReadUntil(itsInFD, '\n');
 	if (test.IsEmpty())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	JReadUntil(itsInFD, '\n');	// flush extra newline
@@ -121,7 +121,7 @@ JSpellChecker::CheckWord
 	c = test.GetFirstCharacter();
 	if (c == '*' || c == '+' || c == '-')
 		{
-		return kJTrue;
+		return true;
 		}
 
 	JStringIterator iter2(&test);
@@ -132,8 +132,8 @@ JSpellChecker::CheckWord
 		test.Split(resultSplitPattern, suggestionList);
 		}
 
-	*goodFirstSuggestion = JI2B(c == '&');
-	return kJFalse;
+	*goodFirstSuggestion = c == '&';
+	return false;
 }
 
 /******************************************************************************

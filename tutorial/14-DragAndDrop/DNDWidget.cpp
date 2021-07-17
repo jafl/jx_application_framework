@@ -190,7 +190,7 @@ DNDWidget::HandleMouseDrag
 	// we could have done this in the HandleMouseDown().  Normally,
 	// however, plain dragging would initiate DND, in which case, one
 	// should debounce the drag (i.e. wait for JMouseMoved(itsStartPt, pt)
-	// to return kJTrue), and then DND can only be started in
+	// to return true), and then DND can only be started in
 	// HandleMouseDrag().
 	if (modifiers.shift())
 		{
@@ -206,7 +206,7 @@ DNDWidget::HandleMouseDrag
 		}
 		
 	// Check to see if the window was scrolled
-	const JBoolean scrolled = ScrollForDrag(pt);
+	const bool scrolled = ScrollForDrag(pt);
 
 	// Get the drag painter that we created in mouse down
 	JPainter* p = nullptr;
@@ -361,7 +361,7 @@ DNDWidget::GetSelectionData
  WillAcceptDrop (virtual protected)
 
 	Derived classes that accept drops should override this function and
-	return kJTrue if they will accept the current drop.  If they return kJFalse,
+	return true if they will accept the current drop.  If they return false,
 	they will not receive any DND messages.
 
 	source is non-nullptr if the drag is between widgets in the same program.
@@ -370,7 +370,7 @@ DNDWidget::GetSelectionData
 
  ******************************************************************************/
 
-JBoolean
+bool
 DNDWidget::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -383,21 +383,21 @@ DNDWidget::WillAcceptDrop
 	// There's no point dropping on ourselves in this case.
 	if (source == this)
 		{
-		return kJFalse;
+		return false;
 		}
 
-	// Loop through the types and return kJTrue if we find our type.
+	// Loop through the types and return true if we find our type.
 	const JSize count	= typeList.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
 		Atom type	= typeList.GetElement(i);
 		if (type == itsLinesXAtom)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

@@ -22,7 +22,7 @@ CMGetThread::CMGetThread
 	CMThreadsWidget*	widget
 	)
 	:
-	CMCommand(cmd, kJFalse, kJTrue),
+	CMCommand(cmd, false, true),
 	itsWidget(widget)
 {
 }

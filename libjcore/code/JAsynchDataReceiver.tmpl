@@ -55,7 +55,7 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiverX()
 	itsRecvBuffer = jnew JUtf8Byte [ itsRecvBufferSize ];
 	assert( itsRecvBuffer != nullptr );
 
-	itsInHandleInputFlag = kJFalse;
+	itsInHandleInputFlag = false;
 }
 
 /******************************************************************************
@@ -121,7 +121,7 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::handle_input
 		{
 		return 0;
 		}
-	itsInHandleInputFlag = kJTrue;
+	itsInHandleInputFlag = true;
 
 	// Read the available data.
 
@@ -141,7 +141,7 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::handle_input
 //		std::cerr << "err:  " << jerrno() << std::endl;
 		}
 
-	itsInHandleInputFlag = kJFalse;
+	itsInHandleInputFlag = false;
 	return 0;
 }
 

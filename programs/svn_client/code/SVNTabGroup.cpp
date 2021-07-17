@@ -181,7 +181,7 @@ SVNTabGroup::Receive
 		assert( info != nullptr );
 
 		JIndex i;
-		const JBoolean hasIndex = info->GetCardIndex(&i);
+		const bool hasIndex = info->GetCardIndex(&i);
 		if (hasIndex && i < itsBusyIndex)
 			{
 			itsBusyIndex--;

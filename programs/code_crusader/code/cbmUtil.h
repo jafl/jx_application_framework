@@ -21,13 +21,13 @@ class CBFnMenuUpdater;
 CBFnMenuUpdater*	CBMGetFnMenuUpdater();
 
 void	CBMParseEditorOptions(const JString& fullName, const JString& text,
-							  JBoolean* setTabWidth, JSize* tabWidth,
-							  JBoolean* setTabMode, JBoolean* tabInsertsSpaces,
-							  JBoolean* setAutoIndent, JBoolean* autoIndent);
+							  bool* setTabWidth, JSize* tabWidth,
+							  bool* setTabMode, bool* tabInsertsSpaces,
+							  bool* setAutoIndent, bool* autoIndent);
 void		CBMScrollForDefinition(JXTEBase* te, const CBLanguage lang);
 void		CBMSelectLines(JTextEditor* te, const JIndexRange& lineRange);
 void		CBMBalanceFromSelection(JXTEBase* te, const CBLanguage lang);
-JBoolean	CBMIsCharacterInWord(const JUtf8Character& c);
+bool	CBMIsCharacterInWord(const JUtf8Character& c);
 
 	// for use by dialogs
 
@@ -45,7 +45,7 @@ void	CBMSetStringList(JXInputField* inputField, const JPtrArray<JString>& list);
 
 	typedef CBPrefsManager	CBMPrefsManager;
 
-	void	CBMWriteSharedPrefs(const JBoolean replace);
+	void	CBMWriteSharedPrefs(const bool replace);
 
 #elif defined CODE_MEDIC
 
@@ -65,11 +65,11 @@ void	CBMSetStringList(JXInputField* inputField, const JPtrArray<JString>& list);
 
 	typedef CMPrefsManager	CBMPrefsManager;
 
-	JBoolean	CBMReadSharedPrefs(JString* fontName, JSize* fontSize,
+	bool	CBMReadSharedPrefs(JString* fontName, JSize* fontSize,
 								   JSize* tabCharCount,
-								   JBoolean* sortFnNames, JBoolean* includeNS,
-								   JBoolean* packFnNames,
-								   JBoolean* openComplFileOnTop,
+								   bool* sortFnNames, bool* includeNS,
+								   bool* packFnNames,
+								   bool* openComplFileOnTop,
 								   const JSize colorCount, JRGB colorList[],
 								   JPtrArray<JString>* cSourceSuffixList,
 								   JPtrArray<JString>* cHeaderSuffixList,
@@ -86,30 +86,30 @@ void	CBMSetStringList(JXInputField* inputField, const JPtrArray<JString>& list);
 
  ******************************************************************************/
 
-JBoolean	CBMBalanceForward(const CBLanguage lang, JStringIterator* iter, JUtf8Character* c);
-JBoolean	CBMBalanceBackward(const CBLanguage lang, JStringIterator* iter, JUtf8Character* c);
+bool	CBMBalanceForward(const CBLanguage lang, JStringIterator* iter, JUtf8Character* c);
+bool	CBMBalanceBackward(const CBLanguage lang, JStringIterator* iter, JUtf8Character* c);
 
-inline JBoolean
+inline bool
 CBMIsOpenGroup
 	(
 	const CBLanguage		lang,
 	const JUtf8Character&	c
 	)
 {
-	return JI2B( c == '(' || c == '{' || c == '[');
+	return c == '(' || c == '{' || c == '[';
 }
 
-inline JBoolean
+inline bool
 CBMIsCloseGroup
 	(
 	const CBLanguage		lang,
 	const JUtf8Character&	c
 	)
 {
-	return JI2B( c == ')' || c == '}' || c == ']');
+	return c == ')' || c == '}' || c == ']';
 }
 
-inline JBoolean
+inline bool
 CBMIsMatchingPair
 	(
 	const CBLanguage		lang,
@@ -117,11 +117,11 @@ CBMIsMatchingPair
 	const JUtf8Character&	closeChar
 	)
 {
-	return JI2B((openChar == '(' && closeChar == ')') ||
+	return (openChar == '(' && closeChar == ')') ||
 				(openChar == '{' && closeChar == '}') ||
 				(openChar == '[' && closeChar == ']') ||
 				((lang == kCBHTMLLang || lang == kCBXMLLang) &&
-				 openChar == '<' && closeChar == '>'));
+				 openChar == '<' && closeChar == '>');
 }
 
 #endif

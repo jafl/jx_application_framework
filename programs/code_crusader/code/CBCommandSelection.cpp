@@ -35,7 +35,7 @@ CBCommandSelection::CBCommandSelection
 	assert( itsTable != nullptr );
 
 	JPoint cell;
-	const JBoolean hasSelection =
+	const bool hasSelection =
 		(itsTable->GetTableSelection()).GetSingleSelectedCell(&cell);
 	assert( hasSelection );
 	itsSrcRowIndex = cell.y;
@@ -76,7 +76,7 @@ CBCommandSelection::AddTypes
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandSelection::ConvertData
 	(
 	const Atom		requestType,
@@ -100,7 +100,7 @@ CBCommandSelection::ConvertData
 		if (*data != nullptr)
 			{
 			memcpy(*data, itsData.GetRawBytes(), *dataLength);
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -114,13 +114,13 @@ CBCommandSelection::ConvertData
 		*data       = jnew unsigned char[1];
 		*dataLength = 0;
 		*returnType = selMgr->GetNULLXAtom();
-		return kJTrue;
+		return true;
 		}
 
 	*data       = nullptr;
 	*dataLength = 0;
 	*returnType = None;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

@@ -17,50 +17,50 @@ class J2DPlotData : public JPlotDataBase
 {
 public:
 
-	static JBoolean Create(J2DPlotData** plotData,
+	static bool Create(J2DPlotData** plotData,
 							const JArray<JFloat>& x, const JArray<JFloat>& y,
-							const JBoolean listen);
+							const bool listen);
 
-	static JBoolean OKToCreate(const JArray<JFloat>& x, const JArray<JFloat>& y);
+	static bool OKToCreate(const JArray<JFloat>& x, const JArray<JFloat>& y);
 
 	virtual ~J2DPlotData();
 
 	virtual void GetElement(const JIndex index, J2DDataPoint* data) const override;
 
-	JBoolean SetXErrors(const JArray<JFloat>& xErr);
-	JBoolean SetXErrors(const JArray<JFloat>& xPErr, const JArray<JFloat>& xMErr);
+	bool SetXErrors(const JArray<JFloat>& xErr);
+	bool SetXErrors(const JArray<JFloat>& xPErr, const JArray<JFloat>& xMErr);
 
-	JBoolean SetYErrors(const JArray<JFloat>& yErr);
-	JBoolean SetYErrors(const JArray<JFloat>& yPErr, const JArray<JFloat>& yMErr);
+	bool SetYErrors(const JArray<JFloat>& yErr);
+	bool SetYErrors(const JArray<JFloat>& yPErr, const JArray<JFloat>& yMErr);
 
 	virtual void		GetXRange(JFloat* min, JFloat* max) const override;
-	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const JBoolean xLinear,
+	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
+								  const bool xLinear,
 								  JFloat* yMin, JFloat* yMax) const override;
 
-	virtual JBoolean HasXErrors() const override;
-	virtual JBoolean HasYErrors() const override;
-	virtual JBoolean HasSymmetricXErrors() const override;
-	virtual JBoolean HasSymmetricYErrors() const override;
+	virtual bool HasXErrors() const override;
+	virtual bool HasYErrors() const override;
+	virtual bool HasSymmetricXErrors() const override;
+	virtual bool HasSymmetricYErrors() const override;
 
-	JBoolean	IsValid() const;
+	bool	IsValid() const;
 
 	const JArray<JFloat>&	GetXData() const;
 	const JArray<JFloat>&	GetYData() const;
-	JBoolean				GetXPErrorData(const JArray<JFloat>** array) const;
-	JBoolean				GetXMErrorData(const JArray<JFloat>** array) const;
-	JBoolean				GetYPErrorData(const JArray<JFloat>** array) const;
-	JBoolean				GetYMErrorData(const JArray<JFloat>** array) const;
+	bool				GetXPErrorData(const JArray<JFloat>** array) const;
+	bool				GetXMErrorData(const JArray<JFloat>** array) const;
+	bool				GetYPErrorData(const JArray<JFloat>** array) const;
+	bool				GetYMErrorData(const JArray<JFloat>** array) const;
 
-	JBoolean	IsListening() const;
+	bool	IsListening() const;
 	void		IgnoreDataChanges();
 
-	JBoolean	ArrayInData(const JArray<JFloat>* array) const;
+	bool	ArrayInData(const JArray<JFloat>* array) const;
 
 protected:
 
 	J2DPlotData(const JArray<JFloat>& x, const JArray<JFloat>& y,
-				const JBoolean listen = kJFalse);
+				const bool listen = false);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
@@ -74,8 +74,8 @@ private:
 	JArray<JFloat>* itsYPErrorData;		// nullptr if no error bars
 	JArray<JFloat>* itsYMErrorData;		// nullptr if not symmetric errors
 
-	JBoolean	itsIsValidFlag;
-	JBoolean	itsIsListeningFlag;
+	bool	itsIsValidFlag;
+	bool	itsIsListeningFlag;
 
 	mutable JFloat	itsCurrentXMin;
 	mutable JFloat	itsCurrentXMax;
@@ -93,11 +93,11 @@ private:
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DPlotData::HasXErrors()
 	const
 {
-	return JI2B(itsXPErrorData != nullptr);
+	return itsXPErrorData != nullptr;
 }
 
 /*********************************************************************************
@@ -105,11 +105,11 @@ J2DPlotData::HasXErrors()
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DPlotData::HasYErrors()
 	const
 {
-	return JI2B(itsYPErrorData != nullptr);
+	return itsYPErrorData != nullptr;
 }
 
 /*********************************************************************************
@@ -117,11 +117,11 @@ J2DPlotData::HasYErrors()
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DPlotData::HasSymmetricXErrors()
 	const
 {
-	return JI2B(itsXMErrorData != nullptr);
+	return itsXMErrorData != nullptr;
 }
 
 /*********************************************************************************
@@ -129,11 +129,11 @@ J2DPlotData::HasSymmetricXErrors()
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DPlotData::HasSymmetricYErrors()
 	const
 {
-	return JI2B(itsYMErrorData != nullptr);
+	return itsYMErrorData != nullptr;
 }
 
 /*********************************************************************************
@@ -141,7 +141,7 @@ J2DPlotData::HasSymmetricYErrors()
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DPlotData::IsValid()
 	const
 {
@@ -177,7 +177,7 @@ J2DPlotData::GetYData()
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DPlotData::GetXPErrorData
 	(
 	const JArray<JFloat>** array
@@ -185,7 +185,7 @@ J2DPlotData::GetXPErrorData
 	const
 {
 	*array = itsXPErrorData;
-	return JI2B( itsXPErrorData != nullptr );
+	return itsXPErrorData != nullptr;
 }
 
 /*********************************************************************************
@@ -193,7 +193,7 @@ J2DPlotData::GetXPErrorData
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DPlotData::GetXMErrorData
 	(
 	const JArray<JFloat>** array
@@ -201,7 +201,7 @@ J2DPlotData::GetXMErrorData
 	const
 {
 	*array = itsXMErrorData;
-	return JI2B( itsXMErrorData != nullptr );
+	return itsXMErrorData != nullptr;
 }
 
 /*********************************************************************************
@@ -209,7 +209,7 @@ J2DPlotData::GetXMErrorData
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DPlotData::GetYPErrorData
 	(
 	const JArray<JFloat>** array
@@ -217,7 +217,7 @@ J2DPlotData::GetYPErrorData
 	const
 {
 	*array = itsYPErrorData;
-	return JI2B( itsYPErrorData != nullptr );
+	return itsYPErrorData != nullptr;
 }
 
 /*********************************************************************************
@@ -225,7 +225,7 @@ J2DPlotData::GetYPErrorData
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DPlotData::GetYMErrorData
 	(
 	const JArray<JFloat>** array
@@ -233,7 +233,7 @@ J2DPlotData::GetYMErrorData
 	const
 {
 	*array = itsYMErrorData;
-	return JI2B( itsYMErrorData != nullptr );
+	return itsYMErrorData != nullptr;
 }
 
 /*********************************************************************************
@@ -241,7 +241,7 @@ J2DPlotData::GetYMErrorData
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DPlotData::IsListening()
 	const
 {
@@ -253,16 +253,16 @@ J2DPlotData::IsListening()
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 J2DPlotData::ArrayInData
 	(
 	const JArray<JFloat>* array
 	)
 	const
 {
-	return JI2B(array == itsXData       || array == itsYData ||
+	return array == itsXData       || array == itsYData ||
 				array == itsXPErrorData || array == itsXMErrorData ||
-				array == itsYPErrorData || array == itsYMErrorData);
+				array == itsYPErrorData || array == itsYMErrorData;
 }
 
 #endif

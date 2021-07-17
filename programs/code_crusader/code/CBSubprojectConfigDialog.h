@@ -22,15 +22,15 @@ class CBSubprojectConfigDialog : public JXDialogDirector
 public:
 
 	CBSubprojectConfigDialog(CBProjectDocument* supervisor,
-							 const JBoolean includeInDepList,
+							 const bool includeInDepList,
 							 const JString& subProjName,
-							 const JBoolean shouldBuild,
+							 const bool shouldBuild,
 							 CBRelPathCSF* csf);
 
 	virtual ~CBSubprojectConfigDialog();
 
-	void	GetConfig(JBoolean* includeInDepList,
-					  JString* subProjName, JBoolean* shouldBuild) const;
+	void	GetConfig(bool* includeInDepList,
+					  JString* subProjName, bool* shouldBuild) const;
 
 protected:
 
@@ -52,9 +52,9 @@ private:
 private:
 
 	void	BuildWindow(CBProjectDocument* supervisor,
-						const JBoolean includeInDepList,
+						const bool includeInDepList,
 						const JString& subProjName,
-						const JBoolean shouldBuild,
+						const bool shouldBuild,
 						const JString& basePath);
 	void	UpdateDisplay();
 

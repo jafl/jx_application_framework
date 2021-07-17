@@ -17,7 +17,7 @@
 			Return min avail size, max avail size, and a sorted list of all the
 			available font sizes for the given font name.  If all font sizes are
 			supported (e.g. TrueType), return a reasonable min and max, and an
-			empty list of sizes.  Return kJFalse if there is no such font.
+			empty list of sizes.  Return false if there is no such font.
 
 		GetLineHeight
 			Return the height of a line of text.
@@ -29,7 +29,7 @@
 			Return the width of the given string.
 
 		IsExact
-			Return kJTrue if the font matches the requested attributes.
+			Return true if the font matches the requested attributes.
 
 	Implementation details:
 
@@ -58,11 +58,11 @@
 #include <stdarg.h>
 #include "jAssert.h"
 
-JString	JFontManager::theDefaultFontName("Helvetica", kJFalse);
+JString	JFontManager::theDefaultFontName("Helvetica", JString::kNoCopy);
 JSize	JFontManager::theDefaultFontSize    = 10;
 JSize	JFontManager::theDefaultRCHFontSize = 9;
 
-JString	JFontManager::theDefaultMonospaceFontName("Courier", kJFalse);
+JString	JFontManager::theDefaultMonospaceFontName("Courier", JString::kNoCopy);
 JSize	JFontManager::theDefaultMonospaceFontSize = 10;
 
 JArray<JFontManager::Font> JFontManager::theFontList;

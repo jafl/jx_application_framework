@@ -16,7 +16,7 @@ class JXStyledText : public JStyledText
 {
 public:
 
-	JXStyledText(const JBoolean useMultipleUndo, const JBoolean pasteStyledText,
+	JXStyledText(const bool useMultipleUndo, const bool pasteStyledText,
 				 JFontManager* fontManager);
 	JXStyledText(const JXStyledText& source);
 
@@ -24,8 +24,8 @@ public:
 
 protected:
 
-	virtual JBoolean	NeedsToAdjustFontToDisplayGlyphs(const JString& text, const JRunArray<JFont>& style) const;
-	virtual JBoolean	AdjustFontToDisplayGlyphs(const TextRange& range,
+	virtual bool	NeedsToAdjustFontToDisplayGlyphs(const JString& text, const JRunArray<JFont>& style) const;
+	virtual bool	AdjustFontToDisplayGlyphs(const TextRange& range,
 												  const JString& text,
 												  JRunArray<JFont>* style);
 

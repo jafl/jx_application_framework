@@ -57,7 +57,7 @@ GLFitParameterTable::GLFitParameterTable
 	:
 	JXEditTable(1, kDefColWidth, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	itsInput(nullptr),
-	itsHasStartValues(kJTrue),
+	itsHasStartValues(true),
 	itsColHeaderWidget(nullptr)
 {
 	itsMinColWidth = 1;
@@ -131,16 +131,16 @@ GLFitParameterTable::HandleMouseDown
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLFitParameterTable::BeginEditingStartValues()
 {
 	if (itsHasStartValues && itsStartValues->GetElement(1) == 0)
 		{
 		JPoint cell((JCoordinate)kStartColIndex, 1);
 		BeginEditing(cell);
-		return kJTrue;
+		return true;
 		}
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -282,7 +282,7 @@ GLFitParameterTable::PrepareDeleteXInputField()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLFitParameterTable::ExtractInputData
 	(
 	const JPoint& cell
@@ -290,14 +290,14 @@ GLFitParameterTable::ExtractInputData
 {
 	if (!itsInput->InputValid())
 		{
-		return kJFalse;
+		return false;
 		}
 	JFloat value;
-	JBoolean ok	= itsInput->GetValue(&value);
+	bool ok	= itsInput->GetValue(&value);
 	assert(ok);
 	itsStartValues->SetElement(cell.y, value);
 	Broadcast(ValueChanged(cell.y, value));
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -381,7 +381,7 @@ GLFitParameterTable::SetFitDescription
 			{
 			InsertCols(kStartColIndex, 1, kDefColWidth);
 			itsColHeaderWidget->SetColTitle(2, JGetString("ParmStartTitle::GLFitParameterTable"));
-			itsHasStartValues	= kJTrue;
+			itsHasStartValues	= true;
 			AdjustColWidth();
 			}
 		}
@@ -390,7 +390,7 @@ GLFitParameterTable::SetFitDescription
 		if (itsHasStartValues)
 			{
 			RemoveCol(kStartColIndex);
-			itsHasStartValues	= kJFalse;
+			itsHasStartValues	= false;
 			AdjustColWidth();
 			}
 		}
@@ -416,7 +416,7 @@ GLFitParameterTable::SetFitDescription
 void
 GLFitParameterTable::ShowStartCol
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	if (itsHasStartValues == show)
@@ -426,14 +426,14 @@ GLFitParameterTable::ShowStartCol
 	if (itsHasStartValues)
 		{
 		RemoveCol(kStartColIndex);
-		itsHasStartValues	= kJFalse;
+		itsHasStartValues	= false;
 		AdjustColWidth();
 		}
 	else
 		{
 		InsertCols(kStartColIndex, 1, kDefColWidth);
 		itsColHeaderWidget->SetColTitle(2, JGetString("ParmStartTitle::GLFitParameterTable"));
-		itsHasStartValues	= kJTrue;
+		itsHasStartValues	= true;
 		AdjustColWidth();
 		}
 }
@@ -507,7 +507,7 @@ GLFitParameterTable::CopyParmValuesToStart()
 		{
 		itsStartValues->SetElement(i, itsFitValues->GetElement(i));
 		}
-	ShowStartCol(kJTrue);
+	ShowStartCol(true);
 }
 
 /******************************************************************************

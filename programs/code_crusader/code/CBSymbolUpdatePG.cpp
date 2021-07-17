@@ -52,8 +52,8 @@ CBSymbolUpdatePG::ProcessBeginning
 	const ProcessType	processType,
 	const JSize			stepCount,
 	const JString&		message,
-	const JBoolean		allowCancel,
-	const JBoolean		allowBackground
+	const bool		allowCancel,
+	const bool		allowBackground
 	)
 {
 	JProgressDisplay::ProcessBeginning(processType, stepCount, message,
@@ -77,11 +77,11 @@ CBSymbolUpdatePG::ProcessBeginning
  IncrementProgress
 
 	Update the display to show that progress is being made.
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSymbolUpdatePG::IncrementProgress
 	(
 	const JString&	message,
@@ -103,11 +103,11 @@ CBSymbolUpdatePG::IncrementProgress
  IncrementProgress
 
 	Update the display to show that progress is being made.
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSymbolUpdatePG::IncrementProgress
 	(
 	const JString& message
@@ -122,11 +122,11 @@ CBSymbolUpdatePG::IncrementProgress
 	The iteration count is incremented by the specified value.
 
 	Update the display to show that progress is being made.
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSymbolUpdatePG::IncrementProgress
 	(
 	const JSize delta
@@ -160,10 +160,10 @@ CBSymbolUpdatePG::ProcessFinished()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSymbolUpdatePG::CheckForCancel()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

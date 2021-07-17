@@ -92,7 +92,7 @@ MDSizeHistogram::Draw
 
 	// column headers
 
-	p.SetFontStyle(JFontStyle(kJFalse, kJFalse, 1, kJFalse));
+	p.SetFontStyle(JFontStyle(false, false, 1, false));
 
 	JRect r1 = r;
 	r1.right = r1.left + numberColWidth;
@@ -106,7 +106,7 @@ MDSizeHistogram::Draw
 	// histogram
 
 	p.SetFontStyle(JFontStyle());
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.SetPenColor(JColorManager::GetGrayColor(50));
 
 	JIndex exp   = 32 - (JMemoryManager::kHistogramSlotCount - 1);

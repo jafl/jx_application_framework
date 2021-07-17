@@ -39,7 +39,7 @@ class GLPlotDir : public JXDocument
 public:
 
 	GLPlotDir(JXDirector* supervisor, JXFileDocument* notifySupervisor,
-			const JString& filename, const JBoolean hideOnClose = kJFalse);
+			const JString& filename, const bool hideOnClose = false);
 
 	virtual ~GLPlotDir();
 
@@ -51,23 +51,23 @@ public:
 
 	void 				WriteData(std::ostream& os, GLRaggedFloatTableData* data);
 	void 				ReadData(std::istream& is, GLRaggedFloatTableData* data, const JFloat gloveVersion);
-	virtual JBoolean	NeedsSave() const override;
+	virtual bool	NeedsSave() const override;
 	GLHistoryDir*		GetSessionDir();
-	JBoolean			AddFitModule(GLPlotModuleFit* fit, JPlotDataBase* fitData);
+	bool			AddFitModule(GLPlotModuleFit* fit, JPlotDataBase* fitData);
 	virtual void		SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
+	virtual bool	GetMenuIcon(const JXImage** icon) const override;
 
 	void				AddFitProxy(GLPlotFitProxy* fit, const JIndex index, const JString& name);
 
-	virtual JBoolean	Close() override;
+	virtual bool	Close() override;
 
-	JBoolean			CurveIsFit(const JIndex index) const;
+	bool			CurveIsFit(const JIndex index) const;
 
 protected:
 
-	virtual JBoolean	OKToClose() override;
-	virtual JBoolean	OKToRevert() override;
-	virtual JBoolean	CanRevert() override;
+	virtual bool	OKToClose() override;
+	virtual bool	OKToRevert() override;
+	virtual bool	CanRevert() override;
 	virtual void		DiscardChanges() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -89,15 +89,15 @@ private:
 	GCurveType					itsCurrentCurveType;
 	JXFileDocument*				itsSupervisor;
 	JPtrArray<GLPlotDir>*		itsDiffDirs;
-	JBoolean					itsHideOnClose;
+	bool					itsHideOnClose;
 	GLHistoryDir*				itsSessionDir;
 	JXPSPrinter*				itsPrinter;
 	JX2DPlotEPSPrinter*			itsEPSPrinter;
-	JBoolean					itsIsPrintAll;
+	bool					itsIsPrintAll;
 	GLFitModuleDialog*			itsFitModuleDialog;
 	JIndex						itsCurveForFit;
 
-	JBoolean					itsPlotIsClosing;
+	bool					itsPlotIsClosing;
 
 private:
 

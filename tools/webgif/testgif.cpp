@@ -14,7 +14,7 @@
 #include <jTypes.h>
 #include <jAssert.h>
 
-void CreateGIF(const JBoolean incr[], const JUtf8Byte* fileName);
+void CreateGIF(const bool incr[], const JUtf8Byte* fileName);
 
 /******************************************************************************
  main
@@ -29,22 +29,22 @@ main
 	)
 {
 	{
-	const JBoolean incr[3] = { kJTrue, kJFalse, kJFalse };
+	const bool incr[3] = { true, false, false };
 	CreateGIF(incr, "red_scale.gif");
 	}
 
 	{
-	const JBoolean incr[3] = { kJFalse, kJTrue, kJFalse };
+	const bool incr[3] = { false, true, false };
 	CreateGIF(incr, "green_scale.gif");
 	}
 
 	{
-	const JBoolean incr[3] = { kJFalse, kJFalse, kJTrue };
+	const bool incr[3] = { false, false, true };
 	CreateGIF(incr, "blue_scale.gif");
 	}
 
 	{
-	const JBoolean incr[3] = { kJTrue, kJTrue, kJTrue };
+	const bool incr[3] = { true, true, true };
 	CreateGIF(incr, "gray_scale.gif");
 	}
 
@@ -54,7 +54,7 @@ main
 /******************************************************************************
  CreateGIF
 
-	If incr[i]==kJTrue, then the i-th color component scans from 0 to 255.
+	If incr[i]==true, then the i-th color component scans from 0 to 255.
 
  ******************************************************************************/
 
@@ -63,7 +63,7 @@ const JCoordinate kImageHeight = 10;
 void
 CreateGIF
 	(
-	const JBoolean		incr[],
+	const bool		incr[],
 	const JUtf8Byte*	fileName
 	)
 {

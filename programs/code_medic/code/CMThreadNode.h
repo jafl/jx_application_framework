@@ -20,7 +20,7 @@ public:
 	virtual	~CMThreadNode();
 
 	JUInt64		GetID() const;
-	JBoolean	GetFile(JString* fileName, JIndex* lineIndex) const;
+	bool	GetFile(JString* fileName, JIndex* lineIndex) const;
 
 	void	AppendThread(JTreeNode* node);
 
@@ -58,7 +58,7 @@ CMThreadNode::GetID()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CMThreadNode::GetFile
 	(
 	JString*	fileName,
@@ -68,7 +68,7 @@ CMThreadNode::GetFile
 {
 	*fileName  = itsFileName;
 	*lineIndex = itsLineIndex;
-	return JI2B(!itsFileName.IsEmpty() && itsLineIndex > 0);
+	return !itsFileName.IsEmpty() && itsLineIndex > 0;
 }
 
 /******************************************************************************
@@ -83,7 +83,7 @@ CMThreadNode::AppendThread
 	)
 {
 	Append(node);
-	ShouldBeOpenable(kJTrue);
+	ShouldBeOpenable(true);
 }
 
 #endif

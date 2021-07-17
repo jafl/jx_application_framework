@@ -31,7 +31,7 @@ public:
 	virtual	~CMPlot2DDir();
 
 	virtual void		Activate() override;
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
+	virtual bool	GetMenuIcon(const JXImage** icon) const override;
 
 	void	StreamOut(std::ostream& output);
 
@@ -50,11 +50,11 @@ private:
 	JXColHeaderWidget*			itsColHeader;
 	JStringTableData*			itsExprData;
 	CMPlot2DExprTable*			itsExprTable;
-	JBoolean					itsShouldUpdateFlag;
+	bool					itsShouldUpdateFlag;
 	JPtrArray<CMPlot2DCommand>*	itsUpdateCmdList;
 	JPtrArray<JArray<JFloat> >*	itsXData;
 	JPtrArray<JArray<JFloat> >*	itsYData;
-	JBoolean					itsWaitingForReloadFlag;
+	bool					itsWaitingForReloadFlag;
 
 	JXTextMenu*	itsFileMenu;
 	JXTextMenu*	itsActionMenu;
@@ -85,7 +85,7 @@ private:
 
 	void	HandleHelpMenu(const JIndex index);
 
-	void	ShouldUpdate(const JBoolean update);
+	void	ShouldUpdate(const bool update);
 	void	UpdateAll();
 	void	Update(const JIndex first, const JIndex last);
 

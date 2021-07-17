@@ -18,17 +18,17 @@ public:
 
 	virtual ~TestMDIServer();
 
-	JBoolean	ShouldQuit() const;
+	bool	ShouldQuit() const;
 
 protected:
 
-	virtual JBoolean	CanAcceptMDIRequest() override;
+	virtual bool	CanAcceptMDIRequest() override;
 	virtual void		HandleMDIRequest(const JString& dir,
 										 const JPtrArray<JString>& argList) override;
 
 private:
 
-	JBoolean itsQuitFlag;
+	bool itsQuitFlag;
 
 private:
 
@@ -44,7 +44,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 TestMDIServer::ShouldQuit()
 	const
 {

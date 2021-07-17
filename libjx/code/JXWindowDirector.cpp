@@ -75,11 +75,11 @@ JXWindowDirector::~JXWindowDirector()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindowDirector::IsWindowDirector()
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -142,12 +142,12 @@ JXWindowDirector::Activate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindowDirector::Deactivate()
 {
 	if (!IsActive())
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (OKToDeactivate() && JXDirector::Deactivate())
 		{
@@ -155,11 +155,11 @@ JXWindowDirector::Deactivate()
 			{
 			itsWindow->Hide();
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -170,11 +170,10 @@ JXWindowDirector::Deactivate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindowDirector::OKToDeactivate()
 {
-	return JConvertToBoolean(
-		itsWindow == nullptr || itsWindow->OKToUnfocusCurrentWidget());
+	return itsWindow == nullptr || itsWindow->OKToUnfocusCurrentWidget();
 }
 
 /******************************************************************************
@@ -233,7 +232,7 @@ JXWindowDirector::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindowDirector::GetMenuIcon
 	(
 	const JXImage** icon
@@ -241,7 +240,7 @@ JXWindowDirector::GetMenuIcon
 	const
 {
 	*icon = nullptr;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -251,9 +250,9 @@ JXWindowDirector::GetMenuIcon
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindowDirector::NeedsSave()
 	const
 {
-	return kJFalse;
+	return false;
 }

@@ -92,13 +92,13 @@ JXMenu::JXMenu
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsTitleFont(JFontManager::GetDefaultFont())
 {
-	JXMenuX(title, nullptr, kJTrue);
+	JXMenuX(title, nullptr, true);
 }
 
 JXMenu::JXMenu
 	(
 	JXImage*			image,
-	const JBoolean		menuOwnsImage,
+	const bool		menuOwnsImage,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -118,7 +118,7 @@ JXMenu::JXMenu
 	(
 	const JString&		title,
 	JXImage*			image,
-	const JBoolean		menuOwnsImage,
+	const bool		menuOwnsImage,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -144,7 +144,7 @@ JXMenu::JXMenu
 	JXWidget(enclosure, kFixedLeft, kFixedTop, 0,0, 10,10),
 	itsTitleFont(JFontManager::GetDefaultFont())
 {
-	JXMenuX(JString::empty, nullptr, kJTrue);
+	JXMenuX(JString::empty, nullptr, true);
 	owner->AttachSubmenu(itemIndex, this);
 }
 
@@ -155,14 +155,14 @@ JXMenu::JXMenuX
 	(
 	const JString&		title,
 	JXImage*			image,
-	const JBoolean		menuOwnsImage
+	const bool		menuOwnsImage
 	)
 {
 	const JSize lineHeight = itsTitleFont.GetLineHeight(GetFontManager());
 	itsTitlePadding.Set(lineHeight/2, lineHeight/4);
 
 	itsTitleImage         = nullptr;
-	itsOwnsTitleImageFlag = kJFalse;
+	itsOwnsTitleImageFlag = false;
 	itsShortcuts          = nullptr;
 	itsULIndex            = 0;
 
@@ -173,18 +173,18 @@ JXMenu::JXMenuX
 
 	itsArrowPosition         = kArrowAtRight;
 	itsArrowDirection        = kArrowPointsDown;
-	itsIsPopupChoiceFlag     = kJFalse;
-	itsIsHiddenPopupMenuFlag = kJFalse;
+	itsIsPopupChoiceFlag     = false;
+	itsIsHiddenPopupMenuFlag = false;
 	itsMenuDirector          = nullptr;
 
-	itsWaitingForFTCFlag = kJTrue;
+	itsWaitingForFTCFlag = true;
 
 	SetTitle(title, image, menuOwnsImage);
 
 	itsShouldBeActiveFlag = WouldBeActive();
-	itsUpdateSBAFlag      = kJFalse;
+	itsUpdateSBAFlag      = false;
 	Deactivate();
-	itsUpdateSBAFlag      = kJTrue;
+	itsUpdateSBAFlag      = true;
 }
 
 /******************************************************************************
@@ -270,7 +270,7 @@ JXMenu::SetTitle
 	(
 	const JString&	title,
 	JXImage*		image,
-	const JBoolean	menuOwnsImage
+	const bool	menuOwnsImage
 	)
 {
 	if (title.IsEmpty())
@@ -326,8 +326,8 @@ JXMenu::SetTitleText
 	const JString& title
 	)
 {
-	const JBoolean saveOwn = itsOwnsTitleImageFlag;
-	itsOwnsTitleImageFlag  = kJFalse;
+	const bool saveOwn = itsOwnsTitleImageFlag;
+	itsOwnsTitleImageFlag  = false;
 	SetTitle(title, itsTitleImage, saveOwn);
 }
 
@@ -335,7 +335,7 @@ void
 JXMenu::SetTitleImage
 	(
 	JXImage*		image,
-	const JBoolean	menuOwnsImage
+	const bool	menuOwnsImage
 	)
 {
 	const JString title = itsTitle;		// make copy so don't invalidate char*
@@ -463,7 +463,7 @@ JXMenu::SetTitleFontStyle
 void
 JXMenu::SetToPopupChoice
 	(
-	const JBoolean	isPopup,
+	const bool	isPopup,
 	const JIndex	initialChoice
 	)
 {
@@ -479,7 +479,7 @@ JXMenu::SetToPopupChoice
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::IsEmpty()
 	const
 {
@@ -528,7 +528,7 @@ JXMenu::RemoveItem
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::GetItemShortcuts
 	(
 	const JIndex	index,
@@ -540,12 +540,12 @@ JXMenu::GetItemShortcuts
 	if (itsBaseItemData->GetItemShortcuts(index, &s))
 		{
 		*shortcuts = *s;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		shortcuts->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -567,11 +567,11 @@ JXMenu::SetItemShortcuts
 /******************************************************************************
  GetItemID
 
-	Returns kJTrue if the item has an id.
+	Returns true if the item has an id.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::GetItemID
 	(
 	const JIndex	index,
@@ -602,7 +602,7 @@ JXMenu::SetItemID
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::ItemIDToIndex
 	(
 	const JString&	targetID,
@@ -617,12 +617,12 @@ JXMenu::ItemIDToIndex
 		if (GetItemID(i, &id) && *id == targetID)
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -630,7 +630,7 @@ JXMenu::ItemIDToIndex
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::IsEnabled
 	(
 	const JIndex index
@@ -699,7 +699,7 @@ void
 JXMenu::SetItemEnable
 	(
 	const JIndex	index,
-	const JBoolean	enabled
+	const bool	enabled
 	)
 {
 	itsBaseItemData->SetItemEnable(index, enabled);
@@ -710,7 +710,7 @@ JXMenu::SetItemEnable
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::IsChecked
 	(
 	const JIndex index
@@ -756,12 +756,12 @@ JXMenu::AttachSubmenu
 /******************************************************************************
  RemoveSubmenu
 
-	Returns kJTrue if there was a submenu at the given index.
+	Returns true if there was a submenu at the given index.
 	The caller now owns the menu and is responsible for deleting it.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::RemoveSubmenu
 	(
 	const JIndex	index,
@@ -801,7 +801,7 @@ JXMenu::DeleteSubmenu
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::GetSubmenu
 	(
 	const JIndex	index,
@@ -815,11 +815,11 @@ JXMenu::GetSubmenu
 /******************************************************************************
  GetMenuBar
 
-	Returns kJTrue if we are part of a menu bar.
+	Returns true if we are part of a menu bar.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::GetMenuBar
 	(
 	JXMenuBar** menuBar
@@ -828,7 +828,7 @@ JXMenu::GetMenuBar
 {
 	JXMenu* topMenu = GetTopLevelMenu();
 	*menuBar = topMenu->itsMenuBar;
-	return JConvertToBoolean( *menuBar != nullptr );
+	return *menuBar != nullptr;
 }
 
 /******************************************************************************
@@ -986,14 +986,14 @@ JXMenu::AdjustAppearance
 /******************************************************************************
  PrepareToOpenMenu (protected)
 
-	Returns kJFalse if the menu is completely disabled.
+	Returns false if the menu is completely disabled.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::PrepareToOpenMenu
 	(
-	const JBoolean shortcut
+	const bool shortcut
 	)
 {
 	if (itsOwner != nullptr && !itsOwner->IsOpen())	// parent may have effect on child
@@ -1007,7 +1007,7 @@ JXMenu::PrepareToOpenMenu
 		 !itsIsHiddenPopupMenuFlag &&	// and hidden popups
 		 !IsVisible()))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// disable the requested items, uncheck all items
@@ -1017,7 +1017,7 @@ JXMenu::PrepareToOpenMenu
 	// let owner update us as appropriate
 
 	Broadcast(NeedsUpdate(shortcut));
-	return JI2B(IsActive() && GetItemCount() > 0);
+	return IsActive() && GetItemCount() > 0;
 }
 
 /******************************************************************************
@@ -1026,11 +1026,11 @@ JXMenu::PrepareToOpenMenu
 	Callers can provide two different points where the menu could
 	reasonably be placed (left and right for submenus).
 
-	Returns kJTrue if successful.
+	Returns true if successful.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::Open
 	(
 	const JPoint& userLeftPtR,
@@ -1044,9 +1044,9 @@ JXMenu::Open
 		}
 	assert( itsMenuDirector == nullptr );
 
-	if (!PrepareToOpenMenu(kJFalse))
+	if (!PrepareToOpenMenu(false))
 		{
-		return kJFalse;
+		return false;
 		}
 	assert( !IsEmpty() );
 
@@ -1093,7 +1093,7 @@ JXMenu::Open
 	itsMenuDirector->GrabKeyboard();
 	menuManager->MenuOpened(this, itsMenuDirector->GetWindow());
 	Redraw();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1108,7 +1108,7 @@ JXMenu::Close()
 
 	GetMenuManager()->MenuClosed(this);
 
-	const JBoolean ok = itsMenuDirector->Close();
+	const bool ok = itsMenuDirector->Close();
 	assert( ok );
 	itsMenuDirector = nullptr;
 
@@ -1129,7 +1129,7 @@ void
 JXMenu::BroadcastSelection
 	(
 	const JIndex	itemIndex,
-	const JBoolean	fromShortcut
+	const bool	fromShortcut
 	)
 {
 	// close all menus
@@ -1268,7 +1268,7 @@ JXMenu::DrawBorder
 	Call this to make the menu pop open at the specified point inside
 	mouseOwner.  This must only be called from mouseOwner's HandleMouseDown()
 	or HandleMouseDrag().  If this function is successful, you will already
-	have received HandleMouseUp() by the time it returns.  It will return kJTrue
+	have received HandleMouseUp() by the time it returns.  It will return true
 	so you know that it succeeded and that you should return immediately.
 
 	pt must be in the bounds coordinates of mouseOwner.  In addition, the
@@ -1280,7 +1280,7 @@ JXMenu::DrawBorder
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::PopUp
 	(
 	JXContainer*			mouseOwner,
@@ -1303,7 +1303,7 @@ JXMenu::PopUp
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1323,7 +1323,7 @@ JXMenu::HandleMouseDown
 {
 	if (button == kJXLeftButton && itsMenuDirector == nullptr && Open())
 		{
-		const JBoolean ok =
+		const bool ok =
 			GetDisplay()->SwitchDrag(this, pt, buttonStates, modifiers,
 									   itsMenuDirector->GetMenuTable());
 		if (!ok && IsOpen())	// SwitchDrag() can trigger Close()
@@ -1361,13 +1361,13 @@ JXMenu::HandleShortcut
 void
 JXMenu::Activate()
 {
-	itsShouldBeActiveFlag = kJTrue;
+	itsShouldBeActiveFlag = true;
 	if ((itsBaseItemData->GetList())->IsEmpty())
 		{
 		return;
 		}
 
-	const JBoolean wasActive = IsActive();
+	const bool wasActive = IsActive();
 	JXWidget::Activate();
 	if (!wasActive && IsActive())
 		{
@@ -1385,10 +1385,10 @@ JXMenu::Deactivate()
 {
 	if (itsUpdateSBAFlag)
 		{
-		itsShouldBeActiveFlag = kJFalse;
+		itsShouldBeActiveFlag = false;
 		}
 
-	const JBoolean wasActive = IsActive();
+	const bool wasActive = IsActive();
 	JXWidget::Deactivate();
 	if (wasActive && !IsActive())
 		{
@@ -1408,7 +1408,7 @@ JXMenu::Deactivate()
 void
 JXMenu::Suspend()
 {
-	const JBoolean wasActive = IsActive();
+	const bool wasActive = IsActive();
 	JXWidget::Suspend();
 	if (itsOwner == nullptr && wasActive && !IsActive())
 		{
@@ -1427,7 +1427,7 @@ JXMenu::Suspend()
 void
 JXMenu::Resume()
 {
-	const JBoolean wasActive = IsActive();
+	const bool wasActive = IsActive();
 	JXWidget::Resume();
 	if (!wasActive && IsActive())
 		{
@@ -1486,9 +1486,9 @@ JXMenu::Receive
 		{
 		if (array->IsEmpty() && IsActive())
 			{
-			itsUpdateSBAFlag = kJFalse;
+			itsUpdateSBAFlag = false;
 			Deactivate();
-			itsUpdateSBAFlag = kJTrue;
+			itsUpdateSBAFlag = true;
 			}
 		else if (itsShouldBeActiveFlag && !IsActive())
 			{
@@ -1533,11 +1533,11 @@ JXMenu::AdjustNMShortcutModifier
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::IsMenu()
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1545,12 +1545,12 @@ JXMenu::IsMenu()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenu::IncludeInFTC()
 	const
 {
-	return JI2B(!itsIsHiddenPopupMenuFlag && itsOwner == nullptr &&
-				JXContainer::IncludeInFTC());
+	return !itsIsHiddenPopupMenuFlag && itsOwner == nullptr &&
+				JXContainer::IncludeInFTC();
 }
 
 /******************************************************************************
@@ -1561,11 +1561,11 @@ JXMenu::IncludeInFTC()
 JCoordinate
 JXMenu::GetFTCMinContentSize
 	(
-	const JBoolean horizontal
+	const bool horizontal
 	)
 	const
 {
-	const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = kJFalse;
+	const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = false;
 
 	if (horizontal && IsHiddenPopupMenu())
 		{
@@ -1591,11 +1591,11 @@ JXMenu::GetFTCMinContentSize
 		}
 	else if (horizontal)
 		{
-		const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = kJTrue;
+		const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = true;
 		const JSize tw = IsPopupChoice() ?
 			GetMaxPopupChoiceTitleWidth() :
 			itsTitleFont.GetStringWidth(GetFontManager(), itsTitle);
-		const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = kJFalse;
+		const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = false;
 
 		return ((itsTitleImage != nullptr ? itsTitleImage->GetWidth() : 0) +
 				(itsTitleImage != nullptr && tw > 0 ? kImageTextBufferWidth : 0) +
@@ -1626,9 +1626,9 @@ JXMenu::GetMaxPopupChoiceTitleWidth()
 
 	const JString origTitle      = itsTitle;
 	JXImage* origTitleImage      = itsTitleImage;
-	const JBoolean origOwnsImage = itsOwnsTitleImageFlag;
+	const bool origOwnsImage = itsOwnsTitleImageFlag;
 
-	self->itsOwnsTitleImageFlag = kJFalse;		// don't delete the image, so we can restore it
+	self->itsOwnsTitleImageFlag = false;		// don't delete the image, so we can restore it
 
 	JSize max         = 0;
 	const JSize count = GetItemCount();

@@ -27,7 +27,7 @@ public:
 
 	virtual ~CBNewProjectSaveFileDialog();
 
-	JBoolean						GetProjectTemplate(JString* fullName) const;
+	bool						GetProjectTemplate(JString* fullName) const;
 	CBBuildManager::MakefileMethod	GetMakefileMethod() const;
 
 protected:
@@ -36,7 +36,7 @@ protected:
 							   const JString& fileFilter,
 							   const CBBuildManager::MakefileMethod method);
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -58,12 +58,12 @@ private:
 	void	UpdateMakefileMethod();
 
 	void	BuildTemplateMenu(const JString& templateFile);
-	void	BuildTemplateMenuItems(const JString& path, const JBoolean isUserPath,
+	void	BuildTemplateMenuItems(const JString& path, const bool isUserPath,
 								   JPtrArray<JString>* menuText,
 								   const JString& templateFile,
 								   JString** menuTextStr) const;
 
-	JBoolean	OKToReplaceFile(const JString& fullName,
+	bool	OKToReplaceFile(const JString& fullName,
 								const JString& programName);
 
 	// not allowed

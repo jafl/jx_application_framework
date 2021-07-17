@@ -22,7 +22,7 @@
 JVMWelcomeTask::JVMWelcomeTask
 	(
 	const JString&	msg,
-	const JBoolean	error
+	const bool	error
 	)
 	:
 	itsMessage(msg),

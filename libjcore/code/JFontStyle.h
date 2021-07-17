@@ -21,27 +21,27 @@ private:
 
 public:
 
-	JBoolean			bold;
-	JBoolean			italic;
+	bool			bold;
+	bool			italic;
 	JSize				underlineCount;		// may change font height
-	JBoolean			strike;
+	bool			strike;
 	JColorID			color;
 
 	JFontStyle()
 		:
-		bold(kJFalse),
-		italic(kJFalse),
+		bold(false),
+		italic(false),
 		underlineCount(0),
-		strike(kJFalse),
+		strike(false),
 		color(itsDefaultColorIndex)
 	{ };
 
 	JFontStyle
 		(
-		const JBoolean		b,
-		const JBoolean		i,
+		const bool		b,
+		const bool		i,
 		const JSize			u,
-		const JBoolean		s,
+		const bool		s,
 		const JColorID	c = JFontStyle::itsDefaultColorIndex
 		)
 		:
@@ -57,29 +57,29 @@ public:
 		const JColorID c
 		)
 		:
-		bold(kJFalse),
-		italic(kJFalse),
+		bold(false),
+		italic(false),
 		underlineCount(0),
-		strike(kJFalse),
+		strike(false),
 		color(c)
 	{ };
 
-	JBoolean
+	bool
 	IsBlank()
 		const
 	{
-		return JI2B(!bold && !italic && underlineCount == 0 && !strike &&
-					color == itsDefaultColorIndex);
+		return !bold && !italic && underlineCount == 0 && !strike &&
+					color == itsDefaultColorIndex;
 	};
 
-	JBoolean
+	bool
 	SameSystemAttributes
 		(
 		const JFontStyle& style
 		)
 		const
 	{
-		return JI2B( style.bold == bold && style.italic == italic );
+		return style.bold == bold && style.italic == italic;
 	};
 };
 

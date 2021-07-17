@@ -20,37 +20,37 @@ public:
 
 	virtual ~JTextChooseSaveFile();
 
-	virtual JBoolean ChooseFile(const JString& prompt,
+	virtual bool ChooseFile(const JString& prompt,
 								const JString& instructions,		// can be nullptr
 								JString* fullName);
-	virtual JBoolean ChooseFile(const JString& prompt,
+	virtual bool ChooseFile(const JString& prompt,
 								const JString& instructions,		// can be nullptr
 								const JString& origName,			// can be nullptr
 								JString* fullName);
-	virtual JBoolean ChooseFiles(const JString& prompt,
+	virtual bool ChooseFiles(const JString& prompt,
 								 const JString& instructions,	// can be nullptr
 								 JPtrArray<JString>* fullNameList);
 
-	virtual JBoolean ChooseRPath(const JString& prompt,
+	virtual bool ChooseRPath(const JString& prompt,
 								 const JString& instructions,	// can be nullptr
 								 const JString& origPath,		// can be nullptr
 								 JString* newPath);
-	virtual JBoolean ChooseRWPath(const JString& prompt,
+	virtual bool ChooseRWPath(const JString& prompt,
 								  const JString& instructions,	// can be nullptr
 								  const JString& origPath,		// can be nullptr
 								  JString* newPath);
 
-	virtual JBoolean SaveFile(const JString& prompt,
+	virtual bool SaveFile(const JString& prompt,
 							  const JString& instructions,		// can be nullptr
 							  const JString& originalName,
 							  JString* newFullName);
 
 private:
 
-	JBoolean	GetPath(const JString& prompt,
+	bool	GetPath(const JString& prompt,
 						const JString& instructions,
 						JString* newPath);
-	JBoolean	DoSystemCommand(const JString& str) const;
+	bool	DoSystemCommand(const JString& str) const;
 
 	// not allowed
 

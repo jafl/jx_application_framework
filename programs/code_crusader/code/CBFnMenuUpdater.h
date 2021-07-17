@@ -21,22 +21,22 @@ public:
 
 	virtual ~CBFnMenuUpdater();
 
-	JBoolean	CanCreateMenu(const CBTextFileType type) const;
+	bool	CanCreateMenu(const CBTextFileType type) const;
 
 	void		UpdateMenu(const JString& fileName, const CBTextFileType fileType,
-						   const JBoolean sort, const JBoolean includeNS,
-						   const JBoolean pack,
+						   const bool sort, const bool includeNS,
+						   const bool pack,
 						   JXTextMenu* menu, JArray<JIndex>* lineIndexList,
 						   JArray<CBLanguage>* lineLangList);
 
-	JBoolean	WillSortFnNames() const;
-	void		ShouldSortFnNames(const JBoolean sort);
+	bool	WillSortFnNames() const;
+	void		ShouldSortFnNames(const bool sort);
 
-	JBoolean	WillIncludeNamespace() const;
-	void		ShouldIncludeNamespace(const JBoolean includeNS);
+	bool	WillIncludeNamespace() const;
+	void		ShouldIncludeNamespace(const bool includeNS);
 
-	JBoolean	WillPackFnNames() const;
-	void		ShouldPackFnNames(const JBoolean pack);
+	bool	WillPackFnNames() const;
+	void		ShouldPackFnNames(const bool pack);
 
 protected:
 
@@ -45,14 +45,14 @@ protected:
 
 private:
 
-	JBoolean	itsSortFlag;
-	JBoolean	itsIncludeNSFlag;
-	JBoolean	itsPackFlag;
+	bool	itsSortFlag;
+	bool	itsIncludeNSFlag;
+	bool	itsPackFlag;
 
 private:
 
 	void	ReadFunctionList(std::istream& input, const CBLanguage lang,
-							 const JBoolean sort, const JBoolean includeNS,
+							 const bool sort, const bool includeNS,
 							 JPtrArray<JString>* fnNameList,
 							 JArray<JIndex>* lineIndexList,
 							 JArray<CBLanguage>* lineLangList);
@@ -69,14 +69,14 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBFnMenuUpdater::CanCreateMenu
 	(
 	const CBTextFileType type
 	)
 	const
 {
-	return JI2B(IsActive() && IsParsedForFunctionMenu(type));
+	return IsActive() && IsParsedForFunctionMenu(type);
 }
 
 /******************************************************************************
@@ -86,7 +86,7 @@ CBFnMenuUpdater::CanCreateMenu
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBFnMenuUpdater::WillSortFnNames()
 	const
 {
@@ -96,7 +96,7 @@ CBFnMenuUpdater::WillSortFnNames()
 inline void
 CBFnMenuUpdater::ShouldSortFnNames
 	(
-	const JBoolean sort
+	const bool sort
 	)
 {
 	itsSortFlag = sort;
@@ -109,7 +109,7 @@ CBFnMenuUpdater::ShouldSortFnNames
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBFnMenuUpdater::WillIncludeNamespace()
 	const
 {
@@ -119,7 +119,7 @@ CBFnMenuUpdater::WillIncludeNamespace()
 inline void
 CBFnMenuUpdater::ShouldIncludeNamespace
 	(
-	const JBoolean includeNS
+	const bool includeNS
 	)
 {
 	itsIncludeNSFlag = includeNS;
@@ -132,7 +132,7 @@ CBFnMenuUpdater::ShouldIncludeNamespace
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBFnMenuUpdater::WillPackFnNames()
 	const
 {
@@ -142,7 +142,7 @@ CBFnMenuUpdater::WillPackFnNames()
 inline void
 CBFnMenuUpdater::ShouldPackFnNames
 	(
-	const JBoolean pack
+	const bool pack
 	)
 {
 	itsPackFlag = pack;

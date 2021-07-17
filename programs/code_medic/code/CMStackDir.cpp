@@ -135,7 +135,7 @@ CMStackDir::BuildWindow
 	window->SetTitle(JGetString("WindowTitleSuffix::CMStackDir"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetStackWindowClass());
 	CMGetPrefsManager()->GetWindowSize(kStackWindowSizeID, window);
 
@@ -215,7 +215,7 @@ CMStackDir::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMStackDir::GetMenuIcon
 	(
 	const JXImage** icon
@@ -223,7 +223,7 @@ CMStackDir::GetMenuIcon
 	const
 {
 	*icon = CMGetStackTraceIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

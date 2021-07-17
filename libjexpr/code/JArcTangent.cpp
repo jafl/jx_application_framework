@@ -73,7 +73,7 @@ JArcTangent::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JArcTangent::Evaluate
 	(
 	JFloat* result
@@ -83,14 +83,14 @@ JArcTangent::Evaluate
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = atan(argValue);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JArcTangent::Evaluate
 	(
 	JComplex* result
@@ -100,7 +100,7 @@ JArcTangent::Evaluate
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = atan(argValue);

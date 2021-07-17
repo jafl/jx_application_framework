@@ -58,7 +58,7 @@ CBTEColIndexInput::Act
 	)
 {
 	JInteger lineIndex;
-	const JBoolean ok = itsLineInput->JXIntegerInput::GetValue(&lineIndex);
+	const bool ok = itsLineInput->JXIntegerInput::GetValue(&lineIndex);
 	assert( ok );
 
 	te->GoToColumn(lineIndex, value);

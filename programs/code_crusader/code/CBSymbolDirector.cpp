@@ -159,7 +159,7 @@ CBSymbolDirector::CBSymbolDirector
 	std::istream*			symInput,
 	const JFileVersion	symVers,
 	CBProjectDocument*	supervisor,
-	const JBoolean		subProject
+	const bool		subProject
 	)
 	:
 	JXWindowDirector(supervisor),
@@ -167,14 +167,14 @@ CBSymbolDirector::CBSymbolDirector
 {
 	CBSymbolDirectorX(supervisor);
 
-	const JBoolean useProjData = JI2B( setInput == nullptr || setVers < 71 );
+	const bool useProjData = setInput == nullptr || setVers < 71;
 	if (!useProjData)
 		{
 		GetWindow()->ReadGeometry(*setInput);
 
 		// put SR windows on top of main window
 
-		JBoolean active;
+		bool active;
 		*setInput >> JBoolFromString(active);
 		if (active && !subProject)
 			{
@@ -202,7 +202,7 @@ CBSymbolDirector::CBSymbolDirector
 
 		itsSymbolList->ReadSetup(projInput, projVers, symInput, symVers);
 
-		JBoolean active = kJFalse;
+		bool active = false;
 		if (47 <= projVers && projVers < 71)
 			{
 			projInput >> JBoolFromString(active);
@@ -231,7 +231,7 @@ CBSymbolDirector::CBSymbolDirectorX
 	itsSRList = jnew JPtrArray<CBSymbolSRDirector>(JPtrArrayT::kForgetAll);
 	assert( itsSRList != nullptr );
 
-	itsRaiseTreeOnRightClickFlag = kJFalse;
+	itsRaiseTreeOnRightClickFlag = false;
 
 	BuildWindow(itsSymbolList);
 	JPrefObject::ReadPrefs();
@@ -378,7 +378,7 @@ CBSymbolDirector::FileTypesChanged
 void
 CBSymbolDirector::PrepareForListUpdate
 	(
-	const JBoolean		reparseAll,
+	const bool		reparseAll,
 	JProgressDisplay&	pg
 	)
 {
@@ -390,14 +390,14 @@ CBSymbolDirector::PrepareForListUpdate
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSymbolDirector::ListUpdateFinished
 	(
 	const JArray<JFAID_t>&	deadFileList,
 	JProgressDisplay&		pg
 	)
 {
-	const JBoolean ok = itsSymbolList->UpdateFinished(deadFileList, pg);
+	const bool ok = itsSymbolList->UpdateFinished(deadFileList, pg);
 	if (ok && !CBInUpdateThread())
 		{
 		CloseSymbolBrowsers();
@@ -413,7 +413,7 @@ CBSymbolDirector::ListUpdateFinished
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSymbolDirector::FindSymbol
 	(
 	const JString&		name,
@@ -476,38 +476,38 @@ CBSymbolDirector::FindSymbol
 		}
 
 	JArray<JIndex> symbolList;
-	const JBoolean foundSymbol =
+	const bool foundSymbol =
 		itsSymbolList->FindSymbol(name,
 			contextFileID, contextNamespace, contextLang,
 			&cContextNamespaceList, &dContextNamespaceList,
 			&goContextNamespaceList, &javaContextNamespaceList,
 			&phpContextNamespaceList,
-			JI2B(button == kJXMiddleButton || button == kJXRightButton),
-			JI2B(button == kJXLeftButton   || button == kJXRightButton),
+			button == kJXMiddleButton || button == kJXRightButton,
+			button == kJXLeftButton   || button == kJXRightButton,
 			&symbolList);
 
-	const JBoolean raiseTree =
-		JI2B(!foundSymbol || (button == kJXRightButton && itsRaiseTreeOnRightClickFlag));
+	const bool raiseTree =
+		!foundSymbol || (button == kJXRightButton && itsRaiseTreeOnRightClickFlag);
 
 	CBTreeWidget* treeWidget = itsProjDoc->GetCTreeDirector()->GetTreeWidget();
-	const JBoolean cc = treeWidget->FindClass(name, button, raiseTree, kJFalse, raiseTree, kJTrue);
-	const JBoolean cf = treeWidget->FindFunction(name, kJTrue, button, raiseTree, kJFalse, raiseTree, kJFalse);
+	const bool cc = treeWidget->FindClass(name, button, raiseTree, false, raiseTree, true);
+	const bool cf = treeWidget->FindFunction(name, true, button, raiseTree, false, raiseTree, false);
 
 	treeWidget = itsProjDoc->GetDTreeDirector()->GetTreeWidget();
-	const JBoolean dc = treeWidget->FindClass(name, button, raiseTree, kJFalse, raiseTree, kJTrue);
-	const JBoolean df = treeWidget->FindFunction(name, kJTrue, button, raiseTree, kJFalse, raiseTree, kJFalse);
+	const bool dc = treeWidget->FindClass(name, button, raiseTree, false, raiseTree, true);
+	const bool df = treeWidget->FindFunction(name, true, button, raiseTree, false, raiseTree, false);
 
 	treeWidget = itsProjDoc->GetGoTreeDirector()->GetTreeWidget();
-	const JBoolean gc = treeWidget->FindClass(name, button, raiseTree, kJFalse, raiseTree, kJTrue);
-	const JBoolean gf = treeWidget->FindFunction(name, kJTrue, button, raiseTree, kJFalse, raiseTree, kJFalse);
+	const bool gc = treeWidget->FindClass(name, button, raiseTree, false, raiseTree, true);
+	const bool gf = treeWidget->FindFunction(name, true, button, raiseTree, false, raiseTree, false);
 
 	treeWidget = itsProjDoc->GetJavaTreeDirector()->GetTreeWidget();
-	const JBoolean jc = treeWidget->FindClass(name, button, raiseTree, kJFalse, raiseTree, kJTrue);
-	const JBoolean jf = treeWidget->FindFunction(name, kJTrue, button, raiseTree, kJFalse, raiseTree, kJFalse);
+	const bool jc = treeWidget->FindClass(name, button, raiseTree, false, raiseTree, true);
+	const bool jf = treeWidget->FindFunction(name, true, button, raiseTree, false, raiseTree, false);
 
 	treeWidget = itsProjDoc->GetPHPTreeDirector()->GetTreeWidget();
-	const JBoolean pc = treeWidget->FindClass(name, button, raiseTree, kJFalse, raiseTree, kJTrue);
-	const JBoolean pf = treeWidget->FindFunction(name, kJTrue, button, raiseTree, kJFalse, raiseTree, kJFalse);
+	const bool pc = treeWidget->FindClass(name, button, raiseTree, false, raiseTree, true);
+	const bool pf = treeWidget->FindFunction(name, true, button, raiseTree, false, raiseTree, false);
 
 	if (symbolList.GetElementCount() == 1 && button != kJXRightButton)
 		{
@@ -527,7 +527,7 @@ CBSymbolDirector::FindSymbol
 			{
 			(doc->GetTextEditor())->ScrollForDefinition(lang);
 			}
-		return kJTrue;
+		return true;
 		}
 	else if (foundSymbol)
 		{
@@ -537,11 +537,11 @@ CBSymbolDirector::FindSymbol
 		assert( dir != nullptr );
 		dir->Activate();
 		itsSRList->Append(dir);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return JI2B( cc || cf || dc || df || gc || gf || jc || jf || pc || pf );
+		return cc || cf || dc || df || gc || gf || jc || jf || pc || pf;
 		}
 }
 
@@ -951,15 +951,15 @@ void
 CBSymbolDirector::UpdateProjectMenu()
 {
 	itsProjectMenu->SetItemEnable(kShowCTreeCmd,
-		JNegate(itsProjDoc->GetCTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetCTreeDirector()->GetTree()->IsEmpty());
 	itsProjectMenu->SetItemEnable(kShowDTreeCmd,
-		JNegate(itsProjDoc->GetDTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetDTreeDirector()->GetTree()->IsEmpty());
 	itsProjectMenu->SetItemEnable(kShowGoTreeCmd,
-		JNegate(itsProjDoc->GetGoTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetGoTreeDirector()->GetTree()->IsEmpty());
 	itsProjectMenu->SetItemEnable(kShowJavaTreeCmd,
-		JNegate(itsProjDoc->GetJavaTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetJavaTreeDirector()->GetTree()->IsEmpty());
 	itsProjectMenu->SetItemEnable(kShowPHPTreeCmd,
-		JNegate(itsProjDoc->GetPHPTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetPHPTreeDirector()->GetTree()->IsEmpty());
 
 	itsProjectMenu->SetItemEnable(kCloseAllTextCmd,
 								  CBGetDocumentManager()->HasTextDocuments());
@@ -1024,7 +1024,7 @@ CBSymbolDirector::HandleProjectMenu
 
 	else if (index == kSaveAllTextCmd)
 		{
-		CBGetDocumentManager()->SaveTextDocuments(kJTrue);
+		CBGetDocumentManager()->SaveTextDocuments(true);
 		}
 	else if (index == kCloseAllTextCmd)
 		{
@@ -1102,8 +1102,8 @@ CBSymbolDirector::EditPrefs()
 void
 CBSymbolDirector::SetPrefs
 	(
-	const JBoolean raiseTreeOnRightClick,
-	const JBoolean writePrefs
+	const bool raiseTreeOnRightClick,
+	const bool writePrefs
 	)
 {
 	itsRaiseTreeOnRightClickFlag = raiseTreeOnRightClick;

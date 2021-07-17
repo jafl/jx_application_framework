@@ -58,7 +58,7 @@ CBKeyScriptInput::StyledText::AdjustStylesBeforeBroadcast
 	JRunArray<JFont>*		styles,
 	JStyledText::TextRange*	recalcRange,
 	JStyledText::TextRange*	redrawRange,
-	const JBoolean			deletion
+	const bool			deletion
 	)
 {
 	CBMacroManager::HighlightErrors(text, styles);

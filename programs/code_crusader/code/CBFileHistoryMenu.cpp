@@ -74,7 +74,7 @@ CBFileHistoryMenu::CBFileHistoryMenuX
 {
 	if (type == CBDocumentManager::kProjectFileHistory)
 		{
-		SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jcc_project_file), kJFalse);
+		SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jcc_project_file), false);
 		}
 
 	CBFileHistoryMenu* master =
@@ -122,7 +122,7 @@ CBFileHistoryMenu::Receive
 		// need copy because menu will change
 		const JString fileName = GetFile(selection->GetIndex());
 
-		JBoolean saveReopen = CBProjectDocument::WillReopenTextFiles();
+		bool saveReopen = CBProjectDocument::WillReopenTextFiles();
 		if ((GetDisplay()->GetLatestKeyModifiers()).GetState(kJXShiftKeyIndex))
 			{
 			CBProjectDocument::ShouldReopenTextFiles(!saveReopen);

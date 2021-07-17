@@ -30,13 +30,13 @@ const JUtf8Byte kJDownArrow  = 31;
 
 const JUtf8Byte kJForwardDeleteKey = 127;
 
-inline JBoolean
+inline bool
 JIsASCII
 	(
 	const int c
 	)
 {
-	return JConvertToBoolean( kJMinASCIICharacter <= c && c <= kJMaxASCIICharacter );
+	return kJMinASCIICharacter <= c && c <= kJMaxASCIICharacter;
 }
 
 #endif

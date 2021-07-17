@@ -26,7 +26,7 @@
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXXFontMenu::Create
 	(
 	const JRegex&		regex,
@@ -52,10 +52,10 @@ JXXFontMenu::Create
 		assert( *menu != nullptr );
 		}
 
-	return JConvertToBoolean( *menu != nullptr );
+	return *menu != nullptr;
 }
 
-JBoolean
+bool
 JXXFontMenu::Create
 	(
 	const JRegex&		regex,
@@ -76,7 +76,7 @@ JXXFontMenu::Create
 		assert( *menu != nullptr );
 		}
 
-	return JConvertToBoolean( *menu != nullptr );
+	return *menu != nullptr;
 }
 
 /******************************************************************************

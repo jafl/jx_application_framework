@@ -25,19 +25,19 @@ const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStringCompleter*
 CBLexCompleter::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBLexCompleter;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -61,7 +61,7 @@ CBLexCompleter::Shutdown()
 
 CBLexCompleter::CBLexCompleter()
 	:
-	CBStringCompleter(kCBLexLang, kKeywordCount, kKeywordList, kJTrue)
+	CBStringCompleter(kCBLexLang, kKeywordCount, kKeywordList, JString::kCompareCase)
 {
 	UpdateWordList();	// include C
 	ListenTo(CBCStyler::Instance());
@@ -85,15 +85,15 @@ CBLexCompleter::~CBLexCompleter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBLexCompleter::IsWordCharacter
 	(
 	const JUtf8Character&	c,
-	const JBoolean			includeNS
+	const bool			includeNS
 	)
 	const
 {
-	return JI2B(c.IsAlnum() || c == '_' || (includeNS && c == ':'));
+	return c.IsAlnum() || c == '_' || (includeNS && c == ':');
 }
 
 /******************************************************************************
@@ -134,7 +134,7 @@ CBLexCompleter::UpdateWordList()
 	const JSize count = CBCCompleter::GetDefaultWordList(&cWordList);
 	for (JUnsignedOffset i=0; i<count; i++)
 		{
-		Add(JString(cWordList[i], kJFalse));
+		Add(JString(cWordList[i], JString::kNoCopy));
 		}
 
 	CopySymbolsForLanguage(kCBCLang);

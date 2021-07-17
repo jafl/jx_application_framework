@@ -39,7 +39,7 @@ int main()
 
 JTEST(html)
 {
-	JStyledText* st = jnew JStyledText(kJFalse, kJFalse);
+	JStyledText* st = jnew JStyledText(false, false);
 	assert( st != nullptr );
 
 	TestHTMLStyler styler;
@@ -52,7 +52,7 @@ JTEST(html)
 
 JTEST(hbs)
 {
-	JStyledText* st = jnew JStyledText(kJFalse, kJFalse);
+	JStyledText* st = jnew JStyledText(false, false);
 	assert( st != nullptr );
 
 	TestHTMLStyler styler;
@@ -61,7 +61,7 @@ JTEST(hbs)
 
 JTEST(php)
 {
-	JStyledText* st = jnew JStyledText(kJFalse, kJFalse);
+	JStyledText* st = jnew JStyledText(false, false);
 	assert( st != nullptr );
 
 	TestHTMLStyler styler;
@@ -70,13 +70,13 @@ JTEST(php)
 
 JTEST(jsp)
 {
-	JStyledText* st = jnew JStyledText(kJFalse, kJFalse);
+	JStyledText* st = jnew JStyledText(false, false);
 	assert( st != nullptr );
 
 	TestHTMLStyler styler;
-	styler.TestSetWordStyle(JString("/form", kJFalse), JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetBlueColor()));
-	styler.TestSetWordStyle(JString("set", kJFalse), JFontStyle(JColorManager::GetOrangeColor()));
-	styler.TestSetWordStyle(JString("x:choose", kJFalse), JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+	styler.TestSetWordStyle(JString("/form", false), JFontStyle(true, false, 0, false, JColorManager::GetBlueColor()));
+	styler.TestSetWordStyle(JString("set", false), JFontStyle(JColorManager::GetOrangeColor()));
+	styler.TestSetWordStyle(JString("x:choose", false), JFontStyle(true, false, 0, false));
 
 	RunTest(st, &styler, "./data/styler/html/test.jsp", "./data/styler/html/styled-jsp.out");
 }

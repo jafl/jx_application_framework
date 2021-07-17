@@ -28,7 +28,7 @@ XDVarCommand::XDVarCommand
 {
 	SetCommand(cmd);
 
-	itsRootNode = CMGetLink()->CreateVarNode(kJFalse);
+	itsRootNode = CMGetLink()->CreateVarNode(false);
 	assert( itsRootNode != nullptr );
 }
 
@@ -67,7 +67,7 @@ XDVarCommand::HandleSuccess
 		}
 	else
 		{
-		SetData(JString("<error reading value>", kJFalse));
+		SetData(JString("<error reading value>", JString::kNoCopy));
 		Broadcast(ValueMessage(kValueFailed, nullptr));
 		}
 	itsRootNode->DeleteAllChildren();

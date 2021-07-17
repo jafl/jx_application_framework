@@ -306,7 +306,7 @@ JValueTableData<S,T>::InsertRows
 				S* colData = itsCols->GetElement(i);
 				if (iter != nullptr)
 					{
-					const JBoolean ok = iter->Next(&data);
+					const bool ok = iter->Next(&data);
 					assert( ok );
 					}
 				colData->InsertElementAtIndex(trueIndex, data);
@@ -514,7 +514,7 @@ JValueTableData<S,T>::InsertCols
 				T data;
 				for (JIndex i=1; i<=rowCount; i++)
 					{
-					const JBoolean ok = iter->Next(&data);
+					const bool ok = iter->Next(&data);
 					assert( ok );
 					colData->InsertElementAtIndex(i, data);
 					}

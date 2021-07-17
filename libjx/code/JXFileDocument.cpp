@@ -37,7 +37,7 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-JBoolean JXFileDocument::itsAskOKToCloseFlag = kJTrue;
+bool JXFileDocument::itsAskOKToCloseFlag = true;
 
 static const JUtf8Byte* kBackupFileSuffix = "~";
 
@@ -77,8 +77,8 @@ JXFileDocument::JXFileDocument
 	(
 	JXDirector*			supervisor,
 	const JString&		fileName,
-	const JBoolean		onDisk,
-	const JBoolean		wantBackupFile,
+	const bool		onDisk,
+	const bool		wantBackupFile,
 	const JUtf8Byte*	defaultFileNameSuffix
 	)
 	:
@@ -88,12 +88,12 @@ JXFileDocument::JXFileDocument
 	itsSaveNewFilePrompt(JGetString("SaveNewFilePrompt::JXFileDocument")),
 	itsOKToRevertPrompt(JGetString("OKToRevertPrompt::JXFileDocument"))
 {
-	itsAllocateTitleSpaceFlag     = kJFalse;
+	itsAllocateTitleSpaceFlag     = false;
 	itsWantBackupFileFlag         = wantBackupFile;
-	itsWantNewBackupEveryOpenFlag = kJTrue;
-	itsAutosaveBeforeCloseFlag    = kJFalse;
+	itsWantNewBackupEveryOpenFlag = true;
+	itsAutosaveBeforeCloseFlag    = false;
 	itsCSF                        = JGetChooseSaveFile();
-	itsNeedSafetySaveFlag         = kJFalse;
+	itsNeedSafetySaveFlag         = false;
 	itsSafetySaveFileName         = nullptr;
 
 	FileChanged(fileName, onDisk);
@@ -125,14 +125,14 @@ JXFileDocument::ReadJXFDSetup
 
 	if (vers <= kCurrentSetupVersion)
 		{
-		JBoolean wantBackup, allocTitleSpace;
+		bool wantBackup, allocTitleSpace;
 		input >> JBoolFromString(wantBackup) >> JBoolFromString(allocTitleSpace);
 		ShouldMakeBackupFile(wantBackup);
 		ShouldAllocateTitleSpace(allocTitleSpace);
 
 		if (vers >= 1)
 			{
-			JBoolean newBackupEveryOpen;
+			bool newBackupEveryOpen;
 			input >> JBoolFromString(newBackupEveryOpen);
 			ShouldMakeNewBackupEveryOpen(newBackupEveryOpen);
 			}
@@ -165,12 +165,12 @@ JXFileDocument::WriteJXFDSetup
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileDocument::ExistsOnDisk()
 	const
 {
 	const JString fullName = itsFilePath + itsFileName;
-	return JConvertToBoolean( itsWasOnDiskFlag && JFileExists(fullName) );
+	return itsWasOnDiskFlag && JFileExists(fullName);
 }
 
 /*****************************************************************************
@@ -181,12 +181,12 @@ JXFileDocument::ExistsOnDisk()
 JString
 JXFileDocument::GetFullName
 	(
-	JBoolean* onDisk
+	bool* onDisk
 	)
 	const
 {
 	const JString fullName = itsFilePath + itsFileName;
-	*onDisk = JConvertToBoolean( itsWasOnDiskFlag && JFileExists(fullName) );
+	*onDisk = itsWasOnDiskFlag && JFileExists(fullName);
 	return fullName;
 }
 
@@ -211,7 +211,7 @@ JXFileDocument::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileDocument::NeedsSave()
 	const
 {
@@ -230,37 +230,37 @@ void
 JXFileDocument::FileChanged
 	(
 	const JString&	fileName,
-	const JBoolean	onDisk
+	const bool	onDisk
 	)
 {
-	itsSavedFlag          = kJTrue;
+	itsSavedFlag          = true;
 	itsWasOnDiskFlag      = onDisk;
-	itsMakeBackupFileFlag = JConvertToBoolean( itsWasOnDiskFlag && itsWantBackupFileFlag );
-	itsIsFirstSaveFlag    = kJTrue;
+	itsMakeBackupFileFlag = itsWasOnDiskFlag && itsWantBackupFileFlag;
+	itsIsFirstSaveFlag    = true;
 
 	if (onDisk)
 		{
 		JString fullName;
-		const JBoolean ok = JGetTrueName(fileName, &fullName);
+		const bool ok = JGetTrueName(fileName, &fullName);
 		assert( ok );
 		JSplitPathAndName(fullName, &itsFilePath, &itsFileName);
 
 		JError err = JGetModificationTime(fileName, &itsFileModTime);
 		assert_ok( err );
-		itsCheckModTimeFlag = kJTrue;
+		itsCheckModTimeFlag = true;
 
 		err = JGetPermissions(fileName, &itsFilePerms);
 		assert_ok( err );
-		itsCheckPermsFlag = kJTrue;
+		itsCheckPermsFlag = true;
 		}
 	else
 		{
 		itsFilePath.Clear();
 		itsFileName         = fileName;
 		itsFileModTime      = 0;
-		itsCheckModTimeFlag = kJFalse;
+		itsCheckModTimeFlag = false;
 		itsFilePerms        = 0;
-		itsCheckPermsFlag   = kJFalse;
+		itsCheckPermsFlag   = false;
 		}
 
 	RemoveSafetySaveFile();
@@ -275,7 +275,7 @@ JXFileDocument::FileChanged
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileDocument::OKToClose()
 {
 	if (itsSavedFlag)
@@ -306,12 +306,12 @@ JXFileDocument::OKToClose()
 		}
 	else if (action == JUserNotification::kDiscardData)
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		assert( action == JUserNotification::kDontClose );
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -324,7 +324,7 @@ JXFileDocument::OKToClose()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileDocument::OKToRevert()
 {
 	Activate();		// show ourselves so user knows what we are asking about
@@ -355,28 +355,28 @@ JXFileDocument::OKToRevert()
 
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  CanRevert (virtual protected)
 
-	Returns kJTrue if the data has not been saved or the file has
+	Returns true if the data has not been saved or the file has
 	been modified behind our back.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileDocument::CanRevert()
 {
 	if (!ExistsOnDisk())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (!itsSavedFlag)
 		{
-		return kJTrue;
+		return true;
 		}
 
 	return FileModifiedByOthers();
@@ -392,7 +392,7 @@ JXFileDocument::CanRevert()
 void
 JXFileDocument::CheckIfModifiedByOthers()
 {
-	JBoolean modTimeChanged, permsChanged;
+	bool modTimeChanged, permsChanged;
 	if (FileModifiedByOthers(&modTimeChanged, &permsChanged) || permsChanged)
 		{
 		HandleFileModifiedByOthers(modTimeChanged, permsChanged);
@@ -409,8 +409,8 @@ JXFileDocument::CheckIfModifiedByOthers()
 void
 JXFileDocument::HandleFileModifiedByOthers
 	(
-	const JBoolean modTimeChanged,
-	const JBoolean permsChanged
+	const bool modTimeChanged,
+	const bool permsChanged
 	)
 {
 }
@@ -418,15 +418,15 @@ JXFileDocument::HandleFileModifiedByOthers
 /******************************************************************************
  FileModifiedByOthers
 
-	Returns kJTrue if the file exists and has been modified behind our back.
+	Returns true if the file exists and has been modified behind our back.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileDocument::FileModifiedByOthers
 	(
-	JBoolean* modTimeChanged,
-	JBoolean* permsChanged
+	bool* modTimeChanged,
+	bool* permsChanged
 	)
 	const
 {
@@ -434,19 +434,17 @@ JXFileDocument::FileModifiedByOthers
 	time_t modTime;
 	mode_t perms;
 
-	const JBoolean m = JI2B(
-		itsCheckModTimeFlag &&
+	const bool m = itsCheckModTimeFlag &&
 		JGetModificationTime(fullName, &modTime) == kJNoError &&
-		modTime != itsFileModTime);
+		modTime != itsFileModTime;
 	if (modTimeChanged != nullptr)
 		{
 		*modTimeChanged = m;
 		}
 
-	const JBoolean p = JI2B(
-		itsCheckPermsFlag &&
+	const bool p = itsCheckPermsFlag &&
 		JGetPermissions(fullName, &perms) == kJNoError &&
-		perms != itsFilePerms);
+		perms != itsFilePerms;
 	if (permsChanged != nullptr)
 		{
 		*permsChanged = p;
@@ -463,7 +461,7 @@ JXFileDocument::FileModifiedByOthers
 void
 JXFileDocument::RevertIfChangedByOthers
 	(
-	const JBoolean force
+	const bool force
 	)
 {
 	if (!NeedsSave() && CanRevert())
@@ -489,7 +487,7 @@ JXFileDocument::RevertIfChangedByOthers
 void
 JXFileDocument::DataReverted
 	(
-	const JBoolean fromUndo
+	const bool fromUndo
 	)
 {
 	if (itsWasOnDiskFlag && !fromUndo)
@@ -499,17 +497,17 @@ JXFileDocument::DataReverted
 		if (JGetModificationTime(fullName, &modTime) == kJNoError)
 			{
 			itsFileModTime      = modTime;
-			itsCheckModTimeFlag = kJTrue;
+			itsCheckModTimeFlag = true;
 			}
 		mode_t perms;
 		if (JGetPermissions(fullName, &perms) == kJNoError)
 			{
 			itsFilePerms      = perms;
-			itsCheckPermsFlag = kJTrue;
+			itsCheckPermsFlag = true;
 			}
 		}
 
-	itsSavedFlag = kJTrue;
+	itsSavedFlag = true;
 	RemoveSafetySaveFile();
 	AdjustWindowTitle();
 }
@@ -518,7 +516,7 @@ JXFileDocument::DataReverted
  SaveCopyInNewFile
 
 	Save a copy of the data in a new file.  Our file is not changed.
-	Returns kJTrue if a file is successfully written.
+	Returns true if a file is successfully written.
 
 	If origName is not empty, it is passed to JChooseSaveFile::SaveFile().
 
@@ -527,7 +525,7 @@ JXFileDocument::DataReverted
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileDocument::SaveCopyInNewFile
 	(
 	const JString&	origUserName,
@@ -549,14 +547,14 @@ JXFileDocument::SaveCopyInNewFile
 		{
 		// We set safetySave because it's as if it were a temp file.
 
-		const JError err = WriteFile(newName, kJTrue);
+		const JError err = WriteFile(newName, true);
 		if (err.OK())
 			{
 			if (fullName != nullptr)
 				{
 				*fullName = newName;
 				}
-			return kJTrue;
+			return true;
 			}
 		else
 			{
@@ -568,7 +566,7 @@ JXFileDocument::SaveCopyInNewFile
 		{
 		fullName->Clear();
 		}
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -578,7 +576,7 @@ JXFileDocument::SaveCopyInNewFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileDocument::SaveInNewFile
 	(
 	const JString& newFullName
@@ -596,7 +594,7 @@ JXFileDocument::SaveInNewFile
 		{
 		const JString savePath    = itsFilePath;
 		const JString saveName    = itsFileName;
-		const JBoolean saveFlag[] =
+		const bool saveFlag[] =
 			{
 			itsWasOnDiskFlag,
 			itsMakeBackupFileFlag,
@@ -606,17 +604,17 @@ JXFileDocument::SaveInNewFile
 			};
 
 		JSplitPathAndName(fullName, &itsFilePath, &itsFileName);
-		itsWasOnDiskFlag      = kJTrue;
-		itsMakeBackupFileFlag = kJFalse;
-		itsCheckModTimeFlag   = kJFalse;
-		itsCheckPermsFlag     = kJFalse;
-		itsSavedFlag          = kJFalse;
+		itsWasOnDiskFlag      = true;
+		itsMakeBackupFileFlag = false;
+		itsCheckModTimeFlag   = false;
+		itsCheckPermsFlag     = false;
+		itsSavedFlag          = false;
 		SaveInCurrentFile();
 		if (itsSavedFlag)
 			{
 			itsMakeBackupFileFlag = itsWantBackupFileFlag;	// make backup when save next time
 			Broadcast(NameChanged(fullName));
-			return kJTrue;
+			return true;
 			}
 		else
 			{
@@ -630,7 +628,7 @@ JXFileDocument::SaveInNewFile
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -659,7 +657,7 @@ JXFileDocument::GetFileNameForSave()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileDocument::SaveInCurrentFile()
 {
 	if (!itsWasOnDiskFlag)
@@ -668,11 +666,11 @@ JXFileDocument::SaveInCurrentFile()
 		}
 
 	const JString fullName     = itsFilePath + itsFileName;
-	const JBoolean exists      = JFileExists(fullName);
-	const JBoolean dirWritable = JDirectoryWritable(itsFilePath);
+	const bool exists      = JFileExists(fullName);
+	const bool dirWritable = JDirectoryWritable(itsFilePath);
 	if (exists && !JFileWritable(fullName))
 		{
-		JBoolean triedWrite = kJFalse;
+		bool triedWrite = false;
 		if (JGetUserNotification()->AskUserYes(
 				JGetString("TryChangeWriteProtect::JXFileDocument")))
 			{
@@ -680,8 +678,8 @@ JXFileDocument::SaveInCurrentFile()
 			if (JGetPermissions(fullName, &perms)          == kJNoError &&
 				JSetPermissions(fullName, perms | S_IWUSR) == kJNoError)
 				{
-				const JBoolean ok1 = JFileWritable(fullName);
-				const JBoolean ok2 = JI2B(ok1 && SaveInCurrentFile());
+				const bool ok1 = JFileWritable(fullName);
+				const bool ok2 = ok1 && SaveInCurrentFile();
 				const JError err   = JSetPermissions(fullName, perms);
 				if (!err.OK())
 					{
@@ -689,15 +687,15 @@ JXFileDocument::SaveInCurrentFile()
 					}
 				if (ok2)
 					{
-					return kJTrue;
+					return true;
 					}
 				else if (ok1 && !ok2)
 					{
-					return kJFalse;
+					return false;
 					}
 				}
 
-			triedWrite = kJTrue;
+			triedWrite = true;
 			}
 
 		if (JGetUserNotification()->AskUserYes(
@@ -708,20 +706,20 @@ JXFileDocument::SaveInCurrentFile()
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 	else if (!exists && !JDirectoryExists(itsFilePath))
 		{
 		JGetUserNotification()->ReportError(
 			JGetString("DirNonexistentNoSaveError::JXFileDocument"));
-		return kJFalse;
+		return false;
 		}
 	else if (!exists && !dirWritable)
 		{
 		JGetUserNotification()->ReportError(
 			JGetString("DirWriteProtectNoSaveError::JXFileDocument"));
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -735,7 +733,7 @@ JXFileDocument::SaveInCurrentFile()
 										   map, sizeof(map));
 			if (!JGetUserNotification()->AskUserNo(msg))
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 
@@ -745,9 +743,8 @@ JXFileDocument::SaveInCurrentFile()
 		if (itsMakeBackupFileFlag)
 			{
 			const JString backupName  = fullName + kBackupFileSuffix;
-			const JBoolean makeBackup = JConvertToBoolean(
-				!JFileExists(backupName) ||
-				(itsIsFirstSaveFlag && itsWantNewBackupEveryOpenFlag) );
+			const bool makeBackup = !JFileExists(backupName) ||
+				(itsIsFirstSaveFlag && itsWantNewBackupEveryOpenFlag);
 			if (makeBackup && dirWritable)
 				{
 				JRemoveFile(backupName);
@@ -767,7 +764,7 @@ JXFileDocument::SaveInCurrentFile()
 					const JString msg = JGetString("NoBackupError::JXFileDocument", map, sizeof(map));
 					if (!JGetUserNotification()->AskUserNo(msg))
 						{
-						return kJFalse;
+						return false;
 						}
 					}
 				}
@@ -775,16 +772,16 @@ JXFileDocument::SaveInCurrentFile()
 					 !JGetUserNotification()->AskUserNo(
 							JGetString("NoBackupDirWriteProtectError::JXFileDocument")))
 				{
-				return kJFalse;
+				return false;
 				}
 			}
-		itsMakeBackupFileFlag = kJFalse;
+		itsMakeBackupFileFlag = false;
 
-		const JError err = WriteFile(fullName, kJFalse);
+		const JError err = WriteFile(fullName, false);
 		if (err.OK())
 			{
-			itsSavedFlag       = kJTrue;
-			itsIsFirstSaveFlag = kJFalse;
+			itsSavedFlag       = true;
+			itsIsFirstSaveFlag = false;
 			RemoveSafetySaveFile();
 			AdjustWindowTitle();
 
@@ -808,12 +805,12 @@ JXFileDocument::SaveInCurrentFile()
 
 			itsCheckModTimeFlag = JGetModificationTime(fullName, &itsFileModTime).OK();
 			itsCheckPermsFlag   = JGetPermissions(fullName, &itsFilePerms).OK();
-			return kJTrue;
+			return true;
 			}
 		else
 			{
 			err.ReportIfError();
-			return kJFalse;
+			return false;
 			}
 		}
 }
@@ -830,7 +827,7 @@ JError
 JXFileDocument::WriteFile
 	(
 	const JString&	fullName,
-	const JBoolean	safetySave
+	const bool	safetySave
 	)
 	const
 {
@@ -878,7 +875,7 @@ void
 JXFileDocument::WriteTextFile
 	(
 	std::ostream&		output,
-	const JBoolean	safetySave
+	const bool	safetySave
 	)
 	const
 {
@@ -900,7 +897,7 @@ JXFileDocument::SafetySave
 	const JXDocumentManager::SafetySaveReason reason
 	)
 {
-	const JBoolean quitting = JConvertToBoolean( reason != JXDocumentManager::kTimer );
+	const bool quitting = reason != JXDocumentManager::kTimer;
 
 	JString homeDir;
 	if ((!itsSavedFlag || (quitting && itsAutosaveBeforeCloseFlag)) &&
@@ -940,10 +937,10 @@ JXFileDocument::SafetySave
 
 		if (err.OK())
 			{
-			err = WriteFile(fullName, kJTrue);
+			err = WriteFile(fullName, true);
 			if (err.OK())
 				{
-				itsNeedSafetySaveFlag = kJFalse;
+				itsNeedSafetySaveFlag = false;
 				if (itsSafetySaveFileName == nullptr)
 					{
 					itsSafetySaveFileName = jnew JString(fullName);
@@ -981,17 +978,17 @@ JXFileDocument::RemoveSafetySaveFile()
 		itsSafetySaveFileName = nullptr;
 		}
 
-	itsNeedSafetySaveFlag = kJFalse;
+	itsNeedSafetySaveFlag = false;
 }
 
 /******************************************************************************
  GetSafetySaveFileName
 
-	Returns kJTrue if the file has been safety saved.
+	Returns true if the file has been safety saved.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileDocument::GetSafetySaveFileName
 	(
 	JString* fileName
@@ -1001,12 +998,12 @@ JXFileDocument::GetSafetySaveFileName
 	if (itsSafetySaveFileName != nullptr)
 		{
 		*fileName = *itsSafetySaveFileName;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		fileName->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1019,7 +1016,7 @@ JXFileDocument::GetSafetySaveFileName
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileDocument::CheckForSafetySaveFiles
 	(
 	const JString&		origFullName,
@@ -1031,7 +1028,7 @@ JXFileDocument::CheckForSafetySaveFiles
 	JString fullName, path, name;
 	if (!JGetTrueName(origFullName, &fullName))
 		{
-		return kJFalse;
+		return false;
 		}
 	JSplitPathAndName(fullName, &path, &name);
 
@@ -1040,14 +1037,12 @@ JXFileDocument::CheckForSafetySaveFiles
 		JGetModificationTime(fullName, &modTime) == kJNoError)
 		{
 		const JString safetyName = path + kSafetySavePrefix + name + kSafetySaveSuffix;
-		const JBoolean safetyExists = JConvertToBoolean(
-			JGetModificationTime(safetyName, &safetyTime) == kJNoError &&
-			safetyTime > modTime);
+		const bool safetyExists = JGetModificationTime(safetyName, &safetyTime) == kJNoError &&
+			safetyTime > modTime;
 
 		const JString assertName = path + kAssertSavePrefix + name + kAssertSaveSuffix;
-		const JBoolean assertExists = JConvertToBoolean(
-			JGetModificationTime(assertName, &assertTime) == kJNoError &&
-			assertTime > modTime);
+		const bool assertExists = JGetModificationTime(assertName, &assertTime) == kJNoError &&
+			assertTime > modTime;
 
 		const JUtf8Byte* id = nullptr;
 		if (safetyExists && assertExists)

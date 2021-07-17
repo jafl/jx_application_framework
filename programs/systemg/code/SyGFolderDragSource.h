@@ -42,7 +42,7 @@ protected:
 								  JArray<Atom>* askActionList,
 								  JPtrArray<JString>* askDescriptionList) override;
 	virtual void	HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action) override;
+									  const bool dropAccepted, const Atom action) override;
 
 private:
 

@@ -25,7 +25,7 @@
 JXAtMostOneCBGroup::JXAtMostOneCBGroup()
 	:
 	JXCheckboxGroup(),
-	itsIgnoreChangeFlag(kJFalse)
+	itsIgnoreChangeFlag(false)
 {
 }
 
@@ -35,7 +35,7 @@ JXAtMostOneCBGroup::JXAtMostOneCBGroup
 	)
 	:
 	JXCheckboxGroup(cbList),
-	itsIgnoreChangeFlag(kJFalse)
+	itsIgnoreChangeFlag(false)
 {
 }
 
@@ -48,7 +48,7 @@ JXAtMostOneCBGroup::JXAtMostOneCBGroup
 	)
 	:
 	JXCheckboxGroup(),
-	itsIgnoreChangeFlag(kJFalse)
+	itsIgnoreChangeFlag(false)
 {
 	assert( count >= 2 );
 
@@ -99,7 +99,7 @@ JXAtMostOneCBGroup::EnforceConstraints
 			{
 			if (i != cbIndex)
 				{
-				(GetCheckbox(i))->SetState(kJFalse);
+				(GetCheckbox(i))->SetState(false);
 				}
 			}
 		}

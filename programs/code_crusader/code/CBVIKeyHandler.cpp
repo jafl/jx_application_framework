@@ -45,16 +45,16 @@ CBVIKeyHandler::~CBVIKeyHandler()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBVIKeyHandler::HandleKeyPress
 	(
 	const JUtf8Character&			key,
-	const JBoolean					selectText,
+	const bool					selectText,
 	const JTextEditor::CaretMotion	motion,
-	const JBoolean					deleteToTabStop
+	const bool					deleteToTabStop
 	)
 {
-	JBoolean result;
+	bool result;
 	if (PrehandleKeyPress(key, &result))
 		{
 		return result;
@@ -63,7 +63,7 @@ CBVIKeyHandler::HandleKeyPress
 	if (key == ':')
 		{
 		SetMode(kCommandLineMode);
-		return kJTrue;
+		return true;
 		}
 	else if (GetMode() == kCommandLineMode && GetCommandLine().IsEmpty() &&
 			 key.IsDigit() && key != '0')
@@ -75,7 +75,7 @@ CBVIKeyHandler::HandleKeyPress
 		field->GoToEndOfLine();
 
 		SetMode(kCommandMode);
-		return kJTrue;
+		return true;
 		}
 	else if (GetMode() == kCommandLineMode && key == '\n')
 		{
@@ -96,28 +96,28 @@ CBVIKeyHandler::HandleKeyPress
 		else if (buf == "q")
 			{
 			doc->Close();
-			return kJTrue;
+			return true;
 			}
 		else if (buf == "q!")
 			{
-			doc->DataReverted(kJTrue);
+			doc->DataReverted(true);
 			doc->Close();
-			return kJTrue;
+			return true;
 			}
 		else if (buf == "wq")
 			{
 			doc->SaveInCurrentFile();
 			doc->Close();
-			return kJTrue;
+			return true;
 			}
 
 		SetMode(kCommandMode);
-		return kJTrue;
+		return true;
 		}
 	else if (GetMode() == kCommandLineMode)
 		{
 		AppendToCommandLine(key);
-		return kJTrue;
+		return true;
 		}
 
 	else

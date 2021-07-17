@@ -175,7 +175,7 @@ MDStatsDirector::~MDStatsDirector()
 {
 	JPrefObject::WritePrefs();
 
-	CloseLink(kJTrue);
+	CloseLink(true);
 	DeleteDebugAcceptor();
 }
 
@@ -211,7 +211,7 @@ MDStatsDirector::SetLink
 void
 MDStatsDirector::CloseLink
 	(
-	const JBoolean deleteProcess
+	const bool deleteProcess
 	)
 {
 	jdelete itsLink;
@@ -350,7 +350,7 @@ MDStatsDirector::BuildWindow()
 	blocksLabel->SetToLabel();
 
 	itsAllocatedBlocksDisplay =
-		jnew JXStaticText(JString::empty, kJFalse, kJTrue, kJFalse, nullptr, statsEncl,
+		jnew JXStaticText(JString::empty, false, true, false, nullptr, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,60, 90,20);
 	assert( itsAllocatedBlocksDisplay != nullptr );
 
@@ -361,7 +361,7 @@ MDStatsDirector::BuildWindow()
 	bytesLabel->SetToLabel();
 
 	itsAllocatedBytesDisplay =
-		jnew JXStaticText(JString::empty, kJFalse, kJTrue, kJFalse, nullptr, statsEncl,
+		jnew JXStaticText(JString::empty, false, true, false, nullptr, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,60, 90,20);
 	assert( itsAllocatedBytesDisplay != nullptr );
 
@@ -372,7 +372,7 @@ MDStatsDirector::BuildWindow()
 	deallocLabel->SetToLabel();
 
 	itsDeallocatedBlocksDisplay =
-		jnew JXStaticText(JString::empty, kJFalse, kJTrue, kJFalse, nullptr, statsEncl,
+		jnew JXStaticText(JString::empty, false, true, false, nullptr, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 390,60, 90,20);
 	assert( itsDeallocatedBlocksDisplay != nullptr );
 
@@ -392,7 +392,7 @@ MDStatsDirector::BuildWindow()
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,headerHeight, 100,histoHeight);
 	assert( scrollbarSet != nullptr );
-	scrollbarSet->FitToEnclosure(kJTrue, kJFalse);
+	scrollbarSet->FitToEnclosure(true, false);
 
 	itsAllocatedHisto =
 		jnew MDSizeHistogram(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
@@ -488,11 +488,11 @@ MDStatsDirector::Receive
 		}
 	else if (sender == itsLink && message.Is(JMessageProtocolT::kReceivedDisconnect))
 		{
-		CloseLink(kJFalse);
+		CloseLink(false);
 		}
 	else if (sender == itsProcess && message.Is(JProcess::kFinished))
 		{
-		CloseLink(kJTrue);
+		CloseLink(true);
 		ReadExitStats();
 		FinishProgram();
 		}
@@ -606,13 +606,13 @@ MDStatsDirector::RunProgram()
 	setenv("MALLOC_CHECK_",        "2",                      1);
 
 	JUtf8Byte* v = getenv("JMM_INITIALIZE");
-	if (v == nullptr || JString::Compare(v, "no", kJFalse) == 0)
+	if (v == nullptr || JString::Compare(v, "no", JString::kIgnoreCase) == 0)
 		{
 		setenv("JMM_INITIALIZE", "default", 1);
 		}
 
 	v = getenv("JMM_SHRED");
-	if (v == nullptr || JString::Compare(v, "no", kJFalse) == 0)
+	if (v == nullptr || JString::Compare(v, "no", JString::kIgnoreCase) == 0)
 		{
 		setenv("JMM_SHRED", "default", 1);
 		}
@@ -695,7 +695,7 @@ MDStatsDirector::HandleResponse()
 	assert( itsLink != nullptr );
 
 	JString text;
-	const JBoolean ok = itsLink->GetNextMessage(&text);
+	const bool ok = itsLink->GetNextMessage(&text);
 	assert( ok );
 
 	std::string s(text.GetBytes(), text.GetByteCount());
@@ -756,10 +756,10 @@ mdSetValue
 	(
 	JXStaticText*	field,
 	const JSize		value,
-	const JBoolean	raw = kJTrue
+	const bool	raw = true
 	)
 {
-	const JBoolean hadSelection = field->HasSelection();
+	const bool hadSelection = field->HasSelection();
 	JString s;
 	if (raw)
 		{
@@ -788,7 +788,7 @@ MDStatsDirector::ReceiveRunningStats
 
 	JSize value;
 	input >> value;
-	mdSetValue(itsAllocatedBytesDisplay, value, kJFalse);
+	mdSetValue(itsAllocatedBytesDisplay, value, false);
 
 	input >> value;
 	mdSetValue(itsDeallocatedBlocksDisplay, value);
@@ -912,7 +912,7 @@ MDStatsDirector::ReceiveRecords
 
 	while (1)
 		{
-		JBoolean keepGoing;
+		bool keepGoing;
 		input >> JBoolFromString(keepGoing);
 		if (!keepGoing)
 			{
@@ -961,7 +961,7 @@ MDStatsDirector::ReceiveErrorMessage
 void
 MDStatsDirector::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kGetRecordsCmd, JI2B(itsProcess != nullptr));
+	itsFileMenu->SetItemEnable(kGetRecordsCmd, itsProcess != nullptr);
 }
 
 /******************************************************************************

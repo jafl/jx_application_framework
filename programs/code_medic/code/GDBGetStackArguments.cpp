@@ -27,7 +27,7 @@ GDBGetStackArguments::GDBGetStackArguments
 	JTree* tree
 	)
 	:
-	CMCommand("-stack-list-arguments 1", kJFalse, kJTrue),
+	CMCommand("-stack-list-arguments 1", false, true),
 	itsTree(tree)
 {
 }
@@ -75,13 +75,13 @@ GDBGetStackArguments::HandleSuccess
 	JUtf8Character c;
 	while (iter.Next(framePattern))
 		{
-		if (iter.Next(&c, kJFalse) && c == ']')
+		if (iter.Next(&c, kJIteratorStay) && c == ']')
 			{
 			continue;
 			}
 
 		JIndex frameIndex;
-		JBoolean ok = iter.GetLastMatch().GetSubstring("FrameIndex").ConvertToUInt(&frameIndex);
+		bool ok = iter.GetLastMatch().GetSubstring("FrameIndex").ConvertToUInt(&frameIndex);
 		assert( ok );
 
 		CMStackFrameNode* frameNode =

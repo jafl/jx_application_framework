@@ -43,7 +43,7 @@ JXTextMenu::JXTextMenu
 JXTextMenu::JXTextMenu
 	(
 	JXImage*			image,
-	const JBoolean		menuOwnsImage,
+	const bool		menuOwnsImage,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -289,7 +289,7 @@ void
 JXTextMenu::SetDefaultFontName
 	(
 	const JString&	name,
-	const JBoolean	updateExisting
+	const bool	updateExisting
 	)
 {
 	itsTextMenuData->SetDefaultFontName(name, updateExisting);
@@ -299,7 +299,7 @@ void
 JXTextMenu::SetDefaultFontSize
 	(
 	const JSize		size,
-	const JBoolean	updateExisting
+	const bool	updateExisting
 	)
 {
 	itsTextMenuData->SetDefaultFontSize(size, updateExisting);
@@ -309,7 +309,7 @@ void
 JXTextMenu::SetDefaultFontStyle
 	(
 	const JFontStyle&	style,
-	const JBoolean		updateExisting
+	const bool		updateExisting
 	)
 {
 	itsTextMenuData->SetDefaultFontStyle(style, updateExisting);
@@ -319,7 +319,7 @@ void
 JXTextMenu::SetDefaultFont
 	(
 	const JFont&	font,
-	const JBoolean	updateExisting
+	const bool	updateExisting
 	)
 {
 	itsTextMenuData->SetDefaultFont(font, updateExisting);
@@ -330,7 +330,7 @@ JXTextMenu::SetDefaultFont
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTextMenu::GetItemImage
 	(
 	const JIndex	index,
@@ -346,7 +346,7 @@ JXTextMenu::SetItemImage
 	(
 	const JIndex	index,
 	JXImage*		image,
-	const JBoolean	menuOwnsImage
+	const bool	menuOwnsImage
 	)
 {
 	itsTextMenuData->SetImage(index, image, menuOwnsImage);
@@ -360,7 +360,7 @@ JXTextMenu::SetItemImage
 	)
 {
 	JXImage* image = GetDisplay()->GetImageCache()->GetImage(data);
-	SetItemImage(index, image, kJFalse);
+	SetItemImage(index, image, false);
 }
 
 void
@@ -377,7 +377,7 @@ JXTextMenu::ClearItemImage
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTextMenu::GetItemNMShortcut
 	(
 	const JIndex	index,
@@ -389,12 +389,12 @@ JXTextMenu::GetItemNMShortcut
 	if (itsTextMenuData->GetNMShortcut(index, &s))
 		{
 		*str = *s;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		str->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -413,7 +413,7 @@ JXTextMenu::SetItemNMShortcut
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTextMenu::HasSeparatorAfter
 	(
 	const JIndex index
@@ -427,7 +427,7 @@ void
 JXTextMenu::ShowSeparatorAfter
 	(
 	const JIndex	index,
-	const JBoolean	show
+	const bool	show
 	)
 {
 	itsTextMenuData->ShowSeparatorAfter(index, show);
@@ -438,7 +438,7 @@ JXTextMenu::ShowSeparatorAfter
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTextMenu::HeightCompressed()
 	const
 {
@@ -448,7 +448,7 @@ JXTextMenu::HeightCompressed()
 void
 JXTextMenu::CompressHeight
 	(
-	const JBoolean compress
+	const bool compress
 	)
 {
 	itsTextMenuData->CompressHeight(compress);
@@ -469,10 +469,10 @@ JXTextMenu::HandleNMShortcut
 	// Update menu items so active setting is correct
 	// and then broadcast the selection.
 
-	if (PrepareToOpenMenu(kJTrue) &&
+	if (PrepareToOpenMenu(true) &&
 		itsTextMenuData->IndexValid(index) && itsTextMenuData->IsEnabled(index))
 		{
-		BroadcastSelection(index, kJTrue);
+		BroadcastSelection(index, true);
 		}
 }
 
@@ -501,7 +501,7 @@ JXTextMenu::CreateMenuWindow
 void
 JXTextMenu::SetToPopupChoice
 	(
-	const JBoolean	isPopup,
+	const bool	isPopup,
 	const JIndex	initialChoice
 	)
 {
@@ -510,7 +510,7 @@ JXTextMenu::SetToPopupChoice
 		{
 		JString newTitle = origTitle;
 		newTitle.Append(":");
-		SetTitle(newTitle, nullptr, kJFalse);
+		SetTitle(newTitle, nullptr, false);
 		}
 
 	JXMenu::SetToPopupChoice(isPopup, initialChoice);
@@ -552,5 +552,5 @@ JXTextMenu::AdjustPopupChoiceTitle
 	const JXImage* image = nullptr;
 	GetItemImage(index, &image);
 
-	SetTitle(newTitle, const_cast<JXImage*>(image), kJFalse);
+	SetTitle(newTitle, const_cast<JXImage*>(image), false);
 }

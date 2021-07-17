@@ -69,19 +69,19 @@ static const JUtf8Byte* kDeprecatedKeyword[] =
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStylerBase*
 CBDStyler::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBDStyler;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -131,11 +131,11 @@ CBDStyler::CBDStyler()
 
 	SetTypeStyle(kError           - kWhitespace, JFontStyle(red));
 
-	SetWordStyle(JString("goto", kJFalse), JFontStyle(kJTrue, kJFalse, 0, kJFalse, red));
+	SetWordStyle(JString("goto", JString::kNoCopy), JFontStyle(true, false, 0, false, red));
 
 	for (const JUtf8Byte* kw : kDeprecatedKeyword)
 		{
-		SetWordStyle(JString(kw, kJFalse), JFontStyle(red));
+		SetWordStyle(JString(kw, JString::kNoCopy), JFontStyle(red));
 		}
 
 	JPrefObject::ReadPrefs();
@@ -214,14 +214,14 @@ CBDStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy));
 			}
 		}
 		while (SetStyle(token.range.charRange, style));
@@ -267,7 +267,7 @@ CBDStyler::Receive
 		assert( info != nullptr );
 		if (info->Successful())
 			{
-			CBMWriteSharedPrefs(kJTrue);
+			CBMWriteSharedPrefs(true);
 			}
 		}
 

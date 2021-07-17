@@ -26,7 +26,7 @@ public:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	JXTextMenu(JXImage* image, const JBoolean menuOwnsImage,
+	JXTextMenu(JXImage* image, const bool menuOwnsImage,
 			   JXContainer* enclosure,
 			   const HSizingOption hSizing, const VSizingOption vSizing,
 			   const JCoordinate x, const JCoordinate y,
@@ -73,27 +73,27 @@ public:
 
 	const JFont&	GetDefaultFont() const;
 
-	void	SetDefaultFontName(const JString& name, const JBoolean updateExisting);
-	void	SetDefaultFontSize(const JSize size, const JBoolean updateExisting);
-	void	SetDefaultFontStyle(const JFontStyle& style, const JBoolean updateExisting);
-	void	SetDefaultFont(const JFont& font, const JBoolean updateExisting);
+	void	SetDefaultFontName(const JString& name, const bool updateExisting);
+	void	SetDefaultFontSize(const JSize size, const bool updateExisting);
+	void	SetDefaultFontStyle(const JFontStyle& style, const bool updateExisting);
+	void	SetDefaultFont(const JFont& font, const bool updateExisting);
 
-	JBoolean	GetItemImage(const JIndex index, const JXImage** image) const;
+	bool	GetItemImage(const JIndex index, const JXImage** image) const;
 	void		SetItemImage(const JIndex index, JXImage* image,
-							 const JBoolean menuOwnsImage);
+							 const bool menuOwnsImage);
 	void		SetItemImage(const JIndex index, const JXPM& data);
 	void		ClearItemImage(const JIndex index);
 
-	JBoolean	GetItemNMShortcut(const JIndex index, JString* str) const;
+	bool	GetItemNMShortcut(const JIndex index, JString* str) const;
 	void		SetItemNMShortcut(const JIndex index, const JString& str);
 
-	JBoolean	HasSeparatorAfter(const JIndex index) const;
-	void		ShowSeparatorAfter(const JIndex index, const JBoolean show = kJTrue);
+	bool	HasSeparatorAfter(const JIndex index) const;
+	void		ShowSeparatorAfter(const JIndex index, const bool show = true);
 
-	JBoolean	HeightCompressed() const;
-	void		CompressHeight(const JBoolean compress = kJTrue);
+	bool	HeightCompressed() const;
+	void		CompressHeight(const bool compress = true);
 
-	virtual void	SetToPopupChoice(const JBoolean isPopup,
+	virtual void	SetToPopupChoice(const bool isPopup,
 									 const JIndex initialChoice);
 
 	// called by JXWindow

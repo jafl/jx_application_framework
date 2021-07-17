@@ -38,12 +38,12 @@ public:
 	void	ScrollToShowChildren(const JIndex index);
 	void	GetSelectedNodes(JPtrArray<JTreeNode>* list);
 	void	SelectNodes(const JPtrArray<JTreeNode>& list);
-	void	OpenSelectedNodes(const JBoolean openSiblings = kJFalse,
-							  const JBoolean openDescendants = kJFalse);
-	void	CloseSelectedNodes(const JBoolean closeSiblings = kJFalse,
-							   const JBoolean closeDescendants = kJFalse);
-	void	ToggleNode(const JIndex index, const JBoolean siblings = kJFalse,
-					   const JBoolean descendants = kJFalse);
+	void	OpenSelectedNodes(const bool openSiblings = false,
+							  const bool openDescendants = false);
+	void	CloseSelectedNodes(const bool closeSiblings = false,
+							   const bool closeDescendants = false);
+	void	ToggleNode(const JIndex index, const bool siblings = false,
+					   const bool descendants = false);
 
 	JSize			GetIndentWidth() const;
 	void			SetIndentWidth(const JSize width);
@@ -55,16 +55,16 @@ public:
 
 	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
-	virtual JBoolean	IsSelectable(const JPoint& cell,
-									 const JBoolean forExtend) const override;
-	virtual JBoolean	IsEditable(const JPoint& cell) const override;
+	virtual bool	IsSelectable(const JPoint& cell,
+									 const bool forExtend) const override;
+	virtual bool	IsEditable(const JPoint& cell) const override;
 
 	void	ForceAdjustToTree();
 
 protected:
 
-	JBoolean	WillDrawSelection() const;
-	void		ShouldDrawSelection(const JBoolean draw);
+	bool	WillDrawSelection() const;
+	void		ShouldDrawSelection(const bool draw);
 
 	JIndex	GetElasticColIndex() const;
 	void	SetElasticColIndex(const JIndex index);
@@ -73,11 +73,11 @@ protected:
 	virtual void	AdjustToTree();
 	virtual JSize	GetMinCellWidth(const JPoint& cell) const = 0;
 
-	JBoolean		WantsToDrawCell(const JPoint& cell) const;
+	bool		WantsToDrawCell(const JPoint& cell) const;
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual void	TLWDrawNode(JPainter& p, const JPoint& cell, const JRect& rect) = 0;
 
-	JBoolean		IsDraggingToggle() const;
+	bool		IsDraggingToggle() const;
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
@@ -88,7 +88,7 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	JBoolean	GetDNDTargetIndex(JIndex* index) const;
+	bool	GetDNDTargetIndex(JIndex* index) const;
 	void		SetDNDTargetIndex(const JIndex index);
 	void		ClearDNDTargetIndex();
 
@@ -101,7 +101,7 @@ private:
 	JIndex		itsToggleOpenColIndex;
 	JIndex		itsNodeColIndex;
 	JSize		itsIndentWidth;
-	JBoolean	itsDrawSelectionFlag;
+	bool	itsDrawSelectionFlag;
 
 	JArray<JSize>*	itsMinColWidths;		// minimum width of each column
 	JIndex			itsElasticColIndex;		// column that can expand to fill aperture width
@@ -115,7 +115,7 @@ private:
 
 	// used while dragging
 
-	JBoolean		itsMouseInToggleFlag;
+	bool		itsMouseInToggleFlag;
 	JCoordinate		itsToggleDragIndex;		// 0 => off; JCoordinate to avoid signed-unsigned compare
 	JSize			itsMaxOpenDepth;		// max depth when opening descendants
 
@@ -224,15 +224,15 @@ JXTreeListWidget::GetNodeColIndex()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTreeListWidget::WantsToDrawCell
 	(
 	const JPoint& cell
 	)
 	const
 {
-	return JI2B(JIndex(cell.x) == itsToggleOpenColIndex ||
-				JIndex(cell.x) == itsNodeColIndex);
+	return JIndex(cell.x) == itsToggleOpenColIndex ||
+				JIndex(cell.x) == itsNodeColIndex;
 }
 
 /******************************************************************************
@@ -295,7 +295,7 @@ JXTreeListWidget::SetIndentWidth
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTreeListWidget::WillDrawSelection()
 	const
 {
@@ -305,7 +305,7 @@ JXTreeListWidget::WillDrawSelection()
 inline void
 JXTreeListWidget::ShouldDrawSelection
 	(
-	const JBoolean draw
+	const bool draw
 	)
 {
 	if (draw != itsDrawSelectionFlag)
@@ -344,11 +344,11 @@ JXTreeListWidget::SetMaxOpenDepth
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTreeListWidget::IsDraggingToggle()
 	const
 {
-	return JI2B(itsToggleDragIndex > 0);
+	return itsToggleDragIndex > 0;
 }
 
 /******************************************************************************
@@ -359,7 +359,7 @@ JXTreeListWidget::IsDraggingToggle()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTreeListWidget::GetDNDTargetIndex
 	(
 	JIndex* index
@@ -367,7 +367,7 @@ JXTreeListWidget::GetDNDTargetIndex
 	const
 {
 	*index = itsDNDTargetIndex;
-	return JI2B(itsDNDTargetIndex > 0);
+	return itsDNDTargetIndex > 0;
 }
 
 inline void

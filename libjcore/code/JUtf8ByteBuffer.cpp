@@ -60,7 +60,7 @@ JUtf8ByteBuffer::Append
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 isNull
 	(
 	const JUtf8Byte*	c,
@@ -68,7 +68,7 @@ isNull
 	)
 {
 	*byteCount = 1;
-	return JI2B( *c == '\0' );
+	return *c == '\0';
 }
 
 JString

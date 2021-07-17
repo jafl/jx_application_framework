@@ -74,23 +74,23 @@
 #include <jErrno.h>
 #include <jAssert.h>
 
-JBoolean CBProjectDocument::theReopenTextFilesFlag    = kJTrue;
-JBoolean CBProjectDocument::theWarnOpenOldVersionFlag = kJFalse;
+bool CBProjectDocument::theReopenTextFilesFlag    = true;
+bool CBProjectDocument::theWarnOpenOldVersionFlag = false;
 JString CBProjectDocument::theAddFilesFilter;
 
 static const JUtf8Byte* kProjectFileSignature = "jx_browser_data";
 const JSize kProjectFileSignatureLength       = strlen(kProjectFileSignature);
 static const JUtf8Byte* kProjectFileSuffix    = ".jcc";
 
-static const JString kDataDirectory(".jcc", kJFalse);
+static const JString kDataDirectory(".jcc", JString::kNoCopy);
 
 static const JUtf8Byte* kSettingFileSignature = "jx_browser_local_settings";
 const JSize kSettingFileSignatureLength       = strlen(kSettingFileSignature);
-static const JString kSettingFileName("prefs", kJFalse);
+static const JString kSettingFileName("prefs", JString::kNoCopy);
 
 static const JUtf8Byte* kSymbolFileSignature  = "jx_browser_symbol_table";
 const JSize kSymbolFileSignatureLength        = strlen(kSymbolFileSignature);
-static const JString kSymbolFileName("symbols", kJFalse);
+static const JString kSymbolFileName("symbols", JString::kNoCopy);
 
 static const JUtf8Byte* kProjTemplateDir      = "project_templates";
 static const JUtf8Byte* kTmplFileSignature    = "jx_browser_project_template";
@@ -221,7 +221,7 @@ class ChildAssertHandler : public JAssertBase
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectDocument::Create
 	(
 	CBProjectDocument** doc
@@ -236,14 +236,14 @@ CBProjectDocument::Create
 					  JGetString("NewFileName::CBProjectDocument"),
 					  &fullName))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JString tmplFile, tmplType;
-	const JBoolean fromTemplate = csf.GetProjectTemplate(&tmplFile);
+	const bool fromTemplate = csf.GetProjectTemplate(&tmplFile);
 	if (fromTemplate)
 		{
-		const JBoolean ok = GetProjectTemplateType(tmplFile, &tmplType);
+		const bool ok = GetProjectTemplateType(tmplFile, &tmplType);
 		assert( ok );
 		}
 
@@ -253,7 +253,7 @@ CBProjectDocument::Create
 	if (!JKillDirectory(meta))
 		{
 		(JGetUserNotification())->ReportError(JGetString("MetaDirectoryAlreadyExists::CBProjectDocument"));
-		return kJFalse;
+		return false;
 		}
 
 	if (!fromTemplate || tmplType == kTmplFileSignature)
@@ -262,7 +262,7 @@ CBProjectDocument::Create
 		if (!temp.good())
 			{
 			JGetUserNotification()->ReportError(JGetString("FileCreateFailed::CBProjectDocument"));
-			return kJFalse;
+			return false;
 			}
 		temp.close();
 
@@ -271,7 +271,7 @@ CBProjectDocument::Create
 		assert( *doc != nullptr );
 		(**doc).SaveInCurrentFile();
 		(**doc).Activate();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -308,7 +308,7 @@ CBProjectDocument::Create
 			{
 			JGetStringManager()->ReportError("WizardExecError::CBProjectDocument", err);
 			}
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -316,7 +316,7 @@ JXFileDocument::FileStatus
 CBProjectDocument::Create
 	(
 	const JString&		fullName,
-	const JBoolean		silent,
+	const bool		silent,
 	CBProjectDocument**	doc
 	)
 {
@@ -416,7 +416,7 @@ CBProjectDocument::GetTemplateDirectoryName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectDocument::GetProjectTemplateType
 	(
 	const JString&	fullName,
@@ -431,12 +431,12 @@ CBProjectDocument::GetProjectTemplateType
 	if (status == kFileReadable)
 		{
 		*type = kTmplFileSignature;
-		return kJTrue;
+		return true;
 		}
 	else if (status == kNeedNewerVersion)
 		{
 		type->Clear();
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -446,12 +446,12 @@ CBProjectDocument::GetProjectTemplateType
 		if (status == kFileReadable)
 			{
 			*type = kWizardFileSignature;
-			return kJTrue;
+			return true;
 			}
 		else
 			{
 			type->Clear();
-			return kJFalse;
+			return false;
 			}
 		}
 }
@@ -465,12 +465,12 @@ CBProjectDocument::CBProjectDocument
 	(
 	const JString&							fullName,
 	const CBBuildManager::MakefileMethod	makefileMethod,
-	const JBoolean							fromTemplate,
+	const bool							fromTemplate,
 	const JString&							tmplFile
 	)
 	:
 	JXFileDocument(CBGetApplication(),
-				   fullName, kJTrue, kJFalse, kProjectFileSuffix)
+				   fullName, true, false, kProjectFileSuffix)
 {
 	std::ifstream* input = nullptr;
 	JFileVersion tmplVers, projVers;
@@ -547,11 +547,11 @@ CBProjectDocument::CBProjectDocument
 	const JString&	projName,
 	const JString&	setName,
 	const JString&	symName,
-	const JBoolean	silent
+	const bool	silent
 	)
 	:
 	JXFileDocument(CBGetApplication(),
-				   projName, kJTrue, kJFalse, kProjectFileSuffix)
+				   projName, true, false, kProjectFileSuffix)
 {
 	projInput.ignore(kProjectFileSignatureLength);
 
@@ -576,7 +576,7 @@ CBProjectDocument::CBProjectDocument
 		setInput = &setStream;
 		}
 
-	const JBoolean useProjSetData = JI2B( setInput == nullptr || setVers < 71 );
+	const bool useProjSetData = setInput == nullptr || setVers < 71;
 
 	// open the symbol file
 
@@ -739,7 +739,7 @@ CBProjectDocument::CBProjectDocument
 		{
 		if (projVers >= 2)
 			{
-			docMgr->DocumentMustStayOpen(this, kJTrue);		// stay open if editor is closed
+			docMgr->DocumentMustStayOpen(this, true);		// stay open if editor is closed
 
 			if (projVers < 71 && useProjSetData)
 				{
@@ -752,7 +752,7 @@ CBProjectDocument::CBProjectDocument
 			}
 
 		Activate();		// stay open
-		docMgr->DocumentMustStayOpen(this, kJFalse);
+		docMgr->DocumentMustStayOpen(this, false);
 		}
 	else if (!silent)
 		{
@@ -773,7 +773,7 @@ CBProjectDocument::CBProjectDocumentX
 	CBProjectTree* fileList
 	)
 {
-	itsProcessNodeMessageFlag = kJTrue;
+	itsProcessNodeMessageFlag = true;
 	itsLastSymbolLoadTime     = 0.0;
 
 	itsDirList = jnew CBDirList;
@@ -859,7 +859,7 @@ JError
 CBProjectDocument::WriteFile
 	(
 	const JString&	fullName,
-	const JBoolean	safetySave
+	const bool	safetySave
 	)
 	const
 {
@@ -902,7 +902,7 @@ void
 CBProjectDocument::WriteTextFile
 	(
 	std::ostream&	projOutput,
-	const JBoolean	safetySave
+	const bool	safetySave
 	)
 	const
 {
@@ -915,7 +915,7 @@ CBProjectDocument::WriteTextFile
 	std::ostream* symOutput = nullptr;
 	if (!safetySave)
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		setName = GetSettingFileName(GetFullName(&onDisk));
 
 		setOutput = jnew std::ofstream(setName.GetBytes());
@@ -1021,7 +1021,7 @@ CBProjectDocument::WriteFiles
 
 	if (setOutput != nullptr)
 		{
-		const JBoolean ok = JI2B( setOutput->good() );
+		const bool ok = setOutput->good();
 		jdelete setOutput;
 		if (!ok && !setName.IsEmpty())
 			{
@@ -1031,7 +1031,7 @@ CBProjectDocument::WriteFiles
 
 	if (symOutput != nullptr)
 		{
-		const JBoolean ok = JI2B( symOutput->good() );
+		const bool ok = symOutput->good();
 		jdelete symOutput;
 		if (!ok && !symName.IsEmpty())
 			{
@@ -1043,11 +1043,11 @@ CBProjectDocument::WriteFiles
 /******************************************************************************
  ReadTasksFromProjectFile (static)
 
-	Returns kJTrue if the file is a project file.
+	Returns true if the file is a project file.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectDocument::ReadTasksFromProjectFile
 	(
 	std::istream&				input,
@@ -1059,11 +1059,11 @@ CBProjectDocument::ReadTasksFromProjectFile
 	if (status == kFileReadable && vers < 71)
 		{
 		JGetUserNotification()->ReportError(JGetString("FileTooOld::CBProjectDocument"));
-		return kJTrue;
+		return true;
 		}
 	else if (status == kFileReadable)
 		{
-		JBoolean foundDelimiter;
+		bool foundDelimiter;
 		JString makeDependCmd;
 
 		JIgnoreUntil(input, "\n# tasks\n", &foundDelimiter);
@@ -1072,16 +1072,16 @@ CBProjectDocument::ReadTasksFromProjectFile
 			{
 			JGetUserNotification()->ReportError(JGetString("InvalidProjectFile::CBProjectDocument"));
 			}
-		return kJTrue;
+		return true;
 		}
 	else if (status == kNeedNewerVersion)
 		{
 		JGetUserNotification()->ReportError(JGetString("NeedNewerVersion::CBProjectDocument"));
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1097,8 +1097,8 @@ CBProjectDocument::ConvertCompileRunDialogs
 	const JFileVersion	projVers
 	)
 {
-	itsCmdMgr->ConvertCompileDialog(projInput, projVers, itsBuildMgr, kJTrue);
-	itsCmdMgr->ConvertRunDialog(projInput, projVers, kJTrue);
+	itsCmdMgr->ConvertCompileDialog(projInput, projVers, itsBuildMgr, true);
+	itsCmdMgr->ConvertRunDialog(projInput, projVers, true);
 }
 
 /******************************************************************************
@@ -1156,7 +1156,7 @@ CBProjectDocument::ReadTemplate
 		}
 	else if (tmplVers < 2)
 		{
-		JBoolean shouldWriteMakeFilesFlag;
+		bool shouldWriteMakeFilesFlag;
 		input >> JBoolFromString(shouldWriteMakeFilesFlag);
 
 		makefileMethod = (shouldWriteMakeFilesFlag ? CBBuildManager::kMakemake :
@@ -1262,19 +1262,19 @@ CBProjectDocument::GetSymbolFileName
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectDocument::Close()
 {
-	itsBuildMgr->UpdateMakeFiles(kJFalse);
+	itsBuildMgr->UpdateMakeFiles(false);
 
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = GetFullName(&onDisk);
-	if (kJTrue)//NeedsSave() && onDisk && !JFileWritable(fullName))
+	if (true)//NeedsSave() && onDisk && !JFileWritable(fullName))
 		{
 		JEditVCS(fullName);
 		if (JFileWritable(fullName) && SaveInCurrentFile())
 			{
-			DataReverted(kJFalse);
+			DataReverted(false);
 			}
 		else
 			{
@@ -1347,11 +1347,11 @@ void
 CBProjectDocument::SetTreePrefs
 	(
 	const JSize		fontSize,
-	const JBoolean	showInheritedFns,
-	const JBoolean	autoMinMILinks,
-	const JBoolean	drawMILinksOnTop,
-	const JBoolean	raiseWhenSingleMatch,
-	const JBoolean	writePrefs
+	const bool	showInheritedFns,
+	const bool	autoMinMILinks,
+	const bool	drawMILinksOnTop,
+	const bool	raiseWhenSingleMatch,
+	const bool	writePrefs
 	)
 {
 	SetTreePrefs(itsCTreeDirector,
@@ -1387,11 +1387,11 @@ CBProjectDocument::SetTreePrefs
 	(
 	CBTreeDirector*	director,
 	const JSize		fontSize,
-	const JBoolean	showInheritedFns,
-	const JBoolean	autoMinMILinks,
-	const JBoolean	drawMILinksOnTop,
-	const JBoolean	raiseWhenSingleMatch,
-	const JBoolean	writePrefs
+	const bool	showInheritedFns,
+	const bool	autoMinMILinks,
+	const bool	drawMILinksOnTop,
+	const bool	raiseWhenSingleMatch,
+	const bool	writePrefs
 	)
 {
 	director->SetTreePrefs(fontSize, showInheritedFns,
@@ -1460,7 +1460,7 @@ CBProjectDocument::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectDocument::GetMenuIcon
 	(
 	const JXImage** icon
@@ -1468,9 +1468,9 @@ CBProjectDocument::GetMenuIcon
 	const
 {
 	CBProjectDocument* doc;
-	*icon = CBGetProjectFileIcon(JI2B(CBGetDocumentManager()->GetActiveProjectDocument(&doc) &&
-									  doc == const_cast<CBProjectDocument*>(this)));
-	return kJTrue;
+	*icon = CBGetProjectFileIcon(CBGetDocumentManager()->GetActiveProjectDocument(&doc) &&
+									  doc == const_cast<CBProjectDocument*>(this));
+	return true;
 }
 
 /******************************************************************************
@@ -1678,7 +1678,7 @@ CBProjectDocument::BuildWindow
 	assert( itsUpdatePG != nullptr );
 	itsUpdatePG->SetItems(nullptr, itsUpdateCounter, itsUpdateCleanUpIndicator, itsUpdateLabel);
 
-	ShowUpdatePG(kJFalse);
+	ShowUpdatePG(false);
 }
 
 /******************************************************************************
@@ -1782,7 +1782,7 @@ CBProjectDocument::Receive
 		CBPTPrinter* p = CBGetPTTextPrinter();
 		if (info->Successful())
 			{
-			JBoolean onDisk;
+			bool onDisk;
 			const JString fullName = GetFullName(&onDisk);
 			p->SetHeaderName(fullName);
 
@@ -1833,11 +1833,11 @@ CBProjectDocument::Receive
 		}
 	else if (sender == itsFileTree && message.Is(JTree::kPrepareForNodeMove))
 		{
-		itsProcessNodeMessageFlag = kJFalse;
+		itsProcessNodeMessageFlag = false;
 		}
 	else if (sender == itsFileTree && message.Is(JTree::kNodeMoveFinished))
 		{
-		itsProcessNodeMessageFlag = kJTrue;
+		itsProcessNodeMessageFlag = true;
 		itsBuildMgr->ProjectChanged();
 		}
 
@@ -1848,14 +1848,14 @@ CBProjectDocument::Receive
 
 	else if (sender == itsSaveTask && message.Is(JXTimerTask::kTimerWentOff))
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		const JString fullName = GetFullName(&onDisk);
 		if (onDisk && !JFileWritable(fullName))
 			{
 			JEditVCS(fullName);
 			}
-		WriteFile(fullName, kJFalse);	// always save .jst/.jup, even if .jcc not writable
-		DataReverted(kJFalse);			// update file modification time
+		WriteFile(fullName, false);	// always save .jst/.jup, even if .jcc not writable
+		DataReverted(false);			// update file modification time
 		}
 
 	else if (sender == itsUpdateLink && message.Is(JMessageProtocolT::kMessageReady))
@@ -1920,7 +1920,7 @@ CBProjectDocument::ProcessNodeMessage
 void
 CBProjectDocument::UpdateFileMenu()
 {
-	const JBoolean canPrint = JI2B( itsFileTable->GetRowCount() > 0 );
+	const bool canPrint = itsFileTable->GetRowCount() > 0;
 	itsFileMenu->SetItemEnable(kPrintCmd, canPrint);
 }
 
@@ -1965,7 +1965,7 @@ CBProjectDocument::HandleFileMenu
 
 	else if (index == kSaveCmd)
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		const JString fullName = GetFullName(&onDisk);
 		if (onDisk && !JFileWritable(fullName))
 			{
@@ -2010,7 +2010,7 @@ CBProjectDocument::SaveAsTemplate()
 	const
 {
 	JString origName;
-	if (CBGetDocumentManager()->GetTemplateDirectory(kProjTemplateDir, kJTrue, &origName))
+	if (CBGetDocumentManager()->GetTemplateDirectory(kProjTemplateDir, true, &origName))
 		{
 		origName = JCombinePathAndName(origName, GetFileName());
 
@@ -2056,18 +2056,18 @@ void
 CBProjectDocument::UpdateProjectMenu()
 {
 	itsProjectMenu->SetItemEnable(kUpdateMakefileCmd,
-		JI2B(itsBuildMgr->GetMakefileMethod() != CBBuildManager::kManual));
+		itsBuildMgr->GetMakefileMethod() != CBBuildManager::kManual);
 
 	itsProjectMenu->SetItemEnable(kShowCTreeCmd,
-		JNegate(itsCTreeDirector->GetTree()->IsEmpty()));
+		!itsCTreeDirector->GetTree()->IsEmpty());
 	itsProjectMenu->SetItemEnable(kShowDTreeCmd,
-		JNegate(itsDTreeDirector->GetTree()->IsEmpty()));
+		!itsDTreeDirector->GetTree()->IsEmpty());
 	itsProjectMenu->SetItemEnable(kShowGoTreeCmd,
-		JNegate(itsGoTreeDirector->GetTree()->IsEmpty()));
+		!itsGoTreeDirector->GetTree()->IsEmpty());
 	itsProjectMenu->SetItemEnable(kShowJavaTreeCmd,
-		JNegate(itsJavaTreeDirector->GetTree()->IsEmpty()));
+		!itsJavaTreeDirector->GetTree()->IsEmpty());
 	itsProjectMenu->SetItemEnable(kShowPHPTreeCmd,
-		JNegate(itsPHPTreeDirector->GetTree()->IsEmpty()));
+		!itsPHPTreeDirector->GetTree()->IsEmpty());
 }
 
 /******************************************************************************
@@ -2094,7 +2094,7 @@ CBProjectDocument::HandleProjectMenu
 		}
 	else if (index == kUpdateMakefileCmd)
 		{
-		itsBuildMgr->UpdateMakefile(nullptr, nullptr, kJTrue);
+		itsBuildMgr->UpdateMakefile(nullptr, nullptr, true);
 		}
 
 	else if (index == kUpdateSymbolDBCmd)
@@ -2181,9 +2181,9 @@ void
 CBProjectDocument::UpdateSourceMenu()
 {
 	CBProjectTable::SelType selType;
-	JBoolean single;
+	bool single;
 	JIndex index;
-	const JBoolean hasSelection = itsFileTable->GetSelectionType(&selType, &single, &index);
+	const bool hasSelection = itsFileTable->GetSelectionType(&selType, &single, &index);
 	if (hasSelection && selType == CBProjectTable::kFileSelection)
 		{
 		itsSourceMenu->SetItemText(kOpenFilesCmd, JGetString("OpenFilesItemText::CBProjectDocument"));
@@ -2193,7 +2193,7 @@ CBProjectDocument::UpdateSourceMenu()
 		itsSourceMenu->EnableItem(kOpenComplFilesCmd);
 		itsSourceMenu->SetItemEnable(kEditPathCmd, single);
 		itsSourceMenu->SetItemEnable(kEditSubprojConfigCmd,
-			JI2B(single && (itsFileTable->GetProjectNode(index))->GetType() == kCBLibraryNT));
+			single && (itsFileTable->GetProjectNode(index))->GetType() == kCBLibraryNT);
 		itsSourceMenu->EnableItem(kDiffSmartCmd);
 		itsSourceMenu->EnableItem(kDiffVCSCmd);
 		itsSourceMenu->EnableItem(kShowLocationCmd);
@@ -2299,7 +2299,7 @@ CBProjectDocument::HandleSourceMenu
 
 	else if (index == kSaveAllTextCmd)
 		{
-		CBGetDocumentManager()->SaveTextDocuments(kJTrue);
+		CBGetDocumentManager()->SaveTextDocuments(true);
 		}
 	else if (index == kCloseAllTextCmd)
 		{
@@ -2384,9 +2384,9 @@ CBProjectDocument::EditProjectPrefs()
 void
 CBProjectDocument::SetProjectPrefs
 	(
-	const JBoolean							reopenTextFiles,
-	const JBoolean							doubleSpaceCompile,
-	const JBoolean							rebuildMakefileDaily,
+	const bool							reopenTextFiles,
+	const bool							doubleSpaceCompile,
+	const bool							rebuildMakefileDaily,
 	const CBProjectTable::DropFileAction	dropFileAction
 	)
 {
@@ -2423,14 +2423,14 @@ CBProjectDocument::ReadStaticGlobalPrefs
 
 	if (20 <= vers && vers <= 42)
 		{
-		JBoolean beepAfterMake, beepAfterCompile;
+		bool beepAfterMake, beepAfterCompile;
 		input >> JBoolFromString(beepAfterMake)
 			  >> JBoolFromString(beepAfterCompile);
 		}
 
 	if (37 <= vers && vers <= 42)
 		{
-		JBoolean raiseBeforeMake, raiseBeforeCompile, raiseBeforeRun;
+		bool raiseBeforeMake, raiseBeforeCompile, raiseBeforeRun;
 		input >> JBoolFromString(raiseBeforeMake)
 			  >> JBoolFromString(raiseBeforeCompile)
 			  >> JBoolFromString(raiseBeforeRun);
@@ -2438,14 +2438,14 @@ CBProjectDocument::ReadStaticGlobalPrefs
 
 	if (vers >= 42)
 		{
-		JBoolean doubleSpaceCompile;
+		bool doubleSpaceCompile;
 		input >> JBoolFromString(doubleSpaceCompile);
 		CBCompileDocument::ShouldDoubleSpace(doubleSpaceCompile);
 		}
 
 	if (vers >= 46)
 		{
-		JBoolean rebuildMakefileDaily;
+		bool rebuildMakefileDaily;
 		input >> JBoolFromString(rebuildMakefileDaily);
 		CBBuildManager::ShouldRebuildMakefileDaily(rebuildMakefileDaily);
 		}
@@ -2558,7 +2558,7 @@ void
 CBProjectDocument::SymbolUpdateProgress()
 {
 	JString msg;
-	const JBoolean ok = itsUpdateLink->GetNextMessage(&msg);
+	const bool ok = itsUpdateLink->GetNextMessage(&msg);
 	assert( ok );
 
 	long type;
@@ -2581,7 +2581,7 @@ CBProjectDocument::SymbolUpdateProgress()
 		input >> msg;
 
 		itsUpdateLabel->Show();
-		itsUpdatePG->FixedLengthProcessBeginning(count, msg, kJFalse, kJTrue);
+		itsUpdatePG->FixedLengthProcessBeginning(count, msg, false, true);
 		}
 	else if (type == kVariableLengthStart)
 		{
@@ -2594,7 +2594,7 @@ CBProjectDocument::SymbolUpdateProgress()
 		input >> msg;
 
 		itsUpdateLabel->Show();
-		itsUpdatePG->VariableLengthProcessBeginning(msg, kJFalse, kJTrue);
+		itsUpdatePG->VariableLengthProcessBeginning(msg, false, true);
 		}
 	else if (type == kProgressIncrement)
 		{
@@ -2650,7 +2650,7 @@ CBProjectDocument::SymbolUpdateProgress()
 		}
 	else if (type == kSymbolTableWritten)
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		const JString symName = GetSymbolFileName(GetFullName(&onDisk));
 
 		std::ifstream symInput(symName.GetBytes());
@@ -2693,7 +2693,7 @@ CBProjectDocument::SymbolUpdateProgress()
 void
 CBProjectDocument::SymbolUpdateFinished()
 {
-	ShowUpdatePG(kJFalse);
+	ShowUpdatePG(false);
 
 	DeleteUpdateLink();
 
@@ -2718,7 +2718,7 @@ CBProjectDocument::SymbolUpdateFinished()
 void
 CBProjectDocument::ShowUpdatePG
 	(
-	const JBoolean visible
+	const bool visible
 	)
 {
 	if (visible)
@@ -2820,7 +2820,14 @@ CBProjectDocument::UpdateSymbolDatabase()
 		JInitCore(jnew ChildAssertHandler());
 		CBSetUpdateThread();
 
-		JOutPipeStream output(fd[0][1], kJTrue);
+		JOutPipeStream output(fd[0][1], true);
+
+			output << kDoItYourself << std::endl;
+			output.write(JMessageProtocolT::kStdDisconnectStr, JMessageProtocolT::kStdDisconnectByteCount);
+			output.close();
+
+			JWait(15);	// give last message a chance to be received
+			exit(0);
 
 		// update symbol table, trees, etc.
 		// (exit immediately if no changes)
@@ -2871,7 +2878,7 @@ CBProjectDocument::UpdateSymbolDatabase()
 
 		std::ostringstream projOutput;
 
-		JBoolean onDisk;
+		bool onDisk;
 		const JString symName = GetSymbolFileName(GetFullName(&onDisk));
 
 		std::ostream* symOutput = jnew std::ofstream(symName.GetBytes());
@@ -2894,10 +2901,10 @@ CBProjectDocument::UpdateSymbolDatabase()
 		close(fd[0][1]);
 		close(fd[1][0]);
 
-		itsUpdateStream = jnew JOutPipeStream(fd[1][1], kJTrue);
+		itsUpdateStream = jnew JOutPipeStream(fd[1][1], true);
 		assert( itsUpdateStream != nullptr );
 
-		ShowUpdatePG(kJTrue);
+		ShowUpdatePG(true);
 
 		itsUpdateProcess = jnew JProcess(pid);
 		assert( itsUpdateProcess != nullptr );

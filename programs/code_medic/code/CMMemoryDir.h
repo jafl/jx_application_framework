@@ -45,8 +45,8 @@ public:
 	virtual	~CMMemoryDir();
 
 	virtual void		Activate() override;
-	virtual JBoolean	Deactivate() override;
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
+	virtual bool	Deactivate() override;
+	virtual bool	GetMenuIcon(const JXImage** icon) const override;
 
 	void	StreamOut(std::ostream& output);
 
@@ -68,9 +68,9 @@ private:
 	DisplayType			itsDisplayType;
 	JSize				itsItemCount;
 	CMGetMemory*		itsCmd;			// can be nullptr
-	JBoolean			itsShouldUpdateFlag;
-	JBoolean			itsNeedsUpdateFlag;
-	JBoolean			itsWaitingForReloadFlag;
+	bool			itsShouldUpdateFlag;
+	bool			itsNeedsUpdateFlag;
+	bool			itsWaitingForReloadFlag;
 
 	JXTextMenu*			itsFileMenu;
 	JXTextMenu*			itsActionMenu;

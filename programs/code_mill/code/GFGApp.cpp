@@ -24,12 +24,12 @@ GFGApp::GFGApp
 	(
 	int*		argc,
 	char*		argv[],
-	JBoolean*	displayAbout,
+	bool*	displayAbout,
 	JString*	prevVersStr
 	)
 	:
 	JXApplication(argc, argv, kAppSignature, kGFGDefaultStringData),
-	itsDeletingTemplate(kJFalse)
+	itsDeletingTemplate(false)
 {
 	*displayAbout = GFGCreateGlobals(this);
 
@@ -42,7 +42,7 @@ GFGApp::GFGApp
 			}
 		else
 			{
-			*displayAbout = kJTrue;
+			*displayAbout = true;
 			}
 		}
 	else
@@ -107,7 +107,7 @@ GFGApp::CleanUpBeforeSuddenDeath
 
  ******************************************************************************/
 
-JBoolean
+bool
 GFGApp::IsDeletingTemplate()
 	const
 {
@@ -122,7 +122,7 @@ GFGApp::IsDeletingTemplate()
 void
 GFGApp::ShouldBeDeletingTemplate
 	(
-	const JBoolean delTemplate
+	const bool delTemplate
 	)
 {
 	itsDeletingTemplate	= delTemplate;

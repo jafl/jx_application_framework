@@ -52,8 +52,8 @@
 CMCommand::CMCommand
 	(
 	const JUtf8Byte*	cmd,
-	const JBoolean		oneShot,
-	const JBoolean		background
+	const bool		oneShot,
+	const bool		background
 	)
 	:
 	itsCommandString(cmd),
@@ -62,15 +62,15 @@ CMCommand::CMCommand
 	itsState(kUnassigned),
 	itsDeleteFlag(oneShot),
 	itsBackgroundFlag(background),
-	itsIgnoreResultFlag(kJFalse)
+	itsIgnoreResultFlag(false)
 {
 }
 
 CMCommand::CMCommand
 	(
 	const JString&	cmd,
-	const JBoolean	oneShot,
-	const JBoolean	background
+	const bool	oneShot,
+	const bool	background
 	)
 	:
 	itsCommandString(cmd),
@@ -79,7 +79,7 @@ CMCommand::CMCommand
 	itsState(kUnassigned),
 	itsDeleteFlag(oneShot),
 	itsBackgroundFlag(background),
-	itsIgnoreResultFlag(kJFalse)
+	itsIgnoreResultFlag(false)
 {
 }
 
@@ -119,7 +119,7 @@ CMCommand::SetTransactionID
 
  *****************************************************************************/
 
-JBoolean
+bool
 CMCommand::Send()
 {
 	return CMGetLink()->Send(this);
@@ -145,7 +145,7 @@ CMCommand::Starting()
 void
 CMCommand::Finished
 	(
-	const JBoolean success
+	const bool success
 	)
 {
 	itsState = kUnassigned;		// before Handle*() to allow re-send

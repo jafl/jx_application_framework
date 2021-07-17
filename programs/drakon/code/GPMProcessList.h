@@ -71,24 +71,24 @@ public:
 	void	Update();
 
 	const GPMProcessEntry*	GetProcessEntry(const JIndex index) const;
-	JBoolean				GetEntryIndex(const GPMProcessEntry* entry, JIndex *index);
-	JBoolean				FindProcessEntry(const pid_t pid, GPMProcessEntry** entry) const;
-	JBoolean				ClosestMatch(const JString& prefix, GPMProcessEntry** entry) const;
+	bool				GetEntryIndex(const GPMProcessEntry* entry, JIndex *index);
+	bool				FindProcessEntry(const pid_t pid, GPMProcessEntry** entry) const;
+	bool				ClosestMatch(const JString& prefix, GPMProcessEntry** entry) const;
 
 	const JPtrArray<GPMProcessEntry>&	GetHiddenProcesses() const;
 
-	JBoolean	ListColIsSelected(const JIndex index) const;
+	bool	ListColIsSelected(const JIndex index) const;
 	ListColType	GetSelectedListCol() const;
 	void		ListColSelected(const JIndex index);
 
-	JBoolean	TreeColIsSelected(const JIndex index) const;
+	bool	TreeColIsSelected(const JIndex index) const;
 	TreeColType	GetSelectedTreeCol() const;
 	void		TreeColSelected(const JIndex index);
 
 	JTree*		GetProcessTree();
 
-	JBoolean	WillShowUserOnly() const;
-	void		ShouldShowUserOnly(const JBoolean show);
+	bool	WillShowUserOnly() const;
+	void		ShouldShowUserOnly(const bool show);
 
 private:
 
@@ -101,7 +101,7 @@ private:
 	JFloat						itsLastTime;
 	ListColType					itsListColType;
 	TreeColType					itsTreeColType;
-	JBoolean					itsIsShowingUserOnly;
+	bool					itsIsShowingUserOnly;
 	const JIndex				itsUID;
 
 	#ifdef _J_HAS_PROC
@@ -147,14 +147,14 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GPMProcessList::ListColIsSelected
 	(
 	const JIndex index
 	)
 	const
 {
-	return JI2B(index == (JIndex) itsListColType);
+	return index == (JIndex) itsListColType;
 }
 
 /******************************************************************************
@@ -174,14 +174,14 @@ GPMProcessList::GetSelectedListCol()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GPMProcessList::TreeColIsSelected
 	(
 	const JIndex index
 	)
 	const
 {
-	return JI2B(index == (JIndex) itsTreeColType);
+	return index == (JIndex) itsTreeColType;
 }
 
 /******************************************************************************
@@ -212,7 +212,7 @@ GPMProcessList::GetProcessTree()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GPMProcessList::WillShowUserOnly()
 	const
 {
@@ -239,7 +239,7 @@ GPMProcessList::GetProcessEntry
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GPMProcessList::GetEntryIndex
 	(
 	const GPMProcessEntry*	entry,

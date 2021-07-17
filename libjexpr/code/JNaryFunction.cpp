@@ -212,7 +212,7 @@ JNaryFunction::DeleteArg
 	itsArgList->DeleteElement(index);
 }
 
-JBoolean
+bool
 JNaryFunction::DeleteArg
 	(
 	const JFunction* arg
@@ -221,7 +221,7 @@ JNaryFunction::DeleteArg
 	assert( itsArgList->GetElementCount() > 1 );
 
 	JIndex argIndex;
-	const JBoolean found = itsArgList->Find(arg, &argIndex);
+	const bool found = itsArgList->Find(arg, &argIndex);
 	if (found)
 		{
 		itsArgList->DeleteElement(argIndex);

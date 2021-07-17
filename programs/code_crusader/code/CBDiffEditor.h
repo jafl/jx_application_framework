@@ -47,7 +47,7 @@ private:
 	JString		ReadNewText(std::istream& input, const JUtf8Byte cmd, JSize* lineCount) const;
 
 	void	SelectDiff(const JCharacterRange& removeRange, const JCharacterRange& insertRange,
-					   const JBoolean preferRemove, const JBoolean hadSelection,
+					   const bool preferRemove, const bool hadSelection,
 					   const JStyledText::TextIndex& origIndex,
 					   const JStyledText::TextRange& origRange);
 

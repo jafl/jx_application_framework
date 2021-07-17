@@ -24,9 +24,9 @@ public:
 
 	virtual	~JXTextSelection();
 
-	JBoolean	GetText(const JString** text) const;
-	JBoolean	GetStyle(const JRunArray<JFont>** style) const;
-	JBoolean	GetTextEditor(JTextEditor** te) const;
+	bool	GetText(const JString** text) const;
+	bool	GetStyle(const JRunArray<JFont>** style) const;
+	bool	GetTextEditor(JTextEditor** te) const;
 
 	void	SetData(const JString& text, const JRunArray<JFont>* style = nullptr);
 	void	SetData(JString* text, JRunArray<JFont>* style);
@@ -39,7 +39,7 @@ public:
 protected:
 
 	virtual void		AddTypes(const Atom selectionName);
-	virtual JBoolean	ConvertData(const Atom requestType, Atom* returnType,
+	virtual bool	ConvertData(const Atom requestType, Atom* returnType,
 									unsigned char** data, JSize* dataLength,
 									JSize* bitsPerBlock) const;
 
@@ -68,7 +68,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTextSelection::GetText
 	(
 	const JString** text
@@ -76,7 +76,7 @@ JXTextSelection::GetText
 	const
 {
 	*text = itsText;
-	return JI2B( itsText != nullptr );
+	return itsText != nullptr;
 }
 
 /******************************************************************************
@@ -84,7 +84,7 @@ JXTextSelection::GetText
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTextSelection::GetStyle
 	(
 	const JRunArray<JFont>** style
@@ -92,7 +92,7 @@ JXTextSelection::GetStyle
 	const
 {
 	*style = itsStyle;
-	return JI2B( itsStyle != nullptr );
+	return itsStyle != nullptr;
 }
 
 /******************************************************************************
@@ -100,7 +100,7 @@ JXTextSelection::GetStyle
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTextSelection::GetTextEditor
 	(
 	JTextEditor** te
@@ -108,7 +108,7 @@ JXTextSelection::GetTextEditor
 	const
 {
 	*te = itsTE;
-	return JI2B( itsTE != nullptr );
+	return itsTE != nullptr;
 }
 
 #endif

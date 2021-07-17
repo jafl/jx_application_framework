@@ -46,9 +46,9 @@ CBFileNameDisplay::CBFileNameDisplay
 	itsUnfocusAction  = kCancel;
 	itsDoc            = doc;
 	itsDragSource     = dragSource;
-	itsDiskModFlag    = kJFalse;
-	itsCBHasFocusFlag = kJFalse;
-	SetIsRequired(kJFalse);
+	itsDiskModFlag    = false;
+	itsCBHasFocusFlag = false;
+	SetIsRequired(false);
 }
 
 /******************************************************************************
@@ -78,8 +78,8 @@ CBFileNameDisplay::SetTE
 
 	// this re-orders the list so text editor gets focus
 
-	WantInput(kJFalse);
-	WantInput(kJTrue, WantsTab(), kJTrue);
+	WantInput(false);
+	WantInput(true, WantsTab(), true);
 }
 
 /******************************************************************************
@@ -90,7 +90,7 @@ CBFileNameDisplay::SetTE
 void
 CBFileNameDisplay::DiskCopyIsModified
 	(
-	const JBoolean mod
+	const bool mod
 	)
 {
 	itsDiskModFlag = mod;
@@ -105,7 +105,7 @@ CBFileNameDisplay::DiskCopyIsModified
 void
 CBFileNameDisplay::UpdateDisplay
 	(
-	const JBoolean hasFocus
+	const bool hasFocus
 	)
 {
 	itsCBHasFocusFlag = hasFocus;
@@ -127,7 +127,7 @@ CBFileNameDisplay::UpdateDisplay
 void
 CBFileNameDisplay::HandleFocusEvent()
 {
-	UpdateDisplay(kJTrue);					// allow JXFileInput to control text style
+	UpdateDisplay(true);					// allow JXFileInput to control text style
 	itsDragSource->ProvideDirectSave(this);
 
 	itsOrigFile = GetText()->GetText();
@@ -146,7 +146,7 @@ CBFileNameDisplay::HandleUnfocusEvent()
 {
 	JXFileInput::HandleUnfocusEvent();
 
-	JBoolean saved = kJFalse;
+	bool saved = false;
 
 	JString fullName;
 	if (itsUnfocusAction != kCancel &&
@@ -162,9 +162,9 @@ CBFileNameDisplay::HandleUnfocusEvent()
 			!JSameDirEntry(fullName, itsOrigFile) &&
 			itsDoc->SaveInNewFile(fullName))
 			{
-			saved = kJTrue;
+			saved = true;
 
-			JBoolean onDisk;
+			bool onDisk;
 			fullName = itsDoc->GetFullName(&onDisk);
 			GetText()->SetText(fullName);
 
@@ -180,7 +180,7 @@ CBFileNameDisplay::HandleUnfocusEvent()
 		GetText()->SetText(itsOrigFile);
 		}
 
-	UpdateDisplay(kJFalse);			// take control of text style
+	UpdateDisplay(false);			// take control of text style
 	itsDragSource->ProvideDirectSave(nullptr);
 }
 
@@ -189,43 +189,43 @@ CBFileNameDisplay::HandleUnfocusEvent()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFileNameDisplay::InputValid()
 {
 	const JString& text = GetText()->GetText();
 	if (itsUnfocusAction == kCancel)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (text.IsEmpty())
 		{
 		JGetUserNotification()->ReportError(JGetString("EmptyError::CBFileNameDisplay"));
-		return kJFalse;
+		return false;
 		}
 	else if (text.EndsWith(ACE_DIRECTORY_SEPARATOR_STR))
 		{
 		JGetUserNotification()->ReportError(JGetString("NoFileName::CBFileNameDisplay"));
-		return kJFalse;
+		return false;
 		}
 	else if (JIsRelativePath(text))
 		{
-		return kJTrue;	// open Choose File dialog
+		return true;	// open Choose File dialog
 		}
 
 	JString path, fullPath, name;
 	JSplitPathAndName(text, &path, &name);
 	if (!JExpandHomeDirShortcut(path, &fullPath))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JString fullName = JCombinePathAndName(fullPath, name);
-	JBoolean onDisk;
+	bool onDisk;
 	const JString origFullName = itsDoc->GetFullName(&onDisk);
 	if (onDisk && JSameDirEntry(origFullName, fullName))
 		{
 		itsUnfocusAction = kCancel;
-		return kJTrue;
+		return true;
 		}
 
 	if (JFileExists(fullName))
@@ -237,7 +237,7 @@ CBFileNameDisplay::InputValid()
 		const JString msg = JGetString("OKToReplace::CBFileNameDisplay", map, sizeof(map));
 		if (!JGetUserNotification()->AskUserNo(msg))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -247,14 +247,14 @@ CBFileNameDisplay::InputValid()
 		if (!err.OK())
 			{
 			err.ReportIfError();
-			return kJFalse;
+			return false;
 			}
 		}
 	else if (!JDirectoryWritable(fullPath))
 		{
 		const JError err = JAccessDenied(fullPath);
 		err.ReportIfError();
-		return kJFalse;
+		return false;
 		}
 
 	if (itsUnfocusAction == kRename)
@@ -265,7 +265,7 @@ CBFileNameDisplay::InputValid()
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -328,7 +328,7 @@ CBFileNameDisplay::StyledText::AdjustStylesBeforeBroadcast
 	JRunArray<JFont>*		styles,
 	JStyledText::TextRange*	recalcRange,
 	JStyledText::TextRange*	redrawRange,
-	const JBoolean			deletion
+	const bool			deletion
 	)
 {
 	if (itsCBField->itsCBHasFocusFlag)

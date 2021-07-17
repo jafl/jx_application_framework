@@ -61,7 +61,7 @@ JXImageCache::GetImage
 
 		image->ConvertToRemoteStorage();	// expect to use as-is
 
-		const JBoolean ok = itsMap->SetNewElement(s, image);
+		const bool ok = itsMap->SetNewElement(s, image);
 		assert( ok );
 		}
 
@@ -86,7 +86,7 @@ JXImageCache::GetImageData
 								 &w, &h, &colorCount, &imageCharSize);
 	assert( readCount == 4 );
 
-	JString s(data.xpm[0], 0);
+	JString s(data.xpm[0]);
 
 	const JSize count = colorCount + h;
 	for (JIndex i=1; i<=count; i++)

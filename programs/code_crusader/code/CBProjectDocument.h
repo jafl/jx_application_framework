@@ -62,8 +62,8 @@ public:
 
 public:
 
-	static JBoolean		Create(CBProjectDocument** doc);
-	static FileStatus	Create(const JString& fullName, const JBoolean silent,
+	static bool		Create(CBProjectDocument** doc);
+	static FileStatus	Create(const JString& fullName, const bool silent,
 							   CBProjectDocument** doc);
 	static FileStatus	CanReadFile(const JString& fullName);
 	static FileStatus	CanReadFile(std::istream& input, JFileVersion* actualFileVersion);
@@ -72,8 +72,8 @@ public:
 
 	virtual void			Activate() override;
 	virtual const JString&	GetName() const override;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
-	virtual JBoolean		Close() override;
+	virtual bool		GetMenuIcon(const JXImage** icon) const override;
+	virtual bool		Close() override;
 
 	CBProjectTree*	GetFileTree() const;
 	CBProjectTable*	GetFileTable() const;
@@ -94,7 +94,7 @@ public:
 	CBPHPTreeDirector*	GetPHPTreeDirector() const;
 	CBRelPathCSF*		GetRelPathCSF() const;
 
-	JBoolean					HasDirectories() const;
+	bool					HasDirectories() const;
 	const CBDirList&			GetDirectories() const;
 	CBEditSearchPathsDialog*	EditSearchPaths(JXDirector* owner);
 
@@ -103,19 +103,19 @@ public:
 	void	CancelUpdateSymbolDatabase();
 	void	RefreshVCSStatus();
 
-	void	SetProjectPrefs(const JBoolean reopenTextFiles,
-							const JBoolean doubleSpaceCompile,
-							const JBoolean rebuildMakefileDaily,
+	void	SetProjectPrefs(const bool reopenTextFiles,
+							const bool doubleSpaceCompile,
+							const bool rebuildMakefileDaily,
 							const CBProjectTable::DropFileAction dropFileAction);
 
 	static void	ReadStaticGlobalPrefs(std::istream& input, const JFileVersion vers);
 	static void	WriteStaticGlobalPrefs(std::ostream& output);
 
-	static JBoolean	WillReopenTextFiles();
-	static void		ShouldReopenTextFiles(const JBoolean reopen);
+	static bool	WillReopenTextFiles();
+	static void		ShouldReopenTextFiles(const bool reopen);
 
-	static JBoolean	WillAskOKToOpenOldVersion();
-	static void		ShouldAskOKToOpenOldVersion(const JBoolean ask);
+	static bool	WillAskOKToOpenOldVersion();
+	static void		ShouldAskOKToOpenOldVersion(const bool ask);
 
 	static const JString&	GetAddFilesFilter();
 	static void				SetAddFilesFilter(const JString& filter);
@@ -127,31 +127,31 @@ public:
 	// called by CBNewProjectSaveFileDialog
 
 	static const JUtf8Byte*	GetTemplateDirectoryName();
-	static JBoolean			GetProjectTemplateType(const JString& fullName,
+	static bool			GetProjectTemplateType(const JString& fullName,
 												   JString* type);
 
 	// called by CBEditTreePrefsDialog
 
-	void	SetTreePrefs(const JSize fontSize, const JBoolean showInheritedFns,
-						 const JBoolean autoMinMILinks, const JBoolean drawMILinksOnTop,
-						 const JBoolean raiseWhenSingleMatch, const JBoolean writePrefs);
+	void	SetTreePrefs(const JSize fontSize, const bool showInheritedFns,
+						 const bool autoMinMILinks, const bool drawMILinksOnTop,
+						 const bool raiseWhenSingleMatch, const bool writePrefs);
 
 	// called by CBCommandTable
 
-	static JBoolean	ReadTasksFromProjectFile(std::istream& input, CBCommandManager::CmdList* cmdList);
+	static bool	ReadTasksFromProjectFile(std::istream& input, CBCommandManager::CmdList* cmdList);
 
 protected:
 
 	CBProjectDocument(const JString& fullName,
 					  const CBBuildManager::MakefileMethod makefileMethod,
-					  const JBoolean fromTemplate, const JString& tmplFile);
+					  const bool fromTemplate, const JString& tmplFile);
 	CBProjectDocument(std::istream& input, const JString& projName,
 					  const JString& setName, const JString& symName,
-					  const JBoolean silent);
+					  const bool silent);
 
 	virtual void	DiscardChanges() override;
-	virtual JError	WriteFile(const JString& fullName, const JBoolean safetySave) const override;
-	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const override;
+	virtual JError	WriteFile(const JString& fullName, const bool safetySave) const override;
+	virtual void	WriteTextFile(std::ostream& output, const bool safetySave) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
@@ -160,7 +160,7 @@ private:
 
 	CBProjectTree*	itsFileTree;
 	CBProjectTable*	itsFileTable;
-	JBoolean		itsProcessNodeMessageFlag;		// kJTrue => process messages from itsFileTree
+	bool		itsProcessNodeMessageFlag;		// true => process messages from itsFileTree
 
 	CBCommandManager*	itsCmdMgr;
 	CBBuildManager*		itsBuildMgr;
@@ -196,8 +196,8 @@ private:
 
 	CBEditSearchPathsDialog*	itsEditPathsDialog;
 
-	static JBoolean	theReopenTextFilesFlag;
-	static JBoolean	theWarnOpenOldVersionFlag;
+	static bool	theReopenTextFilesFlag;
+	static bool	theWarnOpenOldVersionFlag;
 	static JString	theAddFilesFilter;
 
 // begin JXLayout
@@ -249,13 +249,13 @@ private:
 	void	EditProjectPrefs();
 
 	void	SetTreePrefs(CBTreeDirector* director,
-						 const JSize fontSize, const JBoolean showInheritedFns,
-						 const JBoolean autoMinMILinks, const JBoolean drawMILinksOnTop,
-						 const JBoolean raiseWhenSingleMatch, const JBoolean writePrefs);
+						 const JSize fontSize, const bool showInheritedFns,
+						 const bool autoMinMILinks, const bool drawMILinksOnTop,
+						 const bool raiseWhenSingleMatch, const bool writePrefs);
 
 	void	SymbolUpdateProgress();
 	void	SymbolUpdateFinished();
-	void	ShowUpdatePG(const JBoolean visible);
+	void	ShowUpdatePG(const bool visible);
 	void	DeleteUpdateLink();
 
 	int		StartSymbolLoadTimer();
@@ -333,7 +333,7 @@ CBProjectDocument::GetBuildTargetName()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBProjectDocument::HasDirectories()
 	const
 {
@@ -453,7 +453,7 @@ CBProjectDocument::GetRelPathCSF()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBProjectDocument::WillReopenTextFiles()
 {
 	return theReopenTextFilesFlag;
@@ -462,7 +462,7 @@ CBProjectDocument::WillReopenTextFiles()
 inline void
 CBProjectDocument::ShouldReopenTextFiles
 	(
-	const JBoolean reopen
+	const bool reopen
 	)
 {
 	theReopenTextFilesFlag = reopen;
@@ -473,7 +473,7 @@ CBProjectDocument::ShouldReopenTextFiles
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBProjectDocument::WillAskOKToOpenOldVersion()
 {
 	return theWarnOpenOldVersionFlag;
@@ -482,7 +482,7 @@ CBProjectDocument::WillAskOKToOpenOldVersion()
 inline void
 CBProjectDocument::ShouldAskOKToOpenOldVersion
 	(
-	const JBoolean ask
+	const bool ask
 	)
 {
 	theWarnOpenOldVersionFlag = ask;

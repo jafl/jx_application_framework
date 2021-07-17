@@ -27,7 +27,7 @@ JXAtLeastOneCBGroup::JXAtLeastOneCBGroup()
 	:
 	JXCheckboxGroup(),
 	itsDirection(kSlideUp),
-	itsIgnoreChangeFlag(kJFalse)
+	itsIgnoreChangeFlag(false)
 {
 }
 
@@ -38,7 +38,7 @@ JXAtLeastOneCBGroup::JXAtLeastOneCBGroup
 	:
 	JXCheckboxGroup(cbList),
 	itsDirection(kSlideUp),
-	itsIgnoreChangeFlag(kJFalse)
+	itsIgnoreChangeFlag(false)
 {
 }
 
@@ -52,7 +52,7 @@ JXAtLeastOneCBGroup::JXAtLeastOneCBGroup
 	:
 	JXCheckboxGroup(),
 	itsDirection(kSlideUp),
-	itsIgnoreChangeFlag(kJFalse)
+	itsIgnoreChangeFlag(false)
 {
 	assert( count >= 2 );
 
@@ -112,9 +112,9 @@ JXAtLeastOneCBGroup::EnforceConstraints
 
 	// turn the new checkbox on
 
-	itsIgnoreChangeFlag = kJTrue;
-	(GetCheckbox(newIndex))->SetState(kJTrue);
-	itsIgnoreChangeFlag = kJFalse;
+	itsIgnoreChangeFlag = true;
+	(GetCheckbox(newIndex))->SetState(true);
+	itsIgnoreChangeFlag = false;
 }
 
 /******************************************************************************

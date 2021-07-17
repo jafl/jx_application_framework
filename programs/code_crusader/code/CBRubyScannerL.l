@@ -14,13 +14,13 @@ This scanner reads a Ruby file and returns CBRubyScanner::Tokens.
 #undef YY_DECL
 #define YY_DECL CBRubyScanner::Token CBRubyScanner::NextToken()
 
-inline JBoolean
+inline bool
 isquote
 	(
 	const JUtf8Character& c
 	)
 {
-	return JI2B(c == '\'' || c == '"' || c == '`');
+	return c == '\'' || c == '"' || c == '`';
 }
 %}
 
@@ -68,7 +68,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}
@@ -125,7 +125,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "and" |
 "or"  {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	return ThisToken(kOperator);
 	}
 
@@ -141,7 +141,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "," |
 ";" {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	return ThisToken(kDelimiter);
 	}
 
@@ -149,7 +149,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "]" |
 "}" {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kDelimiter);
 	}
 
@@ -161,13 +161,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 {KEYWORD} {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	return ThisToken(kReservedKeyword);
 	}
 
 [$@:]?{ID} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(yytext[0] == '$' ? kGlobalVariable :
 					 yytext[0] == '@' ? kInstanceVariable :
 					 yytext[0] == ':' ? kSymbol :
@@ -176,49 +176,49 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 {DECIMAL} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kDecimalInt);
 	}
 
 {BINARY} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kBinaryInt);
 	}
 
 {OCTAL} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kOctalInt);
 	}
 
 {HEX} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kHexInt);
 	}
 
 {BADINT} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kBadInt);
 	}
 
 {BADBINARY} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kBadBinary);
 	}
 
 {BADHEX} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kBadHex);
 	}
 
 {FLOAT} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kFloat);
 	}
 
@@ -273,20 +273,20 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	if (itsProbableOperatorFlag)
 		{
 		StartToken();
-		itsProbableOperatorFlag = kJFalse;
+		itsProbableOperatorFlag = false;
 		return ThisToken(kOperator);
 		}
 	else
 		{
 		StartToken();
-		itsProbableOperatorFlag = kJTrue;
+		itsProbableOperatorFlag = true;
 		BEGIN(REGEX_STATE);
 		}
 	}
 
 "%r" {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(1, "imox"))
 		{
 		return ThisToken(kRegex);
@@ -325,13 +325,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 \' {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	BEGIN(SINGLE_STRING_STATE);
 	}
 
 "%q" {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(1, ""))
 		{
 		return ThisToken(kSingleQuoteString);
@@ -370,13 +370,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 \" {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	BEGIN(DOUBLE_STRING_STATE);
 	}
 
 "%"Q? {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(1, ""))
 		{
 		return ThisToken(kDoubleQuoteString);
@@ -475,13 +475,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 ` {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	BEGIN(EXEC_STRING_STATE);
 	}
 
 "%x" {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(1, ""))
 		{
 		return ThisToken(kExecString);
@@ -520,7 +520,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 "%w"[ \v\t\f\r\n]* {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(1, ""))
 		{
 		return ThisToken(kWordList);
@@ -545,7 +545,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 . {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	JUtf8Character c(yytext);
 	if (c.IsPrint())
 		{

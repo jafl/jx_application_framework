@@ -66,7 +66,7 @@ TestVarList::TestVarList
 			else
 				{
 				JStringIterator iter(&name);
-				JBoolean found = iter.Next("[");
+				bool found = iter.Next("[");
 				assert( found && !iter.AtEnd() );
 
 				iter.BeginMatch();
@@ -80,7 +80,7 @@ TestVarList::TestVarList
 				iter.Invalidate();
 
 				JSize arraySize;
-				const JBoolean isNumber = sizeStr.ConvertToUInt(&arraySize);
+				const bool isNumber = sizeStr.ConvertToUInt(&arraySize);
 				assert( isNumber );
 
 				TVLNArray values(arraySize);
@@ -190,14 +190,14 @@ TestVarList::GetVariableName
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestVarList::IsArray
 	(
 	const JIndex index
 	)
 	const
 {
-	return JConvertToBoolean( itsNumericArrays->GetElement(index) != nullptr );
+	return itsNumericArrays->GetElement(index) != nullptr;
 }
 
 /******************************************************************************
@@ -205,7 +205,7 @@ TestVarList::IsArray
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestVarList::ArrayIndexValid
 	(
 	const JIndex variableIndex,
@@ -213,10 +213,9 @@ TestVarList::ArrayIndexValid
 	)
 	const
 {
-	return JConvertToBoolean(
-			elementIndex == 1 ||
+	return elementIndex == 1 ||
 			(IsArray(variableIndex) &&
-			 (itsNumericArrays->GetElement(variableIndex))->IndexValid(elementIndex)));
+			 (itsNumericArrays->GetElement(variableIndex))->IndexValid(elementIndex));
 }
 
 /******************************************************************************
@@ -224,7 +223,7 @@ TestVarList::ArrayIndexValid
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestVarList::GetNumericValue
 	(
 	const JIndex	variableIndex,
@@ -237,20 +236,20 @@ TestVarList::GetNumericValue
 	if (values == nullptr && elementIndex == 1)
 		{
 		*value = itsNumericValues->GetElement(variableIndex);
-		return kJTrue;
+		return true;
 		}
 	else if (values != nullptr && values->IndexValid(elementIndex))
 		{
 		*value = values->GetElement(elementIndex);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 TestVarList::GetNumericValue
 	(
 	const JIndex	variableIndex,
@@ -263,11 +262,11 @@ TestVarList::GetNumericValue
 	if (GetNumericValue(variableIndex, elementIndex, &x))
 		{
 		*value = x;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

@@ -21,7 +21,7 @@
 CBJavaScanner::CBJavaScanner()
 	:
 	CBJavaFlexLexer(),
-	itsResetFlag(kJFalse),
+	itsResetFlag(false),
 	itsCurrentRange()
 {
 }
@@ -47,7 +47,7 @@ CBJavaScanner::BeginScan
 	std::istream&					input
 	)
 {
-	itsResetFlag = kJTrue;
+	itsResetFlag = true;
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 

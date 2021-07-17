@@ -35,15 +35,15 @@ public:
 	GLFitDescription(const FitType type, const JString& form = JString::empty,
 					 const JString& name = JString::empty);
 
-	static JBoolean	Create(std::istream& is, GLFitDescription** fd);
+	static bool	Create(std::istream& is, GLFitDescription** fd);
 	
 	virtual ~GLFitDescription();
 
 	FitType	GetType() const;
 	void	SetType(const FitType type); 
 
-	virtual JBoolean	GetParameterName(const JIndex index, JString* name) const;
-	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const;
+	virtual bool	GetParameterName(const JIndex index, JString* name) const;
+	virtual bool	GetParameter(const JIndex index, JFloat* value) const;
 
 
 	virtual JString	GetFitFunctionString() const;
@@ -51,8 +51,8 @@ public:
 
 	const JString&	GetFnName() const;
 
-	JBoolean		RequiresStartValues() const;
-	JBoolean		CanUseStartValues() const;
+	bool		RequiresStartValues() const;
+	bool		CanUseStartValues() const;
 
 	GLVarList*		GetVarList();
 
@@ -64,8 +64,8 @@ public:
 protected:
 
 	void			SetFnName(const JString& name);
-	void			DoesRequireStartValues(const JBoolean require);
-	void			SetCanUseStartValues(const JBoolean use);
+	void			DoesRequireStartValues(const bool require);
+	void			SetCanUseStartValues(const bool use);
 
 private:
 
@@ -73,8 +73,8 @@ private:
 	FitType		itsType;
 	JString		itsFnForm;
 	JString		itsFnName;
-	JBoolean	itsRequiresStartValues;
-	JBoolean	itsCanUseStartValues;
+	bool	itsRequiresStartValues;
+	bool	itsCanUseStartValues;
 	
 private:
 
@@ -126,7 +126,7 @@ GLFitDescription::GetFnName()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GLFitDescription::RequiresStartValues()
 	const
 {
@@ -138,7 +138,7 @@ GLFitDescription::RequiresStartValues()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GLFitDescription::CanUseStartValues()
 	const
 {

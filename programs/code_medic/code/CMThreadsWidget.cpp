@@ -51,11 +51,11 @@ CMThreadsWidget::CMThreadsWidget
 	itsCommandDir(commandDir),
 	itsThreadDir(threadDir),
 	itsTree(tree),
-	itsNeedsUpdateFlag(kJFalse),
-	itsIsWaitingForReloadFlag(kJFalse),
-	itsChangingThreadFlag(kJFalse),
-	itsSelectingThreadFlag(kJFalse),
-	itsFlushWhenRunFlag(kJTrue),
+	itsNeedsUpdateFlag(false),
+	itsIsWaitingForReloadFlag(false),
+	itsChangingThreadFlag(false),
+	itsSelectingThreadFlag(false),
+	itsFlushWhenRunFlag(true),
 	itsOpenIDList(nullptr)
 {
 	itsLink = CMGetLink();
@@ -107,7 +107,7 @@ CMThreadsWidget::SelectThread
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMThreadsWidget::SelectThread1
 	(
 	const JTreeNode*	root,
@@ -126,24 +126,24 @@ CMThreadsWidget::SelectThread1
 		if (node->GetID() == id)
 			{
 			JIndex j;
-			const JBoolean found = list->FindNode(node, &j);
+			const bool found = list->FindNode(node, &j);
 			if (found)
 				{
-				itsSelectingThreadFlag = kJTrue;
+				itsSelectingThreadFlag = true;
 				SelectSingleCell(JPoint(GetNodeColIndex(), j));
-				itsSelectingThreadFlag = kJFalse;
+				itsSelectingThreadFlag = false;
 				}
 
-			return kJTrue;
+			return true;
 			}
 
 		if (SelectThread1(node, id))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -219,9 +219,9 @@ CMThreadsWidget::HandleMouseDown
 		}
 	else
 		{
-		itsSelectingThreadFlag = kJTrue;		// ignore selection changes during open/close
+		itsSelectingThreadFlag = true;		// ignore selection changes during open/close
 		JXNamedTreeListWidget::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
-		itsSelectingThreadFlag = kJFalse;
+		itsSelectingThreadFlag = false;
 		}
 }
 
@@ -239,9 +239,9 @@ CMThreadsWidget::HandleMouseUp
 	const JXKeyModifiers&	modifiers
 	)
 {
-	itsSelectingThreadFlag = kJTrue;		// ignore selection changes during open/close
+	itsSelectingThreadFlag = true;		// ignore selection changes during open/close
 	JXNamedTreeListWidget::HandleMouseUp(pt, button, buttonStates, modifiers);
-	itsSelectingThreadFlag = kJFalse;
+	itsSelectingThreadFlag = false;
 }
 
 /******************************************************************************
@@ -277,10 +277,10 @@ CMThreadsWidget::HandleKeyPress
 		{
 		if (c == kJLeftArrow || c == kJRightArrow)
 			{
-			itsSelectingThreadFlag = kJTrue;		// ignore selection changes during open/close
+			itsSelectingThreadFlag = true;		// ignore selection changes during open/close
 			}
 		JXNamedTreeListWidget::HandleKeyPress(c, keySym, modifiers);
-		itsSelectingThreadFlag = kJFalse;
+		itsSelectingThreadFlag = false;
 		}
 }
 
@@ -289,7 +289,7 @@ CMThreadsWidget::HandleKeyPress
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMThreadsWidget::SelectNextThread
 	(
 	const JInteger delta
@@ -306,11 +306,11 @@ CMThreadsWidget::SelectNextThread
 			SelectSingleCell(cell);
 			}
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -330,17 +330,17 @@ CMThreadsWidget::Receive
 		{
 		if (ShouldRebuild())
 			{
-			itsIsWaitingForReloadFlag = kJTrue;
+			itsIsWaitingForReloadFlag = true;
 			itsGetCurrentThreadCmd->Send();
 			}
 		else
 			{
-			itsNeedsUpdateFlag = kJTrue;
+			itsNeedsUpdateFlag = true;
 			}
 		}
 	else if (sender == itsLink && message.Is(CMLink::kThreadListChanged))
 		{
-		itsFlushWhenRunFlag = kJFalse;
+		itsFlushWhenRunFlag = false;
 		if (!itsIsWaitingForReloadFlag)
 			{
 			SaveOpenNodes();
@@ -374,8 +374,8 @@ CMThreadsWidget::Receive
 		//  but we can't merely set a flag when we get kFrameChanged
 		//  because we won't always get kProgramStopped afterwards.)
 
-		const JBoolean wasChanging = itsChangingThreadFlag;
-		itsChangingThreadFlag      = kJFalse;
+		const bool wasChanging = itsChangingThreadFlag;
+		itsChangingThreadFlag      = false;
 
 		if (!wasChanging)
 			{
@@ -387,14 +387,14 @@ CMThreadsWidget::Receive
 		// We don't need to rebuild our list when we get the next
 		// ProgramStopped message.
 
-		itsChangingThreadFlag = kJTrue;
+		itsChangingThreadFlag = true;
 		}
 
 	else if (sender == itsLink &&
 			 (message.Is(CMLink::kCoreLoaded) ||
 			  message.Is(CMLink::kAttachedToProcess)))
 		{
-		itsNeedsUpdateFlag = kJTrue;
+		itsNeedsUpdateFlag = true;
 
 //		We can't do this because gdb often reports threads when a core file
 //		is loaded, even if the program doesn't use threads.
@@ -423,7 +423,7 @@ CMThreadsWidget::Receive
 				dynamic_cast<const CMThreadNode*>(node);
 			assert( threadNode != nullptr );
 
-			itsChangingThreadFlag = kJTrue;
+			itsChangingThreadFlag = true;
 			itsLink->SwitchToThread(threadNode->GetID());
 			}
 
@@ -447,7 +447,7 @@ CMThreadsWidget::ReceiveGoingAway
 		itsLink = CMGetLink();
 		ListenTo(itsLink);
 
-		itsFlushWhenRunFlag = kJTrue;
+		itsFlushWhenRunFlag = true;
 		FlushOldData();
 
 		jdelete itsGetThreadsCmd;
@@ -485,12 +485,12 @@ CMThreadsWidget::Update()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMThreadsWidget::ShouldRebuild()
 	const
 {
-	return JI2B(itsThreadDir->IsActive() &&
-				!GetWindow()->IsIconified());
+	return itsThreadDir->IsActive() &&
+				!GetWindow()->IsIconified();
 }
 
 /******************************************************************************
@@ -503,14 +503,14 @@ CMThreadsWidget::Rebuild()
 {
 	if (ShouldRebuild())
 		{
-		itsIsWaitingForReloadFlag = kJTrue;
-		itsNeedsUpdateFlag        = kJFalse;
+		itsIsWaitingForReloadFlag = true;
+		itsNeedsUpdateFlag        = false;
 		FlushOldData();
 		itsGetThreadsCmd->Send();
 		}
 	else
 		{
-		itsNeedsUpdateFlag = kJTrue;
+		itsNeedsUpdateFlag = true;
 		}
 }
 
@@ -522,12 +522,12 @@ CMThreadsWidget::Rebuild()
 void
 CMThreadsWidget::FlushOldData()
 {
-	itsSelectingThreadFlag = kJTrue;
+	itsSelectingThreadFlag = true;
 	(itsTree->GetRoot())->DeleteAllChildren();
-	itsSelectingThreadFlag = kJFalse;
+	itsSelectingThreadFlag = false;
 
-	itsNeedsUpdateFlag    = kJFalse;
-	itsChangingThreadFlag = kJFalse;
+	itsNeedsUpdateFlag    = false;
+	itsChangingThreadFlag = false;
 }
 
 /******************************************************************************
@@ -630,5 +630,5 @@ CMThreadsWidget::FinishedLoading
 		SelectThread(currentID);
 		}
 
-	itsIsWaitingForReloadFlag = kJFalse;
+	itsIsWaitingForReloadFlag = false;
 }

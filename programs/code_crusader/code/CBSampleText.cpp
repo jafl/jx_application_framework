@@ -13,7 +13,7 @@
 #include <JFontManager.h>
 #include <jAssert.h>
 
-static const JString kSampleText("I program therefore I am.", kJFalse);
+static const JString kSampleText("I program therefore I am.", JString::kNoCopy);
 static const JSize kRightMarginWidth = kSampleText.GetCharacterCount();
 
 /******************************************************************************
@@ -36,7 +36,7 @@ CBSampleText::CBSampleText
 {
 	GetText()->SetText(kSampleText);
 
-	itsDrawRightMarginFlag = kJFalse;
+	itsDrawRightMarginFlag = false;
 	itsRightMarginColor    = JColorManager::GetBlackColor();
 }
 

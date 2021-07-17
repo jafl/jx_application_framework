@@ -56,7 +56,7 @@ CBDockManager::~CBDockManager()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDockManager::CanDockAll()
 	const
 {
@@ -78,10 +78,10 @@ CBDockManager::DockAll()
 		return;
 		}
 
-	JXDockDirector* dir = CreateDock(kJFalse);
+	JXDockDirector* dir = CreateDock(false);
 
 	JXVertDockPartition* v;
-	JBoolean ok = dir->GetVertPartition(&v);
+	bool ok = dir->GetVertPartition(&v);
 	assert( ok );
 
 	JXHorizDockPartition* h;

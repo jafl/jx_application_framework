@@ -52,17 +52,17 @@ const JUtf8Byte* CBPrefsManager::kTextColorChanged = "TextColorChanged::CBPrefsM
 
 CBPrefsManager::CBPrefsManager
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue)
+	JXPrefsManager(kCurrentPrefsFileVersion, true)
 {
 	itsFileTypeList = nullptr;
 	itsMacroList    = nullptr;
 	itsCRMList      = nullptr;
 
-	itsExecOutputWordWrapFlag  = kJTrue;
-	itsUnknownTypeWordWrapFlag = kJTrue;
+	itsExecOutputWordWrapFlag  = true;
+	itsUnknownTypeWordWrapFlag = true;
 
 	itsFileTypesDialog = nullptr;
 	itsMacroDialog     = nullptr;
@@ -157,7 +157,7 @@ CBPrefsManager::GetJCCVersionStr()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPrefsManager::GetExpirationTimeStamp
 	(
 	time_t* t
@@ -169,11 +169,11 @@ CBPrefsManager::GetExpirationTimeStamp
 		{
 		std::istringstream input(data);
 		input >> *t;
-		return JI2B(!input.fail());
+		return !input.fail();
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -248,14 +248,14 @@ CBPrefsManager::UpdateFileTypes
 		GetFileSuffixes((CBTextFileType) i, &suffixes);
 
 		msg.SetChanged((CBTextFileType) i,
-			!JSameStrings(*(origSuffixList.GetElement(i+1)), suffixes, kJTrue));
+			!JSameStrings(*origSuffixList.GetElement(i+1), suffixes, JString::kCompareCase));
 		}
 
 	Broadcast(msg);
 
 	if (msg.AnyChanged())
 		{
-		CBMWriteSharedPrefs(kJTrue);
+		CBMWriteSharedPrefs(true);
 		}
 }
 
@@ -324,7 +324,7 @@ CBPrefsManager::Receive
 struct CBNewSuffixInfo
 {
 	const JUtf8Byte*	suffix;
-	JBoolean			found;
+	bool			found;
 };
 
 void
@@ -353,7 +353,7 @@ cbAddNewSuffixes
 			const CBPrefsManager::FileTypeInfo ftInfo = fileTypeList->GetElement(j);
 			if (*(ftInfo.suffix) == newInfo[i].suffix)
 				{
-				newInfo[i].found = kJTrue;
+				newInfo[i].found = true;
 				break;
 				}
 			}
@@ -361,7 +361,7 @@ cbAddNewSuffixes
 
 	// install new suffixes
 
-	const JIndex macroID = CBPrefsManager::FindMacroName(macroName, macroList, kJTrue);
+	const JIndex macroID = CBPrefsManager::FindMacroName(macroName, macroList, true);
 
 	const JUtf8Byte* crmName =
 		(JString::IsEmpty(origCRMName) ? macroName : origCRMName);
@@ -381,7 +381,7 @@ cbAddNewSuffixes
 			fileTypeList->InsertSorted(
 				CBPrefsManager::FileTypeInfo(
 					suffix, nullptr, nullptr, type, macroID, crmID,
-					kJTrue, nullptr, kJFalse, complSuffix, nullptr));
+					true, nullptr, false, complSuffix, nullptr));
 			}
 		}
 }
@@ -395,7 +395,7 @@ struct CBNewExternalSuffixInfo
 {
 	const JUtf8Byte*	suffix;
 	const JUtf8Byte*	cmd;
-	JBoolean			found;
+	bool			found;
 };
 
 void
@@ -414,7 +414,7 @@ cbAddNewExternalSuffixes
 			const CBPrefsManager::FileTypeInfo ftInfo = fileTypeList->GetElement(j);
 			if (*(ftInfo.suffix) == newInfo[i].suffix)
 				{
-				newInfo[i].found = kJTrue;
+				newInfo[i].found = true;
 				break;
 				}
 			}
@@ -436,7 +436,7 @@ cbAddNewExternalSuffixes
 			CBPrefsManager::FileTypeInfo info(
 				suffix, nullptr, nullptr, kCBExternalFT,
 				kCBEmptyMacroID, kCBEmptyCRMRuleListID,
-				kJTrue, nullptr, kJFalse, complSuffix, editCmd);
+				true, nullptr, false, complSuffix, editCmd);
 			info.CreateRegex();
 			fileTypeList->InsertSorted(info);
 			}
@@ -451,7 +451,7 @@ cbAddNewExternalSuffixes
 void
 CBPrefsManager::UpgradeData
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JFileVersion	currentVersion
 	)
 {
@@ -509,7 +509,7 @@ CBPrefsManager::UpgradeData
 		std::string oldData;
 		GetData(kCBDocMgrID, &oldData);
 		std::ostringstream newData;
-		newData << 0 << ' ' << JBoolToString(kJTrue) << ' ' << oldData.c_str();
+		newData << 0 << ' ' << JBoolToString(true) << ' ' << oldData.c_str();
 		SetData(kCBDocMgrID, newData);
 		}
 	else if (4 <= currentVersion && currentVersion <= 6)
@@ -550,7 +550,7 @@ CBPrefsManager::UpgradeData
 		otherSourceSuffixData << 0;
 		SetData(10002, otherSourceSuffixData);
 
-		JBoolean codeWrap = kJFalse;
+		bool codeWrap = false;
 		if (GetData(kCBTextDocID, &data))
 			{
 			std::istringstream dataStream(data);
@@ -558,7 +558,7 @@ CBPrefsManager::UpgradeData
 			dataStream >> vers;
 			if (!dataStream.eof() && !dataStream.fail() && vers == 1)
 				{
-				JBoolean breakCodeCROnly;
+				bool breakCodeCROnly;
 				dataStream >> JBoolFromString(breakCodeCROnly);
 				codeWrap = !breakCodeCROnly;
 				}
@@ -571,7 +571,7 @@ CBPrefsManager::UpgradeData
 		SetData(30002, codeData);
 
 		std::ostringstream otherData;
-		otherData << JBoolToString(kJTrue);
+		otherData << JBoolToString(true);
 		SetData(30003, otherData);
 		SetData(30004, otherData);
 		SetData(39998, otherData);
@@ -637,44 +637,44 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kEiffelSuffix[] =
 		{
-			{ ".e", kJFalse }
+			{ ".e", false }
 		};
 		cbAddNewSuffixes("Eiffel",  nullptr, kCBEiffelFT, kEiffelSuffix, sizeof(kEiffelSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kFortranSuffix[] =
 		{
-			{ ".f",   kJFalse },
-			{ ".for", kJFalse },
-			{ ".ftn", kJFalse },
-			{ ".f77", kJFalse },
-			{ ".f90", kJFalse },
-			{ ".f95", kJFalse },
-			{ ".F",   kJFalse },
-			{ ".FOR", kJFalse },
-			{ ".FTN", kJFalse },
-			{ ".F77", kJFalse },
-			{ ".F90", kJFalse },
-			{ ".F95", kJFalse }
+			{ ".f",   false },
+			{ ".for", false },
+			{ ".ftn", false },
+			{ ".f77", false },
+			{ ".f90", false },
+			{ ".f95", false },
+			{ ".F",   false },
+			{ ".FOR", false },
+			{ ".FTN", false },
+			{ ".F77", false },
+			{ ".F90", false },
+			{ ".F95", false }
 		};
 		cbAddNewSuffixes("FORTRAN", nullptr, kCBFortranFT, kFortranSuffix, sizeof(kFortranSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kJavaSuffix[] =
 		{
-			{ ".java", kJFalse },
-			{ ".jws",  kJFalse }
+			{ ".java", false },
+			{ ".jws",  false }
 		};
 		cbAddNewSuffixes("Java", nullptr, kCBJavaSourceFT, kJavaSuffix, sizeof(kJavaSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kStaticLibrarySuffix[] =
 		{
-			{ ".a", kJFalse }
+			{ ".a", false }
 		};
 		cbAddNewSuffixes(nullptr, nullptr, kCBStaticLibraryFT, kStaticLibrarySuffix, sizeof(kStaticLibrarySuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kSharedLibrarySuffix[] =
 		{
-			{ ".so",    kJFalse },
-			{ ".dylib", kJFalse }
+			{ ".so",    false },
+			{ ".dylib", false }
 		};
 		cbAddNewSuffixes(nullptr, nullptr, kCBSharedLibraryFT, kSharedLibrarySuffix, sizeof(kSharedLibrarySuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -688,22 +688,22 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kAssemblySuffix[] =
 		{
-			{ ".asm", kJFalse },
-			{ ".s",   kJFalse },
-			{ ".S",   kJFalse }
+			{ ".asm", false },
+			{ ".s",   false },
+			{ ".S",   false }
 		};
 		cbAddNewSuffixes("Assembly", nullptr, kCBAssemblyFT, kAssemblySuffix, sizeof(kAssemblySuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kPascalSuffix[] =
 		{
-			{ ".p",   kJFalse },
-			{ ".pas", kJFalse }
+			{ ".p",   false },
+			{ ".pas", false }
 		};
 		cbAddNewSuffixes("Pascal", nullptr, kCBPascalFT, kPascalSuffix, sizeof(kPascalSuffix),   itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kRatforSuffix[] =
 		{
-			{ ".r", kJFalse }
+			{ ".r", false }
 		};
 		cbAddNewSuffixes("FORTRAN", nullptr, kCBRatforFT, kRatforSuffix, sizeof(kRatforSuffix),   itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -723,14 +723,14 @@ CBPrefsManager::UpgradeData
 #ifdef _J_OSX
 			CBNewExternalSuffixInfo kImageSuffix[] =
 			{
-				{ ".gif", "open $f", kJFalse },
-				{ ".jpg", "open $f", kJFalse }
+				{ ".gif", "open $f", false },
+				{ ".jpg", "open $f", false }
 			};
 #else
 			CBNewExternalSuffixInfo kImageSuffix[] =
 			{
-				{ ".gif", "eog $f", kJFalse },
-				{ ".jpg", "eog $f", kJFalse }
+				{ ".gif", "eog $f", false },
+				{ ".jpg", "eog $f", false }
 			};
 #endif
 			cbAddNewExternalSuffixes(kImageSuffix, sizeof(kImageSuffix)/sizeof(CBNewExternalSuffixInfo), itsFileTypeList);
@@ -741,7 +741,7 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewExternalSuffixInfo kFDesignSuffix[] =
 		{
-			{ ".fd", "jfdesign $f", kJFalse }
+			{ ".fd", "jfdesign $f", false }
 		};
 		cbAddNewExternalSuffixes(kFDesignSuffix, sizeof(kFDesignSuffix)/sizeof(CBNewExternalSuffixInfo), itsFileTypeList);
 		}
@@ -759,25 +759,25 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kModula2ModuleSuffix[] =
 		{
-			{ ".md", kJFalse }
+			{ ".md", false }
 		};
 		cbAddNewSuffixes("Modula-2", nullptr, kCBModula2ModuleFT, kModula2ModuleSuffix, sizeof(kModula2ModuleSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kModula2InterfaceSuffix[] =
 		{
-			{ ".mi", kJFalse }
+			{ ".mi", false }
 		};
 		cbAddNewSuffixes("Modula-2", nullptr, kCBModula2InterfaceFT, kModula2InterfaceSuffix, sizeof(kModula2InterfaceSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kModula3ModuleSuffix[] =
 		{
-			{ ".m3", kJFalse }
+			{ ".m3", false }
 		};
 		cbAddNewSuffixes("Modula-3", nullptr, kCBModula3ModuleFT, kModula3ModuleSuffix, sizeof(kModula3ModuleSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kModula3InterfaceSuffix[] =
 		{
-			{ ".i3", kJFalse }
+			{ ".i3", false }
 		};
 		cbAddNewSuffixes("Modula-3", nullptr, kCBModula3InterfaceFT, kModula3InterfaceSuffix, sizeof(kModula3InterfaceSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -786,75 +786,75 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kAWKSuffix[] =
 		{
-			{ ".awk", kJFalse }
+			{ ".awk", false }
 		};
 		cbAddNewSuffixes("AWK", "unix script", kCBAWKFT, kAWKSuffix, sizeof(kAWKSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kCobolSuffix[] =
 		{
-			{ ".cob", kJFalse },
-			{ ".COB", kJFalse }
+			{ ".cob", false },
+			{ ".COB", false }
 		};
 		cbAddNewSuffixes("Cobol", nullptr, kCBCobolFT, kCobolSuffix, sizeof(kCobolSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kLispSuffix[] =
 		{
-			{ ".cl",    kJFalse },
-			{ ".clisp", kJFalse },
-			{ ".el",    kJFalse },
-			{ ".lisp",  kJFalse },
-			{ ".lsp",   kJFalse }
+			{ ".cl",    false },
+			{ ".clisp", false },
+			{ ".el",    false },
+			{ ".lisp",  false },
+			{ ".lsp",   false }
 		};
 		cbAddNewSuffixes("Lisp", nullptr, kCBLispFT, kLispSuffix, sizeof(kLispSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kPerlSuffix[] =
 		{
-			{ ".pl",   kJFalse },
-			{ ".pm",   kJFalse },
-			{ ".perl", kJFalse },
-			{ ".plx",  kJFalse }
+			{ ".pl",   false },
+			{ ".pm",   false },
+			{ ".perl", false },
+			{ ".plx",  false }
 		};
 		cbAddNewSuffixes("Perl", "unix script", kCBPerlFT, kPerlSuffix, sizeof(kPerlSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kPythonSuffix[] =
 		{
-			{ ".py",     kJFalse },
-			{ ".python", kJFalse }
+			{ ".py",     false },
+			{ ".python", false }
 		};
 		cbAddNewSuffixes("Python", "unix script", kCBPythonFT, kPythonSuffix, sizeof(kPythonSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kSchemeSuffix[] =
 		{
-			{ ".sch",    kJFalse },
-			{ ".scheme", kJFalse },
-			{ ".scm",    kJFalse },
-			{ ".sm",     kJFalse },
-			{ ".SCM",    kJFalse },
-			{ ".SM",     kJFalse }
+			{ ".sch",    false },
+			{ ".scheme", false },
+			{ ".scm",    false },
+			{ ".sm",     false },
+			{ ".SCM",    false },
+			{ ".SM",     false }
 		};
 		cbAddNewSuffixes("Scheme", nullptr, kCBSchemeFT, kSchemeSuffix, sizeof(kSchemeSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kBourneShellSuffix[] =
 		{
-			{ ".sh",   kJFalse },
-			{ ".SH",   kJFalse },
-			{ ".bsh",  kJFalse },
-			{ ".bash", kJFalse },
-			{ ".ksh",  kJFalse }
+			{ ".sh",   false },
+			{ ".SH",   false },
+			{ ".bsh",  false },
+			{ ".bash", false },
+			{ ".ksh",  false }
 		};
 		cbAddNewSuffixes("Bourne Shell", "unix script", kCBBourneShellFT, kBourneShellSuffix, sizeof(kBourneShellSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kTCLSuffix[] =
 		{
-			{ ".tcl",  kJFalse },
-			{ ".tk",   kJFalse },
-			{ ".wish", kJFalse }
+			{ ".tcl",  false },
+			{ ".tk",   false },
+			{ ".wish", false }
 		};
 		cbAddNewSuffixes("TCL", "unix script", kCBTCLFT, kTCLSuffix, sizeof(kTCLSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kVIMSuffix[] =
 		{
-			{ ".vim", kJFalse }
+			{ ".vim", false }
 		};
 		cbAddNewSuffixes("Vim", "unix script", kCBVimFT, kVIMSuffix, sizeof(kVIMSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -863,7 +863,7 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kJavaArchiveSuffix[] =
 		{
-			{ ".jar", kJFalse }
+			{ ".jar", false }
 		};
 		cbAddNewSuffixes(nullptr, nullptr, kCBJavaArchiveFT, kJavaArchiveSuffix, sizeof(kJavaArchiveSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -872,9 +872,9 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kPHPSuffix[] =
 		{
-			{ ".php",   kJFalse },
-			{ ".php3",  kJFalse },
-			{ ".phtml", kJFalse }
+			{ ".php",   false },
+			{ ".php3",  false },
+			{ ".phtml", false }
 		};
 		cbAddNewSuffixes("HTML", "PHP", kCBPHPFT, kPHPSuffix, sizeof(kPHPSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -883,8 +883,8 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kASPSuffix[] =
 		{
-			{ ".asp", kJFalse },
-			{ ".asa", kJFalse }
+			{ ".asp", false },
+			{ ".asa", false }
 		};
 		cbAddNewSuffixes("ASP", nullptr, kCBASPFT, kASPSuffix, sizeof(kASPSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -893,10 +893,10 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kMakeSuffix[] =
 		{
-			{ ".mak",         kJFalse },
-			{ "Makefile",     kJFalse },
-			{ "makefile",     kJFalse },
-			{ "Make.header",  kJFalse }
+			{ ".mak",         false },
+			{ "Makefile",     false },
+			{ "makefile",     false },
+			{ "Make.header",  false }
 		};
 		cbAddNewSuffixes("Make", "unix script", kCBMakeFT, kMakeSuffix, sizeof(kMakeSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -905,15 +905,15 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kREXXSuffix[] =
 		{
-			{ ".cmd",  kJFalse },
-			{ ".rexx", kJFalse },
-			{ ".rx",   kJFalse }
+			{ ".cmd",  false },
+			{ ".rexx", false },
+			{ ".rx",   false }
 		};
 		cbAddNewSuffixes("REXX", "C", kCBREXXFT, kREXXSuffix, sizeof(kREXXSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kRubySuffix[] =
 		{
-			{ ".rb", kJFalse }
+			{ ".rb", false }
 		};
 		cbAddNewSuffixes("Ruby", "unix script", kCBRubyFT, kRubySuffix, sizeof(kRubySuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -922,7 +922,7 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kLexSuffix[] =
 		{
-			{ ".l", kJFalse }
+			{ ".l", false }
 		};
 		cbAddNewSuffixes("Lex", "C", kCBLexFT, kLexSuffix, sizeof(kLexSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -931,9 +931,9 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kCShellSuffix[] =
 		{
-			{ ".csh",   kJFalse },
-			{ ".CSH",   kJFalse },
-			{ ".tcsh",  kJFalse }
+			{ ".csh",   false },
+			{ ".CSH",   false },
+			{ ".tcsh",  false }
 		};
 		cbAddNewSuffixes("C shell", "unix script", kCBCShellFT, kCShellSuffix, sizeof(kCShellSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -942,7 +942,7 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kBisonSuffix[] =
 		{
-			{ ".y", kJFalse }
+			{ ".y", false }
 		};
 		cbAddNewSuffixes("Bison", "C", kCBBisonFT, kBisonSuffix, sizeof(kBisonSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -951,45 +951,45 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kBetaSuffix[] =
 		{
-			{ ".bet", kJFalse }
+			{ ".bet", false }
 		};
 		cbAddNewSuffixes("Beta", "Beta", kCBBetaFT, kBetaSuffix, sizeof(kBetaSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kLuaSuffix[] =
 		{
-			{ ".lua", kJFalse }
+			{ ".lua", false }
 		};
 		cbAddNewSuffixes("Lua", "Lua",  kCBLuaFT, kLuaSuffix, sizeof(kLuaSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kSLangSuffix[] =
 		{
-			{ ".sl", kJFalse }
+			{ ".sl", false }
 		};
 		cbAddNewSuffixes("SLang", nullptr, kCBSLangFT, kSLangSuffix, sizeof(kSLangSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kSQLSuffix[] =
 		{
-			{ ".sql",  kJFalse },
-			{ ".ddl",  kJFalse }
+			{ ".sql",  false },
+			{ ".ddl",  false }
 		};
 		cbAddNewSuffixes("SQL", "SQL", kCBSQLFT, kSQLSuffix, sizeof(kSQLSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kVeraSourceSuffix[] =
 		{
-			{ ".vr",  kJFalse },
-			{ ".vri", kJFalse }
+			{ ".vr",  false },
+			{ ".vri", false }
 		};
 		cbAddNewSuffixes("Vera", "Vera", kCBVeraSourceFT, kVeraSourceSuffix, sizeof(kVeraSourceSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kVeraHeaderSuffix[] =
 		{
-			{ ".vrh", kJFalse }
+			{ ".vrh", false }
 		};
 		cbAddNewSuffixes("Vera", "Vera", kCBVeraHeaderFT, kVeraHeaderSuffix, sizeof(kVeraHeaderSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kVerilogSuffix[] =
 		{
-			{ ".v", kJFalse }
+			{ ".v", false }
 		};
 		cbAddNewSuffixes("Verilog", nullptr, kCBVerilogFT, kVerilogSuffix, sizeof(kVerilogSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -1002,7 +1002,7 @@ CBPrefsManager::UpgradeData
 
 	if (currentVersion < 49)
 		{
-		JIndex macroID = FindMacroName("C#", itsMacroList, kJTrue);
+		JIndex macroID = FindMacroName("C#", itsMacroList, true);
 		JIndex macroIndex;
 		if (FindMacroID(*itsMacroList, macroID, &macroIndex))
 			{
@@ -1015,19 +1015,19 @@ CBPrefsManager::UpgradeData
 
 		CBNewSuffixInfo kCSharpSuffix[] =
 		{
-			{ ".cs", kJFalse }
+			{ ".cs", false }
 		};
 		cbAddNewSuffixes("C#", nullptr, kCBCSharpFT, kCSharpSuffix, sizeof(kCSharpSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kErlangSuffix[] =
 		{
-			{ ".erl", kJFalse }
+			{ ".erl", false }
 		};
 		cbAddNewSuffixes("Erlang", nullptr, kCBErlangFT, kErlangSuffix, sizeof(kErlangSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kSMLSuffix[] =
 		{
-			{ ".sml", kJFalse }
+			{ ".sml", false }
 		};
 		cbAddNewSuffixes("SML", nullptr, kCBSMLFT, kSMLSuffix, sizeof(kSMLSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -1036,8 +1036,8 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kJavaScriptSuffix[] =
 		{
-			{ ".js",   kJFalse },
-			{ ".json", kJFalse }
+			{ ".js",   false },
+			{ ".json", false }
 		};
 		cbAddNewSuffixes("JavaScript", "Java", kCBJavaScriptFT, kJavaScriptSuffix, sizeof(kJavaScriptSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -1046,7 +1046,7 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kAntSuffix[] =
 		{
-			{ "build.xml", kJFalse }
+			{ "build.xml", false }
 		};
 		cbAddNewSuffixes("Ant", "XML", kCBAntFT, kAntSuffix, sizeof(kAntSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -1060,15 +1060,15 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kJSPSuffix[] =
 		{
-			{ ".jsp",   kJFalse },
-			{ ".jspf",  kJFalse }
+			{ ".jsp",   false },
+			{ ".jspf",  false }
 		};
 		cbAddNewSuffixes("JSP", "Java", kCBJSPFT, kJSPSuffix, sizeof(kJSPSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
 
 	if (currentVersion < 57)
 		{
-		JIndex macroID = FindMacroName("XML", itsMacroList, kJTrue);
+		JIndex macroID = FindMacroName("XML", itsMacroList, true);
 		JIndex macroIndex;
 		if (FindMacroID(*itsMacroList, macroID, &macroIndex))
 			{
@@ -1088,10 +1088,10 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kXMLSuffix[] =
 		{
-			{ ".xml",  kJFalse },
-			{ ".xsd",  kJFalse },
-			{ ".wsdl", kJFalse },
-			{ ".dtd",  kJFalse }
+			{ ".xml",  false },
+			{ ".xsd",  false },
+			{ ".wsdl", false },
+			{ ".dtd",  false }
 		};
 		cbAddNewSuffixes("XML", nullptr, kCBXMLFT, kXMLSuffix, sizeof(kXMLSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -1100,10 +1100,10 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kBasicSuffix[] =
 		{
-			{ ".bas", kJFalse },
-			{ ".bi",  kJFalse },
-			{ ".bb",  kJFalse },
-			{ ".pb",  kJFalse }
+			{ ".bas", false },
+			{ ".bi",  false },
+			{ ".bb",  false },
+			{ ".pb",  false }
 		};
 		cbAddNewSuffixes("Basic", nullptr, kCBBasicFT, kBasicSuffix, sizeof(kBasicSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -1113,12 +1113,12 @@ CBPrefsManager::UpgradeData
 #ifdef _J_OSX
 		CBNewExternalSuffixInfo kImageSuffix[] =
 		{
-			{ ".png", "open $f", kJFalse }
+			{ ".png", "open $f", false }
 		};
 #else
 		CBNewExternalSuffixInfo kImageSuffix[] =
 		{
-			{ ".png", "eog $f", kJFalse }
+			{ ".png", "eog $f", false }
 		};
 #endif
 		cbAddNewExternalSuffixes(kImageSuffix, sizeof(kImageSuffix)/sizeof(CBNewExternalSuffixInfo), itsFileTypeList);
@@ -1128,14 +1128,14 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kMatlabSuffix[] =
 		{
-			{ ".m", kJFalse }
+			{ ".m", false }
 		};
 		cbAddNewSuffixes("Matlab", "C", kCBMatlabFT, kMatlabSuffix, sizeof(kMatlabSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kAdobeFlexSuffix[] =
 		{
-			{ ".as",   kJFalse },
-			{ ".mxml", kJFalse }
+			{ ".as",   false },
+			{ ".mxml", false }
 		};
 		cbAddNewSuffixes("Adobe Flash", "C", kCBAdobeFlexFT, kAdobeFlexSuffix, sizeof(kAdobeFlexSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -1158,7 +1158,7 @@ CBPrefsManager::UpgradeData
 
 		CBNewExternalSuffixInfo kCoreSuffix[] =
 		{
-			{ "core.*", "medic -c $f", kJFalse }
+			{ "core.*", "medic -c $f", false }
 		};
 		cbAddNewExternalSuffixes(kCoreSuffix, sizeof(kCoreSuffix)/sizeof(CBNewExternalSuffixInfo), itsFileTypeList);
 		}
@@ -1167,7 +1167,7 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kINISuffix[] =
 		{
-			{ ".ini", kJFalse }
+			{ ".ini", false }
 		};
 		cbAddNewSuffixes("INI", nullptr, kCBINIFT, kINISuffix, sizeof(kINISuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -1176,7 +1176,7 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kPropertiesSuffix[] =
 		{
-			{ ".properties", kJFalse }
+			{ ".properties", false }
 		};
 		cbAddNewSuffixes("Properties", "UNIX script", kCBPropertiesFT, kPropertiesSuffix, sizeof(kPropertiesSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -1185,13 +1185,13 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kDSuffix[] =
 		{
-			{ ".d", kJFalse }
+			{ ".d", false }
 		};
 		cbAddNewSuffixes("D", nullptr, kCBDFT, kDSuffix, sizeof(kDSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 
 		CBNewSuffixInfo kGoSuffix[] =
 		{
-			{ ".go", kJFalse }
+			{ ".go", false }
 		};
 		cbAddNewSuffixes("Go", nullptr, kCBGoFT, kGoSuffix, sizeof(kGoSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
@@ -1326,11 +1326,11 @@ std::string data;
 		GetStringList(10000+i, &suffixList);
 		RemoveData(10000+i);
 
-		const JBoolean ok = GetData(30000+i, &data);
+		const bool ok = GetData(30000+i, &data);
 		assert( ok );
 		RemoveData(30000+i);
 		std::istringstream dataStream(data);
-		JBoolean wordWrap;
+		bool wordWrap;
 		dataStream >> JBoolFromString(wordWrap);
 
 		const JSize count = suffixList.GetElementCount();
@@ -1343,7 +1343,7 @@ std::string data;
 			itsFileTypeList->AppendElement(
 				FileTypeInfo(suffixList.GetElement(j), nullptr, nullptr, kOrigFileType[i],
 							 kOrigFTMacroMap[i], kCBEmptyCRMRuleListID,
-							 kJTrue, nullptr, wordWrap, complSuffix, nullptr));
+							 true, nullptr, wordWrap, complSuffix, nullptr));
 			}
 
 		suffixList.RemoveAll();		// avoid DeleteAll() in GetStringList()
@@ -1352,7 +1352,7 @@ std::string data;
 	itsFileTypeList->Sort();
 
 	{
-	const JBoolean ok = GetData(39998, &data);
+	const bool ok = GetData(39998, &data);
 	assert( ok );
 	RemoveData(39998);
 	std::istringstream dataStream(data);
@@ -1360,7 +1360,7 @@ std::string data;
 	}
 
 	{
-	const JBoolean ok = GetData(39999, &data);
+	const bool ok = GetData(39999, &data);
 	assert( ok );
 	RemoveData(39999);
 	std::istringstream dataStream(data);
@@ -1509,7 +1509,7 @@ CBPrefsManager::AddDefaultXMLActions
 	)
 	const
 {
-	mgr->SetAction('>',  JString("$(xml-auto-close $t)", kJFalse));
+	mgr->SetAction('>',  JString("$(xml-auto-close $t)", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1569,7 +1569,7 @@ CBPrefsManager::FindMacroName
 	(
 	const JUtf8Byte*		macroName,
 	JArray<MacroSetInfo>*	macroList,
-	const JBoolean			create
+	const bool			create
 	)
 {
 	if (JString::IsEmpty(macroName))
@@ -1586,7 +1586,7 @@ CBPrefsManager::FindMacroName
 		{
 		const MacroSetInfo macroInfo = macroList->GetElement(i);
 		maxID = JMax(maxID, macroInfo.id);
-		if (JString::Compare(macroName, *(macroInfo.name), kJFalse) == 0)
+		if (JString::Compare(macroName, *(macroInfo.name), JString::kIgnoreCase) == 0)
 			{
 			return macroInfo.id;
 			}
@@ -1639,7 +1639,7 @@ CBPrefsManager::FindCRMRuleListName
 	for (JIndex i=1; i<=crmCount; i++)
 		{
 		const CRMRuleListInfo crmInfo = crmList.GetElement(i);
-		if (JString::Compare(crmName, *(crmInfo.name), kJFalse) == 0)
+		if (JString::Compare(crmName, *(crmInfo.name), JString::kIgnoreCase) == 0)
 			{
 			return crmInfo.id;
 			}
@@ -1665,7 +1665,7 @@ CBPrefsManager::ConvertHTMLSuffixesToFileTypes
 	JString suffix;
 	for (JIndex i=1; i<=count; i++)
 		{
-		JBoolean found = kJFalse;
+		bool found = false;
 		dataStream >> suffix;
 
 		const JSize ftCount = itsFileTypeList->GetElementCount();
@@ -1674,7 +1674,7 @@ CBPrefsManager::ConvertHTMLSuffixesToFileTypes
 			const FileTypeInfo info = itsFileTypeList->GetElement(j);
 			if (*(info.suffix) == suffix)
 				{
-				found = kJTrue;
+				found = true;
 				break;
 				}
 			}
@@ -1689,7 +1689,7 @@ CBPrefsManager::ConvertHTMLSuffixesToFileTypes
 
 			FileTypeInfo info(jnew JString(suffix), nullptr, nullptr, kCBExternalFT,
 							  kCBEmptyMacroID, kCBEmptyCRMRuleListID,
-							  kJTrue, nullptr, kJTrue, jnew JString, jnew JString(cmd));
+							  true, nullptr, true, jnew JString, jnew JString(cmd));
 			assert( info.suffix != nullptr && info.complSuffix != nullptr && info.editCmd != nullptr );
 			itsFileTypeList->InsertSorted(info);
 			}
@@ -1727,7 +1727,7 @@ CBPrefsManager::ReadFileTypeInfo
 	itsFileTypeList = CreateFileTypeList();
 
 	std::string listData;
-	JBoolean ok = GetData(kCBFileTypeListID, &listData);
+	bool ok = GetData(kCBFileTypeListID, &listData);
 	assert( ok );
 	std::istringstream listStream(listData);
 
@@ -1759,7 +1759,7 @@ CBPrefsManager::ReadFileTypeInfo
 
 		if (vers >= 26)
 			{
-			JBoolean hasEditCmd;
+			bool hasEditCmd;
 			listStream >> JBoolFromString(hasEditCmd);
 			if (hasEditCmd)
 				{
@@ -1771,7 +1771,7 @@ CBPrefsManager::ReadFileTypeInfo
 
 		if (vers >= 40)
 			{
-			JBoolean hasScriptPath;
+			bool hasScriptPath;
 			listStream >> JBoolFromString(hasScriptPath);
 			if (hasScriptPath)
 				{
@@ -1817,20 +1817,20 @@ CBPrefsManager::WriteFileTypeInfo()
 
 		if (info.editCmd != nullptr)
 			{
-			listStream << ' ' << JBoolToString(kJTrue) << ' ' << *(info.editCmd);
+			listStream << ' ' << JBoolToString(true) << ' ' << *(info.editCmd);
 			}
 		else
 			{
-			listStream << ' ' << JBoolToString(kJFalse);
+			listStream << ' ' << JBoolToString(false);
 			}
 
 		if (info.scriptPath != nullptr)
 			{
-			listStream << ' ' << JBoolToString(kJTrue) << ' ' << *(info.scriptPath);
+			listStream << ' ' << JBoolToString(true) << ' ' << *(info.scriptPath);
 			}
 		else
 			{
-			listStream << ' ' << JBoolToString(kJFalse);
+			listStream << ' ' << JBoolToString(false);
 			}
 		}
 
@@ -1860,12 +1860,12 @@ CBPrefsManager::FileTypeInfo::CreateRegex()
 		{
 		contentRegex = jnew JRegex(*suffix);
 		assert( contentRegex != nullptr );
-		contentRegex->SetSingleLine(kJTrue);
+		contentRegex->SetSingleLine(true);
 		}
 	else if (suffix->Contains(kCBNameRegexMarker))
 		{
 		JString s;
-		const JBoolean ok = JDirInfo::BuildRegexFromWildcardFilter(*suffix, &s);
+		const bool ok = JDirInfo::BuildRegexFromWildcardFilter(*suffix, &s);
 		assert( ok );
 
 		nameRegex = jnew JRegex(s);
@@ -1878,11 +1878,11 @@ CBPrefsManager::FileTypeInfo::CreateRegex()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPrefsManager::FileTypeInfo::IsPlainSuffix()
 	const
 {
-	return JI2B(nameRegex == nullptr && contentRegex == nullptr);
+	return nameRegex == nullptr && contentRegex == nullptr;
 }
 
 /******************************************************************************
@@ -2223,52 +2223,52 @@ struct FTRegexInfo
 	CBTextFileType		type;
 	const JUtf8Byte*	macroName;
 	const JUtf8Byte*	crmName;
-	JBoolean			wrap;
+	bool			wrap;
 };
 
 static const FTRegexInfo kFTRegexInfo[] =
 {
 	// AWK
 	{ "^#![[:space:]]*/[^[:space:]]+/awk([[:space:]]|$)",
-	  kCBAWKFT, "AWK", "UNIX script", kJFalse },
+	  kCBAWKFT, "AWK", "UNIX script", false },
 
 	// Perl
 	{ "^#![[:space:]]*/[^[:space:]]+/perl[-_]?([0-9.]*)([[:space:]]|$)",
-	  kCBPerlFT, "Perl", "UNIX script", kJFalse },
+	  kCBPerlFT, "Perl", "UNIX script", false },
 
 	// Python
 	{ "^#![[:space:]]*/[^[:space:]]+/python([[:space:]]|$)",
-	  kCBPythonFT, "Python", "UNIX script", kJFalse },
+	  kCBPythonFT, "Python", "UNIX script", false },
 
 	// Ruby
 	{ "^#![[:space:]]*/[^[:space:]]+/ruby([[:space:]]|$)",
-	  kCBRubyFT, "Ruby", "UNIX script", kJFalse },
+	  kCBRubyFT, "Ruby", "UNIX script", false },
 
 	// Shell
 	{ "^#![[:space:]]*/[^[:space:]]+/(ba|k|z)?sh([[:space:]]|$)",
-	  kCBBourneShellFT, "Bourne shell", "UNIX script", kJFalse },
+	  kCBBourneShellFT, "Bourne shell", "UNIX script", false },
 
 	// C shell
 	{ "^#![[:space:]]*/[^[:space:]]+/t?csh([[:space:]]|$)",
-	  kCBCShellFT, "C shell", "UNIX script", kJFalse },
+	  kCBCShellFT, "C shell", "UNIX script", false },
 
 	// TCL
 	{ "^#![[:space:]]*/[^[:space:]]+/tcl([[:space:]]|$)",
-	  kCBTCLFT, "TCL", "UNIX script", kJFalse },
+	  kCBTCLFT, "TCL", "UNIX script", false },
 
 	// TCL/Tk
 	{ "^#![[:space:]]*/[^[:space:]]+/wish([[:space:]]|$)",
-	  kCBTCLFT, "TCL", "UNIX script", kJFalse },
+	  kCBTCLFT, "TCL", "UNIX script", false },
 
 	// XPM source
 	{ "^/\\* XPM \\*/(\\n|$)",
-	  kCBCHeaderFT, "C/C++", "C", kJFalse },
+	  kCBCHeaderFT, "C/C++", "C", false },
 
 	// email
 	{ "^From[[:space:]]+.*.{3}[[:space:]]+.{3}[[:space:]]+[[:digit:]]+"
 	  "[[:space:]]+([[:digit:]]+:)+[[:digit:]]+[[:space:]]+(...[[:space:]])?"
 	  "[[:digit:]]{4}",
-	  kCBUnknownFT, nullptr, "E-mail", kJTrue }
+	  kCBUnknownFT, nullptr, "E-mail", true }
 };
 
 const JSize kFTRegexCount = sizeof(kFTRegexInfo)/sizeof(FTRegexInfo);
@@ -2293,9 +2293,9 @@ CBPrefsManager::CreateCRMRuleLists()
 		for (JUnsignedOffset j=0; j<kInitCRM[i].count; j++)
 			{
 			ruleList->AppendElement(JStyledText::CRMRule(
-				JString(kInitCRM[i].first[j],   kJFalse),
-				JString(kInitCRM[i].rest[j],    kJFalse),
-				JString(kInitCRM[i].replace[j], kJFalse)));
+				JString(kInitCRM[i].first[j],   JString::kNoCopy),
+				JString(kInitCRM[i].rest[j],    JString::kNoCopy),
+				JString(kInitCRM[i].replace[j], JString::kNoCopy)));
 			}
 
 		itsCRMList->AppendElement(
@@ -2331,11 +2331,11 @@ CBPrefsManager::CreateCRMRuleLists()
 		JString* complSuffix = jnew JString;
 		assert( complSuffix != nullptr );
 
-		const JIndex macroID = FindMacroName(kFTRegexInfo[i].macroName, itsMacroList, kJTrue);
+		const JIndex macroID = FindMacroName(kFTRegexInfo[i].macroName, itsMacroList, true);
 		const JIndex crmID   = FindCRMRuleListName(kFTRegexInfo[i].crmName, *itsCRMList);
 
 		FileTypeInfo info(suffix, nullptr, nullptr, kFTRegexInfo[i].type, macroID, crmID,
-						  kJTrue, nullptr, kFTRegexInfo[i].wrap, complSuffix, nullptr);
+						  true, nullptr, kFTRegexInfo[i].wrap, complSuffix, nullptr);
 		info.CreateRegex();
 		assert( info.contentRegex != nullptr );
 		itsFileTypeList->InsertSorted(info);
@@ -2491,7 +2491,7 @@ CBPrefsManager::SetColor
 void
 CBPrefsManager::ReadColors()
 {
-	JBoolean ok[ kColorCount ];
+	bool ok[ kColorCount ];
 
 	std::string data;
 	if (GetData(kCBTextColorID, &data))
@@ -2507,13 +2507,13 @@ CBPrefsManager::ReadColors()
 			{
 			if (vers == 0 && i == kRightMarginColorIndex-1)
 				{
-				ok[i] = kJFalse;
+				ok[i] = false;
 				}
 			else
 				{
 				dataStream >> color[i];
 				itsColor[i] = JColorManager::GetColorID(color[i]);
-				ok[i]       = kJTrue;
+				ok[i]       = true;
 				}
 			}
 		}
@@ -2521,7 +2521,7 @@ CBPrefsManager::ReadColors()
 		{
 		for (JUnsignedOffset i=0; i<kColorCount; i++)
 			{
-			ok[i] = kJFalse;
+			ok[i] = false;
 			}
 		}
 
@@ -2575,7 +2575,7 @@ CBPrefsManager::GetDefaultFont
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(kCBDefFontID, &data);
+	const bool ok = GetData(kCBDefFontID, &data);
 	assert( ok );
 
 	std::istringstream dataStream(data);
@@ -2662,24 +2662,24 @@ CBPrefsManager::WriteStaticGlobalPrefs()
 /******************************************************************************
  Program state
 
-	RestoreProgramState() returns kJTrue if there was any state to restore.
+	RestoreProgramState() returns true if there was any state to restore.
 
 	ForgetProgramState() is required because we have to save state before
 	anything is closed.  If the close fails, we shouldn't save the state.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPrefsManager::RestoreProgramState()
 {
 	std::string data;
 	if (GetData(kCBDocMgrStateID, &data))
 		{
-		const JBoolean saveAutoDock = JXWindow::WillAutoDockNewWindows();
-		JXWindow::ShouldAutoDockNewWindows(kJFalse);
+		const bool saveAutoDock = JXWindow::WillAutoDockNewWindows();
+		JXWindow::ShouldAutoDockNewWindows(false);
 
 		std::istringstream dataStream(data);
-		const JBoolean restored =
+		const bool restored =
 			CBGetDocumentManager()->RestoreState(dataStream);
 		RemoveData(kCBDocMgrStateID);
 
@@ -2688,7 +2688,7 @@ CBPrefsManager::RestoreProgramState()
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2723,7 +2723,7 @@ CBPrefsManager::ForgetProgramState()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPrefsManager::GetWindowSize
 	(
 	const JPrefID&	id,
@@ -2738,11 +2738,11 @@ CBPrefsManager::GetWindowSize
 		{
 		std::istringstream dataStream(data);
 		dataStream >> *desktopLoc >> *width >> *height;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2798,12 +2798,12 @@ CBPrefsManager::SaveWindowSize
 /******************************************************************************
  EditWithOtherProgram
 
-	Returns kJTrue if the file should be opened via another program.
+	Returns true if the file should be opened via another program.
 	This only checks the file suffix types since the file isn't open.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPrefsManager::EditWithOtherProgram
 	(
 	const JString&	fileName,
@@ -2819,7 +2819,7 @@ CBPrefsManager::EditWithOtherProgram
 		*cmd = *(info.editCmd);
 		if (cmd->IsEmpty())
 			{
-			return kJFalse;
+			return false;
 			}
 
 		const JUtf8Byte* map[] =
@@ -2827,12 +2827,12 @@ CBPrefsManager::EditWithOtherProgram
 			"f", fileName.GetBytes()
 			};
 		JGetStringManager()->Replace(cmd, map, sizeof(map));
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		cmd->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2897,7 +2897,7 @@ CBPrefsManager::GetFileType
 	CBMacroManager**			macroMgr,
 	JStyledText::CRMRuleList**	crmRuleList,
 	JString*					scriptPath,
-	JBoolean*					wordWrap
+	bool*					wordWrap
 	)
 	const
 {
@@ -2915,12 +2915,12 @@ CBPrefsManager::GetFileType
 		}
 	else if (origType == kCBSearchOutputFT)
 		{
-		*wordWrap = kJTrue;
+		*wordWrap = true;
 		return origType;
 		}
 	else if (origType == kCBManPageFT)
 		{
-		*wordWrap = kJFalse;
+		*wordWrap = false;
 		return origType;
 		}
 	else if (origType == kCBDiffOutputFT)
@@ -2973,7 +2973,7 @@ CBPrefsManager::GetFileType
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPrefsManager::CalcFileType
 	(
 	const CBTextDocument&	doc,
@@ -2982,7 +2982,7 @@ CBPrefsManager::CalcFileType
 	const
 {
 	const JString fileName       = CleanFileName(doc.GetFileName());
-	const JBoolean checkSuffixes = doc.ExistsOnDisk();
+	const bool checkSuffixes = doc.ExistsOnDisk();
 
 	const JSize count = itsFileTypeList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -3002,11 +3002,11 @@ CBPrefsManager::CalcFileType
 
 			if (JString::CompareMaxNBytes(
 					text.GetBytes(), info.suffix->GetBytes()+1,
-					info.literalRange.GetCount(), kJTrue) == 0 &&
+					info.literalRange.GetCount(), JString::kCompareCase) == 0 &&
 				info.contentRegex->Match(text))
 				{
 				*index = i;
-				return kJTrue;
+				return true;
 				}
 			}
 		else if ((info.nameRegex != nullptr && info.nameRegex->Match(fileName)) ||
@@ -3014,12 +3014,12 @@ CBPrefsManager::CalcFileType
 				  checkSuffixes && fileName.EndsWith(*(info.suffix))))
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -3037,7 +3037,7 @@ CBPrefsManager::GetLiteralPrefixRange
 
 	JStringIterator iter(regexStr, kJIteratorStartAfter, 1);
 	JUtf8Character c;
-	while (iter.Next(&c, kJFalse) && c != '\0' && c != '\\' &&
+	while (iter.Next(&c, kJIteratorStay) && c != '\0' && c != '\\' &&
 		   !JRegex::NeedsBackslashToBeLiteral(c))
 		{
 		iter.SkipNext();
@@ -3056,7 +3056,7 @@ CBPrefsManager::GetLiteralPrefixRange
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPrefsManager::GetScriptPaths
 	(
 	JString* sysDir,
@@ -3071,7 +3071,7 @@ CBPrefsManager::GetScriptPaths
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPrefsManager::FindMacroID
 	(
 	const JArray<MacroSetInfo>&	list,
@@ -3086,12 +3086,12 @@ CBPrefsManager::FindMacroID
 		if (info.id == id)
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -3099,7 +3099,7 @@ CBPrefsManager::FindMacroID
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPrefsManager::FindCRMRuleListID
 	(
 	const JArray<CRMRuleListInfo>&	list,
@@ -3114,12 +3114,12 @@ CBPrefsManager::FindCRMRuleListID
 		if (info.id == id)
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -3280,7 +3280,7 @@ CBPrefsManager::SetDefaultComplementSuffix
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPrefsManager::FileMatchesSuffix
 	(
 	const JString&				fileName,
@@ -3293,11 +3293,11 @@ CBPrefsManager::FileMatchesSuffix
 		const JString& suffix = *(suffixList.GetElement(i));
 		if (fileName.EndsWith(suffix))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -3344,7 +3344,7 @@ CBPrefsManager::GetStringList
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(id, &data);
+	const bool ok = GetData(id, &data);
 	assert( ok );
 
 	std::istringstream dataStream(data);

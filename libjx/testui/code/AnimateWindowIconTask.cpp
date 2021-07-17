@@ -58,7 +58,7 @@ AnimateWindowIconTask::Perform
 	Time*		maxSleepTime
 	)
 {
-	const JBoolean perform = TimeToPerform(delta, maxSleepTime);
+	const bool perform = TimeToPerform(delta, maxSleepTime);
 	if (perform && itsState == kNormalIconState)
 		{
 		DisplaySillyIcon();
@@ -81,8 +81,8 @@ AnimateWindowIconTask::DisplayNormalIcon()
 {
 	itsState = kNormalIconState;
 
-	itsWindow->SetIcon(CreateIcon(kWindowIcon, kWindowIconMask, kJFalse),
-					   CreateIcon(kWindowIcon, kWindowIconMask, kJTrue));
+	itsWindow->SetIcon(CreateIcon(kWindowIcon, kWindowIconMask, false),
+					   CreateIcon(kWindowIcon, kWindowIconMask, true));
 }
 
 /******************************************************************************
@@ -95,8 +95,8 @@ AnimateWindowIconTask::DisplaySillyIcon()
 {
 	itsState = kSillyIconState;
 
-	itsWindow->SetIcon(CreateIcon(kWindowIcon2, kWindowIcon2Mask, kJFalse),
-					   CreateIcon(kWindowIcon2, kWindowIcon2Mask, kJTrue));
+	itsWindow->SetIcon(CreateIcon(kWindowIcon2, kWindowIcon2Mask, false),
+					   CreateIcon(kWindowIcon2, kWindowIcon2Mask, true));
 }
 
 /******************************************************************************
@@ -109,7 +109,7 @@ AnimateWindowIconTask::CreateIcon
 	(
 	const JConstBitmap&	bitmap,
 	const JConstBitmap&	maskBitmap,
-	const JBoolean		drop
+	const bool		drop
 	)
 {
 	JXDisplay* display = itsWindow->GetDisplay();

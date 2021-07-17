@@ -23,18 +23,18 @@
 TextEditor::TextEditor
 	(
 	JStyledText*		text,
-	const JBoolean		breakCROnly,
+	const bool		breakCROnly,
 	const JCoordinate	width
 	)
 	:
-	JTextEditor(kFullEditor, text, kJFalse,
+	JTextEditor(kFullEditor, text, false,
 				jnew TestFontManager, breakCROnly,
 				1,1,1,1, width),
 	itsWidth(0),
 	itsHeight(0),
 	itsClipText(nullptr),
 	itsClipStyle(nullptr),
-	itsHasSearchTextFlag(kJFalse)
+	itsHasSearchTextFlag(false)
 {
 	ListenTo(this);
 	RecalcAll();
@@ -62,7 +62,7 @@ TextEditor::TestReplaceSelection
 	const JStringMatch&	match,
 	const JString&		replaceStr,
 	JInterpolate*		interpolator,
-	const JBoolean		preserveCase
+	const bool		preserveCase
 	)
 {
 	ReplaceSelection(match, replaceStr, interpolator, preserveCase);
@@ -149,14 +149,14 @@ TextEditor::TESetGUIBounds
 
  ******************************************************************************/
 
-JBoolean
+bool
 TextEditor::TEWidthIsBeyondDisplayCapacity
 	(
 	const JSize width
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -164,14 +164,14 @@ TextEditor::TEWidthIsBeyondDisplayCapacity
 
  ******************************************************************************/
 
-JBoolean
+bool
 TextEditor::TEScrollToRect
 	(
 	const JRect&	rect,
-	const JBoolean	centerInDisplay
+	const bool	centerInDisplay
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -179,13 +179,13 @@ TextEditor::TEScrollToRect
 
  ******************************************************************************/
 
-JBoolean
+bool
 TextEditor::TEScrollForDrag
 	(
 	const JPoint& pt
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -193,13 +193,13 @@ TextEditor::TEScrollForDrag
 
  ******************************************************************************/
 
-JBoolean
+bool
 TextEditor::TEScrollForDND
 	(
 	const JPoint& pt
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -248,7 +248,7 @@ TextEditor::TEUpdateClipboard
 
  ******************************************************************************/
 
-JBoolean
+bool
 TextEditor::TEGetClipboard
 	(
 	JString*			text,
@@ -258,12 +258,12 @@ TextEditor::TEGetClipboard
 {
 	if (itsClipText == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	text->Set(*itsClipText);
 	*style = *itsClipStyle;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -271,10 +271,10 @@ TextEditor::TEGetClipboard
 
  ******************************************************************************/
 
-JBoolean
+bool
 TextEditor::TEBeginDND()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -295,7 +295,7 @@ TextEditor::TEPasteDropData()
 void
 TextEditor::TECaretShouldBlink
 	(
-	const JBoolean blink
+	const bool blink
 	)
 {
 }
@@ -308,7 +308,7 @@ TextEditor::TECaretShouldBlink
 void
 TextEditor::SetHasSearchText
 	(
-	const JBoolean has
+	const bool has
 	)
 {
 	itsHasSearchTextFlag = has;
@@ -319,7 +319,7 @@ TextEditor::SetHasSearchText
 
  ******************************************************************************/
 
-JBoolean
+bool
 TextEditor::TEHasSearchText()
 	const
 {
@@ -350,8 +350,8 @@ TextEditor::CheckCmdStatus
 	const
 {
 	JString crmActionText, crm2ActionText;
-	JBoolean isReadOnly;
-	const JArray<JBoolean> status = GetCmdStatus(&crmActionText, &crm2ActionText, &isReadOnly);
+	bool isReadOnly;
+	const JArray<bool> status = GetCmdStatus(&crmActionText, &crm2ActionText, &isReadOnly);
 
 	const JSize count = status.GetElementCount();
 	JAssertEqual(expected.GetElementCount(), count);
@@ -372,8 +372,8 @@ void
 TextEditor::GetDoubleClickSelection
 	(
 	const JStyledText::TextIndex&	i,
-	const JBoolean					partialWord,
-	const JBoolean					dragging,
+	const bool					partialWord,
+	const bool					dragging,
 	JStyledText::TextRange*			range
 	)
 {
@@ -383,17 +383,17 @@ TextEditor::GetDoubleClickSelection
 /******************************************************************************
  HandleKeyPress
 
-	Returns kJTrue if the key was processed.
+	Returns true if the key was processed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 TextEditor::HandleKeyPress
 	(
 	const JUtf8Character&	c,
-	const JBoolean			selectText,
+	const bool			selectText,
 	const CaretMotion		motion,
-	const JBoolean			deleteToTabStop
+	const bool			deleteToTabStop
 	)
 {
 	return TEHandleKeyPress(c, selectText, motion, deleteToTabStop);

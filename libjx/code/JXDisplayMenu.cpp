@@ -121,7 +121,7 @@ JXDisplayMenu::BuildMenu()
 
 	SetUpdateAction(kDisableNone);
 
-	const JBoolean found =
+	const bool found =
 		JXGetApplication()->GetDisplayIndex(GetDisplay(), &itsDisplayIndex);
 	assert( found );
 
@@ -219,7 +219,7 @@ JXDisplayMenu::ChooseDisplay
 void
 JXDisplayMenu::SetToPopupChoice
 	(
-	const JBoolean isPopup
+	const bool isPopup
 	)
 {
 	JXTextMenu::SetToPopupChoice(isPopup, itsDisplayIndex);

@@ -24,9 +24,9 @@ public:
 public:
 
 	CMCommand(const JUtf8Byte* cmd,
-			  const JBoolean oneShot, const JBoolean background);
+			  const bool oneShot, const bool background);
 	CMCommand(const JString& cmd,
-			  const JBoolean oneShot, const JBoolean background);
+			  const bool oneShot, const bool background);
 
 	virtual	~CMCommand();
 
@@ -35,14 +35,14 @@ public:
 	const JString&	GetCommand() const;
 	JIndex			GetTransactionID() const;
 	State			GetState() const;
-	JBoolean		IsOneShot() const;
-	JBoolean		IsBackground() const;
-	JBoolean		WillIgnoreResult() const;			// mainly for gdb-mi
-	void			ShouldIgnoreResult(const JBoolean ignore);
+	bool		IsOneShot() const;
+	bool		IsBackground() const;
+	bool		WillIgnoreResult() const;			// mainly for gdb-mi
+	void			ShouldIgnoreResult(const bool ignore);
 
 	// Execution
 
-	JBoolean	Send();
+	bool	Send();
 
 	// called by CMLink
 
@@ -50,7 +50,7 @@ public:
 	virtual void	Starting();
 	void			Accumulate(const JString& data);
 	void			SaveResult(const JString& data);	// mainly for gdb-mi
-	void			Finished(const JBoolean success);
+	void			Finished(const bool success);
 
 protected:
 
@@ -70,9 +70,9 @@ private:
 	JPtrArray<JString>*	itsResultList;
 	JIndex				itsID;
 	State				itsState;
-	JBoolean			itsDeleteFlag;
-	JBoolean			itsBackgroundFlag;
-	JBoolean			itsIgnoreResultFlag;
+	bool			itsDeleteFlag;
+	bool			itsBackgroundFlag;
+	bool			itsIgnoreResultFlag;
 
 private:
 
@@ -147,7 +147,7 @@ CMCommand::GetState()
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 CMCommand::IsOneShot()
 	const
 {
@@ -159,7 +159,7 @@ CMCommand::IsOneShot()
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 CMCommand::IsBackground()
 	const
 {
@@ -171,7 +171,7 @@ CMCommand::IsBackground()
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 CMCommand::WillIgnoreResult()
 	const
 {
@@ -181,7 +181,7 @@ CMCommand::WillIgnoreResult()
 inline void
 CMCommand::ShouldIgnoreResult
 	(
-	const JBoolean ignore
+	const bool ignore
 	)
 {
 	itsIgnoreResultFlag = ignore;

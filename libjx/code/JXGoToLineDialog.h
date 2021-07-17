@@ -21,11 +21,11 @@ public:
 
 	JXGoToLineDialog(JXDirector* supervisor,
 					 const JIndex lineIndex, const JIndex maxLine,
-					 const JBoolean physicalLineIndexFlag = kJFalse);
+					 const bool physicalLineIndexFlag = false);
 
 	virtual ~JXGoToLineDialog();
 
-	JIndex	GetLineIndex(JBoolean* physicalLineIndexFlag) const;
+	JIndex	GetLineIndex(bool* physicalLineIndexFlag) const;
 
 private:
 
@@ -40,7 +40,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JIndex lineIndex, const JBoolean physicalLineIndexFlag);
+	void	BuildWindow(const JIndex lineIndex, const bool physicalLineIndexFlag);
 
 	// not allowed
 

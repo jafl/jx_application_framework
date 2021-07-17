@@ -23,20 +23,20 @@ class SyGApplication : public JXApplication, public JPrefObject
 {
 public:
 
-	SyGApplication(int* argc, char* argv[], JBoolean* displayAbout,
+	SyGApplication(int* argc, char* argv[], bool* displayAbout,
 				   JString* prevVersStr);
 
 	virtual ~SyGApplication();
 
-	virtual JBoolean	Close() override;
+	virtual bool	Close() override;
 
-	JBoolean	OpenDirectory();
-	JBoolean	OpenDirectory(const JString& pathName,
+	bool	OpenDirectory();
+	bool	OpenDirectory(const JString& pathName,
 							  SyGTreeDir** dir = nullptr, JIndex* row = nullptr,
-							  const JBoolean deiconify = kJTrue,
-							  const JBoolean reportError = kJTrue,
-							  const JBoolean forceNew = kJTrue,
-							  const JBoolean clearSelection = kJTrue);
+							  const bool deiconify = true,
+							  const bool reportError = true,
+							  const bool forceNew = true,
+							  const bool clearSelection = true);
 
 	JSize	GetWindowCount() const;
 	void	GetWindowNames(JPtrArray<JString>* names);
@@ -49,8 +49,8 @@ public:
 	void	RemoveShortcut(const JString& shortcut);
 	void	RemoveAllShortcuts();
 
-	JBoolean	IsMountPoint(const JString& path, JMountType* type = nullptr) const;
-	JBoolean	GetMountPointPrefs(const JString& path, const JString** prefs) const;
+	bool	IsMountPoint(const JString& path, JMountType* type = nullptr) const;
+	bool	GetMountPointPrefs(const JString& path, const JString** prefs) const;
 	void		SetMountPointPrefs(const JString& path, const JString& prefs);
 
 	void	DirectoryRenamed(const Message& message);
@@ -71,7 +71,7 @@ public:
 
 	void	DisplayAbout(const JString& prevVersStr = JString::empty);
 
-	JBoolean	RestoreProgramState();
+	bool	RestoreProgramState();
 	void		SaveProgramState();
 
 	static const JUtf8Byte*	GetAppSignature();

@@ -80,7 +80,7 @@ GLHistoryDir::BuildWindow()
 	JCoordinate w = 485;
 	JCoordinate h = 320;
 	JPoint dtl;
-//	JBoolean foundWindowPref = gjdbApp->GetCmdWindowSize(&dtl, &w, &h);
+//	bool foundWindowPref = gjdbApp->GetCmdWindowSize(&dtl, &w, &h);
 	JXWindow* window = jnew JXWindow(this, w,h, "Glove session");
 	assert( window != nullptr );
 	window->SetMinSize(300,200);
@@ -114,7 +114,7 @@ GLHistoryDir::BuildWindow()
 			0, 0, 10, 10);
 	assert( itsHistory != nullptr );
 
-	itsHistory->FitToEnclosure(kJTrue, kJTrue);
+	itsHistory->FitToEnclosure(true, true);
 
 	ListenTo(itsHistory);
 
@@ -202,7 +202,7 @@ void
 GLHistoryDir::AppendText
 	(
 	const JString&	text,
-	const JBoolean	show
+	const bool	show
 	)
 {
 	const JString& history = itsHistory->GetText()->GetText();
@@ -211,7 +211,7 @@ GLHistoryDir::AppendText
 		itsHistory->SetCaretLocation(itsHistory->GetText()->GetBeyondEnd().charIndex);
 		if (history.GetLastCharacter() != '\n')
 			{
-			itsHistory->Paste(JString("\n", kJFalse));
+			itsHistory->Paste(JString::newline);
 			}
 		}
 	itsHistory->Paste(text);
@@ -270,10 +270,10 @@ GLHistoryDir::ReadData
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLHistoryDir::OKToClose()
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -281,10 +281,10 @@ GLHistoryDir::OKToClose()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLHistoryDir::OKToRevert()
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -292,10 +292,10 @@ GLHistoryDir::OKToRevert()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLHistoryDir::CanRevert()
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -303,11 +303,11 @@ GLHistoryDir::CanRevert()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLHistoryDir::NeedsSave()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

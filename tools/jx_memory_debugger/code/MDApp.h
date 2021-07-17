@@ -16,7 +16,7 @@ class MDApp : public JXApplication
 {
 public:
 
-	MDApp(int* argc, char* argv[], JBoolean* displayAbout, JString* prevVersStr);
+	MDApp(int* argc, char* argv[], bool* displayAbout, JString* prevVersStr);
 
 	virtual	~MDApp();
 

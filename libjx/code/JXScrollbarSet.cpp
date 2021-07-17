@@ -72,25 +72,25 @@ JXScrollbarSet::~JXScrollbarSet()
 void
 JXScrollbarSet::ShowHScrollbar()
 {
-	ShowScrollbars(kJTrue, itsVScrollbar->WouldBeVisible());
+	ShowScrollbars(true, itsVScrollbar->WouldBeVisible());
 }
 
 void
 JXScrollbarSet::HideHScrollbar()
 {
-	ShowScrollbars(kJFalse, itsVScrollbar->WouldBeVisible());
+	ShowScrollbars(false, itsVScrollbar->WouldBeVisible());
 }
 
 void
 JXScrollbarSet::ShowVScrollbar()
 {
-	ShowScrollbars(itsHScrollbar->WouldBeVisible(), kJTrue);
+	ShowScrollbars(itsHScrollbar->WouldBeVisible(), true);
 }
 
 void
 JXScrollbarSet::HideVScrollbar()
 {
-	ShowScrollbars(itsHScrollbar->WouldBeVisible(), kJFalse);
+	ShowScrollbars(itsHScrollbar->WouldBeVisible(), false);
 }
 
 /******************************************************************************
@@ -101,8 +101,8 @@ JXScrollbarSet::HideVScrollbar()
 void
 JXScrollbarSet::ShowScrollbars
 	(
-	const JBoolean showH,
-	const JBoolean showV
+	const bool showH,
+	const bool showV
 	)
 {
 	if (itsHScrollbar->WouldBeVisible() == showH &&

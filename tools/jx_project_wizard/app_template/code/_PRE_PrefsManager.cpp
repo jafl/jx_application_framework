@@ -23,10 +23,10 @@ const JFileVersion kCurrentPrefsFileVersion = 0;
 
 <PRE>PrefsManager::<PRE>PrefsManager
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue),
+	JXPrefsManager(kCurrentPrefsFileVersion, true),
 	itsPrefsDialog(nullptr)
 {
 	*isNew = JPrefsManager::UpgradeData();
@@ -67,7 +67,7 @@ void
 void
 <PRE>PrefsManager::UpgradeData
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JFileVersion	currentVersion
 	)
 {
@@ -87,7 +87,7 @@ JString
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(k<PRE>ProgramVersionID, &data);
+	const bool ok = GetData(k<PRE>ProgramVersionID, &data);
 	assert( ok );
 	return JString(data);
 }
@@ -116,7 +116,7 @@ void
 
  ******************************************************************************/
 
-JBoolean
+bool
 <PRE>PrefsManager::GetWindowSize
 	(
 	const JPrefID&	id,
@@ -131,11 +131,11 @@ JBoolean
 		{
 		std::istringstream dataStream(data);
 		dataStream >> *desktopLoc >> *width >> *height;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

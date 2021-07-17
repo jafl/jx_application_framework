@@ -39,7 +39,7 @@ GLChooseFileImportDialog::GLChooseFileImportDialog
 	const JString&	filename
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue),
+	JXDialogDirector(supervisor, true),
 	JPrefObject(GLGetPrefsMgr(), kFileModulePrefsID),
 	itsDir(supervisor)
 {
@@ -110,7 +110,7 @@ GLChooseFileImportDialog::BuildWindow
 
 	window->SetTitle(JGetString("WindowTitle::GLChooseFileImportDialog"));
 	window->PlaceAsDialogWindow();
-	UseModalPlacement(kJTrue);
+	UseModalPlacement(true);
 	SetButtons(okButton, cancelButton);
 
 	const JSize dirModCount = itsDir->GetInternalModuleCount();
@@ -130,7 +130,7 @@ GLChooseFileImportDialog::BuildWindow
 
 	itsFilterIndex = 1;
 	
-	itsFilterMenu->SetToPopupChoice(kJTrue, itsFilterIndex);
+	itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
 	itsFilterMenu->SetUpdateAction(JXMenu::kDisableNone);	
 	ListenTo(itsFilterMenu);
 	ListenTo(itsReloadButton);
@@ -140,7 +140,7 @@ GLChooseFileImportDialog::BuildWindow
 	text.Read(is, kFileByteCount);
 
 	itsFileText = 
-		jnew JXStaticText(text, kJFalse, kJFalse, kJFalse,
+		jnew JXStaticText(text, false, false, false,
 			textScrollbarSet, textScrollbarSet->GetScrollEnclosure(), 
 			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
 	assert(itsFileText != nullptr);
@@ -185,7 +185,7 @@ GLChooseFileImportDialog::Receive
 			itsFilterMenu->AppendItem(*(names->GetElement(i)));
 			}
 		itsFilterIndex = 1;
-		itsFilterMenu->SetToPopupChoice(kJTrue, itsFilterIndex);
+		itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
 		}
 		
 	else
@@ -235,7 +235,7 @@ GLChooseFileImportDialog::ReadPrefs
 		if (id <= itsFilterMenu->GetItemCount())
 			{
 			itsFilterIndex = id;
-			itsFilterMenu->SetToPopupChoice(kJTrue, itsFilterIndex);
+			itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
 			}
 		JPoint loc;
 		input >> loc;

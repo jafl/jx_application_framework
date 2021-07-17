@@ -41,7 +41,7 @@ protected:
 private:
 
 	JXTextMenu*	itsFontMenu;	// can be nullptr
-	JBoolean	itsGreekFlag;
+	bool	itsGreekFlag;
 
 private:
 

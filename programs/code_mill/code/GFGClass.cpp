@@ -230,7 +230,7 @@ void
 GFGClass::WritePublic
 	(
 	std::ostream& 		os,
-	const JBoolean	interface
+	const bool	interface
 	)
 {
 	const JSize count	= GetElementCount();
@@ -254,7 +254,7 @@ void
 GFGClass::WriteProtected
 	(
 	std::ostream& 		os,
-	const JBoolean	interface
+	const bool	interface
 	)
 {
 	const JSize count	= GetElementCount();
@@ -279,7 +279,7 @@ GFGClass::WriteFunction
 	(
 	std::ostream& 			os,
 	GFGMemberFunction*	fn,
-	const JBoolean		interface
+	const bool		interface
 	)
 {
 	if (interface)

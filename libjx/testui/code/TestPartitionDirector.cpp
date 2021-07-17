@@ -114,7 +114,7 @@ TestPartitionDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic,
 					0,0, 10,315);
 	assert( itsVertPartition != nullptr );
-	itsVertPartition->FitToEnclosure(kJTrue, kJTrue);
+	itsVertPartition->FitToEnclosure(true, true);
 
 	window->SetTitle(JGetString("WindowTitle::TestPartitionDirector"));
 	window->SetWMClass("testjx", "TestPartitionDirector");
@@ -242,7 +242,7 @@ TestPartitionDirector::CreateTestWidget
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 10,10);
 	assert( obj != nullptr );
-	obj->FitToEnclosure(kJTrue, kJTrue);
+	obj->FitToEnclosure(true, true);
 }
 
 /******************************************************************************
@@ -299,7 +299,7 @@ TestPartitionDirector::Receive
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
-		const JBoolean ok = info->Successful();
+		const bool ok = info->Successful();
 		const JIndex newElasticIndex = itsSetElasticDialog->GetElasticIndex();
 		if (ok && itsSetElasticType == kHorizElastic)
 			{

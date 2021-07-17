@@ -57,7 +57,7 @@ const JUtf8Byte* CMLink::kPlugInMessage          = "PlugInMessage::CMLink";
 
 CMLink::CMLink
 	(
-	const JBoolean* features
+	const bool* features
 	)
 	:
 	itsFeatures(features)
@@ -133,14 +133,14 @@ CMLink::SetBreakpoint
 	)
 {
 	SetBreakpoint(bp.GetFileName(), bp.GetLineNumber(),
-				  JI2B(bp.GetAction() == CMBreakpoint::kRemoveBreakpoint));
+				  bp.GetAction() == CMBreakpoint::kRemoveBreakpoint);
 }
 
 void
 CMLink::SetBreakpoint
 	(
 	const CMLocation&	loc,
-	const JBoolean		temporary
+	const bool		temporary
 	)
 {
 	SetBreakpoint(loc.GetFileName(), loc.GetLineNumber(), temporary);
@@ -165,22 +165,22 @@ CMLink::RemoveBreakpoint
 
  *****************************************************************************/
 
-JBoolean
+bool
 CMLink::OKToSendMultipleCommands()
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  Send
 
 	Sends the given command to the debugger.  If the command cannot be
-	submitted, return kJFalse, and nothing is changed.
+	submitted, return false, and nothing is changed.
 
  *****************************************************************************/
 
-JBoolean
+bool
 CMLink::Send
 	(
 	CMCommand* command
@@ -189,7 +189,7 @@ CMLink::Send
 	if (command->GetState() != CMCommand::kUnassigned)
 		{
 		assert( command->GetTransactionID() != 0 );
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -205,7 +205,7 @@ CMLink::Send
 			}
 		RunNextCommand();
 
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -269,12 +269,12 @@ CMLink::RunNextCommand()
 	else if (!itsForegroundQ->IsEmpty())
 		{
 		CMCommand* command = itsForegroundQ->GetFirstElement();
-		if (command->GetState() != CMCommand::kExecuting && OKToSendCommands(kJFalse))
+		if (command->GetState() != CMCommand::kExecuting && OKToSendCommands(false))
 			{
 			SendMedicCommand(command);
 			}
 		}
-	else if (!itsBackgroundQ->IsEmpty() && OKToSendCommands(kJTrue))
+	else if (!itsBackgroundQ->IsEmpty() && OKToSendCommands(true))
 		{
 		CMCommand* command = itsBackgroundQ->GetFirstElement();
 		if (command->GetState() != CMCommand::kExecuting)
@@ -332,7 +332,7 @@ CMLink::CancelAllCommands()
 		{
 		CMCommand* cmd = itsForegroundQ->GetElement(i);
 		itsForegroundQ->RemoveElement(i);	// remove first, in case auto-delete
-		cmd->Finished(kJFalse);
+		cmd->Finished(false);
 
 		if (itsRunningCommand == cmd)
 			{
@@ -355,7 +355,7 @@ CMLink::CancelBackgroundCommands()
 		{
 		CMCommand* cmd = itsBackgroundQ->GetElement(i);
 		itsBackgroundQ->RemoveElement(i);	// remove first, in case auto-delete
-		cmd->Finished(kJFalse);
+		cmd->Finished(false);
 
 		if (itsRunningCommand == cmd)
 			{
@@ -391,11 +391,11 @@ CMLink::RememberFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMLink::FindFile
 	(
 	const JString&	fileName,
-	JBoolean*		exists,
+	bool*		exists,
 	JString*		fullName
 	)
 	const
@@ -403,29 +403,29 @@ CMLink::FindFile
 	const JString* s = nullptr;
 	if (JIsAbsolutePath(fileName) && JFileExists(fileName))
 		{
-		*exists   = kJTrue;
+		*exists   = true;
 		*fullName = fileName;
-		return kJTrue;
+		return true;
 		}
 	else if (itsFileNameMap->GetElement(fileName, &s))
 		{
 		if (s == nullptr)
 			{
-			*exists = kJFalse;
+			*exists = false;
 			fullName->Clear();
 			}
 		else
 			{
-			*exists   = kJTrue;
+			*exists   = true;
 			*fullName = *s;
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		*exists = kJFalse;
+		*exists = false;
 		fullName->Clear();
-		return kJFalse;
+		return false;
 		}
 
 /*	All search paths are unreliable.  See CMGetFullPath.cc for more info.
@@ -438,18 +438,18 @@ CMLink::FindFile
 			*fullName = JCombinePathAndName(*(itsPathList->GetElement(i)), fileName);
 			if (JFileExists(*fullName))
 				{
-				return kJTrue;
+				return true;
 				}
 			}
 		}
 	else if (JFileExists(fileName))
 		{
 		*fullName = fileName;
-		return kJTrue;
+		return true;
 		}
 
 	fullName->Clear();
-	return kJFalse; */
+	return false; */
 }
 
 /******************************************************************************
@@ -472,7 +472,7 @@ void
 CMLink::NotifyUser
 	(
 	const JString&	msg,
-	const JBoolean	error
+	const bool	error
 	)
 {
 	CMGetLink()->Broadcast(UserOutput(msg, error));
@@ -489,7 +489,7 @@ CMLink::Log
 	const JUtf8Byte* log
 	)
 {
-	CMGetLink()->Broadcast(DebugOutput(JString(log, kJFalse), kLogType));
+	CMGetLink()->Broadcast(DebugOutput(JString(log, JString::kNoCopy), kLogType));
 }
 
 /******************************************************************************
@@ -561,8 +561,8 @@ CMLink::Build2DArrayExpressionForCFamilyLanguage
 {
 	JString expr = origExpr;
 
-	const JBoolean usesI = expr.Contains("$i");		// row
-	const JBoolean usesJ = expr.Contains("$j");		// col
+	const bool usesI = expr.Contains("$i");		// row
+	const bool usesJ = expr.Contains("$j");		// col
 
 	const JString iStr(rowIndex, 0);	// must use floating point conversion
 	const JString jStr(colIndex, 0);	// must use floating point conversion

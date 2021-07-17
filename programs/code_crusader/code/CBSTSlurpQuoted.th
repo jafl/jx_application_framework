@@ -13,7 +13,7 @@
 
  ******************************************************************************/
 
-JBoolean
+bool
 ClassName::SlurpQuoted
 	(
 	const JSize			count,
@@ -27,7 +27,7 @@ ClassName::SlurpQuoted
 	JUtf8Character startChar;
 	if (!ReadCharacter(&beyond, &startChar))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JUtf8Character endChar = startChar;
@@ -50,7 +50,7 @@ ClassName::SlurpQuoted
 
 	JSize remainder = count;
 	JUtf8Character c;
-	JBoolean ok = kJFalse;
+	bool ok = false;
 	while (1)
 		{
 		if (!ReadCharacter(&beyond, &c))
@@ -74,7 +74,7 @@ ClassName::SlurpQuoted
 					{
 					if (!ReadCharacter(&beyond, &c))
 						{
-						ok = kJTrue;
+						ok = true;
 						break;
 						}
 					else if (strchr(suffixList, c.GetBytes()[0]) == nullptr)
@@ -85,7 +85,7 @@ ClassName::SlurpQuoted
 							yyunput(c.GetBytes()[ count-i ], yytext);
 							}
 						beyond = itsCurrentText->AdjustTextIndex(beyond, -1);
-						ok     = kJTrue;
+						ok     = true;
 						break;
 						}
 					}
@@ -108,7 +108,7 @@ ClassName::SlurpQuoted
 	return ok;
 }
 
-JBoolean
+bool
 ClassName::ReadCharacter
 	(
 	JStyledText::TextIndex*	index,
@@ -118,7 +118,7 @@ ClassName::ReadCharacter
 	int c = yyinput();
 	if (c == EOF || c == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JUtf8Byte bytes[ JUtf8Character::kMaxByteCount+1 ];
@@ -135,5 +135,5 @@ ClassName::ReadCharacter
 
 	bytes[i++] = 0;
 	ch->Set(bytes);
-	return kJTrue;
+	return true;
 }

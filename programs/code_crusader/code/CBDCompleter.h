@@ -25,8 +25,8 @@ protected:
 
 	CBDCompleter();
 
-	virtual JBoolean	IsWordCharacter(const JUtf8Character& c,
-										const JBoolean includeNS) const override;
+	virtual bool	IsWordCharacter(const JUtf8Character& c,
+										const bool includeNS) const override;
 
 private:
 

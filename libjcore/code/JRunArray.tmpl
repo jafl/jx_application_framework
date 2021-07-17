@@ -317,7 +317,7 @@ JRunArray<T>::IteratorInsertSlice
 		*firstIndexInRun = lastIndexInRun + 1;
 		}
 
-	JBoolean needSplit = JI2B(i != *firstIndexInRun);
+	bool needSplit = i != *firstIndexInRun;
 
 	for (JIndex j=startRun+1; j<endRun; j++)
 		{
@@ -327,7 +327,7 @@ JRunArray<T>::IteratorInsertSlice
 			{
 			PrivateInsertElementsAtIndex(i, sourceRuns[j-1].data, count,
 										 runIndex, firstIndexInRun);
-			needSplit = kJFalse;
+			needSplit = false;
 			}
 		else
 			{
@@ -468,7 +468,7 @@ JRunArray<T>::IteratorSetElements
 	JIndex*			firstIndexInRun
 	)
 {
-	JBoolean changed = kJTrue;
+	bool changed = true;
 	if (count == 1)
 		{
 		changed = PrivateSetElement(elementIndex, data, runIndex, firstIndexInRun);
@@ -504,7 +504,7 @@ JRunArray<T>::IteratorSetElements
 /******************************************************************************
  PrivateSetElement (private)
 
-	Returns kJTrue if the element actually changed.
+	Returns true if the element actually changed.
 
 	Assumes *runIndex,*firstIndexInRun refer to the run containing
 	elementIndex and updates them based on what has to be done to the runs.
@@ -512,7 +512,7 @@ JRunArray<T>::IteratorSetElements
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JRunArray<T>::PrivateSetElement
 	(
 	const JIndex	elementIndex,
@@ -524,7 +524,7 @@ JRunArray<T>::PrivateSetElement
 	const T originalElement = GetRunData(*runIndex);
 	if (data == originalElement)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JSize origRunLength   = GetRunLength(*runIndex);
@@ -610,7 +610,7 @@ JRunArray<T>::PrivateSetElement
 		*firstIndexInRun = elementIndex;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -719,7 +719,7 @@ JRunArray<T>::RemoveAll()
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JRunArray<T>::AllElementsEqual
 	(
 	T* data
@@ -732,11 +732,11 @@ JRunArray<T>::AllElementsEqual
 			{
 			*data = GetRunData(1);
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -764,7 +764,7 @@ JRunArray<T>::SumElements
 	JInteger sum = 0;
 
 	JIndex runIndex, firstIndexInRun;
-	const JBoolean found = FindRun(index, &runIndex, &firstIndexInRun);
+	const bool found = FindRun(index, &runIndex, &firstIndexInRun);
 	assert( found && JList<T>::IndexValid(endIndex) );
 
 	const JSize runCount = GetRunCount();
@@ -800,7 +800,7 @@ JRunArray<T>::SumElements
 	consider the case when all intervals have width one, and the left edge
 	has coordinate zero.
 
-	Returns kJFalse if the sum through the end of the array does not exceeed
+	Returns false if the sum through the end of the array does not exceeed
 	requestedSum.  In this case, *endIndex is the last element, and *trueSum
 	is the sum up to, but not including, *endIndex.
 
@@ -809,7 +809,7 @@ JRunArray<T>::SumElements
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JRunArray<T>::FindPositiveSum
 	(
 	const JInteger	requestedSum,
@@ -826,7 +826,7 @@ JRunArray<T>::FindPositiveSum
 	*trueSum  = 0;
 
 	JIndex runIndex, firstIndexInRun;
-	const JBoolean found = FindRun(*endIndex, &runIndex, &firstIndexInRun);
+	const bool found = FindRun(*endIndex, &runIndex, &firstIndexInRun);
 	assert( found );
 
 	const JSize runCount = GetRunCount();
@@ -855,12 +855,12 @@ JRunArray<T>::FindPositiveSum
 				{
 				(*endIndex)--;
 				*trueSum -= v;
-				return kJFalse;
+				return false;
 				}
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -914,7 +914,7 @@ JRunArray<T>::GetRunCount()
 	Return the index of the run containing the element with the specified index.
 	firstIndexInRun is updated with the index of the first element in the run.
 
-	Returns kJFalse if elementIndex is not in the array.
+	Returns false if elementIndex is not in the array.
 
 	On the assumption that most run arrays have a relatively uniform
 	distribution of runs (JTextEditor is a good example, JTableSelection
@@ -924,7 +924,7 @@ JRunArray<T>::GetRunCount()
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JRunArray<T>::FindRun
 	(
 	const JIndex	elementIndex,
@@ -955,12 +955,12 @@ JRunArray<T>::FindRun
 	Assuming that *runIndex,*firstIndexInRun correspond to origIndex,
 	modify them to correspond to newIndex.
 
-	Returns kJFalse if origIndex or newIndex is not in the array.
+	Returns false if origIndex or newIndex is not in the array.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JRunArray<T>::IncrementalFindRun
 	(
 	const JIndex	origIndex,
@@ -974,16 +974,16 @@ JRunArray<T>::IncrementalFindRun
 	if (!JList<T>::IndexValid(origIndex) ||
 		!JList<T>::IndexValid(newIndex))
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (origIndex == newIndex)
 		{
-		return kJTrue;
+		return true;
 		}
 
 	assert( *firstIndexInRun <= origIndex );
 
-	JBoolean found = kJFalse;
+	bool found = false;
 	if (newIndex < origIndex)
 		{
 		const JRunArrayElement<T>* r = itsRuns->GetCArray() + *runIndex-1;
@@ -993,7 +993,7 @@ JRunArray<T>::IncrementalFindRun
 			if (*firstIndexInRun <= newIndex)
 				{
 				*runIndex = i;
-				found     = kJTrue;
+				found     = true;
 				break;
 				}
 			if (i > 1)
@@ -1016,7 +1016,7 @@ JRunArray<T>::IncrementalFindRun
 				{
 				*runIndex        = i;
 				*firstIndexInRun = lastIndexInRun - r->length + 1;
-				found            = kJTrue;
+				found            = true;
 				break;
 				}
 			}

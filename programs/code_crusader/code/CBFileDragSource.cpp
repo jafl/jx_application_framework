@@ -47,7 +47,7 @@ CBFileDragSource::CBFileDragSource
 	JXImageWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsDoc(doc)
 {
-	SetImage(GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small), kJFalse);
+	SetImage(GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small), false);
 
 	ProvideDirectSave(nullptr);
 }
@@ -114,7 +114,7 @@ CBFileDragSource::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	JBoolean onDisk;
+	bool onDisk;
 	JString fileName = itsDoc->GetFullName(&onDisk);
 	if (clickCount == 2 && onDisk)
 		{
@@ -200,7 +200,7 @@ void
 CBFileDragSource::HandleDNDResponse
 	(
 	const JXContainer*	target,
-	const JBoolean		dropAccepted,
+	const bool		dropAccepted,
 	const Atom			action
 	)
 {

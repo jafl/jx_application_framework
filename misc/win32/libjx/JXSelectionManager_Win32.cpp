@@ -57,7 +57,7 @@ JXSelectionManager::~JXSelectionManager()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSelectionManager::GetAvailableTypes
 	(
 	const Atom		selectionName,
@@ -65,7 +65,7 @@ JXSelectionManager::GetAvailableTypes
 	JArray<Atom>*	typeList
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -78,7 +78,7 @@ JXSelectionManager::GetAvailableTypes
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSelectionManager::GetData
 	(
 	const Atom		selectionName,
@@ -90,7 +90,7 @@ JXSelectionManager::GetData
 	DeleteMethod*	delMethod
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -167,18 +167,18 @@ JXSelectionManager::ReceiveWithFeedback
 	Set the data for the given selection.
 
 	*** 'data' must be allocated on the heap.
-		We take ownership of 'data' even if the function returns kJFalse.
+		We take ownership of 'data' even if the function returns false.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSelectionManager::SetData
 	(
 	const Atom			selectionName,
 	JXSelectionData*	data
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -211,7 +211,7 @@ JXSelectionManager::ClearData
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSelectionManager::GetData
 	(
 	const Atom				selectionName,
@@ -219,5 +219,5 @@ JXSelectionManager::GetData
 	const JXSelectionData**	data
 	)
 {
-	return kJFalse;
+	return false;
 }

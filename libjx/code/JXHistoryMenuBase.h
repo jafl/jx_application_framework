@@ -35,7 +35,7 @@ public:
 	HistoryDirection	GetHistoryDirection() const;
 	void				SetHistoryDirection(const HistoryDirection direction);
 
-	void	SetDefaultIcon(JXImage* icon, const JBoolean menuOwnsIcon);
+	void	SetDefaultIcon(JXImage* icon, const bool menuOwnsIcon);
 
 	JIndex	GetFirstIndex() const;
 	void	SetFirstIndex(const JIndex index);
@@ -74,7 +74,7 @@ private:
 	JSize				itsHistoryLength;
 	HistoryDirection	itsHistoryDirection;
 	JXImage*			itsDefaultIcon;
-	JBoolean			itsOwnsDefIconFlag;
+	bool			itsOwnsDefIconFlag;
 
 private:
 

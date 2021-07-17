@@ -19,20 +19,20 @@ class CBCommand : virtual public JBroadcaster
 {
 public:
 
-	CBCommand(const JString& path, const JBoolean refreshVCSStatusWhenFinished,
-			  const JBoolean beepWhenFinished, CBProjectDocument* projDoc);
+	CBCommand(const JString& path, const bool refreshVCSStatusWhenFinished,
+			  const bool beepWhenFinished, CBProjectDocument* projDoc);
 
 	virtual	~CBCommand();
 
 	void		SetParent(CBCommand* cmd);
-	JBoolean	Add(const JPtrArray<JString>& cmdArgs,
+	bool	Add(const JPtrArray<JString>& cmdArgs,
 					const JPtrArray<JString>& fullNameList,
 					const JArray<JIndex>& lineIndexList,
 					CBFunctionStack* fnStack);
 	void		Add(CBCommand* subCmd, const CBCommandManager::CmdInfo& cmdInfo);
 	void		MarkEndOfSequence();
-	JBoolean	Start(const CBCommandManager::CmdInfo& info);
-	JBoolean	StartMakeProcess(CBExecOutputDocument* outputDoc);
+	bool	Start(const CBCommandManager::CmdInfo& info);
+	bool	StartMakeProcess(CBExecOutputDocument* outputDoc);
 
 	const JString&	GetPath() const;
 
@@ -48,22 +48,22 @@ private:
 		JPtrArray<JString>*			cmd;		// can be nullptr
 		CBCommand*					cmdObj;		// can be nullptr
 		CBCommandManager::CmdInfo*	cmdInfo;	// nullptr if cmdObj==nullptr
-		JBoolean					isMakeDepend;
+		bool					isMakeDepend;
 
 		CmdInfo()
 			:
-			cmd(nullptr), cmdObj(nullptr), cmdInfo(nullptr), isMakeDepend(kJFalse)
+			cmd(nullptr), cmdObj(nullptr), cmdInfo(nullptr), isMakeDepend(false)
 		{ };
 
 		CmdInfo(JPtrArray<JString>* c, CBCommand* o, CBCommandManager::CmdInfo* i,
-				const JBoolean isMD)
+				const bool isMD)
 			:
 			cmd(c), cmdObj(o), cmdInfo(i), isMakeDepend(isMD)
 		{ };
 
-		JBoolean	IsEndOfSequence() const;
-		JBoolean	IsSubroutine() const;
-		void		Free(const JBoolean deleteCmdObj);
+		bool	IsEndOfSequence() const;
+		bool	IsSubroutine() const;
+		void		Free(const bool deleteCmdObj);
 	};
 
 private:
@@ -74,12 +74,12 @@ private:
 	CBExecOutputDocument*	itsOutputDoc;		// not owned; can be nullptr
 	JString					itsWindowTitle;
 	JString					itsDontCloseMsg;
-	const JBoolean			itsBeepFlag;
-	JBoolean				itsRefreshVCSStatusFlag;
-	JBoolean				itsUpdateSymbolDatabaseFlag;
-	JBoolean				itsInQueueFlag;
-	JBoolean				itsSuccessFlag;
-	JBoolean				itsCancelledFlag;
+	const bool			itsBeepFlag;
+	bool				itsRefreshVCSStatusFlag;
+	bool				itsUpdateSymbolDatabaseFlag;
+	bool				itsInQueueFlag;
+	bool				itsSuccessFlag;
+	bool				itsCancelledFlag;
 	CBCommand*				itsMakeDependCmd;
 
 	// used for subroutines
@@ -87,12 +87,12 @@ private:
 	CBExecOutputDocument*	itsBuildOutputDoc;	// can be nullptr; ensures single window for subroutines
 	CBExecOutputDocument*	itsRunOutputDoc;	// can be nullptr; ensures single window for subroutines
 	CBCommand*				itsParent;			// can be nullptr; not owned; parent who Start()ed us
-	JBoolean				itsCallParentProcessFinishedFlag;
+	bool				itsCallParentProcessFinishedFlag;
 
 private:
 
-	JBoolean	StartProcess();
-	void		ProcessFinished(const JBoolean success, const JBoolean cancelled);
+	bool	StartProcess();
+	void		ProcessFinished(const bool success, const bool cancelled);
 
 	void	SetCompileDocStrings();
 
@@ -117,20 +117,20 @@ public:
 		{
 		public:
 
-			Finished(const JBoolean success, const JBoolean cancelled)
+			Finished(const bool success, const bool cancelled)
 				:
 				JBroadcaster::Message(kFinished),
-				itsSuccessFlag(JI2B(success && !cancelled)),
+				itsSuccessFlag(success && !cancelled),
 				itsCancelledFlag(cancelled)
 				{ };
 
-			JBoolean
+			bool
 			Successful() const
 			{
 				return itsSuccessFlag;
 			};
 
-			JBoolean
+			bool
 			Cancelled() const
 			{
 				return itsCancelledFlag;
@@ -138,8 +138,8 @@ public:
 
 		private:
 
-			const JBoolean	itsSuccessFlag;
-			const JBoolean	itsCancelledFlag;
+			const bool	itsSuccessFlag;
+			const bool	itsCancelledFlag;
 		};
 };
 

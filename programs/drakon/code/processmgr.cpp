@@ -37,7 +37,7 @@ main
 		return 0;
 		}
 
-	JBoolean displayAbout;
+	bool displayAbout;
 	JString prevVersStr;
 	GPMApp* app = jnew GPMApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );

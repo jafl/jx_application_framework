@@ -39,7 +39,7 @@ public:
 	virtual void	Activate() override;
 	virtual void	Deactivate() override;
 
-	JBoolean	ContentsValid() const;
+	bool	ContentsValid() const;
 
 protected:
 

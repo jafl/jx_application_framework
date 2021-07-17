@@ -33,7 +33,7 @@ public:
 	void	NewFitDescription(const GLFitDescription::FitType type);
 	void	RemoveFitDescription(const JIndex index);
 
-	JBoolean	FitIsRemovable(const JIndex index);
+	bool	FitIsRemovable(const JIndex index);
 
 protected:
 
@@ -44,7 +44,7 @@ private:
 
 	JPtrArray<GLFitDescription>* itsFitDescriptions;
 
-	JBoolean		itsIsInitialized;
+	bool		itsIsInitialized;
 
 private:
 

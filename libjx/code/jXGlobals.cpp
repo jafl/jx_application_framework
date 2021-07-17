@@ -103,7 +103,7 @@ JXCloseDirectors()
 {
 	if (theDockManager != nullptr)
 		{
-		const JBoolean ok = theDockManager->Close();
+		const bool ok = theDockManager->Close();
 		assert( ok );
 
 		theDockManager = nullptr;
@@ -111,7 +111,7 @@ JXCloseDirectors()
 
 	if (thePersistentWindowOwner != nullptr)
 		{
-		const JBoolean ok = thePersistentWindowOwner->Close();
+		const bool ok = thePersistentWindowOwner->Close();
 		assert( ok );
 
 		thePersistentWindowOwner = nullptr;
@@ -176,14 +176,14 @@ JXGetApplication()
 
 // called by JXDisplay
 
-JBoolean
+bool
 JXGetApplication
 	(
 	JXApplication** app
 	)
 {
 	*app = theApplication;
-	return JConvertToBoolean( theApplication != nullptr );
+	return theApplication != nullptr;
 }
 
 /******************************************************************************
@@ -227,14 +227,14 @@ JXGetDocumentManager()
 
 // called by JXApplication, JXDisplay
 
-JBoolean
+bool
 JXGetDocumentManager
 	(
 	JXDocumentManager** docManager
 	)
 {
 	*docManager = theDocManager;
-	return JConvertToBoolean( theDocManager != nullptr );
+	return theDocManager != nullptr;
 }
 
 /******************************************************************************
@@ -270,7 +270,7 @@ JXSetDocumentManager
 void
 JXCreateDefaultDocumentManager
 	(
-	const JBoolean wantShortcuts
+	const bool wantShortcuts
 	)
 {
 	assert( theDocManager == nullptr );
@@ -297,18 +297,18 @@ JXGetHelpManager()
 /******************************************************************************
  JXGetHelpManager
 
-	This version returns kJFalse if the help system has not been initialized.
+	This version returns false if the help system has not been initialized.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXGetHelpManager
 	(
 	JXHelpManager** helpMgr
 	)
 {
 	*helpMgr = theHelpManager;
-	return JI2B( theHelpManager != nullptr );
+	return theHelpManager != nullptr;
 }
 
 /******************************************************************************
@@ -344,18 +344,18 @@ JXGetDockManager()
 /******************************************************************************
  JXGetDockManager
 
-	This version returns kJFalse if JXSetDockManager() has not been called.
+	This version returns false if JXSetDockManager() has not been called.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXGetDockManager
 	(
 	JXDockManager** dockMgr
 	)
 {
 	*dockMgr = theDockManager;
-	return JI2B( theDockManager != nullptr );
+	return theDockManager != nullptr;
 }
 
 /******************************************************************************
@@ -383,14 +383,14 @@ JXSetDockManager
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXGetMDIServer
 	(
 	JXMDIServer** server
 	)
 {
 	*server = theMDIServer;
-	return JConvertToBoolean( theMDIServer != nullptr );
+	return theMDIServer != nullptr;
 }
 
 /******************************************************************************
@@ -503,14 +503,14 @@ JXGetSearchTextDialog()
 	return theSearchTextDialog;
 }
 
-JBoolean
+bool
 JXGetSearchTextDialog
 	(
 	JXSearchTextDialog** dlog
 	)
 {
 	*dlog = theSearchTextDialog;
-	return JI2B( theSearchTextDialog != nullptr );
+	return theSearchTextDialog != nullptr;
 }
 
 /******************************************************************************
@@ -557,14 +557,14 @@ JXGetSpellChecker()
 	program should create its private directories.  dirName is appended to
 	each one for convenience.
 
-	Returns kJFalse if the user doesn't have a home directory, in which
+	Returns false if the user doesn't have a home directory, in which
 	case userDir is empty.
 
 	*** Does not check if either directory exists.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXGetProgramDataDirectories
 	(
 	const JUtf8Byte*	dirName,

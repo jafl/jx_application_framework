@@ -34,11 +34,11 @@ JError
 JSimpleProcess::Create
 	(
 	const JString&	cmdStr,
-	const JBoolean	detach
+	const bool	detach
 	)
 {
 	JSimpleProcess* p;
-	const JError err = Create(&p, cmdStr, kJTrue);
+	const JError err = Create(&p, cmdStr, true);
 	err.ReportIfError();
 	if (err.OK() && detach)
 		{
@@ -52,7 +52,7 @@ JSimpleProcess::Create
 	(
 	JSimpleProcess**	process,
 	const JString&		cmdStr,
-	const JBoolean		deleteWhenFinished
+	const bool		deleteWhenFinished
 	)
 {
 	pid_t childPID;
@@ -79,11 +79,11 @@ JSimpleProcess::Create
 	(
 	const JString&	workingDirectory,
 	const JString&	cmdStr,
-	const JBoolean	detach
+	const bool	detach
 	)
 {
 	JSimpleProcess* p;
-	const JError err = Create(&p, workingDirectory, cmdStr, kJTrue);
+	const JError err = Create(&p, workingDirectory, cmdStr, true);
 	err.ReportIfError();
 	if (err.OK() && detach)
 		{
@@ -98,7 +98,7 @@ JSimpleProcess::Create
 	JSimpleProcess**	process,
 	const JString&		workingDirectory,
 	const JString&		cmdStr,
-	const JBoolean		deleteWhenFinished
+	const bool		deleteWhenFinished
 	)
 {
 	pid_t childPID;
@@ -124,11 +124,11 @@ JError
 JSimpleProcess::Create
 	(
 	const JPtrArray<JString>&	argList,
-	const JBoolean				detach
+	const bool				detach
 	)
 {
 	JSimpleProcess* p;
-	const JError err = Create(&p, argList, kJTrue);
+	const JError err = Create(&p, argList, true);
 	err.ReportIfError();
 	if (err.OK() && detach)
 		{
@@ -142,7 +142,7 @@ JSimpleProcess::Create
 	(
 	JSimpleProcess**			process,
 	const JPtrArray<JString>&	argList,
-	const JBoolean				deleteWhenFinished
+	const bool				deleteWhenFinished
 	)
 {
 	pid_t childPID;
@@ -169,11 +169,11 @@ JSimpleProcess::Create
 	(
 	const JString&				workingDirectory,
 	const JPtrArray<JString>&	argList,
-	const JBoolean				detach
+	const bool				detach
 	)
 {
 	JSimpleProcess* p;
-	const JError err = Create(&p, workingDirectory, argList, kJTrue);
+	const JError err = Create(&p, workingDirectory, argList, true);
 	err.ReportIfError();
 	if (err.OK() && detach)
 		{
@@ -188,7 +188,7 @@ JSimpleProcess::Create
 	JSimpleProcess**			process,
 	const JString&				workingDirectory,
 	const JPtrArray<JString>&	argList,
-	const JBoolean				deleteWhenFinished
+	const bool				deleteWhenFinished
 	)
 {
 	pid_t childPID;
@@ -215,11 +215,11 @@ JSimpleProcess::Create
 	(
 	const JUtf8Byte*	argv[],
 	const JSize			size,
-	const JBoolean		detach
+	const bool		detach
 	)
 {
 	JSimpleProcess* p;
-	const JError err = Create(&p, argv, size, kJTrue);
+	const JError err = Create(&p, argv, size, true);
 	err.ReportIfError();
 	if (err.OK() && detach)
 		{
@@ -234,7 +234,7 @@ JSimpleProcess::Create
 	JSimpleProcess**	process,
 	const JUtf8Byte*	argv[],
 	const JSize			size,
-	const JBoolean		deleteWhenFinished
+	const bool		deleteWhenFinished
 	)
 {
 	pid_t childPID;
@@ -262,11 +262,11 @@ JSimpleProcess::Create
 	const JString&		workingDirectory,
 	const JUtf8Byte*	argv[],
 	const JSize			size,
-	const JBoolean		detach
+	const bool		detach
 	)
 {
 	JSimpleProcess* p;
-	const JError err = Create(&p, workingDirectory, argv, size, kJTrue);
+	const JError err = Create(&p, workingDirectory, argv, size, true);
 	err.ReportIfError();
 	if (err.OK() && detach)
 		{
@@ -282,7 +282,7 @@ JSimpleProcess::Create
 	const JString&		workingDirectory,
 	const JUtf8Byte*	argv[],
 	const JSize			size,
-	const JBoolean		deleteWhenFinished
+	const bool		deleteWhenFinished
 	)
 {
 	pid_t childPID;
@@ -313,7 +313,7 @@ JSimpleProcess::JSimpleProcess
 	(
 	const pid_t		pid,
 	const int		fd,
-	const JBoolean	deleteWhenFinished
+	const bool	deleteWhenFinished
 	)
 	:
 	JProcess(pid),
@@ -371,7 +371,7 @@ JSimpleProcess::Receive
 void
 JSimpleProcess::ReportError
 	(
-	const JBoolean success
+	const bool success
 	)
 {
 	StopListening(this);
@@ -379,7 +379,7 @@ JSimpleProcess::ReportError
 	JThisProcess::CheckACEReactor();
 
 	JString lastLine;
-	const JBoolean hasPartialLine = itsLink->PeekPartialMessage(&lastLine);
+	const bool hasPartialLine = itsLink->PeekPartialMessage(&lastLine);
 
 	if ((itsLink->HasMessages() || hasPartialLine) &&
 		time(nullptr) < itsStartTime + kMaxReportInverval)

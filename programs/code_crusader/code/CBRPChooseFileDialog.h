@@ -20,7 +20,7 @@ public:
 	static CBRPChooseFileDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
 			   const JString& fileFilter,
-			   const JBoolean allowSelectMultiple,
+			   const bool allowSelectMultiple,
 			   const CBRelPathCSF::PathType pathType,
 			   const JString& origName, const JString& message);
 
@@ -32,7 +32,7 @@ protected:
 
 	CBRPChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 						 const JString& fileFilter,
-						 const JBoolean allowSelectMultiple);
+						 const bool allowSelectMultiple);
 
 private:
 

@@ -29,11 +29,11 @@ protected:
 
 	virtual void		Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual void		DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	virtual JBoolean	NeedsInternalFTC() const override;
+	virtual bool	NeedsInternalFTC() const override;
 
 private:
 
-	JBoolean	itsNeedsInternalFTCFlag;
+	bool	itsNeedsInternalFTCFlag;
 
 private:
 
@@ -52,7 +52,7 @@ private:
 inline void
 JXWidgetSet::SetNeedsInternalFTC()
 {
-	itsNeedsInternalFTCFlag = kJTrue;
+	itsNeedsInternalFTCFlag = true;
 }
 
 #endif

@@ -28,26 +28,26 @@ GLBuiltinFitDescription::GLBuiltinFitDescription
 	if (type == GLFitDescription::kBLinear)
 		{
 		SetParameterCount(2);
-		GetVarList()->AddVariable(JString("a0", kJFalse), 0);
-		GetVarList()->AddVariable(JString("a1", kJFalse), 0);
+		GetVarList()->AddVariable(JString("a0", JString::kNoCopy), 0);
+		GetVarList()->AddVariable(JString("a1", JString::kNoCopy), 0);
 		SetFnName(JGetString("LinearName::GLBuiltinFitDescription"));
-		SetFitFunctionString(JString("a0 + a1 * x", kJFalse));
+		SetFitFunctionString(JString("a0 + a1 * x", JString::kNoCopy));
 		}
 	else if (type == GLFitDescription::kBExp)
 		{
 		SetParameterCount(2);
-		GetVarList()->AddVariable(JString("a", kJFalse), 0);
-		GetVarList()->AddVariable(JString("b", kJFalse), 0);
+		GetVarList()->AddVariable(JString("a", JString::kNoCopy), 0);
+		GetVarList()->AddVariable(JString("b", JString::kNoCopy), 0);
 		SetFnName(JGetString("ExponentialName::GLBuiltinFitDescription"));
-		SetFitFunctionString(JString("a*e^(b*x)", kJFalse));
+		SetFitFunctionString(JString("a*e^(b*x)", JString::kNoCopy));
 		}
 	else if (type == GLFitDescription::kBPower)
 		{
 		SetParameterCount(2);
-		GetVarList()->AddVariable(JString("a", kJFalse), 0);
-		GetVarList()->AddVariable(JString("b", kJFalse), 0);
+		GetVarList()->AddVariable(JString("a", JString::kNoCopy), 0);
+		GetVarList()->AddVariable(JString("b", JString::kNoCopy), 0);
 		SetFnName(JGetString("PowerLawName::GLBuiltinFitDescription"));
-		SetFitFunctionString(JString("a*x^b", kJFalse));
+		SetFitFunctionString(JString("a*x^b", JString::kNoCopy));
 		}
 
 }

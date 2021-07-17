@@ -74,7 +74,7 @@ JArcTangent2::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JArcTangent2::Evaluate
 	(
 	JFloat* result
@@ -84,18 +84,18 @@ JArcTangent2::Evaluate
 	JFloat y,x;
 	if (!(GetArg1())->Evaluate(&y))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (!(GetArg2())->Evaluate(&x))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = atan2(y,x);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JArcTangent2::Evaluate
 	(
 	JComplex* result
@@ -106,17 +106,17 @@ JArcTangent2::Evaluate
 	if (Evaluate(&r))	// provide full range in case of real numbers
 		{
 		*result = r;
-		return kJTrue;
+		return true;
 		}
 
 	JComplex y,x;
 	if (!(GetArg2())->Evaluate(&x) || (real(x) == 0.0 && imag(x) == 0.0))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (!(GetArg1())->Evaluate(&y))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = atan(y/x);

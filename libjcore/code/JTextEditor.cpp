@@ -40,17 +40,17 @@
 			scrolltabs.
 
 		TEWidthIsBeyondDisplayCapacity
-			Returns kJTrue if the given bounds width is too wide for the
+			Returns true if the given bounds width is too wide for the
 			current graphics system to handle.  If so, breakCROnly is
 			turned off.
 
 		TEScrollToRect
 			Scroll the text to make the given rectangle visible, possibly
-			centering it in the middle of the display.  Return kJTrue
+			centering it in the middle of the display.  Return true
 			if scrolling was necessary.
 
 		TEScrollForDrag
-			Scroll the text to make the given point visible.  Return kJTrue
+			Scroll the text to make the given point visible.  Return true
 			if scrolling was necessary.
 
 		TEScrollForDND
@@ -62,23 +62,23 @@
 			the text.
 
 		TECaretShouldBlink
-			If blink is kJTrue, reset the timer and make the caret blink by
+			If blink is true, reset the timer and make the caret blink by
 			calling TEShow/HideCaret().  Otherwise, call TEHideCaret().
-			The derived class constructor must call TECaretShouldBlink(kJTrue)
+			The derived class constructor must call TECaretShouldBlink(true)
 			because it is pure virtual for us.
 
 		TEUpdateClipboard
 			Update the system clipboard with the given text/style.
 
 		TEGetClipboard
-			Returns kJTrue if there is something pasteable on the system
+			Returns true if there is something pasteable on the system
 			clipboard.
 
 		TEBeginDND
-			Returns kJTrue if it is able to start a Drag-And-Drop session
+			Returns true if it is able to start a Drag-And-Drop session
 			with the OS.  From then on, the derived class should call the
 			TEHandleDND*() functions.  It must also call TEDNDFinished()
-			when the drag ends.  If TEBeginDND() returns kJFalse, then we
+			when the drag ends.  If TEBeginDND() returns false, then we
 			will manage an internal DND session.  In this case, the derived
 			class should continue to call the usual TEHandleMouse*()
 			functions.
@@ -89,7 +89,7 @@
 			is set so that Paste() will work correctly.)
 
 		TEHasSearchText
-			Return kJTrue if the user has entered any text for which to search.
+			Return true if the user has entered any text for which to search.
 
 	To draw page headers and footers while printing, override the
 	following routines:
@@ -153,7 +153,7 @@ typedef JRunArrayIterator<JTextEditor::LineGeometry>	GeometryIterator;
 const JCoordinate kDefLeftMarginWidth = 10;
 const JCoordinate kRightMarginWidth   = 2;
 
-JBoolean JTextEditor::theCopyWhenSelectFlag = kJFalse;
+bool JTextEditor::theCopyWhenSelectFlag = false;
 
 // JBroadcaster message types
 
@@ -174,9 +174,9 @@ JTextEditor::JTextEditor
 	(
 	const Type			type,
 	JStyledText*		text,
-	const JBoolean		ownsText,
+	const bool		ownsText,
 	JFontManager*		fontManager,
-	const JBoolean		breakCROnly,
+	const bool		breakCROnly,
 	const JColorID		caretColor,
 	const JColorID		selectionColor,
 	const JColorID		outlineColor,
@@ -198,19 +198,19 @@ JTextEditor::JTextEditor
 	itsKeyHandler(nullptr),		// make SetKeyHandler() safe
 	itsDragType(kInvalidDrag),
 	itsPrevDragType(kInvalidDrag),
-	itsIsDragSourceFlag(kJFalse)
+	itsIsDragSourceFlag(false)
 {
 	assert( itsText != nullptr );
 
-	itsActiveFlag              = kJFalse;
-	itsSelActiveFlag           = kJFalse;
-	itsCaretVisibleFlag        = kJFalse;
-	itsPerformDNDFlag          = kJFalse;
-	itsMoveToFrontOfTextFlag   = kJFalse;
+	itsActiveFlag              = false;
+	itsSelActiveFlag           = false;
+	itsCaretVisibleFlag        = false;
+	itsPerformDNDFlag          = false;
+	itsMoveToFrontOfTextFlag   = false;
 	itsBreakCROnlyFlag         = breakCROnly;
-	itsIsPrintingFlag          = kJFalse;
-	itsDrawWhitespaceFlag      = kJFalse;
-	itsAlwaysShowSelectionFlag = kJFalse;
+	itsIsPrintingFlag          = false;
+	itsDrawWhitespaceFlag      = false;
+	itsAlwaysShowSelectionFlag = false;
 	itsCaretMode               = kLineCaret;
 
 	itsWidth           = width - kDefLeftMarginWidth - kRightMarginWidth;
@@ -261,7 +261,7 @@ JTextEditor::JTextEditor
 	)
 	:
 	itsType(source.itsType),
-	itsOwnsTextFlag(JI2B(text != nullptr || source.itsOwnsTextFlag)),
+	itsOwnsTextFlag(text != nullptr || source.itsOwnsTextFlag),
 
 	itsFontManager(source.itsFontManager),
 
@@ -273,7 +273,7 @@ JTextEditor::JTextEditor
 	itsKeyHandler(nullptr),		// make SetKeyHandler() safe
 	itsDragType(kInvalidDrag),
 	itsPrevDragType(kInvalidDrag),
-	itsIsDragSourceFlag(kJFalse)
+	itsIsDragSourceFlag(false)
 {
 	if (itsOwnsTextFlag && text != nullptr)
 		{
@@ -289,13 +289,13 @@ JTextEditor::JTextEditor
 		itsText = source.itsText;
 		}
 
-	itsActiveFlag              = kJFalse;
-	itsSelActiveFlag           = kJFalse;
-	itsCaretVisibleFlag        = kJFalse;
+	itsActiveFlag              = false;
+	itsSelActiveFlag           = false;
+	itsCaretVisibleFlag        = false;
 	itsPerformDNDFlag          = source.itsPerformDNDFlag;
 	itsMoveToFrontOfTextFlag   = source.itsMoveToFrontOfTextFlag;
 	itsBreakCROnlyFlag         = source.itsBreakCROnlyFlag;
-	itsIsPrintingFlag          = kJFalse;
+	itsIsPrintingFlag          = false;
 	itsDrawWhitespaceFlag      = source.itsDrawWhitespaceFlag;
 	itsAlwaysShowSelectionFlag = source.itsAlwaysShowSelectionFlag;
 	itsCaretMode               = kLineCaret;
@@ -386,7 +386,7 @@ JTextEditor::Receive
 			itsInsertionFont = itsText->GetDefaultFont();
 			}
 
-		RecalcAll(kJFalse);
+		RecalcAll(false);
 		SetCaretLocation(CaretLocation(TextIndex(1,1),1));
 		Broadcast(message);		// safer for others to receive now
 		}
@@ -400,7 +400,7 @@ JTextEditor::Receive
 		const TextRange& rcr = info->GetRecalcRange();
 		if (rcr.charRange.GetCount() == itsText->GetText().GetCharacterCount())
 			{
-			RecalcAll(kJFalse);
+			RecalcAll(false);
 			}
 		else
 			{
@@ -432,7 +432,7 @@ JTextEditor::Receive
 			TextRange r  = itsSelection;
 			r.charRange += cd;
 			r.byteRange += bd;
-			SetSelection(r, kJTrue, kJTrue);
+			SetSelection(r, true, true);
 			}
 		else if (!itsSelection.IsEmpty() &&
 				 r.charRange.first < itsSelection.charRange.first)
@@ -468,7 +468,7 @@ JTextEditor::Receive
 		if (itsActiveFlag && !r.IsEmpty())
 			{
 			SetSelection(r);
-			TEScrollToSelection(kJFalse);
+			TEScrollToSelection(false);
 			}
 		else if (itsActiveFlag)
 			{
@@ -512,7 +512,7 @@ JTextEditor::ReceiveGoingAway
  SearchForward
 
 	Look for the next match beyond the current position.
-	If we find it, we select it and return kJTrue.
+	If we find it, we select it and return true.
 
  ******************************************************************************/
 
@@ -520,9 +520,9 @@ JStringMatch
 JTextEditor::SearchForward
 	(
 	const JRegex&	regex,
-	const JBoolean	entireWord,
-	const JBoolean	wrapSearch,
-	JBoolean*		wrapped
+	const bool	entireWord,
+	const bool	wrapSearch,
+	bool*		wrapped
 	)
 {
 	const TextIndex i(
@@ -546,7 +546,7 @@ JTextEditor::SearchForward
  SearchBackward
 
 	Look for the match before the current position.
-	If we find it, we select it and return kJTrue.
+	If we find it, we select it and return true.
 
  ******************************************************************************/
 
@@ -554,9 +554,9 @@ JStringMatch
 JTextEditor::SearchBackward
 	(
 	const JRegex&	regex,
-	const JBoolean	entireWord,
-	const JBoolean	wrapSearch,
-	JBoolean*		wrapped
+	const bool	entireWord,
+	const bool	wrapSearch,
+	bool*		wrapped
 	)
 {
 	const TextIndex i(
@@ -579,7 +579,7 @@ JTextEditor::SearchBackward
 /******************************************************************************
  SelectionMatches
 
-	Returns kJTrue if the current selection matches the given search criteria.
+	Returns true if the current selection matches the given search criteria.
 	This returns the JStringMatch required for a replace.
 
  ******************************************************************************/
@@ -588,7 +588,7 @@ JStringMatch
 JTextEditor::SelectionMatches
 	(
 	const JRegex&	regex,
-	const JBoolean	entireWord
+	const bool	entireWord
 	)
 {
 	if (itsSelection.IsEmpty() ||
@@ -632,7 +632,7 @@ JTextEditor::ReplaceSelection
 	const JStringMatch&	match,
 	const JString&		replaceStr,
 	JInterpolate*		interpolator,
-	const JBoolean		preserveCase
+	const bool		preserveCase
 	)
 {
 	assert( HasSelection() );
@@ -657,24 +657,24 @@ JTextEditor::ReplaceSelection
  ReplaceAll
 
 	Replace every occurrence of the search pattern with the replace string.
-	Returns kJTrue if it modified the text.
+	Returns true if it modified the text.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::ReplaceAll
 	(
 	const JRegex&	regex,
-	const JBoolean	entireWord,
+	const bool	entireWord,
 	const JString&	replaceStr,
 	JInterpolate*	interpolator,
-	const JBoolean	preserveCase,
-	const JBoolean	restrictToSelection
+	const bool	preserveCase,
+	const bool	restrictToSelection
 	)
 {
 	if (restrictToSelection && !HasSelection())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	TextRange r(
@@ -690,16 +690,16 @@ JTextEditor::ReplaceAll
 	if (restrictToSelection && !r.IsEmpty())
 		{
 		SetSelection(r);
-		return kJTrue;
+		return true;
 		}
 	else if (!r.IsEmpty())
 		{
 		SetCaretLocation(itsText->GetBeyondEnd());
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -707,17 +707,17 @@ JTextEditor::ReplaceAll
  SearchForward
 
 	Look for the next match beyond the current position.
-	If we find it, we select it and return kJTrue.
+	If we find it, we select it and return true.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::SearchForward
 	(
-	std::function<JBoolean(const JFont&)>	match,
+	std::function<bool(const JFont&)>	match,
 
-	const JBoolean	wrapSearch,
-	JBoolean*		wrapped
+	const bool	wrapSearch,
+	bool*		wrapped
 	)
 {
 	const TextIndex i(
@@ -728,7 +728,7 @@ JTextEditor::SearchForward
 		itsSelection.byteRange.last + 1);
 
 	TextRange range;
-	const JBoolean found = itsText->SearchForward(match, i, wrapSearch, wrapped, &range);
+	const bool found = itsText->SearchForward(match, i, wrapSearch, wrapped, &range);
 	if (found)
 		{
 		SetSelection(range);
@@ -741,17 +741,17 @@ JTextEditor::SearchForward
  SearchBackward
 
 	Look for the match before the current position.
-	If we find it, we select it and return kJTrue.
+	If we find it, we select it and return true.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::SearchBackward
 	(
-	std::function<JBoolean(const JFont&)>	match,
+	std::function<bool(const JFont&)>	match,
 
-	const JBoolean	wrapSearch,
-	JBoolean*		wrapped
+	const bool	wrapSearch,
+	bool*		wrapped
 	)
 {
 	const TextIndex i(
@@ -762,7 +762,7 @@ JTextEditor::SearchBackward
 		itsSelection.byteRange.first);
 
 	TextRange range;
-	const JBoolean found = itsText->SearchBackward(match, i, wrapSearch, wrapped, &range);
+	const bool found = itsText->SearchBackward(match, i, wrapSearch, wrapped, &range);
 	if (found)
 		{
 		SetSelection(range);
@@ -779,7 +779,7 @@ JTextEditor::SearchBackward
 void
 JTextEditor::PrivateSetBreakCROnly
 	(
-	const JBoolean breakCROnly
+	const bool breakCROnly
 	)
 {
 	itsBreakCROnlyFlag = breakCROnly;
@@ -892,8 +892,8 @@ JTextEditor::SetAllFontNameAndSize
 	const JString&		name,
 	const JSize			size,
 	const JCoordinate	tabWidth,
-	const JBoolean		breakCROnly,
-	const JBoolean		clearUndo
+	const bool		breakCROnly,
+	const bool		clearUndo
 	)
 {
 	itsDefTabWidth = tabWidth;
@@ -940,11 +940,11 @@ JTextEditor::Copy()
 	Returns the text and style that would be pasted if Paste() were called.
 
 	style can be nullptr.  If it is not nullptr, it can come back empty even if
-	the function returns kJTrue.
+	the function returns true.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::GetClipboard
 	(
 	JString*			text,
@@ -1001,7 +1001,7 @@ JTextEditor::Paste
 
 	TextRange range;
 
-	const JBoolean hadSelection = HasSelection();
+	const bool hadSelection = HasSelection();
 	if (hadSelection)
 		{
 		range = itsSelection;
@@ -1044,8 +1044,8 @@ void
 JTextEditor::SetSelection
 	(
 	const TextRange&	range,
-	const JBoolean		needCaretBcast,
-	const JBoolean		ignoreCopyWhenSelect
+	const bool		needCaretBcast,
+	const bool		ignoreCopyWhenSelect
 	)
 {
 	if (itsIsDragSourceFlag)
@@ -1070,7 +1070,7 @@ JTextEditor::SetSelection
 	assert( itsText->GetText().ByteIndexValid(range.byteRange.last) );
 	assert( JString::CountCharacters(itsText->GetText().GetRawBytes(), range.byteRange) == range.charRange.GetCount() );	// TODO: debugging
 
-	const JBoolean hadSelection            = !itsSelection.IsEmpty();
+	const bool hadSelection            = !itsSelection.IsEmpty();
 	const CaretLocation origCaretLoc       = itsCaret;
 	const JUtf8ByteRange origByteSelection = itsSelection.byteRange;
 
@@ -1086,7 +1086,7 @@ JTextEditor::SetSelection
 			CaretLocation(itsSelection.GetFirst(), newStartLine));
 		}
 
-	TECaretShouldBlink(kJFalse);
+	TECaretShouldBlink(false);
 
 	if (!ignoreCopyWhenSelect && theCopyWhenSelectFlag && itsType != kStaticText)
 		{
@@ -1150,7 +1150,7 @@ void
 JTextEditor::TabSelectionLeft
 	(
 	const JSize		tabCount,
-	const JBoolean	force
+	const bool	force
 	)
 {
 	if (TEIsDragging() || itsText->IsEmpty())
@@ -1240,7 +1240,7 @@ JTextEditor::AnalyzeWhitespace
 	JSize* tabWidth
 	)
 {
-	JBoolean useSpaces, isMixed;
+	bool useSpaces, isMixed;
 	*tabWidth = JAnalyzeWhitespace(itsText->GetText(), *tabWidth,
 								   itsText->TabInsertsSpaces(),
 								   &useSpaces, &isMixed);
@@ -1260,7 +1260,7 @@ JTextEditor::AnalyzeWhitespace
 void
 JTextEditor::CleanSelectedWhitespace
 	(
-	const JBoolean align
+	const bool align
 	)
 {
 	TextRange r;
@@ -1308,7 +1308,7 @@ JTextEditor::Paginate
 		while (i < count && h <= pageHeight)
 			{
 			i++;
-			const JBoolean ok = iter.Next(&geom);
+			const bool ok = iter.Next(&geom);
 			assert( ok );
 			h += geom.height;
 			}
@@ -1321,7 +1321,7 @@ JTextEditor::Paginate
 
 			pageH -= geom.height;
 			i--;
-			const JBoolean ok = iter.Prev(&geom);
+			const bool ok = iter.Prev(&geom);
 			assert( ok );
 			h = 0;
 			}
@@ -1364,11 +1364,11 @@ JTextEditor::Print
 	// avoid notifing GUI from within Recalc()
 	// (We put it here to allow OpenDocument() to adjust things.)
 
-	itsIsPrintingFlag = kJTrue;
+	itsIsPrintingFlag = true;
 
 	if (!p.OpenDocument())
 		{
-		itsIsPrintingFlag = kJFalse;
+		itsIsPrintingFlag = false;
 		return;
 		}
 
@@ -1378,7 +1378,7 @@ JTextEditor::Print
 	// We deactivate before printing so the selection or the
 	// caret won't be printed.
 
-	const JBoolean savedActive = TEIsActive();
+	const bool savedActive = TEIsActive();
 	TEDeactivate();
 
 	// adjust to the width of the page
@@ -1396,12 +1396,12 @@ JTextEditor::Print
 
 	const JSize pageCount = breakpts.GetElementCount() - 1;
 
-	JBoolean cancelled = kJFalse;
+	bool cancelled = false;
 	for (JIndex i=1; i<=pageCount; i++)
 		{
 		if (!p.NewPage())
 			{
-			cancelled = kJTrue;
+			cancelled = true;
 			break;
 			}
 
@@ -1430,7 +1430,7 @@ JTextEditor::Print
 		p.CloseDocument();
 		}
 
-	itsIsPrintingFlag = kJFalse;
+	itsIsPrintingFlag = false;
 
 	// restore the original state and width
 
@@ -1496,22 +1496,22 @@ JTextEditor::DrawPrintFooter
 
  ******************************************************************************/
 
-JArray<JBoolean>
+JArray<bool>
 JTextEditor::GetCmdStatus
 	(
 	JString*	crmActionText,
 	JString*	crm2ActionText,
-	JBoolean*	isReadOnly
+	bool*	isReadOnly
 	)
 	const
 {
-	JArray<JBoolean> flags(kCmdCount);
+	JArray<bool> flags(kCmdCount);
 	for (JIndex i=1; i<=kCmdCount; i++)
 		{
-		flags.AppendElement(kJFalse);
+		flags.AppendElement(false);
 		}
 
-	*isReadOnly = kJTrue;
+	*isReadOnly = true;
 
 	if (itsType == kStaticText || !itsActiveFlag)
 		{
@@ -1527,46 +1527,46 @@ JTextEditor::GetCmdStatus
 		}
 	else
 		{
-		flags.SetElement(kCopyCmd, kJTrue);
+		flags.SetElement(kCopyCmd, true);
 		*crmActionText  = JGetString("CRMSelectionAction::JTextEditor");
 		*crm2ActionText = JGetString("CRM2SelectionAction::JTextEditor");
 		}
 
-	flags.SetElement(kSelectAllCmd,      kJTrue);
-	flags.SetElement(kToggleReadOnlyCmd, kJTrue);
-	flags.SetElement(kShowWhitespaceCmd, kJTrue);
+	flags.SetElement(kSelectAllCmd,      true);
+	flags.SetElement(kToggleReadOnlyCmd, true);
+	flags.SetElement(kShowWhitespaceCmd, true);
 
 	if (itsType == kFullEditor)
 		{
-		*isReadOnly = kJFalse;
+		*isReadOnly = false;
 
-		flags.SetElement(kPasteCmd, kJTrue);
+		flags.SetElement(kPasteCmd, true);
 		if (!itsSelection.IsEmpty())
 			{
-			flags.SetElement(kCutCmd,       kJTrue);
-			flags.SetElement(kDeleteSelCmd, kJTrue);
+			flags.SetElement(kCutCmd,       true);
+			flags.SetElement(kDeleteSelCmd, true);
 			}
 
 		if (!itsText->IsEmpty())
 			{
-			flags.SetElement(kCheckSpellingCmd,      kJTrue);
-			flags.SetElement(kCleanRightMarginCmd,   kJTrue);
-			flags.SetElement(kCoerceRightMarginCmd,  kJTrue);
-			flags.SetElement(kShiftSelLeftCmd,       kJTrue);
-			flags.SetElement(kShiftSelRightCmd,      kJTrue);
-			flags.SetElement(kForceShiftSelLeftCmd,  kJTrue);
-			flags.SetElement(kCleanAllWhitespaceCmd, kJTrue);
-			flags.SetElement(kCleanAllWSAlignCmd,    kJTrue);
+			flags.SetElement(kCheckSpellingCmd,      true);
+			flags.SetElement(kCleanRightMarginCmd,   true);
+			flags.SetElement(kCoerceRightMarginCmd,  true);
+			flags.SetElement(kShiftSelLeftCmd,       true);
+			flags.SetElement(kShiftSelRightCmd,      true);
+			flags.SetElement(kForceShiftSelLeftCmd,  true);
+			flags.SetElement(kCleanAllWhitespaceCmd, true);
+			flags.SetElement(kCleanAllWSAlignCmd,    true);
 
 			if (!itsSelection.IsEmpty())
 				{
-				flags.SetElement(kCheckSpellingSelCmd,   kJTrue);
-				flags.SetElement(kCleanWhitespaceSelCmd, kJTrue);
-				flags.SetElement(kCleanWSAlignSelCmd,    kJTrue);
+				flags.SetElement(kCheckSpellingSelCmd,   true);
+				flags.SetElement(kCleanWhitespaceSelCmd, true);
+				flags.SetElement(kCleanWSAlignSelCmd,    true);
 				}
 			}
 
-		JBoolean canUndo, canRedo;
+		bool canUndo, canRedo;
 		if (itsText->HasMultipleUndo(&canUndo, &canRedo))
 			{
 			flags.SetElement(kUndoCmd, canUndo);
@@ -1574,35 +1574,35 @@ JTextEditor::GetCmdStatus
 			}
 		else if (itsText->HasSingleUndo())
 			{
-			flags.SetElement(kUndoCmd, kJTrue);
-			flags.SetElement(kRedoCmd, kJFalse);
+			flags.SetElement(kUndoCmd, true);
+			flags.SetElement(kRedoCmd, false);
 			}
 		}
 
 	// Search & Replace menu
 
-	flags.SetElement(kFindDialogCmd, kJTrue);
+	flags.SetElement(kFindDialogCmd, true);
 
 	if (!itsText->IsEmpty())
 		{
-		flags.SetElement(kFindClipboardBackwardCmd, kJTrue);
-		flags.SetElement(kFindClipboardForwardCmd,  kJTrue);
+		flags.SetElement(kFindClipboardBackwardCmd, true);
+		flags.SetElement(kFindClipboardForwardCmd,  true);
 
 		if (TEHasSearchText())
 			{
-			flags.SetElement(kFindNextCmd,     kJTrue);
-			flags.SetElement(kFindPreviousCmd, kJTrue);
+			flags.SetElement(kFindNextCmd,     true);
+			flags.SetElement(kFindPreviousCmd, true);
 
 			if (itsType == kFullEditor)
 				{
-				flags.SetElement(kReplaceAllCmd,  kJTrue);
+				flags.SetElement(kReplaceAllCmd,  true);
 
 				if (HasSelection())
 					{
-					flags.SetElement(kReplaceSelectionCmd,      kJTrue);
-					flags.SetElement(kReplaceFindNextCmd,       kJTrue);
-					flags.SetElement(kReplaceFindPrevCmd,       kJTrue);
-					flags.SetElement(kReplaceAllInSelectionCmd, kJTrue);
+					flags.SetElement(kReplaceSelectionCmd,      true);
+					flags.SetElement(kReplaceFindNextCmd,       true);
+					flags.SetElement(kReplaceFindPrevCmd,       true);
+					flags.SetElement(kReplaceAllInSelectionCmd, true);
 					}
 				}
 			}
@@ -1610,10 +1610,10 @@ JTextEditor::GetCmdStatus
 
 	if (HasSelection())
 		{
-		flags.SetElement(kEnterSearchTextCmd,       kJTrue);
-		flags.SetElement(kEnterReplaceTextCmd,      kJTrue);
-		flags.SetElement(kFindSelectionBackwardCmd, kJTrue);
-		flags.SetElement(kFindSelectionForwardCmd,  kJTrue);
+		flags.SetElement(kEnterSearchTextCmd,       true);
+		flags.SetElement(kEnterReplaceTextCmd,      true);
+		flags.SetElement(kFindSelectionBackwardCmd, true);
+		flags.SetElement(kFindSelectionForwardCmd,  true);
 		}
 
 	return flags;
@@ -1700,7 +1700,7 @@ JTextEditor::TEDrawText
 	LineGeometry geom;
 	for (JIndex i=startLine; i<=lineCount; i++)
 		{
-		const JBoolean ok = geomIter.Next(&geom);
+		const bool ok = geomIter.Next(&geom);
 		assert( ok );
 
 		TEDrawLine(p, h, geom, textIter, &styleIter, i);
@@ -1745,7 +1745,7 @@ teDrawSpaces
 	JFont f, prevf;
 	while (textIter->Next(&c) && c == ' ')
 		{
-		const JBoolean ok = direction == +1 ? styleIter->Next(&f) : styleIter->Prev(&f);
+		const bool ok = direction == +1 ? styleIter->Next(&f) : styleIter->Prev(&f);
 		assert( ok );
 
 		if (f != prevf)
@@ -1782,7 +1782,7 @@ JTextEditor::TEDrawLine
 {
 	TEDrawInMargin(p, JPoint(-itsLeftMarginWidth, top), geom, lineIndex);
 
-	JBoolean wsInit = kJFalse;
+	bool wsInit = false;
 	JRect wsRect;
 	JCoordinate wsYCenter = 0;
 	if (itsDrawWhitespaceFlag)
@@ -1807,7 +1807,7 @@ JTextEditor::TEDrawLine
 	JCoordinate left = 0;
 	JUtf8Character c;
 	JFont f;
-	JBoolean lineEndsWithNewline = kJFalse;
+	bool lineEndsWithNewline = false;
 
 	while (startChar <= endChar)
 		{
@@ -1819,7 +1819,7 @@ JTextEditor::TEDrawLine
 				{
 				teDrawSpaces(p, +1,  textIter, styleIter, left, wsYCenter, itsWhitespaceColor);
 				}
-			wsInit = kJTrue;
+			wsInit = true;
 			}
 
 		// If there is a tab in the string, we step up to it and take care of
@@ -1829,17 +1829,17 @@ JTextEditor::TEDrawLine
 
 		textIter->BeginMatch();
 
-		JBoolean foundTab = kJFalse;
+		bool foundTab = false;
 		JIndex ci;
 		while (textIter->GetNextCharacterIndex(&ci) && ci <= cr.last)
 			{
-			const JBoolean ok = textIter->Next(&c);
+			const bool ok = textIter->Next(&c);
 			assert( ok );
 
 			if (c == '\t')
 				{
 				textIter->SkipPrev();
-				foundTab = kJTrue;
+				foundTab = true;
 				break;
 				}
 			}
@@ -1848,7 +1848,7 @@ JTextEditor::TEDrawLine
 			{
 			textIter->SkipPrev();
 			endChar--;
-			lineEndsWithNewline = kJTrue;
+			lineEndsWithNewline = true;
 			}
 
 		const JStringMatch& m = textIter->FinishMatch();
@@ -2031,16 +2031,16 @@ JTextEditor::TEDrawSelection
 	// draw the selection region
 
 	const JColorID savedColor = p.GetPenColor();
-	const JBoolean savedFill     = p.IsFilling();
+	const bool savedFill     = p.IsFilling();
 	if (itsSelActiveFlag)
 		{
 		p.SetPenColor(itsSelectionColor);
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		}
 	else
 		{
 		p.SetPenColor(itsSelectionOutlineColor);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		}
 
 	const JCoordinate xmax = JMax(itsGUIWidth, itsWidth);
@@ -2049,7 +2049,7 @@ JTextEditor::TEDrawSelection
 	LineGeometry geom;
 	for (JIndex i=startLine; i<=endLine; i++)
 		{
-		const JBoolean ok = iter.Next(&geom);
+		const bool ok = iter.Next(&geom);
 		assert( ok );
 
 		JCoordinate w;
@@ -2178,12 +2178,12 @@ JTextEditor::TEDrawCaret
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::TEWillDragAndDrop
 	(
 	const JPoint&	pt,
-	const JBoolean	extendSelection,
-	const JBoolean	dropCopy
+	const bool	extendSelection,
+	const bool	dropCopy
 	)
 	const
 {
@@ -2194,7 +2194,7 @@ JTextEditor::TEWillDragAndDrop
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2203,7 +2203,7 @@ JTextEditor::TEWillDragAndDrop
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::PointInSelection
 	(
 	const JPoint& origPt
@@ -2215,12 +2215,12 @@ JTextEditor::PointInSelection
 		const JPoint pt(origPt.x - itsLeftMarginWidth, origPt.y);
 		const CaretLocation caretLoc = CalcCaretLocation(pt);
 
-		return JI2B(itsSelection.charRange.first <= caretLoc.location.charIndex &&
-					caretLoc.location.charIndex <= itsSelection.charRange.last+1);
+		return itsSelection.charRange.first <= caretLoc.location.charIndex &&
+					caretLoc.location.charIndex <= itsSelection.charRange.last+1;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2234,14 +2234,14 @@ JTextEditor::TEHandleMouseDown
 	(
 	const JPoint&	origPt,
 	const JSize		clickCount,
-	const JBoolean	extendSelection,
-	const JBoolean	partialWord
+	const bool	extendSelection,
+	const bool	partialWord
 	)
 {
 	assert( itsActiveFlag );
 
 	itsDragType         = kInvalidDrag;
-	itsIsDragSourceFlag = kJFalse;
+	itsIsDragSourceFlag = false;
 	if (itsType == kStaticText)
 		{
 		return;
@@ -2304,7 +2304,7 @@ JTextEditor::TEHandleMouseDown
 	else if (clickCount == 2)
 		{
 		itsDragType = (partialWord ? kSelectPartialWordDrag : kSelectWordDrag);
-		TEGetDoubleClickSelection(caretLoc.location, partialWord, kJFalse,
+		TEGetDoubleClickSelection(caretLoc.location, partialWord, false,
 								  &itsWordSelPivot);
 		SetSelection(itsWordSelPivot);
 		}
@@ -2343,7 +2343,7 @@ JTextEditor::TEHandleMouseDrag
 
 	if (itsDragType == kSelectDrag && caretLoc.location.charIndex < itsSelectionPivot.charIndex)
 		{
-		SetSelection(TextRange(caretLoc.location, itsSelectionPivot), kJFalse);
+		SetSelection(TextRange(caretLoc.location, itsSelectionPivot), false);
 		BroadcastCaretMessages(caretLoc);
 		}
 	else if (itsDragType == kSelectDrag && caretLoc.location.charIndex == itsSelectionPivot.charIndex)
@@ -2352,22 +2352,22 @@ JTextEditor::TEHandleMouseDrag
 		}
 	else if (itsDragType == kSelectDrag && caretLoc.location.charIndex > itsSelectionPivot.charIndex)
 		{
-		SetSelection(TextRange(itsSelectionPivot, caretLoc.location), kJFalse);
+		SetSelection(TextRange(itsSelectionPivot, caretLoc.location), false);
 		BroadcastCaretMessages(caretLoc);
 		}
 	else if (itsDragType == kSelectWordDrag || itsDragType == kSelectPartialWordDrag)
 		{
 		TextRange range;
 		TEGetDoubleClickSelection(caretLoc.location,
-								  JI2B(itsDragType == kSelectPartialWordDrag),
-								  kJTrue, &range);
+								  itsDragType == kSelectPartialWordDrag,
+								  true, &range);
 
 		const JIndexRange cr = JCovering(itsWordSelPivot.charRange, range.charRange),
 						  br = JCovering(itsWordSelPivot.byteRange, range.byteRange);
 		SetSelection(TextRange(
 			*static_cast<const JCharacterRange*>(&cr),
 			*static_cast<const JUtf8ByteRange*>(&br)),
-			kJFalse);
+			false);
 
 		BroadcastCaretMessages(caretLoc);
 		}
@@ -2376,7 +2376,7 @@ JTextEditor::TEHandleMouseDrag
 		SetSelection(TextRange(
 			GetLineStart( JMin(itsLineSelPivot, caretLoc.lineIndex) ),
 			itsText->AdjustTextIndex(GetLineEnd( JMax(itsLineSelPivot, caretLoc.lineIndex) ), +1)),
-			kJFalse);
+			false);
 		BroadcastCaretMessages(caretLoc);
 		}
 	else if (itsDragType == kDragAndDrop && JMouseMoved(itsStartPt, pt))
@@ -2384,7 +2384,7 @@ JTextEditor::TEHandleMouseDrag
 		itsDragType = kInvalidDrag;		// wait for TEHandleDNDEnter()
 		if (TEBeginDND())
 			{
-			itsIsDragSourceFlag = kJTrue;
+			itsIsDragSourceFlag = true;
 			// switches to TEHandleDND*()
 			}
 		}
@@ -2479,7 +2479,7 @@ void
 JTextEditor::TEHandleDNDHere
 	(
 	const JPoint&	origPt,
-	const JBoolean	dropOnSelf
+	const bool	dropOnSelf
 	)
 {
 	const JPoint pt(origPt.x - itsLeftMarginWidth, origPt.y);
@@ -2534,8 +2534,8 @@ void
 JTextEditor::TEHandleDNDDrop
 	(
 	const JPoint&	pt,
-	const JBoolean	dropOnSelf,
-	const JBoolean	dropCopy
+	const bool	dropOnSelf,
+	const bool	dropCopy
 	)
 {
 	assert( itsDragType == kDragAndDrop );
@@ -2545,11 +2545,11 @@ JTextEditor::TEHandleDNDDrop
 	if (dropOnSelf && itsDropLoc.location.charIndex > 0)
 		{
 		TextRange r;
-		const JBoolean ok = itsText->MoveText(itsSelection, itsDropLoc.location, dropCopy, &r);
+		const bool ok = itsText->MoveText(itsSelection, itsDropLoc.location, dropCopy, &r);
 		assert( ok );
 
 		SetSelection(r);
-		TEScrollToSelection(kJFalse);
+		TEScrollToSelection(false);
 		}
 	else if (!dropOnSelf)
 		{
@@ -2579,8 +2579,8 @@ void
 JTextEditor::TEGetDoubleClickSelection
 	(
 	const TextIndex&	origIndex,
-	const JBoolean		partialWord,
-	const JBoolean		dragging,
+	const bool		partialWord,
+	const bool		dragging,
 	TextRange*			range
 	)
 {
@@ -2621,8 +2621,8 @@ JTextEditor::TEGetDoubleClickSelection
 		if (!iter->AtBeginning())
 			{
 			JUtf8Character c1, c2;
-			const JBoolean ok1 = iter->Prev(&c1, kJFalse);
-			const JBoolean ok2 = iter->Next(&c2, kJFalse);
+			const bool ok1 = iter->Prev(&c1, kJIteratorStay);
+			const bool ok2 = iter->Next(&c2, kJIteratorStay);
 			assert( ok1 && ok2 );
 
 			if (c1 != '\n' && c2 == '\n')
@@ -2657,7 +2657,7 @@ JTextEditor::TEGetDoubleClickSelection
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::TEHitSamePart
 	(
 	const JPoint& pt1,
@@ -2667,7 +2667,7 @@ JTextEditor::TEHitSamePart
 {
 	const CaretLocation loc1 = CalcCaretLocation(pt1);
 	const CaretLocation loc2 = CalcCaretLocation(pt2);
-	return JI2B(loc1 == loc2);
+	return loc1 == loc2;
 }
 
 /******************************************************************************
@@ -2698,17 +2698,17 @@ JTextEditor::SetKeyHandler
 /******************************************************************************
  TEHandleKeyPress (protected)
 
-	Returns kJTrue if the key was processed.
+	Returns true if the key was processed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::TEHandleKeyPress
 	(
 	const JUtf8Character&	origKey,
-	const JBoolean			selectText,
+	const bool			selectText,
 	const CaretMotion		motion,
-	const JBoolean			deleteToTabStop
+	const bool			deleteToTabStop
 	)
 {
 	assert( itsActiveFlag );
@@ -2717,7 +2717,7 @@ JTextEditor::TEHandleKeyPress
 
 	if (TEIsDragging())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	// pre-processing
@@ -2730,7 +2730,7 @@ JTextEditor::TEHandleKeyPress
 
 	// handler
 
-	const JBoolean processed =
+	const bool processed =
 		itsKeyHandler->HandleKeyPress(key, selectText, motion, deleteToTabStop);
 
 	if (processed)
@@ -2754,7 +2754,7 @@ JTextEditor::InsertCharacter
 	const JUtf8Character& c
 	)
 {
-	const JBoolean hadSelection = !itsSelection.IsEmpty();
+	const bool hadSelection = !itsSelection.IsEmpty();
 	if (hadSelection)
 		{
 		FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, itsSelection.charRange.first);
@@ -2784,7 +2784,7 @@ JTextEditor::InsertCharacter
 void
 JTextEditor::BackwardDelete
 	(
-	const JBoolean		deleteToTabStop,
+	const bool		deleteToTabStop,
 	JString*			returnText,
 	JRunArray<JFont>*	returnStyle
 	)
@@ -2798,12 +2798,12 @@ JTextEditor::BackwardDelete
 								returnText, returnStyle, &undo);
 
 	JFont f          = JFontManager::GetDefaultFont();
-	JBoolean setFont = kJFalse;
+	bool setFont = false;
 	if (i.charIndex > 1)
 		{
 		FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, i.charIndex);
 		iter.Prev(&f);
-		setFont = kJTrue;
+		setFont = true;
 		}
 
 	SetCaretLocation(i);
@@ -2828,7 +2828,7 @@ JTextEditor::BackwardDelete
 void
 JTextEditor::ForwardDelete
 	(
-	const JBoolean		deleteToTabStop,
+	const bool		deleteToTabStop,
 	JString*			returnText,
 	JRunArray<JFont>*	returnStyle
 	)
@@ -2881,7 +2881,7 @@ JTextEditor::SetCaretLocation
 
 	itsText->DeactivateCurrentUndo();
 
-	const JBoolean hadSelection      = !itsSelection.IsEmpty();
+	const bool hadSelection      = !itsSelection.IsEmpty();
 	const CaretLocation origCaretLoc = itsCaret;
 
 	if (hadSelection)
@@ -2907,7 +2907,7 @@ JTextEditor::SetCaretLocation
 
 	BroadcastCaretMessages(itsCaret);
 
-	TECaretShouldBlink(kJTrue);
+	TECaretShouldBlink(true);
 }
 
 /******************************************************************************
@@ -3015,7 +3015,7 @@ JTextEditor::GoToLine
 		caretLoc.lineIndex = trueIndex;
 		}
 
-	TEScrollToRect(CalcCaretRect(caretLoc), kJTrue);
+	TEScrollToRect(CalcCaretRect(caretLoc), true);
 	if (IsReadOnly())
 		{
 		SetSelection(TextRange(
@@ -3228,18 +3228,18 @@ JTextEditor::VisualLineIndexToCRLineIndex
 /******************************************************************************
  TEScrollTo (private)
 
-	Scroll to the specified insertion point.  Returns kJTrue if scrolling
+	Scroll to the specified insertion point.  Returns true if scrolling
 	was actually necessary.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::TEScrollTo
 	(
 	const CaretLocation& caretLoc
 	)
 {
-	return TEScrollToRect(CalcCaretRect(caretLoc), kJFalse);
+	return TEScrollToRect(CalcCaretRect(caretLoc), false);
 }
 
 /******************************************************************************
@@ -3282,15 +3282,15 @@ JTextEditor::CalcCaretRect
 /******************************************************************************
  TEScrollToSelection (private)
 
-	Scroll to make the selection or caret visible.  Returns kJTrue if scrolling
+	Scroll to make the selection or caret visible.  Returns true if scrolling
 	was actually necessary.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::TEScrollToSelection
 	(
-	const JBoolean centerInDisplay
+	const bool centerInDisplay
 	)
 {
 	if (!itsSelection.IsEmpty())
@@ -3450,7 +3450,7 @@ JTextEditor::GetLineForChar
 
 	itsLineStarts->SetCompareFunction(JStyledText::CompareCharacterIndices);
 
-	JBoolean found;
+	bool found;
 	JIndex lineIndex =
 		itsLineStarts->SearchSorted1(TextIndex(charIndex, 0), JListT::kAnyMatch, &found);
 	if (!found)
@@ -3483,7 +3483,7 @@ JTextEditor::GetLineForByte
 
 	itsLineStarts->SetCompareFunction(JStyledText::CompareByteIndices);
 
-	JBoolean found;
+	bool found;
 	JIndex lineIndex =
 		itsLineStarts->SearchSorted1(TextIndex(0, byteIndex), JListT::kAnyMatch, &found);
 	if (!found)
@@ -3634,10 +3634,10 @@ JTextEditor::GetStringWidth
 	assert( itsText->GetText().CharacterIndexValid(origStart.charIndex) );
 	assert( itsText->GetText().CharacterIndexValid(end.charIndex) );
 
-	JBoolean allocatedStyleIter = kJFalse;
+	bool allocatedStyleIter = false;
 	if (styleIter == nullptr)
 		{
-		allocatedStyleIter = kJTrue;
+		allocatedStyleIter = true;
 
 		styleIter = jnew FontIterator(itsText->GetStyles(), kJIteratorStartBefore, origStart.charIndex);
 		assert( styleIter != nullptr );
@@ -3663,7 +3663,7 @@ JTextEditor::GetStringWidth
 		JIndex endCharIndex = JMin(styleIter->GetRunEnd(), end.charIndex);
 
 		JIndex tabCharIndex, pretabByteIndex;
-		const JBoolean foundTab = LocateTab(start, endCharIndex, &tabCharIndex, &pretabByteIndex);
+		const bool foundTab = LocateTab(start, endCharIndex, &tabCharIndex, &pretabByteIndex);
 		if (foundTab)
 			{
 			endCharIndex = tabCharIndex - 1;
@@ -3674,7 +3674,7 @@ JTextEditor::GetStringWidth
 			width += styleIter->GetRunData().GetStringWidth(itsFontManager,
 				JString(itsText->GetText().GetBytes(),
 						JUtf8ByteRange(start.byteIndex, pretabByteIndex),
-						kJFalse));
+						JString::kNoCopy));
 			}
 
 		if (foundTab)
@@ -3705,11 +3705,11 @@ JTextEditor::GetStringWidth
  LocateTab (private)
 
 	Returns the index of the first tab character, starting from startIndex.
-	If no tab is found, returns kJFalse, and tabCharIndex = 0.
+	If no tab is found, returns false, and tabCharIndex = 0.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::LocateTab
 	(
 	const TextIndex&	start,
@@ -3732,7 +3732,7 @@ JTextEditor::LocateTab
 			*pretabByteIndex = (iter->AtBeginning() ? 0 : iter->GetPrevByteIndex());
 
 			itsText->DisposeConstIterator(iter);
-			return kJTrue;
+			return true;
 			}
 		i++;
 		}
@@ -3741,7 +3741,7 @@ JTextEditor::LocateTab
 	*pretabByteIndex = iter->GetPrevByteIndex();
 
 	itsText->DisposeConstIterator(iter);
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -3776,7 +3776,7 @@ JTextEditor::GetTabWidth
 void
 JTextEditor::RecalcAll
 	(
-	const JBoolean broadcastCaretMessages
+	const bool broadcastCaretMessages
 	)
 {
 	if (itsBreakCROnlyFlag)
@@ -3893,11 +3893,11 @@ JTextEditor::Recalc
 		newHeight += GetEWNHeight();
 		}
 
-	JBoolean needRefreshLines = kJTrue;
+	bool needRefreshLines = true;
 	if (!itsIsPrintingFlag && newHeight != itsHeight)
 		{
 		TERefresh();	// redraw everything if the line heights changed
-		needRefreshLines = kJFalse;
+		needRefreshLines = false;
 		}
 
 	itsHeight = newHeight;
@@ -3925,7 +3925,7 @@ JTextEditor::Recalc
 
 	if (TEWidthIsBeyondDisplayCapacity(itsWidth))
 		{
-		SetBreakCROnly(kJFalse);
+		SetBreakCROnly(false);
 		}
 }
 
@@ -4095,7 +4095,7 @@ JTextEditor::RecalcLine
 		{
 		// include leading whitespace
 
-		JBoolean endOfLine;
+		bool endOfLine;
 		IncludeWhitespaceOnLine(textIter, styleIter, lineWidth, &endOfLine);
 
 		// Add words until we hit the right margin, a newline,
@@ -4203,7 +4203,7 @@ JTextEditor::RecalcLine
 
 	Return the number of consecutive whitespace characters encountered.
 	Increments *lineWidth with the width of this whitespace.  If we
-	encounter a newline, we stop beyond it and set *endOfLine to kJTrue.
+	encounter a newline, we stop beyond it and set *endOfLine to true.
 
 	Updates *runIndex,*firstInRun so that they are correct for the character
 	beyond the end of the whitespace.
@@ -4216,17 +4216,17 @@ JTextEditor::IncludeWhitespaceOnLine
 	JStringIterator*	textIter,
 	FontIterator*		styleIter,
 	JCoordinate*		lineWidth,
-	JBoolean*			endOfLine
+	bool*			endOfLine
 	)
 	const
 {
 	if (textIter->AtEnd())
 		{
-		*endOfLine = kJFalse;
+		*endOfLine = false;
 		return;
 		}
 
-	*endOfLine = kJFalse;
+	*endOfLine = false;
 
 	TextIndex first(textIter->GetNextCharacterIndex(), textIter->GetNextByteIndex());
 
@@ -4260,14 +4260,14 @@ JTextEditor::IncludeWhitespaceOnLine
 
 				if (!itsBreakCROnlyFlag && *lineWidth > itsWidth)
 					{
-					*endOfLine = kJTrue;
+					*endOfLine = true;
 					break;
 					}
 				}
 			}
 		else if (c == '\n')
 			{
-			*endOfLine = kJTrue;
+			*endOfLine = true;
 			break;
 			}
 		}
@@ -4310,8 +4310,8 @@ JTextEditor::GetSubwordForLine
 	*lineWidth = 0;
 
 	JUtf8Character c;
-	JBoolean first = kJTrue;
-	while (textIter->Next(&c, kJFalse))
+	bool first = true;
+	while (textIter->Next(&c, kJIteratorStay))
 		{
 		const CaretLocation caretLoc(
 			TextIndex(textIter->GetNextCharacterIndex(), textIter->GetNextByteIndex()),
@@ -4326,7 +4326,7 @@ JTextEditor::GetSubwordForLine
 			{
 			*lineWidth += dw;
 			}
-		first = kJFalse;
+		first = false;
 		textIter->SkipNext();
 		styleIter->SkipNext();
 		}
@@ -4335,7 +4335,7 @@ JTextEditor::GetSubwordForLine
 /******************************************************************************
  NoPrevWhitespaceOnLine (private)
 
-	Returns kJTrue if there is no whitespace between index-1 and
+	Returns true if there is no whitespace between index-1 and
 	the first character on the line.
 
 	Called by RecalcRange() to decide whether or not to start on the
@@ -4343,7 +4343,7 @@ JTextEditor::GetSubwordForLine
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::NoPrevWhitespaceOnLine
 	(
 	const TextIndex& index
@@ -4361,12 +4361,12 @@ JTextEditor::NoPrevWhitespaceOnLine
 		if (c.IsSpace())
 			{
 			itsText->DisposeConstIterator(iter);
-			return kJFalse;
+			return false;
 			}
 		}
 
 	itsText->DisposeConstIterator(iter);
-	return kJTrue;	// we hit the start of the string
+	return true;	// we hit the start of the string
 }
 
 /******************************************************************************
@@ -4594,13 +4594,13 @@ JTextEditor::GetCharacter
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::IsTrailingNewline
 	(
 	const TextIndex& index
 	)
 	const
 {
-	return JI2B(index.charIndex == itsText->GetText().GetCharacterCount()+1 &&
-				itsText->EndsWithNewline());
+	return index.charIndex == itsText->GetText().GetCharacterCount()+1 &&
+				itsText->EndsWithNewline();
 }

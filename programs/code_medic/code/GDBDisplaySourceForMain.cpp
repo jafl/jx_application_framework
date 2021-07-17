@@ -42,8 +42,8 @@ GDBDisplaySourceForMain::GDBDisplaySourceForMain
 	CMSourceDirector* sourceDir
 	)
 	:
-	CMDisplaySourceForMain(sourceDir, JString(kCommand[0], kJFalse)),
-	itsHasCoreFlag(kJFalse),
+	CMDisplaySourceForMain(sourceDir, JString(kCommand[0], JString::kNoCopy)),
+	itsHasCoreFlag(false),
 	itsNextCmdIndex(1)
 {
 	ListenTo(CMGetLink());
@@ -113,16 +113,16 @@ GDBDisplaySourceForMain::HandleSuccess
 {
 	if (infoPattern.Match(data))
 		{
-		const JStringMatch m = locationPattern.Match(data, kJTrue);
+		const JStringMatch m = locationPattern.Match(data, JRegex::kIncludeSubmatches);
 		if (!m.IsEmpty())
 			{
 			JIndex lineIndex;
-			const JBoolean ok = m.GetSubstring(2).ConvertToUInt(&lineIndex);
+			const bool ok = m.GetSubstring(2).ConvertToUInt(&lineIndex);
 			assert( ok );
 
 			if (!itsHasCoreFlag)
 				{
-				GetSourceDir()->DisplayFile(m.GetSubstring(1), lineIndex, kJFalse);
+				GetSourceDir()->DisplayFile(m.GetSubstring(1), lineIndex, false);
 				}
 			}
 

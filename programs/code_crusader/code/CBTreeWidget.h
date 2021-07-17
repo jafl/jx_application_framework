@@ -41,19 +41,19 @@ public:
 
 	CBTree*	GetTree() const;
 
-	JBoolean	FindClass(const JString& name,
+	bool	FindClass(const JString& name,
 						  const JXMouseButton button = kJXRightButton,
-						  const JBoolean raiseTreeWindow = kJFalse,
-						  const JBoolean reportNotFound = kJTrue,
-						  const JBoolean openFileIfSingleMatch = kJTrue,
-						  const JBoolean deselectAll = kJTrue) const;
-	JBoolean	FindFunction(const JString& fnName,
-							 const JBoolean caseSensitive,
+						  const bool raiseTreeWindow = false,
+						  const bool reportNotFound = true,
+						  const bool openFileIfSingleMatch = true,
+						  const bool deselectAll = true) const;
+	bool	FindFunction(const JString& fnName,
+							 const bool caseSensitive,
 							 const JXMouseButton button = kJXRightButton,
-							 const JBoolean raiseTreeWindow = kJFalse,
-							 const JBoolean reportNotFound = kJTrue,
-							 const JBoolean openFileIfSingleMatch = kJTrue,
-							 const JBoolean deselectAll = kJTrue) const;
+							 const bool raiseTreeWindow = false,
+							 const bool reportNotFound = true,
+							 const bool openFileIfSingleMatch = true,
+							 const bool deselectAll = true) const;
 
 	void	Print(JPagePrinter& p);
 	void	Print(JEPSPrinter& p);
@@ -61,8 +61,8 @@ public:
 	void	ReadSetup(std::istream& setInput, const JFileVersion setVers);
 	void	WriteSetup(std::ostream& setOutput) const;
 
-	static JBoolean	WillRaiseWindowWhenSingleMatch();
-	static void		ShouldRaiseWindowWhenSingleMatch(const JBoolean raise);
+	static bool	WillRaiseWindowWhenSingleMatch();
+	static void		ShouldRaiseWindowWhenSingleMatch(const bool raise);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c,
 								   const int keySym, const JXKeyModifiers& modifiers) override;
@@ -77,7 +77,7 @@ protected:
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
+	virtual bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	virtual void	GetSelectionData(JXSelectionData* data,
 									 const JString& id) override;
@@ -85,9 +85,9 @@ protected:
 								 const JXButtonStates& buttonStates,
 								 const JXKeyModifiers& modifiers) override;
 	virtual void	HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action) override;
+									  const bool dropAccepted, const Atom action) override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
@@ -118,7 +118,7 @@ private:
 	Time			itsMouseDownTime;
 	CBClass*		itsFnMenuClass;		// not owned
 
-	static JBoolean	itsRaiseWhenSingleMatchFlag;
+	static bool	itsRaiseWhenSingleMatchFlag;
 
 private:
 
@@ -149,7 +149,7 @@ CBTreeWidget::GetTree()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTreeWidget::WillRaiseWindowWhenSingleMatch()
 {
 	return itsRaiseWhenSingleMatchFlag;
@@ -158,7 +158,7 @@ CBTreeWidget::WillRaiseWindowWhenSingleMatch()
 inline void
 CBTreeWidget::ShouldRaiseWindowWhenSingleMatch
 	(
-	const JBoolean raise
+	const bool raise
 	)
 {
 	itsRaiseWhenSingleMatchFlag = raise;

@@ -1,4 +1,4 @@
-jx_browser_data 87
+jx_browser_data 88
 # project tree
 0 "root"
 T
@@ -945,10 +945,10 @@ F
 # tasks
 4
 "makemake"
-T "./" "make -k personal" "" T F T F T F T "Build personal (static)" "" " =(l,*afwISdTYg6?EW,::CBCommandManager" T
-T "./" "make update_jcc" "" T F T F T F T "Update jcc code" "" " =(l,*afwISdTYg6?EW,::CBCommandManager" T
-T "./" "&make_default ; $program test/var_tree/vartree" "" F F F F T F F "Build & Run var_tree" "F10" "B+)Aw+h5(i~v5.aEj(K}::CBCommandManager" F
-T "./test/java" "&make_default ; ../../$program" "" F F F F T F F "Build & Run test-java" "F11" "buisq_rB]DwU{C$m7*o-::CBCommandManager" F
+T "./" "make -k personal" "" TFTFTFT "Build personal (static)" "" " =(l,*afwISdTYg6?EW,::CBCommandManager" T
+T "./" "make update_jcc" "" TFTFTFT "Update jcc code" "" " =(l,*afwISdTYg6?EW,::CBCommandManager" T
+T "./" "&make_default ; $program test/var_tree/vartree" "" FFFFTFF "Build & Run var_tree" "F10" "B+)Aw+h5(i~v5.aEj(K}::CBCommandManager" F
+T "./test/java" "&make_default ; ../../$program" "" FFFFTFF "Build & Run test-java" "F11" "buisq_rB]DwU{C$m7*o-::CBCommandManager" F
 F
 # build settings
 1
@@ -962,8 +962,8 @@ T "../../libjcore/code/" T
 T "../../libjexpr/code" T
 T "../../libjx/code/" T
 T "../../libjx/image/" T
-T "./JCC" T
 T "./code/" T
+T "./JCC" T
 T "./lldb-include/" T
 T "./strings/" T
 F

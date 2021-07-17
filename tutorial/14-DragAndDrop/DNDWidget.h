@@ -45,7 +45,7 @@ protected:
 	virtual void	GetSelectionData(JXSelectionData* data,
 									 const JCharacter* id) override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 

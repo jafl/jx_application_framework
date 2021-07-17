@@ -261,7 +261,7 @@ JXHorizPartition::HandleMouseDrag
 		if (pt.x != itsPrevPt.x)
 			{
 			JPainter* p = nullptr;
-			const JBoolean ok = GetDragPainter(&p);
+			const bool ok = GetDragPainter(&p);
 			assert( ok );
 
 			JRect ap = GetAperture();
@@ -294,7 +294,7 @@ JXHorizPartition::HandleMouseUp
 		// erase the line
 
 		JPainter* p = nullptr;
-		const JBoolean ok = GetDragPainter(&p);
+		const bool ok = GetDragPainter(&p);
 		assert( ok );
 
 		JRect ap = GetAperture();
@@ -347,10 +347,10 @@ JXHorizPartition::AdjustCursor
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXHorizPartition::RunInternalFTC
 	(
-	const JBoolean	horizontal,
+	const bool	horizontal,
 	JCoordinate*	newSize
 	)
 {
@@ -371,7 +371,7 @@ JXHorizPartition::RunInternalFTC
 			{
 			JCoordinate w, delta;
 			const JRect padding = obj->ComputePaddingForInternalFTC();
-			if (obj->RunInternalFTC(kJTrue, &w))
+			if (obj->RunInternalFTC(true, &w))
 				{
 				w    += padding.left + padding.right;
 				delta = w - obj->GetApertureWidth();
@@ -397,7 +397,7 @@ JXHorizPartition::RunInternalFTC
 		while (iter.Next(&obj))
 			{
 			JCoordinate h1;
-			if (obj->RunInternalFTC(kJFalse, &h1))
+			if (obj->RunInternalFTC(false, &h1))
 				{
 				obj->FTCAdjustSize(0, h1 - obj->GetApertureHeight());
 				}
@@ -418,7 +418,7 @@ JXHorizPartition::RunInternalFTC
 		*newSize = h + 2 * GetBorderWidth();
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -459,7 +459,7 @@ JXHorizPartition::FTCAdjustSize
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXHorizPartition::SaveGeometryForLater
 	(
 	const JArray<JCoordinate>& sizes
@@ -479,5 +479,5 @@ JXHorizPartition::SaveGeometryForLater
 		*itsSavedGeom = sizes;
 		}
 
-	return kJTrue;
+	return true;
 }

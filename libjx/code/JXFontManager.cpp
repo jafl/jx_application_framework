@@ -121,7 +121,7 @@ jInsertFontName
 	JString*			name
 	)
 {
-	JBoolean isDuplicate;
+	bool isDuplicate;
 	const JIndex index = fontNames->GetInsertionSortIndex(name, &isDuplicate);
 	if (!isDuplicate)
 		{
@@ -137,7 +137,7 @@ JXFontManager::GetFontNames
 {
 	if (itsAllFontNames != nullptr)
 		{
-		fontNames->CopyObjects(*itsAllFontNames, fontNames->GetCleanUpAction(), kJFalse);
+		fontNames->CopyObjects(*itsAllFontNames, fontNames->GetCleanUpAction(), false);
 		return;
 		}
 
@@ -235,7 +235,7 @@ JXFontManager::GetMonospaceFontNames
 {
 	if (itsMonoFontNames != nullptr)
 		{
-		fontNames->CopyObjects(*itsMonoFontNames, fontNames->GetCleanUpAction(), kJFalse);
+		fontNames->CopyObjects(*itsMonoFontNames, fontNames->GetCleanUpAction(), false);
 		return;
 		}
 
@@ -312,10 +312,10 @@ JXFontManager::GetXFontNames
 	for (int i=0; i<nameCount; i++)
 		{
 		if (strcmp(nameList[i], "nil") != 0 &&
-			regex.Match(JString(nameList[i], kJFalse)))
+			regex.Match(JString(nameList[i], JString::kNoCopy)))
 			{
-			JString name(nameList[i], kJFalse);
-			JBoolean isDuplicate;
+			JString name(nameList[i], JString::kNoCopy);
+			bool isDuplicate;
 			const JIndex index = fontNames->GetInsertionSortIndex(&name, &isDuplicate);
 			if (!isDuplicate)
 				{
@@ -335,11 +335,11 @@ JXFontManager::GetXFontNames
 	If all font sizes are supported (e.g. TrueType), returns reasonable
 	min and max, and empty sizeList.
 
-	Returns kJFalse if there is no font with the specified name.
+	Returns false if there is no font with the specified name.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFontManager::GetFontSizes
 	(
 	const JString&	name,
@@ -352,7 +352,7 @@ JXFontManager::GetFontSizes
 
 	*minSize = 8;
 	*maxSize = 24;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -364,7 +364,7 @@ JXFontManager::GetFontSizes
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFontManager::GetXFont
 	(
 	const JString&	xFontStr,
@@ -384,7 +384,7 @@ JXFontManager::GetXFont
 		{
 		*font = jnew JFont(GetFont(id));
 		assert( font != nullptr );
-		return kJTrue;
+		return true;
 		}
 
 	// falling through means we need to create a new entry
@@ -409,19 +409,19 @@ JXFontManager::GetXFont
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	info.filled    = kJTrue;
-	info.exact     = kJTrue;
+	info.filled    = true;
+	info.exact     = true;
 	info.monoWidth = IsMonospace(info.xfont);
 
 	itsFontList->SetElement(id, info);
 
 	*font = jnew JFont(GetFont(id));
 	assert( font != nullptr );
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -429,7 +429,7 @@ JXFontManager::GetXFont
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFontManager::IsExact
 	(
 	const JFontID id
@@ -443,7 +443,7 @@ JXFontManager::IsExact
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFontManager::HasGlyphForCharacter
 	(
 	const JFontID			id,
@@ -453,11 +453,11 @@ JXFontManager::HasGlyphForCharacter
 	XFont info = GetXFontInfo(id);
 	if (info.type == kTrueType)
 		{
-		return JI2B( FcCharSetHasChar(info.xftt->charset, c.GetUtf32()) );
+		return FcCharSetHasChar(info.xftt->charset, c.GetUtf32());
 		}
 	else
 		{
-		return kJTrue;	// no way to tell?
+		return true;	// no way to tell?
 		}
 }
 
@@ -466,7 +466,7 @@ JXFontManager::HasGlyphForCharacter
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFontManager::GetSubstituteFontName
 	(
 	const JFont&			f,
@@ -477,15 +477,15 @@ JXFontManager::GetSubstituteFontName
 	JFont f1 = f;
 	for (const JUtf8Byte* n : kFallbackFontNames)
 		{
-		f1.SetName(JString(n, kJFalse));
+		f1.SetName(JString(n, JString::kNoCopy));
 		if (HasGlyphForCharacter(f1.GetID(), c))
 			{
 			name->Set(n);
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -661,15 +661,15 @@ JXFontManager::ResolveFontID
 
 	if (GetNewFont(f.GetName(), f.GetSize(), f.GetStyle(), &(info.xfont)))
 		{
-		info.exact = kJTrue;
+		info.exact = true;
 		}
 	else
 		{
-		info.exact = kJFalse;
+		info.exact = false;
 		ApproximateFont(f.GetName(), f.GetSize(), f.GetStyle(), &(info.xfont));
 		}
 
-	info.filled    = kJTrue;
+	info.filled    = true;
 	info.monoWidth = IsMonospace(info.xfont);
 
 	itsFontList->SetElement(id, info);
@@ -681,7 +681,7 @@ JXFontManager::ResolveFontID
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFontManager::GetNewFont
 	(
 	const JString&		origName,
@@ -699,7 +699,7 @@ JXFontManager::GetNewFont
 			{
 			xfont->type = kTrueType;
 			xfont->xftt = xft;
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -710,10 +710,10 @@ JXFontManager::GetNewFont
 
 	const JUtf8Byte* spacing = "normal";
 
-	const JStringMatch m = nxmRegex.Match(name, kJTrue);
+	const JStringMatch m = nxmRegex.Match(name, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
 		{
-		JBoolean ok = m.GetSubstring(1).ConvertToUInt(&pixelWidth);
+		bool ok = m.GetSubstring(1).ConvertToUInt(&pixelWidth);
 		assert(ok);
 
 		ok = m.GetSubstring(2).ConvertToUInt(&pixelSize);
@@ -743,7 +743,7 @@ JXFontManager::GetNewFont
 			XFreeStringList(missingCharsetList);
 			xfont->type  = kStdType;
 			xfont->xfset = set;
-			return kJTrue;
+			return true;
 			}
 
 		if (strcmp(italicStr, kObliqueStr) == 0 && style.italic)
@@ -752,7 +752,7 @@ JXFontManager::GetNewFont
 			}
 		else
 			{
-			return kJFalse;	// give up
+			return false;	// give up
 			}
 		}
 }
@@ -776,7 +776,7 @@ JXFontManager::BuildStdFontName
 {
 	// any foundry
 
-	JString xFontStr("-*-", kJFalse);
+	JString xFontStr("-*-");
 
 	// given name
 
@@ -868,7 +868,7 @@ JXFontManager::BuildStdFontName
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFontManager::BuildTrueTypeFontName
 	(
 	const JString&		xName,
@@ -883,7 +883,7 @@ JXFontManager::BuildTrueTypeFontName
 
 	if (nxmRegex.Match(xName))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// name
@@ -924,7 +924,7 @@ JXFontManager::BuildTrueTypeFontName
 
 	// success
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -987,12 +987,12 @@ JXFontManager::ApproximateFont
 			}
 		else if (style.bold)
 			{
-			style.bold = kJFalse;
+			style.bold = false;
 			size       = origSize;
 			}
 		else if (style.italic)
 			{
-			style.italic = kJFalse;
+			style.italic = false;
 			size         = origSize;
 			}
 		else if (name != JFontManager::GetDefaultFontName())
@@ -1008,7 +1008,7 @@ JXFontManager::ApproximateFont
 			std::cerr << "The X server does not have any 75 dpi PostScript fonts, not even ";
 			std::cerr << JFontManager::GetDefaultFontName() << std::endl;
 			std::cerr << "Please install the xorg-x11-fonts-75dpi package" << std::endl;
-			JXApplication::Abort(JXDocumentManager::kServerDead, kJFalse);
+			JXApplication::Abort(JXDocumentManager::kServerDead, false);
 			}
 
 		if (GetNewFont(name, size, style, xfont))
@@ -1037,7 +1037,7 @@ JXFontManager::ConvertToPSFontName
 		{
 		if (prev.GetByteCount() == 0 || prev.IsSpace())
 			{
-			iter.SetPrev(c.ToUpper(), kJFalse);
+			iter.SetPrev(c.ToUpper(), kJIteratorStay);
 			}
 		prev = c;
 		}
@@ -1087,17 +1087,17 @@ JXFontManager::IsMonospace
 /******************************************************************************
  ShouldIgnore (private)
 
-	Returns kJTrue if the font should be ignored.
+	Returns true if the font should be ignored.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFontManager::ShouldIgnore
 	(
 	const JString& name
 	)
 {
-	return JI2B(name.GetFirstCharacter() == '.');
+	return name.GetFirstCharacter() == '.';
 }
 
 /******************************************************************************

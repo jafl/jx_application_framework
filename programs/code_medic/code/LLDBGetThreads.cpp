@@ -89,8 +89,8 @@ LLDBGetThreads::HandleSuccess
 		if (file.IsValid())
 			{
 			fileName = JCombinePathAndName(
-				JString(file.GetDirectory(), kJFalse),
-				JString(file.GetFilename(), kJFalse));
+				JString(file.GetDirectory(), JString::kNoCopy),
+				JString(file.GetFilename(), JString::kNoCopy));
 
 			lineIndex = e.GetLine();
 			}
@@ -103,7 +103,7 @@ LLDBGetThreads::HandleSuccess
 		t.GetDescription(stream);
 		name = stream.GetData();
 
-		const JStringMatch m = threadIDPattern.Match(name, kJTrue);
+		const JStringMatch m = threadIDPattern.Match(name, JRegex::kIncludeSubmatches);
 		if (!m.IsEmpty())
 			{
 			indexStr = m.GetSubstring(1);

@@ -142,24 +142,24 @@ public:
 
 public:
 
-	CBPrefsManager(JBoolean* isNew);
+	CBPrefsManager(bool* isNew);
 
 	virtual ~CBPrefsManager();
 
 	JString		GetJCCVersionStr() const;
 
-	JBoolean	GetExpirationTimeStamp(time_t* t) const;
+	bool	GetExpirationTimeStamp(time_t* t) const;
 	void		SetExpirationTimeStamp(const time_t t);
 
 	void		EditFileTypes();
 	void		EditMacros(CBMacroManager* macroMgr);
 	void		EditCRMRuleLists(JStyledText::CRMRuleList* ruleList);
 
-	JBoolean	GetWindowSize(const JPrefID& id, JPoint* desktopLoc,
+	bool	GetWindowSize(const JPrefID& id, JPoint* desktopLoc,
 							  JCoordinate* width, JCoordinate* height) const;
 	void		SaveWindowSize(const JPrefID& id, JXWindow* window);
 
-	JBoolean	RestoreProgramState();
+	bool	RestoreProgramState();
 	void		SaveProgramState();
 	void		ForgetProgramState();
 
@@ -170,7 +170,7 @@ public:
 
 	JColorID		GetColor(const JIndex index) const;
 	void			SetColor(const JIndex index, const JColorID color);
-	static JBoolean	ColorIndexValid(const JIndex index);
+	static bool	ColorIndexValid(const JIndex index);
 
 	CBEmulator	GetEmulator() const;
 	void		SetEmulator(const CBEmulator type);
@@ -181,9 +181,9 @@ public:
 	CBTextFileType	GetFileType(const CBTextDocument& doc,
 								CBCharActionManager** actionMgr, CBMacroManager** macroMgr,
 								JStyledText::CRMRuleList** crmRuleList,
-								JString* scriptPath, JBoolean* wordWrap) const;
+								JString* scriptPath, bool* wordWrap) const;
 
-	JBoolean		EditWithOtherProgram(const JString& fileName, JString* cmd) const;
+	bool		EditWithOtherProgram(const JString& fileName, JString* cmd) const;
 
 	void	GetFileSuffixes(const CBTextFileType type,
 							JPtrArray<JString>* list) const;
@@ -193,14 +193,14 @@ public:
 									   JIndex* index) const;
 	void	SetDefaultComplementSuffix(const JIndex index, const JString& name);
 
-	static JBoolean	FileMatchesSuffix(const JString& fileName,
+	static bool	FileMatchesSuffix(const JString& fileName,
 									  const JPtrArray<JString>& suffixList);
 
-	static JBoolean	GetScriptPaths(JString* sysDir, JString* userDir);
+	static bool	GetScriptPaths(JString* sysDir, JString* userDir);
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion) override;
+	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
 	virtual void	SaveAllBeforeDestruct() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -215,9 +215,9 @@ public:
 		CBTextFileType			type;
 		JIndex					macroID;		// MacroSetInfo::id
 		JIndex					crmID;			// CRMRuleListInfo::id
-		JBoolean				isUserScript;	// kJTrue if relative to ~/.jxcb/scripts/
+		bool				isUserScript;	// true if relative to ~/.jxcb/scripts/
 		JString*				scriptPath;		// nullptr if none; *relative*
-		JBoolean				wordWrap;
+		bool				wordWrap;
 		JString*				complSuffix;
 		JString*				editCmd;		// nullptr if type != kCBExternalFT
 
@@ -225,21 +225,21 @@ public:
 			:
 			suffix(nullptr), nameRegex(nullptr), contentRegex(nullptr), type(kCBUnknownFT),
 			macroID(kCBEmptyMacroID), crmID(kCBEmptyCRMRuleListID),
-			isUserScript(kJTrue), scriptPath(nullptr),
-			wordWrap(kJTrue), complSuffix(nullptr), editCmd(nullptr)
+			isUserScript(true), scriptPath(nullptr),
+			wordWrap(true), complSuffix(nullptr), editCmd(nullptr)
 		{ };
 
 		FileTypeInfo(JString* s, JRegex* nr, JRegex* cr, const CBTextFileType t,
 					 const JIndex macro, const JIndex crm,
-					 const JBoolean us, JString* sp,
-					 const JBoolean wrap, JString* cs, JString* ec)
+					 const bool us, JString* sp,
+					 const bool wrap, JString* cs, JString* ec)
 			:
 			suffix(s), nameRegex(nr), contentRegex(cr), type(t),
 			macroID(macro), crmID(crm), isUserScript(us), scriptPath(sp),
 			wordWrap(wrap), complSuffix(cs), editCmd(ec)
 		{ };
 
-		JBoolean	IsPlainSuffix() const;
+		bool	IsPlainSuffix() const;
 		void		CreateRegex();
 		void		Free();
 	};
@@ -273,11 +273,11 @@ public:
 		void	Free();
 	};
 
-	static JBoolean	FindMacroID(const JArray<MacroSetInfo>& list,
+	static bool	FindMacroID(const JArray<MacroSetInfo>& list,
 								const JIndex id, JIndex* index);
 	static JIndex	FindMacroName(const JUtf8Byte* macroName,
 								  JArray<MacroSetInfo>* macroList,
-								  const JBoolean create);
+								  const bool create);
 
 	struct CRMRuleListInfo
 	{
@@ -301,7 +301,7 @@ public:
 		void	Free();
 	};
 
-	static JBoolean	FindCRMRuleListID(const JArray<CRMRuleListInfo>& list,
+	static bool	FindCRMRuleListID(const JArray<CRMRuleListInfo>& list,
 									  const JIndex id, JIndex* index);
 	static JIndex	FindCRMRuleListName(const JUtf8Byte* crmName,
 										const JArray<CRMRuleListInfo>& crmList);
@@ -311,8 +311,8 @@ private:
 	JArray<FileTypeInfo>*		itsFileTypeList;
 	JArray<MacroSetInfo>*		itsMacroList;
 	JArray<CRMRuleListInfo>*	itsCRMList;
-	JBoolean					itsExecOutputWordWrapFlag;
-	JBoolean					itsUnknownTypeWordWrapFlag;
+	bool					itsExecOutputWordWrapFlag;
+	bool					itsUnknownTypeWordWrapFlag;
 
 	JColorID	itsColor [ kColorCount ];
 
@@ -356,7 +356,7 @@ private:
 	JArray<CRMRuleListInfo>*	CreateCRMList();
 
 	CBTextFileType	GetFileType(const JString& fileName, JIndex* index) const;
-	JBoolean		CalcFileType(const CBTextDocument& doc, JIndex* index) const;
+	bool		CalcFileType(const CBTextDocument& doc, JIndex* index) const;
 	JString			CleanFileName(const JString& name) const;
 
 	void	ReadColors();
@@ -394,32 +394,32 @@ public:
 			{
 				for (JUnsignedOffset i=0; i<kCBFTCount; i++)
 					{
-					itsStatus[i] = kJFalse;
+					itsStatus[i] = false;
 					}
 			};
 
-			JBoolean
+			bool
 			Changed(const CBTextFileType fileType)
 				const
 			{
 				return itsStatus[ fileType ];
 			}
 
-			JBoolean
-			Changed(JBoolean (*typeCheckFn)(const CBTextFileType type))
+			bool
+			Changed(bool (*typeCheckFn)(const CBTextFileType type))
 				const
 			{
 				for (JUnsignedOffset i=0; i<kCBFTCount; i++)
 					{
 					if (itsStatus[i] && typeCheckFn((CBTextFileType) i))
 						{
-						return kJTrue;
+						return true;
 						}
 					}
-				return kJFalse;
+				return false;
 			}
 
-			JBoolean
+			bool
 			AnyChanged()
 				const
 			{
@@ -427,21 +427,21 @@ public:
 					{
 					if (itsStatus[i])
 						{
-						return kJTrue;
+						return true;
 						}
 					}
-				return kJFalse;
+				return false;
 			}
 
 			void
-			SetChanged(const CBTextFileType fileType, const JBoolean status)
+			SetChanged(const CBTextFileType fileType, const bool status)
 			{
 				itsStatus[ fileType ] = status;
 			}
 
 		private:
 
-			JBoolean itsStatus[ kCBFTCount ];
+			bool itsStatus[ kCBFTCount ];
 		};
 
 	class TextColorChanged : public JBroadcaster::Message
@@ -461,13 +461,13 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBPrefsManager::ColorIndexValid
 	(
 	const JIndex index
 	)
 {
-	return JI2B( 1 <= index && index <= kColorCount );
+	return 1 <= index && index <= kColorCount;
 }
 
 #endif

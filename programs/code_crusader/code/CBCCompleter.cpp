@@ -48,19 +48,19 @@ const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStringCompleter*
 CBCCompleter::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBCCompleter;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -84,7 +84,7 @@ CBCCompleter::Shutdown()
 
 CBCCompleter::CBCCompleter()
 	:
-	CBStringCompleter(kCBCLang, kKeywordCount, kKeywordList, kJTrue)
+	CBStringCompleter(kCBCLang, kKeywordCount, kKeywordList, JString::kCompareCase)
 {
 }
 
@@ -106,15 +106,15 @@ CBCCompleter::~CBCCompleter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCCompleter::IsWordCharacter
 	(
 	const JUtf8Character&	c,
-	const JBoolean			includeNS
+	const bool			includeNS
 	)
 	const
 {
-	return JI2B(c.IsAlnum() || c == '_' || (includeNS && c == ':'));
+	return c.IsAlnum() || c == '_' || (includeNS && c == ':');
 }
 
 /******************************************************************************

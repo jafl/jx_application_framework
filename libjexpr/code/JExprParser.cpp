@@ -52,7 +52,7 @@ JExprParser::~JExprParser()
 
  *****************************************************************************/
 
-JBoolean
+bool
 JExprParser::Parse
 	(
 	const JString&	expr,
@@ -76,7 +76,7 @@ JExprParser::Parse
 	itsScanner     = nullptr;
 	itsParseResult = nullptr;
 
-	return JI2B( *f != nullptr );
+	return *f != nullptr;
 }
 
 /******************************************************************************

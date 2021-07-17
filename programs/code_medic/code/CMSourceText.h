@@ -58,7 +58,7 @@ protected:
 
 		StyledText(CMSourceText* owner, JFontManager* fontManager)
 			:
-			JXStyledText(kJFalse, kJFalse, fontManager),
+			JXStyledText(false, false, fontManager),
 			itsOwner(owner),
 			itsTokenStartList(JSTStyler::NewTokenStartList())
 		{ };
@@ -71,7 +71,7 @@ protected:
 													JRunArray<JFont>* styles,
 													TextRange* recalcRange,
 													TextRange* redrawRange,
-													const JBoolean deletion);
+													const bool deletion);
 
 		private:
 
@@ -92,7 +92,7 @@ private:
 private:
 
 	void		UpdateCustomSearchMenuItems();
-	JBoolean	HandleCustomSearchMenuItems(const JIndex index);
+	bool	HandleCustomSearchMenuItems(const JIndex index);
 
 	// not allowed
 

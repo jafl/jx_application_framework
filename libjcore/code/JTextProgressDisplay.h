@@ -21,9 +21,9 @@ public:
 
 	virtual ~JTextProgressDisplay();
 
-	virtual JBoolean	IncrementProgress(const JString& message = JString::empty);
-	virtual JBoolean	IncrementProgress(const JSize delta);
-	virtual JBoolean	IncrementProgress(const JString& message,
+	virtual bool	IncrementProgress(const JString& message = JString::empty);
+	virtual bool	IncrementProgress(const JSize delta);
+	virtual bool	IncrementProgress(const JString& message,
 										  const JSize delta);
 	virtual void		ProcessFinished();
 	virtual void		DisplayBusyCursor();
@@ -31,10 +31,10 @@ public:
 protected:
 
 	virtual void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
-									 const JString& message, const JBoolean allowCancel,
-									 const JBoolean allowBackground);
+									 const JString& message, const bool allowCancel,
+									 const bool allowBackground);
 
-	virtual JBoolean	CheckForCancel();
+	virtual bool	CheckForCancel();
 
 private:
 

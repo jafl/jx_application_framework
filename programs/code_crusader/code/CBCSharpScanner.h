@@ -92,10 +92,10 @@ protected:
 
 private:
 
-	JBoolean				itsResetFlag;
+	bool				itsResetFlag;
 	JStyledText::TextRange	itsCurrentRange;
 	JStyledText::TextRange	itsPPNameRange;
-	JBoolean				itsIsDocCommentFlag;
+	bool				itsIsDocCommentFlag;
 
 private:
 

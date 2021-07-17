@@ -30,7 +30,7 @@ const JSize kHistoryLength = 20;
 
 // setup information
 
-static const JString kPrefsFileRoot("jx/jfs/run_file_dialog", kJFalse);
+static const JString kPrefsFileRoot("jx/jfs/run_file_dialog", JString::kNoCopy);
 const JFileVersion kCurrentPrefsVersion = 0;
 
 /******************************************************************************
@@ -41,10 +41,10 @@ const JFileVersion kCurrentPrefsVersion = 0;
 JXFSRunFileDialog::JXFSRunFileDialog
 	(
 	const JString&	fileName,
-	const JBoolean	allowSaveCmd
+	const bool	allowSaveCmd
 	)
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue)
+	JXDialogDirector(JXGetApplication(), true)
 {
 	BuildWindow(fileName, allowSaveCmd);
 }
@@ -63,17 +63,17 @@ JXFSRunFileDialog::~JXFSRunFileDialog()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSRunFileDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
 		WriteSetup();	// here because we are invoked again before dtor
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -83,7 +83,7 @@ JXFSRunFileDialog::OKToDeactivate()
 									  itsSingleFileCB->IsChecked());
 
 		WriteSetup();	// here because we are invoked again before dtor
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -96,8 +96,8 @@ const JString&
 JXFSRunFileDialog::GetCommand
 	(
 	JFSBinding::CommandType*	type,
-	JBoolean*					singleFile,
-	JBoolean*					saveBinding
+	bool*					singleFile,
+	bool*					saveBinding
 	)
 	const
 {
@@ -119,7 +119,7 @@ void
 JXFSRunFileDialog::BuildWindow
 	(
 	const JString&	fileName,
-	const JBoolean	allowSaveCmd
+	const bool	allowSaveCmd
 	)
 {
 // begin JXLayout
@@ -208,7 +208,7 @@ JXFSRunFileDialog::BuildWindow
 
 	window->SetTitle(JGetString("WindowTitle::JXFSRunFileDialog"));
 	window->LockCurrentMinSize();
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	ftcContainer->SetNeedsInternalFTC();
 
 	ListenTo(itsChooseCmdButton);
@@ -219,7 +219,7 @@ JXFSRunFileDialog::BuildWindow
 	ListenTo(itsCmdInput);
 
 	itsCmdInput->SetFont(JFontManager::GetDefaultMonospaceFont());
-	itsCmdHistoryMenu->SetDefaultFont(JFontManager::GetDefaultMonospaceFont(), kJTrue);
+	itsCmdHistoryMenu->SetDefaultFont(JFontManager::GetDefaultMonospaceFont(), true);
 
 	// check for suffix
 
@@ -258,7 +258,7 @@ JXFSRunFileDialog::BuildWindow
 
 	// adjust window width to fit prompt
 
-	prompt->SetBreakCROnly(kJTrue);
+	prompt->SetBreakCROnly(true);
 	const JSize prefw = prompt->TEGetMinPreferredGUIWidth() + 10;
 	const JSize apw   = prompt->GetApertureWidth();
 	if (prefw > apw)
@@ -344,22 +344,22 @@ JXFSRunFileDialog::HandleHistoryMenu
 	)
 {
 	JFSBinding::CommandType type;
-	JBoolean singleFile;
+	bool singleFile;
 	const JString& cmd = menu->GetCommand(message, &type, &singleFile);
 
 	cmdInput->Focus();
 	cmdInput->GetText()->SetText(cmd);
 	cmdInput->SelectAll();
 
-	shellCB->SetState(kJFalse);
-	windowCB->SetState(kJFalse);
+	shellCB->SetState(false);
+	windowCB->SetState(false);
 	if (type == JFSBinding::kRunInShell)
 		{
-		shellCB->SetState(kJTrue);
+		shellCB->SetState(true);
 		}
 	else if (type == JFSBinding::kRunInWindow)
 		{
-		windowCB->SetState(kJTrue);
+		windowCB->SetState(true);
 		}
 
 	if (singleFileCB != nullptr)
@@ -397,16 +397,16 @@ JXFSRunFileDialog::HandleChooseCmdButton
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSRunFileDialog::ReadSetup()
 {
-	JBoolean found = kJFalse;
+	bool found = false;
 
 	JPrefsFile* file = nullptr;
 	if ((JPrefsFile::Create(kPrefsFileRoot, &file,
 							JFileArray::kDeleteIfWaitTimeout)).OK())
 		{
-		for (JFileVersion vers = kCurrentPrefsVersion; kJTrue; vers--)
+		for (JFileVersion vers = kCurrentPrefsVersion; true; vers--)
 			{
 			if (file->IDValid(vers))
 				{
@@ -414,7 +414,7 @@ JXFSRunFileDialog::ReadSetup()
 				file->GetData(vers, &data);
 				std::istringstream input(data);
 				ReadSetup(input);
-				found = kJTrue;
+				found = true;
 				break;
 				}
 
@@ -467,7 +467,7 @@ JXFSRunFileDialog::ReadSetup
 	window->Deiconify();
 
 	JString s;
-	JBoolean checked;
+	bool checked;
 
 	input >> s;
 	itsCmdInput->GetText()->SetText(s);

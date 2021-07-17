@@ -188,7 +188,7 @@ JFileArrayIndex::SetElementID
 		// we scream if newID has already been used
 
 		JFAIndex origIndex;
-		const JBoolean ok = GetElementIndexFromID(newID, &origIndex);
+		const bool ok = GetElementIndexFromID(newID, &origIndex);
 		assert( !ok );
 
 		// store the new ID
@@ -202,11 +202,11 @@ JFileArrayIndex::SetElementID
  GetElementIndexFromID
 
 	Return the index of the element with the specified ID.
-	Returns kJFalse if there is no element with the specified ID.
+	Returns false if there is no element with the specified ID.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileArrayIndex::GetElementIndexFromID
 	(
 	const JFAID&	id,
@@ -221,12 +221,12 @@ JFileArrayIndex::GetElementIndexFromID
 		if ((elementInfo.id).GetID() == id.GetID())
 			{
 			index->SetIndex(i);
-			return kJTrue;
+			return true;
 			}
 		}
 
 	index->SetIndex(JFAIndex::kInvalidIndex);
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -341,7 +341,7 @@ JFileArrayIndex::SetToEmbeddedFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileArrayIndex::IsEmbeddedFile
 	(
 	const JFAIndex& index
@@ -349,7 +349,7 @@ JFileArrayIndex::IsEmbeddedFile
 	const
 {
 	const ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
-	return JConvertToBoolean( elementInfo.type == kEmbeddedFile );
+	return elementInfo.type == kEmbeddedFile;
 }
 
 /******************************************************************************
@@ -415,7 +415,7 @@ JFileArrayIndex::EmbeddedFileClosed
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileArrayIndex::EmbeddedFileIsClosed
 	(
 	const JFAIndex& index
@@ -423,7 +423,7 @@ JFileArrayIndex::EmbeddedFileIsClosed
 	const
 {
 	const ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
-	return JConvertToBoolean( elementInfo.theEmbeddedFile == nullptr );
+	return elementInfo.theEmbeddedFile == nullptr;
 }
 
 /******************************************************************************
@@ -433,13 +433,12 @@ JFileArrayIndex::EmbeddedFileIsClosed
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileArrayIndex::AllEmbeddedFilesAreClosed()
 	const
 {
-	return JI2B(
-		std::all_of(begin(*itsArray), end(*itsArray),
-			[] (ElementInfo e) { return e.theEmbeddedFile == nullptr; }));
+	return std::all_of(begin(*itsArray), end(*itsArray),
+			[] (ElementInfo e) { return e.theEmbeddedFile == nullptr; });
 }
 
 /******************************************************************************

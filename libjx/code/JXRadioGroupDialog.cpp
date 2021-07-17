@@ -47,7 +47,7 @@ JXRadioGroupDialog::JXRadioGroupDialog
 	const JPtrArray<JString>*	shortcutList
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(windowTitle, prompt, choiceList, shortcutList);
 }

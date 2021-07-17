@@ -53,7 +53,7 @@ TestFileListDirector::TestFileListDirector
 	AddDirectory("./test-file-list");
 
 	JString s1, s2;
-	if (JConvertToAbsolutePath(JString("../Make.header", kJFalse), JString::empty, &s1) &&
+	if (JConvertToAbsolutePath(JString("../Make.header", false), JString::empty, &s1) &&
 		JGetTrueName(s1, &s2))
 		{
 		itsFLSet->GetTable()->AddFile(s2);
@@ -123,7 +123,7 @@ TestFileListDirector::AddDirectory
 	)
 {
 	JDirInfo* info;
-	const JBoolean ok = JDirInfo::Create(JString(path, kJFalse), &info);
+	const bool ok = JDirInfo::Create(JString(path, false), &info);
 	assert( ok );
 
 	JXFileListTable* table = itsFLSet->GetTable();
@@ -175,7 +175,7 @@ void
 TestFileListDirector::UpdateFileMenu()
 {
 	itsFileMenu->SetItemEnable(kShowLocationCmd,
-		JI2B( itsFLSet->GetTable()->HasFocus() && itsFLSet->GetTable()->HasSelection() ));
+		itsFLSet->GetTable()->HasFocus() && itsFLSet->GetTable()->HasSelection() );
 
 	const JXFileListSet::FilterType type = itsFLSet->GetFilterType();
 	if (type == JXFileListSet::kWildcardFilter)

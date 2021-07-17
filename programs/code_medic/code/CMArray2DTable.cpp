@@ -47,7 +47,7 @@ CMArray2DTable::CMArray2DTable
 	itsCmdDir(cmdDir),
 	itsArrayDir(arrayDir)
 {
-	SetSelectionBehavior(kJFalse, kJFalse);
+	SetSelectionBehavior(false, false);
 
 	JXTEBase* te = GetEditMenuHandler();
 	itsEditMenu  = te->AppendEditMenu(menuBar);
@@ -93,7 +93,7 @@ CMArray2DTable::HandleMouseDown
 		{
 		if (!s.IsSelected(cell))
 			{
-			SelectSingleCell(cell, kJFalse);
+			SelectSingleCell(cell, false);
 			}
 
 		const JString expr = itsArrayDir->GetExpression(cell);
@@ -105,7 +105,7 @@ CMArray2DTable::HandleMouseDown
 		}
 	else if (button == kJXLeftButton && clickCount == 1)
 		{
-		SelectSingleCell(cell, kJFalse);
+		SelectSingleCell(cell, false);
 		}
 }
 
@@ -174,14 +174,14 @@ CMArray2DTable::CreateXInputField
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMArray2DTable::ExtractInputData
 	(
 	const JPoint& cell
 	)
 {
 	JXInputField* input = nullptr;
-	const JBoolean ok = GetXInputField(&input);
+	const bool ok = GetXInputField(&input);
 	assert( ok );
 	const JString& text = input->GetText()->GetText();
 
@@ -192,11 +192,11 @@ CMArray2DTable::ExtractInputData
 			const JString name = itsArrayDir->GetExpression(cell);
 			CMGetLink()->SetValue(name, text);
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

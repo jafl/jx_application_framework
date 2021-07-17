@@ -34,7 +34,7 @@ public:
 
 private:
 
-	JBoolean				itsIsOperatingFlag;		// kJTrue if assert() is being processed
+	bool				itsIsOperatingFlag;		// true if assert() is being processed
 	JPtrArray<JXDisplay>*	itsDisplayList;
 
 private:

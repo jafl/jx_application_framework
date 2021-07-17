@@ -12,7 +12,7 @@
 
 #include "JUserNotification.h"
 
-JBoolean JUserNotification::theBreakCROnlyFlag = kJFalse;
+bool JUserNotification::theBreakCROnlyFlag = false;
 
 /******************************************************************************
  Constructor
@@ -21,7 +21,7 @@ JBoolean JUserNotification::theBreakCROnlyFlag = kJFalse;
 
 JUserNotification::JUserNotification()
 {
-	itsSilenceFlag = kJFalse;
+	itsSilenceFlag = false;
 }
 
 /******************************************************************************

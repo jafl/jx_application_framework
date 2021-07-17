@@ -29,7 +29,7 @@ const JFileVersion kCurrentStateVersion = 1;
 SVNWDManager::SVNWDManager
 	(
 	JXDisplay*		display,
-	const JBoolean	wantShortcuts
+	const bool	wantShortcuts
 	)
 	:
 	JXWDManager(display, wantShortcuts)
@@ -50,7 +50,7 @@ SVNWDManager::~SVNWDManager()
 
  *****************************************************************************/
 
-JBoolean
+bool
 SVNWDManager::NewBrowser
 	(
 	SVNMainDirector** dir
@@ -61,12 +61,12 @@ SVNWDManager::NewBrowser
 											  JString::empty, &path))
 		{
 		*dir = OpenDirectory(path);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*dir = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -75,7 +75,7 @@ SVNWDManager::NewBrowser
 
  *****************************************************************************/
 
-JBoolean
+bool
 SVNWDManager::GetBrowser
 	(
 	const JString&		path,
@@ -85,7 +85,7 @@ SVNWDManager::GetBrowser
 	*dir = nullptr;
 
 	JString p1;
-	JBoolean isURL = JIsURL(path);
+	bool isURL = JIsURL(path);
 	if (isURL)
 		{
 		p1 = path;
@@ -93,7 +93,7 @@ SVNWDManager::GetBrowser
 		}
 	else if (!JGetTrueName(path, &p1))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JPtrArray<JXWindowDirector> windowList(JPtrArrayT::kForgetAll);
@@ -127,7 +127,7 @@ SVNWDManager::GetBrowser
 			}
 		}
 
-	return JI2B( *dir != nullptr );
+	return *dir != nullptr;
 }
 
 /******************************************************************************
@@ -135,7 +135,7 @@ SVNWDManager::GetBrowser
 
  *****************************************************************************/
 
-JBoolean
+bool
 SVNWDManager::GetBrowserForExactURL
 	(
 	const JString&		url,
@@ -162,7 +162,7 @@ SVNWDManager::GetBrowserForExactURL
 			}
 		}
 
-	return JI2B( *dir != nullptr );
+	return *dir != nullptr;
 }
 
 /******************************************************************************
@@ -174,11 +174,11 @@ SVNMainDirector*
 SVNWDManager::OpenDirectory
 	(
 	const JString&	path,
-	JBoolean*		wasOpen		// can be nullptr
+	bool*		wasOpen		// can be nullptr
 	)
 {
 	SVNMainDirector* dir;
-	const JBoolean open = GetBrowser(path, &dir);
+	const bool open = GetBrowser(path, &dir);
 	if (wasOpen != nullptr)
 		{
 		*wasOpen = open;
@@ -197,12 +197,12 @@ SVNWDManager::OpenDirectory
 /******************************************************************************
  RestoreState
 
-	Reopens files that were open when we quit the last time.  Returns kJFalse
+	Reopens files that were open when we quit the last time.  Returns false
 	if nothing is opened.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNWDManager::RestoreState
 	(
 	std::istream& input
@@ -212,7 +212,7 @@ SVNWDManager::RestoreState
 	input >> vers;
 	if (vers > kCurrentStateVersion)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JSize windowCount;
@@ -226,21 +226,21 @@ SVNWDManager::RestoreState
 		dir->Activate();
 		}
 
-	return JI2B( windowCount > 0 );
+	return windowCount > 0;
 }
 
 /******************************************************************************
  SaveState
 
 	Saves files that are currently open so they can be reopened next time.
-	Returns kJFalse if there is nothing to save.
+	Returns false if there is nothing to save.
 
 	Always calls WriteForProject() because project documents might be
 	write protected, e.g., CVS.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNWDManager::SaveState
 	(
 	std::ostream& output
@@ -251,7 +251,7 @@ SVNWDManager::SaveState
 	GetDirectors(&windowList);
 	if (windowList.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	output << kCurrentStateVersion;
@@ -267,5 +267,5 @@ SVNWDManager::SaveState
 		dir->StreamOut(output);
 		}
 
-	return kJTrue;
+	return true;
 }

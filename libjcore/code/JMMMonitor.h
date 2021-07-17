@@ -39,10 +39,10 @@ protected:
 	virtual void HandleArrayDeletedAsObject(const JMMRecord& record);
 
 	virtual void HandleUnallocatedDeletion(const JUtf8Byte* file, const JUInt32 line,
-										   const JBoolean isArray);
+										   const bool isArray);
 	virtual void HandleMultipleDeletion(const JMMRecord& thisRecord,
 										const JUtf8Byte* file, const JUInt32 line,
-										const JBoolean isArray);
+										const bool isArray);
 
 	virtual void HandleMultipleAllocation(const JMMRecord& thisRecord,
 										  const JMMRecord& firstRecord);

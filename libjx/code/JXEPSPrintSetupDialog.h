@@ -24,11 +24,11 @@ public:
 
 	static JXEPSPrintSetupDialog*
 		Create(const JString& fileName,
-			   const JBoolean printPreview, const JBoolean bw);
+			   const bool printPreview, const bool bw);
 
 	virtual ~JXEPSPrintSetupDialog();
 
-	JBoolean	SetParameters(JXEPSPrinter* p) const;
+	bool	SetParameters(JXEPSPrinter* p) const;
 
 	void	ChooseDestinationFile();
 
@@ -39,10 +39,10 @@ protected:
 	void	SetObjects(JXTextButton* okButton, JXTextButton* cancelButton,
 					   JXFileInput* fileInput, const JString& fileName,
 					   JXTextButton* chooseFileButton,
-					   JXTextCheckbox* previewCheckbox, const JBoolean printPreview,
-					   JXTextCheckbox* bwCheckbox, const JBoolean bw);
+					   JXTextCheckbox* previewCheckbox, const bool printPreview,
+					   JXTextCheckbox* bwCheckbox, const bool bw);
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -61,7 +61,7 @@ private:
 private:
 
 	void	BuildWindow(const JString& fileName,
-						const JBoolean printPreview, const JBoolean bw);
+						const bool printPreview, const bool bw);
 	void	UpdateDisplay();
 
 	// not allowed

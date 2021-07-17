@@ -30,11 +30,11 @@ static const JRegex		totalMemoryPattern   = "^MemTotal:\\s*([0-9]+)";
 /******************************************************************************
  GPMCreateGlobals
 
-	Returns kJTrue if this is the first time the program is run.
+	Returns true if this is the first time the program is run.
 
  ******************************************************************************/
 
-JBoolean
+bool
 GPMCreateGlobals
 	(
 	GPMApp* app
@@ -42,7 +42,7 @@ GPMCreateGlobals
 {
 	theApplication = app;
 
-	JBoolean isNew;
+	bool isNew;
 	thePrefsManager	= jnew GPMPrefsManager(&isNew);
 	assert( thePrefsManager != nullptr );
 
@@ -59,7 +59,7 @@ GPMCreateGlobals
 		{
 		line = JReadLine(ms);
 
-		const JStringMatch m = totalMemoryPattern.Match(line, kJTrue);
+		const JStringMatch m = totalMemoryPattern.Match(line, true);
 		if (!m.IsEmpty())
 			{
 			m.GetSubstring(1).ConvertToUInt(&theSystemMemory);	// usually kB
@@ -210,12 +210,12 @@ GPMGetMainWindowClass()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GPMGetSystemMemory
 	(
 	JSize* mem
 	)
 {
 	*mem = theSystemMemory;
-	return JI2B(theSystemMemory != 0);
+	return theSystemMemory != 0;
 }

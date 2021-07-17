@@ -47,7 +47,7 @@ private:
 	void		ExtendCheckRangeForString(const JCharacterRange& tokenRange);
 	void		ExtendCheckRangeForLanguageStartEnd(const TokenType tokenType, const JCharacterRange& tokenRange);
 	JFontStyle	GetTagStyle(const JUtf8ByteRange& tokenRange, const JIndex typeIndex);
-	JBoolean	GetXMLStyle(const JString& tagName, JFontStyle* style);
+	bool	GetXMLStyle(const JString& tagName, JFontStyle* style);
 	void		StyleEmbeddedPHPVariables(const Token& token);
 	void		StyleEmbeddedJSVariables(const Token& token);
 

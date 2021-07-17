@@ -42,18 +42,18 @@ public:
 
 	void			LoadPrefs();
 
-	JBoolean		IsEmpty() const;
+	bool		IsEmpty() const;
 	void			AppendButton(JXTextMenu* menu, const JIndex index);
 	void			AppendButton(JXTextMenu* menu, const JString& id);
 	void			NewGroup();
 
 	void			Edit();
 
-	JBoolean		IsUsingSmallButtons() const;
-	void			UseSmallButtons(const JBoolean useSmall);
+	bool		IsUsingSmallButtons() const;
+	void			UseSmallButtons(const bool useSmall);
 
-	JBoolean		ToolBarVisible() const;
-	void			ShowToolBar(const JBoolean show);
+	bool		ToolBarVisible() const;
+	void			ShowToolBar(const bool show);
 
 	JXToolBarButton::Type	GetButtonType() const;
 	void					SetButtonType(const JXToolBarButton::Type type);
@@ -70,7 +70,7 @@ protected:
 private:
 
 	JCoordinate						itsNextButtonPosition;
-	JBoolean						itsInNewGroupMode;
+	bool						itsInNewGroupMode;
 	JPtrArray<JXToolBarButton>*		itsButtons;
 	JPtrArray<JXMenu>*				itsMenus;
 	JXTimerTask*					itsTimerTask;
@@ -81,13 +81,13 @@ private:
 	JSize							itsCurrentButtonHeight;
 	JXWidgetSet*					itsToolBarSet;
 	JXWidgetSet*					itsToolBarEnclosure;
-	JArray<JBoolean>*				itsGroupStarts;
+	JArray<bool>*				itsGroupStarts;
 	JCoordinate						itsCurrentLineY;
-	JBoolean						itsIsShowingButtons;
-	JBoolean						itsWasShowingButtons;
+	bool						itsIsShowingButtons;
+	bool						itsWasShowingButtons;
 	JString							itsDialogPrefs;
 	JXToolBarButton::Type			itsButtonType;
-	JBoolean						itsLoadedPrefs;
+	bool						itsLoadedPrefs;
 
 private:
 
@@ -103,7 +103,7 @@ private:
 
 	void		RevertBar();
 
-	JBoolean	ItemIsUsed(JXTextMenu* menu, const JIndex index);
+	bool	ItemIsUsed(JXTextMenu* menu, const JIndex index);
 	void		FindItemAndAdd(const JString& id);
 	void		FindItemAndAdd(JXTextMenu* menu, const JString& id);
 
@@ -160,11 +160,11 @@ private:
 				return itsTime;
 			};
 
-			JBoolean
+			bool
 			GetSource(const JXWidget** w) const
 			{
 				*w = itsSource;
-				return JI2B(itsSource != nullptr);
+				return itsSource != nullptr;
 			};
 
 		protected:
@@ -195,7 +195,7 @@ public:
 						const Time time, const JXWidget* source)
 				:
 				DropMsg(kWantsToDrop, id, typeList, action, time, source),
-				itsAcceptedFlag(kJFalse)
+				itsAcceptedFlag(false)
 				{ };
 
 			void
@@ -204,7 +204,7 @@ public:
 				itsAction = action;
 			};
 
-			JBoolean
+			bool
 			WasAccepted() const
 			{
 				return itsAcceptedFlag;
@@ -213,12 +213,12 @@ public:
 			void
 			SetAccepted()
 			{
-				itsAcceptedFlag = kJTrue;
+				itsAcceptedFlag = true;
 			};
 
 		private:
 
-			JBoolean	itsAcceptedFlag;
+			bool	itsAcceptedFlag;
 		};
 
 	class HandleDrop : public DropMsg
@@ -230,10 +230,10 @@ public:
 					   const Time time, const JXWidget* source)
 				:
 				DropMsg(kHandleDrop, id, typeList, action, time, source),
-				itsProcessedFlag(kJFalse)
+				itsProcessedFlag(false)
 				{ };
 
-			JBoolean
+			bool
 			WasProcessed() const
 			{
 				return itsProcessedFlag;
@@ -242,12 +242,12 @@ public:
 			void
 			SetProcessed()
 			{
-				itsProcessedFlag = kJTrue;
+				itsProcessedFlag = true;
 			};
 
 		private:
 
-			JBoolean	itsProcessedFlag;
+			bool	itsProcessedFlag;
 		};
 };
 
@@ -268,7 +268,7 @@ JXToolBar::GetWidgetEnclosure()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXToolBar::ToolBarVisible()
 	const
 {

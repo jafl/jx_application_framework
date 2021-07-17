@@ -8,10 +8,6 @@ literal: ${LIB_DEPS}
 ${CODEDIR}/test_JArray
 literal: ${LIB_DEPS}
 
-@test_JBoolean
-${CODEDIR}/test_JBoolean
-literal: ${LIB_DEPS}
-
 @test_JBroadcaster
 ${CODEDIR}/test_JBroadcaster
 literal: ${LIB_DEPS}

@@ -103,18 +103,18 @@ JXDockTabGroup::DrawTab
 	)
 {
 	JXWindow* w;
-	SetTabCanClose(index, JI2B(itsDockWidget->GetWindow(index, &w) &&
-							   w->GetCloseAction() != JXWindow::kDeactivateDirector));
+	SetTabCanClose(index, itsDockWidget->GetWindow(index, &w) &&
+							   w->GetCloseAction() != JXWindow::kDeactivateDirector);
 }
 
 /******************************************************************************
  OKToDeleteTab (virtual protected)
 
-	Returns kJFalse if base class should not remove the tab.
+	Returns false if base class should not remove the tab.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockTabGroup::OKToDeleteTab
 	(
 	const JIndex index
@@ -126,7 +126,7 @@ JXDockTabGroup::OKToDeleteTab
 		w->Close();
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -145,7 +145,7 @@ JXDockTabGroup::HandleMouseDown
 	)
 {
 	JIndex mouseIndex;
-	const JBoolean hasMouseTab = GetMouseTabIndex(&mouseIndex);
+	const bool hasMouseTab = GetMouseTabIndex(&mouseIndex);
 	if (button == kJXRightButton && hasMouseTab)
 		{
 		itsDockContextIndex = mouseIndex;
@@ -216,7 +216,7 @@ void
 JXDockTabGroup::UpdateDockContextMenu()
 {
 	JXDockManager* dockMgr;
-	JBoolean found = JXGetDockManager(&dockMgr);
+	bool found = JXGetDockManager(&dockMgr);
 	assert( found );
 
 	while (itsDockContextMenu->GetItemCount() >= kShowFirstDockCmd)
@@ -256,7 +256,7 @@ JXDockTabGroup::HandleDockContextMenu
 	)
 {
 	JXDockManager* dockMgr;
-	JBoolean found = JXGetDockManager(&dockMgr);
+	bool found = JXGetDockManager(&dockMgr);
 	assert( found );
 
 	JXWindow* w;
@@ -301,11 +301,11 @@ JXDockTabGroup::HandleDockContextMenu
 
 	else if (index == kCreateDockHorizCmd)
 		{
-		dockMgr->CreateDock(kJTrue);
+		dockMgr->CreateDock(true);
 		}
 	else if (index == kCreateDockVertCmd)
 		{
-		dockMgr->CreateDock(kJFalse);
+		dockMgr->CreateDock(false);
 		}
 	else if (index == kDockAllDefConfigCmd)
 		{

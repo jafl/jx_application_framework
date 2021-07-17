@@ -44,10 +44,10 @@ JTEST(Basic)
 	JArray<JFAID_t> deadFileList;
 
 	TestPHPTree tree;
-	tree.PrepareForUpdate(kJFalse);
-	tree.ParseFile(JString("./data/tree/php/A1.php", kJFalse), 1);
-	tree.ParseFile(JString("./data/tree/php/B1.php", kJFalse), 2);
-	tree.ParseFile(JString("./data/tree/php/InvalidArgumentException.php", kJFalse), 3);
+	tree.PrepareForUpdate(false);
+	tree.ParseFile(JString("./data/tree/php/A1.php", false), 1);
+	tree.ParseFile(JString("./data/tree/php/B1.php", false), 2);
+	tree.ParseFile(JString("./data/tree/php/InvalidArgumentException.php", false), 3);
 	tree.UpdateFinished(deadFileList);
 
 	const TestPHPTree& constTree  = tree;
@@ -95,8 +95,8 @@ JTEST(Basic)
 	JAssertEqual(5, found);
 }
 
-JBoolean
+bool
 CBInUpdateThread()
 {
-	return kJTrue;
+	return true;
 }

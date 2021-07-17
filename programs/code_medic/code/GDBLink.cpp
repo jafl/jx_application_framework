@@ -52,23 +52,23 @@
 #include <jSysUtil.h>
 #include <jAssert.h>
 
-static const JBoolean kFeatures[]=
+static const bool kFeatures[]=
 {
-	kJTrue,		// kSetProgram
-	kJTrue,		// kSetArgs
-	kJTrue,		// kSetCore
-	kJTrue,		// kSetProcess
-	kJTrue,		// kRunProgram
-	kJTrue,		// kStopProgram
-	kJTrue,		// kSetExecutionPoint
-	kJTrue,		// kExecuteBackwards
-	kJTrue,		// kShowBreakpointInfo
-	kJTrue,		// kSetBreakpointCondition
-	kJTrue,		// kSetBreakpointIgnoreCount
-	kJTrue,		// kWatchExpression
-	kJTrue,		// kWatchLocation
-	kJTrue,		// kExamineMemory
-	kJTrue,		// kDisassembleMemory
+	true,		// kSetProgram
+	true,		// kSetArgs
+	true,		// kSetCore
+	true,		// kSetProcess
+	true,		// kRunProgram
+	true,		// kStopProgram
+	true,		// kSetExecutionPoint
+	true,		// kExecuteBackwards
+	true,		// kShowBreakpointInfo
+	true,		// kSetBreakpointCondition
+	true,		// kSetBreakpointIgnoreCount
+	true,		// kWatchExpression
+	true,		// kWatchLocation
+	true,		// kExamineMemory
+	true,		// kDisassembleMemory
 };
 
 /******************************************************************************
@@ -130,18 +130,18 @@ GDBLink::~GDBLink()
 void
 GDBLink::InitFlags()
 {
-	itsHasStartedFlag           = kJFalse;
-	itsInitFinishedFlag         = kJFalse;
-	itsSymbolsLoadedFlag        = kJFalse;
-	itsDebuggerBusyFlag         = kJTrue;
-	itsIsDebuggingFlag          = kJFalse;
-	itsIgnoreNextMaybeReadyFlag = kJFalse;
-	itsIsAttachedFlag           = kJFalse;
-	itsProgramIsStoppedFlag     = kJTrue;
-	itsFirstBreakFlag           = kJFalse;
-	itsPrintingOutputFlag       = kJTrue;	// print welcome message
-	itsDefiningScriptFlag       = kJFalse;
-	itsWaitingToQuitFlag        = kJFalse;
+	itsHasStartedFlag           = false;
+	itsInitFinishedFlag         = false;
+	itsSymbolsLoadedFlag        = false;
+	itsDebuggerBusyFlag         = true;
+	itsIsDebuggingFlag          = false;
+	itsIgnoreNextMaybeReadyFlag = false;
+	itsIsAttachedFlag           = false;
+	itsProgramIsStoppedFlag     = true;
+	itsFirstBreakFlag           = false;
+	itsPrintingOutputFlag       = true;	// print welcome message
+	itsDefiningScriptFlag       = false;
+	itsWaitingToQuitFlag        = false;
 	itsContinueCount            = 0;
 	itsPingID                   = 0;
 }
@@ -175,7 +175,7 @@ GDBLink::GetScriptPrompt()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GDBLink::DebuggerHasStarted()
 	const
 {
@@ -199,7 +199,7 @@ GDBLink::GetChooseProgramInstructions()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GDBLink::HasProgram()
 	const
 {
@@ -211,7 +211,7 @@ GDBLink::HasProgram()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GDBLink::GetProgram
 	(
 	JString* fullName
@@ -227,7 +227,7 @@ GDBLink::GetProgram
 
  ******************************************************************************/
 
-JBoolean
+bool
 GDBLink::HasCore()
 	const
 {
@@ -239,7 +239,7 @@ GDBLink::HasCore()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GDBLink::GetCore
 	(
 	JString* fullName
@@ -255,7 +255,7 @@ GDBLink::GetCore
 
  ******************************************************************************/
 
-JBoolean
+bool
 GDBLink::HasLoadedSymbols()
 	const
 {
@@ -267,7 +267,7 @@ GDBLink::HasLoadedSymbols()
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::IsDebugging()
 	const
 {
@@ -279,11 +279,11 @@ GDBLink::IsDebugging()
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::ProgramIsRunning()
 	const
 {
-	return JI2B(itsIsDebuggingFlag && !itsProgramIsStoppedFlag);
+	return itsIsDebuggingFlag && !itsProgramIsStoppedFlag;
 }
 
 /******************************************************************************
@@ -291,11 +291,11 @@ GDBLink::ProgramIsRunning()
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::ProgramIsStopped()
 	const
 {
-	return JI2B(itsIsDebuggingFlag && itsProgramIsStoppedFlag);
+	return itsIsDebuggingFlag && itsProgramIsStoppedFlag;
 }
 
 /******************************************************************************
@@ -303,7 +303,7 @@ GDBLink::ProgramIsStopped()
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::OKToSendMultipleCommands()
 	const
 {
@@ -315,14 +315,14 @@ GDBLink::OKToSendMultipleCommands()
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::OKToSendCommands
 	(
-	const JBoolean background
+	const bool background
 	)
 	const
 {
-	return JI2B(itsContinueCount == 0);
+	return itsContinueCount == 0;
 }
 
 /******************************************************************************
@@ -330,7 +330,7 @@ GDBLink::OKToSendCommands
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::IsDefiningScript()
 	const
 {
@@ -403,18 +403,18 @@ GDBLink::ReadFromDebugger()
 		// (We set itsProgramIsStoppedFlag here so *all* commands know the
 		//  correct status.)
 
-		const JBoolean wasStopped = itsProgramIsStoppedFlag;
+		const bool wasStopped = itsProgramIsStoppedFlag;
 		if (token.type == GDBScanner::kMaybeReadyForInput)
 			{
 			if (!itsIgnoreNextMaybeReadyFlag)
 				{
 				SendPing();
 				itsPingTask->Start();
-				itsIgnoreNextMaybeReadyFlag = kJTrue;
+				itsIgnoreNextMaybeReadyFlag = true;
 				}
 			else
 				{
-				itsIgnoreNextMaybeReadyFlag = kJFalse;
+				itsIgnoreNextMaybeReadyFlag = false;
 				}
 			continue;
 			}
@@ -427,11 +427,11 @@ GDBLink::ReadFromDebugger()
 				continue;
 				}
 
-			itsProgramIsStoppedFlag = kJTrue;
-//			itsPrintingOutputFlag   = kJTrue;
-			itsDefiningScriptFlag   = kJFalse;
+			itsProgramIsStoppedFlag = true;
+//			itsPrintingOutputFlag   = true;
+			itsDefiningScriptFlag   = false;
 
-			itsDebuggerBusyFlag = kJFalse;
+			itsDebuggerBusyFlag = false;
 			Broadcast(DebuggerReadyForInput());
 			RunNextCommand();
 
@@ -447,7 +447,7 @@ GDBLink::ReadFromDebugger()
 
 				if (itsContinueCount == 0)
 					{
-					Send(JString("continue", kJFalse));
+					Send(JString("continue", JString::kNoCopy));
 					}
 				}
 
@@ -464,7 +464,7 @@ GDBLink::ReadFromDebugger()
 			}
 		else if (!itsDebuggerBusyFlag && !itsIgnoreNextMaybeReadyFlag)
 			{
-			itsDebuggerBusyFlag = kJTrue;
+			itsDebuggerBusyFlag = true;
 			Broadcast(DebuggerBusy());
 			}
 
@@ -475,14 +475,14 @@ GDBLink::ReadFromDebugger()
 			if (itsPrintingOutputFlag)
 				{
 				// We cannot tell the difference between gdb and program output
-				Broadcast(UserOutput(*(token.data.pString), kJFalse, kJFalse));
+				Broadcast(UserOutput(*(token.data.pString), false, false));
 				}
 			}
 		else if (token.type == GDBScanner::kErrorOutput)
 			{
 			if (itsPrintingOutputFlag)
 				{
-				Broadcast(UserOutput(*(token.data.pString), kJTrue));
+				Broadcast(UserOutput(*(token.data.pString), true));
 				}
 			}
 
@@ -490,7 +490,7 @@ GDBLink::ReadFromDebugger()
 				 token.type == GDBScanner::kBeginMedicIgnoreCmd)
 			{
 			HandleCommandRunning(token.data.number);
-			itsPrintingOutputFlag = kJFalse;
+			itsPrintingOutputFlag = false;
 			}
 		else if (token.type == GDBScanner::kCommandOutput)
 			{
@@ -514,7 +514,7 @@ GDBLink::ReadFromDebugger()
 			CMCommand* cmd;
 			if (GetRunningCommand(&cmd))
 				{
-				cmd->Finished(kJTrue);	// may delete object
+				cmd->Finished(true);	// may delete object
 				SetRunningCommand(nullptr);
 
 				if (!HasForegroundCommands())
@@ -523,7 +523,7 @@ GDBLink::ReadFromDebugger()
 					}
 				}
 
-			itsPrintingOutputFlag = kJTrue;
+			itsPrintingOutputFlag = true;
 			}
 
 		else if (token.type == GDBScanner::kBreakpointsChanged)
@@ -548,15 +548,15 @@ GDBLink::ReadFromDebugger()
 
 		else if (token.type == GDBScanner::kPrepareToLoadSymbols)
 			{
-			itsIsDebuggingFlag   = kJFalse;
-			itsSymbolsLoadedFlag = kJFalse;
+			itsIsDebuggingFlag   = false;
+			itsSymbolsLoadedFlag = false;
 			itsProgramName.Clear();
 			ClearFileNameMap();
 			Broadcast(PrepareToLoadSymbols());
 			}
 		else if (token.type == GDBScanner::kFinishedLoadingSymbolsFromProgram)
 			{
-			itsSymbolsLoadedFlag = kJTrue;
+			itsSymbolsLoadedFlag = true;
 
 			// We can't use a lexer to extract the file name from gdb's
 			// output because the pattern "Reading symbols from [^\n]+..."
@@ -567,7 +567,7 @@ GDBLink::ReadFromDebugger()
 
 			if (token.data.pString != nullptr)
 				{
-				Broadcast(UserOutput(*(token.data.pString), kJFalse));
+				Broadcast(UserOutput(*(token.data.pString), false));
 				}
 			}
 		else if (token.type == GDBScanner::kNoSymbolsInProgram)
@@ -576,11 +576,11 @@ GDBLink::ReadFromDebugger()
 				{
 				if (token.data.pString != nullptr)
 					{
-					Broadcast(UserOutput(*(token.data.pString), kJTrue));
+					Broadcast(UserOutput(*(token.data.pString), true));
 					}
 
 				JString name;
-				Broadcast(SymbolsLoaded(kJFalse, name));
+				Broadcast(SymbolsLoaded(false, name));
 				}
 			}
 		else if (token.type == GDBScanner::kSymbolsReloaded)
@@ -599,8 +599,8 @@ GDBLink::ReadFromDebugger()
 
 		else if (token.type == GDBScanner::kAttachedToProcess)
 			{
-			itsIsAttachedFlag  = kJTrue;
-			itsIsDebuggingFlag = kJTrue;
+			itsIsAttachedFlag  = true;
+			itsIsDebuggingFlag = true;
 			ProgramStarted(token.data.number);
 			Broadcast(AttachedToProcess());
 			}
@@ -611,14 +611,14 @@ GDBLink::ReadFromDebugger()
 
 		else if (token.type == GDBScanner::kProgramStarting)
 			{
-			itsIsDebuggingFlag      = kJTrue;
-			itsProgramIsStoppedFlag = kJFalse;
-			itsFirstBreakFlag       = kJTrue;
-			itsPrintingOutputFlag   = kJFalse;	// ignore tbreak output
+			itsIsDebuggingFlag      = true;
+			itsProgramIsStoppedFlag = false;
+			itsFirstBreakFlag       = true;
+			itsPrintingOutputFlag   = false;	// ignore tbreak output
 			}
 		else if (token.type == GDBScanner::kBeginGetPID)
 			{
-			itsPrintingOutputFlag = kJFalse;	// ignore "info prog"
+			itsPrintingOutputFlag = false;	// ignore "info prog"
 			}
 		else if (token.type == GDBScanner::kProgramPID)
 			{
@@ -629,7 +629,7 @@ GDBLink::ReadFromDebugger()
 			if (itsChildProcess == nullptr)	// ask user for PID
 				{
 				CMChooseProcessDialog* dialog =
-					jnew CMChooseProcessDialog(JXGetApplication(), kJFalse);
+					jnew CMChooseProcessDialog(JXGetApplication(), false);
 				assert( dialog != nullptr );
 				dialog->BeginDialog();
 				}
@@ -637,7 +637,7 @@ GDBLink::ReadFromDebugger()
 
 		else if (token.type == GDBScanner::kProgramStoppedAtLocation)
 			{
-			itsProgramIsStoppedFlag = kJTrue;
+			itsProgramIsStoppedFlag = true;
 			if (token.data.pLocation != nullptr)
 				{
 				SendProgramStopped(*(token.data.pLocation));
@@ -650,20 +650,20 @@ GDBLink::ReadFromDebugger()
 
 			if (token.data.pString != nullptr)
 				{
-				Broadcast(UserOutput(*(token.data.pString), kJFalse));
+				Broadcast(UserOutput(*(token.data.pString), false));
 				}
 			}
 		else if (token.type == GDBScanner::kFrameChangedAndProgramStoppedAtLocation)
 			{
 			Broadcast(FrameChanged());	// sync with kFrameChanged
 
-			itsProgramIsStoppedFlag = kJTrue;
+			itsProgramIsStoppedFlag = true;
 			itsGetStopLocation->Send();
 			}
 
 		else if (token.type == GDBScanner::kBeginScriptDefinition)
 			{
-			itsDefiningScriptFlag = kJTrue;
+			itsDefiningScriptFlag = true;
 			Broadcast(DebuggerDefiningScript());
 			}
 
@@ -674,7 +674,7 @@ GDBLink::ReadFromDebugger()
 
 		else if (token.type == GDBScanner::kProgramRunning)
 			{
-			itsProgramIsStoppedFlag = kJFalse;
+			itsProgramIsStoppedFlag = false;
 			CancelBackgroundCommands();
 			Broadcast(ProgramRunning());
 			}
@@ -684,7 +684,7 @@ GDBLink::ReadFromDebugger()
 
 			if (token.data.pString != nullptr)
 				{
-				Broadcast(UserOutput(*(token.data.pString), kJFalse));
+				Broadcast(UserOutput(*(token.data.pString), false));
 				}
 			}
 		else if (token.type == GDBScanner::kProgramKilled)
@@ -695,7 +695,7 @@ GDBLink::ReadFromDebugger()
 		else if (token.type == GDBScanner::kDebuggerFinished)
 			{
 			JXGetApplication()->Quit();
-			itsWaitingToQuitFlag = kJTrue;
+			itsWaitingToQuitFlag = true;
 			}
 		}
 }
@@ -721,7 +721,7 @@ GDBLink::SaveProgramName
 		JSplitPathAndName(itsProgramName, &path, &name);
 		}
 
-	Broadcast(SymbolsLoaded(kJTrue, name));
+	Broadcast(SymbolsLoaded(true, name));
 }
 
 /******************************************************************************
@@ -740,7 +740,7 @@ GDBLink::SaveCoreName
 	itsCoreName = fileName;
 	if (!itsCoreName.IsEmpty())
 		{
-		itsIsDebuggingFlag = kJFalse;
+		itsIsDebuggingFlag = false;
 		Broadcast(CoreLoaded());
 		}
 	else
@@ -762,8 +762,8 @@ GDBLink::FirstBreakImpossible()
 		{
 		// parallel to SendProgramStopped()
 
-		itsFirstBreakFlag     = kJFalse;
-		itsPrintingOutputFlag = kJTrue;
+		itsFirstBreakFlag     = false;
+		itsPrintingOutputFlag = true;
 		}
 }
 
@@ -782,8 +782,8 @@ GDBLink::SendProgramStopped
 		{
 		// parallel to FirstBreakImpossible()
 
-		itsFirstBreakFlag     = kJFalse;
-		itsPrintingOutputFlag = kJTrue;		// "info prog" is finished
+		itsFirstBreakFlag     = false;
+		itsPrintingOutputFlag = true;		// "info prog" is finished
 
 		Broadcast(ProgramFirstStop());
 
@@ -796,7 +796,7 @@ GDBLink::SendProgramStopped
 			}
 		else
 			{
-			Send(JString("continue", kJFalse));
+			Send(JString("continue", JString::kNoCopy));
 			}
 		}
 	else if (itsContinueCount == 0)
@@ -856,10 +856,10 @@ GDBLink::SetProgram
 		{
 		if (itsInitFinishedFlag && !JSameDirEntry(fullName, itsProgramName))
 			{
-			Send(JString("delete", kJFalse));
+			Send(JString("delete", JString::kNoCopy));
 			}
 		DetachOrKill();
-		Send(JString("core-file", kJFalse));
+		Send(JString("core-file", JString::kNoCopy));
 
 		Send("file " + JPrepArgForExec(fullName));
 		}
@@ -925,7 +925,7 @@ GDBLink::AttachToProcess
 	const pid_t pid
 	)
 {
-	Send(JString("core-file", kJFalse));
+	Send(JString("core-file", JString::kNoCopy));
 	DetachOrKill();
 
 	Send("attach " + JString((JUInt64) pid));
@@ -942,12 +942,12 @@ GDBLink::RunProgram
 	const JString& args
 	)
 {
-	Send(JString("core-file", kJFalse));
+	Send(JString("core-file", JString::kNoCopy));
 	DetachOrKill();
 
 	Send("set args " + args);
 
-	Send(JString("run", kJFalse));
+	Send(JString("run", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -993,7 +993,7 @@ GDBLink::SetBreakpoint
 	(
 	const JString&	fileName,
 	const JIndex	lineIndex,
-	const JBoolean	temporary
+	const bool	temporary
 	)
 {
 	JString path, name;
@@ -1019,7 +1019,7 @@ void
 GDBLink::SetBreakpoint
 	(
 	const JString&	address,
-	const JBoolean	temporary
+	const bool	temporary
 	)
 {
 	if (!itsProgramIsStoppedFlag)
@@ -1111,7 +1111,7 @@ GDBLink::RemoveAllBreakpoints()
 		itsContinueCount = 2;
 		}
 
-	SendWhenStopped(JString("delete", kJFalse));
+	SendWhenStopped(JString("delete", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1123,8 +1123,8 @@ void
 GDBLink::SetBreakpointEnabled
 	(
 	const JIndex	debuggerIndex,
-	const JBoolean	enabled,
-	const JBoolean	once
+	const bool	enabled,
+	const bool	once
 	)
 {
 	if (!itsProgramIsStoppedFlag)
@@ -1255,7 +1255,7 @@ GDBLink::SwitchToThread
 {
 	if (ProgramIsStopped() || HasCore())
 		{
-		itsPrintingOutputFlag = kJFalse;
+		itsPrintingOutputFlag = false;
 		Send("thread " + JString((JUInt64) id));
 		}
 }
@@ -1273,7 +1273,7 @@ GDBLink::SwitchToFrame
 {
 	if (ProgramIsStopped() || HasCore())
 		{
-		itsPrintingOutputFlag = kJFalse;
+		itsPrintingOutputFlag = false;
 		Send("frame " + JString((JUInt64) id));
 		}
 }
@@ -1286,7 +1286,7 @@ GDBLink::SwitchToFrame
 void
 GDBLink::StepOver()
 {
-	Send(JString("next", kJFalse));
+	Send(JString("next", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1297,7 +1297,7 @@ GDBLink::StepOver()
 void
 GDBLink::StepInto()
 {
-	Send(JString("step", kJFalse));
+	Send(JString("step", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1308,7 +1308,7 @@ GDBLink::StepInto()
 void
 GDBLink::StepOut()
 {
-	Send(JString("finish", kJFalse));
+	Send(JString("finish", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1319,7 +1319,7 @@ GDBLink::StepOut()
 void
 GDBLink::Continue()
 {
-	Send(JString("continue", kJFalse));
+	Send(JString("continue", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1375,7 +1375,7 @@ GDBLink::SetExecutionPoint
 void
 GDBLink::StepOverAssembly()
 {
-	Send(JString("nexti", kJFalse));
+	Send(JString("nexti", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1386,7 +1386,7 @@ GDBLink::StepOverAssembly()
 void
 GDBLink::StepIntoAssembly()
 {
-	Send(JString("stepi", kJFalse));
+	Send(JString("stepi", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1434,7 +1434,7 @@ GDBLink::SetExecutionPoint
 void
 GDBLink::BackupOver()
 {
-	Send(JString("reverse-next", kJFalse));
+	Send(JString("reverse-next", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1445,7 +1445,7 @@ GDBLink::BackupOver()
 void
 GDBLink::BackupInto()
 {
-	Send(JString("reverse-step", kJFalse));
+	Send(JString("reverse-step", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1456,7 +1456,7 @@ GDBLink::BackupInto()
 void
 GDBLink::BackupOut()
 {
-	Send(JString("reverse-finish", kJFalse));
+	Send(JString("reverse-finish", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1467,7 +1467,7 @@ GDBLink::BackupOut()
 void
 GDBLink::BackupContinue()
 {
-	Send(JString("reverse-continue", kJFalse));
+	Send(JString("reverse-continue", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -1736,7 +1736,7 @@ GDBLink::CreateVarContentCommand
 CMVarNode*
 GDBLink::CreateVarNode
 	(
-	const JBoolean shouldUpdate		// kJFalse for Local Variables
+	const bool shouldUpdate		// false for Local Variables
 	)
 {
 	CMVarNode* node = jnew GDBVarNode(shouldUpdate);
@@ -1845,7 +1845,7 @@ GDBLink::CreateGetRegisters
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::ParseList
 	(
 	std::istringstream&	stream,
@@ -1861,7 +1861,7 @@ GDBLink::ParseList
 		stream >> value;
 		if (!stream.good())
 			{
-			return kJFalse;
+			return false;
 			}
 
 		list->Append(value);
@@ -1869,7 +1869,7 @@ GDBLink::ParseList
 		int c = stream.peek();
 		if (c == terminator)
 			{
-			return kJTrue;
+			return true;
 			}
 		if (c == ',')
 			{
@@ -1877,7 +1877,7 @@ GDBLink::ParseList
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 }
@@ -1890,7 +1890,7 @@ GDBLink::ParseList
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::ParseMap
 	(
 	std::istringstream&		stream,
@@ -1900,13 +1900,13 @@ GDBLink::ParseMap
 	map->CleanOut();
 
 	JString key, value;
-	JBoolean found;
+	bool found;
 	while (1)
 		{
 		key = JReadUntil(stream, '=', &found);
 		if (!found)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		const JUtf8Byte next = stream.peek();
@@ -1916,7 +1916,7 @@ GDBLink::ParseMap
 			JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 			if (!ParseList(stream, &list, next == '[' ? ']' : '}'))
 				{
-				return kJFalse;
+				return false;
 				}
 			stream.ignore();	// skip }
 
@@ -1936,7 +1936,7 @@ GDBLink::ParseMap
 			stream >> value;
 			if (!stream.good())
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 
@@ -1945,7 +1945,7 @@ GDBLink::ParseMap
 		int c = stream.peek();
 		if (c == '}')
 			{
-			return kJTrue;
+			return true;
 			}
 		if (c == ',')
 			{
@@ -1953,7 +1953,7 @@ GDBLink::ParseMap
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 }
@@ -1966,7 +1966,7 @@ GDBLink::ParseMap
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::ParseMapArray
 	(
 	std::istringstream&						stream,
@@ -1975,17 +1975,17 @@ GDBLink::ParseMapArray
 {
 	list->CleanOut();
 
-	JBoolean found;
+	bool found;
 	while (1)
 		{
 		int c = stream.peek();
 		if (c == ']')
 			{
-			return kJTrue;
+			return true;
 			}
 		else if (c != '{')
 			{
-			return kJFalse;
+			return false;
 			}
 		stream.ignore();
 
@@ -1998,14 +1998,14 @@ GDBLink::ParseMapArray
 		else
 			{
 			jdelete map;
-			return kJFalse;
+			return false;
 			}
 		stream.ignore();
 
 		c = stream.peek();
 		if (c == ']')
 			{
-			return kJTrue;
+			return true;
 			}
 		if (c == ',')
 			{
@@ -2013,7 +2013,7 @@ GDBLink::ParseMapArray
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 }
@@ -2102,7 +2102,7 @@ GDBLink::SendRaw
 
 		if (!itsDebuggerBusyFlag)
 			{
-			itsDebuggerBusyFlag = kJTrue;
+			itsDebuggerBusyFlag = true;
 			Broadcast(DebuggerBusy());
 			}
 		}
@@ -2204,12 +2204,12 @@ GDBLink::ProgramFinished1()
 	if (itsIsAttachedFlag)
 		{
 		Broadcast(DetachedFromProcess());
-		itsIsAttachedFlag = kJFalse;
+		itsIsAttachedFlag = false;
 		}
 
 	if (itsIsDebuggingFlag)
 		{
-		itsIsDebuggingFlag = kJFalse;
+		itsIsDebuggingFlag = false;
 		Broadcast(ProgramFinished());
 		}
 }
@@ -2238,7 +2238,7 @@ GDBLink::StopProgram()
 	else
 		{
 		CMChooseProcessDialog* dlog =
-			jnew CMChooseProcessDialog(JXGetApplication(), kJFalse, kJTrue);
+			jnew CMChooseProcessDialog(JXGetApplication(), false, true);
 		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		}
@@ -2252,7 +2252,7 @@ GDBLink::StopProgram()
 void
 GDBLink::KillProgram()
 {
-	SendWhenStopped(JString("kill", kJFalse));
+	SendWhenStopped(JString("kill", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -2265,11 +2265,11 @@ GDBLink::DetachOrKill()
 {
 	if (itsIsAttachedFlag)
 		{
-		Send(JString("detach", kJFalse));
+		Send(JString("detach", JString::kNoCopy));
 		}
 	else if (itsChildProcess != nullptr)
 		{
-		Send(JString("kill", kJFalse));
+		Send(JString("kill", JString::kNoCopy));
 		}
 }
 
@@ -2278,7 +2278,7 @@ GDBLink::DetachOrKill()
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::OKToDetachOrKill()
 	const
 {
@@ -2292,7 +2292,7 @@ GDBLink::OKToDetachOrKill()
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -2303,7 +2303,7 @@ GDBLink::OKToDetachOrKill()
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::StartDebugger()
 {
 	assert( itsDebuggerProcess == nullptr && itsChildProcess == nullptr );
@@ -2329,13 +2329,13 @@ GDBLink::StartDebugger()
 
 		ListenTo(itsDebuggerProcess);
 
-		itsWaitingToQuitFlag = kJFalse;
-		return kJTrue;
+		itsWaitingToQuitFlag = false;
+		return true;
 		}
 	else
 		{
 		JGetStringManager()->ReportError("UnableToStartDebugger::GDBLink", err);
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2352,7 +2352,7 @@ GDBLink::InitDebugger()
 {
 	Send(JGetString("InitCommands::GDBLink"));
 
-	itsHasStartedFlag = kJTrue;
+	itsHasStartedFlag = true;
 	Broadcast(DebuggerStarted());
 
 	if (!itsProgramName.IsEmpty())
@@ -2364,7 +2364,7 @@ GDBLink::InitDebugger()
 		SetCore(itsCoreName);
 		}
 
-	itsInitFinishedFlag = kJTrue;
+	itsInitFinishedFlag = true;
 }
 
 /******************************************************************************
@@ -2372,7 +2372,7 @@ GDBLink::InitDebugger()
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::ChangeDebugger()
 {
 	CMPrefsManager* mgr = CMGetPrefsManager();
@@ -2382,7 +2382,7 @@ GDBLink::ChangeDebugger()
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -2391,13 +2391,13 @@ GDBLink::ChangeDebugger()
 
  *****************************************************************************/
 
-JBoolean
+bool
 GDBLink::RestartDebugger()
 {
-	const JBoolean symbolsWereLoaded = itsSymbolsLoadedFlag;
+	const bool symbolsWereLoaded = itsSymbolsLoadedFlag;
 
 	StopDebugger();
-	const JBoolean ok = StartDebugger();
+	const bool ok = StartDebugger();
 
 	if (ok && symbolsWereLoaded)
 		{
@@ -2416,7 +2416,7 @@ void
 GDBLink::StopDebugger()
 {
 	DetachOrKill();
-	Send(JString("quit", kJFalse));
+	Send(JString("quit", JString::kNoCopy));
 
 	jdelete itsDebuggerProcess;
 	itsDebuggerProcess = nullptr;

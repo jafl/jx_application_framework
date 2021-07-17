@@ -40,13 +40,13 @@ const JUtf8Byte CBSearchTE::kError             = '\5';
 
 CBSearchTE::CBSearchTE()
 	:
-	JTextEditor(kFullEditor, jnew JStyledText(kJFalse, kJFalse), kJTrue,
-				jnew CBSearchFontManager, kJTrue,
+	JTextEditor(kFullEditor, jnew JStyledText(false, false), true,
+				jnew CBSearchFontManager, true,
 				1,1,1,1, 1000000)
 {
 	assert( TEGetFontManager() != nullptr );
 
-	RecalcAll(kJTrue);
+	RecalcAll(true);
 	GetText()->SetCharacterInWordFunction(CBMIsCharacterInWord);
 }
 
@@ -83,16 +83,16 @@ CBSearchTE::SearchFiles
 	(
 	const JPtrArray<JString>&	fileList,
 	const JPtrArray<JString>&	nameList,
-	const JBoolean				onlyListFiles,
-	const JBoolean				listFilesWithoutMatch,
+	const bool				onlyListFiles,
+	const bool				listFilesWithoutMatch,
 	std::ostream&				output
 	)
 {
 	JRegex* searchRegex;
 	JString replaceStr;
 	JInterpolate* interpolator;
-	JBoolean entireWord, wrapSearch, preserveCase;
-	const JBoolean ok =
+	bool entireWord, wrapSearch, preserveCase;
+	const bool ok =
 		CBGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase);
@@ -135,12 +135,12 @@ CBSearchTE::SearchFile
 	(
 	const JString&	fileName,
 	const JString&	printName,		// so we display it correctly to the user
-	const JBoolean	onlyListFiles,
-	const JBoolean	listFilesWithoutMatch,
+	const bool	onlyListFiles,
+	const bool	listFilesWithoutMatch,
 	std::ostream&	output,
 
 	const JRegex&	searchRegex,
-	const JBoolean	entireWord
+	const bool	entireWord
 	)
 {
 	if (!JFileExists(fileName))
@@ -158,7 +158,7 @@ CBSearchTE::SearchFile
 
 	JStyledText::PlainTextFormat format;
 	if (IsKnownBinaryFile(printName) ||
-		!GetText()->ReadPlainText(fileName, &format, kJFalse))
+		!GetText()->ReadPlainText(fileName, &format, false))
 		{
 		// don't search binary files (cleaning is too slow and pointless)
 
@@ -169,20 +169,20 @@ CBSearchTE::SearchFile
 		return;
 		}
 
-	JBoolean foundMatch = kJFalse;
+	bool foundMatch = false;
 	JStyledText::TextRange prevQuoteRange;
-	JBoolean prevQuoteTruncated = kJFalse;
+	bool prevQuoteTruncated = false;
 
 	while (1)
 		{
-		JBoolean wrapped;
-		const JStringMatch m = SearchForward(searchRegex, entireWord, kJFalse, &wrapped);
+		bool wrapped;
+		const JStringMatch m = SearchForward(searchRegex, entireWord, false, &wrapped);
 		if (m.IsEmpty())
 			{
 			break;
 			}
 
-		foundMatch = kJTrue;
+		foundMatch = true;
 		if (onlyListFiles || listFilesWithoutMatch)
 			{
 			if (!listFilesWithoutMatch)
@@ -259,7 +259,7 @@ CBSearchTE::SearchFile
 			}
 		else
 			{
-			prevQuoteTruncated = kJFalse;
+			prevQuoteTruncated = false;
 
 			iter.UnsafeMoveTo(kJIteratorStartBefore, quoteRange.charRange.first, quoteRange.byteRange.first);
 			iter.BeginMatch();
@@ -271,7 +271,7 @@ CBSearchTE::SearchFile
 				quoteText.Prepend("...");
 				matchRange.charRange += 3;
 				matchRange.byteRange += 3;
-				prevQuoteTruncated = kJTrue;
+				prevQuoteTruncated = true;
 				}
 			if (quoteRange.charRange.last != origQuoteRange.charRange.last)
 				{
@@ -314,7 +314,7 @@ static const JUtf8Byte* kSuffix[] =
 
 const JSize kSuffixCount = sizeof(kSuffix) / sizeof(JUtf8Byte*);
 
-JBoolean
+bool
 CBSearchTE::IsKnownBinaryFile
 	(
 	const JString& fileName
@@ -323,46 +323,46 @@ CBSearchTE::IsKnownBinaryFile
 {
 	if (CBGetPrefsManager()->GetFileType(fileName) == kCBBinaryFT)
 		{
-		return kJTrue;
+		return true;
 		}
 
 	for (JUnsignedOffset i=0; i<kSuffixCount; i++)
 		{
 		if (fileName.EndsWith(kSuffix[i]))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  ReplaceAllForward
 
 	Replace every occurrence of the search string with the replace string,
-	starting from the current location.  Returns kJTrue if it replaced anything.
+	starting from the current location.  Returns true if it replaced anything.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchTE::ReplaceAllForward()
 {
 	JRegex* searchRegex;
 	JString replaceStr;
 	JInterpolate* interpolator;
-	JBoolean entireWord, wrapSearch, preserveCase;
+	bool entireWord, wrapSearch, preserveCase;
 	if (JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
 		{
 		return JTextEditor::ReplaceAll(
 					*searchRegex, entireWord,
-					replaceStr, interpolator, preserveCase, kJFalse);
+					replaceStr, interpolator, preserveCase, false);
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -419,14 +419,14 @@ CBSearchTE::TESetGUIBounds
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchTE::TEWidthIsBeyondDisplayCapacity
 	(
 	const JSize width
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -434,14 +434,14 @@ CBSearchTE::TEWidthIsBeyondDisplayCapacity
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchTE::TEScrollToRect
 	(
 	const JRect&	rect,
-	const JBoolean	centerInDisplay
+	const bool	centerInDisplay
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -449,13 +449,13 @@ CBSearchTE::TEScrollToRect
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchTE::TEScrollForDrag
 	(
 	const JPoint& pt
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -463,13 +463,13 @@ CBSearchTE::TEScrollForDrag
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchTE::TEScrollForDND
 	(
 	const JPoint& pt
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -505,7 +505,7 @@ CBSearchTE::TEUpdateClipboard
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchTE::TEGetClipboard
 	(
 	JString*			text,
@@ -513,7 +513,7 @@ CBSearchTE::TEGetClipboard
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -521,10 +521,10 @@ CBSearchTE::TEGetClipboard
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchTE::TEBeginDND()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -545,7 +545,7 @@ CBSearchTE::TEPasteDropData()
 void
 CBSearchTE::TECaretShouldBlink
 	(
-	const JBoolean blink
+	const bool blink
 	)
 {
 }
@@ -555,9 +555,9 @@ CBSearchTE::TECaretShouldBlink
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchTE::TEHasSearchText()
 	const
 {
-	return kJFalse;
+	return false;
 }

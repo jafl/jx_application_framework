@@ -22,9 +22,9 @@ GDBSimpleCommand::GDBSimpleCommand
 	const JString& cmd
 	)
 	:
-	CMCommand(cmd, kJTrue, kJFalse)
+	CMCommand(cmd, true, false)
 {
-	ShouldIgnoreResult(kJTrue);
+	ShouldIgnoreResult(true);
 }
 
 /******************************************************************************

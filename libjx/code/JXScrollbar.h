@@ -48,9 +48,9 @@ public:
 	JCoordinate	GetMaxValue() const;
 	void		SetMaxValue(const JCoordinate maxValue);
 
-	JBoolean	IsAtMin();
+	bool	IsAtMin();
 	void		ScrollToMin();
-	JBoolean	IsAtMax();
+	bool	IsAtMax();
 	void		ScrollToMax();
 
 	JFloat	GetScrollDelay() const;
@@ -64,8 +64,8 @@ public:
 	void	ScrollToTab(const JIndex tabIndex);
 	void	RemoveAllScrolltabs();
 
-	JBoolean	IsHorizontal() const;
-	JBoolean	IsVertical() const;
+	bool	IsHorizontal() const;
+	bool	IsVertical() const;
 
 	// for use by JXScrollableWidgets
 
@@ -128,7 +128,7 @@ private:
 	JRect	itsIncrementPageRect;
 
 	JPtrArray<JXScrolltab>*	itsScrolltabList;				// can be nullptr
-	JBoolean				itsIgnoreScrolltabDeletedFlag;
+	bool				itsIgnoreScrolltabDeletedFlag;
 
 	JXTextMenu*	itsActionMenu;		// can be nullptr
 
@@ -138,10 +138,10 @@ private:
 
 	DragAction	itsDragAction;
 	JPoint		itsDragThumbOffset;
-	JBoolean	itsDecrPushedFlag;
-	JBoolean	itsIncrPushedFlag;
-	JBoolean	itsDecrPagePushedFlag;
-	JBoolean	itsIncrPagePushedFlag;
+	bool	itsDecrPushedFlag;
+	bool	itsIncrPushedFlag;
+	bool	itsDecrPagePushedFlag;
+	bool	itsIncrPagePushedFlag;
 
 	// used for context menu
 
@@ -261,10 +261,10 @@ JXScrollbar::StepPage
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXScrollbar::IsAtMin()
 {
-	return JConvertToBoolean( itsValue == kMinValue );
+	return itsValue == kMinValue;
 }
 
 /******************************************************************************
@@ -283,10 +283,10 @@ JXScrollbar::ScrollToMin()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXScrollbar::IsAtMax()
 {
-	return JConvertToBoolean( itsValue == itsMaxValue );
+	return itsValue == itsMaxValue;
 }
 
 /******************************************************************************
@@ -407,15 +407,15 @@ JXScrollbar::SetScrollDelay
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXScrollbar::IsHorizontal()
 	const
 {
 	const JRect frameG = GetFrameGlobal();
-	return JI2B( frameG.width() > frameG.height() );
+	return frameG.width() > frameG.height();
 }
 
-inline JBoolean
+inline bool
 JXScrollbar::IsVertical()
 	const
 {

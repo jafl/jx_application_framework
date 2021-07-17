@@ -28,7 +28,7 @@ public:
 	virtual ~JXWindowDirector();
 
 	virtual void		Activate() override;
-	virtual JBoolean	Deactivate() override;
+	virtual bool	Deactivate() override;
 
 	virtual void	Suspend() override;
 	virtual void	Resume() override;
@@ -39,16 +39,16 @@ public:
 	// used by JXWDManager
 
 	virtual const JString&	GetName() const;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const;
-	virtual JBoolean		NeedsSave() const;
+	virtual bool		GetMenuIcon(const JXImage** icon) const;
+	virtual bool		NeedsSave() const;
 
 	// needed by JXDialogDirector until dynamic_cast works
 
-	virtual JBoolean	IsWindowDirector() const override;
+	virtual bool	IsWindowDirector() const override;
 
 protected:
 
-	virtual JBoolean	OKToDeactivate();
+	virtual bool	OKToDeactivate();
 
 private:
 

@@ -21,7 +21,7 @@
 
 GDBVarNode::GDBVarNode				// root node
 	(
-	const JBoolean shouldUpdate		// kJFalse for Local Variables
+	const bool shouldUpdate		// false for Local Variables
 	)
 	:
 	CMVarNode(shouldUpdate)
@@ -59,7 +59,7 @@ GDBVarNode::~GDBVarNode()
 JString
 GDBVarNode::GetFullName
 	(
-	JBoolean* isPointer
+	bool* isPointer
 	)
 	const
 {

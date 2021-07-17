@@ -27,7 +27,7 @@ MDPrefsDialog::MDPrefsDialog
 	const JString&	openCmd
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(openCmd);
 }

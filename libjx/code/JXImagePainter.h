@@ -66,7 +66,7 @@ private:
 
 private:
 
-	JBoolean	PrepareXDraw();
+	bool	PrepareXDraw();
 
 	// not allowed
 

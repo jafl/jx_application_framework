@@ -25,7 +25,7 @@ protected:
 
 private:
 
-	JBoolean	itsHasCoreFlag;
+	bool	itsHasCoreFlag;
 	JIndex		itsNextCmdIndex;
 
 private:

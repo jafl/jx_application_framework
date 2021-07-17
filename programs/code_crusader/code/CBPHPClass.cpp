@@ -28,7 +28,7 @@ CBPHPClass::CBPHPClass
 	const DeclareType	declType,
 	const JFAID_t		fileID,
 	CBTree*				tree,
-	const JBoolean		isFinal
+	const bool		isFinal
 	)
 	:
 	CBClass(name, declType, fileID, tree, kNamespaceOperator),
@@ -125,7 +125,7 @@ CBPHPClass::NewGhost
 	)
 {
 	CBPHPClass* newClass = jnew CBPHPClass(name, kGhostType, JFAID::kInvalidID, tree,
-										  kJFalse);
+										  false);
 	assert( newClass != nullptr );
 	return newClass;
 }
@@ -148,7 +148,7 @@ CBPHPClass::AdjustNameStyle
 		{
 		if (itsIsFinalFlag)
 			{
-			style->bold = kJTrue;
+			style->bold = true;
 			}
 		}
 }

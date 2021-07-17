@@ -262,19 +262,19 @@ CMCommandDirector::CMCommandDirector
 	assert(itsDebugDir!=nullptr);
 
 	JXWDManager* wdMgr = GetDisplay()->GetWDManager();
-	wdMgr->PermanentDirectorCreated(this,                JString::empty,                   kCMShowCommandLineAction);
-	wdMgr->PermanentDirectorCreated(itsCurrentSourceDir, JString::empty,                   kCMShowCurrentSourceAction);
-	wdMgr->PermanentDirectorCreated(itsThreadsDir,       JString("Meta-Shift-T", kJFalse), kCMShowThreadsAction);
-	wdMgr->PermanentDirectorCreated(itsStackDir,         JString("Meta-Shift-S", kJFalse), kCMShowStackTraceAction);
-	wdMgr->PermanentDirectorCreated(itsBreakpointsDir,   JString("Meta-Shift-B", kJFalse), kCMShowBreakpointsAction);
-	wdMgr->PermanentDirectorCreated(itsVarTreeDir,       JString("Meta-Shift-V", kJFalse), kCMShowVariablesAction);
-	wdMgr->PermanentDirectorCreated(itsLocalVarsDir,     JString("Meta-Shift-L", kJFalse), kCMShowLocalVariablesAction);
-	wdMgr->PermanentDirectorCreated(itsCurrentAsmDir,    JString("Meta-Shift-Y", kJFalse), kCMShowCurrentAsmAction);
-	wdMgr->PermanentDirectorCreated(itsRegistersDir,     JString("Meta-Shift-R", kJFalse), kCMShowRegistersAction);
-	wdMgr->PermanentDirectorCreated(itsFileListDir,      JString("Meta-Shift-F", kJFalse), kCMShowFileListAction);
-	wdMgr->PermanentDirectorCreated(itsDebugDir,         JString::empty,                   kCMShowDebugInfoAction);
+	wdMgr->PermanentDirectorCreated(this,                JString::empty,                            kCMShowCommandLineAction);
+	wdMgr->PermanentDirectorCreated(itsCurrentSourceDir, JString::empty,                            kCMShowCurrentSourceAction);
+	wdMgr->PermanentDirectorCreated(itsThreadsDir,       JString("Meta-Shift-T", JString::kNoCopy), kCMShowThreadsAction);
+	wdMgr->PermanentDirectorCreated(itsStackDir,         JString("Meta-Shift-S", JString::kNoCopy), kCMShowStackTraceAction);
+	wdMgr->PermanentDirectorCreated(itsBreakpointsDir,   JString("Meta-Shift-B", JString::kNoCopy), kCMShowBreakpointsAction);
+	wdMgr->PermanentDirectorCreated(itsVarTreeDir,       JString("Meta-Shift-V", JString::kNoCopy), kCMShowVariablesAction);
+	wdMgr->PermanentDirectorCreated(itsLocalVarsDir,     JString("Meta-Shift-L", JString::kNoCopy), kCMShowLocalVariablesAction);
+	wdMgr->PermanentDirectorCreated(itsCurrentAsmDir,    JString("Meta-Shift-Y", JString::kNoCopy), kCMShowCurrentAsmAction);
+	wdMgr->PermanentDirectorCreated(itsRegistersDir,     JString("Meta-Shift-R", JString::kNoCopy), kCMShowRegistersAction);
+	wdMgr->PermanentDirectorCreated(itsFileListDir,      JString("Meta-Shift-F", JString::kNoCopy), kCMShowFileListAction);
+	wdMgr->PermanentDirectorCreated(itsDebugDir,         JString::empty,                            kCMShowDebugInfoAction);
 
-	CreateWindowsMenuAndToolBar(menuBar, itsToolBar, kJFalse, kJFalse, kJTrue,
+	CreateWindowsMenuAndToolBar(menuBar, itsToolBar, false, false, true,
 								itsDebugMenu, itsPrefsMenu,
 								itsHelpMenu, kTOCCmd, kThisWindowCmd);
 	itsCurrentSourceDir->CreateWindowsMenu();
@@ -299,7 +299,7 @@ CMCommandDirector::CMCommandDirector
 	assert( itsMemoryDirs != nullptr );
 
 	itsHistoryIndex     = 0;
-	itsWaitingToRunFlag = kJFalse;
+	itsWaitingToRunFlag = false;
 
 	InitializeCommandOutput();
 
@@ -337,7 +337,7 @@ CMCommandDirector::~CMCommandDirector()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMCommandDirector::Close()
 {
 	CloseDynamicDirectors();
@@ -512,7 +512,7 @@ CMCommandDirector::BuildWindow()
 
 	window->SetTitle(JGetString("WindowTitleSuffix::CMCommandDirector"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetCommandWindowClass());
 	window->SetMinSize(300, 200);
 	CMGetPrefsManager()->GetWindowSize(kCmdWindSizeID, window);
@@ -567,7 +567,7 @@ CMCommandDirector::BuildWindow()
 							 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsCommandOutput != nullptr );
-	itsCommandOutput->FitToEnclosure(kJTrue, kJTrue);
+	itsCommandOutput->FitToEnclosure(true, true);
 
 	itsCommandOutput->AppendSearchMenu(menuBar);
 
@@ -697,7 +697,7 @@ CMCommandDirector::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMCommandDirector::GetMenuIcon
 	(
 	const JXImage** icon
@@ -705,7 +705,7 @@ CMCommandDirector::GetMenuIcon
 	const
 {
 	*icon = CMGetCommandLineIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -767,7 +767,7 @@ CMCommandDirector::CreateDebugMenu
 	// Meta-. should also be "stop"
 
 	JXKeyModifiers m(menu->GetDisplay());
-	m.SetState(kJXMetaKeyIndex, kJTrue);
+	m.SetState(kJXMetaKeyIndex, true);
 	(menu->GetWindow())->InstallMenuShortcut(menu, kStopCmd, '.', m);
 
 	AdjustDebugMenu(menu);
@@ -784,7 +784,7 @@ CMCommandDirector::AddDebugMenuItemsToToolBar
 	(
 	JXToolBar*		toolBar,
 	JXTextMenu*		debugMenu,
-	const JBoolean	includeStepAsm
+	const bool	includeStepAsm
 	)
 {
 	toolBar->AppendButton(debugMenu, kRunCmd);
@@ -842,9 +842,9 @@ CMCommandDirector::CreateWindowsMenuAndToolBar
 	(
 	JXMenuBar*		menuBar,
 	JXToolBar*		toolBar,
-	const JBoolean	includeStepAsm,
-	const JBoolean	includeCmdLine,
-	const JBoolean	includeCurrSrc,
+	const bool	includeStepAsm,
+	const bool	includeCmdLine,
+	const bool	includeCurrSrc,
 	JXTextMenu*		debugMenu,
 	JXTextMenu*		prefsMenu,
 	JXTextMenu*		helpMenu,
@@ -880,23 +880,23 @@ CMCommandDirector::AddWindowsMenuItemsToToolBar
 	(
 	JXToolBar*		toolBar,
 	JXTextMenu*		windowsMenu,
-	const JBoolean	includeCmdLine,
-	const JBoolean	includeCurrSrc
+	const bool	includeCmdLine,
+	const bool	includeCurrSrc
 	)
 {
 	if (includeCmdLine)
 		{
-		toolBar->AppendButton(windowsMenu, JString(kCMShowCommandLineAction, kJFalse));
+		toolBar->AppendButton(windowsMenu, JString(kCMShowCommandLineAction, JString::kNoCopy));
 		}
 	if (includeCurrSrc)
 		{
-		toolBar->AppendButton(windowsMenu, JString(kCMShowCurrentSourceAction, kJFalse));
+		toolBar->AppendButton(windowsMenu, JString(kCMShowCurrentSourceAction, JString::kNoCopy));
 		}
-	toolBar->AppendButton(windowsMenu, JString(kCMShowStackTraceAction, kJFalse));
-	toolBar->AppendButton(windowsMenu, JString(kCMShowBreakpointsAction, kJFalse));
-	toolBar->AppendButton(windowsMenu, JString(kCMShowVariablesAction, kJFalse));
-	toolBar->AppendButton(windowsMenu, JString(kCMShowLocalVariablesAction, kJFalse));
-	toolBar->AppendButton(windowsMenu, JString(kCMShowFileListAction, kJFalse));
+	toolBar->AppendButton(windowsMenu, JString(kCMShowStackTraceAction, JString::kNoCopy));
+	toolBar->AppendButton(windowsMenu, JString(kCMShowBreakpointsAction, JString::kNoCopy));
+	toolBar->AppendButton(windowsMenu, JString(kCMShowVariablesAction, JString::kNoCopy));
+	toolBar->AppendButton(windowsMenu, JString(kCMShowLocalVariablesAction, JString::kNoCopy));
+	toolBar->AppendButton(windowsMenu, JString(kCMShowFileListAction, JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -968,7 +968,7 @@ CMCommandDirector::Receive
 			CMRunProgramTask* task = jnew CMRunProgramTask();
 			assert( task != nullptr );
 			task->Start();
-			itsWaitingToRunFlag = kJFalse;
+			itsWaitingToRunFlag = false;
 			}
 		}
 
@@ -985,18 +985,18 @@ CMCommandDirector::Receive
 		{
 		itsCommandInput->Focus();
 
-		JBoolean active = kJFalse;
+		bool active = false;
 		if (itsCurrentSourceDir->IsActive())
 			{
-			(itsCurrentSourceDir->GetWindow())->Raise(kJFalse);
-			active = kJTrue;
+			(itsCurrentSourceDir->GetWindow())->Raise(false);
+			active = true;
 			}
 		if (itsCurrentAsmDir->IsActive() &&
 			(!itsCurrentAsmDir->GetWindow()->IsDocked() ||
 			 !itsCurrentSourceDir->IsActive()))
 			{
-			(itsCurrentAsmDir->GetWindow())->Raise(kJFalse);
-			active = kJTrue;
+			(itsCurrentAsmDir->GetWindow())->Raise(false);
+			active = true;
 			}
 		if (!active)
 			{
@@ -1139,7 +1139,7 @@ CMCommandDirector::ReceiveGoingAway
 		itsLink = CMGetLink();
 		ListenTo(itsLink);
 
-		itsWaitingToRunFlag = kJFalse;
+		itsWaitingToRunFlag = false;
 
 		UpdateWindowTitle(JString::empty);
 		itsFakePrompt->GetText()->SetText(itsLink->GetPrompt());
@@ -1345,15 +1345,15 @@ CMCommandDirector::OpenSourceFile
 	(
 	const JString&	fileName,
 	const JSize		lineIndex,
-	const JBoolean	askDebuggerWhenRelPath
+	const bool	askDebuggerWhenRelPath
 	)
 {
 	JString fullName;
 	if (JIsRelativePath(fileName) && askDebuggerWhenRelPath)
 		{
-		JBoolean exists;
+		bool exists;
 		JString fullName;
-		const JBoolean known = itsLink->FindFile(fileName, &exists, &fullName);
+		const bool known = itsLink->FindFile(fileName, &exists, &fullName);
 		if (known && exists)
 			{
 			OpenSourceFile(fullName, lineIndex);
@@ -1661,7 +1661,7 @@ CMCommandDirector::UpdateDebugMenu
 
 	if (itsLink->DebuggerHasStarted())
 		{
-		const JBoolean canSetProgram = itsLink->GetFeature(CMLink::kSetProgram);
+		const bool canSetProgram = itsLink->GetFeature(CMLink::kSetProgram);
 		if (canSetProgram)
 			{
 			menu->EnableItem(kSelectBinCmd);
@@ -1744,7 +1744,7 @@ CMCommandDirector::UpdateDebugMenu
 							menu->EnableItem(kStepAsmCmd);
 							}
 
-						const JBoolean bkwd = itsLink->GetFeature(CMLink::kExecuteBackwards);
+						const bool bkwd = itsLink->GetFeature(CMLink::kExecuteBackwards);
 						menu->SetItemEnable(kPrevCmd, bkwd);
 						menu->SetItemEnable(kReverseStepCmd, bkwd);
 						menu->SetItemEnable(kReverseFinishCmd, bkwd);
@@ -2001,7 +2001,7 @@ CMCommandDirector::RunProgram()
 		ChangeProgram();
 		if (itsLink->HasProgram())
 			{
-			itsWaitingToRunFlag = kJTrue;
+			itsWaitingToRunFlag = true;
 			}
 		}
 	else if (CMGetLink()->HasPendingCommands())

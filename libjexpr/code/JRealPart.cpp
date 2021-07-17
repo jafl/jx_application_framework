@@ -71,7 +71,7 @@ JRealPart::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JRealPart::Evaluate
 	(
 	JFloat* result
@@ -82,15 +82,15 @@ JRealPart::Evaluate
 	if (GetArg()->Evaluate(&value))
 		{
 		*result = real(value);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JRealPart::Evaluate
 	(
 	JComplex* result
@@ -101,10 +101,10 @@ JRealPart::Evaluate
 	if (GetArg()->Evaluate(&value))
 		{
 		*result = real(value);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

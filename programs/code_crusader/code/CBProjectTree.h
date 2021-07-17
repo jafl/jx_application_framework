@@ -36,13 +36,13 @@ public:
 	CBProjectDocument*	GetProjectDoc() const;
 	CBProjectNode*		GetProjectRoot() const;
 
-	JBoolean	BuildMakeFiles(JString* text,
+	bool	BuildMakeFiles(JString* text,
 							   JPtrArray<JTreeNode>* invalidList,
 							   JPtrArray<JString>* libFileList,
 							   JPtrArray<JString>* libProjPathList) const;
-	JBoolean	BuildCMakeData(JString* src, JString* hdr,
+	bool	BuildCMakeData(JString* src, JString* hdr,
 							   JPtrArray<JTreeNode>* invalidList) const;
-	JBoolean	BuildQMakeData(JString* src, JString* hdr,
+	bool	BuildQMakeData(JString* src, JString* hdr,
 							   JPtrArray<JTreeNode>* invalidList) const;
 	void		ParseFiles(CBFileListTable* parser,
 						   const JPtrArray<JString>& allSuffixList,

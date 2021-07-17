@@ -260,7 +260,7 @@ JXTextSelection::SetTextEditor
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTextSelection::ConvertData
 	(
 	const Atom		requestType,
@@ -288,7 +288,7 @@ JXTextSelection::ConvertData
 		if (*data != nullptr)
 			{
 			memcpy(*data, itsText->GetRawBytes(), *dataLength);
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -307,7 +307,7 @@ JXTextSelection::ConvertData
 		if (*data != nullptr)
 			{
 			memcpy(*data, s.data(), *dataLength);
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -320,13 +320,13 @@ JXTextSelection::ConvertData
 		*data       = jnew unsigned char[1];
 		*dataLength = 0;
 		*returnType = selMgr->GetNULLXAtom();
-		return kJTrue;
+		return true;
 		}
 
 	*data       = nullptr;
 	*dataLength = 0;
 	*returnType = None;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

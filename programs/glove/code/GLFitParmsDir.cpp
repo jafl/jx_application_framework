@@ -324,5 +324,5 @@ GLFitParmsDir::SendToSession
 			dir->AppendText(str);
 			}
 		}
-	dir->AppendText(JString("\n", kJFalse));
+	dir->AppendText(JString::newline);
 }

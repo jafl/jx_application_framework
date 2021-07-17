@@ -29,8 +29,8 @@ public:
 					const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotFitBase();	
 
-	virtual JBoolean	GetGoodnessOfFitName(JString* name) const override;
-	virtual JBoolean	GetGoodnessOfFit(JFloat* value) const override;
+	virtual bool	GetGoodnessOfFitName(JString* name) const override;
+	virtual bool	GetGoodnessOfFit(JFloat* value) const override;
 	
 	void				AdjustDataRange(const JFloat xmin, const JFloat xmax,
 										const JFloat ymin, const JFloat ymax);
@@ -73,8 +73,8 @@ protected:
 
 	virtual void 		GenerateDiffData() override;
 
-	virtual JBoolean	DataElementValid(const JIndex index) override;
-	virtual JBoolean	GetDataElement(const JIndex index, J2DDataPoint* point) override;
+	virtual bool	DataElementValid(const JIndex index) override;
+	virtual bool	GetDataElement(const JIndex index, J2DDataPoint* point) override;
 
 	J2DDataPoint		GetRealElement(const JIndex index);
 	JSize				GetRealElementCount();
@@ -101,14 +101,14 @@ private:
 	JFloat		itsRangeXMin;
 	JFloat 		itsRangeYMax;
 	JFloat 		itsRangeYMin;
-	JBoolean 	itsUsingRange;
+	bool 	itsUsingRange;
 	JSize		itsRealCount;
 	
 	JArray<J2DDataPoint>* itsRealData;
 
 	JIndex		itsCurrentConstantParmIndex;
 	JFloat		itsCurrentConstantParm;
-	JBoolean	itsUseAltFunction;
+	bool	itsUseAltFunction;
 	JFloat		itsChiPlus;
 
 	JString		itsFunctionStr;

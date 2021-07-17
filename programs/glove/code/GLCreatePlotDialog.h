@@ -32,14 +32,14 @@ public:
 	void GetColumns(JIndex* startX, JIndex* startXErr, 
 					JIndex* startY, JIndex* startYErr);
 					
-	JBoolean GetPlotIndex(JIndex* index);
+	bool GetPlotIndex(JIndex* index);
 	
 	const JString& GetLabel();
 	
 protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	
 private:
 

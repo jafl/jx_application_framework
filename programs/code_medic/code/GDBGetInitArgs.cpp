@@ -29,7 +29,7 @@ GDBGetInitArgs::GDBGetInitArgs
 	JXInputField* argInput
 	)
 	:
-	CMGetInitArgs(JString("show args", kJFalse)),
+	CMGetInitArgs(JString("show args", JString::kNoCopy)),
 	itsArgInput(argInput)
 {
 }
@@ -59,7 +59,7 @@ GDBGetInitArgs::HandleSuccess
 	const JString& data
 	)
 {
-	const JStringMatch m = resultPattern.Match(GetLastResult(), kJTrue);
+	const JStringMatch m = resultPattern.Match(GetLastResult(), JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
 		{
 		JString args = m.GetSubstring(1);

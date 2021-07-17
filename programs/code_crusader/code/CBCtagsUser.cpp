@@ -139,7 +139,7 @@ CBCtagsUser::CBCtagsUser
 	itsCmdPipe(nullptr),
 	itsResultFD(ACE_INVALID_HANDLE),
 	itsIsActiveFlag(HasExuberantCtags()),
-	itsTryRestartFlag(kJTrue)
+	itsTryRestartFlag(true)
 {
 }
 
@@ -177,7 +177,7 @@ CBCtagsUser::SetCtagsArgs
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCtagsUser::ProcessFile
 	(
 	const JString&			fileName,
@@ -189,37 +189,37 @@ CBCtagsUser::ProcessFile
 	if (!StartProcess(fileType, lang))
 		{
 		result->Clear();
-		return kJFalse;
+		return false;
 		}
 
 	*itsCmdPipe << fileName.GetBytes() << std::endl;
 
-	JBoolean found;
+	bool found;
 	*result = JReadUntil(itsResultFD, kDelimiter, &found);
 	if (found)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (itsTryRestartFlag)
 		{
 		DeleteProcess();
 
-		itsTryRestartFlag = kJFalse;
-		const JBoolean ok = ProcessFile(fileName, fileType, result, lang);
-		itsTryRestartFlag = kJTrue;
+		itsTryRestartFlag = false;
+		const bool ok = ProcessFile(fileName, fileType, result, lang);
+		itsTryRestartFlag = true;
 		return ok;
 		}
 	else
 		{
 		DeleteProcess();
-		itsIsActiveFlag = kJFalse;
+		itsIsActiveFlag = false;
 
 		if (!CBInUpdateThread())
 			{
 			JGetUserNotification()->ReportError(JGetString("ctagsFailure::CBCtagsUser"));
 			}
 
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -228,7 +228,7 @@ CBCtagsUser::ProcessFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCtagsUser::StartProcess
 	(
 	const CBTextFileType	fileType,
@@ -251,7 +251,7 @@ CBCtagsUser::StartProcess
 			{
 			ListenTo(itsProcess);
 
-			itsCmdPipe = jnew JOutPipeStream(toFD, kJTrue);
+			itsCmdPipe = jnew JOutPipeStream(toFD, true);
 			assert( itsCmdPipe != nullptr );
 
 			itsResultFD = fromFD;
@@ -261,7 +261,7 @@ CBCtagsUser::StartProcess
 			}
 		else
 			{
-			itsIsActiveFlag = kJFalse;
+			itsIsActiveFlag = false;
 			DeleteProcess();
 			}
 		}
@@ -1082,7 +1082,7 @@ CBCtagsUser::DecodeSymbolType
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCtagsUser::IgnoreSymbol
 	(
 	const JString& s
@@ -1133,7 +1133,7 @@ void emptyHandler(int sig)
 {
 }
 
-JBoolean
+bool
 CBCtagsUser::HasExuberantCtags()
 {
 	if (itsHasExuberantCtagsFlag == kUntested)
@@ -1161,7 +1161,7 @@ CBCtagsUser::HasExuberantCtags()
 			JString vers;
 			JReadAll(fromFD, &vers);
 
-			const JStringMatch m = versionPattern.Match(vers, kJTrue);
+			const JStringMatch m = versionPattern.Match(vers, JRegex::kIncludeSubmatches);
 			if (!m.IsEmpty())
 				{
 				const JSize count = m.GetSubstringCount();
@@ -1172,7 +1172,7 @@ CBCtagsUser::HasExuberantCtags()
 					s       = m.GetSubstring(i);
 					if (!s.IsEmpty())
 						{
-						const JBoolean ok = s.ConvertToUInt(&v);
+						const bool ok = s.ConvertToUInt(&v);
 						assert( ok );
 						}
 
@@ -1196,7 +1196,7 @@ CBCtagsUser::HasExuberantCtags()
 			}
 		}
 
-	return JI2B( itsHasExuberantCtagsFlag == kSuccess );
+	return itsHasExuberantCtagsFlag == kSuccess;
 }
 
 /******************************************************************************
@@ -1204,7 +1204,7 @@ CBCtagsUser::HasExuberantCtags()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCtagsUser::IsParsed
 	(
 	const CBTextFileType type
@@ -1212,7 +1212,7 @@ CBCtagsUser::IsParsed
 {
 	assert( kFTCount == kCBFTCount && kFTInfo[type].fileType == type );
 
-	return JI2B( kFTInfo[type].lang != kCBOtherLang );
+	return kFTInfo[type].lang != kCBOtherLang;
 }
 
 /******************************************************************************
@@ -1220,7 +1220,7 @@ CBCtagsUser::IsParsed
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCtagsUser::IsParsedForFunctionMenu
 	(
 	const CBTextFileType type
@@ -1228,7 +1228,7 @@ CBCtagsUser::IsParsedForFunctionMenu
 {
 	assert( kFTCount == kCBFTCount && kFTInfo[type].fileType == type );
 
-	return JI2B( kFTInfo[type].fnTitleID != nullptr );
+	return kFTInfo[type].fnTitleID != nullptr;
 }
 
 /******************************************************************************

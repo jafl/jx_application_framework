@@ -30,12 +30,12 @@
 #include "jMissingProto.h"
 #include "jAssert.h"
 
-static JBoolean theIncludeCWDOnPathFlag = kJFalse;
+static bool theIncludeCWDOnPathFlag = false;
 
 // Private functions
 
 void		JCleanArg(JString* arg);
-JBoolean	JProgramAvailable(const JString& programName, JString* fixedName);
+bool	JProgramAvailable(const JString& programName, JString* fixedName);
 
 /******************************************************************************
  JPrepArgForExec
@@ -52,7 +52,7 @@ JPrepArgForExec
 	)
 {
 	JString str    = arg;
-	JBoolean quote = kJFalse;
+	bool quote = false;
 
 	JStringIterator iter(&str, kJIteratorStartAtEnd);
 	JUtf8Character c;
@@ -64,7 +64,7 @@ JPrepArgForExec
 			}
 		else if (c.IsSpace())
 			{
-			quote = kJTrue;
+			quote = true;
 			}
 		}
 	iter.Invalidate();
@@ -122,7 +122,7 @@ JParseArgsForExec
 				}
 			if (c == ';')
 				{
-				argList->Append(JString(";", kJFalse));
+				argList->Append(JString(";", JString::kNoCopy));
 				}
 			iter.BeginMatch();
 			}
@@ -449,7 +449,7 @@ JExecute
 	assert( (errAction != kJCreatePipe && errAction != kJAttachToFD) ||
 			errFD != nullptr );
 
-	const JString origProgName(argv[0], kJFalse);
+	const JString origProgName(argv[0], JString::kNoCopy);
 	JString progName;
 	if (!JProgramAvailable(origProgName, &progName))
 		{
@@ -622,7 +622,7 @@ JExecute
 				}
 
 			JProcess* p = jnew JProcess(pid2);
-			p->KillAtExit(kJTrue);
+			p->KillAtExit(true);
 			}
 
 		if (toAction == kJCreatePipe)
@@ -666,7 +666,7 @@ JExecute
 JError
 JWaitForChild
 	(
-	const JBoolean	block,
+	const bool	block,
 	pid_t*			pid,
 	ACE_exitcode*	status
 	)
@@ -833,11 +833,11 @@ JSendSignalToProcess
 /******************************************************************************
  JProgramAvailable
 
-	Returns kJTrue if the given program can be run by JExecute().
+	Returns true if the given program can be run by JExecute().
 
  ******************************************************************************/
 
-JBoolean
+bool
 JProgramAvailable
 	(
 	const JString& programName
@@ -847,7 +847,7 @@ JProgramAvailable
 	return JProgramAvailable(programName, &s);
 }
 
-JBoolean
+bool
 JProgramAvailable
 	(
 	const JString&	programName,
@@ -857,7 +857,7 @@ JProgramAvailable
 	if (programName.IsEmpty() ||
 		!JExpandHomeDirShortcut(programName, fixedName))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (fixedName->GetFirstCharacter() == '/')
@@ -877,7 +877,7 @@ JProgramAvailable
 
 	const JUtf8Byte* cpath = getenv("PATH");
 
-	JString path(cpath == nullptr ? "" : cpath, 0);
+	JString path(cpath == nullptr ? "" : cpath);
 	if (theIncludeCWDOnPathFlag)
 		{
 		path.Prepend(".:");
@@ -885,7 +885,7 @@ JProgramAvailable
 
 	if (path.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JRegex r(":+");
@@ -901,11 +901,11 @@ JProgramAvailable
 				{
 				fixedName->Prepend("./");	// in case we added this to PATH
 				}
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -915,7 +915,7 @@ JProgramAvailable
 
  ******************************************************************************/
 
-JBoolean
+bool
 JWillIncludeCWDOnPath()
 {
 	return theIncludeCWDOnPathFlag;
@@ -924,7 +924,7 @@ JWillIncludeCWDOnPath()
 void
 JShouldIncludeCWDOnPath
 	(
-	const JBoolean includeCWD
+	const bool includeCWD
 	)
 {
 	theIncludeCWDOnPathFlag = includeCWD;

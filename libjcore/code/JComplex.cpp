@@ -20,7 +20,7 @@ static const JUtf8Byte* kEEImagString   = "j";
 // Private data
 
 static JComplexDisplayMode theDisplayMode = kDisplayRealAndImag;
-static JBoolean theUseEEImagFlag          = kJFalse;
+static bool theUseEEImagFlag          = false;
 
 /******************************************************************************
  Flag to set display mode
@@ -47,7 +47,7 @@ JSetComplexDisplayMode
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUsingEEImag()
 {
 	return theUseEEImagFlag;
@@ -56,7 +56,7 @@ JUsingEEImag()
 void
 JUseEEImag
 	(
-	const JBoolean useEEImag
+	const bool useEEImag
 	)
 {
 	theUseEEImagFlag = useEEImag;
@@ -111,7 +111,7 @@ JPrintComplexNumber
 	(
 	const JComplex&				value,
 	const JComplexDisplayMode	mode,
-	const JBoolean				useEEImag
+	const bool				useEEImag
 	)
 {
 	JString str;

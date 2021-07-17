@@ -16,7 +16,7 @@ This scanner reads a GoLang file and creates CBGoClass instances.
 
 #undef YY_DECL
 #define YY_DECL \
-	JBoolean CBGoTreeScanner::CreateClasses( \
+	bool CBGoTreeScanner::CreateClasses( \
 		const JString& fileName, const JFAID_t fileID, \
 		CBTree* tree, JPtrArray<CBClass>* classList)
 %}
@@ -143,7 +143,7 @@ type/{BDRY} {
 
 \"[^"]+\" {
 	JString s(yytext+1, yyleng-2);
-	const JStringMatch m = modulePattern.Match(s, kJTrue);
+	const JStringMatch m = modulePattern.Match(s, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty() && !importAlias.IsEmpty())
 		{
 		importMap.SetNewElement(importAlias, m.GetSubstring(1));
@@ -194,7 +194,7 @@ interface/{BDRY} {
 		}
 	else
 		{
-		const JBoolean isExported = typeName.GetFirstCharacter().IsUpper();
+		const bool isExported = typeName.GetFirstCharacter().IsUpper();
 
 		if (!package.IsEmpty())
 			{
@@ -206,7 +206,7 @@ interface/{BDRY} {
 									  isExported);
 		assert( currentClass != nullptr );
 
-		currentClass->SetAbstract(JI2B(abstract == 'T'));
+		currentClass->SetAbstract(abstract == 'T');
 		classList->Append(currentClass);
 
 		typeContent.Clear();
@@ -238,7 +238,7 @@ interface/{BDRY} {
 <INHERIT_STATE>{
 
 [^/}]+|"/" {
-	typeContent += JString(yytext, yyleng, kJFalse);
+	typeContent += JString(yytext, yyleng, JString::kNoCopy);
 	}
 
 "}" {

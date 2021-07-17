@@ -45,7 +45,7 @@ endif
 # tests
 
 TESTS := \
-  test_JBoolean test_JPoint test_JRect \
+  test_JPoint test_JRect \
   test_JUtf8Character test_JString \
   test_JStringMatch test_JStringIterator test_JRegex \
   test_JSubstitute test_JInterpolate \

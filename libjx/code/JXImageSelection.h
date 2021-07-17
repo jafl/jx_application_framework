@@ -22,14 +22,14 @@ public:
 
 	virtual	~JXImageSelection();
 
-	JBoolean	GetImage(const JXImage** image) const;
+	bool	GetImage(const JXImage** image) const;
 
 	void	SetData(const JXImage& image);
 	void	SetData(JXImage* image);
 
-	static JBoolean	GetImage(const Atom selectionName, const Time time,
+	static bool	GetImage(const Atom selectionName, const Time time,
 							 JXDisplay* display, JXImage** image);
-	static JBoolean	GetImage(JXSelectionManager* selMgr,
+	static bool	GetImage(JXSelectionManager* selMgr,
 							 const Atom selectionName, const Time time,
 							 JXImage** image);
 
@@ -41,7 +41,7 @@ public:
 protected:
 
 	virtual void		AddTypes(const Atom selectionName) override;
-	virtual JBoolean	ConvertData(const Atom requestType, Atom* returnType,
+	virtual bool	ConvertData(const Atom requestType, Atom* returnType,
 									unsigned char** data, JSize* dataLength,
 									JSize* bitsPerBlock) const override;
 
@@ -80,7 +80,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXImageSelection::GetImage
 	(
 	const JXImage** image
@@ -88,7 +88,7 @@ JXImageSelection::GetImage
 	const
 {
 	*image = itsImage;
-	return JI2B( itsImage != nullptr );
+	return itsImage != nullptr;
 }
 
 #endif

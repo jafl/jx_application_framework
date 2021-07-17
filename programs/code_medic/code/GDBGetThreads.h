@@ -20,8 +20,8 @@ public:
 
 	virtual	~GDBGetThreads();
 
-	static JBoolean	ExtractThreadIndex(const JString& line, JIndex* threadIndex);
-	static JBoolean	ExtractLocation(const JString& line,
+	static bool	ExtractThreadIndex(const JString& line, JIndex* threadIndex);
+	static bool	ExtractLocation(const JString& line,
 									JString* fileName, JIndex* lineIndex);
 
 protected:

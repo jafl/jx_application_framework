@@ -32,7 +32,7 @@ JXFileNameDisplay::JXFileNameDisplay
 	const JCoordinate	h
 	)
 	:
-	JXStaticText(text, kJFalse, kJFalse, kJTrue, nullptr,
+	JXStaticText(text, false, false, true, nullptr,
 				 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	SetFont(JFontManager::GetDefaultMonospaceFont());
@@ -123,10 +123,10 @@ JXFileNameDisplay::BoundsMoved
 JCoordinate
 JXFileNameDisplay::GetFTCMinContentSize
 	(
-	const JBoolean horizontal
+	const bool horizontal
 	)
 	const
 {
-	return (horizontal ? JXContainer::GetFTCMinContentSize(kJTrue) :
-						 JXStaticText::GetFTCMinContentSize(kJFalse));
+	return (horizontal ? JXContainer::GetFTCMinContentSize(true) :
+						 JXStaticText::GetFTCMinContentSize(false));
 }

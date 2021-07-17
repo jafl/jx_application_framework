@@ -25,7 +25,7 @@ JString				JXWGetVersionStr();
 
 	// called by JXWApp
 
-JBoolean	JXWCreateGlobals(JXWApp* app);
+bool	JXWCreateGlobals(JXWApp* app);
 void		JXWDeleteGlobals();
 void		JXWCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 

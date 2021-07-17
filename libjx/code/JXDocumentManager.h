@@ -42,12 +42,12 @@ public:
 
 public:
 
-	JXDocumentManager(const JBoolean wantShortcuts = kJTrue);
+	JXDocumentManager(const bool wantShortcuts = true);
 
 	virtual ~JXDocumentManager();
 
-	JBoolean	WillSafetySave() const;
-	void		ShouldSafetySave(const JBoolean doIt);
+	bool	WillSafetySave() const;
+	void		ShouldSafetySave(const bool doIt);
 
 	JSize		GetSafetySaveInterval() const;
 	void		SetSafetySaveInterval(const JSize deltaSeconds);
@@ -59,20 +59,20 @@ public:
 	// for use by classes derived from JXDocument
 
 	JString		GetNewFileName();
-	void		DocumentMustStayOpen(JXDocument* doc, const JBoolean stayOpen);
-	JBoolean	FileDocumentIsOpen(const JString& fileName,
+	void		DocumentMustStayOpen(JXDocument* doc, const bool stayOpen);
+	bool	FileDocumentIsOpen(const JString& fileName,
 										   JXFileDocument** doc) const;
 
-	virtual JBoolean	FindFile(const JString& fileName,
+	virtual bool	FindFile(const JString& fileName,
 								 const JString& currPath,
 								 JString* newFileName,
-								 const JBoolean askUser = kJTrue) const;
+								 const bool askUser = true) const;
 
 	// for use by JXDocument
 
 	virtual void	DocumentCreated(JXDocument* doc);	// must call inherited
 	virtual void	DocumentDeleted(JXDocument* doc);	// must call inherited
-	JBoolean		OKToCloseDocument(JXDocument* doc) const;
+	bool		OKToCloseDocument(JXDocument* doc) const;
 
 	const JXImage*	GetDefaultMenuIcon() const;
 
@@ -80,7 +80,7 @@ public:
 
 	void		UpdateDocumentMenu(JXDocumentMenu* menu);
 	void		ActivateDocument(const JIndex index);
-	JBoolean	GetDocument(const JIndex index, JXDocument** doc) const;
+	bool	GetDocument(const JIndex index, JXDocument** doc) const;
 
 protected:
 
@@ -91,17 +91,17 @@ private:
 	struct DocInfo
 	{
 		JXDocument*	doc;
-		JBoolean	keepOpen;
+		bool	keepOpen;
 		JInteger	shortcut;
 
 		DocInfo()
 			:
-			doc(nullptr), keepOpen(kJFalse), shortcut(kNoShortcutForDoc)
+			doc(nullptr), keepOpen(false), shortcut(kNoShortcutForDoc)
 		{ };
 
 		DocInfo(JXDocument*	d)
 			:
-			doc(d), keepOpen(kJFalse), shortcut(kNoShortcutForDoc)
+			doc(d), keepOpen(false), shortcut(kNoShortcutForDoc)
 		{ };
 	};
 
@@ -128,9 +128,9 @@ private:
 
 	JArray<FileMap>*		itsFileMap;
 
-	const JBoolean			itsWantShortcutFlag;
+	const bool			itsWantShortcutFlag;
 
-	JBoolean				itsPerformSafetySaveFlag;
+	bool				itsPerformSafetySaveFlag;
 	JXTimerTask*			itsSafetySaveTask;
 
 	JXUpdateDocMenuTask*	itsUpdateDocMenuTask;	// nullptr unless pending
@@ -138,7 +138,7 @@ private:
 
 private:
 
-	JBoolean	SearchFileMap(const JString& fileName,
+	bool	SearchFileMap(const JString& fileName,
 							  JString* newFileName) const;
 
 	void	DocumentMenusNeedUpdate();
@@ -175,7 +175,7 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDocumentManager::WillSafetySave()
 	const
 {

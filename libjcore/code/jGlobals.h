@@ -26,7 +26,7 @@ void JSetWebBrowser(JWebBrowser* webBrowser);
 
 void JDeleteGlobals();
 
-JBoolean				JGetAssertHandler(JAssertBase** ah);
+bool				JGetAssertHandler(JAssertBase** ah);
 JWebBrowser*			JGetWebBrowser();
 
 JUserNotification*		JGetUserNotification();
@@ -37,7 +37,7 @@ JStringManager*			JGetStringManager();
 const JString&			JGetString(const JUtf8Byte* id);
 JString					JGetString(const JUtf8Byte* id, const JUtf8Byte* map[], const JSize size);
 
-JBoolean	JGetDataDirectories(const JUtf8Byte* signature, const JUtf8Byte* dirName,
+bool	JGetDataDirectories(const JUtf8Byte* signature, const JUtf8Byte* dirName,
 								JString* sysDir, JString* userDir);
 
 /******************************************************************************

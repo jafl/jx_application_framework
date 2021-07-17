@@ -77,7 +77,7 @@
 	This does not conflict with other uses because one will run out of
 	RAM and disk space long before one needs the high bit in elementCount.
 	(If you're not out of space, switch to a real database system!)
-	If this bit is set, JFileArray::Create() will return kJFalse.
+	If this bit is set, JFileArray::Create() will return false.
 
 	BASE CLASS = JCollection
 
@@ -168,12 +168,12 @@ enum
 	and check OKToCreateBase() before creating the object.
 
 	Be *very* careful when using kIgnoreIfOpen.  If you always call
-	ShouldFlushChanges(kJTrue) when you open the file, it should be safe to
+	ShouldFlushChanges(true) when you open the file, it should be safe to
 	specify kIgnoreIfOpen, but only if JFileArray itself did not cause the
 	crash.
 
 	kTryWaitUntilCanOpen does *not* guarantee that Create() will return
-	kJTrue.  If somebody else never closes the file, Create() will fail.
+	true.  If somebody else never closes the file, Create() will fail.
 	This is safer than blocking forever.
 
 	The code for kTryWaitUntilCanOpen and kDeleteIfWaitTimeout suffers from
@@ -305,7 +305,7 @@ JFileArray::JFileArray
 
 	// check whether the file already exists on disk
 
-	const JBoolean isNew = !JFileExists(fileName);
+	const bool isNew = !JFileExists(fileName);
 
 	assert( isNew || OKToCreateBase(fileName, fileSignature, action) == kJNoError );
 
@@ -324,7 +324,7 @@ JFileArray::JFileArray
 
 	itsFileName = jnew JString;
 	assert( itsFileName != nullptr );
-	const JBoolean ok = JGetTrueName(fileName, itsFileName);
+	const bool ok = JGetTrueName(fileName, itsFileName);
 	assert( ok );
 
 	// common initialization
@@ -382,7 +382,7 @@ JFileArray::OKToCreateEmbedded
 			}
 		else if (!fileIndex->EmbeddedFileIsClosed(index))
 			{
-			return FileAlreadyOpen(JString("embedded file", kJFalse));
+			return FileAlreadyOpen(JString("embedded file", JString::kNoCopy));
 			}
 		}
 
@@ -408,7 +408,7 @@ JFileArray::JFileArray
 {
 	// get the std::fstream and whether we are new from our enclosing file
 
-	JBoolean isNew;
+	bool isNew;
 	itsFileName = nullptr;
 	itsStream   = theEnclosingFile->OpenEmbeddedFile(this, enclosureElementID, &isNew);
 	assert( itsStream != nullptr );
@@ -428,7 +428,7 @@ JFileArray::JFileArray
 void
 JFileArray::FileArrayX
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JUtf8Byte*	fileSignature
 	)
 {
@@ -437,8 +437,8 @@ JFileArray::FileArrayX
 
 	itsFileSignatureByteCount = strlen(fileSignature);
 
-	itsIsOpenFlag       = kJFalse;
-	itsFlushChangesFlag = kJFalse;
+	itsIsOpenFlag       = false;
+	itsFlushChangesFlag = false;
 
 	if (isNew)
 		{
@@ -469,7 +469,7 @@ JFileArray::FileArrayX
 
 	// set high bit to lock file
 
-	itsIsOpenFlag = kJTrue;
+	itsIsOpenFlag = true;
 	WriteElementCount();
 	itsStream->flush();
 }
@@ -493,8 +493,8 @@ JFileArray::~JFileArray()
 
 	// update the file and throw out itsFileIndex
 
-	itsIsOpenFlag       = kJFalse;
-	itsFlushChangesFlag = kJTrue;
+	itsIsOpenFlag       = false;
+	itsFlushChangesFlag = true;
 	FlushChanges();
 
 	jdelete itsFileIndex;
@@ -534,15 +534,15 @@ JFileArray::OpenEmbeddedFile
 	(
 	JFileArray*		theEmbeddedFile,
 	const JFAID&	id,
-	JBoolean*		isNew
+	bool*		isNew
 	)
 {
-	*isNew = kJFalse;
+	*isNew = false;
 
 	JFAIndex index;
 	if (!IDToIndex(id, &index))
 		{
-		*isNew = kJTrue;
+		*isNew = true;
 
 		std::ostringstream emptyStream;
 		AppendElement(emptyStream);
@@ -572,7 +572,7 @@ JFileArray::EmbeddedFileClosed
 	)
 {
 	JFAIndex index;
-	const JBoolean ok = IDToIndex(id, &index);
+	const bool ok = IDToIndex(id, &index);
 	assert( ok );
 	itsFileIndex->EmbeddedFileClosed(index);
 }
@@ -655,7 +655,7 @@ JFileArray::GetElement
 	const
 {
 	JFAIndex index;
-	const JBoolean ok = IDToIndex(id, &index);
+	const bool ok = IDToIndex(id, &index);
 	assert( ok );
 	GetElement(index, elementData);
 }
@@ -675,7 +675,7 @@ JFileArray::SetElement
 	)
 {
 	const std::string data = dataStream.str();
-	SetElement(index, JString(data.c_str(), data.length(), kJFalse));
+	SetElement(index, JString(data.c_str(), data.length(), JString::kNoCopy));
 }
 
 void
@@ -717,7 +717,7 @@ JFileArray::SetElement
 	)
 {
 	JFAIndex index;
-	const JBoolean ok = IDToIndex(id, &index);
+	const bool ok = IDToIndex(id, &index);
 	assert( ok );
 	SetElement(index, dataStream);
 }
@@ -730,7 +730,7 @@ JFileArray::SetElement
 	)
 {
 	JFAIndex index;
-	const JBoolean ok = IDToIndex(id, &index);
+	const bool ok = IDToIndex(id, &index);
 	assert( ok );
 	SetElement(index, data);
 }
@@ -757,7 +757,7 @@ JFileArray::InsertElementAtIndex
 	)
 {
 	const std::string data = dataStream.str();
-	InsertElementAtIndex(index, JString(data.c_str(), data.length(), kJFalse));
+	InsertElementAtIndex(index, JString(data.c_str(), data.length(), JString::kNoCopy));
 }
 
 void
@@ -880,7 +880,7 @@ JFileArray::RemoveElement
 	)
 {
 	JFAIndex index;
-	const JBoolean ok = IDToIndex(id, &index);
+	const bool ok = IDToIndex(id, &index);
 	assert( ok );
 	RemoveElement(index);
 }
@@ -964,7 +964,7 @@ JFileArray::SwapElements
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileArray::IndexToID
 	(
 	const JFAIndex&	index,
@@ -975,12 +975,12 @@ JFileArray::IndexToID
 	if (IndexValid(index))
 		{
 		*id = itsFileIndex->GetElementID(index);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		id->SetID(JFAID::kInvalidID);
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -994,7 +994,7 @@ JFileArray::IndexToID
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileArray::IDToIndex
 	(
 	const JFAID&	id,
@@ -1262,8 +1262,8 @@ JFileArray::GoToElement
 
 	Write out the header information and the file's index.
 
-	This is called automatically if ShouldFlushChanges(kJTrue) was called.
-	You can optimize by calling ShouldFlushChanges(kJFalse) and then calling
+	This is called automatically if ShouldFlushChanges(true) was called.
+	You can optimize by calling ShouldFlushChanges(false) and then calling
 	FlushChanges() after making a sequence of changes.
 
  ******************************************************************************/
@@ -1342,7 +1342,7 @@ JFileArray::WriteElementCount()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileArray::FileIsOpen
 	(
 	std::ifstream&	file,
@@ -1351,7 +1351,7 @@ JFileArray::FileIsOpen
 {
 	JSeekg(file, sigLength + kElementCountOffset);
 	const JSize count = ReadUnsignedLong(file);
-	return JConvertToBoolean( (count & kFileLockedMask) != 0L );
+	return (count & kFileLockedMask) != 0L;
 }
 
 /******************************************************************************
@@ -1525,7 +1525,7 @@ JFileArray::GetStartOfFile()
 	if (itsEnclosingFile != nullptr)
 		{
 		JFAIndex enclosureElementIndex;
-		const JBoolean ok =
+		const bool ok =
 			itsEnclosingFile->IDToIndex(itsEnclosureElementID, &enclosureElementIndex);
 		assert( ok );
 
@@ -1553,7 +1553,7 @@ JFileArray::GetFileLength()
 	if (itsEnclosingFile != nullptr)
 		{
 		JFAIndex enclosureElementIndex;
-		const JBoolean ok =
+		const bool ok =
 			itsEnclosingFile->IDToIndex(itsEnclosureElementID, &enclosureElementIndex);
 		assert( ok );
 
@@ -1580,7 +1580,7 @@ JFileArray::SetFileLength
 	if (itsEnclosingFile != nullptr)
 		{
 		JFAIndex enclosureElementIndex;
-		const JBoolean ok =
+		const bool ok =
 			itsEnclosingFile->IDToIndex(itsEnclosureElementID, &enclosureElementIndex);
 		assert( ok );
 
@@ -1698,7 +1698,7 @@ JFileArray::ElementInserted::AdjustIndex
 	index->SetIndex(i);
 }
 
-JBoolean
+bool
 JFileArray::ElementRemoved::AdjustIndex
 	(
 	JFAIndex* index
@@ -1706,7 +1706,7 @@ JFileArray::ElementRemoved::AdjustIndex
 	const
 {
 	JIndex i = index->GetIndex();
-	const JBoolean ok = JAdjustIndexAfterRemove(GetIndex().GetIndex(), 1, &i);
+	const bool ok = JAdjustIndexAfterRemove(GetIndex().GetIndex(), 1, &i);
 	index->SetIndex(i);
 	return ok;
 }

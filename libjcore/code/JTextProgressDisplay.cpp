@@ -75,8 +75,8 @@ JTextProgressDisplay::ProcessBeginning
 	const ProcessType	processType,
 	const JSize			stepCount,
 	const JString&		message,
-	const JBoolean		allowCancel,
-	const JBoolean		allowBackground
+	const bool		allowCancel,
+	const bool		allowBackground
 	)
 {
 	JProgressDisplay::ProcessBeginning(processType, stepCount, message,
@@ -111,14 +111,14 @@ JTextProgressDisplay::ProcessBeginning
  IncrementProgress
 
 	Update the display to show that progress is being made.
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
 	If the current process is of variable length and the message is not nullptr,
 	then it is displayed in place of the usual iteration count.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextProgressDisplay::IncrementProgress
 	(
 	const JString&	message,
@@ -162,14 +162,14 @@ JTextProgressDisplay::IncrementProgress
  IncrementProgress
 
 	Update the display to show that progress is being made.
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
 	If the current process is of variable length and the message is not nullptr,
 	then it is displayed in place of the usual iteration count.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextProgressDisplay::IncrementProgress
 	(
 	const JString& message
@@ -184,11 +184,11 @@ JTextProgressDisplay::IncrementProgress
 	The iteration count is incremented by the specified value.
 
 	Update the display to show that progress is being made.
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextProgressDisplay::IncrementProgress
 	(
 	const JSize delta
@@ -224,17 +224,17 @@ JTextProgressDisplay::ProcessFinished()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextProgressDisplay::CheckForCancel()
 {
 	if (cancelFlag)
 		{
 		cancelFlag = 0;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

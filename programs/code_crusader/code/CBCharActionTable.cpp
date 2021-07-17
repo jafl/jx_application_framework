@@ -119,7 +119,7 @@ CBCharActionTable::SetData
 			data->AppendRows(1);
 
 			key[0] = (JUtf8Byte) i-1;
-			data->SetString(GetRowCount(), kMacroColumn,  JString(key, 0, kJFalse));
+			data->SetString(GetRowCount(), kMacroColumn,  JString(key, JString::kNoCopy));
 			data->SetString(GetRowCount(), kScriptColumn, *script);
 			}
 		}
@@ -225,7 +225,7 @@ void
 CBCharActionTable::ReadData
 	(
 	const JString&	fileName,
-	const JBoolean		replace
+	const bool		replace
 	)
 {
 	JStringTableData* data = GetStringData();

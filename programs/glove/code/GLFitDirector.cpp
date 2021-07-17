@@ -472,7 +472,7 @@ GLFitDirector::BuildWindow()
 	itsDiffPlot->SetTitle(JGetString("DiffPlotTitle::GLFitDirector"));
 	itsDiffPlot->SetXLabel(itsPlot->GetXLabel());
 	itsDiffPlot->SetYLabel(itsPlot->GetYLabel());
-	itsDiffPlot->ShowFrame(kJFalse);
+	itsDiffPlot->ShowFrame(false);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
@@ -544,8 +544,8 @@ GLFitDirector::Receive
 		itsChiSq->GetText()->SetText(JString::empty);
 
 		// add new curve.
-		itsFitPlot->AddCurve(&curve, kJFalse, itsPlot->GetCurveName(info->GetIndex()));
-		itsFitPlot->ProtectCurve(1, kJTrue);
+		itsFitPlot->AddCurve(&curve, false, itsPlot->GetCurveName(info->GetIndex()));
+		itsFitPlot->ProtectCurve(1, true);
 		}
 	else if (sender == itsFitList && message.Is(GLFitDescriptionList::kFitSelected))
 		{
@@ -583,7 +583,7 @@ GLFitDirector::Receive
 			dynamic_cast<const GLFitParameterTable::ValueChanged*>(&message);
 		assert(info != nullptr);
 		JIndex index;
-		JBoolean ok	= itsFitList->GetCurrentFitIndex(&index);
+		bool ok	= itsFitList->GetCurrentFitIndex(&index);
 		assert(ok);
 		GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(index);
 		const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
@@ -696,7 +696,7 @@ GLFitDirector::HandleFitMenu
 	else if (index == kRefitCmd)
 		{
 		Refit();
-		AddHistoryText(kJTrue);
+		AddHistoryText(true);
 		}
 	else if (index == kPlotCmd)
 		{
@@ -705,12 +705,12 @@ GLFitDirector::HandleFitMenu
 // 		JFunction* f;
 //		if (JParseFunction(itsFunctionString->GetText(), itsList, &f))
 //			{
-//			return kJTrue;
+//			return true;
 //			}
 //		whether or not the function is valid.
 
 		JIndex index1;
-		JBoolean ok	= itsCurveList->GetCurrentCurveIndex(&index1);
+		bool ok	= itsCurveList->GetCurrentCurveIndex(&index1);
 		JPlotDataBase* data	= &(itsPlot->GetCurve(index1));
 		assert(itsCurrentFit != nullptr);
 		GLPlotFitProxy* proxy	= jnew GLPlotFitProxy(itsCurrentFit, itsPlot, data);
@@ -900,7 +900,7 @@ GLFitDirector::Fit()
 	JXGetApplication()->DisplayBusyCursor();
 	RemoveFit();
 	JIndex index;
-	JBoolean ok	= itsCurveList->GetCurrentCurveIndex(&index);
+	bool ok	= itsCurveList->GetCurrentCurveIndex(&index);
 	JPlotDataBase* data	= &(itsPlot->GetCurve(index));
 	ok	= itsFitList->GetCurrentFitIndex(&index);
 	assert(ok);
@@ -1108,13 +1108,13 @@ GLFitDirector::Fit()
 		fit->SetInitialParameters(p);
 		itsCurrentFit = fit;
 		}
-	itsFitPlot->AddCurve(itsCurrentFit, kJFalse, fd.GetFnName());
-	itsDiffPlot->AddCurve(itsCurrentFit->GetDiffData(), kJFalse, fd.GetFnName());
+	itsFitPlot->AddCurve(itsCurrentFit, false, fd.GetFnName());
+	itsDiffPlot->AddCurve(itsCurrentFit->GetDiffData(), false, fd.GetFnName());
 	const JSize count	= itsCurrentFit->GetParameterCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
 		JFloat value;
-		JBoolean ok	= itsCurrentFit->GetParameter(i, &value);
+		bool ok	= itsCurrentFit->GetParameter(i, &value);
 		assert(ok);
 		JFloat error = 0;
 		itsCurrentFit->GetParameterError(i, &error);
@@ -1164,7 +1164,7 @@ GLFitDirector::RemoveCurves()
 	const JSize count	= itsFitPlot->GetCurveCount();
 	if (count >= 1)
 		{
-		itsFitPlot->ProtectCurve(1, kJFalse);
+		itsFitPlot->ProtectCurve(1, false);
 		itsFitPlot->RemoveCurve(1);
 		}
 }
@@ -1181,7 +1181,7 @@ GLFitDirector::RemoveFit()
 	const JSize count	= itsFitPlot->GetCurveCount();
 	for (JIndex i = 2; i <= count; i++)
 		{
-		itsFitPlot->ProtectCurve(2, kJFalse);
+		itsFitPlot->ProtectCurve(2, false);
 		itsFitPlot->RemoveCurve(2);
 		}
 
@@ -1189,7 +1189,7 @@ GLFitDirector::RemoveFit()
 	const JSize fcount	= itsDiffPlot->GetCurveCount();
 	for (JIndex i = 1; i <= fcount; i++)
 		{
-		itsDiffPlot->ProtectCurve(1, kJFalse);
+		itsDiffPlot->ProtectCurve(1, false);
 		itsDiffPlot->RemoveCurve(1);
 		}
 
@@ -1210,7 +1210,7 @@ GLFitDirector::TestFit()
 {
 	RemoveFit();
 	JIndex index;
-	JBoolean ok	= itsCurveList->GetCurrentCurveIndex(&index);
+	bool ok	= itsCurveList->GetCurrentCurveIndex(&index);
 	JPlotDataBase* data	= &(itsPlot->GetCurve(index));
 	ok	= itsFitList->GetCurrentFitIndex(&index);
 	assert(ok);
@@ -1227,7 +1227,7 @@ GLFitDirector::TestFit()
 			GetDisplay()->GetFontManager(), fd.GetFitFunctionString(), 1, xmin, xmax);
 	if (ok)
 		{
-		itsFitPlot->AddCurve(itsTestFunction, kJFalse, fd.GetFnName());
+		itsFitPlot->AddCurve(itsTestFunction, false, fd.GetFnName());
 		}
 
 }
@@ -1240,7 +1240,7 @@ GLFitDirector::TestFit()
 void
 GLFitDirector::AddHistoryText
 	(
-	const JBoolean refit
+	const bool refit
 	)
 {
 	JString str;
@@ -1252,23 +1252,23 @@ GLFitDirector::AddHistoryText
 		{
 		str	= "Fit\n";
 		}
-	itsHistory->AppendText(str, kJFalse);
+	itsHistory->AppendText(str, false);
 	JIndex index;
-	JBoolean ok	= itsCurveList->GetCurrentCurveIndex(&index);
+	bool ok	= itsCurveList->GetCurrentCurveIndex(&index);
 	assert(ok);
 	str	= "Curve: " + itsPlot->GetCurveName(index) + "\n";
-	itsHistory->AppendText(str, kJFalse);
+	itsHistory->AppendText(str, false);
 	ok	= itsFitList->GetCurrentFitIndex(&index);
 	assert(ok);
 	const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(index);
 	str	= "Fit type: " + fd.GetFnName() + "\n";
-	itsHistory->AppendText(str, kJFalse);
+	itsHistory->AppendText(str, false);
 	str.Clear();
 	itsParameterTable->GetValueString(&str);
-	itsHistory->AppendText(str, kJFalse);
+	itsHistory->AppendText(str, false);
 	str = "Reduced Chi^2: " + itsChiSq->GetText()->GetText() + "\n";
-	itsHistory->AppendText(str, kJFalse);
-	itsHistory->AppendText(JString("\n\n", kJFalse), kJFalse);
+	itsHistory->AppendText(str, false);
+	itsHistory->AppendText(JString("\n\n", JString::kNoCopy), false);
 }
 
 /******************************************************************************
@@ -1292,7 +1292,7 @@ GLFitDirector::Print()
 			// draw header info
 			JString str	= JGetString("CurveTitle::GLFitDirector");
 			JIndex index;
-			JBoolean ok	= itsCurveList->GetCurrentCurveIndex(&index);
+			bool ok	= itsCurveList->GetCurrentCurveIndex(&index);
 			assert(ok);
 			str	+= itsPlot->GetCurveName(index);
 			itsPrinter->JPainter::String(kLeftMargin, 0, str);
@@ -1323,7 +1323,7 @@ GLFitDirector::Print()
 				}
 
 			// draw table
-			itsParameterTable->DrawForPrint(*itsPrinter, JPoint(0, tableD), kJFalse, kJTrue);
+			itsParameterTable->DrawForPrint(*itsPrinter, JPoint(0, tableD), false, true);
 			JCoordinate parmHeight = itsParameterTable->GetBoundsHeight() + itsParameterColHeader->GetBoundsHeight();
 
 			// draw plots

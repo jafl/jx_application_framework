@@ -156,7 +156,7 @@ JXTextMenuTable::TableDrawCell
 		rect.right -= kHilightBorderWidth;
 		rect.left   = rect.right - JXMenuTable::kSubmenuColWidth;
 		DrawSubmenuIndicator(p, cell.y, rect,
-							 JConvertToBoolean(((JIndex) cell.y) == itsHilightRow));
+							 ((JIndex) cell.y) == itsHilightRow);
 		}
 
 	else if (cell.x == kSubmenuColumnIndex)
@@ -258,7 +258,7 @@ JXTextMenuTable::GetTextWidth
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTextMenuTable::CellToItemIndex
 	(
 	const JPoint&	pt,
@@ -273,12 +273,12 @@ JXTextMenuTable::CellToItemIndex
 		if (r.bottom - kSeparatorHeight <= pt.y && pt.y <= r.bottom)
 			{
 			*itemIndex = 0;
-			return kJFalse;
+			return false;
 			}
 		}
 
 	*itemIndex = cell.y;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

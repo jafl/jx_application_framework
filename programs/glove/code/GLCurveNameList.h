@@ -26,7 +26,7 @@ public:
 
 	virtual ~GLCurveNameList();
 
-	JBoolean		GetCurrentCurveIndex(JIndex* index);
+	bool		GetCurrentCurveIndex(JIndex* index);
 	void			SetCurrentCurveIndex(const JIndex index);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c,
@@ -45,7 +45,7 @@ protected:
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
 	virtual void			PrepareDeleteXInputField() override;
-	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual bool		ExtractInputData(const JPoint& cell) override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 

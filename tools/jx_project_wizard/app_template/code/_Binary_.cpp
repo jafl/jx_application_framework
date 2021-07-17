@@ -42,7 +42,7 @@ main
 
 #endif
 
-	JBoolean displayAbout;
+	bool displayAbout;
 	JString prevVersStr;
 	<PRE>App* app = jnew <PRE>App(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );

@@ -83,7 +83,7 @@ GDBGetCompletions::HandleSuccess
 			JString* s = jnew JString(m.GetString());
 			assert( s != nullptr );
 			s->TrimWhitespace();
-			if (s->IsEmpty() || !lines.InsertSorted(s, kJFalse))
+			if (s->IsEmpty() || !lines.InsertSorted(s, false))
 				{
 				jdelete s;
 				}
@@ -100,7 +100,7 @@ GDBGetCompletions::HandleSuccess
 		JString* s = jnew JString(m.GetString());
 		assert( s != nullptr );
 		s->TrimWhitespace();
-		if (s->IsEmpty() || !lines.InsertSorted(s, kJFalse))
+		if (s->IsEmpty() || !lines.InsertSorted(s, false))
 			{
 			jdelete s;
 			}
@@ -118,7 +118,7 @@ GDBGetCompletions::HandleSuccess
 	// prefix is the 'start' of several possible commands.
 
 	const JSize stringCount = lines.GetElementCount();
-	JBoolean found;
+	bool found;
 	JIndex startIndex = lines.SearchSorted1(&itsPrefix, JListT::kAnyMatch, &found);
 	if (found)
 		{

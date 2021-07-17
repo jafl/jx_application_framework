@@ -26,9 +26,9 @@ public:
 public:
 
 	SVNListBase(SVNMainDirector* director, JXTextMenu* editMenu,
-				const JString& cmd, const JBoolean refreshRepo,
-				const JBoolean refreshStatus, const JBoolean reload,
-				const JBoolean enableContextMenu,
+				const JString& cmd, const bool refreshRepo,
+				const bool refreshStatus, const bool reload,
+				const bool enableContextMenu,
 				JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
@@ -40,7 +40,7 @@ public:
 	virtual void	UpdateInfoMenu(JXTextMenu* menu) override;
 	virtual void	RefreshContent() override;
 	virtual void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
-									 const JBoolean includeDeleted = kJFalse) override;
+									 const bool includeDeleted = false) override;
 	virtual void	HandleKeyPress(const JUtf8Character& c,
 								   const int keySym, const JXKeyModifiers& modifiers) override;
 
@@ -72,7 +72,7 @@ protected:
 	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	ShouldDisplayLine(JString* line) const;
+	virtual bool	ShouldDisplayLine(JString* line) const;
 	virtual void		StyleLine(const JIndex index, const JString& line,
 								  const JFontStyle& errorStyle,
 								  const JFontStyle& addStyle,
@@ -80,7 +80,7 @@ protected:
 	virtual JString		ExtractRelativePath(const JString& line) const = 0;
 
 	virtual void	UpdateContextMenu(JXTextMenu* menu);
-	virtual void	CopySelectedItems(const JBoolean fullPath);
+	virtual void	CopySelectedItems(const bool fullPath);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
@@ -107,11 +107,11 @@ private:
 private:
 
 	const JString		itsCmd;
-	JBoolean			itsRefreshRepoFlag;
-	JBoolean			itsRefreshStatusFlag;
-	JBoolean			itsReloadOpenFilesFlag;
+	bool			itsRefreshRepoFlag;
+	bool			itsRefreshStatusFlag;
+	bool			itsReloadOpenFilesFlag;
 	JXTextMenu*			itsEditMenu;		// not owned
-	const JBoolean		itsEnableContextMenuFlag;
+	const bool		itsEnableContextMenuFlag;
 	JXTextMenu*			itsContextMenu;		// nullptr until first used
 
 	JPtrArray<JString>*	itsLineList;		// displayed
@@ -123,7 +123,7 @@ private:
 	DisplayState		itsDisplayState;
 	JPtrArray<JString>*	itsSavedSelection;
 
-	JBoolean			itsIsDraggingFlag;
+	bool			itsIsDraggingFlag;
 
 private:
 
@@ -136,7 +136,7 @@ private:
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex item);
 
-	JBoolean	CreateContextMenu();
+	bool	CreateContextMenu();
 	void		HandleContextMenu(const JIndex index);
 
 	// not allowed

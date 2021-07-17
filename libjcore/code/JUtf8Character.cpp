@@ -13,7 +13,7 @@
 const JUInt32 JUtf8Character::kUtf32SubstitutionCharacter       = 0x0000FFFD;
 const JUtf8Character JUtf8Character::kUtf8SubstitutionCharacter("\xEF\xBF\xBD");
 
-JBoolean JUtf8Character::theIgnoreBadUtf8Flag = kJFalse;
+bool JUtf8Character::theIgnoreBadUtf8Flag = false;
 
 /******************************************************************************
  Constructor
@@ -111,7 +111,7 @@ JUtf8Character::Set
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUtf8Character::IsCompleteCharacter
 	(
 	const JUtf8Byte*	utf8Character,
@@ -123,32 +123,32 @@ JUtf8Character::IsCompleteCharacter
 	if (c[0] == 0)
 		{
 		*characterByteCount = 0;
-		return kJFalse;
+		return false;
 		}
 	else if (c[0] <= (unsigned char) '\x7F')
 		{
 		*characterByteCount = 1;
-		return JI2B( byteCount >= 1 );
+		return byteCount >= 1;
 		}
 	else if (((unsigned char) '\xC2') <= c[0] && c[0] <= (unsigned char) '\xDF')
 		{
 		*characterByteCount = 2;
-		return JI2B( byteCount >= 2 );
+		return byteCount >= 2;
 		}
 	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char) '\xEF')
 		{
 		*characterByteCount = 3;
-		return JI2B( byteCount >= 3 );
+		return byteCount >= 3;
 		}
 	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char) '\xF4')
 		{
 		*characterByteCount = 4;
-		return JI2B( byteCount >= 4 );
+		return byteCount >= 4;
 		}
 	else
 		{
 		*characterByteCount = 1;
-		return JI2B( byteCount >= 1 );
+		return byteCount >= 1;
 		}
 }
 
@@ -157,7 +157,7 @@ JUtf8Character::IsCompleteCharacter
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUtf8Character::GetCharacterByteCount
 	(
 	const JUtf8Byte*	utf8Character,
@@ -165,29 +165,29 @@ JUtf8Character::GetCharacterByteCount
 	)
 {
 	unsigned char* c = (unsigned char*) utf8Character;
-	JBoolean ok      = kJFalse;
+	bool ok      = false;
 	if (c[0] <= (unsigned char) '\x7F')
 		{
 		*byteCount = 1;
-		ok = kJTrue;
+		ok = true;
 		}
 	else if (((unsigned char) '\xC2') <= c[0] && c[0] <= (unsigned char) '\xDF')
 		{
 		*byteCount = 2;
-		ok = JI2B(((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF');
+		ok = ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF';
 		}
 	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char) '\xEF')
 		{
 		*byteCount = 3;
-		ok = JI2B(((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
-				  ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF');
+		ok = ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
+			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF';
 		}
 	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char) '\xF4')
 		{
 		*byteCount = 4;
-		ok = JI2B(((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
-				  ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF' &&
-				  ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char) '\xBF');
+		ok = ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
+			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF' &&
+			 ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char) '\xBF';
 		}
 
 	if (!ok)
@@ -214,7 +214,7 @@ JUtf8Character::GetCharacterByteCount
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUtf8Character::GetPrevCharacterByteCount
 	(
 	const JUtf8Byte*	lastByte,
@@ -311,7 +311,7 @@ JUtf8Character::Utf8ToUtf32
 	)
 {
 	JSize byteCount;
-	const JBoolean ok = GetCharacterByteCount(bytes, &byteCount);
+	const bool ok = GetCharacterByteCount(bytes, &byteCount);
 	if (returnByteCount != nullptr)
 		{
 		*returnByteCount = byteCount;
@@ -363,62 +363,61 @@ JUtf8Character::Utf8ToUtf32
 
  ******************************************************************************/
 
-JBoolean
+bool
 JUtf8Character::IsPrint()
 	const
 {
-	return JI2B( u_isprint(GetUtf32()) );
+	return u_isprint(GetUtf32());
 }
 
-JBoolean
+bool
 JUtf8Character::IsAlnum()
 	const
 {
 	const JUInt32 c = GetUtf32();
-	return JI2B( u_isUAlphabetic(c) || u_isdigit(c) );
+	return u_isUAlphabetic(c) || u_isdigit(c);
 }
 
-JBoolean
+bool
 JUtf8Character::IsDigit()
 	const
 {
-	const JUInt32 c = GetUtf32();
-	return JI2B( u_isdigit(c) );
+	return u_isdigit(GetUtf32());
 }
 
-JBoolean
+bool
 JUtf8Character::IsAlpha()
 	const
 {
-	return JI2B( u_isUAlphabetic(GetUtf32()) );
+	return u_isUAlphabetic(GetUtf32());
 }
 
-JBoolean
+bool
 JUtf8Character::IsLower()
 	const
 {
-	return JI2B( u_isULowercase(GetUtf32()) );
+	return u_isULowercase(GetUtf32());
 }
 
-JBoolean
+bool
 JUtf8Character::IsUpper()
 	const
 {
-	return JI2B( u_isUUppercase(GetUtf32()) );
+	return u_isUUppercase(GetUtf32());
 }
 
-JBoolean
+bool
 JUtf8Character::IsSpace()
 	const
 {
-	return JI2B( u_isUWhiteSpace(GetUtf32()) );
+	return u_isUWhiteSpace(GetUtf32());
 }
 
-JBoolean
+bool
 JUtf8Character::IsControl()
 	const
 {
-	return JI2B( u_charType(GetUtf32()) == U_CONTROL_CHAR );
+	return u_charType(GetUtf32()) == U_CONTROL_CHAR;
 }
 
 /******************************************************************************
@@ -501,7 +500,7 @@ operator>>
 	input.read((char*) &b, 1);
 
 	JSize byteCount;
-	JBoolean ok = kJTrue;
+	bool ok = true;
 	if (b <= (unsigned char) '\x7F')
 		{
 		byteCount = 1;
@@ -520,7 +519,7 @@ operator>>
 		}
 	else
 		{
-		ok = kJFalse;
+		ok = false;
 		c  = JUtf8Character::kUtf8SubstitutionCharacter;
 		}
 

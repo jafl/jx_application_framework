@@ -88,7 +88,7 @@ public:
 	Drawable	GetDrawable() const;
 	XftDraw*	GetFontDrawable() const;
 
-	JBoolean	GetDefaultClipRegion(Region* region) const;
+	bool	GetDefaultClipRegion(Region* region) const;
 	void		SetDefaultClipRegion(const Region region);
 
 protected:
@@ -104,7 +104,7 @@ private:
 	Region		itsClipRegion;		// can be nullptr
 	XftDraw*	itsFontDrawable;	// nullptr until first needed
 	Region		itsFontClipRegion;
-	JBoolean	itsResetShouldClearClipRegionFlag;
+	bool	itsResetShouldClearClipRegionFlag;
 
 private:
 
@@ -133,7 +133,7 @@ JXWindowPainter::GetClipRegion()
 	return itsClipRegion;
 }
 
-inline JBoolean
+inline bool
 JXWindowPainter::GetDefaultClipRegion
 	(
 	Region* region
@@ -141,7 +141,7 @@ JXWindowPainter::GetDefaultClipRegion
 	const
 {
 	*region = itsDefClipRegion;
-	return JI2B( itsDefClipRegion != nullptr );
+	return itsDefClipRegion != nullptr;
 }
 
 /******************************************************************************

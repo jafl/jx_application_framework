@@ -149,7 +149,7 @@ CBViewManPageDialog::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 
 	ListenTo(itsViewButton);
 	ListenTo(itsCloseButton);
@@ -159,8 +159,8 @@ CBViewManPageDialog::BuildWindow()
 	itsFnName->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsFnName);
 
-	itsManIndex->SetIsRequired(kJFalse);
-	itsStayOpenCB->SetState(kJTrue);
+	itsManIndex->SetIsRequired(false);
+	itsStayOpenCB->SetState(true);
 
 	// create hidden JXDocument so Meta-# shortcuts work
 
@@ -274,7 +274,7 @@ CBViewManPageDialog::AddToHistory
 	(
 	const JString&	pageName,
 	const JString&	pageIndex,
-	const JBoolean	apropos
+	const bool	apropos
 	)
 {
 	JString historyStr = pageName;
@@ -318,11 +318,11 @@ CBViewManPageDialog::SetFunction
 	if (manIndex == '*')
 		{
 		manIndex = ' ';
-		itsAproposCheckbox->SetState(kJTrue);
+		itsAproposCheckbox->SetState(true);
 		}
 	else
 		{
-		itsAproposCheckbox->SetState(kJFalse);
+		itsAproposCheckbox->SetState(false);
 		}
 
 	itsFnName->GetText()->SetText(fnName);
@@ -355,7 +355,7 @@ CBViewManPageDialog::ReadPrefs
 
 	if (vers >= 1)
 		{
-		JBoolean stayOpen;
+		bool stayOpen;
 		input >> JBoolFromString(stayOpen);
 		itsStayOpenCB->SetState(stayOpen);
 		}

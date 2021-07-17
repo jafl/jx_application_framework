@@ -14,7 +14,7 @@ class GFGApp : public JXApplication
 {
 public:
 
-	GFGApp(int* argc, char* argv[], JBoolean* displayAbout, JString* prevVersStr);
+	GFGApp(int* argc, char* argv[], bool* displayAbout, JString* prevVersStr);
 
 	virtual	~GFGApp();
 
@@ -23,8 +23,8 @@ public:
 	static const JUtf8Byte*	GetAppSignature();
 	static void				InitStrings();
 
-	JBoolean		IsDeletingTemplate() const;
-	void			ShouldBeDeletingTemplate(const JBoolean delTemplate);
+	bool		IsDeletingTemplate() const;
+	void			ShouldBeDeletingTemplate(const bool delTemplate);
 
 protected:
 
@@ -32,7 +32,7 @@ protected:
 
 private:
 
-	JBoolean	itsDeletingTemplate;
+	bool	itsDeletingTemplate;
 
 private:
 

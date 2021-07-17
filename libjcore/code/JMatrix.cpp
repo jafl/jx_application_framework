@@ -501,11 +501,11 @@ JMatrix::Transpose()
 /******************************************************************************
  Invert
 
-	Returns kJTrue if we were able to calculate an inverse.
+	Returns true if we were able to calculate an inverse.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JMatrix::Invert
 	(
 	JMatrix* inverse
@@ -516,7 +516,7 @@ JMatrix::Invert
 
 	if (itsRowCount != itsColCount)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// deal with the trivial case
@@ -526,11 +526,11 @@ JMatrix::Invert
 		if (itsElements[0] != 0.0)
 			{
 			inverse->itsElements[0] = 1.0/itsElements[0];
-			return kJTrue;
+			return true;
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -554,7 +554,7 @@ JMatrix::Determinant()
 
 	if (itsRowCount != itsColCount)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// deal with the trivial case
@@ -1023,7 +1023,7 @@ operator<<
 /******************************************************************************
  JGaussianElimination
 
-	Returns kJTrue if we were able to perform Gaussian elimination on A|b
+	Returns true if we were able to perform Gaussian elimination on A|b
 	to reduce A to the identity.  The result of b is stored in x.
 
 	A does not have to be square.  A, b, x must all have the same number of
@@ -1031,7 +1031,7 @@ operator<<
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGaussianElimination
 	(
 	const JMatrix&	A,
@@ -1044,15 +1044,15 @@ JGaussianElimination
 	if (JGaussianElimination(&A1, &x1))
 		{
 		*x = x1.GetColVector(1);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JGaussianElimination
 	(
 	const JMatrix&	A,
@@ -1068,7 +1068,7 @@ JGaussianElimination
 /******************************************************************************
  JGaussianElimination
 
-	Returns kJTrue if we were able to perform Gaussian elimination on A|x.
+	Returns true if we were able to perform Gaussian elimination on A|x.
 	A and x are both modified.  If the process fails, the partial results
 	are returned.
 
@@ -1076,7 +1076,7 @@ JGaussianElimination
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGaussianElimination
 	(
 	JMatrix* A,
@@ -1096,11 +1096,11 @@ JGaussianElimination
 			scaleFactor = 1.0/scaleFactor;
 			A->ScaleRow(1, scaleFactor);
 			x->ScaleRow(1, scaleFactor);
-			return kJTrue;
+			return true;
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -1115,7 +1115,7 @@ JGaussianElimination
 
 		if (pivotValue == 0.0)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		// swap rows
@@ -1149,5 +1149,5 @@ JGaussianElimination
 			}
 		}
 
-	return kJTrue;
+	return true;
 }

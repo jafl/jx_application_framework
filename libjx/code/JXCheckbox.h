@@ -18,8 +18,8 @@ public:
 
 	virtual ~JXCheckbox();
 
-	JBoolean	IsChecked() const;
-	void		SetState(const JBoolean on);
+	bool	IsChecked() const;
+	void		SetState(const bool on);
 	void		ToggleState();
 
 	virtual void	SetShortcuts(const JString& list);
@@ -32,7 +32,7 @@ protected:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	JBoolean		DrawChecked() const;
+	bool		DrawChecked() const;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
@@ -46,8 +46,8 @@ protected:
 
 private:
 
-	JBoolean	itsIsCheckedFlag;
-	JBoolean	itsIsPushedFlag;
+	bool	itsIsCheckedFlag;
+	bool	itsIsPushedFlag;
 
 private:
 
@@ -66,13 +66,13 @@ public:
 		{
 		public:
 
-			Pushed(const JBoolean on)
+			Pushed(const bool on)
 				:
 				JBroadcaster::Message(kPushed),
 				itsState(on)
 				{ };
 
-			JBoolean
+			bool
 			IsChecked()
 				const
 			{
@@ -81,18 +81,18 @@ public:
 
 		private:
 
-			JBoolean itsState;
+			bool itsState;
 		};
 };
 
 /******************************************************************************
  IsChecked
 
-	Returns kJTrue if the checkbox is in the "on" state.
+	Returns true if the checkbox is in the "on" state.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXCheckbox::IsChecked()
 	const
 {
@@ -102,17 +102,16 @@ JXCheckbox::IsChecked()
 /******************************************************************************
  DrawChecked (protected)
 
-	Returns kJTrue if the checkbox should be drawn as checked.
+	Returns true if the checkbox should be drawn as checked.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXCheckbox::DrawChecked()
 	const
 {
-	return JConvertToBoolean(
-		( itsIsCheckedFlag && !itsIsPushedFlag) ||
-		(!itsIsCheckedFlag &&  itsIsPushedFlag));
+	return ( itsIsCheckedFlag && !itsIsPushedFlag) ||
+		(!itsIsCheckedFlag &&  itsIsPushedFlag);
 }
 
 /******************************************************************************

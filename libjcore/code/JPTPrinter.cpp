@@ -48,8 +48,8 @@ JPTPrinter::JPTPrinter()
 	itsPageWidth             = 80;		// characters
 	itsPageHeight            = 60;		// lines
 	itsTabWidth              = 8;		// characters
-	itsPrintReverseOrderFlag = kJFalse;
-	itsPrintLineNumberFlag   = kJFalse;
+	itsPrintReverseOrderFlag = false;
+	itsPrintLineNumberFlag   = false;
 }
 
 /******************************************************************************
@@ -94,7 +94,7 @@ JPTPrinter::SetPageHeight
 
 	Prints the given text to the output stream, formatting it into
 	pages based on our page width (characters) and page height (lines).
-	Returns kJFalse if the process was cancelled.
+	Returns false if the process was cancelled.
 
 	Derived classes can override the header and footer functions to
 	print a header and/or footer on each page.
@@ -104,7 +104,7 @@ JPTPrinter::SetPageHeight
 static const JUtf8Byte kPageSeparatorStr[] = { kJFormFeedKey, '\0' };
 const JSize kPageSeparatorStrLength         = 1;
 
-JBoolean
+bool
 JPTPrinter::Print
 	(
 	const JString&	text,
@@ -118,7 +118,7 @@ JPTPrinter::Print
 		{
 		if (!(JCreateTempFile(&tempName)).OK())
 			{
-			return kJFalse;
+			return false;
 			}
 
 		tempOutput = jnew std::ofstream(tempName.GetBytes());
@@ -127,7 +127,7 @@ JPTPrinter::Print
 			{
 			jdelete tempOutput;
 			JRemoveFile(tempName);
-			return kJFalse;
+			return false;
 			}
 		dataOutput = tempOutput;
 		}
@@ -139,8 +139,8 @@ JPTPrinter::Print
 	const JSize lineCountPerPage = itsPageHeight - headerLineCount - footerLineCount;
 
 	JLatentPG pg;
-	pg.VariableLengthProcessBeginning(JGetString("Printing::JPTPrinter"), kJTrue, kJFalse);
-	JBoolean keepGoing = kJTrue;
+	pg.VariableLengthProcessBeginning(JGetString("Printing::JPTPrinter"), true, false);
+	bool keepGoing = true;
 
 	JUnsignedOffset i   = 0;
 	JIndex pageIndex    = 0;
@@ -154,9 +154,9 @@ JPTPrinter::Print
 		iter.Prev(&c);	// back up for lineCount loop
 
 		pageIndex++;
-		const JBoolean shouldPrintPage =
-			JI2B(itsFirstPageIndex <= pageIndex &&
-				 (itsLastPageIndex == 0 || pageIndex <= itsLastPageIndex));
+		const bool shouldPrintPage =
+			itsFirstPageIndex <= pageIndex &&
+				 (itsLastPageIndex == 0 || pageIndex <= itsLastPageIndex);
 
 		std::ostringstream bitBucket;
 		std::ostream* output = shouldPrintPage ? dataOutput : (&bitBucket);

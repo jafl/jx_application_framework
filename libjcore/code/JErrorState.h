@@ -21,7 +21,7 @@ public:
 	JErrorState();
 	virtual ~JErrorState();
 
-	virtual JBoolean OK() const;
+	virtual bool OK() const;
 	virtual JError   Error() const;
 	virtual void     ClearError();
 

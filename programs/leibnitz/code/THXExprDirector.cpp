@@ -113,7 +113,7 @@ THXExprDirector::THXExprDirector
 	JExprParser p(itsExprWidget);
 
 	JFunction* f;
-	const JBoolean ok = p.Parse(expr, &f);
+	const bool ok = p.Parse(expr, &f);
 	assert( ok );
 
 	itsExprWidget->SetFunction(varList, f);
@@ -309,7 +309,7 @@ THXExprDirector::BuildWindow
 
 	window->SetTitle(JGetString("WindowTitle::THXExprDirector"));
 	window->LockCurrentMinSize();
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(THXGetWMClassInstance(), THXGetExprWindowClass());
 
 	JXDisplay* display = GetDisplay();

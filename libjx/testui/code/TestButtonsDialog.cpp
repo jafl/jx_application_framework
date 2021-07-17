@@ -62,7 +62,7 @@ TestButtonsDialog::TestButtonsDialog
 	JXWindowDirector* supervisor
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow();
 }
@@ -103,7 +103,7 @@ TestButtonsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,290, 70,30);
 	assert( cancelButton != nullptr );
 	cancelButton->SetFontName(JGetString("TimesFontName::TestButtonsDialog::JXLayout"));
-	const JFontStyle cancelButton_style(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor());
+	const JFontStyle cancelButton_style(true, false, 0, false, JColorManager::GetRedColor());
 	cancelButton->SetFontStyle(cancelButton_style);
 
 	JXImageButton* okButton =
@@ -174,7 +174,7 @@ TestButtonsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,110, 90,20);
 	assert( imageLabel != nullptr );
 	imageLabel->SetFontSize(JFontManager::GetDefaultFontSize()-2);
-	const JFontStyle imageLabel_style(kJFalse, kJFalse, 0, kJFalse, JColorManager::GetGreenColor());
+	const JFontStyle imageLabel_style(false, false, 0, false, JColorManager::GetGreenColor());
 	imageLabel->SetFontStyle(imageLabel_style);
 	imageLabel->SetToLabel();
 
@@ -272,11 +272,11 @@ TestButtonsDialog::BuildWindow()
 
 	ListenTo(itsRG1);
 
-	itsEnable1CB->SetState(kJTrue);
+	itsEnable1CB->SetState(true);
 	ListenTo(itsEnable1CB);
-	itsEnable2CB->SetState(kJTrue);
+	itsEnable2CB->SetState(true);
 	ListenTo(itsEnable2CB);
-	itsEnable3CB->SetState(kJTrue);
+	itsEnable3CB->SetState(true);
 	ListenTo(itsEnable3CB);
 
 	JXAtLeastOneCBGroup* cbGroup = jnew JXAtLeastOneCBGroup(3, its1CB, its2CB, its3CB);
@@ -329,12 +329,12 @@ OKToDeactivate (virtual protected)
 
 ******************************************************************************/
 
-JBoolean
+bool
 TestButtonsDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (!Cancelled() && itsRG2->GetSelectedItem() == kSmileyBitmapCount)
@@ -342,5 +342,5 @@ TestButtonsDialog::OKToDeactivate()
 		JGetUserNotification()->DisplayMessage(JGetString("Encouragement::TestButtonsDialog"));
 		}
 
-	return kJTrue;
+	return true;
 }

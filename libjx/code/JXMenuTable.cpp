@@ -12,7 +12,7 @@
 
 		CellToItemIndex
 			Convert the given table cell into a menu item index.  Return
-			kJFalse if the given cell is not a menu item.
+			false if the given cell is not a menu item.
 
 		MenuHilightItem
 			Hilight the specified menu item.  (Mouse is pointing to it.)
@@ -83,15 +83,15 @@ JXMenuTable::JXMenuTable
 	itsPrevItemIndex = 0;
 	itsOpenSubmenu   = nullptr;
 
-	itsSwitchingDragFlag = kJFalse;
-	itsIsFirstDragFlag   = kJTrue;
+	itsSwitchingDragFlag = false;
+	itsIsFirstDragFlag   = true;
 
-	itsHasScrollUpFlag       = kJFalse;
-	itsMouseInScrollUpFlag   = kJFalse;
-	itsHasScrollDownFlag     = kJFalse;
-	itsMouseInScrollDownFlag = kJFalse;
+	itsHasScrollUpFlag       = false;
+	itsMouseInScrollUpFlag   = false;
+	itsHasScrollDownFlag     = false;
+	itsMouseInScrollDownFlag = false;
 
-	WantInput(kJTrue, kJTrue, kJTrue);		// we don't have a scrollbar set
+	WantInput(true, true, true);		// we don't have a scrollbar set
 
 	SetDrawOrder(kDrawByRow);
 	SetRowBorderInfo(0, JColorManager::GetBlackColor());
@@ -161,7 +161,7 @@ JXMenuTable::DrawCheckbox
 
 	if (type == JXMenu::kCheckboxType || type == JXMenu::kRadioType)
 		{
-		const JBoolean isChecked = itsBaseMenuData->IsChecked(itemIndex);
+		const bool isChecked = itsBaseMenuData->IsChecked(itemIndex);
 
 		const JPoint center(rect.xcenter(), rect.ycenter());
 		JRect boxRect(center, center);
@@ -175,7 +175,7 @@ JXMenuTable::DrawCheckbox
 			boxRect.Shrink(-kRadioboxHalfHeight, -kRadioboxHalfHeight);
 			if (isChecked)
 				{
-				JXDrawDownDiamond(p, boxRect, kJXDefaultBorderWidth, kJTrue, selColor);
+				JXDrawDownDiamond(p, boxRect, kJXDefaultBorderWidth, true, selColor);
 				}
 			else
 				{
@@ -189,7 +189,7 @@ JXMenuTable::DrawCheckbox
 			boxRect.Shrink(-kCheckboxHalfHeight, -kCheckboxHalfHeight);
 			if (isChecked)
 				{
-				JXDrawDownFrame(p, boxRect, kJXDefaultBorderWidth, kJTrue, selColor);
+				JXDrawDownFrame(p, boxRect, kJXDefaultBorderWidth, true, selColor);
 				}
 			else
 				{
@@ -210,7 +210,7 @@ JXMenuTable::DrawSubmenuIndicator
 	JPainter&		p,
 	const JIndex	itemIndex,
 	const JRect&	rect,
-	const JBoolean	hilighted
+	const bool	hilighted
 	)
 {
 	if (itsBaseMenuData->HasSubmenu(itemIndex))
@@ -250,13 +250,13 @@ JXMenuTable::DrawScrollRegions
 	if (itsHasScrollUpFlag && itsMouseInScrollUpFlag)
 		{
 		JXDrawUpFrame(p, itsScrollUpRect, kJXDefaultBorderWidth,
-					  kJTrue, GetCurrBackColor());
+					  true, GetCurrBackColor());
 		JXDrawDownArrowUp(p, itsScrollUpArrowRect, 1);
 		}
 	else if (itsHasScrollUpFlag)
 		{
 		p.SetPenColor(GetCurrBackColor());
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Rect(itsScrollUpRect);
 		JXDrawUpArrowUp(p, itsScrollUpArrowRect, 1);
 		}
@@ -264,13 +264,13 @@ JXMenuTable::DrawScrollRegions
 	if (itsHasScrollDownFlag && itsMouseInScrollDownFlag)
 		{
 		JXDrawUpFrame(p, itsScrollDownRect, kJXDefaultBorderWidth,
-					  kJTrue, GetCurrBackColor());
+					  true, GetCurrBackColor());
 		JXDrawDownArrowDown(p, itsScrollDownArrowRect, 1);
 		}
 	else if (itsHasScrollDownFlag)
 		{
 		p.SetPenColor(GetCurrBackColor());
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Rect(itsScrollDownRect);
 		JXDrawUpArrowDown(p, itsScrollDownArrowRect, 1);
 		}
@@ -291,13 +291,13 @@ JXMenuTable::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	itsSwitchingDragFlag = kJFalse;
+	itsSwitchingDragFlag = false;
 
 	GetWindow()->GrabPointer(this);
 
 	itsMouseDownPt = pt;
 	itsPrevPt      = JPoint(0,0);
-	MenuHandleMouseAction(pt, buttonStates, modifiers, kJTrue);
+	MenuHandleMouseAction(pt, buttonStates, modifiers, true);
 
 /*  This can't work because the mouse is grabbed by the menu's owner.
 
@@ -334,7 +334,7 @@ JXMenuTable::HandleMouseDrag
 	const JXKeyModifiers&	modifiers
 	)
 {
-	MenuHandleMouseAction(pt, buttonStates, modifiers, kJFalse);
+	MenuHandleMouseAction(pt, buttonStates, modifiers, false);
 }
 
 /******************************************************************************
@@ -357,11 +357,11 @@ JXMenuTable::HandleMouseUp
 		{
 		if (!itsBaseMenuData->HasSubmenu(itsPrevItemIndex))
 			{
-			itsMenu->BroadcastSelection(itsPrevItemIndex, kJFalse);	// destroys us
+			itsMenu->BroadcastSelection(itsPrevItemIndex, false);	// destroys us
 			}
 		else
 			{
-			itsIsFirstDragFlag = kJFalse;
+			itsIsFirstDragFlag = false;
 			}
 		}
 	else if (!itsSwitchingDragFlag && CloseMenuOnMouseUp(pt))
@@ -373,13 +373,13 @@ JXMenuTable::HandleMouseUp
 		// We need a separate clause because the other clauses may delete
 		// the object.  We can't modify instance variables after that.
 
-		itsIsFirstDragFlag = kJFalse;
+		itsIsFirstDragFlag = false;
 		}
 }
 
 // private
 
-JBoolean
+bool
 JXMenuTable::CloseMenuOnMouseUp
 	(
 	const JPoint& pt
@@ -389,7 +389,7 @@ JXMenuTable::CloseMenuOnMouseUp
 	if (itsIsFirstDragFlag && itsMenu->IsHiddenPopupMenu() &&
 		!JMouseMoved(itsMouseDownPt, pt))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JXDisplay* display = GetDisplay();
@@ -402,14 +402,13 @@ JXMenuTable::CloseMenuOnMouseUp
 //		XUngrabPointer(*(GetDisplay()), CurrentTime);
 //		GetDisplay()->Flush();
 
-		return kJTrue;
+		return true;
 		}
 
 	JXContainer* origWidget;
-	return JConvertToBoolean(
-		!itsIsFirstDragFlag &&
+	return !itsIsFirstDragFlag &&
 		display->FindMouseContainer(this, itsMouseDownPt, &origWidget) &&
-		origWidget == itsMenu);
+		origWidget == itsMenu;
 }
 
 /******************************************************************************
@@ -423,7 +422,7 @@ JXMenuTable::MenuHandleMouseAction
 	const JPoint&			pt,
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers,
-	const JBoolean			closeIfOutside
+	const bool			closeIfOutside
 	)
 {
 	itsCurrPt = pt;
@@ -444,16 +443,16 @@ JXMenuTable::MenuHandleMouseAction
 		const JFloat s = JFloat(itsCurrPt.y - itsPrevPt.y)/
 						 JFloat(itsCurrPt.x - itsPrevPt.x);
 
-		JBoolean movingTowardsSubmenu = kJFalse;
+		bool movingTowardsSubmenu = false;
 		if (itsPrevPt.x < itsCurrPt.x && currPtR.x < subr.left)
 			{
 			const JFloat y       = currPtR.y + s * (subr.left - currPtR.x);
-			movingTowardsSubmenu = JI2B(subr.top < y && y < subr.bottom);
+			movingTowardsSubmenu = subr.top < y && y < subr.bottom;
 			}
 		else if (subr.right < currPtR.x && itsCurrPt.x < itsPrevPt.x)
 			{
 			const JFloat y       = currPtR.y + s * (subr.right - currPtR.x);
-			movingTowardsSubmenu = JI2B(subr.top < y && y < subr.bottom);
+			movingTowardsSubmenu = subr.top < y && y < subr.bottom;
 			}
 
 		if (movingTowardsSubmenu)
@@ -473,11 +472,11 @@ JXMenuTable::MenuHandleMouseAction
 		Window xWindow     = GetWindow()->GetXWindow();
 
 		GetWindow()->UngrabPointer(this);
-		itsSwitchingDragFlag = kJTrue;
+		itsSwitchingDragFlag = true;
 		display->SwitchDrag(this, pt, buttonStates, modifiers, widget);	// can destroy us
 		if (JXDisplay::WindowExists(display, xDisplay, xWindow))
 			{
-			itsSwitchingDragFlag = kJFalse;
+			itsSwitchingDragFlag = false;
 			}
 		return;
 		}
@@ -486,8 +485,7 @@ JXMenuTable::MenuHandleMouseAction
 
 	if (itsHasScrollUpFlag)
 		{
-		JBoolean flag = JConvertToBoolean(
-			itsScrollUpRect.Contains(pt) || pt.y <= itsScrollUpRect.top );
+		bool flag = itsScrollUpRect.Contains(pt) || pt.y <= itsScrollUpRect.top;
 		if (flag != itsMouseInScrollUpFlag)
 			{
 			RefreshRect(itsScrollUpRect);
@@ -497,8 +495,7 @@ JXMenuTable::MenuHandleMouseAction
 
 	if (itsHasScrollDownFlag)
 		{
-		JBoolean flag = JConvertToBoolean(
-			itsScrollDownRect.Contains(pt) || pt.y >= itsScrollDownRect.bottom );
+		bool flag = itsScrollDownRect.Contains(pt) || pt.y >= itsScrollDownRect.bottom;
 		if (flag != itsMouseInScrollDownFlag)
 			{
 			RefreshRect(itsScrollDownRect);
@@ -541,7 +538,7 @@ JXMenuTable::MouseOutsideTable
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers,
 	JXContainer*			trueMouseContainer,
-	const JBoolean			shouldClose
+	const bool			shouldClose
 	)
 {
 	if (itsHasScrollUpFlag && pt.y <= itsScrollUpRect.top)
@@ -550,7 +547,7 @@ JXMenuTable::MouseOutsideTable
 			{
 			RefreshRect(itsScrollUpRect);
 			}
-		itsMouseInScrollUpFlag = kJTrue;
+		itsMouseInScrollUpFlag = true;
 		MenuSelectItem(0);
 		ScrollUp(pt.y);
 		}
@@ -560,7 +557,7 @@ JXMenuTable::MouseOutsideTable
 			{
 			RefreshRect(itsScrollDownRect);
 			}
-		itsMouseInScrollDownFlag = kJTrue;
+		itsMouseInScrollDownFlag = true;
 		MenuSelectItem(0);
 		ScrollDown(pt.y);
 		}
@@ -577,12 +574,12 @@ JXMenuTable::MouseOutsideTable
 /******************************************************************************
  GetMenuWidgetToActivate (private)
 
-	Returns kJTrue if the mouse is in a widget that is part of the same
+	Returns true if the mouse is in a widget that is part of the same
 	menu bar as origMenu.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenuTable::GetMenuWidgetToActivate
 	(
 	const JPoint&	pt,
@@ -592,12 +589,12 @@ JXMenuTable::GetMenuWidgetToActivate
 	if (!GetDisplay()->FindMouseContainer(this, pt, widget))
 		{
 		*widget = nullptr;
-		return kJFalse;
+		return false;
 		}
 
 	if ((**widget).IsMenuTable() && *widget != this)
 		{
-		return kJTrue;
+		return true;
 		}
 
 	if ((**widget).IsMenu())
@@ -611,11 +608,11 @@ JXMenuTable::GetMenuWidgetToActivate
 			menuBar1 == menuBar2 &&
 			menu->GetTopLevelMenu() != itsMenu->GetTopLevelMenu())
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -650,7 +647,7 @@ void
 JXMenuTable::MenuSelectItem
 	(
 	const JIndex	origNewItemIndex,
-	const JBoolean	checkMovement
+	const bool	checkMovement
 	)
 {
 	JIndex newItemIndex = origNewItemIndex;
@@ -736,14 +733,14 @@ JXMenuTable::HandleKeyPress
 		}
 
 	JIndex index;
-	const JBoolean isShortcut = itsBaseMenuData->ShortcutToIndex(c, &index);
+	const bool isShortcut = itsBaseMenuData->ShortcutToIndex(c, &index);
 	if (isShortcut && !itsBaseMenuData->HasSubmenu(index))
 		{
-		itsMenu->BroadcastSelection(index, kJFalse);		// destroys us
+		itsMenu->BroadcastSelection(index, false);		// destroys us
 		}
 	else if (isShortcut)
 		{
-		MenuSelectItem(index, kJFalse);
+		MenuSelectItem(index, false);
 		}
 }
 
@@ -830,7 +827,7 @@ JXMenuTable::UpdateScrollRegions()
 	const JRect ap     = GetAperture();
 	const JRect bounds = GetBounds();
 
-	itsHasScrollUpFlag = JConvertToBoolean( bounds.top < ap.top );
+	itsHasScrollUpFlag = bounds.top < ap.top;
 	if (itsHasScrollUpFlag)
 		{
 		itsScrollUpRect = ap;
@@ -841,10 +838,10 @@ JXMenuTable::UpdateScrollRegions()
 		}
 	else
 		{
-		itsMouseInScrollUpFlag = kJFalse;
+		itsMouseInScrollUpFlag = false;
 		}
 
-	itsHasScrollDownFlag = JConvertToBoolean( bounds.bottom > ap.bottom );
+	itsHasScrollDownFlag = bounds.bottom > ap.bottom;
 	if (itsHasScrollDownFlag)
 		{
 		itsScrollDownRect = ap;
@@ -855,7 +852,7 @@ JXMenuTable::UpdateScrollRegions()
 		}
 	else
 		{
-		itsMouseInScrollDownFlag = kJFalse;
+		itsMouseInScrollDownFlag = false;
 		}
 }
 
@@ -904,9 +901,9 @@ JXMenuTable::ScrollDown
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXMenuTable::IsMenuTable()
 	const
 {
-	return kJTrue;
+	return true;
 }

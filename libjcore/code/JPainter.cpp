@@ -21,24 +21,24 @@
 		with the ending point.
 
 	Rect
-		Draw the specified rectangle.  If IsFilled() returns kJTrue,
+		Draw the specified rectangle.  If IsFilled() returns true,
 		fill the rectangle.
 
 	Ellipse
 		Draw an ellipse inside the specified rectangle.  If IsFilled()
-		returns kJTrue, fill the ellipse.
+		returns true, fill the ellipse.
 
 	Arc
 		Draw the specified arc inside the specified rectangle.  startAngle
 		follows the usual convention of zero degrees on the positive x-axis and
 		increases counterclockwise.  deltaAngle tells how much of the arc
 		to draw (in degrees) and is positive in the counterclockwise direction.
-		If IsFilled() returns kJTrue, fill the ellipse as a pie slice.
+		If IsFilled() returns true, fill the ellipse as a pie slice.
 
 	Polygon
 		Draw the specified polygon, including the closing line from the
 		last vertex to the first vertex.  top and left specify the offset of
-		the vertices relative to the current origin.  If IsFilled() returns kJTrue,
+		the vertices relative to the current origin.  If IsFilled() returns true,
 		fill the polygon.
 
 	Image
@@ -73,10 +73,10 @@ JPainter::JPainter
 	itsOrigin(0,0),
 	itsPenLoc(0,0),
 	itsLineWidth(1),
-	itsFillFlag(kJFalse),
+	itsFillFlag(false),
 	itsClipRect(defaultClipRect),
 
-	itsDrawDashedLinesFlag(kJFalse),
+	itsDrawDashedLinesFlag(false),
 	itsDashOffset(0),
 	itsDashList(nullptr),
 
@@ -133,8 +133,8 @@ JPainter::ResetAllButClipping()
 	itsPenLoc              = itsOrigin;
 	itsLineWidth           = 1;
 	itsPenColor            = itsDefaultColor;
-	itsFillFlag            = kJFalse;
-	itsDrawDashedLinesFlag = kJFalse;
+	itsFillFlag            = false;
+	itsDrawDashedLinesFlag = false;
 
 	itsFont = JFontManager::GetDefaultFont();
 	itsFont.SetColor(itsDefaultColor);

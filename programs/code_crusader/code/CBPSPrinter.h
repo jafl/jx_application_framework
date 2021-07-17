@@ -26,7 +26,7 @@ public:
 	const JString&	GetHeaderName() const;
 	void			SetPrintInfo(CBTextEditor* te, const JString& headerName);
 
-	virtual JBoolean	OpenDocument();
+	virtual bool	OpenDocument();
 	virtual void		CloseDocument();
 	virtual void		CancelDocument();
 
@@ -38,10 +38,10 @@ protected:
 	virtual JXPSPrintSetupDialog*
 		CreatePrintSetupDialog(const Destination destination,
 							   const JString& printCmd, const JString& fileName,
-							   const JBoolean collate, const JBoolean bw);
+							   const bool collate, const bool bw);
 
-	virtual JBoolean	EndUserPrintSetup(const JBroadcaster::Message& message,
-										  JBoolean* changed);
+	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
+										  bool* changed);
 
 private:
 

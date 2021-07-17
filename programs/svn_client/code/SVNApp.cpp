@@ -25,7 +25,7 @@ SVNApp::SVNApp
 	(
 	int*		argc,
 	char*		argv[],
-	JBoolean*	displayAbout,
+	bool*	displayAbout,
 	JString*	prevVersStr
 	)
 	:
@@ -42,7 +42,7 @@ SVNApp::SVNApp
 			}
 		else
 			{
-			*displayAbout = kJTrue;
+			*displayAbout = true;
 			}
 		}
 	else
@@ -66,12 +66,12 @@ SVNApp::~SVNApp()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNApp::Close()
 {
 	(SVNGetPrefsManager())->SaveProgramState();
 
-	const JBoolean success = JXApplication::Close();	// deletes us if successful
+	const bool success = JXApplication::Close();	// deletes us if successful
 	if (!success)
 		{
 		(SVNGetPrefsManager())->ForgetProgramState();
@@ -110,7 +110,7 @@ SVNApp::ReloadOpenFilesInIDE()
 	JString cmd;
 	if ((SVNGetPrefsManager())->GetCommand(SVNPrefsManager::kReloadChangedCmd, &type, &cmd))
 		{
-		JSimpleProcess::Create(cmd, kJTrue);
+		JSimpleProcess::Create(cmd, true);
 		}
 }
 

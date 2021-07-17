@@ -45,7 +45,7 @@ JXFontNameMenu::JXFontNameMenu
 	)
 	:
 	JXTextMenu(title, enclosure, hSizing, vSizing, x,y, w,h),
-	itsBroadcastNameChangeFlag(kJTrue)
+	itsBroadcastNameChangeFlag(true)
 {
 	BuildMenu();
 }
@@ -58,7 +58,7 @@ JXFontNameMenu::JXFontNameMenu
 	)
 	:
 	JXTextMenu(owner, itemIndex, enclosure),
-	itsBroadcastNameChangeFlag(kJTrue)
+	itsBroadcastNameChangeFlag(true)
 {
 	BuildMenu();
 }
@@ -78,20 +78,20 @@ JXFontNameMenu::~JXFontNameMenu()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFontNameMenu::SetFontName
 	(
 	const JString& name
 	)
 {
-	JBoolean foundSeparator = kJFalse;
+	bool foundSeparator = false;
 
 	const JIndex count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		if (HasSeparatorAfter(i))
 			{
-			foundSeparator = kJTrue;
+			foundSeparator = true;
 			continue;
 			}
 		else if (!foundSeparator)
@@ -110,11 +110,11 @@ JXFontNameMenu::SetFontName
 				Broadcast(NameChanged());
 				}
 
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -189,9 +189,9 @@ JXFontNameMenu::Receive
 {
 	if (sender == this && message.Is(JXMenu::kNeedsUpdate))
 		{
-		itsBroadcastNameChangeFlag = kJFalse;
+		itsBroadcastNameChangeFlag = false;
 		UpdateMenu();
-		itsBroadcastNameChangeFlag = kJTrue;
+		itsBroadcastNameChangeFlag = true;
 		}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
@@ -222,7 +222,7 @@ JXFontNameMenu::UpdateMenu()
 
 	while (GetItemCount() > 0)
 		{
-		const JBoolean hadSeparator = HasSeparatorAfter(1);
+		const bool hadSeparator = HasSeparatorAfter(1);
 		RemoveItem(1);
 		itsFontIndex--;
 		if (hadSeparator)
@@ -284,7 +284,7 @@ JXFontNameMenu::UpdateHistory
 void
 JXFontNameMenu::SetToPopupChoice
 	(
-	const JBoolean isPopup
+	const bool isPopup
 	)
 {
 	JXTextMenu::SetToPopupChoice(isPopup, itsFontIndex);

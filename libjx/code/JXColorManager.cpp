@@ -130,13 +130,13 @@ JXColorManager::InitMasks
 /******************************************************************************
  GetColorID (virtual)
 
-	Returns kJTrue if it was able to allocate the requested read-only color.
+	Returns true if it was able to allocate the requested read-only color.
 	Accepts both names from the color database and hex specifications.
 	(i.e. "red" or "#FFFF00000000")
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXColorManager::GetColorID
 	(
 	const JString&	name,
@@ -147,11 +147,11 @@ JXColorManager::GetColorID
 	if (XParseColor(*itsDisplay, itsXColormap, name.GetBytes(), &xColor))
 		{
 		*id = JColorManager::GetColorID(JRGB(xColor.red, xColor.green, xColor.blue));
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

@@ -33,8 +33,8 @@ JXCheckbox::JXCheckbox
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsIsCheckedFlag = kJFalse;
-	itsIsPushedFlag  = kJFalse;
+	itsIsCheckedFlag = false;
+	itsIsPushedFlag  = false;
 }
 
 /******************************************************************************
@@ -54,7 +54,7 @@ JXCheckbox::~JXCheckbox()
 void
 JXCheckbox::SetState
 	(
-	const JBoolean on
+	const bool on
 	)
 {
 	if (itsIsCheckedFlag != on)
@@ -82,7 +82,7 @@ JXCheckbox::HandleMouseDown
 {
 	if (button == kJXLeftButton)
 		{
-		itsIsPushedFlag = kJTrue;
+		itsIsPushedFlag = true;
 		Redraw();
 		}
 }
@@ -103,15 +103,15 @@ JXCheckbox::HandleMouseDrag
 	if (buttonStates.left())
 		{
 		const JRect frame     = JXContainer::GlobalToLocal(GetFrameGlobal());
-		const JBoolean inside = frame.Contains(pt);
+		const bool inside = frame.Contains(pt);
 		if (inside && !itsIsPushedFlag)
 			{
-			itsIsPushedFlag = kJTrue;
+			itsIsPushedFlag = true;
 			Redraw();
 			}
 		else if (!inside && itsIsPushedFlag)
 			{
-			itsIsPushedFlag = kJFalse;
+			itsIsPushedFlag = false;
 			Redraw();
 			}
 		}
@@ -133,7 +133,7 @@ JXCheckbox::HandleMouseUp
 {
 	if (button == kJXLeftButton && itsIsPushedFlag)
 		{
-		itsIsPushedFlag = kJFalse;
+		itsIsPushedFlag = false;
 		ToggleState();
 		}
 }

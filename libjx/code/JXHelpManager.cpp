@@ -57,10 +57,10 @@ JXHelpManager::ShowSection
 	const JUtf8Byte* name
 	)
 {
-	JString url(name, 0);
+	JString url(name);
 	if (!url.Contains("://"))
 		{
-		url = JGetString("HELP_URL") + JString("#", kJFalse) + url;
+		url = JGetString("HELP_URL") + JString("#", JString::kNoCopy) + url;
 		}
 
 	JGetWebBrowser()->ShowURL(url);

@@ -31,7 +31,7 @@ public:
 	virtual void	Activate() override;
 
 	void	ViewManPage(const JString& item, const JUtf8Character& index = JUtf8Character(' '),
-						const JBoolean apropos = kJFalse);
+						const bool apropos = false);
 	void	ViewManPages(const JPtrArray<JString>& list);
 
 	static const JString&	GetViewManPageCommand();
@@ -68,7 +68,7 @@ private:
 	void	ViewManPage();
 	void	SetFunction(const JString& historyStr);
 	void	AddToHistory(const JString& pageName, const JUtf8Character& pageIndex,
-						 const JBoolean apropos);
+						 const bool apropos);
 
 	// not allowed
 

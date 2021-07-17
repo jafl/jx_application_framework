@@ -100,7 +100,7 @@ CMLocalVarsDir::CMLocalVarsDir
 	:
 	JXWindowDirector(JXGetApplication()),
 	itsCommandDir(supervisor),
-	itsNeedsUpdateFlag(kJFalse)
+	itsNeedsUpdateFlag(false)
 {
 	itsLink = CMGetLink();
 	ListenTo(itsLink);
@@ -171,7 +171,7 @@ CMLocalVarsDir::BuildWindow()
 	window->SetTitle(JGetString("WindowTitleSuffix::CMLocalVarsDir"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetLocalVariableWindowClass());
 	CMGetPrefsManager()->GetWindowSize(kLocalVarWindSizeID, window);
 
@@ -180,7 +180,7 @@ CMLocalVarsDir::BuildWindow()
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
-	CMVarNode* root = itsLink->CreateVarNode(kJFalse);
+	CMVarNode* root = itsLink->CreateVarNode(false);
 	assert( root != nullptr );
 	itsTree = jnew JTree(root);
 	assert( itsTree != nullptr );
@@ -188,7 +188,7 @@ CMLocalVarsDir::BuildWindow()
 	assert( treeList != nullptr );
 
 	itsWidget =
-		jnew CMVarTreeWidget(itsCommandDir, kJFalse, menuBar, itsTree, treeList,
+		jnew CMVarTreeWidget(itsCommandDir, false, menuBar, itsTree, treeList,
 							scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert(itsWidget != nullptr);
@@ -263,7 +263,7 @@ CMLocalVarsDir::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMLocalVarsDir::GetMenuIcon
 	(
 	const JXImage** icon
@@ -271,7 +271,7 @@ CMLocalVarsDir::GetMenuIcon
 	const
 {
 	*icon = CMGetLocalVarsIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -386,14 +386,14 @@ CMLocalVarsDir::ReceiveGoingAway
 
 		(itsTree->GetRoot())->DeleteAllChildren();
 
-		CMVarNode* root = itsLink->CreateVarNode(kJFalse);
+		CMVarNode* root = itsLink->CreateVarNode(false);
 		assert( root != nullptr );
 		itsTree->SetRoot(root);
 
 		jdelete itsGetLocalsCmd;
 		itsGetLocalsCmd = itsLink->CreateGetLocalVars(root);
 
-		itsNeedsUpdateFlag = kJFalse;
+		itsNeedsUpdateFlag = false;
 		}
 	else
 		{
@@ -426,16 +426,16 @@ CMLocalVarsDir::Rebuild()
 {
 	if (IsActive() && !GetWindow()->IsIconified())
 		{
-		itsNeedsUpdateFlag = kJFalse;	// can't call FlushOldData() since must *update* tree
+		itsNeedsUpdateFlag = false;	// can't call FlushOldData() since must *update* tree
 		itsGetLocalsCmd->Send();
 
 		CMVarNode* root = dynamic_cast<CMVarNode*>(itsTree->GetRoot());
 		assert( root != nullptr );
-		root->SetValid(kJFalse);
+		root->SetValid(false);
 		}
 	else
 		{
-		itsNeedsUpdateFlag = kJTrue;
+		itsNeedsUpdateFlag = true;
 		}
 }
 
@@ -448,7 +448,7 @@ void
 CMLocalVarsDir::FlushOldData()
 {
 	(itsTree->GetRoot())->DeleteAllChildren();
-	itsNeedsUpdateFlag = kJFalse;
+	itsNeedsUpdateFlag = false;
 }
 
 /******************************************************************************

@@ -27,7 +27,7 @@ class GLFitModule : virtual public JBroadcaster
 {
 public:
 
-	static JBoolean Create(	GLFitModule** module,
+	static bool Create(	GLFitModule** module,
 							GLPlotDir* dir,
 							JPlotDataBase* fitData,
 							const JString& sysCmd);
@@ -49,11 +49,11 @@ private:
 
 	GLPlotDir* 					itsDir;			// We don't own this.
 	JPlotDataBase*				itsData;		// We don't own this.
-	JBoolean					itsStatusRead;
-	JBoolean					itsHeaderRead;
-	JBoolean					itsFunctionRead;
-	JBoolean					itsHasErrors;
-	JBoolean					itsHasGOF;
+	bool					itsStatusRead;
+	bool					itsHeaderRead;
+	bool					itsFunctionRead;
+	bool					itsHasErrors;
+	bool					itsHasGOF;
 	JSize						itsParmsCount;
 	JProgressDisplay*			itsPG;
 	JProcess*					itsProcess;

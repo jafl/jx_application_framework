@@ -300,7 +300,7 @@ EditTable::HandleMouseDown
 				selection.ClearSelection();
 
 				// Start editing
-				BeginEditing(cell, kJTrue);
+				BeginEditing(cell, true);
 				}
 			else
 				{
@@ -388,7 +388,7 @@ EditTable::HandleTableMenu
 
 		// This finds the first selected cell, which in our case is
 		// the only selected cell.
-		const JBoolean ok = selection.GetFirstSelectedCell(&cell);
+		const bool ok = selection.GetFirstSelectedCell(&cell);
 		assert(ok);
 
 		// The default value is inserted before the selected cell.
@@ -467,11 +467,11 @@ EditTable::CreateXInputField
 	Extract the information from the active input field, check it, and
 	delete the input field if successful.
 
-	Returns kJTrue if the data is valid and the process succeeded.
+	Returns true if the data is valid and the process succeeded.
 
  ******************************************************************************/
 
-JBoolean
+bool
 EditTable::ExtractInputData
 	(
 	const JPoint& cell
@@ -480,20 +480,20 @@ EditTable::ExtractInputData
 	// This better exist if this is called!
 	assert( itsIntegerInputField != nullptr );
 
-	// If the data is invalid, return kJFalse.
+	// If the data is invalid, return false.
 	// This tells JTable to not stop editing.
 	if (!itsIntegerInputField->InputValid())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// Get the value from the input field
 	JInteger number;
-	const JBoolean ok = itsIntegerInputField->GetValue(&number);
+	const bool ok = itsIntegerInputField->GetValue(&number);
 
 	// InputValid() displays an error message if there is a
 	// problem.  Since we got past that, GetValue() had better
-	// return kJTrue.
+	// return true.
 	assert( ok );
 
 	// The data must be good if we have gotten this far, so set the
@@ -502,7 +502,7 @@ EditTable::ExtractInputData
 	itsData->SetElement(cell.y, number);
 
 	// The edit was successful, so the input field can be deleted.
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

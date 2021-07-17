@@ -94,17 +94,17 @@ JXTabGroup::JXTabGroup
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsEdge(kTop),
 	itsFont(JFontManager::GetDefaultFont()),
-	itsCanScrollUpFlag(kJFalse),
-	itsCanScrollDownFlag(kJFalse),
+	itsCanScrollUpFlag(false),
+	itsCanScrollDownFlag(false),
 	itsFirstDrawIndex(1),
 	itsLastDrawIndex(1),
 	itsContextMenu(nullptr),
 	itsPrevTabIndex(0),
 	itsDragAction(kInvalidClick),
-	itsScrollUpPushedFlag(kJFalse),
-	itsScrollDownPushedFlag(kJFalse),
+	itsScrollUpPushedFlag(false),
+	itsScrollDownPushedFlag(false),
 	itsMouseIndex(0),
-	itsClosePushedFlag(kJFalse)
+	itsClosePushedFlag(false)
 {
 	itsTitles = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsTitles != nullptr );
@@ -189,13 +189,13 @@ JXTabGroup::SetTabTitlePostMargin
 
 JXTabGroup::TabInfo::TabInfo()
 	:
-	closable(kJFalse), preMargin(kTextMargin), postMargin(kTextMargin)
+	closable(false), preMargin(kTextMargin), postMargin(kTextMargin)
 {
 };
 
 JXTabGroup::TabInfo::TabInfo
 	(
-	const JBoolean closable
+	const bool closable
 	)
 	:
 	closable(closable), preMargin(kTextMargin), postMargin(kTextMargin)
@@ -206,11 +206,11 @@ JXTabGroup::TabInfo::TabInfo
  ShowTab
 
 	If the current card is willing to disappear, then we show the requested
-	one and return kJTrue.  Otherwise, we return kJFalse.
+	one and return true.  Otherwise, we return false.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTabGroup::ShowTab
 	(
 	JXContainer* card
@@ -223,21 +223,21 @@ JXTabGroup::ShowTab
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JXTabGroup::ShowTab
 	(
 	const JIndex index
 	)
 {
 	JIndex selIndex;
-	const JBoolean hasSelection = itsCardFile->GetCurrentCardIndex(&selIndex);
+	const bool hasSelection = itsCardFile->GetCurrentCardIndex(&selIndex);
 	if (hasSelection && selIndex == index)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (hasSelection)
 		{
@@ -247,7 +247,7 @@ JXTabGroup::ShowTab
 	if (itsCardFile->ShowCard(index))
 		{
 		JIndex i;
-		const JBoolean hasIndex = GetCurrentTabIndex(&i);
+		const bool hasIndex = GetCurrentTabIndex(&i);
 		if (hasIndex && i < itsFirstDrawIndex)
 			{
 			itsFirstDrawIndex = i;
@@ -258,11 +258,11 @@ JXTabGroup::ShowTab
 			}
 
 		Refresh();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -354,7 +354,7 @@ JXTabGroup::InsertTab
 	(
 	const JIndex	index,
 	const JString&	title,
-	const JBoolean	closeable
+	const bool	closeable
 	)
 {
 	Refresh();
@@ -369,7 +369,7 @@ JXTabGroup::InsertTab
 	const JIndex	index,
 	const JString&	title,
 	JXWidgetSet*	card,
-	const JBoolean	closeable
+	const bool	closeable
 	)
 {
 	Refresh();
@@ -393,7 +393,7 @@ JXTabGroup::RemoveTab
 	)
 {
 	JIndex selIndex;
-	const JBoolean hasSelection = itsCardFile->GetCurrentCardIndex(&selIndex);
+	const bool hasSelection = itsCardFile->GetCurrentCardIndex(&selIndex);
 	if (hasSelection && index == selIndex &&
 		itsPrevTabIndex > 0 && itsPrevTabIndex != index)
 		{
@@ -485,7 +485,7 @@ JXTabGroup::ScrollUpToTab
 	JArray<JCoordinate> widthList;
 
 	const JSize count  = itsTitles->GetElementCount();
-	JBoolean offScreen = kJFalse;
+	bool offScreen = false;
 	for (JIndex i=itsFirstDrawIndex; i<=index; i++)
 		{
 		const TabInfo info = itsTabInfoList->GetElement(index);
@@ -502,7 +502,7 @@ JXTabGroup::ScrollUpToTab
 			right >= max - scrollArrowWidth &&
 			!(itsFirstDrawIndex == 1 && i == count && right <= max))
 			{
-			offScreen = kJTrue;
+			offScreen = true;
 			}
 
 		left = right;
@@ -540,11 +540,11 @@ JXTabGroup::Draw
 
 	JIndex selIndex;
 	JRect selRect;
-	const JBoolean hasSelection = itsCardFile->GetCurrentCardIndex(&selIndex);
+	const bool hasSelection = itsCardFile->GetCurrentCardIndex(&selIndex);
 
 	itsTabRects->RemoveAll();
-	itsCanScrollUpFlag   = JI2B(itsFirstDrawIndex > 1);
-	itsCanScrollDownFlag = kJFalse;
+	itsCanScrollUpFlag   = itsFirstDrawIndex > 1;
+	itsCanScrollDownFlag = false;
 
 	const JCoordinate scrollArrowWidth = 2*(kArrowWidth + kBorderWidth);
 
@@ -559,7 +559,7 @@ JXTabGroup::Draw
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
 			{
 			const JString* title = itsTitles->GetElement(i);
-			const JBoolean isSel = JI2B(hasSelection && i == selIndex);
+			const bool isSel = hasSelection && i == selIndex;
 			const TabInfo info   = itsTabInfoList->GetElement(i);
 
 			r.right += 2*kBorderWidth + info.preMargin +info.postMargin + p.GetStringWidth(*title);
@@ -581,13 +581,13 @@ JXTabGroup::Draw
 			if (isSel)
 				{
 				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
-				p.SetFilling(kJTrue);
+				p.SetFilling(true);
 				p.JPainter::Rect(r);
-				p.SetFilling(kJFalse);
+				p.SetFilling(false);
 				}
 			else
 				{
-				DrawTabBorder(p, r, kJFalse);
+				DrawTabBorder(p, r, false);
 				}
 			p.JPainter::String(titlePt, *title);
 
@@ -609,7 +609,7 @@ JXTabGroup::Draw
 					{
 					break;
 					}
-				itsCanScrollDownFlag = JI2B( itsFirstDrawIndex < count );
+				itsCanScrollDownFlag = itsFirstDrawIndex < count;
 				itsLastDrawIndex     = i;
 				if (r.right > ap.right - scrollArrowWidth && i > itsFirstDrawIndex)
 					{
@@ -630,7 +630,7 @@ JXTabGroup::Draw
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
 			{
 			const JString* title = itsTitles->GetElement(i);
-			const JBoolean isSel = JI2B(hasSelection && i == selIndex);
+			const bool isSel = hasSelection && i == selIndex;
 			const TabInfo info   = itsTabInfoList->GetElement(i);
 
 			r.top -= 2*kBorderWidth + info.preMargin + info.postMargin + p.GetStringWidth(*title);
@@ -652,13 +652,13 @@ JXTabGroup::Draw
 			if (isSel)
 				{
 				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
-				p.SetFilling(kJTrue);
+				p.SetFilling(true);
 				p.JPainter::Rect(r);
-				p.SetFilling(kJFalse);
+				p.SetFilling(false);
 				}
 			else
 				{
-				DrawTabBorder(p, r, kJFalse);
+				DrawTabBorder(p, r, false);
 				}
 			p.JPainter::String(90, titlePt, *title);
 
@@ -680,7 +680,7 @@ JXTabGroup::Draw
 					{
 					break;
 					}
-				itsCanScrollDownFlag = JI2B( itsFirstDrawIndex < count );
+				itsCanScrollDownFlag = itsFirstDrawIndex < count;
 				itsLastDrawIndex     = i;
 				if (r.top < ap.top + scrollArrowWidth && i > itsFirstDrawIndex)
 					{
@@ -701,7 +701,7 @@ JXTabGroup::Draw
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
 			{
 			const JString* title = itsTitles->GetElement(i);
-			const JBoolean isSel = JI2B(hasSelection && i == selIndex);
+			const bool isSel = hasSelection && i == selIndex;
 			const TabInfo info   = itsTabInfoList->GetElement(i);
 
 			r.right += 2*kBorderWidth + info.preMargin + info.postMargin + p.GetStringWidth(*title);
@@ -723,13 +723,13 @@ JXTabGroup::Draw
 			if (isSel)
 				{
 				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
-				p.SetFilling(kJTrue);
+				p.SetFilling(true);
 				p.JPainter::Rect(r);
-				p.SetFilling(kJFalse);
+				p.SetFilling(false);
 				}
 			else
 				{
-				DrawTabBorder(p, r, kJFalse);
+				DrawTabBorder(p, r, false);
 				}
 			p.JPainter::String(titlePt, *title);
 
@@ -751,7 +751,7 @@ JXTabGroup::Draw
 					{
 					break;
 					}
-				itsCanScrollDownFlag = JI2B( itsFirstDrawIndex < count );
+				itsCanScrollDownFlag = itsFirstDrawIndex < count;
 				itsLastDrawIndex     = i;
 				if (r.right > ap.right - scrollArrowWidth && i > itsFirstDrawIndex)
 					{
@@ -772,7 +772,7 @@ JXTabGroup::Draw
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
 			{
 			const JString* title = itsTitles->GetElement(i);
-			const JBoolean isSel = JI2B(hasSelection && i == selIndex);
+			const bool isSel = hasSelection && i == selIndex;
 			const TabInfo info   = itsTabInfoList->GetElement(i);
 
 			r.bottom += 2*kBorderWidth + info.preMargin + info.postMargin + p.GetStringWidth(*title);
@@ -794,13 +794,13 @@ JXTabGroup::Draw
 			if (isSel)
 				{
 				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
-				p.SetFilling(kJTrue);
+				p.SetFilling(true);
 				p.JPainter::Rect(r);
-				p.SetFilling(kJFalse);
+				p.SetFilling(false);
 				}
 			else
 				{
-				DrawTabBorder(p, r, kJFalse);
+				DrawTabBorder(p, r, false);
 				}
 			p.JPainter::String(-90, titlePt, *title);
 
@@ -822,7 +822,7 @@ JXTabGroup::Draw
 					{
 					break;
 					}
-				itsCanScrollDownFlag = JI2B( itsFirstDrawIndex < count );
+				itsCanScrollDownFlag = itsFirstDrawIndex < count;
 				itsLastDrawIndex     = i;
 				if (r.bottom > ap.bottom - scrollArrowWidth && i > itsFirstDrawIndex)
 					{
@@ -841,7 +841,7 @@ JXTabGroup::Draw
 
 	if (!selRect.IsEmpty())
 		{
-		DrawTabBorder(p, selRect, kJTrue);
+		DrawTabBorder(p, selRect, true);
 		}
 
 	DrawScrollButtons(p, lineHeight);
@@ -928,7 +928,7 @@ JXTabGroup::DrawTabBorder
 	(
 	JXWindowPainter&	p,
 	const JRect&		rect,
-	const JBoolean		isSelected
+	const bool		isSelected
 	)
 {
 	JXDrawUpFrame(p, rect, kBorderWidth);
@@ -1081,9 +1081,9 @@ JXTabGroup::DrawScrollButtons
 				ap.top + h, ap.right);
 
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.JPainter::Rect(r);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 
 		r.Shrink(kBorderWidth, 0);
 		r.top = r.bottom = r.ycenter();
@@ -1128,9 +1128,9 @@ JXTabGroup::DrawScrollButtons
 				ap.top + w, ap.left + h);
 
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.JPainter::Rect(r);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 
 		r.Shrink(0, kBorderWidth);
 		r.left = r.right = r.xcenter();
@@ -1175,9 +1175,9 @@ JXTabGroup::DrawScrollButtons
 				ap.bottom,     ap.right);
 
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.JPainter::Rect(r);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 
 		r.Shrink(kBorderWidth, 0);
 		r.top = r.bottom = r.ycenter();
@@ -1222,9 +1222,9 @@ JXTabGroup::DrawScrollButtons
 				ap.bottom,     ap.right);
 
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.JPainter::Rect(r);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 
 		r.Shrink(0, kBorderWidth);
 		r.left = r.right = r.xcenter();
@@ -1315,7 +1315,7 @@ JXTabGroup::HandleMouseHere
 {
 	JIndex i;
 	JRect r;
-	JBoolean found = FindTab(pt, &i, &r);
+	bool found = FindTab(pt, &i, &r);
 
 	if (found && i != itsMouseIndex)
 		{
@@ -1366,11 +1366,11 @@ JXTabGroup::HandleMouseDown
 		if (itsCanScrollUpFlag && itsFirstDrawIndex > 1)	// avoid left click when arrow disabled
 			{
 			itsDragAction         = kScrollUp;
-			itsScrollUpPushedFlag = kJTrue;
+			itsScrollUpPushedFlag = true;
 			itsFirstDrawIndex--;
 			Refresh();
 			ScrollWait(kInitialScrollDelay);
-			itsScrollUpPushedFlag = kJFalse;		// ignore first HandleMouseDrag()
+			itsScrollUpPushedFlag = false;		// ignore first HandleMouseDrag()
 			}
 		}
 	else if (button == kJXLeftButton && itsScrollDownRect.Contains(pt))
@@ -1378,18 +1378,18 @@ JXTabGroup::HandleMouseDown
 		if (itsCanScrollDownFlag && itsFirstDrawIndex < GetTabCount())	// avoid left click when arrow disabled
 			{
 			itsDragAction           = kScrollDown;
-			itsScrollDownPushedFlag = kJTrue;
+			itsScrollDownPushedFlag = true;
 			itsFirstDrawIndex++;
 			Refresh();
 			ScrollWait(kInitialScrollDelay);
-			itsScrollDownPushedFlag = kJFalse;		// ignore first HandleMouseDrag()
+			itsScrollDownPushedFlag = false;		// ignore first HandleMouseDrag()
 			}
 		}
 	else if (button == kJXLeftButton &&
 			 itsMouseIndex > 0 && itsCloseRect.Contains(pt))
 		{
 		itsDragAction      = kClose;
-		itsClosePushedFlag = kJTrue;
+		itsClosePushedFlag = true;
 		Refresh();
 		}
 	else if (button == kJXLeftButton)
@@ -1427,7 +1427,7 @@ JXTabGroup::HandleMouseDrag
 {
 	if (itsDragAction == kScrollUp)
 		{
-		const JBoolean newScrollUpPushedFlag = JI2B( itsScrollUpRect.Contains(pt) );
+		const bool newScrollUpPushedFlag = itsScrollUpRect.Contains(pt);
 		if (itsScrollUpPushedFlag != newScrollUpPushedFlag)
 			{
 			itsScrollUpPushedFlag = newScrollUpPushedFlag;
@@ -1443,7 +1443,7 @@ JXTabGroup::HandleMouseDrag
 		}
 	else if (itsDragAction == kScrollDown)
 		{
-		const JBoolean newScrollDownPushedFlag = JI2B( itsScrollDownRect.Contains(pt) );
+		const bool newScrollDownPushedFlag = itsScrollDownRect.Contains(pt);
 		if (itsScrollDownPushedFlag != newScrollDownPushedFlag)
 			{
 			itsScrollDownPushedFlag = newScrollDownPushedFlag;
@@ -1459,8 +1459,8 @@ JXTabGroup::HandleMouseDrag
 		}
 	else if (itsDragAction == kClose)
 		{
-		const JBoolean old = itsClosePushedFlag;
-		itsClosePushedFlag = JI2B(itsMouseIndex > 0 && itsCloseRect.Contains(pt));
+		const bool old = itsClosePushedFlag;
+		itsClosePushedFlag = itsMouseIndex > 0 && itsCloseRect.Contains(pt);
 		if ((!old &&  itsClosePushedFlag) ||
 			( old && !itsClosePushedFlag))
 			{
@@ -1492,24 +1492,24 @@ JXTabGroup::HandleMouseUp
 			}
 		}
 
-	itsScrollUpPushedFlag = itsScrollDownPushedFlag = itsClosePushedFlag = kJFalse;
+	itsScrollUpPushedFlag = itsScrollDownPushedFlag = itsClosePushedFlag = false;
 	Refresh();
 }
 
 /******************************************************************************
  OKToDeleteTab (virtual protected)
 
-	Returns kJFalse if base class should not remove the tab.
+	Returns false if base class should not remove the tab.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTabGroup::OKToDeleteTab
 	(
 	const JIndex index
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1517,7 +1517,7 @@ JXTabGroup::OKToDeleteTab
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTabGroup::FindTab
 	(
 	const JPoint&	pt,
@@ -1533,13 +1533,13 @@ JXTabGroup::FindTab
 		if (rect->Contains(pt))
 			{
 			*index = itsFirstDrawIndex + i-1;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
 	rect->Set(0,0,0,0);
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1565,7 +1565,7 @@ JXTabGroup::ScrollWait
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTabGroup::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -1576,7 +1576,7 @@ JXTabGroup::WillAcceptDrop
 	)
 {
 	*action = GetDNDManager()->GetDNDActionPrivateXAtom();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1629,7 +1629,7 @@ JXTabGroup::HandleDNDScroll
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTabGroup::ScrollForWheel
 	(
 	const JXMouseButton		button,
@@ -1641,18 +1641,18 @@ JXTabGroup::ScrollForWheel
 		{
 		itsFirstDrawIndex--;
 		Refresh();
-		return kJTrue;
+		return true;
 		}
 	else if ((button == kJXButton5 || button == kJXButton7) &&
 			 itsCanScrollDownFlag && itsFirstDrawIndex < GetTabCount())
 		{
 		itsFirstDrawIndex++;
 		Refresh();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1818,13 +1818,13 @@ JXTabGroup::WriteSetup
 /******************************************************************************
  NeedsInternalFTC (virtual protected)
 
-	Return kJTrue if the contents are a set of widgets that need to expand.
+	Return true if the contents are a set of widgets that need to expand.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTabGroup::NeedsInternalFTC()
 	const
 {
-	return kJTrue;
+	return true;
 }

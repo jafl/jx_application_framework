@@ -27,7 +27,7 @@ protected:
 
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
-	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
+	virtual bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	virtual void		TableRefresh() override;
 	virtual void		TableRefreshRect(const JRect& rect) override;
@@ -42,14 +42,14 @@ protected:
 	virtual void		TableWidthScaled(const JFloat scaleFactor) override;
 	virtual void		TableColMoved(const JCoordinate origX, const JSize width,
 									  const JCoordinate newX) override;
-	virtual JBoolean	TableScrollToCellRect(const JRect& cellRect,
-											  const JBoolean centerInDisplay = kJFalse) override;
+	virtual bool	TableScrollToCellRect(const JRect& cellRect,
+											  const bool centerInDisplay = false) override;
 	virtual JCoordinate	TableGetApertureWidth() const override;
 
 	void		BeginSelectionDrag(const JPoint& cell, const JXMouseButton button,
 								   const JXKeyModifiers& modifiers);
 	void		ContinueSelectionDrag(const JPoint& pt, const JXKeyModifiers& modifiers);
-	JBoolean	HandleSelectionKeyPress(const JUtf8Character& c,
+	bool	HandleSelectionKeyPress(const JUtf8Character& c,
 										const JXKeyModifiers& modifiers);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;

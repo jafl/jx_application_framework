@@ -15,7 +15,7 @@
 #include <jFileUtil.h>
 #include <jAssert.h>
 
-JBoolean JXSaveFileInput::theAllowSpaceFlag = kJTrue;
+bool JXSaveFileInput::theAllowSpaceFlag = true;
 
 /******************************************************************************
  Constructor
@@ -81,47 +81,47 @@ JXSaveFileInput::HandleFocusEvent()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSaveFileInput::IsCharacterInWord
 	(
 	const JUtf8Character& c
 	)
 {
-	return JI2B( c != '.' );
+	return c != '.';
 }
 
 /******************************************************************************
  NeedsToFilterText (virtual protected)
 
-	Derived classes should return kJTrue if FilterText() needs to be called.
+	Derived classes should return true if FilterText() needs to be called.
 	This is an optimization, to avoid copying the data if nothing needs to
 	be done to it.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSaveFileInput::StyledText::NeedsToFilterText
 	(
 	const JString& text
 	)
 	const
 {
-	return JI2B(JXInputField::StyledText::NeedsToFilterText(text) ||
+	return JXInputField::StyledText::NeedsToFilterText(text) ||
 				text.Contains(ACE_DIRECTORY_SEPARATOR_STR) ||
-				(!theAllowSpaceFlag && text.Contains(" ")));
+				(!theAllowSpaceFlag && text.Contains(" "));
 }
 
 /******************************************************************************
  FilterText (virtual protected)
 
 	Derived classes can override this to enforce restrictions on the text.
-	Return kJFalse if the text cannot be used at all.
+	Return false if the text cannot be used at all.
 
 	*** Note that style may be nullptr or empty if the data was plain text.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSaveFileInput::StyledText::FilterText
 	(
 	JString*			text,
@@ -130,7 +130,7 @@ JXSaveFileInput::StyledText::FilterText
 {
 	if (!JXInputField::StyledText::FilterText(text, style))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// convert slash to dash, and possibly space to underscore
@@ -141,13 +141,13 @@ JXSaveFileInput::StyledText::FilterText
 		{
 		if (c == ACE_DIRECTORY_SEPARATOR_CHAR)
 			{
-			iter.SetPrev(JUtf8Character('-'), kJFalse);
+			iter.SetPrev(JUtf8Character('-'), kJIteratorStay);
 			}
 		else if (!theAllowSpaceFlag && c.IsSpace())
 			{
-			iter.SetPrev(JUtf8Character('_'), kJFalse);
+			iter.SetPrev(JUtf8Character('_'), kJIteratorStay);
 			}
 		}
 
-	return kJTrue;
+	return true;
 }

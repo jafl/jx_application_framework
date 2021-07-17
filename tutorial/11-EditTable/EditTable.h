@@ -39,7 +39,7 @@ protected:
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean		ExtractInputData(const JPoint& cell);
+	virtual bool		ExtractInputData(const JPoint& cell);
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 												const JCoordinate x, const JCoordinate y,
 												const JCoordinate w, const JCoordinate h);

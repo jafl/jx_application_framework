@@ -30,7 +30,7 @@ GDBGetSourceFileList::GDBGetSourceFileList
 	CMFileListDir* fileList
 	)
 	:
-	CMGetSourceFileList(JString("info sources", kJFalse), fileList)
+	CMGetSourceFileList(JString("info sources", JString::kNoCopy), fileList)
 {
 }
 
@@ -74,7 +74,7 @@ GDBGetSourceFileList::HandleSuccess
 
 		icharbufstream input(data.GetRawBytes(), data.GetByteCount());
 		JString fullName, path, name, s;
-		JBoolean foundDelimiter;
+		bool foundDelimiter;
 		do
 			{
 			input >> std::ws;

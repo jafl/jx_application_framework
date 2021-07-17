@@ -24,15 +24,15 @@ public:
 					   const JString& gitStatusCmd,
 					   const JString& gitHistoryCmd,
 					   const JString& postCheckoutCmd,
-					   const JBoolean del, const JBoolean newWindows,
-					   const JBoolean perFolderPrefs);
+					   const bool del, const bool newWindows,
+					   const bool perFolderPrefs);
 
 	virtual ~SyGEditPrefsDialog();
 
 	void	GetPrefs(JString* terminalCmd, JString* manViewCmd,
 					 JString* gitStatusCmd, JString* gitHistoryCmd,
-					 JString* postCheckoutCmd, JBoolean* del,
-					 JBoolean* newWindows, JBoolean* perFolderPrefs) const;
+					 JString* postCheckoutCmd, bool* del,
+					 bool* newWindows, bool* perFolderPrefs) const;
 
 private:
 
@@ -57,8 +57,8 @@ private:
 						const JString& gitStatusCmd,
 						const JString& gitHistoryCmd,
 						const JString& postCheckoutCmd,
-						const JBoolean del, const JBoolean newWindows,
-						const JBoolean perFolderPrefs);
+						const bool del, const bool newWindows,
+						const bool perFolderPrefs);
 
 	// not allowed
 

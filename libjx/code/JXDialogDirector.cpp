@@ -30,7 +30,7 @@
 
 	Derived classes can also implement extra validation (e.g. one input field
 	greater than another) by overriding OKToDeactivate().  One should only
-	perform such checks if Cancelled() returns kJFalse, however, because
+	perform such checks if Cancelled() returns false, however, because
 	nothing should be checked if the user cancels the dialog.
 
 	BASE CLASS = JXWindowDirector
@@ -57,14 +57,14 @@ const JUtf8Byte* JXDialogDirector::kDeactivated = "Deactivated::JXDialogDirector
 JXDialogDirector::JXDialogDirector
 	(
 	JXDirector*		supervisor,
-	const JBoolean	modal
+	const bool	modal
 	)
 	:
 	JXWindowDirector(supervisor),
 	itsModalFlag(modal)
 {
 	itsAutoGeomFlag = modal;
-	itsCancelFlag   = kJFalse;
+	itsCancelFlag   = false;
 	itsOKButton     = nullptr;
 	itsCancelButton = nullptr;
 }
@@ -132,7 +132,7 @@ JXDialogDirector::Activate()
 		JXWindow* window = GetWindow();
 		assert( window != nullptr );
 		window->SetCloseAction(JXWindow::kDeactivateDirector);
-		window->ShouldFocusWhenShow(kJTrue);
+		window->ShouldFocusWhenShow(true);
 
 		JXDirector* supervisor = GetSupervisor();
 		if (supervisor->IsWindowDirector())
@@ -157,7 +157,7 @@ JXDialogDirector::Activate()
 		JXWindowDirector::Activate();
 		if (IsActive())
 			{
-			itsCancelFlag = kJTrue;		// so WM_DELETE_WINDOW => cancel
+			itsCancelFlag = true;		// so WM_DELETE_WINDOW => cancel
 			if (itsModalFlag)
 				{
 				supervisor->Suspend();
@@ -180,12 +180,12 @@ JXDialogDirector::Activate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDialogDirector::Deactivate()
 {
 	if (!IsActive())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	if (itsCancelFlag)
@@ -195,19 +195,19 @@ JXDialogDirector::Deactivate()
 
 	if (JXWindowDirector::Deactivate())
 		{
-		const JBoolean success = !itsCancelFlag;
+		const bool success = !itsCancelFlag;
 		Broadcast(JXDialogDirector::Deactivated(success));
 		if (itsModalFlag)
 			{
 			GetSupervisor()->Resume();
 			}
-		const JBoolean ok = Close();
+		const bool ok = Close();
 		assert( ok );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -216,11 +216,11 @@ JXDialogDirector::Deactivate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDialogDirector::OKToDeactivate()
 {
-	return JConvertToBoolean( itsCancelFlag ||
-							  JXWindowDirector::OKToDeactivate() );
+	return itsCancelFlag ||
+							  JXWindowDirector::OKToDeactivate();
 }
 
 /******************************************************************************
@@ -239,11 +239,11 @@ JXDialogDirector::Receive
 {
 	if (sender == itsOKButton && message.Is(JXButton::kPushed))
 		{
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 	else if (sender == itsCancelButton && message.Is(JXButton::kPushed))
 		{
-		EndDialog(kJFalse);
+		EndDialog(false);
 		}
 	else
 		{

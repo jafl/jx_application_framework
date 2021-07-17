@@ -40,12 +40,12 @@ SyGTrashButton::SyGTrashButton
 	:
 	JXImageButton(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	SetImage(SyGGetTrashSmallIcon(), kJFalse);
+	SetImage(SyGGetTrashSmallIcon(), false);
 	ListenTo(this);
 	ListenTo(SyGGetApplication());
 
 	JString trashDir;
-	if (!SyGGetTrashDirectory(&trashDir, kJFalse))
+	if (!SyGGetTrashDirectory(&trashDir, false))
 		{
 		Deactivate();
 		}
@@ -90,7 +90,7 @@ SyGTrashButton::DrawBorder
 void
 SyGTrashButton::UpdateDisplay()
 {
-	SetImage(SyGGetTrashSmallIcon(), kJFalse);
+	SetImage(SyGGetTrashSmallIcon(), false);
 }
 
 /******************************************************************************
@@ -130,7 +130,7 @@ SyGTrashButton::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGTrashButton::WillAcceptDrop
 	(
 	const JArray<Atom>& typeList,
@@ -141,9 +141,9 @@ SyGTrashButton::WillAcceptDrop
 	)
 {
 	JString trashDir;
-	if (!SyGGetTrashDirectory(&trashDir, kJFalse))
+	if (!SyGGetTrashDirectory(&trashDir, false))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
@@ -155,11 +155,11 @@ SyGTrashButton::WillAcceptDrop
 		if (a == urlXAtom)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -171,7 +171,7 @@ void
 SyGTrashButton::HandleDNDEnter()
 {
 	SyGSetDNDTarget(nullptr);
-	SetImage(SyGGetTrashSmallIcon(kJTrue), kJFalse);
+	SetImage(SyGGetTrashSmallIcon(true), false);
 }
 
 /******************************************************************************
@@ -183,7 +183,7 @@ void
 SyGTrashButton::HandleDNDLeave()
 {
 	SyGSetDNDTarget(nullptr);
-	SetImage(SyGGetTrashSmallIcon(kJFalse), kJFalse);
+	SetImage(SyGGetTrashSmallIcon(false), false);
 }
 
 /******************************************************************************

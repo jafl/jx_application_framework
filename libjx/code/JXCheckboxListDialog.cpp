@@ -46,7 +46,7 @@ JXCheckboxListDialog::JXCheckboxListDialog
 	const JPtrArray<JString>*	shortcutList
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	itsCBList = jnew JPtrArray<JXCheckbox>(JPtrArrayT::kForgetAll);
 	assert( itsCBList != nullptr );
@@ -69,7 +69,7 @@ JXCheckboxListDialog::~JXCheckboxListDialog()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXCheckboxListDialog::GetSelectedItems
 	(
 	JArray<JIndex>* indexList
@@ -101,7 +101,7 @@ JXCheckboxListDialog::SelectItem
 	const JIndex index
 	)
 {
-	itsCBList->GetElement(index)->SetState(kJTrue);
+	itsCBList->GetElement(index)->SetState(true);
 }
 
 /******************************************************************************
@@ -114,7 +114,7 @@ JXCheckboxListDialog::SelectAllItems()
 {
 	for (JXCheckbox* cb : *itsCBList)
 		{
-		cb->SetState(kJTrue);
+		cb->SetState(true);
 		}
 }
 

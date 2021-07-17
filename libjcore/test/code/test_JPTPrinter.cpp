@@ -21,7 +21,7 @@ int main()
 JTEST(Print)
 {
 	JString text;
-	JReadFile(JString("./data/test_print.in.txt", kJFalse), &text);
+	JReadFile(JString("./data/test_print.in.txt", JString::kNoCopy), &text);
 
 	JString fileName;
 	JAssertOK(JCreateTempFile(&fileName));
@@ -30,7 +30,7 @@ JTEST(Print)
 	p.Print(text);
 
 	JString expected, actual;
-	JReadFile(JString("./data/test_print.out.txt", kJFalse), &expected);
+	JReadFile(JString("./data/test_print.out.txt", JString::kNoCopy), &expected);
 	JReadFile(fileName, &actual);
 
 	JAssertStringsEqual(expected, actual);
@@ -41,17 +41,17 @@ JTEST(Print)
 JTEST(PrintReverseOrder)
 {
 	JString text;
-	JReadFile(JString("./data/test_print.in.txt", kJFalse), &text);
+	JReadFile(JString("./data/test_print.in.txt", JString::kNoCopy), &text);
 
 	JString fileName;
 	JAssertOK(JCreateTempFile(&fileName));
 
 	TestPTPrinter p(fileName);
-	p.ShouldPrintReverseOrder(kJTrue);
+	p.ShouldPrintReverseOrder(true);
 	p.Print(text);
 
 	JString expected, actual;
-	JReadFile(JString("./data/test_print.reverse.txt", kJFalse), &expected);
+	JReadFile(JString("./data/test_print.reverse.txt", JString::kNoCopy), &expected);
 	JReadFile(fileName, &actual);
 
 	JAssertStringsEqual(expected, actual);

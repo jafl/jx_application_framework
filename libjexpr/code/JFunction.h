@@ -29,12 +29,12 @@ public:
 
 	virtual ~JFunction();
 
-	JBoolean	GetParent(JFunction** parent);
-	JBoolean	GetParent(const JFunction** parent) const;
+	bool	GetParent(JFunction** parent);
+	bool	GetParent(const JFunction** parent) const;
 	void		SetParent(JFunction* parent);
 
-	virtual JBoolean	Evaluate(JFloat* result) const = 0;
-	virtual JBoolean	Evaluate(JComplex* result) const = 0;
+	virtual bool	Evaluate(JFloat* result) const = 0;
+	virtual bool	Evaluate(JComplex* result) const = 0;
 	JString				Print() const;
 	virtual void		Print(std::ostream& output) const = 0;
 	virtual JIndex		Layout(const JExprRenderer& renderer,
@@ -46,7 +46,7 @@ public:
 
 	// called by JVariableList -- must call inherited
 
-	virtual JBoolean	UsesVariable(const JIndex variableIndex) const;
+	virtual bool	UsesVariable(const JIndex variableIndex) const;
 	virtual void		VariablesInserted(const JIndex firstIndex, const JSize count);
 	virtual void		VariablesRemoved(const JIndex firstIndex, const JSize count);
 	virtual void		VariableMoved(const JIndex origIndex, const JIndex newIndex);
@@ -69,17 +69,17 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JFunction::GetParent
 	(
 	JFunction** parent
 	)
 {
 	*parent = itsParent;
-	return JI2B( *parent != nullptr );
+	return *parent != nullptr;
 }
 
-inline JBoolean
+inline bool
 JFunction::GetParent
 	(
 	const JFunction** parent
@@ -87,7 +87,7 @@ JFunction::GetParent
 	const
 {
 	*parent = itsParent;
-	return JI2B( *parent != nullptr );
+	return *parent != nullptr;
 }
 
 inline void

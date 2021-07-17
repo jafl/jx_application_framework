@@ -21,10 +21,10 @@
 
 // Prototypes
 
-void ParseTextOptions(int* argc, char* argv[], JBoolean* wantMDI);
+void ParseTextOptions(int* argc, char* argv[], bool* wantMDI);
 void ParseXOptions(const int argc, char* argv[],
-				   JBoolean* startIconic, JBoolean* bufferTestWidget,
-				   JBoolean* testWidgetIsImage, JBoolean* snoopWindow);
+				   bool* startIconic, bool* bufferTestWidget,
+				   bool* testWidgetIsImage, bool* snoopWindow);
 void PrintVersion();
 
 /******************************************************************************
@@ -39,7 +39,7 @@ main
 	char*	argv[]
 	)
 {
-	JBoolean wantMDI;
+	bool wantMDI;
 	ParseTextOptions(&argc, argv, &wantMDI);
 
 	if (wantMDI &&
@@ -51,13 +51,13 @@ main
 	TestApp* app = jnew TestApp(&argc, argv, wantMDI);
 	assert( app != nullptr );
 
-	JBoolean startIconic, bufferTestWidget, testWidgetIsImage;
-	JBoolean snoopWindow;
+	bool startIconic, bufferTestWidget, testWidgetIsImage;
+	bool snoopWindow;
 	ParseXOptions(argc, argv, &startIconic, &bufferTestWidget,
 				  &testWidgetIsImage, &snoopWindow);
 
 	TestDirector* mainDir =
-		jnew TestDirector(app, kJTrue, startIconic, bufferTestWidget,
+		jnew TestDirector(app, true, startIconic, bufferTestWidget,
 						 testWidgetIsImage, snoopWindow);
 	assert( mainDir != nullptr );
 
@@ -83,10 +83,10 @@ ParseTextOptions
 	(
 	int*		argc,
 	char*		argv[],
-	JBoolean*	wantMDI
+	bool*	wantMDI
 	)
 {
-	*wantMDI = kJFalse;
+	*wantMDI = false;
 
 	long index = 1;
 	while (index < *argc)
@@ -107,7 +107,7 @@ ParseTextOptions
 			}
 		else if (strcmp(argv[index], "-MDI") == 0)
 			{
-			*wantMDI = kJTrue;
+			*wantMDI = true;
 			JXApplication::RemoveCmdLineOption(argc, argv, index, 1);
 			index--;
 			}
@@ -130,35 +130,35 @@ ParseXOptions
 	(
 	const int	argc,
 	char*		argv[],
-	JBoolean*	startIconic,
-	JBoolean*	bufferTestWidget,
-	JBoolean*	testWidgetIsImage,
-	JBoolean*	snoopWindow
+	bool*	startIconic,
+	bool*	bufferTestWidget,
+	bool*	testWidgetIsImage,
+	bool*	snoopWindow
 	)
 {
-	*startIconic        = kJFalse;
-	*bufferTestWidget   = kJTrue;
-	*testWidgetIsImage  = kJFalse;
-	*snoopWindow        = kJFalse;
+	*startIconic        = false;
+	*bufferTestWidget   = true;
+	*testWidgetIsImage  = false;
+	*snoopWindow        = false;
 
 	long index = 1;
 	while (index < argc)
 		{
 		if (strcmp(argv[index], "-iconic") == 0)
 			{
-			*startIconic = kJTrue;
+			*startIconic = true;
 			}
 		else if (strcmp(argv[index], "-nobuffer") == 0)
 			{
-			*bufferTestWidget = kJFalse;
+			*bufferTestWidget = false;
 			}
 		else if (strcmp(argv[index], "-imagebuffer") == 0)
 			{
-			*testWidgetIsImage = kJTrue;
+			*testWidgetIsImage = true;
 			}
 		else if (strcmp(argv[index], "-snoopwindow") == 0)
 			{
-			*snoopWindow = kJTrue;
+			*snoopWindow = true;
 			}
 		else
 			{

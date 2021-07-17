@@ -97,7 +97,7 @@ private:
 	void Plot();
 	void Print();
 
-	void AddHistoryText(const JBoolean refit = kJFalse);
+	void AddHistoryText(const bool refit = false);
 
 	void RemoveCurves();
 	void RemoveFit();

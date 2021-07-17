@@ -584,19 +584,19 @@ const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStringCompleter*
 CBFortranCompleter::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBFortranCompleter;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -620,7 +620,7 @@ CBFortranCompleter::Shutdown()
 
 CBFortranCompleter::CBFortranCompleter()
 	:
-	CBStringCompleter(kCBFortranLang, kKeywordCount, kKeywordList, kJFalse)
+	CBStringCompleter(kCBFortranLang, kKeywordCount, kKeywordList, JString::kIgnoreCase)
 {
 }
 
@@ -639,11 +639,11 @@ CBFortranCompleter::~CBFortranCompleter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFortranCompleter::IsWordCharacter
 	(
 	const JUtf8Character&	c,
-	const JBoolean			includeNS
+	const bool			includeNS
 	)
 	const
 {

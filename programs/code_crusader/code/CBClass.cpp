@@ -62,7 +62,7 @@
 JColorID CBClass::theGhostNameColor;
 
 static JFontStyle kConcreteLabelStyle;
-static JFontStyle kAbstractLabelStyle(kJFalse, kJTrue, 0, kJFalse, 0);
+static JFontStyle kAbstractLabelStyle(false, true, 0, false, 0);
 
 #ifndef CODE_CRUSADER_UNIT_TEST
 const JCoordinate kHMarginWidth        = 3;
@@ -94,8 +94,8 @@ CBClass::CBClass
 	CBClassX(tree);
 
 	itsDeclType       = declType;
-	itsIsAbstractFlag = kJFalse;
-	itsIsTemplateFlag = kJFalse;
+	itsIsAbstractFlag = false;
+	itsIsTemplateFlag = false;
 
 	SetCoords(0,0);
 	itsTree->AddClass(this);
@@ -170,7 +170,7 @@ JIndex i;
 
 	input >> JBoolFromString(itsIsAbstractFlag);
 
-	itsIsTemplateFlag = kJFalse;
+	itsIsTemplateFlag = false;
 	if (vers >= 49)
 		{
 		input >> JBoolFromString(itsIsTemplateFlag);
@@ -183,7 +183,7 @@ JIndex i;
 			  >> JBoolFromString(itsIsSelectedFlag);
 		if (vers == 10)
 			{
-			itsCollapsedFlag = kJFalse;	// itsWasVisibleFlag was kJTrue
+			itsCollapsedFlag = false;	// itsWasVisibleFlag was true
 			}
 		}
 
@@ -217,7 +217,7 @@ JIndex i;
 
 		JString name;
 		JInteger access;
-		JBoolean pureVirtual;
+		bool pureVirtual;
 		for (i=1; i<=fnCount; i++)
 			{
 			input >> name >> access >> JBoolFromString(pureVirtual);
@@ -253,12 +253,12 @@ CBClass::CBClassX
 	itsParentInfo = jnew JArray<ParentInfo>;
 	assert( itsParentInfo != nullptr );
 
-	itsHasPrimaryChildrenFlag   = kJFalse;
-	itsHasSecondaryChildrenFlag = kJFalse;
+	itsHasPrimaryChildrenFlag   = false;
+	itsHasSecondaryChildrenFlag = false;
 
-	itsVisibleFlag    = kJTrue;
-	itsCollapsedFlag  = kJFalse;
-	itsIsSelectedFlag = kJFalse;
+	itsVisibleFlag    = true;
+	itsCollapsedFlag  = false;
+	itsIsSelectedFlag = false;
 
 	kConcreteLabelStyle       = JFontStyle();
 	kAbstractLabelStyle.color = kConcreteLabelStyle.color;
@@ -334,7 +334,7 @@ JIndex i;
 void
 CBClass::SetSelected
 	(
-	const JBoolean selected
+	const bool selected
 	)
 {
 	if (itsIsSelectedFlag != selected)
@@ -362,7 +362,7 @@ CBClass::ForceVisible()
 	while (c->GetParent(1, &parent) &&
 		   (!parent->IsVisible() || parent->IsCollapsed()))
 		{
-		parent->SetCollapsed(kJFalse);
+		parent->SetCollapsed(false);
 		c = parent;
 		}
 }
@@ -374,7 +374,7 @@ CBClass::ForceVisible()
 
 #ifndef CODE_CRUSADER_UNIT_TEST
 
-JBoolean
+bool
 CBClass::GetFileName
 	(
 	JString* fileName
@@ -385,12 +385,12 @@ CBClass::GetFileName
 		{
 		*fileName = itsTree->GetProjectDoc()->GetAllFileList()->
 					GetFileName(itsFileID);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		fileName->Clear();
-		return kJFalse;		// ghost
+		return false;		// ghost
 		}
 }
 
@@ -431,8 +431,8 @@ CBClass::ClearConnections()
 		itsParentInfo->SetElement(i, pInfo);
 		}
 
-	itsHasPrimaryChildrenFlag   = kJFalse;
-	itsHasSecondaryChildrenFlag = kJFalse;
+	itsHasPrimaryChildrenFlag   = false;
+	itsHasSecondaryChildrenFlag = false;
 }
 
 /******************************************************************************
@@ -440,23 +440,23 @@ CBClass::ClearConnections()
 
 	Search the class tree for our parents and update itsParentInfo.
 
-	Returns kJTrue if it managed to fill in another nullptr parent.
+	Returns true if it managed to fill in another nullptr parent.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBClass::FindParents
 	(
-	const JBoolean okToCreateGhost
+	const bool okToCreateGhost
 	)
 {
-	JBoolean foundAnotherParent = kJFalse;
+	bool foundAnotherParent = false;
 
 	const JSize parentCount = GetParentCount();
 	for (JIndex i=1; i<=parentCount; i++)
 		{
 		ParentInfo pInfo             = itsParentInfo->GetElement(i);
-		const JBoolean parentWasNull = JConvertToBoolean( pInfo.parent == nullptr );
+		const bool parentWasNull = pInfo.parent == nullptr;
 
 		if (parentWasNull &&
 			!FindParent(&pInfo, okToCreateGhost) && okToCreateGhost)
@@ -466,8 +466,8 @@ CBClass::FindParents
 
 		if (parentWasNull && pInfo.parent != nullptr)
 			{
-			foundAnotherParent = kJTrue;
-			(pInfo.parent)->AddChild(this, JI2B(i==1));
+			foundAnotherParent = true;
+			(pInfo.parent)->AddChild(this, i==1);
 			itsParentInfo->SetElement(i, pInfo);
 			}
 		}
@@ -487,11 +487,11 @@ CBClass::FindParents
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBClass::FindParent
 	(
 	ParentInfo*		pInfo,
-	const JBoolean	okToSearchGhosts
+	const bool	okToSearchGhosts
 	)
 {
 	// check for exact match that isn't a ghost
@@ -500,7 +500,7 @@ CBClass::FindParent
 		pInfo->parent != this &&
 		!(pInfo->parent)->IsGhost())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	// try all possible namespaces to look for existing parent
@@ -524,7 +524,7 @@ CBClass::FindParent
 			pInfo->parent != this)
 			{
 			*(pInfo->name) = testName;
-			return kJTrue;
+			return true;
 			}
 
 		// if namespace exists as a class, check its ancestors
@@ -535,15 +535,15 @@ CBClass::FindParent
 			pInfo->parent != this)
 			{
 			(pInfo->name)->Prepend(prefixStr);
-			return kJTrue;
+			return true;
 			}
 		}
 
 	// check for any exact match
 
-	return JI2B(okToSearchGhosts &&
+	return okToSearchGhosts &&
 				itsTree->FindClass(*pInfo->name, &pInfo->parent) &&
-				pInfo->parent != this);
+				pInfo->parent != this;
 }
 
 /******************************************************************************
@@ -593,11 +593,11 @@ CBClass::RemoveNamespace
 /******************************************************************************
  GetParent
 
-	This function will return kJFalse if the parent is not part of the tree.
+	This function will return false if the parent is not part of the tree.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBClass::GetParent
 	(
 	const JIndex	index,
@@ -608,7 +608,7 @@ CBClass::GetParent
 	return GetParent(index, const_cast<CBClass**>(parent));
 }
 
-JBoolean
+bool
 CBClass::GetParent
 	(
 	const JIndex	index,
@@ -620,26 +620,26 @@ CBClass::GetParent
 		{
 		ParentInfo pInfo = itsParentInfo->GetElement(index);
 		*parent          = pInfo.parent;
-		return JI2B( *parent != nullptr );
+		return *parent != nullptr;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  IsAncestor
 
-	Returns kJTrue if we are an ancestor of the given class.
+	Returns true if we are an ancestor of the given class.
 
 	We are an ancestor of child if we are one of its parents
 	or an ancestor of one of its parents.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBClass::IsAncestor
 	(
 	const CBClass* child
@@ -652,11 +652,11 @@ CBClass::IsAncestor
 		const CBClass* p;
 		if (child->GetParent(i, &p) && (this == p || IsAncestor(p)))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -670,16 +670,16 @@ void
 CBClass::AddChild
 	(
 	CBClass*		child,
-	const JBoolean	primary
+	const bool	primary
 	)
 {
 	if (primary)
 		{
-		itsHasPrimaryChildrenFlag = kJTrue;
+		itsHasPrimaryChildrenFlag = true;
 		}
 	else
 		{
-		itsHasSecondaryChildrenFlag = kJTrue;
+		itsHasSecondaryChildrenFlag = true;
 		}
 }
 
@@ -730,7 +730,7 @@ CBClass::FindParentsAfterRead()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBClass::NeedToDrawLink
 	(
 	const JPoint&	pt1,
@@ -739,9 +739,8 @@ CBClass::NeedToDrawLink
 	)
 	const
 {
-	return JNegate(
-		(pt1.y < visRect.top    && pt2.y < visRect.top) ||
-		(pt1.y > visRect.bottom && pt2.y > visRect.bottom));
+	return !((pt1.y < visRect.top    && pt2.y < visRect.top) ||
+			 (pt1.y > visRect.bottom && pt2.y > visRect.bottom));
 }
 
 /******************************************************************************
@@ -771,7 +770,7 @@ CBClass::GetLinkToPt()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBClass::NeedDrawName()
 	const
 {
@@ -830,12 +829,12 @@ CBClass::Draw
 			{
 			p.SetPenColor(JColorManager::GetWhiteColor());
 			}
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Rect(itsFrame);
 
 		// draw black frame
 
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		p.SetPenColor(JColorManager::GetBlackColor());
 		p.Rect(itsFrame);
 		}
@@ -916,14 +915,14 @@ CBClass::DrawMILinks
 	for (JIndex i=2; i<=parentCount; i++)
 		{
 		CBClass* parent;
-		const JBoolean ok = GetParent(i, &parent);
+		const bool ok = GetParent(i, &parent);
 		assert( ok );
 
 		JCoordinate deltaLinkFromX = 0;
 		while (!parent->IsVisible())
 			{
 			deltaLinkFromX    = kCollapsedLinkLength;
-			const JBoolean ok = parent->GetParent(1, &parent);
+			const bool ok = parent->GetParent(1, &parent);
 			assert( ok );
 			}
 
@@ -1099,7 +1098,7 @@ CBClass::CalcFrame()
 		const JString name = GetDrawName();
 
 		JFontStyle style = kConcreteLabelStyle;
-		style.bold       = kJTrue;	// if not bold, extra space doesn't hurt
+		style.bold       = true;	// if not bold, extra space doesn't hurt
 
 		JFont font = JFontManager::GetDefaultFont();
 		font.SetSize(fontSize);

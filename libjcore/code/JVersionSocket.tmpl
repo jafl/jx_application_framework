@@ -102,7 +102,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::open
 {
 	(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::reactor())->register_handler(this, ACE_Event_Handler::READ_MASK);
 
-	JString msg("GET ", 0);
+	JString msg("GET ");
 	msg += itsPath;
 	msg += " HTTP/1.1";
 
@@ -212,11 +212,11 @@ JVersionSocket<ACE_PEER_STREAM_2>::CheckVersion
  ******************************************************************************/
 
 template <ACE_PEER_STREAM_1>
-JBoolean
+bool
 JVersionSocket<ACE_PEER_STREAM_2>::TimeToCheck()
 	const
 {
-	return JI2B(time(nullptr) > itsNextServerTime);
+	return time(nullptr) > itsNextServerTime;
 }
 
 /******************************************************************************
@@ -225,10 +225,10 @@ JVersionSocket<ACE_PEER_STREAM_2>::TimeToCheck()
  ******************************************************************************/
 
 template <ACE_PEER_STREAM_1>
-JBoolean
+bool
 JVersionSocket<ACE_PEER_STREAM_2>::TimeToRemind()
 {
-	JBoolean remind = kJFalse;
+	bool remind = false;
 
 	const time_t now = time(nullptr);
 	while (!itsReminderList->IsEmpty())
@@ -237,7 +237,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::TimeToRemind()
 		if (now >= t)
 			{
 			itsReminderList->RemoveElement(1);
-			remind = kJTrue;
+			remind = true;
 			}
 		else
 			{

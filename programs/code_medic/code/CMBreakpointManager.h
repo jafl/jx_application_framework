@@ -23,10 +23,10 @@ public:
 	const JPtrArray<CMBreakpoint>&	GetBreakpoints() const;
 	const JPtrArray<CMBreakpoint>&	GetOtherpoints() const;
 
-	JBoolean	HasBreakpointAt(const CMLocation& loc) const;
-	JBoolean	GetBreakpoints(const JString& fileName,
+	bool	HasBreakpointAt(const CMLocation& loc) const;
+	bool	GetBreakpoints(const JString& fileName,
 							   JPtrArray<CMBreakpoint>* list) const;
-	JBoolean	GetBreakpoints(const CMLocation& loc,
+	bool	GetBreakpoints(const CMLocation& loc,
 							   JPtrArray<CMBreakpoint>* list) const;
 
 	void	EnableAll();
@@ -37,7 +37,7 @@ public:
 
 	// called by CMGetBreakpoints, CMBreakpoint
 
-	void	SetUpdateWhenStop(const JBoolean update);
+	void	SetUpdateWhenStop(const bool update);
 
 	void	UpdateBreakpoints(const JPtrArray<CMBreakpoint>& bpList,
 							  const JPtrArray<CMBreakpoint>& otherList);
@@ -58,8 +58,8 @@ private:
 	CMGetBreakpoints*			itsCmd;
 	JPtrArray<CMBreakpoint>*	itsBPList;
 	JPtrArray<CMBreakpoint>*	itsSavedBPList;		// nullptr unless waiting to restore
-	JBoolean					itsRestoreBreakpointsFlag;
-	JBoolean					itsUpdateWhenStopFlag;
+	bool					itsRestoreBreakpointsFlag;
+	bool					itsUpdateWhenStopFlag;
 	JPtrArray<CMBreakpoint>*	itsOtherList;		// display only
 
 private:
@@ -95,7 +95,7 @@ public:
 inline void
 CMBreakpointManager::SetUpdateWhenStop
 	(
-	const JBoolean update
+	const bool update
 	)
 {
 	itsUpdateWhenStopFlag = update;

@@ -129,7 +129,7 @@ GPMProcessTable::CreateContextMenu
 	JXTextMenu* menu = jnew JXTextMenu(JString::empty, enclosure, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( menu != nullptr );
 	menu->SetMenuItems(kContextMenuStr);
-	menu->SetToHiddenPopupMenu(kJTrue);
+	menu->SetToHiddenPopupMenu(true);
 
 	menu->SetItemImage(kContextEndCmd,      JXPM(gpm_stop));
 	menu->SetItemImage(kContextKillCmd,     JXPM(jx_edit_clear));
@@ -318,9 +318,9 @@ GPMProcessTable::DrawRowBackground
 	if (cell.y % 2 == 1)
 		{
 		p.SetPenColor(color);
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Rect(rect);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		}
 }
 
@@ -348,10 +348,10 @@ GPMProcessTable::DrawProcessState
 				rect.ycenter()+4, rect.xcenter()+4);
 		p.SetPenColor(entry.GetState() == GPMProcessEntry::kStopped ?
 					  JColorManager::GetRedColor() : JColorManager::GetGreenColor());
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Ellipse(r);
 		p.SetPenColor(JColorManager::GetBlackColor());
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		p.Ellipse(r);
 		}
 }
@@ -523,7 +523,7 @@ GPMProcessTable::UpdateContextMenu
 {
 	if (entry.GetState() != GPMProcessEntry::kZombie)
 		{
-		const JBoolean notSelf = JI2B(entry.GetPID() != getpid());
+		const bool notSelf = entry.GetPID() != getpid();
 		menu->EnableItem(kContextEndCmd);
 		menu->EnableItem(kContextKillCmd);
 		menu->SetItemEnable(kContextPauseCmd, notSelf);
@@ -609,7 +609,7 @@ GPMProcessTable::HandleContextMenu
 		cmd += " ";
 		cmd += JString((JUInt64) pid);
 		cmd += "'";
-		JSimpleProcess::Create(cmd, kJTrue);
+		JSimpleProcess::Create(cmd, true);
 		}
 }
 
@@ -618,7 +618,7 @@ GPMProcessTable::HandleContextMenu
 
  ******************************************************************************/
 
-JBoolean
+bool
 GPMProcessTable::GetSelectedProcess
 	(
 	const GPMProcessEntry** entry
@@ -629,12 +629,12 @@ GPMProcessTable::GetSelectedProcess
 	if (GetTableSelection().GetFirstSelectedCell(&cell))
 		{
 		*entry = itsList->GetProcessEntry(cell.y);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*entry = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 

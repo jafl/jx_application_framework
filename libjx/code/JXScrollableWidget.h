@@ -40,8 +40,8 @@ public:
 
 	virtual ~JXScrollableWidget();
 
-	void		AlwaysShowScrollbars(const JBoolean alwaysShow = kJTrue);
-	JBoolean	GetScrollbars(JXScrollbar** hScrollbar, JXScrollbar** vScrollbar) const;
+	void		AlwaysShowScrollbars(const bool alwaysShow = true);
+	bool	GetScrollbars(JXScrollbar** hScrollbar, JXScrollbar** vScrollbar) const;
 	void		UpdateScrollbars();
 
 	void		ReadScrollSetup(std::istream& input);
@@ -56,10 +56,10 @@ public:
 
 protected:
 
-	JBoolean	ScrollForDrag(const JPoint& pt);
-	JBoolean	ScrollForWheel(const JXMouseButton button,
+	bool	ScrollForDrag(const JPoint& pt);
+	bool	ScrollForWheel(const JXMouseButton button,
 							   const JXKeyModifiers& modifiers);
-	JBoolean	ScrollForWheel(const JXMouseButton button,
+	bool	ScrollForWheel(const JXMouseButton button,
 							   const JXKeyModifiers& modifiers,
 							   JXScrollbar* hScrollbar, JXScrollbar* vScrollbar);
 
@@ -68,8 +68,8 @@ protected:
 	void	SetVertStepSize(const JCoordinate vStep);
 	void	SetVertPageStepContext(const JCoordinate vPageContext);
 
-	void	SetHorizJumpToScrolltabModifiers(const JBoolean ctrl, const JBoolean meta);
-	void	SetVertJumpToScrolltabModifiers(const JBoolean ctrl, const JBoolean meta);
+	void	SetHorizJumpToScrolltabModifiers(const bool ctrl, const bool meta);
+	void	SetVertJumpToScrolltabModifiers(const bool ctrl, const bool meta);
 
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
@@ -91,10 +91,10 @@ protected:
 private:
 
 	JXScrollbarSet*	itsScrollbarSet;		// can be nullptr
-	JBoolean		itsAlwaysShowScrollFlag;
-	JBoolean		itsWindowFrozenFlag;
-	JBoolean		itsAdjustingFlag;		// if should ignore scrollbar messages
-	JBoolean		itsShouldRedrawFlag;	// if Redraw() when scrolled
+	bool		itsAlwaysShowScrollFlag;
+	bool		itsWindowFrozenFlag;
+	bool		itsAdjustingFlag;		// if should ignore scrollbar messages
+	bool		itsShouldRedrawFlag;	// if Redraw() when scrolled
 
 	JXAdjustScrollbarTask*	itsAdjustScrollbarTask;
 
@@ -108,10 +108,10 @@ private:
 	JCoordinate	itsHPageStepContext;
 	JCoordinate	itsVPageStepContext;
 
-	// modifiers for jumping to scrolltab -- feature turned off if both kJFalse
+	// modifiers for jumping to scrolltab -- feature turned off if both false
 
-	JBoolean	itsHCtrl, itsHMeta;
-	JBoolean	itsVCtrl, itsVMeta;
+	bool	itsHCtrl, itsHMeta;
+	bool	itsVCtrl, itsVMeta;
 
 private:
 
@@ -134,7 +134,7 @@ private:
 inline void
 JXScrollableWidget::AlwaysShowScrollbars
 	(
-	const JBoolean alwaysShow
+	const bool alwaysShow
 	)
 {
 	itsAlwaysShowScrollFlag = alwaysShow;
@@ -196,8 +196,8 @@ JXScrollableWidget::SetVertPageStepContext
 inline void
 JXScrollableWidget::SetHorizJumpToScrolltabModifiers
 	(
-	const JBoolean ctrl,
-	const JBoolean meta
+	const bool ctrl,
+	const bool meta
 	)
 {
 	itsHCtrl = ctrl;
@@ -207,8 +207,8 @@ JXScrollableWidget::SetHorizJumpToScrolltabModifiers
 inline void
 JXScrollableWidget::SetVertJumpToScrolltabModifiers
 	(
-	const JBoolean ctrl,
-	const JBoolean meta
+	const bool ctrl,
+	const bool meta
 	)
 {
 	itsVCtrl = ctrl;

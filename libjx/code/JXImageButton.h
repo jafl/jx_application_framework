@@ -33,7 +33,7 @@ public:
 					  const JColorID backColor = kJXTransparentColor); // placeholder for GetDefaultBackColor()
 	void	SetImage(const JXPM& xpm,
 					 const JColorID backColor = kJXTransparentColor);  // placeholder for GetDefaultBackColor()
-	void	SetImage(JXImage* image, const JBoolean widgetOwnsImage,
+	void	SetImage(JXImage* image, const bool widgetOwnsImage,
 					 const JColorID backColor = kJXTransparentColor);  // placeholder for GetDefaultBackColor()
 
 	void	FitToImage();
@@ -45,7 +45,7 @@ protected:
 private:
 
 	JXImage*	itsImage;
-	JBoolean	itsOwnsImageFlag;
+	bool	itsOwnsImageFlag;
 
 private:
 

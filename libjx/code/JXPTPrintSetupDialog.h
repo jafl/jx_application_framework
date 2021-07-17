@@ -28,11 +28,11 @@ public:
 	static JXPTPrintSetupDialog*
 		Create(const JXPTPrinter::Destination dest,
 			   const JString& printCmd, const JString& fileName,
-			   const JBoolean printLineNumbers);
+			   const bool printLineNumbers);
 
 	virtual ~JXPTPrintSetupDialog();
 
-	JBoolean	SetParameters(JXPTPrinter* p) const;
+	bool	SetParameters(JXPTPrinter* p) const;
 
 protected:
 
@@ -46,9 +46,9 @@ protected:
 					   JXTextCheckbox* printAllCheckbox,
 					   JXStaticText* firstPageIndexLabel, JXIntegerInput* firstPageIndex,
 					   JXStaticText* lastPageIndexLabel, JXIntegerInput* lastPageIndex,
-					   JXTextCheckbox* printLineNumbersCB, const JBoolean printLineNumbers);
+					   JXTextCheckbox* printLineNumbersCB, const bool printLineNumbers);
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -76,11 +76,11 @@ private:
 
 	void	BuildWindow(const JXPTPrinter::Destination dest,
 						const JString& printCmd, const JString& fileName,
-						const JBoolean printLineNumbers);
+						const bool printLineNumbers);
 	void	UpdateDisplay();
 
 	void	SetDestination(const JIndex id);
-	void	PrintAllPages(const JBoolean all);
+	void	PrintAllPages(const bool all);
 
 	void	ChooseDestinationFile();
 

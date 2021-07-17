@@ -25,9 +25,9 @@
 #include <jAssert.h>
 
 #ifdef _J_CYGWIN
-static const JString kCmdStr("ps s", kJFalse);
+static const JString kCmdStr("ps s", JString::kNoCopy);
 #else
-static const JString kCmdStr("ps xco pid,stat,command", kJFalse);
+static const JString kCmdStr("ps xco pid,stat,command", JString::kNoCopy);
 #endif
 
 /******************************************************************************
@@ -38,11 +38,11 @@ static const JString kCmdStr("ps xco pid,stat,command", kJFalse);
 CMChooseProcessDialog::CMChooseProcessDialog
 	(
 	JXDirector*		supervisor,
-	const JBoolean	attachToSelection,
-	const JBoolean	stopProgram
+	const bool	attachToSelection,
+	const bool	stopProgram
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue),
+	JXDialogDirector(supervisor, true),
 	itsAttachToSelectionFlag(attachToSelection),
 	itsStopProgramFlag(stopProgram)
 {
@@ -165,7 +165,7 @@ CMChooseProcessDialog::Receive
 		if (info->Successful())
 			{
 			JInteger pid;
-			const JBoolean ok = itsProcessIDInput->GetValue(&pid);
+			const bool ok = itsProcessIDInput->GetValue(&pid);
 			assert(ok);
 			if (itsAttachToSelectionFlag)
 				{

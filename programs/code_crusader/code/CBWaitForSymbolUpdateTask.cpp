@@ -28,7 +28,7 @@ CBWaitForSymbolUpdateTask::CBWaitForSymbolUpdateTask
 	:
 	itsProcess(p)
 {
-	itsKeepWaitingFlag = kJTrue;
+	itsKeepWaitingFlag = true;
 	ClearWhenGoingAway(itsProcess, &itsProcess);
 }
 
@@ -60,6 +60,6 @@ CBWaitForSymbolUpdateTask::Perform()
 
 		JWait(0.1);
 		JXApplication::CheckACEReactor();
-		JProcess::CheckForFinishedChild(kJFalse);
+		JProcess::CheckForFinishedChild(false);
 		}
 }

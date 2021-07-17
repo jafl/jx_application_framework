@@ -51,14 +51,14 @@ SyGFileTree::GetDirectory()
 /******************************************************************************
  Update
 
-	Returns kJTrue if anything changed.
+	Returns true if anything changed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGFileTree::Update
 	(
-	const JBoolean			force,
+	const bool			force,
 	JFSFileTreeNodeBase**	updateNode
 	)
 {
@@ -77,7 +77,7 @@ SyGFileTree::Update
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGFileTree::HiddenVisible()
 	const
 {
@@ -92,7 +92,7 @@ SyGFileTree::HiddenVisible()
 void
 SyGFileTree::ShowHidden
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	GetRootDirInfo()->ShowHidden(show);
@@ -168,7 +168,7 @@ JDirInfo*
 SyGFileTree::GetRootDirInfo()
 {
 	JDirInfo* info;
-	const JBoolean ok = GetSyGRoot()->GetDirInfo(&info);
+	const bool ok = GetSyGRoot()->GetDirInfo(&info);
 	assert( ok );
 	return info;
 }
@@ -178,7 +178,7 @@ SyGFileTree::GetRootDirInfo()
 	const
 {
 	const JDirInfo* info;
-	const JBoolean ok = GetSyGRoot()->GetDirInfo(&info);
+	const bool ok = GetSyGRoot()->GetDirInfo(&info);
 	assert( ok );
 	return info;
 }

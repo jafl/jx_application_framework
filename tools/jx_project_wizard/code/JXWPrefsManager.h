@@ -25,7 +25,7 @@ class JXWPrefsManager : public JXPrefsManager
 {
 public:
 
-	JXWPrefsManager(JBoolean* isNew);
+	JXWPrefsManager(bool* isNew);
 
 	virtual ~JXWPrefsManager();
 
@@ -33,7 +33,7 @@ public:
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion);
+	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion);
 	virtual void	SaveAllBeforeDestruct();
 
 private:

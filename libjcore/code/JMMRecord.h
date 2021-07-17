@@ -56,7 +56,7 @@ public:
 	JMMRecord();
 	JMMRecord(const JUInt32 id, const void* address, const size_t size,
 			  const JUtf8Byte* file, const JUInt32 lineNumber,
-			  const JBoolean array, const JBoolean managerMemory);
+			  const bool array, const bool managerMemory);
 	// Save 4 bytes (on many architectures) by having no virtuals, even the destructor
 	// ~JMMRecord(); // Warning: not virtual!
 
@@ -77,22 +77,22 @@ public:
 	JUInt32          GetDeleteLine() const;
 
 	void SetDeleteLocation(const JUtf8Byte* deleteFile, const JSize deleteLine,
-						   const JBoolean arrayDelete);
+						   const bool arrayDelete);
 
-	JBoolean IsDeleted() const;
+	bool IsDeleted() const;
 
-	JBoolean IsMarked() const;
-	void     SetMarked(const JBoolean yesNo);
+	bool IsMarked() const;
+	void     SetMarked(const bool yesNo);
 
-	JBoolean ArrayNew() const;
-	JBoolean ArrayDelete() const;
+	bool ArrayNew() const;
+	bool ArrayDelete() const;
 
 	const JUtf8Byte* NewTypeName() const;
 	const JUtf8Byte* DeleteTypeName() const;
 
 	static const JUtf8Byte* TypeName(const unsigned isArray);
 
-	JBoolean    IsManagerMemory() const;
+	bool    IsManagerMemory() const;
 
 	void	StreamForDebug(std::ostream& output) const;
 //	JString Print() const;
@@ -181,10 +181,10 @@ JMMRecord::GetDeleteLine() const
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JMMRecord::IsDeleted() const
 {
-	return JConvertToBoolean(itsDeleteFile != nullptr);
+	return itsDeleteFile != nullptr;
 }
 
 /******************************************************************************
@@ -192,10 +192,10 @@ JMMRecord::IsDeleted() const
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JMMRecord::IsMarked() const
 {
-	return JConvertToBoolean(itsMark);
+	return itsMark;
 }
 
 /******************************************************************************
@@ -206,7 +206,7 @@ JMMRecord::IsMarked() const
 inline void
 JMMRecord::SetMarked
 	(
-	const JBoolean yesNo
+	const bool yesNo
 	)
 {
 	itsMark = yesNo;
@@ -217,10 +217,10 @@ JMMRecord::SetMarked
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JMMRecord::ArrayNew() const
 {
-	return JConvertToBoolean(itsArrayNewFlag);
+	return itsArrayNewFlag;
 }
 
 /******************************************************************************
@@ -228,10 +228,10 @@ JMMRecord::ArrayNew() const
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JMMRecord::ArrayDelete() const
 {
-	return JConvertToBoolean(itsArrayDeleteFlag);
+	return itsArrayDeleteFlag;
 }
 
 /******************************************************************************
@@ -239,10 +239,10 @@ JMMRecord::ArrayDelete() const
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JMMRecord::IsManagerMemory() const
 {
-	return JConvertToBoolean(itsManagerMemoryFlag);
+	return itsManagerMemoryFlag;
 }
 
 #endif

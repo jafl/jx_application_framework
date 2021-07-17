@@ -138,7 +138,7 @@ CBRunTEScriptDialog::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 
 	ListenTo(itsRunButton);
 	ListenTo(itsCloseButton);
@@ -148,7 +148,7 @@ CBRunTEScriptDialog::BuildWindow()
 	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsCmdInput);
 
-	itsStayOpenCB->SetState(kJTrue);
+	itsStayOpenCB->SetState(true);
 
 	// create hidden JXDocument so Meta-# shortcuts work
 
@@ -234,7 +234,7 @@ CBRunTEScriptDialog::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBRunTEScriptDialog::RunSimpleScript
 	(
 	const JString&	scriptName,
@@ -252,17 +252,17 @@ CBRunTEScriptDialog::RunSimpleScript
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBRunTEScriptDialog::RunScript()
 {
 	CBTextDocument* textDoc = nullptr;
 	if (CBGetDocumentManager()->GetActiveTextDocument(&textDoc))
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		const JString fullName = textDoc->GetFullName(&onDisk);
 		if (onDisk)
 			{
-			const JBoolean result = RunScript(textDoc->GetTextEditor(), fullName);
+			const bool result = RunScript(textDoc->GetTextEditor(), fullName);
 			textDoc->Activate();
 			return result;
 			}
@@ -270,20 +270,20 @@ CBRunTEScriptDialog::RunScript()
 			{
 			JGetUserNotification()->ReportError(
 				JGetString("FileDoesNotExist::CBRunTEScriptDialog"));
-			return kJFalse;
+			return false;
 			}
 		}
 	else
 		{
 		JGetUserNotification()->ReportError(
 			JGetString("NoEditor::CBRunTEScriptDialog"));
-		return kJFalse;
+		return false;
 		}
 }
 
 // private
 
-JBoolean
+bool
 CBRunTEScriptDialog::RunScript
 	(
 	JTextEditor*	te,
@@ -292,7 +292,7 @@ CBRunTEScriptDialog::RunScript
 {
 	if (!itsCmdInput->InputValid())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	itsCmdInput->GetText()->DeactivateCurrentUndo();
@@ -300,15 +300,15 @@ CBRunTEScriptDialog::RunScript
 	if (RunScript(itsCmdInput->GetText()->GetText(), te, fullName))
 		{
 		itsHistoryMenu->AddString(itsCmdInput->GetText()->GetText());
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 CBRunTEScriptDialog::RunScript
 	(
 	const JString&	origCmd,
@@ -328,11 +328,11 @@ CBRunTEScriptDialog::RunScript
 		{
 		Activate();
 		execErr.ReportIfError();
-		return kJFalse;
+		return false;
 		}
 	else
 		{
-		JOutPipeStream output(toFD, kJTrue);
+		JOutPipeStream output(toFD, true);
 		JString text;
 		if (te->GetSelection(&text))
 			{
@@ -350,7 +350,7 @@ CBRunTEScriptDialog::RunScript
 			{
 			msg.Prepend(JGetString("Error::CBGlobal"));
 			JGetUserNotification()->ReportError(msg);
-			return kJFalse;
+			return false;
 			}
 
 		text.TrimWhitespace();
@@ -360,7 +360,7 @@ CBRunTEScriptDialog::RunScript
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -419,7 +419,7 @@ CBRunTEScriptDialog::ReadPrefs
 
 	if (vers >= 1)
 		{
-		JBoolean stayOpen;
+		bool stayOpen;
 		input >> JBoolFromString(stayOpen);
 		itsStayOpenCB->SetState(stayOpen);
 		}

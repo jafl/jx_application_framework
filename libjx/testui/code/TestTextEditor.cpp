@@ -33,8 +33,8 @@ const JSize kUndoDepthCount     = sizeof(kUndoDepth)/sizeof(JSize);
 TestTextEditor::TestTextEditor
 	(
 	JStyledText*		text,
-	const JBoolean		ownsText,
-	const JBoolean		editable,
+	const bool		ownsText,
+	const bool		editable,
 	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -131,7 +131,7 @@ TestTextEditor::UpdateCustomEditMenuItems()
 		}
 
 	JXTextMenu* editMenu;
-	const JBoolean ok = GetEditMenu(&editMenu);
+	const bool ok = GetEditMenu(&editMenu);
 	assert( ok );
 
 	editMenu->EnableItem(itsAutoIndentCmdIndex);
@@ -155,11 +155,11 @@ TestTextEditor::UpdateCustomEditMenuItems()
 /******************************************************************************
  HandleCustomEditMenuItems (private)
 
-	Returns kJTrue if it is one of our items.
+	Returns true if it is one of our items.
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestTextEditor::HandleCustomEditMenuItems
 	(
 	const JIndex index
@@ -168,15 +168,15 @@ TestTextEditor::HandleCustomEditMenuItems
 	if (index == itsAutoIndentCmdIndex)
 		{
 		GetText()->ShouldAutoIndent(!GetText()->WillAutoIndent());
-		return kJTrue;
+		return true;
 		}
 	else if (itsFirstUndoDepthCmdIndex > 0 && index >= itsFirstUndoDepthCmdIndex)
 		{
 		GetText()->SetUndoDepth(kUndoDepth[ index - itsFirstUndoDepthCmdIndex ]);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

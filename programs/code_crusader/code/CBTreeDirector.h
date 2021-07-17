@@ -51,14 +51,14 @@ public:
 	CBTreeDirector(std::istream& projInput, const JFileVersion projVers,
 				   std::istream* setInput, const JFileVersion setVers,
 				   std::istream* symInput, const JFileVersion symVers,
-				   CBProjectDocument* supervisor, const JBoolean subProject,
+				   CBProjectDocument* supervisor, const bool subProject,
 				   CBTreeStreamInFn* streamInTreeFn,
 				   const JUtf8Byte* windowTitleSuffixID,
 				   const JUtf8Byte* windowHelpName,
 				   const JXPM& windowIcon,
 				   const JUtf8Byte* treeMenuItems, const JUtf8Byte* treeMenuNamespace,
 				   const JIndex toolBarPrefID, CBTreeInitToolBarFn* initToolBarFn,
-				   CBDirList* dirList, const JBoolean readCompileRunDialogs);
+				   CBDirList* dirList, const bool readCompileRunDialogs);
 
 	virtual ~CBTreeDirector();
 
@@ -67,7 +67,7 @@ public:
 	CBTree*				GetTree() const;
 
 	void		AskForFunctionToFind();
-	JBoolean	ShowInheritedFns() const;
+	bool	ShowInheritedFns() const;
 
 	void		ViewFunctionList(const CBClass* theClass);
 
@@ -84,14 +84,14 @@ public:
 
 	// called by CBFileListTable
 
-	void		PrepareForTreeUpdate(const JBoolean reparseAll);
-	JBoolean	TreeUpdateFinished(const JArray<JFAID_t>& deadFileList);
+	void		PrepareForTreeUpdate(const bool reparseAll);
+	bool	TreeUpdateFinished(const JArray<JFAID_t>& deadFileList);
 
 	// called by CBProjectDocument
 
-	void	SetTreePrefs(const JSize fontSize, const JBoolean showInheritedFns,
-						 const JBoolean autoMinMILinks, const JBoolean drawMILinksOnTop,
-						 const JBoolean raiseWhenSingleMatch);
+	void	SetTreePrefs(const JSize fontSize, const bool showInheritedFns,
+						 const bool autoMinMILinks, const bool drawMILinksOnTop,
+						 const bool raiseWhenSingleMatch);
 
 protected:
 
@@ -110,7 +110,7 @@ private:
 	CBProjectDocument*	itsProjDoc;
 	CBTreeWidget*		itsTreeWidget;
 	CBTree*				itsTree;
-	JBoolean			itsShowInheritedFnsFlag;
+	bool			itsShowInheritedFnsFlag;
 
 	JXPSPrinter*		itsPSPrinter;
 	JXEPSPrinter*		itsEPSPrinter;
@@ -216,7 +216,7 @@ CBTreeDirector::GetProjectDoc()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTreeDirector::ShowInheritedFns()
 	const
 {

@@ -34,7 +34,7 @@ THX2DPlotFunctionDialog::THX2DPlotFunctionDialog
 	const THX2DPlotDirector*	prevPlot
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(varList, prevPlot);
 }
@@ -49,7 +49,7 @@ THX2DPlotFunctionDialog::THX2DPlotFunctionDialog
 	const JFloat		max
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(varList, nullptr);
 
@@ -146,7 +146,7 @@ THX2DPlotFunctionDialog::BuildWindow
 	SetButtons(okButton, cancelButton);
 
 	(THXGetApplication())->BuildPlotMenu(itsPlotMenu, prevPlot, &itsPlotIndex);
-	itsPlotMenu->SetToPopupChoice(kJTrue, itsPlotIndex);
+	itsPlotMenu->SetToPopupChoice(true, itsPlotIndex);
 	ListenTo(itsPlotMenu);
 
 	itsCurveName->ShareEditMenu(itsExprWidget->GetEditMenu());
@@ -185,7 +185,7 @@ THX2DPlotFunctionDialog::GetSettings
 
 	JFloat min, max;
 
-	JBoolean ok = itsMinInput->GetValue(&min);
+	bool ok = itsMinInput->GetValue(&min);
 	assert( ok );
 
 	ok = itsMaxInput->GetValue(&max);
@@ -230,26 +230,26 @@ THX2DPlotFunctionDialog::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 THX2DPlotFunctionDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	else if (itsExprWidget->ContainsUIF())
 		{
 		JGetUserNotification()->ReportError(JGetString("FinishFunction::THX2DPlotFunctionDialog"));
 		itsExprWidget->Focus();
-		return kJFalse;
+		return false;
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }

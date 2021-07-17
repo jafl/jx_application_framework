@@ -58,19 +58,19 @@ const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStringCompleter*
 CBRubyCompleter::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBRubyCompleter;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -94,7 +94,7 @@ CBRubyCompleter::Shutdown()
 
 CBRubyCompleter::CBRubyCompleter()
 	:
-	CBStringCompleter(kCBRubyLang, kKeywordCount, kKeywordList, kJTrue)
+	CBStringCompleter(kCBRubyLang, kKeywordCount, kKeywordList, JString::kCompareCase)
 {
 }
 
@@ -117,14 +117,14 @@ CBRubyCompleter::~CBRubyCompleter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBRubyCompleter::IsWordCharacter
 	(
 	const JUtf8Character&	c,
-	const JBoolean			includeNS
+	const bool			includeNS
 	)
 	const
 {
-	return JI2B(c.IsAlnum() || c == '_' || c == '$' || c == '@' ||
-				(includeNS && (c == '.' || c == ':')));
+	return c.IsAlnum() || c == '_' || c == '$' || c == '@' ||
+				(includeNS && (c == '.' || c == ':'));
 }

@@ -20,11 +20,11 @@ static MDPrefsManager*	thePrefsManager = nullptr;
 /******************************************************************************
  MDCreateGlobals
 
-	Returns kJTrue if this is the first time the program is run.
+	Returns true if this is the first time the program is run.
 
  ******************************************************************************/
 
-JBoolean
+bool
 MDCreateGlobals
 	(
 	MDApp* app
@@ -32,13 +32,13 @@ MDCreateGlobals
 {
 	theApplication = app;
 
-	JBoolean isNew;
+	bool isNew;
 	thePrefsManager	= jnew MDPrefsManager(&isNew);
 	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
-	JXWDManager* wdMgr = jnew JXWDManager(app->GetCurrentDisplay(), kJTrue);
+	JXWDManager* wdMgr = jnew JXWDManager(app->GetCurrentDisplay(), true);
 	assert( wdMgr != nullptr );
 	// registers itself
 

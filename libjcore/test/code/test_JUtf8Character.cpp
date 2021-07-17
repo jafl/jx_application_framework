@@ -60,9 +60,9 @@ JTEST(Set)
 	c.Set("\xE2\x9C\x94");
 	JAssertEqual(3, c.GetByteCount());
 
-	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
+	JUtf8Character::SetIgnoreBadUtf8(true);
 	c.Set("\xF4\x30");
-	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
+	JUtf8Character::SetIgnoreBadUtf8(false);
 	JAssertEqual(JUtf8Character::kUtf32SubstitutionCharacter, c.GetUtf32());
 
 	JUtf8Character c2;
@@ -89,10 +89,10 @@ JTEST(IsValid)
 	JAssertTrue(JUtf8Character::IsValid("\xC2\xA9"));
 	JAssertTrue(JUtf8Character::IsValid("\xE2\x9C\x94"));
 
-	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
+	JUtf8Character::SetIgnoreBadUtf8(true);
 	JAssertFalse(JUtf8Character::IsValid("\xC2\x0A"));
 	JAssertFalse(JUtf8Character::IsValid("\xF6\x9C\x94"));
-	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
+	JUtf8Character::SetIgnoreBadUtf8(false);
 }
 
 JTEST(IsBlank)
@@ -157,10 +157,10 @@ JTEST(CharacterByteCount)
 	JAssertTrue(JUtf8Character::GetCharacterByteCount("\xE2\x9C\x94", &byteCount));
 	JAssertEqual(3, byteCount);
 
-	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
+	JUtf8Character::SetIgnoreBadUtf8(true);
 	JAssertFalse(JUtf8Character::GetCharacterByteCount("\xF5\x9C\x94", &byteCount));
 	JAssertFalse(JUtf8Character::GetCharacterByteCount("\xF4\x30\x94", &byteCount));
-	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
+	JUtf8Character::SetIgnoreBadUtf8(false);
 }
 
 JTEST(PrevCharacter)
@@ -179,9 +179,9 @@ JTEST(PrevCharacter)
 	JAssertEqual(1, byteCount);
 
 	s = "ABC\xF8\xAF\xA7\x97";
-	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
+	JUtf8Character::SetIgnoreBadUtf8(true);
 	JAssertFalse(JUtf8Character::GetPrevCharacterByteCount(s + strlen(s) - 1, &byteCount));
-	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
+	JUtf8Character::SetIgnoreBadUtf8(false);
 	JAssertEqual(1, byteCount);
 }
 
@@ -212,9 +212,9 @@ JTEST(Utf8ToUtf32)
 	JAssertEqual(12328, JUtf8Character("\xE3\x80\xA8").GetUtf32());
 	JAssertEqual(195031, JUtf8Character("\xF0\xAF\xA7\x97").GetUtf32());
 
-	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
+	JUtf8Character::SetIgnoreBadUtf8(true);
 	JAssertEqual(65533, JUtf8Character("\xFE\xAF\xFF\x97").GetUtf32());
-	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
+	JUtf8Character::SetIgnoreBadUtf8(false);
 }
 
 JTEST(IsPrint)
@@ -374,8 +374,8 @@ JTEST(Stream)
 	input >> c;
 	JAssertStringsEqual("\xF0\xAF\xA7\x97", c.GetBytes());
 
-	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
+	JUtf8Character::SetIgnoreBadUtf8(true);
 	input >> c;
-	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
+	JUtf8Character::SetIgnoreBadUtf8(false);
 	JAssertStringsEqual("\xEF\xBF\xBD", c.GetBytes());
 }

@@ -32,7 +32,7 @@ public:
 
 private:
 
-	JBoolean	itsOnFlag;		// kJTrue if stopwatch is running
+	bool	itsOnFlag;		// true if stopwatch is running
 	clock_t		itsStartClock;	// clock when we were started
 	clock_t		itsStopClock;	// clock when we were stopped
 	time_t		itsStartTime;	// time when we were started

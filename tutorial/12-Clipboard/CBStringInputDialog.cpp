@@ -26,7 +26,7 @@ CBStringInputDialog::CBStringInputDialog
 	const JCharacter* str
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow();
 

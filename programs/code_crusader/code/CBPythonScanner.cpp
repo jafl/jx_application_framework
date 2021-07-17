@@ -23,8 +23,8 @@
 CBPythonScanner::CBPythonScanner()
 	:
 	CBPythonFlexLexer(),
-	itsResetFlag(kJFalse),
-	itsDoubleQuoteFlag(kJFalse)
+	itsResetFlag(false),
+	itsDoubleQuoteFlag(false)
 {
 }
 
@@ -49,7 +49,7 @@ CBPythonScanner::BeginScan
 	std::istream&					input
 	)
 {
-	itsResetFlag = kJTrue;
+	itsResetFlag = true;
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 

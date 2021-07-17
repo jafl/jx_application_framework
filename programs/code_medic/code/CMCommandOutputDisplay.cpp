@@ -28,7 +28,7 @@ CMCommandOutputDisplay::CMCommandOutputDisplay
 	const JCoordinate	h
 	)
 	:
-	CMTextDisplayBase(kFullEditor, kJFalse, menuBar, scrollbarSet,
+	CMTextDisplayBase(kFullEditor, false, menuBar, scrollbarSet,
 					  enclosure, hSizing, vSizing, x,y, w,h)
 {
 }

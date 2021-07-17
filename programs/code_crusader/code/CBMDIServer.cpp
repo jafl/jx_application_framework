@@ -38,10 +38,10 @@ CBMDIServer::CBMDIServer()
 	JXMDIServer(),
 	JPrefObject(CBGetPrefsManager(), kCBMDIServerID)
 {
-	itsCreateEditorFlag  = kJFalse;
-	itsCreateProjectFlag = kJFalse;
-	itsReopenLastFlag    = kJTrue;
-	itsChooseFileFlag    = kJFalse;
+	itsCreateEditorFlag  = false;
+	itsCreateProjectFlag = false;
+	itsReopenLastFlag    = true;
+	itsChooseFileFlag    = false;
 
 	JPrefObject::ReadPrefs();
 }
@@ -85,15 +85,15 @@ CBMDIServer::HandleMDIRequest
 	if (argCount > 4)
 		{
 		pg.FixedLengthProcessBeginning(argCount-1,
-			JGetString("OpeningFiles::CBMDIServer"), kJTrue, kJFalse);
+			JGetString("OpeningFiles::CBMDIServer"), true, false);
 		}
 
 	JIndexRange lineRange;
-	JBoolean iconify     = kJFalse;
-	JBoolean forceReload = kJFalse;
-	JBoolean saveReopen  = CBProjectDocument::WillReopenTextFiles();
+	bool iconify     = false;
+	bool forceReload = false;
+	bool saveReopen  = CBProjectDocument::WillReopenTextFiles();
 
-	JBoolean restore = IsFirstTime();
+	bool restore = IsFirstTime();
 	for (JIndex i=2; i<=argCount; i++)
 		{
 		const JString& arg = *(argList.GetElement(i));
@@ -106,103 +106,103 @@ CBMDIServer::HandleMDIRequest
 			{
 			DisplayManPage(&i, argList);
 			lineRange.SetToNothing();
-			restore = kJFalse;
+			restore = false;
 			}
 
 		else if (arg == "--apropos" && i < argCount)
 			{
 			i++;
 			CBManPageDocument::Create(nullptr, *(argList.GetElement(i)),
-									  JString::empty, kJTrue);
+									  JString::empty, true);
 			lineRange.SetToNothing();
-			restore = kJFalse;
+			restore = false;
 			}
 
 		else if (arg == "--search")
 			{
-			AddFilesToSearch(&i, argList, kJTrue);
+			AddFilesToSearch(&i, argList, true);
 			lineRange.SetToNothing();
 			}
 		else if (arg == "--add-search")
 			{
-			AddFilesToSearch(&i, argList, kJFalse);
+			AddFilesToSearch(&i, argList, false);
 			lineRange.SetToNothing();
 			}
 
 		else if (arg == "--diff")
 			{
-			DisplayFileDiffs(&i, argList, kJFalse);
+			DisplayFileDiffs(&i, argList, false);
 			lineRange.SetToNothing();
-			restore = kJFalse;
+			restore = false;
 			}
 		else if (arg == "--diff-silent")
 			{
-			DisplayFileDiffs(&i, argList, kJTrue);
+			DisplayFileDiffs(&i, argList, true);
 			lineRange.SetToNothing();
-			restore = kJFalse;
+			restore = false;
 			}
 		else if (arg == "--cvs-diff")
 			{
-			DisplayVCSDiffs("cvs", &i, argList, kJFalse);
+			DisplayVCSDiffs("cvs", &i, argList, false);
 			lineRange.SetToNothing();
-			restore = kJFalse;
+			restore = false;
 			}
 		else if (arg == "--cvs-diff-silent")
 			{
-			DisplayVCSDiffs("cvs", &i, argList, kJTrue);
+			DisplayVCSDiffs("cvs", &i, argList, true);
 			lineRange.SetToNothing();
-			restore = kJFalse;
+			restore = false;
 			}
 		else if (arg == "--svn-diff")
 			{
-			DisplayVCSDiffs("svn", &i, argList, kJFalse);
+			DisplayVCSDiffs("svn", &i, argList, false);
 			lineRange.SetToNothing();
-			restore = kJFalse;
+			restore = false;
 			}
 		else if (arg == "--svn-diff-silent")
 			{
-			DisplayVCSDiffs("svn", &i, argList, kJTrue);
+			DisplayVCSDiffs("svn", &i, argList, true);
 			lineRange.SetToNothing();
-			restore = kJFalse;
+			restore = false;
 			}
 		else if (arg == "--git-diff")
 			{
-			DisplayVCSDiffs("git", &i, argList, kJFalse);
+			DisplayVCSDiffs("git", &i, argList, false);
 			lineRange.SetToNothing();
-			restore = kJFalse;
+			restore = false;
 			}
 		else if (arg == "--git-diff-silent")
 			{
-			DisplayVCSDiffs("git", &i, argList, kJTrue);
+			DisplayVCSDiffs("git", &i, argList, true);
 			lineRange.SetToNothing();
-			restore = kJFalse;
+			restore = false;
 			}
 
 		else if (arg == "--iconic")
 			{
-			iconify = kJTrue;
+			iconify = true;
 			}
 		else if (arg == "--no-iconic")
 			{
-			iconify = kJFalse;
+			iconify = false;
 			}
 
 		else if (arg == "--dock")
 			{
-			JXWindow::ShouldAutoDockNewWindows(kJTrue);
+			JXWindow::ShouldAutoDockNewWindows(true);
 			}
 		else if (arg == "--no-dock")
 			{
-			JXWindow::ShouldAutoDockNewWindows(kJFalse);
+			JXWindow::ShouldAutoDockNewWindows(false);
 			}
 
 		else if (arg == "--force-reload")
 			{
-			forceReload = kJTrue;
+			forceReload = true;
 			}
 		else if (arg == "--no-force-reload")
 			{
-			forceReload = kJFalse;
+			forceReload = false;
 			}
 
 		else if (arg == "--reload-open")
@@ -211,7 +211,7 @@ CBMDIServer::HandleMDIRequest
 				{
 				exit(0);
 				}
-			CBGetDocumentManager()->ReloadTextDocuments(kJFalse);
+			CBGetDocumentManager()->ReloadTextDocuments(false);
 			}
 		else if (arg == "--force-reload-open")
 			{
@@ -219,22 +219,22 @@ CBMDIServer::HandleMDIRequest
 				{
 				exit(0);
 				}
-			CBGetDocumentManager()->ReloadTextDocuments(kJTrue);
+			CBGetDocumentManager()->ReloadTextDocuments(true);
 			}
 
 		else if (arg == "--reopen")
 			{
-			CBProjectDocument::ShouldReopenTextFiles(kJTrue);
+			CBProjectDocument::ShouldReopenTextFiles(true);
 			}
 		else if (arg == "--no-reopen")
 			{
-			CBProjectDocument::ShouldReopenTextFiles(kJFalse);
-			restore = kJFalse;
+			CBProjectDocument::ShouldReopenTextFiles(false);
+			restore = false;
 			}
 
 		else if (arg == "--turn-off-external-editor")		// in case they lock themselves out
 			{
-			CBGetDocumentManager()->ShouldEditTextFilesLocally(kJTrue);
+			CBGetDocumentManager()->ShouldEditTextFilesLocally(true);
 			}
 
 		else if (arg.GetFirstCharacter() == '-')
@@ -276,7 +276,7 @@ CBMDIServer::HandleMDIRequest
 					OpenTextDocument(fileName, lineRange, nullptr, iconify, forceReload);
 				}
 			lineRange.SetToNothing();
-			restore = kJFalse;
+			restore = false;
 			}
 
 		if (pg.ProcessRunning() && !pg.IncrementProgress())
@@ -292,12 +292,12 @@ CBMDIServer::HandleMDIRequest
 
 	JChangeDirectory(origDir);
 
-	JXWindow::ShouldAutoDockNewWindows(kJTrue);
+	JXWindow::ShouldAutoDockNewWindows(true);
 
 	// if argCount == 1, restore guaranteed to be true
 
-	JBoolean stateRestored  = kJFalse;
-	JBoolean projectCreated = kJFalse;
+	bool stateRestored  = false;
+	bool projectCreated = false;
 	if (restore && itsReopenLastFlag)
 		{
 		stateRestored = CBGetPrefsManager()->RestoreProgramState();
@@ -368,7 +368,7 @@ CBMDIServer::DisplayManPage
 			{
 			// apropos
 
-			CBManPageDocument::Create(nullptr, *arg2, JString::empty, kJTrue);
+			CBManPageDocument::Create(nullptr, *arg2, JString::empty, true);
 			*index += 2;
 			return;
 			}
@@ -399,7 +399,7 @@ CBMDIServer::AddFilesToSearch
 	(
 	JIndex*						index,
 	const JPtrArray<JString>&	argList,
-	const JBoolean				clearFileList
+	const bool				clearFileList
 	)
 {
 	CBSearchTextDialog* dlog = CBGetSearchTextDialog();
@@ -424,7 +424,7 @@ CBMDIServer::AddFilesToSearch
 
 	if (clearFileList)
 		{
-		dlog->ShouldSearchFiles(kJTrue);
+		dlog->ShouldSearchFiles(true);
 		}
 	dlog->Activate();
 }
@@ -446,7 +446,7 @@ CBMDIServer::DisplayFileDiffs
 	(
 	JIndex*						index,
 	const JPtrArray<JString>&	argList,
-	const JBoolean				silent
+	const bool				silent
 	)
 {
 	const JSize argCount = argList.GetElementCount();
@@ -547,7 +547,7 @@ CBMDIServer::DisplayVCSDiffs
 	const JUtf8Byte*			type,
 	JIndex*						index,
 	const JPtrArray<JString>&	argList,
-	const JBoolean				silent
+	const bool				silent
 	)
 {
 	const JSize argCount = argList.GetElementCount();

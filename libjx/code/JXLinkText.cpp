@@ -45,8 +45,8 @@ JXLinkText::JXLinkText
 	)
 	:
 	JXTEBase(kSelectableText,
-			 jnew JXStyledText(kJFalse, kJTrue, enclosure->GetFontManager()), kJTrue,
-			 kJFalse, scrollbarSet,
+			 jnew JXStyledText(false, true, enclosure->GetFontManager()), true,
+			 false, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsLinkCursor     = GetDisplay()->CreateBuiltInCursor("XC_hand2", XC_hand2);

@@ -82,8 +82,8 @@ JXSlider::Draw
 		rThumb.bottom = thumbPosition + kThumbHalfSize;
 		}
 
-	JXDrawDownFrame(p, rTrack, kJXDefaultBorderWidth, kJTrue,
+	JXDrawDownFrame(p, rTrack, kJXDefaultBorderWidth, true,
 					JColorManager::GetDefaultSliderBackColor());
-	JXDrawUpFrame(p, rThumb, kJXDefaultBorderWidth, kJTrue,
+	JXDrawUpFrame(p, rThumb, kJXDefaultBorderWidth, true,
 				  JColorManager::GetDefaultBackColor());
 }

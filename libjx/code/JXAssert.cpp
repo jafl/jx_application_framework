@@ -25,12 +25,12 @@ JXAssert::JXAssert()
 	:
 	JAssertBase()
 {
-	itsIsOperatingFlag = kJTrue;
+	itsIsOperatingFlag = true;
 
 	itsDisplayList = jnew JPtrArray<JXDisplay>(JPtrArrayT::kForgetAll);
 	assert( itsDisplayList != nullptr );
 
-	itsIsOperatingFlag = kJFalse;
+	itsIsOperatingFlag = false;
 }
 
 /******************************************************************************
@@ -40,13 +40,13 @@ JXAssert::JXAssert()
 
 JXAssert::~JXAssert()
 {
-	itsIsOperatingFlag = kJTrue;
+	itsIsOperatingFlag = true;
 
 	JPtrArray<JXDisplay>* list = itsDisplayList;
 	itsDisplayList = nullptr;
 	jdelete list;
 
-	itsIsOperatingFlag = kJFalse;
+	itsIsOperatingFlag = false;
 }
 
 /******************************************************************************
@@ -63,8 +63,8 @@ JXAssert::Assert
 	const JUtf8Byte*	message
 	)
 {
-	const JBoolean wasOperating = itsIsOperatingFlag;
-	itsIsOperatingFlag = kJTrue;
+	const bool wasOperating = itsIsOperatingFlag;
+	itsIsOperatingFlag = true;
 
 	if (wasOperating || itsDisplayList == nullptr)		// prevents infinite recursion
 		{
@@ -91,7 +91,7 @@ JXAssert::Assert
 void
 JXAssert::Abort()
 {
-	JXApplication::Abort(JXDocumentManager::kAssertFired, kJTrue);
+	JXApplication::Abort(JXDocumentManager::kAssertFired, true);
 }
 
 /******************************************************************************

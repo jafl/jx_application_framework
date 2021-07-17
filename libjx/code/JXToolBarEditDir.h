@@ -21,16 +21,16 @@ class JXToolBarEditDir : public JXDialogDirector
 {
 public:
 
-	JXToolBarEditDir(JTree* tree, const JBoolean show,
-					 const JBoolean useSmall,
+	JXToolBarEditDir(JTree* tree, const bool show,
+					 const bool useSmall,
 					 const JXToolBarButton::Type type,
 					 JXDirector* supervisor);
 	virtual ~JXToolBarEditDir();
 
-	JBoolean	TreeChanged();
+	bool	TreeChanged();
 
-	JBoolean	ShowToolBar();
-	JBoolean	UseSmallButtons();
+	bool	ShowToolBar();
+	bool	UseSmallButtons();
 
 	JXToolBarButton::Type	GetType();
 
@@ -45,7 +45,7 @@ private:
 
 	JTree*					itsTree;		// we don't own this
 	JXToolBarEditWidget*	itsWidget;
-	JBoolean				itsTreeChanged;
+	bool				itsTreeChanged;
 
 // begin JXLayout
 

@@ -24,7 +24,7 @@
 CMTextDisplayBase::CMTextDisplayBase
 	(
 	const Type			type,
-	const JBoolean		breakCROnly,
+	const bool		breakCROnly,
 	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -37,8 +37,8 @@ CMTextDisplayBase::CMTextDisplayBase
 	)
 	:
 	JXTEBase(type,
-			 jnew JXStyledText(kJFalse, kJFalse, enclosure->GetFontManager()),
-			 kJTrue, breakCROnly, scrollbarSet,
+			 jnew JXStyledText(false, false, enclosure->GetFontManager()),
+			 true, breakCROnly, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	CMTextDisplayBaseX(menuBar, scrollbarSet);
@@ -48,7 +48,7 @@ CMTextDisplayBase::CMTextDisplayBase
 	(
 	JXStyledText*		text,
 	const Type			type,
-	const JBoolean		breakCROnly,
+	const bool		breakCROnly,
 	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -60,7 +60,7 @@ CMTextDisplayBase::CMTextDisplayBase
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(type, text, kJTrue, breakCROnly, scrollbarSet,
+	JXTEBase(type, text, true, breakCROnly, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	CMTextDisplayBaseX(menuBar, scrollbarSet);
@@ -75,7 +75,7 @@ CMTextDisplayBase::CMTextDisplayBaseX
 	JXScrollbarSet*	scrollbarSet
 	)
 {
-	WantInput(kJTrue, kJFalse);
+	WantInput(true, false);
 
 	scrollbarSet->GetVScrollbar()->SetScrollDelay(0);
 
@@ -83,7 +83,7 @@ CMTextDisplayBase::CMTextDisplayBaseX
 
 	AdjustFont(this);
 
-	ShouldAllowDragAndDrop(kJTrue);
+	ShouldAllowDragAndDrop(true);
 	GetText()->SetCharacterInWordFunction(CBMIsCharacterInWord);
 	SetPTPrinter(CMGetPTPrinter());
 }

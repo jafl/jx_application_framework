@@ -62,7 +62,7 @@ GLPlotFitQuad2::JPlotFitQuad2X
 	)
 {
 	SetParameterCount(3);
-	SetHasGoodnessOfFit(kJTrue);
+	SetHasGoodnessOfFit(true);
 	itsFunctionName = "y = a + bx + cx^2";
 	CalculateFirstPass();
 	JVector p(3);
@@ -89,7 +89,7 @@ GLPlotFitQuad2::~GLPlotFitQuad2()
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitQuad2::GetYValue
 	(
 	const JFloat 	x,
@@ -98,7 +98,7 @@ GLPlotFitQuad2::GetYValue
 	const
 {
 	*y = itsAParameter + itsBParameter*x + itsCParameter*x*x;
-	return kJTrue;
+	return true;
 }
 
 
@@ -108,7 +108,7 @@ GLPlotFitQuad2::GetYValue
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitQuad2::GetParameterName
 	(
 	const JIndex index, 
@@ -118,7 +118,7 @@ GLPlotFitQuad2::GetParameterName
 {
 	if ((index > 3) || (index < 1))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index == 1)
 		{
@@ -132,7 +132,7 @@ GLPlotFitQuad2::GetParameterName
 		{
 		*name = "c";
 		}
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -141,7 +141,7 @@ GLPlotFitQuad2::GetParameterName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitQuad2::GetParameter
 	(
 	const JIndex index, 
@@ -151,7 +151,7 @@ GLPlotFitQuad2::GetParameter
 {
 	if ((index > 3) || (index < 1))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index == 1)
 		{
@@ -165,7 +165,7 @@ GLPlotFitQuad2::GetParameter
 		{
 		*value = itsCParameter;
 		}
-	return kJTrue;		
+	return true;		
 }
 
 /*********************************************************************************
@@ -174,7 +174,7 @@ GLPlotFitQuad2::GetParameter
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitQuad2::GetParameterError
 	(
 	const JIndex index, 
@@ -185,7 +185,7 @@ GLPlotFitQuad2::GetParameterError
 	const JPlotDataBase* data = GetData();
 	if (!data->HasXErrors() && !data->HasYErrors())
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index == 1)
 		{
@@ -199,7 +199,7 @@ GLPlotFitQuad2::GetParameterError
 		{
 		*value = itsCErrParameter;
 		}
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************

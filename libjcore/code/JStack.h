@@ -27,11 +27,11 @@ public:
 
 	void		Push(const T& newElement);
 	T			Pop();
-	JBoolean	Pop(T* element);
+	bool	Pop(T* element);
 	T			Peek() const;
-	JBoolean	Peek(T* element) const;
+	bool	Peek(T* element) const;
 	T			Peek(const JIndex index) const;
-	JBoolean	Peek(const JIndex index, T* element) const;
+	bool	Peek(const JIndex index, T* element) const;
 
 	void	Clear();
 	void	Unwind(const JSize numToUnwind);

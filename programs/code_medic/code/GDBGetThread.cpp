@@ -25,7 +25,7 @@ GDBGetThread::GDBGetThread
 	CMThreadsWidget* widget
 	)
 	:
-	CMGetThread(JString("set width 0\ninfo threads", kJFalse), widget)
+	CMGetThread(JString("set width 0\ninfo threads", JString::kNoCopy), widget)
 {
 }
 

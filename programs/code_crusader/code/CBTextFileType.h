@@ -8,9 +8,8 @@
 #ifndef _H_CBTextFileType
 #define _H_CBTextFileType
 
-#include <JUtf8Character.h>
+#include <JString.h>
 
-class JString;
 class CBStylerBase;
 class CBStringCompleter;
 
@@ -95,12 +94,12 @@ const JSize kCBFTCount = kCBLastFT+1;
 std::istream& operator>>(std::istream& input, CBTextFileType& type);
 std::ostream& operator<<(std::ostream& output, const CBTextFileType type);
 
-JBoolean		CBGetComplementType(const CBTextFileType inputType, CBTextFileType* outputType);
+bool		CBGetComplementType(const CBTextFileType inputType, CBTextFileType* outputType);
 const JString&	CBGetComplementFileTypeName(const CBTextFileType type);
 
-JBoolean	CBIsCharacterInWord(const CBTextFileType type, const JUtf8Character& c);
+bool	CBIsCharacterInWord(const CBTextFileType type, const JUtf8Character& c);
 
-inline JBoolean
+inline bool
 CBHasComplementType
 	(
 	const CBTextFileType type
@@ -110,25 +109,25 @@ CBHasComplementType
 	return CBGetComplementType(type, &complType);
 }
 
-inline JBoolean
+inline bool
 CBIsHeaderType
 	(
 	const CBTextFileType type
 	)
 {
-	return JI2B(type == kCBCHeaderFT          ||
+	return type == kCBCHeaderFT          ||
 				type == kCBModula2InterfaceFT ||
 				type == kCBModula3InterfaceFT ||
-				type == kCBVeraHeaderFT);
+				type == kCBVeraHeaderFT;
 }
 
-inline JBoolean
+inline bool
 CBCanCompile
 	(
 	const CBTextFileType type
 	)
 {
-	return JI2B(type == kCBCSourceFT       ||
+	return type == kCBCSourceFT       ||
 				type == kCBCSharpFT        ||
 				type == kCBDFT             ||
 				type == kCBLexFT           ||
@@ -150,66 +149,66 @@ CBCanCompile
 				type == kCBVeraSourceFT    ||
 				type == kCBVerilogFT       ||
 				type == kCBBasicFT         ||
-				type == kCBOtherSourceFT );
+				type == kCBOtherSourceFT;
 }
 
-inline JBoolean
+inline bool
 CBIsLibrary
 	(
 	const CBTextFileType type
 	)
 {
-	return JI2B(type == kCBStaticLibraryFT ||
+	return type == kCBStaticLibraryFT ||
 				type == kCBSharedLibraryFT ||
-				type == kCBJavaArchiveFT );
+				type == kCBJavaArchiveFT;
 }
 
-inline JBoolean
+inline bool
 CBIncludeInMakeFiles
 	(
 	const CBTextFileType type
 	)
 {
-	return JI2B( CBCanCompile(type) || CBIsLibrary(type) );
+	return CBCanCompile(type) || CBIsLibrary(type);
 }
 
-inline JBoolean
+inline bool
 CBIncludeInCMakeSource
 	(
 	const CBTextFileType type
 	)
 {
-	return JI2B( type == kCBCSourceFT || type == kCBLexFT || type == kCBBisonFT );
+	return type == kCBCSourceFT || type == kCBLexFT || type == kCBBisonFT;
 }
 
-inline JBoolean
+inline bool
 CBIncludeInCMakeHeader
 	(
 	const CBTextFileType type
 	)
 {
-	return JI2B( type == kCBCHeaderFT );
+	return type == kCBCHeaderFT;
 }
 
-inline JBoolean
+inline bool
 CBIncludeInQMakeSource
 	(
 	const CBTextFileType type
 	)
 {
-	return JI2B( type == kCBCSourceFT || type == kCBLexFT || type == kCBBisonFT );
+	return type == kCBCSourceFT || type == kCBLexFT || type == kCBBisonFT;
 }
 
-inline JBoolean
+inline bool
 CBIncludeInQMakeHeader
 	(
 	const CBTextFileType type
 	)
 {
-	return JI2B( type == kCBCHeaderFT );
+	return type == kCBCHeaderFT;
 }
 
-inline JBoolean
+inline bool
 CBExcludeFromFileList
 	(
 	const CBTextFileType type
@@ -218,13 +217,13 @@ CBExcludeFromFileList
 	return CBIsLibrary(type);
 }
 
-inline JBoolean
+inline bool
 CBUseCSourceWindowSize
 	(
 	const CBTextFileType type
 	)
 {
-	return JI2B(CBCanCompile(type)         ||
+	return CBCanCompile(type)         ||
 				type == kCBDocumentationFT ||
 				type == kCBAntFT           ||
 				type == kCBASPFT           ||
@@ -249,38 +248,38 @@ CBUseCSourceWindowSize
 				type == kCBSMLFT           ||
 				type == kCBSQLFT           ||
 				type == kCBTCLFT           ||
-				type == kCBVimFT );
+				type == kCBVimFT;
 }
 
-inline JBoolean
+inline bool
 CBCanDebug
 	(
 	const CBTextFileType type
 	)
 {
-	return JI2B( CBCanCompile(type) || type == kCBCHeaderFT );
+	return CBCanCompile(type) || type == kCBCHeaderFT;
 }
 
-inline JBoolean
+inline bool
 CBIsExecOutput
 	(
 	const CBTextFileType type
 	)
 {
-	return JI2B( type == kCBExecOutputFT ||
-				 type == kCBSearchOutputFT);
+	return type == kCBExecOutputFT ||
+				 type == kCBSearchOutputFT;
 }
 
-inline JBoolean
+inline bool
 CBDrawRightMargin
 	(
 	const CBTextFileType type
 	)
 {
-	return JNegate( CBIsExecOutput(type)    ||
-					type == kCBManPageFT    ||
-					type == kCBDiffOutputFT ||
-					type == kCBShellOutputFT);
+	return !( CBIsExecOutput(type)    ||
+			  type == kCBManPageFT    ||
+			  type == kCBDiffOutputFT ||
+			  type == kCBShellOutputFT );
 }
 
 
@@ -345,41 +344,41 @@ const JSize kCBLangCount = kCBLastLang+1;
 
 CBLanguage	CBGetLanguage(const CBTextFileType type);
 
-JBoolean	CBGetStyler(const CBLanguage lang, CBStylerBase** styler);
-JBoolean	CBGetCompleter(const CBLanguage lang, CBStringCompleter** completer);
+bool	CBGetStyler(const CBLanguage lang, CBStylerBase** styler);
+bool	CBGetCompleter(const CBLanguage lang, CBStringCompleter** completer);
 
 void	CBShutdownStylers();
 void	CBShutdownCompleters();
 
-JBoolean	CBNameIsQualified(const JString& s);
+bool	CBNameIsQualified(const JString& s);
 
-inline JBoolean
+inline JString::Case
 CBIsCaseSensitive
 	(
 	const CBLanguage lang
 	)
 {
-	return JNegate( lang == kCBEiffelLang  ||
-					lang == kCBFortranLang ||
-					lang == kCBJavaScriptLang );
+	return (lang != kCBEiffelLang  &&
+			lang != kCBFortranLang &&
+			lang != kCBJavaScriptLang ? JString::kCompareCase : JString::kIgnoreCase);
 }
 
-inline JBoolean
+inline bool
 CBHasNamespace
 	(
 	const CBLanguage lang
 	)
 {
-	return JI2B( lang == kCBCLang          ||	// C++, actually
-				 lang == kCBDLang          ||
-				 lang == kCBGoLang         ||
-				 lang == kCBJavaLang       ||
-				 lang == kCBJavaScriptLang ||
-				 lang == kCBPerlLang       ||
-				 lang == kCBSQLLang );
+	return lang == kCBCLang          ||	// C++, actually
+		   lang == kCBDLang          ||
+		   lang == kCBGoLang         ||
+		   lang == kCBJavaLang       ||
+		   lang == kCBJavaScriptLang ||
+		   lang == kCBPerlLang       ||
+		   lang == kCBSQLLang;
 }
 
-inline JBoolean
+inline bool
 CBGetStyler
 	(
 	const CBTextFileType	type,
@@ -389,7 +388,7 @@ CBGetStyler
 	return CBGetStyler(CBGetLanguage(type), styler);
 }
 
-inline JBoolean
+inline bool
 CBGetCompleter
 	(
 	const CBTextFileType	type,

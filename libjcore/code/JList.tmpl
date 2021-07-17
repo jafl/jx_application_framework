@@ -135,7 +135,7 @@ JList<T>::NotifyIterators
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JList<T>::GetCompareFunction
 	(
 	JListT::CompareResult (**compareFn)(const T&, const T&)
@@ -143,7 +143,7 @@ JList<T>::GetCompareFunction
 	const
 {
 	*compareFn = itsCompareFn;
-	return JI2B( itsCompareFn != nullptr );
+	return itsCompareFn != nullptr;
 }
 
 template <class T>
@@ -171,7 +171,7 @@ JList<T>::SetCompareFunction
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JList<T>::GetCompareObject
 	(
 	const JElementComparison<T>** compareObj
@@ -179,7 +179,7 @@ JList<T>::GetCompareObject
 	const
 {
 	*compareObj = itsCompareObj;
-	return JI2B( itsCompareObj != nullptr );
+	return itsCompareObj != nullptr;
 }
 
 template <class T>
@@ -237,7 +237,7 @@ JList<T>::SetSortOrder
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JList<T>::IsSorted()
 	const
 {
@@ -246,17 +246,17 @@ JList<T>::IsSorted()
 	const JSize count = GetElementCount();
 	if (count < 2)
 		{
-		return kJTrue;		// avoid constructing iterator
+		return true;		// avoid constructing iterator
 		}
 
 	// check if the elements are sorted
 
-	JBoolean sorted = kJTrue;
+	bool sorted = true;
 
 	JListIterator<T>* iter = NewIterator();	// allows optimized iterator
 	T obj1, obj2;
 
-	JBoolean ok = iter->Next(&obj1);
+	bool ok = iter->Next(&obj1);
 	assert( ok );
 
 	while (iter->Next(&obj2))
@@ -267,7 +267,7 @@ JList<T>::IsSorted()
 			(itsSortOrder == JListT::kSortDescending &&
 			 r == JListT::kFirstLessSecond))
 			{
-			sorted = kJFalse;
+			sorted = false;
 			break;
 			}
 		obj1 = obj2;

@@ -18,7 +18,7 @@ public:
 
 	virtual ~CBSearchColorManager();
 
-	virtual JBoolean	GetColorID(const JString& name, JColorID* id) override;
+	virtual bool	GetColorID(const JString& name, JColorID* id) override;
 
 private:
 

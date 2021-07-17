@@ -22,7 +22,7 @@ public:
 
 protected:
 
-	virtual JBoolean	OKToDeactivate();
+	virtual bool	OKToDeactivate();
 
 private:
 

@@ -59,12 +59,12 @@ JErrorState::~JErrorState()
 /******************************************************************************
  OK (virtual)
 
-	Returns kJTrue if the object is not in an error state (its error is JNoError)
+	Returns true if the object is not in an error state (its error is JNoError)
 	for convenience in boolean tests.
 
  *****************************************************************************/
 
-JBoolean
+bool
 JErrorState::OK() const
 {
 	return itsError.OK();

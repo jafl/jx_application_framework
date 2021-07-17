@@ -29,7 +29,7 @@ public:
 
 public:
 
-	JXWDManager(JXDisplay* display, const JBoolean wantShortcuts = kJTrue);
+	JXWDManager(JXDisplay* display, const bool wantShortcuts = true);
 
 	virtual ~JXWDManager();
 
@@ -75,7 +75,7 @@ private:
 
 	JArray<WindowInfo>*	itsPermWindowList;
 	JArray<WindowInfo>*	itsWindowList;
-	const JBoolean		itsWantShortcutFlag;
+	const bool		itsWantShortcutFlag;
 	JXUpdateWDMenuTask*	itsUpdateWDMenuTask;	// nullptr unless pending
 
 private:
@@ -86,14 +86,14 @@ private:
 
 	void	DirectorCreated(JArray<WindowInfo>* windowList, JXWindowDirector* dir,
 							const JString& shortcut, const JUtf8Byte* id);
-	JBoolean	DirectorDeleted1(JArray<WindowInfo>* windowList,
+	bool	DirectorDeleted1(JArray<WindowInfo>* windowList,
 								 JXWindowDirector* dir);
 	void		UpdateWDMenu1(const JArray<WindowInfo>& windowList, JXWDMenu* menu);
 
 	void	GetDirectors(JArray<WindowInfo>* windowList,
 						 JPtrArray<JXWindowDirector>* directorList) const;
 
-	static JBoolean	ShortcutUsed(const JArray<WindowInfo>& windowList,
+	static bool	ShortcutUsed(const JArray<WindowInfo>& windowList,
 								 const JInteger shortcutIndex);
 
 	static JListT::CompareResult

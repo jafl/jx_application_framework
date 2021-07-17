@@ -14,7 +14,7 @@ class GPMApp : public JXApplication
 {
 public:
 
-	GPMApp(int* argc, char* argv[], JBoolean* displayAbout, JString* prevVersStr);
+	GPMApp(int* argc, char* argv[], bool* displayAbout, JString* prevVersStr);
 
 	virtual ~GPMApp();
 

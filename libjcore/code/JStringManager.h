@@ -31,8 +31,8 @@ public:
 	virtual ~JStringManager();
 
 	void		Register(const JUtf8Byte* signature, const JUtf8Byte** defaultData);
-	JBoolean	MergeFile(const JString& fileName, const JBoolean debug = kJFalse);
-	JBoolean	MergeFile(std::istream& input, const JBoolean debug = kJFalse);
+	bool	MergeFile(const JString& fileName, const bool debug = false);
+	bool	MergeFile(std::istream& input, const bool debug = false);
 	void		WriteFile(std::ostream& output) const;
 
 	const JString&	GetBCP47Locale() const;
@@ -47,7 +47,7 @@ public:
 	void	ReportError(const JUtf8Byte* id, const JError& err) const;
 	void	ReportError(const JUtf8Byte* id, const JString& message) const;
 
-	static JBoolean	CanOverride(const JString& id);
+	static bool	CanOverride(const JString& id);
 
 	static void	EnablePseudotranslation();
 
@@ -55,7 +55,7 @@ private:
 
 	JString			itsBCP47Locale;
 	JSubstitute*	itsReplaceEngine;
-	static JBoolean	thePseudotranslationFlag;
+	static bool	thePseudotranslationFlag;
 
 private:
 
@@ -90,7 +90,7 @@ JStringManager::GetBCP47Locale()
 inline void
 JStringManager::EnablePseudotranslation()
 {
-	thePseudotranslationFlag = kJTrue;
+	thePseudotranslationFlag = true;
 }
 
 #endif

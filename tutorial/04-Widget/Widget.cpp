@@ -86,7 +86,7 @@ Widget::Draw
 	p.SetPenColor(JColorManager::GetGreenColor());
 	p.Rect(10, 10, 50, 50);
 	
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Rect(10, 70, 50, 50);
 }

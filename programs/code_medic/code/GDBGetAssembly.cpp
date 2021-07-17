@@ -97,7 +97,7 @@ GDBGetAssembly::HandleSuccess
 	JPtrArray< JStringPtrMap<JString> > list(JPtrArrayT::kDeleteAll);
 	JSize maxOffsetLength = 0;
 
-	const JStringMatch m = bpPattern.Match(data, kJFalse);
+	const JStringMatch m = bpPattern.Match(data, JRegex::kIgnoreSubmatches);
 	if (!m.IsEmpty())
 		{
 		stream.seekg(m.GetUtf8ByteRange().last);
@@ -152,7 +152,7 @@ GDBGetAssembly::HandleSuccess
 		{
 		JString* s = addrList.GetElement(i);
 
-		const JStringMatch m2 = offsetPattern.Match(*s, kJFalse);
+		const JStringMatch m2 = offsetPattern.Match(*s, JRegex::kIgnoreSubmatches);
 		if (!m2.IsEmpty())
 			{
 			const JSize pad = maxOffsetLength - m2.GetCharacterRange().GetCount();

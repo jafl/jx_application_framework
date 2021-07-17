@@ -22,33 +22,33 @@ public:
 
 	GLPlotLinearFit(J2DPlotWidget* plot, JPlotDataBase* fitData, 
 					const JFloat xMin, const JFloat xMax,
-					const JBoolean xlog = kJFalse, const JBoolean ylog = kJFalse);
+					const bool xlog = false, const bool ylog = false);
 	GLPlotLinearFit(J2DPlotWidget* plot, JPlotDataBase* fitData, 
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax,
-					const JBoolean xlog = kJFalse, const JBoolean ylog = kJFalse);
+					const bool xlog = false, const bool ylog = false);
 	virtual ~GLPlotLinearFit();	
 
 //	virtual void	 GetElement(const JIndex index, J2DDataPoint* data) const;
-	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const JBoolean xLinear,
+	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
+								  const bool xLinear,
 								  JFloat* yMin, JFloat* yMax) const override;
 
 //	virtual	void UpdateFunction(const JFloat xmin, const JFloat xmax, 
 //								const JSize steps);
 
-	virtual JBoolean	GetParameterName(const JIndex index, JString* name) const override;
-	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const override;
+	virtual bool	GetParameterName(const JIndex index, JString* name) const override;
+	virtual bool	GetParameter(const JIndex index, JFloat* value) const override;
 
-	virtual JBoolean	GetParameterError(const JIndex index, JFloat* value) const override;
+	virtual bool	GetParameterError(const JIndex index, JFloat* value) const override;
 
-	virtual JBoolean	GetGoodnessOfFitName(JString* name) const override;
-	virtual JBoolean	GetGoodnessOfFit(JFloat* value) const override;
+	virtual bool	GetGoodnessOfFitName(JString* name) const override;
+	virtual bool	GetGoodnessOfFit(JFloat* value) const override;
 	
 	virtual JString		GetFunctionString() const override;
 	virtual JString		GetFitFunctionString() const override;
 
-	virtual JBoolean	GetYValue(const JFloat x, JFloat* y) const override;
+	virtual bool	GetYValue(const JFloat x, JFloat* y) const override;
 	virtual const JPlotDataBase*		GetDataToFit() const;
 
 	void				AdjustDataRange(const JFloat xmin, const JFloat xmax,
@@ -65,14 +65,14 @@ protected:
 	JFloat				GetCurrentXMax() const;
 	JFloat				GetCurrentXMin() const;
 	JFloat				GetCurrentStepCount() const;
-	virtual JBoolean	DataElementValid(const JIndex index) override;
-	virtual JBoolean	GetDataElement(const JIndex index, J2DDataPoint* point) override;
+	virtual bool	DataElementValid(const JIndex index) override;
+	virtual bool	GetDataElement(const JIndex index, J2DDataPoint* point) override;
 
 private:
 
 	void				JPlotLinearFitX(J2DPlotWidget* plot, 
 										JPlotDataBase* fitData, 
-										JBoolean xlog, const JBoolean ylog);
+										bool xlog, const bool ylog);
 
 	void				LinearLSQ1();
 	void				LinearLSQ2();
@@ -98,9 +98,9 @@ private:
 	JFloat		itsRangeXMin;
 	JFloat 		itsRangeYMax;
 	JFloat 		itsRangeYMin;
-	JBoolean 	itsUsingRange;
-	JBoolean	itsYIsLog;
-	JBoolean	itsXIsLog;
+	bool 	itsUsingRange;
+	bool	itsYIsLog;
+	bool	itsXIsLog;
 	JSize		itsRealCount;
 
 };

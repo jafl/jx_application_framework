@@ -43,9 +43,9 @@ public:
 
 	const JBroadcaster& operator=(const JBroadcaster& source);
 
-	JBoolean	HasSenders() const;
+	bool	HasSenders() const;
 	JSize		GetSenderCount() const;
-	JBoolean	HasRecipients() const;
+	bool	HasRecipients() const;
 	JSize		GetRecipientCount() const;
 
 	virtual JString	ToString() const;

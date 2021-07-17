@@ -50,7 +50,7 @@ CBRelPathCSF::~CBRelPathCSF()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBRelPathCSF::ChooseRelFile
 	(
 	const JString&	prompt,
@@ -63,11 +63,11 @@ CBRelPathCSF::ChooseRelFile
 	if (JXChooseSaveFile::ChooseFile(prompt, instructions, fullOrigName, name))
 		{
 		*name = ConvertToRelativePath(*name);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -82,7 +82,7 @@ CBRelPathCSF::CreateChooseFileDialog
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	allowSelectMultiple,
+	const bool	allowSelectMultiple,
 	const JString&	origName,
 	const JString&	message
 	)
@@ -99,7 +99,7 @@ CBRelPathCSF::CreateChooseFileDialog
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBRelPathCSF::ChooseRelRPath
 	(
 	const JString&	prompt,
@@ -112,11 +112,11 @@ CBRelPathCSF::ChooseRelRPath
 	if (JXChooseSaveFile::ChooseRPath(prompt, instructions, startPath, newPath))
 		{
 		*newPath = ConvertToRelativePath(*newPath);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -125,7 +125,7 @@ CBRelPathCSF::ChooseRelRPath
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBRelPathCSF::ChooseRelRWPath
 	(
 	const JString&	prompt,
@@ -138,11 +138,11 @@ CBRelPathCSF::ChooseRelRWPath
 	if (JXChooseSaveFile::ChooseRWPath(prompt, instructions, startPath, newPath))
 		{
 		*newPath = ConvertToRelativePath(*newPath);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -233,7 +233,7 @@ CBRelPathCSF::CreateChoosePathDialog
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	selectOnlyWritable,
+	const bool	selectOnlyWritable,
 	const JString&	message
 	)
 {

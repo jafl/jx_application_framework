@@ -38,15 +38,15 @@ public:
 
 	virtual	~JXFSDirMenu();
 
-	JBoolean	GetDirInfo(JDirInfo** info);
+	bool	GetDirInfo(JDirInfo** info);
 	void		SetFileList(const JPtrArray<JString>& fullNameList);
 
-	JBoolean	WillShowPath() const;
-	void		ShouldShowPath(const JBoolean show);
-	JBoolean	WillDereferenceLinks() const;
-	void		ShouldDereferenceLinks(const JBoolean dereference);
-	JBoolean	WillDeleteBrokenLinks() const;
-	void		ShouldDeleteBrokenLinks(const JBoolean deleteBroken);
+	bool	WillShowPath() const;
+	void		ShouldShowPath(const bool show);
+	bool	WillDereferenceLinks() const;
+	void		ShouldDereferenceLinks(const bool dereference);
+	bool	WillDeleteBrokenLinks() const;
+	void		ShouldDeleteBrokenLinks(const bool deleteBroken);
 
 	void	SetFileIcon(const JXImage& image);
 	void	SetFileIcon(const JXPM& data);
@@ -73,14 +73,14 @@ private:
 	JPtrArray<JDirEntry>*	itsEntries;		// can be nullptr
 	JXFSDirMenu*			itsParent;		// can be nullptr; owns us
 	JString					itsEmptyMsg;
-	JBoolean				itsShowPathFlag;
-	JBoolean				itsDereferenceLinksFlag;
-	JBoolean				itsDeleteBrokenLinksFlag;
+	bool				itsShowPathFlag;
+	bool				itsDereferenceLinksFlag;
+	bool				itsDeleteBrokenLinksFlag;
 
-	JBoolean	itsOwnsFileIcon;
+	bool	itsOwnsFileIcon;
 	JXImage*	itsFileIcon;
 	JXImage*	itsFolderIcon;		// not owned
-	JBoolean	itsOwnsExecIcon;
+	bool	itsOwnsExecIcon;
 	JXImage*	itsExecIcon;
 	JXImage*	itsUnknownIcon;		// not owned
 
@@ -128,7 +128,7 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFSDirMenu::WillShowPath()
 	const
 {
@@ -138,7 +138,7 @@ JXFSDirMenu::WillShowPath()
 inline void
 JXFSDirMenu::ShouldShowPath
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	itsShowPathFlag = show;
@@ -149,7 +149,7 @@ JXFSDirMenu::ShouldShowPath
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFSDirMenu::WillDereferenceLinks()
 	const
 {
@@ -159,7 +159,7 @@ JXFSDirMenu::WillDereferenceLinks()
 inline void
 JXFSDirMenu::ShouldDereferenceLinks
 	(
-	const JBoolean dereference
+	const bool dereference
 	)
 {
 	itsDereferenceLinksFlag = dereference;
@@ -170,7 +170,7 @@ JXFSDirMenu::ShouldDereferenceLinks
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFSDirMenu::WillDeleteBrokenLinks()
 	const
 {
@@ -180,7 +180,7 @@ JXFSDirMenu::WillDeleteBrokenLinks()
 inline void
 JXFSDirMenu::ShouldDeleteBrokenLinks
 	(
-	const JBoolean deleteBroken
+	const bool deleteBroken
 	)
 {
 	itsDeleteBrokenLinksFlag = deleteBroken;

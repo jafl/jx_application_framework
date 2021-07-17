@@ -64,7 +64,7 @@ static JXImage* theProjectIcon        = nullptr;
 static JXImage* theActiveProjectIcon  = nullptr;
 static JXImage* theActiveListIcon     = nullptr;
 
-static JBoolean theIsUpdateThread = kJFalse;
+static bool theIsUpdateThread = false;
 
 // private functions
 
@@ -74,15 +74,15 @@ void	CBDeleteIcons();
 /******************************************************************************
  CBCreateGlobals
 
-	Returns kJTrue if this is the first time the program is run.
+	Returns true if this is the first time the program is run.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCreateGlobals
 	(
 	CBApp*			app,
-	const JBoolean	useMDI
+	const bool	useMDI
 	)
 {
 	if (JAssertBase::GetAction() == JAssertBase::kAskUser)
@@ -96,7 +96,7 @@ CBCreateGlobals
 
 	// prefs must be created first so everybody can read from it
 
-	JBoolean isNew;
+	bool isNew;
 	thePrefsManager = jnew CBPrefsManager(&isNew);
 	assert( thePrefsManager != nullptr );
 
@@ -288,7 +288,7 @@ CBGetApplication()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBInUpdateThread()
 {
 	return theIsUpdateThread;
@@ -302,7 +302,7 @@ CBInUpdateThread()
 void
 CBSetUpdateThread()
 {
-	theIsUpdateThread = kJTrue;
+	theIsUpdateThread = true;
 }
 
 /******************************************************************************
@@ -334,14 +334,14 @@ CBGetPrefsManager()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBGetMDIServer
 	(
 	CBMDIServer** mdi
 	)
 {
 	*mdi = theMDIServer;
-	return JI2B( theMDIServer != nullptr );
+	return theMDIServer != nullptr;
 }
 
 /******************************************************************************
@@ -626,7 +626,7 @@ CBGetLibraryFileIcon()
 const JXImage*
 CBGetProjectFileIcon
 	(
-	const JBoolean active
+	const bool active
 	)
 {
 	return (active ? theActiveProjectIcon : theProjectIcon);
@@ -635,7 +635,7 @@ CBGetProjectFileIcon
 const JXImage*
 CBGetTextFileIcon
 	(
-	const JBoolean active
+	const bool active
 	)
 {
 	return (active ? theActiveListIcon : theDocManager->GetDefaultMenuIcon());

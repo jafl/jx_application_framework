@@ -38,7 +38,7 @@ JXImageWidget::JXImageWidget
 	JXScrollableWidget(nullptr, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsImage            = nullptr;
-	itsOwnsImageFlag    = kJTrue;
+	itsOwnsImageFlag    = true;
 	itsAdjustBoundsTask = nullptr;
 
 	SetBorderWidth(0);
@@ -59,7 +59,7 @@ JXImageWidget::JXImageWidget
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsImage            = nullptr;
-	itsOwnsImageFlag    = kJTrue;
+	itsOwnsImageFlag    = true;
 	itsAdjustBoundsTask = nullptr;
 }
 
@@ -107,7 +107,7 @@ JXImageWidget::SetBitmap
 	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	assert( itsImage != nullptr );
 
-	itsOwnsImageFlag = kJTrue;
+	itsOwnsImageFlag = true;
 
 	AdjustBounds();
 
@@ -137,7 +137,7 @@ JXImageWidget::SetXPM
 		}
 
 	itsImage         = GetDisplay()->GetImageCache()->GetImage(data);
-	itsOwnsImageFlag = kJFalse;
+	itsOwnsImageFlag = false;
 
 	AdjustBounds();
 
@@ -154,7 +154,7 @@ void
 JXImageWidget::SetImage
 	(
 	JXImage*		image,
-	const JBoolean	widgetOwnsImage,
+	const bool	widgetOwnsImage,
 	const JColorID	origBackColor
 	)
 {

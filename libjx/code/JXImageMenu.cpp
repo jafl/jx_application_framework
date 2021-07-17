@@ -43,7 +43,7 @@ JXImageMenu::JXImageMenu
 JXImageMenu::JXImageMenu
 	(
 	JXImage*			image,
-	const JBoolean		menuOwnsImage,
+	const bool		menuOwnsImage,
 	const JSize			columnCount,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -107,7 +107,7 @@ JXImageMenu::InsertItem
 	(
 	const JIndex		index,
 	JXImage*			image,
-	const JBoolean		menuOwnsImage,
+	const bool		menuOwnsImage,
 	const ItemType		type,
 	const JString&		id
 	)
@@ -119,7 +119,7 @@ void
 JXImageMenu::PrependItem
 	(
 	JXImage*			image,
-	const JBoolean		menuOwnsImage,
+	const bool		menuOwnsImage,
 	const ItemType		type,
 	const JString&		id
 	)
@@ -131,7 +131,7 @@ void
 JXImageMenu::AppendItem
 	(
 	JXImage*			image,
-	const JBoolean		menuOwnsImage,
+	const bool		menuOwnsImage,
 	const ItemType		type,
 	const JString&		id
 	)
@@ -161,7 +161,7 @@ JXImageMenu::SetItemImage
 	const JXPM&		data
 	)
 {
-	SetItemImage(index, GetDisplay()->GetImageCache()->GetImage(data), kJFalse);
+	SetItemImage(index, GetDisplay()->GetImageCache()->GetImage(data), false);
 }
 
 void
@@ -169,7 +169,7 @@ JXImageMenu::SetItemImage
 	(
 	const JIndex	index,
 	JXImage*		image,
-	const JBoolean	menuOwnsImage
+	const bool	menuOwnsImage
 	)
 {
 	itsIconMenuData->SetImage(index, image, menuOwnsImage);
@@ -207,6 +207,6 @@ JXImageMenu::AdjustPopupChoiceTitle
 	if (GetTitleImage(&titleImage))
 		{
 		JXImage* image = const_cast<JXImage*>(GetItemImage(index));
-		SetTitle(JString::empty, image, kJFalse);
+		SetTitle(JString::empty, image, false);
 		}
 }

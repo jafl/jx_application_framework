@@ -31,7 +31,7 @@ public:
 
 	JXDisplay*	GetDisplay() const;
 
-	JBoolean	GetClipping(JPoint* offset, Region* region, JXImageMask** pixmap);
+	bool	GetClipping(JPoint* offset, Region* region, JXImageMask** pixmap);
 	void		SetClipRect(const JRect& clipRect);
 	void		SetClipRegion(const Region clipRegion);
 	void		SetClipPixmap(const JPoint& offset, Pixmap pixmap);
@@ -41,7 +41,7 @@ public:
 	void	SetDrawingColor(const JColorID color);
 	void	SetDrawingFunction(const int function);
 	void	SetLineWidth(const JSize width);
-	void	DrawDashedLines(const JBoolean on);
+	void	DrawDashedLines(const bool on);
 	void	SetDashList(const JArray<JSize>& dashList, const JSize offset = 0);
 	void	SetSubwindowMode(const int mode);
 
@@ -99,18 +99,18 @@ private:
 
 	// buffered values
 
-	JBoolean	itsLastColorInit;
+	bool	itsLastColorInit;
 	JColorID 	itsLastColor;
 	int			itsLastFunction;
 	JSize		itsLastLineWidth;
-	JBoolean	itsDashedLinesFlag;
+	bool	itsDashedLinesFlag;
 	JFontID		itsLastFontID;
 	int			itsLastSubwindowMode;
 
 private:
 
 	void	ClearPrivateClipping();
-	int		GetXLineStyle(const JBoolean drawDashedLines) const;
+	int		GetXLineStyle(const bool drawDashedLines) const;
 
 	// not allowed
 

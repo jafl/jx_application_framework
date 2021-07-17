@@ -41,7 +41,7 @@ main
 
 #endif
 
-	JBoolean displayAbout;
+	bool displayAbout;
 	JString prevVersStr;
 	GFGApp* app = jnew GFGApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );

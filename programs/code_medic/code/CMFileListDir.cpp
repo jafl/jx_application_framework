@@ -159,7 +159,7 @@ CMFileListDir::BuildWindow()
 	window->SetTitle(JGetString("WindowTitleSuffix::CMFileListDir"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetFileListWindowClass());
 	CMGetPrefsManager()->GetWindowSize(kFileWindSizeID, window);
 
@@ -235,7 +235,7 @@ CMFileListDir::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMFileListDir::GetMenuIcon
 	(
 	const JXImage** icon
@@ -243,7 +243,7 @@ CMFileListDir::GetMenuIcon
 	const
 {
 	*icon = CMGetFileListIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

@@ -131,7 +131,7 @@ JXRadioGroup::NewSelection
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXRadioGroup::GetRadioButton
 	(
 	const JIndex	id,
@@ -146,12 +146,12 @@ JXRadioGroup::GetRadioButton
 	if (rb1 == end(*itsButtons))
 		{
 		*rb = nullptr;
-		return kJFalse;
+		return false;
 		}
 	else
 		{
 		*rb = *rb1;
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -209,13 +209,13 @@ JXRadioGroup::DrawBorder
 /******************************************************************************
  NeedsInternalFTC (virtual protected)
 
-	Return kJTrue if the contents are a set of widgets that need to expand.
+	Return true if the contents are a set of widgets that need to expand.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXRadioGroup::NeedsInternalFTC()
 	const
 {
-	return kJTrue;
+	return true;
 }

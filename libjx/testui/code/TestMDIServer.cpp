@@ -65,7 +65,7 @@ TestMDIServer::HandleMDIRequest
 		}
 
 	TestDirector* director = nullptr;
-	const JBoolean ok = (TestjxGetApplication())->GetMainDirector(&director);
+	const bool ok = (TestjxGetApplication())->GetMainDirector(&director);
 	assert( ok );
 
 	const JSize argCount = argList.GetElementCount();
@@ -79,7 +79,7 @@ TestMDIServer::HandleMDIRequest
 
 		JXStandAlonePG pg;
 		pg.RaiseWhenUpdate();
-		pg.FixedLengthProcessBeginning(argCount-1, JGetString("OpeningFiles::TestMDIServer"), kJTrue, kJFalse);
+		pg.FixedLengthProcessBeginning(argCount-1, JGetString("OpeningFiles::TestMDIServer"), true, false);
 
 		for (JIndex i=2; i<=argCount; i++)
 			{

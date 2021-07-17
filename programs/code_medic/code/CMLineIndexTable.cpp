@@ -130,7 +130,7 @@ CMLineIndexTable::CMLineIndexTable
 	itsBPList->SetCompareFunction(bpCcompareFn);
 	itsBPList->SetSortOrder(JListT::kSortAscending);
 
-	WantInput(kJFalse);
+	WantInput(false);
 	SetBackColor(CMGetPrefsManager()->GetColor(CMPrefsManager::kBackColorIndex));
 	SetFocusColor(GetBackColor());
 	SetRowBorderInfo(0, GetBackColor());
@@ -225,11 +225,11 @@ CMLineIndexTable::TableDrawCell
 		poly.AppendElement(JPoint(rect.left+kMarginWidth,       rect.top + 2*delta));
 
 		p.SetPenColor(GetCurrentLineMarkerColor());
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Polygon(poly);
 
 		p.SetPenColor(JColorManager::GetBlackColor());
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		p.Polygon(poly);
 		}
 
@@ -260,7 +260,7 @@ CMLineIndexTable::DrawBreakpoints
 {
 	// check for breakpoint(s) on this line
 
-	JBoolean hasMultiple;
+	bool hasMultiple;
 	if (!FindNextBreakpoint(cell.y, &hasMultiple))
 		{
 		return;
@@ -309,13 +309,13 @@ CMLineIndexTable::DrawBreakpoint
 		bp->HasCondition() ? JColorManager::GetYellowColor() : JColorManager::GetRedColor();
 
 	p.SetPenColor(color);
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.Ellipse(rect);
 
 	if (bp->GetAction() != CMBreakpoint::kRemoveBreakpoint)
 		{
 		p.SetPenColor(JColorManager::GetBlackColor());
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		p.Ellipse(rect);
 		}
 }
@@ -324,24 +324,24 @@ CMLineIndexTable::DrawBreakpoint
  FindNextBreakpoint (private)
 
 	Increments itsBPDrawIndex to point to the first breakpoint at or beyond
-	the given rowIndex.  Returns kJTrue if the breakpoint is on the
+	the given rowIndex.  Returns true if the breakpoint is on the
 	specified line.
 
-	If multiple != nullptr, it it set to kJTrue if there is more than one
+	If multiple != nullptr, it it set to true if there is more than one
 	breakpoint on the specified line.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMLineIndexTable::FindNextBreakpoint
 	(
 	const JIndex	rowIndex,
-	JBoolean*		multiple
+	bool*		multiple
 	)
 {
 	if (multiple != nullptr)
 		{
-		*multiple = kJFalse;
+		*multiple = false;
 		}
 
 	while (itsBPList->IndexValid(itsBPDrawIndex))
@@ -354,16 +354,16 @@ CMLineIndexTable::FindNextBreakpoint
 				{
 				*multiple = BreakpointsOnSameLine(bp, itsBPList->GetElement(itsBPDrawIndex+1));
 				}
-			return kJTrue;
+			return true;
 			}
 		if (i > rowIndex)
 			{
-			return kJFalse;
+			return false;
 			}
 		itsBPDrawIndex++;
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -371,7 +371,7 @@ CMLineIndexTable::FindNextBreakpoint
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMLineIndexTable::HasMultipleBreakpointsOnLine
 	(
 	const JIndex bpIndex
@@ -381,7 +381,7 @@ CMLineIndexTable::HasMultipleBreakpointsOnLine
 	if (!itsBPList->IndexValid(bpIndex) ||
 		!itsBPList->IndexValid(bpIndex+1))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	return BreakpointsOnSameLine(
@@ -420,7 +420,7 @@ CMLineIndexTable::HandleMouseDown
 
 	if (button == kJXRightButton)
 		{
-		OpenLineMenu(lineIndex, pt, buttonStates, modifiers, kJFalse);
+		OpenLineMenu(lineIndex, pt, buttonStates, modifiers, false);
 		}
 	else if (button == kJXLeftButton &&
 			 modifiers.GetState(JXMenu::AdjustNMShortcutModifier(kJXMetaKeyIndex)) &&
@@ -456,13 +456,12 @@ CMLineIndexTable::AdjustBreakpoints
 	JIndex bpIndex;
 	if (!GetFirstBreakpointOnLine(lineIndex, &bpIndex))
 		{
-		SetBreakpoint(lineIndex, JI2B(
-			modifiers.GetState(JXMenu::AdjustNMShortcutModifier(kJXMetaKeyIndex)) &&
-			modifiers.shift()));
+		SetBreakpoint(lineIndex, modifiers.GetState(JXMenu::AdjustNMShortcutModifier(kJXMetaKeyIndex)) &&
+			modifiers.shift());
 		}
 	else if (HasMultipleBreakpointsOnLine(bpIndex))
 		{
-		OpenLineMenu(lineIndex, pt, buttonStates, modifiers, kJTrue, bpIndex);
+		OpenLineMenu(lineIndex, pt, buttonStates, modifiers, true, bpIndex);
 		}
 	else if (modifiers.shift())
 		{
@@ -486,7 +485,7 @@ CMLineIndexTable::OpenLineMenu
 	const JPoint&			pt,
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers,
-	const JBoolean			onlyBreakpoints,
+	const bool			onlyBreakpoints,
 	const JIndex			firstBPIndex
 	)
 {
@@ -494,7 +493,7 @@ CMLineIndexTable::OpenLineMenu
 		{
 		itsLineMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsLineMenu != nullptr );
-		itsLineMenu->SetToHiddenPopupMenu(kJTrue);
+		itsLineMenu->SetToHiddenPopupMenu(true);
 		itsLineMenu->SetUpdateAction(JXMenu::kDisableNone);
 		ListenTo(itsLineMenu);
 		}
@@ -570,10 +569,10 @@ CMLineIndexTable::UpdateLineMenu()
 	JSize offset = 0;
 	if (itsIsFullLineMenuFlag)
 		{
-		const JBoolean stopped = itsLink->ProgramIsStopped();
+		const bool stopped = itsLink->ProgramIsStopped();
 		itsLineMenu->SetItemEnable(offset + kRunUntilCmd, stopped);
 		itsLineMenu->SetItemEnable(offset + kSetExecPtCmd,
-			JI2B(stopped && itsLink->GetFeature(CMLink::kSetExecutionPoint)));
+			stopped && itsLink->GetFeature(CMLink::kSetExecutionPoint));
 
 		offset += kLineMenuItemCount;
 		}
@@ -643,12 +642,12 @@ CMLineIndexTable::HandleLineMenu
 
 	if (index == offset + kSetBreakpointCmd)
 		{
-		SetBreakpoint(itsLineMenuLineIndex, kJFalse);
+		SetBreakpoint(itsLineMenuLineIndex, false);
 		return;
 		}
 	else if (index == offset + kSetTempBreakpointCmd)
 		{
-		SetBreakpoint(itsLineMenuLineIndex, kJTrue);
+		SetBreakpoint(itsLineMenuLineIndex, true);
 		return;
 		}
 	else if (index == offset + kRemoveAllBreakpointsCmd)

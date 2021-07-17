@@ -22,7 +22,7 @@ public:
 
 	virtual void	SetCount(const JStyledText::TextCount& count) override;
 
-	JBoolean	SameStartIndex(const JStyledText::TextRange& range) const;
+	bool	SameStartIndex(const JStyledText::TextRange& range) const;
 
 private:
 

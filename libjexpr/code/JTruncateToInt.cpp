@@ -72,7 +72,7 @@ JTruncateToInt::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTruncateToInt::Evaluate
 	(
 	JFloat* result
@@ -82,14 +82,14 @@ JTruncateToInt::Evaluate
 	JFloat value;
 	if (!GetArg()->Evaluate(&value))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = JTruncate(value);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JTruncateToInt::Evaluate
 	(
 	JComplex* result
@@ -99,7 +99,7 @@ JTruncateToInt::Evaluate
 	JComplex value;
 	if (!GetArg()->Evaluate(&value))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = JComplex(JTruncate(real(value)), JTruncate(imag(value)));

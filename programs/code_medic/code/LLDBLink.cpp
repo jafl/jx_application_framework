@@ -54,23 +54,23 @@
 
 extern char **environ;
 
-static const JBoolean kFeatures[]=
+static const bool kFeatures[]=
 {
-	kJTrue,		// kSetProgram
-	kJTrue,		// kSetArgs
-	kJTrue,		// kSetCore -- lldb requires program to be chosen first, unlike gdb
-	kJTrue,		// kSetProcess -- lldb requires program to be chosen first, unlike gdb
-	kJTrue,		// kRunProgram
-	kJTrue,		// kStopProgram
-	kJTrue,		// kSetExecutionPoint
-	kJFalse,	// kExecuteBackwards
-	kJTrue,		// kShowBreakpointInfo
-	kJTrue,		// kSetBreakpointCondition
-	kJTrue,		// kSetBreakpointIgnoreCount
-	kJTrue,		// kWatchExpression
-	kJTrue,		// kWatchLocation
-	kJTrue,		// kExamineMemory
-	kJTrue,		// kDisassembleMemory
+	true,		// kSetProgram
+	true,		// kSetArgs
+	true,		// kSetCore -- lldb requires program to be chosen first, unlike gdb
+	true,		// kSetProcess -- lldb requires program to be chosen first, unlike gdb
+	true,		// kRunProgram
+	true,		// kStopProgram
+	true,		// kSetExecutionPoint
+	false,	// kExecuteBackwards
+	true,		// kShowBreakpointInfo
+	true,		// kSetBreakpointCondition
+	true,		// kSetBreakpointIgnoreCount
+	true,		// kWatchExpression
+	true,		// kWatchLocation
+	true,		// kExamineMemory
+	true,		// kDisassembleMemory
 };
 
 const uint32_t kLLDBEventMask = 0xFFFFFFFF;
@@ -94,7 +94,7 @@ LLDBLink::LLDBLink()
 	itsBPMgr = jnew LLDBBreakpointManager(this);
 	assert( itsBPMgr != nullptr );
 
-	StartDebugger(kJFalse);
+	StartDebugger(false);
 }
 
 /******************************************************************************
@@ -119,7 +119,7 @@ LLDBLink::~LLDBLink()
 void
 LLDBLink::InitFlags()
 {
-	itsIsAttachedFlag = kJFalse;
+	itsIsAttachedFlag = false;
 }
 
 /******************************************************************************
@@ -152,11 +152,11 @@ LLDBLink::GetScriptPrompt()
 
  ******************************************************************************/
 
-JBoolean
+bool
 LLDBLink::DebuggerHasStarted()
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -176,11 +176,11 @@ LLDBLink::GetChooseProgramInstructions()
 
  ******************************************************************************/
 
-JBoolean
+bool
 LLDBLink::HasProgram()
 	const
 {
-	return JI2B(itsDebugger->GetNumTargets() > 0);
+	return itsDebugger->GetNumTargets() > 0;
 }
 
 /******************************************************************************
@@ -188,7 +188,7 @@ LLDBLink::HasProgram()
 
  ******************************************************************************/
 
-JBoolean
+bool
 LLDBLink::GetProgram
 	(
 	JString* fullName
@@ -199,14 +199,14 @@ LLDBLink::GetProgram
 	if (f.Exists())
 	{
 		*fullName = JCombinePathAndName(
-			JString(f.GetDirectory(), kJFalse),
-			JString(f.GetFilename(), kJFalse));
-		return kJTrue;
+			JString(f.GetDirectory(), JString::kNoCopy),
+			JString(f.GetFilename(), JString::kNoCopy));
+		return true;
 	}
 	else
 	{
 		fullName->Clear();
-		return kJFalse;
+		return false;
 	}
 }
 
@@ -215,7 +215,7 @@ LLDBLink::GetProgram
 
  ******************************************************************************/
 
-JBoolean
+bool
 LLDBLink::HasCore()
 	const
 {
@@ -227,7 +227,7 @@ LLDBLink::HasCore()
 
  ******************************************************************************/
 
-JBoolean
+bool
 LLDBLink::GetCore
 	(
 	JString* fullName
@@ -243,16 +243,16 @@ LLDBLink::GetCore
 
  ******************************************************************************/
 
-JBoolean
+bool
 LLDBLink::HasLoadedSymbols()
 	const
 {
 	lldb::SBProcess p     = itsDebugger->GetSelectedTarget().GetProcess();
 	lldb::StateType state = p.GetState();
-	return JI2B(p.IsValid() &&
+	return p.IsValid() &&
 				state != lldb::eStateInvalid  &&
 				state != lldb::eStateUnloaded &&
-				state != lldb::eStateConnected);
+				state != lldb::eStateConnected;
 }
 
 /******************************************************************************
@@ -260,20 +260,20 @@ LLDBLink::HasLoadedSymbols()
 
  *****************************************************************************/
 
-JBoolean
+bool
 LLDBLink::IsDebugging()
 	const
 {
 	lldb::SBProcess p     = itsDebugger->GetSelectedTarget().GetProcess();
 	lldb::StateType state = p.GetState();
-	return JI2B(p.IsValid() &&
+	return p.IsValid() &&
 				(state == lldb::eStateAttaching ||
 				 state == lldb::eStateLaunching ||
 				 state == lldb::eStateRunning   ||
 				 state == lldb::eStateStepping  ||
 				 state == lldb::eStateStopped   ||
 				 state == lldb::eStateCrashed   ||
-				 state == lldb::eStateSuspended));
+				 state == lldb::eStateSuspended);
 }
 
 /******************************************************************************
@@ -281,17 +281,17 @@ LLDBLink::IsDebugging()
 
  *****************************************************************************/
 
-JBoolean
+bool
 LLDBLink::ProgramIsRunning()
 	const
 {
 	lldb::SBProcess p     = itsDebugger->GetSelectedTarget().GetProcess();
 	lldb::StateType state = p.GetState();
-	return JI2B(p.IsValid() &&
+	return p.IsValid() &&
 				(state == lldb::eStateAttaching ||
 				 state == lldb::eStateLaunching ||
 				 state == lldb::eStateRunning   ||
-				 state == lldb::eStateStepping));
+				 state == lldb::eStateStepping);
 }
 
 /******************************************************************************
@@ -299,16 +299,16 @@ LLDBLink::ProgramIsRunning()
 
  *****************************************************************************/
 
-JBoolean
+bool
 LLDBLink::ProgramIsStopped()
 	const
 {
 	lldb::SBProcess p     = itsDebugger->GetSelectedTarget().GetProcess();
 	lldb::StateType state = p.GetState();
-	return JI2B(p.IsValid() &&
+	return p.IsValid() &&
 				(state == lldb::eStateStopped   ||
 				 state == lldb::eStateCrashed   ||
-				 state == lldb::eStateSuspended));
+				 state == lldb::eStateSuspended);
 }
 
 /******************************************************************************
@@ -316,7 +316,7 @@ LLDBLink::ProgramIsStopped()
 
  *****************************************************************************/
 
-JBoolean
+bool
 LLDBLink::OKToSendMultipleCommands()
 	const
 {
@@ -328,14 +328,14 @@ LLDBLink::OKToSendMultipleCommands()
 
  *****************************************************************************/
 
-JBoolean
+bool
 LLDBLink::OKToSendCommands
 	(
-	const JBoolean background
+	const bool background
 	)
 	const
 {
-	return JNegate(ProgramIsRunning());
+	return !ProgramIsRunning();
 }
 
 /******************************************************************************
@@ -343,11 +343,11 @@ LLDBLink::OKToSendCommands
 
  *****************************************************************************/
 
-JBoolean
+bool
 LLDBLink::IsDefiningScript()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -365,14 +365,14 @@ LLDBLink::HandleLLDBEvent()
 	if (count > 0)
 		{
 		buf[ count ] = '\0';
-		Broadcast(UserOutput(JString(buf, kJFalse), kJFalse));
+		Broadcast(UserOutput(JString(buf, JString::kNoCopy), false));
 		}
 
 	count = fread(buf, sizeof(JUtf8Byte), 1023, itsDebugger->GetErrorFileHandle());
 	if (count > 0)
 		{
 		buf[ count ] = '\0';
-		Broadcast(UserOutput(JString(buf, kJFalse), kJTrue));
+		Broadcast(UserOutput(JString(buf, JString::kNoCopy), true));
 		}
 
 	// read from process
@@ -399,14 +399,14 @@ LLDBLink::HandleLLDBEvent()
 				}
 			itsLastProgramInput.Clear();
 
-			Broadcast(UserOutput(JString(b, kJFalse), kJFalse, kJTrue));
+			Broadcast(UserOutput(JString(b, JString::kNoCopy), false, true));
 			}
 
 		count = p.GetSTDERR(buf, 1023);
 		if (count > 0)
 			{
 			buf[ count ] = '\0';
-			Broadcast(UserOutput(JString(buf, kJFalse), kJTrue, kJTrue));
+			Broadcast(UserOutput(JString(buf, JString::kNoCopy), true, true));
 			}
 		}
 
@@ -527,7 +527,7 @@ LLDBLink::ReceiveLLDBMessageLine
 	)
 {
 	const JString msg(line, count);
-	static_cast<LLDBLink*>(baton)->Broadcast(UserOutput(msg, kJFalse));
+	static_cast<LLDBLink*>(baton)->Broadcast(UserOutput(msg, false));
 	return count;
 }
 
@@ -545,7 +545,7 @@ LLDBLink::ReceiveLLDBErrorLine
 	)
 {
 	const JString msg(line, count);
-	static_cast<LLDBLink*>(baton)->Broadcast(UserOutput(msg, kJTrue));
+	static_cast<LLDBLink*>(baton)->Broadcast(UserOutput(msg, true));
 	return count;
 }
 
@@ -561,7 +561,7 @@ LLDBLink::LogLLDBMessage
 	void*				baton
 	)
 {
-	static_cast<LLDBLink*>(baton)->Broadcast(DebugOutput(JString(msg, kJFalse), kLogType));
+	static_cast<LLDBLink*>(baton)->Broadcast(DebugOutput(JString(msg, JString::kNoCopy), kLogType));
 }
 
 /******************************************************************************
@@ -575,7 +575,7 @@ LLDBLink::SetProgram
 	const JString& fullName
 	)
 {
-	DetachOrKill(kJTrue);
+	DetachOrKill(true);
 
 	lldb::SBTarget t = itsDebugger->CreateTarget(fullName.GetBytes());
 	if (t.IsValid())
@@ -604,7 +604,7 @@ LLDBLink::SymbolsLoaded
 	JString path, name;
 	JSplitPathAndName(fullName, &path, &name);
 	Broadcast(PrepareToLoadSymbols());
-	Broadcast(CMLink::SymbolsLoaded(kJTrue, name));
+	Broadcast(CMLink::SymbolsLoaded(true, name));
 }
 
 /******************************************************************************
@@ -633,7 +633,7 @@ LLDBLink::SetCore
 	const JString& fullName
 	)
 {
-	DetachOrKill(kJFalse);
+	DetachOrKill(false);
 
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
 	if (t.IsValid())
@@ -647,8 +647,8 @@ LLDBLink::SetCore
 		JString cmdStr("target create --core ");
 		cmdStr += fullName;
 		SendRaw(cmdStr);
-		SendRaw(JString("frame select 1", kJFalse));
-		SendRaw(JString("frame select 0", kJFalse));
+		SendRaw(JString("frame select 1", JString::kNoCopy));
+		SendRaw(JString("frame select 0", JString::kNoCopy));
 		}
 }
 
@@ -663,7 +663,7 @@ LLDBLink::AttachToProcess
 	const pid_t pid
 	)
 {
-	DetachOrKill(kJTrue);
+	DetachOrKill(true);
 
 	lldb::SBTarget t = itsDebugger->CreateTarget("");
 	if (t.IsValid())
@@ -676,17 +676,17 @@ LLDBLink::AttachToProcess
 
 		if (e.Fail())
 			{
-			Broadcast(UserOutput(JString(e.GetCString(), kJFalse), kJTrue));
+			Broadcast(UserOutput(JString(e.GetCString(), JString::kNoCopy), true));
 			}
 		else if (t.IsValid())
 			{
-			itsIsAttachedFlag = kJTrue;
+			itsIsAttachedFlag = true;
 			StartListeningForEvents(t.GetBroadcaster(), kLLDBEventMask);
 
 			lldb::SBFileSpec f     = t.GetExecutable();
 			const JString fullName = JCombinePathAndName(
-				JString(f.GetDirectory(), kJFalse),
-				JString(f.GetFilename(), kJFalse));
+				JString(f.GetDirectory(), JString::kNoCopy),
+				JString(f.GetFilename(), JString::kNoCopy));
 
 			LLDBSymbolsLoadedTask* task = jnew LLDBSymbolsLoadedTask(fullName);
 			assert( task != nullptr );
@@ -711,7 +711,7 @@ LLDBLink::RunProgram
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
 	if (t.IsValid())
 		{
-		DetachOrKill(kJFalse);
+		DetachOrKill(false);
 
 		JUtf8Byte** lldbArgs = nullptr;
 
@@ -761,7 +761,7 @@ LLDBLink::ShowBreakpointInfo
 	const JIndex debuggerIndex
 	)
 {
-	SendRaw(JString("breakpoint list", kJFalse));
+	SendRaw(JString("breakpoint list", JString::kNoCopy));
 }
 
 /******************************************************************************
@@ -774,7 +774,7 @@ LLDBLink::SetBreakpoint
 	(
 	const JString&	fileName,
 	const JIndex	lineIndex,
-	const JBoolean	temporary
+	const bool	temporary
 	)
 {
 	JString path, name;
@@ -797,7 +797,7 @@ void
 LLDBLink::SetBreakpoint
 	(
 	const JString&	address,
-	const JBoolean	temporary
+	const bool	temporary
 	)
 {
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
@@ -929,8 +929,8 @@ void
 LLDBLink::SetBreakpointEnabled
 	(
 	const JIndex	debuggerIndex,
-	const JBoolean	enabled,
-	const JBoolean	once
+	const bool	enabled,
+	const bool	once
 	)
 {
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
@@ -1009,7 +1009,7 @@ LLDBLink::WatchExpression
 	const JString& expr
 	)
 {
-	Watch(expr, kJFalse);
+	Watch(expr, false);
 }
 
 /******************************************************************************
@@ -1023,7 +1023,7 @@ LLDBLink::WatchLocation
 	const JString& expr
 	)
 {
-	Watch(expr, kJTrue);
+	Watch(expr, true);
 }
 
 /******************************************************************************
@@ -1035,7 +1035,7 @@ void
 LLDBLink::Watch
 	(
 	const JString&	expr,
-	const JBoolean	resolveAddress
+	const bool	resolveAddress
 	)
 {
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
@@ -1167,7 +1167,7 @@ LLDBLink::RunUntil
 {
 	if (ProgramIsStopped())
 		{
-		SetBreakpoint(fileName, lineIndex, kJTrue);
+		SetBreakpoint(fileName, lineIndex, true);
 		Continue();
 		}
 }
@@ -1575,7 +1575,7 @@ LLDBLink::CreateVarContentCommand
 CMVarNode*
 LLDBLink::CreateVarNode
 	(
-	const JBoolean shouldUpdate		// kJFalse for Local Variables
+	const bool shouldUpdate		// false for Local Variables
 	)
 {
 	CMVarNode* node = jnew LLDBVarNode(shouldUpdate);
@@ -1733,7 +1733,7 @@ LLDBLink::SendMedicCommandSync
 	)
 {
 	HandleCommandRunning(command->GetTransactionID());
-	command->Finished(kJTrue);	// may delete object
+	command->Finished(true);	// may delete object
 	SetRunningCommand(nullptr);
 
 	if (!HasForegroundCommands())
@@ -1763,7 +1763,7 @@ LLDBLink::ProgramStarted
 
  *****************************************************************************/
 
-JBoolean
+bool
 LLDBLink::ProgramStopped
 	(
 	JString* msg
@@ -1779,14 +1779,14 @@ LLDBLink::ProgramStopped
 		if (file.IsValid())
 			{
 			fullName = JCombinePathAndName(
-				JString(file.GetDirectory(), kJFalse),
-				JString(file.GetFilename(), kJFalse));
+				JString(file.GetDirectory(), JString::kNoCopy),
+				JString(file.GetFilename(), JString::kNoCopy));
 			}
 		CMLocation location(fullName, line.IsValid() ? line.GetLine() : 0);
 
 		if (f.GetFunctionName() != nullptr)
 			{
-			location.SetFunctionName(JString(f.GetFunctionName(), kJFalse));
+			location.SetFunctionName(JString(f.GetFunctionName(), JString::kNoCopy));
 			}
 
 		const lldb::SBAddress addr = f.GetPCAddress();
@@ -1804,7 +1804,7 @@ LLDBLink::ProgramStopped
 					", func: " + location.GetFunctionName() +
 					", addr: " + location.GetMemoryAddress();
 			}
-		return JI2B(file.IsValid());
+		return file.IsValid();
 		}
 	else
 		{
@@ -1812,7 +1812,7 @@ LLDBLink::ProgramStopped
 			{
 			msg->Clear();
 			}
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1827,7 +1827,7 @@ LLDBLink::ProgramFinished1()
 	if (itsIsAttachedFlag)
 		{
 		Broadcast(DetachedFromProcess());
-		itsIsAttachedFlag = kJFalse;
+		itsIsAttachedFlag = false;
 		}
 
 	lldb::SBProcess p = itsDebugger->GetSelectedTarget().GetProcess();
@@ -1844,7 +1844,7 @@ LLDBLink::ProgramFinished1()
 		reasonStr                  = JPrintChildExitReason(cer, result) + "\n\n";
 		}
 
-	Broadcast(UserOutput(reasonStr, kJFalse));
+	Broadcast(UserOutput(reasonStr, false));
 	Broadcast(ProgramFinished());
 
 	Broadcast(DebuggerReadyForInput());
@@ -1891,7 +1891,7 @@ LLDBLink::KillProgram()
 void
 LLDBLink::DetachOrKill
 	(
-	const JBoolean destroyTarget
+	const bool destroyTarget
 	)
 {
 	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
@@ -1901,7 +1901,7 @@ LLDBLink::DetachOrKill
 		if (itsIsAttachedFlag)
 			{
 			p.Detach();
-			itsIsAttachedFlag = kJFalse;
+			itsIsAttachedFlag = false;
 			}
 		else
 			{
@@ -1921,7 +1921,7 @@ LLDBLink::DetachOrKill
 
  *****************************************************************************/
 
-JBoolean
+bool
 LLDBLink::OKToDetachOrKill()
 	const
 {
@@ -1935,7 +1935,7 @@ LLDBLink::OKToDetachOrKill()
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -1944,10 +1944,10 @@ LLDBLink::OKToDetachOrKill()
 
  *****************************************************************************/
 
-JBoolean
+bool
 LLDBLink::StartDebugger
 	(
-	const JBoolean restart
+	const bool restart
 	)
 {
 	assert( itsDebugger == nullptr );
@@ -1994,12 +1994,12 @@ LLDBLink::StartDebugger
 		assert( task != nullptr );
 		task->Go();
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		JGetStringManager()->ReportError("UnableToStartDebugger::LLDBLink", JString::empty);
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2011,7 +2011,7 @@ LLDBLink::StartDebugger
 void
 LLDBLink::StopDebugger()
 {
-	DetachOrKill(kJTrue);
+	DetachOrKill(true);
 
 	fclose(itsStdoutStream);
 	itsStdoutStream = nullptr;
@@ -2031,10 +2031,10 @@ LLDBLink::StopDebugger()
 
  *****************************************************************************/
 
-JBoolean
+bool
 LLDBLink::RestartDebugger()
 {
-	const JBoolean symbolsWereLoaded = HasLoadedSymbols();
+	const bool symbolsWereLoaded = HasLoadedSymbols();
 
 	StopDebugger();
 	return StartDebugger(symbolsWereLoaded);
@@ -2045,8 +2045,8 @@ LLDBLink::RestartDebugger()
 
  *****************************************************************************/
 
-JBoolean
+bool
 LLDBLink::ChangeDebugger()
 {
-	return kJTrue;
+	return true;
 }

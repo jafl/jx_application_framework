@@ -21,12 +21,12 @@ public:
 
 	virtual ~CBCommandPathInput();
 
-	virtual JBoolean	InputValid();
-	virtual JBoolean	GetPath(JString* path) const;
+	virtual bool	InputValid();
+	virtual bool	GetPath(JString* path) const;
 	virtual JString		GetTextForChoosePath() const;
 
 	static JColorID	GetTextColor(const JString& path, const JString& base,
-								 const JBoolean requireWrite);
+								 const bool requireWrite);
 
 protected:
 
@@ -45,7 +45,7 @@ protected:
 							const JString& text, JRunArray<JFont>* styles,
 							JStyledText::TextRange* recalcRange,
 							JStyledText::TextRange* redrawRange,
-							const JBoolean deletion) override;
+							const bool deletion) override;
 	};
 
 private:

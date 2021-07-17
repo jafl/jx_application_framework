@@ -127,7 +127,7 @@ JFSFileTreeNode::UpdateAfterGo()
 
 	This provides an efficient way to rename a file.
 
-	If sort==kJFalse, it is the caller's responsibility to call
+	If sort==false, it is the caller's responsibility to call
 	(node->GetParent())->SortChildren().
 
  ******************************************************************************/
@@ -136,7 +136,7 @@ JError
 JFSFileTreeNode::Rename
 	(
 	const JString&	newName,
-	const JBoolean	sort
+	const bool	sort
 	)
 {
 	if (newName == GetName())
@@ -214,7 +214,7 @@ JFSFileTreeNode::UpdatePath
 	JAppendDirSeparator(&fullName);		// need exact match for directories
 	if (fullName.BeginsWith(oldPath))
 		{
-		const JBoolean setName = JI2B(fullName == oldPath);
+		const bool setName = fullName == oldPath;
 
 		JStringIterator iter(&fullName);
 		iter.BeginMatch();
@@ -273,7 +273,7 @@ JFSFileTreeNode::UpdatePath
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFSFileTreeNode::CanHaveChildren()
 	const
 {
@@ -282,7 +282,7 @@ JFSFileTreeNode::CanHaveChildren()
 
 // static
 
-JBoolean
+bool
 JFSFileTreeNode::CanHaveChildren
 	(
 	const JDirEntry& entry
@@ -291,14 +291,14 @@ JFSFileTreeNode::CanHaveChildren
 	return CanHaveChildren(entry.GetFullName());
 }
 
-JBoolean
+bool
 JFSFileTreeNode::CanHaveChildren
 	(
 	const JString& path
 	)
 {
-	return JI2B(JDirectoryReadable(path) &&
-				JCanEnterDirectory(path));
+	return JDirectoryReadable(path) &&
+				JCanEnterDirectory(path);
 }
 
 /******************************************************************************
@@ -306,13 +306,13 @@ JFSFileTreeNode::CanHaveChildren
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFSFileTreeNode::OKToOpen()
 	const
 {
 	if (!JFSFileTreeNodeBase::OKToOpen())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JFSFileTreeNode* me = const_cast<JFSFileTreeNode*>(this);
@@ -325,7 +325,7 @@ JFSFileTreeNode::OKToOpen()
 		me->Update();
 		}
 
-	return JI2B(itsDirInfo != nullptr);
+	return itsDirInfo != nullptr;
 }
 
 /******************************************************************************
@@ -354,19 +354,19 @@ JFSFileTreeNode::BuildChildList()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFSFileTreeNode::CreateDirInfo()
 {
 	if (itsDirInfo != nullptr)
 		{
-		return kJTrue;
+		return true;
 		}
 
 	assert( !HasChildren() );
 
 	const JString fullName = itsDirEntry->GetFullName();
 
-	JBoolean ok = kJFalse;
+	bool ok = false;
 	JTreeNode* parent;
 	if (GetParent(&parent))
 		{
@@ -406,7 +406,7 @@ JFSFileTreeNode::Receive
 	if (sender == itsDirInfo && message.Is(JDirInfo::kSettingsChanged))
 		{
 		UpdateDirInfoSettings(*itsDirInfo);
-		Update(kJTrue);		// force call to UpdateChildren()
+		Update(true);		// force call to UpdateChildren()
 		}
 	else
 		{
@@ -417,7 +417,7 @@ JFSFileTreeNode::Receive
 /******************************************************************************
  UpdateDirInfoSettings (private)
 
-	Caller must call Update(kJTrue);
+	Caller must call Update(true);
 
  ******************************************************************************/
 
@@ -464,27 +464,27 @@ JFSFileTreeNode::CreateChild
 /******************************************************************************
  Update (virtual)
 
-	Returns kJTrue if anything changed.
+	Returns true if anything changed.
 
 	If !force && *updateNode != nullptr, sets *updateNode to next node
 	in depth-first search.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFSFileTreeNode::Update
 	(
-	const JBoolean			force,
+	const bool			force,
 	JFSFileTreeNodeBase**	updateNode
 	)
 {
-	JBoolean changed = itsDirEntry->Update(force);
+	bool changed = itsDirEntry->Update(force);
 	if (changed)
 		{
 		GetTree()->BroadcastChange(this);
 		}
 
-	const JBoolean canHaveChildren = CanHaveChildren();
+	const bool canHaveChildren = CanHaveChildren();
 	ShouldBeOpenable(canHaveChildren);
 
 	if (canHaveChildren && itsDirInfo != nullptr)
@@ -492,7 +492,7 @@ JFSFileTreeNode::Update
 		if (itsDirInfo->Update(force))
 			{
 			UpdateChildren();
-			changed = kJTrue;
+			changed = true;
 			}
 
 		// check if subdirectories need updating
@@ -500,14 +500,14 @@ JFSFileTreeNode::Update
 		if ((force || updateNode == nullptr || *updateNode == nullptr) &&
 			JFSFileTreeNodeBase::Update(force, updateNode))
 			{
-			changed = kJTrue;
+			changed = true;
 			}
 		}
 	else if (!canHaveChildren)
 		{
 		if (itsDirInfo != nullptr)
 			{
-			changed = kJTrue;
+			changed = true;
 			}
 
 		jdelete itsDirInfo;
@@ -796,17 +796,17 @@ JFSFileTreeNode::GetFSChild
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFSFileTreeNode::GetDirInfo
 	(
 	JDirInfo** info
 	)
 {
 	*info = itsDirInfo;
-	return JI2B( itsDirInfo != nullptr );
+	return itsDirInfo != nullptr;
 }
 
-JBoolean
+bool
 JFSFileTreeNode::GetDirInfo
 	(
 	const JDirInfo** info
@@ -814,5 +814,5 @@ JFSFileTreeNode::GetDirInfo
 	const
 {
 	*info = itsDirInfo;
-	return JI2B( itsDirInfo != nullptr );
+	return itsDirInfo != nullptr;
 }

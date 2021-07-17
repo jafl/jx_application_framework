@@ -22,10 +22,10 @@ public:
 
 	virtual	~JSpellChecker();
 
-	JBoolean	IsAvailable() const;
+	bool	IsAvailable() const;
 
-	JBoolean	CheckWord(const JString& word, JPtrArray<JString>* suggestionList,
-						  JBoolean* goodFirstSuggestion);
+	bool	CheckWord(const JString& word, JPtrArray<JString>* suggestionList,
+						  bool* goodFirstSuggestion);
 
 	void	Learn(const JString& word);
 	void	LearnCaps(const JString& word);
@@ -51,11 +51,11 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JSpellChecker::IsAvailable()
 	const
 {
-	return JI2B(itsProcess != nullptr);
+	return itsProcess != nullptr;
 }
 
 #endif

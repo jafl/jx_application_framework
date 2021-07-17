@@ -66,19 +66,19 @@ const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStringCompleter*
 CBHTMLCompleter::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBHTMLCompleter;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -102,7 +102,7 @@ CBHTMLCompleter::Shutdown()
 
 CBHTMLCompleter::CBHTMLCompleter()
 	:
-	CBStringCompleter(kCBHTMLLang, kKeywordCount, kKeywordList, kJTrue)
+	CBStringCompleter(kCBHTMLLang, kKeywordCount, kKeywordList, JString::kCompareCase)
 {
 }
 
@@ -121,15 +121,15 @@ CBHTMLCompleter::~CBHTMLCompleter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBHTMLCompleter::IsWordCharacter
 	(
 	const JUtf8Character&	c,
-	const JBoolean			includeNS
+	const bool				includeNS
 	)
 	const
 {
-	return JNegate(c == '<' || c == '>' || c == '&' || c == '=' || c.IsSpace());
+	return c != '<' && c != '>' && c != '&' && c != '=' && !c.IsSpace();
 }
 
 /******************************************************************************

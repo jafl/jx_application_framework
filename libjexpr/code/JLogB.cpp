@@ -78,7 +78,7 @@ JLogB::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JLogB::Evaluate
 	(
 	JFloat* result
@@ -88,18 +88,18 @@ JLogB::Evaluate
 	JFloat b,x;
 	if (!(GetArg1())->Evaluate(&b) || b <= 1.0)
 		{
-		return kJFalse;
+		return false;
 		}
 	if (!(GetArg2())->Evaluate(&x))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = log(x)/log(b);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JLogB::Evaluate
 	(
 	JComplex* result
@@ -110,11 +110,11 @@ JLogB::Evaluate
 	JComplex x;
 	if (!(GetArg1())->Evaluate(&b) || b <= 1.0)
 		{
-		return kJFalse;
+		return false;
 		}
 	if (!(GetArg2())->Evaluate(&x))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = log(x)/log(b);
@@ -200,7 +200,7 @@ JLogB::Render
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);
@@ -221,7 +221,7 @@ JLogB::Render
 	arg->Render(renderer, rectList);
 
 	JIndex argIndex;
-	const JBoolean foundArg = rectList.FindFunction(arg, &argIndex);
+	const bool foundArg = rectList.FindFunction(arg, &argIndex);
 	assert( foundArg );
 	renderer.DrawParentheses(rectList.GetRect(argIndex));
 }

@@ -9,20 +9,20 @@
 	void	CRMConvertTab(JString* charBuffer, JSize* charCount,
 						  const JSize currentLineWidth) const;
 
-	JBoolean	PrivateCleanRightMargin(const JBoolean coerce,
+	bool	PrivateCleanRightMargin(const bool coerce,
 										JCharacterRange* textRange,
 										JString* newText, JRunArray<JFont>* newStyles,
 										TextIndex* newCaretIndex) const;
-	JBoolean	CRMGetRange(const TextIndex& caretChar, const JBoolean coerce,
+	bool	CRMGetRange(const TextIndex& caretChar, const bool coerce,
 							JCharacterRange* range, TextIndex* textStartIndex,
 							JString* firstLinePrefix, JSize* firstPrefixLength,
 							JString* restLinePrefix, JSize* restPrefixLength,
 							JIndex* returnRuleIndex) const;
-	JBoolean	CRMGetPrefix(TextIndex* startChar, const TextIndex& endChar,
+	bool	CRMGetPrefix(TextIndex* startChar, const TextIndex& endChar,
 							 JString* linePrefix, JSize* prefixLength,
 							 JIndex* ruleIndex) const;
 	JCharacterRange	CRMMatchPrefix(const JCharacterRange& textRange, JIndex* ruleIndex) const;
-	JBoolean		CRMLineMatchesRest(const JCharacterRange& range) const;
+	bool		CRMLineMatchesRest(const JCharacterRange& range) const;
 	JSize			CRMCalcPrefixLength(JString* linePrefix) const;
 	JString			CRMBuildRestPrefix(const JString& firstLinePrefix,
 									   const JIndex ruleIndex, JSize* prefixLength) const;
@@ -33,7 +33,7 @@
 									JString* wordBuffer, JRunArray<JFont>* wordStyles,
 									const JSize currentLineWidth,
 									const TextIndex& origCaretIndex, TextIndex* newCaretIndex,
-									const JString& newText, const JBoolean requireSpace) const;
+									const JString& newText, const bool requireSpace) const;
 	int				CRMIsEOS(const JUtf8Character& c) const;
 	void			CRMAppendWord(JString* newText, JRunArray<JFont>* newStyles,
 								  JSize* currentLineWidth, TextIndex* newCaretIndex,
@@ -52,14 +52,14 @@
 
 	*newCaretIndex is the index required to maintain the position of the caret.
 
-	Returns kJFalse if the caret was not in a paragraph.
+	Returns false if the caret was not in a paragraph.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::PrivateCleanRightMargin
 	(
-	const JBoolean		coerce,
+	const bool		coerce,
 	JIndexRange*		origTextRange,
 	JString*			newText,
 	JRunArray<JFont>*	newStyles,
@@ -74,13 +74,13 @@ JTextEditor::PrivateCleanRightMargin
 
 	if (itsBuffer->IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JIndex caretChar = GetInsertionIndex();
 	if (caretChar == itsBuffer->GetLength()+1 && EndsWithNewline())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JIndex charIndex, ruleIndex;
@@ -90,7 +90,7 @@ JTextEditor::PrivateCleanRightMargin
 					 &firstLinePrefix, &firstPrefixLength,
 					 &restLinePrefix, &restPrefixLength, &ruleIndex))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (caretChar <= charIndex)
@@ -101,7 +101,7 @@ JTextEditor::PrivateCleanRightMargin
 	// read in each word, convert it, write it out
 
 	JSize currentLineWidth = 0;
-	JBoolean requireSpace  = kJFalse;
+	bool requireSpace  = false;
 
 	JString wordBuffer, spaceBuffer;
 	JRunArray<JFont> wordStyles;
@@ -114,7 +114,7 @@ JTextEditor::PrivateCleanRightMargin
 							&spaceBuffer, &spaceCount, &wordBuffer, &wordStyles,
 							currentLineWidth, caretChar, &rnwCaretIndex,
 							*newText, requireSpace);
-		requireSpace = kJTrue;
+		requireSpace = true;
 
 		if (status == kFinished)
 			{
@@ -165,14 +165,14 @@ JTextEditor::PrivateCleanRightMargin
 	assert( *newCaretIndex != 0 );
 	assert( newText->GetLength() == newStyles->GetElementCount() );
 
-	return kJTrue;
+	return true;
 }
 
 /*******************************************************************************
  CRMGetRange (private)
 
 	Returns the range of characters to reformat.
-	Returns kJFalse if the caret is not in a paragraph.
+	Returns false if the caret is not in a paragraph.
 
 	caretChar is the current location of the caret.
 
@@ -189,11 +189,11 @@ JTextEditor::PrivateCleanRightMargin
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::CRMGetRange
 	(
 	const JIndex	caretChar,
-	const JBoolean	coerce,
+	const bool	coerce,
 	JIndexRange*	range,
 	JIndex*			textStartIndex,
 	JString*		firstLinePrefix,
@@ -221,7 +221,7 @@ JTextEditor::CRMGetRange
 					  &origLinePrefix, &prefixLength, &ruleIndex) ||
 		CRMLineMatchesRest(*range))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// search backward for a blank line or a change in the prefix (if !coerce)
@@ -252,7 +252,7 @@ JTextEditor::CRMGetRange
 
 	*textStartIndex  = range->first;
 	*returnRuleIndex = 0;
-	const JBoolean hasText =
+	const bool hasText =
 		CRMGetPrefix(textStartIndex, range->last,
 					 firstLinePrefix, firstPrefixLength, returnRuleIndex);
 	assert( hasText );
@@ -280,7 +280,7 @@ JTextEditor::CRMGetRange
 		range->last = newEnd;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /*******************************************************************************
@@ -292,11 +292,11 @@ JTextEditor::CRMGetRange
 	*prefixLength is set to the length of *linePrefix in characters.  This
 	can be greater than linePrefix->GetLength() because of tabs.
 
-	Returns kJFalse if the entire range qualifies as a prefix.
+	Returns false if the entire range qualifies as a prefix.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::CRMGetPrefix
 	(
 	JIndex*			startChar,
@@ -313,7 +313,7 @@ JTextEditor::CRMGetPrefix
 	*startChar    = prefixRange.last + 1;
 	*linePrefix   = itsBuffer->GetSubstring(prefixRange);
 	*prefixLength = CRMCalcPrefixLength(linePrefix);
-	return JConvertToBoolean(*startChar <= endChar);
+	return *startChar <= endChar;
 }
 
 /*******************************************************************************
@@ -373,7 +373,7 @@ JTextEditor::CRMMatchPrefix
 
 	// check equality of range::last in case prefix is empty
 
-	const JBoolean defMatch =
+	const bool defMatch =
 		defaultCRMPrefixRegex.MatchWithin(*itsBuffer, textRange, &range);
 	assert( defMatch && range.first == textRange.first );
 	if (range.last >= matchRange.last || itsCRMRuleList == nullptr)
@@ -388,12 +388,12 @@ JTextEditor::CRMMatchPrefix
 /*******************************************************************************
  CRMLineMatchesRest (private)
 
-	Returns kJTrue if the given range is matched by any "rest" pattern.
+	Returns true if the given range is matched by any "rest" pattern.
 	Used at beginning of CRMGetRange as part of check if line is empty.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::CRMLineMatchesRest
 	(
 	const JIndexRange& range
@@ -410,12 +410,12 @@ JTextEditor::CRMLineMatchesRest
 			if ((rule.rest)->MatchWithin(*itsBuffer, range, &matchRange) &&
 				range == matchRange)
 				{
-				return kJTrue;
+				return true;
 				}
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /*******************************************************************************
@@ -481,7 +481,7 @@ JTextEditor::CRMBuildRestPrefix
 		{
 		JArray<JIndexRange> matchList;
 		const CRMRule rule   = itsCRMRuleList->GetElement(ruleIndex);
-		const JBoolean match = (rule.first)->Match(s, &matchList);
+		const bool match = (rule.first)->Match(s, &matchList);
 		assert( match &&
 				(matchList.GetFirstElement()).first == 1 &&
 				(matchList.GetFirstElement()).last  == s.GetLength() );
@@ -595,7 +595,7 @@ JTextEditor::CRMReadNextWord
 	const JIndex		origCaretIndex,
 	JIndex*				newCaretIndex,
 	const JString&		newText,
-	const JBoolean		requireSpace
+	const bool		requireSpace
 	)
 	const
 {

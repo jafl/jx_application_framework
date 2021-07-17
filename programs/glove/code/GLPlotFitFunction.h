@@ -34,16 +34,16 @@ protected:
 	virtual void 		GenerateDiffData();
 	void				CalculateStdDev();
 	void				AdjustDiffDataValue(const JIndex index, const JFloat value);
-	virtual JBoolean	DataElementValid(const JIndex index);
-	virtual JBoolean	GetDataElement(const JIndex index, J2DDataPoint* point);
+	virtual bool	DataElementValid(const JIndex index);
+	virtual bool	GetDataElement(const JIndex index, J2DDataPoint* point);
 	void				SetDiffData(J2DPlotData* data);
 	
 private:
 
 	JPlotDataBase*		itsData;
 	J2DPlotData*		itsDiffData;
-	JBoolean			itsHasXErrors;
-	JBoolean			itsHasYErrors;
+	bool			itsHasXErrors;
+	bool			itsHasYErrors;
 	JFloat				itsStdDev;
 	
 };

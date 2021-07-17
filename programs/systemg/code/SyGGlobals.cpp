@@ -65,10 +65,10 @@ static JXImage* theTrashEmptySelectedSmallIcon = nullptr;
 static JXImage* theTrashFullSmallIcon          = nullptr;
 static JXImage* theTrashFullSelectedSmallIcon  = nullptr;
 
-static const JString kTrashDirName("/.trashcan/", kJFalse);
+static const JString kTrashDirName("/.trashcan/", JString::kNoCopy);
 static JString theTrashDir;			// only need to compute this once
 static JDirInfo* theTrashDirInfo = nullptr;
-static const JString kRecentFileDirName("/.systemg/recent_files/", kJFalse);
+static const JString kRecentFileDirName("/.systemg/recent_files/", JString::kNoCopy);
 static JString theRecentFileDir;	// only need to compute this once
 const JSize kRecentFileCount     = 20;
 
@@ -87,7 +87,7 @@ void	SyGDeleteIcons();
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGCreateGlobals
 	(
 	SyGApplication* app
@@ -100,7 +100,7 @@ SyGCreateGlobals
 	JString oldPrefsFile, newPrefsFile;
 	if (JGetPrefsDirectory(&oldPrefsFile))
 		{
-		oldPrefsFile = JCombinePathAndName(oldPrefsFile, JString(".gSystemG.pref", kJFalse));
+		oldPrefsFile = JCombinePathAndName(oldPrefsFile, JString(".gSystemG.pref", JString::kNoCopy));
 		if (JFileExists(oldPrefsFile) &&
 			(JPrefsFile::GetFullName(app->GetSignature(), &newPrefsFile)).OK() &&
 			!JFileExists(newPrefsFile))
@@ -109,13 +109,13 @@ SyGCreateGlobals
 			}
 		}
 
-	JBoolean isNew;
+	bool isNew;
 	thePrefsMgr = jnew SyGPrefsMgr(&isNew);
 	assert(thePrefsMgr != nullptr);
 
 	JXInitHelp();
 
-	JXWDManager* wdMgr = jnew JXWDManager(app->GetCurrentDisplay(), kJTrue);
+	JXWDManager* wdMgr = jnew JXWDManager(app->GetCurrentDisplay(), true);
 	assert( wdMgr != nullptr );
 	// registers itself
 
@@ -132,7 +132,7 @@ SyGCreateGlobals
 	assert( theAltChooseSaveFile != nullptr );
 
 	JString trashDir;
-	SyGGetTrashDirectory(&trashDir, kJFalse);	// silently creates it
+	SyGGetTrashDirectory(&trashDir, false);	// silently creates it
 
 	return isNew;
 }
@@ -244,15 +244,15 @@ SyGGetMDIServer()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGIsTrashDirectory
 	(
 	const JString& path
 	)
 {
 	JString dir;
-	return JI2B(SyGGetTrashDirectory(&dir, kJFalse) &&
-				JSameDirEntry(dir, path));
+	return SyGGetTrashDirectory(&dir, false) &&
+				JSameDirEntry(dir, path);
 }
 
 /******************************************************************************
@@ -260,17 +260,17 @@ SyGIsTrashDirectory
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGGetTrashDirectory
 	(
 	JString*		path,
-	const JBoolean	reportErrors
+	const bool	reportErrors
 	)
 {
 	if (!theTrashDir.IsEmpty())
 		{
 		*path = theTrashDir;
-		return kJTrue;
+		return true;
 		}
 
 	if (!JGetPrefsDirectory(path))
@@ -279,7 +279,7 @@ SyGGetTrashDirectory
 			{
 			JGetUserNotification()->ReportError(JGetString("NoPrefsDir::SyGGlobals"));
 			}
-		return kJFalse;
+		return false;
 		}
 
 	*path = JCombinePathAndName(*path, kTrashDirName);
@@ -297,9 +297,9 @@ SyGGetTrashDirectory
 	if (err.OK())
 		{
 		theTrashDir       = *path;
-		const JBoolean ok = JDirInfo::Create(theTrashDir, &theTrashDirInfo);
+		const bool ok = JDirInfo::Create(theTrashDir, &theTrashDirInfo);
 		assert( ok );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -314,7 +314,7 @@ SyGGetTrashDirectory
 			const JString msg = JGetString("CreatePrefsDirError::SyGGlobals", map, sizeof(map));
 			JGetUserNotification()->ReportError(msg);
 			}
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -323,7 +323,7 @@ SyGGetTrashDirectory
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGTrashDirectoryIsEmpty()
 {
 	if (theTrashDirInfo != nullptr)
@@ -333,7 +333,7 @@ SyGTrashDirectoryIsEmpty()
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -357,36 +357,36 @@ SyGUpdateTrash()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGEmptyTrashDirectory()
 {
 	JString trashDir;
-	const JBoolean hasTrash = SyGGetTrashDirectory(&trashDir, kJFalse);
+	const bool hasTrash = SyGGetTrashDirectory(&trashDir, false);
 	if (hasTrash && JKillDirectory(trashDir))
 		{
 		JCreateDirectory(trashDir, kTrashCanPerms);
 		SyGUpdateTrash();
-		return kJTrue;
+		return true;
 		}
 	else if (hasTrash)
 		{
 		JGetUserNotification()->ReportError(JGetString("EmptyTrashError::SyGGlobals"));
-		return kJFalse;
+		return false;
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
 /******************************************************************************
  SyGDeleteDirEntry
 
-	Returns kJTrue if successful.
+	Returns true if successful.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGDeleteDirEntry
 	(
 	const JString& fullName
@@ -399,15 +399,15 @@ SyGDeleteDirEntry
 /******************************************************************************
  SyGExec
 
-	Returns kJTrue if successful.
+	Returns true if successful.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGExec
 	(
 	const JString&	cmd,
-	const JBoolean	report
+	const bool	report
 	)
 {
 	JString errOutput;
@@ -462,7 +462,7 @@ SyGGetChooseSaveFile()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGGetDNDSource
 	(
 	const JXWidget*		dndSource,
@@ -475,7 +475,7 @@ SyGGetDNDSource
 		}
 
 	*widget = theDNDSource;
-	return JI2B( theDNDSource != nullptr );
+	return theDNDSource != nullptr;
 }
 
 void
@@ -494,7 +494,7 @@ SyGSetDNDSource
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGGetDNDTarget
 	(
 	const JXContainer*	dndTarget,
@@ -514,7 +514,7 @@ SyGGetDNDTarget
 //		}
 
 	*widget = theDNDTarget;
-	return JI2B( theDNDTarget != nullptr );
+	return theDNDTarget != nullptr;
 }
 
 void
@@ -688,7 +688,7 @@ SyGDeleteIcons()
 JXImage*
 SyGGetFileSmallIcon
 	(
-	const JBoolean selected
+	const bool selected
 	)
 {
 	assert( theFileIcon != nullptr );
@@ -698,7 +698,7 @@ SyGGetFileSmallIcon
 JXImage*
 SyGGetFolderSmallIcon
 	(
-	const JBoolean selected
+	const bool selected
 	)
 {
 	assert( theFolderIcon != nullptr );
@@ -708,7 +708,7 @@ SyGGetFolderSmallIcon
 JXImage*
 SyGGetReadOnlyFolderSmallIcon
 	(
-	const JBoolean selected
+	const bool selected
 	)
 {
 	assert( theReadOnlyFolderIcon != nullptr );
@@ -718,7 +718,7 @@ SyGGetReadOnlyFolderSmallIcon
 JXImage*
 SyGGetLockedFolderSmallIcon
 	(
-	const JBoolean selected
+	const bool selected
 	)
 {
 	assert( theLockedFolderIcon != nullptr );
@@ -728,7 +728,7 @@ SyGGetLockedFolderSmallIcon
 JXImage*
 SyGGetExecSmallIcon
 	(
-	const JBoolean selected
+	const bool selected
 	)
 {
 	assert( theExecIcon != nullptr );
@@ -738,7 +738,7 @@ SyGGetExecSmallIcon
 JXImage*
 SyGGetUnknownSmallIcon
 	(
-	const JBoolean selected
+	const bool selected
 	)
 {
 	assert( theExecIcon != nullptr );
@@ -779,7 +779,7 @@ SyGGetDirectorySmallIcon
 JXImage*
 SyGGetTrashSmallIcon
 	(
-	const JBoolean selected
+	const bool selected
 	)
 {
 #if defined SYSTEM_G
@@ -796,7 +796,7 @@ SyGGetTrashSmallIcon
 		}
 }
 
-JBoolean
+bool
 SyGGetMountPointSmallIcon
 	(
 	const JMountType	type,
@@ -819,7 +819,7 @@ SyGGetMountPointSmallIcon
 		{
 		*image = nullptr;
 		}
-	return JNegate(*image == nullptr);
+	return *image != nullptr;
 }
 
 // Returns type value.  This value is arbitrary.  Do not store it in files.
@@ -835,11 +835,11 @@ SyGGetMountPointLargeIcon
 	)
 {
 	JMountType type;
-	const JBoolean isMP = theApplication->IsMountPoint(path, &type);
+	const bool isMP = theApplication->IsMountPoint(path, &type);
 
 	if (!isMP)
 		{
-		JBoolean writable, isTop;
+		bool writable, isTop;
 		JString device, fsTypeString;
 		JFileSystemType fsType;
 		if (JIsMounted(path, &writable, &isTop, &device, &fsType, &fsTypeString))
@@ -852,7 +852,7 @@ SyGGetMountPointLargeIcon
 			}
 		}
 
-	const JBoolean writable = JDirectoryWritable(path);
+	const bool writable = JDirectoryWritable(path);
 
 	JString dir;
 	if (JGetHomeDirectory(&dir) && JSameDirEntry(dir, path))
@@ -938,17 +938,17 @@ SyGGetMountPointLargeIcon
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGGetRecentFileDirectory
 	(
 	JString*		path,
-	const JBoolean	reportErrors
+	const bool	reportErrors
 	)
 {
 	if (!theRecentFileDir.IsEmpty())
 		{
 		*path = theRecentFileDir;
-		return kJTrue;
+		return true;
 		}
 
 	if (!JGetPrefsDirectory(path))
@@ -957,7 +957,7 @@ SyGGetRecentFileDirectory
 			{
 			JGetUserNotification()->ReportError(JGetString("NoPrefsDir::SyGGlobals"));
 			}
-		return kJFalse;
+		return false;
 		}
 
 	*path = JCombinePathAndName(*path, kRecentFileDirName);
@@ -975,7 +975,7 @@ SyGGetRecentFileDirectory
 	if (err.OK())
 		{
 		theRecentFileDir = *path;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -990,7 +990,7 @@ SyGGetRecentFileDirectory
 			const JString msg = JGetString("CreatePrefsDirError::SyGGlobals", map, sizeof(map));
 			JGetUserNotification()->ReportError(msg);
 			}
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1024,7 +1024,7 @@ SyGAddRecentFile
 		JDirInfo* info;
 		if (JDirInfo::Create(recentDir, &info))
 			{
-			JBoolean changed = kJFalse;
+			bool changed = false;
 
 			JSize count = info->GetEntryCount();
 			for (JIndex i=1; i<=count; i++)
@@ -1032,7 +1032,7 @@ SyGAddRecentFile
 				if (info->GetEntry(i).IsBrokenLink())
 					{
 					JRemoveFile(info->GetEntry(i).GetFullName());
-					changed = kJTrue;
+					changed = true;
 					}
 				}
 

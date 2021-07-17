@@ -27,7 +27,7 @@ MDFilterRecordsDialog::MDFilterRecordsDialog
 	JXDirector* supervisor
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow();
 }
@@ -124,7 +124,7 @@ MDFilterRecordsDialog::Receive
 		}
 	else if (sender == itsSizeInput && message.Is(JStyledText::kTextChanged))
 		{
-		itsSizeCB->SetState(kJTrue);
+		itsSizeCB->SetState(true);
 		}
 
 	else if (sender == itsFileCB && message.Is(JXCheckbox::kPushed))
@@ -136,7 +136,7 @@ MDFilterRecordsDialog::Receive
 		}
 	else if (sender == itsFileInput && message.Is(JStyledText::kTextChanged))
 		{
-		itsFileCB->SetState(kJTrue);
+		itsFileCB->SetState(true);
 		}
 
 	else
@@ -160,7 +160,7 @@ MDFilterRecordsDialog::BuildFilter
 	if (itsSizeCB->IsChecked())
 		{
 		JInteger minSize;
-		const JBoolean ok = itsSizeInput->GetValue(&minSize);
+		const bool ok = itsSizeInput->GetValue(&minSize);
 		assert( ok );
 		filter->minSize = minSize;
 		}

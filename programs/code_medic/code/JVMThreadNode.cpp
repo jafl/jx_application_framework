@@ -62,7 +62,7 @@ JVMThreadNode::JVMThreadNode
 {
 	if (itsType == kGroupType)
 		{
-		ShouldBeOpenable(kJTrue);
+		ShouldBeOpenable(true);
 		}
 }
 

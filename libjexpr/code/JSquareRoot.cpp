@@ -77,7 +77,7 @@ JSquareRoot::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JSquareRoot::Evaluate
 	(
 	JFloat* result
@@ -93,11 +93,11 @@ JSquareRoot::Evaluate
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JSquareRoot::Evaluate
 	(
 	JComplex* result
@@ -113,7 +113,7 @@ JSquareRoot::Evaluate
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -174,7 +174,7 @@ JSquareRoot::Render
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);

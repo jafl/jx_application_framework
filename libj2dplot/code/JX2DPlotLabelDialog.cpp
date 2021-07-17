@@ -33,7 +33,7 @@ JX2DPlotLabelDialog::JX2DPlotLabelDialog
 	const J2DPlotWidget::LabelSelection selection
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue),
+	JXDialogDirector(supervisor, true),
 	itsSelection(selection)
 {
 	BuildWindow();

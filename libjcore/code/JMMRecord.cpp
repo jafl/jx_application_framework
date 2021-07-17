@@ -54,9 +54,9 @@ JMMRecord::JMMRecord()
 	itsDeleteLine = 0;
 
 	itsMark = 0;
-	itsArrayNewFlag = kJFalse;
+	itsArrayNewFlag = false;
 	itsArrayDeleteFlag = 0;
-	itsManagerMemoryFlag = kJFalse;
+	itsManagerMemoryFlag = false;
 }
 
 JMMRecord::JMMRecord
@@ -66,8 +66,8 @@ JMMRecord::JMMRecord
 	const size_t     size,
 	const JUtf8Byte* file,
 	const JUInt32    lineNumber,
-	const JBoolean   array,
-	const JBoolean   managerMemory
+	const bool   array,
+	const bool   managerMemory
 	)
 {
 	// Defined but not initialized in JMMRecordData
@@ -117,7 +117,7 @@ JMMRecord::SetDeleteLocation
 	(
 	const JUtf8Byte* deleteFile,
 	const JSize      deleteLine,
-	const JBoolean   arrayDelete
+	const bool   arrayDelete
 	)
 {
 	assert(itsDeleteFile == nullptr);
@@ -180,10 +180,10 @@ JMMRecord::StreamForDebug
 {
 	output << JBoolToString(! IsDeleted())
 		   << JBoolToString(ArrayNew());
-	output << ' ' << JString(itsNewFile, kJFalse);
+	output << ' ' << JString(itsNewFile, JString::kNoCopy);
 	output << ' ' << itsNewLine;
 	output << ' ' << itsSize;
-	output << ' ' << JString((JUtf8Byte*) itsAddress, kJFalse);
+	output << ' ' << JString((JUtf8Byte*) itsAddress, JString::kNoCopy);
 }
 
 #if 0

@@ -37,7 +37,7 @@ GLCreateVectorPlotDialog::GLCreateVectorPlotDialog
 	const JIndex startY2
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	itsTableDir = supervisor;
 	BuildWindow(data, startX, startY, startX2, startY2);
@@ -161,15 +161,15 @@ GLCreateVectorPlotDialog::BuildWindow
 		itsPlotsMenu->AppendItem(*name);
 		}
 
-	itsPlotsMenu->ShowSeparatorAfter(1, kJTrue);
+	itsPlotsMenu->ShowSeparatorAfter(1, true);
 
 	itsPlotIndex = 1;
 
-	itsX1Menu->SetToPopupChoice(kJTrue, itsStartX1);
-	itsX2Menu->SetToPopupChoice(kJTrue, itsStartX2);
-	itsY1Menu->SetToPopupChoice(kJTrue, itsStartY1);
-	itsY2Menu->SetToPopupChoice(kJTrue, itsStartY2);
-	itsPlotsMenu->SetToPopupChoice(kJTrue, itsPlotIndex);
+	itsX1Menu->SetToPopupChoice(true, itsStartX1);
+	itsX2Menu->SetToPopupChoice(true, itsStartX2);
+	itsY1Menu->SetToPopupChoice(true, itsStartY1);
+	itsY2Menu->SetToPopupChoice(true, itsStartY2);
+	itsPlotsMenu->SetToPopupChoice(true, itsPlotIndex);
 
 	itsX1Menu->SetUpdateAction(JXMenu::kDisableNone);
 	itsX2Menu->SetUpdateAction(JXMenu::kDisableNone);
@@ -269,7 +269,7 @@ GLCreateVectorPlotDialog::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLCreateVectorPlotDialog::GetPlotIndex
 	(
 	JIndex* index
@@ -277,11 +277,11 @@ GLCreateVectorPlotDialog::GetPlotIndex
 {
 	if (itsPlotIndex == 1)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	*index = itsPlotIndex - 1;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -300,17 +300,17 @@ GLCreateVectorPlotDialog::GetLabel()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLCreateVectorPlotDialog::OKToDeactivate()
 {
 	if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 	if (GetLabel().IsEmpty())
 		{
 		JGetUserNotification()->ReportError(JGetString("SpecifyCurveLabel::GLGlobal"));
-		return kJFalse;
+		return false;
 		}
-	return kJTrue;
+	return true;
 }

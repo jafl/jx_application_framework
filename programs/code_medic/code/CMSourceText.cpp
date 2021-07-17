@@ -66,7 +66,7 @@ CMSourceText::CMSourceText
 	)
 	:
 	CMTextDisplayBase(jnew StyledText(this, enclosure->GetFontManager()),
-					  kSelectableText, kJTrue, menuBar, scrollbarSet,
+					  kSelectableText, true, menuBar, scrollbarSet,
 					  enclosure, hSizing, vSizing, x,y, w,h),
 	itsSrcDir(srcDir),
 	itsCmdDir(cmdDir),
@@ -167,7 +167,7 @@ CMSourceText::StyledText::AdjustStylesBeforeBroadcast
 	JRunArray<JFont>*	styles,
 	TextRange*			recalcRange,
 	TextRange*			redrawRange,
-	const JBoolean		deletion
+	const bool		deletion
 	)
 {
 	if (itsOwner->itsStyler != nullptr)
@@ -198,7 +198,7 @@ CMSourceText::BoundsResized
 
 	if (!WillBreakCROnly() && HasSelection())
 		{
-		TEScrollToSelection(kJTrue);
+		TEScrollToSelection(true);
 		}
 	else if (!WillBreakCROnly())
 		{
@@ -273,7 +273,7 @@ CMSourceText::Receive
 	)
 {
 	JXTextMenu* searchMenu;
-	const JBoolean ok = GetSearchMenu(&searchMenu);
+	const bool ok = GetSearchMenu(&searchMenu);
 	assert( ok );
 
 	if (sender == searchMenu && message.Is(JXMenu::kNeedsUpdate))
@@ -303,7 +303,7 @@ void
 CMSourceText::UpdateCustomSearchMenuItems()
 {
 	JXTextMenu* searchMenu;
-	const JBoolean ok = GetSearchMenu(&searchMenu);
+	const bool ok = GetSearchMenu(&searchMenu);
 	assert( ok );
 
 	searchMenu->EnableItem(itsFirstSearchMenuItem + kGoToLineCmd);
@@ -324,7 +324,7 @@ CMSourceText::UpdateCustomSearchMenuItems()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMSourceText::HandleCustomSearchMenuItems
 	(
 	const JIndex origIndex
@@ -336,13 +336,13 @@ CMSourceText::HandleCustomSearchMenuItems
 	if (index == kBalanceCmd)
 		{
 		CBMBalanceFromSelection(this, kCBCLang);
-		return kJTrue;
+		return true;
 		}
 
 	else if (index == kGoToLineCmd)
 		{
 		AskForLine();
-		return kJTrue;
+		return true;
 		}
 	else if (index == kGoToCurrentLineCmd)
 		{
@@ -351,11 +351,11 @@ CMSourceText::HandleCustomSearchMenuItems
 			{
 			GoToLine(line);
 			}
-		return kJTrue;
+		return true;
 		}
 
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

@@ -36,7 +36,7 @@ const int kASCIIZero = 48;
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLFitModule::Create
 	(
 	GLFitModule** 	module,
@@ -55,14 +55,14 @@ GLFitModule::Create
 							kJIgnoreConnection, nullptr);						
 	if (err.OK())
 		{
-		JOutPipeStream* op = jnew JOutPipeStream(outFD, kJTrue);
+		JOutPipeStream* op = jnew JOutPipeStream(outFD, true);
 		assert( op != nullptr );
 		assert( op->good() );
 		*module = jnew GLFitModule(dir, fitData, process, inFD, op);
-		return kJTrue;
+		return true;
 		}
 		
-	return kJFalse;
+	return false;
 }
 
 /*******************************************************************************
@@ -89,16 +89,16 @@ GLFitModule::GLFitModule
 	assert(itsLink != nullptr);
 //	itsLink->set_hanle(input);
 	ListenTo(itsLink);
-//	itsProcessInput = jnew JIPCLine(input, kJTrue);
+//	itsProcessInput = jnew JIPCLine(input, true);
 //	assert(itsProcessInput != nullptr);
 //	ListenTo(itsProcessInput);
 	itsNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert(itsNames != nullptr);
 	itsValues = jnew JArray<JFloat>;
 	assert(itsValues != nullptr);
-	itsStatusRead = kJFalse;
-	itsHeaderRead = kJFalse;
-	itsFunctionRead = kJFalse;
+	itsStatusRead = false;
+	itsHeaderRead = false;
+	itsFunctionRead = false;
 	itsPG = nullptr;
 	
 	JIndex type;
@@ -126,10 +126,10 @@ GLFitModule::GLFitModule
 		}
 	*output << type << std::endl;
 	J2DPlotWidget* plot = itsDir->GetPlot();
-	JBoolean usingRange = plot->IsUsingRange();
+	bool usingRange = plot->IsUsingRange();
 	JFloat xmax, xmin, ymax, ymin;
 	JSize validcount = 0;
-	JArray<JBoolean> valid;
+	JArray<bool> valid;
 	JSize count = itsData->GetElementCount();
 	JSize i;
 	if (usingRange)
@@ -144,12 +144,12 @@ GLFitModule::GLFitModule
 				(point.y >= ymin) &&
 				(point.y <= ymax))
 				{
-				valid.AppendElement(kJTrue);
+				valid.AppendElement(true);
 				validcount++;
 				}
 			else
 				{
-				valid.AppendElement(kJFalse);
+				valid.AppendElement(false);
 				}
 			}
 		}
@@ -162,10 +162,10 @@ GLFitModule::GLFitModule
 		{
 		J2DDataPoint point;
 		itsData->GetElement(i, &point);
-		JBoolean pointOk = kJTrue;
+		bool pointOk = true;
 		if (usingRange && !valid.GetElement(i))
 			{
-			pointOk = kJFalse;
+			pointOk = false;
 			}
 		if (pointOk)
 			{
@@ -258,7 +258,7 @@ GLFitModule::HandleInput
 		{
 		itsFunction = istr;
 		itsFunction.TrimWhitespace();
-		itsFunctionRead = kJTrue;
+		itsFunctionRead = true;
 		}
 	else if (itsStatusRead)
 		{
@@ -267,7 +267,7 @@ GLFitModule::HandleInput
 		iss >> itsParmsCount;
 		iss >> JBoolFromString(itsHasErrors);
 		iss >> JBoolFromString(itsHasGOF);
-		itsHeaderRead = kJTrue;
+		itsHeaderRead = true;
 		}
 	else
 		{
@@ -286,7 +286,7 @@ GLFitModule::HandleInput
 			}
 		else if (val == kGloveOK)
 			{
-			itsStatusRead = kJTrue;
+			itsStatusRead = true;
 			}
 		else
 			{
@@ -312,7 +312,7 @@ GLFitModule::HandleDataRead
 		{
 		itsPG = JGetCreatePG()->New();
 		itsPG->VariableLengthProcessBeginning(
-			JGetString("Loading::DateModule"), kJTrue, kJTrue);
+			JGetString("Loading::DateModule"), true, true);
 		}
 	std::string s(str.GetRawBytes(), str.GetByteCount());
 	std::istringstream iss(s);
@@ -322,7 +322,7 @@ GLFitModule::HandleDataRead
 	iss >> value;
 	itsValues->AppendElement(value);
 	itsNames->Append(instr);
-	const JBoolean keepGoing = itsPG->IncrementProgress();
+	const bool keepGoing = itsPG->IncrementProgress();
 	if (!keepGoing)
 		{
 		JXDeleteObjectTask<GLFitModule>::Delete(this);

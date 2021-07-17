@@ -20,24 +20,24 @@ public:
 	virtual ~JXPartition();
 
 	JXContainer*	GetCompartment(const JIndex index) const;
-	JBoolean		GetCompartmentIndex(JXContainer* compartment,
+	bool		GetCompartmentIndex(JXContainer* compartment,
 										JIndex* index) const;
 
-	JBoolean	InsertCompartment(const JIndex index, const JCoordinate size,
+	bool	InsertCompartment(const JIndex index, const JCoordinate size,
 								  const JCoordinate minSize,
 								  JXContainer** newCompartment);
-	JBoolean	PrependCompartment(const JCoordinate size,
+	bool	PrependCompartment(const JCoordinate size,
 								   const JCoordinate minSize,
 								   JXContainer** newCompartment);
-	JBoolean	AppendCompartment(const JCoordinate size,
+	bool	AppendCompartment(const JCoordinate size,
 								  const JCoordinate minSize,
 								  JXContainer** newCompartment);
 
-	JBoolean	GetMinCompartmentSize(JXContainer* compartment, JCoordinate* minSize) const;
+	bool	GetMinCompartmentSize(JXContainer* compartment, JCoordinate* minSize) const;
 	JCoordinate	GetMinCompartmentSize(JXContainer* compartment) const;
 	void		SetMinCompartmentSize(JXContainer* compartment, const JCoordinate minSize);
 
-	JBoolean	GetElasticCompartment(JXContainer** compartment) const;
+	bool	GetElasticCompartment(JXContainer** compartment) const;
 	void		SetElasticCompartment(JXContainer* compartment);
 
 	void	DeleteCompartment(JXContainer* compartment);
@@ -97,11 +97,11 @@ JXPartition::GetCompartment
 /******************************************************************************
  GetCompartmentIndex
 
-	Returns kJTrue if the given JXContainer is a compartment.
+	Returns true if the given JXContainer is a compartment.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXPartition::GetCompartmentIndex
 	(
 	JXContainer*	compartment,
@@ -128,7 +128,7 @@ JXPartition::GetCompartments()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXPartition::PrependCompartment
 	(
 	const JCoordinate	size,
@@ -139,7 +139,7 @@ JXPartition::PrependCompartment
 	return InsertCompartment(1, size, minSize, newCompartment);
 }
 
-inline JBoolean
+inline bool
 JXPartition::AppendCompartment
 	(
 	const JCoordinate	size,

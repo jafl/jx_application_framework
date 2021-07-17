@@ -20,9 +20,9 @@ public:
 
 	virtual ~JXVIKeyHandler();
 
-	virtual JBoolean	HandleKeyPress(const JUtf8Character& key, const JBoolean selectText,
+	virtual bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,
 									   const JTextEditor::CaretMotion motion,
-									   const JBoolean deleteToTabStop) override;
+									   const bool deleteToTabStop) override;
 
 	virtual void	Initialize(JTextEditor* te) override;
 

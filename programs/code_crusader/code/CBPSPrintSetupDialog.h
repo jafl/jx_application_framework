@@ -19,13 +19,13 @@ public:
 	static CBPSPrintSetupDialog*
 		Create(const JXPSPrinter::Destination dest,
 			   const JString& printCmd, const JString& fileName,
-			   const JBoolean collate, const JBoolean bw,
+			   const bool collate, const bool bw,
 			   const JSize fontSize,
-			   const JBoolean printHeader);
+			   const bool printHeader);
 
 	virtual ~CBPSPrintSetupDialog();
 
-	void	CBGetSettings(JSize* fontSize, JBoolean* printHeader) const;
+	void	CBGetSettings(JSize* fontSize, bool* printHeader) const;
 
 protected:
 
@@ -44,9 +44,9 @@ private:
 
 	void	BuildWindow(const JXPSPrinter::Destination dest,
 						const JString& printCmd, const JString& fileName,
-						const JBoolean collate, const JBoolean bw,
+						const bool collate, const bool bw,
 						const JSize fontSize,
-						const JBoolean printHeader);
+						const bool printHeader);
 
 	// not allowed
 

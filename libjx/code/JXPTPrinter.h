@@ -64,16 +64,16 @@ protected:
 		CreatePageSetupDialog(const JString& printCmd,
 							  const JSize pageWidth, const JSize pageHeight,
 							  const JSize minPageHeight,
-							  const JBoolean printReverseOrder);
+							  const bool printReverseOrder);
 
 	virtual JXPTPrintSetupDialog*
 		CreatePrintSetupDialog(const Destination destination,
 							   const JString& printCmd, const JString& fileName,
-							   const JBoolean printLineNumbers);
+							   const bool printLineNumbers);
 
-	virtual JBoolean	EndUserPageSetup(const JBroadcaster::Message& message);
-	virtual JBoolean	EndUserPrintSetup(const JBroadcaster::Message& message,
-										  JBoolean* changed);
+	virtual bool	EndUserPageSetup(const JBroadcaster::Message& message);
+	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
+										  bool* changed);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

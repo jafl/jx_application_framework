@@ -28,7 +28,7 @@ CMGetFullPath::CMGetFullPath
 	const JIndex	lineIndex	// for convenience
 	)
 	:
-	CMCommand(cmd, kJTrue, kJFalse),
+	CMCommand(cmd, true, false),
 	itsFileName(fileName),
 	itsLineIndex(lineIndex)
 {

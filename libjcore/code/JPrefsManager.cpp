@@ -12,7 +12,7 @@
 
 	Some programs enforce that only a single copy is running for each user,
 	so an open prefs file means that the program crashed while editing the
-	preferences.  If this is the case, pass kJTrue for eraseFileIfOpen to
+	preferences.  If this is the case, pass true for eraseFileIfOpen to
 	the constructor.
 
 	Derived classes must implement the following function:
@@ -53,7 +53,7 @@ JPrefsManager::JPrefsManager
 	(
 	const JString&		fileName,
 	const JFileVersion	currentVersion,
-	const JBoolean		eraseFileIfOpen
+	const bool		eraseFileIfOpen
 	)
 	:
 	JContainer(),
@@ -93,7 +93,7 @@ JPrefsManager::~JPrefsManager()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JPrefsManager::GetData
 	(
 	const JPrefID&	id,
@@ -107,11 +107,11 @@ JPrefsManager::GetData
 		{
 		item = itsData->GetElement(index);
 		data->assign(item.data->GetBytes(), item.data->GetByteCount());
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -140,7 +140,7 @@ JPrefsManager::SetData
 	)
 {
 	PrefItem item(id.GetID(), nullptr);
-	JBoolean found;
+	bool found;
 	const JIndex index =
 		itsData->SearchSorted1(item, JListT::kAnyMatch, &found);
 	if (found)
@@ -150,7 +150,7 @@ JPrefsManager::SetData
 		}
 	else
 		{
-		item.data = jnew JString(data, 0);
+		item.data = jnew JString(data);
 		assert( item.data != nullptr );
 		itsData->InsertElementAtIndex(index, item);
 		}
@@ -195,7 +195,7 @@ JPrefsManager::SaveToDisk()
 	// check that current file is readable
 
 	JPrefsFile* file = nullptr;
-	JError err = Open(&file, kJTrue);
+	JError err = Open(&file, true);
 	if (err.OK())
 		{
 		jdelete file;
@@ -208,7 +208,7 @@ JPrefsManager::SaveToDisk()
 
 	// save owner
 
-	JBoolean preserveOwner = JUserIsAdmin();
+	bool preserveOwner = JUserIsAdmin();
 	JString fullName;
 	uid_t ownerID;
 	gid_t groupID;
@@ -241,7 +241,7 @@ JPrefsManager::SaveToDisk()
 
 	// write current data
 
-	err = Open(&file, kJTrue);		// version is zero since file was deleted
+	err = Open(&file, true);		// version is zero since file was deleted
 	if (!err.OK())
 		{
 		return err;
@@ -269,20 +269,20 @@ JPrefsManager::SaveToDisk()
 /******************************************************************************
  UpgradeData (protected)
 
-	Returns kJTrue if the file had to be created.
+	Returns true if the file had to be created.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JPrefsManager::UpgradeData
 	(
-	const JBoolean reportError
+	const bool reportError
 	)
 {
-	JBoolean isNew = kJFalse;
+	bool isNew = false;
 
 	JPrefsFile* file = nullptr;
-	const JError err = Open(&file, kJTrue);
+	const JError err = Open(&file, true);
 	if (err.OK())
 		{
 		isNew              = file->IsEmpty();
@@ -294,7 +294,7 @@ JPrefsManager::UpgradeData
 	else
 		{
 		itsPrevFileVersion = 0;
-		UpgradeData(kJTrue, itsPrevFileVersion);
+		UpgradeData(true, itsPrevFileVersion);
 
 		if (reportError && err == kWrongVersion)
 			{
@@ -329,7 +329,7 @@ JPrefsManager::LoadData
 	for (JIndex i=1; i<=count; i++)
 		{
 		JFAID id;
-		const JBoolean ok = file->IndexToID(i, &id);
+		const bool ok = file->IndexToID(i, &id);
 		assert( ok );
 
 		std::string data;
@@ -338,7 +338,7 @@ JPrefsManager::LoadData
 		assert( s != nullptr );
 
 		PrefItem item(id.GetID(), s);
-		JBoolean isDuplicate;
+		bool isDuplicate;
 		const JIndex j = itsData->GetInsertionSortIndex(item, &isDuplicate);
 		assert( !isDuplicate );
 		itsData->InsertElementAtIndex(j, item);
@@ -354,7 +354,7 @@ JError
 JPrefsManager::Open
 	(
 	JPrefsFile**	file,
-	const JBoolean	allowPrevVers
+	const bool	allowPrevVers
 	)
 	const
 {

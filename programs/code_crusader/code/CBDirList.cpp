@@ -21,7 +21,7 @@ CBDirList::CBDirList()
 {
 	CBDirListX();
 
-	AddPath(JString("./", kJFalse), kJTrue);
+	AddPath(JString("./", JString::kNoCopy), true);
 }
 
 // private
@@ -119,7 +119,7 @@ const JString&
 CBDirList::GetPath
 	(
 	const JIndex	index,
-	JBoolean*		recurse
+	bool*		recurse
 	)
 	const
 {
@@ -133,12 +133,12 @@ CBDirList::GetPath
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDirList::GetFullPath
 	(
 	const JIndex	index,
 	JString*		fullPath,
-	JBoolean*		recurse
+	bool*		recurse
 	)
 	const
 {
@@ -152,18 +152,18 @@ CBDirList::GetFullPath
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDirList::GetTruePath
 	(
 	const JIndex	index,
 	JString*		truePath,
-	JBoolean*		recurse
+	bool*		recurse
 	)
 	const
 {
 	JString path;
-	return JI2B(GetFullPath(index, &path, recurse) &&
-				JGetTrueName(path, truePath));
+	return GetFullPath(index, &path, recurse) &&
+				JGetTrueName(path, truePath);
 }
 
 /******************************************************************************
@@ -175,7 +175,7 @@ void
 CBDirList::AddPath
 	(
 	const JString&	path,
-	const JBoolean	recurse
+	const bool	recurse
 	)
 {
 	CBDirInfo info(jnew JString(path), recurse);
@@ -203,11 +203,11 @@ CBDirList::SetBasePath
 /******************************************************************************
  Contains
 
-	Returns kJTrue if the given item is contained in our list of paths.
+	Returns true if the given item is contained in our list of paths.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDirList::Contains
 	(
 	const JString& p
@@ -216,7 +216,7 @@ CBDirList::Contains
 {
 	if (p.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JString path = p, name;
@@ -227,18 +227,18 @@ CBDirList::Contains
 
 	const JSize count = GetElementCount();
 	JString truePath;
-	JBoolean recurse;
+	bool recurse;
 	for (JIndex i=1; i<=count; i++)
 		{
 		if (GetTruePath(i, &truePath, &recurse) &&
 			(( recurse && path.BeginsWith(truePath)) ||
 			 (!recurse && path == truePath)))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -275,7 +275,7 @@ CBDirList::ReadDirectories
 		{
 		while (1)
 			{
-			JBoolean keepGoing;
+			bool keepGoing;
 			input >> JBoolFromString(keepGoing);
 			if (!keepGoing)
 				{
@@ -300,7 +300,7 @@ CBDirList::ReadDirectory
 	)
 {
 	JString path;
-	JBoolean recurse = kJTrue;
+	bool recurse = true;
 
 	input >> path;
 	if (vers >= 21)
@@ -327,7 +327,7 @@ CBDirList::WriteDirectories
 	const JSize dirCount = GetElementCount();
 	for (JIndex i=1; i<=dirCount; i++)
 		{
-		output << JBoolToString(kJTrue);
+		output << JBoolToString(true);
 
 		const CBDirInfo info = itsDirList->GetElement(i);
 		output << ' ' << *(info.path);
@@ -335,7 +335,7 @@ CBDirList::WriteDirectories
 		output << '\n';
 		}
 
-	output << JBoolToString(kJFalse) << '\n';
+	output << JBoolToString(false) << '\n';
 }
 
 /******************************************************************************
@@ -354,21 +354,21 @@ operator==
 {
 	if (l1.GetBasePath() != l2.GetBasePath())
 		{
-		return kJFalse;
+		return false;
 		}
 
-	JBoolean sameDirs = kJFalse;
+	bool sameDirs = false;
 	const JSize count = l1.GetElementCount();
 	if (count == l2.GetElementCount())
 		{
-		sameDirs = kJTrue;
+		sameDirs = true;
 		for (JIndex i=1; i<=count; i++)
 			{
-			JBoolean r1, r2;
+			bool r1, r2;
 			if (l1.GetPath(i, &r1) != l2.GetPath(i, &r2) ||
 				r1 != r2)
 				{
-				sameDirs = kJFalse;
+				sameDirs = false;
 				break;
 				}
 			}

@@ -39,7 +39,7 @@ public:
 	void	WriteGeometry(std::ostream& output) const;
 	void	SetColTitles(JXColHeaderWidget* widget) const;
 
-	virtual JBoolean	IsEditable(const JPoint& cell) const override;
+	virtual bool	IsEditable(const JPoint& cell) const override;
 
 protected:
 
@@ -52,7 +52,7 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual bool		ExtractInputData(const JPoint& cell) override;
 	virtual void			PrepareDeleteXInputField() override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -97,12 +97,12 @@ private:
 
 	void	UpdateScriptMenu();
 	void	HandleScriptMenu(const JIndex index);
-	void	BuildScriptMenuItems(const JString& path, const JBoolean isUserPath,
+	void	BuildScriptMenuItems(const JString& path, const bool isUserPath,
 								 JPtrArray<JString>* menuText) const;
 
 	void		GetNewScriptDirectory();
 	void		CreateNewScriptDirectory();
-	JBoolean	CreateDirectory(const JString& path) const;
+	bool	CreateDirectory(const JString& path) const;
 
 	JXTextMenu*	CreateCRMMenu();
 	void		UpdateCRMMenu();

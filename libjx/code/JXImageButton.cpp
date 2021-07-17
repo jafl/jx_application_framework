@@ -36,7 +36,7 @@ JXImageButton::JXImageButton
 	JXButton(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsImage         = nullptr;
-	itsOwnsImageFlag = kJTrue;
+	itsOwnsImageFlag = true;
 }
 
 /******************************************************************************
@@ -81,7 +81,7 @@ JXImageButton::SetBitmap
 	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	assert( itsImage != nullptr );
 
-	itsOwnsImageFlag = kJTrue;
+	itsOwnsImageFlag = true;
 
 	SetBackColor(backColor);
 	Refresh();
@@ -99,7 +99,7 @@ JXImageButton::SetImage
 	const JColorID	backColor
 	)
 {
-	SetImage(GetDisplay()->GetImageCache()->GetImage(xpm), kJFalse, backColor);
+	SetImage(GetDisplay()->GetImageCache()->GetImage(xpm), false, backColor);
 }
 
 /******************************************************************************
@@ -111,7 +111,7 @@ void
 JXImageButton::SetImage
 	(
 	JXImage*			image,
-	const JBoolean		widgetOwnsImage,
+	const bool		widgetOwnsImage,
 	const JColorID	origBackColor
 	)
 {

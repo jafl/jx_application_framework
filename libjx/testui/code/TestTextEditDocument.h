@@ -21,14 +21,14 @@ class TestTextEditDocument : public JXFileDocument
 public:
 
 	TestTextEditDocument(JXDirector* supervisor);
-	TestTextEditDocument(JXDirector* supervisor, const JString& fileName, const JBoolean privateFmt);
+	TestTextEditDocument(JXDirector* supervisor, const JString& fileName, const bool privateFmt);
 
 	virtual ~TestTextEditDocument();
 
 protected:
 
 	void			ReadFile(const JString& fileName);
-	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const override;
+	virtual void	WriteTextFile(std::ostream& output, const bool safetySave) const override;
 	virtual void	DiscardChanges() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -49,7 +49,7 @@ private:
 	JXTextMenu*		itsEmulatorMenu;	// owned by menu bar
 
 	EmulatorType	itsEmulatorType;
-	JBoolean		itsWritePrivateFmtFlag;
+	bool		itsWritePrivateFmtFlag;
 
 // begin JXLayout
 
@@ -58,7 +58,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JBoolean fileWritable);
+	void	BuildWindow(const bool fileWritable);
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex item);

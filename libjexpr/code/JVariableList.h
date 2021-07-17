@@ -39,14 +39,14 @@ public:
 	virtual void			GetVariableName(const JIndex index, JString* name,
 											JString* subscript) const = 0;
 
-	virtual JBoolean	IsArray(const JIndex index) const = 0;
-	virtual JBoolean	ArrayIndexValid(const JIndex variableIndex,
+	virtual bool	IsArray(const JIndex index) const = 0;
+	virtual bool	ArrayIndexValid(const JIndex variableIndex,
 										const JIndex elementIndex) const = 0;
 
-	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
+	virtual bool	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex,
 										JFloat* value) const = 0;
-	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
+	virtual bool	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex,
 										JComplex* value) const = 0;
 
@@ -57,10 +57,10 @@ public:
 									const JIndex elementIndex,
 									const JComplex& value) = 0;
 
-	JBoolean	ParseVariableName(const JString& name, JIndex* index) const;
-	JBoolean	OKToRemoveVariable(const JIndex variableIndex) const;
+	bool	ParseVariableName(const JString& name, JIndex* index) const;
+	bool	OKToRemoveVariable(const JIndex variableIndex) const;
 
-	static JBoolean	NameValid(const JString& name);
+	static bool	NameValid(const JString& name);
 
 	// reference counting
 
@@ -71,14 +71,14 @@ protected:
 
 	void		PushOnEvalStack(const JIndex variableIndex) const;
 	void		PopOffEvalStack(const JIndex variableIndex) const;
-	JBoolean	IsOnEvalStack(const JIndex variableIndex) const;
+	bool	IsOnEvalStack(const JIndex variableIndex) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
 	JPtrArray<JFunction>*	itsVarUserList;	// doesn't own objects
-	JArray<JBoolean>*		itsEvalStack;
+	JArray<bool>*		itsEvalStack;
 
 private:
 
@@ -155,7 +155,7 @@ public:
 				VarMessage(kVarRemoved, index)
 				{ };
 
-			JBoolean	AdjustIndex(JIndex* index) const;
+			bool	AdjustIndex(JIndex* index) const;
 		};
 
 	// existing variable moved
@@ -280,7 +280,7 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JVariableList::IsOnEvalStack
 	(
 	const JIndex variableIndex

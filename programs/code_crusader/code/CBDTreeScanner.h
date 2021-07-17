@@ -30,14 +30,14 @@ public:
 
 	// written by flex
 
-	JBoolean	CreateClasses(const JString& fileName, const JFAID_t fileID,
+	bool	CreateClasses(const JString& fileName, const JFAID_t fileID,
 							  CBTree* tree, JPtrArray<CBClass>* classList);
 
 private:
 
-	JBoolean	itsAbstractFlag;
-	JBoolean	itsFinalFlag;
-	JBoolean	itsTemplateFlag;
+	bool	itsAbstractFlag;
+	bool	itsFinalFlag;
+	bool	itsTemplateFlag;
 	CBClass*	itsCurrentClass;
 
 private:

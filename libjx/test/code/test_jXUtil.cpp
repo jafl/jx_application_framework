@@ -26,14 +26,14 @@ JTEST(PackStrings)
 	JAssertTrue(list2.IsEmpty());
 
 	list2.CleanOut();
-	list1.Append(JString("foo", kJFalse));
+	list1.Append(JString("foo", JString::kNoCopy));
 	s = JXPackStrings(list1);
 	JXUnpackStrings(s.GetRawBytes(), s.GetByteCount(), &list2);
 	JAssertEqual(1, list2.GetElementCount());
 	JAssertStringsEqual("foo", *(list2.GetFirstElement()));
 
 	list2.CleanOut();
-	list1.Prepend(JString("bar", kJFalse));
+	list1.Prepend(JString("bar", JString::kNoCopy));
 	s = JXPackStrings(list1);
 	JXUnpackStrings(s.GetRawBytes(), s.GetByteCount(), &list2);
 	JAssertEqual(2, list2.GetElementCount());
@@ -53,7 +53,7 @@ JTEST(PackFileNames)
 
 	list2.CleanOut();
 	list3.CleanOut();
-	list1.Append(JString("/bin/ls", kJFalse));
+	list1.Append(JString("/bin/ls", JString::kNoCopy));
 	s = JXPackFileNames(list1);
 	JXUnpackFileNames(s.GetRawBytes(), s.GetByteCount(), &list2, &list3);
 	JAssertEqual(1, list2.GetElementCount());
@@ -61,7 +61,7 @@ JTEST(PackFileNames)
 
 	list2.CleanOut();
 	list3.CleanOut();
-	list1.Prepend(JString("/bin/cat", kJFalse));
+	list1.Prepend(JString("/bin/cat", JString::kNoCopy));
 	s = JXPackFileNames(list1);
 	JXUnpackFileNames(s.GetRawBytes(), s.GetByteCount(), &list2, &list3);
 	JAssertEqual(2, list2.GetElementCount());

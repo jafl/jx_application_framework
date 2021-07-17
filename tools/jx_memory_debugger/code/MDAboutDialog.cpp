@@ -30,9 +30,9 @@ MDAboutDialog::MDAboutDialog
 	const JString&	prevVersStr
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
-	itsIsUpgradeFlag = kJFalse;
+	itsIsUpgradeFlag = false;
 
 	BuildWindow(prevVersStr);
 }
@@ -111,7 +111,7 @@ MDAboutDialog::BuildWindow
 		text += JGetString("UpgradeNotice::MDAboutDialog");
 		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::MDAboutDialog"));
-		itsIsUpgradeFlag = kJTrue;
+		itsIsUpgradeFlag = true;
 		}
 	textWidget->GetText()->SetText(text);
 
@@ -147,13 +147,13 @@ MDAboutDialog::Receive
 			{
 			(JXGetHelpManager())->ShowSection("MDOverviewHelp");
 			}
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
 		(JXGetHelpManager())->ShowCredits();
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else

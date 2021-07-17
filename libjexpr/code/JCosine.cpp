@@ -73,7 +73,7 @@ JCosine::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JCosine::Evaluate
 	(
 	JFloat* result
@@ -83,14 +83,14 @@ JCosine::Evaluate
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = cos(argValue);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JCosine::Evaluate
 	(
 	JComplex* result
@@ -100,7 +100,7 @@ JCosine::Evaluate
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = cos(argValue);

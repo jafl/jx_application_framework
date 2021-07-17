@@ -61,7 +61,7 @@ const JUtf8Byte* JDirInfo::kSettingsChanged       = "SettingsChanged::JDirInfo";
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirInfo::Create
 	(
 	const JString&	dirName,
@@ -72,16 +72,16 @@ JDirInfo::Create
 		{
 		*obj = jnew JDirInfo(dirName);
 		assert( *obj != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*obj = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JDirInfo::Create
 	(
 	const JDirInfo&	source,
@@ -93,24 +93,24 @@ JDirInfo::Create
 		{
 		*obj = jnew JDirInfo(source, dirName);
 		assert( *obj != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*obj = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JDirInfo::OKToCreate
 	(
 	const JString& dirName
 	)
 {
-	return JConvertToBoolean( JDirectoryExists(dirName) &&
-							  JDirectoryReadable(dirName) &&
-							  JCanEnterDirectory(dirName) );
+	return JDirectoryExists(dirName) &&
+		   JDirectoryReadable(dirName) &&
+		   JCanEnterDirectory(dirName);
 }
 
 /******************************************************************************
@@ -127,22 +127,22 @@ JDirInfo::JDirInfo
 {
 	BuildCWD(dirName);
 
-	itsIsValidFlag         = kJTrue;	// see assert() at end of this function
-	itsSwitchIfInvalidFlag = kJFalse;
-	itsIsWritableFlag      = kJFalse;
+	itsIsValidFlag         = true;	// see assert() at end of this function
+	itsSwitchIfInvalidFlag = false;
+	itsIsWritableFlag      = false;
 	itsModTime             = 0;
 	itsStatusTime          = 0;
 
-	itsShowFilesFlag   = kJTrue;		// remember to update ResetCSFFilters()
-	itsShowDirsFlag    = kJTrue;
-	itsShowHiddenFlag  = kJFalse;
-	itsShowVCSDirsFlag = kJTrue;
-	itsShowOthersFlag  = kJFalse;
+	itsShowFilesFlag   = true;		// remember to update ResetCSFFilters()
+	itsShowDirsFlag    = true;
+	itsShowHiddenFlag  = false;
+	itsShowVCSDirsFlag = true;
+	itsShowOthersFlag  = false;
 
 	itsNameRegex           = nullptr;
-	itsOwnsNameRegexFlag   = kJFalse;
-	itsInvertNameRegexFlag = kJFalse;
-	itsFilterDirsFlag      = kJFalse;
+	itsOwnsNameRegexFlag   = false;
+	itsInvertNameRegexFlag = false;
+	itsFilterDirsFlag      = false;
 	itsPermFilter          = nullptr;
 	itsContentRegex        = nullptr;
 	itsPG                  = nullptr;
@@ -174,7 +174,7 @@ JDirInfo::BuildCWD
 	const JString& dirName
 	)
 {
-	const JBoolean ok = JConvertToAbsolutePath(dirName, JString::empty, &itsCWD);
+	const bool ok = JConvertToAbsolutePath(dirName, JString::empty, &itsCWD);
 	assert( ok );
 	JAppendDirSeparator(&itsCWD);
 }
@@ -214,9 +214,9 @@ JDirInfo::JDirInfo
 {
 	BuildCWD(dirName);
 
-	itsIsValidFlag         = kJTrue;			// see assert() at end of this function
-	itsSwitchIfInvalidFlag = kJFalse;
-	itsIsWritableFlag      = kJFalse;
+	itsIsValidFlag         = true;			// see assert() at end of this function
+	itsSwitchIfInvalidFlag = false;
+	itsIsWritableFlag      = false;
 	itsModTime             = 0;
 	itsStatusTime          = 0;
 
@@ -237,9 +237,9 @@ JDirInfo::JDirInfoX
 	)
 {
 	itsNameRegex           = nullptr;
-	itsOwnsNameRegexFlag   = kJFalse;
-	itsInvertNameRegexFlag = kJFalse;
-	itsFilterDirsFlag      = kJFalse;
+	itsOwnsNameRegexFlag   = false;
+	itsInvertNameRegexFlag = false;
+	itsFilterDirsFlag      = false;
 	itsPermFilter          = nullptr;
 	itsContentRegex        = nullptr;
 	itsPG                  = nullptr;
@@ -320,9 +320,9 @@ JDirInfo::CopySettings
 	const JDirInfo& source
 	)
 {
-	const JBoolean rebuild = JNegate(
-		itsContentRegex != nullptr && source.itsContentRegex != nullptr &&
-		itsContentRegex->GetPattern() == (source.itsContentRegex)->GetPattern());
+	const bool rebuild =
+		itsContentRegex == nullptr || source.itsContentRegex == nullptr ||
+		itsContentRegex->GetPattern() != (source.itsContentRegex)->GetPattern();
 
 	PrivateCopySettings(source);
 
@@ -333,7 +333,7 @@ JDirInfo::CopySettings
 	else
 		{
 		itsDirEntries->Sort();
-		ApplyFilters(kJTrue);
+		ApplyFilters(true);
 		}
 
 	Broadcast(SettingsChanged());
@@ -369,13 +369,13 @@ JDirInfo::PrivateCopySettings
 	if (source.itsNameRegex != nullptr && !source.itsOwnsNameRegexFlag)
 		{
 		itsNameRegex         = source.itsNameRegex;
-		itsOwnsNameRegexFlag = kJFalse;
+		itsOwnsNameRegexFlag = false;
 		}
 	else if (source.itsNameRegex != nullptr)
 		{
 		itsNameRegex = jnew JRegex(*(source.itsNameRegex));
 		assert( itsNameRegex != nullptr );
-		itsOwnsNameRegexFlag = kJTrue;
+		itsOwnsNameRegexFlag = true;
 		}
 
 	itsInvertNameRegexFlag = source.itsInvertNameRegexFlag;
@@ -395,7 +395,7 @@ JDirInfo::PrivateCopySettings
 	// copy sort method
 
 	const JElementComparison<JDirEntry*>* compareObj = nullptr;
-	const JBoolean hasCompare = (source.itsDirEntries)->GetCompareObject(&compareObj);
+	const bool hasCompare = (source.itsDirEntries)->GetCompareObject(&compareObj);
 	assert( hasCompare );
 
 	itsDirEntries->SetCompareObject(*compareObj);
@@ -427,7 +427,7 @@ JDirInfo::CopyDirEntries
 
 	assert( itsVisEntries != nullptr && itsAlphaEntries != nullptr );
 
-	ApplyFilters(kJFalse);
+	ApplyFilters(false);
 }
 
 /******************************************************************************
@@ -438,13 +438,13 @@ JDirInfo::CopyDirEntries
 void
 JDirInfo::ShowFiles
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	if (show != itsShowFilesFlag)
 		{
 		itsShowFilesFlag = show;
-		ApplyFilters(kJTrue);
+		ApplyFilters(true);
 		Broadcast(SettingsChanged());
 		}
 }
@@ -457,13 +457,13 @@ JDirInfo::ShowFiles
 void
 JDirInfo::ShowDirs
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	if (show != itsShowDirsFlag)
 		{
 		itsShowDirsFlag = show;
-		ApplyFilters(kJTrue);
+		ApplyFilters(true);
 		Broadcast(SettingsChanged());
 		}
 }
@@ -476,13 +476,13 @@ JDirInfo::ShowDirs
 void
 JDirInfo::ShowHidden
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	if (show != itsShowHiddenFlag)
 		{
 		itsShowHiddenFlag = show;
-		ApplyFilters(kJTrue);
+		ApplyFilters(true);
 		Broadcast(SettingsChanged());
 		}
 }
@@ -495,13 +495,13 @@ JDirInfo::ShowHidden
 void
 JDirInfo::ShowVCSDirs
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	if (show != itsShowVCSDirsFlag)
 		{
 		itsShowVCSDirsFlag = show;
-		ApplyFilters(kJTrue);
+		ApplyFilters(true);
 		Broadcast(SettingsChanged());
 		}
 }
@@ -514,13 +514,13 @@ JDirInfo::ShowVCSDirs
 void
 JDirInfo::ShowOthers
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	if (show != itsShowOthersFlag)
 		{
 		itsShowOthersFlag = show;
-		ApplyFilters(kJTrue);
+		ApplyFilters(true);
 		Broadcast(SettingsChanged());
 		}
 }
@@ -533,13 +533,13 @@ JDirInfo::ShowOthers
 void
 JDirInfo::ShouldApplyWildcardFilterToDirs
 	(
-	const JBoolean apply
+	const bool apply
 	)
 {
 	if (apply != itsFilterDirsFlag)
 		{
 		itsFilterDirsFlag = apply;
-		ApplyFilters(kJTrue);
+		ApplyFilters(true);
 		Broadcast(SettingsChanged());
 		}
 }
@@ -604,11 +604,11 @@ JDirInfo::UseDefaultProgressDisplay()
 /******************************************************************************
  FindEntry
 
-	Returns kJTrue if an entry with the given name exists.
+	Returns true if an entry with the given name exists.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirInfo::FindEntry
 	(
 	const JString&	name,
@@ -627,7 +627,7 @@ JDirInfo::FindEntry
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirInfo::ClosestMatch
 	(
 	const JString&	prefixStr,
@@ -636,13 +636,13 @@ JDirInfo::ClosestMatch
 	const
 {
 	JDirEntry target(prefixStr, 0);
-	JBoolean found;
+	bool found;
 	*index = itsAlphaEntries->SearchSorted1(&target, JListT::kFirstMatch, &found);
 	if (*index > itsAlphaEntries->GetElementCount())		// insert beyond end of list
 		{
 		*index = itsAlphaEntries->GetElementCount();
 		}
-	return JConvertToBoolean( *index > 0 );
+	return *index > 0;
 }
 
 /*****************************************************************************
@@ -787,7 +787,7 @@ JDirInfo::BuildInfo()
 
 	ACE_stat stbuf;
 	ACE_OS::stat(itsCWD.GetBytes(), &stbuf);
-	itsIsValidFlag    = kJTrue;
+	itsIsValidFlag    = true;
 	itsIsWritableFlag = JDirectoryWritable(itsCWD);
 	itsModTime        = stbuf.st_mtime;
 	itsStatusTime     = stbuf.st_ctime;
@@ -799,9 +799,9 @@ JDirInfo::BuildInfo()
 	JLatentPG pg(itsContentRegex == nullptr ? 100 : 10);
 	if (itsPG != nullptr)
 		{
-		pg.SetPG(itsPG, kJFalse);
+		pg.SetPG(itsPG, false);
 		}
-	pg.VariableLengthProcessBeginning(JGetString("Scanning::JDirInfo"), kJTrue, kJFalse);
+	pg.VariableLengthProcessBeginning(JGetString("Scanning::JDirInfo"), true, false);
 
 	BuildInfo1(pg);
 
@@ -810,21 +810,21 @@ JDirInfo::BuildInfo()
 	err = JChangeDirectory(origDir);
 	assert_ok( err );
 
-	ApplyFilters(kJFalse);
+	ApplyFilters(false);
 	return JNoError();
 }
 
 /*****************************************************************************
  Update
 
-	Returns kJTrue if anything needed to be updated.
+	Returns true if anything needed to be updated.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirInfo::Update
 	(
-	const JBoolean force
+	const bool force
 	)
 {
 	ACE_stat info;
@@ -834,7 +834,7 @@ JDirInfo::Update
 		itsModTime != (time_t) info.st_mtime)
 		{
 		ForceUpdate();
-		return kJTrue;
+		return true;
 		}
 	else if (itsStatusTime != (time_t) info.st_ctime &&
 			 JDirectoryReadable(itsCWD))
@@ -842,28 +842,28 @@ JDirInfo::Update
 		itsStatusTime     = info.st_ctime;
 		itsIsWritableFlag = JDirectoryWritable(itsCWD);
 		Broadcast(PermissionsChanged());
-		return kJTrue;
+		return true;
 		}
 	else if (itsStatusTime != (time_t) info.st_ctime)
 		{
 		ForceUpdate();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
 /*****************************************************************************
  ForceUpdate
 
-	Returns kJTrue if the update was successful.  Otherwise, returns
-	kJFalse to indicate that path is no longer valid.
+	Returns true if the update was successful.  Otherwise, returns
+	false to indicate that path is no longer valid.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirInfo::ForceUpdate()
 {
 	if (JDirectoryExists(itsCWD))
@@ -873,7 +873,7 @@ JDirInfo::ForceUpdate()
 		const JError err = BuildInfo();
 		if (err.OK())
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -888,27 +888,27 @@ JDirInfo::ForceUpdate()
 		}
 	else
 		{
-		itsIsValidFlag    = kJFalse;
-		itsIsWritableFlag = kJFalse;
+		itsIsValidFlag    = false;
+		itsIsWritableFlag = false;
 		itsDirEntries->CleanOut();
 		itsVisEntries->CleanOut();
 		itsAlphaEntries->CleanOut();
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  ApplyFilters (private)
 
-	update should be kJTrue if the contents are merely being updated.
+	update should be true if the contents are merely being updated.
 
  ******************************************************************************/
 
 void
 JDirInfo::ApplyFilters
 	(
-	const JBoolean update
+	const bool update
 	)
 {
 	if (update)
@@ -924,7 +924,7 @@ JDirInfo::ApplyFilters
 		if (IsVisible(*entry))
 			{
 			itsVisEntries->Append(entry);
-			itsAlphaEntries->InsertSorted(entry, kJTrue);
+			itsAlphaEntries->InsertSorted(entry, true);
 			}
 		}
 
@@ -936,7 +936,7 @@ JDirInfo::ApplyFilters
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirInfo::IsVisible
 	(
 	const JDirEntry& entry
@@ -948,41 +948,41 @@ JDirInfo::IsVisible
 
 	if (!itsShowHiddenFlag && name.GetFirstCharacter() == '.' && name != "..")
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (!itsShowVCSDirsFlag && JIsVCSDirectory(name))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (type == JDirEntry::kDir || type == JDirEntry::kDirLink)
 		{
-		return JI2B(itsShowDirsFlag &&
+		return itsShowDirsFlag &&
 					(!itsFilterDirsFlag || MatchesNameFilter(entry)) &&
-					MatchesDirEntryFilter(entry));
+					MatchesDirEntryFilter(entry);
 		}
 	else if (type == JDirEntry::kFile || type == JDirEntry::kFileLink ||
 			 type == JDirEntry::kBrokenLink)
 		{
-		return JI2B(itsShowFilesFlag &&
+		return itsShowFilesFlag &&
 					MatchesNameFilter(entry) &&
-					MatchesDirEntryFilter(entry));
+					MatchesDirEntryFilter(entry);
 		}
 	else if (type == JDirEntry::kUnknown || type == JDirEntry::kUnknownLink)
 		{
-		return JI2B(itsShowOthersFlag &&
+		return itsShowOthersFlag &&
 					MatchesNameFilter(entry) &&
-					MatchesDirEntryFilter(entry));
+					MatchesDirEntryFilter(entry);
 		}
 	else if (type == JDirEntry::kDoesNotExist)
 		{
-		return kJFalse;
+		return false;
 		}
 	else
 		{
 		assert( 0 );	// this should never happen
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -995,8 +995,8 @@ void
 JDirInfo::SetWildcardFilter
 	(
 	const JString&	filterStr,
-	const JBoolean	negate,
-	const JBoolean	caseSensitive
+	const bool	negate,
+	const bool	caseSensitive
 	)
 {
 	JString regexStr;
@@ -1010,7 +1010,7 @@ JDirInfo::SetWildcardFilter
 	assert( r != nullptr );
 	r->SetCaseSensitive(caseSensitive);
 
-	SetWildcardFilter(r, kJTrue, negate);
+	SetWildcardFilter(r, true, negate);
 }
 
 /******************************************************************************
@@ -1022,8 +1022,8 @@ void
 JDirInfo::SetWildcardFilter
 	(
 	JRegex*			filter,
-	const JBoolean	dirInfoOwnsRegex,
-	const JBoolean	negate
+	const bool	dirInfoOwnsRegex,
+	const bool	negate
 	)
 {
 	if (filter == nullptr)
@@ -1043,7 +1043,7 @@ JDirInfo::SetWildcardFilter
 	itsOwnsNameRegexFlag   = dirInfoOwnsRegex;
 	itsInvertNameRegexFlag = negate;
 
-	ApplyFilters(kJTrue);
+	ApplyFilters(true);
 	Broadcast(SettingsChanged());
 }
 
@@ -1062,8 +1062,8 @@ JDirInfo::ClearWildcardFilter()
 			jdelete itsNameRegex;
 			}
 		itsNameRegex         = nullptr;
-		itsOwnsNameRegexFlag = kJFalse;
-		ApplyFilters(kJTrue);
+		itsOwnsNameRegexFlag = false;
+		ApplyFilters(true);
 		Broadcast(SettingsChanged());
 		}
 }
@@ -1072,13 +1072,13 @@ JDirInfo::ClearWildcardFilter()
  BuildRegexFromWildcardFilter (static)
 
 	Converts a wildcard filter ("*.cc *.h") to a regex ("^.*\.cc$|^.*\.h$").
-	Returns kJFalse if the given wildcard filter string is empty.
+	Returns false if the given wildcard filter string is empty.
 
  ******************************************************************************/
 
 static const JRegex theFilterSplitPattern = "\\s+";
 
-JBoolean
+bool
 JDirInfo::BuildRegexFromWildcardFilter
 	(
 	const JString&	origFilterStr,
@@ -1091,7 +1091,7 @@ JDirInfo::BuildRegexFromWildcardFilter
 	filterStr.TrimWhitespace();
 	if (filterStr.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
@@ -1102,7 +1102,7 @@ JDirInfo::BuildRegexFromWildcardFilter
 		AppendRegex(*s, regexStr);
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1132,7 +1132,7 @@ JDirInfo::AppendRegex
 			}
 		else if (c == '?')
 			{
-			iter.SetNext(JUtf8Character('.'), kJFalse);
+			iter.SetNext(JUtf8Character('.'), kJIteratorStay);
 			}
 		else if (JRegex::NeedsBackslashToBeLiteral(c))
 			{
@@ -1160,7 +1160,7 @@ JDirInfo::AppendRegex
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirInfo::MatchesNameFilter
 	(
 	const JDirEntry& entry
@@ -1170,7 +1170,7 @@ JDirInfo::MatchesNameFilter
 	if (itsNameRegex != nullptr)
 		{
 		const JString& name = entry.GetName();
-		JBoolean match      = itsNameRegex->Match(name);
+		bool match      = itsNameRegex->Match(name);
 		if (itsInvertNameRegexFlag)
 			{
 			match = !match;
@@ -1179,7 +1179,7 @@ JDirInfo::MatchesNameFilter
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -1197,7 +1197,7 @@ JDirInfo::SetDirEntryFilter
 	if (f != itsPermFilter)
 		{
 		itsPermFilter = f;
-		ApplyFilters(kJTrue);
+		ApplyFilters(true);
 		Broadcast(SettingsChanged());
 		}
 }
@@ -1213,7 +1213,7 @@ JDirInfo::ClearDirEntryFilter()
 	if (itsPermFilter != nullptr)
 		{
 		itsPermFilter = nullptr;
-		ApplyFilters(kJTrue);
+		ApplyFilters(true);
 		Broadcast(SettingsChanged());
 		}
 }
@@ -1223,7 +1223,7 @@ JDirInfo::ClearDirEntryFilter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirInfo::MatchesDirEntryFilter
 	(
 	const JDirEntry& entry
@@ -1236,7 +1236,7 @@ JDirInfo::MatchesDirEntryFilter
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -1256,11 +1256,11 @@ JDirInfo::SetContentFilter
 		return JNoError();
 		}
 
-	JBoolean hadFilter = kJTrue;
+	bool hadFilter = true;
 	JString prevPattern;
 	if (itsContentRegex == nullptr)
 		{
-		hadFilter       = kJFalse;
+		hadFilter       = false;
 		itsContentRegex = jnew JRegex;
 		assert( itsContentRegex != nullptr );
 		itsContentRegex->SetSingleLine();
@@ -1311,7 +1311,7 @@ JDirInfo::ClearContentFilter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirInfo::MatchesContentFilter
 	(
 	const JDirEntry& entry
@@ -1320,7 +1320,7 @@ JDirInfo::MatchesContentFilter
 {
 	if (itsContentRegex == nullptr || entry.IsDirectory())
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -1339,44 +1339,44 @@ JDirInfo::MatchesContentFilter
 void
 JDirInfo::ResetCSFFilters()
 {
-	JBoolean apply = kJFalse, rebuild = kJFalse;
+	bool apply = false, rebuild = false;
 
 	if (!itsShowFilesFlag)
 		{
-		itsShowFilesFlag = kJTrue;
-		apply            = kJTrue;
+		itsShowFilesFlag = true;
+		apply            = true;
 		}
 	if (!itsShowDirsFlag)
 		{
-		itsShowDirsFlag = kJTrue;
-		apply           = kJTrue;
+		itsShowDirsFlag = true;
+		apply           = true;
 		}
 //	if (itsShowHiddenFlag)
 //		{
-//		itsShowHiddenFlag = kJFalse;
-//		apply             = kJTrue;
+//		itsShowHiddenFlag = false;
+//		apply             = true;
 //		}
 	if (!itsShowVCSDirsFlag)
 		{
-		itsShowVCSDirsFlag = kJTrue;
-		apply              = kJTrue;
+		itsShowVCSDirsFlag = true;
+		apply              = true;
 		}
 	if (itsShowOthersFlag)
 		{
-		itsShowOthersFlag = kJFalse;
-		apply             = kJTrue;
+		itsShowOthersFlag = false;
+		apply             = true;
 		}
 
 	if (itsPermFilter != nullptr)
 		{
 		itsPermFilter = nullptr;
-		apply         = kJTrue;
+		apply         = true;
 		}
 	if (itsContentRegex != nullptr)
 		{
 		jdelete itsContentRegex;
 		itsContentRegex = nullptr;
-		rebuild         = kJTrue;
+		rebuild         = true;
 		}
 
 	if (rebuild)
@@ -1386,7 +1386,7 @@ JDirInfo::ResetCSFFilters()
 		}
 	else if (apply)
 		{
-		ApplyFilters(kJTrue);
+		ApplyFilters(true);
 		Broadcast(SettingsChanged());
 		}
 }
@@ -1394,14 +1394,14 @@ JDirInfo::ResetCSFFilters()
 /******************************************************************************
  Empty (static)
 
-	Returns kJTrue if the directory doesn't exist or exists and is empty.
+	Returns true if the directory doesn't exist or exists and is empty.
 
 	Not called IsEmpty(), because that would conflict with our base class,
 	JCollection.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirInfo::Empty
 	(
 	const JString& dirName
@@ -1410,9 +1410,9 @@ JDirInfo::Empty
 	JDirInfo* info;
 	if (!Create(dirName, &info))
 		{
-		return kJTrue;
+		return true;
 		}
-	const JBoolean empty = info->IsEmpty();
+	const bool empty = info->IsEmpty();
 	jdelete info;
 	return empty;
 }

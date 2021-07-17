@@ -34,7 +34,7 @@ protected:
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 	virtual void	HandleMouseEnter() override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDEnter() override;
@@ -107,11 +107,11 @@ protected:
 				return itsTime;
 			};
 
-			JBoolean
+			bool
 			GetSource(const JXWidget** source) const
 			{
 				*source = itsSource;
-				return JI2B( itsSource != nullptr );
+				return itsSource != nullptr;
 			};
 
 			const JXWidget*
@@ -146,24 +146,24 @@ public:
 					   const JPoint& pt, const Time time, const JXWidget* source)
 				:
 				DropBase(kAcceptDrop, typeList, action, pt, time, source),
-				itsAcceptFlag(kJFalse)
+				itsAcceptFlag(false)
 				{ };
 
-			JBoolean
+			bool
 			WillAcceptDrop() const
 			{
 				return itsAcceptFlag;
 			};
 
 			void
-			ShouldAcceptDrop(const JBoolean accept)
+			ShouldAcceptDrop(const bool accept)
 			{
 				itsAcceptFlag = accept;
 			};
 
 		private:
 
-			JBoolean	itsAcceptFlag;
+			bool	itsAcceptFlag;
 		};
 
 	class HandleEnter : public JBroadcaster::Message

@@ -18,7 +18,7 @@ class JXRegexInput : public JXInputField
 {
 public:
 
-	JXRegexInput(JRegex* testRegex, const JBoolean widgetOwnsRegex,
+	JXRegexInput(JRegex* testRegex, const bool widgetOwnsRegex,
 				 JXContainer* enclosure,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
@@ -26,12 +26,12 @@ public:
 
 	virtual ~JXRegexInput();
 
-	virtual JBoolean	InputValid();
+	virtual bool	InputValid();
 
 private:
 
 	JRegex*		itsTestRegex;
-	JBoolean	itsOwnsRegexFlag;
+	bool	itsOwnsRegexFlag;
 
 private:
 

@@ -16,7 +16,7 @@ main
 
 	JStopWatch timer;
 
-	pg.FixedLengthProcessBeginning(6, "Calculating scores...", kJTrue, kJFalse);
+	pg.FixedLengthProcessBeginning(6, "Calculating scores...", true, false);
 
 	timer.StartTimer();
 
@@ -38,7 +38,7 @@ main
 	JString timeString = timer.PrintTimeInterval();
 	std::cout << timeString;
 
-	pg.VariableLengthProcessBeginning("Processing examples...", kJTrue, kJFalse);
+	pg.VariableLengthProcessBeginning("Processing examples...", true, false);
 
 	for (i=1;i<=6;i++)
 		{

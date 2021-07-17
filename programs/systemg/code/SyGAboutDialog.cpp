@@ -30,9 +30,9 @@ SyGAboutDialog::SyGAboutDialog
 	const JString&	prevVersStr
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
-	itsIsUpgradeFlag = kJFalse;
+	itsIsUpgradeFlag = false;
 
 	BuildWindow(prevVersStr);
 }
@@ -118,7 +118,7 @@ SyGAboutDialog::BuildWindow
 		text += JGetString("UpgradeNotice::SyGAboutDialog");
 		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::SyGAboutDialog"));
-		itsIsUpgradeFlag = kJTrue;
+		itsIsUpgradeFlag = true;
 		}
 	textWidget->GetText()->SetText(text);
 
@@ -164,13 +164,13 @@ SyGAboutDialog::Receive
 			{
 			JXGetHelpManager()->ShowTOC();
 			}
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
 		JXGetHelpManager()->ShowCredits();
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else

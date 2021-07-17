@@ -33,7 +33,7 @@ CMCommandDirector*	CMGetCommandDirector();
 const JString&		CMGetVersionNumberStr();
 JString				CMGetVersionStr();
 
-JBoolean			CMIsShuttingDown();
+bool			CMIsShuttingDown();
 
 	// icons
 
@@ -56,7 +56,7 @@ const JXImage*	CMGetRegistersIcon();
 
 	// called by CMApp
 
-JBoolean	CMCreateGlobals(CMApp* app);
+bool	CMCreateGlobals(CMApp* app);
 void		CMCreateCommandDirector();
 void		CMDeleteGlobals();
 void		CMCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
@@ -84,6 +84,6 @@ const JUtf8Byte*	CMGetDebugWindowClass();
 
 // CBCtagsUser
 
-JBoolean	CBInUpdateThread();
+bool	CBInUpdateThread();
 
 #endif

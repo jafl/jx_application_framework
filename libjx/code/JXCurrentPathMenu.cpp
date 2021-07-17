@@ -143,16 +143,16 @@ JXCurrentPathMenu::SetPath
 		JStripTrailingDirSeparator(&p);
 		JSplitPathAndName(p, &p1, &n);
 		PrependItem(n);
-		SetItemImage(1, GetIcon(p), kJFalse);
+		SetItemImage(1, GetIcon(p), false);
 		p = p1;
 		}
 
 	PrependItem(p);
-	SetItemImage(1, GetIcon(p), kJFalse);
+	SetItemImage(1, GetIcon(p), false);
 
 	const JXImage* image = nullptr;
 	GetItemImage(GetItemCount(), &image);
-	SetTitle(GetItemText(GetItemCount()), const_cast<JXImage*>(image), kJFalse);
+	SetTitle(GetItemText(GetItemCount()), const_cast<JXImage*>(image), false);
 	SetUpdateAction(kDisableNone);
 }
 

@@ -667,7 +667,7 @@ CBFileTypeTable::HandleMouseDown
 			info.wordWrap = !info.wordWrap;
 			if (modifiers.meta())
 				{
-				const JBoolean wrap = info.wordWrap;
+				const bool wrap = info.wordWrap;
 				const JSize count   = itsFileTypeList->GetElementCount();
 				for (JIndex i=1; i<=count; i++)
 					{
@@ -699,7 +699,7 @@ CBFileTypeTable::HandleMouseDown
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFileTypeTable::IsEditable
 	(
 	const JPoint& cell
@@ -707,8 +707,8 @@ CBFileTypeTable::IsEditable
 	const
 {
 	const CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
-	return JI2B( cell.x == kSuffixColumn ||
-				(cell.x == kEditCmdColumn && info.editCmd != nullptr));
+	return cell.x == kSuffixColumn ||
+				(cell.x == kEditCmdColumn && info.editCmd != nullptr);
 }
 
 /******************************************************************************
@@ -755,7 +755,7 @@ CBFileTypeTable::CreateXInputField
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFileTypeTable::ExtractInputData
 	(
 	const JPoint& cell
@@ -766,13 +766,13 @@ CBFileTypeTable::ExtractInputData
 	CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
 	const JString& text               = itsTextInput->GetText()->GetText();
 
-	JBoolean ok = itsTextInput->InputValid();
+	bool ok = itsTextInput->InputValid();
 	if (ok && cell.x == kSuffixColumn)
 		{
-		const JBoolean isRegex = JI2B(text.GetFirstCharacter() == kCBContentRegexMarker);
+		const bool isRegex = text.GetFirstCharacter() == kCBContentRegexMarker;
 		if (isRegex && text.GetCharacterCount() == 1)
 			{
-			ok = kJFalse;
+			ok = false;
 			JGetUserNotification()->ReportError(
 				JGetString("EmptyInput::CBFileTypeTable"));
 			}
@@ -917,7 +917,7 @@ CBFileTypeTable::AddType()
 		{
 		CBPrefsManager::FileTypeInfo info(jnew JString, nullptr, nullptr, kCBUnknownFT,
 										  kCBEmptyMacroID, kCBEmptyCRMRuleListID,
-										  kJTrue, nullptr, kJTrue, jnew JString, nullptr);
+										  true, nullptr, true, jnew JString, nullptr);
 		assert( info.suffix != nullptr && info.complSuffix != nullptr );
 		itsFileTypeList->AppendElement(info);
 		AppendRows(1);
@@ -995,7 +995,7 @@ void
 CBFileTypeTable::UpdateTypeMenu()
 {
 	JPoint cell;
-	const JBoolean ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const bool ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	const CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
@@ -1014,7 +1014,7 @@ CBFileTypeTable::HandleTypeMenu
 	)
 {
 	JPoint cell;
-	const JBoolean ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const bool ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	const CBTextFileType newType = kMenuIndexToFileType [ index-1 ];
@@ -1058,7 +1058,7 @@ CBFileTypeTable::UpdateScriptMenu()
 	itsScriptMenu->SetMenuItems(kScriptMenuStr);
 
 	JPoint cell;
-	const JBoolean ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const bool ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
 	assert( ok );
 	const CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
 
@@ -1074,8 +1074,8 @@ CBFileTypeTable::UpdateScriptMenu()
 	JString sysDir, userDir;
 	if (CBPrefsManager::GetScriptPaths(&sysDir, &userDir))
 		{
-		BuildScriptMenuItems(sysDir,  kJFalse, &menuText);
-		BuildScriptMenuItems(userDir, kJTrue,  &menuText);
+		BuildScriptMenuItems(sysDir,  false, &menuText);
+		BuildScriptMenuItems(userDir, true,  &menuText);
 
 		const JSize count = menuText.GetElementCount();
 		JString itemText, nmShortcut;
@@ -1088,9 +1088,9 @@ CBFileTypeTable::UpdateScriptMenu()
 
 			JStringIterator iter(&itemText, kJIteratorStartAtEnd);
 			iter.BeginMatch();
-			const JBoolean found = iter.Prev(" (");
+			const bool found = iter.Prev(" (");
 			assert( found );
-			const JStringMatch& m = iter.FinishMatch(kJTrue);
+			const JStringMatch& m = iter.FinishMatch(true);
 
 			nmShortcut = m.GetString();
 			iter.RemoveAllNext();
@@ -1126,7 +1126,7 @@ void
 CBFileTypeTable::BuildScriptMenuItems
 	(
 	const JString&		path,
-	const JBoolean		isUserPath,
+	const bool		isUserPath,
 	JPtrArray<JString>*	menuText
 	)
 	const
@@ -1134,7 +1134,7 @@ CBFileTypeTable::BuildScriptMenuItems
 	JDirInfo* info = nullptr;
 	if (JDirInfo::Create(path, &info))
 		{
-		info->ShowFiles(kJFalse);
+		info->ShowFiles(false);
 
 		const JSize count = info->GetEntryCount();
 		for (JIndex i=1; i<=count; i++)
@@ -1168,7 +1168,7 @@ CBFileTypeTable::HandleScriptMenu
 	)
 {
 	JPoint cell;
-	const JBoolean ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const bool ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
@@ -1196,9 +1196,9 @@ CBFileTypeTable::HandleScriptMenu
 			}
 
 		JString nmShortcut;
-		const JBoolean ok = itsScriptMenu->GetItemNMShortcut(index, &nmShortcut);
+		const bool ok = itsScriptMenu->GetItemNMShortcut(index, &nmShortcut);
 		assert( ok );
-		info.isUserScript = JI2B( nmShortcut == JGetString("UserScriptMarker::CBFileTypeTable") );
+		info.isUserScript = nmShortcut == JGetString("UserScriptMarker::CBFileTypeTable");
 		}
 
 	itsFileTypeList->SetElement(cell.y, info);
@@ -1249,7 +1249,7 @@ CBFileTypeTable::CreateNewScriptDirectory()
 	CreateDirectory(fullName);
 
 	JPoint cell;
-	const JBoolean ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const bool ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
@@ -1266,7 +1266,7 @@ CBFileTypeTable::CreateNewScriptDirectory()
 		*(info.scriptPath) = name;
 		}
 
-	info.isUserScript = kJTrue;
+	info.isUserScript = true;
 
 	itsFileTypeList->SetElement(cell.y, info);
 	TableRefreshRow(cell.y);
@@ -1277,7 +1277,7 @@ CBFileTypeTable::CreateNewScriptDirectory()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFileTypeTable::CreateDirectory
 	(
 	const JString& path
@@ -1447,9 +1447,5 @@ CBFileTypeTable::SetColTitles
 	)
 	const
 {
-	for (JIndex i=1; i<=kColCount; i++)
-		{
-		const JString s = JString("Column") + JString(JUInt64(i)) + "::CBFileTypeTable";
-		widget->SetColTitle(i, JGetString(s.GetBytes()));
-		}
+	widget->SetColumnTitles("CBFileTypeTable", kColCount);
 }

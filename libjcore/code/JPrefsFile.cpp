@@ -169,7 +169,7 @@ JPrefsFile::SetData
 	const std::string&	data
 	)
 {
-	JString d(data.c_str(), data.length(), kJFalse);
+	JString d(data.c_str(), data.length(), JString::kNoCopy);
 	if (IDValid(id))
 		{
 		SetElement(id, d);

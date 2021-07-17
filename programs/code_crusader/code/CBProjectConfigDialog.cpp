@@ -36,7 +36,7 @@ CBProjectConfigDialog::CBProjectConfigDialog
 	const JString&							subProjectBuildCmd
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(method, targetName, depListExpr, updateMakefileCmd, subProjectBuildCmd);
 }
@@ -262,28 +262,28 @@ CBProjectConfigDialog::UpdateDisplay()
 	if (method == CBBuildManager::kManual)
 		{
 		itsTargetName->Deactivate();
-		itsTargetName->SetIsRequired(kJFalse);
+		itsTargetName->SetIsRequired(false);
 		itsDepListExpr->Deactivate();
 		itsUpdateMakefileCmd->Focus();
 		}
 	else if (method == CBBuildManager::kCMake)
 		{
 		itsTargetName->Activate();
-		itsTargetName->SetIsRequired(kJTrue);
+		itsTargetName->SetIsRequired(true);
 		itsTargetName->Focus();
 		itsDepListExpr->Activate();
 		}
 	else if (method == CBBuildManager::kQMake)
 		{
 		itsTargetName->Activate();
-		itsTargetName->SetIsRequired(kJTrue);
+		itsTargetName->SetIsRequired(true);
 		itsTargetName->Focus();
 		itsDepListExpr->Deactivate();
 		}
 	else
 		{
 		itsTargetName->Activate();
-		itsTargetName->SetIsRequired(kJTrue);
+		itsTargetName->SetIsRequired(true);
 		itsTargetName->Focus();
 		itsDepListExpr->Activate();
 		}

@@ -22,13 +22,13 @@
 
  *******************************************************************************/
 
-JBoolean
+bool
 JUserIsAdmin()
 {
 	HANDLE tokenHandle;
 	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &tokenHandle))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	DWORD returnLength;
@@ -36,14 +36,14 @@ JUserIsAdmin()
 	if (returnLength > 65535)
 		{
 		CloseHandle(tokenHandle);
-		return kJFalse;
+		return false;
 		}
 
 	TOKEN_GROUPS* groupList = (TOKEN_GROUPS*) malloc(returnLength);
 	if (groupList == nullptr)
 		{
 		CloseHandle(tokenHandle);
-		return kJFalse;
+		return false;
 		}
 
 	if (!GetTokenInformation(tokenHandle, TokenGroups,
@@ -51,7 +51,7 @@ JUserIsAdmin()
 		{
 		CloseHandle(tokenHandle);
 		free(groupList);
-		return kJFalse;
+		return false;
 		}
 	CloseHandle(tokenHandle);
 
@@ -62,15 +62,15 @@ JUserIsAdmin()
 								  &adminSid))
 		{
 		free(groupList);
-		return kJFalse;
+		return false;
 		}
 
-	JBoolean found = kJFalse;
+	bool found = false;
 	for (DWORD i = 0; i < groupList->GroupCount; i++)
 		{
 		if (EqualSid(adminSid, groupList->Groups[i].Sid))
 			{
-			found = kJTrue;
+			found = true;
 			break;
 			}
 		}

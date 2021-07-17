@@ -26,9 +26,9 @@ CMGetSourceFileList::CMGetSourceFileList
 	CMFileListDir*	fileList
 	)
 	:
-	CMCommand(cmd, kJFalse, kJFalse),
+	CMCommand(cmd, false, false),
 	itsFileList(fileList),
-	itsNeedRedoOnFirstStop(kJTrue)
+	itsNeedRedoOnFirstStop(true)
 {
 	ListenTo(CMGetLink());
 }
@@ -68,7 +68,7 @@ CMGetSourceFileList::Receive
 		if (info->Successful())
 			{
 			CMCommand::Send();
-			itsNeedRedoOnFirstStop = kJTrue;
+			itsNeedRedoOnFirstStop = true;
 			}
 		}
 	else if (sender == link && message.Is(CMLink::kSymbolsReloaded))
@@ -80,7 +80,7 @@ CMGetSourceFileList::Receive
 		if (itsNeedRedoOnFirstStop)
 			{
 			CMCommand::Send();
-			itsNeedRedoOnFirstStop = kJFalse;
+			itsNeedRedoOnFirstStop = false;
 			}
 		}
 	else if (sender == link &&

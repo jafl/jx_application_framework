@@ -28,7 +28,7 @@ class GLDataModule : virtual public JBroadcaster
 {
 public:
 
-	static JBoolean Create(	GLDataModule** module,
+	static bool Create(	GLDataModule** module,
 							GLRaggedFloatTable* table, 
 							GLRaggedFloatTableData* data,
 							const JString& sysCmd);
@@ -51,9 +51,9 @@ private:
 	GLRaggedFloatTable* 		itsTable;
 	GLRaggedFloatTableData*		itsData;
 	JOutPipeStream*				itsOutput;
-	JBoolean					itsHeaderRead;
-	JBoolean					itsSentData;
-	JBoolean					itsDataIsDump;
+	bool					itsHeaderRead;
+	bool					itsSentData;
+	bool					itsDataIsDump;
 	JSize						itsColNum;
 	JIndex						itsColStart;
 	JProgressDisplay*			itsPG;

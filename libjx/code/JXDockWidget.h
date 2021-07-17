@@ -31,7 +31,7 @@ public:
 public:
 
 	JXDockWidget(JXDockDirector* director, JXPartition* partition,
-				 const JBoolean isHorizPartition, JXTabGroup* tabGroup,
+				 const bool isHorizPartition, JXTabGroup* tabGroup,
 				 JXContainer* enclosure,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
@@ -44,23 +44,23 @@ public:
 	JPoint			GetMinSize() const;
 	void			UpdateMinSize();
 
-	JBoolean	HasWindows() const;
-	JBoolean	CloseAllWindows();		// recursive
+	bool	HasWindows() const;
+	bool	CloseAllWindows();		// recursive
 
 	JSize		GetWindowCount() const;
-	JBoolean	GetWindow(const JIndex index, JXWindow** window);
+	bool	GetWindow(const JIndex index, JXWindow** window);
 	void		ShowPreviousWindow();
 	void		ShowNextWindow();
 
-	JBoolean	WindowWillFit(JXWindow* w) const;
-	JBoolean	Dock(JXWindowDirector* d, const JBoolean reportError = kJFalse);
-	JBoolean	Dock(JXWindow* w, const JBoolean reportError = kJFalse);
-	JBoolean	TransferAll(JXDockWidget* target);
+	bool	WindowWillFit(JXWindow* w) const;
+	bool	Dock(JXWindowDirector* d, const bool reportError = false);
+	bool	Dock(JXWindow* w, const bool reportError = false);
+	bool	TransferAll(JXDockWidget* target);
 	void		UndockAll();
-	JBoolean	CloseAll();				// not recursive
+	bool	CloseAll();				// not recursive
 
-	JBoolean	GetHorizChildPartition(JXHorizDockPartition** p) const;
-	JBoolean	GetVertChildPartition(JXVertDockPartition** p) const;
+	bool	GetHorizChildPartition(JXHorizDockPartition** p) const;
+	bool	GetVertChildPartition(JXVertDockPartition** p) const;
 	void		SetChildPartition(JXPartition* p);
 
 	JIndex	GetID() const;
@@ -68,7 +68,7 @@ public:
 
 protected:
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
@@ -87,7 +87,7 @@ private:
 
 	JXDockDirector*			itsDirector;
 	JXPartition*			itsPartition;
-	const JBoolean			itsIsHorizFlag;
+	const bool			itsIsHorizFlag;
 	JXTabGroup*				itsTabGroup;
 	JIndex					itsID;
 	JPtrArray<JXWindow>*	itsWindowList;		// nullptr if contains partition
@@ -98,8 +98,8 @@ private:
 
 private:
 
-	JBoolean	FindWindow(JBroadcaster* sender, JXWindow** window, JIndex* index) const;
-	JBoolean	RemoveWindow(JBroadcaster* sender);
+	bool	FindWindow(JBroadcaster* sender, JXWindow** window, JIndex* index) const;
+	bool	RemoveWindow(JBroadcaster* sender);
 	JIndex		GetTabInsertionIndex(JXWindow* w, const JIndex ignoreIndex = 0) const;
 
 	// not allowed
@@ -162,7 +162,7 @@ JXDockWidget::GetWindowCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDockWidget::GetWindow
 	(
 	const JIndex	index,
@@ -172,11 +172,11 @@ JXDockWidget::GetWindow
 	if (itsWindowList == nullptr)
 		{
 		*window = nullptr;
-		return kJFalse;
+		return false;
 		}
 
 	*window = itsWindowList->GetElement(index);
-	return kJTrue;
+	return true;
 }
 
 #endif

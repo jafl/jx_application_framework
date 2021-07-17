@@ -143,7 +143,7 @@ CBFileListDirector::CBFileListDirector
 	std::istream*			symInput,
 	const JFileVersion	symVers,
 	CBProjectDocument*	supervisor,
-	const JBoolean		subProject
+	const bool		subProject
 	)
 	:
 	JXWindowDirector(supervisor)
@@ -152,7 +152,7 @@ CBFileListDirector::CBFileListDirector
 
 	if (projVers >= 20)
 		{
-		const JBoolean useProjData = JI2B( setInput == nullptr || setVers < 71 );
+		const bool useProjData = setInput == nullptr || setVers < 71;
 		if (projVers < 71)
 			{
 			if (useProjData)
@@ -164,7 +164,7 @@ CBFileListDirector::CBFileListDirector
 				JXWindow::SkipGeometry(projInput);
 				}
 
-			JBoolean active = kJFalse;
+			bool active = false;
 			if (projVers >= 50)
 				{
 				projInput >> JBoolFromString(active);
@@ -181,7 +181,7 @@ CBFileListDirector::CBFileListDirector
 			{
 			GetWindow()->ReadGeometry(*setInput);
 
-			JBoolean active;
+			bool active;
 			*setInput >> JBoolFromString(active);
 			if (active && !subProject)
 				{
@@ -289,7 +289,7 @@ CBFileListDirector::BuildWindow()
 
 	AdjustWindowTitle();
 	window->SetMinSize(150, 150);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetWMClass(CBGetWMClassInstance(), CBGetFileListWindowClass());
 
@@ -582,8 +582,8 @@ CBFileListDirector::HandleFileMenu
 void
 CBFileListDirector::UpdateListMenu()
 {
-	const JBoolean allowOpen =
-		JI2B( itsFLTable->HasFocus() && itsFLTable->HasSelection() );
+	const bool allowOpen =
+		itsFLTable->HasFocus() && itsFLTable->HasSelection();
 	itsListMenu->SetItemEnable(kOpenSelectionCmd, allowOpen);
 	itsListMenu->SetItemEnable(kShowLocationCmd,  allowOpen);
 
@@ -641,15 +641,15 @@ void
 CBFileListDirector::UpdateProjectMenu()
 {
 	itsProjectMenu->SetItemEnable(kShowCTreeCmd,
-		JNegate(itsProjDoc->GetCTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetCTreeDirector()->GetTree()->IsEmpty());
 	itsProjectMenu->SetItemEnable(kShowDTreeCmd,
-		JNegate(itsProjDoc->GetDTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetDTreeDirector()->GetTree()->IsEmpty());
 	itsProjectMenu->SetItemEnable(kShowGoTreeCmd,
-		JNegate(itsProjDoc->GetGoTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetGoTreeDirector()->GetTree()->IsEmpty());
 	itsProjectMenu->SetItemEnable(kShowJavaTreeCmd,
-		JNegate(itsProjDoc->GetJavaTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetJavaTreeDirector()->GetTree()->IsEmpty());
 	itsProjectMenu->SetItemEnable(kShowPHPTreeCmd,
-		JNegate(itsProjDoc->GetPHPTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetPHPTreeDirector()->GetTree()->IsEmpty());
 
 	itsProjectMenu->SetItemEnable(kCloseAllTextCmd,
 								  CBGetDocumentManager()->HasTextDocuments());
@@ -714,7 +714,7 @@ CBFileListDirector::HandleProjectMenu
 
 	else if (index == kSaveAllTextCmd)
 		{
-		CBGetDocumentManager()->SaveTextDocuments(kJTrue);
+		CBGetDocumentManager()->SaveTextDocuments(true);
 		}
 	else if (index == kCloseAllTextCmd)
 		{

@@ -60,12 +60,12 @@ JTEST(Output)
 	pid_t childPID;
 	int toFD;
 	int fromFD;
-	JError err = JExecute(JString("grep junk", kJFalse), &childPID,
+	JError err = JExecute(JString("grep junk", JString::kNoCopy), &childPID,
 						  kJCreatePipe, &toFD,
 						  kJCreatePipe, &fromFD);
 	JAssertOK(err);
 
-	JOutPipeStream output(toFD, kJTrue);
+	JOutPipeStream output(toFD, true);
 	output << "This is line 1" << std::endl;
 	output << "This is line 2" << std::endl;
 	output << "This line contains 'junk'" << std::endl;
@@ -99,7 +99,7 @@ JTEST(ChildInput)
 		{
 		close(fd[0]);
 
-		JOutPipeStream output(fd[1], kJTrue);
+		JOutPipeStream output(fd[1], true);
 		output << kMessage;
 		output.flush();
 		exit(0);

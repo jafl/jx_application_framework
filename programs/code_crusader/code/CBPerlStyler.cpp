@@ -76,19 +76,19 @@ const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStylerBase*
 CBPerlStyler::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBPerlStyler;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -123,7 +123,7 @@ CBPerlStyler::CBPerlStyler()
 		SetTypeStyle(i, blankStyle);
 		}
 
-	SetTypeStyle(kPrototypeArgList   - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+	SetTypeStyle(kPrototypeArgList   - kWhitespace, JFontStyle(true, false, 0, false));
 	SetTypeStyle(kReservedKeyword    - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 
 	SetTypeStyle(kSingleQuoteString  - kWhitespace, JFontStyle(JColorManager::GetBrownColor()));
@@ -139,7 +139,7 @@ CBPerlStyler::CBPerlStyler()
 	SetTypeStyle(kFileGlob           - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 
 	SetTypeStyle(kComment            - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
-	SetTypeStyle(kPOD                - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetGrayColor(50)));
+	SetTypeStyle(kPOD                - kWhitespace, JFontStyle(true, false, 0, false, JColorManager::GetGrayColor(50)));
 	SetTypeStyle(kPPDirective        - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
 
 	SetTypeStyle(kError              - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
@@ -225,7 +225,7 @@ CBPerlStyler::Scan
 			}
 		else if (token.type == kPPDirective)
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange().byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange().byteRange, JString::kNoCopy));
 			}
 		else if (token.type < kWhitespace)
 			{
@@ -233,14 +233,14 @@ CBPerlStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy));
 			}
 		}
 		while (SetStyle(token.range.charRange, style));
@@ -254,7 +254,7 @@ CBPerlStyler::Scan
 	to be after the #.
 
 	modifiedRange is the range of text that was changed.
-	deletion is kJTrue if the modification was that text was deleted.
+	deletion is true if the modification was that text was deleted.
 
  ******************************************************************************/
 
@@ -264,7 +264,7 @@ CBPerlStyler::PreexpandCheckRange
 	const JString&			text,
 	const JRunArray<JFont>&	styles,
 	const JCharacterRange&	modifiedRange,
-	const JBoolean			deletion,
+	const bool			deletion,
 	JStyledText::TextRange*	checkRange
 	)
 {
@@ -275,7 +275,7 @@ CBPerlStyler::PreexpandCheckRange
 
 	JStringIterator iter(text, kJIteratorStartBefore, checkRange->charRange.last);
 	JUtf8Character c;
-	const JBoolean ok = iter.Next(&c, kJFalse);
+	const bool ok = iter.Next(&c, kJIteratorStay);
 	assert( ok );
 
 	if (!c.IsSpace())
@@ -283,11 +283,11 @@ CBPerlStyler::PreexpandCheckRange
 		iter.SkipNext();
 		}
 
-	JBoolean foundSpace = kJFalse;
-	while (iter.Next(&c, kJFalse) && c.IsSpace())
+	bool foundSpace = false;
+	while (iter.Next(&c, kJIteratorStay) && c.IsSpace())
 		{
 		iter.SkipNext();
-		foundSpace = kJTrue;
+		foundSpace = true;
 		}
 
 	if (foundSpace)
@@ -311,7 +311,7 @@ CBPerlStyler::UpgradeTypeList
 {
 	if (vers < 1)
 		{
-		typeStyles->InsertElementAtIndex(5, JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+		typeStyles->InsertElementAtIndex(5, JFontStyle(true, false, 0, false));
 		}
 
 	if (vers < 2)

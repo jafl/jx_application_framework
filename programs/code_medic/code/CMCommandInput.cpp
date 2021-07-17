@@ -38,12 +38,12 @@ CMCommandInput::CMCommandInput
 	)
 	:
 	JXTEBase(kFullEditor,
-			 jnew JXStyledText(kJFalse, kJFalse, enclosure->GetFontManager()),
-			 kJTrue, kJTrue, nullptr,
+			 jnew JXStyledText(false, false, enclosure->GetFontManager()),
+			 true, true, nullptr,
 			 enclosure, hSizing, vSizing, x,y,w,h)
 {
 	CMTextDisplayBase::AdjustFont(this);
-	WantInput(kJTrue, kJTrue);
+	WantInput(true, true);
 	SetBorderWidth(0);
 	GetText()->SetCharacterInWordFunction(CBMIsCharacterInWord);
 }
@@ -95,8 +95,8 @@ CMCommandInput::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	const JBoolean allOff    = modifiers.AllOff();
-	const JBoolean controlOn = modifiers.control();
+	const bool allOff    = modifiers.AllOff();
+	const bool controlOn = modifiers.control();
 
 	if (controlOn && c == JXCtrl('A'))
 		{

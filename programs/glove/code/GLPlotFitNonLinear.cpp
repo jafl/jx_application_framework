@@ -177,7 +177,7 @@ GLPlotFitNonLinear::SetFunction
 
 	JExprParser p(itsVarList);
 
-	const JBoolean ok = p.Parse(function, &itsFunction);
+	const bool ok = p.Parse(function, &itsFunction);
 	assert(ok);
 }
 
@@ -196,7 +196,7 @@ GLPlotFitNonLinear::SetFPrimed
 
 	JExprParser p(itsVarList);
 
-	const JBoolean ok = p.Parse(fPrimed, &itsFPrimed);
+	const bool ok = p.Parse(fPrimed, &itsFPrimed);
 	assert(ok);
 }
 
@@ -220,7 +220,7 @@ GLPlotFitNonLinear::SetInitialParameters
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitNonLinear::GetYValue
 	(
 	const JFloat 	x,
@@ -230,7 +230,7 @@ GLPlotFitNonLinear::GetYValue
 {
 	GLPlotFitNonLinear* th	= const_cast< GLPlotFitNonLinear* >(this);
 	*y	= th->FunctionN(x);
-	return kJTrue;
+	return true;
 }
 
 
@@ -240,7 +240,7 @@ GLPlotFitNonLinear::GetYValue
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitNonLinear::GetParameterName
 	(
 	const JIndex index, 
@@ -249,7 +249,7 @@ GLPlotFitNonLinear::GetParameterName
 	const
 {
 	*name	= itsVarList->GetVariableName(index + 1);
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -258,7 +258,7 @@ GLPlotFitNonLinear::GetParameterName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitNonLinear::GetParameter
 	(
 	const JIndex index, 
@@ -266,7 +266,7 @@ GLPlotFitNonLinear::GetParameter
 	)
 	const
 {
-	JBoolean ok	= itsVarList->GetNumericValue(index + 1, 1, value);
+	bool ok	= itsVarList->GetNumericValue(index + 1, 1, value);
 	return ok;
 }
 
@@ -276,7 +276,7 @@ GLPlotFitNonLinear::GetParameter
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitNonLinear::GetParameterError
 	(
 	const JIndex index, 
@@ -287,12 +287,12 @@ GLPlotFitNonLinear::GetParameterError
 	const JPlotDataBase* data = GetData();
 	if (!data->HasXErrors() && !data->HasYErrors())
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index > itsErrors->GetDimensionCount())
 		{
-		return kJFalse;
+		return false;
 		}
 	*value	= itsErrors->GetElement(index);
-	return kJTrue;		
+	return true;		
 }

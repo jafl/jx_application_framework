@@ -40,10 +40,10 @@ JXPSPrinter::JXPSPrinter
 	)
 	:
 	JPSPrinter(display->GetFontManager()),
-	itsPrintCmd("lpr", 0)
+	itsPrintCmd("lpr")
 {
 	itsDestination = kPrintToPrinter;
-	itsCollateFlag = kJFalse;
+	itsCollateFlag = false;
 
 	itsPageSetupDialog  = nullptr;
 	itsPrintSetupDialog = nullptr;
@@ -139,18 +139,18 @@ JXPSPrinter::ReadXPSSetup
 		{
 		PaperType type;
 		ImageOrientation orient;
-		JBoolean printBW;
+		bool printBW;
 		input >> type >> orient >> itsPrintCmd >> JBoolFromString(printBW);
 		SetPaperType(type);
 		SetOrientation(orient);
 		PSPrintBlackWhite(printBW);
-		itsCollateFlag = kJFalse;
+		itsCollateFlag = false;
 		PSResetCoordinates();
 		}
 	else if (vers == 1)
 		{
 		input >> itsPrintCmd;
-		itsCollateFlag = kJFalse;
+		itsCollateFlag = false;
 		ReadPSSetup(input);
 		}
 	else
@@ -200,7 +200,7 @@ JXPSPrinter::WriteXPSSetup
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPSPrinter::OpenDocument()
 {
 	const JSize savedCopyCount = GetCopyCount();
@@ -209,7 +209,7 @@ JXPSPrinter::OpenDocument()
 		JString outputFile;
 		if (!(JCreateTempFile(&outputFile)).OK())
 			{
-			return kJFalse;
+			return false;
 			}
 
 		SetOutputFileName(outputFile);
@@ -225,7 +225,7 @@ JXPSPrinter::OpenDocument()
 		SetOutputFileName(itsFileName);
 		}
 
-	const JBoolean success = JPSPrinter::OpenDocument();
+	const bool success = JPSPrinter::OpenDocument();
 
 	if (itsDestination == kPrintToPrinter && itsCollateFlag)
 		{
@@ -324,12 +324,12 @@ JXPSPrinter::CreatePageSetupDialog
 /******************************************************************************
  EndUserPageSetup (virtual protected)
 
-	Returns kJTrue if settings were changed.
+	Returns true if settings were changed.
 	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPSPrinter::EndUserPageSetup
 	(
 	const JBroadcaster::Message& message
@@ -342,7 +342,7 @@ JXPSPrinter::EndUserPageSetup
 		dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 	assert( info != nullptr );
 
-	JBoolean changed = kJFalse;
+	bool changed = false;
 	if (info->Successful())
 		{
 		changed = itsPageSetupDialog->SetParameters(this);
@@ -387,8 +387,8 @@ JXPSPrinter::CreatePrintSetupDialog
 	const Destination	destination,
 	const JString&		printCmd,
 	const JString&		fileName,
-	const JBoolean		collate,
-	const JBoolean		bw
+	const bool		collate,
+	const bool		bw
 	)
 {
 	return JXPSPrintSetupDialog::Create(destination, printCmd, fileName, collate, bw);
@@ -397,16 +397,16 @@ JXPSPrinter::CreatePrintSetupDialog
 /******************************************************************************
  EndUserPrintSetup (virtual protected)
 
-	Returns kJTrue if caller should continue the printing process.
+	Returns true if caller should continue the printing process.
 	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPSPrinter::EndUserPrintSetup
 	(
 	const JBroadcaster::Message&	message,
-	JBoolean*						changed
+	bool*						changed
 	)
 {
 	assert( itsPrintSetupDialog != nullptr );
@@ -445,8 +445,8 @@ JXPSPrinter::Receive
 	else if (sender == itsPrintSetupDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
 		{
-		JBoolean changed = kJFalse;
-		const JBoolean success = EndUserPrintSetup(message, &changed);
+		bool changed = false;
+		const bool success = EndUserPrintSetup(message, &changed);
 		Broadcast(PrintSetupFinished(success, changed));
 		}
 

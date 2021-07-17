@@ -36,7 +36,7 @@ JXPTPrinter::JXPTPrinter()
 	:
 	JPTPrinter(),
 	itsDestination(kPrintToPrinter),
-	itsPrintCmd("lpr", kJFalse),
+	itsPrintCmd("lpr", JString::kNoCopy),
 	itsPageSetupDialog(nullptr),
 	itsPrintSetupDialog(nullptr)
 {
@@ -203,16 +203,16 @@ JXPTPrinter::Print
 		return;
 		}
 
-	JBoolean success = JPTPrinter::Print(text, output);
+	bool success = JPTPrinter::Print(text, output);
 	if (output.fail())
 		{
-		success = kJFalse;
+		success = false;
 		JGetUserNotification()->ReportError(JGetString("CannotPrint::JXPTPrinter"));
 		}
 
 	output.close();
 
-	JBoolean removeFile = kJFalse;
+	bool removeFile = false;
 	if (success && itsDestination == kPrintToPrinter)
 		{
 		const JString sysCmd  = itsPrintCmd + " " + JPrepArgForExec(fileName);
@@ -232,11 +232,11 @@ JXPTPrinter::Print
 				}
 			}
 
-		removeFile = kJTrue;
+		removeFile = true;
 		}
 	else if (!success)
 		{
-		removeFile = kJTrue;
+		removeFile = true;
 		}
 
 	if (removeFile)
@@ -282,7 +282,7 @@ JXPTPrinter::CreatePageSetupDialog
 	const JSize		pageWidth,
 	const JSize		pageHeight,
 	const JSize		minPageHeight,
-	const JBoolean	printReverseOrder
+	const bool	printReverseOrder
 	)
 {
 	return JXPTPageSetupDialog::Create(printCmd, pageWidth, pageHeight,
@@ -292,12 +292,12 @@ JXPTPrinter::CreatePageSetupDialog
 /******************************************************************************
  EndUserPageSetup (virtual protected)
 
-	Returns kJTrue if settings were changed.
+	Returns true if settings were changed.
 	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPTPrinter::EndUserPageSetup
 	(
 	const JBroadcaster::Message& message
@@ -310,7 +310,7 @@ JXPTPrinter::EndUserPageSetup
 		dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 	assert( info != nullptr );
 
-	JBoolean changed = kJFalse;
+	bool changed = false;
 	if (info->Successful())
 		{
 		changed = itsPageSetupDialog->SetParameters(this);
@@ -354,7 +354,7 @@ JXPTPrinter::CreatePrintSetupDialog
 	const Destination	destination,
 	const JString&		printCmd,
 	const JString&		fileName,
-	const JBoolean		printLineNumbers
+	const bool		printLineNumbers
 	)
 {
 	return JXPTPrintSetupDialog::Create(destination, printCmd, fileName,
@@ -364,16 +364,16 @@ JXPTPrinter::CreatePrintSetupDialog
 /******************************************************************************
  EndUserPrintSetup (virtual protected)
 
-	Returns kJTrue if caller should continue the printing process.
+	Returns true if caller should continue the printing process.
 	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPTPrinter::EndUserPrintSetup
 	(
 	const JBroadcaster::Message&	message,
-	JBoolean*						changed
+	bool*						changed
 	)
 {
 	assert( itsPrintSetupDialog != nullptr );
@@ -412,8 +412,8 @@ JXPTPrinter::Receive
 	else if (sender == itsPrintSetupDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
 		{
-		JBoolean changed = kJFalse;
-		const JBoolean success = EndUserPrintSetup(message, &changed);
+		bool changed = false;
+		const bool success = EndUserPrintSetup(message, &changed);
 		Broadcast(PrintSetupFinished(success, changed));
 		}
 

@@ -38,18 +38,18 @@ public:
 	Direction	GetDirection() const;
 	void		SetDirection(const Direction d);
 
-	JBoolean	Prev(JPoint* cell);
-	JBoolean	Prev(JIndex* row, JIndex* col);
+	bool	Prev(JPoint* cell);
+	bool	Prev(JIndex* row, JIndex* col);
 
-	JBoolean	Next(JPoint* cell);
-	JBoolean	Next(JIndex* row, JIndex* col);
+	bool	Next(JPoint* cell);
+	bool	Next(JIndex* row, JIndex* col);
 
 	void	MoveTo(const JIteratorPosition newPosition, const JPoint& cell);
 	void	MoveTo(const JIteratorPosition newPosition,
 				   const JIndex row, const JIndex col);
 
-	JBoolean	AtBeginning();
-	JBoolean	AtEnd();
+	bool	AtBeginning();
+	bool	AtEnd();
 
 protected:
 
@@ -63,12 +63,12 @@ private:
 	const JTableSelection*	itsTableSelection;	// JTableSelection that is being iterated over
 	Direction				itsDirection;		// By row or by column
 	JPoint					itsCursor;			// Current iterator position
-	JBoolean				itsAtEndFlag;
+	bool				itsAtEndFlag;
 
 private:
 
-	JBoolean	NextCell();
-	JBoolean	PrevCell();
+	bool	NextCell();
+	bool	PrevCell();
 
 	// not allowed
 

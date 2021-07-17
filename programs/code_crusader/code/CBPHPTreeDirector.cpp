@@ -71,7 +71,7 @@ CBPHPTreeDirector::CBPHPTreeDirector
 	std::istream*		symInput,
 	const JFileVersion	symVers,
 	CBProjectDocument*	supervisor,
-	const JBoolean		subProject
+	const bool		subProject
 	)
 	:
 	CBTreeDirector(projInput, projVers, setInput, setVers, symInput, symVers,
@@ -80,7 +80,7 @@ CBPHPTreeDirector::CBPHPTreeDirector
 				   "CBPHPTreeHelp", jcc_php_tree_window,
 				   kTreeMenuStr, "CBPHPTreeDirector",
 				   kCBPHPTreeToolBarID, InitPHPTreeToolBar,
-				   nullptr, kJFalse)
+				   nullptr, false)
 {
 	CBPHPTreeDirectorX();
 }
@@ -127,7 +127,7 @@ CBPHPTreeDirector::UpdateTreeMenu()
 			}
 		}
 
-	JBoolean hasSelection, canCollapse, canExpand;
+	bool hasSelection, canCollapse, canExpand;
 	itsPHPTree->GetMenuInfo(&hasSelection, &canCollapse, &canExpand);
 	if (hasSelection)
 		{
@@ -184,11 +184,11 @@ CBPHPTreeDirector::HandleTreeMenu
 
 	else if (index == kTreeCollapseCmd)
 		{
-		itsPHPTree->CollapseExpandSelectedClasses(kJTrue);
+		itsPHPTree->CollapseExpandSelectedClasses(true);
 		}
 	else if (index == kTreeExpandCmd)
 		{
-		itsPHPTree->CollapseExpandSelectedClasses(kJFalse);
+		itsPHPTree->CollapseExpandSelectedClasses(false);
 		}
 	else if (index == kTreeExpandAllCmd)
 		{

@@ -27,7 +27,7 @@ SetElasticDialog::SetElasticDialog
 	const JIndex		maxIndex
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(index, maxIndex);
 }
@@ -99,7 +99,7 @@ SetElasticDialog::GetElasticIndex()
 	const
 {
 	JInteger size;
-	const JBoolean ok = itsElasticIndex->GetValue(&size);
+	const bool ok = itsElasticIndex->GetValue(&size);
 	assert( ok );
 	return size;
 }

@@ -30,7 +30,7 @@ JXXToJRect
 Region		JXRectangleRegion(XRectangle* rectangle);
 Region		JXRectangleRegion(const JRect& rect);
 JRect		JXGetRegionBounds(Region region);
-JBoolean	JXRegionIsRectangle(Region region, JRect* rect = nullptr);
+bool	JXRegionIsRectangle(Region region, JRect* rect = nullptr);
 
 Region	JXCopyRegion(Region region);
 void	JXIntersectRectWithRegion(XRectangle* rectangle, Region src_region,
@@ -75,7 +75,7 @@ void	JXReportUnreachableHosts(const JPtrArray<JString>& urlList);
 
 // only for use by JXSelectionManager
 
-JBoolean	JXFixBrokenURLs(const JUtf8Byte* data, const JSize byteCount,
+bool	JXFixBrokenURLs(const JUtf8Byte* data, const JSize byteCount,
 							JXDisplay* display, const Window srcWindow,
 							JString* newData);
 

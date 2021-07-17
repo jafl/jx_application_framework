@@ -18,9 +18,9 @@ public:
 
 	virtual ~CBSymbolUpdatePG();
 
-	virtual JBoolean	IncrementProgress(const JString& message = JString::empty) override;
-	virtual JBoolean	IncrementProgress(const JSize delta) override;
-	virtual JBoolean	IncrementProgress(const JString& message, const JSize delta) override;
+	virtual bool	IncrementProgress(const JString& message = JString::empty) override;
+	virtual bool	IncrementProgress(const JSize delta) override;
+	virtual bool	IncrementProgress(const JString& message, const JSize delta) override;
 	virtual void		ProcessFinished() override;
 	virtual void		DisplayBusyCursor() override;
 
@@ -29,10 +29,10 @@ public:
 protected:
 
 	virtual void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
-									 const JString& message, const JBoolean allowCancel,
-									 const JBoolean allowBackground) override;
+									 const JString& message, const bool allowCancel,
+									 const bool allowBackground) override;
 
-	virtual JBoolean	CheckForCancel() override;
+	virtual bool	CheckForCancel() override;
 
 private:
 

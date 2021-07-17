@@ -4691,7 +4691,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_South FL_NoGravity
 name: (currPathMenu)
 callback: 
-argument: JString("/", kJFalse)
+argument: JString("/", JString::kNoCopy)
 
 --------------------
 class: FL_BUTTON
@@ -6581,7 +6581,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_South FL_NoGravity
 name: (currPathMenu)
 callback: 
-argument: JString("/", kJFalse)
+argument: JString("/", JString::kNoCopy)
 
 --------------------
 class: FL_BUTTON
@@ -6983,7 +6983,7 @@ resize: FL_RESIZE_NONE
 gravity: FL_South FL_NoGravity
 name: (currPathMenu)
 callback: 
-argument: JString("/", kJFalse)
+argument: JString("/", JString::kNoCopy)
 
 --------------------
 class: FL_BUTTON

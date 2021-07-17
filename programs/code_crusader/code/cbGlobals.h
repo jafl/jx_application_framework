@@ -30,7 +30,7 @@ class CBPSPrinter;
 CBApp*					CBGetApplication();
 CBDocumentManager*		CBGetDocumentManager();
 CBPrefsManager*			CBGetPrefsManager();
-JBoolean				CBGetMDIServer(CBMDIServer** mdi);
+bool				CBGetMDIServer(CBMDIServer** mdi);
 
 CBSearchTextDialog*		CBGetSearchTextDialog();
 CBRunTEScriptDialog*	CBGetRunTEScriptDialog();
@@ -48,7 +48,7 @@ CBPSPrinter*			CBGetPSTextPrinter();
 const JString&			CBGetVersionNumberStr();
 JString					CBGetVersionStr();
 
-JBoolean				CBInUpdateThread();
+bool				CBInUpdateThread();
 void					CBSetUpdateThread();
 
 	// icons
@@ -58,12 +58,12 @@ const JXImage*	CBGetWritablePlainFileIcon();
 const JXImage*	CBGetSourceFileIcon();
 const JXImage*	CBGetWritableSourceFileIcon();
 const JXImage*	CBGetLibraryFileIcon();
-const JXImage*	CBGetProjectFileIcon(const JBoolean active);
-const JXImage*	CBGetTextFileIcon(const JBoolean active);
+const JXImage*	CBGetProjectFileIcon(const bool active);
+const JXImage*	CBGetTextFileIcon(const bool active);
 
 	// called by CBApp
 
-JBoolean CBCreateGlobals(CBApp* app, const JBoolean useMDI);
+bool CBCreateGlobals(CBApp* app, const bool useMDI);
 void     CBDeleteGlobals();
 void     CBCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 

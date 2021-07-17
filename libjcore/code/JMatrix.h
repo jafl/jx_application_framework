@@ -16,9 +16,9 @@ class JVector;
 
 class JMatrix
 {
-	friend JBoolean	JGaussianElimination(const JMatrix& A, const JVector& b, JVector* x);
-	friend JBoolean	JGaussianElimination(const JMatrix& A, const JMatrix& b, JMatrix* x);
-	friend JBoolean	JGaussianElimination(JMatrix* A, JMatrix* x);
+	friend bool	JGaussianElimination(const JMatrix& A, const JVector& b, JVector* x);
+	friend bool	JGaussianElimination(const JMatrix& A, const JMatrix& b, JMatrix* x);
+	friend bool	JGaussianElimination(JMatrix* A, JMatrix* x);
 
 public:
 
@@ -59,13 +59,13 @@ public:
 	void	SetColVector(const JIndex colIndex, const JVector& colVector);
 
 	JMatrix		Transpose() const;
-	JBoolean	Invert(JMatrix* inverse) const;
+	bool	Invert(JMatrix* inverse) const;
 	JFloat		Determinant() const;
 
 	void	Print(std::ostream& output) const;
 
-	JBoolean	RowIndexValid(const JIndex rowIndex) const;
-	JBoolean	ColIndexValid(const JIndex colIndex) const;
+	bool	RowIndexValid(const JIndex rowIndex) const;
+	bool	ColIndexValid(const JIndex colIndex) const;
 
 protected:
 
@@ -147,15 +147,15 @@ JMatrix::GetElementCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JDimensionsEqual
 	(
 	const JMatrix& mx1,
 	const JMatrix& mx2
 	)
 {
-	return JConvertToBoolean( mx1.GetRowCount() == mx2.GetRowCount() &&
-							  mx1.GetColCount() == mx2.GetColCount() );
+	return mx1.GetRowCount() == mx2.GetRowCount() &&
+							  mx1.GetColCount() == mx2.GetColCount();
 }
 
 /******************************************************************************
@@ -163,24 +163,24 @@ JDimensionsEqual
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JMatrix::RowIndexValid
 	(
 	const JIndex rowIndex
 	)
 	const
 {
-	return JConvertToBoolean( 1 <= rowIndex && rowIndex <= itsRowCount );
+	return 1 <= rowIndex && rowIndex <= itsRowCount;
 }
 
-inline JBoolean
+inline bool
 JMatrix::ColIndexValid
 	(
 	const JIndex colIndex
 	)
 	const
 {
-	return JConvertToBoolean( 1 <= colIndex && colIndex <= itsColCount );
+	return 1 <= colIndex && colIndex <= itsColCount;
 }
 
 #endif

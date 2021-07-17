@@ -169,8 +169,8 @@ const JCharacter* JTextEditor::kCaretLineChanged = "CaretLineChanged::JTextEdito
 JTextEditor::JTextEditor
 	(
 	const Type			type,
-	const JBoolean		breakCROnly,
-	const JBoolean		pasteStyledText,
+	const bool		breakCROnly,
+	const bool		pasteStyledText,
 	const JFontManager*	fontManager,
 	JColormap*			colormap,
 	const JColorIndex	caretColor,
@@ -407,7 +407,7 @@ JTextEditor::SetType
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::SetText
 	(
 	const JCharacter*		text,
@@ -427,7 +427,7 @@ JTextEditor::SetText
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::SetText1
 	(
 	const JRunArray<Font>* style
@@ -435,7 +435,7 @@ JTextEditor::SetText1
 {
 	ClearUndo();
 
-	JBoolean cleaned = kFalse;
+	bool cleaned = kFalse;
 
 	if (style != NULL)
 		{
@@ -476,7 +476,7 @@ static const JCharacter* kMacintoshNewline     = "\r";
 static const JCharacter  kMacintoshNewlineChar = '\r';
 static const JCharacter* kDOSNewline           = "\r\n";
 
-JBoolean
+bool
 JTextEditor::ReadPlainText
 	(
 	const JCharacter*	fileName,
@@ -605,11 +605,11 @@ JTextEditor::WritePlainText
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::ReadUNIXManOutput
 	(
 	istream&		input,
-	const JBoolean	allowCancel
+	const bool	allowCancel
 	)
 {
 	TEDisplayBusyCursor();
@@ -629,7 +629,7 @@ JTextEditor::ReadUNIXManOutput
 	ulFont.id =
 		itsFontMgr->GetFontID(fontName, ulFont.size, ulFont.style);
 
-	JBoolean cancelled          = kFalse;
+	bool cancelled          = kFalse;
 	JSize lineCount             = 0;
 	const JSize kScaleFactor    = 100;			// lines per progress increment
 	JProgressDisplay* pg        = NULL;
@@ -688,7 +688,7 @@ JTextEditor::ReadUNIXManOutput
 			if (c == '\n')
 				{
 				lineCount++;
-				const JBoolean timeToUpdate =
+				const bool timeToUpdate =
 					JConvertToBoolean( lineCount % kScaleFactor == 0 );
 				if (timeToUpdate && pg == NULL &&
 					time(NULL) - startTime >= kMaxSilentTime)
@@ -732,7 +732,7 @@ JTextEditor::ReadUNIXManOutput
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::ReadPrivateFormat
 	(
 	istream& input
@@ -761,7 +761,7 @@ JTextEditor::ReadPrivateFormat
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::ReadPrivateFormat
 	(
 	istream&			input,
@@ -918,7 +918,7 @@ JTextEditor::WritePrivateFormat
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::WriteClipboardPrivateFormat
 	(
 	ostream&			output,
@@ -946,7 +946,7 @@ JTextEditor::WriteClipboardPrivateFormat
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::WriteDragClipPrivateFormat
 	(
 	ostream&			output,
@@ -1015,7 +1015,7 @@ JTextEditor::WritePrivateFormat
 	colorList.SetCompareFunction(JCompareIndices);
 
 	JIndex startRunIndex, startFirstInRun;
-	JBoolean found = style.FindRun(startIndex, &startRunIndex, &startFirstInRun);
+	bool found = style.FindRun(startIndex, &startRunIndex, &startFirstInRun);
 	assert( found );
 
 	JIndex i          = startIndex;
@@ -1268,7 +1268,7 @@ struct HTMLParserState
 
 	JSize								indentCount;	// # of blockquote cmds
 	JSize								newlineCount;	// number of trailing newlines
-	JBoolean							appendWS;		// kTrue if need whitespace in front of next word
+	bool							appendWS;		// kTrue if need whitespace in front of next word
 
 	const JCharacter*					delim;
 	JSize								delimCount;
@@ -1304,7 +1304,7 @@ struct HTMLParserState
 		fontNameStack.Push(name);
 	};
 
-	JBoolean PopFont(JString* buffer, JRunArray<JTextEditor::Font>* styles);
+	bool PopFont(JString* buffer, JRunArray<JTextEditor::Font>* styles);
 
 	void UpdateFontID()
 	{
@@ -1313,7 +1313,7 @@ struct HTMLParserState
 
 	void		NewList(const ListType type, JString* buffer, JRunArray<JTextEditor::Font>* styles);
 	void		NewListItem(JString* buffer, JRunArray<JTextEditor::Font>* styles);
-	JBoolean	EndList(JString* buffer, JRunArray<JTextEditor::Font>* styles);
+	bool	EndList(JString* buffer, JRunArray<JTextEditor::Font>* styles);
 
 	void SetDelimiters(const JCharacter* delimiters)
 	{
@@ -1343,7 +1343,7 @@ static void		HandleHTMLOffCmd(const HTMLCmd cmd, JString* buffer,
 								 JRunArray<JTextEditor::Font>* styles,
 								 HTMLParserState* state);
 
-static HTMLCmd	ParseHTMLCmd(istream& input, JString* attribText, JBoolean* on);
+static HTMLCmd	ParseHTMLCmd(istream& input, JString* attribText, bool* on);
 static void		ParseHTMLFontAttribs(const JString& attribText, HTMLParserState* state,
 									 JColormap* colormap, JArray<JColorIndex>** colorList);
 static JString	ParseHTMLEscapedChar(istream& input);
@@ -1485,7 +1485,7 @@ AppendTextForHTML
 
  ******************************************************************************/
 
-JBoolean
+bool
 HTMLParserState::PopFont
 	(
 	JString*						buffer,
@@ -1560,7 +1560,7 @@ HTMLParserState::NewListItem
 	appendWS     = kFalse;
 }
 
-JBoolean
+bool
 HTMLParserState::EndList
 	(
 	JString*						buffer,
@@ -1611,7 +1611,7 @@ JTextEditor::ReadHTML
 		{
 		JString text;
 		JCharacter delim;
-		const JBoolean foundDelim =
+		const bool foundDelim =
 			JReadUntil(input, state.delimCount, state.delim, &text, &delim);
 
 		AppendTextForHTML(itsBuffer, text, itsStyles, &state);
@@ -1638,7 +1638,7 @@ JTextEditor::ReadHTML
 		else if (delim == '<')
 			{
 			JString attribText;
-			JBoolean on;
+			bool on;
 			const HTMLCmd cmd = ParseHTMLCmd(input, &attribText, &on);
 
 			if (on)
@@ -1991,7 +1991,7 @@ ParseHTMLCmd
 	(
 	istream&	input,
 	JString*	attribText,
-	JBoolean*	on
+	bool*	on
 	)
 {
 	const JCharacter delims[] = { ' ', '\n', '\t', '>' };
@@ -2194,7 +2194,7 @@ ParseHTMLFontAttribs
 		{
 		input >> ws;
 
-		JBoolean found;
+		bool found;
 		JString attrib = JReadUntil(input, '=', &found);
 		if (!found)
 			{
@@ -2214,8 +2214,8 @@ ParseHTMLFontAttribs
 
 		if (attrib == "size")
 			{
-			JBoolean relPlus  = kFalse;
-			JBoolean relMinus = kFalse;
+			bool relPlus  = kFalse;
+			bool relMinus = kFalse;
 			if (type.GetFirstCharacter() == '+')
 				{
 				type.RemoveSubstring(1,1);
@@ -2428,7 +2428,7 @@ IgnoreUntilHTMLClose
 
 	while (1)
 		{
-		JBoolean found;
+		bool found;
 		JIgnoreUntil(input, '<', &found);
 		if (!found)
 			{
@@ -2470,14 +2470,14 @@ IgnoreUntilHTMLClose
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::SearchForward
 	(
 	const JCharacter*	searchStr,
-	const JBoolean		caseSensitive,
-	const JBoolean		entireWord,
-	const JBoolean		wrapSearch,
-	JBoolean*			wrapped
+	const bool		caseSensitive,
+	const bool		entireWord,
+	const bool		wrapSearch,
+	bool*			wrapped
 	)
 {
 	JIndex startIndex;
@@ -2506,7 +2506,7 @@ JTextEditor::SearchForward
 
 	const JSize searchLength = strlen(searchStr);
 
-	JBoolean found = kFalse;
+	bool found = kFalse;
 	while (1)
 		{
 		found = itsBuffer->LocateNextSubstring(searchStr, searchLength,
@@ -2553,14 +2553,14 @@ JTextEditor::SearchForward
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::SearchBackward
 	(
 	const JCharacter*	searchStr,
-	const JBoolean		caseSensitive,
-	const JBoolean		entireWord,
-	const JBoolean		wrapSearch,
-	JBoolean*			wrapped
+	const bool		caseSensitive,
+	const bool		entireWord,
+	const bool		wrapSearch,
+	bool*			wrapped
 	)
 {
 	JIndex startIndex;
@@ -2590,7 +2590,7 @@ JTextEditor::SearchBackward
 
 	const JSize searchLength = strlen(searchStr);
 
-	JBoolean found = kFalse;
+	bool found = kFalse;
 	while (1)
 		{
 		found = itsBuffer->LocatePrevSubstring(searchStr, searchLength,
@@ -2640,12 +2640,12 @@ JTextEditor::SearchBackward
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::SelectionMatches
 	(
 	const JCharacter*	searchStr,
-	const JBoolean		caseSensitive,
-	const JBoolean		entireWord
+	const bool		caseSensitive,
+	const bool		entireWord
 	)
 {
 	const JSize searchLength = strlen(searchStr);
@@ -2671,13 +2671,13 @@ JTextEditor::SelectionMatches
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::SearchForward
 	(
 	const JRegex&			regex,
-	const JBoolean			entireWord,
-	const JBoolean			wrapSearch,
-	JBoolean*				wrapped,
+	const bool			entireWord,
+	const bool			wrapSearch,
+	bool*				wrapped,
 	JArray<JStringRange>*	submatchList
 	)
 {
@@ -2705,7 +2705,7 @@ JTextEditor::SearchForward
 		return kFalse;
 		}
 
-	JBoolean found = kFalse;
+	bool found = kFalse;
 	JStringRange all;
 	while (1)
 		{
@@ -2760,13 +2760,13 @@ JTextEditor::SearchForward
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::SearchBackward
 	(
 	const JRegex&			regex,
-	const JBoolean			entireWord,
-	const JBoolean			wrapSearch,
-	JBoolean*				wrapped,
+	const bool			entireWord,
+	const bool			wrapSearch,
+	bool*				wrapped,
 	JArray<JStringRange>*	submatchList
 	)
 {
@@ -2795,7 +2795,7 @@ JTextEditor::SearchBackward
 		return kFalse;
 		}
 
-	JBoolean found = kFalse;
+	bool found = kFalse;
 	JStringRange all;
 	while (1)
 		{
@@ -2856,11 +2856,11 @@ JTextEditor::SearchBackward
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::SelectionMatches
 	(
 	const JRegex&			regex,
-	const JBoolean			entireWord,
+	const bool			entireWord,
 	JArray<JStringRange>*	submatchList
 	)
 {
@@ -2885,7 +2885,7 @@ JTextEditor::SelectionMatches
 void
 JTextEditor::SetBreakCROnly
 	(
-	const JBoolean breakCROnly
+	const bool breakCROnly
 	)
 {
 	if (breakCROnly != itsBreakCROnlyFlag)
@@ -3034,10 +3034,10 @@ JTextEditor::SetCurrentFontName
 {
 	if (itsHasSelectionFlag)
 		{
-		JBoolean isNew;
+		bool isNew;
 		JTEUndoStyle* undo = GetStyleUndo(&isNew);
 
-		const JBoolean changed =
+		const bool changed =
 			SetFontName(itsSelection.start, itsSelection.end, name, kFalse);
 
 		if (changed && isNew)
@@ -3072,7 +3072,7 @@ JTextEditor::SetCurrentFontSize
 void
 JTextEditor::SetCurrentFontBold
 	(
-	const JBoolean bold
+	const bool bold
 	)
 {
 	#define LocalVarName      bold
@@ -3085,7 +3085,7 @@ JTextEditor::SetCurrentFontBold
 void
 JTextEditor::SetCurrentFontItalic
 	(
-	const JBoolean italic
+	const bool italic
 	)
 {
 	#define LocalVarName      italic
@@ -3111,7 +3111,7 @@ JTextEditor::SetCurrentFontUnderline
 void
 JTextEditor::SetCurrentFontStrike
 	(
-	const JBoolean strike
+	const bool strike
 	)
 {
 	#define LocalVarName      strike
@@ -3168,7 +3168,7 @@ JTextEditor::SetCurrentFont
 {
 	if (itsHasSelectionFlag)
 		{
-		JBoolean isNew;
+		bool isNew;
 		JTEUndoStyle* undo = GetStyleUndo(&isNew);
 
 		SetFont(itsSelection.start, itsSelection.end, f, kFalse);
@@ -3245,13 +3245,13 @@ JTextEditor::GetFont
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::SetFontName
 	(
 	const JIndex		startIndex,
 	const JIndex		endIndex,
 	const JCharacter*	name,
-	const JBoolean		clearUndo
+	const bool		clearUndo
 	)
 {
 	if (clearUndo)
@@ -3260,11 +3260,11 @@ JTextEditor::SetFontName
 		}
 
 	Font f;
-	JBoolean changed = kFalse;
+	bool changed = kFalse;
 	JRunArrayIterator<Font> iter(itsStyles, kIteratorStartBefore, startIndex);
 	for (JIndex i=startIndex; i<=endIndex; i++)
 		{
-		const JBoolean ok = iter.Next(&f);
+		const bool ok = iter.Next(&f);
 		assert( ok );
 
 		const JFontID newID = itsFontMgr->GetFontID(name, f.size, f.style);
@@ -3284,13 +3284,13 @@ JTextEditor::SetFontName
 	return changed;
 }
 
-JBoolean
+bool
 JTextEditor::SetFontSize
 	(
 	const JIndex	startIndex,
 	const JIndex	endIndex,
 	const JSize		size,
-	const JBoolean	clearUndo
+	const bool	clearUndo
 	)
 {
 	if (clearUndo)
@@ -3299,11 +3299,11 @@ JTextEditor::SetFontSize
 		}
 
 	Font f;
-	JBoolean changed = kFalse;
+	bool changed = kFalse;
 	JRunArrayIterator<Font> iter(itsStyles, kIteratorStartBefore, startIndex);
 	for (JIndex i=startIndex; i<=endIndex; i++)
 		{
-		const JBoolean ok = iter.Next(&f);
+		const bool ok = iter.Next(&f);
 		assert( ok );
 
 		if (size != f.size)
@@ -3325,13 +3325,13 @@ JTextEditor::SetFontSize
 	return changed;
 }
 
-JBoolean
+bool
 JTextEditor::SetFontStyle
 	(
 	const JIndex		startIndex,
 	const JIndex		endIndex,
 	const JFontStyle&	style,
-	const JBoolean		clearUndo
+	const bool		clearUndo
 	)
 {
 	if (clearUndo)
@@ -3340,11 +3340,11 @@ JTextEditor::SetFontStyle
 		}
 
 	Font f;
-	JBoolean changed = kFalse;
+	bool changed = kFalse;
 	JRunArrayIterator<Font> iter(itsStyles, kIteratorStartBefore, startIndex);
 	for (JIndex i=startIndex; i<=endIndex; i++)
 		{
-		const JBoolean ok = iter.Next(&f);
+		const bool ok = iter.Next(&f);
 		assert( ok );
 
 		if (style != f.style)
@@ -3374,7 +3374,7 @@ JTextEditor::SetFont
 	const JCharacter*	name,
 	const JSize			size,
 	const JFontStyle&	style,
-	const JBoolean		clearUndo
+	const bool		clearUndo
 	)
 {
 	SetFont(startIndex, endIndex,
@@ -3389,7 +3389,7 @@ JTextEditor::SetFont
 	const JIndex		startIndex,
 	const JIndex		endIndex,
 	const Font&			f,
-	const JBoolean		clearUndo
+	const bool		clearUndo
 	)
 {
 	if (clearUndo)
@@ -3420,7 +3420,7 @@ JTextEditor::SetFont
 	(
 	const JIndex			startIndex,
 	const JRunArray<Font>&	fontList,
-	const JBoolean			clearUndo
+	const bool			clearUndo
 	)
 {
 	if (clearUndo)
@@ -3462,7 +3462,7 @@ JTextEditor::SetAllFontNameAndSize
 	const JCharacter*	name,
 	const JSize			size,
 	const JCoordinate	tabWidth,
-	const JBoolean		clearUndo
+	const bool		clearUndo
 	)
 {
 	if (clearUndo)
@@ -3618,7 +3618,7 @@ JTextEditor::Cut()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::Cut
 	(
 	JString*			text,
@@ -3662,7 +3662,7 @@ JTextEditor::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::Copy
 	(
 	JString*			text,
@@ -3694,7 +3694,7 @@ JTextEditor::Copy
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::GetClipboard
 	(
 	JString*			text,
@@ -3845,7 +3845,7 @@ JTextEditor::PrivatePaste
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::GetInternalClipboard
 	(
 	JString*			text,
@@ -3939,7 +3939,7 @@ JTextEditor::GetInsertionIndex()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::GetSelection
 	(
 	JString* text
@@ -3958,7 +3958,7 @@ JTextEditor::GetSelection
 		}
 }
 
-JBoolean
+bool
 JTextEditor::GetSelection
 	(
 	JString*			text,
@@ -4007,7 +4007,7 @@ JTextEditor::SetSelection
 	assert( IndexValid(endIndex) );
 	assert( startIndex <= endIndex );
 
-	const JBoolean hadSelection      = itsHasSelectionFlag;
+	const bool hadSelection      = itsHasSelectionFlag;
 	const CaretLocation origCaretLoc = itsCaretLoc;
 	const Selection origSelection    = itsSelection;
 
@@ -4182,7 +4182,7 @@ JIndex i,j;
 			}
 		}
 
-	JBoolean isNew;
+	bool isNew;
 	JTEUndoTabShift* undo = GetTabShiftUndo(firstLine, lastLine, &isNew);
 	undo->HandleShiftLeft(tabCount);
 
@@ -4249,7 +4249,7 @@ JIndex i;
 		return;
 		}
 
-	JBoolean isNew;
+	bool isNew;
 	JTEUndoTabShift* undo = GetTabShiftUndo(firstLine, lastLine, &isNew);
 	undo->HandleShiftRight(tabCount);
 
@@ -4331,7 +4331,7 @@ JTextEditor::CleanAllRightMargins()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::CleanRightMargin
 	(
 	JIndex* firstChar,
@@ -4378,7 +4378,7 @@ JTextEditor::CleanRightMargin
 
 	JString  newText;
 	JSize    currentLineWidth = 0;
-	JBoolean needSpace        = kFalse;
+	bool needSpace        = kFalse;
 
 	JString wordBuffer, spaceBuffer;
 	while (charIndex <= endChar)
@@ -4472,7 +4472,7 @@ JTextEditor::CleanRightMargin
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::CRMGetRange
 	(
 	const JIndex	caretChar,
@@ -4538,7 +4538,7 @@ JTextEditor::CRMGetRange
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::CRMLineIsBlank
 	(
 	const JIndex startChar,
@@ -4567,7 +4567,7 @@ JTextEditor::CRMLineIsBlank
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::CRMGetPrefix
 	(
 	JIndex*			startChar,
@@ -4640,7 +4640,7 @@ JTextEditor::CRMTossLinePrefix
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::CRMIsPrefixChar
 	(
 	const JCharacter c
@@ -4895,7 +4895,7 @@ JTextEditor::Undo()
 	assert( itsUndoState == kIdle );
 
 	JTEUndoBase* undo;
-	const JBoolean hasUndo = GetCurrentUndo(&undo);
+	const bool hasUndo = GetCurrentUndo(&undo);
 	if (hasUndo && itsType == kFullEditor)
 		{
 		itsUndoState = kUndo;
@@ -4920,7 +4920,7 @@ JTextEditor::Redo()
 	assert( itsUndoState == kIdle );
 
 	JTEUndoBase* undo;
-	const JBoolean hasUndo = GetCurrentRedo(&undo);
+	const bool hasUndo = GetCurrentRedo(&undo);
 	if (hasUndo && itsType == kFullEditor)
 		{
 		itsUndoState = kRedo;
@@ -4981,7 +4981,7 @@ JTextEditor::ClearUndo()
 void
 JTextEditor::UseMultipleUndo
 	(
-	const JBoolean doIt
+	const bool doIt
 	)
 {
 	if (doIt && itsUndoList == NULL)
@@ -5022,7 +5022,7 @@ JTextEditor::SetUndoDepth
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::GetCurrentUndo
 	(
 	JTEUndoBase** undo
@@ -5050,7 +5050,7 @@ JTextEditor::GetCurrentUndo
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::GetCurrentRedo
 	(
 	JTEUndoBase** redo
@@ -5269,7 +5269,7 @@ JTextEditor::ClearOutdatedUndo()
 JTEUndoTyping*
 JTextEditor::GetTypingUndo
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 {
 	JTEUndoTyping* typingUndo = NULL;
@@ -5307,7 +5307,7 @@ JTextEditor::GetTypingUndo
 JTEUndoStyle*
 JTextEditor::GetStyleUndo
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 {
 	JTEUndoStyle* styleUndo = NULL;
@@ -5347,7 +5347,7 @@ JTextEditor::GetTabShiftUndo
 	(
 	const JIndex	startLine,
 	const JIndex	endLine,
-	JBoolean*		isNew
+	bool*		isNew
 	)
 {
 	JTEUndoTabShift* tabShiftUndo = NULL;
@@ -5463,7 +5463,7 @@ JTextEditor::Paginate
 		while (i < count && h <= pageHeight)
 			{
 			i++;
-			const JBoolean ok = iter.Next(&geom);
+			const bool ok = iter.Next(&geom);
 			assert( ok );
 			h += geom.height;
 			}
@@ -5476,7 +5476,7 @@ JTextEditor::Paginate
 
 			pageH -= geom.height;
 			i--;
-			const JBoolean ok = iter.Prev(&geom);
+			const bool ok = iter.Prev(&geom);
 			assert( ok );
 			h = 0;
 			}
@@ -5524,7 +5524,7 @@ JTextEditor::Print
 	// We deactivate before printing so the selection or the
 	// caret won't be printed.
 
-	const JBoolean savedActive = TEIsActive();
+	const bool savedActive = TEIsActive();
 	TEDeactivate();
 
 	// adjust to the width of the page
@@ -5544,7 +5544,7 @@ JTextEditor::Print
 
 	const JSize pageCount = breakpts.GetElementCount() - 1;
 
-	JBoolean cancelled = kFalse;
+	bool cancelled = kFalse;
 	for (JIndex i=1; i<=pageCount; i++)
 		{
 		if (!p.NewPage())
@@ -5798,14 +5798,14 @@ JTextEditor::GetPlainTextTabWidth
 
  ******************************************************************************/
 
-JArray<JBoolean>
+JArray<bool>
 JTextEditor::GetCmdStatus
 	(
-	JBoolean* isReadOnly
+	bool* isReadOnly
 	)
 	const
 {
-	JArray<JBoolean> flags(kCmdCount);
+	JArray<bool> flags(kCmdCount);
 	for (JIndex i=1; i<=kCmdCount; i++)
 		{
 		flags.AppendElement(kFalse);
@@ -5851,7 +5851,7 @@ JTextEditor::GetCmdStatus
 			}
 		else if (itsUndo != NULL)
 			{
-			const JBoolean isRedo = itsUndo->IsRedo();
+			const bool isRedo = itsUndo->IsRedo();
 			flags.SetElement(kUndoCmd, JNegate(isRedo));
 			flags.SetElement(kRedoCmd, isRedo);
 			}
@@ -5879,7 +5879,7 @@ JTextEditor::TEDraw
 	if (itsLeftMarginWidth > kMinLeftMarginWidth)
 		{
 		const JColorIndex savedColor = p.GetPenColor();
-		const JBoolean savedFill     = p.IsFilling();
+		const bool savedFill     = p.IsFilling();
 		p.SetPenColor(itsColormap->GetGray90Color());
 		p.SetFilling(kTrue);
 		const JRect& clipRect = p.GetClipRect();
@@ -5958,14 +5958,14 @@ JTextEditor::TEDrawText
 
 	JRunIndex runIndex;
 	JIndex firstInRun;
-	const JBoolean found = itsStyles->FindRun(GetLineStart(startLine), &runIndex, &firstInRun);
+	const bool found = itsStyles->FindRun(GetLineStart(startLine), &runIndex, &firstInRun);
 	assert( found );
 
 	JRunArrayIterator<LineGeometry> iter(itsLineGeom, kIteratorStartBefore, startLine);
 	LineGeometry geom;
 	for (JIndex i=startLine; i<=lineCount; i++)
 		{
-		const JBoolean ok = iter.Next(&geom);
+		const bool ok = iter.Next(&geom);
 		assert( ok );
 
 		TEDrawLine(p, h, geom, i, &runIndex, &firstInRun);
@@ -6002,7 +6002,7 @@ JTextEditor::TEDrawLine
 	const JSize lineLength = GetLineLength(lineIndex);
 	assert( lineLength > 0 );
 
-	JBoolean lineEndsWithNewline = kFalse;
+	bool lineEndsWithNewline = kFalse;
 
 	JIndex startChar = GetLineStart(lineIndex);
 	JIndex endChar   = startChar + lineLength - 1;
@@ -6144,7 +6144,7 @@ JTextEditor::TEDrawSelection
 	// draw the selection region
 
 	const JColorIndex savedColor = p.GetPenColor();
-	const JBoolean savedFill     = p.IsFilling();
+	const bool savedFill     = p.IsFilling();
 	if (itsCaretActiveFlag)
 		{
 		p.SetPenColor(itsSelectionColor);
@@ -6162,7 +6162,7 @@ JTextEditor::TEDrawSelection
 	LineGeometry geom;
 	for (JIndex i=startLine; i<=endLine; i++)
 		{
-		const JBoolean ok = iter.Next(&geom);
+		const bool ok = iter.Next(&geom);
 		assert( ok );
 
 		JCoordinate w;
@@ -6274,12 +6274,12 @@ JTextEditor::TEDrawCaret
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::TEWillDragAndDrop
 	(
 	const JPoint&	origPt,
-	const JBoolean	extendSelection,
-	const JBoolean	dropCopy
+	const bool	extendSelection,
+	const bool	dropCopy
 	)
 	const
 {
@@ -6308,8 +6308,8 @@ JTextEditor::TEHandleMouseDown
 	(
 	const JPoint&	origPt,
 	const JSize		clickCount,
-	const JBoolean	extendSelection,
-	const JBoolean	dropCopy
+	const bool	extendSelection,
+	const bool	dropCopy
 	)
 {
 	assert( itsActiveFlag );
@@ -6579,7 +6579,7 @@ void
 JTextEditor::TEHandleDNDHere
 	(
 	const JPoint&	origPt,
-	const JBoolean	dropOnSelf
+	const bool	dropOnSelf
 	)
 {
 	const JPoint pt(origPt.x - itsLeftMarginWidth, origPt.y);
@@ -6645,7 +6645,7 @@ void
 JTextEditor::TEHandleDNDDrop
 	(
 	const JPoint&	pt,
-	const JBoolean	dropOnSelf
+	const bool	dropOnSelf
 	)
 {
 	assert( itsDragType == kDragAndDrop );
@@ -6711,7 +6711,7 @@ void
 JTextEditor::DropSelection
 	(
 	const JIndex	origDropLoc,
-	const JBoolean	dropCopy
+	const bool	dropCopy
 	)
 {
 	assert( itsHasSelectionFlag );
@@ -6727,7 +6727,7 @@ JTextEditor::DropSelection
 
 	JString dropText;
 	JRunArray<Font> dropStyles;
-	const JBoolean ok = Copy(&dropText, &dropStyles);
+	const bool ok = Copy(&dropText, &dropStyles);
 	assert( ok );
 
 	JIndex dropLoc       = origDropLoc;
@@ -6775,7 +6775,7 @@ JTextEditor::DropSelection
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::GetDragClip
 	(
 	JString*			text,
@@ -6826,7 +6826,7 @@ JTextEditor::TECreateDragClip()
 		assert( itsDragStyle != NULL );
 		}
 
-	const JBoolean ok = GetSelection(itsDragText, itsDragStyle);
+	const bool ok = GetSelection(itsDragText, itsDragStyle);
 	assert( ok );
 }
 
@@ -6900,7 +6900,7 @@ JTextEditor::TEGetDoubleClickSelection
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::TEHitSamePart
 	(
 	const JPoint& pt1,
@@ -6920,13 +6920,13 @@ JTextEditor::TEHitSamePart
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::TEHandleKeyPress
 	(
 	const JCharacter	origKey,
-	const JBoolean		selectText,
-	const JBoolean		moveEOW,
-	const JBoolean		moveEOL
+	const bool		selectText,
+	const bool		moveEOW,
+	const bool		moveEOL
 	)
 {
 	assert( itsActiveFlag );
@@ -6960,14 +6960,14 @@ JTextEditor::TEHandleKeyPress
 
 	// We select text by selecting to where the caret ends up.
 
-	const JBoolean willSelectText = JConvertToBoolean(
+	const bool willSelectText = JConvertToBoolean(
 		selectText &&
 		(key == kJLeftArrow || key == kJRightArrow ||
 		 key == kJUpArrow   || key == kJDownArrow));
 
 	if (willSelectText)
 		{
-		JBoolean restoreCaretX        = kTrue;
+		bool restoreCaretX        = kTrue;
 		const JCoordinate savedCaretX = itsCaretX;
 
 		if (itsHasSelectionFlag && itsSelectionPivot == itsSelection.end+1)
@@ -7173,7 +7173,7 @@ JTextEditor::TEHandleKeyPress
 		}
 	else if (key == kJDeleteKey && itsCaretLoc.charIndex > 1)
 		{
-		JBoolean isNew;
+		bool isNew;
 		JTEUndoTyping* typingUndo = GetTypingUndo(&isNew);
 		typingUndo->HandleDelete();
 
@@ -7198,7 +7198,7 @@ JTextEditor::TEHandleKeyPress
 		}
 	else if (key == kJForwardDeleteKey && itsCaretLoc.charIndex <= bufLength)
 		{
-		JBoolean isNew;
+		bool isNew;
 		JTEUndoTyping* typingUndo = GetTypingUndo(&isNew);
 		typingUndo->HandleFwdDelete();
 
@@ -7217,7 +7217,7 @@ JTextEditor::TEHandleKeyPress
 
 	else if (isprint(key) || key == '\n' || key == '\t' || (key & 0x80))
 		{
-		JBoolean isNew;
+		bool isNew;
 		JTEUndoTyping* typingUndo = GetTypingUndo(&isNew);
 		typingUndo->HandleCharacter();
 
@@ -7363,13 +7363,13 @@ JTextEditor::AutoIndent
 
  ******************************************************************************/
 
-static JBoolean illegalCharRegexInit = kFalse;
+static bool illegalCharRegexInit = kFalse;
 static JRegex illegalCharRegex;
 
 static const JCharacter* kIllegalCharPattern = "[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+";
 const JSize kIllegalCharPatternLength        = 12;	// contains NULL!
 
-JBoolean
+bool
 JTextEditor::ContainsIllegalChars
 	(
 	const JCharacter*	text,
@@ -7397,7 +7397,7 @@ JTextEditor::ContainsIllegalChars
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::RemoveIllegalChars
 	(
 	JString*			text,
@@ -7560,7 +7560,7 @@ JTextEditor::GetWordEnd
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::IsCharacterInWord
 	(
 	const JString&	text,
@@ -7672,7 +7672,7 @@ JTextEditor::SetCaretLocation
 		return;
 		}
 
-	const JBoolean hadSelection      = itsHasSelectionFlag;
+	const bool hadSelection      = itsHasSelectionFlag;
 	const CaretLocation origCaretLoc = itsCaretLoc;
 
 	itsHasSelectionFlag = kFalse;
@@ -7801,7 +7801,7 @@ JTextEditor::GoToBeginningOfLine()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::TEScrollTo
 	(
 	const CaretLocation caretLoc
@@ -7856,10 +7856,10 @@ JTextEditor::CalcCaretRect
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::TEScrollToSelection
 	(
-	const JBoolean centerInDisplay
+	const bool centerInDisplay
 	)
 {
 	if (itsHasSelectionFlag)
@@ -8018,7 +8018,7 @@ JTextEditor::GetLineForChar
 		return 1;
 		}
 
-	JBoolean found;
+	bool found;
 	JIndex lineIndex =
 		itsLineStarts->SearchSorted1(charIndex, JOrderedSetT::kAnyMatch, &found);
 	if (!found)
@@ -8196,7 +8196,7 @@ JTextEditor::GetStringWidth
 {
 	JRunIndex runIndex;
 	JIndex firstInRun;
-	const JBoolean found = itsStyles->FindRun(startIndex, &runIndex, &firstInRun);
+	const bool found = itsStyles->FindRun(startIndex, &runIndex, &firstInRun);
 	assert( found );
 
 	return GetStringWidth(startIndex, endIndex, &runIndex, &firstInRun);
@@ -8286,7 +8286,7 @@ JTextEditor::GetStringWidth
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::LocateTab
 	(
 	const JIndex	startIndex,
@@ -8511,7 +8511,7 @@ JTextEditor::Recalc1
 
 	JRunIndex runIndex;
 	JIndex firstInRun;
-	const JBoolean found = itsStyles->FindRun(firstChar, &runIndex, &firstInRun);
+	const bool found = itsStyles->FindRun(firstChar, &runIndex, &firstInRun);
 	assert( found );
 
 	JSize totalCharCount = 0;
@@ -8641,7 +8641,7 @@ JTextEditor::RecalcLine
 		{
 		// include leading whitespace
 
-		JBoolean endOfLine;
+		bool endOfLine;
 		charCount = IncludeWhitespaceOnLine(bufLength, firstCharIndex,
 											lineWidth, &endOfLine,
 											&gswRunIndex, &gswFirstInRun);
@@ -8767,7 +8767,7 @@ JTextEditor::IncludeWhitespaceOnLine
 	const JSize		bufLength,
 	const JIndex	origStartIndex,
 	JCoordinate*	lineWidth,
-	JBoolean*		endOfLine,
+	bool*		endOfLine,
 	JRunIndex*		runIndex,
 	JIndex*			firstInRun
 	)
@@ -8845,7 +8845,7 @@ JTextEditor::IncludeWhitespaceOnLine
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::LocateNextWhitespace
 	(
 	const JSize	bufLength,
@@ -8925,7 +8925,7 @@ JTextEditor::GetSubwordForLine
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextEditor::NoPrevWhitespaceOnLine
 	(
 	const JCharacter*	str,

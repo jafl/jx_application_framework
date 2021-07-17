@@ -29,8 +29,8 @@ CBPTPrintSetupDialog::Create
 	const JXPTPrinter::Destination	dest,
 	const JString&					printCmd,
 	const JString&					fileName,
-	const JBoolean					printLineNumbers,
-	const JBoolean					printHeader
+	const bool					printLineNumbers,
+	const bool					printHeader
 	)
 {
 	CBPTPrintSetupDialog* dlog = jnew CBPTPrintSetupDialog;
@@ -64,7 +64,7 @@ CBPTPrintSetupDialog::~CBPTPrintSetupDialog()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPTPrintSetupDialog::ShouldPrintHeader()
 	const
 {
@@ -82,8 +82,8 @@ CBPTPrintSetupDialog::BuildWindow
 	const JXPTPrinter::Destination	dest,
 	const JString&					printCmd,
 	const JString&					fileName,
-	const JBoolean					printLineNumbers,
-	const JBoolean					printHeader
+	const bool					printLineNumbers,
+	const bool					printHeader
 	)
 {
 // begin JXLayout

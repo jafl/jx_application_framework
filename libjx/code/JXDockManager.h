@@ -42,26 +42,26 @@ public:
 
 	virtual ~JXDockManager();
 
-	JXDockDirector*	CreateDock(const JBoolean splitHoriz);
+	JXDockDirector*	CreateDock(const bool splitHoriz);
 	void			CloseAll();
 
-	JBoolean					HasDocks() const;
+	bool					HasDocks() const;
 	JPtrArray<JXDockDirector>*	GetDockList() const;
-	JBoolean					FindDock(const JIndex id, JXDockWidget** dock);
-	JBoolean					IsLastDock(JXDockDirector* dock) const;
+	bool					FindDock(const JIndex id, JXDockWidget** dock);
+	bool					IsLastDock(JXDockDirector* dock) const;
 
-	virtual	JBoolean	CanDockAll() const;
+	virtual	bool	CanDockAll() const;
 	virtual void		DockAll();
 
-	JBoolean	GetDefaultDock(const JUtf8Byte* windowType, JXDockWidget** dock);
+	bool	GetDefaultDock(const JUtf8Byte* windowType, JXDockWidget** dock);
 	void		SetDefaultDock(const JUtf8Byte* windowType, const JXDockWidget* dock);
 
-	JBoolean	IsReadingSetup() const;
+	bool	IsReadingSetup() const;
 	void		ReadSetup(std::istream& input);
 	void		WriteSetup(std::ostream& output) const;
 
 	void		SetIcon(JXImage* icon);
-	JBoolean	CreateIcon(JXImage** icon) const;
+	bool	CreateIcon(JXImage** icon) const;
 
 	Atom	GetDNDMinSizeAtom() const;
 	Atom	GetDNDWindowAtom() const;
@@ -100,7 +100,7 @@ private:
 	JXImage*					itsWindowIcon;
 	JIndex						itsNextDockIndex;
 	JIndex						itsNextDockID;
-	JBoolean					itsIsReadingSetupFlag;
+	bool					itsIsReadingSetupFlag;
 	CloseDockMode				itsCloseDockMode;
 	Atom						itsAtoms[ kAtomCount ];
 
@@ -120,7 +120,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDockManager::HasDocks()
 	const
 {
@@ -144,15 +144,15 @@ JXDockManager::GetDockList()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDockManager::IsLastDock
 	(
 	JXDockDirector* dock
 	)
 	const
 {
-	return JI2B( itsDockList->GetElementCount() == 1 &&
-				 itsDockList->GetFirstElement() == dock );
+	return itsDockList->GetElementCount() == 1 &&
+				 itsDockList->GetFirstElement() == dock;
 }
 
 /******************************************************************************
@@ -204,7 +204,7 @@ JXDockManager::IDUsed
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDockManager::IsReadingSetup()
 	const
 {

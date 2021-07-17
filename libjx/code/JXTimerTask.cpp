@@ -22,7 +22,7 @@ const JUtf8Byte* JXTimerTask::kTimerWentOff = "TimerWentOff::JXTimerTask";
 JXTimerTask::JXTimerTask
 	(
 	const Time		period,
-	const JBoolean	oneShot
+	const bool	oneShot
 	)
 	:
 	JXIdleTask(period),

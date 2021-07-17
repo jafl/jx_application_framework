@@ -57,19 +57,19 @@ const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStylerBase*
 CBGoStyler::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBGoStyler;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -118,7 +118,7 @@ CBGoStyler::CBGoStyler()
 
 	SetTypeStyle(kError                - kWhitespace, JFontStyle(red));
 
-	SetWordStyle(JString("goto", kJFalse), JFontStyle(kJTrue, kJFalse, 0, kJFalse, red));
+	SetWordStyle(JString("goto", JString::kNoCopy), JFontStyle(true, false, 0, false, red));
 
 	JPrefObject::ReadPrefs();
 }
@@ -192,7 +192,7 @@ CBGoStyler::Scan
 			}
 		else
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy));
 			}
 		}
 		while (SetStyle(token.range.charRange, style));
@@ -238,7 +238,7 @@ CBGoStyler::Receive
 		assert( info != nullptr );
 		if (info->Successful())
 			{
-			CBMWriteSharedPrefs(kJTrue);
+			CBMWriteSharedPrefs(true);
 			}
 		}
 

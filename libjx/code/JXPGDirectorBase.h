@@ -28,16 +28,16 @@ public:
 	void	ProcessFinished();
 
 	virtual void		Activate();
-	virtual JBoolean	Close();
+	virtual bool	Close();
 
 protected:
 
 	void	Init(JXWindow* window, JXStaticText* text, const JString& message,
-				 const JBoolean allowCancel, JXButton* cancelButton);
+				 const bool allowCancel, JXButton* cancelButton);
 
 private:
 
-	JBoolean	itsExpectsCloseFlag;
+	bool	itsExpectsCloseFlag;
 	JXButton*	itsCancelButton;
 
 private:

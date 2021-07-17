@@ -27,7 +27,7 @@
 JMMHashTable::JMMHashTable
 	(
 	JMemoryManager* manager,
-	const JBoolean  recordDelete
+	const bool  recordDelete
 	)
 	:
 	JMMTable(manager),
@@ -121,7 +121,7 @@ JMMHashTable::GetTotalCount() const
 void
 JMMHashTable::PrintAllocated
 	(
-	const JBoolean printInternal // = kJFalse
+	const bool printInternal // = false
 	)
 	const
 {
@@ -180,13 +180,13 @@ JMMHashTable::StreamAllocatedForDebug
 		const JMMRecord thisRecord = cursor.GetValue();
 		if (filter.Match(thisRecord))
 			{
-			output << ' ' << JBoolToString(kJTrue);
+			output << ' ' << JBoolToString(true);
 			output << ' ';
 			thisRecord.StreamForDebug(output);
 			}
 		}
 
-	output << ' ' << JBoolToString(kJFalse);
+	output << ' ' << JBoolToString(false);
 }
 
 /******************************************************************************
@@ -222,7 +222,7 @@ void
 JMMHashTable::_AddNewRecord
 	(
 	const JMMRecord& record,
-	const JBoolean   checkDoubleAllocation
+	const bool   checkDoubleAllocation
 	)
 {
 	JHashCursor<JMMRecord> cursor(itsAllocatedTable, reinterpret_cast<JHashValue>( record.GetAddress() ) );
@@ -251,14 +251,14 @@ JMMHashTable::_AddNewRecord
 
  *****************************************************************************/
 
-JBoolean
+bool
 JMMHashTable::_SetRecordDeleted
 	(
 	JMMRecord*       record,
 	const void*      block,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const JBoolean   isArray
+	const bool   isArray
 	)
 {
 	JHashCursor<JMMRecord> allocCursor(itsAllocatedTable, reinterpret_cast<JHashValue>(block) );
@@ -290,12 +290,12 @@ JMMHashTable::_SetRecordDeleted
 			}
 
 		*record = thisRecord;
-		return kJTrue;
+		return true;
 		}
 	else if (itsDeletedTable == nullptr)
 		{
 		NotifyUnallocatedDeletion(file, line, isArray);
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -320,6 +320,6 @@ JMMHashTable::_SetRecordDeleted
 			NotifyUnallocatedDeletion(file, line, isArray);
 			}
 
-		return kJFalse;
+		return false;
 		}
 }

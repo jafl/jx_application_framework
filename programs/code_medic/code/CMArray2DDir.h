@@ -37,8 +37,8 @@ public:
 	virtual	~CMArray2DDir();
 
 	const JString&	GetExpression() const;
-	JBoolean		ArrayRowIndexValid(const JInteger index) const;
-	JBoolean		ArrayColIndexValid(const JInteger index) const;
+	bool		ArrayRowIndexValid(const JInteger index) const;
+	bool		ArrayColIndexValid(const JInteger index) const;
 
 	void	Display1DArray();
 	void	Plot1DArray();
@@ -48,7 +48,7 @@ public:
 	void	ExamineMemory(const CMMemoryDir::DisplayType type);
 
 	virtual void		Activate() override;
-	virtual JBoolean	GetMenuIcon(const JXImage** icon) const override;
+	virtual bool	GetMenuIcon(const JXImage** icon) const override;
 
 	void	StreamOut(std::ostream& output);
 
@@ -72,11 +72,11 @@ private:
 	JIntRange			itsRowRequestRange;
 	JIntRange			itsColDisplayRange;
 	JIntRange			itsColRequestRange;
-	JBoolean			itsShouldUpdateFlag;
+	bool			itsShouldUpdateFlag;
 	JArray<JIntRange>*	itsRowUpdateList;
 	JArray<JIntRange>*	itsColUpdateList;
 	CMArray2DCommand*	itsUpdateCmd;
-	JBoolean			itsWaitingForReloadFlag;
+	bool			itsWaitingForReloadFlag;
 
 	JXTextMenu*			itsFileMenu;
 	JXTextMenu*			itsActionMenu;
@@ -118,7 +118,7 @@ private:
 	void	SetRowTitles(const JIntRange& r);
 	void	SetColTitles(const JIntRange& r);
 
-	void	ShouldUpdate(const JBoolean update);
+	void	ShouldUpdate(const bool update);
 	void	UpdateAll();
 	void	BeginRowUpdate(const JIntRange& r);
 	void	BeginColUpdate(const JIntRange& r);
@@ -148,7 +148,7 @@ CMArray2DDir::GetExpression()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CMArray2DDir::ArrayRowIndexValid
 	(
 	const JInteger index
@@ -158,7 +158,7 @@ CMArray2DDir::ArrayRowIndexValid
 	return itsRowDisplayRange.Contains(index);
 }
 
-inline JBoolean
+inline bool
 CMArray2DDir::ArrayColIndexValid
 	(
 	const JInteger index

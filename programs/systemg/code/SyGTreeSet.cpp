@@ -94,7 +94,7 @@ SyGTreeSet::SyGTreeSet
 		JFileVersion v;
 		input >> v;
 
-		JBoolean showHidden;
+		bool showHidden;
 		input >> JBoolFromString(showHidden);
 		}
 
@@ -107,7 +107,7 @@ SyGTreeSet::SyGTreeSet
 	itsFilterHistory->ReadSetup(input);
 	itsTable->LoadPrefs(input, vers);
 
-	JBoolean showFilter;
+	bool showFilter;
 	input >> JBoolFromString(showFilter);
 	ShowFilter(showFilter);
 	itsTable->Focus();
@@ -195,7 +195,7 @@ void SyGTreeSet::SyGTreeSetX
 	assert( itsFilterHistory != nullptr );
 	ListenTo(itsFilterHistory);
 	itsFilterHistory->Place(w - itsFilterHistory->GetFrameWidth(), 0);
-	itsFilterHistory->SetDefaultFont(font, kJTrue);
+	itsFilterHistory->SetDefaultFont(font, true);
 
 	itsFilterInput =
 		jnew SyGFilterInput(itsTable, this, kHElastic, kFixedTop,
@@ -229,7 +229,7 @@ void SyGTreeSet::SyGTreeSetX
 
 	// filter starts out hidden
 
-	ShowFilter(kJFalse);
+	ShowFilter(false);
 	UpdateDisplay(path);
 
 	FitToEnclosure();	// must be called before ReadScrollSetup()
@@ -311,7 +311,7 @@ SyGTreeSet::UpdateDisplay
 	JString s = path, name;
 	JStripTrailingDirSeparator(&s);
 
-	const JBoolean isTrashDir = SyGIsTrashDirectory(s);
+	const bool isTrashDir = SyGIsTrashDirectory(s);
 
 	if (JIsRootDirectory(s))
 		{
@@ -426,7 +426,7 @@ SyGTreeSet::SavePreferences
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGTreeSet::FilterVisible()
 	const
 {
@@ -441,7 +441,7 @@ SyGTreeSet::FilterVisible()
 void
 SyGTreeSet::ShowFilter
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	const JCoordinate filterHeight = itsFilterInput->GetFrameHeight();

@@ -70,15 +70,15 @@ public:
 
 	void		Sort();
 
-	JBoolean	InsertSorted(const T& data, const JBoolean insertIfDuplicate = kJTrue,
+	bool	InsertSorted(const T& data, const bool insertIfDuplicate = true,
 							 JIndex* index = nullptr);
-	JIndex		GetInsertionSortIndex(const T& data, JBoolean* isDuplicate = nullptr) const;
+	JIndex		GetInsertionSortIndex(const T& data, bool* isDuplicate = nullptr) const;
 
-	JBoolean	SearchSorted(const T& target, const JListT::SearchReturn which,
+	bool	SearchSorted(const T& target, const JListT::SearchReturn which,
 							 JIndex* index) const;
 	JIndex		SearchSorted1(const T& target,
 							  const JListT::SearchReturn which,
-							  JBoolean* found) const;
+							  bool* found) const;
 
 	// unrelated, fast sort -- broadcasts Sorted
 	// (Do NOT use on JPtrArray!)

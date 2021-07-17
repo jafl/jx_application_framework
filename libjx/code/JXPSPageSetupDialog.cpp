@@ -100,7 +100,7 @@ JXPSPageSetupDialog::Create
 
 JXPSPageSetupDialog::JXPSPageSetupDialog()
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue)
+	JXDialogDirector(JXGetApplication(), true)
 {
 }
 
@@ -203,26 +203,26 @@ JIndex i;
 	itsPaperTypeMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPaperTypeMenu);
 
-	JBoolean foundType = kJFalse;
+	bool foundType = false;
 	for (i=1; i<=kPaperTypeCount; i++)
 		{
 		if (kIndexToPaperType[i-1] == paper)
 			{
 			itsPaperType = i;
-			itsPaperTypeMenu->SetToPopupChoice(kJTrue, itsPaperType);
-			foundType = kJTrue;
+			itsPaperTypeMenu->SetToPopupChoice(true, itsPaperType);
+			foundType = true;
 			break;
 			}
 		}
 	assert( foundType );
 
-	JBoolean foundOrient = kJFalse;
+	bool foundOrient = false;
 	for (i=1; i<=kOrientCount; i++)
 		{
 		if (kIndexToOrient[i-1] == orient)
 			{
 			itsOrientation->SelectItem(i);
-			foundOrient = kJTrue;
+			foundOrient = true;
 			break;
 			}
 		}
@@ -240,7 +240,7 @@ JIndex i;
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPSPageSetupDialog::SetParameters
 	(
 	JXPSPrinter* p
@@ -253,9 +253,9 @@ JXPSPageSetupDialog::SetParameters
 	const JPSPrinter::ImageOrientation newOrientation =
 		kIndexToOrient[ itsOrientation->GetSelectedItem()-1 ];
 
-	const JBoolean changed =
-		JConvertToBoolean( newPaperType != p->GetPaperType() ||
-						   newOrientation != p->GetOrientation() );
+	const bool changed =
+		newPaperType != p->GetPaperType() ||
+						   newOrientation != p->GetOrientation();
 
 	p->SetPaperType(newPaperType);
 	p->SetOrientation(newOrientation);

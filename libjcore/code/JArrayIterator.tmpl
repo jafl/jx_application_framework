@@ -60,23 +60,23 @@ JArrayIterator<T>::~JArrayIterator()
 /******************************************************************************
  Prev (virtual)
 
-	Returns kJTrue if there is a previous item, fetching the previous
+	Returns true if there is a previous item, fetching the previous
 	item in the list and decrementing the iterator position.
-	Otherwise returns kJFalse without fetching or decrementing.
+	Otherwise returns false without fetching or decrementing.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JArrayIterator<T>::Prev
 	(
-	T*				data,
-	const JBoolean	move
+	T*						data,
+	const JIteratorAction	move
 	)
 {
 	if (this->AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JCursorPosition cursorPos = this->GetCursor();
@@ -87,29 +87,29 @@ JArrayIterator<T>::Prev
 		{
 		this->SetCursor(cursorPos-1);
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  Next (virtual)
 
-	Returns kJTrue if there is a next item, fetching the next
+	Returns true if there is a next item, fetching the next
 	item in the list and incrementing the iterator position.
-	Otherwise returns kJFalse without fetching or incrementing.
+	Otherwise returns false without fetching or incrementing.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JArrayIterator<T>::Next
 	(
-	T*				data,
-	const JBoolean	move
+	T*						data,
+	const JIteratorAction	move
 	)
 {
 	if (this->AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JCursorPosition cursorPos = this->GetCursor() + 1;
@@ -120,7 +120,7 @@ JArrayIterator<T>::Next
 		{
 		this->SetCursor(cursorPos);
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -158,23 +158,23 @@ JArrayIterator<T>::SkipNext
 /******************************************************************************
  SetPrev (virtual)
 
-	Returns kJTrue if we have a non-const JArray<T>* and
+	Returns true if we have a non-const JArray<T>* and
 	there is a previous item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JArrayIterator<T>::SetPrev
 	(
-	const T&		data,
-	const JBoolean	move
+	const T&				data,
+	const JIteratorAction	move
 	)
 {
 	JList<T>* obj;
 	if (!this->GetList(&obj) || this->AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JCursorPosition cursorPos = this->GetCursor();
@@ -184,29 +184,29 @@ JArrayIterator<T>::SetPrev
 		{
 		this->SetCursor(cursorPos-1);
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  SetNext (virtual)
 
-	Returns kJTrue if we have a non-const JArray<T>* and
+	Returns true if we have a non-const JArray<T>* and
 	there is a next item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JArrayIterator<T>::SetNext
 	(
-	const T&		data,
-	const JBoolean	move
+	const T&				data,
+	const JIteratorAction	move
 	)
 {
 	JList<T>* obj;
 	if (!this->GetList(&obj) || this->AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JCursorPosition cursorPos = this->GetCursor() + 1;
@@ -216,19 +216,19 @@ JArrayIterator<T>::SetNext
 		{
 		this->SetCursor(cursorPos);
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  RemovePrev (virtual)
 
-	Returns kJTrue if we have a non-const JArray<T>* and
+	Returns true if we have a non-const JArray<T>* and
 	there is at least one previous item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JArrayIterator<T>::RemovePrev
 	(
 	const JSize count
@@ -237,23 +237,23 @@ JArrayIterator<T>::RemovePrev
 	JList<T>* obj;
 	if (!this->GetList(&obj) || this->AtBeginning())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	itsArray->RemovePrevElements(this->GetCursor(), count);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  RemoveNext (virtual)
 
-	Returns kJTrue if we have a non-const JArray<T>* and
+	Returns true if we have a non-const JArray<T>* and
 	there is at least one next item.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JArrayIterator<T>::RemoveNext
 	(
 	const JSize count
@@ -262,22 +262,22 @@ JArrayIterator<T>::RemoveNext
 	JList<T>* obj;
 	if (!this->GetList(&obj) || this->AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	itsArray->RemoveNextElements(this->GetCursor()+1, count);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  Insert (virtual)
 
-	Returns kJTrue if we have a non-const JArray<T>*.
+	Returns true if we have a non-const JArray<T>*.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JArrayIterator<T>::Insert
 	(
 	const T& data
@@ -286,11 +286,11 @@ JArrayIterator<T>::Insert
 	JList<T>* obj;
 	if (!this->GetList(&obj))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	itsArray->InsertElementAtIndex(this->GetCursor()+1, data);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

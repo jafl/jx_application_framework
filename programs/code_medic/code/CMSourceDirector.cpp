@@ -191,7 +191,7 @@ CMSourceDirector::CMSourceDirector
 		{
 		CMLocation loc;
 		loc.SetFunctionName(fileOrFn);
-		loc.SetMemoryAddress(JString("0x0", kJFalse));	// not allowed to be null
+		loc.SetMemoryAddress(JString("0x0", JString::kNoCopy));	// not allowed to be null
 		DisplayDisassembly(loc);
 		}
 	else if (itsType == kSourceType && JFileReadable(fileOrFn))
@@ -332,12 +332,12 @@ CMSourceDirector::BuildWindow()
 	else if (itsType == kAsmType)
 		{
 		window->SetWMClass(CMGetWMClassInstance(), CMGetAsmViewWindowClass());
-		CMGetPrefsManager()->GetWindowSize(kAsmWindSizeID, window, kJTrue);
+		CMGetPrefsManager()->GetWindowSize(kAsmWindSizeID, window, true);
 		}
 	else
 		{
 		window->SetWMClass(CMGetWMClassInstance(), CMGetSourceViewWindowClass());
-		CMGetPrefsManager()->GetWindowSize(kCodeWindSizeID, window, kJTrue);
+		CMGetPrefsManager()->GetWindowSize(kCodeWindSizeID, window, true);
 		}
 
 	JCoordinate w = window->GetFrameWidth();
@@ -368,7 +368,7 @@ CMSourceDirector::BuildWindow()
 						 kInitTableWidth, 0,
 						 encl->GetApertureWidth()-kInitTableWidth, 100);
 	assert( itsText != nullptr );
-	itsText->FitToEnclosure(kJFalse, kJTrue);
+	itsText->FitToEnclosure(false, true);
 	ListenTo(itsText);
 
 	if (itsType == kMainAsmType || itsType == kAsmType)
@@ -386,7 +386,7 @@ CMSourceDirector::BuildWindow()
 								  0, 0, kInitTableWidth, 100);
 		}
 	assert( itsTable != nullptr );
-	itsTable->FitToEnclosure(kJFalse, kJTrue);
+	itsTable->FitToEnclosure(false, true);
 
 	// requires itsText
 
@@ -435,8 +435,8 @@ CMSourceDirector::CreateWindowsMenu()
 {
 	itsCommandDir->CreateWindowsMenuAndToolBar(
 			itsMenuBar, itsToolBar,
-			JI2B( itsType == kMainAsmType || itsType == kAsmType ),
-			kJTrue, JI2B( itsType != kMainSourceType ),
+			itsType == kMainAsmType || itsType == kAsmType,
+			true, itsType != kMainSourceType,
 			itsDebugMenu, itsPrefsMenu, itsHelpMenu, kTOCCmd, kThisWindowCmd);
 }
 
@@ -468,7 +468,7 @@ CMSourceDirector::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMSourceDirector::GetMenuIcon
 	(
 	const JXImage** icon
@@ -491,7 +491,7 @@ CMSourceDirector::GetMenuIcon
 		{
 		*icon = CMGetSourceFileIcon();
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -539,7 +539,7 @@ CMSourceDirector::Receive
 			dynamic_cast<const CMLink::ProgramStopped*>(&message);
 		assert( info != nullptr);
 		const CMLocation* loc;
-		const JBoolean hasFile = info->GetLocation(&loc);
+		const bool hasFile = info->GetLocation(&loc);
 		if (itsType == kMainSourceType && hasFile)
 			{
 			DisplayFile(loc->GetFileName(), loc->GetLineNumber());
@@ -704,7 +704,7 @@ CMSourceDirector::DisplayFile
 	(
 	const JString&	fileName,
 	const JIndex	lineNumber,
-	const JBoolean	markLine
+	const bool	markLine
 	)
 {
 	assert( !fileName.IsEmpty() );
@@ -727,7 +727,7 @@ CMSourceDirector::DisplayFile
 		const JString& text = itsText->GetText()->GetText();
 		JStringIterator iter(text, kJIteratorStartAtEnd);
 		JUtf8Character c;
-		while (iter.Prev(&c, kJFalse) && c == '\n')
+		while (iter.Prev(&c, kJIteratorStay) && c == '\n')
 			{
 			iter.SkipPrev();
 			}
@@ -838,7 +838,7 @@ void
 CMSourceDirector::DisplayLine
 	(
 	const JSize		lineNumber,
-	const JBoolean	markLine
+	const bool	markLine
 	)
 {
 	if (lineNumber > 0)
@@ -906,7 +906,7 @@ CMSourceDirector::UpdateFileType()
 
 	if (!itsCurrentFile.IsEmpty())
 		{
-		JBoolean setTabWidth, setTabMode, tabInsertsSpaces, setAutoIndent, autoIndent;
+		bool setTabWidth, setTabMode, tabInsertsSpaces, setAutoIndent, autoIndent;
 		JSize tabWidth;
 		CBMParseEditorOptions(itsCurrentFile, itsText->GetText()->GetText(), &setTabWidth, &tabWidth,
 							  &setTabMode, &tabInsertsSpaces, &setAutoIndent, &autoIndent);

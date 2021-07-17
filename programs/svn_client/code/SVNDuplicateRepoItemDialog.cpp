@@ -51,16 +51,16 @@ SVNDuplicateRepoItemDialog::~SVNDuplicateRepoItemDialog()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNDuplicateRepoItemDialog::OKToDeactivate()
 {
 	if (!JXGetStringDialog::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	const JString& name = GetString();
@@ -68,10 +68,10 @@ SVNDuplicateRepoItemDialog::OKToDeactivate()
 	if ((itsSrcNode->GetNamedParent())->FindNamedChild(name, &node))
 		{
 		JGetUserNotification()->ReportError(JGetString("NameUsed::SVNDuplicateRepoItemDialog"));
-		return kJFalse;
+		return false;
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }

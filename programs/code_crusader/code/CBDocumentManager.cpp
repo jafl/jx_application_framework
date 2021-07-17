@@ -40,13 +40,13 @@ static const JUtf8Byte* kTextTemplateDir = "text_templates";
 
 // External editors
 
-static const JString kDefEditTextFileCmd("emacsclient $f", kJFalse);
-static const JString kDefEditTextFileLineCmd("emacsclient +$l $f", kJFalse);
+static const JString kDefEditTextFileCmd("emacsclient $f", JString::kNoCopy);
+static const JString kDefEditTextFileLineCmd("emacsclient +$l $f", JString::kNoCopy);
 
 #ifdef _J_OSX
-static const JString kDefEditBinaryFileCmd("open -a \"Hex Fiend\" $f", kJFalse);
+static const JString kDefEditBinaryFileCmd("open -a \"Hex Fiend\" $f", JString::kNoCopy);
 #else
-static const JString kDefEditBinaryFileCmd("khexedit $f", kJFalse); // "xterm -title \"$f\" -e vi $f";
+static const JString kDefEditBinaryFileCmd("khexedit $f", JString::kNoCopy); // "xterm -title \"$f\" -e vi $f";
 #endif
 
 // setup information
@@ -103,12 +103,12 @@ CBDocumentManager::CBDocumentManager()
 
 	itsListDocument = nullptr;
 
-	itsWarnBeforeSaveAllFlag  = kJFalse;
-	itsWarnBeforeCloseAllFlag = kJFalse;
+	itsWarnBeforeSaveAllFlag  = false;
+	itsWarnBeforeCloseAllFlag = false;
 
-	itsTextNeedsSaveFlag   = kJFalse;
-	itsEditTextLocalFlag   = kJTrue;
-	itsEditBinaryLocalFlag = kJFalse;
+	itsTextNeedsSaveFlag   = false;
+	itsEditTextLocalFlag   = true;
+	itsEditBinaryLocalFlag = false;
 
 	itsRecentProjectMenu = nullptr;
 	itsRecentTextMenu    = nullptr;
@@ -237,7 +237,7 @@ CBDocumentManager::RefreshVCSStatus()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::NewProjectDocument
 	(
 	CBProjectDocument** doc
@@ -250,7 +250,7 @@ CBDocumentManager::NewProjectDocument
 			{
 			*doc = d;
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -258,7 +258,7 @@ CBDocumentManager::NewProjectDocument
 			{
 			*doc = nullptr;
 			}
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -295,7 +295,7 @@ CBDocumentManager::ProjDocDeleted
 	itsProjectDocuments->Remove(doc);
 	Broadcast(ProjectDocumentDeleted(doc));
 
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = doc->GetFullName(&onDisk);
 	if (onDisk)
 		{
@@ -308,7 +308,7 @@ CBDocumentManager::ProjDocDeleted
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::GetActiveProjectDocument
 	(
 	CBProjectDocument** doc
@@ -318,12 +318,12 @@ CBDocumentManager::GetActiveProjectDocument
 	if (!itsProjectDocuments->IsEmpty())
 		{
 		*doc = itsProjectDocuments->GetFirstElement();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*doc = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -334,7 +334,7 @@ CBDocumentManager::GetActiveProjectDocument
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::ProjectDocumentIsOpen
 	(
 	const JString&		fileName,
@@ -348,7 +348,7 @@ CBDocumentManager::ProjectDocumentIsOpen
 
 	if (!JFileExists(fileName))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// search for an open CBProjectDocument that uses this file
@@ -358,17 +358,17 @@ CBDocumentManager::ProjectDocumentIsOpen
 		{
 		*doc = itsProjectDocuments->GetElement(i);
 
-		JBoolean onDisk;
+		bool onDisk;
 		const JString docName = (**doc).GetFullName(&onDisk);
 
 		if (onDisk && JSameDirEntry(fileName, docName))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*doc = nullptr;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -376,7 +376,7 @@ CBDocumentManager::ProjectDocumentIsOpen
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::CloseProjectDocuments()
 {
 	const JSize count = itsProjectDocuments->GetElementCount();
@@ -456,7 +456,7 @@ void
 CBDocumentManager::NewTextDocumentFromTemplate()
 {
 	JString tmplDir;
-	const JBoolean exists = GetTextTemplateDirectory(kJFalse, &tmplDir);
+	const bool exists = GetTextTemplateDirectory(false, &tmplDir);
 	if (!exists)
 		{
 		const JUtf8Byte* map[] =
@@ -477,7 +477,7 @@ CBDocumentManager::NewTextDocumentFromTemplate()
 		JString newName;
 		if (itsEditTextLocalFlag)
 			{
-			CBTextDocument* doc = jnew CBTextDocument(tmplName, kCBUnknownFT, kJTrue);
+			CBTextDocument* doc = jnew CBTextDocument(tmplName, kCBUnknownFT, true);
 			assert( doc != nullptr );
 			doc->Activate();
 			}
@@ -497,75 +497,75 @@ CBDocumentManager::NewTextDocumentFromTemplate()
 /******************************************************************************
  GetTemplateDirectory
 
-	If create==kJTrue, tries to create the directory if it doesn't exist.
+	If create==true, tries to create the directory if it doesn't exist.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::GetTextTemplateDirectory
 	(
-	const JBoolean	create,
+	const bool	create,
 	JString*		tmplDir
 	)
 {
 	return GetTemplateDirectory(kTextTemplateDir, create, tmplDir);
 }
 
-JBoolean
+bool
 CBDocumentManager::GetTemplateDirectory
 	(
 	const JUtf8Byte*	dirName,
-	const JBoolean		create,
+	const bool		create,
 	JString*			fullName
 	)
 {
 	fullName->Clear();
 
 	JString sysDir, userDir;
-	const JBoolean hasHomeDir   = JXGetProgramDataDirectories(dirName, &sysDir, &userDir);
-	const JBoolean hasUserDir   = JI2B(hasHomeDir && JDirectoryExists(userDir));
-	const JBoolean hasUserFiles = JI2B(hasUserDir && !JDirInfo::Empty(userDir));
+	const bool hasHomeDir   = JXGetProgramDataDirectories(dirName, &sysDir, &userDir);
+	const bool hasUserDir   = hasHomeDir && JDirectoryExists(userDir);
+	const bool hasUserFiles = hasUserDir && !JDirInfo::Empty(userDir);
 
 	if (!hasHomeDir)
 		{
 		if (!JDirInfo::Empty(sysDir))
 			{
 			*fullName = sysDir;
-			return kJTrue;
+			return true;
 			}
 		if (create)
 			{
 			JGetUserNotification()->ReportError(JGetString("NoHomeDirectory::CBDocumentManager"));
 			}
-		return kJFalse;
+		return false;
 		}
 	else if (hasUserDir)
 		{
 		if (!hasUserFiles && !JDirInfo::Empty(sysDir))
 			{
 			*fullName = sysDir;
-			return kJTrue;
+			return true;
 			}
 		*fullName = userDir;
-		return JI2B(create || hasUserFiles);
+		return create || hasUserFiles;
 		}
 	else
 		{
 		if (!JDirInfo::Empty(sysDir))
 			{
 			*fullName = sysDir;
-			return kJTrue;
+			return true;
 			}
 		if (!create)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		const JError err = JCreateDirectory(userDir);
 		if (err.OK())
 			{
 			*fullName = userDir;
-			return kJTrue;
+			return true;
 			}
 		else
 			{
@@ -576,7 +576,7 @@ CBDocumentManager::GetTemplateDirectory
 			};
 			const JString msg = JGetString("CannotCreateTemplates::CBDocumentManager", map, sizeof(map));
 			JGetUserNotification()->ReportError(msg);
-			return kJFalse;
+			return false;
 			}
 		}
 }
@@ -627,7 +627,7 @@ CBDocumentManager::TextDocumentDeleted
 		itsListDocument = nullptr;
 		}
 
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = doc->GetFullName(&onDisk);
 	if (onDisk)
 		{
@@ -640,7 +640,7 @@ CBDocumentManager::TextDocumentDeleted
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::GetActiveTextDocument
 	(
 	CBTextDocument** doc
@@ -650,12 +650,12 @@ CBDocumentManager::GetActiveTextDocument
 	if (!itsTextDocuments->IsEmpty())
 		{
 		*doc = itsTextDocuments->GetFirstElement();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*doc = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -686,7 +686,7 @@ CBDocumentManager::SetActiveTextDocument
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::GetActiveListDocument
 	(
 	CBExecOutputDocument** doc
@@ -694,7 +694,7 @@ CBDocumentManager::GetActiveListDocument
 	const
 {
 	*doc = itsListDocument;
-	return JI2B( itsListDocument != nullptr );
+	return itsListDocument != nullptr;
 }
 
 /******************************************************************************
@@ -740,8 +740,8 @@ CBDocumentManager::OpenSomething
 	(
 	const JString&		fileName,
 	const JIndexRange	lineRange,		// not reference because of default value
-	const JBoolean		iconify,
-	const JBoolean		forceReload
+	const bool		iconify,
+	const bool		forceReload
 	)
 {
 	if (!fileName.IsEmpty())
@@ -792,7 +792,7 @@ CBDocumentManager::OpenSomething
 		{
 		JXStandAlonePG pg;
 		pg.RaiseWhenUpdate();
-		pg.FixedLengthProcessBeginning(count, JGetString("OpeningFilesProgress::CBDocumentManager"), kJTrue, kJFalse);
+		pg.FixedLengthProcessBeginning(count, JGetString("OpeningFilesProgress::CBDocumentManager"), true, false);
 
 		for (JIndex i=1; i<=count; i++)
 			{
@@ -821,18 +821,18 @@ CBDocumentManager::PrivateOpenSomething
 	(
 	const JString&		fileName,
 	const JIndexRange&	lineRange,
-	const JBoolean		iconify,
-	const JBoolean		forceReload
+	const bool		iconify,
+	const bool		forceReload
 	)
 {
 	CBProjectDocument* doc;
-	if (CBProjectDocument::Create(fileName, kJFalse, &doc) ==
+	if (CBProjectDocument::Create(fileName, false, &doc) ==
 		JXFileDocument::kNotMyFile)
 		{
 		JString cmd;
 		if (CBGetPrefsManager()->EditWithOtherProgram(fileName, &cmd))
 			{
-			JSimpleProcess::Create(cmd, kJTrue);
+			JSimpleProcess::Create(cmd, true);
 			}
 		else if (CBGetPrefsManager()->GetFileType(fileName) == kCBBinaryFT ||
 				 CBTextDocument::OpenAsBinaryFile(fileName))
@@ -856,33 +856,33 @@ CBDocumentManager::PrivateOpenSomething
 	Open the given file, assuming that it is a text file.
 	If lineIndex is not zero, we go to that line.
 
-	Returns kJTrue if the file was successfully opened.  If doc != nullptr,
+	Returns true if the file was successfully opened.  If doc != nullptr,
 	*doc is set to the document.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::OpenTextDocument
 	(
 	const JString&		fileName,
 	const JIndex		lineIndex,
 	CBTextDocument**	doc,
-	const JBoolean		iconify,
-	const JBoolean		forceReload
+	const bool		iconify,
+	const bool		forceReload
 	)
 {
 	return OpenTextDocument(fileName, JIndexRange(lineIndex, lineIndex),
 							doc, iconify, forceReload);
 }
 
-JBoolean
+bool
 CBDocumentManager::OpenTextDocument
 	(
 	const JString&		fileName,
 	const JIndexRange&	lineRange,
 	CBTextDocument**	doc,
-	const JBoolean		iconify,
-	const JBoolean		forceReload
+	const bool		iconify,
+	const bool		forceReload
 	)
 {
 	if (doc != nullptr)
@@ -892,7 +892,7 @@ CBDocumentManager::OpenTextDocument
 
 	if (fileName.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JUtf8Byte* map[] =
@@ -900,19 +900,19 @@ CBDocumentManager::OpenTextDocument
 		"f", fileName.GetBytes()
 		};
 
-	const JBoolean isFile = JFileExists(fileName);
+	const bool isFile = JFileExists(fileName);
 	if (!isFile && JNameUsed(fileName))
 		{
 		const JString msg = JGetString("NotAFile::CBDocumentManager", map, sizeof(map));
 		JGetUserNotification()->ReportError(msg);
-		return kJFalse;
+		return false;
 		}
 	else if (!isFile)
 		{
 		const JString msg = JGetString("FileDoesNotExistCreate::CBDocumentManager", map, sizeof(map));
 		if (!JGetUserNotification()->AskUserYes(msg))
 			{
-			return kJFalse;
+			return false;
 			}
 		else
 			{
@@ -921,7 +921,7 @@ CBDocumentManager::OpenTextDocument
 				{
 				const JString msg = JGetString("CannotCreateFile::CBDocumentManager", map, sizeof(map));
 				JGetUserNotification()->ReportError(msg);
-				return kJFalse;
+				return false;
 				}
 			}
 		}
@@ -934,18 +934,18 @@ CBDocumentManager::OpenTextDocument
 
 	lineIndex can be zero.
 
-	Returns kJTrue if the file was successfully opened locally.
+	Returns true if the file was successfully opened locally.
 	If doc != nullptr, *doc is set to the document.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::PrivateOpenTextDocument
 	(
 	const JString&		fullName,
 	const JIndexRange&	lineRange,
-	const JBoolean		iconify,
-	const JBoolean		forceReload,
+	const bool		iconify,
+	const bool		forceReload,
 	CBTextDocument**	returnDoc
 	)
 	const
@@ -964,7 +964,7 @@ CBDocumentManager::PrivateOpenTextDocument
 			{
 			if (!WarnFileSize(fullName))
 				{
-				return kJFalse;
+				return false;
 				}
 			doc = jnew CBTextDocument(fullName);
 			}
@@ -992,7 +992,7 @@ CBDocumentManager::PrivateOpenTextDocument
 			{
 			*returnDoc = textDoc;
 			}
-		return JI2B( textDoc != nullptr );
+		return textDoc != nullptr;
 		}
 	else
 		{
@@ -1015,8 +1015,8 @@ CBDocumentManager::PrivateOpenTextDocument
 		sub.DefineVariable("l", lineIndexStr);
 		sub.Substitute(&cmd);
 
-		JSimpleProcess::Create(cmd, kJTrue);
-		return kJFalse;
+		JSimpleProcess::Create(cmd, true);
+		return false;
 		}
 }
 
@@ -1025,7 +1025,7 @@ CBDocumentManager::PrivateOpenTextDocument
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::WarnFileSize
 	(
 	const JString& fullName
@@ -1045,11 +1045,11 @@ CBDocumentManager::WarnFileSize
 		const JString msg = JGetString("WarnFileTooLarge::CBDocumentManager", map, sizeof(map));
 		if (!JGetUserNotification()->AskUserNo(msg))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1057,16 +1057,16 @@ CBDocumentManager::WarnFileSize
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::SaveTextDocuments
 	(
-	const JBoolean saveUntitled
+	const bool saveUntitled
 	)
 {
 	if (!itsWarnBeforeSaveAllFlag ||
 		JGetUserNotification()->AskUserNo(JGetString("WarnSaveAll::CBDocumentManager")))
 		{
-		itsTextNeedsSaveFlag = kJFalse;
+		itsTextNeedsSaveFlag = false;
 
 		const JSize count = itsTextDocuments->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -1085,7 +1085,7 @@ CBDocumentManager::SaveTextDocuments
 
 			if ((saveUntitled || doc->ExistsOnDisk()) && !doc->Save())
 				{
-				itsTextNeedsSaveFlag = kJTrue;
+				itsTextNeedsSaveFlag = true;
 				}
 			}
 		}
@@ -1101,7 +1101,7 @@ CBDocumentManager::SaveTextDocuments
 void
 CBDocumentManager::ReloadTextDocuments
 	(
-	const JBoolean force
+	const bool force
 	)
 {
 	const JSize count = itsTextDocuments->GetElementCount();
@@ -1117,7 +1117,7 @@ CBDocumentManager::ReloadTextDocuments
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::CloseTextDocuments()
 {
 	if (!itsWarnBeforeCloseAllFlag ||
@@ -1186,7 +1186,7 @@ CBDocumentManager::StylerChanged
 	const JSize count = itsTextDocuments->GetElementCount();
 
 	JLatentPG pg;
-	pg.FixedLengthProcessBeginning(count, JGetString("AdjustStylesProgress::CBDocumentManager"), kJFalse, kJFalse);
+	pg.FixedLengthProcessBeginning(count, JGetString("AdjustStylesProgress::CBDocumentManager"), false, false);
 
 	for (JIndex i=1; i<=count; i++)
 		{
@@ -1212,7 +1212,7 @@ CBDocumentManager::OpenBinaryDocument
 {
 	if (!fileName.IsEmpty() && JFileExists(fileName))
 		{
-		PrivateOpenBinaryDocument(fileName, kJFalse, kJFalse);
+		PrivateOpenBinaryDocument(fileName, false, false);
 		}
 }
 
@@ -1225,8 +1225,8 @@ void
 CBDocumentManager::PrivateOpenBinaryDocument
 	(
 	const JString&	fullName,
-	const JBoolean	iconify,
-	const JBoolean	forceReload
+	const bool	iconify,
+	const bool	forceReload
 	)
 	const
 {
@@ -1235,13 +1235,13 @@ CBDocumentManager::PrivateOpenBinaryDocument
 	JString cmd;
 	if (CBGetPrefsManager()->EditWithOtherProgram(fullName, &cmd))
 		{
-		JSimpleProcess::Create(cmd, kJTrue);
-//		return kJFalse;
+		JSimpleProcess::Create(cmd, true);
+//		return false;
 		}
 /*	else if (itsEditBinaryLocalFlag)
 		{
 		// some day...
-//		return kJTrue;
+//		return true;
 		}
 */	else
 		{
@@ -1252,8 +1252,8 @@ CBDocumentManager::PrivateOpenBinaryDocument
 		sub.DefineVariable("f", fullName);
 		sub.Substitute(&cmd);
 
-		JSimpleProcess::Create(cmd, kJTrue);
-//		return kJFalse;
+		JSimpleProcess::Create(cmd, true);
+//		return false;
 		}
 }
 
@@ -1262,13 +1262,13 @@ CBDocumentManager::PrivateOpenBinaryDocument
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::OpenComplementFile
 	(
 	const JString&			fullName,
 	const CBTextFileType	type,
 	CBProjectDocument*		projDoc,
-	const JBoolean			searchDirs
+	const bool			searchDirs
 	)
 {
 	JString complName;
@@ -1305,7 +1305,7 @@ CBDocumentManager::OpenComplementFile
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1316,7 +1316,7 @@ CBDocumentManager::OpenComplementFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::GetOpenComplementFile
 	(
 	const JString&			inputName,
@@ -1326,15 +1326,15 @@ CBDocumentManager::GetOpenComplementFile
 	const
 {
 	CBTextFileType outputType;
-	return JI2B(CBGetComplementType(inputType, &outputType) &&
+	return CBGetComplementType(inputType, &outputType) &&
 				(FindOpenComplementFile(inputName, outputType, doc) ||
 				 (CBIsHeaderType(inputType) &&
-				  FindOpenComplementFile(inputName, kCBDocumentationFT, doc))));
+				  FindOpenComplementFile(inputName, kCBDocumentationFT, doc)));
 }
 
 // private
 
-JBoolean
+bool
 CBDocumentManager::FindOpenComplementFile
 	(
 	const JString&			inputName,
@@ -1360,7 +1360,7 @@ JIndex i;
 		fullName = baseName + *(suffixList.GetElement(i));
 		if (FileDocumentIsOpen(fullName, doc))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -1378,12 +1378,12 @@ JIndex i;
 			if (d->GetFileName() == name)
 				{
 				*doc = d;
-				return kJTrue;
+				return true;
 				}
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1396,34 +1396,34 @@ JIndex i;
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::GetComplementFile
 	(
 	const JString&			inputName,
 	const CBTextFileType	inputType,
 	JString*				outputName,
 	CBProjectDocument*		projDoc,
-	const JBoolean			searchDirs
+	const bool			searchDirs
 	)
 	const
 {
 	CBTextFileType outputType;
-	return JI2B(CBGetComplementType(inputType, &outputType) &&
+	return CBGetComplementType(inputType, &outputType) &&
 				(FindComplementFile(inputName, outputType, outputName, projDoc, searchDirs) ||
 				 (CBIsHeaderType(inputType) &&
-				  FindComplementFile(inputName, kCBDocumentationFT, outputName, projDoc, searchDirs))));
+				  FindComplementFile(inputName, kCBDocumentationFT, outputName, projDoc, searchDirs)));
 }
 
 // private -- projDoc can be nullptr
 
-JBoolean
+bool
 CBDocumentManager::FindComplementFile
 	(
 	const JString&			inputName,
 	const CBTextFileType	outputType,
 	JString*				outputName,
 	CBProjectDocument*		projDoc,
-	const JBoolean			searchDirs
+	const bool			searchDirs
 	)
 	const
 {
@@ -1434,13 +1434,13 @@ CBDocumentManager::FindComplementFile
 	CBGetPrefsManager()->GetFileSuffixes(outputType, &suffixList);
 	const JSize suffixCount = suffixList.GetElementCount();
 
-	JBoolean found = kJFalse;
+	bool found = false;
 	for (JIndex i=1; i<=suffixCount; i++)
 		{
 		*outputName = baseName + *(suffixList.GetElement(i));
 		if (JFileExists(*outputName))
 			{
-			found = kJTrue;
+			found = true;
 			break;
 			}
 		}
@@ -1468,14 +1468,14 @@ CBDocumentManager::FindComplementFile
 struct DirMatchInfo
 {
 	JString*	path;
-	JBoolean	recurse;
+	bool	recurse;
 	JSize		matchLength;
 };
 
 static JListT::CompareResult
 	CompareMatchLengths(const DirMatchInfo& i1, const DirMatchInfo& i2);
 
-JBoolean
+bool
 CBDocumentManager::SearchForComplementFile
 	(
 	CBProjectDocument*			projDoc,
@@ -1497,7 +1497,7 @@ JIndex i;
 	JSize dirCount               = origDirList.GetElementCount();
 	if (dirCount == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JArray<DirMatchInfo> dirList(dirCount);
@@ -1524,13 +1524,13 @@ JIndex i;
 	dirCount = dirList.GetElementCount();
 	if (dirCount == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// search for each suffix in all directories
 
-	JBoolean found          = kJFalse;
-	JBoolean cancelled      = kJFalse;
+	bool found          = false;
+	bool cancelled      = false;
 	const JSize suffixCount = suffixList.GetElementCount();
 
 	JLatentPG pg;
@@ -1542,7 +1542,7 @@ JIndex i;
 		"name", origFileName.GetBytes()
 	};
 	const JString msg = JGetString("ComplFileProgress::CBDocumentManager", map, sizeof(map));
-	pg.FixedLengthProcessBeginning(suffixCount * dirCount, msg, kJTrue, kJFalse);
+	pg.FixedLengthProcessBeginning(suffixCount * dirCount, msg, true, false);
 
 	JString searchName, newPath, newName;
 	for (i=1; i<=suffixCount; i++)
@@ -1552,11 +1552,11 @@ JIndex i;
 			{
 			const DirMatchInfo info = dirList.GetElement(j);
 			if (info.recurse &&
-				JSearchSubdirs(*info.path, searchName, kJTrue, kJTrue,
+				JSearchSubdirs(*info.path, searchName, true, JString::kCompareCase,
 							   &newPath, &newName))
 				{
 				*outputName = JCombinePathAndName(newPath, newName);
-				found       = kJTrue;
+				found       = true;
 				break;
 				}
 			else if (!info.recurse)
@@ -1565,14 +1565,14 @@ JIndex i;
 				if (JFileExists(fullName))
 					{
 					*outputName = fullName;
-					found       = kJTrue;
+					found       = true;
 					break;
 					}
 				}
 
 			if (!pg.IncrementProgress())
 				{
-				cancelled = kJTrue;
+				cancelled = true;
 				break;
 				}
 			}
@@ -1639,11 +1639,11 @@ CBDocumentManager::ReadFromProject
 		{
 		JXStandAlonePG pg;
 		pg.RaiseWhenUpdate();
-		pg.FixedLengthProcessBeginning(textCount, JGetString("OpeningFiles::CBMDIServer"), kJTrue, kJFalse);
+		pg.FixedLengthProcessBeginning(textCount, JGetString("OpeningFiles::CBMDIServer"), true, false);
 
 		for (JIndex i=1; i<=textCount; i++)
 			{
-			JBoolean keep;
+			bool keep;
 			CBTextDocument* doc = jnew CBTextDocument(input, vers, &keep);
 			assert( doc != nullptr );
 			if (!keep)
@@ -1693,12 +1693,12 @@ CBDocumentManager::WriteForProject
 /******************************************************************************
  RestoreState
 
-	Reopens files that were open when we quit the last time.  Returns kJFalse
+	Reopens files that were open when we quit the last time.  Returns false
 	if nothing is opened.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::RestoreState
 	(
 	std::istream& input
@@ -1708,13 +1708,13 @@ CBDocumentManager::RestoreState
 	input >> vers;
 	if (vers > kCurrentStateVersion)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JSize projCount;
 	if (vers == 0)
 		{
-		JBoolean projectWasOpen;
+		bool projectWasOpen;
 		input >> JBoolFromString(projectWasOpen);
 		projCount = projectWasOpen ? 1 : 0;
 		}
@@ -1725,13 +1725,13 @@ CBDocumentManager::RestoreState
 
 	if (projCount > 0)
 		{
-		JBoolean saveReopen = CBProjectDocument::WillReopenTextFiles();
+		bool saveReopen = CBProjectDocument::WillReopenTextFiles();
 		if (kCurrentStateVersion >= 2)
 			{
-			CBProjectDocument::ShouldReopenTextFiles(kJFalse);
+			CBProjectDocument::ShouldReopenTextFiles(false);
 			}
 
-		JBoolean onDisk = kJTrue;
+		bool onDisk = true;
 		JString fileName;
 		for (JIndex i=1; i<=projCount; i++)
 			{
@@ -1759,21 +1759,21 @@ CBDocumentManager::RestoreState
 			}
 		}
 
-	return JI2B( HasProjectDocuments() || HasTextDocuments() );
+	return HasProjectDocuments() || HasTextDocuments();
 }
 
 /******************************************************************************
  SaveState
 
 	Saves files that are currently open so they can be reopened next time.
-	Returns kJFalse if there is nothing to save.
+	Returns false if there is nothing to save.
 
 	Always calls WriteForProject() because project documents might be
 	write protected, e.g., CVS.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBDocumentManager::SaveState
 	(
 	std::ostream& output
@@ -1783,7 +1783,7 @@ CBDocumentManager::SaveState
 	if (itsProjectDocuments->IsEmpty() &&
 		itsTextDocuments->IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	output << kCurrentStateVersion;
@@ -1793,7 +1793,7 @@ CBDocumentManager::SaveState
 
 	if (projCount > 0)
 		{
-		JBoolean onDisk;
+		bool onDisk;
 		JString fullName;
 		for (JIndex i=1; i<=projCount; i++)
 			{
@@ -1806,7 +1806,7 @@ CBDocumentManager::SaveState
 	output << ' ';
 	WriteForProject(output);
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1888,7 +1888,7 @@ CBDocumentManager::Receive
 			{
 			JLatentPG pg;
 			pg.FixedLengthProcessBeginning(count, JGetString("UpdateTypesProgress::CBDocumentManager"),
-										   kJFalse, kJFalse);
+										   false, false);
 
 			for (JIndex i=1; i<=count; i++)
 				{
@@ -1984,7 +1984,7 @@ CBDocumentManager::ReadPrefs
 
 	if (4 <= vers && vers < 6)
 		{
-		JBoolean updateSymbolDBAfterBuild;
+		bool updateSymbolDBAfterBuild;
 		input >> JBoolFromString(updateSymbolDBAfterBuild);
 		}
 

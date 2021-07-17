@@ -47,80 +47,80 @@ public:
 	JXKeyModifiers(const JXDisplay* display);
 	JXKeyModifiers(const JXDisplay* display, const unsigned int state);
 
-	JBoolean		Available(const JIndex i) const;
-	JBoolean		GetState(const JIndex i) const;
-	void			SetState(const JIndex i, const JBoolean pushed);
-	JBoolean		AllOff() const;
+	bool		Available(const JIndex i) const;
+	bool		GetState(const JIndex i) const;
+	void			SetState(const JIndex i, const bool pushed);
+	bool		AllOff() const;
 
 	unsigned int	GetState() const;
 	void			SetState(const JXDisplay* display, const unsigned int state);
 
 	void			Clear();
 
-	JBoolean
+	bool
 	key(const JIndex i)
 		const
 	{
 		return GetState(i);
 	};
 
-	JBoolean
+	bool
 	shift()
 		const
 	{
 		return itsState[ MapKey(kJXShiftKeyIndex) ];
 	};
 
-	JBoolean
+	bool
 	shiftLock()
 		const
 	{
 		return itsState[ MapKey(kJXShiftLockKeyIndex) ];
 	};
 
-	JBoolean
+	bool
 	numLock()
 		const
 	{
 		return itsState[ MapKey(kJXNumLockKeyIndex) ];
 	};
 
-	JBoolean
+	bool
 	scrollLock()
 		const
 	{
 		return itsState[ MapKey(kJXScrollLockKeyIndex) ];
 	};
 
-	JBoolean
+	bool
 	control()
 		const
 	{
 		return itsState[ MapKey(kJXControlKeyIndex) ];
 	};
 
-	JBoolean
+	bool
 	meta()
 		const
 	{
 		return itsState[ MapKey(kJXMetaKeyIndex) ];
 	};
 
-	JBoolean
+	bool
 	alt()
 		const
 	{
 		return itsState[ MapKey(kJXAltKeyIndex) ];
 	};
 
-	JBoolean
+	bool
 	super()
 		const
 	{
 		return itsState[ MapKey(kJXSuperKeyIndex) ];
 	};
 
-	JBoolean
+	bool
 	hyper()
 		const
 	{
@@ -133,16 +133,16 @@ public:
 		SetState(i, !GetState(i));
 	};
 
-	static JBoolean
+	static bool
 	AllOff(const JXDisplay* display, const unsigned int state)
 	{
-		return JConvertToBoolean( (state & 0x00FF) == 0 );
+		return (state & 0x00FF) == 0;
 	};
 
-	static JBoolean		GetState(const JXDisplay* display,
+	static bool		GetState(const JXDisplay* display,
 								 const unsigned int state, const JIndex i);
 	static unsigned int	SetState(const JXDisplay* display, const unsigned int state,
-								 const JIndex i, const JBoolean pushed);
+								 const JIndex i, const bool pushed);
 
 	static unsigned int
 	ToggleState(const JXDisplay* display, const unsigned int state, const JIndex i)
@@ -152,7 +152,7 @@ public:
 
 private:
 
-	JBoolean	itsState[ 1+kXModifierCount ];	// [0] is always kJFalse
+	bool	itsState[ 1+kXModifierCount ];	// [0] is always false
 	const int*	itsMap;							// 1+kJXKeyModifierMapCount; element is zero if unmapped
 
 private:

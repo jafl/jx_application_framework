@@ -19,13 +19,13 @@ class JLatentPG : public JProgressDisplay
 public:
 
 	JLatentPG(const JSize scaleFactor = 1);
-	JLatentPG(JProgressDisplay* pg, const JBoolean ownIt,
+	JLatentPG(JProgressDisplay* pg, const bool ownIt,
 			  const JSize scaleFactor = 1);
 
 	virtual ~JLatentPG();
 
 	void	UseDefaultPG();
-	void	SetPG(JProgressDisplay* pg, const JBoolean ownIt);
+	void	SetPG(JProgressDisplay* pg, const bool ownIt);
 
 	time_t	GetMaxSilentTime() const;
 	void	SetMaxSilentTime(const time_t max);
@@ -33,26 +33,26 @@ public:
 	JSize	GetScaleFactor() const;
 	void	SetScaleFactor(const JSize scaleFactor);
 
-	virtual JBoolean	IncrementProgress(const JString& message = JString::empty) override;
-	virtual JBoolean	IncrementProgress(const JSize delta) override;
-	virtual JBoolean	IncrementProgress(const JString& message,
+	virtual bool	IncrementProgress(const JString& message = JString::empty) override;
+	virtual bool	IncrementProgress(const JSize delta) override;
+	virtual bool	IncrementProgress(const JString& message,
 										  const JSize delta) override;
-	virtual JBoolean	ProcessContinuing() override;
+	virtual bool	ProcessContinuing() override;
 	virtual void		ProcessFinished() override;
 	virtual void		DisplayBusyCursor() override;
 
 protected:
 
 	virtual void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
-									 const JString& message, const JBoolean allowCancel,
-									 const JBoolean allowBackground) override;
+									 const JString& message, const bool allowCancel,
+									 const bool allowBackground) override;
 
-	virtual JBoolean	CheckForCancel() override;
+	virtual bool	CheckForCancel() override;
 
 private:
 
 	JProgressDisplay*	itsPG;
-	JBoolean			itsOwnsPGFlag;
+	bool			itsOwnsPGFlag;
 	JString				itsMessage;
 
 	time_t	itsStartTime;

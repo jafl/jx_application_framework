@@ -20,7 +20,7 @@ This scanner reads a C/C++ file and creates CBClass instances.
 
 #undef YY_DECL
 #define YY_DECL \
-	JBoolean CBDTreeScanner::CreateClasses( \
+	bool CBDTreeScanner::CreateClasses( \
 		const JString& fileName, const JFAID_t fileID, \
 		CBTree* tree, JPtrArray<CBClass>* classList)
 
@@ -140,25 +140,25 @@ alias{WS}{ID}{MS}={MS}{NSIDT}{MS}; {
 	}
 
 final/{BDRY} {
-	itsFinalFlag = kJTrue;
+	itsFinalFlag = true;
 	}
 
 abstract/{BDRY} {
-	itsAbstractFlag = kJTrue;
+	itsAbstractFlag = true;
 	}
 
 template/{BDRY} {
-	itsTemplateFlag = kJTrue;
+	itsTemplateFlag = true;
 	BEGIN(CLASS_NAME_STATE);
 	}
 
 class/{BDRY} {
-	itsAbstractFlag = kJFalse;
+	itsAbstractFlag = false;
 	BEGIN(CLASS_NAME_STATE);
 	}
 
 interface/{BDRY} {
-	itsAbstractFlag = kJTrue;
+	itsAbstractFlag = true;
 	BEGIN(CLASS_NAME_STATE);
 	}
 
@@ -170,7 +170,7 @@ interface/{BDRY} {
 	curlyBraceDepth--;
 	if (curlyBraceDepth < 0)
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (curlyBraceDepth == 0 && !curlyBraceStack.IsEmpty())
 		{
@@ -410,7 +410,7 @@ x\" {
 	JSize count = 0;
 	while (1)
 		{
-		JBoolean changed = kJFalse;
+		bool changed = false;
 		for (const JString* c : aliasKeys)
 			{
 			JString* s1;
@@ -419,7 +419,7 @@ x\" {
 			if (*c == parentName)
 				{
 				parentName = *s1;
-				changed    = kJTrue;
+				changed    = true;
 				break;
 				}
 
@@ -431,7 +431,7 @@ x\" {
 				iter.Next(*c);
 				iter.RemoveAllPrev();
 				parentName.Prepend(*s1);
-				changed = kJTrue;
+				changed = true;
 				break;
 				}
 			}

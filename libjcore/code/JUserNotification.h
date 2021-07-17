@@ -32,26 +32,26 @@ public:
 	virtual void		DisplayMessage(const JString& message) = 0;
 	virtual void		ReportError(const JString& message) = 0;
 
-	virtual JBoolean	AskUserYes(const JString& message) = 0;
-	virtual JBoolean	AskUserNo(const JString& message) = 0;
+	virtual bool	AskUserYes(const JString& message) = 0;
+	virtual bool	AskUserNo(const JString& message) = 0;
 
 	virtual CloseAction	OKToClose(const JString& message) = 0;
 
-	virtual JBoolean	AcceptLicense() = 0;
+	virtual bool	AcceptLicense() = 0;
 
 	// control of Message and Error display
 
-	JBoolean	IsSilent() const;
-	void		SetSilent(const JBoolean beQuiet);
+	bool	IsSilent() const;
+	void		SetSilent(const bool beQuiet);
 
-	static JBoolean	GetBreakMessageCROnly();
+	static bool	GetBreakMessageCROnly();
 	static void		SetBreakMessageCROnly();
 
 private:
 
-	JBoolean	itsSilenceFlag;
+	bool	itsSilenceFlag;
 
-	static JBoolean		theBreakCROnlyFlag;
+	static bool		theBreakCROnlyFlag;
 
 private:
 
@@ -67,7 +67,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JUserNotification::IsSilent()
 	const
 {
@@ -77,7 +77,7 @@ JUserNotification::IsSilent()
 inline void
 JUserNotification::SetSilent
 	(
-	const JBoolean beQuiet
+	const bool beQuiet
 	)
 {
 	itsSilenceFlag = beQuiet;
@@ -90,18 +90,18 @@ JUserNotification::SetSilent
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JUserNotification::GetBreakMessageCROnly()
 {
-	const JBoolean result = theBreakCROnlyFlag;
-	theBreakCROnlyFlag    = kJFalse;
+	const bool result = theBreakCROnlyFlag;
+	theBreakCROnlyFlag    = false;
 	return result;
 }
 
 inline void
 JUserNotification::SetBreakMessageCROnly()
 {
-	theBreakCROnlyFlag = kJTrue;
+	theBreakCROnlyFlag = true;
 }
 
 #endif

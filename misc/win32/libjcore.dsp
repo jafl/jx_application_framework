@@ -745,7 +745,7 @@ SOURCE=".\code\Templates-int.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE=".\code\Templates-JBoolean.cpp"
+SOURCE=".\code\Templates-bool.cpp"
 # SUBTRACT CPP /YX /Yc /Yu
 # End Source File
 # Begin Source File

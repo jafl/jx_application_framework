@@ -704,7 +704,7 @@ JXImage::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXImage::GetMask		// virtual
 	(
 	JImageMask** mask
@@ -712,7 +712,7 @@ JXImage::GetMask		// virtual
 	const
 {
 	*mask = itsMask;
-	return JConvertToBoolean( itsMask != nullptr );
+	return itsMask != nullptr;
 }
 
 void
@@ -1146,7 +1146,7 @@ JXImage::SetImageData
 	const JSize			colorCount,
 	const JColorID*		colorTable,
 	unsigned short**	imageData,
-	const JBoolean		hasMask,
+	const bool		hasMask,
 	const unsigned long	maskColor
 	)
 {
@@ -1180,7 +1180,7 @@ JXImage::SetImageData
 				{
 				if (itsMask == nullptr)
 					{
-					itsMask = jnew JXImageMask(itsDisplay, w,h, kJTrue);
+					itsMask = jnew JXImageMask(itsDisplay, w,h, true);
 					assert( itsMask != nullptr );
 					}
 				itsMask->RemovePixel(x,y);

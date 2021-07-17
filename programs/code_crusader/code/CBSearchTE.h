@@ -28,15 +28,15 @@ public:
 
 	void	SearchFiles(const JPtrArray<JString>& fileList,
 						const JPtrArray<JString>& nameList,
-						const JBoolean onlyListFiles,
-						const JBoolean listFilesWithoutMatch,
+						const bool onlyListFiles,
+						const bool listFilesWithoutMatch,
 						std::ostream& output);
 
-	JBoolean	ReplaceAllForward();
+	bool	ReplaceAllForward();
 
 	static void	SetProtocol(CBSearchDocument::RecordLink* link);
 
-	virtual JBoolean	TEHasSearchText() const override;
+	virtual bool	TEHasSearchText() const override;
 
 protected:
 
@@ -45,26 +45,26 @@ protected:
 	virtual void		TERedraw() override;
 	virtual void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
 									   const JCoordinate changeY) override;
-	virtual JBoolean	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
-	virtual JBoolean	TEScrollToRect(const JRect& rect,
-									   const JBoolean centerInDisplay) override;
-	virtual JBoolean	TEScrollForDrag(const JPoint& pt) override;
-	virtual JBoolean	TEScrollForDND(const JPoint& pt) override;
+	virtual bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
+	virtual bool	TEScrollToRect(const JRect& rect,
+									   const bool centerInDisplay) override;
+	virtual bool	TEScrollForDrag(const JPoint& pt) override;
+	virtual bool	TEScrollForDND(const JPoint& pt) override;
 	virtual void		TESetVertScrollStep(const JCoordinate vStep) override;
 	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
-	virtual JBoolean	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
-	virtual JBoolean	TEBeginDND() override;
+	virtual bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
+	virtual bool	TEBeginDND() override;
 	virtual void		TEPasteDropData() override;
-	virtual void		TECaretShouldBlink(const JBoolean blink) override;
+	virtual void		TECaretShouldBlink(const bool blink) override;
 
 private:
 
 	void	SearchFile(const JString& fileName, const JString& printName,
-					   const JBoolean onlyListFiles, const JBoolean listFilesWithoutMatch,
+					   const bool onlyListFiles, const bool listFilesWithoutMatch,
 					   std::ostream& output,
-					   const JRegex& searchRegex, const JBoolean	entireWord);
+					   const JRegex& searchRegex, const bool	entireWord);
 
-	JBoolean	IsKnownBinaryFile(const JString& fileName) const;
+	bool	IsKnownBinaryFile(const JString& fileName) const;
 
 	// not allowed
 

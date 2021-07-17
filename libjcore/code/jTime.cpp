@@ -40,7 +40,7 @@ JConvertToTimeStamp
 	const time_t t
 	)
 {
-	JString timeStamp(ctime(&t), 0);
+	JString timeStamp(ctime(&t));
 	timeStamp.TrimWhitespace();
 	return timeStamp;
 }

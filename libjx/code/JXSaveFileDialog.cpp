@@ -86,7 +86,7 @@ JXSaveFileDialog::~JXSaveFileDialog()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSaveFileDialog::GetFileName
 	(
 	JString* name
@@ -220,7 +220,7 @@ JXSaveFileDialog::BuildWindow
 	assert( newDirButton != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu(JString("/", kJFalse), window,
+		jnew JXCurrentPathMenu(JString("/", JString::kNoCopy), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 
@@ -283,13 +283,13 @@ JXSaveFileDialog::SetObjects
 		newDirButton, showHiddenCB, currPathMenu, message);
 
 	JXDirTable* table = GetFileBrowser();
-	table->AllowSelectFiles(kJFalse, kJFalse);
-	table->AllowDblClickInactive(kJTrue);
+	table->AllowSelectFiles(false, false);
+	table->AllowDblClickInactive(true);
 	promptLabel->GetText()->SetText(prompt);
 	itsFileNameInput->GetText()->SetText(origName);
 
 	JXDirTable* fileBrowser = GetFileBrowser();
-	fileBrowser->ShouldSelectWhenChangePath(kJFalse);
+	fileBrowser->ShouldSelectWhenChangePath(false);
 
 	const JRect frame   = itsFileNameInput->GetFrame();
 	const JCoordinate w = frame.height();
@@ -383,78 +383,78 @@ JXSaveFileDialog::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSaveFileDialog::OKToDeactivate()
 {
 	if (!JXCSFDialogBase::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	JXPathInput* pathInput = GetPathInput();
 	if (pathInput->HasFocus())
 		{
 		GoToItsPath();
-		return kJFalse;
+		return false;
 		}
 
 	JXInputField* filterInput = GetFilterInput();
 	if (filterInput->HasFocus())
 		{
 		AdjustFilter();
-		return kJFalse;
+		return false;
 		}
 
 	JXDirTable* fileBrowser = GetFileBrowser();
 	if (fileBrowser->HasFocus() && fileBrowser->GoToSelectedDirectory())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JString& fileName = itsFileNameInput->GetText()->GetText();
 	if (fileName.IsEmpty())
 		{
 		JGetUserNotification()->ReportError(JGetString("MustEnterFileName::JXSaveFileDialog"));
-		return kJFalse;
+		return false;
 		}
 
 	const JString& path     = GetPath();
 	const JString fullName  = path + fileName;
 
-	const JBoolean fileExists = JFileExists(fullName);
+	const bool fileExists = JFileExists(fullName);
 
 	if (JDirectoryExists(fullName))
 		{
 		JGetUserNotification()->ReportError(JGetString("DirExists::JXSaveFileDialog"));
-		return kJFalse;
+		return false;
 		}
 	else if (!JDirectoryWritable(path) && !fileExists)
 		{
 		JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXGlobal"));
-		return kJFalse;
+		return false;
 		}
 	else if (!fileExists)
 		{
 		itsFileName = fileName;
-		return kJTrue;
+		return true;
 		}
 	else if (!JFileWritable(fullName))
 		{
 		JGetUserNotification()->ReportError(JGetString("FileNotWritable::JXGlobal"));
-		return kJFalse;
+		return false;
 		}
 	else if (JGetUserNotification()->AskUserNo(JGetString("WarnReplaceFile::JXSaveFileDialog")))
 		{
 		itsFileName = fileName;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -470,7 +470,7 @@ JXSaveFileDialog::UpdateDisplay()
 
 	JXDirTable* table = GetFileBrowser();
 
-	JBoolean saveWoutFocus = kJFalse;
+	bool saveWoutFocus = false;
 	if (table->HasFocus())
 		{
 		if ((table->GetTableSelection()).HasSelection())
@@ -480,7 +480,7 @@ JXSaveFileDialog::UpdateDisplay()
 		else
 			{
 			itsSaveButton->SetLabel(JGetString("SaveLabel::JXSaveFileDialog"));
-			saveWoutFocus = kJTrue;
+			saveWoutFocus = true;
 			}
 		}
 
@@ -521,6 +521,6 @@ JXSaveFileDialog::Save
 	err.ReportIfError();
 	if (err.OK() && itsFileNameInput->Focus())
 		{
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 }

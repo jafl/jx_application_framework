@@ -132,7 +132,7 @@ SVNInfoLog::Execute
 		return;
 		}
 
-	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor());
+	const JFontStyle red(true, false, 0, false, JColorManager::GetRedColor());
 
 	JString text;
 	JReadAll(errFD, &text);
@@ -153,7 +153,7 @@ void
 SVNInfoLog::GetSelectedFiles
 	(
 	JPtrArray<JString>*	fullNameList,
-	const JBoolean		includeDeleted
+	const bool		includeDeleted
 	)
 {
 	fullNameList->CleanOut();
@@ -171,7 +171,7 @@ SVNInfoLog::GetSelectedFiles
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNInfoLog::GetBaseRevision
 	(
 	JString* rev
@@ -184,12 +184,12 @@ SVNInfoLog::GetBaseRevision
 		if (iter.Next(revisionPattern))
 			{
 			*rev = iter.GetLastMatch().GetSubstring(1);
-			return kJTrue;
+			return true;
 			}
 		}
 
 	rev->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

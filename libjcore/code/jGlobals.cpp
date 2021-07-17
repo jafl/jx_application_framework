@@ -179,19 +179,19 @@ JDeleteGlobals()
 	We cannot guarantee that JInitCore was called, so we cannot guarantee
 	that we have an object that we can return.  Since assert() may be called
 	because of arbitrary system failures, we cannot allocate an object
-	when this function is called.  Thus, we return kJTrue if we have an
+	when this function is called.  Thus, we return true if we have an
 	object.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGetAssertHandler
 	(
 	JAssertBase** ah
 	)
 {
 	*ah = theAssertHandler;
-	return JConvertToBoolean( *ah != nullptr );
+	return *ah != nullptr;
 }
 
 /******************************************************************************

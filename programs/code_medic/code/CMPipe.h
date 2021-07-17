@@ -67,7 +67,7 @@ private:
 	JUtf8ByteBuffer	itsByteBuffer;		// buffer containing unprocessed bytes
 	JString			itsRecvData;		// buffer containing unprocessed characters
 
-	JBoolean	itsInHandleInputFlag;	// kJTrue => stack passes through handle_input()
+	bool	itsInHandleInputFlag;	// true => stack passes through handle_input()
 
 private:
 

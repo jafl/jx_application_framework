@@ -30,7 +30,7 @@ public:
 
 	virtual ~GPMProcessTable();
 
-	JBoolean	GetSelectedProcess(const GPMProcessEntry** entry) const;
+	bool	GetSelectedProcess(const GPMProcessEntry** entry) const;
 	void		SelectProcess(const GPMProcessEntry& entry);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c,

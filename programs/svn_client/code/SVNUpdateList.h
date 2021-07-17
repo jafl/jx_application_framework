@@ -27,7 +27,7 @@ public:
 
 protected:
 
-	virtual JBoolean	ShouldDisplayLine(JString* line) const override;
+	virtual bool	ShouldDisplayLine(JString* line) const override;
 	virtual void		StyleLine(const JIndex index, const JString& line,
 								  const JFontStyle& errorStyle,
 								  const JFontStyle& addStyle,
@@ -38,7 +38,7 @@ protected:
 
 private:
 
-	JBoolean	itsHasRefreshedFlag;
+	bool	itsHasRefreshedFlag;
 
 private:
 

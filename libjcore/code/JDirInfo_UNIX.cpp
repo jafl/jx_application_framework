@@ -26,12 +26,11 @@ JDirInfo::BuildInfo1
 	// compensate for file system deficiencies
 	// (This won't work unless JDirEntry does it, which is too expensive)
 /*
-	JBoolean writable, isTop;
+	bool writable, isTop;
 	JString device, fsType;
 
-	const JBoolean ignoreExecPermFlag = JI2B(
-		JIsMounted(*itsCWD, &writable, &isTop, &device, &fsType) &&
-		JString::Compare(fsType, "vfat", kJFalse) == 0);
+	const bool ignoreExecPermFlag = JIsMounted(*itsCWD, &writable, &isTop, &device, &fsType) &&
+		JString::Compare(fsType, "vfat", false) == 0;
 */
 	// scan directory
 
@@ -59,15 +58,15 @@ JDirInfo::BuildInfo1
 			continue;
 			}
 
-		JDirEntry* newEntry = jnew JDirEntry(itsCWD, JString(direntry->d_name, kJFalse));
+		JDirEntry* newEntry = jnew JDirEntry(itsCWD, JString(direntry->d_name, JString::kNoCopy));
 		assert( newEntry != nullptr );
 		if (MatchesContentFilter(*newEntry))
 			{
-			itsDirEntries->InsertSorted(newEntry, kJTrue);
+			itsDirEntries->InsertSorted(newEntry, true);
 
 /*			if (ignoreExecPermFlag)
 				{
-				newEntry->itsIsExecutableFlag  = kJFalse;
+				newEntry->itsIsExecutableFlag  = false;
 				newEntry->itsMode             &= ~(S_IXUSR | S_IXGRP | S_IXOTH);
 				}
 */			}

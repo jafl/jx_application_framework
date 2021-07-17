@@ -23,7 +23,7 @@ JBroadcastTester::JBroadcastTester
 	const JBroadcaster* obj
 	)
 	:
-	itsExpectGoingAwayFlag(kJFalse)
+	itsExpectGoingAwayFlag(false)
 {
 	ListenTo(obj);
 }
@@ -75,7 +75,7 @@ JBroadcastTester::Receive
 	const Message&	message
 	)
 {
-	const JBoolean empty = itsExpectedMessages.IsEmpty();
+	const bool empty = itsExpectedMessages.IsEmpty();
 	JAssertFalseWithMessage(empty, message.GetType());
 
 	if (!empty)
@@ -98,7 +98,7 @@ JBroadcastTester::Receive
 void
 JBroadcastTester::ExpectGoingAway()
 {
-	itsExpectGoingAwayFlag = kJTrue;
+	itsExpectGoingAwayFlag = true;
 }
 
 /******************************************************************************

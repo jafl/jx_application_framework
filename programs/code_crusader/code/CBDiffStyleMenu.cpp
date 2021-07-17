@@ -34,7 +34,7 @@ CBDiffStyleMenu::CBDiffStyleMenu
 	:
 	JXStyleMenu(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	SetTitle(title, nullptr, kJFalse);
+	SetTitle(title, nullptr, false);
 	SetUpdateAction(kDisableNone);
 }
 

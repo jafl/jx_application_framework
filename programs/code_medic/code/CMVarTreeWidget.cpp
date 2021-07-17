@@ -69,7 +69,7 @@ const JSize kBaseCount                = sizeof(kMenuIndexToBase) / sizeof(JSize)
 CMVarTreeWidget::CMVarTreeWidget
 	(
 	CMCommandDirector*	dir,
-	const JBoolean		mainDisplay,
+	const bool		mainDisplay,
 	JXMenuBar*			menuBar,
 	JTree*				tree,
 	JNamedTreeList*		treeList,
@@ -88,16 +88,16 @@ CMVarTreeWidget::CMVarTreeWidget
 	itsDir(dir),
 	itsTree(tree),
 	itsIsMainDisplayFlag(mainDisplay),
-	itsWaitingForReloadFlag(kJFalse),
+	itsWaitingForReloadFlag(false),
 	itsDragType(kInvalidDrag)
 {
-	SetSelectionBehavior(kJTrue, kJTrue);
+	SetSelectionBehavior(true, true);
 
 	// custom Edit menu
 
 	JXTEBase* te         = GetEditMenuHandler();
 	itsEditMenu          = te->AppendEditMenu(menuBar);
-	const JBoolean found = te->EditMenuCmdToIndex(JTextEditor::kCopyCmd, &itsCopyPathCmdIndex);
+	const bool found = te->EditMenuCmdToIndex(JTextEditor::kCopyCmd, &itsCopyPathCmdIndex);
 	assert( found );
 	itsCopyPathCmdIndex++;
 	itsCopyValueCmdIndex = itsCopyPathCmdIndex+1;
@@ -169,12 +169,12 @@ CMVarTreeWidget::NewExpression
 		}
 
 	JIndex i;
-	const JBoolean found = GetNamedTreeList()->FindNode(node, &i);
+	const bool found = GetNamedTreeList()->FindNode(node, &i);
 	assert( found );
 
 	const JPoint cell(GetNodeColIndex(), i);
 	BeginEditing(cell);
-	itsEditingNewNodeFlag = kJTrue;
+	itsEditingNewNodeFlag = true;
 
 	ClearIncrementalSearchBuffer();
 	return node;
@@ -474,7 +474,7 @@ CMVarTreeWidget::WriteSetup
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMVarTreeWidget::HasSelection()
 	const
 {
@@ -511,7 +511,7 @@ CMVarTreeWidget::RemoveSelection()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMVarTreeWidget::IsEditable
 	(
 	const JPoint& cell
@@ -522,11 +522,11 @@ CMVarTreeWidget::IsEditable
 		dynamic_cast<const CMVarNode*>(GetTreeList()->GetNode(cell.y));
 	assert( node != nullptr );
 
-	return JI2B(JXTreeListWidget::IsEditable(cell) &&
+	return JXTreeListWidget::IsEditable(cell) &&
 				((JIndex(cell.x) == GetNodeColIndex() &&
 				  itsIsMainDisplayFlag && node->GetDepth() == 1) ||
 				 (JIndex(cell.x) == kValueColIndex &&
-				  node->ValueIsValid() && !(node->GetValue()).IsEmpty())));
+				  node->ValueIsValid() && !(node->GetValue()).IsEmpty()));
 }
 
 /******************************************************************************
@@ -687,7 +687,7 @@ CMVarTreeWidget::HandleMouseDrag
 		ScrollForDrag(pt);
 
 		JPoint cell;
-		const JBoolean ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
+		const bool ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
 		assert( ok );
 
 		cell.x = GetNodeColIndex();
@@ -764,7 +764,7 @@ CMVarTreeWidget::HandleKeyPress
 
 	else if ((c == kJUpArrow || c == kJDownArrow) && !IsEditing())
 		{
-		const JBoolean hasSelection = HasSelection();
+		const bool hasSelection = HasSelection();
 		if (!hasSelection && c == kJUpArrow && GetRowCount() > 0)
 			{
 			SelectSingleCell(JPoint(GetNodeColIndex(), GetRowCount()));
@@ -802,7 +802,7 @@ CMVarTreeWidget::CreateXInputField
 	)
 {
 	SelectSingleCell(JPoint(GetNodeColIndex(), cell.y));
-	itsEditingNewNodeFlag = kJFalse;	// must override after BeginEditing()
+	itsEditingNewNodeFlag = false;	// must override after BeginEditing()
 
 	JXInputField* input = JXNamedTreeListWidget::CreateXInputField(cell, x,y, w,h);
 	if (JIndex(cell.x) == kValueColIndex)
@@ -825,14 +825,14 @@ CMVarTreeWidget::CreateXInputField
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMVarTreeWidget::ExtractInputData
 	(
 	const JPoint& cell
 	)
 {
 	JXInputField* input = nullptr;
-	const JBoolean ok = GetXInputField(&input);
+	const bool ok = GetXInputField(&input);
 	assert( ok );
 	const JString& text = input->GetText()->GetText();
 
@@ -843,7 +843,7 @@ CMVarTreeWidget::ExtractInputData
 	if (JIndex(cell.x) == GetNodeColIndex() &&
 		JXNamedTreeListWidget::ExtractInputData(cell))
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (JIndex(cell.x) == kValueColIndex && !text.IsEmpty())
 		{
@@ -852,11 +852,11 @@ CMVarTreeWidget::ExtractInputData
 			const JString name = node->GetFullName();
 			CMGetLink()->SetValue(name, text);
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -892,7 +892,7 @@ CMVarTreeWidget::Receive
 
 	else if (sender == CMGetLink() && message.Is(CMLink::kDebuggerRestarted))
 		{
-		itsWaitingForReloadFlag = kJTrue;
+		itsWaitingForReloadFlag = true;
 		CancelEditing();
 		}
 	else if (sender == CMGetLink() && message.Is(CMLink::kDebuggerStarted))
@@ -901,7 +901,7 @@ CMVarTreeWidget::Receive
 			{
 			(itsTree->GetRoot())->DeleteAllChildren();
 			}
-		itsWaitingForReloadFlag = kJFalse;
+		itsWaitingForReloadFlag = false;
 		}
 
 	else if (sender == itsEditMenu && message.Is(JXMenu::kNeedsUpdate))
@@ -941,11 +941,11 @@ CMVarTreeWidget::Receive
 
 	else if (sender == GetWindow() && message.Is(JXWindow::kIconified))
 		{
-		ShouldUpdate(kJFalse);
+		ShouldUpdate(false);
 		}
 	else if (sender == GetWindow() && message.Is(JXWindow::kDeiconified))
 		{
-		ShouldUpdate(kJTrue);
+		ShouldUpdate(true);
 		}
 
 	else
@@ -994,7 +994,7 @@ CMVarTreeWidget::ReceiveGoingAway
 void
 CMVarTreeWidget::ShouldUpdate
 	(
-	const JBoolean update
+	const bool update
 	)
 {
 	dynamic_cast<CMVarNode*>(itsTree->GetRoot())->ShouldUpdate(update);
@@ -1069,15 +1069,15 @@ CMVarTreeWidget::HandleEditMenu
 
 	if (cmd == JTextEditor::kCopyCmd)
 		{
-		CopySelectedItems(kJFalse, kJFalse);
+		CopySelectedItems(false, false);
 		}
 	else if (index == itsCopyPathCmdIndex)
 		{
-		CopySelectedItems(kJTrue, kJFalse);
+		CopySelectedItems(true, false);
 		}
 	else if (index == itsCopyValueCmdIndex)
 		{
-		CopySelectedItems(kJFalse, kJTrue);
+		CopySelectedItems(false, true);
 		}
 	else if (cmd == JTextEditor::kSelectAllCmd)
 		{
@@ -1095,8 +1095,8 @@ CMVarTreeWidget::HandleEditMenu
 void
 CMVarTreeWidget::CopySelectedItems
 	(
-	const JBoolean useFullName,
-	const JBoolean copyValue
+	const bool useFullName,
+	const bool copyValue
 	)
 	const
 {

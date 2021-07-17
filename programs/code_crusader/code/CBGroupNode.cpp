@@ -23,10 +23,10 @@
 CBGroupNode::CBGroupNode
 	(
 	CBProjectTree*	tree,
-	const JBoolean	append
+	const bool	append
 	)
 	:
-	CBProjectNode(tree, kCBGroupNT, JGetString("NewGroupName::CBGroupNode"), kJTrue)
+	CBProjectNode(tree, kCBGroupNT, JGetString("NewGroupName::CBGroupNode"), true)
 {
 	if (tree != nullptr && append)
 		{
@@ -41,7 +41,7 @@ CBGroupNode::CBGroupNode
 	CBProjectNode*		parent
 	)
 	:
-	CBProjectNode(input, vers, parent, kCBGroupNT, kJTrue)
+	CBProjectNode(input, vers, parent, kCBGroupNT, true)
 {
 }
 
@@ -97,12 +97,12 @@ CBGroupNode::ShowFileLocation()
 void
 CBGroupNode::ViewPlainDiffs
 	(
-	const JBoolean origSilent
+	const bool origSilent
 	)
 	const
 {
 	const JSize count     = GetChildCount();
-	const JBoolean silent = JI2B(origSilent || count > 1);
+	const bool silent = origSilent || count > 1;
 	for (JIndex i=1; i<=count; i++)
 		{
 		(GetProjectChild(i))->ViewPlainDiffs(silent);
@@ -117,12 +117,12 @@ CBGroupNode::ViewPlainDiffs
 void
 CBGroupNode::ViewVCSDiffs
 	(
-	const JBoolean origSilent
+	const bool origSilent
 	)
 	const
 {
 	const JSize count     = GetChildCount();
-	const JBoolean silent = JI2B(origSilent || count > 1);
+	const bool silent = origSilent || count > 1;
 	for (JIndex i=1; i<=count; i++)
 		{
 		(GetProjectChild(i))->ViewVCSDiffs(silent);

@@ -15,7 +15,7 @@
 /******************************************************************************
  JXGetEventTime
 
-	Return the time stamp of the event.  Returns kJFalse if the given
+	Return the time stamp of the event.  Returns false if the given
 	event doesn't contain a time stamp.
 
 	Selection events contain a time field, but this is a timestamp generated
@@ -23,7 +23,7 @@
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXGetEventTime
 	(
 	const XEvent&	xEvent,
@@ -35,31 +35,31 @@ JXGetEventTime
 	if (xEvent.type == KeyPress || xEvent.type == KeyRelease)
 		{
 		*time = xEvent.xkey.time;
-		return kJTrue;
+		return true;
 		}
 	else if (xEvent.type == ButtonPress || xEvent.type == ButtonRelease)
 		{
 		*time = xEvent.xbutton.time;
-		return kJTrue;
+		return true;
 		}
 	else if (xEvent.type == MotionNotify)
 		{
 		*time = xEvent.xmotion.time;
-		return kJTrue;
+		return true;
 		}
 	else if (xEvent.type == EnterNotify || xEvent.type == LeaveNotify)
 		{
 		*time = xEvent.xcrossing.time;
-		return kJTrue;
+		return true;
 		}
 	else if (xEvent.type == PropertyNotify)
 		{
 		*time = xEvent.xproperty.time;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;		// event doesn't contain the information
+		return false;		// event doesn't contain the information
 		}
 }
 
@@ -67,11 +67,11 @@ JXGetEventTime
  JXGetMouseLocation
 
 	Return the location of the mouse in root coordinates.
-	Returns kJFalse if the given event doesn't contain the information.
+	Returns false if the given event doesn't contain the information.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXGetMouseLocation
 	(
 	const XEvent&	xEvent,
@@ -84,26 +84,26 @@ JXGetMouseLocation
 	if (xEvent.type == KeyPress || xEvent.type == KeyRelease)
 		{
 		pt->Set(xEvent.xkey.x_root, xEvent.xkey.y_root);
-		return kJTrue;
+		return true;
 		}
 	else if (xEvent.type == ButtonPress || xEvent.type == ButtonRelease)
 		{
 		pt->Set(xEvent.xbutton.x_root, xEvent.xbutton.y_root);
-		return kJTrue;
+		return true;
 		}
 	else if (xEvent.type == MotionNotify)
 		{
 		pt->Set(xEvent.xmotion.x_root, xEvent.xmotion.y_root);
-		return kJTrue;
+		return true;
 		}
 	else if (xEvent.type == EnterNotify || xEvent.type == LeaveNotify)
 		{
 		pt->Set(xEvent.xcrossing.x_root, xEvent.xcrossing.y_root);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;		// event doesn't contain the information
+		return false;		// event doesn't contain the information
 		}
 }
 
@@ -111,11 +111,11 @@ JXGetMouseLocation
  JXGetButtonAndModifierStates
 
 	Return the button and key modifiers states of the event.
-	Returns kJFalse if the given event doesn't contain the information.
+	Returns false if the given event doesn't contain the information.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXGetButtonAndModifierStates
 	(
 	const XEvent&	xEvent,
@@ -131,9 +131,9 @@ JXGetButtonAndModifierStates
 		JIndex modifierIndex;
 		if (display->KeycodeToModifier(xEvent.xkey.keycode, &modifierIndex))
 			{
-			*state = JXKeyModifiers::SetState(display, *state, modifierIndex, kJTrue);
+			*state = JXKeyModifiers::SetState(display, *state, modifierIndex, true);
 			}
-		return kJTrue;
+		return true;
 		}
 	else if (xEvent.type == KeyRelease)
 		{
@@ -141,36 +141,36 @@ JXGetButtonAndModifierStates
 		JIndex modifierIndex;
 		if (display->KeycodeToModifier(xEvent.xkey.keycode, &modifierIndex))
 			{
-			*state = JXKeyModifiers::SetState(display, *state, modifierIndex, kJFalse);
+			*state = JXKeyModifiers::SetState(display, *state, modifierIndex, false);
 			}
-		return kJTrue;
+		return true;
 		}
 	else if (xEvent.type == ButtonPress)
 		{
 		const JXMouseButton currButton = (JXMouseButton) xEvent.xbutton.button;
 		*state = JXButtonStates::SetState(xEvent.xbutton.state,
-										  currButton, kJTrue);
-		return kJTrue;
+										  currButton, true);
+		return true;
 		}
 	else if (xEvent.type == ButtonRelease)
 		{
 		const JXMouseButton currButton = (JXMouseButton) xEvent.xbutton.button;
 		*state = JXButtonStates::SetState(xEvent.xbutton.state,
-										  currButton, kJFalse);
-		return kJTrue;
+										  currButton, false);
+		return true;
 		}
 	else if (xEvent.type == MotionNotify)
 		{
 		*state = xEvent.xmotion.state;
-		return kJTrue;
+		return true;
 		}
 	else if (xEvent.type == EnterNotify || xEvent.type == LeaveNotify)
 		{
 		*state = xEvent.xcrossing.state;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;		// event doesn't contain the information
+		return false;		// event doesn't contain the information
 		}
 }

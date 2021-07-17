@@ -78,12 +78,12 @@ THXApp::THXApp
 	:
 	JXApplication(argc, argv, kAppSignature, kTHXDefaultStringData)
 {
-	itsStartupFlag = kJTrue;
+	itsStartupFlag = true;
 
 	itsExprList = jnew JPtrArray<THXExprDirector>(JPtrArrayT::kForgetAll);
 	assert( itsExprList != nullptr );
 
-	itsKeyPadVisibleFlag = kJTrue;
+	itsKeyPadVisibleFlag = true;
 
 	its2DPlotList = jnew JPtrArray<THX2DPlotDirector>(JPtrArrayT::kForgetAll);
 	assert( its2DPlotList != nullptr );
@@ -95,7 +95,7 @@ THXApp::THXApp
 	THXCreateGlobals(this);
 	RestoreProgramState();
 
-	itsStartupFlag = kJFalse;
+	itsStartupFlag = false;
 }
 
 /******************************************************************************
@@ -119,12 +119,12 @@ THXApp::~THXApp()
 
  ******************************************************************************/
 
-JBoolean
+bool
 THXApp::Close()
 {
 	if (!itsVarDirector->OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	SaveProgramState();
@@ -155,7 +155,7 @@ THXApp::DisplayAbout
 THXExprDirector*
 THXApp::NewExpression
 	(
-	const JBoolean centerOnScreen
+	const bool centerOnScreen
 	)
 {
 	THXExprDirector* expr = jnew THXExprDirector(this, itsVarList);
@@ -177,7 +177,7 @@ THXApp::NewExpression
 void
 THXApp::SetKeyPadVisible
 	(
-	const JBoolean visible
+	const bool visible
 	)
 {
 	if (visible != itsKeyPadVisibleFlag)
@@ -317,7 +317,7 @@ JIndex i;
 	JString prevProgramVers;
 	input >> prevProgramVers;
 
-	JBoolean displayAbout = kJFalse;
+	bool displayAbout = false;
 	if (prevProgramVers != THXGetVersionNumberStr())
 		{
 		if (!JGetUserNotification()->AcceptLicense())
@@ -325,7 +325,7 @@ JIndex i;
 			JThisProcess::Exit(0);
 			}
 
-		displayAbout = kJTrue;
+		displayAbout = true;
 		}
 
 	itsVarList = jnew THXVarList(input, vers);
@@ -368,7 +368,7 @@ JIndex i;
 
 	if (exprCount == 0)
 		{
-		NewExpression(kJTrue);
+		NewExpression(true);
 		}
 	else
 		{
@@ -425,7 +425,7 @@ THXApp::InitProgramState()
 	itsBCDirector = jnew THXBaseConvDirector(this);
 	assert( itsBCDirector != nullptr );
 
-	NewExpression(kJTrue);
+	NewExpression(true);
 }
 
 /******************************************************************************

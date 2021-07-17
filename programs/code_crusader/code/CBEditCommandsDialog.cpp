@@ -38,7 +38,7 @@ CBEditCommandsDialog::CBEditCommandsDialog
 	CBProjectDocument* projDoc
 	)
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue),
+	JXDialogDirector(JXGetApplication(), true),
 	JPrefObject(CBGetPrefsManager(), kCBEditCommandsDialogID),
 	itsCmdMgr(projDoc == nullptr ? nullptr : projDoc->GetCommandManager())
 {
@@ -112,7 +112,7 @@ CBEditCommandsDialog::BuildWindow
 
 	window->SetTitle(JGetString("WindowTitle::CBEditCommandsDialog"));
 	SetButtons(okButton, cancelButton);
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 
@@ -206,7 +206,7 @@ CBEditCommandsDialog::BuildWindow
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, 10,kHeaderHeight);
 	assert( colHeader != nullptr );
-	colHeader->FitToEnclosure(kJTrue, kJFalse);
+	colHeader->FitToEnclosure(true, false);
 	itsAllTable->SetColTitles(colHeader);
 	colHeader->TurnOnColResizing(20);
 
@@ -304,7 +304,7 @@ CBEditCommandsDialog::BuildWindow
 								  JXWidget::kHElastic, JXWidget::kFixedTop,
 								  0,0, 10,kHeaderHeight);
 		assert( colHeader != nullptr );
-		colHeader->FitToEnclosure(kJTrue, kJFalse);
+		colHeader->FitToEnclosure(true, false);
 		itsThisTable->SetColTitles(colHeader);
 		colHeader->TurnOnColResizing(20);
 		}

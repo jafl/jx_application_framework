@@ -35,7 +35,7 @@ CBListChooseFileDialog::Create
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	allowSelectMultiple,
+	const bool	allowSelectMultiple,
 	const JString&	replaceListStr,
 	const JString&	appendToListStr,
 	const JString&	origName,
@@ -59,7 +59,7 @@ CBListChooseFileDialog::CBListChooseFileDialog
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	allowSelectMultiple
+	const bool	allowSelectMultiple
 	)
 	:
 	JXChooseFileDialog(supervisor, dirInfo, fileFilter, allowSelectMultiple)
@@ -80,11 +80,11 @@ CBListChooseFileDialog::~CBListChooseFileDialog()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBListChooseFileDialog::ReplaceExisting()
 	const
 {
-	return JI2B( itsAppendReplaceRG->GetSelectedItem() == kReplaceCmd );
+	return itsAppendReplaceRG->GetSelectedItem() == kReplaceCmd;
 }
 
 /******************************************************************************
@@ -190,7 +190,7 @@ CBListChooseFileDialog::BuildWindow
 	assert( appendRB != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu(JString("/", kJFalse), window,
+		jnew JXCurrentPathMenu(JString("/", false), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 

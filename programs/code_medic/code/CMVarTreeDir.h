@@ -30,9 +30,9 @@ public:
 	void	DisplayExpression(const JString& expr);
 
 	virtual void			Activate() override;
-	virtual JBoolean		Deactivate() override;
+	virtual bool		Deactivate() override;
 	virtual const JString&	GetName() const override;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
+	virtual bool		GetMenuIcon(const JXImage** icon) const override;
 
 	void	ReadSetup(std::istream& input, const JFileVersion vers);
 	void	WriteSetup(std::ostream& output) const;

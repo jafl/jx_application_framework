@@ -23,7 +23,7 @@
 CBINIScanner::CBINIScanner()
 	:
 	CBINIFlexLexer(),
-	itsResetFlag(kJFalse)
+	itsResetFlag(false)
 {
 }
 
@@ -48,7 +48,7 @@ CBINIScanner::BeginScan
 	std::istream&					input
 	)
 {
-	itsResetFlag = kJTrue;
+	itsResetFlag = true;
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 

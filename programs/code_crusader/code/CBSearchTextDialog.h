@@ -29,7 +29,7 @@ public:
 
 	virtual void	Activate() override;
 
-	void	ShouldSearchFiles(const JBoolean search);
+	void	ShouldSearchFiles(const bool search);
 	void	AddFileToSearch(const JString& fileName) const;
 	void	ClearFileList();
 
@@ -50,8 +50,8 @@ private:
 	CBListCSF*			itsCSF;
 
 	mutable JString		itsFileSetName;
-	JBoolean			itsOnlyListFilesFlag;
-	JBoolean			itsListFilesWithoutMatchFlag;
+	bool			itsOnlyListFilesFlag;
+	bool			itsListFilesWithoutMatchFlag;
 
 // begin JXLayout
 
@@ -79,9 +79,9 @@ private:
 
 	void		SearchFiles() const;
 	void		SearchFilesAndReplace();
-	JBoolean	BuildSearchFileList(JPtrArray<JString>* fileList,
+	bool	BuildSearchFileList(JPtrArray<JString>* fileList,
 									JPtrArray<JString>* nameList) const;
-	JBoolean	SearchDirectory(const JString& path, const JRegex* fileRegex,
+	bool	SearchDirectory(const JString& path, const JRegex* fileRegex,
 								const JRegex* pathRegex,
 								JPtrArray<JString>* fileList,
 								JPtrArray<JString>* nameList,
@@ -90,7 +90,7 @@ private:
 								  JPtrArray<JString>* fileList,
 								  JPtrArray<JString>* nameList) const;
 	void		UpdateBasePath();
-	JBoolean	GetSearchDirectory(JString* path, JString* fileFilter,
+	bool	GetSearchDirectory(JString* path, JString* fileFilter,
 								   JString *pathFilter) const;
 
 	void	LoadFileSet();

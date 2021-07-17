@@ -29,7 +29,7 @@
 
  ******************************************************************************/
 
-JBoolean
+bool
 ClassName::IndexToCmdFn
 	(
 	const JIndex	index,
@@ -45,13 +45,13 @@ ClassName::IndexToCmdFn
 			if (info.id == *id)
 				{
 				*cmd = info.cmd;
-				return kJTrue;
+				return true;
 				}
 			}
 		}
 
 	*cmd = kSeparatorCmd;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -59,7 +59,7 @@ ClassName::IndexToCmdFn
 
  ******************************************************************************/
 
-JBoolean
+bool
 ClassName::CmdToIndexFn
 	(
 	const CmdIndex	cmd,
@@ -81,10 +81,10 @@ ClassName::CmdToIndexFn
 
 	if (cmdID == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 	else
 		{
-		return MenuVar->ItemIDToIndex(JString(cmdID, kJFalse), index);
+		return MenuVar->ItemIDToIndex(JString(cmdID, JString::kNoCopy), index);
 		}
 }

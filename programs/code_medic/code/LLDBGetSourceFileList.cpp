@@ -82,8 +82,8 @@ LLDBGetSourceFileList::HandleSuccess
 				if (f.GetDirectory() != nullptr && f.GetFilename() != nullptr)
 					{
 					fullName = JCombinePathAndName(
-						JString(f.GetDirectory(), kJFalse),
-						JString(f.GetFilename(), kJFalse));
+						JString(f.GetDirectory(), JString::kNoCopy),
+						JString(f.GetFilename(), JString::kNoCopy));
 
 					table->AddFile(fullName);
 					}

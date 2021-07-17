@@ -49,11 +49,11 @@ public:
 		itsID = newID;
 	};
 
-	JBoolean
+	bool
 	IsValid()
 		const
 	{
-		return JConvertToBoolean( kMinID <= itsID && itsID <= kMaxID );
+		return kMinID <= itsID && itsID <= kMaxID;
 	};
 
 private:

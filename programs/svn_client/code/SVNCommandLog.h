@@ -15,8 +15,8 @@ class SVNCommandLog : public SVNTextBase
 public:
 
 	SVNCommandLog(SVNMainDirector* director,  JXTextMenu* editMenu,
-				  const JString& cmd, const JBoolean refreshRepo,
-				  const JBoolean refreshStatus, const JBoolean reloadOpenFiles,
+				  const JString& cmd, const bool refreshRepo,
+				  const bool refreshStatus, const bool reloadOpenFiles,
 				  JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				  const HSizingOption hSizing, const VSizingOption vSizing,
 				  const JCoordinate x, const JCoordinate y,
@@ -27,7 +27,7 @@ public:
 	virtual void	UpdateActionsMenu(JXTextMenu* menu);
 	virtual void	RefreshContent();
 	virtual void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
-									 const JBoolean includeDeleted = kJFalse);
+									 const bool includeDeleted = false);
 
 protected:
 
@@ -36,10 +36,10 @@ protected:
 private:
 
 	const JString	itsCmd;
-	JBoolean		itsHasRefreshedFlag;
-	JBoolean		itsRefreshRepoFlag;
-	JBoolean		itsRefreshStatusFlag;
-	JBoolean		itsReloadOpenFilesFlag;
+	bool		itsHasRefreshedFlag;
+	bool		itsRefreshRepoFlag;
+	bool		itsRefreshStatusFlag;
+	bool		itsReloadOpenFilesFlag;
 
 private:
 

@@ -68,7 +68,7 @@ JXFSCommandHistoryMenu::JXFSCommandHistoryMenu
 void
 JXFSCommandHistoryMenu::JFSCommandHistoryMenuX()
 {
-	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_executable_small), kJFalse);
+	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_executable_small), false);
 }
 
 /******************************************************************************
@@ -90,7 +90,7 @@ JXFSCommandHistoryMenu::GetCommand
 	(
 	const Message&				message,
 	JFSBinding::CommandType*	type,
-	JBoolean*					singleFile
+	bool*					singleFile
 	)
 	const
 {
@@ -108,7 +108,7 @@ JXFSCommandHistoryMenu::GetCommand
 	(
 	const JIndex				index,
 	JFSBinding::CommandType*	type,
-	JBoolean*					singleFile
+	bool*					singleFile
 	)
 	const
 {
@@ -116,34 +116,34 @@ JXFSCommandHistoryMenu::GetCommand
 	if (!GetItemNMShortcut(index, &typeStr))
 		{
 		*type       = JFSBinding::kRunPlain;
-		*singleFile = kJFalse;
+		*singleFile = false;
 		}
 	else if (typeStr == JGetString("RunInShell::JXFSCommandHistoryMenu"))
 		{
 		*type       = JFSBinding::kRunInShell;
-		*singleFile = kJFalse;
+		*singleFile = false;
 		}
 	else if (typeStr == JGetString("RunInShellSingle::JXFSCommandHistoryMenu"))
 		{
 		*type       = JFSBinding::kRunInShell;
-		*singleFile = kJTrue;
+		*singleFile = true;
 		}
 	else if (typeStr == JGetString("RunInWindow::JXFSCommandHistoryMenu"))
 		{
 		*type       = JFSBinding::kRunInWindow;
-		*singleFile = kJFalse;
+		*singleFile = false;
 		}
 	else if (typeStr == JGetString("RunInWindowSingle::JXFSCommandHistoryMenu"))
 		{
 		*type       = JFSBinding::kRunInWindow;
-		*singleFile = kJTrue;
+		*singleFile = true;
 		}
 	else
 		{
 		assert( typeStr == JGetString("RunSingle::JXFSCommandHistoryMenu") );
 
 		*type       = JFSBinding::kRunPlain;
-		*singleFile = kJTrue;
+		*singleFile = true;
 		}
 
 	return JXTextMenu::GetItemText(index);
@@ -158,9 +158,9 @@ void
 JXFSCommandHistoryMenu::AddCommand
 	(
 	const JString&	cmd,
-	const JBoolean	inShell,
-	const JBoolean	inWindow,
-	const JBoolean	singleFile
+	const bool	inShell,
+	const bool	inWindow,
+	const bool	singleFile
 	)
 {
 	if (cmd.IsEmpty())

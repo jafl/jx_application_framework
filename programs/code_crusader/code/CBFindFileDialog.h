@@ -52,7 +52,7 @@ private:
 
 	void		BuildWindow();
 	void		UpdateDisplay();
-	JBoolean	FindFile();
+	bool	FindFile();
 
 	// not allowed
 

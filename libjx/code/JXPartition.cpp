@@ -76,12 +76,12 @@ JXPartition::GetMinCompartmentSize
 	const
 {
 	JIndex i;
-	const JBoolean found = GetCompartmentIndex(compartment, &i);
+	const bool found = GetCompartmentIndex(compartment, &i);
 	assert( found );
 	return JPartition::GetMinCompartmentSize(i);
 }
 
-JBoolean
+bool
 JXPartition::GetMinCompartmentSize
 	(
 	JXContainer*	compartment,
@@ -93,12 +93,12 @@ JXPartition::GetMinCompartmentSize
 	if (GetCompartmentIndex(compartment, &i))
 		{
 		*minSize = JPartition::GetMinCompartmentSize(i);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*minSize = -1;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -121,7 +121,7 @@ JXPartition::SetMinCompartmentSize
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPartition::GetElasticCompartment
 	(
 	JXContainer** compartment
@@ -132,12 +132,12 @@ JXPartition::GetElasticCompartment
 	if (GetElasticIndex(&i))
 		{
 		*compartment = GetCompartment(i);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*compartment = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -202,12 +202,12 @@ JXPartition::CreateInitialCompartments()
  InsertCompartment
 
 	Adjusts the adjacent compartments to make space and then creates a new
-	compartment.  Returns kJFalse if there isn't enough space available for
+	compartment.  Returns false if there isn't enough space available for
 	at least minSize.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPartition::InsertCompartment
 	(
 	const JIndex		index,
@@ -219,12 +219,12 @@ JXPartition::InsertCompartment
 	if (JPartition::InsertCompartment(index, reqSize, minSize))
 		{
 		*newCompartment = GetCompartment(index);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*newCompartment = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 

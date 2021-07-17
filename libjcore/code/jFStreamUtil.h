@@ -31,7 +31,7 @@ JSize			JGetFStreamLength(std::fstream& theStream);
 std::fstream*	JSetFStreamLength(const JString& fileName, std::fstream& originalStream,
 								  const JSize newLength, const JFStreamOpenMode io_mode);
 
-JBoolean	JConvertToStream(const int input, std::ifstream* input2, JString* tempFullName,
-							 const JBoolean closeInput = kJTrue);
+bool	JConvertToStream(const int input, std::ifstream* input2, JString* tempFullName,
+							 const bool closeInput = true);
 
 #endif

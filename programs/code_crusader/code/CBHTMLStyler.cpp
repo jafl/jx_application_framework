@@ -136,19 +136,19 @@ const JSize kUnusedJSKeywordCount = sizeof(kUnusedJSKeyword)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStylerBase*
 CBHTMLStyler::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBHTMLStyler;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -187,7 +187,7 @@ CBHTMLStyler::CBHTMLStyler()
 
 	SetTypeStyle(kHTMLTag            - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
 	SetTypeStyle(kHTMLScript         - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
-	SetTypeStyle(kHTMLNamedCharacter - kWhitespace, JFontStyle(kJFalse, kJFalse, 1, kJFalse));
+	SetTypeStyle(kHTMLNamedCharacter - kWhitespace, JFontStyle(false, false, 1, false));
 	SetTypeStyle(kHTMLComment        - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
 	SetTypeStyle(kError              - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
@@ -199,17 +199,17 @@ CBHTMLStyler::CBHTMLStyler()
 	const JColorID red = JColorManager::GetRedColor();
 	for (JUnsignedOffset i=0; i<kUnusedJavaKeywordCount; i++)
 		{
-		SetWordStyle(JString(kUnusedJavaKeyword[i], kJFalse), JFontStyle(red));
+		SetWordStyle(JString(kUnusedJavaKeyword[i], JString::kNoCopy), JFontStyle(red));
 		}
 	for (JUnsignedOffset i=0; i<kUnusedJSKeywordCount; i++)
 		{
-		SetWordStyle(JString(kUnusedJSKeyword[i], kJFalse), JFontStyle(red));
+		SetWordStyle(JString(kUnusedJSKeyword[i], JString::kNoCopy), JFontStyle(red));
 		}
 
 	JPrefObject::ReadPrefs();
 
 	JFontStyle style;
-	const JString phpOpen("?php", kJFalse);
+	const JString phpOpen("?php", JString::kNoCopy);
 	if (GetWordStyle(phpOpen, &style))
 		{
 		RemoveWordStyle(phpOpen);
@@ -246,7 +246,7 @@ CBHTMLStyler::InitMustacheTypeStyles()
 void
 CBHTMLStyler::InitPHPTypeStyles()
 {
-	SetTypeStyle(kPHPStartEnd          - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetDarkRedColor()));
+	SetTypeStyle(kPHPStartEnd          - kWhitespace, JFontStyle(true, false, 0, false, JColorManager::GetDarkRedColor()));
 	SetTypeStyle(kPHPReservedKeyword   - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 	SetTypeStyle(kPHPBuiltInDataType   - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 	SetTypeStyle(kPHPSingleQuoteString - kWhitespace, JFontStyle(JColorManager::GetBrownColor()));
@@ -265,7 +265,7 @@ CBHTMLStyler::InitPHPTypeStyles()
 void
 CBHTMLStyler::InitJSPTypeStyles()
 {
-	SetTypeStyle(kJSPStartEnd         - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetDarkGreenColor()));
+	SetTypeStyle(kJSPStartEnd         - kWhitespace, JFontStyle(true, false, 0, false, JColorManager::GetDarkGreenColor()));
 	SetTypeStyle(kJSPComment          - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
 	SetTypeStyle(kJavaReservedKeyword - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 	SetTypeStyle(kJavaBuiltInDataType - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
@@ -286,7 +286,7 @@ CBHTMLStyler::InitJavaScriptTypeStyles()
 	SetTypeStyle(kJSTemplateString     - kWhitespace, JFontStyle(JColorManager::GetPinkColor()));
 	SetTypeStyle(kJSRegexSearch        - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 	SetTypeStyle(kDocCommentHTMLTag    - kWhitespace, JFontStyle(JColorManager::GetBlueColor()));
-	SetTypeStyle(kDocCommentSpecialTag - kWhitespace, JFontStyle(kJFalse, kJFalse, 1, kJFalse));
+	SetTypeStyle(kDocCommentSpecialTag - kWhitespace, JFontStyle(false, false, 1, false));
 }
 
 /******************************************************************************
@@ -307,7 +307,7 @@ CBHTMLStyler::Scan
 
 	const JString& text = GetText();
 
-	JBoolean keepGoing;
+	bool keepGoing;
 	Token token;
 	JFontStyle style;
 	do
@@ -428,7 +428,7 @@ CBHTMLStyler::Scan
 				{
 				r.last--;
 				}
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), r, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), r, JString::kNoCopy));
 			}
 		else
 			{
@@ -442,7 +442,7 @@ CBHTMLStyler::Scan
 				ExtendCheckRange(token.range.charRange.last+1);
 				}
 
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy));
 			}
 
 		keepGoing = SetStyle(token.range.charRange, style);
@@ -545,10 +545,10 @@ CBHTMLStyler::GetTagStyle
 	const JIndex			typeIndex
 	)
 {
-	const JString s(GetText().GetBytes(), tokenRange, kJFalse);
+	const JString s(GetText().GetBytes(), tokenRange, JString::kNoCopy);
 
 	JFontStyle style;
-	const JStringMatch m = tagNamePattern.Match(s, kJTrue);
+	const JStringMatch m = tagNamePattern.Match(s, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
 		{
 		itsLatestTagName = m.GetSubstring(1);
@@ -562,7 +562,7 @@ CBHTMLStyler::GetTagStyle
 			openTag.ToLower();
 			}
 
-		JBoolean found = GetWordStyle(itsLatestTagName, &style);
+		bool found = GetWordStyle(itsLatestTagName, &style);
 		if (!found && !openTag.IsEmpty())
 			{
 			found = GetWordStyle(openTag, &style);
@@ -596,7 +596,7 @@ CBHTMLStyler::GetTagStyle
 	return style;
 }
 
-JBoolean
+bool
 CBHTMLStyler::GetXMLStyle
 	(
 	const JString&	tagName,
@@ -606,7 +606,7 @@ CBHTMLStyler::GetXMLStyle
 	JStringIterator iter(tagName);
 	if (!iter.Next(":") || iter.AtEnd())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	iter.BeginMatch();
@@ -615,10 +615,10 @@ CBHTMLStyler::GetXMLStyle
 	if (GetWordStyle(m.GetString(), style))
 		{
 		itsLatestTagName = m.GetString();
-		return kJTrue;
+		return true;
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -684,11 +684,11 @@ CBHTMLStyler::StyleEmbeddedPHPVariables
 			r = MatchAt(token, iter, phpVariablePattern);
 			if (!r.IsEmpty())
 				{
-				if (iter.Prev(&c, kJFalse) && c == '{')
+				if (iter.Prev(&c, kJIteratorStay) && c == '{')
 					{
 					r.first--;
 					iter.SkipNext(r.GetCount()-1);
-					if (iter.Next(&c, kJFalse) && c == '}')
+					if (iter.Next(&c, kJIteratorStay) && c == '}')
 						{
 						iter.SkipNext();
 						r.last++;
@@ -703,7 +703,7 @@ CBHTMLStyler::StyleEmbeddedPHPVariables
 			}
 		else if (c == '{' && iter.Next(&c) && c == '$')
 			{
-			if (iter.Next(&c, kJFalse) && c == '}')
+			if (iter.Next(&c, kJIteratorStay) && c == '}')
 				{
 				iter.SkipNext();
 				const JIndex i = token.range.charRange.first - 1 + iter.GetPrevCharacterIndex();
@@ -752,7 +752,7 @@ CBHTMLStyler::MatchAt
 	iter.BeginMatch();
 	iter.MoveTo(kJIteratorStartAtEnd, 0);
 	const JStringMatch& m1 = iter.FinishMatch();
-	const JStringMatch m2  = pattern.Match(m1.GetString(), kJTrue);
+	const JStringMatch m2  = pattern.Match(m1.GetString(), JRegex::kIncludeSubmatches);
 
 	iter.MoveTo(kJIteratorStartBefore, orig);
 

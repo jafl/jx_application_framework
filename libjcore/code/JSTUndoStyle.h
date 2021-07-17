@@ -24,7 +24,7 @@ public:
 
 	virtual void	SetFont(const JString& name, const JSize size) override;
 
-	JBoolean	SameRange(const JStyledText::TextRange& range) const;
+	bool	SameRange(const JStyledText::TextRange& range) const;
 
 private:
 

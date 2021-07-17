@@ -25,8 +25,8 @@ protected:
 
 	CBJavaScriptCompleter();
 
-	virtual JBoolean	IsWordCharacter(const JUtf8Character& c,
-										const JBoolean includeNS) const override;
+	virtual bool	IsWordCharacter(const JUtf8Character& c,
+										const bool includeNS) const override;
 	virtual void		MatchCase(const JString& source, JString* target) const override;
 
 private:

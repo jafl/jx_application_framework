@@ -274,17 +274,17 @@ JXImagePainter::Image
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXImagePainter::PrepareXDraw()
 {
 	if (itsImage != nullptr)
 		{
 		itsImage->ConvertToPixmap();
 		SetDrawable(itsImage->itsPixmap);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

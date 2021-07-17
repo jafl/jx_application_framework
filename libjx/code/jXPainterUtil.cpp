@@ -22,7 +22,7 @@ JXDrawUpFrame
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -39,13 +39,13 @@ JXDrawUpFrame
 
 	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
-	const JBoolean origFill     = p.IsFilling();
+	const bool origFill     = p.IsFilling();
 
 	p.SetLineWidth(1);
 
 	// fill frame
 
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	if (fill)
 		{
 		p.SetPenColor(fillColor);
@@ -54,7 +54,7 @@ JXDrawUpFrame
 
 	if (width < 3)
 		{
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		}
 
 	// calculate the vertices
@@ -110,7 +110,7 @@ JXDrawDownFrame
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -127,13 +127,13 @@ JXDrawDownFrame
 
 	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
-	const JBoolean origFill     = p.IsFilling();
+	const bool origFill     = p.IsFilling();
 
 	p.SetLineWidth(1);
 
 	// fill frame
 
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	if (fill)
 		{
 		p.SetPenColor(fillColor);
@@ -142,7 +142,7 @@ JXDrawDownFrame
 
 	if (width < 3)
 		{
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		}
 
 	// calculate the vertices
@@ -203,7 +203,7 @@ JXDrawEngravedFrame
 	const JCoordinate	downWidth,
 	const JCoordinate	betweenWidth,
 	const JCoordinate	upWidth,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	fillColor
 	)
 {
@@ -213,9 +213,9 @@ JXDrawEngravedFrame
 	if (betweenWidth > 0)
 		{
 		const JColorID origColor = p.GetPenColor();
-		const JBoolean origFill     = p.IsFilling();
+		const bool origFill     = p.IsFilling();
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Rect(rect);
 		p.SetPenColor(origColor);
 		p.SetFilling(origFill);
@@ -241,7 +241,7 @@ JXDrawEmbossedFrame
 	const JCoordinate	upWidth,
 	const JCoordinate	betweenWidth,
 	const JCoordinate	downWidth,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	fillColor
 	)
 {
@@ -251,9 +251,9 @@ JXDrawEmbossedFrame
 	if (betweenWidth > 0)
 		{
 		const JColorID origColor = p.GetPenColor();
-		const JBoolean origFill     = p.IsFilling();
+		const bool origFill     = p.IsFilling();
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Rect(rect);
 		p.SetPenColor(origColor);
 		p.SetFilling(origFill);
@@ -275,7 +275,7 @@ JXDrawFlatDiamond
 	const JRect&		rect,
 	const JCoordinate	width,
 	const JColorID	borderColor,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -334,8 +334,8 @@ JXDrawFlatDiamond
 		const JPoint bottom1 = bottom - JPoint(0, width-1);
 		const JPoint right1  = right  - JPoint(width-1, 0);
 
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
+		const bool origFill = p.IsFilling();
+		p.SetFilling(true);
 
 		JPolygon edge(11);
 
@@ -372,7 +372,7 @@ JXDrawUpDiamond
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -432,8 +432,8 @@ JXDrawUpDiamond
 		const JPoint bottom1 = bottom + JPoint(0, -width+1);
 		const JPoint right1  = right  + JPoint(-width+1, 0);
 
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
+		const bool origFill = p.IsFilling();
+		p.SetFilling(true);
 
 		JPolygon edge(6);
 
@@ -475,7 +475,7 @@ JXDrawDownDiamond
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -535,8 +535,8 @@ JXDrawDownDiamond
 		const JPoint bottom1 = bottom + JPoint(0, -width+1);
 		const JPoint right1  = right  + JPoint(-width+1, 0);
 
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
+		const bool origFill = p.IsFilling();
+		p.SetFilling(true);
 
 		JPolygon edge(6);
 
@@ -580,7 +580,7 @@ JXFillDiamond
 	const JColorID	fillColor
 	)
 {
-	const JBoolean origFill = p.IsFilling();
+	const bool origFill = p.IsFilling();
 
 	const JCoordinate xc = rect.xcenter();
 	const JCoordinate yc = rect.ycenter();
@@ -592,7 +592,7 @@ JXFillDiamond
 	poly.AppendElement(JPoint(rect.right, yc));
 
 	p.SetPenColor(fillColor);
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.Polygon(poly);
 	p.Point(poly.GetElement(4));
 
@@ -610,7 +610,7 @@ JXDrawUpArrowLeft
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -664,8 +664,8 @@ JXDrawUpArrowLeft
 		const JPoint topRight1 = topRight + JPoint(-width+1,  width-1);
 		const JPoint botRight1 = botRight + JPoint(-width+1, -width+1);
 
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
+		const bool origFill = p.IsFilling();
+		p.SetFilling(true);
 
 		JPolygon edge(6);
 
@@ -705,7 +705,7 @@ JXDrawDownArrowLeft
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -759,8 +759,8 @@ JXDrawDownArrowLeft
 		const JPoint topRight1 = topRight + JPoint(-width+1,  width-1);
 		const JPoint botRight1 = botRight + JPoint(-width+1, -width+1);
 
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
+		const bool origFill = p.IsFilling();
+		p.SetFilling(true);
 
 		JPolygon edge(6);
 
@@ -800,7 +800,7 @@ JXFillArrowLeft
 	const JColorID	fillColor
 	)
 {
-	const JBoolean origFill = p.IsFilling();
+	const bool origFill = p.IsFilling();
 
 	JPolygon poly(3);
 	poly.AppendElement(JPoint(rect.left, rect.ycenter()));
@@ -808,7 +808,7 @@ JXFillArrowLeft
 	poly.AppendElement(rect.bottomRight() + JPoint(-1,-1));
 
 	p.SetPenColor(fillColor);
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.Polygon(poly);
 
 	p.SetFilling(origFill);
@@ -825,7 +825,7 @@ JXDrawUpArrowRight
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -879,8 +879,8 @@ JXDrawUpArrowRight
 		const JPoint topLeft1 = topLeft + JPoint( width-1,  width-1);
 		const JPoint botLeft1 = botLeft + JPoint( width-1, -width+1);
 
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
+		const bool origFill = p.IsFilling();
+		p.SetFilling(true);
 
 		JPolygon edge(6);
 
@@ -918,7 +918,7 @@ JXDrawDownArrowRight
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -972,8 +972,8 @@ JXDrawDownArrowRight
 		const JPoint topLeft1 = topLeft + JPoint( width-1,  width-1);
 		const JPoint botLeft1 = botLeft + JPoint( width-1, -width+1);
 
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
+		const bool origFill = p.IsFilling();
+		p.SetFilling(true);
 
 		JPolygon edge(6);
 
@@ -1015,7 +1015,7 @@ JXFillArrowRight
 	const JColorID	fillColor
 	)
 {
-	const JBoolean origFill = p.IsFilling();
+	const bool origFill = p.IsFilling();
 
 	JPolygon poly(3);
 	poly.AppendElement(JPoint(rect.right-1, rect.ycenter()));
@@ -1023,7 +1023,7 @@ JXFillArrowRight
 	poly.AppendElement(rect.bottomLeft() + JPoint(0,-1));
 
 	p.SetPenColor(fillColor);
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.Polygon(poly);
 
 	p.SetFilling(origFill);
@@ -1040,7 +1040,7 @@ JXDrawUpArrowUp
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -1094,8 +1094,8 @@ JXDrawUpArrowUp
 		const JPoint botLeft1  = botLeft  + JPoint( width-1, -width+1);
 		const JPoint botRight1 = botRight + JPoint(-width+1, -width+1);
 
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
+		const bool origFill = p.IsFilling();
+		p.SetFilling(true);
 
 		JPolygon edge(6);
 
@@ -1135,7 +1135,7 @@ JXDrawDownArrowUp
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -1189,8 +1189,8 @@ JXDrawDownArrowUp
 		const JPoint botLeft1  = botLeft  + JPoint( width-1, -width+1);
 		const JPoint botRight1 = botRight + JPoint(-width+1, -width+1);
 
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
+		const bool origFill = p.IsFilling();
+		p.SetFilling(true);
 
 		JPolygon edge(6);
 
@@ -1230,7 +1230,7 @@ JXFillArrowUp
 	const JColorID	fillColor
 	)
 {
-	const JBoolean origFill = p.IsFilling();
+	const bool origFill = p.IsFilling();
 
 	JPolygon poly(3);
 	poly.AppendElement(JPoint(rect.xcenter(), rect.top));
@@ -1238,7 +1238,7 @@ JXFillArrowUp
 	poly.AppendElement(rect.bottomRight() + JPoint(-1,-1));
 
 	p.SetPenColor(fillColor);
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.Polygon(poly);
 
 	p.SetFilling(origFill);
@@ -1255,7 +1255,7 @@ JXDrawUpArrowDown
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -1309,8 +1309,8 @@ JXDrawUpArrowDown
 		const JPoint topLeft1  = topLeft  + JPoint( width-1, width-1);
 		const JPoint topRight1 = topRight + JPoint(-width+1, width-1);
 
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
+		const bool origFill = p.IsFilling();
+		p.SetFilling(true);
 
 		JPolygon edge(6);
 
@@ -1348,7 +1348,7 @@ JXDrawDownArrowDown
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const JBoolean		fill,
+	const bool		fill,
 	const JColorID	origFillColor
 	)
 {
@@ -1402,8 +1402,8 @@ JXDrawDownArrowDown
 		const JPoint topLeft1  = topLeft  + JPoint( width-1, width-1);
 		const JPoint topRight1 = topRight + JPoint(-width+1, width-1);
 
-		const JBoolean origFill = p.IsFilling();
-		p.SetFilling(kJTrue);
+		const bool origFill = p.IsFilling();
+		p.SetFilling(true);
 
 		JPolygon edge(6);
 
@@ -1445,7 +1445,7 @@ JXFillArrowDown
 	const JColorID	fillColor
 	)
 {
-	const JBoolean origFill = p.IsFilling();
+	const bool origFill = p.IsFilling();
 
 	JPolygon poly(3);
 	poly.AppendElement(JPoint(rect.xcenter(), rect.bottom));
@@ -1453,7 +1453,7 @@ JXFillArrowDown
 	poly.AppendElement(rect.topRight() + JPoint(-1,0));
 
 	p.SetPenColor(fillColor);
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.Polygon(poly);
 
 	p.SetFilling(origFill);

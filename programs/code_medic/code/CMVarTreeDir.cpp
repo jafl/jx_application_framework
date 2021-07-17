@@ -129,7 +129,7 @@ void
 CMVarTreeDir::Activate()
 {
 	JXWindowDirector::Activate();
-	itsWidget->ShouldUpdate(kJTrue);
+	itsWidget->ShouldUpdate(true);
 }
 
 /******************************************************************************
@@ -137,10 +137,10 @@ CMVarTreeDir::Activate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMVarTreeDir::Deactivate()
 {
-	itsWidget->ShouldUpdate(kJFalse);
+	itsWidget->ShouldUpdate(false);
 	return JXWindowDirector::Deactivate();
 }
 
@@ -182,7 +182,7 @@ CMVarTreeDir::BuildWindow()
 	window->SetTitle(JGetString("WindowTitleSuffix::CMVarTreeDir"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetVariableWindowClass());
 	CMGetPrefsManager()->GetWindowSize(kVarTreeWindSizeID, window);
 
@@ -199,7 +199,7 @@ CMVarTreeDir::BuildWindow()
 	assert( treeList != nullptr );
 
 	itsWidget =
-		jnew CMVarTreeWidget(itsCommandDir, kJTrue, menuBar, itsTree, treeList,
+		jnew CMVarTreeWidget(itsCommandDir, true, menuBar, itsTree, treeList,
 							scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert(itsWidget != nullptr);
@@ -272,7 +272,7 @@ CMVarTreeDir::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMVarTreeDir::GetMenuIcon
 	(
 	const JXImage** icon
@@ -280,7 +280,7 @@ CMVarTreeDir::GetMenuIcon
 	const
 {
 	*icon = CMGetVariablesIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

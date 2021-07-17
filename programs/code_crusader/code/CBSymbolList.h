@@ -34,22 +34,22 @@ public:
 
 	const JString&	GetSymbol(const JIndex symbolIndex,
 							  CBLanguage* lang, Type* type,
-							  JBoolean* fullyQualifiedFileScope = nullptr) const;
+							  bool* fullyQualifiedFileScope = nullptr) const;
 	const JString&	GetFile(const JIndex symbolIndex, JIndex* lineIndex) const;
-	JBoolean		GetSignature(const JIndex symbolIndex,
+	bool		GetSignature(const JIndex symbolIndex,
 								 const JString** signature) const;
 
-	JBoolean	IsUniqueClassName(const JString& name, CBLanguage* lang) const;
-	JBoolean	FindSymbol(const JString& name, const JFAID_t contextFileID,
+	bool	IsUniqueClassName(const JString& name, CBLanguage* lang) const;
+	bool	FindSymbol(const JString& name, const JFAID_t contextFileID,
 						   const JString& contextNamespace, const CBLanguage contextLang,
 						   JPtrArray<JString>* cContextNamespaceList,
 						   JPtrArray<JString>* dContextNamespaceList,
 						   JPtrArray<JString>* goContextNamespaceList,
 						   JPtrArray<JString>* javaContextNamespaceList,
 						   JPtrArray<JString>* phpContextNamespaceList,
-						   const JBoolean findDeclaration, const JBoolean findDefinition,
+						   const bool findDeclaration, const bool findDefinition,
 						   JArray<JIndex>* matchList) const;
-	JBoolean	ClosestMatch(const JString& prefixStr,
+	bool	ClosestMatch(const JString& prefixStr,
 							 JArray<JIndex>& visibleList, JIndex* index) const;
 
 	void	ReadSetup(std::istream& projInput, const JFileVersion projVers,
@@ -63,12 +63,12 @@ public:
 	// called by CBSymbolDirector
 
 	void		FileTypesChanged(const CBPrefsManager::FileTypesChanged& info);
-	void		PrepareForUpdate(const JBoolean reparseAll, JProgressDisplay& pg);
-	JBoolean	UpdateFinished(const JArray<JFAID_t>& deadFileList, JProgressDisplay& pg);
+	void		PrepareForUpdate(const bool reparseAll, JProgressDisplay& pg);
+	bool	UpdateFinished(const JArray<JFAID_t>& deadFileList, JProgressDisplay& pg);
 
 	// called by CBFileListTable
 
-	JBoolean	NeedsReparseAll() const;
+	bool	NeedsReparseAll() const;
 	void		FileChanged(const JString& fileName,
 							const CBTextFileType fileType, const JFAID_t id);
 
@@ -86,19 +86,19 @@ public:		// ought to be private
 		JString*	signature;	// can be nullptr
 		CBLanguage	lang;
 		Type		type;
-		JBoolean	fullyQualifiedFileScope;
+		bool	fullyQualifiedFileScope;
 		JFAID_t		fileID;
 		JIndex		lineIndex;
 
 		SymbolInfo()
 			:
 			name(nullptr), signature(nullptr), lang(kCBOtherLang), type(kUnknownST),
-			fullyQualifiedFileScope(kJFalse),
+			fullyQualifiedFileScope(false),
 			fileID(JFAID::kInvalidID), lineIndex(0)
 		{ };
 
 		SymbolInfo(JString* n, JString* s, const CBLanguage l, const Type t,
-				   const JBoolean fqfs, const JFAID_t id, const JIndex line)
+				   const bool fqfs, const JFAID_t id, const JIndex line)
 			:
 			name(n), signature(s), lang(l), type(t),
 			fullyQualifiedFileScope(fqfs),
@@ -112,9 +112,9 @@ private:
 
 	CBProjectDocument*	itsProjDoc;					// not owned
 	JArray<SymbolInfo>*	itsSymbolList;
-	JBoolean			itsReparseAllFlag;			// kJTrue => flush all on next update
-	JBoolean			itsChangedDuringParseFlag;
-	JBoolean			itsBeganEmptyFlag;			// kJTrue => ignore RemoveFile()
+	bool			itsReparseAllFlag;			// true => flush all on next update
+	bool			itsChangedDuringParseFlag;
+	bool			itsBeganEmptyFlag;			// true => ignore RemoveFile()
 
 private:
 
@@ -126,7 +126,7 @@ private:
 	void	ReadSymbolList(std::istream& input, const CBLanguage lang,
 						   const JString& fileName, const JFAID_t fileID);
 
-	JBoolean	ConvertToFullNames(JArray<JIndex>* noContextList,
+	bool	ConvertToFullNames(JArray<JIndex>* noContextList,
 								   JArray<JIndex>* contextList,
 								   const JString& contextNamespace1,
 								   const JString& contextNamespace2,
@@ -145,9 +145,9 @@ private:
 	void		PreparePHPContextNamespaceList(JPtrArray<JString>* contextNamespace) const;
 	void		PrepareContextNamespaceList(JPtrArray<JString>* contextNamespace,
 											const JUtf8Byte* namespaceOp) const;
-	JBoolean	InContext(const JString& fullName,
+	bool	InContext(const JString& fullName,
 						  const JPtrArray<JString>& contextNamespace,
-						  const JBoolean caseSensitive) const;
+						  const JString::Case caseSensitive) const;
 
 	static JListT::CompareResult
 	CompareSymbols(const SymbolInfo& s1, const SymbolInfo& s2);
@@ -183,7 +183,7 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBSymbolList::NeedsReparseAll()
 	const
 {
@@ -195,7 +195,7 @@ CBSymbolList::NeedsReparseAll()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBSymbolList::GetSignature
 	(
 	const JIndex	symbolIndex,
@@ -205,7 +205,7 @@ CBSymbolList::GetSignature
 {
 	const SymbolInfo info = itsSymbolList->GetElement(symbolIndex);
 	*signature = info.signature;
-	return JI2B( info.signature != nullptr );
+	return info.signature != nullptr;
 }
 
 #endif

@@ -29,7 +29,7 @@ JTree::JTree
 	JTreeNode* root
 	)
 	:
-	itsIsDestructingFlag(kJFalse)
+	itsIsDestructingFlag(false)
 {
 	SetRoot(root);
 }
@@ -43,7 +43,7 @@ JTree::~JTree()
 {
 	assert( !itsIsDestructingFlag );
 
-	itsIsDestructingFlag = kJTrue;
+	itsIsDestructingFlag = true;
 	jdelete itsRoot;
 }
 
@@ -61,7 +61,7 @@ JTree::SetRoot
 	assert( root != nullptr );
 
 	itsRoot = root;
-	itsRoot->ShouldBeOpenable(kJTrue);
+	itsRoot->ShouldBeOpenable(true);
 	itsRoot->SetTree(this);
 
 	Broadcast(NewRoot());

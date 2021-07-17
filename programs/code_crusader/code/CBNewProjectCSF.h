@@ -22,7 +22,7 @@ public:
 
 	virtual ~CBNewProjectCSF();
 
-	JBoolean						GetProjectTemplate(JString* fullName) const;
+	bool						GetProjectTemplate(JString* fullName) const;
 	CBBuildManager::MakefileMethod	GetMakefileMethod() const;
 
 protected:
@@ -57,7 +57,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBNewProjectCSF::GetProjectTemplate
 	(
 	JString* fullName

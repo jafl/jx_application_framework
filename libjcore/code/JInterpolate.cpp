@@ -103,7 +103,7 @@ JInterpolate::Interpolate
 
  *****************************************************************************/
 
-JBoolean
+bool
 JInterpolate::GetValue
 	(
 	const JString&	name,
@@ -125,12 +125,12 @@ JInterpolate::GetValue
 		iter.RemovePrev();
 
 		*value = itsMatch->GetSubstring(s);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		JInteger n;
-		const JBoolean isNumber = name.ConvertToInteger(&n);
+		const bool isNumber = name.ConvertToInteger(&n);
 		assert( isNumber );
 
 		if (n < 0)	// Wrap so negatives count from the end
@@ -141,10 +141,10 @@ JInterpolate::GetValue
 		if (n == 0)
 			{
 			*value = itsMatch->GetString();
-			return kJTrue;
+			return true;
 			}
 
 		*value = itsMatch->GetSubstring(n);
-		return kJTrue;
+		return true;
 		}
 }

@@ -22,7 +22,7 @@ public:
 
 	virtual ~CBSymbolTypeList();
 
-//	JBoolean	IsVisible(const CBSymbolList::Type type) const;
+//	bool	IsVisible(const CBSymbolList::Type type) const;
 	CBLanguage	GetLanguage(const CBSymbolList::Type type) const;
 	JFontStyle	GetStyle(const CBSymbolList::Type type,
 						 const JXImage** image) const;
@@ -40,20 +40,20 @@ private:
 	{
 		CBSymbolList::Type	type;
 		CBLanguage			lang;
-		JBoolean			visible;	// not used
+		bool			visible;	// not used
 		JFontStyle			style;
 		JXImage*			icon;		// can be nullptr; not owned
 
 		SymbolTypeInfo()
 			:
 			type(CBSymbolList::kUnknownST), lang(kCBOtherLang),
-			visible(kJTrue), icon(nullptr)
+			visible(true), icon(nullptr)
 		{ };
 
 		SymbolTypeInfo(const CBSymbolList::Type t, const CBLanguage l,
 					   const JFontStyle& s, JXImage* i)
 			:
-			type(t), lang(l), visible(kJTrue), style(s), icon(i)
+			type(t), lang(l), visible(true), style(s), icon(i)
 		{ };
 	};
 
@@ -137,7 +137,7 @@ public:
 
  ******************************************************************************/
 /*
-inline JBoolean
+inline bool
 CBSymbolTypeList::IsVisible
 	(
 	const CBSymbolList::Type type

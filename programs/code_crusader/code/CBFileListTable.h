@@ -41,7 +41,7 @@ public:
 
 	virtual ~CBFileListTable();
 
-	JBoolean	Update(std::ostream& link,
+	bool	Update(std::ostream& link,
 					   CBProjectTree* fileTree, const CBDirList& dirList,
 					   CBSymbolDirector* symbolDir,
 					   CBCTreeDirector* cTreeDir, CBDTreeDirector* dTreeDir,
@@ -50,7 +50,7 @@ public:
 	void		UpdateFinished();
 
 	const JString&	GetFileName(const JFAID_t id) const;
-	JBoolean		GetFileID(const JString& trueName, JFAID_t* id) const;
+	bool		GetFileID(const JString& trueName, JFAID_t* id) const;
 
 	void	ReadSetup(std::istream& projInput, const JFileVersion projVers,
 					  std::istream* symInput, const JFileVersion symVers);
@@ -92,9 +92,9 @@ private:
 private:
 
 	JArray<FileInfo>*	itsFileInfo;
-	JArray<JBoolean>*	itsFileUsage;		// nullptr unless updating files; on stack
-	JBoolean			itsReparseAllFlag;	// kJTrue => flush all on next update
-	JBoolean			itsChangedDuringParseFlag;
+	JArray<bool>*	itsFileUsage;		// nullptr unless updating files; on stack
+	bool			itsReparseAllFlag;	// true => flush all on next update
+	bool			itsChangedDuringParseFlag;
 	mutable JFAID_t		itsLastUniqueID;
 
 private:
@@ -104,16 +104,16 @@ private:
 						CBCTree* cTree, CBDTree* dTree, CBGoTree* goTree,
 						CBJavaTree* javaTree, CBPHPTree* phpTree,
 						JProgressDisplay& pg);
-	void		ScanDirectory(const JString& path, const JBoolean recurse,
+	void		ScanDirectory(const JString& path, const bool recurse,
 							  const JPtrArray<JString>& allSuffixList,
 							  CBSymbolList* symbolList,
 							  CBCTree* cTree, CBDTree* dTree, CBGoTree* goTree,
 							  CBJavaTree* javaTree, CBPHPTree* phpTree,
 							  JProgressDisplay& pg);
-	JBoolean	AddFile(const JString& fullName, const CBTextFileType fileType,
+	bool	AddFile(const JString& fullName, const CBTextFileType fileType,
 						const time_t modTime, JFAID_t* id);
 
-	JBoolean	IDToIndex(const JFAID_t id, JIndex* index) const;
+	bool	IDToIndex(const JFAID_t id, JIndex* index) const;
 	JFAID_t		GetUniqueID() const;
 
 	void	FilesAdded(const JListT::ElementsInserted& info);

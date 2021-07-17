@@ -21,28 +21,28 @@ public:
 
 	virtual ~JXDirector();
 
-	JBoolean			IsClosing() const;
-	virtual JBoolean	Close();
+	bool			IsClosing() const;
+	virtual bool	Close();
 
 	virtual void		Activate();
-	virtual JBoolean	Deactivate();
-	JBoolean			IsActive() const;
+	virtual bool	Deactivate();
+	bool			IsActive() const;
 
 	virtual void	Suspend();
 	virtual void	Resume();
-	JBoolean		IsSuspended() const;
+	bool		IsSuspended() const;
 
-	JBoolean	HasSubdirectors() const;
-	JBoolean	GetSubdirectors(const JPtrArray<JXDirector>** list) const;
+	bool	HasSubdirectors() const;
+	bool	GetSubdirectors(const JPtrArray<JXDirector>** list) const;
 
 	// needed by JXDialogDirector until dynamic_cast works
 
-	virtual JBoolean	IsWindowDirector() const;
+	virtual bool	IsWindowDirector() const;
 
 protected:
 
 	JXDirector*	GetSupervisor() const;
-	JBoolean	CloseAllSubdirectors();
+	bool	CloseAllSubdirectors();
 
 	virtual void	DirectorClosed(JXDirector* theDirector);
 
@@ -51,9 +51,9 @@ private:
 	JXDirector*				itsSupervisor;
 	JPtrArray<JXDirector>*	itsSubdirectors;
 
-	JBoolean	itsActiveFlag;
+	bool	itsActiveFlag;
 	JSize		itsSuspendCount;
-	JBoolean	itsClosingFlag;
+	bool	itsClosingFlag;
 
 private:
 
@@ -71,7 +71,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDirector::IsActive()
 	const
 {
@@ -83,11 +83,11 @@ JXDirector::IsActive()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDirector::IsSuspended()
 	const
 {
-	return JConvertToBoolean( itsSuspendCount > 0 );
+	return itsSuspendCount > 0;
 }
 
 /******************************************************************************
@@ -95,7 +95,7 @@ JXDirector::IsSuspended()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDirector::IsClosing()
 	const
 {
@@ -107,11 +107,11 @@ JXDirector::IsClosing()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDirector::HasSubdirectors()
 	const
 {
-	return JI2B( itsSubdirectors != nullptr && !itsSubdirectors->IsEmpty() );
+	return itsSubdirectors != nullptr && !itsSubdirectors->IsEmpty();
 }
 
 /******************************************************************************
@@ -119,7 +119,7 @@ JXDirector::HasSubdirectors()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXDirector::GetSubdirectors
 	(
 	const JPtrArray<JXDirector>** list

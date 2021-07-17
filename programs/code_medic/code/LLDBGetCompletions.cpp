@@ -48,8 +48,6 @@ LLDBGetCompletions::~LLDBGetCompletions()
 
  ******************************************************************************/
 
-static const JString newline("\n", kJFalse);
-
 void
 LLDBGetCompletions::HandleSuccess
 	(
@@ -79,23 +77,23 @@ LLDBGetCompletions::HandleSuccess
 	else if (strlen(matches.GetStringAtIndex(0)) > 0)
 		{
 		itsInput->GoToEndOfLine();
-		itsInput->Paste(JString(matches.GetStringAtIndex(0), kJFalse));
+		itsInput->Paste(JString(matches.GetStringAtIndex(0), JString::kNoCopy));
 		return;
 		}
 	else if (matchCount == 1)
 		{
-		itsInput->GetText()->SetText(JString(matches.GetStringAtIndex(1), kJFalse));
+		itsInput->GetText()->SetText(JString(matches.GetStringAtIndex(1), JString::kNoCopy));
 		itsInput->GoToEndOfLine();
 		return;
 		}
 
 	itsHistory->PlaceCursorAtEnd();
-	itsHistory->Paste(newline);
+	itsHistory->Paste(JString::newline);
 
 	const JSize count = matches.GetSize();
 	for (JIndex i=1; i<count; i++)
 		{
-		itsHistory->Paste(JString(matches.GetStringAtIndex(i), kJFalse));
-		itsHistory->Paste(newline);
+		itsHistory->Paste(JString(matches.GetStringAtIndex(i), JString::kNoCopy));
+		itsHistory->Paste(JString::newline);
 		}
 }

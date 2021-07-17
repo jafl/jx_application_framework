@@ -25,7 +25,7 @@ public:
 
 	CBSymbolSRDirector(CBSymbolDirector* mainSym, CBProjectDocument* projDoc,
 					   CBSymbolList* symbolList,
-					   const JString& filterStr, const JBoolean isRegex,
+					   const JString& filterStr, const bool isRegex,
 					   JError* err);
 	CBSymbolSRDirector(CBSymbolDirector* mainSym, CBProjectDocument* projDoc,
 					   CBSymbolList* symbolList,
@@ -59,8 +59,8 @@ private:
 	void	CBSymbolSRDirectorX(CBSymbolDirector* owner,
 								CBProjectDocument* projDoc,
 								CBSymbolList* symbolList,
-								const JBoolean focus);
-	void	BuildWindow(CBSymbolList* symbolList, const JBoolean focus);
+								const bool focus);
+	void	BuildWindow(CBSymbolList* symbolList, const bool focus);
 	void	FitWindowToContent();
 
 	void	UpdateActionsMenu();

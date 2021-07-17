@@ -32,7 +32,7 @@ public:
 	Visual*		GetVisual();
 	int			GetVisualClass();
 
-	virtual JBoolean	GetColorID(const JString& name, JColorID* id);
+	virtual bool	GetColorID(const JString& name, JColorID* id);
 	JColorID			GetColorID(const unsigned long systemColor);
 	unsigned long		GetXColor(const JColorID id);
 

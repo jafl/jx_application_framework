@@ -36,7 +36,7 @@ CBDiffEditor::CBDiffEditor
 	const JCoordinate	h
 	)
 	:
-	CBTextEditor(document, fileName, menuBar, lineInput, colInput, kJFalse,
+	CBTextEditor(document, fileName, menuBar, lineInput, colInput, false,
 				 scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsDiffDoc = (CBDiffDocument*) document;
@@ -95,7 +95,7 @@ CBDiffEditor::ReadDiff
 			{
 			st->SetFontStyle(JStyledText::TextRange(
 								GetLineStart(origRange.first), pasteIndex),
-							 itsRemoveStyle, kJTrue);
+							 itsRemoveStyle, true);
 			}
 
 		if (newLineCount > 0)
@@ -113,7 +113,7 @@ CBDiffEditor::ReadDiff
 				JStyledText::TextRange(
 					pasteIndex,
 					GetText()->AdjustTextIndex(GetLineEnd(origRange.last + newLineCount), +1)),
-				insertStyle, kJTrue);
+				insertStyle, true);
 			}
 
 		lineOffset += newLineCount;
@@ -285,32 +285,32 @@ CBDiffEditor::ShowPrevDiff()
 
 	JStyledText::TextRange origRange;
 	const JStyledText::TextIndex origIndex = GetInsertionIndex();
-	const JBoolean hadSelection            = GetSelection(&origRange);
+	const bool hadSelection            = GetSelection(&origRange);
 
 	JCharacterRange removeRange, insertRange;
-	JBoolean wrapped;
+	bool wrapped;
 	if (JTextEditor::SearchBackward([this] (const JFont& f)
 		{
-		return JI2B(f.GetStyle() == this->itsRemoveStyle);
+		return f.GetStyle() == this->itsRemoveStyle;
 		},
-		kJFalse, &wrapped))
+		false, &wrapped))
 		{
-		const JBoolean ok = GetSelection(&removeRange);
+		const bool ok = GetSelection(&removeRange);
 		assert( ok );
 		}
 
 	SetCaretLocation(origIndex);
 	if (JTextEditor::SearchBackward([this] (const JFont& f)
 		{
-		return JI2B(f.GetStyle() == this->itsInsertStyle);
+		return f.GetStyle() == this->itsInsertStyle;
 		},
-		kJFalse, &wrapped))
+		false, &wrapped))
 		{
-		const JBoolean ok = GetSelection(&insertRange);
+		const bool ok = GetSelection(&insertRange);
 		assert( ok );
 		}
 
-	SelectDiff(removeRange, insertRange, JI2B(removeRange.first >= insertRange.first),
+	SelectDiff(removeRange, insertRange, removeRange.first >= insertRange.first,
 			   hadSelection, origIndex, origRange);
 }
 
@@ -326,32 +326,32 @@ CBDiffEditor::ShowNextDiff()
 
 	JStyledText::TextRange origRange;
 	const JStyledText::TextIndex origIndex = GetInsertionIndex();
-	const JBoolean hadSelection            = GetSelection(&origRange);
+	const bool hadSelection            = GetSelection(&origRange);
 
 	JCharacterRange removeRange, insertRange;
-	JBoolean wrapped;
+	bool wrapped;
 	if (JTextEditor::SearchForward([this] (const JFont& f)
 		{
-		return JI2B(f.GetStyle() == this->itsRemoveStyle);
+		return f.GetStyle() == this->itsRemoveStyle;
 		},
-		kJFalse, &wrapped))
+		false, &wrapped))
 		{
-		const JBoolean ok = GetSelection(&removeRange);
+		const bool ok = GetSelection(&removeRange);
 		assert( ok );
 		}
 
 	SetCaretLocation(hadSelection ? origRange.GetAfter() : origIndex);
 	if (JTextEditor::SearchForward([this] (const JFont& f)
 		{
-		return JI2B(f.GetStyle() == this->itsInsertStyle);
+		return f.GetStyle() == this->itsInsertStyle;
 		},
-		kJFalse, &wrapped))
+		false, &wrapped))
 		{
-		const JBoolean ok = GetSelection(&insertRange);
+		const bool ok = GetSelection(&insertRange);
 		assert( ok );
 		}
 
-	SelectDiff(removeRange, insertRange, JI2B(removeRange.first <= insertRange.first),
+	SelectDiff(removeRange, insertRange, removeRange.first <= insertRange.first,
 			   hadSelection, origIndex, origRange);
 }
 
@@ -365,14 +365,14 @@ CBDiffEditor::SelectDiff
 	(
 	const JCharacterRange&			removeRange,
 	const JCharacterRange&			insertRange,
-	const JBoolean					preferRemove,
-	const JBoolean					hadSelection,
+	const bool					preferRemove,
+	const bool					hadSelection,
 	const JStyledText::TextIndex&	origIndex,
 	const JStyledText::TextRange&	origRange
 	)
 {
-	const JBoolean foundRemove = !removeRange.IsNothing();
-	const JBoolean foundInsert = !insertRange.IsNothing();
+	const bool foundRemove = !removeRange.IsNothing();
+	const bool foundInsert = !insertRange.IsNothing();
 	if (foundRemove && foundInsert && preferRemove)
 		{
 		SetSelection(removeRange);
@@ -401,7 +401,7 @@ CBDiffEditor::SelectDiff
 
 	if (HasSelection())
 		{
-		TEScrollToSelection(kJTrue);
+		TEScrollToSelection(true);
 		}
 	else
 		{

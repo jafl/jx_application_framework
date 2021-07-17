@@ -26,13 +26,13 @@
 
 CBEditProjPrefsDialog::CBEditProjPrefsDialog
 	(
-	const JBoolean							reopenTextFiles,
-	const JBoolean							doubleSpaceCompile,
-	const JBoolean							rebuildMakefileDaily,
+	const bool							reopenTextFiles,
+	const bool							doubleSpaceCompile,
+	const bool							rebuildMakefileDaily,
 	const CBProjectTable::DropFileAction	dropFileAction
 	)
 	:
-	JXDialogDirector(CBGetApplication(), kJTrue)
+	JXDialogDirector(CBGetApplication(), true)
 {
 	BuildWindow(reopenTextFiles, doubleSpaceCompile, rebuildMakefileDaily,
 				dropFileAction);
@@ -56,9 +56,9 @@ CBEditProjPrefsDialog::~CBEditProjPrefsDialog()
 void
 CBEditProjPrefsDialog::BuildWindow
 	(
-	const JBoolean							reopenTextFiles,
-	const JBoolean							doubleSpaceCompile,
-	const JBoolean							rebuildMakefileDaily,
+	const bool							reopenTextFiles,
+	const bool							doubleSpaceCompile,
+	const bool							rebuildMakefileDaily,
 	const CBProjectTable::DropFileAction	dropFileAction
 	)
 {
@@ -187,9 +187,9 @@ CBEditProjPrefsDialog::UpdateSettings()
 {
 	CBGetApplication()->DisplayBusyCursor();
 
-	const JBoolean reopenTextFiles      = itsReopenTextFilesCB->IsChecked();
-	const JBoolean doubleSpaceCompile   = itsDoubleSpaceCB->IsChecked();
-	const JBoolean rebuildMakefileDaily = itsRebuildMakefileDailyCB->IsChecked();
+	const bool reopenTextFiles      = itsReopenTextFilesCB->IsChecked();
+	const bool doubleSpaceCompile   = itsDoubleSpaceCB->IsChecked();
+	const bool rebuildMakefileDaily = itsRebuildMakefileDailyCB->IsChecked();
 
 	const CBProjectTable::DropFileAction dropFileAction =
 		(CBProjectTable::DropFileAction) itsDropFileActionRG->GetSelectedItem();

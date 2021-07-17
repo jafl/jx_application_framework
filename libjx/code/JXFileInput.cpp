@@ -32,7 +32,7 @@ JXFileInput::JXFileInput
 	)
 	:
 	JXFSInputBase(jnew StyledText(this, enclosure->GetFontManager()),
-				  kJTrue, "Hint::JXFileInput",
+				  true, "Hint::JXFileInput",
 				  enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXFileInputX();
@@ -52,7 +52,7 @@ JXFileInput::JXFileInput
 	const JCoordinate	h
 	)
 	:
-	JXFSInputBase(text, kJTrue, "Hint::JXFileInput",
+	JXFSInputBase(text, true, "Hint::JXFileInput",
 				  enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXFileInputX();
@@ -63,10 +63,10 @@ JXFileInput::JXFileInput
 void
 JXFileInput::JXFileInputX()
 {
-	itsAllowInvalidFileFlag = kJFalse;
-	itsRequireReadFlag      = kJTrue;
-	itsRequireWriteFlag     = kJTrue;
-	itsRequireExecFlag      = kJFalse;
+	itsAllowInvalidFileFlag = false;
+	itsRequireReadFlag      = true;
+	itsRequireWriteFlag     = true;
+	itsRequireExecFlag      = false;
 }
 
 /******************************************************************************
@@ -81,14 +81,14 @@ JXFileInput::~JXFileInput()
 /******************************************************************************
  GetFile (virtual)
 
-	Returns kJTrue if the current file name is valid.  In this case, *fullName
+	Returns true if the current file name is valid.  In this case, *fullName
 	is set to the full path + name, relative to the root directory.
 
 	Use this instead of GetText(), because that may return a relative path.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileInput::GetFile
 	(
 	JString* fullName
@@ -98,15 +98,15 @@ JXFileInput::GetFile
 	const JString& text = GetText().GetText();
 
 	JString basePath;
-	const JBoolean hasBasePath = GetBasePath(&basePath);
+	const bool hasBasePath = GetBasePath(&basePath);
 
-	return JI2B(!text.IsEmpty() &&
+	return !text.IsEmpty() &&
 				(JIsAbsolutePath(text) || hasBasePath) &&
 				JConvertToAbsolutePath(text, basePath, fullName) &&
 				JFileExists(*fullName) &&
 				(!itsRequireReadFlag  || JFileReadable(*fullName)) &&
 				(!itsRequireWriteFlag || JFileWritable(*fullName)) &&
-				(!itsRequireExecFlag  || JFileExecutable(*fullName)));
+				(!itsRequireExecFlag  || JFileExecutable(*fullName));
 }
 
 /******************************************************************************
@@ -114,16 +114,16 @@ JXFileInput::GetFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileInput::InputValid()
 {
 	if (itsAllowInvalidFileFlag)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (!JXFSInputBase::InputValid())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JString& text = GetText()->GetText();
@@ -133,7 +133,7 @@ JXFileInput::InputValid()
 		}
 
 	JString basePath;
-	const JBoolean hasBasePath = GetBasePath(&basePath);
+	const bool hasBasePath = GetBasePath(&basePath);
 
 	JString fullName;
 	const JUtf8Byte* errID = nullptr;
@@ -162,12 +162,12 @@ JXFileInput::InputValid()
 
 	if (JString::IsEmpty(errID))
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		JGetUserNotification()->ReportError(JGetString(errID));
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -187,9 +187,9 @@ JXFileInput::GetTextColor
 	(
 	const JString&	fileName,
 	const JString&	basePath,
-	const JBoolean	requireRead,
-	const JBoolean	requireWrite,
-	const JBoolean	requireExec
+	const bool	requireRead,
+	const bool	requireWrite,
+	const bool	requireExec
 	)
 {
 	if (fileName.IsEmpty())
@@ -226,7 +226,7 @@ JXFileInput::GetTextForChooseFile()
 	JString text = GetText().GetText();
 
 	JString basePath;
-	const JBoolean hasBasePath = GetBasePath(&basePath);
+	const bool hasBasePath = GetBasePath(&basePath);
 
 	if (text.IsEmpty() && hasBasePath)
 		{
@@ -251,7 +251,7 @@ JXFileInput::GetTextForChooseFile()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileInput::ChooseFile
 	(
 	const JString& prompt,
@@ -263,11 +263,11 @@ JXFileInput::ChooseFile
 	if (JGetChooseSaveFile()->ChooseFile(prompt, instr, origName, &newName))
 		{
 		GetText()->SetText(newName);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -278,7 +278,7 @@ JXFileInput::ChooseFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFileInput::SaveFile
 	(
 	const JString& prompt,
@@ -290,11 +290,11 @@ JXFileInput::SaveFile
 	if (JGetChooseSaveFile()->SaveFile(prompt, instr, origName, &newName))
 		{
 		GetText()->SetText(newName);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -326,7 +326,7 @@ JXFileInput::StyledText::ComputeErrorLength
 		(f->itsRequireWriteFlag && !JFileWritable(fullName)) ||
 		(f->itsRequireExecFlag  && !JFileExecutable(fullName)))
 		{
-		const JString closestDir = JGetClosestDirectory(fullName, kJFalse);
+		const JString closestDir = JGetClosestDirectory(fullName, false);
 		if (fullName.BeginsWith(closestDir))
 			{
 			return fullName.GetCharacterCount() - closestDir.GetCharacterCount();

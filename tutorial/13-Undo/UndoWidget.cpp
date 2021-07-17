@@ -177,7 +177,7 @@ UndoWidget::HandleMouseDrag
 	)
 {
 	// Check to see if the window was scrolled
-	const JBoolean scrolled = ScrollForDrag(pt);
+	const bool scrolled = ScrollForDrag(pt);
 
 	// Get the drag painter that we created in mouse down
 	JPainter* p = nullptr;
@@ -272,7 +272,7 @@ UndoWidget::Undo()
 
 	// See if we have an undo object available.
 	JUndo* undo;
-	const JBoolean hasUndo = GetCurrentUndo(&undo);
+	const bool hasUndo = GetCurrentUndo(&undo);
 
 	// Perform the undo.
 	if (hasUndo)
@@ -299,7 +299,7 @@ UndoWidget::Redo()
 
 	// See if we have an redo object available.
 	JUndo* undo;
-	const JBoolean hasUndo = GetCurrentRedo(&undo);
+	const bool hasUndo = GetCurrentRedo(&undo);
 
 	// Perform the redo.
 	if (hasUndo)
@@ -316,7 +316,7 @@ UndoWidget::Redo()
 
  ******************************************************************************/
 
-JBoolean
+bool
 UndoWidget::GetCurrentUndo
 	(
 	JUndo** undo
@@ -326,11 +326,11 @@ UndoWidget::GetCurrentUndo
 	if (HasUndo())
 		{
 		*undo = itsUndoList->GetElement(itsFirstRedoIndex - 1);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -339,7 +339,7 @@ UndoWidget::GetCurrentUndo
 
  ******************************************************************************/
 
-JBoolean
+bool
 UndoWidget::GetCurrentRedo
 	(
 	JUndo** redo
@@ -349,11 +349,11 @@ UndoWidget::GetCurrentRedo
 	if (HasRedo())
 		{
 		*redo = itsUndoList->GetElement(itsFirstRedoIndex);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -362,11 +362,11 @@ UndoWidget::GetCurrentRedo
 
  ******************************************************************************/
 
-JBoolean
+bool
 UndoWidget::HasUndo()
 	const
 {
-	return JConvertToBoolean(itsFirstRedoIndex > 1);
+	return itsFirstRedoIndex > 1;
 }
 
 /******************************************************************************
@@ -374,11 +374,11 @@ UndoWidget::HasUndo()
 
  ******************************************************************************/
 
-JBoolean
+bool
 UndoWidget::HasRedo()
 	const
 {
-	return JConvertToBoolean(itsFirstRedoIndex <= itsUndoList->GetElementCount());
+	return itsFirstRedoIndex <= itsUndoList->GetElementCount();
 }
 
 /******************************************************************************
@@ -417,7 +417,7 @@ UndoWidget::NewUndo
 		itsFirstRedoIndex--;
 		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
 
-		undo->SetRedo(kJTrue);
+		undo->SetRedo(true);
 		undo->Deactivate();
 		}
 
@@ -428,7 +428,7 @@ UndoWidget::NewUndo
 		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
 		itsFirstRedoIndex++;
 
-		undo->SetRedo(kJFalse);
+		undo->SetRedo(false);
 		undo->Deactivate();
 		}
 

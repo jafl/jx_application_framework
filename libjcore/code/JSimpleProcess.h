@@ -19,46 +19,46 @@ class JSimpleProcess : public JProcess
 {
 public:
 
-	static JError	Create(const JString& str, const JBoolean detach);
+	static JError	Create(const JString& str, const bool detach);
 	static JError	Create(const JPtrArray<JString>& argList,
-						   const JBoolean detach);
+						   const bool detach);
 	static JError	Create(const JUtf8Byte* argv[], const JSize size,
-						   const JBoolean detach);
+						   const bool detach);
 
 	static JError	Create(const JString& workingDirectory,
-						   const JString& str, const JBoolean detach);
+						   const JString& str, const bool detach);
 	static JError	Create(const JString& workingDirectory,
-						   const JPtrArray<JString>& argList, const JBoolean detach);
+						   const JPtrArray<JString>& argList, const bool detach);
 	static JError	Create(const JString& workingDirectory,
 						   const JUtf8Byte* argv[], const JSize size,
-						   const JBoolean detach);
+						   const bool detach);
 
 	static JError	Create(JSimpleProcess** process, const JString& str,
-						   const JBoolean deleteWhenFinished = kJFalse);
+						   const bool deleteWhenFinished = false);
 	static JError	Create(JSimpleProcess** process, const JString& workingDirectory,
 						   const JString& str,
-						   const JBoolean deleteWhenFinished = kJFalse);
+						   const bool deleteWhenFinished = false);
 
 	static JError	Create(JSimpleProcess** process,
 						   const JPtrArray<JString>& argList,
-						   const JBoolean deleteWhenFinished = kJFalse);
+						   const bool deleteWhenFinished = false);
 	static JError	Create(JSimpleProcess** process, const JString& workingDirectory,
 						   const JPtrArray<JString>& argList,
-						   const JBoolean deleteWhenFinished = kJFalse);
+						   const bool deleteWhenFinished = false);
 
 	static JError	Create(JSimpleProcess** process,
 						   const JUtf8Byte* argv[], const JSize size,
-						   const JBoolean deleteWhenFinished = kJFalse);
+						   const bool deleteWhenFinished = false);
 	static JError	Create(JSimpleProcess** process, const JString& workingDirectory,
 						   const JUtf8Byte* argv[], const JSize size,
-						   const JBoolean deleteWhenFinished = kJFalse);
+						   const bool deleteWhenFinished = false);
 
 	JSimpleProcess(const pid_t pid, const int fd,
-				   const JBoolean deleteWhenFinished);
+				   const bool deleteWhenFinished);
 
 	virtual ~JSimpleProcess();
 
-	void	ReportError(const JBoolean success);
+	void	ReportError(const bool success);
 
 protected:
 

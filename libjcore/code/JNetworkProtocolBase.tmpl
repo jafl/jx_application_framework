@@ -39,7 +39,7 @@ const JSize kDefaultBlockSize = 1023;			// bytes
 template <ACE_PEER_STREAM_1>
 JNetworkProtocolBase<ACE_PEER_STREAM_2>::JNetworkProtocolBase
 	(
-	const JBoolean synch
+	const bool synch
 	)
 	:
 	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>(),
@@ -66,7 +66,7 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::~JNetworkProtocolBase()
  ******************************************************************************/
 
 template <ACE_PEER_STREAM_1>
-JBoolean
+bool
 JNetworkProtocolBase<ACE_PEER_STREAM_2>::WillSendSynch()
 	const
 {
@@ -77,7 +77,7 @@ template <ACE_PEER_STREAM_1>
 void
 JNetworkProtocolBase<ACE_PEER_STREAM_2>::ShouldSendSynch
 	(
-	const JBoolean synch
+	const bool synch
 	)
 {
 	Flush();	// first because does nothing if synch
@@ -151,7 +151,7 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
  ******************************************************************************/
 
 template <ACE_PEER_STREAM_1>
-JBoolean
+bool
 JNetworkProtocolBase<ACE_PEER_STREAM_2>::DataPending()
 	const
 {
@@ -213,12 +213,12 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::handle_output
 			if (c.sendOffset >= c.count)
 				{
 				c.CleanOut();
-				const JBoolean ok = iter.RemoveNext();
+				const bool ok = iter.RemoveNext();
 				assert( ok );
 				}
 			else
 				{
-				const JBoolean ok = iter.SetNext(c);
+				const bool ok = iter.SetNext(c);
 				assert( ok );
 				}
 			}

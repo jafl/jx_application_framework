@@ -89,9 +89,9 @@ protected:
 
 private:
 
-	JBoolean				itsResetFlag;
+	bool				itsResetFlag;
 	JStyledText::TextRange	itsCurrentRange;
-	JBoolean				itsDoubleQuoteFlag;
+	bool				itsDoubleQuoteFlag;
 
 private:
 

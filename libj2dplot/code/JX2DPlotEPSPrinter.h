@@ -21,7 +21,7 @@ public:
 
 	virtual ~JX2DPlotEPSPrinter();
 
-	void	UsePlotSetup(const JBoolean use);
+	void	UsePlotSetup(const bool use);
 
 	JRect	GetPlotBounds() const;
 	void	SetPlotBounds(const JRect& rect);
@@ -35,14 +35,14 @@ protected:
 
 	virtual JXEPSPrintSetupDialog*
 		CreatePrintSetupDialog(const JString& fileName,
-							   const JBoolean preview, const JBoolean bw);
+							   const bool preview, const bool bw);
 
-	virtual JBoolean	EndUserPrintSetup(const JBroadcaster::Message& message,
-										  JBoolean* changed);
+	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
+										  bool* changed);
 
 private:
 
-	JBoolean	itsUsePlotSetupFlag;
+	bool	itsUsePlotSetupFlag;
 	JCoordinate	itsPlotWidth;
 	JCoordinate	itsPlotHeight;
 
@@ -70,7 +70,7 @@ private:
 inline void
 JX2DPlotEPSPrinter::UsePlotSetup
 	(
-	const JBoolean use
+	const bool use
 	)
 {
 	itsUsePlotSetupFlag = use;

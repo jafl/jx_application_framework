@@ -32,8 +32,8 @@ public:
 
 	virtual ~CBMacroSetTable();
 
-	JBoolean	ContentsValid() const;
-	JBoolean	GetCurrentMacroSetName(JString* name) const;
+	bool	ContentsValid() const;
+	bool	GetCurrentMacroSetName(JString* name) const;
 
 	JArray<CBPrefsManager::MacroSetInfo>*
 		GetMacroList(JIndex* firstNewID, JIndex* lastNewID) const;
@@ -58,7 +58,7 @@ private:
 
 	JArray<CBPrefsManager::MacroSetInfo>*	itsMacroList;
 
-	mutable JBoolean	itsOwnsMacroListFlag;	// kJTrue => delete contents of itsMacroList
+	mutable bool	itsOwnsMacroListFlag;	// true => delete contents of itsMacroList
 	const JIndex		itsFirstNewID;			// first index to use for new sets
 	JIndex				itsLastNewID;			// index of last new set created
 	JIndex				itsMacroIndex;			// index of currently displayed macro set

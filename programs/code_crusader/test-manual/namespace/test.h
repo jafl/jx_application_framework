@@ -39,20 +39,20 @@ class JInPipeStream1 : public std::istream
 {
 public:
 
-	JInPipeStream(const int fd, const JBoolean close);
+	JInPipeStream(const int fd, const bool close);
 
 	virtual ~JInPipeStream();
 
 	void	close();
 
-	JBoolean	WillClosePipe() const;
-	void		ShouldClosePipe(const JBoolean close = kJTrue);
+	bool	WillClosePipe() const;
+	void		ShouldClosePipe(const bool close = true);
 
 private:
 
 	stdiobuf	itsBuffer;
 	const int	itsDescriptor;
-	JBoolean	itsCloseFlag;	// kJTrue => close when we are destructed
+	bool	itsCloseFlag;	// true => close when we are destructed
 
 private:
 

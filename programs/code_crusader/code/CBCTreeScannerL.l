@@ -17,7 +17,7 @@ This scanner reads a C/C++ file and creates CBClass instances.
 
 #undef YY_DECL
 #define YY_DECL \
-	JBoolean CBCTreeScanner::CreateClasses( \
+	bool CBCTreeScanner::CreateClasses( \
 		const JString& fileName, const JFAID_t fileID, \
 		CBTree* tree, JPtrArray<CBClass>* classList)
 %}
@@ -62,7 +62,7 @@ NSID         ({ID}(::{ID})*)
 %}
 
 template/{BDRY} {
-	itsTemplateFlag      = kJTrue;
+	itsTemplateFlag      = true;
 	templateBracketDepth = 0;
 	yy_push_state(TEMPLATE_PARAM_STATE);
 	}
@@ -95,7 +95,7 @@ using{WS}{NSID}{MS}; {
 	curlyBraceDepth--;
 	if (curlyBraceDepth < 0)
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (curlyBraceDepth == 0 && !curlyBraceStack.IsEmpty())
 		{
@@ -274,7 +274,7 @@ private {
 	JString s = parentName;
 	s.Prepend("::");
 
-	JBoolean found = kJFalse;
+	bool found = false;
 	while (1)
 		{
 		for (const JString* c : usingList)
@@ -293,7 +293,7 @@ private {
 			s1.Append(parentName);
 
 			parentName = s1;
-			found      = kJTrue;
+			found      = true;
 			break;
 			}
 

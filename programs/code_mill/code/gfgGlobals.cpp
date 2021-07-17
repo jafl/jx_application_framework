@@ -20,11 +20,11 @@ static GFGMDIServer*	theMDIServer    = nullptr;
 /******************************************************************************
  GFGCreateGlobals
 
-	Returns kJTrue if this is the first time the program is run.
+	Returns true if this is the first time the program is run.
 
  ******************************************************************************/
 
-JBoolean
+bool
 GFGCreateGlobals
 	(
 	GFGApp* app
@@ -32,7 +32,7 @@ GFGCreateGlobals
 {
 	theApplication = app;
 
-	JBoolean isNew;
+	bool isNew;
 	thePrefsManager	= jnew GFGPrefsManager(&isNew);
 	assert( thePrefsManager != nullptr );
 

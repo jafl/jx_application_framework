@@ -94,7 +94,7 @@ JSTUndoTyping::HandleDelete
 {
 	assert( IsActive() );
 
-	const JString s(GetText()->GetText().GetBytes(), match.GetUtf8ByteRange(), kJFalse);
+	const JString s(GetText()->GetText().GetBytes(), match.GetUtf8ByteRange(), JString::kNoCopy);
 	JStringIterator iter(s, kJIteratorStartAtEnd);
 
 	const JIndex firstCharIndex = match.GetCharacterRange().first;
@@ -104,7 +104,7 @@ JSTUndoTyping::HandleDelete
 		{
 		const JIndex startByte = iter.GetPrevByteIndex();
 
-		const JBoolean ok = iter.Prev(&c);
+		const bool ok = iter.Prev(&c);
 		assert( ok );
 
 		JIndex byteCount = startByte;
@@ -144,7 +144,7 @@ JSTUndoTyping::HandleFwdDelete
 {
 	assert( IsActive() );
 
-	const JString s(GetText()->GetText().GetBytes(), match.GetUtf8ByteRange(), kJFalse);
+	const JString s(GetText()->GetText().GetBytes(), match.GetUtf8ByteRange(), JString::kNoCopy);
 	JStringIterator iter(s, kJIteratorStartAtBeginning);
 
 	const JIndex firstCharIndex = match.GetCharacterRange().first;
@@ -152,7 +152,7 @@ JSTUndoTyping::HandleFwdDelete
 	JUtf8Character c;
 	while (!iter.AtEnd())
 		{
-		const JBoolean ok = iter.Next(&c);
+		const bool ok = iter.Next(&c);
 		assert( ok );
 
 		AppendToSave(c, iter.GetPrevCharacterIndex() + firstCharIndex - 1);
@@ -164,7 +164,7 @@ JSTUndoTyping::HandleFwdDelete
 
  ******************************************************************************/
 
-JBoolean
+bool
 JSTUndoTyping::MatchesCurrentIndex
 	(
 	const JStyledText::TextIndex& index
@@ -173,6 +173,6 @@ JSTUndoTyping::MatchesCurrentIndex
 {
 	const JStyledText::TextIndex i = itsOrigStartIndex + itsCount;
 
-	return JI2B( index.charIndex == i.charIndex &&
-				 index.byteIndex == i.byteIndex );
+	return index.charIndex == i.charIndex &&
+				 index.byteIndex == i.byteIndex;
 }

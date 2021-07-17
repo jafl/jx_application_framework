@@ -35,18 +35,18 @@ class MDPrefsManager : public JXPrefsManager
 {
 public:
 
-	MDPrefsManager(JBoolean* isNew);
+	MDPrefsManager(bool* isNew);
 
 	virtual	~MDPrefsManager();
 
 	JString GetPrevVersionStr() const;
 	void	EditPrefs();
 
-	JBoolean	GetWindowSize(const JPrefID& id, JPoint* desktopLoc,
+	bool	GetWindowSize(const JPrefID& id, JPoint* desktopLoc,
 							  JCoordinate* width, JCoordinate* height) const;
 	void		SaveWindowSize(const JPrefID& id, JXWindow* window);
 
-	JBoolean	LoadPrintSetup(JXPSPrinter* p) const;
+	bool	LoadPrintSetup(JXPSPrinter* p) const;
 	void		SavePrintSetup(const JXPSPrinter& p);
 
 	JString	GetOpenFileCommand() const;
@@ -54,7 +54,7 @@ public:
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion) override;
+	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
 	virtual void	SaveAllBeforeDestruct() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

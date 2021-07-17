@@ -28,7 +28,7 @@ CMArray2DCommand::CMArray2DCommand
 	JStringTableData*	data
 	)
 	:
-	CMCommand("", kJFalse, kJTrue),
+	CMCommand("", false, true),
 	itsDirector(dir),
 	itsTable(table),
 	itsData(data)
@@ -97,7 +97,7 @@ CMArray2DCommand::HandleFailure
 	// ugly, but much faster
 	JStyleTableData* styleData =
 		const_cast<JStyleTableData*>(&(itsTable->GetStyleData()));
-	const JFontStyle style = CMVarNode::GetFontStyle(kJFalse, kJFalse);
+	const JFontStyle style = CMVarNode::GetFontStyle(false, false);
 
 	if (startIndex == 1)
 		{
@@ -172,18 +172,18 @@ CMArray2DCommand::GetCell
 
  *****************************************************************************/
 
-JBoolean
+bool
 CMArray2DCommand::ItsIndexValid()
 	const
 {
 	if (itsType == kRow)
 		{
-		return JI2B(itsData->RowIndexValid(itsIndex) &&
-					itsDirector->ArrayRowIndexValid(itsArrayIndex));
+		return itsData->RowIndexValid(itsIndex) &&
+					itsDirector->ArrayRowIndexValid(itsArrayIndex);
 		}
 	else
 		{
-		return JI2B(itsData->ColIndexValid(itsIndex) &&
-					itsDirector->ArrayColIndexValid(itsArrayIndex));
+		return itsData->ColIndexValid(itsIndex) &&
+					itsDirector->ArrayColIndexValid(itsArrayIndex);
 		}
 }

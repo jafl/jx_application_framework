@@ -21,18 +21,18 @@ class CBExtEditorDialog : public JXDialogDirector
 public:
 
 	CBExtEditorDialog(JXDirector* supervisor,
-					  const JBoolean editLocally,
+					  const bool editLocally,
 					  const JString& editFileCmd,
 					  const JString& editFileLineCmd,
-					  const JBoolean editBinaryLocally,
+					  const bool editBinaryLocally,
 					  const JString& editBinaryFileCmd);
 
 	virtual ~CBExtEditorDialog();
 
-	void	GetPrefs(JBoolean* editTextLocally,
+	void	GetPrefs(bool* editTextLocally,
 					 JString* editTextFileCmd,
 					 JString* editTextFileLineCmd,
-					 JBoolean* editBinaryLocally,
+					 bool* editBinaryLocally,
 					 JString* editBinaryFileCmd) const;
 
 protected:
@@ -53,10 +53,10 @@ private:
 
 private:
 
-	void	BuildWindow(const JBoolean editTextLocally,
+	void	BuildWindow(const bool editTextLocally,
 						const JString& editTextFileCmd,
 						const JString& editTextFileLineCmd,
-						const JBoolean editBinaryLocally,
+						const bool editBinaryLocally,
 						const JString& editBinaryFileCmd);
 
 	void	UpdateDisplay();

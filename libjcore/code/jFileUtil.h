@@ -11,46 +11,44 @@
 #include "JError.h"
 #include "jTime.h"
 #include <stdio.h>
+#include "JString.h"	// need Case
 #include "jDirUtil.h"	// for convenience
 
 class JString;
 class JProcess;
 
-JBoolean	JFileExists(const JString& fileName);
-JBoolean	JFileReadable(const JString& fileName);
-JBoolean	JFileWritable(const JString& fileName);
-JBoolean	JFileExecutable(const JString& fileName);
+bool	JFileExists(const JString& fileName);
+bool	JFileReadable(const JString& fileName);
+bool	JFileWritable(const JString& fileName);
+bool	JFileExecutable(const JString& fileName);
 
-JError		JGetFileLength(const JString& name, JSize* size);
-JString		JPrintFileSize(const JSize size);
+JError	JGetFileLength(const JString& name, JSize* size);
+JString	JPrintFileSize(const JSize size);
 
-JError		JRenameFile(const JString& oldName, const JString& newName,
-						const JBoolean forceReplace = kJFalse);
-JError		JRemoveFile(const JString& fileName);
-JBoolean	JKillFile(const JString& fileName);
+JError	JRenameFile(const JString& oldName, const JString& newName,
+					const bool forceReplace = false);
+JError	JRemoveFile(const JString& fileName);
+bool	JKillFile(const JString& fileName);
 
-JError		JCreateTempFile(const JString* path, const JString* prefix,
-							JString* fullName);
+JError	JCreateTempFile(const JString* path, const JString* prefix,
+						JString* fullName);
 
-JBoolean	JSearchFile(const JString& fileName, const JString& searchStr,
-						const JBoolean caseSensitive, JIndex* lineIndex);
+JError	JUncompressFile(const JString& origFileName, JString* newFileName,
+						const JString* dirName = nullptr,
+						JProcess** process = nullptr);
 
-JError		JUncompressFile(const JString& origFileName, JString* newFileName,
-							const JString* dirName = nullptr,
-							JProcess** process = nullptr);
+JError	JFOpen(const JString& fileName, const JUtf8Byte* mode, FILE** stream);
 
-JError		JFOpen(const JString& fileName, const JUtf8Byte* mode, FILE** stream);
+void	JExtractFileAndLine(const JString& str,
+							JString* fileName, JIndex* startLineIndex,
+							JIndex* endLineIndex = nullptr);
 
-void		JExtractFileAndLine(const JString& str,
-								JString* fileName, JIndex* startLineIndex,
-								JIndex* endLineIndex = nullptr);
+JString	JCombineRootAndSuffix(const JString& root, const JUtf8Byte* suffix);
+JString	JCombineRootAndSuffix(const JString& root, const JString& suffix);
+bool	JSplitRootAndSuffix(const JString& name, JString* root, JString* suffix);
 
-JString		JCombineRootAndSuffix(const JString& root, const JUtf8Byte* suffix);
-JString		JCombineRootAndSuffix(const JString& root, const JString& suffix);
-JBoolean	JSplitRootAndSuffix(const JString& name, JString* root, JString* suffix);
-
-JString		JFileNameToURL(const JString& fileName);
-JBoolean	JURLToFileName(const JString& url, JString* fileName);
+JString	JFileNameToURL(const JString& fileName);
+bool	JURLToFileName(const JString& url, JString* fileName);
 
 
 inline JError

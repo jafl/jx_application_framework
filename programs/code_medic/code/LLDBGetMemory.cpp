@@ -81,6 +81,6 @@ LLDBGetMemory::HandleSuccess
 
 	if (result.IsValid() && result.Succeeded() && result.HasResult())
 		{
-		GetDirector()->Update(JString(result.GetOutput(), kJFalse));
+		GetDirector()->Update(JString(result.GetOutput(), JString::kNoCopy));
 		}
 }

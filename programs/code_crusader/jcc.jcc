@@ -1,4 +1,4 @@
-jx_browser_data 87
+jx_browser_data 88
 # project tree
 0 "root"
 T
@@ -1024,13 +1024,13 @@ F
 # tasks
 4
 "makemake"
-T "./" "make -k personal" "" T F T F T F T "" "" "" T
-T "./" "pwd ; &stat ; ls -l $full_name ; echo $line" "" F F F F T T F "" "" "" F
-T "./" "stat $relative_name" "stat" F F F F T F F "" "" "" F
-T "./" "pwd ; &stat ; echo ====" "" F F F F T T F "" "" "" T
-T "./" "pwd ; &fake_build ; echo ====" "" F F F F T T F "" "" "" F
-T "./" "stat $relative_name" "fake_build" T F T F T F F "" "" "" T
-T "./" "echo ====" "" F F F T T F F "" "" "" F
+T "./" "make -k personal" "" TFTFTFT "" "" "" T
+T "./" "pwd ; &stat ; ls -l $full_name ; echo $line" "" FFFFTTF "" "" "" F
+T "./" "stat $relative_name" "stat" FFFFTFF "" "" "" F
+T "./" "pwd ; &stat ; echo ====" "" FFFFTTF "" "" "" T
+T "./" "pwd ; &fake_build ; echo ====" "" FFFFTTF "" "" "" F
+T "./" "stat $relative_name" "fake_build" TFTFTFF "" "" "" T
+T "./" "echo ====" "" FFFTTFF "" "" "" F
 F
 # build settings
 1
@@ -1051,14 +1051,23 @@ T "CBBourneShellFlexLexer" "yyFlexLexer"
 T "CBCFlexLexer" "yyFlexLexer"
 T "CBCSharpFlexLexer" "yyFlexLexer"
 T "CBCShellFlexLexer" "yyFlexLexer"
+T "CBCTreeFlexLexer" "yyFlexLexer"
+T "CBDFlexLexer" "yyFlexLexer"
+T "CBDTreeFlexLexer" "yyFlexLexer"
 T "CBEiffelFlexLexer" "yyFlexLexer"
+T "CBGoFlexLexer" "yyFlexLexer"
+T "CBGoTreeFlexLexer" "yyFlexLexer"
+T "CBINIFlexLexer" "yyFlexLexer"
 T "CBJavaFlexLexer" "yyFlexLexer"
 T "CBJavaScriptFlexLexer" "yyFlexLexer"
 T "CBJavaTreeFlexLexer" "yyFlexLexer"
 T "CBPerlFlexLexer" "yyFlexLexer"
 T "CBPHPFlexLexer" "yyFlexLexer"
+T "CBPHPTreeFlexLexer" "yyFlexLexer"
+T "CBPropertiesFlexLexer" "yyFlexLexer"
 T "CBPythonFlexLexer" "yyFlexLexer"
+T "CBRubyFlexLexer" "yyFlexLexer"
+T "CBSQLFlexLexer" "yyFlexLexer"
 T "CBTCLFlexLexer" "yyFlexLexer"
 T "JHTMLFlexLexer" "yyFlexLexer"
-T "JXComposeFlexLexer" "yyFlexLexer"
 F

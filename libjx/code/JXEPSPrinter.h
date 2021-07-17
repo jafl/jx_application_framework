@@ -40,15 +40,15 @@ public:
 
 protected:
 
-	virtual JBoolean	GetPreviewImage(const JImage** image) const override;
+	virtual bool	GetPreviewImage(const JImage** image) const override;
 	virtual void		DeletePreviewData() override;
 
 	virtual JXEPSPrintSetupDialog*
 		CreatePrintSetupDialog(const JString& fileName,
-							   const JBoolean preview, const JBoolean bw);
+							   const bool preview, const bool bw);
 
-	virtual JBoolean	EndUserPrintSetup(const JBroadcaster::Message& message,
-										  JBoolean* changed);
+	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
+										  bool* changed);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

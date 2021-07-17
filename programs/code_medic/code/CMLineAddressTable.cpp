@@ -70,7 +70,7 @@ CMLineAddressTable::SetLineNumbers
 	JPtrArray<JString>*	list
 	)
 {
-	itsLineTextList->CopyPointers(*list, JPtrArrayT::kDeleteAll, kJFalse);
+	itsLineTextList->CopyPointers(*list, JPtrArrayT::kDeleteAll, false);
 	list->SetCleanUpAction(JPtrArrayT::kForgetAll);
 
 	if (itsLineTextList->IsEmpty())
@@ -123,7 +123,7 @@ CMLineAddressTable::ClearLineNumbers()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMLineAddressTable::FindAddressLineNumber
 	(
 	const JString&	origAddress,
@@ -133,9 +133,9 @@ CMLineAddressTable::FindAddressLineNumber
 {
 	JString addr = GetLineTextFromAddress(origAddress);
 
-	JBoolean found;
+	bool found;
 	*index = itsLineTextList->SearchSorted1(&addr, JListT::kAnyMatch, &found);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -203,7 +203,7 @@ CMLineAddressTable::GetBreakpointLineIndex
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMLineAddressTable::GetFirstBreakpointOnLine
 	(
 	const JIndex	lineIndex,
@@ -221,7 +221,7 @@ CMLineAddressTable::GetFirstBreakpointOnLine
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMLineAddressTable::BreakpointsOnSameLine
 	(
 	const CMBreakpoint* bp1,
@@ -229,7 +229,7 @@ CMLineAddressTable::BreakpointsOnSameLine
 	)
 	const
 {
-	return JI2B(bp1->GetAddress() == bp2->GetAddress());
+	return bp1->GetAddress() == bp2->GetAddress();
 }
 
 /******************************************************************************
@@ -268,7 +268,7 @@ CMLineAddressTable::GetBreakpoints
 
 		target = GetLineTextFromAddress(bp->GetAddress());
 
-		JBoolean found;
+		bool found;
 		const JIndex j = itsLineTextList->SearchSorted1(&target, JListT::kAnyMatch, &found);
 		itsVisualBPIndexList->AppendElement(j);
 		}
@@ -283,7 +283,7 @@ void
 CMLineAddressTable::SetBreakpoint
 	(
 	const JIndex	lineIndex,
-	const JBoolean	temporary
+	const bool	temporary
 	)
 {
 	const JString addr = BuildAddress(*itsLineTextList->GetElement(lineIndex));

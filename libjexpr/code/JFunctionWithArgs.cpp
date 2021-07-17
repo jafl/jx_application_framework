@@ -59,25 +59,25 @@ JFunctionWithArgs::~JFunctionWithArgs()
 /******************************************************************************
  ReplaceArg
 
-	Returns kJTrue if origArg was found in the list of arguments.
+	Returns true if origArg was found in the list of arguments.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFunctionWithArgs::ReplaceArg
 	(
 	const JFunction*	origArg,
 	JFunction*			newArg
 	)
 {
-	JBoolean argReplaced = kJFalse;
+	bool argReplaced = false;
 	const JSize argCount = GetArgCount();
 	for (JIndex i=1; i<=argCount; i++)
 		{
 		if (GetArg(i) == origArg)
 			{
 			SetArg(i, newArg);
-			argReplaced = kJTrue;
+			argReplaced = true;
 			break;
 			}
 		}
@@ -150,7 +150,7 @@ JFunctionWithArgs::Layout
 	// get rectangle for each argument
 
 	JPoint argUpperLeft(ourRect.right, ourRect.top);
-	const JSize sepWidth = renderer.GetStringWidth(fontSize, JString(", ", kJFalse));
+	const JSize sepWidth = renderer.GetStringWidth(fontSize, JString(", ", JString::kNoCopy));
 
 	const JSize argCount = GetArgCount();
 	{
@@ -179,7 +179,7 @@ JFunctionWithArgs::Layout
 			{
 			const JFunction* arg = GetArg(i);
 			JIndex argIndex;
-			const JBoolean found = rectList->FindFunction(arg, &argIndex);
+			const bool found = rectList->FindFunction(arg, &argIndex);
 			assert( found );
 			rectList->SetMidline(argIndex, ourMidline);
 			ourRect = JCovering(ourRect, rectList->GetRect(argIndex));
@@ -197,7 +197,7 @@ JFunctionWithArgs::Layout
 		{
 		const JFunction* arg = GetArg(i);
 		JIndex argIndex;
-		const JBoolean found = rectList->FindFunction(arg, &argIndex);
+		const bool found = rectList->FindFunction(arg, &argIndex);
 		assert( found );
 		rectList->ShiftRect(argIndex, parenWidth, 0);
 		}
@@ -228,7 +228,7 @@ JFunctionWithArgs::Render
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);
@@ -250,7 +250,7 @@ JFunctionWithArgs::Render
 		arg->Render(renderer, rectList);
 
 		JIndex argIndex;
-		const JBoolean found = rectList.FindFunction(arg, &argIndex);
+		const bool found = rectList.FindFunction(arg, &argIndex);
 		assert( found );
 		const JRect argRect = rectList.GetRect(argIndex);
 		if (i == 1)
@@ -259,7 +259,7 @@ JFunctionWithArgs::Render
 			}
 		if (i < argCount)
 			{
-			renderer.DrawString(argRect.right, ourMidline, fontSize, JString(",", kJFalse));
+			renderer.DrawString(argRect.right, ourMidline, fontSize, JString(",", JString::kNoCopy));
 			}
 		else
 			{

@@ -23,13 +23,13 @@ public:
 	virtual ~JXImageMenuData();
 
 	void			InsertItem(const JIndex index, JXImage* image,
-							   const JBoolean menuOwnsImage,
+							   const bool menuOwnsImage,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
 							   const JString& id = JString::empty);
-	void			PrependItem(JXImage* image, const JBoolean menuOwnsImage,
+	void			PrependItem(JXImage* image, const bool menuOwnsImage,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
 								const JString& id = JString::empty);
-	void			AppendItem(JXImage* image, const JBoolean menuOwnsImage,
+	void			AppendItem(JXImage* image, const bool menuOwnsImage,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
 							   const JString& id = JString::empty);
 	virtual void	DeleteItem(const JIndex index);		// must call inherited
@@ -37,7 +37,7 @@ public:
 
 	const JXImage*	GetImage(const JIndex index) const;
 	void			SetImage(const JIndex index, JXImage* image,
-							 const JBoolean menuOwnsImage);
+							 const bool menuOwnsImage);
 
 	JSize	GetColumnCount() const;
 	void	SetColumnCount(const JSize columnCount);
@@ -45,21 +45,21 @@ public:
 	// called by JXImageMenuTable
 
 	void	ConfigureTable(JXImageMenuTable* table,
-						   JBoolean* hasCheckboxes, JBoolean* hasSubmenus);
+						   bool* hasCheckboxes, bool* hasSubmenus);
 
 private:
 
 	struct IconData
 	{
 		JXImage*	image;
-		JBoolean	ownsImage;	// kJTrue if we should delete image
+		bool	ownsImage;	// true if we should delete image
 
 		IconData()
 			:
-			image( nullptr ), ownsImage( kJTrue )
+			image( nullptr ), ownsImage( true )
 		{ };
 
-		IconData(JXImage* i, const JBoolean own)
+		IconData(JXImage* i, const bool own)
 			:
 			image( i ), ownsImage( own )
 		{ };
@@ -70,7 +70,7 @@ private:
 	JArray<IconData>*	itsIconData;
 	JSize				itsColumnCount;
 
-	JBoolean			itsNeedGeomRecalcFlag;
+	bool			itsNeedGeomRecalcFlag;
 	JCoordinate			itsRowHeight;
 	JCoordinate			itsColWidth;
 
@@ -121,7 +121,7 @@ inline void
 JXImageMenuData::PrependItem
 	(
 	JXImage*				image,
-	const JBoolean			menuOwnsImage,
+	const bool			menuOwnsImage,
 	const JXMenu::ItemType	type,
 	const JString&			id
 	)
@@ -133,7 +133,7 @@ inline void
 JXImageMenuData::AppendItem
 	(
 	JXImage*				image,
-	const JBoolean			menuOwnsImage,
+	const bool			menuOwnsImage,
 	const JXMenu::ItemType	type,
 	const JString&			id
 	)

@@ -29,7 +29,7 @@ CMProcessText::CMProcessText
 	const JCoordinate		h
 	)
 	:
-	JXStaticText(JString::empty, kJTrue, kJTrue, kJTrue, scrollbarSet,
+	JXStaticText(JString::empty, true, true, true, scrollbarSet,
 				 enclosure, hSizing, vSizing, x,y, w, h),
 	itsDir(dir)
 {
@@ -67,7 +67,7 @@ CMProcessText::HandleMouseDown
 		if (text.ConvertToInteger(&value))
 			{
 			itsDir->SetProcessID(value);
-			itsDir->EndDialog(kJTrue);
+			itsDir->EndDialog(true);
 			}
 		}
 }

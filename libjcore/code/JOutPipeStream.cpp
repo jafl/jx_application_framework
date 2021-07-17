@@ -21,7 +21,7 @@
 JOutPipeStream::JOutPipeStream
 	(
 	const int		fd,
-	const JBoolean	close
+	const bool	close
 	)
 	:
 	std::ios(&itsBuffer),

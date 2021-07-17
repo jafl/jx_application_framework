@@ -16,14 +16,14 @@ class JOutPipeStream : public std::ostream
 {
 public:
 
-	JOutPipeStream(const int fd, const JBoolean close);
+	JOutPipeStream(const int fd, const bool close);
 
 	virtual ~JOutPipeStream();
 
 	void	close();
 
-	JBoolean	WillClosePipe() const;
-	void		ShouldClosePipe(const JBoolean close = kJTrue);
+	bool	WillClosePipe() const;
+	void		ShouldClosePipe(const bool close = true);
 
 private:
 
@@ -43,7 +43,7 @@ private:
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JOutPipeStream::WillClosePipe()
 	const
 {
@@ -53,7 +53,7 @@ JOutPipeStream::WillClosePipe()
 inline void
 JOutPipeStream::ShouldClosePipe
 	(
-	const JBoolean close
+	const bool close
 	)
 {
 	itsBuffer.ShouldClosePipe(close);

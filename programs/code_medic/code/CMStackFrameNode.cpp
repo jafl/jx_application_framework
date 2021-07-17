@@ -24,7 +24,7 @@ CMStackFrameNode::CMStackFrameNode
 	const JIndex	lineIndex
 	)
 	:
-	JNamedTreeNode(nullptr, name, kJFalse),
+	JNamedTreeNode(nullptr, name, false),
 	itsID(id),
 	itsFileName(fileName),
 	itsLineIndex(lineIndex)

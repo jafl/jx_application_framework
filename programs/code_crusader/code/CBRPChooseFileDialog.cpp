@@ -33,7 +33,7 @@ CBRPChooseFileDialog::Create
 	JXDirector*						supervisor,
 	JDirInfo*						dirInfo,
 	const JString&					fileFilter,
-	const JBoolean					allowSelectMultiple,
+	const bool					allowSelectMultiple,
 	const CBRelPathCSF::PathType	pathType,
 	const JString&					origName,
 	const JString&					message
@@ -56,7 +56,7 @@ CBRPChooseFileDialog::CBRPChooseFileDialog
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	allowSelectMultiple
+	const bool	allowSelectMultiple
 	)
 	:
 	JXChooseFileDialog(supervisor, dirInfo, fileFilter, allowSelectMultiple)
@@ -191,7 +191,7 @@ CBRPChooseFileDialog::BuildWindow
 	assert( homeDirRB != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu(JString("/", kJFalse), window,
+		jnew JXCurrentPathMenu(JString("/", false), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 

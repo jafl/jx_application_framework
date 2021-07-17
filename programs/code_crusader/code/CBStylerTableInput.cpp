@@ -43,7 +43,7 @@ CBStylerTableInput::CBStylerTableInput
 
 	GetText()->SetCharacterInWordFunction([this] (const JUtf8Character& c)
 	{
-		return JI2B( CBMIsCharacterInWord(c) || CBIsCharacterInWord(this->itsFileType, c) );
+		return CBMIsCharacterInWord(c) || CBIsCharacterInWord(this->itsFileType, c);
 	});
 }
 
@@ -75,7 +75,7 @@ CBStylerTableInput::HandleMouseDown
 		button == kJXRightButton)
 		{
 		JPoint cell;
-		const JBoolean ok = itsStylerTable->GetEditedCell(&cell);
+		const bool ok = itsStylerTable->GetEditedCell(&cell);
 		assert( ok );
 		itsStylerTable->DisplayFontMenu(cell, this, pt, buttonStates, modifiers);
 		}

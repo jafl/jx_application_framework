@@ -26,7 +26,7 @@ public:
 
 	virtual ~JXCheckboxListDialog();
 
-	JBoolean	GetSelectedItems(JArray<JIndex>* indexList) const;
+	bool	GetSelectedItems(JArray<JIndex>* indexList) const;
 	void		SelectItem(const JIndex index);
 	void		SelectAllItems();
 

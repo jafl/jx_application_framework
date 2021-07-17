@@ -36,8 +36,8 @@
 #include <sstream>
 #include <jAssert.h>
 
-static const JString kDataFileRoot  ("jx/globals", kJFalse);
-static const JString kSignalFileName("~/.jx/globals.signal", kJFalse);
+static const JString kDataFileRoot  ("jx/globals", JString::kNoCopy);
+static const JString kSignalFileName("~/.jx/globals.signal", JString::kNoCopy);
 
 const JSize kUpdateInterval = 1000;		// milliseconds
 
@@ -112,11 +112,11 @@ JXSharedPrefsManager::Receive
 /******************************************************************************
  Update (private)
 
-	Returns kJTrue if the settings were read in.
+	Returns true if the settings were read in.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSharedPrefsManager::Update()
 {
 	time_t t;
@@ -124,7 +124,7 @@ JXSharedPrefsManager::Update()
 		JGetModificationTime(itsSignalFileName, &t) == kJNoError &&
 		t != itsSignalModTime)
 		{
-		JBoolean isNew;
+		bool isNew;
 		return GetAll(&isNew);
 		}
 	else
@@ -150,35 +150,35 @@ JXSharedPrefsManager::Update()
 			PrivateSetWindowsHomeEnd();
 			PrivateSetAllowSpaceFlag();
 			PrivateSetMenuDisplayStyle();
-			Close(kJTrue);
+			Close(true);
 			}
 
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  GetAll (private)
 
-	Returns kJTrue if successful.
+	Returns true if successful.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSharedPrefsManager::GetAll
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 {
 	if (!Open())
 		{
-		*isNew = kJTrue;
-		return kJFalse;
+		*isNew = true;
+		return false;
 		}
 
 	*isNew = itsFile->IsEmpty();
 
-	JBoolean changed = kJFalse;
+	bool changed = false;
 	std::string data;
 
 	if (itsFile->IDValid(kFocusFollowsCursorInDockID))
@@ -191,7 +191,7 @@ JXSharedPrefsManager::GetAll
 	else
 		{
 		PrivateSetFocusFollowsCursorInDock();
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (itsFile->IDValid(kCopyWhenSelectID))
@@ -204,7 +204,7 @@ JXSharedPrefsManager::GetAll
 	else
 		{
 		PrivateSetCopyWhenSelectFlag();
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (itsFile->IDValid(kMiddleClickWillPasteID))
@@ -217,7 +217,7 @@ JXSharedPrefsManager::GetAll
 	else
 		{
 		PrivateSetMiddleClickWillPasteFlag();
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (itsFile->IDValid(kPWModifierID))
@@ -230,7 +230,7 @@ JXSharedPrefsManager::GetAll
 	else
 		{
 		PrivateSetPartialWordModifier();
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (itsFile->IDValid(kCaretFollowsScrollID))
@@ -243,7 +243,7 @@ JXSharedPrefsManager::GetAll
 	else
 		{
 		PrivateSetCaretFollowsScroll();
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (itsFile->IDValid(kWindowsHomeEndID))
@@ -257,11 +257,11 @@ JXSharedPrefsManager::GetAll
 		{
 		if (!(*isNew))
 			{
-			JXTEBase::ShouldUseWindowsHomeEnd(kJFalse);
+			JXTEBase::ShouldUseWindowsHomeEnd(false);
 			}
 
 		PrivateSetWindowsHomeEnd();
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (itsFile->IDValid(kAllowSpaceID))
@@ -274,7 +274,7 @@ JXSharedPrefsManager::GetAll
 	else
 		{
 		PrivateSetAllowSpaceFlag();
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (itsFile->IDValid(kMenuDisplayStyleID))
@@ -298,14 +298,14 @@ JXSharedPrefsManager::GetAll
 			}
 
 		PrivateSetMenuDisplayStyle();
-		changed = kJTrue;
+		changed = true;
 		}
 
 	Broadcast(Read());
 
 	Close(changed);
 	SaveSignalModTime();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -459,12 +459,12 @@ JXSharedPrefsManager::ReadPrefs
 		{
 		if (PrivateReadPrefs(obj))
 			{
-			itsChangedFlag = kJTrue;
+			itsChangedFlag = true;
 			}
 		}
 	else if (!Update() && Open())
 		{
-		const JBoolean changed = PrivateReadPrefs(obj);
+		const bool changed = PrivateReadPrefs(obj);
 		Close(changed);
 		}
 }
@@ -472,11 +472,11 @@ JXSharedPrefsManager::ReadPrefs
 /******************************************************************************
  PrivateReadPrefs (private)
 
-	Returns kJTrue if anything changed.
+	Returns true if anything changed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSharedPrefsManager::PrivateReadPrefs
 	(
 	JXSharedPrefObject* obj
@@ -499,7 +499,7 @@ JXSharedPrefsManager::PrivateReadPrefs
 		std::istringstream input(data);
 		obj->ReadPrefs(input);
 
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -522,12 +522,12 @@ JXSharedPrefsManager::WritePrefs
 		{
 		if (PrivateWritePrefs(obj))
 			{
-			itsChangedFlag = kJTrue;
+			itsChangedFlag = true;
 			}
 		}
 	else if (Open())
 		{
-		const JBoolean changed = PrivateWritePrefs(obj);
+		const bool changed = PrivateWritePrefs(obj);
 		Close(changed);
 		}
 }
@@ -535,11 +535,11 @@ JXSharedPrefsManager::WritePrefs
 /******************************************************************************
  PrivateWritePrefs (private)
 
-	Returns kJTrue if successful.
+	Returns true if successful.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSharedPrefsManager::PrivateWritePrefs
 	(
 	const JXSharedPrefObject* obj
@@ -559,7 +559,7 @@ JXSharedPrefsManager::PrivateWritePrefs
 		input >> origVers;
 		if (origVers > currVers)
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -576,7 +576,7 @@ JXSharedPrefsManager::PrivateWritePrefs
 		itsFile->SetData(info.id, data);
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -587,14 +587,14 @@ JXSharedPrefsManager::PrivateWritePrefs
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSharedPrefsManager::Open()
 {
 	assert( itsFile == nullptr );
 
 	const JError err = JPrefsFile::Create(kDataFileRoot, &itsFile,
 										  JFileArray::kDeleteIfWaitTimeout);
-	itsChangedFlag = kJFalse;
+	itsChangedFlag = false;
 	return err.OK();
 }
 
@@ -606,7 +606,7 @@ JXSharedPrefsManager::Open()
 void
 JXSharedPrefsManager::Close
 	(
-	const JBoolean changed
+	const bool changed
 	)
 {
 	jdelete itsFile;

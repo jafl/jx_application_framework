@@ -41,7 +41,7 @@ public:
 
 	~CBMacroManager();
 
-	JBoolean	Perform(const JStyledText::TextIndex& caretIndex, CBTextDocument* doc);
+	bool	Perform(const JStyledText::TextIndex& caretIndex, CBTextDocument* doc);
 
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;

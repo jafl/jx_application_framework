@@ -85,7 +85,7 @@ JXStyleTableMenu::GetFontStyleForMenuUpdate()
 	const
 {
 	JPoint cell;
-	const JBoolean ok = itsTable->GetEditedCell(&cell);
+	const bool ok = itsTable->GetEditedCell(&cell);
 	assert( ok );
 	return itsTable->GetCellStyle(cell);
 }

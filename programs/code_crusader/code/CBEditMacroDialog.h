@@ -30,8 +30,8 @@ public:
 
 	virtual ~CBEditMacroDialog();
 
-	JBoolean	ContentsValid() const;
-	JBoolean	GetCurrentMacroSetName(JString* name) const;
+	bool	ContentsValid() const;
+	bool	GetCurrentMacroSetName(JString* name) const;
 
 	JArray<CBPrefsManager::MacroSetInfo>*
 		GetMacroList(JIndex* firstNewID, JIndex* lastNewID) const;
@@ -41,7 +41,7 @@ protected:
 	virtual void	ReadPrefs(std::istream& input) override;
 	virtual void	WritePrefs(std::ostream& output) const override;
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

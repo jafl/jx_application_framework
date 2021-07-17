@@ -294,7 +294,7 @@ TestImageDirector::LoadImage()
 	JString fullName;
 	if (JGetChooseSaveFile()->ChooseFile(JGetString("ChooseImagePrompt::TestImageDirector"), JString::empty, &fullName))
 		{
-		itsImageWidget->SetImage(nullptr, kJTrue);	// free current colors
+		itsImageWidget->SetImage(nullptr, true);	// free current colors
 
 		itsFileName = fullName;
 
@@ -322,7 +322,7 @@ TestImageDirector::LoadImage()
 
 		if (err.OK())
 			{
-			itsImageWidget->SetImage(image, kJTrue);
+			itsImageWidget->SetImage(image, true);
 			}
 		else
 			{
@@ -358,7 +358,7 @@ TestImageDirector::SaveImage
 		JError err = JNoError();
 		if (type == JImage::kGIFType)
 			{
-			err = image->WriteGIF(fullName, kJFalse);
+			err = image->WriteGIF(fullName, false);
 			}
 		else if (type == JImage::kPNGType)
 			{
@@ -434,12 +434,12 @@ TestImageDirector::CopyImage()
 void
 TestImageDirector::PasteImage()
 {
-	itsImageWidget->SetImage(nullptr, kJTrue);	// free current colors
+	itsImageWidget->SetImage(nullptr, true);	// free current colors
 
 	JXImage* image = nullptr;
 	if (JXImageSelection::GetImage(kJXClipboardName, CurrentTime, GetDisplay(), &image))
 		{
-		itsImageWidget->SetImage(image, kJTrue);
+		itsImageWidget->SetImage(image, true);
 		}
 	else
 		{

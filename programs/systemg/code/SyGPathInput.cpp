@@ -64,8 +64,8 @@ SyGPathInput::SetDirList
 
 	// this re-orders the list so dir list gets focus
 
-	WantInput(kJFalse);
-	WantInput(kJTrue, WantsTab(), WantsModifiedTab());
+	WantInput(false);
+	WantInput(true, WantsTab(), WantsModifiedTab());
 }
 
 /******************************************************************************

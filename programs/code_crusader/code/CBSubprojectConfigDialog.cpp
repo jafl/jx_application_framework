@@ -28,13 +28,13 @@
 CBSubprojectConfigDialog::CBSubprojectConfigDialog
 	(
 	CBProjectDocument*	supervisor,
-	const JBoolean		includeInDepList,
+	const bool		includeInDepList,
 	const JString&		subProjName,
-	const JBoolean		shouldBuild,
+	const bool		shouldBuild,
 	CBRelPathCSF*		csf
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	itsCSF = csf;
 
@@ -60,9 +60,9 @@ void
 CBSubprojectConfigDialog::BuildWindow
 	(
 	CBProjectDocument*	supervisor,
-	const JBoolean		includeInDepList,
+	const bool		includeInDepList,
 	const JString&		subProjName,
-	const JBoolean		shouldBuild,
+	const bool		shouldBuild,
 	const JString&		basePath
 	)
 {
@@ -129,8 +129,8 @@ CBSubprojectConfigDialog::BuildWindow
 		}
 	else
 		{
-		itsIncludeInDepListCB->SetState(kJFalse);
-		itsShouldBuildCB->SetState(kJFalse);
+		itsIncludeInDepListCB->SetState(false);
+		itsShouldBuildCB->SetState(false);
 
 		UpdateDisplay();	// before other deactivations
 
@@ -153,7 +153,7 @@ CBSubprojectConfigDialog::UpdateDisplay()
 	itsShouldBuildCB->SetActive(itsIncludeInDepListCB->IsChecked());
 	if (!itsIncludeInDepListCB->IsChecked())
 		{
-		itsShouldBuildCB->SetState(kJFalse);
+		itsShouldBuildCB->SetState(false);
 		}
 }
 
@@ -165,9 +165,9 @@ CBSubprojectConfigDialog::UpdateDisplay()
 void
 CBSubprojectConfigDialog::GetConfig
 	(
-	JBoolean*	includeInDepList,
+	bool*	includeInDepList,
 	JString*	subProjName,
-	JBoolean*	shouldBuild
+	bool*	shouldBuild
 	)
 	const
 {

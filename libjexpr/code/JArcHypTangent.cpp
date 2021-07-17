@@ -71,7 +71,7 @@ JArcHypTangent::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JArcHypTangent::Evaluate
 	(
 	JFloat* result
@@ -81,14 +81,14 @@ JArcHypTangent::Evaluate
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = atanh(argValue);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JArcHypTangent::Evaluate
 	(
 	JComplex* result
@@ -98,7 +98,7 @@ JArcHypTangent::Evaluate
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = atanh(argValue);

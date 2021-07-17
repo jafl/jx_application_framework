@@ -15,25 +15,25 @@
 
  ********************************************************************************/
 
-JBoolean
+bool
 J2DPlotData::Create
 	(
 	J2DPlotData**			plotData,
 	const JArray<JFloat>&	x,
 	const JArray<JFloat>&	y,
-	const JBoolean			listen
+	const bool			listen
 	)
 {
 	if (OKToCreate(x,y))
 		{
 		*plotData = jnew J2DPlotData(x,y,listen);
 		assert( *plotData != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*plotData = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -42,14 +42,14 @@ J2DPlotData::Create
 
  ********************************************************************************/
 
-JBoolean
+bool
 J2DPlotData::OKToCreate
 	(
 	const JArray<JFloat>& x,
 	const JArray<JFloat>& y
 	)
 {
-	return JI2B(x.GetElementCount() == y.GetElementCount());
+	return x.GetElementCount() == y.GetElementCount();
 }
 
 /*********************************************************************************
@@ -61,7 +61,7 @@ J2DPlotData::J2DPlotData
 	(
 	const JArray<JFloat>&	x,
 	const JArray<JFloat>&	y,
-	const JBoolean			listen
+	const bool			listen
 	)
 	:
 	JPlotDataBase(kScatterPlot)
@@ -94,7 +94,7 @@ J2DPlotData::J2DPlotData
 	itsYPErrorData = nullptr;
 	itsYMErrorData = nullptr;
 
-	itsIsValidFlag     = kJTrue;
+	itsIsValidFlag     = true;
 	itsIsListeningFlag = listen;
 
 	itsCurrentXMin = 0;
@@ -222,12 +222,12 @@ J2DPlotData::GetXRange
 
  ********************************************************************************/
 
-JBoolean
+bool
 J2DPlotData::GetYRange
 	(
 	const JFloat	xMin,
 	const JFloat	xMax,
-	const JBoolean	xLinear,
+	const bool	xLinear,
 	JFloat*			yMin,
 	JFloat*			yMax
 	)
@@ -262,7 +262,7 @@ J2DPlotData::GetYRange
 		itsCurrentYMax = *yMax;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -310,7 +310,7 @@ J2DPlotData::IgnoreDataChanges()
 			assert( itsYMErrorData != nullptr );
 			}
 
-		itsIsListeningFlag = kJFalse;
+		itsIsListeningFlag = false;
 		}
 }
 
@@ -319,7 +319,7 @@ J2DPlotData::IgnoreDataChanges()
 
  ********************************************************************************/
 
-JBoolean
+bool
 J2DPlotData::SetXErrors
 	(
 	const JArray<JFloat>& xErr
@@ -327,7 +327,7 @@ J2DPlotData::SetXErrors
 {
 	if (xErr.GetElementCount() != GetElementCount())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (itsIsListeningFlag)
@@ -355,7 +355,7 @@ J2DPlotData::SetXErrors
 		}
 
 	BroadcastCurveChanged();
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -363,7 +363,7 @@ J2DPlotData::SetXErrors
 
  ********************************************************************************/
 
-JBoolean
+bool
 J2DPlotData::SetXErrors
 	(
 	const JArray<JFloat>& xPErr,
@@ -373,7 +373,7 @@ J2DPlotData::SetXErrors
 	if ((xPErr.GetElementCount() != GetElementCount()) ||
 		(xMErr.GetElementCount() != GetElementCount()))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (itsIsListeningFlag)
@@ -403,7 +403,7 @@ J2DPlotData::SetXErrors
 		}
 
 	BroadcastCurveChanged();
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -411,7 +411,7 @@ J2DPlotData::SetXErrors
 
  ********************************************************************************/
 
-JBoolean
+bool
 J2DPlotData::SetYErrors
 	(
 	const JArray<JFloat>& yErr
@@ -419,7 +419,7 @@ J2DPlotData::SetYErrors
 {
 	if (yErr.GetElementCount() != GetElementCount())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (itsIsListeningFlag)
@@ -447,7 +447,7 @@ J2DPlotData::SetYErrors
 		}
 
 	BroadcastCurveChanged();
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -455,7 +455,7 @@ J2DPlotData::SetYErrors
 
  ********************************************************************************/
 
-JBoolean
+bool
 J2DPlotData::SetYErrors
 	(
 	const JArray<JFloat>& yPErr,
@@ -465,7 +465,7 @@ J2DPlotData::SetYErrors
 	if ((yPErr.GetElementCount() != GetElementCount()) ||
 		(yMErr.GetElementCount() != GetElementCount()))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (itsIsListeningFlag)
@@ -495,7 +495,7 @@ J2DPlotData::SetYErrors
 		}
 
 	BroadcastCurveChanged();
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -568,35 +568,35 @@ J2DPlotData::ValidateCurve()
 {
 	if (itsXData == nullptr || itsYData == nullptr)
 		{
-		itsIsValidFlag = kJFalse;
+		itsIsValidFlag = false;
 		SetElementCount(0);
 		return;
 		}
 
 	const JSize xCount = itsXData->GetElementCount();
 	const JSize yCount = itsYData->GetElementCount();
-	itsIsValidFlag = JI2B(xCount == yCount);
+	itsIsValidFlag = xCount == yCount;
 
 	if (itsXPErrorData != nullptr &&
 		itsXPErrorData->GetElementCount() != xCount)
 		{
-		itsIsValidFlag = kJFalse;
+		itsIsValidFlag = false;
 		}
 	if (itsXMErrorData != nullptr &&
 		itsXMErrorData->GetElementCount() != xCount)
 		{
-		itsIsValidFlag = kJFalse;
+		itsIsValidFlag = false;
 		}
 
 	if (itsYPErrorData != nullptr &&
 		itsYPErrorData->GetElementCount() != xCount)
 		{
-		itsIsValidFlag = kJFalse;
+		itsIsValidFlag = false;
 		}
 	if (itsYMErrorData != nullptr &&
 		itsYMErrorData->GetElementCount() != xCount)
 		{
-		itsIsValidFlag = kJFalse;
+		itsIsValidFlag = false;
 		}
 
 	SetElementCount(itsIsValidFlag ? xCount : 0);

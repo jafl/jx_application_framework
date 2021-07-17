@@ -153,7 +153,7 @@ JXProgressIndicator::Draw
 		fillRect.right  = w;
 		}
 
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.SetPenColor(itsForeColor);
 	p.JPainter::Rect(fillRect);
 }

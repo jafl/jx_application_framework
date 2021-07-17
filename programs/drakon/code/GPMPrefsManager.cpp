@@ -21,10 +21,10 @@ const JFileVersion kCurrentPrefsFileVersion = 0;
 
 GPMPrefsManager::GPMPrefsManager
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue)
+	JXPrefsManager(kCurrentPrefsFileVersion, true)
 {
 	*isNew = JPrefsManager::UpgradeData();
 
@@ -64,7 +64,7 @@ GPMPrefsManager::SaveAllBeforeDestruct()
 void
 GPMPrefsManager::UpgradeData
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JFileVersion	currentVersion
 	)
 {
@@ -84,7 +84,7 @@ GPMPrefsManager::GetPrevVersionStr()
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(kGPMProgramVersionID, &data);
+	const bool ok = GetData(kGPMProgramVersionID, &data);
 	assert( ok );
 	return JString(data);
 }

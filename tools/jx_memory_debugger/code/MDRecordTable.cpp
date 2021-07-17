@@ -227,9 +227,9 @@ MDRecordTable::DrawRowBackground
 	if (cell.y % 2 == 1)
 		{
 		p.SetPenColor(color);
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Rect(rect);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		}
 }
 
@@ -251,10 +251,10 @@ MDRecordTable::DrawRecordState
 		JRect r(rect.ycenter()-3, rect.xcenter()-3,
 				rect.ycenter()+4, rect.xcenter()+4);
 		p.SetPenColor(JColorManager::GetRedColor());
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Ellipse(r);
 		p.SetPenColor(JColorManager::GetBlackColor());
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		p.Ellipse(r);
 		}
 }
@@ -331,7 +331,7 @@ MDRecordTable::HandleKeyPress
 {
 	JPoint topSelCell;
 	JTableSelection& s          = GetTableSelection();
-	const JBoolean hadSelection = s.GetFirstSelectedCell(&topSelCell);
+	const bool hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
 	if (c == ' ' || c == kJEscapeKey)
 		{
@@ -418,14 +418,14 @@ MDRecordTable::OpenSelectedFiles()
 
  ******************************************************************************/
 
-JBoolean
+bool
 MDRecordTable::IsEditable
 	(
 	const JPoint& cell
 	)
 	const
 {
-	return JI2B(cell.x == MDRecordList::kRecordData);
+	return cell.x == MDRecordList::kRecordData;
 }
 
 /******************************************************************************
@@ -459,13 +459,13 @@ MDRecordTable::CreateXInputField
 
  ******************************************************************************/
 
-JBoolean
+bool
 MDRecordTable::ExtractInputData
 	(
 	const JPoint& cell
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -483,7 +483,7 @@ MDRecordTable::PrepareDeleteXInputField()
 
  ******************************************************************************/
 
-JBoolean
+bool
 MDRecordTable::GetSelectedRecord
 	(
 	const MDRecord** entry
@@ -494,12 +494,12 @@ MDRecordTable::GetSelectedRecord
 	if (GetTableSelection().GetFirstSelectedCell(&cell))
 		{
 		*entry = itsRecordList->GetRecord(cell.y);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*entry = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 

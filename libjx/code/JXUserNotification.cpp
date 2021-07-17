@@ -113,7 +113,7 @@ JXUserNotification::ReportError
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXUserNotification::AskUserYes
 	(
 	const JString& message
@@ -138,7 +138,7 @@ JXUserNotification::AskUserYes
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXUserNotification::AskUserNo
 	(
 	const JString& message
@@ -187,7 +187,7 @@ JXUserNotification::OKToClose
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXUserNotification::AcceptLicense()
 {
 	assert( itsCurrentDialog == nullptr );

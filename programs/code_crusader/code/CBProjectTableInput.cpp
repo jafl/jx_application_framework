@@ -34,7 +34,7 @@ CBProjectTableInput::CBProjectTableInput
 	itsProjectTable(table)
 {
 	ShouldAllowInvalidFile();
-	ShouldRequireWritable(kJFalse);
+	ShouldRequireWritable(false);
 }
 
 /******************************************************************************

@@ -83,11 +83,11 @@ CBCommandManager::~CBCommandManager()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::GetMakeDependCmdStr
 	(
 	CBProjectDocument*	projDoc,
-	const JBoolean		reportError,
+	const bool		reportError,
 	JString*			cmdStr
 	)
 	const
@@ -101,11 +101,11 @@ CBCommandManager::GetMakeDependCmdStr
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::Substitute
 	(
 	CBProjectDocument*	projDoc,
-	const JBoolean		reportError,
+	const bool		reportError,
 	JString*			cmdStr
 	)
 	const
@@ -120,7 +120,7 @@ CBCommandManager::Substitute
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::MakeDepend
 	(
 	CBProjectDocument*		projDoc,
@@ -145,14 +145,14 @@ CBCommandManager::MakeDepend
 			{
 			*resultCmd = cmd;
 			}
-		return kJTrue;
+		return true;
 		}
 
 	if (resultCmd != nullptr)
 		{
 		*resultCmd = nullptr;
 		}
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -184,7 +184,7 @@ CBCommandManager::Exec
 	CBTextDocument*		textDoc
 	)
 {
-	JBoolean onDisk;
+	bool onDisk;
 	JString fullName = textDoc->GetFullName(&onDisk);
 	assert( onDisk == JIsAbsolutePath(fullName) );
 
@@ -251,7 +251,7 @@ CBCommandManager::Exec
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::Prepare
 	(
 	const JString&				cmdName,
@@ -275,7 +275,7 @@ CBCommandManager::Prepare
 			assert( *returnInfo != nullptr );
 			**returnInfo = info.Copy();
 			}
-		return JI2B(*cmd != nullptr);
+		return *cmd != nullptr;
 		}
 	else if (this != CBGetCommandManager())
 		{
@@ -290,13 +290,13 @@ CBCommandManager::Prepare
 			};
 		const JString msg = JGetString("UnknownCmd::CBCommandManager", map, sizeof(map));
 		JGetUserNotification()->ReportError(msg);
-		return kJFalse;
+		return false;
 		}
 }
 
 // static private
 
-JBoolean
+bool
 CBCommandManager::Prepare
 	(
 	const CmdInfo&				info,
@@ -307,11 +307,10 @@ CBCommandManager::Prepare
 	CBFunctionStack*			fnStack
 	)
 {
-	const JBoolean hasLines = !lineIndexList.IsEmpty();
+	const bool hasLines = !lineIndexList.IsEmpty();
 	assert( !hasLines || lineIndexList.GetElementCount() == fullNameList.GetElementCount() );
 
-	const JBoolean usesFiles = JI2B(
-		info.cmd->Contains("$full_name")        ||
+	const bool usesFiles = info.cmd->Contains("$full_name")        ||
 		info.cmd->Contains("$relative_name")    ||
 		info.cmd->Contains("$file_name")        ||
 		info.cmd->Contains("$file_name_root")   ||
@@ -319,18 +318,18 @@ CBCommandManager::Prepare
 		info.cmd->Contains("$full_path")        ||
 		info.cmd->Contains("$relative_path")    ||
 		info.cmd->Contains("$line")             ||
-		info.path->GetFirstCharacter() == '@');
+		info.path->GetFirstCharacter() == '@';
 
 	if (usesFiles && fullNameList.IsEmpty())
 		{
 		JGetUserNotification()->ReportError(JGetString("RequiresFile::CBCommandManager"));
-		return kJFalse;
+		return false;
 		}
 
 	CBCmdQueue cmdQueue(JPtrArrayT::kDeleteAll);
 	if (!Parse(*info.cmd, &cmdQueue, fnStack))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (usesFiles && info.oneAtATime)
@@ -350,10 +349,10 @@ CBCommandManager::Prepare
 				subLineIndexList.AppendElement(lineIndexList.GetElement(i));
 				}
 
-			if (BuildCmdPath(&cmdPath, projDoc, *fullNameList.GetElement(i), kJTrue) &&
+			if (BuildCmdPath(&cmdPath, projDoc, *fullNameList.GetElement(i), true) &&
 				ProcessCmdQueue(cmdPath, cmdQueue, info, projDoc,
 								subFullNameList, subLineIndexList,
-								kJTrue, cmd, fnStack))
+								true, cmd, fnStack))
 				{
 				(**cmd).MarkEndOfSequence();
 				}
@@ -405,10 +404,10 @@ CBCommandManager::Prepare
 					}
 				}
 
-			if (BuildCmdPath(&cmdPath, projDoc, *samePathNameList.GetFirstElement(), kJTrue) &&
+			if (BuildCmdPath(&cmdPath, projDoc, *samePathNameList.GetFirstElement(), true) &&
 				ProcessCmdQueue(cmdPath, cmdQueue, info, projDoc,
 								samePathNameList, samePathLineList,
-								kJTrue, cmd, fnStack))
+								true, cmd, fnStack))
 				{
 				(**cmd).MarkEndOfSequence();
 				}
@@ -423,15 +422,15 @@ CBCommandManager::Prepare
 	else
 		{
 		JString cmdPath = *info.path;
-		if (BuildCmdPath(&cmdPath, projDoc, JString::empty, kJTrue))
+		if (BuildCmdPath(&cmdPath, projDoc, JString::empty, true))
 			{
 			ProcessCmdQueue(cmdPath, cmdQueue, info, projDoc,
 							fullNameList, lineIndexList,
-							kJTrue, cmd, fnStack);
+							true, cmd, fnStack);
 			}
 		}
 
-	return JI2B(*cmd != nullptr);
+	return *cmd != nullptr;
 }
 
 /******************************************************************************
@@ -441,7 +440,7 @@ CBCommandManager::Prepare
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::Parse
 	(
 	const JString&		origCmd,
@@ -451,7 +450,7 @@ CBCommandManager::Parse
 {
 	if (origCmd.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
@@ -459,7 +458,7 @@ CBCommandManager::Parse
 
 	if (!argList.IsEmpty() && *argList.GetLastElement() != ";")
 		{
-		argList.Append(JString(";", kJFalse));	// catch all commands inside loop
+		argList.Append(JString(";", JString::kNoCopy));	// catch all commands inside loop
 		}
 
 	JPtrArray<JString> cmdArgs(JPtrArrayT::kDeleteAll);
@@ -485,12 +484,12 @@ CBCommandManager::Parse
 			if (fnStack == nullptr)
 				{
 				JGetUserNotification()->ReportError(JGetString("FnsNotAllowed::CBCommandManager"));
-				return kJFalse;
+				return false;
 				}
 			else if (*argList.GetElement(2) != ";")
 				{
 				JGetUserNotification()->ReportError(JGetString("ArgsNotAllowed::CBCommandManager"));
-				return kJFalse;
+				return false;
 				}
 
 			JPtrArray<JString>* a = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
@@ -507,7 +506,7 @@ CBCommandManager::Parse
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -515,7 +514,7 @@ CBCommandManager::Parse
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::ProcessCmdQueue
 	(
 	const JString&				cmdPath,
@@ -524,7 +523,7 @@ CBCommandManager::ProcessCmdQueue
 	CBProjectDocument*			projDoc,
 	const JPtrArray<JString>&	fullNameList,
 	const JArray<JIndex>&		lineIndexList,
-	const JBoolean				reportError,
+	const bool				reportError,
 	CBCommand**					cmd,
 	CBFunctionStack*			fnStack
 	)
@@ -533,7 +532,7 @@ CBCommandManager::ProcessCmdQueue
 
 	const JSize nameCount = fullNameList.GetElementCount();
 
-	const JBoolean hasLines = !lineIndexList.IsEmpty();
+	const bool hasLines = !lineIndexList.IsEmpty();
 	assert( !hasLines || lineIndexList.GetElementCount() == fullNameList.GetElementCount() );
 
 	const JSize cmdCount = cmdQueue.GetElementCount();
@@ -556,7 +555,7 @@ CBCommandManager::ProcessCmdQueue
 					{
 					jdelete *cmd;
 					*cmd = nullptr;
-					return kJFalse;
+					return false;
 					}
 
 				args.Append(arg);
@@ -575,7 +574,7 @@ CBCommandManager::ProcessCmdQueue
 						{
 						jdelete *cmd;
 						*cmd = nullptr;
-						return kJFalse;
+						return false;
 						}
 
 					args.Append(arg);
@@ -589,11 +588,11 @@ CBCommandManager::ProcessCmdQueue
 
 		if (!Add(cmdPath, args, info, projDoc, fullNameList, lineIndexList, cmd, fnStack))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -601,7 +600,7 @@ CBCommandManager::ProcessCmdQueue
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::Add
 	(
 	const JString&				path,
@@ -622,29 +621,29 @@ CBCommandManager::Add
 
 	if (path != (**cmd).GetPath())
 		{
-		CBCommand* subCmd = jnew CBCommand(path, info.isVCS, kJFalse, projDoc);
+		CBCommand* subCmd = jnew CBCommand(path, info.isVCS, false, projDoc);
 		if (subCmd->Add(cmdArgs, fullNameList, lineIndexList, fnStack))
 			{
 			(**cmd).Add(subCmd, info);
-			return kJTrue;
+			return true;
 			}
 		else
 			{
 			jdelete subCmd;
 			jdelete *cmd;
 			*cmd = nullptr;
-			return kJFalse;
+			return false;
 			}
 		}
 	else if ((**cmd).Add(cmdArgs, fullNameList, lineIndexList, fnStack))
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		jdelete *cmd;
 		*cmd = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -653,16 +652,16 @@ CBCommandManager::Add
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::BuildCmdPath
 	(
 	JString*			cmdPath,
 	CBProjectDocument*	projDoc,
 	const JString&		fullName,
-	const JBoolean		reportError
+	const bool		reportError
 	)
 {
-	const JBoolean onDisk = JI2B( !fullName.IsEmpty() && JIsAbsolutePath(fullName) );
+	const bool onDisk = !fullName.IsEmpty() && JIsAbsolutePath(fullName);
 
 	if (!cmdPath->IsEmpty() && cmdPath->GetFirstCharacter() == '@')
 		{
@@ -673,7 +672,7 @@ CBCommandManager::BuildCmdPath
 				JGetUserNotification()->ReportError(
 					JGetString(onDisk ? "RequiresFile::CBCommandManager" : "MustSaveText::CBCommandManager"));
 				}
-			return kJFalse;
+			return false;
 			}
 
 		JString p, n;
@@ -693,7 +692,7 @@ CBCommandManager::BuildCmdPath
 			{
 			JGetUserNotification()->ReportError(JGetString("RequiresProject::CBCommandManager"));
 			}
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -716,11 +715,11 @@ CBCommandManager::BuildCmdPath
 				const JString msg = JGetString("InvalidPath::CBCommandManager", map, sizeof(map));
 				JGetUserNotification()->ReportError(msg);
 				}
-			return kJFalse;
+			return false;
 			}
 
 		*cmdPath = fullPath;
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -729,17 +728,17 @@ CBCommandManager::BuildCmdPath
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::Substitute
 	(
 	JString*			arg,
 	CBProjectDocument*	projDoc,
 	const JString&		fullName,
 	const JIndex		lineIndex,
-	const JBoolean		reportError
+	const bool		reportError
 	)
 {
-	const JBoolean onDisk = JI2B( !fullName.IsEmpty() && JIsAbsolutePath(fullName) );
+	const bool onDisk = !fullName.IsEmpty() && JIsAbsolutePath(fullName);
 
 	JString projectPath, projectName, programName;
 	if (projDoc != nullptr)
@@ -758,7 +757,7 @@ CBCommandManager::Substitute
 			{
 			JGetUserNotification()->ReportError(JGetString("RequiresProject::CBCommandManager"));
 			}
-		return kJFalse;
+		return false;
 		}
 
 	if (!onDisk && UsesFile(*arg))
@@ -770,7 +769,7 @@ CBCommandManager::Substitute
 					"RequiresFile::CBCommandManager" :
 					"MustSaveText::CBCommandManager"));
 			}
-		return kJFalse;
+		return false;
 		}
 
 	JString fullPath, fileName, relativePath, relativeName,
@@ -814,7 +813,7 @@ CBCommandManager::Substitute
 		};
 
 	JGetStringManager()->Replace(arg, map, sizeof(map));
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -822,21 +821,20 @@ CBCommandManager::Substitute
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::UsesFile
 	(
 	const JString& arg
 	)
 {
-	return JI2B(
-		arg.Contains("$full_name")        ||
+	return arg.Contains("$full_name")        ||
 		arg.Contains("$relative_name")    ||
 		arg.Contains("$file_name")        ||
 		arg.Contains("$file_name_root")   ||
 		arg.Contains("$file_name_suffix") ||
 		arg.Contains("$full_path")        ||
 		arg.Contains("$relative_path")    ||
-		arg.Contains("$line"));
+		arg.Contains("$line");
 }
 
 /******************************************************************************
@@ -844,7 +842,7 @@ CBCommandManager::UsesFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::FindCommandName
 	(
 	const JString&	name,
@@ -858,11 +856,11 @@ CBCommandManager::FindCommandName
 		*info = itsCmdList->GetElement(i);
 		if (*(info->name) == name)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -877,17 +875,17 @@ CBCommandManager::AppendCommand
 	const JString&	cmd,
 	const JString&	cmdName,
 
-	const JBoolean	isMake,
-	const JBoolean	isVCS,
-	const JBoolean	saveAll,
-	const JBoolean	oneAtATime,
-	const JBoolean	useWindow,
-	const JBoolean	raise,
-	const JBoolean	beep,
+	const bool	isMake,
+	const bool	isVCS,
+	const bool	saveAll,
+	const bool	oneAtATime,
+	const bool	useWindow,
+	const bool	raise,
+	const bool	beep,
 
 	const JString&	menuText,
 	const JString&	menuShortcut,
-	const JBoolean	separator
+	const bool	separator
 	)
 {
 	JString* p = jnew JString(path);
@@ -924,7 +922,7 @@ void
 CBCommandManager::AppendMenuItems
 	(
 	JXTextMenu*		menu,
-	const JBoolean	hasProject
+	const bool	hasProject
 	)
 	const
 {
@@ -983,7 +981,7 @@ CBCommandManager::ReadSetup
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::ReadCommands
 	(
 	std::istream&	input,
@@ -996,7 +994,7 @@ CBCommandManager::ReadCommands
 	input >> vers;
 	if (input.fail() || vers > kCurrentSetupVersion)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	input >> *makeDependCmd;
@@ -1024,7 +1022,7 @@ CBCommandManager::ReadCommands
 		{
 		while (1)
 			{
-			JBoolean keepGoing;
+			bool keepGoing;
 			input >> JBoolFromString(keepGoing);
 			if (input.fail() || !keepGoing)
 				{
@@ -1041,7 +1039,7 @@ CBCommandManager::ReadCommands
 		{
 		*returnVers = vers;
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1068,8 +1066,8 @@ CBCommandManager::ReadCmdInfo
 	assert( cmdName != nullptr );
 	input >> *cmdName;
 
-	JBoolean isMake, saveAll, oneAtATime, useWindow, raise, beep;
-	JBoolean isVCS = kJFalse;
+	bool isMake, saveAll, oneAtATime, useWindow, raise, beep;
+	bool isVCS = false;
 	input >> JBoolFromString(isMake);
 	if (vers >= 3)
 		{
@@ -1077,7 +1075,7 @@ CBCommandManager::ReadCmdInfo
 		}
 	if (vers == 0)
 		{
-		JBoolean makeDepend;
+		bool makeDepend;
 		input >> JBoolFromString(makeDepend);
 		}
 	input >> JBoolFromString(saveAll)
@@ -1101,7 +1099,7 @@ CBCommandManager::ReadCmdInfo
 		input >> *menuID;
 		}
 
-	JBoolean separator;
+	bool separator;
 	input >> JBoolFromString(separator);
 
 	return CmdInfo(path, cmd, cmdName,
@@ -1128,11 +1126,11 @@ CBCommandManager::WriteSetup
 	const JSize count = itsCmdList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		output << JBoolToString(kJTrue);
+		output << JBoolToString(true);
 		WriteCmdInfo(output, itsCmdList->GetElement(i));
 		}
 
-	output << JBoolToString(kJFalse) << '\n';
+	output << JBoolToString(false) << '\n';
 }
 
 /******************************************************************************
@@ -1200,7 +1198,7 @@ CBCommandManager::WritePrefs
 
  ******************************************************************************/
 
-static const JString svnClient("nps_svn_client", kJFalse);
+static const JString svnClient("nps_svn_client", JString::kNoCopy);
 
 static const JRegex svnChangeFullPathPattern =
 	"\\bsvn (resolved|revert|commit|add|remove) \\$full_name\\b";
@@ -1226,10 +1224,10 @@ CBCommandManager::UpgradeCommand
 			{
 			*info->cmd                 = "nps_svn_client --info-log $file_name";
 			*info->path                = "@";
-			info->oneAtATime           = kJTrue;
-			info->useWindow            = kJFalse;
-			info->raiseWindowWhenStart = kJFalse;
-			info->beepWhenFinished     = kJFalse;
+			info->oneAtATime           = true;
+			info->useWindow            = false;
+			info->raiseWindowWhenStart = false;
+			info->beepWhenFinished     = false;
 			}
 		else if (svnChangeFullPathPattern.Match(*info->cmd))
 			{
@@ -1243,17 +1241,17 @@ CBCommandManager::UpgradeCommand
 				 (*info->path == "." || *info->path == "./"))
 			{
 			*info->cmd                 = "nps_svn_client --update .";
-			info->useWindow            = kJFalse;
-			info->raiseWindowWhenStart = kJFalse;
-			info->beepWhenFinished     = kJFalse;
+			info->useWindow            = false;
+			info->raiseWindowWhenStart = false;
+			info->beepWhenFinished     = false;
 			}
 		else if (*info->cmd == "svn status" &&
 				 (*info->path == "." || *(info->path) == "./"))
 			{
 			*info->cmd                 = "nps_svn_client --status .";
-			info->useWindow            = kJFalse;
-			info->raiseWindowWhenStart = kJFalse;
-			info->beepWhenFinished     = kJFalse;
+			info->useWindow            = false;
+			info->raiseWindowWhenStart = false;
+			info->beepWhenFinished     = false;
 			}
 		}
 }
@@ -1302,16 +1300,16 @@ struct DefCmd
 	const JUtf8Byte*	path;
 	const JUtf8Byte*	cmd;
 	const JUtf8Byte*	name;
-	JBoolean			isMake;
-	JBoolean			isVCS;
-	JBoolean			saveAll;
-	JBoolean			oneAtATime;
-	JBoolean			useWindow;
-	JBoolean			raiseWindowWhenStart;
-	JBoolean			beepWhenFinished;
+	bool			isMake;
+	bool			isVCS;
+	bool			saveAll;
+	bool			oneAtATime;
+	bool			useWindow;
+	bool			raiseWindowWhenStart;
+	bool			beepWhenFinished;
 	const JUtf8Byte*	menuTextID;
 	const JUtf8Byte*	menuShortcutID;
-	JBoolean			separator;
+	bool			separator;
 };
 
 static const DefCmd kDefCmd[] =
@@ -1320,224 +1318,224 @@ static const DefCmd kDefCmd[] =
 
 	{ "./", J_MAKE_BINARY_NAME " -kw all",
 		"make_default",
-		kJTrue, kJFalse, kJTrue, kJFalse, kJTrue, kJFalse, kJTrue,
+		true, false, true, false, true, false, true,
 		"DefCmdBuildText::CBCommandManager", "DefCmdBuildShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", J_MAKE_BINARY_NAME " $relative_path$file_name_root.o",
 		"",
-		kJTrue, kJFalse, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		true, false, true, false, true, true, false,
 		"DefCmdCompileText::CBCommandManager", "DefCmdCompileShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", J_MAKE_BINARY_NAME " tidy",
 		"",
-		kJTrue, kJFalse, kJTrue, kJFalse, kJTrue, kJFalse, kJFalse,
+		true, false, true, false, true, false, false,
 		"DefCmdRemoveObjFilesText::CBCommandManager", "DefCmdRemoveObjFilesShortcut::CBCommandManager",
-		kJTrue },
+		true },
 
 	// run
 
 	{ "./", "$program",
 		"",
-		kJFalse, kJFalse, kJFalse, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, false, false, false, true, true, false,
 		"DefCmdRunText::CBCommandManager", "DefCmdRunShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "java $program",
 		"",
-		kJFalse, kJFalse, kJFalse, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, false, false, false, true, true, false,
 		"DefCmdRunJavaText::CBCommandManager", "DefCmdRunJavaShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "medic $program",
 		"",
-		kJFalse, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, false, false, false, false, false, false,
 		"DefCmdDebugText::CBCommandManager", "DefCmdDebugShorcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "medic -b +$line $file_name",
 		"",
-		kJFalse, kJFalse, kJFalse, kJTrue, kJFalse, kJFalse, kJFalse,
+		false, false, false, true, false, false, false,
 		"DefCmdSetBreakpointText::CBCommandManager", "DefCmdSetBreakpointShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "medic -f +$line $file_name",
 		"",
-		kJFalse, kJFalse, kJFalse, kJTrue, kJFalse, kJFalse, kJFalse,
+		false, false, false, true, false, false, false,
 		"DefCmdOpenDebuggerText::CBCommandManager", "DefCmdOpenDebuggerShortcut::CBCommandManager",
-		kJTrue },
+		true },
 
 	// make & run
 
 	{ "./", "&make_default ; $program",
 		"",
-		kJFalse, kJFalse, kJFalse, kJFalse, kJTrue, kJFalse, kJFalse,
+		false, false, false, false, true, false, false,
 		"DefCmdBuildRunText::CBCommandManager", "DefCmdBuildRunShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "&make_default ; medic $program",
 		"",
-		kJFalse, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, false, false, false, false, false, false,
 		"DefCmdBuildDebugText::CBCommandManager", "DefCmdBuildDebugShortcut::CBCommandManager",
-		kJTrue },
+		true },
 
 	// git
 
 	{ "@", "git log -p $file_name",
 		"",
-		kJFalse, kJTrue, kJFalse, kJTrue, kJTrue, kJTrue, kJFalse,
+		false, true, false, true, true, true, false,
 		"DefCmdGitInfoText::CBCommandManager", "DefCmdVCSInfoShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "git checkout -q $file_name; jcc --reload-open",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, true, false, false, false, false,
 		"DefCmdGitRevertText::CBCommandManager", "DefCmdVCSRevertShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "git commit $file_name",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdGitCheckInText::CBCommandManager", "DefCmdVCSCheckInShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "git add $file_name",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, true, false, false, false, false,
 		"DefCmdGitAddText::CBCommandManager", "DefCmdVCSAddShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "git rm -f $file_name",
 		"",
-		kJFalse, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, false, false, false, false, false,
 		"DefCmdGitRemoveText::CBCommandManager", "DefCmdVCSRemoveShortcut::CBCommandManager",
-		kJTrue },
+		true },
 
 	{ "./", "git pull; jcc --reload-open",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdGitUpdateAllText::CBCommandManager", "DefCmdVCSUpdateAllShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "git status",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdGitDiffAllText::CBCommandManager", "DefCmdVCSDiffAllShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "git commit",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdGitCommitAllText::CBCommandManager", "DefCmdVCSCommitAllShortcut::CBCommandManager",
-		kJTrue },
+		true },
 
 	// svn
 
 	{ "@", "svn info $file_name; svn log $file_name",
 		"",
-		kJFalse, kJTrue, kJFalse, kJTrue, kJTrue, kJTrue, kJFalse,
+		false, true, false, true, true, true, false,
 		"DefCmdSVNInfoText::CBCommandManager", "DefCmdVCSInfoShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "svn resolved $file_name",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, true, false, false, false, false,
 		"DefCmdSVNResolveText::CBCommandManager", "DefCmdVCSCheckOutShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "svn revert $file_name; jcc --reload-open",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, true, false, false, false, false,
 		"DefCmdSVNRevertText::CBCommandManager", "DefCmdVCSRevertShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "svn commit $file_name",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdSVNCheckInText::CBCommandManager", "DefCmdVCSCheckInShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "svn add $file_name",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, true, false, false, false, false,
 		"DefCmdSVNAddText::CBCommandManager", "DefCmdVCSAddShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "svn remove $file_name",
 		"",
-		kJFalse, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, false, false, false, false, false,
 		"DefCmdSVNRemoveText::CBCommandManager", "DefCmdVCSRemoveShortcut::CBCommandManager",
-		kJTrue },
+		true },
 
 	{ "./", "svn update; jcc --reload-open",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdSVNUpdateAllText::CBCommandManager", "DefCmdVCSUpdateAllShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "svn status",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdSVNStatusText::CBCommandManager", "DefCmdVCSStatusShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "svn diff --diff-cmd diff -x --brief",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdSVNDiffAllText::CBCommandManager", "DefCmdVCSDiffAllShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "svn commit",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdSVNCommitAllText::CBCommandManager", "DefCmdVCSCommitAllShortcut::CBCommandManager",
-		kJTrue },
+		true },
 /*
 	{ "./", "snv commit $project_name.jcc",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdSVNCheckInProjectText::CBCommandManager", "DefCmdVCSCheckInProjectShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "svn add $project_name.jcc",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, true, false, false, false, false,
 		"DefCmdSVNAddProjectText::CBCommandManager", "DefCmdVCSAddProjectShortcut::CBCommandManager",
-		kJTrue },
+		true },
 */
 	// cvs
 /*
 	{ "@", "cvs edit $file_name",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, true, false, false, false, false,
 		"DefCmdCVSCheckOutText::CBCommandManager", "DefCmdVCSCheckOutShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "cvs unedit $file_name; jcc --reload-open",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, true, false, false, false, false,
 		"DefCmdCVSRevertText::CBCommandManager", "DefCmdVCSRevertShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "cvs commit $file_name",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdCVSCheckInText::CBCommandManager", "DefCmdVCSCheckInShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "cvs add $file_name",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, true, false, false, false, false,
 		"DefCmdCVSAddText::CBCommandManager", "DefCmdVCSAddShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "@", "cvs remove -f $file_name",
 		"",
-		kJFalse, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, false, false, false, false, false,
 		"DefCmdCVSRemoveText::CBCommandManager", "DefCmdVCSRemoveShortcut::CBCommandManager",
-		kJTrue },
+		true },
 
 	{ "./", "cvs -q update -P -d; jcc --reload-open",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdCVSUpdateAllText::CBCommandManager", "DefCmdVCSUpdateAllShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "cvs -q diff --brief",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdCVSDiffAllText::CBCommandManager", "DefCmdVCSDiffAllShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "cvs -q commit",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdCVSCommitAllText::CBCommandManager", "DefCmdVCSCommitAllShortcut::CBCommandManager",
-		kJTrue },
+		true },
 *//*
 	{ "./", "cvs commit $project_name.jcc",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
+		false, true, true, false, true, true, false,
 		"DefCmdCVSCheckInProjectText::CBCommandManager", "DefCmdVCSCheckInProjectShortcut::CBCommandManager",
-		kJFalse },
+		false },
 	{ "./", "cvs add $project_name.jcc",
 		"",
-		kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse,
+		false, true, true, false, false, false, false,
 		"DefCmdCVSAddProjectText::CBCommandManager", "DefCmdVCSAddProjectShortcut::CBCommandManager",
-		kJTrue },
+		true },
 */
 };
 
@@ -1548,9 +1546,9 @@ CBCommandManager::InitCommandList()
 {
 	for (JUnsignedOffset i=0; i<kDefCmdCount; i++)
 		{
-		AppendCommand(JString(kDefCmd[i].path, kJFalse),
-					  JString(kDefCmd[i].cmd, kJFalse),
-					  JString(kDefCmd[i].name, kJFalse),
+		AppendCommand(JString(kDefCmd[i].path, JString::kNoCopy),
+					  JString(kDefCmd[i].cmd, JString::kNoCopy),
+					  JString(kDefCmd[i].name, JString::kNoCopy),
 					  kDefCmd[i].isMake, kDefCmd[i].isVCS, kDefCmd[i].saveAll,
 					  kDefCmd[i].oneAtATime, kDefCmd[i].useWindow,
 					  kDefCmd[i].raiseWindowWhenStart,
@@ -1605,14 +1603,14 @@ CBCommandManager::GetUniqueMenuID()
 			id.Prepend(JUtf8Character(r.UniformLong(32, 126)));
 			}
 
-		JBoolean found = kJFalse;
+		bool found = false;
 
 		const JSize count = itsCmdList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
 			if (id == *((itsCmdList->GetElement(i)).menuID))
 				{
-				found = kJTrue;
+				found = true;
 				}
 			}
 
@@ -1636,7 +1634,7 @@ CBCommandManager::ConvertCompileDialog
 	std::istream&		input,
 	const JFileVersion	vers,
 	CBBuildManager*		buildMgr,
-	const JBoolean		readWindGeom
+	const bool		readWindGeom
 	)
 {
 	if (vers < 3 || 61 < vers)
@@ -1669,7 +1667,7 @@ CBCommandManager::ConvertCompileDialog
 		// make depend history menu
 		JXHistoryMenuBase::ReadSetup(input, &itemList, &nmShortcutList);
 
-		JBoolean makeDepend;
+		bool makeDepend;
 		input >> JBoolFromString(makeDepend);
 		}
 
@@ -1687,37 +1685,37 @@ CBCommandManager::ConvertCompileDialog
 	JPtrArray<JString> compileList(JPtrArrayT::kDeleteAll);
 	JXHistoryMenuBase::ReadSetup(input, &compileList, &nmShortcutList);
 
-	JBoolean saveAll;
+	bool saveAll;
 	input >> JBoolFromString(saveAll);
 
 	if (vers >= 29)
 		{
-		JBoolean doubleSpace;
+		bool doubleSpace;
 		input >> JBoolFromString(doubleSpace);
 		}
 
 	buildMgr->ConvertCompileDialog(input, vers);
 
-	UpdateFileMarkers(JI2B(vers < 26), &itsMakeDependCmd);
+	UpdateFileMarkers(vers < 26, &itsMakeDependCmd);
 
 	// save commands in menu
 
 	JSize count = makeList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		UpdateFileMarkers(JI2B(vers < 26), makeList.GetElement(i));
+		UpdateFileMarkers(vers < 26, makeList.GetElement(i));
 		AppendCommand(path, *makeList.GetElement(i), JString::empty,
-					  kJTrue, kJFalse, kJTrue, kJFalse, kJTrue, kJFalse, kJTrue,
-					  JString::empty, JString::empty, JI2B(i == count));
+					  true, false, true, false, true, false, true,
+					  JString::empty, JString::empty, i == count);
 		}
 
 	count = compileList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		UpdateFileMarkers(JI2B(vers < 26), compileList.GetElement(i));
+		UpdateFileMarkers(vers < 26, compileList.GetElement(i));
 		AppendCommand(path, *compileList.GetElement(i), JString::empty,
-					  kJTrue, kJFalse, kJTrue, kJTrue, kJTrue, kJTrue, kJFalse,
-					  JString::empty, JString::empty, JI2B(i == count));
+					  true, false, true, true, true, true, false,
+					  JString::empty, JString::empty, i == count);
 		}
 }
 
@@ -1731,7 +1729,7 @@ CBCommandManager::ConvertRunDialog
 	(
 	std::istream&			input,
 	const JFileVersion	vers,
-	const JBoolean		readWindGeom
+	const bool		readWindGeom
 	)
 {
 	if (vers < 5 || 61 < vers)
@@ -1771,12 +1769,12 @@ CBCommandManager::ConvertRunDialog
 	JPtrArray<JString> debugList(JPtrArrayT::kDeleteAll);
 	JXHistoryMenuBase::ReadSetup(input, &debugList, &nmShortcutList);
 
-	JBoolean makeBeforeRun;
+	bool makeBeforeRun;
 	input >> JBoolFromString(makeBeforeRun);
 
 	if (vers >= 39)
 		{
-		JBoolean useOutputDoc;
+		bool useOutputDoc;
 		input >> JBoolFromString(useOutputDoc);
 		}
 
@@ -1785,19 +1783,19 @@ CBCommandManager::ConvertRunDialog
 	JSize count = runList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		UpdateFileMarkers(JI2B(vers < 26), runList.GetElement(i));
+		UpdateFileMarkers(vers < 26, runList.GetElement(i));
 		AppendCommand(path, *runList.GetElement(i), JString::empty,
-					  kJFalse, kJFalse, kJFalse, kJFalse, kJTrue, kJTrue, kJFalse,
-					  JString::empty, JString::empty, JI2B(i == count));
+					  false, false, false, false, true, true, false,
+					  JString::empty, JString::empty, i == count);
 		}
 
 	count = debugList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		UpdateFileMarkers(JI2B(vers < 26), debugList.GetElement(i));
+		UpdateFileMarkers(vers < 26, debugList.GetElement(i));
 		AppendCommand(path, *debugList.GetElement(i), JString::empty,
-					  kJFalse, kJFalse, kJFalse, kJTrue, kJFalse, kJFalse, kJFalse,
-					  JString::empty, JString::empty, JI2B(i == count));
+					  false, false, false, true, false, false, false,
+					  JString::empty, JString::empty, i == count);
 		}
 }
 
@@ -1825,7 +1823,7 @@ const JSize kVarCount = strlen(kVarNameList);
 void
 CBCommandManager::UpdateFileMarkers
 	(
-	const JBoolean	convertFromAncient,
+	const bool	convertFromAncient,
 	JString*		s
 	)
 {
@@ -1947,7 +1945,7 @@ CBCommandManager::ReceiveGoingAway
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandManager::DocumentDeleted
 	(
 	JBroadcaster* sender
@@ -1956,7 +1954,7 @@ CBCommandManager::DocumentDeleted
 	if (sender == itsCompileDoc)
 		{
 		itsCompileDoc = nullptr;
-		return kJTrue;
+		return true;
 		}
 
 	const JSize count = theExecDocList.GetElementCount();
@@ -1965,11 +1963,11 @@ CBCommandManager::DocumentDeleted
 		if (sender == theExecDocList.GetElement(i))
 			{
 			theExecDocList.RemoveElement(i);
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

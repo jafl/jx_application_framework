@@ -18,7 +18,7 @@ public:
 
 	virtual ~TestDockManager();
 
-	virtual	JBoolean	CanDockAll() const;
+	virtual	bool	CanDockAll() const;
 	virtual void		DockAll();
 
 private:

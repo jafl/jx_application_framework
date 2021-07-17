@@ -31,9 +31,9 @@ public:
 
 	virtual ~JXSelectionManager();
 
-	JBoolean	GetAvailableTypes(const Atom selectionName, const Time time,
+	bool	GetAvailableTypes(const Atom selectionName, const Time time,
 								  JArray<Atom>* typeList);
-	JBoolean	GetData(const Atom selectionName, const Time time,
+	bool	GetData(const Atom selectionName, const Time time,
 						const Atom requestType, Atom* returnType,
 						unsigned char** data, JSize* dataLength,
 						DeleteMethod* delMethod);
@@ -41,11 +41,11 @@ public:
 
 	void	SendDeleteRequest(const Atom selectionName, const Time time);
 
-	JBoolean	OwnedSelection(const Atom selectionName, const Time time);
-	JBoolean	OwnsSelection(const Atom selectionName);
-	JBoolean	GetData(const Atom selectionName, const Time time,
+	bool	OwnedSelection(const Atom selectionName, const Time time);
+	bool	OwnsSelection(const Atom selectionName);
+	bool	GetData(const Atom selectionName, const Time time,
 						const JXSelectionData** data);
-	JBoolean	SetData(const Atom selectionName, JXSelectionData* data);
+	bool	SetData(const Atom selectionName, JXSelectionData* data);
 	void		ClearData(const Atom selectionName, const Time endTime);
 
 	JXDisplay*	GetDisplay();
@@ -96,34 +96,34 @@ private:
 	JPtrArray<JXSelectionData>*	itsDataList;	// current + recent
 
 	JSize		itsMaxDataChunkSize;	// max # of 4-byte blocks that we can send
-	JBoolean	itsReceivedAllocErrorFlag;
+	bool	itsReceivedAllocErrorFlag;
 	Window		itsTargetWindow;
-	JBoolean	itsTargetWindowDeletedFlag;
+	bool	itsTargetWindowDeletedFlag;
 	Atom		itsAtoms[ kAtomCount ];
 
 private:
 
-	JBoolean	RequestData(const Atom selectionName, const Time time,
+	bool	RequestData(const Atom selectionName, const Time time,
 							const Atom type, XSelectionEvent* selEvent);
 
 	void		SendData(const Window requestor, const Atom property,
 						 const Atom type, unsigned char* data,
 						 const JSize dataLength, const JSize bitsPerBlock,
 						 XEvent* returnEvent);
-	JBoolean	SendData1(const Window requestor, const Atom property,
+	bool	SendData1(const Window requestor, const Atom property,
 						  const Atom type, unsigned char* data,
 						  const JSize dataLength, const JSize bitsPerBlock);
-	JBoolean	WaitForPropertyDeleted(const Window xWindow, const Atom property);
+	bool	WaitForPropertyDeleted(const Window xWindow, const Atom property);
 	static Bool	GetNextPropDeletedEvent(Display* display, XEvent* event, char* arg);
 
-	JBoolean	ReceiveDataIncr(const Atom selectionName,
+	bool	ReceiveDataIncr(const Atom selectionName,
 								Atom* returnType, unsigned char** data,
 								JSize* dataLength, DeleteMethod* delMethod);
-	JBoolean	WaitForPropertyCreated(const Window xWindow, const Atom property,
+	bool	WaitForPropertyCreated(const Window xWindow, const Atom property,
 									   const Window sender);
 	static Bool	GetNextNewPropertyEvent(Display* display, XEvent* event, char* arg);
 
-	JBoolean	GetData(const Atom selectionName, const Time time,
+	bool	GetData(const Atom selectionName, const Time time,
 						JXSelectionData** data, JIndex* index = nullptr);
 	void		DeleteOutdatedData();
 
@@ -222,7 +222,7 @@ JXSelectionManager::GetNULLXAtom()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXSelectionManager::OwnedSelection
 	(
 	const Atom	selectionName,
@@ -233,7 +233,7 @@ JXSelectionManager::OwnedSelection
 	return GetData(selectionName, time, &data);
 }
 
-inline JBoolean
+inline bool
 JXSelectionManager::OwnsSelection
 	(
 	const Atom selectionName

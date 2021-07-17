@@ -66,7 +66,7 @@ private:
 	JCharacter*	itsBuffer;				// buffer to receive raw bytes
 	JSize		itsBufferSize;
 
-	JBoolean	itsInHandleInputFlag;	// kJTrue => stack passes through handle_input()
+	bool	itsInHandleInputFlag;	// true => stack passes through handle_input()
 
 private:
 

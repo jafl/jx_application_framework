@@ -15,7 +15,7 @@ class XDWelcomeTask : public JXUrgentTask
 {
 public:
 
-	XDWelcomeTask(const JString& msg, const JBoolean error);
+	XDWelcomeTask(const JString& msg, const bool error);
 
 	virtual ~XDWelcomeTask();
 
@@ -24,7 +24,7 @@ public:
 private:
 
 	JString		itsMessage;
-	JBoolean	itsErrorFlag;
+	bool	itsErrorFlag;
 
 private:
 

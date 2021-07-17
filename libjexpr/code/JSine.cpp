@@ -73,7 +73,7 @@ JSine::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JSine::Evaluate
 	(
 	JFloat* result
@@ -83,14 +83,14 @@ JSine::Evaluate
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = sin(argValue);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JSine::Evaluate
 	(
 	JComplex* result
@@ -100,7 +100,7 @@ JSine::Evaluate
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = sin(argValue);

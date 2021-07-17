@@ -73,9 +73,9 @@ J2DPlotWidget::J2DPlotWidget
 	itsGrayColor(gray),
 	itsSelectionColor(selection)
 {
-	itsShowLegendFlag	= kJFalse;
-	itsShowGridFlag		= kJFalse;
-	itsShowFrameFlag	= kJTrue;
+	itsShowLegendFlag	= false;
+	itsShowGridFlag		= false;
+	itsShowFrameFlag	= true;
 
 	itsCurveInfo = jnew JArray<J2DCurveInfo>;
 	assert(itsCurveInfo != nullptr);
@@ -101,27 +101,27 @@ J2DPlotWidget::J2DPlotWidget
 
 	itsLegendWidth				= 0;
 
-	itsGeometryNeedsAdjustmentFlag	= kJTrue;
-	itsAutomaticRefreshFlag			= kJTrue;
-	itsIgnoreCurveChangedFlag		= kJFalse;
+	itsGeometryNeedsAdjustmentFlag	= true;
+	itsAutomaticRefreshFlag			= true;
+	itsIgnoreCurveChangedFlag		= false;
 
 	itsXDecimalPoints			= 0;
 	itsYDecimalPoints			= 0;
 
-	itsXAxisIsLinear			= kJTrue;
-	itsYAxisIsLinear			= kJTrue;
+	itsXAxisIsLinear			= true;
+	itsYAxisIsLinear			= true;
 
-	itsIsZoomedFlag				= kJFalse;
-	itsShowXMinorTics			= kJTrue;
-	itsShowYMinorTics			= kJTrue;
-	itsUseRealXStart			= kJFalse;
-	itsUseRealYStart			= kJFalse;
+	itsIsZoomedFlag				= false;
+	itsShowXMinorTics			= true;
+	itsShowYMinorTics			= true;
+	itsUseRealXStart			= false;
+	itsUseRealYStart			= false;
 
-	itsUsingRange				= kJFalse;
-	itsForceXExp				= kJFalse;
-	itsForceYExp				= kJFalse;
+	itsUsingRange				= false;
+	itsForceXExp				= false;
+	itsForceYExp				= false;
 
-	itsIsPrintingFlag			= kJFalse;
+	itsIsPrintingFlag			= false;
 
 	// Cursors
 
@@ -131,20 +131,20 @@ J2DPlotWidget::J2DPlotWidget
 	itsYMarks = jnew JArray<JFloat>;
 	assert(itsYMarks != nullptr);
 
-	itsXCursorVisible	= kJFalse;
-	itsYCursorVisible	= kJFalse;
-	itsDualCursors		= kJFalse;
+	itsXCursorVisible	= false;
+	itsYCursorVisible	= false;
+	itsDualCursors		= false;
 	itsXCursorPos1		= 0;
 	itsXCursorPos2		= 0;
 	itsYCursorPos1		= 0;
 	itsYCursorPos2		= 0;
 	itsSelectedCursor	= kNoCursor;
-	itsXCursor1InitFlag	= kJFalse;
-	itsXCursor2InitFlag	= kJFalse;
-	itsYCursor1InitFlag	= kJFalse;
-	itsYCursor2InitFlag	= kJFalse;
+	itsXCursor1InitFlag	= false;
+	itsXCursor2InitFlag	= false;
+	itsYCursor1InitFlag	= false;
+	itsYCursor2InitFlag	= false;
 
-	ResetScale(kJTrue);
+	ResetScale(true);
 }
 
 /*******************************************************************************
@@ -185,13 +185,13 @@ J2DPlotWidget::~J2DPlotWidget()
 void
 J2DPlotWidget::ShowLegend
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	if (itsShowLegendFlag != show)
 		{
 		itsShowLegendFlag = show;
-		UpdatePlot(kJTrue);
+		UpdatePlot(true);
 		}
 }
 
@@ -203,17 +203,17 @@ J2DPlotWidget::ShowLegend
 void
 J2DPlotWidget::ShowFrame
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	if (itsShowFrameFlag != show)
 		{
 		itsShowFrameFlag = show;
-		if (show == kJFalse)
+		if (show == false)
 			{
-			itsShowGridFlag = kJFalse;
+			itsShowGridFlag = false;
 			}
-		UpdatePlot(kJTrue);
+		UpdatePlot(true);
 		}
 }
 
@@ -225,7 +225,7 @@ J2DPlotWidget::ShowFrame
 void
 J2DPlotWidget::ShowGrid
 	(
-	const JBoolean show
+	const bool show
 	)
 {
 	if (itsShowGridFlag != show)
@@ -233,9 +233,9 @@ J2DPlotWidget::ShowGrid
 		itsShowGridFlag = show;
 		if (show)
 			{
-			itsShowFrameFlag = kJTrue;
+			itsShowFrameFlag = true;
 			}
-		UpdatePlot(kJTrue);
+		UpdatePlot(true);
 		}
 }
 
@@ -248,7 +248,7 @@ void
 J2DPlotWidget::ShowCurve
 	(
 	const JIndex	curveIndex,
-	const JBoolean	show
+	const bool	show
 	)
 {
 	J2DCurveInfo info = itsCurveInfo->GetElement(curveIndex);
@@ -269,7 +269,7 @@ J2DPlotWidget::ShowAllCurves()
 	for (JIndex i=1; i<=count; i++)
 		{
 		J2DCurveInfo info = itsCurveInfo->GetElement(i);
-		info.show = kJTrue;
+		info.show = true;
 		itsCurveInfo->SetElement(i, info);
 		}
 
@@ -293,7 +293,7 @@ J2DPlotWidget::HideAllOtherCurves
 	for (JIndex i=1; i<=count; i++)
 		{
 		J2DCurveInfo info = itsCurveInfo->GetElement(i);
-		info.show = JI2B( i == curveIndex );
+		info.show = i == curveIndex;
 		itsCurveInfo->SetElement(i, info);
 		}
 
@@ -309,7 +309,7 @@ void
 J2DPlotWidget::ShowLines
 	(
 	const JIndex curveIndex,
-	const JBoolean show
+	const bool show
 	)
 {
 	J2DCurveInfo info = itsCurveInfo->GetElement(curveIndex);
@@ -327,7 +327,7 @@ void
 J2DPlotWidget::ShowSymbols
 	(
 	const JIndex curveIndex,
-	const JBoolean show
+	const bool show
 	)
 {
 	J2DCurveInfo info = itsCurveInfo->GetElement(curveIndex);
@@ -345,7 +345,7 @@ void
 J2DPlotWidget::ShowXErrors
 	(
 	const JIndex	index,
-	const JBoolean	show
+	const bool	show
 	)
 {
 	J2DCurveInfo info = itsCurveInfo->GetElement(index);
@@ -366,7 +366,7 @@ void
 J2DPlotWidget::ShowYErrors
 	(
 	const JIndex	index,
-	const JBoolean	show
+	const bool	show
 	)
 {
 	J2DCurveInfo info = itsCurveInfo->GetElement(index);
@@ -387,8 +387,8 @@ void
 J2DPlotWidget::SetCurveStyle
 	(
 	const JIndex	curveIndex,
-	const JBoolean	lines,
-	const JBoolean	symbols
+	const bool	lines,
+	const bool	symbols
 	)
 {
 	J2DCurveInfo info = itsCurveInfo->GetElement(curveIndex);
@@ -407,7 +407,7 @@ void
 J2DPlotWidget::ProtectCurve
 	(
 	const JIndex curveIndex,
-	const JBoolean protect
+	const bool protect
 	)
 {
 	J2DCurveInfo info = itsCurveInfo->GetElement(curveIndex);
@@ -430,7 +430,7 @@ J2DPlotWidget::SetCurveName
 {
 	J2DCurveInfo info = itsCurveInfo->GetElement(index);
 	(info.name)->Set(name);
-	UpdatePlot(kJTrue);
+	UpdatePlot(true);
 }
 
 /******************************************************************************
@@ -453,7 +453,7 @@ J2DPlotWidget::SetCurveInfoArray
 		assert(info.name != nullptr);
 		itsCurveInfo->SetElement(i, info);
 		}
-	UpdatePlot(kJTrue);
+	UpdatePlot(true);
 }
 
 /*******************************************************************************
@@ -465,11 +465,11 @@ JIndex
 J2DPlotWidget::AddCurve
 	(
 	JPlotDataBase*	data,
-	const JBoolean	ownsData,
+	const bool	ownsData,
 	const JString&	name
 	)
 {
-	const JBoolean f = data->IsFunction();
+	const bool f = data->IsFunction();
 	return AddCurve(data, ownsData, name, f, !f);
 }
 
@@ -477,10 +477,10 @@ JIndex
 J2DPlotWidget::AddCurve
 	(
 	JPlotDataBase*	data,
-	const JBoolean	ownsData,
+	const bool	ownsData,
 	const JString&	name,
-	const JBoolean	line,
-	const JBoolean	symbol
+	const bool	line,
+	const bool	symbol
 	)
 {
 	itsCurves->Append(data);
@@ -488,8 +488,8 @@ J2DPlotWidget::AddCurve
 	JString* str = jnew JString(name);
 	assert(str != nullptr);
 
-	J2DCurveInfo info(kJTrue, line, symbol,
-						ownsData, kJTrue, kJTrue, kJFalse,
+	J2DCurveInfo info(true, line, symbol,
+						ownsData, true, true, false,
 						GetFirstAvailableColor(),
 						GetFirstAvailableSymbol(), str);
 
@@ -498,7 +498,7 @@ J2DPlotWidget::AddCurve
 	ListenTo(data);
 	Broadcast(CurveAdded(itsCurves->GetElementCount()));
 	Broadcast(ScaleChanged());	// Do I still need this?
-	UpdatePlot(kJTrue, !itsIsZoomedFlag);
+	UpdatePlot(true, !itsIsZoomedFlag);
 	Broadcast(ScaleChanged());
 	return itsCurves->GetElementCount();
 }
@@ -508,28 +508,28 @@ J2DPlotWidget::AddCurve
 
  ******************************************************************************/
 
-JBoolean
+bool
 J2DPlotWidget::AddCurve
 	(
 	JArray<JFloat>&	x,
 	JArray<JFloat>&	y,
-	const JBoolean	listen,
+	const bool	listen,
 	const JString&	label,
 	JIndex*			index,
-	const JBoolean	line,
-	const JBoolean	symbol
+	const bool	line,
+	const bool	symbol
 	)
 {
 	J2DPlotData* newData;
 	if (J2DPlotData::Create(&newData, x, y, listen))
 		{
-		*index = AddCurve(newData, kJTrue, label, line, symbol);
-		return kJTrue;
+		*index = AddCurve(newData, true, label, line, symbol);
+		return true;
 		}
 	else
 		{
 		*index = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -577,7 +577,7 @@ J2DPlotWidget::RemoveCurve
 	if (!itsCurves->IsEmpty())
 		{
 		Broadcast(CurveRemoved(index));
-		UpdatePlot(kJTrue, !itsIsZoomedFlag);
+		UpdatePlot(true, !itsIsZoomedFlag);
 		}
 	else
 		{
@@ -592,7 +592,7 @@ J2DPlotWidget::RemoveCurve
 
  ******************************************************************************/
 
-JBoolean
+bool
 J2DPlotWidget::ArrayIsInCurve
 	(
 	JArray<JFloat>* testArray
@@ -604,11 +604,11 @@ J2DPlotWidget::ArrayIsInCurve
 		{
 		if ((itsCurves->GetElement(i))->ArrayInData(testArray))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 */
-	return kJFalse;
+	return false;
 }
 
 /*******************************************************************************
@@ -632,7 +632,7 @@ J2DPlotWidget::RemoveCurvesContainingArray
 			i--;
 			}
 		}
-	UpdatePlot(kJTrue, kJTrue);
+	UpdatePlot(true, true);
 */
 }
 
@@ -685,13 +685,13 @@ J2DPlotWidget::HandleCurveChanged()
 void
 J2DPlotWidget::UpdatePlot
 	(
-	const JBoolean geometry,
-	const JBoolean scale
+	const bool geometry,
+	const bool scale
 	)
 {
 	if (geometry)
 		{
-		itsGeometryNeedsAdjustmentFlag = kJTrue;
+		itsGeometryNeedsAdjustmentFlag = true;
 		}
 
 	if (scale)
@@ -711,8 +711,8 @@ J2DPlotWidget::UpdatePlot
 void
 J2DPlotWidget::UpdateScale()
 {
-	ResetScale(kJFalse);
-	itsGeometryNeedsAdjustmentFlag = kJTrue;
+	ResetScale(false);
+	itsGeometryNeedsAdjustmentFlag = true;
 }
 
 /*******************************************************************************
@@ -724,21 +724,21 @@ void
 J2DPlotWidget::Zoom
 	(
 	const JRect&	zRect,
-	const JBoolean	clean
+	const bool	clean
 	)
 {
 	JRect rect;
 	if (JIntersection(zRect, GetFrameGeometry(), &rect))
 		{
-		UpdateScale(kJFalse, &itsXAxisIsLinear,
+		UpdateScale(false, &itsXAxisIsLinear,
 					GetRealX(rect.left), GetRealX(rect.right), clean, itsXScale);
-		UpdateScale(kJFalse, &itsYAxisIsLinear,
+		UpdateScale(false, &itsYAxisIsLinear,
 					GetRealY(rect.bottom), GetRealY(rect.top), clean, itsYScale);
 
-		itsIsZoomedFlag = kJTrue;
+		itsIsZoomedFlag = true;
 		SetPlotDecPlaces();
 		Broadcast(ScaleChanged());
-		UpdatePlot(kJTrue);
+		UpdatePlot(true);
 		}
 }
 
@@ -751,7 +751,7 @@ void
 J2DPlotWidget::GetScale
 	(
 	const JFloat*	scale,
-	const JBoolean	linear,
+	const bool	linear,
 	JFloat*			min,
 	JFloat*			max,
 	JFloat*			inc
@@ -783,7 +783,7 @@ J2DPlotWidget::SetScale
 	const JFloat	min,
 	const JFloat	max,
 	const JFloat	inc,
-	const JBoolean	linear,
+	const bool	linear,
 	JFloat*			scale
 	)
 {
@@ -805,11 +805,11 @@ J2DPlotWidget::SetScale
 			scale[kStart] = start;
 			if (scale == itsXScale)
 				{
-				itsUseRealXStart = kJTrue;
+				itsUseRealXStart = true;
 				}
 			else
 				{
-				itsUseRealYStart = kJTrue;
+				itsUseRealYStart = true;
 				}
 			}
 		}
@@ -832,10 +832,10 @@ J2DPlotWidget::SetScale
 			}
 		}
 
-	itsIsZoomedFlag = kJTrue;
+	itsIsZoomedFlag = true;
 	SetPlotDecPlaces();
 	Broadcast(ScaleChanged());
-	UpdatePlot(kJTrue);
+	UpdatePlot(true);
 }
 
 /*******************************************************************************
@@ -846,8 +846,8 @@ J2DPlotWidget::SetScale
 void
 J2DPlotWidget::ResetScale()
 {
-	ResetScale(kJTrue);
-	UpdatePlot(kJTrue);
+	ResetScale(true);
+	UpdatePlot(true);
 }
 
 /*******************************************************************************
@@ -858,17 +858,17 @@ J2DPlotWidget::ResetScale()
 void
 J2DPlotWidget::ResetScale
 	(
-	const JBoolean allowResetToLinear
+	const bool allowResetToLinear
 	)
 {
 	JFloat min, max;
 	GetXDataRange(&min, &max);
-	UpdateScale(allowResetToLinear, &itsXAxisIsLinear, min, max, kJTrue, itsXScale);
+	UpdateScale(allowResetToLinear, &itsXAxisIsLinear, min, max, true, itsXScale);
 
 	GetYDataRange(&min, &max);
-	UpdateScale(allowResetToLinear, &itsYAxisIsLinear, min, max, kJTrue, itsYScale);
+	UpdateScale(allowResetToLinear, &itsYAxisIsLinear, min, max, true, itsYScale);
 
-	itsIsZoomedFlag = kJFalse;
+	itsIsZoomedFlag = false;
 	SetPlotDecPlaces();
 	Broadcast(ScaleChanged());
 }
@@ -881,11 +881,11 @@ J2DPlotWidget::ResetScale
 void
 J2DPlotWidget::UpdateScale
 	(
-	const JBoolean	allowResetToLinear,
-	JBoolean*		linear,
+	const bool	allowResetToLinear,
+	bool*		linear,
 	const JFloat	min,
 	const JFloat	max,
-	const JBoolean	clean,
+	const bool	clean,
 	JFloat*			scale
 	)
 {
@@ -896,7 +896,7 @@ J2DPlotWidget::UpdateScale
 
 	if (max <= 0.0 && allowResetToLinear)
 		{
-		*linear = kJTrue;
+		*linear = true;
 		}
 
 	if (*linear)
@@ -913,7 +913,7 @@ J2DPlotWidget::UpdateScale
 		{
 		JFloat pMin = min;
 		if (min <= 0.0 &&
-			!GetMinimumPositiveValue(JI2B(scale == itsXScale), &pMin))
+			!GetMinimumPositiveValue(scale == itsXScale, &pMin))
 			{
 			return;
 			}
@@ -945,15 +945,15 @@ J2DPlotWidget::UpdateScale
 
  ******************************************************************************/
 
-JBoolean
+bool
 J2DPlotWidget::GetMinimumPositiveValue
 	(
-	const JBoolean	isX,
+	const bool	isX,
 	JFloat*			min
 	)
 {
 	*min = 1.0;
-	JBoolean foundPMin = kJFalse;
+	bool foundPMin = false;
 
 	const JSize ccount = itsCurves->GetElementCount();
 	for (JIndex i=1; i<=ccount; i++)
@@ -967,8 +967,8 @@ J2DPlotWidget::GetMinimumPositiveValue
 			JFloat value;
 			JFloat errValue;
 			JFloat other;
-			JBoolean linear;
-			JBoolean linearOther;
+			bool linear;
+			bool linearOther;
 			if (isX)
 				{
 				value		= point.x;
@@ -995,7 +995,7 @@ J2DPlotWidget::GetMinimumPositiveValue
 				((foundPMin && value < *min) || !foundPMin))
 				{
 				*min      = value;
-				foundPMin = kJTrue;
+				foundPMin = true;
 				}
 			}
 		}
@@ -1057,7 +1057,7 @@ J2DPlotWidget::GetYDataRange
 	JFloat xmin, xmax, xinc;
 	GetXScale(&xmin, &xmax, &xinc);
 
-	JBoolean first = kJTrue;
+	bool first = true;
 	const JSize count = itsCurves->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
@@ -1074,7 +1074,7 @@ J2DPlotWidget::GetYDataRange
 				{
 				*min = testMin;
 				}
-			first = kJFalse;
+			first = false;
 			}
 		}
 }
@@ -1110,8 +1110,8 @@ void
 J2DPlotWidget::SetPlotDecPlaces1
 	(
 	const JFloat*		scale,
-	const JBoolean		useExactRange,
-	const JBoolean		forceExp,
+	const bool		useExactRange,
+	const bool		forceExp,
 	const JCoordinate	exp,
 	JSize*				dpCount
 	)
@@ -1169,7 +1169,7 @@ J2DPlotWidget::GetDecPlaces
 		valStr = JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0);
 		}
 
-	JBoolean hadE = kJFalse;
+	bool hadE = false;
 
 	JStringIterator iter(valStr);
 
@@ -1191,7 +1191,7 @@ J2DPlotWidget::GetDecPlaces
 			{
 			places = iter.GetPrevCharacterIndex() - dotIndex - 1;
 			}
-		hadE = kJTrue;
+		hadE = true;
 		}
 	iter.Invalidate();
 
@@ -1227,7 +1227,7 @@ J2DPlotWidget::SetExp
 	(
 	const JFloat*	scale,
 	JInteger*		exp,
-	JBoolean*		force
+	bool*		force
 	)
 {
 	JInteger min, max;
@@ -1237,17 +1237,17 @@ J2DPlotWidget::SetExp
 	if (min == 0 && max == 0)
 		{
 		*exp   = 0;
-		*force = kJFalse;
+		*force = false;
 		}
 	else if (max > 0)
 		{
 		*exp   = JMax(min, max);
-		*force = kJTrue;
+		*force = true;
 		}
 	else
 		{
 		*exp   = JMin(min, max);
-		*force = kJTrue;
+		*force = true;
 		}
 }
 
@@ -1306,8 +1306,8 @@ J2DPlotWidget::FindRange
 
 	const JFloat range = max-min;
 
-	JBoolean changeStart = kJTrue;
-	JBoolean changeEnd   = kJTrue;
+	bool changeStart = true;
+	bool changeEnd   = true;
 	if (range > fabs(min) && range > fabs(max))
 		{
 		// range contains origin
@@ -1317,14 +1317,14 @@ J2DPlotWidget::FindRange
 		// range large relative to distance above origin
 
 		*start      = 0.0;
-		changeStart = kJFalse;
+		changeStart = false;
 		}
 	else if (range > fabs(max))
 		{
 		// range large relative to distance below origin
 
 		*end      = 0.0;
-		changeEnd = kJFalse;
+		changeEnd = false;
 		}
 	else
 		{
@@ -1469,7 +1469,7 @@ J2DPlotWidget::GetRealY
 
  ******************************************************************************/
 
-JBoolean
+bool
 J2DPlotWidget::GetFrameX
 	(
 	const JFloat	x,
@@ -1480,13 +1480,13 @@ J2DPlotWidget::GetFrameX
 	if (!itsXAxisIsLinear && x <= 0.0)
 		{
 		*frameX = 0.0;
-		return kJFalse;
+		return false;
 		}
 	else
 		{
 		*frameX = itsXAxisStart +
 			itsXTrans * ((itsXAxisIsLinear ? x : log10(x)) - itsXScale[kMin]);
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -1495,7 +1495,7 @@ J2DPlotWidget::GetFrameX
 
  ******************************************************************************/
 
-JBoolean
+bool
 J2DPlotWidget::GetFrameY
 	(
 	const JFloat	y,
@@ -1506,13 +1506,13 @@ J2DPlotWidget::GetFrameY
 	if (!itsYAxisIsLinear && y <= 0.0)
 		{
 		*frameY = 0.0;
-		return kJFalse;
+		return false;
 		}
 	else
 		{
 		*frameY = itsYAxisStart -
 			itsYTrans * ((itsYAxisIsLinear ? y : log10(y)) - itsYScale[kMin]);
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -1531,12 +1531,12 @@ J2DPlotWidget::Print
 {
 	if (p.OpenDocument())
 		{
-		JBoolean cancelled  = kJFalse;
-		JBoolean redoBounds = kJFalse;
+		bool cancelled  = false;
+		bool redoBounds = false;
 
 		if (p.NewPage())
 			{
-			itsIsPrintingFlag  = kJTrue;
+			itsIsPrintingFlag  = true;
 			JCoordinate xShift = 0;
 			JCoordinate yShift = 0;
 			if (p.GetOrientation() == JPagePrinter::kPortrait)
@@ -1553,21 +1553,21 @@ J2DPlotWidget::Print
 				}
 			p.ShiftOrigin(xShift, yShift);
 			PWBoundsChanged();
-			redoBounds = kJTrue;
+			redoBounds = true;
 			PWDraw(p, p.GetPageRect());
 			p.ShiftOrigin(-xShift, -yShift);
 
-			JBoolean putOnSamePage = kJFalse;
+			bool putOnSamePage = false;
 			JRect partialPageRect;
 			if (p.GetOrientation() == JPagePrinter::kPortrait)
 				{
-				putOnSamePage = kJTrue;
+				putOnSamePage = true;
 				partialPageRect.Set(yShift + itsPrintHeight + p.GetLineHeight(), xShift,
 									p.GetPageHeight(), xShift + itsPrintWidth);
 				}
 			if (!PrintMarks(p, putOnSamePage, partialPageRect))
 				{
-				cancelled = kJTrue;
+				cancelled = true;
 				}
 			}
 
@@ -1575,7 +1575,7 @@ J2DPlotWidget::Print
 			{
 			p.CloseDocument();
 			}
-		itsIsPrintingFlag = kJFalse;
+		itsIsPrintingFlag = false;
 		if (redoBounds)
 			{
 			PWBoundsChanged();
@@ -1633,7 +1633,7 @@ J2DPlotWidget::DrawForPrint
 	const JRect&	rect
 	)
 {
-	itsIsPrintingFlag  = kJTrue;
+	itsIsPrintingFlag  = true;
 	itsPrintWidth      = rect.width();
 	itsPrintHeight     = rect.height();
 	PWBoundsChanged();
@@ -1644,7 +1644,7 @@ J2DPlotWidget::DrawForPrint
 
 	p.ShiftOrigin(-(rect.topLeft()));
 
-	itsIsPrintingFlag = kJFalse;
+	itsIsPrintingFlag = false;
 	PWBoundsChanged();
 }
 
@@ -1662,7 +1662,7 @@ J2DPlotWidget::Print
 	const JRect&	rect
 	)
 {
-	itsIsPrintingFlag  = kJTrue;
+	itsIsPrintingFlag  = true;
 	itsPrintWidth      = rect.width();
 	itsPrintHeight     = rect.height();
 	PWBoundsChanged();
@@ -1679,7 +1679,7 @@ J2DPlotWidget::Print
 		p.CloseDocument();
 		}
 
-	itsIsPrintingFlag = kJFalse;
+	itsIsPrintingFlag = false;
 	PWBoundsChanged();
 }
 
@@ -1762,7 +1762,7 @@ J2DPlotWidget::AdjustGeometry
 	itsLegendWidth       = itsMaxCurveNameWidth + 3 * kLegendItemBuffer;
 
 	JSize strWidth, strWidthMin;
-	if (itsYAxisIsLinear == kJTrue)
+	if (itsYAxisIsLinear == true)
 		{
 		JString str, strMin;
 		if (itsForceYExp)
@@ -1999,12 +1999,12 @@ J2DPlotWidget::AdjustGeometry
 		}
 
 	itsXTrans = (itsXAxisEnd - itsXAxisStart)/(itsXScale[kMax] - itsXScale[kMin]);
-	itsShowXMinorTics = JI2B(itsXTrans >= 35);
+	itsShowXMinorTics = itsXTrans >= 35;
 
 	itsYTrans = (itsYAxisStart - itsYAxisEnd)/(itsYScale[kMax] - itsYScale[kMin]);
-	itsShowYMinorTics = JI2B(itsYTrans >= 35);
+	itsShowYMinorTics = itsYTrans >= 35;
 
-	itsGeometryNeedsAdjustmentFlag = kJFalse;
+	itsGeometryNeedsAdjustmentFlag = false;
 	AdjustCursors();
 	Broadcast(GeometryChanged());
 }
@@ -2275,7 +2275,7 @@ J2DPlotWidget::DrawTicks
 	// Y ticks
 
 	JSize xTick = 0, xLabel;
-	JBoolean xLabelEndKnown = kJTrue;
+	bool xLabelEndKnown = true;
 
 	if (itsShowFrameFlag)
 		{
@@ -2291,7 +2291,7 @@ J2DPlotWidget::DrawTicks
 		{
 		xTick  = itsXAxisEnd - kMajorTicLength;
 		xLabel = itsXAxisEnd + 2 * kMajorTicLength;
-		xLabelEndKnown = kJFalse;
+		xLabelEndKnown = false;
 		}
 	else
 		{
@@ -2342,14 +2342,14 @@ J2DPlotWidget::DrawXTicks
 
 	for (JIndex i = 1; i <= tickCount; i++)
 		{
-		JBoolean lightGrid = kJTrue;
+		bool lightGrid = true;
 		if (fabs(axisTemp) < (itsXScale[kInc]/100000))
 			{
 			axisTemp  = 0;
-			lightGrid = kJFalse;
+			lightGrid = false;
 			}
 		DrawXTick(p, axisTemp, yTick, kMajorTicLength,
-				  yLabel, kJTrue, lightGrid);
+				  yLabel, true, lightGrid);
 		axisTemp = axisMin + i * itsXScale[kInc];
 		}
 }
@@ -2378,7 +2378,7 @@ J2DPlotWidget::DrawXLogMinorTicks
 		{
 		DrawXTick(p, major.GetElement(i), yTick,
 				  kMajorTicLength, yLabel,
-				  kJTrue, kJFalse);
+				  true, false);
 		}
 
 	if (itsXScale[kInc] > 1)
@@ -2386,22 +2386,22 @@ J2DPlotWidget::DrawXLogMinorTicks
 		return;
 		}
 
-	JBoolean drawStr = JConvertToBoolean(major.GetElementCount() == 0);
+	bool drawStr = major.GetElementCount() == 0;
 	for (i = 1; i <= minor.GetElementCount(); i++)
 		{
 		DrawXTick(p, minor.GetElement(i), yTick,
 				  kMajorTicLength - 1, yLabel,
-				  drawStr, kJTrue);
+				  drawStr, true);
 		}
 
 	if (major.GetElementCount() == 0 && minor.GetElementCount() == 0)
 		{
 		DrawXTick(p, pow(10, itsXScale[kMin]), yTick,
 				  kMajorTicLength, yLabel,
-				  kJTrue, kJFalse);
+				  true, false);
 		DrawXTick(p, pow(10, itsXScale[kMax]), yTick,
 				  kMajorTicLength, yLabel,
-				  kJTrue, kJFalse);
+				  true, false);
 		}
 }
 
@@ -2418,8 +2418,8 @@ J2DPlotWidget::DrawXTick
 	const JCoordinate	yVal,
 	const JCoordinate	tickLength,
 	const JCoordinate	yLabel,
-	const JBoolean		drawStr,
-	const JBoolean		lightGrid
+	const bool		drawStr,
+	const bool		lightGrid
 	)
 {
 	const JSize labelHeight = p.GetLineHeight();
@@ -2429,7 +2429,7 @@ J2DPlotWidget::DrawXTick
 		if (drawStr)
 			{
 			const JString str =
-				BuildTickLabel(kJTrue, value, itsXAxisIsLinear, itsXDecimalPoints,
+				BuildTickLabel(true, value, itsXAxisIsLinear, itsXDecimalPoints,
 							   itsForceXExp, itsXExp);
 
 			const JCoordinate sWidth = p.GetStringWidth(str);
@@ -2471,7 +2471,7 @@ J2DPlotWidget::DrawYTicks
 	JPainter&			p,
 	const JCoordinate	xTick,
 	const JCoordinate	xLabel,
-	const JBoolean		xLabelEndKnown,
+	const bool		xLabelEndKnown,
 	const JSize			tickCount
 	)
 {
@@ -2485,15 +2485,15 @@ J2DPlotWidget::DrawYTicks
 
 	for (JIndex i = 1; i <= tickCount; i++)
 		{
-		JBoolean lightGrid = kJTrue;
+		bool lightGrid = true;
 		if (fabs(axisTemp) < (itsYScale[kInc]/100000))
 			{
 			axisTemp  = 0;
-			lightGrid = kJFalse;
+			lightGrid = false;
 			}
 		DrawYTick(p, axisTemp, xTick, kMajorTicLength,
 				  xLabel, xLabelEndKnown,
-				  kJTrue, lightGrid);
+				  true, lightGrid);
 		axisTemp = axisMin + i * itsYScale[kInc];
 		}
 }
@@ -2510,7 +2510,7 @@ J2DPlotWidget::DrawYLogMinorTicks
 	const JCoordinate	xTick,
 	const JSize			tickCount,
 	const JCoordinate	xLabel,
-	const JBoolean		xLabelEndKnown
+	const bool		xLabelEndKnown
 	)
 {
 	JSize i;
@@ -2523,7 +2523,7 @@ J2DPlotWidget::DrawYLogMinorTicks
 		{
 		DrawYTick(p, major.GetElement(i), xTick,
 				  kMajorTicLength, xLabel, xLabelEndKnown,
-				  kJTrue, kJFalse);
+				  true, false);
 		}
 
 	if (itsYScale[kInc] > 1)
@@ -2531,22 +2531,22 @@ J2DPlotWidget::DrawYLogMinorTicks
 		return;
 		}
 
-	JBoolean drawStr = JConvertToBoolean(major.GetElementCount() == 0);
+	bool drawStr = major.GetElementCount() == 0;
 	for (i = 1; i <= minor.GetElementCount(); i++)
 		{
 		DrawYTick(p, minor.GetElement(i), xTick,
 				  kMajorTicLength - 1, xLabel, xLabelEndKnown,
-				  drawStr, kJTrue);
+				  drawStr, true);
 		}
 
 	if ((major.GetElementCount() == 0) && (minor.GetElementCount() == 0))
 		{
 		DrawYTick(p, pow(10, itsYScale[kMin]), xTick,
 				  kMajorTicLength, xLabel, xLabelEndKnown,
-				  kJTrue, kJFalse);
+				  true, false);
 		DrawYTick(p, pow(10, itsYScale[kMax]), xTick,
 				  kMajorTicLength, xLabel, xLabelEndKnown,
-				  kJTrue, kJFalse);
+				  true, false);
 		}
 
 }
@@ -2565,8 +2565,8 @@ J2DPlotWidget::DrawYTick
 	const JCoordinate	tickLength,
 	const JCoordinate	xLabel,
 	const JCoordinate	xLabelEndKnown,
-	const JBoolean		drawStr,
-	const JBoolean		lightGrid
+	const bool		drawStr,
+	const bool		lightGrid
 	)
 {
 	const JSize labelHeight = p.GetLineHeight();
@@ -2576,7 +2576,7 @@ J2DPlotWidget::DrawYTick
 		if (drawStr)
 			{
 			const JString str =
-				BuildTickLabel(kJFalse, value, itsYAxisIsLinear, itsYDecimalPoints,
+				BuildTickLabel(false, value, itsYAxisIsLinear, itsYDecimalPoints,
 							   itsForceYExp, itsYExp);
 
 			JSize strStart;
@@ -2631,11 +2631,11 @@ J2DPlotWidget::DrawYTick
 JString
 J2DPlotWidget::BuildTickLabel
 	(
-	const JBoolean	isXAxis,
+	const bool	isXAxis,
 	const JFloat	value,
-	const JBoolean	axisIsLinear,
+	const bool	axisIsLinear,
 	const JInteger	precision,
-	const JBoolean	forceExponent,
+	const bool	forceExponent,
 	const JInteger	exponent
 	)
 {
@@ -2665,10 +2665,10 @@ J2DPlotWidget::GetLogAxisString
 	)
 {
 	JFloat exponent = log10(value);
-	JBoolean nonint = kJFalse;
+	bool nonint = false;
 	if (JRound(exponent)/exponent - 1 > 0.0001)
 		{
-		nonint = kJTrue;
+		nonint = true;
 		}
 	if (3 < exponent || exponent < -3)
 		{
@@ -2790,14 +2790,14 @@ inline JFloat
 J2DPlotWidget::GetGraphValue
 	(
 	const JFloat	value,
-	const JBoolean	linear
+	const bool	linear
 	)
 	const
 {
 	return (linear ? value : (value <= 0.0 ? -HUGE_VAL : log10(value)));
 }
 
-inline JBoolean
+inline bool
 J2DPlotWidget::ConvertLog10
 	(
 	J2DDataPoint* data
@@ -2807,13 +2807,13 @@ J2DPlotWidget::ConvertLog10
 	if ((!itsXAxisIsLinear && data->x <= 0.0) ||
 		(!itsYAxisIsLinear && data->y <= 0.0))
 		{
-		return kJFalse;
+		return false;
 		}
 	else
 		{
 		data->x = GetGraphValue(data->x, itsXAxisIsLinear);
 		data->y = GetGraphValue(data->y, itsYAxisIsLinear);
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -2905,8 +2905,8 @@ J2DPlotWidget::DrawCurve
 	const
 {
 	J2DPlotWidget* me         = const_cast<J2DPlotWidget*>(this);
-	const JBoolean drawErrors = JI2B((info.xerrors && curve.HasXErrors()) ||
-									 (info.yerrors && curve.HasYErrors()));
+	const bool drawErrors = (info.xerrors && curve.HasXErrors()) ||
+									 (info.yerrors && curve.HasYErrors());
 
 	J2DDataPoint data1, data2;
 	JPoint pt;
@@ -2916,16 +2916,16 @@ J2DPlotWidget::DrawCurve
 		{
 		if (info.lines || info.symbols)
 			{
-			JBoolean move, draw, mark;
+			bool move, draw, mark;
 			Interpolate(i, curve, visRect, &data1, &data2, &move, &draw, &mark);
 
-			const JBoolean xlin = itsXAxisIsLinear;
-			const JBoolean ylin = itsYAxisIsLinear;
-			me->itsXAxisIsLinear = me->itsYAxisIsLinear = kJTrue;	// trick GetFramePoint()
+			const bool xlin = itsXAxisIsLinear;
+			const bool ylin = itsYAxisIsLinear;
+			me->itsXAxisIsLinear = me->itsYAxisIsLinear = true;	// trick GetFramePoint()
 
 			if (info.lines && move)
 				{
-				const JBoolean ok = GetFramePoint(data1.x, data1.y, &pt);
+				const bool ok = GetFramePoint(data1.x, data1.y, &pt);
 				assert( ok );
 				p.SetPenLocation(pt);
 				}
@@ -2934,7 +2934,7 @@ J2DPlotWidget::DrawCurve
 				((info.symbols || drawErrors) && mark) ||
 				(!move && !draw && mark))
 				{
-				const JBoolean ok = GetFramePoint(data2.x, data2.y, &pt);
+				const bool ok = GetFramePoint(data2.x, data2.y, &pt);
 				assert( ok );
 				}
 
@@ -2965,11 +2965,11 @@ J2DPlotWidget::DrawCurve
 			if (ConvertLog10(&data1) &&
 				visRect.Contains(data1.x, data1.y))
 				{
-				const JBoolean xlin = itsXAxisIsLinear;
-				const JBoolean ylin = itsYAxisIsLinear;
-				me->itsXAxisIsLinear = me->itsYAxisIsLinear = kJTrue;	// trick GetFramePoint()
+				const bool xlin = itsXAxisIsLinear;
+				const bool ylin = itsYAxisIsLinear;
+				me->itsXAxisIsLinear = me->itsYAxisIsLinear = true;	// trick GetFramePoint()
 
-				const JBoolean ok = GetFramePoint(data1.x, data1.y, &pt);
+				const bool ok = GetFramePoint(data1.x, data1.y, &pt);
 				assert( ok );
 
 				if (drawErrors)
@@ -3001,8 +3001,8 @@ J2DPlotWidget::DrawError
 	const JPlotDataBase&	curve,
 	const J2DCurveInfo&		info,
 	const JIndex			index,
-	const JBoolean			xLinear,
-	const JBoolean			yLinear,
+	const bool			xLinear,
+	const bool			yLinear,
 	const J2DDataRect&		visRect
 	)
 	const
@@ -3015,22 +3015,22 @@ J2DPlotWidget::DrawError
 	if (info.xerrors && curve.HasXErrors())
 		{
 		JPoint pt1 = pt, pt2 = pt;
-		JBoolean moved1 = kJFalse, moved2 = kJFalse;
+		bool moved1 = false, moved2 = false;
 
 		JFloat xp = GetGraphValue(data.x + data.xerr, xLinear);
 		if (xp > visRect.xmax)
 			{
 			xp     = visRect.xmax;
-			moved1 = kJTrue;
+			moved1 = true;
 			}
-		JBoolean ok = GetFrameX(xp, &pt1.x);
+		bool ok = GetFrameX(xp, &pt1.x);
 		assert( ok );
 
 		JFloat xm = GetGraphValue(data.x - data.xmerr, xLinear);
 		if (xm < visRect.xmin)
 			{
 			xm     = visRect.xmin;
-			moved2 = kJTrue;
+			moved2 = true;
 			}
 		ok = GetFrameX(xm, &pt2.x);
 		assert( ok );
@@ -3051,22 +3051,22 @@ J2DPlotWidget::DrawError
 	if (info.yerrors && curve.HasYErrors())
 		{
 		JPoint pt1 = pt, pt2 = pt;
-		JBoolean moved1 = kJFalse, moved2 = kJFalse;
+		bool moved1 = false, moved2 = false;
 
 		JFloat yp = GetGraphValue(data.y + data.yerr, yLinear);
 		if (yp > visRect.ymax)
 			{
 			yp     = visRect.ymax;
-			moved1 = kJTrue;
+			moved1 = true;
 			}
-		JBoolean ok = GetFrameY(yp, &pt1.y);
+		bool ok = GetFrameY(yp, &pt1.y);
 		assert( ok );
 
 		JFloat ym = GetGraphValue(data.y - data.ymerr, yLinear);
 		if (ym < visRect.ymin)
 			{
 			ym     = visRect.ymin;
-			moved2 = kJTrue;
+			moved2 = true;
 			}
 		ok = GetFrameY(ym, &pt2.y);
 		assert( ok );
@@ -3117,15 +3117,15 @@ J2DPlotWidget::DrawVector
 
 		if (ConvertLog10(&head) && ConvertLog10(&tail))
 			{
-			JBoolean move, draw, mark;
+			bool move, draw, mark;
 			Interpolate(visRect, &head, &tail, &move, &draw, &mark);
 			// move => head is not visible
 
-			const JBoolean xlin = itsXAxisIsLinear;
-			const JBoolean ylin = itsYAxisIsLinear;
-			me->itsXAxisIsLinear = me->itsYAxisIsLinear = kJTrue;	// trick GetFramePoint()
+			const bool xlin = itsXAxisIsLinear;
+			const bool ylin = itsYAxisIsLinear;
+			me->itsXAxisIsLinear = me->itsYAxisIsLinear = true;	// trick GetFramePoint()
 
-			JBoolean ok = GetFramePoint(head.x, head.y, &headPt);
+			bool ok = GetFramePoint(head.x, head.y, &headPt);
 			assert( ok );
 			ok = GetFramePoint(tail.x, tail.y, &tailPt);
 			assert( ok );
@@ -3194,43 +3194,43 @@ J2DPlotWidget::Interpolate
 	const J2DDataRect&		visRect,
 	J2DDataPoint*			data1,
 	J2DDataPoint*			data2,
-	JBoolean*				move,
-	JBoolean*				draw,
-	JBoolean*				mark
+	bool*				move,
+	bool*				draw,
+	bool*				mark
 	)
 	const
 {
 	curve.GetElement(index, data2);
 	if (!ConvertLog10(data2))
 		{
-		*move = kJFalse;
-		*draw = kJFalse;
-		*mark = kJFalse;
+		*move = false;
+		*draw = false;
+		*mark = false;
 		return;
 		}
 
-	const JBoolean data2Visible = visRect.Contains(data2->x, data2->y);
+	const bool data2Visible = visRect.Contains(data2->x, data2->y);
 	if (index == 1 && data2Visible)
 		{
 		*data1 = *data2;
-		*move  = kJTrue;
-		*draw  = kJFalse;
-		*mark  = kJTrue;
+		*move  = true;
+		*draw  = false;
+		*mark  = true;
 		return;
 		}
 	else if (index == 1)
 		{
-		*move = kJFalse;
-		*draw = kJFalse;
-		*mark = kJFalse;
+		*move = false;
+		*draw = false;
+		*mark = false;
 		return;
 		}
 
 	curve.GetElement(index-1, data1);
 	if (!ConvertLog10(data1))
 		{
-		*move = kJFalse;
-		*draw = kJFalse;
+		*move = false;
+		*draw = false;
 		*mark = data2Visible;
 		return;
 		}
@@ -3244,71 +3244,71 @@ J2DPlotWidget::Interpolate
 	const J2DDataRect&		visRect,
 	J2DDataPoint*			data1,
 	J2DDataPoint*			data2,
-	JBoolean*				move,
-	JBoolean*				draw,
-	JBoolean*				mark
+	bool*				move,
+	bool*				draw,
+	bool*				mark
 	)
 	const
 {
-	const JBoolean horiz = JI2B( data1->y == data2->y );
-	const JBoolean vert  = JI2B( data1->x == data2->x );
+	const bool horiz = data1->y == data2->y;
+	const bool vert  = data1->x == data2->x;
 
 	if ((data1->x < visRect.xmin && data2->x < visRect.xmin) ||
 		(data1->x > visRect.xmax && data2->x > visRect.xmax) ||
 		(data1->y < visRect.ymin && data2->y < visRect.ymin) ||
 		(data1->y > visRect.ymax && data2->y > visRect.ymax))
 		{
-		*move = kJFalse;
-		*draw = kJFalse;
-		*mark = kJFalse;
+		*move = false;
+		*draw = false;
+		*mark = false;
 		return;
 		}
 
-	*move = kJFalse;
-	*draw = kJTrue;
-	*mark = kJTrue;
+	*move = false;
+	*draw = true;
+	*mark = true;
 
 	const JFloat slope = vert ? 0.0 : (data2->y - data1->y)/(data2->x - data1->x);
 
 	if (!Interpolate1(data1, visRect, slope, horiz, vert))
 		{
-		*move = kJTrue;
+		*move = true;
 		}
 	if (!Interpolate1(data2, visRect, slope, horiz, vert))
 		{
-		*mark = kJFalse;
+		*mark = false;
 		}
 
 	if (!visRect.Contains(data1->x, data1->y) ||
 		!visRect.Contains(data2->x, data2->y))
 		{
-		*move = kJFalse;
-		*draw = kJFalse;
-		*mark = kJFalse;
+		*move = false;
+		*draw = false;
+		*mark = false;
 		}
 }
 
 /*******************************************************************************
  Interpolate1 (private)
 
-	Returns kJFalse if the point was moved.
+	Returns false if the point was moved.
 
  ******************************************************************************/
 
-JBoolean
+bool
 J2DPlotWidget::Interpolate1
 	(
 	J2DDataPoint*		data,
 	const J2DDataRect&	visRect,
 	const JFloat		slope,
-	const JBoolean		horiz,
-	const JBoolean		vert
+	const bool		horiz,
+	const bool		vert
 	)
 	const
 {
 	if (visRect.Contains(data->x, data->y))
 		{
-		return kJTrue;
+		return true;
 		}
 
 	if (horiz)
@@ -3346,7 +3346,7 @@ J2DPlotWidget::Interpolate1
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /*******************************************************************************
@@ -3573,7 +3573,7 @@ J2DPlotWidget::PWReadSetup
 	SetYLabel(temp);
 	input >> temp;
 	SetTitle(temp);
-	JBoolean bTest;
+	bool bTest;
 	input >> JBoolFromString(bTest);
 	ShowFrame(bTest);
 	input >> JBoolFromString(bTest);
@@ -3598,7 +3598,7 @@ J2DPlotWidget::PWReadSetup
 
 	SetPlotDecPlaces();
 	Broadcast(ScaleChanged());
-	UpdatePlot(kJTrue);
+	UpdatePlot(true);
 
 	// Cursors
 	input >> JBoolFromString(itsXCursorVisible);
@@ -3639,7 +3639,7 @@ J2DPlotWidget::PWReadSetup
 		JFloat value;
 		input >> value;
 		itsXMarks->AppendElement(value);
-		Broadcast(CursorMarked(kJTrue, value));
+		Broadcast(CursorMarked(true, value));
 		}
 	input >> count;
 	for (i = 1; i <= count; i++)
@@ -3647,7 +3647,7 @@ J2DPlotWidget::PWReadSetup
 		JFloat value;
 		input >> value;
 		itsYMarks->AppendElement(value);
-		Broadcast(CursorMarked(kJFalse, value));
+		Broadcast(CursorMarked(false, value));
 		}
 
 	Broadcast(CursorsChanged(	itsXCursorVisible,
@@ -3739,9 +3739,9 @@ J2DPlotWidget::PWReadCurveSetup
 	JSize curveCount, colorCount, symbolCount;
 	input >> curveCount >> colorCount >> symbolCount;
 
-	const JBoolean setData = JI2B( curveCount  == origCurveCount &&
+	const bool setData = curveCount  == origCurveCount &&
 								   colorCount  <= origColorCount &&
-								   symbolCount <= kSymbolCount );
+								   symbolCount <= kSymbolCount;
 
 	// curve info
 
@@ -3893,12 +3893,12 @@ J2DPlotWidget::PWHandleMouseDown
 	const JSize	clickCount
 	)
 {
-	itsIsCursorDragging = kJFalse;
+	itsIsCursorDragging = false;
 
 	if (clickCount == 1)
 		{
 		itsSelectedCursor   = GetCursorIndex(pt);
-		itsIsCursorDragging = JI2B( itsSelectedCursor != kNoCursor );
+		itsIsCursorDragging = itsSelectedCursor != kNoCursor;
 
 		JPainter* p = PWCreateDragInsidePainter();
 		if (itsIsCursorDragging)
@@ -3940,11 +3940,11 @@ J2DPlotWidget::PWHandleMouseDown
 			}
 		else if (itsXAxisRect.Contains(pt))
 			{
-			ChangeScale(kJTrue);
+			ChangeScale(true);
 			}
 		else if (itsYAxisRect.Contains(pt))
 			{
-			ChangeScale(kJFalse);
+			ChangeScale(false);
 			}
 		else if (GetLegendIndex(pt, &curveIndex))
 			{
@@ -3960,7 +3960,7 @@ J2DPlotWidget::PWHandleMouseDown
 
  ******************************************************************************/
 
-JBoolean
+bool
 J2DPlotWidget::GetLegendIndex
 	(
 	const JPoint&	pt,
@@ -3976,8 +3976,8 @@ J2DPlotWidget::GetLegendIndex
 		}
 	else
 		{
-		*curveIndex = kJFalse;
-		return kJFalse;
+		*curveIndex = false;
+		return false;
 		}
 }
 
@@ -3999,8 +3999,8 @@ J2DPlotWidget::PWHandleMouseDrag
 			JPinInRect(pt, JRect(itsYAxisEnd,   itsXAxisStart,
 								 itsYAxisStart, itsXAxisEnd));
 
-		const JBoolean draggingX =
-			JI2B((itsSelectedCursor == kX1) || (itsSelectedCursor == kX2));
+		const bool draggingX =
+			(itsSelectedCursor == kX1) || (itsSelectedCursor == kX2);
 		if (itsIsCursorDragging &&
 			(( draggingX && newPt.x != itsPrevPt.x) ||
 			 (!draggingX && newPt.y != itsPrevPt.y)))
@@ -4057,7 +4057,7 @@ void
 J2DPlotWidget::PWHandleMouseUp
 	(
 	const JPoint&	pt,
-	const JBoolean	cleanZoom
+	const bool	cleanZoom
 	)
 {
 	JPainter* p = nullptr;
@@ -4088,7 +4088,7 @@ J2DPlotWidget::PWHandleMouseUp
 				}
 			}
 		}
-	itsIsCursorDragging = kJFalse;
+	itsIsCursorDragging = false;
 }
 
 /******************************************************************************
@@ -4134,25 +4134,25 @@ J2DPlotWidget::MarkCurrentCursor()
 	if (itsSelectedCursor == kX1)
 		{
 		itsXMarks->AppendElement(itsXCursorVal1);
-		Broadcast(CursorMarked(kJTrue, itsXCursorVal1));
+		Broadcast(CursorMarked(true, itsXCursorVal1));
 		Broadcast(PlotChanged());
 		}
 	else if (itsSelectedCursor == kX2)
 		{
 		itsXMarks->AppendElement(itsXCursorVal2);
-		Broadcast(CursorMarked(kJTrue, itsXCursorVal2));
+		Broadcast(CursorMarked(true, itsXCursorVal2));
 		Broadcast(PlotChanged());
 		}
 	else if (itsSelectedCursor == kY1)
 		{
 		itsYMarks->AppendElement(itsYCursorVal1);
-		Broadcast(CursorMarked(kJFalse, itsYCursorVal1));
+		Broadcast(CursorMarked(false, itsYCursorVal1));
 		Broadcast(PlotChanged());
 		}
 	else if (itsSelectedCursor == kY2)
 		{
 		itsYMarks->AppendElement(itsYCursorVal2);
-		Broadcast(CursorMarked(kJFalse, itsYCursorVal2));
+		Broadcast(CursorMarked(false, itsYCursorVal2));
 		Broadcast(PlotChanged());
 		}
 }
@@ -4168,24 +4168,24 @@ J2DPlotWidget::MarkAllVisibleCursors()
 	if (itsXCursorVisible)
 		{
 		itsXMarks->AppendElement(itsXCursorVal1);
-		Broadcast(CursorMarked(kJTrue, itsXCursorVal1));
+		Broadcast(CursorMarked(true, itsXCursorVal1));
 
 		if (itsDualCursors)
 			{
 			itsXMarks->AppendElement(itsXCursorVal2);
-			Broadcast(CursorMarked(kJTrue, itsXCursorVal2));
+			Broadcast(CursorMarked(true, itsXCursorVal2));
 			}
 		}
 
 	if (itsYCursorVisible)
 		{
 		itsYMarks->AppendElement(itsYCursorVal1);
-		Broadcast(CursorMarked(kJFalse, itsYCursorVal1));
+		Broadcast(CursorMarked(false, itsYCursorVal1));
 
 		if (itsDualCursors)
 			{
 			itsYMarks->AppendElement(itsYCursorVal2);
-			Broadcast(CursorMarked(kJFalse, itsYCursorVal2));
+			Broadcast(CursorMarked(false, itsYCursorVal2));
 			}
 		}
 
@@ -4205,8 +4205,8 @@ J2DPlotWidget::RemoveAllMarks()
 {
 	itsYMarks->RemoveAll();
 	itsXMarks->RemoveAll();
-	Broadcast(MarkRemoved(kJFalse, 1));
-	Broadcast(MarkRemoved(kJTrue, 1));
+	Broadcast(MarkRemoved(false, 1));
+	Broadcast(MarkRemoved(true, 1));
 	Broadcast(PlotChanged());
 	PWRefresh();
 }
@@ -4223,7 +4223,7 @@ J2DPlotWidget::RemoveXMark
 	)
 {
 	itsXMarks->RemoveElement(index);
-	Broadcast(MarkRemoved(kJTrue, index));
+	Broadcast(MarkRemoved(true, index));
 	Broadcast(PlotChanged());
 	PWRefresh();
 }
@@ -4240,7 +4240,7 @@ J2DPlotWidget::RemoveYMark
 	)
 {
 	itsYMarks->RemoveElement(index);
-	Broadcast(MarkRemoved(kJFalse, index));
+	Broadcast(MarkRemoved(false, index));
 	Broadcast(PlotChanged());
 	PWRefresh();
 }
@@ -4258,7 +4258,7 @@ J2DPlotWidget::ToggleXCursor()
 		itsSelectedCursor = kNoCursor;
 		}
 	itsXCursorVisible = !itsXCursorVisible;
-	UpdatePlot(kJTrue);
+	UpdatePlot(true);
 	PWRefresh();
 }
 
@@ -4275,7 +4275,7 @@ J2DPlotWidget::ToggleYCursor()
 		itsSelectedCursor = kNoCursor;
 		}
 	itsYCursorVisible = !itsYCursorVisible;
-	UpdatePlot(kJTrue);
+	UpdatePlot(true);
 	PWRefresh();
 }
 
@@ -4284,7 +4284,7 @@ J2DPlotWidget::ToggleYCursor()
 
  ******************************************************************************/
 
-JBoolean
+bool
 J2DPlotWidget::DualCursorsVisible()
 {
 	return itsDualCursors;
@@ -4303,7 +4303,7 @@ J2DPlotWidget::ToggleDualCursors()
 		itsSelectedCursor = kNoCursor;
 		}
 	itsDualCursors = !itsDualCursors;
-	UpdatePlot(kJTrue);
+	UpdatePlot(true);
 	PWRefresh();
 }
 
@@ -4403,7 +4403,7 @@ J2DPlotWidget::DrawCursorLabels
 		}
 	JSize labelHeight	= p.GetLineHeight();
 	JSize cursorHeight	= GetCursorLabelHeight(p);
-	JSize strwidth		= p.GetStringWidth(JString("x1 = 0000000000", kJFalse));
+	JSize strwidth		= p.GetStringWidth(JString("x1 = 0000000000", JString::kNoCopy));
 	JSize totalWidth	= 3 * strwidth + 2 * kCursorValueBuffer;
 	JSize axisWidth		= itsXAxisEnd - itsXAxisStart;
 	JCoordinate startx	= itsXAxisStart;
@@ -4427,7 +4427,7 @@ J2DPlotWidget::DrawCursorLabels
 
 	if (itsXCursorVisible)
 		{
-		JString x1("x1 = ", 0);
+		JString x1("x1 = ");
 		x1 += FloatToString(itsXCursorVal1);
 
 		p.String(startx,
@@ -4436,10 +4436,10 @@ J2DPlotWidget::DrawCursorLabels
 
 		if (itsDualCursors)
 			{
-			JString x2("x2 = ", 0);
+			JString x2("x2 = ");
 			x2 += FloatToString(itsXCursorVal2);
 
-			JString dx("dx = ", 0);
+			JString dx("dx = ");
 			dx += FloatToString(itsXCursorVal2 - itsXCursorVal1);
 
 			p.String(startx + kCursorValueBuffer + strwidth,
@@ -4453,7 +4453,7 @@ J2DPlotWidget::DrawCursorLabels
 
 	if (itsYCursorVisible)
 		{
-		JString y1("y1 = ", 0);
+		JString y1("y1 = ");
 		y1 += FloatToString(itsYCursorVal1);
 
 		if (itsDualCursors)
@@ -4463,10 +4463,10 @@ J2DPlotWidget::DrawCursorLabels
 				starty += labelHeight;
 				}
 
-			JString y2("y2 = ", 0);
+			JString y2("y2 = ");
 			y2 += FloatToString(itsYCursorVal2);
 
-			JString dy("dy = ", 0);
+			JString dy("dy = ");
 			dy += FloatToString(itsYCursorVal2 - itsYCursorVal1);
 
 			p.String(startx,
@@ -4619,9 +4619,9 @@ void
 J2DPlotWidget::PWHandleKeyPress
 	(
 	const JUtf8Character&	key,
-	const JBoolean			reverse,
-	const JBoolean			interval,
-	const JBoolean			skip
+	const bool			reverse,
+	const bool			interval,
+	const bool			skip
 	)
 {
 	if (key == kJTabKey)
@@ -4702,11 +4702,11 @@ J2DPlotWidget::PWHandleKeyPress
 /*******************************************************************************
  MoveCursor (private)
 
-	Returns kJTrue if *cursorPos changed.
+	Returns true if *cursorPos changed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 J2DPlotWidget::MoveCursor
 	(
 	const JCoordinate	min,
@@ -4729,11 +4729,11 @@ J2DPlotWidget::MoveCursor
 	if (*cursorPos != newPos)
 		{
 		*cursorPos = newPos;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -4761,7 +4761,7 @@ J2DPlotWidget::AdjustCursors()
 		{
 		itsXCursorPos1 = xmin + 20;
 		}
-	itsXCursor1InitFlag = JI2B(itsXCursor1InitFlag || itsXCursorVisible);
+	itsXCursor1InitFlag = itsXCursor1InitFlag || itsXCursorVisible;
 
 	if (GetFrameX(itsXCursorVal2, &pos) && itsXCursor2InitFlag)
 		{
@@ -4771,7 +4771,7 @@ J2DPlotWidget::AdjustCursors()
 		{
 		itsXCursorPos2 = xmin + 40;
 		}
-	itsXCursor2InitFlag = JI2B(itsXCursor2InitFlag || (itsXCursorVisible && itsDualCursors));
+	itsXCursor2InitFlag = itsXCursor2InitFlag || (itsXCursorVisible && itsDualCursors);
 
 	if (GetFrameY(itsYCursorVal1, &pos) && itsYCursor1InitFlag)
 		{
@@ -4781,7 +4781,7 @@ J2DPlotWidget::AdjustCursors()
 		{
 		itsYCursorPos1 = ymin - 20;
 		}
-	itsYCursor1InitFlag = JI2B(itsYCursor1InitFlag || itsYCursorVisible);
+	itsYCursor1InitFlag = itsYCursor1InitFlag || itsYCursorVisible;
 
 	if (GetFrameY(itsYCursorVal2, &pos) && itsYCursor2InitFlag)
 		{
@@ -4791,7 +4791,7 @@ J2DPlotWidget::AdjustCursors()
 		{
 		itsYCursorPos2 = ymin - 40;
 		}
-	itsYCursor2InitFlag = JI2B(itsYCursor2InitFlag || (itsYCursorVisible && itsDualCursors));
+	itsYCursor2InitFlag = itsYCursor2InitFlag || (itsYCursorVisible && itsDualCursors);
 
 	itsXCursorVal1 = GetRealX(itsXCursorPos1);
 	itsXCursorVal2 = GetRealX(itsXCursorPos2);

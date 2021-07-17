@@ -115,7 +115,7 @@ GLPlotDir::GLPlotDir
 	JXDirector*       supervisor,
 	JXFileDocument*   notifySupervisor,
 	const JString&    filename,
-	const JBoolean    hideOnClose
+	const bool    hideOnClose
 	)
 	:
 	JXDocument(supervisor),
@@ -123,7 +123,7 @@ GLPlotDir::GLPlotDir
 {
 	itsSupervisor       = notifySupervisor;
 	itsHideOnClose      = hideOnClose;
-	itsPlotIsClosing	= kJFalse;
+	itsPlotIsClosing	= false;
 
 	itsPrinter          = nullptr;
 
@@ -170,7 +170,7 @@ GLPlotDir::GLPlotDir
 
 	itsSessionDir = jnew GLHistoryDir(JXGetApplication());
 	assert(itsSessionDir != nullptr);
-	JXGetDocumentManager()->DocumentMustStayOpen(itsSessionDir, kJTrue);
+	JXGetDocumentManager()->DocumentMustStayOpen(itsSessionDir, true);
 	ListenTo(itsSessionDir);
 
 	itsPlot =
@@ -382,7 +382,7 @@ GLPlotDir::Receive
 			GLFitModule* fm;
 			JString modName;
 			(GLGetApplication())->GetFitModulePath(index, &modName);
-			JBoolean success = GLFitModule::Create(&fm, this, data, modName);
+			bool success = GLFitModule::Create(&fm, this, data, modName);
 			if (!success)
 				{
 				JGetUserNotification()->ReportError(JGetString("UnknownError::GLFitModule"));
@@ -739,7 +739,7 @@ GLPlotDir::ReadCurves
 			if (temp == JPlotDataBase::kScatterPlot)
 				{
 				JIndex xIndex, yIndex, xErrIndex, yErrIndex;
-				JBoolean xerrors, yerrors;
+				bool xerrors, yerrors;
 				is >> xIndex >> yIndex;
 				is >> JBoolFromString(xerrors) >> JBoolFromString(yerrors);
 				if (xerrors)
@@ -753,9 +753,9 @@ GLPlotDir::ReadCurves
 				itsCurrentCurveType = kGDataCurve;
 				J2DPlotData* curve;
 				if (J2DPlotData::Create(&curve, data->GetColPointer(xIndex),
-										data->GetColPointer(yIndex), kJTrue))
+										data->GetColPointer(yIndex), true))
 					{
-					itsPlot->AddCurve(curve, kJTrue, JString::empty);
+					itsPlot->AddCurve(curve, true, JString::empty);
 
 					if (xerrors)
 						{
@@ -776,9 +776,9 @@ GLPlotDir::ReadCurves
 				if (J2DVectorData::Create(&curve, data->GetColPointer(xIndex),
 										  data->GetColPointer(yIndex),
 										  data->GetColPointer(vxIndex),
-										  data->GetColPointer(vyIndex), kJTrue))
+										  data->GetColPointer(vyIndex), true))
 					{
-					itsPlot->AddCurve(curve, kJTrue, JString::empty, kJFalse, kJFalse);
+					itsPlot->AddCurve(curve, true, JString::empty, false, false);
 					}
 				}
 			}
@@ -824,7 +824,7 @@ GLPlotDir::ReadCurves
 			if (J2DPlotJFunction::Create(&pf, itsPlot, itsVarList, GetDisplay()->GetFontManager(), fnString, itsXVarIndex, min, max))
 				{
 				itsCurrentCurveType = kGFunctionCurve;
-				itsPlot->AddCurve(pf, kJTrue, pf->GetFunctionString(), kJTrue, kJFalse);
+				itsPlot->AddCurve(pf, true, pf->GetFunctionString(), true, false);
 				itsCurrentCurveType = kGDataCurve;
 				}
 			}
@@ -836,10 +836,10 @@ GLPlotDir::ReadCurves
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotDir::OKToClose()
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -847,10 +847,10 @@ GLPlotDir::OKToClose()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotDir::OKToRevert()
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -858,10 +858,10 @@ GLPlotDir::OKToRevert()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotDir::CanRevert()
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -869,11 +869,11 @@ GLPlotDir::CanRevert()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotDir::NeedsSave()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -894,12 +894,12 @@ GLPlotDir::HandlePlotMenu
 	else if (index == kPrintCmd)
 		{
 		itsPrinter->BeginUserPrintSetup();
-		itsIsPrintAll = kJFalse;
+		itsIsPrintAll = false;
 		}
 	else if (index == kPrintSessionCmd)
 		{
 		itsPrinter->BeginUserPrintSetup();
-		itsIsPrintAll = kJTrue;
+		itsIsPrintAll = true;
 		}
 
 	else if (index == kPrintPlotEPSCmd)
@@ -976,9 +976,9 @@ GLPlotDir::PlotFunction
 {
 	JFloat min, max, inc;
 	itsPlot->GetXScale(&min, &max, &inc);
-	J2DPlotJFunction* pf = jnew J2DPlotJFunction(itsPlot, itsVarList, f, kJTrue, itsXVarIndex, min, max);
+	J2DPlotJFunction* pf = jnew J2DPlotJFunction(itsPlot, itsVarList, f, true, itsXVarIndex, min, max);
 	itsCurrentCurveType = kGFunctionCurve;
-	itsPlot->AddCurve(pf, kJTrue, f->Print(), kJTrue, kJFalse);
+	itsPlot->AddCurve(pf, true, f->Print(), true, false);
 	itsCurrentCurveType = kGDataCurve;
 }
 
@@ -1179,12 +1179,12 @@ GLPlotDir::NewFit
 		if (itsPlot->IsUsingRange())
 			{
 			itsPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
-			lf = jnew GLPlotLinearFit(itsPlot, data, xmin, xmax, ymin, ymax, kJFalse, kJTrue);
+			lf = jnew GLPlotLinearFit(itsPlot, data, xmin, xmax, ymin, ymax, false, true);
 			}
 		else
 			{
 			data->GetXRange(&xmin, &xmax);
-			lf = jnew GLPlotLinearFit(itsPlot, data, xmin, xmax, kJFalse, kJTrue);
+			lf = jnew GLPlotLinearFit(itsPlot, data, xmin, xmax, false, true);
 			}
 		assert(lf != nullptr);
 		itsFits->Append(lf);
@@ -1214,7 +1214,7 @@ GLPlotDir::NewFit
 		}
 	else
 		{
-		assert( kJFalse );
+		assert( false );
 		}
 	AddFit(df, plotindex, type);
 }
@@ -1231,7 +1231,7 @@ GLPlotDir::AddDiffCurve
 	)
 {
 	itsCurrentCurveType = kGDiffCurve;
-	itsPlot->AddCurve(ddata, kJFalse, JGetString("DiffCurveName::GLPlotDir"), kJFalse, kJTrue);
+	itsPlot->AddCurve(ddata, false, JGetString("DiffCurveName::GLPlotDir"), false, true);
 	itsCurrentCurveType = kGDataCurve;
 }
 
@@ -1240,7 +1240,7 @@ GLPlotDir::AddDiffCurve
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotDir::AddFitModule
 	(
 	GLPlotModuleFit* fit,
@@ -1248,14 +1248,14 @@ GLPlotDir::AddFitModule
 	)
 {
 	JIndex plotindex;
-	JBoolean found = itsPlot->GetCurveIndex(fitData, &plotindex);
+	bool found = itsPlot->GetCurveIndex(fitData, &plotindex);
 	if (!found)
 		{
-		return kJFalse;
+		return false;
 		}
 	itsFits->Append(fit);
 	AddFit(fit, plotindex, kGModFit);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1272,7 +1272,7 @@ GLPlotDir::AddFit
 	)
 {
 	itsCurrentCurveType = kGFitCurve;
-	JIndex i = itsPlot->AddCurve(fit, kJTrue, fit->GetFunctionString(), kJTrue, kJFalse);
+	JIndex i = itsPlot->AddCurve(fit, true, fit->GetFunctionString(), true, false);
 	itsCurrentCurveType = kGDataCurve;
 	GloveCurveStats stats = itsCurveStats->GetElement(i);
 	stats.type 		= kGFitCurve;
@@ -1283,9 +1283,9 @@ GLPlotDir::AddFit
 	itsAnalysisMenu->EnableItem(kFitParmsCmd);
 	itsAnalysisMenu->EnableItem(kDiffPlotCmd);
 
-	GLPlotDir* dir = jnew GLPlotDir(this, itsSupervisor, itsFileName, kJTrue);
+	GLPlotDir* dir = jnew GLPlotDir(this, itsSupervisor, itsFileName, true);
 	assert( dir != nullptr );
-	JXGetDocumentManager()->DocumentMustStayOpen(dir, kJTrue);
+	JXGetDocumentManager()->DocumentMustStayOpen(dir, true);
 	JPlotDataBase* ddata = fit->GetDiffData();
 	dir->AddDiffCurve(ddata);
 	J2DPlotWidget* plot = dir->GetPlot();
@@ -1294,8 +1294,8 @@ GLPlotDir::AddFit
 	plot->SetTitle(str);
 	plot->SetXLabel(itsPlot->GetXLabel());
 	plot->SetYLabel(itsPlot->GetYLabel());
-	plot->ProtectCurve(1, kJTrue);
-	plot->ShowFrame(kJFalse);
+	plot->ProtectCurve(1, true);
+	plot->ShowFrame(false);
 	itsDiffDirs->Append(dir);
 }
 
@@ -1322,7 +1322,7 @@ GLPlotDir::AddFitProxy
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotDir::CurveIsFit
 	(
 	const JIndex index
@@ -1333,9 +1333,9 @@ GLPlotDir::CurveIsFit
 	GloveCurveStats stat = itsCurveStats->GetElement(index);
 	if (stat.type == kGFitCurve)
 		{
-		return kJTrue;
+		return true;
 		}
-	return kJFalse;
+	return false;
 }
 
 
@@ -1414,9 +1414,9 @@ GLPlotDir::GetMenuIcon()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotDir::Close()
 {
-	itsPlotIsClosing = kJTrue;
+	itsPlotIsClosing = true;
 	return JXDocument::Close();
 }

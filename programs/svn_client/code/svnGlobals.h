@@ -29,7 +29,7 @@ JString				SVNGetVersionStr();
 
 	// called by SVNApp
 
-JBoolean	SVNCreateGlobals(SVNApp* app);
+bool	SVNCreateGlobals(SVNApp* app);
 void		SVNDeleteGlobals();
 void		SVNCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 

@@ -75,7 +75,7 @@ JConjugate::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JConjugate::Evaluate
 	(
 	JFloat* result
@@ -85,7 +85,7 @@ JConjugate::Evaluate
 	return GetArg()->Evaluate(result);
 }
 
-JBoolean
+bool
 JConjugate::Evaluate
 	(
 	JComplex* result
@@ -101,7 +101,7 @@ JConjugate::Evaluate
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -157,7 +157,7 @@ JConjugate::Render
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);

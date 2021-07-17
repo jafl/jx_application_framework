@@ -23,7 +23,7 @@ public:
 
 	void	HandleKeyPress(const JUtf8Character& c);
 
-	void	HandleMouseDown(const JPoint& pt, const JBoolean extend);
+	void	HandleMouseDown(const JPoint& pt, const bool extend);
 	void	HandleMouseDrag(const JPoint& pt);
 	void	HandleMouseUp(const JPoint& pt);
 
@@ -32,13 +32,13 @@ protected:
 	virtual void		EIPRefresh() override;
 	virtual void		EIPRedraw() override;
 	virtual void		EIPBoundsChanged() override;
-	virtual JBoolean	EIPScrollToRect(const JRect& r) override;
-	virtual JBoolean	EIPScrollForDrag(const JPoint& pt) override;
-	virtual void		EIPAdjustNeedTab(const JBoolean needTab) override;
+	virtual bool	EIPScrollToRect(const JRect& r) override;
+	virtual bool	EIPScrollForDrag(const JPoint& pt) override;
+	virtual void		EIPAdjustNeedTab(const bool needTab) override;
 
 	virtual void		EIPClipboardChanged() override;
-	virtual JBoolean	EIPOwnsClipboard() override;
-	virtual JBoolean	EIPGetExternalClipboard(JString* text) override;
+	virtual bool	EIPOwnsClipboard() override;
+	virtual bool	EIPGetExternalClipboard(JString* text) override;
 
 private:
 

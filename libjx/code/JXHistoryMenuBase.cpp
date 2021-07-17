@@ -88,7 +88,7 @@ JXHistoryMenuBase::JXHistoryMenuBaseX
 	SetUpdateAction(kDisableNone);
 
 	itsDefaultIcon     = nullptr;
-	itsOwnsDefIconFlag = kJFalse;
+	itsOwnsDefIconFlag = false;
 
 	ListenTo(this);
 }
@@ -161,9 +161,8 @@ JXHistoryMenuBase::AddItem
 		{
 		GetItemNMShortcut(i, &itemNMShortcut);
 
-		const JBoolean matches = JI2B(
-			text == JXTextMenu::GetItemText(i) &&
-			nmShortcut == itemNMShortcut );
+		const bool matches = text == JXTextMenu::GetItemText(i) &&
+			nmShortcut == itemNMShortcut;
 		if (matches &&
 			((itsHistoryDirection == kNewestItemAtTop    && i == itsFirstIndex) ||
 			 (itsHistoryDirection == kNewestItemAtBottom && i == itemCount)))
@@ -404,7 +403,7 @@ JXHistoryMenuBase::UpdateItemImage
 	const JXImage* image;
 	if (!GetItemImage(index, &image))
 		{
-		SetItemImage(index, itsDefaultIcon, kJFalse);
+		SetItemImage(index, itsDefaultIcon, false);
 		}
 }
 
@@ -417,7 +416,7 @@ void
 JXHistoryMenuBase::SetDefaultIcon
 	(
 	JXImage*		icon,
-	const JBoolean	menuOwnsIcon
+	const bool	menuOwnsIcon
 	)
 {
 	if (itsOwnsDefIconFlag)

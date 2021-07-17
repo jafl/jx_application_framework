@@ -21,8 +21,8 @@ public:
 
 	~MDRecord();
 
-	JBoolean		IsValid() const;
-	JBoolean		IsArrayNew() const;
+	bool		IsValid() const;
+	bool		IsArrayNew() const;
 	const JString&	GetNewFile() const;
 	JIndex			GetNewLine() const;
 	JSize			GetSize() const;
@@ -39,8 +39,8 @@ public:
 
 private:
 
-	JBoolean	itsIsValidFlag;
-	JBoolean	itsIsArrayNewFlag;
+	bool	itsIsValidFlag;
+	bool	itsIsArrayNewFlag;
 	JString		itsNewFile;
 	JIndex		itsNewLine;
 	JSize		itsSize;
@@ -60,7 +60,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 MDRecord::IsValid()
 	const
 {
@@ -72,7 +72,7 @@ MDRecord::IsValid()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 MDRecord::IsArrayNew()
 	const
 {

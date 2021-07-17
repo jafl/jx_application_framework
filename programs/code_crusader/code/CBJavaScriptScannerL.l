@@ -61,7 +61,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}
@@ -117,7 +117,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "..."  |
 "::"   {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	return ThisToken(kOperator);
 	}
 
@@ -130,7 +130,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "</" |
 "/>" {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	return ThisToken(kOperator);
 	}
 
@@ -147,14 +147,14 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "," |
 ";" {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	return ThisToken(kDelimiter);
 	}
 
 ")" |
 "]" {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kDelimiter);
 	}
 
@@ -166,37 +166,37 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 {KEYWORD} {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	return ThisToken(kReservedKeyword);
 	}
 
 {ID} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kID);
 	}
 
 {DECIMAL} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kDecimalInt);
 	}
 
 {HEX} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kHexInt);
 	}
 
 {BADHEX} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kBadHexInt);
 	}
 
 {FLOAT} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kFloat);
 	}
 
@@ -297,7 +297,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 \' {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	BEGIN(SINGLE_STRING_STATE);
 	}
 
@@ -329,7 +329,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 \" {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	BEGIN(DOUBLE_STRING_STATE);
 	}
 
@@ -361,7 +361,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 \` {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	BEGIN(TEMPLATE_STRING_STATE);
 	}
 
@@ -395,13 +395,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	if (itsProbableOperatorFlag)
 		{
 		StartToken();
-		itsProbableOperatorFlag = kJFalse;
+		itsProbableOperatorFlag = false;
 		return ThisToken(kOperator);
 		}
 	else
 		{
 		StartToken();
-		itsProbableOperatorFlag = kJTrue;
+		itsProbableOperatorFlag = true;
 		BEGIN(REGEX_SEARCH_STATE);
 		}
 	}

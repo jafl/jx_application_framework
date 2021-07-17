@@ -193,10 +193,10 @@ JXTextButton::DrawBackground
 	if (IsPushed())
 		{
 		p.SetPenColor(itsPushedColor);
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.JPainter::Rect(frame);
 		p.SetPenColor(JColorManager::GetBlackColor());
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		}
 	else
 		{
@@ -212,7 +212,7 @@ JXTextButton::DrawBackground
 JCoordinate
 JXTextButton::GetFTCMinContentSize
 	(
-	const JBoolean horizontal
+	const bool horizontal
 	)
 	const
 {

@@ -55,7 +55,7 @@ JXDockManager::JXDockManager
 	itsWindowIcon(nullptr),
 	itsNextDockIndex(1),
 	itsNextDockID(1),
-	itsIsReadingSetupFlag(kJFalse),
+	itsIsReadingSetupFlag(false),
 	itsCloseDockMode(kUndockWindows)
 {
 	itsDockList = jnew JPtrArray<JXDockDirector>(JPtrArrayT::kForgetAll);
@@ -89,7 +89,7 @@ JXDockManager::~JXDockManager()
 JXDockDirector*
 JXDockManager::CreateDock
 	(
-	const JBoolean splitHoriz
+	const bool splitHoriz
 	)
 {
 	const JString title = GetNewDockTitle();
@@ -143,7 +143,7 @@ JXDockManager::SetIcon
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockManager::CreateIcon
 	(
 	JXImage** icon
@@ -154,12 +154,12 @@ JXDockManager::CreateIcon
 		{
 		*icon = jnew JXImage(*itsWindowIcon);
 		assert( *icon != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*icon = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -168,7 +168,7 @@ JXDockManager::CreateIcon
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockManager::FindDock
 	(
 	const JIndex	id,
@@ -179,12 +179,12 @@ JXDockManager::FindDock
 		{
 		if (dir->FindDock(id, dock))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*dock = nullptr;
-	return kJFalse;
+	return false;
 }
 
 /*****************************************************************************
@@ -211,16 +211,16 @@ JXDockManager::CloseAll()
 /******************************************************************************
  CanDockAll (virtual)
 
-	Derived class should override this to return kJTrue if it implements
+	Derived class should override this to return true if it implements
 	DockAll().
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockManager::CanDockAll()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -241,7 +241,7 @@ JXDockManager::DockAll()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockManager::GetDefaultDock
 	(
 	const JUtf8Byte*	windowType,
@@ -253,18 +253,18 @@ JXDockManager::GetDefaultDock
 		{
 		if (FindDock(id, dock))
 			{
-			return JI2B( dock != nullptr );
+			return dock != nullptr;
 			}
 		else
 			{
 			SetDefaultDock(windowType, nullptr);
-			return kJFalse;
+			return false;
 			}
 		}
 	else
 		{
 		*dock = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -335,7 +335,7 @@ JXDockManager::ReadSetup
 {
 	CloseAll();
 
-	itsIsReadingSetupFlag = kJTrue;
+	itsIsReadingSetupFlag = true;
 
 	JFileVersion vers;
 	input >> vers;
@@ -363,7 +363,7 @@ JXDockManager::ReadSetup
 		JString windowType;
 		while (1)
 			{
-			JBoolean keepGoing;
+			bool keepGoing;
 			input >> JBoolFromString(keepGoing);
 			if (input.fail() || !keepGoing)
 				{
@@ -381,7 +381,7 @@ JXDockManager::ReadSetup
 			}
 		}
 
-	itsIsReadingSetupFlag = kJFalse;
+	itsIsReadingSetupFlag = false;
 }
 
 /******************************************************************************
@@ -410,11 +410,11 @@ JXDockManager::WriteSetup
 	while (cursor.Next())
 		{
 		windowType = cursor.GetKey();
-		output << ' ' << JBoolToString(kJTrue);
+		output << ' ' << JBoolToString(true);
 		output << ' ' << windowType;
 		output << ' ' << cursor.GetValue();
 		}
-	output << ' ' << JBoolToString(kJFalse);
+	output << ' ' << JBoolToString(false);
 
 	output << ' ';
 }

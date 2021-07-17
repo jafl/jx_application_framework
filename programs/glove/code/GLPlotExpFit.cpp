@@ -30,22 +30,22 @@ GLPlotExpFit::GLPlotExpFit
 	const JFloat	xMax
 	)
 	:
-	GLPlotLinearFit(plot, fitData, xMin, xMax, kJFalse)
+	GLPlotLinearFit(plot, fitData, xMin, xMax, false)
 {
-	SetFunctionName(JString("y = a Exp(bx)", kJFalse));
+	SetFunctionName(JString("y = a Exp(bx)", JString::kNoCopy));
 	itsXData = jnew JArray<JFloat>;
 	itsYData = jnew JArray<JFloat>;
-	itsHasXErrors = kJFalse;
-	itsHasYErrors = kJFalse;
+	itsHasXErrors = false;
+	itsHasYErrors = false;
 	if (fitData->HasXErrors())
 		{
 		itsXErrData = jnew JArray<JFloat>;
-		itsHasXErrors = kJTrue;
+		itsHasXErrors = true;
 		}
 	if (fitData->HasYErrors())
 		{
 		itsYErrData = jnew JArray<JFloat>;
-		itsHasYErrors = kJTrue;
+		itsHasYErrors = true;
 		}
 
 	AdjustData();
@@ -71,7 +71,7 @@ GLPlotExpFit::~GLPlotExpFit()
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotExpFit::GetYValue
 	(
 	const JFloat 	x,
@@ -83,7 +83,7 @@ GLPlotExpFit::GetYValue
 	GetParameter(1, &a);
 	GetParameter(2, &b);
 	*y = a * exp(b*x);
-	return kJTrue;
+	return true;
 }
 
 
@@ -93,12 +93,12 @@ GLPlotExpFit::GetYValue
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotExpFit::GetYRange
 	(
 	const JFloat	xMin,
 	const JFloat	xMax,
-	const JBoolean	xLinear,
+	const bool	xLinear,
 	JFloat*			yMin,
 	JFloat*			yMax
 	)
@@ -110,7 +110,7 @@ GLPlotExpFit::GetYRange
 
 	*yMin = JMin(y1, y2);
 	*yMax = JMax(y1, y2);
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -177,7 +177,7 @@ GLPlotExpFit::AdjustData()
 void
 GLPlotExpFit::CreateData()
 {
-	J2DPlotData::Create(&itsAdjustedData, *itsXData, *itsYData, kJTrue);
+	J2DPlotData::Create(&itsAdjustedData, *itsXData, *itsYData, true);
 	if (itsHasYErrors)
 		{
 		itsAdjustedData->SetYErrors(*itsYErrData);
@@ -194,7 +194,7 @@ GLPlotExpFit::CreateData()
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotExpFit::GetParameter
 	(
 	const JIndex index, 
@@ -203,7 +203,7 @@ GLPlotExpFit::GetParameter
 	const
 {
 	JFloat linVal;
-	JBoolean success = GLPlotLinearFit::GetParameter(index, &linVal);
+	bool success = GLPlotLinearFit::GetParameter(index, &linVal);
 	if (index == 1)
 		{
 		*value = exp(linVal);
@@ -221,7 +221,7 @@ GLPlotExpFit::GetParameter
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotExpFit::GetParameterError
 	(
 	const JIndex index, 
@@ -231,7 +231,7 @@ GLPlotExpFit::GetParameterError
 {
 	JFloat linVal;
 	JFloat aVal;
-	JBoolean success = GLPlotLinearFit::GetParameterError(index, &linVal);
+	bool success = GLPlotLinearFit::GetParameterError(index, &linVal);
 	GLPlotLinearFit::GetParameter(index, &aVal);
 		if (index == 1)
 		{

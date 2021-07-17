@@ -22,7 +22,7 @@ CMPlot2DCommand::CMPlot2DCommand
 	JArray<JFloat>*	y
 	)
 	:
-	CMCommand("", kJFalse, kJTrue),
+	CMCommand("", false, true),
 	itsDirector(dir),
 	itsX(x),
 	itsY(y)

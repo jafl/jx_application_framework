@@ -21,13 +21,13 @@ class THXPrefsManager : public JXPrefsManager
 {
 public:
 
-	THXPrefsManager(JBoolean* isNew);
+	THXPrefsManager(bool* isNew);
 
 	virtual	~THXPrefsManager();
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion);
+	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion);
 
 private:
 

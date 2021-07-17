@@ -37,31 +37,31 @@ public:
 	virtual void	GetElement(const JIndex index, J2DVectorPoint* data) const;
 
 	virtual void		GetXRange(JFloat* xMin, JFloat* xMax) const = 0;
-	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const JBoolean xLinear,
+	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
+								  const bool xLinear,
 								  JFloat* yMin, JFloat* yMax) const = 0;
-	virtual JBoolean	GetZRange(const JFloat xMin, const JFloat xMax,
-								  const JBoolean xLinear,
+	virtual bool	GetZRange(const JFloat xMin, const JFloat xMax,
+								  const bool xLinear,
 								  const JFloat yMin, const JFloat yMax,
-								  const JBoolean yLinear,
+								  const bool yLinear,
 								  JFloat* zMin, JFloat* zMax) const;
-	virtual JBoolean	Get4thRange(const JFloat xMin, const JFloat xMax,
-									const JBoolean xLinear,
+	virtual bool	Get4thRange(const JFloat xMin, const JFloat xMax,
+									const bool xLinear,
 									const JFloat yMin, const JFloat yMax,
-									const JBoolean yLinear,
+									const bool yLinear,
 									const JFloat zMin, const JFloat zMax,
-									const JBoolean zLinear,
+									const bool zLinear,
 									JFloat* min, JFloat* max) const;
 
-	virtual JBoolean	HasXErrors() const;
-	virtual JBoolean	HasYErrors() const;
-	virtual JBoolean	HasSymmetricXErrors() const;
-	virtual JBoolean	HasSymmetricYErrors() const;
+	virtual bool	HasXErrors() const;
+	virtual bool	HasYErrors() const;
+	virtual bool	HasSymmetricXErrors() const;
+	virtual bool	HasSymmetricYErrors() const;
 
-	virtual JBoolean	IsFunction() const;
+	virtual bool	IsFunction() const;
 
-	JBoolean	WillBroadcastChanged() const;
-	void		ShouldBroadcastChanged(const JBoolean bcast = kJTrue);
+	bool	WillBroadcastChanged() const;
+	void		ShouldBroadcastChanged(const bool bcast = true);
 
 protected:
 
@@ -70,7 +70,7 @@ protected:
 private:
 
 	const Type	itsType;
-	JBoolean	itsBroadcastFlag;	// kJTrue => broadcast when changed
+	bool	itsBroadcastFlag;	// true => broadcast when changed
 
 public:
 
@@ -119,7 +119,7 @@ JPlotDataBase::BroadcastCurveChanged()
 
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 JPlotDataBase::WillBroadcastChanged()
 	const
 {
@@ -129,7 +129,7 @@ JPlotDataBase::WillBroadcastChanged()
 inline void
 JPlotDataBase::ShouldBroadcastChanged
 	(
-	const JBoolean bcast
+	const bool bcast
 	)
 {
 	itsBroadcastFlag = bcast;

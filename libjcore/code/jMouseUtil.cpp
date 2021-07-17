@@ -13,11 +13,11 @@
 /******************************************************************************
  JMouseMoved
 
-	Returns kJTrue if the points are further apart than the debounce width.
+	Returns true if the points are further apart than the debounce width.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JMouseMoved
 	(
 	const JPoint&		pt1,
@@ -25,6 +25,6 @@ JMouseMoved
 	const JCoordinate	debounceWidth
 	)
 {
-	return JI2B(JLAbs(pt2.x - pt1.x) > debounceWidth ||
-				JLAbs(pt2.y - pt1.y) > debounceWidth);
+	return JLAbs(pt2.x - pt1.x) > debounceWidth ||
+				JLAbs(pt2.y - pt1.y) > debounceWidth;
 }

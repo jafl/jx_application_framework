@@ -78,7 +78,7 @@ private:
 	JSize			itsRecvBufferSize;
 	JUtf8ByteBuffer	itsByteBuffer;
 
-	JBoolean	itsInHandleInputFlag;		// kJTrue => stack passes through handle_input()
+	bool	itsInHandleInputFlag;		// true => stack passes through handle_input()
 
 private:
 

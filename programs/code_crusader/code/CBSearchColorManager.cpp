@@ -35,7 +35,7 @@ CBSearchColorManager::~CBSearchColorManager()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSearchColorManager::GetColorID
 	(
 	const JString&	name,
@@ -43,5 +43,5 @@ CBSearchColorManager::GetColorID
 	)
 {
 	*id = 0;
-	return kJTrue;
+	return true;
 }

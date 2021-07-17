@@ -66,12 +66,12 @@
 /******************************************************************************
  Is character in word
 
-	Returns kJTrue if the character is a special part of a word for the
+	Returns true if the character is a special part of a word for the
 	given language.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBIsCharacterInWord
 	(
 	const CBTextFileType	type,
@@ -80,7 +80,7 @@ CBIsCharacterInWord
 {
 	if (type == kCBPerlFT)
 		{
-		return JI2B(c == '$' || c == '%' || c == '@');
+		return c == '$' || c == '%' || c == '@';
 		}
 	else if (type == kCBAWKFT         ||
 			 type == kCBPHPFT         ||
@@ -89,34 +89,34 @@ CBIsCharacterInWord
 			 type == kCBCShellFT      ||
 			 type == kCBTCLFT)
 		{
-		return JI2B(c == '$');
+		return c == '$';
 		}
 	else if (type == kCBJavaSourceFT ||
 			 type == kCBSQLFT)
 		{
-		return JI2B(c == '@');
+		return c == '@';
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  Is character in word
 
-	Returns kJTrue if the character is a special part of a word for the
+	Returns true if the character is a special part of a word for the
 	given language.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBNameIsQualified
 	(
 	const JString& s
 	)
 {
-	return JI2B(s.Contains(":") || s.Contains(".") || s.Contains("\\"));
+	return s.Contains(":") || s.Contains(".") || s.Contains("\\");
 }
 
 /******************************************************************************
@@ -140,7 +140,7 @@ static const CBComplMap kComplMap[] =
 
 const JSize kComplMapCount = sizeof(kComplMap) / sizeof(CBComplMap);
 
-JBoolean
+bool
 CBGetComplementType
 	(
 	const CBTextFileType	inputType,
@@ -152,17 +152,17 @@ CBGetComplementType
 		if (inputType == kComplMap[i].t1)
 			{
 			*outputType = kComplMap[i].t2;
-			return kJTrue;
+			return true;
 			}
 		if (inputType == kComplMap[i].t2)
 			{
 			*outputType = kComplMap[i].t1;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*outputType = kCBUnknownFT;
-	return kJFalse;
+	return false;
 }
 
 struct CBComplName
@@ -357,7 +357,7 @@ static const CBLang2Styler kLang2Styler[] =
 
 const JSize kLang2StylerCount = sizeof(kLang2Styler) / sizeof(CBLang2Styler);
 
-JBoolean
+bool
 CBGetStyler
 	(
 	const CBLanguage	lang,
@@ -370,12 +370,12 @@ CBGetStyler
 	if (kLang2Styler[lang].create != nullptr)
 		{
 		*styler = kLang2Styler[lang].create();
-		return JI2B( *styler != nullptr );
+		return *styler != nullptr;
 		}
 	else
 		{
 		*styler = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -456,7 +456,7 @@ static const CBLang2Completer kLang2Completer[] =
 
 const JSize kLang2CompleterCount = sizeof(kLang2Completer) / sizeof(CBLang2Completer);
 
-JBoolean
+bool
 CBGetCompleter
 	(
 	const CBLanguage	lang,
@@ -469,12 +469,12 @@ CBGetCompleter
 	if (kLang2Completer[lang].create != nullptr)
 		{
 		*completer = kLang2Completer[lang].create();
-		return JI2B( *completer != nullptr );
+		return *completer != nullptr;
 		}
 	else
 		{
 		*completer = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 

@@ -34,14 +34,14 @@
 template <ACE_PEER_STREAM_1>
 JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	(
-	const JBoolean synchSend
+	const bool synchSend
 	)
 	:
 	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend),
 	itsByteBuffer(JMessageProtocolT::kDefaultBufferSize),
 	itsMessageList(JPtrArrayT::kDeleteAll),
-	itsSeparatorStr(kJFalse),
-	itsDisconnectStr(kJFalse)
+	itsSeparatorStr(false),
+	itsDisconnectStr(false)
 {
 	JMessageProtocolX();
 }
@@ -50,14 +50,14 @@ template <ACE_PEER_STREAM_1>
 JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	(
 	const ACE_HANDLE	fd,
-	const JBoolean		synchSend
+	const bool		synchSend
 	)
 	:
 	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend),
 	itsByteBuffer(JMessageProtocolT::kDefaultBufferSize),
 	itsMessageList(JPtrArrayT::kDeleteAll),
-	itsSeparatorStr(kJFalse),
-	itsDisconnectStr(kJFalse)
+	itsSeparatorStr(false),
+	itsDisconnectStr(false)
 {
 	JMessageProtocolX();
 
@@ -78,10 +78,10 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 
 	UseUNIXProtocol();
 
-	itsWantsBlankMessagesFlag = kJFalse;
-	itsSentDisconnectFlag     = kJFalse;
-	itsReceivedDisconnectFlag = kJFalse;
-	itsInHandleInputFlag      = kJFalse;
+	itsWantsBlankMessagesFlag = false;
+	itsSentDisconnectFlag     = false;
+	itsReceivedDisconnectFlag = false;
+	itsInHandleInputFlag      = false;
 }
 
 /******************************************************************************
@@ -187,7 +187,7 @@ template <ACE_PEER_STREAM_1>
 void
 JMessageProtocol<ACE_PEER_STREAM_2>::UpdateTokenPattern()
 {
-	JString pattern(kJFalse);
+	JString pattern(false);
 	pattern  = JRegex::BackslashForLiteral(itsSeparatorStr);
 	pattern += "|";
 	pattern += JRegex::BackslashForLiteral(itsDisconnectStr);
@@ -231,7 +231,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SetBufferSize
  ******************************************************************************/
 
 template <ACE_PEER_STREAM_1>
-JBoolean
+bool
 JMessageProtocol<ACE_PEER_STREAM_2>::WantsBlankMessages()
 	const
 {
@@ -242,7 +242,7 @@ template <ACE_PEER_STREAM_1>
 void
 JMessageProtocol<ACE_PEER_STREAM_2>::SetWantsBlankMessages
 	(
-	const JBoolean wantsBlanks
+	const bool wantsBlanks
 	)
 {
 	itsWantsBlankMessagesFlag = wantsBlanks;
@@ -254,7 +254,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SetWantsBlankMessages
  ******************************************************************************/
 
 template <ACE_PEER_STREAM_1>
-JBoolean
+bool
 JMessageProtocol<ACE_PEER_STREAM_2>::ReceivedDisconnect()
 	const
 {
@@ -275,7 +275,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SendDisconnect()
 	if (!itsSentDisconnectFlag)
 		{
 		JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send(itsDisconnectStr);
-		itsSentDisconnectFlag = kJTrue;
+		itsSentDisconnectFlag = true;
 		}
 }
 
@@ -285,7 +285,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SendDisconnect()
  ******************************************************************************/
 
 template <ACE_PEER_STREAM_1>
-JBoolean
+bool
 JMessageProtocol<ACE_PEER_STREAM_2>::HasMessages()
 	const
 {
@@ -309,12 +309,12 @@ JMessageProtocol<ACE_PEER_STREAM_2>::GetMessageCount()
  GetNextMessage
 
 	Stores the next complete message in *message and removes it from the queue.
-	Returns kJFalse if no complete messages are available.
+	Returns false if no complete messages are available.
 
  ******************************************************************************/
 
 template <ACE_PEER_STREAM_1>
-JBoolean
+bool
 JMessageProtocol<ACE_PEER_STREAM_2>::GetNextMessage
 	(
 	JString* message
@@ -324,12 +324,12 @@ JMessageProtocol<ACE_PEER_STREAM_2>::GetNextMessage
 		{
 		*message = *itsMessageList.GetFirstElement();
 		itsMessageList.DeleteElement(1);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		message->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -337,12 +337,12 @@ JMessageProtocol<ACE_PEER_STREAM_2>::GetNextMessage
  PeekNextMessage
 
 	Stores the next complete message in *message.
-	Returns kJFalse if no complete messages are available.
+	Returns false if no complete messages are available.
 
  ******************************************************************************/
 
 template <ACE_PEER_STREAM_1>
-JBoolean
+bool
 JMessageProtocol<ACE_PEER_STREAM_2>::PeekNextMessage
 	(
 	JString* message
@@ -351,12 +351,12 @@ JMessageProtocol<ACE_PEER_STREAM_2>::PeekNextMessage
 	if (!itsMessageList.IsEmpty())
 		{
 		*message = *itsMessageList.GetFirstElement();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		message->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -364,12 +364,12 @@ JMessageProtocol<ACE_PEER_STREAM_2>::PeekNextMessage
  PeekPartialMessage
 
 	Stores the message that is being received in *message.
-	Returns kJFalse if the message is empty.
+	Returns false if the message is empty.
 
  ******************************************************************************/
 
 template <ACE_PEER_STREAM_1>
-JBoolean
+bool
 JMessageProtocol<ACE_PEER_STREAM_2>::PeekPartialMessage
 	(
 	JString* message
@@ -446,7 +446,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 		{
 		return 0;
 		}
-	itsInHandleInputFlag = kJTrue;
+	itsInHandleInputFlag = true;
 
 	// We flush the system buffer even if we have received a disconnect.
 
@@ -454,7 +454,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 
 	if (itsReceivedDisconnectFlag || count <= 0)
 		{
-		itsInHandleInputFlag = kJFalse;
+		itsInHandleInputFlag = false;
 		return 0;
 		}
 
@@ -462,7 +462,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	itsRecvData.Append(itsByteBuffer.ExtractCharacters());
 
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-	itsRecvData.Split(itsTokenPattern, &list, 0, kJTrue);
+	itsRecvData.Split(itsTokenPattern, &list, 0, true);
 
 	if (itsTokenPattern.Match(*list.GetLastElement()))
 		{
@@ -480,7 +480,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 		const JString* s = list.GetElement(i);
 		if (BytesEqual(*s, itsDisconnectStr))
 			{
-			itsReceivedDisconnectFlag = kJTrue;
+			itsReceivedDisconnectFlag = true;
 			itsRecvData.Clear();
 			Broadcast(JMessageProtocolT::ReceivedDisconnect());
 			return 0;	// we might be deleted and itsInHandleInputFlag is now irrelevant
@@ -495,7 +495,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 			}
 		}
 
-	itsInHandleInputFlag = kJFalse;
+	itsInHandleInputFlag = false;
 	return 0;
 }
 
@@ -507,7 +507,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
  ******************************************************************************/
 
 template <ACE_PEER_STREAM_1>
-JBoolean
+bool
 JMessageProtocol<ACE_PEER_STREAM_2>::BytesEqual
 	(
 	const JString& s1,
@@ -515,8 +515,8 @@ JMessageProtocol<ACE_PEER_STREAM_2>::BytesEqual
 	)
 	const
 {
-	return JI2B(s1.GetByteCount() == s2.GetByteCount() &&
-				memcmp(s1.GetBytes(), s2.GetBytes(), s1.GetByteCount()) == 0);
+	return s1.GetByteCount() == s2.GetByteCount() &&
+				memcmp(s1.GetBytes(), s2.GetBytes(), s1.GetByteCount()) == 0;
 }
 
 #endif

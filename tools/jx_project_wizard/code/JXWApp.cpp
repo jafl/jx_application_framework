@@ -23,7 +23,7 @@ JXWApp::JXWApp
 	(
 	int*		argc,
 	char*		argv[],
-	JBoolean*	displayLicense
+	bool*	displayLicense
 	)
 	:
 	JXApplication(argc, argv, kAppSignature, kJXWDefaultStringData)
@@ -32,8 +32,7 @@ JXWApp::JXWApp
 
 	if (!*displayLicense)
 		{
-		*displayLicense = JI2B(
-			(JXWGetPrefsManager())->GetPrevVersionStr() != JXWGetVersionNumberStr());
+		*displayLicense = (JXWGetPrefsManager())->GetPrevVersionStr() != JXWGetVersionNumberStr();
 		}
 }
 

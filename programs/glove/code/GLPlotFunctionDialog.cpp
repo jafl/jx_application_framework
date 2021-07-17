@@ -32,7 +32,7 @@ GLPlotFunctionDialog::GLPlotFunctionDialog
 	GLVarList* list
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	itsEditor = nullptr;
 	BuildWindow();
@@ -181,12 +181,12 @@ GLPlotFunctionDialog::GetFunctionString()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLPlotFunctionDialog::OKToDeactivate()
 {
 	if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	JExprParser p(itsList);
@@ -195,7 +195,7 @@ GLPlotFunctionDialog::OKToDeactivate()
 	if (p.Parse(itsFunctionString->GetText()->GetText(), &f))
 		{
 		jdelete f;
-		return kJTrue;
+		return true;
 		}
-	return kJFalse;
+	return false;
 }

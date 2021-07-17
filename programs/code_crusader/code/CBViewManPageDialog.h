@@ -32,7 +32,7 @@ public:
 	// called by CBManPageDocument
 
 	void	AddToHistory(const JString& pageName, const JString& pageIndex,
-						 const JBoolean apropos);
+						 const bool apropos);
 
 protected:
 

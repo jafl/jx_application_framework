@@ -19,7 +19,7 @@ public:
 	static JXChoosePathDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
 			   const JString& fileFilter,
-			   const JBoolean selectOnlyWritable,
+			   const bool selectOnlyWritable,
 			   const JString& message = JString::empty);
 
 	virtual ~JXChoosePathDialog();
@@ -28,7 +28,7 @@ protected:
 
 	JXChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 					   const JString& fileFilter,
-					   const JBoolean selectOnlyWritable);
+					   const bool selectOnlyWritable);
 
 	void	SetObjects(JXScrollbarSet* scrollbarSet,
 					   JXStaticText* pathLabel, JXPathInput* pathInput,
@@ -44,12 +44,12 @@ protected:
 
 	virtual void	UpdateDisplay() override;	// must call inherited
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	const JBoolean	itsSelectOnlyWritableFlag;
+	const bool	itsSelectOnlyWritableFlag;
 
 	JXTextButton*	itsOpenButton;
 	JXTextButton*	itsSelectButton;

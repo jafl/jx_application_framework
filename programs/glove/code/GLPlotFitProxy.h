@@ -32,18 +32,18 @@ public:
 
 	void	WriteData(std::ostream& os);
 
-	virtual JBoolean	GetParameterName(const JIndex index, JString* name) const;
-	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const;
+	virtual bool	GetParameterName(const JIndex index, JString* name) const;
+	virtual bool	GetParameter(const JIndex index, JFloat* value) const;
 
-	virtual JBoolean	GetParameterError(const JIndex index, JFloat* value) const;
+	virtual bool	GetParameterError(const JIndex index, JFloat* value) const;
 
-	virtual JBoolean	GetGoodnessOfFitName(JString* name) const;
-	virtual JBoolean	GetGoodnessOfFit(JFloat* value) const;
+	virtual bool	GetGoodnessOfFitName(JString* name) const;
+	virtual bool	GetGoodnessOfFit(JFloat* value) const;
 	
 	virtual JString		GetFitFunctionString() const;
 
 	virtual JString		GetFunctionString() const;
-	virtual JBoolean	GetYValue(const JFloat x, JFloat* y) const;
+	virtual bool	GetYValue(const JFloat x, JFloat* y) const;
 
 protected:
 
@@ -51,7 +51,7 @@ private:
 
 	GLVarList*		itsParms;
 	JArray<JFloat>*	itsErrors;
-	JBoolean		itsHasGOF;
+	bool		itsHasGOF;
 	JString			itsGOFName;
 	JFloat			itsGOF;
 	JString			itsFnString;

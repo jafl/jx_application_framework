@@ -39,9 +39,9 @@ const JUtf8Byte* JSubstitute::kIllegalControlChar = "IllegalControlChar::JSubsti
 
 JSubstitute::JSubstitute()
 {
-	itsControlEscapesFlag     = kJFalse;
-	itsIgnoreUnrecognizedFlag = kJFalse;
-	itsPureEscapeEngineFlag   = kJFalse;
+	itsControlEscapesFlag     = false;
+	itsIgnoreUnrecognizedFlag = false;
+	itsPureEscapeEngineFlag   = false;
 
 	AllocateInternals();
 
@@ -172,11 +172,11 @@ JSubstitute::CopyInternals
  SetEscape
 
 	Changes the value of the 'character' escape to the given value.  Returns
-	kJTrue if 'character' already had a value, kJFalse otherwise.
+	true if 'character' already had a value, false otherwise.
 
  *****************************************************************************/
 
-JBoolean
+bool
 JSubstitute::SetEscape
 	(
 	const unsigned char	c,
@@ -186,25 +186,25 @@ JSubstitute::SetEscape
 	if (itsEscapeTable[c] != nullptr)
 		{
 		(itsEscapeTable[c])->Set(value);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		itsEscapeTable[c] = jnew JString(value, 0);
+		itsEscapeTable[c] = jnew JString(value);
 		assert( itsEscapeTable[c] != nullptr );
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  ClearEscape
 
-	Clears any value for the given character and returns kJTrue, if it exists,
-	otherwise returns kJFalse.
+	Clears any value for the given character and returns true, if it exists,
+	otherwise returns false.
 
  *****************************************************************************/
 
-JBoolean
+bool
 JSubstitute::ClearEscape
 	(
 	const unsigned char c
@@ -214,11 +214,11 @@ JSubstitute::ClearEscape
 		{
 		jdelete itsEscapeTable[c];
 		itsEscapeTable[c] = nullptr;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -258,7 +258,7 @@ JSubstitute::ClearAllEscapes()
 	want other backslashed characters to represent themselves (so that the
 	backslash is effectively removed) call SetIgnoreUnrecognized() first.  If
 	you want no changes to be made other than those listed here, call
-	SetIgnoreUnrecognized(kJFalse).
+	SetIgnoreUnrecognized(false).
 
  *****************************************************************************/
 
@@ -428,7 +428,7 @@ JSubstitute::DefineVariable
 {
 	if (!SetVariableValue(name, value))
 		{
-		JString* n = jnew JString(name, 0);
+		JString* n = jnew JString(name);
 		assert( n != nullptr );
 
 		JString* v = jnew JString(value);
@@ -445,7 +445,7 @@ JSubstitute::DefineVariable
 
  *****************************************************************************/
 
-JBoolean
+bool
 JSubstitute::SetVariableValue
 	(
 	const JUtf8Byte*	name,
@@ -457,11 +457,11 @@ JSubstitute::SetVariableValue
 		if (info.regex == nullptr && *(info.name) == name)
 			{
 			*(info.value) = value;
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -477,7 +477,7 @@ JSubstitute::DefineVariables
 	const JUtf8Byte* regexPattern
 	)
 {
-	JString* name = jnew JString(regexPattern, 0);
+	JString* name = jnew JString(regexPattern);
 	assert( name != nullptr );
 
 	JRegex* regex = jnew JRegex(regexPattern);
@@ -671,7 +671,7 @@ JSubstitute::Substitute
 
 		if (opChar == '\\')
 			{
-			JBoolean ok = iter.Next(&c);
+			bool ok = iter.Next(&c);
 			assert( ok );
 
 			// toss trailing operator
@@ -725,7 +725,7 @@ JSubstitute::Substitute
 
 		else if (opChar == '$')
 			{
-			JBoolean ok = iter.Next(&c, kJFalse);
+			bool ok = iter.Next(&c, kJIteratorStay);
 			assert( ok );
 
 			if (c == '$')	// Special treatment for $$ (\$ cannot be used in input files for compile_jstrings)
@@ -759,12 +759,12 @@ JSubstitute::Substitute
 /******************************************************************************
  FindNextOperator (private)
 
-	Finds the next backslash or dollar.  Returns kJFalse if nothing is
+	Finds the next backslash or dollar.  Returns false if nothing is
 	found.
 
  *****************************************************************************/
 
-JBoolean
+bool
 JSubstitute::FindNextOperator
 	(
 	JStringIterator&	iter,
@@ -776,17 +776,17 @@ JSubstitute::FindNextOperator
 		{
 		if (*opChar == '\\' || (*opChar == '$' && !itsPureEscapeEngineFlag))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  Evaluate (virtual protected)
 
-	Returns kJTrue if it found a variable name starting at startIndex.
+	Returns true if it found a variable name starting at startIndex.
 	It checks all variables to find the longest match.  *value contains
 	the variable's value.
 
@@ -795,7 +795,7 @@ JSubstitute::FindNextOperator
 
  *****************************************************************************/
 
-JBoolean
+bool
 JSubstitute::Evaluate
 	(
 	JStringIterator&	iter,
@@ -812,7 +812,7 @@ JSubstitute::Evaluate
 	JString s(iter.GetString().GetRawBytes(),
 			  JUtf8ByteRange(iter.GetNextByteIndex(),
 							 iter.GetString().GetByteCount()),
-			  kJFalse);
+			  JString::kNoCopy);
 
 	const JSize count = itsVarList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -842,15 +842,15 @@ JSubstitute::Evaluate
 	if (matchCharCount == 0)
 		{
 		value->Clear();
-		return kJFalse;
+		return false;
 		}
 	else if (varIndex == 0)
 		{
 		JUtf8ByteRange r;
 		r.SetFirstAndCount(iter.GetNextByteIndex(), matchByteCount);
 
-		JString name(iter.GetString().GetRawBytes(), r, kJFalse);
-		const JBoolean ok = GetValue(name, value);
+		JString name(iter.GetString().GetRawBytes(), r, JString::kNoCopy);
+		const bool ok = GetValue(name, value);
 		if (ok)
 			{
 			iter.SkipNext(matchCharCount);
@@ -862,21 +862,21 @@ JSubstitute::Evaluate
 		const VarInfo info = itsVarList->GetElement(varIndex);
 		*value             = *(info.value);
 		iter.SkipNext(matchCharCount);
-		return kJTrue;
+		return true;
 		}
 }
 
 /******************************************************************************
  GetValue (virtual protected)
 
-	Returns kJTrue if there is a variable with the given name.  The default
-	is to return kJFalse.  This function can't be pure virtual because one
+	Returns true if there is a variable with the given name.  The default
+	is to return false.  This function can't be pure virtual because one
 	shouldn't have to create a derived class if one only has literal variable
 	names.
 
  *****************************************************************************/
 
-JBoolean
+bool
 JSubstitute::GetValue
 	(
 	const JString&	name,
@@ -885,5 +885,5 @@ JSubstitute::GetValue
 	const
 {
 	value->Clear();
-	return kJFalse;
+	return false;
 }

@@ -72,7 +72,7 @@ JHypCosine::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JHypCosine::Evaluate
 	(
 	JFloat* result
@@ -82,14 +82,14 @@ JHypCosine::Evaluate
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = cosh(argValue);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JHypCosine::Evaluate
 	(
 	JComplex* result
@@ -99,7 +99,7 @@ JHypCosine::Evaluate
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = cosh(argValue);

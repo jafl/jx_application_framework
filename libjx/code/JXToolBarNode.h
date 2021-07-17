@@ -17,23 +17,23 @@ class JXToolBarNode : public JNamedTreeNode
 public:
 
 	JXToolBarNode(JXTextMenu* menu, const JIndex index,
-				  const JBoolean hasSeparator, const JBoolean checked,
+				  const bool hasSeparator, const bool checked,
 				  JTree* tree, JNamedTreeNode* parent, const JString& name);
 
 	virtual ~JXToolBarNode();
 
 	JXTextMenu*	GetMenu() const;
 	JIndex		GetIndex() const;
-	JBoolean	HasSeparator() const;
-	JBoolean	IsChecked() const;
+	bool	HasSeparator() const;
+	bool	IsChecked() const;
 	void		ToggleChecked();
 
 private:
 
 	JXTextMenu*	itsMenu;
 	JIndex		itsIndex;
-	JBoolean	itsHasSeparator;
-	JBoolean	itsIsChecked;
+	bool	itsHasSeparator;
+	bool	itsIsChecked;
 
 private:
 
@@ -73,7 +73,7 @@ JXToolBarNode::GetIndex()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXToolBarNode::HasSeparator()
 	const
 {
@@ -85,7 +85,7 @@ JXToolBarNode::HasSeparator()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXToolBarNode::IsChecked()
 	const
 {

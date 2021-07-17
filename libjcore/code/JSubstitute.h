@@ -31,12 +31,12 @@ public:
 
 	// control of escape substitution
 
-	JBoolean	EscapeExists(const unsigned char character) const;
-	JBoolean	GetEscape(const unsigned char character, const JString** value) const;
+	bool	EscapeExists(const unsigned char character) const;
+	bool	GetEscape(const unsigned char character, const JString** value) const;
 
-	JBoolean	SetEscape(const unsigned char character, const JUtf8Byte* value);
+	bool	SetEscape(const unsigned char character, const JUtf8Byte* value);
 
-	JBoolean	ClearEscape(const unsigned char character);
+	bool	ClearEscape(const unsigned char character);
 	void		ClearAllEscapes();
 
 	// useful shortcuts
@@ -53,7 +53,7 @@ public:
 	// control of variable substitution
 
 	void		DefineVariable(const JUtf8Byte* name, const JString& value);
-	JBoolean	SetVariableValue(const JUtf8Byte* name, const JString& value);
+	bool	SetVariableValue(const JUtf8Byte* name, const JString& value);
 	void		DefineVariables(const JUtf8Byte* regexPattern);
 	void		UndefineVariable(const JUtf8Byte* name);
 	void		UndefineAllVariables();
@@ -62,25 +62,25 @@ public:
 
 	void	Reset();
 
-	// set to kJTrue to convert \cX to control-X
+	// set to true to convert \cX to control-X
 
-	JBoolean	IsUsingControlEscapes() const;
-	void		UseControlEscapes(const JBoolean use = kJTrue);
+	bool	IsUsingControlEscapes() const;
+	void		UseControlEscapes(const bool use = true);
 
-	// Set to kJTrue to skip over ignored escapes
+	// Set to true to skip over ignored escapes
 
-	JBoolean	WillIgnoreUnrecognized() const;
-	void		IgnoreUnrecognized(const JBoolean ignore = kJTrue);
+	bool	WillIgnoreUnrecognized() const;
+	void		IgnoreUnrecognized(const bool ignore = true);
 
-	// set to kJTrue to turn off variable substitution
+	// set to true to turn off variable substitution
 
-	JBoolean	IsPureEscapeEngine() const;
-	void		SetPureEscapeEngine(const JBoolean is = kJTrue);
+	bool	IsPureEscapeEngine() const;
+	void		SetPureEscapeEngine(const bool is = true);
 
 protected:
 
-	virtual JBoolean	Evaluate(JStringIterator& iter, JString* value) const;
-	virtual JBoolean	GetValue(const JString& name, JString* value) const;
+	virtual bool	Evaluate(JStringIterator& iter, JString* value) const;
+	virtual bool	GetValue(const JString& name, JString* value) const;
 
 private:
 
@@ -110,16 +110,16 @@ private:
 
 	JString**			itsEscapeTable;
 	JArray<VarInfo>*	itsVarList;
-	JBoolean			itsControlEscapesFlag;		// kJTrue => use \cX
-	JBoolean			itsIgnoreUnrecognizedFlag;	// kJTrue => leave backslash if no defn
-	JBoolean			itsPureEscapeEngineFlag;	// kJTrue => $ not special
+	bool			itsControlEscapesFlag;		// true => use \cX
+	bool			itsIgnoreUnrecognizedFlag;	// true => leave backslash if no defn
+	bool			itsPureEscapeEngineFlag;	// true => $ not special
 
 private:
 
 	void	AllocateInternals();
 	void	CopyInternals(const JSubstitute& source);
 
-	JBoolean	FindNextOperator(JStringIterator& iter, JUtf8Character* opChar) const;
+	bool	FindNextOperator(JStringIterator& iter, JUtf8Character* opChar) const;
 
 public:
 
@@ -164,28 +164,28 @@ public:
 /******************************************************************************
  EscapeExists
 
-	Returns kJTrue if an escape exists for the given character, kJFalse otherwise.
+	Returns true if an escape exists for the given character, false otherwise.
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JSubstitute::EscapeExists
 	(
 	const unsigned char c
 	)
 	const
 {
-	return JI2B( itsEscapeTable[c] != nullptr );
+	return itsEscapeTable[c] != nullptr;
 }
 
 /******************************************************************************
  GetEscape
 
-	Returns kJTrue if there is a definition for the given character.
+	Returns true if there is a definition for the given character.
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JSubstitute::GetEscape
 	(
 	const unsigned char	c,
@@ -194,7 +194,7 @@ JSubstitute::GetEscape
 	const
 {
 	*value = itsEscapeTable[c];
-	return JI2B( *value != nullptr );
+	return *value != nullptr;
 }
 
 /******************************************************************************
@@ -210,7 +210,7 @@ JSubstitute::GetEscape
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JSubstitute::IsUsingControlEscapes()
 	const
 {
@@ -220,7 +220,7 @@ JSubstitute::IsUsingControlEscapes()
 inline void
 JSubstitute::UseControlEscapes
 	(
-	const JBoolean use
+	const bool use
 	)
 {
 	itsControlEscapesFlag = use;
@@ -230,14 +230,14 @@ JSubstitute::UseControlEscapes
  Ignore unrecognized
 
 	This flag controls the behavior when an escape is not recognized.
-	kJFalse (the default) indicates that unknown escapes should be ignored,
-	leaving the backslash in place.  kJTrue means that the backslash should
+	false (the default) indicates that unknown escapes should be ignored,
+	leaving the backslash in place.  true means that the backslash should
 	be removed, so that unrecognized escapes just represent the escaped
 	character itself.
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JSubstitute::WillIgnoreUnrecognized()
 	const
 {
@@ -247,7 +247,7 @@ JSubstitute::WillIgnoreUnrecognized()
 inline void
 JSubstitute::IgnoreUnrecognized
 	(
-	const JBoolean ignore
+	const bool ignore
 	)
 {
 	itsIgnoreUnrecognizedFlag = ignore;
@@ -256,12 +256,12 @@ JSubstitute::IgnoreUnrecognized
 /******************************************************************************
  Pure escape engine
 
-	Set this flag to kJTrue to avoid treating $ as an operator.  The
-	default value is kJFalse.
+	Set this flag to true to avoid treating $ as an operator.  The
+	default value is false.
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JSubstitute::IsPureEscapeEngine()
 	const
 {
@@ -271,7 +271,7 @@ JSubstitute::IsPureEscapeEngine()
 inline void
 JSubstitute::SetPureEscapeEngine
 	(
-	const JBoolean is
+	const bool is
 	)
 {
 	itsPureEscapeEngineFlag = is;
@@ -290,9 +290,9 @@ JSubstitute::Reset()
 	ClearAllEscapes();
 	UndefineAllVariables();
 
-	UseControlEscapes(kJFalse);
-	IgnoreUnrecognized(kJFalse);
-	SetPureEscapeEngine(kJFalse);
+	UseControlEscapes(false);
+	IgnoreUnrecognized(false);
+	SetPureEscapeEngine(false);
 }
 
 #endif

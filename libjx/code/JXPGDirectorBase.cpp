@@ -26,7 +26,7 @@ JXPGDirectorBase::JXPGDirectorBase
 	:
 	JXWindowDirector(supervisor)
 {
-	itsExpectsCloseFlag = kJFalse;
+	itsExpectsCloseFlag = false;
 	itsCancelButton     = nullptr;
 }
 
@@ -68,8 +68,8 @@ JXPGDirectorBase::ProcessContinuing
 void
 JXPGDirectorBase::ProcessFinished()
 {
-	itsExpectsCloseFlag = kJTrue;
-	const JBoolean ok = Close();
+	itsExpectsCloseFlag = true;
+	const bool ok = Close();
 	assert( ok );
 }
 
@@ -98,7 +98,7 @@ JXPGDirectorBase::Activate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPGDirectorBase::Close()
 {
 	if (itsExpectsCloseFlag)
@@ -108,12 +108,12 @@ JXPGDirectorBase::Close()
 	else if (itsCancelButton != nullptr)
 		{
 		itsCancelButton->Push();
-		return kJFalse;
+		return false;
 		}
 	else
 		{
 		JGetUserNotification()->ReportError(JGetString("CannotQuitWhileRunning::JXPGDirectorBase"));
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -128,7 +128,7 @@ JXPGDirectorBase::Init
 	JXWindow*		window,
 	JXStaticText*	text,
 	const JString&	message,
-	const JBoolean	allowCancel,
+	const bool	allowCancel,
 	JXButton*		cancelButton
 	)
 {
@@ -137,8 +137,8 @@ JXPGDirectorBase::Init
 
 	// instantaneous redraw when Raise()
 
-	window->UsePixmapAsBackground(kJTrue);
-	window->KeepBufferPixmap(kJTrue);
+	window->UsePixmapAsBackground(true);
+	window->KeepBufferPixmap(true);
 
 	// adjust window size to fit text
 

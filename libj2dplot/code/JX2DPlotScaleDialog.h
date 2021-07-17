@@ -28,22 +28,22 @@ public:
 
 	JX2DPlotScaleDialog(JXWindowDirector* supervisor,
 						const JFloat xMin, const JFloat xMax, const JFloat xInc,
-						const JBoolean xLinear,
+						const bool xLinear,
 						const JFloat yMin, const JFloat yMax, const JFloat yInc,
-						const JBoolean yLinear);
+						const bool yLinear);
 
 	virtual ~JX2DPlotScaleDialog();
 
 	void GetScaleValues(JFloat* xMin, JFloat* xMax, JFloat* xInc,
-						JBoolean* xLinear,
+						bool* xLinear,
 						JFloat* yMin, JFloat* yMax, JFloat* yInc,
-						JBoolean* yLinear);
+						bool* yLinear);
 
-	void EditXAxis(const JBoolean xAxis);
+	void EditXAxis(const bool xAxis);
 
 protected:
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

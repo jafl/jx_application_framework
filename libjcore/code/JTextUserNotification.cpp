@@ -78,7 +78,7 @@ JTextUserNotification::ReportError
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextUserNotification::AskUserYes
 	(
 	const JString& message
@@ -92,7 +92,7 @@ JTextUserNotification::AskUserYes
 	std::cin >> c;
 	JInputFinished();
 
-	return JConvertToBoolean( c != 'n' && c != 'N' );
+	return c != 'n' && c != 'N';
 }
 
 /******************************************************************************
@@ -103,7 +103,7 @@ JTextUserNotification::AskUserYes
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextUserNotification::AskUserNo
 	(
 	const JString& message
@@ -117,7 +117,7 @@ JTextUserNotification::AskUserNo
 	std::cin >> c;
 	JInputFinished();
 
-	return JConvertToBoolean( c == 'y' || c == 'Y' );
+	return c == 'y' || c == 'Y';
 }
 
 /******************************************************************************
@@ -161,7 +161,7 @@ JTextUserNotification::OKToClose
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextUserNotification::AcceptLicense()
 {
 	return AskUserNo(JGetString("LICENSE"));

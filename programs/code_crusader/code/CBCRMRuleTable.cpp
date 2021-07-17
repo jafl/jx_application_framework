@@ -287,9 +287,9 @@ CBCRMRuleTable::AddRow()
 		data->AppendRows(1);
 
 		const JSize rowIndex = GetRowCount();
-		data->SetString(rowIndex, kFirstColumn,   JString(kInitFirstStr, 0, kJFalse));
-		data->SetString(rowIndex, kRestColumn,    JString(kInitRestStr, 0, kJFalse));
-		data->SetString(rowIndex, kReplaceColumn, JString(kInitReplaceStr, 0, kJFalse));
+		data->SetString(rowIndex, kFirstColumn,   JString(kInitFirstStr, JString::kNoCopy));
+		data->SetString(rowIndex, kRestColumn,    JString(kInitRestStr, JString::kNoCopy));
+		data->SetString(rowIndex, kReplaceColumn, JString(kInitReplaceStr, JString::kNoCopy));
 
 		BeginEditing(JPoint(1, rowIndex));
 		}
@@ -334,17 +334,17 @@ CBCRMRuleTable::CreateStringTableInput
 	JXInputField* input = nullptr;
 	if (cell.x == kFirstColumn)
 		{
-		input = jnew JXRegexInput(itsFirstRegex, kJFalse,
+		input = jnew JXRegexInput(itsFirstRegex, false,
 								 enclosure, hSizing, vSizing, x,y, w,h);
 		}
 	else if (cell.x == kRestColumn)
 		{
-		input = jnew JXRegexInput(itsRestRegex, kJFalse,
+		input = jnew JXRegexInput(itsRestRegex, false,
 								 enclosure, hSizing, vSizing, x,y, w,h);
 		}
 	else if (cell.x == kReplaceColumn)
 		{
-//		input = jnew JXRegexReplaceInput(itsFirstRegex, kJFalse,
+//		input = jnew JXRegexReplaceInput(itsFirstRegex, false,
 //										 enclosure, hSizing, vSizing, x,y, w,h);
 		}
 
@@ -391,7 +391,7 @@ void
 CBCRMRuleTable::ReadData
 	(
 	const JString&	fileName,
-	const JBoolean	replaceExisting
+	const bool	replaceExisting
 	)
 {
 	JStringTableData* data = GetStringData();
@@ -557,9 +557,5 @@ CBCRMRuleTable::SetColTitles
 	)
 	const
 {
-	for (JIndex i=1; i<=kColCount; i++)
-		{
-		const JString id = "Column" + JString((JUInt64) i) + "::CBCRMRuleTable";
-		widget->SetColTitle(i, JGetString(id.GetBytes()));
-		}
+	widget->SetColumnTitles("CBCRMRuleTable", kColCount);
 }

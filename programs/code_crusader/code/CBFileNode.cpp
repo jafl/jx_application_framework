@@ -80,7 +80,7 @@ CBFileNode::OpenFile()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFileNode::ParseFiles
 	(
 	CBFileListTable*			parser,
@@ -100,16 +100,16 @@ CBFileNode::ParseFiles
 		{
 		if (!ParseFile(trueName, parser, allSuffixList, symbolList, cTree, dTree, goTree, javaTree, phpTree, pg))
 			{
-			return kJFalse;
+			return false;
 			}
 
 		const CBTextFileType type = CBGetPrefsManager()->GetFileType(trueName);
 		if (CBGetDocumentManager()->GetComplementFile(trueName, type, &fullName,
-														GetProjectDoc(), kJFalse) &&
+														GetProjectDoc(), false) &&
 			JGetTrueName(fullName, &trueName) &&
 			!ParseFile(trueName, parser, allSuffixList, symbolList, cTree, dTree, goTree, javaTree, phpTree, pg))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 	return CBFileNodeBase::ParseFiles(parser, allSuffixList, symbolList, cTree, dTree, goTree, javaTree, phpTree, pg);
@@ -120,7 +120,7 @@ CBFileNode::ParseFiles
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBFileNode::ParseFile
 	(
 	const JString&				fullName,
@@ -184,14 +184,14 @@ CBFileNode::OpenComplementFile()
 void
 CBFileNode::ViewPlainDiffs
 	(
-	const JBoolean silent
+	const bool silent
 	)
 	const
 {
 	JString fullName;
 	if (GetFullName(&fullName))
 		{
-		CBGetDiffFileDialog()->ViewDiffs(kJTrue, fullName, silent);
+		CBGetDiffFileDialog()->ViewDiffs(true, fullName, silent);
 		}
 	else
 		{
@@ -207,7 +207,7 @@ CBFileNode::ViewPlainDiffs
 void
 CBFileNode::ViewVCSDiffs
 	(
-	const JBoolean silent
+	const bool silent
 	)
 	const
 {
@@ -239,7 +239,7 @@ CBFileNode::CreateFilesForTemplate
 {
 	CBFileNodeBase::CreateFilesForTemplate(input, vers);
 
-	JBoolean exists;
+	bool exists;
 	input >> JBoolFromString(exists);
 	if (exists)
 		{
@@ -328,10 +328,10 @@ CBFileNode::SaveFilesInTemplate
 		{
 		JString data;
 		JReadFile(fullName, &data);
-		output << JBoolToString(kJTrue) << ' ' << relName << ' ' << data;
+		output << JBoolToString(true) << ' ' << relName << ' ' << data;
 		}
 	else
 		{
-		output << JBoolToString(kJFalse);
+		output << JBoolToString(false);
 		}
 }

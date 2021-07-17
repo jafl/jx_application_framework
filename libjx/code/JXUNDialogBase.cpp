@@ -27,7 +27,7 @@ JXUNDialogBase::JXUNDialogBase
 	JXDirector* supervisor
 	)
 	:
-	JXDialogDirector(supervisor, kJFalse)
+	JXDialogDirector(supervisor, false)
 {
 }
 
@@ -57,7 +57,7 @@ JXUNDialogBase::Init
 {
 	if (JUserNotification::GetBreakMessageCROnly())
 		{
-		text->SetBreakCROnly(kJTrue);
+		text->SetBreakCROnly(true);
 		}
 	text->GetText()->SetText(message);
 
@@ -118,5 +118,5 @@ JXUNDialogBase::Init
 
 	// display the icon
 
-	icon->SetImage(GetDisplay()->GetImageCache()->GetImage(xpm), kJFalse);
+	icon->SetImage(GetDisplay()->GetImageCache()->GetImage(xpm), false);
 }

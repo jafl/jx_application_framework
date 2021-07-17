@@ -14,7 +14,7 @@ class JXSearchTextButton : public JXButton
 {
 public:
 
-	JXSearchTextButton(const JBoolean forward, JXContainer* enclosure,
+	JXSearchTextButton(const bool forward, JXContainer* enclosure,
 					   const HSizingOption hSizing, const VSizingOption vSizing,
 					   const JCoordinate x, const JCoordinate y,
 					   const JCoordinate w, const JCoordinate h);
@@ -27,7 +27,7 @@ protected:
 
 private:
 
-	const JBoolean itsFwdFlag;
+	const bool itsFwdFlag;
 
 private:
 

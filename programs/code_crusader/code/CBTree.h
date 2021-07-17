@@ -49,29 +49,29 @@ public:
 	virtual ~CBTree();
 
 	void		NextUpdateMustReparseAll();
-	JBoolean	NeedsReparseAll() const;
+	bool	NeedsReparseAll() const;
 	void		RebuildLayout();
 
-	JBoolean	FindClass(const JString& fullName, CBClass** theClass) const;
-	JBoolean	FindClass(const JString& fullName, const CBClass** theClass) const;
-	JBoolean	IsUniqueClassName(const JString& name, const CBClass** theClass) const;
-	JBoolean	ClosestVisibleMatch(const JString& prefixStr, CBClass** theClass) const;
-	JBoolean	FindParent(const JString& parentName, const CBClass* container,
+	bool	FindClass(const JString& fullName, CBClass** theClass) const;
+	bool	FindClass(const JString& fullName, const CBClass** theClass) const;
+	bool	IsUniqueClassName(const JString& name, const CBClass** theClass) const;
+	bool	ClosestVisibleMatch(const JString& prefixStr, CBClass** theClass) const;
+	bool	FindParent(const JString& parentName, const CBClass* container,
 						   CBClass** parent, JString* nameSpace) const;
 
 	virtual void	StreamOut(std::ostream& projOutput, std::ostream* setOutput,
 							  std::ostream* symOutput, const CBDirList* dirList) const;
 
-	JBoolean	HasSelection() const;
+	bool	HasSelection() const;
 	void		DeselectAll();
-	JBoolean	GetSelectedClasses(JPtrArray<CBClass>* classList) const;
-	JBoolean	GetSelectionCoverage(JRect* coverage, JSize* count) const;
-	void		SelectClasses(const JString& name, const JBoolean deselectAll = kJTrue);
-	void		SelectImplementors(const JString& fnName, const JBoolean caseSensitive,
-								   const JBoolean deselectAll = kJTrue);
+	bool	GetSelectedClasses(JPtrArray<CBClass>* classList) const;
+	bool	GetSelectionCoverage(JRect* coverage, JSize* count) const;
+	void		SelectClasses(const JString& name, const bool deselectAll = true);
+	void		SelectImplementors(const JString& fnName, const bool caseSensitive,
+								   const bool deselectAll = true);
 	void		SelectParents();
 	void		SelectDescendants();
-	void		CollapseExpandSelectedClasses(const JBoolean collapse);
+	void		CollapseExpandSelectedClasses(const bool collapse);
 	void		ExpandAllClasses();
 
 	void		ViewSelectedSources() const;
@@ -80,20 +80,20 @@ public:
 	void		CopySelectedClassNames() const;
 	void		DeriveFromSelected() const;
 
-	JBoolean	WillAutoMinimizeMILinks() const;
-	void		ShouldAutoMinimizeMILinks(const JBoolean autoMinimize);
-	JBoolean	NeedsMinimizeMILinks() const;		// when auto-minimize is off or cancelled
+	bool	WillAutoMinimizeMILinks() const;
+	void		ShouldAutoMinimizeMILinks(const bool autoMinimize);
+	bool	NeedsMinimizeMILinks() const;		// when auto-minimize is off or cancelled
 	void		ForceMinimizeMILinks();
 
-	void		GetMenuInfo(JBoolean* hasSelection,
-							JBoolean* canCollapse, JBoolean* canExpand) const;
-	JBoolean	GetClass(const JPoint& pt, CBClass** theClass) const;
-	JBoolean	HitSameClass(const JPoint& pt1, const JPoint& pt2, CBClass** theClass) const;
+	void		GetMenuInfo(bool* hasSelection,
+							bool* canCollapse, bool* canExpand) const;
+	bool	GetClass(const JPoint& pt, CBClass** theClass) const;
+	bool	HitSameClass(const JPoint& pt1, const JPoint& pt2, CBClass** theClass) const;
 
 	void		Draw(JPainter& p, const JRect& rect) const;
 
-	JBoolean	WillDrawMILinksOnTop() const;
-	void		ShouldDrawMILinksOnTop(const JBoolean drawOnTop);
+	bool	WillDrawMILinksOnTop() const;
+	void		ShouldDrawMILinksOnTop(const bool drawOnTop);
 
 	JFontManager*	GetFontManager() const;
 	JSize			GetFontSize() const;
@@ -117,8 +117,8 @@ public:
 
 	void	FileTypesChanged(const CBPrefsManager::FileTypesChanged& info);
 
-	virtual void		PrepareForUpdate(const JBoolean reparseAll);
-	virtual JBoolean	UpdateFinished(const JArray<JFAID_t>& deadFileList);
+	virtual void		PrepareForUpdate(const bool reparseAll);
+	virtual bool	UpdateFinished(const JArray<JFAID_t>& deadFileList);
 
 	// called by CBFileListTable
 
@@ -190,7 +190,7 @@ private:
 
 	struct RootSubset
 	{
-		JArray<JBoolean>*	content;
+		JArray<bool>*	content;
 		JArray<JIndex>*		order;
 		JSize				linkLength;
 
@@ -199,7 +199,7 @@ private:
 			content(nullptr), order(nullptr), linkLength(0)
 		{ };
 
-		RootSubset(JArray<JBoolean>* c, JArray<JIndex>* o, const JSize l)
+		RootSubset(JArray<bool>* c, JArray<JIndex>* o, const JSize l)
 			:
 			content(c), order(o), linkLength(l)
 		{ };
@@ -216,20 +216,20 @@ private:
 	const CBTextFileType	itsFileType;
 	JPtrArray<JString>*		itsSuffixList;
 	JPtrArray<JString>*		itsCollapsedList;			// nullptr unless updating files
-	JBoolean				itsReparseAllFlag;			// kJTrue => flush all on next update
-	JBoolean				itsChangedDuringParseFlag;	// only used while parsing
-	JBoolean				itsBeganEmptyFlag;			// kJTrue => ignore RemoveFile()
+	bool				itsReparseAllFlag;			// true => flush all on next update
+	bool				itsChangedDuringParseFlag;	// only used while parsing
+	bool				itsBeganEmptyFlag;			// true => ignore RemoveFile()
 
 	JSize		itsFontSize;
 	JCoordinate	itsWidth;
 	JCoordinate	itsHeight;
 	const JSize	itsMarginWidth;
-	JBoolean	itsBroadcastClassSelFlag;
+	bool	itsBroadcastClassSelFlag;
 
-	JBoolean	itsDrawMILinksOnTopFlag;
+	bool	itsDrawMILinksOnTopFlag;
 
-	JBoolean	itsMinimizeMILinksFlag;
-	JBoolean	itsNeedsMinimizeMILinksFlag;		// kJTrue => links not currently minimized
+	bool	itsMinimizeMILinksFlag;
+	bool	itsNeedsMinimizeMILinksFlag;		// true => links not currently minimized
 
 	CBClassStreamInFn*	itsStreamInFn;
 
@@ -240,24 +240,24 @@ private:
 	void	RemoveFile(const JFAID_t id);
 
 	void	RebuildTree();
-	void	RecalcVisible(const JBoolean forceRebuildVisible = kJFalse,
-						  const JBoolean forcePlaceAll = kJFalse);
+	void	RecalcVisible(const bool forceRebuildVisible = false,
+						  const bool forcePlaceAll = false);
 	void	PlaceClass(CBClass* theClass, const JCoordinate x, JCoordinate* y,
 					   JCoordinate* maxWidth);
 
 	void		SaveCollapsedClasses(JPtrArray<JString>* list) const;
-	JBoolean	RestoreCollapsedClasses(const JPtrArray<JString>& list);
+	bool	RestoreCollapsedClasses(const JPtrArray<JString>& list);
 
 	void		MinimizeMILinks();
-	JBoolean	ArrangeRoots(const JArray<RootMIInfo>& rootList,
+	bool	ArrangeRoots(const JArray<RootMIInfo>& rootList,
 							 JArray<JIndex>* rootOrder, JProgressDisplay& pg) const;
 	void		CleanList(JArray<RootSubset>* list) const;
-	void		FindMIClasses(CBClass* theClass, JArray<JBoolean>* marked,
+	void		FindMIClasses(CBClass* theClass, JArray<bool>* marked,
 							  const JArray<RootGeom>& rootGeom,
 							  JArray<RootMIInfo>* rootList) const;
 	void		FindRoots(CBClass* theClass, const JArray<RootGeom>& rootGeom,
 						  JArray<RootMIInfo>* rootInfoList) const;
-	JBoolean	FindRoot(CBClass* root, const JArray<RootMIInfo>& rootInfoList,
+	bool	FindRoot(CBClass* root, const JArray<RootMIInfo>& rootInfoList,
 						 JIndex* index) const;
 
 	void	CollectAncestors(CBClass* cbClass, JPtrArray<CBClass>* list) const;
@@ -279,7 +279,7 @@ private:
 	CBClass*	IndexToClassAfterRead(const JIndex index) const;
 	JIndex		ClassToIndexForWrite(const CBClass* theClass) const;
 
-	void		BroadcastSelectionChange(CBClass* theClass, const JBoolean isSelected);
+	void		BroadcastSelectionChange(CBClass* theClass, const bool isSelected);
 
 	// not allowed
 
@@ -383,13 +383,13 @@ public:
 		{
 		public:
 
-			ParseFinished(const JBoolean changed)
+			ParseFinished(const bool changed)
 				:
 				JBroadcaster::Message(kParseFinished),
 				itsChangedFlag(changed)
 				{ };
 
-			JBoolean
+			bool
 			Changed()
 				const
 			{
@@ -398,7 +398,7 @@ public:
 
 		private:
 
-			JBoolean	itsChangedFlag;
+			bool	itsChangedFlag;
 		};
 
 	class ClassSelected : public JBroadcaster::Message
@@ -557,7 +557,7 @@ CBTree::GetBounds
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTree::WillAutoMinimizeMILinks()
 	const
 {
@@ -567,7 +567,7 @@ CBTree::WillAutoMinimizeMILinks()
 inline void
 CBTree::ShouldAutoMinimizeMILinks
 	(
-	const JBoolean autoMinimize
+	const bool autoMinimize
 	)
 {
 	if (autoMinimize != itsMinimizeMILinksFlag)
@@ -575,12 +575,12 @@ CBTree::ShouldAutoMinimizeMILinks
 		itsMinimizeMILinksFlag = autoMinimize;
 		if (itsMinimizeMILinksFlag && itsNeedsMinimizeMILinksFlag)
 			{
-			RecalcVisible(kJTrue);
+			RecalcVisible(true);
 			}
 		}
 }
 
-inline JBoolean
+inline bool
 CBTree::NeedsMinimizeMILinks()
 	const
 {
@@ -592,7 +592,7 @@ CBTree::NeedsMinimizeMILinks()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTree::WillDrawMILinksOnTop()
 	const
 {
@@ -602,7 +602,7 @@ CBTree::WillDrawMILinksOnTop()
 inline void
 CBTree::ShouldDrawMILinksOnTop
 	(
-	const JBoolean drawOnTop
+	const bool drawOnTop
 	)
 {
 	if (drawOnTop != itsDrawMILinksOnTopFlag)
@@ -632,7 +632,7 @@ CBTree::GetParseSuffixes()
 inline void
 CBTree::NextUpdateMustReparseAll()
 {
-	itsReparseAllFlag = kJTrue;
+	itsReparseAllFlag = true;
 }
 
 /******************************************************************************
@@ -640,7 +640,7 @@ CBTree::NextUpdateMustReparseAll()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTree::NeedsReparseAll()
 	const
 {

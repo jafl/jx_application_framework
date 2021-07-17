@@ -75,8 +75,8 @@ CMRegistersDir::CMRegistersDir
 	:
 	JXWindowDirector(JXGetApplication()),
 	itsCommandDir(supervisor),
-	itsShouldUpdateFlag(kJFalse),	// window is always initially hidden
-	itsNeedsUpdateFlag(kJTrue)
+	itsShouldUpdateFlag(false),	// window is always initially hidden
+	itsNeedsUpdateFlag(true)
 {
 	itsCmd = CMGetLink()->CreateGetRegisters(this);
 
@@ -103,7 +103,7 @@ void
 CMRegistersDir::Activate()
 {
 	JXWindowDirector::Activate();
-	itsShouldUpdateFlag = kJTrue;
+	itsShouldUpdateFlag = true;
 	Update();
 }
 
@@ -112,10 +112,10 @@ CMRegistersDir::Activate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMRegistersDir::Deactivate()
 {
-	itsShouldUpdateFlag = kJFalse;
+	itsShouldUpdateFlag = false;
 	return JXWindowDirector::Deactivate();
 }
 
@@ -153,7 +153,7 @@ CMRegistersDir::BuildWindow()
 	window->SetTitle(JGetString("WindowTitleSuffix::CMRegistersDir"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetRegistersWindowClass());
 	CMGetPrefsManager()->GetWindowSize(kRegistersWindowSizeID, window);
 
@@ -163,7 +163,7 @@ CMRegistersDir::BuildWindow()
 	window->SetIcon(icon);
 
 	itsWidget =
-		jnew JXStaticText(JString::empty, kJFalse, kJTrue, kJTrue,
+		jnew JXStaticText(JString::empty, false, true, true,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert(itsWidget != nullptr);
@@ -233,7 +233,7 @@ CMRegistersDir::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMRegistersDir::GetMenuIcon
 	(
 	const JXImage** icon
@@ -241,7 +241,7 @@ CMRegistersDir::GetMenuIcon
 	const
 {
 	*icon = CMGetRegistersIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -267,7 +267,7 @@ CMRegistersDir::Receive
 			 (message.Is(CMLink::kProgramStopped) ||
 			  CMVarNode::ShouldUpdate(message)))
 		{
-		itsNeedsUpdateFlag = kJTrue;
+		itsNeedsUpdateFlag = true;
 		Update();
 		}
 
@@ -339,7 +339,7 @@ CMRegistersDir::Update()
 {
 	if (itsShouldUpdateFlag && itsNeedsUpdateFlag)
 		{
-		itsNeedsUpdateFlag = kJFalse;
+		itsNeedsUpdateFlag = false;
 
 		if (itsCmd != nullptr)
 			{

@@ -79,7 +79,7 @@ public:
 	GLRaggedFloatTable::SelectionType 	GetSelectionType();
 
 	void 		GetSelectionArea(JIndex* rows, JIndex* cols, JIndex* startRow, JIndex* startCol);
-	JBoolean 	WriteDataCols(std::ostream& os, const int cols);
+	bool 	WriteDataCols(std::ostream& os, const int cols);
 	void 		ExportDataMatrix(std::ostream& os);
 	void 		ExportData(std::ostream& os);
 
@@ -89,8 +89,8 @@ public:
 
 	void			Undo();
 	void			Redo();
-	JBoolean		HasUndo() const;
-	JBoolean		HasRedo() const;
+	bool		HasUndo() const;
+	bool		HasRedo() const;
 
 	void			LoadDefaultToolButtons(JXToolBar* toolbar);
 
@@ -110,7 +110,7 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual bool		ExtractInputData(const JPoint& cell) override;
 	virtual void			PrepareDeleteXInputField() override;
 
 private:
@@ -173,7 +173,7 @@ private:
 	void HandleCopyCmd();
 	void HandlePasteCmd();
 	void HandleSpecialPasteCmd();
-	void HandleInsertion(const JBoolean undo = kJTrue);
+	void HandleInsertion(const bool undo = true);
 	void HandleDuplication();
 	void HandleDeletion();
 
@@ -194,8 +194,8 @@ private:
 
 	// needed by undo
 
-	JBoolean 	GetCurrentRedo(JUndo** undo) const;
-	JBoolean	GetCurrentUndo(JUndo** undo) const;
+	bool 	GetCurrentRedo(JUndo** undo) const;
+	bool	GetCurrentUndo(JUndo** undo) const;
 	void 		NewUndo(JUndo* undo);
 
 	// not allowed

@@ -114,14 +114,14 @@ SVNTabBase::ShowFiles()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::GetBaseRevision
 	(
 	JString* rev
 	)
 {
 	rev->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -139,7 +139,7 @@ SVNTabBase::CompareEdited
 	const JString& rev
 	)
 {
-	Compare(rev, kJFalse);
+	Compare(rev, false);
 }
 
 /******************************************************************************
@@ -163,7 +163,7 @@ SVNTabBase::CompareCurrent
 			}
 		}
 
-	Compare(r, kJFalse);
+	Compare(r, false);
 }
 
 /******************************************************************************
@@ -195,7 +195,7 @@ SVNTabBase::ComparePrev
 			}
 		}
 
-	Compare(r, kJTrue);
+	Compare(r, true);
 }
 
 /******************************************************************************
@@ -207,12 +207,12 @@ void
 SVNTabBase::Compare
 	(
 	const JString&	rev,
-	const JBoolean	isPrev
+	const bool	isPrev
 	)
 {
 	SVNPrefsManager::Integration type;
 	JString cmd;
-	const JBoolean hasCmd =
+	const bool hasCmd =
 		(SVNGetPrefsManager())->GetCommand(SVNPrefsManager::kDiffCmd, &type, &cmd);
 
 	if (type == SVNPrefsManager::kCodeCrusader)
@@ -235,12 +235,12 @@ SVNTabBase::Compare
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::ExecuteDiff
 	(
 	const JString&	origCmd,
 	const JString&	rev,
-	const JBoolean	isPrev
+	const bool	isPrev
 	)
 {
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
@@ -248,14 +248,14 @@ SVNTabBase::ExecuteDiff
 	GetSelectedFilesForDiff(&fileList, &revList);
 	if (fileList.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JXGetApplication()->DisplayBusyCursor();
 
 	JSubstitute subst;
 	subst.DefineVariable("rev_option", rev);
-	const JBoolean customPrev = JI2B( isPrev && !revList.IsEmpty() );
+	const bool customPrev = isPrev && !revList.IsEmpty();
 
 	const JSize count = fileList.GetElementCount();
 	JString cmd, fullName, r;
@@ -278,15 +278,15 @@ SVNTabBase::ExecuteDiff
 
 		if (itsDirector->HasPath())
 			{
-			JSimpleProcess::Create(itsDirector->GetPath(), cmd, kJTrue);
+			JSimpleProcess::Create(itsDirector->GetPath(), cmd, true);
 			}
 		else
 			{
-			JSimpleProcess::Create(cmd, kJTrue);
+			JSimpleProcess::Create(cmd, true);
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -294,11 +294,11 @@ SVNTabBase::ExecuteDiff
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::ExecuteJCCDiff
 	(
 	const JString&	rev,
-	const JBoolean	isPrev
+	const bool	isPrev
 	)
 {
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
@@ -306,10 +306,10 @@ SVNTabBase::ExecuteJCCDiff
 	GetSelectedFilesForDiff(&fileList, &revList);
 	if (fileList.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
-	const JBoolean customPrev = JI2B( isPrev && !revList.IsEmpty() );
+	const bool customPrev = isPrev && !revList.IsEmpty();
 
 	const JSize count = fileList.GetElementCount();
 	JString cmd, s, fullName;
@@ -349,14 +349,14 @@ SVNTabBase::ExecuteJCCDiff
 
 	if (itsDirector->HasPath())
 		{
-		JSimpleProcess::Create(itsDirector->GetPath(), cmd, kJTrue);
+		JSimpleProcess::Create(itsDirector->GetPath(), cmd, true);
 		}
 	else
 		{
-		JSimpleProcess::Create(cmd, kJTrue);
+		JSimpleProcess::Create(cmd, true);
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -364,17 +364,17 @@ SVNTabBase::ExecuteJCCDiff
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::ScheduleForAdd()
 {
-	if (Execute(JString("svn add $file_name", kJFalse)))
+	if (Execute(JString("svn add $file_name", JString::kNoCopy)))
 		{
 		itsDirector->RefreshStatus();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -383,17 +383,17 @@ SVNTabBase::ScheduleForAdd()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::ScheduleForRemove()
 {
-	if (Execute(JString("svn remove $file_name", kJFalse), "WarnRemove::SVNTabBase", kJTrue))
+	if (Execute(JString("svn remove $file_name", JString::kNoCopy), "WarnRemove::SVNTabBase", true))
 		{
 		itsDirector->RefreshStatus();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -402,17 +402,17 @@ SVNTabBase::ScheduleForRemove()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::ForceScheduleForRemove()
 {
-	if (Execute(JString("svn remove --force $file_name", kJFalse), "WarnRemove::SVNTabBase", kJTrue))
+	if (Execute(JString("svn remove --force $file_name", JString::kNoCopy), "WarnRemove::SVNTabBase", true))
 		{
 		itsDirector->RefreshStatus();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -421,17 +421,17 @@ SVNTabBase::ForceScheduleForRemove()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::Resolved()
 {
-	if (Execute(JString("svn resolved $file_name", kJFalse)))
+	if (Execute(JString("svn resolved $file_name", JString::kNoCopy)))
 		{
 		itsDirector->RefreshStatus();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -444,7 +444,7 @@ void
 SVNTabBase::Commit()
 {
 	JString cmd("svn commit $file_name");
-	if (Prepare(&cmd, nullptr, kJTrue))
+	if (Prepare(&cmd, nullptr, true))
 		{
 		itsDirector->Commit(cmd);
 		}
@@ -455,18 +455,18 @@ SVNTabBase::Commit()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::Revert()
 {
-	if (Execute(JString("svn revert $file_name", kJFalse), "WarnRevert::SVNTabBase", kJTrue))
+	if (Execute(JString("svn revert $file_name", JString::kNoCopy), "WarnRevert::SVNTabBase", true))
 		{
 		itsDirector->RefreshStatus();
 		(SVNGetApplication())->ReloadOpenFilesInIDE();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -475,10 +475,10 @@ SVNTabBase::Revert()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::CreateDirectory()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -486,10 +486,10 @@ SVNTabBase::CreateDirectory()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::DuplicateItem()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -497,10 +497,10 @@ SVNTabBase::DuplicateItem()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::CreateProperty()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -508,10 +508,10 @@ SVNTabBase::CreateProperty()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::SchedulePropertiesForRemove()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -519,10 +519,10 @@ SVNTabBase::SchedulePropertiesForRemove()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::Ignore()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -530,11 +530,11 @@ SVNTabBase::Ignore()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::CanCheckOutSelection()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -552,24 +552,24 @@ SVNTabBase::CheckOutSelection()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::Prepare
 	(
 	JString*			cmd,
 	const JUtf8Byte*	warnMsgID,
-	const JBoolean		includeDeleted
+	const bool		includeDeleted
 	)
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	GetSelectedFiles(&list, includeDeleted);
 	if (list.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (warnMsgID != nullptr && !JGetUserNotification()->AskUserNo(JGetString(warnMsgID)))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JSize count = list.GetElementCount();
@@ -584,7 +584,7 @@ SVNTabBase::Prepare
 	subst.DefineVariable("file_name", fileList);
 	subst.Substitute(cmd);
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -592,19 +592,19 @@ SVNTabBase::Prepare
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNTabBase::Execute
 	(
 	const JString&		origCmd,
 	const JUtf8Byte*	warnMsgID,
-	const JBoolean		includeDeleted,
-	const JBoolean		blocking
+	const bool		includeDeleted,
+	const bool		blocking
 	)
 {
 	JString cmd = origCmd;
 	if (!Prepare(&cmd, warnMsgID, includeDeleted))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (blocking)
@@ -614,22 +614,22 @@ SVNTabBase::Execute
 		JSimpleProcess* p;
 		if (itsDirector->HasPath())
 			{
-			JSimpleProcess::Create(&p, itsDirector->GetPath(), cmd, kJTrue);
+			JSimpleProcess::Create(&p, itsDirector->GetPath(), cmd, true);
 			}
 		else
 			{
-			JSimpleProcess::Create(&p, cmd, kJTrue);
+			JSimpleProcess::Create(&p, cmd, true);
 			}
 		p->WaitUntilFinished();
 		}
 	else if (itsDirector->HasPath())
 		{
-		JSimpleProcess::Create(itsDirector->GetPath(), cmd, kJTrue);
+		JSimpleProcess::Create(itsDirector->GetPath(), cmd, true);
 		}
 	else
 		{
-		JSimpleProcess::Create(cmd, kJTrue);
+		JSimpleProcess::Create(cmd, true);
 		}
 
-	return kJTrue;
+	return true;
 }

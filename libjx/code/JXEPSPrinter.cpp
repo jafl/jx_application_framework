@@ -125,7 +125,7 @@ JXEPSPrinter::GetPreviewPainter
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXEPSPrinter::GetPreviewImage
 	(
 	const JImage** image
@@ -135,12 +135,12 @@ JXEPSPrinter::GetPreviewImage
 	if (itsPreviewImage != nullptr)
 		{
 		*image = itsPreviewImage;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*image = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -191,8 +191,8 @@ JXEPSPrintSetupDialog*
 JXEPSPrinter::CreatePrintSetupDialog
 	(
 	const JString&	fileName,
-	const JBoolean	preview,
-	const JBoolean	bw
+	const bool	preview,
+	const bool	bw
 	)
 {
 	return JXEPSPrintSetupDialog::Create(fileName, preview, bw);
@@ -201,16 +201,16 @@ JXEPSPrinter::CreatePrintSetupDialog
 /******************************************************************************
  EndUserPrintSetup (virtual protected)
 
-	Returns kJTrue if caller should continue the printing process.
+	Returns true if caller should continue the printing process.
 	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXEPSPrinter::EndUserPrintSetup
 	(
 	const JBroadcaster::Message&	message,
-	JBoolean*						changed
+	bool*						changed
 	)
 {
 	assert( itsPrintSetupDialog != nullptr );
@@ -244,8 +244,8 @@ JXEPSPrinter::Receive
 	if (sender == itsPrintSetupDialog &&
 		message.Is(JXDialogDirector::kDeactivated))
 		{
-		JBoolean changed = kJFalse;
-		const JBoolean success = EndUserPrintSetup(message, &changed);
+		bool changed = false;
+		const bool success = EndUserPrintSetup(message, &changed);
 		Broadcast(PrintSetupFinished(success, changed));
 		}
 

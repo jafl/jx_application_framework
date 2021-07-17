@@ -40,7 +40,7 @@ public:
 
 	~CBCPreprocessor();
 
-	JBoolean	Preprocess(JString* text) const;
+	bool	Preprocess(JString* text) const;
 	void		PrintMacrosForCTags(std::ostream& output) const;
 
 	void	ReadSetup(std::istream& input, const JFileVersion vers);

@@ -32,13 +32,13 @@ JPtrArray<CBTextDocument>	CBManPageDocument::theManDocList(JPtrArrayT::kForgetAl
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBManPageDocument::Create
 	(
 	CBManPageDocument**	returnDoc,
 	const JString&		origPageName,
 	const JString&		pageIndex,
-	const JBoolean		apropos
+	const bool		apropos
 	)
 {
 	JString pageName = origPageName;
@@ -49,7 +49,7 @@ CBManPageDocument::Create
 			{
 			*returnDoc = nullptr;
 			}
-		return kJFalse;
+		return false;
 		}
 
 	CBGetViewManPageDialog()->AddToHistory(pageName, pageIndex, apropos);
@@ -79,7 +79,7 @@ CBManPageDocument::Create
 			{
 			*returnDoc = doc;
 			}
-		return kJTrue;
+		return true;
 		}
 
 	// If !apropos, we can't check cmd #2 until cmd #1 fails.
@@ -93,7 +93,7 @@ CBManPageDocument::Create
 
 	if (doc != trueDoc)
 		{
-		const JBoolean ok = doc->Close();
+		const bool ok = doc->Close();
 		assert( ok );
 		}
 
@@ -105,11 +105,11 @@ CBManPageDocument::Create
 	if (trueDoc != nullptr)
 		{
 		trueDoc->Activate();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -126,7 +126,7 @@ CBManPageDocument::CBManPageDocument
 	(
 	const JString&		pageName,
 	const JString&		pageIndex,
-	const JBoolean		apropos,
+	const bool		apropos,
 	CBManPageDocument**	trueDoc
 	)
 	:
@@ -139,7 +139,7 @@ CBManPageDocument::CBManPageDocument
 	JString* cmd = jnew JString;
 	assert( cmd != nullptr );
 
-	JBoolean success = kJFalse;
+	bool success = false;
 	if (!apropos)
 		{
 		*cmd = GetCmd1(pageName, pageIndex);
@@ -245,16 +245,16 @@ CBManPageDocument::CBManPageDocument
 */			}
 		}
 
-	itsIgnoreNameChangedFlag = kJTrue;
-	FileChanged(*cmd, kJFalse);
-	itsIgnoreNameChangedFlag = kJFalse;
+	itsIgnoreNameChangedFlag = true;
+	FileChanged(*cmd, false);
+	itsIgnoreNameChangedFlag = false;
 
-	GetTextEditor()->SetWritable(kJFalse);
+	GetTextEditor()->SetWritable(false);
 
 	*trueDoc = this;
 
 	JIndex index;
-	theManCmdList.InsertSorted(cmd, kJTrue, &index);
+	theManCmdList.InsertSorted(cmd, true, &index);
 	theManDocList.InsertAtIndex(index, this);
 }
 

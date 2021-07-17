@@ -406,6 +406,13 @@ ProjectTableCaption::CBEditCommandsDialog
 
 # CBCommandTable
 
+Column1::CBCommandTable	"Menu text"
+Column2::CBCommandTable	"Menu shortcut"
+Column3::CBCommandTable	"Name"
+Column4::CBCommandTable	"Command to execute"
+Column5::CBCommandTable	"Options"
+Column6::CBCommandTable	"Directory"
+
 NoSpacesInCmdName::CBCommandTable
 "The name of a command cannot contain spaces or tabs."
 

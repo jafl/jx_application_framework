@@ -200,7 +200,7 @@ SVNMainDirector::SVNMainDirector
 
 	if (vers >= 1)
 		{
-		JBoolean hadRepoWidget;
+		bool hadRepoWidget;
 		input >> JBoolFromString(hadRepoWidget);
 
 		if (itsRepoWidget != nullptr)
@@ -266,7 +266,7 @@ SVNMainDirector::StreamOut
 	else
 		{
 		JString repoPath;
-		const JBoolean hasRepo = GetRepoPath(&repoPath);
+		const bool hasRepo = GetRepoPath(&repoPath);
 		assert( hasRepo );
 		output << repoPath;
 		}
@@ -276,7 +276,7 @@ SVNMainDirector::StreamOut
 	output << ' ';
 	GetWindow()->WriteGeometry(output);
 
-	output << ' ' << JBoolToString(JI2B(itsRepoWidget != nullptr));
+	output << ' ' << JBoolToString(itsRepoWidget != nullptr);
 
 	if (itsRepoWidget != nullptr)
 		{
@@ -325,7 +325,7 @@ SVNMainDirector::BuildWindow()
 
 // end JXLayout
 
-	const JBoolean isURL = JIsURL(itsPath);
+	const bool isURL = JIsURL(itsPath);
 
 	JString displayPath;
 	if (isURL)
@@ -351,7 +351,7 @@ SVNMainDirector::BuildWindow()
 	itsFileMenu->SetMenuItems(kFileMenuStr, "SVNMainDirector");
 	ListenTo(itsFileMenu);
 
-	itsEditMenu = JXTEBase::StaticAppendEditMenu(menuBar, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse, kJFalse);
+	itsEditMenu = JXTEBase::StaticAppendEditMenu(menuBar, false, false, false, false, false, false, false, false);
 
 	const JSize count = itsEditMenu->GetItemCount();
 	for (JIndex i=1; i<count; i++)
@@ -539,7 +539,7 @@ SVNMainDirector::GetPath()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNMainDirector::GetRepoPath
 	(
 	JString* path
@@ -550,12 +550,12 @@ SVNMainDirector::GetRepoPath
 		{
 		*path = (itsRepoWidget->GetRepoTree())->GetRepoPath();
 		JStripTrailingDirSeparator(path);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		path->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -569,9 +569,9 @@ SVNMainDirector::RegisterActionProcess
 	(
 	SVNTabBase*		tab,
 	JProcess*		p,
-	const JBoolean	refreshRepo,
-	const JBoolean	refreshStatus,
-	const JBoolean	reload
+	const bool	refreshRepo,
+	const bool	refreshStatus,
+	const bool	reload
 	)
 {
 	assert( itsActionProcess == nullptr );
@@ -685,9 +685,9 @@ SVNMainDirector::Receive
 		assert( info != nullptr );
 
 		itsActionProcess       = nullptr;
-		JBoolean refreshRepo   = itsRefreshRepoFlag;	// changed when refresh status
-		JBoolean refreshStatus = itsRefreshStatusFlag;	// changed when refresh status
-		JBoolean reload        = itsReloadOpenFilesFlag;
+		bool refreshRepo   = itsRefreshRepoFlag;	// changed when refresh status
+		bool refreshStatus = itsRefreshStatusFlag;	// changed when refresh status
+		bool reload        = itsReloadOpenFilesFlag;
 
 		itsTabGroup->ClearBusyIndex();
 		if (info->Successful())
@@ -729,7 +729,7 @@ SVNMainDirector::Receive
 			{
 			const JString& url = itsBrowseRepoDialog->GetRepo();
 
-			JBoolean wasOpen;
+			bool wasOpen;
 			SVNMainDirector* dir =
 				(SVNGetWDManager())->OpenDirectory(url, &wasOpen);
 			if (wasOpen)
@@ -999,7 +999,7 @@ SVNMainDirector::CheckOut()
 	repoCmd += JPrepArgForExec(repoPath);
 	repoCmd += " ";
 	repoCmd += JPrepArgForExec(path);
-	Execute("CheckOutTab::SVNMainDirector", repoCmd, kJFalse, kJTrue, kJFalse);
+	Execute("CheckOutTab::SVNMainDirector", repoCmd, false, true, false);
 
 	itsPath            = path;
 	itsCheckOutProcess = itsActionProcess;
@@ -1019,7 +1019,7 @@ SVNMainDirector::CreateStatusTab()
 	assert( itsStatusWidget == nullptr );
 
 	JIndex index;
-	const JBoolean found = itsTabList->Find(itsRepoWidget, &index);
+	const bool found = itsTabList->Find(itsRepoWidget, &index);
 	assert( found );
 	index++;
 
@@ -1046,7 +1046,7 @@ void
 SVNMainDirector::UpdateActionsMenu()
 {
 	JIndex i;
-	const JBoolean hasTab = itsTabGroup->GetCurrentTabIndex(&i);
+	const bool hasTab = itsTabGroup->GetCurrentTabIndex(&i);
 	if (hasTab && itsTabGroup->TabCanClose(i))
 		{
 		itsActionsMenu->EnableItem(kCloseTabCmd);
@@ -1236,7 +1236,7 @@ SVNMainDirector::BrowseRepo
 	)
 {
 	JString repoPath;
-	const JBoolean hasRepo = GetRepoPath(&repoPath);
+	const bool hasRepo = GetRepoPath(&repoPath);
 	assert( hasRepo );
 
 	const JUtf8Byte* map[] =
@@ -1245,7 +1245,7 @@ SVNMainDirector::BrowseRepo
 		};
 	const JString title = JGetString("RepoRevTab::SVNMainDirector", map, sizeof(map));
 
-	JXContainer* card            = itsTabGroup->AppendTab(title, kJTrue);
+	JXContainer* card            = itsTabGroup->AppendTab(title, true);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 	SVNRepoView* widget =
@@ -1291,7 +1291,7 @@ SVNMainDirector::UpdateWorkingCopy()
 		return;
 		}
 
-	JXContainer* card            = itsTabGroup->AppendTab(JGetString("UpdateTab::SVNMainDirector"), kJTrue);
+	JXContainer* card            = itsTabGroup->AppendTab(JGetString("UpdateTab::SVNMainDirector"), true);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 	SVNUpdateList* updateWidget =
@@ -1318,7 +1318,7 @@ SVNMainDirector::CleanUpWorkingCopy()
 	if (HasPath())
 		{
 		Execute("CleanUpTab::SVNMainDirector",
-				JString("svn cleanup", kJFalse), kJFalse, kJTrue, kJTrue);
+				JString("svn cleanup", JString::kNoCopy), false, true, true);
 		}
 }
 
@@ -1335,7 +1335,7 @@ SVNMainDirector::Commit
 {
 	if (HasPath())
 		{
-		Execute("CommitTab::SVNMainDirector", cmd, kJTrue, kJTrue, kJFalse);
+		Execute("CommitTab::SVNMainDirector", cmd, true, true, false);
 		}
 }
 
@@ -1350,7 +1350,7 @@ SVNMainDirector::CommitAll()
 	if (HasPath())
 		{
 		Execute("CommitAllTab::SVNMainDirector",
-				JString("svn commit", kJFalse), kJTrue, kJTrue, kJFalse);
+				JString("svn commit", JString::kNoCopy), true, true, false);
 		}
 }
 
@@ -1366,7 +1366,7 @@ SVNMainDirector::RevertAll()
 		JGetUserNotification()->AskUserNo(JGetString("WarnRevertAll::SVNMainDirector")))
 		{
 		Execute("RevertAllTab::SVNMainDirector",
-				JString("svn revert -R .", kJFalse), kJFalse, kJTrue, kJTrue);
+				JString("svn revert -R .", JString::kNoCopy), false, true, true);
 		}
 }
 
@@ -1380,12 +1380,12 @@ SVNMainDirector::Execute
 	(
 	const JUtf8Byte*	tabStringID,
 	const JString&		cmd,
-	const JBoolean		refreshRepo,
-	const JBoolean		refreshStatus,
-	const JBoolean		reloadOpenFiles
+	const bool		refreshRepo,
+	const bool		refreshStatus,
+	const bool		reloadOpenFiles
 	)
 {
-	JXContainer* card            = itsTabGroup->AppendTab(JGetString(tabStringID), kJTrue);
+	JXContainer* card            = itsTabGroup->AppendTab(JGetString(tabStringID), true);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 	SVNCommandLog* widget =
@@ -1521,7 +1521,7 @@ SVNMainDirector::ShowInfoLog
 	)
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-	tab->GetSelectedFiles(&list, kJTrue);
+	tab->GetSelectedFiles(&list, true);
 
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -1549,7 +1549,7 @@ SVNMainDirector::ShowInfoLog
 	JSplitPathAndName(fullName, &path, &name);
 
 	const JString tabTitle       = JGetString("LogInfoTab::SVNMainDirector") + name;
-	JXContainer* card            = itsTabGroup->AppendTab(tabTitle, kJTrue);
+	JXContainer* card            = itsTabGroup->AppendTab(tabTitle, true);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 	SVNInfoLog* widget =
@@ -1577,7 +1577,7 @@ SVNMainDirector::ShowProperties
 	)
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-	tab->GetSelectedFiles(&list, kJTrue);
+	tab->GetSelectedFiles(&list, true);
 
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -1604,7 +1604,7 @@ SVNMainDirector::ShowProperties
 	JSplitPathAndName(fullName, &path, &name);
 
 	const JString tabTitle       = JGetString("PropTab::SVNMainDirector") + name;
-	JXContainer* card            = itsTabGroup->AppendTab(tabTitle, kJTrue);
+	JXContainer* card            = itsTabGroup->AppendTab(tabTitle, true);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
 	SVNPropertiesList* widget =

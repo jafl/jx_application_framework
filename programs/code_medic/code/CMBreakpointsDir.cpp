@@ -138,7 +138,7 @@ CMBreakpointsDir::BuildWindow
 	window->SetTitle(JGetString("WindowTitleSuffix::CMBreakpointsDir"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetBreakpointsWindowClass());
 	CMGetPrefsManager()->GetWindowSize(kBreakpointsWindowSizeID, window);
 
@@ -235,7 +235,7 @@ CMBreakpointsDir::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMBreakpointsDir::GetMenuIcon
 	(
 	const JXImage** icon
@@ -243,7 +243,7 @@ CMBreakpointsDir::GetMenuIcon
 	const
 {
 	*icon = CMGetBreakpointsIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

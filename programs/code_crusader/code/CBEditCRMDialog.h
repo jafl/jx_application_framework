@@ -29,7 +29,7 @@ public:
 
 	virtual ~CBEditCRMDialog();
 
-	JBoolean	GetCurrentCRMRuleSetName(JString* name) const;
+	bool	GetCurrentCRMRuleSetName(JString* name) const;
 
 	JArray<CBPrefsManager::CRMRuleListInfo>*
 		GetCRMRuleLists(JIndex* firstNewID, JIndex* lastNewID) const;

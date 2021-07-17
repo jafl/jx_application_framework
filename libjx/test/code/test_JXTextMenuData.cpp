@@ -28,7 +28,7 @@ public:
 		JXTextMenuData(menu)
 	{};
 
-	JBoolean
+	bool
 	TestItemID(const JIndex index, const JString** id) const
 	{
 		return GetItemID(index, id);
@@ -40,7 +40,7 @@ JTEST(ParseOSX)
 	JXMenu::SetDisplayStyle(JXMenu::kMacintoshStyle);
 
 	TestFontManager fontManager;
-	JXDisplay display(kJTrue);
+	JXDisplay display(true);
 	JXTextMenu menu(&display, &fontManager);
 
 	TestTextMenuData data(&menu);
@@ -98,7 +98,7 @@ JTEST(ParseLinux)
 	JXMenu::SetDisplayStyle(JXMenu::kMacintoshStyle);
 
 	TestFontManager fontManager;
-	JXDisplay display(kJFalse);
+	JXDisplay display(false);
 	JXTextMenu menu(&display, &fontManager);
 
 	TestTextMenuData data(&menu);
@@ -140,7 +140,7 @@ JTEST(ParseWindows)
 	JXMenu::SetDisplayStyle(JXMenu::kWindowsStyle);
 
 	TestFontManager fontManager;
-	JXDisplay display(kJFalse);
+	JXDisplay display(false);
 	JXTextMenu menu(&display, &fontManager);
 
 	TestTextMenuData data(&menu);

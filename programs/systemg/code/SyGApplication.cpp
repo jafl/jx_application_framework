@@ -28,20 +28,20 @@
 static const JUtf8Byte* kAppSignature = "systemg";
 
 #ifdef _J_OSX
-static const JString kDefaultTermCmd       ("open -a Terminal $p", kJFalse);
-static const JString kDefaultGitStatusCmd  ("git gui", kJFalse);
-static const JString kDefaultGitHistoryCmd ("gitk --all", kJFalse);
+static const JString kDefaultTermCmd       ("open -a Terminal $p", JString::kNoCopy);
+static const JString kDefaultGitStatusCmd  ("git gui", JString::kNoCopy);
+static const JString kDefaultGitHistoryCmd ("gitk --all", JString::kNoCopy);
 #elif defined _J_CYGWIN
-static const JString kDefaultTermCmd       ("xterm -title $n -n $n", kJFalse);
-static const JString kDefaultGitStatusCmd  ("xterm -e git gui", kJFalse);
-static const JString kDefaultGitHistoryCmd ("xterm -e gitk --all", kJFalse);
+static const JString kDefaultTermCmd       ("xterm -title $n -n $n", JString::kNoCopy);
+static const JString kDefaultGitStatusCmd  ("xterm -e git gui", JString::kNoCopy);
+static const JString kDefaultGitHistoryCmd ("xterm -e gitk --all", JString::kNoCopy);
 #else
-static const JString kDefaultTermCmd       ("gnome-terminal --working-directory=$p", kJFalse);
-static const JString kDefaultGitStatusCmd  ("git gui", kJFalse);
-static const JString kDefaultGitHistoryCmd ("gitk --all", kJFalse);
+static const JString kDefaultTermCmd       ("gnome-terminal --working-directory=$p", JString::kNoCopy);
+static const JString kDefaultGitStatusCmd  ("git gui", JString::kNoCopy);
+static const JString kDefaultGitHistoryCmd ("gitk --all", JString::kNoCopy);
 #endif
 
-static const JString kDefaultPostCheckoutCmd("jcc --reload-open", kJFalse);
+static const JString kDefaultPostCheckoutCmd("jcc --reload-open", JString::kNoCopy);
 
 const JFileVersion kCurrentPrefsVersion = 5;
 
@@ -65,7 +65,7 @@ SyGApplication::SyGApplication
 	(
 	int*		argc,
 	char*		argv[],
-	JBoolean*	displayAbout,
+	bool*	displayAbout,
 	JString*	prevVersStr
 	)
 	:
@@ -93,7 +93,7 @@ SyGApplication::SyGApplication
 			}
 		else
 			{
-			*displayAbout = kJTrue;
+			*displayAbout = true;
 			}
 		}
 	else
@@ -143,7 +143,7 @@ SyGApplication::~SyGApplication()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGApplication::OpenDirectory()
 {
 	JString path;
@@ -155,20 +155,20 @@ SyGApplication::OpenDirectory()
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 SyGApplication::OpenDirectory
 	(
 	const JString&	pathName,
 	SyGTreeDir**	dir,
 	JIndex*			row,
-	const JBoolean	deiconify,
-	const JBoolean	reportError,
-	const JBoolean	forceNew,
-	const JBoolean	clearSelection
+	const bool	deiconify,
+	const bool	reportError,
+	const bool	forceNew,
+	const bool	clearSelection
 	)
 {
 	if (dir != nullptr)
@@ -193,7 +193,7 @@ SyGApplication::OpenDirectory
 			};
 			JGetUserNotification()->ReportError(JGetString("PathDoesNotExist::SyGApplication", map, sizeof(map)));
 			}
-		return kJFalse;
+		return false;
 		}
 
 	// if file, select it after opening the window
@@ -220,7 +220,7 @@ SyGApplication::OpenDirectory
 			};
 			JGetUserNotification()->ReportError(JGetString("Unreadable::SyGApplication", map, sizeof(map)));
 			}
-		return kJFalse;
+		return false;
 		}
 
 	// resolve all .. in path
@@ -231,7 +231,7 @@ SyGApplication::OpenDirectory
 	iter.BeginMatch();
 	while (iter.Next(".."))
 		{
-		const JString p = iter.FinishMatch(kJTrue).GetString();
+		const JString p = iter.FinishMatch(true).GetString();
 		if (!JGetTrueName(p, &p1))
 			{
 			if (reportError)
@@ -243,7 +243,7 @@ SyGApplication::OpenDirectory
 				const JString msg = JGetString("PathDoesNotExist::SyGApplication", map, sizeof(map));
 				JGetUserNotification()->ReportError(msg);
 				}
-			return kJFalse;
+			return false;
 			}
 
 		iter.ReplaceLastMatch(p1);
@@ -282,7 +282,7 @@ SyGApplication::OpenDirectory
 					*row = cell.y;
 					}
 
-				return kJTrue;
+				return true;
 				}
 			}
 
@@ -324,7 +324,7 @@ SyGApplication::OpenDirectory
 		{
 		*dir = childDir;
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -429,16 +429,16 @@ SyGApplication::UpdateShortcutMenu
 		JXImage* image;
 		if (SyGGetMountPointSmallIcon(mp.type, &image))
 			{
-			menu->SetItemImage(menu->GetItemCount(), image, kJFalse);
+			menu->SetItemImage(menu->GetItemCount(), image, false);
 			}
 		}
 
 	JString trashDir;
-	if (SyGGetTrashDirectory(&trashDir, kJFalse))
+	if (SyGGetTrashDirectory(&trashDir, false))
 		{
 		menu->AppendItem(JGetString("TrashName::SyGGlobals"), JXMenu::kPlainType, JString::empty,
 						 GetNMShortcut(&shortcutIndex), trashDir);
-		menu->SetItemImage(menu->GetItemCount(), SyGGetTrashSmallIcon(), kJFalse);
+		menu->SetItemImage(menu->GetItemCount(), SyGGetTrashSmallIcon(), false);
 		}
 
 	menu->ShowSeparatorAfter(menu->GetItemCount());
@@ -451,7 +451,7 @@ SyGApplication::UpdateShortcutMenu
 		const JString* path = itsShortcutList->GetElement(i);
 		menu->AppendItem(*path, JXMenu::kPlainType, JString::empty,
 						 GetNMShortcut(&shortcutIndex), *path);
-		menu->SetItemImage(menu->GetItemCount(), folderIcon, kJFalse);
+		menu->SetItemImage(menu->GetItemCount(), folderIcon, false);
 		}
 }
 
@@ -522,7 +522,7 @@ SyGApplication::OpenShortcut
 	const JString* path = nullptr;
 
 	JString trashDir;
-	const JBoolean hasTrashDir = SyGGetTrashDirectory(&trashDir, kJFalse);
+	const bool hasTrashDir = SyGGetTrashDirectory(&trashDir, false);
 
 	const JSize mpCount         = itsMountPointList->GetElementCount();
 	const JIndex shortcutOffset = mpCount + (hasTrashDir ? 1 : 0);
@@ -539,7 +539,7 @@ SyGApplication::OpenShortcut
 		path = itsShortcutList->GetElement(index - shortcutOffset);
 		}
 
-	if (!OpenDirectory(*path, nullptr, nullptr, kJTrue, kJFalse) && index > shortcutOffset)
+	if (!OpenDirectory(*path, nullptr, nullptr, true, false) && index > shortcutOffset)
 		{
 		const JUtf8Byte* map[] =
 		{
@@ -566,7 +566,7 @@ SyGApplication::AddShortcut
 {
 	JString* s = jnew JString(JConvertToHomeDirShortcut(shortcut));
 	assert( s != nullptr );
-	if (!itsShortcutList->InsertSorted(s, kJFalse))
+	if (!itsShortcutList->InsertSorted(s, false))
 		{
 		jdelete s;
 		}
@@ -594,11 +594,11 @@ SyGApplication::RemoveShortcut
 /******************************************************************************
  IsMountPoint
 
-	If returns kJTrue and type != nullptr, type is the type of the device.
+	If returns true and type != nullptr, type is the type of the device.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGApplication::IsMountPoint
 	(
 	const JString&	path,
@@ -608,7 +608,7 @@ SyGApplication::IsMountPoint
 {
 	if (!JNameUsed(path))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	UpdateMountPointList();
@@ -623,11 +623,11 @@ SyGApplication::IsMountPoint
 				{
 				*type = info.type;
 				}
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -635,7 +635,7 @@ SyGApplication::IsMountPoint
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGApplication::GetMountPointPrefs
 	(
 	const JString&	path,
@@ -686,7 +686,7 @@ SyGApplication::GetMountPointPrefsPath
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGApplication::Close()
 {
 	SaveProgramState();
@@ -698,20 +698,20 @@ SyGApplication::Close()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGApplication::RestoreProgramState()
 {
 	JPtrArray<JString> children(JPtrArrayT::kDeleteAll);
 	if (!(SyGGetPrefsMgr())->RestoreProgramState(&children))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JSize count = children.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JString* str = children.GetElement(i);
-		OpenDirectory(*str, nullptr, nullptr, kJFalse, kJFalse);
+		OpenDirectory(*str, nullptr, nullptr, false, false);
 		}
 
 	if (itsWindowList->IsEmpty())
@@ -724,7 +724,7 @@ SyGApplication::RestoreProgramState()
 		OpenDirectory(path);
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -807,15 +807,15 @@ SyGApplication::WritePrefs
 	JStringPtrMapCursor<JString> cursor(itsMountPointPrefs);
 	const JSize mpCount = itsMountPointList->GetElementCount();
 
-	JBoolean changed;
+	bool changed;
 	do
 		{
-		changed = kJFalse;
+		changed = false;
 
 		cursor.Reset();
 		while (cursor.Next())
 			{
-			JBoolean found = kJFalse;
+			bool found = false;
 
 			const JString& key = cursor.GetKey();
 			for (JIndex i=1; i<=mpCount; i++)
@@ -823,7 +823,7 @@ SyGApplication::WritePrefs
 				const JMountPoint info = itsMountPointList->GetElement(i);
 				if (JSameDirEntry(*(info.path), key))
 					{
-					found = kJTrue;
+					found = true;
 					break;
 					}
 				}
@@ -831,7 +831,7 @@ SyGApplication::WritePrefs
 			if (!found)
 				{
 				itsMountPointPrefs->DeleteElement(key);
-				changed = kJTrue;
+				changed = true;
 				break;
 				}
 			}
@@ -895,7 +895,7 @@ SyGApplication::OpenTerminal
 		}
 	iter.Invalidate();
 
-	const JError err = JSimpleProcess::Create(path, cmd, kJTrue);
+	const JError err = JSimpleProcess::Create(path, cmd, true);
 	err.ReportIfError();
 }
 
@@ -989,8 +989,8 @@ SyGApplication::CompareShortcuts
 	JString* const & s2
 	)
 {
-	const JBoolean h1 = s1->BeginsWith("~");
-	const JBoolean h2 = s2->BeginsWith("~");
+	const bool h1 = s1->BeginsWith("~");
+	const bool h2 = s2->BeginsWith("~");
 	if (h1 && !h2)
 		{
 		return JListT::kFirstLessSecond;

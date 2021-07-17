@@ -76,14 +76,14 @@ CBKeyScriptTableBase::~CBKeyScriptTableBase()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBKeyScriptTableBase::ContentsValid()
 	const
 {
 	CBKeyScriptTableBase* me = const_cast<CBKeyScriptTableBase*>(this);
 	if (!me->EndEditing())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JStringTableData* data = GetStringData();
@@ -103,12 +103,12 @@ CBKeyScriptTableBase::ContentsValid()
 				me->TableScrollToCell(JPoint(1,i));
 				JGetUserNotification()->ReportError(
 					JGetString("MustBeUnique::CBKeyScriptTableBase"));
-				return kJFalse;
+				return false;
 				}
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

@@ -121,19 +121,19 @@ public:
 
 public:
 
-	CMPrefsManager(JBoolean* isNew);
+	CMPrefsManager(bool* isNew);
 
 	virtual	~CMPrefsManager();
 
 	JString	GetMedicVersionStr() const;
 
-	JBoolean	GetExpirationTimeStamp(time_t* t) const;
+	bool	GetExpirationTimeStamp(time_t* t) const;
 	void		SetExpirationTimeStamp(const time_t t);
 
 	void	EditPrefs();
 
 	DebuggerType	GetDebuggerType() const;
-	JBoolean		SetDebuggerType(const DebuggerType type);
+	bool		SetDebuggerType(const DebuggerType type);
 
 	JString	GetGDBCommand() const;
 	void	SetGDBCommand(const JString& command);
@@ -163,7 +163,7 @@ public:
 	void	WriteHistoryMenuSetup(JXStringHistoryMenu* menu);
 
 	void	GetWindowSize(const JPrefID id, JXWindow* window,
-						  const JBoolean skipDocking = kJFalse) const;
+						  const bool skipDocking = false) const;
 	void	SaveWindowSize(const JPrefID id, JXWindow* window);
 
 // these were taken from Code Crusader for compatibility with shared prefs
@@ -175,7 +175,7 @@ public:
 	void	SetTabCharCount(const JSize count);
 
 	JColorID		GetColor(const JIndex index) const;
-	static JBoolean	ColorIndexValid(const JIndex index);
+	static bool	ColorIndexValid(const JIndex index);
 
 	void	LoadSearchPrefs();
 	void	SaveSearchPrefs();
@@ -184,7 +184,7 @@ public:
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion) override;
+	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
 	virtual void	SaveAllBeforeDestruct() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -199,12 +199,12 @@ private:
 
 	void	UpdatePrefs(const CMEditPrefsDialog* dlog);
 
-	JBoolean	GetSuffixes(const JPrefID& id, JPtrArray<JString>* suffixList) const;
+	bool	GetSuffixes(const JPrefID& id, JPtrArray<JString>* suffixList) const;
 	void		SetSuffixes(const JPrefID& id, const JPtrArray<JString>& suffixList);
 
 	void	SetEditFileCmds(const JString& editFileCmd, const JString& editFileLineCmd);
 
-	void	SetColorList(const JBoolean hasColors, JRGB colorList[]);
+	void	SetColorList(const bool hasColors, JRGB colorList[]);
 
 // these were taken from CBPrefsManager for compatibility with shared prefs
 
@@ -260,13 +260,13 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CMPrefsManager::ColorIndexValid
 	(
 	const JIndex index
 	)
 {
-	return JI2B( 1 <= index && index <= kColorCount );
+	return 1 <= index && index <= kColorCount;
 }
 
 #endif

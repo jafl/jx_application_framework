@@ -23,7 +23,7 @@ public:
 
 	virtual	~JExprParser();
 
-	JBoolean	Parse(const JString& expr, JFunction** f);
+	bool	Parse(const JString& expr, JFunction** f);
 
 private:
 

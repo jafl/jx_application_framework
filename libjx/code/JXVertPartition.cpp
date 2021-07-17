@@ -261,7 +261,7 @@ JXVertPartition::HandleMouseDrag
 		if (pt.y != itsPrevPt.y)
 			{
 			JPainter* p = nullptr;
-			const JBoolean ok = GetDragPainter(&p);
+			const bool ok = GetDragPainter(&p);
 			assert( ok );
 
 			JRect ap = GetAperture();
@@ -294,7 +294,7 @@ JXVertPartition::HandleMouseUp
 		// erase the line
 
 		JPainter* p = nullptr;
-		const JBoolean ok = GetDragPainter(&p);
+		const bool ok = GetDragPainter(&p);
 		assert( ok );
 
 		JRect ap = GetAperture();
@@ -347,10 +347,10 @@ JXVertPartition::AdjustCursor
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXVertPartition::RunInternalFTC
 	(
-	const JBoolean	horizontal,
+	const bool	horizontal,
 	JCoordinate*	newSize
 	)
 {
@@ -363,7 +363,7 @@ JXVertPartition::RunInternalFTC
 		while (iter.Next(&obj))
 			{
 			JCoordinate w1;
-			if (obj->RunInternalFTC(kJTrue, &w1))
+			if (obj->RunInternalFTC(true, &w1))
 				{
 				obj->FTCAdjustSize(w1 - obj->GetApertureWidth(), 0);
 				}
@@ -397,7 +397,7 @@ JXVertPartition::RunInternalFTC
 			{
 			JCoordinate h, delta;
 			const JRect padding = obj->ComputePaddingForInternalFTC();
-			if (obj->RunInternalFTC(kJFalse, &h))
+			if (obj->RunInternalFTC(false, &h))
 				{
 				h    += padding.top + padding.bottom;
 				delta = h - obj->GetApertureHeight();
@@ -418,7 +418,7 @@ JXVertPartition::RunInternalFTC
 		*newSize = sum + (itsFTCSizes->GetElementCount() - 1) * kDragRegionSize;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -459,7 +459,7 @@ JXVertPartition::FTCAdjustSize
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXVertPartition::SaveGeometryForLater
 	(
 	const JArray<JCoordinate>& sizes
@@ -479,5 +479,5 @@ JXVertPartition::SaveGeometryForLater
 		*itsSavedGeom = sizes;
 		}
 
-	return kJTrue;
+	return true;
 }

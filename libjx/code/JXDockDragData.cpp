@@ -59,7 +59,7 @@ JXDockDragData::AddTypes
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDockDragData::ConvertData
 	(
 	const Atom		requestType,
@@ -82,7 +82,7 @@ JXDockDragData::ConvertData
 			XPoint* xpt          = (XPoint*) *data;
 			xpt->x               = JMin(minSize.x, (JCoordinate) SHRT_MAX);
 			xpt->y               = JMin(minSize.y, (JCoordinate) SHRT_MAX);
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -95,7 +95,7 @@ JXDockDragData::ConvertData
 		if (*data != nullptr)
 			{
 			*((Window*) *data) = itsWindow->GetXWindow();
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -103,5 +103,5 @@ JXDockDragData::ConvertData
 	*data         = nullptr;
 	*dataLength   = 0;
 	*returnType   = None;
-	return kJFalse;
+	return false;
 }

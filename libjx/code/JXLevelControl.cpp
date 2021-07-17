@@ -90,5 +90,5 @@ JXLevelControl::Draw
 		rThumb.right  = bounds.width();
 		}
 
-	JXDrawUpFrame(p, rThumb, GetBorderWidth(), kJTrue, JColorManager::GetDefaultBackColor());
+	JXDrawUpFrame(p, rThumb, GetBorderWidth(), true, JColorManager::GetDefaultBackColor());
 }

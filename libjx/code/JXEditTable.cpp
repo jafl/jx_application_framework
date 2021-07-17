@@ -55,7 +55,7 @@ JXEditTable::JXEditTable
 {
 	itsInputField      = nullptr;
 	itsEditMenuHandler = nullptr;
-	WantInput(kJTrue, kJTrue);		// tab moves to next column
+	WantInput(true, true);		// tab moves to next column
 }
 
 /******************************************************************************
@@ -75,14 +75,14 @@ JXEditTable::~JXEditTable()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXEditTable::IsEditable
 	(
 	const JPoint& cell
 	)
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -90,7 +90,7 @@ JXEditTable::IsEditable
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXEditTable::CreateInputField
 	(
 	const JPoint&	cell,
@@ -110,12 +110,12 @@ JXEditTable::CreateInputField
 
 	if (itsInputField->Focus())
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		DeleteInputField();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -211,8 +211,8 @@ JXEditTable::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	const JBoolean shiftOn = modifiers.shift();
-	const JBoolean metaOn  = modifiers.meta();
+	const bool shiftOn = modifiers.shift();
+	const bool metaOn  = modifiers.meta();
 
 	if (c == kJReturnKey && metaOn)
 		{
@@ -267,11 +267,11 @@ JXEditTable::HandleKeyPress
 /******************************************************************************
  WantsInputFieldKey (virtual)
 
-	Returns kJTrue if it wants to preempt the input field from getting the key.
+	Returns true if it wants to preempt the input field from getting the key.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXEditTable::WantsInputFieldKey
 	(
 	const JUtf8Character&	c,
@@ -280,8 +280,7 @@ JXEditTable::WantsInputFieldKey
 	)
 	const
 {
-	return JI2B(
-		c == kJReturnKey || c == kJTabKey || c == kJEscapeKey ||
+	return c == kJReturnKey || c == kJTabKey || c == kJEscapeKey ||
 		(modifiers.meta() &&
 		 (c == kJUpArrow || c == '8' ||
 		  c == kJDownArrow || c == '2' ||
@@ -294,7 +293,7 @@ JXEditTable::WantsInputFieldKey
 		 (keySym == XK_Home || keySym == XK_KP_Home ||
 		  keySym == XK_End || keySym == XK_KP_End)) ||
 		keySym == XK_Page_Up || keySym == XK_KP_Page_Up ||
-		keySym == XK_Page_Down || keySym == XK_KP_Page_Down);
+		keySym == XK_Page_Down || keySym == XK_KP_Page_Down;
 }
 
 /******************************************************************************

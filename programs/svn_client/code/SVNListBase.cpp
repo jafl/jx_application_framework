@@ -52,10 +52,10 @@ SVNListBase::SVNListBase
 	SVNMainDirector*	director,
 	JXTextMenu*			editMenu,
 	const JString&		cmd,
-	const JBoolean		refreshRepo,
-	const JBoolean		refreshStatus,
-	const JBoolean		reload,
-	const JBoolean		enableContextMenu,
+	const bool		refreshRepo,
+	const bool		refreshStatus,
+	const bool		reload,
+	const bool		enableContextMenu,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption hSizing,
@@ -80,7 +80,7 @@ SVNListBase::SVNListBase
 	itsErrorLink(nullptr)
 {
 	SetFont(JFontManager::GetDefaultMonospaceFontName(), JFontManager::GetDefaultFontSize());
-	SetSelectionBehavior(kJTrue, kJTrue);
+	SetSelectionBehavior(true, true);
 
 	itsLineList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsLineList != nullptr );
@@ -282,7 +282,7 @@ SVNListBase::ReceiveMessageLine()
 	assert( itsMessageLink != nullptr );
 
 	JString line;
-	const JBoolean ok = itsMessageLink->GetNextMessage(&line);
+	const bool ok = itsMessageLink->GetNextMessage(&line);
 	assert( ok );
 
 	if (!ShouldDisplayLine(&line))
@@ -290,15 +290,15 @@ SVNListBase::ReceiveMessageLine()
 		return;
 		}
 
-	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor());
+	const JFontStyle red(true, false, 0, false, JColorManager::GetRedColor());
 	const JFontStyle blue = JColorManager::GetBlueColor();
-	const JFontStyle strike(kJFalse, kJFalse, 0, kJTrue);
+	const JFontStyle strike(false, false, 0, true);
 
 	JString* temp = jnew JString(line);
 	assert( temp != nullptr );
 
 	JIndex i;
-	itsLineList->InsertSorted(temp, kJTrue, &i);
+	itsLineList->InsertSorted(temp, true, &i);
 	StyleLine(i, line, red, blue, strike);
 
 	JString relPath = ExtractRelativePath(line);
@@ -312,18 +312,18 @@ SVNListBase::ReceiveMessageLine()
 /******************************************************************************
  ShouldDisplayLine (virtual protected)
 
-	Return kJFalse if the line should not be displayed.
+	Return false if the line should not be displayed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNListBase::ShouldDisplayLine
 	(
 	JString* line
 	)
 	const
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -337,7 +337,7 @@ SVNListBase::ReceiveErrorLine()
 	assert( itsErrorLink != nullptr );
 
 	JString line;
-	const JBoolean ok = itsErrorLink->GetNextMessage(&line);
+	const bool ok = itsErrorLink->GetNextMessage(&line);
 	assert( ok );
 
 	itsErrorList->Append(line);
@@ -351,7 +351,7 @@ SVNListBase::ReceiveErrorLine()
 void
 SVNListBase::DisplayErrors()
 {
-	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor());
+	const JFontStyle red(true, false, 0, false, JColorManager::GetRedColor());
 
 	const JSize count = itsErrorList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -404,11 +404,11 @@ SVNListBase::HandleEditMenu
 
 	if (*id == kJXCopyAction)
 		{
-		CopySelectedItems(kJFalse);
+		CopySelectedItems(false);
 		}
 	else if (*id == kSVNCopyFullPathAction)
 		{
-		CopySelectedItems(kJTrue);
+		CopySelectedItems(true);
 		}
 	else if (*id == kJXSelectAllAction)
 		{
@@ -424,11 +424,11 @@ SVNListBase::HandleEditMenu
 void
 SVNListBase::CopySelectedItems
 	(
-	const JBoolean fullPath
+	const bool fullPath
 	)
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-	GetSelectedFiles(&list, kJTrue);
+	GetSelectedFiles(&list, true);
 	if (list.IsEmpty())
 		{
 		return;
@@ -489,7 +489,7 @@ SVNListBase::HandleMouseDown
 	)
 {
 	JTableSelection& s = GetTableSelection();
-	itsIsDraggingFlag  = kJFalse;
+	itsIsDraggingFlag  = false;
 	itsSavedSelection->CleanOut();
 
 	JPoint cell;
@@ -525,7 +525,7 @@ SVNListBase::HandleMouseDown
 		s.SetBoat(cell);
 		s.SetAnchor(cell);
 		s.SelectCell(cell);
-		itsIsDraggingFlag = kJTrue;
+		itsIsDraggingFlag = true;
 
 		if (clickCount == 2)
 			{
@@ -567,7 +567,7 @@ SVNListBase::HandleMouseDrag
 		ScrollForDrag(pt);
 
 		JPoint cell;
-		const JBoolean ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
+		const bool ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
 		assert( ok );
 		(GetTableSelection()).ExtendSelection(cell);
 		}
@@ -587,7 +587,7 @@ SVNListBase::HandleKeyPress
 	)
 {
 	JTableSelection& s          = GetTableSelection();
-	const JBoolean hadSelection = s.HasSelection();
+	const bool hadSelection = s.HasSelection();
 	itsSavedSelection->CleanOut();
 
 	if (c == kJReturnKey)
@@ -623,7 +623,7 @@ SVNListBase::HandleKeyPress
 
 #include "svn_info_log.xpm"
 
-JBoolean
+bool
 SVNListBase::CreateContextMenu()
 {
 	if (itsContextMenu == nullptr && itsEnableContextMenuFlag)
@@ -639,7 +639,7 @@ SVNListBase::CreateContextMenu()
 		ListenTo(itsContextMenu);
 		}
 
-	return JI2B(itsEnableContextMenuFlag && itsContextMenu != nullptr);
+	return itsEnableContextMenuFlag && itsContextMenu != nullptr;
 }
 
 /******************************************************************************
@@ -730,7 +730,7 @@ SVNListBase::UpdateActionsMenu
 		menu->EnableItem(kResolveSelectedConflictsCmd);
 		}
 
-	GetSelectedFiles(&list, kJTrue);
+	GetSelectedFiles(&list, true);
 	if (!list.IsEmpty())
 		{
 		menu->EnableItem(kCommitSelectedChangesCmd);
@@ -752,7 +752,7 @@ SVNListBase::UpdateInfoMenu
 	)
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-	GetSelectedFiles(&list, kJTrue);
+	GetSelectedFiles(&list, true);
 	if (!list.IsEmpty())
 		{
 		menu->EnableItem(kInfoLogSelectedFilesCmd);
@@ -788,7 +788,7 @@ void
 SVNListBase::GetSelectedFiles
 	(
 	JPtrArray<JString>*	fullNameList,
-	const JBoolean		includeDeleted
+	const bool		includeDeleted
 	)
 {
 	fullNameList->CleanOut();
@@ -803,7 +803,7 @@ SVNListBase::GetSelectedFiles
 		{
 		const JString* line   = itsLineList->GetElement(cell.y);
 		name                  = ExtractRelativePath(*line);
-		const JBoolean exists = JConvertToAbsolutePath(name, basePath, &fullName);
+		const bool exists = JConvertToAbsolutePath(name, basePath, &fullName);
 		if (exists || includeDeleted)
 			{
 			fullNameList->Append(fullName);
@@ -861,7 +861,7 @@ SVNListBase::CompareLines::Compare
 	const JString p1 = itsWidget->ExtractRelativePath(*s1);
 	const JString p2 = itsWidget->ExtractRelativePath(*s2);
 
-	const int r = JString::Compare(p1, p2, kJFalse);
+	const int r = JString::Compare(p1, p2, JString::kIgnoreCase);
 	if (r > 0)
 		{
 		return JListT::kFirstGreaterSecond;

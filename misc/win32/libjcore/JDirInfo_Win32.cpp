@@ -43,7 +43,7 @@ JDirInfo::BuildInfo1
 		assert( newEntry != nullptr );
 		if (MatchesContentFilter(*newEntry))
 			{
-			itsDirEntries->InsertSorted(newEntry, kJTrue);
+			itsDirEntries->InsertSorted(newEntry, true);
 			}
 		else
 			{

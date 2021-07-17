@@ -21,7 +21,7 @@
 
 XDVarNode::XDVarNode				// root node
 	(
-	const JBoolean shouldUpdate		// kJFalse for Local Variables
+	const bool shouldUpdate		// false for Local Variables
 	)
 	:
 	CMVarNode(shouldUpdate)
@@ -58,7 +58,7 @@ XDVarNode::~XDVarNode()
 JString
 XDVarNode::GetFullName
 	(
-	JBoolean* isPointer
+	bool* isPointer
 	)
 	const
 {

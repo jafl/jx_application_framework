@@ -126,7 +126,7 @@ JStack<T,S>::Pop()
 }
 
 template <class T, class S>
-JBoolean
+bool
 JStack<T,S>::Pop
 	(
 	T* element
@@ -137,11 +137,11 @@ JStack<T,S>::Pop
 		{
 		*element = itsElements->GetElement(count);
 		itsElements->RemoveElement(count);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -161,7 +161,7 @@ JStack<T,S>::Peek()
 }
 
 template <class T, class S>
-JBoolean
+bool
 JStack<T,S>::Peek
 	(
 	T* element
@@ -172,11 +172,11 @@ JStack<T,S>::Peek
 	if (count > 0)
 		{
 		*element = itsElements->GetElement(count);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -200,7 +200,7 @@ JStack<T,S>::Peek
 }
 
 template <class T, class S>
-JBoolean
+bool
 JStack<T,S>::Peek
 	(
 	const JIndex	index,
@@ -212,11 +212,11 @@ JStack<T,S>::Peek
 	if (IndexValid(index))
 		{
 		*element = itsElements->GetElement(count - index + 1);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

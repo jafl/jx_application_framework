@@ -21,9 +21,9 @@ class CBEditProjPrefsDialog : public JXDialogDirector
 {
 public:
 
-	CBEditProjPrefsDialog(const JBoolean reopenTextFiles,
-						  const JBoolean doubleSpaceCompile,
-						  const JBoolean rebuildMakefileDaily,
+	CBEditProjPrefsDialog(const bool reopenTextFiles,
+						  const bool doubleSpaceCompile,
+						  const bool rebuildMakefileDaily,
 						  const CBProjectTable::DropFileAction dropFileAction);
 
 	virtual ~CBEditProjPrefsDialog();
@@ -46,9 +46,9 @@ private:
 
 private:
 
-	void	BuildWindow(const JBoolean reopenTextFiles,
-						const JBoolean doubleSpaceCompile,
-						const JBoolean rebuildMakefileDaily,
+	void	BuildWindow(const bool reopenTextFiles,
+						const bool doubleSpaceCompile,
+						const bool rebuildMakefileDaily,
 						const CBProjectTable::DropFileAction dropFileAction);
 	void	UpdateSettings();
 

@@ -29,7 +29,7 @@ JXImageMask::JXImageMask
 	JXDisplay*			display,
 	const JCoordinate	width,
 	const JCoordinate	height,
-	const JBoolean		filled
+	const bool		filled
 	)
 	:
 	JXImage(display, width, height,
@@ -281,7 +281,7 @@ JXImageMask::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXImageMask::ContainsPixel
 	(
 	const JCoordinate x,
@@ -289,7 +289,7 @@ JXImageMask::ContainsPixel
 	)
 	const
 {
-	return JConvertToBoolean( GetColor(x,y) == JColorManager::GetBlackColor() );
+	return GetColor(x,y) == JColorManager::GetBlackColor();
 }
 
 /******************************************************************************

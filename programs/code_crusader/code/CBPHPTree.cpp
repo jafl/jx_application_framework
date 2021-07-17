@@ -118,7 +118,7 @@ CBPHPTree::StreamInPHPClass
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBPHPTree::UpdateFinished
 	(
 	const JArray<JFAID_t>& deadFileList

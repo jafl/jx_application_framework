@@ -18,7 +18,7 @@
 
 JVMGetBreakpoints::JVMGetBreakpoints()
 	:
-	CMGetBreakpoints(JString("NOP", kJFalse))
+	CMGetBreakpoints(JString("NOP", JString::kNoCopy))
 {
 }
 

@@ -30,13 +30,13 @@ public:
 	virtual void			GetVariableName(const JIndex index, JString* name,
 											JString* subscript) const override;
 
-	virtual JBoolean	IsArray(const JIndex index) const override;
-	virtual JBoolean	ArrayIndexValid(const JIndex variableIndex,
+	virtual bool	IsArray(const JIndex index) const override;
+	virtual bool	ArrayIndexValid(const JIndex variableIndex,
 										const JIndex elementIndex) const override;
 
-	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
+	virtual bool	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex, JFloat* value) const override;
-	virtual JBoolean	GetNumericValue(const JIndex variableIndex,
+	virtual bool	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex, JComplex* value) const override;
 
 	virtual void	SetNumericValue(const JIndex variableIndex,

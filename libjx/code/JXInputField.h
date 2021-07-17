@@ -25,7 +25,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	JXInputField(const JBoolean wordWrap, const JBoolean acceptNewline,
+	JXInputField(const bool wordWrap, const bool acceptNewline,
 				 JXContainer* enclosure,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
@@ -38,8 +38,8 @@ public:
 	void	SetFontStyle(const JFontStyle& style);
 	void	SetFont(const JFont& font);
 
-	JBoolean	IsRequired() const;
-	void		SetIsRequired(const JBoolean isRequired = kJTrue);
+	bool	IsRequired() const;
+	void		SetIsRequired(const bool isRequired = true);
 
 	void	SetLengthLimits(const JSize minLength, const JSize maxLength);
 
@@ -51,10 +51,10 @@ public:
 	void	SetMaxLength(const JSize maxLength);
 	void	ClearMaxLength();
 
-	virtual JBoolean	InputValid();
+	virtual bool	InputValid();
 
-	JBoolean	IsTableInput() const;
-	JBoolean	GetTable(JXEditTable** table) const;
+	bool	IsTableInput() const;
+	bool	GetTable(JXEditTable** table) const;
 	void		SetTable(JXEditTable* table);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
@@ -68,20 +68,20 @@ protected:
 	{
 		public:
 
-		StyledText(const JBoolean acceptNewline, JFontManager* fontManager)
+		StyledText(const bool acceptNewline, JFontManager* fontManager)
 			:
-			JXStyledText(kJFalse, kJFalse, fontManager),
+			JXStyledText(false, false, fontManager),
 			itsAcceptNewlineFlag(acceptNewline)
 		{ };
 
 		protected:
 
-		virtual JBoolean	NeedsToFilterText(const JString& text) const override;
-		virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style) override;
+		virtual bool	NeedsToFilterText(const JString& text) const override;
+		virtual bool	FilterText(JString* text, JRunArray<JFont>* style) override;
 
 		private:
 
-		const JBoolean	itsAcceptNewlineFlag;
+		const bool	itsAcceptNewlineFlag;
 	};
 
 protected:
@@ -93,7 +93,7 @@ protected:
 
 	virtual void		HandleFocusEvent() override;
 	virtual void		HandleUnfocusEvent() override;
-	virtual JBoolean	OKToUnfocus() override;
+	virtual bool	OKToUnfocus() override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
@@ -105,7 +105,7 @@ protected:
 
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -124,8 +124,8 @@ private:
 	void		CreateContextMenu();
 	void		UpdateContextMenu();
 	void		HandleContextMenu(const JIndex index);
-	JBoolean	ContextMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
-	JBoolean	ContextMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
+	bool	ContextMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
+	bool	ContextMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
 
 	// not allowed
 
@@ -142,17 +142,17 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXInputField::IsRequired()
 	const
 {
-	return JI2B( itsMinLength > 0 );
+	return itsMinLength > 0;
 }
 
 inline void
 JXInputField::SetIsRequired
 	(
-	const JBoolean isRequired
+	const bool isRequired
 	)
 {
 	itsMinLength = isRequired ? 1 : 0;
@@ -199,14 +199,14 @@ JXInputField::ClearMaxLength()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXInputField::IsTableInput()
 	const
 {
-	return JI2B( itsTable != nullptr );
+	return itsTable != nullptr;
 }
 
-inline JBoolean
+inline bool
 JXInputField::GetTable
 	(
 	JXEditTable** table
@@ -214,7 +214,7 @@ JXInputField::GetTable
 	const
 {
 	*table = itsTable;
-	return JI2B( itsTable != nullptr );
+	return itsTable != nullptr;
 }
 
 #endif

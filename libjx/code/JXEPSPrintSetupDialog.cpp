@@ -32,8 +32,8 @@ JXEPSPrintSetupDialog*
 JXEPSPrintSetupDialog::Create
 	(
 	const JString&	fileName,
-	const JBoolean	printPreview,
-	const JBoolean	bw
+	const bool	printPreview,
+	const bool	bw
 	)
 {
 	JXEPSPrintSetupDialog* dlog = jnew JXEPSPrintSetupDialog;
@@ -49,7 +49,7 @@ JXEPSPrintSetupDialog::Create
 
 JXEPSPrintSetupDialog::JXEPSPrintSetupDialog()
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue)
+	JXDialogDirector(JXGetApplication(), true)
 {
 }
 
@@ -71,8 +71,8 @@ void
 JXEPSPrintSetupDialog::BuildWindow
 	(
 	const JString&	fileName,
-	const JBoolean	printPreview,
-	const JBoolean	bw
+	const bool	printPreview,
+	const bool	bw
 	)
 {
 // begin JXLayout
@@ -131,9 +131,9 @@ JXEPSPrintSetupDialog::SetObjects
 	const JString&	fileName,
 	JXTextButton*	chooseFileButton,
 	JXTextCheckbox*	previewCheckbox,
-	const JBoolean	printPreview,
+	const bool	printPreview,
 	JXTextCheckbox*	bwCheckbox,
-	const JBoolean	bw
+	const bool	bw
 	)
 {
 	itsPrintButton      = okButton;
@@ -183,16 +183,16 @@ JXEPSPrintSetupDialog::UpdateDisplay()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXEPSPrintSetupDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	return JXPSPrintSetupDialog::OKToDeactivate(itsFileInput->GetText()->GetText());
@@ -242,17 +242,16 @@ JXEPSPrintSetupDialog::ChooseDestinationFile()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXEPSPrintSetupDialog::SetParameters
 	(
 	JXEPSPrinter* p
 	)
 	const
 {
-	const JBoolean changed = JI2B(
-		itsFileInput->GetText()->GetText() != p->GetOutputFileName() ||
+	const bool changed = itsFileInput->GetText()->GetText() != p->GetOutputFileName() ||
 		itsPreviewCheckbox->IsChecked()    != p->WantsPreview()      ||
-		itsBWCheckbox->IsChecked()         != p->PSWillPrintBlackWhite());
+		itsBWCheckbox->IsChecked()         != p->PSWillPrintBlackWhite();
 
 	JString fullName;
 	itsFileInput->GetFile(&fullName);

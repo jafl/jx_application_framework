@@ -21,7 +21,7 @@
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIsRelativePath
 	(
 	const JString& path
@@ -91,7 +91,7 @@ JGetUniqueDirEntryName
 		}
 	else
 		{
-		const JBoolean ok = JConvertToAbsolutePath(path, JString::empty, &fullPath);
+		const bool ok = JConvertToAbsolutePath(path, JString::empty, &fullPath);
 		assert( ok );
 		}
 	assert( JDirectoryExists(fullPath) );
@@ -175,7 +175,7 @@ JGetPermissionsString
 		modeString[8] = 'x';
 		}
 
-	return JString(modeString, 0);
+	return JString(modeString);
 }
 
 /*****************************************************************************
@@ -201,7 +201,7 @@ JString
 JGetClosestDirectory
 	(
 	const JString&	origDirName,
-	const JBoolean	requireWrite,
+	const bool	requireWrite,
 	const JString*	basePath
 	)
 {
@@ -254,7 +254,7 @@ JGetClosestDirectory
 		dirName.BeginsWith(homeDir))
 		{
 		JStringIterator iter(&dirName);
-		const JBoolean found = iter.Next(homeDir);
+		const bool found = iter.Next(homeDir);
 		assert( found );
 		iter.ReplaceLastMatch(origDirName, JCharacterRange(1, homeLength));
 		}
@@ -263,7 +263,7 @@ JGetClosestDirectory
 			 dirName.BeginsWith(workingDir))
 		{
 		JStringIterator iter(&dirName);
-		const JBoolean found = iter.Next(workingDir);
+		const bool found = iter.Next(workingDir);
 		assert( found );
 		iter.RemoveLastMatch();
 		}
@@ -293,23 +293,23 @@ JGetClosestDirectory
 
  ******************************************************************************/
 
-static JBoolean JSearchSubdirs_private(
+static bool JSearchSubdirs_private(
 	const JString& startPath, const JString& name,
-	const JBoolean isFile, const JBoolean caseSensitive,
+	const bool isFile, const JString::Case caseSensitive,
 	JString* path, JString* newName,
-	JProgressDisplay& pg, JBoolean* cancelled);
+	JProgressDisplay& pg, bool* cancelled);
 
-JBoolean
+bool
 JSearchSubdirs
 	(
 	const JString&		startPath,
 	const JString&		name,
-	const JBoolean		isFile,
-	const JBoolean		caseSensitive,
+	const bool			isFile,
+	const JString::Case	caseSensitive,
 	JString*			path,
 	JString*			newName,
 	JProgressDisplay*	userPG,
-	JBoolean*			userCancelled
+	bool*				userCancelled
 	)
 {
 	assert( !startPath.IsEmpty() );
@@ -318,17 +318,17 @@ JSearchSubdirs
 	JLatentPG pg(100);
 	if (userPG != nullptr)
 		{
-		pg.SetPG(userPG, kJFalse);
+		pg.SetPG(userPG, false);
 		}
 	const JUtf8Byte* map[] =
 		{
 		"name", name.GetBytes()
 		};
 	const JString msg = JGetString("Searching::jDirUtil", map, sizeof(map));
-	pg.VariableLengthProcessBeginning(msg, kJTrue, kJFalse);
+	pg.VariableLengthProcessBeginning(msg, true, false);
 
-	JBoolean cancelled = kJFalse;
-	const JBoolean found =
+	bool cancelled = false;
+	const bool found =
 		JSearchSubdirs_private(startPath, name, isFile, caseSensitive,
 							   path, newName, pg, &cancelled);
 	if (!found)
@@ -349,17 +349,17 @@ JSearchSubdirs
 	return found;
 }
 
-JBoolean
+bool
 JSearchSubdirs_private
 	(
 	const JString&		startPath,
 	const JString&		name,
-	const JBoolean		isFile,
-	const JBoolean		caseSensitive,
+	const bool			isFile,
+	const JString::Case	caseSensitive,
 	JString*			path,
 	JString*			newName,
 	JProgressDisplay&	pg,
-	JBoolean*			cancelled
+	bool*				cancelled
 	)
 {
 	// checking this way covers partial path cases like "X11/Xlib.h"
@@ -368,22 +368,22 @@ JSearchSubdirs_private
 	if (( isFile && JFileExists(fullName)) ||
 		(!isFile && JDirectoryExists(fullName)))
 		{
-		const JBoolean ok = JGetTrueName(startPath, path);
+		const bool ok = JGetTrueName(startPath, path);
 		assert( ok );
 		if (newName != nullptr)
 			{
 			*newName = name;
 			}
-		return kJTrue;
+		return true;
 		}
 
 	JDirInfo* info;
 	if (!JDirInfo::Create(startPath, &info))
 		{
-		return kJFalse;
+		return false;
 		}
 
-	JBoolean found = kJFalse;
+	bool found = false;
 
 	// check each entry (if case sensitive, the initial check is enough)
 
@@ -395,19 +395,19 @@ JSearchSubdirs_private
 				 (!isFile && entry->IsDirectory())) &&
 				JString::Compare(name, entry->GetName(), caseSensitive) == 0)
 				{
-				const JBoolean ok = JGetTrueName(startPath, path);
+				const bool ok = JGetTrueName(startPath, path);
 				assert( ok );
 				if (newName != nullptr)
 					{
 					*newName = entry->GetName();
 					}
-				found = kJTrue;
+				found = true;
 				break;
 				}
 
 			if (!pg.IncrementProgress())
 				{
-				*cancelled = kJTrue;
+				*cancelled = true;
 				break;
 				}
 			}
@@ -426,14 +426,14 @@ JSearchSubdirs_private
 										   caseSensitive, path, newName,
 										   pg, cancelled))
 					{
-					found = kJTrue;
+					found = true;
 					break;
 					}
 				}
 
 			if (*cancelled || (caseSensitive && !pg.IncrementProgress()))
 				{
-				*cancelled = kJTrue;
+				*cancelled = true;
 				break;
 				}
 			}
@@ -466,7 +466,7 @@ JConvertToHomeDirShortcut
 		s.BeginsWith(trueDir))
 		{
 		JStringIterator iter(&s);
-		const JBoolean found = iter.Next(trueDir);
+		const bool found = iter.Next(trueDir);
 		assert( found );
 		iter.ReplaceLastMatch("~" ACE_DIRECTORY_SEPARATOR_STR);
 		}

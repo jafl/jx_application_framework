@@ -27,7 +27,7 @@ public:
 
 	virtual void		GetFontNames(JPtrArray<JString>* fontNames) = 0;
 	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) = 0;
-	virtual JBoolean	GetFontSizes(const JString& name, JSize* minSize,
+	virtual bool	GetFontSizes(const JString& name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) = 0;
 
 	static const JString&	GetDefaultFontName();
@@ -63,9 +63,9 @@ protected:
 	virtual JSize	GetCharWidth(const JFontID id, const JUtf8Character& c) = 0;
 	virtual JSize	GetStringWidth(const JFontID id, const JString& str) = 0;
 
-	virtual JBoolean	IsExact(const JFontID id) = 0;
-	virtual JBoolean	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c) = 0;
-	virtual JBoolean	GetSubstituteFontName(const JFont& f, const JUtf8Character& c, JString* name) = 0;
+	virtual bool	IsExact(const JFontID id) = 0;
+	virtual bool	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c) = 0;
+	virtual bool	GetSubstituteFontName(const JFont& f, const JUtf8Character& c, JString* name) = 0;
 
 public:		// ought to be private
 

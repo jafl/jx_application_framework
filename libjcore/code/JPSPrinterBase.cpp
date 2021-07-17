@@ -23,7 +23,7 @@
 			transform screen coordinates into PS coordinates.
 
 		PSShouldPrintCurrentPage
-			Return kJFalse if the drawing commands should do nothing.
+			Return false if the drawing commands should do nothing.
 
 		PSPrintVersionComment
 			Print the first line in the PostScript file.
@@ -64,11 +64,11 @@ JPSPrinterBase::JPSPrinterBase
 	)
 	:
 	itsFontManager(fontManager),
-	itsFontSetFlag(kJFalse),
+	itsFontSetFlag(false),
 	itsLastFont(JFontManager::GetDefaultFont())
 {
-	itsDocOpenFlag = kJFalse;
-	itsBWFlag      = kJFalse;
+	itsDocOpenFlag = false;
+	itsBWFlag      = false;
 	itsDashOffset  = 0;
 	itsDashList    = nullptr;
 	itsFile        = nullptr;
@@ -93,7 +93,7 @@ JPSPrinterBase::~JPSPrinterBase()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JPSPrinterBase::PSOpenDocument()
 {
 	assert( !itsDocOpenFlag && !itsOutputFileName.IsEmpty() );
@@ -105,10 +105,10 @@ JPSPrinterBase::PSOpenDocument()
 		{
 		jdelete itsFile;
 		itsFile = nullptr;
-		return kJFalse;
+		return false;
 		}
 
-	itsDocOpenFlag = kJTrue;
+	itsDocOpenFlag = true;
 	ResetBufferedValues();
 
 	// PostScript file header
@@ -149,7 +149,7 @@ JPSPrinterBase::PSOpenDocument()
 
 	*itsFile << "%%EndSetup\n";
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -167,7 +167,7 @@ JPSPrinterBase::PSCloseDocument()
 	jdelete itsFile;
 	itsFile = nullptr;
 
-	itsDocOpenFlag = kJFalse;
+	itsDocOpenFlag = false;
 	PSResetCoordinates();
 }
 
@@ -186,7 +186,7 @@ JPSPrinterBase::PSCancelDocument()
 	const JError err = JRemoveFile(itsOutputFileName);
 	assert_ok( err );
 
-	itsDocOpenFlag = kJFalse;
+	itsDocOpenFlag = false;
 	PSResetCoordinates();
 }
 
@@ -203,8 +203,8 @@ JPSPrinterBase::PSSetClipRect
 	const JRect& r
 	)
 {
-	const JBoolean shouldPrint =
-		JConvertToBoolean( itsDocOpenFlag && PSShouldPrintCurrentPage() );
+	const bool shouldPrint =
+		itsDocOpenFlag && PSShouldPrintCurrentPage();
 
 	if (shouldPrint && !r.IsEmpty())
 		{
@@ -274,12 +274,12 @@ JPSPrinterBase::PSSetDashList
 
 	itsDashOffset = dashOffset;
 
-	const JBoolean shouldPrint =
-		JConvertToBoolean( itsDocOpenFlag && PSShouldPrintCurrentPage() );
+	const bool shouldPrint =
+		itsDocOpenFlag && PSShouldPrintCurrentPage();
 	if (shouldPrint && itsLastDrawDashedLinesFlag)
 		{
-		itsLastDrawDashedLinesFlag = kJFalse;
-		PSSetLineDashes(kJTrue);
+		itsLastDrawDashedLinesFlag = false;
+		PSSetLineDashes(true);
 		}
 }
 
@@ -429,7 +429,7 @@ JPSPrinterBase::PSLine
 	const JCoordinate	y2,
 	const JColorID	color,
 	const JSize			lineWidth,
-	const JBoolean		drawDashedLines
+	const bool		drawDashedLines
 	)
 {
 	if (!PSShouldPrintCurrentPage())
@@ -465,8 +465,8 @@ JPSPrinterBase::PSRect
 	const JCoordinate	h,
 	const JColorID	color,
 	const JSize			lineWidth,
-	const JBoolean		drawDashedLines,
-	const JBoolean		fill
+	const bool		drawDashedLines,
+	const bool		fill
 	)
 {
 	if (!PSShouldPrintCurrentPage())
@@ -516,8 +516,8 @@ JPSPrinterBase::PSArc
 	const JFloat		deltaAngle,
 	const JColorID	color,
 	const JSize			lineWidth,
-	const JBoolean		drawDashedLines,
-	const JBoolean		fill
+	const bool		drawDashedLines,
+	const bool		fill
 	)
 {
 	if (!PSShouldPrintCurrentPage())
@@ -565,7 +565,7 @@ JPSPrinterBase::PSArc
 
 		*itsFile << lineWidth << " setlinewidth\n";
 
-		JBoolean savedDDL = itsLastDrawDashedLinesFlag;
+		bool savedDDL = itsLastDrawDashedLinesFlag;
 		PSSetLineDashes(drawDashedLines);
 		itsLastDrawDashedLinesFlag = savedDDL;
 
@@ -592,8 +592,8 @@ JPSPrinterBase::PSPolygon
 	const JPolygon&		poly,
 	const JColorID	color,
 	const JSize			lineWidth,
-	const JBoolean		drawDashedLines,
-	const JBoolean		fill
+	const bool		drawDashedLines,
+	const bool		fill
 	)
 {
 	if (!PSShouldPrintCurrentPage())
@@ -745,7 +745,7 @@ JPSPrinterBase::PSColorImageWithMask
 			if (mask.ContainsPixel(x,y))
 				{
 				const JCoordinate x1 = destX + x - srcRect.left;
-				PSLine(x1,y1, x1+1,y1, image.GetColor(x,y), 1, kJFalse);
+				PSLine(x1,y1, x1+1,y1, image.GetColor(x,y), 1, false);
 				}
 			}
 		}
@@ -787,13 +787,13 @@ JPSPrinterBase::PSRestoreGraphicsState()
 void
 JPSPrinterBase::ResetBufferedValues()
 {
-	itsFontSetFlag = kJFalse;
+	itsFontSetFlag = false;
 	itsLastColor   = JColorManager::GetBlackColor();
 
-	itsLastLineWidthInit = kJFalse;
+	itsLastLineWidthInit = false;
 	itsLastLineWidth     = 1;
 
-	itsLastDrawDashedLinesFlag = kJFalse;
+	itsLastDrawDashedLinesFlag = false;
 }
 
 /******************************************************************************
@@ -821,7 +821,7 @@ JPSPrinterBase::PSSetFont
 		font.GetStyle().bold   != itsLastFont.GetStyle().bold ||
 		font.GetStyle().italic != itsLastFont.GetStyle().italic)
 		{
-		itsFontSetFlag = kJTrue;
+		itsFontSetFlag = true;
 		itsLastFont    = font;
 
 		JString fontName = font.GetName();
@@ -1051,7 +1051,7 @@ JPSPrinterBase::PSSetLineWidth
 {
 	if (width != itsLastLineWidth || !itsLastLineWidthInit)
 		{
-		itsLastLineWidthInit = kJTrue;
+		itsLastLineWidthInit = true;
 		itsLastLineWidth     = width;
 
 		*itsFile << width << " setlinewidth\n";
@@ -1066,7 +1066,7 @@ JPSPrinterBase::PSSetLineWidth
 void
 JPSPrinterBase::PSSetLineDashes
 	(
-	const JBoolean drawDashedLines
+	const bool drawDashedLines
 	)
 {
 	if (drawDashedLines != itsLastDrawDashedLinesFlag)

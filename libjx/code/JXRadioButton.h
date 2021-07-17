@@ -25,7 +25,7 @@ public:
 	JIndex		GetID() const;
 	void		SetID(const JIndex id);
 
-	JBoolean	IsChecked() const;
+	bool	IsChecked() const;
 	void		Select();
 
 	virtual void	SetShortcuts(const JString& list);
@@ -38,7 +38,7 @@ protected:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	JBoolean		DrawChecked() const;
+	bool		DrawChecked() const;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
@@ -54,8 +54,8 @@ private:
 
 	JIndex			itsID;
 	JXRadioGroup*	itsRadioGroup;
-	JBoolean		itsIsCheckedFlag;
-	JBoolean		itsIsPushedFlag;
+	bool		itsIsCheckedFlag;
+	bool		itsIsPushedFlag;
 
 private:
 
@@ -98,11 +98,11 @@ JXRadioButton::SetID
 /******************************************************************************
  IsChecked
 
-	Returns kJTrue if the radio button is in the "on" state.
+	Returns true if the radio button is in the "on" state.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXRadioButton::IsChecked()
 	const
 {
@@ -112,15 +112,15 @@ JXRadioButton::IsChecked()
 /******************************************************************************
  DrawChecked (protected)
 
-	Returns kJTrue if the radio button should be drawn in the "on" state.
+	Returns true if the radio button should be drawn in the "on" state.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXRadioButton::DrawChecked()
 	const
 {
-	return JConvertToBoolean( itsIsCheckedFlag || itsIsPushedFlag );
+	return itsIsCheckedFlag || itsIsPushedFlag;
 }
 
 /******************************************************************************
@@ -131,7 +131,7 @@ JXRadioButton::DrawChecked()
 inline void
 JXRadioButton::Deselect()
 {
-	itsIsCheckedFlag = kJFalse;
+	itsIsCheckedFlag = false;
 	Redraw();
 }
 

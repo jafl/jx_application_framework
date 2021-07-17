@@ -26,7 +26,7 @@
 
 XDGetBreakpoints::XDGetBreakpoints()
 	:
-	CMGetBreakpoints(JString("breakpoint_list", kJFalse))
+	CMGetBreakpoints(JString("breakpoint_list", JString::kNoCopy))
 {
 }
 
@@ -57,7 +57,7 @@ XDGetBreakpoints::HandleSuccess
 		return;
 		}
 
-	(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(kJFalse);
+	(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(false);
 
 	JPtrArray<CMBreakpoint> bpList(JPtrArrayT::kForgetAll);	// ownership taken by CMBreakpointManager
 	bpList.SetCompareFunction(CMBreakpointManager::CompareBreakpointLocations);
@@ -78,7 +78,7 @@ XDGetBreakpoints::HandleSuccess
 			state    = JGetXMLNodeAttr(node, "state");
 
 			JIndex bpIndex;
-			JBoolean ok = idStr.ConvertToUInt(&bpIndex);
+			bool ok = idStr.ConvertToUInt(&bpIndex);
 			assert( ok );
 
 			if (fileName.BeginsWith("file://"))
@@ -91,7 +91,7 @@ XDGetBreakpoints::HandleSuccess
 			ok = lineStr.ConvertToUInt(&lineNumber);
 			assert( ok );
 
-			const JBoolean enabled = JI2B(state == "enabled");
+			const bool enabled = state == "enabled";
 
 			CMBreakpoint* bp =
 				jnew CMBreakpoint(bpIndex, fileName, lineNumber, JString::empty, JString::empty,
@@ -101,7 +101,7 @@ XDGetBreakpoints::HandleSuccess
 
 			if (true)	// no way to know if it is temporary -- may be deleted or other status change
 				{
-				(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(kJTrue);
+				(CMGetLink()->GetBreakpointManager())->SetUpdateWhenStop(true);
 				}
 			}
 

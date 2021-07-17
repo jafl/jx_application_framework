@@ -67,8 +67,8 @@ SVNMDIServer::HandleMDIRequest
 	JString s, fullPath;
 	Action action = kStatus;
 
-	JBoolean restore       = IsFirstTime();
-	JBoolean failedRefresh = kJFalse;
+	bool restore       = IsFirstTime();
+	bool failedRefresh = false;
 	for (JIndex i=2; i<=argCount; i++)
 		{
 		const JString& arg = *(argList.GetElement(i));
@@ -98,7 +98,7 @@ SVNMDIServer::HandleMDIRequest
 			}
 		else
 			{
-			JBoolean isURL = JIsURL(arg);
+			bool isURL = JIsURL(arg);
 			JString rev;
 			if (isURL)
 				{
@@ -133,7 +133,7 @@ SVNMDIServer::HandleMDIRequest
 			if (action == kRefreshRepo || action == kRefreshStatus)
 				{
 				SVNMainDirector* dir1;
-				const JBoolean open = (SVNGetWDManager())->GetBrowser(fullPath, &dir1);
+				const bool open = (SVNGetWDManager())->GetBrowser(fullPath, &dir1);
 				if (open && !dir1->OKToStartActionProcess())
 					{
 					JGetUserNotification()->ReportError(JGetString("WindowBusy::SVNMDIServer"));
@@ -148,7 +148,7 @@ SVNMDIServer::HandleMDIRequest
 					}
 				else
 					{
-					failedRefresh = kJTrue;
+					failedRefresh = true;
 					}
 				}
 			else
@@ -176,7 +176,7 @@ SVNMDIServer::HandleMDIRequest
 					JSplitPathAndName(fullPath, &path, &name);
 					}
 
-				JBoolean wasOpen;
+				bool wasOpen;
 				SVNMainDirector* dir1 = (SVNGetWDManager())->OpenDirectory(path, &wasOpen);
 				if (action != kStatus && action != kInfoLog &&
 					!dir1->OKToStartActionProcess())
@@ -211,7 +211,7 @@ SVNMDIServer::HandleMDIRequest
 						}
 					}
 
-				restore = kJFalse;
+				restore = false;
 				}
 			}
 		}

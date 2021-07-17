@@ -42,7 +42,7 @@ public:
 
 	// printing control
 
-	virtual JBoolean	OpenDocument() override;
+	virtual bool	OpenDocument() override;
 	virtual void		CloseDocument() override;
 
 	// printing parameters
@@ -58,8 +58,8 @@ public:
 	const JString&	GetFileName() const;
 	void			SetFileName(const JString& name);
 
-	JBoolean	WillCollatePages() const;
-	void		CollatePages(const JBoolean doIt);
+	bool	WillCollatePages() const;
+	void		CollatePages(const bool doIt);
 
 	// Page Setup and Print Setup dialogs
 
@@ -74,11 +74,11 @@ protected:
 	virtual JXPSPrintSetupDialog*
 		CreatePrintSetupDialog(const Destination destination,
 							   const JString& printCmd, const JString& fileName,
-							   const JBoolean collate, const JBoolean bw);
+							   const bool collate, const bool bw);
 
-	virtual JBoolean	EndUserPageSetup(const JBroadcaster::Message& message);
-	virtual JBoolean	EndUserPrintSetup(const JBroadcaster::Message& message,
-										  JBoolean* changed);
+	virtual bool	EndUserPageSetup(const JBroadcaster::Message& message);
+	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
+										  bool* changed);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -87,7 +87,7 @@ private:
 	Destination	itsDestination;
 	JString		itsPrintCmd;
 	JString		itsFileName;
-	JBoolean	itsCollateFlag;
+	bool	itsCollateFlag;
 
 	JXPSPageSetupDialog*	itsPageSetupDialog;
 	JXPSPrintSetupDialog*	itsPrintSetupDialog;
@@ -145,7 +145,7 @@ JXPSPrinter::GetFileName()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXPSPrinter::WillCollatePages()
 	const
 {
@@ -155,7 +155,7 @@ JXPSPrinter::WillCollatePages()
 inline void
 JXPSPrinter::CollatePages
 	(
-	const JBoolean doIt
+	const bool doIt
 	)
 {
 	itsCollateFlag = doIt;

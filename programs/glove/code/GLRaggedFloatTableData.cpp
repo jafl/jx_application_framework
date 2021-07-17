@@ -40,7 +40,7 @@ GLRaggedFloatTableData::GLRaggedFloatTableData
 	RowsAdded(kInitialRowCount);
 	Broadcast(JTableData::RowsInserted(1, kInitialRowCount));
 
-	itsBroadcast = kJTrue;
+	itsBroadcast = true;
 }
 
 /******************************************************************************
@@ -86,7 +86,7 @@ GLRaggedFloatTableData::~GLRaggedFloatTableData()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLRaggedFloatTableData::GetElement
 	(
 	const JIndex row,
@@ -95,14 +95,14 @@ GLRaggedFloatTableData::GetElement
 	)
 	const
 {
-	if (CellValid(row,col) == kJFalse)
+	if (CellValid(row,col) == false)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	*value =  dataCol->GetElement(row);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -136,10 +136,10 @@ GLRaggedFloatTableData::CreateCellIfNeeded
 		AppendCol();
 		}
 
-	const JBoolean origBroadcast = itsBroadcast;
+	const bool origBroadcast = itsBroadcast;
 	if (origBroadcast)
 		{
-		ShouldBroadcast(kJFalse);
+		ShouldBroadcast(false);
 		}
 
 	const JArray<JFloat>* dataCol = itsCols->GetElement(col);
@@ -150,7 +150,7 @@ GLRaggedFloatTableData::CreateCellIfNeeded
 
 	if (origBroadcast)
 		{
-		ShouldBroadcast(kJTrue);
+		ShouldBroadcast(true);
 		}
 }
 

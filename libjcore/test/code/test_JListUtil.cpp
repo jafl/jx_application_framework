@@ -46,7 +46,7 @@ JTEST(AdjustIndexAfterRemove)
 	JIndex i;
 
 	i = 1;
-	JBoolean ok = JAdjustIndexAfterRemove(1, 3, &i);
+	bool ok = JAdjustIndexAfterRemove(1, 3, &i);
 	JAssertFalse(ok);
 
 	i = 2;

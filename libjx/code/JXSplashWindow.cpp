@@ -86,7 +86,7 @@ JXSplashWindow::BuildWindow
 
 	JXWindow* window = jnew JXWindow(this, totalWidth + 3*borderWidth,
 									totalHeight + 3*borderWidth,
-									JGetString("WindowTitle::JXSplashWindow"), kJTrue);
+									JGetString("WindowTitle::JXSplashWindow"), true);
 	assert( window != nullptr );
 
 	JXEmbossedRect* border =
@@ -100,7 +100,7 @@ JXSplashWindow::BuildWindow
 						  marginWidth, marginWidth,
 						  imageWidth, image->GetHeight());
 	assert( iconWidget != nullptr );
-	iconWidget->SetImage(image, kJTrue);
+	iconWidget->SetImage(image, true);
 
 	JXStaticText* textWidget =
 		jnew JXStaticText(text, border,
@@ -129,7 +129,7 @@ JXSplashWindow::BuildWindow
 
 	// close after specified time interval
 
-	JXTimerTask* task = jnew JXTimerTask(displayInterval * 1000, kJTrue);
+	JXTimerTask* task = jnew JXTimerTask(displayInterval * 1000, true);
 	assert( task != nullptr );
 	ListenTo(task);
 	task->Start();

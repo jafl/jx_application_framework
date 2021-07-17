@@ -132,7 +132,7 @@ JXOKToCloseDialog::Receive
 	else if (sender == itsDiscardButton && message.Is(JXButton::kPushed))
 		{
 		Broadcast(GotResponse(JUserNotification::kDiscardData));
-		const JBoolean ok = Close();
+		const bool ok = Close();
 		assert( ok );
 		}
 

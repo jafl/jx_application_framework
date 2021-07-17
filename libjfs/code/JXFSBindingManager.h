@@ -31,9 +31,9 @@ public:
 
 	static void		Exec(const JString& path);
 	static void		Exec(const JString& fullProgramName,
-						 const JBoolean askForArgs);
+						 const bool askForArgs);
 	static void		Exec(const JPtrArray<JString>& fileList,
-						 const JBoolean ignoreBindings = kJFalse);
+						 const bool ignoreBindings = false);
 	static JError	Exec(const JString& path, const JString& cmd,
 						 const JFSBinding::CommandType type);
 
@@ -54,7 +54,7 @@ private:
 
 	JXFSRunFileDialog*		itsRunFileDialog;		// nullptr unless processing files
 	JPtrArray<JFSBinding>*	itsFileList;			// nullptr unless waiting for itsRunFileDialog
-	JBoolean				itsIgnoreBindingsFlag;	// kJTrue => ask for every file
+	bool				itsIgnoreBindingsFlag;	// true => ask for every file
 	JIndex					itsRunFileIndex;		// index in itsFileList of itsRunFileDialog
 
 	JXFSRunScriptDialog*	itsRunScriptDialog;		// nullptr unless processing script
@@ -66,14 +66,14 @@ private:
 
 private:
 
-	JBoolean	HasFiles() const;
+	bool	HasFiles() const;
 	void		ProcessFiles();
 	void		Exec(const JIndex startIndex, const JIndex endIndex);
 	static void	BuildCommand(JString* cmd, const JString& q, const JString& u,
 							 const JString& qf, const JString& uf);
 	void		SaveBinding(const JString& fileName, const JString& cmd,
 							const JFSBinding::CommandType type,
-							const JBoolean singleFile);
+							const bool singleFile);
 
 	static JListT::CompareResult
 		ComparePatterns(JFSBinding* const & b1, JFSBinding* const & b2);

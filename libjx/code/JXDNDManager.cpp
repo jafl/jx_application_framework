@@ -152,12 +152,12 @@ JXDNDManager::JXDNDManager
 	itsPrevHandleDNDModifiers(0)
 {
 	itsDisplay            = display;
-	itsIsDraggingFlag     = kJFalse;
+	itsIsDraggingFlag     = false;
 	itsDragger            = nullptr;
 	itsDraggerWindow      = None;
 	itsTargetFinder       = nullptr;
 	itsMouseWindow        = None;
-	itsMouseWindowIsAware = kJFalse;
+	itsMouseWindowIsAware = false;
 	itsMouseContainer     = nullptr;
 	itsMsgWindow          = None;
 
@@ -173,7 +173,7 @@ JXDNDManager::JXDNDManager
 	itsChooseDropActionDialog = nullptr;
 	itsUserDropAction         = nullptr;
 
-	itsSentFakePasteFlag = kJFalse;
+	itsSentFakePasteFlag = false;
 
 	InitCursors();
 
@@ -207,13 +207,13 @@ JXDNDManager::GetCurrentDNDVersion()
 /******************************************************************************
  BeginDND
 
-	Returns kJFalse if we are unable to initiate DND.
+	Returns false if we are unable to initiate DND.
 
 	We do not take ownership of targetFinder.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::BeginDND
 	(
 	JXWidget*				widget,
@@ -226,7 +226,7 @@ JXDNDManager::BeginDND
 {
 	if (itsDragger != nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	assert( (widget->GetWindow())->IsDragging() );
@@ -237,7 +237,7 @@ JXDNDManager::BeginDND
 		}
 
 	itsMouseWindow               = None;
-	itsMouseWindowIsAware        = kJFalse;
+	itsMouseWindowIsAware        = false;
 	itsMouseContainer            = nullptr;
 	itsMsgWindow                 = None;
 	itsPrevHandleDNDAction       = None;
@@ -246,7 +246,7 @@ JXDNDManager::BeginDND
 
 	if ((itsDisplay->GetSelectionManager())->SetData(itsAtoms[ kDNDSelectionAtomIndex ], data))
 		{
-		itsIsDraggingFlag   = kJTrue;
+		itsIsDraggingFlag   = true;
 		itsDragger          = widget;
 		itsDraggerWindow    = (itsDragger->GetWindow())->GetXWindow();
 		*itsDraggerTypeList = data->GetTypeList();
@@ -255,16 +255,16 @@ JXDNDManager::BeginDND
 		ListenTo(itsDragger);
 		itsDragger->BecomeDNDSource();
 		itsDragger->DNDInit(pt, buttonStates, modifiers);
-		itsDragger->HandleDNDResponse(nullptr, kJFalse, None);		// set initial cursor
+		itsDragger->HandleDNDResponse(nullptr, false, None);		// set initial cursor
 
 		AnnounceTypeList(itsDraggerWindow, *itsDraggerTypeList);
 
 		HandleDND(pt, buttonStates, modifiers, (JXMouseButton) 0);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -289,7 +289,7 @@ JXDNDManager::HandleDND
 	JXContainer* dropWidget;
 	Window xWindow, msgWindow;
 	Atom dndVers;
-	const JBoolean isDNDAware =
+	const bool isDNDAware =
 		FindTarget(itsDragger, pt, &xWindow, &msgWindow, &dropWidget, &dndVers);
 
 	// check if we have entered a different drop target
@@ -338,7 +338,7 @@ JXDNDManager::HandleDND
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::FindTarget
 	(
 	const JXContainer*	coordOwner,
@@ -350,7 +350,7 @@ JXDNDManager::FindTarget
 	)
 	const
 {
-	JBoolean isAware = kJFalse;
+	bool isAware = false;
 	*xWindow         = None;
 	*msgWindow       = None;
 	*target          = nullptr;
@@ -375,7 +375,7 @@ JXDNDManager::FindTarget
 		if (xWindow2 != rootWindow &&
 			IsDNDAware(xWindow2, msgWindow, vers))
 			{
-			JBoolean isDock = kJFalse;		// not required for reference impl
+			bool isDock = false;		// not required for reference impl
 
 			XClassHint hint;
 			if (XGetClassHint(*itsDisplay, xWindow2, &hint))
@@ -383,7 +383,7 @@ JXDNDManager::FindTarget
 				if (hint.res_name != nullptr &&
 					strcmp(hint.res_name, JXGetDockWindowClass()) == 0)
 					{
-					isDock = kJTrue;
+					isDock = true;
 					}
 
 				XFree(hint.res_name);
@@ -397,7 +397,7 @@ JXDNDManager::FindTarget
 			if (!isDock || childWindow == None)
 				{
 				*xWindow = xWindow2;
-				isAware  = kJTrue;
+				isAware  = true;
 				ptG.Set(x2, y2);
 				break;
 				}
@@ -407,7 +407,7 @@ JXDNDManager::FindTarget
 			{
 			*xWindow   = xWindow2;
 			*msgWindow = xWindow2;
-			isAware    = kJFalse;
+			isAware    = false;
 			*vers      = 0;
 			ptG.Set(x2, y2);
 			break;
@@ -424,7 +424,7 @@ JXDNDManager::FindTarget
 	JXWindow* window;
 	if (isAware && itsDisplay->FindXWindow(*xWindow, &window))
 		{
-		// If a local window is deactivated, FindContainer() returns kJFalse.
+		// If a local window is deactivated, FindContainer() returns false.
 		// To avoid sending ourselves client messages, we have to treat
 		// this as a non-XdndAware window.
 
@@ -444,7 +444,7 @@ JXDNDManager::FinishDND()
 {
 	if (itsDragger != nullptr)
 		{
-		itsIsDraggingFlag = kJFalse;		// don't grab ESC any longer
+		itsIsDraggingFlag = false;		// don't grab ESC any longer
 
 		if (WaitForLastStatusMsg())
 			{
@@ -452,7 +452,7 @@ JXDNDManager::FinishDND()
 			}
 		else
 			{
-			SendDNDLeave(kJTrue);
+			SendDNDLeave(true);
 			}
 
 		FinishDND1();
@@ -462,25 +462,25 @@ JXDNDManager::FinishDND()
 /******************************************************************************
  CancelDND
 
-	Returns kJTrue if the cancel was during a drag.
+	Returns true if the cancel was during a drag.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::CancelDND()
 {
 	if (itsIsDraggingFlag)	// can't use IsDragging() because called if dragger deleted
 		{
 		if (itsDragger != nullptr)
 			{
-			itsDragger->DNDFinish(kJFalse, nullptr);
+			itsDragger->DNDFinish(false, nullptr);
 			}
 		SendDNDLeave();
 		FinishDND1();
-		return kJTrue;
+		return true;
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -508,12 +508,12 @@ JXDNDManager::FinishDND1()
 		StopListening(itsMouseContainer);
 		}
 
-	itsIsDraggingFlag     = kJFalse;
+	itsIsDraggingFlag     = false;
 	itsDragger            = nullptr;
 	itsDraggerWindow      = None;
 	itsTargetFinder       = nullptr;
 	itsMouseWindow        = None;
-	itsMouseWindowIsAware = kJFalse;
+	itsMouseWindowIsAware = false;
 	itsMouseContainer     = nullptr;
 	itsMsgWindow          = None;
 }
@@ -544,14 +544,14 @@ JXDNDManager::EnableDND
 /******************************************************************************
  IsDNDAware
 
-	Returns kJTrue if the given X window supports the XDND protocol.
+	Returns true if the given X window supports the XDND protocol.
 
 	*proxy is the window to which the client messages should be sent.
 	*vers is the version to use.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::IsDNDAware
 	(
 	const Window	xWindow,
@@ -560,7 +560,7 @@ JXDNDManager::IsDNDAware
 	)
 	const
 {
-	JBoolean result = kJFalse;
+	bool result = false;
 	*proxy          = xWindow;
 	*vers           = 0;
 
@@ -611,7 +611,7 @@ JXDNDManager::IsDNDAware
 		Atom* data = reinterpret_cast<Atom*>(rawData);
 		if (data[0] >= kMinDNDVersion)
 			{
-			result = kJTrue;
+			result = true;
 			*vers  = JMin(kCurrentDNDVersion, data[0]);
 
 			#if JXDND_DEBUG_MSGS
@@ -653,17 +653,17 @@ JXDNDManager::AnnounceTypeList
 /******************************************************************************
  DraggerCanProvideText (private)
 
-	Returns kJTrue if text/plain is in itsDraggerTypeList.
+	Returns true if text/plain is in itsDraggerTypeList.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::DraggerCanProvideText()
 	const
 {
 	if (itsDragger == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JXSelectionManager* selMgr = itsDisplay->GetSelectionManager();
@@ -674,11 +674,11 @@ JXDNDManager::DraggerCanProvideText()
 		{
 		if (type == textAtom1 || type == textAtom2)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -733,7 +733,7 @@ JXDNDManager::AnnounceAskActions
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::GetAskActions
 	(
 	JArray<Atom>*		actionList,
@@ -745,7 +745,7 @@ JXDNDManager::GetAskActions
 		{
 		*actionList = *itsDraggerAskActionList;
 		descriptionList->CopyObjects(*itsDraggerAskDescripList,
-									 descriptionList->GetCleanUpAction(), kJFalse);
+									 descriptionList->GetCleanUpAction(), false);
 		}
 	else
 		{
@@ -797,7 +797,7 @@ JXDNDManager::GetAskActions
 		{
 		actionList->RemoveAll();
 		descriptionList->CleanOut();
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -808,14 +808,14 @@ JXDNDManager::GetAskActions
 /******************************************************************************
  ChooseDropAction
 
-	Asks the user which action to perform.  Returns kJFalse if cancelled.
+	Asks the user which action to perform.  Returns false if cancelled.
 
 	If the initial value of *action is one of the elements in actionList,
 	the corresponding radio button becomes the initial choice.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::ChooseDropAction
 	(
 	const JArray<Atom>&			actionList,
@@ -852,7 +852,7 @@ JXDNDManager::ChooseDropAction
 	app->BlockingWindowFinished();
 
 	itsUserDropAction = nullptr;
-	return JI2B( *action != None );
+	return *action != None;
 }
 
 /******************************************************************************
@@ -901,7 +901,7 @@ JXDNDManager::SendDNDEnter
 	const Window	xWindow,
 	const Window	msgWindow,
 	JXContainer*	widget,
-	const JBoolean	isAware,
+	const bool	isAware,
 	const Atom		vers
 	)
 {
@@ -918,15 +918,15 @@ JXDNDManager::SendDNDEnter
 		ListenTo(itsMouseContainer);
 		}
 
-	itsWillAcceptDropFlag = kJFalse;
-	itsWaitForStatusFlag  = kJFalse;
-	itsSendHereMsgFlag    = kJFalse;
-	itsReceivedStatusFlag = kJFalse;
-	itsUseMouseRectFlag   = kJFalse;
+	itsWillAcceptDropFlag = false;
+	itsWaitForStatusFlag  = false;
+	itsSendHereMsgFlag    = false;
+	itsReceivedStatusFlag = false;
+	itsUseMouseRectFlag   = false;
 	itsMouseRectR         = JRect(0,0,0,0);
 	itsPrevStatusAction   = None;
 
-	itsDragger->HandleDNDResponse(nullptr, kJFalse, None);		// reset cursor
+	itsDragger->HandleDNDResponse(nullptr, false, None);		// reset cursor
 
 	if (itsMouseContainer != nullptr)
 		{
@@ -993,10 +993,9 @@ JXDNDManager::SendDNDHere
 	const JPoint ptG1 = itsDragger->JXContainer::LocalToGlobal(pt1);
 	const JPoint ptR  = (itsDragger->GetWindow())->GlobalToRoot(ptG1);
 
-	const JBoolean shouldSendMessage = JI2B(
-						itsMouseWindowIsAware &&
+	const bool shouldSendMessage = itsMouseWindowIsAware &&
 						(!itsUseMouseRectFlag || !itsMouseRectR.Contains(ptR) ||
-						 scrollButton != 0) );
+						 scrollButton != 0);
 
 	if (itsMouseContainer != nullptr)
 		{
@@ -1007,7 +1006,7 @@ JXDNDManager::SendDNDHere
 		const JPoint pt2  = itsMouseContainer->GlobalToLocal(ptG2);
 		itsMouseContainer->DNDScroll(pt2, scrollButton, modifiers);
 
-		const JBoolean savedAccept = itsWillAcceptDropFlag;
+		const bool savedAccept = itsWillAcceptDropFlag;
 		Atom acceptedAction        = action;
 		itsWillAcceptDropFlag =
 			itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &acceptedAction,
@@ -1029,7 +1028,7 @@ JXDNDManager::SendDNDHere
 										  acceptedAction);
 			}
 
-		itsReceivedStatusFlag = kJTrue;
+		itsReceivedStatusFlag = true;
 		itsPrevHereAction     = action;
 		itsPrevStatusAction   = acceptedAction;
 
@@ -1074,13 +1073,13 @@ JXDNDManager::SendDNDHere
 
 		itsDisplay->SendXEvent(itsMsgWindow, &xEvent);
 
-		itsWaitForStatusFlag = kJTrue;
-		itsSendHereMsgFlag   = kJFalse;
+		itsWaitForStatusFlag = true;
+		itsSendHereMsgFlag   = false;
 		}
 
 	else if (itsWaitForStatusFlag && shouldSendMessage)
 		{
-		itsSendHereMsgFlag = kJTrue;
+		itsSendHereMsgFlag = true;
 		}
 }
 
@@ -1092,7 +1091,7 @@ JXDNDManager::SendDNDHere
 void
 JXDNDManager::SendDNDLeave
 	(
-	const JBoolean sendPasteClick
+	const bool sendPasteClick
 	)
 {
 	if (itsMouseContainer != nullptr)
@@ -1147,7 +1146,7 @@ JXDNDManager::SendDNDLeave
 				{
 				PrepareForDrop(nullptr);
 
-				itsSentFakePasteFlag     = kJTrue;
+				itsSentFakePasteFlag     = true;
 				itsFakeButtonPressTime   = lastEventTime+1;
 				itsFakeButtonReleaseTime = lastEventTime+2;
 
@@ -1244,7 +1243,7 @@ JXDNDManager::PrepareForDrop
 		data->Resolve();
 		}
 
-	itsDragger->DNDFinish(kJTrue, target);
+	itsDragger->DNDFinish(true, target);
 }
 
 /******************************************************************************
@@ -1258,7 +1257,7 @@ JXDNDManager::PrepareForDrop
 void
 JXDNDManager::SendDNDStatus
 	(
-	const JBoolean	willAcceptDrop,
+	const bool	willAcceptDrop,
 	const Atom		action
 	)
 {
@@ -1337,7 +1336,7 @@ JXDNDManager::SendDNDFinished()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::HandleClientMessage
 	(
 	const XClientMessageEvent& clientMessage
@@ -1348,25 +1347,25 @@ JXDNDManager::HandleClientMessage
 	if (clientMessage.message_type == itsAtoms[ kDNDEnterAtomIndex ])
 		{
 		HandleDNDEnter(clientMessage);
-		return kJTrue;
+		return true;
 		}
 
 	else if (clientMessage.message_type == itsAtoms[ kDNDHereAtomIndex ])
 		{
 		HandleDNDHere(clientMessage);
-		return kJTrue;
+		return true;
 		}
 
 	else if (clientMessage.message_type == itsAtoms[ kDNDLeaveAtomIndex ])
 		{
 		HandleDNDLeave(clientMessage);
-		return kJTrue;
+		return true;
 		}
 
 	else if (clientMessage.message_type == itsAtoms[ kDNDDropAtomIndex ])
 		{
 		HandleDNDDrop(clientMessage);
-		return kJTrue;
+		return true;
 		}
 
 	// source:  clear our flag when we receive status message
@@ -1374,7 +1373,7 @@ JXDNDManager::HandleClientMessage
 	else if (clientMessage.message_type == itsAtoms[ kDNDStatusAtomIndex ])
 		{
 		HandleDNDStatus(clientMessage);
-		return kJTrue;
+		return true;
 		}
 
 	// source:  ignore finished message
@@ -1386,14 +1385,14 @@ JXDNDManager::HandleClientMessage
 		std::cout << "Received XdndFinished" << std::endl;
 		#endif
 
-		return kJTrue;
+		return true;
 		}
 
 	// not for us
 
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1438,7 +1437,7 @@ JXDNDManager::HandleDNDEnter
 			StopListening(itsMouseContainer);
 			}
 
-		itsIsDraggingFlag = kJFalse;
+		itsIsDraggingFlag = false;
 		itsDragger        = nullptr;
 		itsDraggerWindow  = clientMessage.data.l[ kDNDEnterWindow ];
 		itsMouseWindow    = clientMessage.window;
@@ -1530,7 +1529,7 @@ JXDNDManager::HandleDNDHere
 		window = itsMouseContainer->GetWindow();
 		ptG    = window->RootToGlobal(ptR);
 		JXContainer* newMouseContainer;
-		const JBoolean found = itsDisplay->FindMouseContainer(window, ptG, &newMouseContainer);
+		const bool found = itsDisplay->FindMouseContainer(window, ptG, &newMouseContainer);
 		if (found && newMouseContainer != itsMouseContainer)
 			{
 			if (itsWillAcceptDropFlag)
@@ -1551,7 +1550,7 @@ JXDNDManager::HandleDNDHere
 			}
 		else if (found)
 			{
-			const JBoolean savedAccept = itsWillAcceptDropFlag;
+			const bool savedAccept = itsWillAcceptDropFlag;
 			pt = itsMouseContainer->GlobalToLocal(ptG);
 			InvokeDNDScroll(clientMessage, pt);
 			itsWillAcceptDropFlag =
@@ -1589,11 +1588,11 @@ JXDNDManager::HandleDNDHere
 		itsPrevMousePt      = pt;
 		itsPrevStatusAction = action;
 		itsMouseContainer->DNDHere(itsPrevMousePt, nullptr);
-		SendDNDStatus(kJTrue, action);
+		SendDNDStatus(true, action);
 		}
 	else
 		{
-		SendDNDStatus(kJFalse, None);
+		SendDNDStatus(false, None);
 		}
 }
 
@@ -1722,7 +1721,7 @@ JXDNDManager::HandleDNDFinished()
 		StopListening(itsMouseContainer);
 		}
 
-	itsIsDraggingFlag = kJFalse;
+	itsIsDraggingFlag = false;
 	itsDragger        = nullptr;
 	itsDraggerWindow  = None;
 	itsMouseWindow    = None;
@@ -1752,16 +1751,15 @@ JXDNDManager::HandleDNDStatus
 		JWait(JXDND_SOURCE_DELAY);
 		#endif
 
-		const JBoolean savedAccept = itsWillAcceptDropFlag;
+		const bool savedAccept = itsWillAcceptDropFlag;
 
-		itsWaitForStatusFlag  = kJFalse;
-		itsReceivedStatusFlag = kJTrue;
+		itsWaitForStatusFlag  = false;
+		itsReceivedStatusFlag = true;
 
-		itsWillAcceptDropFlag = JConvertToBoolean(
-			clientMessage.data.l[ kDNDStatusFlags ] & kDNDStatusAcceptDropFlag );
+		itsWillAcceptDropFlag = clientMessage.data.l[ kDNDStatusFlags ] & kDNDStatusAcceptDropFlag;
 
-		itsUseMouseRectFlag = JNegate(
-			clientMessage.data.l[ kDNDStatusFlags ] & kDNDStatusSendHereFlag );
+		itsUseMouseRectFlag =
+			!( clientMessage.data.l[ kDNDStatusFlags ] & kDNDStatusSendHereFlag );
 
 		itsMouseRectR = UnpackRect(clientMessage.data.l[ kDNDStatusPt ],
 								   clientMessage.data.l[ kDNDStatusArea ]);
@@ -1797,23 +1795,23 @@ JXDNDManager::HandleDNDStatus
 /******************************************************************************
  WaitForLastStatusMsg (private)
 
-	Returns kJTrue if it receives XdndStatus message with accept==kJTrue.
+	Returns true if it receives XdndStatus message with accept==true.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::WaitForLastStatusMsg()
 {
 	if (!itsReceivedStatusFlag)
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (!itsWaitForStatusFlag)
 		{
 		return itsWillAcceptDropFlag;
 		}
 
-	itsSendHereMsgFlag = kJFalse;	// don't send any more messages
+	itsSendHereMsgFlag = false;	// don't send any more messages
 
 	JXSelectionManager* selMgr = itsDisplay->GetSelectionManager();
 
@@ -1828,7 +1826,7 @@ JXDNDManager::WaitForLastStatusMsg()
 			{
 			if (xEvent.type == ClientMessage)
 				{
-				const JBoolean ok = HandleClientMessage(xEvent.xclient);
+				const bool ok = HandleClientMessage(xEvent.xclient);
 				assert( ok );
 				if (xEvent.xclient.message_type == itsAtoms[ kDNDStatusAtomIndex ])
 					{
@@ -1846,7 +1844,7 @@ JXDNDManager::WaitForLastStatusMsg()
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 // static
@@ -1934,7 +1932,7 @@ JXDNDManager::ReceiveWithFeedback
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDNDManager::HandleDestroyNotify
 	(
 	const XDestroyWindowEvent& xEvent
@@ -1949,11 +1947,11 @@ JXDNDManager::HandleDestroyNotify
 
 		itsDraggerWindow = None;
 		HandleDNDLeave1();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2163,7 +2161,7 @@ JXDNDManager::InitCursors()
 JCursorIndex
 JXDNDManager::GetDNDCursor
 	(
-	const JBoolean		dropAccepted,
+	const bool		dropAccepted,
 	const Atom			action,
 	const JCursorIndex*	cursor
 	)
@@ -2198,7 +2196,7 @@ JXDNDManager::GetDNDCursor
 
 	Derived classes must override FindTarget().  The return values are:
 
-		return JBoolean		target supports XDND
+		return bool		target supports XDND
 		*xWindow			window containing mouse
 		*msgWindow			window to which DND messages should be sent
 		*target				JXContainer containing mouse, if any

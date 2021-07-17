@@ -26,14 +26,14 @@
 CBExtEditorDialog::CBExtEditorDialog
 	(
 	JXDirector*		supervisor,
-	const JBoolean	editTextLocally,
+	const bool	editTextLocally,
 	const JString&	editTextFileCmd,
 	const JString&	editTextFileLineCmd,
-	const JBoolean	editBinaryLocally,
+	const bool	editBinaryLocally,
 	const JString&	editBinaryFileCmd
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(editTextLocally, editTextFileCmd, editTextFileLineCmd,
 				editBinaryLocally, editBinaryFileCmd);
@@ -56,10 +56,10 @@ CBExtEditorDialog::~CBExtEditorDialog()
 void
 CBExtEditorDialog::BuildWindow
 	(
-	const JBoolean	editTextLocally,
+	const bool	editTextLocally,
 	const JString&	editTextFileCmd,
 	const JString&	editTextFileLineCmd,
-	const JBoolean	editBinaryLocally,
+	const bool	editBinaryLocally,
 	const JString&	editBinaryFileCmd
 	)
 {
@@ -152,7 +152,7 @@ CBExtEditorDialog::BuildWindow
 	itsEditBinaryFileCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 
 	// until we have a built-in one
-	itsExtBinaryEditorCB->SetState(kJTrue);
+	itsExtBinaryEditorCB->SetState(true);
 	itsExtBinaryEditorCB->Deactivate();
 
 	UpdateDisplay();
@@ -168,10 +168,10 @@ CBExtEditorDialog::BuildWindow
 void
 CBExtEditorDialog::GetPrefs
 	(
-	JBoolean*	editTextLocally,
+	bool*	editTextLocally,
 	JString*	editTextFileCmd,
 	JString*	editTextFileLineCmd,
-	JBoolean*	editBinaryLocally,
+	bool*	editBinaryLocally,
 	JString*	editBinaryFileCmd
 	)
 	const
@@ -218,28 +218,28 @@ CBExtEditorDialog::UpdateDisplay()
 	if (itsExtTextEditorCB->IsChecked())
 		{
 		itsEditTextFileCmdInput->Activate();
-		itsEditTextFileCmdInput->SetIsRequired(kJTrue);
+		itsEditTextFileCmdInput->SetIsRequired(true);
 
 		itsEditTextFileLineCmdInput->Activate();
-		itsEditTextFileLineCmdInput->SetIsRequired(kJTrue);
+		itsEditTextFileLineCmdInput->SetIsRequired(true);
 		}
 	else
 		{
 		itsEditTextFileCmdInput->Deactivate();
-		itsEditTextFileCmdInput->SetIsRequired(kJFalse);
+		itsEditTextFileCmdInput->SetIsRequired(false);
 
 		itsEditTextFileLineCmdInput->Deactivate();
-		itsEditTextFileLineCmdInput->SetIsRequired(kJFalse);
+		itsEditTextFileLineCmdInput->SetIsRequired(false);
 		}
 
 	if (itsExtBinaryEditorCB->IsChecked())
 		{
 		itsEditBinaryFileCmdInput->Activate();
-		itsEditBinaryFileCmdInput->SetIsRequired(kJTrue);
+		itsEditBinaryFileCmdInput->SetIsRequired(true);
 		}
 	else
 		{
 		itsEditBinaryFileCmdInput->Deactivate();
-		itsEditBinaryFileCmdInput->SetIsRequired(kJFalse);
+		itsEditBinaryFileCmdInput->SetIsRequired(false);
 		}
 }

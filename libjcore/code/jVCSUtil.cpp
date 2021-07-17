@@ -18,11 +18,11 @@
 #include "jGlobals.h"
 #include "jAssert.h"
 
-static const JString kGitDirName        (".git",    kJFalse);
-static const JString kSubversionDirName (".svn",    kJFalse);
-static const JString kSubversionFileName("entries", kJFalse);
-static const JString kCVSDirName        ("CVS",     kJFalse);
-static const JString kSCCSDirName       ("SCCS",    kJFalse);
+static const JString kGitDirName        (".git",    JString::kNoCopy);
+static const JString kSubversionDirName (".svn",    JString::kNoCopy);
+static const JString kSubversionFileName("entries", JString::kNoCopy);
+static const JString kCVSDirName        ("CVS",     JString::kNoCopy);
+static const JString kSCCSDirName       ("SCCS",    JString::kNoCopy);
 
 static const JUtf8Byte* kDirName[] =
 {
@@ -40,7 +40,7 @@ const JUtf8Byte* kJUnsupportedVCS = "JUnsupportedVCS";
 
 // local
 
-static JBoolean	jSearchVCSRoot(const JString& path, const JString& vcsDirName,
+static bool	jSearchVCSRoot(const JString& path, const JString& vcsDirName,
 							   JString* vcsRoot);
 
 /******************************************************************************
@@ -48,16 +48,16 @@ static JBoolean	jSearchVCSRoot(const JString& path, const JString& vcsDirName,
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIsVCSDirectory
 	(
 	const JString& name
 	)
 {
-	return JI2B(name == kGitDirName        ||
+	return name == kGitDirName        ||
 				name == kSubversionDirName ||
 				name == kCVSDirName        ||
-				name == kSCCSDirName);
+				name == kSCCSDirName;
 }
 
 /******************************************************************************
@@ -133,7 +133,7 @@ JGetVCSType
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIsManagedByVCS
 	(
 	const JString&	fullName,
@@ -142,7 +142,7 @@ JIsManagedByVCS
 {
 	const JVCSType type = JGetVCSType(fullName);
 
-	JBoolean isManaged = kJFalse;
+	bool isManaged = false;
 	if (type == kJSVNType)
 		{
 		JString path, name, entriesFileName;
@@ -160,7 +160,7 @@ JIsManagedByVCS
 		}
 	else if (type == kJGitType)
 		{
-		isManaged = kJTrue;	// TODO: ask git (until then, better safe than sorry)
+		isManaged = true;	// TODO: ask git (until then, better safe than sorry)
 		}
 
 	if (returnType != nullptr)
@@ -200,7 +200,7 @@ JEditVCS
 
  ******************************************************************************/
 
-static const JString kMoveFileCmd("mv", kJFalse);
+static const JString kMoveFileCmd("mv", JString::kNoCopy);
 
 JError
 JRenameVCS
@@ -227,12 +227,12 @@ JRenameVCS
 	JVCSType type1    = JGetVCSType(oldPath);
 	JVCSType type2    = JGetVCSType(newPath);
 	JError err        = JNoError();
-	JBoolean tryPlain = kJFalse;
+	bool tryPlain = false;
 	JString cmd;
 	JProcess* p = nullptr;
 	if (type1 != type2)
 		{
-		tryPlain = kJTrue;
+		tryPlain = true;
 		}
 	else if (type1 == kJSVNType || type1 == kJGitType)
 		{
@@ -260,12 +260,12 @@ JRenameVCS
 		if (p != nullptr && !p->SuccessfulFinish())
 			{
 			err      = JAccessDenied(oldFullName, newFullName);
-			tryPlain = kJTrue;
+			tryPlain = true;
 			}
 		}
 	else if (type1 == kJUnknownVCSType)
 		{
-		tryPlain = kJTrue;
+		tryPlain = true;
 		}
 	else
 		{
@@ -313,7 +313,7 @@ JError
 JRemoveVCS
 	(
 	const JString&	fullName,
-	const JBoolean	sync,
+	const bool	sync,
 	JProcess**		returnP
 	)
 {
@@ -338,7 +338,7 @@ JRemoveVCS
 
 	JVCSType type     = JGetVCSType(path);
 	JError err        = JNoError();
-	JBoolean tryPlain = kJFalse;
+	bool tryPlain = false;
 	JString cmd;
 	JProcess* p = nullptr;
 	if (type == kJSVNType || type == kJGitType)
@@ -364,12 +364,12 @@ JRemoveVCS
 		if (p != nullptr && !p->SuccessfulFinish())
 			{
 			err      = JAccessDenied(fullName);
-			tryPlain = kJTrue;
+			tryPlain = true;
 			}
 		}
 	else if (type == kJUnknownVCSType)
 		{
-		tryPlain = kJTrue;
+		tryPlain = true;
 		}
 	else
 		{
@@ -395,10 +395,10 @@ JRemoveVCS
 
  ******************************************************************************/
 
-static const JString kCVSName1("Root",       kJFalse);
-static const JString kCVSName2("Repository", kJFalse);
+static const JString kCVSName1("Root",       JString::kNoCopy);
+static const JString kCVSName2("Repository", JString::kNoCopy);
 
-JBoolean
+bool
 JGetVCSRepositoryPath
 	(
 	const JString&	origPath,
@@ -413,7 +413,7 @@ JGetVCSRepositoryPath
 		}
 
 	const JVCSType type = JGetVCSType(path);
-	JBoolean found      = kJFalse;
+	bool found      = false;
 	if (type == kJCVSType)
 		{
 		const JString cvsPath = JCombinePathAndName(path, kCVSDirName);
@@ -428,14 +428,14 @@ JGetVCSRepositoryPath
 		if (!repoPath->IsEmpty() && !repo.IsEmpty())
 			{
 			*repoPath = JCombinePathAndName(*repoPath, repo);
-			found     = kJTrue;
+			found     = true;
 			}
 		}
 	else if (type == kJSVNType)
 		{
 		int fromFD;
 		const JError err = JExecute(origPath,
-									JString("svn info --show-item url", kJFalse), nullptr,
+									JString("svn info --show-item url", JString::kNoCopy), nullptr,
 									kJIgnoreConnection, nullptr,
 									kJCreatePipe, &fromFD);
 		if (err.OK())
@@ -452,12 +452,12 @@ JGetVCSRepositoryPath
 			{
 			*repoPath = JCombinePathAndName(*repoPath, name);
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		repoPath->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -473,7 +473,7 @@ JGetVCSRepositoryPath
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGetSVNEntryType
 	(
 	const JString&	url,
@@ -492,7 +492,7 @@ JGetSVNEntryType
 	if (!err.OK())
 		{
 		err.ReportIfError();
-		return kJFalse;
+		return false;
 		}
 
 	p->WaitUntilFinished();
@@ -509,13 +509,13 @@ JGetSVNEntryType
 				strcmp((char*) root->children->name, "entry") == 0)
 				{
 				*type = JGetXMLNodeAttr(root->children, "kind");
-				return kJTrue;
+				return true;
 				}
 			}
 		}
 
-	JReadAll(errFD, error, kJTrue);
-	return kJFalse;
+	JReadAll(errFD, error, true);
+	return false;
 }
 
 /******************************************************************************
@@ -523,7 +523,7 @@ JGetSVNEntryType
 
  ******************************************************************************/
 
-static const JString kCVSIgnoreName(".cvsignore", kJFalse);
+static const JString kCVSIgnoreName(".cvsignore", JString::kNoCopy);
 
 void
 JUpdateCVSIgnore
@@ -576,7 +576,7 @@ JGetGitDirectoryName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JSearchGitRoot
 	(
 	const JString&	path,
@@ -612,7 +612,7 @@ JUnsupportedVCS::JUnsupportedVCS
 
  ******************************************************************************/
 
-JBoolean
+bool
 jSearchVCSRoot
 	(
 	const JString&	path,
@@ -633,7 +633,7 @@ jSearchVCSRoot
 		if (JDirectoryExists(n))
 			{
 			*vcsRoot = p;
-			return kJTrue;
+			return true;
 			}
 
 		JSplitPathAndName(p, &p, &n);
@@ -641,5 +641,5 @@ jSearchVCSRoot
 		while (!JIsRootDirectory(p));
 
 	vcsRoot->Clear();
-	return kJFalse;
+	return false;
 }

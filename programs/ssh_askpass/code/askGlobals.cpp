@@ -16,7 +16,7 @@ static ASKApp*	theApplication  = nullptr;		// owns itself
 /******************************************************************************
  ASKCreateGlobals
 
-	Returns kJTrue if this is the first time the program is run.
+	Returns true if this is the first time the program is run.
 
  ******************************************************************************/
 

@@ -29,7 +29,7 @@ JXHintManager::JXHintManager
 	:
 	itsWidget(widget),
 	itsText(text),
-	itsActiveFlag(kJTrue),
+	itsActiveFlag(true),
 	itsStartTime(0),
 	itsDirOwner(nullptr),
 	itsDirector(nullptr)

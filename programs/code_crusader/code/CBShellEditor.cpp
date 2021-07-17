@@ -37,16 +37,16 @@ CBShellEditor::CBShellEditor
 	const JCoordinate	h
 	)
 	:
-	CBTextEditor(document, fileName, menuBar, lineInput, colInput, kJTrue,
+	CBTextEditor(document, fileName, menuBar, lineInput, colInput, true,
 				 scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
 	itsInsertIndex(1,1)
 {
 	itsShellDoc = (CBShellDocument*) document;
 
-	GetText()->SetDefaultFontStyle(JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+	GetText()->SetDefaultFontStyle(JFontStyle(true, false, 0, false));
 
 	itsInsertFont = GetText()->GetDefaultFont();
-	itsInsertFont.SetBold(kJFalse);
+	itsInsertFont.SetBold(false);
 }
 
 /******************************************************************************
@@ -70,7 +70,7 @@ CBShellEditor::InsertText
 	)
 {
 	CaretLocation savedCaret;
-	const JBoolean hadCaret = GetCaretLocation(&savedCaret);
+	const bool hadCaret = GetCaretLocation(&savedCaret);
 
 	SetCaretLocation(itsInsertIndex);
 	SetCurrentFont(itsInsertFont);
@@ -90,7 +90,7 @@ CBShellEditor::InsertText
 	const JStyledText::TextIndex i = GetText()->AdjustTextIndex(itsInsertIndex, -1);
 	if (GetText()->GetFont(i.charIndex).GetStyle().bold)
 		{
-		GetText()->SetFontBold(JStyledText::TextRange(i, itsInsertIndex), kJFalse, kJTrue);
+		GetText()->SetFontBold(JStyledText::TextRange(i, itsInsertIndex), false, true);
 		}
 }
 
@@ -107,9 +107,9 @@ CBShellEditor::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	const JBoolean controlOn = modifiers.control();
-	const JBoolean metaOn    = modifiers.meta();
-	const JBoolean shiftOn   = modifiers.shift();
+	const bool controlOn = modifiers.control();
+	const bool metaOn    = modifiers.meta();
+	const bool shiftOn   = modifiers.shift();
 	if ((c == kJLeftArrow && metaOn && !controlOn && !shiftOn) ||
 		(c == JXCtrl('A') && controlOn && !metaOn && !shiftOn))
 		{
@@ -134,11 +134,11 @@ CBShellEditor::HandleKeyPress
 		SetCurrentFont(GetText()->GetDefaultFont());
 		}
 
-	JBoolean sentCmd = kJFalse;
+	bool sentCmd = false;
 	if (c == kJReturnKey && !modifiers.shift() && !HasSelection())
 		{
 		JIndex index;
-		JBoolean ok = GetCaretLocation(&index);
+		bool ok = GetCaretLocation(&index);
 		assert( ok );
 
 		JString cmd;
@@ -189,7 +189,7 @@ CBShellEditor::HandleKeyPress
 		cmd += "\n";
 		itsShellDoc->SendCommand(cmd);
 
-		sentCmd = kJTrue;
+		sentCmd = true;
 		}
 
 	CBTextEditor::HandleKeyPress(c, keySym, modifiers);

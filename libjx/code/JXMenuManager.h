@@ -27,7 +27,7 @@ public:
 
 	void	CloseCurrentMenus();
 
-	JBoolean	IsMenuForWindow(JXWindow* menuWindow, JXWindow* mainWindow) const;
+	bool	IsMenuForWindow(JXWindow* menuWindow, JXWindow* mainWindow) const;
 
 private:
 

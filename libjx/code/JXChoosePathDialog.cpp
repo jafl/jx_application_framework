@@ -42,7 +42,7 @@ JXChoosePathDialog::Create
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	selectOnlyWritable,
+	const bool	selectOnlyWritable,
 	const JString&	message
 	)
 {
@@ -63,7 +63,7 @@ JXChoosePathDialog::JXChoosePathDialog
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	selectOnlyWritable
+	const bool	selectOnlyWritable
 	)
 	:
 	JXCSFDialogBase(supervisor, dirInfo, fileFilter),
@@ -176,7 +176,7 @@ JXChoosePathDialog::BuildWindow
 	assert( newDirButton != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu(JString("/", kJFalse), window,
+		jnew JXCurrentPathMenu(JString("/", JString::kNoCopy), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 
@@ -234,7 +234,7 @@ JXChoosePathDialog::SetObjects
 		showHiddenCB, currPathMenu, message);
 
 	JXDirTable* fileBrowser = GetFileBrowser();
-	fileBrowser->AllowSelectFiles(kJFalse, kJFalse);
+	fileBrowser->AllowSelectFiles(false, false);
 	UpdateDisplay();
 
 	ListenTo(itsOpenButton);
@@ -301,31 +301,31 @@ JXChoosePathDialog::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXChoosePathDialog::OKToDeactivate()
 {
 	if (!JXCSFDialogBase::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	else if (GetPathInput()->HasFocus() && !GoToItsPath())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	else if (itsSelectOnlyWritableFlag && !JDirectoryWritable(GetPath()))
 		{
 		JGetUserNotification()->ReportError(JGetString("DirMustBeWritable::JXChoosePathDialog"));
-		return kJFalse;
+		return false;
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 

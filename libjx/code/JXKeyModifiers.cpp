@@ -37,11 +37,11 @@ JXKeyModifiers::JXKeyModifiers
 /******************************************************************************
  Available
 
-	Returns kJTrue if the specified modifier key is available.
+	Returns true if the specified modifier key is available.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXKeyModifiers::Available
 	(
 	const JIndex i
@@ -49,7 +49,7 @@ JXKeyModifiers::Available
 	const
 {
 	assert( 1 <= i && i <= kJXKeyModifierMapCount );
-	return JI2B( MapKey(i) > 0 );
+	return MapKey(i) > 0;
 };
 
 /******************************************************************************
@@ -59,7 +59,7 @@ JXKeyModifiers::Available
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXKeyModifiers::GetState
 	(
 	const JIndex i
@@ -75,7 +75,7 @@ JXKeyModifiers::GetState
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXKeyModifiers::AllOff()
 	const
 {
@@ -83,10 +83,10 @@ JXKeyModifiers::AllOff()
 		{
 		if (itsState[i])
 			{
-			return kJFalse;
+			return false;
 			}
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -100,12 +100,12 @@ void
 JXKeyModifiers::SetState
 	(
 	const JIndex	i,
-	const JBoolean	pushed
+	const bool	pushed
 	)
 {
 	assert( 1 <= i && i <= kJXKeyModifierMapCount );
 	itsState [ MapKey(i) ] = pushed;
-	itsState [ 0         ] = kJFalse;	// invariant
+	itsState [ 0         ] = false;	// invariant
 }
 
 /******************************************************************************
@@ -146,11 +146,11 @@ JXKeyModifiers::SetState
 {
 	itsMap = display->GetJXKeyModifierMapping();
 
-	itsState[0] = kJFalse;
+	itsState[0] = false;
 
 	for (JIndex i=1; i<=kXModifierCount; i++)
 		{
-		itsState[i] = JI2B( (state & (1L << (i-1))) != 0 );
+		itsState[i] = (state & (1L << (i-1))) != 0;
 		}
 }
 
@@ -164,7 +164,7 @@ JXKeyModifiers::Clear()
 {
 	for (JUnsignedOffset i=0; i<=kXModifierCount; i++)
 		{
-		itsState[i] = kJFalse;
+		itsState[i] = false;
 		}
 }
 
@@ -175,7 +175,7 @@ JXKeyModifiers::Clear()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXKeyModifiers::GetState
 	(
 	const JXDisplay*	display,
@@ -188,11 +188,11 @@ JXKeyModifiers::GetState
 	const int j    = map[i];
 	if (j > 0)
 		{
-		return JI2B( (state & (1L << (j-1))) != 0 );
+		return (state & (1L << (j-1))) != 0;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -209,7 +209,7 @@ JXKeyModifiers::SetState
 	const JXDisplay*	display,
 	const unsigned int	state,
 	const JIndex		i,
-	const JBoolean		pushed
+	const bool		pushed
 	)
 {
 	assert( 1 <= i && i <= kJXKeyModifierMapCount );

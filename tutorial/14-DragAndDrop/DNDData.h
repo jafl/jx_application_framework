@@ -29,7 +29,7 @@ public:
 protected:
 
 			virtual void		AddTypes(const Atom selectionName);
-			virtual JBoolean	ConvertData(const Atom requestType, Atom* returnType,
+			virtual bool	ConvertData(const Atom requestType, Atom* returnType,
 											unsigned char** data, JSize* dataLength,
 											JSize* bitsPerBlock) const;
 private:

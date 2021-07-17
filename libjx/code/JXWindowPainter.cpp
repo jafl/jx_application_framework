@@ -59,7 +59,7 @@ JXWindowPainter::JXWindowPainter
 		itsClipRegion    = nullptr;
 		}
 
-	itsResetShouldClearClipRegionFlag = kJTrue;
+	itsResetShouldClearClipRegionFlag = true;
 
 	ResetClipRect();
 }
@@ -163,9 +163,9 @@ JXWindowPainter::Reset
 	)
 {
 	CalcClipRegion(clipRegion);
-	itsResetShouldClearClipRegionFlag = kJFalse;
+	itsResetShouldClearClipRegionFlag = false;
 	JPainter::Reset(defClipRect);
-	itsResetShouldClearClipRegionFlag = kJTrue;
+	itsResetShouldClearClipRegionFlag = true;
 }
 
 /******************************************************************************
@@ -298,7 +298,7 @@ JXWindowPainter::SetClipRect
 		}
 
 	const JRect r        = JPainter::SetClipRect(userRect);
-	const JBoolean empty = r.IsEmpty();
+	const bool empty = r.IsEmpty();
 	if (!empty)
 		{
 		JRect rG = r;
@@ -435,7 +435,7 @@ JXWindowPainter::String
 		y += JLFloor(1.5 * lineWidth);
 
 		itsGC->SetLineWidth(lineWidth);
-		itsGC->DrawDashedLines(kJFalse);
+		itsGC->DrawDashedLines(false);
 		itsGC->DrawLine(itsDrawable, x, y, x+w-1, y);
 		}
 }
@@ -625,10 +625,10 @@ JXWindowPainter::StyleString
 		const JPoint origPenLoc     = GetPenLocation();
 		const JColorID origPenColor = GetPenColor();
 		const JSize origLW          = GetLineWidth();
-		const JBoolean wasDashed    = LinesAreDashed();
+		const bool wasDashed    = LinesAreDashed();
 
 		SetPenColor(fontStyle.color);
-		DrawDashedLines(kJFalse);
+		DrawDashedLines(false);
 
 		const JSize strWidth = GetFont().GetStringWidth(GetFontManager(), str);
 
@@ -718,7 +718,7 @@ JXWindowPainter::Rect
 	itsGC->SetDrawingColor(GetPenColor());
 	itsGC->SetLineWidth(GetLineWidth());
 	itsGC->DrawDashedLines(LinesAreDashed());
-	const JBoolean fill = IsFilling();
+	const bool fill = IsFilling();
 	if (!fill && w>0 && h>0)
 		{
 		itsGC->DrawRect(itsDrawable, o.x+x,o.y+y, w,h);

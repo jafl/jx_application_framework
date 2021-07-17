@@ -24,16 +24,16 @@ public:
 public:
 
 	JXFTCCell(JXContainer* matchObj, JXContainer* enc, const Direction direction,
-			  const JBoolean exact);
+			  const bool exact);
 
 	virtual ~JXFTCCell();
 
 	JXContainer*	GetWidget();
 	JSize			GetDepth() const;
 	Direction		GetDirection() const;
-	JBoolean		IsExact() const;
+	bool		IsExact() const;
 
-	JCoordinate		Expand(const JBoolean horizontal);
+	JCoordinate		Expand(const bool horizontal);
 
 	virtual void	Refresh() const override;
 	virtual void	Redraw() const override;
@@ -79,10 +79,10 @@ private:
 	JXContainer*			itsWidget;			// can be nullptr
 	JRect					itsFrameG;			// global coords
 	const Direction			itsDirection;		// direction of contained cell stack
-	const JBoolean			itsIsExactFlag;
+	const bool			itsIsExactFlag;
 	Elastic					itsElasticFlag;
-	JBoolean				itsSyncChildrenFlag;
-	JBoolean				itsSyncHorizontalFlag;
+	bool				itsSyncChildrenFlag;
+	bool				itsSyncHorizontalFlag;
 	JPtrArray<JXFTCCell>*	itsChildren;
 	JArray<JCoordinate>*	itsChildSpacing;
 	JArray<JFloat>*			itsChildPositions;	// -1: left, +1:right, 0:both, else:center-line:0<v<1
@@ -97,7 +97,7 @@ private:
 	JCoordinate	ExpandWidget();
 	void		SyncWidgetPosition();
 	void		SyncSize(const JCoordinate dw, const JCoordinate dh);
-	JBoolean	IsElastic();
+	bool	IsElastic();
 
 	JString				Indent(const JSize extra = 0) const;
 	const JUtf8Byte*	GetDirectionName() const;
@@ -142,7 +142,7 @@ JXFTCCell::GetDirection()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFTCCell::IsExact()
 	const
 {

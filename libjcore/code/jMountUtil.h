@@ -82,36 +82,36 @@ private:
 	JPtrArrayT::CleanUpAction	itsCleanUpAction;
 };
 
-JBoolean	JGetUserMountPointList(JMountPointList* list, JMountState* state);
+bool	JGetUserMountPointList(JMountPointList* list, JMountState* state);
 JMountType	JGetUserMountPointType(const JString& path,
 								   const JString& device, const JString& fsType);
-JBoolean	JIsMounted(const JString& path,
-					   JBoolean* writable = nullptr, JBoolean* isTop = nullptr,
+bool	JIsMounted(const JString& path,
+					   bool* writable = nullptr, bool* isTop = nullptr,
 					   JString* device = nullptr,
 					   JFileSystemType* fsType = nullptr, JString* fsTypeString = nullptr);
-JBoolean	JFindUserMountPoint(const JString& path, const JMountPointList& list,
+bool	JFindUserMountPoint(const JString& path, const JMountPointList& list,
 								JIndex* index);
 
-void		JMount(const JString& path, const JBoolean mount = kJTrue,
-				   const JBoolean block = kJFalse);
+void		JMount(const JString& path, const bool mount = true,
+				   const bool block = false);
 
-JBoolean	JTranslateLocalToRemote(const JString& localPathStr,
+bool	JTranslateLocalToRemote(const JString& localPathStr,
 									JString* host, JString* remotePath);
-JBoolean	JTranslateRemoteToLocal(const JString& hostStr,
+bool	JTranslateRemoteToLocal(const JString& hostStr,
 									const JString& remotePathStr,
 									JString* localPath);
 
 JError		JFormatPartition(const JString& path, const JString& type,
 							 JProcess** process);
-JBoolean	JIsSamePartition(const JString& path1, const JString& path2);
+bool	JIsSamePartition(const JString& path1, const JString& path2);
 
-inline JBoolean
+inline bool
 JMountSupportsExecFlag
 	(
 	const JFileSystemType type
 	)
 {
-	return JI2B(type != kVFATType);
+	return type != kVFATType;
 }
 
 #endif

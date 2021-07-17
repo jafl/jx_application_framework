@@ -25,11 +25,11 @@ public:
 
 public:
 
-	static JBoolean	Create(CBShellDocument** doc);
+	static bool	Create(CBShellDocument** doc);
 
 	virtual ~CBShellDocument();
 
-	JBoolean	ProcessRunning() const;
+	bool	ProcessRunning() const;
 	void		SendCommand(const JString& cmd);
 
 protected:
@@ -38,7 +38,7 @@ protected:
 
 	void	KillProcess();
 
-	JBoolean	GetDataLink(DataLink** link) const;
+	bool	GetDataLink(DataLink** link) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -78,11 +78,11 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBShellDocument::ProcessRunning()
 	const
 {
-	return JI2B( itsProcess != nullptr && !itsProcess->IsFinished() );
+	return itsProcess != nullptr && !itsProcess->IsFinished();
 }
 
 /******************************************************************************
@@ -90,7 +90,7 @@ CBShellDocument::ProcessRunning()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBShellDocument::GetDataLink
 	(
 	DataLink** link
@@ -98,7 +98,7 @@ CBShellDocument::GetDataLink
 	const
 {
 	*link = itsDataLink;
-	return JI2B( itsDataLink != nullptr );
+	return itsDataLink != nullptr;
 }
 
 #endif

@@ -56,7 +56,7 @@ JXWindow::MenuItemRemoved
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::InstallMenuShortcut
 	(
 	JXTextMenu*				menu,
@@ -65,7 +65,7 @@ JXWindow::InstallMenuShortcut
 	const JXKeyModifiers&	modifiers
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

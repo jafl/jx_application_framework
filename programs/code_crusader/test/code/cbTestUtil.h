@@ -24,7 +24,7 @@ UpdateStyles
 
 	styler->UpdateStyles(
 		st, st->GetText(), const_cast<JRunArray<JFont>*>(&st->GetStyles()),
-		&recalcRange, &redrawRange, kJFalse, &tokenStartList);
+		&recalcRange, &redrawRange, false, &tokenStartList);
 }
 
 inline void
@@ -46,5 +46,5 @@ RunTest
 	st->WritePrivateFormat(result);
 
 	JReadFile(JString(outputFilename), &text);
-	JAssertStringsEqual(text, JString(result.str().c_str(), 0, kJFalse));
+	JAssertStringsEqual(text, JString(result.str().c_str(), 0, false));
 }

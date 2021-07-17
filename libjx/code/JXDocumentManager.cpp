@@ -87,7 +87,7 @@ const JUtf8Byte* JXDocumentManager::kDocMenuNeedsUpdate =
 
 JXDocumentManager::JXDocumentManager
 	(
-	const JBoolean wantShortcuts
+	const bool wantShortcuts
 	)
 	:
 	itsWantShortcutFlag( wantShortcuts )
@@ -102,7 +102,7 @@ JXDocumentManager::JXDocumentManager
 	itsFileMap = jnew JArray<FileMap>;
 	assert( itsFileMap != nullptr );
 
-	itsPerformSafetySaveFlag = kJTrue;
+	itsPerformSafetySaveFlag = true;
 
 	itsSafetySaveTask = jnew JXTimerTask(kDefaultSafetySavePeriod);
 	assert( itsSafetySaveTask != nullptr );
@@ -154,12 +154,12 @@ JXDocumentManager::DocumentCreated
 
 	for (JInteger i=kFirstShortcut; i<=kLastShortcut; i++)
 		{
-		JBoolean found = kJFalse;
+		bool found = false;
 		for (const DocInfo& info : *itsDocList)
 			{
 			if (info.shortcut == i)
 				{
-				found = kJTrue;
+				found = true;
 				break;
 				}
 			}
@@ -276,7 +276,7 @@ JXDocumentManager::UpdateAllDocumentMenus()
 /******************************************************************************
  DocumentMustStayOpen
 
-	Call this with kJTrue if a document must remain open even if nobody else
+	Call this with true if a document must remain open even if nobody else
 	needs it.
 
  ******************************************************************************/
@@ -285,7 +285,7 @@ void
 JXDocumentManager::DocumentMustStayOpen
 	(
 	JXDocument*		doc,
-	const JBoolean	stayOpen
+	const bool	stayOpen
 	)
 {
 	const JSize count = itsDocList->GetElementCount();
@@ -300,7 +300,7 @@ JXDocumentManager::DocumentMustStayOpen
 			}
 		}
 
-	if (stayOpen == kJFalse)
+	if (stayOpen == false)
 		{
 		CloseDocuments();
 		}
@@ -309,21 +309,20 @@ JXDocumentManager::DocumentMustStayOpen
 /******************************************************************************
  OKToCloseDocument
 
-	Returns kJTrue if the given document can be closed.
+	Returns true if the given document can be closed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDocumentManager::OKToCloseDocument
 	(
 	JXDocument* doc
 	)
 	const
 {
-	return JI2B(
-		std::all_of(begin(*itsDocList), end(*itsDocList),
+	return std::all_of(begin(*itsDocList), end(*itsDocList),
 			[doc] (const DocInfo& info)
-				{ return (info.doc == doc || !(info.doc)->NeedDocument(doc)); }));
+				{ return (info.doc == doc || !(info.doc)->NeedDocument(doc)); });
 }
 
 /******************************************************************************
@@ -370,7 +369,7 @@ JXDocumentManager::CloseDocuments()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDocumentManager::FileDocumentIsOpen
 	(
 	const JString&		fileName,
@@ -384,7 +383,7 @@ JXDocumentManager::FileDocumentIsOpen
 
 	if (!JFileExists(fileName))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// search for an open JXFileDocument that uses this file
@@ -394,18 +393,18 @@ JXDocumentManager::FileDocumentIsOpen
 		const JXFileDocument* fileDoc = dynamic_cast<const JXFileDocument*>(info.doc);
 		if (fileDoc != nullptr)
 			{
-			JBoolean onDisk;
+			bool onDisk;
 			const JString docName = fileDoc->GetFullName(&onDisk);
 
 			if (onDisk && JSameDirEntry(fileName, docName))
 				{
 				*doc = const_cast<JXFileDocument*>(fileDoc);
-				return kJTrue;
+				return true;
 				}
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -421,13 +420,13 @@ JXDocumentManager::FileDocumentIsOpen
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDocumentManager::FindFile
 	(
 	const JString&	fileName,
 	const JString&	currPath,
 	JString*		newFileName,
-	const JBoolean	askUser
+	const bool	askUser
 	)
 	const
 {
@@ -436,7 +435,7 @@ JXDocumentManager::FindFile
 	if (JFileExists(fileName))
 		{
 		*newFileName = fileName;
-		return kJTrue;
+		return true;
 		}
 
 	// search the directory tree below currPath
@@ -444,17 +443,17 @@ JXDocumentManager::FindFile
 	JString path, name, newPath;
 	JSplitPathAndName(fileName, &path, &name);
 
-	if (JSearchSubdirs(currPath, name, kJTrue, kJTrue, &newPath))
+	if (JSearchSubdirs(currPath, name, true, JString::kCompareCase, &newPath))
 		{
 		*newFileName = newPath + name;
-		return kJTrue;
+		return true;
 		}
 
 	// check for known case of move/rename
 
 	if (SearchFileMap(fileName, newFileName))
 		{
-		return kJTrue;
+		return true;
 		}
 
 	// ask the user to find it
@@ -486,7 +485,7 @@ JXDocumentManager::FindFile
 				}
 
 			JString trueName;
-			const JBoolean ok = JGetTrueName(*newFileName, &trueName);
+			const bool ok = JGetTrueName(*newFileName, &trueName);
 			assert( ok );
 
 			FileMap map;
@@ -497,12 +496,12 @@ JXDocumentManager::FindFile
 			itsFileMap->AppendElement(map);
 
 			*newFileName = trueName;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	newFileName->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -510,7 +509,7 @@ JXDocumentManager::FindFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDocumentManager::SearchFileMap
 	(
 	const JString&	fileName,
@@ -522,11 +521,11 @@ JXDocumentManager::SearchFileMap
 	for (JIndex i=mapCount; i>=1; i--)
 		{
 		FileMap map          = itsFileMap->GetElement(i);
-		const JBoolean match = JConvertToBoolean( *(map.oldName) == fileName );
+		const bool match = *(map.oldName) == fileName;
 		if (match && JFileExists(*(map.newName)))
 			{
 			*newFileName = *(map.newName);
-			return kJTrue;
+			return true;
 			}
 		else if (match)		// newName no longer exists (lazy checking)
 			{
@@ -536,7 +535,7 @@ JXDocumentManager::SearchFileMap
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -607,7 +606,7 @@ JXDocumentManager::UpdateDocumentMenu
 		if ((info.doc)->GetMenuIcon(&icon) &&
 			icon->GetDisplay() == menu->GetDisplay())
 			{
-			menu->SetItemImage(i, const_cast<JXImage*>(icon), kJFalse);
+			menu->SetItemImage(i, const_cast<JXImage*>(icon), false);
 			}
 
 		if (itsWantShortcutFlag &&
@@ -651,12 +650,12 @@ JXDocumentManager::ActivateDocument
 
 	The index is the JXDocumentMenu item index.
 
-	We return JBoolean because the document might have been closed while
+	We return bool because the document might have been closed while
 	the menu was open.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDocumentManager::GetDocument
 	(
 	const JIndex	index,
@@ -667,12 +666,12 @@ JXDocumentManager::GetDocument
 	if (itsDocList->IndexValid(index))
 		{
 		*doc = (itsDocList->GetElement(index)).doc;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*doc = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -684,7 +683,7 @@ JXDocumentManager::GetDocument
 void
 JXDocumentManager::ShouldSafetySave
 	(
-	const JBoolean doIt
+	const bool doIt
 	)
 {
 	itsPerformSafetySaveFlag = doIt;

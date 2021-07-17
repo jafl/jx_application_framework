@@ -113,7 +113,7 @@ const JUtf8Byte* JXDisplay::kXError        = "XError::JXDisplay";
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDisplay::Create
 	(
 	const JString&	displayName,
@@ -129,13 +129,13 @@ JXDisplay::Create
 	Display* xDisplay = XOpenDisplay(name);
 	if (xDisplay != nullptr)
 		{
-		*display = jnew JXDisplay(JString(XDisplayName(name), kJFalse), xDisplay);
-		return JConvertToBoolean( *display != nullptr );
+		*display = jnew JXDisplay(JString(XDisplayName(name), JString::kNoCopy), xDisplay);
+		return *display != nullptr;
 		}
 	else
 		{
 		*display = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -185,7 +185,7 @@ JXDisplay::JXDisplay
 	}
 	assert( itsXIM != nullptr );
 
-	itsNeedsUpdateFlag = kJFalse;
+	itsNeedsUpdateFlag = false;
 	itsMouseContainer  = nullptr;
 	itsMouseGrabber    = nullptr;
 	itsKeyboardGrabber = nullptr;
@@ -217,8 +217,8 @@ JXDisplay::JXDisplay
 	assert( itsImageCache != nullptr );
 
 	int major_opcode, first_event, first_error;
-	itsIsOSXFlag = JI2B(XQueryExtension(itsXDisplay, "Apple-WM",
-										&major_opcode, &first_event, &first_error));
+	itsIsOSXFlag = XQueryExtension(itsXDisplay, "Apple-WM",
+										&major_opcode, &first_event, &first_error);
 
 	JXGetApplication()->DisplayOpened(this);
 
@@ -279,7 +279,7 @@ JXDisplay::~JXDisplay()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDisplay::Close()
 {
 	while (!itsWindowList->IsEmpty())
@@ -287,12 +287,12 @@ JXDisplay::Close()
 		WindowInfo info = itsWindowList->GetLastElement();
 		if (!((info.window)->GetDirector())->Close())
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
 	jdelete this;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -416,13 +416,13 @@ JXDisplay::CloseAllOtherWindows
 /******************************************************************************
  WindowExists (static)
 
-	Returns kJTrue if the given window hasn't been deleted.  Since we
+	Returns true if the given window hasn't been deleted.  Since we
 	cannot assume that anything exists, everything that we need must
 	be passed in.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDisplay::WindowExists
 	(
 	JXDisplay*		display,
@@ -432,9 +432,8 @@ JXDisplay::WindowExists
 {
 	JXApplication* app;
 	JXWindow* window;
-	return JConvertToBoolean(
-			JXGetApplication(&app) && app->DisplayExists(xDisplay) &&
-			display->FindXWindow(xWindow, &window));
+	return JXGetApplication(&app) && app->DisplayExists(xDisplay) &&
+			display->FindXWindow(xWindow, &window);
 }
 
 /******************************************************************************
@@ -712,7 +711,7 @@ JIndex i;
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDisplay::KeysymToModifier
 	(
 	const KeySym	keysym,
@@ -730,7 +729,7 @@ JXDisplay::KeysymToModifier
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDisplay::KeycodeToModifier
 	(
 	const KeyCode	keycode,
@@ -741,7 +740,7 @@ JXDisplay::KeycodeToModifier
 	*modifierIndex = 0;
 	if (keycode == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JSize maxKeyPerMod = itsModifierKeymap->max_keypermod;
@@ -755,12 +754,12 @@ JXDisplay::KeycodeToModifier
 			if (modifier[j] == keycode)
 				{
 				*modifierIndex = i+1;
-				return kJTrue;
+				return true;
 				}
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -783,7 +782,7 @@ JXDisplay::CreateBuiltInCursor
 
 	CursorInfo info;
 
-	info.name = jnew JString(name, 0);
+	info.name = jnew JString(name);
 	assert( info.name != nullptr );
 
 	info.xid = XCreateFontCursor(itsXDisplay, shape);
@@ -812,7 +811,7 @@ JXDisplay::CreateCustomCursor
 
 	CursorInfo info;
 
-	info.name = jnew JString(name, 0);
+	info.name = jnew JString(name);
 	assert( info.name != nullptr );
 
 	info.xid = CreateCustomXCursor(cursor);
@@ -866,11 +865,11 @@ JXDisplay::CreateCustomXCursor
 /******************************************************************************
  GetCursor
 
-	Returns kJTrue if a cursor with the given name has been created.
+	Returns true if a cursor with the given name has been created.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDisplay::GetCursor
 	(
 	const JUtf8Byte*	name,
@@ -885,11 +884,11 @@ JXDisplay::GetCursor
 		if (*(info.name) == name)
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -995,12 +994,12 @@ JXDisplay::HandleEvent
 	else if (xEvent.type == ClientMessage &&
 			 itsDNDManager->HandleClientMessage(xEvent.xclient))
 		{
-		// JXDNDManager handled it if it returns kJTrue
+		// JXDNDManager handled it if it returns true
 		}
 	else if (xEvent.type == DestroyNotify &&
 			 itsDNDManager->HandleDestroyNotify(xEvent.xdestroywindow))
 		{
-		// JXDNDManager handled it if it returns kJTrue
+		// JXDNDManager handled it if it returns true
 		}
 
 	else if ((xEvent.type == ButtonPress || xEvent.type == ButtonRelease) &&
@@ -1097,7 +1096,7 @@ JXDisplay::Update()
 {
 	if (itsNeedsUpdateFlag)
 		{
-		itsNeedsUpdateFlag = kJFalse;	// clear first, in case redraw triggers update
+		itsNeedsUpdateFlag = false;	// clear first, in case redraw triggers update
 
 		for (const WindowInfo& info : *itsWindowList)
 			{
@@ -1137,7 +1136,7 @@ JXDisplay::DispatchCursor()
 /******************************************************************************
  FindMouseContainer
 
-	Returns kJTrue if the mouse is in one of our windows.
+	Returns true if the mouse is in one of our windows.
 
 	Regardless of the return value, if xWindow is not nullptr, it is set to the
 	id of the X window that the cursor is in.  ptG is set to the mouse
@@ -1146,7 +1145,7 @@ JXDisplay::DispatchCursor()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDisplay::FindMouseContainer
 	(
 	JXContainer**	obj,
@@ -1183,11 +1182,11 @@ JXDisplay::FindMouseContainer
 			ptR->y = root_y;
 			}
 		*obj = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JXDisplay::FindMouseContainer
 	(
 	const JXContainer*	coordOwner,
@@ -1229,13 +1228,13 @@ JXDisplay::FindMouseContainer
 			resultPtR->y = y;
 			}
 		*obj = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
 // private
 
-JBoolean
+bool
 JXDisplay::FindMouseContainer
 	(
 	const Window		rootWindow,
@@ -1286,7 +1285,7 @@ JXDisplay::FindMouseContainer
 	else
 		{
 		*obj = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1297,7 +1296,7 @@ JXDisplay::FindMouseContainer
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDisplay::SwitchDrag
 	(
 	JXContainer*			fromObj,
@@ -1343,12 +1342,12 @@ JXDisplay::WindowCreated
 {
 	const WindowInfo newInfo(window, xWindow);
 	JIndex i;
-	if (itsWindowList->InsertSorted(newInfo, kJFalse, &i) && i == 1)
+	if (itsWindowList->InsertSorted(newInfo, false, &i) && i == 1)
 		{
-		window->AcceptSaveYourself(kJTrue);
+		window->AcceptSaveYourself(true);
 		if (itsWindowList->GetElementCount() > 1)
 			{
-			((itsWindowList->GetElement(2)).window)->AcceptSaveYourself(kJFalse);
+			((itsWindowList->GetElement(2)).window)->AcceptSaveYourself(false);
 			}
 		}
 }
@@ -1386,7 +1385,7 @@ JXDisplay::WindowDeleted
 			itsWindowList->RemoveElement(i);
 			if (i == 1 && count > 1)
 				{
-				((itsWindowList->GetElement(1)).window)->AcceptSaveYourself(kJTrue);
+				((itsWindowList->GetElement(1)).window)->AcceptSaveYourself(true);
 				}
 			break;
 			}
@@ -1396,7 +1395,7 @@ JXDisplay::WindowDeleted
 /******************************************************************************
  FindXWindow
 
-	Returns kJTrue if the given xWindow is registered.
+	Returns true if the given xWindow is registered.
 	Since the window list is sorted by xWindow, we use an O(log(N)) binary search.
 
 	We can't call it FindWindow() because Windows #define's FindWindow to
@@ -1404,7 +1403,7 @@ JXDisplay::WindowDeleted
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDisplay::FindXWindow
 	(
 	const Window	xWindow,
@@ -1418,12 +1417,12 @@ JXDisplay::FindXWindow
 		{
 		target  = itsWindowList->GetElement(i);
 		*window = target.window;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*window = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1499,7 +1498,7 @@ JXDisplay::CheckForXErrors()
 	for (const XErrorEvent& error : theXErrorList)
 		{
 		JXDisplay* display;
-		const JBoolean found = JXGetApplication()->FindDisplay(error.display, &display);
+		const bool found = JXGetApplication()->FindDisplay(error.display, &display);
 		assert( found );
 
 		XError msg(error);
@@ -1563,13 +1562,13 @@ JXDebugAfterFunction
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDisplay::WMBehavior::Load
 	(
 	JXDisplay* display
 	)
 {
-	JBoolean success = kJFalse;
+	bool success = false;
 
 	const Atom atom = display->itsStandardXAtoms[ kJXWMBehaviorV0XAtomIndex ];
 
@@ -1622,7 +1621,7 @@ JXDisplay::WMBehavior::Save
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDisplay::WMBehavior::Read
 	(
 	std::istream&		input,
@@ -1631,14 +1630,14 @@ JXDisplay::WMBehavior::Read
 {
 	if (vers > 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	input >> JBoolFromString(desktopMapsWindowsFlag)
 		  >> JBoolFromString(frameCompensateFlag);
 	input >> reshowOffset;
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

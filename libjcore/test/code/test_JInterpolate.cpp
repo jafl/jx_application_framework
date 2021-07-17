@@ -28,22 +28,29 @@ JTEST(Basic)
 	JRegex regex("D([[:alnum:]_]+)::([[:alpha:]_]+)");
 	JInterpolate interpolator;
 
+	JCharacterRange r;
+	JAssertOK(interpolator.ContainsError(JString("J$1::$002", JString::kNoCopy), &r));
+
 	JStringIterator iter(src);
 	JAssertTrue(iter.Next(regex));
 	JString result = interpolator.Interpolate(
-		JString("J$1::$002", kJFalse),
+		JString("J$1::$002", JString::kNoCopy),
 		iter.GetLastMatch());
 	JAssertStringsEqual("JRegex::Replace", result);
 
+	JAssertOK(interpolator.ContainsError(JString("\\$a \\$- \\$ $00 $1 $+2 '$+3' '$9' \"$-1\" $-2 $-3 '$-4' '$-10' \\$", JString::kNoCopy), &r));
+
 	result = interpolator.Interpolate(
-		JString("\\$a \\$- \\$ $00 $1 $+2 '$+3' '$9' \"$-1\" $-2 $-3 '$-4' '$-10' \\$", kJFalse),
+		JString("\\$a \\$- \\$ $00 $1 $+2 '$+3' '$9' \"$-1\" $-2 $-3 '$-4' '$-10' \\$", JString::kNoCopy),
 		iter.GetLastMatch());
 	JAssertStringsEqual(
 		"$a $- $ DRegex::Replace Regex Replace '' '' \"Replace\" Regex DRegex::Replace '' '' $",
 		result);
 
+	JAssertOK(interpolator.ContainsError(JString("J" "$+0001::" "$-1", JString::kNoCopy), &r));
+
 	result = interpolator.Interpolate(
-		JString("J" "$+0001::" "$-1", kJFalse),
+		JString("J" "$+0001::" "$-1", JString::kNoCopy),
 		iter.GetLastMatch());
 	JAssertStringsEqual(
 		"JRegex::Replace",
@@ -52,21 +59,24 @@ JTEST(Basic)
 
 JTEST(Adjacent)
 {
-	JString src(" XabX ", kJFalse);
+	JString src(" XabX ", JString::kNoCopy);
 	JRegex regex("X(a)(b)X");
 	JInterpolate interpolator;
+
+	JCharacterRange r;
+	JAssertOK(interpolator.ContainsError(JString("$2$3$0$-4$1", JString::kNoCopy), &r));
 
 	JStringIterator iter(src);
 	JAssertTrue(iter.Next(regex));
 	JString result = interpolator.Interpolate(
-		JString("$2$3$0$-4$1", kJFalse),
+		JString("$2$3$0$-4$1", JString::kNoCopy),
 		iter.GetLastMatch());
 	JAssertStringsEqual("bXabXa", result);
 }
 
 JTEST(LargeIndex)
 {
-	JString src("abcdefghijklmno", kJFalse);
+	JString src("abcdefghijklmno", JString::kNoCopy);
 	JRegex regex("(.)(.)(.)(.)(.)(.)(.)(.)(.)(.)(.)(.)(.)(.)(.)");
 	JInterpolate interpolator;
 
@@ -83,11 +93,15 @@ JTEST(LargeIndex)
 	JStringIterator iter(src);
 	JAssertTrue(iter.Next(regex));
 
+	JCharacterRange r;
+
 	JIndex i=0;
 	while (patternList[i] != nullptr)
 		{
+		JAssertOK(interpolator.ContainsError(JString(patternList[i], JString::kNoCopy), &r));
+
 		JString result = interpolator.Interpolate(
-			JString(patternList[i], kJFalse),
+			JString(patternList[i], JString::kNoCopy),
 			iter.GetLastMatch());
 		JAssertStringsEqualWithMessage(src, result,
 			("large index pattern #" + JString((JUInt64) i)).GetBytes());
@@ -98,14 +112,17 @@ JTEST(LargeIndex)
 
 JTEST(NamedMatch)
 {
-	JString src(" XabX ", kJFalse);
+	JString src(" XabX ", JString::kNoCopy);
 	JRegex regex("X(?P<foo>a)(?P<bar>b)X");
 	JInterpolate interpolator;
+
+	JCharacterRange r;
+	JAssertOK(interpolator.ContainsError(JString("${bar} ${foo}", JString::kNoCopy), &r));
 
 	JStringIterator iter(src);
 	JAssertTrue(iter.Next(regex));
 	JString result = interpolator.Interpolate(
-		JString("${bar} ${foo}", kJFalse),
+		JString("${bar} ${foo}", JString::kNoCopy),
 		iter.GetLastMatch());
 	JAssertStringsEqual("b a", result);
 }

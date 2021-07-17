@@ -36,8 +36,8 @@ JXRadioButton::JXRadioButton
 {
 	itsID            = id;
 	itsRadioGroup    = enclosure;
-	itsIsCheckedFlag = kJFalse;
-	itsIsPushedFlag  = kJFalse;
+	itsIsCheckedFlag = false;
+	itsIsPushedFlag  = false;
 
 	itsRadioGroup->NewButton(this);
 }
@@ -61,7 +61,7 @@ JXRadioButton::Select()
 {
 	if (!itsIsCheckedFlag)
 		{
-		itsIsCheckedFlag = kJTrue;
+		itsIsCheckedFlag = true;
 		Redraw();
 		itsRadioGroup->NewSelection(this);
 		}
@@ -84,7 +84,7 @@ JXRadioButton::HandleMouseDown
 {
 	if (button == kJXLeftButton)
 		{
-		itsIsPushedFlag = kJTrue;
+		itsIsPushedFlag = true;
 		Redraw();
 		}
 }
@@ -105,15 +105,15 @@ JXRadioButton::HandleMouseDrag
 	if (buttonStates.left())
 		{
 		const JRect frame     = JXContainer::GlobalToLocal(GetFrameGlobal());
-		const JBoolean inside = frame.Contains(pt);
+		const bool inside = frame.Contains(pt);
 		if (inside && !itsIsPushedFlag)
 			{
-			itsIsPushedFlag = kJTrue;
+			itsIsPushedFlag = true;
 			Redraw();
 			}
 		else if (!inside && itsIsPushedFlag)
 			{
-			itsIsPushedFlag = kJFalse;
+			itsIsPushedFlag = false;
 			Redraw();
 			}
 		}
@@ -135,7 +135,7 @@ JXRadioButton::HandleMouseUp
 {
 	if (button == kJXLeftButton && itsIsPushedFlag)
 		{
-		itsIsPushedFlag = kJFalse;
+		itsIsPushedFlag = false;
 		Select();
 		}
 }

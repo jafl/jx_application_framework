@@ -14,7 +14,7 @@
 #include "cmGlobals.h"
 #include <jAssert.h>
 
-static const JString kHandshake("JDWP-Handshake", kJFalse);
+static const JString kHandshake("JDWP-Handshake", JString::kNoCopy);
 const JSize kBufferSize      = 65536;	// 64KB
 const time_t kClientDeadTime = 5;		// seconds
 
@@ -29,10 +29,10 @@ const JUtf8Byte* JVMSocket::kMessageReady = "MessageReady::JVMSocket";
 
 JVMSocket::JVMSocket()
 	:
-	JNetworkProtocolBase<ACE_SOCK_STREAM>(kJFalse),
-	itsHandshakeFinishedFlag(kJFalse),
+	JNetworkProtocolBase<ACE_SOCK_STREAM>(false),
+	itsHandshakeFinishedFlag(false),
 	itsTimerID(-1),
-	itsInHandleInputFlag(kJFalse)
+	itsInHandleInputFlag(false)
 {
 	itsBuffer = jnew unsigned char [ kBufferSize ];
 	assert( itsBuffer != nullptr );
@@ -113,7 +113,7 @@ JVMSocket::handle_input
 		{
 		return 0;
 		}
-	itsInHandleInputFlag = kJTrue;
+	itsInHandleInputFlag = true;
 
 	// read data from the socket
 
@@ -130,7 +130,7 @@ JVMSocket::handle_input
 		if (!itsHandshakeFinishedFlag &&
 			memcmp(itsRecvData->GetCArray(), kHandshake.GetBytes(), kHandshake.GetByteCount()) == 0)
 			{
-			itsHandshakeFinishedFlag = kJTrue;
+			itsHandshakeFinishedFlag = true;
 			itsRecvData->RemoveNextElements(1, kHandshake.GetByteCount());
 
 			dynamic_cast<JVMLink*>(CMGetLink())->InitDebugger();
@@ -143,7 +143,7 @@ JVMSocket::handle_input
 			if (itsRecvData->GetElementCount() >= msgLength)
 				{
 				const JIndex id        = Unpack4(msg + 4);
-				const JBoolean isReply = JI2B(*(msg + 8));
+				const bool isReply = *(msg + 8);
 				const JIndex cmdSet    = *(msg + 9);		// non-reply
 				const JIndex cmd       = *(msg + 10);		// non-reply
 				const JIndex errorCode = Unpack2(msg + 9);	// reply
@@ -160,7 +160,7 @@ JVMSocket::handle_input
 			}
 		}
 
-	itsInHandleInputFlag = kJFalse;
+	itsInHandleInputFlag = false;
 	return 0;
 }
 

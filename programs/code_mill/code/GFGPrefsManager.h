@@ -36,7 +36,7 @@ class GFGPrefsManager : public JXPrefsManager
 {
 public:
 
-	GFGPrefsManager(JBoolean* isNew);
+	GFGPrefsManager(bool* isNew);
 
 	virtual	~GFGPrefsManager();
 
@@ -52,7 +52,7 @@ public:
 	JString	GetYear() const;
 	void	SetYear(const JString& year);
 
-	JString	GetCopyright(const JBoolean replaceVars = kJFalse) const;
+	JString	GetCopyright(const bool replaceVars = false) const;
 	void	SetCopyright(const JString& copyright);
 
 	JString	GetSourceComment(const JString& classname = JString::empty, const JString& base = JString::empty) const;
@@ -69,7 +69,7 @@ public:
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion) override;
+	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
 	virtual void	SaveAllBeforeDestruct() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

@@ -25,7 +25,7 @@ public:
 
 protected:
 
-	virtual JBoolean GetValue(const JString& name, JString* value) const;
+	virtual bool GetValue(const JString& name, JString* value) const;
 
 private:
 

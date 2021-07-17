@@ -23,24 +23,24 @@ public:
 
 	virtual ~JXStandAlonePG();
 
-	virtual JBoolean	ProcessContinuing();
+	virtual bool	ProcessContinuing();
 	virtual void		ProcessFinished();
 
-	void	RaiseWhenUpdate(const JBoolean raise = kJTrue);
+	void	RaiseWhenUpdate(const bool raise = true);
 
 protected:
 
 	virtual void	ProcessBeginning(const ProcessType processType,
 									 const JSize stepCount,
 									 const JString& message,
-									 const JBoolean allowCancel,
-									 const JBoolean allowBackground);
+									 const bool allowCancel,
+									 const bool allowBackground);
 
 private:
 
 	JIndex				itsWindowIndex;
 	JXPGDirectorBase*	itsProgressDirector;
-	JBoolean			itsRaiseWindowFlag;
+	bool			itsRaiseWindowFlag;
 	JSize				itsStepCount;
 
 private:
@@ -65,7 +65,7 @@ private:
 inline void
 JXStandAlonePG::RaiseWhenUpdate
 	(
-	const JBoolean raise
+	const bool raise
 	)
 {
 	itsRaiseWindowFlag = raise;

@@ -25,16 +25,16 @@ public:
 
 	virtual ~JPlotFunctionBase();
 
-	virtual JBoolean	IsFunction() const override;
+	virtual bool	IsFunction() const override;
 	virtual void		GetElement(const JIndex index, J2DDataPoint* data) const override;
 
 	virtual void		GetXRange(JFloat* min, JFloat* max) const override;
-	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const JBoolean xLinear,
+	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
+								  const bool xLinear,
 								  JFloat* yMin, JFloat* yMax) const override;
 
 	virtual JString		GetFunctionString() const = 0;
-	virtual JBoolean	GetYValue(const JFloat x, JFloat* y) const = 0;
+	virtual bool	GetYValue(const JFloat x, JFloat* y) const = 0;
 
 	void	SetXRange(const JFloat xMin, const JFloat xMax);
 
@@ -68,7 +68,7 @@ private:
 
 private:
 
-	void	EvaluateFunction(const JFloat min, const JFloat max, const JBoolean linear,
+	void	EvaluateFunction(const JFloat min, const JFloat max, const bool linear,
 							 const JSize stepCount, JArray<Point>* list) const;
 };
 

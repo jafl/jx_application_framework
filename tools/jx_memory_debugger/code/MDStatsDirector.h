@@ -84,7 +84,7 @@ private:
 
 	void	OpenDebugAcceptor();
 	void	DeleteDebugAcceptor();
-	void	CloseLink(const JBoolean deleteProcess);
+	void	CloseLink(const bool deleteProcess);
 	void	SendRequest(std::ostringstream& data);
 	void	HandleResponse();
 

@@ -25,7 +25,7 @@ public:
 
 	~JStringMatch();
 
-	JBoolean	IsEmpty() const;
+	bool	IsEmpty() const;
 	JSize		GetCharacterCount() const;
 	JSize		GetByteCount() const;
 	JSize		GetSubstringCount() const;
@@ -71,7 +71,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JStringMatch::IsEmpty()
 	const
 {
@@ -111,7 +111,7 @@ inline JString
 JStringMatch::GetString()
 	const
 {
-	return JString(itsTarget.GetRawBytes(), itsByteRange, kJFalse);
+	return JString(itsTarget.GetRawBytes(), itsByteRange, JString::kNoCopy);
 }
 
 /******************************************************************************

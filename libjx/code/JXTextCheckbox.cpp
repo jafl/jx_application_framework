@@ -137,19 +137,19 @@ JXTextCheckbox::Draw
 
 	const JRect boxRect(y - kBoxHalfHeight, kMarginWidth,
 						y + kBoxHalfHeight, kMarginWidth + kBoxHeight);
-	const JBoolean drawChecked = DrawChecked();
-	const JBoolean isActive    = IsActive();
+	const bool drawChecked = DrawChecked();
+	const bool isActive    = IsActive();
 	if (drawChecked && isActive)
 		{
-		JXDrawDownFrame(p, boxRect, kJXDefaultBorderWidth, kJTrue, itsPushedColor);
+		JXDrawDownFrame(p, boxRect, kJXDefaultBorderWidth, true, itsPushedColor);
 		}
 	else if (isActive)
 		{
-		JXDrawUpFrame(p, boxRect, kJXDefaultBorderWidth, kJTrue, itsNormalColor);
+		JXDrawUpFrame(p, boxRect, kJXDefaultBorderWidth, true, itsNormalColor);
 		}
 	else
 		{
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		if (drawChecked)
 			{
 			p.SetPenColor(itsPushedColor);
@@ -159,7 +159,7 @@ JXTextCheckbox::Draw
 			p.SetPenColor(itsNormalColor);
 			}
 		p.JPainter::Rect(boxRect);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 
 		p.SetLineWidth(kJXDefaultBorderWidth);
 		p.SetPenColor(JColorManager::GetInactiveLabelColor());
@@ -208,7 +208,7 @@ JXTextCheckbox::DrawBorder
 JCoordinate
 JXTextCheckbox::GetFTCMinContentSize
 	(
-	const JBoolean horizontal
+	const bool horizontal
 	)
 	const
 {

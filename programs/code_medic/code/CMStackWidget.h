@@ -33,7 +33,7 @@ public:
 
 	void		Update();
 	void		SelectFrame(const JUInt64 id);
-	JBoolean	GetStackFrame(const JUInt64 id, const CMStackFrameNode** frame);
+	bool	GetStackFrame(const JUInt64 id, const CMStackFrameNode** frame);
 	void		SwitchToFrame(const JUInt64 id);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
@@ -68,18 +68,18 @@ private:
 	JTree*				itsTree;
 	CMGetStack*			itsGetStackCmd;
 	CMGetFrame*			itsGetFrameCmd;
-	JBoolean			itsNeedsUpdateFlag;
-	JBoolean			itsSmartFrameSelectFlag;
-	JBoolean			itsIsWaitingForReloadFlag;
-	JBoolean			itsChangingFrameFlag;
-	JBoolean			itsSelectingFrameFlag;
+	bool			itsNeedsUpdateFlag;
+	bool			itsSmartFrameSelectFlag;
+	bool			itsIsWaitingForReloadFlag;
+	bool			itsChangingFrameFlag;
+	bool			itsSelectingFrameFlag;
 
 private:
 
-	JBoolean	SelectNextFrame(const JInteger delta);
+	bool	SelectNextFrame(const JInteger delta);
 
 	void		FlushOldData();
-	JBoolean	ShouldRebuild() const;
+	bool	ShouldRebuild() const;
 	void		Rebuild();
 
 	// not allowed

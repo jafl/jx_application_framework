@@ -31,7 +31,7 @@ public:
 
 	void	SetPath(const JString& path);
 
-	JBoolean	ReadSetup(const JBoolean update);
+	bool	ReadSetup(const bool update);
 	void		WriteSetup();
 
 protected:

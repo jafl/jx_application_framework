@@ -68,18 +68,18 @@ public:
 
 	virtual ~CBProjectTable();
 
-	JBoolean	NewGroup(CBGroupNode** returnNode = nullptr);
+	bool	NewGroup(CBGroupNode** returnNode = nullptr);
 	void		AddDirectoryTree();
 	void		AddDirectoryTree(const JString& fullPath,
 								 const CBRelPathCSF::PathType pathType);
 	void		AddFiles();
-	JBoolean	AddFiles(const JPtrArray<JString>& fullNameList,
+	bool	AddFiles(const JPtrArray<JString>& fullNameList,
 						 const CBRelPathCSF::PathType pathType,
-						 const JBoolean updateProject = kJTrue,
-						 const JBoolean silent = kJFalse);
+						 const bool updateProject = true,
+						 const bool silent = false);
 
-	JBoolean	HasSelection() const;
-	JBoolean	GetSelectionType(SelType* type, JBoolean* single, JIndex* index) const;
+	bool	HasSelection() const;
+	bool	GetSelectionType(SelType* type, bool* single, JIndex* index) const;
 	void		SelectAll();
 	void		ClearSelection();
 	void		SelectFileNodes(const JPtrArray<JTreeNode>& nodeList);
@@ -105,8 +105,8 @@ public:
 
 	virtual void		HandleKeyPress(const JUtf8Character& c,
 									   const int keySym, const JXKeyModifiers& modifiers) override;
-	virtual JBoolean	IsSelectable(const JPoint& cell,
-									 const JBoolean forExtend) const override;
+	virtual bool	IsSelectable(const JPoint& cell,
+									 const bool forExtend) const override;
 
 	void	SetInputAction(const InputAction action);
 
@@ -114,7 +114,7 @@ protected:
 
 	JSize		GetDepth(const JIndex index) const;
 
-	virtual JBoolean	GetImage(const JIndex index, const JXImage** image) const override;
+	virtual bool	GetImage(const JIndex index, const JXImage** image) const override;
 	virtual void		AdjustToTree() override;
 
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
@@ -137,9 +137,9 @@ protected:
 								 const JXButtonStates& buttonStates,
 								 const JXKeyModifiers& modifiers) override;
 	virtual void	HandleDNDResponse(const JXContainer* target,
-									  const JBoolean dropAccepted, const Atom action) override;
+									  const bool dropAccepted, const Atom action) override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDEnter() override;
@@ -152,7 +152,7 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual JBoolean		ExtractInputData(const JPoint& cell) override;
+	virtual bool		ExtractInputData(const JPoint& cell) override;
 	virtual void			PrepareDeleteXInputField() override;
 
 	virtual JXInputField*
@@ -190,9 +190,9 @@ private:
 	JXImageButton*		itsCSFButton;		// nullptr unless editing CBFileNodeBase
 
 	JSize		itsSelDepth;				// depth of items that can be selected
-	JBoolean	itsIgnoreSelChangesFlag;	// kJTrue while cleaning selection
-	JBoolean	itsMarkWritableFlag;		// kJTrue if mark writable files (e.g. CVS)
-	JBoolean	itsLockedSelDepthFlag;		// kJTrue if don't change the selection depth
+	bool	itsIgnoreSelChangesFlag;	// true while cleaning selection
+	bool	itsMarkWritableFlag;		// true if mark writable files (e.g. CVS)
+	bool	itsLockedSelDepthFlag;		// true if don't change the selection depth
 
 	JXGetStringDialog*		itsAddFilesFilterDialog;
 	JString					itsAddPath;
@@ -241,7 +241,7 @@ private:
 	void	AddDirectoryTree(const JString& fullPath, const JString& relPath,
 							 const JString& filterStr,
 							 const CBRelPathCSF::PathType pathType,
-							 JBoolean* changed);
+							 bool* changed);
 
 	// not allowed
 

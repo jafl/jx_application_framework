@@ -31,13 +31,13 @@ public:
 	JIndex	GetSelectedItem() const;
 	void	SelectItem(const JIndex id);
 
-	JBoolean	GetRadioButton(const JIndex id, JXRadioButton** rb) const;
+	bool	GetRadioButton(const JIndex id, JXRadioButton** rb) const;
 
 protected:
 
 	virtual void		Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual void		DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	virtual JBoolean	NeedsInternalFTC() const override;
+	virtual bool	NeedsInternalFTC() const override;
 
 private:
 

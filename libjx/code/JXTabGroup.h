@@ -39,19 +39,19 @@ public:
 	virtual void	Activate() override;		// must call inherited
 
 	JSize		GetTabCount() const;
-	JBoolean	GetCurrentTabIndex(JIndex* index) const;
+	bool	GetCurrentTabIndex(JIndex* index) const;
 
 	JXContainer*	InsertTab(const JIndex index, const JString& title,
-							  const JBoolean closeable = kJFalse);
-	JXContainer*	PrependTab(const JString& title, const JBoolean closeable = kJFalse);
-	JXContainer*	AppendTab(const JString& title, const JBoolean closeable = kJFalse);
+							  const bool closeable = false);
+	JXContainer*	PrependTab(const JString& title, const bool closeable = false);
+	JXContainer*	AppendTab(const JString& title, const bool closeable = false);
 
 	void			InsertTab(const JIndex index, const JString& title,
-							  JXWidgetSet* card, const JBoolean closeable = kJFalse);
+							  JXWidgetSet* card, const bool closeable = false);
 	void			PrependTab(const JString& title, JXWidgetSet* card,
-							   const JBoolean closeable = kJFalse);
+							   const bool closeable = false);
 	void			AppendTab(const JString& title, JXWidgetSet* card,
-							  const JBoolean closeable = kJFalse);
+							  const bool closeable = false);
 
 	JXContainer*	RemoveTab(const JIndex index);
 	void			DeleteTab(const JIndex index);
@@ -60,11 +60,11 @@ public:
 	const JString&	GetTabTitle(const JIndex index) const;
 	void			SetTabTitle(const JIndex index, const JString& title);
 
-	JBoolean	TabCanClose(const JIndex index) const;
-	void		SetTabCanClose(const JIndex index, const JBoolean closable);
+	bool	TabCanClose(const JIndex index) const;
+	void		SetTabCanClose(const JIndex index, const bool closable);
 
-	JBoolean		ShowTab(const JIndex index);
-	JBoolean		ShowTab(JXContainer* card);
+	bool		ShowTab(const JIndex index);
+	bool		ShowTab(JXContainer* card);
 	void			ShowPreviousTab();
 	void			ShowNextTab();
 	void			ScrollTabsIntoView();
@@ -92,10 +92,10 @@ public:
 
 protected:
 
-	JBoolean			FindTab(const JPoint& pt, JIndex* index, JRect* rect) const;
-	JBoolean			GetMouseTabIndex(JIndex* index) const;
-	virtual JBoolean	OKToDeleteTab(const JIndex index);
-	JBoolean			ScrollForWheel(const JXMouseButton button,
+	bool			FindTab(const JPoint& pt, JIndex* index, JRect* rect) const;
+	bool			GetMouseTabIndex(JIndex* index) const;
+	virtual bool	OKToDeleteTab(const JIndex index);
+	bool			ScrollForWheel(const JXMouseButton button,
 									   const JXKeyModifiers& modifiers);
 
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
@@ -118,14 +118,14 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
 	virtual void		HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
 										const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	NeedsInternalFTC() const override;
+	virtual bool	NeedsInternalFTC() const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -133,14 +133,14 @@ private:
 
 	struct TabInfo
 	{
-		JBoolean	closable;
+		bool	closable;
 		JCoordinate	preMargin;
 		JCoordinate	postMargin;
 
 		TabInfo();
-		TabInfo(const JBoolean closable);
+		TabInfo(const bool closable);
 
-		TabInfo(const JBoolean c, const JCoordinate pre, const JCoordinate post)
+		TabInfo(const bool c, const JCoordinate pre, const JCoordinate post)
 			:
 			closable(c), preMargin(pre), postMargin(post)
 		{ };
@@ -160,9 +160,9 @@ private:
 	JFont				itsFont;
 	JPtrArray<JString>*	itsTitles;
 	JArray<TabInfo>*	itsTabInfoList;
-	JBoolean			itsCanScrollUpFlag;
+	bool			itsCanScrollUpFlag;
 	JRect				itsScrollUpRect;
-	JBoolean			itsCanScrollDownFlag;
+	bool			itsCanScrollDownFlag;
 	JRect				itsScrollDownRect;
 	JIndex				itsFirstDrawIndex;
 	JIndex				itsLastDrawIndex;
@@ -176,19 +176,19 @@ private:
 	// used during dragging
 
 	DragAction	itsDragAction;
-	JBoolean	itsScrollUpPushedFlag;
-	JBoolean	itsScrollDownPushedFlag;
+	bool	itsScrollUpPushedFlag;
+	bool	itsScrollDownPushedFlag;
 
 	JIndex		itsMouseIndex;
 	JRect		itsCloseRect;
-	JBoolean	itsClosePushedFlag;
+	bool	itsClosePushedFlag;
 
 private:
 
 	void	UpdateAppearance();
 	void	PlaceCardFile();
 	void	DrawTabBorder(JXWindowPainter& p, const JRect& rect,
-						  const JBoolean isSelected);
+						  const bool isSelected);
 	void	DrawCloseButton(const JIndex index, JXWindowPainter& p,
 							const JRect& rect);
 	void	DrawScrollButtons(JXWindowPainter& p, const JCoordinate lineHeight);
@@ -240,7 +240,7 @@ JXTabGroup::GetTabCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTabGroup::GetCurrentTabIndex
 	(
 	JIndex* index
@@ -255,7 +255,7 @@ JXTabGroup::GetCurrentTabIndex
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTabGroup::GetMouseTabIndex
 	(
 	JIndex* index
@@ -263,7 +263,7 @@ JXTabGroup::GetMouseTabIndex
 	const
 {
 	*index = itsMouseIndex;
-	return JI2B( itsMouseIndex > 0 );
+	return itsMouseIndex > 0;
 }
 
 /******************************************************************************
@@ -275,7 +275,7 @@ inline JXContainer*
 JXTabGroup::PrependTab
 	(
 	const JString&	title,
-	const JBoolean	closeable
+	const bool	closeable
 	)
 {
 	return InsertTab(1, title, closeable);
@@ -286,7 +286,7 @@ JXTabGroup::PrependTab
 	(
 	const JString&	title,
 	JXWidgetSet*	card,
-	const JBoolean	closeable
+	const bool	closeable
 	)
 {
 	InsertTab(1, title, card, closeable);
@@ -301,7 +301,7 @@ inline JXContainer*
 JXTabGroup::AppendTab
 	(
 	const JString&	title,
-	const JBoolean	closeable
+	const bool	closeable
 	)
 {
 	return InsertTab(GetTabCount()+1, title, closeable);
@@ -312,7 +312,7 @@ JXTabGroup::AppendTab
 	(
 	const JString&	title,
 	JXWidgetSet*	card,
-	const JBoolean	closeable
+	const bool	closeable
 	)
 {
 	InsertTab(GetTabCount()+1, title, card, closeable);
@@ -403,7 +403,7 @@ JXTabGroup::SetTabTitle
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXTabGroup::TabCanClose
 	(
 	const JIndex index
@@ -417,7 +417,7 @@ inline void
 JXTabGroup::SetTabCanClose
 	(
 	const JIndex	index,
-	const JBoolean	closable
+	const bool	closable
 	)
 {
 	TabInfo info = itsTabInfoList->GetElement(index);

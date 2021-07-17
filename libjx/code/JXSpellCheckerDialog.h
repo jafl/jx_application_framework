@@ -28,8 +28,8 @@ public:
 	virtual ~JXSpellCheckerDialog();
 
 	virtual void		Activate() override;
-	virtual JBoolean	Deactivate() override;
-	virtual JBoolean	Close() override;
+	virtual bool	Deactivate() override;
+	virtual bool	Close() override;
 
 	void	Check();
 
@@ -43,7 +43,7 @@ private:
 	JXTEBase*				itsEditor;				// not owned
 	JStyledText::TextRange	itsCheckRange;
 	JStyledText::TextIndex	itsCurrentIndex;
-	JBoolean				itsFoundErrorsFlag;
+	bool				itsFoundErrorsFlag;
 
 	JXSpellList*		itsSuggestionWidget;
 	JPtrArray<JString>*	itsSuggestionList;

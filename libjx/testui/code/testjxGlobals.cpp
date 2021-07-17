@@ -30,7 +30,7 @@ void
 TestjxCreateGlobals
 	(
 	TestApp*		app,
-	const JBoolean	wantMDI
+	const bool	wantMDI
 	)
 {
 	theApplication = app;
@@ -43,7 +43,7 @@ TestjxCreateGlobals
 		jnew TestDockManager(JXGetApplication()->GetCurrentDisplay());
 	assert( theDockManager != nullptr );
 
-	if (JFileExists(JString(kDockSetupFileName, kJFalse)))
+	if (JFileExists(JString(kDockSetupFileName, false)))
 		{
 		std::ifstream input(kDockSetupFileName);
 		theDockManager->ReadSetup(input);
@@ -92,12 +92,12 @@ TestjxGetApplication()
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestjxGetMDIServer
 	(
 	TestMDIServer** server
 	)
 {
 	*server = theMDIServer;
-	return JBoolean( theMDIServer != nullptr );
+	return bool( theMDIServer != nullptr );
 }

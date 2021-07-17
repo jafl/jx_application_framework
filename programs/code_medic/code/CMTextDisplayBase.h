@@ -18,7 +18,7 @@ class CMTextDisplayBase : public JXTEBase
 {
 public:
 
-	CMTextDisplayBase(const Type type, const JBoolean breakCROnly,
+	CMTextDisplayBase(const Type type, const bool breakCROnly,
 					  JXMenuBar* menuBar,
 					  JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 					  const HSizingOption hSizing, const VSizingOption vSizing,
@@ -26,7 +26,7 @@ public:
 					  const JCoordinate w, const JCoordinate h);
 
 	CMTextDisplayBase(JXStyledText* text,
-					  const Type type, const JBoolean breakCROnly,
+					  const Type type, const bool breakCROnly,
 					  JXMenuBar* menuBar,
 					  JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 					  const HSizingOption hSizing, const VSizingOption vSizing,

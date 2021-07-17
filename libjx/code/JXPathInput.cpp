@@ -33,7 +33,7 @@ JXPathInput::JXPathInput
 	)
 	:
 	JXFSInputBase(jnew StyledText(this, enclosure->GetFontManager()),
-				  kJFalse, "Hint::JXPathInput",
+				  false, "Hint::JXPathInput",
 				  enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXPathInputX();
@@ -53,7 +53,7 @@ JXPathInput::JXPathInput
 	const JCoordinate	h
 	)
 	:
-	JXFSInputBase(text, kJFalse, "Hint::JXPathInput",
+	JXFSInputBase(text, false, "Hint::JXPathInput",
 				  enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXPathInputX();
@@ -64,8 +64,8 @@ JXPathInput::JXPathInput
 void
 JXPathInput::JXPathInputX()
 {
-	itsAllowInvalidPathFlag = kJFalse;
-	itsRequireWriteFlag     = kJFalse;
+	itsAllowInvalidPathFlag = false;
+	itsRequireWriteFlag     = false;
 }
 
 /******************************************************************************
@@ -80,14 +80,14 @@ JXPathInput::~JXPathInput()
 /******************************************************************************
  GetPath (virtual)
 
-	Returns kJTrue if the current path is valid.  In this case, *path is
+	Returns true if the current path is valid.  In this case, *path is
 	set to the full path, relative to the root directory.
 
 	Use this instead of GetText(), because that may return a relative path.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPathInput::GetPath
 	(
 	JString* path
@@ -97,15 +97,15 @@ JXPathInput::GetPath
 	const JString& text = GetText().GetText();
 
 	JString basePath;
-	const JBoolean hasBasePath = GetBasePath(&basePath);
+	const bool hasBasePath = GetBasePath(&basePath);
 
-	return JI2B(!text.IsEmpty() &&
+	return !text.IsEmpty() &&
 				(JIsAbsolutePath(text) || hasBasePath) &&
 				JConvertToAbsolutePath(text, basePath, path) &&
 				JDirectoryExists(*path) &&
 				JDirectoryReadable(*path) &&
 				JCanEnterDirectory(*path) &&
-				(!itsRequireWriteFlag || JDirectoryWritable(*path)));
+				(!itsRequireWriteFlag || JDirectoryWritable(*path));
 }
 
 /******************************************************************************
@@ -113,16 +113,16 @@ JXPathInput::GetPath
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPathInput::InputValid()
 {
 	if (itsAllowInvalidPathFlag)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (!JXFSInputBase::InputValid())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JString& text = GetText()->GetText();
@@ -132,20 +132,20 @@ JXPathInput::InputValid()
 		}
 
 	JString basePath;
-	const JBoolean hasBasePath = GetBasePath(&basePath);
+	const bool hasBasePath = GetBasePath(&basePath);
 
 	JString path;
 	if (JIsRelativePath(text) && !hasBasePath)
 		{
 		JGetUserNotification()->ReportError(JGetString("NoRelPath::JXPathInput"));
 		GetText()->RestyleAll();
-		return kJFalse;
+		return false;
 		}
 	if (!JConvertToAbsolutePath(text, basePath, &path))
 		{
 		JGetUserNotification()->ReportError(JGetString("InvalidDir::JXPathInput"));
 		GetText()->RestyleAll();
-		return kJFalse;
+		return false;
 		}
 
 	const JString currDir = JGetCurrentDirectory();
@@ -158,17 +158,17 @@ JXPathInput::InputValid()
 			{
 			JGetUserNotification()->ReportError(JGetString("Unreadable::JXPathInput"));
 			GetText()->RestyleAll();
-			return kJFalse;
+			return false;
 			}
 		else if (itsRequireWriteFlag && !JDirectoryWritable(path))
 			{
 			JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXGlobal"));
 			GetText()->RestyleAll();
-			return kJFalse;
+			return false;
 			}
 		else
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -192,7 +192,7 @@ JXPathInput::InputValid()
 
 	JGetUserNotification()->ReportError(JGetString(errID));
 	GetText()->RestyleAll();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -211,7 +211,7 @@ JXPathInput::GetTextColor
 	(
 	const JString&	path,
 	const JString&	base,
-	const JBoolean	requireWrite
+	const bool	requireWrite
 	)
 {
 	if (path.IsEmpty())
@@ -248,7 +248,7 @@ JXPathInput::GetTextForChoosePath()
 	JString text = GetText().GetText();
 
 	JString basePath;
-	const JBoolean hasBasePath = GetBasePath(&basePath);
+	const bool hasBasePath = GetBasePath(&basePath);
 
 	if (text.IsEmpty() && hasBasePath)
 		{
@@ -271,7 +271,7 @@ JXPathInput::GetTextForChoosePath()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPathInput::ChoosePath
 	(
 	const JString& prompt,
@@ -286,11 +286,11 @@ JXPathInput::ChoosePath
 		 JGetChooseSaveFile()->ChooseRPath(prompt, instr, origPath, &newPath)))
 		{
 		GetText()->SetText(newPath);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

@@ -33,7 +33,7 @@ enum
 CMMDIServer::CMMDIServer()
 	:
 	JXMDIServer(),
-	itsFirstTimeFlag(kJTrue)
+	itsFirstTimeFlag(true)
 {
 }
 
@@ -70,10 +70,10 @@ CMMDIServer::HandleMDIRequest
 
 	JIndex context = kWaitingForProgram;
 	JString program, core;
-	JBoolean forcedType = kJFalse;
+	bool forcedType = false;
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
 	JArray<JIndex> lineIndexList;
-	JArray<JBoolean> breakList;
+	JArray<bool> breakList;
 
 	const JSize count = argList.GetElementCount();
 	for (JIndex i=2; i<=count; i++)
@@ -82,25 +82,25 @@ CMMDIServer::HandleMDIRequest
 
 		if (*arg == "--gdb")
 			{
-			forcedType = kJTrue;
+			forcedType = true;
 			CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kGDBType);
 			continue;
 			}
 		else if (*arg == "--lldb")
 			{
-			forcedType = kJTrue;
+			forcedType = true;
 			CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kLLDBType);
 			continue;
 			}
 		else if (*arg == "--xdebug")
 			{
-			forcedType = kJTrue;
+			forcedType = true;
 			CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kXdebugType);
 			continue;
 			}
 		else if (*arg == "--java")
 			{
-			forcedType = kJTrue;
+			forcedType = true;
 			CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kJavaType);
 			continue;
 			}
@@ -140,7 +140,7 @@ CMMDIServer::HandleMDIRequest
 				 context == kWaitingForBreakpoint)
 			{
 			// must do before changing context
-			breakList.AppendElement(JI2B(context == kWaitingForBreakpoint));
+			breakList.AppendElement(context == kWaitingForBreakpoint);
 
 			const JString* arg = argList.GetElement(i);
 			if (arg->GetFirstCharacter() == '+')
@@ -176,7 +176,7 @@ CMMDIServer::HandleMDIRequest
 			}
 		}
 
-	const JBoolean wasFirstTime = itsFirstTimeFlag;
+	const bool wasFirstTime = itsFirstTimeFlag;
 	if (itsFirstTimeFlag)
 		{
 		if (!program.IsEmpty())
@@ -189,7 +189,7 @@ CMMDIServer::HandleMDIRequest
 			CMGetLink()->SetProgram(program);
 			}
 
-		itsFirstTimeFlag = kJFalse;
+		itsFirstTimeFlag = false;
 		}
 
 	if (!core.IsEmpty())
@@ -211,12 +211,12 @@ CMMDIServer::HandleMDIRequest
 			else
 				{
 				CMGetLink()->SetBreakpoint(*fileName, lineIndex);
-				CMLink::NotifyUser("Breakpoint set in " + *fileName + " at line " + JString((JUInt64) lineIndex) + "\n\n", kJFalse);
+				CMLink::NotifyUser("Breakpoint set in " + *fileName + " at line " + JString((JUInt64) lineIndex) + "\n\n", false);
 				}
 			}
 		else
 			{
-			cmdDir->OpenSourceFile(*fileName, lineIndex, kJFalse);
+			cmdDir->OpenSourceFile(*fileName, lineIndex, false);
 			}
 		}
 
@@ -269,7 +269,7 @@ CMMDIServer::UpdateDebuggerType
 
  *****************************************************************************/
 
-JBoolean
+bool
 CMMDIServer::IsBinary
 	(
 	const JString& fileName
@@ -281,21 +281,21 @@ CMMDIServer::IsBinary
 	std::ifstream input(fileName.GetBytes());
 	input.read(buffer, 1000);
 
-	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
+	JUtf8Character::SetIgnoreBadUtf8(true);
 
 	JSize byteCount;
 	for (JIndex i = 0; i < 995; )
 		{
 		if (!JUtf8Character::GetCharacterByteCount(buffer + i, &byteCount))
 			{
-			JUtf8Character::SetIgnoreBadUtf8(kJFalse);
-			return kJFalse;
+			JUtf8Character::SetIgnoreBadUtf8(false);
+			return false;
 			}
 		i += byteCount;
 		}
 
-	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
-	return kJTrue;
+	JUtf8Character::SetIgnoreBadUtf8(false);
+	return true;
 }
 
 /******************************************************************************
@@ -303,7 +303,7 @@ CMMDIServer::IsBinary
 
  *****************************************************************************/
 
-JBoolean
+bool
 CMMDIServer::GetLanguage
 	(
 	const JString&	fileName,
@@ -314,9 +314,9 @@ CMMDIServer::GetLanguage
 
 	std::ifstream input(fileName.GetBytes());
 
-	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
+	JUtf8Character::SetIgnoreBadUtf8(true);
 	JString line = JReadLine(input);
-	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
+	JUtf8Character::SetIgnoreBadUtf8(false);
 
 	line.TrimWhitespace();
 	if (line.BeginsWith("code-medic:"))

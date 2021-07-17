@@ -27,7 +27,7 @@ JString				GFGGetVersionStr();
 
 	// called by GFGApp
 
-JBoolean	GFGCreateGlobals(GFGApp* app);
+bool	GFGCreateGlobals(GFGApp* app);
 void		GFGDeleteGlobals();
 void		GFGCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 

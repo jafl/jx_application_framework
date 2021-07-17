@@ -128,15 +128,15 @@ JXStyleMenu::JXStyleMenuX()
 	const JColorID blackColor = JColorManager::GetBlackColor();
 
 	SetItemFontStyle(
-		kBoldStyleCmd,         JFontStyle(kJTrue, kJFalse, 0, kJFalse, blackColor));
+		kBoldStyleCmd,         JFontStyle(true, false, 0, false, blackColor));
 	SetItemFontStyle(
-		kItalicStyleCmd,       JFontStyle(kJFalse, kJTrue, 0, kJFalse, blackColor));
+		kItalicStyleCmd,       JFontStyle(false, true, 0, false, blackColor));
 	SetItemFontStyle(
-		kUnderlineStyleCmd,    JFontStyle(kJFalse, kJFalse, 1, kJFalse, blackColor));
+		kUnderlineStyleCmd,    JFontStyle(false, false, 1, false, blackColor));
 	SetItemFontStyle(
-		kDblUnderlineStyleCmd, JFontStyle(kJFalse, kJFalse, 2, kJFalse, blackColor));
+		kDblUnderlineStyleCmd, JFontStyle(false, false, 2, false, blackColor));
 	SetItemFontStyle(
-		kStrikeStyleCmd,       JFontStyle(kJFalse, kJFalse, 0, kJTrue, blackColor));
+		kStrikeStyleCmd,       JFontStyle(false, false, 0, true, blackColor));
 
 	assert( kColorCount == 11 );
 	itsColorList[ 0] = blackColor;
@@ -269,40 +269,40 @@ JXStyleMenu::UpdateMenu()
 
 	// styles
 
-	JBoolean plain = kJTrue;
+	bool plain = true;
 
 	if (style.bold)
 		{
 		CheckItem(kBoldStyleCmd);
-		plain = kJFalse;
+		plain = false;
 		}
 
 	if (style.italic)
 		{
 		CheckItem(kItalicStyleCmd);
-		plain = kJFalse;
+		plain = false;
 		}
 
 	if (style.underlineCount == 1)
 		{
 		CheckItem(kUnderlineStyleCmd);
-		plain = kJFalse;
+		plain = false;
 		}
 	else if (style.underlineCount == 2)
 		{
 		CheckItem(kDblUnderlineStyleCmd);
-		plain = kJFalse;
+		plain = false;
 		}
 	else if (style.underlineCount > 0)
 		{
 		// no menu item to check, but it's not plain
-		plain = kJFalse;
+		plain = false;
 		}
 
 	if (style.strike)
 		{
 		CheckItem(kStrikeStyleCmd);
-		plain = kJFalse;
+		plain = false;
 		}
 
 	if (plain && style.color == JColorManager::GetBlackColor())

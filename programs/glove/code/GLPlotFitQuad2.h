@@ -29,15 +29,15 @@ public:
 					const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotFitQuad2();	
 
-	virtual JBoolean	GetParameterName(const JIndex index, JString* name) const;
-	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const;
+	virtual bool	GetParameterName(const JIndex index, JString* name) const;
+	virtual bool	GetParameter(const JIndex index, JFloat* value) const;
 
-	virtual JBoolean	GetParameterError(const JIndex index, JFloat* value) const;
+	virtual bool	GetParameterError(const JIndex index, JFloat* value) const;
 
 	virtual JString		GetFunctionString() const;
 	virtual JString		GetFitFunctionString() const;
 
-	virtual JBoolean	GetYValue(const JFloat x, JFloat* y) const;
+	virtual bool	GetYValue(const JFloat x, JFloat* y) const;
 
 protected:
 

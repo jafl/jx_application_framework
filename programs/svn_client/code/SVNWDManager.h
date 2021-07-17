@@ -16,19 +16,19 @@ class SVNWDManager : public JXWDManager
 {
 public:
 
-	SVNWDManager(JXDisplay* display, const JBoolean wantShortcuts);
+	SVNWDManager(JXDisplay* display, const bool wantShortcuts);
 
 	virtual ~SVNWDManager();
 
-	JBoolean			NewBrowser(SVNMainDirector** dir);
-	JBoolean			GetBrowser(const JString& path, SVNMainDirector** dir);
-	JBoolean			GetBrowserForExactURL(const JString& url, SVNMainDirector** dir);
-	SVNMainDirector*	OpenDirectory(const JString& path, JBoolean* wasOpen = nullptr);
+	bool			NewBrowser(SVNMainDirector** dir);
+	bool			GetBrowser(const JString& path, SVNMainDirector** dir);
+	bool			GetBrowserForExactURL(const JString& url, SVNMainDirector** dir);
+	SVNMainDirector*	OpenDirectory(const JString& path, bool* wasOpen = nullptr);
 
 	// called by CBPrefsManager
 
-	JBoolean	RestoreState(std::istream& input);
-	JBoolean	SaveState(std::ostream& output) const;
+	bool	RestoreState(std::istream& input);
+	bool	SaveState(std::ostream& output) const;
 
 private:
 

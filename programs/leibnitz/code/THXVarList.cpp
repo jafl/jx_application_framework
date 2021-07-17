@@ -47,7 +47,7 @@ THXVarList::THXVarList
 	JArray<JIndex> misfitIndexList;
 	JPtrArray<JString> misfitFnList(JPtrArrayT::kDeleteAll);
 
-	JGetUserNotification()->SetSilent(kJTrue);		// complain the second time
+	JGetUserNotification()->SetSilent(true);		// complain the second time
 
 	JExprParser p(this);
 
@@ -76,7 +76,7 @@ THXVarList::THXVarList
 			}
 		}
 
-	JGetUserNotification()->SetSilent(kJFalse);
+	JGetUserNotification()->SetSilent(false);
 
 	const JSize misfitCount = misfitIndexList.GetElementCount();
 	for (JIndex i=1; i<=misfitCount; i++)
@@ -194,7 +194,7 @@ THXVarList::RemoveFunction
 
  ******************************************************************************/
 
-JBoolean
+bool
 THXVarList::SetVariableName
 	(
 	const JIndex	varIndex,
@@ -206,19 +206,19 @@ THXVarList::SetVariableName
 	JIndex index;
 	if (!JVariableList::NameValid(name))
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (ParseVariableName(name, &index) && index != varIndex)
 		{
 		JGetUserNotification()->ReportError(JGetString("NameUsed::THXVarList"));
-		return kJFalse;
+		return false;
 		}
 	else
 		{
 		JString* varName = itsNames->GetElement(varIndex);
 		*varName = name;
 		Broadcast(VarNameChanged(varIndex));
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -227,7 +227,7 @@ THXVarList::SetVariableName
 
  ******************************************************************************/
 
-JBoolean
+bool
 THXVarList::SetFunction
 	(
 	const JIndex	index,
@@ -243,11 +243,11 @@ THXVarList::SetFunction
 		{
 		itsFunctions->SetElement(index, f, JPtrArrayT::kDelete);
 		Broadcast(VarValueChanged(index,1));
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -303,14 +303,14 @@ THXVarList::GetVariableName
 
  ******************************************************************************/
 
-JBoolean
+bool
 THXVarList::IsArray
 	(
 	const JIndex index
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -318,7 +318,7 @@ THXVarList::IsArray
 
  ******************************************************************************/
 
-JBoolean
+bool
 THXVarList::ArrayIndexValid
 	(
 	const JIndex variableIndex,
@@ -326,7 +326,7 @@ THXVarList::ArrayIndexValid
 	)
 	const
 {
-	return JConvertToBoolean( elementIndex == 1 );
+	return elementIndex == 1;
 }
 
 /******************************************************************************
@@ -334,7 +334,7 @@ THXVarList::ArrayIndexValid
 
  ******************************************************************************/
 
-JBoolean
+bool
 THXVarList::GetNumericValue
 	(
 	const JIndex	variableIndex,
@@ -349,21 +349,21 @@ THXVarList::GetNumericValue
 		if (IsOnEvalStack(variableIndex))
 			{
 			*value = 0.0;
-			return kJFalse;
+			return false;
 			}
 		PushOnEvalStack(variableIndex);
-		const JBoolean ok = f->Evaluate(value);
+		const bool ok = f->Evaluate(value);
 		PopOffEvalStack(variableIndex);
 		return ok;
 		}
 	else
 		{
 		*value = 0.0;
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 THXVarList::GetNumericValue
 	(
 	const JIndex	variableIndex,
@@ -378,17 +378,17 @@ THXVarList::GetNumericValue
 		if (IsOnEvalStack(variableIndex))
 			{
 			*value = 0.0;
-			return kJFalse;
+			return false;
 			}
 		PushOnEvalStack(variableIndex);
-		const JBoolean ok = f->Evaluate(value);
+		const bool ok = f->Evaluate(value);
 		PopOffEvalStack(variableIndex);
 		return ok;
 		}
 	else
 		{
 		*value = 0.0;
-		return kJFalse;
+		return false;
 		}
 }
 

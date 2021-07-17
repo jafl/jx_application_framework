@@ -51,7 +51,7 @@ JTEST(File)
 	JString path, name;
 	JAssertTrue(JSplitPathAndName(testFileName, &path, &name));
 
-	JString s = JGetUniqueDirEntryName(path, JString("test_j_file_util_", kJFalse));
+	JString s = JGetUniqueDirEntryName(path, JString("test_j_file_util_", JString::kNoCopy));
 	JAssertOK(JRenameFile(testFileName, s));
 	JAssertFalse(JFileExists(testFileName));
 	JAssertTrue(JFileExists(s));
@@ -61,8 +61,8 @@ JTEST(File)
 
 JTEST(Symlink)
 {
-	JString f1("data/test_JString.txt", kJFalse);
-	JString f2("test_jFileUtil.dat", kJFalse);
+	JString f1("data/test_JString.txt", JString::kNoCopy);
+	JString f2("test_jFileUtil.dat", JString::kNoCopy);
 
 	JAssertTrue(JFileExists(f1));
 	if (JFileExists(f2))
@@ -86,16 +86,16 @@ JTEST(Permissions)
 
 JTEST(Directory)
 {
-	JString dirName("code", kJFalse);
+	JString dirName("code", JString::kNoCopy);
 	JAssertFalse(JFileExists(dirName));
 	JAssertTrue(JDirectoryExists(dirName));
 	JAssertTrue(JDirectoryWritable(dirName));
 	JAssertTrue(JCanEnterDirectory(dirName));
 
-	JString d1("junk", kJFalse);
+	JString d1("junk", JString::kNoCopy);
 	JAssertOK(JCreateDirectory(d1));
 
-	JString d2("junk2", kJFalse);
+	JString d2("junk2", JString::kNoCopy);
 	JAssertOK(JRenameDirectory(d1, d2));
 
 	JAssertOK(JRemoveDirectory(d2));
@@ -107,14 +107,14 @@ JTEST(Directory)
 	JAssertTrue(JGetTempDirectory(&path));
 
 	JAssertTrue(JSearchSubdirs(
-		JString(".", kJFalse),
-		JString("test_JFileUtil.cpp", kJFalse),
-		kJTrue, kJFalse, &path));
+		JString(".", JString::kNoCopy),
+		JString("test_JFileUtil.cpp", JString::kNoCopy),
+		true, JString::kIgnoreCase, &path));
 }
 
 JTEST(Files)
 {
-	const JString path("/tmp/junk/junk2/junk3", kJFalse);
+	const JString path("/tmp/junk/junk2/junk3", JString::kNoCopy);
 	JAssertOK(JCreateDirectory(path));
 
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
@@ -127,14 +127,14 @@ JTEST(Files)
 		fileList.Append(fileName);
 		}
 
-	JAssertOK(JRenameFile(*(fileList.GetFirstElement()), *(fileList.GetLastElement()), kJTrue));
-	JAssertTrue(JKillDirectory(JString("/tmp/junk", kJFalse)));
+	JAssertOK(JRenameFile(*(fileList.GetFirstElement()), *(fileList.GetLastElement()), true));
+	JAssertTrue(JKillDirectory(JString("/tmp/junk", JString::kNoCopy)));
 }
 
 JTEST(Path)
 {
 	JString s = JCombinePathAndName(
-		JString("/usr", kJFalse), JString("local", kJFalse));
+		JString("/usr", JString::kNoCopy), JString("local", JString::kNoCopy));
 	JAssertStringsEqual("/usr/local", s);
 
 	JAppendDirSeparator(&s);
@@ -176,8 +176,8 @@ JTEST(Path)
 	JAssertStringsEqual("./code", s);
 
 	s = JConvertToRelativePath(
-		JString("/usr/include", kJFalse),
-		JString("/usr/local", kJFalse));
+		JString("/usr/include", JString::kNoCopy),
+		JString("/usr/local", JString::kNoCopy));
 	JAssertStringsEqual("../include", s);
 
 	s = "/usr";
@@ -185,13 +185,13 @@ JTEST(Path)
 	JAssertStringsEqual("/usr", path);
 
 	s = JGetClosestDirectory(
-		JString("/usr/local/zzz/junk/foo/bar/baz.cc", kJFalse));
+		JString("/usr/local/zzz/junk/foo/bar/baz.cc", JString::kNoCopy));
 	JAssertStringsEqual("/usr/local/", s);
 
 	s = "./test_j_file_util_test_directory";
 	JAssertOK(JCreateDirectory(s));
 	s = JGetClosestDirectory(
-		JString("./test_j_file_util_test_directory/foo/bar/baz", kJFalse));
+		JString("./test_j_file_util_test_directory/foo/bar/baz", JString::kNoCopy));
 	JAssertStringsEqual("test_j_file_util_test_directory/", s);
 	JAssertOK(JRemoveDirectory(s));
 }
@@ -200,11 +200,11 @@ JTEST(ExtractFileAndLine)
 {
 	JString s;
 	JIndex start, end;
-	JExtractFileAndLine(JString("foo.cpp:5", kJFalse), &s, &start);
+	JExtractFileAndLine(JString("foo.cpp:5", JString::kNoCopy), &s, &start);
 	JAssertEqual("foo.cpp", s);
 	JAssertEqual(5, start);
 
-	JExtractFileAndLine(JString("foo.cpp:7-12", kJFalse), &s, &start, &end);
+	JExtractFileAndLine(JString("foo.cpp:7-12", JString::kNoCopy), &s, &start, &end);
 	JAssertEqual("foo.cpp", s);
 	JAssertEqual(7, start);
 	JAssertEqual(12, end);
@@ -212,7 +212,7 @@ JTEST(ExtractFileAndLine)
 
 JTEST(RootSuffix)
 {
-	JString s("foo.cpp", kJFalse);
+	JString s("foo.cpp", JString::kNoCopy);
 	JString root, suffix;
 	JAssertTrue(JSplitRootAndSuffix(s, &root, &suffix));
 	JAssertStringsEqual("foo", root);
@@ -239,7 +239,7 @@ JTEST(RootSuffix)
 
 JTEST(Url)
 {
-	JString s("./test_jFileUtil", kJFalse), fullName;
+	JString s("./test_jFileUtil", JString::kNoCopy), fullName;
 	JAssertTrue(JConvertToAbsolutePath(s, JString::empty, &fullName));
 
 	s = JFileNameToURL(fullName);
@@ -254,7 +254,7 @@ JTEST(HomeDirShortcut)
 	JString home;
 	JAssertTrue(JGetHomeDirectory(&home));
 
-	const JString path = JCombinePathAndName(home, JString("test_j_file_util_test_directory", kJFalse));
+	const JString path = JCombinePathAndName(home, JString("test_j_file_util_test_directory", JString::kNoCopy));
 	JAssertOK(JCreateDirectory(path));
 
 	JString s = JConvertToHomeDirShortcut(path);
@@ -265,8 +265,8 @@ JTEST(HomeDirShortcut)
 	JAssertStringsEqual(path, s2);
 
 	s = JGetClosestDirectory(
-		JString("~/test_j_file_util_test_directory/foo/bar/baz", kJFalse),
-		kJTrue);
+		JString("~/test_j_file_util_test_directory/foo/bar/baz", JString::kNoCopy),
+		true);
 	JAssertStringsEqual("~/test_j_file_util_test_directory/", s);
 
 	JAssertOK(JRemoveDirectory(path));

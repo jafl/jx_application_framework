@@ -4,12 +4,12 @@
 
 -prefix ${JCOREDIR}/
 
-# JBoolean.h JCharacter.h JSize.h jAssert.h jNULL.h jNew.h
+# bool.h JCharacter.h JSize.h jAssert.h jNULL.h jNew.h
 # iostream.h limits.h stdlib.h
 
 JBooleanIO
 
-# JArray.h JBoolean.h JBroadcaster.h JCharacter.h JCollection.h JIndex.h
+# JArray.h bool.h JBroadcaster.h JCharacter.h JCollection.h JIndex.h
 # JMMRecord.h JMMTable.h JMemoryManager.h JOrderedSet.h JOrderedSetIterator.h
 # JRTTIBase.h JSize.h jNew.h iostream.h limits.h stdlib.h
 

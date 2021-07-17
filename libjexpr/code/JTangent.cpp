@@ -73,7 +73,7 @@ JTangent::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTangent::Evaluate
 	(
 	JFloat* result
@@ -83,14 +83,14 @@ JTangent::Evaluate
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = tan(argValue);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JTangent::Evaluate
 	(
 	JComplex* result
@@ -100,13 +100,13 @@ JTangent::Evaluate
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = cos(argValue);
 	if (real(*result) == 0.0 && imag(*result) == 0.0)
 		{
-		return kJFalse;
+		return false;
 		}
 	*result = sin(argValue)/(*result);
 	return jerrno_is_clear();

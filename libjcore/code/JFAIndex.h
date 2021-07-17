@@ -41,11 +41,11 @@ public:
 		itsIndex = newIndex;
 	};
 
-	JBoolean
+	bool
 	IsValid()
 		const
 	{
-		return JConvertToBoolean( itsIndex != kInvalidIndex );
+		return itsIndex != kInvalidIndex;
 	};
 
 private:

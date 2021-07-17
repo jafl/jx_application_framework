@@ -16,7 +16,7 @@
 
  ********************************************************************************/
 
-JBoolean
+bool
 J2DVectorData::Create
 	(
 	J2DVectorData**			plotData,
@@ -24,19 +24,19 @@ J2DVectorData::Create
 	const JArray<JFloat>&	y,
 	const JArray<JFloat>&	vx,
 	const JArray<JFloat>&	vy,
-	const JBoolean			listen
+	const bool			listen
 	)
 {
 	if (OKToCreate(x,y, vx,vy))
 		{
 		*plotData = jnew J2DVectorData(x,y, vx,vy, listen);
 		assert( *plotData != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*plotData = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -45,7 +45,7 @@ J2DVectorData::Create
 
  ********************************************************************************/
 
-JBoolean
+bool
 J2DVectorData::OKToCreate
 	(
 	const JArray<JFloat>& x,
@@ -54,9 +54,9 @@ J2DVectorData::OKToCreate
 	const JArray<JFloat>& vy
 	)
 {
-	return JI2B(x.GetElementCount()  == y.GetElementCount() &&
+	return x.GetElementCount()  == y.GetElementCount() &&
 				y.GetElementCount()  == vx.GetElementCount() &&
-				vx.GetElementCount() == vy.GetElementCount());
+				vx.GetElementCount() == vy.GetElementCount();
 }
 
 /*********************************************************************************
@@ -79,7 +79,7 @@ J2DVectorData::J2DVectorData()
 	itsVYData = jnew JArray<JFloat>(100);
 	assert( itsVYData != nullptr );
 
-	itsIsListeningFlag = kJFalse;
+	itsIsListeningFlag = false;
 }
 
 // protected
@@ -90,7 +90,7 @@ J2DVectorData::J2DVectorData
 	const JArray<JFloat>&	y,
 	const JArray<JFloat>&	vx,
 	const JArray<JFloat>&	vy,
-	const JBoolean			listen
+	const bool			listen
 	)
 	:
 	JPlotDataBase(kVectorPlot)
@@ -139,7 +139,7 @@ J2DVectorData::J2DVectorData
 void
 J2DVectorData::J2DVectorDataX()
 {
-	itsIsValidFlag = kJTrue;
+	itsIsValidFlag = true;
 
 	itsCurrentXMin = 0;
 	itsCurrentXMax = 0;
@@ -263,12 +263,12 @@ J2DVectorData::GetXRange
 
  ********************************************************************************/
 
-JBoolean
+bool
 J2DVectorData::GetYRange
 	(
 	const JFloat	xMin,
 	const JFloat	xMax,
-	const JBoolean	xLinear,
+	const bool	xLinear,
 	JFloat*			yMin,
 	JFloat*			yMax
 	)
@@ -319,7 +319,7 @@ J2DVectorData::GetYRange
 		itsCurrentYMax = *yMax;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -392,7 +392,7 @@ J2DVectorData::IgnoreDataChanges()
 		itsVYData = jnew JArray<JFloat>(*itsVYData);
 		assert( itsVYData != nullptr );
 
-		itsIsListeningFlag = kJFalse;
+		itsIsListeningFlag = false;
 		}
 }
 
@@ -463,9 +463,8 @@ J2DVectorData::ReceiveGoingAway
 void
 J2DVectorData::ValidateData()
 {
-	itsIsValidFlag = JI2B(
-		itsXData != nullptr &&
-		OKToCreate(*itsXData, *itsYData, *itsVXData, *itsVYData));
+	itsIsValidFlag = itsXData != nullptr &&
+		OKToCreate(*itsXData, *itsYData, *itsVXData, *itsVYData);
 
 	SetElementCount(itsIsValidFlag ? itsXData->GetElementCount() : 0);
 }

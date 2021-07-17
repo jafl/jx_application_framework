@@ -30,9 +30,9 @@ GPMAboutDialog::GPMAboutDialog
 	const JString&	prevVersStr
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
-	itsIsUpgradeFlag = kJFalse;
+	itsIsUpgradeFlag = false;
 
 	BuildWindow(prevVersStr);
 }
@@ -117,7 +117,7 @@ GPMAboutDialog::BuildWindow
 		text += JGetString("UpgradeNotice::GPMAboutDialog");
 		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::GPMAboutDialog"));
-		itsIsUpgradeFlag = kJTrue;
+		itsIsUpgradeFlag = true;
 		}
 	textWidget->GetText()->SetText(text);
 
@@ -153,13 +153,13 @@ GPMAboutDialog::Receive
 			{
 			(JXGetHelpManager())->ShowTOC();
 			}
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
 		(JXGetHelpManager())->ShowCredits();
-		EndDialog(kJTrue);
+		EndDialog(true);
 		}
 
 	else

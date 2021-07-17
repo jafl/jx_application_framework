@@ -205,7 +205,7 @@ GLVarTable::CreateXInputField
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLVarTable::ExtractInputData
 	(
 	const JPoint& cell
@@ -216,17 +216,17 @@ GLVarTable::ExtractInputData
 	const JString s = itsTextInput->GetVarName();
 	if (s == *itsOrigText)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (itsTextInput->InputValid())
 		{
 		const JIndex varIndex = cell.y + kUserParmsOffset;
-		JBoolean ok = itsVarList->SetVariableName(varIndex, s);
+		bool ok = itsVarList->SetVariableName(varIndex, s);
 		return ok;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

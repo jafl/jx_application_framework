@@ -658,11 +658,11 @@ operator==
 		{
 		if (v1.GetElement(i) != v2.GetElement(i))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

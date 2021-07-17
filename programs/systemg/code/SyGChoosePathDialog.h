@@ -18,13 +18,13 @@ public:
 
 	SyGChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 					   const JString& fileFilter,
-					   const JBoolean selectOnlyWritable);
+					   const bool selectOnlyWritable);
 
 	virtual ~SyGChoosePathDialog();
 
-	void		BuildWindow(const JBoolean newWindow, const JString& message = JString::empty);
+	void		BuildWindow(const bool newWindow, const JString& message = JString::empty);
 
-	JBoolean	OpenInNewWindow() const;
+	bool	OpenInNewWindow() const;
 
 protected:
 

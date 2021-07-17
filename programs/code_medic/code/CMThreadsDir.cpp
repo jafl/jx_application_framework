@@ -137,7 +137,7 @@ CMThreadsDir::BuildWindow
 	window->SetTitle(JGetString("WindowTitleSuffix::CMThreadsDir"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetThreadWindowClass());
 	CMGetPrefsManager()->GetWindowSize(kCMThreadWindowSizeID, window);
 
@@ -217,7 +217,7 @@ CMThreadsDir::GetName()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMThreadsDir::GetMenuIcon
 	(
 	const JXImage** icon
@@ -225,7 +225,7 @@ CMThreadsDir::GetMenuIcon
 	const
 {
 	*icon = CMGetThreadsIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

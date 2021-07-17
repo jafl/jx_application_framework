@@ -50,38 +50,38 @@ class SyGPrefsMgr : public JXPrefsManager
 {
 public:
 
-	SyGPrefsMgr(JBoolean* isNew);
+	SyGPrefsMgr(bool* isNew);
 
 	virtual	~SyGPrefsMgr();
 
 	JString	GetSystemGVersionStr() const;
 
-	void		GetTreePreferences(JBoolean prefs[]) const;
-	void		SetTreePreferences(const JBoolean prefs[]);
+	void		GetTreePreferences(bool prefs[]) const;
+	void		SetTreePreferences(const bool prefs[]);
 
-	JBoolean	GetDefaultWindowSize(JSize* w, JSize* h) const;
+	bool	GetDefaultWindowSize(JSize* w, JSize* h) const;
 	void		SaveDefaultWindowSize(const JSize w, const JSize h);
 
-	JBoolean	GetFilterStatePref() const;
-	void		SaveFilterStatePref(const JBoolean show);
+	bool	GetFilterStatePref() const;
+	void		SaveFilterStatePref(const bool show);
 
-	JBoolean	RestoreProgramState(JPtrArray<JString>* children);
+	bool	RestoreProgramState(JPtrArray<JString>* children);
 	void		SaveProgramState(const JPtrArray<JString>& children);
 
-	JBoolean	DelWillDelete() const;
-	void		DelShouldDelete(const JBoolean del);
+	bool	DelWillDelete() const;
+	void		DelShouldDelete(const bool del);
 
-	JBoolean	WillOpenNewWindows() const;
-	void		ShouldOpenNewWindows(const JBoolean newWindows);
+	bool	WillOpenNewWindows() const;
+	void		ShouldOpenNewWindows(const bool newWindows);
 
-	JBoolean	WillSaveFolderPrefs() const;
-	void		ShouldSaveFolderPrefs(const JBoolean perFolder);
+	bool	WillSaveFolderPrefs() const;
+	void		ShouldSaveFolderPrefs(const bool perFolder);
 
 	void		EditPrefs();
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion) override;
+	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
 	virtual void	SaveAllBeforeDestruct() override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 

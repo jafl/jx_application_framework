@@ -44,10 +44,10 @@ JTEST(Basic)
 	JArray<JFAID_t> deadFileList;
 
 	TestGoTree tree;
-	tree.PrepareForUpdate(kJFalse);
-	tree.ParseFile(JString("./data/tree/go/a.go", kJFalse), 1);
-	tree.ParseFile(JString("./data/tree/go/b.go", kJFalse), 2);
-	tree.ParseFile(JString("./data/tree/go/c.go", kJFalse), 3);
+	tree.PrepareForUpdate(false);
+	tree.ParseFile(JString("./data/tree/go/a.go", false), 1);
+	tree.ParseFile(JString("./data/tree/go/b.go", false), 2);
+	tree.ParseFile(JString("./data/tree/go/c.go", false), 3);
 	tree.UpdateFinished(deadFileList);
 
 	const TestGoTree& constTree    = tree;
@@ -114,8 +114,8 @@ JTEST(Basic)
 	JAssertEqual(10, found);
 }
 
-JBoolean
+bool
 CBInUpdateThread()
 {
-	return kJTrue;
+	return true;
 }

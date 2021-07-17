@@ -120,7 +120,7 @@ JXFontSizeMenu::JXFontSizeMenuX
 		ListenTo(itsFontNameMenu);
 		}
 
-	itsBroadcastChangeFlag = kJTrue;
+	itsBroadcastChangeFlag = true;
 	itsChooseSizeDialog    = nullptr;
 }
 
@@ -230,7 +230,7 @@ JXFontSizeMenu::BuildMenu
 		ShowSeparatorAfter(GetItemCount());
 		AppendItem(JGetString("VariableSizeLabel::JXFontSizeMenu"),
 				   kRadioType, JString::empty, JString::empty,
-				   JString(kJXOtherFontSizeAction, kJFalse));
+				   JString(kJXOtherFontSizeAction, JString::kNoCopy));
 		itsVarSizeIndex = GetItemCount();
 		}
 	SetUpdateAction(kDisableNone);
@@ -280,20 +280,20 @@ JXFontSizeMenu::Receive
 {
 	if (sender == itsFontNameMenu && message.Is(JXFontNameMenu::kNameChanged))
 		{
-		itsBroadcastChangeFlag = kJFalse;
+		itsBroadcastChangeFlag = false;
 		const JSize currSize   = GetFontSize();
 		const JString fontName = itsFontNameMenu->GetFontName();
 		BuildMenu(fontName);
 		SetFontSize(currSize);
-		itsBroadcastChangeFlag = kJTrue;
+		itsBroadcastChangeFlag = true;
 		}
 
 	else if (sender == this && message.Is(JXMenu::kNeedsUpdate))
 		{
-		itsBroadcastChangeFlag = kJFalse;
+		itsBroadcastChangeFlag = false;
 		Broadcast(SizeNeedsUpdate());
 		CheckItem(itsCurrIndex);
-		itsBroadcastChangeFlag = kJTrue;
+		itsBroadcastChangeFlag = true;
 		}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
@@ -340,7 +340,7 @@ JXFontSizeMenu::ChooseFontSize
 	if (sizeIndex != itsVarSizeIndex)
 		{
 		itsCurrIndex = sizeIndex;
-		const JBoolean ok = (GetItemText(sizeIndex)).ConvertToUInt(&itsFontSize);
+		const bool ok = (GetItemText(sizeIndex)).ConvertToUInt(&itsFontSize);
 		assert( ok );
 		AdjustVarSizeItem(0);
 		Broadcast(SizeChanged(itsFontSize));
@@ -364,7 +364,7 @@ JXFontSizeMenu::ChooseFontSize
 void
 JXFontSizeMenu::SetToPopupChoice
 	(
-	const JBoolean isPopup
+	const bool isPopup
 	)
 {
 	JXTextMenu::SetToPopupChoice(isPopup, itsCurrIndex);

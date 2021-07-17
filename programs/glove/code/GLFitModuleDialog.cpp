@@ -29,7 +29,7 @@ GLFitModuleDialog::GLFitModuleDialog
 	JXWindowDirector* supervisor
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow();
 }
@@ -96,7 +96,7 @@ GLFitModuleDialog::BuildWindow()
 
 	itsFilterIndex = 1;
 
-	itsFilterMenu->SetToPopupChoice(kJTrue, itsFilterIndex);
+	itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
 	itsFilterMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFilterMenu);
 	if (names->IsEmpty())
@@ -137,7 +137,7 @@ GLFitModuleDialog::Receive
 			itsFilterMenu->AppendItem(*name);
 			}
 		itsFilterIndex = 1;
-		itsFilterMenu->SetToPopupChoice(kJTrue, itsFilterIndex);
+		itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
 		if (names->IsEmpty())
 			{
 			itsFilterMenu->Deactivate();

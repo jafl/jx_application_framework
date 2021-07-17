@@ -157,13 +157,13 @@ JHashTable<V>::JHashTable
 	itsArray(nullptr),
 	itsElementCount(0),
 	itsLoadCount(0),
-	itsResizeFlag(kJTrue),
+	itsResizeFlag(true),
 	itsMaxLoadFactor(kJDefaultMaxLoadFactor),
 	itsMinFillFactor(kJDefaultMinFillFactor),
 	itsLgMinTableSize(itsLgSize),
 	itsEqual(AssertReturnTrue),
 	itsHashFunction(Abort),
-	itsAllowCursorFlag(kJTrue)
+	itsAllowCursorFlag(true)
 {
 	assert(CHAR_BIT == 8);
 
@@ -199,7 +199,7 @@ template <class V>
 void
 JHashTable<V>::SetResizeEnabled
 	(
-	const JBoolean enabled
+	const bool enabled
 	)
 {
 	itsResizeFlag = enabled;
@@ -295,10 +295,10 @@ JHashTable<V>::SetMinTableSize
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JHashTable<V>::IsOK() const
 {
-	JBoolean ok = kJTrue;
+	bool ok = true;
 
 	JSize elementCount=0;
 	JSize loadCount=0;
@@ -323,7 +323,7 @@ JHashTable<V>::IsOK() const
 	if (elementCount != itsElementCount || loadCount != itsLoadCount
 		|| itsElementCount > itsLoadCount)
 		{
-		ok = kJFalse;
+		ok = false;
 		}
 
 	return ok;
@@ -353,7 +353,7 @@ JHashTable<V>::IsOK() const
 	comparison function is not being called in debug code but having it do nothing
 	in ship code, just in case.
 
-	An alternative is supplied which always returns kJTrue, which implies that the
+	An alternative is supplied which always returns true, which implies that the
 	hash function is perfect (or that the client doesn't care about JHashTable's
 	key comparisons).  In this case NextKey behaves identically to NextHash, and
 	so on, though it is slower by an indirection and a function call.
@@ -364,7 +364,7 @@ template <class V>
 void
 JHashTable<V>::SetKeyComparison
 	(
-	JBoolean (* const keysEqual)(const V&, const V&)
+	bool (* const keysEqual)(const V&, const V&)
 	)
 {
 	assert(keysEqual != nullptr);
@@ -377,7 +377,7 @@ JHashTable<V>::SetKeyComparison
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JHashTable<V>::AssertReturnTrue
 	(
 	const V& value1,
@@ -385,7 +385,7 @@ JHashTable<V>::AssertReturnTrue
 	)
 {
 	assert(0);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -394,14 +394,14 @@ JHashTable<V>::AssertReturnTrue
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JHashTable<V>::ReturnTrue
 	(
 	const V& value1,
 	const V& value2
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -581,7 +581,7 @@ JHashTable<V>::Remove
 		--itsElementCount;
 		if (itsElementCount == 0)
 			{
-			FitToLimits(0, kJTrue); // Force a resize to clear deleted records
+			FitToLimits(0, true); // Force a resize to clear deleted records
 			}
 		else
 			{
@@ -649,7 +649,7 @@ JHashTable<V>::MarkAllEmpty()
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JHashTable<V>::TryResizeTable
 	(
 	const JSize lgSize
@@ -678,7 +678,7 @@ JHashTable<V>::TryResizeTable
 
 			itsLoadCount = 0;
 			}
-		return kJTrue;
+		return true;
 		}
 
 	// Guess not, do it the hard way.
@@ -688,7 +688,7 @@ JHashTable<V>::TryResizeTable
 	// Or is that the 'Dracula' resize algorithm?
 
 	JHashTable<V> newTable(lgSize);
-	newTable.SetResizeEnabled(kJFalse);
+	newTable.SetResizeEnabled(false);
 
 	// Make the temporary table behave identically to the old
 
@@ -703,7 +703,7 @@ JHashTable<V>::TryResizeTable
 	// Unt now ve exchange der subject's brains, Igor!
 	if ( !newTable.TryInsertAll(this) )
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// Steal the temporary table's data and give it our old
@@ -734,7 +734,7 @@ JHashTable<V>::TryResizeTable
 
 	// You insignificant ones go away!  I, Count Dracula, have drained the life
 	// from this worthless one.  Bleah, bleah!
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -769,9 +769,9 @@ JHashTable<V>::ResizeTable
 	is, perform as few resizes as possible) for a wide range of insert, search,
 	and delete behaviors.
 
-	If 'force' is kJTrue, a resize is always done (and thus the load factor is
+	If 'force' is true, a resize is always done (and thus the load factor is
 	reduced to the fill factor), unless resizing is disabled.  If 'force is
-	kJFalse (the default) a resize is only done if there are fewer slots
+	false (the default) a resize is only done if there are fewer slots
 	available than that specified by 'required' argument, or if the current
 	limits are being violated.  After a resize, there will be enough space for
 	at least 'required' more items before the limits will be violated.
@@ -781,7 +781,7 @@ JHashTable<V>::ResizeTable
 	multiple items, you can avoid avoid any intermediate resizes by disabling
 	resizing while you insert.
 
-	The return value is kJTrue if a resize was actually done.
+	The return value is true if a resize was actually done.
 
 	This default implementation should need customization seldom or never, but
 	this function is virtual so the ability is there.  If you write your own
@@ -793,14 +793,14 @@ JHashTable<V>::ResizeTable
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JHashTable<V>::FitToLimits
 	(
 	const JSize required, // = 0
-	const JBoolean force  // = kJFalse
+	const bool force  // = false
 	)
 {
-	JBoolean resized = kJFalse;
+	bool resized = false;
 
 	// Only resize if we must, to avoid unnecessary shuffling
 	if	(
@@ -857,7 +857,7 @@ JHashTable<V>::FitToLimits
 			}
 
 		ResizeTable(newLgSize);
-		resized = kJTrue;
+		resized = true;
 
 //std::cout << "                            to " << itsLgSize << " (load " << GetLoadFactor()
 //     << "%, " << GetLoadCount()-GetElementCount() << " deleted)" << std::endl;
@@ -896,13 +896,13 @@ JHashTable<V>::_MarkAllEmpty()
  TryInsert (private)
 
 	Inserts the data (key and value) of the given record at the appropriate
-	location (based on the record's hash value) and returns kJTrue, if possible.
-	Otherwise, does nothing and returns kJFalse.
+	location (based on the record's hash value) and returns true, if possible.
+	Otherwise, does nothing and returns false.
 
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JHashTable<V>::TryInsert
 	(
 	const JHashRecord<V>& record
@@ -913,42 +913,42 @@ JHashTable<V>::TryInsert
 	if ( itsCursor->NextOpen() )
 		{
 		itsCursor->Set(record);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  TryInsertAll (private)
 
-	Attempts to insert all records in the source table.  Returns kJTrue if all
-	records were successfully inserted, kJFalse if at least one was not able to
+	Attempts to insert all records in the source table.  Returns true if all
+	records were successfully inserted, false if at least one was not able to
 	be inserted.
 
  *****************************************************************************/
 
 template <class V>
-JBoolean
+bool
 JHashTable<V>::TryInsertAll
 	(
 	const JHashTable<V>* source
 	)
 {
 	JConstHashCursor<V>* sourceCursor = source->itsCursor;
-	sourceCursor->Reset(kJTrue);
+	sourceCursor->Reset(true);
 
 	while ( sourceCursor->NextFull() )
 		{
 		if ( !TryInsert( sourceCursor->GetRecord() ) )
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 #endif

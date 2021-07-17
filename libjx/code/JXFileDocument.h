@@ -33,45 +33,45 @@ public:
 
 	virtual ~JXFileDocument();
 
-	virtual JBoolean	NeedsSave() const;
-	JBoolean			Save();
+	virtual bool	NeedsSave() const;
+	bool			Save();
 	void				DataModified();
-	void				DataReverted(const JBoolean fromUndo = kJFalse);
+	void				DataReverted(const bool fromUndo = false);
 
-	JBoolean	SaveInCurrentFile();
-	JBoolean	SaveInNewFile(const JString& fullName = JString::empty);
-	JBoolean	SaveCopyInNewFile(const JString& origName = JString::empty,
+	bool	SaveInCurrentFile();
+	bool	SaveInNewFile(const JString& fullName = JString::empty);
+	bool	SaveCopyInNewFile(const JString& origName = JString::empty,
 								  JString* fullName = nullptr);
 
-	JBoolean				ExistsOnDisk() const;
+	bool				ExistsOnDisk() const;
 	const JString&			GetFilePath() const;
 	const JString&			GetFileName() const;
-	JString					GetFullName(JBoolean* onDisk) const;
+	JString					GetFullName(bool* onDisk) const;
 	virtual const JString&	GetName() const;
 
-	JBoolean	FileModifiedByOthers(JBoolean* modTimeChanged = nullptr,
-									 JBoolean* permsChanged = nullptr) const;
+	bool	FileModifiedByOthers(bool* modTimeChanged = nullptr,
+									 bool* permsChanged = nullptr) const;
 	void		CheckIfModifiedByOthers();
-	void		RevertIfChangedByOthers(const JBoolean force = kJFalse);
+	void		RevertIfChangedByOthers(const bool force = false);
 
-	JBoolean	WillMakeBackupFile() const;
-	void		ShouldMakeBackupFile(const JBoolean wantBackup);
+	bool	WillMakeBackupFile() const;
+	void		ShouldMakeBackupFile(const bool wantBackup);
 
-	JBoolean	WillMakeNewBackupEveryOpen() const;
-	void		ShouldMakeNewBackupEveryOpen(const JBoolean makeBackup);
+	bool	WillMakeNewBackupEveryOpen() const;
+	void		ShouldMakeNewBackupEveryOpen(const bool makeBackup);
 
-	JBoolean	WillAutosaveBeforeClosing() const;
-	void		ShouldAutosaveBeforeClosing(const JBoolean autosave);
+	bool	WillAutosaveBeforeClosing() const;
+	void		ShouldAutosaveBeforeClosing(const bool autosave);
 
-	JBoolean	WillAllocateTitleSpace() const;
-	void		ShouldAllocateTitleSpace(const JBoolean allocateSpace);
+	bool	WillAllocateTitleSpace() const;
+	void		ShouldAllocateTitleSpace(const bool allocateSpace);
 
-	static JBoolean	WillAskOKToClose();
-	static void		ShouldAskOKToClose(const JBoolean ask);
+	static bool	WillAskOKToClose();
+	static void		ShouldAskOKToClose(const bool ask);
 
 	virtual void	SafetySave(const JXDocumentManager::SafetySaveReason reason);
-	JBoolean		GetSafetySaveFileName(JString* fileName) const;
-	static JBoolean	CheckForSafetySaveFiles(const JString& fullName,
+	bool		GetSafetySaveFileName(JString* fileName) const;
+	static bool	CheckForSafetySaveFiles(const JString& fullName,
 											JPtrArray<JString>* filesToOpen);
 
 	JChooseSaveFile*	GetChooseSaveFile() const;
@@ -89,19 +89,19 @@ public:
 protected:
 
 	JXFileDocument(JXDirector* supervisor, const JString& fileName,
-				   const JBoolean onDisk, const JBoolean wantBackupFile,
+				   const bool onDisk, const bool wantBackupFile,
 				   const JUtf8Byte* defaultFileNameSuffix);
 
 	void		AdjustWindowTitle();
-	void		FileChanged(const JString& fileName, const JBoolean onDisk);
+	void		FileChanged(const JString& fileName, const bool onDisk);
 
-	virtual JBoolean	OKToClose();
-	virtual JBoolean	OKToRevert();
-	virtual JBoolean	CanRevert();
-	virtual void		HandleFileModifiedByOthers(const JBoolean modTimeChanged,
-												   const JBoolean permsChanged);
-	virtual JError		WriteFile(const JString& fullName, const JBoolean safetySave) const;
-	virtual void		WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
+	virtual bool	OKToClose();
+	virtual bool	OKToRevert();
+	virtual bool	CanRevert();
+	virtual void		HandleFileModifiedByOthers(const bool modTimeChanged,
+												   const bool permsChanged);
+	virtual JError		WriteFile(const JString& fullName, const bool safetySave) const;
+	virtual void		WriteTextFile(std::ostream& output, const bool safetySave) const;
 
 	virtual JString		GetWindowTitle() const;
 
@@ -120,20 +120,20 @@ private:
 	JString		itsFilePath;
 	JString		itsFileName;
 	JString		itsFileSuffix;
-	JBoolean	itsWasOnDiskFlag;
-	JBoolean	itsSavedFlag;
-	JBoolean	itsWantBackupFileFlag;			// kJTrue if derived class wants backup file
-	JBoolean	itsMakeBackupFileFlag;			// kJTrue if should make backup before saving
-	JBoolean	itsWantNewBackupEveryOpenFlag;	// kJTrue if replace backup before first save
-	JBoolean	itsIsFirstSaveFlag;				// kJTrue if user hasn't saved yet
-	JBoolean	itsAutosaveBeforeCloseFlag;		// kJTrue if always save before closing
+	bool	itsWasOnDiskFlag;
+	bool	itsSavedFlag;
+	bool	itsWantBackupFileFlag;			// true if derived class wants backup file
+	bool	itsMakeBackupFileFlag;			// true if should make backup before saving
+	bool	itsWantNewBackupEveryOpenFlag;	// true if replace backup before first save
+	bool	itsIsFirstSaveFlag;				// true if user hasn't saved yet
+	bool	itsAutosaveBeforeCloseFlag;		// true if always save before closing
 	time_t		itsFileModTime;
-	JBoolean	itsCheckModTimeFlag;
+	bool	itsCheckModTimeFlag;
 	mode_t		itsFilePerms;
-	JBoolean	itsCheckPermsFlag;
-	JBoolean	itsAllocateTitleSpaceFlag;
+	bool	itsCheckPermsFlag;
+	bool	itsAllocateTitleSpaceFlag;
 
-	JBoolean	itsNeedSafetySaveFlag;	// kJTrue if not safety saved after latest DataModified()
+	bool	itsNeedSafetySaveFlag;	// true if not safety saved after latest DataModified()
 	JString*	itsSafetySaveFileName;	// not nullptr if safety save file exists
 
 	JChooseSaveFile*	itsCSF;			// we don't own this
@@ -141,12 +141,12 @@ private:
 	JString				itsSaveNewFilePrompt;
 	JString				itsOKToRevertPrompt;
 
-	static JBoolean	itsAskOKToCloseFlag;		// kJTrue if should ask "Save before closing?"
+	static bool	itsAskOKToCloseFlag;		// true if should ask "Save before closing?"
 
 private:
 
 	JString		GetFileNameForSave() const;
-	JBoolean	SaveInCurrentFile1();
+	bool	SaveInCurrentFile1();
 	void		RemoveSafetySaveFile();
 
 	// not allowed
@@ -228,11 +228,11 @@ JXFileDocument::DataModified()
 {
 	if (itsSavedFlag)
 		{
-		itsSavedFlag = kJFalse;
+		itsSavedFlag = false;
 		AdjustWindowTitle();
 		}
 
-	itsNeedSafetySaveFlag = kJTrue;
+	itsNeedSafetySaveFlag = true;
 }
 
 /******************************************************************************
@@ -252,11 +252,11 @@ JXFileDocument::SetChooseSaveFile
 /******************************************************************************
  Save
 
-	Returns kJTrue if successful.
+	Returns true if successful.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileDocument::Save()
 {
 	if (!itsSavedFlag)
@@ -272,7 +272,7 @@ JXFileDocument::Save()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileDocument::WillMakeBackupFile()
 	const
 {
@@ -282,11 +282,11 @@ JXFileDocument::WillMakeBackupFile()
 inline void
 JXFileDocument::ShouldMakeBackupFile
 	(
-	const JBoolean wantBackup
+	const bool wantBackup
 	)
 {
 	itsWantBackupFileFlag = wantBackup;
-	itsMakeBackupFileFlag = JConvertToBoolean( itsWasOnDiskFlag && itsWantBackupFileFlag );
+	itsMakeBackupFileFlag = itsWasOnDiskFlag && itsWantBackupFileFlag;
 }
 
 /******************************************************************************
@@ -297,7 +297,7 @@ JXFileDocument::ShouldMakeBackupFile
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileDocument::WillMakeNewBackupEveryOpen()
 	const
 {
@@ -307,7 +307,7 @@ JXFileDocument::WillMakeNewBackupEveryOpen()
 inline void
 JXFileDocument::ShouldMakeNewBackupEveryOpen
 	(
-	const JBoolean makeBackup
+	const bool makeBackup
 	)
 {
 	itsWantNewBackupEveryOpenFlag = makeBackup;
@@ -324,7 +324,7 @@ JXFileDocument::ShouldMakeNewBackupEveryOpen
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileDocument::WillAutosaveBeforeClosing()
 	const
 {
@@ -334,7 +334,7 @@ JXFileDocument::WillAutosaveBeforeClosing()
 inline void
 JXFileDocument::ShouldAutosaveBeforeClosing
 	(
-	const JBoolean autosave
+	const bool autosave
 	)
 {
 	itsAutosaveBeforeCloseFlag = autosave;
@@ -345,7 +345,7 @@ JXFileDocument::ShouldAutosaveBeforeClosing
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileDocument::WillAllocateTitleSpace()
 	const
 {
@@ -355,7 +355,7 @@ JXFileDocument::WillAllocateTitleSpace()
 inline void
 JXFileDocument::ShouldAllocateTitleSpace
 	(
-	const JBoolean allocateSpace
+	const bool allocateSpace
 	)
 {
 	itsAllocateTitleSpaceFlag = allocateSpace;
@@ -367,7 +367,7 @@ JXFileDocument::ShouldAllocateTitleSpace
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileDocument::WillAskOKToClose()
 {
 	return itsAskOKToCloseFlag;
@@ -376,7 +376,7 @@ JXFileDocument::WillAskOKToClose()
 inline void
 JXFileDocument::ShouldAskOKToClose
 	(
-	const JBoolean ask
+	const bool ask
 	)
 {
 	itsAskOKToCloseFlag = ask;

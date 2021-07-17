@@ -20,22 +20,22 @@ class JNamedTreeNode : public JTreeNode
 public:
 
 	JNamedTreeNode(JTree* tree, const JString& name,
-				   const JBoolean isOpenable = kJTrue);
+				   const bool isOpenable = true);
 
 	virtual	~JNamedTreeNode();
 
 	const JString&	GetName() const;
 	void			SetName(const JString& name);
 
-	JBoolean		FindNamedChild(const JString& name,
+	bool		FindNamedChild(const JString& name,
 								   JNamedTreeNode** node);
-	JBoolean		FindNamedChild(const JString& name,
+	bool		FindNamedChild(const JString& name,
 								   const JNamedTreeNode** node) const;
 
 	JNamedTreeNode*			GetNamedParent();
 	const JNamedTreeNode*	GetNamedParent() const;
-	JBoolean				GetNamedParent(JNamedTreeNode** parent);
-	JBoolean				GetNamedParent(const JNamedTreeNode** parent) const;
+	bool				GetNamedParent(JNamedTreeNode** parent);
+	bool				GetNamedParent(const JNamedTreeNode** parent) const;
 
 	JNamedTreeNode*			GetNamedChild(const JIndex index);
 	const JNamedTreeNode*	GetNamedChild(const JIndex index) const;

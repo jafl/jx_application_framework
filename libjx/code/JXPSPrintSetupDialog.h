@@ -28,13 +28,13 @@ public:
 	static JXPSPrintSetupDialog*
 		Create(const JXPSPrinter::Destination dest,
 			   const JString& printCmd, const JString& fileName,
-			   const JBoolean collate, const JBoolean bw);
+			   const bool collate, const bool bw);
 
 	virtual ~JXPSPrintSetupDialog();
 
-	JBoolean	SetParameters(JXPSPrinter* p) const;
+	bool	SetParameters(JXPSPrinter* p) const;
 
-	static JBoolean	OKToDeactivate(const JString& fullName);
+	static bool	OKToDeactivate(const JString& fullName);
 
 protected:
 
@@ -45,13 +45,13 @@ protected:
 					   JXStaticText* printCmdLabel, JXInputField* printCmdInput,
 					   const JString& printCmd, JXTextButton* chooseFileButton,
 					   const JString& fileName, JXIntegerInput* copyCount,
-					   JXTextCheckbox* collateCheckbox, const JBoolean collate,
-					   JXTextCheckbox* bwCheckbox, const JBoolean bw,
+					   JXTextCheckbox* collateCheckbox, const bool collate,
+					   JXTextCheckbox* bwCheckbox, const bool bw,
 					   JXTextCheckbox* printAllCheckbox,
 					   JXStaticText* firstPageIndexLabel, JXIntegerInput* firstPageIndex,
 					   JXStaticText* lastPageIndexLabel, JXIntegerInput* lastPageIndex);
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
@@ -80,11 +80,11 @@ private:
 
 	void	BuildWindow(const JXPSPrinter::Destination dest,
 						const JString& printCmd, const JString& fileName,
-						const JBoolean collate, const JBoolean bw);
+						const bool collate, const bool bw);
 	void	UpdateDisplay();
 
 	void	SetDestination(const JIndex id);
-	void	PrintAllPages(const JBoolean all);
+	void	PrintAllPages(const bool all);
 
 	void	ChooseDestinationFile();
 

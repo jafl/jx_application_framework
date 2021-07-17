@@ -22,8 +22,8 @@ public:
 	const JCollection& operator=(const JCollection& source);
 
 	JSize		GetElementCount() const;
-	JBoolean	IsEmpty() const;
-	JBoolean	IndexValid(const JIndex index) const;
+	bool	IsEmpty() const;
+	bool	IndexValid(const JIndex index) const;
 	JIndex		GetIndexFromEnd(const JIndex index) const;
 
 	virtual JString	ToString() const override;
@@ -55,15 +55,15 @@ JCollection::GetElementCount()
 /******************************************************************************
  IsEmpty
 
-	Returns kJTrue if there are no items in the JCollection.
+	Returns true if there are no items in the JCollection.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JCollection::IsEmpty()
 	const
 {
-	return JConvertToBoolean( itsElementCount == 0 );
+	return itsElementCount == 0;
 }
 
 /******************************************************************************
@@ -71,14 +71,14 @@ JCollection::IsEmpty()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JCollection::IndexValid
 	(
 	const JIndex index
 	)
 	const
 {
-	return JConvertToBoolean( 1 <= index && index <= itsElementCount );
+	return 1 <= index && index <= itsElementCount;
 }
 
 /******************************************************************************

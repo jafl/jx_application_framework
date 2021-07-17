@@ -26,8 +26,8 @@ JXGetStringDialog::JXGetStringDialog
 	const JString&	windowTitle,
 	const JString&	prompt,
 	const JString&	initialValue,
-	const JBoolean	modal,
-	const JBoolean	password
+	const bool	modal,
+	const bool	password
 	)
 	:
 	JXDialogDirector(supervisor, modal)
@@ -67,7 +67,7 @@ JXGetStringDialog::BuildWindow
 	const JString&	windowTitle,
 	const JString&	prompt,
 	const JString&	initialValue,
-	const JBoolean	password
+	const bool	password
 	)
 {
 // begin JXLayout

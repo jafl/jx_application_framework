@@ -22,7 +22,7 @@
 
 const JFileVersion	kCurrentPrefsVersion = 1;
 
-const JString kFitDlDirName("fitdlmodule", kJFalse);
+const JString kFitDlDirName("fitdlmodule", JString::kNoCopy);
 
 const JUtf8Byte* GLFitManager::kFitsChanged	= "kFitsChanged::GLFitManager";
 
@@ -34,7 +34,7 @@ const JUtf8Byte* GLFitManager::kFitsChanged	= "kFitsChanged::GLFitManager";
 GLFitManager::GLFitManager()
 	:
 	JPrefObject(GLGetPrefsMgr(), kFitManagerID),
-	itsIsInitialized(kJFalse)
+	itsIsInitialized(false)
 {
 	itsFitDescriptions	= jnew JPtrArray<GLFitDescription>(JPtrArrayT::kDeleteAll);
 	assert(itsFitDescriptions != nullptr);
@@ -171,7 +171,7 @@ GLFitManager::ReadPrefs
 	std::istream& input
 	)
 {
-	itsIsInitialized	= kJTrue;
+	itsIsInitialized	= true;
 	
 	JFileVersion version;
 	input >> version;
@@ -264,7 +264,7 @@ GLFitManager::InitializeList()
 		JDirInfo* dir;
 		if (JDirInfo::Create(fitPath, &dir))
 			{
-			dir->SetWildcardFilter(JString("*.so", kJFalse));
+			dir->SetWildcardFilter(JString("*.so", JString::kNoCopy));
 			const JSize count	= dir->GetEntryCount();
 			for (JIndex i = 1; i <= count; i++)
 				{
@@ -288,7 +288,7 @@ GLFitManager::InitializeList()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLFitManager::FitIsRemovable
 	(
 	const JIndex index
@@ -299,7 +299,7 @@ GLFitManager::FitIsRemovable
 	if (fd->GetType() == GLFitDescription::kPolynomial ||
 		fd->GetType() == GLFitDescription::kNonLinear)
 		{
-		return kJTrue;
+		return true;
 		}
-	return kJFalse;
+	return false;
 }

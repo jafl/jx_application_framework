@@ -29,7 +29,7 @@ enum CBEmulator
 
 const JSize kCBEmulatorCount = kCBLastEmulator+1;
 
-JBoolean	CBInstallEmulator(const CBEmulator type, CBTextEditor* editor,
+bool	CBInstallEmulator(const CBEmulator type, CBTextEditor* editor,
 							  JTEKeyHandler** handler);
 
 std::istream& operator>>(std::istream& input, CBEmulator& type);

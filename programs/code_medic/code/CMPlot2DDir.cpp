@@ -107,10 +107,10 @@ CMPlot2DDir::CMPlot2DDir
 	CMVarNode::TrimExpression(&expr);
 
 	itsExprData->AppendRows(1);
-	itsExprData->SetString(1, CMPlot2DExprTable::kXExprColIndex, JString("$i", kJFalse));
+	itsExprData->SetString(1, CMPlot2DExprTable::kXExprColIndex, JString("$i", JString::kNoCopy));
 	itsExprData->SetString(1, CMPlot2DExprTable::kYExprColIndex, expr);
-	itsExprData->SetString(1, CMPlot2DExprTable::kRangeMinColIndex, JString("0", kJFalse));
-	itsExprData->SetString(1, CMPlot2DExprTable::kRangeMaxColIndex, JString("10", kJFalse));
+	itsExprData->SetString(1, CMPlot2DExprTable::kRangeMinColIndex, JString("0", JString::kNoCopy));
+	itsExprData->SetString(1, CMPlot2DExprTable::kRangeMaxColIndex, JString("10", JString::kNoCopy));
 
 	CMPlot2DDirX2();
 }
@@ -163,8 +163,8 @@ CMPlot2DDir::CMPlot2DDirX1
 {
 	itsLink                 = CMGetLink();
 	itsCommandDir           = supervisor;
-	itsShouldUpdateFlag     = kJFalse;		// window is always initially hidden
-	itsWaitingForReloadFlag = kJFalse;
+	itsShouldUpdateFlag     = false;		// window is always initially hidden
+	itsWaitingForReloadFlag = false;
 
 	itsExprData = jnew JStringTableData;
 	assert( itsExprData != nullptr );
@@ -254,7 +254,7 @@ void
 CMPlot2DDir::Activate()
 {
 	JXWindowDirector::Activate();
-	ShouldUpdate(kJTrue);
+	ShouldUpdate(true);
 }
 
 /******************************************************************************
@@ -310,7 +310,7 @@ CMPlot2DDir::BuildWindow()
 // end JXLayout
 
 	window->SetMinSize(300, 300);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetPlot2DWindowClass());
 
 	UpdateWindowTitle();
@@ -342,7 +342,7 @@ CMPlot2DDir::BuildWindow()
 	itsPlotWidget->SetPSPrinter(CMGetPSPrinter());
 	itsPlotWidget->SetEPSPrinter(CMGetPlotEPSPrinter());
 
-	CMGetPrefsManager()->GetWindowSize(kPlot2DWindSizeID, window, kJTrue);	// after all widgets
+	CMGetPrefsManager()->GetWindowSize(kPlot2DWindSizeID, window, true);	// after all widgets
 
 	UpdateButtons();
 	ListenTo(itsAddPlotButton);
@@ -357,7 +357,7 @@ CMPlot2DDir::BuildWindow()
 	ListenTo(itsActionMenu);
 
 	JXTextMenu* editMenu;
-	const JBoolean hasEditMenu = (itsExprTable->GetEditMenuHandler())->GetEditMenu(&editMenu);
+	const bool hasEditMenu = (itsExprTable->GetEditMenuHandler())->GetEditMenu(&editMenu);
 	assert( hasEditMenu );
 	menuBar->PrependMenu(editMenu);
 
@@ -407,7 +407,7 @@ CMPlot2DDir::UpdateWindowTitle()
 void
 CMPlot2DDir::UpdateButtons()
 {
-	const JBoolean hasSelection = (itsExprTable->GetTableSelection()).HasSelection();
+	const bool hasSelection = (itsExprTable->GetTableSelection()).HasSelection();
 	itsDuplicatePlotButton->SetActive(hasSelection);
 	itsRemovePlotButton->SetActive(hasSelection);
 }
@@ -417,7 +417,7 @@ CMPlot2DDir::UpdateButtons()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMPlot2DDir::GetMenuIcon
 	(
 	const JXImage** icon
@@ -425,7 +425,7 @@ CMPlot2DDir::GetMenuIcon
 	const
 {
 	*icon = CMGetPlot2DIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -509,10 +509,10 @@ CMPlot2DDir::Receive
 		if (itsExprTable->EndEditing())
 			{
 			JPtrArray<JString> data(JPtrArrayT::kDeleteAll);
-			data.Append(JString("$i", kJFalse));
-			data.Append(JString("$i", kJFalse));
-			data.Append(JString("0", kJFalse));
-			data.Append(JString("10", kJFalse));
+			data.Append(JString("$i", JString::kNoCopy));
+			data.Append(JString("$i", JString::kNoCopy));
+			data.Append(JString("0", JString::kNoCopy));
+			data.Append(JString("10", JString::kNoCopy));
 			itsExprData->AppendRows(1, &data);
 			}
 		}
@@ -527,7 +527,7 @@ CMPlot2DDir::Receive
 
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerRestarted))
 		{
-		itsWaitingForReloadFlag = kJTrue;
+		itsWaitingForReloadFlag = true;
 		}
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerStarted))
 		{
@@ -535,7 +535,7 @@ CMPlot2DDir::Receive
 			{
 			JXCloseDirectorTask::Close(this);	// close after bcast is finished
 			}
-		itsWaitingForReloadFlag = kJFalse;
+		itsWaitingForReloadFlag = false;
 		}
 
 	else if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
@@ -572,11 +572,11 @@ CMPlot2DDir::Receive
 
 	else if (sender == GetWindow() && message.Is(JXWindow::kIconified))
 		{
-		ShouldUpdate(kJFalse);
+		ShouldUpdate(false);
 		}
 	else if (sender == GetWindow() && message.Is(JXWindow::kDeiconified))
 		{
-		ShouldUpdate(kJTrue);
+		ShouldUpdate(true);
 		}
 
 	else
@@ -614,7 +614,7 @@ CMPlot2DDir::ReceiveGoingAway
 void
 CMPlot2DDir::ShouldUpdate
 	(
-	const JBoolean update
+	const bool update
 	)
 {
 	itsShouldUpdateFlag = update;
@@ -674,7 +674,7 @@ CMPlot2DDir::Update
 			itsYData->Append(y);
 
 			JIndex j;
-			const JBoolean ok = itsPlotWidget->AddCurve(*x, *y, kJTrue, JString::empty, &j);
+			const bool ok = itsPlotWidget->AddCurve(*x, *y, true, JString::empty, &j);
 			assert( ok && j == i );
 
 			cmd = itsLink->CreatePlot2DCommand(this, x, y);
@@ -687,7 +687,7 @@ CMPlot2DDir::Update
 		itsPlotWidget->SetCurveName(i, curveName);
 
 		JInteger min, max;
-		JBoolean ok = (itsExprData->GetString(i, CMPlot2DExprTable::kRangeMinColIndex)).ConvertToInteger(&min);
+		bool ok = (itsExprData->GetString(i, CMPlot2DExprTable::kRangeMinColIndex)).ConvertToInteger(&min);
 		assert( ok );
 		ok = (itsExprData->GetString(i, CMPlot2DExprTable::kRangeMaxColIndex)).ConvertToInteger(&max);
 		assert( ok );

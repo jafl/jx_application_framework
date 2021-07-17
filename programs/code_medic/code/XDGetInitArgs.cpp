@@ -24,7 +24,7 @@ XDGetInitArgs::XDGetInitArgs
 	JXInputField* argInput
 	)
 	:
-	CMGetInitArgs(JString("status", kJFalse))
+	CMGetInitArgs(JString("status", JString::kNoCopy))
 {
 }
 

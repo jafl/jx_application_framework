@@ -21,8 +21,8 @@ public:
 
 	virtual ~JSquareRoot();
 
-	virtual JBoolean	Evaluate(JFloat* result) const override;
-	virtual JBoolean	Evaluate(JComplex* result) const override;
+	virtual bool	Evaluate(JFloat* result) const override;
+	virtual bool	Evaluate(JComplex* result) const override;
 	virtual JFunction*	Copy() const override;
 	virtual JIndex		Layout(const JExprRenderer& renderer,
 							   const JPoint& upperLeft, const JSize fontSize,

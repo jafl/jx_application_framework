@@ -30,7 +30,7 @@ protected:
 
 private:
 
-	JBoolean	itsIgnoreChangeFlag;
+	bool	itsIgnoreChangeFlag;
 
 private:
 

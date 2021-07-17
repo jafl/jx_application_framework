@@ -25,7 +25,7 @@ JTEST(Exercise)
 	TestStyler styler;
 	text.SetStyler(&styler);
 
-	text.SetText(JString("føø yes nø zäp bar bäz", kJFalse));
+	text.SetText(JString("føø yes nø zäp bar bäz", JString::kNoCopy));
 
 	JRunArrayIterator<JFont> iter(text.GetStyles());
 
@@ -60,10 +60,10 @@ JTEST(Exercise)
 	JAssertFalse(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().strike);
 
-	JBoolean wrapped;
+	bool wrapped;
 	const JStringMatch m1 = text.SearchForward(
-		JStyledText::TextIndex(1,1), JRegex("yes"), kJFalse, kJFalse, &wrapped);
-	text.ReplaceMatch(m1, JString("yäy", kJFalse), nullptr, kJFalse);
+		JStyledText::TextIndex(1,1), JRegex("yes"), false, false, &wrapped);
+	text.ReplaceMatch(m1, JString("yäy", JString::kNoCopy), nullptr, false);
 
 	iter.MoveTo(kJIteratorStartBefore, 2);
 	iter.Next(&f);

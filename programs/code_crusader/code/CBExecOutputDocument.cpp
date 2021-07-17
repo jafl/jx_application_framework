@@ -28,8 +28,6 @@
 
 const JSize kMenuButtonWidth = 60;
 
-static const JString kNewLine("\n", kJFalse);
-
 // JBroadcaster message types
 
 const JUtf8Byte* CBExecOutputDocument::kFinished = "Finished::CBExecOutputDocument";
@@ -43,20 +41,20 @@ CBExecOutputDocument::CBExecOutputDocument
 	(
 	const CBTextFileType	fileType,
 	const JUtf8Byte*		helpSectionName,
-	const JBoolean			focusToCmd,
-	const JBoolean			allowStop
+	const bool			focusToCmd,
+	const bool			allowStop
 	)
 	:
-	CBTextDocument(fileType, helpSectionName, kJFalse, ConstructTextEditor),
+	CBTextDocument(fileType, helpSectionName, false, ConstructTextEditor),
 	itsFocusToCmdFlag(focusToCmd)
 {
 	itsProcess            = nullptr;
 	itsRecordLink         = nullptr;
 	itsDataLink           = nullptr;
 	itsCmdStream          = nullptr;
-	itsReceivedDataFlag   = kJFalse;
-	itsProcessPausedFlag  = kJFalse;
-	itsClearWhenStartFlag = kJTrue;
+	itsReceivedDataFlag   = false;
+	itsProcessPausedFlag  = false;
+	itsClearWhenStartFlag = true;
 	itsUseCount           = 0;
 	itsDontCloseMsg       = JGetString("WaitCloseMsg::CBExecOutputDocument");
 
@@ -76,7 +74,7 @@ CBExecOutputDocument::CBExecOutputDocument
 						  rect.right - x,0, kMenuButtonWidth,h);
 	assert( itsPauseButton != nullptr );
 	ListenTo(itsPauseButton);
-	itsPauseButton->SetShortcuts(JString("^Z", kJFalse));
+	itsPauseButton->SetShortcuts(JString("^Z", JString::kNoCopy));
 	itsPauseButton->SetHint(JGetString("PauseButtonHint::CBExecOutputDocument"));
 
 	if (allowStop)
@@ -87,7 +85,7 @@ CBExecOutputDocument::CBExecOutputDocument
 							  rect.right - 2*kMenuButtonWidth,0, kMenuButtonWidth,h);
 		assert( itsStopButton != nullptr );
 		ListenTo(itsStopButton);
-		itsStopButton->SetShortcuts(JString("^C#.", kJFalse));
+		itsStopButton->SetShortcuts(JString("^C#.", JString::kNoCopy));
 		itsStopButton->SetHint(JGetString("StopButtonHint::CBExecOutputDocument"));
 		}
 	else
@@ -104,7 +102,7 @@ CBExecOutputDocument::CBExecOutputDocument
 
 	if (!allowStop)
 		{
-		itsKillButton->SetShortcuts(JString("^C#.", kJFalse));
+		itsKillButton->SetShortcuts(JString("^C#.", JString::kNoCopy));
 		itsKillButton->SetHint(JGetString("StopButtonHint::CBExecOutputDocument"));
 		}
 
@@ -136,7 +134,7 @@ CBExecOutputDocument::CBExecOutputDocument
 						  JXWidget::kFixedRight, vSizing,
 						  -1000, -1000, 500, 500);
 	assert( itsEOFButton != nullptr );
-	itsEOFButton->SetShortcuts(JString("^D", kJFalse));
+	itsEOFButton->SetShortcuts(JString("^D", JString::kNoCopy));
 	itsEOFButton->Hide();
 	ListenTo(itsEOFButton);
 
@@ -144,8 +142,8 @@ CBExecOutputDocument::CBExecOutputDocument
 	assert( task != nullptr );
 	task->Go();
 
-	GetTextEditor()->SetWritable(kJFalse);
-	JXGetDocumentManager()->DocumentMustStayOpen(this, kJTrue);
+	GetTextEditor()->SetWritable(false);
+	JXGetDocumentManager()->DocumentMustStayOpen(this, true);
 
 	window->SetWMClass(CBGetWMClassInstance(), CBGetExecOutputWindowClass());
 }
@@ -164,7 +162,7 @@ CBExecOutputDocument::ConstructTextEditor
 	)
 {
 	CBTextEditor* te =
-		jnew CBTextEditor(document, fileName, menuBar, lineInput, colInput, kJTrue,
+		jnew CBTextEditor(document, fileName, menuBar, lineInput, colInput, true,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( te != nullptr );
@@ -256,14 +254,14 @@ CBExecOutputDocument::Activate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBExecOutputDocument::OKToClose()
 {
 	if (itsUseCount > 0 || itsRecordLink != nullptr || itsDataLink != nullptr)
 		{
 		Activate();
 		JGetUserNotification()->ReportError(itsDontCloseMsg);
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -314,7 +312,7 @@ CBExecOutputDocument::SetConnection
 	const JString&	dontCloseMsg,
 	const JString&	execDir,
 	const JString&	execCmd,
-	const JBoolean	showPID
+	const bool	showPID
 	)
 {
 	assert( !ProcessRunning() && itsRecordLink == nullptr && itsDataLink == nullptr );
@@ -338,7 +336,7 @@ CBExecOutputDocument::SetConnection
 
 	if (outFD != ACE_INVALID_HANDLE)
 		{
-		itsCmdStream = jnew JOutPipeStream(outFD, kJTrue);
+		itsCmdStream = jnew JOutPipeStream(outFD, true);
 		assert( itsCmdStream != nullptr );
 		}
 
@@ -352,7 +350,7 @@ CBExecOutputDocument::SetConnection
 		const JString& text = te->GetText()->GetText();
 		JStringIterator iter(text, kJIteratorStartAtEnd);
 		JUtf8Character c;
-		while (iter.Prev(&c, kJFalse) && c == '\n')
+		while (iter.Prev(&c, kJIteratorStay) && c == '\n')
 			{
 			iter.SkipPrev();
 			}
@@ -364,7 +362,7 @@ CBExecOutputDocument::SetConnection
 			}
 		iter.Invalidate();
 
-		te->Paste(JString("\n\n----------\n\n", kJFalse));
+		te->Paste(JString("\n\n----------\n\n", JString::kNoCopy));
 		te->GetText()->ClearUndo();
 		}
 
@@ -373,31 +371,31 @@ CBExecOutputDocument::SetConnection
 		const JString timeStamp = JGetTimeStamp();
 
 		te->Paste(timeStamp);
-		te->Paste(kNewLine);
+		te->Paste(JString::newline);
 		te->Paste(execDir);
-		te->Paste(kNewLine);
+		te->Paste(JString::newline);
 		te->Paste(execCmd);
 
 		if (showPID)
 			{
-			te->Paste(kNewLine);
+			te->Paste(JString::newline);
 			te->Paste(JGetString("ProcessID::CBExecOutputDocument"));
 			te->Paste(JString((JUInt64) p->GetPID()));
 			}
 
-		te->Paste(kNewLine);
-		te->Paste(kNewLine);
+		te->Paste(JString::newline);
+		te->Paste(JString::newline);
 		te->GetText()->ClearUndo();
 		}
 
 	itsPath              = execDir;
-	itsReceivedDataFlag  = kJFalse;
-	itsProcessPausedFlag = kJFalse;
+	itsReceivedDataFlag  = false;
+	itsProcessPausedFlag = false;
 	itsDontCloseMsg      = dontCloseMsg;
-	FileChanged(windowTitle, kJFalse);
+	FileChanged(windowTitle, false);
 
 	UpdateButtons();
-	te->SetWritable(kJFalse);
+	te->SetWritable(false);
 	itsCmdInput->GetText()->SetText(JString::empty);
 }
 
@@ -457,14 +455,14 @@ CBExecOutputDocument::Receive
 		const JProcess::Finished* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
 		assert( info != nullptr );
-		const JBoolean stayOpen = ProcessFinished(*info);
+		const bool stayOpen = ProcessFinished(*info);
 
 		// let somebody else start a new process
 
-		itsClearWhenStartFlag = kJFalse;	// in case they call SetConnection() in ReceiveWithFeedback()
-		Finished msg(info->Successful(), JI2B(info->GetReason() != kJChildFinished));
+		itsClearWhenStartFlag = false;	// in case they call SetConnection() in ReceiveWithFeedback()
+		Finished msg(info->Successful(), info->GetReason() != kJChildFinished);
 		BroadcastWithFeedback(&msg);
-		itsClearWhenStartFlag = JI2B(itsUseCount == 0 && !msg.SomebodyIsWaiting());
+		itsClearWhenStartFlag = itsUseCount == 0 && !msg.SomebodyIsWaiting();
 
 		if (itsUseCount == 0 && !stayOpen && !ProcessRunning())
 			{
@@ -513,7 +511,7 @@ CBExecOutputDocument::ReceiveRecord()
 	assert( itsRecordLink != nullptr );
 
 	JString text;
-	const JBoolean ok = itsRecordLink->GetNextMessage(&text);
+	const bool ok = itsRecordLink->GetNextMessage(&text);
 	assert( ok );
 
 	// remove text that has already been printed
@@ -532,7 +530,7 @@ CBExecOutputDocument::ReceiveRecord()
 
 	if (!itsReceivedDataFlag)
 		{
-		itsReceivedDataFlag = kJTrue;
+		itsReceivedDataFlag = true;
 		if (!IsActive())
 			{
 			Activate();
@@ -559,7 +557,7 @@ CBExecOutputDocument::AppendText
 	CBTextEditor* te = GetTextEditor();
 	JPasteUNIXTerminalOutput(text, te->GetText()->GetBeyondEnd(), te->GetText());
 	te->SetCaretLocation(te->GetText()->GetBeyondEnd().charIndex);
-	te->Paste(kNewLine);
+	te->Paste(JString::newline);
 }
 
 /******************************************************************************
@@ -585,7 +583,7 @@ CBExecOutputDocument::ReceiveData
 
 	if (!itsReceivedDataFlag)
 		{
-		itsReceivedDataFlag = kJTrue;
+		itsReceivedDataFlag = true;
 		if (!IsActive())
 			{
 			Activate();
@@ -612,7 +610,7 @@ CBExecOutputDocument::ToggleProcessRunning()
 		{
 		if (itsProcess->SendSignalToGroup(SIGSTOP) == kJNoError)
 			{
-			itsProcessPausedFlag = kJTrue;
+			itsProcessPausedFlag = true;
 			UpdateButtons();
 			}
 		}
@@ -620,7 +618,7 @@ CBExecOutputDocument::ToggleProcessRunning()
 		{
 		if (itsProcess->SendSignalToGroup(SIGCONT) == kJNoError)
 			{
-			itsProcessPausedFlag = kJFalse;
+			itsProcessPausedFlag = false;
 			UpdateButtons();
 			}
 		}
@@ -674,11 +672,11 @@ CBExecOutputDocument::CloseOutFD()
 /******************************************************************************
  ProcessFinished (virtual protected)
 
-	Returns kJTrue if document should stay open.
+	Returns true if document should stay open.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBExecOutputDocument::ProcessFinished
 	(
 	const JProcess::Finished& info
@@ -690,7 +688,7 @@ CBExecOutputDocument::ProcessFinished
 
 	do
 		{
-		itsReceivedDataFlag = kJFalse;
+		itsReceivedDataFlag = false;
 		JXApplication::CheckACEReactor();
 		}
 		while (itsReceivedDataFlag);
@@ -714,7 +712,7 @@ CBExecOutputDocument::ProcessFinished
 
 	te->SetCaretLocation(te->GetText()->GetText().GetCharacterCount()+1);
 
-	JBoolean stayOpen = kJTrue;
+	bool stayOpen = true;
 
 	int result;
 	const JChildExitReason reason = info.GetReason(&result);
@@ -726,15 +724,15 @@ CBExecOutputDocument::ProcessFinished
 		te->GetText()->ClearUndo();
 		if (!IsActive())
 			{
-			stayOpen = kJFalse;
+			stayOpen = false;
 			}
 		else
 			{
 			const JString reasonStr = JPrintChildExitReason(reason, result);
 
-			te->Paste(kNewLine);
+			te->Paste(JString::newline);
 			te->Paste(reasonStr);
-			te->Paste(kNewLine);
+			te->Paste(JString::newline);
 
 			DataReverted();
 			te->GetText()->ClearUndo();
@@ -744,14 +742,14 @@ CBExecOutputDocument::ProcessFinished
 		{
 		const JString reasonStr = JPrintChildExitReason(reason, result);
 
-		te->Paste(kNewLine);
+		te->Paste(JString::newline);
 		te->Paste(reasonStr);
-		te->Paste(kNewLine);
+		te->Paste(JString::newline);
 
 		if (reason != kJChildFinished)
 			{
 			#ifdef _J_OSX
-			const JString path("/cores/", kJFalse);
+			const JString path("/cores/", JString::kNoCopy);
 			#else
 			const JString path = itsPath;
 			#endif
@@ -761,9 +759,9 @@ CBExecOutputDocument::ProcessFinished
 			if (JFileExists(coreFull))
 				{
 				te->Paste(JGetString("CoreLocation::CBExecOutputDocument"));
-				te->SetCurrentFontBold(kJTrue);
+				te->SetCurrentFontBold(true);
 				te->Paste(coreFull);
-				te->SetCurrentFontBold(kJFalse);
+				te->SetCurrentFontBold(false);
 				}
 			else
 				{
@@ -774,7 +772,7 @@ CBExecOutputDocument::ProcessFinished
 				const JString msg = JGetString("CoreName::CBExecOutputDocument", map, sizeof(map));
 				te->Paste(msg);
 				}
-			te->Paste(kNewLine);
+			te->Paste(JString::newline);
 			}
 
 		DataReverted();
@@ -813,7 +811,7 @@ CBExecOutputDocument::UpdateButtons()
 		itsCmdPrompt->Show();
 		itsCmdInput->Show();
 		itsEOFButton->Show();
-		SetFileDisplayVisible(kJFalse);
+		SetFileDisplayVisible(false);
 
 		if (itsProcessPausedFlag)
 			{
@@ -858,7 +856,7 @@ CBExecOutputDocument::UpdateButtons()
 		itsCmdPrompt->Hide();
 		itsCmdInput->Hide();
 		itsEOFButton->Hide();
-		SetFileDisplayVisible(kJTrue);
+		SetFileDisplayVisible(true);
 		GetTextEditor()->Focus();
 
 		itsPauseButton->SetLabel(JGetString("PauseLabel::CBExecOutputDocument"));
@@ -924,14 +922,14 @@ CBExecOutputDocument::ConvertSelectionToFullPath
 /******************************************************************************
  NeedsFormattedData (virtual protected)
 
-	Derived classes should override to return kJTrue if they need to use
+	Derived classes should override to return true if they need to use
 	RecordLink.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBExecOutputDocument::NeedsFormattedData()
 	const
 {
-	return kJFalse;
+	return false;
 }

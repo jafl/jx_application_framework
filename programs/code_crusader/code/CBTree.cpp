@@ -45,8 +45,8 @@ const JSize kBlockSize = 100;
 
 // Code Mill info
 
-static const JString kCodeMillProgramName("code_mill", kJFalse);
-static const JString kCodeMillOptions("--delete --output_path", kJFalse);
+static const JString kCodeMillProgramName("code_mill", JString::kNoCopy);
+static const JString kCodeMillOptions("--delete --output_path", JString::kNoCopy);
 #ifndef CODE_CRUSADER_UNIT_TEST
 const JFileVersion kCodeMillDataVersion = 0;
 #endif
@@ -114,8 +114,8 @@ JIndex i;
 
 	std::istream* symInput        = (projVers <= 41 ? &projInput : symStream);
 	const JFileVersion symVers    = (projVers <= 41 ? projVers   : origSymVers);
-	const JBoolean useSetProjData = JI2B( setInput == nullptr || setVers < 71 );
-	const JBoolean useSymProjData = JI2B( symInput == nullptr || symVers < 71 );
+	const bool useSetProjData = setInput == nullptr || setVers < 71;
+	const bool useSymProjData = symInput == nullptr || symVers < 71;
 
 /* symbol file */
 
@@ -132,7 +132,7 @@ JIndex i;
 
 	if (projVers < 71)
 		{
-		JBoolean showLoneClasses, showLoneStructs, showEnums;
+		bool showLoneClasses, showLoneStructs, showEnums;
 		if (projVers >= 12)
 			{
 			projInput >> JBoolFromString(showLoneClasses);
@@ -152,14 +152,14 @@ JIndex i;
 			}
 		else
 			{
-			itsNeedsMinimizeMILinksFlag = kJTrue;
+			itsNeedsMinimizeMILinksFlag = true;
 			}
 		}
 	if (!useSetProjData)	// overwrite
 		{
 		if (setVers < 87)
 			{
-			JBoolean showLoneClasses, showLoneStructs, showEnums;
+			bool showLoneClasses, showLoneStructs, showEnums;
 			*setInput >> JBoolFromString(showLoneClasses)
 					  >> JBoolFromString(showLoneStructs)
 					  >> JBoolFromString(showEnums);
@@ -171,7 +171,7 @@ JIndex i;
 
 	if (symInput != nullptr)
 		{
-		JBoolean classNamesSorted = kJTrue;
+		bool classNamesSorted = true;
 		if (symVers < 7)
 			{
 			*symInput >> JBoolFromString(classNamesSorted);
@@ -256,7 +256,7 @@ JIndex i;
 
 	// check for change in file suffixes
 
-	JBoolean needsReparse = JI2B(projVers < 49);
+	bool needsReparse = projVers < 49;
 	if (projVers >= 9)
 		{
 		JPtrArray<JString> suffixList(JPtrArrayT::kDeleteAll);
@@ -268,9 +268,9 @@ JIndex i;
 			{
 			*symInput >> suffixList;
 			}
-		if (!JSameStrings(*itsSuffixList, suffixList, kJTrue))
+		if (!JSameStrings(*itsSuffixList, suffixList, JString::kCompareCase))
 			{
-			needsReparse = kJTrue;
+			needsReparse = true;
 			}
 		}
 
@@ -320,16 +320,16 @@ CBTree::CBTreeX
 	InstallCollection(itsClassesByFull);
 
 	itsWidth = itsHeight = 0;
-	itsBroadcastClassSelFlag = kJTrue;
+	itsBroadcastClassSelFlag = true;
 
-	itsDrawMILinksOnTopFlag = kJTrue;
+	itsDrawMILinksOnTopFlag = true;
 
-	itsMinimizeMILinksFlag      = kJFalse;
-	itsNeedsMinimizeMILinksFlag = kJFalse;
+	itsMinimizeMILinksFlag      = false;
+	itsNeedsMinimizeMILinksFlag = false;
 
-	itsReparseAllFlag           = kJFalse;
-	itsChangedDuringParseFlag   = kJFalse;
-	itsBeganEmptyFlag           = kJFalse;
+	itsReparseAllFlag           = false;
+	itsChangedDuringParseFlag   = false;
+	itsBeganEmptyFlag           = false;
 
 	itsStreamInFn = streamInFn;
 }
@@ -365,7 +365,7 @@ CBTree::ReloadSetup
 {
 JIndex i;
 
-	itsReparseAllFlag = kJFalse;
+	itsReparseAllFlag = false;
 
 	itsClassesByFull->DeleteAll();
 	itsVisibleByGeom->RemoveAll();
@@ -424,7 +424,7 @@ JIndex i;
 
 	JPtrArray<JString> suffixList(JPtrArrayT::kDeleteAll);
 	input >> suffixList;
-	if (!JSameStrings(*itsSuffixList, suffixList, kJTrue))
+	if (!JSameStrings(*itsSuffixList, suffixList, JString::kCompareCase))
 		{
 		NextUpdateMustReparseAll();
 		}
@@ -501,7 +501,7 @@ JIndex i;
 		for (i=1; i<=geomCount; i++)
 			{
 			JIndex j;
-			const JBoolean found = itsVisibleByName->Find(itsVisibleByGeom->GetElement(i), &j);
+			const bool found = itsVisibleByName->Find(itsVisibleByGeom->GetElement(i), &j);
 			assert( found );
 			*symOutput << ' ' << j;
 			}
@@ -554,7 +554,7 @@ CBTree::FileTypesChanged
 void
 CBTree::PrepareForUpdate
 	(
-	const JBoolean reparseAll
+	const bool reparseAll
 	)
 {
 	assert( !itsReparseAllFlag || reparseAll );
@@ -586,13 +586,13 @@ CBTree::PrepareForUpdate
 /******************************************************************************
  UpdateFinished (virtual)
 
-	Cleans up after updating files.  Returns kJTrue if changes were found.
+	Cleans up after updating files.  Returns true if changes were found.
 
 	*** This often runs in the update thread.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::UpdateFinished
 	(
 	const JArray<JFAID_t>& deadFileList
@@ -608,7 +608,7 @@ CBTree::UpdateFinished
 
 	// restore collapsed classes
 
-	const JBoolean forceRecalcVisible = RestoreCollapsedClasses(*itsCollapsedList);
+	const bool forceRecalcVisible = RestoreCollapsedClasses(*itsCollapsedList);
 	jdelete itsCollapsedList;
 	itsCollapsedList = nullptr;
 
@@ -631,7 +631,7 @@ CBTree::UpdateFinished
 			Broadcast(Changed());
 			}
 
-		itsReparseAllFlag = kJFalse;
+		itsReparseAllFlag = false;
 		}
 
 	return itsChangedDuringParseFlag;
@@ -640,7 +640,7 @@ CBTree::UpdateFinished
 /******************************************************************************
  FileChanged
 
-	Returns kJTrue if the file should be parsed.
+	Returns true if the file should be parsed.
 
 	Not private because it is called by CBFileListTable::ParseFile().
 
@@ -690,7 +690,7 @@ CBTree::RemoveFile
 			itsVisibleByGeom->Remove(theClass);
 			itsVisibleByName->Remove(theClass);
 
-			itsChangedDuringParseFlag = kJTrue;
+			itsChangedDuringParseFlag = true;
 			}
 		}
 }
@@ -729,13 +729,13 @@ CBTree::SaveCollapsedClasses
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::RestoreCollapsedClasses
 	(
 	const JPtrArray<JString>& list
 	)
 {
-	JBoolean changed = kJFalse;
+	bool changed = false;
 
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -744,8 +744,8 @@ CBTree::RestoreCollapsedClasses
 		CBClass* theClass;
 		if (FindClass(*fullName, &theClass) && !theClass->IsCollapsed())
 			{
-			theClass->SetCollapsed(kJTrue);
-			changed = kJTrue;
+			theClass->SetCollapsed(true);
+			changed = true;
 			}
 		}
 
@@ -772,7 +772,7 @@ CBTree::AddClass
 		itsVisibleByGeom->RemoveAll();
 		}
 
-	itsChangedDuringParseFlag = kJTrue;
+	itsChangedDuringParseFlag = true;
 }
 
 /******************************************************************************
@@ -822,15 +822,15 @@ JIndex i;
 	// Keep looking for parents as long as somebody finds another parent.
 	// Don't allow ghosts since not all parents have been found.
 
-	JBoolean progress;
+	bool progress;
 	do
 		{
-		progress = kJFalse;
+		progress = false;
 		for (i=1; i<=classCount; i++)
 			{
-			const JBoolean foundAnotherParent =
-				itsClassesByFull->GetElement(i)->FindParents(kJFalse);
-			progress = JConvertToBoolean( progress || foundAnotherParent );
+			const bool foundAnotherParent =
+				itsClassesByFull->GetElement(i)->FindParents(false);
+			progress = progress || foundAnotherParent;
 			}
 		}
 		while (progress);
@@ -840,14 +840,14 @@ JIndex i;
 
 	for (i=1; i<=classCount; i++)
 		{
-		itsClassesByFull->GetElement(i)->FindParents(kJTrue);
+		itsClassesByFull->GetElement(i)->FindParents(true);
 		classCount = GetElementCount();
 		}
 
 	// Now that all parents have been found, we can hide lone classes and
 	// classes whose parents are hidden or collapsed.
 
-	RecalcVisible(kJFalse, kJTrue);
+	RecalcVisible(false, true);
 }
 
 /******************************************************************************
@@ -863,19 +863,19 @@ JIndex i;
 void
 CBTree::RecalcVisible
 	(
-	const JBoolean forceRebuildVisible,
-	const JBoolean forcePlaceAll
+	const bool forceRebuildVisible,
+	const bool forcePlaceAll
 	)
 {
 	const JSize classCount  = itsClassesByFull->GetElementCount();
-	JBoolean rebuildVisible = forceRebuildVisible;
+	bool rebuildVisible = forceRebuildVisible;
 
 	// hide classes whose parents are hidden or collapsed
 
-	JBoolean changed;
+	bool changed;
 	do
 		{
-		changed = kJFalse;
+		changed = false;
 		for (JIndex i=1; i<=classCount; i++)
 			{
 			CBClass* theClass = itsClassesByFull->GetElement(i);
@@ -884,13 +884,13 @@ CBTree::RecalcVisible
 				{
 				if (parent->IsCollapsed() && theClass->IsVisible())
 					{
-					rebuildVisible = changed = kJTrue;
-					theClass->SetVisible(kJFalse);
+					rebuildVisible = changed = true;
+					theClass->SetVisible(false);
 					}
 				else if (!parent->IsCollapsed() &&
 						 parent->IsVisible() != theClass->IsVisible())
 					{
-					rebuildVisible = changed = kJTrue;
+					rebuildVisible = changed = true;
 					theClass->SetVisible(parent->IsVisible());
 					}
 				}
@@ -919,7 +919,7 @@ CBTree::RecalcVisible
 	if (rebuildVisible || itsVisibleByGeom->IsEmpty())
 		{
 		itsVisibleByGeom->CopyPointers(*itsVisibleByName,
-									   itsVisibleByGeom->GetCleanUpAction(), kJFalse);
+									   itsVisibleByGeom->GetCleanUpAction(), false);
 
 		// move class trees to top, to simplify visual searching
 
@@ -1023,7 +1023,7 @@ CBTree::PlaceClass
 	const JCoordinate origY = *y;
 	const JCoordinate w     = theClass->GetTotalWidth();
 
-	JBoolean foundDescendants = kJFalse;
+	bool foundDescendants = false;
 	const JSize classCount = itsVisibleByGeom->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
@@ -1031,7 +1031,7 @@ CBTree::PlaceClass
 		CBClass* firstParent;
 		if (aClass->GetParent(1, &firstParent) && theClass == firstParent)
 			{
-			foundDescendants = kJTrue;
+			foundDescendants = true;
 			PlaceClass(aClass, x+w, y, maxWidth);
 			}
 		}
@@ -1067,9 +1067,9 @@ CBTree::ForceMinimizeMILinks()
 {
 	if (itsNeedsMinimizeMILinksFlag)
 		{
-		const JBoolean saveFlag = itsMinimizeMILinksFlag;
-		itsMinimizeMILinksFlag  = kJTrue;
-		RecalcVisible(kJTrue);
+		const bool saveFlag = itsMinimizeMILinksFlag;
+		itsMinimizeMILinksFlag  = true;
+		RecalcVisible(true);
 		itsMinimizeMILinksFlag  = saveFlag;
 		}
 }
@@ -1095,32 +1095,32 @@ JIndex i,j;
 	const JSize classCount = itsVisibleByGeom->GetElementCount();
 	if (classCount == 0)
 		{
-		itsNeedsMinimizeMILinksFlag = kJFalse;
+		itsNeedsMinimizeMILinksFlag = false;
 		return;
 		}
 	else if (!itsMinimizeMILinksFlag)
 		{
-		itsNeedsMinimizeMILinksFlag = kJTrue;
+		itsNeedsMinimizeMILinksFlag = true;
 		return;
 		}
 
-	itsNeedsMinimizeMILinksFlag = kJFalse;
+	itsNeedsMinimizeMILinksFlag = false;
 
 	JArray<RootGeom> rootGeom;
 	PlaceAll(&rootGeom);
 
 	// optimize each disjoint subset of trees connected by MI
 
-	JArray<JBoolean> marked(classCount);
+	JArray<bool> marked(classCount);
 	for (i=1; i<=classCount; i++)
 		{
-		marked.AppendElement(kJFalse);
+		marked.AppendElement(false);
 		}
 
 	JPtrArray<CBClass> newByGeom(*itsVisibleByGeom, JPtrArrayT::kForgetAll);
 
 	JLatentPG pg(1000);
-	pg.VariableLengthProcessBeginning(JGetString("MinMILengthsProgress::CBTree"), kJTrue, kJFalse);
+	pg.VariableLengthProcessBeginning(JGetString("MinMILengthsProgress::CBTree"), true, false);
 	pg.DisplayBusyCursor();
 
 	for (i=1; i<=classCount; i++)
@@ -1132,7 +1132,7 @@ JIndex i,j;
 
 			JArray<RootMIInfo> rootList;
 			FindRoots(theClass, rootGeom, &rootList);
-			marked.SetElement(i, kJTrue);
+			marked.SetElement(i, true);
 
 			// find all the other roots in this connected subset of trees
 			// (must check GetElementCount() each time since list grows)
@@ -1157,7 +1157,7 @@ JIndex i,j;
 						{
 						jdelete (rootList.GetElement(j)).connList;
 						}
-					itsNeedsMinimizeMILinksFlag = kJTrue;
+					itsNeedsMinimizeMILinksFlag = true;
 					break;
 					}
 
@@ -1183,7 +1183,7 @@ JIndex i,j;
 
 	pg.ProcessFinished();
 
-	itsVisibleByGeom->CopyPointers(newByGeom, itsVisibleByGeom->GetCleanUpAction(), kJFalse);
+	itsVisibleByGeom->CopyPointers(newByGeom, itsVisibleByGeom->GetCleanUpAction(), false);
 }
 
 /******************************************************************************
@@ -1194,11 +1194,11 @@ JIndex i,j;
 	dynamic programming to avoid factorial runtime -- but it can still be
 	really slow!
 
-	Returns kJFalse if the user cancels.
+	Returns false if the user cancels.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::ArrangeRoots
 	(
 	const JArray<RootMIInfo>&	rootList,
@@ -1216,11 +1216,11 @@ CBTree::ArrangeRoots
 	l1.SetCompareFunction(CompareRSContent);
 	l2.SetCompareFunction(CompareRSContent);
 
-	JArray<JBoolean>* content = jnew JArray<JBoolean>(rootCount);
+	JArray<bool>* content = jnew JArray<bool>(rootCount);
 	assert( content != nullptr );
 	for (JIndex i=1; i<=rootCount; i++)
 		{
-		content->AppendElement(kJFalse);
+		content->AppendElement(false);
 		}
 
 	JArray<JIndex>* order = jnew JArray<JIndex>(rootCount);
@@ -1289,9 +1289,9 @@ CBTree::ArrangeRoots
 
 				// if this hasn't been tried or it beats the previous record, save it
 
-				(subset->content)->SetElement(newRootIndex, kJTrue);
+				(subset->content)->SetElement(newRootIndex, true);
 
-				JBoolean found;
+				bool found;
 				const JIndex i = list2->SearchSorted1(*subset, JListT::kAnyMatch, &found);
 				if (found && newLinkLength < (list2->GetCArray())[i-1].linkLength)
 					{
@@ -1304,7 +1304,7 @@ CBTree::ArrangeRoots
 					}
 				else if (!found)
 					{
-					JArray<JBoolean>* newContent = jnew JArray<JBoolean>(*(subset->content));
+					JArray<bool>* newContent = jnew JArray<bool>(*(subset->content));
 					assert( newContent != NULL );
 
 					JArray<JIndex>* newOrder = jnew JArray<JIndex>(*(subset->order));
@@ -1314,14 +1314,14 @@ CBTree::ArrangeRoots
 					list2->InsertElementAtIndex(i, RootSubset(newContent, newOrder, newLinkLength));
 					}
 
-				(subset->content)->SetElement(newRootIndex, kJFalse);
+				(subset->content)->SetElement(newRootIndex, false);
 				}
 
 			if (!pg.IncrementProgress())
 				{
 				CleanList(list1);
 				CleanList(list2);
-				return kJFalse;
+				return false;
 				}
 			}
 
@@ -1342,7 +1342,7 @@ CBTree::ArrangeRoots
 	jdelete completeSet.content;
 	jdelete completeSet.order;
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1382,7 +1382,7 @@ void
 CBTree::FindMIClasses
 	(
 	CBClass*				theClass,
-	JArray<JBoolean>*		marked,
+	JArray<bool>*		marked,
 	const JArray<RootGeom>&	rootGeom,
 	JArray<RootMIInfo>*		rootList
 	)
@@ -1396,13 +1396,13 @@ CBTree::FindMIClasses
 		for (JIndex parentIndex=1; parentIndex<=parentCount; parentIndex++)
 			{
 			CBClass* p;
-			const JBoolean ok = c->GetParent(parentIndex, &p);
+			const bool ok = c->GetParent(parentIndex, &p);
 			assert( ok );
 
 			if (p == theClass && !marked->GetElement(i))
 				{
 				FindRoots(c, rootGeom, rootList);
-				marked->SetElement(i, kJTrue);
+				marked->SetElement(i, true);
 				}
 			if (parentIndex == 1 && p == theClass && c->HasChildren())
 				{
@@ -1442,7 +1442,7 @@ CBTree::FindRoots
 		// find primary root for this parent
 
 		CBClass* parent;
-		JBoolean ok = theClass->GetParent(parentIndex, &parent);
+		bool ok = theClass->GetParent(parentIndex, &parent);
 		assert( ok );
 
 		CBClass* root = parent;
@@ -1496,7 +1496,7 @@ CBTree::FindRoots
 /******************************************************************************
  FindRoot (private)
 
-	Returns kJTrue if rootList contains the given root.  We have to do
+	Returns true if rootList contains the given root.  We have to do
 	a linear search because roots are appended to the list as they are
 	encountered to allow the list to grow as the overall search for roots
 	proceeds. (see MinimizeMILinks())  This is also required because the
@@ -1504,7 +1504,7 @@ CBTree::FindRoots
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::FindRoot
 	(
 	CBClass*					root,
@@ -1519,22 +1519,22 @@ CBTree::FindRoot
 		if (root == (rootList.GetElement(i)).root)
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  FindClass
 
-	Returns kJTrue if a class with the given full name exists.
+	Returns true if a class with the given full name exists.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::FindClass
 	(
 	const JString&	fullName,
@@ -1545,7 +1545,7 @@ CBTree::FindClass
 	return FindClass(fullName, const_cast<CBClass**>(theClass));
 }
 
-JBoolean
+bool
 CBTree::FindClass
 	(
 	const JString&	fullName,
@@ -1553,7 +1553,7 @@ CBTree::FindClass
 	)
 	const
 {
-	JBoolean found = kJFalse;
+	bool found = false;
 	JIndex index   = 0;
 	if (!IsEmpty())
 		{
@@ -1564,24 +1564,24 @@ CBTree::FindClass
 	if (found)
 		{
 		*theClass = itsClassesByFull->GetElement(index);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*theClass = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
 /******************************************************************************
  IsUniqueClassName
 
-	Returns kJTrue if there exists a single class with the given name,
+	Returns true if there exists a single class with the given name,
 	not full name.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::IsUniqueClassName
 	(
 	const JString&	name,
@@ -1604,12 +1604,12 @@ CBTree::IsUniqueClassName
 			else
 				{
 				*theClass = nullptr;
-				return kJFalse;
+				return false;
 				}
 			}
 		}
 
-	return JI2B( *theClass != nullptr );
+	return *theClass != nullptr;
 }
 
 /******************************************************************************
@@ -1619,7 +1619,7 @@ CBTree::IsUniqueClassName
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::ClosestVisibleMatch
 	(
 	const JString&	prefixStr,
@@ -1630,11 +1630,11 @@ CBTree::ClosestVisibleMatch
 	if (IsEmpty())
 		{
 		*theClass = nullptr;
-		return kJFalse;
+		return false;
 		}
 
 	CBClass target(prefixStr);
-	JBoolean found;
+	bool found;
 	JIndex index =
 		itsVisibleByName->SearchSorted1(&target, JListT::kFirstMatch, &found);
 	if (index > itsVisibleByName->GetElementCount())		// insert beyond end of list
@@ -1642,7 +1642,7 @@ CBTree::ClosestVisibleMatch
 		index = itsVisibleByName->GetElementCount();
 		}
 	*theClass = itsVisibleByName->GetElement(index);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1650,7 +1650,7 @@ CBTree::ClosestVisibleMatch
 
 	Does "container" or any of its parents contain a class called "parentName"?
 
-	Returns kJTrue if a class "parentName" exists and the namespace is a class
+	Returns true if a class "parentName" exists and the namespace is a class
 	that is an ancestor of the class "container".
 
 	"parent" returns the class "parentName".
@@ -1660,7 +1660,7 @@ CBTree::ClosestVisibleMatch
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::FindParent
 	(
 	const JString&	parentName,
@@ -1694,14 +1694,14 @@ CBTree::FindParent
 				{
 				*parent    = c;
 				*nameSpace = prefixClassName + namespaceOp;
-				return kJTrue;
+				return true;
 				}
 			}
 		}
 
 	*parent = nullptr;
 	nameSpace->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1739,7 +1739,7 @@ CBTree::ClassToIndexForWrite
 	const
 {
 	JIndex index;
-	const JBoolean found = itsClassesByFull->Find(theClass, &index);
+	const bool found = itsClassesByFull->Find(theClass, &index);
 	assert( found );
 	return index;
 }
@@ -1749,7 +1749,7 @@ CBTree::ClassToIndexForWrite
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::HasSelection()
 	const
 {
@@ -1758,11 +1758,11 @@ CBTree::HasSelection()
 		{
 		if ((itsVisibleByName->GetElement(i))->IsSelected())
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1772,7 +1772,7 @@ CBTree::HasSelection()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::GetSelectedClasses
 	(
 	JPtrArray<CBClass>* classList
@@ -1803,15 +1803,15 @@ CBTree::GetSelectedClasses
 void
 CBTree::DeselectAll()
 {
-	itsBroadcastClassSelFlag = kJFalse;
+	itsBroadcastClassSelFlag = false;
 
 	const JSize count = itsClassesByFull->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsClassesByFull->GetElement(i))->SetSelected(kJFalse);
+		(itsClassesByFull->GetElement(i))->SetSelected(false);
 		}
 
-	itsBroadcastClassSelFlag = kJTrue;
+	itsBroadcastClassSelFlag = true;
 
 	Broadcast(AllClassesDeselected());
 }
@@ -1819,12 +1819,12 @@ CBTree::DeselectAll()
 /******************************************************************************
  GetSelectionCoverage
 
-	Returns kJTrue if there are any selected classes, and then sets *coverage
+	Returns true if there are any selected classes, and then sets *coverage
 	to the coverage of these classes, and *selCount to the number of classes.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::GetSelectionCoverage
 	(
 	JRect*	coverage,
@@ -1844,13 +1844,13 @@ CBTree::GetSelectionCoverage
 			}
 
 		*selCount = classList.GetElementCount();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		coverage->Set(0,0,0,0);
 		*selCount = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1865,7 +1865,7 @@ void
 CBTree::SelectClasses
 	(
 	const JString&	name,
-	const JBoolean	deselectAll
+	const bool	deselectAll
 	)
 {
 	if (deselectAll)
@@ -1873,17 +1873,17 @@ CBTree::SelectClasses
 		DeselectAll();
 		}
 
-	JBoolean changed       = kJFalse;
+	bool changed       = false;
 	const JSize classCount = itsClassesByFull->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
 		CBClass* theClass = itsClassesByFull->GetElement(i);
 		if (theClass->GetName() == name)
 			{
-			theClass->SetSelected(kJTrue);
+			theClass->SetSelected(true);
 			if (!theClass->IsVisible())
 				{
-				changed = kJTrue;
+				changed = true;
 				theClass->ForceVisible();
 				}
 			}
@@ -1891,7 +1891,7 @@ CBTree::SelectClasses
 
 	if (changed)
 		{
-		RecalcVisible(kJTrue);		// ForceVisible() can uncollapse
+		RecalcVisible(true);		// ForceVisible() can uncollapse
 		Broadcast(Changed());
 		}
 }
@@ -1907,8 +1907,8 @@ void
 CBTree::SelectImplementors
 	(
 	const JString&	fnName,
-	const JBoolean	caseSensitive,
-	const JBoolean	deselectAll
+	const bool	caseSensitive,
+	const bool	deselectAll
 	)
 {
 /*
@@ -1917,17 +1917,17 @@ CBTree::SelectImplementors
 		DeselectAll();
 		}
 
-	JBoolean changed       = kJFalse;
+	bool changed       = false;
 	const JSize classCount = itsClassesByFull->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
 		CBClass* theClass = itsClassesByFull->GetElement(i);
 		if (theClass->Implements(fnName, caseSensitive))
 			{
-			theClass->SetSelected(kJTrue);
+			theClass->SetSelected(true);
 			if (!theClass->IsVisible())
 				{
-				changed = kJTrue;
+				changed = true;
 				theClass->ForceVisible();
 				}
 			}
@@ -1935,7 +1935,7 @@ CBTree::SelectImplementors
 
 	if (changed)
 		{
-		RecalcVisible(kJTrue);		// ForceVisible() can uncollapse
+		RecalcVisible(true);		// ForceVisible() can uncollapse
 		Broadcast(Changed());
 		}
 */
@@ -1954,7 +1954,7 @@ CBTree::SelectParents()
 	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
 	if (GetSelectedClasses(&classList))
 		{
-		JBoolean changed       = kJFalse;
+		bool changed       = false;
 		const JSize classCount = classList.GetElementCount();
 		for (JIndex i=1; i<=classCount; i++)
 			{
@@ -1963,12 +1963,12 @@ CBTree::SelectParents()
 			for (JIndex j=1; j<=parentCount; j++)
 				{
 				CBClass* p;
-				const JBoolean ok = c->GetParent(j, &p);
+				const bool ok = c->GetParent(j, &p);
 				assert( ok );
-				p->SetSelected(kJTrue);
+				p->SetSelected(true);
 				if (!p->IsVisible())
 					{
-					changed = kJTrue;
+					changed = true;
 					p->ForceVisible();
 					}
 				}
@@ -1976,7 +1976,7 @@ CBTree::SelectParents()
 
 		if (changed)
 			{
-			RecalcVisible(kJTrue);		// ForceVisible() can uncollapse
+			RecalcVisible(true);		// ForceVisible() can uncollapse
 			Broadcast(Changed());
 			}
 		}
@@ -1995,7 +1995,7 @@ CBTree::SelectDescendants()
 	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
 	if (GetSelectedClasses(&classList))
 		{
-		JBoolean changed       = kJFalse;
+		bool changed       = false;
 		const JSize classCount = classList.GetElementCount();
 		const JSize totalCount = itsClassesByFull->GetElementCount();
 		for (JIndex i=1; i<=classCount; i++)
@@ -2006,10 +2006,10 @@ CBTree::SelectDescendants()
 				CBClass* c1 = itsClassesByFull->GetElement(j);
 				if (c->IsAncestor(c1))
 					{
-					c1->SetSelected(kJTrue);
+					c1->SetSelected(true);
 					if (!c1->IsVisible())
 						{
-						changed = kJTrue;
+						changed = true;
 						c1->ForceVisible();
 						}
 					}
@@ -2018,7 +2018,7 @@ CBTree::SelectDescendants()
 
 		if (changed)
 			{
-			RecalcVisible(kJTrue);		// ForceVisible() can uncollapse
+			RecalcVisible(true);		// ForceVisible() can uncollapse
 			Broadcast(Changed());
 			}
 		}
@@ -2155,7 +2155,7 @@ CBTree::DeriveFromSelected()
 
 	JString outputPath;
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
-	JBoolean success = kJTrue;
+	bool success = true;
 
 	JPtrArray<CBClass> ancestorList(JPtrArrayT::kForgetAll);
 
@@ -2173,7 +2173,7 @@ CBTree::DeriveFromSelected()
 		if (!err.OK())
 			{
 			err.ReportIfError();
-			success = kJFalse;
+			success = false;
 			break;
 			}
 		argList.Append(dataFileName);
@@ -2201,7 +2201,7 @@ CBTree::DeriveFromSelected()
 
 		if (output.fail())
 			{
-			success = kJFalse;
+			success = false;
 			break;
 			}
 		}
@@ -2214,7 +2214,7 @@ CBTree::DeriveFromSelected()
 		argList.Prepend(JPrepArgForExec(outputPath));
 		argList.Prepend(kCodeMillOptions);
 		argList.Prepend(kCodeMillProgramName);
-		JSimpleProcess::Create(argList, kJTrue);
+		JSimpleProcess::Create(argList, true);
 		}
 	else if (fileCount > 0)
 		{
@@ -2246,7 +2246,7 @@ CBTree::CollectAncestors
 		CBClass* parent;
 		if (cbClass->GetParent(i, &parent))
 			{
-			JBoolean found = kJFalse;
+			bool found = false;
 
 			const JSize count = list->GetElementCount();
 			for (JIndex j=1; j<=count; j++)
@@ -2254,7 +2254,7 @@ CBTree::CollectAncestors
 				if (CompareClassFullNames(parent, list->GetElement(j)) ==
 					JListT::kFirstEqualSecond)
 					{
-					found = kJTrue;
+					found = true;
 					}
 				}
 
@@ -2275,20 +2275,20 @@ CBTree::CollectAncestors
 void
 CBTree::GetMenuInfo
 	(
-	JBoolean* hasSelection,
-	JBoolean* canCollapse,
-	JBoolean* canExpand
+	bool* hasSelection,
+	bool* canCollapse,
+	bool* canExpand
 	)
 	const
 {
-	*hasSelection = kJFalse;
-	*canCollapse  = kJFalse;
-	*canExpand    = kJFalse;
+	*hasSelection = false;
+	*canCollapse  = false;
+	*canExpand    = false;
 
 	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
 	if (GetSelectedClasses(&classList))
 		{
-		*hasSelection = kJTrue;
+		*hasSelection = true;
 
 		const JSize classCount = classList.GetElementCount();
 		for (JIndex i=1; i<=classCount; i++)
@@ -2296,11 +2296,11 @@ CBTree::GetMenuInfo
 			CBClass* c = classList.GetElement(i);
 			if (c->IsCollapsed())
 				{
-				*canExpand = kJTrue;
+				*canExpand = true;
 				}
 			else if (c->HasPrimaryChildren())
 				{
-				*canCollapse = kJTrue;
+				*canCollapse = true;
 				}
 			}
 		}
@@ -2314,13 +2314,13 @@ CBTree::GetMenuInfo
 void
 CBTree::CollapseExpandSelectedClasses
 	(
-	const JBoolean collapse
+	const bool collapse
 	)
 {
 	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
 	if (GetSelectedClasses(&classList))
 		{
-		JBoolean changed       = kJFalse;
+		bool changed       = false;
 		const JSize classCount = classList.GetElementCount();
 		for (JIndex i=1; i<=classCount; i++)
 			{
@@ -2328,7 +2328,7 @@ CBTree::CollapseExpandSelectedClasses
 			if ((!collapse || c->HasPrimaryChildren()) &&
 				c->IsCollapsed() != collapse)
 				{
-				changed = kJTrue;
+				changed = true;
 				c->SetCollapsed(collapse);
 				}
 			}
@@ -2349,15 +2349,15 @@ CBTree::CollapseExpandSelectedClasses
 void
 CBTree::ExpandAllClasses()
 {
-	JBoolean changed       = kJFalse;
+	bool changed       = false;
 	const JSize classCount = itsClassesByFull->GetElementCount();
 	for (JIndex i=1; i<=classCount; i++)
 		{
 		CBClass* c = itsClassesByFull->GetElement(i);
 		if (c->IsCollapsed())
 			{
-			changed = kJTrue;
-			c->SetCollapsed(kJFalse);
+			changed = true;
+			c->SetCollapsed(false);
 			}
 		}
 
@@ -2375,7 +2375,7 @@ CBTree::ExpandAllClasses()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::GetClass
 	(
 	const JPoint&	pt,
@@ -2390,12 +2390,12 @@ CBTree::GetClass
 		if (c->Contains(pt))
 			{
 			*theClass = c;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*theClass = nullptr;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -2405,7 +2405,7 @@ CBTree::GetClass
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTree::HitSameClass
 	(
 	const JPoint&	pt1,
@@ -2418,22 +2418,22 @@ CBTree::HitSameClass
 	for (JIndex i=1; i<=classCount; i++)
 		{
 		CBClass* c        = itsVisibleByName->GetElement(i);
-		const JBoolean c1 = c->Contains(pt1);
-		const JBoolean c2 = c->Contains(pt2);
+		const bool c1 = c->Contains(pt1);
+		const bool c2 = c->Contains(pt2);
 		if (c1 && c2)
 			{
 			*theClass = c;
-			return kJTrue;
+			return true;
 			}
 		else if (c1 || c2)	// quit now if it contains only one pt
 			{
 			*theClass = nullptr;
-			return kJFalse;
+			return false;
 			}
 		}
 
 	*theClass = nullptr;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -2447,7 +2447,7 @@ void
 CBTree::BroadcastSelectionChange
 	(
 	CBClass*		theClass,
-	const JBoolean	isSelected
+	const bool	isSelected
 	)
 {
 	if (itsBroadcastClassSelFlag && isSelected)
@@ -2647,8 +2647,8 @@ CBTree::CompareRSContent
 	const RootSubset& s2
 	)
 {
-	const JBoolean* b1 = (s1.content)->GetCArray();
-	const JBoolean* b2 = (s2.content)->GetCArray();
+	const bool* b1 = (s1.content)->GetCArray();
+	const bool* b2 = (s2.content)->GetCArray();
 
 	const JSize count = (s1.content)->GetElementCount();
 	for (JIndex i=1; i<=count; i++, b1++, b2++)

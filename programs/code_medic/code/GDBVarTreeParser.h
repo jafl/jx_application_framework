@@ -29,12 +29,12 @@ private:
 
 	GDBVarTreeScanner*	itsScanner;
 	CMVarNode*			itsCurrentNode;
-	JBoolean			itsIsPointerFlag;
+	bool			itsIsPointerFlag;
 
 	// compensate for gdb stopping on error
 
 	JSize				itsGroupDepth;
-	JBoolean			itsGDBErrorFlag;
+	bool			itsGDBErrorFlag;
 
 private:
 

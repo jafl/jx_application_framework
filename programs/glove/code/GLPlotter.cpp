@@ -65,7 +65,7 @@ GLPlotter::GLPlotter
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsModuleMenu);
 	
-	itsIsProcessingCursor = kJFalse;
+	itsIsProcessingCursor = false;
 	ListenTo(this);
 	UpdateModuleMenu();
 	itsLink = nullptr;
@@ -110,7 +110,7 @@ GLPlotter::Receive
 		jdelete itsCursorProcess;
 		delete itsLink;
 		itsLink = nullptr;
-		itsIsProcessingCursor = kJFalse;
+		itsIsProcessingCursor = false;
 		}
 
 	else if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
@@ -137,7 +137,7 @@ GLPlotter::Receive
 							str.Prepend(JGetString("ModuleError::GLPlotter"));
 							JGetUserNotification()->ReportError(str);
 							}
-						itsCursorFirstPass = kJFalse;
+						itsCursorFirstPass = false;
 						}
 					else
 						{
@@ -207,7 +207,7 @@ GLPlotter::HandleModuleMenu
 							kJCreatePipe, &inFD,
 							kJIgnoreConnection, nullptr);
 		assert(err.OK());
-		JOutPipeStream* op = jnew JOutPipeStream(outFD, kJTrue);
+		JOutPipeStream* op = jnew JOutPipeStream(outFD, true);
 		assert( op != nullptr );
 		assert( op->good() );
 
@@ -216,7 +216,7 @@ GLPlotter::HandleModuleMenu
 		ListenTo(itsLink);
 		ListenTo(itsCursorProcess);
 
-		itsIsProcessingCursor = kJTrue;
+		itsIsProcessingCursor = true;
 		*op << XCursorVisible();
 		*op << YCursorVisible();
 		*op << DualCursorsVisible() << " ";
@@ -237,6 +237,6 @@ GLPlotter::HandleModuleMenu
 				}
 			}
 		jdelete op;
-		itsCursorFirstPass = kJTrue;
+		itsCursorFirstPass = true;
 		}
 }

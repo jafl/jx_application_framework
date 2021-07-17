@@ -17,7 +17,7 @@ JListT::CompareResult JCompareUInt64(const JUInt64& i1, const JUInt64& i2);
 
 void		JAdjustIndexAfterInsert(const JIndex firstInsertedIndex, const JSize count,
 									JIndex* indexToAdjust);
-JBoolean	JAdjustIndexAfterRemove(const JIndex firstRemovedIndex, const JSize count,
+bool	JAdjustIndexAfterRemove(const JIndex firstRemovedIndex, const JSize count,
 									JIndex* indexToAdjust);
 void		JAdjustIndexAfterMove(const JIndex origIndex, const JIndex newIndex,
 								  JIndex* indexToAdjust);

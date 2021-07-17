@@ -71,13 +71,13 @@ JSTUndoPaste::Undo()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JSTUndoPaste::SameStartIndex
 	(
 	const JStyledText::TextRange& range
 	)
 	const
 {
-	return JI2B( range.charRange.first == itsRange.charRange.first &&
-				 range.byteRange.first == itsRange.byteRange.first );
+	return range.charRange.first == itsRange.charRange.first &&
+				 range.byteRange.first == itsRange.byteRange.first;
 }

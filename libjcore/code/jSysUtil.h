@@ -32,10 +32,10 @@ JString	JGetUserShell(const uid_t uid);
 JString	JGetGroupName();
 JString	JGetGroupName(const gid_t gid);
 
-JBoolean	JUserIsAdmin();
-JBoolean	JUserIsAdmin(const uid_t uid);
+bool	JUserIsAdmin();
+bool	JUserIsAdmin(const uid_t uid);
 
-JBoolean	JUNIXSocketExists(const JString& pathName);
+bool	JUNIXSocketExists(const JString& pathName);
 
 JError	JCreatePipe(int fd[2]);
 

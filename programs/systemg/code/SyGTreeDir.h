@@ -30,9 +30,9 @@ public:
 
 	virtual ~SyGTreeDir();
 
-	virtual JBoolean		Close() override;
+	virtual bool		Close() override;
 	virtual const JString&	GetName() const override;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
+	virtual bool		GetMenuIcon(const JXImage** icon) const override;
 
 	const JString&		GetDirectory() const;
 	SyGTreeSet*			GetTreeSet() const;
@@ -47,7 +47,7 @@ protected:
 private:
 
 	SyGTreeSet*	itsTreeSet;
-	JBoolean	itsAutoMountFlag;	// kJTrue => unmount when close
+	bool	itsAutoMountFlag;	// true => unmount when close
 
 	JXTextMenu*	itsPrefsMenu;
 	JXTextMenu*	itsHelpMenu;

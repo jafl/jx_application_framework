@@ -61,10 +61,10 @@ protected:
 	virtual JString		GetLineText(const JIndex lineIndex) const = 0;
 	virtual JString		GetLongestLineText(const JIndex lineCount) const = 0;
 	virtual JIndex		GetBreakpointLineIndex(const JIndex bpIndex, const CMBreakpoint* bp) const = 0;
-	virtual JBoolean	GetFirstBreakpointOnLine(const JIndex lineIndex, JIndex* bpIndex) const = 0;
-	virtual JBoolean	BreakpointsOnSameLine(const CMBreakpoint* bp1, const CMBreakpoint* bp2) const = 0;
+	virtual bool	GetFirstBreakpointOnLine(const JIndex lineIndex, JIndex* bpIndex) const = 0;
+	virtual bool	BreakpointsOnSameLine(const CMBreakpoint* bp1, const CMBreakpoint* bp2) const = 0;
 	virtual void		GetBreakpoints(JPtrArray<CMBreakpoint>* list) = 0;
-	virtual void		SetBreakpoint(const JIndex lineIndex, const JBoolean temporary) = 0;
+	virtual void		SetBreakpoint(const JIndex lineIndex, const bool temporary) = 0;
 	virtual void		RemoveAllBreakpointsOnLine(const JIndex lineIndex) = 0;
 	virtual void		RunUntil(const JIndex lineIndex) = 0;
 	virtual void		SetExecutionPoint(const JIndex lineIndex) = 0;
@@ -82,7 +82,7 @@ private:
 
 	JXTextMenu*			itsLineMenu;
 	JIndex				itsLineMenuLineIndex;
-	JBoolean			itsIsFullLineMenuFlag;
+	bool			itsIsFullLineMenuFlag;
 	JIndexRange			itsLineMenuBPRange;
 	CMDeselectLineTask*	itsDeselectTask;
 
@@ -92,8 +92,8 @@ private:
 	void	UpdateBreakpoints();
 
 	void		DrawBreakpoints(JPainter& p, const JPoint& cell, const JRect& rect);
-	JBoolean	FindNextBreakpoint(const JIndex rowIndex, JBoolean* multiple = nullptr);
-	JBoolean	HasMultipleBreakpointsOnLine(const JIndex bpIndex) const;
+	bool	FindNextBreakpoint(const JIndex rowIndex, bool* multiple = nullptr);
+	bool	HasMultipleBreakpointsOnLine(const JIndex bpIndex) const;
 
 	void	AdjustBreakpoints(const JIndex lineIndex, const JPoint& pt,
 							  const JXButtonStates& buttonStates,
@@ -101,7 +101,7 @@ private:
 	void	OpenLineMenu(const JIndex lineIndex, const JPoint& pt,
 						 const JXButtonStates& buttonStates,
 						 const JXKeyModifiers& modifiers,
-						 const JBoolean onlyBreakpoints,
+						 const bool onlyBreakpoints,
 						 const JIndex firstBPIndex = 0);
 	void	UpdateLineMenu();
 	void	HandleLineMenu(const JIndex index);

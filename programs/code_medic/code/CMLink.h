@@ -78,60 +78,60 @@ public:
 
 public:
 
-	CMLink(const JBoolean* features);
+	CMLink(const bool* features);
 
 	virtual	~CMLink();
 
-	JBoolean	GetFeature(const Feature id) const;
+	bool	GetFeature(const Feature id) const;
 
-	virtual JBoolean	DebuggerHasStarted() const = 0;
-	virtual JBoolean	HasLoadedSymbols() const = 0;
-	virtual JBoolean	IsDebugging() const = 0;
-	virtual JBoolean	IsDefiningScript() const = 0;
+	virtual bool	DebuggerHasStarted() const = 0;
+	virtual bool	HasLoadedSymbols() const = 0;
+	virtual bool	IsDebugging() const = 0;
+	virtual bool	IsDefiningScript() const = 0;
 
-	virtual JBoolean	ChangeDebugger() = 0;
-	virtual JBoolean	RestartDebugger() = 0;
+	virtual bool	ChangeDebugger() = 0;
+	virtual bool	RestartDebugger() = 0;
 
 	virtual JString		GetChooseProgramInstructions() const = 0;
-	virtual JBoolean	HasProgram() const = 0;
-	virtual JBoolean	GetProgram(JString* fullName) const = 0;
+	virtual bool	HasProgram() const = 0;
+	virtual bool	GetProgram(JString* fullName) const = 0;
 	virtual void		SetProgram(const JString& fullName) = 0;
 	virtual void		ReloadProgram() = 0;
-	virtual JBoolean	HasCore() const = 0;
-	virtual JBoolean	GetCore(JString* fullName) const = 0;
+	virtual bool	HasCore() const = 0;
+	virtual bool	GetCore(JString* fullName) const = 0;
 	virtual void		SetCore(const JString& fullName) = 0;
 	virtual void		AttachToProcess(const pid_t pid) = 0;
 
 	virtual void		RunProgram(const JString& args) = 0;
 	virtual void		StopProgram() = 0;
 	virtual void		KillProgram() = 0;
-	virtual JBoolean	ProgramIsRunning() const = 0;
-	virtual JBoolean	ProgramIsStopped() const = 0;
-	virtual JBoolean	OKToDetachOrKill() const = 0;
+	virtual bool	ProgramIsRunning() const = 0;
+	virtual bool	ProgramIsStopped() const = 0;
+	virtual bool	OKToDetachOrKill() const = 0;
 
-	virtual JBoolean	OKToSendMultipleCommands() const;
-	virtual JBoolean	OKToSendCommands(const JBoolean background) const = 0;
-	virtual JBoolean	Send(CMCommand* cmd);
-	JBoolean			HasPendingCommands() const;
-	JBoolean			HasForegroundCommands() const;
+	virtual bool	OKToSendMultipleCommands() const;
+	virtual bool	OKToSendCommands(const bool background) const = 0;
+	virtual bool	Send(CMCommand* cmd);
+	bool			HasPendingCommands() const;
+	bool			HasForegroundCommands() const;
 
 	virtual CMBreakpointManager*	GetBreakpointManager() = 0;
 
 	virtual void	ShowBreakpointInfo(const JIndex debuggerIndex) = 0;
 	void			SetBreakpoint(const CMBreakpoint& bp);
-	void			SetBreakpoint(const CMLocation& loc, const JBoolean temporary = kJFalse);
+	void			SetBreakpoint(const CMLocation& loc, const bool temporary = false);
 	virtual void	SetBreakpoint(const JString& fileName, const JIndex lineIndex,
-								  const JBoolean temporary = kJFalse) = 0;
+								  const bool temporary = false) = 0;
 	virtual void	SetBreakpoint(const JString& address,
-								  const JBoolean temporary = kJFalse) = 0;
+								  const bool temporary = false) = 0;
 	void			RemoveBreakpoint(const CMBreakpoint& bp);
 	virtual void	RemoveBreakpoint(const JIndex debuggerIndex) = 0;
 	virtual void	RemoveAllBreakpointsOnLine(const JString& fileName,
 											   const JIndex lineIndex) = 0;
 	virtual void	RemoveAllBreakpointsAtAddress(const JString& addr) = 0;
 	virtual void	RemoveAllBreakpoints() = 0;
-	virtual void	SetBreakpointEnabled(const JIndex debuggerIndex, const JBoolean enabled,
-										 const JBoolean once = kJFalse) = 0;
+	virtual void	SetBreakpointEnabled(const JIndex debuggerIndex, const bool enabled,
+										 const bool once = false) = 0;
 	virtual void	SetBreakpointCondition(const JIndex debuggerIndex,
 										   const JString& condition) = 0;
 	virtual void	RemoveBreakpointCondition(const JIndex debuggerIndex) = 0;
@@ -166,11 +166,11 @@ public:
 	virtual const JString&	GetScriptPrompt() const = 0;
 
 	void		RememberFile(const JString& fileName, const JString& fullName);
-	JBoolean	FindFile(const JString& fileName,
-						 JBoolean* exists, JString* fullName) const;
+	bool	FindFile(const JString& fileName,
+						 bool* exists, JString* fullName) const;
 	void		ClearFileNameMap();
 
-	static void	NotifyUser(const JString& msg, const JBoolean error);
+	static void	NotifyUser(const JString& msg, const bool error);
 	static void	Log(const JUtf8Byte* log);
 	static void	Log(std::ostringstream& log);
 
@@ -196,7 +196,7 @@ public:
 	virtual CMGetSourceFileList*	CreateGetSourceFileList(CMFileListDir* fileList) = 0;
 	virtual CMVarCommand*			CreateVarValueCommand(const JString& expr) = 0;
 	virtual CMVarCommand*			CreateVarContentCommand(const JString& expr) = 0;
-	virtual CMVarNode*				CreateVarNode(const JBoolean shouldUpdate = kJTrue) = 0;
+	virtual CMVarNode*				CreateVarNode(const bool shouldUpdate = true) = 0;
 	virtual CMVarNode*				CreateVarNode(JTreeNode* parent, const JString& name,
 												  const JString& fullName, const JString& value) = 0;
 	virtual JString					Build1DArrayExpression(const JString& expr,
@@ -225,7 +225,7 @@ protected:
 	void	CancelBackgroundCommands();
 	void	DeleteOneShotCommands();
 
-	JBoolean	GetRunningCommand(CMCommand** cmd);
+	bool	GetRunningCommand(CMCommand** cmd);
 	void		SetRunningCommand(CMCommand* cmd);
 
 	virtual void	SendMedicCommand(CMCommand* command) = 0;
@@ -238,7 +238,7 @@ protected:
 
 private:
 
-	const JBoolean*	itsFeatures;
+	const bool*	itsFeatures;
 
 	CMCommand*		itsRunningCommand;
 	JIndex			itsLastCommandID;
@@ -299,7 +299,7 @@ public:
 		{
 		public:
 
-			UserOutput(const JString& text, const JBoolean error, const JBoolean fromTarget = kJFalse)
+			UserOutput(const JString& text, const bool error, const bool fromTarget = false)
 				:
 				JBroadcaster::Message(kUserOutput),
 				itsText(text),
@@ -313,13 +313,13 @@ public:
 				return itsText;
 			}
 
-			JBoolean
+			bool
 			IsFromTarget() const
 			{
 				return itsFromTargetFlag;
 			}
 
-			JBoolean
+			bool
 			IsError() const
 			{
 				return itsErrorFlag;
@@ -328,8 +328,8 @@ public:
 		private:
 
 			const JString	itsText;
-			const JBoolean	itsFromTargetFlag;
-			const JBoolean	itsErrorFlag;
+			const bool	itsFromTargetFlag;
+			const bool	itsErrorFlag;
 		};
 
 	enum DebugType
@@ -435,13 +435,13 @@ public:
 		{
 		public:
 
-			SymbolsLoaded(const JBoolean success, const JString& programName)
+			SymbolsLoaded(const bool success, const JString& programName)
 				:
 				JBroadcaster::Message(kSymbolsLoaded),
 				itsSuccessFlag(success), itsProgramName(programName)
 				{ };
 
-			JBoolean
+			bool
 			Successful() const
 			{
 				return itsSuccessFlag;
@@ -455,7 +455,7 @@ public:
 
 		private:
 
-			const JBoolean	itsSuccessFlag;
+			const bool	itsSuccessFlag;
 			const JString&	itsProgramName;
 		};
 
@@ -541,7 +541,7 @@ public:
 				itsLocation(location)
 				{ };
 
-			JBoolean
+			bool
 			GetLocation
 				(
 				const CMLocation** loc
@@ -669,7 +669,7 @@ public:
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 CMLink::GetFeature
 	(
 	const Feature id
@@ -684,14 +684,14 @@ CMLink::GetFeature
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 CMLink::GetRunningCommand
 	(
 	CMCommand** cmd
 	)
 {
 	*cmd = itsRunningCommand;
-	return JI2B(itsRunningCommand != nullptr);
+	return itsRunningCommand != nullptr;
 }
 
 /******************************************************************************
@@ -713,7 +713,7 @@ CMLink::SetRunningCommand
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 CMLink::HasPendingCommands()
 	const
 {
@@ -725,7 +725,7 @@ CMLink::HasPendingCommands()
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 CMLink::HasForegroundCommands()
 	const
 {

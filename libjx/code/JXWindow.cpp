@@ -41,12 +41,12 @@
 #include <jTime.h>
 #include <jAssert.h>
 
-static JBoolean theAnalyzeWMFlag = kJFalse;
+static bool theAnalyzeWMFlag = false;
 const JCoordinate kWMFrameSlop   = 2;		// pixels
 const JFloat kSyncExtraDelay     = 0.3;		// seconds
 
-JBoolean JXWindow::theAutoDockNewWindowFlag        = kJTrue;
-JBoolean JXWindow::theFocusFollowsCursorInDockFlag = kJFalse;
+bool JXWindow::theAutoDockNewWindowFlag        = true;
+bool JXWindow::theFocusFollowsCursorInDockFlag = false;
 
 // JXSelectionManager needs PropertyNotify
 
@@ -92,7 +92,7 @@ JXWindow::JXWindow
 	const JCoordinate	w,
 	const JCoordinate	h,
 	const JString&		title,
-	const JBoolean		isOverlay
+	const bool		isOverlay
 	)
 	:
 	JXContainer(JXGetApplication()->GetCurrentDisplay(), this, nullptr),
@@ -104,28 +104,28 @@ JXWindow::JXWindow
 	itsTitle(title),
 	itsIcon(nullptr),
 	itsBounds(0, 0, h, w),
-	itsHasBeenVisibleFlag(kJFalse),
+	itsHasBeenVisibleFlag(false),
 	itsUpdateRegion(XCreateRegion()),
-	itsIsMappedFlag(kJFalse),
-	itsIsIconifiedFlag(kJFalse),
-	itsHasFocusFlag(kJFalse),
-	itsFocusWhenShowFlag(kJFalse),
+	itsIsMappedFlag(false),
+	itsIsIconifiedFlag(false),
+	itsHasFocusFlag(false),
+	itsFocusWhenShowFlag(false),
 	itsBufferDrawingFlag(isOverlay),
 	itsKeepBufferPixmapFlag(isOverlay),
 	itsUseBkgdPixmapFlag(isOverlay),
-	itsIsDestructingFlag(kJFalse),
-	itsHasMinSizeFlag(kJFalse),
-	itsHasMaxSizeFlag(kJFalse),
+	itsIsDestructingFlag(false),
+	itsHasMinSizeFlag(false),
+	itsHasMaxSizeFlag(false),
 	itsCloseAction(kCloseDirector),
 	itsCursorIndex(kJXDefaultCursor),
 	itsMouseContainer(nullptr),
-	itsIsDraggingFlag(kJFalse),
-	itsProcessDragFlag(kJFalse),
-	itsCursorLeftFlag(kJFalse),
-	itsCleanAfterBlockFlag(kJFalse),
+	itsIsDraggingFlag(false),
+	itsProcessDragFlag(false),
+	itsCursorLeftFlag(false),
+	itsCleanAfterBlockFlag(false),
 	itsButtonPressReceiver(this),
-	itsPointerGrabbedFlag(kJFalse),
-	itsBPRChangedFlag(kJFalse),
+	itsPointerGrabbedFlag(false),
+	itsBPRChangedFlag(false),
 	itsFocusWidget(nullptr),
 	itsCurrHintMgr(nullptr),
 	itsRootChild(None),
@@ -133,7 +133,7 @@ JXWindow::JXWindow
 	itsFirstClick(kJXNoButton, 0, JPoint(-1,-1)),
 	itsSecondClick(kJXNoButton, 0, JPoint(-1,-1)),
 	itsClickCount(1),
-	itsIsDockedFlag(kJFalse),
+	itsIsDockedFlag(false),
 	itsDockXWindow(None),
 	itsDockWidget(nullptr),
 	itsDockingTask(nullptr),
@@ -213,7 +213,7 @@ JXWindow::JXWindow
 
 	// trap window manager's delete message
 
-	AcceptSaveYourself(kJFalse);
+	AcceptSaveYourself(false);
 
 	// tell window manager what kind of window we are
 
@@ -270,7 +270,7 @@ JXWindow::JXWindow
 
 JXWindow::~JXWindow()
 {
-	itsIsDestructingFlag = kJTrue;
+	itsIsDestructingFlag = true;
 
 	DeleteEnclosedObjects();	// widgets talk to us when deleted
 
@@ -493,12 +493,12 @@ JXWindow::DisplayXCursor
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::Close()
 {
 	if (itsCloseAction == kDeactivateDirector)
 		{
-		return (itsIsDockedFlag ? kJTrue : itsDirector->Deactivate());
+		return (itsIsDockedFlag ? true : itsDirector->Deactivate());
 		}
 	else if (itsCloseAction == kCloseDirector)
 		{
@@ -512,7 +512,7 @@ JXWindow::Close()
 		{
 		assert( itsCloseAction == kQuitApp );
 		JXGetApplication()->Quit();
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -533,7 +533,7 @@ JXWindow::Activate()
 			}
 		if (itsFocusWidget == nullptr)
 			{
-			SwitchFocus(kJFalse);
+			SwitchFocus(false);
 			}
 		}
 }
@@ -549,7 +549,7 @@ JXWindow::Resume()
 	JXContainer::Resume();
 	if (IsActive() && itsFocusWidget == nullptr)
 		{
-		SwitchFocus(kJFalse);
+		SwitchFocus(false);
 		}
 }
 
@@ -572,7 +572,7 @@ JXWindow::Show()
 		JXContainer::Show();
 		if (itsFocusWidget == nullptr)
 			{
-			SwitchFocus(kJFalse);
+			SwitchFocus(false);
 			}
 		if (itsUseBkgdPixmapFlag)
 			{
@@ -586,7 +586,7 @@ JXWindow::Show()
 			{
 			Move(- b.reshowOffset.x, - b.reshowOffset.y);
 			}
-		itsHasBeenVisibleFlag = kJTrue;
+		itsHasBeenVisibleFlag = true;
 
 		XMapWindow(*itsDisplay, itsXWindow);
 		// input focus set by HandleMapNotify()
@@ -622,7 +622,7 @@ JXWindow::Hide()
 
 			XEvent xEvent;
 			XIfEvent(*itsDisplay, &xEvent, GetNextMapNotifyEvent, nullptr);
-			itsIsIconifiedFlag = kJFalse;
+			itsIsIconifiedFlag = false;
 			Broadcast(Deiconified());
 			}
 
@@ -638,7 +638,7 @@ JXWindow::PrivateHide()
 	if (IsVisible())
 		{
 		XUnmapWindow(*itsDisplay, itsXWindow);
-		itsIsMappedFlag = kJFalse;
+		itsIsMappedFlag = false;
 		JXContainer::Hide();
 		}
 }
@@ -666,11 +666,11 @@ JXWindow::GetNextMapNotifyEvent
 void
 JXWindow::Raise
 	(
-	const JBoolean grabKeyboardFocus
+	const bool grabKeyboardFocus
 	)
 {
-	const JBoolean wasVisible = IsVisible();
-	const JBoolean wasIcon    = itsIsIconifiedFlag;
+	const bool wasVisible = IsVisible();
+	const bool wasIcon    = itsIsIconifiedFlag;
 
 	Show();
 	Activate();		// in case it wasn't already
@@ -815,7 +815,7 @@ JXWindow::Iconify()
 		}
 	else if (!itsIsIconifiedFlag)
 		{
-		itsIsIconifiedFlag = kJTrue;
+		itsIsIconifiedFlag = true;
 		Broadcast(Iconified());
 		}
 }
@@ -843,7 +843,7 @@ JXWindow::Deiconify()
 		}
 	else if (itsIsIconifiedFlag)
 		{
-		itsIsIconifiedFlag = kJFalse;
+		itsIsIconifiedFlag = false;
 		Broadcast(Deiconified());
 		}
 }
@@ -945,10 +945,10 @@ JXWindow::RedrawRect
 void
 JXWindow::BufferDrawing
 	(
-	const JBoolean bufferDrawing
+	const bool bufferDrawing
 	)
 {
-	itsBufferDrawingFlag = JI2B(bufferDrawing || itsUseBkgdPixmapFlag);
+	itsBufferDrawingFlag = bufferDrawing || itsUseBkgdPixmapFlag;
 	if (!itsBufferDrawingFlag && itsBufferPixmap != None)
 		{
 		XFreePixmap(*itsDisplay, itsBufferPixmap);
@@ -1207,7 +1207,7 @@ JXWindow::DrawBackground
 	)
 {
 	p.SetPenColor(itsBackColor);
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 	p.JPainter::Rect(itsBounds);
 }
 
@@ -1328,7 +1328,7 @@ JXWindow::AnalyzeWindowManager
 	const JCoordinate p = 100;
 
 	JXDisplay::WMBehavior behavior;
-	theAnalyzeWMFlag = kJTrue;
+	theAnalyzeWMFlag = true;
 
 	// init wm virtual desktop style
 	// Modern window managers map/unmap windows when switching desktops.
@@ -1344,7 +1344,7 @@ JXWindow::AnalyzeWindowManager
 					   &itemCount, &remainingBytes, &xdata);
 
 	behavior.desktopMapsWindowsFlag =
-		JI2B(actualType == XA_CARDINAL && actualFormat == 32 && itemCount > 0);
+		actualType == XA_CARDINAL && actualFormat == 32 && itemCount > 0;
 
 	XFree(xdata);
 	}
@@ -1361,7 +1361,7 @@ JXWindow::AnalyzeWindowManager
 	JXWindowDirector* dir = jnew JXWindowDirector(JXGetApplication());
 	assert( dir != nullptr );
 
-	JXWindow* w = jnew JXWindow(dir, 100, 100, JString("Testing Window Manager", kJFalse));
+	JXWindow* w = jnew JXWindow(dir, 100, 100, JString("Testing Window Manager", JString::kNoCopy));
 	assert( w != nullptr );
 	jdelete w->itsExpandTask;
 	w->itsExpandTask = nullptr;
@@ -1417,7 +1417,7 @@ JXWindow::AnalyzeWindowManager
 	dir->Close();
 	app->BlockingWindowFinished();
 
-	theAnalyzeWMFlag = kJFalse;
+	theAnalyzeWMFlag = false;
 }
 
 /******************************************************************************
@@ -1435,10 +1435,10 @@ JXWindow::AnalyzeWindowManager
 
 	Some window managers are smart enough to automatically compensate for
 	the window border when we call XMoveWindow().  We like this behavior,
-	so we assume it by default by setting compensate=kJFalse.  It won't
+	so we assume it by default by setting compensate=false.  It won't
 	always work, however, so we check the result in Place(), and if it
 	didn't work, we change our behavior and try again.  Once we find a
-	method that works, we set method=kJTrue so we ignore further failures
+	method that works, we set method=true so we ignore further failures
 	as network latency problems.
 
  ******************************************************************************/
@@ -1484,7 +1484,7 @@ JXWindow::CalcDesktopLocation
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::GetRootChild
 	(
 	Window* rootChild
@@ -1494,7 +1494,7 @@ JXWindow::GetRootChild
 	if (itsRootChild != None)
 		{
 		*rootChild = itsRootChild;
-		return JI2B(itsRootChild != itsXWindow);
+		return itsRootChild != itsXWindow;
 		}
 
 	*rootChild = itsRootChild = None;
@@ -1508,14 +1508,14 @@ JXWindow::GetRootChild
 		if (!XQueryTree(*itsDisplay, currWindow, &rootWindow,
 						&parentWindow, &childList, &childCount))
 			{
-			return kJFalse;
+			return false;
 			}
 		XFree(childList);
 
 		if (parentWindow == rootWindow)
 			{
 			*rootChild = itsRootChild = currWindow;
-			return JI2B(currWindow != itsXWindow);
+			return currWindow != itsXWindow;
 			}
 		else
 			{
@@ -1699,7 +1699,7 @@ JXWindow::UndockedSetSize
 	(
 	const JCoordinate	origW,
 	const JCoordinate	origH,
-	const JBoolean		ftc
+	const bool		ftc
 	)
 {
 	JCoordinate w = origW;
@@ -1833,7 +1833,7 @@ JXWindow::FTCAdjustSize
 		}
 	else
 		{
-		UndockedSetSize(w, h, kJTrue);
+		UndockedSetSize(w, h, true);
 		}
 }
 
@@ -1868,7 +1868,7 @@ JXWindow::UpdateFrame()
 	if (itsIsMappedFlag &&
 		!(itsHasMinSizeFlag && (w < itsMinSize.x || h < itsMinSize.y)))
 		{
-		UpdateBounds(w, h, kJFalse);
+		UpdateBounds(w, h, false);
 		}
 }
 
@@ -1882,7 +1882,7 @@ JXWindow::UpdateBounds
 	(
 	const JCoordinate	w,
 	const JCoordinate	h,
-	const JBoolean		ftc
+	const bool		ftc
 	)
 {
 	const JCoordinate dw = w - itsBounds.width();
@@ -1983,7 +1983,7 @@ JXWindow::SetMinSize
 	XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
 	itsDisplay->Flush();
 
-	itsHasMinSizeFlag = kJTrue;
+	itsHasMinSizeFlag = true;
 	itsMinSize.x      = w;
 	itsMinSize.y      = h;
 
@@ -2015,7 +2015,7 @@ JXWindow::ClearMinSize()
 		itsDisplay->Flush();
 		}
 
-	itsHasMinSizeFlag = kJFalse;
+	itsHasMinSizeFlag = false;
 }
 
 /******************************************************************************
@@ -2051,7 +2051,7 @@ JXWindow::SetMaxSize
 	XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
 	itsDisplay->Flush();
 
-	itsHasMaxSizeFlag = kJTrue;
+	itsHasMaxSizeFlag = true;
 	itsMaxSize.x      = w;
 	itsMaxSize.y      = h;
 
@@ -2081,7 +2081,7 @@ JXWindow::ClearMaxSize()
 		itsDisplay->Flush();
 		}
 
-	itsHasMaxSizeFlag = kJFalse;
+	itsHasMaxSizeFlag = false;
 }
 
 /******************************************************************************
@@ -2185,7 +2185,7 @@ JXWindow::SetIcon
 
 	if (itsIconDir != nullptr)
 		{
-		const JBoolean ok = itsIconDir->Close();
+		const bool ok = itsIconDir->Close();
 		assert( ok );
 		itsIconDir = nullptr;
 		}
@@ -2274,7 +2274,7 @@ JXWindow::SetIcon
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::GetIconWidget
 	(
 	JXWindowIcon** widget
@@ -2284,12 +2284,12 @@ JXWindow::GetIconWidget
 	if (itsIconDir != nullptr)
 		{
 		*widget = itsIconDir->GetIconWidget();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*widget = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -2412,7 +2412,7 @@ void
 JXWindow::ReadGeometry
 	(
 	const JString&	data,
-	const JBoolean	skipDocking
+	const bool	skipDocking
 	)
 {
 	if (!data.IsEmpty())
@@ -2427,7 +2427,7 @@ void
 JXWindow::ReadGeometry
 	(
 	std::istream&	input,
-	const JBoolean	skipDocking
+	const bool	skipDocking
 	)
 {
 	JFileVersion vers;
@@ -2440,7 +2440,7 @@ JXWindow::ReadGeometry
 
 	JPoint desktopLoc;
 	JCoordinate w,h;
-	JBoolean iconified;
+	bool iconified;
 	input >> desktopLoc >> w >> h >> JBoolFromString(iconified);
 
 	int dockIt         = -1;
@@ -2450,7 +2450,7 @@ JXWindow::ReadGeometry
 		JIndex id;
 		input >> id;
 
-		JBoolean hadDocks = kJTrue;
+		bool hadDocks = true;
 		if (vers >= 2)
 			{
 			input >> JBoolFromString(hadDocks);
@@ -2552,7 +2552,7 @@ JXWindow::WriteGeometry
 		output << ' ' << itsUndockedWMFrameLoc;
 		output << ' ' << itsUndockedGeom.width() - itsFTCDelta.x;
 		output << ' ' << itsUndockedGeom.height() - itsFTCDelta.y;
-		output << ' ' << JBoolToString(kJFalse);
+		output << ' ' << JBoolToString(false);
 		}
 	else
 		{
@@ -2573,7 +2573,7 @@ JXWindow::WriteGeometry
 											  JXDockManager::kInvalidDockID);
 
 	JXDockManager* mgr;
-	output << ' ' << JBoolToString(JI2B(JXGetDockManager(&mgr) && mgr->HasDocks()));
+	output << ' ' << JBoolToString(JXGetDockManager(&mgr) && mgr->HasDocks());
 
 	output << kGeometryDataEndDelimiter;
 }
@@ -2652,7 +2652,7 @@ JXWindow::HandleEvent
 	else if (xEvent.type == MapNotify || xEvent.type == UnmapNotify)
 		{
 		SetChildWindowVisible(xEvent.xmap.window,
-							  JI2B(xEvent.type == MapNotify));
+							  xEvent.type == MapNotify);
 		}
 	else if (xEvent.type             == PropertyNotify &&
 			 xEvent.xproperty.window == itsXWindow &&
@@ -2673,7 +2673,7 @@ JXWindow::HandleEvent
 	else if (xEvent.type == ReparentNotify)
 		{
 		UpdateChildWindowList(xEvent.xreparent.window,
-							  JI2B(xEvent.xreparent.parent == itsXWindow));
+							  xEvent.xreparent.parent == itsXWindow);
 		}
 
 	else if (xEvent.type == DestroyNotify && xEvent.xdestroywindow.window == itsXWindow)
@@ -2686,7 +2686,7 @@ JXWindow::HandleEvent
 		}
 	else if (xEvent.type == DestroyNotify)
 		{
-		UpdateChildWindowList(xEvent.xdestroywindow.window, kJFalse);
+		UpdateChildWindowList(xEvent.xdestroywindow.window, false);
 		}
 
 	else if (IsDeleteWindowMessage(itsDisplay, xEvent))		// trap WM_DELETE_WINDOW first
@@ -2718,18 +2718,17 @@ JXWindow::HandleEvent
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::IsDeleteWindowMessage
 	(
 	const JXDisplay*	display,
 	const XEvent&		xEvent
 	)
 {
-	return JI2B(
-		xEvent.type                       == ClientMessage &&
+	return xEvent.type                       == ClientMessage &&
 		xEvent.xclient.message_type       == display->GetWMProtocolsXAtom() &&
 		xEvent.xclient.format             == 32 &&
-		((Atom) xEvent.xclient.data.l[0]) == display->GetDeleteWindowXAtom());
+		((Atom) xEvent.xclient.data.l[0]) == display->GetDeleteWindowXAtom();
 }
 
 /******************************************************************************
@@ -2737,18 +2736,17 @@ JXWindow::IsDeleteWindowMessage
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::IsWMPingMessage
 	(
 	const JXDisplay*	display,
 	const XEvent&		xEvent
 	)
 {
-	return JI2B(
-		xEvent.type                       == ClientMessage &&
+	return xEvent.type                       == ClientMessage &&
 		xEvent.xclient.message_type       == display->GetWMProtocolsXAtom() &&
 		xEvent.xclient.format             == 32 &&
-		((Atom) xEvent.xclient.data.l[0]) == display->GetWMPingXAtom());
+		((Atom) xEvent.xclient.data.l[0]) == display->GetWMPingXAtom();
 }
 
 /******************************************************************************
@@ -2756,18 +2754,17 @@ JXWindow::IsWMPingMessage
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::IsSaveYourselfMessage
 	(
 	const JXDisplay*	display,
 	const XEvent&		xEvent
 	)
 {
-	return JI2B(
-		xEvent.type                       == ClientMessage &&
+	return xEvent.type                       == ClientMessage &&
 		xEvent.xclient.message_type       == display->GetWMProtocolsXAtom() &&
 		xEvent.xclient.format             == 32 &&
-		((Atom) xEvent.xclient.data.l[0]) == display->GetSaveYourselfXAtom());
+		((Atom) xEvent.xclient.data.l[0]) == display->GetSaveYourselfXAtom();
 }
 
 /******************************************************************************
@@ -2778,7 +2775,7 @@ JXWindow::IsSaveYourselfMessage
 void
 JXWindow::AcceptSaveYourself
 	(
-	const JBoolean accept
+	const bool accept
 	)
 {
 	Atom protocolList[3] =
@@ -2834,7 +2831,7 @@ JXWindow::HandleEnterNotify
 		}
 	else	// cursor grabbed
 		{
-		itsCursorLeftFlag = kJFalse;
+		itsCursorLeftFlag = false;
 		}
 }
 
@@ -2859,7 +2856,7 @@ JXWindow::HandleLeaveNotify
 		}
 	else	// cursor grabbed
 		{
-		itsCursorLeftFlag = kJTrue;
+		itsCursorLeftFlag = true;
 		}
 }
 
@@ -2888,7 +2885,7 @@ JXWindow::HandleMotionNotify
 	if (XQueryPointer(*itsDisplay, itsXWindow, &rootWindow, &childWindow,
 					  &x_root, &y_root, &x, &y, &state))
 		{
-		const JBoolean isDrag = !JXButtonStates::AllOff(xEvent.state);
+		const bool isDrag = !JXButtonStates::AllOff(xEvent.state);
 		if (itsIsDraggingFlag && isDrag &&			// otherwise wait for ButtonPress
 			itsProcessDragFlag && itsMouseContainer != nullptr)
 			{
@@ -2918,11 +2915,11 @@ JXWindow::HandleMotionNotify
 /******************************************************************************
  HandleButtonPress (private)
 
-	Returns kJFalse if the window is deleted.
+	Returns false if the window is deleted.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::HandleButtonPress
 	(
 	const XButtonEvent& xEvent
@@ -2934,18 +2931,18 @@ JXWindow::HandleButtonPress
 		{
 		// hack around window managers that don't notify us correctly
 
-		itsIsIconifiedFlag = kJFalse;
+		itsIsIconifiedFlag = false;
 		Broadcast(Deiconified());
 		Refresh();
 		}
 
 	const JXMouseButton currButton = (JXMouseButton) xEvent.button;
-	const unsigned int state = JXButtonStates::SetState(xEvent.state, currButton, kJTrue);
+	const unsigned int state = JXButtonStates::SetState(xEvent.state, currButton, true);
 
 	if (!itsIsDraggingFlag)
 		{
-		itsIsDraggingFlag  = kJTrue;
-		itsProcessDragFlag = kJFalse;		// JXContainer tells us if it wants it
+		itsIsDraggingFlag  = true;
+		itsProcessDragFlag = false;		// JXContainer tells us if it wants it
 
 		const JPoint ptG(xEvent.x, xEvent.y);
 
@@ -2963,10 +2960,10 @@ JXWindow::HandleButtonPress
 
 		if (!JXDisplay::WindowExists(display, xDisplay, xWindow))
 			{
-			return kJFalse;
+			return false;
 			}
 
-		itsCursorLeftFlag = kJFalse;
+		itsCursorLeftFlag = false;
 		Update();
 		}
 
@@ -2983,17 +2980,17 @@ JXWindow::HandleButtonPress
 
 	if (JXGetApplication()->HadBlockingWindow())
 		{
-		itsCleanAfterBlockFlag = kJTrue;
+		itsCleanAfterBlockFlag = true;
 		if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != nullptr)
 			{
 			EndDrag(itsMouseContainer, JPoint(xEvent.x, xEvent.y),
 					JXButtonStates(state), JXKeyModifiers(itsDisplay, state));
 			}
-		itsIsDraggingFlag      = kJFalse;
-		itsCleanAfterBlockFlag = kJFalse;
+		itsIsDraggingFlag      = false;
+		itsCleanAfterBlockFlag = false;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -3036,11 +3033,11 @@ JXWindow::CountClicks
 /******************************************************************************
  HandleButtonRelease (private)
 
-	Returns kJFalse if the window is deleted.
+	Returns false if the window is deleted.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::HandleButtonRelease
 	(
 	const XButtonEvent& xEvent
@@ -3052,11 +3049,11 @@ JXWindow::HandleButtonRelease
 		// the left button is released, while an other button might still
 		// be down.  (pretty unlikely, but still possible)
 
-		return kJTrue;
+		return true;
 		}
 
 	const JXMouseButton currButton = (JXMouseButton) xEvent.button;
-	const unsigned int state = JXButtonStates::SetState(xEvent.state, currButton, kJFalse);
+	const unsigned int state = JXButtonStates::SetState(xEvent.state, currButton, false);
 
 	if (itsProcessDragFlag && itsMouseContainer != nullptr)
 		{
@@ -3073,7 +3070,7 @@ JXWindow::HandleButtonRelease
 
 		if (!JXDisplay::WindowExists(display, xDisplay, xWindow))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -3081,7 +3078,7 @@ JXWindow::HandleButtonRelease
 
 	if (JXButtonStates::AllOff(state))
 		{
-		itsIsDraggingFlag = kJFalse;
+		itsIsDraggingFlag = false;
 		if (!itsPointerGrabbedFlag)
 			{
 			// balance XGrabPointer() in BeginDrag()
@@ -3099,17 +3096,17 @@ JXWindow::HandleButtonRelease
 
 	else if (JXGetApplication()->HadBlockingWindow() && !itsCleanAfterBlockFlag)
 		{
-		itsCleanAfterBlockFlag = kJTrue;
+		itsCleanAfterBlockFlag = true;
 		if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != nullptr)
 			{
 			EndDrag(itsMouseContainer, JPoint(xEvent.x, xEvent.y),
 					JXButtonStates(state), JXKeyModifiers(itsDisplay, state));
 			}
-		itsIsDraggingFlag      = kJFalse;
-		itsCleanAfterBlockFlag = kJFalse;
+		itsIsDraggingFlag      = false;
+		itsCleanAfterBlockFlag = false;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -3154,7 +3151,7 @@ JXWindow::SetMouseContainer
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::BeginDrag
 	(
 	JXContainer*			obj,
@@ -3171,14 +3168,14 @@ JXWindow::BeginDrag
 					 GrabModeAsync, GrabModeAsync, None, None, CurrentTime);
 	if (grabResult != GrabSuccess)
 		{
-		return kJFalse;
+		return false;
 		}
 	itsDisplay->SetMouseContainer(this);
 	itsDisplay->SetMouseGrabber(this);
 
 	JXContainer* savedReceiver = itsButtonPressReceiver;
 	itsButtonPressReceiver     = obj;
-	itsBPRChangedFlag          = kJFalse;
+	itsBPRChangedFlag          = false;
 
 	XButtonPressedEvent xEvent;
 	xEvent.type = ButtonPress;
@@ -3195,9 +3192,9 @@ JXWindow::BeginDrag
 			xEvent.button = i;
 			if (!HandleButtonPress(xEvent))
 				{
-				return kJFalse;		// window was deleted
+				return false;		// window was deleted
 				}
-			newButtonStates.SetState(i, kJTrue);
+			newButtonStates.SetState(i, true);
 			}
 		}
 
@@ -3251,7 +3248,7 @@ JXWindow::EndDrag
 				{
 				return;		// window was deleted
 				}
-			newButtonStates.SetState(i, kJFalse);
+			newButtonStates.SetState(i, false);
 			}
 		}
 
@@ -3264,7 +3261,7 @@ JXWindow::EndDrag
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::GrabPointer
 	(
 	JXContainer* obj
@@ -3278,16 +3275,16 @@ JXWindow::GrabPointer
 
 	if (success == GrabSuccess)
 		{
-		itsPointerGrabbedFlag  = kJTrue;
+		itsPointerGrabbedFlag  = true;
 		itsButtonPressReceiver = obj;
-		itsBPRChangedFlag      = kJTrue;		// notify BeginDrag()
+		itsBPRChangedFlag      = true;		// notify BeginDrag()
 		itsDisplay->SetMouseContainer(this);
 		itsDisplay->SetMouseGrabber(this);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -3305,9 +3302,9 @@ JXWindow::UngrabPointer
 	if (obj == itsButtonPressReceiver)
 		{
 		XUngrabPointer(*itsDisplay, CurrentTime);
-		itsPointerGrabbedFlag  = kJFalse;
+		itsPointerGrabbedFlag  = false;
 		itsButtonPressReceiver = this;
-		itsBPRChangedFlag      = kJTrue;		// notify BeginDrag()
+		itsBPRChangedFlag      = true;		// notify BeginDrag()
 		itsDisplay->SetMouseGrabber(nullptr);
 		}
 }
@@ -3323,7 +3320,7 @@ JXWindow::HandleFocusIn
 	const XFocusChangeEvent& xEvent
 	)
 {
-	itsHasFocusFlag = kJTrue;
+	itsHasFocusFlag = true;
 	XSetICFocus(itsXIC);
 
 	if (itsFocusWidget != nullptr)
@@ -3350,7 +3347,7 @@ JXWindow::HandleFocusOut
 	const XFocusChangeEvent& xEvent
 	)
 {
-	itsHasFocusFlag = kJFalse;
+	itsHasFocusFlag = false;
 	XUnsetICFocus(itsXIC);
 
 	if (itsFocusWidget != nullptr)
@@ -3481,17 +3478,17 @@ JXWindow::HandleKeyPress
 	// dispatch key
 
 	unsigned int state;
-	const JBoolean foundState = JXGetButtonAndModifierStates(xEvent, itsDisplay, &state);
+	const bool foundState = JXGetButtonAndModifierStates(xEvent, itsDisplay, &state);
 	assert( foundState );
 
 	const JXKeyModifiers modifiers(itsDisplay, state);
 
 	JXKeyModifiers noShift(modifiers);
-	noShift.SetState(kJXShiftKeyIndex, kJFalse);
-	noShift.SetState(kJXShiftLockKeyIndex, kJFalse);
-	noShift.SetState(kJXNumLockKeyIndex, kJFalse);
-	noShift.SetState(kJXScrollLockKeyIndex, kJFalse);
-	const JBoolean modsOff = noShift.AllOff();
+	noShift.SetState(kJXShiftKeyIndex, false);
+	noShift.SetState(kJXShiftLockKeyIndex, false);
+	noShift.SetState(kJXNumLockKeyIndex, false);
+	noShift.SetState(kJXScrollLockKeyIndex, false);
+	const bool modsOff = noShift.AllOff();
 
 	JXDisplay* display = itsDisplay;	// need local copy, since we might be deleted
 	Display* xDisplay  = *display;
@@ -3552,7 +3549,7 @@ JXWindow::HandleKeyPress
 
 		if (byteCount > 0)
 			{
-			const JString s(buffer, byteCount, kJFalse);
+			const JString s(buffer, byteCount, JString::kNoCopy);
 			JStringIterator iter(s);
 			JUtf8Character c;
 			while (iter.Next(&c))
@@ -3655,7 +3652,7 @@ JXWindow::RegisterFocusWidget
 		if (itsFocusList->GetElementCount() == 1)
 			{
 			assert( itsFocusWidget == nullptr );
-			SwitchFocus(kJFalse);
+			SwitchFocus(false);
 			}
 		}
 }
@@ -3677,7 +3674,7 @@ JXWindow::UnregisterFocusWidget
 		if (widget == itsFocusWidget)
 			{
 			itsFocusWidget = nullptr;
-			SwitchFocus(kJFalse);
+			SwitchFocus(false);
 			}
 		}
 }
@@ -3687,28 +3684,28 @@ JXWindow::UnregisterFocusWidget
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::SwitchFocusToFirstWidget()
 {
 	JXWidget* firstWidget;
 	if (!FindNextFocusWidget(0, &firstWidget))
 		{
-		return kJTrue;
+		return true;
 		}
 
 	if (itsFocusWidget == firstWidget)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (UnfocusCurrentWidget())
 		{
 		itsFocusWidget = firstWidget;
 		itsFocusWidget->Focus(0);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -3717,7 +3714,7 @@ JXWindow::SwitchFocusToFirstWidget()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::SwitchFocusToFirstWidgetWithAncestor
 	(
 	JXContainer* ancestor
@@ -3733,17 +3730,17 @@ JXWindow::SwitchFocusToFirstWidgetWithAncestor
 
 	if (firstWidget == end(*itsFocusList) || itsFocusWidget == *firstWidget)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (UnfocusCurrentWidget())
 		{
 		itsFocusWidget = *firstWidget;
 		itsFocusWidget->Focus(0);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -3752,18 +3749,18 @@ JXWindow::SwitchFocusToFirstWidgetWithAncestor
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::OKToUnfocusCurrentWidget()
 	const
 {
 	if (itsFocusWidget == nullptr ||
 		itsFocusWidget->OKToUnfocus())
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -3772,21 +3769,21 @@ JXWindow::OKToUnfocusCurrentWidget()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::UnfocusCurrentWidget()
 {
 	if (itsFocusWidget == nullptr)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (itsFocusWidget->OKToUnfocus())
 		{
 		KillFocus();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -3813,7 +3810,7 @@ JXWindow::KillFocus()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::SwitchFocusToWidget
 	(
 	JXWidget* widget
@@ -3822,11 +3819,11 @@ JXWindow::SwitchFocusToWidget
 	if (itsExpandTask != nullptr)
 		{
 		itsExpandTask->FocusAfterFTC(widget);
-		return kJTrue;
+		return true;
 		}
 	else if (itsFocusWidget == widget)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (itsFocusList->Includes(widget) &&
 			 widget->WillAcceptFocus() &&
@@ -3834,10 +3831,10 @@ JXWindow::SwitchFocusToWidget
 		{
 		itsFocusWidget = widget;
 		itsFocusWidget->Focus(0);
-		return kJTrue;
+		return true;
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -3848,7 +3845,7 @@ JXWindow::SwitchFocusToWidget
 void
 JXWindow::SwitchFocus
 	(
-	const JBoolean backward
+	const bool backward
 	)
 {
 	if (itsFocusList->IsEmpty())
@@ -3879,7 +3876,7 @@ JXWindow::SwitchFocus
 		// because NotifyFocusLost() could do anything.  (Usually,
 		// of course, it should not affect itsFocusList at all.)
 
-		const JBoolean empty = itsFocusList->IsEmpty();
+		const bool empty = itsFocusList->IsEmpty();
 
 		JIndex currIndex;
 		if (!empty && itsFocusList->Find(widget, &currIndex))
@@ -3918,13 +3915,13 @@ JXWindow::SwitchFocus
  FindNextFocusWidget (private)
 
 	Look forward in the list to find a widget after the specified one.
-	If nothing can be found, sets *widget = nullptr and returns kJFalse.
+	If nothing can be found, sets *widget = nullptr and returns false.
 
 	(startIndex == 0) => start at beginning of list
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::FindNextFocusWidget
 	(
 	const JIndex	origStartIndex,
@@ -3937,7 +3934,7 @@ JXWindow::FindNextFocusWidget
 	const JSize count = itsFocusList->GetElementCount();
 	if (count == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JIndex startIndex = origStartIndex;
@@ -3958,11 +3955,11 @@ JXWindow::FindNextFocusWidget
 		if (widget->WillAcceptFocus())
 			{
 			*focusWidget = widget;
-			return kJTrue;
+			return true;
 			}
 		else if (i == startIndex)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		i++;
@@ -3977,13 +3974,13 @@ JXWindow::FindNextFocusWidget
  FindPrevFocusWidget (private)
 
 	Look backwards in the list to find a widget in front of the specified one.
-	If nothing can be found, sets *widget = nullptr and returns kJFalse.
+	If nothing can be found, sets *widget = nullptr and returns false.
 
 	(startIndex == 0) => start at end of list
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::FindPrevFocusWidget
 	(
 	const JIndex	origStartIndex,
@@ -3996,7 +3993,7 @@ JXWindow::FindPrevFocusWidget
 	const JSize count = itsFocusList->GetElementCount();
 	if (count == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JIndex startIndex = origStartIndex;
@@ -4017,11 +4014,11 @@ JXWindow::FindPrevFocusWidget
 		if (widget->WillAcceptFocus())
 			{
 			*focusWidget = widget;
-			return kJTrue;
+			return true;
 			}
 		else if (i == startIndex)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		i--;
@@ -4041,7 +4038,7 @@ JXWindow::FindPrevFocusWidget
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::InstallShortcut
 	(
 	JXWidget*				widget,
@@ -4057,7 +4054,7 @@ JXWindow::InstallShortcut
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::InstallMenuShortcut
 	(
 	JXTextMenu*				menu,
@@ -4072,13 +4069,13 @@ JXWindow::InstallMenuShortcut
 /******************************************************************************
  InstallShortcut (private)
 
-	Returns kJTrue if shortcut was successfully registered.
+	Returns true if shortcut was successfully registered.
 
 	ShiftLock is always ignored.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::InstallShortcut
 	(
 	const Shortcut& origShortcut
@@ -4086,9 +4083,9 @@ JXWindow::InstallShortcut
 {
 	Shortcut s = origShortcut;
 	s.state    = JXKeyModifiers::SetState(itsDisplay, s.state,
-										  kJXShiftLockKeyIndex, kJFalse);
+										  kJXShiftLockKeyIndex, false);
 
-	const JBoolean inserted = itsShortcuts->InsertSorted(s, kJFalse);
+	const bool inserted = itsShortcuts->InsertSorted(s, false);
 
 	// For characters other than the alphabet or tab, return, etc., we
 	// never know whether or not the Shift key is required in order to type
@@ -4099,7 +4096,7 @@ JXWindow::InstallShortcut
 		!isalpha(origShortcut.key) && !iscntrl(origShortcut.key))
 		{
 		s.state = JXKeyModifiers::ToggleState(itsDisplay, s.state, kJXShiftKeyIndex);
-		itsShortcuts->InsertSorted(s, kJFalse);
+		itsShortcuts->InsertSorted(s, false);
 		}
 
 	return inserted;
@@ -4200,13 +4197,13 @@ JXWindow::InstallShortcuts
 
 			const JUtf8Character c1 = c.ToUpper();
 			const JUtf8Character c2 = c.ToLower();
-			modifiers.SetState(kJXControlKeyIndex, kJTrue);		// e.g. Ctrl-M
+			modifiers.SetState(kJXControlKeyIndex, true);		// e.g. Ctrl-M
 			InstallShortcut(widget, (unsigned char) c1.GetBytes()[0], modifiers);
 			if (c2 != c1)
 				{
 				InstallShortcut(widget, (unsigned char) c2.GetBytes()[0], modifiers);
 				}
-			modifiers.SetState(kJXControlKeyIndex, kJFalse);	// e.g. return key
+			modifiers.SetState(kJXControlKeyIndex, false);	// e.g. return key
 			InstallShortcut(widget, (unsigned char) JXCtrl(c1), modifiers);
 			}
 		else if (c == '#')
@@ -4218,13 +4215,13 @@ JXWindow::InstallShortcuts
 
 			const JUtf8Character c1 = c.ToUpper();
 			const JUtf8Character c2 = c.ToLower();
-			modifiers.SetState(kJXMetaKeyIndex, kJTrue);
+			modifiers.SetState(kJXMetaKeyIndex, true);
 			InstallShortcut(widget, (unsigned char) c1.GetBytes()[0], modifiers);
 			if (c2 != c1)
 				{
 				InstallShortcut(widget, (unsigned char) c2.GetBytes()[0], modifiers);
 				}
-			modifiers.SetState(kJXMetaKeyIndex, kJFalse);
+			modifiers.SetState(kJXMetaKeyIndex, false);
 			}
 		else if (c == 'F' &&
 				 (fnIndex = strtoul(list.GetBytes() + iter.GetPrevByteIndex(), nullptr, 10)) > 0 &&
@@ -4245,7 +4242,7 @@ JXWindow::InstallShortcuts
 
 	Returns the index into label of the first shortcut character in
 	the given list.  Returns zero if the first shortcut character is not
-	found in label.  We return zero rather than JBoolean because
+	found in label.  We return zero rather than bool because
 	JXWindowPainter::String() accepts zero to mean "no shortcut".
 
 	We perform a case-insensitive search first for "^c", then " c",
@@ -4394,7 +4391,7 @@ JXWindow::ClearAllMenuShortcuts
 
 //#include <stdio.h>
 
-JBoolean
+bool
 JXWindow::IsShortcut
 	(
 	const KeySym		keySym,
@@ -4407,9 +4404,9 @@ JXWindow::IsShortcut
 //	printf("IsShortcut: origState: %X\n", state);
 
 	JXKeyModifiers modifiers(itsDisplay, state);
-	modifiers.SetState(kJXNumLockKeyIndex, kJFalse);
-	modifiers.SetState(kJXScrollLockKeyIndex, kJFalse);
-	modifiers.SetState(kJXShiftLockKeyIndex, kJFalse);
+	modifiers.SetState(kJXNumLockKeyIndex, false);
+	modifiers.SetState(kJXScrollLockKeyIndex, false);
+	modifiers.SetState(kJXShiftLockKeyIndex, false);
 	state = modifiers.GetState();
 
 	if (0 < key && key <= 255)
@@ -4449,7 +4446,7 @@ JXWindow::IsShortcut
 
 	Shortcut target(nullptr, key, state);
 	JIndex i;
-	const JBoolean found = itsShortcuts->SearchSorted(target, JListT::kAnyMatch, &i);
+	const bool found = itsShortcuts->SearchSorted(target, JListT::kAnyMatch, &i);
 
 	if (found)
 		{
@@ -4464,7 +4461,7 @@ JXWindow::IsShortcut
 			}
 		}
 
-	// We always return kJTrue if it is a shortcut, even if the Widget didn't
+	// We always return true if it is a shortcut, even if the Widget didn't
 	// want to accept it.  This guarantees that keys will always behave
 	// the same.  Otherwise, a deactivated button's shortcut would go to the
 	// active input field.
@@ -4519,7 +4516,7 @@ JXWindow::HandleMapNotify
 	const XMapEvent& mapEvent
 	)
 {
-	itsIsMappedFlag = kJTrue;
+	itsIsMappedFlag = true;
 
 	if (itsIsOverlayFlag)
 		{
@@ -4540,7 +4537,7 @@ JXWindow::HandleMapNotify
 
 	if (itsIsDockedFlag)
 		{
-		itsIsIconifiedFlag = kJFalse;
+		itsIsIconifiedFlag = false;
 		return;
 		}
 
@@ -4564,11 +4561,11 @@ JXWindow::HandleUnmapNotify
 	const XUnmapEvent& unmapEvent
 	)
 {
-	itsIsMappedFlag = kJFalse;
+	itsIsMappedFlag = false;
 
 	if (IsVisible() && !itsIsIconifiedFlag)
 		{
-		itsIsIconifiedFlag = kJTrue;
+		itsIsIconifiedFlag = true;
 		Broadcast(Iconified());
 		}
 	else
@@ -4610,12 +4607,12 @@ JXWindow::HandleWMStateChange()
 		std::cerr << "Error detected in JXWindow::HandleMapNotify():" << std::endl;
 		std::cerr << "Your window manager is not setting the WM_STATE property correctly!" << std::endl;
 		std::cerr << std::endl;
-//		JXApplication::Abort(JXDocumentManager::kServerDead, kJFalse);
+//		JXApplication::Abort(JXDocumentManager::kServerDead, false);
 #endif
 
 		if (itsIsIconifiedFlag)
 			{
-			itsIsIconifiedFlag = kJFalse;
+			itsIsIconifiedFlag = false;
 			Broadcast(Deiconified());
 			Refresh();
 			}
@@ -4626,13 +4623,13 @@ JXWindow::HandleWMStateChange()
 
 		if (*reinterpret_cast<JUInt32*>(xdata) == NormalState && itsIsIconifiedFlag)
 			{
-			itsIsIconifiedFlag = kJFalse;
+			itsIsIconifiedFlag = false;
 			Broadcast(Deiconified());
 			Refresh();
 			}
 		else if (*reinterpret_cast<JUInt32*>(xdata) == IconicState && !itsIsIconifiedFlag)
 			{
-			itsIsIconifiedFlag = kJTrue;
+			itsIsIconifiedFlag = true;
 			Broadcast(Iconified());
 			}
 		}
@@ -4757,7 +4754,7 @@ JXWindow::GetNextExposeEvent
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::GetDockWindow
 	(
 	JXWindow** window
@@ -4767,12 +4764,12 @@ JXWindow::GetDockWindow
 	if (itsDockWidget != nullptr)
 		{
 		*window = itsDockWidget->JXContainer::GetWindow();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*window = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -4784,11 +4781,11 @@ JXWindow::GetDockWindow
 
 	geom must be in the local coordinates of parent.
 
-	Returns kJFalse if the window cannot be docked.
+	Returns false if the window cannot be docked.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWindow::Dock
 	(
 	JXDockWidget*	dock,
@@ -4800,7 +4797,7 @@ JXWindow::Dock
 		geom.width() < itsMinSize.x || geom.height() < itsMinSize.y ||
 		itsDockingTask != nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (itsIsDockedFlag)
@@ -4818,14 +4815,14 @@ JXWindow::Dock
 	itsDockingTask->Start();
 	ClearWhenGoingAway(itsDockingTask, &itsDockingTask);
 
-	itsIsDockedFlag = kJTrue;						// after creating task
+	itsIsDockedFlag = true;						// after creating task
 	UndockedSetSize(geom.width(), geom.height());	// after setting itsIsDockedFlag
 
 	itsDockXWindow = parent;
 	itsDockWidget  = dock;
 	Broadcast(Docked());
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -4841,7 +4838,7 @@ JXWindow::Undock()
 		return;
 		}
 
-	const JBoolean wasVisible = IsVisible();
+	const bool wasVisible = IsVisible();
 
 	if (itsDockWidget != nullptr)
 		{
@@ -4849,12 +4846,12 @@ JXWindow::Undock()
 		}
 
 	Hide();
-	itsIsMappedFlag = kJFalse;
+	itsIsMappedFlag = false;
 
 	XReparentWindow(*itsDisplay, itsXWindow, itsDisplay->GetRootWindow(),
 					itsWMFrameLoc.x, itsWMFrameLoc.y);
 
-	itsIsDockedFlag = kJFalse;
+	itsIsDockedFlag = false;
 	itsDockXWindow  = None;
 	itsDockWidget   = nullptr;
 	itsRootChild    = None;	// don't wait for ReparentNotify
@@ -4904,7 +4901,7 @@ void
 JXWindow::UpdateChildWindowList
 	(
 	const Window	xWindow,
-	const JBoolean	add
+	const bool	add
 	)
 {
 	if (add && itsChildWindowList == nullptr)
@@ -4936,7 +4933,7 @@ JXWindow::UpdateChildWindowList
 		if (add && index == 0 &&
 			XGetWindowAttributes(*itsDisplay, xWindow, &attr))
 			{
-			ChildWindowInfo info(xWindow, JI2B(attr.map_state != IsUnmapped),
+			ChildWindowInfo info(xWindow, attr.map_state != IsUnmapped,
 								 JRect(attr.y, attr.x,
 									   attr.y+attr.height, attr.x+attr.width));
 			itsChildWindowList->AppendElement(info);
@@ -5017,7 +5014,7 @@ void
 JXWindow::SetChildWindowVisible
 	(
 	const Window	xWindow,
-	const JBoolean	visible
+	const bool	visible
 	)
 {
 	if (itsChildWindowList != nullptr)

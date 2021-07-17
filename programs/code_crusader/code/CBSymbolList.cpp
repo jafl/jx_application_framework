@@ -54,9 +54,9 @@ CBSymbolList::CBSymbolList
 	CBCtagsUser(kCtagsArgs)
 {
 	itsProjDoc                = projDoc;
-	itsReparseAllFlag         = kJTrue;		// ReadSetup() clears this
-	itsChangedDuringParseFlag = kJFalse;
-	itsBeganEmptyFlag         = kJFalse;
+	itsReparseAllFlag         = true;		// ReadSetup() clears this
+	itsChangedDuringParseFlag = false;
+	itsBeganEmptyFlag         = false;
 
 	itsSymbolList = jnew JArray<SymbolInfo>(kBlockSize);
 	assert( itsSymbolList != nullptr );
@@ -90,7 +90,7 @@ CBSymbolList::GetSymbol
 	const JIndex	symbolIndex,
 	CBLanguage*		lang,
 	Type*			type,
-	JBoolean*		fullyQualifiedFileScope
+	bool*		fullyQualifiedFileScope
 	)
 	const
 {
@@ -127,11 +127,11 @@ CBSymbolList::GetFile
 /******************************************************************************
  IsUniqueClassName
 
-	Returns kJTrue if the given name is the name of a single class.
+	Returns true if the given name is the name of a single class.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSymbolList::IsUniqueClassName
 	(
 	const JString&	name,
@@ -142,7 +142,7 @@ CBSymbolList::IsUniqueClassName
 	const JSize symCount  = itsSymbolList->GetElementCount();
 	const SymbolInfo* sym = itsSymbolList->GetCArray();
 
-	JBoolean found = kJFalse;
+	bool found = false;
 	for (JUnsignedOffset i=0; i<symCount; i++)
 		{
 		if (IsClass(sym[i].type) &&
@@ -150,12 +150,12 @@ CBSymbolList::IsUniqueClassName
 			{
 			if (!found)
 				{
-				found = kJTrue;
+				found = true;
 				*lang = sym[i].lang;
 				}
 			else
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 		}
@@ -206,7 +206,7 @@ private:
 	const JArray<CBSymbolList::SymbolInfo>& itsData;
 };
 
-JBoolean
+bool
 CBSymbolList::FindSymbol
 	(
 	const JString&		name,
@@ -218,8 +218,8 @@ CBSymbolList::FindSymbol
 	JPtrArray<JString>*	goContextNamespaceList,
 	JPtrArray<JString>*	javaContextNamespaceList,
 	JPtrArray<JString>*	phpContextNamespaceList,
-	const JBoolean		findDeclaration,
-	const JBoolean		findDefinition,
+	const bool		findDeclaration,
+	const bool		findDefinition,
 	JArray<JIndex>*		matchList
 	)
 	const
@@ -266,11 +266,11 @@ CBSymbolList::FindSymbol
 			}
 		}
 
-	JBoolean usedAllList = kJFalse;
+	bool usedAllList = false;
 	if (matchList->IsEmpty())
 		{
 		*matchList  = allMatchList;
-		usedAllList = kJTrue;
+		usedAllList = true;
 		}
 
 	// replace symbols with fully qualified versions
@@ -323,11 +323,11 @@ CBSymbolList::FindSymbol
 		matchList->SetSortOrder(itsSymbolList->GetSortOrder());
 		matchList->Sort();
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -335,11 +335,11 @@ CBSymbolList::FindSymbol
  ConvertToFullNames (private)
 
 	Replaces name with *.name (Eiffel, Java) or *:name (C++: file: or
-	class::).  Returns kJFalse if contextList is empty.
+	class::).  Returns false if contextList is empty.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSymbolList::ConvertToFullNames
 	(
 	JArray<JIndex>*				noContextList,
@@ -355,12 +355,12 @@ CBSymbolList::ConvertToFullNames
 	)
 	const
 {
-	const JBoolean useLangNSContext = !contextNamespace1.IsEmpty();
-	const JBoolean useCNSContext    = !cContextNamespaceList.IsEmpty();
-	const JBoolean useDNSContext    = !dContextNamespaceList.IsEmpty();
-	const JBoolean useGoNSContext   = !goContextNamespaceList.IsEmpty();
-	const JBoolean useJavaNSContext = !javaContextNamespaceList.IsEmpty();
-	const JBoolean usePHPNSContext  = !phpContextNamespaceList.IsEmpty();
+	const bool useLangNSContext = !contextNamespace1.IsEmpty();
+	const bool useCNSContext    = !cContextNamespaceList.IsEmpty();
+	const bool useDNSContext    = !dContextNamespaceList.IsEmpty();
+	const bool useGoNSContext   = !goContextNamespaceList.IsEmpty();
+	const bool useJavaNSContext = !javaContextNamespaceList.IsEmpty();
+	const bool usePHPNSContext  = !phpContextNamespaceList.IsEmpty();
 
 	// substitute indicies of fully qualified symbols
 	// and filter based on namespace context
@@ -372,9 +372,9 @@ CBSymbolList::ConvertToFullNames
 	JString s1, s2;
 	for (JIndex i=count; i>=1; i--)
 		{
-		const JIndex j          = noContextList->GetElement(i) - 1;
-		const SymbolInfo& info  = sym[j];
-		const JBoolean caseSens = CBIsCaseSensitive(info.lang);
+		const JIndex j               = noContextList->GetElement(i) - 1;
+		const SymbolInfo& info       = sym[j];
+		const JString::Case caseSens = CBIsCaseSensitive(info.lang);
 
 		s1 = "." + *(info.name);
 		s2 = ":" + *(info.name);
@@ -387,15 +387,15 @@ CBSymbolList::ConvertToFullNames
 				 (sym[k].name)->EndsWith(s2, caseSens)))
 				{
 				if ((info.lang == kCBCLang && useCNSContext &&
-					 !InContext(*(sym[k].name), cContextNamespaceList, kJTrue)) ||
+					 !InContext(*(sym[k].name), cContextNamespaceList, JString::kCompareCase)) ||
 					(info.lang == kCBDLang && useDNSContext &&
-					 !InContext(*(sym[k].name), dContextNamespaceList, kJTrue)) ||
+					 !InContext(*(sym[k].name), dContextNamespaceList, JString::kCompareCase)) ||
 					(info.lang == kCBGoLang && useGoNSContext &&
-					 !InContext(*(sym[k].name), goContextNamespaceList, kJTrue)) ||
+					 !InContext(*(sym[k].name), goContextNamespaceList, JString::kCompareCase)) ||
 					(info.lang == kCBJavaLang && useJavaNSContext &&
-					 !InContext(*(sym[k].name), javaContextNamespaceList, kJTrue)) ||
+					 !InContext(*(sym[k].name), javaContextNamespaceList, JString::kCompareCase)) ||
 					(info.lang == kCBPHPLang && usePHPNSContext &&
-					 !InContext(*(sym[k].name), phpContextNamespaceList, kJTrue)) ||
+					 !InContext(*(sym[k].name), phpContextNamespaceList, JString::kCompareCase)) ||
 					(info.lang == contextLang && useLangNSContext &&
 					 !(sym[k].name)->BeginsWith(contextNamespace1, caseSens) &&
 					 !(sym[k].name)->Contains(contextNamespace2, caseSens)))
@@ -536,12 +536,12 @@ CBSymbolList::PrepareContextNamespaceList
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSymbolList::InContext
 	(
 	const JString&				fullName,
 	const JPtrArray<JString>&	contextNamespace,
-	const JBoolean				caseSensitive
+	const JString::Case			caseSensitive
 	)
 	const
 {
@@ -553,11 +553,11 @@ CBSymbolList::InContext
 		if (fullName.BeginsWith(*cns1, caseSensitive) ||
 			fullName.Contains(*cns2, caseSensitive))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -618,7 +618,7 @@ private:
 	const JArray<CBSymbolList::SymbolInfo>&	itsData;
 };
 
-JBoolean
+bool
 CBSymbolList::ClosestMatch
 	(
 	const JString&	prefixStr,
@@ -630,14 +630,14 @@ CBSymbolList::ClosestMatch
 	visibleList.SetCompareObject(ClosestMatchCompare(prefixStr, *itsSymbolList));
 	visibleList.SetSortOrder(itsSymbolList->GetSortOrder());
 
-	JBoolean found;
+	bool found;
 	*index = visibleList.SearchSorted1(0, JListT::kFirstMatch, &found);
 	if (*index > visibleList.GetElementCount())		// insert beyond end of list
 		{
 		*index = visibleList.GetElementCount();
 		}
 
-	return JConvertToBoolean( *index > 0 );
+	return *index > 0;
 }
 
 /******************************************************************************
@@ -656,7 +656,7 @@ CBSymbolList::FileTypesChanged
 {
 	if (info.Changed(IsParsed))
 		{
-		itsReparseAllFlag = kJTrue;
+		itsReparseAllFlag = true;
 		}
 }
 
@@ -673,7 +673,7 @@ CBSymbolList::FileTypesChanged
 void
 CBSymbolList::PrepareForUpdate
 	(
-	const JBoolean		reparseAll,
+	const bool		reparseAll,
 	JProgressDisplay&	pg
 	)
 {
@@ -701,7 +701,7 @@ CBSymbolList::PrepareForUpdate
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBSymbolList::UpdateFinished
 	(
 	const JArray<JFAID_t>&	deadFileList,
@@ -719,7 +719,7 @@ CBSymbolList::UpdateFinished
 	const JSize fileCount = deadFileList.GetElementCount();
 	if (fileCount > 0)
 		{
-		pg.FixedLengthProcessBeginning(fileCount, JGetString("CleaningUp::CBSymbolList"), kJFalse, kJTrue);
+		pg.FixedLengthProcessBeginning(fileCount, JGetString("CleaningUp::CBSymbolList"), false, true);
 
 		for (JIndex i=1; i<=fileCount; i++)
 			{
@@ -732,7 +732,7 @@ CBSymbolList::UpdateFinished
 
 	if (itsChangedDuringParseFlag && !CBInUpdateThread())
 		{
-		itsReparseAllFlag = kJFalse;
+		itsReparseAllFlag = false;
 		Broadcast(Changed());
 		}
 
@@ -777,7 +777,7 @@ CBSymbolList::RemoveFile
 			{
 			info.Free();
 			itsSymbolList->RemoveElement(i);
-			itsChangedDuringParseFlag = kJTrue;
+			itsChangedDuringParseFlag = true;
 			}
 		}
 }
@@ -828,7 +828,7 @@ CBSymbolList::ParseFile
 		{
 		icharbufstream input(data.GetBytes(), data.GetByteCount());
 		ReadSymbolList(input, lang, fileName, id);
-		itsChangedDuringParseFlag = kJTrue;
+		itsChangedDuringParseFlag = true;
 		}
 }
 
@@ -924,7 +924,7 @@ CBSymbolList::ReadSymbolList
 				}
 
 			const SymbolInfo info(name, signature, lang, type,
-								  kJFalse, fileID, lineIndex);
+								  false, fileID, lineIndex);
 			itsSymbolList->InsertSorted(info);
 
 			// add file:name
@@ -944,7 +944,7 @@ CBSymbolList::ReadSymbolList
 					}
 
 				const SymbolInfo info1(name1, sig1, lang, type,
-									   kJTrue, fileID, lineIndex);
+									   true, fileID, lineIndex);
 				itsSymbolList->InsertSorted(info1);
 				}
 			}
@@ -971,8 +971,7 @@ CBSymbolList::ReadSetup
 		{
 		ReadSetup(*input, vers);
 
-		itsReparseAllFlag = JI2B(
-			vers < 83 || (itsSymbolList->IsEmpty() && IsActive()));
+		itsReparseAllFlag = vers < 83 || (itsSymbolList->IsEmpty() && IsActive());
 		}
 }
 
@@ -989,7 +988,7 @@ CBSymbolList::ReadSetup
 	)
 {
 	RemoveAllSymbols();
-	itsReparseAllFlag = kJFalse;
+	itsReparseAllFlag = false;
 
 	JSize symbolCount;
 	input >> symbolCount;
@@ -1005,7 +1004,7 @@ CBSymbolList::ReadSetup
 		long lang, type;
 		input >> lang >> type;
 
-		JBoolean fullyQualifiedFileScope = kJFalse;
+		bool fullyQualifiedFileScope = false;
 		if (vers >= 54)
 			{
 			input >> JBoolFromString(fullyQualifiedFileScope);
@@ -1018,7 +1017,7 @@ CBSymbolList::ReadSetup
 		JString* signature = nullptr;
 		if (vers > 63)
 			{
-			JBoolean hasSignature;
+			bool hasSignature;
 			input >> JBoolFromString(hasSignature);
 
 			if (hasSignature)
@@ -1076,12 +1075,12 @@ CBSymbolList::WriteSetup
 
 			if (info.signature != nullptr)
 				{
-				*symOutput << ' ' << JBoolToString(kJTrue);
+				*symOutput << ' ' << JBoolToString(true);
 				*symOutput << ' ' << *(info.signature);
 				}
 			else
 				{
-				*symOutput << ' ' << JBoolToString(kJFalse);
+				*symOutput << ' ' << JBoolToString(false);
 				}
 			}
 

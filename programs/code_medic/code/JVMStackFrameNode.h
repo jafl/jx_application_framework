@@ -32,7 +32,7 @@ private:
 
 private:
 
-	JBoolean	UpdateNodeName();
+	bool	UpdateNodeName();
 
 	// not allowed
 

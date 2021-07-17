@@ -30,7 +30,7 @@ public:
 
 	// for use by main()
 
-	static JBoolean	WillBeMDIServer(const JUtf8Byte* signature,
+	static bool	WillBeMDIServer(const JUtf8Byte* signature,
 									const int argc, char* argv[]);
 	void			HandleCmdLineOptions(const int argc, char* argv[]);
 
@@ -40,16 +40,16 @@ public:
 
 protected:
 
-	JBoolean	IsFirstTime() const;
+	bool	IsFirstTime() const;
 
-	virtual JBoolean	CanAcceptMDIRequest() = 0;
+	virtual bool	CanAcceptMDIRequest() = 0;
 	virtual void		PreprocessArgList(JPtrArray<JString>* argList);
 	virtual void		HandleMDIRequest(const JString& dir,
 										 const JPtrArray<JString>& argList) = 0;
 
 private:
 
-	JBoolean			itsFirstTimeFlag;
+	bool			itsFirstTimeFlag;
 	ACE_LSOCK_Acceptor*	itsAcceptor;
 	ACE_LSOCK_Stream*	itsSocket;		// always closed before returning
 
@@ -59,10 +59,10 @@ private:
 	static JString	GetMDISocketName(const JUtf8Byte* signature);
 
 	static void		SendLine(ACE_LSOCK_Stream& socket, const JString& line);
-	static JBoolean	ReceiveLine(ACE_LSOCK_Stream& socket, const JBoolean block,
-								JString* line, JBoolean* receivedFinishedFlag);
+	static bool	ReceiveLine(ACE_LSOCK_Stream& socket, const bool block,
+								JString* line, bool* receivedFinishedFlag);
 	static void		WaitForFinished(ACE_LSOCK_Stream& socket,
-									const JBoolean receivedFinishedFlag);
+									const bool receivedFinishedFlag);
 
 	// not allowed
 
@@ -76,7 +76,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JMDIServer::IsFirstTime()
 	const
 {

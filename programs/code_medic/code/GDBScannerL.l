@@ -44,7 +44,7 @@ PROMPT "(gdb) "\n?
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 	bzero(&itsData, sizeof(itsData));
@@ -58,10 +58,10 @@ PROMPT "(gdb) "\n?
 
 (&\""echo "\\\\032\\\\032:"Medic debugger ready":{INT}:\\n\"\n)?~\"\\032\\032:"Medic debugger ready":{INT}:\"\n(\^done\n)? {
 
-	const JString s(yytext, kJFalse);
-	const JStringMatch m = pingRegex.Match(s, kJTrue);
+	const JString s(yytext, yyleng, JString::kNoCopy);
+	const JStringMatch m = pingRegex.Match(s, JRegex::kIncludeSubmatches);
 	assert( !m.IsEmpty() );
-	const JBoolean ok = m.GetSubstring(1).ConvertToUInt(&itsData.number);
+	const bool ok = m.GetSubstring(1).ConvertToUInt(&itsData.number);
 	assert( ok );
 	RETURN(kReadyForInput);
 	}
@@ -120,11 +120,11 @@ PROMPT "(gdb) "\n?
 
 ~\""[Switching to process "{INT}.*\]\\n\"\n {
 
-	const JString s(yytext, kJFalse);
-	const JStringMatch m = pidRegex3.Match(s, kJTrue);
+	const JString s(yytext, yyleng, JString::kNoCopy);
+	const JStringMatch m = pidRegex3.Match(s, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
 		{
-		const JBoolean ok = m.GetSubstring(1).ConvertToUInt(&itsData.number);
+		const bool ok = m.GetSubstring(1).ConvertToUInt(&itsData.number);
 		assert( ok );
 		}
 	RETURN(kProgramPID);
@@ -153,7 +153,7 @@ PROMPT "(gdb) "\n?
 		r.last++;
 		}
 	const_cast<JUtf8Byte*>(yytext)[r.last-1] = '\0';
-	itsLocation.SetFileName(JString(yytext+r.first-1, kJFalse));
+	itsLocation.SetFileName(JString(yytext+r.first-1, JString::kNoCopy));
 
 	r.last++;
 	r.first = r.last;
@@ -163,7 +163,7 @@ PROMPT "(gdb) "\n?
 		}
 	const_cast<JUtf8Byte*>(yytext)[r.last-1] = '\0';
 	JIndex lineNumber;
-	const JBoolean ok = JString::ConvertToUInt(yytext+r.first-1, &lineNumber);
+	const bool ok = JString::ConvertToUInt(yytext+r.first-1, &lineNumber);
 	assert( ok );
 	itsLocation.SetLineNumber(lineNumber);
 
@@ -347,17 +347,17 @@ PROMPT "(gdb) "\n?
 ~\".*(child|attached)\ (process|Pid|PID|thread)\ {INT}.*\\n\"\n |
 ~\".*"(LWP "{INT}.*\\n\"\n                            {
 
-	const JString s(yytext, kJFalse);
-	const JStringMatch m1 = pidRegex1.Match(s, kJTrue),
-					   m2 = pidRegex2.Match(s, kJTrue);
+	const JString s(yytext, yyleng, JString::kNoCopy);
+	const JStringMatch m1 = pidRegex1.Match(s, JRegex::kIncludeSubmatches),
+					   m2 = pidRegex2.Match(s, JRegex::kIncludeSubmatches);
 	if (!m1.IsEmpty())
 		{
-		const JBoolean ok = m1.GetSubstring(1).ConvertToUInt(&itsData.number);
+		const bool ok = m1.GetSubstring(1).ConvertToUInt(&itsData.number);
 		assert( ok );
 		}
 	else if (!m2.IsEmpty())
 		{
-		const JBoolean ok = m2.GetSubstring(1).ConvertToUInt(&itsData.number);
+		const bool ok = m2.GetSubstring(1).ConvertToUInt(&itsData.number);
 		assert( ok );
 		}
 	RETURN(kProgramPID);
@@ -384,11 +384,11 @@ PROMPT "(gdb) "\n?
 
 ~\".*(process|Pid|PID)\ {INT}.*\\n\"\n {
 
-	const JString s(yytext, kJFalse);
-	const JStringMatch m = attachRegex1.Match(s, kJTrue);
+	const JString s(yytext, yyleng, JString::kNoCopy);
+	const JStringMatch m = attachRegex1.Match(s, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
 		{
-		const JBoolean ok = m.GetSubstring(1).ConvertToUInt(&itsData.number);
+		const bool ok = m.GetSubstring(1).ConvertToUInt(&itsData.number);
 		assert( ok );
 		}
 	BEGIN(READING_SYMBOLS);

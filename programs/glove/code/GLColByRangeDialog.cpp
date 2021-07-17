@@ -31,7 +31,7 @@ GLColByRangeDialog::GLColByRangeDialog
 	const JSize count
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	itsDestCol = count;
 
@@ -118,14 +118,14 @@ GLColByRangeDialog::BuildWindow()
 
 	GLBuildColumnMenus("Column::GLGlobal", itsDestCol, itsDestMenu, nullptr);
 	
-	itsDestMenu->SetToPopupChoice(kJTrue, itsDestCol);
+	itsDestMenu->SetToPopupChoice(true, itsDestCol);
 //	itsDestMenu->SetPopupChoice(itsDestCol);
 	itsDestMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsDestMenu);
 	
-	itsBeginning->SetIsRequired(kJTrue);
-	itsEnd->SetIsRequired(kJTrue);
-	itsCount->SetIsRequired(kJTrue);
+	itsBeginning->SetIsRequired(true);
+	itsEnd->SetIsRequired(true);
+	itsCount->SetIsRequired(true);
 	itsCount->SetLowerLimit(2);
 	itsCount->SetValue(2);
 }
@@ -193,7 +193,7 @@ GLColByRangeDialog::GetValues
 
  ******************************************************************************/
 
-JBoolean 
+bool 
 GLColByRangeDialog::IsAscending()
 {
 	return itsIsAscending;
@@ -204,18 +204,18 @@ GLColByRangeDialog::IsAscending()
 
  ******************************************************************************/
 
-JBoolean 
+bool 
 GLColByRangeDialog::OKToDeactivate()
 {
 	if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 		
 	if (itsDestCol == 0)
 		{
 		JGetUserNotification()->ReportError(JGetString("MissingDestCol::GLColByIncDialog"));
-		return kJFalse;
+		return false;
 		}
 		
 	JFloat beg;
@@ -225,14 +225,14 @@ GLColByRangeDialog::OKToDeactivate()
 	itsBeginning->GetValue(&beg);
 	itsEnd->GetValue(&end);
 
-	itsIsAscending	= JI2B(beg < end);
+	itsIsAscending	= beg < end;
 	itsCount->GetValue(&count);
 	
 	if (count <= 0)
 		{
 		JGetUserNotification()->ReportError(JGetString("NoData::GLColByIncDialog"));
-		return kJFalse;
+		return false;
 		}
 		
-	return kJTrue;
+	return true;
 }

@@ -24,8 +24,8 @@ public:
 	JMMErrorPrinter();
 	virtual ~JMMErrorPrinter();
 
-	JBoolean GetPrintErrors() const;
-	void     SetPrintErrors(const JBoolean print);
+	bool GetPrintErrors() const;
+	void     SetPrintErrors(const bool print);
 
 protected:
 
@@ -33,17 +33,17 @@ protected:
 	virtual void HandleArrayDeletedAsObject(const JMMRecord& record) override;
 
 	virtual void HandleUnallocatedDeletion(const JUtf8Byte* file, const JUInt32 line,
-										   const JBoolean isArray) override;
+										   const bool isArray) override;
 	virtual void HandleMultipleDeletion(const JMMRecord& thisRecord,
 										const JUtf8Byte* file, const JUInt32 line,
-										const JBoolean isArray) override;
+										const bool isArray) override;
 
 	void HandleMultipleAllocation(const JMMRecord& thisRecord,
 								  const JMMRecord& firstRecord) override;
 
 private:
 
-	JBoolean itsPrintErrorsFlag;
+	bool itsPrintErrorsFlag;
 
 private:
 
@@ -58,7 +58,7 @@ private:
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JMMErrorPrinter::GetPrintErrors() const
 {
 	return itsPrintErrorsFlag;
@@ -75,7 +75,7 @@ JMMErrorPrinter::GetPrintErrors() const
 inline void
 JMMErrorPrinter::SetPrintErrors
 	(
-	const JBoolean print
+	const bool print
 	)
 {
 	itsPrintErrorsFlag = print;

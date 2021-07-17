@@ -34,13 +34,13 @@ GLPlotLinearFit::GLPlotLinearFit
 	JPlotDataBase* 	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax,
-	const JBoolean 	xlog,
-	const JBoolean 	ylog
+	const bool 	xlog,
+	const bool 	ylog
 	)
 	:
 	GLPlotFitFunction(plot, fitData, xMin, xMax)
 {
-	itsUsingRange = kJFalse;
+	itsUsingRange = false;
 	JPlotLinearFitX(plot, fitData, xlog, ylog);
 }
 
@@ -52,8 +52,8 @@ GLPlotLinearFit::GLPlotLinearFit
 	const JFloat xmax,
 	const JFloat ymin,
 	const JFloat ymax,
-	const JBoolean xlog,
-	const JBoolean ylog
+	const bool xlog,
+	const bool ylog
 	)
 	:
 	GLPlotFitFunction(plot, fitData, xmin, xmax)
@@ -78,7 +78,7 @@ GLPlotLinearFit::GLPlotLinearFit
 		itsRangeYMax = ymin;
 		itsRangeYMin = ymax;
 		}
-	itsUsingRange = kJTrue;
+	itsUsingRange = true;
 	JPlotLinearFitX(plot, fitData, xlog, ylog);
 }
 
@@ -87,13 +87,13 @@ GLPlotLinearFit::JPlotLinearFitX
 	(
 	J2DPlotWidget* plot,
 	JPlotDataBase* fitData,
-	const JBoolean xlog,
-	const JBoolean ylog
+	const bool xlog,
+	const bool ylog
 	)
 {
-	SetHasParameterErrors(kJTrue);
+	SetHasParameterErrors(true);
 	SetParameterCount(2);
-	SetHasGoodnessOfFit(kJTrue);
+	SetHasGoodnessOfFit(true);
 	itsXIsLog = xlog;
 	itsYIsLog = ylog;
 	if (!xlog && !ylog)
@@ -170,7 +170,7 @@ GLPlotLinearFit::GetElement
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotLinearFit::GetYValue
 	(
 	const JFloat 	x,
@@ -192,7 +192,7 @@ GLPlotLinearFit::GetYValue
 		*y = a + b*x;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 
@@ -202,12 +202,12 @@ GLPlotLinearFit::GetYValue
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotLinearFit::GetYRange
 	(
 	const JFloat	xMin,
 	const JFloat	xMax,
-	const JBoolean	xLinear,
+	const bool	xLinear,
 	JFloat*			yMin,
 	JFloat*			yMax
 	)
@@ -219,7 +219,7 @@ GLPlotLinearFit::GetYRange
 
 	*yMin = JMin(y1, y2);
 	*yMax = JMax(y1, y2);
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -248,7 +248,7 @@ GLPlotLinearFit::UpdateFunction
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotLinearFit::GetParameterName
 	(
 	const JIndex index,
@@ -258,7 +258,7 @@ GLPlotLinearFit::GetParameterName
 {
 	if ((index > 2) || (index < 1))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index == 1)
 		{
@@ -268,7 +268,7 @@ GLPlotLinearFit::GetParameterName
 		{
 		*name = "b";
 		}
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -277,7 +277,7 @@ GLPlotLinearFit::GetParameterName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotLinearFit::GetParameter
 	(
 	const JIndex index,
@@ -287,7 +287,7 @@ GLPlotLinearFit::GetParameter
 {
 	if ((index > 2) || (index < 1))
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index == 1)
 		{
@@ -307,7 +307,7 @@ GLPlotLinearFit::GetParameter
 		{
 		*value = itsBParameter;
 		}
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -316,7 +316,7 @@ GLPlotLinearFit::GetParameter
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotLinearFit::GetParameterError
 	(
 	const JIndex index,
@@ -327,7 +327,7 @@ GLPlotLinearFit::GetParameterError
 	const JPlotDataBase* data = GetDataToFit();
 	if (!data->HasXErrors() && !data->HasYErrors())
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index == 1)
 		{
@@ -347,7 +347,7 @@ GLPlotLinearFit::GetParameterError
 		{
 		*value = itsBErrParameter;
 		}
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -356,7 +356,7 @@ GLPlotLinearFit::GetParameterError
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotLinearFit::GetGoodnessOfFitName
 	(
 	JString* name
@@ -372,7 +372,7 @@ GLPlotLinearFit::GetGoodnessOfFitName
 		{
 		*name = "Std dev";
 		}
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -381,7 +381,7 @@ GLPlotLinearFit::GetGoodnessOfFitName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotLinearFit::GetGoodnessOfFit
 	(
 	JFloat* value
@@ -398,7 +398,7 @@ GLPlotLinearFit::GetGoodnessOfFit
 		*value = GetStdDev();
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -543,7 +543,7 @@ GLPlotLinearFit::LinearLSQ1()
 	JFloat berr = sqrt(1.0/stt);
 
 	JFloat c = 0;
-	JBoolean sytest = kJTrue;
+	bool sytest = true;
 	counter = 1;
 	for (i = 1; i <= count; i++)
 		{
@@ -553,7 +553,7 @@ GLPlotLinearFit::LinearLSQ1()
 			c += temp * temp;
 			if (sigma.GetElement(counter) != 1)
 				{
-				sytest = kJFalse;
+				sytest = false;
 				}
 			counter++;
 			}
@@ -1162,7 +1162,7 @@ GLPlotLinearFit::SetFunctionName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotLinearFit::DataElementValid
 	(
 	const JIndex index
@@ -1176,14 +1176,14 @@ GLPlotLinearFit::DataElementValid
 		{
 		if (point.y <= 0)
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 	if (itsXIsLog)
 		{
 		if (point.x <= 0)
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 	if (itsUsingRange)
@@ -1193,14 +1193,14 @@ GLPlotLinearFit::DataElementValid
 			(point.y >= itsRangeYMin) &&
 			(point.y <= itsRangeYMax))
 			{
-			return kJTrue;
+			return true;
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1209,17 +1209,17 @@ GLPlotLinearFit::DataElementValid
 
  *****************************************************************************/
 
-JBoolean
+bool
 GLPlotLinearFit::GetDataElement
 	(
 	const JIndex index,
 	J2DDataPoint* point
 	)
 {
-	JBoolean valid = DataElementValid(index);
+	bool valid = DataElementValid(index);
 	if (!valid)
 		{
-		return kJFalse;
+		return false;
 		}
 	const JPlotDataBase* data = GetDataToFit();
 	data->GetElement(index, point);
@@ -1234,7 +1234,7 @@ GLPlotLinearFit::GetDataElement
 			point->yerr = fabs(log((y - yerr)/y));
 			}
 		}
-	return kJTrue;
+	return true;
 }
 
 /*****************************************************************************

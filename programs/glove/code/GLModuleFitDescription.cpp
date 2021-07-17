@@ -33,7 +33,7 @@ GLModuleFitDescription::GLModuleFitDescription
 		{
 		GetVarList()->AddVariable(itsModule->GetParameterName(i), 0);
 		}
-	DoesRequireStartValues(kJTrue);
+	DoesRequireStartValues(true);
 }
 
 /******************************************************************************

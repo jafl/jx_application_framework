@@ -61,13 +61,13 @@ CBSymbolSRDirector::CBSymbolSRDirector
 	CBProjectDocument*	projDoc,
 	CBSymbolList*		symbolList,
 	const JString&		filterStr,
-	const JBoolean		isRegex,
+	const bool		isRegex,
 	JError*				err
 	)
 	:
 	JXWindowDirector(projDoc)
 {
-	CBSymbolSRDirectorX(mainSym, projDoc, symbolList, kJTrue);
+	CBSymbolSRDirectorX(mainSym, projDoc, symbolList, true);
 
 	*err = itsSymbolTable->SetNameFilter(filterStr, isRegex);
 	FitWindowToContent();
@@ -88,7 +88,7 @@ CBSymbolSRDirector::CBSymbolSRDirector
 	:
 	JXWindowDirector(projDoc)
 {
-	CBSymbolSRDirectorX(mainSym, projDoc, symbolList, kJTrue);
+	CBSymbolSRDirectorX(mainSym, projDoc, symbolList, true);
 
 	itsSymbolTable->SetDisplayList(displayList);
 	FitWindowToContent();
@@ -106,7 +106,7 @@ CBSymbolSRDirector::CBSymbolSRDirectorX
 	CBSymbolDirector*	owner,
 	CBProjectDocument*	projDoc,
 	CBSymbolList*		symbolList,
-	const JBoolean		focus
+	const bool		focus
 	)
 {
 	itsMainSymDir = owner;
@@ -141,7 +141,7 @@ void
 CBSymbolSRDirector::BuildWindow
 	(
 	CBSymbolList*	symbolList,
-	const JBoolean	focus
+	const bool	focus
 	)
 {
 // begin JXLayout
@@ -165,7 +165,7 @@ CBSymbolSRDirector::BuildWindow
 
 	if (focus)
 		{
-		window->ShouldFocusWhenShow(kJTrue);
+		window->ShouldFocusWhenShow(true);
 		}
 
 	itsSymbolTable =
@@ -275,15 +275,15 @@ CBSymbolSRDirector::UpdateActionsMenu()
 	itsActionsMenu->SetItemEnable(kCopySelNamesCmd, itsSymbolTable->HasSelection());
 
 	itsActionsMenu->SetItemEnable(kShowCTreeCmd,
-		JNegate(itsProjDoc->GetCTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetCTreeDirector()->GetTree()->IsEmpty());
 	itsActionsMenu->SetItemEnable(kShowDTreeCmd,
-		JNegate(itsProjDoc->GetDTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetDTreeDirector()->GetTree()->IsEmpty());
 	itsActionsMenu->SetItemEnable(kShowGoTreeCmd,
-		JNegate(itsProjDoc->GetGoTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetGoTreeDirector()->GetTree()->IsEmpty());
 	itsActionsMenu->SetItemEnable(kShowJavaTreeCmd,
-		JNegate(itsProjDoc->GetJavaTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetJavaTreeDirector()->GetTree()->IsEmpty());
 	itsActionsMenu->SetItemEnable(kShowPHPTreeCmd,
-		JNegate(itsProjDoc->GetPHPTreeDirector()->GetTree()->IsEmpty()));
+		!itsProjDoc->GetPHPTreeDirector()->GetTree()->IsEmpty());
 }
 
 /******************************************************************************

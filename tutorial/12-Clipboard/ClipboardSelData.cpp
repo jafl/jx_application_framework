@@ -56,7 +56,7 @@ GFilterDragData::AddTypes
 
  ******************************************************************************/
 
-JBoolean
+bool
 GFilterDragData::ConvertData
 	(
 	const Atom 		requestType, 
@@ -67,6 +67,6 @@ GFilterDragData::ConvertData
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 

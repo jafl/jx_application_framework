@@ -55,10 +55,10 @@ public:
 						 const JString& text, JRunArray<JFont>* styles,
 						 JStyledText::TextRange* recalcRange,
 						 JStyledText::TextRange* redrawRange,
-						 const JBoolean deletion, JArray<TokenData>* tokenStartList);
+						 const bool deletion, JArray<TokenData>* tokenStartList);
 
-	JBoolean	IsActive() const;
-	void		SetActive(const JBoolean active);
+	bool	IsActive() const;
+	void		SetActive(const bool active);
 
 protected:
 
@@ -68,7 +68,7 @@ protected:
 	virtual void		PreexpandCheckRange(const JString& text,
 											const JRunArray<JFont>& styles,
 											const JCharacterRange& modifiedRange,
-											const JBoolean deletion,
+											const bool deletion,
 											JStyledText::TextRange* checkRange);
 	void				ExtendCheckRange(const JIndex newEndCharIndex);
 
@@ -80,7 +80,7 @@ protected:
 
 	JUtf8Character	GetCharacter(const JStyledText::TextIndex& index) const;
 
-	JBoolean	SetStyle(const JCharacterRange& range, const JFontStyle& style);
+	bool	SetStyle(const JCharacterRange& range, const JFontStyle& style);
 	void		SaveTokenStart(const JStyledText::TextIndex& index, const TokenExtra data = TokenExtra());
 
 	void	AdjustStyle(const JCharacterRange& range, const JFontStyle& style);
@@ -91,14 +91,14 @@ protected:
 
 private:
 
-	JBoolean	itsActiveFlag;
+	bool	itsActiveFlag;
 
 	const JStyledText*	itsST;			// not owned; nullptr unless lexing
 	const JFontManager*	itsFontMgr;		// not owned; nullptr unless lexing
 	const JString*		itsText;		// not owned; nullptr unless lexing
 	JRunArray<JFont>*	itsStyles;		// not owned; nullptr unless lexing
 
-	JBoolean	itsRedoAllFlag;						// kJTrue => itsStyles is *not* full
+	bool	itsRedoAllFlag;						// true => itsStyles is *not* full
 	JFont*		itsDefFont;							// nullptr unless processing
 
 	JStyledText::TextRange*	itsRecalcRange;		// not owned; nullptr unless lexing
@@ -114,7 +114,7 @@ private:
 
 private:
 
-	JBoolean	OnlyColorChanged(JFontStyle s1, JFontStyle s2) const;
+	bool	OnlyColorChanged(JFontStyle s1, JFontStyle s2) const;
 
 	void	ExpandTextRange(JStyledText::TextRange* r1, const JCharacterRange& r2) const;
 
@@ -133,7 +133,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JSTStyler::IsActive()
 	const
 {
@@ -143,7 +143,7 @@ JSTStyler::IsActive()
 inline void
 JSTStyler::SetActive
 	(
-	const JBoolean active
+	const bool active
 	)
 {
 	itsActiveFlag = active;

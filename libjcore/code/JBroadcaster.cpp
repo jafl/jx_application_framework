@@ -159,7 +159,7 @@ JBroadcaster::ToString()
 {
 	std::ostringstream s;
 	s << typeid(*this).name() << " (" << this << ")";
-	return JString(s.str().c_str(), 0);
+	return JString(s.str().c_str());
 }
 
 /******************************************************************************
@@ -234,11 +234,11 @@ JBroadcaster::StopListening
 
  ******************************************************************************/
 
-JBoolean
+bool
 JBroadcaster::HasSenders()
 	const
 {
-	return JNegate(itsSenders == nullptr || itsSenders->IsEmpty());
+	return itsSenders != nullptr && !itsSenders->IsEmpty();
 }
 
 JSize
@@ -255,11 +255,11 @@ JBroadcaster::GetSenderCount()
 		}
 }
 
-JBoolean
+bool
 JBroadcaster::HasRecipients()
 	const
 {
-	return JNegate(itsRecipients == nullptr || itsRecipients->IsEmpty());
+	return itsRecipients != nullptr && !itsRecipients->IsEmpty();
 }
 
 JSize

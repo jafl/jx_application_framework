@@ -15,7 +15,7 @@ This scanner reads a Java file and builds a CBJavaClass.
 
 #undef YY_DECL
 #define YY_DECL \
-	JBoolean CBJavaTreeScanner::CreateClasses( \
+	bool CBJavaTreeScanner::CreateClasses( \
 		const JString& fileName, const JFAID_t fileID, \
 		CBTree* tree, JPtrArray<CBClass>* classList)
 %}
@@ -47,7 +47,7 @@ OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compile
 
 	JString package;
 	JInteger genericDepth;
-	JBoolean genericPop = kJFalse;
+	bool genericPop = false;
 	JPtrArray<JString> importList(JPtrArrayT::kDeleteAll);
 
 	std::ifstream input(fileName.GetBytes());
@@ -66,28 +66,28 @@ import{WS}{NSID}{MS};  {
 	}
 
 public/{BDRY} {
-	itsPublicFlag = kJTrue;
+	itsPublicFlag = true;
 	}
 
 (protected|private)/{BDRY} {
-	itsPublicFlag = kJFalse;
+	itsPublicFlag = false;
 	}
 
 final/{BDRY} {
-	itsFinalFlag = kJTrue;
+	itsFinalFlag = true;
 	}
 
 abstract/{BDRY} {
-	itsAbstractFlag = kJTrue;
+	itsAbstractFlag = true;
 	}
 
 class/{BDRY} {
-	itsAbstractFlag = kJFalse;
+	itsAbstractFlag = false;
 	BEGIN(CLASS_NAME_STATE);
 	}
 
 interface/{BDRY} {
-	itsAbstractFlag = kJTrue;
+	itsAbstractFlag = true;
 	BEGIN(CLASS_NAME_STATE);
 	}
 
@@ -130,10 +130,10 @@ interface/{BDRY} {
 		}
 
 	JString fullName(yytext, yyleng);
-	JBoolean generic = kJFalse;
+	bool generic = false;
 	if (fullName.GetLastCharacter() == '<')
 		{
-		generic = kJTrue;
+		generic = true;
 		fullName.Set(yytext, yyleng-1);
 		fullName.TrimWhitespace();
 		}
@@ -158,7 +158,7 @@ interface/{BDRY} {
 		{
 		c->SetTemplate();
 		genericDepth = 1;
-		genericPop   = kJFalse;
+		genericPop   = false;
 		BEGIN(GENERIC_STATE);
 		}
 	else
@@ -196,15 +196,15 @@ implements	/* ignore */
 {NSID}({MS}"<")? {
 	if (itsCurrentClass == nullptr)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JString parentName(yytext, yyleng);
 
-	JBoolean generic = kJFalse;
+	bool generic = false;
 	if (parentName.GetLastCharacter() == '<')
 		{
-		generic = kJTrue;
+		generic = true;
 		parentName.Set(yytext, yyleng-1);
 		parentName.TrimWhitespace();
 		}
@@ -212,7 +212,7 @@ implements	/* ignore */
 	JString s = parentName;
 	s.Prepend(".");
 
-	JBoolean found = kJFalse;
+	bool found = false;
 	while (1)
 		{
 		for (const JString* c : importList)
@@ -231,7 +231,7 @@ implements	/* ignore */
 			s1.Append(parentName);
 
 			parentName = s1;
-			found      = kJTrue;
+			found      = true;
 			break;
 			}
 
@@ -256,7 +256,7 @@ implements	/* ignore */
 	if (generic)
 		{
 		genericDepth = 1;
-		genericPop   = kJTrue;
+		genericPop   = true;
 		yy_push_state(GENERIC_STATE);
 		}
 	}

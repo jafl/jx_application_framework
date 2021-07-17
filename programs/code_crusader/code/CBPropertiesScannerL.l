@@ -29,7 +29,7 @@ WS      ([ \v\t\f\r]*)
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}

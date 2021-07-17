@@ -34,7 +34,7 @@ CBRPChoosePathDialog::Create
 	JXDirector*						supervisor,
 	JDirInfo*						dirInfo,
 	const JString&					fileFilter,
-	const JBoolean					selectOnlyWritable,
+	const bool					selectOnlyWritable,
 	const CBRelPathCSF::PathType	pathType,
 	const JString&					message
 	)
@@ -56,7 +56,7 @@ CBRPChoosePathDialog::CBRPChoosePathDialog
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	selectOnlyWritable
+	const bool	selectOnlyWritable
 	)
 	:
 	JXChoosePathDialog(supervisor, dirInfo, fileFilter, selectOnlyWritable)
@@ -201,7 +201,7 @@ CBRPChoosePathDialog::BuildWindow
 	assert( homeDirRB != nullptr );
 
 	JXCurrentPathMenu* currPathMenu =
-		jnew JXCurrentPathMenu(JString("/", kJFalse), window,
+		jnew JXCurrentPathMenu(JString("/", false), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 

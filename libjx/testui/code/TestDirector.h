@@ -30,11 +30,11 @@ class TestDirector : public JXWindowDirector
 {
 public:
 
-	TestDirector(JXDirector* supervisor, const JBoolean isMaster,
-				 const JBoolean startIconic = kJFalse,
-				 const JBoolean bufferTestWidget = kJTrue,
-				 const JBoolean testWidgetIsImage = kJFalse,
-				 const JBoolean snoopWindow = kJFalse);
+	TestDirector(JXDirector* supervisor, const bool isMaster,
+				 const bool startIconic = false,
+				 const bool bufferTestWidget = true,
+				 const bool testWidgetIsImage = false,
+				 const bool snoopWindow = false);
 
 	virtual ~TestDirector();
 
@@ -46,7 +46,7 @@ protected:
 
 private:
 
-	JBoolean		itsIsMasterFlag;	// kJTrue if we were the first one created
+	bool		itsIsMasterFlag;	// true if we were the first one created
 	JXPSPrinter*	itsPSPrinter;
 	JXEPSPrinter*	itsEPSPrinter;
 	TestWidget*		itsWidget;			// owned by its enclosure
@@ -79,8 +79,8 @@ private:
 
 private:
 
-	void	BuildWindow(const JBoolean isMaster, const JBoolean bufferTestWidget,
-						const JBoolean testWidgetIsImage);
+	void	BuildWindow(const bool isMaster, const bool bufferTestWidget,
+						const bool testWidgetIsImage);
 	void	BuildIconMenus(JXWindow* window, JXMenuBar* menuBar);
 
 	void	UpdateAboutMenu();
@@ -101,8 +101,8 @@ private:
 	void	UpdatePGMenu();
 	void	HandlePGMenu(const JIndex item);
 
-	void	FGProcess(const JBoolean fixedLength);
-	void	BeginBGProcess(const JBoolean fixedLength);
+	void	FGProcess(const bool fixedLength);
+	void	BeginBGProcess(const bool fixedLength);
 
 	void	TestFontSubstitutionTiming();
 

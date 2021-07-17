@@ -19,19 +19,19 @@ public:
 	static CBListChooseFileDialog*
 		Create(JXDirector* supervisor, JDirInfo* dirInfo,
 			   const JString& fileFilter,
-			   const JBoolean allowSelectMultiple,
+			   const bool allowSelectMultiple,
 			   const JString& replaceListStr, const JString& appendToListStr,
 			   const JString& origName, const JString& message);
 
 	virtual ~CBListChooseFileDialog();
 
-	JBoolean	ReplaceExisting() const;
+	bool	ReplaceExisting() const;
 
 protected:
 
 	CBListChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 						   const JString& fileFilter,
-						   const JBoolean allowSelectMultiple);
+						   const bool allowSelectMultiple);
 
 private:
 

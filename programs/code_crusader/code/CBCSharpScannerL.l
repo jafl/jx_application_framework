@@ -95,7 +95,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}
@@ -272,13 +272,13 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 
 "/*" {
 	StartToken();
-	itsIsDocCommentFlag = kJFalse;
+	itsIsDocCommentFlag = false;
 	BEGIN(C_COMMENT_STATE);
 	}
 
 "/**"/[^/] {
 	StartToken();
-	itsIsDocCommentFlag = kJTrue;
+	itsIsDocCommentFlag = true;
 	BEGIN(C_COMMENT_STATE);
 	}
 

@@ -38,8 +38,8 @@ public:
 	const JUtf8Character& operator=(const JUtf8Byte asciiCharacter);
 	const JUtf8Character& operator=(const JUtf8Byte* utf8Character);
 
-	JBoolean			IsBlank() const;
-	JBoolean			IsAscii() const;
+	bool			IsBlank() const;
+	bool			IsAscii() const;
 	JSize				GetByteCount() const;
 	const JUtf8Byte*	GetBytes() const;
 	JUtf8Byte*			AllocateBytes() const;	// client must call delete [] when finished with it
@@ -49,37 +49,37 @@ public:
 	void	Set(const JUtf8Byte asciiCharacter);
 	void	Set(const JUtf8Byte* utf8Character);
 
-	JBoolean	IsPrint() const;
-	JBoolean	IsAlnum() const;
-	JBoolean	IsDigit() const;
-	JBoolean	IsAlpha() const;
-	JBoolean	IsLower() const;
-	JBoolean	IsUpper() const;
-	JBoolean	IsSpace() const;
-	JBoolean	IsControl() const;
+	bool	IsPrint() const;
+	bool	IsAlnum() const;
+	bool	IsDigit() const;
+	bool	IsAlpha() const;
+	bool	IsLower() const;
+	bool	IsUpper() const;
+	bool	IsSpace() const;
+	bool	IsControl() const;
 
 	JUtf8Character	ToLower() const;
 	JUtf8Character	ToUpper() const;
 
 	void	PrintHex(std::ostream& output) const;
 
-	static JBoolean	IsValid(const JUtf8Byte* utf8Character);
-	static JBoolean	IsCompleteCharacter(const JUtf8Byte* utf8Character, const JSize byteCount, JSize* characterByteCount);
-	static JBoolean	GetCharacterByteCount(const JUtf8Byte* utf8Character, JSize* byteCount);
-	static JBoolean	GetPrevCharacterByteCount(const JUtf8Byte* lastByte, JSize* byteCount);
+	static bool	IsValid(const JUtf8Byte* utf8Character);
+	static bool	IsCompleteCharacter(const JUtf8Byte* utf8Character, const JSize byteCount, JSize* characterByteCount);
+	static bool	GetCharacterByteCount(const JUtf8Byte* utf8Character, JSize* byteCount);
+	static bool	GetPrevCharacterByteCount(const JUtf8Byte* lastByte, JSize* byteCount);
 
 	static JUtf8Character	Utf32ToUtf8(const JUInt32 c);
 	static JUInt32			Utf8ToUtf32(const JUtf8Byte* c, JSize* returnByteCount = nullptr);
 
-	static JBoolean	IgnoreBadUtf8();
-	static void		SetIgnoreBadUtf8(const JBoolean ignore);
+	static bool	IgnoreBadUtf8();
+	static void		SetIgnoreBadUtf8(const bool ignore);
 
 private:
 
 	unsigned char	itsByteCount;
 	JUtf8Byte		itsBytes[ kMaxByteCount+1 ];
 
-	static JBoolean	theIgnoreBadUtf8Flag;	// do not print errors
+	static bool	theIgnoreBadUtf8Flag;	// do not print errors
 };
 
 
@@ -88,11 +88,11 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JUtf8Character::IsBlank()
 	const
 {
-	return JI2B(itsBytes[0] == 0);
+	return itsBytes[0] == 0;
 }
 
 /******************************************************************************
@@ -100,11 +100,11 @@ JUtf8Character::IsBlank()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JUtf8Character::IsAscii()
 	const
 {
-	return JI2B(itsByteCount == 1);
+	return itsByteCount == 1;
 }
 
 /******************************************************************************
@@ -148,7 +148,7 @@ JUtf8Character::GetUtf32()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JUtf8Character::IsValid
 	(
 	const JUtf8Byte* utf8Character
@@ -163,7 +163,7 @@ JUtf8Character::IsValid
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JUtf8Character::IgnoreBadUtf8()
 {
 	return theIgnoreBadUtf8Flag;
@@ -172,7 +172,7 @@ JUtf8Character::IgnoreBadUtf8()
 inline void
 JUtf8Character::SetIgnoreBadUtf8
 	(
-	const JBoolean ignore
+	const bool ignore
 	)
 {
 	theIgnoreBadUtf8Flag = ignore;

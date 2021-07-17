@@ -32,7 +32,7 @@ SyGMoveToTrashProcess::Move
 	)
 {
 	JString trashDir;
-	if (SyGGetTrashDirectory(&trashDir, kJFalse))
+	if (SyGGetTrashDirectory(&trashDir, false))
 		{
 		SyGMoveToTrashProcess* p = jnew SyGMoveToTrashProcess(table, fullNameList, trashDir);
 		assert( p != nullptr );
@@ -74,7 +74,7 @@ SyGMoveToTrashProcess::~SyGMoveToTrashProcess()
 {
 	if (itsTable != nullptr)
 		{
-		itsTable->UpdateDisplay(kJTrue);
+		itsTable->UpdateDisplay(true);
 		}
 
 	SyGUpdateTrash();

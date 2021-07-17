@@ -25,7 +25,7 @@ XDGetSourceFileList::XDGetSourceFileList
 	CMFileListDir* fileList
 	)
 	:
-	CMGetSourceFileList(JString("status", kJFalse), fileList)
+	CMGetSourceFileList(JString("status", JString::kNoCopy), fileList)
 {
 }
 

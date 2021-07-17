@@ -65,7 +65,7 @@ JXRowHeaderWidget::JXRowHeaderWidget
 
 	itsTitles = nullptr;
 
-	itsAllowRowResizingFlag = kJFalse;
+	itsAllowRowResizingFlag = false;
 	itsMinRowHeight         = 1;
 	itsHMarginWidth         = 2*kCellFrameWidth;
 	itsMaxBcastWidth        = 0;
@@ -79,7 +79,7 @@ JXRowHeaderWidget::JXRowHeaderWidget
 
 	// override JXEditTable
 
-	WantInput(kJFalse);
+	WantInput(false);
 	SetBackColor(JColorManager::GetDefaultBackColor());
 
 	AppendCols(1, GetApertureWidth());
@@ -99,11 +99,11 @@ JXRowHeaderWidget::~JXRowHeaderWidget()
 /******************************************************************************
  GetRowTitle
 
-	Returns kJTrue if there is a title for the specified row.
+	Returns true if there is a title for the specified row.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXRowHeaderWidget::GetRowTitle
 	(
 	const JIndex	index,
@@ -117,12 +117,12 @@ JXRowHeaderWidget::GetRowTitle
 		if (str != nullptr)
 			{
 			*title = *str;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	title->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -203,14 +203,14 @@ JXRowHeaderWidget::TableDrawCell
 	JXDrawUpFrame(p, rect, kCellFrameWidth);
 
 	JString str;
-	JBoolean hasTitle = kJFalse;
+	bool hasTitle = false;
 	if (itsTitles != nullptr)
 		{
 		const JString* title = itsTitles->GetElement(cell.y);
 		if (title != nullptr)
 			{
 			str      = *title;
-			hasTitle = kJTrue;
+			hasTitle = true;
 			}
 		}
 	if (!hasTitle)
@@ -221,7 +221,7 @@ JXRowHeaderWidget::TableDrawCell
 	const JFont font = JFontManager::GetFont(
 			JFontManager::GetDefaultFontName(),
 			JFontManager::GetDefaultRowColHeaderFontSize(),
-			JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+			JFontStyle(true, false, 0, false));
 	p.SetFont(font);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 
@@ -248,7 +248,7 @@ JXRowHeaderWidget::TurnOnRowResizing
 {
 	assert( minRowHeight > 0 );
 
-	itsAllowRowResizingFlag = kJTrue;
+	itsAllowRowResizingFlag = true;
 	itsMinRowHeight         = minRowHeight;
 }
 
@@ -273,7 +273,7 @@ JXRowHeaderWidget::HandleMouseDown
 		return;
 		}
 
-	const JBoolean inDragRegion = InDragRegion(pt, &itsDragCell);
+	const bool inDragRegion = InDragRegion(pt, &itsDragCell);
 
 	if (inDragRegion && button == kJXLeftButton)
 		{
@@ -329,7 +329,7 @@ JXRowHeaderWidget::HandleMouseDrag
 		if (pt.y != itsPrevPt.y)
 			{
 			JPainter* p = nullptr;
-			const JBoolean ok = GetDragPainter(&p);
+			const bool ok = GetDragPainter(&p);
 			assert( ok );
 
 			const JRect enclApG = GetEnclosure()->GetApertureGlobal();
@@ -387,7 +387,7 @@ JXRowHeaderWidget::HandleMouseUp
 		// erase the line
 
 		JPainter* p = nullptr;
-		const JBoolean ok = GetDragPainter(&p);
+		const bool ok = GetDragPainter(&p);
 		assert( ok );
 
 		const JRect enclAp = JXContainer::GlobalToLocal(GetEnclosure()->GetApertureGlobal());
@@ -428,7 +428,7 @@ JXRowHeaderWidget::AdjustCursor
 	)
 {
 	JPoint cell;
-	const JBoolean inDragRegion = InDragRegion(pt, &cell);
+	const bool inDragRegion = InDragRegion(pt, &cell);
 	if (itsAllowRowResizingFlag && inDragRegion && modifiers.meta())
 		{
 		DisplayCursor(itsDragAllLineCursor);
@@ -448,7 +448,7 @@ JXRowHeaderWidget::AdjustCursor
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXRowHeaderWidget::InDragRegion
 	(
 	const JPoint&	pt,
@@ -468,11 +468,11 @@ JXRowHeaderWidget::InDragRegion
 		if (cellRect.bottom - halfWidth <= pt.y &&
 			pt.y <= cellRect.bottom + halfWidth)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

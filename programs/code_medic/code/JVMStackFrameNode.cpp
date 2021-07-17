@@ -81,7 +81,7 @@ JVMStackFrameNode::Receive
 
  *****************************************************************************/
 
-JBoolean
+bool
 JVMStackFrameNode::UpdateNodeName()
 {
 	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
@@ -92,7 +92,7 @@ JVMStackFrameNode::UpdateNodeName()
 		c += ".";
 		c += m;
 		SetName(c);
-		return kJTrue;
+		return true;
 		}
 
 	if (GetName().IsEmpty())
@@ -102,5 +102,5 @@ JVMStackFrameNode::UpdateNodeName()
 			JString((JUInt64) itsCodeOffset);
 		SetName(c);
 		}
-	return kJFalse;
+	return false;
 }

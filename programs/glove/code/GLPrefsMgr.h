@@ -40,7 +40,7 @@ class GLPrefsMgr : public JXPrefsManager
 {
 public:
 
-	GLPrefsMgr(JBoolean* isNew);
+	GLPrefsMgr(bool* isNew);
 	virtual ~GLPrefsMgr();
 
 	void		EditPrefs();
@@ -55,7 +55,7 @@ public:
 
 protected:
 
-	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion) override;
+	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

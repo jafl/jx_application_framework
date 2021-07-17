@@ -21,7 +21,7 @@
 CBGoScanner::CBGoScanner()
 	:
 	CBGoFlexLexer(),
-	itsResetFlag(kJFalse),
+	itsResetFlag(false),
 	itsCurrentRange()
 {
 }
@@ -47,7 +47,7 @@ CBGoScanner::BeginScan
 	std::istream&					input
 	)
 {
-	itsResetFlag = kJTrue;
+	itsResetFlag = true;
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 

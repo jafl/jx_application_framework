@@ -23,8 +23,8 @@ protected:
 
 	CBPHPCompleter();
 
-	virtual JBoolean	IsWordCharacter(const JUtf8Character& c,
-										const JBoolean includeNS) const override;
+	virtual bool	IsWordCharacter(const JUtf8Character& c,
+										const bool includeNS) const override;
 	virtual void		UpdateWordList() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 

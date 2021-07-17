@@ -91,7 +91,7 @@ const JUtf8Byte kJUtf8ByteMax				= CHAR_MAX;
 
 	// iterators
 
-typedef unsigned long	JCursorPosition;
+typedef unsigned long						JCursorPosition;
 
 enum JIteratorPosition
 {
@@ -106,20 +106,19 @@ enum JIteratorPosition
 	kJIteratorStartAfterByte	// relative to given byte offset
 };
 
-	// boolean type
-
-enum JBoolean
+enum JIteratorAction
 {
-	kJFalse = 0,
-	kJTrue  = 1
+	kJIteratorStay = 0,
+	kJIteratorMove = 1
 };
-std::ostream& operator<<(std::ostream& output, const JBoolean jbool);
+
+	// boolean utilities
 
 struct JBoolRefHolder
 {
-	JBoolean& v;
+	bool& v;
 
-	explicit JBoolRefHolder(JBoolean& _v)
+	explicit JBoolRefHolder(bool& _v)
 		:
 		v(_v)
 	{};
@@ -127,9 +126,9 @@ struct JBoolRefHolder
 
 struct JBoolConstRefHolder
 {
-	JBoolean const& v;
+	bool const& v;
 
-	explicit JBoolConstRefHolder(JBoolean const& _v)
+	explicit JBoolConstRefHolder(bool const& _v)
 		:
 		v(_v)
 	{};
@@ -141,7 +140,7 @@ std::istream& operator>>(std::istream& input, JBoolRefHolder const& data);
 inline JBoolConstRefHolder
 JBoolToString
 	(
-	JBoolean const& v
+	bool const& v
 	)
 {
 	return JBoolConstRefHolder(v);
@@ -150,69 +149,10 @@ JBoolToString
 inline JBoolRefHolder
 JBoolFromString
 	(
-	JBoolean& v
+	bool& v
 	)
 {
 	return JBoolRefHolder(v);
-}
-
-inline JBoolean
-JConvertToBoolean
-	(
-	const int comparison
-	)
-{
-	return (comparison ? kJTrue : kJFalse);
-}
-
-inline JBoolean
-JI2B
-	(
-	const int comparison
-	)
-{
-	return (comparison ? kJTrue : kJFalse);
-}
-
-inline JBoolean
-JNegate
-	(
-	const int comparison
-	)
-{
-	return (comparison ? kJFalse : kJTrue);
-}
-
-inline JBoolean
-operator!
-	(
-	const JBoolean value
-	)
-{
-	return (value ? kJFalse : kJTrue);
-}
-
-// This is provided because 0.1 should be considered "true" since
-// it is non-zero.  JConvertToBoolean() would truncate it to zero.
-// Of course, you shouldn't be using floating-point values to store
-// flags, but somebody else might force you to.
-
-inline JBoolean
-JFloatToBoolean
-	(
-	const double x
-	)
-{
-	return (x == 0.0 ? kJFalse : kJTrue);
-}
-
-inline JBoolean
-JF2B
-	(
-	const double x
-	)
-{
-	return (x == 0.0 ? kJFalse : kJTrue);
 }
 
 /******************************************************************************

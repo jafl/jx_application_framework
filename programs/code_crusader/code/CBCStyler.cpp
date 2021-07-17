@@ -63,19 +63,19 @@ const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStylerBase*
 CBCStyler::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBCStyler;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -127,9 +127,9 @@ CBCStyler::CBCStyler()
 	SetTypeStyle(kRespelling         - kWhitespace, JFontStyle(red));
 	SetTypeStyle(kError              - kWhitespace, JFontStyle(red));
 
-	SetWordStyle(JString("#pragma", kJFalse),       JFontStyle(red));
-	SetWordStyle(JString("#include_next", kJFalse), JFontStyle(red));
-	SetWordStyle(JString("goto", kJFalse),          JFontStyle(kJTrue, kJFalse, 0, kJFalse, red));
+	SetWordStyle(JString("#pragma", JString::kNoCopy),       JFontStyle(red));
+	SetWordStyle(JString("#include_next", JString::kNoCopy), JFontStyle(red));
+	SetWordStyle(JString("goto", JString::kNoCopy),          JFontStyle(true, false, 0, false, red));
 
 	JPrefObject::ReadPrefs();
 }
@@ -203,7 +203,7 @@ CBCStyler::Scan
 			}
 		else if (token.type == kPPDirective)
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange().byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange().byteRange, JString::kNoCopy));
 			}
 		else if (token.type < kWhitespace)
 			{
@@ -211,14 +211,14 @@ CBCStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy));
 			}
 		}
 		while (SetStyle(token.range.charRange, style));
@@ -232,7 +232,7 @@ CBCStyler::Scan
 	to be after the #.
 
 	modifiedRange is the range of text that was changed.
-	deletion is kJTrue if the modification was that text was deleted.
+	deletion is true if the modification was that text was deleted.
 
  ******************************************************************************/
 
@@ -242,7 +242,7 @@ CBCStyler::PreexpandCheckRange
 	const JString&			text,
 	const JRunArray<JFont>&	styles,
 	const JCharacterRange&	modifiedRange,
-	const JBoolean			deletion,
+	const bool			deletion,
 	JStyledText::TextRange*	checkRange
 	)
 {
@@ -250,7 +250,7 @@ CBCStyler::PreexpandCheckRange
 	iter.UnsafeMoveTo(kJIteratorStartBefore, checkRange->charRange.first, checkRange->byteRange.first);
 
 	JUtf8Character c;
-	while (iter.Prev(&c, kJFalse) && c.IsSpace())
+	while (iter.Prev(&c, kJIteratorStay) && c.IsSpace())
 		{
 		iter.SkipPrev();
 		}
@@ -275,17 +275,17 @@ static const JRegex ppIfPattern   = "^[[:space:]]*(#|%:|\\?\\?=)[[:space:]]*if";
 static const JRegex ppElsePattern = "^[[:space:]]*(#|%:|\\?\\?=)[[:space:]]*(else|elif)";
 static const JRegex ppEndPattern  = "^[[:space:]]*(#|%:|\\?\\?=)[[:space:]]*endif";
 
-JBoolean
+bool
 CBCStyler::SlurpPPComment
 	(
 	JStyledText::TextRange* totalRange
 	)
 {
 	const JString& text = GetText();
-	const JString s(text.GetRawBytes(), JUtf8ByteRange(GetPPNameRange().byteRange.first, totalRange->byteRange.last), kJFalse);
+	const JString s(text.GetRawBytes(), JUtf8ByteRange(GetPPNameRange().byteRange.first, totalRange->byteRange.last), JString::kNoCopy);
 	if (!ppCommentPattern.Match(s))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	Token token;
@@ -299,7 +299,7 @@ CBCStyler::SlurpPPComment
 			}
 		else if (token.type == kPPDirective)
 			{
-			const JString ppCmd(text.GetRawBytes(), GetPPNameRange().byteRange, kJFalse);
+			const JString ppCmd(text.GetRawBytes(), GetPPNameRange().byteRange, JString::kNoCopy);
 			if (ppIfPattern.Match(ppCmd))
 				{
 				nestCount++;
@@ -315,14 +315,14 @@ CBCStyler::SlurpPPComment
 			else if (ppElsePattern.Match(ppCmd) && nestCount == 1)
 				{
 				JSize prevCharByteCount;
-				const JBoolean ok =
+				const bool ok =
 					JUtf8Character::GetPrevCharacterByteCount(
 						text.GetRawBytes() + token.range.byteRange.first-2,
 						&prevCharByteCount);
 				assert( ok );
 
 				Undo(token.range, prevCharByteCount,
-					 JString(text.GetRawBytes(), token.range.byteRange, kJFalse));	// rescan
+					 JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy));	// rescan
 				token.range.charRange.SetToEmptyAt(token.range.charRange.first);
 				token.range.byteRange.SetToEmptyAt(token.range.byteRange.first);
 				break;
@@ -332,7 +332,7 @@ CBCStyler::SlurpPPComment
 
 	totalRange->charRange.last = token.range.charRange.last;
 	totalRange->byteRange.last = token.range.byteRange.last;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -395,7 +395,7 @@ CBCStyler::Receive
 		assert( info != nullptr );
 		if (info->Successful())
 			{
-			CBMWriteSharedPrefs(kJTrue);
+			CBMWriteSharedPrefs(true);
 			}
 		}
 

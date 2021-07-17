@@ -50,7 +50,7 @@ GLPlotFitBase::GLPlotFitBase
 	:
 	GLPlotFitFunction(plot, fitData, xMin, xMax)
 {
-	itsUsingRange = kJFalse;
+	itsUsingRange = false;
 	JPlotFitBaseX(plot, fitData);
 }
 
@@ -86,7 +86,7 @@ GLPlotFitBase::GLPlotFitBase
 		itsRangeYMax = ymin;
 		itsRangeYMin = ymax;
 		}
-	itsUsingRange = kJTrue;
+	itsUsingRange = true;
 	JPlotFitBaseX(plot, fitData);
 }
 
@@ -98,15 +98,15 @@ GLPlotFitBase::JPlotFitBaseX
 	)
 {
 	itsCurrentConstantParmIndex	= 0;
-	itsUseAltFunction			= kJFalse;
+	itsUseAltFunction			= false;
 
 	if (fitData->HasXErrors() || fitData->HasYErrors())
 		{
-		SetHasParameterErrors(kJTrue);
+		SetHasParameterErrors(true);
 		}
 	else
 		{
-		SetHasParameterErrors(kJFalse);
+		SetHasParameterErrors(false);
 		}
 
 	itsRealData = jnew JArray<J2DDataPoint>;
@@ -141,7 +141,7 @@ GLPlotFitBase::~GLPlotFitBase()
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitBase::GetGoodnessOfFitName
 	(
 	JString* name
@@ -157,7 +157,7 @@ GLPlotFitBase::GetGoodnessOfFitName
 		{
 		*name = "Std dev";
 		}
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -166,7 +166,7 @@ GLPlotFitBase::GetGoodnessOfFitName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitBase::GetGoodnessOfFit
 	(
 	JFloat* value
@@ -183,7 +183,7 @@ GLPlotFitBase::GetGoodnessOfFit
 		*value = GetStdDev();
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -267,7 +267,7 @@ GLPlotFitBase::CalcError
 	JMatrix xiSav(xi);
 
 	// here we need to generate an first guess for the error
-	itsUseAltFunction	= kJTrue;
+	itsUseAltFunction	= true;
 	itsChiPlus			= itsChi2 + 1;
 	const JSize nS		= parameters.GetDimensionCount();
 	JFloat sig;
@@ -286,13 +286,13 @@ GLPlotFitBase::CalcError
 	sig =  fabs(sig)/10 * JSign(currentParm);
 //	std::cout << "Calculating error for parameter: " << constIndex << std::endl;
 //	std::cout << "Starting guess: " << sig << std::endl;
-	itsUseAltFunction	= kJFalse;
+	itsUseAltFunction	= false;
 
 	itsCurrentConstantParm	= currentParm + sig;
 
 	JFloat chiplus 	= sqrt(itsChiPlus);
 	JIndex i = 0;
-	JBoolean ok = kJTrue;
+	bool ok = true;
 	JSize iter;
 	JFloat chitemp = MinimizeN(&p, &xi, &iter);
 //	std::cout << "Chitemp start: " << chitemp << std::endl;
@@ -302,7 +302,7 @@ GLPlotFitBase::CalcError
 		{
 		if (chitemp > chiplus)
 			{
-			ok 	= kJFalse;
+			ok 	= false;
 			p	= pSav;
 			xi	= xiSav;
 			}
@@ -330,7 +330,7 @@ GLPlotFitBase::CalcError
 	i = 2;
 	JFloat chi1, chi2, chi3 = lastchi;
 	JFloat tsig;
-	ok = kJTrue;
+	ok = true;
 	do
 		{
 		chi1 = chi3;
@@ -364,7 +364,7 @@ GLPlotFitBase::CalcError
 						((x1-x2)*(x1-x3)*(x2-x3));
 			tsig = fabs((-e2+JSign(currentParm)*sqrt(e2*e2+4*e3*(chiplus-e1)))/2/e3);
 			return tsig;
-			ok = kJFalse;
+			ok = false;
 			}
 		i++;
 		}
@@ -373,14 +373,14 @@ GLPlotFitBase::CalcError
 	return 0;
 /*
 
-	ok = kJTrue;
+	ok = true;
 	JFloat temp = sig;
 	i = 2;
 	do
 		{
 		if (chitemp > chiplus)
 			{
-			ok = kJFalse;
+			ok = false;
 			p	= pSav;
 			xi	= xiSav;
 			}
@@ -401,7 +401,7 @@ GLPlotFitBase::CalcError
 	JFloat j = 1.1;
 	JFloat chi1, chi2, chi3 = lastchi;
 	JFloat tsig;
-	ok = kJTrue;
+	ok = true;
 	do
 		{
 		chi1 = chi3;
@@ -426,7 +426,7 @@ GLPlotFitBase::CalcError
 						((x1-x2)*(x1-x3)*(x2-x3));
 			tsig = fabs((-e2+JSign(currentParm)*sqrt(e2*e2+4*e3*(chiplus-e1)))/2/e3);
 			return tsig;
-			ok = kJFalse;
+			ok = false;
 			}
 		j += 0.1;
 		}
@@ -912,7 +912,7 @@ GLPlotFitBase::Shift
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitBase::DataElementValid
 	(
 	const JIndex index
@@ -929,14 +929,14 @@ GLPlotFitBase::DataElementValid
 			(point.y >= itsRangeYMin) &&
 			(point.y <= itsRangeYMax))
 			{
-			return kJTrue;
+			return true;
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -945,21 +945,21 @@ GLPlotFitBase::DataElementValid
 
  *****************************************************************************/
 
-JBoolean
+bool
 GLPlotFitBase::GetDataElement
 	(
 	const JIndex index,
 	J2DDataPoint* point
 	)
 {
-	JBoolean valid = DataElementValid(index);
+	bool valid = DataElementValid(index);
 	if (!valid)
 		{
-		return kJFalse;
+		return false;
 		}
 	const JPlotDataBase* data = GetData();
 	data->GetElement(index, point);
-	return kJTrue;
+	return true;
 }
 
 /*****************************************************************************
@@ -1127,7 +1127,7 @@ GLPlotFitBase::GenerateDiffData()
 			}
 		}
 	J2DPlotData* pdata;
-	J2DPlotData::Create(&pdata, xdata, ydata, kJFalse);
+	J2DPlotData::Create(&pdata, xdata, ydata, false);
 	pdata->SetYErrors(yerrdata);
 	if (GetData()->HasXErrors())
 		{

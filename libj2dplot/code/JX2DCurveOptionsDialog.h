@@ -34,10 +34,10 @@ public:
 
 	JX2DCurveOptionsDialog(JXWindowDirector* supervisor,
 							const JArray<J2DCurveInfo>& array,
-							const JArray<JBoolean>& hasXErrors,
-							const JArray<JBoolean>& hasYErrors,
-							const JArray<JBoolean>& isFunction,
-							const JArray<JBoolean>& isScatter,
+							const JArray<bool>& hasXErrors,
+							const JArray<bool>& hasYErrors,
+							const JArray<bool>& isFunction,
+							const JArray<bool>& isScatter,
 							const JIndex startIndex);
 
 	virtual ~JX2DCurveOptionsDialog();
@@ -46,17 +46,17 @@ public:
 
 protected:
 
-	virtual JBoolean	OKToDeactivate() override;
+	virtual bool	OKToDeactivate() override;
 	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
 	JX2DCurveNameList*		itsNameList;		// not owned
 	JArray<J2DCurveInfo>*	itsCurveInfo;
-	JArray<JBoolean>*		itsHasXErrors;
-	JArray<JBoolean>*		itsHasYErrors;
-	JArray<JBoolean>*		itsIsFunction;
-	JArray<JBoolean>*		itsIsScatter;
+	JArray<bool>*		itsHasXErrors;
+	JArray<bool>*		itsHasYErrors;
+	JArray<bool>*		itsIsFunction;
+	JArray<bool>*		itsIsScatter;
 	JIndex					itsCurrentIndex;
 
 // begin JXLayout

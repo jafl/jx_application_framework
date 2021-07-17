@@ -39,7 +39,7 @@ GLCreatePlotDialog::GLCreatePlotDialog
 	const JIndex startYErr
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	itsTableDir = supervisor;
 	BuildWindow(data, startX, startXErr, startY, startYErr);
@@ -162,15 +162,15 @@ GLCreatePlotDialog::BuildWindow
 		itsPlotsMenu->AppendItem(*(names.GetElement(i)));
 		}
 
-	itsPlotsMenu->ShowSeparatorAfter(1, kJTrue);
+	itsPlotsMenu->ShowSeparatorAfter(1, true);
 
 	itsPlotIndex = 1;
 	
-	itsXMenu->SetToPopupChoice(kJTrue, itsStartX);
-	itsXErrMenu->SetToPopupChoice(kJTrue, itsStartXErr);
-	itsYMenu->SetToPopupChoice(kJTrue, itsStartY);
-	itsYErrMenu->SetToPopupChoice(kJTrue, itsStartYErr);
-	itsPlotsMenu->SetToPopupChoice(kJTrue, itsPlotIndex);
+	itsXMenu->SetToPopupChoice(true, itsStartX);
+	itsXErrMenu->SetToPopupChoice(true, itsStartXErr);
+	itsYMenu->SetToPopupChoice(true, itsStartY);
+	itsYErrMenu->SetToPopupChoice(true, itsStartYErr);
+	itsPlotsMenu->SetToPopupChoice(true, itsPlotIndex);
 	
 	itsXMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsXErrMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -270,7 +270,7 @@ GLCreatePlotDialog::Receive
 
  ******************************************************************************/
 
-JBoolean 
+bool 
 GLCreatePlotDialog::GetPlotIndex
 	(
 	JIndex* index
@@ -278,11 +278,11 @@ GLCreatePlotDialog::GetPlotIndex
 {
 	if (itsPlotIndex == 1)
 		{
-		return kJFalse;
+		return false;
 		}
 		
 	*index = itsPlotIndex - 1;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -301,17 +301,17 @@ GLCreatePlotDialog::GetLabel()
 
  ******************************************************************************/
 
-JBoolean 
+bool 
 GLCreatePlotDialog::OKToDeactivate()
 {
 	if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 	if (GetLabel().IsEmpty())
 		{
 		JGetUserNotification()->ReportError(JGetString("SpecifyCurveLabel::GLGlobal"));
-		return kJFalse;
+		return false;
 		}
-	return kJTrue;
+	return true;
 }

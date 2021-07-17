@@ -37,9 +37,9 @@ JTEST(LayoutBreakCROnly)
 /*32*/	"our fathers brought forth on this continent,\n"
 /*77*/	"a new nation,\n"
 /*91*/	"conceived in Liberty,\n"
-/*113*/	"and dedicated to the proposition that all men are created equal.\n", kJFalse));
+/*113*/	"and dedicated to the proposition that all men are created equal.\n", JString::kNoCopy));
 
-	TextEditor te(&text, kJTrue, 50);
+	TextEditor te(&text, true, 50);
 /*
 	std::cout << "=====" << std::endl;
 	te.Draw();
@@ -292,9 +292,9 @@ JTEST(LayoutBreakWidth)
 		"our fathers brought forth on this continent,\n"
 		"a new nation,\n"
 		"conceived in Liberty,\n"
-		"and dedicated to the proposition that all men are created equal.\n", kJFalse));
+		"and dedicated to the proposition that all men are created equal.\n", JString::kNoCopy));
 
-	TextEditor te(&text, kJFalse, 100);
+	TextEditor te(&text, false, 100);
 
 	TestLayoutBreakWidth(text, te, 12 + 49);
 	TestLayoutBreakWidth(text, te, 12 + 52);
@@ -312,7 +312,7 @@ JTEST(LayoutBreakWidth)
 
 	JAssertEqual(1, te.CalcCaretCharLocation(JPoint(0,0)));
 
-	text.SetText(JString("foo\n ", kJFalse));
+	text.SetText(JString("foo\n ", JString::kNoCopy));
 
 	JAssertEqual(2, te.GetLineCount());
 	JAssertEqual(14, te.GetHeight());
@@ -327,7 +327,7 @@ JTEST(LayoutBreakWidth)
 	JAssertEqual(1, te.GetLineCharLength(2));
 	JAssertEqual(5, te.GetLineCharEnd(2));
 
-	text.SetText(JString("foo", kJFalse));
+	text.SetText(JString("foo", JString::kNoCopy));
 
 	JAssertEqual(4, te.CalcCaretCharLocation(JPoint(100,0)));
 
@@ -346,10 +346,10 @@ JTEST(GetCmdStatus)
 		status.AppendElement(false);
 		}
 
-	StyledText text(kJTrue);
-	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", kJFalse));
+	StyledText text(true);
+	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", JString::kNoCopy));
 
-	TextEditor te(&text, kJTrue, 50);
+	TextEditor te(&text, true, 50);
 	te.Activate();
 
 	status.SetElement(JTextEditor::kPasteCmd, true);
@@ -372,7 +372,7 @@ JTEST(GetCmdStatus)
 	std::cout << "GetCmdStatus::basic" << std::endl;
 	te.CheckCmdStatus(status);
 
-	te.SetHasSearchText(kJTrue);
+	te.SetHasSearchText(true);
 
 	status.SetElement(JTextEditor::kFindPreviousCmd, true);
 	status.SetElement(JTextEditor::kFindNextCmd, true);
@@ -450,28 +450,28 @@ JTEST(GetCmdStatus)
 JTEST(SetText)
 {
 	StyledText text;
-	text.SetText(JString("abcdefgh", kJFalse));
+	text.SetText(JString("abcdefgh", JString::kNoCopy));
 
-	TextEditor te(&text, kJTrue, 100);
+	TextEditor te(&text, true, 100);
 
 	te.SetCaretLocation(100);
 
 	// triggers TextEditor::Receive()
-	text.SetText(JString("abcd", kJFalse));
+	text.SetText(JString("abcd", JString::kNoCopy));
 }
 
 JTEST(SearchTextForward)
 {
 	StyledText text;
-	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", kJFalse));
+	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", JString::kNoCopy));
 
-	TextEditor te(&text, kJTrue, 50);
+	TextEditor te(&text, true, 50);
 
 	// entire word, no wrapping
 
-	JBoolean wrapped;
+	bool wrapped;
 	JIndex caretIndex;
-	const JStringMatch m1 = te.SearchForward(JRegex("sc" "\xC3\xB8" "re"), kJTrue, kJFalse, &wrapped);
+	const JStringMatch m1 = te.SearchForward(JRegex("sc" "\xC3\xB8" "re"), true, false, &wrapped);
 	JAssertTrue(m1.IsEmpty());
 	JAssertFalse(te.HasSelection());	// caret still at beginning
 	JAssertTrue(te.GetCaretLocation(&caretIndex));
@@ -482,7 +482,7 @@ JTEST(SearchTextForward)
 
 	JString s;
 	JCharacterRange r;
-	const JStringMatch m2 = te.SearchForward(JRegex("sc" "\xC3\xB8" "re"), kJFalse, kJFalse, &wrapped);
+	const JStringMatch m2 = te.SearchForward(JRegex("sc" "\xC3\xB8" "re"), false, false, &wrapped);
 	JAssertStringsEqual("sc" "\xC3\xB8" "re", m2.GetString());
 	JAssertTrue(te.HasSelection());
 	JAssertTrue(te.GetSelection(&r));
@@ -493,7 +493,7 @@ JTEST(SearchTextForward)
 
 	// partial word, no wrapping
 
-	const JStringMatch m3 = te.SearchForward(JRegex("\xC3\xB8" "re and"), kJFalse, kJFalse, &wrapped);
+	const JStringMatch m3 = te.SearchForward(JRegex("\xC3\xB8" "re and"), false, false, &wrapped);
 	JAssertTrue(m3.IsEmpty());
 	JAssertTrue(te.GetSelection(&r));		// selection maintained
 	JAssertEqual(JCharacterRange(5, 9), r);
@@ -503,7 +503,7 @@ JTEST(SearchTextForward)
 
 	// partial word, wrapping
 
-	const JStringMatch m4 = te.SearchForward(JRegex("\xC3\xB8" "re and"), kJFalse, kJTrue, &wrapped);
+	const JStringMatch m4 = te.SearchForward(JRegex("\xC3\xB8" "re and"), false, true, &wrapped);
 	JAssertStringsEqual("\xC3\xB8" "re and", m4.GetString());
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(7, 13), r);
@@ -513,7 +513,7 @@ JTEST(SearchTextForward)
 
 	// entire word, no wrapping
 
-	const JStringMatch m6 = te.SearchForward(JRegex("year"), kJTrue, kJFalse, &wrapped);
+	const JStringMatch m6 = te.SearchForward(JRegex("year"), true, false, &wrapped);
 	JAssertTrue(m6.IsEmpty());
 	JAssertTrue(te.GetSelection(&r));		// selection maintained
 	JAssertEqual(JCharacterRange(7, 13), r);
@@ -521,7 +521,7 @@ JTEST(SearchTextForward)
 	JAssertStringsEqual("\xC3\xB8" "re and", s);
 	JAssertFalse(wrapped);
 
-	const JStringMatch m7 = te.SearchForward(JRegex("years"), kJTrue, kJFalse, &wrapped);
+	const JStringMatch m7 = te.SearchForward(JRegex("years"), true, false, &wrapped);
 	JAssertStringsEqual("years", m7.GetString());
 	JAssertTrue(te.GetSelection(&s));
 	JAssertStringsEqual("years", s);
@@ -531,13 +531,13 @@ JTEST(SearchTextForward)
 
 	te.SetCaretLocation(te.GetText()->GetText().GetCharacterCount() - 2);
 	JAssertFalse(te.HasSelection());
-	const JStringMatch m5 = te.SearchForward(JRegex("\\.\\.\\."), kJFalse, kJTrue, &wrapped);
+	const JStringMatch m5 = te.SearchForward(JRegex("\\.\\.\\."), false, true, &wrapped);
 	JAssertStringsEqual("...", m5.GetString());
 	JAssertTrue(te.GetSelection(&s));
 	JAssertStringsEqual("...", s);
 	JAssertFalse(wrapped);
 
-	const JStringMatch m8 = te.SelectionMatches(JRegex("\\.\\.\\."), kJFalse);
+	const JStringMatch m8 = te.SelectionMatches(JRegex("\\.\\.\\."), false);
 	JAssertFalse(m8.IsEmpty());
 	JAssertStringsEqual("...", m8.GetString());
 }
@@ -545,22 +545,22 @@ JTEST(SearchTextForward)
 JTEST(SearchTextBackward)
 {
 	StyledText text;
-	text.SetText(JString("Fourscore and seve" "\xC3\xB1" " years ago...", kJFalse));
+	text.SetText(JString("Fourscore and seve" "\xC3\xB1" " years ago...", JString::kNoCopy));
 
-	TextEditor te(&text, kJFalse, 50);
+	TextEditor te(&text, false, 50);
 	te.SetCaretLocation(text.GetText().GetCharacterCount() + 1);
 
 	// entire word, no wrapping
 
-	JBoolean wrapped;
-	const JStringMatch m1 = te.SearchBackward(JRegex("year"), kJTrue, kJFalse, &wrapped);
+	bool wrapped;
+	const JStringMatch m1 = te.SearchBackward(JRegex("year"), true, false, &wrapped);
 	JAssertTrue(m1.IsEmpty());
 	JAssertFalse(te.HasSelection());	// caret still at end
 	JAssertFalse(wrapped);
 
 	JString s;
 	JCharacterRange r;
-	const JStringMatch m2 = te.SearchBackward(JRegex("years"), kJTrue, kJFalse, &wrapped);
+	const JStringMatch m2 = te.SearchBackward(JRegex("years"), true, false, &wrapped);
 	JAssertStringsEqual("years", m2.GetString());
 	JAssertTrue(te.HasSelection());
 	JAssertTrue(te.GetSelection(&r));
@@ -571,7 +571,7 @@ JTEST(SearchTextBackward)
 
 	// partial word, no wrapping
 
-	const JStringMatch m3 = te.SearchBackward(JRegex("e" "\xC3\xB1" " ye"), kJFalse, kJFalse, &wrapped);
+	const JStringMatch m3 = te.SearchBackward(JRegex("e" "\xC3\xB1" " ye"), false, false, &wrapped);
 	JAssertTrue(m3.IsEmpty());
 	JAssertTrue(te.GetSelection(&r));		// selection maintained
 	JAssertEqual(JCharacterRange(21, 25), r);
@@ -581,7 +581,7 @@ JTEST(SearchTextBackward)
 
 	// partial word, wrapping
 
-	const JStringMatch m4 = te.SearchBackward(JRegex("e" "\xC3\xB1" " ye"), kJFalse, kJTrue, &wrapped);
+	const JStringMatch m4 = te.SearchBackward(JRegex("e" "\xC3\xB1" " ye"), false, true, &wrapped);
 	JAssertStringsEqual("e" "\xC3\xB1" " ye", m4.GetString());
 	JAssertTrue(te.GetSelection(&s));
 	JAssertStringsEqual("e" "\xC3\xB1" " ye", s);
@@ -589,13 +589,13 @@ JTEST(SearchTextBackward)
 
 	// entire word, no wrapping
 
-	const JStringMatch m6 = te.SearchBackward(JRegex("an"), kJTrue, kJFalse, &wrapped);
+	const JStringMatch m6 = te.SearchBackward(JRegex("an"), true, false, &wrapped);
 	JAssertTrue(m6.IsEmpty());
 	JAssertTrue(te.GetSelection(&s));		// selection maintained
 	JAssertStringsEqual("e" "\xC3\xB1" " ye", s);
 	JAssertFalse(wrapped);
 
-	const JStringMatch m7 = te.SearchBackward(JRegex("and"), kJTrue, kJFalse, &wrapped);
+	const JStringMatch m7 = te.SearchBackward(JRegex("and"), true, false, &wrapped);
 	JAssertStringsEqual("and", m7.GetString());
 	JAssertTrue(te.GetSelection(&s));
 	JAssertStringsEqual("and", s);
@@ -605,7 +605,7 @@ JTEST(SearchTextBackward)
 
 	te.SetCaretLocation(5);
 	JAssertFalse(te.HasSelection());
-	const JStringMatch m5 = te.SearchBackward(JRegex("Four"), kJFalse, kJTrue, &wrapped);
+	const JStringMatch m5 = te.SearchBackward(JRegex("Four"), false, true, &wrapped);
 	JAssertStringsEqual("Four", m5.GetString());
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 4), r);
@@ -617,25 +617,25 @@ JTEST(SearchTextBackward)
 JTEST(ReplaceSelection)
 {
 	StyledText text;
-	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", kJFalse));
+	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", JString::kNoCopy));
 
-	TextEditor te(&text, kJFalse, 50);
+	TextEditor te(&text, false, 50);
 
-	JBoolean wrapped;
-	const JStringMatch m1 = te.SearchForward(JRegex("sc" "\xC3\xB8" "re"), kJFalse, kJFalse, &wrapped);
+	bool wrapped;
+	const JStringMatch m1 = te.SearchForward(JRegex("sc" "\xC3\xB8" "re"), false, false, &wrapped);
 	JAssertTrue(te.HasSelection());
 
 	JString s;
-	te.TestReplaceSelection(m1, JString("s" "\xC3\xA7" "or" "\xC3\xA9", kJFalse), nullptr, kJFalse);
+	te.TestReplaceSelection(m1, JString("s" "\xC3\xA7" "or" "\xC3\xA9", JString::kNoCopy), nullptr, false);
 	JAssertStringsEqual("Fours" "\xC3\xA7" "or" "\xC3\xA9" " and seven years ago...", te.GetText()->GetText());
 	JAssertTrue(te.GetSelection(&s));
 	JAssertStringsEqual("s" "\xC3\xA7" "or" "\xC3\xA9", s);
 
-	const JStringMatch m2 = te.SearchForward(JRegex("and"), kJFalse, kJFalse, &wrapped);
+	const JStringMatch m2 = te.SearchForward(JRegex("and"), false, false, &wrapped);
 	JAssertTrue(te.HasSelection());
 
 	JIndex i;
-	te.TestReplaceSelection(m2, JString::empty, nullptr, kJFalse);
+	te.TestReplaceSelection(m2, JString::empty, nullptr, false);
 	JAssertStringsEqual("Fours" "\xC3\xA7" "or" "\xC3\xA9" "  seven years ago...", te.GetText()->GetText());
 	JAssertFalse(te.HasSelection());
 	JAssertTrue(te.GetCaretLocation(&i));
@@ -645,66 +645,66 @@ JTEST(ReplaceSelection)
 JTEST(ReplaceAll)
 {
 	StyledText text;
-	text.SetText(JString("Fourscore and seven years ago...", kJFalse));
+	text.SetText(JString("Fourscore and seven years ago...", JString::kNoCopy));
 	const JSize charCount = text.GetText().GetCharacterCount();
 
-	TextEditor te(&text, kJTrue, 50);
+	TextEditor te(&text, true, 50);
 
-	JBoolean found = te.ReplaceAll(
-		JRegex("e"), kJTrue,
-		JString("\xC3\xA9", kJFalse), nullptr, kJFalse, kJFalse);
+	bool found = te.ReplaceAll(
+		JRegex("e"), true,
+		JString("\xC3\xA9", JString::kNoCopy), nullptr, false, false);
 	JAssertFalse(found);
 	JAssertStringsEqual("Fourscore and seven years ago...", text.GetText());
 
 	found = te.ReplaceAll(
-		JRegex("e"), kJFalse,
-		JString("\xC3\xA9", kJFalse), nullptr, kJFalse, kJFalse);
+		JRegex("e"), false,
+		JString("\xC3\xA9", JString::kNoCopy), nullptr, false, false);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fourscor\xC3\xA9 and s\xC3\xA9" "v\xC3\xA9" "n y\xC3\xA9" "ars ago...", text.GetText());
 	JAssertEqual(charCount, text.GetText().GetCharacterCount());
 
 	JRegex r1 = "four";
-	r1.SetCaseSensitive(kJFalse);
+	r1.SetCaseSensitive(false);
 	found = te.ReplaceAll(
-		r1, kJTrue,
-		JString("five", kJFalse), nullptr, kJTrue, kJFalse);
+		r1, true,
+		JString("five", false), nullptr, true, false);
 	JAssertFalse(found);	// caret at end
 
 	found = te.ReplaceAll(
-		r1, kJFalse,
-		JString("five", kJFalse), nullptr, kJTrue, kJFalse);
+		r1, false,
+		JString("five", JString::kNoCopy), nullptr, true, false);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fivescor\xC3\xA9 and s" "\xC3\xA9" "v\xC3\xA9" "n y\xC3\xA9" "ars ago...", text.GetText());
 
 	JInterpolate interp;
 
 	found = te.ReplaceAll(
-		JRegex("a([^\\s]+)"), kJFalse,
-		JString("fou$1", kJFalse), &interp, kJFalse, kJFalse);
+		JRegex("a([^\\s]+)"), false,
+		JString("fou$1", JString::kNoCopy), &interp, false, false);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fivescor\xC3\xA9 found s\xC3\xA9" "v\xC3\xA9" "n y\xC3\xA9" "fours fougo...", text.GetText());
 
 	te.SetSelection(JCharacterRange(15, 22));
 	found = te.ReplaceAll(
-		JRegex("\xC3\xA9"), kJFalse,
-		JString("e", kJFalse), nullptr, kJFalse, kJTrue);
+		JRegex("\xC3\xA9"), false,
+		JString("e", JString::kNoCopy), nullptr, false, true);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fivescor\xC3\xA9 found seven y\xC3\xA9" "fours fougo...", text.GetText());
 
 	te.SetSelection(JCharacterRange(text.GetText().GetCharacterCount() - 5, text.GetText().GetCharacterCount()));
 	found = te.ReplaceAll(
-		JRegex("o"), kJFalse,
-		JString("\xC3\xB8", kJFalse), nullptr, kJFalse, kJTrue);
+		JRegex("o"), false,
+		JString("\xC3\xB8", JString::kNoCopy), nullptr, false, true);
 	JAssertTrue(found);
 	JAssertStringsEqual("Fivescor\xC3\xA9 found seven y\xC3\xA9" "fours foug\xC3\xB8...", text.GetText());
 }
 
-JBoolean bigFontMatch(const JFont& f)
+bool bigFontMatch(const JFont& f)
 {
-	return JI2B( f.GetSize() == 20 );
+	return f.GetSize() == 20;
 }
 
-JBoolean boldFontMatch(const JFont& f)
+bool boldFontMatch(const JFont& f)
 {
 	return f.GetStyle().bold;
 }
@@ -713,28 +713,28 @@ JTEST(SearchStyle)
 {
 	StyledText text;
 
-	TextEditor te(&text, kJFalse, 50);
+	TextEditor te(&text, false, 50);
 	te.SetCurrentFontSize(20);
-	te.Paste(JString("b" "\xC3\xAE" "g", kJFalse));
+	te.Paste(JString("b" "\xC3\xAE" "g", JString::kNoCopy));
 	te.SetCurrentFontSize(JFontManager::GetDefaultFontSize());
-	te.SetCurrentFontBold(kJTrue);
-	te.Paste(JString("b" "\xC3\xB8" "ld", kJFalse));
-	te.SetCurrentFontBold(kJFalse);
-	te.Paste(JString("normal", kJFalse));
+	te.SetCurrentFontBold(true);
+	te.Paste(JString("b" "\xC3\xB8" "ld", JString::kNoCopy));
+	te.SetCurrentFontBold(false);
+	te.Paste(JString("normal", false));
 	te.SetCurrentFontUnderline(2);
-	te.Paste(JString("double underline", kJFalse));
+	te.Paste(JString("double underline", JString::kNoCopy));
 	te.SetCurrentFontUnderline(0);
 
 	te.SetCaretLocation(1);
 
 	// forward
 
-	JBoolean wrapped;
-	JBoolean found = te.SearchForward([] (const JFont& f)
+	bool wrapped;
+	bool found = te.SearchForward([] (const JFont& f)
 		{
 		return f.GetStyle().italic;
 		},
-		kJFalse, &wrapped);
+		false, &wrapped);
 
 	JAssertFalse(found);
 	JAssertFalse(te.HasSelection());	// caret still at beginning
@@ -742,7 +742,7 @@ JTEST(SearchStyle)
 
 	JString s;
 	JCharacterRange r;
-	found = te.SearchForward(boldFontMatch, kJTrue, &wrapped);
+	found = te.SearchForward(boldFontMatch, true, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.HasSelection());
 	JAssertTrue(te.GetSelection(&r));
@@ -753,22 +753,22 @@ JTEST(SearchStyle)
 
 	found = te.SearchForward([] (const JFont& f)
 		{
-		return JI2B( f.GetStyle().underlineCount > 0 );
+		return f.GetStyle().underlineCount > 0;
 		},
-		kJTrue, &wrapped);
+		true, &wrapped);
 
 	JAssertTrue(found);
 	JAssertTrue(te.GetSelection(&s));
 	JAssertStringsEqual("double underline", s);
 	JAssertFalse(wrapped);
 
-	found = te.SearchForward(boldFontMatch, kJFalse, &wrapped);
+	found = te.SearchForward(boldFontMatch, false, &wrapped);
 	JAssertFalse(found);
 	JAssertTrue(te.GetSelection(&s));		// selection maintained
 	JAssertStringsEqual("double underline", s);
 	JAssertFalse(wrapped);
 
-	found = te.SearchForward(bigFontMatch, kJTrue, &wrapped);
+	found = te.SearchForward(bigFontMatch, true, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 3), r);
@@ -780,7 +780,7 @@ JTEST(SearchStyle)
 
 	te.SetCaretLocation(20);
 
-	te.SearchBackward(bigFontMatch, kJTrue, &wrapped);
+	te.SearchBackward(bigFontMatch, true, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 3), r);
@@ -788,7 +788,7 @@ JTEST(SearchStyle)
 	JAssertStringsEqual("b" "\xC3\xAE" "g", s);
 	JAssertFalse(wrapped);
 
-	found = te.SearchBackward(boldFontMatch, kJFalse, &wrapped);
+	found = te.SearchBackward(boldFontMatch, false, &wrapped);
 	JAssertFalse(found);
 	JAssertTrue(te.GetSelection(&r));		// selection maintained
 	JAssertEqual(JCharacterRange(1, 3), r);
@@ -796,7 +796,7 @@ JTEST(SearchStyle)
 	JAssertStringsEqual("b" "\xC3\xAE" "g", s);
 	JAssertFalse(wrapped);
 
-	found = te.SearchBackward(boldFontMatch, kJTrue, &wrapped);
+	found = te.SearchBackward(boldFontMatch, true, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(4, 7), r);
@@ -804,7 +804,7 @@ JTEST(SearchStyle)
 	JAssertStringsEqual("b" "\xC3\xB8" "ld", s);
 	JAssertTrue(wrapped);
 
-	te.SearchBackward(bigFontMatch, kJTrue, &wrapped);
+	te.SearchBackward(bigFontMatch, true, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 3), r);
@@ -813,7 +813,7 @@ JTEST(SearchStyle)
 	JAssertFalse(wrapped);
 
 	te.SetCaretLocation(4);
-	te.SearchBackward(bigFontMatch, kJTrue, &wrapped);
+	te.SearchBackward(bigFontMatch, true, &wrapped);
 	JAssertTrue(found);
 	JAssertTrue(te.GetSelection(&r));
 	JAssertEqual(JCharacterRange(1, 3), r);
@@ -825,9 +825,9 @@ JTEST(SearchStyle)
 JTEST(Selection)
 {
 	StyledText text;
-	text.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", kJFalse));
+	text.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", JString::kNoCopy));
 
-	TextEditor te(&text, kJTrue, 50);
+	TextEditor te(&text, true, 50);
 
 	te.SetSelection(JCharacterRange(1, 5));
 	te.Cut();
@@ -850,9 +850,9 @@ JTEST(Selection)
 JTEST(TabSelection)
 {
 	StyledText text;
-	text.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", kJFalse));
+	text.SetText(JString("\xC3\xA1" "bcd\n1234\nwxzy", JString::kNoCopy));
 
-	TextEditor te(&text, kJFalse, 50);
+	TextEditor te(&text, false, 50);
 
 	te.TabSelectionRight(2);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
@@ -876,12 +876,12 @@ JTEST(TabSelection)
 	te.TabSelectionLeft(2);
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t\t1234\n\t\twxzy", text.GetText());
 
-	te.TabSelectionLeft(2, kJTrue);
+	te.TabSelectionLeft(2, true);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
 
 	// edge cases
 
-	text.SetText(JString("abc\n\n\t\txyz", kJFalse));
+	text.SetText(JString("abc\n\n\t\txyz", JString::kNoCopy));
 
 	te.SetCaretLocation(5);
 	te.TabSelectionLeft();
@@ -904,9 +904,9 @@ JTEST(TabSelection)
 JTEST(TabSelectionMixed)
 {
 	StyledText text;
-	text.SetText(JString("\t" "\xC3\xA1" "bcd\n  \t1234\n\twxzy", kJFalse));
+	text.SetText(JString("\t" "\xC3\xA1" "bcd\n  \t1234\n\twxzy", JString::kNoCopy));
 
-	TextEditor te(&text, kJFalse, 50);
+	TextEditor te(&text, false, 50);
 
 	te.SelectAll();
 	te.TabSelectionLeft(1);
@@ -919,7 +919,7 @@ JTEST(TabSelectionMixed)
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
 
 
-	text.SetText(JString("  " "\xC3\xA1" "bcd\n   1234\n    wxzy", kJFalse));
+	text.SetText(JString("  " "\xC3\xA1" "bcd\n   1234\n    wxzy", JString::kNoCopy));
 
 	te.SelectAll();
 	te.TabSelectionLeft(1);
@@ -928,23 +928,23 @@ JTEST(TabSelectionMixed)
 
 JTEST(SetAllFontNameAndSize)
 {
-	StyledText text(kJTrue);
+	StyledText text(true);
 
-	TextEditor te(&text, kJFalse, 50);
+	TextEditor te(&text, false, 50);
 	te.SetCurrentFontSize(20);
-	te.Paste(JString("replace this", kJFalse));
+	te.Paste(JString("replace this", JString::kNoCopy));
 	te.SelectAll();
-	te.Paste(JString("b" "\xC3\xAE" "g", kJFalse));
+	te.Paste(JString("b" "\xC3\xAE" "g", JString::kNoCopy));
 	te.SetCurrentFontSize(JFontManager::GetDefaultFontSize());
-	te.SetCurrentFontBold(kJTrue);
-	te.Paste(JString("b" "\xC3\xB8" "ld", kJFalse));
-	te.SetCurrentFontBold(kJFalse);
-	te.Paste(JString("normal", kJFalse));
+	te.SetCurrentFontBold(true);
+	te.Paste(JString("b" "\xC3\xB8" "ld", JString::kNoCopy));
+	te.SetCurrentFontBold(false);
+	te.Paste(JString("normal", JString::kNoCopy));
 	te.SetCurrentFontUnderline(2);
-	te.Paste(JString("double underline", kJFalse));
+	te.Paste(JString("double underline", JString::kNoCopy));
 	te.SetCurrentFontUnderline(0);
 
-	te.SetAllFontNameAndSize(JString("foobar", kJFalse), 15);
+	te.SetAllFontNameAndSize(JString("foobar", JString::kNoCopy), 15);
 
 	JRunArrayIterator<JFont> iter(text.GetStyles());
 	JFont f;
@@ -981,262 +981,262 @@ JTEST(SetAllFontNameAndSize)
 JTEST(GetDoubleClickSelection)
 {
 	StyledText text;
-	text.SetText(JString("b fooBar  flip23bar k", kJFalse));
+	text.SetText(JString("b fooBar  flip23bar k", JString::kNoCopy));
 
-	TextEditor te(&text, kJTrue, 50);
+	TextEditor te(&text, true, 50);
 
 	// foo
 
 	TextRange r;
-	te.GetDoubleClickSelection(TextIndex(4,4), kJFalse, kJFalse, &r);
+	te.GetDoubleClickSelection(TextIndex(4,4), false, false, &r);
 	JAssertEqual(JCharacterRange(3,8), r.charRange);
 
-	te.GetDoubleClickSelection(TextIndex(4,4), kJTrue, kJFalse, &r);
+	te.GetDoubleClickSelection(TextIndex(4,4), true, false, &r);
 	JAssertEqual(JCharacterRange(3,5), r.charRange);
 
 	// Bar
 
-	te.GetDoubleClickSelection(TextIndex(8,8), kJFalse, kJFalse, &r);
+	te.GetDoubleClickSelection(TextIndex(8,8), false, false, &r);
 	JAssertEqual(JCharacterRange(3,8), r.charRange);
 
-	te.GetDoubleClickSelection(TextIndex(8,8), kJTrue, kJFalse, &r);
+	te.GetDoubleClickSelection(TextIndex(8,8), true, false, &r);
 	JAssertEqual(JCharacterRange(6,8), r.charRange);
 
 	// space
 
-	te.GetDoubleClickSelection(TextIndex(10,10), kJFalse, kJFalse, &r);
+	te.GetDoubleClickSelection(TextIndex(10,10), false, false, &r);
 	JAssertEqual(JCharacterRange(10,10), r.charRange);
 
-	te.GetDoubleClickSelection(TextIndex(10,10), kJTrue, kJFalse, &r);
+	te.GetDoubleClickSelection(TextIndex(10,10), true, false, &r);
 	JAssertEqual(JCharacterRange(10,10), r.charRange);
 
 	// flip
 
-	te.GetDoubleClickSelection(TextIndex(12,12), kJFalse, kJFalse, &r);
+	te.GetDoubleClickSelection(TextIndex(12,12), false, false, &r);
 	JAssertEqual(JCharacterRange(11,19), r.charRange);
 
-	te.GetDoubleClickSelection(TextIndex(12,12), kJTrue, kJFalse, &r);
+	te.GetDoubleClickSelection(TextIndex(12,12), true, false, &r);
 	JAssertEqual(JCharacterRange(11,14), r.charRange);
 
 	// 23
 
-	te.GetDoubleClickSelection(TextIndex(16,16), kJFalse, kJFalse, &r);
+	te.GetDoubleClickSelection(TextIndex(16,16), false, false, &r);
 	JAssertEqual(JCharacterRange(11,19), r.charRange);
 
-	te.GetDoubleClickSelection(TextIndex(16,16), kJTrue, kJFalse, &r);
+	te.GetDoubleClickSelection(TextIndex(16,16), true, false, &r);
 	JAssertEqual(JCharacterRange(15,16), r.charRange);
 
 	// bar
 
-	te.GetDoubleClickSelection(TextIndex(17,17), kJFalse, kJFalse, &r);
+	te.GetDoubleClickSelection(TextIndex(17,17), false, false, &r);
 	JAssertEqual(JCharacterRange(11,19), r.charRange);
 
-	te.GetDoubleClickSelection(TextIndex(17,17), kJTrue, kJFalse, &r);
+	te.GetDoubleClickSelection(TextIndex(17,17), true, false, &r);
 	JAssertEqual(JCharacterRange(17,19), r.charRange);
 }
 
 JTEST(DefaultKeyHandler)
 {
 	StyledText text;
-	TextEditor te1(&text, kJTrue, 50);
-	TextEditor te2(&text, kJTrue, 50);
+	TextEditor te1(&text, true, 50);
+	TextEditor te2(&text, true, 50);
 
-	text.TabShouldInsertSpaces(kJTrue);
+	text.TabShouldInsertSpaces(true);
 	text.SetCRMTabCharCount(4);
 
 	te1.Activate();
-	te1.HandleKeyPress(JUtf8Character('c'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('a'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('t'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character('c'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('t'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("cat", text.GetText());
 
 	te2.Activate();
-	te2.HandleKeyPress(JUtf8Character('s'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress(JUtf8Character('s'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("cats", text.GetText());
 
 	te2.SetCaretLocation(1);
-	te2.HandleKeyPress(JUtf8Character('z'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress(JUtf8Character('z'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("zcats", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character('a'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("zcatsa", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJDeleteKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress(JUtf8Character(kJDeleteKey), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("catsa", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJDeleteKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character(kJDeleteKey), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("cats", text.GetText());
 
-	te1.Paste(JString("Dog", kJFalse));
-	te1.HandleKeyPress(JUtf8Character('s'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.Paste(JString("Dog", JString::kNoCopy));
+	te1.HandleKeyPress(JUtf8Character('s'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("catsDogs", text.GetText());
 
 	te2.GoToEndOfLine();
 	text.Undo();
 	JAssertStringsEqual("catsDog", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJLeftArrow), kJFalse, JTextEditor::kMoveByWord, kJFalse);
+	te2.HandleKeyPress(JUtf8Character(kJLeftArrow), false, JTextEditor::kMoveByWord, false);
 	JIndex i;
 	JAssertTrue(te2.GetCaretLocation(&i));
 	JAssertEqual(1, i);
 
-	te2.HandleKeyPress(JUtf8Character(kJRightArrow), kJFalse, JTextEditor::kMoveByPartialWord, kJFalse);
+	te2.HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByPartialWord, false);
 	JAssertTrue(te2.GetCaretLocation(&i));
 	JAssertEqual(5, i);
 
-	te1.HandleKeyPress(JUtf8Character(kJLeftArrow), kJTrue, JTextEditor::kMoveByPartialWord, kJFalse);
+	te1.HandleKeyPress(JUtf8Character(kJLeftArrow), true, JTextEditor::kMoveByPartialWord, false);
 	JCharacterRange r;
 	JAssertTrue(te1.GetSelection(&r));
 	JAssertEqual(JCharacterRange(5,7), r);
 
-	te1.HandleKeyPress(JUtf8Character('!'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character('!'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("cats!", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJTabKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te2.HandleKeyPress(JUtf8Character(' '), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress(JUtf8Character(kJTabKey), false, JTextEditor::kMoveByCharacter, false);
+	te2.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("cats     !", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJDeleteKey), kJFalse, JTextEditor::kMoveByCharacter, kJTrue);
+	te2.HandleKeyPress(JUtf8Character(kJDeleteKey), false, JTextEditor::kMoveByCharacter, true);
 	JAssertStringsEqual("cats    !", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJDeleteKey), kJFalse, JTextEditor::kMoveByCharacter, kJTrue);
+	te2.HandleKeyPress(JUtf8Character(kJDeleteKey), false, JTextEditor::kMoveByCharacter, true);
 	JAssertStringsEqual("cats!", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJLeftArrow), kJTrue, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJForwardDeleteKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character(kJLeftArrow), true, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJForwardDeleteKey), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("cats", text.GetText());
 }
 
 JTEST(VIKeyHandler)
 {
-	StyledText text(kJTrue);
-	TextEditor te1(&text, kJTrue, 50);
-	TextEditor te2(&text, kJTrue, 50);
+	StyledText text(true);
+	TextEditor te1(&text, true, 50);
+	TextEditor te2(&text, true, 50);
 
-	text.TabShouldInsertSpaces(kJTrue);
+	text.TabShouldInsertSpaces(true);
 	text.SetCRMTabCharCount(4);
 
 	te1.SetKeyHandler(jnew JVIKeyHandler);
 	te2.SetKeyHandler(jnew JVIKeyHandler);
 
 	te1.Activate();
-	te1.HandleKeyPress(JUtf8Character('i'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('c'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('a'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('t'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character('i'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('c'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('t'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("cat", text.GetText());
 
 	te2.Activate();
-	te2.HandleKeyPress(JUtf8Character('i'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te2.HandleKeyPress(JUtf8Character('s'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress(JUtf8Character('i'), false, JTextEditor::kMoveByCharacter, false);
+	te2.HandleKeyPress(JUtf8Character('s'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("cats", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJEscapeKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te2.HandleKeyPress(JUtf8Character('0'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te2.HandleKeyPress(JUtf8Character('i'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te2.HandleKeyPress(JUtf8Character('z'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
+	te2.HandleKeyPress(JUtf8Character('0'), false, JTextEditor::kMoveByCharacter, false);
+	te2.HandleKeyPress(JUtf8Character('i'), false, JTextEditor::kMoveByCharacter, false);
+	te2.HandleKeyPress(JUtf8Character('z'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("zcats", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character('a'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("zcatsa", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJEscapeKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te2.HandleKeyPress(JUtf8Character('x'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
+	te2.HandleKeyPress(JUtf8Character('x'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("catsa", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('x'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('x'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("cats", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character('I'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('z'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character('I'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('z'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("zcats", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJRightArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('a'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('a'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJLeftArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('A'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('a'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJLeftArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('A'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("zcaatsa", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('O'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('1'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJDownArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('o'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('2'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('O'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('1'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJDownArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('o'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('2'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("1\nzcaatsa\n2", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
 
 	JIndex i;
 	JAssertTrue(te1.GetCaretLocation(&i));
 	JAssertEqual(1, i);
 
-	te1.HandleKeyPress(JUtf8Character('G'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character('G'), false, JTextEditor::kMoveByCharacter, false);
 
 	JAssertTrue(te1.GetCaretLocation(&i));
 	JAssertEqual(12, i);
 
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJRightArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJRightArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJRightArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('x'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('X'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('x'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('X'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("1\nzcasa\n2", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character('G'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('P'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character('G'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('P'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("1\nzcasa\n2a", text.GetText());
 
-	te1.Paste(JString("\n3\n4\n5\n6\n7\n8\n9", kJFalse));
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('3'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('d'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('d'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.Paste(JString("\n3\n4\n5\n6\n7\n8\n9", JString::kNoCopy));
+	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('3'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('d'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('d'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("1\nzcasa\n5\n6\n7\n8\n9", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character('G'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('p'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character('G'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('p'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("1\nzcasa\n5\n6\n7\n8\n2a\n3\n4\n9", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character('u'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te2.HandleKeyPress(JUtf8Character('u'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress(JUtf8Character('u'), false, JTextEditor::kMoveByCharacter, false);
+	te2.HandleKeyPress(JUtf8Character('u'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("1\nzcasa\n2a\n3\n4\n5\n6\n7\n8\n9", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), kJFalse, JTextEditor::kMoveByLine, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJDownArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJRightArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('D'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByLine, false);
+	te1.HandleKeyPress(JUtf8Character(kJDownArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('D'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("1\nz\n2a\n3\n4\n5\n6\n7\n8\n9", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character('u'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJDownArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character(kJDownArrow), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('3'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('"'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('q'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('d'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('d'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te2.HandleKeyPress(JUtf8Character('u'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJDownArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character(kJDownArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('3'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('"'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('q'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('d'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('d'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("1\nzcasa\n5\n6\n7\n8\n9", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character('G'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('"'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('q'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
-	te1.HandleKeyPress(JUtf8Character('p'), kJFalse, JTextEditor::kMoveByCharacter, kJFalse);
+	te1.HandleKeyPress(JUtf8Character('G'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('"'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('q'), false, JTextEditor::kMoveByCharacter, false);
+	te1.HandleKeyPress(JUtf8Character('p'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("1\nzcasa\n5\n6\n7\n8\n2a\n3\n4\n9", text.GetText());
 }

@@ -29,7 +29,7 @@ public:
 
 	virtual ~JPagePrinter();
 
-	virtual JBoolean	WillPrintBlackWhite() const = 0;
+	virtual bool	WillPrintBlackWhite() const = 0;
 
 	ImageOrientation	GetOrientation() const;
 	void				SetOrientation(const ImageOrientation orient);
@@ -47,8 +47,8 @@ public:
 
 	// printing control
 
-	virtual JBoolean	OpenDocument() = 0;
-	virtual JBoolean	NewPage() = 0;
+	virtual bool	OpenDocument() = 0;
+	virtual bool	NewPage() = 0;
 	virtual void		CloseDocument() = 0;
 	virtual void		CancelDocument() = 0;
 

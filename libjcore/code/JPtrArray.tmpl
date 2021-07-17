@@ -114,7 +114,7 @@ JDCCPtrArray<T>::JDCCPtrArray
 	JPtrArray<T>(source, action)
 {
 	JArray<T*>::RemoveAll();
-	JPtrArray<T>::CopyObjects(source, action, kJTrue);
+	JPtrArray<T>::CopyObjects(source, action, true);
 }
 
 /******************************************************************************
@@ -174,7 +174,7 @@ JPtrArray<T>::CopyPointers
 	(
 	const JPtrArray<T>&				source,
 	const JPtrArrayT::CleanUpAction	action,
-	const JBoolean					append
+	const bool					append
 	)
 {
 	if (this == &source)
@@ -211,7 +211,7 @@ JPtrArray<T>::CopyObjects
 	(
 	const JPtrArray<T>&				source,
 	const JPtrArrayT::CleanUpAction	action,
-	const JBoolean					append
+	const bool					append
 	)
 {
 	if (this == &source)
@@ -339,7 +339,7 @@ JPtrArray<T>::InsertBefore
 	)
 {
 	JIndex index;
-	const JBoolean found = Find(beforePtr, &index);
+	const bool found = Find(beforePtr, &index);
 
 	if (found)
 		{
@@ -380,7 +380,7 @@ JPtrArray<T>::InsertAfter
 	)
 {
 	JIndex index;
-	const JBoolean found = Find(afterPtr, &index);
+	const bool found = Find(afterPtr, &index);
 
 	if (found)
 		{
@@ -475,14 +475,14 @@ JPtrArray<T>::SetToNull
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JPtrArray<T>::Remove
 	(
 	const T* dataPtr
 	)
 {
 	JIndex index;
-	const JBoolean found = Find(dataPtr, &index);
+	const bool found = Find(dataPtr, &index);
 
 	if (found)
 		{
@@ -563,7 +563,7 @@ JPtrArray<T>::DeleteAllAsArrays()
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JPtrArray<T>::Includes
 	(
 	const T* dataPtr
@@ -582,7 +582,7 @@ JPtrArray<T>::Includes
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JPtrArray<T>::Find
 	(
 	const T*	dataPtr,
@@ -602,13 +602,13 @@ JPtrArray<T>::Find
 		if (dataPtr == JArray<T*>::ProtectedGetElement(i))
 			{
 			*elementIndex = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	// if we fall through, there was no match
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

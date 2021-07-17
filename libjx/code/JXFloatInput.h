@@ -23,9 +23,9 @@ public:
 
 	virtual ~JXFloatInput();
 
-	JBoolean	GetValue(JFloat* value) const;
+	bool	GetValue(JFloat* value) const;
 	void		SetValue(const JFloat value);
-	JBoolean	ValueValid(const JFloat value) const;
+	bool	ValueValid(const JFloat value) const;
 
 	void	SetLimits(const JFloat minValue, const JFloat maxValue);
 
@@ -37,14 +37,14 @@ public:
 	void	SetUpperLimit(const JFloat maxValue);
 	void	ClearUpperLimit();
 
-	virtual JBoolean	InputValid();
+	virtual bool	InputValid();
 
 private:
 
-	JBoolean	itsHasLowerLimitFlag;
+	bool	itsHasLowerLimitFlag;
 	JFloat		itsLowerLimit;
 
-	JBoolean	itsHasUpperLimitFlag;
+	bool	itsHasUpperLimitFlag;
 	JFloat		itsUpperLimit;
 
 private:
@@ -70,7 +70,7 @@ JXFloatInput::GetLowerLimit()
 inline void
 JXFloatInput::ClearLowerLimit()
 {
-	itsHasLowerLimitFlag = kJFalse;
+	itsHasLowerLimitFlag = false;
 }
 
 inline JFloat
@@ -83,7 +83,7 @@ JXFloatInput::GetUpperLimit()
 inline void
 JXFloatInput::ClearUpperLimit()
 {
-	itsHasUpperLimitFlag = kJFalse;
+	itsHasUpperLimitFlag = false;
 }
 
 /******************************************************************************
@@ -91,15 +91,15 @@ JXFloatInput::ClearUpperLimit()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFloatInput::ValueValid
 	(
 	const JFloat value
 	)
 	const
 {
-	return JNegate((itsHasLowerLimitFlag && value < itsLowerLimit) ||
-				   (itsHasUpperLimitFlag && value > itsUpperLimit));
+	return !((itsHasLowerLimitFlag && value < itsLowerLimit) ||
+			 (itsHasUpperLimitFlag && value > itsUpperLimit));
 }
 
 #endif

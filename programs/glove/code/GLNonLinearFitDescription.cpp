@@ -32,7 +32,7 @@ GLNonLinearFitDescription::GLNonLinearFitDescription
 	itsFunction(function),
 	itsFPrimed(fPrimed)
 {
-	DoesRequireStartValues(kJTrue);
+	DoesRequireStartValues(true);
 
 	JSize count		= vars.GetElementCount();
 	JIndex offset	= 0;
@@ -65,7 +65,7 @@ GLNonLinearFitDescription::GLNonLinearFitDescription
 	is >> itsFunction;
 	is >> itsFPrimed;
 
-	DoesRequireStartValues(kJTrue);
+	DoesRequireStartValues(true);
 }
 
 /******************************************************************************

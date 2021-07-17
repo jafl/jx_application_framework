@@ -39,8 +39,8 @@ public:
 
 	void			AddRecord(MDRecord* record);
 	const MDRecord*	GetRecord(const JIndex index) const;
-	JBoolean		GetRecordIndex(const MDRecord* record, JIndex *index) const;
-	JBoolean		ClosestMatch(const JString& prefix, MDRecord** record) const;
+	bool		GetRecordIndex(const MDRecord* record, JIndex *index) const;
+	bool		ClosestMatch(const JString& prefix, MDRecord** record) const;
 
 	ColumnType	GetSortColumn() const;
 	void		SetSortColumn(const JIndex index);
@@ -105,7 +105,7 @@ MDRecordList::GetRecord
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 MDRecordList::GetRecordIndex
 	(
 	const MDRecord*	record,

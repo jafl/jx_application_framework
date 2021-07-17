@@ -29,7 +29,7 @@ GDBGetThreads::GDBGetThreads
 	CMThreadsWidget*	widget
 	)
 	:
-	CMGetThreads(JString("set width 0\ninfo threads", kJFalse), widget),
+	CMGetThreads(JString("set width 0\ninfo threads", JString::kNoCopy), widget),
 	itsTree(tree)
 {
 }
@@ -132,25 +132,25 @@ GDBGetThreads::HandleSuccess
 
 static const JRegex indexPattern = "^[[:digit:]]+";
 
-JBoolean
+bool
 GDBGetThreads::ExtractThreadIndex
 	(
 	const JString&	line,
 	JIndex*			threadIndex
 	)
 {
-	const JStringMatch m = indexPattern.Match(line, kJFalse);
+	const JStringMatch m = indexPattern.Match(line, JRegex::kIgnoreSubmatches);
 	if (!m.IsEmpty())
 		{
-		const JBoolean ok = m.GetString().ConvertToUInt(threadIndex);
+		const bool ok = m.GetString().ConvertToUInt(threadIndex);
 		assert( ok );
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*threadIndex = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -161,7 +161,7 @@ GDBGetThreads::ExtractThreadIndex
 
 static const JRegex locationPattern = "[ \t]+at[ \t]+(.+):([[:digit:]]+)$";
 
-JBoolean
+bool
 GDBGetThreads::ExtractLocation
 	(
 	const JString&	line,
@@ -169,21 +169,21 @@ GDBGetThreads::ExtractLocation
 	JIndex*			lineIndex
 	)
 {
-	const JStringMatch m = locationPattern.Match(line, kJTrue);
+	const JStringMatch m = locationPattern.Match(line, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
 		{
 		*fileName = m.GetSubstring(1);
 
-		const JBoolean ok = m.GetSubstring(2).ConvertToUInt(lineIndex);
+		const bool ok = m.GetSubstring(2).ConvertToUInt(lineIndex);
 		assert( ok );
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		fileName->Clear();
 		*lineIndex = 0;
-		return kJFalse;
+		return false;
 		}
 }
 

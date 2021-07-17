@@ -21,8 +21,8 @@
 #include <jFileUtil.h>
 #include <jAssert.h>
 
-static const JString kOurFile     ("about_owner_docs", kJFalse);
-static const JString kRequiredFile("about_owned_docs", kJFalse);
+static const JString kOurFile     ("about_owner_docs", false);
+static const JString kRequiredFile("about_owned_docs", false);
 
 /******************************************************************************
  Constructor
@@ -40,7 +40,7 @@ TestLinkedDocument::TestLinkedDocument
 
 	if (JFileExists(kOurFile))
 		{
-		FileChanged(kOurFile, kJTrue);
+		FileChanged(kOurFile, true);
 		ReadFile(kOurFile);
 		}
 	else
@@ -72,7 +72,7 @@ TestLinkedDocument::TestLinkedDocument
 			}
 		else
 			{
-			itsDoc = jnew TestTextEditDocument(supervisor, newName, kJFalse);
+			itsDoc = jnew TestTextEditDocument(supervisor, newName, false);
 			assert( itsDoc != nullptr );
 			}
 
@@ -115,12 +115,12 @@ TestLinkedDocument::~TestLinkedDocument()
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestLinkedDocument::NeedDocument
 	(
 	JXDocument* doc
 	)
 	const
 {
-	return JConvertToBoolean( doc == itsDoc );
+	return doc == itsDoc;
 }

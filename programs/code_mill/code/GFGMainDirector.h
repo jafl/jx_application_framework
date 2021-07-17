@@ -67,7 +67,7 @@ private:
 private:
 
 	void 		BuildWindow(const JString& outputPath);
-	JBoolean 	Write();
+	bool 	Write();
 
 	// not allowed
 

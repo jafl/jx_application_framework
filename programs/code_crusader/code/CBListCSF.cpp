@@ -25,7 +25,7 @@ CBListCSF::CBListCSF
 	JXChooseSaveFile()
 {
 	itsChooseDialog        = nullptr;
-	itsReplaceExistingFlag = kJFalse;
+	itsReplaceExistingFlag = false;
 	itsReplaceListStr      = replaceListStr;
 	itsAppendToListStr     = appendToListStr;
 }
@@ -50,7 +50,7 @@ CBListCSF::CreateChooseFileDialog
 	JXDirector*		supervisor,
 	JDirInfo*		dirInfo,
 	const JString&	fileFilter,
-	const JBoolean	allowSelectMultiple,
+	const bool	allowSelectMultiple,
 	const JString&	origName,
 	const JString&	message
 	)

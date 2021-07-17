@@ -19,14 +19,14 @@ public:
 
 public:
 
-	JOutPipeStreambuf(const int fd, const JBoolean close);
+	JOutPipeStreambuf(const int fd, const bool close);
 
 	virtual	~JOutPipeStreambuf();
 
 	int			GetDescriptor();
 
-	JBoolean	WillClosePipe() const;
-	void		ShouldClosePipe(const JBoolean close = kJTrue);
+	bool	WillClosePipe() const;
+	void		ShouldClosePipe(const bool close = true);
 
 	void		close();
 
@@ -38,7 +38,7 @@ protected:
 private:
 
 	const int	itsDescriptor;
-	JBoolean	itsCloseFlag;	// kJTrue => close when we are destructed
+	bool	itsCloseFlag;	// true => close when we are destructed
 };
 
 #include "JOutPipeStreambuf.tmpl"

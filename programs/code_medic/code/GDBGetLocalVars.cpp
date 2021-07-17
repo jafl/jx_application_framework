@@ -32,7 +32,7 @@ GDBGetLocalVars::GDBGetLocalVars
 		"set width 0\n"
 		"info args\n"
 		"echo -----\\n\n"
-		"info locals", kJFalse)),
+		"info locals", JString::kNoCopy)),
 	itsRootNode(rootNode)
 {
 }
@@ -51,7 +51,7 @@ GDBGetLocalVars::~GDBGetLocalVars()
 
  ******************************************************************************/
 
-static const JString kSeparator("\n-----\n", kJFalse);
+static const JString kSeparator("\n-----\n", JString::kNoCopy);
 static const JRegex varPattern     = "^([^=]+)=(.*)$";
 static const JRegex gdb7RefPattern = "^@0[xX][[:xdigit:]]+$";
 

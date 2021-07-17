@@ -144,19 +144,19 @@ public:
 protected:
 
 	yy_state_type	GetCurrentLexerState() const;
-	JBoolean		InTagState() const;
+	bool		InTagState() const;
 
 	virtual const JString&	GetScannedText() const = 0;
 
 private:
 
-	JBoolean				itsResetFlag;
+	bool				itsResetFlag;
 	yy_state_type			itsStartState;
 	JStyledText::TextRange	itsCurrentRange;
 	JString					itsScriptLanguage;
 	JString					itsPHPHereDocTag;
 	JString					itsPHPNowDocTag;
-	JBoolean				itsProbableJSOperatorFlag;	// kTrue if / is most likely operator instead of regex
+	bool				itsProbableJSOperatorFlag;	// kTrue if / is most likely operator instead of regex
 
 private:
 
@@ -167,8 +167,8 @@ private:
 	Token	ScriptToken();
 	Token	DocToken(const TokenType type);
 
-	JBoolean	IsScript(JString* language) const;
-	JBoolean	InTagState(const int state) const;
+	bool	IsScript(JString* language) const;
+	bool	InTagState(const int state) const;
 
 	// not allowed
 

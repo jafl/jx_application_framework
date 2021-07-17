@@ -36,10 +36,10 @@ public:
 
 	JFunction*			GetFunction(const JIndex index);
 	const JFunction*	GetFunction(const JIndex index) const;
-	JBoolean			FindFunction(const JFunction* f, JIndex* index) const;
+	bool			FindFunction(const JFunction* f, JIndex* index) const;
 
 	JIndex		GetSelection(const JPoint& startPt, const JPoint& currPt) const;
-	JBoolean	SelectionValid(const JIndex index) const;
+	bool	SelectionValid(const JIndex index) const;
 
 	JIndex	GetParent(const JIndex index) const;
 
@@ -168,7 +168,7 @@ JExprRectList::GetFunction
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JExprRectList::FindFunction
 	(
 	const JFunction*	f,
@@ -184,14 +184,14 @@ JExprRectList::FindFunction
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JExprRectList::SelectionValid
 	(
 	const JIndex index
 	)
 	const
 {
-	return JConvertToBoolean( 1 <= index && index <= itsRects->GetElementCount() );
+	return 1 <= index && index <= itsRects->GetElementCount();
 }
 
 #endif

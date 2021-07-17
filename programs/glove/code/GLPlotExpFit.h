@@ -25,16 +25,16 @@ public:
 				const JFloat xMin, const JFloat xMax);
 	virtual ~GLPlotExpFit();	
 
-	virtual JBoolean	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const JBoolean xLinear,
+	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
+								  const bool xLinear,
 								  JFloat* yMin, JFloat* yMax) const override;
 
-	virtual JBoolean	GetYValue(const JFloat x, JFloat* y) const override;
+	virtual bool	GetYValue(const JFloat x, JFloat* y) const override;
 	virtual const JPlotDataBase*		GetDataToFit() const override;
 
-	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const override;
-	virtual JBoolean	GetParameterError(const JIndex index, JFloat* value) const override;
-//	virtual JBoolean	GetGoodnessOfFit(JFloat* value) const;
+	virtual bool	GetParameter(const JIndex index, JFloat* value) const override;
+	virtual bool	GetParameterError(const JIndex index, JFloat* value) const override;
+//	virtual bool	GetGoodnessOfFit(JFloat* value) const;
 
 private:
 
@@ -43,8 +43,8 @@ private:
 	JArray<JFloat>*		itsYData;
 	JArray<JFloat>*		itsXErrData;
 	JArray<JFloat>*		itsYErrData;
-	JBoolean			itsHasXErrors;
-	JBoolean			itsHasYErrors;
+	bool			itsHasXErrors;
+	bool			itsHasYErrors;
 	
 private:
 

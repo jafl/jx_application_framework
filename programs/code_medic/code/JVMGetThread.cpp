@@ -23,7 +23,7 @@ JVMGetThread::JVMGetThread
 	CMThreadsWidget* widget
 	)
 	:
-	CMGetThread(JString("NOP", kJFalse), widget)
+	CMGetThread(JString("NOP", JString::kNoCopy), widget)
 {
 }
 

@@ -65,7 +65,7 @@ void
 CBFileTypeTable::UpdateMenuFn()
 {
 	JPoint cell;
-	const JBoolean ok = GetTableSelection().GetFirstSelectedCell(&cell);
+	const bool ok = GetTableSelection().GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	const CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
@@ -91,7 +91,7 @@ CBFileTypeTable::IDToIndexFn
 	else
 		{
 		JIndex index;
-		const JBoolean found = CBPrefsManager::FindIDFn(DataList, id, &index);
+		const bool found = CBPrefsManager::FindIDFn(DataList, id, &index);
 		assert( found );
 
 		return index+1;
@@ -110,7 +110,7 @@ CBFileTypeTable::HandleMenuFn
 	)
 {
 	JPoint cell;
-	const JBoolean ok = GetTableSelection().GetFirstSelectedCell(&cell);
+	const bool ok = GetTableSelection().GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);

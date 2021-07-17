@@ -30,7 +30,7 @@
 
 CBEditMiscPrefsDialog::CBEditMiscPrefsDialog()
 	:
-	JXDialogDirector(CBGetApplication(), kJTrue)
+	JXDialogDirector(CBGetApplication(), true)
 {
 	BuildWindow();
 	ListenTo(this);
@@ -164,12 +164,12 @@ CBEditMiscPrefsDialog::BuildWindow()
 	window->SetTitle(JGetString("WindowTitle::CBEditMiscPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
-	itsMacStyleCB->SetState(JI2B(JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle));
+	itsMacStyleCB->SetState(JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle);
 	itsCopyWhenSelectCB->SetState(JTextEditor::WillCopyWhenSelect());
 	itsMiddleButtonPasteCB->SetState(JXTEBase::MiddleButtonWillPaste());
 	itsFocusInDockCB->SetState(JXWindow::WillFocusFollowCursorInDock());
 
-	JBoolean warnSave, warnClose, warnQuit;
+	bool warnSave, warnClose, warnQuit;
 	CBGetDocumentManager()->GetWarnings(&warnSave, &warnClose);
 	CBGetApplication()->GetWarnings(&warnQuit);
 
@@ -179,8 +179,8 @@ CBEditMiscPrefsDialog::BuildWindow()
 	itsCloseAllCB->SetState(warnClose);
 	itsQuitCB->SetState(warnQuit);
 
-	JBoolean newEditor  = kJFalse, newProject = kJFalse,
-			 reopenLast = kJTrue,  chooseFile = kJFalse;
+	bool newEditor  = false, newProject = false,
+			 reopenLast = true,  chooseFile = false;
 	CBMDIServer* mdi;
 	if (CBGetMDIServer(&mdi))
 		{

@@ -55,7 +55,7 @@ JXSelectionData::JXSelectionData
 
 	ListenTo(itsDataSource);	// need to know if it is deleted
 
-	itsDataSourceID = jnew JString(id, 0);
+	itsDataSourceID = jnew JString(id);
 	assert( itsDataSourceID != nullptr );
 }
 
@@ -225,7 +225,7 @@ JXSelectionData::Resolve()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXSelectionData::Convert
 	(
 	const Atom		requestType,
@@ -252,7 +252,7 @@ JXSelectionData::Convert
 		*data = jnew unsigned char [ *dataLength ];
 		if (*data == nullptr)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		Atom* atomData = reinterpret_cast<Atom*>(*data);
@@ -261,7 +261,7 @@ JXSelectionData::Convert
 			atomData[i-1] = itsTypeList->GetElement(i);
 			}
 
-		return kJTrue;
+		return true;
 		}
 
 	// TIMESTAMP
@@ -275,12 +275,12 @@ JXSelectionData::Convert
 		*data = jnew unsigned char [ *dataLength ];
 		if (*data == nullptr)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		*(reinterpret_cast<Time*>(*data)) = itsStartTime;
 
-		return kJTrue;
+		return true;
 		}
 
 	// everything else
@@ -304,7 +304,7 @@ JXSelectionData::Convert
  ConvertData (virtual protected)
 
 	Derived class must convert data to the specified type and return
-	kJTrue, or return kJFalse if the conversion cannot be accomplished.
+	true, or return false if the conversion cannot be accomplished.
 
 	*returnType must be actual data type.  For example, when "TEXT" is
 	requested, one often returns XA_STRING.

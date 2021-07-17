@@ -23,8 +23,8 @@ public:
 
 	virtual	~JXSpellChecker();
 
-	JBoolean	WillReportNoErrors() const;
-	void		ShouldReportNoErrors(const JBoolean report);
+	bool	WillReportNoErrors() const;
+	void		ShouldReportNoErrors(const bool report);
 
 	void		Check(JXTEBase* te);
 	void		CheckSelection(JXTEBase* te);
@@ -39,7 +39,7 @@ public:
 
 private:
 
-	JBoolean		itsReportNoErrorsFlag;
+	bool		itsReportNoErrorsFlag;
 	JPoint			itsDefaultWindowSize;
 
 private:
@@ -56,7 +56,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXSpellChecker::WillReportNoErrors()
 	const
 {

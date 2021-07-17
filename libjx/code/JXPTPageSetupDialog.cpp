@@ -38,7 +38,7 @@ JXPTPageSetupDialog::Create
 	const JSize		pageWidth,
 	const JSize		pageHeight,
 	const JSize		minPageHeight,
-	const JBoolean	printReverseOrder
+	const bool	printReverseOrder
 	)
 {
 	JXPTPageSetupDialog* dlog = jnew JXPTPageSetupDialog;
@@ -55,7 +55,7 @@ JXPTPageSetupDialog::Create
 
 JXPTPageSetupDialog::JXPTPageSetupDialog()
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue)
+	JXDialogDirector(JXGetApplication(), true)
 {
 }
 
@@ -80,7 +80,7 @@ JXPTPageSetupDialog::BuildWindow
 	const JSize		pageWidth,
 	const JSize		pageHeight,
 	const JSize		minPageHeight,
-	const JBoolean	printReverseOrder
+	const bool	printReverseOrder
 	)
 {
 // begin JXLayout
@@ -181,7 +181,7 @@ JXPTPageSetupDialog::SetObjects
 	const JSize		minPageHeight,
 	JXTextButton*	printTestButton,
 	JXTextCheckbox*	printReverseOrderCB,
-	const JBoolean	printReverseOrder
+	const bool	printReverseOrder
 	)
 {
 	itsPrintCmd            = printCmdInput;
@@ -213,7 +213,7 @@ JXPTPageSetupDialog::SetObjects
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPTPageSetupDialog::SetParameters
 	(
 	JXPTPrinter* p
@@ -223,18 +223,18 @@ JXPTPageSetupDialog::SetParameters
 	const JString& printCmd = itsPrintCmd->GetText()->GetText();
 
 	JInteger w,h;
-	JBoolean ok = itsWidth->GetValue(&w);
+	bool ok = itsWidth->GetValue(&w);
 	assert( ok );
 	ok = itsHeight->GetValue(&h);
 	assert( ok );
 
-	const JBoolean printReverseOrder = itsPrintReverseOrderCB->IsChecked();
+	const bool printReverseOrder = itsPrintReverseOrderCB->IsChecked();
 
-	const JBoolean changed =
-		JI2B( printCmd          != p->GetPrintCmd()   ||
+	const bool changed =
+		printCmd          != p->GetPrintCmd()   ||
 			  JSize(w)          != p->GetPageWidth()  ||
 			  JSize(h)          != p->GetPageHeight() ||
-			  printReverseOrder != p->WillPrintReverseOrder() );
+			  printReverseOrder != p->WillPrintReverseOrder();
 
 	p->SetPrintCmd(printCmd);
 	p->SetPageWidth(w);
@@ -298,7 +298,7 @@ JXPTPageSetupDialog::PrintTestPage()
 				}
 			output.close();
 
-			const JString sysCmd  = itsPrintCmd->GetText()->GetText() + JString(" ", kJFalse) + JPrepArgForExec(fileName);
+			const JString sysCmd  = itsPrintCmd->GetText()->GetText() + JString(" ", JString::kNoCopy) + JPrepArgForExec(fileName);
 			err = JExecute(sysCmd, nullptr);
 			err.ReportIfError();
 

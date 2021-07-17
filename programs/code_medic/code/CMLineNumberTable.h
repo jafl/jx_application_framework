@@ -28,10 +28,10 @@ protected:
 	virtual JString		GetLineText(const JIndex lineIndex) const;
 	virtual JString		GetLongestLineText(const JIndex lineCount) const;
 	virtual JIndex		GetBreakpointLineIndex(const JIndex bpIndex, const CMBreakpoint* bp) const;
-	virtual JBoolean	GetFirstBreakpointOnLine(const JIndex lineIndex, JIndex* bpIndex) const;
-	virtual JBoolean	BreakpointsOnSameLine(const CMBreakpoint* bp1, const CMBreakpoint* bp2) const;
+	virtual bool	GetFirstBreakpointOnLine(const JIndex lineIndex, JIndex* bpIndex) const;
+	virtual bool	BreakpointsOnSameLine(const CMBreakpoint* bp1, const CMBreakpoint* bp2) const;
 	virtual void		GetBreakpoints(JPtrArray<CMBreakpoint>* list);
-	virtual void		SetBreakpoint(const JIndex lineIndex, const JBoolean temporary);
+	virtual void		SetBreakpoint(const JIndex lineIndex, const bool temporary);
 	virtual void		RemoveAllBreakpointsOnLine(const JIndex lineIndex);
 	virtual void		RunUntil(const JIndex lineIndex);
 	virtual void		SetExecutionPoint(const JIndex lineIndex);

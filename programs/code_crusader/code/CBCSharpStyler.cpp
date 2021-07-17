@@ -51,19 +51,19 @@ const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStylerBase*
 CBCSharpStyler::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBCSharpStyler;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -110,7 +110,7 @@ CBCSharpStyler::CBCSharpStyler()
 
 	SetTypeStyle(kError              - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
-	SetWordStyle(JString("goto", kJFalse), JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor()));
+	SetWordStyle(JString("goto", JString::kNoCopy), JFontStyle(true, false, 0, false, JColorManager::GetRedColor()));
 
 	JPrefObject::ReadPrefs();
 }
@@ -185,7 +185,7 @@ CBCSharpStyler::Scan
 			}
 		else if (token.type == kPPDirective)
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange().byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange().byteRange, JString::kNoCopy));
 			}
 		else if (token.type < kWhitespace)
 			{
@@ -193,14 +193,14 @@ CBCSharpStyler::Scan
 			}
 		else if (token.type > kError)	// misc
 			{
-			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, kJFalse), &style))
+			if (!GetWordStyle(JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy), &style))
 				{
 				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, kJFalse));
+			style = GetStyle(typeIndex, JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy));
 			}
 		}
 		while (SetStyle(token.range.charRange, style));
@@ -235,17 +235,17 @@ abc
 	# endif
 # endif
 
-JBoolean
+bool
 CBCSharpStyler::SlurpPPComment
 	(
 	JStyledText::TextRange* totalRange
 	)
 {
 	const JString& text = GetText();
-	const JString s(text.GetRawBytes(), JUtf8ByteRange(GetPPNameRange().byteRange.first, totalRange->byteRange.last), kJFalse);
+	const JString s(text.GetRawBytes(), JUtf8ByteRange(GetPPNameRange().byteRange.first, totalRange->byteRange.last), JString::kNoCopy);
 	if (!ppCommentPattern.Match(s))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	Token token;
@@ -259,7 +259,7 @@ CBCSharpStyler::SlurpPPComment
 			}
 		else if (token.type == kPPDirective)
 			{
-			const JString ppCmd(text.GetRawBytes(), GetPPNameRange().byteRange, kJFalse);
+			const JString ppCmd(text.GetRawBytes(), GetPPNameRange().byteRange, JString::kNoCopy);
 			if (ppIfPattern.Match(ppCmd))
 				{
 				nestCount++;
@@ -275,14 +275,14 @@ CBCSharpStyler::SlurpPPComment
 			else if (ppElsePattern.Match(ppCmd) && nestCount == 1)
 				{
 				JSize prevCharByteCount;
-				const JBoolean ok =
+				const bool ok =
 					JUtf8Character::GetPrevCharacterByteCount(
 						text.GetRawBytes() + token.range.byteRange.first-2,
 						&prevCharByteCount);
 				assert( ok );
 
 				Undo(token.range, prevCharByteCount,
-					 JString(text.GetRawBytes(), token.range.byteRange, kJFalse));	// rescan
+					 JString(text.GetRawBytes(), token.range.byteRange, JString::kNoCopy));	// rescan
 				token.range.charRange.SetToEmptyAt(token.range.charRange.first);
 				token.range.byteRange.SetToEmptyAt(token.range.byteRange.first);
 				break;
@@ -292,7 +292,7 @@ CBCSharpStyler::SlurpPPComment
 
 	totalRange->charRange.last = token.range.charRange.last;
 	totalRange->byteRange.last = token.range.byteRange.last;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

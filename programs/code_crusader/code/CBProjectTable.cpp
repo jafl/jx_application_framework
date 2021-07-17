@@ -103,11 +103,11 @@ CBProjectTable::CBProjectTable
 	itsDNDAction = kDNDInvalid;
 	itsDNDBuffer = nullptr;
 
-	itsIgnoreSelChangesFlag = kJFalse;
-	SetSelectionBehavior(kJTrue, kJTrue);
+	itsIgnoreSelChangesFlag = false;
+	SetSelectionBehavior(true, true);
 	ListenTo(&(GetTableSelection()));
 
-	itsLockedSelDepthFlag = kJFalse;
+	itsLockedSelDepthFlag = false;
 
 	itsEditMenu = GetEditMenuHandler()->AppendEditMenu(menuBar);
 	ListenTo(itsEditMenu);
@@ -116,10 +116,10 @@ CBProjectTable::CBProjectTable
 	itsAddFilesFilterDialog = nullptr;
 
 	itsMarkWritableFlag =
-		JI2B(getenv("CVSREAD") != nullptr &&
-			 JGetVCSType(doc->GetFilePath()) == kJCVSType);
+		getenv("CVSREAD") != nullptr &&
+			 JGetVCSType(doc->GetFilePath()) == kJCVSType;
 
-	WantInput(kJTrue, kJFalse, kJTrue);
+	WantInput(true, false, true);
 }
 
 /******************************************************************************
@@ -170,7 +170,7 @@ CBProjectTable::GetProjectNode
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectTable::NewGroup
 	(
 	CBGroupNode** returnNode
@@ -182,12 +182,12 @@ CBProjectTable::NewGroup
 			{
 			*returnNode = nullptr;
 			}
-		return kJFalse;
+		return false;
 		}
 
 	CBProjectTree* tree = itsDoc->GetFileTree();
 
-	CBGroupNode* newNode = jnew CBGroupNode(tree, kJFalse);
+	CBGroupNode* newNode = jnew CBGroupNode(tree, false);
 	assert( newNode != nullptr );
 
 	if (returnNode != nullptr)
@@ -212,10 +212,10 @@ CBProjectTable::NewGroup
 		}
 
 	JIndex index;
-	const JBoolean found = GetTreeList()->FindNode(newNode, &index);
+	const bool found = GetTreeList()->FindNode(newNode, &index);
 	assert( found );
 	BeginEditing(JPoint(GetNodeColIndex(), index));
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -275,7 +275,7 @@ CBProjectTable::AddDirectoryTree
 	JStripTrailingDirSeparator(&f);
 	JSplitPathAndName(f, &p, &n);
 
-	JBoolean changed = kJFalse;
+	bool changed = false;
 	AddDirectoryTree(fullPath, n, filterStr, pathType, &changed);
 
 	if (changed)
@@ -291,7 +291,7 @@ CBProjectTable::AddDirectoryTree
 	const JString&					relPath,
 	const JString&					filterStr,
 	const CBRelPathCSF::PathType	pathType,
-	JBoolean*						changed
+	bool*						changed
 	)
 {
 	JDirInfo* info;
@@ -317,7 +317,7 @@ CBProjectTable::AddDirectoryTree
 		if (!fullNameList.IsEmpty())
 			{
 			CBGroupNode* node;
-			JBoolean ok = NewGroup(&node);
+			bool ok = NewGroup(&node);
 			assert( ok );
 			ok = EndEditing();
 			assert( ok );
@@ -327,7 +327,7 @@ CBProjectTable::AddDirectoryTree
 			list.Append(node);
 			SelectNodes(list);
 
-			AddFiles(fullNameList, pathType, kJFalse, kJTrue);
+			AddFiles(fullNameList, pathType, false, true);
 			fullNameList.DeleteAll();
 
 			if (node->GetChildCount() == 0)
@@ -336,7 +336,7 @@ CBProjectTable::AddDirectoryTree
 				}
 			else
 				{
-				*changed = kJTrue;
+				*changed = true;
 				}
 			}
 
@@ -376,18 +376,18 @@ CBProjectTable::AddFiles()
 		}
 }
 
-JBoolean
+bool
 CBProjectTable::AddFiles
 	(
 	const JPtrArray<JString>&		fullNameList,
 	const CBRelPathCSF::PathType	pathType,
-	const JBoolean					updateProject,
-	const JBoolean					silent
+	const bool					updateProject,
+	const bool					silent
 	)
 {
 	if (fullNameList.IsEmpty())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JXGetApplication()->DisplayBusyCursor();
@@ -397,7 +397,7 @@ CBProjectTable::AddFiles
 	JTableSelection& s  = GetTableSelection();
 
 	CBProjectNode* parent = nullptr;
-	JBoolean parentIsNew  = kJFalse;
+	bool parentIsNew  = false;
 	JIndex childIndex     = 0;
 	JPoint cell;
 	if (s.GetLastSelectedCell(&cell))
@@ -421,7 +421,7 @@ CBProjectTable::AddFiles
 	else
 		{
 		parent      = jnew CBGroupNode(tree);
-		parentIsNew = kJTrue;
+		parentIsNew = true;
 		}
 	assert( parent != nullptr );
 	treeList->Open(parent);
@@ -433,7 +433,7 @@ CBProjectTable::AddFiles
 	const JSize count = fullNameList.GetElementCount();
 
 	JLatentPG pg(10);
-	pg.FixedLengthProcessBeginning(count, JGetString("ParsingFilesProgress::CBProjectDocument"), kJTrue, kJFalse);
+	pg.FixedLengthProcessBeginning(count, JGetString("ParsingFilesProgress::CBProjectDocument"), true, false);
 
 	for (JIndex i=1; i<=count; i++)
 		{
@@ -480,14 +480,14 @@ CBProjectTable::AddFiles
 	if (firstNew != nullptr)
 		{
 		JIndex index;
-		const JBoolean ok = treeList->FindNode(firstNew, &index);
+		const bool ok = treeList->FindNode(firstNew, &index);
 		assert( ok );
 		SelectSingleCell(JPoint(GetNodeColIndex(), index));
 		}
 	if (lastNew != nullptr)
 		{
 		JIndex index;
-		const JBoolean ok = treeList->FindNode(lastNew, &index);
+		const bool ok = treeList->FindNode(lastNew, &index);
 		assert( ok );
 		s.ExtendSelection(JPoint(GetNodeColIndex(), index));
 		}
@@ -521,7 +521,7 @@ CBProjectTable::AddFiles
 		itsDoc->DelayUpdateSymbolDatabase();
 		}
 
-	return JI2B(firstNew != nullptr);
+	return firstNew != nullptr;
 }
 
 /******************************************************************************
@@ -544,7 +544,7 @@ CBProjectTable::GetDepth
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectTable::HasSelection()
 	const
 {
@@ -558,11 +558,11 @@ CBProjectTable::HasSelection()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectTable::GetSelectionType
 	(
 	SelType*	type,
-	JBoolean*	single,
+	bool*	single,
 	JIndex*		index
 	)
 	const
@@ -580,16 +580,16 @@ CBProjectTable::GetSelectionType
 			*type = kGroupSelection;
 			}
 
-		*single = JI2B(s.GetLastSelectedCell(&cell2) && cell1.y == cell2.y);
+		*single = s.GetLastSelectedCell(&cell2) && cell1.y == cell2.y;
 		*index  = cell1.y;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*type   = kNoSelection;
-		*single = kJFalse;
+		*single = false;
 		*index  = 0;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -651,7 +651,7 @@ CBProjectTable::SelectFileNodes
 		treeList->Open(node->GetParent());
 
 		JIndex rowIndex;
-		const JBoolean found = treeList->FindNode(node, &rowIndex);
+		const bool found = treeList->FindNode(node, &rowIndex);
 		assert( found );
 
 		s.SelectCell(JPoint(colIndex, rowIndex));
@@ -730,7 +730,7 @@ CBProjectTable::RemoveSelection()
 		JTableSelectionIterator iter(&(GetTableSelection()));
 		JTreeList* treeList = GetTreeList();
 
-		itsLockedSelDepthFlag = kJTrue;
+		itsLockedSelDepthFlag = true;
 
 		JPoint cell;
 		while (iter.Next(&cell))
@@ -738,7 +738,7 @@ CBProjectTable::RemoveSelection()
 			jdelete treeList->GetNode(cell.y);
 			}
 
-		itsLockedSelDepthFlag = kJFalse;
+		itsLockedSelDepthFlag = false;
 
 		itsDoc->DelayUpdateSymbolDatabase();
 		}
@@ -758,7 +758,7 @@ CBProjectTable::PlainDiffSelection()
 		}
 
 	const JTableSelection& s = GetTableSelection();
-	const JBoolean silent    = JI2B(s.GetSelectedCellCount() > 1);
+	const bool silent    = s.GetSelectedCellCount() > 1;
 
 	JTableSelectionIterator iter(&s);
 
@@ -785,7 +785,7 @@ CBProjectTable::VCSDiffSelection()
 		}
 
 	const JTableSelection& s = GetTableSelection();
-	const JBoolean silent    = JI2B(s.GetSelectedCellCount() > 1);
+	const bool silent    = s.GetSelectedCellCount() > 1;
 
 	JTableSelectionIterator iter(&s);
 
@@ -903,7 +903,7 @@ CBProjectTable::Receive
 	else if (sender == itsCSFButton && message.Is(JXButton::kPushed))
 		{
 		JXInputField* inputField;
-		JBoolean ok = GetXInputField(&inputField);
+		bool ok = GetXInputField(&inputField);
 		assert( ok );
 
 		JPoint cell;
@@ -945,12 +945,12 @@ CBProjectTable::Receive
 		else if (sender == GetTreeList()->GetTree() &&
 				 message.Is(JTree::kPrepareForNodeMove))
 			{
-			itsIgnoreSelChangesFlag = kJTrue;
+			itsIgnoreSelChangesFlag = true;
 			}
 		else if (sender == GetTreeList()->GetTree() &&
 				 message.Is(JTree::kNodeMoveFinished))
 			{
-			itsIgnoreSelChangesFlag = kJFalse;
+			itsIgnoreSelChangesFlag = false;
 			}
 
 		JXNamedTreeListWidget::Receive(sender, message);
@@ -972,7 +972,7 @@ CBProjectTable::AdjustToTree()
 		if (GetDepth(i) == kGroupDepth)
 			{
 			SetCellStyle(JPoint(colIndex, i),
-						 JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+						 JFontStyle(true, false, 0, false));
 			}
 		}
 
@@ -994,7 +994,7 @@ CBProjectTable::CleanSelection()
 		return;
 		}
 
-	itsIgnoreSelChangesFlag = kJTrue;
+	itsIgnoreSelChangesFlag = true;
 
 	UpdateSelDepth();
 
@@ -1004,14 +1004,14 @@ CBProjectTable::CleanSelection()
 	JPoint cell;
 	while (iter.Next(&cell))
 		{
-		if (!IsSelectable(cell, kJTrue))
+		if (!IsSelectable(cell, true))
 			{
-			s.SelectCell(cell, kJFalse);
+			s.SelectCell(cell, false);
 			}
 		}
 
 	ClearIncrementalSearchBuffer();
-	itsIgnoreSelChangesFlag = kJFalse;
+	itsIgnoreSelChangesFlag = false;
 }
 
 /******************************************************************************
@@ -1060,18 +1060,18 @@ CBProjectTable::UpdateSelDepth()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectTable::IsSelectable
 	(
 	const JPoint&	cell,
-	const JBoolean	forExtend
+	const bool	forExtend
 	)
 	const
 {
-	return JI2B(JIndex(cell.x) == GetNodeColIndex() &&
+	return JIndex(cell.x) == GetNodeColIndex() &&
 				(!forExtend ||
 				 itsSelDepth == kEitherDepth ||
-				 GetDepth(cell.y) == itsSelDepth) );
+				 GetDepth(cell.y) == itsSelDepth);
 }
 
 /******************************************************************************
@@ -1126,7 +1126,7 @@ CBProjectTable::Draw
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectTable::GetImage
 	(
 	const JIndex	index,
@@ -1145,29 +1145,29 @@ CBProjectTable::GetImage
 			{
 			*image = (node->IncludedInMakefile() ?
 					  CBGetWritableSourceFileIcon() : CBGetWritablePlainFileIcon());
-			return kJTrue;
+			return true;
 			}
 		}
 
 	if (node->GetType() == kCBLibraryNT)
 		{
 		*image = CBGetLibraryFileIcon();
-		return kJTrue;
+		return true;
 		}
 	else if (node->IncludedInMakefile())
 		{
 		*image = CBGetSourceFileIcon();
-		return kJTrue;
+		return true;
 		}
 	else if (node->GetType() == kCBFileNT)
 		{
 		*image = CBGetPlainFileIcon();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*image = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1218,7 +1218,7 @@ CBProjectTable::HandleMouseDown
 		itsDragType = kWaitForDNDDrag;
 		if (!(GetTableSelection()).IsSelected(cell))
 			{
-			SelectSingleCell(cell, kJFalse);
+			SelectSingleCell(cell, false);
 			}
 		}
 	else if (button == kJXLeftButton && clickCount == 2 && modifiers.meta())
@@ -1231,7 +1231,7 @@ CBProjectTable::HandleMouseDown
 		}
 	else if (button == kJXMiddleButton && clickCount == 1)
 		{
-		SelectSingleCell(cell, kJFalse);
+		SelectSingleCell(cell, false);
 		}
 	else if (button == kJXMiddleButton && clickCount == 2)
 		{
@@ -1241,7 +1241,7 @@ CBProjectTable::HandleMouseDown
 		{
 		if (!(GetTableSelection()).IsSelected(cell))
 			{
-			SelectSingleCell(cell, kJFalse);
+			SelectSingleCell(cell, false);
 			}
 		CreateContextMenu();
 		itsContextMenu->PopUp(this, pt, buttonStates, modifiers);
@@ -1285,7 +1285,7 @@ CBProjectTable::HandleMouseDrag
 		ScrollForDrag(pt);
 
 		JPoint cell;
-		const JBoolean ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
+		const bool ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
 		assert( ok );
 
 		cell.x = GetNodeColIndex();
@@ -1314,9 +1314,9 @@ CBProjectTable::HandleMouseUp
 	else if (itsDragType == kWaitForDNDDrag)
 		{
 		JPoint cell;
-		const JBoolean ok = GetCell(itsStartPt, &cell);
+		const bool ok = GetCell(itsStartPt, &cell);
 		assert( ok );
-		SelectSingleCell(cell, kJFalse);
+		SelectSingleCell(cell, false);
 		}
 	else if (IsDraggingSelection())
 		{
@@ -1379,7 +1379,7 @@ CBProjectTable::HandleKeyPress
 
 	else if ((c == kJUpArrow || c == kJDownArrow) && !IsEditing())
 		{
-		const JBoolean hasSelection = HasSelection();
+		const bool hasSelection = HasSelection();
 		if (!hasSelection && c == kJUpArrow && GetRowCount() > 0)
 			{
 			SelectSingleCell(JPoint(GetNodeColIndex(), GetRowCount()));
@@ -1542,7 +1542,7 @@ void
 CBProjectTable::HandleDNDResponse
 	(
 	const JXContainer*	target,
-	const JBoolean		dropAccepted,
+	const bool		dropAccepted,
 	const Atom			action
 	)
 {
@@ -1563,7 +1563,7 @@ CBProjectTable::HandleDNDResponse
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectTable::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
@@ -1575,7 +1575,7 @@ CBProjectTable::WillAcceptDrop
 {
 	if (source == this)
 		{
-		return kJTrue;
+		return true;
 		}
 
 	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
@@ -1587,11 +1587,11 @@ CBProjectTable::WillAcceptDrop
 		if (a == urlXAtom)
 			{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1630,7 +1630,7 @@ CBProjectTable::HandleDNDHere
 	const JIndex colIndex = GetNodeColIndex();
 
 	JPoint cell;
-	const JBoolean inCell = GetCell(pt, &cell);
+	const bool inCell = GetCell(pt, &cell);
 	cell.x = colIndex;
 
 	if (depth == kFileDepth && inCell && GetDepth(cell.y) == kFileDepth)
@@ -1676,7 +1676,7 @@ CBProjectTable::HandleDNDHere
 
 	else if (depth == kGroupDepth && inCell)
 		{
-		JBoolean found;
+		bool found;
 
 		JTreeList* list = GetTreeList();
 		JTreeNode* node = list->GetNode(cell.y);
@@ -1980,7 +1980,7 @@ CBProjectTable::InsertExtDroppedFiles
 	if (itsDNDAction == kDNDFileBombsight ||
 		itsDNDAction == kDNDAppendToGroup)
 		{
-		SelectSingleCell(itsDNDCell, kJFalse);
+		SelectSingleCell(itsDNDCell, false);
 		}
 	else
 		{
@@ -1989,7 +1989,7 @@ CBProjectTable::InsertExtDroppedFiles
 
 	const DNDAction saveAction = itsDNDAction;
 	itsDNDAction               = kDNDInvalid;	// pg in AddFiles() can call Draw()
-	const JBoolean added       = AddFiles(fileNameList, pathType);
+	const bool added       = AddFiles(fileNameList, pathType);
 	itsDNDAction               = saveAction;
 
 	// if insert before first in group, it actually appends
@@ -2010,7 +2010,7 @@ CBProjectTable::InsertExtDroppedFiles
 void
 CBProjectTable::UpdateEditMenu()
 {
-JBoolean ok;
+bool ok;
 JIndex index;
 
 	if (!HasFocus())
@@ -2137,9 +2137,9 @@ void
 CBProjectTable::UpdateContextMenu()
 {
 	SelType selType;
-	JBoolean single;
+	bool single;
 	JIndex index;
-	const JBoolean hasSelection = GetSelectionType(&selType, &single, &index);
+	const bool hasSelection = GetSelectionType(&selType, &single, &index);
 	if (hasSelection && selType == kFileSelection)
 		{
 		itsContextMenu->SetItemText(kOpenFilesCmd, JGetString("OpenFilesItemText::CBProjectDocument"));
@@ -2149,7 +2149,7 @@ CBProjectTable::UpdateContextMenu()
 		itsContextMenu->EnableItem(kOpenComplFilesCmd);
 		itsContextMenu->SetItemEnable(kEditPathCmd, single);
 		itsContextMenu->SetItemEnable(kEditSubprojConfigCmd,
-			JI2B(single && (GetProjectNode(index))->GetType() == kCBLibraryNT));
+			single && (GetProjectNode(index))->GetType() == kCBLibraryNT);
 		itsContextMenu->EnableItem(kDiffSmartCmd);
 		itsContextMenu->EnableItem(kDiffVCSCmd);
 		itsContextMenu->EnableItem(kShowLocationCmd);
@@ -2281,7 +2281,7 @@ CBProjectTable::CreateXInputField
 		inputField->GetText()->SetText(node->GetFileName());
 
 		JRect r;
-		JBoolean ok = GetImageRect(cell.y, &r);
+		bool ok = GetImageRect(cell.y, &r);
 		assert( ok );
 		r.Expand(kJXDefaultBorderWidth, kJXDefaultBorderWidth);
 		itsCSFButton = jnew JXImageButton(this, kFixedLeft, kFixedTop,
@@ -2291,7 +2291,7 @@ CBProjectTable::CreateXInputField
 		const JXImage* image;
 		ok = GetImage(cell.y, &image);
 		assert( ok );
-		itsCSFButton->SetImage(const_cast<JXImage*>(image), kJFalse);
+		itsCSFButton->SetImage(const_cast<JXImage*>(image), false);
 
 		itsCSFButton->SetHint(JGetString("CSFButtonHint::CBProjectTable"));
 		ListenTo(itsCSFButton);
@@ -2338,21 +2338,21 @@ CBProjectTable::CreateTreeListInput
 	Derived class must override to extract the information from its active
 	input field, check it, and delete the input field if successful.
 
-	Should return kJTrue if the data is valid and the process succeeded.
+	Should return true if the data is valid and the process succeeded.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectTable::ExtractInputData
 	(
 	const JPoint& cell
 	)
 {
-	JBoolean ok = kJFalse;
+	bool ok = false;
 	if (GetDepth(cell.y) == kFileDepth)
 		{
 		JXInputField* inputField;
-		const JBoolean ok1 = GetXInputField(&inputField);
+		const bool ok1 = GetXInputField(&inputField);
 		assert( ok1 );
 
 		if (inputField->InputValid())
@@ -2364,17 +2364,17 @@ CBProjectTable::ExtractInputData
 			const JString origName = node->GetFileName();
 
 			JString origFullName, newFullName;
-			const JBoolean existed = node->GetFullName(&origFullName);
+			const bool existed = node->GetFullName(&origFullName);
 
 			node->SetFileName(inputField->GetText()->GetText());
 
-			const JBoolean exists = node->GetFullName(&newFullName);
+			const bool exists = node->GetFullName(&newFullName);
 
-			JBoolean success = kJTrue;
+			bool success = true;
 			if (itsInputAction == kRename && existed && !newFullName.IsEmpty() &&
 				!JSameDirEntry(origFullName, newFullName))
 				{
-				JBoolean replace = kJTrue;
+				bool replace = true;
 				if (exists)
 					{
 					const JUtf8Byte* map[] =
@@ -2404,12 +2404,12 @@ CBProjectTable::ExtractInputData
 					else
 						{
 						err.ReportIfError();
-						success = kJFalse;
+						success = false;
 						}
 					}
 				else
 					{
-					success = kJFalse;
+					success = false;
 					}
 				}
 
@@ -2427,7 +2427,7 @@ CBProjectTable::ExtractInputData
 				node->SetFileName(origName);
 				}
 
-			ok = kJTrue;
+			ok = true;
 			}
 		}
 	else
@@ -2437,7 +2437,7 @@ CBProjectTable::ExtractInputData
 
 	if (ok)
 		{
-		SelectSingleCell(cell, kJFalse);
+		SelectSingleCell(cell, false);
 		}
 	return ok;
 }
@@ -2470,7 +2470,7 @@ CBProjectTable::ReadSetup
 	const JFileVersion	setVers
 	)
 {
-	const JBoolean useProjData = JI2B( setInput == nullptr || setVers < 71 );
+	const bool useProjData = setInput == nullptr || setVers < 71;
 	if (!useProjData)
 		{
 		JNamedTreeList* treeList = GetNamedTreeList();
@@ -2478,7 +2478,7 @@ CBProjectTable::ReadSetup
 		JString groupName;
 		while (1)
 			{
-			JBoolean keepGoing;
+			bool keepGoing;
 			*setInput >> JBoolFromString(keepGoing);
 			if (setInput->fail() || !keepGoing)
 				{
@@ -2507,7 +2507,7 @@ CBProjectTable::ReadSetup
 		JTreeList* treeList = GetTreeList();
 		for (JIndex i=groupCount; i>=1; i--)
 			{
-			JBoolean isOpen;
+			bool isOpen;
 			projInput >> JBoolFromString(isOpen);
 			if (useProjData && isOpen && treeList->IndexValid(i))
 				{
@@ -2553,12 +2553,12 @@ CBProjectTable::WriteSetup
 
 			if (treeList->IsOpen(child))
 				{
-				*setOutput << ' ' << JBoolToString(kJTrue);
+				*setOutput << ' ' << JBoolToString(true);
 				*setOutput << ' ' << child->GetName();
 				}
 			}
 
-		*setOutput << ' ' << JBoolToString(kJFalse) << ' ';
+		*setOutput << ' ' << JBoolToString(false) << ' ';
 		WriteScrollSetup(*setOutput);
 
 		*setOutput << ' ';

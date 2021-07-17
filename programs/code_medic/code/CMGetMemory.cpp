@@ -21,7 +21,7 @@ CMGetMemory::CMGetMemory
 	CMMemoryDir* dir
 	)
 	:
-	CMCommand("", kJFalse, kJTrue),
+	CMCommand("", false, true),
 	itsDir(dir)
 {
 }

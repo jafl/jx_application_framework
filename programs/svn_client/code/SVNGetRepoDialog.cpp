@@ -33,10 +33,10 @@ SVNGetRepoDialog::SVNGetRepoDialog
 	const JString&	windowTitle
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue),
+	JXDialogDirector(supervisor, true),
 	JPrefObject(SVNGetPrefsManager(), kSVNGetRepoDialogID)
 {
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	BuildWindow(windowTitle);
 
 	JPrefObject::ReadPrefs();

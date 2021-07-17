@@ -49,8 +49,8 @@ private:
 	GLHistoryDir*	itsSessionDir;
 	JProcess*			itsCursorProcess;
 	ProcessLink*		itsLink;
-	JBoolean			itsIsProcessingCursor;
-	JBoolean			itsCursorFirstPass;
+	bool			itsIsProcessingCursor;
+	bool			itsCursorFirstPass;
 	
 	
 private:

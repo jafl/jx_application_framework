@@ -141,9 +141,9 @@ CMMemoryDir::CMMemoryDirX
 	ListenTo(itsLink);
 
 	itsCommandDir           = supervisor;
-	itsShouldUpdateFlag     = kJFalse;		// window is always initially hidden
+	itsShouldUpdateFlag     = false;		// window is always initially hidden
 	itsNeedsUpdateFlag      = !itsExpr.IsEmpty();
-	itsWaitingForReloadFlag = kJFalse;
+	itsWaitingForReloadFlag = false;
 
 	BuildWindow();
 
@@ -188,7 +188,7 @@ void
 CMMemoryDir::Activate()
 {
 	JXWindowDirector::Activate();
-	itsShouldUpdateFlag = kJTrue;
+	itsShouldUpdateFlag = true;
 	Update();
 }
 
@@ -197,10 +197,10 @@ CMMemoryDir::Activate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMMemoryDir::Deactivate()
 {
-	itsShouldUpdateFlag = kJFalse;
+	itsShouldUpdateFlag = false;
 	return JXWindowDirector::Deactivate();
 }
 
@@ -263,7 +263,7 @@ CMMemoryDir::BuildWindow()
 // end JXLayout
 
 	window->SetMinSize(300, 200);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetMemoryWindowClass());
 
 	UpdateWindowTitle();
@@ -273,10 +273,10 @@ CMMemoryDir::BuildWindow()
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
-	CMGetPrefsManager()->GetWindowSize(kMemoryWindSizeID, window, kJTrue);
+	CMGetPrefsManager()->GetWindowSize(kMemoryWindSizeID, window, true);
 
 	itsWidget =
-		jnew JXStaticText(JString::empty, kJFalse, kJTrue, kJTrue,
+		jnew JXStaticText(JString::empty, false, true, true,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert(itsWidget != nullptr);
@@ -293,7 +293,7 @@ CMMemoryDir::BuildWindow()
 
 	itsDisplayTypeMenu->SetMenuItems(kDisplayTypeMenuStr);
 	itsDisplayTypeMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsDisplayTypeMenu->SetToPopupChoice(kJTrue, itsDisplayType);
+	itsDisplayTypeMenu->SetToPopupChoice(true, itsDisplayType);
 	ListenTo(itsDisplayTypeMenu);
 
 	itsItemCountInput->SetLowerLimit(1);
@@ -353,7 +353,7 @@ CMMemoryDir::UpdateWindowTitle()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMMemoryDir::GetMenuIcon
 	(
 	const JXImage** icon
@@ -361,7 +361,7 @@ CMMemoryDir::GetMenuIcon
 	const
 {
 	*icon = CMGetMemoryIcon();
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -384,7 +384,7 @@ CMMemoryDir::Receive
 			{
 			itsExpr = itsExprInput->GetText()->GetText();
 			UpdateWindowTitle();
-			itsNeedsUpdateFlag = kJTrue;
+			itsNeedsUpdateFlag = true;
 			Update();
 			}
 		}
@@ -408,7 +408,7 @@ CMMemoryDir::Receive
 				itsItemCount = value;
 				}
 
-			itsNeedsUpdateFlag = kJTrue;
+			itsNeedsUpdateFlag = true;
 			Update();
 			}
 		}
@@ -420,14 +420,14 @@ CMMemoryDir::Receive
 		if (itsItemCountInput->GetValue(&value) && JSize(value) != itsItemCount)
 			{
 			itsItemCount       = value;
-			itsNeedsUpdateFlag = kJTrue;
+			itsNeedsUpdateFlag = true;
 			Update();
 			}
 		}
 
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerRestarted))
 		{
-		itsWaitingForReloadFlag = kJTrue;
+		itsWaitingForReloadFlag = true;
 		}
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerStarted))
 		{
@@ -435,7 +435,7 @@ CMMemoryDir::Receive
 			{
 			JXCloseDirectorTask::Close(this);	// close after bcast is finished
 			}
-		itsWaitingForReloadFlag = kJFalse;
+		itsWaitingForReloadFlag = false;
 		}
 	else if (sender == itsLink &&
 			 (message.Is(CMLink::kProgramFinished) ||
@@ -446,7 +446,7 @@ CMMemoryDir::Receive
 		}
 	else if (sender == itsLink && CMVarNode::ShouldUpdate(message))
 		{
-		itsNeedsUpdateFlag = kJTrue;
+		itsNeedsUpdateFlag = true;
 		Update();
 		}
 
@@ -556,7 +556,7 @@ CMMemoryDir::Update()
 {
 	if (itsShouldUpdateFlag && itsNeedsUpdateFlag)
 		{
-		itsNeedsUpdateFlag = kJFalse;
+		itsNeedsUpdateFlag = false;
 
 		if (itsCmd != nullptr)
 			{

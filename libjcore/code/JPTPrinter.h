@@ -38,14 +38,14 @@ public:
 	JIndex	GetLastPageToPrint() const;
 	void	SetLastPageToPrint(const JIndex index);
 
-	JBoolean	WillPrintAllPages() const;
+	bool	WillPrintAllPages() const;
 	void		PrintAllPages();
 
-	JBoolean	WillPrintReverseOrder() const;
-	void		ShouldPrintReverseOrder(const JBoolean reverse);
+	bool	WillPrintReverseOrder() const;
+	void		ShouldPrintReverseOrder(const bool reverse);
 
-	JBoolean	WillPrintLineNumbers() const;
-	void		ShouldPrintLineNumbers(const JBoolean print);
+	bool	WillPrintLineNumbers() const;
+	void		ShouldPrintLineNumbers(const bool print);
 
 	// page info
 
@@ -60,7 +60,7 @@ public:
 
 protected:
 
-	JBoolean	Print(const JString& text, std::ostream& output);
+	bool	Print(const JString& text, std::ostream& output);
 
 	virtual JSize	GetHeaderLineCount() const;
 	virtual JSize	GetFooterLineCount() const;
@@ -75,8 +75,8 @@ private:
 	JSize		itsPageWidth;			// characters
 	JSize		itsPageHeight;			// lines
 	JSize		itsTabWidth;			// characters
-	JBoolean	itsPrintReverseOrderFlag;
-	JBoolean	itsPrintLineNumberFlag;
+	bool	itsPrintReverseOrderFlag;
+	bool	itsPrintLineNumberFlag;
 
 private:
 
@@ -147,11 +147,11 @@ JPTPrinter::SetLastPageToPrint
 	itsLastPageIndex = index;
 }
 
-inline JBoolean
+inline bool
 JPTPrinter::WillPrintAllPages()
 	const
 {
-	return JConvertToBoolean( itsFirstPageIndex == 0 && itsLastPageIndex == 0 );
+	return itsFirstPageIndex == 0 && itsLastPageIndex == 0;
 }
 
 inline void
@@ -165,7 +165,7 @@ JPTPrinter::PrintAllPages()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JPTPrinter::WillPrintReverseOrder()
 	const
 {
@@ -175,7 +175,7 @@ JPTPrinter::WillPrintReverseOrder()
 inline void
 JPTPrinter::ShouldPrintReverseOrder
 	(
-	const JBoolean reverse
+	const bool reverse
 	)
 {
 	itsPrintReverseOrderFlag = reverse;
@@ -186,7 +186,7 @@ JPTPrinter::ShouldPrintReverseOrder
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JPTPrinter::WillPrintLineNumbers()
 	const
 {
@@ -196,7 +196,7 @@ JPTPrinter::WillPrintLineNumbers()
 inline void
 JPTPrinter::ShouldPrintLineNumbers
 	(
-	const JBoolean print
+	const bool print
 	)
 {
 	itsPrintLineNumberFlag = print;

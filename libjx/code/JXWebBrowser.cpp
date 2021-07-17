@@ -36,7 +36,7 @@ JXWebBrowser::JXWebBrowser()
 					   JXSharedPrefsManager::kLatestWebBrowserVersionID,
 					   kVersList, kVersCount),
 	itsPrefsDialog(nullptr),
-	itsSaveChangesFlag(kJTrue)
+	itsSaveChangesFlag(true)
 {
 	JXSharedPrefObject::ReadPrefs();
 }
@@ -106,12 +106,12 @@ JXWebBrowser::Receive
 			itsPrefsDialog->GetPrefs(&showURLCmd, &showFileContentCmd,
 									 &showFileLocationCmd, &composeMailCmd);
 
-			itsSaveChangesFlag = kJFalse;
+			itsSaveChangesFlag = false;
 			SetShowURLCmd(showURLCmd);
 			SetShowFileContentCmd(showFileContentCmd);
 			SetShowFileLocationCmd(showFileLocationCmd);
 			SetComposeMailCmd(composeMailCmd);
-			itsSaveChangesFlag = kJTrue;
+			itsSaveChangesFlag = true;
 
 			SaveCommands();
 			}

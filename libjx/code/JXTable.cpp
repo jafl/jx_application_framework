@@ -68,18 +68,18 @@ JXTable::Draw
 	const JRect&		rect
 	)
 {
-	TableDraw(p, rect, kJTrue);
+	TableDraw(p, rect, true);
 }
 
 /******************************************************************************
  HitSamePart (virtual protected)
 
-	This default implementation returns kJTrue if the two points are
+	This default implementation returns true if the two points are
 	in the same cell.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTable::HitSamePart
 	(
 	const JPoint& pt1,
@@ -88,9 +88,9 @@ JXTable::HitSamePart
 	const
 {
 	JPoint cell1, cell2;
-	return JConvertToBoolean( GetCell(pt1, &cell1) &&
+	return GetCell(pt1, &cell1) &&
 							  GetCell(pt2, &cell2) &&
-							  cell1 == cell2 );
+							  cell1 == cell2;
 }
 
 /******************************************************************************
@@ -263,16 +263,16 @@ JXTable::TableColMoved
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTable::TableScrollToCellRect
 	(
 	const JRect&	cellRect,
-	const JBoolean	centerInDisplay
+	const bool	centerInDisplay
 	)
 {
 	if (centerInDisplay)
 		{
-		return ScrollToRectCentered(cellRect, kJFalse);
+		return ScrollToRectCentered(cellRect, false);
 		}
 	else
 		{
@@ -310,11 +310,11 @@ JXTable::BeginSelectionDrag
 {
 	if (button != kJXMiddleButton)
 		{
-		const JBoolean extendSelection =
-			JI2B((button == kJXLeftButton && modifiers.shift()) ||
-				 button == kJXRightButton);
+		const bool extendSelection =
+			(button == kJXLeftButton && modifiers.shift()) ||
+				 button == kJXRightButton;
 
-		const JBoolean selectDiscont =
+		const bool selectDiscont =
 //			GetDisplay()->IsOSX() ? modifiers.meta() :	// meta-dbl-click used in too many places
 			modifiers.control();
 
@@ -341,7 +341,7 @@ JXTable::ContinueSelectionDrag
 		ScrollForDrag(pt);
 
 		JPoint cell;
-		const JBoolean ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
+		const bool ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
 		assert( ok );
 
 		JTable::ContinueSelectionDrag(cell);
@@ -355,7 +355,7 @@ JXTable::ContinueSelectionDrag
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXTable::HandleSelectionKeyPress
 	(
 	const JUtf8Character&	c,

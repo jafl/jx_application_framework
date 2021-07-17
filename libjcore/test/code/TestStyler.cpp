@@ -52,7 +52,7 @@ TestStyler::Scan
 	JString token;
 	while (1)
 		{
-		JBoolean foundWS;
+		bool foundWS;
 		token  = JReadUntilws(input, &foundWS);
 		r.last = r.first + token.GetCharacterCount() - 1;
 
@@ -63,12 +63,12 @@ TestStyler::Scan
 			}
 		else if (token == "nø")
 			{
-			style.bold = kJTrue;
+			style.bold = true;
 			style.color = JColorManager::GetRedColor();
 			}
 		else if (token == "zäp")
 			{
-			style.strike = kJTrue;
+			style.strike = true;
 			}
 
 		if (!SetStyle(r, style) || !foundWS)

@@ -42,7 +42,7 @@ public:
 private:
 
 	JXWindow*				itsWindow;
-	JBoolean				itsActiveFlag;
+	bool				itsActiveFlag;
 	JArray<JCursorIndex>*	itsFrames;
 	JIndex					itsFrameCounter;
 	Time					itsLastUpdateTime;
@@ -66,7 +66,7 @@ private:
 inline void
 JXCursorAnimator::Activate()
 {
-	itsActiveFlag = kJTrue;
+	itsActiveFlag = true;
 }
 
 /******************************************************************************
@@ -77,7 +77,7 @@ JXCursorAnimator::Activate()
 inline void
 JXCursorAnimator::Deactivate()
 {
-	itsActiveFlag = kJFalse;
+	itsActiveFlag = false;
 }
 
 /******************************************************************************

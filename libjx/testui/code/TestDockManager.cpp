@@ -41,12 +41,12 @@ TestDockManager::~TestDockManager()
 /******************************************************************************
  CanDockAll (virtual)
 
-	Derived class should override this to return kJTrue if it implements
+	Derived class should override this to return true if it implements
 	DockAll().
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestDockManager::CanDockAll()
 	const
 {
@@ -69,10 +69,10 @@ TestDockManager::DockAll()
 		return;
 		}
 
-	JXDockDirector* dir = CreateDock(kJTrue);
+	JXDockDirector* dir = CreateDock(true);
 
 	JXHorizDockPartition* h;
-	JBoolean ok = dir->GetHorizPartition(&h);
+	bool ok = dir->GetHorizPartition(&h);
 	assert( ok );
 
 	JXVertDockPartition* v1;

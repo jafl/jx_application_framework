@@ -46,7 +46,7 @@ SyGHeaderWidget::SyGHeaderWidget
 	SetRowBorderInfo(0, mgr->GetBlackColor());
 	SetColBorderInfo(0, mgr->GetBlackColor());
 
-	WantInput(kJFalse,kJFalse);	// we don't want focus
+	WantInput(false,false);	// we don't want focus
 	SetBackColor(mgr->GetWhiteColor());
 }
 

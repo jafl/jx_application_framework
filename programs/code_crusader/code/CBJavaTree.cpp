@@ -118,7 +118,7 @@ CBJavaTree::StreamInJavaClass
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBJavaTree::UpdateFinished
 	(
 	const JArray<JFAID_t>& deadFileList

@@ -25,29 +25,29 @@ public:
 	virtual ~JMMTable();
 
 	void AddNewRecord(const JMMRecord& record,
-					  const JBoolean checkDoubleAllocation);
+					  const bool checkDoubleAllocation);
 
-	JBoolean SetRecordDeleted(JMMRecord* record, const void* block,
+	bool SetRecordDeleted(JMMRecord* record, const void* block,
 							  const JUtf8Byte* file, const JUInt32 line,
-							  const JBoolean isArray);
+							  const bool isArray);
 
 	virtual JSize GetAllocatedCount() const = 0;
 	virtual JSize GetAllocatedBytes() const = 0;
 	virtual JSize GetDeletedCount() const = 0;
 	virtual JSize GetTotalCount() const = 0;
 
-	virtual void PrintAllocated(const JBoolean printInternal = kJFalse) const = 0;
+	virtual void PrintAllocated(const bool printInternal = false) const = 0;
 	virtual void StreamAllocatedForDebug(std::ostream& output, const JMemoryManager::RecordFilter& filter) const = 0;
 	virtual void StreamAllocationSizeHistogram(std::ostream& output) const = 0;
 
 protected:
 
 	virtual void _AddNewRecord(const JMMRecord& record,
-									   const JBoolean checkDoubleAllocation) = 0;
+									   const bool checkDoubleAllocation) = 0;
 
-	virtual JBoolean _SetRecordDeleted(JMMRecord* record, const void* block,
+	virtual bool _SetRecordDeleted(JMMRecord* record, const void* block,
 									   const JUtf8Byte* file, const JUInt32 line,
-									   const JBoolean isArray) = 0;
+									   const bool isArray) = 0;
 
 	void BeginRecursiveBlock();
 	void EndRecursiveBlock();
@@ -58,9 +58,9 @@ protected:
 	void NotifyArrayDeletedAsObject(const JMMRecord& record);
 
 	void NotifyUnallocatedDeletion(const JUtf8Byte* file, const JUInt32 line,
-								   const JBoolean isArray);
+								   const bool isArray);
 	void NotifyMultipleDeletion(const JMMRecord& firstRecord, const JUtf8Byte* file,
-								const JUInt32 line, const JBoolean isArray);
+								const JUInt32 line, const bool isArray);
 
 	void NotifyMultipleAllocation(const JMMRecord& thisRecord,
 								  const JMMRecord& firstRecord);

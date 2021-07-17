@@ -72,7 +72,7 @@ JMaxFunc::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JMaxFunc::Evaluate
 	(
 	JFloat* result
@@ -83,7 +83,7 @@ JMaxFunc::Evaluate
 
 	if (GetArgCount() == 0 || !(GetArg(1))->Evaluate(result))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// find the maximum of all the arguments
@@ -94,17 +94,17 @@ JMaxFunc::Evaluate
 		JFloat argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
 			{
-			return kJFalse;
+			return false;
 			}
 		if (argValue > *result)
 			{
 			*result = argValue;
 			}
 		}
-	return kJTrue;
+	return true;
 }
 
-JBoolean
+bool
 JMaxFunc::Evaluate
 	(
 	JComplex* result
@@ -115,7 +115,7 @@ JMaxFunc::Evaluate
 
 	if (GetArgCount() == 0 || !(GetArg(1))->Evaluate(result))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// find the maximum real part of all the arguments
@@ -126,7 +126,7 @@ JMaxFunc::Evaluate
 		JComplex argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
 			{
-			return kJFalse;
+			return false;
 			}
 		if (real(argValue) > real(*result))
 			{
@@ -135,5 +135,5 @@ JMaxFunc::Evaluate
 		}
 
 	*result = real(*result);
-	return kJTrue;
+	return true;
 }

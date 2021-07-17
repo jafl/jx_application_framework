@@ -29,30 +29,30 @@ public:
 	virtual void	UpdateInfoMenu(JXTextMenu* menu) = 0;
 	virtual void	RefreshContent() = 0;
 	virtual void	GetSelectedFiles(JPtrArray<JString>* fullNameList,
-									 const JBoolean includeDeleted = kJFalse) = 0;
+									 const bool includeDeleted = false) = 0;
 	virtual void	GetSelectedFilesForDiff(JPtrArray<JString>* fullNameList,
 											JArray<JIndex>* revList);
 	virtual void	OpenFiles();
 	virtual void	ShowFiles();
 
-	virtual JBoolean	GetBaseRevision(JString* rev);
+	virtual bool	GetBaseRevision(JString* rev);
 	void				CompareEdited(const JString& rev);
 	void				CompareCurrent(const JString& rev = JString::empty);
 	void				ComparePrev(const JString& rev = JString::empty);
 
-	virtual JBoolean	ScheduleForAdd();
-	virtual JBoolean	ScheduleForRemove();
-	virtual JBoolean	ForceScheduleForRemove();
-	virtual JBoolean	Resolved();
+	virtual bool	ScheduleForAdd();
+	virtual bool	ScheduleForRemove();
+	virtual bool	ForceScheduleForRemove();
+	virtual bool	Resolved();
 	virtual void		Commit();
-	virtual JBoolean	Revert();
-	virtual JBoolean	CreateDirectory();
-	virtual JBoolean	DuplicateItem();
-	virtual JBoolean	CreateProperty();
-	virtual JBoolean	SchedulePropertiesForRemove();
-	virtual JBoolean	Ignore();
+	virtual bool	Revert();
+	virtual bool	CreateDirectory();
+	virtual bool	DuplicateItem();
+	virtual bool	CreateProperty();
+	virtual bool	SchedulePropertiesForRemove();
+	virtual bool	Ignore();
 
-	virtual JBoolean	CanCheckOutSelection() const;
+	virtual bool	CanCheckOutSelection() const;
 	virtual void		CheckOutSelection();
 
 private:
@@ -61,14 +61,14 @@ private:
 
 private:
 
-	JBoolean	Prepare(JString* cmd, const JUtf8Byte* warnMsgID = nullptr,
-						const JBoolean includeDeleted = kJFalse);
-	JBoolean	Execute(const JString& cmd, const JUtf8Byte* warnMsgID = nullptr,
-						const JBoolean includeDeleted = kJFalse,
-						const JBoolean blocking = kJTrue);
-	void		Compare(const JString& rev, const JBoolean isPrev);
-	JBoolean	ExecuteDiff(const JString& cmd, const JString& rev, const JBoolean isPrev);
-	JBoolean	ExecuteJCCDiff(const JString& rev, const JBoolean isPrev);
+	bool	Prepare(JString* cmd, const JUtf8Byte* warnMsgID = nullptr,
+						const bool includeDeleted = false);
+	bool	Execute(const JString& cmd, const JUtf8Byte* warnMsgID = nullptr,
+						const bool includeDeleted = false,
+						const bool blocking = true);
+	void		Compare(const JString& rev, const bool isPrev);
+	bool	ExecuteDiff(const JString& cmd, const JString& rev, const bool isPrev);
+	bool	ExecuteJCCDiff(const JString& rev, const bool isPrev);
 
 	// not allowed
 

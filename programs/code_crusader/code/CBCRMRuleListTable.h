@@ -31,7 +31,7 @@ public:
 
 	virtual ~CBCRMRuleListTable();
 
-	JBoolean	GetCurrentCRMRuleSetName(JString* name) const;
+	bool	GetCurrentCRMRuleSetName(JString* name) const;
 
 	JArray<CBPrefsManager::CRMRuleListInfo>*
 		GetCRMRuleLists(JIndex* firstNewID, JIndex* lastNewID) const;
@@ -56,7 +56,7 @@ private:
 
 	JArray<CBPrefsManager::CRMRuleListInfo>*	itsCRMList;
 
-	mutable JBoolean	itsOwnsCRMListFlag;		// kJTrue => delete contents of itsMacroList
+	mutable bool	itsOwnsCRMListFlag;		// true => delete contents of itsMacroList
 	const JIndex		itsFirstNewID;			// first index to use for new sets
 	JIndex				itsLastNewID;			// index of last new set created
 	JIndex				itsCRMIndex;			// index of currently displayed macro set

@@ -17,7 +17,7 @@
 	Returns the full paths of the system and user directories for the given
 	program signature.  dirName is appended to each one for convenience.
 
-	Returns kJFalse if the user doesn't have an Application Data directory,
+	Returns false if the user doesn't have an Application Data directory,
 	in which case userDir is empty.
 
 	*** Does not check if either directory exists.
@@ -27,7 +27,7 @@
 const JCharacter* kSystemDataFileDir = "/usr/lib/";
 const JCharacter* kUserDataFileDir   = "~/.";
 
-JBoolean
+bool
 JGetDataDirectories
 	(
 	const JCharacter*	signature,
@@ -36,7 +36,7 @@ JGetDataDirectories
 	JString*			userDir
 	)
 {
-	const JBoolean ok = JGetDirectoryFromCSIDL(CSIDL_COMMON_APPDATA, sysDir);
+	const bool ok = JGetDirectoryFromCSIDL(CSIDL_COMMON_APPDATA, sysDir);
 	assert( ok );
 	*sysDir = JCombinePathAndName(*sysDir, "JX");
 	*sysDir = JCombinePathAndName(*sysDir, signature);
@@ -47,11 +47,11 @@ JGetDataDirectories
 		*userDir = JCombinePathAndName(*userDir, "JX");
 		*userDir = JCombinePathAndName(*userDir, signature);
 		*userDir = JCombinePathAndName(*userDir, dirName);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		userDir->Clear();
-		return kJFalse;
+		return false;
 		}
 }

@@ -111,7 +111,7 @@ DNDData::AddTypes
 
  ******************************************************************************/
 
-JBoolean
+bool
 DNDData::ConvertData
 	(
 	const Atom 		requestType, 
@@ -136,7 +136,7 @@ DNDData::ConvertData
 		if (*data != nullptr)
 			{
 			memcpy(*data, *itsBuffer, *dataLength);
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -145,7 +145,7 @@ DNDData::ConvertData
 	*data       = nullptr;
 	*dataLength = 0;
 	*returnType = None;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

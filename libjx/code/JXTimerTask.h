@@ -15,7 +15,7 @@ class JXTimerTask : public JXIdleTask, virtual public JBroadcaster
 {
 public:
 
-	JXTimerTask(const Time period, const JBoolean oneShot = kJFalse);
+	JXTimerTask(const Time period, const bool oneShot = false);
 
 	virtual ~JXTimerTask();
 
@@ -23,7 +23,7 @@ public:
 
 private:
 
-	JBoolean itsIsOneShotFlag;
+	bool itsIsOneShotFlag;
 
 private:
 

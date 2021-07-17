@@ -38,10 +38,10 @@ private:
 private:
 
 	void		CBTEScriptMenuX();
-	JBoolean	UpdateSelf();
-	JBoolean	HandleSelection(const JIndex index);
+	bool	UpdateSelf();
+	bool	HandleSelection(const JIndex index);
 
-	static JBoolean	ShowExecutables(const JDirEntry& entry);
+	static bool	ShowExecutables(const JDirEntry& entry);
 
 	// not allowed
 

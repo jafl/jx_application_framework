@@ -23,7 +23,7 @@ CMGetStack::CMGetStack
 	CMStackWidget*	widget
 	)
 	:
-	CMCommand(cmd, kJFalse, kJTrue),
+	CMCommand(cmd, false, true),
 	itsTree(tree),
 	itsWidget(widget)
 {

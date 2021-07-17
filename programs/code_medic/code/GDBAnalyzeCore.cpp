@@ -24,7 +24,7 @@ GDBAnalyzeCore::GDBAnalyzeCore
 	const JString& cmd
 	)
 	:
-	CMCommand(cmd, kJTrue, kJFalse)
+	CMCommand(cmd, true, false)
 {
 }
 
@@ -77,13 +77,13 @@ GDBAnalyzeCore::HandleSuccess
 			programFullName = JCombinePathAndName(path, programFullName);
 			}
 
-		JBoolean found = kJFalse;
+		bool found = false;
 		JStringIterator iter(&programFullName, kJIteratorStartAtEnd);
 		while (1)
 			{
 			if (JFileExecutable(programFullName))
 				{
-				found = kJTrue;
+				found = true;
 				break;
 				}
 

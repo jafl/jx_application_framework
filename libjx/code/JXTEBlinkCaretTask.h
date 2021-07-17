@@ -20,14 +20,14 @@ public:
 
 	virtual ~JXTEBlinkCaretTask();
 
-	void			ShouldBlink(const JBoolean blink);
+	void			ShouldBlink(const bool blink);
 	void			Reset();
 	virtual void	Perform(const Time delta, Time* maxSleepTime);
 
 private:
 
 	JXTEBase*	itsTE;			// owns us
-	JBoolean	itsActiveFlag;
+	bool	itsActiveFlag;
 
 private:
 
@@ -46,7 +46,7 @@ private:
 inline void
 JXTEBlinkCaretTask::ShouldBlink
 	(
-	const JBoolean blink
+	const bool blink
 	)
 {
 	itsActiveFlag = blink;

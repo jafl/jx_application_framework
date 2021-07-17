@@ -16,16 +16,16 @@ class CBManPageDocument : public CBTextDocument
 {
 public:
 
-	static JBoolean	Create(CBManPageDocument** doc, const JString& pageName,
+	static bool	Create(CBManPageDocument** doc, const JString& pageName,
 						   const JString& pageIndex = JString::empty,
-						   const JBoolean apropos = kJFalse);
+						   const bool apropos = false);
 
 	virtual ~CBManPageDocument();
 
 protected:
 
 	CBManPageDocument(const JString& pageName, const JString& pageIndex,
-					  const JBoolean apropos, CBManPageDocument** trueDoc);
+					  const bool apropos, CBManPageDocument** trueDoc);
 
 	static JString	GetCmd1(const JString& pageName, const JString& pageIndex);
 	static JString	GetCmd2(const JString& pageName);
@@ -34,7 +34,7 @@ protected:
 
 private:
 
-	JBoolean	itsIgnoreNameChangedFlag;
+	bool	itsIgnoreNameChangedFlag;
 
 	static JPtrArray<JString>			theManCmdList;
 	static JPtrArray<CBTextDocument>	theManDocList;

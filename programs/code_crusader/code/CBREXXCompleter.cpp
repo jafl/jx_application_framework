@@ -49,19 +49,19 @@ const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStringCompleter*
 CBREXXCompleter::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBREXXCompleter;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -85,7 +85,7 @@ CBREXXCompleter::Shutdown()
 
 CBREXXCompleter::CBREXXCompleter()
 	:
-	CBStringCompleter(kCBREXXLang, kKeywordCount, kKeywordList, kJTrue)
+	CBStringCompleter(kCBREXXLang, kKeywordCount, kKeywordList, JString::kCompareCase)
 {
 }
 
@@ -104,14 +104,14 @@ CBREXXCompleter::~CBREXXCompleter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBREXXCompleter::IsWordCharacter
 	(
 	const JUtf8Character&	c,
-	const JBoolean			includeNS
+	const bool			includeNS
 	)
 	const
 {
-	return JI2B(c.IsAlnum() || c == '@' || c == '#' || c == '$' ||
-				c == '\\' || c == '.' || c == '!' || c == '?' || c == '_');
+	return c.IsAlnum() || c == '@' || c == '#' || c == '$' ||
+				c == '\\' || c == '.' || c == '!' || c == '?' || c == '_';
 }

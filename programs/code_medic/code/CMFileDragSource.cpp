@@ -42,7 +42,7 @@ CMFileDragSource::CMFileDragSource
 	JXImageWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsDoc(doc)
 {
-	SetImage(GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small), kJFalse);
+	SetImage(GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small), false);
 
 	SetHint(JGetString("Hint::CMFileDragSource"));
 }
@@ -95,7 +95,7 @@ CMFileDragSource::HandleMouseDown
 	)
 {
 	const JString* fileName;
-	const JBoolean hasFile = itsDoc->GetFileName(&fileName);
+	const bool hasFile = itsDoc->GetFileName(&fileName);
 	if (hasFile && clickCount == 2)
 		{
 		(JXGetWebBrowser())->ShowFileLocation(*fileName);
@@ -137,7 +137,7 @@ void
 CMFileDragSource::HandleDNDResponse
 	(
 	const JXContainer*	target,
-	const JBoolean		dropAccepted,
+	const bool		dropAccepted,
 	const Atom			action
 	)
 {

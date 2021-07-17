@@ -24,7 +24,7 @@ static const JCharacter* kAppSignature = "<Binary>";
 	(
 	int*		argc,
 	char*		argv[],
-	JBoolean*	displayAbout,
+	bool*	displayAbout,
 	JString*	prevVersStr
 	)
 	:
@@ -41,7 +41,7 @@ static const JCharacter* kAppSignature = "<Binary>";
 			}
 		else
 			{
-			*displayAbout = kJTrue;
+			*displayAbout = true;
 			}
 		}
 	else

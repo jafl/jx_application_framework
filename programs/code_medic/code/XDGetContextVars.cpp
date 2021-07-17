@@ -25,7 +25,7 @@ XDGetContextVars::XDGetContextVars
 	const JString&	contextID
 	)
 	:
-	CMCommand("", kJTrue, kJTrue),
+	CMCommand("", true, true),
 	itsRootNode(rootNode)
 {
 	JString cmd("context_get -c ");
@@ -123,7 +123,7 @@ XDGetContextVars::BuildTree
 
 			if (type == "array" && JGetXMLNodeAttr(node, "children") == "1")
 				{
-				n->MakePointer(kJTrue);
+				n->MakePointer(true);
 				}
 
 			if (node->children != nullptr && node->children->type == XML_ELEMENT_NODE)

@@ -33,7 +33,7 @@ CBEditSearchPathsDialog::CBEditSearchPathsDialog
 	CBRelPathCSF*		csf
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue),
+	JXDialogDirector(supervisor, true),
 	JPrefObject(CBGetPrefsManager(), kCBEditSearchPathsDialogID)
 {
 	BuildWindow(dirList, csf);
@@ -148,7 +148,7 @@ CBEditSearchPathsDialog::BuildWindow
 	window->SetTitle(JGetString("WindowTitle::CBEditSearchPathsDialog"));
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	SetButtons(okButton, cancelButton);
 
 	itsTable =

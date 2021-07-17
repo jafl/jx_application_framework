@@ -24,7 +24,7 @@ JPlotDataBase::JPlotDataBase
 	:
 	JCollection(),
 	itsType(type),
-	itsBroadcastFlag(kJTrue)
+	itsBroadcastFlag(true)
 {
 }
 
@@ -74,21 +74,21 @@ JPlotDataBase::GetElement
 
  ********************************************************************************/
 
-JBoolean
+bool
 JPlotDataBase::GetZRange
 	(
 	const JFloat	xMin,
 	const JFloat	xMax,
-	const JBoolean	xLinear,
+	const bool	xLinear,
 	const JFloat	yMin,
 	const JFloat	yMax,
-	const JBoolean	yLinear,
+	const bool	yLinear,
 	JFloat*			zMin,
 	JFloat*			zMax
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /*********************************************************************************
@@ -96,24 +96,24 @@ JPlotDataBase::GetZRange
 
  ********************************************************************************/
 
-JBoolean
+bool
 JPlotDataBase::Get4thRange
 	(
 	const JFloat	xMin,
 	const JFloat	xMax,
-	const JBoolean	xLinear,
+	const bool	xLinear,
 	const JFloat	yMin,
 	const JFloat	yMax,
-	const JBoolean	yLinear,
+	const bool	yLinear,
 	const JFloat	zMin,
 	const JFloat	zMax,
-	const JBoolean	zLinear,
+	const bool	zLinear,
 	JFloat*			min,
 	JFloat*			max
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /*********************************************************************************
@@ -121,11 +121,11 @@ JPlotDataBase::Get4thRange
 
  ********************************************************************************/
 
-JBoolean
+bool
 JPlotDataBase::HasXErrors()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /*********************************************************************************
@@ -133,11 +133,11 @@ JPlotDataBase::HasXErrors()
 
  ********************************************************************************/
 
-JBoolean
+bool
 JPlotDataBase::HasYErrors()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /*********************************************************************************
@@ -145,11 +145,11 @@ JPlotDataBase::HasYErrors()
 
  ********************************************************************************/
 
-JBoolean
+bool
 JPlotDataBase::HasSymmetricXErrors()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /*********************************************************************************
@@ -157,11 +157,11 @@ JPlotDataBase::HasSymmetricXErrors()
 
  ********************************************************************************/
 
-JBoolean
+bool
 JPlotDataBase::HasSymmetricYErrors()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /*********************************************************************************
@@ -169,9 +169,9 @@ JPlotDataBase::HasSymmetricYErrors()
 
  ********************************************************************************/
 
-JBoolean
+bool
 JPlotDataBase::IsFunction()
 	const
 {
-	return kJFalse;
+	return false;
 }

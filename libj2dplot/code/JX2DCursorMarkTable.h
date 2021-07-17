@@ -27,7 +27,7 @@ public:
 
 	virtual ~JX2DCursorMarkTable();
 
-	JBoolean	Print(JPagePrinter&	p, const JBoolean putOnSamePage,
+	bool	Print(JPagePrinter&	p, const bool putOnSamePage,
 					  const JRect& partialPageRect);
 	void		TableDrawCells(JPainter& p, const JRect& cellRect,
 								const JRect& regionRect);
@@ -41,11 +41,11 @@ protected:
 private:
 
 	J2DPlotWidget*	itsPlot;
-	JBoolean		itsPrintingFlag;
+	bool		itsPrintingFlag;
 
 private:
 
-	JBoolean	DrawRegions(JPainter& p, const JRect& pageRect,
+	bool	DrawRegions(JPainter& p, const JRect& pageRect,
 							const JCoordinate regionWidth,
 							JIndex* currentRow);
 

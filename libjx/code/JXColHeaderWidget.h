@@ -30,9 +30,11 @@ public:
 	void	TurnOnColResizing(const JCoordinate minColWidth = 20);
 	void	TurnOffColResizing();
 
-	JBoolean	GetColTitle(const JIndex index, JString* title) const;
-	void		SetColTitle(const JIndex index, const JString& title);
-	void		ClearColTitle(const JIndex index);
+	bool	GetColTitle(const JIndex index, JString* title) const;
+	void	SetColTitle(const JIndex index, const JString& title);
+	void	ClearColTitle(const JIndex index);
+
+	void	SetColumnTitles(const JUtf8Byte* className, const JSize count);
 
 protected:
 
@@ -58,7 +60,7 @@ protected:
 								  const JXKeyModifiers& modifiers) override;
 
 	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
-	JBoolean		InDragRegion(const JPoint& pt, JPoint* cell) const;
+	bool			InDragRegion(const JPoint& pt, JPoint* cell) const;
 	DragType		GetDragType() const;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
@@ -75,7 +77,7 @@ private:
 	const JXScrollbar*	itsHScrollbar;	// we don't own this
 	JPtrArray<JString>*	itsTitles;		// can be nullptr; elements can be nullptr
 
-	JBoolean	itsAllowColResizingFlag;
+	bool		itsAllowColResizingFlag;
 	JCoordinate	itsMinColWidth;
 
 	JCursorIndex	itsDragLineCursor;
@@ -107,7 +109,7 @@ private:
 inline void
 JXColHeaderWidget::TurnOffColResizing()
 {
-	itsAllowColResizingFlag = kJFalse;
+	itsAllowColResizingFlag = false;
 }
 
 /******************************************************************************

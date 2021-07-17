@@ -69,7 +69,7 @@ static const char* kCurrentJ2DPlotLibVersionStr = "2.0.0";
 //		Added ShouldBroadcastChanged() so messages can be turned off temporarily.
 //		Changed prototypes of Get*Range() functions to include whether each axis is linear.
 //	JPlotFunctionBase:
-//		IsFunction() returns kJTrue.
+//		IsFunction() returns true.
 //		Fixed GetYRange() so it notices when the x scale is logarithmic.
 //	J2DPlotJFunction:
 //		Added GetVariableList() and SetFunction().
@@ -98,7 +98,7 @@ static const char* kCurrentJ2DPlotLibVersionStr = "2.0.0";
 //		Promoted FindLogRange() and GetLogIncrement() to static public.
 //		Fixed PostScript printing so plot+marks are always centered vertically.
 //		Removed points argument from AddCurve().
-//		Fixed version of AddCurve() that takes raw data so it returns JBoolean.
+//		Fixed version of AddCurve() that takes raw data so it returns bool.
 //		Split version of AddCurve() that takes JPlotDataBase into two versions.
 //			Simple version automatically selects lines for functions and symbols for data.
 //		Added ShowAllCurves() and HideAllOtherCurves().
@@ -125,7 +125,7 @@ static const char* kCurrentJ2DPlotLibVersionStr = "2.0.0";
 //		Dragging cursors is now much faster.
 //		Eliminated PWRefreshUpdate() because it was never used, and JX does it automatically.
 //		Fixed bug in FindRange() so it doesn't assert() if min == max.
-//		Fixed PWGetDragPainter() to return JBoolean.
+//		Fixed PWGetDragPainter() to return bool.
 //	JX2DPlotWidget:
 //		Added functions for printing to EPS.
 //		Added right button pop-up menu in legend to change curve options.

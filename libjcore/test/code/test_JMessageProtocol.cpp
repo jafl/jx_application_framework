@@ -220,7 +220,7 @@ public:
 		:
 		Base(link)
 	{
-		link->SendMessage(JString(message[0], kJFalse));
+		link->SendMessage(JString(message[0], JString::kNoCopy));
 	};
 
 private:
@@ -248,7 +248,7 @@ private:
 			return;
 			}
 
-		itsLink->SendMessage(JString(message[ itsState ], kJFalse));
+		itsLink->SendMessage(JString(message[ itsState ], JString::kNoCopy));
 		std::cout << "client sent: " << message[ itsState ] << std::endl;
 	};
 

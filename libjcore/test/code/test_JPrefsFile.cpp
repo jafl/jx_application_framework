@@ -15,7 +15,7 @@
 
 const JFileVersion kVersionOfExistingFile = 5;
 
-static const JString kTestFileName("PrefsFileTest", kJFalse);
+static const JString kTestFileName("PrefsFileTest", JString::kNoCopy);
 
 int main()
 {
@@ -45,13 +45,13 @@ JTEST(NewFile)
 
 	{
 	std::ostringstream dataStream;
-	dataStream << JString("This was the first element that was added to the file.", kJFalse);
+	dataStream << JString("This was the first element that was added to the file.", JString::kNoCopy);
 	prefsFile->SetData(3, dataStream);
 	}
 
 	{
 	std::ostringstream dataStream;
-	dataStream << JString("This was the second element that was added to the file.", kJFalse);
+	dataStream << JString("This was the second element that was added to the file.", JString::kNoCopy);
 	prefsFile->SetData(5, dataStream);
 	}
 
@@ -59,7 +59,7 @@ JTEST(NewFile)
 
 	{
 	std::ostringstream dataStream;
-	dataStream << JString("This was the third element that was added to the file", kJFalse);
+	dataStream << JString("This was the third element that was added to the file", JString::kNoCopy);
 	prefsFile->SetData(7, dataStream);
 	}
 
@@ -77,25 +77,25 @@ JTEST(NewFile)
 
 	{
 	std::ostringstream dataStream;
-	dataStream << JString("1st element shortended", kJFalse);
+	dataStream << JString("1st element shortended", JString::kNoCopy);
 	prefsFile->SetData(5, dataStream);
 	}
 
 	{
 	std::ostringstream dataStream;
-	dataStream << JString("2nd element shortended", kJFalse);
+	dataStream << JString("2nd element shortended", JString::kNoCopy);
 	prefsFile->SetData(7, dataStream);
 	}
 
 	{
 	std::ostringstream dataStream;
-	dataStream << JString("Now the first element is really, really long!!!", kJFalse);
+	dataStream << JString("Now the first element is really, really long!!!", JString::kNoCopy);
 	prefsFile->SetData(5, dataStream);
 	}
 
 	{
 	std::ostringstream dataStream;
-	dataStream << JString("Now the second element is also very much longer!!!", kJFalse);
+	dataStream << JString("Now the second element is also very much longer!!!", JString::kNoCopy);
 	prefsFile->SetData(7, dataStream);
 	}
 
@@ -138,6 +138,6 @@ JTEST(OldFile)
 	jdelete prefsFile;
 
 	JString fullName;
-	JAssertTrue(JExpandHomeDirShortcut(JString("~/." + kTestFileName + ".pref", kJFalse), &fullName));
+	JAssertTrue(JExpandHomeDirShortcut(JString("~/." + kTestFileName + ".pref", JString::kNoCopy), &fullName));
 	JAssertOK(JRemoveFile(fullName));
 }

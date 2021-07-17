@@ -32,7 +32,7 @@ const JUtf8Byte* JXProgressTask::kCancelled = "Cancelled::JXProgressTask";
 JXProgressTask::JXProgressTask
 	(
 	const JString&	message,
-	const JBoolean	allowCancel
+	const bool	allowCancel
 	)
 	:
 	JXIdleTask(kUpdateInterval)
@@ -47,7 +47,7 @@ JXProgressTask::JXProgressTask
 	:
 	JXIdleTask(kUpdateInterval),
 	itsPG(pg),
-	itsOwnsPGFlag(kJFalse)
+	itsOwnsPGFlag(false)
 {
 }
 
@@ -57,14 +57,14 @@ void
 JXProgressTask::JXProgressTaskX
 	(
 	const JString&	message,
-	const JBoolean	allowCancel
+	const bool	allowCancel
 	)
 {
 	itsPG = jnew JLatentPG;
 	assert( itsPG != nullptr );
-	itsPG->VariableLengthProcessBeginning(message, allowCancel, kJTrue);
+	itsPG->VariableLengthProcessBeginning(message, allowCancel, true);
 
-	itsOwnsPGFlag = kJTrue;
+	itsOwnsPGFlag = true;
 }
 
 /******************************************************************************

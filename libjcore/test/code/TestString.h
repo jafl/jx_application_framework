@@ -14,10 +14,10 @@ class TestString : public JString
 {
 public:
 
-	JBoolean	TestSearchForward(const JUtf8Byte* str, const JSize byteCount,
-								  const JBoolean caseSensitive, JIndex* byteIndex) const;
-	JBoolean	TestSearchBackward(const JUtf8Byte* str, const JSize byteCount,
-								   const JBoolean caseSensitive, JIndex* byteIndex) const;
+	bool	TestSearchForward(const JUtf8Byte* str, const JSize byteCount,
+							  const JString::Case caseSensitive, JIndex* byteIndex) const;
+	bool	TestSearchBackward(const JUtf8Byte* str, const JSize byteCount,
+							   const JString::Case caseSensitive, JIndex* byteIndex) const;
 };
 
 #endif

@@ -41,7 +41,7 @@ CBStylerTable::CBStylerTable
 	JXStringTable(jnew JStringTableData,
 				  scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	CBStylerTableX(kCBUnknownFT, kJFalse, nullptr, nullptr);
+	CBStylerTableX(kCBUnknownFT, false, nullptr, nullptr);
 
 	JStringTableData* data = GetStringData();
 	data->AppendCols(1);
@@ -50,7 +50,7 @@ CBStylerTable::CBStylerTable
 	data->AppendRows(count);
 	for (JIndex i=1; i<=count; i++)
 		{
-		data->SetString(i,1, JString(typeNames[i-1], kJFalse));
+		data->SetString(i,1, JString(typeNames[i-1], JString::kNoCopy));
 
 		SetCellStyle(JPoint(1,i), typeStyles.GetElement(i));
 		}
@@ -75,7 +75,7 @@ CBStylerTable::CBStylerTable
 	JXStringTable(jnew JStringTableData,
 				  scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	CBStylerTableX(fileType, kJTrue, addRowButton, removeButton);
+	CBStylerTableX(fileType, true, addRowButton, removeButton);
 
 	JStringTableData* data = GetStringData();
 	data->AppendCols(1);
@@ -97,7 +97,7 @@ void
 CBStylerTable::CBStylerTableX
 	(
 	const CBTextFileType	fileType,
-	const JBoolean			allowEdit,
+	const bool			allowEdit,
 	JXTextButton*			addRowButton,
 	JXTextButton*			removeButton
 	)
@@ -117,7 +117,7 @@ CBStylerTable::CBStylerTableX
 		ListenTo(itsRemoveButton);
 		}
 
-	SetSelectionBehavior(kJTrue, kJTrue);
+	SetSelectionBehavior(true, true);
 	ListenTo(&(GetTableSelection()));
 
 	CBMPrefsManager* prefsMgr = CBMGetPrefsManager();
@@ -225,7 +225,7 @@ CBStylerTable::HandleMouseDown
 		{
 		if (!s.IsSelected(cell))
 			{
-			SelectSingleCell(cell, kJFalse);
+			SelectSingleCell(cell, false);
 			}
 		DisplayFontMenu(cell, this, pt, buttonStates, modifiers);
 		}
@@ -306,7 +306,7 @@ CBStylerTable::HandleKeyPress
 {
 	JPoint topSelCell;
 	JTableSelection& s          = GetTableSelection();
-	const JBoolean hadSelection = s.GetFirstSelectedCell(&topSelCell);
+	const bool hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
 	if (c == kJReturnKey && !IsEditing())
 		{
@@ -468,7 +468,7 @@ CBStylerTable::CreateStringTableInput
 {
 	assert( enclosure == this );
 
-	SelectSingleCell(cell, kJFalse);
+	SelectSingleCell(cell, false);
 
 	CBStylerTableInput* obj =
 		jnew CBStylerTableInput(itsFileType, this, hSizing, vSizing, x,y, w,h);

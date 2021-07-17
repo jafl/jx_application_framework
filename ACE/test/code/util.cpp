@@ -28,7 +28,7 @@ const JCharacter kEndOfMessage = '\n';
 
  ******************************************************************************/
 
-JBoolean
+bool
 TalkToClient
 	(
 	ACE_SOCK_Stream& socket
@@ -36,7 +36,7 @@ TalkToClient
 {
 	// Wait for message from client.
 
-	const JBoolean ok = ReceiveMessage(socket);
+	const bool ok = ReceiveMessage(socket);
 	if (ok)
 		{
 		// This tests that clients are willing to wait.
@@ -97,7 +97,7 @@ TalkToServer
 
  ******************************************************************************/
 
-JBoolean
+bool
 ReceiveMessage
 	(
 	ACE_SOCK_Stream& socket
@@ -115,7 +115,7 @@ ReceiveMessage
 		if (count == -1)
 			{
 			std::cerr << "error while waiting for message: " << jerrno() << std::endl;
-			return kJFalse;
+			return false;
 			}
 		else if (count > 0)
 			{
@@ -125,7 +125,7 @@ ReceiveMessage
 			if (msgFromServer.GetLastCharacter() == kEndOfMessage)
 				{
 				std::cout << "received: " << msgFromServer << std::endl;
-				return kJTrue;
+				return true;
 				}
 			}
 		}

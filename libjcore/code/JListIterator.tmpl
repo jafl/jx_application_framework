@@ -191,12 +191,12 @@ JListIterator<T>::GetNextElementIndex()
 /******************************************************************************
  GetPrevElementIndex
 
-	Returns kJTrue if there is a previous element.
+	Returns true if there is a previous element.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JListIterator<T>::GetPrevElementIndex
 	(
 	JIndex* i
@@ -206,22 +206,22 @@ JListIterator<T>::GetPrevElementIndex
 	if (this->AtBeginning())
 		{
 		*i = 0;
-		return kJFalse;
+		return false;
 		}
 
 	*i = itsCursorPosition;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  GetNextElementIndex
 
-	Returns kJTrue if there is a next element.
+	Returns true if there is a next element.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JListIterator<T>::GetNextElementIndex
 	(
 	JIndex* i
@@ -231,11 +231,11 @@ JListIterator<T>::GetNextElementIndex
 	if (this->AtEnd())
 		{
 		*i = 0;
-		return kJFalse;
+		return false;
 		}
 
 	*i = itsCursorPosition + 1;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -284,34 +284,34 @@ JListIterator<T>::MoveTo
 /******************************************************************************
  AtBeginning
 
-	Return kJTrue if iterator is positioned at the beginning of the list
+	Return true if iterator is positioned at the beginning of the list
 	or if the list has been deleted.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JListIterator<T>::AtBeginning()
 	const
 {
-	return JConvertToBoolean( itsConstList == nullptr || itsCursorPosition == 0 );
+	return itsConstList == nullptr || itsCursorPosition == 0;
 }
 
 /******************************************************************************
  AtEnd
 
-	Return kJTrue if iterator is positioned at the end of the list
+	Return true if iterator is positioned at the end of the list
 	or if the list has been deleted.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JListIterator<T>::AtEnd()
 	const
 {
-	return JConvertToBoolean( itsConstList == nullptr ||
-							  itsCursorPosition >= itsConstList->GetElementCount() );
+	return itsConstList == nullptr ||
+							  itsCursorPosition >= itsConstList->GetElementCount();
 }
 
 /******************************************************************************
@@ -330,7 +330,7 @@ JListIterator<T>::GetList()
 }
 
 template <class T>
-JBoolean
+bool
 JListIterator<T>::GetList
 	(
 	JList<T>** obj
@@ -338,7 +338,7 @@ JListIterator<T>::GetList
 	const
 {
 	*obj = itsList;
-	return JConvertToBoolean( itsList != nullptr );
+	return itsList != nullptr;
 }
 
 /******************************************************************************
@@ -376,18 +376,18 @@ JListIterator<T>::SetCursor
 /******************************************************************************
  Prev
 
-	Returns kJTrue if there is a previous item that matches, fetching the
+	Returns true if there is a previous item that matches, fetching the
 	item in the list and adjusting the iterator position to before the
-	item.  Otherwise returns kJFalse, and the position will be at the
+	item.  Otherwise returns false, and the position will be at the
 	beginning of the list.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JListIterator<T>::Prev
 	(
-	std::function<JBoolean(const T&)> match,
+	std::function<bool(const T&)> match,
 
 	T* data
 	)
@@ -396,28 +396,28 @@ JListIterator<T>::Prev
 		{
 		if (match(*data))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  Next
 
-	Returns kJTrue if there is a next item that matches, fetching the item
+	Returns true if there is a next item that matches, fetching the item
 	in the list and adjusting the iterator position to after the item.
-	Otherwise returns kJFalse, and the position will be at the end of the
+	Otherwise returns false, and the position will be at the end of the
 	list.
 
  ******************************************************************************/
 
 template <class T>
-JBoolean
+bool
 JListIterator<T>::Next
 	(
-	std::function<JBoolean(const T&)> match,
+	std::function<bool(const T&)> match,
 
 	T* data
 	)
@@ -426,11 +426,11 @@ JListIterator<T>::Next
 		{
 		if (match(*data))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -563,7 +563,7 @@ JListIterator<T>::operator*()
 	JListIterator<T>* self = const_cast<JListIterator<T>*>(this);	// conceptual constness
 
 	T v;
-	const JBoolean ok = self->Next(&v);
+	const bool ok = self->Next(&v);
 	assert( ok );
 	self->SkipPrev();		// back to original position
 	return v;

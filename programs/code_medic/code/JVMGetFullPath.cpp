@@ -21,7 +21,7 @@ JVMGetFullPath::JVMGetFullPath
 	const JIndex	lineIndex	// for convenience
 	)
 	:
-	CMGetFullPath(JString("NOP", kJFalse), fileName, lineIndex)
+	CMGetFullPath(JString("NOP", JString::kNoCopy), fileName, lineIndex)
 {
 }
 

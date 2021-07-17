@@ -35,10 +35,10 @@ static const JUtf8Byte* kShortcutSeparatorStr = " - ";
 JXStringCompletionMenu::JXStringCompletionMenu
 	(
 	JXTEBase*		te,
-	const JBoolean	allowTabChar
+	const bool	allowTabChar
 	)
 	:
-	JXTextMenu(JString("*", kJFalse), te, kFixedLeft, kFixedTop, 0,0, 10,10),
+	JXTextMenu(JString("*", JString::kNoCopy), te, kFixedLeft, kFixedTop, 0,0, 10,10),
 	itsAllowTabChar(allowTabChar)
 {
 	itsTE              = te;
@@ -46,7 +46,7 @@ JXStringCompletionMenu::JXStringCompletionMenu
 	itsPrefixCharCount = 0;
 
 	Hide();
-	SetToHiddenPopupMenu(kJTrue);
+	SetToHiddenPopupMenu(true);
 	CompressHeight();
 	SetUpdateAction(kDisableNone);
 	ListenTo(this);
@@ -64,11 +64,11 @@ JXStringCompletionMenu::~JXStringCompletionMenu()
 /******************************************************************************
  AddString
 
-	Returns kJFalse if it doesn't want any more strings.
+	Returns false if it doesn't want any more strings.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXStringCompletionMenu::AddString
 	(
 	const JString& str
@@ -79,7 +79,7 @@ JXStringCompletionMenu::AddString
 		{
 		if (IsEmpty())
 			{
-			SetDefaultFont(itsTE->GetText()->GetDefaultFont(), kJFalse);
+			SetDefaultFont(itsTE->GetText()->GetDefaultFont(), false);
 			}
 
 		JString shortcut;
@@ -106,20 +106,20 @@ JXStringCompletionMenu::AddString
 		s += str;
 
 		AppendItem(s, kPlainType, shortcut);
-		return kJTrue;
+		return true;
 		}
 	else if (i == kMaxItemCount+1)
 		{
 		AppendItem(JGetString("TruncationMarker::JXStringCompletionMenu"));
 
 		JFont font = JFontManager::GetDefaultFont();
-		font.SetItalic(kJTrue);
+		font.SetItalic(true);
 		SetItemFont(i, font);
-		return kJFalse;
+		return false;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

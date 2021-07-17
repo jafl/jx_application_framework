@@ -89,7 +89,7 @@ CBSymbolTypeList::SkipSetup
 			long type;
 			input >> type;
 
-			JBoolean visible;
+			bool visible;
 			input >> JBoolFromString(visible);
 
 			JFontStyle style;
@@ -106,7 +106,7 @@ CBSymbolTypeList::SkipSetup
 		{
 		while (1)
 			{
-			JBoolean keepGoing;
+			bool keepGoing;
 			input >> JBoolFromString(keepGoing);
 			if (!keepGoing)
 				{
@@ -198,7 +198,7 @@ CBSymbolTypeList::WritePrefs
 /******************************************************************************
  FindType (private)
 
-	This does not return JBoolean because the list must contain all types.
+	This does not return bool because the list must contain all types.
 
  ******************************************************************************/
 
@@ -253,9 +253,9 @@ CBSymbolTypeList::CreateSymTypeList
 {
 	LoadIcons(display);
 
-	const JFontStyle bold(kJTrue, kJFalse, 0, kJFalse),
-					 italic(kJFalse, kJTrue, 0, kJFalse),
-					 bold_gray(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetGrayColor(50));
+	const JFontStyle bold(true, false, 0, false),
+					 italic(false, true, 0, false),
+					 bold_gray(true, false, 0, false, JColorManager::GetGrayColor(50));
 
 	itsSymbolTypeList = jnew JArray<SymbolTypeInfo>(50);
 	assert( itsSymbolTypeList != nullptr );

@@ -28,13 +28,13 @@ public:
 	virtual ~JXFSCommandHistoryMenu();
 
 	void	AddCommand(const JString& cmd,
-					   const JBoolean isShell, const JBoolean inWindow,
-					   const JBoolean singleFile);
+					   const bool isShell, const bool inWindow,
+					   const bool singleFile);
 
 	const JString&	GetCommand(const Message& message, JFSBinding::CommandType* type,
-							   JBoolean* singleFile) const;
+							   bool* singleFile) const;
 	const JString&	GetCommand(const JIndex index, JFSBinding::CommandType* type,
-							   JBoolean* singleFile) const;
+							   bool* singleFile) const;
 
 private:
 

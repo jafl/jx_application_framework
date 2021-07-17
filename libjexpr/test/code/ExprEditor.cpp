@@ -76,13 +76,13 @@ ExprEditor::EIPBoundsChanged()
 
  ******************************************************************************/
 
-JBoolean
+bool
 ExprEditor::EIPScrollToRect
 	(
 	const JRect& r
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -90,13 +90,13 @@ ExprEditor::EIPScrollToRect
 
  ******************************************************************************/
 
-JBoolean
+bool
 ExprEditor::EIPScrollForDrag
 	(
 	const JPoint& pt
 	)
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -107,7 +107,7 @@ ExprEditor::EIPScrollForDrag
 void
 ExprEditor::EIPAdjustNeedTab
 	(
-	const JBoolean needTab
+	const bool needTab
 	)
 {
 }
@@ -121,7 +121,7 @@ void
 ExprEditor::HandleMouseDown
 	(
 	const JPoint&	pt,
-	const JBoolean	extend
+	const bool	extend
 	)
 {
 	EIPHandleMouseDown(pt, extend);
@@ -186,27 +186,27 @@ ExprEditor::EIPClipboardChanged()
 
  ******************************************************************************/
 
-JBoolean
+bool
 ExprEditor::EIPOwnsClipboard()
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  EIPGetExternalClipboard (virtual protected)
 
-	Returns kJTrue if there is something pasteable on the system clipboard.
+	Returns true if there is something pasteable on the system clipboard.
 
  ******************************************************************************/
 
-JBoolean
+bool
 ExprEditor::EIPGetExternalClipboard
 	(
 	JString* text
 	)
 {
 	text->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -232,7 +232,7 @@ ExprEditor::CheckCmdStatus
 	)
 	const
 {
-	const JArray<JBoolean> status = GetCmdStatus(nullptr);
+	const JArray<bool> status = GetCmdStatus(nullptr);
 
 	const JSize count = status.GetElementCount();
 	JAssertEqual(expected.GetElementCount(), count);

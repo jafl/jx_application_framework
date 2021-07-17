@@ -17,7 +17,7 @@ public:
 
 	JXGetNewDirDialog(JXDirector* supervisor, const JString& windowTitle,
 					  const JString& prompt, const JString& initialName,
-					  const JString& basePath, const JBoolean modal = kJTrue);
+					  const JString& basePath, const bool modal = true);
 
 	virtual ~JXGetNewDirDialog();
 
@@ -25,7 +25,7 @@ public:
 
 protected:
 
-	virtual JBoolean	OKToDeactivate();
+	virtual bool	OKToDeactivate();
 
 private:
 

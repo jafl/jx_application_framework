@@ -51,23 +51,35 @@ public:
 		kBase16 = 16
 	};
 
+	enum Case
+	{
+		kIgnoreCase  = 0,
+		kCompareCase = 1
+	};
+
+	enum Copy
+	{
+		kNoCopy = 0,
+		kCopy   = 1
+	};
+
 	static const JString empty;
 	static const JString newline;
 
 public:
 
-	JString(const JBoolean normalize = kJTrue);
-	JString(const JString& str, const JBoolean copy = kJTrue);
-	JString(const JString& str, const JCharacterRange& range, const JBoolean copy = kJTrue);
-	JString(const JUtf8Byte* str, const JSize byteCount, const JBoolean copy = kJTrue);
-	JString(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean copy = kJTrue);
+	JString(const bool normalize = true);
+	JString(const JString& str, const Copy copy = kCopy);
+	JString(const JString& str, const JCharacterRange& range, const Copy copy = kCopy);
+	JString(const JUtf8Byte* str, const JSize byteCount, const Copy copy = kCopy);
+	JString(const JUtf8Byte* str, const JUtf8ByteRange& range, const Copy copy = kCopy);
 	JString(const std::string& str, const JUtf8ByteRange& range);
 
-	explicit JString(const JUtf8Byte* str, const JBoolean copy = kJTrue);
+	explicit JString(const JUtf8Byte* str, const Copy copy = kCopy);
 	explicit JString(const std::string& str);	// prevent sneaky automatic construction from char*
 	explicit JString(const JUtf8Character& c);	// prevent sneaky, incorrect, automatic construction from char*
 
-	explicit JString(const JUInt64 number, const Base base = kBase10, const JBoolean pad = kJFalse);
+	explicit JString(const JUInt64 number, const Base base = kBase10, const bool pad = false);
 	explicit JString(const JFloat number, const JInteger precision = kPrecisionAsNeeded,
 					 const ExponentDisplay expDisplay = kStandardExponent,
 					 const JInteger exponent = 0, const JInteger sigDigitCount = 0);
@@ -76,7 +88,7 @@ public:
 
 	void* operator new(size_t sz) noexcept;
 	void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line) noexcept;
-	void* operator new(size_t sz, const JBoolean forceShallow) noexcept;
+	void* operator new(size_t sz, const bool forceShallow) noexcept;
 
 	const JString& operator=(const JString& str);
 	const JString& operator=(const JUtf8Byte* str);
@@ -101,60 +113,60 @@ public:
 
 	// no cast operator, to force everybody to remember it is UTF-8, not char*
 
-	JBoolean	IsEmpty() const;
-	JSize		GetCharacterCount() const;
-	JSize		GetByteCount() const;
-	JBoolean	CharacterIndexValid(const JIndex index) const;
-	JBoolean	ByteIndexValid(const JIndex index) const;
-	JBoolean	RangeValid(const JCharacterRange& range) const;
-	JBoolean	RangeValid(const JUtf8ByteRange& range) const;
-	JBoolean	IsAscii() const;
+	bool	IsEmpty() const;
+	JSize	GetCharacterCount() const;
+	JSize	GetByteCount() const;
+	bool	CharacterIndexValid(const JIndex index) const;
+	bool	ByteIndexValid(const JIndex index) const;
+	bool	RangeValid(const JCharacterRange& range) const;
+	bool	RangeValid(const JUtf8ByteRange& range) const;
+	bool	IsAscii() const;
 
 	JUtf8Character	GetFirstCharacter() const;
 	JUtf8Character	GetLastCharacter() const;
 
 	const JUtf8Byte*	GetBytes() const;
 	JUtf8Byte*			AllocateBytes() const;	// client must call delete [] when finished with it
-	JBoolean			IsOwner() const;		// primarily for debugging
+	bool				IsOwner() const;		// primarily for debugging
 	const JUtf8Byte*	GetRawBytes() const;	// NOT guaranteed to be nullptr terminated
 
-	JBoolean	BeginsWith(const JString& str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	BeginsWith(const JString& str, const JCharacterRange& range, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	BeginsWith(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	BeginsWith(const JUtf8Byte* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	BeginsWith(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	BeginsWith(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	BeginsWith(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	BeginsWith(const std::string& str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
+	bool	BeginsWith(const JString& str, const Case caseSensitive = kCompareCase) const;
+	bool	BeginsWith(const JString& str, const JCharacterRange& range, const Case caseSensitive = kCompareCase) const;
+	bool	BeginsWith(const JUtf8Byte* str, const Case caseSensitive = kCompareCase) const;
+	bool	BeginsWith(const JUtf8Byte* str, const JSize byteCount, const Case caseSensitive = kCompareCase) const;
+	bool	BeginsWith(const JUtf8Byte* str, const JUtf8ByteRange& range, const Case caseSensitive = kCompareCase) const;
+	bool	BeginsWith(const JUtf8Character& c, const Case caseSensitive = kCompareCase) const;
+	bool	BeginsWith(const std::string& str, const Case caseSensitive = kCompareCase) const;
+	bool	BeginsWith(const std::string& str, const JUtf8ByteRange& range, const Case caseSensitive = kCompareCase) const;
 
-	JBoolean	Contains(const JString& str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	Contains(const JString& str, const JCharacterRange& range, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	Contains(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	Contains(const JUtf8Byte* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	Contains(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	Contains(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	Contains(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	Contains(const std::string& str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
+	bool	Contains(const JString& str, const Case caseSensitive = kCompareCase) const;
+	bool	Contains(const JString& str, const JCharacterRange& range, const Case caseSensitive = kCompareCase) const;
+	bool	Contains(const JUtf8Byte* str, const Case caseSensitive = kCompareCase) const;
+	bool	Contains(const JUtf8Byte* str, const JSize byteCount, const Case caseSensitive = kCompareCase) const;
+	bool	Contains(const JUtf8Byte* str, const JUtf8ByteRange& range, const Case caseSensitive = kCompareCase) const;
+	bool	Contains(const JUtf8Character& c, const Case caseSensitive = kCompareCase) const;
+	bool	Contains(const std::string& str, const Case caseSensitive = kCompareCase) const;
+	bool	Contains(const std::string& str, const JUtf8ByteRange& range, const Case caseSensitive = kCompareCase) const;
 
-	JBoolean	EndsWith(const JString& str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	EndsWith(const JString& str, const JCharacterRange& range, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	EndsWith(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	EndsWith(const JUtf8Byte* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	EndsWith(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	EndsWith(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	EndsWith(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	EndsWith(const std::string& str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
+	bool	EndsWith(const JString& str, const Case caseSensitive = kCompareCase) const;
+	bool	EndsWith(const JString& str, const JCharacterRange& range, const Case caseSensitive = kCompareCase) const;
+	bool	EndsWith(const JUtf8Byte* str, const Case caseSensitive = kCompareCase) const;
+	bool	EndsWith(const JUtf8Byte* str, const JSize byteCount, const Case caseSensitive = kCompareCase) const;
+	bool	EndsWith(const JUtf8Byte* str, const JUtf8ByteRange& range, const Case caseSensitive = kCompareCase) const;
+	bool	EndsWith(const JUtf8Character& c, const Case caseSensitive = kCompareCase) const;
+	bool	EndsWith(const std::string& str, const Case caseSensitive = kCompareCase) const;
+	bool	EndsWith(const std::string& str, const JUtf8ByteRange& range, const Case caseSensitive = kCompareCase) const;
 
-	JString		EncodeBase64() const;
-	JBoolean	DecodeBase64(JString* str) const;
+	JString	EncodeBase64() const;
+	bool	DecodeBase64(JString* str) const;
 
-	void		Read(std::istream& input, const JSize byteCount);
-	void		ReadDelimited(std::istream& input);
-	void		Print(std::ostream& output) const;
-	void		PrintHex(std::ostream& output) const;
+	void	Read(std::istream& input, const JSize byteCount);
+	void	ReadDelimited(std::istream& input);
+	void	Print(std::ostream& output) const;
+	void	PrintHex(std::ostream& output) const;
 
-	JSize		GetBlockSize() const;
-	void		SetBlockSize(const JSize blockSize);
+	JSize	GetBlockSize() const;
+	void	SetBlockSize(const JSize blockSize);
 
 	// modify - do not require an iterator
 
@@ -174,89 +186,89 @@ public:
 	void	ToLower();
 	void	ToUpper();
 
-	JBoolean	MatchCase(const JString& source, const JCharacterRange& sourceRange);
-	JBoolean	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange);
-	JBoolean	MatchCase(const std::string& source, const JUtf8ByteRange& sourceRange);
-	JBoolean	MatchCase(const JString& source, const JCharacterRange& sourceRange,
-						  const JCharacterRange& destRange);
-	JBoolean	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange,
-						  const JCharacterRange& destRange);
-	JBoolean	MatchCase(const std::string& source, const JUtf8ByteRange& sourceRange,
-						  const JCharacterRange& destRange);
+	bool	MatchCase(const JString& source, const JCharacterRange& sourceRange);
+	bool	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange);
+	bool	MatchCase(const std::string& source, const JUtf8ByteRange& sourceRange);
+	bool	MatchCase(const JString& source, const JCharacterRange& sourceRange,
+					  const JCharacterRange& destRange);
+	bool	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange,
+					  const JCharacterRange& destRange);
+	bool	MatchCase(const std::string& source, const JUtf8ByteRange& sourceRange,
+					  const JCharacterRange& destRange);
 
 	void	Split(const JUtf8Byte* separator, JPtrArray<JString>* partList,
 				  const JSize limit = 0,
-				  const JBoolean includeSeparators = kJFalse) const;
+				  const bool includeSeparators = false) const;
 	void	Split(const JString& separator, JPtrArray<JString>* partList,
 				  const JSize limit = 0,
-				  const JBoolean includeSeparators = kJFalse) const;
+				  const bool includeSeparators = false) const;
 	void	Split(const JRegex& separator, JPtrArray<JString>* partList,
 				  const JSize limit = 0,
-				  const JBoolean includeSeparators = kJFalse) const;
+				  const bool includeSeparators = false) const;
 
 	// number <-> string
 
-	JBoolean	IsFloat() const;
-	JBoolean	ConvertToFloat(JFloat* value) const;
+	bool	IsFloat() const;
+	bool	ConvertToFloat(JFloat* value) const;
 
-	JBoolean	IsInteger(const JSize base = 10) const;
-	JBoolean	ConvertToInteger(JInteger* value, const JSize base = 10) const;
+	bool	IsInteger(const JSize base = 10) const;
+	bool	ConvertToInteger(JInteger* value, const JSize base = 10) const;
 
-	JBoolean	IsUInt(const JSize base = 10) const;
-	JBoolean	IsHexValue() const;
-	JBoolean	ConvertToUInt(JUInt* value, const JSize base = 10) const;
+	bool	IsUInt(const JSize base = 10) const;
+	bool	IsHexValue() const;
+	bool	ConvertToUInt(JUInt* value, const JSize base = 10) const;
 
-	static JBoolean	IsFloat(const JUtf8Byte* str);
-	static JBoolean	IsFloat(const JUtf8Byte* str, const JSize byteCount);
-	static JBoolean	ConvertToFloat(const JUtf8Byte* str, JFloat* value);
-	static JBoolean	ConvertToFloat(const JUtf8Byte* str, const JSize byteCount,
-								   JFloat* value);
+	static bool	IsFloat(const JUtf8Byte* str);
+	static bool	IsFloat(const JUtf8Byte* str, const JSize byteCount);
+	static bool	ConvertToFloat(const JUtf8Byte* str, JFloat* value);
+	static bool	ConvertToFloat(const JUtf8Byte* str, const JSize byteCount,
+							   JFloat* value);
 
-	static JBoolean	IsInteger(const JUtf8Byte* str, const JSize base = 10);
-	static JBoolean	IsInteger(const JUtf8Byte* str, const JSize byteCount, const JSize base);
-	static JBoolean	ConvertToInteger(const JUtf8Byte* str,
-									 JInteger* value, const JSize base = 10);
-	static JBoolean	ConvertToInteger(const JUtf8Byte* str, const JSize byteCount,
-									 JInteger* value, const JSize base = 10);
+	static bool	IsInteger(const JUtf8Byte* str, const JSize base = 10);
+	static bool	IsInteger(const JUtf8Byte* str, const JSize byteCount, const JSize base);
+	static bool	ConvertToInteger(const JUtf8Byte* str,
+								 JInteger* value, const JSize base = 10);
+	static bool	ConvertToInteger(const JUtf8Byte* str, const JSize byteCount,
+								 JInteger* value, const JSize base = 10);
 
-	static JBoolean	IsUInt(const JUtf8Byte* str, const JSize base = 10);
-	static JBoolean	IsUInt(const JUtf8Byte* str, const JSize byteCount, const JSize base);
-	static JBoolean	IsHexValue(const JUtf8Byte* str);
-	static JBoolean	IsHexValue(const JUtf8Byte* str, const JSize byteCount);
-	static JBoolean	ConvertToUInt(const JUtf8Byte* str,
-								  JUInt* value, const JSize base = 10);
-	static JBoolean	ConvertToUInt(const JUtf8Byte* str, const JSize byteCount,
-								  JUInt* value, const JSize base = 10);
+	static bool	IsUInt(const JUtf8Byte* str, const JSize base = 10);
+	static bool	IsUInt(const JUtf8Byte* str, const JSize byteCount, const JSize base);
+	static bool	IsHexValue(const JUtf8Byte* str);
+	static bool	IsHexValue(const JUtf8Byte* str, const JSize byteCount);
+	static bool	ConvertToUInt(const JUtf8Byte* str,
+							  JUInt* value, const JSize base = 10);
+	static bool	ConvertToUInt(const JUtf8Byte* str, const JSize byteCount,
+							  JUInt* value, const JSize base = 10);
 
 	// utility functions
 
-	static JBoolean	IsEmpty(const JUtf8Byte* s);
-	static JBoolean	IsEmpty(const JString* s);
+	static bool	IsEmpty(const JUtf8Byte* s);
+	static bool	IsEmpty(const JString* s);
 
-	static JBoolean			IsValid(const JUtf8Byte* s);
-	static JBoolean			IsValid(const JUtf8Byte* s, const JUtf8ByteRange& range);
+	static bool				IsValid(const JUtf8Byte* s);
+	static bool				IsValid(const JUtf8Byte* s, const JUtf8ByteRange& range);
 	static JSize			CountCharacters(const JUtf8Byte* str);
 	static JSize			CountCharacters(const JUtf8Byte* str, const JSize byteCount);
 	static JSize			CountCharacters(const JUtf8Byte* str, const JUtf8ByteRange& range);
 	static JSize			CountBytes(const JUtf8Byte* str, const JSize characterCount);
-	static JBoolean			CountBytesBackward(const JUtf8Byte* str, const JSize byteOffset, const JSize characterCount, JSize* byteCount);
+	static bool				CountBytesBackward(const JUtf8Byte* str, const JSize byteOffset, const JSize characterCount, JSize* byteCount);
 	static JUtf8ByteRange	CharacterToUtf8ByteRange(const JUtf8Byte* str, const JCharacterRange& range);
 
-	static int Compare(const JString& s1, const JString& s2, const JBoolean caseSensitive = kJTrue);
-	static int Compare(const JString& s1, const JUtf8Byte* s2, const JBoolean caseSensitive = kJTrue);
-	static int Compare(const JUtf8Byte* s1, const JString& s2, const JBoolean caseSensitive = kJTrue);
-	static int Compare(const JUtf8Byte* s1, const JUtf8Byte* s2, const JBoolean caseSensitive = kJTrue);
-	static int Compare(const JString& s1, const std::string& s2, const JBoolean caseSensitive = kJTrue);
-	static int Compare(const std::string& s1, const JString& s2, const JBoolean caseSensitive = kJTrue);
+	static int Compare(const JString& s1, const JString& s2, const Case caseSensitive = kCompareCase);
+	static int Compare(const JString& s1, const JUtf8Byte* s2, const Case caseSensitive = kCompareCase);
+	static int Compare(const JUtf8Byte* s1, const JString& s2, const Case caseSensitive = kCompareCase);
+	static int Compare(const JUtf8Byte* s1, const JUtf8Byte* s2, const Case caseSensitive = kCompareCase);
+	static int Compare(const JString& s1, const std::string& s2, const Case caseSensitive = kCompareCase);
+	static int Compare(const std::string& s1, const JString& s2, const Case caseSensitive = kCompareCase);
 	static int Compare(const JUtf8Byte* s1, const JSize byteCount1,
 					   const JUtf8Byte* s2, const JSize byteCount2,
-					   const JBoolean caseSensitive = kJTrue);
+					   const Case caseSensitive = kCompareCase);
 
 	static int	CompareMaxNBytes(const JUtf8Byte* s1, const JUtf8Byte* s2, const JSize N,
-								 const JBoolean caseSensitive = kJTrue);
+								 const Case caseSensitive = kCompareCase);
 
 	static JSize	CalcCharacterMatchLength(const JString& s1, const JString& s2,
-											 const JBoolean caseSensitive = kJTrue);
+											 const Case caseSensitive = kCompareCase);
 
 	static JSize	Normalize(const JUtf8Byte* source, const JSize byteCount,
 							  JUtf8Byte** destination);
@@ -273,21 +285,21 @@ protected:
 
 	JUtf8ByteRange	CharacterToUtf8ByteRange(const JCharacterRange& range) const;
 
-	JBoolean	SearchForward(const JUtf8Byte* str, const JSize byteCount,
-							  const JBoolean caseSensitive, JIndex* byteIndex) const;
-	JBoolean	SearchBackward(const JUtf8Byte* str, const JSize byteCount,
-							   const JBoolean caseSensitive, JIndex* byteIndex) const;
+	bool	SearchForward(const JUtf8Byte* str, const JSize byteCount,
+						  const Case caseSensitive, JIndex* byteIndex) const;
+	bool	SearchBackward(const JUtf8Byte* str, const JSize byteCount,
+						   const Case caseSensitive, JIndex* byteIndex) const;
 
 	void	ReplaceBytes(const JUtf8ByteRange& replaceRange,
 						 const JUtf8Byte* stringToInsert, const JSize insertByteCount);
 
-	JBoolean	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange,
-						  const JUtf8ByteRange& destRange);
+	bool	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange,
+					  const JUtf8ByteRange& destRange);
 
 private:
 
-	JBoolean		itsOwnerFlag;		// kJFalse => somebody else owns the byte allocation
-	const JBoolean	itsNormalizeFlag;	// kJFalse => store raw bytes, including null
+	bool		itsOwnerFlag;		// false => somebody else owns the byte allocation
+	const bool	itsNormalizeFlag;	// false => store raw bytes, including null
 	JUtf8Byte*		itsBytes;			// characters
 	JSize			itsByteCount;		// number of bytes used
 	JSize			itsCharacterCount;	// number of characters
@@ -302,17 +314,17 @@ private:
 private:
 
 	void	CopyToPrivateBuffer(const JUtf8Byte* str, const JSize byteCount,
-								const JBoolean invalidateIterator = kJTrue);
-	void	FoldCase(const JBoolean upper);
+								const bool invalidateIterator = true);
+	void	FoldCase(const bool upper);
 
-	static JBoolean	CompleteConversion(const JUtf8Byte* startPtr, const JSize byteCount,
+	static bool	CompleteConversion(const JUtf8Byte* startPtr, const JSize byteCount,
 									   const JUtf8Byte* convEndPtr);
 
-	static JBoolean			CreateCollator(UCollator** coll, const JBoolean caseSensitive);
+	static bool				CreateCollator(UCollator** coll, const Case caseSensitive);
 	static UCollationResult	Compare(UCollator* coll,
 									const JUtf8Byte* s1, const JSize length1,
 									const JUtf8Byte* s2, const JSize length2,
-									const JBoolean caseSensitive);
+									const Case caseSensitive);
 };
 
 
@@ -321,11 +333,11 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::IsOwner()
 	const
 {
-	return JI2B( itsOwnerFlag );
+	return itsOwnerFlag;
 }
 
 /******************************************************************************
@@ -333,11 +345,11 @@ JString::IsOwner()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::IsAscii()
 	const
 {
-	return JI2B( itsByteCount == itsCharacterCount );
+	return itsByteCount == itsCharacterCount;
 }
 
 /******************************************************************************
@@ -359,11 +371,11 @@ JString::GetRawBytes()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::IsEmpty()
 	const
 {
-	return JI2B( itsByteCount == 0 );
+	return itsByteCount == 0;
 }
 
 /******************************************************************************
@@ -371,22 +383,22 @@ JString::IsEmpty()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::IsEmpty
 	(
 	const JUtf8Byte* s
 	)
 {
-	return JI2B( s == nullptr || s[0] == '\0' );
+	return s == nullptr || s[0] == '\0';
 }
 
-inline JBoolean
+inline bool
 JString::IsEmpty
 	(
 	const JString* s
 	)
 {
-	return JI2B( s == nullptr || s->IsEmpty() );
+	return s == nullptr || s->IsEmpty();
 }
 
 /******************************************************************************
@@ -418,14 +430,14 @@ JString::GetByteCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::CharacterIndexValid
 	(
 	const JIndex index
 	)
 	const
 {
-	return JI2B( 1 <= index && index <= itsCharacterCount );
+	return 1 <= index && index <= itsCharacterCount;
 }
 
 /******************************************************************************
@@ -433,14 +445,14 @@ JString::CharacterIndexValid
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::ByteIndexValid
 	(
 	const JIndex index
 	)
 	const
 {
-	return JI2B( 1 <= index && index <= itsByteCount );
+	return 1 <= index && index <= itsByteCount;
 }
 
 /******************************************************************************
@@ -448,26 +460,26 @@ JString::ByteIndexValid
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::RangeValid
 	(
 	const JCharacterRange& range
 	)
 	const
 {
-	return JI2B(CharacterIndexValid(range.first) &&
-				(range.IsEmpty() || CharacterIndexValid(range.last)));
+	return CharacterIndexValid(range.first) &&
+				(range.IsEmpty() || CharacterIndexValid(range.last));
 }
 
-inline JBoolean
+inline bool
 JString::RangeValid
 	(
 	const JUtf8ByteRange& range
 	)
 	const
 {
-	return JI2B(ByteIndexValid(range.first) &&
-				(range.IsEmpty() || ByteIndexValid(range.last)));
+	return ByteIndexValid(range.first) &&
+				(range.IsEmpty() || ByteIndexValid(range.last));
 }
 
 /******************************************************************************
@@ -490,7 +502,7 @@ JString::CharacterToUtf8ByteRange
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::IsValid
 	(
 	const JUtf8Byte* str
@@ -519,80 +531,80 @@ JString::CountCharacters
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::BeginsWith
 	(
 	const JString&	str,
-	const JBoolean	caseSensitive
+	const Case		caseSensitive
 	)
 	const
 {
 	return BeginsWith(str.itsBytes, JUtf8ByteRange(1, str.itsByteCount), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::BeginsWith
 	(
 	const JString&			str,
 	const JCharacterRange&	range,
-	const JBoolean			caseSensitive
+	const Case				caseSensitive
 	)
 	const
 {
 	return BeginsWith(str.itsBytes + range.first-1, str.CharacterToUtf8ByteRange(range), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::BeginsWith
 	(
 	const JUtf8Byte*	str,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 	const
 {
 	return BeginsWith(str, JUtf8ByteRange(1, strlen(str)), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::BeginsWith
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 	const
 {
 	return BeginsWith(str, JUtf8ByteRange(1, byteCount), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::BeginsWith
 	(
 	const JUtf8Character&	c,
-	const JBoolean			caseSensitive
+	const Case				caseSensitive
 	)
 	const
 {
 	return BeginsWith(c.GetBytes(), JUtf8ByteRange(1, c.GetByteCount()), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::BeginsWith
 	(
 	const std::string&	str,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 	const
 {
 	return BeginsWith(str.data(), JUtf8ByteRange(1, str.length()), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::BeginsWith
 	(
 	const std::string&		str,
 	const JUtf8ByteRange&	range,
-	const JBoolean			caseSensitive
+	const Case				caseSensitive
 	)
 	const
 {
@@ -604,80 +616,80 @@ JString::BeginsWith
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::Contains
 	(
 	const JString&	str,
-	const JBoolean	caseSensitive
+	const Case		caseSensitive
 	)
 	const
 {
 	return Contains(str.itsBytes, JUtf8ByteRange(1, str.itsByteCount), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::Contains
 	(
 	const JString&			str,
 	const JCharacterRange&	range,
-	const JBoolean			caseSensitive
+	const Case				caseSensitive
 	)
 	const
 {
 	return Contains(str.itsBytes + range.first-1, str.CharacterToUtf8ByteRange(range), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::Contains
 	(
 	const JUtf8Byte*	str,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 	const
 {
 	return Contains(str, JUtf8ByteRange(1, strlen(str)), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::Contains
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 	const
 {
 	return Contains(str, JUtf8ByteRange(1, byteCount), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::Contains
 	(
 	const JUtf8Character&	c,
-	const JBoolean			caseSensitive
+	const Case				caseSensitive
 	)
 	const
 {
 	return Contains(c.GetBytes(), JUtf8ByteRange(1, c.GetByteCount()), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::Contains
 	(
 	const std::string&	str,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 	const
 {
 	return Contains(str.data(), JUtf8ByteRange(1, str.length()), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::Contains
 	(
 	const std::string&		str,
 	const JUtf8ByteRange&	range,
-	const JBoolean			caseSensitive
+	const Case				caseSensitive
 	)
 	const
 {
@@ -689,80 +701,80 @@ JString::Contains
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::EndsWith
 	(
 	const JString&	str,
-	const JBoolean	caseSensitive
+	const Case		caseSensitive
 	)
 	const
 {
 	return EndsWith(str.itsBytes, JUtf8ByteRange(1, str.itsByteCount), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::EndsWith
 	(
 	const JString&			str,
 	const JCharacterRange&	range,
-	const JBoolean			caseSensitive
+	const Case				caseSensitive
 	)
 	const
 {
 	return EndsWith(str.itsBytes + range.first-1, str.CharacterToUtf8ByteRange(range), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::EndsWith
 	(
 	const JUtf8Byte*	str,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 	const
 {
 	return EndsWith(str, JUtf8ByteRange(1, strlen(str)), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::EndsWith
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 	const
 {
 	return EndsWith(str, JUtf8ByteRange(1, byteCount), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::EndsWith
 	(
 	const JUtf8Character&	c,
-	const JBoolean			caseSensitive
+	const Case			caseSensitive
 	)
 	const
 {
 	return EndsWith(c.GetBytes(), JUtf8ByteRange(1, c.GetByteCount()), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::EndsWith
 	(
 	const std::string&	str,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 	const
 {
 	return EndsWith(str.data(), JUtf8ByteRange(1, str.length()), caseSensitive);
 }
 
-inline JBoolean
+inline bool
 JString::EndsWith
 	(
 	const std::string&		str,
 	const JUtf8ByteRange&	range,
-	const JBoolean			caseSensitive
+	const Case				caseSensitive
 	)
 	const
 {
@@ -932,7 +944,7 @@ operator+
 	const JString&		s
 	)
 {
-	JString sum(str, 0);
+	JString sum(str);
 	sum += s;
 	return sum;
 }
@@ -980,7 +992,7 @@ operator==
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), kJTrue) == 0);
+	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount()) == 0);
 }
 
 inline int
@@ -990,7 +1002,7 @@ operator==
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJTrue) == 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str)) == 0);
 }
 
 inline int
@@ -1000,7 +1012,7 @@ operator==
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJTrue) == 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str)) == 0);
 }
 
 inline int
@@ -1010,7 +1022,7 @@ operator==
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) == 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length()) == 0);
 }
 
 inline int
@@ -1020,7 +1032,7 @@ operator==
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) == 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length()) == 0);
 }
 
 // operator!=
@@ -1032,7 +1044,7 @@ operator!=
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), kJTrue) != 0);
+	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount()) != 0);
 }
 
 inline int
@@ -1042,7 +1054,7 @@ operator!=
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJTrue) != 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str)) != 0);
 }
 
 inline int
@@ -1052,7 +1064,7 @@ operator!=
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJTrue) != 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str)) != 0);
 }
 
 inline int
@@ -1062,7 +1074,7 @@ operator!=
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) != 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length()) != 0);
 }
 
 inline int
@@ -1072,7 +1084,7 @@ operator!=
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) != 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length()) != 0);
 }
 
 /******************************************************************************
@@ -1093,7 +1105,7 @@ operator<
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), kJFalse) < 0);
+	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), JString::kIgnoreCase) < 0);
 }
 
 inline int
@@ -1103,7 +1115,7 @@ operator<
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) < 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) < 0);
 }
 
 inline int
@@ -1113,7 +1125,7 @@ operator<
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) < 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) < 0);
 }
 
 inline int
@@ -1123,7 +1135,7 @@ operator<
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) < 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) < 0);
 }
 
 inline int
@@ -1133,7 +1145,7 @@ operator<
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) < 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) < 0);
 }
 
 // operator<=
@@ -1145,7 +1157,7 @@ operator<=
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), kJFalse) <= 0);
+	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), JString::kIgnoreCase) <= 0);
 }
 
 inline int
@@ -1155,7 +1167,7 @@ operator<=
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) <= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) <= 0);
 }
 
 inline int
@@ -1165,7 +1177,7 @@ operator<=
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) <= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) <= 0);
 }
 
 inline int
@@ -1175,7 +1187,7 @@ operator<=
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) <= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) <= 0);
 }
 
 inline int
@@ -1185,7 +1197,7 @@ operator<=
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) <= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) <= 0);
 }
 
 // operator>
@@ -1198,7 +1210,7 @@ operator>
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), kJFalse) > 0);
+	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), JString::kIgnoreCase) > 0);
 }
 
 inline int
@@ -1208,7 +1220,7 @@ operator>
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) > 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) > 0);
 }
 
 inline int
@@ -1218,7 +1230,7 @@ operator>
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) > 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) > 0);
 }
 
 inline int
@@ -1228,7 +1240,7 @@ operator>
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) > 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) > 0);
 }
 
 inline int
@@ -1238,7 +1250,7 @@ operator>
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) > 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) > 0);
 }
 
 // operator>=
@@ -1250,7 +1262,7 @@ operator>=
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), kJFalse) >= 0);
+	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), JString::kIgnoreCase) >= 0);
 }
 
 inline int
@@ -1260,7 +1272,7 @@ operator>=
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) >= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) >= 0);
 }
 
 inline int
@@ -1270,7 +1282,7 @@ operator>=
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), kJFalse) >= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) >= 0);
 }
 
 inline int
@@ -1280,7 +1292,7 @@ operator>=
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) >= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) >= 0);
 }
 
 inline int
@@ -1290,7 +1302,7 @@ operator>=
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) >= 0);
+	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) >= 0);
 }
 
 /******************************************************************************
@@ -1309,7 +1321,7 @@ JString::Compare
 	(
 	const JString&	s1,
 	const JString&	s2,
-	const JBoolean	caseSensitive
+	const Case		caseSensitive
 	)
 {
 	return JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), caseSensitive);
@@ -1320,7 +1332,7 @@ JString::Compare
 	(
 	const JString&		s1,
 	const JUtf8Byte*	s2,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 {
 	return JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2, strlen(s2), caseSensitive);
@@ -1331,7 +1343,7 @@ JString::Compare
 	(
 	const JUtf8Byte*	s1,
 	const JString&		s2,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 {
 	return JString::Compare(s1, strlen(s1), s2.GetRawBytes(), s2.GetByteCount(), caseSensitive);
@@ -1342,7 +1354,7 @@ JString::Compare
 	(
 	const JUtf8Byte*	s1,
 	const JUtf8Byte*	s2,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 {
 	return Compare(s1, strlen(s1), s2, strlen(s2), caseSensitive);
@@ -1353,7 +1365,7 @@ JString::Compare
 	(
 	const JString&		s1,
 	const std::string&	s2,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 {
 	return JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.data(), s2.length(), caseSensitive);
@@ -1364,7 +1376,7 @@ JString::Compare
 	(
 	const std::string&	s1,
 	const JString&		s2,
-	const JBoolean		caseSensitive
+	const Case			caseSensitive
 	)
 {
 	return JString::Compare(s1.data(), s1.length(), s2.GetRawBytes(), s2.GetByteCount(), caseSensitive);
@@ -1502,11 +1514,11 @@ JString::operator=
 /******************************************************************************
  Is number
 
-	Returns kJTrue if we can convert ourselves to a number.
+	Returns true if we can convert ourselves to a number.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::IsFloat()
 	const
 {
@@ -1514,7 +1526,7 @@ JString::IsFloat()
 	return ConvertToFloat(itsBytes, itsByteCount, &value);
 }
 
-inline JBoolean
+inline bool
 JString::IsInteger
 	(
 	const JSize base
@@ -1525,7 +1537,7 @@ JString::IsInteger
 	return ConvertToInteger(itsBytes, itsByteCount, &value, base);
 }
 
-inline JBoolean
+inline bool
 JString::IsUInt
 	(
 	const JSize base
@@ -1536,7 +1548,7 @@ JString::IsUInt
 	return ConvertToUInt(itsBytes, itsByteCount, &value, base);
 }
 
-inline JBoolean
+inline bool
 JString::IsHexValue()
 	const
 {
@@ -1545,7 +1557,7 @@ JString::IsHexValue()
 
 // static
 
-inline JBoolean
+inline bool
 JString::IsFloat
 	(
 	const JUtf8Byte* str
@@ -1555,7 +1567,7 @@ JString::IsFloat
 	return ConvertToFloat(str, strlen(str), &value);
 }
 
-inline JBoolean
+inline bool
 JString::IsFloat
 	(
 	const JUtf8Byte*	str,
@@ -1566,7 +1578,7 @@ JString::IsFloat
 	return ConvertToFloat(str, byteCount, &value);
 }
 
-inline JBoolean
+inline bool
 JString::IsInteger
 	(
 	const JUtf8Byte*	str,
@@ -1577,7 +1589,7 @@ JString::IsInteger
 	return ConvertToInteger(str, strlen(str), &value, base);
 }
 
-inline JBoolean
+inline bool
 JString::IsInteger
 	(
 	const JUtf8Byte*	str,
@@ -1589,7 +1601,7 @@ JString::IsInteger
 	return ConvertToInteger(str, byteCount, &value, base);
 }
 
-inline JBoolean
+inline bool
 JString::IsUInt
 	(
 	const JUtf8Byte*	str,
@@ -1600,7 +1612,7 @@ JString::IsUInt
 	return ConvertToUInt(str, strlen(str), &value, base);
 }
 
-inline JBoolean
+inline bool
 JString::IsUInt
 	(
 	const JUtf8Byte*	str,
@@ -1612,7 +1624,7 @@ JString::IsUInt
 	return ConvertToUInt(str, byteCount, &value, base);
 }
 
-inline JBoolean
+inline bool
 JString::IsHexValue
 	(
 	const JUtf8Byte* str
@@ -1626,7 +1638,7 @@ JString::IsHexValue
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JString::ConvertToFloat
 	(
 	JFloat* value
@@ -1636,7 +1648,7 @@ JString::ConvertToFloat
 	return ConvertToFloat(itsBytes, itsByteCount, value);
 }
 
-inline JBoolean
+inline bool
 JString::ConvertToInteger
 	(
 	JInteger*	value,
@@ -1647,7 +1659,7 @@ JString::ConvertToInteger
 	return ConvertToInteger(itsBytes, itsByteCount, value, base);
 }
 
-inline JBoolean
+inline bool
 JString::ConvertToUInt
 	(
 	JUInt*		value,
@@ -1660,7 +1672,7 @@ JString::ConvertToUInt
 
 // static
 
-inline JBoolean
+inline bool
 JString::ConvertToFloat
 	(
 	const JUtf8Byte*	str,
@@ -1670,7 +1682,7 @@ JString::ConvertToFloat
 	return ConvertToFloat(str, strlen(str), value);
 }
 
-inline JBoolean
+inline bool
 JString::ConvertToInteger
 	(
 	const JUtf8Byte*	str,
@@ -1681,7 +1693,7 @@ JString::ConvertToInteger
 	return ConvertToInteger(str, strlen(str), value, base);
 }
 
-inline JBoolean
+inline bool
 JString::ConvertToUInt
 	(
 	const JUtf8Byte*	str,
@@ -1703,11 +1715,11 @@ JString::Split
 	const JUtf8Byte*	separator,
 	JPtrArray<JString>*	partList,
 	const JSize			limit,
-	const JBoolean		includeSeparators
+	const bool			includeSeparators
 	)
 	const
 {
-	Split(JString(separator, kJFalse), partList, limit, includeSeparators);
+	Split(JString(separator, kNoCopy), partList, limit, includeSeparators);
 }
 
 /******************************************************************************

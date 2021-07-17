@@ -26,7 +26,7 @@ const JCoordinate kArrowHalfHeight = 4;
 
 JXSearchTextButton::JXSearchTextButton
 	(
-	const JBoolean		forward,
+	const bool		forward,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,

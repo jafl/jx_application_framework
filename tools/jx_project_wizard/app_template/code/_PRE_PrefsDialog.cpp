@@ -24,7 +24,7 @@
 	const JString&	data
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow(data);
 }

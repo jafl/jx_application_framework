@@ -84,7 +84,7 @@ BADRUNE      (\'[^']*\'?)
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}

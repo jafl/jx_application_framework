@@ -68,25 +68,25 @@ JXScrollableWidget::JXScrollableWidget
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsScrollbarSet         = scrollbarSet;
-	itsAlwaysShowScrollFlag = kJFalse;
-	itsAdjustingFlag        = kJFalse;
-	itsShouldRedrawFlag     = kJTrue;
+	itsAlwaysShowScrollFlag = false;
+	itsAdjustingFlag        = false;
+	itsShouldRedrawFlag     = true;
 	itsAdjustScrollbarTask  = nullptr;
 
 	itsHStepSize = itsVStepSize = 0;
 	itsHPageStepContext = itsVPageStepContext = -1;
 
-	itsHCtrl = kJTrue;
-	itsHMeta = kJTrue;
-	itsVCtrl = kJTrue;
-	itsVMeta = kJFalse;
+	itsHCtrl = true;
+	itsHMeta = true;
+	itsVCtrl = true;
+	itsVMeta = false;
 
 	UnlockBounds();
 	TurnOnBufferedDrawing();
 
 	if (itsScrollbarSet != nullptr)
 		{
-		WantInput(kJTrue);		// get home, end, page up, page down
+		WantInput(true);		// get home, end, page up, page down
 
 		ListenTo(itsScrollbarSet->GetHScrollbar());
 		ListenTo(itsScrollbarSet->GetVScrollbar());
@@ -120,7 +120,7 @@ JXScrollableWidget::~JXScrollableWidget()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXScrollableWidget::GetScrollbars
 	(
 	JXScrollbar** hScrollbar,
@@ -132,13 +132,13 @@ JXScrollableWidget::GetScrollbars
 		{
 		*hScrollbar = itsScrollbarSet->GetHScrollbar();
 		*vScrollbar = itsScrollbarSet->GetVScrollbar();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*hScrollbar = nullptr;
 		*vScrollbar = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -169,11 +169,11 @@ JXScrollableWidget::DrawBorder
  ScrollForDrag (protected)
 
 	Scrolls the widget to make the given point (in local coords) visible.
-	Returns kJTrue if scrolling was actually necessary.
+	Returns true if scrolling was actually necessary.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXScrollableWidget::ScrollForDrag
 	(
 	const JPoint& pt
@@ -184,11 +184,11 @@ JXScrollableWidget::ScrollForDrag
 	if (ScrollToRect(rect))
 		{
 		Redraw();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -446,14 +446,14 @@ JXScrollableWidget::AdjustScrollbars()
 
 		if (boundsG.width() <= maxApWidth && boundsG.height() <= maxApHeight)
 			{
-			itsScrollbarSet->ShowScrollbars(kJFalse, kJFalse);
+			itsScrollbarSet->ShowScrollbars(false, false);
 			return;
 			}
 		}
 
 	// adjust all the scrollbar settings
 
-	itsAdjustingFlag = kJTrue;
+	itsAdjustingFlag = true;
 
 	const JCoordinate xmax = JMax(boundsG.width() - apW, (JCoordinate) 0);
 	hScrollbar->SetMaxValue(xmax);
@@ -491,11 +491,11 @@ JXScrollableWidget::AdjustScrollbars()
 		vScrollbar->SetPageStepSize(JRound(apH * kPageStepFraction));
 		}
 
-	itsAdjustingFlag = kJFalse;
+	itsAdjustingFlag = false;
 
 	itsScrollbarSet->ShowScrollbars(
-						JConvertToBoolean(itsAlwaysShowScrollFlag || xmax > 0),
-						JConvertToBoolean(itsAlwaysShowScrollFlag || ymax > 0));
+						itsAlwaysShowScrollFlag || xmax > 0,
+						itsAlwaysShowScrollFlag || ymax > 0);
 }
 
 /******************************************************************************
@@ -533,7 +533,7 @@ JXScrollableWidget::HandleMouseDown
 /******************************************************************************
  ScrollForWheel (protected)
 
-	Call this to support scrolling via a wheel mouse.  Returns kJTrue if
+	Call this to support scrolling via a wheel mouse.  Returns true if
 	it handled the event.
 
 	The second version is designed for row and column headers that scroll
@@ -542,7 +542,7 @@ JXScrollableWidget::HandleMouseDown
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXScrollableWidget::ScrollForWheel
 	(
 	const JXMouseButton		button,
@@ -557,11 +557,11 @@ JXScrollableWidget::ScrollForWheel
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JXScrollableWidget::ScrollForWheel
 	(
 	const JXMouseButton		button,
@@ -593,17 +593,17 @@ JXScrollableWidget::ScrollForWheel
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// even if no scrollbar, we need to treat it as captured
 
 	if (scrollbar == nullptr)
 		{
-		return kJTrue;
+		return true;
 		}
 
-	const JBoolean osx = GetDisplay()->IsOSX();
+	const bool osx = GetDisplay()->IsOSX();
 
 	if (osx && modifiers.control())
 		{
@@ -626,7 +626,7 @@ JXScrollableWidget::ScrollForWheel
 		scrollbar->StepLine(kWheelLineCount * delta);
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -653,9 +653,9 @@ JXScrollableWidget::HandleKeyPress
 		}
 
 	const JXMenu::Style style = JXMenu::GetDisplayStyle();
-	const JBoolean ctrl =
+	const bool ctrl =
 		(style == JXMenu::kMacintoshStyle ? modifiers.control() : modifiers.meta());
-	const JBoolean meta =
+	const bool meta =
 		(style == JXMenu::kMacintoshStyle ? modifiers.meta() : modifiers.control());
 
 	JXScrollbar* scrollbar = modifiers.meta() ? hScrollbar : vScrollbar;
@@ -738,11 +738,11 @@ JXScrollableWidget::ReadScrollSetup
 	input >> vers;
 	if (vers <= kCurrentSetupVersion)
 		{
-		JBoolean hadScrollbars;
+		bool hadScrollbars;
 		input >> JBoolFromString(hadScrollbars);
 
 		JXScrollbar *hScrollbar, *vScrollbar;
-		const JBoolean hasScrollbars = GetScrollbars(&hScrollbar, &vScrollbar);
+		const bool hasScrollbars = GetScrollbars(&hScrollbar, &vScrollbar);
 		assert( hasScrollbars == hadScrollbars );
 
 		if (hasScrollbars)
@@ -751,10 +751,10 @@ JXScrollableWidget::ReadScrollSetup
 			// for JXTreeListWidget when the nodes are sorted while the
 			// widget is scrolled to the very bottom.
 
-			itsShouldRedrawFlag = kJFalse;
+			itsShouldRedrawFlag = false;
 			hScrollbar->ReadSetup(input);
 			vScrollbar->ReadSetup(input);
-			itsShouldRedrawFlag = kJTrue;
+			itsShouldRedrawFlag = true;
 			}
 		}
 
@@ -790,7 +790,7 @@ JXScrollableWidget::WriteScrollSetup
 	output << ' ' << kCurrentSetupVersion;
 
 	JXScrollbar *hScrollbar, *vScrollbar;
-	const JBoolean hasScrollbars = GetScrollbars(&hScrollbar, &vScrollbar);
+	const bool hasScrollbars = GetScrollbars(&hScrollbar, &vScrollbar);
 	output << ' ' << JBoolToString(hasScrollbars);
 
 	if (hasScrollbars)

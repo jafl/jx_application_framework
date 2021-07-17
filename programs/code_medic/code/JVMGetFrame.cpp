@@ -21,7 +21,7 @@ JVMGetFrame::JVMGetFrame
 	CMStackWidget* widget
 	)
 	:
-	CMGetFrame(JString("NOP", kJFalse)),
+	CMGetFrame(JString("NOP", JString::kNoCopy)),
 	itsWidget(widget)
 {
 }

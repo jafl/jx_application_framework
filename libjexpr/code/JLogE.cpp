@@ -74,7 +74,7 @@ JLogE::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JLogE::Evaluate
 	(
 	JFloat* result
@@ -84,14 +84,14 @@ JLogE::Evaluate
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = log(argValue);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JLogE::Evaluate
 	(
 	JComplex* result
@@ -101,7 +101,7 @@ JLogE::Evaluate
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = log(argValue);

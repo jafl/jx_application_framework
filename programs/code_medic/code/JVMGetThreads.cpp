@@ -26,7 +26,7 @@ JVMGetThreads::JVMGetThreads
 	CMThreadsWidget*	widget
 	)
 	:
-	CMGetThreads(JString("NOP", kJFalse), widget),
+	CMGetThreads(JString("NOP", JString::kNoCopy), widget),
 	itsTree(tree)
 {
 }

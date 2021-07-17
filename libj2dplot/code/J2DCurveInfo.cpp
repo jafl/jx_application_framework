@@ -36,7 +36,7 @@ operator>>
 
 	if (vers == 0)
 		{
-		JBoolean points;
+		bool points;
 		input >> JBoolFromString(points);
 		}
 

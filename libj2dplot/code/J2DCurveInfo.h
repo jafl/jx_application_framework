@@ -30,24 +30,24 @@ enum J2DSymbolType
 
 struct J2DCurveInfo
 {
-	JBoolean		show;
-	JBoolean		lines;
-	JBoolean		symbols;
-	JBoolean		own;
-	JBoolean		xerrors;
-	JBoolean		yerrors;
-	JBoolean		protect;
+	bool		show;
+	bool		lines;
+	bool		symbols;
+	bool		own;
+	bool		xerrors;
+	bool		yerrors;
+	bool		protect;
 	JIndex			color;
 	J2DSymbolType	symbol;
 	JString*		name;
 
-	J2DCurveInfo(const JBoolean s,
-				const JBoolean l,
-				const JBoolean sym,
-				const JBoolean o,
-				const JBoolean x,
-				const JBoolean y,
-				const JBoolean prot,
+	J2DCurveInfo(const bool s,
+				const bool l,
+				const bool sym,
+				const bool o,
+				const bool x,
+				const bool y,
+				const bool prot,
 				const JIndex col,
 				const J2DSymbolType symType,
 				JString* n)
@@ -60,16 +60,16 @@ struct J2DCurveInfo
 
 	J2DCurveInfo()
 		:
-		show(kJTrue), lines(kJTrue), symbols(kJFalse),
-		own(kJFalse), xerrors(kJTrue), yerrors(kJTrue),
-		protect(kJFalse), color(1),
+		show(true), lines(true), symbols(false),
+		own(false), xerrors(true), yerrors(true),
+		protect(false), color(1),
 		symbol(kCircle), name(nullptr)
 		{ };
 
-	JBoolean
+	bool
 	points() const
 	{
-		return JNegate( lines || symbols );
+		return !lines && !symbols;
 	};
 };
 

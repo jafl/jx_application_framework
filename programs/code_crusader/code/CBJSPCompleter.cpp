@@ -71,19 +71,19 @@ const JSize kKeywordCount = sizeof(kKeywordList)/sizeof(JUtf8Byte*);
 
  ******************************************************************************/
 
-static JBoolean recursiveInstance = kJFalse;
+static bool recursiveInstance = false;
 
 CBStringCompleter*
 CBJSPCompleter::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
 		{
-		recursiveInstance = kJTrue;
+		recursiveInstance = true;
 
 		itsSelf = jnew CBJSPCompleter;
 		assert( itsSelf != nullptr );
 
-		recursiveInstance = kJFalse;
+		recursiveInstance = false;
 		}
 
 	return itsSelf;
@@ -107,7 +107,7 @@ CBJSPCompleter::Shutdown()
 
 CBJSPCompleter::CBJSPCompleter()
 	:
-	CBStringCompleter(kCBJSPLang, kKeywordCount, kKeywordList, kJTrue)
+	CBStringCompleter(kCBJSPLang, kKeywordCount, kKeywordList, JString::kCompareCase)
 {
 	UpdateWordList();	// include HTML and JavaScript
 	ListenTo(CBHTMLStyler::Instance());
@@ -132,15 +132,15 @@ CBJSPCompleter::~CBJSPCompleter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBJSPCompleter::IsWordCharacter
 	(
 	const JUtf8Character&	c,
-	const JBoolean			includeNS
+	const bool			includeNS
 	)
 	const
 {
-	return JI2B(c.IsAlnum() || c == '_' || (includeNS && c == '.'));
+	return c.IsAlnum() || c == '_' || (includeNS && c == '.');
 }
 
 /******************************************************************************
@@ -183,7 +183,7 @@ CBJSPCompleter::UpdateWordList()
 	JSize count = CBHTMLCompleter::GetDefaultWordList(&htmlWordList);
 	for (JUnsignedOffset i=0; i<count; i++)
 		{
-		Add(JString(htmlWordList[i], kJFalse));
+		Add(JString(htmlWordList[i], JString::kNoCopy));
 		}
 
 	CopyWordsFromStyler(CBHTMLStyler::Instance());
@@ -194,7 +194,7 @@ CBJSPCompleter::UpdateWordList()
 	count = CBJavaScriptCompleter::GetDefaultWordList(&jsWordList);
 	for (JUnsignedOffset i=0; i<count; i++)
 		{
-		Add(JString(jsWordList[i], kJFalse));
+		Add(JString(jsWordList[i], JString::kNoCopy));
 		}
 
 	CopyWordsFromStyler(CBJavaScriptStyler::Instance());

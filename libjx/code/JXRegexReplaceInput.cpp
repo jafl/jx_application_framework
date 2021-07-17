@@ -22,7 +22,7 @@
 JXRegexReplaceInput::JXRegexReplaceInput
 	(
 	JInterpolate*		testInterpolator,
-	const JBoolean		widgetOwnsInterpolator,
+	const bool		widgetOwnsInterpolator,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -58,12 +58,12 @@ JXRegexReplaceInput::~JXRegexReplaceInput()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXRegexReplaceInput::InputValid()
 {
 	if (!JXInputField::InputValid())
 		{
-		return kJFalse;
+		return false;
 		}
 	else
 		{
@@ -71,20 +71,20 @@ JXRegexReplaceInput::InputValid()
 
 		if (!IsRequired() && text.IsEmpty())
 			{
-			return kJTrue;
+			return true;
 			}
 
 		JCharacterRange errRange;
 		const JError err = itsTestInterpolator->ContainsError(text, &errRange);
 		if (err.OK())
 			{
-			return kJTrue;
+			return true;
 			}
 		else
 			{
 			SetSelection(errRange);
 			err.ReportIfError();
-			return kJFalse;
+			return false;
 			}
 		}
 }

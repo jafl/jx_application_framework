@@ -61,7 +61,7 @@ JXCSFDialogBase::JXCSFDialogBase
 	const JString&	fileFilter
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue),
+	JXDialogDirector(supervisor, true),
 	itsPrevFilterString(fileFilter)
 {
 	// We turn the filter on in case the user changed it last time and then
@@ -76,12 +76,12 @@ JXCSFDialogBase::JXCSFDialogBase
 
 	itsPrevPath = itsDirInfo->GetDirectory();
 
-	itsDeactCancelFlag = kJFalse;
+	itsDeactCancelFlag = false;
 	itsNewDirDialog    = nullptr;
 
 	// Our window geometry is stored by JXChooseSaveFile.
 
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 }
 
 /******************************************************************************
@@ -122,7 +122,7 @@ JXCSFDialogBase::GetFilter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXCSFDialogBase::HiddenVisible()
 	const
 {
@@ -156,20 +156,20 @@ JXCSFDialogBase::Activate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXCSFDialogBase::Deactivate()
 {
 	if (!IsActive())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	itsDeactCancelFlag     = Cancelled();
-	const JBoolean success = JXDialogDirector::Deactivate();
+	const bool success = JXDialogDirector::Deactivate();
 	if (!success)
 		{
 		// We haven't been deleted.
-		itsDeactCancelFlag = kJFalse;
+		itsDeactCancelFlag = false;
 		}
 	return success;
 }
@@ -186,7 +186,7 @@ void
 JXCSFDialogBase::ReadBaseSetup
 	(
 	std::istream&		input,
-	const JBoolean	ignoreScroll
+	const bool	ignoreScroll
 	)
 {
 	JXWindow* window = GetWindow();
@@ -314,7 +314,7 @@ JXCSFDialogBase::SetObjects
 
 	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 	itsFilterInput->SetFont(font);
-	itsFilterHistory->SetDefaultFont(font, kJTrue);
+	itsFilterHistory->SetDefaultFont(font, true);
 
 	itsShowHiddenCB->SetState(itsDirInfo->HiddenVisible());
 	itsCurrPathMenu->SetPath(itsDirInfo->GetDirectory());
@@ -523,7 +523,7 @@ JXCSFDialogBase::Receive
 	else if (sender == itsHomeButton && message.Is(JXButton::kPushed))
 		{
 		JString homeDir;
-		const JBoolean found = JGetHomeDirectory(&homeDir);
+		const bool found = JGetHomeDirectory(&homeDir);
 		if (found)
 			{
 			itsDirInfo->GoTo(homeDir);
@@ -538,7 +538,7 @@ JXCSFDialogBase::Receive
 	else if (sender == itsDesktopButton && message.Is(JXButton::kPushed))
 		{
 		JString desktopDir;
-		const JBoolean found = JGetHomeDirectory(&desktopDir);
+		const bool found = JGetHomeDirectory(&desktopDir);
 		if (found)
 			{
 			desktopDir = JCombinePathAndName(desktopDir, JGetString("DesktopName::JXCSFDialogBase"));
@@ -578,22 +578,22 @@ JXCSFDialogBase::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXCSFDialogBase::GoToItsPath()
 {
 	if (itsPathInput->InputValid())
 		{
 		JString path;
-		const JBoolean ok = itsPathInput->GetPath(&path);
+		const bool ok = itsPathInput->GetPath(&path);
 		assert( ok );
 
 		const JError err = itsDirInfo->GoTo(path);
 		assert_ok( err );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -661,7 +661,7 @@ JXCSFDialogBase::GetNewDirectory()
 	itsNewDirDialog =
 		jnew JXGetNewDirDialog(JXGetApplication(), JGetString("NewDirWindowTitle::JXCSFDialogBase"),
 							  JGetString("NewDirPrompt::JXCSFDialogBase"), JString::empty,
-							  itsDirInfo->GetDirectory(), kJFalse);
+							  itsDirInfo->GetDirectory(), false);
 	assert( itsNewDirDialog != nullptr );
 
 	JXWindow* window = itsNewDirDialog->GetWindow();

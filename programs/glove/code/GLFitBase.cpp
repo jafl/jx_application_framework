@@ -17,16 +17,16 @@
 GLFitBase::GLFitBase()
 {
 	itsParameterCount = 0;
-	itsHasParameterErrors = kJFalse;
-	itsHasGOF = kJFalse;
+	itsHasParameterErrors = false;
+	itsHasGOF = false;
 }
 
 
 GLFitBase::GLFitBase
 	(
 	const JSize paramCount, 
-	const JBoolean errors, 
-	const JBoolean gof
+	const bool errors, 
+	const bool gof
 	)
 	:
 	itsParameterCount(paramCount),
@@ -55,7 +55,7 @@ GLFitBase::~GLFitBase()
 void
 GLFitBase::SetHasParameterErrors
 	(
-	const JBoolean errors
+	const bool errors
 	)
 {
 	itsHasParameterErrors = errors;
@@ -85,7 +85,7 @@ GLFitBase::SetParameterCount
 void
 GLFitBase::SetHasGoodnessOfFit
 	(
-	const JBoolean gof
+	const bool gof
 	)
 {
 	itsHasGOF = gof;

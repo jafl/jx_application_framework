@@ -168,7 +168,7 @@ JTEST(Iterator)
 	JAssertTrue(iter->GetPrevElementIndex(&i));
 	JAssertEqual(5, i);
 
-	JAssertTrue(iter->Prev(&j, kJFalse));
+	JAssertTrue(iter->Prev(&j, kJIteratorStay));
 	JAssertEqual(1, j);
 	JAssertTrue(iter->Prev(&j));
 	JAssertEqual(1, j);
@@ -193,7 +193,7 @@ JTEST(Iterator)
 	JAssertTrue(iter->GetNextElementIndex(&i));
 	JAssertEqual(1, i);
 
-	JAssertTrue(iter->Next(&j, kJFalse));
+	JAssertTrue(iter->Next(&j, kJIteratorStay));
 	JAssertEqual(5, j);
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(5, j);
@@ -284,8 +284,8 @@ JTEST(IteratorModification)
 	iter->SkipPrev();
 	verify("-2 -4 -1 5 4 3 2 1 -3", a);
 
-	iter->SetPrev(-4, kJFalse);
-	iter->SetNext(-3, kJFalse);
+	iter->SetPrev(-4, kJIteratorStay);
+	iter->SetNext(-3, kJIteratorStay);
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(-3, j);
 	iter->SkipPrev();

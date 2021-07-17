@@ -24,11 +24,11 @@ GPMMDIServer*		GPMGetMDIServer();
 const JString&		GPMGetVersionNumberStr();
 JString				GPMGetVersionStr();
 
-JBoolean			GPMGetSystemMemory(JSize* mem);
+bool			GPMGetSystemMemory(JSize* mem);
 
 	// called by GPMApp
 
-JBoolean	GPMCreateGlobals(GPMApp* app);
+bool	GPMCreateGlobals(GPMApp* app);
 void		GPMDeleteGlobals();
 void		GPMCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 

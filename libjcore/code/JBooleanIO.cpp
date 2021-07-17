@@ -1,8 +1,6 @@
 /******************************************************************************
  JBooleanIO.cpp
 
-	Stream operators and utilities for JBoolean type.
-
 	Adapted from https://codereview.stackexchange.com/questions/14309/conversion-between-enum-and-string-in-c-class-header
 
 	Copyright (C) 1994 by John Lindal.
@@ -40,11 +38,11 @@ operator>>
 
 	if (c == kTrueMarker)
 		{
-		data.v = kJTrue;
+		data.v = true;
 		}
 	else if (c == kFalseMarker)
 		{
-		data.v = kJFalse;
+		data.v = false;
 		}
 	else
 		{

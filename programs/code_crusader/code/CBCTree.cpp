@@ -143,7 +143,7 @@ CBCTree::StreamInCClass
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCTree::UpdateFinished
 	(
 	const JArray<JFAID_t>& deadFileList

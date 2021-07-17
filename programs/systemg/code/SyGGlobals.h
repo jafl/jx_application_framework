@@ -33,32 +33,32 @@ SyGViewManPageDialog*	SyGGetManPageDialog();
 SyGFindFileDialog*		SyGGetFindFileDialog();
 SyGChooseSaveFile*		SyGGetChooseSaveFile();
 
-JBoolean	SyGIsTrashDirectory(const JString& path);
-JBoolean	SyGGetTrashDirectory(JString* path, const JBoolean reportErrors = kJTrue);
-JBoolean	SyGTrashDirectoryIsEmpty();
+bool	SyGIsTrashDirectory(const JString& path);
+bool	SyGGetTrashDirectory(JString* path, const bool reportErrors = true);
+bool	SyGTrashDirectoryIsEmpty();
 void		SyGUpdateTrash();
-JBoolean	SyGEmptyTrashDirectory();
+bool	SyGEmptyTrashDirectory();
 
-JBoolean	SyGDeleteDirEntry(const JString& fullName);
-JBoolean	SyGExec(const JString& cmd, const JBoolean report = kJTrue);
+bool	SyGDeleteDirEntry(const JString& fullName);
+bool	SyGExec(const JString& cmd, const bool report = true);
 
 	// called by SyGApplication
 
-JBoolean	SyGCreateGlobals(SyGApplication* app);
+bool	SyGCreateGlobals(SyGApplication* app);
 void		SyGDeleteGlobals();
 void		SyGCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
 	// called by SyGRecentFileMenu
 
-JBoolean	SyGGetRecentFileDirectory(JString* path, const JBoolean reportErrors = kJTrue);
+bool	SyGGetRecentFileDirectory(JString* path, const bool reportErrors = true);
 void		SyGAddRecentFile(const JString& fullname);
 
 	// used during intra-app DND
 
-JBoolean	SyGGetDNDSource(const JXWidget* dndSource, SyGFileTreeTable** widget);
+bool	SyGGetDNDSource(const JXWidget* dndSource, SyGFileTreeTable** widget);
 void		SyGSetDNDSource(SyGFileTreeTable* widget);
 
-JBoolean	SyGGetDNDTarget(const JXContainer* dndTarget, SyGFileTreeTable** widget);
+bool	SyGGetDNDTarget(const JXContainer* dndTarget, SyGFileTreeTable** widget);
 void		SyGSetDNDTarget(SyGFileTreeTable* widget);
 
 void		SyGGetDNDAskActions(JArray<Atom>* actionList,
@@ -66,18 +66,18 @@ void		SyGGetDNDAskActions(JArray<Atom>* actionList,
 
 	// icons
 
-JXImage*	SyGGetFileSmallIcon(const JBoolean selected = kJFalse);
-JXImage*	SyGGetFolderSmallIcon(const JBoolean selected = kJFalse);
-JXImage*	SyGGetReadOnlyFolderSmallIcon(const JBoolean selected = kJFalse);
-JXImage*	SyGGetLockedFolderSmallIcon(const JBoolean selected = kJFalse);
-JXImage*	SyGGetExecSmallIcon(const JBoolean selected = kJFalse);
-JXImage*	SyGGetUnknownSmallIcon(const JBoolean selected = kJFalse);
+JXImage*	SyGGetFileSmallIcon(const bool selected = false);
+JXImage*	SyGGetFolderSmallIcon(const bool selected = false);
+JXImage*	SyGGetReadOnlyFolderSmallIcon(const bool selected = false);
+JXImage*	SyGGetLockedFolderSmallIcon(const bool selected = false);
+JXImage*	SyGGetExecSmallIcon(const bool selected = false);
+JXImage*	SyGGetUnknownSmallIcon(const bool selected = false);
 JXImage*	SyGGetDirectorySmallIcon(const JString& path);
 JIndex		SyGGetMountPointLargeIcon(const JString& path, SyGFileTreeList* fileList,
 									  JXPM* plainIcon, JXPM* selectedIcon);
 
-JBoolean	SyGGetMountPointSmallIcon(const JMountType type, JXImage** image);
-JXImage*	SyGGetTrashSmallIcon(const JBoolean selected = kJFalse);
+bool	SyGGetMountPointSmallIcon(const JMountType type, JXImage** image);
+JXImage*	SyGGetTrashSmallIcon(const bool selected = false);
 
 	// version info
 

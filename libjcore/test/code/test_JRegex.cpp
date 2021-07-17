@@ -79,13 +79,13 @@ JTEST(Assignment)
 	regexList[1] = &regex2;
 	for (JIndex i : { 0,1 })
 		{
-		JAssertFalse(regexList[i]->Match(JString("qqqqqa+x*b+qqqqqq", kJFalse)));
-		JAssertFalse(regexList[i]->Match(JString("a+xxxxb+", kJFalse)));
-		JAssertTrue(regexList[i]->Match(JString("axxxb", kJFalse)));
-		JAssertFalse(regexList[i]->Match(JString("xxxxxxxxb", kJFalse)));
-		JAssertTrue(regexList[i]->Match(JString("aaabb", kJFalse)));
-		JAssertFalse(regexList[i]->Match(JString("aaaxxx", kJFalse)));
-		JAssertTrue(regexList[i]->Match(JString("aaaabbb", kJFalse)));
+		JAssertFalse(regexList[i]->Match(JString("qqqqqa+x*b+qqqqqq", JString::kNoCopy)));
+		JAssertFalse(regexList[i]->Match(JString("a+xxxxb+", JString::kNoCopy)));
+		JAssertTrue(regexList[i]->Match(JString("axxxb", JString::kNoCopy)));
+		JAssertFalse(regexList[i]->Match(JString("xxxxxxxxb", JString::kNoCopy)));
+		JAssertTrue(regexList[i]->Match(JString("aaabb", JString::kNoCopy)));
+		JAssertFalse(regexList[i]->Match(JString("aaaxxx", JString::kNoCopy)));
+		JAssertTrue(regexList[i]->Match(JString("aaaabbb", JString::kNoCopy)));
 		}
 }
 
@@ -109,7 +109,7 @@ JTEST(Options)
 		JAssertTrue(m.IsEmpty());
 	}
 
-	regex.SetCaseSensitive(kJFalse);
+	regex.SetCaseSensitive(false);
 	JAssertFalse(regex.IsCaseSensitive());
 	{
 		const JStringMatch m = regex.MatchForward("qqqqqqqqqqaBcqqqqq");
@@ -127,7 +127,7 @@ JTEST(Options)
 	JAssertOK(regex.SetPattern("^aBc"));
 	regex.RestoreDefaults();
 	JAssertFalse(regex.IsSingleLine());
-	regex.SetSingleLine(kJTrue);
+	regex.SetSingleLine(true);
 	JAssertTrue(regex.IsSingleLine());
 	{
 		const JStringMatch m = regex.MatchForward("aBc");
@@ -139,7 +139,7 @@ JTEST(Options)
 		JAssertTrue(m.IsEmpty());
 	}
 
-	regex.SetSingleLine(kJFalse);
+	regex.SetSingleLine(false);
 	JAssertFalse(regex.IsSingleLine());
 	{
 		const JStringMatch m = regex.MatchForward("aBc");
@@ -161,7 +161,7 @@ JTEST(Options)
 		JAssertStringsEqual("aBc", m.GetString());
 	}
 
-	regex.SetLineBegin(kJFalse);
+	regex.SetLineBegin(false);
 	JAssertFalse(regex.IsLineBegin());
 	{
 		const JStringMatch m = regex.MatchForward("aBc");
@@ -179,7 +179,7 @@ JTEST(Options)
 		JAssertStringsEqual("aBc", m.GetString());
 	}
 
-	regex.SetLineEnd(kJFalse);
+	regex.SetLineEnd(false);
 	JAssertFalse(regex.IsLineEnd());
 	{
 		const JStringMatch m = regex.MatchForward("aBc");
@@ -188,7 +188,7 @@ JTEST(Options)
 
 // Test single line again
 
-	regex.SetSingleLine(kJFalse);
+	regex.SetSingleLine(false);
 	JAssertFalse(regex.IsSingleLine());
 	{
 		const JStringMatch m = regex.MatchForward("aBc");
@@ -445,7 +445,7 @@ JTEST(Split)
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 
-	JString s("  foo bar  baz ", kJFalse);
+	JString s("  foo bar  baz ", JString::kNoCopy);
 
 	JRegex regex("\\s+");
 	s.Split(regex, &list);
@@ -455,7 +455,7 @@ JTEST(Split)
 	JAssertStringsEqual("bar", *list.GetElement(3));
 	JAssertStringsEqual("baz", *list.GetElement(4));
 
-	s.Split(regex, &list, 0, kJTrue);
+	s.Split(regex, &list, 0, true);
 	JAssertEqual(8, list.GetElementCount());
 	JAssertStringsEqual("", *list.GetElement(1));
 	JAssertStringsEqual("  ", *list.GetElement(2));
@@ -519,13 +519,13 @@ JTEST(BackslashForLiteral)
 	JAssertFalse(JRegex::NeedsBackslashToBeLiteral(JUtf8Character("\xE2\x9C\x94")));
 
 	const JString s = JRegex::BackslashForLiteral(
-		JString(".[foo]\\?*^${\xE2\x9C\x94}|()83", kJFalse));
+		JString(".[foo]\\?*^${\xE2\x9C\x94}|()83", JString::kNoCopy));
 	JAssertStringsEqual("\\.\\[foo\\]\\\\\\?\\*\\^\\$\\{\xE2\x9C\x94\\}\\|\\(\\)83", s);
 }
 
 JTEST(Null)
 {
-	JString s(kJFalse);
+	JString s(false);
 	s.Set("a\0b", 3);
 
 	JRegex r(s);
@@ -536,7 +536,7 @@ JTEST(Null)
 
 	// test for JMessageProcotol
 
-	JString pattern(kJFalse);
+	JString pattern(false);
 
 	s.Set("\n", 1);
 	pattern  = JRegex::BackslashForLiteral(s);
@@ -549,5 +549,5 @@ JTEST(Null)
 	r.SetPatternOrDie(pattern);
 	JAssertEqual(5, r.GetPattern().GetByteCount());
 	JAssertEqual(0, memcmp("\n|\\x0", r.GetPattern().GetBytes(), 3));
-	JAssertTrue(r.Match(JString("abcd\n", kJFalse)));
+	JAssertTrue(r.Match(JString("abcd\n", JString::kNoCopy)));
 }

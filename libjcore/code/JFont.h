@@ -43,10 +43,10 @@ public:
 	void				SetStyle(const JFontStyle& style);
 	void				ClearStyle();
 
-	void	SetBold(const JBoolean bold);
-	void	SetItalic(const JBoolean italic);
+	void	SetBold(const bool bold);
+	void	SetItalic(const bool italic);
 	void	SetUnderlineCount(const JSize count);
-	void	SetStrike(const JBoolean strike);
+	void	SetStrike(const bool strike);
 	void	SetColor(const JColorID color);
 
 	JSize	GetLineHeight(JFontManager* fontManager) const;
@@ -59,10 +59,10 @@ public:
 	JSize	GetStrikeThickness() const;
 	JSize	GetUnderlineThickness() const;
 
-	JBoolean	IsExact(JFontManager* fontManager) const;
-	JBoolean	HasGlyphsForString(JFontManager* fontManager, const JString& s) const;
-	JBoolean	HasGlyphForCharacter(JFontManager* fontManager, const JUtf8Character& c) const;
-	JBoolean	SubstituteToDisplayGlyph(JFontManager* fontManager, const JUtf8Character& c);
+	bool	IsExact(JFontManager* fontManager) const;
+	bool	HasGlyphsForString(JFontManager* fontManager, const JString& s) const;
+	bool	HasGlyphForCharacter(JFontManager* fontManager, const JUtf8Character& c) const;
+	bool	SubstituteToDisplayGlyph(JFontManager* fontManager, const JUtf8Character& c);
 
 private:
 

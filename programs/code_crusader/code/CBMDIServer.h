@@ -25,10 +25,10 @@ public:
 
 	// called by CBEditGenPrefsDialog
 
-	void	GetStartupOptions(JBoolean* createEditor, JBoolean* createProject,
-							  JBoolean* reopenLast, JBoolean* chooseFile) const;
-	void	SetStartupOptions(const JBoolean createEditor, const JBoolean createProject,
-							  const JBoolean reopenLast, const JBoolean chooseFile);
+	void	GetStartupOptions(bool* createEditor, bool* createProject,
+							  bool* reopenLast, bool* chooseFile) const;
+	void	SetStartupOptions(const bool createEditor, const bool createProject,
+							  const bool reopenLast, const bool chooseFile);
 
 protected:
 
@@ -40,21 +40,21 @@ protected:
 
 private:
 
-	JBoolean	itsCreateEditorFlag;
-	JBoolean	itsCreateProjectFlag;
-	JBoolean	itsReopenLastFlag;
-	JBoolean	itsChooseFileFlag;
+	bool	itsCreateEditorFlag;
+	bool	itsCreateProjectFlag;
+	bool	itsReopenLastFlag;
+	bool	itsChooseFileFlag;
 
 private:
 
 	void	DisplayManPage(JIndex* index, const JPtrArray<JString>& argList);
 	void	AddFilesToSearch(JIndex* index, const JPtrArray<JString>& argList,
-							 const JBoolean clearFileList);
+							 const bool clearFileList);
 	void	DisplayFileDiffs(JIndex* index, const JPtrArray<JString>& argList,
-							 const JBoolean silent);
+							 const bool silent);
 	void	DisplayVCSDiffs(const JUtf8Byte* type, JIndex* index,
 							const JPtrArray<JString>& argList,
-							const JBoolean silent);
+							const bool silent);
 
 	// not allowed
 
@@ -71,10 +71,10 @@ private:
 inline void
 CBMDIServer::GetStartupOptions
 	(
-	JBoolean* createEditor,
-	JBoolean* createProject,
-	JBoolean* reopenLast,
-	JBoolean* chooseFile
+	bool* createEditor,
+	bool* createProject,
+	bool* reopenLast,
+	bool* chooseFile
 	)
 	const
 {
@@ -87,10 +87,10 @@ CBMDIServer::GetStartupOptions
 inline void
 CBMDIServer::SetStartupOptions
 	(
-	const JBoolean createEditor,
-	const JBoolean createProject,
-	const JBoolean reopenLast,
-	const JBoolean chooseFile
+	const bool createEditor,
+	const bool createProject,
+	const bool reopenLast,
+	const bool chooseFile
 	)
 {
 	itsCreateEditorFlag  = createEditor;

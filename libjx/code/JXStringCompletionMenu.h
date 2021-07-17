@@ -18,11 +18,11 @@ class JXStringCompletionMenu : public JXTextMenu
 {
 public:
 
-	JXStringCompletionMenu(JXTEBase* te, const JBoolean allowTabChar);
+	JXStringCompletionMenu(JXTEBase* te, const bool allowTabChar);
 
 	virtual ~JXStringCompletionMenu();
 
-	JBoolean	AddString(const JString& str);
+	bool	AddString(const JString& str);
 
 	void	CompletionRequested(const JSize prefixCharCount);
 	void	ClearRequestCount();
@@ -34,7 +34,7 @@ protected:
 private:
 
 	JXTEBase*		itsTE;				// not owned
-	const JBoolean	itsAllowTabChar;
+	const bool	itsAllowTabChar;
 	JSize			itsRequestCount;
 	JSize			itsPrefixCharCount;
 

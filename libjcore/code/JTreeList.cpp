@@ -35,7 +35,7 @@ JTreeList::JTreeList
 	itsTree = tree;
 	ListenTo(tree);
 
-	itsWasOpenBeforeMoveFlag = kJFalse;
+	itsWasOpenBeforeMoveFlag = false;
 
 	itsVisibleNodeList = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
 	assert( itsVisibleNodeList != nullptr );
@@ -85,7 +85,7 @@ JTreeList::MakeVisible
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTreeList::Open
 	(
 	const JTreeNode* node
@@ -93,7 +93,7 @@ JTreeList::Open
 {
 	if (node == itsTree->GetRoot() || IsOpen(node))
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (node->OKToOpen())
 		{
@@ -105,11 +105,11 @@ JTreeList::Open
 			ShowChildren(index, node);
 			Broadcast(NodeOpened(node, index));
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -275,17 +275,17 @@ JTreeList::CloseSiblings
 /******************************************************************************
  ShouldOpenSibling (virtual)
 
-	Returns kJTrue if sibling should be opened.
+	Returns true if sibling should be opened.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTreeList::ShouldOpenSibling
 	(
 	const JTreeNode* node
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -296,7 +296,7 @@ JTreeList::ShouldOpenSibling
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTreeList::OpenDescendants
 	(
 	const JTreeNode*	node,
@@ -309,7 +309,7 @@ JTreeList::OpenDescendants
 
 // private -- recursive
 
-JBoolean
+bool
 JTreeList::OpenDescendants1
 	(
 	const JTreeNode*	node,
@@ -319,7 +319,7 @@ JTreeList::OpenDescendants1
 {
 	if (!Open(node))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	(*depth)++;
@@ -337,7 +337,7 @@ JTreeList::OpenDescendants1
 		}
 	(*depth)--;
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -367,17 +367,17 @@ JTreeList::CloseDescendants
 /******************************************************************************
  ShouldOpenDescendant (virtual)
 
-	Returns kJTrue if sibling should be opened.
+	Returns true if sibling should be opened.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTreeList::ShouldOpenDescendant
 	(
 	const JTreeNode* node
 	)
 {
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -517,7 +517,7 @@ JTreeList::InsertBefore
 	const JTreeNode* existingNode = parent->GetChild(index + 1);
 
 	JIndex insertIndex;
-	const JBoolean found = FindNode(existingNode, &insertIndex);
+	const bool found = FindNode(existingNode, &insertIndex);
 	assert( found );
 	InsertElement(insertIndex, node);
 }
@@ -566,7 +566,7 @@ JTreeList::InsertElement
 
 	if (itsWasOpenBeforeMoveFlag)
 		{
-		itsWasOpenBeforeMoveFlag = kJFalse;
+		itsWasOpenBeforeMoveFlag = false;
 		Open(node);
 		}
 }

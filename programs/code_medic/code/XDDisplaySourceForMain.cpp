@@ -20,7 +20,7 @@ XDDisplaySourceForMain::XDDisplaySourceForMain
 	CMSourceDirector* sourceDir
 	)
 	:
-	CMDisplaySourceForMain(sourceDir, JString("status", kJFalse))
+	CMDisplaySourceForMain(sourceDir, JString("status", JString::kNoCopy))
 {
 }
 

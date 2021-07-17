@@ -112,7 +112,7 @@ JXVertDockPartition::CreateCompartment
 	tabGroup->FitToEnclosure();
 
 	JXDockWidget* dock =
-		jnew JXDockWidget(itsDirector, this, kJFalse, tabGroup,
+		jnew JXDockWidget(itsDirector, this, false, tabGroup,
 						 tabGroup->GetCardEnclosure(), kHElastic, kVElastic,
 						 0,0, 100,100);
 	assert( dock != nullptr );
@@ -129,7 +129,7 @@ JXVertDockPartition::CreateCompartment
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXVertDockPartition::FindDock
 	(
 	const JIndex	id,
@@ -143,18 +143,18 @@ JXVertDockPartition::FindDock
 		if (d->GetID() == id)
 			{
 			*dock = d;
-			return kJTrue;
+			return true;
 			}
 
 		JXHorizDockPartition* p;
 		if (d->GetHorizChildPartition(&p) && p->FindDock(id, dock))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*dock = nullptr;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -162,13 +162,12 @@ JXVertDockPartition::FindDock
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXVertDockPartition::HasWindows()
 	const
 {
-	return JI2B(
-		std::any_of(begin(*itsDockList), end(*itsDockList),
-			[] (JXDockWidget* d) { return d->HasWindows(); }));
+	return std::any_of(begin(*itsDockList), end(*itsDockList),
+			[] (JXDockWidget* d) { return d->HasWindows(); });
 }
 
 /******************************************************************************
@@ -176,7 +175,7 @@ JXVertDockPartition::HasWindows()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXVertDockPartition::CloseAllWindows()
 {
 	for (JXDockWidget* d : *itsDockList)
@@ -185,11 +184,11 @@ JXVertDockPartition::CloseAllWindows()
 
 		if (!d->CloseAllWindows())
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -220,7 +219,7 @@ JXVertDockPartition::ReadSetup
 
 	if (vers >= 3)
 		{
-		JBoolean hasElasticIndex;
+		bool hasElasticIndex;
 		JIndex elasticIndex;
 		input >> JBoolFromString(hasElasticIndex) >> elasticIndex;
 		if (hasElasticIndex)
@@ -243,14 +242,14 @@ JXVertDockPartition::ReadSetup
 			(dock->GetTabGroup())->ReadSetup(input);
 			}
 
-		JBoolean hasPartition;
+		bool hasPartition;
 		input >> JBoolFromString(hasPartition);
 		if (hasPartition)
 			{
 			SplitHoriz(i);
 
 			JXHorizDockPartition* p;
-			const JBoolean isSplit = dock->GetHorizChildPartition(&p);
+			const bool isSplit = dock->GetHorizChildPartition(&p);
 			assert( isSplit );
 			p->ReadSetup(input, vers);
 			}
@@ -288,12 +287,12 @@ JXVertDockPartition::WriteSetup
 		JXHorizDockPartition* v;
 		if (dock->GetHorizChildPartition(&v))
 			{
-			output << ' ' << JBoolToString(kJTrue);
+			output << ' ' << JBoolToString(true);
 			v->WriteSetup(output);
 			}
 		else
 			{
-			output << ' ' << JBoolToString(kJFalse);
+			output << ' ' << JBoolToString(false);
 			}
 		}
 }
@@ -377,8 +376,8 @@ JXVertDockPartition::Receive
 void
 JXVertDockPartition::UpdateDockMenu()
 {
-	const JBoolean canRemove =
-		JI2B(GetEnclosure() != GetWindow() || GetCompartmentCount() > 2);
+	const bool canRemove =
+		GetEnclosure() != GetWindow() || GetCompartmentCount() > 2;
 
 	itsDockMenu->SetItemEnable(kRemoveTopCmd,    canRemove);
 	itsDockMenu->SetItemEnable(kRemoveBottomCmd, canRemove);
@@ -386,8 +385,8 @@ JXVertDockPartition::UpdateDockMenu()
 	JIndex i;
 	if (GetElasticIndex(&i))
 		{
-		itsDockMenu->SetItemEnable(kSetTopElasticCmd,  JI2B( i != itsCompartmentIndex ));
-		itsDockMenu->SetItemEnable(kSetBottomElasticCmd, JI2B( i != itsCompartmentIndex+1 ));
+		itsDockMenu->SetItemEnable(kSetTopElasticCmd,  i != itsCompartmentIndex );
+		itsDockMenu->SetItemEnable(kSetBottomElasticCmd, i != itsCompartmentIndex+1 );
 		itsDockMenu->EnableItem(kSetAllElasticCmd);
 		}
 	else
@@ -416,11 +415,11 @@ JXVertDockPartition::HandleDockMenu
 
 	if (index == kSplitTopHorizCmd)
 		{
-		SplitHoriz(itsCompartmentIndex, nullptr, kJTrue);
+		SplitHoriz(itsCompartmentIndex, nullptr, true);
 		}
 	else if (index == kSplitTopVertCmd)
 		{
-		InsertCompartment(itsCompartmentIndex+1, kJTrue);
+		InsertCompartment(itsCompartmentIndex+1, true);
 		}
 	else if (index == kRemoveTopCmd)
 		{
@@ -429,11 +428,11 @@ JXVertDockPartition::HandleDockMenu
 
 	else if (index == kSplitBottomHorizCmd)
 		{
-		SplitHoriz(itsCompartmentIndex+1, nullptr, kJTrue);
+		SplitHoriz(itsCompartmentIndex+1, nullptr, true);
 		}
 	else if (index == kSplitBottomVertCmd)
 		{
-		InsertCompartment(itsCompartmentIndex+1, kJTrue);
+		InsertCompartment(itsCompartmentIndex+1, true);
 		}
 	else if (index == kRemoveBottomCmd)
 		{
@@ -463,7 +462,7 @@ void
 JXVertDockPartition::InsertCompartment
 	(
 	const JIndex	index,
-	const JBoolean	reportError
+	const bool	reportError
 	)
 {
 	if (JPartition::InsertCompartment(index, 10, 10))
@@ -483,12 +482,12 @@ JXVertDockPartition::InsertCompartment
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXVertDockPartition::SplitHoriz
 	(
 	const JIndex			index,
 	JXHorizDockPartition**	returnPartition,
-	const JBoolean			reportError
+	const bool			reportError
 	)
 {
 	if (returnPartition != nullptr)
@@ -512,7 +511,7 @@ JXVertDockPartition::SplitHoriz
 		const JCoordinate w = encl->GetApertureWidth() - kDragRegionSize;
 		if (w < 2*JXDockWidget::kDefaultMinSize)
 			{
-			return kJFalse;
+			return false;
 			}
 
 		JArray<JCoordinate> widths;
@@ -552,7 +551,7 @@ JXVertDockPartition::SplitHoriz
 		{
 		*returnPartition = p;
 		}
-	return JI2B( p != nullptr );
+	return p != nullptr;
 }
 
 /******************************************************************************
@@ -618,11 +617,11 @@ JXVertDockPartition::UpdateMinSize()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXVertDockPartition::SaveGeometryForLater
 	(
 	const JArray<JCoordinate>& sizes
 	)
 {
-	return kJFalse;
+	return false;
 }

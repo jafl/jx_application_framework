@@ -156,7 +156,7 @@ GLCurveNameList::TableDrawCell
 							JColorManager::GetBlackColor() :
 							JColorManager::GetGrayColor(60);
 
-	p.SetFontStyle(JFontStyle(kJFalse, kJFalse, 0, kJFalse, color));
+	p.SetFontStyle(JFontStyle(false, false, 0, false, color));
 	p.String(r, *curveName, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 }
 
@@ -232,7 +232,7 @@ GLCurveNameList::PrepareDeleteXInputField()
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLCurveNameList::ExtractInputData
 	(
 	const JPoint& cell
@@ -242,11 +242,11 @@ GLCurveNameList::ExtractInputData
 	if (!name.IsEmpty())
 		{
 		*(itsNameList->GetElement(cell.y)) = name;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -265,7 +265,7 @@ GLCurveNameList::HandleKeyPress
 {
 	JPoint cell;
 	JTableSelection& s = GetTableSelection();
-	const JBoolean ok  = s.GetFirstSelectedCell(&cell);
+	const bool ok  = s.GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	if (c == kJUpArrow)
@@ -338,7 +338,7 @@ GLCurveNameList::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 GLCurveNameList::GetCurrentCurveIndex
 	(
 	JIndex* index
@@ -348,9 +348,9 @@ GLCurveNameList::GetCurrentCurveIndex
 	if (GetTableSelection().GetSingleSelectedCell(&cell))
 		{
 		*index	= cell.y;
-		return kJTrue;
+		return true;
 		}
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

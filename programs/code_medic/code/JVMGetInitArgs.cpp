@@ -20,7 +20,7 @@ JVMGetInitArgs::JVMGetInitArgs
 	JXInputField* argInput
 	)
 	:
-	CMGetInitArgs(JString("NOP", kJFalse))
+	CMGetInitArgs(JString("NOP", JString::kNoCopy))
 {
 }
 

@@ -17,7 +17,7 @@
 
 static JTestManager* theManager = nullptr;
 
-static JBoolean theFormatOutputFlag = kJFalse;
+static bool theFormatOutputFlag = false;
 
 /******************************************************************************
  Instance
@@ -32,7 +32,7 @@ JTestManager::Instance()
 		theManager = new JTestManager();
 		assert( theManager != nullptr );
 
-		theFormatOutputFlag = JI2B( isatty(fileno(stdin)) );
+		theFormatOutputFlag = isatty(fileno(stdin));
 		}
 
 	return theManager;
@@ -160,7 +160,7 @@ JTestManager::ReportFatal
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTestManager::IsNull
 	(
 	const void*			ptr,
@@ -171,7 +171,7 @@ JTestManager::IsNull
 {
 	if (ptr == nullptr)
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -183,7 +183,7 @@ JTestManager::IsNull
 		s << "Value is not null";
 
 		ReportFailure(s.str().c_str(), file, line);
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -192,7 +192,7 @@ JTestManager::IsNull
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTestManager::IsNotNull
 	(
 	const void*			ptr,
@@ -203,7 +203,7 @@ JTestManager::IsNotNull
 {
 	if (ptr != nullptr)
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -215,7 +215,7 @@ JTestManager::IsNotNull
 		s << "Value is null";
 
 		ReportFailure(s.str().c_str(), file, line);
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -224,10 +224,10 @@ JTestManager::IsNotNull
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTestManager::IsTrue
 	(
-	const JBoolean		value,
+	const bool			value,
 	JUtf8Byte const*	file,
 	const JIndex		line,
 	const JUtf8Byte*	msg
@@ -235,7 +235,7 @@ JTestManager::IsTrue
 {
 	if (value)
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -247,7 +247,7 @@ JTestManager::IsTrue
 		s << "Value is not true";
 
 		ReportFailure(s.str().c_str(), file, line);
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -256,10 +256,10 @@ JTestManager::IsTrue
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTestManager::IsFalse
 	(
-	const JBoolean		value,
+	const bool			value,
 	JUtf8Byte const*	file,
 	const JIndex		line,
 	const JUtf8Byte*	msg
@@ -267,7 +267,7 @@ JTestManager::IsFalse
 {
 	if (!value)
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -279,7 +279,7 @@ JTestManager::IsFalse
 		s << "Value is not false";
 
 		ReportFailure(s.str().c_str(), file, line);
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -288,7 +288,7 @@ JTestManager::IsFalse
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTestManager::IsOK
 	(
 	const JError&		err,
@@ -298,7 +298,7 @@ JTestManager::IsOK
 {
 	if (err.OK())
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -306,7 +306,7 @@ JTestManager::IsOK
 		s << "Error: " << err.GetType() << ": " << err.GetMessage();
 
 		ReportFailure(s.str().c_str(), file, line);
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -317,7 +317,7 @@ JTestManager::IsOK
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTestManager::StringsAreEqual
 	(
 	const JUtf8Byte*	expectedValue,
@@ -329,7 +329,7 @@ JTestManager::StringsAreEqual
 {
 	if (strcmp(expectedValue, actualValue) == 0)
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -343,11 +343,11 @@ JTestManager::StringsAreEqual
 		  << ">> but got <<" << actualValue << ">>" << std::endl;
 		if (strlen(actualValue) < 128)
 			{
-			s << '\t'; JString(expectedValue, strlen(expectedValue), kJFalse).PrintHex(s); s << std::endl;
-			s << '\t'; JString(actualValue, strlen(actualValue), kJFalse).PrintHex(s); s << std::endl;
+			s << '\t'; JString(expectedValue, JString::kNoCopy).PrintHex(s); s << std::endl;
+			s << '\t'; JString(actualValue, JString::kNoCopy).PrintHex(s); s << std::endl;
 			}
 
 		ReportFailure(s.str().c_str(), file, line);
-		return kJFalse;
+		return false;
 		}
 }

@@ -43,18 +43,18 @@ public:
 
 	// printing control
 
-	JBoolean	PSOpenDocument();
+	bool	PSOpenDocument();
 	void		PSCloseDocument();
 	void		PSCancelDocument();
-	JBoolean	PSDocumentIsOpen() const;
+	bool	PSDocumentIsOpen() const;
 
 	// printing parameters
 
 	const JString&	GetOutputFileName() const;
 	void			SetOutputFileName(const JString& name);
 
-	JBoolean	PSWillPrintBlackWhite() const;
-	void		PSPrintBlackWhite(const JBoolean doIt);
+	bool	PSWillPrintBlackWhite() const;
+	void		PSPrintBlackWhite(const bool doIt);
 
 	// JPainter functions
 
@@ -70,23 +70,23 @@ public:
 	void	PSLine(const JCoordinate x1, const JCoordinate y1,
 				   const JCoordinate x2, const JCoordinate y2,
 				   const JColorID color, const JSize lineWidth,
-				   const JBoolean drawDashedLines);
+				   const bool drawDashedLines);
 
 	void	PSRect(const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h,
 				   const JColorID color, const JSize lineWidth,
-				   const JBoolean drawDashedLines, const JBoolean fill);
+				   const bool drawDashedLines, const bool fill);
 
 	void	PSArc(const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h,
 				  const JFloat startAngle, const JFloat deltaAngle,
 				  const JColorID color, const JSize lineWidth,
-				  const JBoolean drawDashedLines, const JBoolean fill);
+				  const bool drawDashedLines, const bool fill);
 
 	void	PSPolygon(const JCoordinate left, const JCoordinate top,
 					  const JPolygon& poly, const JColorID color,
-					  const JSize lineWidth, const JBoolean drawDashedLines,
-					  const JBoolean fill);
+					  const JSize lineWidth, const bool drawDashedLines,
+					  const bool fill);
 
 	void	PSColorImage(const JImage& image, const JRect& srcRect, const JRect& destRect);
 
@@ -104,7 +104,7 @@ protected:
 	virtual void			PSResetCoordinates() = 0;
 	virtual JCoordinate		PSGetPrintableHeight() const = 0;
 
-	virtual JBoolean	PSShouldPrintCurrentPage() const = 0;
+	virtual bool	PSShouldPrintCurrentPage() const = 0;
 	virtual void		PSPrintVersionComment(std::ostream& output) = 0;
 	virtual void		PSPrintHeaderComments(std::ostream& output) = 0;
 	virtual void		PSPrintSetupComments(std::ostream& output) = 0;
@@ -114,8 +114,8 @@ protected:
 
 private:
 
-	JBoolean	itsDocOpenFlag;
-	JBoolean	itsBWFlag;
+	bool	itsDocOpenFlag;
+	bool	itsBWFlag;
 
 	JString	itsCreator;
 	JString	itsTitle;
@@ -132,12 +132,12 @@ private:
 
 	JFontManager*	itsFontManager;
 
-	JBoolean	itsFontSetFlag;
+	bool	itsFontSetFlag;
 	JFont		itsLastFont;
 	JColorID	itsLastColor;
-	JBoolean	itsLastLineWidthInit;	// not everybody guarantees default value of 1
+	bool	itsLastLineWidthInit;	// not everybody guarantees default value of 1
 	JSize		itsLastLineWidth;
-	JBoolean	itsLastDrawDashedLinesFlag;
+	bool	itsLastDrawDashedLinesFlag;
 
 private:
 
@@ -152,7 +152,7 @@ private:
 	void	PSSetFont(const JFont& font);
 	void	PSSetColor(const JColorID color);
 	void	PSSetLineWidth(const JSize width);
-	void	PSSetLineDashes(const JBoolean drawDashedLines);
+	void	PSSetLineDashes(const bool drawDashedLines);
 
 	void	AdjustFontName(JString* name, const JFontStyle& style);
 	void	ApplyStyles(JString* name, const JFontStyle& style,
@@ -170,7 +170,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JPSPrinterBase::PSDocumentIsOpen()
 	const
 {
@@ -231,7 +231,7 @@ JPSPrinterBase::SetOutputFileName
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JPSPrinterBase::PSWillPrintBlackWhite()
 	const
 {
@@ -241,7 +241,7 @@ JPSPrinterBase::PSWillPrintBlackWhite()
 inline void
 JPSPrinterBase::PSPrintBlackWhite
 	(
-	const JBoolean doIt
+	const bool doIt
 	)
 {
 	itsBWFlag = doIt;

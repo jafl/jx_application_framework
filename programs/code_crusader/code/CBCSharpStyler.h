@@ -35,7 +35,7 @@ private:
 
 private:
 
-	JBoolean	SlurpPPComment(JStyledText::TextRange* totalRange);
+	bool	SlurpPPComment(JStyledText::TextRange* totalRange);
 
 	// not allowed
 

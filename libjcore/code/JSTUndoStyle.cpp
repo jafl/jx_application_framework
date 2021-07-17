@@ -63,7 +63,7 @@ JSTUndoStyle::Undo()
 
 	// NO instance variables past this point; we have been deleted
 
-	text->BroadcastTextChanged(r, 0, 0, kJFalse);
+	text->BroadcastTextChanged(r, 0, 0, false);
 	text->BroadcastUndoFinished(r);
 }
 
@@ -89,13 +89,13 @@ JSTUndoStyle::SetFont
 
  ******************************************************************************/
 
-JBoolean
+bool
 JSTUndoStyle::SameRange
 	(
 	const JStyledText::TextRange& range
 	)
 	const
 {
-	return JI2B( range.charRange == itsRange.charRange &&
-				 range.byteRange == itsRange.byteRange );
+	return range.charRange == itsRange.charRange &&
+				 range.byteRange == itsRange.byteRange;
 }

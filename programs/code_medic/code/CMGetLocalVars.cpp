@@ -20,7 +20,7 @@ CMGetLocalVars::CMGetLocalVars
 	const JString& cmd
 	)
 	:
-	CMCommand(cmd, kJFalse, kJTrue)
+	CMCommand(cmd, false, true)
 {
 }
 

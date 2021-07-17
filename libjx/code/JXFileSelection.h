@@ -20,16 +20,16 @@ public:
 
 	virtual	~JXFileSelection();
 
-	JBoolean	GetData(const JPtrArray<JString>** list) const;
+	bool	GetData(const JPtrArray<JString>** list) const;
 
 	void	SetData(const JPtrArray<JString>& list);
 	void	SetData(JPtrArray<JString>* list);
 
-	static JBoolean	GetFileList(const Atom selectionName, const Time time,
+	static bool	GetFileList(const Atom selectionName, const Time time,
 								JXDisplay* display,
 								JPtrArray<JString>* fileNameList,
 								JPtrArray<JString>* urlList);
-	static JBoolean	GetFileList(JXSelectionManager* selMgr,
+	static bool	GetFileList(JXSelectionManager* selMgr,
 								const Atom selectionName, const Time time,
 								JPtrArray<JString>* fileNameList,
 								JPtrArray<JString>* urlList);
@@ -37,7 +37,7 @@ public:
 protected:
 
 	virtual void		AddTypes(const Atom selectionName);
-	virtual JBoolean	ConvertData(const Atom requestType, Atom* returnType,
+	virtual bool	ConvertData(const Atom requestType, Atom* returnType,
 									unsigned char** data, JSize* dataLength,
 									JSize* bitsPerBlock) const;
 
@@ -63,7 +63,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXFileSelection::GetData
 	(
 	const JPtrArray<JString>** list
@@ -71,7 +71,7 @@ JXFileSelection::GetData
 	const
 {
 	*list = itsList;
-	return JI2B( itsList != nullptr );
+	return itsList != nullptr;
 }
 
 #endif

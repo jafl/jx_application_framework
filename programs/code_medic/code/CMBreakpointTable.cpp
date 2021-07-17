@@ -49,17 +49,6 @@ const JCoordinate kInitColWidth[] =
 	10, 150, 50, 150, 70, 50, 150
 };
 
-static const JUtf8Byte* kColTitle[] =
-{
-	"",
-	"File name",
-	"Line",
-	"Function",
-	"Address",
-	"Ignore",
-	"Condition",
-};
-
 const JSize kColCount = sizeof(kInitColWidth) / sizeof(JCoordinate);
 
 // geometry information
@@ -212,7 +201,7 @@ CMBreakpointTable::Show
 		{
 		itsDir->Activate();
 		GetWindow()->RequestFocus();
-		TableScrollToCell(JPoint(kIgnoreCountColumn, i), kJTrue);
+		TableScrollToCell(JPoint(kIgnoreCountColumn, i), true);
 
 		JTableSelection& s = GetTableSelection();
 		s.ClearSelection();
@@ -265,7 +254,7 @@ CMBreakpointTable::EditCondition
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMBreakpointTable::FindBreakpointByDebuggerIndex
 	(
 	const CMBreakpoint*	bp,
@@ -280,12 +269,12 @@ CMBreakpointTable::FindBreakpointByDebuggerIndex
 		if (b->GetDebuggerIndex() == bp->GetDebuggerIndex())
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -366,13 +355,13 @@ CMBreakpointTable::TableDrawCell
 			const JColorID color = bp->IsEnabled() ? JColorManager::GetRedColor() : JColorManager::GetGreenColor();
 
 			p.SetPenColor(color);
-			p.SetFilling(kJTrue);
+			p.SetFilling(true);
 			p.Polygon(poly);
 
 			if (bp->GetAction() != CMBreakpoint::kRemoveBreakpoint)
 				{
 				p.SetPenColor(JColorManager::GetBlackColor());
-				p.SetFilling(kJFalse);
+				p.SetFilling(false);
 				p.Polygon(poly);
 				}
 			}
@@ -550,7 +539,7 @@ CMBreakpointTable::HandleKeyPress
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMBreakpointTable::IsEditable
 	(
 	const JPoint& cell
@@ -558,8 +547,8 @@ CMBreakpointTable::IsEditable
 	const
 {
 	CMBreakpoint* bp = itsBPList->GetElement(cell.y);
-	return JI2B( cell.x == kIgnoreCountColumn ||
-				 (cell.x == kConditionColumn && bp->GetLineNumber() > 0) );
+	return cell.x == kIgnoreCountColumn ||
+				 (cell.x == kConditionColumn && bp->GetLineNumber() > 0);
 }
 
 /******************************************************************************
@@ -615,7 +604,7 @@ CMBreakpointTable::CreateXInputField
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMBreakpointTable::ExtractInputData
 	(
 	const JPoint& cell
@@ -625,36 +614,36 @@ CMBreakpointTable::ExtractInputData
 
 	if (!itsTextInput->InputValid())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	CMBreakpoint* bp = itsBPList->GetElement(cell.y);
 	if (cell.x == kIgnoreCountColumn)
 		{
 		JInteger count;
-		const JBoolean ok = dynamic_cast<JXIntegerInput*>(itsTextInput)->GetValue(&count);
+		const bool ok = dynamic_cast<JXIntegerInput*>(itsTextInput)->GetValue(&count);
 		assert( ok );
 		if (((JSize) count) != bp->GetIgnoreCount())
 			{
 			CMGetLink()->SetBreakpointIgnoreCount(bp->GetDebuggerIndex(), count);
 			}
-		return kJTrue;
+		return true;
 		}
 	else if (cell.x == kConditionColumn)
 		{
 		const JString& s = itsTextInput->GetText()->GetText();
 
 		JString cond;
-		const JBoolean hasCondition = bp->GetCondition(&cond);
+		const bool hasCondition = bp->GetCondition(&cond);
 		if (s != cond)
 			{
 			CMGetLink()->SetBreakpointCondition(bp->GetDebuggerIndex(), s);
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -739,10 +728,7 @@ CMBreakpointTable::SetColTitles
 	)
 	const
 {
-	for (JIndex i=1; i<=kColCount; i++)
-		{
-		widget->SetColTitle(i, JString(kColTitle[i-1], kJFalse));
-		}
+	widget->SetColumnTitles("CMBreakpointTable", kColCount);
 }
 
 /******************************************************************************
@@ -759,7 +745,7 @@ CMBreakpointTable::CompareBreakpointLocations
 {
 	int r = JString::Compare(
 		bp1->GetFileName().GetBytes() + cmFileNameOffset(bp1),
-		bp2->GetFileName().GetBytes() + cmFileNameOffset(bp2), kJFalse);
+		bp2->GetFileName().GetBytes() + cmFileNameOffset(bp2), JString::kIgnoreCase);
 	if (r > 0)
 		{
 		return JListT::kFirstGreaterSecond;

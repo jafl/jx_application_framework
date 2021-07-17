@@ -25,7 +25,7 @@ public:
 
 	virtual ~JX2DPlotRangeDialog();
 
-	JBoolean GetRangeValues(JFloat* xMax, JFloat* xMin,
+	bool GetRangeValues(JFloat* xMax, JFloat* xMin,
 							JFloat* yMax, JFloat* yMin);
 
 protected:
@@ -34,7 +34,7 @@ protected:
 
 private:
 
-	JBoolean	itsClearRangeFlag;
+	bool	itsClearRangeFlag;
 
 // begin JXLayout
 

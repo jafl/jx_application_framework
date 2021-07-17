@@ -19,11 +19,11 @@
 /*******************************************************************************
  JFileExists
 
-	Returns kJTrue if the specified file exists.
+	Returns true if the specified file exists.
 
  *******************************************************************************/
 
-JBoolean
+bool
 JFileExists
 	(
 	const JCharacter* fileName
@@ -33,62 +33,62 @@ JFileExists
 	JStripTrailingDirSeparator(&s);
 
 	ACE_stat info;
-	return JI2B(ACE_OS::stat(s, &info) == 0 &&
-				S_ISREG(info.st_mode));
+	return ACE_OS::stat(s, &info) == 0 &&
+				S_ISREG(info.st_mode);
 }
 
 /******************************************************************************
  JFileReadable
 
-	Returns kJTrue if the specified file can be read from.
+	Returns true if the specified file can be read from.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileReadable
 	(
 	const JCharacter* fileName
 	)
 {
-	return JI2B(JFileExists(fileName) &&
-				(JUserIsAdmin() || _access(fileName, R_OK) == 0));
+	return JFileExists(fileName) &&
+				(JUserIsAdmin() || _access(fileName, R_OK) == 0);
 }
 
 /******************************************************************************
  JFileWritable
 
-	Returns kJTrue if the specified file can be written to.
+	Returns true if the specified file can be written to.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileWritable
 	(
 	const JCharacter* fileName
 	)
 {
-	return JI2B(JFileExists(fileName) &&
-				(JUserIsAdmin() || _access(fileName, W_OK) == 0));
+	return JFileExists(fileName) &&
+				(JUserIsAdmin() || _access(fileName, W_OK) == 0);
 }
 
 /******************************************************************************
  JFileExecutable
 
-	Returns kJTrue if the specified file can be executed.
+	Returns true if the specified file can be executed.
 
 	Readability is not checked, because this is only an issue for scripts,
 	and I can't tell the difference between a script and a binary.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFileExecutable
 	(
 	const JCharacter* fileName
 	)
 {
 	const JString s = fileName;
-	return JI2B(s.EndsWith(".exe") || s.EndsWith(".com") || s.EndsWith(".bat"));
+	return s.EndsWith(".exe") || s.EndsWith(".com") || s.EndsWith(".bat");
 }
 
 /******************************************************************************
@@ -169,11 +169,11 @@ JRemoveFile
  JKillFile
 
 	Tries as hard as it can to delete the file.
-	Returns kJTrue if successful.
+	Returns true if successful.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JKillFile
 	(
 	const JCharacter* fileName

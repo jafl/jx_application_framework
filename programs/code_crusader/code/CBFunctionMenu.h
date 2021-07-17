@@ -46,10 +46,10 @@ private:
 	JArray<JIndex>*		itsLineIndexList;
 	JArray<CBLanguage>*	itsLineLangList;
 	JIndex				itsCaretItemIndex;
-	JBoolean			itsNeedsUpdate;		// kJTrue if must rebuild menu
-	JBoolean			itsSortFlag;		// kJTrue if menu is currently sorted
-	JBoolean			itsIncludeNSFlag;	// kJTrue if menu is displaying namespace
-	JBoolean			itsPackFlag;		// kJTrue if menu is currently packed
+	bool			itsNeedsUpdate;		// true if must rebuild menu
+	bool			itsSortFlag;		// true if menu is currently sorted
+	bool			itsIncludeNSFlag;	// true if menu is displaying namespace
+	bool			itsPackFlag;		// true if menu is currently packed
 
 	#ifdef CODE_MEDIC
 	JString itsFileName;

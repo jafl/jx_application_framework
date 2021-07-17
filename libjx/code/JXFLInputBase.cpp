@@ -43,7 +43,7 @@ JXFLInputBase::JXFLInputBase
 {
 	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 	SetFont(font);
-	itsHistoryMenu->SetDefaultFont(font, kJTrue);
+	itsHistoryMenu->SetDefaultFont(font, true);
 	ListenTo(itsHistoryMenu);
 }
 
@@ -97,24 +97,24 @@ JXFLInputBase::HandleKeyPress
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFLInputBase::OKToUnfocus()
 {
 	if (!JXInputField::OKToUnfocus())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JError err = Apply();
 	if (err.OK())
 		{
 		itsHistoryMenu->AddString(GetText()->GetText());
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		err.ReportIfError();
-		return kJFalse;
+		return false;
 		}
 }
 

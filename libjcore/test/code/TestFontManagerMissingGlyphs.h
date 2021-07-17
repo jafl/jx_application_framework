@@ -21,8 +21,8 @@ protected:
 	virtual JSize	GetCharWidth(const JFontID fontID, const JUtf8Character& c);
 	virtual JSize	GetStringWidth(const JFontID fontID, const JString& str);
 
-	virtual JBoolean	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c);
-	virtual JBoolean	GetSubstituteFontName(const JFont& f, const JUtf8Character& c, JString* name);
+	virtual bool	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c);
+	virtual bool	GetSubstituteFontName(const JFont& f, const JUtf8Character& c, JString* name);
 
 private:
 

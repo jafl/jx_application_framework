@@ -98,8 +98,8 @@ JXPasswordInput::Draw
 	const JRect&		rect
 	)
 {
-	const JBoolean active = TEIsActive();
-	const JBoolean hasSel = HasSelection();
+	const bool active = TEIsActive();
+	const bool hasSel = HasSelection();
 
 	p.ShiftOrigin(kMinLeftMarginWidth, 0);
 
@@ -111,9 +111,9 @@ JXPasswordInput::Draw
 	if (active && hasSel && TESelectionIsActive())
 		{
 		p.SetPenColor(GetSelectionColor());
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.JPainter::Rect(r);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		}
 	else if (active && hasSel)
 		{
@@ -124,7 +124,7 @@ JXPasswordInput::Draw
 	// fake text
 
 	p.SetPenColor(JColorManager::GetBlackColor());
-	p.SetFilling(kJTrue);
+	p.SetFilling(true);
 
 	const JRect b = GetBounds();
 
@@ -140,7 +140,7 @@ JXPasswordInput::Draw
 		r.Shift(kDotDiameter + kDotMargin, 0);
 		}
 
-	p.SetFilling(kJFalse);
+	p.SetFilling(false);
 
 	// fake caret at end of text
 

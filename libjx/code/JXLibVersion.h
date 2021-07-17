@@ -272,7 +272,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			allowCheckSpelling argument to ShareEditMenu().
 //		*** Added show/allowCleanWhitespace arguments to AppendEditMenu() and
 //			allowCleanWhitespace argument to ShareEditMenu().
-//		Added version of Append/ShareEditMenu() with no JBoolean arguments.
+//		Added version of Append/ShareEditMenu() with no bool arguments.
 //			This covers the most common case where only
 //			Undo/Cut/Copy/Paste/Clear/SelectAll is needed.
 //		Implements "hungry delete" if tab inserts spaces.  The shift key
@@ -291,7 +291,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			Hide()/Deactivate().
 //		Added Suspend()/Resume().  This is subtly different from Activate()/
 //			Deactivate():  It doesn't unfocus the widget, but it still looks
-//			inactive.  IsActive() returns kJFalse when suspended.
+//			inactive.  IsActive() returns false when suspended.
 //		*** Added pt argument to WillAcceptDrop(), to allow drop targets to
 //			sub-divide their contents.
 //	JXUNDialogBase:
@@ -422,7 +422,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Fixed bug to avoid double-deletion in case somebody else deletes the
 //			object first.
 //	JXDNDManager:
-//		Fixed BeginDND() to return kJFalse if already dragging, rather than
+//		Fixed BeginDND() to return false if already dragging, rather than
 //			asserting.  This avoids crashes if the user clicks another of the
 //			mouse buttons while dragging.
 //	JXStandAlonePG:
@@ -555,7 +555,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	Created JXTabGroup.  This builds on JXCardFile to provide a set of tabs which
 //		the user can click on to display different panels in a single window.
 //	JXFontNameMenu:
-//		SetFontName() returns JBoolean since not all available fonts are listed.
+//		SetFontName() returns bool since not all available fonts are listed.
 //	JXAtLeastOneCBGroup:
 //		Fixed bug for case:  enabled / enabled / disabled.
 //	JXFontSizeMenu:
@@ -599,7 +599,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Replaced BecomeSelectionOwner() with JXSelectionManager::SetData().
 //		DND requires overriding new virtual GetSelectionData().
 //		Added AdjustBounds().  (what took me so long?)
-//		Fixed GetDragPainter() to return JBoolean.
+//		Fixed GetDragPainter() to return bool.
 //		Added DNDCompletelyFinished() message.  Read the warnings!
 //	Created JXTextSelection, JXImageSelection, and JXFileSelection.
 //	Removed JXTextClipboard since it is now unnecessary.
@@ -638,7 +638,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		GetFileName() returns JString instead of const JString&.
 //		Removed version of GetFullName() that takes fileName, since the result
 //			cannot be guaranteed to be unique.
-//		Changed remaining version of GetFullName() to return JBoolean.
+//		Changed remaining version of GetFullName() to return bool.
 //		Added option to pass relative paths to AddFile().  It accepts them,
 //			and when GetFullName() is called, the virtual function
 //			ResolveFullName() is called to obtain the full path.
@@ -692,8 +692,8 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Merged SetTitleImage() into SetTitle() to allow text and image together
 //			in menu title.  Added new SetTitleText() and SetTitleImage() functions.
 //		Renamed GetTitle() to GetTitleText() for consistency.
-//		Fixed GetTitleImage() so it returns JBoolean.
-//		Added 2nd version of GetTitleText() that returns JBoolean.
+//		Fixed GetTitleImage() so it returns bool.
+//		Added 2nd version of GetTitleText() that returns bool.
 //		Added 3rd ctor that takes text and image.
 //		Automatically uses the same cursor as the menu bar or owning menu.
 //		Now draws menu *entirely* above menu bar if there is enough space above
@@ -744,7 +744,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			CleanUpBeforeSuddenDeath().
 //		Added GetSignature().
 //		HandleOneEventForWindow() is now private since it is so dangerous.
-//		HandleCustomEventWhileBlocking() now returns JBoolean.
+//		HandleCustomEventWhileBlocking() now returns bool.
 //	JXMDIServer:
 //		Constructor no longer requires argument because it calls
 //			JXApplication::GetSignature().
@@ -753,11 +753,11 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			to use something else, be sure to rename the file at startup if
 //			the old one exists and the new one doesn't.
 //	JXDisplay:
-//		Fixed GetMouseContainer() to return JBoolean.
+//		Fixed GetMouseContainer() to return bool.
 //		Broadcasts events for unknown X windows via BroadcastWithFeedback().
 //		Added KeysymToModifier().
 //	JXWindow:
-//		Fixed GetMouseContainer() to return JBoolean.
+//		Fixed GetMouseContainer() to return bool.
 //		Fixed destructor to free window icon pixmap and mask.
 //		SetIcon() now takes ownership of the JXImage, so directors don't have to save
 //			it themselves.
@@ -905,10 +905,10 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added Available() so one can check which modifiers are mapped on the keyboard.
 //	JXPathInput:
 //		Added ChoosePath().
-//		Added HasBasePath() and modified GetBasePath() to return JBoolean.
+//		Added HasBasePath() and modified GetBasePath() to return bool.
 //	JXFileInput:
 //		Added ChooseFile() and SaveFile().
-//		Added HasBasePath() and modified GetBasePath() to return JBoolean.
+//		Added HasBasePath() and modified GetBasePath() to return bool.
 //	JXFileNameDisplay:
 //		If text is scrolled, entire text is displayed in hint.
 //	JXStaticText:
@@ -1034,7 +1034,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added draggable icon to implement local saving via the new XDS protocol.
 //			http://johnlindal.wixsite.com/xdsave
 //	jXUtil.h:
-//		JXURLToFileName() now returns kJTrue as long as the URL is on the
+//		JXURLToFileName() now returns true as long as the URL is on the
 //			same machine, even if the file or directory doesn't exist.
 //			It is now the caller's problem to check if it exists.
 //		JXUnpackFileNames() now returns all items on the local machine
@@ -1210,7 +1210,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXDNDManager:
 //		Doesn't fake middle-click if widget doesn't support text/plain.
 //		GetURLXAtom() returns atom for "text/uri-list".
-//		IsDragging() returns kJFalse once the mouse is released, so it is safe
+//		IsDragging() returns false once the mouse is released, so it is safe
 //			to use blocking dialog window like JXChooseSaveFile in HandleDNDDrop().
 //			(i.e. Escape will trigger the Cancel button correctly.)
 //	JXFileListTable:
@@ -1235,7 +1235,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			reactivates if it was previously active before becoming empty.
 //		Added concept of internal ID for each item.
 //	JXMenuData:
-//		Changed prototype of GetItemShortcuts() to return JBoolean.
+//		Changed prototype of GetItemShortcuts() to return bool.
 //		Added support for internal ID for each item.
 //	Created jXActions.h and jXActionDefs.h.
 //	jXUtil:
@@ -1265,7 +1265,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added pure virtual function GetMenuIcon().
 //	JXFileDocument:
 //		Added Save() and ShouldAutosaveBeforeClosing().
-//		SaveCopyInNewFile() returns JBoolean and can accept JString* if caller
+//		SaveCopyInNewFile() returns bool and can accept JString* if caller
 //			wants to know the name of the file that was created.
 //		Implements GetMenuIcon() to show default file icon.
 //		Generalized the concept of a file from only a text file to any
@@ -1290,9 +1290,9 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Meta-Control-left/right-arrow moves by partial word. (also works with Shift)
 //		Meta-Control-double-click selects partial words.
 //		Added menu item "Coerce paragraph margins" after the existing
-//			"Clean paragraph margins".  This calls CleanRightMargin(kJTrue).
+//			"Clean paragraph margins".  This calls CleanRightMargin(true).
 //		AppendEditMenu() and ShareEditMenu() now return the menu widget.
-//		All 3 Finished messages are now always broadcast.  They include a JBoolean
+//		All 3 Finished messages are now always broadcast.  They include a bool
 //			to indicate whether or not the action was successful.
 //		Added second version of ShareEditMenu() to accept menu from anywhere.
 //	Created JXTEBlinkCaretTask to make JXTEBase caret blink.
@@ -1418,7 +1418,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXSaveFileInput:
 //		Translates / into -, since / is the UNIX directory separator.
 //	JXWindow:
-//		Added argument grabKeyboardFocus to Raise().  The default value is kJTrue,
+//		Added argument grabKeyboardFocus to Raise().  The default value is true,
 //			so calling it with no arguments gives the standard behavior.
 //		Added SetWMClass() to set contents of WM_CLASS property.
 //		Key repeat events are flushed so a backlog can no longer form.
@@ -1439,7 +1439,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added Read/WriteSetup() to restore/save scrolltabs.
 //	JXTEBase:
 //		Added HasEditMenu().
-//		Fixed prototype of GetEditMenu() to return JBoolean since the menu
+//		Fixed prototype of GetEditMenu() to return bool since the menu
 //			doesn't always exist.
 //		Automatically adjusts scrolltabs on vertical scrollbar.
 //		DND supports move, copy, and ask actions.
@@ -1711,7 +1711,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added WillMakeNewBackupEveryOpen(), ShouldMakeNewBackupEveryOpen().
 //			This controls whether a backup file is created only if none exists
 //			or whenever the file is first saved after being opened.
-//			The default is for this flag to be kJTrue.
+//			The default is for this flag to be true.
 //	JXPSPrinter:
 //		Renamed ReadSetup() to ReadXPSSetup() and WriteSetup() to WriteXPSSetup().
 //			These functions are no longer virtual because it is too dangerous.
@@ -1755,7 +1755,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			window contains a JXTextEditor.  "Meta-tab" is not available,
 //			since JXWindow catches it.
 //	JXScrollableWidget:
-//		Only calls WantInput(kJTrue,kJFalse) if the scrollbar set is not nullptr.
+//		Only calls WantInput(true,false) if the scrollbar set is not nullptr.
 //			If you need input and you don't have a scrollbar set, you now
 //			have to call WantInput() yourself.
 
@@ -1821,7 +1821,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	jXUtil.h:
 //		Added JXRegionIsRectangle(), JXGetRegionBounds().
 //		Optimized JXIntersection(region,pixmap).
-//		JXIntersection now returns kJFalse if the result is empty.
+//		JXIntersection now returns false if the result is empty.
 //	JXImage:
 //		Optimized drawing of images that have masks.
 //	Removed jXColors.h.
@@ -1846,7 +1846,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			accept shortcuts even though they are invisible.
 //	JXMenuBar:
 //		Overloaded DeleteMenu() and RemoveMenu() to accept JXMenu*.
-//			Both return JBoolean to indicate whether or not the menu was found.
+//			Both return bool to indicate whether or not the menu was found.
 //	JXDocument:
 //		Added pure virtual function SafetySave().
 //		GetName() is no longer required to return a unique name.
@@ -1854,7 +1854,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Implemented SafetySave() to work like emacs.
 //		WriteFile() prototype changed to include safetySave flag.
 //		GetName() now returns the file name, instead of the full path.
-//		DataModified() now does nothing if itsSavedFlag is already kJFalse.
+//		DataModified() now does nothing if itsSavedFlag is already false.
 //	Created JXDocumentManager.
 //		Automatically calls SafetySave() on all open documents at a settable interval.
 //	Created JXMDIServer.
@@ -1889,7 +1889,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXWidget:
 //		Changed prototype of ConvertSelection().
 //		Added GetSelectionTargets() and GetSelectionTimeStamp().
-//		Scroll() and ScrollTo() now return JBoolean to indicate whether or
+//		Scroll() and ScrollTo() now return bool to indicate whether or
 //			not the widget actually scrolled.
 //		Added HandleWindowFocusEvent() and HandleWindowUnfocusEvent().
 //			These are sent to the widget with focus when the X window
@@ -2030,7 +2030,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXTEBase:
 //		Caret is now red.
 //	JXTable:
-//		Implemented HitSamePart() to return kJTrue only if the two points
+//		Implemented HitSamePart() to return true only if the two points
 //			are in the same cell.
 //	JXColHeaderWidget:
 //		Added functions to change the column titles.

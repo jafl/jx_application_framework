@@ -30,19 +30,19 @@ public:
 	virtual ~JProgressDisplay();
 
 	void	FixedLengthProcessBeginning(const JSize stepCount, const JString& message,
-										const JBoolean allowCancel,
-										const JBoolean allowBackground);
+										const bool allowCancel,
+										const bool allowBackground);
 	void	VariableLengthProcessBeginning(const JString& message,
-										   const JBoolean allowCancel,
-										   const JBoolean allowBackground);
+										   const bool allowCancel,
+										   const bool allowBackground);
 
-	virtual JBoolean	IncrementProgress(const JString& message = JString::empty) = 0;
-	virtual JBoolean	IncrementProgress(const JSize delta) = 0;
-	virtual JBoolean	IncrementProgress(const JString& message, const JSize delta) = 0;
-	virtual JBoolean	ProcessContinuing();
+	virtual bool	IncrementProgress(const JString& message = JString::empty) = 0;
+	virtual bool	IncrementProgress(const JSize delta) = 0;
+	virtual bool	IncrementProgress(const JString& message, const JSize delta) = 0;
+	virtual bool	ProcessContinuing();
 	virtual void		ProcessFinished();
 
-	JBoolean	ProcessRunning() const;
+	bool	ProcessRunning() const;
 	ProcessType	GetCurrentProcessType() const;
 	JSize		GetCurrentStepCount() const;
 
@@ -53,12 +53,12 @@ public:
 protected:
 
 	virtual void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
-									 const JString& message, const JBoolean allowCancel,
-									 const JBoolean allowBackground);
+									 const JString& message, const bool allowCancel,
+									 const bool allowBackground);
 
-	virtual JBoolean	CheckForCancel() = 0;
-	JBoolean			AllowCancel() const;
-	JBoolean			AllowBackground() const;
+	virtual bool	CheckForCancel() = 0;
+	bool			AllowCancel() const;
+	bool			AllowBackground() const;
 
 	JSize	GetMaxStepCount() const;			// only for fixed length processes
 	void	IncrementStepCount(const JSize delta = 1);
@@ -66,8 +66,8 @@ protected:
 private:
 
 	ProcessType	itsCurrentProcess;		// type of process currently running
-	JBoolean	itsAllowCancelFlag;		// kJTrue if we accept cancel requests
-	JBoolean	itsAllowBackgroundFlag;	// kJTrue if process can go into background
+	bool	itsAllowCancelFlag;		// true if we accept cancel requests
+	bool	itsAllowBackgroundFlag;	// true if process can go into background
 
 	JSize		itsMaxStepCount;		// total number of steps for fixed length process
 	JSize		itsCurrentStepCount;	// current step of process
@@ -91,8 +91,8 @@ JProgressDisplay::FixedLengthProcessBeginning
 	(
 	const JSize		stepCount,
 	const JString&	message,
-	const JBoolean	allowCancel,
-	const JBoolean	allowBackground
+	const bool	allowCancel,
+	const bool	allowBackground
 	)
 {
 	ProcessBeginning(kFixedLengthProcess, stepCount,
@@ -108,8 +108,8 @@ inline void
 JProgressDisplay::VariableLengthProcessBeginning
 	(
 	const JString&	message,
-	const JBoolean	allowCancel,
-	const JBoolean	allowBackground
+	const bool	allowCancel,
+	const bool	allowBackground
 	)
 {
 	ProcessBeginning(kVariableLengthProcess, 0,
@@ -121,11 +121,11 @@ JProgressDisplay::VariableLengthProcessBeginning
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JProgressDisplay::ProcessRunning()
 	const
 {
-	return JConvertToBoolean( itsCurrentProcess != kNoRunningProcess );
+	return itsCurrentProcess != kNoRunningProcess;
 }
 
 /******************************************************************************
@@ -145,7 +145,7 @@ JProgressDisplay::GetCurrentProcessType()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JProgressDisplay::AllowCancel()
 	const
 {
@@ -157,7 +157,7 @@ JProgressDisplay::AllowCancel()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JProgressDisplay::AllowBackground()
 	const
 {

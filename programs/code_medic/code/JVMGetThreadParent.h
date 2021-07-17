@@ -17,7 +17,7 @@ class JVMGetThreadParent : public CMCommand, virtual public JBroadcaster
 {
 public:
 
-	JVMGetThreadParent(JVMThreadNode* node, const JBoolean checkOnly = kJFalse);
+	JVMGetThreadParent(JVMThreadNode* node, const bool checkOnly = false);
 
 	virtual	~JVMGetThreadParent();
 
@@ -31,7 +31,7 @@ protected:
 private:
 
 	JVMThreadNode*	itsNode;
-	const JBoolean	itsCheckOnlyFlag;
+	const bool	itsCheckOnlyFlag;
 
 private:
 

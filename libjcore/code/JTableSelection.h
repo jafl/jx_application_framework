@@ -13,7 +13,7 @@
 #include "JAuxTableData.h"
 #include "JTableSelectionIterator.h"	// need definition of Direction
 
-class JTableSelection : public JAuxTableData<JBoolean>
+class JTableSelection : public JAuxTableData<bool>
 {
 public:
 
@@ -22,62 +22,62 @@ public:
 
 	virtual ~JTableSelection();
 
-	void	SelectCell(const JPoint& cell, const JBoolean on = kJTrue);
+	void	SelectCell(const JPoint& cell, const bool on = true);
 	void	SelectCell(const JIndex row, const JIndex col, 
-					   const JBoolean on = kJTrue);
+					   const bool on = true);
 
 	void	InvertCell(const JPoint& cell);
 	void	InvertCell(const JIndex row, const JIndex col);
 
-	JBoolean	HasSelection() const;
-	JBoolean	IsSelected(const JPoint& cell) const;
-	JBoolean	IsSelected(const JIndex row, const JIndex col) const;
+	bool	HasSelection() const;
+	bool	IsSelected(const JPoint& cell) const;
+	bool	IsSelected(const JIndex row, const JIndex col) const;
 	JSize		GetSelectedCellCount() const;
-	JBoolean	GetSingleSelectedCell(JPoint* cell) const;
-	JBoolean	GetFirstSelectedCell(JPoint* cell,
+	bool	GetSingleSelectedCell(JPoint* cell) const;
+	bool	GetFirstSelectedCell(JPoint* cell,
 					const JTableSelectionIterator::Direction d =
 						JTableSelectionIterator::kIterateByCol) const;
-	JBoolean	GetLastSelectedCell(JPoint* cell,
+	bool	GetLastSelectedCell(JPoint* cell,
 					const JTableSelectionIterator::Direction d =
 						JTableSelectionIterator::kIterateByCol) const;
 
-	void	SelectRow(const JIndex rowIndex, const JBoolean on = kJTrue);
+	void	SelectRow(const JIndex rowIndex, const bool on = true);
 	void	InvertRow(const JIndex rowIndex);
 
-	void	SelectCol(const JIndex colIndex, const JBoolean on = kJTrue);
+	void	SelectCol(const JIndex colIndex, const bool on = true);
 	void	InvertCol(const JIndex rowIndex);
 
-	void	SelectRect(const JRect& rect, const JBoolean on = kJTrue);
+	void	SelectRect(const JRect& rect, const bool on = true);
 	void	SelectRect(const JPoint& cell1, const JPoint& cell2,
-					   const JBoolean on = kJTrue);
+					   const bool on = true);
 	void	SelectRect(const JCoordinate x, const JCoordinate y,
 					   const JCoordinate w, const JCoordinate h,
-					   const JBoolean on = kJTrue);
+					   const bool on = true);
 
 	void	InvertRect(const JRect& rect);
 	void	InvertRect(const JPoint& cell1, const JPoint& cell2);
 	void	InvertRect(const JCoordinate x, const JCoordinate y,
 					   const JCoordinate w, const JCoordinate h);
 
-	void	SelectAll(const JBoolean on = kJTrue);
+	void	SelectAll(const bool on = true);
 	void	ClearSelection();
 
 	// for selecting a rectangle of cells
 
-	JBoolean		HasBoat() const;
+	bool		HasBoat() const;
 	const JPoint&	GetBoat() const;
-	JBoolean		GetBoat(JPoint* cell) const;
+	bool		GetBoat(JPoint* cell) const;
 	void			SetBoat(const JPoint& cell);
 	void			ClearBoat();
 
-	JBoolean		HasAnchor() const;
+	bool		HasAnchor() const;
 	const JPoint&	GetAnchor() const;
-	JBoolean		GetAnchor(JPoint* cell) const;
+	bool		GetAnchor(JPoint* cell) const;
 	void			SetAnchor(const JPoint& cell);
 	void			ClearAnchor();
 
-	JBoolean	OKToExtendSelection() const;
-	JBoolean	ExtendSelection(const JPoint& newBoat);
+	bool	OKToExtendSelection() const;
+	bool	ExtendSelection(const JPoint& newBoat);
 
 protected:
 
@@ -89,17 +89,17 @@ private:
 
 	JPoint		itsBoat;
 	JPoint		itsAnchor;
-	JBoolean	itsReselectAfterChangeFlag;
+	bool	itsReselectAfterChangeFlag;
 
 private:
 
-	JBoolean	UndoSelection();
+	bool	UndoSelection();
 
 	void	AdjustIndexAfterRemove(const JIndex origBoat, const JIndex origAnchor,
 								   const JIndex firstIndex, const JIndex maxIndex,
 								   JCoordinate* boat, JCoordinate* anchor) const;
 
-	static JBoolean	InvertSelection(const JBoolean&);
+	static bool	InvertSelection(const bool&);
 
 	// not allowed
 
@@ -117,7 +117,7 @@ inline void
 JTableSelection::SelectCell
 	(
 	const JPoint&	cell,
-	const JBoolean	on
+	const bool	on
 	)
 {
 	SetElement(cell.y, cell.x, on);
@@ -128,7 +128,7 @@ JTableSelection::SelectCell
 	(
 	const JIndex	row,
 	const JIndex	col,
-	const JBoolean	on
+	const bool	on
 	)
 {
 	SetElement(row,col, on);
@@ -163,13 +163,12 @@ JTableSelection::InvertCell
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTableSelection::HasSelection()
 	const
 {
-	JBoolean value;
-	return JConvertToBoolean(
-			!IsEmpty() && !(AllElementsEqual(&value) && !value) );
+	bool value;
+	return !IsEmpty() && !(AllElementsEqual(&value) && !value);
 }
 
 /******************************************************************************
@@ -177,7 +176,7 @@ JTableSelection::HasSelection()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTableSelection::IsSelected
 	(
 	const JPoint& cell
@@ -187,7 +186,7 @@ JTableSelection::IsSelected
 	return GetElement(cell);
 }
 
-inline JBoolean
+inline bool
 JTableSelection::IsSelected
 	(
 	const JIndex row,
@@ -207,7 +206,7 @@ inline JSize
 JTableSelection::GetSelectedCellCount()
 	const
 {
-	return CountElementsWithValue(kJTrue);
+	return CountElementsWithValue(true);
 }
 
 /******************************************************************************
@@ -219,7 +218,7 @@ inline void
 JTableSelection::SelectRow
 	(
 	const JIndex	rowIndex,
-	const JBoolean	on
+	const bool	on
 	)
 {
 	SetRow(rowIndex, on);
@@ -248,7 +247,7 @@ inline void
 JTableSelection::SelectCol
 	(
 	const JIndex	colIndex,
-	const JBoolean	on
+	const bool	on
 	)
 {
 	SetCol(colIndex, on);
@@ -280,7 +279,7 @@ JTableSelection::SelectRect
 	const JCoordinate	y,
 	const JCoordinate	w,
 	const JCoordinate	h,
-	const JBoolean		on
+	const bool		on
 	)
 {
 	SetRect(x,y,w,h, on);
@@ -290,7 +289,7 @@ inline void
 JTableSelection::SelectRect
 	(
 	const JRect&	rect,
-	const JBoolean	on
+	const bool	on
 	)
 {
 	SetRect(rect, on);
@@ -301,7 +300,7 @@ JTableSelection::SelectRect
 	(
 	const JPoint&	cell1,
 	const JPoint&	cell2,
-	const JBoolean	on
+	const bool	on
 	)
 {
 	SelectRect(JRect(cell1, cell2), on);
@@ -350,7 +349,7 @@ JTableSelection::InvertRect
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTableSelection::HasBoat()
 	const
 {
@@ -364,7 +363,7 @@ JTableSelection::GetBoat()
 	return itsBoat;
 }
 
-inline JBoolean
+inline bool
 JTableSelection::GetBoat
 	(
 	JPoint* cell
@@ -390,7 +389,7 @@ JTableSelection::ClearBoat()
 	itsBoat.x = itsBoat.y = 0;
 }
 
-inline JBoolean
+inline bool
 JTableSelection::HasAnchor()
 	const
 {
@@ -404,7 +403,7 @@ JTableSelection::GetAnchor()
 	return itsAnchor;
 }
 
-inline JBoolean
+inline bool
 JTableSelection::GetAnchor
 	(
 	JPoint* cell
@@ -435,11 +434,11 @@ JTableSelection::ClearAnchor()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JTableSelection::OKToExtendSelection()
 	const
 {
-	return JI2B( CellValid(itsBoat) && CellValid(itsAnchor) );
+	return CellValid(itsBoat) && CellValid(itsAnchor);
 }
 
 /******************************************************************************
@@ -450,7 +449,7 @@ JTableSelection::OKToExtendSelection()
 inline void
 JTableSelection::SelectAll
 	(
-	const JBoolean on
+	const bool on
 	)
 {
 	ClearBoat();
@@ -466,7 +465,7 @@ JTableSelection::SelectAll
 inline void
 JTableSelection::ClearSelection()
 {
-	SelectAll(kJFalse);
+	SelectAll(false);
 }
 
 #endif

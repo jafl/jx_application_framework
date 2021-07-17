@@ -65,21 +65,19 @@ public:
 
 	int	RegisterTest(JUnitTest test, const JUtf8Byte* name);
 
-	JBoolean	IsNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	JBoolean	IsNotNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	JBoolean	IsTrue(const JBoolean value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	JBoolean	IsTrue(const int value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	JBoolean	IsFalse(const JBoolean value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	JBoolean	IsFalse(const int value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	JBoolean	IsOK(const JError& err, JUtf8Byte const* file, const JIndex line);
+	bool	IsNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	bool	IsNotNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	bool	IsTrue(const bool value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	bool	IsFalse(const bool value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	bool	IsOK(const JError& err, JUtf8Byte const* file, const JIndex line);
 
-	JBoolean	StringsAreEqual(const JString& expectedValue, const JString& actualValue,
+	bool	StringsAreEqual(const JString& expectedValue, const JString& actualValue,
 								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	JBoolean	StringsAreEqual(const JString& expectedValue, const JUtf8Byte* actualValue,
+	bool	StringsAreEqual(const JString& expectedValue, const JUtf8Byte* actualValue,
 								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	JBoolean	StringsAreEqual(const JUtf8Byte* expectedValue, const JString& actualValue,
+	bool	StringsAreEqual(const JUtf8Byte* expectedValue, const JString& actualValue,
 								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	JBoolean	StringsAreEqual(const JUtf8Byte* expectedValue, const JUtf8Byte* actualValue,
+	bool	StringsAreEqual(const JUtf8Byte* expectedValue, const JUtf8Byte* actualValue,
 								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
 
 private:
@@ -105,7 +103,7 @@ private:
 };
 
 template <class A, class B>
-JBoolean
+bool
 JAreEqual
 	(
 	const A&			expectedValue,
@@ -117,7 +115,7 @@ JAreEqual
 {
 	if (expectedValue == actualValue)
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -131,12 +129,12 @@ JAreEqual
 		  << " but got " << actualValue;
 
 		JTestManager::ReportFailure(s.str().c_str(), file, line);
-		return kJFalse;
+		return false;
 		}
 }
 
 template <class T>
-JBoolean
+bool
 JAreWithin
 	(
 	const T&			epsilon,
@@ -149,7 +147,7 @@ JAreWithin
 {
 	if (fabs(expectedValue - actualValue) < epsilon)
 		{
-		return kJTrue;
+		return true;
 		}
 
 	if (JSign(expectedValue) == JSign(actualValue))
@@ -167,7 +165,7 @@ JAreWithin
 		if (fabs(expectedExponent - actualExponent) < epsilon &&
 			fabs(expectedMantissa - actualMantissa) < epsilon)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -181,34 +179,10 @@ JAreWithin
 	  << " but got " << actualValue;
 
 	JTestManager::ReportFailure(s.str().c_str(), file, line);
-	return kJFalse;
+	return false;
 }
 
-inline JBoolean
-JTestManager::IsTrue
-	(
-	const int			value,
-	JUtf8Byte const*	file,
-	const JIndex		line,
-	const JUtf8Byte*	msg
-	)
-{
-	return IsTrue(JI2B(value), file, line, msg);
-}
-
-inline JBoolean
-JTestManager::IsFalse
-	(
-	const int			value,
-	JUtf8Byte const*	file,
-	const JIndex		line,
-	const JUtf8Byte*	msg
-	)
-{
-	return IsFalse(JI2B(value), file, line, msg);
-}
-
-inline JBoolean
+inline bool
 JTestManager::StringsAreEqual
 	(
 	const JString&		expectedValue,
@@ -221,7 +195,7 @@ JTestManager::StringsAreEqual
 	return StringsAreEqual(expectedValue.GetBytes(), actualValue.GetBytes(), file, line, msg);
 }
 
-inline JBoolean
+inline bool
 JTestManager::StringsAreEqual
 	(
 	const JString&		expectedValue,
@@ -234,7 +208,7 @@ JTestManager::StringsAreEqual
 	return StringsAreEqual(expectedValue.GetBytes(), actualValue, file, line, msg);
 }
 
-inline JBoolean
+inline bool
 JTestManager::StringsAreEqual
 	(
 	const JUtf8Byte*	expectedValue,

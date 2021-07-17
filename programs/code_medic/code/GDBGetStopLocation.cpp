@@ -20,7 +20,7 @@
 
 GDBGetStopLocation::GDBGetStopLocation()
 	:
-	CMCommand("-stack-info-frame", kJFalse, kJFalse)
+	CMCommand("-stack-info-frame", false, false)
 {
 }
 
@@ -47,7 +47,7 @@ GDBGetStopLocation::GetLocation()
 	const JString& data = GetLastResult();
 
 	CMLocation loc;
-	const JStringMatch m = locationPattern.Match(data, kJFalse);
+	const JStringMatch m = locationPattern.Match(data, JRegex::kIgnoreSubmatches);
 	if (!m.IsEmpty())
 		{
 		std::istringstream stream(data.GetBytes());
@@ -56,7 +56,7 @@ GDBGetStopLocation::GetLocation()
 		JStringPtrMap<JString> map(JPtrArrayT::kDeleteAll);
 		JString *s, *s1, *fullName;
 		JIndex lineIndex;
-		const JBoolean parsed = GDBLink::ParseMap(stream, &map);
+		const bool parsed = GDBLink::ParseMap(stream, &map);
 		if (!parsed)
 			{
 			CMGetLink()->Log("invalid data map");

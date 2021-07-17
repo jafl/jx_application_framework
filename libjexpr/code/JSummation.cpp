@@ -77,7 +77,7 @@ JSummation::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JSummation::Evaluate
 	(
 	JFloat* result
@@ -87,7 +87,7 @@ JSummation::Evaluate
 	const JSize argCount = GetArgCount();
 	if (argCount == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	*result = 0.0;
@@ -96,15 +96,15 @@ JSummation::Evaluate
 		JFloat argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
 			{
-			return kJFalse;
+			return false;
 			}
 		*result += argValue;
 		}
 
-	return kJTrue;
+	return true;
 }
 
-JBoolean
+bool
 JSummation::Evaluate
 	(
 	JComplex* result
@@ -114,7 +114,7 @@ JSummation::Evaluate
 	const JSize argCount = GetArgCount();
 	if (argCount == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	*result = 0.0;
@@ -123,12 +123,12 @@ JSummation::Evaluate
 		JComplex argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
 			{
-			return kJFalse;
+			return false;
 			}
 		*result += argValue;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -199,8 +199,8 @@ JSummation::Layout
 	// get rectangle for each argument
 
 	const JSize spaceWidth = renderer.GetSpaceWidth(fontSize);
-	const JSize plusWidth  = renderer.GetStringWidth(fontSize, JString("+", kJFalse));
-	const JSize minusWidth = renderer.GetStringWidth(fontSize, JString("-", kJFalse));
+	const JSize plusWidth  = renderer.GetStringWidth(fontSize, JString("+", JString::kNoCopy));
+	const JSize minusWidth = renderer.GetStringWidth(fontSize, JString("-", JString::kNoCopy));
 
 	const JSize argCount = GetArgCount();
 	{
@@ -262,7 +262,7 @@ JSummation::Layout
 				}
 
 			JIndex argIndex;
-			const JBoolean found = rectList->FindFunction(arg, &argIndex);
+			const bool found = rectList->FindFunction(arg, &argIndex);
 			assert( found );
 			rectList->SetMidline(argIndex, ourMidline);
 			ourRect = JCovering(ourRect, rectList->GetRect(argIndex));
@@ -290,7 +290,7 @@ JSummation::Render
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect          = rectList.GetRect(ourIndex);
@@ -310,19 +310,19 @@ JSummation::Render
 		const JNegation* neg = dynamic_cast<const JNegation*>(arg);
 		if (neg != nullptr)
 			{
-			renderer.DrawString(h, ourMidline, fontSize, JString("-", kJFalse));
+			renderer.DrawString(h, ourMidline, fontSize, JString("-", JString::kNoCopy));
 			f   = arg;
 			arg = neg->GetArg();
 			}
 		else if (i > 1)
 			{
-			renderer.DrawString(h, ourMidline, fontSize, JString("+", kJFalse));
+			renderer.DrawString(h, ourMidline, fontSize, JString("+", JString::kNoCopy));
 			}
 
 		arg->Render(renderer, rectList);
 
 		JIndex argIndex;
-		const JBoolean found = rectList.FindFunction(arg, &argIndex);
+		const bool found = rectList.FindFunction(arg, &argIndex);
 		assert( found );
 		const JRect argRect = rectList.GetRect(argIndex);
 		h = argRect.right;

@@ -60,13 +60,13 @@ JXDecorRect::Draw
 /******************************************************************************
  NeedsInternalFTC (virtual protected)
 
-	Return kJTrue if the contents are a set of widgets that need to expand.
+	Return true if the contents are a set of widgets that need to expand.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDecorRect::NeedsInternalFTC()
 	const
 {
-	return kJTrue;
+	return true;
 }

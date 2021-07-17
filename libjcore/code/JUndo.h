@@ -22,17 +22,17 @@ public:
 
 	virtual void	Undo() = 0;
 
-	JBoolean	IsActive() const;
+	bool	IsActive() const;
 	void		Activate();
 	void		Deactivate();
 
-	JBoolean	IsRedo() const;
-	void		SetRedo(const JBoolean isRedo);
+	bool	IsRedo() const;
+	void		SetRedo(const bool isRedo);
 
 private:
 
-	JBoolean	itsActiveFlag;
-	JBoolean	itsIsRedoFlag;
+	bool	itsActiveFlag;
+	bool	itsIsRedoFlag;
 
 private:
 
@@ -48,7 +48,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JUndo::IsActive()
 	const
 {
@@ -58,13 +58,13 @@ JUndo::IsActive()
 inline void
 JUndo::Activate()
 {
-	itsActiveFlag = kJTrue;
+	itsActiveFlag = true;
 }
 
 inline void
 JUndo::Deactivate()
 {
-	itsActiveFlag = kJFalse;
+	itsActiveFlag = false;
 }
 
 /******************************************************************************
@@ -72,7 +72,7 @@ JUndo::Deactivate()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JUndo::IsRedo()
 	const
 {
@@ -82,7 +82,7 @@ JUndo::IsRedo()
 inline void
 JUndo::SetRedo
 	(
-	const JBoolean isRedo
+	const bool isRedo
 	)
 {
 	itsIsRedoFlag = isRedo;

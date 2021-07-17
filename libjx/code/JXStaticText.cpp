@@ -33,8 +33,8 @@ JXStaticText::JXStaticText
 	const JCoordinate	h
 	)
 	:
-	JXTEBase(kStaticText, jnew JXStyledText(kJFalse, kJFalse, enclosure->GetFontManager()), kJTrue,
-			 JI2B(w==0), nullptr,
+	JXTEBase(kStaticText, jnew JXStyledText(false, false, enclosure->GetFontManager()), true,
+			 w==0, nullptr,
 			 enclosure, hSizing, vSizing, x,y,
 			 (w>0 ? w : 100), (h>0 ? h : 100))
 {
@@ -45,9 +45,9 @@ JXStaticText::JXStaticText
 JXStaticText::JXStaticText
 	(
 	const JString&		text,
-	const JBoolean		wordWrap,
-	const JBoolean		selectable,
-	const JBoolean		allowStyles,
+	const bool		wordWrap,
+	const bool		selectable,
+	const bool		allowStyles,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -59,7 +59,7 @@ JXStaticText::JXStaticText
 	)
 	:
 	JXTEBase((selectable ? kSelectableText : kStaticText),
-			 jnew JXStyledText(kJFalse, allowStyles, enclosure->GetFontManager()), kJTrue,
+			 jnew JXStyledText(false, allowStyles, enclosure->GetFontManager()), true,
 			 !wordWrap, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y,
 			 (w>0 ? w : 100), (h>0 ? h : 100))
@@ -78,8 +78,8 @@ JXStaticText::JXStaticTextX
 	const JCoordinate	origH
 	)
 {
-	itsCenterHorizFlag = kJFalse;
-	itsCenterVertFlag  = kJFalse;
+	itsCenterHorizFlag = false;
+	itsCenterVertFlag  = false;
 
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 
@@ -117,7 +117,7 @@ JString
 JXStaticText::ToString()
 	const
 {
-	return JXTEBase::ToString() + JString(": ", kJFalse) + GetText().GetText();
+	return JXTEBase::ToString() + JString(": ", JString::kNoCopy) + GetText().GetText();
 }
 
 /******************************************************************************
@@ -131,15 +131,15 @@ JXStaticText::ToString()
 void
 JXStaticText::SetToLabel
 	(
-	const JBoolean centerHorizontally
+	const bool centerHorizontally
 	)
 {
 	if (!itsCenterVertFlag)
 		{
 		itsCenterHorizFlag = centerHorizontally;
-		itsCenterVertFlag  = kJTrue;
-		SetBreakCROnly(kJTrue);
-		ShouldAllowUnboundedScrolling(kJTrue);
+		itsCenterVertFlag  = true;
+		SetBreakCROnly(true);
+		ShouldAllowUnboundedScrolling(true);
 		Center();
 		}
 }
@@ -225,7 +225,7 @@ JXStaticText::Center()
 JCoordinate
 JXStaticText::GetFTCMinContentSize
 	(
-	const JBoolean horizontal
+	const bool horizontal
 	)
 	const
 {

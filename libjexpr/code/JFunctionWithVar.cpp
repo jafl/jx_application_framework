@@ -128,7 +128,7 @@ JFunctionWithVar::SetVariableIndex
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFunctionWithVar::EvaluateArrayIndex
 	(
 	JIndex* index
@@ -138,16 +138,16 @@ JFunctionWithVar::EvaluateArrayIndex
 	JFloat x = 1.0;
 	if (itsArrayIndex != nullptr && !itsArrayIndex->Evaluate(&x))
 		{
-		return kJFalse;
+		return false;
 		}
 	*index = JRound(x);
 	if (!itsVariableList->ArrayIndexValid(itsVariableIndex, *index))
 		{
-		return kJFalse;
+		return false;
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -234,7 +234,7 @@ JFunctionWithVar::Render
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);
@@ -265,7 +265,7 @@ JFunctionWithVar::Render
 		itsArrayIndex->Render(renderer, rectList);
 
 		JIndex argIndex;
-		const JBoolean found = rectList.FindFunction(itsArrayIndex, &argIndex);
+		const bool found = rectList.FindFunction(itsArrayIndex, &argIndex);
 		assert( found );
 		renderer.DrawSquareBrackets(rectList.GetRect(argIndex));
 		}
@@ -276,15 +276,15 @@ JFunctionWithVar::Render
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFunctionWithVar::UsesVariable
 	(
 	const JIndex variableIndex
 	)
 	const
 {
-	return JI2B( itsVariableIndex == variableIndex ||
-				 JFunction::UsesVariable(variableIndex) );
+	return itsVariableIndex == variableIndex ||
+				 JFunction::UsesVariable(variableIndex);
 }
 
 void
@@ -306,7 +306,7 @@ JFunctionWithVar::VariablesRemoved
 	)
 {
 	JFunction::VariablesRemoved(firstIndex, count);
-	const JBoolean ok = JAdjustIndexAfterRemove(firstIndex, count, &itsVariableIndex);
+	const bool ok = JAdjustIndexAfterRemove(firstIndex, count, &itsVariableIndex);
 	assert( ok );	// JVariableList must ensure this
 }
 

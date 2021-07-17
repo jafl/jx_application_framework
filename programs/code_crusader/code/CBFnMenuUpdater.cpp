@@ -85,9 +85,9 @@ CBFnMenuUpdater::CBFnMenuUpdater()
 	JPrefObject(CBMGetPrefsManager(), kCBFnMenuUpdaterID),
 	CBCtagsUser(kCtagsArgs)
 {
-	itsSortFlag      = kJTrue;
-	itsIncludeNSFlag = kJFalse;
-	itsPackFlag      = kJFalse;
+	itsSortFlag      = true;
+	itsIncludeNSFlag = false;
+	itsPackFlag      = false;
 	JPrefObject::ReadPrefs();
 }
 
@@ -111,9 +111,9 @@ CBFnMenuUpdater::UpdateMenu
 	(
 	const JString&			fileName,
 	const CBTextFileType	origFileType,
-	const JBoolean			sort,
-	const JBoolean			includeNS,
-	const JBoolean			pack,
+	const bool			sort,
+	const bool			includeNS,
+	const bool			pack,
 	JXTextMenu*				menu,
 	JArray<JIndex>*			lineIndexList,
 	JArray<CBLanguage>*		lineLangList
@@ -133,13 +133,13 @@ CBFnMenuUpdater::UpdateMenu
 
 	if (pack)
 		{
-		menu->SetDefaultFontSize(JFontManager::GetDefaultFontSize()-2, kJFalse);
-		menu->CompressHeight(kJTrue);
+		menu->SetDefaultFontSize(JFontManager::GetDefaultFontSize()-2, false);
+		menu->CompressHeight(true);
 		}
 	else
 		{
-		menu->SetDefaultFontSize(JFontManager::GetDefaultFontSize(), kJFalse);
-		menu->CompressHeight(kJFalse);
+		menu->SetDefaultFontSize(JFontManager::GetDefaultFontSize(), false);
+		menu->CompressHeight(false);
 		}
 
 	CBTextFileType fileType = origFileType == kCBPHPFT ? kCBJavaScriptFT : origFileType;
@@ -186,8 +186,8 @@ CBFnMenuUpdater::ReadFunctionList
 	(
 	std::istream&		input,
 	const CBLanguage	lang,
-	const JBoolean		sort,
-	const JBoolean		includeNS,
+	const bool		sort,
+	const bool		includeNS,
 	JPtrArray<JString>*	fnNameList,
 	JArray<JIndex>*		lineIndexList,
 	JArray<CBLanguage>*	lineLangList
@@ -195,7 +195,7 @@ CBFnMenuUpdater::ReadFunctionList
 {
 	// build symbol list
 
-	const JBoolean hasNS = CBHasNamespace(lang);
+	const bool hasNS = CBHasNamespace(lang);
 	JString fnName;
 	while (1)
 		{

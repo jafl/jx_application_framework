@@ -72,7 +72,7 @@ JHypTangent::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JHypTangent::Evaluate
 	(
 	JFloat* result
@@ -82,14 +82,14 @@ JHypTangent::Evaluate
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = tanh(argValue);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JHypTangent::Evaluate
 	(
 	JComplex* result
@@ -99,7 +99,7 @@ JHypTangent::Evaluate
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = sinh(argValue)/cosh(argValue);

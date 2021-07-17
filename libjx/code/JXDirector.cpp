@@ -27,9 +27,9 @@ JXDirector::JXDirector
 {
 	itsSupervisor   = supervisor;
 	itsSubdirectors = nullptr;
-	itsActiveFlag   = kJFalse;
+	itsActiveFlag   = false;
 	itsSuspendCount = 0;
-	itsClosingFlag  = kJFalse;
+	itsClosingFlag  = false;
 
 	if (itsSupervisor != nullptr)
 		{
@@ -61,11 +61,11 @@ JXDirector::~JXDirector()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirector::IsWindowDirector()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -75,32 +75,32 @@ JXDirector::IsWindowDirector()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirector::Close()
 {
 	assert( !itsClosingFlag );
-	itsClosingFlag = kJTrue;
+	itsClosingFlag = true;
 
 	if (CloseAllSubdirectors())
 		{
 		jdelete this;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		itsClosingFlag = kJFalse;
-		return kJFalse;
+		itsClosingFlag = false;
+		return false;
 		}
 }
 
 /******************************************************************************
  CloseAllSubdirectors (protected)
 
-	Returns kJTrue if all subdirectors closed successfully.
+	Returns true if all subdirectors closed successfully.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirector::CloseAllSubdirectors()
 {
 	while (itsSubdirectors != nullptr && !itsSubdirectors->IsEmpty())
@@ -108,7 +108,7 @@ JXDirector::CloseAllSubdirectors()
 		JXDirector* theDirector = itsSubdirectors->GetFirstElement();
 		if (!theDirector->Close())
 			{
-			return kJFalse;
+			return false;
 			}
 		else if (itsSubdirectors != nullptr && !itsSubdirectors->IsEmpty() &&
 				 theDirector == itsSubdirectors->GetFirstElement())
@@ -123,7 +123,7 @@ JXDirector::CloseAllSubdirectors()
 
 	// falling through means everybody is closed
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -137,7 +137,7 @@ JXDirector::CloseAllSubdirectors()
 void
 JXDirector::Activate()
 {
-	itsActiveFlag = kJTrue;
+	itsActiveFlag = true;
 }
 
 /******************************************************************************
@@ -145,7 +145,7 @@ JXDirector::Activate()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXDirector::Deactivate()
 {
 	if (itsActiveFlag && itsSubdirectors != nullptr)
@@ -154,12 +154,12 @@ JXDirector::Deactivate()
 			{
 			if (!dir->Deactivate())
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 		}
-	itsActiveFlag = kJFalse;
-	return kJTrue;
+	itsActiveFlag = false;
+	return true;
 }
 
 /******************************************************************************

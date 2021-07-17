@@ -29,14 +29,14 @@ const JCoordinate kMaxTypeRowCount = 10;
 CBEditStylerDialog::CBEditStylerDialog
 	(
 	const JString&							windowTitle,
-	const JBoolean							active,
+	const bool							active,
 	const JUtf8Byte**						typeNames,
 	const JArray<JFontStyle>&				typeStyles,
 	const JArray<CBStylerBase::WordStyle>&	wordList,
 	const CBTextFileType					fileType
 	)
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue)
+	JXDialogDirector(JXGetApplication(), true)
 {
 	BuildWindow(windowTitle, active, typeNames, typeStyles, wordList, fileType);
 }
@@ -59,7 +59,7 @@ void
 CBEditStylerDialog::BuildWindow
 	(
 	const JString&							windowTitle,
-	const JBoolean							active,
+	const bool							active,
 	const JUtf8Byte**						typeNames,
 	const JArray<JFontStyle>&				typeStyles,
 	const JArray<CBStylerBase::WordStyle>&	wordList,
@@ -167,7 +167,7 @@ CBEditStylerDialog::BuildWindow
 	newWordButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
 	removeButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
 
-	UseModalPlacement(kJFalse);
+	UseModalPlacement(false);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 }
@@ -182,7 +182,7 @@ CBEditStylerDialog::BuildWindow
 void
 CBEditStylerDialog::GetData
 	(
-	JBoolean*				active,
+	bool*				active,
 	JArray<JFontStyle>*		typeStyles,
 	JStringMap<JFontStyle>*	wordStyles
 	)

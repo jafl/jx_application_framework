@@ -115,14 +115,14 @@ CBCPPMacroTable::~CBCPPMacroTable()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCPPMacroTable::ContentsValid()
 	const
 {
 	CBCPPMacroTable* me = const_cast<CBCPPMacroTable*>(this);
 	if (!me->EndEditing())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	const JStringTableData* data = GetStringData();
@@ -142,22 +142,22 @@ CBCPPMacroTable::ContentsValid()
 				me->TableScrollToCell(JPoint(1,i));
 				JGetUserNotification()->ReportError(
 					JGetString("UniqueName::CBCPPMacroTable"));
-				return kJFalse;
+				return false;
 				}
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
  UpdateMacros
 
-	Returns kJTrue if anything changed.
+	Returns true if anything changed.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCPPMacroTable::UpdateMacros
 	(
 	CBCPreprocessor* cpp
@@ -166,7 +166,7 @@ CBCPPMacroTable::UpdateMacros
 {
 	assert( !IsEditing() );
 
-	JBoolean changed = kJFalse;
+	bool changed = false;
 
 	const CBPPMacroList& list    = cpp->GetMacroList();
 	const JStringTableData* data = GetStringData();
@@ -184,20 +184,20 @@ CBCPPMacroTable::UpdateMacros
 				 const_cast<JString*>(&(data->GetString(i, kValueColumn))));
 			if (!list.SearchSorted(info, JListT::kAnyMatch, &j))
 				{
-				changed = kJTrue;
+				changed = true;
 				break;
 				}
 			const CBCPreprocessor::MacroInfo info2 = list.GetElement(j);
 			if (*(info.value) != *(info2.value))
 				{
-				changed = kJTrue;
+				changed = true;
 				break;
 				}
 			}
 		}
 	else
 		{
-		changed = kJTrue;
+		changed = true;
 		}
 
 	if (changed)
@@ -385,7 +385,7 @@ void
 CBCPPMacroTable::ReadData
 	(
 	const JString&	fileName,
-	const JBoolean	replaceExisting
+	const bool	replaceExisting
 	)
 {
 	JStringTableData* data = GetStringData();
@@ -519,11 +519,7 @@ CBCPPMacroTable::SetColTitles
 	)
 	const
 {
-	for (JIndex i=1; i<=kColCount; i++)
-		{
-		const JString id = "Column" + JString((JUInt64) i) + "::CBCPPMacroTable";
-		widget->SetColTitle(i, JGetString(id.GetBytes()));
-		}
+	widget->SetColumnTitles("CBCPPMacroTable", kColCount);
 }
 
 /******************************************************************************

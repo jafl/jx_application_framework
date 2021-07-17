@@ -16,7 +16,7 @@ class JXPrefsManager : public JPrefsManager
 public:
 
 	JXPrefsManager(const JFileVersion currentVersion,
-				   const JBoolean eraseFileIfOpen);
+				   const bool eraseFileIfOpen);
 
 	virtual ~JXPrefsManager();
 

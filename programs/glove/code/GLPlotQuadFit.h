@@ -29,18 +29,18 @@ public:
 					const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotQuadFit();	
 
-	virtual JBoolean	GetParameterName(const JIndex index, JString* name) const override;
-	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const override;
+	virtual bool	GetParameterName(const JIndex index, JString* name) const override;
+	virtual bool	GetParameter(const JIndex index, JFloat* value) const override;
 
-	virtual JBoolean	GetParameterError(const JIndex index, JFloat* value) const override;
+	virtual bool	GetParameterError(const JIndex index, JFloat* value) const override;
 
-	virtual JBoolean	GetGoodnessOfFitName(JString* name) const override;
-	virtual JBoolean	GetGoodnessOfFit(JFloat* value) const override;
+	virtual bool	GetGoodnessOfFitName(JString* name) const override;
+	virtual bool	GetGoodnessOfFit(JFloat* value) const override;
 	
 	virtual JString		GetFunctionString() const override;
 	virtual JString		GetFitFunctionString() const override;
 
-	virtual JBoolean	GetYValue(const JFloat x, JFloat* y) const override;
+	virtual bool	GetYValue(const JFloat x, JFloat* y) const override;
 	virtual const JPlotDataBase*		GetDataToFit() const;
 
 	void				AdjustDataRange(const JFloat xmin, const JFloat xmax,
@@ -89,8 +89,8 @@ protected:
 	JFloat				GetCurrentXMax() const;
 	JFloat				GetCurrentXMin() const;
 	JFloat				GetCurrentStepCount() const;
-	virtual JBoolean	DataElementValid(const JIndex index) override;
-	virtual JBoolean	GetDataElement(const JIndex index, J2DDataPoint* point) override;
+	virtual bool	DataElementValid(const JIndex index) override;
+	virtual bool	GetDataElement(const JIndex index, J2DDataPoint* point) override;
 
 private:
 
@@ -124,7 +124,7 @@ private:
 	JFloat		itsRangeXMin;
 	JFloat 		itsRangeYMax;
 	JFloat 		itsRangeYMin;
-	JBoolean 	itsUsingRange;
+	bool 	itsUsingRange;
 	JSize		itsRealCount;
 	
 	JArray<J2DDataPoint>* itsRealData;

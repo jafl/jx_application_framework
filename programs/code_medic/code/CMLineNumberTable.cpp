@@ -110,7 +110,7 @@ CMLineNumberTable::GetBreakpointLineIndex
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMLineNumberTable::GetFirstBreakpointOnLine
 	(
 	const JIndex	lineIndex,
@@ -127,7 +127,7 @@ CMLineNumberTable::GetFirstBreakpointOnLine
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMLineNumberTable::BreakpointsOnSameLine
 	(
 	const CMBreakpoint* bp1,
@@ -135,7 +135,7 @@ CMLineNumberTable::BreakpointsOnSameLine
 	)
 	const
 {
-	return JI2B(bp1->GetLineNumber() == bp2->GetLineNumber());
+	return bp1->GetLineNumber() == bp2->GetLineNumber();
 }
 
 /******************************************************************************
@@ -169,11 +169,11 @@ void
 CMLineNumberTable::SetBreakpoint
 	(
 	const JIndex	lineIndex,
-	const JBoolean	temporary
+	const bool	temporary
 	)
 {
 	const JString* fullName;
-	const JBoolean hasFile = GetDirector()->GetFileName(&fullName);
+	const bool hasFile = GetDirector()->GetFileName(&fullName);
 	assert( hasFile );
 	GetLink()->SetBreakpoint(*fullName, lineIndex, temporary);
 }
@@ -190,7 +190,7 @@ CMLineNumberTable::RemoveAllBreakpointsOnLine
 	)
 {
 	const JString* fullName;
-	const JBoolean hasFile = GetDirector()->GetFileName(&fullName);
+	const bool hasFile = GetDirector()->GetFileName(&fullName);
 	assert( hasFile );
 	GetLink()->RemoveAllBreakpointsOnLine(*fullName, lineIndex);
 }
@@ -207,7 +207,7 @@ CMLineNumberTable::RunUntil
 	)
 {
 	const JString* fullName;
-	const JBoolean hasFile = GetDirector()->GetFileName(&fullName);
+	const bool hasFile = GetDirector()->GetFileName(&fullName);
 	assert( hasFile );
 	GetLink()->RunUntil(*fullName, lineIndex);
 }
@@ -224,7 +224,7 @@ CMLineNumberTable::SetExecutionPoint
 	)
 {
 	const JString* fullName;
-	const JBoolean hasFile = GetDirector()->GetFileName(&fullName);
+	const bool hasFile = GetDirector()->GetFileName(&fullName);
 	assert( hasFile );
 	GetLink()->SetExecutionPoint(*fullName, lineIndex);
 }

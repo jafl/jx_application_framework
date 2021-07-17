@@ -71,7 +71,7 @@ JArcHypSine::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JArcHypSine::Evaluate
 	(
 	JFloat* result
@@ -81,14 +81,14 @@ JArcHypSine::Evaluate
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = asinh(argValue);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JArcHypSine::Evaluate
 	(
 	JComplex* result
@@ -98,7 +98,7 @@ JArcHypSine::Evaluate
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = asinh(argValue);

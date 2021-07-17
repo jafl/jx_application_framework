@@ -305,7 +305,7 @@ CBCommandMenu::UpdateMenu()
 		}
 
 	CBProjectDocument* projDoc;
-	const JBoolean hasProject = GetProjectDocument(&projDoc);
+	const bool hasProject = GetProjectDocument(&projDoc);
 
 	(CBGetCommandManager())->AppendMenuItems(this, hasProject);
 
@@ -446,10 +446,10 @@ CBCommandMenu::HandleAddToProjectMenu
 		}
 
 	CBProjectDocument* projDoc;
-	const JBoolean hasProject = GetProjectDocument(&projDoc);
+	const bool hasProject = GetProjectDocument(&projDoc);
 	assert( hasProject );
 
-	JBoolean onDisk;
+	bool onDisk;
 	const JString fullName = itsTextDoc->GetFullName(&onDisk);
 	assert( onDisk );
 
@@ -476,14 +476,14 @@ CBCommandMenu::HandleAddToProjectMenu
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandMenu::CanAddToProject()
 	const
 {
-	return JI2B(itsProjDoc == nullptr &&
+	return itsProjDoc == nullptr &&
 				CBGetDocumentManager()->HasProjectDocuments() &&
 				itsTextDoc != nullptr &&
-				itsTextDoc->ExistsOnDisk());
+				itsTextDoc->ExistsOnDisk();
 }
 
 /******************************************************************************
@@ -500,15 +500,15 @@ CBCommandMenu::UpdateManageProjectMenu()
 		itsManageProjMenu->EnableAll();
 
 		itsManageProjMenu->SetItemEnable(kShowCTreeCmd,
-			JNegate(projDoc->GetCTreeDirector()->GetTree()->IsEmpty()));
+			!projDoc->GetCTreeDirector()->GetTree()->IsEmpty());
 		itsManageProjMenu->SetItemEnable(kShowDTreeCmd,
-			JNegate(projDoc->GetDTreeDirector()->GetTree()->IsEmpty()));
+			!projDoc->GetDTreeDirector()->GetTree()->IsEmpty());
 		itsManageProjMenu->SetItemEnable(kShowGoTreeCmd,
-			JNegate(projDoc->GetGoTreeDirector()->GetTree()->IsEmpty()));
+			!projDoc->GetGoTreeDirector()->GetTree()->IsEmpty());
 		itsManageProjMenu->SetItemEnable(kShowJavaTreeCmd,
-			JNegate(projDoc->GetJavaTreeDirector()->GetTree()->IsEmpty()));
+			!projDoc->GetJavaTreeDirector()->GetTree()->IsEmpty());
 		itsManageProjMenu->SetItemEnable(kShowPHPTreeCmd,
-			JNegate(projDoc->GetPHPTreeDirector()->GetTree()->IsEmpty()));
+			!projDoc->GetPHPTreeDirector()->GetTree()->IsEmpty());
 		}
 	else
 		{
@@ -572,7 +572,7 @@ CBCommandMenu::HandleManageProjectMenu
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCommandMenu::GetProjectDocument
 	(
 	CBProjectDocument** projDoc
@@ -585,5 +585,5 @@ CBCommandMenu::GetProjectDocument
 		CBGetDocumentManager()->GetActiveProjectDocument(projDoc);
 		}
 
-	return JI2B( *projDoc != nullptr );
+	return *projDoc != nullptr;
 }

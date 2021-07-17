@@ -28,14 +28,14 @@
 
 const JSize kHistoryLength = 20;
 
-static const JString kDefaultVersion("1.0.0", kJFalse);
-static const JString kDefaultURLText("http://", kJFalse);
-static const JString kDefaultProjDir(JX_PATH "programs/my_project/", kJFalse);
-static const JString kDefaultTemplateDir(JX_PATH "programs/jx_project_wizard/app_template/", kJFalse);
-static const JString kDefaultOpenCmd("jcc $f", kJFalse);
+static const JString kDefaultVersion("1.0.0", JString::kNoCopy);
+static const JString kDefaultURLText("http://", JString::kNoCopy);
+static const JString kDefaultProjDir(JX_PATH "programs/my_project/", JString::kNoCopy);
+static const JString kDefaultTemplateDir(JX_PATH "programs/jx_project_wizard/app_template/", JString::kNoCopy);
+static const JString kDefaultOpenCmd("jcc $f", JString::kNoCopy);
 
-static const JString kFilePrefixTag("_pre_", kJFalse);
-static const JString kBinaryPrefixTag("_Binary_", kJFalse);
+static const JString kFilePrefixTag("_pre_", JString::kNoCopy);
+static const JString kBinaryPrefixTag("_Binary_", JString::kNoCopy);
 
 const JSize kFilePrefixTagLength   = 5;
 const JSize kBinaryPrefixTagLength = 8;
@@ -289,7 +289,7 @@ JXWMainDialog::BuildWindow
 		};
 	const JString title = JGetString("WindowTitle::JXWMainDialog", map, sizeof(map));
 	window->SetTitle(title);
-	window->ShouldFocusWhenShow(kJTrue);
+	window->ShouldFocusWhenShow(true);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 
@@ -302,7 +302,7 @@ JXWMainDialog::BuildWindow
 
 	itsProgramVersion->GetText()->SetText(kDefaultVersion);
 	itsDevURL->GetText()->SetText(kDefaultURLText);
-	itsNeedsMDICB->SetState(kJTrue);
+	itsNeedsMDICB->SetState(true);
 
 	itsProjectDir->ShouldAllowInvalidPath();
 	itsProjectDir->ShouldRequireWritable();
@@ -319,9 +319,9 @@ JXWMainDialog::BuildWindow
 
 	if (argc == 3)
 		{
-		itsProjectDir->GetText()->SetText(JString(argv[1], kJFalse));
-		itsProgramName->GetText()->SetText(JString(argv[2], kJFalse));
-		itsBinaryName->GetText()->SetText(JString(argv[2], kJFalse));
+		itsProjectDir->GetText()->SetText(JString(argv[1], JString::kNoCopy));
+		itsProgramName->GetText()->SetText(JString(argv[2], JString::kNoCopy));
+		itsBinaryName->GetText()->SetText(JString(argv[2], JString::kNoCopy));
 		}
 }
 
@@ -383,7 +383,7 @@ JXWMainDialog::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWMainDialog::WriteTemplate()
 {
 	// validate inputs -- itsOpenCmd can be empty
@@ -398,13 +398,13 @@ JXWMainDialog::WriteTemplate()
 
 	for (JUnsignedOffset i=0; i<inputCount; i++)
 		{
-		input[i]->SetIsRequired(kJTrue);
-		const JBoolean ok = input[i]->InputValid();
-		input[i]->SetIsRequired(kJFalse);
+		input[i]->SetIsRequired(true);
+		const bool ok = input[i]->InputValid();
+		input[i]->SetIsRequired(false);
 		if (!ok)
 			{
 			input[i]->Focus();
-			return kJFalse;
+			return false;
 			}
 		}
 
@@ -414,30 +414,30 @@ JXWMainDialog::WriteTemplate()
 		{
 		JGetUserNotification()->ReportError(JGetString("SrcPrefixError::JXWMainDialog"));
 		itsSrcPrefix->Focus();
-		return kJFalse;
+		return false;
 		}
 
 	// check template directory
 
-	itsTemplateDir->ShouldAllowInvalidPath(kJFalse);
-	JBoolean tmplDirOK = itsTemplateDir->InputValid();
-	itsTemplateDir->ShouldAllowInvalidPath(kJTrue);
+	itsTemplateDir->ShouldAllowInvalidPath(false);
+	bool tmplDirOK = itsTemplateDir->InputValid();
+	itsTemplateDir->ShouldAllowInvalidPath(true);
 	if (!tmplDirOK)
 		{
 		itsTemplateDir->Focus();
-		return kJFalse;
+		return false;
 		}
 
 	JString templateDir;
 	tmplDirOK = itsTemplateDir->GetPath(&templateDir);
 	assert( tmplDirOK );
 
-	const JString testFile = JCombinePathAndName(templateDir, JString("_Binary_.fd", kJFalse));
+	const JString testFile = JCombinePathAndName(templateDir, JString("_Binary_.fd", JString::kNoCopy));
 	if (!JFileExists(testFile))
 		{
 		JGetUserNotification()->ReportError(JGetString("InvalidTmplDirError::JXWMainDialog"));
 		itsTemplateDir->Focus();
-		return kJFalse;
+		return false;
 		}
 
 	// try to create project directory if it doesn't exist
@@ -446,18 +446,18 @@ JXWMainDialog::WriteTemplate()
 	if (JIsRelativePath(itsProjectDir->GetText()->GetText()) ||
 		!JExpandHomeDirShortcut(itsProjectDir->GetText()->GetText(), &projectDir))
 		{
-		itsProjectDir->ShouldAllowInvalidPath(kJFalse);
+		itsProjectDir->ShouldAllowInvalidPath(false);
 		itsProjectDir->InputValid();
-		itsProjectDir->ShouldAllowInvalidPath(kJTrue);
+		itsProjectDir->ShouldAllowInvalidPath(true);
 		itsProjectDir->Focus();
-		return kJFalse;
+		return false;
 		}
 
 	const JError err = JCreateDirectory(projectDir);
 	if (!err.OK())
 		{
 		JGetStringManager()->ReportError("UnableToCreateProjDir::JXWMainDialog", err);
-		return kJFalse;
+		return false;
 		}
 
 	// warnings should be after all errors so user doesn't have to answer yes
@@ -476,7 +476,7 @@ JXWMainDialog::WriteTemplate()
 	JStripTrailingDirSeparator(&f);
 	JSplitPathAndName(f, &p, &dirName);
 
-	JString jxPath(JX_PATH, kJFalse);
+	JString jxPath(JX_PATH, JString::kNoCopy);
 	if (projectDir.BeginsWith(jxPath))
 		{
 		jxPath = JConvertToRelativePath(jxPath, projectDir);
@@ -492,7 +492,7 @@ JXWMainDialog::WriteTemplate()
 	value.Append(currentYear);
 	value.Append(itsDevEmail->GetText()->GetText());
 	value.Append(itsDevURL->GetText()->GetText());
-	value.Append(itsNeedsMDICB->IsChecked() ? JString("-DUSE_MDI", kJFalse) : JString::empty);
+	value.Append(itsNeedsMDICB->IsChecked() ? JString("-DUSE_MDI", JString::kNoCopy) : JString::empty);
 	value.Append(itsBinaryName->GetText()->GetText());
 	value.Append(dirName);
 	value.Append(jxPath);
@@ -521,7 +521,7 @@ JXWMainDialog::WriteTemplate()
 	// save template directory
 
 	itsTmplDirHistory->AddString(templateDir);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -542,7 +542,7 @@ JXWMainDialog::CopyAndAdjustTemplateFiles
 		{
 		return;
 		}
-	info->SetWildcardFilter(JString("*~ #*#", kJFalse), kJTrue);
+	info->SetWildcardFilter(JString("*~ #*#", JString::kNoCopy), true);
 
 	const JSize prefixLength = value.GetElement(kPrefix)->GetCharacterCount();
 
@@ -569,7 +569,7 @@ JXWMainDialog::CopyAndAdjustTemplateFiles
 		else if (entry.IsFile())
 			{
 			JString name = entry.GetName();
-			if (name.BeginsWith(kFilePrefixTag, kJFalse))
+			if (name.BeginsWith(kFilePrefixTag, JString::kIgnoreCase))
 				{
 				JStringIterator iter(&name);
 				iter.SkipNext();
@@ -599,7 +599,7 @@ JXWMainDialog::CopyAndAdjustTemplateFiles
 
 			for (JUnsignedOffset j=0; j<kTagCount; j++)
 				{
-				const JBoolean isPrefix = JI2B( j == kPrefix );
+				const bool isPrefix = j == kPrefix;
 
 				JStringIterator iter(&data);
 				JIndex fIndex = 1;
@@ -661,7 +661,7 @@ JXWMainDialog::ReadPrefs
 		input >> s;
 		itsDevURL->GetText()->SetText(s);
 
-		JBoolean checked;
+		bool checked;
 		input >> JBoolFromString(checked);
 		itsNeedsMDICB->SetState(checked);
 
@@ -700,7 +700,7 @@ JXWMainDialog::UpdatePath
 	)
 {
 	JStringIterator iter(s);
-	const JString v = "JX-" + JString(JXWGetVersionNumberStr(), kJFalse);
+	const JString v = "JX-" + JString(JXWGetVersionNumberStr(), JString::kNoCopy);
 	while (iter.Next(jxVersPattern))
 		{
 		iter.ReplaceLastMatch(v);
@@ -735,14 +735,14 @@ JXWMainDialog::WritePrefs
 	// save host name from url
 
 	output << ' ';
-	const JStringMatch m1 = hostPattern.Match(itsDevURL->GetText()->GetText(), kJFalse);
+	const JStringMatch m1 = hostPattern.Match(itsDevURL->GetText()->GetText(), JRegex::kIgnoreSubmatches);
 	if (!m1.IsEmpty())
 		{
 		output << m1.GetString();
 		}
 	else
 		{
-		output << JString(kDefaultURLText, kJFalse);
+		output << JString(kDefaultURLText, JString::kNoCopy);
 		}
 
 	output << ' ' << JBoolToString(itsNeedsMDICB->IsChecked());
@@ -750,7 +750,7 @@ JXWMainDialog::WritePrefs
 	// save ".../JX-<vers>/programs/" from project directory
 
 	output << ' ';
-	const JStringMatch m2 = projPattern.Match(itsProjectDir->GetText()->GetText(), kJFalse);
+	const JStringMatch m2 = projPattern.Match(itsProjectDir->GetText()->GetText(), JRegex::kIgnoreSubmatches);
 	if (!m2.IsEmpty())
 		{
 		output << m2.GetString();

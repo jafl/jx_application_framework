@@ -29,7 +29,7 @@ protected:
 
 private:
 
-	JBoolean				itsIsUpgradeFlag;
+	bool				itsIsUpgradeFlag;
 	CBAboutDialogIconTask*	itsAnimTask;
 
 // begin JXLayout

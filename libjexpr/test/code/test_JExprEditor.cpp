@@ -57,7 +57,7 @@ JTEST(Exercise)
 	TestVarList varList;
 	ExprEditor e(&varList, &fontMgr);
 
-	e.ApplyFunctionToSelection(JString("sqrt", kJFalse));
+	e.ApplyFunctionToSelection(JString("sqrt", JString::kNoCopy));
 
 	JAssertStringsEqual("sqrt(?)", e.GetFunction()->Print());
 
@@ -68,12 +68,12 @@ JTEST(Exercise)
 	e.SelectAll();
 	e.Copy();
 
-	e.ApplyFunctionToSelection(JString("log", kJFalse));
+	e.ApplyFunctionToSelection(JString("log", JString::kNoCopy));
 
 	JAssertStringsEqual("log(?,3.5)", e.GetFunction()->Print());
 
 	e.ClearSelection();
-	e.ApplyFunctionToSelection(JString("arctan2", kJFalse));
+	e.ApplyFunctionToSelection(JString("arctan2", JString::kNoCopy));
 
 	JAssertStringsEqual("log(arctan2(?,?),3.5)", e.GetFunction()->Print());
 
@@ -148,7 +148,7 @@ JTEST(GetCmdStatus)
 	std::cout << "GetCmdStatus::greek font" << std::endl;
 	e.CheckCmdStatus(status);
 
-	e.ApplyFunctionToSelection(JString("max", kJFalse));
+	e.ApplyFunctionToSelection(JString("max", JString::kNoCopy));
 	e.SelectAll();
 
 	status.SetElement(JExprEditor::kCutCmd, true);
@@ -175,7 +175,7 @@ JTEST(GetCmdStatus)
 	e.CheckCmdStatus(status);
 
 	JExprParser p(&varList);
-	JAssertTrue(p.Parse(JString("1+2", kJFalse), &f));
+	JAssertTrue(p.Parse(JString("1+2", JString::kNoCopy), &f));
 
 	e.SetFunction(&varList, f);
 	e.SelectAll();

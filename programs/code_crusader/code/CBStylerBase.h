@@ -44,7 +44,7 @@ protected:
 	JFontStyle	GetTypeStyle(const JIndex index) const;
 	void		SetTypeStyle(const JIndex index, const JFontStyle& style);
 
-	JBoolean	GetWordStyle(const JString& word, JFontStyle* style) const;
+	bool	GetWordStyle(const JString& word, JFontStyle* style) const;
 	void		SetWordStyle(const JString& word, const JFontStyle& style);
 	void		RemoveWordStyle(const JString& word);
 
@@ -76,14 +76,14 @@ private:
 
 	void	GetWordList(const JStringMap<JFontStyle>& wordStyles,
 						JArray<WordStyle>* wordList,
-						const JBoolean sort) const;
+						const bool sort) const;
 
 	JFontStyle	ReadStyle(std::istream& input);
 	void		WriteStyle(std::ostream& output, const JFontStyle& style) const;
 
 	void		ExtractStyles();
-	JBoolean	TypeStylesChanged(const JArray<JFontStyle>& newTypeStyles) const;
-	JBoolean	WordStylesChanged(const JStringMap<JFontStyle>& newWordStyles) const;
+	bool	TypeStylesChanged(const JArray<JFontStyle>& newTypeStyles) const;
+	bool	WordStylesChanged(const JStringMap<JFontStyle>& newWordStyles) const;
 
 	void	SetDefaultFontColor(const JColorID color);
 
@@ -166,7 +166,7 @@ CBStylerBase::SetTypeStyle
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBStylerBase::GetWordStyle
 	(
 	const JString&	word,

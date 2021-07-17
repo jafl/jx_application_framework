@@ -67,6 +67,6 @@ LLDBGetRegisters::HandleSuccess
 	// https://llvm.org/bugs/show_bug.cgi?id=26421
 	if (result.IsValid() && result.Succeeded() /* && result.HasResult() */)
 		{
-		GetDirector()->Update(JString(result.GetOutput(), kJFalse));
+		GetDirector()->Update(JString(result.GetOutput(), JString::kNoCopy));
 		}
 }

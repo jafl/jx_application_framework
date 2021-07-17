@@ -22,8 +22,8 @@ public:
 
 	virtual ~GLRaggedFloatTableData();
 
-	JBoolean	GetElement(const JIndex row, const JIndex col, JFloat* value) const;
-	JBoolean	GetElement(const JPoint& cell, JFloat* value) const;
+	bool	GetElement(const JIndex row, const JIndex col, JFloat* value) const;
+	bool	GetElement(const JPoint& cell, JFloat* value) const;
 	void		SetElement(const JIndex row, const JIndex col, const JFloat data);
 	void		SetElement(const JPoint& cell, const JFloat data);
 
@@ -66,19 +66,19 @@ public:
 	void	MoveElement(const JPoint& origCell, const JPoint& newCell);
 
 	JSize		GetDataColCount() const;
-	JBoolean	ColIndexValid(const JIndex index) const;
+	bool	ColIndexValid(const JIndex index) const;
 	JSize		GetDataRowCount(const JIndex index) const;
-	JBoolean	CellValid(const JIndex rowIndex, const JIndex colIndex) const;
-	JBoolean	CellValid(const JPoint& cell) const;
-	JBoolean	FindColumn(const JArray<JFloat>* array, JIndex *index) const;
+	bool	CellValid(const JIndex rowIndex, const JIndex colIndex) const;
+	bool	CellValid(const JPoint& cell) const;
+	bool	FindColumn(const JArray<JFloat>* array, JIndex *index) const;
 
-	void	ShouldBroadcast(const JBoolean on);
+	void	ShouldBroadcast(const bool on);
 
 private:
 
 	JPtrArray< JArray<JFloat> >*	itsCols;
 	const JFloat					itsDefValue;
-	JBoolean						itsBroadcast;
+	bool						itsBroadcast;
 
 private:
 
@@ -309,7 +309,7 @@ GLRaggedFloatTableData::DuplicateElement
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GLRaggedFloatTableData::GetElement
 	(
 	const JPoint&	cell,
@@ -343,10 +343,10 @@ GLRaggedFloatTableData::SetElement
 inline void
 GLRaggedFloatTableData::ShouldBroadcast
 	(
-	const JBoolean on
+	const bool on
 	)
 {
-	const JBoolean wasOn = itsBroadcast;
+	const bool wasOn = itsBroadcast;
 	itsBroadcast = on;
 	if (!wasOn && itsBroadcast)
 		{
@@ -371,7 +371,7 @@ GLRaggedFloatTableData::GetDataColCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GLRaggedFloatTableData::ColIndexValid
 	(
 	const JIndex index
@@ -402,7 +402,7 @@ GLRaggedFloatTableData::GetDataRowCount
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GLRaggedFloatTableData::CellValid
 	(
 	const JIndex rowIndex,
@@ -410,11 +410,11 @@ GLRaggedFloatTableData::CellValid
 	)
 	const
 {
-	return JI2B(itsCols->IndexValid(colIndex) &&
-				(itsCols->GetElement(colIndex))->IndexValid(rowIndex));
+	return itsCols->IndexValid(colIndex) &&
+				(itsCols->GetElement(colIndex))->IndexValid(rowIndex);
 }
 
-inline JBoolean
+inline bool
 GLRaggedFloatTableData::CellValid
 	(
 	const JPoint& cell
@@ -429,7 +429,7 @@ GLRaggedFloatTableData::CellValid
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 GLRaggedFloatTableData::FindColumn
 	(
 	const JArray<JFloat>*	array,

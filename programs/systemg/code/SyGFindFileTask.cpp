@@ -22,7 +22,7 @@
 
  ******************************************************************************/
 
-JBoolean
+bool
 SyGFindFileTask::Create
 	(
 	SyGTreeDir*			dir,
@@ -50,13 +50,13 @@ SyGFindFileTask::Create
 
 		*task = jnew SyGFindFileTask(dir, relPath, p, outFD, errFD);
 		assert( *task != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		err.ReportIfError();
 		*task = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -76,7 +76,7 @@ SyGFindFileTask::SyGFindFileTask
 	:
 	itsDirector(dir),
 	itsProcess(process),
-	itsFoundFilesFlag(kJFalse)
+	itsFoundFilesFlag(false)
 {
 	itsMessageLink = new RecordLink(outFD);
 	assert( itsMessageLink != nullptr );
@@ -95,7 +95,7 @@ SyGFindFileTask::SyGFindFileTask
 
 	SplitPath(relPath, itsPathList);
 
-	itsDirector->GetTable()->GetFileTree()->Update(kJTrue);
+	itsDirector->GetTable()->GetFileTree()->Update(true);
 }
 
 /******************************************************************************
@@ -181,7 +181,7 @@ SyGFindFileTask::ReceiveMessageLine()
 	assert( itsMessageLink != nullptr );
 
 	JString path;
-	const JBoolean ok = itsMessageLink->GetNextMessage(&path);
+	const bool ok = itsMessageLink->GetNextMessage(&path);
 	assert( ok );
 
 	if (!path.BeginsWith("." ACE_DIRECTORY_SEPARATOR_STR))
@@ -206,10 +206,10 @@ SyGFindFileTask::ReceiveMessageLine()
 		}
 
 	JPoint cell;
-	(itsDirector->GetTable())->SelectName(pathList, *name, &cell, kJFalse, kJFalse);
+	(itsDirector->GetTable())->SelectName(pathList, *name, &cell, false, false);
 
 	jdelete name;
-	itsFoundFilesFlag = kJTrue;
+	itsFoundFilesFlag = true;
 }
 
 /******************************************************************************
@@ -223,7 +223,7 @@ SyGFindFileTask::ReceiveErrorLine()
 	assert( itsErrorLink != nullptr );
 
 	JString line;
-	const JBoolean ok = itsErrorLink->GetNextMessage(&line);
+	const bool ok = itsErrorLink->GetNextMessage(&line);
 	assert( ok );
 
 	if (!itsErrors.IsEmpty())

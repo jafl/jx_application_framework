@@ -16,7 +16,7 @@
 const JFileVersion	kVersionOfExistingFile = 5;
 const JFAID_t		kEmbeddedFileID        = 10;
 
-static const JString kTestFileName("/tmp/file_array_test.dat", kJFalse);
+static const JString kTestFileName("/tmp/file_array_test.dat", JString::kNoCopy);
 static const JUtf8Byte* kTestFileSignature = "jfilearray_test_sig";
 
 int main()
@@ -43,7 +43,7 @@ void NewFileTest
 	snoop.Expect(JFileArray::kElementInserted);
 	{
 	std::ostringstream dataStream;
-	JString elementData("This was the first element that was added to the file.", kJFalse);
+	JString elementData("This was the first element that was added to the file.", JString::kNoCopy);
 
 	dataStream << elementData;
 	a.AppendElement(dataStream);
@@ -54,7 +54,7 @@ void NewFileTest
 	snoop.Expect(JFileArray::kElementInserted);
 	{
 	std::ostringstream dataStream;
-	JString elementData("This was the second element that was added to the file.", kJFalse);
+	JString elementData("This was the second element that was added to the file.", JString::kNoCopy);
 
 	dataStream << elementData;
 	a.PrependElement(dataStream);
@@ -70,7 +70,7 @@ void NewFileTest
 	snoop.Expect(JFileArray::kElementInserted);
 	{
 	std::ostringstream dataStream;
-	JString elementData("This was the third element that was added to the file", kJFalse);
+	JString elementData("This was the third element that was added to the file", JString::kNoCopy);
 
 	dataStream << elementData;
 	a.PrependElement(dataStream);
@@ -103,7 +103,7 @@ void NewFileTest
 	JFAIndex index = 1;
 
 	std::ostringstream dataStream;
-	JString elementData("1st element shortended", kJFalse);
+	JString elementData("1st element shortended", JString::kNoCopy);
 
 	dataStream << elementData;
 	a.SetElement(index,dataStream);
@@ -115,7 +115,7 @@ void NewFileTest
 	JFAIndex index = 2;
 
 	std::ostringstream dataStream;
-	JString elementData("2nd element shortended", kJFalse);
+	JString elementData("2nd element shortended", JString::kNoCopy);
 
 	dataStream << elementData;
 	a.SetElement(index,dataStream);
@@ -127,7 +127,7 @@ void NewFileTest
 	JFAIndex index = 1;
 
 	std::ostringstream dataStream;
-	JString elementData("Now the first element is really, really long!!!", kJFalse);
+	JString elementData("Now the first element is really, really long!!!", JString::kNoCopy);
 
 	dataStream << elementData;
 	a.SetElement(index,dataStream);
@@ -139,7 +139,7 @@ void NewFileTest
 	JFAIndex index = 2;
 
 	std::ostringstream dataStream;
-	JString elementData("Now the second element is also very much longer!!!", kJFalse);
+	JString elementData("Now the second element is also very much longer!!!", JString::kNoCopy);
 
 	dataStream << elementData;
 	a.SetElement(index,dataStream);

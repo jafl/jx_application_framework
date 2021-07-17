@@ -55,7 +55,7 @@ operator new
 	)
 	noexcept
 {
-	return JMemoryManager::New(size, file, line, kJFalse);
+	return JMemoryManager::New(size, file, line, false);
 }
 
 /******************************************************************************
@@ -97,7 +97,7 @@ operator new[]
 	)
 	noexcept
 {
-	return JMemoryManager::New(size, file, line, kJTrue);
+	return JMemoryManager::New(size, file, line, true);
 }
 
 /******************************************************************************
@@ -112,7 +112,7 @@ operator delete
 	)
 	noexcept
 {
-	JMemoryManager::Instance()->Delete(memory, kJFalse);
+	JMemoryManager::Instance()->Delete(memory, false);
 }
 
 void
@@ -123,7 +123,7 @@ operator delete
 	)
 	noexcept
 {
-	JMemoryManager::Instance()->Delete(memory, kJFalse);
+	JMemoryManager::Instance()->Delete(memory, false);
 }
 
 void
@@ -134,7 +134,7 @@ operator delete
 	)
 	noexcept
 {
-	JMemoryManager::Instance()->Delete(memory, kJFalse);
+	JMemoryManager::Instance()->Delete(memory, false);
 }
 
 /******************************************************************************
@@ -149,7 +149,7 @@ operator delete[]
 	)
 	noexcept
 {
-	JMemoryManager::Instance()->Delete(memory, kJTrue);
+	JMemoryManager::Instance()->Delete(memory, true);
 }
 
 void
@@ -160,7 +160,7 @@ operator delete[]
 	)
 	noexcept
 {
-	JMemoryManager::Instance()->Delete(memory, kJTrue);
+	JMemoryManager::Instance()->Delete(memory, true);
 }
 
 void
@@ -171,7 +171,7 @@ operator delete[]
 	)
 	noexcept
 {
-	JMemoryManager::Instance()->Delete(memory, kJTrue);
+	JMemoryManager::Instance()->Delete(memory, true);
 }
 
 /******************************************************************************

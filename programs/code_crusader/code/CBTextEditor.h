@@ -27,7 +27,7 @@ public:
 
 	CBTextEditor(CBTextDocument* document, const JString& fileName,
 				 JXMenuBar* menuBar, CBTELineIndexInput* lineInput,
-				 CBTEColIndexInput* colInput, const JBoolean pasteStyledText,
+				 CBTEColIndexInput* colInput, const bool pasteStyledText,
 				 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
@@ -50,28 +50,28 @@ public:
 	void		SetFont(const JString& name, const JSize size,
 						const JSize tabCharCount);
 	void		SetFont(const JString& name, const JSize size,
-						const JSize tabCharCount, const JBoolean breakCROnly);
-	void		SetWritable(const JBoolean writable);
+						const JSize tabCharCount, const bool breakCROnly);
+	void		SetWritable(const bool writable);
 
 	JCoordinate	CalcTabWidth(const JFont& font, const JSize tabCharCount) const;
 
-	JBoolean	WillBalanceWhileTyping() const;
-	void		ShouldBalanceWhileTyping(const JBoolean balance);
+	bool	WillBalanceWhileTyping() const;
+	void		ShouldBalanceWhileTyping(const bool balance);
 
-	JBoolean	WillScrollToBalance() const;
-	void		ShouldScrollToBalance(const JBoolean scroll);
+	bool	WillScrollToBalance() const;
+	void		ShouldScrollToBalance(const bool scroll);
 
-	JBoolean	WillBeepWhenTypeUnbalanced() const;
-	void		ShouldBeepWhenTypeUnbalanced(const JBoolean beep);
+	bool	WillBeepWhenTypeUnbalanced() const;
+	void		ShouldBeepWhenTypeUnbalanced(const bool beep);
 
-	JBoolean	TabIsSmart() const;
-	void		TabShouldBeSmart(const JBoolean smart);
+	bool	TabIsSmart() const;
+	void		TabShouldBeSmart(const bool smart);
 
-	JBoolean	CBAllowsDragAndDrop() const;
-	void		CBShouldAllowDragAndDrop(const JBoolean allow);
+	bool	CBAllowsDragAndDrop() const;
+	void		CBShouldAllowDragAndDrop(const bool allow);
 
-	JBoolean	GetRightMarginWidth(JSize* width) const;
-	void		SetRightMarginWidth(const JBoolean show, const JSize width);
+	bool	GetRightMarginWidth(JSize* width) const;
+	void		SetRightMarginWidth(const bool show, const JSize width);
 	void		SetRightMarginColor(const JColorID color);
 
 	const JString&	GetScriptPath() const;
@@ -123,7 +123,7 @@ protected:
 		public:
 
 		StyledText(CBTextDocument* doc, JFontManager* fontManager,
-				   const JBoolean pasteStyledText);
+				   const bool pasteStyledText);
 
 		virtual ~StyledText();
 
@@ -133,7 +133,7 @@ protected:
 							const JString& text, JRunArray<JFont>* styles,
 							JStyledText::TextRange* recalcRange,
 							JStyledText::TextRange* redrawRange,
-							const JBoolean deletion) override;
+							const bool deletion) override;
 
 		private:
 
@@ -162,42 +162,42 @@ private:
 
 	// balance while typing
 
-	JBoolean	itsBalanceWhileTypingFlag;
-	JBoolean	itsScrollToBalanceFlag;
-	JBoolean	itsBeepWhenTypeUnbalancedFlag;
+	bool	itsBalanceWhileTypingFlag;
+	bool	itsScrollToBalanceFlag;
+	bool	itsBeepWhenTypeUnbalancedFlag;
 
 	// right margin
 
-	JBoolean	itsDrawRightMarginFlag;
+	bool	itsDrawRightMarginFlag;
 	JSize		itsRightMarginWidth;
 	JColorID	itsRightMarginColor;		// saved by CBPrefsManager
 
 	// other options
 
-	JBoolean	itsAllowDNDFlag;			// buffered since Meta turns it on
-	JBoolean	itsSmartTabFlag;
-	JBoolean	itsSavedBreakCROnlyFlag;	// used during printing
+	bool	itsAllowDNDFlag;			// buffered since Meta turns it on
+	bool	itsSmartTabFlag;
+	bool	itsSavedBreakCROnlyFlag;	// used during printing
 
 private:
 
 	void	UpdateTabHandling();
 
 	void		UpdateCustomEditMenuItems();
-	JBoolean	HandleCustomEditMenuItems(const JIndex index);
+	bool	HandleCustomEditMenuItems(const JIndex index);
 
 	void		UpdateCustomSearchMenuItems();
-	JBoolean	HandleCustomSearchMenuItems(const JIndex index);
+	bool	HandleCustomSearchMenuItems(const JIndex index);
 
 	void	PlaceBookmark();
 
-	void	FindSelectedSymbol(const JXMouseButton button, const JBoolean useContext);
+	void	FindSelectedSymbol(const JXMouseButton button, const bool useContext);
 	void	DisplayManPage();
 
 	JIndex	GetLineIndex(const JStyledText::TextIndex& startIndex) const;
 
 	void	PrivateSetTabCharCount(const JSize charCount);
 
-	JBoolean	IsNonstdError(JString* fileName,
+	bool	IsNonstdError(JString* fileName,
 							  JStyledText::TextRange* fileNameRange,
 							  JIndex* lineIndex) const;
 
@@ -288,7 +288,7 @@ CBTextEditor::SetFont
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTextEditor::WillBalanceWhileTyping()
 	const
 {
@@ -298,13 +298,13 @@ CBTextEditor::WillBalanceWhileTyping()
 inline void
 CBTextEditor::ShouldBalanceWhileTyping
 	(
-	const JBoolean balance
+	const bool balance
 	)
 {
 	itsBalanceWhileTypingFlag = balance;
 }
 
-inline JBoolean
+inline bool
 CBTextEditor::WillScrollToBalance()
 	const
 {
@@ -314,13 +314,13 @@ CBTextEditor::WillScrollToBalance()
 inline void
 CBTextEditor::ShouldScrollToBalance
 	(
-	const JBoolean scroll
+	const bool scroll
 	)
 {
 	itsScrollToBalanceFlag = scroll;
 }
 
-inline JBoolean
+inline bool
 CBTextEditor::WillBeepWhenTypeUnbalanced()
 	const
 {
@@ -330,7 +330,7 @@ CBTextEditor::WillBeepWhenTypeUnbalanced()
 inline void
 CBTextEditor::ShouldBeepWhenTypeUnbalanced
 	(
-	const JBoolean beep
+	const bool beep
 	)
 {
 	itsBeepWhenTypeUnbalancedFlag = beep;
@@ -341,7 +341,7 @@ CBTextEditor::ShouldBeepWhenTypeUnbalanced
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTextEditor::TabIsSmart()
 	const
 {
@@ -351,7 +351,7 @@ CBTextEditor::TabIsSmart()
 inline void
 CBTextEditor::TabShouldBeSmart
 	(
-	const JBoolean smart
+	const bool smart
 	)
 {
 	itsSmartTabFlag = smart;
@@ -364,7 +364,7 @@ CBTextEditor::TabShouldBeSmart
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTextEditor::CBAllowsDragAndDrop()
 	const
 {
@@ -374,7 +374,7 @@ CBTextEditor::CBAllowsDragAndDrop()
 inline void
 CBTextEditor::CBShouldAllowDragAndDrop
 	(
-	const JBoolean allow
+	const bool allow
 	)
 {
 	itsAllowDNDFlag = allow;
@@ -386,7 +386,7 @@ CBTextEditor::CBShouldAllowDragAndDrop
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBTextEditor::GetRightMarginWidth
 	(
 	JSize* width
@@ -400,7 +400,7 @@ CBTextEditor::GetRightMarginWidth
 inline void
 CBTextEditor::SetRightMarginWidth
 	(
-	const JBoolean	show,
+	const bool	show,
 	const JSize		width
 	)
 {

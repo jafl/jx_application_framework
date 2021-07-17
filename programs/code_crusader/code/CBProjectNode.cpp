@@ -27,7 +27,7 @@ CBProjectNode::CBProjectNode
 	CBProjectTree*			tree,
 	const CBProjectNodeType	type,
 	const JString&			name,
-	const JBoolean			isOpenable
+	const bool			isOpenable
 	)
 	:
 	JNamedTreeNode(tree, name, isOpenable),
@@ -43,7 +43,7 @@ CBProjectNode::CBProjectNode
 	const JFileVersion		vers,
 	CBProjectNode*			parent,
 	const CBProjectNodeType	type,
-	const JBoolean			isOpenable
+	const bool			isOpenable
 	)
 	:
 	JNamedTreeNode(nullptr, JString::empty, isOpenable),
@@ -72,7 +72,7 @@ CBProjectNode::CBProjectNode
 		{
 		while (1)
 			{
-			JBoolean keepGoing;
+			bool keepGoing;
 			input >> JBoolFromString(keepGoing);
 			if (!keepGoing)
 				{
@@ -127,7 +127,7 @@ CBProjectNode::StreamIn
 	if (type == kCBRootNT)
 		{
 		assert( parent == nullptr );
-		node = jnew CBProjectNode(input, vers, parent, kCBRootNT, kJTrue);
+		node = jnew CBProjectNode(input, vers, parent, kCBRootNT, true);
 		}
 	else if (type == kCBGroupNT)
 		{
@@ -167,11 +167,11 @@ CBProjectNode::StreamOut
 		const CBProjectNode* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
-		output << JBoolToString(kJTrue) << '\n';
+		output << JBoolToString(true) << '\n';
 		child->StreamOut(output);
 		}
 
-	output << JBoolToString(kJFalse) << '\n';
+	output << JBoolToString(false) << '\n';
 }
 
 /******************************************************************************
@@ -199,11 +199,11 @@ CBProjectNode::OpenComplementFile()
 /******************************************************************************
  GetFullName (virtual)
 
-	Returns kJTrue if this is a file that can be found.
+	Returns true if this is a file that can be found.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectNode::GetFullName
 	(
 	JString* fullName
@@ -211,7 +211,7 @@ CBProjectNode::GetFullName
 	const
 {
 	fullName->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -239,7 +239,7 @@ CBProjectNode::ShowFileLocation()
 void
 CBProjectNode::ViewPlainDiffs
 	(
-	const JBoolean silent
+	const bool silent
 	)
 	const
 {
@@ -256,7 +256,7 @@ CBProjectNode::ViewPlainDiffs
 void
 CBProjectNode::ViewVCSDiffs
 	(
-	const JBoolean silent
+	const bool silent
 	)
 	const
 {
@@ -267,7 +267,7 @@ CBProjectNode::ViewVCSDiffs
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectNode::FindFile
 	(
 	const JString&			fullName,
@@ -279,7 +279,7 @@ CBProjectNode::FindFile
 		FindFile(fullName, const_cast<CBProjectNode**>(node));
 }
 
-JBoolean
+bool
 CBProjectNode::FindFile
 	(
 	const JString&	fullName,
@@ -293,7 +293,7 @@ CBProjectNode::FindFile
 	else
 		{
 		*node = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -304,7 +304,7 @@ CBProjectNode::FindFile
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectNode::FindFile1
 	(
 	const JString&	fullName,
@@ -319,12 +319,12 @@ CBProjectNode::FindFile1
 
 		if (child->FindFile1(fullName, node))
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*node = nullptr;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -422,11 +422,11 @@ CBProjectNode::BuildQMakeData
  ParseFiles (virtual)
 
 	If the derived class represents a file, it should pass it to the parser.
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectNode::ParseFiles
 	(
 	CBFileListTable*			parser,
@@ -450,11 +450,11 @@ CBProjectNode::ParseFiles
 		if (!child->ParseFiles(parser, allSuffixList, symbolList,
 							   cTree, dTree, goTree, javaTree, phpTree, pg))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -510,11 +510,11 @@ CBProjectNode::FileRenamed
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectNode::IncludedInMakefile()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -524,11 +524,11 @@ CBProjectNode::IncludedInMakefile()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectNode::IncludedInCMakeData()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -538,11 +538,11 @@ CBProjectNode::IncludedInCMakeData()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBProjectNode::IncludedInQMakeData()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -640,7 +640,7 @@ CBProjectNode::GetProjectParent()
 	return n;
 }
 
-JBoolean
+bool
 CBProjectNode::GetProjectParent
 	(
 	CBProjectNode** parent
@@ -651,16 +651,16 @@ CBProjectNode::GetProjectParent
 		{
 		*parent = dynamic_cast<CBProjectNode*>(p);
 		assert( *parent != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 CBProjectNode::GetProjectParent
 	(
 	const CBProjectNode** parent
@@ -672,12 +672,12 @@ CBProjectNode::GetProjectParent
 		{
 		*parent = dynamic_cast<const CBProjectNode*>(p);
 		assert( *parent != nullptr );
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		*parent = nullptr;
-		return kJFalse;
+		return false;
 		}
 }
 

@@ -63,7 +63,7 @@ CBSearchPathHistoryMenu::CBSearchPathHistoryMenu
 void
 CBSearchPathHistoryMenu::CBSearchPathHistoryMenuX()
 {
-	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_folder_small), kJFalse);
+	SetDefaultIcon(GetDisplay()->GetImageCache()->GetImage(jx_folder_small), false);
 }
 
 /******************************************************************************
@@ -84,7 +84,7 @@ const JString&
 CBSearchPathHistoryMenu::GetPath
 	(
 	const Message&	message,
-	JBoolean*		recurse
+	bool*		recurse
 	)
 	const
 {
@@ -101,13 +101,13 @@ const JString&
 CBSearchPathHistoryMenu::GetPath
 	(
 	const JIndex	index,
-	JBoolean*		recurse
+	bool*		recurse
 	)
 	const
 {
 	JString s;
-	*recurse = JI2B(GetItemNMShortcut(index, &s) &&
-					(s == kRecurseFlag || s == kOldRecurseFlag));
+	*recurse = GetItemNMShortcut(index, &s) &&
+					(s == kRecurseFlag || s == kOldRecurseFlag);
 
 	return JXTextMenu::GetItemText(index);
 }
@@ -124,7 +124,7 @@ void
 CBSearchPathHistoryMenu::AddPath
 	(
 	const JString&	fullName,
-	const JBoolean	recurse
+	const bool	recurse
 	)
 {
 	if (!fullName.IsEmpty())

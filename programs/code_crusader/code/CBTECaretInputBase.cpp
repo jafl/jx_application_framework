@@ -45,8 +45,8 @@ CBTECaretInputBase::CBTECaretInputBase
 {
 	itsTE                 = nullptr;
 	itsOrigValue          = 0;
-	itsShouldActFlag      = kJFalse;
-	itsOptimizeUpdateFlag = kJFalse;
+	itsShouldActFlag      = false;
+	itsOptimizeUpdateFlag = false;
 	itsLabel              = label;
 
 	SetLowerLimit(1);
@@ -54,7 +54,7 @@ CBTECaretInputBase::CBTECaretInputBase
 	SetBorderWidth(0);
 	itsLabel->SetBorderWidth(0);
 
-	ShouldAllowUnboundedScrolling(kJTrue);
+	ShouldAllowUnboundedScrolling(true);
 	Center();
 }
 
@@ -86,8 +86,8 @@ CBTECaretInputBase::SetTE
 
 	// this re-orders the list so text editor gets focus
 
-	WantInput(kJFalse);
-	WantInput(kJTrue, kJFalse, kJTrue);
+	WantInput(false);
+	WantInput(true, false, true);
 }
 
 /******************************************************************************
@@ -138,12 +138,12 @@ CBTECaretInputBase::HandleUnfocusEvent()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTECaretInputBase::OKToUnfocus()
 {
 	if (!itsShouldActFlag)
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -217,9 +217,9 @@ CBTECaretInputBase::HandleKeyPress
 	else if ((c == '\r' || c == '\n') &&
 			 !modifiers.meta() && !modifiers.control() && !modifiers.shift())
 		{
-		itsShouldActFlag = kJTrue;
+		itsShouldActFlag = true;
 		itsTE->Focus();				// trigger HandleUnfocusEvent()
-		itsShouldActFlag = kJFalse;
+		itsShouldActFlag = false;
 		}
 	else
 		{
@@ -271,13 +271,13 @@ CBTECaretInputBase::Center()
 JCoordinate
 CBTECaretInputBase::GetFTCMinContentSize
 	(
-	const JBoolean horizontal
+	const bool horizontal
 	)
 	const
 {
 	return (horizontal ?
 			TEGetLeftMarginWidth() +
 				GetText().GetDefaultFont().GetStringWidth(
-					GetFontManager(), JString("00000", kJFalse)) :
+					GetFontManager(), JString("00000", JString::kNoCopy)) :
 			JXIntegerInput::GetFTCMinContentSize(horizontal));
 }

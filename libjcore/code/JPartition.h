@@ -28,7 +28,7 @@ public:
 	JSize	GetCompartmentCount() const;
 
 	JCoordinate	GetCompartmentSize(const JIndex index) const;
-	JBoolean	SetCompartmentSize(const JIndex index, const JCoordinate reqSize);
+	bool	SetCompartmentSize(const JIndex index, const JCoordinate reqSize);
 
 	const JArray<JCoordinate>&	GetCompartmentSizes() const;
 	void						SetCompartmentSizes(const JArray<JCoordinate>& sizes);
@@ -40,10 +40,10 @@ public:
 	const JArray<JCoordinate>&	GetMinCompartmentSizes() const;
 	void						SetMinCompartmentSizes(const JArray<JCoordinate>& sizes);
 
-	JBoolean	GetElasticIndex(JIndex* index) const;
+	bool	GetElasticIndex(JIndex* index) const;
 	void		SetElasticIndex(const JIndex index);
 
-	JBoolean	FindCompartment(const JCoordinate coord, JIndex* index) const;
+	bool	FindCompartment(const JCoordinate coord, JIndex* index) const;
 	void		DeleteCompartment(const JIndex index);
 
 	void		ReadGeometry(std::istream& input);
@@ -54,7 +54,7 @@ protected:
 	JPartition(const JArray<JCoordinate>& sizes, const JIndex elasticIndex,
 			   const JArray<JCoordinate>& minSizes);
 
-	JBoolean	InsertCompartment(const JIndex index, const JCoordinate size,
+	bool	InsertCompartment(const JIndex index, const JCoordinate size,
 								  const JCoordinate minSize);
 
 	void	SetElasticSize();
@@ -71,7 +71,7 @@ protected:
 
 	virtual JCoordinate	GetTotalSize() const = 0;
 	virtual void		UpdateCompartmentSizes() = 0;
-	virtual JBoolean	SaveGeometryForLater(const JArray<JCoordinate>& sizes) = 0;
+	virtual bool	SaveGeometryForLater(const JArray<JCoordinate>& sizes) = 0;
 
 	virtual void		CreateCompartmentObject(const JIndex index,
 												const JCoordinate position,
@@ -92,7 +92,7 @@ private:
 
 private:
 
-	JBoolean	CreateSpace(const JArray<JCoordinate>& origSizes,
+	bool	CreateSpace(const JArray<JCoordinate>& origSizes,
 							const JArray<JCoordinate>& minSizes,
 							const JIndex elasticIndex,
 							const JCoordinate reqSize, const JCoordinate minSize,
@@ -125,7 +125,7 @@ JPartition::GetCompartmentCount()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JPartition::GetElasticIndex
 	(
 	JIndex* index
@@ -133,7 +133,7 @@ JPartition::GetElasticIndex
 	const
 {
 	*index = itsElasticIndex;
-	return JConvertToBoolean( itsElasticIndex > 0 );
+	return itsElasticIndex > 0;
 }
 
 /******************************************************************************

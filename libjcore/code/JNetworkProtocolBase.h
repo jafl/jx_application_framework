@@ -19,17 +19,17 @@ class JNetworkProtocolBase : public ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH
 {
 public:
 
-	JNetworkProtocolBase(const JBoolean synch);
+	JNetworkProtocolBase(const bool synch);
 
 	virtual ~JNetworkProtocolBase();
 
-	JBoolean	DataPending() const;
+	bool	DataPending() const;
 	void		Flush();
 
 	// whether data is sent synch or asynch
 
-	JBoolean	WillSendSynch() const;
-	void		ShouldSendSynch(const JBoolean synch = kJTrue);
+	bool	WillSendSynch() const;
+	void		ShouldSendSynch(const bool synch = true);
 
 	// ACE_Svc_Handler functions
 
@@ -67,7 +67,7 @@ public:
 
 private:
 
-	JBoolean			itsSynchFlag;	// kJTrue => synch send
+	bool			itsSynchFlag;	// true => synch send
 	JLinkedList<Chunk>	itsSendData;	// data waiting to be sent
 
 private:

@@ -47,14 +47,14 @@ SyGFolderDragSource::SyGFolderDragSource
 	JXImageWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsPathInput(pathInput)
 {
-	SetImage(GetDisplay()->GetImageCache()->GetImage(jx_folder_small), kJFalse);
+	SetImage(GetDisplay()->GetImageCache()->GetImage(jx_folder_small), false);
 
 	SetHint(JGetString("Hint::SyGFolderDragSource"));
 
 	itsPathMenu = jnew JXCurrentPathMenu(JGetRootDirectory(), this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsPathMenu != nullptr );
 	itsPathMenu->Hide();
-	itsPathMenu->SetToHiddenPopupMenu(kJTrue);
+	itsPathMenu->SetToHiddenPopupMenu(true);
 	*pathMenu = itsPathMenu;
 }
 
@@ -100,7 +100,7 @@ SyGFolderDragSource::HandleMouseDrag
 	)
 {
 	JString path;
-	const JBoolean pathValid = itsPathInput->GetPath(&path);
+	const bool pathValid = itsPathInput->GetPath(&path);
 
 	if (pathValid && !JMouseMoved(itsStartPt, pt) &&
 		JXGetApplication()->GetCurrentTime() >= itsMouseDownTime + kJXDoubleClickTime)
@@ -134,7 +134,7 @@ SyGFolderDragSource::GetDNDAction
 	)
 {
 	JString path;
-	const JBoolean pathValid = itsPathInput->GetPath(&path);
+	const bool pathValid = itsPathInput->GetPath(&path);
 	assert( pathValid );	// checked before BeginDND()
 
 	return SyGFileTreeTable::GetDNDAction(this, path, target, modifiers);
@@ -176,7 +176,7 @@ void
 SyGFolderDragSource::HandleDNDResponse
 	(
 	const JXContainer*	target,
-	const JBoolean		dropAccepted,
+	const bool		dropAccepted,
 	const Atom			action
 	)
 {

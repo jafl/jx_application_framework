@@ -18,7 +18,7 @@
 #include <JString.h>
 #include <jAssert.h>
 
-static const JString kMultiplicationSymbol("\xC2\xB7", kJFalse);
+static const JString kMultiplicationSymbol("\xC2\xB7", JString::kNoCopy);
 
 /******************************************************************************
  Constructor
@@ -78,7 +78,7 @@ JProduct::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JProduct::Evaluate
 	(
 	JFloat* result
@@ -88,7 +88,7 @@ JProduct::Evaluate
 	const JSize argCount = GetArgCount();
 	if (argCount == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	*result = 1.0;
@@ -97,15 +97,15 @@ JProduct::Evaluate
 		JFloat argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
 			{
-			return kJFalse;
+			return false;
 			}
 		*result *= argValue;
 		}
 
-	return kJTrue;
+	return true;
 }
 
-JBoolean
+bool
 JProduct::Evaluate
 	(
 	JComplex* result
@@ -115,7 +115,7 @@ JProduct::Evaluate
 	const JSize argCount = GetArgCount();
 	if (argCount == 0)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	*result = 1.0;
@@ -124,12 +124,12 @@ JProduct::Evaluate
 		JComplex argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
 			{
-			return kJFalse;
+			return false;
 			}
 		*result *= argValue;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -230,7 +230,7 @@ JProduct::Layout
 			{
 			const JFunction* arg = GetArg(i);
 			JIndex argIndex;
-			const JBoolean found = rectList->FindFunction(arg, &argIndex);
+			const bool found = rectList->FindFunction(arg, &argIndex);
 			assert( found );
 			rectList->SetMidline(argIndex, ourMidline);
 			ourRect = JCovering(ourRect, rectList->GetRect(argIndex));
@@ -258,7 +258,7 @@ JProduct::Render
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JCoordinate ourMidline = rectList.GetMidline(ourIndex);
@@ -275,7 +275,7 @@ JProduct::Render
 		arg->Render(renderer, rectList);
 
 		JIndex argIndex;
-		const JBoolean found = rectList.FindFunction(arg, &argIndex);
+		const bool found = rectList.FindFunction(arg, &argIndex);
 		assert( found );
 		const JRect argRect = rectList.GetRect(argIndex);
 		JCoordinate h       = argRect.right + spaceWidth;

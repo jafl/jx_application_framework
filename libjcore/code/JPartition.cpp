@@ -100,11 +100,11 @@ JPartition::~JPartition()
 
 	Adjusts the adjacent compartments to make space.
 
-	Returns kJFalse if there isn't enough space available.
+	Returns false if there isn't enough space available.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JPartition::SetCompartmentSize
 	(
 	const JIndex		index,
@@ -125,7 +125,7 @@ JPartition::SetCompartmentSize
 
 		*itsSizes = newSizes;
 		UpdateCompartmentSizes();
-		return kJTrue;
+		return true;
 		}
 	else if (reqSize < origSize)
 		{
@@ -133,11 +133,11 @@ JPartition::SetCompartmentSize
 		FillSpace(*itsSizes, itsElasticIndex, origSize - reqSize, &newSizes);
 		*itsSizes = newSizes;
 		UpdateCompartmentSizes();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return JI2B(reqSize == origSize);
+		return reqSize == origSize;
 		}
 }
 
@@ -181,7 +181,7 @@ JPartition::GetMinTotalSize()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JPartition::FindCompartment
 	(
 	const JCoordinate	coord,
@@ -198,12 +198,12 @@ JPartition::FindCompartment
 		if (coord <= position)
 			{
 			*index = i;
-			return kJTrue;
+			return true;
 			}
 		}
 
 	*index = 0;
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -211,11 +211,11 @@ JPartition::FindCompartment
 
 	Adjusts the adjacent compartments to make space.
 
-	Returns kJFalse if there isn't enough space available for at least minSize.
+	Returns false if there isn't enough space available for at least minSize.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JPartition::InsertCompartment
 	(
 	const JIndex		index,
@@ -248,11 +248,11 @@ JPartition::InsertCompartment
 
 		*itsSizes = newSizes;
 		UpdateCompartmentSizes();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -302,11 +302,11 @@ JPartition::DeleteCompartment
 	Shrinks the compartments to create extra space.  If one of the compartments
 	is elastic, this is shrunk first.
 
-	Returns kJFalse if there isn't enough space available for at least minSize.
+	Returns false if there isn't enough space available for at least minSize.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JPartition::CreateSpace
 	(
 	const JArray<JCoordinate>&	origSizes,
@@ -325,7 +325,7 @@ JPartition::CreateSpace
 	if (reqSize == 0)
 		{
 		*newSizes = origSizes;
-		return kJTrue;
+		return true;
 		}
 
 	// try shrinking the elastic compartment first
@@ -341,7 +341,7 @@ JPartition::CreateSpace
 			*newSizes = origSizes;
 			newSizes->SetElement(elasticIndex, size - reqSize);
 			*newSpace = reqSize;
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -360,7 +360,7 @@ JPartition::CreateSpace
 
 	if (currSize < minSize + minReqSize)
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (currSize < minSize + reqSize)
 		{
@@ -373,7 +373,7 @@ JPartition::CreateSpace
 		*newSpace = reqSize;
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -601,7 +601,7 @@ JIndex i;
 		JArray<JCoordinate> newSizes;
 		const JCoordinate reqSize = itsStartCoord - coord;
 		JCoordinate newSpace;
-		const JBoolean ok = CreateSpace(origSizes, minSizes, 0, reqSize, reqSize,
+		const bool ok = CreateSpace(origSizes, minSizes, 0, reqSize, reqSize,
 										&newSizes, &newSpace);
 		assert( ok );
 
@@ -632,7 +632,7 @@ JIndex i;
 		JArray<JCoordinate> newSizes;
 		const JCoordinate reqSize = coord - itsStartCoord;
 		JCoordinate newSpace;
-		const JBoolean ok = CreateSpace(origSizes, minSizes, 0, reqSize, reqSize,
+		const bool ok = CreateSpace(origSizes, minSizes, 0, reqSize, reqSize,
 										&newSizes, &newSpace);
 		assert( ok );
 
@@ -672,7 +672,7 @@ JPartition::PTBoundsChanged()
 		else if (delta < 0)
 			{
 			JCoordinate trueDelta;
-			const JBoolean ok = CreateSpace(*itsSizes, *itsMinSizes, itsElasticIndex,
+			const bool ok = CreateSpace(*itsSizes, *itsMinSizes, itsElasticIndex,
 											-delta, -delta, &newSizes, &trueDelta);
 			assert( ok );
 			}

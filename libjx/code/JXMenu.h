@@ -78,12 +78,12 @@ public:
 		   const JCoordinate x, const JCoordinate y,
 		   const JCoordinate w, const JCoordinate h);
 
-	JXMenu(JXImage* image, const JBoolean menuOwnsImage, JXContainer* enclosure,
+	JXMenu(JXImage* image, const bool menuOwnsImage, JXContainer* enclosure,
 		   const HSizingOption hSizing, const VSizingOption vSizing,
 		   const JCoordinate x, const JCoordinate y,
 		   const JCoordinate w, const JCoordinate h);
 
-	JXMenu(const JString& title, JXImage* image, const JBoolean menuOwnsImage,
+	JXMenu(const JString& title, JXImage* image, const bool menuOwnsImage,
 		   JXContainer* enclosure,
 		   const HSizingOption hSizing, const VSizingOption vSizing,
 		   const JCoordinate x, const JCoordinate y,
@@ -93,15 +93,15 @@ public:
 
 	virtual ~JXMenu();
 
-	JBoolean	IsOpen() const;
+	bool	IsOpen() const;
 
 	const JString&	GetTitleText() const;
-	JBoolean		GetTitleText(const JString** text) const;
-	JBoolean		GetTitleImage(const JXImage** image) const;
+	bool		GetTitleText(const JString** text) const;
+	bool		GetTitleImage(const JXImage** image) const;
 	void			SetTitle(const JString& title,
-							 JXImage* image, const JBoolean menuOwnsImage);
+							 JXImage* image, const bool menuOwnsImage);
 	void			SetTitleText(const JString& title);
-	void			SetTitleImage(JXImage* image, const JBoolean menuOwnsImage);
+	void			SetTitleImage(JXImage* image, const bool menuOwnsImage);
 
 	void	SetTitleFontName(const JString& fontName);
 	void	SetTitleFontSize(const JSize size);
@@ -113,38 +113,38 @@ public:
 
 	void	SetShortcuts(const JString& list);
 
-	JBoolean	IsEmpty() const;
+	bool	IsEmpty() const;
 	JSize		GetItemCount() const;
 	void		RemoveItem(const JIndex index);
 	void		RemoveAllItems();
 
-	JBoolean	GetItemShortcuts(const JIndex index, JString* shortcuts) const;
+	bool	GetItemShortcuts(const JIndex index, JString* shortcuts) const;
 	void		SetItemShortcuts(const JIndex index, const JString& shortcuts);
 
-	JBoolean	GetItemID(const JIndex index, const JString** id) const;
+	bool	GetItemID(const JIndex index, const JString** id) const;
 	void		SetItemID(const JIndex index, const JString& id);
-	JBoolean	ItemIDToIndex(const JString& targetID, JIndex* index) const;
+	bool	ItemIDToIndex(const JString& targetID, JIndex* index) const;
 
-	JBoolean	IsEnabled(const JIndex index) const;
+	bool	IsEnabled(const JIndex index) const;
 	void		EnableItem(const JIndex index);
 	void		EnableAll();
 	void		DisableItem(const JIndex index);
 	void		DisableAll();
-	void		SetItemEnable(const JIndex index, const JBoolean enabled);
+	void		SetItemEnable(const JIndex index, const bool enabled);
 
-	JBoolean	IsChecked(const JIndex index) const;
+	bool	IsChecked(const JIndex index) const;
 	void		CheckItem(const JIndex index);
 
-	JBoolean	GetSubmenu(const JIndex index, const JXMenu** menu) const;
+	bool	GetSubmenu(const JIndex index, const JXMenu** menu) const;
 	void		AttachSubmenu(const JIndex index, JXMenu* submenu);
-	JBoolean	RemoveSubmenu(const JIndex index, JXMenu** theMenu);
+	bool	RemoveSubmenu(const JIndex index, JXMenu** theMenu);
 	void		DeleteSubmenu(const JIndex index);
 
 	UpdateAction	GetUpdateAction() const;
 	void			SetUpdateAction(const UpdateAction action);
 
-	JBoolean		IsPopupChoice() const;
-	virtual void	SetToPopupChoice(const JBoolean isPopup,
+	bool		IsPopupChoice() const;
+	virtual void	SetToPopupChoice(const bool isPopup,
 									 const JIndex initialChoice);
 	void			SetPopupChoice(const JIndex index);
 
@@ -154,13 +154,13 @@ public:
 	virtual void	Suspend() override;
 	virtual void	Resume() override;
 
-	JBoolean	IsHiddenPopupMenu() const;
-	void		SetToHiddenPopupMenu(const JBoolean isHiddenPopup = kJTrue);
-	JBoolean	PopUp(JXContainer* mouseOwner, const JPoint& pt,
+	bool	IsHiddenPopupMenu() const;
+	void		SetToHiddenPopupMenu(const bool isHiddenPopup = true);
+	bool	PopUp(JXContainer* mouseOwner, const JPoint& pt,
 					  const JXButtonStates&	buttonStates,
 					  const JXKeyModifiers&	modifiers);
 
-	JBoolean	GetMenuBar(JXMenuBar** menuBar) const;
+	bool	GetMenuBar(JXMenuBar** menuBar) const;
 	JXMenu*		GetTopLevelMenu() const;
 
 	ArrowPosition	GetPopupArrowPosition() const;
@@ -169,7 +169,7 @@ public:
 	ArrowDirection	GetPopupArrowDirection() const;
 	void			SetPopupArrowDirection(const ArrowDirection direction);
 
-	virtual JBoolean	IsMenu() const override;
+	virtual bool	IsMenu() const override;
 
 	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
@@ -185,7 +185,7 @@ protected:
 
 	void		SetBaseItemData(JXMenuData* baseItemData);
 	void		ClearBaseItemData();
-	JBoolean	PrepareToOpenMenu(const JBoolean shortcut);
+	bool	PrepareToOpenMenu(const bool shortcut);
 
 	virtual JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor) = 0;
 	virtual void			AdjustPopupChoiceTitle(const JIndex index) = 0;
@@ -198,20 +198,20 @@ protected:
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual JBoolean	IncludeInFTC() const override;
-	virtual JCoordinate	GetFTCMinContentSize(const JBoolean horizontal) const override;
+	virtual bool	IncludeInFTC() const override;
+	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 	// called by JXMenuTable
 
-	void	BroadcastSelection(const JIndex itemIndex, const JBoolean fromShortcut);
+	void	BroadcastSelection(const JIndex itemIndex, const bool fromShortcut);
 
 private:
 
 	JString		itsTitle;
 	JXImage*	itsTitleImage;			// can be nullptr
-	JBoolean	itsOwnsTitleImageFlag;	// kJTrue => we delete it
+	bool	itsOwnsTitleImageFlag;	// true => we delete it
 	JPoint		itsTitlePadding;
 	JString*	itsShortcuts;			// can be nullptr
 	JIndex		itsULIndex;
@@ -220,14 +220,14 @@ private:
 	JXMenu*		itsOwner;				// nullptr if top level menu
 
 	JFont		itsTitleFont;
-	JBoolean	itsShouldBeActiveFlag;	// kJTrue  => last client call was Activate()
-	JBoolean	itsUpdateSBAFlag;		// kJFalse => don't change itsShouldBeActiveFlag
+	bool	itsShouldBeActiveFlag;	// true  => last client call was Activate()
+	bool	itsUpdateSBAFlag;		// false => don't change itsShouldBeActiveFlag
 	JSize		itsMinWidth;
-	JBoolean	itsWaitingForFTCFlag;
+	bool	itsWaitingForFTCFlag;
 
 	UpdateAction	itsUpdateAction;
-	JBoolean		itsIsPopupChoiceFlag;
-	JBoolean		itsIsHiddenPopupMenuFlag;
+	bool		itsIsPopupChoiceFlag;
+	bool		itsIsHiddenPopupMenuFlag;
 
 	ArrowPosition	itsArrowPosition;	// location of arrow when menu is free-standing
 	ArrowDirection	itsArrowDirection;	// direction of arrow when menu is free-standing
@@ -242,7 +242,7 @@ private:
 private:
 
 	void	JXMenuX(const JString& title, JXImage* image,
-					const JBoolean menuOwnsImage);
+					const bool menuOwnsImage);
 	void	RemoveSubmenu(JXMenu* theMenu);
 	void	SetOwner(JXMenu* owner);
 	void	UpdateTitleGeometry();
@@ -250,7 +250,7 @@ private:
 	void	AdjustAppearance(const JCoordinate minWidth);
 	JSize	GetMaxPopupChoiceTitleWidth() const;
 
-	JBoolean	Open(const JPoint& leftPtR = JPoint(),
+	bool	Open(const JPoint& leftPtR = JPoint(),
 					 const JPoint& rightPtR = JPoint());
 	void		Close();
 
@@ -277,13 +277,13 @@ public:
 		{
 		public:
 
-			NeedsUpdate(const JBoolean fromShortcut)
+			NeedsUpdate(const bool fromShortcut)
 				:
 				JBroadcaster::Message(kNeedsUpdate),
 				itsFromShortcutFlag(fromShortcut)
 				{ };
 
-			JBoolean
+			bool
 			IsFromShortcut() const
 			{
 				return itsFromShortcutFlag;
@@ -291,14 +291,14 @@ public:
 
 		private:
 
-			const JBoolean itsFromShortcutFlag;
+			const bool itsFromShortcutFlag;
 		};
 
 	class ItemSelected : public JBroadcaster::Message
 		{
 		public:
 
-			ItemSelected(const JIndex index, const JBoolean fromShortcut)
+			ItemSelected(const JIndex index, const bool fromShortcut)
 				:
 				JBroadcaster::Message(kItemSelected),
 				itsIndex(index), itsFromShortcutFlag(fromShortcut)
@@ -310,7 +310,7 @@ public:
 				return itsIndex;
 			};
 
-			JBoolean
+			bool
 			IsFromShortcut() const
 			{
 				return itsFromShortcutFlag;
@@ -319,7 +319,7 @@ public:
 		private:
 
 			const JIndex	itsIndex;
-			const JBoolean	itsFromShortcutFlag;
+			const bool	itsFromShortcutFlag;
 		};
 };
 
@@ -329,11 +329,11 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXMenu::IsOpen()
 	const
 {
-	return JConvertToBoolean( itsMenuDirector != nullptr );
+	return itsMenuDirector != nullptr;
 }
 
 /******************************************************************************
@@ -348,7 +348,7 @@ JXMenu::GetTitleText()
 	return itsTitle;
 }
 
-inline JBoolean
+inline bool
 JXMenu::GetTitleText
 	(
 	const JString** text
@@ -364,7 +364,7 @@ JXMenu::GetTitleText
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXMenu::GetTitleImage
 	(
 	const JXImage** image
@@ -372,7 +372,7 @@ JXMenu::GetTitleImage
 	const
 {
 	*image = itsTitleImage;
-	return JI2B(itsTitleImage != nullptr);
+	return itsTitleImage != nullptr;
 }
 
 /******************************************************************************
@@ -428,7 +428,7 @@ JXMenu::SetUpdateAction
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXMenu::IsPopupChoice()
 	const
 {
@@ -455,7 +455,7 @@ JXMenu::SetPopupChoice
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXMenu::IsHiddenPopupMenu()
 	const
 {
@@ -465,7 +465,7 @@ JXMenu::IsHiddenPopupMenu()
 inline void
 JXMenu::SetToHiddenPopupMenu
 	(
-	const JBoolean isHiddenPopup
+	const bool isHiddenPopup
 	)
 {
 	itsIsHiddenPopupMenuFlag = isHiddenPopup;

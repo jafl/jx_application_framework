@@ -24,11 +24,11 @@ static const JCharacter* kDescriptionID = "Description::<pre>Globals";
 /******************************************************************************
  <PRE>CreateGlobals
 
-	Returns kJTrue if this is the first time the program is run.
+	Returns true if this is the first time the program is run.
 
  ******************************************************************************/
 
-JBoolean
+bool
 <PRE>CreateGlobals
 	(
 	<PRE>App* app
@@ -36,7 +36,7 @@ JBoolean
 {
 	theApplication = app;
 
-	JBoolean isNew;
+	bool isNew;
 	thePrefsManager	= jnew <PRE>PrefsManager(&isNew);
 	assert( thePrefsManager != nullptr );
 

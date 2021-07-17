@@ -56,7 +56,7 @@ public:
 public:
 
 	JXWindow(JXWindowDirector* director, const JCoordinate w, const JCoordinate h,
-			 const JString& title, const JBoolean isOverlay = kJFalse);
+			 const JString& title, const bool isOverlay = false);
 
 	virtual ~JXWindow();
 
@@ -65,7 +65,7 @@ public:
 	const JString&	GetTitle() const;
 	void			SetTitle(const JString& title);
 
-	JBoolean	Close();
+	bool	Close();
 	CloseAction	GetCloseAction() const;
 	void		SetCloseAction(const CloseAction closeAction);
 
@@ -75,7 +75,7 @@ public:
 
 	virtual void	Show() override;
 	virtual void	Hide() override;
-	void			Raise(const JBoolean grabKeyboardFocus = kJTrue);
+	void			Raise(const bool grabKeyboardFocus = true);
 	void			Lower();
 	virtual void	Refresh() const override;
 	void			RefreshRect(const JRect& rect) const;
@@ -85,21 +85,21 @@ public:
 
 	void		Iconify();
 	void		Deiconify();
-	JBoolean	IsIconified() const;
+	bool	IsIconified() const;
 
-	JBoolean	GetFocusWidget(JXWidget** widget) const;
-	JBoolean	SwitchFocusToFirstWidget();
-	JBoolean	SwitchFocusToFirstWidgetWithAncestor(JXContainer* ancestor);
-	JBoolean	OKToUnfocusCurrentWidget() const;
-	JBoolean	UnfocusCurrentWidget();
+	bool	GetFocusWidget(JXWidget** widget) const;
+	bool	SwitchFocusToFirstWidget();
+	bool	SwitchFocusToFirstWidgetWithAncestor(JXContainer* ancestor);
+	bool	OKToUnfocusCurrentWidget() const;
+	bool	UnfocusCurrentWidget();
 	void		KillFocus();
 
 	virtual void	Activate() override;
 	virtual void	Resume() override;
-	JBoolean		WillFocusWhenShown() const;
-	void			ShouldFocusWhenShow(const JBoolean focusWhenShow);
+	bool		WillFocusWhenShown() const;
+	void			ShouldFocusWhenShow(const bool focusWhenShow);
 	void			RequestFocus();
-	JBoolean		HasFocus() const;
+	bool		HasFocus() const;
 
 	virtual JPoint	GlobalToLocal(const JCoordinate x, const JCoordinate y) const override;
 	virtual JPoint	LocalToGlobal(const JCoordinate x, const JCoordinate y) const override;
@@ -137,11 +137,11 @@ public:
 	virtual JRect	GetApertureGlobal() const override;
 	JPoint			GetDesktopLocation() const;
 
-	void		ReadGeometry(std::istream& input, const JBoolean skipDocking = kJFalse);
+	void		ReadGeometry(std::istream& input, const bool skipDocking = false);
 	void		WriteGeometry(std::ostream& output) const;
 	static void	SkipGeometry(std::istream& input);
 
-	void	ReadGeometry(const JString& data, const JBoolean skipDocking = kJFalse);
+	void	ReadGeometry(const JString& data, const bool skipDocking = false);
 	void	WriteGeometry(JString* data) const;
 
 	JXWindowDirector*	GetDirector() const;
@@ -150,32 +150,32 @@ public:
 	void			SetBackColor(const JColorID color);
 	void			SetIcon(JXImage* icon);
 	JXWindowIcon*	SetIcon(JXImage* normalIcon, JXImage* dropIcon);
-	JBoolean		GetIconWidget(JXWindowIcon** widget) const;
+	bool		GetIconWidget(JXWindowIcon** widget) const;
 
-	JBoolean	IsDragging() const;
+	bool	IsDragging() const;
 	void		PrintWindowConfig();
 
-	static JBoolean	WillAutoDockNewWindows();
-	static void		ShouldAutoDockNewWindows(const JBoolean autoDock);
+	static bool	WillAutoDockNewWindows();
+	static void		ShouldAutoDockNewWindows(const bool autoDock);
 
-	static JBoolean	WillFocusFollowCursorInDock();
-	static void		ShouldFocusFollowCursorInDock(const JBoolean focusFollowsCursor);
+	static bool	WillFocusFollowCursorInDock();
+	static void		ShouldFocusFollowCursorInDock(const bool focusFollowsCursor);
 
 	void	SetWMWindowType(const WMType type);
 
 	// redrawing options
 
-	void		BufferDrawing(const JBoolean bufferDrawing);
+	void		BufferDrawing(const bool bufferDrawing);
 
-	JBoolean	IsKeepingBufferPixmap() const;
-	void		KeepBufferPixmap(const JBoolean keepIt);
+	bool	IsKeepingBufferPixmap() const;
+	void		KeepBufferPixmap(const bool keepIt);
 
-	JBoolean	IsUsingPixmapAsBackground() const;
-	void		UsePixmapAsBackground(const JBoolean useIt);
+	bool	IsUsingPixmapAsBackground() const;
+	void		UsePixmapAsBackground(const bool useIt);
 
 	// mouse restrictions
 
-	JBoolean	GrabPointer(JXContainer* obj);
+	bool	GrabPointer(JXContainer* obj);
 	void		UngrabPointer(JXContainer* obj);
 
 	// utility function for widgets that display text and have shortcuts
@@ -186,9 +186,9 @@ public:
 
 	void	HandleEvent(const XEvent& xEvent);
 
-	static JBoolean	IsDeleteWindowMessage(const JXDisplay* display, const XEvent& xEvent);
-	static JBoolean	IsWMPingMessage(const JXDisplay* display, const XEvent& xEvent);
-	static JBoolean	IsSaveYourselfMessage(const JXDisplay* display, const XEvent& xEvent);
+	static bool	IsDeleteWindowMessage(const JXDisplay* display, const XEvent& xEvent);
+	static bool	IsWMPingMessage(const JXDisplay* display, const XEvent& xEvent);
+	static bool	IsSaveYourselfMessage(const JXDisplay* display, const XEvent& xEvent);
 
 	static void	SetDesktopHMargin(const JCoordinate dw);
 	static void	SetDesktopVMargin(const JCoordinate dh);
@@ -198,26 +198,26 @@ public:
 	void	Update();
 	void	DispatchMouse();
 
-	JBoolean	BeginDrag(JXContainer* obj, const JPoint& ptG,
+	bool	BeginDrag(JXContainer* obj, const JPoint& ptG,
 						  const JXButtonStates& buttonStates,
 						  const JXKeyModifiers& modifiers);
 	void		EndDrag(JXContainer* obj, const JPoint& ptG,
 						const JXButtonStates& buttonStates,
 						const JXKeyModifiers& modifiers);
 
-	JBoolean	GetRootChild(Window* rootChild) const;
+	bool	GetRootChild(Window* rootChild) const;
 
-	void	AcceptSaveYourself(const JBoolean accept);
+	void	AcceptSaveYourself(const bool accept);
 
 	static void	AnalyzeWindowManager(JXDisplay* d);
 
 	// called by JXContainer
 
-	JBoolean	GetMouseContainer(JXContainer** window) const;
+	bool	GetMouseContainer(JXContainer** window) const;
 	void		SetMouseContainer(JXContainer* obj, const JPoint& ptG,
 								  const unsigned int state);
 	void		RecalcMouseContainer();
-	void		SetWantDrag(const JBoolean wantDrag);
+	void		SetWantDrag(const bool wantDrag);
 	JSize		CountClicks(JXContainer* container, const JPoint& pt);
 
 	void	DispatchCursor();
@@ -229,9 +229,9 @@ public:
 
 	void		RegisterFocusWidget(JXWidget* widget);
 	void		UnregisterFocusWidget(JXWidget* widget);
-	JBoolean	SwitchFocusToWidget(JXWidget* widget);
+	bool	SwitchFocusToWidget(JXWidget* widget);
 
-	JBoolean	InstallShortcut(JXWidget* widget, const int key,
+	bool	InstallShortcut(JXWidget* widget, const int key,
 								const JXKeyModifiers& modifiers);
 	void		InstallShortcuts(JXWidget* widget, const JString& list);
 	void		ClearShortcuts(JXWidget* widget);
@@ -242,7 +242,7 @@ public:
 
 	// called by JXTextMenu
 
-	JBoolean	InstallMenuShortcut(JXTextMenu* menu, const JIndex menuItem,
+	bool	InstallMenuShortcut(JXTextMenu* menu, const JIndex menuItem,
 									const int key, const JXKeyModifiers& origModifiers);
 	void		ClearMenuShortcut(JXTextMenu* menu, const JIndex menuItem);
 	void		ClearAllMenuShortcuts(JXTextMenu* menu);
@@ -260,21 +260,21 @@ public:
 
 	// called by JXDockWidget
 
-	JBoolean	IsDocked() const;
-	JBoolean	GetDockWindow(JXWindow** window) const;
-	JBoolean	GetDockWidget(JXDockWidget** dock) const;
-	JBoolean	Dock(JXDockWidget* dock, const Window parent, const JRect& geom);
+	bool	IsDocked() const;
+	bool	GetDockWindow(JXWindow** window) const;
+	bool	GetDockWidget(JXDockWidget** dock) const;
+	bool	Dock(JXDockWidget* dock, const Window parent, const JRect& geom);
 	void		Undock();
 	void		UndockAllChildWindows();
 
-	JBoolean	HasWindowType() const;
-	JBoolean	GetWindowType(JString* type) const;
+	bool	HasWindowType() const;
+	bool	GetWindowType(JString* type) const;
 
 	void	UndockedPlace(const JCoordinate enclX, const JCoordinate enclY);
 	void	UndockedMove(const JCoordinate dx, const JCoordinate dy);
 
 	void	UndockedSetSize(const JCoordinate w, const JCoordinate h,
-							const JBoolean ftc = kJFalse);
+							const bool ftc = false);
 
 protected:
 
@@ -333,15 +333,15 @@ private:
 	struct ChildWindowInfo
 	{
 		Window		xWindow;
-		JBoolean	visible;
+		bool	visible;
 		JRect		geom;
 
 		ChildWindowInfo()
 			:
-			xWindow(None), visible(kJFalse)
+			xWindow(None), visible(false)
 		{ };
 
-		ChildWindowInfo(const Window w, const JBoolean v, const JRect& r)
+		ChildWindowInfo(const Window w, const bool v, const JRect& r)
 			:
 			xWindow(w), visible(v), geom(r)
 		{ };
@@ -352,7 +352,7 @@ private:
 	JXWindowDirector*	itsDirector;		// it owns us, we don't own it
 	JXIconDirector*		itsIconDir;			// can be nullptr; owned by itsDirector
 	JXWindow*			itsMainWindow;		// can be nullptr; uses us for icon
-	const JBoolean		itsIsOverlayFlag;
+	const bool		itsIsOverlayFlag;
 
 	JXDisplay*		itsDisplay;					// we don't own this
 	JXGC*			itsGC;
@@ -366,20 +366,20 @@ private:
 	JRect			itsBounds;
 	JPoint			itsDesktopLoc;				// convert to root coordinates
 	JPoint			itsWMFrameLoc;				// top left of Window Manager frame
-	JBoolean		itsHasBeenVisibleFlag;		// XQuartz placement
+	bool		itsHasBeenVisibleFlag;		// XQuartz placement
 	Region			itsUpdateRegion;
-	JBoolean		itsIsMappedFlag;
-	JBoolean		itsIsIconifiedFlag;
-	JBoolean		itsHasFocusFlag;
-	JBoolean		itsFocusWhenShowFlag;		// kJTrue => RequestFocus() when mapped
-	JBoolean		itsBufferDrawingFlag;		// kJTrue => draw to pixmap and then copy to window
-	JBoolean		itsKeepBufferPixmapFlag;	// kJTrue => don't toss itsBufferPixmap
-	JBoolean		itsUseBkgdPixmapFlag;		// kJTrue => use XSetWindowBackgroundPixmap()
-	JBoolean		itsIsDestructingFlag;		// kJTrue => in destructor
+	bool		itsIsMappedFlag;
+	bool		itsIsIconifiedFlag;
+	bool		itsHasFocusFlag;
+	bool		itsFocusWhenShowFlag;		// true => RequestFocus() when mapped
+	bool		itsBufferDrawingFlag;		// true => draw to pixmap and then copy to window
+	bool		itsKeepBufferPixmapFlag;	// true => don't toss itsBufferPixmap
+	bool		itsUseBkgdPixmapFlag;		// true => use XSetWindowBackgroundPixmap()
+	bool		itsIsDestructingFlag;		// true => in destructor
 
-	JBoolean		itsHasMinSizeFlag;
+	bool		itsHasMinSizeFlag;
 	JPoint			itsMinSize;
-	JBoolean		itsHasMaxSizeFlag;
+	bool		itsHasMaxSizeFlag;
 	JPoint			itsMaxSize;
 	JPoint			itsFTCDelta;				// prevent size creep
 
@@ -389,14 +389,14 @@ private:
 	JCursorIndex	itsCursorIndex;				// currently displayed cursor
 
 	JXContainer*	itsMouseContainer;			// object that contains the mouse -- not owned
-	JBoolean		itsIsDraggingFlag;			// kJTrue while dragging (even if not processed)
-	JBoolean		itsProcessDragFlag;			// kJTrue if send drag to itsMouseContainer
-	JBoolean		itsCursorLeftFlag;			// kJTrue if mouse left window during drag
-	JBoolean		itsCleanAfterBlockFlag;
+	bool		itsIsDraggingFlag;			// true while dragging (even if not processed)
+	bool		itsProcessDragFlag;			// true if send drag to itsMouseContainer
+	bool		itsCursorLeftFlag;			// true if mouse left window during drag
+	bool		itsCleanAfterBlockFlag;
 
 	JXContainer*	itsButtonPressReceiver;		// receives DispatchMouseEvent() messages
-	JBoolean		itsPointerGrabbedFlag;		// kJTrue if GrabPointer() in effect
-	JBoolean		itsBPRChangedFlag;			// flag for BeginDrag()
+	bool		itsPointerGrabbedFlag;		// true if GrabPointer() in effect
+	bool		itsBPRChangedFlag;			// flag for BeginDrag()
 
 	JPtrArray<JXWidget>*	itsFocusList;		// widgets that want focus
 	JXWidget*				itsFocusWidget;		// receives key events directly; not owned; can be nullptr
@@ -413,7 +413,7 @@ private:
 
 	// docking
 
-	JBoolean			itsIsDockedFlag;
+	bool			itsIsDockedFlag;
 	Window				itsDockXWindow;			// None if not docked
 	JXDockWidget*		itsDockWidget;			// can be nullptr, even if docked
 	JRect				itsUndockedGeom;
@@ -422,8 +422,8 @@ private:
 
 	JArray<ChildWindowInfo>*	itsChildWindowList;		// nullptr unless has children
 
-	static JBoolean	theAutoDockNewWindowFlag;			// kJTrue => check auto-docking settings
-	static JBoolean	theFocusFollowsCursorInDockFlag;	// kJTrue => automatically set input focus to docked window containing cursor
+	static bool	theAutoDockNewWindowFlag;			// true => check auto-docking settings
+	static bool	theFocusFollowsCursorInDockFlag;	// true => automatically set input focus to docked window containing cursor
 
 	// FTC
 
@@ -437,8 +437,8 @@ private:
 	void		HandleEnterNotify(const XCrossingEvent& xEvent);
 	void		HandleLeaveNotify(const XCrossingEvent& xEvent);
 	void		HandleMotionNotify(const XMotionEvent& xEvent);
-	JBoolean	HandleButtonPress(const XButtonEvent& xEvent);
-	JBoolean	HandleButtonRelease(const XButtonEvent& xEvent);
+	bool	HandleButtonPress(const XButtonEvent& xEvent);
+	bool	HandleButtonRelease(const XButtonEvent& xEvent);
 
 	void		HandleFocusIn(const XFocusChangeEvent& xEvent);
 	void		HandleFocusOut(const XFocusChangeEvent& xEvent);
@@ -447,17 +447,17 @@ private:
 									const unsigned int state,
 									const KeySym keySym);
 
-	void		SwitchFocus(const JBoolean backward);
-	JBoolean	FindNextFocusWidget(const JIndex origStartIndex,
+	void		SwitchFocus(const bool backward);
+	bool	FindNextFocusWidget(const JIndex origStartIndex,
 									JXWidget** focusWidget) const;
-	JBoolean	FindPrevFocusWidget(const JIndex origStartIndex,
+	bool	FindPrevFocusWidget(const JIndex origStartIndex,
 									JXWidget** focusWidget) const;
 
-	JBoolean	IsShortcut(const KeySym keySym, const unsigned int state);
-	JBoolean	InstallShortcut(const Shortcut& s);
+	bool	IsShortcut(const KeySym keySym, const unsigned int state);
+	bool	InstallShortcut(const Shortcut& s);
 
 	void	UpdateFrame();
-	void	UpdateBounds(const JCoordinate w, const JCoordinate h, const JBoolean ftc);
+	void	UpdateBounds(const JCoordinate w, const JCoordinate h, const bool ftc);
 	JPoint	CalcDesktopLocation(const JCoordinate x, const JCoordinate y,
 								const JCoordinate direction) const;
 
@@ -471,10 +471,10 @@ private:
 
 	void	AdjustTitle();
 
-	void	UpdateChildWindowList(const Window xWindow, const JBoolean add);
+	void	UpdateChildWindowList(const Window xWindow, const bool add);
 	void	SetChildWindowGeometry(const Window xWindow, const JRect& geom);
 	void	UpdateChildWindowGeometry();
-	void	SetChildWindowVisible(const Window xWindow, const JBoolean visible);
+	void	SetChildWindowVisible(const Window xWindow, const bool visible);
 
 	// used by Hide()
 
@@ -621,7 +621,7 @@ JXWindow::GetTitle()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::IsIconified()
 	const
 {
@@ -633,7 +633,7 @@ JXWindow::IsIconified()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::IsDocked()
 	const
 {
@@ -645,7 +645,7 @@ JXWindow::IsDocked()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::GetDockWidget
 	(
 	JXDockWidget** dock
@@ -653,7 +653,7 @@ JXWindow::GetDockWidget
 	const
 {
 	*dock = itsDockWidget;
-	return JI2B( itsDockWidget != nullptr );
+	return itsDockWidget != nullptr;
 }
 
 /******************************************************************************
@@ -682,7 +682,7 @@ JXWindow::SetCloseAction
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::WillFocusWhenShown()
 	const
 {
@@ -692,7 +692,7 @@ JXWindow::WillFocusWhenShown()
 inline void
 JXWindow::ShouldFocusWhenShow
 	(
-	const JBoolean focusWhenShow
+	const bool focusWhenShow
 	)
 {
 	itsFocusWhenShowFlag = focusWhenShow;
@@ -701,11 +701,11 @@ JXWindow::ShouldFocusWhenShow
 /******************************************************************************
  HasFocus
 
-	Returns kJTrue if keypresses go to this window.
+	Returns true if keypresses go to this window.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::HasFocus()
 	const
 {
@@ -741,7 +741,7 @@ JXWindow::GetXWindow()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::HasWindowType()
 	const
 {
@@ -753,7 +753,7 @@ JXWindow::HasWindowType()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::GetWindowType
 	(
 	JString* type
@@ -781,7 +781,7 @@ JXWindow::GetDirector()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::GetMouseContainer
 	(
 	JXContainer** container
@@ -789,7 +789,7 @@ JXWindow::GetMouseContainer
 	const
 {
 	*container = itsMouseContainer;
-	return JConvertToBoolean( *container != nullptr );
+	return *container != nullptr;
 }
 
 /******************************************************************************
@@ -812,11 +812,11 @@ JXWindow::RecalcMouseContainer()
 /******************************************************************************
  GetFocusWidget
 
-	Returns kJTrue if a widget has focus.
+	Returns true if a widget has focus.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::GetFocusWidget
 	(
 	JXWidget** widget
@@ -824,7 +824,7 @@ JXWindow::GetFocusWidget
 	const
 {
 	*widget = itsFocusWidget;
-	return JConvertToBoolean( itsFocusWidget != nullptr );
+	return itsFocusWidget != nullptr;
 }
 
 /******************************************************************************
@@ -847,7 +847,7 @@ JXWindow::GetBackColor()
 inline void
 JXWindow::SetWantDrag
 	(
-	const JBoolean wantDrag
+	const bool wantDrag
 	)
 {
 	itsProcessDragFlag = wantDrag;
@@ -858,7 +858,7 @@ JXWindow::SetWantDrag
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::IsDragging()
 	const
 {
@@ -996,7 +996,7 @@ JXWindow::RootToGlobal
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::IsKeepingBufferPixmap()
 	const
 {
@@ -1006,13 +1006,13 @@ JXWindow::IsKeepingBufferPixmap()
 inline void
 JXWindow::KeepBufferPixmap
 	(
-	const JBoolean keepIt
+	const bool keepIt
 	)
 {
 	itsKeepBufferPixmapFlag = keepIt;
 }
 
-inline JBoolean
+inline bool
 JXWindow::IsUsingPixmapAsBackground()
 	const
 {
@@ -1022,13 +1022,13 @@ JXWindow::IsUsingPixmapAsBackground()
 inline void
 JXWindow::UsePixmapAsBackground
 	(
-	const JBoolean useIt
+	const bool useIt
 	)
 {
 	itsUseBkgdPixmapFlag = useIt;
 	if (itsUseBkgdPixmapFlag)
 		{
-		BufferDrawing(kJTrue);
+		BufferDrawing(true);
 		}
 	else
 		{
@@ -1055,7 +1055,7 @@ JXWindow::SetCurrentHintManager
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::WillAutoDockNewWindows()
 {
 	return theAutoDockNewWindowFlag;
@@ -1064,7 +1064,7 @@ JXWindow::WillAutoDockNewWindows()
 inline void
 JXWindow::ShouldAutoDockNewWindows
 	(
-	const JBoolean autoDock
+	const bool autoDock
 	)
 {
 	theAutoDockNewWindowFlag = autoDock;
@@ -1075,7 +1075,7 @@ JXWindow::ShouldAutoDockNewWindows
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXWindow::WillFocusFollowCursorInDock()
 {
 	return theFocusFollowsCursorInDockFlag;
@@ -1084,7 +1084,7 @@ JXWindow::WillFocusFollowCursorInDock()
 inline void
 JXWindow::ShouldFocusFollowCursorInDock
 	(
-	const JBoolean focusFollowsCursor
+	const bool focusFollowsCursor
 	)
 {
 	theFocusFollowsCursorInDockFlag = focusFollowsCursor;

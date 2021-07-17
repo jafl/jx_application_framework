@@ -61,7 +61,7 @@ TestPrefObject::ReadPrefs
 	input >> s;
 	JAssertStringsEqual(kText, s);
 
-	JBoolean t;
+	bool t;
 	input >> JBoolFromString(t);
 	JAssertTrue(t);
 }
@@ -80,6 +80,6 @@ TestPrefObject::WritePrefs
 {
 	output << 1;
 	output << ' ' << itsNumber;
-	output << ' ' << JString(kText, kJFalse);
-	output << ' ' << JBoolToString(kJTrue);
+	output << ' ' << JString(kText, JString::kNoCopy);
+	output << ' ' << JBoolToString(true);
 }

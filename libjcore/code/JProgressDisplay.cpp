@@ -30,11 +30,11 @@
 		IncrementProgress(const JString* message)
 			Increment the step count by 1 and update the display to show that
 			progress is being made.  If the message is not nullptr, it should
-			be displayed.  Return kJFalse if process was cancelled by user.
+			be displayed.  Return false if process was cancelled by user.
 
 		IncrementProgress(const JSize delta)
 			Increment the step count by delta and update the display to show
-			that progress is being made.  Return kJFalse if process was
+			that progress is being made.  Return false if process was
 			cancelled by user.
 
 		ProcessFinished
@@ -42,7 +42,7 @@
 			Remember to call JProgressDisplay::ProcessFinished().
 
 		CheckForCancel
-			Return kJTrue if the user wishes to cancel the operation.
+			Return true if the user wishes to cancel the operation.
 
 		DisplayBusyCursor
 			Change the mouse cursor to indicate that the program is busy.
@@ -99,8 +99,8 @@ JProgressDisplay::ProcessBeginning
 	const ProcessType	processType,
 	const JSize			stepCount,
 	const JString&		message,
-	const JBoolean		allowCancel,
-	const JBoolean		allowBackground
+	const bool		allowCancel,
+	const bool		allowBackground
 	)
 {
 	assert( itsCurrentProcess == kNoRunningProcess );
@@ -119,11 +119,11 @@ JProgressDisplay::ProcessBeginning
 	Derived classes should give the system some background time (system
 	dependent) without updating the progress display.
 
-	Returns kJFalse if process was cancelled by user.
+	Returns false if process was cancelled by user.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JProgressDisplay::ProcessContinuing()
 {
 	assert( itsCurrentProcess != kNoRunningProcess );
@@ -134,7 +134,7 @@ JProgressDisplay::ProcessContinuing()
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 

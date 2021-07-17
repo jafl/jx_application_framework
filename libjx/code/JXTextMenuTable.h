@@ -51,7 +51,7 @@ protected:
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
-	virtual JBoolean	CellToItemIndex(const JPoint& pt, const JPoint& cell,
+	virtual bool	CellToItemIndex(const JPoint& pt, const JPoint& cell,
 										JIndex* itemIndex) const override;
 	virtual void		MenuHilightItem(const JIndex itemIndex) override;
 	virtual void		MenuUnhilightItem(const JIndex itemIndex) override;

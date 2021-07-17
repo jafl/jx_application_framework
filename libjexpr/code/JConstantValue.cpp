@@ -73,7 +73,7 @@ JConstantValue::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JConstantValue::Evaluate
 	(
 	JFloat* result
@@ -81,10 +81,10 @@ JConstantValue::Evaluate
 	const
 {
 	*result = itsValue;
-	return kJTrue;
+	return true;
 }
 
-JBoolean
+bool
 JConstantValue::Evaluate
 	(
 	JComplex* result
@@ -92,7 +92,7 @@ JConstantValue::Evaluate
 	const
 {
 	*result = itsValue;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

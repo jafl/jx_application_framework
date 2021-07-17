@@ -32,7 +32,7 @@ JXFTCCell::JXFTCCell
 	JXContainer*	matchObj,
 	JXContainer*	enc,
 	const Direction	direction,
-	const JBoolean	exact
+	const bool	exact
 	)
 	:
 	JXContainer(enc->GetWindow(), enc),
@@ -40,7 +40,7 @@ JXFTCCell::JXFTCCell
 	itsDirection(direction),
 	itsIsExactFlag(exact),
 	itsElasticFlag(kUnknown),
-	itsSyncChildrenFlag(kJFalse),
+	itsSyncChildrenFlag(false),
 	itsChildren(nullptr),
 	itsChildSpacing(nullptr),
 	itsChildPositions(nullptr)
@@ -175,10 +175,10 @@ JXFTCCell::GetDepth()
 JCoordinate
 JXFTCCell::Expand
 	(
-	const JBoolean horizontal
+	const bool horizontal
 	)
 {
-	itsSyncChildrenFlag   = kJTrue;
+	itsSyncChildrenFlag   = true;
 	itsSyncHorizontalFlag = horizontal;
 
 	if (itsWidget != nullptr)
@@ -235,7 +235,7 @@ void
 JXFTCCell::BuildChildList()
 {
 	JPtrArrayIterator<JXContainer>* iter;
-	const JBoolean hasObjs = GetEnclosedObjects(&iter);
+	const bool hasObjs = GetEnclosedObjects(&iter);
 	assert( hasObjs );
 
 	assert( itsChildren == nullptr );
@@ -453,9 +453,9 @@ JXFTCCell::CoverChildren()
 		r = JCovering(r, itsChildren->GetElement(i)->GetFrameForFTC());
 		}
 
-	itsSyncChildrenFlag = kJFalse;
+	itsSyncChildrenFlag = false;
 	SetSize(r.width(), r.height());
-	itsSyncChildrenFlag = kJTrue;
+	itsSyncChildrenFlag = true;
 }
 
 /******************************************************************************
@@ -511,9 +511,9 @@ JXFTCCell::ExpandWidget()
 			}
 		itsWidget->FTCAdjustSize(dw, dh);
 
-		itsSyncChildrenFlag = kJFalse;
+		itsSyncChildrenFlag = false;
 		AdjustSize(dw, dh);
-		itsSyncChildrenFlag = kJTrue;
+		itsSyncChildrenFlag = true;
 		}
 	else if (delta != 0)
 		{
@@ -859,12 +859,12 @@ JXFTCCell::SyncSize
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFTCCell::IsElastic()
 {
 	if (itsElasticFlag != kUnknown)
 		{
-		return JI2B( itsElasticFlag == kTrue );
+		return itsElasticFlag == kTrue;
 		}
 
 	itsElasticFlag = kFalse;
@@ -887,7 +887,7 @@ JXFTCCell::IsElastic()
 		itsElasticFlag = kTrue;
 		}
 
-	return JI2B( itsElasticFlag == kTrue );
+	return itsElasticFlag == kTrue;
 }
 
 /******************************************************************************

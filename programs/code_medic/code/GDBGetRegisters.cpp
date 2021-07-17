@@ -21,7 +21,7 @@ GDBGetRegisters::GDBGetRegisters
 	CMRegistersDir* dir
 	)
 	:
-	CMGetRegisters(JString("info all-registers", kJFalse), dir)
+	CMGetRegisters(JString("info all-registers", JString::kNoCopy), dir)
 {
 }
 

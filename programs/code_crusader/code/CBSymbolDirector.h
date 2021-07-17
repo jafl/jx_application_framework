@@ -33,19 +33,19 @@ public:
 	CBSymbolDirector(std::istream& projInput, const JFileVersion projVers,
 					 std::istream* setInput, const JFileVersion setVers,
 					 std::istream* symInput, const JFileVersion symVers,
-					 CBProjectDocument* supervisor, const JBoolean subProject);
+					 CBProjectDocument* supervisor, const bool subProject);
 
 	virtual ~CBSymbolDirector();
 
 	void	EditPrefs();
-	void	SetPrefs(const JBoolean raiseTreeOnRightClick, const JBoolean writePrefs);
+	void	SetPrefs(const bool raiseTreeOnRightClick, const bool writePrefs);
 
 	CBProjectDocument*	GetProjectDocument() const;
 	CBSymbolList*		GetSymbolList() const;
-	JBoolean			FindSymbol(const JString& name, const JString& fileName,
+	bool			FindSymbol(const JString& name, const JString& fileName,
 								   const JXMouseButton button);
 
-	JBoolean	HasSymbolBrowsers() const;
+	bool	HasSymbolBrowsers() const;
 	void		CloseSymbolBrowsers();
 
 	void	StreamOut(std::ostream& projOutput,
@@ -61,8 +61,8 @@ public:
 
 	// called by CBFileListTable
 
-	void		PrepareForListUpdate(const JBoolean reparseAll, JProgressDisplay& pg);
-	JBoolean	ListUpdateFinished(const JArray<JFAID_t>& deadFileList, JProgressDisplay& pg);
+	void		PrepareForListUpdate(const bool reparseAll, JProgressDisplay& pg);
+	bool	ListUpdateFinished(const JArray<JFAID_t>& deadFileList, JProgressDisplay& pg);
 
 	// called by CBSymbolSRDirector
 
@@ -81,7 +81,7 @@ private:
 	CBProjectDocument*	itsProjDoc;				// not owned
 	CBSymbolList*		itsSymbolList;
 	CBSymbolTable*		itsSymbolTable;
-	JBoolean			itsRaiseTreeOnRightClickFlag;
+	bool			itsRaiseTreeOnRightClickFlag;
 
 	JPtrArray<CBSymbolSRDirector>*	itsSRList;	// contents not owned
 
@@ -155,7 +155,7 @@ CBSymbolDirector::GetSymbolList()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 CBSymbolDirector::HasSymbolBrowsers()
 	const
 {

@@ -25,7 +25,7 @@
 #include <jAssert.h>
 
 static CMApp*				theApplication		= nullptr;		// owned by JX
-static JBoolean				theShutdownFlag     = kJFalse;
+static bool				theShutdownFlag     = false;
 static CMPrefsManager*		thePrefsManager		= nullptr;
 static JXPTPrinter*			theTextPrinter		= nullptr;
 static JXPSPrinter*			thePSPrinter		= nullptr;
@@ -81,7 +81,7 @@ void	CMDeleteIcons();
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMCreateGlobals
 	(
 	CMApp* app
@@ -96,7 +96,7 @@ CMCreateGlobals
 	JString oldPrefsFile, newPrefsFile;
 	if (JGetPrefsDirectory(&oldPrefsFile))
 		{
-		oldPrefsFile = JCombinePathAndName(oldPrefsFile, JString(".gMedic.pref", kJFalse));
+		oldPrefsFile = JCombinePathAndName(oldPrefsFile, JString(".gMedic.pref", JString::kNoCopy));
 		if (JFileExists(oldPrefsFile) &&
 			(JPrefsFile::GetFullName(app->GetSignature(), &newPrefsFile)).OK() &&
 			!JFileExists(newPrefsFile))
@@ -105,13 +105,13 @@ CMCreateGlobals
 			}
 		}
 
-	JBoolean isNew;
+	bool isNew;
 	thePrefsManager = jnew CMPrefsManager(&isNew);
 	assert(thePrefsManager != nullptr);
 
 	JXInitHelp();
 
-	JXWDManager* wdMgr = jnew JXWDManager(display, kJTrue);
+	JXWDManager* wdMgr = jnew JXWDManager(display, true);
 	assert( wdMgr != nullptr );
 
 	CMDockManager* dockManager = jnew CMDockManager;
@@ -163,7 +163,7 @@ CMCreateCommandDirector()
 void
 CMDeleteGlobals()
 {
-	theShutdownFlag = kJTrue;
+	theShutdownFlag = true;
 
 	(JXGetDockManager())->JPrefObject::WritePrefs();
 
@@ -269,7 +269,7 @@ CMStartDebugger()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CMIsShuttingDown()
 {
 	return theShutdownFlag;
@@ -516,10 +516,10 @@ CMGetVersionStr()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBInUpdateThread()
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************

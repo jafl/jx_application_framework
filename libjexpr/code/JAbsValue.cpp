@@ -77,7 +77,7 @@ JAbsValue::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JAbsValue::Evaluate
 	(
 	JFloat* result
@@ -93,11 +93,11 @@ JAbsValue::Evaluate
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
-JBoolean
+bool
 JAbsValue::Evaluate
 	(
 	JComplex* result
@@ -113,7 +113,7 @@ JAbsValue::Evaluate
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -170,7 +170,7 @@ JAbsValue::Render
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);

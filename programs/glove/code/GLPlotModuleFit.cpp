@@ -33,13 +33,13 @@ GLPlotModuleFit::GLPlotModuleFit
 	JFunction*			function,
 	GLVarList* 			list, 
 	const JSize 		parmscount,	
-	const JBoolean 		errors, 
-	const JBoolean 		gof
+	const bool 		errors, 
+	const bool 		gof
 	)
 	:
 	GLPlotFitFunction(plot, fitData, xMin, xMax)
 {
-	itsUsingRange = kJFalse;
+	itsUsingRange = false;
 	JPlotModuleFitX(plot, fitData, names, values, function, list, parmscount, errors, gof);
 }
 
@@ -56,8 +56,8 @@ GLPlotModuleFit::GLPlotModuleFit
 	const JFloat 		ymin, 
 	const JFloat 		ymax,
 	const JSize 		parmscount,	
-	const JBoolean 		errors, 
-	const JBoolean 		gof
+	const bool 		errors, 
+	const bool 		gof
 	)
 	:
 	GLPlotFitFunction(plot, fitData, xmin, xmax)
@@ -82,7 +82,7 @@ GLPlotModuleFit::GLPlotModuleFit
 		itsRangeYMax = ymin;
 		itsRangeYMin = ymax;
 		}
-	itsUsingRange = kJTrue;
+	itsUsingRange = true;
 	JPlotModuleFitX(plot, fitData, names, values, function, list, parmscount, errors, gof);
 }
 
@@ -110,9 +110,9 @@ GLPlotModuleFit::GLPlotModuleFit
 		}
 	int parmscount;
 	is >> parmscount;
-	JBoolean errors;
+	bool errors;
 	is >> JBoolFromString(errors);
-	JBoolean gof;
+	bool gof;
 	is >> JBoolFromString(gof);
 	JString fstring;
 	is >> fstring;
@@ -133,7 +133,7 @@ GLPlotModuleFit::GLPlotModuleFit
 	JExprParser p(list);
 
 	JFunction* f;
-	const JBoolean ok = p.Parse(fstring, &f);
+	const bool ok = p.Parse(fstring, &f);
 	assert( ok );
 
 	JPlotModuleFitX(plot, fitData, names, values, f, list, parmscount, errors, gof);	
@@ -149,8 +149,8 @@ GLPlotModuleFit::JPlotModuleFitX
 	JFunction*			function,
 	GLVarList* 			list,
 	const JSize 		parmscount,	
-	const JBoolean 		errors, 
-	const JBoolean 		gof
+	const bool 		errors, 
+	const bool 		gof
 	)
 {
 	SetHasParameterErrors(errors);
@@ -209,7 +209,7 @@ GLPlotModuleFit::GetElement
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotModuleFit::GetYValue
 	(
 	const JFloat 	x,
@@ -219,7 +219,7 @@ GLPlotModuleFit::GetYValue
 {
 	itsList->SetValue(1, x);
 	itsFunction->Evaluate(y);
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -248,7 +248,7 @@ GLPlotModuleFit::UpdateFunction
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotModuleFit::GetParameterName
 	(
 	const JIndex index, 
@@ -258,11 +258,11 @@ GLPlotModuleFit::GetParameterName
 {
 	if ((index > GetParameterCount()) || (index < 1))
 		{
-		return kJFalse;
+		return false;
 		}
 	
 	*name = itsList->GetVariableName(index + 1);
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -271,7 +271,7 @@ GLPlotModuleFit::GetParameterName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotModuleFit::GetParameter
 	(
 	const JIndex index, 
@@ -281,7 +281,7 @@ GLPlotModuleFit::GetParameter
 {
 	if ((index > GetParameterCount()) || (index < 1))
 		{
-		return kJFalse;
+		return false;
 		}
 	return itsList->GetNumericValue(index + 1, 1, value);
 }
@@ -292,7 +292,7 @@ GLPlotModuleFit::GetParameter
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotModuleFit::GetParameterError
 	(
 	const JIndex index, 
@@ -303,15 +303,15 @@ GLPlotModuleFit::GetParameterError
 	const JPlotDataBase* data = GetDataToFit();
 	if (!data->HasXErrors() && !data->HasYErrors())
 		{
-		return kJFalse;
+		return false;
 		}
 	if (!HasParameterErrors())
 		{
-		return kJFalse;
+		return false;
 		}
 	JIndex arrayIndex = index * 2;
 	*value = itsValues->GetElement(arrayIndex);
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -320,7 +320,7 @@ GLPlotModuleFit::GetParameterError
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotModuleFit::GetGoodnessOfFitName
 	(
 	JString* name
@@ -329,11 +329,11 @@ GLPlotModuleFit::GetGoodnessOfFitName
 {
 	if (!HasGoodnessOfFit())
 		{
-		return kJFalse;
+		return false;
 		}
 	JIndex arrayIndex = itsNames->GetElementCount();
 	*name = *(itsNames->GetElement(arrayIndex));
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -342,7 +342,7 @@ GLPlotModuleFit::GetGoodnessOfFitName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotModuleFit::GetGoodnessOfFit
 	(
 	JFloat* value
@@ -351,12 +351,12 @@ GLPlotModuleFit::GetGoodnessOfFit
 {
 	if (!HasGoodnessOfFit())
 		{
-		return kJFalse;
+		return false;
 		}
 	JIndex arrayIndex = itsValues->GetElementCount();
 	*value = itsValues->GetElement(arrayIndex);
 	
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -391,7 +391,7 @@ GLPlotModuleFit::GetFitFunctionString()
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotModuleFit::DataElementValid
 	(
 	const JIndex index
@@ -408,14 +408,14 @@ GLPlotModuleFit::DataElementValid
 			(point.y >= itsRangeYMin) &&
 			(point.y <= itsRangeYMax))
 			{
-			return kJTrue;
+			return true;
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -424,21 +424,21 @@ GLPlotModuleFit::DataElementValid
 
  *****************************************************************************/
 
-JBoolean
+bool
 GLPlotModuleFit::GetDataElement
 	(
 	const JIndex index,
 	J2DDataPoint* point
 	)
 {
-	JBoolean valid = DataElementValid(index);
+	bool valid = DataElementValid(index);
 	if (!valid)
 		{
-		return kJFalse;
+		return false;
 		}
 	const JPlotDataBase* data = GetDataToFit();
 	data->GetElement(index, point);
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************

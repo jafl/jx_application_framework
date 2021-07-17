@@ -31,7 +31,7 @@ public:
 
 	virtual ~GPMProcessTreeList();
 
-	JBoolean	GetSelectedProcess(const GPMProcessEntry** entry) const;
+	bool	GetSelectedProcess(const GPMProcessEntry** entry) const;
 	void		SelectProcess(const GPMProcessEntry& entry);
 
 protected:

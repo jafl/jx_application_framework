@@ -85,7 +85,7 @@ LLDBDisplaySourceForMain::HandleSuccess
 	)
 {
 	lldb::SBTarget t = dynamic_cast<LLDBLink*>(CMGetLink())->GetDebugger()->GetSelectedTarget();
-	JBoolean found   = kJFalse;
+	bool found   = false;
 	if (t.IsValid())
 		{
 		lldb::SBSymbolContextList list = t.FindFunctions("main");
@@ -113,11 +113,11 @@ LLDBDisplaySourceForMain::HandleSuccess
 					}
 
 				JString fullName = JCombinePathAndName(
-					JString(file.GetDirectory(), kJFalse),
-					JString(file.GetFilename(), kJFalse));
+					JString(file.GetDirectory(), JString::kNoCopy),
+					JString(file.GetFilename(), JString::kNoCopy));
 
-				GetSourceDir()->DisplayFile(fullName, line, kJFalse);
-				found = kJTrue;
+				GetSourceDir()->DisplayFile(fullName, line, false);
+				found = true;
 				}
 			}
 		}
@@ -125,7 +125,7 @@ LLDBDisplaySourceForMain::HandleSuccess
 
 	if (!found)
 		{
-		CMGetLink()->NotifyUser(JGetString("CannotFindMain::LLDBDisplaySourceForMain"), kJTrue);
+		CMGetLink()->NotifyUser(JGetString("CannotFindMain::LLDBDisplaySourceForMain"), true);
 		CMGetLink()->Log("LLDBDisplaySourceForMain failed to find 'main'");
 
 		GetSourceDir()->ClearDisplay();

@@ -193,7 +193,7 @@ GFGMainDirector::BuildWindow
 		jnew JXStaticText(JGetString("itsBaseClassTxt::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 105,45, 110,20);
 	assert( itsBaseClassTxt != nullptr );
-	const JFontStyle itsBaseClassTxt_style(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetBlackColor());
+	const JFontStyle itsBaseClassTxt_style(true, false, 0, false, JColorManager::GetBlackColor());
 	itsBaseClassTxt->SetFontStyle(itsBaseClassTxt_style);
 	itsBaseClassTxt->SetToLabel();
 
@@ -263,7 +263,7 @@ GFGMainDirector::BuildWindow
 			scrollbarSet->GetScrollEnclosure()->GetBoundsHeight() - kColHeaderHeight);
 	assert(itsTable != nullptr);
 
-	itsTable->FitToEnclosure(kJTrue, kJFalse);
+	itsTable->FitToEnclosure(true, false);
 
 	JXColHeaderWidget* widget =
 		jnew JXColHeaderWidget(itsTable,
@@ -271,7 +271,7 @@ GFGMainDirector::BuildWindow
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, 100,kColHeaderHeight);
 	assert(widget != nullptr);
-	widget->FitToEnclosure(kJTrue, kJFalse);
+	widget->FitToEnclosure(true, false);
 
 	widget->SetColTitle(GFGFunctionTable::kFUsed, JGetString("UseLabel::GFGMainDirector"));
 	widget->SetColTitle(GFGFunctionTable::kFReturnType, JGetString("RTLabel::GFGMainDirector"));
@@ -379,7 +379,7 @@ GFGMainDirector::WritePrefs
 
  ******************************************************************************/
 
-JBoolean
+bool
 GFGMainDirector::Write()
 {
 	JString cname = itsClassInput->GetText()->GetText();
@@ -387,7 +387,7 @@ GFGMainDirector::Write()
 		{
 		JGetUserNotification()->ReportError(JGetString("MissingClassName::GFGMainDirector"));
 		itsClassInput->Focus();
-		return kJFalse;
+		return false;
 		}
 	itsClass->SetClassName(cname);
 
@@ -396,7 +396,7 @@ GFGMainDirector::Write()
 		{
 		JGetUserNotification()->ReportError(JGetString("InvalidDestPath::GFGMainDirector"));
 		itsDirInput->Focus();
-		return kJFalse;
+		return false;
 		}
 	JString headername	= cname + ".h";
 	JString sourcename	= cname + ".cpp";
@@ -418,7 +418,7 @@ GFGMainDirector::Write()
 	if (!oh.good())
 		{
 		JGetUserNotification()->ReportError(JGetString("CreateFileFailed::GFGMainDirector"));
-		return kJFalse;
+		return false;
 		}
 
 	JString bcname, bfname;
@@ -468,12 +468,12 @@ GFGMainDirector::Write()
 	cname.Print(oh);
 	oh << "();" << std::endl << std::endl;
 
-	itsClass->WritePublic(oh, kJTrue);
+	itsClass->WritePublic(oh, true);
 
 	oh << std::endl << std::endl;
 	oh << "protected:" << std::endl << std::endl;
 
-	itsClass->WriteProtected(oh, kJTrue);
+	itsClass->WriteProtected(oh, true);
 
 	oh << std::endl << std::endl << "private:" << std::endl << std::endl;
 
@@ -497,7 +497,7 @@ GFGMainDirector::Write()
 	if (!os.good())
 		{
 		JGetUserNotification()->ReportError(JGetString("CreateFileFailed::GFGMainDirector"));
-		return kJFalse;
+		return false;
 		}
 
 	s	= GFGGetPrefsManager()->GetSourceComment(cname, bases);
@@ -544,5 +544,5 @@ GFGMainDirector::Write()
 	JString errStr;
 	JRunProgram(cmd, &errStr);
 
-	return kJTrue;
+	return true;
 }

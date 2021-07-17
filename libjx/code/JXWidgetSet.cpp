@@ -29,7 +29,7 @@ JXWidgetSet::JXWidgetSet
 	)
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
-	itsNeedsInternalFTCFlag(kJFalse)
+	itsNeedsInternalFTCFlag(false)
 {
 }
 
@@ -77,11 +77,11 @@ JXWidgetSet::DrawBorder
 /******************************************************************************
  NeedsInternalFTC (virtual protected)
 
-	Return kJTrue if the contents are a set of widgets that need to expand.
+	Return true if the contents are a set of widgets that need to expand.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXWidgetSet::NeedsInternalFTC()
 	const
 {

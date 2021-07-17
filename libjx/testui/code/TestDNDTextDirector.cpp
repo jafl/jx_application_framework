@@ -85,11 +85,11 @@ TestDNDTextDirector::BuildWindow()
 	JXTextEditor* te;
 	for (JIndex i : { 1,2})
 		{
-		JXStyledText* text = jnew JXStyledText(kJTrue, kJTrue, GetDisplay()->GetFontManager());
+		JXStyledText* text = jnew JXStyledText(true, true, GetDisplay()->GetFontManager());
 		assert( text != nullptr );
 
 		JXTextEditorSet* teSet =
-			jnew JXTextEditorSet(text, kJTrue, &te, partition->GetCompartment(i),
+			jnew JXTextEditorSet(text, true, &te, partition->GetCompartment(i),
 								JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 		assert( teSet != nullptr );
 		teSet->FitToEnclosure();
@@ -98,14 +98,14 @@ TestDNDTextDirector::BuildWindow()
 
 		text->SetText(JString(
 			"plain\n\nbold\n\nitalicunderline\n\ntrplunderline\n\nstrike\n\nboldred\n",
-			0, kJFalse));
+			0, false));
 
-		text->SetFontStyle(TEXT_RANGE( 8, 13), JFontStyle(kJTrue, kJFalse, 0, kJFalse), kJTrue);
-		text->SetFontStyle(TEXT_RANGE(14, 30), JFontStyle(kJFalse, kJTrue, 1, kJFalse), kJTrue);
-		text->SetFontStyle(TEXT_RANGE(31, 45), JFontStyle(kJFalse, kJFalse, 3, kJFalse), kJTrue);
-		text->SetFontStyle(TEXT_RANGE(46, 53), JFontStyle(kJFalse, kJFalse, 0, kJTrue), kJTrue);
+		text->SetFontStyle(TEXT_RANGE( 8, 13), JFontStyle(true, false, 0, false), true);
+		text->SetFontStyle(TEXT_RANGE(14, 30), JFontStyle(false, true, 1, false), true);
+		text->SetFontStyle(TEXT_RANGE(31, 45), JFontStyle(false, false, 3, false), true);
+		text->SetFontStyle(TEXT_RANGE(46, 53), JFontStyle(false, false, 0, true), true);
 		text->SetFontStyle(TEXT_RANGE(54, 62),
-			JFontStyle(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetRedColor()), kJTrue);
+			JFontStyle(true, false, 0, false, JColorManager::GetRedColor()), true);
 		}
 }
 

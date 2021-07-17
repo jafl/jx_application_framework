@@ -110,7 +110,7 @@ JFunction::Render
 	// find ourselves in the list
 
 	JIndex ourIndex;
-	const JBoolean found = rectList.FindFunction(this, &ourIndex);
+	const bool found = rectList.FindFunction(this, &ourIndex);
 	assert( found );
 
 	const JRect ourRect = rectList.GetRect(ourIndex);
@@ -131,14 +131,14 @@ JFunction::Render
 
  ******************************************************************************/
 
-JBoolean
+bool
 JFunction::UsesVariable
 	(
 	const JIndex variableIndex
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 void

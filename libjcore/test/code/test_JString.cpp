@@ -35,7 +35,7 @@ JTEST(Counting)
 	JAssertEqual(14, JString::CountBytes("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 12));
 
 	JSize byteCount;
-	JBoolean ok = JString::CountBytesBackward("12345", 5, 4, &byteCount);
+	bool ok = JString::CountBytesBackward("12345", 5, 4, &byteCount);
 	JAssertTrue(ok);
 	JAssertEqual(4, byteCount);
 
@@ -145,13 +145,13 @@ JTEST(Construction)
 
 JTEST(LazyConstruction)
 {
-	JString s2("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", kJFalse);
+	JString s2("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JString::kNoCopy);
 	JAssertFalse(s2.IsOwner());
 	JAssertEqual(19, s2.GetByteCount());
 	JAssertEqual(14, s2.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s2);
 
-	JString s3("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 14, kJFalse);
+	JString s3("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 14, JString::kNoCopy);
 	JAssertFalse(s3.IsOwner());
 	JAssertEqual(14, s3.GetByteCount());
 	JAssertEqual(12, s3.GetCharacterCount());
@@ -159,14 +159,14 @@ JTEST(LazyConstruction)
 	s3.Set("abc");		// test replace
 	JAssertStringsEqual("abc", s3);
 
-	JString s4("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(2,5), kJFalse);
+	JString s4("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(2,5), JString::kNoCopy);
 	JAssertFalse(s4.IsOwner());
 	JAssertEqual(4, s4.GetByteCount());
 	JAssertEqual(4, s4.GetCharacterCount());
 	JAssertStringsEqual("2345", s4);
 	JAssertStringsEqual("2345", s4.GetBytes());		// test null termination; ignore memory leak
 
-	JString s5("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(8,14), kJFalse);
+	JString s5("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(8,14), JString::kNoCopy);
 	JAssertFalse(s5.IsOwner());
 	JAssertEqual(7, s5.GetByteCount());
 	JAssertEqual(5, s5.GetCharacterCount());
@@ -175,11 +175,11 @@ JTEST(LazyConstruction)
 	JAssertEqual(10, s5.GetByteCount());
 	JAssertEqual(8, s5.GetCharacterCount());
 
-	JString s12("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(), kJFalse);
+	JString s12("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(), JString::kNoCopy);
 	JAssertFalse(s12.IsOwner());
 	JAssertTrue(s12.IsEmpty());
 
-	JString s13("ab 90\xC2\xA9 58", JUtf8ByteRange(3, 8), kJFalse);
+	JString s13("ab 90\xC2\xA9 58", JUtf8ByteRange(3, 8), JString::kNoCopy);
 	JAssertFalse(s13.IsOwner());
 	JAssertEqual(5, s13.GetCharacterCount());
 	s13.TrimWhitespace();	// test modify
@@ -187,7 +187,7 @@ JTEST(LazyConstruction)
 
 	JString s14("\xC3\x86\xCE\xA6\xCE\xA3", 0);
 	JAssertTrue(s14.IsOwner());
-	JString s15(s14.GetBytes(), kJFalse);
+	JString s15(s14.GetBytes(), JString::kNoCopy);
 	JAssertFalse(s15.IsOwner());
 	s15.ToLower();
 	JAssertStringsEqual("\xC3\x86\xCE\xA6\xCE\xA3", s14);
@@ -197,12 +197,12 @@ JTEST(LazyConstruction)
 
 	const JUtf8Byte* const_s = "abcdefg";
 
-	JString s16(const_s, 3, kJFalse);
+	JString s16(const_s, 3, JString::kNoCopy);
 	JAssertFalse(s16.IsOwner());
 	JAssertStringsEqual("abc", s16.GetBytes());
 	JAssertTrue(s16.IsOwner());
 
-	JString s17(const_s, JUtf8ByteRange(5, 7), kJFalse);
+	JString s17(const_s, JUtf8ByteRange(5, 7), JString::kNoCopy);
 	JAssertFalse(s17.IsOwner());
 	JAssertStringsEqual("efg", s17.GetBytes());
 	JAssertFalse(s17.IsOwner());
@@ -210,19 +210,19 @@ JTEST(LazyConstruction)
 
 JString TestNameReturnValueOptimization()
 {
-	return JString("fleem", 4, kJFalse);
+	return JString("fleem", 4, JString::kNoCopy);
 }
 
 JTEST(Allocation)
 {
-	JString s0 = JString("foobar", 3, kJFalse);
+	JString s0 = JString("foobar", 3, JString::kNoCopy);
 
 	const JUtf8Byte* p1 = s0.GetRawBytes();
 	const JUtf8Byte* p2 = s0.GetBytes();
 	JAssertFalse(((void*) p1) == ((void*) p2));
 	JAssertEqual(3, s0.GetCharacterCount());
 
-	JString* s = jnew JString("foobar", 3, kJFalse);
+	JString* s = jnew JString("foobar", 3, JString::kNoCopy);
 	assert( s != nullptr );
 
 	p1 = s->GetRawBytes();
@@ -339,12 +339,12 @@ JTEST(Set)
 	// test assignment to part of self
 
 	s = "890\xC2\xA9\xC3\x85";
-	JString s3(s.GetBytes(), 5, kJFalse);
+	JString s3(s.GetBytes(), 5, JString::kNoCopy);
 	s = s3;
 	JAssertStringsEqual("890\xC2\xA9", s);
 
 	s = "890\xC2\xA9\xC3\x85";
-	JString s4(s.GetBytes(), JUtf8ByteRange(2, 5), kJFalse);
+	JString s4(s.GetBytes(), JUtf8ByteRange(2, 5), JString::kNoCopy);
 	s = s4;
 	JAssertStringsEqual("90\xC2\xA9", s);
 }
@@ -405,7 +405,7 @@ JTEST(IntegerConversion)
 	JString s2(42, JString::kBase2);
 	JAssertStringsEqual("101010", s2);
 
-	JString s3(42, JString::kBase2, kJTrue);
+	JString s3(42, JString::kBase2, true);
 	JAssertStringsEqual("00101010", s3);
 
 	JString s4(42, JString::kBase8);
@@ -427,7 +427,7 @@ JTEST(IntegerConversion)
 	JAssertTrue(s5.ConvertToUInt(&u));
 	JAssertEqual(42, u);
 
-	JString s6(10, JString::kBase16, kJTrue);
+	JString s6(10, JString::kBase16, true);
 	JAssertStringsEqual("0x0A", s6);
 }
 
@@ -552,9 +552,9 @@ JTEST(Get)
 	delete [] s1;
 	s1 = nullptr;
 
-	JUtf8Character::SetIgnoreBadUtf8(kJTrue);
+	JUtf8Character::SetIgnoreBadUtf8(true);
 	s = "\xC3\xA6" "34567\xCE\xA6" "90\xCE\xA6\xF8\x9C\x94";
-	JUtf8Character::SetIgnoreBadUtf8(kJFalse);
+	JUtf8Character::SetIgnoreBadUtf8(false);
 	JAssertEqual(JUtf8Character("\xC3\xA6"), s.GetFirstCharacter());
 	JAssertEqual(JUtf8Character::kUtf8SubstitutionCharacter, s.GetLastCharacter());
 }
@@ -564,26 +564,26 @@ JTEST(Search)
 	TestString s;
 
 	JIndex byteIndex;
-	JAssertFalse(s.TestSearchForward("", 0, kJTrue, &byteIndex));
+	JAssertFalse(s.TestSearchForward("", 0, JString::kCompareCase, &byteIndex));
 /*
 	s.Set("beic");
 
 	byteIndex = 1;
-	JAssertTrue(s.TestSearchForward("\xC3\xA9\xC3\xAD\xC3\xA7", 6, kJFalse, &byteIndex));
+	JAssertTrue(s.TestSearchForward("\xC3\xA9\xC3\xAD\xC3\xA7", 6, JString::kIgnoreCase, &byteIndex));
 
 	byteIndex = 4;
-	JAssertTrue(s.TestSearchBackward("\xC3\xA9\xC3\xAD\xC3\xA7", 6, kJFalse, &byteIndex));
+	JAssertTrue(s.TestSearchBackward("\xC3\xA9\xC3\xAD\xC3\xA7", 6, JString::kIgnoreCase, &byteIndex));
 */
 	s.Set("\xC3\xB6\xE2\x9C\x94");
 	JAssertTrue(s.BeginsWith(JString("\x6F\xCC\x88\xE2\x9C\x94")));
 	JAssertTrue(s.Contains(JString("\x6F\xCC\x88\xE2\x9C\x94")));
 	JAssertTrue(s.EndsWith(JString("\x6F\xCC\x88\xE2\x9C\x94")));
-	JAssertTrue(s.BeginsWith("\x6F\xCC\x88\xE2\x9C\x94", kJFalse));
-	JAssertTrue(s.Contains("\x6F\xCC\x88\xE2\x9C\x94", kJFalse));
-	JAssertTrue(s.EndsWith("\x6F\xCC\x88\xE2\x9C\x94", kJFalse));
+	JAssertTrue(s.BeginsWith("\x6F\xCC\x88\xE2\x9C\x94", JString::kIgnoreCase));
+	JAssertTrue(s.Contains("\x6F\xCC\x88\xE2\x9C\x94", JString::kIgnoreCase));
+	JAssertTrue(s.EndsWith("\x6F\xCC\x88\xE2\x9C\x94", JString::kIgnoreCase));
 
 	byteIndex = 4;
-	JAssertTrue(s.TestSearchBackward("\x6F\xCC\x88\xE2\x9C\x94", 6, kJFalse, &byteIndex));
+	JAssertTrue(s.TestSearchBackward("\x6F\xCC\x88\xE2\x9C\x94", 6, JString::kIgnoreCase, &byteIndex));
 }
 
 JTEST(Contains)
@@ -596,34 +596,34 @@ JTEST(Contains)
 	s = "abcd";
 
 	JAssertTrue(s.BeginsWith("ab"));
-	JAssertTrue(s.BeginsWith("AB", kJFalse));
+	JAssertTrue(s.BeginsWith("AB", JString::kIgnoreCase));
 	JAssertFalse(s.BeginsWith("bc"));
-	JAssertFalse(s.BeginsWith("BC", kJFalse));
+	JAssertFalse(s.BeginsWith("BC", JString::kIgnoreCase));
 
 	JAssertTrue(s.Contains("ab"));
-	JAssertTrue(s.Contains("AB", kJFalse));
+	JAssertTrue(s.Contains("AB", JString::kIgnoreCase));
 	JAssertTrue(s.Contains("bc"));
-	JAssertTrue(s.Contains("BC", kJFalse));
+	JAssertTrue(s.Contains("BC", JString::kIgnoreCase));
 	JAssertTrue(s.Contains("cd"));
-	JAssertTrue(s.Contains("CD", kJFalse));
+	JAssertTrue(s.Contains("CD", JString::kIgnoreCase));
 	JAssertFalse(s.Contains("abcdefg"));
 	JAssertFalse(s.Contains("123"));
 
 	JAssertTrue(s.EndsWith("cd"));
-	JAssertTrue(s.EndsWith("CD", kJFalse));
+	JAssertTrue(s.EndsWith("CD", JString::kIgnoreCase));
 	JAssertFalse(s.EndsWith("bc"));
-	JAssertFalse(s.EndsWith("BC", kJFalse));
+	JAssertFalse(s.EndsWith("BC", JString::kIgnoreCase));
 
 	s = "\xC3\x86" "a34567\xCE\xA6" "90b\xE2\x9C\x94\xCE\xA6";
 
 	JAssertTrue(s.BeginsWith("\xC3\x86" "a34"));
-	JAssertTrue(s.BeginsWith("\xC3\xA6" "A34", kJFalse));
+	JAssertTrue(s.BeginsWith("\xC3\xA6" "A34", JString::kIgnoreCase));
 
 	JAssertTrue(s.Contains("\xCE\xA6" "90b"));
-	JAssertTrue(s.Contains("\xCF\x86" "90B", kJFalse));
+	JAssertTrue(s.Contains("\xCF\x86" "90B", JString::kIgnoreCase));
 
 	JAssertTrue(s.EndsWith("b\xE2\x9C\x94\xCE\xA6"));
-	JAssertTrue(s.EndsWith("B\xE2\x9C\x94\xCF\x86", kJFalse));
+	JAssertTrue(s.EndsWith("B\xE2\x9C\x94\xCF\x86", JString::kIgnoreCase));
 	JAssertFalse(s.EndsWith("abc"));
 
 	s = "\xC3\xB6";
@@ -811,8 +811,8 @@ JTEST(Split)
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 
-	JString s("|foo|bar|baz|", kJFalse);
-	JString separator("|", kJFalse);
+	JString s("|foo|bar|baz|", JString::kNoCopy);
+	JString separator("|", JString::kNoCopy);
 
 	s.Split(separator, &list);
 	JAssertEqual(4, list.GetElementCount());
@@ -875,7 +875,7 @@ JTEST(MatchLength)
 	JAssertEqual(1, JString::CalcCharacterMatchLength(s1, s2));
 
 	s2 = "aBd";
-	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, kJFalse));
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, JString::kIgnoreCase));
 
 	// greek
 
@@ -885,7 +885,7 @@ JTEST(MatchLength)
 
 	s1 = "\xCE\x9C\xCE\xAC\xCF\x8A\xCE\xBF\xCF\x82";
 	s2 = "\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3";
-	JAssertEqual(5, JString::CalcCharacterMatchLength(s1, s2, kJFalse));
+	JAssertEqual(5, JString::CalcCharacterMatchLength(s1, s2, JString::kIgnoreCase));
 
 	// test normalization of o-umlaut variants
 
@@ -899,19 +899,19 @@ JTEST(MatchLength)
 
 	s1 = "\xC3\xB6\xE2\x9C\x94";
 	s2 = "\x6F\xCC\x88\xE2\x9C\x94";
-	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, kJFalse));
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, JString::kIgnoreCase));
 
 	s1 = "\x6F\xCC\x88\xE2\x9C\x94";
 	s2 = "\xC3\xB6\xE2\x9C\x94";
-	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, kJFalse));
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, JString::kIgnoreCase));
 
 	s1 = "\x6F\xCC\x88\xE2\x9C\x94";
 	s2 = "\x6F\xCC\x88\xE2\x9C\x94";
-	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, kJFalse));
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, JString::kIgnoreCase));
 
 	s1 = "\x4F\xCC\x88\xE2\x9C\x94";
 	s2 = "\xC3\xB6\xE2\x9C\x94";
-	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, kJFalse));
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, JString::kIgnoreCase));
 }
 
 JTEST(Base64)
@@ -934,16 +934,16 @@ JTEST(Compare)
 	JAssertFalse(JString::Compare("1", "12") == 0);
 
 	JAssertEqual(-1, JString::Compare("Cmlinkb", "cmlinkb"));
-	JAssertEqual( 0, JString::Compare("Cmlinkb", "cmlinkb", kJFalse));
+	JAssertEqual( 0, JString::Compare("Cmlinkb", "cmlinkb", JString::kIgnoreCase));
 	JAssertEqual(-1, JString::Compare("CMLINKB", "cmlinka"));
-	JAssertEqual(+1, JString::Compare("CMLINKB", "cmlinka", kJFalse));
+	JAssertEqual(+1, JString::Compare("CMLINKB", "cmlinka", JString::kIgnoreCase));
 
 	JAssertEqual(-1, JString::Compare("CMLINK::B", "cmlink::a"));
-	JAssertEqual(+1, JString::Compare("CMLINK::B", "cmlink::a", kJFalse));
+	JAssertEqual(+1, JString::Compare("CMLINK::B", "cmlink::a", JString::kIgnoreCase));
 	JAssertEqual(-1, JString::Compare("CMLink::KillProgram", "CMLink::kFrameChanged"));
 	JAssertEqual(+1, JString::Compare("CMLink::kFrameChanged", "CMLink::KillProgram"));
-	JAssertEqual(+1, JString::Compare("CMLink::KillProgram", "CMLink::kFrameChanged", kJFalse));
-	JAssertEqual(-1, JString::Compare("CMLink::kFrameChanged", "CMLink::KillProgram", kJFalse));
+	JAssertEqual(+1, JString::Compare("CMLink::KillProgram", "CMLink::kFrameChanged", JString::kIgnoreCase));
+	JAssertEqual(-1, JString::Compare("CMLink::kFrameChanged", "CMLink::KillProgram", JString::kIgnoreCase));
 
 	// h a-ring r vs haar - equivalent in Danish
 
@@ -952,9 +952,9 @@ JTEST(Compare)
 	// both are o-umlaut
 
 	JAssertEqual(0, JString::Compare(JString("\x6F\xCC\x88"), "\xC3\xB6"));
-	JAssertEqual(0, JString::Compare("\x6F\xCC\x88", "\xC3\xB6", kJFalse));
-	JAssertEqual(0, JString::Compare("\x4F\xCC\x88", "\xC3\xB6", kJFalse));
-	JAssertEqual(0, JString::CompareMaxNBytes("\xC3\xB6", "\x6F\xCC\x88", 3, kJFalse));
+	JAssertEqual(0, JString::Compare("\x6F\xCC\x88", "\xC3\xB6", JString::kIgnoreCase));
+	JAssertEqual(0, JString::Compare("\x4F\xCC\x88", "\xC3\xB6", JString::kIgnoreCase));
+	JAssertEqual(0, JString::CompareMaxNBytes("\xC3\xB6", "\x6F\xCC\x88", 3, JString::kIgnoreCase));
 }
 
 JTEST(MemoryStreaming)
@@ -1021,19 +1021,19 @@ JTEST(CopyNormalizedBytes)
 
 JTEST(Normalization)
 {
-	JString s(kJFalse);
+	JString s(false);
 	s.Set("a\0b", 3);
 	JAssertEqual(3, s.GetByteCount());
 
-	JString s1(kJFalse);
+	JString s1(false);
 	s1 = "\xC3\xB6\xE2\x9C\x94";
 	JAssertStringsEqual("\xC3\xB6\xE2\x9C\x94", s1);
 
-	JString s2(kJFalse);
+	JString s2(false);
 	s2 = "\x6F\xCC\x88\xE2\x9C\x94";
 	JAssertStringsEqual("\x6F\xCC\x88\xE2\x9C\x94", s2);
 
-	JString s3(kJTrue);
+	JString s3(true);
 	s3 = "\x6F\xCC\x88\xE2\x9C\x94";
 	JAssertStringsEqual("\xC3\xB6\xE2\x9C\x94", s3);
 }

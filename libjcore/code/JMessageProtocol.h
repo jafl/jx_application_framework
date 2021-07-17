@@ -85,8 +85,8 @@ class JMessageProtocol : public JNetworkProtocolBase<ACE_PEER_STREAM_2>,
 {
 public:
 
-	JMessageProtocol(const JBoolean synchSend = kJFalse);
-	JMessageProtocol(const ACE_HANDLE fd, const JBoolean synchSend = kJFalse);
+	JMessageProtocol(const bool synchSend = false);
+	JMessageProtocol(const ACE_HANDLE fd, const bool synchSend = false);
 
 	virtual ~JMessageProtocol();
 
@@ -97,20 +97,20 @@ public:
 	void	UseMacintoshProtocol();
 	void	UseDOSProtocol();
 
-	JBoolean	ReceivedDisconnect() const;
+	bool	ReceivedDisconnect() const;
 	void		SendDisconnect();
 
-	JBoolean	HasMessages() const;
+	bool	HasMessages() const;
 	JSize		GetMessageCount() const;
-	JBoolean	GetNextMessage(JString* message);
-	JBoolean	PeekNextMessage(JString* message);
-	JBoolean	PeekPartialMessage(JString* message);
+	bool	GetNextMessage(JString* message);
+	bool	PeekNextMessage(JString* message);
+	bool	PeekPartialMessage(JString* message);
 
 	void	SendMessage(const JString& message);
 	void	SendData(const JString& data);
 
-	JBoolean	WantsBlankMessages() const;
-	void		SetWantsBlankMessages(const JBoolean wantsBlanks = kJTrue);
+	bool	WantsBlankMessages() const;
+	void		SetWantsBlankMessages(const bool wantsBlanks = true);
 
 	// how much is read from the connection at one time
 
@@ -123,7 +123,7 @@ public:
 
 protected:
 
-	JBoolean	BytesEqual(const JString& s1, const JString& s2) const;
+	bool	BytesEqual(const JString& s1, const JString& s2) const;
 
 private:
 
@@ -137,10 +137,10 @@ private:
 	JString		itsDisconnectStr;			// can be empty; sent to terminate connection
 	JRegex		itsTokenPattern;			// separator or disconnect
 
-	JBoolean	itsWantsBlankMessagesFlag;
-	JBoolean	itsSentDisconnectFlag;		// kJTrue => we are finished
-	JBoolean	itsReceivedDisconnectFlag;	// kJTrue => other end is finished
-	JBoolean	itsInHandleInputFlag;		// kJTrue => stack passes through handle_input()
+	bool	itsWantsBlankMessagesFlag;
+	bool	itsSentDisconnectFlag;		// true => we are finished
+	bool	itsReceivedDisconnectFlag;	// true => other end is finished
+	bool	itsInHandleInputFlag;		// true => stack passes through handle_input()
 
 private:
 

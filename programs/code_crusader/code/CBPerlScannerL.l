@@ -14,13 +14,13 @@ This scanner reads a Perl file and returns CBPerlScanner::Tokens.
 #undef YY_DECL
 #define YY_DECL CBPerlScanner::Token CBPerlScanner::NextToken()
 
-inline JBoolean
+inline bool
 isquote
 	(
 	const JUtf8Character& c
 	)
 {
-	return JI2B(c == '\'' || c == '"' || c == '`');
+	return c == '\'' || c == '"' || c == '`';
 }
 %}
 
@@ -76,7 +76,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
-		itsResetFlag = kJFalse;
+		itsResetFlag = false;
 		}
 
 %}
@@ -149,13 +149,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "or"  |
 "xor" {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	return ThisToken(kOperator);
 	}
 
 -[rwxoRWXOezsfdlpSbctugkTBMAC] {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	return ThisToken(kOperator);
 	}
 
@@ -171,7 +171,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "," |
 ";" {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	return ThisToken(kDelimiter);
 	}
 
@@ -179,7 +179,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "]" |
 "}" {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kDelimiter);
 	}
 
@@ -191,7 +191,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 "("(\$|\\\$|\\@|\\%|&|\\&|\*|\\\[(\$|@|%|&|\*)+\]|;)*(\$|\\\$|@|\\@|%|\\%|&|\\&|\*|\\\[(\$|@|%|&|\*)+\])")" {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	return ThisToken(kPrototypeArgList);
 	}
 
@@ -206,13 +206,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 \\?\$\"\"                               |
 \\?\$+{ID}                              {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(yytext[0] == '\\' ? kReference : kScalar);
 	}
 
 \\?\$+\{ {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	itsComplexVariableType  = yytext[0] == '\\' ? kReference : kScalar;
 	braceCount              = 1;
 	BEGIN(QUOTED_VARIABLE_STATE);
@@ -221,13 +221,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 \\?\@[+-] |
 \\?\@\$*{ID} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(yytext[0] == '\\' ? kReference : kList);
 	}
 
 \\?\@\$*\{ {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	itsComplexVariableType  = yytext[0] == '\\' ? kReference : kList;
 	braceCount              = 1;
 	BEGIN(QUOTED_VARIABLE_STATE);
@@ -236,13 +236,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 \\?\%\^H  |
 \\?\%\$*{ID} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(yytext[0] == '\\' ? kReference : kHash);
 	}
 
 \\?\%\$*\{ {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	itsComplexVariableType  = yytext[0] == '\\' ? kReference : kHash;
 	braceCount              = 1;
 	BEGIN(QUOTED_VARIABLE_STATE);
@@ -250,13 +250,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 \\?\&\$*{BAREWORD} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(yytext[0] == '\\' ? kReference : kSubroutine);
 	}
 
 \\?\&\$*\{ {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	itsComplexVariableType  = yytext[0] == '\\' ? kReference : kSubroutine;
 	braceCount              = 1;
 	BEGIN(QUOTED_VARIABLE_STATE);
@@ -264,7 +264,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 [$@%&]\$*\{{WS}\} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kEmptyVariable);
 	}
 
@@ -277,61 +277,61 @@ __DATA__ {
 
 {KEYWORD} {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	return ThisToken(kReservedKeyword);
 	}
 
 {DECIMAL} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kDecimalInt);
 	}
 
 {BINARY} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kBinaryInt);
 	}
 
 {OCTAL} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kOctalInt);
 	}
 
 {HEX} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kHexInt);
 	}
 
 {VERSION} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kVersion);
 	}
 
 {BADINT} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kBadInt);
 	}
 
 {BADBINARY} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kBadBinary);
 	}
 
 {BADHEX} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kBadHex);
 	}
 
 {FLOAT} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kFloat);
 	}
 
@@ -453,13 +453,13 @@ __DATA__ {
 	if (itsProbableOperatorFlag)
 		{
 		StartToken();
-		itsProbableOperatorFlag = kJFalse;
+		itsProbableOperatorFlag = false;
 		return ThisToken(kOperator);
 		}
 	else
 		{
 		StartToken();
-		itsProbableOperatorFlag = kJTrue;
+		itsProbableOperatorFlag = true;
 		BEGIN(FILE_GLOB_STATE);
 		}
 	}
@@ -499,13 +499,13 @@ __DATA__ {
 	if (itsProbableOperatorFlag)
 		{
 		StartToken();
-		itsProbableOperatorFlag = kJFalse;
+		itsProbableOperatorFlag = false;
 		return ThisToken(kOperator);
 		}
 	else
 		{
 		StartToken();
-		itsProbableOperatorFlag = kJTrue;
+		itsProbableOperatorFlag = true;
 		BEGIN(ONE_SHOT_REGEX_SEARCH_STATE);
 		}
 	}
@@ -540,20 +540,20 @@ __DATA__ {
 	if (itsProbableOperatorFlag)
 		{
 		StartToken();
-		itsProbableOperatorFlag = kJFalse;
+		itsProbableOperatorFlag = false;
 		return ThisToken(kOperator);
 		}
 	else
 		{
 		StartToken();
-		itsProbableOperatorFlag = kJTrue;
+		itsProbableOperatorFlag = true;
 		BEGIN(REGEX_SEARCH_STATE);
 		}
 	}
 
 "m"[ \v\t\f\r\n]* {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(1, "cgimosx"))
 		{
 		return ThisToken(kRegexSearch);
@@ -592,13 +592,13 @@ __DATA__ {
 
 \' {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	BEGIN(SINGLE_STRING_STATE);
 	}
 
 "q"[ \v\t\f\r\n]* {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(1, ""))
 		{
 		return ThisToken(kSingleQuoteString);
@@ -637,13 +637,13 @@ __DATA__ {
 
 \" {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	BEGIN(DOUBLE_STRING_STATE);
 	}
 
 "qq"[ \v\t\f\r\n]* {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(1, ""))
 		{
 		return ThisToken(kDoubleQuoteString);
@@ -742,7 +742,7 @@ __DATA__ {
 
 "qr"[ \v\t\f\r\n]* {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(1, "imosx"))
 		{
 		return ThisToken(kCompiledRegex);
@@ -761,13 +761,13 @@ __DATA__ {
 
 ` {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	BEGIN(EXEC_STRING_STATE);
 	}
 
 "qx"[ \v\t\f\r\n]* {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(1, ""))
 		{
 		return ThisToken(kExecString);
@@ -806,7 +806,7 @@ __DATA__ {
 
 "qw"[ \v\t\f\r\n]* {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(1, ""))
 		{
 		return ThisToken(kWordList);
@@ -825,7 +825,7 @@ __DATA__ {
 
 "s"[ \v\t\f\r\n]* {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(2, "egimosx"))
 		{
 		return ThisToken(kRegexReplace);
@@ -844,7 +844,7 @@ __DATA__ {
 
 (tr|y)[ \v\t\f\r\n]* {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	if (SlurpQuoted(2, "cds"))
 		{
 		return ThisToken(kTransliteration);
@@ -864,7 +864,7 @@ __DATA__ {
 
 {BAREWORD} {
 	StartToken();
-	itsProbableOperatorFlag = kJTrue;
+	itsProbableOperatorFlag = true;
 	return ThisToken(kBareword);
 	}
 
@@ -876,7 +876,7 @@ __DATA__ {
 
 . {
 	StartToken();
-	itsProbableOperatorFlag = kJFalse;
+	itsProbableOperatorFlag = false;
 	JUtf8Character c(yytext);
 	if (c.IsPrint())
 		{

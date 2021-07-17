@@ -29,8 +29,8 @@ public:
 
 	virtual void		UpdateInfoMenu(JXTextMenu* menu) override;
 	virtual void		GetSelectedFiles(JPtrArray<JString>* fullNameList,
-										 const JBoolean includeDeleted = kJFalse) override;
-	virtual JBoolean	GetBaseRevision(JString* rev) override;
+										 const bool includeDeleted = false) override;
+	virtual bool	GetBaseRevision(JString* rev) override;
 
 protected:
 

@@ -16,27 +16,27 @@ class GLPlotApp : public JXApplication
 {
 public:
 
-	GLPlotApp(int* argc, char* argv[], JBoolean* displayAbout, JString* prevVersStr);
+	GLPlotApp(int* argc, char* argv[], bool* displayAbout, JString* prevVersStr);
 	
 	virtual ~GLPlotApp();
 
-	JBoolean				GetImportModulePath(const JIndex index, JString* path);
+	bool				GetImportModulePath(const JIndex index, JString* path);
 	JPtrArray<JString>* 	GetImportModules();
 	void					ReloadImportModules();
 	
-	JBoolean 				GetExportModulePath(const JIndex index, JString* path);
+	bool 				GetExportModulePath(const JIndex index, JString* path);
 	JPtrArray<JString>* 	GetExportModules();
 	void					ReloadExportModules();
 	
-	JBoolean 				GetDataModulePath(const JIndex index, JString* path);
+	bool 				GetDataModulePath(const JIndex index, JString* path);
 	JPtrArray<JString>* 	GetDataModules();
 	void					ReloadDataModules();
 	
-	JBoolean 				GetFitModulePath(const JIndex index, JString* path);
+	bool 				GetFitModulePath(const JIndex index, JString* path);
 	JPtrArray<JString>* 	GetFitModules();
 	void					ReloadFitModules();
 	
-	JBoolean 				GetCursorModulePath(const JIndex index, JString* path);
+	bool 				GetCursorModulePath(const JIndex index, JString* path);
 	JPtrArray<JString>* 	GetCursorModules();
 	void					ReloadCursorModules();
 

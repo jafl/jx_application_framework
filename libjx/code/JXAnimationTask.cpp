@@ -93,6 +93,6 @@ JXAnimationTask::Perform
 		JXImage* image = GetFrame(itsCurrentImage);
 		image->ConvertToRemoteStorage();
 
-		itsWidget->SetImage(image, kJFalse);
+		itsWidget->SetImage(image, false);
 		}
 }

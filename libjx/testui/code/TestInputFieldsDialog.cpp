@@ -33,7 +33,7 @@ TestInputFieldsDialog::TestInputFieldsDialog
 	JXWindowDirector* supervisor
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXDialogDirector(supervisor, true)
 {
 	BuildWindow();
 }
@@ -143,7 +143,7 @@ TestInputFieldsDialog::BuildWindow()
 	assert( reqStringLabel != nullptr );
 	reqStringLabel->SetFontName(JGetString("TimesFontName::TestInputFieldsDialog::JXLayout"));
 	reqStringLabel->SetFontSize(JFontManager::GetDefaultFontSize()-2);
-	const JFontStyle reqStringLabel_style(kJTrue, kJFalse, 0, kJFalse, JColorManager::GetGreenColor());
+	const JFontStyle reqStringLabel_style(true, false, 0, false, JColorManager::GetGreenColor());
 	reqStringLabel->SetFontStyle(reqStringLabel_style);
 	reqStringLabel->SetToLabel();
 
@@ -152,7 +152,7 @@ TestInputFieldsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 100,20);
 	assert( max5Label != nullptr );
 	max5Label->SetFontName(JGetString("TimesFontName::TestInputFieldsDialog::JXLayout"));
-	const JFontStyle max5Label_style(kJTrue, kJTrue, 0, kJFalse, JColorManager::GetBlackColor());
+	const JFontStyle max5Label_style(true, true, 0, false, JColorManager::GetBlackColor());
 	max5Label->SetFontStyle(max5Label_style);
 	max5Label->SetToLabel();
 
@@ -161,7 +161,7 @@ TestInputFieldsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 100,20);
 	assert( max10Label != nullptr );
 	max10Label->SetFontSize(JFontManager::GetDefaultFontSize()-2);
-	const JFontStyle max10Label_style(kJFalse, kJTrue, 0, kJFalse, JColorManager::GetBlackColor());
+	const JFontStyle max10Label_style(false, true, 0, false, JColorManager::GetBlackColor());
 	max10Label->SetFontStyle(max10Label_style);
 	max10Label->SetToLabel();
 
@@ -287,10 +287,10 @@ TestInputFieldsDialog::BuildWindow()
 	pwInput->SetHint(JGetString("PasswordHint::TestInputFieldsDialog"));
 
 	pathInput->SetBasePath(JGetCurrentDirectory());
-	pathInput->GetText()->SetText(JString("~", kJFalse));
+	pathInput->GetText()->SetText(JString("~", false));
 
 	fileInput->SetBasePath(JGetCurrentDirectory());
-	fileInput->GetText()->SetText(JString("./testjx", kJFalse));
+	fileInput->GetText()->SetText(JString("./testjx", false));
 
 	charInput->SetCharacter(JUtf8Character("\xC3\xA7"));
 }
@@ -302,18 +302,18 @@ TestInputFieldsDialog::BuildWindow()
 
  ******************************************************************************/
 
-JBoolean
+bool
 TestInputFieldsDialog::OKToDeactivate()
 {
 JInteger v1,v2;
 
 	if (!JXDialogDirector::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	else if (itsLowerValue->GetValue(&v1) &&
@@ -322,11 +322,11 @@ JInteger v1,v2;
 		{
 		JGetUserNotification()->ReportError(JGetString("MinMaxError::TestInputFieldsDialog"));
 		itsLowerValue->Focus();
-		return kJFalse;
+		return false;
 		}
 
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }

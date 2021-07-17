@@ -24,29 +24,29 @@
 /******************************************************************************
  JNameUsed
 
-	Returns kJTrue if the specified name exists. (file, directory, link, etc).
+	Returns true if the specified name exists. (file, directory, link, etc).
 
  ******************************************************************************/
 
-JBoolean
+bool
 JNameUsed
 	(
 	const JString& name
 	)
 {
 	ACE_stat info;
-	return JI2B( ACE_OS::lstat(name.GetBytes(), &info) == 0 );
+	return ACE_OS::lstat(name.GetBytes(), &info) == 0;
 }
 
 /******************************************************************************
  JSameDirEntry
 
-	Returns kJTrue if the given names point to the same inode in the
+	Returns true if the given names point to the same inode in the
 	file system.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JSameDirEntry
 	(
 	const JString& name1,
@@ -54,10 +54,10 @@ JSameDirEntry
 	)
 {
 	ACE_stat stbuf1, stbuf2;
-	return JI2B(ACE_OS::stat(name1.GetBytes(), &stbuf1) == 0 &&
+	return ACE_OS::stat(name1.GetBytes(), &stbuf1) == 0 &&
 				ACE_OS::stat(name2.GetBytes(), &stbuf2) == 0 &&
 				stbuf1.st_dev == stbuf2.st_dev &&
-				stbuf1.st_ino == stbuf2.st_ino);
+				stbuf1.st_ino == stbuf2.st_ino;
 }
 
 /******************************************************************************
@@ -394,73 +394,72 @@ JCreateSymbolicLink
 /******************************************************************************
  JDirectoryExists
 
-	Returns kJTrue if the specified directory exists.
+	Returns true if the specified directory exists.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirectoryExists
 	(
 	const JString& dirName
 	)
 {
 	ACE_stat info;
-	return JI2B(
-			ACE_OS::lstat(dirName.GetBytes(), &info) == 0 &&
+	return ACE_OS::lstat(dirName.GetBytes(), &info) == 0 &&
 			ACE_OS::stat( dirName.GetBytes(), &info) == 0 &&
-			S_ISDIR(info.st_mode) );
+			S_ISDIR(info.st_mode);
 }
 
 /******************************************************************************
  JDirectoryReadable
 
-	Returns kJTrue if the specified directory can be read from.
+	Returns true if the specified directory can be read from.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirectoryReadable
 	(
 	const JString& dirName
 	)
 {
-	return JI2B(JDirectoryExists(dirName) &&
-				(getuid() == 0 || access(dirName.GetBytes(), R_OK) == 0));
+	return JDirectoryExists(dirName) &&
+				(getuid() == 0 || access(dirName.GetBytes(), R_OK) == 0);
 }
 
 /******************************************************************************
  JDirectoryWritable
 
-	Returns kJTrue if the specified directory can be written to.
+	Returns true if the specified directory can be written to.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JDirectoryWritable
 	(
 	const JString& dirName
 	)
 {
-	return JI2B(JDirectoryExists(dirName) &&
-				(getuid() == 0 || access(dirName.GetBytes(), W_OK) == 0));
+	return JDirectoryExists(dirName) &&
+				(getuid() == 0 || access(dirName.GetBytes(), W_OK) == 0);
 }
 
 /******************************************************************************
  JCanEnterDirectory
 
-	Returns kJTrue if it is possible to make the specified directory
+	Returns true if it is possible to make the specified directory
 	the working directory.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JCanEnterDirectory
 	(
 	const JString& dirName
 	)
 {
-	return JI2B(JDirectoryExists(dirName) &&
-				(getuid() == 0 || access(dirName.GetBytes(), X_OK) == 0));
+	return JDirectoryExists(dirName) &&
+				(getuid() == 0 || access(dirName.GetBytes(), X_OK) == 0);
 }
 
 /******************************************************************************
@@ -827,17 +826,17 @@ JRemoveDirectory
  JKillDirectory
 
 	Deletes the directory and everything in it.
-	Returns kJTrue if successful.
+	Returns true if successful.
 
 	if !sync, *p will contain the process
 
  ******************************************************************************/
 
-JBoolean
+bool
 JKillDirectory
 	(
 	const JString&	dirName,
-	const JBoolean	sync,
+	const bool	sync,
 	JProcess**		p
 	)
 {
@@ -856,13 +855,13 @@ JKillDirectory
 			}
 		else
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 	else
 		{
 		JSimpleProcess* sp;
-		const JError err = JSimpleProcess::Create(&sp, argv, sizeof(argv), kJTrue);
+		const JError err = JSimpleProcess::Create(&sp, argv, sizeof(argv), true);
 		if (err.OK())
 			{
 			JThisProcess::Ignore(sp);
@@ -870,12 +869,12 @@ JKillDirectory
 				{
 				*p = sp;
 				}
-			return kJTrue;
+			return true;
 			}
 		else
 			{
 			err.ReportIfError();
-			return kJFalse;
+			return false;
 			}
 		}
 }
@@ -911,11 +910,11 @@ JGetCurrentDirectory()
 /******************************************************************************
  JGetHomeDirectory
 
-	Returns kJTrue if the current user has a home directory.
+	Returns true if the current user has a home directory.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGetHomeDirectory
 	(
 	JString* homeDir
@@ -926,12 +925,12 @@ JGetHomeDirectory
 	JUtf8Byte* envHomeDir = getenv("HOME");
 	if (!JString::IsEmpty(envHomeDir))
 		{
-		const JString dir = JString(envHomeDir, kJFalse);
+		const JString dir = JString(envHomeDir, JString::kNoCopy);
 		if (JDirectoryExists(dir))
 			{
 			*homeDir = dir;
 			JAppendDirSeparator(homeDir);
-			return kJTrue;
+			return true;
 			}
 		}
 
@@ -951,29 +950,29 @@ JGetHomeDirectory
 
 	if (pw != nullptr)
 		{
-		const JString dir = JString(pw->pw_dir, kJFalse);
+		const JString dir = JString(pw->pw_dir, JString::kNoCopy);
 		if (JDirectoryExists(dir))
 			{
 			*homeDir = dir;
 			JAppendDirSeparator(homeDir);
-			return kJTrue;
+			return true;
 			}
 		}
 
 	// give up
 
 	homeDir->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  JGetHomeDirectory
 
-	Returns kJTrue if the specified user has a home directory.
+	Returns true if the specified user has a home directory.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGetHomeDirectory
 	(
 	const JString&	user,
@@ -983,27 +982,27 @@ JGetHomeDirectory
 	struct passwd* pw = getpwnam(user.GetBytes());
 	if (pw != nullptr)
 		{
-		const JString dir = JString(pw->pw_dir, kJFalse);
+		const JString dir = JString(pw->pw_dir, JString::kNoCopy);
 		if (JDirectoryExists(dir))
 			{
 			*homeDir = dir;
 			JAppendDirSeparator(homeDir);
-			return kJTrue;
+			return true;
 			}
 		}
 
 	homeDir->Clear();
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
  JGetPrefsDirectory
 
-	Returns kJTrue if the current user has a prefs directory.
+	Returns true if the current user has a prefs directory.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGetPrefsDirectory
 	(
 	JString* prefsDir
@@ -1015,11 +1014,11 @@ JGetPrefsDirectory
 /******************************************************************************
  JGetPrefsDirectory
 
-	Returns kJTrue if the specified user has a home directory.
+	Returns true if the specified user has a home directory.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGetPrefsDirectory
 	(
 	const JString&	user,
@@ -1036,24 +1035,24 @@ JGetPrefsDirectory
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGetTempDirectory
 	(
 	JString* tempDir
 	)
 {
 	// inside function to ensure initialization
-	static JBoolean theTempPathInitFlag = kJFalse;
+	static bool theTempPathInitFlag = false;
 	static JString theTempPath;
 
 	if (!theTempPathInitFlag)
 		{
 		JUtf8Byte* path = getenv("TMPDIR");
-		if (!JString::IsEmpty(path) && JDirectoryWritable(JString(path, kJFalse)))
+		if (!JString::IsEmpty(path) && JDirectoryWritable(JString(path, JString::kNoCopy)))
 			{
 			theTempPath.Set(path);
 			}
-		else if (P_tmpdir != nullptr && JDirectoryWritable(JString(P_tmpdir, kJFalse)))
+		else if (P_tmpdir != nullptr && JDirectoryWritable(JString(P_tmpdir, JString::kNoCopy)))
 			{
 			theTempPath.Set(P_tmpdir);
 			}
@@ -1063,11 +1062,11 @@ JGetTempDirectory
 			}
 
 		JAppendDirSeparator(&theTempPath);
-		theTempPathInitFlag = kJTrue;
+		theTempPathInitFlag = true;
 		}
 
 	*tempDir = theTempPath;
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -1088,9 +1087,9 @@ JCreateTempDirectory
 	)
 {
 	// inside function to ensure initialization
-	static const JString theTmpDirForError("/tmp", kJFalse);
-	static const JString theTmpDirPrefix("temp_dir_", kJFalse);
-	static const JString theTmpDirTemplate("XXXXXX", kJFalse);
+	static const JString theTmpDirForError("/tmp", JString::kNoCopy);
+	static const JString theTmpDirPrefix("temp_dir_", JString::kNoCopy);
+	static const JString theTmpDirTemplate("XXXXXX", JString::kNoCopy);
 
 	JString p;
 	if (!JString::IsEmpty(path))
@@ -1179,12 +1178,12 @@ JCreateTempDirectory
 /******************************************************************************
  JGetTrueName
 
-	Returns kJTrue if name is a valid file or a valid directory.
+	Returns true if name is a valid file or a valid directory.
 	*trueName is the full, true path to name, without symbolic links.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JGetTrueName
 	(
 	const JString&	name,
@@ -1195,7 +1194,7 @@ JGetTrueName
 
 	if (!JNameUsed(name))
 		{
-		return kJFalse;
+		return false;
 		}
 
 	// check if it is a directory
@@ -1207,7 +1206,7 @@ JGetTrueName
 		JError err = JChangeDirectory(name);
 		if (!err.OK())
 			{
-			return kJFalse;
+			return false;
 			}
 
 		*trueName = JGetCurrentDirectory();
@@ -1215,7 +1214,7 @@ JGetTrueName
 		err = JChangeDirectory(currPath);
 		assert_ok( err );
 
-		return kJTrue;
+		return true;
 		}
 
 	// it is a file, socket, fifo, etc.
@@ -1230,7 +1229,7 @@ JGetTrueName
 		JString truePath;
 		if (!JGetTrueName(origPath, &truePath))
 			{
-			return kJFalse;
+			return false;
 			}
 
 		// resolve symbolic link
@@ -1247,7 +1246,7 @@ JGetTrueName
 		else
 			{
 			*trueName = JCombinePathAndName(truePath, fileName);
-			return kJTrue;
+			return true;
 			}
 		}
 }
@@ -1306,7 +1305,7 @@ JCleanPath
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIsAbsolutePath
 	(
 	const JString& path
@@ -1314,7 +1313,7 @@ JIsAbsolutePath
 {
 	assert( !path.IsEmpty() );
 	const JUtf8Character c = path.GetFirstCharacter();
-	return JI2B( c == '/' || c == '~' );
+	return c == '/' || c == '~';
 }
 
 /******************************************************************************
@@ -1325,7 +1324,7 @@ JIsAbsolutePath
 JString
 JGetRootDirectory()
 {
-	return JString("/", 0);
+	return JString("/");
 }
 
 /******************************************************************************
@@ -1333,20 +1332,20 @@ JGetRootDirectory()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JIsRootDirectory
 	(
 	const JString& dirName
 	)
 {
 	assert( !dirName.IsEmpty() );
-	return JI2B( dirName == "/" );
+	return dirName == "/";
 }
 
 /*****************************************************************************
  JConvertToAbsolutePath
 
-	Attempts to convert 'path' to a full path.  Returns kJTrue if successful.
+	Attempts to convert 'path' to a full path.  Returns true if successful.
 
 	If path begins with '/', there is nothing to do.
 	If path begins with '~', the user's home directory is inserted.
@@ -1361,7 +1360,7 @@ JIsRootDirectory
 
  ******************************************************************************/
 
-JBoolean
+bool
 JConvertToAbsolutePath
 	(
 	const JString&	path,
@@ -1371,7 +1370,7 @@ JConvertToAbsolutePath
 {
 	assert( !path.IsEmpty() && result != nullptr );
 
-	JBoolean ok = kJTrue;
+	bool ok = true;
 	const JUtf8Character c = path.GetFirstCharacter();
 	if (c == '/')
 		{
@@ -1398,7 +1397,7 @@ JConvertToAbsolutePath
 	else
 		{
 		result->Clear();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1435,11 +1434,11 @@ JConvertToRelativePath
 	// Find and remove the matching directories at the beginning.
 	// We only consider complete directory names.
 
-	JBoolean hadTDS = kJTrue;
+	bool hadTDS = true;
 	if (path.GetLastCharacter() != '/')
 		{
 		path.Append("/");
-		hadTDS = kJFalse;
+		hadTDS = false;
 		}
 
 	JSize matchLength = JString::CalcCharacterMatchLength(path, base);
@@ -1452,7 +1451,7 @@ JConvertToRelativePath
 		}
 
 	JStringIterator baseIter(&base, kJIteratorStartAfter, matchLength);
-	const JBoolean found = baseIter.Prev("/");
+	const bool found = baseIter.Prev("/");
 	assert( found );
 	if (baseIter.AtBeginning())
 		{
@@ -1490,7 +1489,7 @@ JConvertToRelativePath
  JExpandHomeDirShortcut
 
 	If the given path begins with ~ or ~x, this is replaced by the appropriate
-	home directory, if it exists.  Otherwise, kJFalse is returned and *result
+	home directory, if it exists.  Otherwise, false is returned and *result
 	is empty.
 
 	If homeDir != nullptr, it is set to the home directory that was specified
@@ -1499,12 +1498,12 @@ JConvertToRelativePath
 
 	This function does not check that the resulting expanded path is valid.
 
-	If path doesn't begin with ~, returns kJTrue, *result = path, *homeDir
+	If path doesn't begin with ~, returns true, *result = path, *homeDir
 	is empty, and *homeLength = 0.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExpandHomeDirShortcut
 	(
 	const JString&	path,
@@ -1516,7 +1515,7 @@ JExpandHomeDirShortcut
 	assert( !path.IsEmpty() );
 	assert( result != nullptr );
 
-	JBoolean ok = kJTrue;
+	bool ok = true;
 	if (path == "~")
 		{
 		ok = JGetHomeDirectory(result);
@@ -1588,7 +1587,7 @@ JExpandHomeDirShortcut
 
 	if (ok)
 		{
-		return kJTrue;
+		return true;
 		}
 	else
 		{
@@ -1601,7 +1600,7 @@ JExpandHomeDirShortcut
 			{
 			*homeLength = 0;
 			}
-		return kJFalse;
+		return false;
 		}
 }
 

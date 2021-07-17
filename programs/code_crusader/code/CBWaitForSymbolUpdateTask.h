@@ -28,7 +28,7 @@ public:
 private:
 
 	JProcess*	itsProcess;
-	JBoolean	itsKeepWaitingFlag;
+	bool	itsKeepWaitingFlag;
 
 private:
 
@@ -47,7 +47,7 @@ private:
 inline void
 CBWaitForSymbolUpdateTask::StopWaiting()
 {
-	itsKeepWaitingFlag = kJFalse;
+	itsKeepWaitingFlag = false;
 }
 
 #endif

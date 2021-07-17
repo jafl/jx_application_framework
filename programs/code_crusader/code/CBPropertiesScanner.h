@@ -66,7 +66,7 @@ public:
 
 private:
 
-	JBoolean				itsResetFlag;
+	bool				itsResetFlag;
 	JStyledText::TextRange	itsCurrentRange;
 
 private:

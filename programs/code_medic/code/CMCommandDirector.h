@@ -48,9 +48,9 @@ public:
 
 	virtual ~CMCommandDirector();
 
-	virtual JBoolean		Close() override;
+	virtual bool		Close() override;
 	virtual const JString&	GetName() const override;
-	virtual JBoolean		GetMenuIcon(const JXImage** icon) const override;
+	virtual bool		GetMenuIcon(const JXImage** icon) const override;
 
 	void	InitializeCommandOutput();
 	void	PrepareCommand(const JString& cmd);
@@ -59,7 +59,7 @@ public:
 
 	void	OpenSourceFiles();
 	void	OpenSourceFile(const JString& file, const JSize lineIndex = 0,
-						   const JBoolean askDebuggerWhenRelPath = kJTrue);
+						   const bool askDebuggerWhenRelPath = true);
 	void	ReportUnreadableSourceFile(const JString& fileName) const;
 
 	void	DisassembleFunction(const JString& fn, const JString& addr = JString::empty);
@@ -76,22 +76,22 @@ public:
 
 	JXTextMenu*	CreateDebugMenu(JXMenuBar* menuBar);
 	void		AddDebugMenuItemsToToolBar(JXToolBar* toolBar, JXTextMenu* debugMenu,
-										   const JBoolean includeStepAsm);
+										   const bool includeStepAsm);
 	void		AdjustDebugMenu(JXTextMenu* menu);
 	void		UpdateDebugMenu(JXTextMenu* menu, JXTEBase* te1, JXTEBase* te2);
 	void		HandleDebugMenu(JXTextMenu* menu, const JIndex index, JXTEBase* te1, JXTEBase* te2);
 
 	void		CreateWindowsMenuAndToolBar(JXMenuBar* menuBar, JXToolBar* toolBar,
-											const JBoolean includeStepAsm,
-											const JBoolean includeCmdLine,
-											const JBoolean includeCurrSrc,
+											const bool includeStepAsm,
+											const bool includeCmdLine,
+											const bool includeCurrSrc,
 											JXTextMenu* debugMenu, JXTextMenu* prefsMenu,
 											JXTextMenu* helpMenu, const JIndex tocCmd,
 											const JIndex thisWindowCmd);
 	void		AddWindowsMenuItemsToToolBar(JXToolBar* toolBar,
 											 JXTextMenu* windowsMenu,
-											 const JBoolean includeCmdLine,
-											 const JBoolean includeCurrSrc);
+											 const bool includeCmdLine,
+											 const bool includeCurrSrc);
 
 	CMSourceDirector*	GetCurrentSourceDir();
 	CMThreadsDir*		GetThreadsDir();
@@ -163,7 +163,7 @@ private:
 	JIndex		itsHistoryIndex;
 	JString		itsCurrentHistoryFile;
 	JString		itsCurrentCommand;
-	JBoolean	itsWaitingToRunFlag;
+	bool	itsWaitingToRunFlag;
 
 	CMGetInitArgs*	itsGetArgsCmd;		// nullptr except at startup; deleted by CMLink
 

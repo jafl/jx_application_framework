@@ -48,10 +48,10 @@ static const JUtf8Byte** kIntegrationCmd[2] =
 
 SVNPrefsManager::SVNPrefsManager
 	(
-	JBoolean* isNew
+	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, kJTrue),
+	JXPrefsManager(kCurrentPrefsFileVersion, true),
 	itsPrefsDialog(nullptr)
 {
 	*isNew = JPrefsManager::UpgradeData();
@@ -89,7 +89,7 @@ SVNPrefsManager::SaveAllBeforeDestruct()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNPrefsManager::GetExpirationTimeStamp
 	(
 	time_t* t
@@ -101,11 +101,11 @@ SVNPrefsManager::GetExpirationTimeStamp
 		{
 		std::istringstream input(data);
 		input >> *t;
-		return JI2B(!input.fail());
+		return !input.fail();
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -134,7 +134,7 @@ SVNPrefsManager::SetExpirationTimeStamp
 void
 SVNPrefsManager::UpgradeData
 	(
-	const JBoolean		isNew,
+	const bool		isNew,
 	const JFileVersion	currentVersion
 	)
 {
@@ -176,22 +176,22 @@ SVNPrefsManager::UpgradeData
 
 	// check if Code Crusader is available
 
-	const JBoolean hasJCC = JProgramAvailable(JGetString("CodeCrusaderBinary::SVNGlobal"));
+	const bool hasJCC = JProgramAvailable(JGetString("CodeCrusaderBinary::SVNGlobal"));
 
 	Integration type;
 	JString commitEditor, diffCmd, reloadChangedCmd;
 	if (GetIntegration(&type, &commitEditor, &diffCmd, &reloadChangedCmd))
 		{
-		JBoolean changed = kJFalse;
+		bool changed = false;
 		if (hasJCC && type != kCodeCrusader)
 			{
 			type    = kCodeCrusader;
-			changed = kJTrue;
+			changed = true;
 			}
 		else if (!hasJCC && type == kCodeCrusader)
 			{
 			type    = kCmdLine;
-			changed = kJTrue;
+			changed = true;
 			}
 
 		if (changed)
@@ -207,9 +207,9 @@ SVNPrefsManager::UpgradeData
 	else
 		{
 		SetIntegration(hasJCC ? kCodeCrusader : kCmdLine,
-					   JString(kCmdLineCmd[ kCommitEditor ], kJFalse),
-					   JString(kCmdLineCmd[ kDiffCmd ], kJFalse),
-					   JString(kCmdLineCmd[ kReloadChangedCmd ], kJFalse));
+					   JString(kCmdLineCmd[ kCommitEditor ], JString::kNoCopy),
+					   JString(kCmdLineCmd[ kDiffCmd ], JString::kNoCopy),
+					   JString(kCmdLineCmd[ kReloadChangedCmd ], JString::kNoCopy));
 		}
 }
 
@@ -223,7 +223,7 @@ SVNPrefsManager::GetPrevVersionStr()
 	const
 {
 	std::string data;
-	const JBoolean ok = GetData(kSVNProgramVersionID, &data);
+	const bool ok = GetData(kSVNProgramVersionID, &data);
 	assert( ok );
 	return JString(data);
 }
@@ -231,21 +231,21 @@ SVNPrefsManager::GetPrevVersionStr()
 /******************************************************************************
  Program state
 
-	RestoreProgramState() returns kJTrue if there was any state to restore.
+	RestoreProgramState() returns true if there was any state to restore.
 
 	ForgetProgramState() is required because we have to save state before
 	anything is closed.  If the close fails, we shouldn't save the state.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNPrefsManager::RestoreProgramState()
 {
 	std::string data;
 	if (GetData(kSVNDocMgrStateID, &data))
 		{
 		std::istringstream dataStream(data);
-		const JBoolean restored =
+		const bool restored =
 			(SVNGetWDManager())->RestoreState(dataStream);
 		RemoveData(kSVNDocMgrStateID);
 
@@ -253,7 +253,7 @@ SVNPrefsManager::RestoreProgramState()
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -289,7 +289,7 @@ SVNPrefsManager::EditPrefs()
 
 	Integration type;
 	JString commitEditor, diffCmd, reloadChangedCmd;
-	const JBoolean exists = GetIntegration(&type, &commitEditor, &diffCmd, &reloadChangedCmd);
+	const bool exists = GetIntegration(&type, &commitEditor, &diffCmd, &reloadChangedCmd);
 	assert( exists );
 
 	itsPrefsDialog =
@@ -304,7 +304,7 @@ SVNPrefsManager::EditPrefs()
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNPrefsManager::GetWindowSize
 	(
 	const JPrefID&	id,
@@ -319,11 +319,11 @@ SVNPrefsManager::GetWindowSize
 		{
 		std::istringstream dataStream(data);
 		dataStream >> *desktopLoc >> *width >> *height;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -350,11 +350,11 @@ SVNPrefsManager::SaveWindowSize
 /******************************************************************************
  GetCommand (private)
 
-	Returns kJFalse if no command is available.
+	Returns false if no command is available.
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNPrefsManager::GetCommand
 	(
 	const Command	cmdType,
@@ -364,7 +364,7 @@ SVNPrefsManager::GetCommand
 	const
 {
 	JString commitEditor, diffCmd, reloadChangedCmd;
-	const JBoolean exists = GetIntegration(type, &commitEditor, &diffCmd, &reloadChangedCmd);
+	const bool exists = GetIntegration(type, &commitEditor, &diffCmd, &reloadChangedCmd);
 	assert( exists );
 
 	if (*type == kCustom && cmdType == kCommitEditor)
@@ -392,7 +392,7 @@ SVNPrefsManager::GetCommand
 
  ******************************************************************************/
 
-JBoolean
+bool
 SVNPrefsManager::GetIntegration
 	(
 	Integration*	type,
@@ -410,11 +410,11 @@ SVNPrefsManager::GetIntegration
 		dataStream >> *commitEditor;
 		dataStream >> *diffCmd;
 		dataStream >> *reloadChangedCmd;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 

@@ -29,8 +29,8 @@ public:
 
 	virtual ~CBCPPMacroTable();
 
-	JBoolean	ContentsValid() const;
-	JBoolean	UpdateMacros(CBCPreprocessor* cpp) const;
+	bool	ContentsValid() const;
+	bool	UpdateMacros(CBCPreprocessor* cpp) const;
 
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;
@@ -71,7 +71,7 @@ private:
 	void	LoadMacros();
 	void	SaveMacros() const;
 
-	void	ReadData(const JString& fileName, const JBoolean replace);
+	void	ReadData(const JString& fileName, const bool replace);
 	void	WriteData(const JString& fileName) const;
 
 	void	AdjustColWidths();

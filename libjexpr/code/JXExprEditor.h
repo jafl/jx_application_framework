@@ -44,8 +44,8 @@ public:
 	virtual ~JXExprEditor();
 
 	JXTextMenu*		GetEditMenu() const;
-	JBoolean		EditMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
-	JBoolean		EditMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
+	bool		EditMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
+	bool		EditMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
 
 	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
@@ -57,13 +57,13 @@ protected:
 	virtual void		EIPRefresh() override;
 	virtual void		EIPRedraw() override;
 	virtual void		EIPBoundsChanged() override;
-	virtual JBoolean	EIPScrollToRect(const JRect& r) override;
-	virtual JBoolean	EIPScrollForDrag(const JPoint& pt) override;
-	virtual void		EIPAdjustNeedTab(const JBoolean needTab) override;
+	virtual bool	EIPScrollToRect(const JRect& r) override;
+	virtual bool	EIPScrollForDrag(const JPoint& pt) override;
+	virtual void		EIPAdjustNeedTab(const bool needTab) override;
 
 	virtual void		EIPClipboardChanged() override;
-	virtual JBoolean	EIPOwnsClipboard() override;
-	virtual JBoolean	EIPGetExternalClipboard(JString* text) override;
+	virtual bool	EIPOwnsClipboard() override;
+	virtual bool	EIPGetExternalClipboard(JString* text) override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
@@ -82,7 +82,7 @@ protected:
 	virtual void	HandleFocusEvent() override;
 	virtual void	HandleUnfocusEvent() override;
 
-	virtual JBoolean	OKToUnfocus() override;
+	virtual bool	OKToUnfocus() override;
 	virtual void		AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -98,7 +98,7 @@ protected:
 
 		StyledText(JFontManager* fontManager)
 			:
-			JXStyledText(kJFalse, kJFalse, fontManager)
+			JXStyledText(false, false, fontManager)
 		{ };
 
 		protected:
@@ -107,7 +107,7 @@ protected:
 							const JString& text, JRunArray<JFont>* styles,
 							JStyledText::TextRange* recalcRange,
 							JStyledText::TextRange* redrawRange,
-							const JBoolean deletion) override;
+							const bool deletion) override;
 	};
 
 private:

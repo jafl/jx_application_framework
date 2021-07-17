@@ -79,16 +79,16 @@ public:
 	void					ClearFunction();
 	const JVariableList*	GetVariableList() const;
 	const JFunction*		GetFunction() const;
-	JBoolean				ContainsUIF() const;
-	JBoolean				UIFIsActive() const;
+	bool				ContainsUIF() const;
+	bool				UIFIsActive() const;
 	void					ActivateNextUIF();
 
-	JBoolean	HasSelection() const;
-	JBoolean	GetConstSelectedFunction(const JFunction** f) const;	
+	bool	HasSelection() const;
+	bool	GetConstSelectedFunction(const JFunction** f) const;	
 	void		ClearSelection();
 	void		SelectFunction(const JFunction* f);
 
-	JBoolean	EndEditing();
+	bool	EndEditing();
 	void		CancelEditing();
 
 	void		Undo();
@@ -103,8 +103,8 @@ public:
 
 	// other source
 
-	JBoolean	Cut(JFunction** f);
-	JBoolean	Copy(JFunction** f) const;
+	bool	Cut(JFunction** f);
+	bool	Copy(JFunction** f) const;
 	PasteResult	Paste(const JString& expr);
 	PasteResult	Paste(const JFunction& f);
 
@@ -112,7 +112,7 @@ public:
 	JRect		GetPrintBounds() const;
 	void		DrawForPrint(JPainter& p, const JPoint& topLeft);
 
-	JBoolean	EvaluateSelection(JFloat* value) const;
+	bool	EvaluateSelection(JFloat* value) const;
 	void		NegateSelection();
 	void		ApplyFunctionToSelection(const JString& fnName);
 	void		AddArgument();
@@ -160,7 +160,7 @@ public:
 	JFontManager*	GetFontManager() const;
 	JPainter*		GetPainter() const;
 
-	JBoolean	ApplyFunction(const JString& fnName, const JFunction& origF,
+	bool	ApplyFunction(const JString& fnName, const JFunction& origF,
 							  JFunction** newF, JFunction** newArg,
 							  JUserInputFunction** newUIF);
 
@@ -172,35 +172,35 @@ protected:
 	void	EIPDeactivate();
 
 	const JExprRectList*	GetRectList() const;	// ideally, we wouldn't need this
-	JArray<JBoolean>		GetCmdStatus(JString* evalStr) const;
+	JArray<bool>		GetCmdStatus(JString* evalStr) const;
 
-	JBoolean	GetSelection(JIndex* selection) const;
-	JBoolean	GetSelectionRect(JRect* selRect) const;
-	JBoolean	GetSelectedFunction(JFunction** f);
+	bool	GetSelection(JIndex* selection) const;
+	bool	GetSelectionRect(JRect* selRect) const;
+	bool	GetSelectedFunction(JFunction** f);
 	void		SetSelection(const JIndex index);
 
 	void		EIPDraw(JPainter& p);
 	void		EIPHandleMouseDown(const JPoint& currPt,
-								   const JBoolean extend);
+								   const bool extend);
 	void		EIPHandleMouseDrag(const JPoint& currPt);
 	void		EIPHandleMouseUp();
-	JBoolean	MouseOnActiveUIF(const JPoint& pt) const;
+	bool	MouseOnActiveUIF(const JPoint& pt) const;
 	void		EIPHandleKeyPress(const JUtf8Character& key);
 
 	virtual void		EIPRefresh() = 0;
 	virtual void		EIPRedraw() = 0;
 	virtual void		EIPBoundsChanged() = 0;
-	virtual JBoolean	EIPScrollToRect(const JRect& r) = 0;
-	virtual JBoolean	EIPScrollForDrag(const JPoint& pt) = 0;
-	virtual void		EIPAdjustNeedTab(const JBoolean needTab) = 0;
+	virtual bool	EIPScrollToRect(const JRect& r) = 0;
+	virtual bool	EIPScrollForDrag(const JPoint& pt) = 0;
+	virtual void		EIPAdjustNeedTab(const bool needTab) = 0;
 	virtual void		EIPExprChanged();				// must call inherited
 	virtual void		EIPClipboardChanged() = 0;
-	virtual JBoolean	EIPOwnsClipboard() = 0;
-	virtual JBoolean	EIPGetExternalClipboard(JString* text) = 0;
+	virtual bool	EIPOwnsClipboard() = 0;
+	virtual bool	EIPGetExternalClipboard(JString* text) = 0;
 
-	JBoolean	GetClipboard(const JFunction** f) const;
+	bool	GetClipboard(const JFunction** f) const;
 
-	virtual JBoolean	CanDisplaySelectionValue() const;
+	virtual bool	CanDisplaySelectionValue() const;
 	virtual void		DisplaySelectionValue() const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -220,7 +220,7 @@ private:
 	JFunction*				itsFunction;
 	JExprRectList*			itsRectList;
 	JIndex					itsSelection;
-	JBoolean				itsActiveFlag;
+	bool				itsActiveFlag;
 	JUserInputFunction*		itsActiveUIF;	// can be nullptr; owned by itsFunction
 
 	JFunction*	itsFunctionClip;
@@ -250,8 +250,8 @@ private:
 	void	SaveStateForUndo();
 
 	void		ApplyOperatorKey(const JUtf8Character& key, JFunction* targetF);
-	JBoolean	CanApplyCommaOperator();
-	JBoolean	GetCommaTarget(JFunction* startF, JNaryFunction** targetF,
+	bool	CanApplyCommaOperator();
+	bool	GetCommaTarget(JFunction* startF, JNaryFunction** targetF,
 							   JIndex* newArgIndex);
 
 	void	ActivateUIF(JUserInputFunction* uif);
@@ -263,7 +263,7 @@ private:
 	JUserInputFunction*	PrivateClearFunction();
 	JUserInputFunction*	FindNextUIF(JUserInputFunction* currUIF) const;
 
-	JBoolean	GetNegAdjSelFunction(JFunction** selF, JFunction** parentF) const;
+	bool	GetNegAdjSelFunction(JFunction** selF, JFunction** parentF) const;
 	JFunction*	Negate(const JFunction& f) const;
 
 	// not allowed
@@ -297,7 +297,7 @@ public:
 inline void
 JExprEditor::EIPActivate()
 {
-	itsActiveFlag = kJTrue;
+	itsActiveFlag = true;
 	ActivateNextUIF();
 }
 
@@ -364,11 +364,11 @@ JExprEditor::GetRectList()
 /******************************************************************************
  GetClipboard (protected)
 
-	Returns kJTrue if there is anything on our clipboard.
+	Returns true if there is anything on our clipboard.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JExprEditor::GetClipboard
 	(
 	const JFunction** f
@@ -376,7 +376,7 @@ JExprEditor::GetClipboard
 	const
 {
 	*f = itsFunctionClip;
-	return JConvertToBoolean( itsFunctionClip != nullptr );
+	return itsFunctionClip != nullptr;
 }
 
 /******************************************************************************
@@ -384,11 +384,11 @@ JExprEditor::GetClipboard
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JExprEditor::UIFIsActive()
 	const
 {
-	return JI2B( itsActiveUIF != nullptr );
+	return itsActiveUIF != nullptr;
 }
 
 #endif

@@ -44,18 +44,18 @@ CBCPreprocessor::~CBCPreprocessor()
 /******************************************************************************
  Preprocess
 
-	Returns kJTrue if it changed the text.
+	Returns true if it changed the text.
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBCPreprocessor::Preprocess
 	(
 	JString* text
 	)
 	const
 {
-	JBoolean changed = kJFalse;
+	bool changed = false;
 
 	JStringIterator iter(text);
 	JString pattern;
@@ -67,7 +67,7 @@ CBCPreprocessor::Preprocess
 		while (iter.Next(*info.name))
 			{
 			iter.ReplaceLastMatch(*info.value);
-			changed = kJTrue;
+			changed = true;
 			}
 		}
 
@@ -77,7 +77,7 @@ CBCPreprocessor::Preprocess
 /******************************************************************************
  PrintMacrosForCTags
 
-	Returns kJTrue if any macros have been defined.
+	Returns true if any macros have been defined.
 
 	Format:  macro/macro+/macro=value
 
@@ -186,7 +186,7 @@ CBCPreprocessor::ReadSetup
 		{
 		while (1)
 			{
-			JBoolean keepGoing;
+			bool keepGoing;
 			input >> JBoolFromString(keepGoing);
 			if (!keepGoing)
 				{
@@ -233,7 +233,7 @@ CBCPreprocessor::WriteSetup
 	const JSize count = itsMacroList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		output << JBoolToString(kJTrue);
+		output << JBoolToString(true);
 
 		const MacroInfo info = itsMacroList->GetElement(i);
 		output << ' ' << *(info.name);
@@ -241,7 +241,7 @@ CBCPreprocessor::WriteSetup
 		output << '\n';
 		}
 
-	output << JBoolToString(kJFalse) << '\n';
+	output << JBoolToString(false) << '\n';
 }
 
 /******************************************************************************

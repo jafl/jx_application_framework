@@ -18,8 +18,8 @@ class JXTipOfTheDayDialog : public JXDialogDirector
 {
 public:
 
-	JXTipOfTheDayDialog(const JBoolean showStartupCB = kJFalse,
-						const JBoolean showAtStartup = kJFalse);
+	JXTipOfTheDayDialog(const bool showStartupCB = false,
+						const bool showAtStartup = false);
 
 	virtual ~JXTipOfTheDayDialog();
 
@@ -44,8 +44,8 @@ private:
 
 private:
 
-	void	BuildWindow(const JBoolean showStartupCB,
-						const JBoolean showAtStartup);
+	void	BuildWindow(const bool showStartupCB,
+						const bool showAtStartup);
 
 	void	ParseTips();
 	void	AddTip(JString tip);
@@ -66,13 +66,13 @@ public:
 		{
 		public:
 
-			ShowAtStartup(const JBoolean showAtStartup)
+			ShowAtStartup(const bool showAtStartup)
 				:
 				JBroadcaster::Message(kShowAtStartup),
 				itsShowAtStartupFlag(showAtStartup)
 				{ };
 
-			JBoolean
+			bool
 			ShouldShowAtStartup()
 				const
 			{
@@ -81,7 +81,7 @@ public:
 
 		private:
 
-			JBoolean	itsShowAtStartupFlag;
+			bool	itsShowAtStartupFlag;
 		};
 };
 

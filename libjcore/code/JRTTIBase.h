@@ -18,7 +18,7 @@ public:
 
 	virtual	~JRTTIBase();
 
-	JBoolean	Is(const JUtf8Byte* type) const;
+	bool	Is(const JUtf8Byte* type) const;
 
 	const JUtf8Byte*
 	GetType() const

@@ -24,7 +24,7 @@ public:
 
 	virtual ~JXSharedPrefsManager();
 
-	JBoolean	WasNew() const;
+	bool	WasNew() const;
 
 	void	ReadPrefs(JXSharedPrefObject* obj);
 	void	WritePrefs(const JXSharedPrefObject* obj);
@@ -62,27 +62,27 @@ public:
 private:
 
 	JPrefsFile*		itsFile;			// nullptr unless working
-	JBoolean		itsChangedFlag;		// used when re-entrant
+	bool		itsChangedFlag;		// used when re-entrant
 	JXTimerTask*	itsUpdateTask;
 	JString			itsSignalFileName;	// can be empty
 	time_t			itsSignalModTime;	// last time signal file was modified
-	JBoolean		itsWasNewFlag;		// kJTrue => we created the file
+	bool		itsWasNewFlag;		// true => we created the file
 
 	// this section exists because JCore values cannot update themselves
 
-	JBoolean						itsOrigFocusInDockFlag;
-	JBoolean						itsOrigCopyWhenSelectFlag;
-	JBoolean						itsOrigMiddleClickWillPasteFlag;
+	bool						itsOrigFocusInDockFlag;
+	bool						itsOrigCopyWhenSelectFlag;
+	bool						itsOrigMiddleClickWillPasteFlag;
 	JXTEBase::PartialWordModifier	itsOrigPWMod;
-	JBoolean						itsOrigCaretScrollFlag;
-	JBoolean						itsOrigWindowsHomeEndFlag;
-	JBoolean						itsOrigAllowSpaceFlag;
+	bool						itsOrigCaretScrollFlag;
+	bool						itsOrigWindowsHomeEndFlag;
+	bool						itsOrigAllowSpaceFlag;
 	JXMenu::Style					itsOrigMenuDisplayStyle;
 
 private:
 
-	JBoolean	Update();
-	JBoolean	GetAll(JBoolean* isNew);
+	bool	Update();
+	bool	GetAll(bool* isNew);
 
 	void		PrivateSetFocusFollowsCursorInDock();
 	void		PrivateSetCopyWhenSelectFlag();
@@ -93,11 +93,11 @@ private:
 	void		PrivateSetAllowSpaceFlag();
 	void		PrivateSetMenuDisplayStyle();
 
-	JBoolean	PrivateReadPrefs(JXSharedPrefObject* obj);
-	JBoolean	PrivateWritePrefs(const JXSharedPrefObject* obj);
+	bool	PrivateReadPrefs(JXSharedPrefObject* obj);
+	bool	PrivateWritePrefs(const JXSharedPrefObject* obj);
 
-	JBoolean	Open();
-	void		Close(const JBoolean changed);
+	bool	Open();
+	void		Close(const bool changed);
 	void		NotifyChanged();
 	void		SaveSignalModTime();
 
@@ -127,11 +127,11 @@ public:
 /******************************************************************************
  WasNew
 
-	Returns kJTrue if prefs stored by the application should be used.
+	Returns true if prefs stored by the application should be used.
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXSharedPrefsManager::WasNew()
 	const
 {

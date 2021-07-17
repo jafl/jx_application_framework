@@ -27,7 +27,7 @@ JXFSRunScriptDialog::JXFSRunScriptDialog
 	const JString& cmd
 	)
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue)
+	JXDialogDirector(JXGetApplication(), true)
 {
 	BuildWindow(cmd);
 }

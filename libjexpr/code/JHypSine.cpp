@@ -72,7 +72,7 @@ JHypSine::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JHypSine::Evaluate
 	(
 	JFloat* result
@@ -82,14 +82,14 @@ JHypSine::Evaluate
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = sinh(argValue);
 	return jerrno_is_clear();
 }
 
-JBoolean
+bool
 JHypSine::Evaluate
 	(
 	JComplex* result
@@ -99,7 +99,7 @@ JHypSine::Evaluate
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
 		{
-		return kJFalse;
+		return false;
 		}
 	jclear_errno();
 	*result = sinh(argValue);

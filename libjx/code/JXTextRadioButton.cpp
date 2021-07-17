@@ -138,25 +138,25 @@ JXTextRadioButton::Draw
 
 	const JRect boxRect(y - kBoxHalfHeight, kMarginWidth,
 						y + kBoxHalfHeight, kMarginWidth + kBoxHeight);
-	const JBoolean drawChecked = DrawChecked();
-	const JBoolean isActive    = IsActive();
+	const bool drawChecked = DrawChecked();
+	const bool isActive    = IsActive();
 	if (drawChecked && isActive)
 		{
-		JXDrawDownDiamond(p, boxRect, kJXDefaultBorderWidth, kJTrue, itsPushedColor);
+		JXDrawDownDiamond(p, boxRect, kJXDefaultBorderWidth, true, itsPushedColor);
 		}
 	else if (isActive)
 		{
-		JXDrawUpDiamond(p, boxRect, kJXDefaultBorderWidth, kJTrue, itsNormalColor);
+		JXDrawUpDiamond(p, boxRect, kJXDefaultBorderWidth, true, itsNormalColor);
 		}
 	else if (drawChecked)
 		{
 		JXDrawFlatDiamond(p, boxRect, kJXDefaultBorderWidth,
-						  JColorManager::GetInactiveLabelColor(), kJTrue, itsPushedColor);
+						  JColorManager::GetInactiveLabelColor(), true, itsPushedColor);
 		}
 	else
 		{
 		JXDrawFlatDiamond(p, boxRect, kJXDefaultBorderWidth,
-						  JColorManager::GetInactiveLabelColor(), kJTrue, itsNormalColor);
+						  JColorManager::GetInactiveLabelColor(), true, itsNormalColor);
 		}
 
 	// draw text
@@ -201,7 +201,7 @@ JXTextRadioButton::DrawBorder
 JCoordinate
 JXTextRadioButton::GetFTCMinContentSize
 	(
-	const JBoolean horizontal
+	const bool horizontal
 	)
 	const
 {

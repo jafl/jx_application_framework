@@ -19,33 +19,33 @@ class GLFitBase
 public:
 	
 	GLFitBase();
-	GLFitBase(const JSize paramCount, const JBoolean errors = kJFalse, const JBoolean gof = kJFalse);
+	GLFitBase(const JSize paramCount, const bool errors = false, const bool gof = false);
 	virtual ~GLFitBase();
 
 	JSize 				GetParameterCount() const;
-	virtual JBoolean	GetParameterName(const JIndex index, JString* name) const = 0;
-	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const = 0;
+	virtual bool	GetParameterName(const JIndex index, JString* name) const = 0;
+	virtual bool	GetParameter(const JIndex index, JFloat* value) const = 0;
 
-	JBoolean 			HasParameterErrors() const;
-	virtual JBoolean	GetParameterError(const JIndex index, JFloat* value) const;
+	bool 			HasParameterErrors() const;
+	virtual bool	GetParameterError(const JIndex index, JFloat* value) const;
 
-	JBoolean			HasGoodnessOfFit() const;
-	virtual JBoolean	GetGoodnessOfFitName(JString* name) const;
-	virtual JBoolean	GetGoodnessOfFit(JFloat* value) const;
+	bool			HasGoodnessOfFit() const;
+	virtual bool	GetGoodnessOfFitName(JString* name) const;
+	virtual bool	GetGoodnessOfFit(JFloat* value) const;
 	
 	virtual JString		GetFitFunctionString() const = 0;
 
 protected:
 
-	void 				SetHasParameterErrors(const JBoolean errors);
+	void 				SetHasParameterErrors(const bool errors);
 	void				SetParameterCount(const JSize count);
-	void				SetHasGoodnessOfFit(const JBoolean gof);
+	void				SetHasGoodnessOfFit(const bool gof);
 
 private:
 
 	JSize				itsParameterCount;
-	JBoolean			itsHasParameterErrors;
-	JBoolean			itsHasGOF;
+	bool			itsHasParameterErrors;
+	bool			itsHasGOF;
 };
 
 /*********************************************************************************
@@ -53,7 +53,7 @@ private:
   
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 GLFitBase::HasParameterErrors()
 	const	
 {
@@ -65,7 +65,7 @@ GLFitBase::HasParameterErrors()
   
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 GLFitBase::GetParameterError
 	(
 	const JIndex index, 
@@ -73,7 +73,7 @@ GLFitBase::GetParameterError
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 
@@ -82,7 +82,7 @@ GLFitBase::GetParameterError
   
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 GLFitBase::HasGoodnessOfFit()
 	const	
 {
@@ -94,14 +94,14 @@ GLFitBase::HasGoodnessOfFit()
   
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 GLFitBase::GetGoodnessOfFitName
 	(
 	JString* name
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /*********************************************************************************
@@ -109,14 +109,14 @@ GLFitBase::GetGoodnessOfFitName
   
  ********************************************************************************/
 
-inline JBoolean
+inline bool
 GLFitBase::GetGoodnessOfFit
 	(
 	JFloat* value
 	)
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /*********************************************************************************

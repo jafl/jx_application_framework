@@ -82,7 +82,7 @@ LLDBGetStack::HandleSuccess
 
 	const JSize frameCount = t.GetNumFrames();
 	JString frameName, fileName;
-	JBoolean selectNextFrame = kJFalse;
+	bool selectNextFrame = false;
 	for (JUnsignedOffset i=0; i<frameCount; i++)
 		{
 		lldb::SBFrame f = t.GetFrameAtIndex(i);
@@ -103,8 +103,8 @@ LLDBGetStack::HandleSuccess
 		if (file.IsValid())
 			{
 			fileName = JCombinePathAndName(
-				JString(file.GetDirectory(), kJFalse),
-				JString(file.GetFilename(), kJFalse));
+				JString(file.GetDirectory(), JString::kNoCopy),
+				JString(file.GetFilename(), JString::kNoCopy));
 
 			lineIndex = e.GetLine();
 			}
@@ -122,11 +122,11 @@ LLDBGetStack::HandleSuccess
 		if (selectNextFrame)
 			{
 			initFrameIndex  = f.GetFrameID();
-			selectNextFrame = kJFalse;
+			selectNextFrame = false;
 			}
-		else if (f.GetFunctionName() != nullptr && assertPattern.Match(JString(f.GetFunctionName(), kJFalse)))
+		else if (f.GetFunctionName() != nullptr && assertPattern.Match(JString(f.GetFunctionName(), JString::kNoCopy)))
 			{
-			selectNextFrame = kJTrue;
+			selectNextFrame = true;
 			}
 
 		// arguments
@@ -144,8 +144,8 @@ LLDBGetStack::HandleSuccess
 			if (v.GetName() != nullptr)
 				{
 				CMStackArgNode* argNode = jnew CMStackArgNode(node,
-					JString(v.GetName(), kJFalse),
-					JString(v.GetValue() == nullptr ? "null" : v.GetValue(), kJFalse));
+					JString(v.GetName(), JString::kNoCopy),
+					JString(v.GetValue() == nullptr ? "null" : v.GetValue(), JString::kNoCopy));
 				assert( argNode != nullptr );
 				}
 			}

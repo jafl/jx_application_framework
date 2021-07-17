@@ -19,15 +19,15 @@ class JString;
 
 class JFileID
 {
-	friend JBoolean operator==(const JFileID& lhs, const JFileID& rhs);
-	friend JBoolean operator!=(const JFileID& lhs, const JFileID& rhs);
+	friend bool operator==(const JFileID& lhs, const JFileID& rhs);
+	friend bool operator!=(const JFileID& lhs, const JFileID& rhs);
 
 public:
 
 	JFileID();
 	JFileID(const JString& fullName);
 
-	JBoolean	IsValid() const;
+	bool	IsValid() const;
 	void		SetFileName(const JString& fullName);
 
 	static JListT::CompareResult
@@ -35,7 +35,7 @@ public:
 
 private:
 
-	JBoolean	itsValidFlag;
+	bool	itsValidFlag;
 	dev_t		itsDevice;
 	ino_t		itsINode;
 };
@@ -46,7 +46,7 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JFileID::IsValid()
 	const
 {
@@ -58,14 +58,14 @@ JFileID::IsValid()
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 operator!=
 	(
 	const JFileID& lhs,
 	const JFileID& rhs
 	)
 {
-	return JNegate(lhs == rhs);
+	return !(lhs == rhs);
 }
 
 #endif

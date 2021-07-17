@@ -42,7 +42,7 @@ CMPlot2DExprTable::CMPlot2DExprTable
 	:
 	JXStringTable(data, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	SetSelectionBehavior(kJFalse, kJFalse);
+	SetSelectionBehavior(false, false);
 
 	JXTEBase* te = GetEditMenuHandler();
 	te->AppendEditMenu(menuBar);
@@ -113,7 +113,7 @@ CMPlot2DExprTable::HandleMouseDown
 		}
 	else if (button == kJXLeftButton && clickCount == 1)
 		{
-		SelectSingleCell(cell, kJFalse);
+		SelectSingleCell(cell, false);
 		}
 }
 

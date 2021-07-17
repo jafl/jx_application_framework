@@ -151,14 +151,14 @@ public:
 		Place(pt.y, pt.x);
 	};
 
-	JBoolean
+	bool
 	IsEmpty()
 		const
 	{
-		return JConvertToBoolean( left >= right || top >= bottom );
+		return left >= right || top >= bottom;
 	};
 
-	JBoolean
+	bool
 	Contains
 		(
 		const JCoordinate x,
@@ -166,11 +166,11 @@ public:
 		)
 		const
 	{
-		return JConvertToBoolean( left <= x && x < right &&
-								  top  <= y && y < bottom );
+		return left <= x && x < right &&
+								  top  <= y && y < bottom;
 	};
 
-	JBoolean
+	bool
 	Contains
 		(
 		const JPoint& p
@@ -180,16 +180,15 @@ public:
 		return Contains(p.x, p.y);
 	};
 
-	JBoolean
+	bool
 	Contains
 		(
 		const JRect& r
 		)
 		const
 	{
-		return JConvertToBoolean(
-					left <= r.left && r.left <= r.right && r.right <= right &&
-					top <= r.top && r.top <= r.bottom && r.bottom <= bottom );
+		return left <= r.left && r.left <= r.right && r.right <= right &&
+					top <= r.top && r.top <= r.bottom && r.bottom <= bottom;
 	};
 
 	void
@@ -241,7 +240,7 @@ public:
 	};
 };
 
-JBoolean JIntersection(const JRect& r1, const JRect& r2, JRect* result);
+bool JIntersection(const JRect& r1, const JRect& r2, JRect* result);
 JRect    JCovering(const JRect& r1, const JRect& r2);
 
 std::istream& operator>>(std::istream& input, JRect& r);

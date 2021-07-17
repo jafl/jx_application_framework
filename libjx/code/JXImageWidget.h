@@ -36,9 +36,9 @@ public:
 
 	virtual ~JXImageWidget();
 
-	JBoolean	HasImage() const;
-	JBoolean	GetImage(JXImage** image) const;
-	void		SetImage(JXImage* image, const JBoolean widgetOwnsImage,
+	bool	HasImage() const;
+	bool	GetImage(JXImage** image) const;
+	void		SetImage(JXImage* image, const bool widgetOwnsImage,
 						 const JColorID backColor = kJXTransparentColor);  // placeholder for GetDefaultBackColor()
 	void		SetBitmap(const JConstBitmap& bitmap,
 						  const JColorID foreColor = kJXTransparentColor,  // placeholder for GetBlackColor()
@@ -55,7 +55,7 @@ protected:
 private:
 
 	JXImage*	itsImage;			// can be nullptr
-	JBoolean	itsOwnsImageFlag;
+	bool	itsOwnsImageFlag;
 
 	JXAdjustIWBoundsTask*	itsAdjustBoundsTask;
 
@@ -76,11 +76,11 @@ private:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXImageWidget::HasImage()
 	const
 {
-	return JConvertToBoolean( itsImage != nullptr );
+	return itsImage != nullptr;
 }
 
 /******************************************************************************
@@ -88,7 +88,7 @@ JXImageWidget::HasImage()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JXImageWidget::GetImage
 	(
 	JXImage** image
@@ -96,7 +96,7 @@ JXImageWidget::GetImage
 	const
 {
 	*image = itsImage;
-	return JConvertToBoolean( itsImage != nullptr );
+	return itsImage != nullptr;
 }
 
 #endif

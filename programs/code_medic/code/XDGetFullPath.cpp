@@ -21,7 +21,7 @@ XDGetFullPath::XDGetFullPath
 	const JIndex	lineIndex	// for convenience
 	)
 	:
-	CMGetFullPath(JString("status", kJFalse), fileName, lineIndex)
+	CMGetFullPath(JString("status", JString::kNoCopy), fileName, lineIndex)
 {
 }
 

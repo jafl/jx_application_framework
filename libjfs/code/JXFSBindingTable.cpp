@@ -121,7 +121,7 @@ JXFSBindingTable::JXFSBindingTable
 	itsTypeMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsTypeMenu != nullptr );
 	itsTypeMenu->Hide();
-	itsTypeMenu->SetToHiddenPopupMenu(kJTrue);
+	itsTypeMenu->SetToHiddenPopupMenu(true);
 	itsTypeMenu->SetMenuItems(kTypeMenuStr);
 	itsTypeMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsTypeMenu);
@@ -179,7 +179,7 @@ JXFSBindingTable::TableDrawCell
 
 	const JFSBinding* b = itsBindingList->GetBinding(cell.y);
 	JFSBinding::CommandType type;
-	JBoolean singleFile;
+	bool singleFile;
 	const JString& cmd = b->GetCommand(&type, &singleFile);
 
 	if (cell.x == kPatternColumn)
@@ -216,9 +216,9 @@ JXFSBindingTable::TableDrawCell
 		r.right  = r.left+1;
 		r.Expand(3, 3);
 
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Ellipse(r);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		}
 }
 
@@ -303,14 +303,14 @@ JXFSBindingTable::HandleKeyPress
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSBindingTable::IsEditable
 	(
 	const JPoint& cell
 	)
 	const
 {
-	return JI2B(cell.x == kPatternColumn || cell.x == kCommandColumn);
+	return cell.x == kPatternColumn || cell.x == kCommandColumn;
 }
 
 /******************************************************************************
@@ -345,7 +345,7 @@ JXFSBindingTable::CreateXInputField
 	else if (cell.x == kCommandColumn)
 		{
 		JFSBinding::CommandType type;
-		JBoolean singleFile;
+		bool singleFile;
 		const JString& cmd = b->GetCommand(&type, &singleFile);
 		itsTextInput->GetText()->SetText(cmd);
 		}
@@ -361,7 +361,7 @@ JXFSBindingTable::CreateXInputField
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXFSBindingTable::ExtractInputData
 	(
 	const JPoint& cell
@@ -370,12 +370,12 @@ JXFSBindingTable::ExtractInputData
 	assert( itsTextInput != nullptr );
 
 	const JString& s = itsTextInput->GetText()->GetText();
-	JBoolean ok      = itsTextInput->InputValid();
+	bool ok      = itsTextInput->InputValid();
 
 	if (ok && cell.x == kPatternColumn)
 		{
 		const JFSBinding* b    = itsBindingList->GetBinding(cell.y);
-		const JBoolean changed = JI2B(b->GetPattern() != s);
+		const bool changed = b->GetPattern() != s;
 
 		if (JFSBinding::WillBeRegex(s))
 			{
@@ -394,7 +394,7 @@ JXFSBindingTable::ExtractInputData
 			}
 		else if (ok && changed)
 			{
-			ok = kJFalse;
+			ok = false;
 
 			const JUtf8Byte* map[] =
 				{
@@ -429,7 +429,7 @@ JXFSBindingTable::PrepareDeleteXInputField()
 		{
 		const JFSBinding* b = itsBindingList->GetBinding(cell.y);
 		JFSBinding::CommandType type;
-		JBoolean singleFile;
+		bool singleFile;
 		if ((b->GetPattern()).IsEmpty() ||
 			(b->GetCommand(&type, &singleFile)).IsEmpty())
 			{
@@ -504,7 +504,7 @@ JXFSBindingTable::AddPattern()
 		{
 		const JFSBinding* b = itsBindingList->GetDefaultCommand();
 		JFSBinding::CommandType type;
-		JBoolean singleFile;
+		bool singleFile;
 		const JString& cmd = b->GetCommand(&type, &singleFile);
 
 		const JIndex rowIndex =
@@ -563,7 +563,7 @@ JXFSBindingTable::DuplicatePattern()
 		const JFSBinding* b = itsBindingList->GetBinding(cell.y);
 
 		JFSBinding::CommandType type;
-		JBoolean singleFile;
+		bool singleFile;
 		const JString& cmd = b->GetCommand(&type, &singleFile);
 
 		const JIndex rowIndex =
@@ -583,7 +583,7 @@ void
 JXFSBindingTable::UpdateTypeMenu()
 {
 	JPoint cell;
-	const JBoolean ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const bool ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	const JFSBinding* b = itsBindingList->GetBinding(cell.y);
@@ -602,7 +602,7 @@ JXFSBindingTable::HandleTypeMenu
 	)
 {
 	JPoint cell;
-	const JBoolean ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const bool ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	const JFSBinding::CommandType newType = kMenuIndexToCmdType [ index-1 ];

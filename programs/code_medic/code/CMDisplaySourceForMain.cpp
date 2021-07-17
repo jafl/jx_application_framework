@@ -23,7 +23,7 @@ CMDisplaySourceForMain::CMDisplaySourceForMain
 	const JString&		cmd
 	)
 	:
-	CMCommand(cmd, kJFalse, kJFalse),
+	CMCommand(cmd, false, false),
 	itsSourceDir(sourceDir)
 {
 }

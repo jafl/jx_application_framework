@@ -200,7 +200,7 @@ JObjTableData<T>::GetCol
 	const
 {
 	const JPtrArray<T>* dataCol = itsCols->GetElement(index);
-	colData->CopyObjects(*dataCol, colData->GetCleanUpAction(), kJFalse);
+	colData->CopyObjects(*dataCol, colData->GetCleanUpAction(), false);
 }
 
 /******************************************************************************

@@ -30,7 +30,7 @@ protected:
 
 	virtual void		DrawTab(const JIndex index, JXWindowPainter& p,
 								const JRect& rect, const Edge edge) override;
-	virtual JBoolean	OKToDeleteTab(const JIndex index) override;
+	virtual bool	OKToDeleteTab(const JIndex index) override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,

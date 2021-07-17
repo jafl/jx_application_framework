@@ -58,8 +58,8 @@
 #include "jAssert.h"
 
 static const JUtf8Byte* kDataDirName = "string_data";
-static const JString kDefaultFileName("default", kJFalse);
-JBoolean JStringManager::thePseudotranslationFlag = kJFalse;
+static const JString kDefaultFileName("default", JString::kNoCopy);
+bool JStringManager::thePseudotranslationFlag = false;
 
 // non-overridable strings
 
@@ -81,7 +81,7 @@ JStringManager::JStringManager()
 	:
 	// does kDeleteAll make quitting too slow? -- apparently not
 	JStringPtrMap<JString>(JPtrArrayT::kDeleteAll),
-	itsBCP47Locale("en-US", 0)		// need something as default, until we load
+	itsBCP47Locale("en-US")		// need something as default, until we load
 {
 	itsReplaceEngine = jnew JSubstitute;
 	assert( itsReplaceEngine != nullptr );
@@ -102,7 +102,7 @@ JStringManager::~JStringManager()
 
  *****************************************************************************/
 
-static const JString theMissingString("<string not found>", kJFalse);
+static const JString theMissingString("<string not found>", JString::kNoCopy);
 
 const JString&
 JStringManager::Get
@@ -112,7 +112,7 @@ JStringManager::Get
 	const
 {
 	const JString* s;
-	if (GetElement(JString(id, kJFalse), &s))
+	if (GetElement(JString(id, JString::kNoCopy), &s))
 		{
 		assert( s != nullptr );
 		}
@@ -199,7 +199,7 @@ JStringManager::GetReplaceEngine()
 	const
 {
 	itsReplaceEngine->Reset();
-	itsReplaceEngine->IgnoreUnrecognized(kJTrue);
+	itsReplaceEngine->IgnoreUnrecognized(true);
 	return itsReplaceEngine;
 }
 
@@ -225,7 +225,7 @@ JStringManager::Replace
 	const JSize count = size/(2*sizeof(JUtf8Byte*));
 	for (JUnsignedOffset i=0; i<count; i++)
 		{
-		r->DefineVariable(map[2*i], JString(map[2*i+1], kJFalse));
+		r->DefineVariable(map[2*i], JString(map[2*i+1], JString::kNoCopy));
 		}
 
 	r->Substitute(str);
@@ -336,33 +336,33 @@ JStringManager::Register
 
  *****************************************************************************/
 
-JBoolean
+bool
 JStringManager::MergeFile
 	(
 	const JString&	fileName,
-	const JBoolean	debug
+	const bool	debug
 	)
 {
 	std::ifstream input(fileName.GetBytes());
 	if (!input.good())
 		{
-		return kJFalse;
+		return false;
 		}
 
 	if (!MergeFile(input, debug))
 		{
 		std::cerr << "Unable to load " << fileName << std::endl;
-		return kJFalse;
+		return false;
 		}
 
-	return kJTrue;
+	return true;
 }
 
-JBoolean
+bool
 JStringManager::MergeFile
 	(
 	std::istream&	input,
-	const JBoolean	debug
+	const bool	debug
 	)
 {
 	JUInt format;
@@ -370,7 +370,7 @@ JStringManager::MergeFile
 	if (format != kASCIIFormat && format != kUTF8Format)
 		{
 		std::cerr << "Invalid string file format: " << format << std::endl;
-		return kJFalse;
+		return false;
 		}
 
 	JString id;
@@ -421,7 +421,7 @@ JStringManager::MergeFile
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -429,7 +429,7 @@ JStringManager::MergeFile
 
  *****************************************************************************/
 
-JBoolean
+bool
 JStringManager::CanOverride
 	(
 	const JString& id
@@ -439,11 +439,11 @@ JStringManager::CanOverride
 		{
 		if (id == kNoOverrideID[i])
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -460,12 +460,12 @@ JStringManager::WriteFile
 {
 	JStringPtrMapCursor<JString> cursor(const_cast<JStringManager*>(this));
 
-	JBoolean ascii = kJTrue;
+	bool ascii = true;
 	while (cursor.Next())
 		{
 		if (!cursor.GetValue()->IsAscii())
 			{
-			ascii = kJFalse;
+			ascii = false;
 			break;
 			}
 		}

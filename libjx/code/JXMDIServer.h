@@ -22,7 +22,7 @@ public:
 
 protected:
 
-	virtual JBoolean	CanAcceptMDIRequest();
+	virtual bool	CanAcceptMDIRequest();
 	virtual void		PreprocessArgList(JPtrArray<JString>* argList);
 
 private:

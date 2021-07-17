@@ -48,11 +48,11 @@ JTextChooseSaveFile::~JTextChooseSaveFile()
 
 	Displays the prompt and asks the user to choose a file.
 
-	Returns kJFalse if user cancels.
+	Returns false if user cancels.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextChooseSaveFile::ChooseFile
 	(
 	const JString&	prompt,
@@ -78,23 +78,23 @@ JTextChooseSaveFile::ChooseFile
 			fullName->TrimWhitespace();
 			if (*fullName == kCancelStr)
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 			while (fullName->IsEmpty() || DoSystemCommand(*fullName));
 
 		if (JFileExists(*fullName))
 			{
-			return kJTrue;
+			return true;
 			}
 		else if (!JGetUserNotification()->AskUserYes(JGetString("FileDoesNotExist::JTextChooseSaveFile")))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 }
 
-JBoolean
+bool
 JTextChooseSaveFile::ChooseFile
 	(
 	const JString&	prompt,
@@ -111,11 +111,11 @@ JTextChooseSaveFile::ChooseFile
 
 	Displays the prompt and asks the user to choose as many files as they want.
 
-	Returns kJFalse if user cancels.
+	Returns false if user cancels.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextChooseSaveFile::ChooseFiles
 	(
 	const JString&		prompt,
@@ -146,11 +146,11 @@ JTextChooseSaveFile::ChooseFiles
 			if (fullName == kCancelStr)
 				{
 				fullNameList->CleanOut();
-				return kJFalse;
+				return false;
 				}
 			else if (fullName == kDoneStr)
 				{
-				return kJTrue;
+				return true;
 				}
 			}
 			while (fullName.IsEmpty() || DoSystemCommand(fullName));
@@ -164,7 +164,7 @@ JTextChooseSaveFile::ChooseFiles
 		else if (!JGetUserNotification()->AskUserYes(JGetString("FileDoesNotExist::JTextChooseSaveFile")))
 			{
 			fullNameList->CleanOut();
-			return kJFalse;
+			return false;
 			}
 		}
 }
@@ -174,11 +174,11 @@ JTextChooseSaveFile::ChooseFiles
 
 	Displays the prompt and asks the user to choose a readable path.
 
-	Returns kJFalse if user cancels.
+	Returns false if user cancels.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextChooseSaveFile::ChooseRPath
 	(
 	const JString&	prompt,
@@ -191,16 +191,16 @@ JTextChooseSaveFile::ChooseRPath
 		{
 		if (!GetPath(prompt, instructions, newPath))
 			{
-			return kJFalse;
+			return false;
 			}
 
 		if (JDirectoryExists(*newPath))
 			{
-			return kJTrue;
+			return true;
 			}
 		else if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 }
@@ -210,11 +210,11 @@ JTextChooseSaveFile::ChooseRPath
 
 	Displays the prompt and asks the user to choose a writable path.
 
-	Returns kJFalse if user cancels.
+	Returns false if user cancels.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextChooseSaveFile::ChooseRWPath
 	(
 	const JString&	prompt,
@@ -227,25 +227,25 @@ JTextChooseSaveFile::ChooseRWPath
 		{
 		if (!GetPath(prompt, instructions, newPath))
 			{
-			return kJFalse;
+			return false;
 			}
 
 		if (JDirectoryWritable(*newPath))
 			{
-			return kJTrue;
+			return true;
 			}
 		else if (JDirectoryExists(*newPath))
 			{
 			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryNotWritable::JTextChooseSaveFile")))
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 		else	// directory doesn't exist
 			{
 			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 		}
@@ -256,7 +256,7 @@ JTextChooseSaveFile::ChooseRWPath
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextChooseSaveFile::GetPath
 	(
 	const JString&	prompt,
@@ -280,13 +280,13 @@ JTextChooseSaveFile::GetPath
 		newPath->TrimWhitespace();
 		if (*newPath == kCancelStr)
 			{
-			return kJFalse;
+			return false;
 			}
 		}
 		while (newPath->IsEmpty() || DoSystemCommand(*newPath));
 
 	JAppendDirSeparator(newPath);
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -294,11 +294,11 @@ JTextChooseSaveFile::GetPath
 
 	Displays the prompts and asks the user for a file name.
 
-	Returns kJFalse if user cancels.
+	Returns false if user cancels.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextChooseSaveFile::SaveFile
 	(
 	const JString&	prompt,
@@ -325,47 +325,47 @@ JTextChooseSaveFile::SaveFile
 			newFullName->TrimWhitespace();
 			if (*newFullName == kCancelStr)
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 			while (newFullName->IsEmpty() || DoSystemCommand(*newFullName));
 
 		JString path,name;
 		JSplitPathAndName(*newFullName, &path, &name);
-		const JBoolean fileExists   = JFileExists(*newFullName);
-		const JBoolean fileWritable = JFileWritable(*newFullName);
-		const JBoolean dirExists    = JDirectoryExists(path);
-		const JBoolean dirWritable  = JDirectoryWritable(path);
+		const bool fileExists   = JFileExists(*newFullName);
+		const bool fileWritable = JFileWritable(*newFullName);
+		const bool dirExists    = JDirectoryExists(path);
+		const bool dirWritable  = JDirectoryWritable(path);
 		if (dirWritable && !fileExists)
 			{
-			return kJTrue;
+			return true;
 			}
 		else if (fileWritable)
 			{
 			if (JGetUserNotification()->AskUserNo(JGetString("FileExists::JTextChooseSaveFile")))
 				{
-				return kJTrue;
+				return true;
 				}
 			}
 		else if (!dirExists)
 			{
 			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 		else if (!dirWritable && !fileExists)
 			{
 			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryNotWritable::JTextChooseSaveFile")))
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 		else	// file exists and is not writable
 			{
 			if (!JGetUserNotification()->AskUserYes(JGetString("FileNotWritable::JTextChooseSaveFile")))
 				{
-				return kJFalse;
+				return false;
 				}
 			}
 		}
@@ -374,11 +374,11 @@ JTextChooseSaveFile::SaveFile
 /******************************************************************************
  DoSystemCommand
 
-	Returns kJTrue if the string contains a system command (which it executed).
+	Returns true if the string contains a system command (which it executed).
 
  ******************************************************************************/
 
-JBoolean
+bool
 JTextChooseSaveFile::DoSystemCommand
 	(
 	const JString& str
@@ -393,10 +393,10 @@ JTextChooseSaveFile::DoSystemCommand
 			system(str.GetBytes() + 1);
 			}
 		std::cout << std::endl;
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

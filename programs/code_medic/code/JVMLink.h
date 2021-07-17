@@ -166,48 +166,48 @@ public:
 
 	virtual	~JVMLink();
 
-	virtual JBoolean	DebuggerHasStarted() const override;
-	virtual JBoolean	HasLoadedSymbols() const override;
-	virtual JBoolean	IsDebugging() const override;
-	virtual JBoolean	IsDefiningScript() const override;
+	virtual bool	DebuggerHasStarted() const override;
+	virtual bool	HasLoadedSymbols() const override;
+	virtual bool	IsDebugging() const override;
+	virtual bool	IsDefiningScript() const override;
 
-	virtual JBoolean	ChangeDebugger() override;
-	virtual JBoolean	RestartDebugger() override;
+	virtual bool	ChangeDebugger() override;
+	virtual bool	RestartDebugger() override;
 
 	virtual JString		GetChooseProgramInstructions() const override;
-	virtual JBoolean	HasProgram() const override;
-	virtual JBoolean	GetProgram(JString* fullName) const override;
+	virtual bool	HasProgram() const override;
+	virtual bool	GetProgram(JString* fullName) const override;
 	virtual void		SetProgram(const JString& fullName) override;
 	virtual void		ReloadProgram() override;
-	virtual JBoolean	HasCore() const override;
-	virtual JBoolean	GetCore(JString* fullName) const override;
+	virtual bool	HasCore() const override;
+	virtual bool	GetCore(JString* fullName) const override;
 	virtual void		SetCore(const JString& fullName) override;
 	virtual void		AttachToProcess(const pid_t pid) override;
 
 	virtual void		RunProgram(const JString& args) override;
 	virtual void		StopProgram() override;
 	virtual void		KillProgram() override;
-	virtual JBoolean	ProgramIsRunning() const override;
-	virtual JBoolean	ProgramIsStopped() const override;
-	virtual JBoolean	OKToDetachOrKill() const override;
+	virtual bool	ProgramIsRunning() const override;
+	virtual bool	ProgramIsStopped() const override;
+	virtual bool	OKToDetachOrKill() const override;
 
-	virtual JBoolean	OKToSendCommands(const JBoolean background) const override;
-	virtual JBoolean	Send(CMCommand* cmd) override;
+	virtual bool	OKToSendCommands(const bool background) const override;
+	virtual bool	Send(CMCommand* cmd) override;
 
 	virtual CMBreakpointManager*	GetBreakpointManager() override;
 
 	virtual void	ShowBreakpointInfo(const JIndex debuggerIndex) override;
 	virtual void	SetBreakpoint(const JString& fileName, const JIndex lineIndex,
-								  const JBoolean temporary = kJFalse) override;
+								  const bool temporary = false) override;
 	virtual void	SetBreakpoint(const JString& address,
-								  const JBoolean temporary = kJFalse) override;
+								  const bool temporary = false) override;
 	virtual void	RemoveBreakpoint(const JIndex debuggerIndex) override;
 	virtual void	RemoveAllBreakpointsOnLine(const JString& fileName,
 										   const JIndex lineIndex) override;
 	virtual void	RemoveAllBreakpointsAtAddress(const JString& addr) override;
 	virtual void	RemoveAllBreakpoints() override;
-	virtual void	SetBreakpointEnabled(const JIndex debuggerIndex, const JBoolean enabled,
-									 const JBoolean once = kJFalse) override;
+	virtual void	SetBreakpointEnabled(const JIndex debuggerIndex, const bool enabled,
+									 const bool once = false) override;
 	virtual void	SetBreakpointCondition(const JIndex debuggerIndex,
 									   const JString& condition) override;
 	virtual void	RemoveBreakpointCondition(const JIndex debuggerIndex) override;
@@ -240,15 +240,15 @@ public:
 	JUInt64			GetCurrentThreadID() const;
 	void			ThreadCreated(JVMThreadNode* node);
 	void			ThreadDeleted(JVMThreadNode* node);
-	JBoolean		FindThread(const JUInt64 id, JVMThreadNode** node) const;
+	bool		FindThread(const JUInt64 id, JVMThreadNode** node) const;
 
 	void	FlushClassList();
 	void	AddClass(const JUInt64 id, const JString& signature);
 	void	AddMethod(const JUInt64 classID, const JUInt64 methodID, const JString& name);
 
-	JBoolean	GetClassName(const JUInt64 id, JString* name);
-	JBoolean	GetClassSourceFile(const JUInt64 id, JString* fullName);
-	JBoolean	GetMethodName(const JUInt64 classID, const JUInt64 methodID, JString* name);
+	bool	GetClassName(const JUInt64 id, JString* name);
+	bool	GetClassSourceFile(const JUInt64 id, JString* fullName);
+	bool	GetMethodName(const JUInt64 classID, const JUInt64 methodID, JString* name);
 
 	static JString	ClassSignatureToResourcePath(const JString& signature);
 	static JString	ClassSignatureToName(const JString& signature);
@@ -282,7 +282,7 @@ public:
 	virtual CMGetSourceFileList*	CreateGetSourceFileList(CMFileListDir* fileList) override;
 	virtual CMVarCommand*			CreateVarValueCommand(const JString& expr) override;
 	virtual CMVarCommand*			CreateVarContentCommand(const JString& expr) override;
-	virtual CMVarNode*				CreateVarNode(const JBoolean shouldUpdate = kJTrue) override;
+	virtual CMVarNode*				CreateVarNode(const bool shouldUpdate = true) override;
 	virtual CMVarNode*				CreateVarNode(JTreeNode* parent, const JString& name,
 												  const JString& fullName, const JString& value) override;
 	virtual JString					Build1DArrayExpression(const JString& expr,
@@ -298,7 +298,7 @@ public:
 
 	void		Send(const CMCommand* command, const JIndex cmdSet, const JIndex cmd,
 					 const unsigned char* data, const JSize count);
-	JBoolean	GetLatestMessageFromJVM(const JVMSocket::MessageReady** msg) const;
+	bool	GetLatestMessageFromJVM(const JVMSocket::MessageReady** msg) const;
 
 	// called by JVMDSocket
 
@@ -308,7 +308,7 @@ public:
 
 	// called by JVMWelcomeTask
 
-	void	BroadcastWelcome(const JString& msg, const JBoolean error);
+	void	BroadcastWelcome(const JString& msg, const bool error);
 
 	// called by JVMSetProgramTask
 
@@ -404,10 +404,10 @@ private:
 	JString	itsJVMExecArgs;
 	JString	itsJVMProcessArgs;
 
-	JBoolean	itsInitFinishedFlag;		// debugger has been fully initialized
+	bool	itsInitFinishedFlag;		// debugger has been fully initialized
 	JString		itsProgramConfigFileName;	// .medic config file
 	JString		itsMainClassName;			// can be empty
-	JBoolean	itsProgramIsStoppedFlag;	// the JVM is stopped
+	bool	itsProgramIsStoppedFlag;	// the JVM is stopped
 
 	const JVMSocket::MessageReady*	itsLatestMsg;
 
@@ -434,7 +434,7 @@ private:
 
 private:
 
-	JBoolean	StartDebugger();
+	bool	StartDebugger();
 	void		InitFlags();
 	void		ReceiveMessageFromJVM(const JVMSocket::MessageReady& info);
 	void		DispatchEventsFromJVM(const unsigned char* data, const JSize length);
@@ -448,9 +448,9 @@ private:
 
 	void	CheckNextThreadGroup();
 
-	JBoolean	ClassSignatureToFile(const JString& signature, JString* fullName) const;
-	JBoolean	FindSourceForClass(const JString& signature, JString* fullName);
-	JBoolean	GetFrame(const JUInt64 id, JIndex* index) const;
+	bool	ClassSignatureToFile(const JString& signature, JString* fullName) const;
+	bool	FindSourceForClass(const JString& signature, JString* fullName);
+	bool	GetFrame(const JUInt64 id, JIndex* index) const;
 
 	static JListT::CompareResult	CompareClassIDs(const ClassInfo& c1, const ClassInfo& c2);
 	static JListT::CompareResult	CompareClassNames(const ClassInfo& c1, const ClassInfo& c2);
@@ -500,7 +500,7 @@ inline void
 JVMLink::BroadcastWelcome
 	(
 	const JString&	msg,
-	const JBoolean		error
+	const bool		error
 	)
 {
 	Broadcast(DebuggerBusy());
@@ -524,7 +524,7 @@ JVMLink::GetSourcePathList()
 
  *****************************************************************************/
 
-inline JBoolean
+inline bool
 JVMLink::GetLatestMessageFromJVM
 	(
 	const JVMSocket::MessageReady** msg
@@ -532,7 +532,7 @@ JVMLink::GetLatestMessageFromJVM
 	const
 {
 	*msg = itsLatestMsg;
-	return JI2B(itsLatestMsg != nullptr);
+	return itsLatestMsg != nullptr;
 }
 
 /******************************************************************************

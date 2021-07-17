@@ -65,9 +65,9 @@ GLPlotFitPowerLaw::JPlotFitPowerLawX
 	itsBParm	= 0;
 	itsAErr	= 0;
 	itsBErr	= 0;
-	SetFunctionString(JString("a*x^b", kJFalse));
+	SetFunctionString(JString("a*x^b", JString::kNoCopy));
 	SetParameterCount(2);
-	SetHasGoodnessOfFit(kJTrue);
+	SetHasGoodnessOfFit(true);
 }
 
 
@@ -102,7 +102,7 @@ GLPlotFitPowerLaw::GenerateFit()
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitPowerLaw::GetYValue
 	(
 	const JFloat 	x,
@@ -111,7 +111,7 @@ GLPlotFitPowerLaw::GetYValue
 	const
 {
 	*y =  itsAParm * pow(x, itsBParm);
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -120,7 +120,7 @@ GLPlotFitPowerLaw::GetYValue
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitPowerLaw::GetParameterName
 	(
 	const JIndex index, 
@@ -138,9 +138,9 @@ GLPlotFitPowerLaw::GetParameterName
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}		
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -149,7 +149,7 @@ GLPlotFitPowerLaw::GetParameterName
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitPowerLaw::GetParameter
 	(
 	const JIndex index, 
@@ -167,9 +167,9 @@ GLPlotFitPowerLaw::GetParameter
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}		
-	return kJTrue;
+	return true;
 }
 
 /*********************************************************************************
@@ -178,7 +178,7 @@ GLPlotFitPowerLaw::GetParameter
 
  ********************************************************************************/
 
-JBoolean
+bool
 GLPlotFitPowerLaw::GetParameterError
 	(
 	const JIndex index, 
@@ -189,7 +189,7 @@ GLPlotFitPowerLaw::GetParameterError
 	const JPlotDataBase* data = GetData();
 	if (!data->HasXErrors() && !data->HasYErrors())
 		{
-		return kJFalse;
+		return false;
 		}
 	if (index == 1)
 		{
@@ -201,9 +201,9 @@ GLPlotFitPowerLaw::GetParameterError
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}		
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************

@@ -16,7 +16,7 @@ public:
 
 	CBPHPClass(const JString& name, const DeclareType declType,
 			   const JFAID_t fileID, CBTree* tree,
-			   const JBoolean isFinal);
+			   const bool isFinal);
 	CBPHPClass(std::istream& input, const JFileVersion vers, CBTree* tree);
 
 	virtual ~CBPHPClass();
@@ -34,7 +34,7 @@ protected:
 
 private:
 
-	JBoolean	itsIsFinalFlag;
+	bool	itsIsFinalFlag;
 
 private:
 

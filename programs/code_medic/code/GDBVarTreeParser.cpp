@@ -21,7 +21,7 @@ GDBVarTreeParser::GDBVarTreeParser
 	)
 	:
 	itsCurrentNode(nullptr),
-	itsIsPointerFlag(kJFalse)
+	itsIsPointerFlag(false)
 {
 	itsScanner = jnew GDBVarTreeScanner(text);
 	assert(itsScanner != nullptr);
@@ -62,7 +62,7 @@ GDBVarTreeParser::yylex
 	}
 	else if (token == P_EOF && itsGroupDepth > 0)
 	{
-		itsGDBErrorFlag = kJTrue;
+		itsGDBErrorFlag = true;
 
 		token          = P_GROUP_CLOSE;
 		lvalp->pString = jnew JString("}");
@@ -151,13 +151,13 @@ GDBVarTreeParser::ReportRecoverableError()
 		{
 		CMVarNode* child;
 		itsCurrentNode->GetLastChild(&child);
-		child->SetValid(kJFalse);
+		child->SetValid(false);
 
 		child = CMGetLink()->CreateVarNode(itsCurrentNode,
 					JGetString("ErrorNodeName::GDBVarTreeParser"), JString::empty,
 					JGetString("ErrorNodeValue::GDBVarTreeParser"));
-		child->SetValid(kJFalse);
+		child->SetValid(false);
 
-		itsGDBErrorFlag = kJFalse;
+		itsGDBErrorFlag = false;
 		}
 }

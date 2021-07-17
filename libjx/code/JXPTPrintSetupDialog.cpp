@@ -51,7 +51,7 @@ JXPTPrintSetupDialog::Create
 	const JXPTPrinter::Destination	dest,
 	const JString&					printCmd,
 	const JString&					fileName,
-	const JBoolean					printLineNumbers
+	const bool					printLineNumbers
 	)
 {
 	JXPTPrintSetupDialog* dlog = jnew JXPTPrintSetupDialog;
@@ -67,7 +67,7 @@ JXPTPrintSetupDialog::Create
 
 JXPTPrintSetupDialog::JXPTPrintSetupDialog()
 	:
-	JXDialogDirector(JXGetApplication(), kJTrue)
+	JXDialogDirector(JXGetApplication(), true)
 {
 }
 
@@ -91,7 +91,7 @@ JXPTPrintSetupDialog::BuildWindow
 	const JXPTPrinter::Destination	dest,
 	const JString&					printCmd,
 	const JString&					fileName,
-	const JBoolean					printLineNumbers
+	const bool					printLineNumbers
 	)
 {
 // begin JXLayout
@@ -229,7 +229,7 @@ JXPTPrintSetupDialog::SetObjects
 	JXStaticText*					lastPageIndexLabel,
 	JXIntegerInput*					lastPageIndex,
 	JXTextCheckbox*					printLineNumbersCB,
-	const JBoolean					printLineNumbers
+	const bool					printLineNumbers
 	)
 {
 	itsPrintButton         = okButton;
@@ -272,13 +272,13 @@ JXPTPrintSetupDialog::SetObjects
 	ListenTo(itsChooseFileButton);
 	ListenTo(itsPrintAllCB);
 
-	JBoolean foundDest = kJFalse;
+	bool foundDest = false;
 	for (JIndex i=1; i<=kDestCount; i++)
 		{
 		if (kIndexToDest[i-1] == dest)
 			{
 			SetDestination(i);
-			foundDest = kJTrue;
+			foundDest = true;
 			break;
 			}
 		}
@@ -287,13 +287,13 @@ JXPTPrintSetupDialog::SetObjects
 	itsCopyCount->SetValue(1);
 	itsCopyCount->SetLowerLimit(1);
 
-	PrintAllPages(kJTrue);
+	PrintAllPages(true);
 
 	itsFirstPageIndex->SetLowerLimit(1);
-	itsFirstPageIndex->SetIsRequired(kJFalse);
+	itsFirstPageIndex->SetIsRequired(false);
 
 	itsLastPageIndex->SetLowerLimit(1);
-	itsLastPageIndex->SetIsRequired(kJFalse);
+	itsLastPageIndex->SetIsRequired(false);
 
 	itsPrintLineNumbersCB->SetState(printLineNumbers);
 
@@ -312,9 +312,8 @@ JXPTPrintSetupDialog::SetObjects
 void
 JXPTPrintSetupDialog::UpdateDisplay()
 {
-	itsPrintButton->SetActive(JI2B(
-		itsDestination->GetSelectedItem() == kPrintToPrinterID ||
-		!itsFileInput->GetText()->IsEmpty()));
+	itsPrintButton->SetActive(itsDestination->GetSelectedItem() == kPrintToPrinterID ||
+		!itsFileInput->GetText()->IsEmpty());
 }
 
 /******************************************************************************
@@ -322,16 +321,16 @@ JXPTPrintSetupDialog::UpdateDisplay()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPTPrintSetupDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
 		{
-		return kJFalse;
+		return false;
 		}
 	else if (Cancelled())
 		{
-		return kJTrue;
+		return true;
 		}
 
 	if (itsDestination->GetSelectedItem() == kPrintToFileID)
@@ -340,7 +339,7 @@ JXPTPrintSetupDialog::OKToDeactivate()
 		}
 	else
 		{
-		return kJTrue;
+		return true;
 		}
 }
 
@@ -404,7 +403,7 @@ JXPTPrintSetupDialog::SetDestination
 		itsPrintButton->Activate();
 		itsPrintCmdLabel->Show();
 		itsPrintCmd->Show();
-		itsPrintCmd->SetIsRequired(kJTrue);
+		itsPrintCmd->SetIsRequired(true);
 		itsPrintCmd->Focus();
 		itsChooseFileButton->Hide();
 		itsFileInput->Hide();
@@ -415,7 +414,7 @@ JXPTPrintSetupDialog::SetDestination
 
 		itsPrintCmdLabel->Hide();
 		itsPrintCmd->Hide();
-		itsPrintCmd->SetIsRequired(kJFalse);
+		itsPrintCmd->SetIsRequired(false);
 		itsChooseFileButton->Show();
 		itsFileInput->Show();
 		itsFileInput->Focus();
@@ -436,7 +435,7 @@ JXPTPrintSetupDialog::SetDestination
 void
 JXPTPrintSetupDialog::PrintAllPages
 	(
-	const JBoolean all
+	const bool all
 	)
 {
 	itsPrintAllCB->SetState(all);
@@ -486,7 +485,7 @@ JXPTPrintSetupDialog::ChooseDestinationFile()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JXPTPrintSetupDialog::SetParameters
 	(
 	JXPTPrinter* p
@@ -496,10 +495,9 @@ JXPTPrintSetupDialog::SetParameters
 	const JXPTPrinter::Destination newDest =
 		kIndexToDest[ itsDestination->GetSelectedItem()-1 ];
 
-	JBoolean changed = JI2B(
-		newDest                            != p->GetDestination() ||
+	bool changed = newDest                            != p->GetDestination() ||
 		itsPrintCmd->GetText()->GetText()  != p->GetPrintCmd()    ||
-		itsFileInput->GetText()->GetText() != p->GetFileName());
+		itsFileInput->GetText()->GetText() != p->GetFileName();
 
 	JString fullName;
 	itsFileInput->GetFile(&fullName);
@@ -507,18 +505,18 @@ JXPTPrintSetupDialog::SetParameters
 	p->SetDestination(newDest, itsPrintCmd->GetText()->GetText(), fullName);
 
 	JInteger copyCount;
-	const JBoolean ok = itsCopyCount->GetValue(&copyCount);
+	const bool ok = itsCopyCount->GetValue(&copyCount);
 	assert( ok );
 	p->SetCopyCount(copyCount);
 
-	const JBoolean printAll = itsPrintAllCB->IsChecked();
+	const bool printAll = itsPrintAllCB->IsChecked();
 	p->PrintAllPages();
 
 	if (!printAll)
 		{
 		JInteger p1, p2;
-		const JBoolean ok1 = itsFirstPageIndex->GetValue(&p1);
-		const JBoolean ok2 = itsLastPageIndex->GetValue(&p2);
+		const bool ok1 = itsFirstPageIndex->GetValue(&p1);
+		const bool ok2 = itsLastPageIndex->GetValue(&p2);
 		if (ok1 && ok2)
 			{
 			p->SetFirstPageToPrint(JMin(p1, p2));
@@ -537,8 +535,8 @@ JXPTPrintSetupDialog::SetParameters
 			}
 		}
 
-	changed = JI2B(changed ||
-		itsPrintLineNumbersCB->IsChecked() != p->WillPrintLineNumbers());
+	changed = changed ||
+		itsPrintLineNumbersCB->IsChecked() != p->WillPrintLineNumbers();
 
 	p->ShouldPrintLineNumbers(itsPrintLineNumbersCB->IsChecked());
 

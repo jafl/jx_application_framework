@@ -28,11 +28,11 @@
 			Adjust the scroll bars to fit the size of the current function.
 
 		EIPScrollToRect
-			Scroll the function to make the given rectangle visible.  Return kJTrue
+			Scroll the function to make the given rectangle visible.  Return true
 			if scrolling was necessary.
 
 		EIPScrollForDrag
-			Scroll the function to make the given point visible.  Return kJTrue
+			Scroll the function to make the given point visible.  Return true
 			if scrolling was necessary.
 
 		EIPAdjustNeedTab
@@ -48,10 +48,10 @@
 			after a Copy or Cut operation.
 
 		EIPOwnsClipboard
-			Return kJTrue if we should paste from our internal clipboard.
+			Return true if we should paste from our internal clipboard.
 
 		EIPGetExternalClipboard
-			Return kJTrue if there is something pasteable on the system clipboard.
+			Return true if there is something pasteable on the system clipboard.
 
 	Derived classes can override the following routines:
 
@@ -122,7 +122,7 @@ JExprEditor::JExprEditor
 	itsFunction   = nullptr;
 	itsRectList   = nullptr;
 	itsSelection  = 0;
-	itsActiveFlag = kJFalse;
+	itsActiveFlag = false;
 	itsActiveUIF  = nullptr;
 
 	itsUndoFunction  = nullptr;
@@ -231,7 +231,7 @@ JExprEditor::PrivateClearFunction()
 JStyledText*
 JExprEditor::BuildStyledText()
 {
-	JStyledText* text = jnew JStyledText(kJFalse, kJFalse);
+	JStyledText* text = jnew JStyledText(false, false);
 	assert( text != nullptr );
 	return text;
 }
@@ -239,11 +239,11 @@ JExprEditor::BuildStyledText()
 /******************************************************************************
  ContainsUIF
 
-	Returns kJTrue if we contain any JUserInputFunctions.
+	Returns true if we contain any JUserInputFunctions.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::ContainsUIF()
 	const
 {
@@ -253,13 +253,13 @@ JExprEditor::ContainsUIF()
 		const JFunction* f = itsRectList->GetFunction(i);
 		if (dynamic_cast<const JUserInputFunction*>(f) != nullptr)
 			{
-			return kJTrue;
+			return true;
 			}
 		}
 
 	// falling through means there aren't any
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -285,41 +285,41 @@ JExprEditor::EIPDeactivate()
 		ClearSelection();
 		}
 
-	itsActiveFlag = kJFalse;
+	itsActiveFlag = false;
 }
 
 /******************************************************************************
  EndEditing
 
 	Parse the active JUserInputFunction and replace it.
-	Returns kJTrue if successful.
+	Returns true if successful.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::EndEditing()
 {
 	if (itsActiveUIF == nullptr)
 		{
-		return kJTrue;
+		return true;
 		}
 	else if (itsActiveUIF->IsEmpty())
 		{
 		itsActiveUIF->Deactivate();
 		itsActiveUIF = nullptr;
 		EIPRefresh();
-		return kJTrue;
+		return true;
 		}
 
 	JFunction* newF = nullptr;
 	JUserInputFunction* newUIF = nullptr;
-	JBoolean needRender;
+	bool needRender;
 	if (itsActiveUIF->Parse(JUtf8Character(' '), &newF, &newUIF, &needRender))
 		{
 		ReplaceFunction(itsActiveUIF, newF);
 		itsActiveUIF = nullptr;
 		Render();
-		return kJTrue;
+		return true;
 		}
 	else if (needRender)
 		{
@@ -327,11 +327,11 @@ JExprEditor::EndEditing()
 		itsActiveUIF = nullptr;
 		Render();
 		itsActiveUIF = savedUIF;
-		return kJFalse;
+		return false;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -367,9 +367,9 @@ JExprEditor::Undo()
 		return;
 		}
 
-	JGetUserNotification()->SetSilent(kJTrue);
-	const JBoolean currFnOK = EndEditing();
-	JGetUserNotification()->SetSilent(kJFalse);
+	JGetUserNotification()->SetSilent(true);
+	const bool currFnOK = EndEditing();
+	JGetUserNotification()->SetSilent(false);
 
 	if (currFnOK)
 		{
@@ -453,12 +453,12 @@ JExprEditor::Cut()
 /******************************************************************************
  Cut
 
-	Returns kJTrue if there was anything to cut.
-	If function returns kJFalse, *f is not modified.
+	Returns true if there was anything to cut.
+	If function returns false, *f is not modified.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::Cut
 	(
 	JFunction** f
@@ -467,11 +467,11 @@ JExprEditor::Cut
 	if (Copy(f))
 		{
 		DeleteSelection();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -495,12 +495,12 @@ JExprEditor::Copy()
 /******************************************************************************
  Copy
 
-	Returns kJTrue if there was anything to copy.
-	If function returns kJFalse, *f is not modified.
+	Returns true if there was anything to copy.
+	If function returns false, *f is not modified.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::Copy
 	(
 	JFunction** f
@@ -511,11 +511,11 @@ JExprEditor::Copy
 	if (GetConstSelectedFunction(&selF))
 		{
 		*f = selF->Copy();
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -537,9 +537,9 @@ JExprEditor::Paste()
 		}
 	else if (EIPGetExternalClipboard(&text))
 		{
-		un->SetSilent(kJTrue);
+		un->SetSilent(true);
 		result = Paste(text);
-		un->SetSilent(kJFalse);
+		un->SetSilent(false);
 
 		if (result == kParseError)
 			{
@@ -561,7 +561,7 @@ JExprEditor::Paste()
 /******************************************************************************
  Paste
 
-	Returns kJTrue if expr parsed successfully.
+	Returns true if expr parsed successfully.
 
 	We don't call Paste(f) because that would require an extra copy operation,
 	which can be expensive for JFuntions.
@@ -685,7 +685,7 @@ JExprEditor::SelectAll()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::EvaluateSelection
 	(
 	JFloat* value
@@ -769,7 +769,7 @@ JExprEditor::ApplyFunctionToSelection
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::ApplyFunction
 	(
 	const JString&			fnName,
@@ -792,7 +792,7 @@ JExprEditor::ApplyFunction
 		};
 		const JString msg = JGetString("UnknownFunction::JExprEditor", map, sizeof(map));
 		JGetUserNotification()->ReportError(msg);
-		return kJFalse;
+		return false;
 		}
 
 	JString buffer(fnName);
@@ -806,12 +806,12 @@ JExprEditor::ApplyFunction
 	const JSize origArgCount = argCount;
 
 	JExprParser p(this);
-	const JBoolean ok = p.Parse(buffer, newF);
+	const bool ok = p.Parse(buffer, newF);
 	if (ok)
 		{
 		*newArg = origF.Copy();
 
-		const JBoolean isLogB = JI2B( dynamic_cast<JLogB*>(*newF) != nullptr );
+		const bool isLogB = dynamic_cast<JLogB*>(*newF) != nullptr;
 
 		JFunctionWithArgs* fwa = dynamic_cast<JFunctionWithArgs*>(*newF);
 		assert( fwa != nullptr );
@@ -889,7 +889,7 @@ JExprEditor::MoveArgument
 		if (naryParentF != nullptr)
 			{
 			JIndex argIndex;
-			const JBoolean found = naryParentF->FindArg(f, &argIndex);
+			const bool found = naryParentF->FindArg(f, &argIndex);
 			assert( found );
 			JIndex newIndex = argIndex + delta;
 			if (naryParentF->ArgIndexValid(newIndex))
@@ -934,26 +934,26 @@ JExprEditor::GroupArguments
 		}
 
 	JIndex argIndex;
-	const JBoolean found = naryParentF->FindArg(f, &argIndex);
+	const bool found = naryParentF->FindArg(f, &argIndex);
 	assert( found );
 	const JIndex firstArg = JMin(argIndex, argIndex+delta);
 	const JIndex lastArg  = JMax(argIndex, argIndex+delta);
 
 	const JSize parentArgCount = naryParentF->GetArgCount();
 
-	const JBoolean sameType =
-		JI2B( typeid(*parentF) == typeid(*f) );
-	const JBoolean argsInRange =
-		JI2B( 1 <= firstArg && lastArg <= parentArgCount );
-	const JBoolean groupAll =
-		JI2B( lastArg - firstArg + 1 == parentArgCount );
+	const bool sameType =
+		typeid(*parentF) == typeid(*f);
+	const bool argsInRange =
+		1 <= firstArg && lastArg <= parentArgCount;
+	const bool groupAll =
+		lastArg - firstArg + 1 == parentArgCount;
 
 	JUnaryFunction* neg = dynamic_cast<JUnaryFunction*>(f);
 	JFunction* negArg   = neg != nullptr ? neg->GetArg() : nullptr;
-	const JBoolean extendNegation =
-		JI2B( typeid(*parentF) == typeid(JSummation) &&
+	const bool extendNegation =
+		typeid(*parentF) == typeid(JSummation) &&
 			  neg != nullptr && typeid(*neg) == typeid(JNegation) &&
-			  typeid(*negArg) == typeid(JSummation) );
+			  typeid(*negArg) == typeid(JSummation);
 
 	// handle special case w+x-(y+z)
 	// (if gobbles last argument, remove parentF entirely)
@@ -1085,7 +1085,7 @@ JExprEditor::UngroupArguments()
 			SaveStateForUndo();
 
 			JIndex argIndex;
-			const JBoolean found = naryParentF->FindArg(naryF, &argIndex);
+			const bool found = naryParentF->FindArg(naryF, &argIndex);
 			assert( found );
 
 			const JSize fArgCount = naryF->GetArgCount();
@@ -1114,7 +1114,7 @@ JExprEditor::UngroupArguments()
 				SaveStateForUndo();
 
 				JIndex argIndex;
-				const JBoolean found = naryParentF->FindArg(f, &argIndex);
+				const bool found = naryParentF->FindArg(f, &argIndex);
 				assert( found );
 
 				const JSize fArgCount = naryF->GetArgCount();
@@ -1165,11 +1165,11 @@ JExprEditor::Negate
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::HasSelection()
 	const
 {
-	return JI2B( itsRectList != nullptr && itsRectList->SelectionValid(itsSelection) );
+	return itsRectList != nullptr && itsRectList->SelectionValid(itsSelection);
 }
 
 /******************************************************************************
@@ -1177,7 +1177,7 @@ JExprEditor::HasSelection()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::GetSelection
 	(
 	JIndex* selection
@@ -1193,7 +1193,7 @@ JExprEditor::GetSelection
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::GetSelectionRect
 	(
 	JRect* selRect
@@ -1203,11 +1203,11 @@ JExprEditor::GetSelectionRect
 	if (HasSelection())
 		{
 		*selRect = itsRectList->GetRect(itsSelection);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1218,7 +1218,7 @@ JExprEditor::GetSelectionRect
 
 // protected
 
-JBoolean
+bool
 JExprEditor::GetSelectedFunction
 	(
 	JFunction** f
@@ -1227,17 +1227,17 @@ JExprEditor::GetSelectedFunction
 	if (HasSelection())
 		{
 		*f = itsRectList->GetFunction(itsSelection);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
 // public
 
-JBoolean
+bool
 JExprEditor::GetConstSelectedFunction	// to avoid "ambiguous reference" errors
 	(
 	const JFunction** f
@@ -1247,11 +1247,11 @@ JExprEditor::GetConstSelectedFunction	// to avoid "ambiguous reference" errors
 	if (HasSelection())
 		{
 		*f = itsRectList->GetFunction(itsSelection);
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1265,11 +1265,11 @@ JExprEditor::GetConstSelectedFunction	// to avoid "ambiguous reference" errors
 
 	This treats an active UIF as if it were selected.
 
-	Returns kJFalse if the selected function has no parent.
+	Returns false if the selected function has no parent.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::GetNegAdjSelFunction
 	(
 	JFunction** selF,
@@ -1282,7 +1282,7 @@ JExprEditor::GetNegAdjSelFunction
 		 GetConstSelectedFunction(const_cast<const JFunction**>(selF))) &&
 		*selF != itsFunction)
 		{
-		JBoolean hasParent = (**selF).GetParent(parentF);
+		bool hasParent = (**selF).GetParent(parentF);
 		assert( hasParent );
 
 		JFunction* grandparentF = nullptr;
@@ -1299,11 +1299,11 @@ JExprEditor::GetNegAdjSelFunction
 			*parentF = grandparentF;
 			}
 
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -1369,7 +1369,7 @@ JExprEditor::SelectFunction
 	const JFunction* f
 	)
 {
-	const JBoolean wasItsFunction = JI2B( f == itsFunction );
+	const bool wasItsFunction = f == itsFunction;
 	if (itsRectList != nullptr && EndEditing())
 		{
 		if (wasItsFunction)		// in case itsFunction was single, active UIF
@@ -1378,7 +1378,7 @@ JExprEditor::SelectFunction
 			}
 
 		JIndex fIndex;
-		JBoolean found = itsRectList->FindFunction(f, &fIndex);
+		bool found = itsRectList->FindFunction(f, &fIndex);
 		while (!found)
 			{
 			const JFunctionWithArgs* fwa = dynamic_cast<const JFunctionWithArgs*>(f);
@@ -1411,7 +1411,7 @@ JExprEditor::SetNormalFont()
 {
 	if (itsActiveUIF != nullptr)
 		{
-		itsActiveUIF->SetGreek(kJFalse);
+		itsActiveUIF->SetGreek(false);
 		}
 }
 
@@ -1420,7 +1420,7 @@ JExprEditor::SetGreekFont()
 {
 	if (itsActiveUIF != nullptr)
 		{
-		itsActiveUIF->SetGreek(kJTrue);
+		itsActiveUIF->SetGreek(true);
 		}
 }
 
@@ -1434,17 +1434,17 @@ JExprEditor::SetGreekFont()
 
  ******************************************************************************/
 
-JArray<JBoolean>
+JArray<bool>
 JExprEditor::GetCmdStatus
 	(
 	JString* evalStr
 	)
 	const
 {
-	JArray<JBoolean> flags(kCmdCount);
+	JArray<bool> flags(kCmdCount);
 	for (JIndex i=1; i<=kCmdCount; i++)
 		{
-		flags.AppendElement(kJFalse);
+		flags.AppendElement(false);
 		}
 
 	if (itsFunction == nullptr || itsRectList == nullptr || !itsActiveFlag)
@@ -1453,18 +1453,18 @@ JExprEditor::GetCmdStatus
 		}
 
 	flags.SetElement(kEvaluateSelCmd, CanDisplaySelectionValue());
-	flags.SetElement(kSelectAllCmd, kJTrue);
-	flags.SetElement(kPrintEPSCmd, kJTrue);
+	flags.SetElement(kSelectAllCmd, true);
+	flags.SetElement(kPrintEPSCmd, true);
 
-	const JBoolean hasSelection = itsRectList->SelectionValid(itsSelection);
+	const bool hasSelection = itsRectList->SelectionValid(itsSelection);
 
 	if (itsUndoFunction != nullptr)
 		{
-		flags.SetElement(kUndoCmd, kJTrue);
+		flags.SetElement(kUndoCmd, true);
 		}
 	if (hasSelection || (itsActiveUIF != nullptr && itsActiveUIF->IsEmpty()))
 		{
-		flags.SetElement(kPasteCmd, kJTrue);
+		flags.SetElement(kPasteCmd, true);
 		}
 
 	if (evalStr != nullptr)
@@ -1474,32 +1474,32 @@ JExprEditor::GetCmdStatus
 
 	if (hasSelection)
 		{
-		flags.SetElement(kCutCmd, kJTrue);
-		flags.SetElement(kCopyCmd, kJTrue);
-		flags.SetElement(kDeleteSelCmd, kJTrue);
+		flags.SetElement(kCutCmd, true);
+		flags.SetElement(kCopyCmd, true);
+		flags.SetElement(kDeleteSelCmd, true);
 
-		flags.SetElement(kNegateSelCmd, kJTrue);
-		flags.SetElement(kApplyFnToSelCmd, kJTrue);
+		flags.SetElement(kNegateSelCmd, true);
+		flags.SetElement(kApplyFnToSelCmd, true);
 
 		JFunction* selF = itsRectList->GetFunction(itsSelection);
 		if (dynamic_cast<JNaryFunction*>(selF) != nullptr)
 			{
-			flags.SetElement(kAddArgCmd, kJTrue);
+			flags.SetElement(kAddArgCmd, true);
 			}
 		}
 
 	if (itsActiveUIF != nullptr)
 		{
-		flags.SetElement(kNegateSelCmd, kJTrue);
-		flags.SetElement(kApplyFnToSelCmd, kJTrue);
+		flags.SetElement(kNegateSelCmd, true);
+		flags.SetElement(kApplyFnToSelCmd, true);
 
 		if (itsActiveUIF->IsGreek())
 			{
-			flags.SetElement(kSetGreekFontCmd, kJTrue);
+			flags.SetElement(kSetGreekFontCmd, true);
 			}
 		else
 			{
-			flags.SetElement(kSetNormalFontCmd, kJTrue);
+			flags.SetElement(kSetNormalFontCmd, true);
 			}
 		}
 
@@ -1511,30 +1511,30 @@ JExprEditor::GetCmdStatus
 			{
 			const JSize parentArgCount = naryParentF->GetArgCount();
 			JIndex argIndex;
-			const JBoolean found = naryParentF->FindArg(selF, &argIndex);
+			const bool found = naryParentF->FindArg(selF, &argIndex);
 			assert( found );
 			if (argIndex > 1)
 				{
-				flags.SetElement(kMoveArgLeftCmd, kJTrue);
+				flags.SetElement(kMoveArgLeftCmd, true);
 				}
 			if (argIndex < parentArgCount)
 				{
-				flags.SetElement(kMoveArgRightCmd, kJTrue);
+				flags.SetElement(kMoveArgRightCmd, true);
 				}
 
 			if (dynamic_cast<JNaryOperator*>(naryParentF) != nullptr)
 				{
 				if (argIndex > 1)
 					{
-					flags.SetElement(kGroupLeftCmd, kJTrue);
+					flags.SetElement(kGroupLeftCmd, true);
 					}
 				if (argIndex < parentArgCount)
 					{
-					flags.SetElement(kGroupRightCmd, kJTrue);
+					flags.SetElement(kGroupRightCmd, true);
 					}
 				if (typeid(*selF) == typeid(*naryParentF))
 					{
-					flags.SetElement(kUngroupCmd, kJTrue);
+					flags.SetElement(kUngroupCmd, true);
 					}
 				else if (typeid(*naryParentF) == typeid(JSummation) &&
 						 typeid(*selF)        == typeid(JNegation))
@@ -1544,7 +1544,7 @@ JExprEditor::GetCmdStatus
 					const JFunction* negArg = neg->GetArg();
 					if (typeid(*negArg) == typeid(JSummation))
 						{
-						flags.SetElement(kUngroupCmd, kJTrue);
+						flags.SetElement(kUngroupCmd, true);
 						}
 					}
 				}
@@ -1559,11 +1559,11 @@ JExprEditor::GetCmdStatus
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::CanDisplaySelectionValue()
 	const
 {
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -1658,9 +1658,9 @@ JExprEditor::EIPDraw
 	if (GetSelectionRect(&selRect))
 		{
 		p.SetPenColor(itsSelectionColor);
-		p.SetFilling(kJTrue);
+		p.SetFilling(true);
 		p.Rect(selRect);
-		p.SetFilling(kJFalse);
+		p.SetFilling(false);
 		p.SetPenColor(itsTextColor);
 		}
 
@@ -1682,7 +1682,7 @@ void
 JExprEditor::EIPHandleMouseDown
 	(
 	const JPoint&	currPt,
-	const JBoolean	extend
+	const bool	extend
 	)
 {
 	itsDragType = kInvalidDrag;
@@ -1696,7 +1696,7 @@ JExprEditor::EIPHandleMouseDown
 	if (itsRectList != nullptr && MouseOnActiveUIF(currPt))
 		{
 		itsDragType = kSendToUIF;
-		const JBoolean redraw =
+		const bool redraw =
 			itsActiveUIF->HandleMouseDown(currPt, extend, *itsRectList, *this);
 		if (redraw)
 			{
@@ -1716,7 +1716,7 @@ JExprEditor::EIPHandleMouseDown
 			}
 
 		itsPrevSelectedFunction = nullptr;
-		const JBoolean hasSelection = itsRectList->SelectionValid(itsSelection);
+		const bool hasSelection = itsRectList->SelectionValid(itsSelection);
 		if (hasSelection)
 			{
 			itsPrevSelectedFunction = itsRectList->GetFunction(itsSelection);
@@ -1762,7 +1762,7 @@ JExprEditor::EIPHandleMouseDrag
 		}
 	else if (itsRectList != nullptr && itsDragType == kSendToUIF)
 		{
-		const JBoolean redraw =
+		const bool redraw =
 			itsActiveUIF->HandleMouseDrag(currPt, *itsRectList, *this);
 		if (redraw)
 			{
@@ -1795,7 +1795,7 @@ JExprEditor::EIPHandleMouseUp()
 			assert( uif != nullptr );
 			ActivateUIF(uif);
 			assert( itsActiveUIF != nullptr );
-			itsActiveUIF->HandleMouseDown(itsStartPt, kJFalse, *itsRectList, *this);
+			itsActiveUIF->HandleMouseDown(itsStartPt, false, *itsRectList, *this);
 			itsActiveUIF->HandleMouseUp();
 			EIPRefresh();
 			}
@@ -1824,14 +1824,14 @@ JExprEditor::EIPHandleMouseUp()
 			Render();
 			ActivateUIF(newUIF);
 			assert( itsActiveUIF != nullptr );
-			itsActiveUIF->HandleMouseDown(itsStartPt, kJFalse, *itsRectList, *this);
+			itsActiveUIF->HandleMouseDown(itsStartPt, false, *itsRectList, *this);
 			itsActiveUIF->HandleMouseUp();
 			EIPRefresh();
 			}
 		}
 	else if (itsDragType == kSendToUIF)
 		{
-		const JBoolean redraw = itsActiveUIF->HandleMouseUp();
+		const bool redraw = itsActiveUIF->HandleMouseUp();
 		if (redraw)
 			{
 			EIPRefresh();
@@ -1846,7 +1846,7 @@ JExprEditor::EIPHandleMouseUp()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::MouseOnActiveUIF
 	(
 	const JPoint& pt
@@ -1854,10 +1854,9 @@ JExprEditor::MouseOnActiveUIF
 	const
 {
 	JIndex uifIndex;
-	return JConvertToBoolean(
-				itsRectList != nullptr && itsActiveUIF != nullptr &&
+	return itsRectList != nullptr && itsActiveUIF != nullptr &&
 				itsRectList->FindFunction(itsActiveUIF, &uifIndex) &&
-				itsRectList->GetSelection(pt, pt) == uifIndex);
+				itsRectList->GetSelection(pt, pt) == uifIndex;
 }
 
 /******************************************************************************
@@ -1881,7 +1880,7 @@ JExprEditor::EIPHandleKeyPress
 		return;
 		}
 
-	const JBoolean selectionValid = itsRectList->SelectionValid(itsSelection);
+	const bool selectionValid = itsRectList->SelectionValid(itsSelection);
 	if (!selectionValid && itsActiveUIF == nullptr)
 		{
 		return;
@@ -1889,12 +1888,10 @@ JExprEditor::EIPHandleKeyPress
 	assert( ( selectionValid && itsActiveUIF == nullptr) ||
 			(!selectionValid && itsActiveUIF != nullptr) );
 
-	const JBoolean isOperatorKey =
-		JConvertToBoolean(
-			key == '+' || (key == '-' && (selectionValid || !itsActiveUIF->IsEmpty())) ||
+	const bool isOperatorKey =
+		key == '+' || (key == '-' && (selectionValid || !itsActiveUIF->IsEmpty())) ||
 			key == '*' || key == '/' || key == '^' || key == '|' ||
-			(key == ',' && CanApplyCommaOperator())
-			);
+			(key == ',' && CanApplyCommaOperator());
 
 	if (selectionValid && (key == ' ' || key == ')'))
 		{
@@ -1931,7 +1928,7 @@ JExprEditor::EIPHandleKeyPress
 			JUserInputFunction* newUIF = jnew JUserInputFunction(this);
 			assert( newUIF != nullptr );
 			newUIF->Activate();
-			JBoolean needParse, needRender;
+			bool needParse, needRender;
 			newUIF->HandleKeyPress(key, &needParse, &needRender);
 			assert( !needParse );	// it was just created
 			newUIF->Deactivate();
@@ -1960,7 +1957,7 @@ JExprEditor::EIPHandleKeyPress
 		{
 		JFunction* arg1 = nullptr;
 		JUserInputFunction* newUIF = nullptr;
-		JBoolean needRender;
+		bool needRender;
 		if (itsActiveUIF->Parse(key, &arg1, &newUIF, &needRender))
 			{
 			assert( newUIF == nullptr );
@@ -2008,8 +2005,8 @@ JExprEditor::EIPHandleKeyPress
 			SaveStateForUndo();
 			}
 
-		JBoolean needParse, needRender;
-		const JBoolean changed = itsActiveUIF->HandleKeyPress(key, &needParse, &needRender);
+		bool needParse, needRender;
+		const bool changed = itsActiveUIF->HandleKeyPress(key, &needParse, &needRender);
 
 		JFunction* newF = nullptr;
 		JUserInputFunction* newUIF = nullptr;
@@ -2054,7 +2051,7 @@ JExprEditor::ApplyOperatorKey
 	const std::type_info* parentType = & typeid(JVariableValue);
 	if (targetF != itsFunction)
 		{
-		const JBoolean hasParent = targetF->GetParent(&parentF);
+		const bool hasParent = targetF->GetParent(&parentF);
 		assert( hasParent );
 
 		parentType = & typeid(*parentF);
@@ -2088,7 +2085,7 @@ JExprEditor::ApplyOperatorKey
 		JNaryOperator* naryOp = dynamic_cast<JNaryOperator*>(parentF);
 		assert( naryOp != nullptr );
 		JIndex selFIndex;
-		const JBoolean found = naryOp->FindArg(targetF, &selFIndex);
+		const bool found = naryOp->FindArg(targetF, &selFIndex);
 		assert( found );
 		naryOp->InsertArg(selFIndex+1, newArg);
 		}
@@ -2130,7 +2127,7 @@ JExprEditor::ApplyOperatorKey
 		{
 		JNaryFunction* commaTargetF;
 		JIndex newArgIndex;
-		const JBoolean found = GetCommaTarget(targetF, &commaTargetF, &newArgIndex);
+		const bool found = GetCommaTarget(targetF, &commaTargetF, &newArgIndex);
 		assert( found );
 		commaTargetF->InsertArg(newArgIndex, newArg);
 		}
@@ -2151,12 +2148,12 @@ JExprEditor::ApplyOperatorKey
 /******************************************************************************
  CanApplyCommaOperator (private)
 
-	Returns kJTrue if it is possible to apply the comma operator to the
+	Returns true if it is possible to apply the comma operator to the
 	current selection or active UIF.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::CanApplyCommaOperator()
 {
 	JFunction* startF;
@@ -2167,8 +2164,7 @@ JExprEditor::CanApplyCommaOperator()
 
 	JNaryFunction* targetF;
 	JIndex newArgIndex;
-	return JConvertToBoolean(
-			startF != nullptr && GetCommaTarget(startF, &targetF, &newArgIndex));
+	return startF != nullptr && GetCommaTarget(startF, &targetF, &newArgIndex);
 }
 
 /******************************************************************************
@@ -2179,7 +2175,7 @@ JExprEditor::CanApplyCommaOperator()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JExprEditor::GetCommaTarget
 	(
 	JFunction*		startF,
@@ -2189,31 +2185,31 @@ JExprEditor::GetCommaTarget
 {
 	if (startF == itsFunction)
 		{
-		return kJFalse;
+		return false;
 		}
 
 	JFunction* currF = startF;
 	JFunction* parentF = nullptr;
 	while (currF != itsFunction)
 		{
-		const JBoolean hasParent = currF->GetParent(&parentF);
+		const bool hasParent = currF->GetParent(&parentF);
 		assert( hasParent );
 
 		JNaryFunction* naryParentF = dynamic_cast<JNaryFunction*>(parentF);
 		if (naryParentF != nullptr && dynamic_cast<JNaryOperator*>(parentF) == nullptr)
 			{
 			*targetF             = naryParentF;
-			const JBoolean found = naryParentF->FindArg(currF, newArgIndex);
+			const bool found = naryParentF->FindArg(currF, newArgIndex);
 			assert( found );
 			(*newArgIndex)++;	// insert after current arg
-			return kJTrue;
+			return true;
 			}
 		currF = parentF;
 		}
 
 	// falling through means that we can't find an nary function
 
-	return kJFalse;
+	return false;
 }
 
 /******************************************************************************
@@ -2234,7 +2230,7 @@ JExprEditor::ActivateUIF
 		itsSelection = 0;
 
 		JIndex uifIndex;
-		const JBoolean found = itsRectList->FindFunction(uif, &uifIndex);
+		const bool found = itsRectList->FindFunction(uif, &uifIndex);
 		assert( found );
 		if (!EIPScrollToRect(itsRectList->GetRect(uifIndex)))
 			{
@@ -2283,7 +2279,7 @@ JExprEditor::DeleteFunction
 		}
 
 	JFunction* parentF;
-	JBoolean hasParent = targetF->GetParent(&parentF);
+	bool hasParent = targetF->GetParent(&parentF);
 	assert( hasParent );
 
 	JFunctionWithArgs* parentfwa = dynamic_cast<JFunctionWithArgs*>(parentF);
@@ -2339,7 +2335,7 @@ JExprEditor::DeleteFunction
 		{
 		JNaryFunction* naryF = dynamic_cast<JNaryFunction*>(parentF);
 		assert( naryF != nullptr );
-		const JBoolean ok = naryF->DeleteArg(targetF);
+		const bool ok = naryF->DeleteArg(targetF);
 		assert( ok );
 		fToSelect = naryF;
 		}
@@ -2367,14 +2363,14 @@ JExprEditor::ReplaceFunction
 	else
 		{
 		JFunction* parentF;
-		const JBoolean hasParent = origF->GetParent(&parentF);
+		const bool hasParent = origF->GetParent(&parentF);
 		assert( hasParent );
 
 		JFunctionWithArgs* fwa = dynamic_cast<JFunctionWithArgs*>(parentF);
 		JFunctionWithVar* fwv  = dynamic_cast<JFunctionWithVar*>(parentF);
 		if (fwa != nullptr)
 			{
-			const JBoolean ok = fwa->ReplaceArg(origF, newF);
+			const bool ok = fwa->ReplaceArg(origF, newF);
 			assert( ok );
 			}
 		else
@@ -2401,7 +2397,7 @@ JExprEditor::FindNextUIF
 	JIndex currentIndex = 0;
 	if (currUIF != nullptr)
 		{
-		const JBoolean found = itsRectList->FindFunction(currUIF, &currentIndex);
+		const bool found = itsRectList->FindFunction(currUIF, &currentIndex);
 		assert( found );
 		}
 
@@ -2561,7 +2557,7 @@ JExprEditor::GetSpaceWidth
 	)
 	const
 {
-	return GetStringWidth(fontSize, JString(" ", kJFalse));
+	return GetStringWidth(fontSize, JString(" ", JString::kNoCopy));
 }
 
 JSize

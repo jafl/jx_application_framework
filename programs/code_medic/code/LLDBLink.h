@@ -36,48 +36,48 @@ public:
 
 	virtual	~LLDBLink();
 
-	virtual JBoolean	DebuggerHasStarted() const override;
-	virtual JBoolean	HasLoadedSymbols() const override;
-	virtual JBoolean	IsDebugging() const override;
-	virtual JBoolean	IsDefiningScript() const override;
+	virtual bool	DebuggerHasStarted() const override;
+	virtual bool	HasLoadedSymbols() const override;
+	virtual bool	IsDebugging() const override;
+	virtual bool	IsDefiningScript() const override;
 
-	virtual JBoolean	ChangeDebugger() override;
-	virtual JBoolean	RestartDebugger() override;
+	virtual bool	ChangeDebugger() override;
+	virtual bool	RestartDebugger() override;
 
 	virtual JString		GetChooseProgramInstructions() const override;
-	virtual JBoolean	HasProgram() const override;
-	virtual JBoolean	GetProgram(JString* fullName) const override;
+	virtual bool	HasProgram() const override;
+	virtual bool	GetProgram(JString* fullName) const override;
 	virtual void		SetProgram(const JString& fullName) override;
 	virtual void		ReloadProgram() override;
-	virtual JBoolean	HasCore() const override;
-	virtual JBoolean	GetCore(JString* fullName) const override;
+	virtual bool	HasCore() const override;
+	virtual bool	GetCore(JString* fullName) const override;
 	virtual void		SetCore(const JString& fullName) override;
 	virtual void		AttachToProcess(const pid_t pid) override;
 
 	virtual void		RunProgram(const JString& args) override;
 	virtual void		StopProgram() override;
 	virtual void		KillProgram() override;
-	virtual JBoolean	ProgramIsRunning() const override;
-	virtual JBoolean	ProgramIsStopped() const override;
-	virtual JBoolean	OKToDetachOrKill() const override;
+	virtual bool	ProgramIsRunning() const override;
+	virtual bool	ProgramIsStopped() const override;
+	virtual bool	OKToDetachOrKill() const override;
 
-	virtual JBoolean	OKToSendMultipleCommands() const override;
-	virtual JBoolean	OKToSendCommands(const JBoolean background) const override;
+	virtual bool	OKToSendMultipleCommands() const override;
+	virtual bool	OKToSendCommands(const bool background) const override;
 
 	virtual CMBreakpointManager*	GetBreakpointManager() override;
 
 	virtual void	ShowBreakpointInfo(const JIndex debuggerIndex) override;
 	virtual void	SetBreakpoint(const JString& fileName, const JIndex lineIndex,
-								  const JBoolean temporary = kJFalse) override;
+								  const bool temporary = false) override;
 	virtual void	SetBreakpoint(const JString& address,
-								  const JBoolean temporary = kJFalse) override;
+								  const bool temporary = false) override;
 	virtual void	RemoveBreakpoint(const JIndex debuggerIndex) override;
 	virtual void	RemoveAllBreakpointsOnLine(const JString& fileName,
 										   const JIndex lineIndex) override;
 	virtual void	RemoveAllBreakpointsAtAddress(const JString& addr) override;
 	virtual void	RemoveAllBreakpoints() override;
-	virtual void	SetBreakpointEnabled(const JIndex debuggerIndex, const JBoolean enabled,
-									 const JBoolean once = kJFalse) override;
+	virtual void	SetBreakpointEnabled(const JIndex debuggerIndex, const bool enabled,
+									 const bool once = false) override;
 	virtual void	SetBreakpointCondition(const JIndex debuggerIndex,
 									   const JString& condition) override;
 	virtual void	RemoveBreakpointCondition(const JIndex debuggerIndex) override;
@@ -130,7 +130,7 @@ public:
 	virtual CMGetSourceFileList*	CreateGetSourceFileList(CMFileListDir* fileList) override;
 	virtual CMVarCommand*			CreateVarValueCommand(const JString& expr) override;
 	virtual CMVarCommand*			CreateVarContentCommand(const JString& expr) override;
-	virtual CMVarNode*				CreateVarNode(const JBoolean shouldUpdate = kJTrue) override;
+	virtual CMVarNode*				CreateVarNode(const bool shouldUpdate = true) override;
 	virtual CMVarNode*				CreateVarNode(JTreeNode* parent, const JString& name,
 												  const JString& fullName, const JString& value) override;
 	virtual JString					Build1DArrayExpression(const JString& expr,
@@ -148,7 +148,7 @@ public:
 
 	// called by LLDBWelcomeTask
 
-	void	BroadcastWelcome(const JString& msg, const JBoolean restart);
+	void	BroadcastWelcome(const JString& msg, const bool restart);
 
 	// called by LLDBRunBackgroundCommandTask
 
@@ -181,21 +181,21 @@ private:
 
 	JString		itsPrompt;			// to allow GetPrompt() to return JString&
 	JString		itsCoreName;
-	JBoolean	itsIsAttachedFlag;	// debugging pre-existing process
+	bool	itsIsAttachedFlag;	// debugging pre-existing process
 
 private:
 
-	JBoolean	StartDebugger(const JBoolean restart);
+	bool	StartDebugger(const bool restart);
 	void		InitFlags();
 	void		StopDebugger();
 
 	void		ProgramStarted(const pid_t pid);
-	JBoolean	ProgramStopped(JString* msg = nullptr);
+	bool	ProgramStopped(JString* msg = nullptr);
 	void		ProgramFinished1();
 
-	void	DetachOrKill(const JBoolean destroyTarget);
+	void	DetachOrKill(const bool destroyTarget);
 
-	void	Watch(const JString& expr, const JBoolean resolveAddress);
+	void	Watch(const JString& expr, const bool resolveAddress);
 
 	void	HandleLLDBEvent(const lldb::SBEvent& e);
 
@@ -230,7 +230,7 @@ inline void
 LLDBLink::BroadcastWelcome
 	(
 	const JString&	msg,
-	const JBoolean	restart
+	const bool	restart
 	)
 {
 	if (restart)
@@ -240,7 +240,7 @@ LLDBLink::BroadcastWelcome
 	Broadcast(DebuggerStarted());
 	Broadcast(DebuggerReadyForInput());
 
-	Broadcast(UserOutput(msg, kJFalse, kJFalse));
+	Broadcast(UserOutput(msg, false, false));
 }
 
 #endif

@@ -74,7 +74,7 @@ static const char* kCurrentJExprLibVersionStr = "2.0.0";
 //	JUserInputFunction:
 //		Added Clear().
 //	JExprEditor:
-//		EIPDeactivate() no longer returns JBoolean.
+//		EIPDeactivate() no longer returns bool.
 //		Escape clears the active JUserInputFunction.
 //		NegateSelection(), ApplyFunctionToSelection(), MoveArgument(),
 //			Group/UngroupArguments() now work on active UIF.

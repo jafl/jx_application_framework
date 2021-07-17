@@ -107,7 +107,7 @@ MDRecord::CompareFileName
 		s2++;
 		}
 
-	int result = JString::Compare(s1, s2, kJFalse);
+	int result = JString::Compare(s1, s2, JString::kIgnoreCase);
 
 	if (result == 0)
 		{

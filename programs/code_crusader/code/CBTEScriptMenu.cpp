@@ -76,7 +76,7 @@ CBTEScriptMenu::CBTEScriptMenuX()
 	JDirInfo* info;
 	if (GetDirInfo(&info))
 		{
-		info->SetWildcardFilter(JString("*~ #*#", kJFalse), kJTrue);
+		info->SetWildcardFilter(JString("*~ #*#", JString::kNoCopy), true);
 		}
 }
 
@@ -133,7 +133,7 @@ CBTEScriptMenu::Receive
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTEScriptMenu::UpdateSelf()
 {
 	JDirInfo* info;
@@ -142,12 +142,12 @@ CBTEScriptMenu::UpdateSelf()
 		{
 		info->SetDirEntryFilter(ShowExecutables);
 		info->ForceUpdate();	// permissions may change
-		return kJTrue;
+		return true;
 		}
 	else
 		{
 		ClearMenu();
-		return kJFalse;
+		return false;
 		}
 }
 
@@ -156,14 +156,14 @@ CBTEScriptMenu::UpdateSelf()
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTEScriptMenu::ShowExecutables
 	(
 	const JDirEntry& entry
 	)
 {
-	return JI2B( (entry.IsDirectory() && !JIsVCSDirectory(entry.GetName())) ||
-				 (entry.IsFile() && entry.IsExecutable()) );
+	return (entry.IsDirectory() && !JIsVCSDirectory(entry.GetName())) ||
+				 (entry.IsFile() && entry.IsExecutable());
 }
 
 /******************************************************************************
@@ -171,7 +171,7 @@ CBTEScriptMenu::ShowExecutables
 
  ******************************************************************************/
 
-JBoolean
+bool
 CBTEScriptMenu::HandleSelection
 	(
 	const JIndex index
@@ -183,7 +183,7 @@ CBTEScriptMenu::HandleSelection
 		if (GetDirInfo(&info))
 			{
 			JString origName = info->GetDirectory();
-			origName         = JCombinePathAndName(origName, JString("script", kJFalse));
+			origName         = JCombinePathAndName(origName, JString("script", JString::kNoCopy));
 
 			JString fullName;
 			if (JGetChooseSaveFile()->SaveFile(JGetString("SavePrompt::CBTEScriptMenu"), JString::empty,
@@ -195,7 +195,7 @@ CBTEScriptMenu::HandleSelection
 				CBGetDocumentManager()->OpenTextDocument(fullName);
 				}
 			}
-		return kJTrue;
+		return true;
 		}
 	else if (index == GetItemCount() - kOpenDirectoryCmdOffset)
 		{
@@ -204,10 +204,10 @@ CBTEScriptMenu::HandleSelection
 			{
 			(JXGetWebBrowser())->ShowFileLocation(info->GetDirectory());
 			}
-		return kJTrue;
+		return true;
 		}
 	else
 		{
-		return kJFalse;
+		return false;
 		}
 }

@@ -96,7 +96,7 @@ CBPrefsManager::CreateAndReadData
 	*list = CreateListFn();
 
 	std::string listData;
-	JBoolean ok = GetData(MainDataID, &listData);
+	bool ok = GetData(MainDataID, &listData);
 	assert( ok );
 	std::istringstream listStream(listData);
 
@@ -113,7 +113,7 @@ CBPrefsManager::CreateAndReadData
 		listStream >> info.id >> *info.name;
 
 		std::string data;
-		const JBoolean ok = GetData(info.id, &data);
+		const bool ok = GetData(info.id, &data);
 		assert( ok );
 		RemoveData(info.id);
 		std::istringstream input(data);
@@ -270,10 +270,10 @@ JIndex i,j;
 	for (JIndex id=lastNewID; id>=firstNewID; id--)
 		{
 		JIndex index;
-		const JBoolean found = FindIDFn(*ListVar, id, &index);
+		const bool found = FindIDFn(*ListVar, id, &index);
 		assert( found );
 
-		JBoolean foundEmptySlot = kJFalse;
+		bool foundEmptySlot = false;
 		for (i=FirstDataID; i<firstNewID; i++)
 			{
 			if (!FindIDFn(*ListVar, i, &j))
@@ -282,7 +282,7 @@ JIndex i,j;
 				info.id       = i;
 				ListVar->SetElement(index, info);
 
-				foundEmptySlot = kJTrue;
+				foundEmptySlot = true;
 				break;
 				}
 			}

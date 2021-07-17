@@ -38,7 +38,7 @@ private:
 	JPtrArray<JString>			itsFullNameList;	// store strings so don't need table
 	JSimpleProcess*				itsProcess;
 	JString						itsCurrentName;
-	const JBoolean				itsShouldEditFlag;	// BeginEditing() after process finishes
+	const bool				itsShouldEditFlag;	// BeginEditing() after process finishes
 
 private:
 

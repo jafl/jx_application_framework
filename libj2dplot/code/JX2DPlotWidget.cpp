@@ -170,7 +170,7 @@ JX2DPlotWidget::JX2DPlotWidget
 	itsCurveOptionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsCurveOptionsMenu);
 
-	itsIsSharingMenusFlag = kJFalse;
+	itsIsSharingMenusFlag = false;
 }
 
 JX2DPlotWidget::JX2DPlotWidget
@@ -208,8 +208,8 @@ JX2DPlotWidget::JX2DPlotWidget
 	itsCurveOptionsMenu	= plot->itsCurveOptionsMenu;
 	ListenTo(itsCurveOptionsMenu);
 
-	itsIsSharingMenusFlag       = kJTrue;
-	plot->itsIsSharingMenusFlag = kJTrue;
+	itsIsSharingMenusFlag       = true;
+	plot->itsIsSharingMenusFlag = true;
 }
 
 // private
@@ -240,7 +240,7 @@ JX2DPlotWidget::JX2DPlotWidgetX()
 	itsPSPrinter  = nullptr;
 	itsEPSPrinter = nullptr;
 
-	WantInput(kJTrue, kJTrue);
+	WantInput(true, true);
 	ListenTo(this);		// update "Remove mark" menu
 }
 
@@ -296,7 +296,7 @@ JX2DPlotWidget::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	PWHandleKeyPress(c, modifiers.shift(), modifiers.meta(), kJFalse);
+	PWHandleKeyPress(c, modifiers.shift(), modifiers.meta(), false);
 }
 
 /******************************************************************************
@@ -658,11 +658,11 @@ JX2DPlotWidget::HandleOptionsMenu
 		{
 		if (FrameIsVisible())
 			{
-			ShowFrame(kJFalse);
+			ShowFrame(false);
 			}
 		else
 			{
-			ShowFrame(kJTrue);
+			ShowFrame(true);
 			}
 
 		}
@@ -671,11 +671,11 @@ JX2DPlotWidget::HandleOptionsMenu
 		{
 		if (GridIsVisible())
 			{
-			ShowGrid(kJFalse);
+			ShowGrid(false);
 			}
 		else
 			{
-			ShowGrid(kJTrue);
+			ShowGrid(true);
 			}
 		}
 
@@ -683,11 +683,11 @@ JX2DPlotWidget::HandleOptionsMenu
 		{
 		if (LegendIsVisible())
 			{
-			ShowLegend(kJFalse);
+			ShowLegend(false);
 			}
 		else
 			{
-			ShowLegend(kJTrue);
+			ShowLegend(true);
 			}
 		}
 }
@@ -742,7 +742,7 @@ JX2DPlotWidget::GetNewLabels()
 void
 JX2DPlotWidget::ChangeScale
 	(
-	const JBoolean xAxis
+	const bool xAxis
 	)
 {
 	assert (itsPlotScaleDialog == nullptr);
@@ -768,7 +768,7 @@ JX2DPlotWidget::ChangeScale
 void
 JX2DPlotWidget::ChangeScale()
 {
-	ChangeScale(kJTrue);
+	ChangeScale(true);
 }
 
 /*******************************************************************************
@@ -782,7 +782,7 @@ JX2DPlotWidget::GetNewScale()
 	assert( itsPlotScaleDialog != nullptr );
 
 	JFloat xmin, xmax, xinc, ymin, ymax, yinc;
-	JBoolean xLinear, yLinear;
+	bool xLinear, yLinear;
 
 	itsPlotScaleDialog->GetScaleValues(&xmin, &xmax, &xinc, &xLinear, &ymin, &ymax, &yinc, &yLinear);
 	SetXScale(xmin, xmax, (xLinear ? xinc : -1.0), xLinear);
@@ -900,7 +900,7 @@ JX2DPlotWidget::PWCreateDragInsidePainter()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JX2DPlotWidget::PWGetDragPainter
 	(
 	JPainter** p
@@ -945,7 +945,7 @@ JX2DPlotWidget::ChangeCurveOptions
 {
 	assert (itsCurveOptionsDialog == nullptr);
 
-	JArray<JBoolean> hasXErrors, hasYErrors, isFunction, isScatter;
+	JArray<bool> hasXErrors, hasYErrors, isFunction, isScatter;
 
 	const JSize count = GetCurveCount();
 	for (JIndex i=1; i<=count; i++)
@@ -954,7 +954,7 @@ JX2DPlotWidget::ChangeCurveOptions
 		hasXErrors.AppendElement(curve.HasXErrors());
 		hasYErrors.AppendElement(curve.HasYErrors());
 		isFunction.AppendElement(curve.IsFunction());
-		isScatter.AppendElement(JI2B(curve.GetType() == JPlotDataBase::kScatterPlot));
+		isScatter.AppendElement(curve.GetType() == JPlotDataBase::kScatterPlot);
 		}
 
 	itsCurveOptionsDialog =
@@ -1052,9 +1052,9 @@ JX2DPlotWidget::UpdateCursorMenu()
 
 	itsCursorMenu->SetItemEnable(kMarkCursorCmd, CursorIsSelected());
 	itsCursorMenu->SetItemEnable(kMarkAllVisCursorsCmd,
-								 JI2B(XCursorVisible() || YCursorVisible()));
+								 XCursorVisible() || YCursorVisible());
 	itsCursorMenu->SetItemEnable(kRemoveAllMarksCmd,
-								JI2B(GetXMarkCount() > 0 || GetYMarkCount() > 0));
+								GetXMarkCount() > 0 || GetYMarkCount() > 0);
 }
 
 /*******************************************************************************
@@ -1125,7 +1125,7 @@ JIndex i;
 
 	for (i=1; i<=xCount; i++)
 		{
-		JString str("x", 0);
+		JString str("x");
 		str += JString((JUInt64) i);
 		itsMarkMenu->AppendItem(str);
 		}
@@ -1137,7 +1137,7 @@ JIndex i;
 
 	for (i=1; i<=yCount; i++)
 		{
-		JString str("y", 0);
+		JString str("y");
 		str += JString((JUInt64) i);
 		itsMarkMenu->AppendItem(str);
 		}
@@ -1213,8 +1213,8 @@ JX2DPlotWidget::UpdateCurveOptionsMenu()
 		}
 	else
 		{
-		const JBoolean lines   = LinesAreVisible(itsCurveOptionsIndex);
-		const JBoolean symbols = SymbolsAreVisible(itsCurveOptionsIndex);
+		const bool lines   = LinesAreVisible(itsCurveOptionsIndex);
+		const bool symbols = SymbolsAreVisible(itsCurveOptionsIndex);
 		if (lines && symbols)
 			{
 			style = kLinesSymbolsCmd;
@@ -1286,19 +1286,19 @@ JX2DPlotWidget::HandleCurveOptionsMenu
 
 	else if (index == kPointsCmd)
 		{
-		SetCurveStyle(itsCurveOptionsIndex, kJFalse, kJFalse);
+		SetCurveStyle(itsCurveOptionsIndex, false, false);
 		}
 	else if (index == kSymbolsCmd)
 		{
-		SetCurveStyle(itsCurveOptionsIndex, kJFalse, kJTrue);
+		SetCurveStyle(itsCurveOptionsIndex, false, true);
 		}
 	else if (index == kLinesCmd)
 		{
-		SetCurveStyle(itsCurveOptionsIndex, kJTrue, kJFalse);
+		SetCurveStyle(itsCurveOptionsIndex, true, false);
 		}
 	else if (index == kLinesSymbolsCmd)
 		{
-		SetCurveStyle(itsCurveOptionsIndex, kJTrue, kJTrue);
+		SetCurveStyle(itsCurveOptionsIndex, true, true);
 		}
 
 	else if (index == kXErrorsCmd)
@@ -1393,15 +1393,15 @@ JX2DPlotWidget::GetMarksHeight()
 /******************************************************************************
  PrintMarks (virtual protected)
 
-	PostScript.  Returns kJFalse if printing was cancelled.
+	PostScript.  Returns false if printing was cancelled.
 
  ******************************************************************************/
 
-JBoolean
+bool
 JX2DPlotWidget::PrintMarks
 	(
 	JPagePrinter&	p,
-	const JBoolean	putOnSamePage,
+	const bool	putOnSamePage,
 	const JRect&	partialPageRect
 	)
 {
@@ -1441,9 +1441,9 @@ JX2DPlotWidget::PrintPlotEPS()
 {
 	assert( itsEPSPrinter != nullptr );
 
-	itsPrintEPSPlotFlag = kJTrue;
+	itsPrintEPSPlotFlag = true;
 	itsEPSPrinter->SetOutputFileName(itsEPSPlotName);
-	itsEPSPrinter->UsePlotSetup(kJTrue);
+	itsEPSPrinter->UsePlotSetup(true);
 	if (!itsEPSPlotBounds.IsEmpty())
 		{
 		itsEPSPrinter->SetPlotBounds(itsEPSPlotBounds);
@@ -1464,9 +1464,9 @@ JX2DPlotWidget::PrintMarksEPS()
 {
 	assert( itsEPSPrinter != nullptr );
 
-	itsPrintEPSPlotFlag = kJFalse;
+	itsPrintEPSPlotFlag = false;
 	itsEPSPrinter->SetOutputFileName(itsEPSMarksName);
-	itsEPSPrinter->UsePlotSetup(kJFalse);
+	itsEPSPrinter->UsePlotSetup(false);
 	itsEPSPrinter->BeginUserPrintSetup();
 	ListenTo(itsEPSPrinter);
 }
@@ -1499,7 +1499,7 @@ JX2DPlotWidget::PWXReadSetup
 	J2DPlotWidget::PWReadSetup(input);
 
 	itsMarkDir->ReadSetup(input);
-	JBoolean active;
+	bool active;
 	input >> JBoolFromString(active);
 	if (active)
 		{

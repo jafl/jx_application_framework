@@ -86,7 +86,7 @@ JNamedConstant::Copy()
 
  ******************************************************************************/
 
-JBoolean
+bool
 JNamedConstant::Evaluate
 	(
 	JFloat* result
@@ -96,16 +96,16 @@ JNamedConstant::Evaluate
 	if (itsNameIndex == kIJNamedConstIndex)		// i is not a real number
 		{
 		*result = 0.0;
-		return kJFalse;
+		return false;
 		}
 	else
 		{
 		*result = kNamedConstValues[ itsNameIndex-1 ];
-		return kJTrue;
+		return true;
 		}
 }
 
-JBoolean
+bool
 JNamedConstant::Evaluate
 	(
 	JComplex* result
@@ -121,7 +121,7 @@ JNamedConstant::Evaluate
 		*result = kNamedConstValues[ itsNameIndex-1 ];
 		}
 
-	return kJTrue;
+	return true;
 }
 
 /******************************************************************************
@@ -156,13 +156,13 @@ JNamedConstant::Print
 
  ******************************************************************************/
 
-JBoolean
+bool
 JNamedConstant::IsNamedConstant
 	(
 	const JString& name
 	)
 {
-	return JI2B( name == JGetCurrentImagString() ||
+	return name == JGetCurrentImagString() ||
 				 name == "\xCF\x80"              ||
-				 name == "e" );
+				 name == "e";
 }

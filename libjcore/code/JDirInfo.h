@@ -23,16 +23,16 @@ class JProgressDisplay;
 typedef JListT::CompareResult
 	(JCompareDirEntries)(JDirEntry * const &, JDirEntry * const &);
 
-typedef JBoolean (JCheckPermissions)(const JDirEntry&);
+typedef bool (JCheckPermissions)(const JDirEntry&);
 
 class JDirInfo : public JContainer
 {
 public:
 
-	static JBoolean	Create(const JString& dirName, JDirInfo** obj);
-	static JBoolean	Create(const JDirInfo& source, const JString& dirName,
+	static bool	Create(const JString& dirName, JDirInfo** obj);
+	static bool	Create(const JDirInfo& source, const JString& dirName,
 						   JDirInfo** obj);
-	static JBoolean	OKToCreate(const JString& dirName);
+	static bool	OKToCreate(const JString& dirName);
 
 	JDirInfo(const JDirInfo& source);
 	JDirInfo(const JDirInfo& source, const JString& dirName);
@@ -42,9 +42,9 @@ public:
 	const JDirInfo& operator=(const JDirInfo& source);
 	void			CopySettings(const JDirInfo& source);
 
-	JBoolean		DirectoryExists() const;
+	bool		DirectoryExists() const;
 	const JString&	GetDirectory() const;
-	JBoolean		IsWritable() const;
+	bool		IsWritable() const;
 
 	JError	GoUp();
 	JError	GoDown(const JString& dirName);
@@ -53,37 +53,37 @@ public:
 
 	void		ChangeSort(JCompareDirEntries* f, const JListT::SortOrder order);
 
-	JBoolean	FilesVisible() const;
-	void		ShowFiles(const JBoolean show);
+	bool	FilesVisible() const;
+	void		ShowFiles(const bool show);
 
-	JBoolean	DirsVisible() const;
-	void		ShowDirs(const JBoolean show);
+	bool	DirsVisible() const;
+	void		ShowDirs(const bool show);
 
-	JBoolean	HiddenVisible() const;
-	void		ShowHidden(const JBoolean show);
+	bool	HiddenVisible() const;
+	void		ShowHidden(const bool show);
 
-	JBoolean	VCSDirsVisible() const;
-	void		ShowVCSDirs(const JBoolean show);
+	bool	VCSDirsVisible() const;
+	void		ShowVCSDirs(const bool show);
 
-	JBoolean	OthersVisible() const;
-	void		ShowOthers(const JBoolean show);
+	bool	OthersVisible() const;
+	void		ShowOthers(const bool show);
 
-	JBoolean	HasWildcardFilter() const;
+	bool	HasWildcardFilter() const;
 	void		SetWildcardFilter(const JString& filterStr,
-								  const JBoolean negate = kJFalse,
-								  const JBoolean caseSensitive = kJFalse);
-	void		SetWildcardFilter(JRegex* filter, const JBoolean dirInfoOwnsRegex,
-								  const JBoolean negate = kJFalse);
+								  const bool negate = false,
+								  const bool caseSensitive = false);
+	void		SetWildcardFilter(JRegex* filter, const bool dirInfoOwnsRegex,
+								  const bool negate = false);
 	void		ClearWildcardFilter();
 
-	JBoolean	WillApplyWildcardFilterToDirs() const;
-	void		ShouldApplyWildcardFilterToDirs(const JBoolean apply = kJTrue);
+	bool	WillApplyWildcardFilterToDirs() const;
+	void		ShouldApplyWildcardFilterToDirs(const bool apply = true);
 
-	JBoolean	HasDirEntryFilter() const;
+	bool	HasDirEntryFilter() const;
 	void		SetDirEntryFilter(JCheckPermissions* f);
 	void		ClearDirEntryFilter();
 
-	JBoolean	HasContentFilter() const;
+	bool	HasContentFilter() const;
 	JError		SetContentFilter(const JString& regexStr);
 	void		ClearContentFilter();
 
@@ -92,21 +92,21 @@ public:
 	void		ChangeProgressDisplay(JProgressDisplay* pg);
 	void		UseDefaultProgressDisplay();
 
-	JBoolean	WillSwitchToValidDirectory() const;
-	void		ShouldSwitchToValidDirectory(const JBoolean switchIfInvalid = kJTrue);
+	bool	WillSwitchToValidDirectory() const;
+	void		ShouldSwitchToValidDirectory(const bool switchIfInvalid = true);
 
-	JBoolean	Update(const JBoolean force = kJFalse);		// updates if necessary
-	JBoolean	ForceUpdate();								// updates regardless
+	bool	Update(const bool force = false);		// updates if necessary
+	bool	ForceUpdate();								// updates regardless
 
 	JSize				GetEntryCount() const;
 	const JDirEntry&	GetEntry(const JIndex index) const;
-	JBoolean			FindEntry(const JString& name, JIndex* index) const;
-	JBoolean			ClosestMatch(const JString& prefixStr, JIndex* index) const;
+	bool			FindEntry(const JString& name, JIndex* index) const;
+	bool			ClosestMatch(const JString& prefixStr, JIndex* index) const;
 
-	static JBoolean	BuildRegexFromWildcardFilter(const JString& filterStr,
+	static bool	BuildRegexFromWildcardFilter(const JString& filterStr,
 												 JString* regexStr);
 
-	static JBoolean	Empty(const JString& dirName);
+	static bool	Empty(const JString& dirName);
 
 	// range-based for loop
 
@@ -117,29 +117,29 @@ protected:
 
 	JDirInfo(const JString& dirName);
 
-	virtual JBoolean	IsVisible(const JDirEntry& entry) const;
-	JBoolean			MatchesNameFilter(const JDirEntry& entry) const;
-	JBoolean			MatchesDirEntryFilter(const JDirEntry& entry) const;
-	JBoolean			MatchesContentFilter(const JDirEntry& entry) const;
+	virtual bool	IsVisible(const JDirEntry& entry) const;
+	bool			MatchesNameFilter(const JDirEntry& entry) const;
+	bool			MatchesDirEntryFilter(const JDirEntry& entry) const;
+	bool			MatchesContentFilter(const JDirEntry& entry) const;
 
 private:
 
-	JBoolean	itsIsValidFlag;
-	JBoolean	itsSwitchIfInvalidFlag;
+	bool	itsIsValidFlag;
+	bool	itsSwitchIfInvalidFlag;
 	JString		itsCWD;
-	JBoolean	itsIsWritableFlag;
+	bool	itsIsWritableFlag;
 	time_t		itsModTime;
 	time_t		itsStatusTime;
 
-	JBoolean	itsShowFilesFlag;
-	JBoolean	itsShowDirsFlag;
-	JBoolean	itsShowHiddenFlag;
-	JBoolean	itsShowVCSDirsFlag;
-	JBoolean	itsShowOthersFlag;
+	bool	itsShowFilesFlag;
+	bool	itsShowDirsFlag;
+	bool	itsShowHiddenFlag;
+	bool	itsShowVCSDirsFlag;
+	bool	itsShowOthersFlag;
 	JRegex*		itsNameRegex;			// can be nullptr
-	JBoolean	itsOwnsNameRegexFlag;
-	JBoolean	itsInvertNameRegexFlag;
-	JBoolean	itsFilterDirsFlag;
+	bool	itsOwnsNameRegexFlag;
+	bool	itsInvertNameRegexFlag;
+	bool	itsFilterDirsFlag;
 	JRegex*		itsContentRegex;		// can be nullptr
 
 	JCheckPermissions*	itsPermFilter;	// can be nullptr
@@ -159,7 +159,7 @@ private:
 
 	JError	BuildInfo();
 	void	BuildInfo1(JProgressDisplay& pg);
-	void	ApplyFilters(const JBoolean update);
+	void	ApplyFilters(const bool update);
 
 	static void	AppendRegex(const JString& origStr, JString* regexStr);
 
@@ -230,7 +230,7 @@ public:
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JDirInfo::DirectoryExists()
 	const
 {
@@ -254,67 +254,67 @@ JDirInfo::GetDirectory()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JDirInfo::FilesVisible()
 	const
 {
 	return itsShowFilesFlag;
 }
 
-inline JBoolean
+inline bool
 JDirInfo::DirsVisible()
 	const
 {
 	return itsShowDirsFlag;
 }
 
-inline JBoolean
+inline bool
 JDirInfo::HiddenVisible()
 	const
 {
 	return itsShowHiddenFlag;
 }
 
-inline JBoolean
+inline bool
 JDirInfo::VCSDirsVisible()
 	const
 {
 	return itsShowVCSDirsFlag;
 }
 
-inline JBoolean
+inline bool
 JDirInfo::OthersVisible()
 	const
 {
 	return itsShowOthersFlag;
 }
 
-inline JBoolean
+inline bool
 JDirInfo::HasWildcardFilter()
 	const
 {
-	return JNegate( itsNameRegex == nullptr );
+	return itsNameRegex != nullptr;
 }
 
-inline JBoolean
+inline bool
 JDirInfo::WillApplyWildcardFilterToDirs()
 	const
 {
 	return itsFilterDirsFlag;
 }
 
-inline JBoolean
+inline bool
 JDirInfo::HasDirEntryFilter()
 	const
 {
-	return JNegate( itsPermFilter == nullptr );
+	return itsPermFilter != nullptr;
 }
 
-inline JBoolean
+inline bool
 JDirInfo::HasContentFilter()
 	const
 {
-	return JNegate( itsContentRegex == nullptr );
+	return itsContentRegex != nullptr;
 }
 
 /******************************************************************************
@@ -322,7 +322,7 @@ JDirInfo::HasContentFilter()
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JDirInfo::IsWritable()
 	const
 {
@@ -361,7 +361,7 @@ JDirInfo::GetEntry
 
  ******************************************************************************/
 
-inline JBoolean
+inline bool
 JDirInfo::WillSwitchToValidDirectory()
 	const
 {
@@ -371,7 +371,7 @@ JDirInfo::WillSwitchToValidDirectory()
 inline void
 JDirInfo::ShouldSwitchToValidDirectory
 	(
-	const JBoolean switchIfInvalid
+	const bool switchIfInvalid
 	)
 {
 	itsSwitchIfInvalidFlag = switchIfInvalid;

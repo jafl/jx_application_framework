@@ -21,8 +21,8 @@ public:
 
 	virtual ~JSummation();
 
-	virtual JBoolean	Evaluate(JFloat* result) const override;
-	virtual JBoolean	Evaluate(JComplex* result) const override;
+	virtual bool	Evaluate(JFloat* result) const override;
+	virtual bool	Evaluate(JComplex* result) const override;
 	virtual JFunction*	Copy() const override;
 	virtual void		Print(std::ostream& output) const override;
 	virtual JIndex		Layout(const JExprRenderer& renderer,

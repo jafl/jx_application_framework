@@ -35,34 +35,34 @@ public:
 	virtual ~JListIterator();
 
 	const JList<T>*	GetList() const;
-	JBoolean		GetList(JList<T>** obj) const;
+	bool			GetList(JList<T>** obj) const;
 
-	virtual JBoolean	Prev(T* data, const JBoolean move = kJTrue) = 0;
-	virtual JBoolean	Next(T* data, const JBoolean move = kJTrue) = 0;
+	virtual bool	Prev(T* data, const JIteratorAction move = kJIteratorMove) = 0;
+	virtual bool	Next(T* data, const JIteratorAction move = kJIteratorMove) = 0;
 
-	JBoolean			Prev(std::function<JBoolean(const T&)> match, T* item);
-	JBoolean			Next(std::function<JBoolean(const T&)> match, T* item);
+	bool			Prev(std::function<bool(const T&)> match, T* item);
+	bool			Next(std::function<bool(const T&)> match, T* item);
 
-	virtual void		SkipPrev(const JSize count = 1) = 0;
-	virtual void		SkipNext(const JSize count = 1) = 0;
+	virtual void	SkipPrev(const JSize count = 1) = 0;
+	virtual void	SkipNext(const JSize count = 1) = 0;
 
-	virtual void		MoveTo(const JIteratorPosition newPosition, const JIndex index);
-	JBoolean			AtBeginning() const;
-	JBoolean			AtEnd() const;
-	JIndex				GetPrevElementIndex() const;		// asserts
-	JIndex				GetNextElementIndex() const;		// asserts
-	JBoolean			GetPrevElementIndex(JIndex* i) const;
-	JBoolean			GetNextElementIndex(JIndex* i) const;
+	virtual void	MoveTo(const JIteratorPosition newPosition, const JIndex index);
+	bool			AtBeginning() const;
+	bool			AtEnd() const;
+	JIndex			GetPrevElementIndex() const;		// asserts
+	JIndex			GetNextElementIndex() const;		// asserts
+	bool			GetPrevElementIndex(JIndex* i) const;
+	bool			GetNextElementIndex(JIndex* i) const;
 
 	// only allowed if constructed from non-const JList<T>*
 
-	virtual JBoolean	SetPrev(const T& data, const JBoolean move = kJTrue) = 0;
-	virtual JBoolean	SetNext(const T& data, const JBoolean move = kJTrue) = 0;
+	virtual bool	SetPrev(const T& data, const JIteratorAction move = kJIteratorMove) = 0;
+	virtual bool	SetNext(const T& data, const JIteratorAction move = kJIteratorMove) = 0;
 
-	virtual JBoolean	RemovePrev(const JSize count = 1) = 0;
-	virtual JBoolean	RemoveNext(const JSize count = 1) = 0;
+	virtual bool	RemovePrev(const JSize count = 1) = 0;
+	virtual bool	RemoveNext(const JSize count = 1) = 0;
 
-	virtual JBoolean	Insert(const T& data) = 0;
+	virtual bool	Insert(const T& data) = 0;
 
 	// range-based for loop
 

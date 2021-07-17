@@ -60,7 +60,7 @@ private:
 	void		BuildWindow();
 	void		UpdateDisplay();
 	void		UpdateButtons();
-	JBoolean	Search();
+	bool	Search();
 
 	// not allowed
 

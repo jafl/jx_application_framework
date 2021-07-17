@@ -27,7 +27,7 @@ MDApp::MDApp
 	(
 	int*		argc,
 	char*		argv[],
-	JBoolean*	displayAbout,
+	bool*	displayAbout,
 	JString*	prevVersStr
 	)
 	:
@@ -44,7 +44,7 @@ MDApp::MDApp
 			}
 		else
 			{
-			*displayAbout = kJTrue;
+			*displayAbout = true;
 			}
 		}
 	else
@@ -107,7 +107,7 @@ MDApp::OpenFile
 	subst.DefineVariable("l", lineStr);
 	subst.Substitute(&cmd);
 
-	JSimpleProcess::Create(cmd, kJTrue);
+	JSimpleProcess::Create(cmd, true);
 }
 
 /******************************************************************************

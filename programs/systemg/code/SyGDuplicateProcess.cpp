@@ -49,9 +49,9 @@ SyGDuplicateProcess::SyGDuplicateProcess
 	itsNodeList(JPtrArrayT::kForgetAll),
 	itsFullNameList(JPtrArrayT::kDeleteAll),
 	itsProcess(nullptr),
-	itsShouldEditFlag(JI2B(nodeList.GetElementCount() == 1))
+	itsShouldEditFlag(nodeList.GetElementCount() == 1)
 {
-	(itsTable->GetTableSelection()).ClearSelection();
+	itsTable->GetTableSelection().ClearSelection();
 	ClearWhenGoingAway(itsTable, &itsTable);
 
 	const JSize count = nodeList.GetElementCount();
@@ -102,7 +102,7 @@ SyGDuplicateProcess::Receive
 				}
 
 			JPoint cell;
-			const JBoolean found = itsTable->SelectName(itsCurrentName, parent, &cell);		// updates table
+			const bool found = itsTable->SelectName(itsCurrentName, parent, &cell);		// updates table
 			if (itsShouldEditFlag && found)
 				{
 				itsTable->BeginEditing(cell);
