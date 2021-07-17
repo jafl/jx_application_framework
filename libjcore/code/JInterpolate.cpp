@@ -95,6 +95,8 @@ JInterpolate::Interpolate
 
 	JString s = pattern;
 	Substitute(&s);
+
+	itsMatch = nullptr;
 	return s;
 }
 
@@ -111,7 +113,11 @@ JInterpolate::GetValue
 	)
 	const
 {
-	assert( itsMatch != nullptr );
+	if (itsMatch == nullptr)
+		{
+		return true;	// assume ContainsError() was called
+		}
+
 	assert( !name.IsEmpty() );
 
 	if (name.GetFirstCharacter() == '{')
