@@ -67,7 +67,7 @@ JFunction*
 JSummation::Copy()
 	const
 {
-	JSummation* newFunction = jnew JSummation(*this);
+	auto* newFunction = jnew JSummation(*this);
 	assert( newFunction != nullptr );
 	return newFunction;
 }
@@ -148,7 +148,7 @@ JSummation::Print
 		{
 		const JFunction* f   = this;
 		const JFunction* arg = GetArg(i);
-		const JNegation* neg = dynamic_cast<const JNegation*>(arg);
+		const auto* neg = dynamic_cast<const JNegation*>(arg);
 		if (neg != nullptr)
 			{
 			output << '-';
@@ -208,7 +208,7 @@ JSummation::Layout
 		{
 		JFunction* f   = this;
 		JFunction* arg = GetArg(i);
-		JNegation* neg = dynamic_cast<JNegation*>(arg);
+		auto* neg = dynamic_cast<JNegation*>(arg);
 		if (neg != nullptr)
 			{
 			argUpperLeft.x += minusWidth + spaceWidth;
@@ -255,7 +255,7 @@ JSummation::Layout
 		for (JIndex i=1; i<=argCount; i++)
 			{
 			const JFunction* arg = GetArg(i);
-			const JNegation* neg = dynamic_cast<const JNegation*>(arg);
+			const auto* neg = dynamic_cast<const JNegation*>(arg);
 			if (neg != nullptr)
 				{
 				arg = neg->GetArg();
@@ -307,7 +307,7 @@ JSummation::Render
 		{
 		const JFunction* f   = this;
 		const JFunction* arg = GetArg(i);
-		const JNegation* neg = dynamic_cast<const JNegation*>(arg);
+		const auto* neg = dynamic_cast<const JNegation*>(arg);
 		if (neg != nullptr)
 			{
 			renderer.DrawString(h, ourMidline, fontSize, JString("-", JString::kNoCopy));

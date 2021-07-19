@@ -67,7 +67,7 @@ JFunction*
 JNegation::Copy()
 	const
 {
-	JNegation* newFunction = jnew JNegation(*this);
+	auto* newFunction = jnew JNegation(*this);
 	assert( newFunction != nullptr );
 	return newFunction;
 }

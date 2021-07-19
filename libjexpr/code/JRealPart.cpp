@@ -61,7 +61,7 @@ JFunction*
 JRealPart::Copy()
 	const
 {
-	JRealPart* newFunction = jnew JRealPart(*this);
+	auto* newFunction = jnew JRealPart(*this);
 	assert( newFunction != nullptr );
 	return newFunction;
 }

@@ -63,7 +63,7 @@ JFunction*
 JSine::Copy()
 	const
 {
-	JSine* newFunction = jnew JSine(*this);
+	auto* newFunction = jnew JSine(*this);
 	assert( newFunction != nullptr );
 	return newFunction;
 }

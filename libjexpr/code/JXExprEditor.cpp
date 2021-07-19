@@ -955,7 +955,7 @@ JXExprEditor::Receive
 	else if (sender == itsEditMenu && HasFocus() &&
 			 message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleEditMenu(selection->GetIndex());
@@ -969,7 +969,7 @@ JXExprEditor::Receive
 	else if (sender == itsMathMenu && HasFocus() &&
 			 message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleMathMenu(selection->GetIndex());
@@ -983,7 +983,7 @@ JXExprEditor::Receive
 	else if (sender == itsFunctionMenu && HasFocus() &&
 			 message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFunctionMenu(selection->GetIndex());
@@ -997,7 +997,7 @@ JXExprEditor::Receive
 	else if (sender == itsFontMenu && HasFocus() &&
 			 message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFontMenu(selection->GetIndex());
@@ -1006,7 +1006,7 @@ JXExprEditor::Receive
 	else if (sender == itsEPSPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
-		const JPrinter::PrintSetupFinished* info =
+		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -1035,7 +1035,7 @@ JXExprEditor::EIPClipboardChanged()
 		{
 		const JString text = f->Print();
 
-		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), text);
+		auto* data = jnew JXTextSelection(GetDisplay(), text);
 		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);

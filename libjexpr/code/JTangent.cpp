@@ -63,7 +63,7 @@ JFunction*
 JTangent::Copy()
 	const
 {
-	JTangent* newFunction = jnew JTangent(*this);
+	auto* newFunction = jnew JTangent(*this);
 	assert( newFunction != nullptr );
 	return newFunction;
 }

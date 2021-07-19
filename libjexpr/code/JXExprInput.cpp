@@ -97,7 +97,7 @@ JXExprInput::CreateFontMenu
 	JXContainer* enclosure
 	)
 {
-	JXTextMenu* menu =
+	auto* menu =
 		jnew JXTextMenu(JGetString("FontMenuTitle::JXExprInput"), enclosure,
 						kFixedLeft, kVElastic, 0,0, 10,10);
 	assert( menu != nullptr );
@@ -153,7 +153,7 @@ JXExprInput::Receive
 	else if (sender == itsFontMenu && HasFocus() &&
 			 message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFontMenu(selection->GetIndex());

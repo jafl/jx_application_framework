@@ -62,7 +62,7 @@ JFunction*
 JHypTangent::Copy()
 	const
 {
-	JHypTangent* newFunction = jnew JHypTangent(*this);
+	auto* newFunction = jnew JHypTangent(*this);
 	assert( newFunction != nullptr );
 	return newFunction;
 }

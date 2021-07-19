@@ -4,8 +4,8 @@ use strict;
 
 my @commands;
 
-chomp(my $s = `find . -name '*.o.json'`);
-for my $f (split(/\n/, $s))
+my @s = glob('code/*.o.json');
+for my $f (@s)
 	{
 	open(F, '< '.$f);
 	local $/;

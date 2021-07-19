@@ -366,7 +366,7 @@ JVariableList::Receive
 	if (sender == const_cast<JCollection*>(mainList) &&
 		message.Is(JListT::kElementsInserted))
 		{
-		const JListT::ElementsInserted* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != nullptr );
 		VariablesInserted(*info);
@@ -380,7 +380,7 @@ JVariableList::Receive
 			// happens when the object is destructed.  During destruction,
 			// we obviously should not complain.
 
-			const JListT::ElementsRemoved* info =
+			const auto* info =
 				dynamic_cast<const JListT::ElementsRemoved*>(&message);
 			assert( info != nullptr );
 			VariablesRemoved(*info);
@@ -389,7 +389,7 @@ JVariableList::Receive
 	else if (sender == const_cast<JCollection*>(mainList) &&
 			 message.Is(JListT::kElementMoved))
 		{
-		const JListT::ElementMoved* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != nullptr );
 		VariableMoved(*info);
@@ -397,7 +397,7 @@ JVariableList::Receive
 	else if (sender == const_cast<JCollection*>(mainList) &&
 			 message.Is(JListT::kElementsSwapped))
 		{
-		const JListT::ElementsSwapped* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != nullptr );
 		VariablesSwapped(*info);

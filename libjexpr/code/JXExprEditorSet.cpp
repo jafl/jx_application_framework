@@ -37,11 +37,11 @@ JXExprEditorSet::JXExprEditorSet
 	:
 	JXWidgetSet(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(this, kHElastic, kFixedTop, 0,0, w,kJXDefaultMenuBarHeight);
 	assert( menuBar != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic, kVElastic,
 						   0,kJXDefaultMenuBarHeight, w,h-kJXDefaultMenuBarHeight);
 	assert( scrollbarSet != nullptr );
@@ -73,7 +73,7 @@ JXExprEditorSet::JXExprEditorSet
 {
 	assert( menuBar != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
 	assert( scrollbarSet != nullptr );
 
@@ -102,7 +102,7 @@ JXExprEditorSet::JXExprEditorSet
 	:
 	JXWidgetSet(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
 	assert( scrollbarSet != nullptr );
 

@@ -62,7 +62,7 @@ JFunction*
 JAlgSign::Copy()
 	const
 {
-	JAlgSign* newFunction = jnew JAlgSign(*this);
+	auto* newFunction = jnew JAlgSign(*this);
 	assert( newFunction != nullptr );
 	return newFunction;
 }

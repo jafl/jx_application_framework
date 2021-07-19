@@ -128,7 +128,7 @@ JFunction*
 JUserInputFunction::Copy()
 	const
 {
-	JUserInputFunction* newFunction = jnew JUserInputFunction(*this);
+	auto* newFunction = jnew JUserInputFunction(*this);
 	assert( newFunction != nullptr );
 	return newFunction;
 }
@@ -239,7 +239,7 @@ JUserInputFunction::Render
 	)
 	const
 {
-	JUserInputFunction* me = const_cast<JUserInputFunction*>(this);
+	auto* me = const_cast<JUserInputFunction*>(this);
 	assert( me != nullptr );
 
 	itsNeedRedrawFlag = false;
@@ -254,7 +254,7 @@ JUserInputFunction::Render
 
 	// JTextEditor draws text
 
-	JExprEditor* exprEditor =
+	auto* exprEditor =
 		dynamic_cast<JExprEditor*>(const_cast<JExprRenderer*>(&renderer));
 	assert( exprEditor != nullptr );
 
@@ -588,7 +588,7 @@ JUserInputFunction::Parse
 		{
 		JFunction* newArg;
 		JUserInputFunction* extraUIF;
-		JUserInputFunction* tempUIF = jnew JUserInputFunction(itsEditor);
+		auto* tempUIF = jnew JUserInputFunction(itsEditor);
 		assert( tempUIF != nullptr );
 		const bool ok = itsEditor->ApplyFunction(buffer, *tempUIF, f, &newArg, &extraUIF);
 		jdelete tempUIF;
@@ -606,7 +606,7 @@ JUserInputFunction::Parse
 		JExprParser p(itsEditor->GetVariableList());
 		if (p.Parse(buffer, f))
 			{
-			JFunctionWithVar* fwv = dynamic_cast<JFunctionWithVar*>(*f);
+			auto* fwv = dynamic_cast<JFunctionWithVar*>(*f);
 			assert( fwv != nullptr );
 			*newUIF = jnew JUserInputFunction(itsEditor);
 			assert( *newUIF != nullptr );
@@ -621,11 +621,11 @@ JUserInputFunction::Parse
 	else if (c.ToLower() == 'e' && !IsEmpty() && !buffer.IsHexValue() &&
 			 buffer.ConvertToFloat(&x))
 		{
-		JConstantValue* expBase = jnew JConstantValue(10.0);
+		auto* expBase = jnew JConstantValue(10.0);
 		assert( expBase != nullptr );
 		*newUIF = jnew JUserInputFunction(itsEditor);
 		assert( *newUIF != nullptr );
-		JExponent* exponent = jnew JExponent(expBase, *newUIF);
+		auto* exponent = jnew JExponent(expBase, *newUIF);
 		assert( exponent != nullptr );
 		if (x == 1.0)
 			{
@@ -633,9 +633,9 @@ JUserInputFunction::Parse
 			}
 		else
 			{
-			JConstantValue* mantissa = jnew JConstantValue(x);
+			auto* mantissa = jnew JConstantValue(x);
 			assert( mantissa != nullptr );
-			JProduct* product = jnew JProduct;
+			auto* product = jnew JProduct;
 			assert( product != nullptr );
 			product->SetArg(1, mantissa);
 			product->SetArg(2, exponent);

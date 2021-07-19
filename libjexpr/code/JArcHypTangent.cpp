@@ -61,7 +61,7 @@ JFunction*
 JArcHypTangent::Copy()
 	const
 {
-	JArcHypTangent* newFunction = jnew JArcHypTangent(*this);
+	auto* newFunction = jnew JArcHypTangent(*this);
 	assert( newFunction != nullptr );
 	return newFunction;
 }

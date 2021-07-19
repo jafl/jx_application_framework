@@ -120,7 +120,7 @@ JExprParser::UpdateSum
 	JFunction*	arg
 	)
 {
-	JSummation* s = dynamic_cast<JSummation*>(f);
+	auto* s = dynamic_cast<JSummation*>(f);
 	if (s != nullptr)
 		{
 		s->AppendArg(arg);
@@ -148,7 +148,7 @@ JExprParser::UpdateProduct
 	JFunction*	arg
 	)
 {
-	JProduct* s = dynamic_cast<JProduct*>(f);
+	auto* s = dynamic_cast<JProduct*>(f);
 	if (s != nullptr)
 		{
 		s->AppendArg(arg);

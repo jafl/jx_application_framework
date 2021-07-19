@@ -65,7 +65,7 @@ JFunction*
 JConjugate::Copy()
 	const
 {
-	JConjugate* newFunction = jnew JConjugate(*this);
+	auto* newFunction = jnew JConjugate(*this);
 	assert( newFunction != nullptr );
 	return newFunction;
 }

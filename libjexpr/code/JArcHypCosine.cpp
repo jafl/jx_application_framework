@@ -61,7 +61,7 @@ JFunction*
 JArcHypCosine::Copy()
 	const
 {
-	JArcHypCosine* newFunction = jnew JArcHypCosine(*this);
+	auto* newFunction = jnew JArcHypCosine(*this);
 	assert( newFunction != nullptr );
 	return newFunction;
 }
