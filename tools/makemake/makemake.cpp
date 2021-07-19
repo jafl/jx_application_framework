@@ -1273,7 +1273,7 @@ PickTargets
 
 	std::cout << std::endl;
 
-	while (1)
+	while (true)
 		{
 		JIndex choice;
 		std::cout << "Target to include (0 to end): ";
@@ -1576,7 +1576,7 @@ CalcDepend
 	std::ifstream input(argv[i]);
 
 	JString fileName, makeName;
-	while (1)
+	while (true)
 		{
 		fileName = JReadLine(input);
 		if (input.eof() || input.fail())

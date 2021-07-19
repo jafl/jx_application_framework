@@ -1500,7 +1500,7 @@ JXWindow::GetRootChild
 	*rootChild = itsRootChild = None;
 
 	Window currWindow = itsXWindow;
-	while (1)
+	while (true)
 		{
 		Window rootWindow, parentWindow;
 		Window* childList;
@@ -3949,7 +3949,7 @@ JXWindow::FindNextFocusWidget
 		i = 1;
 		}
 
-	while (1)
+	while (true)
 		{
 		JXWidget* widget = itsFocusList->GetElement(i);
 		if (widget->WillAcceptFocus())
@@ -4008,7 +4008,7 @@ JXWindow::FindPrevFocusWidget
 		i = count;
 		}
 
-	while (1)
+	while (true)
 		{
 		JXWidget* widget = itsFocusList->GetElement(i);
 		if (widget->WillAcceptFocus())

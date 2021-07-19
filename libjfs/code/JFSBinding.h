@@ -67,8 +67,8 @@ private:
 	JString			itsPattern;			// can be empty
 	JString			itsCmd;				// can be empty
 	CommandType		itsCmdType;
-	bool		itsSingleFileFlag;
-	const bool	itsIsSystemFlag;
+	bool			itsSingleFileFlag;
+	const bool		itsIsSystemFlag;
 
 	JRegex*			itsNameRegex;		// can be nullptr
 	JRegex*			itsContentRegex;	// can be nullptr

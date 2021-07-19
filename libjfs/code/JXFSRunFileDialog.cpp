@@ -124,10 +124,10 @@ JXFSRunFileDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,170, JString::empty);
+	auto* window = jnew JXWindow(this, 450,170, JString::empty);
 	assert( window != nullptr );
 
-	JXWidgetSet* ftcContainer =
+	auto* ftcContainer =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 180,90, 250,40);
 	assert( ftcContainer != nullptr );
@@ -137,13 +137,13 @@ JXFSRunFileDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 300,20);
 	assert( itsCmdInput != nullptr );
 
-	JXStaticText* prompt =
+	auto* prompt =
 		jnew JXStaticText(JGetString("prompt::JXFSRunFileDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 300,20);
 	assert( prompt != nullptr );
 	prompt->SetToLabel();
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXFSRunFileDialog::JXLayout"), ftcContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,10, 60,20);
 	assert( cancelButton != nullptr );
@@ -189,7 +189,7 @@ JXFSRunFileDialog::BuildWindow
 	assert( itsUseWindowCB != nullptr );
 	itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::JXFSRunFileDialog::shortcuts::JXLayout"));
 
-	JXStaticText* cmdHint =
+	auto* cmdHint =
 		jnew JXStaticText(JGetString("cmdHint::JXFSRunFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 340,20);
 	assert( cmdHint != nullptr );

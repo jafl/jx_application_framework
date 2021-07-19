@@ -838,7 +838,7 @@ MDStatsDirector::ReadExitStats()
 
 	std::ifstream input(itsExitStatsFile.GetBytes());
 
-	while (1)
+	while (true)
 		{
 		long type;
 		input >> type;
@@ -910,7 +910,7 @@ MDStatsDirector::ReceiveRecords
 	MDRecordList* list = jnew MDRecordList;
 	assert( list != nullptr );
 
-	while (1)
+	while (true)
 		{
 		bool keepGoing;
 		input >> JBoolFromString(keepGoing);

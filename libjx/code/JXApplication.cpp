@@ -409,7 +409,7 @@ JXApplication::Run()
 		// does not return
 		}
 
-	while (1)
+	while (true)
 		{
 		HandleOneEvent();
 

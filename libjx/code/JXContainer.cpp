@@ -193,7 +193,7 @@ JXContainer::IsAncestor
 	const
 {
 	JXContainer* encl = obj->itsEnclosure;
-	while (1)
+	while (true)
 		{
 		if (encl == this)
 			{

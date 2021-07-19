@@ -180,7 +180,7 @@ CBCharActionManager::ReadSetup
 
 	char c;
 	JString script;
-	while (1)
+	while (true)
 		{
 		input.get(c);
 		if (c == kEndOfSetupListMarker)

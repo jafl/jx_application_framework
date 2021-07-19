@@ -54,7 +54,7 @@ main
 		write(toFD[1], fileName, strlen(fileName));
 
 		char c;
-		while (1)
+		while (true)
 			{
 			if (read(fromFD[0], &c, 1) == 1)
 				{

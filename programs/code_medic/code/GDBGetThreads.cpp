@@ -66,7 +66,7 @@ GDBGetThreads::HandleSuccess
 	const std::string s(data.GetRawBytes(), data.GetByteCount());
 	std::istringstream input(s);
 	JString line;
-	while (1)
+	while (true)
 		{
 		line = JReadLine(input);
 		if (input.eof() || input.fail())

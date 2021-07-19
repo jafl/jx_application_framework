@@ -333,7 +333,7 @@ JStyledText::ReadPlainText
 
 		std::ifstream input(fileName.GetBytes());
 		JIndex i = 0;
-		while (1)
+		while (true)
 			{
 			const JUtf8Byte c = input.get();
 			if (input.eof() || input.fail())
@@ -809,7 +809,7 @@ JStyledText::SearchForward
 	JStringIterator iter(itsText);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
 
-	while (1)
+	while (true)
 		{
 		if (iter.Next(regex))
 			{
@@ -868,7 +868,7 @@ JStyledText::SearchBackward
 	JStringIterator iter(itsText);
 	iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
 
-	while (1)
+	while (true)
 		{
 		if (iter.Prev(regex))
 			{
@@ -3022,7 +3022,7 @@ JStyledText::CleanRightMargin
 		JRunArray<JFont> styles;
 		JIndex caretIndex;
 		bool first = true;
-		while (1)
+		while (true)
 			{
 			if (PrivateCleanRightMargin(coerce, &range, &text, &styles, &caretIndex))
 				{
@@ -3795,7 +3795,7 @@ JStyledText::AutoIndent
 		// check the initial whitespace range
 
 		JIndex lastWSChar = firstChar;
-		while (1)
+		while (true)
 			{
 			const JCharacter c = itsText->GetCharacter(lastWSChar);
 			if ((c != ' ' && c != '\t') || lastWSChar > lastChar)		// can't use isspace() because '\n' stops us

@@ -116,10 +116,10 @@ JXFSRunCommandDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 440,180, JString::empty);
+	auto* window = jnew JXWindow(this, 440,180, JString::empty);
 	assert( window != nullptr );
 
-	JXWidgetSet* ftcContainer =
+	auto* ftcContainer =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 150,120, 280,60);
 	assert( ftcContainer != nullptr );
@@ -129,7 +129,7 @@ JXFSRunCommandDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,90, 290,20);
 	assert( itsCmdInput != nullptr );
 
-	JXStaticText* cmdLabel =
+	auto* cmdLabel =
 		jnew JXStaticText(JGetString("cmdLabel::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 290,20);
 	assert( cmdLabel != nullptr );
@@ -180,7 +180,7 @@ JXFSRunCommandDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,0, 90,20);
 	assert( itsStayOpenCB != nullptr );
 
-	JXStaticText* directoryLabel =
+	auto* directoryLabel =
 		jnew JXStaticText(JGetString("directoryLabel::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 290,20);
 	assert( directoryLabel != nullptr );

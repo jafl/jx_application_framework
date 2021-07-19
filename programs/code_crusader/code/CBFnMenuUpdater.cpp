@@ -197,7 +197,7 @@ CBFnMenuUpdater::ReadFunctionList
 
 	const bool hasNS = CBHasNamespace(lang);
 	JString fnName;
-	while (1)
+	while (true)
 		{
 		input >> std::ws;
 		fnName = JReadUntil(input, '\t');	// fn name

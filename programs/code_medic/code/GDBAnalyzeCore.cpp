@@ -79,7 +79,7 @@ GDBAnalyzeCore::HandleSuccess
 
 		bool found = false;
 		JStringIterator iter(&programFullName, kJIteratorStartAtEnd);
-		while (1)
+		while (true)
 			{
 			if (JFileExecutable(programFullName))
 				{

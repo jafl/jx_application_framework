@@ -41,3 +41,6 @@ obsolete/*/ChangeLog.html
 **/test/.timestamps
 !**/test/test_*.cpp
 !**/test/test_*.txt
+
+*.o.json
+compile_commands.json

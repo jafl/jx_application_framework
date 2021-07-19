@@ -879,7 +879,7 @@ JXSelectionManager::ReceiveDataIncr
 	#endif
 
 	bool ok = true;
-	while (1)
+	while (true)
 		{
 		#if JXSEL_DEBUG_MSGS
 		chunkIndex++;

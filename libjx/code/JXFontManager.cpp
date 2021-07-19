@@ -734,7 +734,7 @@ JXFontManager::GetNewFont
 	char** missingCharsetList;
 	int missingCharsetCount;
 	char* defString;
-	while (1)
+	while (true)
 		{
 		xFontStr = BuildStdFontName(name, pointSize, pixelSize, pixelWidth, spacing, style, italicStr);
 		set      = XCreateFontSet(*itsDisplay, xFontStr.GetBytes(), &missingCharsetList, &missingCharsetCount, &defString);
@@ -971,7 +971,7 @@ JXFontManager::ApproximateFont
 	JSize size       = origSize;
 	JFontStyle style = origStyle;
 
-	while (1)
+	while (true)
 		{
 		if (size % 2 == 1)
 			{

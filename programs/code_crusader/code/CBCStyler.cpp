@@ -290,7 +290,7 @@ CBCStyler::SlurpPPComment
 
 	Token token;
 	JSize nestCount = 1;
-	while (1)
+	while (true)
 		{
 		token = NextToken();
 		if (token.type == kEOF)

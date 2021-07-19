@@ -59,7 +59,7 @@ JFSFileTree::BroadcastDirectoryRenamed
 JFSFileTreeNodeBase*
 JFSFileTree::GetFSRoot()
 {
-	JFSFileTreeNodeBase* root = dynamic_cast<JFSFileTreeNodeBase*>(GetRoot());
+	auto* root = dynamic_cast<JFSFileTreeNodeBase*>(GetRoot());
 	assert( root != nullptr );
 	return root;
 }
@@ -68,7 +68,7 @@ const JFSFileTreeNodeBase*
 JFSFileTree::GetFSRoot()
 	const
 {
-	const JFSFileTreeNodeBase* root = dynamic_cast<const JFSFileTreeNodeBase*>(GetRoot());
+	const auto* root = dynamic_cast<const JFSFileTreeNodeBase*>(GetRoot());
 	assert( root != nullptr );
 	return root;
 }

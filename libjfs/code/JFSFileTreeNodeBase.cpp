@@ -55,7 +55,7 @@ JFSFileTreeNodeBase::Update
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JFSFileTreeNodeBase* node = dynamic_cast<JFSFileTreeNodeBase*>(GetChild(i));
+		auto* node = dynamic_cast<JFSFileTreeNodeBase*>(GetChild(i));
 		assert (node != nullptr);
 		if (node->Update(force, updateNode))
 			{
@@ -74,7 +74,7 @@ JFSFileTreeNodeBase::Update
 JFSFileTree*
 JFSFileTreeNodeBase::GetFSFileTree()
 {
-	JFSFileTree* tree = dynamic_cast<JFSFileTree*>(GetTree());
+	auto* tree = dynamic_cast<JFSFileTree*>(GetTree());
 	assert (tree != nullptr);
 	return tree;
 }
@@ -83,7 +83,7 @@ const JFSFileTree*
 JFSFileTreeNodeBase::GetFSFileTree()
 	const
 {
-	const JFSFileTree* tree = dynamic_cast<const JFSFileTree*>(GetTree());
+	const auto* tree = dynamic_cast<const JFSFileTree*>(GetTree());
 	assert (tree != nullptr);
 	return tree;
 }
@@ -97,7 +97,7 @@ JFSFileTreeNodeBase*
 JFSFileTreeNodeBase::GetFSParent()
 {
 	JTreeNode* p           = GetParent();
-	JFSFileTreeNodeBase* n = dynamic_cast<JFSFileTreeNodeBase*>(p);
+	auto* n = dynamic_cast<JFSFileTreeNodeBase*>(p);
 	assert( n != nullptr );
 	return n;
 }
@@ -107,7 +107,7 @@ JFSFileTreeNodeBase::GetFSParent()
 	const
 {
 	const JTreeNode* p           = GetParent();
-	const JFSFileTreeNodeBase* n = dynamic_cast<const JFSFileTreeNodeBase*>(p);
+	const auto* n = dynamic_cast<const JFSFileTreeNodeBase*>(p);
 	assert( n != nullptr );
 	return n;
 }

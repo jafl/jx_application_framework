@@ -882,7 +882,7 @@ JXTextMenuData::ParseNMShortcut
 	// decode modifiers
 
 	JStringIterator iter(&keyStr);
-	while (1)
+	while (true)
 		{
 		bool found = false;
 		for (const JXTMModifierConversion& conv : kNMModConv)

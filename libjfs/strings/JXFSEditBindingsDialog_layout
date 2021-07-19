@@ -1,4 +1,4 @@
-1
+0
 itsDefShellCB::JXFSEditBindingsDialog::JXLayout "Run in shell"
 itsSaveButton::JXFSEditBindingsDialog::JXLayout "Save"
 itsHelpButton::JXFSEditBindingsDialog::shortcuts::JXLayout "F1"

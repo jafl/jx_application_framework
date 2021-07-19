@@ -4,7 +4,7 @@ int main()
 	i=5;
 	i++;
 
-	while (1)
+	while (true)
 		{
 		i++;
 		}

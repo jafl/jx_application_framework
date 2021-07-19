@@ -173,7 +173,7 @@ CBSearchTE::SearchFile
 	JStyledText::TextRange prevQuoteRange;
 	bool prevQuoteTruncated = false;
 
-	while (1)
+	while (true)
 		{
 		bool wrapped;
 		const JStringMatch m = SearchForward(searchRegex, entireWord, false, &wrapped);

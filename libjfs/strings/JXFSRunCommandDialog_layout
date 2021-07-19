@@ -1,4 +1,4 @@
-1
+0
 itsCloseButton::JXFSRunCommandDialog::shortcuts::JXLayout "^["
 itsStayOpenCB::JXFSRunCommandDialog::JXLayout "Stay open"
 itsUseWindowCB::JXFSRunCommandDialog::shortcuts::JXLayout "#W"

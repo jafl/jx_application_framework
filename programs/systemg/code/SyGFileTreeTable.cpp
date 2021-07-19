@@ -4280,7 +4280,7 @@ SyGFileTreeTable::GetGitBranches
 		}
 
 	JString line, *repo;
-	while (1)
+	while (true)
 		{
 		line = JReadUntil(fromFD, '\n');
 		if (line.IsEmpty())
@@ -4685,7 +4685,7 @@ SyGFileTreeTable::GetGitStashList
 		}
 
 	JString line;
-	while (1)
+	while (true)
 		{
 		line = JReadUntil(fromFD, '\n');
 		if (line.IsEmpty())

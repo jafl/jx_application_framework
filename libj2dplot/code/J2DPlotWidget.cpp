@@ -1406,7 +1406,7 @@ J2DPlotWidget::GetLogIncrement
 	const JFloat delta = ceil(max) - floor(min);
 
 	JFloat inc = 1.0;
-	while (1)
+	while (true)
 		{
 		const JFloat divCount = delta/inc;
 		if (divCount <= 10.0)

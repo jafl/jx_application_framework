@@ -408,7 +408,7 @@ x\" {
 	JString s;
 
 	JSize count = 0;
-	while (1)
+	while (true)
 		{
 		bool changed = false;
 		for (const JString* c : aliasKeys)

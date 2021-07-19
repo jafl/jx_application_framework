@@ -1178,7 +1178,7 @@ GLDataDocument::LoadDelimitedFile()
 		JIndex col = 1;
 		if (type == GLGetDelimiterDialog::kWhiteSpace)
 			{
-			while (1)
+			while (true)
 				{
 				JFloat value;
 				iss >> value;

@@ -1020,7 +1020,7 @@ CBCommandManager::ReadCommands
 		}
 	else
 		{
-		while (1)
+		while (true)
 			{
 			bool keepGoing;
 			input >> JBoolFromString(keepGoing);
@@ -1594,7 +1594,7 @@ CBCommandManager::GetUniqueMenuID()
 	JKLRand r;
 
 	JString id;
-	while (1)
+	while (true)
 		{
 		id = "::CBCommandManager";
 

@@ -384,7 +384,7 @@ GDBLink::ReadFromDebugger()
 	Broadcast(DebugOutput(data, kOutputType));
 
 	itsScanner->AppendInput(data);
-	while (1)
+	while (true)
 		{
 		const GDBScanner::Token token = itsScanner->NextToken();
 		if (token.type == GDBScanner::kEOF)
@@ -1856,7 +1856,7 @@ GDBLink::ParseList
 	list->CleanOut();
 
 	JString value;
-	while (1)
+	while (true)
 		{
 		stream >> value;
 		if (!stream.good())
@@ -1901,7 +1901,7 @@ GDBLink::ParseMap
 
 	JString key, value;
 	bool found;
-	while (1)
+	while (true)
 		{
 		key = JReadUntil(stream, '=', &found);
 		if (!found)
@@ -1976,7 +1976,7 @@ GDBLink::ParseMapArray
 	list->CleanOut();
 
 	bool found;
-	while (1)
+	while (true)
 		{
 		int c = stream.peek();
 		if (c == ']')

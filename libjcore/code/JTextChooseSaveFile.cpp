@@ -60,7 +60,7 @@ JTextChooseSaveFile::ChooseFile
 	JString*		fullName
 	)
 {
-	while (1)
+	while (true)
 		{
 		if (!instructions.IsEmpty())
 			{
@@ -132,7 +132,7 @@ JTextChooseSaveFile::ChooseFiles
 		}
 
 	JString fullName;
-	while (1)
+	while (true)
 		{
 		std::cout << std::endl;
 		std::cout << prompt << std::endl;
@@ -187,7 +187,7 @@ JTextChooseSaveFile::ChooseRPath
 	JString*		newPath
 	)
 {
-	while (1)
+	while (true)
 		{
 		if (!GetPath(prompt, instructions, newPath))
 			{
@@ -223,7 +223,7 @@ JTextChooseSaveFile::ChooseRWPath
 	JString*		newPath
 	)
 {
-	while (1)
+	while (true)
 		{
 		if (!GetPath(prompt, instructions, newPath))
 			{
@@ -307,7 +307,7 @@ JTextChooseSaveFile::SaveFile
 	JString*		newFullName
 	)
 {
-	while (1)
+	while (true)
 		{
 		if (!instructions.IsEmpty())
 			{

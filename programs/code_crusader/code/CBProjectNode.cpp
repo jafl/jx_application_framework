@@ -70,7 +70,7 @@ CBProjectNode::CBProjectNode
 		}
 	else
 		{
-		while (1)
+		while (true)
 			{
 			bool keepGoing;
 			input >> JBoolFromString(keepGoing);

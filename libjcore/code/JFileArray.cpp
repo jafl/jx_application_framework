@@ -1124,7 +1124,7 @@ JFileArray::ExpandData
 
 	// transfer data in blocks
 
-	while (1)
+	while (true)
 		{
 		SetReadWriteMark(mark, kFromFileStart);
 		itsStream->read(data, dataSize);
@@ -1215,7 +1215,7 @@ JFileArray::CompactData
 
 	// transfer data in blocks
 
-	while (1)
+	while (true)
 		{
 		SetReadWriteMark(mark, kFromFileStart);
 		itsStream->read(data, dataSize);

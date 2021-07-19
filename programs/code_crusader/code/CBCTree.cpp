@@ -219,7 +219,7 @@ CBCTree::ParseFile
 
 		JString name;
 		JStringPtrMap<JString> flags(JPtrArrayT::kDeleteAll);
-		while (1)
+		while (true)
 			{
 			input >> std::ws;
 			name = JReadUntil(input, '\t');			// function name

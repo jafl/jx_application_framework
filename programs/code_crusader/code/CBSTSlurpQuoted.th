@@ -51,7 +51,7 @@ ClassName::SlurpQuoted
 	JSize remainder = count;
 	JUtf8Character c;
 	bool ok = false;
-	while (1)
+	while (true)
 		{
 		if (!ReadCharacter(&beyond, &c))
 			{
@@ -70,7 +70,7 @@ ClassName::SlurpQuoted
 				}
 			if (remainder == 0)
 				{
-				while (1)		// slurp in characters in suffixList
+				while (true)		// slurp in characters in suffixList
 					{
 					if (!ReadCharacter(&beyond, &c))
 						{

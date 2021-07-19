@@ -723,7 +723,7 @@ CBMBalanceFromSelection
 
 	// balance groupers until the selection is enclosed or we get an error
 
-	while (1)
+	while (true)
 		{
 		JUtf8Character cOpen;
 		const bool foundOpen = CBMBalanceBackward(lang, &openIter, &cOpen);

@@ -1,6 +1,14 @@
 jcc leaking memory
 	open project then close it
 
+jcc
+	opens empty file as binary
+	perl styling:  s/// in tidy.pl
+	"ignore bad utf8" when testing file content during open and search
+
+	misc/ctags/c.c
+		flex scanner push-back overflow
+
 -----
 
 glove

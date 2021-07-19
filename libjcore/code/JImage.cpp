@@ -495,7 +495,7 @@ JImage::WriteGD
 		// after building it.
 
 		color.Set(1,1,1);	// unlikely color, since so close to black
-		while (1)
+		while (true)
 			{
 			if (gdImageColorExact(image, color.red, color.green, color.blue) == -1)
 				{

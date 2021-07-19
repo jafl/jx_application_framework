@@ -21,7 +21,7 @@ int main()
 	Point peakPt = {5.2,-7.5};
 	double maxgrad = 18.345;
 
-	while (1)
+	while (true)
 	{
 		point.x++;
 		peakPt.y++;

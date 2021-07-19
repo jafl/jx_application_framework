@@ -68,7 +68,7 @@ CBDiffEditor::ReadDiff
 	itsInsertStyle = insertStyle;
 
 	JSize lineOffset = 0;
-	while (1)
+	while (true)
 		{
 		JIndexRange origRange, newRange;
 		const JUtf8Byte cmd = ReadCmd(input, &origRange, &newRange);

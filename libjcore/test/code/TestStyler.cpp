@@ -50,7 +50,7 @@ TestStyler::Scan
 	r.first = startIndex.charIndex;
 
 	JString token;
-	while (1)
+	while (true)
 		{
 		bool foundWS;
 		token  = JReadUntilws(input, &foundWS);

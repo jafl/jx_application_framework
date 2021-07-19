@@ -40,7 +40,7 @@ main
 	if (argc == 1)
 		{
 		char buffer[BUFSIZ];
-		while (1)
+		while (true)
 			{
 			ssize_t count = read(0, buffer, sizeof(buffer));
 			if (count < 0 && jerrno() == EINTR)
@@ -70,7 +70,7 @@ main
 	if (err.OK())
 		{
 		char buffer[BUFSIZ];
-		while (1)
+		while (true)
 			{
 			ssize_t count = read(fromFD, buffer, sizeof(buffer));
 			if (count < 0 && jerrno() == EINTR)

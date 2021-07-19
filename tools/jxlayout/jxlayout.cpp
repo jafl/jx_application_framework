@@ -541,7 +541,7 @@ JIndex i;
 		{
 		topEnclVarName = kDefTopEnclVarName;
 
-		output << indent << "JXWindow* window = jnew JXWindow(this, ";
+		output << indent << "auto* window = jnew JXWindow(this, ";
 		output << formWidth << ',' << formHeight;
 		output << ", JString::empty);" << std::endl;
 		output << indent << "assert( window != nullptr );" << std::endl;
@@ -807,8 +807,7 @@ JIndex i;
 		output << indent;
 		if (isLocal)
 			{
-			className->Print(output);
-			output << "* ";
+			output << "auto* ";
 			}
 		varName->Print(output);
 		output << " =" << std::endl;
@@ -1172,7 +1171,7 @@ GetConstructor
 
 	std::ifstream classMap(classMapFile.GetBytes());
 	classMap >> std::ws;
-	while (1)
+	while (true)
 		{
 		if (classMap.peek() == '#')
 			{
@@ -1284,7 +1283,7 @@ ApplyOptions
 {
 	std::ifstream optionMap(optionMapFile.GetBytes());
 	optionMap >> std::ws;
-	while (1)
+	while (true)
 		{
 		if (optionMap.peek() == '#')
 			{
@@ -1696,7 +1695,7 @@ CopyAfterCodeDelimiter
 
 	// copy lines after end delimiter
 
-	while (1)
+	while (true)
 		{
 		const JString line = JReadLine(input);
 		if ((input.eof() || input.fail()) && line.IsEmpty())

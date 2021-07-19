@@ -667,7 +667,7 @@ JVMLink::CheckNextThreadGroup()
 		}
 
 	JVMThreadNode* node;
-	while (1)
+	while (true)
 		{
 		node = itsThreadList->GetElement(itsCullThreadGroupIndex);
 		if (node->GetType() == JVMThreadNode::kGroupType)
@@ -1200,7 +1200,7 @@ JVMLink::SetProgram
 	itsProgramConfigFileName = fullName;
 
 	std::ifstream input(fullName.GetBytes());
-	while (1)
+	while (true)
 		{
 		line = JReadLine(input);
 		line.TrimWhitespace();

@@ -361,7 +361,7 @@ JXDockManager::ReadSetup
 	if (vers >= 1)
 		{
 		JString windowType;
-		while (1)
+		while (true)
 			{
 			bool keepGoing;
 			input >> JBoolFromString(keepGoing);

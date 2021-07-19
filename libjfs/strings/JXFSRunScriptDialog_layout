@@ -1,4 +1,4 @@
-1
+0
 cancelButton::JXFSRunScriptDialog::JXLayout "Cancel"
 runButton::JXFSRunScriptDialog::JXLayout "Run"
 itsUseWindowCB::JXFSRunScriptDialog::JXLayout "Run in window"

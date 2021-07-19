@@ -158,7 +158,7 @@ GLBuildColumnMenus
 		std::va_list args2;
 		va_copy(args2, args);
 
-		while (1)
+		while (true)
 			{
 			JXTextMenu* menu = va_arg(args2, JXTextMenu*);
 			if (menu == nullptr)

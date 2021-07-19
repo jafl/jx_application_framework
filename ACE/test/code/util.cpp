@@ -109,7 +109,7 @@ ReceiveMessage
 	const ACE_Time_Value timeOut(5);	// wait up to 5 seconds
 
 	JString msgFromServer;
-	while (1)
+	while (true)
 		{
 		const ssize_t count = socket.recv(buffer, kBufSize, 0, &timeOut);
 		if (count == -1)

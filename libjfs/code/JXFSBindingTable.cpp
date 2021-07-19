@@ -230,11 +230,11 @@ JXFSBindingTable::TableDrawCell
 void
 JXFSBindingTable::HandleMouseDown
 	(
-	const JPoint& pt,
-	const JXMouseButton button,
-	const JSize clickCount,
-	const JXButtonStates& buttonStates,
-	const JXKeyModifiers& modifiers
+	const JPoint&			pt,
+	const JXMouseButton		button,
+	const JSize				clickCount,
+	const JXButtonStates&	buttonStates,
+	const JXKeyModifiers&	modifiers
 	)
 {
 	JTableSelection& s = GetTableSelection();
@@ -471,8 +471,7 @@ JXFSBindingTable::Receive
 		}
 	else if (sender == itsTypeMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleTypeMenu(selection->GetIndex());
 		}

@@ -2476,7 +2476,7 @@ CBProjectTable::ReadSetup
 		JNamedTreeList* treeList = GetNamedTreeList();
 
 		JString groupName;
-		while (1)
+		while (true)
 			{
 			bool keepGoing;
 			*setInput >> JBoolFromString(keepGoing);

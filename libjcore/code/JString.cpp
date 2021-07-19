@@ -1629,7 +1629,7 @@ JString::ReadDelimited
 	JUtf8Byte* p = buf;
 
 	JUtf8Character c;
-	while (1)
+	while (true)
 		{
 		input >> c;
 		if (input.fail())

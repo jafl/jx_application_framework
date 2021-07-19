@@ -374,7 +374,7 @@ JStringManager::MergeFile
 		}
 
 	JString id;
-	while (1)
+	while (true)
 		{
 		input >> std::ws;
 		while (!input.eof() && input.peek() == '#')		// peek() at eof sets fail()

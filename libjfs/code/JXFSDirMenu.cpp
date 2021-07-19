@@ -250,7 +250,7 @@ JXFSDirMenu::SetFileList
 	JString fullName;
 	for (JString* f : fileNameList)
 		{
-		JDirEntry* entry = jnew JDirEntry(*f);
+		auto* entry = jnew JDirEntry(*f);
 		assert( entry != nullptr );
 		itsEntries->Append(entry);
 		AppendEntry(*entry);
@@ -364,8 +364,7 @@ JXFSDirMenu::Receive
 		}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* info =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		const auto* info = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert(info != nullptr);
 		if (itsEntries != nullptr)
 			{
@@ -484,7 +483,7 @@ JXFSDirMenu::AppendEntry
 		{
 		if (entry.IsReadable())
 			{
-			JXFSDirMenu* menu = jnew JXFSDirMenu(entry.GetFullName(), this, i);
+			auto* menu = jnew JXFSDirMenu(entry.GetFullName(), this, i);
 			assert( menu != nullptr );
 			}
 		else

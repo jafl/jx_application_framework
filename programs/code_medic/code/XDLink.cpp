@@ -492,7 +492,7 @@ XDLink::SetProgram
 	itsProgramConfigFileName = fullName;
 
 	std::ifstream input(fullName.GetBytes());
-	while (1)
+	while (true)
 		{
 		line = JReadLine(input);
 		line.TrimWhitespace();

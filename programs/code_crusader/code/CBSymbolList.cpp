@@ -874,7 +874,7 @@ CBSymbolList::ReadSymbolList
 		}
 
 	JStringPtrMap<JString> flags(JPtrArrayT::kDeleteAll);
-	while (1)
+	while (true)
 		{
 		JString* name = jnew JString;
 		assert( name != nullptr );

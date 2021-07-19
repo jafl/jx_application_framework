@@ -219,8 +219,7 @@ JXDialogDirector::Deactivate()
 bool
 JXDialogDirector::OKToDeactivate()
 {
-	return itsCancelFlag ||
-							  JXWindowDirector::OKToDeactivate();
+	return itsCancelFlag || JXWindowDirector::OKToDeactivate();
 }
 
 /******************************************************************************

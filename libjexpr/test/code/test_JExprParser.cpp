@@ -36,7 +36,7 @@ JTEST(RealFunction)
 	JExprParser p(&varList);
 
 	JString expr, msg;
-	while (1)
+	while (true)
 		{
 		bool expectedParseOK;
 		input >> JBoolFromString(expectedParseOK);
@@ -87,7 +87,7 @@ JTEST(ComplexFunction)
 	JExprParser p(&varList);
 
 	JString expr, msg;
-	while (1)
+	while (true)
 		{
 		bool expectedParseOK;
 		input >> JBoolFromString(expectedParseOK);
@@ -141,7 +141,7 @@ JTEST(Printing)
 	JExprParser p(&varList);
 
 	JString expr, expected, result, msg;
-	while (1)
+	while (true)
 		{
 		input >> expr >> expected;
 		if (!input.good())

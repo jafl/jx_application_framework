@@ -22,7 +22,7 @@ public:
 
 	virtual ~JXDialogDirector();
 
-	bool	IsModal() const;
+	bool		IsModal() const;
 	JXButton*	GetOKButton() const;
 	JXButton*	GetCancelButton() const;
 	void		SetButtons(JXButton* okButton, JXButton* cancelButton);
@@ -30,7 +30,7 @@ public:
 	void	BeginDialog();
 	void	EndDialog(const bool success);
 
-	virtual void		Activate() override;
+	virtual void	Activate() override;
 	virtual bool	Deactivate() override;
 
 protected:
@@ -47,8 +47,8 @@ private:
 	const bool	itsModalFlag;
 	bool		itsAutoGeomFlag;
 	bool		itsCancelFlag;
-	JXButton*		itsOKButton;
-	JXButton*		itsCancelButton;
+	JXButton*	itsOKButton;
+	JXButton*	itsCancelButton;
 
 private:
 

@@ -1,4 +1,4 @@
-1
+0
 cancelButton::JXFSRunFileDialog::JXLayout "Cancel"
 itsSingleFileCB::JXFSRunFileDialog::JXLayout "One file at a time"
 itsUseWindowCB::JXFSRunFileDialog::JXLayout "Run in window"

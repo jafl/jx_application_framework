@@ -3972,7 +3972,7 @@ JTextEditor::RecalcRange
 	GeometryIterator geomIter(itsLineGeom, kJIteratorStartBefore, lineIndex);
 
 	*maxLineWidth = itsWidth;
-	while (1)
+	while (true)
 		{
 		JCoordinate lineWidth;
 		RecalcLine(textIter, &styleIter, &geomIter, lineIndex, &lineWidth);

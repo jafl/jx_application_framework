@@ -275,7 +275,7 @@ private {
 	s.Prepend("::");
 
 	bool found = false;
-	while (1)
+	while (true)
 		{
 		for (const JString* c : usingList)
 			{

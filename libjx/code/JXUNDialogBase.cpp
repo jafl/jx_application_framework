@@ -78,7 +78,7 @@ JXUNDialogBase::Init
 	JSize dh              = 0;
 	const JSize aph       = apG.height();
 	const JCoordinate dw1 = text->GetFrameWidth();
-	while (1)
+	while (true)
 		{
 		const JSize bdh = text->GetBoundsHeight();
 		if (bdh > aph)

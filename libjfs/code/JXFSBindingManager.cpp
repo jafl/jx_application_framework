@@ -217,7 +217,7 @@ JXFSBindingManager::Exec
 
 	for (const JString* fileName : fileList)
 		{
-		JFSBinding* f = jnew JFSBinding(*fileName, JString::empty, JFSBinding::kRunPlain, true, false);
+		auto* f = jnew JFSBinding(*fileName, JString::empty, JFSBinding::kRunPlain, true, false);
 		assert( f != nullptr );
 		if (!me->itsFileList->InsertSorted(f, false))
 			{
@@ -527,8 +527,7 @@ JXFSBindingManager::Receive
 
 	else if (sender == itsRunFileDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		const auto* info = dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert(info != nullptr);
 		if (info->Successful())
 			{
@@ -570,8 +569,7 @@ JXFSBindingManager::Receive
 
 	else if (sender == itsRunScriptDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		const auto* info = dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert(info != nullptr);
 		if (info->Successful())
 			{

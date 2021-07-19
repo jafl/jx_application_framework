@@ -90,14 +90,13 @@ JXFSCommandHistoryMenu::GetCommand
 	(
 	const Message&				message,
 	JFSBinding::CommandType*	type,
-	bool*					singleFile
+	bool*						singleFile
 	)
 	const
 {
 	assert( message.Is(JXMenu::kItemSelected) );
 
-	const JXMenu::ItemSelected* selection =
-		dynamic_cast<const JXMenu::ItemSelected*>(&message);
+	const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 	assert( selection != nullptr );
 
 	return GetCommand(selection->GetIndex(), type, singleFile);
@@ -108,7 +107,7 @@ JXFSCommandHistoryMenu::GetCommand
 	(
 	const JIndex				index,
 	JFSBinding::CommandType*	type,
-	bool*					singleFile
+	bool*						singleFile
 	)
 	const
 {
@@ -158,9 +157,9 @@ void
 JXFSCommandHistoryMenu::AddCommand
 	(
 	const JString&	cmd,
-	const bool	inShell,
-	const bool	inWindow,
-	const bool	singleFile
+	const bool		inShell,
+	const bool		inWindow,
+	const bool		singleFile
 	)
 {
 	if (cmd.IsEmpty())

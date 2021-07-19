@@ -66,13 +66,13 @@ JFSBindingList::Create
 		JSplitPathAndName(signalFileName, &path, &name);
 		if ((JCreateDirectory(path, 0700)).OK() && JDirectoryWritable(path))
 			{
-			JFSBindingList* list = jnew JFSBindingList(signalFileName, needUserCheck);
+			auto* list = jnew JFSBindingList(signalFileName, needUserCheck);
 			assert( list != nullptr );
 			return list;
 			}
 		}
 
-	JFSBindingList* list = jnew JFSBindingList(JString::empty, needUserCheck);
+	auto* list = jnew JFSBindingList(JString::empty, needUserCheck);
 	assert( list != nullptr );
 	return list;
 }
@@ -141,7 +141,7 @@ JFSBindingList::AddBinding
 	const bool					isSystem
 	)
 {
-	JFSBinding* b = jnew JFSBinding(pattern, cmd, type, singleFile, isSystem);
+	auto* b = jnew JFSBinding(pattern, cmd, type, singleFile, isSystem);
 	assert( b != nullptr );
 	return AddBinding(b);
 }
@@ -404,7 +404,7 @@ JFSBindingList::SetCommand
 	const bool					singleFile
 	)
 {
-	JFSBinding* b = jnew JFSBinding(pattern, cmd, type, singleFile, false);
+	auto* b = jnew JFSBinding(pattern, cmd, type, singleFile, false);
 	assert( b != nullptr );
 
 	JIndex index;
@@ -734,10 +734,10 @@ JFSBindingList::Load
 		input >> itsShellCmd >> itsWindowCmd;
 		}
 
-	while (1)
+	while (true)
 		{
 		bool isDefault, del;
-		JFSBinding* b = jnew JFSBinding(input, vers, isSystem, &isDefault, &del);
+		auto* b = jnew JFSBinding(input, vers, isSystem, &isDefault, &del);
 		assert( b != nullptr );
 
 		if (input.eof() || input.fail())

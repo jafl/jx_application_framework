@@ -2286,7 +2286,7 @@ JExprEditor::DeleteFunction
 	if (parentfwa == nullptr || parentfwa->GetArgCount() == 1)
 		{
 		JFunction* currentF = parentF;
-		while (1)
+		while (true)
 			{
 			if (currentF == itsFunction)
 				{

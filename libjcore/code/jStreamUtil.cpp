@@ -206,7 +206,7 @@ JReadUntil
 	JUtf8Byte* p = buf;
 
 	JUtf8Character c;
-	while (1)
+	while (true)
 		{
 		input >> c;
 		if (input.fail())
@@ -412,7 +412,7 @@ JIgnoreUntil
 {
 	bool isDelimiter = false;
 
-	while (1)
+	while (true)
 		{
 		JUtf8Byte c;
 		input.get(c);
@@ -794,7 +794,7 @@ JReadAll
 
 	char readBuf[ bufLength ];
 	JUtf8ByteBuffer byteBuf(bufLength);
-	while (1)
+	while (true)
 		{
 		size_t byteCount;
 		const ssize_t result = jReadN(input, readBuf, bufLength, &byteCount);
@@ -890,7 +890,7 @@ JReadUntil
 	const JSize bufLength = 1024;
 
 	JUtf8ByteBuffer byteBuf(bufLength);
-	while (1)
+	while (true)
 		{
 		JUtf8Byte c;
 		size_t dataLength;
@@ -1026,7 +1026,7 @@ JIgnoreUntil
 {
 	bool isDelimiter = false;
 
-	while (1)
+	while (true)
 		{
 		char c;
 		size_t dataLength;
@@ -1075,7 +1075,7 @@ JWaitForInput
 	)
 {
 	const time_t startTime = time(nullptr);
-	while (1)
+	while (true)
 		{
 		jclear_errno();
 

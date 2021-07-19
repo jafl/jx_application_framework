@@ -26,7 +26,7 @@ mkdtemp
 		}
 
 	JKLRand r;
-	while (1)
+	while (true)
 		{
 		for (int i=0; i<len; i++)
 			{

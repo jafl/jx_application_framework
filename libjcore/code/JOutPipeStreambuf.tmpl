@@ -114,7 +114,7 @@ JOutPipeStreambuf<_CharT, _Traits>::xsputn
 	std::streamsize	n
 	)
 {
-	while (1)
+	while (true)
 		{
 		ssize_t result = ::write(itsDescriptor, s, n);
 		if (result == n)
@@ -145,7 +145,7 @@ JOutPipeStreambuf<_CharT, _Traits>::overflow
 	int_type c
 	)
 {
-	while (1)
+	while (true)
 		{
 		_CharT ch = (_CharT) c;
 		ssize_t result = ::write(itsDescriptor, (void*) &ch, sizeof(ch));
