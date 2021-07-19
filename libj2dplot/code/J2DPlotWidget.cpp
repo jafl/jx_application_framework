@@ -485,7 +485,7 @@ J2DPlotWidget::AddCurve
 {
 	itsCurves->Append(data);
 
-	JString* str = jnew JString(name);
+	auto* str = jnew JString(name);
 	assert(str != nullptr);
 
 	J2DCurveInfo info(true, line, symbol,
@@ -2904,7 +2904,7 @@ J2DPlotWidget::DrawCurve
 	)
 	const
 {
-	J2DPlotWidget* me         = const_cast<J2DPlotWidget*>(this);
+	auto* me         = const_cast<J2DPlotWidget*>(this);
 	const bool drawErrors = (info.xerrors && curve.HasXErrors()) ||
 									 (info.yerrors && curve.HasYErrors());
 
@@ -3102,7 +3102,7 @@ J2DPlotWidget::DrawVector
 	)
 	const
 {
-	J2DPlotWidget* me = const_cast<J2DPlotWidget*>(this);
+	auto* me = const_cast<J2DPlotWidget*>(this);
 
 	J2DVectorPoint vector;
 	J2DDataPoint head, tail;

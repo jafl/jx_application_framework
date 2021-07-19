@@ -165,7 +165,7 @@ J2DPlotJFunction::Receive
 {
 	if (sender == itsVarList && message.Is(JVariableList::kVarInserted))
 		{
-		const JVariableList::VarInserted* info =
+		const auto* info =
 			dynamic_cast<const JVariableList::VarInserted*>(&message);
 		assert( info != nullptr );
 		info->AdjustIndex(&itsXIndex);
@@ -173,7 +173,7 @@ J2DPlotJFunction::Receive
 
 	else if (sender == itsVarList && message.Is(JVariableList::kVarRemoved))
 		{
-		const JVariableList::VarRemoved* info =
+		const auto* info =
 			dynamic_cast<const JVariableList::VarRemoved*>(&message);
 		assert( info != nullptr );
 		const bool ok = info->AdjustIndex(&itsXIndex);
@@ -182,7 +182,7 @@ J2DPlotJFunction::Receive
 
 	else if (sender == itsVarList && message.Is(JVariableList::kVarMoved))
 		{
-		const JVariableList::VarMoved* info =
+		const auto* info =
 			dynamic_cast<const JVariableList::VarMoved*>(&message);
 		assert( info != nullptr );
 		info->AdjustIndex(&itsXIndex);
@@ -190,7 +190,7 @@ J2DPlotJFunction::Receive
 
 	else if (sender == itsVarList && message.Is(JVariableList::kVarValueChanged))
 		{
-		const JVariableList::VarValueChanged* info =
+		const auto* info =
 			dynamic_cast<const JVariableList::VarValueChanged*>(&message);
 		assert( info != nullptr );
 		if (info->GetVarIndex() != itsXIndex)

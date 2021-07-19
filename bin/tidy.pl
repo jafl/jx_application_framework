@@ -21,4 +21,4 @@ close(F);
 
 `run-clang-tidy.py -checks='-*,hicpp-use-auto' -quiet -fix`;
 
-system 'run-clang-tidy.py -checks='-*,performance-*,portability-*' -quiet';
+system "run-clang-tidy.py -checks='-*,performance-*,portability-*' -quiet";
