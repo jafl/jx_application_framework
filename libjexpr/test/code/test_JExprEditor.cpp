@@ -31,7 +31,7 @@ JTEST(rtti)
 	JFunction* c2 = jnew JConstantValue(-2);
 	assert( c2 != nullptr );
 
-	JSummation* sum = jnew JSummation;
+	auto* sum = jnew JSummation;
 	assert( sum != nullptr );
 	sum->AppendArg(c1);
 	sum->AppendArg(c2);
