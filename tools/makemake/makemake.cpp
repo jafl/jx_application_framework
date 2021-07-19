@@ -218,7 +218,7 @@ main
 
 		// get the name of the target for make
 
-		JString* mainTargetName = jnew JString(JReadUntil(input,'\n'));
+		auto* mainTargetName = jnew JString(JReadUntil(input,'\n'));
 		assert( mainTargetName != nullptr );
 
 		// If we aren't supposed to include this target, and
@@ -243,7 +243,7 @@ main
 			}
 		mtnIter.Invalidate();
 
-		JString* mainTargetObjs = jnew JString;
+		auto* mainTargetObjs = jnew JString;
 		assert( mainTargetObjs != nullptr );
 
 		// get the names of the files that the main target depends on
@@ -371,7 +371,7 @@ main
 
 			fnIter.Invalidate();
 
-			JString* prefixName = jnew JString(prefix);
+			auto* prefixName = jnew JString(prefix);
 			assert( prefixName != nullptr );
 
 			usesJava = usesJava ||
@@ -389,7 +389,7 @@ main
 				*targetName  = targetSuffix;
 				}
 
-			JString* outPrefixName = jnew JString;
+			auto* outPrefixName = jnew JString;
 			assert( outPrefixName != nullptr );
 
 			*mainTargetObjs += " ";
@@ -1005,7 +1005,7 @@ GetOptions
 	*assumeAutoGen = false;
 
 	{
-	JString* s = jnew JString(".java");
+	auto* s = jnew JString(".java");
 	assert( s != nullptr );
 	suffixMapIn->Append(s);
 	s = jnew JString(".java");
@@ -1048,7 +1048,7 @@ GetOptions
 		else if (strcmp(argv[index], "--search-path") == 0)
 			{
 			JCheckForValues(1, &index, argc, argv);
-			JString* s = jnew JString(argv[index]);
+			auto* s = jnew JString(argv[index]);
 			assert( s != nullptr );
 			searchPaths.Append(s);
 			}
@@ -1084,7 +1084,7 @@ GetOptions
 			if (iter.Next(suffixMapPattern))
 				{
 				const JStringMatch& m = iter.GetLastMatch();
-				JString* s = jnew JString(m.GetSubstring(1));
+				auto* s = jnew JString(m.GetSubstring(1));
 				assert( s != nullptr );
 				suffixMapIn->Append(s);
 				s = jnew JString(m.GetSubstring(2));
@@ -1150,7 +1150,7 @@ GetOptions
 
 		else
 			{
-			JString* userTarget = jnew JString(argv[index]);
+			auto* userTarget = jnew JString(argv[index]);
 			assert( userTarget != nullptr );
 			userTargetList->Append(userTarget);
 			}
@@ -1260,7 +1260,7 @@ PickTargets
 	JIgnoreUntil(input, '@');
 	while (!input.eof() && !input.fail())
 		{
-		JString* targetName = jnew JString(JReadUntil(input, '\n'));
+		auto* targetName = jnew JString(JReadUntil(input, '\n'));
 		assert( targetName != nullptr );
 
 		all.Append(targetName);
@@ -1294,7 +1294,7 @@ PickTargets
 			}
 		else
 			{
-			JString* targetName = jnew JString(*(all.GetElement(choice)));
+			auto* targetName = jnew JString(*(all.GetElement(choice)));
 			assert( targetName != nullptr );
 
 			list->Append(targetName);
@@ -1680,8 +1680,8 @@ PrintDependencies
 		{
 		if (!outputDirName.IsEmpty())
 			{
-			JString s = makeName, p,f;
-			JSplitPathAndName(s, &p, &f);
+			JString p,f;
+			JSplitPathAndName(makeName, &p, &f);
 			output << "${" << outputDirName << "}/";
 			f.Print(output);
 			}

@@ -4,8 +4,8 @@ use strict;
 
 my @commands;
 
-my @s = glob('code/*.o.json');
-for my $f (@s)
+chomp(my $s = `find . -name '*.o.json' -a ! -path '*/test/*'`);
+for my $f (split(/\n/, $s))
 	{
 	open(F, '< '.$f);
 	local $/;
@@ -19,6 +19,6 @@ open(F, '> compile_commands.json');
 print F '[',join(',', @commands),']';
 close(F);
 
-`run-clang-tidy.py -checks='-*,hicpp-use-auto' -quiet -fix`;
+system "run-clang-tidy.py -checks='-*,hicpp-use-auto' -quiet -fix";
 
 system "run-clang-tidy.py -checks='-*,performance-*,portability-*' -quiet";

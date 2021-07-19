@@ -278,7 +278,7 @@ GetOptions
 
 		else
 			{
-			JString* inputFileName = jnew JString(argv[index]);
+			auto* inputFileName = jnew JString(argv[index]);
 			assert( inputFileName != nullptr );
 
 			if (inputFileName->EndsWith("~") ||

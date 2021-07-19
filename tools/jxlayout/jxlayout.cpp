@@ -680,7 +680,7 @@ JIndex i;
 		// variable name
 
 		bool isLocal = false;
-		JString* varName = jnew JString(JReadLine(input));
+		auto* varName = jnew JString(JReadLine(input));
 		assert( varName != nullptr );
 		RemoveIdentifier(kObjNameMarker, varName);
 
@@ -785,7 +785,7 @@ JIndex i;
 
 		// get the class name and additional arguments
 
-		JString* className = jnew JString;
+		auto* className = jnew JString;
 		assert( className != nullptr );
 		objTypes->Append(className);
 
@@ -1332,7 +1332,7 @@ ApplyOptions
 						id.Print(output);
 						output << "\"));" << std::endl;
 
-						JString* s = jnew JString(*value);
+						auto* s = jnew JString(*value);
 						assert( s != nullptr );
 						stringMgr->SetElement(id, s, JPtrArrayT::kDelete);
 						}
