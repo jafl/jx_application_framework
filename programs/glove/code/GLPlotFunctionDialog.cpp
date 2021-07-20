@@ -63,7 +63,7 @@ GLPlotFunctionDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 500,80, JString::empty);
+	auto* window = jnew JXWindow(this, 500,80, JString::empty);
 	assert( window != nullptr );
 
 	itsFunctionString =
@@ -71,7 +71,7 @@ GLPlotFunctionDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 80,10, 220,20);
 	assert( itsFunctionString != nullptr );
 
-	JXStaticText* fnLabel =
+	auto* fnLabel =
 		jnew JXStaticText(JGetString("fnLabel::GLPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 70,20);
 	assert( fnLabel != nullptr );
@@ -83,13 +83,13 @@ GLPlotFunctionDialog::BuildWindow()
 	assert( itsEditButton != nullptr );
 	itsEditButton->SetShortcuts(JGetString("itsEditButton::GLPlotFunctionDialog::shortcuts::JXLayout"));
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::GLPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 315,50, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GLPlotFunctionDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 115,50, 70,20);
 	assert( cancelButton != nullptr );

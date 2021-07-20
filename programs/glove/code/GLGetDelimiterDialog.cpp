@@ -87,21 +87,21 @@ GLGetDelimiterDialog::BuildWindow()
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 330,360, JString::empty);
+	auto* window = jnew JXWindow(this, 330,360, JString::empty);
 	assert( window != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,220, 310,100);
 	assert( scrollbarSet != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::GLGetDelimiterDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 210,330, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GLGetDelimiterDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLGetDelimiterDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 50,330, 70,20);
 	assert( cancelButton != nullptr );
@@ -136,7 +136,7 @@ GLGetDelimiterDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 125,70, 40,20);
 	assert( itsCharInput != nullptr );
 
-	JXStaticText* helpLabel =
+	auto* helpLabel =
 		jnew JXStaticText(JGetString("helpLabel::GLGetDelimiterDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,200, 310,20);
 	assert( helpLabel != nullptr );
@@ -157,7 +157,7 @@ GLGetDelimiterDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,140, 40,20);
 	assert( itsSkipCountInput != nullptr );
 
-	JXStaticText* lineLabel =
+	auto* lineLabel =
 		jnew JXStaticText(JGetString("lineLabel::GLGetDelimiterDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 135,140, 60,20);
 	assert( lineLabel != nullptr );

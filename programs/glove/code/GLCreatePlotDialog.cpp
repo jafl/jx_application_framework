@@ -72,16 +72,16 @@ GLCreatePlotDialog::BuildWindow
 	
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,160, JString::empty);
+	auto* window = jnew JXWindow(this, 370,160, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::GLCreatePlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 280,130, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GLCreatePlotDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLCreatePlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 180,130, 70,20);
 	assert( cancelButton != nullptr );
@@ -92,7 +92,7 @@ GLCreatePlotDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 115,10, 200,20);
 	assert( itsLabelInput != nullptr );
 
-	JXStaticText* labelLabel =
+	auto* labelLabel =
 		jnew JXStaticText(JGetString("labelLabel::GLCreatePlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 65,10, 50,20);
 	assert( labelLabel != nullptr );

@@ -94,10 +94,10 @@ GLNonLinearFitDialog::BuildWindow()
 	
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,430, JString::empty);
+	auto* window = jnew JXWindow(this, 400,430, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != nullptr );
@@ -107,7 +107,7 @@ GLNonLinearFitDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 380,345);
 	assert( itsPartition != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLNonLinearFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 20,400, 70,20);
 	assert( cancelButton != nullptr );
@@ -118,7 +118,7 @@ GLNonLinearFitDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 165,400, 70,20);
 	assert( itsHelpButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::GLNonLinearFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 310,400, 70,20);
 	assert( okButton != nullptr );
@@ -139,18 +139,18 @@ GLNonLinearFitDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 120,0, 260,20);
 	assert( itsNameInput != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(container,
 					JXWidget::kHElastic, JXWidget::kVElastic, 120,20, 260,100);
 	assert( scrollbarSet != nullptr );
 
-	JXStaticText* fitNameLabel =
+	auto* fitNameLabel =
 		jnew JXStaticText(JGetString("fitNameLabel::GLNonLinearFitDialog::functionLayout"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 110,20);
 	assert( fitNameLabel != nullptr );
 	fitNameLabel->SetToLabel();
 
-	JXStaticText* fitFnLabel =
+	auto* fitFnLabel =
 		jnew JXStaticText(JGetString("fitFnLabel::GLNonLinearFitDialog::functionLayout"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 110,20);
 	assert( fitFnLabel != nullptr );
@@ -176,7 +176,7 @@ GLNonLinearFitDialog::BuildWindow()
 	const JRect derivativeLayout_Aperture = container->GetAperture();
 	container->AdjustSize(380 - derivativeLayout_Aperture.width(), 100 - derivativeLayout_Aperture.height());
 
-	JXStaticText* derivativeLabel =
+	auto* derivativeLabel =
 		jnew JXStaticText(JGetString("derivativeLabel::GLNonLinearFitDialog::derivativeLayout"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 100,20);
 	assert( derivativeLabel != nullptr );
@@ -187,7 +187,7 @@ GLNonLinearFitDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 120,0, 260,100);
 	assert( scrollbarSet != nullptr );
 
-	JXStaticText* warningText =
+	auto* warningText =
 		jnew JXStaticText(JGetString("warningText::GLNonLinearFitDialog::derivativeLayout"), container,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 90,60);
 	assert( warningText != nullptr );
@@ -218,7 +218,7 @@ GLNonLinearFitDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 120,0, 260,100);
 	assert( scrollbarSet != nullptr );
 
-	JXStaticText* parmLabel =
+	auto* parmLabel =
 		jnew JXStaticText(JGetString("parmLabel::GLNonLinearFitDialog::variableLayout"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 100,20);
 	assert( parmLabel != nullptr );

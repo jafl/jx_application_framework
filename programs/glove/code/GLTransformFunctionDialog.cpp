@@ -71,7 +71,7 @@ GLTransformFunctionDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 580,90, JString::empty);
+	auto* window = jnew JXWindow(this, 580,90, JString::empty);
 	assert( window != nullptr );
 
 	itsTransformButton =

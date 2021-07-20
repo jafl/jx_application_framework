@@ -61,7 +61,7 @@ GLColByIncDialog::BuildWindow()
 		
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 220,190, JString::empty);
+	auto* window = jnew JXWindow(this, 220,190, JString::empty);
 	assert( window != nullptr );
 
 	itsBeginning =
@@ -69,13 +69,13 @@ GLColByIncDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 95,55, 100,20);
 	assert( itsBeginning != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::GLColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 130,160, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GLColByIncDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,160, 70,20);
 	assert( cancelButton != nullptr );
@@ -86,13 +86,13 @@ GLColByIncDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 95,90, 100,20);
 	assert( itsInc != nullptr );
 
-	JXStaticText* incrLabel =
+	auto* incrLabel =
 		jnew JXStaticText(JGetString("incrLabel::GLColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,90, 70,20);
 	assert( incrLabel != nullptr );
 	incrLabel->SetToLabel();
 
-	JXStaticText* minLabel =
+	auto* minLabel =
 		jnew JXStaticText(JGetString("minLabel::GLColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,55, 70,20);
 	assert( minLabel != nullptr );
@@ -103,7 +103,7 @@ GLColByIncDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 95,125, 100,20);
 	assert( itsCount != nullptr );
 
-	JXStaticText* countLabel =
+	auto* countLabel =
 		jnew JXStaticText(JGetString("countLabel::GLColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,125, 70,20);
 	assert( countLabel != nullptr );

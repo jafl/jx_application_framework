@@ -58,7 +58,7 @@ GLColByRangeDialog::BuildWindow()
 		
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 210,190, JString::empty);
+	auto* window = jnew JXWindow(this, 210,190, JString::empty);
 	assert( window != nullptr );
 
 	itsBeginning =
@@ -66,13 +66,13 @@ GLColByRangeDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 95,55, 100,20);
 	assert( itsBeginning != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::GLColByRangeDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 130,160, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GLColByRangeDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLColByRangeDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,160, 70,20);
 	assert( cancelButton != nullptr );
@@ -83,13 +83,13 @@ GLColByRangeDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 95,90, 100,20);
 	assert( itsEnd != nullptr );
 
-	JXStaticText* maxLabel =
+	auto* maxLabel =
 		jnew JXStaticText(JGetString("maxLabel::GLColByRangeDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,90, 70,20);
 	assert( maxLabel != nullptr );
 	maxLabel->SetToLabel();
 
-	JXStaticText* minLabel =
+	auto* minLabel =
 		jnew JXStaticText(JGetString("minLabel::GLColByRangeDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,55, 70,20);
 	assert( minLabel != nullptr );
@@ -100,7 +100,7 @@ GLColByRangeDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 95,125, 100,20);
 	assert( itsCount != nullptr );
 
-	JXStaticText* countLabel =
+	auto* countLabel =
 		jnew JXStaticText(JGetString("countLabel::GLColByRangeDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,125, 70,20);
 	assert( countLabel != nullptr );

@@ -74,10 +74,10 @@ GLPolyFitDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 380,450, JString::empty);
+	auto* window = jnew JXWindow(this, 380,450, JString::empty);
 	assert( window != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 340,100);
 	assert( scrollbarSet != nullptr );
@@ -132,13 +132,13 @@ GLPolyFitDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 185,380, 110,20);
 	assert( itsCB[9] != nullptr );
 
-	JXStaticText* powersLabel =
+	auto* powersLabel =
 		jnew JXStaticText(JGetString("powersLabel::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,158, 65,20);
 	assert( powersLabel != nullptr );
 	powersLabel->SetToLabel();
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 25,415, 70,20);
 	assert( cancelButton != nullptr );
@@ -149,7 +149,7 @@ GLPolyFitDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 155,415, 70,20);
 	assert( itsHelpButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 285,415, 70,20);
 	assert( okButton != nullptr );
@@ -160,7 +160,7 @@ GLPolyFitDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,15, 270,20);
 	assert( itsNameInput != nullptr );
 
-	JXStaticText* fitNameLabel =
+	auto* fitNameLabel =
 		jnew JXStaticText(JGetString("fitNameLabel::GLPolyFitDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,15, 65,20);
 	assert( fitNameLabel != nullptr );

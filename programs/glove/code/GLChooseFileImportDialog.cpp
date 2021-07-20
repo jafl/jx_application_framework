@@ -71,21 +71,21 @@ GLChooseFileImportDialog::BuildWindow
 	
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 330,230, JString::empty);
+	auto* window = jnew JXWindow(this, 330,230, JString::empty);
 	assert( window != nullptr );
 
-	JXStaticText* errorMessage =
+	auto* errorMessage =
 		jnew JXStaticText(JGetString("errorMessage::GLChooseFileImportDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 250,40);
 	assert( errorMessage != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::GLChooseFileImportDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 210,200, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GLChooseFileImportDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLChooseFileImportDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 50,200, 70,20);
 	assert( cancelButton != nullptr );
@@ -101,7 +101,7 @@ GLChooseFileImportDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 50,160, 70,30);
 	assert( itsFilterMenu != nullptr );
 
-	JXScrollbarSet* textScrollbarSet =
+	auto* textScrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,50, 310,100);
 	assert( textScrollbarSet != nullptr );

@@ -69,7 +69,7 @@ GLCreateVectorPlotDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,160, JString::empty);
+	auto* window = jnew JXWindow(this, 370,160, JString::empty);
 	assert( window != nullptr );
 
 	itsX1Menu =
@@ -92,13 +92,13 @@ GLCreateVectorPlotDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,80, 160,30);
 	assert( itsY2Menu != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::GLCreateVectorPlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 280,130, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GLCreateVectorPlotDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLCreateVectorPlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 190,130, 70,20);
 	assert( cancelButton != nullptr );
@@ -113,7 +113,7 @@ GLCreateVectorPlotDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 115,10, 200,20);
 	assert( itsLabelInput != nullptr );
 
-	JXStaticText* label =
+	auto* label =
 		jnew JXStaticText(JGetString("label::GLCreateVectorPlotDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 65,10, 50,20);
 	assert( label != nullptr );
