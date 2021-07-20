@@ -576,7 +576,7 @@ CMBreakpointTable::CreateXInputField
 	JString text;
 	if (cell.x == kIgnoreCountColumn)
 		{
-		JXIntegerInput* input = jnew JXIntegerInput(this, kFixedLeft, kFixedTop, x,y, w,h);
+		auto* input = jnew JXIntegerInput(this, kFixedLeft, kFixedTop, x,y, w,h);
 		assert( input != nullptr );
 		input->SetLowerLimit(0);
 		input->SetValue(bp->GetIgnoreCount());

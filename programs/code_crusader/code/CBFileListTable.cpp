@@ -578,14 +578,14 @@ CBFileListTable::Receive
 {
 	if (sender == GetFullNameDataList() && message.Is(JListT::kElementsInserted))
 		{
-		const JListT::ElementsInserted* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != nullptr );
 		FilesAdded(*info);
 		}
 	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementsRemoved))
 		{
-		const JListT::ElementsRemoved* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != nullptr );
 		itsFileInfo->RemoveElements(*info);
@@ -597,7 +597,7 @@ CBFileListTable::Receive
 
 	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementMoved))
 		{
-		const JListT::ElementMoved* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != nullptr );
 		itsFileInfo->MoveElementToIndex(*info);
@@ -608,7 +608,7 @@ CBFileListTable::Receive
 		}
 	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementsSwapped))
 		{
-		const JListT::ElementsSwapped* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != nullptr );
 		itsFileInfo->SwapElements(*info);
@@ -624,7 +624,7 @@ CBFileListTable::Receive
 
 	else if (sender == GetFullNameDataList() && message.Is(JListT::kElementsChanged))
 		{
-		const JListT::ElementsChanged* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsChanged*>(&message);
 		assert( info != nullptr );
 

@@ -470,7 +470,7 @@ CBStylerTable::CreateStringTableInput
 
 	SelectSingleCell(cell, false);
 
-	CBStylerTableInput* obj =
+	auto* obj =
 		jnew CBStylerTableInput(itsFileType, this, hSizing, vSizing, x,y, w,h);
 	assert( obj != nullptr );
 	return obj;

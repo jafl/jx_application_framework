@@ -139,7 +139,7 @@ CMLineIndexTable::CMLineIndexTable
 
 	AppendCols(3);
 
-	CMAdjustLineTableToTextTask* task = jnew CMAdjustLineTableToTextTask(this);
+	auto* task = jnew CMAdjustLineTableToTextTask(this);
 	assert( task != nullptr );
 	task->Go();
 
@@ -721,7 +721,7 @@ CMLineIndexTable::Receive
 
 	else if (sender == itsVScrollbar && message.Is(JXScrollbar::kScrolled))
 		{
-		const JXScrollbar::Scrolled* info =
+		const auto* info =
 			dynamic_cast<const JXScrollbar::Scrolled*>(&message);
 		assert( info != nullptr );
 		ScrollTo(0, info->GetValue());
@@ -744,7 +744,7 @@ CMLineIndexTable::Receive
 		}
 	else if (sender == itsLineMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleLineMenu(selection->GetIndex());

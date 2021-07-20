@@ -97,7 +97,7 @@ CBDTree::StreamInCClass
 	CBTree*				tree
 	)
 {
-	CBDClass* newClass = jnew CBDClass(input, vers, tree);
+	auto* newClass = jnew CBDClass(input, vers, tree);
 	assert( newClass != nullptr );
 	return newClass;
 }

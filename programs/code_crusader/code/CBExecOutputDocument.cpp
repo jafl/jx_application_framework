@@ -161,7 +161,7 @@ CBExecOutputDocument::ConstructTextEditor
 	JXScrollbarSet*		scrollbarSet
 	)
 {
-	CBTextEditor* te =
+	auto* te =
 		jnew CBTextEditor(document, fileName, menuBar, lineInput, colInput, true,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
@@ -452,7 +452,7 @@ CBExecOutputDocument::Receive
 
 	else if (sender == itsProcess && message.Is(JProcess::kFinished))
 		{
-		const JProcess::Finished* info =
+		const auto* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
 		assert( info != nullptr );
 		const bool stayOpen = ProcessFinished(*info);
@@ -571,7 +571,7 @@ CBExecOutputDocument::ReceiveData
 	const Message& message
 	)
 {
-	const JAsynchDataReceiverT::DataReady* info =
+	const auto* info =
 		dynamic_cast<const JAsynchDataReceiverT::DataReady*>(&message);
 	assert( info != nullptr );
 

@@ -319,7 +319,7 @@ JXFileInput::StyledText::ComputeErrorLength
 		return totalLength;
 		}
 
-	JXFileInput* f = dynamic_cast<JXFileInput*>(field);
+	auto* f = dynamic_cast<JXFileInput*>(field);
 
 	if (!JFileExists(fullName) ||
 		(f->itsRequireReadFlag  && !JFileReadable(fullName)) ||

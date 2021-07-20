@@ -113,7 +113,7 @@ SyGFolderDragSource::HandleMouseDrag
 		JPtrArray<JString> list(JPtrArrayT::kForgetAll);
 		list.Append(&const_cast<JString&>(path));
 
-		JXFileSelection* data = jnew JXFileSelection(GetDisplay(), list);
+		auto* data = jnew JXFileSelection(GetDisplay(), list);
 		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data);

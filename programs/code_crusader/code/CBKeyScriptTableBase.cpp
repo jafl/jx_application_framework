@@ -80,7 +80,7 @@ bool
 CBKeyScriptTableBase::ContentsValid()
 	const
 {
-	CBKeyScriptTableBase* me = const_cast<CBKeyScriptTableBase*>(this);
+	auto* me = const_cast<CBKeyScriptTableBase*>(this);
 	if (!me->EndEditing())
 		{
 		return false;
@@ -296,7 +296,7 @@ CBKeyScriptTableBase::CreateStringTableInput
 
 	if (cell.x == kScriptColumn)
 		{
-		CBKeyScriptInput* obj =
+		auto* obj =
 			jnew CBKeyScriptInput(enclosure, hSizing, vSizing, x,y, w,h);
 		assert( obj != nullptr );
 		return obj;

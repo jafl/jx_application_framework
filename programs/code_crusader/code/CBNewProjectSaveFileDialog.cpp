@@ -55,7 +55,7 @@ CBNewProjectSaveFileDialog::Create
 	const JString&							message
 	)
 {
-	CBNewProjectSaveFileDialog* dlog =
+	auto* dlog =
 		jnew CBNewProjectSaveFileDialog(supervisor, dirInfo, fileFilter, method);
 	assert( dlog != nullptr );
 	dlog->BuildWindow(origName, prompt, message);
@@ -119,69 +119,69 @@ CBNewProjectSaveFileDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 310,500, JString::empty);
+	auto* window = jnew JXWindow(this, 310,500, JString::empty);
 	assert( window != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,140, 180,140);
 	assert( scrollbarSet != nullptr );
 
-	JXTextButton* saveButton =
+	auto* saveButton =
 		jnew JXTextButton(JGetString("saveButton::CBNewProjectSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,280, 70,20);
 	assert( saveButton != nullptr );
 	saveButton->SetShortcuts(JGetString("saveButton::CBNewProjectSaveFileDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBNewProjectSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,310, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* homeButton =
+	auto* homeButton =
 		jnew JXTextButton(JGetString("homeButton::CBNewProjectSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,140, 40,20);
 	assert( homeButton != nullptr );
 
-	JXStaticText* pathLabel =
+	auto* pathLabel =
 		jnew JXStaticText(JGetString("pathLabel::CBNewProjectSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,20, 40,20);
 	assert( pathLabel != nullptr );
 	pathLabel->SetToLabel();
 
-	JXSaveFileInput* fileNameInput =
+	auto* fileNameInput =
 		jnew JXSaveFileInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,310, 180,20);
 	assert( fileNameInput != nullptr );
 
-	JXPathInput* pathInput =
+	auto* pathInput =
 		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,20, 200,20);
 	assert( pathInput != nullptr );
 
-	JXTextCheckbox* showHiddenCB =
+	auto* showHiddenCB =
 		jnew JXTextCheckbox(JGetString("showHiddenCB::CBNewProjectSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,80, 130,20);
 	assert( showHiddenCB != nullptr );
 
-	JXStaticText* promptLabel =
+	auto* promptLabel =
 		jnew JXStaticText(JGetString("promptLabel::CBNewProjectSaveFileDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,290, 180,20);
 	assert( promptLabel != nullptr );
 	promptLabel->SetToLabel();
 
-	JXStaticText* filterLabel =
+	auto* filterLabel =
 		jnew JXStaticText(JGetString("filterLabel::CBNewProjectSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,50, 40,20);
 	assert( filterLabel != nullptr );
 	filterLabel->SetToLabel();
 
-	JXInputField* filterInput =
+	auto* filterInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,50, 200,20);
 	assert( filterInput != nullptr );
 
-	JXStaticText* makefileTitle =
+	auto* makefileTitle =
 		jnew JXStaticText(JGetString("makefileTitle::CBNewProjectSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,420, 140,20);
 	assert( makefileTitle != nullptr );
@@ -192,42 +192,42 @@ CBNewProjectSaveFileDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 160,390, 132,106);
 	assert( itsMethodRG != nullptr );
 
-	JXTextRadioButton* manualRB =
+	auto* manualRB =
 		jnew JXTextRadioButton(CBBuildManager::kManual, JGetString("manualRB::CBNewProjectSaveFileDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 110,20);
 	assert( manualRB != nullptr );
 
-	JXTextRadioButton* qmakeRB =
+	auto* qmakeRB =
 		jnew JXTextRadioButton(CBBuildManager::kQMake, JGetString("qmakeRB::CBNewProjectSaveFileDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 110,20);
 	assert( qmakeRB != nullptr );
 
-	JXTextRadioButton* makemakeRB =
+	auto* makemakeRB =
 		jnew JXTextRadioButton(CBBuildManager::kMakemake, JGetString("makemakeRB::CBNewProjectSaveFileDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 110,20);
 	assert( makemakeRB != nullptr );
 
-	JXPathHistoryMenu* pathHistory =
+	auto* pathHistory =
 		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != nullptr );
 
-	JXStringHistoryMenu* filterHistory =
+	auto* filterHistory =
 		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != nullptr );
 
-	JXTextButton* upButton =
+	auto* upButton =
 		jnew JXTextButton(JGetString("upButton::CBNewProjectSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,140, 30,20);
 	assert( upButton != nullptr );
 
-	JXNewDirButton* newDirButton =
+	auto* newDirButton =
 		jnew JXNewDirButton(window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,190, 70,20);
 	assert( newDirButton != nullptr );
 
-	JXCurrentPathMenu* currPathMenu =
+	auto* currPathMenu =
 		jnew JXCurrentPathMenu(JString("/", false), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
@@ -237,12 +237,12 @@ CBNewProjectSaveFileDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,350, 270,30);
 	assert( itsTemplateMenu != nullptr );
 
-	JXTextRadioButton* cmakeRB =
+	auto* cmakeRB =
 		jnew JXTextRadioButton(CBBuildManager::kCMake, JGetString("cmakeRB::CBNewProjectSaveFileDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,50, 110,20);
 	assert( cmakeRB != nullptr );
 
-	JXTextButton* desktopButton =
+	auto* desktopButton =
 		jnew JXTextButton(JGetString("desktopButton::CBNewProjectSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,160, 70,20);
 	assert( desktopButton != nullptr );
@@ -354,7 +354,7 @@ CBNewProjectSaveFileDialog::BuildTemplateMenuItems
 			fullName = (info->GetEntry(i)).GetFullName();
 			if (CBProjectDocument::GetProjectTemplateType(fullName, &templateType))
 				{
-				JString* s = jnew JString((info->GetEntry(i)).GetName());
+				auto* s = jnew JString((info->GetEntry(i)).GetName());
 				assert( s != nullptr );
 
 				if (isUserPath)
@@ -431,7 +431,7 @@ CBNewProjectSaveFileDialog::Receive
 		}
 	else if (sender == itsTemplateMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsTemplateIndex = selection->GetIndex();

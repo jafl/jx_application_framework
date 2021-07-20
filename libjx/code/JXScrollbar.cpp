@@ -786,7 +786,7 @@ JXScrollbar::ScrollWait
 void
 JXScrollbar::PlaceScrolltab()
 {
-	JXScrolltab* tab = jnew JXScrolltab(this, itsValue);
+	auto* tab = jnew JXScrolltab(this, itsValue);
 	assert( tab != nullptr );
 	// tab registers itself
 }
@@ -1096,7 +1096,7 @@ JXScrollbar::ReadSetup
 			JCoordinate value;
 			input >> value;
 
-			JXScrolltab* tab = jnew JXScrolltab(this, value);
+			auto* tab = jnew JXScrolltab(this, value);
 			assert( tab != nullptr );
 			// tab registers itself
 			}
@@ -1192,7 +1192,7 @@ JXScrollbar::Receive
 {
 	if (sender == itsActionMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());

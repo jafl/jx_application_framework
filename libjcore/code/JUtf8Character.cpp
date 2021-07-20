@@ -119,7 +119,7 @@ JUtf8Character::IsCompleteCharacter
 	JSize*				characterByteCount
 	)
 {
-	unsigned char* c = (unsigned char*) utf8Character;
+	auto* c = (unsigned char*) utf8Character;
 	if (c[0] == 0)
 		{
 		*characterByteCount = 0;
@@ -164,7 +164,7 @@ JUtf8Character::GetCharacterByteCount
 	JSize*				byteCount
 	)
 {
-	unsigned char* c = (unsigned char*) utf8Character;
+	auto* c = (unsigned char*) utf8Character;
 	bool ok      = false;
 	if (c[0] <= (unsigned char) '\x7F')
 		{
@@ -221,7 +221,7 @@ JUtf8Character::GetPrevCharacterByteCount
 	JSize*				byteCount
 	)
 {
-	const unsigned char* s = (const unsigned char*) lastByte;
+	const auto* s = (const unsigned char*) lastByte;
 	while (((unsigned char) '\x80') <= *s && *s <= (unsigned char) '\xBF')
 		{
 		s--;
@@ -455,7 +455,7 @@ JUtf8Byte*
 JUtf8Character::AllocateBytes()
 	const
 {
-	JUtf8Byte* s = jnew JUtf8Byte[ itsByteCount+1 ];
+	auto* s = jnew JUtf8Byte[ itsByteCount+1 ];
 	assert( s != nullptr );
 	memcpy(s, itsBytes, itsByteCount);
 	s[ itsByteCount ] = '\0';

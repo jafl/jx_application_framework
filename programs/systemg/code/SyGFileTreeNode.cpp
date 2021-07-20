@@ -92,7 +92,7 @@ SyGFileTreeNode::SetChildCompareFunction
 SyGFileTree*
 SyGFileTreeNode::GetSyGFileTree()
 {
-	SyGFileTree* tree = dynamic_cast<SyGFileTree*>(GetTree());
+	auto* tree = dynamic_cast<SyGFileTree*>(GetTree());
 	assert (tree != nullptr);
 	return tree;
 }
@@ -101,7 +101,7 @@ const SyGFileTree*
 SyGFileTreeNode::GetSyGFileTree()
 	const
 {
-	const SyGFileTree* tree = dynamic_cast<const SyGFileTree*>(GetTree());
+	const auto* tree = dynamic_cast<const SyGFileTree*>(GetTree());
 	assert (tree != nullptr);
 	return tree;
 }
@@ -115,7 +115,7 @@ SyGFileTreeNode*
 SyGFileTreeNode::GetSyGParent()
 {
 	JTreeNode* p       = GetParent();
-	SyGFileTreeNode* n = dynamic_cast<SyGFileTreeNode*>(p);
+	auto* n = dynamic_cast<SyGFileTreeNode*>(p);
 	assert( n != nullptr );
 	return n;
 }
@@ -125,7 +125,7 @@ SyGFileTreeNode::GetSyGParent()
 	const
 {
 	const JTreeNode* p       = GetParent();
-	const SyGFileTreeNode* n = dynamic_cast<const SyGFileTreeNode*>(p);
+	const auto* n = dynamic_cast<const SyGFileTreeNode*>(p);
 	assert( n != nullptr );
 	return n;
 }
@@ -182,7 +182,7 @@ SyGFileTreeNode::GetSyGChild
 	const JIndex index
 	)
 {
-	SyGFileTreeNode* node = dynamic_cast<SyGFileTreeNode*>(GetChild(index));
+	auto* node = dynamic_cast<SyGFileTreeNode*>(GetChild(index));
 	assert (node != nullptr);
 	return node;
 }
@@ -194,7 +194,7 @@ SyGFileTreeNode::GetSyGChild
 	)
 	const
 {
-	const SyGFileTreeNode* node = dynamic_cast<const SyGFileTreeNode*>(GetChild(index));
+	const auto* node = dynamic_cast<const SyGFileTreeNode*>(GetChild(index));
 	assert (node != nullptr);
 	return node;
 }

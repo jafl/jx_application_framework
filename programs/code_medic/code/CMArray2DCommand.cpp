@@ -95,7 +95,7 @@ CMArray2DCommand::HandleFailure
 		}
 
 	// ugly, but much faster
-	JStyleTableData* styleData =
+	auto* styleData =
 		const_cast<JStyleTableData*>(&(itsTable->GetStyleData()));
 	const JFontStyle style = CMVarNode::GetFontStyle(false, false);
 

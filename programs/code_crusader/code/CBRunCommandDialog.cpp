@@ -132,10 +132,10 @@ CBRunCommandDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 470,260, JString::empty);
+	auto* window = jnew JXWindow(this, 470,260, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,235, 60,20);
 	assert( cancelButton != nullptr );
@@ -186,13 +186,13 @@ CBRunCommandDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,90, 370,20);
 	assert( itsCmdInput != nullptr );
 
-	JXStaticText* cmdLabel =
+	auto* cmdLabel =
 		jnew JXStaticText(JGetString("cmdLabel::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 130,20);
 	assert( cmdLabel != nullptr );
 	cmdLabel->SetToLabel();
 
-	JXStaticText* pathLabel =
+	auto* pathLabel =
 		jnew JXStaticText(JGetString("pathLabel::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 200,20);
 	assert( pathLabel != nullptr );
@@ -271,7 +271,7 @@ CBRunCommandDialog::BuildWindow()
 
 	// create hidden JXDocument so Meta-# shortcuts work
 
-	JXDocumentMenu* fileListMenu =
+	auto* fileListMenu =
 		jnew JXDocumentMenu(JString::empty, window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != nullptr );
@@ -343,7 +343,7 @@ CBRunCommandDialog::Receive
 {
 	if (sender == this && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -364,7 +364,7 @@ CBRunCommandDialog::Receive
 		}
 	else if (sender == itsSaveCmdMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleSaveCmdMenu(selection->GetIndex());
@@ -413,7 +413,7 @@ CBRunCommandDialog::Receive
 void
 CBRunCommandDialog::Exec()
 {
-	JString* path = jnew JString;
+	auto* path = jnew JString;
 	assert( path != nullptr );
 
 	if (!itsPathInput->GetPath(path))
@@ -423,19 +423,19 @@ CBRunCommandDialog::Exec()
 		}
 	itsPathHistoryMenu->AddString(itsPathInput->GetText()->GetText());
 
-	JString* cmd = jnew JString(itsCmdInput->GetText()->GetText());
+	auto* cmd = jnew JString(itsCmdInput->GetText()->GetText());
 	assert( cmd != nullptr );
 
-	JString* ss = jnew JString;
+	auto* ss = jnew JString;
 	assert( ss != nullptr );
 
-	JString* mt = jnew JString;
+	auto* mt = jnew JString;
 	assert( mt != nullptr );
 
-	JString* ms = jnew JString;
+	auto* ms = jnew JString;
 	assert( ms != nullptr );
 
-	JString* mi = jnew JString;
+	auto* mi = jnew JString;
 	assert( mi != nullptr );
 
 	CBCommandManager::CmdInfo info(path, cmd, ss,

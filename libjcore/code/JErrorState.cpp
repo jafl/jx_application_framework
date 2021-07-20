@@ -125,7 +125,7 @@ void
 JErrorState::MutableClearError()
 	const // Nasty!
 {
-	JError* mutableError = const_cast<JError*>(&itsError);
+	auto* mutableError = const_cast<JError*>(&itsError);
 	*mutableError = JNoError();
 }
 
@@ -144,7 +144,7 @@ JErrorState::MutableSetError
 	)
 	const // Nasty!
 {
-	JError* mutableError = const_cast<JError*>(&itsError);
+	auto* mutableError = const_cast<JError*>(&itsError);
 	*mutableError = error;
 }
 

@@ -31,7 +31,7 @@ JXIconDirector::JXIconDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	JXWindow* window = jnew JXWindow(this, normalIcon->GetWidth(),
+	auto* window = jnew JXWindow(this, normalIcon->GetWidth(),
 									normalIcon->GetHeight(), JString::empty);
 	assert( window != nullptr );
 

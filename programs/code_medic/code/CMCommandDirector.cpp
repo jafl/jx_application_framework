@@ -464,10 +464,10 @@ CMCommandDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 500,550, JString::empty);
+	auto* window = jnew JXWindow(this, 500,550, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != nullptr );
@@ -518,7 +518,7 @@ CMCommandDirector::BuildWindow()
 	CMGetPrefsManager()->GetWindowSize(kCmdWindSizeID, window);
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = jnew JXImage(display, medic_command_window);
+	auto* icon      = jnew JXImage(display, medic_command_window);
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
@@ -554,7 +554,7 @@ CMCommandDirector::BuildWindow()
 	itsFileMenu->SetItemImage(kOpenCmd,  jx_file_open);
 	itsFileMenu->SetItemImage(kPrintCmd, jx_file_print);
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != nullptr );
@@ -852,7 +852,7 @@ CMCommandDirector::CreateWindowsMenuAndToolBar
 	const JIndex	thisWindowCmd
 	)
 {
-	JXWDMenu* wdMenu =
+	auto* wdMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
@@ -915,7 +915,7 @@ CMCommandDirector::Receive
 
 	if (sender == itsLink && message.Is(CMLink::kUserOutput))
 		{
-		const CMLink::UserOutput* output =
+		const auto* output =
 			dynamic_cast<const CMLink::UserOutput*>(&message);
 		assert(output != nullptr);
 		itsCommandOutput->SetCaretLocation(
@@ -958,14 +958,14 @@ CMCommandDirector::Receive
 
 	else if (sender == itsLink && message.Is(CMLink::kSymbolsLoaded))
 		{
-		const CMLink::SymbolsLoaded* info =
+		const auto* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
 		assert( info != nullptr );
 		UpdateWindowTitle(info->GetProgramName());
 
 		if (itsWaitingToRunFlag)
 			{
-			CMRunProgramTask* task = jnew CMRunProgramTask();
+			auto* task = jnew CMRunProgramTask();
 			assert( task != nullptr );
 			task->Start();
 			itsWaitingToRunFlag = false;
@@ -1038,7 +1038,7 @@ CMCommandDirector::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -1050,7 +1050,7 @@ CMCommandDirector::Receive
 		}
 	else if (sender == itsDebugMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleDebugMenu(itsDebugMenu, selection->GetIndex(), itsCommandOutput, itsCommandInput);
@@ -1067,7 +1067,7 @@ CMCommandDirector::Receive
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
@@ -1075,7 +1075,7 @@ CMCommandDirector::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
@@ -1097,21 +1097,21 @@ CMCommandDirector::Receive
 
 	else if (message.Is(CMGetFullPath::kFileFound))
 		{
-		const CMGetFullPath::FileFound* info =
+		const auto* info =
 			dynamic_cast<const CMGetFullPath::FileFound*>(&message);
 		assert( info != nullptr );
 		OpenSourceFile(info->GetFullName(), info->GetLineIndex());
 		}
 	else if (message.Is(CMGetFullPath::kFileNotFound))
 		{
-		const CMGetFullPath::FileNotFound* info =
+		const auto* info =
 			dynamic_cast<const CMGetFullPath::FileNotFound*>(&message);
 		assert( info != nullptr );
 		ReportUnreadableSourceFile(info->GetFileName());
 		}
 	else if (message.Is(CMGetFullPath::kNewCommand))
 		{
-		const CMGetFullPath::NewCommand* info =
+		const auto* info =
 			dynamic_cast<const CMGetFullPath::NewCommand*>(&message);
 		assert( info != nullptr );
 		ListenTo(info->GetNewCommand());
@@ -1497,7 +1497,7 @@ CMCommandDirector::LoadConfig()
 
 			for (JIndex i=1; i<=count; i++)
 				{
-				CMArray1DDir* dir = jnew CMArray1DDir(input, vers, this);
+				auto* dir = jnew CMArray1DDir(input, vers, this);
 				assert( dir != nullptr );
 				// adds itself to list automatically
 				dir->Activate();
@@ -1507,7 +1507,7 @@ CMCommandDirector::LoadConfig()
 
 			for (JIndex i=1; i<=count; i++)
 				{
-				CMArray2DDir* dir = jnew CMArray2DDir(input, vers, this);
+				auto* dir = jnew CMArray2DDir(input, vers, this);
 				assert( dir != nullptr );
 				// adds itself to list automatically
 				dir->Activate();
@@ -1517,7 +1517,7 @@ CMCommandDirector::LoadConfig()
 
 			for (JIndex i=1; i<=count; i++)
 				{
-				CMPlot2DDir* dir = jnew CMPlot2DDir(input, vers, this);
+				auto* dir = jnew CMPlot2DDir(input, vers, this);
 				assert( dir != nullptr );
 				// adds itself to list automatically
 				dir->Activate();
@@ -1529,7 +1529,7 @@ CMCommandDirector::LoadConfig()
 
 				for (JIndex i=1; i<=count; i++)
 					{
-					CMMemoryDir* dir = jnew CMMemoryDir(input, vers, this);
+					auto* dir = jnew CMMemoryDir(input, vers, this);
 					assert( dir != nullptr );
 					// adds itself to list automatically
 					dir->Activate();
@@ -1875,7 +1875,7 @@ CMCommandDirector::HandleDebugMenu
 			s2 = s1;
 			}
 
-		CMMemoryDir* dir = jnew CMMemoryDir(this, s2);
+		auto* dir = jnew CMMemoryDir(this, s2);
 		assert(dir != nullptr);
 		dir->Activate();
 		}
@@ -1888,7 +1888,7 @@ CMCommandDirector::HandleDebugMenu
 			s2 = s1;
 			}
 
-		CMMemoryDir* dir = jnew CMMemoryDir(this, s2);
+		auto* dir = jnew CMMemoryDir(this, s2);
 		assert(dir != nullptr);
 		dir->SetDisplayType(CMMemoryDir::kAsm);
 		dir->Activate();
@@ -2006,7 +2006,7 @@ CMCommandDirector::RunProgram()
 		}
 	else if (CMGetLink()->HasPendingCommands())
 		{
-		CMRunProgramTask* task = jnew CMRunProgramTask();
+		auto* task = jnew CMRunProgramTask();
 		assert( task != nullptr );
 		task->Start();
 		}
@@ -2081,7 +2081,7 @@ CMCommandDirector::ChooseProcess()
 {
 	if (itsLink->OKToDetachOrKill())
 		{
-		CMChooseProcessDialog* dialog = jnew CMChooseProcessDialog(this);
+		auto* dialog = jnew CMChooseProcessDialog(this);
 		assert( dialog != nullptr );
 		dialog->BeginDialog();
 		}
@@ -2113,7 +2113,7 @@ CMCommandDirector::Display1DArray
 	const JString& expr
 	)
 {
-	CMArray1DDir* dir = jnew CMArray1DDir(this, expr);
+	auto* dir = jnew CMArray1DDir(this, expr);
 	assert( dir != nullptr );
 	dir->Activate();
 }
@@ -2129,7 +2129,7 @@ CMCommandDirector::Display2DArray
 	const JString& expr
 	)
 {
-	CMArray2DDir* dir = jnew CMArray2DDir(this, expr);
+	auto* dir = jnew CMArray2DDir(this, expr);
 	assert( dir != nullptr );
 	dir->Activate();
 }
@@ -2145,7 +2145,7 @@ CMCommandDirector::Plot1DArray
 	const JString& expr
 	)
 {
-	CMPlot2DDir* dir = jnew CMPlot2DDir(this, expr);
+	auto* dir = jnew CMPlot2DDir(this, expr);
 	assert( dir != nullptr );
 	dir->Activate();
 }
@@ -2202,7 +2202,7 @@ CMCommandDirector::HandlePrefsMenu
 		}
 	else if (index == kEditCmdsCmd)
 		{
-		CMEditCommandsDialog* dlog = jnew CMEditCommandsDialog;
+		auto* dlog = jnew CMEditCommandsDialog;
 		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		}

@@ -97,7 +97,7 @@ CBEditMacroDialog::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 350,530, JString::empty);
+	auto* window = jnew JXWindow(this, 350,530, JString::empty);
 	assert( window != nullptr );
 
 	itsPartition =
@@ -105,12 +105,12 @@ CBEditMacroDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 310,460);
 	assert( itsPartition != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditMacroDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,500, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditMacroDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 250,500, 70,20);
 	assert( okButton != nullptr );
@@ -141,32 +141,32 @@ CBEditMacroDialog::BuildWindow
 	const JRect actionLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(310 - actionLayout_Aperture.width(), 150 - actionLayout_Aperture.height());
 
-	JXTextButton* newActionButton =
+	auto* newActionButton =
 		jnew JXTextButton(JGetString("newActionButton::CBEditMacroDialog::actionLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,30, 60,20);
 	assert( newActionButton != nullptr );
 
-	JXTextButton* removeActionButton =
+	auto* removeActionButton =
 		jnew JXTextButton(JGetString("removeActionButton::CBEditMacroDialog::actionLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,60, 60,20);
 	assert( removeActionButton != nullptr );
 
-	JXScrollbarSet* actionScrollbarSet =
+	auto* actionScrollbarSet =
 		jnew JXScrollbarSet(compartment,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 240,130);
 	assert( actionScrollbarSet != nullptr );
 
-	JXWidgetSet* actionColHeaderEncl =
+	auto* actionColHeaderEncl =
 		jnew JXWidgetSet(compartment,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 240,20);
 	assert( actionColHeaderEncl != nullptr );
 
-	JXTextButton* loadActionFileButton =
+	auto* loadActionFileButton =
 		jnew JXTextButton(JGetString("loadActionFileButton::CBEditMacroDialog::actionLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,100, 60,20);
 	assert( loadActionFileButton != nullptr );
 
-	JXTextButton* saveActionFileButton =
+	auto* saveActionFileButton =
 		jnew JXTextButton(JGetString("saveActionFileButton::CBEditMacroDialog::actionLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,130, 60,20);
 	assert( saveActionFileButton != nullptr );
@@ -182,7 +182,7 @@ CBEditMacroDialog::BuildWindow
 							  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsActionTable != nullptr );
 
-	JXColHeaderWidget* colHeader =
+	auto* colHeader =
 		jnew JXColHeaderWidget(itsActionTable, actionScrollbarSet, actionColHeaderEncl,
 							  JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 10,10);
 	assert( colHeader != nullptr );
@@ -201,32 +201,32 @@ CBEditMacroDialog::BuildWindow
 	const JRect macroLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(310 - macroLayout_Aperture.width(), 150 - macroLayout_Aperture.height());
 
-	JXTextButton* newMacroButton =
+	auto* newMacroButton =
 		jnew JXTextButton(JGetString("newMacroButton::CBEditMacroDialog::macroLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,30, 60,20);
 	assert( newMacroButton != nullptr );
 
-	JXTextButton* removeMacroButton =
+	auto* removeMacroButton =
 		jnew JXTextButton(JGetString("removeMacroButton::CBEditMacroDialog::macroLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,60, 60,20);
 	assert( removeMacroButton != nullptr );
 
-	JXScrollbarSet* macroScrollbarSet =
+	auto* macroScrollbarSet =
 		jnew JXScrollbarSet(compartment,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 240,130);
 	assert( macroScrollbarSet != nullptr );
 
-	JXWidgetSet* macroColHeaderEncl =
+	auto* macroColHeaderEncl =
 		jnew JXWidgetSet(compartment,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 240,20);
 	assert( macroColHeaderEncl != nullptr );
 
-	JXTextButton* loadMacroFileButton =
+	auto* loadMacroFileButton =
 		jnew JXTextButton(JGetString("loadMacroFileButton::CBEditMacroDialog::macroLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,100, 60,20);
 	assert( loadMacroFileButton != nullptr );
 
-	JXTextButton* saveMacroFileButton =
+	auto* saveMacroFileButton =
 		jnew JXTextButton(JGetString("saveMacroFileButton::CBEditMacroDialog::macroLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,130, 60,20);
 	assert( saveMacroFileButton != nullptr );
@@ -261,22 +261,22 @@ CBEditMacroDialog::BuildWindow
 	const JRect macroSetLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(310 - macroSetLayout_Aperture.width(), 150 - macroSetLayout_Aperture.height());
 
-	JXTextButton* newMacroSetButton =
+	auto* newMacroSetButton =
 		jnew JXTextButton(JGetString("newMacroSetButton::CBEditMacroDialog::macroSetLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,30, 60,20);
 	assert( newMacroSetButton != nullptr );
 
-	JXTextButton* removeMacroSetButton =
+	auto* removeMacroSetButton =
 		jnew JXTextButton(JGetString("removeMacroSetButton::CBEditMacroDialog::macroSetLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,60, 60,20);
 	assert( removeMacroSetButton != nullptr );
 
-	JXScrollbarSet* macroSetScrollbarSet =
+	auto* macroSetScrollbarSet =
 		jnew JXScrollbarSet(compartment,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 240,130);
 	assert( macroSetScrollbarSet != nullptr );
 
-	JXWidgetSet* macroSetColHeaderEncl =
+	auto* macroSetColHeaderEncl =
 		jnew JXWidgetSet(compartment,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 240,20);
 	assert( macroSetColHeaderEncl != nullptr );

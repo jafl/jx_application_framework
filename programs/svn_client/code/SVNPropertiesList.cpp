@@ -199,7 +199,7 @@ SVNPropertiesList::CopySelectedItems
 		list.Append(*((GetStringList()).GetElement(cell.y)));
 		}
 
-	JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
+	auto* data = jnew JXTextSelection(GetDisplay(), list);
 	assert( data != nullptr );
 
 	GetSelectionManager()->SetData(kJXClipboardName, data);
@@ -270,7 +270,7 @@ SVNPropertiesList::Receive
 {
 	if (sender == itsCreatePropertyDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 

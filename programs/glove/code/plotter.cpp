@@ -44,7 +44,7 @@ main
 	bool displayAbout;
 	JString prevVersStr;
 
-	GLPlotApp* app =
+	auto* app =
 		jnew GLPlotApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 

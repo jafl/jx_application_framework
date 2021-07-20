@@ -37,7 +37,7 @@ CBDockManager::CBDockManager()
 				  CBGetPrefsManager(), kCBDockPrefID)
 {
 	JXDisplay* display = JXGetApplication()->GetCurrentDisplay();
-	JXImage* icon      = jnew JXImage(display, jcc_project_window);
+	auto* icon      = jnew JXImage(display, jcc_project_window);
 	assert( icon != nullptr );
 	SetIcon(icon);
 }

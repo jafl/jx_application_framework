@@ -476,7 +476,7 @@ JTreeNode::Receive
 		{
 		assert( itsTree != nullptr );
 
-		const JListT::ElementMoved* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != nullptr );
 

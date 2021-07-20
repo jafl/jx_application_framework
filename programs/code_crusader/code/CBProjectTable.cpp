@@ -146,7 +146,7 @@ CBProjectTable::GetProjectNode
 	const JIndex index
 	)
 {
-	CBProjectNode* node = dynamic_cast<CBProjectNode*>(GetTreeList()->GetNode(index));
+	auto* node = dynamic_cast<CBProjectNode*>(GetTreeList()->GetNode(index));
 	assert( node != nullptr );
 	return node;
 }
@@ -158,7 +158,7 @@ CBProjectTable::GetProjectNode
 	)
 	const
 {
-	const CBProjectNode* node = dynamic_cast<const CBProjectNode*>(GetTreeList()->GetNode(index));
+	const auto* node = dynamic_cast<const CBProjectNode*>(GetTreeList()->GetNode(index));
 	assert( node != nullptr );
 	return node;
 }
@@ -187,7 +187,7 @@ CBProjectTable::NewGroup
 
 	CBProjectTree* tree = itsDoc->GetFileTree();
 
-	CBGroupNode* newNode = jnew CBGroupNode(tree, false);
+	auto* newNode = jnew CBGroupNode(tree, false);
 	assert( newNode != nullptr );
 
 	if (returnNode != nullptr)
@@ -857,7 +857,7 @@ CBProjectTable::EditSubprojectConfig()
 		CBProjectNode* node = GetProjectNode(cell.y);
 		if (node->GetType() == kCBLibraryNT)
 			{
-			CBLibraryNode* lib = dynamic_cast<CBLibraryNode*>(node);
+			auto* lib = dynamic_cast<CBLibraryNode*>(node);
 			assert( lib != nullptr );
 			lib->EditSubprojectConfig();
 			}
@@ -882,7 +882,7 @@ CBProjectTable::Receive
 		}
 	else if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleEditMenu(selection->GetIndex());
@@ -894,7 +894,7 @@ CBProjectTable::Receive
 		}
 	else if (sender == itsContextMenu && message.Is(JXTextMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
@@ -921,7 +921,7 @@ CBProjectTable::Receive
 
 	else if (sender == itsAddFilesFilterDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -1137,7 +1137,7 @@ CBProjectTable::GetImage
 	const CBProjectNode* node = GetProjectNode(index);
 	if (itsMarkWritableFlag && node->GetType() == kCBFileNT)
 		{
-		const CBFileNodeBase* n = dynamic_cast<const CBFileNodeBase*>(node);
+		const auto* n = dynamic_cast<const CBFileNodeBase*>(node);
 		assert( n != nullptr );
 
 		JString fullName;
@@ -1272,7 +1272,7 @@ CBProjectTable::HandleMouseDrag
 		}
 	else if (itsDragType == kWaitForDNDDrag && JMouseMoved(itsStartPt, pt))
 		{
-		JXFileSelection* data = jnew JXFileSelection(this, kSelectionDataID);
+		auto* data = jnew JXFileSelection(this, kSelectionDataID);
 		assert( data != nullptr );
 
 		if (BeginDND(pt, buttonStates, modifiers, data))
@@ -1439,12 +1439,12 @@ CBProjectTable::GetSelectionData
 		{
 		assert( HasSelection() );
 
-		JPtrArray<JString>* list = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		auto* list = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( list != nullptr );
 
 		GetSelectedFileNames(list);
 
-		JXFileSelection* fileData = dynamic_cast<JXFileSelection*>(data);
+		auto* fileData = dynamic_cast<JXFileSelection*>(data);
 		assert( fileData != nullptr );
 		fileData->SetData(list);
 		}
@@ -1502,10 +1502,10 @@ CBProjectTable::CopyFileToDNDList
 	)
 	const
 {
-	const CBFileNodeBase* fNode = dynamic_cast<const CBFileNodeBase*>(node);
+	const auto* fNode = dynamic_cast<const CBFileNodeBase*>(node);
 	assert( fNode != nullptr );
 
-	JString* s = jnew JString;
+	auto* s = jnew JString;
 	assert( s != nullptr );
 	if (fNode->GetFullName(s))
 		{
@@ -1776,7 +1776,7 @@ CBProjectTable::HandleDNDDrop
 		}
 	else if (source == this && itsSelDepth == kFileDepth && itsDNDAction == kDNDNewGroup)
 		{
-		CBGroupNode* groupNode = jnew CBGroupNode(itsDoc->GetFileTree());
+		auto* groupNode = jnew CBGroupNode(itsDoc->GetFileTree());
 		assert( groupNode != nullptr );
 		AppendFileSelectionToGroup(groupNode);
 		}
@@ -2096,7 +2096,7 @@ CBProjectTable::CopySelectedNames()
 			list.Append(const_cast<JString*>(&name));
 			}
 
-		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
+		auto* data = jnew JXTextSelection(GetDisplay(), list);
 		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
@@ -2275,7 +2275,7 @@ CBProjectTable::CreateXInputField
 
 	if (GetDepth(cell.y) == kFileDepth)
 		{
-		CBFileNodeBase* node =
+		auto* node =
 			dynamic_cast<CBFileNodeBase*>(GetProjectNode(cell.y));
 		assert( node != nullptr );
 		inputField->GetText()->SetText(node->GetFileName());
@@ -2320,7 +2320,7 @@ CBProjectTable::CreateTreeListInput
 {
 	if (GetDepth(cell.y) == kFileDepth)
 		{
-		CBProjectTableInput* obj =
+		auto* obj =
 			jnew CBProjectTableInput(this, enclosure, hSizing, vSizing, x,y, w,h);
 		assert( obj != nullptr );
 		obj->SetBasePath(itsDoc->GetFilePath());
@@ -2357,7 +2357,7 @@ CBProjectTable::ExtractInputData
 
 		if (inputField->InputValid())
 			{
-			CBFileNodeBase* node =
+			auto* node =
 				dynamic_cast<CBFileNodeBase*>(GetProjectNode(cell.y));
 			assert( node != nullptr );
 
@@ -2547,7 +2547,7 @@ CBProjectTable::WriteSetup
 		const JSize groupCount = rootNode->GetChildCount();
 		for (JIndex i=1; i<=groupCount; i++)
 			{
-			const JNamedTreeNode* child =
+			const auto* child =
 				dynamic_cast<const JNamedTreeNode*>(rootNode->GetChild(i));
 			assert( child != nullptr );
 

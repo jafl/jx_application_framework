@@ -115,7 +115,7 @@ SyGCreateGlobals
 
 	JXInitHelp();
 
-	JXWDManager* wdMgr = jnew JXWDManager(app->GetCurrentDisplay(), true);
+	auto* wdMgr = jnew JXWDManager(app->GetCurrentDisplay(), true);
 	assert( wdMgr != nullptr );
 	// registers itself
 
@@ -543,7 +543,7 @@ SyGGetDNDAskActions
 	actionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
 	actionList->AppendElement(dndMgr->GetDNDActionLinkXAtom());
 
-	JString* s = jnew JString(JGetString("DNDCopyDescription::SyGGlobals"));
+	auto* s = jnew JString(JGetString("DNDCopyDescription::SyGGlobals"));
 	assert( s != nullptr );
 	descriptionList->Append(s);
 

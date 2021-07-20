@@ -51,15 +51,15 @@ MDFilterRecordsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 420,120, JString::empty);
+	auto* window = jnew JXWindow(this, 420,120, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::MDFilterRecordsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,90, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::MDFilterRecordsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 260,90, 70,20);
 	assert( okButton != nullptr );
@@ -92,7 +92,7 @@ MDFilterRecordsDialog::BuildWindow()
 	window->SetTitle(JGetString("WindowTitle::MDFilterRecordsDialog"));
 	SetButtons(okButton, cancelButton);
 
-	JXAtLeastOneCBGroup* cbGroup = jnew JXAtLeastOneCBGroup(2, itsSizeCB, itsFileCB);
+	auto* cbGroup = jnew JXAtLeastOneCBGroup(2, itsSizeCB, itsFileCB);
 	assert( cbGroup != nullptr );
 
 	ListenTo(itsFileCB);

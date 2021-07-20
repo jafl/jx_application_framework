@@ -194,7 +194,7 @@ GLRaggedFloatTable::GLRaggedFloatTable
 	ListenTo(itsEditMenu);
 
 
-	JXImage* image = jnew JXImage(GetDisplay(), JXPM(editcut));
+	auto* image = jnew JXImage(GetDisplay(), JXPM(editcut));
 	assert(image != nullptr);
 	itsEditMenu->SetItemImage(kCutCmd, image, true);
 
@@ -622,14 +622,14 @@ GLRaggedFloatTable::ExtractInputData
 		// create and install undo object with old value
 		if (exists)
 			{
-			GLUndoElementChange* undo =
+			auto* undo =
 				jnew GLUndoElementChange(this, cell, oldvalue);
 			assert(undo != nullptr);
 			NewUndo(undo);
 			}
 		else
 			{
-			GLUndoElementAppend* undo =
+			auto* undo =
 				jnew GLUndoElementAppend(this, cell);
 			assert(undo != nullptr);
 			NewUndo(undo);
@@ -666,7 +666,7 @@ GLRaggedFloatTable::ExtendSelection
 	const JPoint cell
 	)
 {
-	JTableSelectionIterator* iter =
+	auto* iter =
 		jnew JTableSelectionIterator(&(GetTableSelection()));
 	assert (iter != nullptr);
 
@@ -779,7 +779,7 @@ GLRaggedFloatTable::ExtendSelectionToRow
 	const JIndex row
 	)
 {
-	JTableSelectionIterator* iter =
+	auto* iter =
 		jnew JTableSelectionIterator(&(GetTableSelection()));
 	assert (iter != nullptr);
 
@@ -908,7 +908,7 @@ GLRaggedFloatTable::Receive
 {
 	if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleEditMenu(selection->GetIndex());
@@ -921,7 +921,7 @@ GLRaggedFloatTable::Receive
 
 	else if (sender == itsDataMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleDataMenu(selection->GetIndex());
@@ -934,7 +934,7 @@ GLRaggedFloatTable::Receive
 
 	else if (sender == itsModuleMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleModuleMenu(selection->GetIndex());
@@ -942,7 +942,7 @@ GLRaggedFloatTable::Receive
 
 	else if (sender == itsCreatePlotDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -954,7 +954,7 @@ GLRaggedFloatTable::Receive
 
 	else if (sender == itsCreateVectorPlotDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -966,7 +966,7 @@ GLRaggedFloatTable::Receive
 
 	else if (sender == itsTransDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -980,7 +980,7 @@ GLRaggedFloatTable::Receive
 
 	else if (sender == itsColByIncDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -992,7 +992,7 @@ GLRaggedFloatTable::Receive
 
 	else if (sender == itsColByRangeDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -1009,14 +1009,14 @@ GLRaggedFloatTable::Receive
 
 	else if (sender == itsFloatData && message.Is(GLRaggedFloatTableData::kElementRemoved))
 		{
-		const GLRaggedFloatTableData::ElementRemoved* info =
+		const auto* info =
 			dynamic_cast<const GLRaggedFloatTableData::ElementRemoved*>(&message);
 		assert( info != nullptr );
 		TableRefreshCol(info->GetCol());
 		}
 	else if (sender == itsFloatData && message.Is(GLRaggedFloatTableData::kElementInserted))
 		{
-		const GLRaggedFloatTableData::ElementRemoved* info =
+		const auto* info =
 			dynamic_cast<const GLRaggedFloatTableData::ElementRemoved*>(&message);
 		assert( info != nullptr );
 		TableRefreshCol(info->GetCol());
@@ -1226,7 +1226,7 @@ GLRaggedFloatTable::HandleCopyCmd()
 		os << std::endl;
 		}
 
-	GLTextSelection* data = jnew GLTextSelection(GetDisplay(), os.str());
+	auto* data = jnew GLTextSelection(GetDisplay(), os.str());
 	assert(data != nullptr);
 
 	std::ostringstream os2;
@@ -1343,7 +1343,7 @@ GLRaggedFloatTable::HandlePasteCmd()
 						JFloat oldvalue;
 						if (itsFloatData->GetElement(cell, &oldvalue))
 							{
-							GLUndoElementChange* undo =
+							auto* undo =
 								jnew GLUndoElementChange(this, cell, oldvalue);
 							assert(undo != nullptr);
 							itsFloatData->SetElement(cell, value);
@@ -1351,7 +1351,7 @@ GLRaggedFloatTable::HandlePasteCmd()
 							}
 						else
 							{
-							GLUndoElementAppend* undo =
+							auto* undo =
 								jnew GLUndoElementAppend(this, cell);
 							assert(undo != nullptr);
 							itsFloatData->InsertElement(cell, value);
@@ -1360,7 +1360,7 @@ GLRaggedFloatTable::HandlePasteCmd()
 						}
 					else
 						{
-						GLUndoElementsInsert* undo =
+						auto* undo =
 							jnew GLUndoElementsInsert(this, JPoint(startCol, startRow),
 													 JPoint(startCol, startRow + rows - 1),
 													 GLUndoElementsBase::kElements);
@@ -1376,7 +1376,7 @@ GLRaggedFloatTable::HandlePasteCmd()
 					}
 				else
 					{
-					GLUndoElementsChange* undo =
+					auto* undo =
 						jnew GLUndoElementsChange(this, JPoint(startCol, startRow),
 												 JPoint(startCol + cols1 - 1, startRow + rows1 - 1),
 												 GLUndoElementsBase::kElements);
@@ -1398,7 +1398,7 @@ GLRaggedFloatTable::HandlePasteCmd()
 				type1 == kElementsSelected)
 				{
 				const JSize count = itsFloatData->GetDataColCount() + 1;
-				GLUndoElementsInsert* undo =
+				auto* undo =
 					jnew GLUndoElementsInsert(this, JPoint(count, 1),
 											 JPoint(count + cols - 1, 1),
 											 GLUndoElementsBase::kCols);
@@ -1417,7 +1417,7 @@ GLRaggedFloatTable::HandlePasteCmd()
 
 			else
 				{
-				GLUndoElementsInsert* undo =
+				auto* undo =
 					jnew GLUndoElementsInsert(this, JPoint(startCol, 1),
 											 JPoint(startCol + cols - 1, 1),
 											 GLUndoElementsBase::kCols);
@@ -1601,7 +1601,7 @@ GLRaggedFloatTable::HandleInsertion
 		{
 		if (undo)
 			{
-			GLUndoElementsInsert* undo1 =
+			auto* undo1 =
 				jnew GLUndoElementsInsert(this, JPoint(1, startRow),
 										 JPoint(itsFloatData->GetDataColCount(), startRow + rows - 1),
 										 GLUndoElementsBase::kRows);
@@ -1615,7 +1615,7 @@ GLRaggedFloatTable::HandleInsertion
 		{
 		if (undo)
 			{
-			GLUndoElementsInsert* undo1 =
+			auto* undo1 =
 				jnew GLUndoElementsInsert(this, JPoint(startCol, 1),
 										 JPoint(startCol + cols - 1, GetRowCount()),
 										 GLUndoElementsBase::kCols);
@@ -1630,14 +1630,14 @@ GLRaggedFloatTable::HandleInsertion
 		if (cols == 1 && rows == 1 && undo)
 			{
 			JPoint cell(startCol, startRow);
-			GLUndoElementAppend* undo1 =
+			auto* undo1 =
 				jnew GLUndoElementAppend(this, cell);
 			assert(undo1 != nullptr);
 			NewUndo(undo1);
 			}
 		else if (undo)
 			{
-			GLUndoElementsInsert* undo1 =
+			auto* undo1 =
 				jnew GLUndoElementsInsert(this, JPoint(startCol, startRow),
 										 JPoint(startCol + cols - 1, startRow + rows - 1),
 										 GLUndoElementsBase::kElements);
@@ -1754,7 +1754,7 @@ GLRaggedFloatTable::HandleDeletion()
 
 	if (type == kRowsSelected)
 		{
-		GLUndoElementsCut* undo =
+		auto* undo =
 			jnew GLUndoElementsCut(this, JPoint(1, startRow),
 								  JPoint(itsFloatData->GetDataColCount(), startRow + rows - 1),
 								  GLUndoElementsBase::kRows);
@@ -1768,7 +1768,7 @@ GLRaggedFloatTable::HandleDeletion()
 
 	else if (type == kColsSelected)
 		{
-		GLUndoElementsCut* undo =
+		auto* undo =
 			jnew GLUndoElementsCut(this, JPoint(startCol, 1),
 								  JPoint(startCol + cols - 1, GetRowCount()),
 								  GLUndoElementsBase::kCols);
@@ -1789,7 +1789,7 @@ GLRaggedFloatTable::HandleDeletion()
 			JFloat value;
 			if (itsFloatData->GetElement(cell, &value))
 				{
-				GLUndoElementCut* undo =
+				auto* undo =
 					jnew GLUndoElementCut(this, cell, value);
 				assert(undo != nullptr);
 				NewUndo(undo);
@@ -1797,7 +1797,7 @@ GLRaggedFloatTable::HandleDeletion()
 			}
 		else
 			{
-			GLUndoElementsCut* undo =
+			auto* undo =
 				jnew GLUndoElementsCut(this, JPoint(startCol, startRow),
 									  JPoint(startCol + cols - 1, startRow + rows - 1),
 									  GLUndoElementsBase::kElements);
@@ -2269,7 +2269,7 @@ GLRaggedFloatTable::CreateNewColByRange()
 
 	if (!replace)
 		{
-		GLUndoElementsInsert* undo =
+		auto* undo =
 			jnew GLUndoElementsInsert(this, JPoint(dest, 1),
 									 JPoint(dest, 1),
 									 GLUndoElementsBase::kCols);
@@ -2279,7 +2279,7 @@ GLRaggedFloatTable::CreateNewColByRange()
 		}
 	else if (dest <= colCount)
 		{
-		GLUndoElementsChange* undo =
+		auto* undo =
 			jnew GLUndoElementsChange(this, JPoint(dest, 1),
 									 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
 									 GLUndoElementsBase::kCols);
@@ -2339,7 +2339,7 @@ GLRaggedFloatTable::CreateNewColByInc()
 
 	if (!replace)
 		{
-		GLUndoElementsInsert* undo =
+		auto* undo =
 			jnew GLUndoElementsInsert(this, JPoint(dest, 1),
 									 JPoint(dest, 1),
 									 GLUndoElementsBase::kCols);
@@ -2349,7 +2349,7 @@ GLRaggedFloatTable::CreateNewColByInc()
 		}
 	else if (dest <= colCount)
 		{
-		GLUndoElementsChange* undo =
+		auto* undo =
 			jnew GLUndoElementsChange(this, JPoint(dest, 1),
 									 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
 									 GLUndoElementsBase::kCols);
@@ -2478,7 +2478,7 @@ jCollectColumnIndexes
 	JArray<JIndex>*		inds
 	)
 {
-	const JFunctionWithVar* fwv = dynamic_cast<const JFunctionWithVar*>(root);
+	const auto* fwv = dynamic_cast<const JFunctionWithVar*>(root);
 	if (fwv != nullptr)
 		{
 		const JFunction* ai = fwv->GetArrayIndex();
@@ -2497,7 +2497,7 @@ jCollectColumnIndexes
 		return;
 		}
 
-	const JFunctionWithArgs* fwa = dynamic_cast<const JFunctionWithArgs*>(root);
+	const auto* fwa = dynamic_cast<const JFunctionWithArgs*>(root);
 	if (fwa != nullptr)
 		{
 		const JSize argCount = fwa->GetArgCount();
@@ -2569,7 +2569,7 @@ GLRaggedFloatTable::EvaluateTransformFunction()
 
 	if (replace)
 		{
-		GLUndoElementsChange* undo =
+		auto* undo =
 			jnew GLUndoElementsChange(this, JPoint(dest, 1),
 									 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
 									 GLUndoElementsBase::kCols);
@@ -2580,7 +2580,7 @@ GLRaggedFloatTable::EvaluateTransformFunction()
 		}
 	else
 		{
-		GLUndoElementsInsert* undo =
+		auto* undo =
 			jnew GLUndoElementsInsert(this, JPoint(dest, 1),
 									 JPoint(dest, 1),
 									 GLUndoElementsBase::kCols);

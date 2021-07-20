@@ -102,7 +102,7 @@ CBEditTextPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 640,530, JString::empty);
+	auto* window = jnew JXWindow(this, 640,530, JString::empty);
 	assert( window != nullptr );
 
 	itsTabCharCountInput =
@@ -120,12 +120,12 @@ CBEditTextPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 540,170, 40,20);
 	assert( itsUndoDepthInput != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditTextPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,490, 60,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditTextPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 220,490, 60,20);
 	assert( okButton != nullptr );
@@ -141,7 +141,7 @@ CBEditTextPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,160, 280,20);
 	assert( itsAutoIndentCB != nullptr );
 
-	JXStaticText* spacesPerTabLabel =
+	auto* spacesPerTabLabel =
 		jnew JXStaticText(JGetString("spacesPerTabLabel::CBEditTextPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 330,130, 210,20);
 	assert( spacesPerTabLabel != nullptr );
@@ -167,7 +167,7 @@ CBEditTextPrefsDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 280,25);
 	assert( itsEmulatorMenu != nullptr );
 
-	JXStaticText* undoDepthLabel =
+	auto* undoDepthLabel =
 		jnew JXStaticText(JGetString("undoDepthLabel::CBEditTextPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 330,170, 210,20);
 	assert( undoDepthLabel != nullptr );
@@ -209,7 +209,7 @@ CBEditTextPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,350, 280,20);
 	assert( itsBeepWhenTypeUnbalancedCB != nullptr );
 
-	JXStaticText* cpmLabel =
+	auto* cpmLabel =
 		jnew JXStaticText(JGetString("cpmLabel::CBEditTextPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 330,150, 210,20);
 	assert( cpmLabel != nullptr );
@@ -225,32 +225,32 @@ CBEditTextPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 460,350, 160,80);
 	assert( itsPWModRG != nullptr );
 
-	JXTextRadioButton* ctrlMetaLabel =
+	auto* ctrlMetaLabel =
 		jnew JXTextRadioButton(JXTEBase::kCtrlMetaPWMod, JGetString("ctrlMetaLabel::CBEditTextPrefsDialog::JXLayout"), itsPWModRG,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 90,20);
 	assert( ctrlMetaLabel != nullptr );
 
-	JXTextRadioButton* mod2Label =
+	auto* mod2Label =
 		jnew JXTextRadioButton(JXTEBase::kMod2PWMod, JGetString("mod2Label::CBEditTextPrefsDialog::JXLayout"), itsPWModRG,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,30, 70,20);
 	assert( mod2Label != nullptr );
 
-	JXTextRadioButton* mod3Label =
+	auto* mod3Label =
 		jnew JXTextRadioButton(JXTEBase::kMod3PWMod, JGetString("mod3Label::CBEditTextPrefsDialog::JXLayout"), itsPWModRG,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,50, 70,20);
 	assert( mod3Label != nullptr );
 
-	JXTextRadioButton* mod4Label =
+	auto* mod4Label =
 		jnew JXTextRadioButton(JXTEBase::kMod4PWMod, JGetString("mod4Label::CBEditTextPrefsDialog::JXLayout"), itsPWModRG,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,30, 60,20);
 	assert( mod4Label != nullptr );
 
-	JXTextRadioButton* mod5Label =
+	auto* mod5Label =
 		jnew JXTextRadioButton(JXTEBase::kMod5PWMod, JGetString("mod5Label::CBEditTextPrefsDialog::JXLayout"), itsPWModRG,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,50, 60,20);
 	assert( mod5Label != nullptr );
 
-	JXStaticText* partialWordTitle =
+	auto* partialWordTitle =
 		jnew JXStaticText(JGetString("partialWordTitle::CBEditTextPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 330,360, 120,60);
 	assert( partialWordTitle != nullptr );
@@ -270,7 +270,7 @@ CBEditTextPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 440,50, 80,20);
 	assert( itsColorButton[CBPrefsManager::kBackColorIndex-1] != nullptr );
 
-	JXStaticText* changeColorLabel =
+	auto* changeColorLabel =
 		jnew JXStaticText(JGetString("changeColorLabel::CBEditTextPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 310,50, 90,20);
 	assert( changeColorLabel != nullptr );
@@ -301,7 +301,7 @@ CBEditTextPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 500,95, 100,20);
 	assert( itsInvColorsButton != nullptr );
 
-	JXStaticText* colorSetsLabel =
+	auto* colorSetsLabel =
 		jnew JXStaticText(JGetString("colorSetsLabel::CBEditTextPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 310,95, 90,20);
 	assert( colorSetsLabel != nullptr );
@@ -357,7 +357,7 @@ CBEditTextPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,410, 280,20);
 	assert( itsNSInFnMenuCB != nullptr );
 
-	JXStaticText* wordWrapHint =
+	auto* wordWrapHint =
 		jnew JXStaticText(JGetString("wordWrapHint::CBEditTextPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,460, 250,20);
 	assert( wordWrapHint != nullptr );
@@ -462,7 +462,7 @@ CBEditTextPrefsDialog::Receive
 {
 	if (sender == this && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -499,7 +499,7 @@ CBEditTextPrefsDialog::Receive
 	else if (sender == itsChooseColorDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -520,7 +520,7 @@ CBEditTextPrefsDialog::Receive
 
 	else if (sender == itsEmulatorMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* info =
+		const auto* info =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( info != nullptr );
 		itsEmulatorIndex = info->GetIndex();

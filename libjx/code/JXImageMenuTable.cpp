@@ -219,7 +219,7 @@ JXImageMenuTable::Receive
 	if (sender == const_cast<JXImageMenuData*>(itsIconMenuData) &&
 		message.Is(JXImageMenuData::kImageChanged))
 		{
-		const JXImageMenuData::ImageChanged* item =
+		const auto* item =
 			dynamic_cast<const JXImageMenuData::ImageChanged*>(&message);
 		assert( item != nullptr );
 		TableRefreshCell(ItemIndexToCell(item->GetIndex()));

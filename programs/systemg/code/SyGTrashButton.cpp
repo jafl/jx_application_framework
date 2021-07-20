@@ -238,7 +238,7 @@ SyGTrashButton::MoveFilesToTrash
 		{
 		if (returnType == selManager->GetURLXAtom())
 			{
-			JPtrArray<JString>* fileNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+			auto* fileNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 			assert( fileNameList != nullptr );
 			JPtrArray<JString> urlList(JPtrArrayT::kDeleteAll);
 			JXUnpackFileNames((char*) data, dataLength, fileNameList, &urlList);

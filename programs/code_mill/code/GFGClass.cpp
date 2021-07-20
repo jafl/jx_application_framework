@@ -314,9 +314,8 @@ GFGClass::WriteFunction
 		os << "\n\t(\n";
 		for (JIndex i = 1; i <= count; i++)
 			{
-			JString arg	= fn->GetArg(i);
 			os << "\t";
-			arg.Print(os);
+			fn->GetArg(i).Print(os);
 			if (i != count)
 				{
 				os << ",";

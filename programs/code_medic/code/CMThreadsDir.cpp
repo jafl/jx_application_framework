@@ -119,15 +119,15 @@ CMThreadsDir::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,500, JString::empty);
+	auto* window = jnew JXWindow(this, 450,500, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
 	assert( menuBar != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 450,470);
 	assert( scrollbarSet != nullptr );
@@ -142,15 +142,15 @@ CMThreadsDir::BuildWindow
 	CMGetPrefsManager()->GetWindowSize(kCMThreadWindowSizeID, window);
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = jnew JXImage(display, medic_threads_window);
+	auto* icon      = jnew JXImage(display, medic_threads_window);
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
-	JNamedTreeNode* root = jnew JNamedTreeNode(nullptr, JString::empty);
+	auto* root = jnew JNamedTreeNode(nullptr, JString::empty);
 	assert( root != nullptr );
-	JTree* tree = jnew JTree(root);
+	auto* tree = jnew JTree(root);
 	assert( tree != nullptr );
-	JNamedTreeList* treeList = jnew JNamedTreeList(tree);
+	auto* treeList = jnew JNamedTreeList(tree);
 	assert( treeList != nullptr );
 
 	itsWidget =
@@ -169,7 +169,7 @@ CMThreadsDir::BuildWindow
 
 	itsFileMenu->SetItemImage(kOpenCmd, jx_file_open);
 
-	JXWDMenu* wdMenu =
+	auto* wdMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
@@ -246,7 +246,7 @@ CMThreadsDir::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -254,7 +254,7 @@ CMThreadsDir::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
@@ -262,7 +262,7 @@ CMThreadsDir::Receive
 
 	else if (sender == CMGetLink() && message.Is(CMLink::kSymbolsLoaded))
 		{
-		const CMLink::SymbolsLoaded* info =
+		const auto* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
 		assert( info != nullptr );
 		UpdateWindowTitle(info->GetProgramName());

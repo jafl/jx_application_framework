@@ -79,7 +79,7 @@ JXDockDragData::ConvertData
 		if (*data != nullptr)
 			{
 			const JPoint minSize = itsWindow->GetMinSize();
-			XPoint* xpt          = (XPoint*) *data;
+			auto* xpt          = (XPoint*) *data;
 			xpt->x               = JMin(minSize.x, (JCoordinate) SHRT_MAX);
 			xpt->y               = JMin(minSize.y, (JCoordinate) SHRT_MAX);
 			return true;

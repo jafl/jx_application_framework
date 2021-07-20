@@ -842,7 +842,7 @@ JXMenu*
 JXMenu::GetTopLevelMenu()
 	const
 {
-	JXMenu* topMenu = const_cast<JXMenu*>(this);
+	auto* topMenu = const_cast<JXMenu*>(this);
 	while (topMenu->itsOwner != nullptr)
 		{
 		topMenu = topMenu->itsOwner;
@@ -1622,7 +1622,7 @@ JSize
 JXMenu::GetMaxPopupChoiceTitleWidth()
 	const
 {
-	JXMenu* self = const_cast<JXMenu*>(this);	// conceptually const
+	auto* self = const_cast<JXMenu*>(this);	// conceptually const
 
 	const JString origTitle      = itsTitle;
 	JXImage* origTitleImage      = itsTitleImage;

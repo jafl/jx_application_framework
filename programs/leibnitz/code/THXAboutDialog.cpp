@@ -63,20 +63,20 @@ THXAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 430,180, JString::empty);
+	auto* window = jnew JXWindow(this, 430,180, JString::empty);
 	assert( window != nullptr );
 
-	JXImageWidget* thxIcon =
+	auto* thxIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,20, 40,40);
 	assert( thxIcon != nullptr );
 
-	JXStaticText* textWidget =
+	auto* textWidget =
 		jnew JXStaticText(JGetString("textWidget::THXAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,110);
 	assert( textWidget != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::THXAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
 	assert( okButton != nullptr );
@@ -93,7 +93,7 @@ THXAboutDialog::BuildWindow
 	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::THXAboutDialog::shortcuts::JXLayout"));
 
-	JXImageWidget* npsIcon =
+	auto* npsIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
 	assert( npsIcon != nullptr );

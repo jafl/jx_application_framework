@@ -180,7 +180,7 @@ JBroadcaster::ListenTo
 {
 	assert( csender != nullptr );
 
-	JBroadcaster* sender = const_cast<JBroadcaster*>(csender);
+	auto* sender = const_cast<JBroadcaster*>(csender);
 	if (itsSenders == nullptr || !itsSenders->Includes(sender))
 		{
 		AddSender(sender);
@@ -208,7 +208,7 @@ JBroadcaster::StopListening
 		return;
 		}
 
-	JBroadcaster* sender = const_cast<JBroadcaster*>(csender);
+	auto* sender = const_cast<JBroadcaster*>(csender);
 	if (itsSenders != nullptr && itsSenders->Includes(sender))
 		{
 		RemoveSender(sender);

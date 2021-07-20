@@ -52,7 +52,7 @@ JSTUndoStyle::Undo()
 {
 	JStyledText* text = GetText();
 
-	JSTUndoStyle* newUndo = jnew JSTUndoStyle(text, itsRange);
+	auto* newUndo = jnew JSTUndoStyle(text, itsRange);
 	assert( newUndo != nullptr );
 
 	text->SetFont(itsRange, *itsOrigStyles);

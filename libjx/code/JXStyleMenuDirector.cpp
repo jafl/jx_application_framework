@@ -47,7 +47,7 @@ JXStyleMenuDirector::~JXStyleMenuDirector()
 JXMenuTable*
 JXStyleMenuDirector::CreateMenuTable()
 {
-	JXStyleMenuTable* table =
+	auto* table =
 		jnew JXStyleMenuTable(itsMenu, GetMenuData(), GetWindow(),
 							 JXWidget::kHElastic, JXWidget::kVElastic,
 							 0,0, 10,10);

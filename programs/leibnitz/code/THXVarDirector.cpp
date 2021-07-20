@@ -137,20 +137,20 @@ THXVarDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 260,250, JString::empty);
+	auto* window = jnew JXWindow(this, 260,250, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 260,30);
 	assert( menuBar != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,50, 260,200);
 	assert( scrollbarSet != nullptr );
 
-	JXWidgetSet* colHdrContainer =
+	auto* colHdrContainer =
 		jnew JXWidgetSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,30, 260,20);
 	assert( colHdrContainer != nullptr );
@@ -181,7 +181,7 @@ THXVarDirector::BuildWindow
 						0,0, 10,10);
 	assert( itsVarTable != nullptr );
 
-	JXColHeaderWidget* colHeader =
+	auto* colHeader =
 		jnew JXColHeaderWidget(itsVarTable, scrollbarSet, colHdrContainer,
 							  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( colHeader != nullptr );
@@ -209,7 +209,7 @@ THXVarDirector::Receive
 		}
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
@@ -221,7 +221,7 @@ THXVarDirector::Receive
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, "THXConstantsHelp",

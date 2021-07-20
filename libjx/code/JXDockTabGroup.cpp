@@ -176,7 +176,7 @@ JXDockTabGroup::Receive
 		}
 	else if (sender == itsDockContextMenu && message.Is(JXTextMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleDockContextMenu(selection->GetIndex());

@@ -514,7 +514,7 @@ JString::CopyToPrivateBuffer
 		{
 		itsAllocCount = byteCount + itsBlockSize;
 
-		JUtf8Byte* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
+		auto* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
 		assert( newString != nullptr );
 
 		if (itsOwnerFlag)
@@ -585,7 +585,7 @@ JString::GetBytes()
 {
 	if (!itsOwnerFlag && itsBytes[ itsByteCount ] != 0)
 		{
-		JString* self = const_cast<JString*>(this);		// does not violate conceptual constness
+		auto* self = const_cast<JString*>(this);		// does not violate conceptual constness
 
 		const JUtf8Byte* bytes = itsBytes;
 		self->itsBytes = nullptr;	// don't confuse CopyToPrivateBuffer()
@@ -636,7 +636,7 @@ JUtf8Byte*
 JString::AllocateBytes()
 	const
 {
-	JUtf8Byte* str = jnew JUtf8Byte [ itsByteCount + 1 ];
+	auto* str = jnew JUtf8Byte [ itsByteCount + 1 ];
 	assert( str != nullptr );
 
 	memcpy(str, itsBytes, itsByteCount);
@@ -747,7 +747,7 @@ JString::ReplaceBytes
 
 		// allocate space for the result
 
-		JUtf8Byte* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
+		auto* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
 		assert( newString != nullptr );
 
 		// place the characters in front and behind
@@ -909,7 +909,7 @@ JString::TrimWhitespace()
 
 		// allocate space for the new string + termination
 
-		JUtf8Byte* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
+		auto* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
 		assert( newString != nullptr );
 
 		// copy the non-blank characters to the new string
@@ -1012,7 +1012,7 @@ JString::FoldCase
 
 	// allocate space for the result
 
-	JUtf8Byte* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
+	auto* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
 	assert( newString != nullptr );
 
 	// get the new string
@@ -1545,7 +1545,7 @@ JString::Read
 		// We allocate the new memory first.
 		// If new fails, we still have the old string data.
 
-		JUtf8Byte* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
+		auto* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
 		assert( newString != nullptr );
 
 		// now it's safe to throw out the old data

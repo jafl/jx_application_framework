@@ -49,7 +49,7 @@ XDGetLocalVars::HandleSuccess
 	const JString& data
 	)
 {
-	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
+	auto* link = dynamic_cast<XDLink*>(CMGetLink());
 	xmlNode* root;
 	if (link == nullptr || !link->GetParsedData(&root))
 		{
@@ -66,7 +66,7 @@ XDGetLocalVars::HandleSuccess
 			{
 			id = JGetXMLNodeAttr(node, "id");
 
-			XDGetContextVars* cmd = jnew XDGetContextVars(itsRootNode, id);
+			auto* cmd = jnew XDGetContextVars(itsRootNode, id);
 			assert( cmd != nullptr );
 			cmd->Send();
 			}

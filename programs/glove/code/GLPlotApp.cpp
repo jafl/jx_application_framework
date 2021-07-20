@@ -61,7 +61,7 @@ GLPlotApp::GLPlotApp
 	JAppendDirSeparator(&homeDir);
 
 	JString dmhome = homeDir + ".glove";
-	JString* str = jnew JString(dmhome);
+	auto* str = jnew JString(dmhome);
 	assert(str != nullptr);
 	itsModulePath->Append(str);
 	str = jnew JString("/usr/local/lib/glove");
@@ -182,7 +182,7 @@ GLPlotApp::ReloadImportModules()
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
 					{
-					JString* str = jnew JString(entry.GetName());
+					auto* str = jnew JString(entry.GetName());
 					itsImportModules->Append(str);
 					itsImportPathIndex->AppendElement(i);
 					}
@@ -307,7 +307,7 @@ GLPlotApp::NewFile()
 {
 	JString str = "Untitled " + JString((JUInt64) itsDirNumber);
 	itsDirNumber++;
-	GLDataDocument* tableDir = jnew GLDataDocument(this, str, false);
+	auto* tableDir = jnew GLDataDocument(this, str, false);
 	assert( tableDir != nullptr);
 	tableDir->Activate();
 }
@@ -342,7 +342,7 @@ GLPlotApp::OpenFile
 		}
 	else
 		{
-		GLDataDocument* tableDir = jnew GLDataDocument(this, fileName, true);
+		auto* tableDir = jnew GLDataDocument(this, fileName, true);
 		assert( tableDir != nullptr);
 		tableDir->Activate();
 		}
@@ -371,7 +371,7 @@ GLPlotApp::ReloadDataModules()
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
 					{
-					JString* str = jnew JString(entry.GetName());
+					auto* str = jnew JString(entry.GetName());
 					itsDataModules->Append(str);
 					itsDataPathIndex->AppendElement(i);
 					}
@@ -436,7 +436,7 @@ GLPlotApp::ReloadCursorModules()
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
 					{
-					JString* str = jnew JString(entry.GetName());
+					auto* str = jnew JString(entry.GetName());
 					itsCursorModules->Append(str);
 					itsCursorPathIndex->AppendElement(i);
 					}
@@ -501,7 +501,7 @@ GLPlotApp::ReloadExportModules()
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
 					{
-					JString* str = jnew JString(entry.GetName());
+					auto* str = jnew JString(entry.GetName());
 					itsExportModules->Append(str);
 					itsExportPathIndex->AppendElement(i);
 					}
@@ -566,7 +566,7 @@ GLPlotApp::ReloadFitModules()
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
 					{
-					JString* str = jnew JString(entry.GetName());
+					auto* str = jnew JString(entry.GetName());
 					itsFitModules->Append(str);
 					itsFitPathIndex->AppendElement(i);
 					}
@@ -621,7 +621,7 @@ GLPlotApp::DisplayAbout
 	const JString& prevVersStr
 	)
 {
-	GLAboutDialog* dlog = jnew GLAboutDialog(this, prevVersStr);
+	auto* dlog = jnew GLAboutDialog(this, prevVersStr);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }

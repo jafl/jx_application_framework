@@ -173,7 +173,7 @@ JCheckForNewerVersion
 		return;
 		}
 
-	VersionSocket* socket = new VersionSocket(host, path, prefsMgr, prefID);
+	auto* socket = new VersionSocket(host, path, prefsMgr, prefID);
 	assert( socket != nullptr );
 
 	const JString vers = socket->GetLatestVersion();
@@ -195,7 +195,7 @@ JCheckForNewerVersion
 		{
 		ACE_INET_Addr addr(port, host.GetBytes());
 
-		VersionConnector* connector = new VersionConnector;
+		auto* connector = new VersionConnector;
 		assert( connector != nullptr );
 
 		if (connector->connect(socket, addr, ACE_Synch_Options::asynch) == -1 &&

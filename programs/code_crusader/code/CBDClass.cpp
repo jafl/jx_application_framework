@@ -160,7 +160,7 @@ CBDClass::NewGhost
 	CBTree*			tree
 	)
 {
-	CBDClass* newClass = jnew CBDClass(name, kGhostType, JFAID::kInvalidID, tree, false);
+	auto* newClass = jnew CBDClass(name, kGhostType, JFAID::kInvalidID, tree, false);
 	assert( newClass != nullptr );
 	return newClass;
 }

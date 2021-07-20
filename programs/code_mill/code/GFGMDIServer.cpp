@@ -65,7 +65,7 @@ GFGMDIServer::HandleMDIRequest
 			}
 		}
 
-	GFGMainDirector* dialog = jnew GFGMainDirector(JXGetApplication(), argList);
+	auto* dialog = jnew GFGMainDirector(JXGetApplication(), argList);
 	assert( dialog != nullptr );
 	dialog->Activate();
 

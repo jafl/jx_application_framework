@@ -125,7 +125,7 @@ CBCTreeDirector::Receive
 {
 	if (sender == itsEditCPPDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful() &&
@@ -289,10 +289,10 @@ CBCTreeDirector::NewCTree
 {
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
-	CBCTreeDirector* cTreeDir = static_cast<CBCTreeDirector*>(director);
+	auto* cTreeDir = static_cast<CBCTreeDirector*>(director);
 	assert( cTreeDir != nullptr );
 
-	CBCTree* tree = jnew CBCTree(cTreeDir, marginWidth);
+	auto* tree = jnew CBCTree(cTreeDir, marginWidth);
 	assert( tree != nullptr );
 	return tree;
 }
@@ -318,10 +318,10 @@ CBCTreeDirector::StreamInCTree
 {
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
-	CBCTreeDirector* cTreeDir = static_cast<CBCTreeDirector*>(director);
+	auto* cTreeDir = static_cast<CBCTreeDirector*>(director);
 	assert( cTreeDir != nullptr );
 
-	CBCTree* tree = jnew CBCTree(projInput, projVers,
+	auto* tree = jnew CBCTree(projInput, projVers,
 								setInput, setVers, symInput, symVers,
 								cTreeDir, marginWidth, dirList);
 	assert( tree != nullptr );

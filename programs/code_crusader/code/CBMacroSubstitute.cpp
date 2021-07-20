@@ -65,7 +65,7 @@ CBMacroSubstitute::Evaluate
 			*value = iter.FinishMatch().GetString();
 			iter.SkipNext();
 
-			CBMacroSubstitute* me = const_cast<CBMacroSubstitute*>(this);
+			auto* me = const_cast<CBMacroSubstitute*>(this);
 			if (itsExecCount == 0)
 				{
 				me->TurnOffEscapes();

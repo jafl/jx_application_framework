@@ -132,7 +132,7 @@ JNamedTreeNode::FindNamedChild
 JNamedTreeNode*
 JNamedTreeNode::GetNamedParent()
 {
-	JNamedTreeNode* node = dynamic_cast<JNamedTreeNode*>(GetParent());
+	auto* node = dynamic_cast<JNamedTreeNode*>(GetParent());
 	assert (node != nullptr);
 	return node;
 }
@@ -141,7 +141,7 @@ const JNamedTreeNode*
 JNamedTreeNode::GetNamedParent()
 	const
 {
-	const JNamedTreeNode* node = dynamic_cast<const JNamedTreeNode*>(GetParent());
+	const auto* node = dynamic_cast<const JNamedTreeNode*>(GetParent());
 	assert (node != nullptr);
 	return node;
 }
@@ -198,7 +198,7 @@ JNamedTreeNode::GetNamedChild
 	const JIndex index
 	)
 {
-	JNamedTreeNode* node = dynamic_cast<JNamedTreeNode*>(GetChild(index));
+	auto* node = dynamic_cast<JNamedTreeNode*>(GetChild(index));
 	assert (node != nullptr);
 	return node;
 }
@@ -210,7 +210,7 @@ JNamedTreeNode::GetNamedChild
 	)
 	const
 {
-	const JNamedTreeNode* node = dynamic_cast<const JNamedTreeNode*>(GetChild(index));
+	const auto* node = dynamic_cast<const JNamedTreeNode*>(GetChild(index));
 	assert (node != nullptr);
 	return node;
 }

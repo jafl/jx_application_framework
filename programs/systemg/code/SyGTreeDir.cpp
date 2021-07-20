@@ -201,10 +201,10 @@ SyGTreeDir::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 420,500, JString::empty);
+	auto* window = jnew JXWindow(this, 420,500, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 420,30);
 	assert( menuBar != nullptr );
@@ -219,7 +219,7 @@ SyGTreeDir::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,480, 340,20);
 	assert( itsPathInput != nullptr );
 
-	SyGTrashButton* trashButton =
+	auto* trashButton =
 		jnew SyGTrashButton(window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 390,480, 30,20);
 	assert( trashButton != nullptr );
@@ -328,7 +328,7 @@ SyGTreeDir::BuildWindow
 
 	// menus
 
-	JXWDMenu* windowsMenu =
+	auto* windowsMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( windowsMenu != nullptr );
@@ -436,7 +436,7 @@ SyGTreeDir::Receive
 {
 	if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
@@ -444,7 +444,7 @@ SyGTreeDir::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());

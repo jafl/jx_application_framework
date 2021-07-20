@@ -487,7 +487,7 @@ JXTextMenu::CreateMenuWindow
 	JXWindowDirector* supervisor
 	)
 {
-	JXTextMenuDirector* dir =
+	auto* dir =
 		jnew JXTextMenuDirector(supervisor, this, itsTextMenuData);
 	assert( dir != nullptr );
 	return dir;

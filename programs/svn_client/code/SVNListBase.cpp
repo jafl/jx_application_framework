@@ -218,7 +218,7 @@ SVNListBase::Receive
 		{
 		if (HasFocus())
 			{
-			const JXMenu::ItemSelected* selection =
+			const auto* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleEditMenu(selection->GetIndex());
@@ -231,7 +231,7 @@ SVNListBase::Receive
 		}
 	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
@@ -294,7 +294,7 @@ SVNListBase::ReceiveMessageLine()
 	const JFontStyle blue = JColorManager::GetBlueColor();
 	const JFontStyle strike(false, false, 0, true);
 
-	JString* temp = jnew JString(line);
+	auto* temp = jnew JString(line);
 	assert( temp != nullptr );
 
 	JIndex i;
@@ -445,7 +445,7 @@ SVNListBase::CopySelectedItems
 			}
 		}
 
-	JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
+	auto* data = jnew JXTextSelection(GetDisplay(), list);
 	assert( data != nullptr );
 
 	GetSelectionManager()->SetData(kJXClipboardName, data);
@@ -880,7 +880,7 @@ JElementComparison<JString*>*
 SVNListBase::CompareLines::Copy()
 	const
 {
-	CompareLines* copy = jnew CompareLines(itsWidget);
+	auto* copy = jnew CompareLines(itsWidget);
 	assert( copy != nullptr );
 	return copy;
 }

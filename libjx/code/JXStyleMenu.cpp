@@ -190,7 +190,7 @@ JXStyleMenu::CreateMenuWindow
 	JXWindowDirector* supervisor
 	)
 {
-	JXStyleMenuDirector* dir =
+	auto* dir =
 		jnew JXStyleMenuDirector(supervisor, this, GetTextMenuData());
 	assert( dir != nullptr );
 	return dir;
@@ -214,7 +214,7 @@ JXStyleMenu::Receive
 		}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 
@@ -236,7 +236,7 @@ JXStyleMenu::Receive
 	else if (sender == itsChooseColorDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

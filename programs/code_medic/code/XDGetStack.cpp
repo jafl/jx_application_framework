@@ -53,7 +53,7 @@ XDGetStack::HandleSuccess
 	const JString& data
 	)
 {
-	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
+	auto* link = dynamic_cast<XDLink*>(CMGetLink());
 	xmlNode* root;
 	if (link == nullptr || !link->GetParsedData(&root))
 		{
@@ -92,7 +92,7 @@ XDGetStack::HandleSuccess
 		frameName += ":  ";
 		frameName += name;
 
-		CMStackFrameNode* node =
+		auto* node =
 			jnew CMStackFrameNode(stackRoot, frameIndex, frameName,
 								 fileName, lineIndex);
 		assert( node != nullptr );

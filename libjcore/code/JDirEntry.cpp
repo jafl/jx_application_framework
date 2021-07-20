@@ -541,7 +541,7 @@ JDirEntry::MatchesContentFilter
 			return false;
 			}
 
-		JUtf8Byte* data = jnew JUtf8Byte [ kBlockSize+1 ];
+		auto* data = jnew JUtf8Byte [ kBlockSize+1 ];
 		const ssize_t count = read(fd, data, kBlockSize);
 		close(fd);
 		if (count < 0)

@@ -76,7 +76,7 @@ CBDocumentMenu::Receive
 	if (sender == this && message.Is(JXMenu::kItemSelected) &&
 		(GetDisplay()->GetLatestKeyModifiers()).GetState(JXMenu::AdjustNMShortcutModifier(kJXMetaKeyIndex)))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		if (selection->IsFromShortcut())
@@ -89,9 +89,9 @@ CBDocumentMenu::Receive
 			CBDocumentManager* docMgr = CBGetDocumentManager();
 			if (docMgr->GetDocument(selection->GetIndex(), &doc))
 				{
-				CBProjectDocument* projDoc    = dynamic_cast<CBProjectDocument*>(doc);
-				CBSearchDocument* searchDoc   = dynamic_cast<CBSearchDocument*>(doc);
-				CBCompileDocument* compileDoc = dynamic_cast<CBCompileDocument*>(doc);
+				auto* projDoc    = dynamic_cast<CBProjectDocument*>(doc);
+				auto* searchDoc   = dynamic_cast<CBSearchDocument*>(doc);
+				auto* compileDoc = dynamic_cast<CBCompileDocument*>(doc);
 				if (projDoc != nullptr)
 					{
 					docMgr->SetActiveProjectDocument(projDoc);

@@ -470,7 +470,7 @@ CBCommandManager::Parse
 			{
 			if (!cmdArgs.IsEmpty())
 				{
-				JPtrArray<JString>* a = jnew JPtrArray<JString>(cmdArgs, JPtrArrayT::kDeleteAll);
+				auto* a = jnew JPtrArray<JString>(cmdArgs, JPtrArrayT::kDeleteAll);
 				assert( a != nullptr );
 				cmdArgs.RemoveAll();
 				cmdQueue->Append(a);
@@ -492,7 +492,7 @@ CBCommandManager::Parse
 				return false;
 				}
 
-			JPtrArray<JString>* a = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+			auto* a = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 			assert( a != nullptr );
 			a->Append(arg);
 			cmdQueue->Append(a);
@@ -548,7 +548,7 @@ CBCommandManager::ProcessCmdQueue
 
 			if (fullNameList.IsEmpty())
 				{
-				JString* arg = jnew JString(*cmdArg);
+				auto* arg = jnew JString(*cmdArg);
 				assert( arg != nullptr );
 
 				if (!Substitute(arg, projDoc, JString::empty, 0, reportError))
@@ -564,7 +564,7 @@ CBCommandManager::ProcessCmdQueue
 				{
 				for (JIndex k=1; k<=nameCount; k++)
 					{
-					JString* arg = jnew JString(*cmdArg);
+					auto* arg = jnew JString(*cmdArg);
 					assert( arg != nullptr );
 
 					if (!Substitute(arg, projDoc,
@@ -621,7 +621,7 @@ CBCommandManager::Add
 
 	if (path != (**cmd).GetPath())
 		{
-		CBCommand* subCmd = jnew CBCommand(path, info.isVCS, false, projDoc);
+		auto* subCmd = jnew CBCommand(path, info.isVCS, false, projDoc);
 		if (subCmd->Add(cmdArgs, fullNameList, lineIndexList, fnStack))
 			{
 			(**cmd).Add(subCmd, info);
@@ -888,22 +888,22 @@ CBCommandManager::AppendCommand
 	const bool	separator
 	)
 {
-	JString* p = jnew JString(path);
+	auto* p = jnew JString(path);
 	assert( p != nullptr );
 
-	JString* c = jnew JString(cmd);
+	auto* c = jnew JString(cmd);
 	assert( c != nullptr );
 
-	JString* cn = jnew JString(cmdName);
+	auto* cn = jnew JString(cmdName);
 	assert( cn != nullptr );
 
-	JString* mt = jnew JString(menuText);
+	auto* mt = jnew JString(menuText);
 	assert( mt != nullptr );
 
-	JString* ms = jnew JString(menuShortcut);
+	auto* ms = jnew JString(menuShortcut);
 	assert( ms != nullptr );
 
-	JString* mi = jnew JString;
+	auto* mi = jnew JString;
 	assert( mi != nullptr );
 
 	CmdInfo info(p, c, cn,
@@ -1054,15 +1054,15 @@ CBCommandManager::ReadCmdInfo
 	const JFileVersion	vers
 	)
 {
-	JString* path = jnew JString;
+	auto* path = jnew JString;
 	assert( path != nullptr );
 	input >> *path;
 
-	JString* cmd = jnew JString;
+	auto* cmd = jnew JString;
 	assert( cmd != nullptr );
 	input >> *cmd;
 
-	JString* cmdName = jnew JString;
+	auto* cmdName = jnew JString;
 	assert( cmdName != nullptr );
 	input >> *cmdName;
 
@@ -1084,15 +1084,15 @@ CBCommandManager::ReadCmdInfo
 		  >> JBoolFromString(raise)
 		  >> JBoolFromString(beep);
 
-	JString* menuText = jnew JString;
+	auto* menuText = jnew JString;
 	assert( menuText != nullptr );
 	input >> *menuText;
 
-	JString* menuShortcut = jnew JString;
+	auto* menuShortcut = jnew JString;
 	assert( menuShortcut != nullptr );
 	input >> *menuShortcut;
 
-	JString* menuID = jnew JString;
+	auto* menuID = jnew JString;
 	assert( menuID != nullptr );
 	if (vers >= 2)
 		{
@@ -1886,7 +1886,7 @@ CBCommandManager::GetOutputDoc()
 			}
 		}
 
-	CBExecOutputDocument* doc = jnew CBExecOutputDocument();
+	auto* doc = jnew CBExecOutputDocument();
 	assert( doc != nullptr );
 	theExecDocList.Append(doc);
 	(CBGetCommandManager())->ListenTo(doc);

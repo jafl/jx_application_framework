@@ -87,7 +87,7 @@ JXPSPageSetupDialog::Create
 	const JPSPrinter::ImageOrientation	orient
 	)
 {
-	JXPSPageSetupDialog* dlog = jnew JXPSPageSetupDialog;
+	auto* dlog = jnew JXPSPageSetupDialog;
 	assert( dlog != nullptr );
 	dlog->BuildWindow(paper, orient);
 	return dlog;
@@ -127,22 +127,22 @@ JXPSPageSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 240,160, JString::empty);
+	auto* window = jnew JXWindow(this, 240,160, JString::empty);
 	assert( window != nullptr );
 
-	JXStaticText* orientationLabel =
+	auto* orientationLabel =
 		jnew JXStaticText(JGetString("orientationLabel::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,85, 75,20);
 	assert( orientationLabel != nullptr );
 	orientationLabel->SetToLabel();
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 140,130, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXPSPageSetupDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,130, 70,20);
 	assert( cancelButton != nullptr );
@@ -152,12 +152,12 @@ JXPSPageSetupDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 95,65, 94,54);
 	assert( itsOrientation != nullptr );
 
-	JXImageRadioButton* portraitRB =
+	auto* portraitRB =
 		jnew JXImageRadioButton(1, itsOrientation,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,5, 40,40);
 	assert( portraitRB != nullptr );
 
-	JXImageRadioButton* landscapeRB =
+	auto* landscapeRB =
 		jnew JXImageRadioButton(2, itsOrientation,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 45,5, 40,40);
 	assert( landscapeRB != nullptr );
@@ -280,7 +280,7 @@ JXPSPageSetupDialog::Receive
 		}
 	else if (sender == itsPaperTypeMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsPaperType = selection->GetIndex();

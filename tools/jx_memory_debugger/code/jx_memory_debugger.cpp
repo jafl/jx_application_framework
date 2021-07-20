@@ -33,7 +33,7 @@ main
 
 	bool displayAbout;
 	JString prevVersStr;
-	MDApp* app = jnew MDApp(&argc, argv, &displayAbout, &prevVersStr);
+	auto* app = jnew MDApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
 	if (displayAbout &&
@@ -42,7 +42,7 @@ main
 		return 0;
 		}
 
-	MDStatsDirector* dir = jnew MDStatsDirector(app);
+	auto* dir = jnew MDStatsDirector(app);
 	assert( dir != nullptr );
 	dir->Activate();
 

@@ -46,7 +46,7 @@ main
 
 	bool displayAbout;
 	JString prevVersStr;
-	CMApp* app = jnew CMApp(&argc, argv, &displayAbout, &prevVersStr);
+	auto* app = jnew CMApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
 	if (displayAbout &&

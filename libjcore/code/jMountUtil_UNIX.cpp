@@ -176,9 +176,9 @@ JGetUserMountPointList
 			continue;
 			}
 
-		JString* path = jnew JString(m.GetSubstring(2));
+		auto* path = jnew JString(m.GetSubstring(2));
 		assert( path != nullptr );
-		JString* devicePath = jnew JString(m.GetSubstring(1));
+		auto* devicePath = jnew JString(m.GetSubstring(1));
 		assert( devicePath != nullptr );
 
 		const JMountType type =

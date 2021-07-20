@@ -30,7 +30,7 @@ SyGDuplicateProcess::Duplicate
 	const JPtrArray<SyGFileTreeNode>&	nodeList
 	)
 {
-	SyGDuplicateProcess* p = jnew SyGDuplicateProcess(table, nodeList);
+	auto* p = jnew SyGDuplicateProcess(table, nodeList);
 	assert( p != nullptr );
 }
 
@@ -57,7 +57,7 @@ SyGDuplicateProcess::SyGDuplicateProcess
 	const JSize count = nodeList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		SyGFileTreeNode* node = const_cast<SyGFileTreeNode*>(nodeList.GetElement(i));
+		auto* node = const_cast<SyGFileTreeNode*>(nodeList.GetElement(i));
 		itsNodeList.Append(node);
 		itsFullNameList.Append((node->GetDirEntry())->GetFullName());
 		ListenTo(node);
@@ -90,7 +90,7 @@ SyGDuplicateProcess::Receive
 {
 	if (sender == itsProcess && message.Is(JProcess::kFinished))
 		{
-		const JProcess::Finished* info =
+		const auto* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
 		if (info->Successful() && itsTable != nullptr && !itsTable->IsEditing())
 			{

@@ -205,7 +205,7 @@ JXSelectionData::Resolve()
 {
 	if (itsDataSource != nullptr && itsDataSourceID != nullptr)
 		{
-		JXSelectionData* me = const_cast<JXSelectionData*>(this);
+		auto* me = const_cast<JXSelectionData*>(this);
 
 		itsDataSource->GetSelectionData(me, *itsDataSourceID);
 

@@ -428,10 +428,10 @@ JSubstitute::DefineVariable
 {
 	if (!SetVariableValue(name, value))
 		{
-		JString* n = jnew JString(name);
+		auto* n = jnew JString(name);
 		assert( n != nullptr );
 
-		JString* v = jnew JString(value);
+		auto* v = jnew JString(value);
 		assert( v != nullptr );
 
 		itsVarList->AppendElement(VarInfo(n, v));
@@ -477,10 +477,10 @@ JSubstitute::DefineVariables
 	const JUtf8Byte* regexPattern
 	)
 {
-	JString* name = jnew JString(regexPattern);
+	auto* name = jnew JString(regexPattern);
 	assert( name != nullptr );
 
-	JRegex* regex = jnew JRegex(regexPattern);
+	auto* regex = jnew JRegex(regexPattern);
 	assert( regex != nullptr );
 
 	itsVarList->AppendElement(VarInfo(name, regex));

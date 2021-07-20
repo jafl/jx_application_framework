@@ -137,11 +137,9 @@ SyGMDIServer::OpenFiles()
 void
 SyGMDIServer::PrintCommandLineHelp()
 {
-	const JString versStr = SyGGetVersionNumberStr();
-
 	const JUtf8Byte* map[] =
 		{
-		"version",   versStr.GetBytes(),
+		"version",   SyGGetVersionNumberStr().GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
 		};
 	const JString s = JGetString("CommandLineHelp::SyGMDIServer", map, sizeof(map));

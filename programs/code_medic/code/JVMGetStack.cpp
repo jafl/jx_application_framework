@@ -49,10 +49,10 @@ JVMGetStack::Starting()
 {
 	CMCommand::Starting();
 
-	JVMLink* link       = dynamic_cast<JVMLink*>(CMGetLink());
+	auto* link       = dynamic_cast<JVMLink*>(CMGetLink());
 	const JSize length  = link->GetObjectIDSize();
 	const JSize size    = length+8;
-	unsigned char* data = (unsigned char*) calloc(size, 1);
+	auto* data = (unsigned char*) calloc(size, 1);
 	assert( data != nullptr );
 
 	unsigned char* d = data;
@@ -81,7 +81,7 @@ JVMGetStack::HandleSuccess
 	const JString& origData
 	)
 {
-	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
+	auto* link = dynamic_cast<JVMLink*>(CMGetLink());
 	const JVMSocket::MessageReady* msg;
 	if (!link->GetLatestMessageFromJVM(&msg))
 		{
@@ -117,7 +117,7 @@ JVMGetStack::HandleSuccess
 		const JUInt64 offset = JVMSocket::Unpack8(data);
 		data                += 8;
 
-		JVMStackFrameNode* node =
+		auto* node =
 			jnew JVMStackFrameNode(root, id, classID, methodID, offset);
 		assert( node != nullptr );
 		root->Prepend(node);

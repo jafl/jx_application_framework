@@ -94,42 +94,42 @@ CBEditSearchPathsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,370, JString::empty);
+	auto* window = jnew JXWindow(this, 370,370, JString::empty);
 	assert( window != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,100, 240,220);
 	assert( scrollbarSet != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditSearchPathsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,340, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditSearchPathsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 230,340, 70,20);
 	assert( okButton != nullptr );
 
-	JXStaticText* instrText =
+	auto* instrText =
 		jnew JXStaticText(JGetString("instrText::CBEditSearchPathsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 330,70);
 	assert( instrText != nullptr );
 
-	JXTextButton* addPathButton =
+	auto* addPathButton =
 		jnew JXTextButton(JGetString("addPathButton::CBEditSearchPathsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,110, 70,20);
 	assert( addPathButton != nullptr );
 	addPathButton->SetShortcuts(JGetString("addPathButton::CBEditSearchPathsDialog::shortcuts::JXLayout"));
 
-	JXTextButton* removePathButton =
+	auto* removePathButton =
 		jnew JXTextButton(JGetString("removePathButton::CBEditSearchPathsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,140, 70,20);
 	assert( removePathButton != nullptr );
 	removePathButton->SetShortcuts(JGetString("removePathButton::CBEditSearchPathsDialog::shortcuts::JXLayout"));
 
-	JXTextButton* choosePathButton =
+	auto* choosePathButton =
 		jnew JXTextButton(JGetString("choosePathButton::CBEditSearchPathsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,190, 70,20);
 	assert( choosePathButton != nullptr );

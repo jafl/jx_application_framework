@@ -169,7 +169,7 @@ JXFontNameMenu::CreateMenuWindow
 	JXWindowDirector* supervisor
 	)
 {
-	JXFontNameMenuDirector* dir =
+	auto* dir =
 		jnew JXFontNameMenuDirector(supervisor, this, GetTextMenuData());
 	assert( dir != nullptr );
 	return dir;
@@ -195,7 +195,7 @@ JXFontNameMenu::Receive
 		}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		const JString& name = GetItemText(selection->GetIndex());

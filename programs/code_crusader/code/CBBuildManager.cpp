@@ -565,7 +565,7 @@ CBBuildManager::Receive
 {
 	if (sender == itsMakeDependCmd && message.Is(CBCommand::kFinished))
 		{
-		const CBCommand::Finished* info =
+		const auto* info =
 			dynamic_cast<const CBCommand::Finished*>(&message);
 		assert( info != nullptr );
 
@@ -579,7 +579,7 @@ CBBuildManager::Receive
 	else if (sender == itsProjectConfigDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

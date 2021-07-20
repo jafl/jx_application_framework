@@ -245,7 +245,7 @@ JXFTCCell::BuildChildList()
 	JXContainer* obj;
 	while (iter->Next(&obj))
 		{
-		JXFTCCell* cell = dynamic_cast<JXFTCCell*>(obj);
+		auto* cell = dynamic_cast<JXFTCCell*>(obj);
 		assert( cell != nullptr );
 		itsChildren->AppendElement(cell);
 		}
@@ -873,7 +873,7 @@ JXFTCCell::IsElastic()
 		{
 		// check for sizing option
 
-		JXWidget* widget = dynamic_cast<JXWidget*>(itsWidget);
+		auto* widget = dynamic_cast<JXWidget*>(itsWidget);
 		if (widget != nullptr &&
 			(( itsSyncHorizontalFlag && widget->GetHSizing() == JXWidget::kHElastic) ||
 			 (!itsSyncHorizontalFlag && widget->GetVSizing() == JXWidget::kVElastic)))

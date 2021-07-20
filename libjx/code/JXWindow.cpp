@@ -1358,10 +1358,10 @@ JXWindow::AnalyzeWindowManager
 
 	// create a test window
 
-	JXWindowDirector* dir = jnew JXWindowDirector(JXGetApplication());
+	auto* dir = jnew JXWindowDirector(JXGetApplication());
 	assert( dir != nullptr );
 
-	JXWindow* w = jnew JXWindow(dir, 100, 100, JString("Testing Window Manager", JString::kNoCopy));
+	auto* w = jnew JXWindow(dir, 100, 100, JString("Testing Window Manager", JString::kNoCopy));
 	assert( w != nullptr );
 	jdelete w->itsExpandTask;
 	w->itsExpandTask = nullptr;
@@ -2936,7 +2936,7 @@ JXWindow::HandleButtonPress
 		Refresh();
 		}
 
-	const JXMouseButton currButton = (JXMouseButton) xEvent.button;
+	const auto currButton = (JXMouseButton) xEvent.button;
 	const unsigned int state = JXButtonStates::SetState(xEvent.state, currButton, true);
 
 	if (!itsIsDraggingFlag)
@@ -3052,7 +3052,7 @@ JXWindow::HandleButtonRelease
 		return true;
 		}
 
-	const JXMouseButton currButton = (JXMouseButton) xEvent.button;
+	const auto currButton = (JXMouseButton) xEvent.button;
 	const unsigned int state = JXButtonStates::SetState(xEvent.state, currButton, false);
 
 	if (itsProcessDragFlag && itsMouseContainer != nullptr)
@@ -4863,7 +4863,7 @@ JXWindow::Undock()
 
 	if (wasVisible)
 		{
-		JXRaiseWindowTask* task = jnew JXRaiseWindowTask(this);
+		auto* task = jnew JXRaiseWindowTask(this);
 		assert( task != nullptr );
 		task->Go();
 		}

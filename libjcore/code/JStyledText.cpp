@@ -328,7 +328,7 @@ JStyledText::ReadPlainText
 		// but we have to normalize the bytes after reading, so we have to
 		// allocate a new block.
 
-		JUtf8Byte* buffer = jnew JUtf8Byte[ byteCount ];
+		auto* buffer = jnew JUtf8Byte[ byteCount ];
 		assert( buffer != nullptr );
 
 		std::ifstream input(fileName.GetBytes());
@@ -388,7 +388,7 @@ JStyledText::ConvertFromMacintoshNewlinetoUNIXNewline
 	JString* text
 	)
 {
-	JUtf8Byte* s = const_cast<JUtf8Byte*>(text->GetBytes());
+	auto* s = const_cast<JUtf8Byte*>(text->GetBytes());
 	while (*s != 0)
 		{
 		if (*s == kMacintoshNewlineChar)
@@ -539,7 +539,7 @@ JStyledText::ReadPrivateFormat
 	JPtrArray<JString> fontNameList(JPtrArrayT::kDeleteAll);
 	for (JIndex i=1; i<=fontCount; i++)
 		{
-		JString* name = jnew JString;
+		auto* name = jnew JString;
 		assert( name != nullptr );
 		input >> *name;
 		fontNameList.Append(name);
@@ -2101,7 +2101,7 @@ JStyledText::DeleteText
 	const TextRange& range
 	)
 {
-	JSTUndoTyping* newUndo = jnew JSTUndoTyping(this, range);
+	auto* newUndo = jnew JSTUndoTyping(this, range);
 	assert( newUndo != nullptr );
 
 	PrivateDeleteText(range);
@@ -3634,7 +3634,7 @@ JStyledText::GetPasteUndo
 	bool*			isNew
 	)
 {
-	JSTUndoPaste* pasteUndo = jnew JSTUndoPaste(this, range);
+	auto* pasteUndo = jnew JSTUndoPaste(this, range);
 	assert( pasteUndo != nullptr );
 
 	*isNew = true;
@@ -3699,7 +3699,7 @@ JStyledText::GetMoveUndo
 	bool*			isNew
 	)
 {
-	JSTUndoMove* moveUndo = jnew JSTUndoMove(this, srcIndex, destIndex, count);
+	auto* moveUndo = jnew JSTUndoMove(this, srcIndex, destIndex, count);
 	assert( moveUndo != nullptr );
 
 	*isNew = true;
@@ -4424,10 +4424,10 @@ JStyledText::GetConstIterator
 	)
 	const
 {
-	JString* s = new(true) JString(itsText, JString::kNoCopy);
+	auto* s = new(true) JString(itsText, JString::kNoCopy);
 	assert( s != nullptr );
 
-	JStringIterator* iter = jnew JStringIterator(*s);
+	auto* iter = jnew JStringIterator(*s);
 	assert( iter != nullptr );
 
 	iter->UnsafeMoveTo(pos, index.charIndex, index.byteIndex);
@@ -4446,7 +4446,7 @@ JStyledText::DisposeConstIterator
 	)
 	const
 {
-	JString* s = const_cast<JString*>(&(iter->GetString()));
+	auto* s = const_cast<JString*>(&(iter->GetString()));
 	assert( s != &itsText );
 
 	jdelete iter;

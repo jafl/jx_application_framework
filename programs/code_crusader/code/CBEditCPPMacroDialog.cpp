@@ -81,43 +81,43 @@ CBEditCPPMacroDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,290, JString::empty);
+	auto* window = jnew JXWindow(this, 370,290, JString::empty);
 	assert( window != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 250,200);
 	assert( scrollbarSet != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditCPPMacroDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,260, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditCPPMacroDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 260,260, 70,20);
 	assert( okButton != nullptr );
 
-	JXTextButton* addMacroButton =
+	auto* addMacroButton =
 		jnew JXTextButton(JGetString("addMacroButton::CBEditCPPMacroDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 290,50, 60,20);
 	assert( addMacroButton != nullptr );
 	addMacroButton->SetShortcuts(JGetString("addMacroButton::CBEditCPPMacroDialog::shortcuts::JXLayout"));
 
-	JXTextButton* removeMacroButton =
+	auto* removeMacroButton =
 		jnew JXTextButton(JGetString("removeMacroButton::CBEditCPPMacroDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 290,80, 60,20);
 	assert( removeMacroButton != nullptr );
 	removeMacroButton->SetShortcuts(JGetString("removeMacroButton::CBEditCPPMacroDialog::shortcuts::JXLayout"));
 
-	JXTextButton* loadMacroButton =
+	auto* loadMacroButton =
 		jnew JXTextButton(JGetString("loadMacroButton::CBEditCPPMacroDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 290,130, 60,20);
 	assert( loadMacroButton != nullptr );
 	loadMacroButton->SetShortcuts(JGetString("loadMacroButton::CBEditCPPMacroDialog::shortcuts::JXLayout"));
 
-	JXTextButton* saveMacroButton =
+	auto* saveMacroButton =
 		jnew JXTextButton(JGetString("saveMacroButton::CBEditCPPMacroDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 290,160, 60,20);
 	assert( saveMacroButton != nullptr );
@@ -129,7 +129,7 @@ CBEditCPPMacroDialog::BuildWindow
 	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditCPPMacroDialog::shortcuts::JXLayout"));
 
-	JXWidgetSet* colHeaderEncl =
+	auto* colHeaderEncl =
 		jnew JXWidgetSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 250,20);
 	assert( colHeaderEncl != nullptr );
@@ -151,7 +151,7 @@ CBEditCPPMacroDialog::BuildWindow
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsTable != nullptr );
 
-	JXColHeaderWidget* colHeader =
+	auto* colHeader =
 		jnew JXColHeaderWidget(itsTable, scrollbarSet, colHeaderEncl,
 							  JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 10,10);
 	assert( colHeader != nullptr );

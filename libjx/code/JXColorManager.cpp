@@ -33,7 +33,7 @@ JXColorManager::Create
 	Colormap xColormap =
 		DefaultColormap(display->GetXDisplay(), display->GetScreen());
 
-	JXColorManager* colormap = jnew JXColorManager(display, visual, xColormap);
+	auto* colormap = jnew JXColorManager(display, visual, xColormap);
 	assert( colormap != nullptr );
 	return colormap;
 }

@@ -390,7 +390,7 @@ JXStringList::Receive
 	if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 		message.Is(JListT::kElementsInserted))
 		{
-		const JListT::ElementsInserted* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != nullptr );
 		InsertRows(info->GetFirstIndex(), info->GetCount());
@@ -399,7 +399,7 @@ JXStringList::Receive
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kElementsRemoved))
 		{
-		const JListT::ElementsRemoved* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != nullptr );
 		itsMinColWidth = 1;
@@ -409,7 +409,7 @@ JXStringList::Receive
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kElementMoved))
 		{
-		const JListT::ElementMoved* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != nullptr );
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
@@ -418,7 +418,7 @@ JXStringList::Receive
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kElementsSwapped))
 		{
-		const JListT::ElementsSwapped* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != nullptr );
 		const JFontStyle s1 = itsStyles->GetElement(info->GetIndex1(), 1);

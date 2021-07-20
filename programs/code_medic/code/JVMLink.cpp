@@ -375,7 +375,7 @@ JVMLink::Receive
 {
 	if (sender == itsDebugLink && message.Is(JVMSocket::kMessageReady))
 		{
-		const JVMSocket::MessageReady* info =
+		const auto* info =
 			dynamic_cast<const JVMSocket::MessageReady*>(&message);
 		assert( info != nullptr );
 		ReceiveMessageFromJVM(*info);
@@ -387,7 +387,7 @@ JVMLink::Receive
 
 	else if (sender == itsProcess && message.Is(JProcess::kFinished))
 		{
-		const JProcess::Finished* info =
+		const auto* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
 		assert( info != nullptr );
 		ProgramFinished1(info);
@@ -1262,7 +1262,7 @@ JVMLink::SetProgram
 		itsJVMExecArgs = itsMainClassName;
 		}
 
-	JVMSetProgramTask* task = jnew JVMSetProgramTask();
+	auto* task = jnew JVMSetProgramTask();
 	assert( task != nullptr );
 	task->Go();
 }
@@ -2279,7 +2279,7 @@ JVMLink::StartDebugger()
 			};
 		const JString msg = JGetString("ListenError::JVMLink", map, sizeof(map));
 
-		JVMWelcomeTask* task = jnew JVMWelcomeTask(msg, true);
+		auto* task = jnew JVMWelcomeTask(msg, true);
 		assert( task != nullptr );
 		task->Go();
 		return false;
@@ -2292,7 +2292,7 @@ JVMLink::StartDebugger()
 			};
 		JString msg = JGetString("Welcome::JVMLink", map, sizeof(map));
 
-		JVMWelcomeTask* task = jnew JVMWelcomeTask(msg, false);
+		auto* task = jnew JVMWelcomeTask(msg, false);
 		assert( task != nullptr );
 		task->Go();
 		return true;

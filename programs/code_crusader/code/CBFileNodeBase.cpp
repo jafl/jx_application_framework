@@ -137,7 +137,7 @@ CBFileNodeBase::GetFullName
 	)
 	const
 {
-	const CBProjectTree* projTree = dynamic_cast<const CBProjectTree*>(GetTree());
+	const auto* projTree = dynamic_cast<const CBProjectTree*>(GetTree());
 	assert( projTree != nullptr );
 
 	const JString& basePath = (projTree->GetProjectDoc())->GetFilePath();
@@ -414,7 +414,7 @@ CBFileNodeBase::FileRenamed
 		{
 		assert( type == CBRelPathCSF::kProjectRelative );
 
-		const CBProjectTree* projTree = dynamic_cast<const CBProjectTree*>(GetTree());
+		const auto* projTree = dynamic_cast<const CBProjectTree*>(GetTree());
 		assert( projTree != nullptr );
 
 		const JString& basePath = (projTree->GetProjectDoc())->GetFilePath();

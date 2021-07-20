@@ -263,7 +263,7 @@ CMBreakpointManager::ReadSetup
 			condition.Clear();
 			}
 
-		CMBreakpoint* bp = jnew CMBreakpoint(0, fileName, lineNumber,
+		auto* bp = jnew CMBreakpoint(0, fileName, lineNumber,
 											JString::empty, JString::empty,
 											enabled, action, condition,
 											ignoreCount);
@@ -325,7 +325,7 @@ CMBreakpointManager::Receive
 		}
 	else if (sender == itsLink && message.Is(CMLink::kSymbolsLoaded))
 		{
-		const CMLink::SymbolsLoaded* info =
+		const auto* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
 		assert( info != nullptr );
 		const JSize count = itsBPList->GetElementCount();

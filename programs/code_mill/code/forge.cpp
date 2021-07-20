@@ -43,7 +43,7 @@ main
 
 	bool displayAbout;
 	JString prevVersStr;
-	GFGApp* app = jnew GFGApp(&argc, argv, &displayAbout, &prevVersStr);
+	auto* app = jnew GFGApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
 	if (displayAbout &&

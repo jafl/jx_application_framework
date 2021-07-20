@@ -214,7 +214,7 @@ CBCommand::Add
 		}
 	else
 		{
-		JPtrArray<JString>* args = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		auto* args = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( args != nullptr );
 		args->CopyObjects(cmdArgs, JPtrArrayT::kDeleteAll, false);
 
@@ -238,7 +238,7 @@ CBCommand::Add
 {
 	subCmd->SetParent(this);
 
-	CBCommandManager::CmdInfo* info = jnew CBCommandManager::CmdInfo;
+	auto* info = jnew CBCommandManager::CmdInfo;
 	assert( info != nullptr );
 	*info = cmdInfo.Copy();
 
@@ -637,7 +637,7 @@ CBCommand::Receive
 {
 	if (message.Is(JProcess::kFinished))
 		{
-		const JProcess::Finished* info =
+		const auto* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
 		assert( info != nullptr );
 		const bool cancelled = info->GetReason() != kJChildFinished;
@@ -645,7 +645,7 @@ CBCommand::Receive
 		}
 	else if (sender == itsMakeDependCmd && message.Is(CBCommand::kFinished))
 		{
-		const CBCommand::Finished* info =
+		const auto* info =
 			dynamic_cast<const CBCommand::Finished*>(&message);
 		assert( info != nullptr );
 		itsMakeDependCmd     = nullptr;
@@ -672,7 +672,7 @@ CBCommand::ReceiveWithFeedback
 {
 	if (sender == itsOutputDoc && message->Is(CBExecOutputDocument::kFinished))
 		{
-		CBExecOutputDocument::Finished* info =
+		auto* info =
 			dynamic_cast<CBExecOutputDocument::Finished*>(message);
 		assert( info != nullptr );
 		ProcessFinished(info->Successful(), info->Cancelled());

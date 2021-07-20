@@ -88,7 +88,7 @@ GDBGetFullPath::HandleSuccess
 			}
 		else
 			{
-			GDBGetFullPath* cmd = jnew GDBGetFullPath(fullName, GetLineIndex());
+			auto* cmd = jnew GDBGetFullPath(fullName, GetLineIndex());
 			assert( cmd != nullptr );
 			Broadcast(NewCommand(cmd));
 			}

@@ -84,7 +84,7 @@ GDBGetStackArguments::HandleSuccess
 		bool ok = iter.GetLastMatch().GetSubstring("FrameIndex").ConvertToUInt(&frameIndex);
 		assert( ok );
 
-		CMStackFrameNode* frameNode =
+		auto* frameNode =
 			dynamic_cast<CMStackFrameNode*>(root->GetChild(frameCount - frameIndex));
 		assert( frameNode != nullptr );
 
@@ -115,7 +115,7 @@ GDBGetStackArguments::HandleSuccess
 				}
 			iter.Invalidate();
 
-			CMStackArgNode* argNode = jnew CMStackArgNode(frameNode, *name, *value);
+			auto* argNode = jnew CMStackArgNode(frameNode, *name, *value);
 			assert( argNode != nullptr );
 			}
 		}

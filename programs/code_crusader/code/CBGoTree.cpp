@@ -102,7 +102,7 @@ CBGoTree::StreamInGoClass
 	CBTree*				tree
 	)
 {
-	CBGoClass* newClass = jnew CBGoClass(input, vers, tree);
+	auto* newClass = jnew CBGoClass(input, vers, tree);
 	assert( newClass != nullptr );
 	return newClass;
 }

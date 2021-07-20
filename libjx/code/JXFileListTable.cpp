@@ -162,7 +162,7 @@ JXFileListTable::AddFile
 
 	ClearSelection();
 
-	JString* s = jnew JString(fullName);
+	auto* s = jnew JString(fullName);
 	assert( s != nullptr );
 
 	bool found;
@@ -919,7 +919,7 @@ JXFileListTable::HandleMouseDrag
 {
 	if (itsDragType == kWaitForDND && JMouseMoved(itsMouseDownPt, pt))
 		{
-		JXFileSelection* data = jnew JXFileSelection(this, kSelectionDataID);
+		auto* data = jnew JXFileSelection(this, kSelectionDataID);
 		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data);
@@ -1152,7 +1152,7 @@ JElementComparison<JXFileListTable::VisInfo>*
 JXFileListTable::PrefixMatch::Copy()
 	const
 {
-	PrefixMatch* copy = jnew PrefixMatch(itsPrefix, itsFileList);
+	auto* copy = jnew PrefixMatch(itsPrefix, itsFileList);
 	assert( copy != nullptr );
 	return copy;
 }
@@ -1207,14 +1207,14 @@ JXFileListTable::Receive
 {
 	if (sender == itsFileList && message.Is(JListT::kElementsInserted))
 		{
-		const JListT::ElementsInserted* m =
+		const auto* m =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
 		}
 	else if (sender == itsFileList && message.Is(JListT::kElementsRemoved))
 		{
-		const JListT::ElementsRemoved* m =
+		const auto* m =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( m != nullptr );
 
@@ -1235,14 +1235,14 @@ JXFileListTable::Receive
 		}
 	else if (sender == itsFileList && message.Is(JListT::kElementMoved))
 		{
-		const JListT::ElementMoved* m =
+		const auto* m =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
 		}
 	else if (sender == itsFileList && message.Is(JListT::kElementsSwapped))
 		{
-		const JListT::ElementsSwapped* m =
+		const auto* m =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
@@ -1262,7 +1262,7 @@ JXFileListTable::Receive
 		}
 	else if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleEditMenu(selection->GetIndex());
@@ -1344,7 +1344,7 @@ JXFileListTable::CopySelectedFileNames()
 			list.Append(GetFileName(cell.y));
 			}
 
-		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
+		auto* data = jnew JXTextSelection(GetDisplay(), list);
 		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
@@ -1373,7 +1373,7 @@ JXFileListTable::GetSelectionData
 		{
 		assert( HasSelection() );
 
-		JXFileSelection* fileData = dynamic_cast<JXFileSelection*>(data);
+		auto* fileData = dynamic_cast<JXFileSelection*>(data);
 		assert( fileData != nullptr );
 
 		JPtrArray<JString> list(JPtrArrayT::kDeleteAll);

@@ -91,7 +91,7 @@ JXDocumentMenu::Receive
 		}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		JXDocument* doc;

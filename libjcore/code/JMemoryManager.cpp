@@ -783,7 +783,7 @@ JMemoryManager::ConnectToDebugger
 	itsLink = new DebugLink;
 	assert( itsLink != nullptr );
 
-	DebugLinkConnector* connector = new DebugLinkConnector;
+	auto* connector = new DebugLinkConnector;
 	assert( connector != nullptr );
 
 	ACE_UNIX_Addr addr(socketName);
@@ -1176,7 +1176,7 @@ JMemoryManager::ReadValue
 		if (*start != '\0') // The string has a non-space value, so try to read as a number
 			{
 			JUtf8Byte* end;
-			unsigned char theValue = (unsigned char) strtol(start, &end, 0);
+			auto theValue = (unsigned char) strtol(start, &end, 0);
 			if (*end == '\0') // We read the entire string, so the value must be good
 				{
 				*value = theValue;

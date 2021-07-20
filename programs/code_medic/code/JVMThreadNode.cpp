@@ -73,7 +73,7 @@ JVMThreadNode::JVMThreadNode
 
 JVMThreadNode::~JVMThreadNode()
 {
-	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
+	auto* link = dynamic_cast<JVMLink*>(CMGetLink());
 	if (link != nullptr)	// when switching debugger type, it won't be a JVMLink
 		{
 		link->ThreadDeleted(this);
@@ -110,7 +110,7 @@ JVMThreadNode::FindParent
 	const JUInt64 id
 	)
 {
-	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
+	auto* link = dynamic_cast<JVMLink*>(CMGetLink());
 
 	JVMThreadNode* parent;
 	if (!link->FindThread(id, &parent))

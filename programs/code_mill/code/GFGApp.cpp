@@ -74,7 +74,7 @@ GFGApp::DisplayAbout
 	const JString& prevVersStr
 	)
 {
-	GFGAboutDialog* dlog = jnew GFGAboutDialog(this, prevVersStr);
+	auto* dlog = jnew GFGAboutDialog(this, prevVersStr);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }

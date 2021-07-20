@@ -341,7 +341,7 @@ CBCtagsUser::ReadExtensionFlags
 			delimiter = '\n';
 			}
 
-		JString* value = jnew JString;
+		auto* value = jnew JString;
 		assert( value != nullptr );
 
 		data.Split(":", &split, 2);

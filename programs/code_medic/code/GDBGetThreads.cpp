@@ -96,7 +96,7 @@ GDBGetThreads::HandleSuccess
 					line.Prepend("0");
 					}
 
-				JString* s = jnew JString(line);
+				auto* s = jnew JString(line);
 				assert( s != nullptr );
 				threadList.InsertSorted(s);
 				}
@@ -115,7 +115,7 @@ GDBGetThreads::HandleSuccess
 			{
 			ExtractLocation(*line, &fileName, &lineIndex);
 
-			CMThreadNode* node = jnew CMThreadNode(threadIndex, *line, fileName, lineIndex);
+			auto* node = jnew CMThreadNode(threadIndex, *line, fileName, lineIndex);
 			assert( node != nullptr );
 
 			root->Append(node);

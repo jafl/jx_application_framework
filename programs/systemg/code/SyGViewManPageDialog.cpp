@@ -93,7 +93,7 @@ SyGViewManPageDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 360,150, JString::empty);
+	auto* window = jnew JXWindow(this, 360,150, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =
@@ -113,13 +113,13 @@ SyGViewManPageDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
 	assert( itsFnName != nullptr );
 
-	JXStaticText* fnNameLabel =
+	auto* fnNameLabel =
 		jnew JXStaticText(JGetString("fnNameLabel::SyGViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 100,20);
 	assert( fnNameLabel != nullptr );
 	fnNameLabel->SetToLabel();
 
-	JXStaticText* sectionLabel =
+	auto* sectionLabel =
 		jnew JXStaticText(JGetString("sectionLabel::SyGViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
 	assert( sectionLabel != nullptr );

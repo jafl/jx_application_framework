@@ -108,7 +108,7 @@ CMStackWidget::GetStackFrame
 	const JSize count     = root->GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CMStackFrameNode* node =
+		const auto* node =
 			dynamic_cast<const CMStackFrameNode*>(root->GetChild(i));
 		assert( node != nullptr );
 
@@ -140,7 +140,7 @@ CMStackWidget::SelectFrame
 	const JSize count = root->GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CMStackFrameNode* node =
+		const auto* node =
 			dynamic_cast<const CMStackFrameNode*>(root->GetChild(i));
 		assert( node != nullptr );
 
@@ -189,7 +189,7 @@ CMStackWidget::TableDrawCell
 			font.SetStyle(GetCellStyle(cell));
 			p.SetFont(font);
 
-			const CMStackArgNode* argNode =
+			const auto* argNode =
 				dynamic_cast<const CMStackArgNode*>(node);
 			assert( argNode != nullptr );
 			p.String(rect, argNode->GetValue(), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
@@ -214,7 +214,7 @@ CMStackWidget::GetMinCellWidth
 		const JTreeNode* node = GetTreeList()->GetNode(cell.y);
 		if (node->GetDepth() > 1)
 			{
-			const CMStackArgNode* argNode =
+			const auto* argNode =
 				dynamic_cast<const CMStackArgNode*>(node);
 			assert( argNode != nullptr );
 
@@ -287,7 +287,7 @@ CMStackWidget::HandleMouseDown
 				node = node->GetParent();
 				}
 
-			const CMStackFrameNode* stackNode =
+			const auto* stackNode =
 				dynamic_cast<const CMStackFrameNode*>(node);
 			assert( stackNode != nullptr );
 
@@ -508,7 +508,7 @@ CMStackWidget::Receive
 				node = node->GetParent();
 				}
 
-			const CMStackFrameNode* stackNode =
+			const auto* stackNode =
 				dynamic_cast<const CMStackFrameNode*>(node);
 			assert( stackNode != nullptr );
 

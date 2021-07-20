@@ -53,13 +53,13 @@ THXVarList::THXVarList
 
 	for (JIndex i=1; i<=varCount; i++)
 		{
-		JString* name = jnew JString;
+		auto* name = jnew JString;
 		assert( name != nullptr );
 		input >> *name;
 		name->Set(JUserInputFunction::ConvertToGreek(*name));
 		itsNames->Append(name);
 
-		JString* fStr = jnew JString;
+		auto* fStr = jnew JString;
 		assert( fStr != nullptr );
 		input >> *fStr;
 		JFunction* f;
@@ -144,7 +144,7 @@ THXVarList::~THXVarList()
 JIndex
 THXVarList::NewFunction()
 {
-	JString* name = jnew JString;
+	auto* name = jnew JString;
 	assert( name != nullptr );
 
 	JUInt64 i = 1;

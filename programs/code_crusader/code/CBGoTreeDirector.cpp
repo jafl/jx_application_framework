@@ -228,10 +228,10 @@ CBGoTreeDirector::NewGoTree
 {
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
-	CBGoTreeDirector* goTreeDir = static_cast<CBGoTreeDirector*>(director);
+	auto* goTreeDir = static_cast<CBGoTreeDirector*>(director);
 	assert( goTreeDir != nullptr );
 
-	CBGoTree* tree = jnew CBGoTree(goTreeDir, marginWidth);
+	auto* tree = jnew CBGoTree(goTreeDir, marginWidth);
 	assert( tree != nullptr );
 	return tree;
 }
@@ -259,10 +259,10 @@ CBGoTreeDirector::StreamInGoTree
 
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
-	CBGoTreeDirector* goTreeDir = static_cast<CBGoTreeDirector*>(director);
+	auto* goTreeDir = static_cast<CBGoTreeDirector*>(director);
 	assert( goTreeDir != nullptr );
 
-	CBGoTree* tree = jnew CBGoTree(projInput, projVers,
+	auto* tree = jnew CBGoTree(projInput, projVers,
 								   setInput, setVers, symInput, symVers,
 								   goTreeDir, marginWidth, dirList);
 	assert( tree != nullptr );

@@ -31,12 +31,12 @@ main
 {
 	ParseTextOptions(argc, argv);
 
-	ASKApp* app = jnew ASKApp(&argc, argv);
+	auto* app = jnew ASKApp(&argc, argv);
 	assert( app != nullptr );
 
 	// You may want to create all directors inside HandleCmdLineOptions()
 
-	ASKDialog* dir = jnew ASKDialog(app);
+	auto* dir = jnew ASKDialog(app);
 	assert( dir != nullptr );
 	dir->BeginDialog();
 

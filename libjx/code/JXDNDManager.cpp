@@ -870,7 +870,7 @@ JXDNDManager::Receive
 	if (sender == itsChooseDropActionDialog &&
 		message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -1603,7 +1603,7 @@ JXDNDManager::InvokeDNDScroll
 	const JPoint&				pt
 	)
 {
-	const JXMouseButton scrollButton = (JXMouseButton)
+	const auto scrollButton = (JXMouseButton)
 		(((clientMessage.data.l[ kDNDHereFlags ] & kDNDScrollButtonMask) >> kDNDScrollButtonShift) + 4);
 	const JXKeyModifiers modifiers(itsDisplay, clientMessage.data.l[ kDNDHereFlags ] & kDNDScrollModsMask);
 
@@ -1896,7 +1896,7 @@ JXDNDManager::ReceiveWithFeedback
 {
 	if (sender == itsDisplay && message->Is(JXDisplay::kXError))
 		{
-		JXDisplay::XError* err = dynamic_cast<JXDisplay::XError*>(message);
+		auto* err = dynamic_cast<JXDisplay::XError*>(message);
 		assert( err != nullptr );
 
 		// source: target crashed -- nothing to do

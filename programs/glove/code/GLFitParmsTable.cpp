@@ -127,7 +127,7 @@ GLFitParmsTable::Append
 	JFontManager* fm = GetFontManager();
 	JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight(fm);
 	AppendRows(1, lineHeight + 2);
-	JString* str = jnew JString(col1);
+	auto* str = jnew JString(col1);
 	itsCol1->Append(str);
 	JSize col1Width = GetColWidth(1);
 	JSize strWidth = JFontManager::GetDefaultFont().GetStringWidth(fm, *str);

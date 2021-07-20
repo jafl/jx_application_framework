@@ -561,7 +561,7 @@ JXTEBase::TEBeginDND()
 {
 	assert( itsDNDDragInfo != nullptr );
 
-	JXTextSelection* data = jnew JXTextSelection(this, kSelectionDataID);
+	auto* data = jnew JXTextSelection(this, kSelectionDataID);
 	assert( data != nullptr );
 
 	return BeginDND(*(itsDNDDragInfo->pt), *(itsDNDDragInfo->buttonStates),
@@ -646,7 +646,7 @@ JXTEBase::GetDNDAskActions
 	askActionList->AppendElement(dndMgr->GetDNDActionCopyXAtom());
 	askActionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
 
-	JString* s = jnew JString("CopyDescription::JXTEBase", JString::kNoCopy);
+	auto* s = jnew JString("CopyDescription::JXTEBase", JString::kNoCopy);
 	assert( s != nullptr );
 	askDescriptionList->Append(s);
 
@@ -675,13 +675,13 @@ JXTEBase::GetSelectionData
 {
 	if (id == kSelectionDataID)
 		{
-		JXTextSelection* textData = dynamic_cast<JXTextSelection*>(data);
+		auto* textData = dynamic_cast<JXTextSelection*>(data);
 		assert( textData != nullptr );
 
-		JString* text = jnew JString;
+		auto* text = jnew JString;
 		assert( text != nullptr );
 
-		JRunArray<JFont>* style = jnew JRunArray<JFont>;
+		auto* style = jnew JRunArray<JFont>;
 		assert( style != nullptr );
 
 		const bool ok = GetSelection(text, style);
@@ -1614,7 +1614,7 @@ JXTEBase::TEUpdateClipboard
 	)
 	const
 {
-	JXTextSelection* data = jnew JXTextSelection(GetDisplay(), text, &style);
+	auto* data = jnew JXTextSelection(GetDisplay(), text, &style);
 	assert( data != nullptr );
 
 	if (!GetSelectionManager()->SetData(kJXClipboardName, data))
@@ -2232,7 +2232,7 @@ JXTEBase::Receive
 		{
 		if (HasFocus())
 			{
-			const JXMenu::ItemSelected* selection =
+			const auto* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleEditMenu(selection->GetIndex());
@@ -2250,7 +2250,7 @@ JXTEBase::Receive
 		{
 		if (HasFocus())
 			{
-			const JXMenu::ItemSelected* selection =
+			const auto* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleSearchMenu(selection->GetIndex());
@@ -2268,7 +2268,7 @@ JXTEBase::Receive
 		{
 		if (HasFocus())
 			{
-			const JXMenu::ItemSelected* selection =
+			const auto* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleReplaceMenu(selection->GetIndex());
@@ -2278,7 +2278,7 @@ JXTEBase::Receive
 	else if (sender == itsPSPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
-		const JPrinter::PrintSetupFinished* info =
+		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -2292,7 +2292,7 @@ JXTEBase::Receive
 	else if (sender == itsPTPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
-		const JPrinter::PrintSetupFinished* info =
+		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -2305,7 +2305,7 @@ JXTEBase::Receive
 
 	else if (sender == itsGoToLineDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -2325,7 +2325,7 @@ JXTEBase::Receive
 		{
 		if (sender == this && message.Is(JTextEditor::kCaretLocationChanged))
 			{
-			const JTextEditor::CaretLocationChanged* info =
+			const auto* info =
 				dynamic_cast<const JTextEditor::CaretLocationChanged*>(&message);
 			assert( info != nullptr );
 
@@ -3075,7 +3075,7 @@ JXTEBase::GetPSPrintFileName()
 {
 	if (itsPSPrintName == nullptr)
 		{
-		JXTEBase* me = const_cast<JXTEBase*>(this);
+		auto* me = const_cast<JXTEBase*>(this);
 		me->itsPSPrintName = jnew JString;
 		assert( itsPSPrintName != nullptr );
 		}
@@ -3200,7 +3200,7 @@ JXTEBase::GetPTPrintFileName()
 {
 	if (itsPTPrintName == nullptr)
 		{
-		JXTEBase* me = const_cast<JXTEBase*>(this);
+		auto* me = const_cast<JXTEBase*>(this);
 		me->itsPTPrintName = jnew JString;
 		assert( itsPTPrintName != nullptr );
 		}

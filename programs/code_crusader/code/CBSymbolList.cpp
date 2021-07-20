@@ -196,7 +196,7 @@ public:
 	virtual JElementComparison<JIndex>*
 	Copy() const
 	{
-		FindSymbolCompare* copy = jnew FindSymbolCompare(itsData);
+		auto* copy = jnew FindSymbolCompare(itsData);
 		assert( copy != nullptr );
 		return copy;
 	}
@@ -523,7 +523,7 @@ CBSymbolList::PrepareContextNamespaceList
 			JString* cns1 = contextNamespace->GetElement(i);	// name::
 			*cns1 += namespaceOp;
 
-			JString* cns2 = jnew JString(*cns1);					// ::name::
+			auto* cns2 = jnew JString(*cns1);					// ::name::
 			assert( cns2 != nullptr );
 			cns2->Prepend(namespaceOp);
 			contextNamespace->InsertAtIndex(i+1, cns2);
@@ -586,7 +586,7 @@ public:
 	virtual JListT::CompareResult
 	Compare(const JIndex& s1, const JIndex& s2) const
 	{
-		JString* prefix = const_cast<JString*>(&itsPrefix);
+		auto* prefix = const_cast<JString*>(&itsPrefix);
 		if (s1 == 0)
 			{
 			const CBSymbolList::SymbolInfo& info = (itsData.GetCArray())[s2-1];
@@ -607,7 +607,7 @@ public:
 	virtual JElementComparison<JIndex>*
 	Copy() const
 	{
-		ClosestMatchCompare* copy = jnew ClosestMatchCompare(itsPrefix, itsData);
+		auto* copy = jnew ClosestMatchCompare(itsPrefix, itsData);
 		assert( copy != nullptr );
 		return copy;
 	}
@@ -876,7 +876,7 @@ CBSymbolList::ReadSymbolList
 	JStringPtrMap<JString> flags(JPtrArrayT::kDeleteAll);
 	while (true)
 		{
-		JString* name = jnew JString;
+		auto* name = jnew JString;
 		assert( name != nullptr );
 
 		input >> std::ws;
@@ -931,7 +931,7 @@ CBSymbolList::ReadSymbolList
 
 			if (IsFileScope(type))
 				{
-				JString* name1 = jnew JString(fileName);
+				auto* name1 = jnew JString(fileName);
 				assert( name1 != nullptr );
 				*name1 += ":";
 				*name1 += *name;
@@ -997,7 +997,7 @@ CBSymbolList::ReadSetup
 
 	for (JIndex i=1; i<=symbolCount; i++)
 		{
-		JString* name = jnew JString;
+		auto* name = jnew JString;
 		assert( name != nullptr );
 		input >> *name;
 

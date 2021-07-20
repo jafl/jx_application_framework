@@ -55,7 +55,7 @@ JXPSPrintSetupDialog::Create
 	const bool					bw
 	)
 {
-	JXPSPrintSetupDialog* dlog = jnew JXPSPrintSetupDialog;
+	auto* dlog = jnew JXPSPrintSetupDialog;
 	assert( dlog != nullptr );
 	dlog->BuildWindow(dest, printCmd, fileName, collate, bw);
 	return dlog;
@@ -98,7 +98,7 @@ JXPSPrintSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,250, JString::empty);
+	auto* window = jnew JXWindow(this, 370,250, JString::empty);
 	assert( window != nullptr );
 
 	itsPrintCmdLabel =
@@ -107,18 +107,18 @@ JXPSPrintSetupDialog::BuildWindow
 	assert( itsPrintCmdLabel != nullptr );
 	itsPrintCmdLabel->SetToLabel();
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,220, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 70,220, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXStaticText* destinationLabel =
+	auto* destinationLabel =
 		jnew JXStaticText(JGetString("destinationLabel::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,30, 80,20);
 	assert( destinationLabel != nullptr );
@@ -129,13 +129,13 @@ JXPSPrintSetupDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,20, 139,39);
 	assert( itsDestination != nullptr );
 
-	JXTextRadioButton* printerLabel =
+	auto* printerLabel =
 		jnew JXTextRadioButton(1, JGetString("printerLabel::JXPSPrintSetupDialog::JXLayout"), itsDestination,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,8, 70,20);
 	assert( printerLabel != nullptr );
 	printerLabel->SetShortcuts(JGetString("printerLabel::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
-	JXTextRadioButton* fileLabel =
+	auto* fileLabel =
 		jnew JXTextRadioButton(2, JGetString("fileLabel::JXPSPrintSetupDialog::JXLayout"), itsDestination,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 75,8, 50,20);
 	assert( fileLabel != nullptr );
@@ -191,7 +191,7 @@ JXPSPrintSetupDialog::BuildWindow
 	assert( itsLastPageIndexLabel != nullptr );
 	itsLastPageIndexLabel->SetToLabel();
 
-	JXStaticText* countLabel =
+	auto* countLabel =
 		jnew JXStaticText(JGetString("countLabel::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 55,110, 115,20);
 	assert( countLabel != nullptr );
@@ -271,7 +271,7 @@ JXPSPrintSetupDialog::SetObjects
 	itsFileInput->GetText()->SetText(fileName);
 	ListenTo(itsFileInput);
 
-	JXAdjustPrintSetupLayoutTask* task =
+	auto* task =
 		jnew JXAdjustPrintSetupLayoutTask(this, itsPrintCmd, itsChooseFileButton, itsFileInput);
 	assert( task != nullptr );
 	task->Go();
@@ -411,7 +411,7 @@ JXPSPrintSetupDialog::Receive
 {
 	if (sender == itsDestination && message.Is(JXRadioGroup::kSelectionChanged))
 		{
-		const JXRadioGroup::SelectionChanged* selection =
+		const auto* selection =
 			dynamic_cast<const JXRadioGroup::SelectionChanged*>(&message);
 		assert( selection != nullptr );
 		SetDestination(selection->GetID());

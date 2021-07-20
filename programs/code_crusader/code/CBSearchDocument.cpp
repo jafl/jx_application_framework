@@ -103,7 +103,7 @@ CBSearchDocument::Create
 		{
 		close(fd[1]);
 
-		JProcess* process = jnew JProcess(pid);
+		auto* process = jnew JProcess(pid);
 		assert( process != nullptr );
 
 		const JUtf8Byte* map[] =
@@ -112,7 +112,7 @@ CBSearchDocument::Create
 			};
 		const JString windowTitle = JGetString("SearchTitle::CBSearchDocument", map, sizeof(map));
 
-		CBSearchDocument* doc =
+		auto* doc =
 			jnew CBSearchDocument(false, onlyListFiles || listFilesWithoutMatch,
 								 fileList.GetElementCount(),
 								 process, fd[0], windowTitle);
@@ -184,7 +184,7 @@ CBSearchDocument::Create
 		{
 		close(fd[1]);
 
-		JProcess* process = jnew JProcess(pid);
+		auto* process = jnew JProcess(pid);
 		assert( process != nullptr );
 
 		const JUtf8Byte* map[] =
@@ -194,7 +194,7 @@ CBSearchDocument::Create
 			};
 		const JString windowTitle = JGetString("ReplaceTitle::CBSearchDocument", map, sizeof(map));
 
-		CBSearchDocument* doc =
+		auto* doc =
 			jnew CBSearchDocument(true, true, fileList.GetElementCount(),
 								 process, fd[0], windowTitle);
 		assert( doc != nullptr );
@@ -494,7 +494,7 @@ CBSearchDocument::ReplaceAll
 	JXFileDocument* doc;
 	if (CBGetDocumentManager()->FileDocumentIsOpen(fileName, &doc))
 		{
-		CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(doc);
+		auto* textDoc = dynamic_cast<CBTextDocument*>(doc);
 		if (textDoc != nullptr)
 			{
 			(textDoc->GetWindow())->Update();
@@ -585,7 +585,7 @@ CBSearchDocument::Receive
 		}
 	else if (sender == itsMatchMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleMatchMenu(selection->GetIndex());

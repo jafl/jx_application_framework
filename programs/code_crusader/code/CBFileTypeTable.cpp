@@ -840,7 +840,7 @@ CBFileTypeTable::Receive
 		}
 	else if (sender == itsTypeMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleTypeMenu(selection->GetIndex());
@@ -852,7 +852,7 @@ CBFileTypeTable::Receive
 		}
 	else if (sender == itsMacroMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleMacroMenu(selection->GetIndex());
@@ -864,7 +864,7 @@ CBFileTypeTable::Receive
 		}
 	else if (sender == itsScriptMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleScriptMenu(selection->GetIndex());
@@ -876,7 +876,7 @@ CBFileTypeTable::Receive
 		}
 	else if (sender == itsCRMMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleCRMMenu(selection->GetIndex());
@@ -884,7 +884,7 @@ CBFileTypeTable::Receive
 
 	else if (sender == itsNewDirDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -1139,7 +1139,7 @@ CBFileTypeTable::BuildScriptMenuItems
 		const JSize count = info->GetEntryCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JString* s = jnew JString(info->GetEntry(i).GetName());
+			auto* s = jnew JString(info->GetEntry(i).GetName());
 			assert( s != nullptr );
 
 			if (isUserPath)

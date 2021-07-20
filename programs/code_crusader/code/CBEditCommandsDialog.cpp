@@ -84,7 +84,7 @@ CBEditCommandsDialog::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 620,530, JString::empty);
+	auto* window = jnew JXWindow(this, 620,530, JString::empty);
 	assert( window != nullptr );
 
 	itsPartition =
@@ -92,12 +92,12 @@ CBEditCommandsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 580,455);
 	assert( itsPartition != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,500, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 440,500, 70,20);
 	assert( okButton != nullptr );
@@ -141,38 +141,38 @@ CBEditCommandsDialog::BuildWindow
 	const JRect allProjectsLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(580 - allProjectsLayout_Aperture.width(), 210 - allProjectsLayout_Aperture.height());
 
-	JXTextButton* allNewButton =
+	auto* allNewButton =
 		jnew JXTextButton(JGetString("allNewButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,60, 60,20);
 	assert( allNewButton != nullptr );
 
-	JXTextButton* allRemoveButton =
+	auto* allRemoveButton =
 		jnew JXTextButton(JGetString("allRemoveButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,120, 60,20);
 	assert( allRemoveButton != nullptr );
 
-	JXScrollbarSet* allScrollbarSet =
+	auto* allScrollbarSet =
 		jnew JXScrollbarSet(compartment,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 510,180);
 	assert( allScrollbarSet != nullptr );
 
-	JXTextButton* allDuplicateButton =
+	auto* allDuplicateButton =
 		jnew JXTextButton(JGetString("allDuplicateButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,90, 60,20);
 	assert( allDuplicateButton != nullptr );
 
-	JXStaticText* anyProjectTitle =
+	auto* anyProjectTitle =
 		jnew JXStaticText(JGetString("anyProjectTitle::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 580,20);
 	assert( anyProjectTitle != nullptr );
 	anyProjectTitle->SetToLabel();
 
-	JXTextButton* allExportButton =
+	auto* allExportButton =
 		jnew JXTextButton(JGetString("allExportButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,160, 60,20);
 	assert( allExportButton != nullptr );
 
-	JXTextButton* allImportButton =
+	auto* allImportButton =
 		jnew JXTextButton(JGetString("allImportButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,190, 60,20);
 	assert( allImportButton != nullptr );
@@ -200,7 +200,7 @@ CBEditCommandsDialog::BuildWindow
 	itsAllTable->Move(0, kHeaderHeight);
 	itsAllTable->AdjustSize(0, -kHeaderHeight);
 
-	JXColHeaderWidget* colHeader =
+	auto* colHeader =
 		jnew JXColHeaderWidget(itsAllTable, allScrollbarSet,
 							  allScrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
@@ -225,17 +225,17 @@ CBEditCommandsDialog::BuildWindow
 	const JRect thisProjectLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(580 - thisProjectLayout_Aperture.width(), 240 - thisProjectLayout_Aperture.height());
 
-	JXTextButton* thisNewButton =
+	auto* thisNewButton =
 		jnew JXTextButton(JGetString("thisNewButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,90, 60,20);
 	assert( thisNewButton != nullptr );
 
-	JXTextButton* thisRemoveButton =
+	auto* thisRemoveButton =
 		jnew JXTextButton(JGetString("thisRemoveButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,150, 60,20);
 	assert( thisRemoveButton != nullptr );
 
-	JXScrollbarSet* thisScrollbarSet =
+	auto* thisScrollbarSet =
 		jnew JXScrollbarSet(compartment,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,70, 510,170);
 	assert( thisScrollbarSet != nullptr );
@@ -245,29 +245,29 @@ CBEditCommandsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 260,40, 250,20);
 	assert( itsMakeDependCmd != nullptr );
 
-	JXStaticText* updateMakefileLabel =
+	auto* updateMakefileLabel =
 		jnew JXStaticText(JGetString("updateMakefileLabel::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,40, 260,20);
 	assert( updateMakefileLabel != nullptr );
 	updateMakefileLabel->SetToLabel();
 
-	JXTextButton* thisDuplicateButton =
+	auto* thisDuplicateButton =
 		jnew JXTextButton(JGetString("thisDuplicateButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,120, 60,20);
 	assert( thisDuplicateButton != nullptr );
 
-	JXStaticText* thisCaption =
+	auto* thisCaption =
 		jnew JXStaticText(JGetString("thisCaption::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,10, 580,20);
 	assert( thisCaption != nullptr );
 	thisCaption->SetToLabel();
 
-	JXTextButton* thisExportButton =
+	auto* thisExportButton =
 		jnew JXTextButton(JGetString("thisExportButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,190, 60,20);
 	assert( thisExportButton != nullptr );
 
-	JXTextButton* thisImportButton =
+	auto* thisImportButton =
 		jnew JXTextButton(JGetString("thisImportButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,220, 60,20);
 	assert( thisImportButton != nullptr );
@@ -324,7 +324,7 @@ CBEditCommandsDialog::Receive
 {
 	if (sender == this && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

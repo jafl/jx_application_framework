@@ -147,14 +147,14 @@ JXGetButtonAndModifierStates
 		}
 	else if (xEvent.type == ButtonPress)
 		{
-		const JXMouseButton currButton = (JXMouseButton) xEvent.xbutton.button;
+		const auto currButton = (JXMouseButton) xEvent.xbutton.button;
 		*state = JXButtonStates::SetState(xEvent.xbutton.state,
 										  currButton, true);
 		return true;
 		}
 	else if (xEvent.type == ButtonRelease)
 		{
-		const JXMouseButton currButton = (JXMouseButton) xEvent.xbutton.button;
+		const auto currButton = (JXMouseButton) xEvent.xbutton.button;
 		*state = JXButtonStates::SetState(xEvent.xbutton.state,
 										  currButton, false);
 		return true;

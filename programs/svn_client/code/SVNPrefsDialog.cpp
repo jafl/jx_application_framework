@@ -85,7 +85,7 @@ SVNPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,250, JString::empty);
+	auto* window = jnew JXWindow(this, 400,250, JString::empty);
 	assert( window != nullptr );
 
 	itsCommitEditor =
@@ -98,13 +98,13 @@ SVNPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 160,160, 220,20);
 	assert( itsDiffCmd != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 90,220, 70,20);
 	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::SVNPrefsDialog::shortcuts::JXLayout"));
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 240,220, 70,20);
 	assert( okButton != nullptr );
@@ -125,25 +125,25 @@ SVNPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,60, 120,20);
 	assert( itsCustomIntegrationRB != nullptr );
 
-	JXStaticText* integrateWithLabel =
+	auto* integrateWithLabel =
 		jnew JXStaticText(JGetString("integrateWithLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,45, 95,20);
 	assert( integrateWithLabel != nullptr );
 	integrateWithLabel->SetToLabel();
 
-	JXStaticText* customIntegrationLabel =
+	auto* customIntegrationLabel =
 		jnew JXStaticText(JGetString("customIntegrationLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,120, 120,20);
 	assert( customIntegrationLabel != nullptr );
 	customIntegrationLabel->SetToLabel();
 
-	JXStaticText* reloadChangedFilesLabel =
+	auto* reloadChangedFilesLabel =
 		jnew JXStaticText(JGetString("reloadChangedFilesLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,180, 140,20);
 	assert( reloadChangedFilesLabel != nullptr );
 	reloadChangedFilesLabel->SetToLabel();
 
-	JXStaticText* compareRevisionsLabel =
+	auto* compareRevisionsLabel =
 		jnew JXStaticText(JGetString("compareRevisionsLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 140,20);
 	assert( compareRevisionsLabel != nullptr );
@@ -159,7 +159,7 @@ SVNPrefsDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 160,180, 220,20);
 	assert( itsReloadChangedCmd != nullptr );
 
-	JXStaticText* commitEditorLabel =
+	auto* commitEditorLabel =
 		jnew JXStaticText(JGetString("commitEditorLabel::SVNPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,140, 140,20);
 	assert( commitEditorLabel != nullptr );

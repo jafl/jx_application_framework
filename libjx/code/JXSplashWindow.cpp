@@ -84,25 +84,25 @@ JXSplashWindow::BuildWindow
 	const JCoordinate marginWidth = 20;
 	const JCoordinate imageWidth  = image->GetWidth();
 
-	JXWindow* window = jnew JXWindow(this, totalWidth + 3*borderWidth,
+	auto* window = jnew JXWindow(this, totalWidth + 3*borderWidth,
 									totalHeight + 3*borderWidth,
 									JGetString("WindowTitle::JXSplashWindow"), true);
 	assert( window != nullptr );
 
-	JXEmbossedRect* border =
+	auto* border =
 		jnew JXEmbossedRect(window, JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( border != nullptr);
 	border->FitToEnclosure();
 	border->SetWidths(borderWidth, borderWidth, borderWidth);
 
-	JXImageWidget* iconWidget =
+	auto* iconWidget =
 		jnew JXImageWidget(border, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						  marginWidth, marginWidth,
 						  imageWidth, image->GetHeight());
 	assert( iconWidget != nullptr );
 	iconWidget->SetImage(image, true);
 
-	JXStaticText* textWidget =
+	auto* textWidget =
 		jnew JXStaticText(text, border,
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 2*marginWidth + imageWidth, marginWidth,
@@ -129,7 +129,7 @@ JXSplashWindow::BuildWindow
 
 	// close after specified time interval
 
-	JXTimerTask* task = jnew JXTimerTask(displayInterval * 1000, true);
+	auto* task = jnew JXTimerTask(displayInterval * 1000, true);
 	assert( task != nullptr );
 	ListenTo(task);
 	task->Start();

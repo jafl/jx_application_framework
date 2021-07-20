@@ -141,10 +141,10 @@ CMFileListDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 250,500, JString::empty);
+	auto* window = jnew JXWindow(this, 250,500, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 250,30);
 	assert( menuBar != nullptr );
@@ -164,7 +164,7 @@ CMFileListDir::BuildWindow()
 	CMGetPrefsManager()->GetWindowSize(kFileWindSizeID, window);
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = jnew JXImage(display, medic_file_list_window);
+	auto* icon      = jnew JXImage(display, medic_file_list_window);
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
@@ -187,7 +187,7 @@ CMFileListDir::BuildWindow()
 	itsActionsMenu->SetItemImage(kShowFilterCmd, jx_filter_wildcard);
 	itsActionsMenu->SetItemImage(kShowRegexCmd,  jx_filter_regex);
 
-	JXWDMenu* wdMenu =
+	auto* wdMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
@@ -274,7 +274,7 @@ CMFileListDir::Receive
 
 	else if (sender == itsLink && message.Is(CMLink::kSymbolsLoaded))
 		{
-		const CMLink::SymbolsLoaded* info =
+		const auto* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
 		assert( info != nullptr );
 		UpdateWindowTitle(info->GetProgramName());
@@ -286,7 +286,7 @@ CMFileListDir::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -298,7 +298,7 @@ CMFileListDir::Receive
 		}
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
@@ -306,7 +306,7 @@ CMFileListDir::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());

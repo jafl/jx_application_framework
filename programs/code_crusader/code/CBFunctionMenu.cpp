@@ -148,7 +148,7 @@ CBFunctionMenu::Receive
 		}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleSelection(selection->GetIndex());
@@ -206,7 +206,7 @@ CBFunctionMenu::UpdateMenu()
 
 				// itsDoc can't be CBTextDocument, because Code Medic uses us
 
-				CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(itsDoc);
+				auto* textDoc = dynamic_cast<CBTextDocument*>(itsDoc);
 				assert( textDoc != nullptr );
 
 				std::ofstream output(fileName.GetBytes());

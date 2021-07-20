@@ -47,7 +47,7 @@ JVMWelcomeTask::~JVMWelcomeTask()
 void
 JVMWelcomeTask::Perform()
 {
-	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
+	auto* link = dynamic_cast<JVMLink*>(CMGetLink());
 	if (link != nullptr)
 		{
 		link->BroadcastWelcome(itsMessage, itsErrorFlag);

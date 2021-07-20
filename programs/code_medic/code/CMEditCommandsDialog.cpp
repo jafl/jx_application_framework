@@ -63,26 +63,26 @@ CMEditCommandsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 350,370, JString::empty);
+	auto* window = jnew JXWindow(this, 350,370, JString::empty);
 	assert( window != nullptr );
 
-	JXStaticText* gdbCmdTitle =
+	auto* gdbCmdTitle =
 		jnew JXStaticText(JGetString("gdbCmdTitle::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 150,20);
 	assert( gdbCmdTitle != nullptr );
 	gdbCmdTitle->SetToLabel();
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,50, 230,280);
 	assert( scrollbarSet != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 80,340, 60,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 210,340, 60,20);
 	assert( okButton != nullptr );
@@ -99,7 +99,7 @@ CMEditCommandsDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,110, 70,20);
 	assert( itsRemoveButton != nullptr );
 
-	JXStaticText* hint =
+	auto* hint =
 		jnew JXStaticText(JGetString("hint::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 270,20);
 	assert( hint != nullptr );

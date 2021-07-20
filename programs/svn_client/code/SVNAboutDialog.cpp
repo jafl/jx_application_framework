@@ -62,15 +62,15 @@ SVNAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 430,200, JString::empty);
+	auto* window = jnew JXWindow(this, 430,200, JString::empty);
 	assert( window != nullptr );
 
-	JXStaticText* textWidget =
+	auto* textWidget =
 		jnew JXStaticText(JGetString("textWidget::SVNAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,130);
 	assert( textWidget != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::SVNAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,170, 60,20);
 	assert( okButton != nullptr );
@@ -82,7 +82,7 @@ SVNAboutDialog::BuildWindow
 	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::SVNAboutDialog::shortcuts::JXLayout"));
 
-	JXImageWidget* imageWidget =
+	auto* imageWidget =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,20, 40,40);
 	assert( imageWidget != nullptr );
@@ -92,7 +92,7 @@ SVNAboutDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,170, 60,20);
 	assert( itsCreditsButton != nullptr );
 
-	JXImageWidget* npsIcon =
+	auto* npsIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
 	assert( npsIcon != nullptr );

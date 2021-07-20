@@ -38,7 +38,7 @@ main
 		return 0;
 		}
 
-	THXApp* app = jnew THXApp(&argc, argv);
+	auto* app = jnew THXApp(&argc, argv);
 	assert( app != nullptr );
 
 	JCheckForNewerVersion(THXGetPrefsManager(), kTHXVersionCheckID);

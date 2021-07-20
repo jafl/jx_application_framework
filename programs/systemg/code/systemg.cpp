@@ -41,7 +41,7 @@ main
 
 	bool displayAbout;
 	JString prevVersStr;
-	SyGApplication* app = jnew SyGApplication(&argc, argv, &displayAbout, &prevVersStr);
+	auto* app = jnew SyGApplication(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
 	if (displayAbout &&

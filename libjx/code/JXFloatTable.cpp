@@ -142,7 +142,7 @@ JXFloatTable::CreateFloatTableInput
 	const JCoordinate	h
 	)
 {
-	JXFloatInput* obj = jnew JXFloatInput(enclosure, hSizing, vSizing, x,y, w,h);
+	auto* obj = jnew JXFloatInput(enclosure, hSizing, vSizing, x,y, w,h);
 	assert( obj != nullptr );
 	return obj;
 }

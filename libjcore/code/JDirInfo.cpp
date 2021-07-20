@@ -418,7 +418,7 @@ JDirInfo::CopyDirEntries
 
 	for (JDirEntry* origEntry : *source.itsDirEntries)
 		{
-		JDirEntry* entry = jnew JDirEntry(*origEntry);
+		auto* entry = jnew JDirEntry(*origEntry);
 		assert( entry != nullptr );
 		itsDirEntries->Append(entry);
 		}
@@ -1006,7 +1006,7 @@ JDirInfo::SetWildcardFilter
 		return;
 		}
 
-	JRegex* r = jnew JRegex(regexStr);
+	auto* r = jnew JRegex(regexStr);
 	assert( r != nullptr );
 	r->SetCaseSensitive(caseSensitive);
 

@@ -228,10 +228,10 @@ CBJavaTreeDirector::NewJavaTree
 {
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
-	CBJavaTreeDirector* javaTreeDir = static_cast<CBJavaTreeDirector*>(director);
+	auto* javaTreeDir = static_cast<CBJavaTreeDirector*>(director);
 	assert( javaTreeDir != nullptr );
 
-	CBJavaTree* tree = jnew CBJavaTree(javaTreeDir, marginWidth);
+	auto* tree = jnew CBJavaTree(javaTreeDir, marginWidth);
 	assert( tree != nullptr );
 	return tree;
 }
@@ -259,10 +259,10 @@ CBJavaTreeDirector::StreamInJavaTree
 
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
-	CBJavaTreeDirector* javaTreeDir = static_cast<CBJavaTreeDirector*>(director);
+	auto* javaTreeDir = static_cast<CBJavaTreeDirector*>(director);
 	assert( javaTreeDir != nullptr );
 
-	CBJavaTree* tree = jnew CBJavaTree(projInput, projVers,
+	auto* tree = jnew CBJavaTree(projInput, projVers,
 									  setInput, setVers, symInput, symVers,
 									  javaTreeDir, marginWidth, dirList);
 	assert( tree != nullptr );

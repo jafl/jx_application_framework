@@ -68,15 +68,15 @@ CBEditTreePrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 320,290, JString::empty);
+	auto* window = jnew JXWindow(this, 320,290, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditTreePrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,260, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditTreePrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,260, 70,20);
 	assert( okButton != nullptr );
@@ -102,18 +102,18 @@ CBEditTreePrefsDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 140,160, 134,74);
 	assert( itsMILinkStyleRG != nullptr );
 
-	JXStaticText* miLinksLabel =
+	auto* miLinksLabel =
 		jnew JXStaticText(JGetString("miLinksLabel::CBEditTreePrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 45,190, 90,20);
 	assert( miLinksLabel != nullptr );
 	miLinksLabel->SetToLabel();
 
-	JXTextRadioButton* aboveLabel =
+	auto* aboveLabel =
 		jnew JXTextRadioButton(1, JGetString("aboveLabel::CBEditTreePrefsDialog::JXLayout"), itsMILinkStyleRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 110,20);
 	assert( aboveLabel != nullptr );
 
-	JXTextRadioButton* belowLabel =
+	auto* belowLabel =
 		jnew JXTextRadioButton(2, JGetString("belowLabel::CBEditTreePrefsDialog::JXLayout"), itsMILinkStyleRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 110,20);
 	assert( belowLabel != nullptr );
@@ -160,7 +160,7 @@ CBEditTreePrefsDialog::Receive
 {
 	if (sender == this && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

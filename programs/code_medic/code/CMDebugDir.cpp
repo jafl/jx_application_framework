@@ -57,10 +57,10 @@ CMDebugDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,500, JString::empty);
+	auto* window = jnew JXWindow(this, 450,500, JString::empty);
 	assert( window != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 450,480);
 	assert( scrollbarSet != nullptr );
@@ -121,7 +121,7 @@ CMDebugDir::Receive
 
 		if (message.Is(CMLink::kDebugOutput))
 			{
-			const CMLink::DebugOutput* msg =
+			const auto* msg =
 				dynamic_cast<const CMLink::DebugOutput*>(&message);
 			assert( msg != nullptr );
 

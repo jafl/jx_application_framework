@@ -517,10 +517,10 @@ CBTreeDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,430, JString::empty);
+	auto* window = jnew JXWindow(this, 400,430, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != nullptr );
@@ -537,14 +537,14 @@ CBTreeDirector::BuildWindow
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetWMClass(CBGetWMClassInstance(), CBGetTreeWindowClass());
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = jnew JXImage(display, windowIcon);
+	auto* icon      = jnew JXImage(display, windowIcon);
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
@@ -565,12 +565,12 @@ CBTreeDirector::BuildWindow
 	itsFileMenu->SetItemImage(kOpenSomethingCmd, jx_file_open);
 	itsFileMenu->SetItemImage(kPrintPSCmd,       jx_file_print);
 
-	CBFileHistoryMenu* recentProjectMenu =
+	auto* recentProjectMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, menuBar);
 	assert( recentProjectMenu != nullptr );
 
-	CBFileHistoryMenu* recentTextMenu =
+	auto* recentTextMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
 	assert( recentTextMenu != nullptr );
@@ -598,7 +598,7 @@ CBTreeDirector::BuildWindow
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
 
-	CBDocumentMenu* fileListMenu =
+	auto* fileListMenu =
 		jnew CBDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != nullptr );
@@ -661,7 +661,7 @@ CBTreeDirector::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -673,7 +673,7 @@ CBTreeDirector::Receive
 		}
 	else if (sender == itsTreeMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleTreeMenu(selection->GetIndex());
@@ -685,7 +685,7 @@ CBTreeDirector::Receive
 		}
 	else if (sender == itsProjectMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleProjectMenu(selection->GetIndex());
@@ -697,7 +697,7 @@ CBTreeDirector::Receive
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
@@ -709,7 +709,7 @@ CBTreeDirector::Receive
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		CBGetApplication()->HandleHelpMenu(itsHelpMenu, itsWindowHelpName,
@@ -718,7 +718,7 @@ CBTreeDirector::Receive
 
 	else if (sender == itsFindFnDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -732,7 +732,7 @@ CBTreeDirector::Receive
 	else if (sender == itsPSPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
-		const JPrinter::PrintSetupFinished* info =
+		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -744,7 +744,7 @@ CBTreeDirector::Receive
 	else if (sender == itsEPSPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
-		const JPrinter::PrintSetupFinished* info =
+		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -955,7 +955,7 @@ CBTreeDirector::HandlePrefsMenu
 void
 CBTreeDirector::EditTreePrefs()
 {
-	CBEditTreePrefsDialog* dlog =
+	auto* dlog =
 		jnew CBEditTreePrefsDialog(itsTree->GetFontSize(), itsShowInheritedFnsFlag,
 								  itsTree->WillAutoMinimizeMILinks(),
 								  itsTree->WillDrawMILinksOnTop(),
@@ -1061,7 +1061,7 @@ CBTreeDirector::ReceiveWithFeedback
 {
 	if (sender == itsCmdMenu && message->Is(CBCommandMenu::kGetTargetInfo))
 		{
-		CBCommandMenu::GetTargetInfo* info =
+		auto* info =
 			dynamic_cast<CBCommandMenu::GetTargetInfo*>(message);
 		assert( info != nullptr );
 

@@ -131,7 +131,7 @@ THXBaseConvDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 180,160, JString::empty);
+	auto* window = jnew JXWindow(this, 180,160, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =
@@ -145,7 +145,7 @@ THXBaseConvDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,20, 80,20);
 	assert( its10Input != nullptr );
 
-	JXStaticText* base10Label =
+	auto* base10Label =
 		jnew JXStaticText(JGetString("base10Label::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 60,20);
 	assert( base10Label != nullptr );
@@ -162,7 +162,7 @@ THXBaseConvDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,50, 80,20);
 	assert( its2Input != nullptr );
 
-	JXStaticText* base2Label =
+	auto* base2Label =
 		jnew JXStaticText(JGetString("base2Label::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 60,20);
 	assert( base2Label != nullptr );
@@ -173,7 +173,7 @@ THXBaseConvDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,70, 80,20);
 	assert( its8Input != nullptr );
 
-	JXStaticText* base8Label =
+	auto* base8Label =
 		jnew JXStaticText(JGetString("base8Label::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 60,20);
 	assert( base8Label != nullptr );
@@ -184,7 +184,7 @@ THXBaseConvDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,90, 80,20);
 	assert( its16Input != nullptr );
 
-	JXStaticText* base16Label =
+	auto* base16Label =
 		jnew JXStaticText(JGetString("base16Label::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 60,20);
 	assert( base16Label != nullptr );
@@ -200,7 +200,7 @@ THXBaseConvDirector::BuildWindow()
 	window->PlaceAsDialogWindow();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = jnew JXImage(display, thx_base_conv_window);
+	auto* icon      = jnew JXImage(display, thx_base_conv_window);
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 

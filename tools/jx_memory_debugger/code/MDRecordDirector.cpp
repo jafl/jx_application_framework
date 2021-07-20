@@ -144,10 +144,10 @@ MDRecordDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 500,400, JString::empty);
+	auto* window = jnew JXWindow(this, 500,400, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != nullptr );
@@ -163,11 +163,11 @@ MDRecordDirector::BuildWindow
 	window->SetWMClass(MDGetWMClassInstance(), MDGetMainWindowClass());
 	window->SetMinSize(200, 200);
 
-	JXImage* image = jnew JXImage(GetDisplay(), md_main_window_icon);
+	auto* image = jnew JXImage(GetDisplay(), md_main_window_icon);
 	assert( image != nullptr );
 	window->SetIcon(image);
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,0, 100,100);
@@ -185,7 +185,7 @@ MDRecordDirector::BuildWindow
 	assert( itsRecordTable != nullptr );
 	itsRecordTable->FitToEnclosure(true, false);
 
-	MDHeaderWidget* tableHeader =
+	auto* tableHeader =
 		jnew MDHeaderWidget(itsRecordTable, recordList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kFixedTop,
@@ -202,7 +202,7 @@ MDRecordDirector::BuildWindow
 
 	(itsRecordTable->GetEditMenuHandler())->AppendEditMenu(menuBar);
 
-	JXWDMenu* windowsMenu =
+	auto* windowsMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( windowsMenu != nullptr );
@@ -254,7 +254,7 @@ MDRecordDirector::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -266,7 +266,7 @@ MDRecordDirector::Receive
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
@@ -278,7 +278,7 @@ MDRecordDirector::Receive
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
@@ -287,7 +287,7 @@ MDRecordDirector::Receive
 	else if (sender == itsPrinter &&
 			 message.Is(JPrinter::kPageSetupFinished))
 		{
-		const JPrinter::PrintSetupFinished* info =
+		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -298,7 +298,7 @@ MDRecordDirector::Receive
 	else if (sender == itsPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
-		const JPrinter::PrintSetupFinished* info =
+		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

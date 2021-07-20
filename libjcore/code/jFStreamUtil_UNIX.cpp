@@ -52,7 +52,7 @@ JSetFStreamLength
 
 	// open a new stream for the file and return a pointer to it
 
-	std::fstream* newStream = jnew std::fstream(fileName.GetBytes(), io_mode);
+	auto* newStream = jnew std::fstream(fileName.GetBytes(), io_mode);
 	assert( newStream != nullptr );
 
 	return newStream;

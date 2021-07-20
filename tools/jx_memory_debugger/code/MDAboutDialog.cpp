@@ -61,15 +61,15 @@ MDAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,120, JString::empty);
+	auto* window = jnew JXWindow(this, 370,120, JString::empty);
 	assert( window != nullptr );
 
-	JXStaticText* textWidget =
+	auto* textWidget =
 		jnew JXStaticText(JGetString("textWidget::MDAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 280,50);
 	assert( textWidget != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::MDAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 260,90, 60,20);
 	assert( okButton != nullptr );
@@ -81,7 +81,7 @@ MDAboutDialog::BuildWindow
 	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::MDAboutDialog::shortcuts::JXLayout"));
 
-	JXImageWidget* imageWidget =
+	auto* imageWidget =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
 	assert( imageWidget != nullptr );

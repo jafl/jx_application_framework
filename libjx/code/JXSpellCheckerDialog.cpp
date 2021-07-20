@@ -118,10 +118,10 @@ JXSpellCheckerDialog::BuildWindow()
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 530,270, JString::empty);
+	auto* window = jnew JXWindow(this, 530,270, JString::empty);
 	assert( window != nullptr );
 
-	JXStaticText* notFoundLabel =
+	auto* notFoundLabel =
 		jnew JXStaticText(JGetString("notFoundLabel::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,15, 110,20);
 	assert( notFoundLabel != nullptr );
@@ -133,13 +133,13 @@ JXSpellCheckerDialog::BuildWindow()
 	assert( itsCheckText != nullptr );
 	itsCheckText->SetToLabel();
 
-	JXStaticText* changeToLabel =
+	auto* changeToLabel =
 		jnew JXStaticText(JGetString("changeToLabel::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,45, 90,20);
 	assert( changeToLabel != nullptr );
 	changeToLabel->SetToLabel();
 
-	JXStaticText* suggestionsLabel =
+	auto* suggestionsLabel =
 		jnew JXStaticText(JGetString("suggestionsLabel::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,75, 90,20);
 	assert( suggestionsLabel != nullptr );
@@ -150,7 +150,7 @@ JXSpellCheckerDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 105,45, 230,20);
 	assert( itsFirstGuess != nullptr );
 
-	JXScrollbarSet* set =
+	auto* set =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 105,75, 230,180);
 	assert( set != nullptr );
@@ -351,7 +351,7 @@ JXSpellCheckerDialog::Receive
 {
 	if (sender == itsSuggestionWidget && message.Is(JXSpellList::kWordSelected))
 		{
-		const JXSpellList::WordSelected* choice =
+		const auto* choice =
 			dynamic_cast<const JXSpellList::WordSelected*>(&message);
 		assert( choice != nullptr );
 
@@ -362,7 +362,7 @@ JXSpellCheckerDialog::Receive
 		}
 	else if (sender == itsSuggestionWidget && message.Is(JXSpellList::kReplaceWord))
 		{
-		const JXSpellList::ReplaceWord* choice =
+		const auto* choice =
 			dynamic_cast<const JXSpellList::ReplaceWord*>(&message);
 		assert( choice != nullptr );
 
@@ -372,7 +372,7 @@ JXSpellCheckerDialog::Receive
 		}
 	else if (sender == itsSuggestionWidget && message.Is(JXSpellList::kReplaceWordAll))
 		{
-		const JXSpellList::ReplaceWordAll* choice =
+		const auto* choice =
 			dynamic_cast<const JXSpellList::ReplaceWordAll*>(&message);
 		assert( choice != nullptr );
 

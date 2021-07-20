@@ -359,7 +359,7 @@ CBTextDocument::ConstructTextEditor
 	JXScrollbarSet*		scrollbarSet
 	)
 {
-	CBTextEditor* te =
+	auto* te =
 		jnew CBTextEditor(document, fileName, menuBar, lineInput, colInput, false,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
@@ -482,7 +482,7 @@ CBTextDocument::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 550,550, JString::empty);
+	auto* window = jnew JXWindow(this, 550,550, JString::empty);
 	assert( window != nullptr );
 
 	itsFileDragSource =
@@ -505,34 +505,34 @@ CBTextDocument::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 550,500);
 	assert( itsToolBar != nullptr );
 
-	JXDownRect* lineBorder =
+	auto* lineBorder =
 		jnew JXDownRect(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,530, 80,20);
 	assert( lineBorder != nullptr );
 
-	JXStaticText* lineLabel =
+	auto* lineLabel =
 		jnew JXStaticText(JGetString("lineLabel::CBTextDocument::JXLayout"), lineBorder,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 28,16);
 	assert( lineLabel != nullptr );
 	lineLabel->SetToLabel();
 
-	CBTELineIndexInput* lineInput =
+	auto* lineInput =
 		jnew CBTELineIndexInput(lineLabel, lineBorder,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 28,0, 48,16);
 	assert( lineInput != nullptr );
 
-	JXDownRect* colBorder =
+	auto* colBorder =
 		jnew JXDownRect(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 80,530, 70,20);
 	assert( colBorder != nullptr );
 
-	JXStaticText* colLabel =
+	auto* colLabel =
 		jnew JXStaticText(JGetString("colLabel::CBTextDocument::JXLayout"), colBorder,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 28,16);
 	assert( colLabel != nullptr );
 	colLabel->SetToLabel();
 
-	CBTEColIndexInput* colInput =
+	auto* colInput =
 		jnew CBTEColIndexInput(lineInput, colLabel, colBorder,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 28,0, 38,16);
 	assert( colInput != nullptr );
@@ -561,7 +561,7 @@ CBTextDocument::BuildWindow
 	p.y      = 0;
 	itsSettingsMenu->SetTitlePadding(p);
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != nullptr );
@@ -613,12 +613,12 @@ CBTextDocument::BuildWindow
 	itsFileMenu->SetItemImage(kPrintPTCmd,       jx_file_print);
 	itsFileMenu->SetItemImage(kPrintPSCmd,       jcc_file_print_with_styles);
 
-	CBFileHistoryMenu* recentProjectMenu =
+	auto* recentProjectMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, itsMenuBar);
 	assert( recentProjectMenu != nullptr );
 
-	CBFileHistoryMenu* recentTextMenu =
+	auto* recentTextMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, itsMenuBar);
 	assert( recentTextMenu != nullptr );
@@ -854,7 +854,7 @@ CBTextDocument::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -866,7 +866,7 @@ CBTextDocument::Receive
 		}
 	else if (sender == itsFileFormatMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileFormatMenu(selection->GetIndex());
@@ -878,7 +878,7 @@ CBTextDocument::Receive
 		}
 	else if (sender == itsDiffMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleDiffMenu(selection->GetIndex());
@@ -890,7 +890,7 @@ CBTextDocument::Receive
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
@@ -902,7 +902,7 @@ CBTextDocument::Receive
 		}
 	else if (sender == itsPrefsStylesMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsStylesMenu(selection->GetIndex());
@@ -914,7 +914,7 @@ CBTextDocument::Receive
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		CBGetApplication()->HandleHelpMenu(itsHelpMenu, itsHelpSectionName,
@@ -927,7 +927,7 @@ CBTextDocument::Receive
 		}
 	else if (sender == itsSettingsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleSettingsMenu(selection->GetIndex());
@@ -959,7 +959,7 @@ CBTextDocument::Receive
 
 	else if (sender == itsTabWidthDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -973,7 +973,7 @@ CBTextDocument::Receive
 		{
 		if (sender == this && message.Is(JXFileDocument::kNameChanged))
 			{
-			const JXFileDocument::NameChanged* info =
+			const auto* info =
 				dynamic_cast<const JXFileDocument::NameChanged*>(&message);
 			assert( info != nullptr );
 			DisplayFileName(info->GetFullName());
@@ -2335,7 +2335,7 @@ CBTextDocument::SaveWindowSize()
 void
 CBTextDocument::EditPrefs()
 {
-	CBEditTextPrefsDialog* dlog = jnew CBEditTextPrefsDialog(this);
+	auto* dlog = jnew CBEditTextPrefsDialog(this);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }

@@ -124,7 +124,7 @@ CBPHPClass::NewGhost
 	CBTree*			tree
 	)
 {
-	CBPHPClass* newClass = jnew CBPHPClass(name, kGhostType, JFAID::kInvalidID, tree,
+	auto* newClass = jnew CBPHPClass(name, kGhostType, JFAID::kInvalidID, tree,
 										  false);
 	assert( newClass != nullptr );
 	return newClass;

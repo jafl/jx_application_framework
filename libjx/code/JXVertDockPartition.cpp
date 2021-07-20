@@ -106,12 +106,12 @@ JXVertDockPartition::CreateCompartment
 	JXWidgetSet* compartment =
 		JXVertPartition::CreateCompartment(index, position, size);
 
-	JXDockTabGroup* tabGroup =
+	auto* tabGroup =
 		jnew JXDockTabGroup(compartment, kHElastic, kVElastic, 0,0, 100,100);
 	assert( tabGroup != nullptr );
 	tabGroup->FitToEnclosure();
 
-	JXDockWidget* dock =
+	auto* dock =
 		jnew JXDockWidget(itsDirector, this, false, tabGroup,
 						 tabGroup->GetCardEnclosure(), kHElastic, kVElastic,
 						 0,0, 100,100);
@@ -356,7 +356,7 @@ JXVertDockPartition::Receive
 		}
 	else if (sender == itsDockMenu && message.Is(JXTextMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleDockMenu(selection->GetIndex());

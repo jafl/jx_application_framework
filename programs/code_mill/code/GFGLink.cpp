@@ -171,7 +171,7 @@ GFGLink::ParseLine
 		return;
 		}
 
-	GFGMemberFunction* fn = jnew GFGMemberFunction;
+	auto* fn = jnew GFGMemberFunction;
 	assert( fn != nullptr );
 
 	fn->SetFnName(name);

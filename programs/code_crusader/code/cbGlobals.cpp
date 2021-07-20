@@ -107,7 +107,7 @@ CBCreateGlobals
 
 	if (useMDI)
 		{
-		CBDockManager* dockManager = jnew CBDockManager();
+		auto* dockManager = jnew CBDockManager();
 		assert( dockManager != nullptr );
 		dockManager->JPrefObject::ReadPrefs();
 

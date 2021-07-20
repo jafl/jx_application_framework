@@ -123,14 +123,14 @@ JContainer::Receive
 {
 	if (sender == itsList && message.Is(JListT::kElementsInserted))
 		{
-		const JListT::ElementsInserted* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != nullptr );
 		SetElementCount(GetElementCount() + info->GetCount());
 		}
 	else if (sender == itsList && message.Is(JListT::kElementsRemoved))
 		{
-		const JListT::ElementsRemoved* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != nullptr );
 		SetElementCount(GetElementCount() - info->GetCount());

@@ -180,9 +180,8 @@ SVNTabBase::ComparePrev
 	JString r("PREV");
 	if (!revStr.IsEmpty())
 		{
-		JString s = revStr;
 		JUInt rev;
-		if (s.ConvertToUInt(&rev) && rev > 0)
+		if (revStr.ConvertToUInt(&rev) && rev > 0)
 			{
 			r  = JString((JUInt64) rev-1);
 			r += ":";

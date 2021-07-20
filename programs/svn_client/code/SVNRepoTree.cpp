@@ -93,7 +93,7 @@ SVNRepoTree::SaveOpenNodes()
 			{
 			if (itsView->IsOpen(i))
 				{
-				JString* s = jnew JString((itsView->GetRepoNode(i))->GetRepoPath());
+				auto* s = jnew JString((itsView->GetRepoNode(i))->GetRepoPath());
 				assert( s != nullptr );
 
 				itsSavedOpenNodes->InsertSorted(s);
@@ -127,7 +127,7 @@ SVNRepoTree::SavePathToOpen
 	JString path, name;
 	while (url.GetCharacterCount() > baseUrl.GetCharacterCount())
 		{
-		JString* s = jnew JString(url);
+		auto* s = jnew JString(url);
 		assert( s != nullptr );
 		itsSavedOpenNodes->InsertSorted(s);
 
@@ -222,7 +222,7 @@ SVNRepoTree::WriteSetup
 SVNRepoTreeNode*
 SVNRepoTree::GetRepoRoot()
 {
-	SVNRepoTreeNode* root = dynamic_cast<SVNRepoTreeNode*>(GetRoot());
+	auto* root = dynamic_cast<SVNRepoTreeNode*>(GetRoot());
 	assert( root != nullptr );
 	return root;
 }
@@ -231,7 +231,7 @@ const SVNRepoTreeNode*
 SVNRepoTree::GetRepoRoot()
 	const
 {
-	const SVNRepoTreeNode* root = dynamic_cast<const SVNRepoTreeNode*>(GetRoot());
+	const auto* root = dynamic_cast<const SVNRepoTreeNode*>(GetRoot());
 	assert( root != nullptr );
 	return root;
 }

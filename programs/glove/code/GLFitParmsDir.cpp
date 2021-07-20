@@ -38,12 +38,12 @@ GLFitParmsDir::GLFitParmsDir
 	itsFits = fits;
 	ListenTo(itsFits);
 
-	JXWindow* window = jnew JXWindow(this, 260,240, "Fit Parameters");
+	auto* window = jnew JXWindow(this, 260,240, "Fit Parameters");
 	assert( window != nullptr );
 
 	window->LockCurrentSize();
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,0,260,190);
@@ -134,7 +134,7 @@ GLFitParmsDir::Receive
 
 	else if (sender == itsFitMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFitMenu(selection->GetIndex());

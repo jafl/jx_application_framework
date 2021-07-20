@@ -434,7 +434,7 @@ CBCommandTable::HandleMouseDrag
 		JPoint cell;
 		if (s.GetSingleSelectedCell(&cell) && GetCellRect(cell).Contains(itsStartPt))
 			{
-			CBCommandSelection* data =
+			auto* data =
 				jnew CBCommandSelection(GetDisplay(), this,
 									   itsCmdList->GetElement(cell.y));
 			assert( data != nullptr );
@@ -756,7 +756,7 @@ CBCommandTable::CreateXInputField
 
 	if (cell.x == kPathColumn)
 		{
-		CBCommandPathInput* pathInput =
+		auto* pathInput =
 			jnew CBCommandPathInput(this, kFixedLeft, kFixedTop, x,y, w,h);
 		pathInput->SetBasePath(itsBasePath);
 		pathInput->ShouldAllowInvalidPath();
@@ -908,7 +908,7 @@ CBCommandTable::Receive
 		}
 	else if (sender == itsOptionsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleOptionsMenu(selection->GetIndex());

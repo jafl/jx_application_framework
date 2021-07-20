@@ -106,7 +106,7 @@ CBJavaTree::StreamInJavaClass
 	CBTree*				tree
 	)
 {
-	CBJavaClass* newClass = jnew CBJavaClass(input, vers, tree);
+	auto* newClass = jnew CBJavaClass(input, vers, tree);
 	assert( newClass != nullptr );
 	return newClass;
 }

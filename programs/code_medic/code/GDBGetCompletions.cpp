@@ -80,7 +80,7 @@ GDBGetCompletions::HandleSuccess
 		const JStringMatch& m = iter.FinishMatch();
 		if (!m.IsEmpty())
 			{
-			JString* s = jnew JString(m.GetString());
+			auto* s = jnew JString(m.GetString());
 			assert( s != nullptr );
 			s->TrimWhitespace();
 			if (s->IsEmpty() || !lines.InsertSorted(s, false))
@@ -97,7 +97,7 @@ GDBGetCompletions::HandleSuccess
 		iter.MoveTo(kJIteratorStartAtEnd, 0);
 		const JStringMatch& m = iter.FinishMatch();
 
-		JString* s = jnew JString(m.GetString());
+		auto* s = jnew JString(m.GetString());
 		assert( s != nullptr );
 		s->TrimWhitespace();
 		if (s->IsEmpty() || !lines.InsertSorted(s, false))

@@ -412,7 +412,7 @@ JXTabGroup::RemoveTab
 
 	if (itsCanScrollUpFlag && !itsCanScrollDownFlag)
 		{
-		JXScrollTabsTask* task = jnew JXScrollTabsTask(this);
+		auto* task = jnew JXScrollTabsTask(this);
 		assert( task != nullptr );
 		task->Go();
 		}
@@ -1295,7 +1295,7 @@ JXTabGroup::BoundsResized
 	if (((itsEdge == kTop || itsEdge == kBottom) && dw > 0) ||
 		((itsEdge == kLeft || itsEdge == kRight) && dh > 0))
 		{
-		JXScrollTabsTask* task = jnew JXScrollTabsTask(this);
+		auto* task = jnew JXScrollTabsTask(this);
 		assert( task != nullptr );
 		task->Go();
 		}
@@ -1691,7 +1691,7 @@ JXTabGroup::Receive
 		}
 	else if (sender == itsContextMenu && message.Is(JXTextMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());

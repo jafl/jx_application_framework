@@ -527,7 +527,7 @@ JXWindowPainter::String
 		}
 	assert( srcImage != nullptr );
 
-	JXImage* tempImage = jnew JXImage(itsDisplay, stringWidth, lineHeight, 0, 0,
+	auto* tempImage = jnew JXImage(itsDisplay, stringWidth, lineHeight, 0, 0,
 									 JXImage::kLocalStorage);
 	assert( tempImage != nullptr );
 
@@ -798,7 +798,7 @@ JXWindowPainter::Polygon
 	const JSize count = poly.GetElementCount();
 	const JPoint& o   = GetOrigin();
 
-	XPoint* xpt = jnew XPoint[ count+1 ];
+	auto* xpt = jnew XPoint[ count+1 ];
 	for (JSize i=0; i<count; i++)
 		{
 		const JPoint pt = poly.GetElement(i+1);
@@ -835,7 +835,7 @@ JXWindowPainter::Image
 	const JRect&	destRect
 	)
 {
-	const JXImage* ximage = dynamic_cast<const JXImage*>(&image);
+	const auto* ximage = dynamic_cast<const JXImage*>(&image);
 	assert( ximage != nullptr );
 
 	JRect destRectG = destRect;

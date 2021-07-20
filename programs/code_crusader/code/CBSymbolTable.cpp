@@ -248,7 +248,7 @@ CBSymbolTable::CopySelectedSymbolNames()
 			list.Append(const_cast<JString*>(&name));
 			}
 
-		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
+		auto* data = jnew JXTextSelection(GetDisplay(), list);
 		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);

@@ -122,7 +122,7 @@ GDBGetStack::HandleSuccess
 			continue;
 			}
 
-		CMStackFrameNode* node =
+		auto* node =
 			jnew CMStackFrameNode(root, frameIndex, frameName,
 								  fileName, lineIndex);
 		assert( node != nullptr );

@@ -111,10 +111,10 @@ CMCreateGlobals
 
 	JXInitHelp();
 
-	JXWDManager* wdMgr = jnew JXWDManager(display, true);
+	auto* wdMgr = jnew JXWDManager(display, true);
 	assert( wdMgr != nullptr );
 
-	CMDockManager* dockManager = jnew CMDockManager;
+	auto* dockManager = jnew CMDockManager;
 	assert( dockManager != nullptr );
 	dockManager->JPrefObject::ReadPrefs();
 

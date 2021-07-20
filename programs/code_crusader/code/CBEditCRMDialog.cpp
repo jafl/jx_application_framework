@@ -94,7 +94,7 @@ CBEditCRMDialog::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 540,370, JString::empty);
+	auto* window = jnew JXWindow(this, 540,370, JString::empty);
 	assert( window != nullptr );
 
 	itsPartition =
@@ -102,12 +102,12 @@ CBEditCRMDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 500,305);
 	assert( itsPartition != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditCRMDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,340, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditCRMDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 400,340, 70,20);
 	assert( okButton != nullptr );
@@ -138,27 +138,27 @@ CBEditCRMDialog::BuildWindow
 	const JRect ruleLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(500 - ruleLayout_Aperture.width(), 150 - ruleLayout_Aperture.height());
 
-	JXTextButton* newRuleButton =
+	auto* newRuleButton =
 		jnew JXTextButton(JGetString("newRuleButton::CBEditCRMDialog::ruleLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,30, 60,20);
 	assert( newRuleButton != nullptr );
 
-	JXTextButton* removeRuleButton =
+	auto* removeRuleButton =
 		jnew JXTextButton(JGetString("removeRuleButton::CBEditCRMDialog::ruleLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,60, 60,20);
 	assert( removeRuleButton != nullptr );
 
-	JXScrollbarSet* ruleScrollbarSet =
+	auto* ruleScrollbarSet =
 		jnew JXScrollbarSet(compartment,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 430,150);
 	assert( ruleScrollbarSet != nullptr );
 
-	JXTextButton* loadRuleFileButton =
+	auto* loadRuleFileButton =
 		jnew JXTextButton(JGetString("loadRuleFileButton::CBEditCRMDialog::ruleLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,100, 60,20);
 	assert( loadRuleFileButton != nullptr );
 
-	JXTextButton* saveRuleFileButton =
+	auto* saveRuleFileButton =
 		jnew JXTextButton(JGetString("saveRuleFileButton::CBEditCRMDialog::ruleLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,130, 60,20);
 	assert( saveRuleFileButton != nullptr );
@@ -180,7 +180,7 @@ CBEditCRMDialog::BuildWindow
 						   w, encl->GetApertureHeight() - kColHeaderHeight);
 	assert( itsRuleTable != nullptr );
 
-	JXColHeaderWidget* colHeader =
+	auto* colHeader =
 		jnew JXColHeaderWidget(itsRuleTable, ruleScrollbarSet, encl,
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, w, kColHeaderHeight);
@@ -198,22 +198,22 @@ CBEditCRMDialog::BuildWindow
 	const JRect crmLayout_Aperture = compartment->GetAperture();
 	compartment->AdjustSize(500 - crmLayout_Aperture.width(), 150 - crmLayout_Aperture.height());
 
-	JXTextButton* newCRMButton =
+	auto* newCRMButton =
 		jnew JXTextButton(JGetString("newCRMButton::CBEditCRMDialog::crmLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,30, 60,20);
 	assert( newCRMButton != nullptr );
 
-	JXTextButton* removeCRMButton =
+	auto* removeCRMButton =
 		jnew JXTextButton(JGetString("removeCRMButton::CBEditCRMDialog::crmLayout"), compartment,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,60, 60,20);
 	assert( removeCRMButton != nullptr );
 
-	JXScrollbarSet* crmScrollbarSet =
+	auto* crmScrollbarSet =
 		jnew JXScrollbarSet(compartment,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 430,130);
 	assert( crmScrollbarSet != nullptr );
 
-	JXWidgetSet* crmColHeaderEncl =
+	auto* crmColHeaderEncl =
 		jnew JXWidgetSet(compartment,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 430,20);
 	assert( crmColHeaderEncl != nullptr );

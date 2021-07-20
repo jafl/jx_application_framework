@@ -68,21 +68,21 @@ CBSubprojectConfigDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 360,160, JString::empty);
+	auto* window = jnew JXWindow(this, 360,160, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBSubprojectConfigDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,130, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CBSubprojectConfigDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 220,130, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CBSubprojectConfigDialog::shortcuts::JXLayout"));
 
-	JXStaticText* fileLabel =
+	auto* fileLabel =
 		jnew JXStaticText(JGetString("fileLabel::CBSubprojectConfigDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,60, 70,20);
 	assert( fileLabel != nullptr );

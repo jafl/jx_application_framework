@@ -369,7 +369,7 @@ JXCSFDialogBase::DisplayMessage
 
 	if (!message.IsEmpty())
 		{
-		JXStaticText* messageObj =
+		auto* messageObj =
 			jnew JXStaticText(message, window,
 					JXWidget::kHElastic, JXWidget::kFixedTop,
 					20,20, window->GetBoundsWidth()-40,20);
@@ -495,7 +495,7 @@ JXCSFDialogBase::Receive
 
 	else if (sender == itsShowHiddenCB && message.Is(JXCheckbox::kPushed))
 		{
-		const JXCheckbox::Pushed* state =
+		const auto* state =
 			dynamic_cast<const JXCheckbox::Pushed*>(&message);
 		assert( state != nullptr );
 		itsFileBrowser->ShowHidden(state->IsChecked());
@@ -557,7 +557,7 @@ JXCSFDialogBase::Receive
 		}
 	else if (sender == itsNewDirDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -759,7 +759,7 @@ JXCSFDialogBase::SelectPrevDirectory()
 
 		if (!dirName.IsEmpty())
 			{
-			JXCSFSelectPrevDirTask* task =
+			auto* task =
 				jnew JXCSFSelectPrevDirTask(itsDirInfo, itsFileBrowser, dirName);
 			assert( task != nullptr );
 			task->Go();

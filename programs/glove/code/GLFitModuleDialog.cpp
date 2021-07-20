@@ -53,10 +53,10 @@ GLFitModuleDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 270,100, JString::empty);
+	auto* window = jnew JXWindow(this, 270,100, JString::empty);
 	assert( window != nullptr );
 
-	JXStaticText* prompt =
+	auto* prompt =
 		jnew JXStaticText(JGetString("prompt::GLFitModuleDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,10, 230,20);
 	assert( prompt != nullptr );
@@ -67,7 +67,7 @@ GLFitModuleDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,40, 70,20);
 	assert( itsFilterMenu != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GLFitModuleDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 70,20);
 	assert( cancelButton != nullptr );
@@ -121,7 +121,7 @@ GLFitModuleDialog::Receive
 {
 	if (sender == itsFilterMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsFilterIndex = selection->GetIndex();

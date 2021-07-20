@@ -135,7 +135,7 @@ CMEditCommandsTable::TableDrawCell
 	if (w > GetColWidth(1))
 		{
 		itsMinColWidth = w;
-		CMUpdateCommandsTableWidth* task = jnew CMUpdateCommandsTableWidth(this);
+		auto* task = jnew CMUpdateCommandsTableWidth(this);
 		assert( task != nullptr );
 		task->Go();
 		}

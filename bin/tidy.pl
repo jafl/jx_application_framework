@@ -4,7 +4,7 @@ use strict;
 
 my @commands;
 
-chomp(my $s = `find . -name '*.o.json' -a ! -path '*/test/*'`);
+chomp(my $s = `find . -name '*.o.json' -a ! -name '*L.o.json' -a ! -name '*Y.o.json' -a ! -path '*/test/*'`);
 for my $f (split(/\n/, $s))
 	{
 	open(F, '< '.$f);
@@ -22,3 +22,5 @@ close(F);
 system "run-clang-tidy.py -checks='-*,hicpp-use-auto' -quiet -fix";
 
 system "run-clang-tidy.py -checks='-*,performance-*,portability-*' -quiet";
+
+unlink('compile_commands.json');

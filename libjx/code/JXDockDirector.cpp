@@ -151,7 +151,7 @@ JXDockDirector::BuildWindow
 	const JCoordinate w = 2*kSize + (splitHoriz ? JPartition::kDragRegionSize : 0);
 	const JCoordinate h = 2*kSize + (splitHoriz ? 0 : JPartition::kDragRegionSize);
 
-	JXWindow* window = jnew JXWindow(this, w, h, title);
+	auto* window = jnew JXWindow(this, w, h, title);
 	assert( window != nullptr );
 
 	JXImage* icon;

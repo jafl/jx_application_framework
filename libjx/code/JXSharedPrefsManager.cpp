@@ -567,7 +567,7 @@ JXSharedPrefsManager::PrivateWritePrefs
 	versData << currVers;
 	itsFile->SetData(latestVersID, versData);
 
-	const JArray<JXSharedPrefObject::VersionInfo> versList = obj->GetVersionList();
+	const JArray<JXSharedPrefObject::VersionInfo>& versList = obj->GetVersionList();
 
 	for (const JXSharedPrefObject::VersionInfo& info : versList)
 		{

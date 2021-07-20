@@ -40,7 +40,7 @@ XDSetProgramTask::~XDSetProgramTask()
 void
 XDSetProgramTask::Perform()
 {
-	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
+	auto* link = dynamic_cast<XDLink*>(CMGetLink());
 	if (link != nullptr)
 		{
 		link->BroadcastProgramSet();

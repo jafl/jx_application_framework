@@ -58,7 +58,7 @@ JDirInfo::BuildInfo1
 			continue;
 			}
 
-		JDirEntry* newEntry = jnew JDirEntry(itsCWD, JString(direntry->d_name, JString::kNoCopy));
+		auto* newEntry = jnew JDirEntry(itsCWD, JString(direntry->d_name, JString::kNoCopy));
 		assert( newEntry != nullptr );
 		if (MatchesContentFilter(*newEntry))
 			{

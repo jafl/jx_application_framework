@@ -51,7 +51,7 @@ JVMGetThreads::HandleSuccess
 	const JString& data
 	)
 {
-	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
+	auto* link = dynamic_cast<JVMLink*>(CMGetLink());
 	CopyTree(link->GetThreadRoot(), itsTree->GetRoot());
 
 	GetWidget()->FinishedLoading(link->GetCurrentThreadID());
@@ -72,9 +72,9 @@ JVMGetThreads::CopyTree
 	const JSize count = src->GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		JVMThreadNode* child1 = dynamic_cast<JVMThreadNode*>(src->GetChild(i));
+		auto* child1 = dynamic_cast<JVMThreadNode*>(src->GetChild(i));
 
-		JVMThreadNode* child2 = jnew JVMThreadNode(*child1);
+		auto* child2 = jnew JVMThreadNode(*child1);
 		assert( child2 != nullptr );
 
 		if (dest->IsRoot())

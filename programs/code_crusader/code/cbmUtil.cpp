@@ -119,7 +119,7 @@ JIndex i;
 
 	// editor settings
 
-	CBTextDocument* doc = jnew CBTextDocument;
+	auto* doc = jnew CBTextDocument;
 	assert( doc != nullptr );
 
 	CBTextEditor* te         = doc->GetTextEditor();

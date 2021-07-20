@@ -75,7 +75,7 @@ JXDockWidget::JXDockWidget
 	ListenTo(itsTabGroup);
 	ListenTo(itsTabGroup->GetCardEnclosure());
 
-	JXUpdateMinSizeTask* task = jnew JXUpdateMinSizeTask(this);
+	auto* task = jnew JXUpdateMinSizeTask(this);
 	assert( task != nullptr );
 	task->Go();
 }
@@ -510,7 +510,7 @@ JXDockWidget::WillAcceptDrop
 			{
 			if (returnType == XA_POINT)
 				{
-				XPoint* minSize = (XPoint*) data;
+				auto* minSize = (XPoint*) data;
 				if (GetApertureWidth()  >= minSize->x &&
 					GetApertureHeight() >= minSize->y)
 					{
@@ -723,7 +723,7 @@ JXDockWidget::Receive
 				JIndex currIndex;
 				const bool hadSelection = itsTabGroup->GetCurrentTabIndex(&currIndex);
 
-				JXWidgetSet* card = dynamic_cast<JXWidgetSet*>(itsTabGroup->RemoveTab(i));
+				auto* card = dynamic_cast<JXWidgetSet*>(itsTabGroup->RemoveTab(i));
 				itsTabGroup->InsertTab(index, w->GetTitle(), card);
 
 				itsWindowList->MoveElementToIndex(i, index);
@@ -751,7 +751,7 @@ JXDockWidget::Receive
 	else if (sender == itsTabGroup->GetCardEnclosure() &&
 			 message.Is(JXCardFile::kCardIndexChanged))
 		{
-		const JXCardFile::CardIndexChanged* info =
+		const auto* info =
 			dynamic_cast<const JXCardFile::CardIndexChanged*>(&message);
 		assert( info != nullptr );
 

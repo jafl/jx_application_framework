@@ -87,7 +87,7 @@ CBManPageDocument::Create
 	// create a new one
 
 	CBManPageDocument* trueDoc;
-	CBManPageDocument* doc =
+	auto* doc =
 		jnew CBManPageDocument(pageName, pageIndex, apropos, &trueDoc);
 	assert( doc != nullptr );
 
@@ -136,7 +136,7 @@ CBManPageDocument::CBManPageDocument
 
 	*trueDoc = nullptr;
 
-	JString* cmd = jnew JString;
+	auto* cmd = jnew JString;
 	assert( cmd != nullptr );
 
 	bool success = false;

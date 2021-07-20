@@ -67,7 +67,7 @@ CBProjectConfigDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 410,380, JString::empty);
+	auto* window = jnew JXWindow(this, 410,380, JString::empty);
 	assert( window != nullptr );
 
 	itsMethodRG =
@@ -80,24 +80,24 @@ CBProjectConfigDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,130, 280,20);
 	assert( itsTargetName != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,350, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 280,350, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CBProjectConfigDialog::shortcuts::JXLayout"));
 
-	JXStaticText* targetNameLabel =
+	auto* targetNameLabel =
 		jnew JXStaticText(JGetString("targetNameLabel::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 90,20);
 	assert( targetNameLabel != nullptr );
 	targetNameLabel->SetToLabel();
 
-	JXTextRadioButton* makemakeLabel =
+	auto* makemakeLabel =
 		jnew JXTextRadioButton(CBBuildManager::kMakemake, JGetString("makemakeLabel::CBProjectConfigDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 270,20);
 	assert( makemakeLabel != nullptr );
@@ -107,18 +107,18 @@ CBProjectConfigDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,180, 370,20);
 	assert( itsDepListExpr != nullptr );
 
-	JXStaticText* dependenciesLabel =
+	auto* dependenciesLabel =
 		jnew JXStaticText(JGetString("dependenciesLabel::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,160, 370,20);
 	assert( dependenciesLabel != nullptr );
 	dependenciesLabel->SetToLabel();
 
-	JXTextRadioButton* gmakeLabel =
+	auto* gmakeLabel =
 		jnew JXTextRadioButton(CBBuildManager::kQMake, JGetString("gmakeLabel::CBProjectConfigDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 270,20);
 	assert( gmakeLabel != nullptr );
 
-	JXTextRadioButton* manualLabel =
+	auto* manualLabel =
 		jnew JXTextRadioButton(CBBuildManager::kManual, JGetString("manualLabel::CBProjectConfigDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 270,20);
 	assert( manualLabel != nullptr );
@@ -128,7 +128,7 @@ CBProjectConfigDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,230, 370,20);
 	assert( itsUpdateMakefileCmd != nullptr );
 
-	JXStaticText* updateMakefileLabel =
+	auto* updateMakefileLabel =
 		jnew JXStaticText(JGetString("updateMakefileLabel::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,210, 370,20);
 	assert( updateMakefileLabel != nullptr );
@@ -139,13 +139,13 @@ CBProjectConfigDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,280, 370,20);
 	assert( itsSubProjectBuildCmd != nullptr );
 
-	JXStaticText* subprojLabel =
+	auto* subprojLabel =
 		jnew JXStaticText(JGetString("subprojLabel::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,260, 370,20);
 	assert( subprojLabel != nullptr );
 	subprojLabel->SetToLabel();
 
-	JXStaticText* configInstrText =
+	auto* configInstrText =
 		jnew JXStaticText(JGetString("configInstrText::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 20,315, 370,25);
 	assert( configInstrText != nullptr );
@@ -157,7 +157,7 @@ CBProjectConfigDialog::BuildWindow
 	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBProjectConfigDialog::shortcuts::JXLayout"));
 
-	JXTextRadioButton* cmakeLabel =
+	auto* cmakeLabel =
 		jnew JXTextRadioButton(CBBuildManager::kCMake, JGetString("cmakeLabel::CBProjectConfigDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,50, 270,20);
 	assert( cmakeLabel != nullptr );
@@ -249,7 +249,7 @@ CBProjectConfigDialog::Receive
 void
 CBProjectConfigDialog::UpdateDisplay()
 {
-	const CBBuildManager::MakefileMethod method =
+	const auto method =
 		(CBBuildManager::MakefileMethod) itsMethodRG->GetSelectedItem();
 
 	JString newCmd;

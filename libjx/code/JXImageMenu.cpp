@@ -186,7 +186,7 @@ JXImageMenu::CreateMenuWindow
 	JXWindowDirector* supervisor
 	)
 {
-	JXImageMenuDirector* dir =
+	auto* dir =
 		jnew JXImageMenuDirector(supervisor, this, itsIconMenuData);
 	assert( dir != nullptr );
 	return dir;
@@ -206,7 +206,7 @@ JXImageMenu::AdjustPopupChoiceTitle
 	const JXImage* titleImage = nullptr;
 	if (GetTitleImage(&titleImage))
 		{
-		JXImage* image = const_cast<JXImage*>(GetItemImage(index));
+		auto* image = const_cast<JXImage*>(GetItemImage(index));
 		SetTitle(JString::empty, image, false);
 		}
 }

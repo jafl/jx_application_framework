@@ -176,7 +176,7 @@ SVNTabGroup::Receive
 {
 	if (message.Is(JXCardFile::kCardRemoved))
 		{
-		const JXCardFile::CardRemoved* info =
+		const auto* info =
 			dynamic_cast<const JXCardFile::CardRemoved*>(&message);
 		assert( info != nullptr );
 

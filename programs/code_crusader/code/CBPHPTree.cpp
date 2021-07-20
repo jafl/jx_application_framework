@@ -106,7 +106,7 @@ CBPHPTree::StreamInPHPClass
 	CBTree*				tree
 	)
 {
-	CBPHPClass* newClass = jnew CBPHPClass(input, vers, tree);
+	auto* newClass = jnew CBPHPClass(input, vers, tree);
 	assert( newClass != nullptr );
 	return newClass;
 }

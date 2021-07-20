@@ -475,7 +475,7 @@ CBTreeWidget::HandleMouseDrag
 		}
 	else if (itsDragType == kWaitForPopupFnMenuDrag && JMouseMoved(itsStartPt, pt))
 		{
-		JXFileSelection* data = jnew JXFileSelection(this, kSelectionDataID);
+		auto* data = jnew JXFileSelection(this, kSelectionDataID);
 		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data);
@@ -540,12 +540,12 @@ CBTreeWidget::GetSelectionData
 {
 	if (id == kSelectionDataID)
 		{
-		JXFileSelection* fileData = dynamic_cast<JXFileSelection*>(data);
+		auto* fileData = dynamic_cast<JXFileSelection*>(data);
 		assert( fileData != nullptr );
 
 		CBDocumentManager* docMgr = CBGetDocumentManager();
 
-		JPtrArray<JString>* list = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		auto* list = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( list != nullptr );
 
 		JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
@@ -559,7 +559,7 @@ CBTreeWidget::GetSelectionData
 			CBClass* c = classList.GetElement(i);
 			if (c->GetFileName(&headerName))
 				{
-				JString* s = jnew JString(headerName);
+				auto* s = jnew JString(headerName);
 				assert( s != nullptr );
 				list->Append(s);
 
@@ -829,7 +829,7 @@ CBTreeWidget::Receive
 
 	else if (sender == itsTree && message.Is(CBTree::kFontSizeChanged))
 		{
-		const CBTree::FontSizeChanged* info =
+		const auto* info =
 			dynamic_cast<const CBTree::FontSizeChanged*>(&message);
 		assert( info != nullptr );
 
@@ -843,14 +843,14 @@ CBTreeWidget::Receive
 
 	else if (sender == itsTree && message.Is(CBTree::kClassSelected))
 		{
-		const CBTree::ClassSelected* selection =
+		const auto* selection =
 			dynamic_cast<const CBTree::ClassSelected*>(&message);
 		assert( selection != nullptr );
 		RefreshRect((selection->GetClass())->GetFrame());
 		}
 	else if (sender == itsTree && message.Is(CBTree::kClassDeselected))
 		{
-		const CBTree::ClassDeselected* selection =
+		const auto* selection =
 			dynamic_cast<const CBTree::ClassDeselected*>(&message);
 		assert( selection != nullptr );
 		RefreshRect((selection->GetClass())->GetFrame());

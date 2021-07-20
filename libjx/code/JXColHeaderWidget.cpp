@@ -501,7 +501,7 @@ JXColHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kColWidthChanged))
 		{
-		const JTable::ColWidthChanged* info =
+		const auto* info =
 			dynamic_cast<const JTable::ColWidthChanged*>(&message);
 		assert( info != nullptr );
 		SetColWidth(info->GetIndex(), info->GetNewColWidth());
@@ -509,7 +509,7 @@ JXColHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kAllColWidthsChanged))
 		{
-		const JTable::AllColWidthsChanged* info =
+		const auto* info =
 			dynamic_cast<const JTable::AllColWidthsChanged*>(&message);
 		assert( info != nullptr );
 		SetAllColWidths(info->GetNewColWidth());
@@ -517,7 +517,7 @@ JXColHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kColsInserted))
 		{
-		const JTable::ColsInserted* info =
+		const auto* info =
 			dynamic_cast<const JTable::ColsInserted*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
@@ -532,7 +532,7 @@ JXColHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kColsRemoved))
 		{
-		const JTable::ColsRemoved* info =
+		const auto* info =
 			dynamic_cast<const JTable::ColsRemoved*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
@@ -547,7 +547,7 @@ JXColHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kColMoved))
 		{
-		const JTable::ColMoved* info =
+		const auto* info =
 			dynamic_cast<const JTable::ColMoved*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
@@ -559,7 +559,7 @@ JXColHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kColBorderWidthChanged))
 		{
-		const JTable::ColBorderWidthChanged* info =
+		const auto* info =
 			dynamic_cast<const JTable::ColBorderWidthChanged*>(&message);
 		assert( info != nullptr );
 		SetColBorderInfo(info->GetNewBorderWidth(), JColorManager::GetDefaultBackColor());

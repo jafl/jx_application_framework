@@ -738,8 +738,8 @@ JXFileDocument::SaveInCurrentFile()
 			}
 
 		mode_t filePerms = 0;
-		uid_t ownerID    = (uid_t) -1;
-		gid_t groupID    = (gid_t) -1;
+		auto ownerID    = (uid_t) -1;
+		auto groupID    = (gid_t) -1;
 		if (itsMakeBackupFileFlag)
 			{
 			const JString backupName  = fullName + kBackupFileSuffix;
@@ -1069,13 +1069,13 @@ JXFileDocument::CheckForSafetySaveFiles
 			{
 			if (safetyExists)
 				{
-				JString* s = jnew JString(safetyName);
+				auto* s = jnew JString(safetyName);
 				assert( s != nullptr );
 				filesToOpen->Append(s);
 				}
 			if (assertExists)
 				{
-				JString* s = jnew JString(assertName);
+				auto* s = jnew JString(assertName);
 				assert( s != nullptr );
 				filesToOpen->Append(s);
 				}

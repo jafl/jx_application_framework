@@ -96,10 +96,10 @@ CMChooseProcessDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 390,500, JString::empty);
+	auto* window = jnew JXWindow(this, 390,500, JString::empty);
 	assert( window != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,50, 350,400);
 	assert( scrollbarSet != nullptr );
@@ -109,24 +109,24 @@ CMChooseProcessDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 90,470, 80,20);
 	assert( itsProcessIDInput != nullptr );
 
-	JXStaticText* pidLabel =
+	auto* pidLabel =
 		jnew JXStaticText(JGetString("pidLabel::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,470, 70,20);
 	assert( pidLabel != nullptr );
 	pidLabel->SetToLabel();
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 215,470, 60,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 310,470, 60,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CMChooseProcessDialog::shortcuts::JXLayout"));
 
-	JXStaticText* hint =
+	auto* hint =
 		jnew JXStaticText(JGetString("hint::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 360,20);
 	assert( hint != nullptr );
@@ -159,7 +159,7 @@ CMChooseProcessDialog::Receive
 {
 	if (sender == this && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

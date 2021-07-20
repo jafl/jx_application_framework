@@ -67,7 +67,7 @@ JXCreateGlobals
 	theAssertHandler = jnew JXAssert;
 	assert( theAssertHandler != nullptr );
 
-	JXUserNotification* un = jnew JXUserNotification;
+	auto* un = jnew JXUserNotification;
 	assert( un != nullptr );
 
 	theChooseSaveFile = jnew JXChooseSaveFile;
@@ -274,7 +274,7 @@ JXCreateDefaultDocumentManager
 	)
 {
 	assert( theDocManager == nullptr );
-	JXDocumentManager* docManager = jnew JXDocumentManager(wantShortcuts);
+	auto* docManager = jnew JXDocumentManager(wantShortcuts);
 	assert( docManager != nullptr );
 	// constructor calls JXSetDocumentManager()
 }

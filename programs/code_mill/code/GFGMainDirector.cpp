@@ -129,7 +129,7 @@ GFGMainDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 650,460, JString::empty);
+	auto* window = jnew JXWindow(this, 650,460, JString::empty);
 	assert( window != nullptr );
 
 	itsClassInput =
@@ -137,13 +137,13 @@ GFGMainDirector::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 105,10, 130,20);
 	assert( itsClassInput != nullptr );
 
-	JXStaticText* classNameLabel =
+	auto* classNameLabel =
 		jnew JXStaticText(JGetString("classNameLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,10, 90,20);
 	assert( classNameLabel != nullptr );
 	classNameLabel->SetToLabel();
 
-	JXStaticText* directoryLabel =
+	auto* directoryLabel =
 		jnew JXStaticText(JGetString("directoryLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 240,10, 110,20);
 	assert( directoryLabel != nullptr );
@@ -155,7 +155,7 @@ GFGMainDirector::BuildWindow
 	assert( itsChooseButton != nullptr );
 	itsChooseButton->SetShortcuts(JGetString("itsChooseButton::GFGMainDirector::shortcuts::JXLayout"));
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,75, 610,300);
 	assert( scrollbarSet != nullptr );
@@ -183,7 +183,7 @@ GFGMainDirector::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 350,10, 200,20);
 	assert( itsDirInput != nullptr );
 
-	JXStaticText* derivedLabel =
+	auto* derivedLabel =
 		jnew JXStaticText(JGetString("derivedLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,45, 90,20);
 	assert( derivedLabel != nullptr );
@@ -197,7 +197,7 @@ GFGMainDirector::BuildWindow
 	itsBaseClassTxt->SetFontStyle(itsBaseClassTxt_style);
 	itsBaseClassTxt->SetToLabel();
 
-	JXStaticText* authorLabel =
+	auto* authorLabel =
 		jnew JXStaticText(JGetString("authorLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 15,390, 60,20);
 	assert( authorLabel != nullptr );
@@ -214,7 +214,7 @@ GFGMainDirector::BuildWindow
 	assert( itsStringsButton != nullptr );
 	itsStringsButton->SetShortcuts(JGetString("itsStringsButton::GFGMainDirector::shortcuts::JXLayout"));
 
-	JXStaticText* copyrightLabel =
+	auto* copyrightLabel =
 		jnew JXStaticText(JGetString("copyrightLabel::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 250,390, 70,20);
 	assert( copyrightLabel != nullptr );
@@ -251,7 +251,7 @@ GFGMainDirector::BuildWindow
 
 	itsBaseClassTxt->GetText()->SetText(bases);
 
-	JXImage* image = jnew JXImage(GetDisplay(), gfg_main_window_icon);
+	auto* image = jnew JXImage(GetDisplay(), gfg_main_window_icon);
 	assert( image != nullptr );
 	window->SetIcon(image);
 
@@ -265,7 +265,7 @@ GFGMainDirector::BuildWindow
 
 	itsTable->FitToEnclosure(true, false);
 
-	JXColHeaderWidget* widget =
+	auto* widget =
 		jnew JXColHeaderWidget(itsTable,
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kFixedTop,

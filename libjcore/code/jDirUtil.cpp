@@ -134,7 +134,7 @@ JGetPermissionsString
 {
 	const JUtf8Byte* modeTemplate = "---------";
 
-	JUtf8Byte* modeString = jnew JUtf8Byte[ strlen(modeTemplate)+1 ];
+	auto* modeString = jnew JUtf8Byte[ strlen(modeTemplate)+1 ];
 	assert( modeString != nullptr );
 	strcpy(modeString, modeTemplate);
 

@@ -176,10 +176,10 @@ GPMMainDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 530,350, JString::empty);
+	auto* window = jnew JXWindow(this, 530,350, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 530,30);
 	assert( menuBar != nullptr );
@@ -201,7 +201,7 @@ GPMMainDirector::BuildWindow()
 	window->SetMinSize(530, 250);
 	window->SetWMClass(GPMGetWMClassInstance(), GPMGetMainWindowClass());
 
-	JXImage* image = jnew JXImage(GetDisplay(), gpm_main_window_icon);
+	auto* image = jnew JXImage(GetDisplay(), gpm_main_window_icon);
 	assert( image != nullptr );
 	window->SetIcon(image);
 
@@ -233,7 +233,7 @@ GPMMainDirector::BuildWindow()
 
 	// list view
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(listTab, JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 100,100);
 	assert( scrollbarSet != nullptr );
@@ -250,7 +250,7 @@ GPMMainDirector::BuildWindow()
 	assert( itsProcessTable != nullptr );
 	itsProcessTable->FitToEnclosure(true, false);
 
-	GPMListHeaderWidget* tableHeader =
+	auto* tableHeader =
 		jnew GPMListHeaderWidget(itsProcessTable, itsProcessList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kFixedTop,
@@ -266,7 +266,7 @@ GPMMainDirector::BuildWindow()
 	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
-	JNamedTreeList* treeList = jnew JNamedTreeList(itsProcessList->GetProcessTree());
+	auto* treeList = jnew JNamedTreeList(itsProcessList->GetProcessTree());
 	assert( treeList != nullptr );
 
 	itsProcessTree =
@@ -277,7 +277,7 @@ GPMMainDirector::BuildWindow()
 	assert( itsProcessTree != nullptr );
 	itsProcessTree->FitToEnclosure(true, false);
 
-	GPMTreeHeaderWidget* treeHeader =
+	auto* treeHeader =
 		jnew GPMTreeHeaderWidget(itsProcessTree, itsProcessList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kFixedTop,
@@ -363,7 +363,7 @@ GPMMainDirector::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -375,7 +375,7 @@ GPMMainDirector::Receive
 		}
 	else if (sender == itsProcessMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleProcessMenu(selection->GetIndex());
@@ -387,7 +387,7 @@ GPMMainDirector::Receive
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
@@ -399,7 +399,7 @@ GPMMainDirector::Receive
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());

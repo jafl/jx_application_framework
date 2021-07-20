@@ -1216,14 +1216,14 @@ CBTree::ArrangeRoots
 	l1.SetCompareFunction(CompareRSContent);
 	l2.SetCompareFunction(CompareRSContent);
 
-	JArray<bool>* content = jnew JArray<bool>(rootCount);
+	auto* content = jnew JArray<bool>(rootCount);
 	assert( content != nullptr );
 	for (JIndex i=1; i<=rootCount; i++)
 		{
 		content->AppendElement(false);
 		}
 
-	JArray<JIndex>* order = jnew JArray<JIndex>(rootCount);
+	auto* order = jnew JArray<JIndex>(rootCount);
 	assert( order != nullptr );
 
 	list1->AppendElement(RootSubset(content, order, 0));
@@ -1304,10 +1304,10 @@ CBTree::ArrangeRoots
 					}
 				else if (!found)
 					{
-					JArray<bool>* newContent = jnew JArray<bool>(*(subset->content));
+					auto* newContent = jnew JArray<bool>(*(subset->content));
 					assert( newContent != NULL );
 
-					JArray<JIndex>* newOrder = jnew JArray<JIndex>(*(subset->order));
+					auto* newOrder = jnew JArray<JIndex>(*(subset->order));
 					assert( newOrder != NULL );
 					newOrder->AppendElement(newRootIndex);
 
@@ -2121,7 +2121,7 @@ CBTree::CopySelectedClassNames()
 
 	if (!nameList.IsEmpty())
 		{
-		JXTextSelection* data = jnew JXTextSelection(itsDirector->GetDisplay(), nameList);
+		auto* data = jnew JXTextSelection(itsDirector->GetDisplay(), nameList);
 		assert( data != nullptr );
 
 		((itsDirector->GetDisplay())->GetSelectionManager())->SetData(kJXClipboardName, data);

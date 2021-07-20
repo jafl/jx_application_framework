@@ -228,7 +228,7 @@ CBPrefsManager::UpdateFileTypes
 	JPtrArray< JPtrArray<JString> > origSuffixList(JPtrArrayT::kDeleteAll);
 	for (JUnsignedOffset i=0; i<kCBFTCount; i++)
 		{
-		JPtrArray<JString>* list = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		auto* list = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( list != nullptr );
 		origSuffixList.Append(list);
 
@@ -274,7 +274,7 @@ CBPrefsManager::Receive
 	if (sender == itsFileTypesDialog &&
 		message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -287,7 +287,7 @@ CBPrefsManager::Receive
 	else if (sender == itsMacroDialog &&
 		message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -300,7 +300,7 @@ CBPrefsManager::Receive
 	else if (sender == itsCRMDialog &&
 		message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -372,10 +372,10 @@ cbAddNewSuffixes
 		{
 		if (!newInfo[i].found)
 			{
-			JString* suffix = jnew JString(newInfo[i].suffix);
+			auto* suffix = jnew JString(newInfo[i].suffix);
 			assert( suffix != nullptr );
 
-			JString* complSuffix = jnew JString;
+			auto* complSuffix = jnew JString;
 			assert( complSuffix != nullptr );
 
 			fileTypeList->InsertSorted(
@@ -424,13 +424,13 @@ cbAddNewExternalSuffixes
 		{
 		if (!newInfo[i].found)
 			{
-			JString* suffix = jnew JString(newInfo[i].suffix);
+			auto* suffix = jnew JString(newInfo[i].suffix);
 			assert( suffix != nullptr );
 
-			JString* complSuffix = jnew JString;
+			auto* complSuffix = jnew JString;
 			assert( complSuffix != nullptr );
 
-			JString* editCmd = jnew JString(newInfo[i].cmd);
+			auto* editCmd = jnew JString(newInfo[i].cmd);
 			assert( editCmd != nullptr );
 
 			CBPrefsManager::FileTypeInfo info(
@@ -1272,7 +1272,7 @@ std::string data;
 
 	for (JUnsignedOffset i=0; i<kOrigMacroCount; i++)
 		{
-		CBCharActionManager* actionMgr = jnew CBCharActionManager;
+		auto* actionMgr = jnew CBCharActionManager;
 		assert( actionMgr != nullptr );
 		if (GetData(50000 + kCBOrigMacroID[i], &data))
 			{
@@ -1281,7 +1281,7 @@ std::string data;
 			actionMgr->ReadSetup(dataStream);
 			}
 
-		CBMacroManager* macroMgr = jnew CBMacroManager;
+		auto* macroMgr = jnew CBMacroManager;
 		assert( macroMgr != nullptr );
 		if (GetData(40000 + kCBOrigMacroID[i], &data))
 			{
@@ -1311,7 +1311,7 @@ std::string data;
 			AddDefaultJavaMacros(macroMgr);
 			}
 
-		JString* name = jnew JString(kOrigMacroName[i]);
+		auto* name = jnew JString(kOrigMacroName[i]);
 		assert( name != nullptr );
 
 		itsMacroList->AppendElement(
@@ -1336,7 +1336,7 @@ std::string data;
 		const JSize count = suffixList.GetElementCount();
 		for (JIndex j=1; j<=count; j++)
 			{
-			JString* complSuffix = jnew JString;
+			auto* complSuffix = jnew JString;
 			assert( complSuffix != nullptr );
 			InitComplementSuffix(*(suffixList.GetElement(j)), complSuffix);
 
@@ -1601,13 +1601,13 @@ CBPrefsManager::FindMacroName
 
 	const JIndex macroID = maxID+1;
 
-	JString* name = jnew JString(macroName);
+	auto* name = jnew JString(macroName);
 	assert( name != nullptr );
 
-	CBCharActionManager* actionMgr = jnew CBCharActionManager;
+	auto* actionMgr = jnew CBCharActionManager;
 	assert( actionMgr != nullptr );
 
-	CBMacroManager* macroMgr = jnew CBMacroManager;
+	auto* macroMgr = jnew CBMacroManager;
 	assert( macroMgr != nullptr );
 
 	macroList->InsertSorted(
@@ -2284,10 +2284,10 @@ CBPrefsManager::CreateCRMRuleLists()
 
 	for (JUnsignedOffset i=0; i<kInitCRMCount; i++)
 		{
-		JString* name = jnew JString(kInitCRM[i].name);
+		auto* name = jnew JString(kInitCRM[i].name);
 		assert( name != nullptr );
 
-		JStyledText::CRMRuleList* ruleList = jnew JStyledText::CRMRuleList;
+		auto* ruleList = jnew JStyledText::CRMRuleList;
 		assert( ruleList != nullptr );
 
 		for (JUnsignedOffset j=0; j<kInitCRM[i].count; j++)
@@ -2325,10 +2325,10 @@ CBPrefsManager::CreateCRMRuleLists()
 
 	for (JUnsignedOffset i=0; i<kFTRegexCount; i++)
 		{
-		JString* suffix = jnew JString(kFTRegexInfo[i].pattern);
+		auto* suffix = jnew JString(kFTRegexInfo[i].pattern);
 		assert( suffix != nullptr );
 
-		JString* complSuffix = jnew JString;
+		auto* complSuffix = jnew JString;
 		assert( complSuffix != nullptr );
 
 		const JIndex macroID = FindMacroName(kFTRegexInfo[i].macroName, itsMacroList, true);

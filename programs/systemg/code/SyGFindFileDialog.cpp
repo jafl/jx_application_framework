@@ -96,7 +96,7 @@ SyGFindFileDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 360,220, JString::empty);
+	auto* window = jnew JXWindow(this, 360,220, JString::empty);
 	assert( window != nullptr );
 
 	itsActionRG =
@@ -121,7 +121,7 @@ SyGFindFileDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 35,30, 295,20);
 	assert( itsFileInput != nullptr );
 
-	JXTextRadioButton* fileLabel =
+	auto* fileLabel =
 		jnew JXTextRadioButton(kFindFileAction, JGetString("fileLabel::SyGFindFileDialog::JXLayout"), itsActionRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 270,20);
 	assert( fileLabel != nullptr );
@@ -143,13 +143,13 @@ SyGFindFileDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 35,90, 295,20);
 	assert( itsExprInput != nullptr );
 
-	JXTextRadioButton* findLabel =
+	auto* findLabel =
 		jnew JXTextRadioButton(kFindExprAction, JGetString("findLabel::SyGFindFileDialog::JXLayout"), itsActionRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,70, 270,20);
 	assert( findLabel != nullptr );
 	findLabel->SetShortcuts(JGetString("findLabel::SyGFindFileDialog::shortcuts::JXLayout"));
 
-	JXStaticText* startLabel =
+	auto* startLabel =
 		jnew JXStaticText(JGetString("startLabel::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,20);
 	assert( startLabel != nullptr );

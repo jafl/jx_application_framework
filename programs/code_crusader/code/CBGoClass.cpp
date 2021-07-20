@@ -160,7 +160,7 @@ CBGoClass::NewGhost
 	CBTree*			tree
 	)
 {
-	CBGoClass* newClass = jnew CBGoClass(name, kGhostType, JFAID::kInvalidID, tree,
+	auto* newClass = jnew CBGoClass(name, kGhostType, JFAID::kInvalidID, tree,
 										 true);
 	assert( newClass != nullptr );
 	return newClass;

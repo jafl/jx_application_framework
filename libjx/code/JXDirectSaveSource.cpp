@@ -75,10 +75,10 @@ JXDirectSaveSource::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	JXDSSFinishSaveTask* task = jnew JXDSSFinishSaveTask(itsDialog);
+	auto* task = jnew JXDSSFinishSaveTask(itsDialog);
 	assert( task != nullptr );
 
-	JXDSSSelection* data = jnew JXDSSSelection(GetWindow(), task);
+	auto* data = jnew JXDSSSelection(GetWindow(), task);
 	assert( data != nullptr );
 
 	BeginDND(pt, buttonStates, modifiers, data);

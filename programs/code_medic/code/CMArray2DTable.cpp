@@ -253,7 +253,7 @@ CMArray2DTable::Receive
 		{
 		if (HasFocus())
 			{
-			const JXMenu::ItemSelected* selection =
+			const auto* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleEditMenu(selection->GetIndex());
@@ -301,7 +301,7 @@ CMArray2DTable::HandleEditMenu
 		cmd == JTextEditor::kCopyCmd &&
 		(GetTableSelection()).GetSingleSelectedCell(&cell))
 		{
-		JXTextSelection* data =
+		auto* data =
 			jnew JXTextSelection(GetDisplay(), GetStringData()->GetString(cell));
 		assert( data != nullptr );
 

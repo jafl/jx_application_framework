@@ -600,14 +600,14 @@ JXImage::CreateImageAndMaskFromXPMData
 	const Pixmap	mask_pixmap
 	)
 {
-	JXImage* image = jnew JXImage(display, image_pixmap);
+	auto* image = jnew JXImage(display, image_pixmap);
 	assert( image != nullptr );
 
 	XFreePixmap(*display, image_pixmap);
 
 	if (mask_pixmap != None)
 		{
-		JXImageMask* mask = jnew JXImageMask(display, mask_pixmap);
+		auto* mask = jnew JXImageMask(display, mask_pixmap);
 		assert( mask != nullptr );
 		image->SetMask(mask);
 
@@ -694,7 +694,7 @@ JXImage*
 JXImage::Copy()
 	const
 {
-	JXImage* obj = jnew JXImage(*this);
+	auto* obj = jnew JXImage(*this);
 	assert( obj != nullptr );
 	return obj;
 }
@@ -850,7 +850,7 @@ JXImagePainter*
 JXImage::CreatePainter()
 {
 	ConvertToPixmap();
-	JXImagePainter* p = jnew JXImagePainter(this, itsPixmap, GetBounds(), nullptr);
+	auto* p = jnew JXImagePainter(this, itsPixmap, GetBounds(), nullptr);
 	assert( p != nullptr );
 	return p;
 }
@@ -1102,7 +1102,7 @@ JXImage::ConvertToPixmap()
 		{
 		assert( itsImage != nullptr );
 
-		JXImage* me = const_cast<JXImage*>(this);
+		auto* me = const_cast<JXImage*>(this);
 		me->itsPixmap = CreatePixmap();
 
 		XDestroyImage(itsImage);
@@ -1123,7 +1123,7 @@ JXImage::ConvertToImage()
 		{
 		assert( itsPixmap != None );
 
-		JXImage* me = const_cast<JXImage*>(this);
+		auto* me = const_cast<JXImage*>(this);
 		me->itsImage = CreateXImage();
 
 		XFreePixmap(*itsDisplay, itsPixmap);
@@ -1157,7 +1157,7 @@ JXImage::SetImageData
 
 	// convert color table to X pixel values
 
-	unsigned long* xColorTable = jnew unsigned long [ colorCount ];
+	auto* xColorTable = jnew unsigned long [ colorCount ];
 	assert( xColorTable != nullptr );
 
 	for (JUnsignedOffset i=0; i<colorCount; i++)

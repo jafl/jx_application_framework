@@ -315,7 +315,7 @@ JXPathInput::StyledText::ComputeErrorLength
 		return totalLength;
 		}
 
-	JXPathInput* f = dynamic_cast<JXPathInput*>(field);
+	auto* f = dynamic_cast<JXPathInput*>(field);
 
 	const JString closestDir = JGetClosestDirectory(fullPath, f->itsRequireWriteFlag);
 	if (fullPath.BeginsWith(closestDir))

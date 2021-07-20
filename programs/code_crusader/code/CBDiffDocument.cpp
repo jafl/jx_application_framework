@@ -864,7 +864,7 @@ CBDiffDocument::ConstructDiffEditor
 	JXScrollbarSet*		scrollbarSet
 	)
 {
-	CBDiffEditor* te =
+	auto* te =
 		jnew CBDiffEditor(document, fileName, menuBar, lineInput, colInput,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
@@ -946,7 +946,7 @@ CBDiffDocument::ReadDiff
 	JXFileDocument* doc;
 	if (CBGetDocumentManager()->FileDocumentIsOpen(itsFullName, &doc))
 		{
-		CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(doc);
+		auto* textDoc = dynamic_cast<CBTextDocument*>(doc);
 		if (textDoc != nullptr)
 			{
 			itsDiffEditor->SetBreakCROnly(textDoc->GetTextEditor()->WillBreakCROnly());
@@ -974,7 +974,7 @@ CBDiffDocument::Receive
 		}
 	else if (sender == itsDiffMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleDiffMenu(selection->GetIndex());

@@ -625,7 +625,7 @@ JXTreeListWidget::Receive
 {
 	if (sender == itsTreeList && message.Is(JTreeList::kNodeInserted))
 		{
-		const JTreeList::NodeInserted* info =
+		const auto* info =
 			dynamic_cast<const JTreeList::NodeInserted*>(&message);
 		assert( info != nullptr );
 		InsertRows(info->GetIndex(), 1);
@@ -634,7 +634,7 @@ JXTreeListWidget::Receive
 
 	else if (sender == itsTreeList && message.Is(JTreeList::kNodeRemoved))
 		{
-		const JTreeList::NodeRemoved* info =
+		const auto* info =
 			dynamic_cast<const JTreeList::NodeRemoved*>(&message);
 		assert( info != nullptr );
 		RemoveRow(info->GetIndex());
@@ -643,7 +643,7 @@ JXTreeListWidget::Receive
 
 	else if (sender == itsTreeList && message.Is(JTreeList::kNodeChanged))
 		{
-		const JTreeList::NodeChanged* info =
+		const auto* info =
 			dynamic_cast<const JTreeList::NodeChanged*>(&message);
 		assert( info != nullptr );
 		TableRefreshRow(info->GetIndex());
@@ -654,7 +654,7 @@ JXTreeListWidget::Receive
 			 (message.Is(JTreeList::kNodeOpened) ||
 			  message.Is(JTreeList::kNodeClosed)))
 		{
-		const JTreeList::NodeMessage* info =
+		const auto* info =
 			dynamic_cast<const JTreeList::NodeMessage*>(&message);
 		assert( info != nullptr );
 		TableRefreshRow(info->GetIndex());
@@ -676,7 +676,7 @@ JXTreeListWidget::Receive
 		{
 		if (sender == this && message.Is(kColsInserted))
 			{
-			const ColsInserted* info = dynamic_cast<const ColsInserted*>(&message);
+			const auto* info = dynamic_cast<const ColsInserted*>(&message);
 			assert( info != nullptr );
 			info->AdjustIndex(&itsToggleOpenColIndex);
 			info->AdjustIndex(&itsNodeColIndex);
@@ -686,7 +686,7 @@ JXTreeListWidget::Receive
 
 		else if (sender == this && message.Is(kColsRemoved))
 			{
-			const ColsRemoved* info = dynamic_cast<const ColsRemoved*>(&message);
+			const auto* info = dynamic_cast<const ColsRemoved*>(&message);
 			assert( info != nullptr );
 			bool ok = info->AdjustIndex(&itsToggleOpenColIndex);
 			assert( ok );
@@ -698,7 +698,7 @@ JXTreeListWidget::Receive
 
 		else if (sender == this && message.Is(kColMoved))
 			{
-			const ColMoved* info =
+			const auto* info =
 				dynamic_cast<const ColMoved*>(&message);
 			assert( info != nullptr );
 			info->AdjustIndex(&itsToggleOpenColIndex);

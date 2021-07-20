@@ -433,7 +433,7 @@ CBDocumentManager::NewTextDocument()
 	JString newName;
 	if (itsEditTextLocalFlag)
 		{
-		CBTextDocument* doc = jnew CBTextDocument;
+		auto* doc = jnew CBTextDocument;
 		assert( doc != nullptr );
 		doc->Activate();
 		}
@@ -477,7 +477,7 @@ CBDocumentManager::NewTextDocumentFromTemplate()
 		JString newName;
 		if (itsEditTextLocalFlag)
 			{
-			CBTextDocument* doc = jnew CBTextDocument(tmplName, kCBUnknownFT, true);
+			auto* doc = jnew CBTextDocument(tmplName, kCBUnknownFT, true);
 			assert( doc != nullptr );
 			doc->Activate();
 			}
@@ -978,7 +978,7 @@ CBDocumentManager::PrivateOpenTextDocument
 			doc->Activate();
 			}
 
-		CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(doc);
+		auto* textDoc = dynamic_cast<CBTextDocument*>(doc);
 		if (textDoc != nullptr)
 			{
 			textDoc->RevertIfChangedByOthers(forceReload);
@@ -1074,7 +1074,7 @@ CBDocumentManager::SaveTextDocuments
 			CBTextDocument* doc = itsTextDocuments->GetElement(i);
 			if (CBIsExecOutput(doc->GetFileType()))
 				{
-				CBExecOutputDocument* execDoc =
+				auto* execDoc =
 					dynamic_cast<CBExecOutputDocument*>(doc);
 				assert( execDoc != nullptr );
 				if (execDoc->ProcessRunning())
@@ -1131,7 +1131,7 @@ CBDocumentManager::CloseTextDocuments()
 			CBTextDocument* doc = itsTextDocuments->GetElement(i);
 			if (CBIsExecOutput(doc->GetFileType()))
 				{
-				CBExecOutputDocument* execDoc =
+				auto* execDoc =
 					dynamic_cast<CBExecOutputDocument*>(doc);
 				assert( execDoc != nullptr );
 				if (execDoc->ProcessRunning())
@@ -1644,7 +1644,7 @@ CBDocumentManager::ReadFromProject
 		for (JIndex i=1; i<=textCount; i++)
 			{
 			bool keep;
-			CBTextDocument* doc = jnew CBTextDocument(input, vers, &keep);
+			auto* doc = jnew CBTextDocument(input, vers, &keep);
 			assert( doc != nullptr );
 			if (!keep)
 				{
@@ -1827,7 +1827,7 @@ CBDocumentManager::Receive
 {
 	if (sender == itsProjectDocuments && message.Is(JListT::kElementsInserted))
 		{
-		const JListT::ElementsInserted* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != nullptr );
 		if (info->Contains(1))
@@ -1837,7 +1837,7 @@ CBDocumentManager::Receive
 		}
 	else if (sender == itsProjectDocuments && message.Is(JListT::kElementsRemoved))
 		{
-		const JListT::ElementsRemoved* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != nullptr );
 		if (info->Contains(1))
@@ -1847,7 +1847,7 @@ CBDocumentManager::Receive
 		}
 	else if (sender == itsProjectDocuments && message.Is(JListT::kElementMoved))
 		{
-		const JListT::ElementMoved* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != nullptr );
 		if (info->GetOrigIndex() == 1 || info->GetNewIndex() == 1)
@@ -1857,7 +1857,7 @@ CBDocumentManager::Receive
 		}
 	else if (sender == itsProjectDocuments && message.Is(JListT::kElementsSwapped))
 		{
-		const JListT::ElementsSwapped* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != nullptr );
 		if (info->GetIndex1() == 1 || info->GetIndex2() == 1)
@@ -1867,7 +1867,7 @@ CBDocumentManager::Receive
 		}
 	else if (sender == itsProjectDocuments && message.Is(JListT::kElementsChanged))
 		{
-		const JListT::ElementsChanged* info =
+		const auto* info =
 			dynamic_cast<const JListT::ElementsChanged*>(&message);
 		assert( info != nullptr );
 		if (info->Contains(1))
@@ -1903,7 +1903,7 @@ CBDocumentManager::Receive
 	else if (sender == itsExtEditorDialog &&
 		message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

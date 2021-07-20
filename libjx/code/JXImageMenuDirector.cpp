@@ -47,7 +47,7 @@ JXImageMenuDirector::~JXImageMenuDirector()
 JXMenuTable*
 JXImageMenuDirector::CreateMenuTable()
 {
-	JXImageMenuTable* table =
+	auto* table =
 		jnew JXImageMenuTable(itsMenu, itsMenuData, GetWindow(),
 							 JXWidget::kHElastic, JXWidget::kVElastic,
 							 0,0, 10,10);

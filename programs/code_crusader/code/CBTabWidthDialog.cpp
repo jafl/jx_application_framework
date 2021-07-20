@@ -67,15 +67,15 @@ CBTabWidthDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 180,90, JString::empty);
+	auto* window = jnew JXWindow(this, 180,90, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBTabWidthDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,60, 60,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CBTabWidthDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 100,60, 60,20);
 	assert( okButton != nullptr );
@@ -86,7 +86,7 @@ CBTabWidthDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 120,20, 40,20);
 	assert( itsTabWidthInput != nullptr );
 
-	JXStaticText* tabWidthLabel =
+	auto* tabWidthLabel =
 		jnew JXStaticText(JGetString("tabWidthLabel::CBTabWidthDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 100,20);
 	assert( tabWidthLabel != nullptr );

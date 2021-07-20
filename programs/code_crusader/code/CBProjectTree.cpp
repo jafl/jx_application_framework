@@ -71,7 +71,7 @@ CBProjectNode*
 CBProjectTree::GetProjectRoot()
 	const
 {
-	CBProjectNode* rootNode =
+	auto* rootNode =
 		dynamic_cast<CBProjectNode*>(const_cast<JTreeNode*>(GetRoot()));
 	assert( rootNode != nullptr );
 	return rootNode;

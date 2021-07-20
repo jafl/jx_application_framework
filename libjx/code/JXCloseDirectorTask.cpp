@@ -26,7 +26,7 @@ JXCloseDirectorTask::Close
 	JXDirector* director
 	)
 {
-	JXCloseDirectorTask* task = jnew JXCloseDirectorTask(director);
+	auto* task = jnew JXCloseDirectorTask(director);
 	assert( task != nullptr );
 	task->Start();
 }

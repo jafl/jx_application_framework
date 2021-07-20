@@ -582,7 +582,7 @@ LLDBLink::SetProgram
 		{
 		StartListeningForEvents(t.GetBroadcaster(), kLLDBEventMask);
 
-		LLDBSymbolsLoadedTask* task = jnew LLDBSymbolsLoadedTask(fullName);
+		auto* task = jnew LLDBSymbolsLoadedTask(fullName);
 		assert( task != nullptr );
 		task->Go();
 		}
@@ -688,7 +688,7 @@ LLDBLink::AttachToProcess
 				JString(f.GetDirectory(), JString::kNoCopy),
 				JString(f.GetFilename(), JString::kNoCopy));
 
-			LLDBSymbolsLoadedTask* task = jnew LLDBSymbolsLoadedTask(fullName);
+			auto* task = jnew LLDBSymbolsLoadedTask(fullName);
 			assert( task != nullptr );
 			task->Go();
 
@@ -1990,7 +1990,7 @@ LLDBLink::StartDebugger
 			};
 		const JString msg = JGetString("Welcome::LLDBLink", map, sizeof(map));
 
-		LLDBWelcomeTask* task = jnew LLDBWelcomeTask(msg, restart);
+		auto* task = jnew LLDBWelcomeTask(msg, restart);
 		assert( task != nullptr );
 		task->Go();
 

@@ -157,7 +157,7 @@ SVNTextBase::ReceiveData
 	const Message& message
 	)
 {
-	const JAsynchDataReceiverT::DataReady* info =
+	const auto* info =
 		dynamic_cast<const JAsynchDataReceiverT::DataReady*>(&message);
 	assert( info != nullptr );
 

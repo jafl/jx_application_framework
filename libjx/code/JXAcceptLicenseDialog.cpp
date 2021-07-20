@@ -49,20 +49,20 @@ JXAcceptLicenseDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 510,570, JString::empty);
+	auto* window = jnew JXWindow(this, 510,570, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* noButton =
+	auto* noButton =
 		jnew JXTextButton(JGetString("noButton::JXAcceptLicenseDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 310,540, 100,20);
 	assert( noButton != nullptr );
 
-	JXTextButton* yesButton =
+	auto* yesButton =
 		jnew JXTextButton(JGetString("yesButton::JXAcceptLicenseDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,540, 100,20);
 	assert( yesButton != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 470,500);
 	assert( scrollbarSet != nullptr );
@@ -75,7 +75,7 @@ JXAcceptLicenseDialog::BuildWindow()
 
 	SetButtons(yesButton, noButton);
 
-	JXStaticText* text =
+	auto* text =
 		jnew JXStaticText(JGetString("LICENSE"), true, false, true,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);

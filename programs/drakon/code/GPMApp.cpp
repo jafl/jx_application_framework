@@ -75,7 +75,7 @@ GPMApp::DisplayAbout
 	const JString& prevVersStr
 	)
 {
-	GPMAboutDialog* dlog = jnew GPMAboutDialog(this, prevVersStr);
+	auto* dlog = jnew GPMAboutDialog(this, prevVersStr);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }

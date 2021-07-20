@@ -134,14 +134,14 @@ JXCheckboxListDialog::BuildWindow
 {
 	const JSize actionCount = choiceList.GetElementCount();
 
-	JXWindow* window = jnew JXWindow(this, 10,10, windowTitle);
+	auto* window = jnew JXWindow(this, 10,10, windowTitle);
 	assert( window != nullptr );
 
 	JCoordinate y = kFirstItemTop;
 
 	// instructions
 
-	JXStaticText* instrText =
+	auto* instrText =
 		jnew JXStaticText(prompt, window,
 						  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						  kHMarginWidth,y, 0,0);
@@ -154,7 +154,7 @@ JXCheckboxListDialog::BuildWindow
 	JCoordinate wmin = 0;
 	for (JIndex i=1; i<=actionCount; i++)
 		{
-		JXTextCheckbox* cb =
+		auto* cb =
 			jnew JXTextCheckbox(*(choiceList.GetElement(i)), window,
 								JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								kCBHLMarginWidth, y + (i-1) * kItemVSeparation,
@@ -188,13 +188,13 @@ JXCheckboxListDialog::BuildWindow
 
 	const JCoordinate buttonX = (wmin - 2*kButtonWidth)/3;
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("CancelLabel::JXGlobal"), window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 buttonX,y, kButtonWidth,kTextHeight);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("OKLabel::JXGlobal"), window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 wmin - buttonX - (kButtonWidth+2), y-1,

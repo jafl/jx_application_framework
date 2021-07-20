@@ -176,12 +176,12 @@ GPMProcessList::Update()
 			}
 		else
 			{
-			kinfo_proc* list = (kinfo_proc*) buf;
+			auto* list = (kinfo_proc*) buf;
 
 			const JSize count = len / sizeof(kinfo_proc);
 			for (JUnsignedOffset i=0; i<count; i++)
 				{
-				GPMProcessEntry* pentry = jnew GPMProcessEntry(itsTree, list[i]);
+				auto* pentry = jnew GPMProcessEntry(itsTree, list[i]);
 				assert( pentry != nullptr );
 				newEntries.InsertSorted(pentry);
 				}

@@ -164,15 +164,15 @@ CMVarTreeDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,500, JString::empty);
+	auto* window = jnew JXWindow(this, 450,500, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
 	assert( menuBar != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 450,470);
 	assert( scrollbarSet != nullptr );
@@ -187,7 +187,7 @@ CMVarTreeDir::BuildWindow()
 	CMGetPrefsManager()->GetWindowSize(kVarTreeWindSizeID, window);
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = jnew JXImage(display, medic_variables_window);
+	auto* icon      = jnew JXImage(display, medic_variables_window);
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
@@ -195,7 +195,7 @@ CMVarTreeDir::BuildWindow()
 	assert( root != nullptr );
 	itsTree = jnew JTree(root);
 	assert( itsTree != nullptr );
-	JNamedTreeList* treeList = jnew JNamedTreeList(itsTree);
+	auto* treeList = jnew JNamedTreeList(itsTree);
 	assert( treeList != nullptr );
 
 	itsWidget =
@@ -224,7 +224,7 @@ CMVarTreeDir::BuildWindow()
 	itsActionMenu->SetItemImage(kDisplay2DArrayCmd, medic_show_2d_array);
 	itsActionMenu->SetItemImage(kExamineMemCmd,     medic_show_memory);
 
-	JXWDMenu* wdMenu =
+	auto* wdMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
@@ -301,7 +301,7 @@ CMVarTreeDir::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -313,7 +313,7 @@ CMVarTreeDir::Receive
 		}
 	else if (sender == itsActionMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());
@@ -321,7 +321,7 @@ CMVarTreeDir::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
@@ -329,7 +329,7 @@ CMVarTreeDir::Receive
 
 	else if (sender == itsLink && message.Is(CMLink::kSymbolsLoaded))
 		{
-		const CMLink::SymbolsLoaded* info =
+		const auto* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
 		assert( info != nullptr );
 		UpdateWindowTitle(info->GetProgramName());

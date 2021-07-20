@@ -36,7 +36,7 @@ JXEPSPrintSetupDialog::Create
 	const bool	bw
 	)
 {
-	JXEPSPrintSetupDialog* dlog = jnew JXEPSPrintSetupDialog;
+	auto* dlog = jnew JXEPSPrintSetupDialog;
 	assert( dlog != nullptr );
 	dlog->BuildWindow(fileName, printPreview, bw);
 	return dlog;
@@ -77,7 +77,7 @@ JXEPSPrintSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,130, JString::empty);
+	auto* window = jnew JXWindow(this, 370,130, JString::empty);
 	assert( window != nullptr );
 
 	itsChooseFileButton =
@@ -85,13 +85,13 @@ JXEPSPrintSetupDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
 	assert( itsChooseFileButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXEPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,100, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXEPSPrintSetupDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXEPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,100, 70,20);
 	assert( cancelButton != nullptr );
@@ -158,7 +158,7 @@ JXEPSPrintSetupDialog::SetObjects
 	itsFileInput->GetText()->SetText(fileName);
 	if (itsFileInput->GetText()->IsEmpty())
 		{
-		JXChooseEPSDestFileTask* task = jnew JXChooseEPSDestFileTask(this);
+		auto* task = jnew JXChooseEPSDestFileTask(this);
 		assert( task != nullptr );
 		task->Go();
 		}

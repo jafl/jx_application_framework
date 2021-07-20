@@ -397,7 +397,7 @@ JStringManager::MergeFile
 			break;
 			}
 
-		JString* s = jnew JString;
+		auto* s = jnew JString;
 		assert( s != nullptr );
 
 		input >> *s;

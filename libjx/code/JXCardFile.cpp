@@ -79,7 +79,7 @@ JXCardFile::InsertCard
 	const JIndex index
 	)
 {
-	JXWidgetSet* card = jnew JXWidgetSet(this, kHElastic, kVElastic, 0,0, 10,10);
+	auto* card = jnew JXWidgetSet(this, kHElastic, kVElastic, 0,0, 10,10);
 	assert( card != nullptr );
 	InsertCard(index, card);
 	return card;
@@ -121,7 +121,7 @@ JXCardFile::RemoveCard
 	const JIndex index
 	)
 {
-	JXWidgetSet* card = dynamic_cast<JXWidgetSet*>(itsCards->GetElement(index));
+	auto* card = dynamic_cast<JXWidgetSet*>(itsCards->GetElement(index));
 	assert( card != nullptr );
 
 	itsCards->RemoveElement(index);

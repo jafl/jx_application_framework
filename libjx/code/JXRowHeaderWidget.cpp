@@ -517,7 +517,7 @@ JXRowHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kRowHeightChanged))
 		{
-		const JTable::RowHeightChanged* info =
+		const auto* info =
 			dynamic_cast<const JTable::RowHeightChanged*>(&message);
 		assert( info != nullptr );
 		SetRowHeight(info->GetIndex(), info->GetNewRowHeight());
@@ -525,7 +525,7 @@ JXRowHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kAllRowHeightsChanged))
 		{
-		const JTable::AllRowHeightsChanged* info =
+		const auto* info =
 			dynamic_cast<const JTable::AllRowHeightsChanged*>(& message);
 		assert( info != nullptr );
 		SetAllRowHeights(info->GetNewRowHeight());
@@ -533,7 +533,7 @@ JXRowHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kRowsInserted))
 		{
-		const JTable::RowsInserted* info =
+		const auto* info =
 			dynamic_cast<const JTable::RowsInserted*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
@@ -548,7 +548,7 @@ JXRowHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kRowsRemoved))
 		{
-		const JTable::RowsRemoved* info =
+		const auto* info =
 			dynamic_cast<const JTable::RowsRemoved*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
@@ -563,7 +563,7 @@ JXRowHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kRowMoved))
 		{
-		const JTable::RowMoved* info =
+		const auto* info =
 			dynamic_cast<const JTable::RowMoved*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
@@ -575,7 +575,7 @@ JXRowHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kRowBorderWidthChanged))
 		{
-		const JTable::RowBorderWidthChanged* info =
+		const auto* info =
 			dynamic_cast<const JTable::RowBorderWidthChanged*>(&message);
 		assert( info != nullptr );
 		SetRowBorderInfo(info->GetNewBorderWidth(), JColorManager::GetDefaultBackColor());

@@ -42,7 +42,7 @@ CBListChooseFileDialog::Create
 	const JString&	message
 	)
 {
-	CBListChooseFileDialog* dlog =
+	auto* dlog =
 		jnew CBListChooseFileDialog(supervisor, dirInfo, fileFilter, allowSelectMultiple);
 	assert( dlog != nullptr );
 	dlog->BuildWindow(replaceListStr, appendToListStr, origName, message);
@@ -103,73 +103,73 @@ CBListChooseFileDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 310,420, JString::empty);
+	auto* window = jnew JXWindow(this, 310,420, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* openButton =
+	auto* openButton =
 		jnew JXTextButton(JGetString("openButton::CBListChooseFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,280, 70,20);
 	assert( openButton != nullptr );
 	openButton->SetShortcuts(JGetString("openButton::CBListChooseFileDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBListChooseFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,310, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* homeButton =
+	auto* homeButton =
 		jnew JXTextButton(JGetString("homeButton::CBListChooseFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,140, 40,20);
 	assert( homeButton != nullptr );
 
-	JXStaticText* pathLabel =
+	auto* pathLabel =
 		jnew JXStaticText(JGetString("pathLabel::CBListChooseFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,20, 40,20);
 	assert( pathLabel != nullptr );
 	pathLabel->SetToLabel();
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,140, 180,190);
 	assert( scrollbarSet != nullptr );
 
-	JXStaticText* filterLabel =
+	auto* filterLabel =
 		jnew JXStaticText(JGetString("filterLabel::CBListChooseFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,50, 40,20);
 	assert( filterLabel != nullptr );
 	filterLabel->SetToLabel();
 
-	JXTextCheckbox* showHiddenCB =
+	auto* showHiddenCB =
 		jnew JXTextCheckbox(JGetString("showHiddenCB::CBListChooseFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,80, 130,20);
 	assert( showHiddenCB != nullptr );
 
-	JXPathInput* pathInput =
+	auto* pathInput =
 		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,20, 200,20);
 	assert( pathInput != nullptr );
 
-	JXInputField* filterInput =
+	auto* filterInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,50, 200,20);
 	assert( filterInput != nullptr );
 
-	JXPathHistoryMenu* pathHistory =
+	auto* pathHistory =
 		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != nullptr );
 
-	JXStringHistoryMenu* filterHistory =
+	auto* filterHistory =
 		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != nullptr );
 
-	JXTextButton* upButton =
+	auto* upButton =
 		jnew JXTextButton(JGetString("upButton::CBListChooseFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,140, 30,20);
 	assert( upButton != nullptr );
 
-	JXTextButton* selectAllButton =
+	auto* selectAllButton =
 		jnew JXTextButton(JGetString("selectAllButton::CBListChooseFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,190, 70,20);
 	assert( selectAllButton != nullptr );
@@ -179,22 +179,22 @@ CBListChooseFileDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,340, 204,74);
 	assert( itsAppendReplaceRG != nullptr );
 
-	JXTextRadioButton* replaceRB =
+	auto* replaceRB =
 		jnew JXTextRadioButton(kReplaceCmd, JGetString("replaceRB::CBListChooseFileDialog::JXLayout"), itsAppendReplaceRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 180,20);
 	assert( replaceRB != nullptr );
 
-	JXTextRadioButton* appendRB =
+	auto* appendRB =
 		jnew JXTextRadioButton(kAppendCmd, JGetString("appendRB::CBListChooseFileDialog::JXLayout"), itsAppendReplaceRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,40, 180,20);
 	assert( appendRB != nullptr );
 
-	JXCurrentPathMenu* currPathMenu =
+	auto* currPathMenu =
 		jnew JXCurrentPathMenu(JString("/", false), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 
-	JXTextButton* desktopButton =
+	auto* desktopButton =
 		jnew JXTextButton(JGetString("desktopButton::CBListChooseFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,160, 70,20);
 	assert( desktopButton != nullptr );

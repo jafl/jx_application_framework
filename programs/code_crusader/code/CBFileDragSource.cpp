@@ -125,7 +125,7 @@ CBFileDragSource::HandleMouseDown
 		JPtrArray<JString> list(JPtrArrayT::kForgetAll);
 		list.Append(&fileName);
 
-		JXFileSelection* data = jnew JXFileSelection(GetDisplay(), list);
+		auto* data = jnew JXFileSelection(GetDisplay(), list);
 		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data);
@@ -133,10 +133,10 @@ CBFileDragSource::HandleMouseDown
 	else if (itsNameInput != nullptr &&
 			 !itsNameInput->GetText()->GetText().EndsWith(ACE_DIRECTORY_SEPARATOR_STR))
 		{
-		CBDSSFinishSaveTask* task = jnew CBDSSFinishSaveTask(itsDoc);
+		auto* task = jnew CBDSSFinishSaveTask(itsDoc);
 		assert( task != nullptr );
 
-		JXDSSSelection* data = jnew JXDSSSelection(GetWindow(), task);
+		auto* data = jnew JXDSSSelection(GetWindow(), task);
 		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data);

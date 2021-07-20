@@ -371,7 +371,7 @@ JXProgressDisplay::Receive
 {
 	if (sender == itsCancelButton && message.Is(JXButton::kPushed))
 		{
-		const JXButton::Pushed* info =
+		const auto* info =
 			dynamic_cast<const JXButton::Pushed*>(&message);
 		assert( info != nullptr );
 		itsCancelFlag = true;

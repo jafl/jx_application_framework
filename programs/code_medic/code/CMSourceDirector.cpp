@@ -136,7 +136,7 @@ CMSourceDirector::Create
 	const Type			type
 	)
 {
-	CMSourceDirector* dir = jnew CMSourceDirector(commandDir, fileOrFn, type);
+	auto* dir = jnew CMSourceDirector(commandDir, fileOrFn, type);
 	assert( dir != nullptr );
 	dir->CreateWindowsMenu();
 	return dir;
@@ -274,7 +274,7 @@ CMSourceDirector::BuildWindow()
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 600,550, JString::empty);
+	auto* window = jnew JXWindow(this, 600,550, JString::empty);
 	assert( window != nullptr );
 
 	itsMenuBar =
@@ -292,7 +292,7 @@ CMSourceDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,530, 580,20);
 	assert( itsFileDisplay != nullptr );
 
-	CMFileDragSource* dragSource =
+	auto* dragSource =
 		jnew CMFileDragSource(this, window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,530, 20,20);
 	assert( dragSource != nullptr );
@@ -313,7 +313,7 @@ CMSourceDirector::BuildWindow()
 		CMGetPrefsManager()->GetWindowSize(kMainCodeWindSizeID, window);
 
 		JXDisplay* display = GetDisplay();
-		JXImage* icon      = jnew JXImage(display, medic_current_source_window);
+		auto* icon      = jnew JXImage(display, medic_current_source_window);
 		assert( icon != nullptr );
 		window->SetIcon(icon);
 		}
@@ -325,7 +325,7 @@ CMSourceDirector::BuildWindow()
 		CMGetPrefsManager()->GetWindowSize(kMainAsmWindSizeID, window);
 
 		JXDisplay* display = GetDisplay();
-		JXImage* icon      = jnew JXImage(display, medic_current_asm_window);
+		auto* icon      = jnew JXImage(display, medic_current_asm_window);
 		assert( icon != nullptr );
 		window->SetIcon(icon);
 		}
@@ -354,7 +354,7 @@ CMSourceDirector::BuildWindow()
 
 	const JCoordinate kInitTableWidth = 50;
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != nullptr );
@@ -527,7 +527,7 @@ CMSourceDirector::Receive
 	else if (IsMainSourceWindow() &&
 			 sender == itsLink && message.Is(CMLink::kSymbolsLoaded))
 		{
-		const CMLink::SymbolsLoaded* info =
+		const auto* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
 		assert( info != nullptr );
 		UpdateWindowTitle(info->GetProgramName());
@@ -535,7 +535,7 @@ CMSourceDirector::Receive
 	else if (IsMainSourceWindow() &&
 			 sender == itsLink && message.Is(CMLink::kProgramStopped))
 		{
-		const CMLink::ProgramStopped* info =
+		const auto* info =
 			dynamic_cast<const CMLink::ProgramStopped*>(&message);
 		assert( info != nullptr);
 		const CMLocation* loc;
@@ -563,7 +563,7 @@ CMSourceDirector::Receive
 	else if (itsType == kMainAsmType && sender == itsLink &&
 			 message.Is(CMLink::kProgramStopped2))
 		{
-		const CMLink::ProgramStopped2* info =
+		const auto* info =
 			dynamic_cast<const CMLink::ProgramStopped2*>(&message);
 		assert( info != nullptr);
 		const CMLocation* loc;
@@ -600,7 +600,7 @@ CMSourceDirector::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -612,7 +612,7 @@ CMSourceDirector::Receive
 		}
 	else if (sender == itsDebugMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsCommandDir->HandleDebugMenu(itsDebugMenu, selection->GetIndex(), itsText, nullptr);
@@ -624,7 +624,7 @@ CMSourceDirector::Receive
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
@@ -632,7 +632,7 @@ CMSourceDirector::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
@@ -680,7 +680,7 @@ CMSourceDirector::ReceiveGoingAway
 			itsGetAssemblyCmd = nullptr;
 			}
 
-		CMClearSourceDisplayTask* task = jnew CMClearSourceDisplayTask(this);
+		auto* task = jnew CMClearSourceDisplayTask(this);
 		assert( task != nullptr );
 		task->Go();
 		}
@@ -813,7 +813,7 @@ CMSourceDirector::DisplayDisassembly
 	const JString&		instText
 	)
 {
-	CMLineAddressTable* table = dynamic_cast<CMLineAddressTable*>(itsTable);
+	auto* table = dynamic_cast<CMLineAddressTable*>(itsTable);
 	table->SetLineNumbers(addrList);
 	itsText->GetText()->SetText(instText);
 
@@ -865,7 +865,7 @@ CMSourceDirector::DisplayLine
 void
 CMSourceDirector::ClearDisplay()
 {
-	CMLineAddressTable* table = dynamic_cast<CMLineAddressTable*>(itsTable);
+	auto* table = dynamic_cast<CMLineAddressTable*>(itsTable);
 	if (table != nullptr)
 		{
 		table->ClearLineNumbers();
@@ -1103,7 +1103,7 @@ CMSourceDirector::HandlePrefsMenu
 		}
 	else if (index == kEditCmdsCmd)
 		{
-		CMEditCommandsDialog* dlog = jnew CMEditCommandsDialog;
+		auto* dlog = jnew CMEditCommandsDialog;
 		assert(dlog != nullptr);
 		dlog->BeginDialog();
 		}

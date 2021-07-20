@@ -131,7 +131,7 @@ CBCTree::StreamInCClass
 	CBTree*				tree
 	)
 {
-	CBCClass* newClass = jnew CBCClass(input, vers, tree);
+	auto* newClass = jnew CBCClass(input, vers, tree);
 	assert( newClass != nullptr );
 	return newClass;
 }

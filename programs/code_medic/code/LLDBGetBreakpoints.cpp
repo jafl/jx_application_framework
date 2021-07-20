@@ -51,7 +51,7 @@ LLDBGetBreakpoints::HandleSuccess
 	const JString& cmdData
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	auto* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link == nullptr)
 		{
 		return;
@@ -167,7 +167,7 @@ LLDBGetBreakpoints::HandleSuccess
 			cond.Clear();
 			}
 
-		CMBreakpoint* bp = jnew CMBreakpoint(w.GetID(), loc, JString::empty, addr,
+		auto* bp = jnew CMBreakpoint(w.GetID(), loc, JString::empty, addr,
 											 w.IsEnabled(), CMBreakpoint::kKeepBreakpoint,
 											 cond, w.GetIgnoreCount());
 		assert( bp != nullptr );

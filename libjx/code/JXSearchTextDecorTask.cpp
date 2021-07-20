@@ -60,7 +60,7 @@ JXSearchTextDecorTask::Perform()
 	const JRect soFrame = itsStayOpenCB->GetFrameGlobal();
 	const JRect rfFrame = itsRetainFocusCB->GetFrameGlobal();
 
-	JXDownRect* line =
+	auto* line =
 		jnew JXDownRect(itsWindow, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						soFrame.left, soFrame.top-6,
 						rfFrame.right-soFrame.left, 2);

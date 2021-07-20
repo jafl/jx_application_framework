@@ -145,7 +145,7 @@ SyGFileTree::SetNodeCompareFunction
 SyGFileTreeNode*
 SyGFileTree::GetSyGRoot()
 {
-	SyGFileTreeNode* root = dynamic_cast<SyGFileTreeNode*>(GetRoot());
+	auto* root = dynamic_cast<SyGFileTreeNode*>(GetRoot());
 	assert( root != nullptr );
 	return root;
 }
@@ -154,7 +154,7 @@ const SyGFileTreeNode*
 SyGFileTree::GetSyGRoot()
 	const
 {
-	const SyGFileTreeNode* root = dynamic_cast<const SyGFileTreeNode*>(GetRoot());
+	const auto* root = dynamic_cast<const SyGFileTreeNode*>(GetRoot());
 	assert( root != nullptr );
 	return root;
 }

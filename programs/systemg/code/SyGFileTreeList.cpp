@@ -45,7 +45,7 @@ SyGFileTreeList::~SyGFileTreeList()
 SyGFileTree*
 SyGFileTreeList::GetSyGFileTree()
 {
-	SyGFileTree* tree = dynamic_cast<SyGFileTree*>(GetTree());
+	auto* tree = dynamic_cast<SyGFileTree*>(GetTree());
 	assert( tree != nullptr );
 	return tree;
 }
@@ -54,7 +54,7 @@ const SyGFileTree*
 SyGFileTreeList::GetSyGFileTree()
 	const
 {
-	const SyGFileTree* tree = dynamic_cast<const SyGFileTree*>(GetTree());
+	const auto* tree = dynamic_cast<const SyGFileTree*>(GetTree());
 	assert( tree != nullptr );
 	return tree;
 }
@@ -70,7 +70,7 @@ SyGFileTreeList::GetSyGNode
 	const JIndex index
 	)
 {
-	SyGFileTreeNode* node = dynamic_cast<SyGFileTreeNode*>(GetNode(index));
+	auto* node = dynamic_cast<SyGFileTreeNode*>(GetNode(index));
 	assert (node != nullptr);
 	return node;
 }
@@ -82,7 +82,7 @@ SyGFileTreeList::GetSyGNode
 	)
 	const
 {
-	const SyGFileTreeNode* node = dynamic_cast<const SyGFileTreeNode*>(GetNode(index));
+	const auto* node = dynamic_cast<const SyGFileTreeNode*>(GetNode(index));
 	assert (node != nullptr);
 	return node;
 }
@@ -115,7 +115,7 @@ SyGFileTreeList::ShouldOpenSibling
 	const JTreeNode* node
 	)
 {
-	const JFSFileTreeNode* fsNode = dynamic_cast<const JFSFileTreeNode*>(node);
+	const auto* fsNode = dynamic_cast<const JFSFileTreeNode*>(node);
 	assert( fsNode != nullptr );
 	const JDirEntry* entry = fsNode->GetDirEntry();
 	return !JIsVCSDirectory(entry->GetName());

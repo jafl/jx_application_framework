@@ -25,7 +25,7 @@
 void
 JXMacWinPrefsDialog::EditPrefs()
 {
-	JXMacWinPrefsDialog* dlog = jnew JXMacWinPrefsDialog;
+	auto* dlog = jnew JXMacWinPrefsDialog;
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
@@ -62,16 +62,16 @@ JXMacWinPrefsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 350,230, JString::empty);
+	auto* window = jnew JXWindow(this, 350,230, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,200, 60,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXMacWinPrefsDialog::shortcuts::JXLayout"));
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,200, 60,20);
 	assert( cancelButton != nullptr );
@@ -86,7 +86,7 @@ JXMacWinPrefsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 320,20);
 	assert( itsHomeEndCB != nullptr );
 
-	JXStaticText* restartHint =
+	auto* restartHint =
 		jnew JXStaticText(JGetString("restartHint::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 300,20);
 	assert( restartHint != nullptr );
@@ -134,7 +134,7 @@ JXMacWinPrefsDialog::Receive
 {
 	if (sender == this && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

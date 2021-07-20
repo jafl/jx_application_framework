@@ -2269,7 +2269,7 @@ JXContainer::FTCGroupAlignedObjects
 	const JRect targetRect         = target->GetFrameForFTC();
 	const JIntRange targetInterval = ftcGetInterval(targetRect, horizontal);
 
-	JXFTCCell* container =
+	auto* container =
 		jnew JXFTCCell(nullptr, target->GetEnclosure(),
 					   horizontal ? JXFTCCell::kHorizontal : JXFTCCell::kVertical,
 					   exact);
@@ -2277,7 +2277,7 @@ JXContainer::FTCGroupAlignedObjects
 
 	JPtrArray<JXFTCCell> cellList(JPtrArrayT::kForgetAll);
 
-	JXFTCCell* cell = dynamic_cast<JXFTCCell*>(target);
+	auto* cell = dynamic_cast<JXFTCCell*>(target);
 	if (cell != nullptr)
 		{
 		ftcReparentCell(cell, container);
@@ -2311,7 +2311,7 @@ JXContainer::FTCGroupAlignedObjects
 			continue;
 			}
 
-		JXFTCCell* cellObj = dynamic_cast<JXFTCCell*>(obj);
+		auto* cellObj = dynamic_cast<JXFTCCell*>(obj);
 		if (cellObj != nullptr)
 			{
 			cell = cellObj;
@@ -2341,7 +2341,7 @@ JXContainer::FTCGroupAlignedObjects
 
 	if (cellList.GetElementCount() == 1)
 		{
-		JXFTCCell* targetCell = dynamic_cast<JXFTCCell*>(target);
+		auto* targetCell = dynamic_cast<JXFTCCell*>(target);
 		if (targetCell == nullptr)
 			{
 			targetCell = cellList.GetFirstElement();
@@ -2368,7 +2368,7 @@ JXContainer::FTCGroupAlignedObjects
 				JPtrArrayIterator<JXContainer> i2(cell->itsEnclosedObjs);
 				while (i2.Next(&obj))
 					{
-					JXFTCCell* c2 = dynamic_cast<JXFTCCell*>(obj);
+					auto* c2 = dynamic_cast<JXFTCCell*>(obj);
 					assert( c2 != nullptr );
 					ftcReparentCell(c2, container);
 					cellList.InsertBefore(cell, c2);

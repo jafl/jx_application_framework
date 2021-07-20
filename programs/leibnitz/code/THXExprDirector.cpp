@@ -287,10 +287,10 @@ THXExprDirector::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 360,240, JString::empty);
+	auto* window = jnew JXWindow(this, 360,240, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 360,30);
 	assert( menuBar != nullptr );
@@ -313,13 +313,13 @@ THXExprDirector::BuildWindow
 	window->SetWMClass(THXGetWMClassInstance(), THXGetExprWindowClass());
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = jnew JXImage(display, thx_expr_window);
+	auto* icon      = jnew JXImage(display, thx_expr_window);
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
 	// create tape
 
-	JXScrollbarSet* scrollbarSet2 =
+	auto* scrollbarSet2 =
 		jnew JXScrollbarSet(itsPartition->GetCompartment(2),
 						   JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 100,100);
@@ -336,7 +336,7 @@ THXExprDirector::BuildWindow
 
 	// create expr editor -- requires tape
 
-	JXScrollbarSet* scrollbarSet1 =
+	auto* scrollbarSet1 =
 		jnew JXScrollbarSet(itsPartition->GetCompartment(1),
 						   JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 100,100);
@@ -412,7 +412,7 @@ THXExprDirector::Receive
 		}
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
@@ -424,7 +424,7 @@ THXExprDirector::Receive
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
@@ -436,7 +436,7 @@ THXExprDirector::Receive
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, "THXExprHelp",

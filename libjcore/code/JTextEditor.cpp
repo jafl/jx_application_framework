@@ -394,7 +394,7 @@ JTextEditor::Receive
 	else if (sender == itsText &&
 			 message.Is(JStyledText::kTextChanged))
 		{
-		const JStyledText::TextChanged* info =
+		const auto* info =
 			dynamic_cast<const JStyledText::TextChanged*>(&message);
 		assert( info != nullptr );
 		const TextRange& rcr = info->GetRecalcRange();
@@ -461,7 +461,7 @@ JTextEditor::Receive
 	else if (sender == itsText &&
 			 message.Is(JStyledText::kUndoFinished))
 		{
-		const JStyledText::UndoFinished* info =
+		const auto* info =
 			dynamic_cast<const JStyledText::UndoFinished*>(&message);
 		assert( info != nullptr );
 		const TextRange r = info->GetRange();
@@ -4016,7 +4016,7 @@ JTextEditor::RecalcRange
 								byteDelta = textLength.byteCount - itsPrevTextEnd.byteCount;
 			if (charDelta != 0 || byteDelta != 0)
 				{
-				TextIndex* lineStart  = const_cast<TextIndex*>(itsLineStarts->GetCArray());
+				auto* lineStart  = const_cast<TextIndex*>(itsLineStarts->GetCArray());
 				const JSize lineCount = GetLineCount();
 				for (JIndex i=lineIndex; i<lineCount; i++)
 					{

@@ -628,7 +628,7 @@ JFileArray::GetElement
 
 	// allocate temporary space to hold the element's data
 
-	JUtf8Byte* data = jnew JUtf8Byte [ length ];
+	auto* data = jnew JUtf8Byte [ length ];
 	assert( data != nullptr );
 
 	// stuff the element's data into elementData
@@ -1115,7 +1115,7 @@ JFileArray::ExpandData
 	// allocate temporary memory for transfer of data
 
 	JSize       dataSize = JMin(maxTempMem, totalLength - offset);
-	JUtf8Byte* data      = jnew JUtf8Byte [ dataSize ];
+	auto* data      = jnew JUtf8Byte [ dataSize ];
 	assert( data != nullptr );
 
 	// start at end of data and work towards front of file
@@ -1206,7 +1206,7 @@ JFileArray::CompactData
 	// allocate temporary memory for transfer of data
 
 	JSize       dataSize = JMin(maxTempMem, totalLength - offset - blankSize);
-	JUtf8Byte* data      = jnew JUtf8Byte [ dataSize ];
+	auto* data      = jnew JUtf8Byte [ dataSize ];
 	assert( data != nullptr );
 
 	// start in front of unneeded space and work towards end of file

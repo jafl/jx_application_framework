@@ -118,7 +118,7 @@ bool
 CBMacroSetTable::ContentsValid()
 	const
 {
-	CBMacroSetTable* me = const_cast<CBMacroSetTable*>(this);
+	auto* me = const_cast<CBMacroSetTable*>(this);
 
 	return me->EndEditing() &&
 				itsActionTable->ContentsValid() &&

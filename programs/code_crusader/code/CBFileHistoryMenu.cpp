@@ -115,7 +115,7 @@ CBFileHistoryMenu::Receive
 {
 	if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 
@@ -142,7 +142,7 @@ CBFileHistoryMenu::Receive
 	else if (sender == CBGetDocumentManager() &&
 			 message.Is(CBDocumentManager::kAddFileToHistory))
 		{
-		const CBDocumentManager::AddFileToHistory* info =
+		const auto* info =
 			dynamic_cast<const CBDocumentManager::AddFileToHistory*>(&message);
 		assert( info != nullptr );
 		if (itsDocType == info->GetFileHistoryType())

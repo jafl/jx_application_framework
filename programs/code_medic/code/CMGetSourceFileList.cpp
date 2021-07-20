@@ -62,7 +62,7 @@ CMGetSourceFileList::Receive
 		}
 	else if (sender == link && message.Is(CMLink::kSymbolsLoaded))
 		{
-		const CMLink::SymbolsLoaded* info =
+		const auto* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

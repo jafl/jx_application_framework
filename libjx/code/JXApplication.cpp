@@ -163,7 +163,7 @@ JXApplication::JXApplication
 
 	// idle task to quit if add directors deactivated
 
-	JXQuitIfAllDeactTask* task = jnew JXQuitIfAllDeactTask;
+	auto* task = jnew JXQuitIfAllDeactTask;
 	assert( task != nullptr );
 	task->Start();
 }
@@ -736,7 +736,7 @@ JXApplication::GetNextWindowEvent
 {
 	const Window currWindow = (event->xany).window;
 
-	Window* eventWindow = reinterpret_cast<Window*>(arg);
+	auto* eventWindow = reinterpret_cast<Window*>(arg);
 	for (JUnsignedOffset i=0; i<kEventWindowCount; i++)
 		{
 		if (currWindow == eventWindow[i])
@@ -785,7 +785,7 @@ JXApplication::DiscardNextEvent
 	char*		arg
 	)
 {
-	DiscardEventInfo* info = reinterpret_cast<DiscardEventInfo*>(arg);
+	auto* info = reinterpret_cast<DiscardEventInfo*>(arg);
 
 	if (info->eventWindow != nullptr &&
 		GetNextWindowEvent(display, event, reinterpret_cast<char*>(info->eventWindow)))

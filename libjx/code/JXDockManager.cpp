@@ -97,7 +97,7 @@ JXDockManager::CreateDock
 	JXGetApplication()->SetCurrentDisplay(itsDisplay);
 	JXDockWindowTask::PrepareForDockAll();
 
-	JXDockDirector* dock = jnew JXDockDirector(title, splitHoriz);
+	auto* dock = jnew JXDockDirector(title, splitHoriz);
 	assert( dock != nullptr );
 	itsDockList->Append(dock);
 	dock->Activate();
@@ -351,7 +351,7 @@ JXDockManager::ReadSetup
 		{
 		title = GetNewDockTitle();
 
-		JXDockDirector* dir = jnew JXDockDirector(input, vers, title);
+		auto* dir = jnew JXDockDirector(input, vers, title);
 		assert( dir != nullptr );
 		itsDockList->Append(dir);
 		dir->Activate();

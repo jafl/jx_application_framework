@@ -198,13 +198,13 @@ CBApp::DisplayAbout
 	const bool	init
 	)
 {
-	CBAboutDialog* dlog = jnew CBAboutDialog(this, prevVersStr);
+	auto* dlog = jnew CBAboutDialog(this, prevVersStr);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 
 	if (init && prevVersStr.IsEmpty())
 		{
-		JXAskInitDockAll* task = jnew JXAskInitDockAll(dlog);
+		auto* task = jnew JXAskInitDockAll(dlog);
 		assert( task != nullptr );
 		task->Start();
 		}
@@ -218,7 +218,7 @@ CBApp::DisplayAbout
 void
 CBApp::EditMiscPrefs()
 {
-	CBEditMiscPrefsDialog* dlog = jnew CBEditMiscPrefsDialog();
+	auto* dlog = jnew CBEditMiscPrefsDialog();
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
@@ -315,7 +315,7 @@ CBApp::HandleHelpMenu
 
 	else if (index == kTipCmd)
 		{
-		JXTipOfTheDayDialog* dlog = jnew JXTipOfTheDayDialog;
+		auto* dlog = jnew JXTipOfTheDayDialog;
 		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		}
@@ -465,7 +465,7 @@ CBApp::GetSystemIncludeDirectories()
 		{
 		if (JDirectoryExists(JString(s, JString::kNoCopy)))
 			{
-			JString* p = jnew JString(s);
+			auto* p = jnew JString(s);
 			assert( p != nullptr );
 			itsSystemIncludeDirs->Append(p);
 			}
@@ -482,7 +482,7 @@ CBApp::GetSystemIncludeDirectories()
 			{
 			if (JDirectoryExists(JString(s, JString::kNoCopy)))
 				{
-				JString* p = jnew JString(s);
+				auto* p = jnew JString(s);
 				assert( p != nullptr );
 				itsSystemIncludeDirs->Append(p);
 				}

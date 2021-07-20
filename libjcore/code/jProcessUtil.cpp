@@ -108,7 +108,7 @@ JParseArgsForExec
 			iter.SkipNext();
 			if (!m.IsEmpty())
 				{
-				JString* s = jnew JString(m.GetString());
+				auto* s = jnew JString(m.GetString());
 				assert( s != nullptr );
 				if (!s->IsEmpty())
 					{
@@ -153,7 +153,7 @@ JParseArgsForExec
 	const JStringMatch& m = iter.FinishMatch();
 	if (!m.IsEmpty())
 		{
-		JString* s = jnew JString(m.GetString());
+		auto* s = jnew JString(m.GetString());
 		assert( s != nullptr );
 		JCleanArg(s);	// clean out backslashes and quotes
 		argList->Append(s);
@@ -350,7 +350,7 @@ JExecute
 {
 	const JSize argc = argList.GetElementCount();
 
-	const JUtf8Byte** argv = jnew const JUtf8Byte* [ argc+1 ];
+	const auto** argv = jnew const JUtf8Byte* [ argc+1 ];
 	assert( argv != nullptr );
 
 	for (JIndex i=1; i<=argc; i++)
@@ -621,7 +621,7 @@ JExecute
 				return JNoError();
 				}
 
-			JProcess* p = jnew JProcess(pid2);
+			auto* p = jnew JProcess(pid2);
 			p->KillAtExit(true);
 			}
 

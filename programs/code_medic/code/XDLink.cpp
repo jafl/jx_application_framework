@@ -432,7 +432,7 @@ XDLink::ReceiveMessageFromDebugger()
 				{
 				CancelAllCommands();
 
-				XDCloseSocketTask* task = jnew XDCloseSocketTask(itsLink);
+				auto* task = jnew XDCloseSocketTask(itsLink);
 				assert( task != nullptr );
 				task->Go();
 				}
@@ -521,7 +521,7 @@ XDLink::SetProgram
 			}
 		}
 
-	XDSetProgramTask* task = jnew XDSetProgramTask();
+	auto* task = jnew XDSetProgramTask();
 	assert( task != nullptr );
 	task->Go();
 }
@@ -1594,7 +1594,7 @@ XDLink::StartDebugger()
 			};
 		JString msg = JGetString("ListenError::XDLink", map, sizeof(map));
 
-		XDWelcomeTask* task = jnew XDWelcomeTask(msg, true);
+		auto* task = jnew XDWelcomeTask(msg, true);
 		assert( task != nullptr );
 		task->Go();
 		return false;
@@ -1607,7 +1607,7 @@ XDLink::StartDebugger()
 			};
 		JString msg = JGetString("Welcome::XDLink", map, sizeof(map));
 
-		XDWelcomeTask* task = jnew XDWelcomeTask(msg, false);
+		auto* task = jnew XDWelcomeTask(msg, false);
 		assert( task != nullptr );
 		task->Go();
 		return true;

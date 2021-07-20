@@ -38,7 +38,7 @@ SyGCopyProcess::Copy
 {
 	if (CleanSrcList(srcNameList, destNode))
 		{
-		SyGCopyProcess* p =
+		auto* p =
 			jnew SyGCopyProcess(srcTable, srcNameList, destTable, destNode, true);
 		assert( p != nullptr );
 		}
@@ -55,7 +55,7 @@ SyGCopyProcess::Move
 {
 	if (CleanSrcList(srcNameList, destNode))
 		{
-		SyGCopyProcess* p =
+		auto* p =
 			jnew SyGCopyProcess(srcTable, srcNameList, destTable, destNode, false);
 		assert( p != nullptr );
 		}
@@ -478,7 +478,7 @@ SyGCopyProcess::Receive
 		JXDeleteObjectTask<JBroadcaster>::Delete(itsProcess);
 		itsProcess = nullptr;
 
-		const JProcess::Finished* info =
+		const auto* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
 		if (info->Successful())
 			{

@@ -228,10 +228,10 @@ CBDTreeDirector::NewDTree
 {
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
-	CBDTreeDirector* dTreeDir = static_cast<CBDTreeDirector*>(director);
+	auto* dTreeDir = static_cast<CBDTreeDirector*>(director);
 	assert( dTreeDir != nullptr );
 
-	CBDTree* tree = jnew CBDTree(dTreeDir, marginWidth);
+	auto* tree = jnew CBDTree(dTreeDir, marginWidth);
 	assert( tree != nullptr );
 	return tree;
 }
@@ -257,10 +257,10 @@ CBDTreeDirector::StreamInDTree
 {
 	// dynamic_cast<> doesn't work because object is not fully constructed
 
-	CBDTreeDirector* dTreeDir = static_cast<CBDTreeDirector*>(director);
+	auto* dTreeDir = static_cast<CBDTreeDirector*>(director);
 	assert( dTreeDir != nullptr );
 
-	CBDTree* tree = jnew CBDTree(projInput, projVers,
+	auto* tree = jnew CBDTree(projInput, projVers,
 								setInput, setVers, symInput, symVers,
 								dTreeDir, marginWidth, dirList);
 	assert( tree != nullptr );

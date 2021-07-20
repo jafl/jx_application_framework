@@ -154,13 +154,13 @@ void SyGTreeSet::SyGTreeSetX
 		JXCloseDirectorTask::Close(GetWindow()->GetDirector());
 		}
 
-	JDirEntry* entry = jnew JDirEntry(path);
+	auto* entry = jnew JDirEntry(path);
 	assert( entry != nullptr && JFSFileTreeNode::CanHaveChildren(*entry) );
-	SyGFileTreeNode* root = jnew SyGFileTreeNode(entry);
+	auto* root = jnew SyGFileTreeNode(entry);
 	assert( root != nullptr );
 	itsFileTree = jnew SyGFileTree(root);
 	assert( itsFileTree != nullptr );
-	SyGFileTreeList* treeList = jnew SyGFileTreeList(itsFileTree);
+	auto* treeList = jnew SyGFileTreeList(itsFileTree);
 	assert( treeList != nullptr );
 
 	JXContainer* encl = itsScrollbarSet->GetScrollEnclosure();
@@ -174,7 +174,7 @@ void SyGTreeSet::SyGTreeSetX
 	assert( itsTable != nullptr );
 	ListenTo(itsFileTree->GetRootDirInfo());
 
-	SyGHeaderWidget* colHeader =
+	auto* colHeader =
 		jnew SyGHeaderWidget(itsTable, itsScrollbarSet, encl,
 							 kHElastic, kFixedTop,
 							 0,0, enclApG.width(),

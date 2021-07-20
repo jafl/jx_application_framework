@@ -114,7 +114,7 @@ JXImageSelection::SetData
 	const JXImage& image
 	)
 {
-	JXImage* copy = jnew JXImage(image);
+	auto* copy = jnew JXImage(image);
 	assert( copy != nullptr );
 	SetData(copy);
 }

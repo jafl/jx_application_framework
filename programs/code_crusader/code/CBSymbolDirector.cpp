@@ -531,7 +531,7 @@ CBSymbolDirector::FindSymbol
 		}
 	else if (foundSymbol)
 		{
-		CBSymbolSRDirector* dir =
+		auto* dir =
 			jnew CBSymbolSRDirector(this, itsProjDoc, itsSymbolList,
 									symbolList, name);
 		assert( dir != nullptr );
@@ -599,10 +599,10 @@ CBSymbolDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,430, JString::empty);
+	auto* window = jnew JXWindow(this, 400,430, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != nullptr );
@@ -619,7 +619,7 @@ CBSymbolDirector::BuildWindow
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetWMClass(CBGetWMClassInstance(), CBGetSymbolWindowClass());
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != nullptr );
@@ -633,7 +633,7 @@ CBSymbolDirector::BuildWindow
 	itsSymbolTable->FitToEnclosure();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = jnew JXImage(display, jcc_symbol_window);
+	auto* icon      = jnew JXImage(display, jcc_symbol_window);
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
@@ -653,12 +653,12 @@ CBSymbolDirector::BuildWindow
 	itsFileMenu->SetItemImage(kNewTextEditorCmd, jx_file_new);
 	itsFileMenu->SetItemImage(kOpenSomethingCmd, jx_file_open);
 
-	CBFileHistoryMenu* recentProjectMenu =
+	auto* recentProjectMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, menuBar);
 	assert( recentProjectMenu != nullptr );
 
-	CBFileHistoryMenu* recentTextMenu =
+	auto* recentTextMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
 	assert( recentTextMenu != nullptr );
@@ -690,7 +690,7 @@ CBSymbolDirector::BuildWindow
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
 
-	CBDocumentMenu* fileListMenu =
+	auto* fileListMenu =
 		jnew CBDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != nullptr );
@@ -748,7 +748,7 @@ CBSymbolDirector::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -760,7 +760,7 @@ CBSymbolDirector::Receive
 		}
 	else if (sender == itsSymbolMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleSymbolMenu(selection->GetIndex());
@@ -772,7 +772,7 @@ CBSymbolDirector::Receive
 		}
 	else if (sender == itsProjectMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleProjectMenu(selection->GetIndex());
@@ -784,7 +784,7 @@ CBSymbolDirector::Receive
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
@@ -796,7 +796,7 @@ CBSymbolDirector::Receive
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		CBGetApplication()->HandleHelpMenu(itsHelpMenu, "CBSymbolHelp",
@@ -1088,7 +1088,7 @@ CBSymbolDirector::HandlePrefsMenu
 void
 CBSymbolDirector::EditPrefs()
 {
-	CBEditSymbolPrefsDialog* dlog =
+	auto* dlog =
 		jnew CBEditSymbolPrefsDialog(itsRaiseTreeOnRightClickFlag);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
@@ -1128,7 +1128,7 @@ CBSymbolDirector::ReceiveWithFeedback
 {
 	if (sender == itsCmdMenu && message->Is(CBCommandMenu::kGetTargetInfo))
 		{
-		CBCommandMenu::GetTargetInfo* info =
+		auto* info =
 			dynamic_cast<CBCommandMenu::GetTargetInfo*>(message);
 		assert( info != nullptr );
 		itsSymbolTable->GetFileNamesForSelection(info->GetFileList(),

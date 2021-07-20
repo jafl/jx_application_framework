@@ -562,7 +562,7 @@ GDBLink::ReadFromDebugger()
 			// output because the pattern "Reading symbols from [^\n]+..."
 			// will slurp up "(no debugging symbols found)..." as well.
 
-			GDBGetProgramName* cmd = jnew GDBGetProgramName;
+			auto* cmd = jnew GDBGetProgramName;
 			assert( cmd != nullptr );
 
 			if (token.data.pString != nullptr)
@@ -593,7 +593,7 @@ GDBLink::ReadFromDebugger()
 			{
 			// We have to check whether a core was loaded or cleared.
 
-			GDBCheckCoreStatus* cmd = jnew GDBCheckCoreStatus;
+			auto* cmd = jnew GDBCheckCoreStatus;
 			assert( cmd != nullptr );
 			}
 
@@ -628,7 +628,7 @@ GDBLink::ReadFromDebugger()
 			{
 			if (itsChildProcess == nullptr)	// ask user for PID
 				{
-				CMChooseProcessDialog* dialog =
+				auto* dialog =
 					jnew CMChooseProcessDialog(JXGetApplication(), false);
 				assert( dialog != nullptr );
 				dialog->BeginDialog();
@@ -901,7 +901,7 @@ GDBLink::SetCore
 		const JString cmdStr = "core-file " + fullName;
 		if (itsProgramName.IsEmpty())
 			{
-			GDBAnalyzeCore* cmd = jnew GDBAnalyzeCore(cmdStr);
+			auto* cmd = jnew GDBAnalyzeCore(cmdStr);
 			assert( cmd != nullptr );
 			cmd->Send();
 			}
@@ -2237,7 +2237,7 @@ GDBLink::StopProgram()
 //		}
 	else
 		{
-		CMChooseProcessDialog* dlog =
+		auto* dlog =
 			jnew CMChooseProcessDialog(JXGetApplication(), false, true);
 		assert( dlog != nullptr );
 		dlog->BeginDialog();

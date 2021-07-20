@@ -40,7 +40,7 @@ main
 
 	bool displayAbout;
 	JString prevVersStr;
-	SVNApp* app = jnew SVNApp(&argc, argv, &displayAbout, &prevVersStr);
+	auto* app = jnew SVNApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
 	if (displayAbout &&

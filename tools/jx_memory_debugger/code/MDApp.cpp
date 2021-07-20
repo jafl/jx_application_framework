@@ -76,7 +76,7 @@ MDApp::DisplayAbout
 	const JString& prevVersStr
 	)
 {
-	MDAboutDialog* dlog = jnew MDAboutDialog(this, prevVersStr);
+	auto* dlog = jnew MDAboutDialog(this, prevVersStr);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }

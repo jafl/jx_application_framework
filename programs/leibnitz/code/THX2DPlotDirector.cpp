@@ -153,7 +153,7 @@ THX2DPlotDirector::WriteState
 	for (JIndex i=1; i<=fnCount; i++)
 		{
 		const JPlotDataBase& data      = itsPlotWidget->GetCurve(i);
-		const J2DPlotJFunction* fnData = dynamic_cast<const J2DPlotJFunction*>(&data);
+		const auto* fnData = dynamic_cast<const J2DPlotJFunction*>(&data);
 		assert( fnData != nullptr );
 
 		JFloat xMin, xMax;
@@ -182,10 +182,10 @@ THX2DPlotDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 600,400, JString::empty);
+	auto* window = jnew JXWindow(this, 600,400, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
 	assert( menuBar != nullptr );
@@ -201,7 +201,7 @@ THX2DPlotDirector::BuildWindow()
 	window->SetWMClass(THXGetWMClassInstance(), THXGetPlotWindowClass());
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = jnew JXImage(display, thx_2D_plot_window);
+	auto* icon      = jnew JXImage(display, thx_2D_plot_window);
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
@@ -273,7 +273,7 @@ THX2DPlotDirector::AddFunction
 	const JFloat	xMax
 	)
 {
-	J2DPlotJFunction* data =
+	auto* data =
 		jnew J2DPlotJFunction(itsPlotWidget, varList, f, true,
 							 THXVarList::kXIndex, xMin, xMax);
 	assert( data != nullptr );
@@ -334,7 +334,7 @@ THX2DPlotDirector::Receive
 		}
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
@@ -346,7 +346,7 @@ THX2DPlotDirector::Receive
 		}
 	else if (sender == itsEditFnMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleEditFnMenu(selection->GetIndex());
@@ -358,7 +358,7 @@ THX2DPlotDirector::Receive
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, "THX2DPlotHelp",
@@ -373,7 +373,7 @@ THX2DPlotDirector::Receive
 	else if (sender == itsPlotWidget->GetCurveOptionsMenu() &&
 			 message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleCurveOptionsMenu(selection->GetIndex());
@@ -381,7 +381,7 @@ THX2DPlotDirector::Receive
 
 	else if (sender == itsEditFnDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

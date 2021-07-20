@@ -85,12 +85,12 @@ GDBGetLocalVars::HandleSuccess
 		{
 		const JStringMatch& m = argIter.GetLastMatch();
 
-		JString* name = jnew JString(m.GetSubstring(1));
+		auto* name = jnew JString(m.GetSubstring(1));
 		assert( name != nullptr );
 		name->TrimWhitespace();
 		nameList.Append(name);
 
-		JString* value = jnew JString(m.GetSubstring(2));
+		auto* value = jnew JString(m.GetSubstring(2));
 		assert( value != nullptr );
 		value->TrimWhitespace();
 		valueList.Append(value);
@@ -108,12 +108,12 @@ GDBGetLocalVars::HandleSuccess
 		{
 		const JStringMatch& m = varIter.GetLastMatch();
 
-		JString* name = jnew JString(m.GetSubstring(1));
+		auto* name = jnew JString(m.GetSubstring(1));
 		assert( name != nullptr );
 		name->TrimWhitespace();
 		nameList.InsertAtIndex(insertionIndex, name);
 
-		JString* value = jnew JString(m.GetSubstring(2));
+		auto* value = jnew JString(m.GetSubstring(2));
 		assert( value != nullptr );
 		value->TrimWhitespace();
 		valueList.InsertAtIndex(insertionIndex, value);

@@ -67,7 +67,7 @@ const JFileVersion kCurrentSetupVersion = 7;
 JXSearchTextDialog*
 JXSearchTextDialog::Create()
 {
-	JXSearchTextDialog* dlog = jnew JXSearchTextDialog();
+	auto* dlog = jnew JXSearchTextDialog();
 	assert( dlog != nullptr );
 	dlog->BuildWindow();
 	dlog->JXSearchTextDialogX();
@@ -262,7 +262,7 @@ JXSearchTextDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 450,300, JString::empty);
+	auto* window = jnew JXWindow(this, 450,300, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =
@@ -271,13 +271,13 @@ JXSearchTextDialog::BuildWindow()
 	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXSearchTextDialog::shortcuts::JXLayout"));
 
-	JXStaticText* searchInputLabel =
+	auto* searchInputLabel =
 		jnew JXStaticText(JGetString("searchInputLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,9, 220,20);
 	assert( searchInputLabel != nullptr );
 	searchInputLabel->SetToLabel();
 
-	JXStaticText* replaceInputLabel =
+	auto* replaceInputLabel =
 		jnew JXStaticText(JGetString("replaceInputLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,85, 220,20);
 	assert( replaceInputLabel != nullptr );
@@ -352,7 +352,7 @@ JXSearchTextDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,270, 80,20);
 	assert( itsQRefButton != nullptr );
 
-	JXStaticText* findLabel =
+	auto* findLabel =
 		jnew JXStaticText(JGetString("findLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,20, 100,20);
 	assert( findLabel != nullptr );
@@ -368,7 +368,7 @@ JXSearchTextDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,20, 20,20);
 	assert( itsFindFwdButton != nullptr );
 
-	JXStaticText* replaceFindLabel =
+	auto* replaceFindLabel =
 		jnew JXStaticText(JGetString("replaceFindLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,80, 100,20);
 	assert( replaceFindLabel != nullptr );
@@ -1266,7 +1266,7 @@ JXSearchTextDialog::SetXSearch
 	// (We have to create a new object every time in case there is a
 	//  SelectionClear event in the queue.)
 
-	JXSearchSelection* selData = jnew JXSearchSelection(GetDisplay());
+	auto* selData = jnew JXSearchSelection(GetDisplay());
 	assert( selData != nullptr );
 	if (!selMgr->SetData(itsAtoms[ kXSearchSelectionAtomIndex ], selData))
 		{
@@ -1443,7 +1443,7 @@ JXSearchTextDialog::ReceiveWithFeedback
 {
 	if (sender == GetDisplay() && message->Is(JXDisplay::kXEventMessage))
 		{
-		JXDisplay::XEventMessage* info =
+		auto* info =
 			dynamic_cast<JXDisplay::XEventMessage*>(message);
 		assert( info != nullptr );
 		const XEvent& event = info->GetXEvent();

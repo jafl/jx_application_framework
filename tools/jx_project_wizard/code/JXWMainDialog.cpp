@@ -119,7 +119,7 @@ JXWMainDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 500,370, JString::empty);
+	auto* window = jnew JXWindow(this, 500,370, JString::empty);
 	assert( window != nullptr );
 
 	itsCreateButton =
@@ -139,13 +139,13 @@ JXWMainDialog::BuildWindow
 	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::JXWMainDialog::shortcuts::JXLayout"));
 
-	JXStaticText* nameLabel =
+	auto* nameLabel =
 		jnew JXStaticText(JGetString("nameLabel::JXWMainDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 120,20);
 	assert( nameLabel != nullptr );
 	nameLabel->SetToLabel();
 
-	JXStaticText* versionLabel =
+	auto* versionLabel =
 		jnew JXStaticText(JGetString("versionLabel::JXWMainDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 120,20);
 	assert( versionLabel != nullptr );
@@ -161,7 +161,7 @@ JXWMainDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 130,40, 350,20);
 	assert( itsProgramVersion != nullptr );
 
-	JXStaticText* authorLabel =
+	auto* authorLabel =
 		jnew JXStaticText(JGetString("authorLabel::JXWMainDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 120,20);
 	assert( authorLabel != nullptr );
@@ -172,7 +172,7 @@ JXWMainDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 130,70, 350,20);
 	assert( itsDevName != nullptr );
 
-	JXStaticText* emailLabel =
+	auto* emailLabel =
 		jnew JXStaticText(JGetString("emailLabel::JXWMainDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,90, 120,20);
 	assert( emailLabel != nullptr );
@@ -183,13 +183,13 @@ JXWMainDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 130,90, 350,20);
 	assert( itsDevEmail != nullptr );
 
-	JXStaticText* urlLabel =
+	auto* urlLabel =
 		jnew JXStaticText(JGetString("urlLabel::JXWMainDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,130, 120,20);
 	assert( urlLabel != nullptr );
 	urlLabel->SetToLabel();
 
-	JXStaticText* srcPrefixLabel =
+	auto* srcPrefixLabel =
 		jnew JXStaticText(JGetString("srcPrefixLabel::JXWMainDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,180, 120,20);
 	assert( srcPrefixLabel != nullptr );
@@ -201,7 +201,7 @@ JXWMainDialog::BuildWindow
 	assert( itsNeedsMDICB != nullptr );
 	itsNeedsMDICB->SetShortcuts(JGetString("itsNeedsMDICB::JXWMainDialog::shortcuts::JXLayout"));
 
-	JXStaticText* directoryLabel =
+	auto* directoryLabel =
 		jnew JXStaticText(JGetString("directoryLabel::JXWMainDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,240, 120,20);
 	assert( directoryLabel != nullptr );
@@ -212,7 +212,7 @@ JXWMainDialog::BuildWindow
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,240, 60,20);
 	assert( itsChooseProjDirButton != nullptr );
 
-	JXStaticText* templateLabel =
+	auto* templateLabel =
 		jnew JXStaticText(JGetString("templateLabel::JXWMainDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,270, 120,20);
 	assert( templateLabel != nullptr );
@@ -223,13 +223,13 @@ JXWMainDialog::BuildWindow
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 390,270, 60,20);
 	assert( itsChooseTmplDirButton != nullptr );
 
-	JXStaticText* programNameLabel =
+	auto* programNameLabel =
 		jnew JXStaticText(JGetString("programNameLabel::JXWMainDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,160, 120,20);
 	assert( programNameLabel != nullptr );
 	programNameLabel->SetToLabel();
 
-	JXStaticText* companyLabel =
+	auto* companyLabel =
 		jnew JXStaticText(JGetString("companyLabel::JXWMainDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,110, 120,20);
 	assert( companyLabel != nullptr );
@@ -270,7 +270,7 @@ JXWMainDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 450,270, 30,20);
 	assert( itsTmplDirHistory != nullptr );
 
-	JXStaticText* openCmdLabel =
+	auto* openCmdLabel =
 		jnew JXStaticText(JGetString("openCmdLabel::JXWMainDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,300, 120,20);
 	assert( openCmdLabel != nullptr );
@@ -365,7 +365,7 @@ JXWMainDialog::Receive
 
 	else if (sender == itsTmplDirHistory && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsTemplateDir->GetText()->SetText(

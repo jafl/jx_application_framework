@@ -102,7 +102,7 @@ CBProjectDocument*
 CBProjectNode::GetProjectDoc()
 	const
 {
-	const CBProjectTree* tree = dynamic_cast<const CBProjectTree*>(GetTree());
+	const auto* tree = dynamic_cast<const CBProjectTree*>(GetTree());
 	assert( tree != nullptr );
 	return tree->GetProjectDoc();
 }
@@ -164,7 +164,7 @@ CBProjectNode::StreamOut
 	const JSize childCount = GetChildCount();
 	for (JIndex i=1; i<=childCount; i++)
 		{
-		const CBProjectNode* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
+		const auto* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
 		output << JBoolToString(true) << '\n';
@@ -314,7 +314,7 @@ CBProjectNode::FindFile1
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		CBProjectNode* child = dynamic_cast<CBProjectNode*>(GetChild(i));
+		auto* child = dynamic_cast<CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
 		if (child->FindFile1(fullName, node))
@@ -351,7 +351,7 @@ CBProjectNode::BuildMakeFiles
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CBProjectNode* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
+		const auto* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
 		child->BuildMakeFiles(text, invalidList, libFileList, libProjPathList);
@@ -381,7 +381,7 @@ CBProjectNode::BuildCMakeData
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CBProjectNode* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
+		const auto* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
 		child->BuildCMakeData(src, hdr, invalidList);
@@ -411,7 +411,7 @@ CBProjectNode::BuildQMakeData
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CBProjectNode* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
+		const auto* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
 		child->BuildQMakeData(src, hdr, invalidList);
@@ -444,7 +444,7 @@ CBProjectNode::ParseFiles
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CBProjectNode* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
+		const auto* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
 		if (!child->ParseFiles(parser, allSuffixList, symbolList,
@@ -474,7 +474,7 @@ CBProjectNode::Print
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CBProjectNode* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
+		const auto* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
 		child->Print(text);
@@ -496,7 +496,7 @@ CBProjectNode::FileRenamed
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		CBProjectNode* child = dynamic_cast<CBProjectNode*>(GetChild(i));
+		auto* child = dynamic_cast<CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
 		child->FileRenamed(origFullName, newFullName);
@@ -563,7 +563,7 @@ CBProjectNode::CreateFilesForTemplate
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CBProjectNode* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
+		const auto* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
 		child->CreateFilesForTemplate(input, vers);
@@ -587,7 +587,7 @@ CBProjectNode::SaveFilesInTemplate
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CBProjectNode* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
+		const auto* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
 		assert( child != nullptr );
 
 		child->SaveFilesInTemplate(output);
@@ -602,7 +602,7 @@ CBProjectNode::SaveFilesInTemplate
 CBProjectTree*
 CBProjectNode::GetProjectTree()
 {
-	CBProjectTree* tree = dynamic_cast<CBProjectTree*>(GetTree());
+	auto* tree = dynamic_cast<CBProjectTree*>(GetTree());
 	assert (tree != nullptr);
 	return tree;
 }
@@ -611,7 +611,7 @@ const CBProjectTree*
 CBProjectNode::GetProjectTree()
 	const
 {
-	const CBProjectTree* tree = dynamic_cast<const CBProjectTree*>(GetTree());
+	const auto* tree = dynamic_cast<const CBProjectTree*>(GetTree());
 	assert (tree != nullptr);
 	return tree;
 }
@@ -625,7 +625,7 @@ CBProjectNode*
 CBProjectNode::GetProjectParent()
 {
 	JTreeNode* p     = GetParent();
-	CBProjectNode* n = dynamic_cast<CBProjectNode*>(p);
+	auto* n = dynamic_cast<CBProjectNode*>(p);
 	assert( n != nullptr );
 	return n;
 }
@@ -635,7 +635,7 @@ CBProjectNode::GetProjectParent()
 	const
 {
 	const JTreeNode* p     = GetParent();
-	const CBProjectNode* n = dynamic_cast<const CBProjectNode*>(p);
+	const auto* n = dynamic_cast<const CBProjectNode*>(p);
 	assert( n != nullptr );
 	return n;
 }
@@ -692,7 +692,7 @@ CBProjectNode::GetProjectChild
 	const JIndex index
 	)
 {
-	CBProjectNode* node = dynamic_cast<CBProjectNode*>(GetChild(index));
+	auto* node = dynamic_cast<CBProjectNode*>(GetChild(index));
 	assert (node != nullptr);
 	return node;
 }
@@ -704,7 +704,7 @@ CBProjectNode::GetProjectChild
 	)
 	const
 {
-	const CBProjectNode* node = dynamic_cast<const CBProjectNode*>(GetChild(index));
+	const auto* node = dynamic_cast<const CBProjectNode*>(GetChild(index));
 	assert (node != nullptr);
 	return node;
 }

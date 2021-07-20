@@ -55,7 +55,7 @@ JXExpandWindowToFitContentTask::Perform()
 		// modal dialogs must be realigned after FTC
 
 		JXWindowDirector* dir = itsWindow->GetDirector();
-		JXDialogDirector* dlog = dynamic_cast<JXDialogDirector*>(dir);
+		auto* dlog = dynamic_cast<JXDialogDirector*>(dir);
 		if (dlog != nullptr && dlog->IsModal())
 			{
 			itsWindow->PlaceAsDialogWindow();

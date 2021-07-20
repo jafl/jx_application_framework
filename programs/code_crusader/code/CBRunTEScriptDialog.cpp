@@ -90,7 +90,7 @@ CBRunTEScriptDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 390,110, JString::empty);
+	auto* window = jnew JXWindow(this, 390,110, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =
@@ -110,7 +110,7 @@ CBRunTEScriptDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 320,20);
 	assert( itsCmdInput != nullptr );
 
-	JXStaticText* cmdLabel =
+	auto* cmdLabel =
 		jnew JXStaticText(JGetString("cmdLabel::CBRunTEScriptDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 350,20);
 	assert( cmdLabel != nullptr );
@@ -152,7 +152,7 @@ CBRunTEScriptDialog::BuildWindow()
 
 	// create hidden JXDocument so Meta-# shortcuts work
 
-	JXDocumentMenu* fileListMenu =
+	auto* fileListMenu =
 		jnew JXDocumentMenu(JString::empty, window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != nullptr );

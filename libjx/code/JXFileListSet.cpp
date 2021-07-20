@@ -115,7 +115,7 @@ JXFileListSet::JXFileListSetX
 	itsWildcardSet = jnew JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kDefaultInputHeight);
 	assert( itsWildcardSet != nullptr );
 
-	JXStaticText* filterLabel =
+	auto* filterLabel =
 		jnew JXStaticText(JGetString("FilterLabel::JXFileListSet"),
 						  itsWildcardSet, kFixedLeft, kFixedTop,
 						  0, 0, kDefaultLabelWidth, kDefaultInputHeight);
@@ -137,7 +137,7 @@ JXFileListSet::JXFileListSetX
 	itsRegexSet = jnew JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kDefaultInputHeight);
 	assert( itsRegexSet != nullptr );
 
-	JXStaticText* regexLabel =
+	auto* regexLabel =
 		jnew JXStaticText(JGetString("RegexLabel::JXFileListSet"),
 						  itsRegexSet, kFixedLeft, kFixedTop,
 						  0, 0, kDefaultLabelWidth, kDefaultInputHeight);

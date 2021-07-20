@@ -45,8 +45,8 @@ JXRestorePartitionGeometry::~JXRestorePartitionGeometry()
 void
 JXRestorePartitionGeometry::Perform()
 {
-	JXHorizPartition* h = dynamic_cast<JXHorizPartition*>(itsPartition);
-	JXVertPartition*  v = dynamic_cast<JXVertPartition*>(itsPartition);
+	auto* h = dynamic_cast<JXHorizPartition*>(itsPartition);
+	auto*  v = dynamic_cast<JXVertPartition*>(itsPartition);
 
 	if (h != nullptr && h->itsSavedGeom != nullptr)
 		{

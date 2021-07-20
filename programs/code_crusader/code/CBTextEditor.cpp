@@ -432,7 +432,7 @@ CBTextEditor::Receive
 {
 	if (sender == itsDoc && message.Is(JXFileDocument::kNameChanged))
 		{
-		const JXFileDocument::NameChanged* info =
+		const auto* info =
 			dynamic_cast<const JXFileDocument::NameChanged*>(&message);
 		assert( info != nullptr );
 		UpdateWritable(info->GetFullName());
@@ -444,7 +444,7 @@ CBTextEditor::Receive
 		}
 	else if (sender == itsContextMenu && message.Is(JXTextMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
@@ -452,7 +452,7 @@ CBTextEditor::Receive
 
 	else if (message.Is(JXFSDirMenu::kFileSelected))
 		{
-		const JXFSDirMenu::FileSelected* info =
+		const auto* info =
 			dynamic_cast<const JXFSDirMenu::FileSelected*>(&message);
 		assert( info != nullptr );
 		bool onDisk;
@@ -479,7 +479,7 @@ CBTextEditor::Receive
 			}
 		else if (sender == editMenu && message.Is(JXMenu::kItemSelected))
 			{
-			const JXMenu::ItemSelected* selection =
+			const auto* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			if (HandleCustomEditMenuItems(selection->GetIndex()))
@@ -494,7 +494,7 @@ CBTextEditor::Receive
 			}
 		else if (sender == searchMenu && message.Is(JXMenu::kItemSelected))
 			{
-			const JXMenu::ItemSelected* selection =
+			const auto* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			if (HandleCustomSearchMenuItems(selection->GetIndex()))
@@ -1070,7 +1070,7 @@ CBTextEditor::CreateScriptMenu
 	const JIndex	index
 	)
 {
-	CBTEScriptMenu* menu =
+	auto* menu =
 		jnew CBTEScriptMenu(this, itsScriptPath, parent, index, parent->GetEnclosure());
 	assert( menu != nullptr );
 	ListenTo(menu);

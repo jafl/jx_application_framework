@@ -67,25 +67,25 @@ GLAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 430,180, JString::empty);
+	auto* window = jnew JXWindow(this, 430,180, JString::empty);
 	assert( window != nullptr );
 
-	JXImageWidget* gloveIcon =
+	auto* gloveIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,15, 50,50);
 	assert( gloveIcon != nullptr );
 
-	JXStaticText* textWidget =
+	auto* textWidget =
 		jnew JXStaticText(JGetString("textWidget::GLAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,110);
 	assert( textWidget != nullptr );
 
-	JXImageWidget* npsIcon =
+	auto* npsIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
 	assert( npsIcon != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::GLAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
 	assert( okButton != nullptr );

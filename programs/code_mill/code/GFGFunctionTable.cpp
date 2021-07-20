@@ -52,7 +52,7 @@ GFGFunctionTable::Create
 	const JCoordinate	h
 	)
 {
-	GFGFunctionTable* table =
+	auto* table =
 		jnew GFGFunctionTable(list, scrollbarSet, enclosure,
 			hSizing, vSizing, x,y, w,h);
 	assert(table != nullptr);

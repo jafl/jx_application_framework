@@ -119,7 +119,7 @@ CMThreadsWidget::SelectThread1
 	const JSize count = root->GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const CMThreadNode* node =
+		const auto* node =
 			dynamic_cast<const CMThreadNode*>(root->GetChild(i));
 		assert( node != nullptr );
 
@@ -197,7 +197,7 @@ CMThreadsWidget::HandleMouseDown
 		if (modifiers.meta())
 			{
 			const JTreeNode* node = GetTreeList()->GetNode(cell.y);
-			const CMThreadNode* threadNode =
+			const auto* threadNode =
 				dynamic_cast<const CMThreadNode*>(node);
 			assert( threadNode != nullptr );
 
@@ -419,7 +419,7 @@ CMThreadsWidget::Receive
 			s.GetFirstSelectedCell(&cell))
 			{
 			const JTreeNode* node = GetTreeList()->GetNode(cell.y);
-			const CMThreadNode* threadNode =
+			const auto* threadNode =
 				dynamic_cast<const CMThreadNode*>(node);
 			assert( threadNode != nullptr );
 
@@ -572,7 +572,7 @@ CMThreadsWidget::SaveOpenNodes1
 		JTreeNode* child = root->GetChild(i);
 		if (list->IsOpen(child))
 			{
-			CMThreadNode* threadNode = dynamic_cast<CMThreadNode*>(child);
+			auto* threadNode = dynamic_cast<CMThreadNode*>(child);
 			assert( threadNode != nullptr );
 			itsOpenIDList->InsertSorted(threadNode->GetID());
 			}
@@ -597,7 +597,7 @@ CMThreadsWidget::RestoreOpenNodes
 	const JSize count = root->GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		CMThreadNode* child = dynamic_cast<CMThreadNode*>(root->GetChild(i));
+		auto* child = dynamic_cast<CMThreadNode*>(root->GetChild(i));
 		JIndex j;
 		if (itsOpenIDList->SearchSorted(child->GetID(), JListT::kAnyMatch, &j))
 			{

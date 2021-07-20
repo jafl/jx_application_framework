@@ -47,7 +47,7 @@ main
 
 	bool displayAbout;
 	JString prevVersStr;
-	CBApp* app = jnew CBApp(&argc, argv, useMDI, &displayAbout, &prevVersStr);
+	auto* app = jnew CBApp(&argc, argv, useMDI, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
 	if (displayAbout &&

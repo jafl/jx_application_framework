@@ -47,7 +47,7 @@ LLDBWelcomeTask::~LLDBWelcomeTask()
 void
 LLDBWelcomeTask::Perform()
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	auto* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link != nullptr)
 		{
 		link->BroadcastWelcome(itsMessage, itsRestartFlag);

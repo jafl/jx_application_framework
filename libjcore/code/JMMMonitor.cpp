@@ -60,32 +60,32 @@ JMMMonitor::Receive
 
 	if ( message.Is(JMemoryManager::kObjectDeletedAsArray) )
 		{
-		const JMemoryManager::ObjectDeletedAsArray* msg
+		const auto* msg
 			= dynamic_cast<const JMemoryManager::ObjectDeletedAsArray*>(&message);
 		HandleObjectDeletedAsArray( msg->GetRecord() );
 		}
 	else if ( message.Is(JMemoryManager::kArrayDeletedAsObject) )
 		{
-		const JMemoryManager::ArrayDeletedAsObject* msg
+		const auto* msg
 			= dynamic_cast<const JMemoryManager::ArrayDeletedAsObject*>(&message);
 		HandleArrayDeletedAsObject( msg->GetRecord() );
 		}
 	else if ( message.Is(JMemoryManager::kUnallocatedDeletion) )
 		{
-		const JMemoryManager::UnallocatedDeletion* msg
+		const auto* msg
 			= dynamic_cast<const JMemoryManager::UnallocatedDeletion*>(&message);
 		HandleUnallocatedDeletion( msg->GetFile(), msg->GetLine(), msg->IsArray() );
 		}
 	else if ( message.Is(JMemoryManager::kMultipleDeletion) )
 		{
-		const JMemoryManager::MultipleDeletion* msg
+		const auto* msg
 			= dynamic_cast<const JMemoryManager::MultipleDeletion*>(&message);
 		HandleMultipleDeletion( msg->GetRecord(), msg->GetFile(),
 								msg->GetLine(), msg->IsArray() );
 		}
 	else if ( message.Is(JMemoryManager::kMultipleAllocation) )
 		{
-		const JMemoryManager::MultipleAllocation* msg
+		const auto* msg
 			= dynamic_cast<const JMemoryManager::MultipleAllocation*>(&message);
 		HandleMultipleAllocation( msg->GetThisRecord(), msg->GetFirstRecord() );
 		}

@@ -1506,10 +1506,10 @@ CBProjectDocument::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 510,430, JString::empty);
+	auto* window = jnew JXWindow(this, 510,430, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
 	assert( menuBar != nullptr );
@@ -1553,7 +1553,7 @@ CBProjectDocument::BuildWindow
 	window->SetWMClass(CBGetWMClassInstance(), CBGetProjectWindowClass());
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = jnew JXImage(display, jcc_project_window);
+	auto* icon      = jnew JXImage(display, jcc_project_window);
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
@@ -1572,13 +1572,13 @@ CBProjectDocument::BuildWindow
 
 	// file list
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
-	JNamedTreeList* treeList = jnew JNamedTreeList(fileList);
+	auto* treeList = jnew JNamedTreeList(fileList);
 	assert( treeList != nullptr );
 
 	itsFileTable =
@@ -1601,12 +1601,12 @@ CBProjectDocument::BuildWindow
 	itsFileMenu->SetItemImage(kSaveCmd,          jx_file_save);
 	itsFileMenu->SetItemImage(kPrintCmd,         jx_file_print);
 
-	CBFileHistoryMenu* recentProjectMenu =
+	auto* recentProjectMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, menuBar);
 	assert( recentProjectMenu != nullptr );
 
-	CBFileHistoryMenu* recentTextMenu =
+	auto* recentTextMenu =
 		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
 	assert( recentTextMenu != nullptr );
@@ -1643,7 +1643,7 @@ CBProjectDocument::BuildWindow
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
 
-	CBDocumentMenu* fileListMenu =
+	auto* fileListMenu =
 		jnew CBDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != nullptr );
@@ -1699,7 +1699,7 @@ CBProjectDocument::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -1711,7 +1711,7 @@ CBProjectDocument::Receive
 		}
 	else if (sender == itsProjectMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleProjectMenu(selection->GetIndex());
@@ -1723,7 +1723,7 @@ CBProjectDocument::Receive
 		}
 	else if (sender == itsSourceMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleSourceMenu(selection->GetIndex());
@@ -1735,7 +1735,7 @@ CBProjectDocument::Receive
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
@@ -1747,7 +1747,7 @@ CBProjectDocument::Receive
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		CBGetApplication()->HandleHelpMenu(itsHelpMenu, "CBProjectHelp",
@@ -1757,7 +1757,7 @@ CBProjectDocument::Receive
 	else if (sender == itsEditPathsDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -1776,7 +1776,7 @@ CBProjectDocument::Receive
 	else if (sender == CBGetPTTextPrinter() &&
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
-		const JPrinter::PrintSetupFinished* info =
+		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		CBPTPrinter* p = CBGetPTTextPrinter();
@@ -1795,7 +1795,7 @@ CBProjectDocument::Receive
 	else if (sender == CBGetPrefsManager() &&
 			 message.Is(CBPrefsManager::kFileTypesChanged))
 		{
-		const CBPrefsManager::FileTypesChanged* info =
+		const auto* info =
 			dynamic_cast<const CBPrefsManager::FileTypesChanged*>(&message);
 		assert( info != nullptr );
 
@@ -1894,13 +1894,13 @@ CBProjectDocument::ProcessNodeMessage
 	const Message& message
 	)
 {
-	const JTree::NodeMessage* info =
+	const auto* info =
 		dynamic_cast<const JTree::NodeMessage*>(&message);
 	assert( info != nullptr );
 
 	if ((info->GetNode())->GetDepth() == CBProjectTable::kFileDepth)
 		{
-		const CBProjectNode* node = dynamic_cast<const CBProjectNode*>(info->GetNode());
+		const auto* node = dynamic_cast<const CBProjectNode*>(info->GetNode());
 		assert( node != nullptr );
 
 		itsBuildMgr->ProjectChanged(node);
@@ -2367,7 +2367,7 @@ CBProjectDocument::HandlePrefsMenu
 void
 CBProjectDocument::EditProjectPrefs()
 {
-	CBEditProjPrefsDialog* dlog =
+	auto* dlog =
 		jnew CBEditProjPrefsDialog(theReopenTextFilesFlag,
 								  CBCompileDocument::WillDoubleSpace(),
 								  CBBuildManager::WillRebuildMakefileDaily(),
@@ -2492,7 +2492,7 @@ CBProjectDocument::ReceiveWithFeedback
 {
 	if (sender == itsCmdMenu && message->Is(CBCommandMenu::kGetTargetInfo))
 		{
-		CBCommandMenu::GetTargetInfo* info =
+		auto* info =
 			dynamic_cast<CBCommandMenu::GetTargetInfo*>(message);
 		assert( info != nullptr );
 		itsFileTable->GetSelectedFileNames(info->GetFileList());

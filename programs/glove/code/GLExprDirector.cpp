@@ -32,10 +32,10 @@ GLExprDirector::GLExprDirector
 	:
 	JXDialogDirector(supervisor, true)
 {
-	JXWindow* window = jnew JXWindow(this, 300,240, JGetString("WindowTitle::GLExprDirector"));
+	auto* window = jnew JXWindow(this, 300,240, JGetString("WindowTitle::GLExprDirector"));
 	assert( window != nullptr );
 
-	JXExprEditorSet* set =
+	auto* set =
 		jnew JXExprEditorSet(list, &itsEditor, window,
 		JXWidget::kHElastic, JXWidget::kVElastic,0,0,300,200);
 	assert (set != nullptr);
@@ -49,12 +49,12 @@ GLExprDirector::GLExprDirector
 		itsEditor->SetFunction(list, f);
 		}
 
-	JXTextButton* ok = jnew JXTextButton(JGetString("OKLabel::JXGlobal"), window,
+	auto* ok = jnew JXTextButton(JGetString("OKLabel::JXGlobal"), window,
 						JXWidget::kHElastic, JXWidget::kVElastic,60,210,70,20);
 	assert (ok != nullptr);
 	ok->SetShortcuts(JGetString("OKShortcut::JXGlobal"));
 
-	JXTextButton* cancel = jnew JXTextButton(JGetString("CancelLabel::JXGlobal"), window,
+	auto* cancel = jnew JXTextButton(JGetString("CancelLabel::JXGlobal"), window,
 						JXWidget::kHElastic, JXWidget::kVElastic,170,210,70,20);
 	assert (cancel != nullptr);
 	cancel->SetShortcuts(JGetString("CancelShortcut::JXGlobal"));

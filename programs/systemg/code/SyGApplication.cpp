@@ -302,7 +302,7 @@ SyGApplication::OpenDirectory
 	fixedName = trueName;
 	JGetTrueName(fixedName, &trueName);
 
-	SyGTreeDir* childDir = jnew SyGTreeDir(trueName);
+	auto* childDir = jnew SyGTreeDir(trueName);
 	assert( childDir != nullptr );
 
 	if (deiconify)
@@ -564,7 +564,7 @@ SyGApplication::AddShortcut
 	const JString& shortcut
 	)
 {
-	JString* s = jnew JString(JConvertToHomeDirShortcut(shortcut));
+	auto* s = jnew JString(JConvertToHomeDirShortcut(shortcut));
 	assert( s != nullptr );
 	if (!itsShortcutList->InsertSorted(s, false))
 		{
@@ -860,7 +860,7 @@ SyGApplication::DisplayAbout
 	const JString& prevVersStr
 	)
 {
-	SyGAboutDialog* dlog = jnew SyGAboutDialog(this, prevVersStr);
+	auto* dlog = jnew SyGAboutDialog(this, prevVersStr);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }

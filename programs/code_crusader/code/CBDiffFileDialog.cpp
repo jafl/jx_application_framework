@@ -240,7 +240,7 @@ CBDiffFileDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 550,210, JString::empty);
+	auto* window = jnew JXWindow(this, 550,210, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =
@@ -299,7 +299,7 @@ CBDiffFileDialog::BuildWindow()
 	const JRect plainLayout_Aperture = plainCard->GetAperture();
 	plainCard->AdjustSize(530 - plainLayout_Aperture.width(), 70 - plainLayout_Aperture.height());
 
-	JXStaticText* file1Label =
+	auto* file1Label =
 		jnew JXStaticText(JGetString("file1Label::CBDiffFileDialog::plainLayout"), plainCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 20,20);
 	assert( file1Label != nullptr );
@@ -325,7 +325,7 @@ CBDiffFileDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,10, 60,20);
 	assert( itsPlainChoose1Button != nullptr );
 
-	JXStaticText* file2Label =
+	auto* file2Label =
 		jnew JXStaticText(JGetString("file2Label::CBDiffFileDialog::plainLayout"), plainCard,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 20,20);
 	assert( file2Label != nullptr );
@@ -645,7 +645,7 @@ CBDiffFileDialog::BuildWindow()
 
 	// create hidden JXDocument so Meta-# shortcuts work
 
-	JXDocumentMenu* fileListMenu =
+	auto* fileListMenu =
 		jnew JXDocumentMenu(JString::empty, window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != nullptr );
@@ -796,7 +796,7 @@ CBDiffFileDialog::Receive
 		}
 	else if (sender == itsCVSRev1Menu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleCVSRevMenu(itsCVSRev1Menu, selection->GetIndex(), &itsCVSRev1Cmd, itsCVSRev1Input);
@@ -808,7 +808,7 @@ CBDiffFileDialog::Receive
 		}
 	else if (sender == itsCVSRev2Menu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleCVSRevMenu(itsCVSRev2Menu, selection->GetIndex(), &itsCVSRev2Cmd, itsCVSRev2Input);
@@ -820,7 +820,7 @@ CBDiffFileDialog::Receive
 		}
 	else if (sender == itsSVNRev1Menu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleSVNRevMenu(itsSVNRev1Menu, selection->GetIndex(), &itsSVNRev1Cmd, itsSVNRev1Input);
@@ -832,7 +832,7 @@ CBDiffFileDialog::Receive
 		}
 	else if (sender == itsSVNRev2Menu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleSVNRevMenu(itsSVNRev2Menu, selection->GetIndex(), &itsSVNRev2Cmd, itsSVNRev2Input);
@@ -844,7 +844,7 @@ CBDiffFileDialog::Receive
 		}
 	else if (sender == itsGitRev1Menu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleGitRevMenu(itsGitRev1Menu, selection->GetIndex(), &itsGitRev1Cmd, itsGitRev1Input);
@@ -856,7 +856,7 @@ CBDiffFileDialog::Receive
 		}
 	else if (sender == itsGitRev2Menu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleGitRevMenu(itsGitRev2Menu, selection->GetIndex(), &itsGitRev2Cmd, itsGitRev2Input);
@@ -1058,10 +1058,10 @@ CBDiffFileDialog::DiffDirectory
 	const JPtrArray<JString> fullNameList(JPtrArrayT::kDeleteAll);
 	const JArray<JIndex> lineIndexList;
 
-	JString* path = jnew JString(fullName);
+	auto* path = jnew JString(fullName);
 	assert( path != nullptr );
 
-	JString* cmd = jnew JString(diffCmd);
+	auto* cmd = jnew JString(diffCmd);
 	assert( cmd != nullptr );
 
 	if (summaryCB->IsChecked())
@@ -1069,16 +1069,16 @@ CBDiffFileDialog::DiffDirectory
 		*cmd += summaryArgs;
 		}
 
-	JString* ss = jnew JString;
+	auto* ss = jnew JString;
 	assert( ss != nullptr );
 
-	JString* mt = jnew JString;
+	auto* mt = jnew JString;
 	assert( mt != nullptr );
 
-	JString* ms = jnew JString;
+	auto* ms = jnew JString;
 	assert( ms != nullptr );
 
-	JString* mi = jnew JString;
+	auto* mi = jnew JString;
 	assert( mi != nullptr );
 
 	CBCommandManager::CmdInfo info(path, cmd, ss, false, true, true, true,

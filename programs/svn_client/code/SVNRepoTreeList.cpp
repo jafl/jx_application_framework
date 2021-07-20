@@ -43,7 +43,7 @@ SVNRepoTreeList::~SVNRepoTreeList()
 SVNRepoTree*
 SVNRepoTreeList::GetRepoTree()
 {
-	SVNRepoTree* tree = dynamic_cast<SVNRepoTree*>(GetTree());
+	auto* tree = dynamic_cast<SVNRepoTree*>(GetTree());
 	assert( tree != nullptr );
 	return tree;
 }
@@ -52,7 +52,7 @@ const SVNRepoTree*
 SVNRepoTreeList::GetRepoTree()
 	const
 {
-	const SVNRepoTree* tree = dynamic_cast<const SVNRepoTree*>(GetTree());
+	const auto* tree = dynamic_cast<const SVNRepoTree*>(GetTree());
 	assert( tree != nullptr );
 	return tree;
 }
@@ -68,7 +68,7 @@ SVNRepoTreeList::GetRepoNode
 	const JIndex index
 	)
 {
-	SVNRepoTreeNode* node = dynamic_cast<SVNRepoTreeNode*>(GetNode(index));
+	auto* node = dynamic_cast<SVNRepoTreeNode*>(GetNode(index));
 	assert (node != nullptr);
 	return node;
 }
@@ -80,7 +80,7 @@ SVNRepoTreeList::GetRepoNode
 	)
 	const
 {
-	const SVNRepoTreeNode* node = dynamic_cast<const SVNRepoTreeNode*>(GetNode(index));
+	const auto* node = dynamic_cast<const SVNRepoTreeNode*>(GetNode(index));
 	assert (node != nullptr);
 	return node;
 }

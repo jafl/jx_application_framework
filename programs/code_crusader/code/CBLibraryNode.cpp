@@ -99,7 +99,7 @@ void
 CBLibraryNode::OpenFile()
 	const
 {
-	CBLibraryNode* me = const_cast<CBLibraryNode*>(this);
+	auto* me = const_cast<CBLibraryNode*>(this);
 	if (!me->OpenProject())
 		{
 		me->EditSubprojectConfig();
@@ -261,7 +261,7 @@ CBLibraryNode::Receive
 	if (sender == itsSubprojDialog &&
 		message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

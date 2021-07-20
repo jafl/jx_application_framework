@@ -115,7 +115,7 @@ CBStringCompleter::Add
 	const JString& str
 	)
 {
-	JString* s = jnew JString(str);
+	auto* s = jnew JString(str);
 	assert( s != nullptr );
 	if (itsStringList->InsertSorted(s, false))
 		{
@@ -365,7 +365,7 @@ CBStringCompleter::Receive
 	if (sender == CBGetDocumentManager() &&
 		message.Is(CBDocumentManager::kProjectDocumentCreated))
 		{
-		const CBDocumentManager::ProjectDocumentCreated* info =
+		const auto* info =
 			dynamic_cast<const CBDocumentManager::ProjectDocumentCreated*>(&message);
 		UpdateWordList();
 		ListenTo(((info->GetProjectDocument())->GetSymbolDirector())->GetSymbolList());

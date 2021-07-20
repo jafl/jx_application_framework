@@ -230,7 +230,7 @@ CBCommandMenu::Receive
 		}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 
@@ -245,7 +245,7 @@ CBCommandMenu::Receive
 		}
 	else if (sender == itsAddToProjMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleAddToProjectMenu(selection->GetIndex());
@@ -257,7 +257,7 @@ CBCommandMenu::Receive
 		}
 	else if (sender == itsManageProjMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleManageProjectMenu(selection->GetIndex());
@@ -383,7 +383,7 @@ CBCommandMenu::HandleSelection
 		}
 	else if (index == kEditCmd)
 		{
-		CBEditCommandsDialog* dlog = jnew CBEditCommandsDialog(projDoc);
+		auto* dlog = jnew CBEditCommandsDialog(projDoc);
 		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		}

@@ -310,10 +310,10 @@ SVNMainDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 500,300, JString::empty);
+	auto* window = jnew JXWindow(this, 500,300, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != nullptr );
@@ -340,7 +340,7 @@ SVNMainDirector::BuildWindow()
 	window->SetMinSize(200, 200);
 	window->SetWMClass(SVNGetWMClassInstance(), SVNGetMainWindowClass());
 
-	JXImage* image = jnew JXImage(GetDisplay(), svn_main_window_icon);
+	auto* image = jnew JXImage(GetDisplay(), svn_main_window_icon);
 	assert( image != nullptr );
 	window->SetIcon(image);
 	ListenTo(window);
@@ -385,7 +385,7 @@ SVNMainDirector::BuildWindow()
 
 	itsInfoMenu->SetItemImage(kInfoLogSelectedFilesCmd, svn_info_log);
 
-	JXWDMenu* wdMenu =
+	auto* wdMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
@@ -494,7 +494,7 @@ SVNMainDirector::BuildScrollbarSet
 	JXContainer* widget
 	)
 {
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(widget, JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,0, 100,100);
 	assert( scrollbarSet != nullptr );
@@ -624,7 +624,7 @@ SVNMainDirector::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -636,7 +636,7 @@ SVNMainDirector::Receive
 		}
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
@@ -648,7 +648,7 @@ SVNMainDirector::Receive
 		}
 	else if (sender == itsInfoMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleInfoMenu(selection->GetIndex());
@@ -660,7 +660,7 @@ SVNMainDirector::Receive
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
@@ -672,7 +672,7 @@ SVNMainDirector::Receive
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
@@ -680,7 +680,7 @@ SVNMainDirector::Receive
 
 	else if (sender == itsActionProcess && message.Is(JProcess::kFinished))
 		{
-		const JProcess::Finished* info =
+		const auto* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
 		assert( info != nullptr );
 
@@ -721,7 +721,7 @@ SVNMainDirector::Receive
 
 	else if (sender == itsBrowseRepoDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 
@@ -745,7 +745,7 @@ SVNMainDirector::Receive
 
 	else if (sender == itsBrowseRepoRevisionDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 
@@ -759,7 +759,7 @@ SVNMainDirector::Receive
 
 	else if (sender == itsCheckOutRepoDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 
@@ -773,7 +773,7 @@ SVNMainDirector::Receive
 
 	else if (message.Is(JXCardFile::kCardRemoved))
 		{
-		const JXCardFile::CardRemoved* info =
+		const auto* info =
 			dynamic_cast<const JXCardFile::CardRemoved*>(&message);
 		assert( info != nullptr );
 
@@ -1248,7 +1248,7 @@ SVNMainDirector::BrowseRepo
 	JXContainer* card            = itsTabGroup->AppendTab(title, true);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
-	SVNRepoView* widget =
+	auto* widget =
 		jnew SVNRepoView(this, repoPath, rev, itsEditMenu,
 						scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic,
@@ -1294,7 +1294,7 @@ SVNMainDirector::UpdateWorkingCopy()
 	JXContainer* card            = itsTabGroup->AppendTab(JGetString("UpdateTab::SVNMainDirector"), true);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
-	SVNUpdateList* updateWidget =
+	auto* updateWidget =
 		jnew SVNUpdateList(this, itsEditMenu,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
@@ -1388,7 +1388,7 @@ SVNMainDirector::Execute
 	JXContainer* card            = itsTabGroup->AppendTab(JGetString(tabStringID), true);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
-	SVNCommandLog* widget =
+	auto* widget =
 		jnew SVNCommandLog(this, itsEditMenu, cmd, refreshRepo, refreshStatus, reloadOpenFiles,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
@@ -1552,7 +1552,7 @@ SVNMainDirector::ShowInfoLog
 	JXContainer* card            = itsTabGroup->AppendTab(tabTitle, true);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
-	SVNInfoLog* widget =
+	auto* widget =
 		jnew SVNInfoLog(this, itsEditMenu, fullName, rev,
 					   scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 					   JXWidget::kHElastic, JXWidget::kVElastic,
@@ -1607,7 +1607,7 @@ SVNMainDirector::ShowProperties
 	JXContainer* card            = itsTabGroup->AppendTab(tabTitle, true);
 	JXScrollbarSet* scrollbarSet = BuildScrollbarSet(card);
 
-	SVNPropertiesList* widget =
+	auto* widget =
 		jnew SVNPropertiesList(this, itsEditMenu, fullName,
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kVElastic,

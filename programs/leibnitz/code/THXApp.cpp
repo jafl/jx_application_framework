@@ -142,7 +142,7 @@ THXApp::DisplayAbout
 	const JString& prevVersStr
 	)
 {
-	THXAboutDialog* dlog = jnew THXAboutDialog(this, prevVersStr);
+	auto* dlog = jnew THXAboutDialog(this, prevVersStr);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
@@ -158,7 +158,7 @@ THXApp::NewExpression
 	const bool centerOnScreen
 	)
 {
-	THXExprDirector* expr = jnew THXExprDirector(this, itsVarList);
+	auto* expr = jnew THXExprDirector(this, itsVarList);
 	assert( expr != nullptr );
 	if (centerOnScreen)
 		{
@@ -232,7 +232,7 @@ THXApp::Create2DPlot()
 
 	if (plotIndex > its2DPlotList->GetElementCount())
 		{
-		THX2DPlotDirector* plot = jnew THX2DPlotDirector(this);
+		auto* plot = jnew THX2DPlotDirector(this);
 		assert( plot != nullptr );
 		its2DPlotList->Append(plot);
 		}
@@ -374,7 +374,7 @@ JIndex i;
 		{
 		for (i=1; i<=exprCount; i++)
 			{
-			THXExprDirector* expr = jnew THXExprDirector(input, vers, this, itsVarList);
+			auto* expr = jnew THXExprDirector(input, vers, this, itsVarList);
 			assert( expr != nullptr );
 			expr->Activate();
 			itsExprList->Append(expr);
@@ -391,7 +391,7 @@ JIndex i;
 
 	for (i=1; i<=plotCount; i++)
 		{
-		THX2DPlotDirector* plot = jnew THX2DPlotDirector(input, vers, this, itsVarList);
+		auto* plot = jnew THX2DPlotDirector(input, vers, this, itsVarList);
 		assert( plot != nullptr );
 		plot->Activate();
 		its2DPlotList->Append(plot);
@@ -498,7 +498,7 @@ THXApp::Receive
 {
 	if (sender == its2DPlotFnDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -531,12 +531,12 @@ THXApp::DirectorClosed
 	)
 {
 	JIndex dirIndex;
-	THXExprDirector* exprDir = (THXExprDirector*) theDirector;
+	auto* exprDir = (THXExprDirector*) theDirector;
 	if (exprDir != nullptr && itsExprList->Find(exprDir, &dirIndex))
 		{
 		itsExprList->RemoveElement(dirIndex);
 		}
-	THX2DPlotDirector* plot2DDir = (THX2DPlotDirector*) theDirector;
+	auto* plot2DDir = (THX2DPlotDirector*) theDirector;
 	if (plot2DDir != nullptr && its2DPlotList->Find(plot2DDir, &dirIndex))
 		{
 		its2DPlotList->RemoveElement(dirIndex);
@@ -686,7 +686,7 @@ THXApp::HandleHelpMenu
 
 	else if (index == kTipCmd)
 		{
-		JXTipOfTheDayDialog* dlog = jnew JXTipOfTheDayDialog;
+		auto* dlog = jnew JXTipOfTheDayDialog;
 		assert( dlog != NULL );
 		dlog->BeginDialog();
 		}

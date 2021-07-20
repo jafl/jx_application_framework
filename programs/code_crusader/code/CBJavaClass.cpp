@@ -165,7 +165,7 @@ CBJavaClass::NewGhost
 	CBTree*			tree
 	)
 {
-	CBJavaClass* newClass = jnew CBJavaClass(name, kGhostType, JFAID::kInvalidID, tree,
+	auto* newClass = jnew CBJavaClass(name, kGhostType, JFAID::kInvalidID, tree,
 											true, false);
 	assert( newClass != nullptr );
 	return newClass;

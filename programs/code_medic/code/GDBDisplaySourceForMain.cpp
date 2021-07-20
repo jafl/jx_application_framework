@@ -72,7 +72,7 @@ GDBDisplaySourceForMain::Receive
 {
 	if (sender == CMGetLink() && message.Is(CMLink::kSymbolsLoaded))
 		{
-		const CMLink::SymbolsLoaded* info =
+		const auto* info =
 			dynamic_cast<const CMLink::SymbolsLoaded*>(&message);
 		assert( info != nullptr );
 		itsHasCoreFlag = CMGetLink()->HasCore();

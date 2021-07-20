@@ -390,7 +390,7 @@ JXDocumentManager::FileDocumentIsOpen
 
 	for (const DocInfo& info : *itsDocList)
 		{
-		const JXFileDocument* fileDoc = dynamic_cast<const JXFileDocument*>(info.doc);
+		const auto* fileDoc = dynamic_cast<const JXFileDocument*>(info.doc);
 		if (fileDoc != nullptr)
 			{
 			bool onDisk;

@@ -65,7 +65,7 @@ LLDBGetStack::HandleSuccess
 	const JString& cmdData
 	)
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	auto* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link == nullptr)
 		{
 		return;
@@ -113,7 +113,7 @@ LLDBGetStack::HandleSuccess
 			fileName.Clear();
 			}
 
-		CMStackFrameNode* node =
+		auto* node =
 			jnew CMStackFrameNode(root, f.GetFrameID(), frameName,
 								 fileName, lineIndex);
 		assert( node != nullptr );
@@ -143,7 +143,7 @@ LLDBGetStack::HandleSuccess
 
 			if (v.GetName() != nullptr)
 				{
-				CMStackArgNode* argNode = jnew CMStackArgNode(node,
+				auto* argNode = jnew CMStackArgNode(node,
 					JString(v.GetName(), JString::kNoCopy),
 					JString(v.GetValue() == nullptr ? "null" : v.GetValue(), JString::kNoCopy));
 				assert( argNode != nullptr );

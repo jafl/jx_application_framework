@@ -247,15 +247,15 @@ CMArray2DDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,500, JString::empty);
+	auto* window = jnew JXWindow(this, 370,500, JString::empty);
 	assert( window != nullptr );
 
-	JXWidgetSet* rowFTCContainer =
+	auto* rowFTCContainer =
 		jnew JXWidgetSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,60, 120,90);
 	assert( rowFTCContainer != nullptr );
 
-	JXWidgetSet* colFTCContainer =
+	auto* colFTCContainer =
 		jnew JXWidgetSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 150,60, 200,90);
 	assert( colFTCContainer != nullptr );
@@ -265,24 +265,24 @@ CMArray2DDir::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,40, 260,20);
 	assert( itsExprInput != nullptr );
 
-	JXStaticText* rowStartLabel =
+	auto* rowStartLabel =
 		jnew JXStaticText(JGetString("rowStartLabel::CMArray2DDir::JXLayout"), rowFTCContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,35, 40,20);
 	assert( rowStartLabel != nullptr );
 	rowStartLabel->SetToLabel();
 
-	JXStaticText* rowEndLabel =
+	auto* rowEndLabel =
 		jnew JXStaticText(JGetString("rowEndLabel::CMArray2DDir::JXLayout"), rowFTCContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,65, 40,20);
 	assert( rowEndLabel != nullptr );
 	rowEndLabel->SetToLabel();
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 370,30);
 	assert( menuBar != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,170, 370,330);
 	assert( scrollbarSet != nullptr );
@@ -297,25 +297,25 @@ CMArray2DDir::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,65, 60,20);
 	assert( itsRowEndIndex != nullptr );
 
-	JXStaticText* exprLabel =
+	auto* exprLabel =
 		jnew JXStaticText(JGetString("exprLabel::CMArray2DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 70,20);
 	assert( exprLabel != nullptr );
 	exprLabel->SetToLabel();
 
-	JXStaticText* rowIndexLabel =
+	auto* rowIndexLabel =
 		jnew JXStaticText(JGetString("rowIndexLabel::CMArray2DDir::JXLayout"), rowFTCContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,10, 110,20);
 	assert( rowIndexLabel != nullptr );
 	rowIndexLabel->SetToLabel();
 
-	JXStaticText* colStartLabel =
+	auto* colStartLabel =
 		jnew JXStaticText(JGetString("colStartLabel::CMArray2DDir::JXLayout"), colFTCContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,35, 40,20);
 	assert( colStartLabel != nullptr );
 	colStartLabel->SetToLabel();
 
-	JXStaticText* colEndLabel =
+	auto* colEndLabel =
 		jnew JXStaticText(JGetString("colEndLabel::CMArray2DDir::JXLayout"), colFTCContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,65, 40,20);
 	assert( colEndLabel != nullptr );
@@ -331,7 +331,7 @@ CMArray2DDir::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,65, 60,20);
 	assert( itsColEndIndex != nullptr );
 
-	JXStaticText* colIndexLabel =
+	auto* colIndexLabel =
 		jnew JXStaticText(JGetString("colIndexLabel::CMArray2DDir::JXLayout"), colFTCContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 110,20);
 	assert( colIndexLabel != nullptr );
@@ -346,7 +346,7 @@ CMArray2DDir::BuildWindow()
 	UpdateWindowTitle();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = jnew JXImage(display, medic_2d_array_window);
+	auto* icon      = jnew JXImage(display, medic_2d_array_window);
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
@@ -443,7 +443,7 @@ CMArray2DDir::BuildWindow()
 	itsActionMenu->SetItemImage(kDisplay2DArrayCmd, medic_show_2d_array);
 	itsActionMenu->SetItemImage(kExamineMemCmd,     medic_show_memory);
 
-	JXWDMenu* wdMenu =
+	auto* wdMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
@@ -582,7 +582,7 @@ CMArray2DDir::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -594,7 +594,7 @@ CMArray2DDir::Receive
 		}
 	else if (sender == itsActionMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());
@@ -602,7 +602,7 @@ CMArray2DDir::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
@@ -619,7 +619,7 @@ CMArray2DDir::Receive
 
 	else if (sender == itsRowHeader && message.Is(JXRowHeaderWidget::kNeedsToBeWidened))
 		{
-		const JXRowHeaderWidget::NeedsToBeWidened* info =
+		const auto* info =
 			dynamic_cast<const JXRowHeaderWidget::NeedsToBeWidened*>(&message);
 		assert( info != nullptr );
 
@@ -634,7 +634,7 @@ CMArray2DDir::Receive
 	else if (sender == CMGetPSPrinter() &&
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
-		const JPrinter::PrintSetupFinished* info =
+		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

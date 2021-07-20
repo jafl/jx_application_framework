@@ -56,21 +56,21 @@ JXErrorDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 330,110, JString::empty);
+	auto* window = jnew JXWindow(this, 330,110, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXErrorDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,80, 60,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXErrorDialog::shortcuts::JXLayout"));
 
-	JXStaticText* text =
+	auto* text =
 		jnew JXStaticText(JGetString("text::JXErrorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,20, 250,50);
 	assert( text != nullptr );
 
-	JXImageWidget* icon =
+	auto* icon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
 	assert( icon != nullptr );

@@ -165,7 +165,7 @@ JXDocktab::HandleMouseDown
 			assert( itsDockFinder != nullptr );
 			}
 
-		JXDockDragData* data = jnew JXDockDragData(GetWindow());
+		auto* data = jnew JXDockDragData(GetWindow());
 		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data, itsDockFinder);
@@ -236,7 +236,7 @@ JXDocktab::Receive
 		}
 	else if (sender == itsActionMenu && message.Is(JXTextMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());

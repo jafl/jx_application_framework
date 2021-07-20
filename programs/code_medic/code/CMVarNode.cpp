@@ -58,7 +58,7 @@ CMVarNode::CMVarNode
 		parent->Append(this);
 		if (parent->IsRoot() && !name.IsEmpty())
 			{
-			CMInitVarNodeTask* task = jnew CMInitVarNodeTask(this);
+			auto* task = jnew CMInitVarNodeTask(this);
 			assert( task != nullptr );
 			task->Go();
 			}
@@ -381,7 +381,7 @@ CMVarNode::Receive
 	else if (sender == itsValueCommand &&
 			 message.Is(CMVarCommand::kValueUpdated))
 		{
-		const CMVarCommand::ValueMessage& info =
+		const auto& info =
 			dynamic_cast<const CMVarCommand::ValueMessage&>(message);
 
 		SetValid(true);
@@ -397,7 +397,7 @@ CMVarNode::Receive
 	else if (sender == itsContentCommand &&
 			 message.Is(CMVarCommand::kValueUpdated))
 		{
-		const CMVarCommand::ValueMessage& info =
+		const auto& info =
 			dynamic_cast<const CMVarCommand::ValueMessage&>(message);
 
 		CMVarNode* root = info.GetRootNode();
@@ -472,7 +472,7 @@ CMVarNode::ShouldUpdate
 {
 	if (message.Is(CMLink::kProgramStopped))
 		{
-		const CMLink::ProgramStopped& info =
+		const auto& info =
 			dynamic_cast<const CMLink::ProgramStopped&>(message);
 
 		const CMLocation* loc;
@@ -828,7 +828,7 @@ CMVarNode*
 CMVarNode::GetVarParent()
 {
 	JTreeNode* p = GetParent();
-	CMVarNode* n = dynamic_cast<CMVarNode*>(p);
+	auto* n = dynamic_cast<CMVarNode*>(p);
 	assert( n != nullptr );
 	return n;
 }
@@ -838,7 +838,7 @@ CMVarNode::GetVarParent()
 	const
 {
 	const JTreeNode* p = GetParent();
-	const CMVarNode* n = dynamic_cast<const CMVarNode*>(p);
+	const auto* n = dynamic_cast<const CMVarNode*>(p);
 	assert( n != nullptr );
 	return n;
 }
@@ -895,7 +895,7 @@ CMVarNode::GetVarChild
 	const JIndex index
 	)
 {
-	CMVarNode* node = dynamic_cast<CMVarNode*>(GetChild(index));
+	auto* node = dynamic_cast<CMVarNode*>(GetChild(index));
 	assert (node != nullptr);
 	return node;
 }
@@ -907,7 +907,7 @@ CMVarNode::GetVarChild
 	)
 	const
 {
-	const CMVarNode* node = dynamic_cast<const CMVarNode*>(GetChild(index));
+	const auto* node = dynamic_cast<const CMVarNode*>(GetChild(index));
 	assert (node != nullptr);
 	return node;
 }

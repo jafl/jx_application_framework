@@ -63,20 +63,20 @@ CMAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 430,180, JString::empty);
+	auto* window = jnew JXWindow(this, 430,180, JString::empty);
 	assert( window != nullptr );
 
-	JXImageWidget* medicIcon =
+	auto* medicIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,20, 40,40);
 	assert( medicIcon != nullptr );
 
-	JXStaticText* textWidget =
+	auto* textWidget =
 		jnew JXStaticText(JGetString("textWidget::CMAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,110);
 	assert( textWidget != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CMAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
 	assert( okButton != nullptr );
@@ -93,7 +93,7 @@ CMAboutDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,150, 60,20);
 	assert( itsCreditsButton != nullptr );
 
-	JXImageWidget* npsIcon =
+	auto* npsIcon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
 	assert( npsIcon != nullptr );

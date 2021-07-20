@@ -99,7 +99,7 @@ GLPlotter::Receive
 {
 	if (sender == itsModuleMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleModuleMenu(selection->GetIndex());
@@ -207,7 +207,7 @@ GLPlotter::HandleModuleMenu
 							kJCreatePipe, &inFD,
 							kJIgnoreConnection, nullptr);
 		assert(err.OK());
-		JOutPipeStream* op = jnew JOutPipeStream(outFD, true);
+		auto* op = jnew JOutPipeStream(outFD, true);
 		assert( op != nullptr );
 		assert( op->good() );
 

@@ -33,7 +33,7 @@ operator>>
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		JString* s = jnew JString;
+		auto* s = jnew JString;
 		assert( s != nullptr );
 
 		input >> *s;

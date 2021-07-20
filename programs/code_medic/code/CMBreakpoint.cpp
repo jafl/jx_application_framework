@@ -194,7 +194,7 @@ CMBreakpoint::Receive
 {
 	if (message.Is(CMGetFullPath::kFileFound))
 		{
-		const CMGetFullPath::FileFound* info =
+		const auto* info =
 			dynamic_cast<const CMGetFullPath::FileFound*>(&message);
 		assert( info != nullptr );
 		itsLocation.SetFileName(info->GetFullName());
@@ -206,7 +206,7 @@ CMBreakpoint::Receive
 		}
 	else if (message.Is(CMGetFullPath::kNewCommand))
 		{
-		const CMGetFullPath::NewCommand* info =
+		const auto* info =
 			dynamic_cast<const CMGetFullPath::NewCommand*>(&message);
 		assert( info != nullptr );
 		ListenTo(info->GetNewCommand());

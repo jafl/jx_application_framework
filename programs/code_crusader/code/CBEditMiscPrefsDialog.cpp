@@ -55,10 +55,10 @@ CBEditMiscPrefsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,390, JString::empty);
+	auto* window = jnew JXWindow(this, 370,390, JString::empty);
 	assert( window != nullptr );
 
-	JXStaticText* warnTitle =
+	auto* warnTitle =
 		jnew JXStaticText(JGetString("warnTitle::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,170, 80,20);
 	assert( warnTitle != nullptr );
@@ -79,18 +79,18 @@ CBEditMiscPrefsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,320, 120,20);
 	assert( itsQuitCB != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,360, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 230,360, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CBEditMiscPrefsDialog::shortcuts::JXLayout"));
 
-	JXStaticText* noArgsTitle =
+	auto* noArgsTitle =
 		jnew JXStaticText(JGetString("noArgsTitle::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,170, 180,20);
 	assert( noArgsTitle != nullptr );
@@ -116,7 +116,7 @@ CBEditMiscPrefsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,260, 150,20);
 	assert( itsReopenLastCB != nullptr );
 
-	JXStaticText* firstTimeHint =
+	auto* firstTimeHint =
 		jnew JXStaticText(JGetString("firstTimeHint::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,280, 100,20);
 	assert( firstTimeHint != nullptr );
@@ -137,7 +137,7 @@ CBEditMiscPrefsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 330,20);
 	assert( itsMacStyleCB != nullptr );
 
-	JXStaticText* restartHint =
+	auto* restartHint =
 		jnew JXStaticText(JGetString("restartHint::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 290,20);
 	assert( restartHint != nullptr );
@@ -195,7 +195,7 @@ CBEditMiscPrefsDialog::BuildWindow()
 
 	// bind the checkboxes so at least one remains selected
 
-	JXAtLeastOneCBGroup* group =
+	auto* group =
 		jnew JXAtLeastOneCBGroup(4, itsNewEditorCB, itsNewProjectCB,
 								itsReopenLastCB, itsChooseFileCB);
 	assert( group != nullptr );
@@ -215,7 +215,7 @@ CBEditMiscPrefsDialog::Receive
 {
 	if (sender == this && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())

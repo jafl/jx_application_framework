@@ -195,7 +195,7 @@ GDBGetBreakpoints::ParseBreakpoint
 		condition = *s;
 		}
 
-	CMBreakpoint* bp =
+	auto* bp =
 		jnew CMBreakpoint(bpIndex, fileName, lineIndex, fn, addr,
 						 enabled, action, condition, ignoreCount);
 	assert( bp != nullptr );
@@ -236,7 +236,7 @@ GDBGetBreakpoints::ParseOther
 		condition = *s;
 		}
 
-	CMBreakpoint* bp =
+	auto* bp =
 		jnew CMBreakpoint(bpIndex, CMLocation(), fn, JString::empty,
 						 enabled, action, condition, ignoreCount);
 	assert( bp != nullptr );

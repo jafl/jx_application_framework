@@ -500,7 +500,7 @@ JXNamedTreeListWidget::CreateTreeListInput
 	const JCoordinate	h
 	)
 {
-	JXInputField* obj = jnew JXInputField(enclosure, hSizing, vSizing, x,y, w,h);
+	auto* obj = jnew JXInputField(enclosure, hSizing, vSizing, x,y, w,h);
 	assert( obj != nullptr );
 	return obj;
 }

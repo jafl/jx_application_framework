@@ -161,7 +161,7 @@ SVNRepoTreeNode::OKToOpen()
 		return false;
 		}
 
-	SVNRepoTreeNode* me = const_cast<SVNRepoTreeNode*>(this);
+	auto* me = const_cast<SVNRepoTreeNode*>(this);
 	if (itsNeedUpdateFlag)
 		{
 		me->itsNeedUpdateFlag = false;
@@ -227,7 +227,7 @@ SVNRepoTreeNode::Update()
 
 		DeleteAllChildren();
 
-		SVNRepoTreeNode* node =
+		auto* node =
 			jnew SVNRepoTreeNode(GetTree(), JString::empty, JString::empty,
 								 JGetString("BusyLabel::SVNRepoTreeNode"),
 								 kBusy, 0, 0, JString::empty, 0);
@@ -379,7 +379,7 @@ SVNRepoTreeNode::ParseResponse()
 					{
 					repoPath1 = JCombinePathAndName(repoPath, name);
 
-					SVNRepoTreeNode* node =
+					auto* node =
 						jnew SVNRepoTreeNode(GetTree(), repoPath1, itsRepoRevision,
 											name, type == "dir" ? kDirectory : kFile,
 											rev, modTime, author, size);
@@ -418,7 +418,7 @@ SVNRepoTreeNode::DisplayErrors()
 	const JSize count = itsErrorList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		SVNRepoTreeNode* node =
+		auto* node =
 			jnew SVNRepoTreeNode(GetTree(), JString::empty, JString::empty,
 								 *(itsErrorList->GetElement(i)),
 								 kError, 0, 0, JString::empty, 0);
@@ -437,7 +437,7 @@ SVNRepoTreeNode::DisplayErrors()
 SVNRepoTree*
 SVNRepoTreeNode::GetRepoTree()
 {
-	SVNRepoTree* tree = dynamic_cast<SVNRepoTree*>(GetTree());
+	auto* tree = dynamic_cast<SVNRepoTree*>(GetTree());
 	assert (tree != nullptr);
 	return tree;
 }
@@ -446,7 +446,7 @@ const SVNRepoTree*
 SVNRepoTreeNode::GetRepoTree()
 	const
 {
-	const SVNRepoTree* tree = dynamic_cast<const SVNRepoTree*>(GetTree());
+	const auto* tree = dynamic_cast<const SVNRepoTree*>(GetTree());
 	assert (tree != nullptr);
 	return tree;
 }
@@ -460,7 +460,7 @@ SVNRepoTreeNode*
 SVNRepoTreeNode::GetRepoParent()
 {
 	JTreeNode* p       = GetParent();
-	SVNRepoTreeNode* n = dynamic_cast<SVNRepoTreeNode*>(p);
+	auto* n = dynamic_cast<SVNRepoTreeNode*>(p);
 	assert( n != nullptr );
 	return n;
 }
@@ -470,7 +470,7 @@ SVNRepoTreeNode::GetRepoParent()
 	const
 {
 	const JTreeNode* p       = GetParent();
-	const SVNRepoTreeNode* n = dynamic_cast<const SVNRepoTreeNode*>(p);
+	const auto* n = dynamic_cast<const SVNRepoTreeNode*>(p);
 	assert( n != nullptr );
 	return n;
 }
@@ -527,7 +527,7 @@ SVNRepoTreeNode::GetRepoChild
 	const JIndex index
 	)
 {
-	SVNRepoTreeNode* node = dynamic_cast<SVNRepoTreeNode*>(GetChild(index));
+	auto* node = dynamic_cast<SVNRepoTreeNode*>(GetChild(index));
 	assert (node != nullptr);
 	return node;
 }
@@ -539,7 +539,7 @@ SVNRepoTreeNode::GetRepoChild
 	)
 	const
 {
-	const SVNRepoTreeNode* node = dynamic_cast<const SVNRepoTreeNode*>(GetChild(index));
+	const auto* node = dynamic_cast<const SVNRepoTreeNode*>(GetChild(index));
 	assert (node != nullptr);
 	return node;
 }

@@ -60,10 +60,10 @@ CMApp::CMApp
 		prevVersStr->Clear();
 		}
 
-	CMMDIServer* mdi = jnew CMMDIServer;		// deleted by jXGlobals
+	auto* mdi = jnew CMMDIServer;		// deleted by jXGlobals
 	assert( mdi != nullptr );
 
-	CMQuitTask* task = jnew CMQuitTask();
+	auto* task = jnew CMQuitTask();
 	assert( task != nullptr );
 	task->Start();
 }
@@ -133,13 +133,13 @@ CMApp::DisplayAbout
 	const bool	init
 	)
 {
-	CMAboutDialog* dlog = jnew CMAboutDialog(this, prevVersStr);
+	auto* dlog = jnew CMAboutDialog(this, prevVersStr);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 
 	if (init && prevVersStr.IsEmpty())
 		{
-		JXAskInitDockAll* task = jnew JXAskInitDockAll(dlog);
+		auto* task = jnew JXAskInitDockAll(dlog);
 		assert( task != nullptr );
 		task->Start();
 		}
@@ -153,7 +153,7 @@ CMApp::DisplayAbout
 bool
 CMApp::HandleCustomEvent()
 {
-	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	auto* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link != nullptr)
 		{
 		link->HandleLLDBEvent();

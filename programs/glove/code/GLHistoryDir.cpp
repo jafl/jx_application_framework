@@ -81,7 +81,7 @@ GLHistoryDir::BuildWindow()
 	JCoordinate h = 320;
 	JPoint dtl;
 //	bool foundWindowPref = gjdbApp->GetCmdWindowSize(&dtl, &w, &h);
-	JXWindow* window = jnew JXWindow(this, w,h, "Glove session");
+	auto* window = jnew JXWindow(this, w,h, "Glove session");
 	assert( window != nullptr );
 	window->SetMinSize(300,200);
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
@@ -100,7 +100,7 @@ GLHistoryDir::BuildWindow()
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kJXDefaultMenuBarHeight,
@@ -135,7 +135,7 @@ GLHistoryDir::Receive
 {
 	if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());

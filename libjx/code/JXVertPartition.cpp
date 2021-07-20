@@ -122,7 +122,7 @@ JXVertPartition::CreateCompartment
 	const JCoordinate	size
 	)
 {
-	JXWidgetSet* compartment =
+	auto* compartment =
 		jnew JXWidgetSet(this, kHElastic, kFixedTop,
 						0,position, GetApertureWidth(), size);
 	assert( compartment != nullptr );

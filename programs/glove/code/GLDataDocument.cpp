@@ -200,16 +200,16 @@ GLDataDocument::BuildWindow()
 	JSize w = 453;
 	JSize h = 360;
 
-	JXWindow* window = jnew JXWindow(this, w,h, JString::empty);
+	auto* window = jnew JXWindow(this, w,h, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop,
 					0,0, w, kJXDefaultMenuBarHeight);
 	assert( menuBar != nullptr );
 
-	JXToolBar* toolBar =
+	auto* toolBar =
 		jnew JXToolBar(GLGetPrefsMgr(), kDataToolBarID, menuBar,
 					window,
 					JXWidget::kHElastic, JXWidget::kVElastic,
@@ -223,7 +223,7 @@ GLDataDocument::BuildWindow()
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	ListenTo(itsFileMenu);
 
-	JXImage* image = jnew JXImage(GetDisplay(), JXPM(filenew));
+	auto* image = jnew JXImage(GetDisplay(), JXPM(filenew));
 	assert(image != nullptr);
 	itsFileMenu->SetItemImage(kNewCmd, image, true);
 
@@ -259,7 +259,7 @@ GLDataDocument::BuildWindow()
 	JXContainer* encl = itsScrollbarSet->GetScrollEnclosure();
 	JRect enclApG     = encl->GetApertureGlobal();
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("OKLabel::JXGlobal"), encl,
 						JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						0, 0, kRowHeaderWidth-2, kColHeaderHeight-2);
@@ -276,14 +276,14 @@ GLDataDocument::BuildWindow()
 
 	enclApG = encl->GetApertureGlobal();	// JXScrollableWidget forces a change in this
 
-	GLRowHeaderWidget* rowHeader =
+	auto* rowHeader =
 		jnew GLRowHeaderWidget(itsTable, itsScrollbarSet, encl,
 							  JXWidget::kFixedLeft, JXWidget::kVElastic,
 							  0,kColHeaderHeight, kRowHeaderWidth,
 							  enclApG.height() - kColHeaderHeight);
 	assert( rowHeader != nullptr );
 
-	GLColHeaderWidget* colHeader =
+	auto* colHeader =
 		jnew GLColHeaderWidget(itsTable, itsScrollbarSet, encl,
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  kRowHeaderWidth,0, enclApG.width() - kRowHeaderWidth,
@@ -291,7 +291,7 @@ GLDataDocument::BuildWindow()
 	colHeader->TurnOnColResizing(20);
 	assert( colHeader != nullptr );
 
-	JXDocumentMenu* windowListMenu =
+	auto* windowListMenu =
 		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 			JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( windowListMenu != nullptr );
@@ -346,7 +346,7 @@ GLDataDocument::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -354,7 +354,7 @@ GLDataDocument::Receive
 
 	else if (sender == itsExportMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleExportMenu(selection->GetIndex());
@@ -362,7 +362,7 @@ GLDataDocument::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
@@ -371,7 +371,7 @@ GLDataDocument::Receive
 	else if (sender == itsPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
-		const JPrinter::PrintSetupFinished* info =
+		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert(info != nullptr);
 		if (info->Successful())
@@ -382,7 +382,7 @@ GLDataDocument::Receive
 
 	else if (sender == itsFileImportDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -394,7 +394,7 @@ GLDataDocument::Receive
 
 	else if (sender == itsDelimiterDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const JXDialogDirector::Deactivated* info =
+		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
@@ -731,7 +731,7 @@ GLDataDocument::CreateNewPlot
 	str = JGetString("PlotTitle::GLDataDocument", map, sizeof(map));
 	itsPlotNumber++;
 
-	GLPlotDir* plotDir = jnew GLPlotDir(this, this, GetFileName());
+	auto* plotDir = jnew GLPlotDir(this, this, GetFileName());
 	assert (plotDir != nullptr);
 	itsPlotWindows->Append(plotDir);
 
@@ -855,7 +855,7 @@ GLDataDocument::DirectorClosed
 	)
 {
 	JIndex index;
-	const GLPlotDir* dir = (const GLPlotDir*) theDirector;
+	const auto* dir = (const GLPlotDir*) theDirector;
 	if (itsPlotWindows->Find(dir, &index))
 		{
 		itsPlotWindows->Remove(dir);
@@ -913,7 +913,7 @@ GLDataDocument::ReadPlotData
 	is >> count;
 	for (JSize i = 1; i <= count; i++)
 		{
-		GLPlotDir* plotDir = jnew GLPlotDir(this, this, GetFileName());
+		auto* plotDir = jnew GLPlotDir(this, this, GetFileName());
 		assert (plotDir != nullptr);
 
 		plotDir->ReadSetup(is, gloveVersion);

@@ -83,7 +83,7 @@ CBFindFileDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 290,140, JString::empty);
+	auto* window = jnew JXWindow(this, 290,140, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =
@@ -103,7 +103,7 @@ CBFindFileDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 220,20);
 	assert( itsFileName != nullptr );
 
-	JXStaticText* nameLabel =
+	auto* nameLabel =
 		jnew JXStaticText(JGetString("nameLabel::CBFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
 	assert( nameLabel != nullptr );
@@ -145,7 +145,7 @@ CBFindFileDialog::BuildWindow()
 
 	// create hidden JXDocument so Meta-# shortcuts work
 
-	JXDocumentMenu* fileListMenu =
+	auto* fileListMenu =
 		jnew JXDocumentMenu(JString::empty, window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != nullptr );

@@ -68,42 +68,42 @@ CBEditStylerDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,390, JString::empty);
+	auto* window = jnew JXWindow(this, 370,390, JString::empty);
 	assert( window != nullptr );
 
-	JXScrollbarSet* scrollbarSet1 =
+	auto* scrollbarSet1 =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,110, 240,110);
 	assert( scrollbarSet1 != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,360, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 250,360, 70,20);
 	assert( okButton != nullptr );
 
-	JXStaticText* instrText =
+	auto* instrText =
 		jnew JXStaticText(JGetString("instrText::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 330,50);
 	assert( instrText != nullptr );
 
-	JXTextButton* newWordButton =
+	auto* newWordButton =
 		jnew JXTextButton(JGetString("newWordButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,240, 70,20);
 	assert( newWordButton != nullptr );
 	newWordButton->SetShortcuts(JGetString("newWordButton::CBEditStylerDialog::shortcuts::JXLayout"));
 
-	JXTextButton* removeButton =
+	auto* removeButton =
 		jnew JXTextButton(JGetString("removeButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,270, 70,20);
 	assert( removeButton != nullptr );
 	removeButton->SetShortcuts(JGetString("removeButton::CBEditStylerDialog::shortcuts::JXLayout"));
 
-	JXScrollbarSet* scrollbarSet2 =
+	auto* scrollbarSet2 =
 		jnew JXScrollbarSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,230, 240,110);
 	assert( scrollbarSet2 != nullptr );

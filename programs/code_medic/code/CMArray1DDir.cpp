@@ -221,7 +221,7 @@ CMArray1DDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 300,500, JString::empty);
+	auto* window = jnew JXWindow(this, 300,500, JString::empty);
 	assert( window != nullptr );
 
 	itsExprInput =
@@ -229,13 +229,13 @@ CMArray1DDir::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,40, 170,20);
 	assert( itsExprInput != nullptr );
 
-	JXStaticText* startLabel =
+	auto* startLabel =
 		jnew JXStaticText(JGetString("startLabel::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 90,20);
 	assert( startLabel != nullptr );
 	startLabel->SetToLabel();
 
-	JXStaticText* endLabel =
+	auto* endLabel =
 		jnew JXStaticText(JGetString("endLabel::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 90,20);
 	assert( endLabel != nullptr );
@@ -247,12 +247,12 @@ CMArray1DDir::BuildWindow()
 	assert( itsStopButton != nullptr );
 	itsStopButton->SetShortcuts(JGetString("itsStopButton::CMArray1DDir::shortcuts::JXLayout"));
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 300,30);
 	assert( menuBar != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,130, 300,370);
 	assert( scrollbarSet != nullptr );
@@ -267,7 +267,7 @@ CMArray1DDir::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,100, 60,20);
 	assert( itsEndIndex != nullptr );
 
-	JXStaticText* exprLabel =
+	auto* exprLabel =
 		jnew JXStaticText(JGetString("exprLabel::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 90,20);
 	assert( exprLabel != nullptr );
@@ -282,7 +282,7 @@ CMArray1DDir::BuildWindow()
 	UpdateWindowTitle();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = jnew JXImage(display, medic_1d_array_window);
+	auto* icon      = jnew JXImage(display, medic_1d_array_window);
 	assert( icon != nullptr );
 	window->SetIcon(icon);
 
@@ -292,7 +292,7 @@ CMArray1DDir::BuildWindow()
 	assert( root != nullptr );
 	itsTree = jnew JTree(root);
 	assert( itsTree != nullptr );
-	JNamedTreeList* treeList = jnew JNamedTreeList(itsTree);
+	auto* treeList = jnew JNamedTreeList(itsTree);
 	assert( treeList != nullptr );
 
 	itsWidget =
@@ -339,7 +339,7 @@ CMArray1DDir::BuildWindow()
 	itsActionMenu->SetItemImage(kDisplay2DArrayCmd, medic_show_2d_array);
 	itsActionMenu->SetItemImage(kExamineMemCmd,     medic_show_memory);
 
-	JXWDMenu* wdMenu =
+	auto* wdMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != nullptr );
@@ -434,7 +434,7 @@ CMArray1DDir::Receive
 
 	else if (sender == itsTree && message.Is(JTree::kNodeChanged))
 		{
-		const JTree::NodeChanged* info =
+		const auto* info =
 			dynamic_cast<const JTree::NodeChanged*>(&message);
 		assert(info != nullptr);
 		if (info->GetNode() == itsCurrentNode)
@@ -467,7 +467,7 @@ CMArray1DDir::Receive
 
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
@@ -479,7 +479,7 @@ CMArray1DDir::Receive
 		}
 	else if (sender == itsActionMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());
@@ -487,7 +487,7 @@ CMArray1DDir::Receive
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());

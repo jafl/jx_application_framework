@@ -50,7 +50,7 @@ XDGetBreakpoints::HandleSuccess
 	const JString& data
 	)
 {
-	XDLink* link = dynamic_cast<XDLink*>(CMGetLink());
+	auto* link = dynamic_cast<XDLink*>(CMGetLink());
 	xmlNode* root;
 	if (link == nullptr || !link->GetParsedData(&root))
 		{
@@ -93,7 +93,7 @@ XDGetBreakpoints::HandleSuccess
 
 			const bool enabled = state == "enabled";
 
-			CMBreakpoint* bp =
+			auto* bp =
 				jnew CMBreakpoint(bpIndex, fileName, lineNumber, JString::empty, JString::empty,
 								 enabled, CMBreakpoint::kKeepBreakpoint, JString::empty, 0);
 			assert( bp != nullptr );

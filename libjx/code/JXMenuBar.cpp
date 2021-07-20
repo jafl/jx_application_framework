@@ -63,7 +63,7 @@ JXMenuBar::JXMenuBar
 		Move(JXDocktab::kWidth, 0);
 		AdjustSize(-JXDocktab::kWidth, 0);
 
-		JXDocktab* tab =
+		auto* tab =
 			jnew JXDocktab(enclosure,
 						  hSizing == kFixedRight ? kFixedRight : kFixedLeft,
 						  vSizing, x, y, JXDocktab::kWidth, h);
@@ -205,7 +205,7 @@ JXMenuBar::InsertTextMenu
 	)
 {
 	const JRect bounds = GetBounds();
-	JXTextMenu* theMenu = jnew JXTextMenu(title, this, kFixedLeft, kVElastic,
+	auto* theMenu = jnew JXTextMenu(title, this, kFixedLeft, kVElastic,
 										 bounds.left,bounds.top, 10,bounds.height());
 	assert( theMenu != nullptr );
 
@@ -222,7 +222,7 @@ JXMenuBar::InsertTextMenu
 	)
 {
 	const JRect bounds = GetBounds();
-	JXTextMenu* theMenu =
+	auto* theMenu =
 		jnew JXTextMenu(image, menuOwnsImage, this, kFixedLeft, kVElastic,
 					   bounds.left,bounds.top, 10,bounds.height());
 	assert( theMenu != nullptr );
@@ -565,7 +565,7 @@ JXMenuBar::WidthChanged()
 
 	JXImage* image = GetDisplay()->GetImageCache()->GetImage(jx_down_chevron);
 
-	JXTextMenu* overflowMenu =
+	auto* overflowMenu =
 		jnew JXTextMenu(image, false, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( overflowMenu != nullptr );
 	overflowMenu->SetUpdateAction(JXMenu::kDisableNone);

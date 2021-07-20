@@ -110,7 +110,7 @@ CBTEScriptMenu::Receive
 		}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* info =
+		const auto* info =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert(info != nullptr);
 		if (HandleSelection(info->GetIndex()))

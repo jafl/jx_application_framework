@@ -334,7 +334,7 @@ JPrefsManager::LoadData
 
 		std::string data;
 		file->GetElement(JFAIndex(i), &data);
-		JString* s = jnew JString(data.c_str(), data.length());
+		auto* s = jnew JString(data.c_str(), data.length());
 		assert( s != nullptr );
 
 		PrefItem item(id.GetID(), s);

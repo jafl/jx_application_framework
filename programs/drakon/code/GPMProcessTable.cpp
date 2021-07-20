@@ -126,7 +126,7 @@ GPMProcessTable::CreateContextMenu
 	JXContainer* enclosure
 	)
 {
-	JXTextMenu* menu = jnew JXTextMenu(JString::empty, enclosure, kFixedLeft, kFixedTop, 0,0, 10,10);
+	auto* menu = jnew JXTextMenu(JString::empty, enclosure, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( menu != nullptr );
 	menu->SetMenuItems(kContextMenuStr);
 	menu->SetToHiddenPopupMenu(true);
@@ -198,7 +198,7 @@ GPMProcessTable::Receive
 		}
 	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());

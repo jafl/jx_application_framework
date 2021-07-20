@@ -310,7 +310,7 @@ JXEditTable::GetEditMenuHandler()
 {
 	if (itsEditMenuHandler == nullptr)
 		{
-		JXEditTable* me = const_cast<JXEditTable*>(this);
+		auto* me = const_cast<JXEditTable*>(this);
 		me->itsEditMenuHandler =
 			jnew JXInputField(me, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							 0,0, 10,10);

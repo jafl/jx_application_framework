@@ -119,7 +119,7 @@ bool
 CBCPPMacroTable::ContentsValid()
 	const
 {
-	CBCPPMacroTable* me = const_cast<CBCPPMacroTable*>(this);
+	auto* me = const_cast<CBCPPMacroTable*>(this);
 	if (!me->EndEditing())
 		{
 		return false;

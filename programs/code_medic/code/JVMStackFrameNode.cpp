@@ -60,7 +60,7 @@ JVMStackFrameNode::Receive
 {
 	if (message.Is(JVMLink::kIDResolved))
 		{
-		const JVMLink::IDResolved* info =
+		const auto* info =
 			dynamic_cast<const JVMLink::IDResolved*>(&message);
 		assert( info != nullptr );
 
@@ -84,7 +84,7 @@ JVMStackFrameNode::Receive
 bool
 JVMStackFrameNode::UpdateNodeName()
 {
-	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
+	auto* link = dynamic_cast<JVMLink*>(CMGetLink());
 	JString c, m;
 	if (link->GetClassName(itsClassID, &c) &&
 		link->GetMethodName(itsClassID, itsMethodID, &m))

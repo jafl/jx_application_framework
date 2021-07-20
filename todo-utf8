@@ -11,6 +11,8 @@ jcc
 
 -----
 
+tidy all code
+
 glove
 	clean up .fd to match current layouts
 	test layouts on Linux and OS X

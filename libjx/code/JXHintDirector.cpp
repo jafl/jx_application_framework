@@ -80,18 +80,18 @@ JXHintDirector::BuildWindow
 {
 	// create window and contents
 
-	JXWindow* window = jnew JXWindow(this, 10,10, JString::empty, true);
+	auto* window = jnew JXWindow(this, 10,10, JString::empty, true);
 	assert( window != nullptr );
 
 	window->SetWMWindowType(JXWindow::kWMTooltipType);
 
-	JXBorderRect* border =
+	auto* border =
 		jnew JXBorderRect(window, JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 10,10);
 	assert( border != nullptr );
 	border->FitToEnclosure();
 
-	JXStaticText* textWidget =
+	auto* textWidget =
 		jnew JXStaticText(text, border,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 kHMargin, kVMargin, 0,0);

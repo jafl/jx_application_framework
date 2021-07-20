@@ -83,26 +83,26 @@ THX2DPlotFunctionDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 330,320, JString::empty);
+	auto* window = jnew JXWindow(this, 330,320, JString::empty);
 	assert( window != nullptr );
 
-	JXExprEditorSet* exprEditorSet =
+	auto* exprEditorSet =
 		jnew JXExprEditorSet(varList, &itsExprWidget, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 330,150);
 	assert( exprEditorSet != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::THX2DPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,290, 60,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::THX2DPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,290, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::THX2DPlotFunctionDialog::shortcuts::JXLayout"));
 
-	JXStaticText* curveLabel =
+	auto* curveLabel =
 		jnew JXStaticText(JGetString("curveLabel::THX2DPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,220, 80,20);
 	assert( curveLabel != nullptr );
@@ -113,7 +113,7 @@ THX2DPlotFunctionDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 110,220, 180,20);
 	assert( itsCurveName != nullptr );
 
-	JXStaticText* rangeLabel =
+	auto* rangeLabel =
 		jnew JXStaticText(JGetString("rangeLabel::THX2DPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,250, 80,20);
 	assert( rangeLabel != nullptr );
@@ -124,7 +124,7 @@ THX2DPlotFunctionDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 110,250, 80,20);
 	assert( itsMinInput != nullptr );
 
-	JXStaticText* toLabel =
+	auto* toLabel =
 		jnew JXStaticText(JGetString("toLabel::THX2DPlotFunctionDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 190,250, 20,20);
 	assert( toLabel != nullptr );
@@ -213,7 +213,7 @@ THX2DPlotFunctionDialog::Receive
 		}
 	else if (sender == itsPlotMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
+		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsPlotIndex = selection->GetIndex();
