@@ -17,11 +17,6 @@
 #include <JXHelpManager.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kUpgradeNoticeID     = "UpgradeNotice::<PRE>AboutDialog";
-static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::<PRE>AboutDialog";
-
 /******************************************************************************
  Constructor
 
@@ -31,8 +26,8 @@ static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::<PRE>AboutDi
 
 <PRE>AboutDialog::<PRE>AboutDialog
 	(
-	JXDirector*			supervisor,
-	const JCharacter*	prevVersStr
+	JXDirector*		supervisor,
+	const JString&	prevVersStr
 	)
 	:
 	JXDialogDirector(supervisor, true)
@@ -61,20 +56,20 @@ static const JCharacter* kChangeButtonLabelID = "ChangeButtonLabel::<PRE>AboutDi
 void
 <PRE>AboutDialog::BuildWindow
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,120, "");
+	auto* window = jnew JXWindow(this, 370,120, JString::empty);
 	assert( window != nullptr );
 
-	JXStaticText* textWidget =
+	auto* textWidget =
 		jnew JXStaticText(JGetString("textWidget::<PRE>AboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 280,50);
 	assert( textWidget != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::<PRE>AboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 259,89, 62,22);
 	assert( okButton != nullptr );
@@ -85,7 +80,7 @@ void
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 155,90, 60,20);
 	assert( itsHelpButton != nullptr );
 
-	JXImageWidget* imageWidget =
+	auto* imageWidget =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
 	assert( imageWidget != nullptr );
@@ -106,15 +101,15 @@ void
 	imageWidget->SetXPM(<pre>_about_icon);
 
 	JString text = <PRE>GetVersionStr();
-	if (!JString::IsEmpty(prevVersStr))
+	if (!prevVersStr.IsEmpty())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"vers", prevVersStr
+			"vers", prevVersStr.GetBytes()
 			};
-		text += JGetString(kUpgradeNoticeID);
+		text += JGetString("UpgradeNotice::<PRE>AboutDialog");
 		JGetStringManager()->Replace(&text, map, sizeof(map));
-		itsHelpButton->SetLabel(JGetString(kChangeButtonLabelID));
+		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::<PRE>AboutDialog"));
 		itsIsUpgradeFlag = true;
 		}
 	textWidget->SetText(text);
@@ -145,18 +140,18 @@ void
 		{
 		if (itsIsUpgradeFlag)
 			{
-			(JXGetHelpManager())->ShowChangeLog();
+			JXGetHelpManager()->ShowChangeLog();
 			}
 		else
 			{
-			(JXGetHelpManager())->ShowTOC();
+			JXGetHelpManager()->ShowTOC();
 			}
 		EndDialog(true);
 		}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		EndDialog(true);
 		}
 

@@ -38,8 +38,8 @@ public:
 	void	EditPrefs();
 
 	bool	GetWindowSize(const JPrefID& id, JPoint* desktopLoc,
-							  JCoordinate* width, JCoordinate* height) const;
-	void		SaveWindowSize(const JPrefID& id, JXWindow* window);
+						  JCoordinate* width, JCoordinate* height) const;
+	void	SaveWindowSize(const JPrefID& id, JXWindow* window);
 
 protected:
 

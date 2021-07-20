@@ -18,10 +18,10 @@ public:
 
 	virtual	~<PRE>App();
 
-	void	DisplayAbout(const JCharacter* prevVersStr = nullptr);
+	void	DisplayAbout(const JString& prevVersStr = JString::empty);
 
-	static const JCharacter*	GetAppSignature();
-	static void					InitStrings();
+	static const JUtf8Byte*	GetAppSignature();
+	static void				InitStrings();
 
 protected:
 

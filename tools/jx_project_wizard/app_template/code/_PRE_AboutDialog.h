@@ -16,7 +16,7 @@ class <PRE>AboutDialog : public JXDialogDirector
 {
 public:
 
-	<PRE>AboutDialog(JXDirector* supervisor, const JCharacter* prevVersStr);
+	<PRE>AboutDialog(JXDirector* supervisor, const JString& prevVersStr);
 
 	virtual	~<PRE>AboutDialog();
 
@@ -30,14 +30,14 @@ private:
 
 // begin JXLayout
 
-    JXTextButton* itsHelpButton;
-    JXTextButton* itsCreditsButton;
+	JXTextButton* itsHelpButton;
+	JXTextButton* itsCreditsButton;
 
 // end JXLayout
 
 private:
 
-	void	BuildWindow(const JCharacter* prevVersStr);
+	void	BuildWindow(const JString& prevVersStr);
 
 	// not allowed
 

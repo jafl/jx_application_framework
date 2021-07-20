@@ -22,18 +22,18 @@ class <PRE>MDIServer;
 <PRE>PrefsManager*	<PRE>GetPrefsManager();
 <PRE>MDIServer*		<PRE>GetMDIServer();
 
-const JCharacter*	<PRE>GetVersionNumberStr();
+const JString&		<PRE>GetVersionNumberStr();
 JString				<PRE>GetVersionStr();
 
 	// called by <PRE>App
 
 bool	<PRE>CreateGlobals(<PRE>App* app);
-void		<PRE>DeleteGlobals();
-void		<PRE>CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
+void	<PRE>DeleteGlobals();
+void	<PRE>CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
 	// called by Directors
 
-const JCharacter*	<PRE>GetWMClassInstance();
-const JCharacter*	<PRE>GetMainWindowClass();
+const JUtf8Byte*	<PRE>GetWMClassInstance();
+const JUtf8Byte*	<PRE>GetMainWindowClass();
 
 #endif

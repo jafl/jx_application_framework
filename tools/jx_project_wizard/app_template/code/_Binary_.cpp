@@ -129,9 +129,9 @@ PrintVersion()
 void
 PrintCommandLineHelp()
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"vers", <PRE>GetVersionNumberStr()
+		"vers", <PRE>GetVersionNumberStr().GetBytes()
 		};
 	const JString s = JGetString("CommandLineHelp", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;

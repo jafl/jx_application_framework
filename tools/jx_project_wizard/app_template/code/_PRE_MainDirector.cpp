@@ -25,8 +25,7 @@
 
 // File menu
 
-static const JCharacter* kFileMenuTitleStr = "File";
-static const JCharacter* kFileMenuStr =
+static const JUtf8Byte* kFileMenuStr =
 	"Quit %k Meta-Q %i" kJXQuitAction;
 
 enum
@@ -36,8 +35,7 @@ enum
 
 // Preferences menu
 
-static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr =
+static const JUtf8Byte* kPrefsMenuStr =
 	"    Edit preferences..."
 	"  | Edit tool bar..."
 	"  | File manager & web browser..."
@@ -55,8 +53,7 @@ enum
 
 // Help menu
 
-static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr =
+static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents       %i" kJXHelpTOCAction
 	"  | Overview"
@@ -128,10 +125,10 @@ void
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 500,300, "");
+	auto* window = jnew JXWindow(this, 500,300, "");
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != nullptr );
@@ -151,14 +148,14 @@ void
 	assert( image != nullptr );
 	window->SetIcon(image);
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,0, 100,100);
 	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
-	JXStaticText* widget =
+	auto* widget =
 		jnew JXStaticText("This should be replaced by your widget.",
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
@@ -170,17 +167,17 @@ void
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "<PRE>MainDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "<PRE>MainDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(kHelpMenuTitleStr);
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "<PRE>MainDirector");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
@@ -220,8 +217,7 @@ void
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
 		}
@@ -232,8 +228,7 @@ void
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		 const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
 		}
@@ -244,8 +239,7 @@ void
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
 		}
@@ -306,7 +300,7 @@ void
 {
 	if (index == kPrefsCmd)
 		{
-		(<PRE>GetPrefsManager())->EditPrefs();
+		<PRE>GetPrefsManager()->EditPrefs();
 		}
 	else if (index == kEditToolBarCmd)
 		{
@@ -314,7 +308,7 @@ void
 		}
 	else if (index == kWebBrowserCmd)
 		{
-		(JXGetWebBrowser())->EditPrefs();
+		JXGetWebBrowser()->EditPrefs();
 		}
 	else if (index == kEditMacWinPrefsCmd)
 		{
@@ -323,7 +317,7 @@ void
 
 	else if (index == kSaveWindSizeCmd)
 		{
-		(<PRE>GetPrefsManager())->SaveWindowSize(k<PRE>MainDirectorWindSizeID, GetWindow());
+		<PRE>GetPrefsManager()->SaveWindowSize(k<PRE>MainDirectorWindSizeID, GetWindow());
 		}
 }
 
@@ -355,24 +349,24 @@ void
 
 	else if (index == kTOCCmd)
 		{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 		}
 	else if (index == kOverviewCmd)
 		{
-		(JXGetHelpManager())->ShowSection("OverviewHelp");
+		JXGetHelpManager()->ShowSection("OverviewHelp");
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection("MainHelp");
+		JXGetHelpManager()->ShowSection("MainHelp");
 		}
 
 	else if (index == kChangesCmd)
 		{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 		}
 	else if (index == kCreditsCmd)
 		{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		}
 }
 

@@ -37,7 +37,7 @@ private:
 
 // begin JXLayout
 
-    JXToolBar* itsToolBar;
+	JXToolBar* itsToolBar;
 
 // end JXLayout
 

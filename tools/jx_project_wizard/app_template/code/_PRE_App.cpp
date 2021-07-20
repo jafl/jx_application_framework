@@ -13,7 +13,7 @@
 #include "<pre>Globals.h"
 #include <jAssert.h>
 
-static const JCharacter* kAppSignature = "<Binary>";
+static const JUtf8Byte* kAppSignature = "<Binary>";
 
 /******************************************************************************
  Constructor
@@ -24,7 +24,7 @@ static const JCharacter* kAppSignature = "<Binary>";
 	(
 	int*		argc,
 	char*		argv[],
-	bool*	displayAbout,
+	bool*		displayAbout,
 	JString*	prevVersStr
 	)
 	:
@@ -70,7 +70,7 @@ static const JCharacter* kAppSignature = "<Binary>";
 void
 <PRE>App::DisplayAbout
 	(
-	const JCharacter* prevVersStr
+	const JString& prevVersStr
 	)
 {
 	<PRE>AboutDialog* dlog = jnew <PRE>AboutDialog(this, prevVersStr);
@@ -106,7 +106,7 @@ void
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 <PRE>App::GetAppSignature()
 {
 	return kAppSignature;
