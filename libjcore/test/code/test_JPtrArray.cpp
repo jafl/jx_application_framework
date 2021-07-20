@@ -221,7 +221,7 @@ JTEST(RangeBasedForLoop)
 
 JTEST(MoveCtor)
 {
-	JPtrArray<JString>* a1 = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	auto* a1 = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( a1 != nullptr );
 	a1->Append(JString("foo", JString::kNoCopy));
 	a1->Append(JString("bar", JString::kNoCopy));

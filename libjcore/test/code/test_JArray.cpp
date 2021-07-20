@@ -85,7 +85,7 @@ JTEST(Prepend)
 		snoop.Expect(JListT::kElementsInserted,
 			[] (const JBroadcaster::Message& m)
 			{
-				const JListT::ElementsInserted* ei =
+				const auto* ei =
 					dynamic_cast<const JListT::ElementsInserted*>(&m);
 				JAssertNotNull(ei);
 				JAssertEqual(1, ei->GetFirstIndex());
@@ -114,7 +114,7 @@ JTEST(Append)
 		snoop.Expect(JListT::kElementsInserted,
 			[j] (const JBroadcaster::Message& m)
 			{
-				const JListT::ElementsInserted* ei =
+				const auto* ei =
 					dynamic_cast<const JListT::ElementsInserted*>(&m);
 				JAssertNotNull(ei);
 				JAssertEqual(j, ei->GetFirstIndex());
@@ -180,7 +180,7 @@ JTEST(Remove)
 	snoop.Expect(JListT::kElementsRemoved,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JListT::ElementsRemoved* er =
+			const auto* er =
 				dynamic_cast<const JListT::ElementsRemoved*>(&m);
 			JAssertNotNull(er);
 			JAssertEqual(7, er->GetFirstIndex());
@@ -216,7 +216,7 @@ JTEST(Remove)
 	snoop.Expect(JListT::kElementsRemoved,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JListT::ElementsRemoved* er =
+			const auto* er =
 				dynamic_cast<const JListT::ElementsRemoved*>(&m);
 			JAssertNotNull(er);
 			JAssertEqual(8, er->GetFirstIndex());
@@ -259,7 +259,7 @@ JTEST(Move)
 	snoop.Expect(JListT::kElementMoved,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JListT::ElementMoved* em =
+			const auto* em =
 				dynamic_cast<const JListT::ElementMoved*>(&m);
 			JAssertNotNull(em);
 			JAssertEqual(3, em->GetOrigIndex());
@@ -298,7 +298,7 @@ JTEST(Swap)
 	snoop.Expect(JListT::kElementsSwapped,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JListT::ElementsSwapped* es =
+			const auto* es =
 				dynamic_cast<const JListT::ElementsSwapped*>(&m);
 			JAssertNotNull(es);
 			JAssertEqual(2, es->GetIndex1());
@@ -537,7 +537,7 @@ JTEST(FunctionalProgramming)
 
 JTEST(MoveCtor)
 {
-	JArray<long>* a1 = jnew JArray<long>;
+	auto* a1 = jnew JArray<long>;
 	assert( a1 != nullptr );
 	a1->AppendElement(3);
 	a1->AppendElement(2);

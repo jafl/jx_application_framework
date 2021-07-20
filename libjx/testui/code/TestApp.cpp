@@ -68,7 +68,7 @@ TestApp::~TestApp()
 void
 TestApp::OpenDocuments()
 {
-	if (!JFileExists(JString(kOpenFilesFileName, false)))
+	if (!JFileExists(JString(kOpenFilesFileName, JString::kNoCopy)))
 		{
 		return;
 		}

@@ -466,7 +466,7 @@ JIndex i;
 	p.Line(ap.topLeft(), ap.bottomRight());
 	p.Line(ap.topRight(), ap.bottomLeft());
 
-	const JString timesFontName("Times", false);
+	const JString timesFontName("Times", JString::kNoCopy);
 
 	p.SetLineWidth(2);
 	p.SetFontName(timesFontName);
@@ -478,7 +478,7 @@ JIndex i;
 	p.SetPenColor(JColorManager::GetRedColor());
 	p.Rect(its2Rect);
 	p.SetFontStyle(JColorManager::GetRedColor());
-	p.String(its2Rect.topLeft(), JString("2", false),
+	p.String(its2Rect.topLeft(), JString("2", JString::kNoCopy),
 			 its2Rect.width(),  JPainter::kHAlignCenter,
 			 its2Rect.height(), JPainter::kVAlignCenter);
 
@@ -486,7 +486,7 @@ JIndex i;
 	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Rect(its3Rect);
 	p.SetFontStyle(JColorManager::GetBlueColor());
-	p.String(its3Rect.topLeft(), JString("3", false),
+	p.String(its3Rect.topLeft(), JString("3", JString::kNoCopy),
 			 its3Rect.width(),  JPainter::kHAlignCenter,
 			 its3Rect.height(), JPainter::kVAlignCenter);
 
@@ -510,7 +510,7 @@ JIndex i;
 
 	p.ShiftOrigin(2,0);
 
-	const JString helloStr("Hello", false);
+	const JString helloStr("Hello", JString::kNoCopy);
 
 	JPoint textPt(40,30);
 	p.String(  0.0, textPt, helloStr);
@@ -671,7 +671,7 @@ JIndex i;
 	p.Line(100,112, 200,112);
 
 	p.SetFontStyle(JFontStyle(false, false, 1, false));
-	p.String(130,155, JString("underline without dashes", false));
+	p.String(130,155, JString("underline without dashes", JString::kNoCopy));
 
 	p.SetDashList(dashList, 3);		// test offset
 	p.Line(100,116, 200,116);

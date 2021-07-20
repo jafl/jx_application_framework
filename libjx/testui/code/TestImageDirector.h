@@ -33,13 +33,13 @@ protected:
 
 private:
 
-	JString				itsFileName;
+	JString			itsFileName;
 
-	JXImageWidget*		itsImageWidget;			// owned by its enclosure
-	JXTextMenu*			itsFileMenu;			// owned by the menu bar
+	JXImageWidget*	itsImageWidget;			// owned by its enclosure
+	JXTextMenu*		itsFileMenu;			// owned by the menu bar
 
-	JXPSPrinter*		itsPSPrinter;
-	JXEPSPrinter*		itsEPSPrinter;
+	JXPSPrinter*	itsPSPrinter;
+	JXEPSPrinter*	itsEPSPrinter;
 
 // begin JXLayout
 

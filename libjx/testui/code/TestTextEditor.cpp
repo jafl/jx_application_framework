@@ -10,7 +10,6 @@
 #include "TestTextEditor.h"
 #include <JXTextMenu.h>
 #include <JXPSPrinter.h>
-#include <JString.h>
 #include <jAssert.h>
 
 // Edit menu

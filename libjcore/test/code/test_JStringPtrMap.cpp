@@ -36,7 +36,7 @@ JTEST(Exercise)
 		{
 		keyBytes[0] = 'A' + i;
 		key         = keyBytes;
-		JUtf8Byte* newValue = jnew JUtf8Byte[key.GetByteCount()+1];
+		auto* newValue = jnew JUtf8Byte[key.GetByteCount()+1];
 		strcpy(newValue, keyBytes);
 		JAssertTrue(ptrMap.SetNewElement(key, newValue));
 		}

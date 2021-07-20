@@ -83,7 +83,7 @@ TestMDIServer::HandleMDIRequest
 
 		for (JIndex i=2; i<=argCount; i++)
 			{
-			const JString& fileName = *(argList.GetElement(i));
+			const JString& fileName = *argList.GetElement(i);
 
 			JXFileDocument* doc;
 			if (docMgr->FileDocumentIsOpen(fileName, &doc))

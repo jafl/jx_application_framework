@@ -15,7 +15,7 @@
 #include "TestMDIServer.h"
 
 TestApp*	TestjxGetApplication();
-bool	TestjxGetMDIServer(TestMDIServer** server);
+bool		TestjxGetMDIServer(TestMDIServer** server);
 
 	// called by TestApp
 

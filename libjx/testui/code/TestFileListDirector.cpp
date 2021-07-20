@@ -53,7 +53,7 @@ TestFileListDirector::TestFileListDirector
 	AddDirectory("./test-file-list");
 
 	JString s1, s2;
-	if (JConvertToAbsolutePath(JString("../Make.header", false), JString::empty, &s1) &&
+	if (JConvertToAbsolutePath(JString("../Make.header", JString::kNoCopy), JString::empty, &s1) &&
 		JGetTrueName(s1, &s2))
 		{
 		itsFLSet->GetTable()->AddFile(s2);
@@ -123,7 +123,7 @@ TestFileListDirector::AddDirectory
 	)
 {
 	JDirInfo* info;
-	const bool ok = JDirInfo::Create(JString(path, false), &info);
+	const bool ok = JDirInfo::Create(JString(path, JString::kNoCopy), &info);
 	assert( ok );
 
 	JXFileListTable* table = itsFLSet->GetTable();

@@ -111,5 +111,5 @@ TestChooseSaveFile::SetChooseFileFilters
 	)
 {
 	dirInfo->SetContentFilter(
-		JString("(^[[:space:]]*$)|(^[[:space:]]*From )", false));
+		JString("(^[[:space:]]*$)|(^[[:space:]]*From )", JString::kNoCopy));
 }

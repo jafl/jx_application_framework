@@ -72,7 +72,7 @@ JTEST(Prepend)
 		snoop.Expect(JListT::kElementsInserted,
 			[] (const JBroadcaster::Message& m)
 			{
-				const JListT::ElementsInserted* ei =
+				const auto* ei =
 					dynamic_cast<const JListT::ElementsInserted*>(&m);
 				JAssertNotNull(ei);
 				JAssertEqual(1, ei->GetFirstIndex());
@@ -102,7 +102,7 @@ JTEST(Append)
 		snoop.Expect(JListT::kElementsInserted,
 			[n] (const JBroadcaster::Message& m)
 			{
-				const JListT::ElementsInserted* ei =
+				const auto* ei =
 					dynamic_cast<const JListT::ElementsInserted*>(&m);
 				JAssertNotNull(ei);
 				JAssertEqual(n, ei->GetFirstIndex());
@@ -160,7 +160,7 @@ JTEST(Runs)
 
 	JSetList("-1 1 1 1 1 2 3 3 3 4 5 5 10", &a);
 
-	JRunArrayIterator<long>* runiter = dynamic_cast<JRunArrayIterator<long>*>(iter);
+	auto* runiter = dynamic_cast<JRunArrayIterator<long>*>(iter);
 
 	runiter->MoveTo(kJIteratorStartBefore, 3);
 	runiter->Insert(1, 2);
@@ -688,7 +688,7 @@ JTEST(Iterator)
 	JAssertFalse(iter->AtBeginning());
 	JAssertTrue(iter->AtEnd());
 
-	JRunArrayIterator<long>* runiter = dynamic_cast<JRunArrayIterator<long>*>(iter);
+	auto* runiter = dynamic_cast<JRunArrayIterator<long>*>(iter);
 	JAssertFalse(runiter->AtFirstRun());
 	JAssertTrue(runiter->AtLastRun());
 

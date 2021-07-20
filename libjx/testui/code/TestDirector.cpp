@@ -221,7 +221,7 @@ TestDirector::TestDirector
 		itsWindowSnooper = nullptr;
 		}
 
-	if (isMaster && JFileExists(JString(kWindowGeomFileName, false)))
+	if (isMaster && JFileExists(JString(kWindowGeomFileName, JString::kNoCopy)))
 		{
 		std::ifstream input(kWindowGeomFileName);
 		window->ReadGeometry(input);
@@ -874,15 +874,15 @@ TestDirector::HandleTestMenu
 
 	else if (index == kSendEmailCmd)
 		{
-		JXGetWebBrowser()->ShowURL(JString("mailto:me@example.com", false));
+		JXGetWebBrowser()->ShowURL(JString("mailto:me@example.com", JString::kNoCopy));
 		}
 	else if (index == kShowFileContentCmd)
 		{
-		JXGetWebBrowser()->ShowURL(JString("file:/etc/hosts", false));
+		JXGetWebBrowser()->ShowURL(JString("file:/etc/hosts", JString::kNoCopy));
 		}
 	else if (index == kShowWebPageCmd)
 		{
-		JXGetWebBrowser()->ShowURL(JString("http://example.com", false));
+		JXGetWebBrowser()->ShowURL(JString("http://example.com", JString::kNoCopy));
 		}
 
 	else if (index == kTestDisabledMenuCmd)
@@ -894,7 +894,7 @@ TestDirector::HandleTestMenu
 		{
 		pid_t pid;
 		std::cout << std::endl;
-		const JError err = JExecute(JString("ls", false), &pid);
+		const JError err = JExecute(JString("ls", JString::kNoCopy), &pid);
 		std::cout << std::endl;
 		if (err.OK())
 			{

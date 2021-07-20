@@ -44,18 +44,18 @@ main
 {
 	ParseTextOptions(&argc, argv);
 
-	JXApplication* app = jnew JXApplication(&argc, argv, "testj2dplot", kDefaultStringData);
+	auto* app = jnew JXApplication(&argc, argv, "testj2dplot", kDefaultStringData);
 	assert( app != nullptr );
 
-	Test2DPlotDirector* dataDir = jnew Test2DPlotDirector(app);
+	auto* dataDir = jnew Test2DPlotDirector(app);
 	assert( dataDir != nullptr );
 	TestData(dataDir);
 
-	Test2DPlotDirector* logDataDir = jnew Test2DPlotDirector(app);
+	auto* logDataDir = jnew Test2DPlotDirector(app);
 	assert( logDataDir != nullptr );
 	TestLogData(logDataDir);
 
-	Test2DPlotDirector* vectorDir = jnew Test2DPlotDirector(app);
+	auto* vectorDir = jnew Test2DPlotDirector(app);
 	assert( vectorDir != nullptr );
 	TestVector(vectorDir);
 
@@ -105,7 +105,7 @@ TestData
 	ok = data->SetYErrors(yPErr, yMErr);
 	assert( ok );
 
-	plot->AddCurve(data, true, JString("sin(x)", false), true, true);
+	plot->AddCurve(data, true, JString("sin(x)", JString::kNoCopy), true, true);
 
 	x.RemoveAll();
 	y.RemoveAll();
@@ -118,7 +118,7 @@ TestData
 		}
 
 	JIndex i;
-	plot->AddCurve(x, y, false, JString("cos(x)", false), &i, true, false);
+	plot->AddCurve(x, y, false, JString("cos(x)", JString::kNoCopy), &i, true, false);
 
 	plot->SetTitle(JGetString("DataTitle::main"));
 }
@@ -149,7 +149,7 @@ TestLogData
 		}
 
 	JIndex i;
-	plot->AddCurve(x, y, false, JString("log2(x)", false), &i, true, false);
+	plot->AddCurve(x, y, false, JString("log2(x)", JString::kNoCopy), &i, true, false);
 
 	x.RemoveAll();
 	y.RemoveAll();
@@ -160,7 +160,7 @@ TestLogData
 		y.AppendElement((i*delta)*(i*delta));
 		}
 
-	plot->AddCurve(x, y, false, JString("x^2", false), &i, true, false);
+	plot->AddCurve(x, y, false, JString("x^2", JString::kNoCopy), &i, true, false);
 
 	plot->SetYScale(0.1, 1000, 0, false);
 	plot->SetTitle(JGetString("LogDataTitle::main"));
@@ -182,7 +182,7 @@ TestVector
 	JX2DPlotWidget* plot = dir->GetPlotWidget();
 	plot->ShowLegend();
 
-	J2DVectorData* data = jnew J2DVectorData;
+	auto* data = jnew J2DVectorData;
 	assert( data != nullptr );
 
 	const JFloat delta = kJPi/4.0;
@@ -193,7 +193,7 @@ TestVector
 		data->AddElement(0.8+x, 5.0+y, x,y);
 		}
 
-	plot->AddCurve(data, true, JString("vector", false));
+	plot->AddCurve(data, true, JString("vector", JString::kNoCopy));
 
 	plot->SetTitle(JGetString("VectorTitle::main"));
 }

@@ -98,7 +98,7 @@ TestDNDTextDirector::BuildWindow()
 
 		text->SetText(JString(
 			"plain\n\nbold\n\nitalicunderline\n\ntrplunderline\n\nstrike\n\nboldred\n",
-			0, false));
+			JString::kNoCopy));
 
 		text->SetFontStyle(TEXT_RANGE( 8, 13), JFontStyle(true, false, 0, false), true);
 		text->SetFontStyle(TEXT_RANGE(14, 30), JFontStyle(false, true, 1, false), true);

@@ -287,10 +287,10 @@ TestInputFieldsDialog::BuildWindow()
 	pwInput->SetHint(JGetString("PasswordHint::TestInputFieldsDialog"));
 
 	pathInput->SetBasePath(JGetCurrentDirectory());
-	pathInput->GetText()->SetText(JString("~", false));
+	pathInput->GetText()->SetText(JString("~", JString::kNoCopy));
 
 	fileInput->SetBasePath(JGetCurrentDirectory());
-	fileInput->GetText()->SetText(JString("./testjx", false));
+	fileInput->GetText()->SetText(JString("./testjx", JString::kNoCopy));
 
 	charInput->SetCharacter(JUtf8Character("\xC3\xA7"));
 }

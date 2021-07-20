@@ -26,7 +26,7 @@ public:
 protected:
 
 	virtual bool	OKToDeactivate() override;
-	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

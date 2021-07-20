@@ -222,7 +222,7 @@ JTEST(Allocation)
 	JAssertFalse(((void*) p1) == ((void*) p2));
 	JAssertEqual(3, s0.GetCharacterCount());
 
-	JString* s = jnew JString("foobar", 3, JString::kNoCopy);
+	auto* s = jnew JString("foobar", 3, JString::kNoCopy);
 	assert( s != nullptr );
 
 	p1 = s->GetRawBytes();
@@ -233,10 +233,10 @@ JTEST(Allocation)
 	srand(time(NULL));
 	if (rand() < RAND_MAX/2)	// try to force processor to pre-execute 2 branches
 		{
-		JString* s1 = jnew JString(TestNameReturnValueOptimization());
+		auto* s1 = jnew JString(TestNameReturnValueOptimization());
 		assert( s1 != nullptr );
 
-		JString* s2 = new JString(TestNameReturnValueOptimization());
+		auto* s2 = new JString(TestNameReturnValueOptimization());
 		assert( s2 != nullptr );
 
 		p1 = s1->GetRawBytes();
@@ -251,10 +251,10 @@ JTEST(Allocation)
 		}
 	else
 		{
-		JString* s3 = jnew JString(TestNameReturnValueOptimization());
+		auto* s3 = jnew JString(TestNameReturnValueOptimization());
 		assert( s3 != nullptr );
 
-		JString* s4 = new JString(TestNameReturnValueOptimization());
+		auto* s4 = new JString(TestNameReturnValueOptimization());
 		assert( s4 != nullptr );
 
 		p1 = s3->GetRawBytes();

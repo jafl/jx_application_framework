@@ -120,7 +120,7 @@ JTEST(Files)
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
 	for (JIndex i=1; i<=10; i++)
 		{
-		JString* fileName = jnew JString();
+		auto* fileName = jnew JString();
 		assert( fileName != nullptr );
 
 		JAssertOK(JCreateTempFile(&path, nullptr, fileName));

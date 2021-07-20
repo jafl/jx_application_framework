@@ -40,7 +40,7 @@ private:
 
 private:
 
-	void		UpdateCustomEditMenuItems();
+	void	UpdateCustomEditMenuItems();
 	bool	HandleCustomEditMenuItems(const JIndex index);
 
 	// not allowed

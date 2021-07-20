@@ -488,7 +488,7 @@ JTEST(ReplaceMatch)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(5, tc->GetRange().charRange.first);
@@ -528,7 +528,7 @@ JTEST(ReplaceAllInRange)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[&text] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -549,7 +549,7 @@ JTEST(ReplaceAllInRange)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[&text] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -574,7 +574,7 @@ JTEST(ReplaceAllInRange)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(11, tc->GetRange().charRange.first);
@@ -595,7 +595,7 @@ JTEST(ReplaceAllInRange)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[&text] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -746,7 +746,7 @@ JTEST(SetAllFontNameAndSize)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[&text] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -792,7 +792,7 @@ JTEST(InsertCharacter)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(3, tc->GetRange().charRange.first);
@@ -808,7 +808,7 @@ JTEST(InsertCharacter)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(4, tc->GetRange().charRange.first);
@@ -824,7 +824,7 @@ JTEST(InsertCharacter)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(5, tc->GetRange().charRange.first);
@@ -855,7 +855,7 @@ JTEST(InsertCharacter)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);
@@ -872,7 +872,7 @@ JTEST(InsertCharacter)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(13, tc->GetRange().charRange.first);
@@ -889,7 +889,7 @@ JTEST(InsertCharacter)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(13, tc->GetRange().charRange.first);
@@ -907,7 +907,7 @@ JTEST(InsertCharacter)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);
@@ -925,7 +925,7 @@ JTEST(InsertCharacter)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(3, tc->GetRange().charRange.first);
@@ -955,7 +955,7 @@ JTEST(CopyPaste)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(10, tc->GetRange().charRange.first);
@@ -996,7 +996,7 @@ JTEST(DeleteText)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(2, tc->GetRange().charRange.first);
@@ -1013,7 +1013,7 @@ JTEST(DeleteText)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(10, tc->GetRange().charRange.first);
@@ -1042,7 +1042,7 @@ JTEST(DeleteText)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(10, tc->GetRange().charRange.first);
@@ -1064,7 +1064,7 @@ JTEST(DeleteText)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(2, tc->GetRange().charRange.first);
@@ -1108,7 +1108,7 @@ JTEST(BackwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(7, tc->GetRange().charRange.first);
@@ -1127,7 +1127,7 @@ JTEST(BackwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(6, tc->GetRange().charRange.first);
@@ -1149,7 +1149,7 @@ JTEST(BackwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(10, tc->GetRange().charRange.first);
@@ -1166,7 +1166,7 @@ JTEST(BackwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(10, tc->GetRange().charRange.first);
@@ -1184,7 +1184,7 @@ JTEST(BackwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(10, tc->GetRange().charRange.first);
@@ -1201,7 +1201,7 @@ JTEST(BackwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(9, tc->GetRange().charRange.first);
@@ -1220,7 +1220,7 @@ JTEST(BackwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(9, tc->GetRange().charRange.first);
@@ -1237,7 +1237,7 @@ JTEST(BackwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(31, tc->GetRange().charRange.first);
@@ -1274,7 +1274,7 @@ JTEST(ForwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(5, tc->GetRange().charRange.first);
@@ -1291,7 +1291,7 @@ JTEST(ForwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(5, tc->GetRange().charRange.first);
@@ -1313,7 +1313,7 @@ JTEST(ForwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(9, tc->GetRange().charRange.first);
@@ -1330,7 +1330,7 @@ JTEST(ForwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(9, tc->GetRange().charRange.first);
@@ -1348,7 +1348,7 @@ JTEST(ForwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(9, tc->GetRange().charRange.first);
@@ -1365,7 +1365,7 @@ JTEST(ForwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(9, tc->GetRange().charRange.first);
@@ -1384,7 +1384,7 @@ JTEST(ForwardDelete)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(9, tc->GetRange().charRange.first);
@@ -1411,7 +1411,7 @@ JTEST(Move)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(5, tc->GetRange().charRange.first);
@@ -1425,7 +1425,7 @@ JTEST(Move)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);
@@ -1454,7 +1454,7 @@ JTEST(Move)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1480,7 +1480,7 @@ JTEST(Move)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1496,7 +1496,7 @@ JTEST(Move)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);
@@ -1510,7 +1510,7 @@ JTEST(Move)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(5, tc->GetRange().charRange.first);
@@ -1542,7 +1542,7 @@ JTEST(TabSelection)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1562,7 +1562,7 @@ JTEST(TabSelection)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);
@@ -1579,7 +1579,7 @@ JTEST(TabSelection)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);
@@ -1595,7 +1595,7 @@ JTEST(TabSelection)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1615,7 +1615,7 @@ JTEST(TabSelection)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1631,7 +1631,7 @@ JTEST(TabSelection)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);
@@ -1650,7 +1650,7 @@ JTEST(TabSelection)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1667,7 +1667,7 @@ JTEST(TabSelection)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1686,7 +1686,7 @@ JTEST(TabSelection)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1707,7 +1707,7 @@ JTEST(TabSelection)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1745,7 +1745,7 @@ JTEST(TabSelectionMixed)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1762,7 +1762,7 @@ JTEST(TabSelectionMixed)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1781,7 +1781,7 @@ JTEST(TabSelectionMixed)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1805,7 +1805,7 @@ JTEST(TabSelectionMixed)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1831,7 +1831,7 @@ JTEST(CleanWhitespaceTabs)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1854,7 +1854,7 @@ JTEST(CleanWhitespaceTabs)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1876,7 +1876,7 @@ JTEST(CleanWhitespaceTabs)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);
@@ -1890,7 +1890,7 @@ JTEST(CleanWhitespaceTabs)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);
@@ -1906,7 +1906,7 @@ JTEST(CleanWhitespaceTabs)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);
@@ -1932,7 +1932,7 @@ JTEST(CleanWhitespaceTabs)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -1983,7 +1983,7 @@ JTEST(CleanWhitespaceSpaces)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -2006,7 +2006,7 @@ JTEST(CleanWhitespaceSpaces)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(1, tc->GetRange().charRange.first);
@@ -2028,7 +2028,7 @@ JTEST(CleanWhitespaceSpaces)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);
@@ -2042,7 +2042,7 @@ JTEST(CleanWhitespaceSpaces)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);
@@ -2058,7 +2058,7 @@ JTEST(CleanWhitespaceSpaces)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
 		{
-			const JStyledText::TextChanged* tc =
+			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
 			JAssertEqual(8, tc->GetRange().charRange.first);

@@ -46,7 +46,7 @@ protected:
 
 private:
 
-	bool		itsIsMasterFlag;	// true if we were the first one created
+	bool			itsIsMasterFlag;	// true if we were the first one created
 	JXPSPrinter*	itsPSPrinter;
 	JXEPSPrinter*	itsEPSPrinter;
 	TestWidget*		itsWidget;			// owned by its enclosure

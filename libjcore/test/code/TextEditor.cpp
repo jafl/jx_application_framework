@@ -415,7 +415,7 @@ TextEditor::Receive
 {
 	if (sender == this && message.Is(JTextEditor::kCaretLocationChanged))
 		{
-		const JTextEditor::CaretLocationChanged* info =
+		const auto* info =
 			dynamic_cast<const JTextEditor::CaretLocationChanged*>(&message);
 		assert( info != nullptr );
 

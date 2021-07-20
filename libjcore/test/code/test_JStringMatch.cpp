@@ -105,7 +105,7 @@ JTEST(Submatches)
 {
 	JString s("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
 
-	JArray<JUtf8ByteRange>* list1 = jnew JArray<JUtf8ByteRange>();
+	auto* list1 = jnew JArray<JUtf8ByteRange>();
 	assert( list1 != nullptr );
 	list1->AppendElement(JUtf8ByteRange(11,12));
 	list1->AppendElement(JUtf8ByteRange(9, 14));

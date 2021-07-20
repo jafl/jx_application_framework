@@ -76,7 +76,7 @@ private:
 private:
 
 	MouseAction	itsMouseAction;
-	bool	itsIsDraggingFlag;
+	bool		itsIsDraggingFlag;
 
 	JXRowHeaderWidget*	itsRowHeader;		// owned by director
 

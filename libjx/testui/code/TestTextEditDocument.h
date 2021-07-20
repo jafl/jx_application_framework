@@ -49,7 +49,7 @@ private:
 	JXTextMenu*		itsEmulatorMenu;	// owned by menu bar
 
 	EmulatorType	itsEmulatorType;
-	bool		itsWritePrivateFmtFlag;
+	bool			itsWritePrivateFmtFlag;
 
 // begin JXLayout
 

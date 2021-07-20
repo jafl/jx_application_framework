@@ -22,13 +22,13 @@ public:
 
 	virtual ~TestApp();
 
-	void				OpenDocuments();
+	void			OpenDocuments();
 	virtual bool	Close() override;
 
 	void	DisplayAbout(JXDisplay* display);
 
 	bool	GetMainDirector(TestDirector** dir) const;
-	void		SetMainDirector(TestDirector* dir);
+	void	SetMainDirector(TestDirector* dir);
 
 	static const JUtf8Byte*	GetAppSignature();
 	static void				InitStrings();

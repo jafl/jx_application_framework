@@ -85,14 +85,14 @@ TestTextEditDocument::TestTextEditDocument
 
 	// start with some challenging glyphs
 
-	itsText->SetText(JString("ABC Ж Җ ζ Ǽ ậ ϖ Ӝ ἆ Ɽ 转 燜 ㄊ 먄 욶 א ݣ ﺺ Բարեւ", false));
+	itsText->SetText(JString("ABC Ж Җ ζ Ǽ ậ ϖ Ӝ ἆ Ɽ 转 燜 ㄊ 먄 욶 א ݣ ﺺ Բարեւ", JString::kNoCopy));
 }
 
 TestTextEditDocument::TestTextEditDocument
 	(
 	JXDirector*		supervisor,
 	const JString&	fileName,
-	const bool	privateFmt
+	const bool		privateFmt
 	)
 	:
 	JXFileDocument(supervisor, fileName, true, true, ""),

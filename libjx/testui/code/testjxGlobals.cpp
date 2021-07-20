@@ -43,7 +43,7 @@ TestjxCreateGlobals
 		jnew TestDockManager(JXGetApplication()->GetCurrentDisplay());
 	assert( theDockManager != nullptr );
 
-	if (JFileExists(JString(kDockSetupFileName, false)))
+	if (JFileExists(JString(kDockSetupFileName, JString::kNoCopy)))
 		{
 		std::ifstream input(kDockSetupFileName);
 		theDockManager->ReadSetup(input);

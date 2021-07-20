@@ -58,7 +58,7 @@ JTEST(Prepend)
 		snoop.Expect(JListT::kElementsInserted,
 			[] (const JBroadcaster::Message& m)
 			{
-				const JListT::ElementsInserted* ei =
+				const auto* ei =
 					dynamic_cast<const JListT::ElementsInserted*>(&m);
 				JAssertNotNull(ei);
 				JAssertEqual(1, ei->GetFirstIndex());
@@ -85,7 +85,7 @@ JTEST(Append)
 		snoop.Expect(JListT::kElementsInserted,
 			[j] (const JBroadcaster::Message& m)
 			{
-				const JListT::ElementsInserted* ei =
+				const auto* ei =
 					dynamic_cast<const JListT::ElementsInserted*>(&m);
 				JAssertNotNull(ei);
 				JAssertEqual(j, ei->GetFirstIndex());
