@@ -190,7 +190,7 @@ CBListChooseFileDialog::BuildWindow
 	assert( appendRB != nullptr );
 
 	auto* currPathMenu =
-		jnew JXCurrentPathMenu(JString("/", false), window,
+		jnew JXCurrentPathMenu(JString("/", JString::kNoCopy), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 
