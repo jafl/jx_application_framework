@@ -1,21 +1,13 @@
 jcc leaking memory
 	open project then close it
 
-profile old vs new jcc for
-	opening text file
-	opening project
-
 jcc
-	opens empty file as binary
 	perl styling:  s/// in tidy.pl
-	"ignore bad utf8" when testing file content during open and search
 
 	misc/ctags/c.c
 		flex scanner push-back overflow
 
 -----
-
-tidy all code
 
 glove
 	clean up .fd to match current layouts

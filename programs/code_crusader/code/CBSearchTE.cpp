@@ -156,6 +156,9 @@ CBSearchTE::SearchFile
 		output << kRecordTerminator;
 		}
 
+	const bool ignore = JUtf8Character::IgnoreBadUtf8();
+	JUtf8Character::SetIgnoreBadUtf8(true);
+
 	JStyledText::PlainTextFormat format;
 	if (IsKnownBinaryFile(printName) ||
 		!GetText()->ReadPlainText(fileName, &format, false))
@@ -166,8 +169,12 @@ CBSearchTE::SearchFile
 		JGetString("NotSearchedBinary::CBSearchTE").Print(output);
 		fileName.Print(output);
 		output << kRecordTerminator;
+
+		JUtf8Character::SetIgnoreBadUtf8(ignore);
 		return;
 		}
+
+	JUtf8Character::SetIgnoreBadUtf8(ignore);
 
 	bool foundMatch = false;
 	JStyledText::TextRange prevQuoteRange;
@@ -309,7 +316,8 @@ CBSearchTE::SearchFile
 
 static const JUtf8Byte* kSuffix[] =
 {
-	".o", ".a", ".so", ".dylib"
+	".o", ".a", ".so", ".dylib", ".jar", ".class",
+	".zip", ".tar", ".gz", ".tgz", ".bz2", ".rpm"
 };
 
 const JSize kSuffixCount = sizeof(kSuffix) / sizeof(JUtf8Byte*);

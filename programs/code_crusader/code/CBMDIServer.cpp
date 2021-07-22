@@ -399,7 +399,7 @@ CBMDIServer::AddFilesToSearch
 	(
 	JIndex*						index,
 	const JPtrArray<JString>&	argList,
-	const bool				clearFileList
+	const bool					clearFileList
 	)
 {
 	CBSearchTextDialog* dlog = CBGetSearchTextDialog();
@@ -446,7 +446,7 @@ CBMDIServer::DisplayFileDiffs
 	(
 	JIndex*						index,
 	const JPtrArray<JString>&	argList,
-	const bool				silent
+	const bool					silent
 	)
 {
 	const JSize argCount = argList.GetElementCount();
@@ -547,7 +547,7 @@ CBMDIServer::DisplayVCSDiffs
 	const JUtf8Byte*			type,
 	JIndex*						index,
 	const JPtrArray<JString>&	argList,
-	const bool				silent
+	const bool					silent
 	)
 {
 	const JSize argCount = argList.GetElementCount();

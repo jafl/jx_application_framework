@@ -49,6 +49,7 @@ static const JUtf8Byte* kFTCHorizDebugOptionName   = "--debug-ftc-horiz";
 static const JUtf8Byte* kFTCVertDebugOptionName    = "--debug-ftc-vert";
 static const JUtf8Byte* kFTCDebugNoopOptionName    = "--debug-ftc-noop";
 static const JUtf8Byte* kFTCDebugOverlapOptionName = "--debug-ftc-overlap";
+static const JUtf8Byte* kDebugUtf8OptionName       = "--debug-utf8";
 static const JUtf8Byte* kPseudotranslateOptionName = "--pseudotranslate";
 
 const time_t kTimerStart = J_TIME_T_MAX/1000U;	// milliseconds before rollover
@@ -1220,6 +1221,12 @@ JXApplication::ParseBaseOptions
 		else if (strcmp(argv[i], kFTCDebugOverlapOptionName) == 0)
 			{
 			ftcOverlap = true;
+			RemoveCmdLineOption(argc, argv, i, 1);
+			i--;
+			}
+		else if (strcmp(argv[i], kDebugUtf8OptionName) == 0)
+			{
+			JUtf8Character::SetIgnoreBadUtf8(false);
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
 			}

@@ -13,7 +13,7 @@
 const JUInt32 JUtf8Character::kUtf32SubstitutionCharacter       = 0x0000FFFD;
 const JUtf8Character JUtf8Character::kUtf8SubstitutionCharacter("\xEF\xBF\xBD");
 
-bool JUtf8Character::theIgnoreBadUtf8Flag = false;
+bool JUtf8Character::theIgnoreBadUtf8Flag = true;
 
 /******************************************************************************
  Constructor

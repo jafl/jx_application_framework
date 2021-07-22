@@ -281,6 +281,7 @@ CMMDIServer::IsBinary
 	std::ifstream input(fileName.GetBytes());
 	input.read(buffer, 1000);
 
+	const bool ignore = JUtf8Character::IgnoreBadUtf8();
 	JUtf8Character::SetIgnoreBadUtf8(true);
 
 	JSize byteCount;
@@ -288,13 +289,13 @@ CMMDIServer::IsBinary
 		{
 		if (!JUtf8Character::GetCharacterByteCount(buffer + i, &byteCount))
 			{
-			JUtf8Character::SetIgnoreBadUtf8(false);
+			JUtf8Character::SetIgnoreBadUtf8(ignore);
 			return false;
 			}
 		i += byteCount;
 		}
 
-	JUtf8Character::SetIgnoreBadUtf8(false);
+	JUtf8Character::SetIgnoreBadUtf8(ignore);
 	return true;
 }
 
@@ -314,9 +315,10 @@ CMMDIServer::GetLanguage
 
 	std::ifstream input(fileName.GetBytes());
 
+	const bool ignore = JUtf8Character::IgnoreBadUtf8();
 	JUtf8Character::SetIgnoreBadUtf8(true);
 	JString line = JReadLine(input);
-	JUtf8Character::SetIgnoreBadUtf8(false);
+	JUtf8Character::SetIgnoreBadUtf8(ignore);
 
 	line.TrimWhitespace();
 	if (line.BeginsWith("code-medic:"))
