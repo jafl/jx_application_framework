@@ -200,13 +200,13 @@ public:
 
 	virtual ~JStyledText();
 
-	bool		IsEmpty() const;
-	bool		EndsWithNewline() const;
+	bool			IsEmpty() const;
+	bool			EndsWithNewline() const;
 	const JString&	GetText() const;
-	bool		SetText(const JString& text, const JRunArray<JFont>* style = nullptr);
+	bool			SetText(const JString& text, const JRunArray<JFont>* style = nullptr);
 
 	const JRunArray<JFont>&	GetStyles() const;
-	bool				WillPasteStyledText() const;
+	bool					WillPasteStyledText() const;
 	void					RestyleAll();
 
 	bool	IsCharacterInWord(const JUtf8Character& c) const;
@@ -226,15 +226,15 @@ public:
 	void				DisposeConstIterator(JStringIterator* iter) const;
 
 	bool	ReadPlainText(const JString& fileName, PlainTextFormat* format,
-							  const bool acceptBinaryFile = true);
-	void		WritePlainText(const JString& fileName, const PlainTextFormat format) const;
-	void		WritePlainText(std::ostream& output, const PlainTextFormat format) const;
+						  const bool acceptBinaryFile = true);
+	void	WritePlainText(const JString& fileName, const PlainTextFormat format) const;
+	void	WritePlainText(std::ostream& output, const PlainTextFormat format) const;
 
 	bool	ReadPrivateFormat(std::istream& input);
-	void		WritePrivateFormat(std::ostream& output) const;
+	void	WritePrivateFormat(std::ostream& output) const;
 
 	static bool	ReadPrivateFormat(std::istream& input,
-									  JString* text, JRunArray<JFont>* style);
+								  JString* text, JRunArray<JFont>* style);
 	static void	WritePrivateFormat(std::ostream& output, const JFileVersion vers,
 								   const JString& text, const JRunArray<JFont>& style,
 								   const JCharacterRange& charRange);
@@ -265,7 +265,7 @@ public:
 							   const bool wrapSearch,
 							   bool* wrapped, TextRange* range);
 
-	JFont		GetFont(const JIndex charIndex) const;
+	JFont	GetFont(const JIndex charIndex) const;
 
 	bool	SetFontName(const TextRange& range,
 							const JString& name, const bool clearUndo);
@@ -283,8 +283,8 @@ public:
 							 const JColorID color, const bool clearUndo);
 	bool	SetFontStyle(const TextRange& range,
 							 const JFontStyle& style, const bool clearUndo);
-	void		SetFont(const TextRange& range,
-						const JFont& font, const bool clearUndo);
+	void	SetFont(const TextRange& range,
+					const JFont& font, const bool clearUndo);
 
 	void	SetAllFontNameAndSize(const JString& name, const JSize size,
 								  const bool clearUndo);
@@ -305,31 +305,31 @@ public:
 	TextRange	CleanWhitespace(const TextRange& range, const bool align);
 
 	bool	TabInsertsSpaces() const;
-	void		TabShouldInsertSpaces(const bool spaces);
+	void	TabShouldInsertSpaces(const bool spaces);
 
 	bool	WillAutoIndent() const;
-	void		ShouldAutoIndent(const bool indent);
+	void	ShouldAutoIndent(const bool indent);
 
 	bool	HasSingleUndo() const;
 	bool	HasMultipleUndo(bool* canUndo, bool* canRedo) const;
-	void		Undo();
-	void		Redo();
-	void		ClearUndo();
-	void		DeactivateCurrentUndo();
+	void	Undo();
+	void	Redo();
+	void	ClearUndo();
+	void	DeactivateCurrentUndo();
 
-	JSize		GetUndoDepth() const;
-	void		SetUndoDepth(const JSize maxUndoCount);
+	JSize	GetUndoDepth() const;
+	void	SetUndoDepth(const JSize maxUndoCount);
 
 	bool	IsAtLastSaveLocation() const;
-	void		SetLastSaveLocation();
-	void		ClearLastSaveLocation();
+	void	SetLastSaveLocation();
+	void	ClearLastSaveLocation();
 
-	bool	Copy(const TextRange& range,
+	bool		Copy(const TextRange& range,
 					 JString* text, JRunArray<JFont>* style = nullptr) const;
 	TextRange	Paste(const TextRange& range,
 					  const JString& text, const JRunArray<JFont>* style = nullptr);
 
-	bool	MoveText(const TextRange& srcRange, const TextIndex& origDestIndex,
+	bool		MoveText(const TextRange& srcRange, const TextIndex& origDestIndex,
 						 const bool copy, TextRange* newRange);
 
 	TextIndex	BackwardDelete(const TextIndex&	lineStart, const TextIndex&	caretIndex,
@@ -352,17 +352,17 @@ public:
 
 	bool	CleanRightMargin(const bool coerce, JCharacterRange* reformatRange);
 
-	JSize		GetCRMLineWidth() const;
-	void		SetCRMLineWidth(const JSize charCount);
+	JSize	GetCRMLineWidth() const;
+	void	SetCRMLineWidth(const JSize charCount);
 
-	JSize		GetCRMTabCharCount() const;
-	void		SetCRMTabCharCount(const JSize charCount);
-	JSize		CRMGetTabWidth(const JIndex textColumn) const;
+	JSize	GetCRMTabCharCount() const;
+	void	SetCRMTabCharCount(const JSize charCount);
+	JSize	CRMGetTabWidth(const JIndex textColumn) const;
 
 	bool	GetCRMRuleList(const CRMRuleList** ruleList) const;
-	void		SetCRMRuleList(CRMRuleList* ruleList,
-							   const bool teOwnsRuleList);
-	void		ClearCRMRuleList();
+	void	SetCRMRuleList(CRMRuleList* ruleList,
+						   const bool teOwnsRuleList);
+	void	ClearCRMRuleList();
 
 	JCharacterInWordFn	GetCharacterInWordFunction() const;
 	void				SetCharacterInWordFunction(JCharacterInWordFn f);
@@ -416,9 +416,9 @@ private:
 
 	JString				itsText;
 	JRunArray<JFont>*	itsStyles;
-	const bool		itsPasteStyledTextFlag;		// true => paste styled text
-	bool			itsTabToSpacesFlag;			// true => 1 tab -> itsCRMTabCharCount spaces
-	bool			itsAutoIndentFlag;			// true => auto-indent after newline
+	const bool			itsPasteStyledTextFlag;		// true => paste styled text
+	bool				itsTabToSpacesFlag;			// true => 1 tab -> itsCRMTabCharCount spaces
+	bool				itsAutoIndentFlag;			// true => auto-indent after newline
 
 	JFont	itsDefaultFont;
 
@@ -435,15 +435,15 @@ private:
 	JSize	itsCRMTabCharCount;
 
 	CRMRuleList*	itsCRMRuleList;		// can be nullptr
-	bool		itsOwnsCRMRulesFlag;
+	bool			itsOwnsCRMRulesFlag;
 
 private:
 
 	JFont	CalcInsertionFont(JStringIterator& iter,
 							  JRunArrayIterator<JFont>& styleIter) const;
 
-	bool			GetCurrentUndo(JSTUndoBase** undo) const;
-	bool			GetCurrentRedo(JSTUndoBase** redo) const;
+	bool				GetCurrentUndo(JSTUndoBase** undo) const;
+	bool				GetCurrentRedo(JSTUndoBase** redo) const;
 	void				NewUndo(JSTUndoBase* undo, const bool isNew);
 	void				ReplaceUndo(JSTUndoBase* oldUndo, JSTUndoBase* newUndo);
 	void				ClearOutdatedUndo();
@@ -470,7 +470,7 @@ private:
 	void		PrivateDeleteText(JStringIterator* textIter,
 								  JRunArrayIterator<JFont>* styleIter,
 								  const JSize charCount);
-	bool	CleanText(const JString& text, const JRunArray<JFont>& style,
+	bool		CleanText(const JString& text, const JRunArray<JFont>& style,
 						  JString** cleanText, JRunArray<JFont>** cleanStyle,
 						  bool* okToInsert);
 

@@ -294,7 +294,7 @@ JStyledText::ReadPlainText
 	(
 	const JString&		fileName,
 	PlainTextFormat*	format,
-	const bool		acceptBinaryFile
+	const bool			acceptBinaryFile
 	)
 {
 	JReadFile(fileName, &itsText);
@@ -1850,9 +1850,10 @@ JStyledText::CleanText
 	const JRunArray<JFont>&	style,
 	JString**				cleanText,
 	JRunArray<JFont>**		cleanStyle,
-	bool*				okToInsert
+	bool*					okToInsert
 	)
 {
+	*okToInsert = true;
 	if (text.IsEmpty())
 		{
 		return false;
@@ -1921,7 +1922,6 @@ JStyledText::CleanText
 	// allow derived classes to make additional changes
 	// (last so we don't pass anything illegal to FilterText())
 
-	*okToInsert = true;
 	if (NeedsToFilterText(*cleanText  != nullptr ? **cleanText  : text))
 		{
 		COPY_FOR_CLEAN_TEXT
