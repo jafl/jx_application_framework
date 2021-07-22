@@ -300,11 +300,11 @@ private:
 
 	bool		itsOwnerFlag;		// false => somebody else owns the byte allocation
 	const bool	itsNormalizeFlag;	// false => store raw bytes, including null
-	JUtf8Byte*		itsBytes;			// characters
-	JSize			itsByteCount;		// number of bytes used
-	JSize			itsCharacterCount;	// number of characters
-	JSize			itsAllocCount;		// number of bytes we have space for
-	JSize			itsBlockSize;		// size by which to shrink and grow allocation
+	JUtf8Byte*	itsBytes;			// characters
+	JSize		itsByteCount;		// number of bytes used
+	JSize		itsCharacterCount;	// number of characters
+	JSize		itsAllocCount;		// number of bytes we have space for
+	JSize		itsBlockSize;		// size by which to shrink and grow allocation
 
 	UCaseMap*			itsUCaseMap;
 	JStringIterator*	itsIterator;	// only one iterator allowed at a time
@@ -320,7 +320,7 @@ private:
 	static bool	CompleteConversion(const JUtf8Byte* startPtr, const JSize byteCount,
 									   const JUtf8Byte* convEndPtr);
 
-	static bool				CreateCollator(UCollator** coll, const Case caseSensitive);
+	static bool				GetCollator(UCollator** coll, const Case caseSensitive);
 	static UCollationResult	Compare(UCollator* coll,
 									const JUtf8Byte* s1, const JSize length1,
 									const JUtf8Byte* s2, const JSize length2,

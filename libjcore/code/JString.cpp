@@ -41,7 +41,9 @@ JSize JString::theDefaultBlockSize = 1024;
 const JString JString::empty("", JString::kNoCopy);
 const JString JString::newline("\n", JString::kNoCopy);
 
-static thread_local JString* theCurrentlyConstructingObject;
+static thread_local JString*	theCurrentlyConstructingObject;
+static thread_local UCollator*	theCaseSensitiveCollator;
+static thread_local UCollator*	theCaseInsensitiveCollator;
 
 // private routines
 
@@ -71,7 +73,7 @@ JString::JString
 	assert( itsBytes != nullptr );
 	itsBytes[0] = '\0';
 
-	theCurrentlyConstructingObject = NULL;
+	theCurrentlyConstructingObject = nullptr;
 }
 
 JString::JString
@@ -102,7 +104,7 @@ JString::JString
 		itsCharacterCount = source.itsCharacterCount;
 		}
 
-	theCurrentlyConstructingObject = NULL;
+	theCurrentlyConstructingObject = nullptr;
 }
 
 JString::JString
@@ -135,7 +137,7 @@ JString::JString
 		itsCharacterCount = charRange.GetCount();
 		}
 
-	theCurrentlyConstructingObject = NULL;
+	theCurrentlyConstructingObject = nullptr;
 }
 
 JString::JString
@@ -183,7 +185,7 @@ JString::JString
 		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 		}
 
-	theCurrentlyConstructingObject = NULL;
+	theCurrentlyConstructingObject = nullptr;
 }
 
 JString::JString
@@ -215,7 +217,7 @@ JString::JString
 		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 		}
 
-	theCurrentlyConstructingObject = NULL;
+	theCurrentlyConstructingObject = nullptr;
 }
 
 JString::JString
@@ -252,7 +254,7 @@ JString::JString
 		CopyToPrivateBuffer(s.data() + range.first-1, range.GetCount());
 		}
 
-	theCurrentlyConstructingObject = NULL;
+	theCurrentlyConstructingObject = nullptr;
 }
 
 JString::JString
@@ -328,7 +330,7 @@ JString::JString
 		Prepend("0x");
 		}
 
-	theCurrentlyConstructingObject = NULL;
+	theCurrentlyConstructingObject = nullptr;
 }
 
 JString::JString
@@ -360,7 +362,7 @@ JString::JString
 	itsByteCount      = strlen(itsBytes);
 	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 
-	theCurrentlyConstructingObject = NULL;
+	theCurrentlyConstructingObject = nullptr;
 }
 
 /******************************************************************************
@@ -428,7 +430,7 @@ JString::operator new
 	noexcept
 {
 	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, false);
-	theCurrentlyConstructingObject = forceShallow ? NULL : static_cast<JString*>(memory);
+	theCurrentlyConstructingObject = forceShallow ? nullptr : static_cast<JString*>(memory);
 	return memory;
 }
 
@@ -1083,7 +1085,7 @@ JString::SearchForward
 	// search forward for a match
 
 	UCollator* coll;
-	if (!CreateCollator(&coll, caseSensitive))
+	if (!GetCollator(&coll, caseSensitive))
 		{
 		return false;
 		}
@@ -1094,7 +1096,6 @@ JString::SearchForward
 		if (Compare(coll, s, byteCount, str, byteCount, caseSensitive) == 0)
 			{
 			*byteIndex = i;
-			ucol_close(coll);
 			return true;
 			}
 
@@ -1104,8 +1105,6 @@ JString::SearchForward
 		JUtf8Character::GetCharacterByteCount(s, &count);
 		i += count;
 		}
-
-	ucol_close(coll);
 
 	// if we fall through, there was no match
 
@@ -1149,7 +1148,7 @@ JString::SearchBackward
 	// search backward for a match
 
 	UCollator* coll;
-	if (!CreateCollator(&coll, caseSensitive))
+	if (!GetCollator(&coll, caseSensitive))
 		{
 		return false;
 		}
@@ -1160,7 +1159,6 @@ JString::SearchBackward
 		if (Compare(coll, s, byteCount, str, byteCount, caseSensitive) == 0)
 			{
 			*byteIndex = i;
-			ucol_close(coll);
 			return true;
 			}
 
@@ -1182,8 +1180,6 @@ JString::SearchBackward
 			i -= count;
 			}
 		}
-
-	ucol_close(coll);
 
 	// if we fall through, there was no match
 
@@ -1884,28 +1880,37 @@ JString::Compare
 	)
 {
 	UCollator* coll;
-	if (!CreateCollator(&coll, caseSensitive))
+	if (!GetCollator(&coll, caseSensitive))
 		{
 		return 0;
 		}
 
-	const UCollationResult r = Compare(coll, s1, length1, s2, length2, caseSensitive);
-	ucol_close(coll);
-	return (int) r;
+	return (int) Compare(coll, s1, length1, s2, length2, caseSensitive);
 }
 
 /******************************************************************************
- CreateCollator (static private)
+ GetCollator (static private)
 
  ******************************************************************************/
 
 bool
-JString::CreateCollator
+JString::GetCollator
 	(
-	UCollator**		coll,
-	const Case		caseSensitive
+	UCollator**	coll,
+	const Case	caseSensitive
 	)
 {
+	if (caseSensitive && theCaseSensitiveCollator != nullptr)
+		{
+		*coll = theCaseSensitiveCollator;
+		return true;
+		}
+	else if (!caseSensitive && theCaseInsensitiveCollator != nullptr)
+		{
+		*coll = theCaseInsensitiveCollator;
+		return true;
+		}
+
 	UErrorCode err = U_ZERO_ERROR;
 
 	*coll = ucol_open(nullptr, &err);
@@ -1916,11 +1921,15 @@ JString::CreateCollator
 
 	if (caseSensitive)
 		{
+		theCaseSensitiveCollator = *coll;
+
 		UErrorCode err = U_ZERO_ERROR;
 		ucol_setAttribute(*coll, UCOL_CASE_FIRST, UCOL_UPPER_FIRST, &err);
 		}
 	else
 		{
+		theCaseInsensitiveCollator = *coll;
+
 		ucol_setStrength(*coll, UCOL_PRIMARY);
 		}
 
@@ -2035,16 +2044,10 @@ JString::CalcCharacterMatchLength
 	const Case		caseSensitive
 	)
 {
-	UErrorCode err  = U_ZERO_ERROR;
-	UCollator* coll = ucol_open(nullptr, &err);
-	if (coll == nullptr)
+	UCollator* coll;
+	if (!GetCollator(&coll, caseSensitive))
 		{
 		return 0;
-		}
-
-	if (!caseSensitive)
-		{
-		ucol_setStrength(coll, UCOL_PRIMARY);
 		}
 
 	const JUtf8Byte* b1 = s1.GetRawBytes();
@@ -2057,10 +2060,10 @@ JString::CalcCharacterMatchLength
 		if (!JUtf8Character::GetCharacterByteCount(b1+i1, &n1) ||
 			!JUtf8Character::GetCharacterByteCount(b2+i2, &n2))
 			{
-			ucol_close(coll);
 			return 0;
 			}
 
+		UErrorCode err = U_ZERO_ERROR;
 		const UCollationResult r = ucol_strcollUTF8(coll, b1+i1, n1, b2+i2, n2, &err);
 		if (r != 0)
 			{
@@ -2072,7 +2075,6 @@ JString::CalcCharacterMatchLength
 		i2 += n2;
 		}
 
-	ucol_close(coll);
 	return i;
 }
 
