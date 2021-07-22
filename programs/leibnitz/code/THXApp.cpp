@@ -687,7 +687,7 @@ THXApp::HandleHelpMenu
 	else if (index == kTipCmd)
 		{
 		auto* dlog = jnew JXTipOfTheDayDialog;
-		assert( dlog != NULL );
+		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		}
 

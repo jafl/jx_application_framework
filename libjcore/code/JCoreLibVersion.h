@@ -36,7 +36,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added ToString(), which can be overridden by derived classes.
 //	*** Removed using statements from jTypes.h & jFStreamUtil.h
 //			You should use the std:: prefix explicitly.
-//	*** Converted to nullptr.  NULL is forced to be undefined.
+//	Converted NULL to nullptr.
 //	*** Renamed JOrderedSet to JList to be more accurate.
 //	*** Changed JList::ElementChanged to JList::ElementsChanged
 //			to allow JRunArray optimization.

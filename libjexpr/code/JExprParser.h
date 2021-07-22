@@ -27,7 +27,7 @@ public:
 
 private:
 
-	JExprEditor*			itsEditor;		// if not NULL, enables JUserInputFunction
+	JExprEditor*			itsEditor;		// if not nullptr, enables JUserInputFunction
 	const JVariableList*	itsVarList;
 
 	JExprScanner*	itsScanner;

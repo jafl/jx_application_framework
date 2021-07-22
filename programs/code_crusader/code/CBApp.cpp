@@ -90,7 +90,7 @@ CBApp::CBApp
 	itsWarnBeforeQuitFlag = false;
 
 	itsSystemIncludeDirs = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsSystemIncludeDirs != NULL );
+	assert( itsSystemIncludeDirs != nullptr );
 
 	*displayAbout = CBCreateGlobals(this, useMDI);
 	SetPrefInfo(CBGetPrefsManager(), kCBAppID);

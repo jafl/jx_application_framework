@@ -1,6 +1,10 @@
 jcc leaking memory
 	open project then close it
 
+profile old vs new jcc for
+	opening text file
+	opening project
+
 jcc
 	opens empty file as binary
 	perl styling:  s/// in tidy.pl
@@ -84,6 +88,13 @@ keg for brew
 
 switch to xcb
 	run jcc updated & search in threads
+
+	#include <future>
+	auto handle = std::async(std::launch::async,
+							 parallel_sum<RandomIt>, mid, end);
+	int sum = parallel_sum(beg, mid);
+	return sum + handle.get();
+
 
 
 

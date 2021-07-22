@@ -14,10 +14,6 @@
 #include <float.h>
 #include <iostream> // templates
 
-#ifdef NULL
-#undef NULL		// force use of nullptr
-#endif
-
 	// general types
 
 typedef long								JInteger;

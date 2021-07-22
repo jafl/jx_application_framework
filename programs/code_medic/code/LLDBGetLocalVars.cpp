@@ -92,7 +92,7 @@ LLDBGetLocalVars::HandleSuccess
 
 	for (JIndex i=1; i<=origCount; i++)
 		{
-		if (vars.GetValueAtIndex(i-1).GetName() == NULL)
+		if (vars.GetValueAtIndex(i-1).GetName() == nullptr)
 			{
 			continue;
 			}

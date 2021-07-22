@@ -1305,10 +1305,10 @@ CBTree::ArrangeRoots
 				else if (!found)
 					{
 					auto* newContent = jnew JArray<bool>(*(subset->content));
-					assert( newContent != NULL );
+					assert( newContent != nullptr );
 
 					auto* newOrder = jnew JArray<JIndex>(*(subset->order));
-					assert( newOrder != NULL );
+					assert( newOrder != nullptr );
 					newOrder->AppendElement(newRootIndex);
 
 					list2->InsertElementAtIndex(i, RootSubset(newContent, newOrder, newLinkLength));

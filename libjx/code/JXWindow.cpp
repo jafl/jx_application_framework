@@ -3378,8 +3378,8 @@ JXWindow::SetXIMPosition
 	xpt.x = ptG.x;
 	xpt.y = ptG.y;
 
-	XVaNestedList attr = XVaCreateNestedList(0, XNSpotLocation, &xpt, NULL);
-	XSetICValues(itsXIC, XNPreeditAttributes, attr, NULL);
+	XVaNestedList attr = XVaCreateNestedList(0, XNSpotLocation, &xpt, nullptr);
+	XSetICValues(itsXIC, XNPreeditAttributes, attr, nullptr);
 	XFree(attr);
 }
 

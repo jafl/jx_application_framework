@@ -145,7 +145,7 @@ GPMProcessEntry::Update
 
 	kinfo_proc entry;
 	size_t len = sizeof(entry);
-	int result = sysctl(mib, 4, &entry, &len, NULL, 0);
+	int result = sysctl(mib, 4, &entry, &len, nullptr, 0);
 	if (result != 0)
 		{
 		itsState = kZombie;
