@@ -125,7 +125,7 @@ JStringMap<V>::SetElement
 	const V&                           value,
 	const JPtrArrayT::SetElementAction action,
 	const JStringMapT::SetType         type,
-	bool*                          existed
+	bool*                              existed
 	)
 {
 	JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
@@ -223,7 +223,7 @@ JStringMap<V>::RemoveAll
 	const JPtrArrayT::SetElementAction action
 	)
 {
-	if (!JHashTable< JStrValue<V> >::IsEmpty() && action != JPtrArrayT::kForget)
+	if (!JHashTable< JStrValue<V> >::IsEmpty())
 		{
 		JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
 		cursor->Reset();

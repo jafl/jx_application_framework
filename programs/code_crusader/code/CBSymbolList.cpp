@@ -1167,4 +1167,7 @@ CBSymbolList::SymbolInfo::Free()
 {
 	jdelete name;
 	name = nullptr;
+
+	jdelete signature;
+	signature = nullptr;
 }

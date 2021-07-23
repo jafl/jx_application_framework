@@ -1289,7 +1289,7 @@ CBTree::ArrangeRoots
 
 				// if this hasn't been tried or it beats the previous record, save it
 
-				(subset->content)->SetElement(newRootIndex, true);
+				subset->content->SetElement(newRootIndex, true);
 
 				bool found;
 				const JIndex i = list2->SearchSorted1(*subset, JListT::kAnyMatch, &found);

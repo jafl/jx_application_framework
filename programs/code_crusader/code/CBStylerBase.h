@@ -45,8 +45,8 @@ protected:
 	void		SetTypeStyle(const JIndex index, const JFontStyle& style);
 
 	bool	GetWordStyle(const JString& word, JFontStyle* style) const;
-	void		SetWordStyle(const JString& word, const JFontStyle& style);
-	void		RemoveWordStyle(const JString& word);
+	void	SetWordStyle(const JString& word, const JFontStyle& style);
+	void	RemoveWordStyle(const JString& word);
 
 	virtual void	ReadPrefs(std::istream& input) override;
 	virtual void	WritePrefs(std::ostream& output) const override;
@@ -81,7 +81,7 @@ private:
 	JFontStyle	ReadStyle(std::istream& input);
 	void		WriteStyle(std::ostream& output, const JFontStyle& style) const;
 
-	void		ExtractStyles();
+	void	ExtractStyles();
 	bool	TypeStylesChanged(const JArray<JFontStyle>& newTypeStyles) const;
 	bool	WordStylesChanged(const JStringMap<JFontStyle>& newWordStyles) const;
 

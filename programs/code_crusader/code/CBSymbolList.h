@@ -86,7 +86,7 @@ public:		// ought to be private
 		JString*	signature;	// can be nullptr
 		CBLanguage	lang;
 		Type		type;
-		bool	fullyQualifiedFileScope;
+		bool		fullyQualifiedFileScope;
 		JFAID_t		fileID;
 		JIndex		lineIndex;
 

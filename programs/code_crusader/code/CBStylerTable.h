@@ -74,7 +74,7 @@ protected:
 private:
 
 	CBTextFileType		itsFileType;
-	bool			itsAllowEditFlag;
+	bool				itsAllowEditFlag;
 	CBStylerTableMenu*	itsStyleMenu;
 	JXTextButton*		itsAddRowButton;	// can be nullptr
 	JXTextButton*		itsRemoveButton;	// can be nullptr

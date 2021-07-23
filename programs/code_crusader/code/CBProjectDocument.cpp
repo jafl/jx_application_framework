@@ -62,6 +62,7 @@
 #include <JTreeNode.h>
 #include <JThisProcess.h>
 #include <JOutPipeStream.h>
+#include <JMemoryManager.h>
 #include <jFileUtil.h>
 #include <jVCSUtil.h>
 #include <jFStreamUtil.h>
@@ -2813,6 +2814,7 @@ CBProjectDocument::UpdateSymbolDatabase()
 		{
 		close(fd[0][0]);
 		close(fd[1][1]);
+		JMemoryManager::Instance()->SetPrintExitStats(false);
 
 		JThisProcess::Instance()->SetPriority(19);
 

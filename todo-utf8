@@ -1,14 +1,3 @@
-jcc leaking memory
-	open project then close it
-
-jcc
-	perl styling:  s/// in tidy.pl
-
-	misc/ctags/c.c
-		flex scanner push-back overflow
-
------
-
 glove
 	clean up .fd to match current layouts
 	test layouts on Linux and OS X
@@ -34,6 +23,11 @@ medic - confused when using gdb
 
 jcc
 	scroll after undo/redo puts selection at bottom
+
+	perl styling:  s/// in tidy.pl
+
+	misc/ctags/c.c
+		flex scanner push-back overflow
 
 	Editor Prefs
 		Emulator drop-down should be radio buttons

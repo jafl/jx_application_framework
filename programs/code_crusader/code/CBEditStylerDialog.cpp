@@ -29,7 +29,7 @@ const JCoordinate kMaxTypeRowCount = 10;
 CBEditStylerDialog::CBEditStylerDialog
 	(
 	const JString&							windowTitle,
-	const bool							active,
+	const bool								active,
 	const JUtf8Byte**						typeNames,
 	const JArray<JFontStyle>&				typeStyles,
 	const JArray<CBStylerBase::WordStyle>&	wordList,
@@ -59,7 +59,7 @@ void
 CBEditStylerDialog::BuildWindow
 	(
 	const JString&							windowTitle,
-	const bool							active,
+	const bool								active,
 	const JUtf8Byte**						typeNames,
 	const JArray<JFontStyle>&				typeStyles,
 	const JArray<CBStylerBase::WordStyle>&	wordList,

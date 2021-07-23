@@ -40,14 +40,8 @@ CBStringCompleter::CBStringCompleter
 	assert( itsStringList != nullptr );
 	itsStringList->SetSortOrder(JListT::kSortAscending);
 
-	if (itsCaseSensitiveFlag)
-		{
-		itsStringList->SetCompareFunction(JCompareStringsCaseSensitive);
-		}
-	else
-		{
-		itsStringList->SetCompareFunction(JCompareStringsCaseInsensitive);
-		}
+	itsStringList->SetCompareFunction(
+		itsCaseSensitiveFlag ? JCompareStringsCaseSensitive : JCompareStringsCaseInsensitive);
 
 	itsOwnedList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsOwnedList != nullptr );
@@ -70,10 +64,9 @@ CBStringCompleter::CBStringCompleter
 	JPtrArray<CBProjectDocument>* docList =
 		CBGetDocumentManager()->GetProjectDocList();
 
-	const JSize docCount = docList->GetElementCount();
-	for (JIndex i=1; i<=docCount; i++)
+	for (CBProjectDocument* doc : *docList)
 		{
-		ListenTo(((docList->GetElement(i))->GetSymbolDirector())->GetSymbolList());
+		ListenTo(doc->GetSymbolDirector()->GetSymbolList());
 		}
 }
 
@@ -430,7 +423,7 @@ CBStringCompleter::CopyWordsFromStyler
 	CBStylerBase* styler
 	)
 {
-	JStringMapCursor<JFontStyle> cursor(&(styler->GetWordList()));
+	JStringMapCursor<JFontStyle> cursor(&styler->GetWordList());
 	while (cursor.Next())
 		{
 		Add(cursor.GetKey());
@@ -451,11 +444,9 @@ CBStringCompleter::CopySymbolsForLanguage
 	JPtrArray<CBProjectDocument>* docList =
 		CBGetDocumentManager()->GetProjectDocList();
 
-	const JSize docCount = docList->GetElementCount();
-	for (JIndex i=1; i<=docCount; i++)
+	for (CBProjectDocument* doc : *docList)
 		{
-		const CBSymbolList* symbolList =
-			((docList->GetElement(i))->GetSymbolDirector())->GetSymbolList();
+		const CBSymbolList* symbolList = doc->GetSymbolDirector()->GetSymbolList();
 
 		const JSize symbolCount = symbolList->GetElementCount();
 		for (JIndex j=1; j<=symbolCount; j++)

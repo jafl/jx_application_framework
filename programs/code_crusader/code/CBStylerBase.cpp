@@ -248,15 +248,13 @@ JIndex i;
 	JArray<WordStyle> wordList;
 	GetWordList(*itsWordStyles, &wordList, false);
 
-	const JSize wordCount = wordList.GetElementCount();
-	output << ' ' << wordCount;
+	output << ' ' << wordList.GetElementCount();
 
-	for (i=1; i<=wordCount; i++)
+	for (const WordStyle style : wordList)
 		{
-		const WordStyle style = wordList.GetElement(i);
-
 		output << ' ' << *style.key;
 		WriteStyle(output, style.value);
+		jdelete style.key;
 		}
 
 	// dialog geometry
@@ -297,7 +295,7 @@ CBStylerBase::GetWordList
 	(
 	const JStringMap<JFontStyle>&	wordStyles,
 	JArray<WordStyle>*				wordList,
-	const bool					sort
+	const bool						sort
 	)
 	const
 {
@@ -371,14 +369,13 @@ CBStylerBase::Receive
 
 	else if (sender == itsEditDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		const auto* info = dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
 			{
 			ExtractStyles();
 			}
-		(itsEditDialog->GetWindow())->WriteGeometry(&itsDialogGeom);
+		itsEditDialog->GetWindow()->WriteGeometry(&itsDialogGeom);
 		itsEditDialog = nullptr;
 		}
 
@@ -420,15 +417,14 @@ JIndex i;
 
 		JArray<WordStyle> wordList;
 		GetWordList(*itsWordStyles, &wordList, false);
-		const JSize wordCount = wordList.GetElementCount();
-		for (i=1; i<=wordCount; i++)
+		for (WordStyle data : wordList)
 			{
-			WordStyle data = wordList.GetElement(i);
 			if (data.value.color == itsDefColor)
 				{
 				data.value.color = color;
 				itsWordStyles->SetElement(*data.key, data.value);
 				}
+			jdelete data.key;
 			}
 
 		itsDefColor = color;
@@ -454,6 +450,11 @@ CBStylerBase::EditStyles()
 										   itsTypeNames, *itsTypeStyles,
 										   wordList, itsFileType);
 	assert( itsEditDialog != nullptr );
+
+	for (WordStyle ws : wordList)
+		{
+		jdelete ws.key;
+		}
 
 	JXWindow* window = itsEditDialog->GetWindow();
 	window->ReadGeometry(itsDialogGeom);
@@ -546,15 +547,27 @@ CBStylerBase::WordStylesChanged
 	JArray<WordStyle> newWordList(count);
 	GetWordList(newWordStyles, &newWordList, true);
 
+	bool changed = false;
 	for (JIndex i=1; i<=count; i++)
 		{
 		const WordStyle w1 = oldWordList.GetElement(i);
 		const WordStyle w2 = newWordList.GetElement(i);
 		if (*w1.key != *w2.key || w1.value != w2.value)
 			{
-			return true;
+			changed = true;
+			break;
 			}
 		}
 
-	return false;
+	for (WordStyle ws : oldWordList)
+		{
+		jdelete ws.key;
+		}
+
+	for (WordStyle ws : newWordList)
+		{
+		jdelete ws.key;
+		}
+
+	return changed;
 }

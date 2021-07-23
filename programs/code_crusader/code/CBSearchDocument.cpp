@@ -20,6 +20,7 @@
 #include <JXColorManager.h>
 #include <JThisProcess.h>
 #include <JOutPipeStream.h>
+#include <JMemoryManager.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
 #include <jSysUtil.h>
@@ -83,6 +84,7 @@ CBSearchDocument::Create
 	else if (pid == 0)
 		{
 		close(fd[0]);
+		JMemoryManager::Instance()->SetPrintExitStats(false);
 
 		// get rid of JXCreatePG, since we must not use X connection
 		// (binary files may trigger it)

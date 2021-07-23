@@ -42,19 +42,19 @@ public:
 	bool GetElement(const JString& key, V* value) const;
 
 	bool SetElement(const JString& key, const V& value,
-						const JStringMapT::SetType type = JStringMapT::kAlways);
+					const JStringMapT::SetType type = JStringMapT::kAlways);
 	bool SetNewElement(const JString& key, const V& value);
 	bool SetOldElement(const JString& key, const V& value);
 	bool SetContains(const JString& key, const V& value);
 
 	bool RemoveElement(const JString& key);
-	void     RemoveAll();
+	void RemoveAll();
 
 	bool Contains(const JUtf8Byte* key) const;
 	bool GetElement(const JUtf8Byte* key, V* value) const;
 
 	bool SetElement(const JUtf8Byte* key, const V& value,
-						const JStringMapT::SetType type = JStringMapT::kAlways);
+					const JStringMapT::SetType type = JStringMapT::kAlways);
 	bool SetNewElement(const JUtf8Byte* key, const V& value);
 	bool SetOldElement(const JUtf8Byte* key, const V& value);
 	bool SetContains(const JUtf8Byte* key, const V& value);
@@ -64,14 +64,14 @@ public:
 protected:
 
 	bool     SetElement(const JString& key, const V& value,
-							const JPtrArrayT::SetElementAction action,
-							const JStringMapT::SetType type,
-							bool* existed);
+						const JPtrArrayT::SetElementAction action,
+						const JStringMapT::SetType type,
+						bool* existed);
 	virtual void PrepareForSet(const JPtrArrayT::SetElementAction action);
 
 	bool RemoveElement(const JString& key,
-						   const JPtrArrayT::SetElementAction action);
-	void     RemoveAll(const JPtrArrayT::SetElementAction action);
+					   const JPtrArrayT::SetElementAction action);
+	void RemoveAll(const JPtrArrayT::SetElementAction action);
 
 private:
 

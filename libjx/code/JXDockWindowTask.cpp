@@ -90,10 +90,9 @@ JXDockWindowTask::~JXDockWindowTask()
 	theTaskCount--;
 	if (theTaskCount == 0 && theUpdateList != nullptr)
 		{
-		const JSize count = theUpdateList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (JXTabGroup* g : *theUpdateList)
 			{
-			(theUpdateList->GetElement(i))->ShowTab(1);
+			g->ShowTab(1);
 			}
 
 		jdelete theUpdateList;
@@ -153,7 +152,7 @@ JXDockWindowTask::Perform
 		{
 		Window root, parent, *childList;
 		unsigned int childCount;
-		if (!XQueryTree(*(itsWindow->GetDisplay()), itsWindow->GetXWindow(),
+		if (!XQueryTree(*itsWindow->GetDisplay(), itsWindow->GetXWindow(),
 						&root, &parent, &childList, &childCount))
 			{
 			jdelete this;
@@ -177,7 +176,7 @@ JXDockWindowTask::Perform
 		}
 	else	// itsState == kShowWindow
 		{
-		(itsWindow->GetDirector())->Activate();
+		itsWindow->GetDirector()->Activate();
 		jdelete this;
 		}
 }
