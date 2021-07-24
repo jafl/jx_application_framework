@@ -71,9 +71,9 @@ CBCScanner::Undo
 	const JString&					text
 	)
 {
-	for (JUnsignedOffset i=text.GetByteCount()-1; i>=0; i--)
+	for (JIndex i=text.GetByteCount(); i>=1; i--)
 		{
-		yyunput(text.GetBytes()[i], yytext);
+		yyunput(text.GetBytes()[i-1], yytext);
 		}
 
 	itsCurrentRange.charRange.first =
