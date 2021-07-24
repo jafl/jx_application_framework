@@ -245,16 +245,13 @@ JIndex i;
 
 	// word styles
 
-	JArray<WordStyle> wordList;
-	GetWordList(*itsWordStyles, &wordList, false);
+	output << ' ' << itsWordStyles->GetElementCount();
 
-	output << ' ' << wordList.GetElementCount();
-
-	for (const WordStyle style : wordList)
+	JStringMapCursor<JFontStyle> cursor(itsWordStyles);
+	while (cursor.Next())
 		{
-		output << ' ' << *style.key;
-		WriteStyle(output, style.value);
-		jdelete style.key;
+		output << ' ' << cursor.GetKey();
+		WriteStyle(output, cursor.GetValue());
 		}
 
 	// dialog geometry
@@ -415,16 +412,15 @@ JIndex i;
 				}
 			}
 
-		JArray<WordStyle> wordList;
-		GetWordList(*itsWordStyles, &wordList, false);
-		for (WordStyle data : wordList)
+		JStringMapCursor<JFontStyle> cursor(itsWordStyles);
+		while (cursor.Next())
 			{
-			if (data.value.color == itsDefColor)
+			JFontStyle style = cursor.GetValue();
+			if (style.color == itsDefColor)
 				{
-				data.value.color = color;
-				itsWordStyles->SetElement(*data.key, data.value);
+				style.color = color;
+				itsWordStyles->SetOldElement(cursor.GetKey(), style);
 				}
-			jdelete data.key;
 			}
 
 		itsDefColor = color;
@@ -541,33 +537,16 @@ CBStylerBase::WordStylesChanged
 		return false;
 		}
 
-	JArray<WordStyle> oldWordList(count);
-	GetWordList(*itsWordStyles, &oldWordList, true);
-
-	JArray<WordStyle> newWordList(count);
-	GetWordList(newWordStyles, &newWordList, true);
-
-	bool changed = false;
-	for (JIndex i=1; i<=count; i++)
+	JStringMapCursor<JFontStyle> cursor(itsWordStyles);
+	JFontStyle newStyle;
+	while (cursor.Next())
 		{
-		const WordStyle w1 = oldWordList.GetElement(i);
-		const WordStyle w2 = newWordList.GetElement(i);
-		if (*w1.key != *w2.key || w1.value != w2.value)
+		if (!newWordStyles.GetElement(cursor.GetKey(), &newStyle) ||
+			newStyle != cursor.GetValue())
 			{
-			changed = true;
-			break;
+			return true;
 			}
 		}
 
-	for (WordStyle ws : oldWordList)
-		{
-		jdelete ws.key;
-		}
-
-	for (WordStyle ws : newWordList)
-		{
-		jdelete ws.key;
-		}
-
-	return changed;
+	return false;
 }

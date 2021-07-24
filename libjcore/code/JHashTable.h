@@ -38,8 +38,8 @@ public:
 
 // Useful for any hash table
 
-	bool IsEmpty() const;
-	JSize    GetElementCount() const;
+	bool  IsEmpty() const;
+	JSize GetElementCount() const;
 
 // Statistics
 
@@ -52,7 +52,7 @@ public:
 
 // Should this really be part of the *public* interface?!?
 	bool GetResizeEnabled() const;
-	void     SetResizeEnabled(const bool enabled);
+	void SetResizeEnabled(const bool enabled);
 
 	JFloat GetMaxLoadFactor() const;
 	void   SetMaxLoadFactor(const JFloat newMax);
@@ -92,9 +92,9 @@ protected:
 	const JHashRecord<V>& GetRecord(const JSize index) const;
 
 	JHashRecordT::State GetState(const JSize index) const;
-	bool            IsEmpty(const JSize index) const;
-	bool            IsDeleted(const JSize index) const;
-	bool            IsFull(const JSize index) const;
+	bool                IsEmpty(const JSize index) const;
+	bool                IsDeleted(const JSize index) const;
+	bool                IsFull(const JSize index) const;
 
 	JHashValue          GetHashValue(const JSize index) const;
 
@@ -109,7 +109,6 @@ protected:
 	void Remove(const JSize index);
 	void MarkEmpty(const JSize index);
 	void MarkAllEmpty();
-
 
 // Low-level resizing interface--useful when overriding FitToLimits
 	bool TryResizeTable(const JSize lgSize);

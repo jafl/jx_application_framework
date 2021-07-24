@@ -65,7 +65,7 @@ template <class V>
 inline const JString&
 JStringMapCursor<V>::GetKey() const
 {
-	return *(itsCursor.GetValue().key);
+	return *itsCursor.GetValue().key;
 }
 
 /******************************************************************************

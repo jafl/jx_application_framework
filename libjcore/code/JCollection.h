@@ -21,10 +21,10 @@ public:
 
 	const JCollection& operator=(const JCollection& source);
 
-	JSize		GetElementCount() const;
+	JSize	GetElementCount() const;
 	bool	IsEmpty() const;
 	bool	IndexValid(const JIndex index) const;
-	JIndex		GetIndexFromEnd(const JIndex index) const;
+	JIndex	GetIndexFromEnd(const JIndex index) const;
 
 	virtual JString	ToString() const override;
 
