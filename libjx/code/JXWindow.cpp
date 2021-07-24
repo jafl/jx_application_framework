@@ -2725,10 +2725,10 @@ JXWindow::IsDeleteWindowMessage
 	const XEvent&		xEvent
 	)
 {
-	return xEvent.type                       == ClientMessage &&
-		xEvent.xclient.message_type       == display->GetWMProtocolsXAtom() &&
-		xEvent.xclient.format             == 32 &&
-		((Atom) xEvent.xclient.data.l[0]) == display->GetDeleteWindowXAtom();
+	return (xEvent.type                       == ClientMessage &&
+			xEvent.xclient.message_type       == display->GetWMProtocolsXAtom() &&
+			xEvent.xclient.format             == 32 &&
+			((Atom) xEvent.xclient.data.l[0]) == display->GetDeleteWindowXAtom());
 }
 
 /******************************************************************************
@@ -2743,10 +2743,10 @@ JXWindow::IsWMPingMessage
 	const XEvent&		xEvent
 	)
 {
-	return xEvent.type                       == ClientMessage &&
-		xEvent.xclient.message_type       == display->GetWMProtocolsXAtom() &&
-		xEvent.xclient.format             == 32 &&
-		((Atom) xEvent.xclient.data.l[0]) == display->GetWMPingXAtom();
+	return (xEvent.type                       == ClientMessage &&
+			xEvent.xclient.message_type       == display->GetWMProtocolsXAtom() &&
+			xEvent.xclient.format             == 32 &&
+			((Atom) xEvent.xclient.data.l[0]) == display->GetWMPingXAtom());
 }
 
 /******************************************************************************
@@ -2761,10 +2761,10 @@ JXWindow::IsSaveYourselfMessage
 	const XEvent&		xEvent
 	)
 {
-	return xEvent.type                       == ClientMessage &&
-		xEvent.xclient.message_type       == display->GetWMProtocolsXAtom() &&
-		xEvent.xclient.format             == 32 &&
-		((Atom) xEvent.xclient.data.l[0]) == display->GetSaveYourselfXAtom();
+	return (xEvent.type                       == ClientMessage &&
+			xEvent.xclient.message_type       == display->GetWMProtocolsXAtom() &&
+			xEvent.xclient.format             == 32 &&
+			((Atom) xEvent.xclient.data.l[0]) == display->GetSaveYourselfXAtom());
 }
 
 /******************************************************************************

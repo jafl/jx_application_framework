@@ -11,8 +11,6 @@ medic - confused when using gdb
 jcc
 	scroll after undo/redo puts selection at bottom
 
-	perl styling:  s/// in tidy.pl
-
 	misc/ctags/c.c
 		flex scanner push-back overflow
 
@@ -58,15 +56,6 @@ medic for go: delve back-end
 keg for brew
 	https://docs.brew.sh/Formula-Cookbook
 	https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap
-
-switch to xcb
-	run jcc updated & search in threads
-
-	#include <future>
-	auto handle = std::async(std::launch::async,
-							 parallel_sum<RandomIt>, mid, end);
-	int sum = parallel_sum(beg, mid);
-	return sum + handle.get();
 
 
 

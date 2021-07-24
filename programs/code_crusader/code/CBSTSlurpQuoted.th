@@ -89,6 +89,11 @@ ClassName::SlurpQuoted
 						break;
 						}
 					}
+
+				if (ok)
+					{
+					break;
+					}
 				}
 			else if (count > 1 && remainder < count)
 				{

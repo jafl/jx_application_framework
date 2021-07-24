@@ -114,10 +114,10 @@ public:
 private:
 
 	const JStyledText*		itsCurrentText;
-	bool				itsResetFlag;
+	bool					itsResetFlag;
 	JStyledText::TextRange	itsCurrentRange;
 	JStyledText::TextRange	itsPPNameRange;
-	bool				itsProbableOperatorFlag;	// kTrue if /,? are most likely operators instead of regex
+	bool					itsProbableOperatorFlag;	// kTrue if /,? are most likely operators instead of regex
 	TokenType				itsComplexVariableType;
 	JString					itsHereDocTag;
 	TokenType				itsHereDocType;
