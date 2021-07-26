@@ -561,34 +561,6 @@ JTable::GetVisibleRange
 	lengths.FindPositiveSum(min,       1,           firstIndex, &v, GetCellSize);
 	lengths.FindPositiveSum(max-1 - v, *firstIndex, lastIndex,  &v, GetCellSize);
 	return true;
-/*
-	JRunArrayIterator<JCoordinate> iter(&lengths);
-
-	const JSize count = lengths.GetElementCount();
-
-	*firstIndex = 0;
-	JCoordinate totalLength = 0;
-	while (*firstIndex < count && totalLength <= min)
-		{
-		(*firstIndex)++;
-		JCoordinate length;
-		const bool ok = iter.Next(&length);
-		assert( ok );
-		totalLength += length + borderWidth;
-		}
-
-	*lastIndex = *firstIndex;
-	while (*lastIndex < count && totalLength < max)
-		{
-		(*lastIndex)++;
-		JCoordinate length;
-		const bool ok = iter.Next(&length);
-		assert( ok );
-		totalLength += length + borderWidth;
-		}
-
-	return true;
-*/
 }
 
 /******************************************************************************

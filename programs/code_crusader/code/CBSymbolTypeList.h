@@ -22,7 +22,7 @@ public:
 
 	virtual ~CBSymbolTypeList();
 
-//	bool	IsVisible(const CBSymbolList::Type type) const;
+//	bool		IsVisible(const CBSymbolList::Type type) const;
 	CBLanguage	GetLanguage(const CBSymbolList::Type type) const;
 	JFontStyle	GetStyle(const CBSymbolList::Type type,
 						 const JXImage** image) const;

@@ -11,9 +11,6 @@ medic - confused when using gdb
 jcc
 	scroll after undo/redo puts selection at bottom
 
-	misc/ctags/c.c
-		flex scanner push-back overflow
-
 	Editor Prefs
 		Emulator drop-down should be radio buttons
 		Fonts should have monospace, not Arial
@@ -66,7 +63,6 @@ jcc:
 	CBTreeWidget::FindFunction
 	CBTreeWidget::HandleMouseDrag
 	CBCRMRuleTable
-	CBMWriteSharedPrefs short-circuit
 
 D tree
 	must remember all imported packages, to resolve parents after full parse

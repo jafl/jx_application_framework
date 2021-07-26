@@ -662,7 +662,7 @@ JXFileListTable::GetFullName
 	JIndex index;
 	if (FileNameToFileIndex(fileName, &index))
 		{
-		*fullName = *(itsFileList->GetElement(index));
+		*fullName = *itsFileList->GetElement(index);
 		return true;
 		}
 	else

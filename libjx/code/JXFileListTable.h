@@ -31,36 +31,36 @@ public:
 	virtual ~JXFileListTable();
 
 	bool	AddFile(const JString& fullName, JIndex* fullNameIndex = nullptr);
-	void		RemoveFile(const JString& fullName);
-	void		RemoveFiles(const JPtrArray<JString>& fileList);
-	void		RemoveSelectedFiles();
-	void		RemoveAllFiles();
+	void	RemoveFile(const JString& fullName);
+	void	RemoveFiles(const JPtrArray<JString>& fileList);
+	void	RemoveSelectedFiles();
+	void	RemoveAllFiles();
 	bool	GetFullName(const JIndex rowIndex, JString* fullName) const;
 //	bool	GetFullName(const JString& fileName, JString* fullName) const;
 
 	const JPtrArray<JString>&	GetFullNameList() const;
-	JIndex		RowIndexToFileIndex(const JIndex rowIndex) const;
+	JIndex						RowIndexToFileIndex(const JIndex rowIndex) const;
 
 	bool	GetFilterRegex(JString* regexStr) const;
-	JError		SetFilterRegex(const JString& regexStr);
-	void		ClearFilterRegex();
+	JError	SetFilterRegex(const JString& regexStr);
+	void	ClearFilterRegex();
 
 	bool	HasSelection() const;
 	bool	GetSelection(JPtrArray<JString>* fileList) const;
-	void		SelectSingleEntry(const JIndex index, const bool scroll = true);
-	void		SelectAll();
-	void		ClearSelection();
+	void	SelectSingleEntry(const JIndex index, const bool scroll = true);
+	void	SelectAll();
+	void	ClearSelection();
 
-	void		ShowSelectedFileLocations() const;
+	void	ShowSelectedFileLocations() const;
 
 	bool	GetEditMenuProvider(JXTEBase** te) const;
-	void		SetEditMenuProvider(JXTEBase* te);
+	void	SetEditMenuProvider(JXTEBase* te);
 
 	bool	WillAcceptFileDrop() const;
-	void		ShouldAcceptFileDrop(const bool accept = true);
+	void	ShouldAcceptFileDrop(const bool accept = true);
 
 	bool	BackspaceWillRemoveSelectedFiles() const;
-	void		BackspaceShouldRemoveSelectedFiles(const bool remove = true);
+	void	BackspaceShouldRemoveSelectedFiles(const bool remove = true);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
@@ -96,11 +96,11 @@ protected:
 									  const bool dropAccepted, const Atom action) override;
 
 	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const JPoint& pt, const Time time,
-									   const JXWidget* source) override;
-	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
-									  const Atom action, const Time time,
-									  const JXWidget* source) override;
+								   const JPoint& pt, const Time time,
+								   const JXWidget* source) override;
+	virtual void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+								  const Atom action, const Time time,
+								  const JXWidget* source) override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -126,8 +126,8 @@ private:
 	JArray<VisInfo>*	itsVisibleList;			// info about each visible item
 	JRegex*				itsRegex;				// can be nullptr
 
-	bool			itsAcceptFileDropFlag;	// true => accept drop of url/url
-	bool			itsBSRemoveSelFlag;		// true => backspace removes selected files
+	bool				itsAcceptFileDropFlag;	// true => accept drop of url/url
+	bool				itsBSRemoveSelFlag;		// true => backspace removes selected files
 	JSize				itsMaxStringWidth;
 	JXImage*			itsFileIcon;			// not owned
 	JString				itsKeyBuffer;
@@ -151,9 +151,9 @@ private:
 	bool	ClosestMatch(const JString& prefixStr, JIndex* index) const;
 //	bool	FileNameToFileIndex(const JString& name, JIndex* index) const;
 	bool	MainResolveFullName(const JIndex rowIndex, const JIndex fileIndex,
-									JString* name);
+								JString* name);
 	bool	IsInactive(const JString& fullName) const;
-	JIndex		UpdateDrawIndex(const JIndex firstIndex, const JString& fileName) const;
+	JIndex	UpdateDrawIndex(const JIndex firstIndex, const JString& fileName) const;
 
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex index);
@@ -165,7 +165,7 @@ private:
 
 		PrefixMatch(const JString& prefix, const JPtrArray<JString>& fileList);
 		virtual ~PrefixMatch();
-		virtual JListT::CompareResult		Compare(const VisInfo&, const VisInfo&) const;
+		virtual JListT::CompareResult			Compare(const VisInfo&, const VisInfo&) const;
 		virtual JElementComparison<VisInfo>*	Copy() const;
 
 	private:

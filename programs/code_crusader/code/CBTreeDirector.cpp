@@ -471,7 +471,8 @@ CBTreeDirector::ViewFunctionList
 	const CBClass* theClass
 	)
 {
-/*	const JSize count = itsFnBrowsers->GetElementCount();
+/*
+	const JSize count = itsFnBrowsers->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		CBFnListDirector* dir = itsFnBrowsers->GetElement(i);
