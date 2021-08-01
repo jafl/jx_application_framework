@@ -220,16 +220,16 @@ JStringMatch::GetCharacterRange
 		const JUtf8ByteRange ur = itsSubmatchList->GetElement(submatchIndex);
 		if (!ur.IsEmpty())
 			{
-		ComputeCharacterRange();
+			ComputeCharacterRange();
 
-		JCharacterRange cr;
-		cr.SetFirstAndCount(
-			itsCharacterRange.first +
-				JString::CountCharacters(itsTarget.GetRawBytes() + itsByteRange.first - 1,
-										 ur.first - itsByteRange.first),
-			JString::CountCharacters(itsTarget.GetRawBytes() + ur.first - 1, ur.GetCount()));
+			JCharacterRange cr;
+			cr.SetFirstAndCount(
+				itsCharacterRange.first +
+					JString::CountCharacters(itsTarget.GetRawBytes() + itsByteRange.first - 1,
+											 ur.first - itsByteRange.first),
+				JString::CountCharacters(itsTarget.GetRawBytes() + ur.first - 1, ur.GetCount()));
 
-		return cr;
+			return cr;
 			}
 		}
 
@@ -295,6 +295,11 @@ void
 JStringMatch::ComputeCharacterRange()
 	const
 {
+	if (itsByteRange.IsEmpty())
+		{
+		return;
+		}
+
 	if (itsCharacterRange.IsNothing())	// compute start index
 		{
 		const_cast<JCharacterRange*>(&itsCharacterRange)->first =
