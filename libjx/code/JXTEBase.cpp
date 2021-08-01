@@ -1676,7 +1676,7 @@ JXTEBase::GetAvailDataTypes
 
 	JXSelectionManager* selMgr = GetSelectionManager();
 
-	for (const Atom type : typeList)
+	for (const auto type : typeList)
 		{
 		if (type == selMgr->GetUtf8StringXAtom() ||
 			type == selMgr->GetMimePlainTextUTF8XAtom())
@@ -2482,13 +2482,11 @@ JXTEBase::HandleEditMenu
 
 	else if (cmd == kCleanRightMarginCmd)
 		{
-		JCharacterRange range;
-		GetText()->CleanRightMargin(false, &range);
+		GetText()->CleanRightMargin(false);
 		}
 	else if (cmd == kCoerceRightMarginCmd)
 		{
-		JCharacterRange range;
-		GetText()->CleanRightMargin(true, &range);
+		GetText()->CleanRightMargin(true);
 		}
 	else if (cmd == kShiftSelLeftCmd)
 		{

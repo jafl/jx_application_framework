@@ -106,7 +106,7 @@ JTreeNode::SetTree
 		itsTree = tree;
 		if (itsChildren != nullptr)
 			{
-			for (JTreeNode* n : *itsChildren)
+			for (auto* n : *itsChildren)
 				{
 				n->SetTree(tree);
 				}
@@ -241,7 +241,7 @@ JTreeNode::GetDescendantCount()
 	JSize count = 0;
 	if (itsChildren != nullptr)
 		{
-		for (const JTreeNode* n : *itsChildren)
+		for (const auto* n : *itsChildren)
 			{
 			count += 1 + n->GetDescendantCount();
 			}
@@ -268,7 +268,7 @@ JTreeNode::CollectDescendants
 		{
 		list->SetCleanUpAction(JPtrArrayT::kForgetAll);
 
-		for (JTreeNode* child : *itsChildren)
+		for (auto* child : *itsChildren)
 			{
 			list->Append(child);
 			child->CollectDescendants(list);
@@ -415,7 +415,7 @@ JTreeNode::SetChildCompareFunction
 
 	if (propagate && itsChildren != nullptr)
 		{
-		for (JTreeNode* n : *itsChildren)
+		for (auto* n : *itsChildren)
 			{
 			n->SetChildCompareFunction(compareFn, order, true);
 			}
@@ -450,7 +450,7 @@ JTreeNode::SortChildren
 
 	if (propagate && itsChildren != nullptr)
 		{
-		for (JTreeNode* n : *itsChildren)
+		for (auto* n : *itsChildren)
 			{
 			n->SortChildren(propagate);
 			}

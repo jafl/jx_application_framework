@@ -767,7 +767,7 @@ JPartition::WriteGeometry
 	output << ' ' << GetCompartmentCount();
 	output << ' ' << GetTotalSize();
 
-	for (JCoordinate v : *itsSizes)
+	for (auto v : *itsSizes)
 		{
 		output << ' ' << v;
 		}

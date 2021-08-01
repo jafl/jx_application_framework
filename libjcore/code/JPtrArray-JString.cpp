@@ -58,7 +58,7 @@ operator<<
 {
 	output << ' ' << list.GetElementCount();
 
-	for (JString* s : list)
+	for (const auto* s : list)
 		{
 		output << ' ' << *s;
 		}
@@ -276,7 +276,7 @@ JStringJoin
 	JString s;
 
 	bool first = true;
-	for (JString* s1 : list)
+	for (const auto* s1 : list)
 		{
 		if (!first)
 			{

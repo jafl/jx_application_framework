@@ -190,7 +190,7 @@ CMBreakpointManager::GetBreakpoints
 void
 CMBreakpointManager::EnableAll()
 {
-	for (CMBreakpoint* bp : *itsBPList)
+	for (auto* bp : *itsBPList)
 		{
 		if (!bp->IsEnabled())
 			{
@@ -207,7 +207,7 @@ CMBreakpointManager::EnableAll()
 void
 CMBreakpointManager::DisableAll()
 {
-	for (CMBreakpoint* bp : *itsBPList)
+	for (auto* bp : *itsBPList)
 		{
 		if (bp->IsEnabled())
 			{

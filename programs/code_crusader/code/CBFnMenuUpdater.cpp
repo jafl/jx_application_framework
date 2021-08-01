@@ -154,7 +154,7 @@ CBFnMenuUpdater::UpdateMenu
 
 		if (lang == kCBHTMLLang)
 			{
-			for (JString* s : fnNameList)
+			for (auto* s : fnNameList)
 				{
 				s->Prepend("#");
 				}
@@ -170,7 +170,7 @@ CBFnMenuUpdater::UpdateMenu
 
 	// build menu
 
-	for (JString* s : fnNameList)
+	for (auto* s : fnNameList)
 		{
 		menu->AppendItem(*s);
 		}

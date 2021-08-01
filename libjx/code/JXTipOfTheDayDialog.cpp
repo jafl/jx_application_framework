@@ -218,7 +218,7 @@ JXTipOfTheDayDialog::ParseTips()
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	data.Split(kDelimiter, &list);
 
-	for (JString* s : list)
+	for (auto* s : list)
 		{
 		if (!s->IsEmpty())
 			{

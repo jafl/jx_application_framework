@@ -31,7 +31,7 @@ public:
 
 	static bool	Create(const JString& dirName, JDirInfo** obj);
 	static bool	Create(const JDirInfo& source, const JString& dirName,
-						   JDirInfo** obj);
+					   JDirInfo** obj);
 	static bool	OKToCreate(const JString& dirName);
 
 	JDirInfo(const JDirInfo& source);
@@ -42,69 +42,69 @@ public:
 	const JDirInfo& operator=(const JDirInfo& source);
 	void			CopySettings(const JDirInfo& source);
 
-	bool		DirectoryExists() const;
+	bool			DirectoryExists() const;
 	const JString&	GetDirectory() const;
-	bool		IsWritable() const;
+	bool			IsWritable() const;
 
 	JError	GoUp();
 	JError	GoDown(const JString& dirName);
 	void	GoToClosest(const JString& dirName);
 	JError	GoTo(const JString& dirName);
 
-	void		ChangeSort(JCompareDirEntries* f, const JListT::SortOrder order);
+	void	ChangeSort(JCompareDirEntries* f, const JListT::SortOrder order);
 
 	bool	FilesVisible() const;
-	void		ShowFiles(const bool show);
+	void	ShowFiles(const bool show);
 
 	bool	DirsVisible() const;
-	void		ShowDirs(const bool show);
+	void	ShowDirs(const bool show);
 
 	bool	HiddenVisible() const;
-	void		ShowHidden(const bool show);
+	void	ShowHidden(const bool show);
 
 	bool	VCSDirsVisible() const;
-	void		ShowVCSDirs(const bool show);
+	void	ShowVCSDirs(const bool show);
 
 	bool	OthersVisible() const;
-	void		ShowOthers(const bool show);
+	void	ShowOthers(const bool show);
 
 	bool	HasWildcardFilter() const;
-	void		SetWildcardFilter(const JString& filterStr,
-								  const bool negate = false,
-								  const bool caseSensitive = false);
-	void		SetWildcardFilter(JRegex* filter, const bool dirInfoOwnsRegex,
-								  const bool negate = false);
-	void		ClearWildcardFilter();
+	void	SetWildcardFilter(const JString& filterStr,
+							  const bool negate = false,
+							  const bool caseSensitive = false);
+	void	SetWildcardFilter(JRegex* filter, const bool dirInfoOwnsRegex,
+							  const bool negate = false);
+	void	ClearWildcardFilter();
 
 	bool	WillApplyWildcardFilterToDirs() const;
-	void		ShouldApplyWildcardFilterToDirs(const bool apply = true);
+	void	ShouldApplyWildcardFilterToDirs(const bool apply = true);
 
 	bool	HasDirEntryFilter() const;
-	void		SetDirEntryFilter(JCheckPermissions* f);
-	void		ClearDirEntryFilter();
+	void	SetDirEntryFilter(JCheckPermissions* f);
+	void	ClearDirEntryFilter();
 
 	bool	HasContentFilter() const;
-	JError		SetContentFilter(const JString& regexStr);
-	void		ClearContentFilter();
+	JError	SetContentFilter(const JString& regexStr);
+	void	ClearContentFilter();
 
-	void		ResetCSFFilters();
+	void	ResetCSFFilters();
 
-	void		ChangeProgressDisplay(JProgressDisplay* pg);
-	void		UseDefaultProgressDisplay();
+	void	ChangeProgressDisplay(JProgressDisplay* pg);
+	void	UseDefaultProgressDisplay();
 
 	bool	WillSwitchToValidDirectory() const;
-	void		ShouldSwitchToValidDirectory(const bool switchIfInvalid = true);
+	void	ShouldSwitchToValidDirectory(const bool switchIfInvalid = true);
 
 	bool	Update(const bool force = false);		// updates if necessary
 	bool	ForceUpdate();								// updates regardless
 
 	JSize				GetEntryCount() const;
 	const JDirEntry&	GetEntry(const JIndex index) const;
-	bool			FindEntry(const JString& name, JIndex* index) const;
-	bool			ClosestMatch(const JString& prefixStr, JIndex* index) const;
+	bool				FindEntry(const JString& name, JIndex* index) const;
+	bool				ClosestMatch(const JString& prefixStr, JIndex* index) const;
 
 	static bool	BuildRegexFromWildcardFilter(const JString& filterStr,
-												 JString* regexStr);
+											 JString* regexStr);
 
 	static bool	Empty(const JString& dirName);
 
@@ -126,21 +126,21 @@ private:
 
 	bool	itsIsValidFlag;
 	bool	itsSwitchIfInvalidFlag;
-	JString		itsCWD;
+	JString	itsCWD;
 	bool	itsIsWritableFlag;
-	time_t		itsModTime;
-	time_t		itsStatusTime;
+	time_t	itsModTime;
+	time_t	itsStatusTime;
 
 	bool	itsShowFilesFlag;
 	bool	itsShowDirsFlag;
 	bool	itsShowHiddenFlag;
 	bool	itsShowVCSDirsFlag;
 	bool	itsShowOthersFlag;
-	JRegex*		itsNameRegex;			// can be nullptr
+	JRegex*	itsNameRegex;			// can be nullptr
 	bool	itsOwnsNameRegexFlag;
 	bool	itsInvertNameRegexFlag;
 	bool	itsFilterDirsFlag;
-	JRegex*		itsContentRegex;		// can be nullptr
+	JRegex*	itsContentRegex;		// can be nullptr
 
 	JCheckPermissions*	itsPermFilter;	// can be nullptr
 

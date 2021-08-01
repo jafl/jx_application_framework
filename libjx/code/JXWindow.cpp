@@ -4881,7 +4881,7 @@ JXWindow::UndockAllChildWindows()
 {
 	if (itsChildWindowList != nullptr)
 		{
-		for (const ChildWindowInfo& info : *itsChildWindowList)
+		for (const auto& info : *itsChildWindowList)
 			{
 			JXWindow* w;
 			if (itsDisplay->FindXWindow(info.xWindow, &w))
@@ -4994,7 +4994,7 @@ JXWindow::UpdateChildWindowGeometry()
 {
 	if (itsChildWindowList != nullptr)
 		{
-		for (const ChildWindowInfo& info : *itsChildWindowList)
+		for (const auto& info : *itsChildWindowList)
 			{
 			JXWindow* w;
 			if (itsDisplay->FindXWindow(info.xWindow, &w))

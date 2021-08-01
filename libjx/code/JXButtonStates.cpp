@@ -90,7 +90,7 @@ JXButtonStates::GetState()
 	const
 {
 	unsigned int state = 0, i = 0;
-	for (const bool b : itsState)
+	for (const auto b : itsState)
 		{
 		if (b)
 			{

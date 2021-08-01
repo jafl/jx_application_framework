@@ -1373,7 +1373,7 @@ JMountPointList::CleanOut()
 void
 JMountPointList::DeleteAll()
 {
-	for (const JMountPoint& info : *this)
+	for (const auto& info : *this)
 		{
 		jdelete info.path;
 		jdelete info.devicePath;

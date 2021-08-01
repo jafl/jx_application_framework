@@ -314,7 +314,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::WritePrefs
 
 	output << ' ' << itsReminderList->GetElementCount();
 
-	for (const time_t t : *itsReminderList)
+	for (auto t : *itsReminderList)
 		{
 		output << ' ' << t;
 		}

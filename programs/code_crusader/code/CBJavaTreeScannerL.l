@@ -215,7 +215,7 @@ implements	/* ignore */
 	bool found = false;
 	while (true)
 		{
-		for (const JString* c : importList)
+		for (const auto* c : importList)
 			{
 			if (!c->EndsWith(s))
 				{

@@ -340,7 +340,7 @@ JFSFileTreeNode::BuildChildList()
 		{
 		DeleteAllChildren();
 
-		for (JDirEntry* e : *itsDirInfo)
+		for (const auto* e : *itsDirInfo)
 			{
 			auto* entry = jnew JDirEntry(*e);
 			assert( entry != nullptr );
@@ -577,7 +577,7 @@ JFSFileTreeNode::UpdateChildren()
 	JPtrArray<JTreeNode> newChildren(JPtrArrayT::kForgetAll);
 	newChildren.SetCompareFunction(CompareTypeAndName);
 
-	for (JDirEntry* e : *itsDirInfo)
+	for (const auto* e : *itsDirInfo)
 		{
 		auto* entry = jnew JDirEntry(*e);
 		assert( entry != nullptr );
@@ -603,7 +603,7 @@ JFSFileTreeNode::UpdateChildren()
 
 	// save remaining new entries
 
-	for (JTreeNode* n : newChildren)
+	for (auto* n : newChildren)
 		{
 		InsertSorted(n);
 		}

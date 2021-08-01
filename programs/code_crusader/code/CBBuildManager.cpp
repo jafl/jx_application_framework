@@ -527,7 +527,7 @@ CBBuildManager::PrintTargetName
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	itsTargetName.Split(",", &list);
 
-	for (JString* s : list)
+	for (const auto* s : list)
 		{
 		output << '@';
 		s->Print(output);

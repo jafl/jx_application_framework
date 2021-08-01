@@ -55,7 +55,7 @@ JValueTableData<S,T>::JValueTableData
 	itsCols = jnew JPtrArray< S >(JPtrArrayT::kDeleteAll);
 	assert( itsCols != nullptr );
 
-	for (S* col : *source.itsCols)
+	for (auto* col : *source.itsCols)
 		{
 		itsCols->Append(*col);
 		}
@@ -362,7 +362,7 @@ JValueTableData<S,T>::DuplicateRow
 {
 	const JIndex trueIndex = JMin(newIndex, GetRowCount()+1);
 
-	for (S* colData : *itsCols)
+	for (auto* colData : *itsCols)
 		{
 		const T element = colData->GetElement(origIndex);
 		colData->InsertElementAtIndex(trueIndex, element);
@@ -406,7 +406,7 @@ JValueTableData<S,T>::RemoveNextRows
 		}
 	else
 		{
-		for (S* colData : *itsCols)
+		for (auto* colData : *itsCols)
 			{
 			colData->RemoveNextElements(firstIndex, count);
 			}
@@ -441,7 +441,7 @@ template <class S, class T>
 void
 JValueTableData<S,T>::RemoveAllRows()
 {
-	for (S* colData : *itsCols)
+	for (auto* colData : *itsCols)
 		{
 		colData->RemoveAll();
 		}
@@ -466,7 +466,7 @@ JValueTableData<S,T>::MoveRow
 {
 	if (origIndex != newIndex)
 		{
-		for (S* colData : *itsCols)
+		for (auto* colData : *itsCols)
 			{
 			colData->MoveElementToIndex(origIndex, newIndex);
 			}

@@ -277,7 +277,7 @@ JFontManager::Init
 void
 JFontManager::CleanUp()
 {
-	for (const Font& f : theFontList)
+	for (const auto& f : theFontList)
 		{
 		jdelete f.name;
 		}

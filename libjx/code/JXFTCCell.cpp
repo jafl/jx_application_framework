@@ -201,7 +201,7 @@ JXFTCCell::Expand
 	BuildChildList();
 	ComputeInvariants();
 
-	for (JXFTCCell* cell : *itsChildren)
+	for (auto* cell : *itsChildren)
 		{
 		cell->Expand(horizontal);
 		}
@@ -289,7 +289,7 @@ JXFTCCell::ComputeInvariants()
 	itsChildPositions = jnew JArray<JFloat>;
 	assert( itsChildPositions != nullptr );
 
-	for (JXFTCCell* cell : *itsChildren)
+	for (auto* cell : *itsChildren)
 		{
 		const JRect r = cell->GetFrameGlobal();
 
@@ -834,7 +834,7 @@ JXFTCCell::SyncSize
 		if ((dw != 0 && itsDirection == kHorizontal) ||
 			(dh != 0 && itsDirection == kVertical))
 			{
-			for (JXFTCCell* child : *itsChildren)
+			for (auto* child : *itsChildren)
 				{
 				if (child->IsElastic())
 					{

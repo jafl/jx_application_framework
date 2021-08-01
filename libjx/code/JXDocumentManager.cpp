@@ -126,7 +126,7 @@ JXDocumentManager::~JXDocumentManager()
 	assert( itsDocList->IsEmpty() );
 	jdelete itsDocList;
 
-	for (const FileMap& file : *itsFileMap)
+	for (const auto& file : *itsFileMap)
 		{
 		jdelete file.oldName;
 		jdelete file.newName;
@@ -155,7 +155,7 @@ JXDocumentManager::DocumentCreated
 	for (JInteger i=kFirstShortcut; i<=kLastShortcut; i++)
 		{
 		bool found = false;
-		for (const DocInfo& info : *itsDocList)
+		for (const auto& info : *itsDocList)
 			{
 			if (info.shortcut == i)
 				{
@@ -388,7 +388,7 @@ JXDocumentManager::FileDocumentIsOpen
 
 	// search for an open JXFileDocument that uses this file
 
-	for (const DocInfo& info : *itsDocList)
+	for (const auto& info : *itsDocList)
 		{
 		const auto* fileDoc = dynamic_cast<const JXFileDocument*>(info.doc);
 		if (fileDoc != nullptr)
@@ -737,9 +737,9 @@ JXDocumentManager::SafetySave
 	const SafetySaveReason reason
 	)
 {
-	for (const DocInfo& info : *itsDocList)
+	for (const auto& info : *itsDocList)
 		{
-		(info.doc)->SafetySave(reason);
+		info.doc->SafetySave(reason);
 		}
 }
 

@@ -343,7 +343,7 @@ JPasteUNIXTerminalOutput
 
 	JPtrArray<JString> cmdList(JPtrArrayT::kDeleteAll);
 
-	for (const JString* chunk : chunkList)
+	for (const auto* chunk : chunkList)
 		{
 		const JStringMatch m = theUNIXTerminalFormatPattern.Match(*chunk, JRegex::kIncludeSubmatches);
 		if (m.IsEmpty())
@@ -355,7 +355,7 @@ JPasteUNIXTerminalOutput
 
 		m.GetSubstring(1).Split(";", &cmdList);
 
-		for (const JString* cmd : cmdList)
+		for (const auto* cmd : cmdList)
 			{
 			JUInt cmdID;
 			if (!cmd->ConvertToUInt(&cmdID))

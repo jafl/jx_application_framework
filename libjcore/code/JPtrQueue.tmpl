@@ -61,7 +61,7 @@ template <class T, class S>
 void
 JPtrQueue<T,S>::FlushDelete()
 {
-	for (T* elementPtr : *JQueue<T*,S>::GetElements())
+	for (auto* elementPtr : *JQueue<T*,S>::GetElements())
 		{
 		jdelete elementPtr;
 		}
@@ -80,7 +80,7 @@ template <class T, class S>
 void
 JPtrQueue<T,S>::FlushDeleteAsArrays()
 {
-	for (T* elementPtr : *JQueue<T*,S>::GetElements())
+	for (auto* elementPtr : *JQueue<T*,S>::GetElements())
 		{
 		jdelete [] elementPtr;
 		}

@@ -416,7 +416,7 @@ JDirInfo::CopyDirEntries
 	assert( itsDirEntries != nullptr );
 	itsDirEntries->CleanOut();
 
-	for (JDirEntry* origEntry : *source.itsDirEntries)
+	for (const auto* origEntry : *source.itsDirEntries)
 		{
 		auto* entry = jnew JDirEntry(*origEntry);
 		assert( entry != nullptr );
@@ -919,7 +919,7 @@ JDirInfo::ApplyFilters
 	itsVisEntries->CleanOut();
 	itsAlphaEntries->CleanOut();
 
-	for (JDirEntry* entry : *itsDirEntries)
+	for (auto* entry : *itsDirEntries)
 		{
 		if (IsVisible(*entry))
 			{
@@ -1097,7 +1097,7 @@ JDirInfo::BuildRegexFromWildcardFilter
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	filterStr.Split(theFilterSplitPattern, &list);
 
-	for (JString* s : list)
+	for (const auto* s : list)
 		{
 		AppendRegex(*s, regexStr);
 		}

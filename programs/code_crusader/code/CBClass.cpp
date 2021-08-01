@@ -275,7 +275,7 @@ CBClass::~CBClass()
 {
 	if (itsParentInfo != nullptr)
 		{
-		for (ParentInfo pInfo : *itsParentInfo)
+		for (auto& pInfo : *itsParentInfo)
 			{
 			pInfo.CleanOut();
 			}

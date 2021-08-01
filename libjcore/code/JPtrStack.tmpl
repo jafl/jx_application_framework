@@ -61,7 +61,7 @@ template <class T, class S>
 void
 JPtrStack<T,S>::ClearDelete()
 {
-	for (T* elementPtr : *JStack<T*,S>::GetElements())
+	for (auto* elementPtr : *JStack<T*,S>::GetElements())
 		{
 		jdelete elementPtr;
 		}
@@ -80,7 +80,7 @@ template <class T, class S>
 void
 JPtrStack<T,S>::ClearDeleteAsArrays()
 {
-	for (T* elementPtr : *JStack<T*,S>::GetElements())
+	for (auto* elementPtr : *JStack<T*,S>::GetElements())
 		{
 		jdelete [] elementPtr;
 		}

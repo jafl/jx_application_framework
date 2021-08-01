@@ -491,10 +491,10 @@ JFSBindingList::GetBinding
 
 	// scan bindings for match -- check content types first
 
-	for (JIndex j : { 0,1 })
+	for (const JIndex j : { 0,1 })
 		{
 		const bool isContent = !j;
-		for (const JFSBinding* b : *itsBindingList)
+		for (const auto* b : *itsBindingList)
 			{
 			if (b->IsContentBinding() == isContent &&
 				b->Match(fileName, content))
@@ -787,7 +787,7 @@ JFSBindingList::Save()
 			data << *itsUserDefault << '\n';
 			}
 
-		for (const JFSBinding* b : *itsBindingList)
+		for (const auto* b : *itsBindingList)
 			{
 			if (!b->IsSystemBinding())
 				{

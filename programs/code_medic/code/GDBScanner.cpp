@@ -67,7 +67,7 @@ GDBScanner::AppendInput
 	JString* last = split.GetLastElement();
 	split.RemoveElement(split.GetElementCount());
 
-	for (JString* s : split)
+	for (auto* s : split)
 	{
 		if (!itsPartialBuffer.IsEmpty())
 			{

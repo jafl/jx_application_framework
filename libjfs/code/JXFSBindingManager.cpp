@@ -215,7 +215,7 @@ JXFSBindingManager::Exec
 		me->itsFileList->SetCompareFunction(ComparePatterns);
 		}
 
-	for (const JString* fileName : fileList)
+	for (const auto* fileName : fileList)
 		{
 		auto* f = jnew JFSBinding(*fileName, JString::empty, JFSBinding::kRunPlain, true, false);
 		assert( f != nullptr );
@@ -257,7 +257,7 @@ JXFSBindingManager::ProcessFiles()
 	// check for file with no command
 
 	JIndex i = 1;
-	for (JFSBinding* f : *itsFileList)
+	for (const auto* f : *itsFileList)
 		{
 		const JString& fileName = f->GetPattern();
 
@@ -317,7 +317,7 @@ JXFSBindingManager::ProcessFiles()
 		JFSBinding::CommandType type = JFSBinding::kRunPlain;
 
 		i = 1;
-		for (JFSBinding* f : *itsFileList)
+		for (const auto* f : *itsFileList)
 			{
 			JFSBinding::CommandType t;
 			bool singleFile;
@@ -539,7 +539,7 @@ JXFSBindingManager::Receive
 
 			if (itsIgnoreBindingsFlag && itsRunFileIndex == 1)
 				{
-				for (JFSBinding* f : *itsFileList)
+				for (auto* f : *itsFileList)
 					{
 					f->SetCommand(cmd, type, singleFile);
 					}

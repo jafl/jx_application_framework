@@ -784,7 +784,7 @@ JXDirTable::WillAcceptDrop
 
 	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
-	for (const Atom type : typeList)
+	for (auto type : typeList)
 		{
 		if (type == urlXAtom)
 			{
@@ -858,7 +858,7 @@ JXDirTable::HandleDNDDrop
 			{
 			JTableSelection& s = GetTableSelection();
 			s.ClearSelection();
-			for (const JString* entryName : fileNameList)
+			for (const auto* entryName : fileNameList)
 				{
 				if (!JFileExists(*entryName))
 					{
@@ -916,7 +916,7 @@ JXDirTable::AdjustTableContents()
 	AppendRows(count);
 
 	const JFont& font = JFontManager::GetDefaultFont();
-	for (const JDirEntry* entry : *itsDirInfo)
+	for (const auto* entry : *itsDirInfo)
 		{
 		const JSize w = font.GetStringWidth(GetFontManager(), entry->GetName());
 		if (w > itsMaxStringWidth)
@@ -956,7 +956,7 @@ JXDirTable::AdjustTableContents()
 		{
 		// select the items that still exist
 
-		for (const JString* n : *itsReselectNameList)
+		for (const auto* n : *itsReselectNameList)
 			{
 			JIndex j;
 			if (itsDirInfo->FindEntry(*n, &j) &&
@@ -1201,7 +1201,7 @@ JXDirTable::RememberSelections()
 		{
 		itsReselectFlag = true;
 
-		for (const JDirEntry* e : entryList)
+		for (const auto* e : entryList)
 			{
 			itsReselectNameList->Append(e->GetName());
 			}

@@ -78,7 +78,7 @@ JXMenuBar::JXMenuBar
 
 JXMenuBar::~JXMenuBar()
 {
-	for (JXMenu* theMenu : *itsMenus)
+	for (auto* theMenu : *itsMenus)
 		{
 		if (theMenu == itsOverflowMenu)
 			{

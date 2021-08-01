@@ -353,7 +353,7 @@ TestWidget::Print
 	const JString dateStr = JGetTimeStamp();
 
 	bool cancelled = false;
-	for (JIndex i : { 1,2,3 })
+	for (const JIndex i : { 1,2,3 })
 		{
 		if (!p.NewPage())
 			{
@@ -996,7 +996,7 @@ TestWidget::WillAcceptDrop
 	std::cout << "Data types available from DND source:" << std::endl;
 	std::cout << std::endl;
 
-	for (const Atom type : typeList)
+	for (const auto type : typeList)
 		{
 		std::cout << XGetAtomName(*display, type) << std::endl;
 
@@ -1082,7 +1082,7 @@ TestWidget::HandleDNDDrop
 //	JGetUserNotification()->DisplayMessage("testing");
 
 	Atom textType = None, urlType = None;
-	for (const Atom type : typeList)
+	for (const auto type : typeList)
 		{
 		std::cout << XGetAtomName(*display, type) << std::endl;
 		if (type == selMgr->GetMimePlainTextXAtom() ||
@@ -1129,12 +1129,12 @@ TestWidget::PrintSelectionTargets
 		std::cout << "Data types available from the clipboard:" << std::endl;
 		std::cout << std::endl;
 
-		for (const Atom type : typeList)
+		for (const auto type : typeList)
 			{
 			std::cout << XGetAtomName(*display, type) << std::endl;
 			}
 
-		for (const Atom type : typeList)
+		for (const auto type : typeList)
 			{
 			if (type == XA_STRING ||
 				type == selMgr->GetUtf8StringXAtom() ||
@@ -1240,7 +1240,7 @@ TestWidget::PrintFileNames
 			if (!fileNameList.IsEmpty())
 				{
 				std::cout << "File/directory names:" << std::endl << std::endl;
-				for (const JString* f : fileNameList)
+				for (const auto* f : fileNameList)
 					{
 					std::cout << *f << std::endl;
 					}
@@ -1250,7 +1250,7 @@ TestWidget::PrintFileNames
 			if (!urlList.IsEmpty())
 				{
 				std::cout << "Unconvertable URLs:" << std::endl << std::endl;
-				for (const JString* u : urlList)
+				for (const auto* u : urlList)
 					{
 					std::cout << *u << std::endl;
 					}
@@ -1641,7 +1641,7 @@ TestWidget::BuildXlsfontsMenu
 	JPtrArray<JString> fontList(JPtrArrayT::kDeleteAll);
 	GetXFontManager()->GetXFontNames(JRegex("^-.*-(courier|helvetica)-.*$"),
 									   &fontList);
-	for (const JString* fontName : fontList)
+	for (const auto* fontName : fontList)
 		{
 		menu->AppendItem(*fontName);
 		}

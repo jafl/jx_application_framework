@@ -171,7 +171,7 @@ JThisProcess::JThisProcess()
 
 	// install handlers
 
-	for (const int s : kSignalValue)
+	for (auto s : kSignalValue)
 		{
 		itsSignalSet.sig_add(s);
 		}
@@ -601,13 +601,13 @@ JThisProcess::Abort()
 void
 JThisProcess::CleanUpProcesses()
 {
-	for (JProcess* p : theQuitList)
+	for (auto* p : theQuitList)
 		{
 		p->Quit();
 		}
 	theQuitList.RemoveAll();
 
-	for (JProcess* p : theKillList)
+	for (auto* p : theKillList)
 		{
 		p->Kill();
 		}

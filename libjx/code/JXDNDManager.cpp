@@ -670,7 +670,7 @@ JXDNDManager::DraggerCanProvideText()
 
 	const Atom textAtom1 = selMgr->GetMimePlainTextXAtom(),
 			   textAtom2 = selMgr->GetMimePlainTextUTF8XAtom();
-	for (const Atom type : *itsDraggerTypeList)
+	for (const auto type : *itsDraggerTypeList)
 		{
 		if (type == textAtom1 || type == textAtom2)
 			{

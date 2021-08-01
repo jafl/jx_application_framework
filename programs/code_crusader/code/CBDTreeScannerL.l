@@ -63,7 +63,7 @@ StoreAlias
 		value = jnew JString(*value);
 		assert( value != nullptr );
 
-		for (JString* s : nsStack)
+		for (auto* s : nsStack)
 			{
 			key->Prepend(".");
 			key->Prepend(*s);
@@ -327,7 +327,7 @@ x\" {
 
 {ID} {
 	JString fullName(yytext, yyleng);
-	for (JString* s : nsStack)
+	for (auto* s : nsStack)
 		{
 		fullName.Prepend(".");
 		fullName.Prepend(*s);
@@ -411,7 +411,7 @@ x\" {
 	while (true)
 		{
 		bool changed = false;
-		for (const JString* c : aliasKeys)
+		for (const auto* c : aliasKeys)
 			{
 			JString* s1;
 			aliasMap.GetElement(*c, &s1);

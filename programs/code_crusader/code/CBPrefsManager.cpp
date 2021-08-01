@@ -2428,7 +2428,7 @@ CBPrefsManager::CRMRuleListInfo::Write
 	const JSize ruleCount = list->GetElementCount();
 	output << ruleCount;
 
-	for (const JStyledText::CRMRule& r : *list)
+	for (const auto& r : *list)
 		{
 		output << ' ' << r.first->GetPattern();
 		output << ' ' << r.rest->GetPattern();
@@ -2897,7 +2897,7 @@ CBPrefsManager::GetFileType
 	CBMacroManager**			macroMgr,
 	JStyledText::CRMRuleList**	crmRuleList,
 	JString*					scriptPath,
-	bool*					wordWrap
+	bool*						wordWrap
 	)
 	const
 {

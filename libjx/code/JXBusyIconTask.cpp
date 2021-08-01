@@ -49,7 +49,7 @@ JXBusyIconTask::JXBusyIconTask
 	assert( itsImageList != nullptr );
 
 	JXImageCache* cache = widget->GetDisplay()->GetImageCache();
-	for (const JXPM& xpm : kBusyIcon)
+	for (const auto& xpm : kBusyIcon)
 		{
 		itsImageList->Append(cache->GetImage(xpm));
 		}

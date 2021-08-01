@@ -23,11 +23,11 @@ public:
 	virtual void	Undo() = 0;
 
 	bool	IsActive() const;
-	void		Activate();
-	void		Deactivate();
+	void	Activate();
+	void	Deactivate();
 
 	bool	IsRedo() const;
-	void		SetRedo(const bool isRedo);
+	void	SetRedo(const bool isRedo);
 
 private:
 

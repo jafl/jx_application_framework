@@ -458,7 +458,7 @@ TestDirector::BuildIconMenus
 	itsSmileyMenu->SetUpdateAction(JXMenu::kDisableNone);
 	menuBar->AppendMenu(itsSmileyMenu);
 
-	for (JXImage* i : image)
+	for (auto* i : image)
 		{
 		itsSmileyMenu->AppendItem(i, true);
 		}
@@ -469,7 +469,7 @@ TestDirector::BuildIconMenus
 	assert( itsIconMenu != nullptr );
 	itsIconMenu->SetUpdateAction(JXMenu::kDisableNone);
 
-	for (JXImage* i : image)
+	for (auto* i : image)
 		{
 		itsIconMenu->AppendItem(i, false, JXMenu::kRadioType);
 		}
@@ -485,7 +485,7 @@ TestDirector::BuildIconMenus
 
 	for (JIndex j=1; j<=3; j++)
 		{
-		for (JXImage* i : image)
+		for (auto* i : image)
 			{
 			submenu->AppendItem(i, false);
 			}

@@ -99,7 +99,7 @@ JXMenuData::DeleteItem
 void
 JXMenuData::DeleteAll()
 {
-	for (BaseItemData itemData : *itsBaseItemData)
+	for (auto& itemData : *itsBaseItemData)
 		{
 		CleanOutBaseItem(&itemData);
 		}

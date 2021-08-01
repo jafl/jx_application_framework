@@ -40,7 +40,7 @@ ClassName::IndexToCmdFn
 	const JString* id;
 	if (MenuVar->GetItemID(index, &id))
 		{
-		for (const CmdType& info : CmdIDList)
+		for (const auto& info : CmdIDList)
 			{
 			if (info.id == *id)
 				{
@@ -70,7 +70,7 @@ ClassName::CmdToIndexFn
 	*index = 0;
 
 	const JUtf8Byte* cmdID = nullptr;
-	for (const CmdType& info : CmdIDList)
+	for (const auto& info : CmdIDList)
 		{
 		if (info.cmd == cmd)
 			{

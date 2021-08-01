@@ -259,7 +259,7 @@ JXDisplay::~JXDisplay()
 	jdelete itsColorManager;
 	jdelete itsBounds;
 
-	for (const CursorInfo& info : *itsCursorList)
+	for (const auto& info : *itsCursorList)
 		{
 		jdelete (info.name);
 		XFreeCursor(itsXDisplay, info.xid);
@@ -327,7 +327,7 @@ JIndex i;
 
 	// fill in the mapping of X windows to JXWindows
 
-	for (const WindowInfo& info : *itsWindowList)
+	for (const auto& info : *itsWindowList)
 		{
 		Window rootChild;
 		if ((info.window)->GetRootChild(&rootChild))
@@ -347,7 +347,7 @@ JIndex i;
 
 	// raise the windows (first one is on the bottom)
 
-	for (JXWindow* w : childMapping)
+	for (auto* w : childMapping)
 		{
 		if (w != nullptr && w->IsVisible() && !w->IsIconified())
 			{
@@ -368,7 +368,7 @@ JIndex i;
 void
 JXDisplay::HideAllWindows()
 {
-	for (const WindowInfo& info : *itsWindowList)
+	for (const auto& info : *itsWindowList)
 		{
 		info.window->Hide();
 		}
@@ -382,7 +382,7 @@ JXDisplay::HideAllWindows()
 void
 JXDisplay::UndockAllWindows()
 {
-	for (const WindowInfo& info : *itsWindowList)
+	for (const auto& info : *itsWindowList)
 		{
 		info.window->Undock();
 		}
@@ -568,7 +568,7 @@ JXDisplay::GetBounds()
 	// user's attention.  Treat the screen that contains this location as
 	// the root "window"
 
-	for (const JRect& r : *itsBounds)
+	for (const auto& r : *itsBounds)
 		{
 		if (r.Contains(itsLatestMouseLocation))
 			{
@@ -905,7 +905,7 @@ JXDisplay::DisplayCursorInAllWindows
 	const JCursorIndex index
 	)
 {
-	for (const WindowInfo& info : *itsWindowList)
+	for (const auto& info : *itsWindowList)
 		{
 		info.window->DisplayXCursor(index);
 		}
@@ -1098,7 +1098,7 @@ JXDisplay::Update()
 		{
 		itsNeedsUpdateFlag = false;	// clear first, in case redraw triggers update
 
-		for (const WindowInfo& info : *itsWindowList)
+		for (const auto& info : *itsWindowList)
 			{
 			info.window->Update();
 			}
@@ -1495,7 +1495,7 @@ JXDisplay::CheckForXErrors()
 
 	// we need to get count every time since extra XErrors could be generated
 
-	for (const XErrorEvent& error : theXErrorList)
+	for (const auto& error : theXErrorList)
 		{
 		JXDisplay* display;
 		const bool found = JXGetApplication()->FindDisplay(error.display, &display);

@@ -569,7 +569,7 @@ JXSharedPrefsManager::PrivateWritePrefs
 
 	const JArray<JXSharedPrefObject::VersionInfo>& versList = obj->GetVersionList();
 
-	for (const JXSharedPrefObject::VersionInfo& info : versList)
+	for (const auto& info : versList)
 		{
 		std::ostringstream data;
 		obj->WritePrefs(data, info.vers);

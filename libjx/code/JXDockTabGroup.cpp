@@ -226,7 +226,7 @@ JXDockTabGroup::UpdateDockContextMenu()
 
 	JPtrArray<JXDockDirector>* dockList = dockMgr->GetDockList();
 
-	for (JXDockDirector* dir : *dockList)
+	for (auto* dir : *dockList)
 		{
 		JString itemText = dir->GetWindow()->GetTitle();
 		itemText.Prepend(JGetString("ShowDockPrefix::JXDocktab"));

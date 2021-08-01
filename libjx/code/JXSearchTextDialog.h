@@ -44,27 +44,27 @@ public:
 
 	virtual ~JXSearchTextDialog();
 
-	virtual void		Activate() override;
+	virtual void	Activate() override;
 	virtual bool	Deactivate() override;
 
 	bool	HasActiveTE() const;
 	bool	GetActiveTE(JXTEBase** te) const;
-	void		SetActiveTE(JXTEBase* te);
-	void		TEDeactivated(JXTEBase* te);
+	void	SetActiveTE(JXTEBase* te);
+	void	TEDeactivated(JXTEBase* te);
 
-	bool		HasSearchText() const;
+	bool			HasSearchText() const;
 	const JString&	GetSearchText() const;
 	void			SetSearchText(const JString& str);
 	void			SetRegexSearch(const bool regex = true);
 
 	bool	HasReplaceText() const;
-	void		SetReplaceText(const JString& str);
-	void		SetRegexReplace(const bool regex = true);
+	void	SetReplaceText(const JString& str);
+	void	SetRegexReplace(const bool regex = true);
 
 	bool	GetSearchParameters(JRegex** searchRegex, bool* entireWord,
-									bool* wrapSearch,
-									JString* replaceStr, JInterpolate** interpolator,
-									bool* preserveCase) const;
+								bool* wrapSearch,
+								JString* replaceStr, JInterpolate** interpolator,
+								bool* preserveCase) const;
 
 	void	SetFont(const JFont& font);
 

@@ -89,7 +89,7 @@ GLFitModuleDialog::BuildWindow()
 	SetButtons(itsOKButton, cancelButton);
 
 	JPtrArray<JString>* names = GLGetApplication()->GetFitModules();
-	for (JString* name : *names)
+	for (auto* name : *names)
 		{
 		itsFilterMenu->AppendItem(*name);
 		}
@@ -132,7 +132,7 @@ GLFitModuleDialog::Receive
 		GLGetApplication()->ReloadFitModules();
 		itsFilterMenu->RemoveAllItems();
 		JPtrArray<JString>* names = GLGetApplication()->GetFitModules();
-		for (JString* name : *names)
+		for (auto* name : *names)
 			{
 			itsFilterMenu->AppendItem(*name);
 			}

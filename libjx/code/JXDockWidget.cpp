@@ -92,7 +92,7 @@ JXDockWidget::~JXDockWidget()
 		{
 		// can't call UndockAll() because that calls UpdateMinSize()
 
-		for (JXWindow* w : *itsWindowList)
+		for (auto* w : *itsWindowList)
 			{
 			StopListening(w);
 			w->Undock();
@@ -104,7 +104,7 @@ JXDockWidget::~JXDockWidget()
 		{
 		assert( mode == JXDockManager::kCloseWindows );
 
-		for (JXWindow* w : *itsWindowList)
+		for (auto* w : *itsWindowList)
 			{
 			StopListening(w);
 			w->Close();
@@ -289,7 +289,7 @@ JXDockWidget::UndockAll()
 {
 	if (itsWindowList != nullptr)
 		{
-		for (JXWindow* w : *itsWindowList)
+		for (auto* w : *itsWindowList)
 			{
 			itsTabGroup->DeleteTab(1);
 
@@ -486,7 +486,7 @@ JXDockWidget::WillAcceptDrop
 	const Atom minSizeAtom = (JXGetDockManager())->GetDNDMinSizeAtom();
 
 	bool acceptDrop = false;
-	for (const Atom type : typeList)
+	for (const auto type : typeList)
 		{
 		if (type != minSizeAtom)
 			{
@@ -596,7 +596,7 @@ JXDockWidget::HandleDNDLeave()
 {
 	if (itsWindowList != nullptr)
 		{
-		for (JXWindow* w : *itsWindowList)
+		for (auto* w : *itsWindowList)
 			{
 			w->Refresh();
 			}
@@ -644,7 +644,7 @@ JXDockWidget::BoundsMoved
 
 	if (itsWindowList != nullptr)
 		{
-		for (JXWindow* w : *itsWindowList)
+		for (auto* w : *itsWindowList)
 			{
 			w->UndockedMove(dx, dy);
 			}
@@ -672,7 +672,7 @@ JXDockWidget::BoundsResized
 
 		const JRect boundsG = GetBoundsGlobal();
 
-		for (JXWindow* w : *itsWindowList)
+		for (auto* w : *itsWindowList)
 			{
 			w->UndockedSetSize(boundsG.width(), boundsG.height());
 			}
@@ -887,7 +887,7 @@ JXDockWidget::HasWindows()
 			return false;
 			}
 
-		for (JXWindow* w : *itsWindowList)
+		for (auto* w : *itsWindowList)
 			{
 			if (w->IsVisible())
 				{
@@ -960,7 +960,7 @@ JXDockWidget::UpdateMinSize()
 
 	if (itsWindowList != nullptr)
 		{
-		for (JXWindow* w : *itsWindowList)
+		for (auto* w : *itsWindowList)
 			{
 			const JPoint pt = w->GetMinSize();
 			itsMinSize.x    = JMax(pt.x, itsMinSize.x);

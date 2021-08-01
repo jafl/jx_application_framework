@@ -143,7 +143,7 @@ JSubstitute::CopyInternals
 		}
 
 	VarInfo newInfo;
-	for (const VarInfo& origInfo : *source.itsVarList)
+	for (const auto& origInfo : *source.itsVarList)
 		{
 		newInfo.name = jnew JString(*(origInfo.name));
 		assert( newInfo.name != nullptr );
@@ -185,7 +185,7 @@ JSubstitute::SetEscape
 {
 	if (itsEscapeTable[c] != nullptr)
 		{
-		(itsEscapeTable[c])->Set(value);
+		itsEscapeTable[c]->Set(value);
 		return true;
 		}
 	else
@@ -452,7 +452,7 @@ JSubstitute::SetVariableValue
 	const JString&		value
 	)
 {
-	for (const VarInfo& info : *itsVarList)
+	for (const auto& info : *itsVarList)
 		{
 		if (info.regex == nullptr && *(info.name) == name)
 			{
@@ -522,7 +522,7 @@ JSubstitute::UndefineVariable
 void
 JSubstitute::UndefineAllVariables()
 {
-	for (const VarInfo& info : *itsVarList)
+	for (const auto& info : *itsVarList)
 		{
 		jdelete info.name;
 		jdelete info.regex;

@@ -387,7 +387,7 @@ JProcess::CheckForFinishedChild
 				i++;
 				}
 
-			for (JProcess* p : list)
+			for (auto* p : list)
 				{
 				const bool autoDelete = p->itsAutoDeleteFlag;	// save since Broadcast() might delete it -- in which case, the flag must be false!
 				p->itsIsFinishedFlag      = true;

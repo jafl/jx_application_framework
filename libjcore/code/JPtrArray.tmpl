@@ -188,7 +188,7 @@ JPtrArray<T>::CopyPointers
 		}
 	itsCleanUpAction = action;
 
-	for (T* ptr : source)
+	for (auto* ptr : source)
 		{
 		Append(ptr);
 		}
@@ -225,7 +225,7 @@ JPtrArray<T>::CopyObjects
 		}
 	itsCleanUpAction = action;
 
-	for (const T* ptr : source)
+	for (const auto* ptr : source)
 		{
 		if (ptr == nullptr)
 			{
@@ -516,7 +516,7 @@ template <class T>
 void
 JPtrArray<T>::DeleteAll()
 {
-	for (T* ptr : *this)
+	for (auto* ptr : *this)
 		{
 		jdelete ptr;
 		}
@@ -548,7 +548,7 @@ template <class T>
 void
 JPtrArray<T>::DeleteAllAsArrays()
 {
-	for (T* ptr : *this)
+	for (auto* ptr : *this)
 		{
 		jdelete [] ptr;
 		}

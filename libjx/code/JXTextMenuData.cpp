@@ -134,7 +134,7 @@ JXTextMenuData::DeleteItem
 void
 JXTextMenuData::DeleteAll()
 {
-	for (TextItemData itemData : *itsTextItemData)
+	for (auto& itemData : *itsTextItemData)
 		{
 		CleanOutTextItem(&itemData);
 		}
@@ -885,7 +885,7 @@ JXTextMenuData::ParseNMShortcut
 	while (true)
 		{
 		bool found = false;
-		for (const JXTMModifierConversion& conv : kNMModConv)
+		for (const auto& conv : kNMModConv)
 			{
 			if (keyStr.BeginsWith(conv.str) &&
 				keyStr.GetByteCount() > conv.strLength)
@@ -954,7 +954,7 @@ JXTextMenuData::ParseNMShortcut
 			}
 
 		bool found = false;
-		for (const JXTMNameConversion& conv : kNMNameConv)
+		for (const auto& conv : kNMNameConv)
 			{
 			if (keyStr == conv.name)
 				{
@@ -972,7 +972,7 @@ JXTextMenuData::ParseNMShortcut
 
 	// translate known name to single character
 
-	for (const JXTMKeySymConversion& conv : kNMKeyConv)
+	for (const auto& conv : kNMKeyConv)
 		{
 		if (JString::Compare(keyStr, conv.str, JString::kIgnoreCase) == 0)
 			{

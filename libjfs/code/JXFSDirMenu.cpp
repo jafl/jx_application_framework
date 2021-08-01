@@ -248,7 +248,7 @@ JXFSDirMenu::SetFileList
 	RemoveAllItems();
 
 	JString fullName;
-	for (JString* f : fileNameList)
+	for (const auto* f : fileNameList)
 		{
 		auto* entry = jnew JDirEntry(*f);
 		assert( entry != nullptr );
@@ -431,7 +431,7 @@ JXFSDirMenu::UpdateSelf()
 		{
 		RemoveAllItems();
 
-		for (const JDirEntry* entry : *itsDirInfo)
+		for (const auto* entry : *itsDirInfo)
 			{
 			if (itsDeleteBrokenLinksFlag && entry->IsBrokenLink())
 				{

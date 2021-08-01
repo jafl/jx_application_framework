@@ -220,7 +220,7 @@ JXFileListTable::RemoveFiles
 {
 	ClearSelection();
 
-	for (JString* s : fileList)
+	for (auto* s : fileList)
 		{
 		JIndex index;
 		if (itsFileList->SearchSorted(s, JListT::kAnyMatch, &index))
@@ -1457,7 +1457,7 @@ JXFileListTable::WillAcceptDrop
 
 	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
-	for (const Atom type : typeList)
+	for (const auto type : typeList)
 		{
 		if (type == urlXAtom)
 			{
@@ -1494,7 +1494,7 @@ JXFileListTable::HandleDNDDrop
 	if (JXFileSelection::GetFileList(GetDNDManager()->GetDNDSelectionName(), time,
 									 GetDisplay(), &fileNameList, &urlList))
 		{
-		for (JString* fileName : fileNameList)
+		for (auto* fileName : fileNameList)
 			{
 			AddFile(*fileName);
 			}

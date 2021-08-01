@@ -81,7 +81,7 @@ JPrefsManager::~JPrefsManager()
 {
 	jdelete itsFileName;
 
-	for (const PrefItem& item : *itsData)
+	for (const auto& item : *itsData)
 		{
 		jdelete item.data;
 		}
@@ -249,7 +249,7 @@ JPrefsManager::SaveToDisk()
 
 	file->SetVersion(itsCurrentFileVersion);
 
-	for (const PrefItem& item : *itsData)
+	for (const auto& item : *itsData)
 		{
 		file->SetData(item.id, *item.data);
 		}

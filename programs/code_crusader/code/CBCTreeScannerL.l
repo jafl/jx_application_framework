@@ -180,7 +180,7 @@ using{WS}{NSID}{MS}; {
 
 {ID} {
 	JString fullName(yytext, yyleng);
-	for (JString* s : nsStack)
+	for (auto* s : nsStack)
 		{
 		fullName.Prepend("::");
 		fullName.Prepend(*s);
@@ -277,7 +277,7 @@ private {
 	bool found = false;
 	while (true)
 		{
-		for (const JString* c : usingList)
+		for (const auto* c : usingList)
 			{
 			if (!c->EndsWith(s))
 				{

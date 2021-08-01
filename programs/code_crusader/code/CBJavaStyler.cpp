@@ -123,7 +123,7 @@ CBJavaStyler::CBJavaStyler()
 
 	SetWordStyle(JString("goto", JString::kNoCopy), JFontStyle(true, false, 0, false, red));
 
-	for (const JUtf8Byte* kw : kUnusedKeyword)
+	for (const auto* kw : kUnusedKeyword)
 		{
 		SetWordStyle(JString(kw, JString::kNoCopy), JFontStyle(red));
 		}

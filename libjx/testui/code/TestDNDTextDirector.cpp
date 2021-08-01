@@ -83,7 +83,7 @@ TestDNDTextDirector::BuildWindow()
 	window->SetMinSize(partition->GetMinTotalSize(), kWindowHeight);
 
 	JXTextEditor* te;
-	for (JIndex i : { 1,2})
+	for (const JIndex i : { 1,2})
 		{
 		JXStyledText* text = jnew JXStyledText(true, true, GetDisplay()->GetFontManager());
 		assert( text != nullptr );

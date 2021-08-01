@@ -291,7 +291,7 @@ JXWDManager::GetDirectors
 	directorList->CleanOut();
 	directorList->SetCleanUpAction(JPtrArrayT::kForgetAll);
 
-	for (const WindowInfo& info : *windowList)
+	for (const auto& info : *windowList)
 		{
 		directorList->Append(info.dir);
 		}
@@ -385,7 +385,7 @@ JXWDManager::UpdateWDMenu1
 {
 	const JXMenu::Style style = JXMenu::GetDefaultStyle();
 
-	for (const WindowInfo& info : windowList)
+	for (const auto& info : windowList)
 		{
 		const JString& name = (info.dir)->GetName();
 

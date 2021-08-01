@@ -65,8 +65,6 @@ CBMWriteSharedPrefs
 	const bool replace
 	)
 {
-JIndex i;
-
 	JString fileName;
 	if (!CBMGetSharedPrefsFileName(&fileName))
 		{
@@ -138,7 +136,7 @@ JIndex i;
 
 	output << ' ' << (long) CBPrefsManager::kColorCount;
 
-	for (i=1; i<=CBPrefsManager::kColorCount; i++)
+	for (JIndex i=1; i<=CBPrefsManager::kColorCount; i++)
 		{
 		output << ' ' << JColorManager::GetRGB(prefsMgr->GetColor(i));
 		}

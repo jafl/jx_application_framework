@@ -389,7 +389,7 @@ JSearchSubdirs_private
 
 	if (!caseSensitive)
 		{
-		for (const JDirEntry* entry : *info)
+		for (const auto* entry : *info)
 			{
 			if ((( isFile && entry->IsFile()) ||
 				 (!isFile && entry->IsDirectory())) &&
@@ -417,7 +417,7 @@ JSearchSubdirs_private
 
 	if (!found && !(*cancelled))
 		{
-		for (const JDirEntry* entry : *info)
+		for (const auto* entry : *info)
 			{
 			if (entry->IsDirectory() && !entry->IsLink())
 				{

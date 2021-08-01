@@ -133,7 +133,7 @@ JXFSBindingTable::JXFSBindingTable
 
 	// data
 
-	for (const JCoordinate w1 : kInitColWidth)
+	for (auto w1 : kInitColWidth)
 		{
 		AppendCols(1, w1);
 		}

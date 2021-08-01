@@ -447,7 +447,7 @@ CBStylerBase::EditStyles()
 										   wordList, itsFileType);
 	assert( itsEditDialog != nullptr );
 
-	for (WordStyle ws : wordList)
+	for (auto& ws : wordList)
 		{
 		jdelete ws.key;
 		}

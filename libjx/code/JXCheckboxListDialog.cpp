@@ -112,7 +112,7 @@ JXCheckboxListDialog::SelectItem
 void
 JXCheckboxListDialog::SelectAllItems()
 {
-	for (JXCheckbox* cb : *itsCBList)
+	for (auto* cb : *itsCBList)
 		{
 		cb->SetState(true);
 		}
@@ -172,7 +172,7 @@ JXCheckboxListDialog::BuildWindow
 
 	// all choices should be the same width
 
-	for (JXCheckbox* cb : *itsCBList)
+	for (auto* cb : *itsCBList)
 		{
 		cb->SetSize(wmin, kTextHeight);
 		}

@@ -454,7 +454,7 @@ JXContainer::FindContainer
 
 	if (itsEnclosedObjs != nullptr)
 		{
-		for (JXContainer* obj : *itsEnclosedObjs)
+		for (const auto* obj : *itsEnclosedObjs)
 			{
 			if (obj->FindContainer(ptG, container))
 				{
@@ -492,7 +492,7 @@ JXContainer::DispatchNewMouseEvent
 
 	if (IsActive() && itsEnclosedObjs != nullptr)
 		{
-		for (JXContainer* obj : *itsEnclosedObjs)
+		for (auto* obj : *itsEnclosedObjs)
 			{
 			if (obj->IsVisible() &&
 				(obj->GetFrameGlobal()).Contains(ptG))
@@ -1097,7 +1097,7 @@ JXContainer::DispatchClientMessage
 
 	if (itsEnclosedObjs != nullptr)
 		{
-		for (JXContainer* obj : *itsEnclosedObjs)
+		for (auto* obj : *itsEnclosedObjs)
 			{
 			if (obj->DispatchClientMessage(clientMessage))
 				{
@@ -1146,7 +1146,7 @@ JXContainer::Show()
 		itsVisibleFlag = true;
 		if (itsEnclosedObjs != nullptr)
 			{
-			for (JXContainer* obj : *itsEnclosedObjs)
+			for (auto* obj : *itsEnclosedObjs)
 				{
 				if (obj->itsWasVisibleFlag)
 					{
@@ -1195,7 +1195,7 @@ JXContainer::Hide()
 
 		if (itsEnclosedObjs != nullptr)
 			{
-			for (JXContainer* obj : *itsEnclosedObjs)
+			for (auto* obj : *itsEnclosedObjs)
 				{
 				const bool wasVisible = obj->IsVisible();
 				if (wasVisible)
@@ -1263,7 +1263,7 @@ JXContainer::Activate()
 		itsActiveFlag = true;
 		if (itsEnclosedObjs != nullptr)
 			{
-			for (JXContainer* obj : *itsEnclosedObjs)
+			for (auto* obj : *itsEnclosedObjs)
 				{
 				if (obj->itsWasActiveFlag)
 					{
@@ -1303,7 +1303,7 @@ JXContainer::Deactivate()
 		{
 		if (itsEnclosedObjs != nullptr)
 			{
-			for (JXContainer* obj : *itsEnclosedObjs)
+			for (auto* obj : *itsEnclosedObjs)
 				{
 				const bool wasActive = obj->itsActiveFlag;
 				if (wasActive)
@@ -1361,7 +1361,7 @@ JXContainer::Suspend()
 {
 	if (itsEnclosedObjs != nullptr)
 		{
-		for (JXContainer* obj : *itsEnclosedObjs)
+		for (auto* obj : *itsEnclosedObjs)
 			{
 			obj->Suspend();
 			}
@@ -1389,7 +1389,7 @@ JXContainer::Resume()
 
 	if (itsEnclosedObjs != nullptr)
 		{
-		for (JXContainer* obj : *itsEnclosedObjs)
+		for (auto* obj : *itsEnclosedObjs)
 			{
 			obj->Resume();
 			}
@@ -1469,7 +1469,7 @@ JXContainer::DispatchCursor
 
 	if (IsActive() && itsEnclosedObjs != nullptr)
 		{
-		for (JXContainer* obj : *itsEnclosedObjs)
+		for (auto* obj : *itsEnclosedObjs)
 			{
 			if (obj->IsVisible() && (obj->GetFrameGlobal()).Contains(ptG))
 				{
@@ -1761,7 +1761,7 @@ JXContainer::NotifyBoundsMoved
 
 		if (itsEnclosedObjs != nullptr)
 			{
-			for (JXContainer* obj : *itsEnclosedObjs)
+			for (auto* obj : *itsEnclosedObjs)
 				{
 				obj->EnclosingBoundsMoved(dx,dy);
 				}
@@ -1789,7 +1789,7 @@ JXContainer::NotifyBoundsResized
 
 		if (itsEnclosedObjs != nullptr)
 			{
-			for (JXContainer* obj : *itsEnclosedObjs)
+			for (auto* obj : *itsEnclosedObjs)
 				{
 				obj->EnclosingBoundsResized(dw,dh);
 				}

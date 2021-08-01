@@ -208,7 +208,7 @@ JXFSInputBase::WillAcceptDrop
 	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	JString name;
-	for (const Atom type : typeList)
+	for (const auto type : typeList)
 		{
 		if (type == urlXAtom && GetDroppedEntry(time, false, &name))
 			{

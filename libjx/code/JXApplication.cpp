@@ -201,7 +201,7 @@ JXApplication::~JXApplication()
 void
 JXApplication::Suspend()
 {
-	for (JXDisplay* d : *itsDisplayList)
+	for (auto* d : *itsDisplayList)
 		{
 		d->GetMenuManager()->CloseCurrentMenus();
 		}
@@ -333,7 +333,7 @@ JXApplication::FindDisplay
 	JXDisplay**		display
 	)
 {
-	for (JXDisplay* d : *itsDisplayList)
+	for (auto* d : *itsDisplayList)
 		{
 		if (d->GetXDisplay() == xDisplay)
 			{
@@ -356,7 +356,7 @@ JXApplication::FindDisplay
 void
 JXApplication::DisplayBusyCursor()
 {
-	for (JXDisplay* d : *itsDisplayList)
+	for (auto* d : *itsDisplayList)
 		{
 		d->DisplayCursorInAllWindows(kJXBusyCursor);
 		}
@@ -372,7 +372,7 @@ JXApplication::DisplayBusyCursor()
 void
 JXApplication::DisplayInactiveCursor()
 {
-	for (JXDisplay* d : *itsDisplayList)
+	for (auto* d : *itsDisplayList)
 		{
 		d->DisplayCursorInAllWindows(kJXInactiveCursor);
 		}
@@ -386,7 +386,7 @@ JXApplication::DisplayInactiveCursor()
 void
 JXApplication::HideAllWindows()
 {
-	for (JXDisplay* d : *itsDisplayList)
+	for (auto* d : *itsDisplayList)
 		{
 		d->HideAllWindows();
 		}
@@ -456,7 +456,7 @@ JXApplication::Close()
 {
 	assert( itsRequestQuitFlag );
 
-	for (JXDisplay* d : *itsDisplayList)
+	for (auto* d : *itsDisplayList)
 		{
 		d->GetMenuManager()->CloseCurrentMenus();
 		}
@@ -902,7 +902,7 @@ JXApplication::InstallIdleTask
 		// Make sure it isn't stored anywhere else, so PopIdleTaskTask()
 		// doesn't have to worry about duplicates when merging lists.
 
-		for (JPtrArray<JXIdleTask>* list : *itsIdleTaskStack)
+		for (auto* list : *itsIdleTaskStack)
 			{
 			list->Remove(newTask);
 			}
@@ -926,7 +926,7 @@ JXApplication::RemoveIdleTask
 
 		itsIdleTasks->Remove(task);
 
-		for (JPtrArray<JXIdleTask>* list : *itsIdleTaskStack)
+		for (auto* list : *itsIdleTaskStack)
 			{
 			list->Remove(task);
 			}

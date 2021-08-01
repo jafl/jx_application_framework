@@ -79,7 +79,7 @@ JXSharedPrefObject::GetPrefID
 	)
 	const
 {
-	for (const VersionInfo& info : *itsVersionList)
+	for (const auto& info : *itsVersionList)
 		{
 		if (vers == info.vers)
 			{

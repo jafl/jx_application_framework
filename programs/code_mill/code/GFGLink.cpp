@@ -92,7 +92,7 @@ GFGLink::ParseClass
 			JPtrArray<JString> lines(JPtrArrayT::kDeleteAll);
 			result.Split("\n", &lines);
 
-			for (const JString* line : lines)
+			for (const auto* line : lines)
 				{
 				ParseLine(*line);
 				}

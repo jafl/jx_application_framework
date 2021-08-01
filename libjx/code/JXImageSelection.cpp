@@ -270,7 +270,7 @@ JXImageSelection::GetImage
 		{
 		bool xpm=false, gif=false, png=false, jpeg=false;
 
-		for (const Atom type : typeList)
+		for (const auto type : typeList)
 			{
 			xpm  = xpm  || type == atoms[ kXPMAtomIndex ];
 			gif  = gif  || type == atoms[ kGIFAtomIndex ];

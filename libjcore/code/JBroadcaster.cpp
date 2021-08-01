@@ -113,7 +113,7 @@ JBroadcaster::~JBroadcaster()
 
 	if (itsSenders != nullptr)
 		{
-		for (JBroadcaster* sender : *itsSenders)
+		for (auto* sender : *itsSenders)
 			{
 			sender->RemoveRecipient(this);
 			}

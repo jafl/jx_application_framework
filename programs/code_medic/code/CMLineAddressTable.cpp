@@ -99,7 +99,7 @@ CMLineAddressTable::SetLineNumbers
 
 	if (charCount > 0)
 		{
-		for (JString* s : *itsLineTextList)
+		for (auto* s : *itsLineTextList)
 			{
 			JStringIterator iter(s);
 			iter.RemoveNext(charCount);

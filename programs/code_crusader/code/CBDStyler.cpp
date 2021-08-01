@@ -133,7 +133,7 @@ CBDStyler::CBDStyler()
 
 	SetWordStyle(JString("goto", JString::kNoCopy), JFontStyle(true, false, 0, false, red));
 
-	for (const JUtf8Byte* kw : kDeprecatedKeyword)
+	for (const auto* kw : kDeprecatedKeyword)
 		{
 		SetWordStyle(JString(kw, JString::kNoCopy), JFontStyle(red));
 		}

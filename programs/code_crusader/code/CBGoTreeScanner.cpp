@@ -54,7 +54,7 @@ CBGoTreeScanner::ParseTypeContent
 	JPtrArray<JString> lineList(JPtrArrayT::kDeleteAll);
 	typeContent.Split(separator, &lineList);
 
-	for (JString* line : lineList)
+	for (auto* line : lineList)
 		{
 		line->TrimWhitespace();
 

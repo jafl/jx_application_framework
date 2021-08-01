@@ -90,7 +90,7 @@ JXDockWindowTask::~JXDockWindowTask()
 	theTaskCount--;
 	if (theTaskCount == 0 && theUpdateList != nullptr)
 		{
-		for (JXTabGroup* g : *theUpdateList)
+		for (auto* g : *theUpdateList)
 			{
 			g->ShowTab(1);
 			}

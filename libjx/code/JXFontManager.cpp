@@ -97,7 +97,7 @@ JXFontManager::JXFontManager
 
 JXFontManager::~JXFontManager()
 {
-	for (FontInfo info : *itsFontList)
+	for (auto& info : *itsFontList)
 		{
 		info.xfont.Free(itsDisplay);
 		}
@@ -173,7 +173,7 @@ JXFontManager::GetFontNames
 		}
 	FcFontSetDestroy(set);
 
-	for (const JUtf8Byte* n : kFallbackFontNames)
+	for (const auto* n : kFallbackFontNames)
 		{
 		name.Set(n);
 		jInsertFontName(fontNames, &name);
@@ -475,7 +475,7 @@ JXFontManager::GetSubstituteFontName
 	)
 {
 	JFont f1 = f;
-	for (const JUtf8Byte* n : kFallbackFontNames)
+	for (const auto* n : kFallbackFontNames)
 		{
 		f1.SetName(JString(n, JString::kNoCopy));
 		if (HasGlyphForCharacter(f1.GetID(), c))

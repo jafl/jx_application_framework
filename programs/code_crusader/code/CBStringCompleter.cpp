@@ -64,7 +64,7 @@ CBStringCompleter::CBStringCompleter
 	JPtrArray<CBProjectDocument>* docList =
 		CBGetDocumentManager()->GetProjectDocList();
 
-	for (CBProjectDocument* doc : *docList)
+	for (auto* doc : *docList)
 		{
 		ListenTo(doc->GetSymbolDirector()->GetSymbolList());
 		}
@@ -444,7 +444,7 @@ CBStringCompleter::CopySymbolsForLanguage
 	JPtrArray<CBProjectDocument>* docList =
 		CBGetDocumentManager()->GetProjectDocList();
 
-	for (CBProjectDocument* doc : *docList)
+	for (auto* doc : *docList)
 		{
 		const CBSymbolList* symbolList = doc->GetSymbolDirector()->GetSymbolList();
 

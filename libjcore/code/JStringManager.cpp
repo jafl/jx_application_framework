@@ -303,7 +303,7 @@ JStringManager::Register
 		// merge system first, then user
 
 		JString name;
-		for (const JString& p : path)
+		for (const auto& p : path)
 			{
 			if (!p.IsEmpty() && JDirectoryReadable(p))
 				{
@@ -537,7 +537,7 @@ JStringManager::Pseudotranslate
 	JUtf8Character c;
 	while (iter.Next(&c))
 		{
-		for (const Pseudotranslation& t : kPseudotranslateList)
+		for (const auto& t : kPseudotranslateList)
 			{
 			if (c == t.c)
 				{

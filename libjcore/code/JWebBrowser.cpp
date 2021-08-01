@@ -137,7 +137,7 @@ JWebBrowser::ShowFileLocations
 
 	if (itsShowFileLocationCmd.Contains("$"))
 		{
-		for (const JString* f : fileList)
+		for (const auto* f : fileList)
 			{
 			ShowFileLocation(*f);
 			}
@@ -145,7 +145,7 @@ JWebBrowser::ShowFileLocations
 	else
 		{
 		JString s = itsShowFileLocationCmd;
-		for (const JString* f : fileList)
+		for (const auto* f : fileList)
 			{
 			s += " ";
 			s += JPrepArgForExec(*f);

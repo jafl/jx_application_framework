@@ -892,7 +892,7 @@ JProgramAvailable
 	JPtrArray<JString> pathList(JPtrArrayT::kDeleteAll);
 	path.Split(r, &pathList);
 
-	for (const JString* dir : pathList)
+	for (const auto* dir : pathList)
 		{
 		fullName = JCombinePathAndName(*dir, programName);
 		if (JFileExists(fullName) && JFileExecutable(fullName))

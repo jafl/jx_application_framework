@@ -176,7 +176,7 @@ JTreeList::Close
 			const_cast<JTreeNode*>(node)->CollectDescendants(&nodeList);
 
 			JIndex j;
-			for (const JTreeNode* n : nodeList)
+			for (const auto* n : nodeList)
 				{
 				if (FindNode(n, &j))
 					{
@@ -358,7 +358,7 @@ JTreeList::CloseDescendants
 	JPtrArray<JTreeNode> nodeList(JPtrArrayT::kDeleteAll, 100);
 	const_cast<JTreeNode*>(node)->CollectDescendants(&nodeList);
 
-	for (const JTreeNode* n : nodeList)
+	for (const auto* n : nodeList)
 		{
 		itsOpenNodeList->Remove(n);
 		}

@@ -454,7 +454,7 @@ JFileArrayIndex::ReplaceEmbeddedFileStreams
 	std::fstream* newStream
 	)
 {
-	for (const ElementInfo& e : *itsArray)
+	for (const auto& e : *itsArray)
 		{
 		if (e.theEmbeddedFile != nullptr)
 			{
@@ -528,7 +528,7 @@ JFileArrayIndex::WriteIndex
 	std::ostream& output
 	)
 {
-	for (const ElementInfo& e : *itsArray)
+	for (const auto& e : *itsArray)
 		{
 		JFileArray::WriteUnsignedLong(output, e.offset);
 

@@ -260,7 +260,7 @@ JXScrollbar::DrawHoriz
 
 	if (itsScrolltabList != nullptr)
 		{
-		for (JXScrolltab* tab : *itsScrolltabList)
+		for (auto* tab : *itsScrolltabList)
 			{
 			tab->PlaceHoriz(minThumbLoc, maxThumbLoc, thumbLocScale);
 			}
@@ -367,7 +367,7 @@ JXScrollbar::DrawVert
 
 	if (itsScrolltabList != nullptr)
 		{
-		for (JXScrolltab* tab : *itsScrolltabList)
+		for (auto* tab : *itsScrolltabList)
 			{
 			tab->PlaceVert(minThumbLoc, maxThumbLoc, thumbLocScale);
 			}
@@ -916,7 +916,7 @@ JXScrollbar::PrepareForHigherMaxValue
 {
 	if (itsScrolltabList != nullptr && length > 0)
 		{
-		for (JXScrolltab* tab : *itsScrolltabList)
+		for (auto* tab : *itsScrolltabList)
 			{
 			if (tab->GetValue() >= start)
 				{
@@ -943,7 +943,7 @@ JXScrollbar::PrepareForScaledMaxValue
 {
 	if (itsScrolltabList != nullptr && scaleFactor != 1.0)
 		{
-		for (JXScrolltab* tab : *itsScrolltabList)
+		for (auto* tab : *itsScrolltabList)
 			{
 			tab->ScaleValue(scaleFactor);
 			}
@@ -990,7 +990,7 @@ JIndex i;
 		PrepareForHigherMaxValue(newStart, length);	// consider moving strip to end
 
 		const JCoordinate delta = newStart - origStart;
-		for (JXScrolltab* tab : savedTabList)
+		for (auto* tab : savedTabList)
 			{
 			tab->AdjustValue(delta);
 			itsScrolltabList->InsertSorted(tab);
@@ -1138,7 +1138,7 @@ JXScrollbar::WriteSetup
 		{
 		output << ' ' << itsScrolltabList->GetElementCount();
 
-		for (JXScrolltab* tab : *itsScrolltabList)
+		for (auto* tab : *itsScrolltabList)
 			{
 			output << ' ' << tab->GetValue();
 			}

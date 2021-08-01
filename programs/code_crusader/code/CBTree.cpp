@@ -1675,7 +1675,7 @@ CBTree::FindParent
 	JString parentSuffix(namespaceOp);
 	parentSuffix += parentName;
 
-	for (CBClass* c : *itsClassesByFull)
+	for (auto* c : *itsClassesByFull)
 		{
 		const JString& cName = c->GetFullName();
 		if (cName.EndsWith(parentSuffix) &&
@@ -2477,26 +2477,26 @@ CBTree::Draw
 
 	if (!itsDrawMILinksOnTopFlag)
 		{
-		for (CBClass* c : *itsVisibleByName)
+		for (auto* c : *itsVisibleByName)
 			{
 			c->DrawMILinks(p, rect);
 			}
 		}
 
-	for (CBClass* c : *itsVisibleByName)
+	for (auto* c : *itsVisibleByName)
 		{
 		c->Draw(p, rect);
 		}
 
 	if (itsDrawMILinksOnTopFlag)
 		{
-		for (CBClass* c : *itsVisibleByName)
+		for (auto* c : *itsVisibleByName)
 			{
 			c->DrawMILinks(p, rect);
 			}
 		}
 
-	for (CBClass* c : *itsVisibleByName)
+	for (auto* c : *itsVisibleByName)
 		{
 		c->DrawText(p, rect);
 		}
@@ -2546,7 +2546,7 @@ CBTree::SetFontSize
 
 		itsFontSize = size;
 
-		for (CBClass* c : *itsClassesByFull)
+		for (auto* c : *itsClassesByFull)
 			{
 			c->CalcFrame();
 			}

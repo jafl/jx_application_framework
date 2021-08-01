@@ -107,7 +107,7 @@ JXImageMenuData::DeleteItem
 void
 JXImageMenuData::DeleteAll()
 {
-	for (IconData itemData : *itsIconData)
+	for (auto& itemData : *itsIconData)
 		{
 		CleanOutIconItem(&itemData);
 		}
@@ -198,7 +198,7 @@ JXImageMenuData::ConfigureTable
 
 		const JCoordinate bw = 2*(JXImageMenuTable::kHilightBorderWidth + 1);
 
-		for (const IconData& itemData : *itsIconData)
+		for (const auto& itemData : *itsIconData)
 			{
 			itsRowHeight = JMax(itsRowHeight, (itemData.image)->GetHeight() + bw);
 			itsColWidth  = JMax(itsColWidth, (itemData.image)->GetWidth() + bw);

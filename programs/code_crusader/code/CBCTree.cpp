@@ -247,7 +247,7 @@ CBCTree::ParseFile
 				continue;
 				}
 
-			for (CBClass* c : classList)
+			for (auto* c : classList)
 				{
 				if (name == c->GetFullName())
 					{

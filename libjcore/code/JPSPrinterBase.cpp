@@ -699,7 +699,7 @@ JPSPrinterBase::PSColorImageNoMask
 			{
 			const JColorID color = image.GetColor(x,y);
 			PSConvertToRGB(color, &(c[0]), &(c[1]), &(c[2]));
-			for (JSize v : c)
+			for (auto v : c)
 				{
 				if (v <= 0x0F)
 					{

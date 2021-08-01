@@ -201,7 +201,7 @@ JXFontSizeMenu::BuildMenu
 	JString id;
 	if (!sizeList.IsEmpty())
 		{
-		for (const JSize size : sizeList)
+		for (const auto size : sizeList)
 			{
 			const JString itemText((JUInt64) size);
 			id = itemText + "::JX";

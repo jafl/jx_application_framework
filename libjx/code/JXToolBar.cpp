@@ -726,7 +726,7 @@ JXToolBar::AdjustToolBarGeometry()
 
 		JArray<JIndexRange> groups;
 		GetGroups(&groups);
-		for (const JIndexRange& r : groups)
+		for (const auto& r : groups)
 			{
 			PlaceGroup(r);
 			}
@@ -1006,7 +1006,7 @@ JXToolBar::GetButtonType()
 void
 JXToolBar::UpdateButtons()
 {
-	for (JXMenu* menu : *itsMenus)
+	for (auto* menu : *itsMenus)
 		{
 		if (menu->IsActive())
 			{

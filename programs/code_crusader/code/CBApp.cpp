@@ -461,7 +461,7 @@ CBApp::FindFile
 void
 CBApp::GetSystemIncludeDirectories()
 {
-	for (const JUtf8Byte* s : kExtraSysIncludeDir)
+	for (const auto* s : kExtraSysIncludeDir)
 		{
 		if (JDirectoryExists(JString(s, JString::kNoCopy)))
 			{
@@ -478,7 +478,7 @@ CBApp::GetSystemIncludeDirectories()
 								kJAttachToFromFD);
 	if (!err.OK())
 		{
-		for (const JUtf8Byte* s : kDefaultSysIncludeDir)
+		for (const auto* s : kDefaultSysIncludeDir)
 			{
 			if (JDirectoryExists(JString(s, JString::kNoCopy)))
 				{

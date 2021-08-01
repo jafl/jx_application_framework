@@ -136,7 +136,7 @@ JXHorizDockPartition::FindDock
 	JXDockWidget**	dock
 	)
 {
-	for (JXDockWidget* d : *itsDockList)
+	for (auto* d : *itsDockList)
 		{
 		assert( d != nullptr );
 
@@ -178,7 +178,7 @@ JXHorizDockPartition::HasWindows()
 bool
 JXHorizDockPartition::CloseAllWindows()
 {
-	for (JXDockWidget* d : *itsDockList)
+	for (auto* d : *itsDockList)
 		{
 		assert( d != nullptr );
 
@@ -276,7 +276,7 @@ JXHorizDockPartition::WriteSetup
 	output << ' ' << JBoolToString(GetElasticIndex(&elasticIndex));
 	output << ' ' << elasticIndex;
 
-	for (JXDockWidget* dock : *itsDockList)
+	for (auto* dock : *itsDockList)
 		{
 		assert( dock != nullptr );
 

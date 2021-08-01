@@ -175,7 +175,7 @@ JXDockManager::FindDock
 	JXDockWidget**	dock
 	)
 {
-	for (JXDockDirector* dir : *itsDockList)
+	for (auto* dir : *itsDockList)
 		{
 		if (dir->FindDock(id, dock))
 			{
@@ -202,7 +202,7 @@ JXDockManager::CloseAll()
 	itsNextDockIndex = 1;
 	itsNextDockID    = 1;
 
-	for (JXDockDirector* dir : list)
+	for (auto* dir : list)
 		{
 		dir->Close();
 		}
@@ -400,7 +400,7 @@ JXDockManager::WriteSetup
 
 	output << ' ' << itsDockList->GetElementCount();
 
-	for (JXDockDirector* dir : *itsDockList)
+	for (auto* dir : *itsDockList)
 		{
 		dir->StreamOut(output);
 		}

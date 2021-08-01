@@ -59,7 +59,7 @@ CBCPreprocessor::Preprocess
 
 	JStringIterator iter(text);
 	JString pattern;
-	for (const MacroInfo& info : *itsMacroList)
+	for (const auto& info : *itsMacroList)
 		{
 		pattern = "\\b" + JRegex::BackslashForLiteral(*info.name)  + "\\b";
 

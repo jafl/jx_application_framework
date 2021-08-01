@@ -362,7 +362,7 @@ TestTextEditDocument::OpenFiles()
 		pg.RaiseWhenUpdate();
 		pg.FixedLengthProcessBeginning(count, JGetString("OpenFilesProgress::TestTextEditDocument"), true, false);
 
-		for (JString* fileName : fullNameList)
+		for (auto* fileName : fullNameList)
 			{
 			JXFileDocument* doc;
 			if (!(JXGetDocumentManager())->FileDocumentIsOpen(*fileName, &doc))

@@ -156,7 +156,7 @@ GLCreateVectorPlotDialog::BuildWindow
 
 	itsPlotsMenu->AppendItem(JGetString("NewPlotItemLabel::GLGlobal"));
 
-	for (JString* name : names)
+	for (auto* name : names)
 		{
 		itsPlotsMenu->AppendItem(*name);
 		}

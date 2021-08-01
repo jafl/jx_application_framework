@@ -37,7 +37,7 @@ JNaryFunction::JNaryFunction
 		}
 	else
 		{
-		for (JFunction* arg : *argList)
+		for (auto* arg : *argList)
 			{
 			arg->SetParent(this);
 			}

@@ -365,7 +365,7 @@ JXPackFileNames
 	JString data;
 
 	bool first = true;
-	for (JString* name : fileNameList)
+	for (auto* name : fileNameList)
 		{
 		if (!first)
 			{
@@ -433,7 +433,7 @@ JXReportUnreachableHosts
 	hostList.SetSortOrder(JListT::kSortAscending);
 	hostList.SetCompareFunction(JCompareStringsCaseInsensitive);
 
-	for (JString* url : urlList)
+	for (auto* url : urlList)
 		{
 		JStringIterator iter(*url);
 		if (iter.Next(urlPattern))
@@ -452,7 +452,7 @@ JXReportUnreachableHosts
 		JString hosts;
 
 		bool first = true;
-		for (JString* host : hostList)
+		for (auto* host : hostList)
 			{
 			if (!first)
 				{
@@ -516,7 +516,7 @@ JXFixBrokenURLs
 	bool changed = false;
 
 	JString srcHost, tmp;
-	for (JString* url : urlList)
+	for (auto* url : urlList)
 		{
 		JStringIterator iter(url);
 		if (!url->IsEmpty() && url->GetFirstCharacter() != kURICommentMarker &&

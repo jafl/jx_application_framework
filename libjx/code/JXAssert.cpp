@@ -102,7 +102,7 @@ JXAssert::Abort()
 void
 JXAssert::UnlockDisplays()
 {
-	for (JXDisplay* display : *itsDisplayList)
+	for (auto* display : *itsDisplayList)
 		{
 		Display* xDisplay = display->GetXDisplay();
 		XUngrabServer(xDisplay);

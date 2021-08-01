@@ -127,7 +127,7 @@ TestFileListDirector::AddDirectory
 	assert( ok );
 
 	JXFileListTable* table = itsFLSet->GetTable();
-	for (const JDirEntry* e : *info)
+	for (const auto* e : *info)
 		{
 		if (e->IsFile())
 			{

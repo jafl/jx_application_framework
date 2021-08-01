@@ -150,7 +150,7 @@ JXDirector::Deactivate()
 {
 	if (itsActiveFlag && itsSubdirectors != nullptr)
 		{
-		for (JXDirector* dir : *itsSubdirectors)
+		for (auto* dir : *itsSubdirectors)
 			{
 			if (!dir->Deactivate())
 				{
@@ -172,7 +172,7 @@ JXDirector::Suspend()
 {
 	if (itsSubdirectors != nullptr)
 		{
-		for (JXDirector* dir : *itsSubdirectors)
+		for (auto* dir : *itsSubdirectors)
 			{
 			dir->Suspend();
 			}
@@ -195,7 +195,7 @@ JXDirector::Resume()
 
 	if (itsSubdirectors != nullptr)
 		{
-		for (JXDirector* dir : *itsSubdirectors)
+		for (auto* dir : *itsSubdirectors)
 			{
 			dir->Resume();
 			}
