@@ -45,24 +45,24 @@ bool
 JTEDefaultKeyHandler::HandleKeyPress
 	(
 	const JUtf8Character&			key,
-	const bool					selectText,
+	const bool						selectText,
 	const JTextEditor::CaretMotion	motion,
-	const bool					deleteToTabStop
+	const bool						deleteToTabStop
 	)
 {
-	JTextEditor* te       = GetTE();
-	JStyledText* st       = te->GetText();
+	JTextEditor* te   = GetTE();
+	JStyledText* st   = te->GetText();
 	bool hasSelection = te->HasSelection();
 
 	// We select text by selecting to where the caret ends up.
 
-	const bool isArrowKey = key == kJLeftArrow || key == kJRightArrow ||
-		key == kJUpArrow   || key == kJDownArrow;
+	const bool isArrowKey = (key == kJLeftArrow || key == kJRightArrow ||
+							 key == kJUpArrow   || key == kJDownArrow);
 	const bool willSelectText = selectText && isArrowKey;
 
 	if (willSelectText)
 		{
-		bool restoreCaretX        = true;
+		bool restoreCaretX            = true;
 		const JCoordinate savedCaretX = te->itsCaretX;
 
 		if (hasSelection && te->itsSelectionPivot.charIndex == te->itsSelection.charRange.last+1)

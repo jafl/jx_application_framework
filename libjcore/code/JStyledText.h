@@ -44,8 +44,8 @@ public:
 
 	struct TextCount
 	{
-		JIndex charCount;
-		JIndex byteCount;
+		JSize charCount;
+		JSize byteCount;
 
 		TextCount()
 			:
@@ -53,7 +53,7 @@ public:
 			byteCount(0)
 			{ };
 
-		TextCount(const JIndex ch, const JIndex byte)
+		TextCount(const JSize ch, const JSize byte)
 			:
 			charCount(ch),
 			byteCount(byte)
@@ -177,20 +177,30 @@ public:
 
 		CRMRule(const JString& firstPattern, const JString& restPattern,
 				const JString& replacePattern);
+
+		void	CleanOut();
 	};
 
 	class CRMRuleList : public JArray<CRMRule>
 	{
 	public:
 
-		CRMRuleList(const JSize aBlockSize = 5)
-			:
-			JArray<CRMRule>(aBlockSize)
-			{ };
-
+		CRMRuleList();
 		CRMRuleList(const CRMRuleList& source);
 
+		virtual	~CRMRuleList();
+
+		JInterpolate*
+		GetInterpolator()
+		{
+			return itsInterpolator;
+		};
+
 		void	DeleteAll();
+
+	private:
+
+		JInterpolate*	itsInterpolator;
 	};
 
 public:
@@ -342,15 +352,16 @@ public:
 							  JUndo** undo = nullptr);
 	void		DeleteText(const TextRange& range);
 
-	JUndo*		InsertCharacter(const TextRange& replaceRange,
-								const JUtf8Character& key, const JFont& font);
+	JUndo*	InsertCharacter(const TextRange& replaceRange,
+							const JUtf8Character& key, const JFont& font,
+							TextCount* count);
 
-	void		InsertSpacesForTab(const TextIndex& lineStart, const TextIndex& caretIndex);
+	void	InsertSpacesForTab(const TextIndex& lineStart, const TextIndex& caretIndex);
 
 	static bool	ContainsIllegalChars(const JString& text);
 	static bool	RemoveIllegalChars(JString* text, JRunArray<JFont>* style = nullptr);
 
-	bool	CleanRightMargin(const bool coerce, JCharacterRange* reformatRange);
+	void	CleanRightMargin(const bool coerce);
 
 	JSize	GetCRMLineWidth() const;
 	void	SetCRMLineWidth(const JSize charCount);
@@ -410,6 +421,13 @@ private:
 		kIdle,
 		kUndo,
 		kRedo
+	};
+
+	enum CRMStatus
+	{
+		kFoundWord,
+		kFoundNewLine,
+		kFinished
 	};
 
 private:
@@ -477,7 +495,39 @@ private:
 	static TextRange	CharToTextRange(const JCharacterRange& charRange,
 										JStringIterator* iter);
 
-	void	AutoIndent(JSTUndoTyping* typingUndo, TextCount* count);
+	void	AutoIndent(JSTUndoTyping* typingUndo, const TextIndex& insertIndex,
+					   TextCount* count);
+
+	bool			PrivateCleanRightMargin(const bool coerce,
+											TextRange* textRange,
+											JString* newText, JRunArray<JFont>* newStyles,
+											TextIndex* newCaretIndex) const;
+	bool		CRMGetRange(const TextIndex& caretChar, const bool coerce,
+							TextRange* range, TextIndex* textStartIndex,
+							JString* firstLinePrefix, JSize* firstPrefixLength,
+							JString* restLinePrefix, JSize* restPrefixLength,
+							JIndex* returnRuleIndex) const;
+	bool		CRMGetPrefix(TextIndex* startChar, const TextIndex& endChar,
+							 JString* linePrefix, JSize* columnCount,
+							 JIndex* ruleIndex) const;
+	TextRange	CRMMatchPrefix(const TextRange& textRange, JIndex* ruleIndex) const;
+	bool		CRMLineMatchesRest(const TextRange& range) const;
+	JSize		CRMCalcColumnCount(const JString& linePrefix) const;
+	JString		CRMBuildRestPrefix(const JString& firstLinePrefix,
+								   const JIndex ruleIndex, JSize* columnCount) const;
+	void		CRMTossLinePrefix(TextIndex* charIndex, const TextIndex& endChar,
+								  const JIndex ruleIndex) const;
+	CRMStatus	CRMReadNextWord(TextIndex* charIndex, const TextIndex& endIndex,
+								JString* spaceBuffer, JSize* spaceCount,
+								JString* wordBuffer, JRunArray<JFont>* wordStyles,
+								const JSize currentLineWidth,
+								const TextIndex& origCaretIndex, TextIndex* newCaretIndex,
+								const JString& newText, const bool requireSpace) const;
+	void		CRMAppendWord(JString* newText, JRunArray<JFont>* newStyles,
+							  JSize* currentLineWidth, TextIndex* newCaretIndex,
+							  const JString& spaceBuffer, const JSize spaceCount,
+							  const JString& wordBuffer, const JRunArray<JFont>& wordStyles,
+							  const JString& linePrefix, const JSize prefixLength) const;
 
 	static bool	DefaultIsCharacterInWord(const JUtf8Character& c);
 

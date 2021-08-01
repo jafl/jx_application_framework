@@ -151,20 +151,20 @@ public:
 
 	bool	TEScrollToSelection(const bool centerInDisplay);
 
-	void		GoToBeginningOfLine();
-	void		GoToEndOfLine();
+	void	GoToBeginningOfLine();
+	void	GoToEndOfLine();
 
-	JFont		GetCurrentFont() const;
+	JFont	GetCurrentFont() const;
 
-	void		SetCurrentFontName(const JString& name);
-	void		SetCurrentFontSize(const JSize size);
-	void		SetCurrentFontBold(const bool bold);
-	void		SetCurrentFontItalic(const bool italic);
-	void		SetCurrentFontUnderline(const JSize count);
-	void		SetCurrentFontStrike(const bool strike);
-	void		SetCurrentFontColor(const JColorID color);
-	void		SetCurrentFontStyle(const JFontStyle& style);
-	void		SetCurrentFont(const JFont& font);
+	void	SetCurrentFontName(const JString& name);
+	void	SetCurrentFontSize(const JSize size);
+	void	SetCurrentFontBold(const bool bold);
+	void	SetCurrentFontItalic(const bool italic);
+	void	SetCurrentFontUnderline(const JSize count);
+	void	SetCurrentFontStrike(const bool strike);
+	void	SetCurrentFontColor(const JColorID color);
+	void	SetCurrentFontStyle(const JFontStyle& style);
+	void	SetCurrentFont(const JFont& font);
 
 	JCoordinate	GetDefaultTabWidth() const;
 	void		SetDefaultTabWidth(const JCoordinate width);
@@ -172,9 +172,9 @@ public:
 								 const bool force = false);
 	void		TabSelectionRight(const JSize tabCount = 1);
 
-	void		CleanAllWhitespace(const bool align);
-	void		CleanSelectedWhitespace(const bool align);
-	void		AnalyzeWhitespace(JSize* tabWidth);
+	void	CleanAllWhitespace(const bool align);
+	void	CleanSelectedWhitespace(const bool align);
+	void	AnalyzeWhitespace(JSize* tabWidth);
 
 	bool	WillShowWhitespace() const;
 	void	ShouldShowWhitespace(const bool show);
@@ -407,15 +407,15 @@ private:
 
 	Type			itsType;
 	JStyledText*	itsText;
-	const bool	itsOwnsTextFlag;
+	const bool		itsOwnsTextFlag;
 
-	bool	itsActiveFlag;
-	bool	itsBreakCROnlyFlag;			// false => break line at whitespace
-	bool	itsPerformDNDFlag;			// true => drag-and-drop enabled
-	bool	itsMoveToFrontOfTextFlag;	// true => left arrow w/ moveEOL puts caret after whitespace
-	bool	itsIsPrintingFlag;			// true => stack threads through Print()
-	bool	itsDrawWhitespaceFlag;		// true => show tabs, spaces, newlines
-	bool	itsAlwaysShowSelectionFlag;	// true => show selection even when not active
+	bool		itsActiveFlag;
+	bool		itsBreakCROnlyFlag;			// false => break line at whitespace
+	bool		itsPerformDNDFlag;			// true => drag-and-drop enabled
+	bool		itsMoveToFrontOfTextFlag;	// true => left arrow w/ moveEOL puts caret after whitespace
+	bool		itsIsPrintingFlag;			// true => stack threads through Print()
+	bool		itsDrawWhitespaceFlag;		// true => show tabs, spaces, newlines
+	bool		itsAlwaysShowSelectionFlag;	// true => show selection even when not active
 	CaretMode	itsCaretMode;
 
 	JFontManager*	itsFontManager;
@@ -444,8 +444,8 @@ private:
 
 	// used while active
 
-	bool		itsSelActiveFlag;		// true => draw solid selection
-	bool		itsCaretVisibleFlag;	// true => draw caret
+	bool			itsSelActiveFlag;		// true => draw solid selection
+	bool			itsCaretVisibleFlag;	// true => draw caret
 	CaretLocation	itsCaret;				// insertion point is -at- this character; do not set directly - call SetCaretLocation()
 	JCoordinate		itsCaretX;				// horizontal location used by MoveCaretVert()
 	JFont			itsInsertionFont;		// style for characters that user types
@@ -462,7 +462,7 @@ private:
 	JStyledText::TextRange	itsWordSelPivot;	// range of characters to keep selected
 	JIndex					itsLineSelPivot;	// line about which to pivot selection
 	CaretLocation			itsDropLoc;			// insertion point at which to drop the dragged text
-	bool				itsIsDragSourceFlag;// true => is dragging even if itsDragType == kInvalidDrag
+	bool					itsIsDragSourceFlag;// true => is dragging even if itsDragType == kInvalidDrag
 
 	// global
 

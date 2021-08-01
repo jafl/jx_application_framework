@@ -2763,13 +2763,15 @@ JTextEditor::InsertCharacter
 		itsCaret = CalcCaretLocation(itsSelection.GetFirst());
 		}
 
-	const TextIndex loc = itsCaret.location;
+	TextIndex loc = itsCaret.location;
+	TextCount insertCount;
 
 	JUndo* undo = itsText->InsertCharacter(
 		hadSelection ? itsSelection : TextRange(itsCaret.location, TextCount(0,0)),
-		c, itsInsertionFont);
+		c, itsInsertionFont, &insertCount);
 
-	SetCaretLocation(itsText->AdjustTextIndex(loc, +1));
+	loc += insertCount;
+	SetCaretLocation(loc);
 
 	undo->Activate();		// cancel SetCaretLocation()
 }
