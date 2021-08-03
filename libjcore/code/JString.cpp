@@ -143,49 +143,15 @@ JString::JString
 JString::JString
 	(
 	const JUtf8Byte*	str,
+	const JSize			byteCount,
 	const Copy			copy
 	)
 	:
-	JString(str, 0, copy)
+	JString(
+		str == nullptr ? "" : str,
+		JUtf8ByteRange(1, str != nullptr && byteCount == 0 ? strlen(str) : byteCount),	// allow (nullptr,0)
+		copy)
 {
-}
-
-JString::JString
-	(
-	const JUtf8Byte*	str,
-	const JSize			origByteCount,
-	const Copy			copy
-	)
-	:
-	itsOwnerFlag(true),
-	itsNormalizeFlag(true),
-	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
-	itsByteCount(0),
-	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(theDefaultBlockSize),
-	itsUCaseMap(nullptr),
-	itsIterator(nullptr)
-{
-	JSize byteCount = origByteCount;
-	if (str != nullptr && byteCount == 0)
-		{
-		byteCount = strlen(str);
-		}
-
-	if (copy || this == theCurrentlyConstructingObject)
-		{
-		CopyToPrivateBuffer(byteCount > 0 ? str : "", byteCount);	// allow (nullptr,0)
-		}
-	else
-		{
-		itsOwnerFlag      = false;
-		itsBytes          = const_cast<JUtf8Byte*>(str);	// we promise not to modify it
-		itsByteCount      = byteCount;
-		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
-		}
-
-	theCurrentlyConstructingObject = nullptr;
 }
 
 JString::JString
@@ -222,15 +188,6 @@ JString::JString
 
 JString::JString
 	(
-	const std::string& s
-	)
-	:
-	JString(s, JUtf8ByteRange())
-{
-}
-
-JString::JString
-	(
 	const std::string&		s,
 	const JUtf8ByteRange&	range
 	)
@@ -255,15 +212,6 @@ JString::JString
 		}
 
 	theCurrentlyConstructingObject = nullptr;
-}
-
-JString::JString
-	(
-	const JUtf8Character& c
-	)
-	:
-	JString(c.GetBytes())
-{
 }
 
 JString::JString
@@ -505,7 +453,7 @@ JString::CopyToPrivateBuffer
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
-	const bool		invalidateIterator
+	const bool			invalidateIterator
 	)
 {
 	assert( itsBytes == nullptr || !(itsBytes <= str && str < itsBytes + itsByteCount) );
@@ -529,7 +477,7 @@ JString::CopyToPrivateBuffer
 
 	// copy normalized characters to the new string
 
-	if (str != nullptr)
+	if (str != nullptr && byteCount > 0)
 		{
 		if (itsNormalizeFlag)
 			{
