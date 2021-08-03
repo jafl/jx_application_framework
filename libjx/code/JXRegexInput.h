@@ -30,7 +30,7 @@ public:
 
 private:
 
-	JRegex*		itsTestRegex;
+	JRegex*	itsTestRegex;
 	bool	itsOwnsRegexFlag;
 
 private:

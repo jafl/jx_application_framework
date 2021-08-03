@@ -22,7 +22,7 @@
 JXRegexReplaceInput::JXRegexReplaceInput
 	(
 	JInterpolate*		testInterpolator,
-	const bool		widgetOwnsInterpolator,
+	const bool			widgetOwnsInterpolator,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,

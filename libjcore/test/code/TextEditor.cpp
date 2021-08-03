@@ -23,7 +23,7 @@
 TextEditor::TextEditor
 	(
 	JStyledText*		text,
-	const bool		breakCROnly,
+	const bool			breakCROnly,
 	const JCoordinate	width
 	)
 	:
@@ -62,7 +62,7 @@ TextEditor::TestReplaceSelection
 	const JStringMatch&	match,
 	const JString&		replaceStr,
 	JInterpolate*		interpolator,
-	const bool		preserveCase
+	const bool			preserveCase
 	)
 {
 	ReplaceSelection(match, replaceStr, interpolator, preserveCase);
@@ -372,8 +372,8 @@ void
 TextEditor::GetDoubleClickSelection
 	(
 	const JStyledText::TextIndex&	i,
-	const bool					partialWord,
-	const bool					dragging,
+	const bool						partialWord,
+	const bool						dragging,
 	JStyledText::TextRange*			range
 	)
 {
@@ -391,9 +391,9 @@ bool
 TextEditor::HandleKeyPress
 	(
 	const JUtf8Character&	c,
-	const bool			selectText,
+	const bool				selectText,
 	const CaretMotion		motion,
-	const bool			deleteToTabStop
+	const bool				deleteToTabStop
 	)
 {
 	return TEHandleKeyPress(c, selectText, motion, deleteToTabStop);

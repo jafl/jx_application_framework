@@ -31,7 +31,7 @@ public:
 private:
 
 	JInterpolate*	itsTestInterpolator;
-	bool		itsOwnsInterpolatorFlag;
+	bool			itsOwnsInterpolatorFlag;
 
 private:
 

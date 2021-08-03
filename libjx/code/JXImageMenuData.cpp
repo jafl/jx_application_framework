@@ -107,7 +107,7 @@ JXImageMenuData::DeleteItem
 void
 JXImageMenuData::DeleteAll()
 {
-	for (auto& itemData : *itsIconData)
+	for (auto itemData : *itsIconData)
 		{
 		CleanOutIconItem(&itemData);
 		}

@@ -803,7 +803,10 @@ JTEST(InsertCharacter)
 			JAssertEqual(1, tc->GetByteDelta());
 		});
 
-	text.InsertCharacter(TextRange(JCharacterRange(3,0), JUtf8ByteRange(4,0)), JUtf8Character('x'), JFontManager::GetDefaultFont());
+	TextCount count;
+	text.InsertCharacter(TextRange(JCharacterRange(3,0), JUtf8ByteRange(4,0)), JUtf8Character('x'), JFontManager::GetDefaultFont(), &count);
+	JAssertEqual(1, count.charCount);
+	JAssertEqual(1, count.byteCount);
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
@@ -819,7 +822,9 @@ JTEST(InsertCharacter)
 			JAssertEqual(1, tc->GetByteDelta());
 		});
 
-	text.InsertCharacter(TextRange(JCharacterRange(4,0), JUtf8ByteRange(5,0)), JUtf8Character('y'), JFontManager::GetDefaultFont());
+	text.InsertCharacter(TextRange(JCharacterRange(4,0), JUtf8ByteRange(5,0)), JUtf8Character('y'), JFontManager::GetDefaultFont(), &count);
+	JAssertEqual(1, count.charCount);
+	JAssertEqual(1, count.byteCount);
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
@@ -835,7 +840,9 @@ JTEST(InsertCharacter)
 			JAssertEqual(1, tc->GetByteDelta());
 		});
 
-	text.InsertCharacter(TextRange(JCharacterRange(5,0), JUtf8ByteRange(6,0)), JUtf8Character('z'), JFontManager::GetDefaultFont());
+	text.InsertCharacter(TextRange(JCharacterRange(5,0), JUtf8ByteRange(6,0)), JUtf8Character('z'), JFontManager::GetDefaultFont(), &count);
+	JAssertEqual(1, count.charCount);
+	JAssertEqual(1, count.byteCount);
 	JAssertStringsEqual("b" "\xC3\xAE" "xyzg" "b" "\xC3\xB8" "ld" "normal" "double underline", text.GetText());
 
 	JRunArrayIterator<JFont> iter(text.GetStyles());
@@ -866,7 +873,9 @@ JTEST(InsertCharacter)
 			JAssertEqual(1, tc->GetByteDelta());
 		});
 
-	text.InsertCharacter(TextRange(JCharacterRange(8,0), JUtf8ByteRange(9,0)), JUtf8Character('1'), JFontManager::GetDefaultFont());
+	text.InsertCharacter(TextRange(JCharacterRange(8,0), JUtf8ByteRange(9,0)), JUtf8Character('1'), JFontManager::GetDefaultFont(), &count);
+	JAssertEqual(1, count.charCount);
+	JAssertEqual(1, count.byteCount);
 	JAssertStringsEqual("b" "\xC3\xAE" "xyzg" "b1" "\xC3\xB8" "ld" "normal" "double underline", text.GetText());
 
 	bcastTest.Expect(JStyledText::kTextChanged,
@@ -883,7 +892,9 @@ JTEST(InsertCharacter)
 			JAssertEqual(-1, tc->GetByteDelta());
 		});
 
-	text.InsertCharacter(TextRange(JCharacterRange(13,15), JUtf8ByteRange(15,17)), JUtf8Character("\xC3\xA9"), JFontManager::GetDefaultFont());
+	text.InsertCharacter(TextRange(JCharacterRange(13,15), JUtf8ByteRange(15,17)), JUtf8Character("\xC3\xA9"), JFontManager::GetDefaultFont(), &count);
+	JAssertEqual(1, count.charCount);
+	JAssertEqual(2, count.byteCount);
 	JAssertStringsEqual("b" "\xC3\xAE" "xyzg" "b1" "\xC3\xB8" "ld" "n" "\xC3\xA9" "al" "double underline", text.GetText());
 
 	bcastTest.Expect(JStyledText::kTextChanged,

@@ -134,7 +134,7 @@ JXTextMenuData::DeleteItem
 void
 JXTextMenuData::DeleteAll()
 {
-	for (auto& itemData : *itsTextItemData)
+	for (auto itemData : *itsTextItemData)
 		{
 		CleanOutTextItem(&itemData);
 		}

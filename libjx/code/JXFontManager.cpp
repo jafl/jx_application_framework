@@ -97,7 +97,7 @@ JXFontManager::JXFontManager
 
 JXFontManager::~JXFontManager()
 {
-	for (auto& info : *itsFontList)
+	for (auto info : *itsFontList)
 		{
 		info.xfont.Free(itsDisplay);
 		}

@@ -94,7 +94,7 @@ jCompareUIDs
 static void
 jCleanUserInfoMap()
 {
-	for (auto& info : theUserInfoMap)
+	for (auto info : theUserInfoMap)
 		{
 		info.Free();
 		}

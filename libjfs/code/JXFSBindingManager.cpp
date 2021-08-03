@@ -257,7 +257,7 @@ JXFSBindingManager::ProcessFiles()
 	// check for file with no command
 
 	JIndex i = 1;
-	for (const auto* f : *itsFileList)
+	for (auto* f : *itsFileList)
 		{
 		const JString& fileName = f->GetPattern();
 
