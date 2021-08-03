@@ -11,7 +11,7 @@
 #define _H_CBCRMRuleTable
 
 #include <JXStringTable.h>
-#include <JTextEditor.h>		// need definition of CRMRuleList
+#include <JStyledText.h>		// need definition of CRMRuleList
 
 class JXTextButton;
 class JXColHeaderWidget;
@@ -80,8 +80,9 @@ private:
 
 	// for testing input fields
 
-	JRegex*	itsFirstRegex;
-	JRegex*	itsRestRegex;
+	JRegex*			itsFirstRegex;
+	JRegex*			itsRestRegex;
+	JInterpolate*	itsReplaceInterpolator;
 
 private:
 

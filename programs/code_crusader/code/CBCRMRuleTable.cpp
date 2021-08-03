@@ -80,8 +80,9 @@ CBCRMRuleTable::CBCRMRuleTable
 		JGetString("AppendToList::CBCRMRuleTable"));
 	assert( itsCSF != nullptr );
 
-//	itsFirstRegex = JStyledText::CRMRule::CreateFirst(".", "$0");
-//	itsRestRegex  = JStyledText::CRMRule::CreateRest(".");
+	itsFirstRegex          = JStyledText::CRMRule::CreateRegex(JString(".", JString::kNoCopy));
+	itsRestRegex           = JStyledText::CRMRule::CreateRegex(JString(".", JString::kNoCopy));
+	itsReplaceInterpolator = JStyledText::CRMRule::CreateInterpolator();
 
 	JStringTableData* data = GetStringData();
 	data->AppendCols(3);	// first prefix pattern, rest prefix pattern, replace prefix
@@ -335,17 +336,17 @@ CBCRMRuleTable::CreateStringTableInput
 	if (cell.x == kFirstColumn)
 		{
 		input = jnew JXRegexInput(itsFirstRegex, false,
-								 enclosure, hSizing, vSizing, x,y, w,h);
+								  enclosure, hSizing, vSizing, x,y, w,h);
 		}
 	else if (cell.x == kRestColumn)
 		{
 		input = jnew JXRegexInput(itsRestRegex, false,
-								 enclosure, hSizing, vSizing, x,y, w,h);
+								  enclosure, hSizing, vSizing, x,y, w,h);
 		}
 	else if (cell.x == kReplaceColumn)
 		{
-//		input = jnew JXRegexReplaceInput(itsFirstRegex, false,
-//										 enclosure, hSizing, vSizing, x,y, w,h);
+		input = jnew JXRegexReplaceInput(itsReplaceInterpolator, false,
+										 enclosure, hSizing, vSizing, x,y, w,h);
 		}
 
 	assert( input != nullptr );

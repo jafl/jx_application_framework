@@ -1183,6 +1183,8 @@ CBPrefsManager::UpgradeData
 
 	if (currentVersion < 68)
 		{
+		CreateDCRMRuleList();
+
 		CBNewSuffixInfo kDSuffix[] =
 		{
 			{ ".d", false }
@@ -2091,7 +2093,7 @@ CBPrefsManager::MacroSetInfo::Free()
 
 // CRM rule lists
 
-const JSize kMaxInitCRMRuleCount = 4;
+const JSize kMaxInitCRMRuleCount = 5;	// D
 
 struct InitCRMInfo
 {
@@ -2111,27 +2113,27 @@ static const InitCRMInfo kInitCRM[] =
 	},
 
 	{ "Beta", 2,
-	  { "([[:space:]]*)\\(((\\*+[[:space:]]*)+)", "[[:space:]]*(\\*+[[:space:]]*)+",    },
-	  { "[[:space:]]*(\\*+\\)?[[:space:]]*)+",    "[[:space:]]*(\\*+\\)?[[:space:]]*)+" },
-	  { "$1 $2",                                  "$0",                                 }
+	  { "([[:space:]]*)\\((\\*+[[:space:]]*)+", "[[:space:]]*(\\*+[[:space:]]*)+",    },
+	  { "[[:space:]]*(\\*+\\)?[[:space:]]*)+",  "[[:space:]]*(\\*+\\)?[[:space:]]*)+" },
+	  { "$1 $2",                                "$0",                                 }
 	},
 
 	{ "C", 2,
-	  { "([[:space:]]*)/((\\*+[[:space:]]*)+)", "[[:space:]]*(\\*+[[:space:]]*)+",  },
-	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",    "[[:space:]]*(\\*+/?[[:space:]]*)+" },
-	  { "$1 *",                                 "$0",                               }
+	  { "([[:space:]]*)/(\\*+[[:space:]]*)+", "[[:space:]]*(\\*+[[:space:]]*)+",  },
+	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",  "[[:space:]]*(\\*+/?[[:space:]]*)+" },
+	  { "$1 *",                               "$0",                               }
 	},
 
 	{ "C++", 3,
-	  { "([[:space:]]*)/((\\*+[[:space:]]*)+)", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*//[[:space:]]*" },
-	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",    "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*//[[:space:]]*" },
-	  { "$1 *",                                 "$0",                                "$0"                         }
+	  { "([[:space:]]*)/(\\*+[[:space:]]*)+", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*//[[:space:]]*" },
+	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",  "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*//[[:space:]]*" },
+	  { "$1 *",                               "$0",                                "$0"                         }
 	},
 
 	{ "C#", 3,
-	  { "([[:space:]]*)/((\\*+[[:space:]]*)+)", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*///?[[:space:]]*" },
-	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",    "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*///?[[:space:]]*" },
-	  { "$1 *",                                 "$0",                                "$0"                           }
+	  { "([[:space:]]*)/(\\*+[[:space:]]*)+", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*///?[[:space:]]*" },
+	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",  "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*///?[[:space:]]*" },
+	  { "$1 *",                               "$0",                                "$0"                           }
 	},
 
 	{ "Eiffel", 1,
@@ -2159,15 +2161,15 @@ static const InitCRMInfo kInitCRM[] =
 	},
 
 	{ "Java", 3,
-	  { "([[:space:]]*)/((\\*+[[:space:]]*)+)", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*//[[:space:]]*" },
-	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",    "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*//[[:space:]]*" },
-	  { "$1 *",                                 "$0",                                "$0"                         }
+	  { "([[:space:]]*)/(\\*+[[:space:]]*)+", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*//[[:space:]]*" },
+	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",  "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*//[[:space:]]*" },
+	  { "$1 *",                               "$0",                                "$0"                         }
 	},
 
 	{ "JSP", 3,
-	  { "([[:space:]]*)/((\\*+[[:space:]]*)+)", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*//[[:space:]]*" },
-	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",    "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*//[[:space:]]*" },
-	  { "$1 *",                                 "$0",                                "$0"                         }
+	  { "([[:space:]]*)/(\\*+[[:space:]]*)+", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*//[[:space:]]*" },
+	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",  "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*//[[:space:]]*" },
+	  { "$1 *",                               "$0",                                "$0"                         }
 	},
 
 	{ "Lisp", 1,
@@ -2189,15 +2191,15 @@ static const InitCRMInfo kInitCRM[] =
 	},
 
 	{ "PHP", 4,
-	  { "([[:space:]]*)/((\\*+[[:space:]]*)+)", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*//[[:space:]]*", "[[:space:]]*(#+[[:space:]]*)+" },
-	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",    "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*//[[:space:]]*", "[[:space:]]*(#+[[:space:]]*)+" },
-	  { "$1 *",                                 "$0",                                "$0"                        , "$0"                            }
+	  { "([[:space:]]*)/(\\*+[[:space:]]*)+", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*//[[:space:]]*", "[[:space:]]*(#+[[:space:]]*)+" },
+	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",  "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*//[[:space:]]*", "[[:space:]]*(#+[[:space:]]*)+" },
+	  { "$1 *",                               "$0",                                "$0"                        , "$0"                            }
 	},
 
 	{ "SQL", 4,
-	  { "([[:space:]]*)/((\\*+[[:space:]]*)+)", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*--[[:space:]]*", "[[:space:]]*(#+[[:space:]]*)+" },
-	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",    "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*--[[:space:]]*", "[[:space:]]*(#+[[:space:]]*)+" },
-	  { "$1 *",                                 "$0",                                "$0",                         "$0"                            }
+	  { "([[:space:]]*)/(\\*+[[:space:]]*)+", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*--[[:space:]]*", "[[:space:]]*(#+[[:space:]]*)+" },
+	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",  "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*--[[:space:]]*", "[[:space:]]*(#+[[:space:]]*)+" },
+	  { "$1 *",                               "$0",                                "$0",                         "$0"                            }
 	},
 
 	{ "UNIX script", 1,
@@ -2213,7 +2215,32 @@ static const InitCRMInfo kInitCRM[] =
 	},
 };
 
-const JSize kInitCRMCount = sizeof(kInitCRM)/sizeof(InitCRMInfo);
+void
+cbCreateCRMRuleList
+	(
+	JArray<CBPrefsManager::CRMRuleListInfo>*	list,
+	const InitCRMInfo&							info
+	)
+{
+	auto* name = jnew JString(info.name);
+	assert( name != nullptr );
+
+	auto* ruleList = jnew JStyledText::CRMRuleList;
+	assert( ruleList != nullptr );
+
+	for (JUnsignedOffset j=0; j<info.count; j++)
+		{
+		ruleList->AppendElement(JStyledText::CRMRule(
+			JString(info.first[j],   JString::kNoCopy),
+			JString(info.rest[j],    JString::kNoCopy),
+			JString(info.replace[j], JString::kNoCopy)));
+		}
+
+	list->AppendElement(
+		CBPrefsManager::CRMRuleListInfo(
+			kCBFirstCRMRuleListID + list->GetElementCount(),
+			name, ruleList));
+}
 
 // regex file types
 
@@ -2223,7 +2250,7 @@ struct FTRegexInfo
 	CBTextFileType		type;
 	const JUtf8Byte*	macroName;
 	const JUtf8Byte*	crmName;
-	bool			wrap;
+	bool				wrap;
 };
 
 static const FTRegexInfo kFTRegexInfo[] =
@@ -2271,8 +2298,6 @@ static const FTRegexInfo kFTRegexInfo[] =
 	  kCBUnknownFT, nullptr, "E-mail", true }
 };
 
-const JSize kFTRegexCount = sizeof(kFTRegexInfo)/sizeof(FTRegexInfo);
-
 void
 CBPrefsManager::CreateCRMRuleLists()
 {
@@ -2282,24 +2307,9 @@ CBPrefsManager::CreateCRMRuleLists()
 
 	itsCRMList = CreateCRMList();
 
-	for (JUnsignedOffset i=0; i<kInitCRMCount; i++)
+	for (auto& info : kInitCRM)
 		{
-		auto* name = jnew JString(kInitCRM[i].name);
-		assert( name != nullptr );
-
-		auto* ruleList = jnew JStyledText::CRMRuleList;
-		assert( ruleList != nullptr );
-
-		for (JUnsignedOffset j=0; j<kInitCRM[i].count; j++)
-			{
-			ruleList->AppendElement(JStyledText::CRMRule(
-				JString(kInitCRM[i].first[j],   JString::kNoCopy),
-				JString(kInitCRM[i].rest[j],    JString::kNoCopy),
-				JString(kInitCRM[i].replace[j], JString::kNoCopy)));
-			}
-
-		itsCRMList->AppendElement(
-			CRMRuleListInfo(kCBFirstCRMRuleListID+i, name, ruleList));
+		cbCreateCRMRuleList(itsCRMList, info);
 		}
 
 	// set CRM rule list for each original suffix
@@ -2323,23 +2333,42 @@ CBPrefsManager::CreateCRMRuleLists()
 
 	// add content regex file types
 
-	for (JUnsignedOffset i=0; i<kFTRegexCount; i++)
+	for (auto& ftrInfo : kFTRegexInfo)
 		{
-		auto* suffix = jnew JString(kFTRegexInfo[i].pattern);
+		auto* suffix = jnew JString(ftrInfo.pattern);
 		assert( suffix != nullptr );
 
 		auto* complSuffix = jnew JString;
 		assert( complSuffix != nullptr );
 
-		const JIndex macroID = FindMacroName(kFTRegexInfo[i].macroName, itsMacroList, true);
-		const JIndex crmID   = FindCRMRuleListName(kFTRegexInfo[i].crmName, *itsCRMList);
+		const JIndex macroID = FindMacroName(ftrInfo.macroName, itsMacroList, true);
+		const JIndex crmID   = FindCRMRuleListName(ftrInfo.crmName, *itsCRMList);
 
-		FileTypeInfo info(suffix, nullptr, nullptr, kFTRegexInfo[i].type, macroID, crmID,
-						  true, nullptr, kFTRegexInfo[i].wrap, complSuffix, nullptr);
+		FileTypeInfo info(suffix, nullptr, nullptr, ftrInfo.type, macroID, crmID,
+						  true, nullptr, ftrInfo.wrap, complSuffix, nullptr);
 		info.CreateRegex();
 		assert( info.contentRegex != nullptr );
 		itsFileTypeList->InsertSorted(info);
 		}
+}
+
+/******************************************************************************
+ CreateDCRMRuleList (private)
+
+ ******************************************************************************/
+
+static const InitCRMInfo kInitDCRM =
+{
+	"D", 5,
+	  { "([[:space:]]*)/(\\*+[[:space:]]*)+", "[[:space:]]*(\\*+[[:space:]]*)+",   "[[:space:]]*//[[:space:]]*", "([[:space:]]*)/(\\++[[:space:]]*)+", "[[:space:]]*(\\++[[:space:]]*)+"   },
+	  { "[[:space:]]*(\\*+/?[[:space:]]*)+",  "[[:space:]]*(\\*+/?[[:space:]]*)+", "[[:space:]]*//[[:space:]]*", "[[:space:]]*(\\++/?[[:space:]]*)+",  "[[:space:]]*(\\++/?[[:space:]]*)+" },
+	  { "$1 *",                               "$0",                                "$0"                        , "$1 +",                               "$0"                                }
+};
+
+void
+CBPrefsManager::CreateDCRMRuleList()
+{
+	cbCreateCRMRuleList(itsCRMList, kInitDCRM);
 }
 
 /******************************************************************************

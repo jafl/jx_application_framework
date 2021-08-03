@@ -41,14 +41,15 @@ CBCRMRuleListTable::CBCRMRuleListTable
 	:
 	JXStringTable(jnew JStringTableData,
 				  scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
-	itsFirstNewID(firstUnusedID)
+	itsCRMList(crmList),
+	itsOwnsCRMListFlag(true),
+	itsFirstNewID(firstUnusedID),
+	itsLastNewID(itsFirstNewID - 1),
+	itsCRMIndex(0),
+	itsRuleTable(ruleTable)
 {
-	itsCRMList         = crmList;
-	itsOwnsCRMListFlag = true;
-	itsLastNewID       = itsFirstNewID - 1;
-	itsCRMIndex        = 0;
-
-	itsRuleTable = ruleTable;
+	itsCRMList->SetCompareFunction(CompareNames);
+	itsCRMList->Sort();
 
 	itsAddRowButton = addRowButton;
 	ListenTo(itsAddRowButton);
@@ -57,15 +58,17 @@ CBCRMRuleListTable::CBCRMRuleListTable
 	itsRemoveRowButton->Deactivate();
 	ListenTo(itsRemoveRowButton);
 
-	JStringTableData* data = GetStringData();
+	auto* data = GetStringData();
 	data->AppendCols(1);
 
 	const JSize count = itsCRMList->GetElementCount();
 	data->AppendRows(count);
-	for (JIndex i=1; i<=count; i++)
+
+	JIndex i = 0;
+	for (const auto& info : *itsCRMList)
 		{
-		const CBPrefsManager::CRMRuleListInfo info = itsCRMList->GetElement(i);
-		data->SetString(i,1, *(info.name));
+		i++;
+		data->SetString(i,1, *info.name);
 		}
 
 	JTableSelection& s = GetTableSelection();
@@ -79,6 +82,16 @@ CBCRMRuleListTable::CBCRMRuleListTable
 		{
 		s.SelectCell(1,1);
 		}
+}
+
+JListT::CompareResult
+CBCRMRuleListTable::CompareNames
+	(
+	const CBPrefsManager::CRMRuleListInfo& i1,
+	const CBPrefsManager::CRMRuleListInfo& i2
+	)
+{
+	return JCompareStringsCaseInsensitive(i1.name, i2.name);
 }
 
 /******************************************************************************
@@ -267,7 +280,7 @@ CBCRMRuleListTable::RemoveRow()
 	CancelEditing();
 	itsRuleTable->CancelEditing();
 
-	CBPrefsManager::CRMRuleListInfo info = itsCRMList->GetElement(itsCRMIndex);
+	auto info = itsCRMList->GetElement(itsCRMIndex);
 	jdelete info.name;
 	(info.list)->DeleteAll();
 	jdelete info.list;
@@ -283,8 +296,8 @@ CBCRMRuleListTable::RemoveRow()
 			CBPrefsManager::FindCRMRuleListID(*itsCRMList, itsLastNewID, &index);
 		assert( found );
 
-		CBPrefsManager::CRMRuleListInfo info2 = itsCRMList->GetElement(index);
-		info2.id = info.id;
+		auto info2 = itsCRMList->GetElement(index);
+		info2.id   = info.id;
 		itsCRMList->SetElement(index, info2);
 
 		itsLastNewID--;

@@ -146,30 +146,30 @@ public:
 
 	virtual ~CBPrefsManager();
 
-	JString		GetJCCVersionStr() const;
+	JString	GetJCCVersionStr() const;
 
 	bool	GetExpirationTimeStamp(time_t* t) const;
-	void		SetExpirationTimeStamp(const time_t t);
+	void	SetExpirationTimeStamp(const time_t t);
 
-	void		EditFileTypes();
-	void		EditMacros(CBMacroManager* macroMgr);
-	void		EditCRMRuleLists(JStyledText::CRMRuleList* ruleList);
+	void	EditFileTypes();
+	void	EditMacros(CBMacroManager* macroMgr);
+	void	EditCRMRuleLists(JStyledText::CRMRuleList* ruleList);
 
 	bool	GetWindowSize(const JPrefID& id, JPoint* desktopLoc,
-							  JCoordinate* width, JCoordinate* height) const;
-	void		SaveWindowSize(const JPrefID& id, JXWindow* window);
+						  JCoordinate* width, JCoordinate* height) const;
+	void	SaveWindowSize(const JPrefID& id, JXWindow* window);
 
 	bool	RestoreProgramState();
-	void		SaveProgramState();
-	void		ForgetProgramState();
+	void	SaveProgramState();
+	void	ForgetProgramState();
 
 	// text editor
 
 	void	GetDefaultFont(JString* name, JSize* size) const;
 	void	SetDefaultFont(const JString& name, const JSize size);
 
-	JColorID		GetColor(const JIndex index) const;
-	void			SetColor(const JIndex index, const JColorID color);
+	JColorID	GetColor(const JIndex index) const;
+	void		SetColor(const JIndex index, const JColorID color);
 	static bool	ColorIndexValid(const JIndex index);
 
 	CBEmulator	GetEmulator() const;
@@ -183,7 +183,7 @@ public:
 								JStyledText::CRMRuleList** crmRuleList,
 								JString* scriptPath, bool* wordWrap) const;
 
-	bool		EditWithOtherProgram(const JString& fileName, JString* cmd) const;
+	bool	EditWithOtherProgram(const JString& fileName, JString* cmd) const;
 
 	void	GetFileSuffixes(const CBTextFileType type,
 							JPtrArray<JString>* list) const;
@@ -194,7 +194,7 @@ public:
 	void	SetDefaultComplementSuffix(const JIndex index, const JString& name);
 
 	static bool	FileMatchesSuffix(const JString& fileName,
-									  const JPtrArray<JString>& suffixList);
+								  const JPtrArray<JString>& suffixList);
 
 	static bool	GetScriptPaths(JString* sysDir, JString* userDir);
 
@@ -208,18 +208,18 @@ public:
 
 	struct FileTypeInfo
 	{
-		JString*				suffix;
-		JRegex*					nameRegex;		// can be nullptr
-		JRegex*					contentRegex;	// can be nullptr
-		JUtf8ByteRange			literalRange;	// initially nothing
-		CBTextFileType			type;
-		JIndex					macroID;		// MacroSetInfo::id
-		JIndex					crmID;			// CRMRuleListInfo::id
-		bool				isUserScript;	// true if relative to ~/.jxcb/scripts/
-		JString*				scriptPath;		// nullptr if none; *relative*
-		bool				wordWrap;
-		JString*				complSuffix;
-		JString*				editCmd;		// nullptr if type != kCBExternalFT
+		JString*		suffix;
+		JRegex*			nameRegex;		// can be nullptr
+		JRegex*			contentRegex;	// can be nullptr
+		JUtf8ByteRange	literalRange;	// initially nothing
+		CBTextFileType	type;
+		JIndex			macroID;		// MacroSetInfo::id
+		JIndex			crmID;			// CRMRuleListInfo::id
+		bool			isUserScript;	// true if relative to ~/.jxcb/scripts/
+		JString*		scriptPath;		// nullptr if none; *relative*
+		bool			wordWrap;
+		JString*		complSuffix;
+		JString*		editCmd;		// nullptr if type != kCBExternalFT
 
 		FileTypeInfo()
 			:
@@ -240,8 +240,8 @@ public:
 		{ };
 
 		bool	IsPlainSuffix() const;
-		void		CreateRegex();
-		void		Free();
+		void	CreateRegex();
+		void	Free();
 	};
 
 	static JUtf8ByteRange	GetLiteralPrefixRange(const JString& regexStr);
@@ -273,7 +273,7 @@ public:
 		void	Free();
 	};
 
-	static bool	FindMacroID(const JArray<MacroSetInfo>& list,
+	static bool		FindMacroID(const JArray<MacroSetInfo>& list,
 								const JIndex id, JIndex* index);
 	static JIndex	FindMacroName(const JUtf8Byte* macroName,
 								  JArray<MacroSetInfo>* macroList,
@@ -301,7 +301,7 @@ public:
 		void	Free();
 	};
 
-	static bool	FindCRMRuleListID(const JArray<CRMRuleListInfo>& list,
+	static bool		FindCRMRuleListID(const JArray<CRMRuleListInfo>& list,
 									  const JIndex id, JIndex* index);
 	static JIndex	FindCRMRuleListName(const JUtf8Byte* crmName,
 										const JArray<CRMRuleListInfo>& crmList);
@@ -311,8 +311,8 @@ private:
 	JArray<FileTypeInfo>*		itsFileTypeList;
 	JArray<MacroSetInfo>*		itsMacroList;
 	JArray<CRMRuleListInfo>*	itsCRMList;
-	bool					itsExecOutputWordWrapFlag;
-	bool					itsUnknownTypeWordWrapFlag;
+	bool						itsExecOutputWordWrapFlag;
+	bool						itsUnknownTypeWordWrapFlag;
 
 	JColorID	itsColor [ kColorCount ];
 
@@ -348,6 +348,7 @@ private:
 	void	WriteData(const JArray<MacroSetInfo>& list);
 
 	void	CreateCRMRuleLists();
+	void	CreateDCRMRuleList();
 	void	CreateAndReadData(JArray<CRMRuleListInfo>** list, const JFileVersion vers);
 	void	WriteData(const JArray<CRMRuleListInfo>& list);
 
@@ -356,7 +357,7 @@ private:
 	JArray<CRMRuleListInfo>*	CreateCRMList();
 
 	CBTextFileType	GetFileType(const JString& fileName, JIndex* index) const;
-	bool		CalcFileType(const CBTextDocument& doc, JIndex* index) const;
+	bool			CalcFileType(const CBTextDocument& doc, JIndex* index) const;
 	JString			CleanFileName(const JString& name) const;
 
 	void	ReadColors();

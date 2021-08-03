@@ -57,20 +57,25 @@ private:
 	JArray<CBPrefsManager::CRMRuleListInfo>*	itsCRMList;
 
 	mutable bool	itsOwnsCRMListFlag;		// true => delete contents of itsMacroList
-	const JIndex		itsFirstNewID;			// first index to use for new sets
-	JIndex				itsLastNewID;			// index of last new set created
-	JIndex				itsCRMIndex;			// index of currently displayed macro set
+	const JIndex	itsFirstNewID;			// first index to use for new sets
+	JIndex			itsLastNewID;			// index of last new set created
+	JIndex			itsCRMIndex;			// index of currently displayed macro set
 
-	CBCRMRuleTable*		itsRuleTable;
+	CBCRMRuleTable*	itsRuleTable;
 
-	JXTextButton*		itsAddRowButton;
-	JXTextButton*		itsRemoveRowButton;
+	JXTextButton*	itsAddRowButton;
+	JXTextButton*	itsRemoveRowButton;
 
 private:
 
 	void	AddRow();
 	void	RemoveRow();
 	void	SwitchDisplay();
+
+	static JListT::CompareResult
+		CompareNames(
+			const CBPrefsManager::CRMRuleListInfo& i1,
+			const CBPrefsManager::CRMRuleListInfo& i2);
 
 	// not allowed
 
