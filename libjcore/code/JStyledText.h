@@ -179,6 +179,9 @@ public:
 				const JString& replacePattern);
 
 		void	CleanOut();
+
+		static JRegex*			CreateRegex(const JString& pattern);
+		static JInterpolate*	CreateInterpolator();
 	};
 
 	class CRMRuleList : public JArray<CRMRule>
@@ -315,10 +318,10 @@ public:
 	TextRange	CleanWhitespace(const TextRange& range, const bool align);
 
 	bool	TabInsertsSpaces() const;
-	void	TabShouldInsertSpaces(const bool spaces);
+	void	TabShouldInsertSpaces(const bool spaces = true);
 
 	bool	WillAutoIndent() const;
-	void	ShouldAutoIndent(const bool indent);
+	void	ShouldAutoIndent(const bool indent = true);
 
 	bool	HasSingleUndo() const;
 	bool	HasMultipleUndo(bool* canUndo, bool* canRedo) const;

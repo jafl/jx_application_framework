@@ -2183,7 +2183,7 @@ JStyledText::InsertCharacter
 	if (key == '\n' && itsAutoIndentFlag)
 		{
 		TextCount indentCount;
-		AutoIndent(typingUndo, replaceRange.GetFirst(), &indentCount);
+		AutoIndent(typingUndo, AdjustTextIndex(replaceRange.GetFirst(), +1), &indentCount);
 		*count += indentCount;
 		}
 
@@ -2212,7 +2212,7 @@ JStyledText::BackwardDelete
 	(
 	const TextIndex&	lineStart,
 	const TextIndex&	caretIndex,
-	const bool		deleteToTabStop,
+	const bool			deleteToTabStop,
 	JString*			returnText,
 	JRunArray<JFont>*	returnStyle,
 	JUndo**				undo
@@ -3380,42 +3380,48 @@ JStyledText::CRMMatchPrefix
 {
 	const JString prefix(itsText.GetBytes(), textRange.byteRange, JString::kNoCopy);
 
+	TextRange matchRange;
 	if (itsCRMRuleList != nullptr && *ruleIndex > 0)
 		{
 		const CRMRule rule   = itsCRMRuleList->GetElement(*ruleIndex);
 		const JStringMatch m = rule.rest->Match(prefix, JRegex::kIgnoreSubmatches);
-		if (!m.IsEmpty() && m.GetCharacterRange().first == textRange.charRange.first)
+		if (!m.IsEmpty() && m.GetUtf8ByteRange().first == 1)
 			{
-			return TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange());
+			matchRange = TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange());
 			}
 		}
 
-	TextRange matchRange;
-	if (itsCRMRuleList != nullptr)
+	if (matchRange.IsEmpty())
 		{
-		JIndex i = 0;
-		for (const auto& rule : *itsCRMRuleList)
+		if (itsCRMRuleList != nullptr)
 			{
-			i++;
-			const JStringMatch m = rule.rest->Match(prefix, JRegex::kIgnoreSubmatches);
-			if (!m.IsEmpty() &&
-				m.GetCharacterRange().first == textRange.charRange.first &&
-				m.GetUtf8ByteRange().last > matchRange.byteRange.last)
+			JIndex i = 0;
+			for (const auto& rule : *itsCRMRuleList)
 				{
-				matchRange = TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange());
-				*ruleIndex = i;
+				i++;
+				const JStringMatch m = rule.first->Match(prefix, JRegex::kIgnoreSubmatches);
+				if (!m.IsEmpty() &&
+					m.GetUtf8ByteRange().first == 1 &&
+					m.GetUtf8ByteRange().GetCount() > matchRange.byteRange.GetCount())
+					{
+					matchRange = TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange());
+					*ruleIndex = i;
+					}
 				}
 			}
+
+		// check equality of range::last in case prefix is empty
+
+		const JStringMatch m = defaultCRMPrefixRegex.Match(prefix, JRegex::kIgnoreSubmatches);
+		if (m.GetUtf8ByteRange().GetCount() >= matchRange.byteRange.GetCount() || itsCRMRuleList == nullptr)
+			{
+			matchRange = TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange());
+			*ruleIndex = 0;
+			}
 		}
 
-	// check equality of range::last in case prefix is empty
-
-	const JStringMatch m = defaultCRMPrefixRegex.Match(prefix, JRegex::kIgnoreSubmatches);
-	if (m.GetUtf8ByteRange().last >= matchRange.byteRange.last || itsCRMRuleList == nullptr)
-		{
-		matchRange = TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange());
-		*ruleIndex = 0;
-		}
+	matchRange.charRange += textRange.charRange.first-1;
+	matchRange.byteRange += textRange.byteRange.first-1;
 
 	return matchRange;
 }
@@ -3442,7 +3448,9 @@ JStyledText::CRMLineMatchesRest
 		for (const auto& rule : *itsCRMRuleList)
 			{
 			const JStringMatch m = rule.rest->Match(s, JRegex::kIgnoreSubmatches);
-			if (!m.IsEmpty() && m.GetCharacterRange() == range.charRange)
+			if (!m.IsEmpty() &&
+				m.GetUtf8ByteRange().first == 1 &&
+				m.GetUtf8ByteRange().GetCount() == range.byteRange.GetCount())
 				{
 				return true;
 				}
@@ -3480,7 +3488,7 @@ JStyledText::CRMCalcColumnCount
 		{
 		if (c == '\t')
 			{
-			columnCount += CRMGetTabWidth(columnCount);
+			columnCount += CRMGetTabWidth(columnCount+1);
 			}
 		else
 			{
@@ -3513,7 +3521,7 @@ JStyledText::CRMBuildRestPrefix
 		const CRMRule rule   = itsCRMRuleList->GetElement(ruleIndex);
 		const JStringMatch m = rule.first->Match(s, JRegex::kIncludeSubmatches);
 		assert( !m.IsEmpty() &&
-				m.GetCharacterRange() == JCharacterRange(1, s.GetCharacterCount()));
+				m.GetUtf8ByteRange() == JUtf8ByteRange(1, s.GetByteCount()));
 
 		s = itsCRMRuleList->GetInterpolator()->Interpolate(*rule.replace, m);
 		}
@@ -3853,13 +3861,10 @@ JStyledText::CRMRule::CRMRule
 	const JString& replacePattern
 	)
 {
-	first = jnew JRegex(firstPattern);
-	assert( first != nullptr );
+	first = CreateRegex(firstPattern);
+	rest  = CreateRegex(restPattern);
 
-	rest = jnew JRegex(restPattern);
-	assert( rest != nullptr );
-
-	replace = jnew JString(restPattern);
+	replace = jnew JString(replacePattern);
 	assert( replace != nullptr );
 }
 
@@ -3876,6 +3881,26 @@ JStyledText::CRMRule::CleanOut()
 	replace = nullptr;
 }
 
+JRegex*
+JStyledText::CRMRule::CreateRegex
+	(
+	const JString& pattern
+	)
+{
+	auto* r = jnew JRegex(pattern);
+	assert( r != nullptr );
+	return r;
+}
+
+JInterpolate*
+JStyledText::CRMRule::CreateInterpolator()
+{
+	auto i = jnew JInterpolate;
+	assert( i != nullptr );
+	i->SetWhitespaceEscapes();
+	return i;
+}
+
 /******************************************************************************
  CRMRuleList functions
 
@@ -3883,9 +3908,7 @@ JStyledText::CRMRule::CleanOut()
 
 JStyledText::CRMRuleList::CRMRuleList()
 {
-	itsInterpolator = jnew JInterpolate;
-	assert( itsInterpolator != nullptr );
-	itsInterpolator->SetWhitespaceEscapes();
+	itsInterpolator = CRMRule::CreateInterpolator();
 }
 
 JStyledText::CRMRuleList::CRMRuleList	// lgtm[cpp/rule-of-two]
@@ -4508,30 +4531,28 @@ JStyledText::AutoIndent
 	iter->BeginMatch();
 	while (iter->Next(&c, kJIteratorStay))
 		{
-		if ((c != ' ' && c != '\t') ||	// can't use IsSpace() because '\n' stops us
-			iter->GetNextCharacterIndex() == prevLineEnd.charIndex)
+		if (iter->GetNextCharacterIndex() == prevLineEnd.charIndex)
+			{
+			// the previous line is blank, so clear it
+
+			const JStringMatch& m = iter->FinishMatch();
+			typingUndo->HandleDelete(m);
+
+			const TextRange deleteRange(m.GetCharacterRange(), m.GetUtf8ByteRange());
+			PrivateDeleteText(deleteRange);
+
+			assert( deleteRange.charRange.GetCount() == count->charCount );
+			assert( deleteRange.byteRange.GetCount() == count->byteCount );
+
+			count->charCount = count->byteCount = 0;
+			break;
+			}
+		else if (!c.IsSpace())
 			{
 			break;
 			}
+
 		iter->SkipNext();
-		}
-
-	assert( iter->GetPrevCharacterIndex() >= prevLineStart.charIndex );
-
-	// if the previous line is blank, clear it
-
-	if (iter->Next(&c, kJIteratorStay) && c == '\n')
-		{
-		const JStringMatch& m = iter->FinishMatch();
-		typingUndo->HandleDelete(m);
-
-		const TextRange deleteRange(m.GetCharacterRange(), m.GetUtf8ByteRange());
-		PrivateDeleteText(deleteRange);
-
-		assert( deleteRange.charRange.GetCount() == count->charCount );
-		assert( deleteRange.byteRange.GetCount() == count->byteCount );
-
-		count->charCount = count->byteCount = 0;
 		}
 
 	DisposeConstIterator(iter);

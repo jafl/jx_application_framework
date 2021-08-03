@@ -1,5 +1,4 @@
 JStyledText
-	AutoIndent
 	CleanRightMargin
 
 
@@ -67,7 +66,6 @@ jcc:
 	CBTreeDirector::ViewFunctionList
 	CBTreeWidget::FindFunction
 	CBTreeWidget::HandleMouseDrag
-	CBCRMRuleTable
 
 D tree
 	must remember all imported packages, to resolve parents after full parse

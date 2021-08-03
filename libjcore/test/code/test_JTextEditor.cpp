@@ -1240,3 +1240,79 @@ JTEST(VIKeyHandler)
 	te1.HandleKeyPress(JUtf8Character('p'), false, JTextEditor::kMoveByCharacter, false);
 	JAssertStringsEqual("1\nzcasa\n5\n6\n7\n8\n2a\n3\n4\n9", text.GetText());
 }
+
+JTEST(AutoIndent)
+{
+	StyledText text;
+	text.ShouldAutoIndent();
+	text.SetCRMTabCharCount(4);
+
+	TextEditor te(&text, true, 50);
+
+	te.Activate();
+	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('\t'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	JAssertStringsEqual("\n\n\n\t", text.GetText());
+
+	te.HandleKeyPress(JUtf8Character('\t'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	JAssertStringsEqual("\n\n\n\t\ta\n\t\t", text.GetText());
+
+	te.HandleKeyPress(JUtf8Character('\b'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('\b'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('\t'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	JAssertStringsEqual("\n\n\n\t\ta\n  \t a\n  \t ", text.GetText());
+
+	text.SetText(JString::empty);
+
+	JStyledText::CRMRuleList rules;
+	rules.AppendElement(JStyledText::CRMRule(
+		JString("([[:space:]]*)/(\\*+[[:space:]]*)+", JString::kNoCopy),
+		JString("[[:space:]]*(\\*+/?[[:space:]]*)+", JString::kNoCopy),
+		JString("$1 *", JString::kNoCopy)));
+	rules.AppendElement(JStyledText::CRMRule(
+		JString("[[:space:]]*(\\*+[[:space:]]*)+", JString::kNoCopy),
+		JString("[[:space:]]*(\\*+/?[[:space:]]*)+", JString::kNoCopy),
+		JString("$0", JString::kNoCopy)));
+	rules.AppendElement(JStyledText::CRMRule(
+		JString("[[:space:]]*//[[:space:]]*", JString::kNoCopy),
+		JString("[[:space:]]*//[[:space:]]*", JString::kNoCopy),
+		JString("$0", JString::kNoCopy)));
+
+	text.SetCRMRuleList(&rules, false);
+
+	te.HandleKeyPress(JUtf8Character('/'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('*'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	JAssertStringsEqual("/*\n *", text.GetText());
+	te.HandleKeyPress(JUtf8Character('*'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('x'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	JAssertStringsEqual("/*\n ** x\n ** ", text.GetText());
+	te.HandleKeyPress(JUtf8Character('\b'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('/'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	JAssertStringsEqual("/*\n ** x\n **/\n ", text.GetText());
+
+	te.HandleKeyPress(JUtf8Character('\t'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('/'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('/'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	JAssertStringsEqual("/*\n ** x\n **/\n \t//\n \t//", text.GetText());
+	te.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('x'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('y'), false, JTextEditor::kMoveByCharacter, false);
+	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	JAssertStringsEqual("/*\n ** x\n **/\n \t//\n \t// xy\n \t// ", text.GetText());
+
+	rules.DeleteAll();
+}
