@@ -38,7 +38,7 @@ CBManPageDocument::Create
 	CBManPageDocument**	returnDoc,
 	const JString&		origPageName,
 	const JString&		pageIndex,
-	const bool		apropos
+	const bool			apropos
 	)
 {
 	JString pageName = origPageName;
@@ -226,23 +226,9 @@ CBManPageDocument::CBManPageDocument
 			// always 1.  We can't use "apropos" either because it always
 			// returns 0.
 
-//			p->WaitUntilFinished();
-//			success = p->SuccessfulFinish();
 			jdelete p;
-//			if (success)
-//				{
-				GetTextEditor()->GetText()->SetText(text);
-//				}
-/*			else
-				{
-				text  = "No references to \"";
-				text += pageName;
-				text += "\" could be found in either the source files or the man pages.";
-				JGetUserNotification()->DisplayMessage(text);
-				*trueDoc = nullptr;
-				return;
-				}
-*/			}
+			GetTextEditor()->GetText()->SetText(text);
+			}
 		}
 
 	itsIgnoreNameChangedFlag = true;
@@ -347,7 +333,11 @@ CBManPageDocument::GetCmd2
 	const JString& pageName
 	)
 {
+#ifdef _J_OSX
+	JString cmd("apropos ");	// need to replace apropos, because default is broken
+#else
 	JString cmd("man -k ");
+#endif
 	cmd += JPrepArgForExec(pageName);
 	return cmd;
 }

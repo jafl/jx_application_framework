@@ -8,9 +8,6 @@ medic - confused when using gdb
 	no stack, threads, locals, etc.
 
 jcc
-	look up man page
-		ignore end of "kIncludeSubmatches);"
-
 	scroll after undo/redo puts selection at bottom
 
 	Editor Prefs
@@ -31,9 +28,6 @@ jcc
 
 	shell doc doesn't work at all
 
-
-	styling
-		A|::B - then type <T> at the caret
 
 	styling <foo> inside javascript - sometimes - is state attached to checkpoint wrong?
 
@@ -67,6 +61,22 @@ jcc:
 	CBTreeWidget::FindFunction
 	CBTreeWidget::HandleMouseDrag
 
+	CBSymbolList needs to store
+		access: check "access" flag (public, private, protected, java-default)
+		implemented: check "implementation" flag
+		enum FnAccessLevel
+		{
+			kPublicAccess = 0,
+			kProtectedAccess,
+			kPrivateAccess,
+			kJavaDefaultAccess
+		}
+	replace CBFnListDirector with CBSymbolSRDirector
+		color protected, private, java-default
+	inheritance tree:
+		show list of functions returned by CBSymbolList
+			based on file and class name and possibly partially qualified name (java)
+
 D tree
 	must remember all imported packages, to resolve parents after full parse
 	imports are scoped to block
@@ -88,23 +98,6 @@ unit test all jcc stylers
 	Ruby
 	SQL
 	TCL
-
-jcc
-	CBSymbolList needs to store
-		access: check "access" flag (public, private, protected, java-default)
-		implemented: check "implementation" flag
-		enum FnAccessLevel
-		{
-			kPublicAccess = 0,
-			kProtectedAccess,
-			kPrivateAccess,
-			kJavaDefaultAccess
-		}
-	replace CBFnListDirector with CBSymbolSRDirector
-		color protected, private, java-default
-	inheritance tree:
-		show list of functions returned by CBSymbolList
-			based on file and class name and possibly partially qualified name (java)
 
 -----
 

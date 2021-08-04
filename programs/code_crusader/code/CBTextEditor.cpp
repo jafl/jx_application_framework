@@ -670,7 +670,7 @@ CBTextEditor::HandleCustomSearchMenuItems
 		}
 	else if (index == kFindSourceFileCmd)
 		{
-		(CBGetFindFileDialog())->Activate();
+		CBGetFindFileDialog()->Activate();
 		return true;
 		}
 
@@ -691,7 +691,7 @@ CBTextEditor::HandleCustomSearchMenuItems
 		}
 	else if (index == kViewManPageCmd)
 		{
-		(CBGetViewManPageDialog())->Activate();
+		CBGetViewManPageDialog()->Activate();
 		return true;
 		}
 
@@ -1371,12 +1371,12 @@ CBTextEditor::FindSelectedSymbol
 
 	If the selection is followed by "(c)", then run "man c <selection>".
 
-	Why would this be between the name and the page?
-		([[:space:]]*,[[:space:]]*[^(,[:space:]]+)*
-
  ******************************************************************************/
 
-static const JRegex manRegex("^([^(,[:space:]]+)(?:[[:space:]]*\\(([a-zA-Z0-9]+)\\))?");
+static const JRegex manRegex(
+	"^([-_:a-zA-Z0-9]+)"								// name
+	"(?:[[:space:]]*,[[:space:]]*[-_:a-zA-Z0-9]+)*"		// optional intervening names, e.g., A,B,C(3)
+	"(?:[[:space:]]*\\(([a-zA-Z0-9]+)\\))?");			// optional section
 
 void
 CBTextEditor::DisplayManPage()
