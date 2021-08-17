@@ -320,29 +320,12 @@ CBHTMLStyler::Scan
 
 		// save token starts
 
-		if ((yy_start_stack_ptr == 0 &&
-			 (token.type == kHTMLText    ||
-			  token.type == kHTMLComment ||
-			  token.type == kJSPComment  ||
-			  (token.type == kHTMLTag &&
-			   GetCharacter(token.range.GetFirst()) == '<'))) ||
-			(yy_start_stack_ptr > 0 && yy_top_state() == 0 &&
-			 (token.type == kPHPID                ||
-			  token.type == kPHPVariable          ||
-			  token.type == kPHPReservedKeyword   ||
-			  token.type == kPHPBuiltInDataType   ||
-			  token.type == kPHPSingleQuoteString ||
-			  token.type == kPHPDoubleQuoteString ||
-			  token.type == kPHPHereDocString     ||
-			  token.type == kPHPNowDocString      ||
-			  token.type == kPHPExecString        ||
-			  token.type == kJavaID               ||
-			  token.type == kJavaReservedKeyword  ||
-			  token.type == kJavaBuiltInDataType  ||
-			  token.type == kJavaString           ||
-			  token.type == kJSID                 ||
-			  token.type == kJSReservedKeyword    ||
-			  token.type == kComment)))
+		if (yy_start_stack_ptr == 0 &&
+			(token.type == kHTMLText    ||
+			 token.type == kHTMLComment ||
+			 token.type == kJSPComment  ||
+			 (token.type == kHTMLTag &&
+			  GetCharacter(token.range.GetFirst()) == '<')))
 			{
 			TokenExtra data;
 			data.lexerState = GetCurrentLexerState();
@@ -418,7 +401,7 @@ CBHTMLStyler::Scan
 			}
 		else if (token.type == kHTMLScript)
 			{
-			style = GetStyle(typeIndex, *(token.language));
+			style = GetStyle(typeIndex, *token.language);
 			}
 		else if (token.type == kHTMLNamedCharacter)
 			{
@@ -435,7 +418,7 @@ CBHTMLStyler::Scan
 			if (token.type == kDocCommentHTMLTag ||
 				token.type == kDocCommentSpecialTag)
 				{
-				if (!(token.docCommentRange).IsEmpty())
+				if (!token.docCommentRange.IsEmpty())
 					{
 					SetStyle(token.docCommentRange.charRange, GetTypeStyle(kComment - kWhitespace));
 					}

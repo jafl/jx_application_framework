@@ -4619,8 +4619,8 @@ JStyledText::BroadcastTextChanged
 	const TextRange&	range,
 	const JInteger		charDelta,
 	const JInteger		byteDelta,
-	const bool		deletion,
-	const bool		adjustStyles
+	const bool			deletion,
+	const bool			adjustStyles
 	)
 {
 	TextRange recalcRange = range,

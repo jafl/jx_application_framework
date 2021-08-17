@@ -25,7 +25,7 @@ CBHTMLScanner::GetCurrentLexerState()
 
 %}
 
-%option c++ yyclass="CBHTMLScanner" prefix="CBPHP"
+%option c++ yyclass="CBHTMLScanner" prefix="CBHTML"
 %option 8bit nodefault stack noyywrap
 %option full ecs align
 
@@ -54,6 +54,7 @@ WS            [[:space:]]+
 PHPSTART      "<"("?"([pP][hH][pP]{WS})?|"?=")
 JSPSTART      "<%"[!=@]?
 JSP_COMMENT   "<%--"
+SCRIPT_END    ("</"[sS][cC][rR][iI][pP][tT]">")
 
 DOCTAG       (attribute|author|chainable|class|code|config|constructor|default|deprecated|description|docRoot|event|exception|extends|final|for|inheritDoc|link|linkplain|literal|method|module|namespace|param|private|property|protected|public|requires|return|see|serial|serialData|serialField|since|static|throws|type|uses|value|version|writeonce)
 
@@ -112,7 +113,6 @@ JAVA_BADCCONST   (\'(\\|{JAVA_BADESCCHAR}|({JAVA_BADESCCHAR}|{JAVA_CHAR}){2,})\'
 
 
 JS_KEYWORD    (abstract|arguments|async|await|boolean|break|byte|case|catch|char|class|const|constructor|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|of|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|undefined|var|void|volatile|while|with|yield)
-
 
 JS_IDCAR      ([_[:alpha:]])
 JS_IDCDR      ([_[:alnum:]])
@@ -346,7 +346,7 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 
 <SCRIPT_STATE>{
 
-"</"[sS][cC][rR][iI][pP][tT]">" {
+{SCRIPT_END} {
 	ContinueToken();
 	BEGIN(INITIAL);
 	return ScriptToken();
@@ -845,14 +845,7 @@ euro;?     {
 
 "?>" {
 	StartToken();
-	if (yy_start_stack_ptr > 0)
-		{
-		yy_pop_state();
-		}
-	else
-		{
-		BEGIN(INITIAL);
-		}
+	yy_pop_state();
 	const Token t = ThisToken(kPHPStartEnd);
 	InitToken();	/* req'd when reentering tag */
 	return t;
@@ -1259,14 +1252,7 @@ euro;?     {
 
 "%>" {
 	StartToken();
-	if (yy_start_stack_ptr > 0)
-		{
-		yy_pop_state();
-		}
-	else
-		{
-		BEGIN(INITIAL);
-		}
+	yy_pop_state();
 	const Token t = ThisToken(kJSPStartEnd);
 	InitToken();	/* req'd when reentering tag */
 	return t;
@@ -1499,7 +1485,7 @@ euro;?     {
 	ContinueToken();
 	}
 
-"</"[sS][cC][rR][iI][pP][tT]">" {
+{SCRIPT_END} {
 	yyless(0);
 	BEGIN(JAVA_SCRIPT_STATE);
 	return ThisToken(kUnterminatedComment);
@@ -1563,7 +1549,7 @@ euro;?     {
 	return ThisToken(kComment);
 	}
 
-"</"[sS][cC][rR][iI][pP][tT]">" {
+{SCRIPT_END} {
 	yyless(0);
 	BEGIN(JAVA_SCRIPT_STATE);
 	return ThisToken(kUnterminatedComment);
@@ -1650,7 +1636,7 @@ euro;?     {
 	return ThisToken(kComment);
 	}
 
-"</"[sS][cC][rR][iI][pP][tT]">" {
+{SCRIPT_END} {
 	yyless(0);
 	BEGIN(JAVA_SCRIPT_STATE);
 	return ThisToken(kComment);
@@ -1678,7 +1664,7 @@ euro;?     {
 
 <JAVA_SCRIPT_STATE>{
 
-"</"[sS][cC][rR][iI][pP][tT]">" {
+{SCRIPT_END} {
 	StartToken();
 	BEGIN(INITIAL);
 	return ScriptToken();
@@ -1942,7 +1928,7 @@ euro;?     {
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	BEGIN(JAVA_SCRIPT_STATE);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -1996,7 +1982,7 @@ euro;?     {
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	BEGIN(JAVA_SCRIPT_STATE);
 	return ThisToken(kUnterminatedString);
 	}
 

@@ -10,7 +10,7 @@
 
 #ifndef _H_CBHTMLScannerL
 #undef yyFlexLexer
-#define yyFlexLexer CBPHPFlexLexer
+#define yyFlexLexer CBHTMLFlexLexer
 #include <FlexLexer.h>
 #endif
 
@@ -18,7 +18,7 @@
 #include <JPtrArray-JString.h>
 #include <JPtrStack.h>
 
-class CBHTMLScanner : public CBPHPFlexLexer
+class CBHTMLScanner : public CBHTMLFlexLexer
 {
 public:
 
@@ -144,19 +144,19 @@ public:
 protected:
 
 	yy_state_type	GetCurrentLexerState() const;
-	bool		InTagState() const;
+	bool			InTagState() const;
 
 	virtual const JString&	GetScannedText() const = 0;
 
 private:
 
-	bool				itsResetFlag;
+	bool					itsResetFlag;
 	yy_state_type			itsStartState;
 	JStyledText::TextRange	itsCurrentRange;
 	JString					itsScriptLanguage;
 	JString					itsPHPHereDocTag;
 	JString					itsPHPNowDocTag;
-	bool				itsProbableJSOperatorFlag;	// kTrue if / is most likely operator instead of regex
+	bool					itsProbableJSOperatorFlag;	// kTrue if / is most likely operator instead of regex
 
 private:
 

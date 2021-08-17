@@ -3,7 +3,7 @@
 
 	HTML/PHP/XML lexer for keyword styling.
 
-	BASE CLASS = public CBPHPFlexLexer
+	BASE CLASS = public CBHTMLFlexLexer
 
 	Copyright © 2001 by John Lindal.
 
@@ -21,7 +21,7 @@
 
 CBHTMLScanner::CBHTMLScanner()
 	:
-	CBPHPFlexLexer(),
+	CBHTMLFlexLexer(),
 	itsResetFlag(false)
 {
 }
