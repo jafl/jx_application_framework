@@ -52,8 +52,8 @@
 CMCommand::CMCommand
 	(
 	const JUtf8Byte*	cmd,
-	const bool		oneShot,
-	const bool		background
+	const bool			oneShot,
+	const bool			background
 	)
 	:
 	itsCommandString(cmd),

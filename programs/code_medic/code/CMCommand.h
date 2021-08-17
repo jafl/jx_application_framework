@@ -35,9 +35,9 @@ public:
 	const JString&	GetCommand() const;
 	JIndex			GetTransactionID() const;
 	State			GetState() const;
-	bool		IsOneShot() const;
-	bool		IsBackground() const;
-	bool		WillIgnoreResult() const;			// mainly for gdb-mi
+	bool			IsOneShot() const;
+	bool			IsBackground() const;
+	bool			WillIgnoreResult() const;			// mainly for gdb-mi
 	void			ShouldIgnoreResult(const bool ignore);
 
 	// Execution
@@ -70,9 +70,9 @@ private:
 	JPtrArray<JString>*	itsResultList;
 	JIndex				itsID;
 	State				itsState;
-	bool			itsDeleteFlag;
-	bool			itsBackgroundFlag;
-	bool			itsIgnoreResultFlag;
+	bool				itsDeleteFlag;
+	bool				itsBackgroundFlag;
+	bool				itsIgnoreResultFlag;
 
 private:
 

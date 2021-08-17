@@ -449,6 +449,7 @@ CMStackWidget::Receive
 			  message.Is(CMLink::kProgramFinished) ||
 			  message.Is(CMLink::kDetachedFromProcess)))
 		{
+		itsIsWaitingForReloadFlag = false;
 		FlushOldData();
 		}
 	else if (sender == itsLink && message.Is(CMLink::kCoreCleared))
@@ -588,8 +589,7 @@ bool
 CMStackWidget::ShouldRebuild()
 	const
 {
-	return itsStackDir->IsActive() &&
-				!GetWindow()->IsIconified();
+	return itsStackDir->IsActive() && !GetWindow()->IsIconified();
 }
 
 /******************************************************************************
@@ -625,7 +625,7 @@ void
 CMStackWidget::FlushOldData()
 {
 	itsSelectingFrameFlag = true;
-	(itsTree->GetRoot())->DeleteAllChildren();
+	itsTree->GetRoot()->DeleteAllChildren();
 	itsSelectingFrameFlag = false;
 
 	itsNeedsUpdateFlag   = false;
@@ -643,6 +643,12 @@ CMStackWidget::FinishedLoading
 	const JIndex initID
 	)
 {
+	if (!itsIsWaitingForReloadFlag)		// program exited
+		{
+		FlushOldData();
+		return;
+		}
+
 	SelectFrame(initID);
 	if (itsSmartFrameSelectFlag && initID > 0)
 		{

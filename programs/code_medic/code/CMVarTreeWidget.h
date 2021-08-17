@@ -37,7 +37,7 @@ public:
 	void		ShowNode(const CMVarNode* node);
 
 	bool	HasSelection() const;
-	void		RemoveSelection();
+	void	RemoveSelection();
 
 	void	WatchExpression();
 	void	WatchLocation();
@@ -48,8 +48,8 @@ public:
 	void	ExamineMemory(const CMMemoryDir::DisplayType type);
 	void	ShouldUpdate(const bool update);
 
-	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
-									   const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 	virtual bool	IsEditable(const JPoint& cell) const override;
 
 	void	ReadSetup(std::istream& input, const JFileVersion vers);
@@ -73,7 +73,7 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual bool		ExtractInputData(const JPoint& cell) override;
+	virtual bool	ExtractInputData(const JPoint& cell) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
@@ -91,8 +91,8 @@ private:
 
 	CMCommandDirector*	itsDir;
 	JTree*				itsTree;
-	const bool		itsIsMainDisplayFlag;
-	bool			itsWaitingForReloadFlag;
+	const bool			itsIsMainDisplayFlag;
+	bool				itsWaitingForReloadFlag;
 	DragType			itsDragType;
 
 	JXTextMenu*	itsEditMenu;			// not owned
@@ -105,7 +105,7 @@ private:
 	// used while editing
 
 	bool	itsEditingNewNodeFlag;
-	JString		itsOrigEditValue;
+	JString	itsOrigEditValue;
 
 private:
 
@@ -114,8 +114,7 @@ private:
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex item);
 
-	void	CopySelectedItems(const bool useFullName,
-							  const bool copyValue) const;
+	void	CopySelectedItems(const bool useFullName, const bool copyValue) const;
 
 	void	UpdateBaseMenu(JXTextMenu* menu);
 	void	HandleBaseMenu(const JIndex item);

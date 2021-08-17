@@ -353,6 +353,7 @@ CMThreadsWidget::Receive
 			  message.Is(CMLink::kProgramFinished) ||
 			  message.Is(CMLink::kDetachedFromProcess)))
 		{
+		itsIsWaitingForReloadFlag = false;
 		FlushOldData();
 		}
 	else if (sender == itsLink && message.Is(CMLink::kCoreCleared))
@@ -489,8 +490,7 @@ bool
 CMThreadsWidget::ShouldRebuild()
 	const
 {
-	return itsThreadDir->IsActive() &&
-				!GetWindow()->IsIconified();
+	return itsThreadDir->IsActive() && !GetWindow()->IsIconified();
 }
 
 /******************************************************************************
@@ -523,7 +523,7 @@ void
 CMThreadsWidget::FlushOldData()
 {
 	itsSelectingThreadFlag = true;
-	(itsTree->GetRoot())->DeleteAllChildren();
+	itsTree->GetRoot()->DeleteAllChildren();
 	itsSelectingThreadFlag = false;
 
 	itsNeedsUpdateFlag    = false;
@@ -619,6 +619,12 @@ CMThreadsWidget::FinishedLoading
 	const JIndex currentID
 	)
 {
+	if (!itsIsWaitingForReloadFlag)		// program exited
+		{
+		FlushOldData();
+		return;
+		}
+
 	if (itsOpenIDList != nullptr)
 		{
 		RestoreOpenNodes(itsTree->GetRoot());

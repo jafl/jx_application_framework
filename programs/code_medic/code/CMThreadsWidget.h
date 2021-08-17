@@ -62,11 +62,11 @@ private:
 	JTree*				itsTree;
 	CMGetThreads*		itsGetThreadsCmd;
 	CMGetThread*		itsGetCurrentThreadCmd;
-	bool			itsNeedsUpdateFlag;
-	bool			itsIsWaitingForReloadFlag;
-	bool			itsChangingThreadFlag;
-	bool			itsSelectingThreadFlag;
-	bool			itsFlushWhenRunFlag;
+	bool				itsNeedsUpdateFlag;
+	bool				itsIsWaitingForReloadFlag;
+	bool				itsChangingThreadFlag;
+	bool				itsSelectingThreadFlag;
+	bool				itsFlushWhenRunFlag;
 	JArray<JUInt64>*	itsOpenIDList;
 	DisplayState		itsDisplayState;
 
@@ -75,9 +75,9 @@ private:
 	bool	SelectNextThread(const JInteger delta);
 	bool	SelectThread1(const JTreeNode* root, const JIndex id);
 
-	void		FlushOldData();
+	void	FlushOldData();
 	bool	ShouldRebuild() const;
-	void		Rebuild();
+	void	Rebuild();
 
 	void	SaveOpenNodes();
 	void	SaveOpenNodes1(JTreeNode* root);
