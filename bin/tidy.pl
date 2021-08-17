@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+# Before using, add '-MJ $@.json' to CFLAGS & CXXFLAGS and recompile
+
 use strict;
 
 my @commands;

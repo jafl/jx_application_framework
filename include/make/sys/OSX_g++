@@ -57,8 +57,8 @@ CXX      := clang++
 CPPFLAGS  = ${DEPENDFLAGS} \
             ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
               pkg-config --cflags icu-i18n libpcre}
-CFLAGS    = -MJ $@.json
-CXXFLAGS  = -std=c++17 -MJ $@.json
+CFLAGS    =
+CXXFLAGS  = -std=c++17
 
 # libraries to link
 

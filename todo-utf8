@@ -1,11 +1,13 @@
 JStyledText
+	optimize opening json file that requires word-wrap
+
 	CleanRightMargin
 
 
-medic - clear stack/threads/etc when program is running or finished
-
 medic - confused when using gdb
 	no stack, threads, locals, etc.
+
+medic: conditional breakpoints in lldb
 
 jcc
 	scroll after undo/redo puts selection at bottom
@@ -28,8 +30,6 @@ jcc
 
 	shell doc doesn't work at all
 
-
-	styling <foo> inside javascript - sometimes - is state attached to checkpoint wrong?
 
 testjx crash - itsLineStarts was already broken
 
