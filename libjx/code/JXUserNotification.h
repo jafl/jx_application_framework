@@ -24,8 +24,8 @@ public:
 
 	virtual ~JXUserNotification();
 
-	virtual void		DisplayMessage(const JString& message) override;
-	virtual void		ReportError(const JString& message) override;
+	virtual void	DisplayMessage(const JString& message) override;
+	virtual void	ReportError(const JString& message) override;
 
 	virtual bool	AskUserYes(const JString& message) override;
 	virtual bool	AskUserNo(const JString& message) override;
@@ -41,7 +41,7 @@ protected:
 private:
 
 	JXDialogDirector*	itsCurrentDialog;
-	bool			itsWarningResponse;
+	bool				itsWarningResponse;
 
 	JXOKToCloseDialog*	itsOKToCloseDialog;
 	CloseAction			itsCloseAction;

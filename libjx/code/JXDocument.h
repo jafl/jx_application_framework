@@ -37,7 +37,7 @@ protected:
 	virtual bool	OKToClose()      = 0;
 	virtual bool	OKToRevert()     = 0;
 	virtual bool	CanRevert()      = 0;
-	virtual void		DiscardChanges() = 0;
+	virtual void	DiscardChanges() = 0;
 	virtual bool	OKToDeactivate();
 
 private:

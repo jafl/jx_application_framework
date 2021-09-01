@@ -37,7 +37,7 @@ public:
 	virtual void	Suspend() override;
 	virtual void	Resume() override;
 	virtual void	Quit();
-	bool		IsQuitting() const;
+	bool			IsQuitting() const;
 
 	void	DisplayBusyCursor();
 	void	DisplayInactiveCursor();
@@ -58,7 +58,7 @@ public:
 
 	JSize		GetDisplayCount() const;
 	JXDisplay*	GetDisplay(const JIndex index) const;
-	bool	GetDisplayIndex(JXDisplay* display, JIndex* index) const;
+	bool		GetDisplayIndex(JXDisplay* display, JIndex* index) const;
 
 	const JPtrArray<JXDisplay>*	GetDisplayList() const;
 
@@ -105,7 +105,7 @@ public:
 
 protected:
 
-	void				UpdateCurrentTime();
+	void			UpdateCurrentTime();
 	virtual bool	HandleCustomEvent();
 	virtual bool	HandleCustomEventWhileBlocking();
 
@@ -122,8 +122,8 @@ private:
 
 	JPtrArray<JXDisplay>*	itsDisplayList;
 	JIndex					itsCurrDisplayIndex;
-	bool				itsIgnoreDisplayDeletedFlag;
-	bool				itsIgnoreTaskDeletedFlag;
+	bool					itsIgnoreDisplayDeletedFlag;
+	bool					itsIgnoreTaskDeletedFlag;
 
 	Time					itsCurrentTime;			// in milliseconds
 	JPtrArray<JXIdleTask>*	itsIdleTasks;
@@ -135,13 +135,13 @@ private:
 
 	JPtrArray<JXUrgentTask>*	itsUrgentTasks;
 	JPtrArray<JXUrgentTask>*	itsRunningUrgentTasks;	// usually nullptr; not owned
-	bool					itsHasBlockingWindowFlag;
-	bool					itsHadBlockingWindowFlag;
+	bool						itsHasBlockingWindowFlag;
+	bool						itsHadBlockingWindowFlag;
 
 	std::recursive_mutex*	itsTaskMutex;
 
-	JString		itsSignature;
-	JString		itsRestartCmd;		// for session managers
+	JString	itsSignature;
+	JString	itsRestartCmd;		// for session managers
 	bool	itsRequestQuitFlag;
 
 private:
@@ -163,10 +163,10 @@ private:
 
 	// for use by special windows that block until dismissed
 
-	void		PrepareForBlockingWindow();
-	void		BlockingWindowFinished();
+	void	PrepareForBlockingWindow();
+	void	BlockingWindowFinished();
 	bool	HandleOneEventForWindow(JXWindow* window,
-										const bool allowSleep = true);
+									const bool allowSleep = true);
 
 	friend class JXCSFDialogBase;
 	friend class JXChooseSaveFile;

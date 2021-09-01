@@ -110,7 +110,7 @@ JXDocument::Close()
 		return false;
 		}
 
-	if ((JXGetDocumentManager())->OKToCloseDocument(this))
+	if (JXGetDocumentManager()->OKToCloseDocument(this))
 		{
 		return JXWindowDirector::Close();
 		}

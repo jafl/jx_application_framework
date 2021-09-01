@@ -29,8 +29,8 @@ public:
 
 	virtual ~JUserNotification();
 
-	virtual void		DisplayMessage(const JString& message) = 0;
-	virtual void		ReportError(const JString& message) = 0;
+	virtual void	DisplayMessage(const JString& message) = 0;
+	virtual void	ReportError(const JString& message) = 0;
 
 	virtual bool	AskUserYes(const JString& message) = 0;
 	virtual bool	AskUserNo(const JString& message) = 0;
@@ -42,16 +42,16 @@ public:
 	// control of Message and Error display
 
 	bool	IsSilent() const;
-	void		SetSilent(const bool beQuiet);
+	void	SetSilent(const bool beQuiet);
 
 	static bool	GetBreakMessageCROnly();
-	static void		SetBreakMessageCROnly();
+	static void	SetBreakMessageCROnly();
 
 private:
 
 	bool	itsSilenceFlag;
 
-	static bool		theBreakCROnlyFlag;
+	static bool	theBreakCROnlyFlag;
 
 private:
 

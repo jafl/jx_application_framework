@@ -523,9 +523,9 @@ void
 JXFSBindingTable::RemovePattern()
 {
 	JPoint cell;
-	if ((GetTableSelection()).GetFirstSelectedCell(&cell))
+	if (GetTableSelection().GetFirstSelectedCell(&cell))
 		{
-		if ((itsBindingList->GetBinding(cell.y))->IsSystemBinding())
+		if (itsBindingList->GetBinding(cell.y)->IsSystemBinding())
 			{
 			JGetUserNotification()->ReportError(JGetString("CantRemoveSystemBinding::JXFSBindingTable"));
 			}

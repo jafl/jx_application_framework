@@ -586,6 +586,9 @@ JXApplication::HandleCustomEvent()
 
 	Returns true if we processed an event for the specified window.
 
+	This enables the equivalent of await in JavaScript, which is the only
+	known way to avoid callback-hell.
+
  ******************************************************************************/
 
 const JSize kEventWindowCount = 3;
@@ -604,7 +607,7 @@ struct DiscardEventInfo
 bool
 JXApplication::HandleOneEventForWindow
 	(
-	JXWindow*		window,
+	JXWindow*	window,
 	const bool	origAllowSleep
 	)
 {

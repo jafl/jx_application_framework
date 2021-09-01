@@ -33,45 +33,45 @@ public:
 
 	virtual ~JXFileDocument();
 
-	virtual bool	NeedsSave() const;
+	virtual bool	NeedsSave() const override;
 	bool			Save();
-	void				DataModified();
-	void				DataReverted(const bool fromUndo = false);
+	void			DataModified();
+	void			DataReverted(const bool fromUndo = false);
 
 	bool	SaveInCurrentFile();
 	bool	SaveInNewFile(const JString& fullName = JString::empty);
 	bool	SaveCopyInNewFile(const JString& origName = JString::empty,
-								  JString* fullName = nullptr);
+							  JString* fullName = nullptr);
 
-	bool				ExistsOnDisk() const;
+	bool					ExistsOnDisk() const;
 	const JString&			GetFilePath() const;
 	const JString&			GetFileName() const;
 	JString					GetFullName(bool* onDisk) const;
-	virtual const JString&	GetName() const;
+	virtual const JString&	GetName() const override;
 
 	bool	FileModifiedByOthers(bool* modTimeChanged = nullptr,
-									 bool* permsChanged = nullptr) const;
-	void		CheckIfModifiedByOthers();
-	void		RevertIfChangedByOthers(const bool force = false);
+								 bool* permsChanged = nullptr) const;
+	void	CheckIfModifiedByOthers();
+	void	RevertIfChangedByOthers(const bool force = false);
 
 	bool	WillMakeBackupFile() const;
-	void		ShouldMakeBackupFile(const bool wantBackup);
+	void	ShouldMakeBackupFile(const bool wantBackup);
 
 	bool	WillMakeNewBackupEveryOpen() const;
-	void		ShouldMakeNewBackupEveryOpen(const bool makeBackup);
+	void	ShouldMakeNewBackupEveryOpen(const bool makeBackup);
 
 	bool	WillAutosaveBeforeClosing() const;
-	void		ShouldAutosaveBeforeClosing(const bool autosave);
+	void	ShouldAutosaveBeforeClosing(const bool autosave);
 
 	bool	WillAllocateTitleSpace() const;
-	void		ShouldAllocateTitleSpace(const bool allocateSpace);
+	void	ShouldAllocateTitleSpace(const bool allocateSpace);
 
 	static bool	WillAskOKToClose();
-	static void		ShouldAskOKToClose(const bool ask);
+	static void	ShouldAskOKToClose(const bool ask);
 
-	virtual void	SafetySave(const JXDocumentManager::SafetySaveReason reason);
-	bool		GetSafetySaveFileName(JString* fileName) const;
-	static bool	CheckForSafetySaveFiles(const JString& fullName,
+	virtual void	SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
+	bool			GetSafetySaveFileName(JString* fileName) const;
+	static bool		CheckForSafetySaveFiles(const JString& fullName,
 											JPtrArray<JString>* filesToOpen);
 
 	JChooseSaveFile*	GetChooseSaveFile() const;
@@ -95,15 +95,15 @@ protected:
 	void		AdjustWindowTitle();
 	void		FileChanged(const JString& fileName, const bool onDisk);
 
-	virtual bool	OKToClose();
-	virtual bool	OKToRevert();
-	virtual bool	CanRevert();
-	virtual void		HandleFileModifiedByOthers(const bool modTimeChanged,
-												   const bool permsChanged);
-	virtual JError		WriteFile(const JString& fullName, const bool safetySave) const;
-	virtual void		WriteTextFile(std::ostream& output, const bool safetySave) const;
+	virtual bool	OKToClose() override;
+	virtual bool	OKToRevert() override;
+	virtual bool	CanRevert() override;
+	virtual void	HandleFileModifiedByOthers(const bool modTimeChanged,
+											   const bool permsChanged);
+	virtual JError	WriteFile(const JString& fullName, const bool safetySave) const;
+	virtual void	WriteTextFile(std::ostream& output, const bool safetySave) const;
 
-	virtual JString		GetWindowTitle() const;
+	virtual JString	GetWindowTitle() const;
 
 	static FileStatus	DefaultCanReadASCIIFile(std::istream& input,
 												const JUtf8Byte* fileSignature,
@@ -117,9 +117,9 @@ protected:
 
 private:
 
-	JString		itsFilePath;
-	JString		itsFileName;
-	JString		itsFileSuffix;
+	JString	itsFilePath;
+	JString	itsFileName;
+	JString	itsFileSuffix;
 	bool	itsWasOnDiskFlag;
 	bool	itsSavedFlag;
 	bool	itsWantBackupFileFlag;			// true if derived class wants backup file
@@ -127,13 +127,13 @@ private:
 	bool	itsWantNewBackupEveryOpenFlag;	// true if replace backup before first save
 	bool	itsIsFirstSaveFlag;				// true if user hasn't saved yet
 	bool	itsAutosaveBeforeCloseFlag;		// true if always save before closing
-	time_t		itsFileModTime;
+	time_t	itsFileModTime;
 	bool	itsCheckModTimeFlag;
-	mode_t		itsFilePerms;
+	mode_t	itsFilePerms;
 	bool	itsCheckPermsFlag;
 	bool	itsAllocateTitleSpaceFlag;
 
-	bool	itsNeedSafetySaveFlag;	// true if not safety saved after latest DataModified()
+	bool		itsNeedSafetySaveFlag;	// true if not safety saved after latest DataModified()
 	JString*	itsSafetySaveFileName;	// not nullptr if safety save file exists
 
 	JChooseSaveFile*	itsCSF;			// we don't own this
@@ -145,9 +145,9 @@ private:
 
 private:
 
-	JString		GetFileNameForSave() const;
+	JString	GetFileNameForSave() const;
 	bool	SaveInCurrentFile1();
-	void		RemoveSafetySaveFile();
+	void	RemoveSafetySaveFile();
 
 	// not allowed
 

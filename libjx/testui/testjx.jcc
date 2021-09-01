@@ -1,4 +1,4 @@
-jx_browser_data 87
+jx_browser_data 88
 # project tree
 0 "root"
 T
@@ -183,10 +183,10 @@ F
 # tasks
 4
 "makemake"
-T "./" "&make_default ; /bin/sh -c 'JMM_INITIALIZE=yes JMM_SHRED=yes JMM_RECORD_ALLOCATED=yes JMM_PRINT_EXIT_STATS=yes ./$program --debug-ftc-horiz' ; echo \"Remaining memory should be 1008 bytes\"" "" F F F T T F F "Debug FTC Horiz" "F11" "" F
-T "./" "&make_default ; /bin/sh -c 'JMM_INITIALIZE=yes JMM_SHRED=yes JMM_RECORD_ALLOCATED=yes JMM_PRINT_EXIT_STATS=yes ./$program --debug-ftc-vert' ; echo \"Remaining memory should be 1008 bytes\"" "" F F F T T F F "Debug FTC Vert" "Shift-F11" "" T
-T "./" "testjx -MDI" "" F F F F T T F "" "" "$svHlVFP`<D)#Cpy3gRi::CBCommandManager" F
-T "./" "testjx --pseudotranslate" "" F F F F T T F "" "" "$svHlVFP`<D)#Cpy3gRi::CBCommandManager" F
+T "./" "&make_default ; /bin/sh -c 'JMM_INITIALIZE=yes JMM_SHRED=yes JMM_RECORD_ALLOCATED=yes JMM_PRINT_EXIT_STATS=yes ./$program --debug-ftc-horiz' ; echo \"Remaining memory should be 1008 bytes\"" "" FFFTTFF "Debug FTC Horiz" "F11" "" F
+T "./" "&make_default ; /bin/sh -c 'JMM_INITIALIZE=yes JMM_SHRED=yes JMM_RECORD_ALLOCATED=yes JMM_PRINT_EXIT_STATS=yes ./$program --debug-ftc-vert' ; echo \"Remaining memory should be 1008 bytes\"" "" FFFTTFF "Debug FTC Vert" "Shift-F11" "" T
+T "./" "testjx -MDI" "" FFFFTTF "" "" "$svHlVFP`<D)#Cpy3gRi::CBCommandManager" F
+T "./" "testjx --pseudotranslate" "" FFFFTTF "" "" "$svHlVFP`<D)#Cpy3gRi::CBCommandManager" F
 F
 # build settings
 1

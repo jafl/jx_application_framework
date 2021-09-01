@@ -24,13 +24,13 @@ public:
 	bool			IsClosing() const;
 	virtual bool	Close();
 
-	virtual void		Activate();
+	virtual void	Activate();
 	virtual bool	Deactivate();
 	bool			IsActive() const;
 
 	virtual void	Suspend();
 	virtual void	Resume();
-	bool		IsSuspended() const;
+	bool			IsSuspended() const;
 
 	bool	HasSubdirectors() const;
 	bool	GetSubdirectors(const JPtrArray<JXDirector>** list) const;
@@ -42,7 +42,7 @@ public:
 protected:
 
 	JXDirector*	GetSupervisor() const;
-	bool	CloseAllSubdirectors();
+	bool		CloseAllSubdirectors();
 
 	virtual void	DirectorClosed(JXDirector* theDirector);
 
@@ -52,7 +52,7 @@ private:
 	JPtrArray<JXDirector>*	itsSubdirectors;
 
 	bool	itsActiveFlag;
-	JSize		itsSuspendCount;
+	JSize	itsSuspendCount;
 	bool	itsClosingFlag;
 
 private:

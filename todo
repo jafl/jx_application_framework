@@ -217,6 +217,7 @@ cygwin
 
 switch to xcb
 	requires managing our own queue, so we can implement XCheckTypedWindowEvent, etc.
+	does xcb support XIM?
 
 -----
 
