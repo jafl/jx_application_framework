@@ -257,9 +257,9 @@ GPMSystemStats::ComputeStats
 			{
 			line = JReadLine(ms);
 
-			const JStringMatch m1 = freeMemoryPattern.Match(line, true),
-							   m2 = bufferMemoryPattern.Match(line, true),
-							   m3 = cacheMemoryPattern.Match(line, true);
+			const JStringMatch m1 = freeMemoryPattern.Match(line, JRegex::kIncludeSubmatches),
+							   m2 = bufferMemoryPattern.Match(line, JRegex::kIncludeSubmatches),
+							   m3 = cacheMemoryPattern.Match(line, JRegex::kIncludeSubmatches);
 			if (!m1.IsEmpty())
 				{
 				m1.GetSubstring(1).ConvertToUInt(&freeMem);	// usually kB
