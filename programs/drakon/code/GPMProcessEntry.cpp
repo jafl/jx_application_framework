@@ -334,7 +334,7 @@ GPMProcessEntry::ReadCmdline()
 			{
 			if (c == '\0')
 				{
-				iter.SetPrev(JUtf8Character(' '), false);
+				iter.SetPrev(JUtf8Character(' '), kJIteratorStay);
 				}
 			}
 
