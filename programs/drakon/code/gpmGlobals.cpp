@@ -59,7 +59,7 @@ GPMCreateGlobals
 		{
 		line = JReadLine(ms);
 
-		const JStringMatch m = totalMemoryPattern.Match(line, true);
+		const JStringMatch m = totalMemoryPattern.Match(line, JRegex::kIncludeSubmatches);
 		if (!m.IsEmpty())
 			{
 			m.GetSubstring(1).ConvertToUInt(&theSystemMemory);	// usually kB
