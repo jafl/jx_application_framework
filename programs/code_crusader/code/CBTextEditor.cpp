@@ -1205,7 +1205,7 @@ CBTextEditor::HandleKeyPress
 		CBCharActionManager* mgr;
 		if (!metaOn && !controlOn && itsDoc->GetCharActionManager(&mgr))
 			{
-			mgr->Perform(c.GetBytes()[0], itsDoc);
+			mgr->Perform(c, itsDoc);
 			}
 		}
 

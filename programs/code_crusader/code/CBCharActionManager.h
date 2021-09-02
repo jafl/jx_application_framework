@@ -8,7 +8,7 @@
 #ifndef _H_CBCharActionManager
 #define _H_CBCharActionManager
 
-#include <JPtrArray-JString.h>
+#include <JStringPtrMap.h>
 
 class CBTextDocument;
 
@@ -21,23 +21,22 @@ public:
 
 	~CBCharActionManager();
 
-	void	Perform(const unsigned char c, CBTextDocument* doc);
+	void	Perform(const JUtf8Character& c, CBTextDocument* doc);
 
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;
 
 	// called by CBCharActionTable
 
-	bool	GetAction(const unsigned char c, JString* script) const;
-	void		SetAction(const unsigned char c, const JString& script);
-	void		ClearAction(const unsigned char c);
-	void		ClearAllActions();
+	void	SetAction(const JUtf8Character& c, const JString& script);
+	void	ClearAction(const JUtf8Character& c);
+	void	ClearAllActions();
 
-	const JPtrArray<JString>&	GetActionList() const;
+	const JStringPtrMap<JString>&	GetActionMap() const;
 
 private:
 
-	JPtrArray<JString>*	itsActionList;
+	JStringPtrMap<JString>*	itsActionMap;
 
 private:
 
@@ -48,15 +47,15 @@ private:
 
 
 /******************************************************************************
- GetActionList
+ GetActionMap
 
  ******************************************************************************/
 
-inline const JPtrArray<JString>&
-CBCharActionManager::GetActionList()
+inline const JStringPtrMap<JString>&
+CBCharActionManager::GetActionMap()
 	const
 {
-	return *itsActionList;
+	return *itsActionMap;
 }
 
 #endif

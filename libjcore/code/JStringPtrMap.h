@@ -30,56 +30,55 @@ public:
 	bool GetElement(const JString& key, const V** ptr) const;
 
 	bool SetElement(const JString& key, V* ptr,
-						const JPtrArrayT::SetElementAction action,
-						const JStringMapT::SetType type = JStringMapT::kAlways);
+					const JPtrArrayT::SetElementAction action,
+					const JStringMapT::SetType type = JStringMapT::kAlways);
 	bool SetNewElement(const JString& key, V* ptr);	// avoid shadowing
 	bool SetOldElement(const JString& key, V* ptr,
-						   const JPtrArrayT::SetElementAction action);
+					   const JPtrArrayT::SetElementAction action);
 	bool SetContains(const JString& key, V* ptr,
-						 const JPtrArrayT::SetElementAction action);
+					 const JPtrArrayT::SetElementAction action);
 
 	bool GetElement(const JUtf8Byte* key, V** ptr);
 	bool GetElement(const JUtf8Byte* key, const V** ptr) const;
 
 	bool SetElement(const JUtf8Byte* key, V* ptr,
-						const JPtrArrayT::SetElementAction action,
-						const JStringMapT::SetType type = JStringMapT::kAlways);
+					const JPtrArrayT::SetElementAction action,
+					const JStringMapT::SetType type = JStringMapT::kAlways);
 	bool SetNewElement(const JUtf8Byte* key, V* ptr);	// avoid shadowing
 	bool SetOldElement(const JUtf8Byte* key, V* ptr,
-						   const JPtrArrayT::SetElementAction action);
+					   const JPtrArrayT::SetElementAction action);
 	bool SetContains(const JUtf8Byte* key, V* ptr,
-						 const JPtrArrayT::SetElementAction action);
+					 const JPtrArrayT::SetElementAction action);
 
 	// these insert a *copy* of the object into the array
-	// (only available if template instantiated with #define JStringPtrMapCopy)
 
 	bool SetElement(const JString& key, const V& data,
-						const JPtrArrayT::SetElementAction action,
-						const JStringMapT::SetType type = JStringMapT::kAlways);
+					const JPtrArrayT::SetElementAction action,
+					const JStringMapT::SetType type = JStringMapT::kAlways);
 	bool SetNewElement(const JString& key, const V& data);
 	bool SetOldElement(const JString& key, const V& data,
-						   const JPtrArrayT::SetElementAction action);
+					   const JPtrArrayT::SetElementAction action);
 	bool SetContains(const JString& key, const V& data,
-						 const JPtrArrayT::SetElementAction action);
+					 const JPtrArrayT::SetElementAction action);
 
-	bool	DeleteElement(const JString& key);
-	bool	DeleteElementAsArray(const JString& key);
+	bool DeleteElement(const JString& key);
+	bool DeleteElementAsArray(const JString& key);
 
 	bool SetElement(const JUtf8Byte* key, const V& data,
-						const JPtrArrayT::SetElementAction action,
-						const JStringMapT::SetType type = JStringMapT::kAlways);
+					const JPtrArrayT::SetElementAction action,
+					const JStringMapT::SetType type = JStringMapT::kAlways);
 	bool SetNewElement(const JUtf8Byte* key, const V& data);
 	bool SetOldElement(const JUtf8Byte* key, const V& data,
-						   const JPtrArrayT::SetElementAction action);
+					   const JPtrArrayT::SetElementAction action);
 	bool SetContains(const JUtf8Byte* key, const V& data,
-						 const JPtrArrayT::SetElementAction action);
+					 const JPtrArrayT::SetElementAction action);
 
-	bool	DeleteElement(const JUtf8Byte* key);
-	bool	DeleteElementAsArray(const JUtf8Byte* key);
+	bool DeleteElement(const JUtf8Byte* key);
+	bool DeleteElementAsArray(const JUtf8Byte* key);
 
-	void	CleanOut();		// safest
-	void	DeleteAll();
-	void	DeleteAllAsArrays();
+	void CleanOut();		// safest
+	void DeleteAll();
+	void DeleteAllAsArrays();
 
 	JPtrArrayT::CleanUpAction	GetCleanUpAction() const;
 	void						SetCleanUpAction(const JPtrArrayT::CleanUpAction action);

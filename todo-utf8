@@ -1,9 +1,10 @@
 JStyledText
 	optimize opening json file that requires word-wrap
 
+	slow when typing at end of 30M 5csv file
+
 	CleanRightMargin
 
-	slow when typing at end of 30M 5csv file
 
 
 medic - confused when using gdb
@@ -27,8 +28,6 @@ jcc
 	test CBMacroManager: Perform & HighlightErrors completely rewritten
 	test open flex, bison, maven error
 
-
-	CBCharActionManager: switch to JStringPtrMap
 
 	shell doc doesn't work at all
 

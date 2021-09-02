@@ -14,8 +14,6 @@
 #include "CBMacroManager.h"
 #include <jAssert.h>
 
-const JSize kActionCount = 256;
-
 // setup information
 
 const JFileVersion kCurrentSetupVersion   = 1;
@@ -30,10 +28,8 @@ const unsigned char kEndOfSetupListMarker = '\1';
 
 CBCharActionManager::CBCharActionManager()
 {
-	itsActionList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, kActionCount);
-	assert( itsActionList != nullptr );
-
-	ClearAllActions();
+	itsActionMap = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsActionMap != nullptr );
 }
 
 /******************************************************************************
@@ -46,8 +42,16 @@ CBCharActionManager::CBCharActionManager
 	const CBCharActionManager& source
 	)
 {
-	itsActionList = jnew JDCCPtrArray<JString>(*(source.itsActionList), JPtrArrayT::kDeleteAll);
-	assert( itsActionList != nullptr );
+	itsActionMap = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsActionMap != nullptr );
+
+	JStringMapCursor cursor(source.itsActionMap);
+	while (cursor.Next())
+		{
+		itsActionMap->SetNewElement(
+			cursor.GetKey().GetFirstCharacter(),
+			*cursor.GetValue());
+		}
 }
 
 /******************************************************************************
@@ -57,7 +61,7 @@ CBCharActionManager::CBCharActionManager
 
 CBCharActionManager::~CBCharActionManager()
 {
-	jdelete itsActionList;
+	jdelete itsActionMap;
 }
 
 /******************************************************************************
@@ -68,40 +72,14 @@ CBCharActionManager::~CBCharActionManager()
 void
 CBCharActionManager::Perform
 	(
-	const unsigned char	c,
-	CBTextDocument*		doc
+	const JUtf8Character&	c,
+	CBTextDocument*			doc
 	)
 {
-	const JString* script = itsActionList->GetElement(c+1);
-	if (script != nullptr)
+	JString* script;
+	if (itsActionMap->GetElement(JString(c), &script))
 		{
 		CBMacroManager::Perform(*script, doc);
-		}
-}
-
-/******************************************************************************
- GetAction
-
- ******************************************************************************/
-
-bool
-CBCharActionManager::GetAction
-	(
-	const unsigned char	c,
-	JString*			script
-	)
-	const
-{
-	const JString* s = itsActionList->GetElement(c+1);
-	if (s != nullptr)
-		{
-		*script = *s;
-		return true;
-		}
-	else
-		{
-		script->Clear();
-		return false;
 		}
 }
 
@@ -113,8 +91,8 @@ CBCharActionManager::GetAction
 void
 CBCharActionManager::SetAction
 	(
-	const unsigned char	c,
-	const JString&		script
+	const JUtf8Character&	c,
+	const JString&			script
 	)
 {
 	if (script.IsEmpty())
@@ -123,7 +101,7 @@ CBCharActionManager::SetAction
 		}
 	else
 		{
-		itsActionList->SetElement(c+1, script, JPtrArrayT::kDelete);
+		itsActionMap->SetElement(JString(c), script, JPtrArrayT::kDelete);
 		}
 }
 
@@ -135,10 +113,10 @@ CBCharActionManager::SetAction
 void
 CBCharActionManager::ClearAction
 	(
-	const unsigned char c
+	const JUtf8Character& c
 	)
 {
-	itsActionList->SetToNull(c+1, JPtrArrayT::kDelete);
+	itsActionMap->DeleteElement(JString(c));
 }
 
 /******************************************************************************
@@ -149,11 +127,7 @@ CBCharActionManager::ClearAction
 void
 CBCharActionManager::ClearAllActions()
 {
-	itsActionList->DeleteAll();
-	for (JIndex i=1; i<=kActionCount; i++)
-		{
-		itsActionList->Append(nullptr);
-		}
+	itsActionMap->CleanOut();
 }
 
 /******************************************************************************
@@ -178,11 +152,11 @@ CBCharActionManager::ReadSetup
 
 	input.ignore(1);
 
-	char c;
+	JUtf8Character c;
 	JString script;
 	while (true)
 		{
-		input.get(c);
+		input >> c;
 		if (c == kEndOfSetupListMarker)
 			{
 			break;
@@ -213,14 +187,11 @@ CBCharActionManager::WriteSetup
 {
 	output << ' ' << kCurrentSetupVersion << ' ';
 
-	for (JIndex i=1; i<=kActionCount; i++)
+	JStringMapCursor cursor(itsActionMap);
+	while (cursor.Next())
 		{
-		const JString* script = itsActionList->GetElement(i);
-		if (script != nullptr)
-			{
-			output.put((unsigned char) i-1);
-			output << *script;
-			}
+		output << cursor.GetKey().GetFirstCharacter();
+		output << ' ' << *cursor.GetValue();
 		}
 
 	output << kEndOfSetupListMarker;

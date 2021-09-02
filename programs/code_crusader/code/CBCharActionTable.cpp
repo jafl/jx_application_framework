@@ -88,7 +88,7 @@ CBCharActionTable::GetData
 	const JSize count            = GetRowCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		mgr->SetAction(data->GetString(i, kMacroColumn).GetFirstCharacter().GetBytes()[0],
+		mgr->SetAction(data->GetString(i, kMacroColumn).GetFirstCharacter(),
 					   data->GetString(i, kScriptColumn));
 		}
 }
@@ -107,21 +107,13 @@ CBCharActionTable::SetData
 	JStringTableData* data = GetStringData();
 	data->RemoveAllRows();
 
-	JUtf8Byte key[] = { '\0', '\0' };
-
-	const JPtrArray<JString>& actionList = mgr.GetActionList();
-	const JSize count                    = actionList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	const JStringPtrMap<JString>& actionMap = mgr.GetActionMap();
+	JStringMapCursor cursor(&actionMap);
+	while (cursor.Next())
 		{
-		const JString* script = actionList.GetElement(i);
-		if (script != nullptr)
-			{
-			data->AppendRows(1);
-
-			key[0] = (JUtf8Byte) i-1;
-			data->SetString(GetRowCount(), kMacroColumn,  JString(key, JString::kNoCopy));
-			data->SetString(GetRowCount(), kScriptColumn, *script);
-			}
+		data->AppendRows(1);
+		data->SetString(GetRowCount(), kMacroColumn,  cursor.GetKey());
+		data->SetString(GetRowCount(), kScriptColumn, *cursor.GetValue());
 		}
 
 	Activate();

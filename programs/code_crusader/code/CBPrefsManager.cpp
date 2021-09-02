@@ -1007,7 +1007,7 @@ CBPrefsManager::UpgradeData
 		if (FindMacroID(*itsMacroList, macroID, &macroIndex))
 			{
 			const MacroSetInfo macroInfo = itsMacroList->GetElement(macroIndex);
-			if (((macroInfo.macro)->GetMacroList()).GetElementCount() == 0)
+			if (macroInfo.macro->GetMacroList().IsEmpty())
 				{
 				AddDefaultCSharpMacros(macroInfo.macro);
 				}
@@ -1073,11 +1073,11 @@ CBPrefsManager::UpgradeData
 		if (FindMacroID(*itsMacroList, macroID, &macroIndex))
 			{
 			const MacroSetInfo macroInfo = itsMacroList->GetElement(macroIndex);
-			if (((macroInfo.macro)->GetMacroList()).GetElementCount() == 0)
+			if (macroInfo.macro->GetMacroList().IsEmpty())
 				{
 				AddDefaultXMLMacros(macroInfo.macro);
 				}
-			if (((macroInfo.action)->GetActionList()).GetElementCount() == 0)
+			if (macroInfo.action->GetActionMap().IsEmpty())
 				{
 				AddDefaultXMLActions(macroInfo.action);
 				}
@@ -1511,7 +1511,7 @@ CBPrefsManager::AddDefaultXMLActions
 	)
 	const
 {
-	mgr->SetAction('>',  JString("$(xml-auto-close $t)", JString::kNoCopy));
+	mgr->SetAction(JUtf8Character('>'),  JString("$(xml-auto-close $t)", JString::kNoCopy));
 }
 
 /******************************************************************************
