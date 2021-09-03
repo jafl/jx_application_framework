@@ -520,9 +520,9 @@ JStringMatch
 JTextEditor::SearchForward
 	(
 	const JRegex&	regex,
-	const bool	entireWord,
-	const bool	wrapSearch,
-	bool*		wrapped
+	const bool		entireWord,
+	const bool		wrapSearch,
+	bool*			wrapped
 	)
 {
 	const TextIndex i(
@@ -554,9 +554,9 @@ JStringMatch
 JTextEditor::SearchBackward
 	(
 	const JRegex&	regex,
-	const bool	entireWord,
-	const bool	wrapSearch,
-	bool*		wrapped
+	const bool		entireWord,
+	const bool		wrapSearch,
+	bool*			wrapped
 	)
 {
 	const TextIndex i(
@@ -588,7 +588,7 @@ JStringMatch
 JTextEditor::SelectionMatches
 	(
 	const JRegex&	regex,
-	const bool	entireWord
+	const bool		entireWord
 	)
 {
 	if (itsSelection.IsEmpty() ||
@@ -632,7 +632,7 @@ JTextEditor::ReplaceSelection
 	const JStringMatch&	match,
 	const JString&		replaceStr,
 	JInterpolate*		interpolator,
-	const bool		preserveCase
+	const bool			preserveCase
 	)
 {
 	assert( HasSelection() );
@@ -665,11 +665,11 @@ bool
 JTextEditor::ReplaceAll
 	(
 	const JRegex&	regex,
-	const bool	entireWord,
+	const bool		entireWord,
 	const JString&	replaceStr,
 	JInterpolate*	interpolator,
-	const bool	preserveCase,
-	const bool	restrictToSelection
+	const bool		preserveCase,
+	const bool		restrictToSelection
 	)
 {
 	if (restrictToSelection && !HasSelection())
@@ -892,8 +892,8 @@ JTextEditor::SetAllFontNameAndSize
 	const JString&		name,
 	const JSize			size,
 	const JCoordinate	tabWidth,
-	const bool		breakCROnly,
-	const bool		clearUndo
+	const bool			breakCROnly,
+	const bool			clearUndo
 	)
 {
 	itsDefTabWidth = tabWidth;
@@ -1044,8 +1044,8 @@ void
 JTextEditor::SetSelection
 	(
 	const TextRange&	range,
-	const bool		needCaretBcast,
-	const bool		ignoreCopyWhenSelect
+	const bool			needCaretBcast,
+	const bool			ignoreCopyWhenSelect
 	)
 {
 	if (itsIsDragSourceFlag)
@@ -1149,7 +1149,7 @@ JTextEditor::DeleteSelection()
 void
 JTextEditor::TabSelectionLeft
 	(
-	const JSize		tabCount,
+	const JSize	tabCount,
 	const bool	force
 	)
 {
@@ -2158,9 +2158,16 @@ JTextEditor::TEDrawCaret
 		if (itsText->GetText().CharacterIndexValid(caretLoc.location.charIndex))
 			{
 			const JUtf8Character c = GetCharacter(caretLoc.location);
-			if (c != '\n')
+			if (c == '\t')
 				{
-				w = GetCharWidth(caretLoc, c);
+				w = GetTabWidth(caretLoc.location.charIndex, GetCharLeft(caretLoc));
+				}
+			else if (c != '\n')
+				{
+				FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, caretLoc.location.charIndex);
+				JFont f;
+				iter.Next(&f);
+				w = f.GetCharWidth(itsFontManager, c);
 				}
 			}
 		p.Rect(x,y1, w+1,y2-y1);
@@ -3588,34 +3595,6 @@ JTextEditor::GetCharRight
 }
 
 /******************************************************************************
- GetCharWidth (private)
-
-	Returns the width of the specified character.
-
- ******************************************************************************/
-
-JCoordinate
-JTextEditor::GetCharWidth
-	(
-	const CaretLocation&	charLoc,
-	const JUtf8Character&	c
-	)
-	const
-{
-	if (c != '\t')
-		{
-		FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, charLoc.location.charIndex);
-		JFont f;
-		iter.Next(&f);
-		return f.GetCharWidth(itsFontManager, c);
-		}
-	else
-		{
-		return GetTabWidth(charLoc.location.charIndex, GetCharLeft(charLoc));
-		}
-}
-
-/******************************************************************************
  GetStringWidth (private)
 
 	Returns the width of the specified character range.
@@ -4312,14 +4291,21 @@ JTextEditor::GetSubwordForLine
 	*lineWidth = 0;
 
 	JUtf8Character c;
+	JFont f;
 	bool first = true;
 	while (textIter->Next(&c, kJIteratorStay))
 		{
-		const CaretLocation caretLoc(
-			TextIndex(textIter->GetNextCharacterIndex(), textIter->GetNextByteIndex()),
-			lineIndex);
+		JCoordinate dw;
+		if (c == '\t')
+			{
+			dw = GetTabWidth(textIter->GetNextCharacterIndex(), *lineWidth);
+			}
+		else
+			{
+			styleIter->Next(&f, kJIteratorStay);
+			dw = f.GetCharWidth(itsFontManager, c);
+			}
 
-		const JCoordinate dw = GetCharWidth(caretLoc, c);
 		if (!first && *lineWidth + dw > itsWidth)
 			{
 			break;

@@ -68,17 +68,17 @@ public:
 
 	// sorting functions
 
-	void		Sort();
+	void	Sort();
 
 	bool	InsertSorted(const T& data, const bool insertIfDuplicate = true,
-							 JIndex* index = nullptr);
-	JIndex		GetInsertionSortIndex(const T& data, bool* isDuplicate = nullptr) const;
+						 JIndex* index = nullptr);
+	JIndex	GetInsertionSortIndex(const T& data, bool* isDuplicate = nullptr) const;
 
 	bool	SearchSorted(const T& target, const JListT::SearchReturn which,
-							 JIndex* index) const;
-	JIndex		SearchSorted1(const T& target,
-							  const JListT::SearchReturn which,
-							  bool* found) const;
+						 JIndex* index) const;
+	JIndex	SearchSorted1(const T& target,
+						  const JListT::SearchReturn which,
+						  bool* found) const;
 
 	// unrelated, fast sort -- broadcasts Sorted
 	// (Do NOT use on JPtrArray!)

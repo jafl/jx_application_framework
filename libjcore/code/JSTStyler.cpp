@@ -113,7 +113,7 @@ JSTStyler::UpdateStyles
 	JRunArray<JFont>*	styles,
 	TextRange*			recalcRange,
 	TextRange*			redrawRange,
-	const bool		deletion,
+	const bool			deletion,
 	JArray<TokenData>*	tokenStartList
 	)
 {

@@ -1704,7 +1704,7 @@ CBTextEditor::StyledText::StyledText
 	(
 	CBTextDocument*	doc,
 	JFontManager*	fontManager,
-	const bool	pasteStyledText
+	const bool		pasteStyledText
 	)
 	:
 	JXStyledText(true, pasteStyledText, fontManager),
@@ -1725,13 +1725,14 @@ CBTextEditor::StyledText::AdjustStylesBeforeBroadcast
 	JRunArray<JFont>*			styles,
 	JStyledText::TextRange*		recalcRange,
 	JStyledText::TextRange*		redrawRange,
-	const bool				deletion
+	const bool					deletion
 	)
 {
 	CBStylerBase* styler = nullptr;
 	if (text.GetCharacterCount() < CBDocumentManager::kMinWarnFileSize &&
 		itsDoc->GetStyler(&styler))
 		{
+		styles->SetBlockSize(2048);
 		styler->UpdateStyles(this, text, styles,
 							 recalcRange, redrawRange,
 							 deletion, itsTokenStartList);

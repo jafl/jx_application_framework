@@ -35,11 +35,14 @@
  ******************************************************************************/
 
 template <class T>
-JRunArray<T>::JRunArray()
+JRunArray<T>::JRunArray
+	(
+	const JSize blockSize
+	)
 	:
 	JList<T>()
 {
-	itsRuns = jnew JArray< JRunArrayElement<T> >;
+	itsRuns = jnew JArray< JRunArrayElement<T> >(blockSize);
 	assert( itsRuns != nullptr );
 }
 
@@ -56,7 +59,7 @@ JRunArray<T>::JRunArray
 	:
 	JList<T>(source)
 {
-	itsRuns = jnew JArray< JRunArrayElement<T> >(*(source.itsRuns));
+	itsRuns = jnew JArray< JRunArrayElement<T> >(*source.itsRuns);
 	assert( itsRuns != nullptr );
 }
 
@@ -67,7 +70,7 @@ JRunArray<T>::JRunArray
 	const JIndexRange&	range
 	)
 {
-	itsRuns = jnew JArray< JRunArrayElement<T> >;
+	itsRuns = jnew JArray< JRunArrayElement<T> >(source.itsRuns->GetBlockSize());
 	assert( itsRuns != nullptr );
 
 	JIndex runIndex = 1, firstIndexInRun = 1;
@@ -104,7 +107,7 @@ JRunArray<T>::operator=
 
 	JCollection::operator=(source);		// JList::operator= is private
 
-	*itsRuns = *(source.itsRuns);
+	*itsRuns = *source.itsRuns;
 	JRunArray<T>::ListAssigned(source);
 
 	return *this;

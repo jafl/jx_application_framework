@@ -1,6 +1,4 @@
 JStyledText
-	optimize opening json file that requires word-wrap
-
 	slow when typing at end of 30M 5csv file
 
 	CleanRightMargin

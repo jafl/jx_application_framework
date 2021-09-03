@@ -502,7 +502,6 @@ private:
 
 	JCoordinate	GetCharLeft(const CaretLocation& charLoc) const;
 	JCoordinate	GetCharRight(const CaretLocation& charLoc) const;
-	JCoordinate	GetCharWidth(const CaretLocation& charLoc, const JUtf8Character& c) const;
 	JCoordinate	GetStringWidth(const JStyledText::TextIndex& startIndex,
 							   const JStyledText::TextIndex& endIndex,
 							   JRunArrayIterator<JFont>* iter) const;

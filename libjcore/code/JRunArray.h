@@ -45,7 +45,7 @@ class JRunArray : public JList<T>
 
 public:
 
-	JRunArray();
+	JRunArray(const JSize blockSize = 10);
 	JRunArray(const JRunArray<T>& source);
 	JRunArray(const JRunArray<T>& source, const JIndexRange& range);
 
@@ -67,10 +67,10 @@ public:
 
 	virtual void	RemoveAll() override;
 
-	bool	AllElementsEqual(T* data = nullptr) const;
+	bool		AllElementsEqual(T* data = nullptr) const;
 	JInteger	SumElements(const JIndex startIndex, const JIndex endIndex,
 							JInteger (*value)(const T& data)) const;
-	bool	FindPositiveSum(const JInteger requestedSum, const JIndex startIndex,
+	bool		FindPositiveSum(const JInteger requestedSum, const JIndex startIndex,
 								JIndex* endIndex, JInteger* trueSum,
 								JInteger (*value)(const T& data)) const;
 
@@ -95,9 +95,9 @@ private:
 	JSize		GetRunLength(const JIndex runIndex) const;
 	const T&	GetRunData(const JIndex runIndex) const;
 	void		SetRunData(const JIndex runIndex, const T& data);
-	bool	FindRun(const JIndex elementIndex,
+	bool		FindRun(const JIndex elementIndex,
 						JIndex* runIndex, JIndex* firstIndexInRun) const;
-	bool	IncrementalFindRun(const JIndex origIndex, const JIndex newIndex,
+	bool		IncrementalFindRun(const JIndex origIndex, const JIndex newIndex,
 								   JIndex* runIndex, JIndex* firstIndexInRun) const;
 
 	void	InsertRun(const JIndex runIndex, const JSize runLength, const T& item);
@@ -119,13 +119,13 @@ private:
 	void	IteratorRemoveElements(const JIndex firstIndex, const JSize count,
 								   JIndex* runIndex, JIndex* firstIndexInRun);
 
-	JIndex		PrivateInsertElementsAtIndex(const JIndex elementIndex,
-											 const T& data, const JSize newElementCount,
-											 JIndex* runIndex, JIndex* firstIndexInRun);
+	JIndex	PrivateInsertElementsAtIndex(const JIndex elementIndex,
+										 const T& data, const JSize newElementCount,
+										 JIndex* runIndex, JIndex* firstIndexInRun);
 	bool	PrivateSetElement(const JIndex elementIndex, const T& data,
+							  JIndex* runIndex, JIndex* firstIndexInRun);
+	void	PrivateRemoveElements(const JIndex firstIndex, const JSize count,
 								  JIndex* runIndex, JIndex* firstIndexInRun);
-	void		PrivateRemoveElements(const JIndex firstIndex, const JSize count,
-									  JIndex* runIndex, JIndex* firstIndexInRun);
 };
 
 #include "JRunArray.tmpl"
