@@ -408,8 +408,8 @@ protected:
 
 	virtual bool	NeedsToAdjustFontToDisplayGlyphs(const JString& text, const JRunArray<JFont>& style) const;
 	virtual bool	AdjustFontToDisplayGlyphs(const TextRange& range,
-												  const JString& text,
-												  JRunArray<JFont>* style);
+											  const JString& text,
+											  JRunArray<JFont>* style);
 
 	virtual void	AdjustStylesBeforeBroadcast(const JString& text,
 												JRunArray<JFont>* styles,

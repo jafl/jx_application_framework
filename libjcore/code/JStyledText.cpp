@@ -1857,6 +1857,8 @@ JStyledText::CleanText
 	*cleanText  = nullptr;
 	*cleanStyle = nullptr;
 
+	bool textModified = false;
+
 	// remove illegal characters
 
 	if (ContainsIllegalChars(text))
@@ -1864,6 +1866,7 @@ JStyledText::CleanText
 		COPY_FOR_CLEAN_TEXT
 
 		RemoveIllegalChars(*cleanText, *cleanStyle);
+		textModified = true;
 		}
 
 	// convert from DOS format -- deleting is n^2, so we copy instead
@@ -1918,7 +1921,8 @@ JStyledText::CleanText
 		{
 		COPY_FOR_CLEAN_TEXT
 
-		*okToInsert = FilterText(*cleanText, *cleanStyle);
+		*okToInsert  = FilterText(*cleanText, *cleanStyle);
+		textModified = true;
 		}
 
 	if (NeedsToAdjustFontToDisplayGlyphs(*cleanText  != nullptr ? **cleanText  : text,
@@ -1933,7 +1937,7 @@ JStyledText::CleanText
 			**cleanText, *cleanStyle);
 		}
 
-	return *cleanText != nullptr;
+	return textModified;
 }
 
 /******************************************************************************
