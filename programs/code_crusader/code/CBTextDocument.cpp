@@ -1309,7 +1309,7 @@ void
 CBTextDocument::ReadFile
 	(
 	const JString&	fileName,
-	const bool	firstTime
+	const bool		firstTime
 	)
 {
 	if (!itsTextEditor->GetText()->ReadPlainText(fileName, &itsFileFormat))

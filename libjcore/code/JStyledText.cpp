@@ -1912,7 +1912,7 @@ JStyledText::CleanText
 	// allow derived classes to make additional changes
 	// (last so we don't pass anything illegal to FilterText())
 
-	if (NeedsToFilterText(*cleanText  != nullptr ? **cleanText  : text))
+	if (NeedsToFilterText(*cleanText != nullptr ? **cleanText : text))
 		{
 		COPY_FOR_CLEAN_TEXT
 

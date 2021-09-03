@@ -87,7 +87,9 @@ JXStyledText::NeedsToAdjustFontToDisplayGlyphs
 		const bool ok = fiter.Next(&f);
 		assert( ok );
 
-		if (!f.HasGlyphForCharacter(itsFontManager, c))
+		// on ubuntu, reports false for newline!
+
+		if (!c.IsSpace() && !f.HasGlyphForCharacter(itsFontManager, c))
 			{
 			return true;
 			}
