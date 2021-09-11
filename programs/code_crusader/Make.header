@@ -63,7 +63,7 @@ endif
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${ljfs} ${shell pkg-config --libs editorconfig} ${J_STD_LIBS}
+LOADLIBES := -L${JLIBDIR} ${ljfs} ${shell pkg-config --libs editorconfig} -lreflex ${J_STD_LIBS}
 ifdef J_BUILD_SHARED_LIB
   LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
 endif
@@ -73,8 +73,10 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${ljfs} ${ljx} ${ljcore} ${J_STATIC_LINK_ACE_LIBS} \
                    ${J_END_LINK_STATIC} \
                    ${J_DYNAMIC_LINK_ACE_LIBS} \
-                   ${shell pkg-config --libs editorconfig} \
+                   ${shell pkg-config --libs editorconfig} -lreflex \
                    ${J_X11_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
+
+include make_reflex_target
 
 #####
 

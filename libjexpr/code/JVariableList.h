@@ -41,14 +41,14 @@ public:
 
 	virtual bool	IsArray(const JIndex index) const = 0;
 	virtual bool	ArrayIndexValid(const JIndex variableIndex,
-										const JIndex elementIndex) const = 0;
+									const JIndex elementIndex) const = 0;
 
 	virtual bool	GetNumericValue(const JIndex variableIndex,
-										const JIndex elementIndex,
-										JFloat* value) const = 0;
+									const JIndex elementIndex,
+									JFloat* value) const = 0;
 	virtual bool	GetNumericValue(const JIndex variableIndex,
-										const JIndex elementIndex,
-										JComplex* value) const = 0;
+									const JIndex elementIndex,
+									JComplex* value) const = 0;
 
 	virtual void	SetNumericValue(const JIndex variableIndex,
 									const JIndex elementIndex,
@@ -69,8 +69,8 @@ public:
 
 protected:
 
-	void		PushOnEvalStack(const JIndex variableIndex) const;
-	void		PopOffEvalStack(const JIndex variableIndex) const;
+	void	PushOnEvalStack(const JIndex variableIndex) const;
+	void	PopOffEvalStack(const JIndex variableIndex) const;
 	bool	IsOnEvalStack(const JIndex variableIndex) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -78,7 +78,7 @@ protected:
 private:
 
 	JPtrArray<JFunction>*	itsVarUserList;	// doesn't own objects
-	JArray<bool>*		itsEvalStack;
+	JArray<bool>*			itsEvalStack;
 
 private:
 

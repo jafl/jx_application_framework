@@ -12,7 +12,7 @@
 #include "CBCTree.h"
 #include "CBCClass.h"
 #include "CBCTreeDirector.h"
-#include "CBCTreeScanner.h"
+#include "CBCTreeScannerL.h"
 #include "CBCPreprocessor.h"
 #include <JStringIterator.h>
 #include <jStreamUtil.h>
@@ -203,7 +203,11 @@ CBCTree::ParseFile
 	JString data;
 	CBLanguage lang;
 
-	if (itsClassNameLexer->CreateClasses(fileName, id, this, &classList) &&
+	std::ifstream input(fileName.GetBytes());
+	itsClassNameLexer->in(&input);
+	itsClassNameLexer->start(CBCTreeScanner::INITIAL);
+
+	if (itsClassNameLexer->CreateClasses(id, this, &classList) &&
 		ProcessFile(fileName, kCBCHeaderFT, &data, &lang))
 		{
 		// check for pure virtual via ctags

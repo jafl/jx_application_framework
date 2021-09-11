@@ -1,32 +1,23 @@
-%{
+%top {
 /*
 Copyright (C) 2018 by John Lindal.
 */
 
-#define _H_JExprScannerL
-
-#include "JExprScanner.h"
+#include "JFunction.h"
+#include <JPtrArray-JString.h>
+#include "JExprParserY.hpp"
 #include <jAssert.h>
 
-#undef YY_DECL
-#define YY_DECL int JExprScanner::NextToken(YYSTYPE* lvalp)
-
-#define NEW_TOKEN(s) \
-	lvalp->pString = jnew JString(s); \
+#define NEW_TOKEN \
+	lvalp->pString = jnew JString(text(), size()); \
 	assert( lvalp->pString != nullptr );
-%}
+}
 
-%option c++ yyclass = "JExprScanner" prefix="JExpr"
-%option 8bit nodefault
-%option noyywrap
+%option lexer="JExprScanner"
+%option lex="NextToken" params="YYSTYPE* lvalp"
+%option unicode nodefault full freespace
 
 EXP	([eE][0-9]+)
-
-U    [\x80-\xbf]
-U2   [\xc2-\xdf]
-U3   [\xe0-\xef]
-U4   [\xf0-\xf4]
-UNI  ({U2}{U}|{U3}{U}{U}|{U4}{U}{U}{U})
 
 %%
 
@@ -42,12 +33,12 @@ UNI  ({U2}{U}|{U3}{U}{U}|{U4}{U}{U}{U})
 [1-9][0-9]*{EXP}?        |
 [0-9]+"."([0-9]+)?{EXP}? |
 ([0-9]+)?"."[0-9]+{EXP}? {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN
 	return P_NUMBER;
 }
 
 "0"[xX][0-9a-fA-F]+ {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN
 	return P_HEX;
 }
 
@@ -189,8 +180,8 @@ UNI  ({U2}{U}|{U3}{U}{U}|{U4}{U}{U}{U})
 	return P_FN_TRUNCATE;
 	}
 
-([[:alpha:]`]|{UNI})([[:alnum:]`_]|{UNI})* {	/* keep in sync with JVariableList::VariableNameValid() */
-	NEW_TOKEN(yytext);
+(\p{Letter}|`)(\p{Letter}|\p{Number}|`|_)* {
+	NEW_TOKEN
 	return P_VARIABLE;
 }
 
@@ -198,7 +189,9 @@ UNI  ({U2}{U}|{U3}{U}{U}|{U4}{U}{U}{U})
 
 	/* bison allows us to return single characters - operators included here */
 
-. return yytext[0];
+. {
+	return text()[0];
+}
 
 <<EOF>> {
 	return P_EOF;

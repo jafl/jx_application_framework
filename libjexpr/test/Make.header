@@ -43,9 +43,9 @@ endif
 
 ifdef J_BUILD_SHARED_LIB
   LOADLIBES := ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-               ${J_STD_LIBS}
+               -lreflex ${J_STD_LIBS}
 else
-  LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
+  LOADLIBES := -lreflex ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
 endif
 
 LDFLAGS :=

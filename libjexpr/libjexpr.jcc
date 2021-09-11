@@ -8,17 +8,13 @@ T
 F
 "./code/JExprParserY.y"
 T
-2 "JExprParser.cpp"
-F
-"./code/JExprParser.cpp"
-T
-2 "JExprScanner.cpp"
-F
-"./code/JExprScanner.cpp"
-T
 2 "JExprScannerL.l"
 F
 "./code/JExprScannerL.l"
+T
+2 "JExprParser.cpp"
+F
+"./code/JExprParser.cpp"
 T
 2 "JVariableList.cpp"
 F

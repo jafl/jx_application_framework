@@ -1,91 +1,109 @@
-%{
+%top {
 /*
 Copyright © 2014 by John Lindal.
 
 This scanner reads a PHP file and builds a CBPHPClass.
 */
 
-#define _H_CBPHPTreeScannerL
-
-#include "CBPHPTreeScanner.h"
 #include "CBPHPClass.h"
+#include <JString.h>
 #include <JStringIterator.h>
-#include <fstream>
+#include <JFAID.h>
 #include <jAssert.h>
+}
 
-#undef YY_DECL
-#define YY_DECL \
-	bool CBPHPTreeScanner::CreateClass( \
-		const JString& fileName, const JFAID_t fileID, \
-		CBTree* tree, CBClass** theClass)
-%}
+%option lexer="CBPHPTreeScanner"
+%option lex="CreateClass" token-type="bool"
+%option params="const JFAID_t fileID, CBTree* tree, CBClass** theClass"
+%option unicode nodefault full freespace
 
-%option c++ yyclass="CBPHPTreeScanner" prefix="CBPHPTree"
-%option 8bit nodefault stack noyywrap
+%class {
+
+public:
+
+	virtual ~CBPHPTreeScanner();
+
+private:
+
+	JString	itsPHPNamespace;
+	bool	itsAbstractFlag;
+	bool	itsFinalFlag;
+
+	JString					itsUseName;
+	JStringPtrMap<JString>*	itsUseMap;
+
+private:
+
+	// not allowed
+
+	CBPHPTreeScanner(const CBPHPTreeScanner& source);
+	CBPHPTreeScanner& operator=(const CBPHPTreeScanner& source);
+}
+
+%init {
+	itsUseMap = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsUseMap != nullptr );
+}
 
 %x NAMESPACE_STATE USE_STATE USE_AS_STATE CLASS_NAME_STATE INHERIT_STATE
 %x C_COMMENT_STATE CPP_COMMENT_STATE
 
 WS     [[:space:]]+
-BDRY   ({WS}|[^_[:alnum:]])
 
 HEXQUAD      ([[:xdigit:]]{4})
 UESCCODE     (\\[uU]{HEXQUAD})
-IDCAR        ([_[:alpha:]]|{UESCCODE})
-IDCDR        ([_[:alnum:]]|{UESCCODE})
+IDCAR        (_|\p{L}|{UESCCODE})
+IDCDR        (_|\p{L}|\d|{UESCCODE})
 ID           ({IDCAR}{IDCDR}*)
 NSID         ({ID}(\\{ID})*)
 
 %%
 
 %{
-	BEGIN(INITIAL);
+	itsAbstractFlag = false;
+	itsFinalFlag    = false;
+	*theClass       = nullptr;
 
-	JString phpNamespace, useName;
-	JStringPtrMap<JString> useMap(JPtrArrayT::kDeleteAll);
-	*theClass           = nullptr;
-	bool isAbstract = false;
-	bool isFinal    = false;
-
-	std::ifstream input(fileName.GetBytes());
-	switch_streams(&input, nullptr);
+	itsPHPNamespace.Clear();
+	itsUseName.Clear();
+	itsUseMap->CleanOut();
 %}
 
-namespace/{BDRY} {
-	BEGIN(NAMESPACE_STATE);
+namespace\b {
+	start(NAMESPACE_STATE);
 	}
 
-use/{BDRY} {
-	BEGIN(USE_STATE);
+use\b {
+	start(USE_STATE);
 	}
 
-final/{BDRY} {
-	isFinal = true;
+final\b {
+	itsFinalFlag = true;
 	}
 
-abstract/{BDRY} {
-	isAbstract = true;
+abstract\b {
+	itsAbstractFlag = true;
 	}
 
-class/{BDRY} {
-	BEGIN(CLASS_NAME_STATE);
+class\b {
+	start(CLASS_NAME_STATE);
 	}
 
-interface/{BDRY} {
-	BEGIN(CLASS_NAME_STATE);
-	isAbstract = true;
+interface\b {
+	start(CLASS_NAME_STATE);
+	itsAbstractFlag = true;
 	}
 
-(extends|implements)/{BDRY} {
-	BEGIN(INHERIT_STATE);
+(extends|implements)\b {
+	start(INHERIT_STATE);
 	}
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//"|"#" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 "{" {
@@ -105,18 +123,18 @@ interface/{BDRY} {
 <NAMESPACE_STATE>{
 
 {NSID} {
-	phpNamespace.Set(yytext, yyleng);
-	BEGIN(INITIAL);
+	itsPHPNamespace.Set(text(), size());
+	start(INITIAL);
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//"|"#" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
@@ -131,29 +149,29 @@ interface/{BDRY} {
 
 <USE_STATE>{
 
-as/{BDRY} {
-	BEGIN(USE_AS_STATE);
+as\b {
+	start(USE_AS_STATE);
 	}
 
 {NSID} {
-	JString* s = jnew JString(yytext, yyleng);
+	JString* s = jnew JString(text(), size());
 	assert( s != nullptr );
-	useMap.SetElement(*s, s, JPtrArrayT::kDelete);
-	useName = *s;
+	itsUseMap->SetElement(*s, s, JPtrArrayT::kDelete);
+	itsUseName = *s;
 	}
 
 ; {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//"|"#" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
@@ -166,20 +184,20 @@ as/{BDRY} {
 <USE_AS_STATE>{
 
 {ID} {
-	JString* s = jnew JString(yytext, yyleng);
+	JString* s = jnew JString(text(), size());
 	assert( s != nullptr );
-	useMap.SetElement(useName, s, JPtrArrayT::kDelete);
-	BEGIN(INITIAL);
+	itsUseMap->SetElement(itsUseName, s, JPtrArrayT::kDelete);
+	start(INITIAL);
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//"|"#" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
@@ -195,28 +213,28 @@ as/{BDRY} {
 <CLASS_NAME_STATE>{
 
 {ID} {
-	JString fullName(yytext, yyleng);
-	if (!phpNamespace.IsEmpty())
+	JString fullName(text(), size());
+	if (!itsPHPNamespace.IsEmpty())
 		{
 		fullName.Prepend("\\");
-		fullName.Prepend(phpNamespace);
+		fullName.Prepend(itsPHPNamespace);
 		}
 
-	*theClass = jnew CBPHPClass(fullName, CBClass::kClassType, fileID, tree, isFinal);
+	*theClass = jnew CBPHPClass(fullName, CBClass::kClassType, fileID, tree, itsFinalFlag);
 	assert( *theClass != nullptr );
-	(**theClass).SetAbstract(isAbstract);
+	(**theClass).SetAbstract(itsAbstractFlag);
 
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//"|"#" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
@@ -240,17 +258,17 @@ implements	/* ignore */
 		return false;
 		}
 
-	JString parentName(yytext, yyleng);
+	JString parentName(text(), size());
 	if (parentName.BeginsWith("\\"))
 		{
-		parentName.Set(yytext+1, yyleng-1);
+		parentName.Set(text()+1, size()-1);
 		}
 	else if (!parentName.Contains("\\"))
 		{
 		JString s = parentName;
 		s.Prepend("\\");
 
-		JStringPtrMapCursor<JString> cursor(&useMap);
+		JStringPtrMapCursor<JString> cursor(itsUseMap);
 		JString key;
 		while (cursor.Next())
 			{
@@ -272,11 +290,11 @@ implements	/* ignore */
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//"|"#" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
@@ -298,7 +316,7 @@ implements	/* ignore */
 "*"+[^*/\n]*\n		/* ignore everything inside comment */
 
 "*"+"/" {
-	yy_pop_state();
+	pop_state();
 	}
 
 }
@@ -312,9 +330,14 @@ implements	/* ignore */
 [^\n]+				/* ignore everything inside comment */
 
 \n {
-	yy_pop_state();
+	pop_state();
 	}
 
 }
 
 %%
+
+CBPHPTreeScanner::~CBPHPTreeScanner()
+{
+	jdelete itsUseMap;
+}

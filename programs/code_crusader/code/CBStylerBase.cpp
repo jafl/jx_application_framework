@@ -16,7 +16,7 @@
 			to the latest version, so it matches the type names passed
 			to the constructor.
 
-	BASE CLASS = JTEStyler, JPrefObject, virtual JBroadcaster
+	BASE CLASS = JSTStyler, JPrefObject, virtual JBroadcaster
 
 	Copyright © 1998 by John Lindal.
 

@@ -1,4 +1,4 @@
-%{
+%top {
 /*
 Copyright © 2021 by John Lindal.
 
@@ -7,31 +7,60 @@ This scanner reads a GoLang file and creates CBGoClass instances.
 
 #define _H_CBGoTreeScannerL
 
-#include "CBGoTreeScanner.h"
 #include "CBGoClass.h"
+#include <JStringIterator.h>
 #include <JRegex.h>
+#include <JPtrArray.h>
 #include <JStringPtrMap.h>
-#include <fstream>
+#include <JFAID.h>
 #include <jAssert.h>
 
-#undef YY_DECL
-#define YY_DECL \
-	bool CBGoTreeScanner::CreateClasses( \
-		const JString& fileName, const JFAID_t fileID, \
-		CBTree* tree, JPtrArray<CBClass>* classList)
-%}
+static const JRegex modulePattern("(?:.+?/)*(.+?)(?:/[vV][.0-9]+)?");
+}
 
-%option c++ yyclass = "CBGoTree" prefix = "CBGoTree"
-%option 8bit nodefault stack noyywrap
+%option lexer="CBGoTreeScanner"
+%option lex="CreateClasses" token-type="bool"
+%option params="const JFAID_t fileID, CBTree* tree, JPtrArray<CBClass>* classList"
+%option unicode nodefault full freespace
+
+%class {
+
+public:
+
+	virtual ~CBGoTreeScanner();
+
+private:
+
+	JString					itsPackage;
+	JString					itsImportAlias;
+	JStringPtrMap<JString>*	itsImportMap;
+	JString					itsTypeName;
+	JUtf8Character			itsAbstractFlag;
+	CBGoClass*				itsCurrentClass;
+	JString					itsTypeContent;
+
+private:
+
+	void	ParseTypeContent(CBClass* goClass);
+
+	// not allowed
+
+	CBGoTreeScanner(const CBGoTreeScanner& source);
+	CBGoTreeScanner& operator=(const CBGoTreeScanner& source);
+}
+
+%init {
+	itsImportMap = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsImportMap != nullptr );
+}
 
 %x PACKAGE_STATE IMPORT_STATE CLASS_NAME_STATE INHERIT_STATE
 %x C_COMMENT_STATE CPP_COMMENT_STATE STRING_STATE
 
 WS     [[:space:]]+
-BDRY   ({WS}|[^_[:alnum:]])
 
-IDCAR  [_[:alpha:]]
-IDCDR  [_[:alnum:]]
+IDCAR  (_|\p{L})
+IDCDR  (_|\p{L}|\d)
 ID     ({IDCAR}{IDCDR}*)
 
 OTHER_KEYWORD (break|case|chan|const|continue|default|defer|else|fallthrough|false|for|func|go|goto|if|interface|iota|map|nil|range|return|select|struct|switch|true|var)
@@ -43,45 +72,39 @@ FUNCTION      (append|cap|close|complex|copy|delete|imag|len|make|new|panic|prin
 %%
 
 %{
-	BEGIN(INITIAL);
+	itsCurrentClass = nullptr;
 
-	JString package;
-	JString importAlias;
-	JStringPtrMap<JString> importMap(JPtrArrayT::kDeleteAll);
-	JString typeName;
-	JUtf8Character abstract;
-	CBGoClass* currentClass = nullptr;
-	JString typeContent;
-
-	const JRegex modulePattern("(?:.+?/)*(.+?)(?:/[vV][.0-9]+)?");
-
-	std::ifstream input(fileName.GetBytes());
-	switch_streams(&input, nullptr);
+	itsPackage.Clear();
+	itsImportAlias.Clear();
+	itsImportMap->CleanOut();
+	itsTypeName.Clear();
+	itsAbstractFlag = ' ';
+	itsTypeContent.Clear();
 %}
 
-package/{BDRY} {
-	BEGIN(PACKAGE_STATE);
+package\b {
+	start(PACKAGE_STATE);
 	}
 
-import/{BDRY}  {
-	importAlias.Clear();
-	BEGIN(IMPORT_STATE);
+import\b  {
+	itsImportAlias.Clear();
+	start(IMPORT_STATE);
 	}
 
-type/{BDRY} {
-	BEGIN(CLASS_NAME_STATE);
+type\b {
+	start(CLASS_NAME_STATE);
 	}
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 \" {
-	BEGIN(STRING_STATE);
+	start(STRING_STATE);
 	}
 
 `(.|\n)*`	/* ignore raw strings -- no backslash interpretation */
@@ -89,7 +112,7 @@ type/{BDRY} {
 {OTHER_KEYWORD}{WS} |
 {DATATYPE}{WS}      |
 {FUNCTION}{WS}      {
-	currentClass = nullptr;
+	itsCurrentClass = nullptr;
 	}
 
 .|\n	/* ignore */
@@ -99,29 +122,29 @@ type/{BDRY} {
 	}
 
 
-	/* Extract class package */
+	/* Extract class itsPackage */
 
 
 <PACKAGE_STATE>{
 
 {ID} {
-	package.Set(yytext, yyleng);
-	BEGIN(INITIAL);
+	itsPackage.Set(text(), size());
+	start(INITIAL);
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
-	currentClass = nullptr;
-	BEGIN(INITIAL);
+	itsCurrentClass = nullptr;
+	start(INITIAL);
 	}
 
 }
@@ -133,37 +156,37 @@ type/{BDRY} {
 <IMPORT_STATE>{
 
 {ID}|\. {
-	importAlias.Set(yytext, yyleng);
-	if (importAlias == "_" || importAlias == ".")
+	itsImportAlias.Set(text(), size());
+	if (itsImportAlias == "_" || itsImportAlias == ".")
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		}
-	importAlias += ".";		// easier lookup
+	itsImportAlias += ".";		// easier lookup
 	}
 
 \"[^"]+\" {
-	JString s(yytext+1, yyleng-2);
+	JString s(text()+1, size()-2);
 	const JStringMatch m = modulePattern.Match(s, JRegex::kIncludeSubmatches);
-	if (!m.IsEmpty() && !importAlias.IsEmpty())
+	if (!m.IsEmpty() && !itsImportAlias.IsEmpty())
 		{
-		importMap.SetNewElement(importAlias, m.GetSubstring(1));
+		itsImportMap->SetNewElement(itsImportAlias, m.GetSubstring(1));
 		}
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
-	currentClass = nullptr;
-	BEGIN(INITIAL);
+	itsCurrentClass = nullptr;
+	start(INITIAL);
 	}
 
 }
@@ -175,58 +198,58 @@ type/{BDRY} {
 <CLASS_NAME_STATE>{
 
 {ID} {
-	typeName.Set(yytext, yyleng);
-	abstract = ' ';
+	itsTypeName.Set(text(), size());
+	itsAbstractFlag = ' ';
 	}
 
-struct/{BDRY} {
-	abstract = 'F';
+struct\b {
+	itsAbstractFlag = 'F';
 	}
 
-interface/{BDRY} {
-	abstract = 'T';
+interface\b {
+	itsAbstractFlag = 'T';
 	}
 
 "{" {
-	if (abstract == ' ')
+	if (itsAbstractFlag == ' ')
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		}
 	else
 		{
-		const bool isExported = typeName.GetFirstCharacter().IsUpper();
+		const bool isExported = itsTypeName.GetFirstCharacter().IsUpper();
 
-		if (!package.IsEmpty())
+		if (!itsPackage.IsEmpty())
 			{
-			typeName.Prepend(".");
-			typeName.Prepend(package);
+			itsTypeName.Prepend(".");
+			itsTypeName.Prepend(itsPackage);
 			}
 
-		currentClass = jnew CBGoClass(typeName, CBClass::kClassType, fileID, tree,
+		itsCurrentClass = jnew CBGoClass(itsTypeName, CBClass::kClassType, fileID, tree,
 									  isExported);
-		assert( currentClass != nullptr );
+		assert( itsCurrentClass != nullptr );
 
-		currentClass->SetAbstract(abstract == 'T');
-		classList->Append(currentClass);
+		itsCurrentClass->SetAbstract(itsAbstractFlag == 'T');
+		classList->Append(itsCurrentClass);
 
-		typeContent.Clear();
-		BEGIN(INHERIT_STATE);
+		itsTypeContent.Clear();
+		start(INHERIT_STATE);
 		}
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
-	currentClass = nullptr;
-	BEGIN(INITIAL);
+	itsCurrentClass = nullptr;
+	start(INITIAL);
 	}
 
 }
@@ -238,21 +261,21 @@ interface/{BDRY} {
 <INHERIT_STATE>{
 
 [^/}]+|"/" {
-	typeContent += JString(yytext, yyleng, JString::kNoCopy);
+	itsTypeContent += JString(text(), size(), JString::kNoCopy);
 	}
 
 "}" {
-	ParseTypeContent(currentClass, typeContent, importMap);
-	currentClass = nullptr;
-	BEGIN(INITIAL);
+	ParseTypeContent(itsCurrentClass);
+	itsCurrentClass = nullptr;
+	start(INITIAL);
 	}
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 }
@@ -270,7 +293,7 @@ interface/{BDRY} {
 "*"+[^*/\n]*\n		/* ignore everything inside comment */
 
 "*"+"/" {
-	yy_pop_state();
+	pop_state();
 	}
 
 }
@@ -284,7 +307,7 @@ interface/{BDRY} {
 [^\n]+				/* ignore everything inside comment */
 
 \n {
-	yy_pop_state();
+	pop_state();
 	}
 
 }
@@ -297,11 +320,11 @@ interface/{BDRY} {
 <STRING_STATE>{
 
 \" {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 \n {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 \\.? |
@@ -310,3 +333,46 @@ interface/{BDRY} {
 }
 
 %%
+
+CBGoTreeScanner::~CBGoTreeScanner()
+{
+	jdelete itsImportMap;
+}
+
+static const JRegex separator(";|\n");
+static const JRegex nsid("^\\*?(((_|\\p{L})(_|\\p{L}|\\d)*\\.)?(_|\\p{L})(_|\\p{L}|\\d)*)$");
+
+void
+CBGoTreeScanner::ParseTypeContent
+	(
+	CBClass* goClass
+	)
+{
+	JPtrArray<JString> lineList(JPtrArrayT::kDeleteAll);
+	itsTypeContent.Split(separator, &lineList);
+
+	for (auto* line : lineList)
+		{
+		line->TrimWhitespace();
+
+		const JStringMatch m = nsid.Match(*line, JRegex::kIncludeSubmatches);
+		if (m.IsEmpty())
+			{
+			continue;
+			}
+		JString parent = m.GetSubstring(1);
+
+		const JString* itsPackage;
+		if (!m.GetUtf8ByteRange(2).IsEmpty() &&
+			itsImportMap->GetElement(m.GetSubstring(2), &itsPackage))
+			{
+			JStringIterator iter(&parent);
+			iter.Next(".");
+			iter.RemoveAllPrev();
+			parent.Prepend(".");
+			parent.Prepend(*itsPackage);
+			}
+
+		goClass->AddParent(CBClass::kInheritPublic, parent);
+		}
+}

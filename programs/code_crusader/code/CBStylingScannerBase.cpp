@@ -1,18 +1,15 @@
 /******************************************************************************
- CBCSharpScanner.cpp
+ CBStylingScannerBase.cpp
 
-	C++ lexer for keyword styling.
+	Base class for keyword styling lexer.
 
-	BASE CLASS = public CBCSharpFlexLexer
+	BASE CLASS = reflex::AbstractLexer<reflex::Matcher>
 
-	Copyright © 1997 by Dustin Laurence.
-	Copyright © 2004 by John Lindal.
+	Copyright © 2021 by John Lindal.
 
  *****************************************************************************/
 
-#include "CBCSharpScanner.h"
-#include <JString.h>
-#include <jStreamUtil.h>
+#include "CBStylingScannerBase.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -20,40 +17,33 @@
 
  *****************************************************************************/
 
-CBCSharpScanner::CBCSharpScanner()
+CBStylingScannerBase::CBStylingScannerBase
+	(
+	const reflex::Input&	input,
+	std::ostream&			os
+	)
 	:
-	CBCSharpFlexLexer(),
-	itsResetFlag(false),
-	itsIsDocCommentFlag(false)
+	reflex::AbstractLexer<reflex::Matcher>(input, os)
 {
 }
 
 /******************************************************************************
- Destructor
-
- *****************************************************************************/
-
-CBCSharpScanner::~CBCSharpScanner()
-{
-}
-
-/******************************************************************************
- BeginScan
+ BeginScan (virtual)
 
  *****************************************************************************/
 
 void
-CBCSharpScanner::BeginScan
+CBStylingScannerBase::BeginScan
 	(
 	const JStyledText::TextIndex&	startIndex,
 	std::istream&					input
 	)
 {
-	itsResetFlag = true;
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 
-	switch_streams(&input, nullptr);
+	in(&input);
+	start(0);
 }
 
 /******************************************************************************
@@ -64,7 +54,7 @@ CBCSharpScanner::BeginScan
  *****************************************************************************/
 
 void
-CBCSharpScanner::Undo
+CBStylingScannerBase::Undo
 	(
 	const JStyledText::TextRange&	range,
 	const JSize						prevCharByteCount,
@@ -73,7 +63,7 @@ CBCSharpScanner::Undo
 {
 	for (JUnsignedOffset i=text.GetByteCount()-1; i>=0; i--)
 		{
-		yyunput(text.GetBytes()[i], yytext);
+		matcher().unput(text.GetBytes()[i]);
 		}
 
 	itsCurrentRange.charRange.first =
@@ -84,24 +74,33 @@ CBCSharpScanner::Undo
 }
 
 /******************************************************************************
- SavePPNameRange (private)
+ SavePPNameRange (virtual protected)
 
 	Saves the range containing the name of the preprocessor directive.
+
+	e.g.  ...\n  #include <iostream>  // need to read from std::cin\n...
+				 ^^^^^^^^
+
+	This is necessary because the entire line is treated as one token
+	in order to simplify the context-sensitive highlighting code.
 
  *****************************************************************************/
 
 void
-CBCSharpScanner::SavePPNameRange()
+CBStylingScannerBase::SavePPNameRange
+	(
+	std::function<bool(const char)>& skip
+	)
 {
 	itsPPNameRange = itsCurrentRange;
 
 	JIndex i=0;
-	while (yytext[i] != '#')
+	while (skip(text()[i]))
 		{
 		i++;
 		}
-	assert( i < (JSize) yyleng );
+	assert( i < (JSize) size() );
 
-	itsPPNameRange.charRange.first += JString::CountCharacters(yytext, i);
+	itsPPNameRange.charRange.first += JString::CountCharacters(text(), i);
 	itsPPNameRange.byteRange.first += i;
 }

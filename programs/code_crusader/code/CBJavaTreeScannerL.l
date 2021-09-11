@@ -1,39 +1,72 @@
-%{
+%top {
 /*
 Copyright © 1999 by John Lindal.
 
 This scanner reads a Java file and builds a CBJavaClass.
 */
 
-#define _H_CBJavaTreeScannerL
-
-#include "CBJavaTreeScanner.h"
 #include "CBJavaClass.h"
+#include <JPtrArray.h>
 #include <JStringIterator.h>
-#include <fstream>
+#include <JFAID.h>
 #include <jAssert.h>
+}
 
-#undef YY_DECL
-#define YY_DECL \
-	bool CBJavaTreeScanner::CreateClasses( \
-		const JString& fileName, const JFAID_t fileID, \
-		CBTree* tree, JPtrArray<CBClass>* classList)
-%}
+%option lexer="CBJavaTreeScanner"
+%option lex="CreateClasses" token-type="bool"
+%option params="const JFAID_t fileID, CBTree* tree, JPtrArray<CBClass>* classList"
+%option unicode nodefault full freespace
 
-%option c++ yyclass="CBJavaTreeScanner" prefix="CBJavaTree"
-%option 8bit nodefault stack noyywrap
+%class {
+
+public:
+
+	virtual ~CBJavaTreeScanner();
+
+private:
+
+	JString		itsPackage;
+	bool		itsAbstractFlag;
+	bool		itsPublicFlag;
+	bool		itsFinalFlag;
+	CBClass*	itsCurrentClass;
+
+	JInteger	itsGenericDepth;
+	bool		itsGenericPop;
+
+	JPtrArray<JString>*	itsImportList;
+
+private:
+
+	void ResetState()
+	{
+		itsAbstractFlag = false;
+		itsPublicFlag   = false;
+		itsFinalFlag    = false;
+		itsCurrentClass = nullptr;
+	}
+
+	// not allowed
+
+	CBJavaTreeScanner(const CBJavaTreeScanner& source);
+	CBJavaTreeScanner& operator=(const CBJavaTreeScanner& source);
+}
+
+%init {
+	itsImportList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsImportList != nullptr );
+}
 
 %x CLASS_NAME_STATE INHERIT_STATE
 %x GENERIC_STATE C_COMMENT_STATE CPP_COMMENT_STATE STRING_STATE
 
 WS     [[:space:]]+
 MS     [[:space:]]*
-BDRY   ({WS}|[^_[:alnum:]])
 
 HEXQUAD      ([[:xdigit:]]{4})
 UESCCODE     (\\[uU]{HEXQUAD})
-IDCAR        ([_[:alpha:]]|{UESCCODE})
-IDCDR        ([_[:alnum:]]|{UESCCODE})
+IDCAR        (_|\p{L}|{UESCCODE})
+IDCDR        (_|\p{L}|\d|{UESCCODE})
 ID           ({IDCAR}{IDCDR}*)
 NSID         ({ID}(\.{ID})*)
 
@@ -42,72 +75,69 @@ OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compile
 %%
 
 %{
-	BEGIN(INITIAL);
 	ResetState();
 
-	JString package;
-	JInteger genericDepth;
-	bool genericPop = false;
-	JPtrArray<JString> importList(JPtrArrayT::kDeleteAll);
+	itsGenericDepth = 1;
+	itsGenericPop   = false;
 
-	std::ifstream input(fileName.GetBytes());
-	switch_streams(&input, nullptr);
+	itsPackage.Clear();
+	itsImportList->CleanOut();
 %}
 
 package{WS}{NSID}{MS}; {
-	package.Set(yytext+7, yyleng-8);
-	package.TrimWhitespace();
+	itsPackage.Set(text()+7, size()-8);
+	itsPackage.TrimWhitespace();
 	}
 
 import{WS}{NSID}{MS};  {
-	JString s(yytext+6, yyleng-7);
+	JString s(text()+6, size()-7);
 	s.TrimWhitespace();
-	importList.Append(s);
+	itsImportList->Append(s);
 	}
 
-public/{BDRY} {
+public\b {
 	itsPublicFlag = true;
 	}
 
-(protected|private)/{BDRY} {
+(protected|private)\b {
 	itsPublicFlag = false;
 	}
 
-final/{BDRY} {
+final\b {
 	itsFinalFlag = true;
 	}
 
-abstract/{BDRY} {
+abstract\b {
 	itsAbstractFlag = true;
 	}
 
-class/{BDRY} {
+class\b {
 	itsAbstractFlag = false;
-	BEGIN(CLASS_NAME_STATE);
+	start(CLASS_NAME_STATE);
 	}
 
-interface/{BDRY} {
+interface\b {
 	itsAbstractFlag = true;
-	BEGIN(CLASS_NAME_STATE);
+	start(CLASS_NAME_STATE);
 	}
 
-(extends|implements)/{BDRY} {
-	BEGIN(INHERIT_STATE);
+(extends|implements)\b {
+	start(INHERIT_STATE);
 	}
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 \" {
-	BEGIN(STRING_STATE);
+	start(STRING_STATE);
 	}
 
-{OTHER_KEYWORD}/{BDRY} {
+{OTHER_KEYWORD}\b {
 	ResetState();
 	}
 
@@ -126,22 +156,22 @@ interface/{BDRY} {
 {ID}({MS}"<")? {
 	if (classList->GetElementCount() == 1)
 		{
-		package = classList->GetFirstElement()->GetFullName();
+		itsPackage = classList->GetFirstElement()->GetFullName();
 		}
 
-	JString fullName(yytext, yyleng);
+	JString fullName(text(), size());
 	bool generic = false;
 	if (fullName.GetLastCharacter() == '<')
 		{
 		generic = true;
-		fullName.Set(yytext, yyleng-1);
+		fullName.Set(text(), size()-1);
 		fullName.TrimWhitespace();
 		}
 
-	if (!package.IsEmpty())
+	if (!itsPackage.IsEmpty())
 		{
 		fullName.Prepend(".");
-		fullName.Prepend(package);
+		fullName.Prepend(itsPackage);
 		}
 
 	CBJavaClass* c = jnew CBJavaClass(fullName, CBClass::kClassType, fileID, tree,
@@ -157,29 +187,29 @@ interface/{BDRY} {
 	if (generic)
 		{
 		c->SetTemplate();
-		genericDepth = 1;
-		genericPop   = false;
-		BEGIN(GENERIC_STATE);
+		itsGenericDepth = 1;
+		itsGenericPop   = false;
+		start(GENERIC_STATE);
 		}
 	else
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		}
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 }
@@ -199,13 +229,13 @@ implements	/* ignore */
 		return false;
 		}
 
-	JString parentName(yytext, yyleng);
+	JString parentName(text(), size());
 
 	bool generic = false;
 	if (parentName.GetLastCharacter() == '<')
 		{
 		generic = true;
-		parentName.Set(yytext, yyleng-1);
+		parentName.Set(text(), size()-1);
 		parentName.TrimWhitespace();
 		}
 
@@ -215,7 +245,7 @@ implements	/* ignore */
 	bool found = false;
 	while (true)
 		{
-		for (const auto* c : importList)
+		for (const auto* c : *itsImportList)
 			{
 			if (!c->EndsWith(s))
 				{
@@ -248,22 +278,22 @@ implements	/* ignore */
 
 	if (!found && !parentName.Contains("."))
 		{
-		parentName = package + "." + parentName;
+		parentName = itsPackage + "." + parentName;
 		}
 
 	itsCurrentClass->AddParent(CBClass::kInheritPublic, parentName);
 
 	if (generic)
 		{
-		genericDepth = 1;
-		genericPop   = true;
-		yy_push_state(GENERIC_STATE);
+		itsGenericDepth = 1;
+		itsGenericPop   = true;
+		push_state(GENERIC_STATE);
 		}
 	}
 
 "{" {
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 ","		/* ignore */
@@ -271,16 +301,16 @@ implements	/* ignore */
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 }
@@ -292,18 +322,18 @@ implements	/* ignore */
 <GENERIC_STATE>{
 
 "<" {
-	genericDepth++;
+	itsGenericDepth++;
 	}
 
 ">" {
-	genericDepth--;
-	if (genericDepth <= 0 && genericPop)
+	itsGenericDepth--;
+	if (itsGenericDepth <= 0 && itsGenericPop)
 		{
-		yy_pop_state();
+		pop_state();
 		}
-	else if (genericDepth <= 0)
+	else if (itsGenericDepth <= 0)
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		}
 	}
 
@@ -321,10 +351,10 @@ implements	/* ignore */
 [^*\n]*        |
 [^*\n]*\n      |
 "*"+[^*/\n]*   |
-"*"+[^*/\n]*\n		/* ignore everything inside comment */
+"*"+[^*/\n]*\n	/* ignore everything inside comment */
 
 "*"+"/" {
-	yy_pop_state();
+	pop_state();
 	}
 
 }
@@ -335,10 +365,10 @@ implements	/* ignore */
 
 <CPP_COMMENT_STATE>{
 
-[^\n]+				/* ignore everything inside comment */
+[^\n]+			/* ignore everything inside comment */
 
 \n {
-	yy_pop_state();
+	pop_state();
 	}
 
 }
@@ -351,11 +381,11 @@ implements	/* ignore */
 <STRING_STATE>{
 
 \" {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 \n {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 \\.? |
@@ -364,3 +394,8 @@ implements	/* ignore */
 }
 
 %%
+
+CBJavaTreeScanner::~CBJavaTreeScanner()
+{
+	jdelete itsImportList;
+}

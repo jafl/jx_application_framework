@@ -34,8 +34,8 @@ FUNCTION     (append|cap|close|complex|copy|delete|imag|len|make|new|panic|print
 
 
 
-IDCAR        ([_[:alpha:]])
-IDCDR        ([_[:alnum:]])
+IDCAR        (_|\p{L})
+IDCDR        (_|\p{L}|\d)
 
 ID           ({IDCAR}{IDCDR}*)
 

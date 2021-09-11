@@ -12,7 +12,7 @@
 #include "CBDTree.h"
 #include "CBDClass.h"
 #include "CBDTreeDirector.h"
-#include "CBDTreeScanner.h"
+#include "CBDTreeScannerL.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -142,6 +142,10 @@ CBDTree::ParseFile
 		}
 
 	// extract info about classes
+
+	std::ifstream input(fileName.GetBytes());
+	itsClassNameLexer->in(&input);
+	itsClassNameLexer->start(CBDTreeScanner::INITIAL);
 
 	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
 	itsClassNameLexer->CreateClasses(fileName, id, this, &classList);

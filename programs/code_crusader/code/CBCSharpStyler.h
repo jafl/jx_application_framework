@@ -9,7 +9,7 @@
 #define _H_CBCSharpStyler
 
 #include "CBStylerBase.h"
-#include "CBCSharpScanner.h"
+#include "CBCSharpScannerL.h"
 
 class CBCSharpStyler : public CBStylerBase, public CBCSharpScanner
 {

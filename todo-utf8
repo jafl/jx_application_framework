@@ -1,8 +1,5 @@
 JStyledText
-	slow when typing at end of 30M 5csv file
-
 	CleanRightMargin
-
 
 
 medic - confused when using gdb
@@ -28,6 +25,8 @@ jcc
 
 
 	shell doc doesn't work at all
+
+	slow when typing at end of 30M 5csv file
 
 
 testjx crash - itsLineStarts was already broken

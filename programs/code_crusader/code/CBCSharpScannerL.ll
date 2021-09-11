@@ -1,22 +1,59 @@
-%{
+%top {
 /*
 Copyright © 2004 by John Lindal.
 
 This scanner reads a C# file and returns CBCSharpScanner::Tokens.
 */
 
-#define _H_CBCSharpScannerL
-
-#include "CBCSharpScanner.h"
+#include "CBStylingScannerBase.h"
 #include <jAssert.h>
+}
 
-#undef YY_DECL
-#define YY_DECL CBCSharpScanner::Token CBCSharpScanner::NextToken()
-%}
+%option lexer="CBCSharpScanner"
+%option lex="NextToken" token-type="CBStylingScannerBase::Token"
+%option unicode nodefault full freespace
 
-%option c++ yyclass = "CBCSharpScanner" prefix = "CBCSharp"
-%option 8bit nodefault noyywrap
-%option full ecs align
+%class {
+
+public:
+
+	// these types are ordered to correspond to the type table in CBCSharpStyler
+
+	enum TokenType
+	{
+		kBadCharConst = kEOF+1,
+		kUnterminatedString,
+		kUnterminatedCComment,
+		kIllegalChar,
+		kNonPrintChar,
+
+		kWhitespace,	// must be the one before the first item in type table
+
+		kID,
+		kReservedCKeyword,
+		kBuiltInDataType,
+
+		kOperator,
+		kDelimiter,
+
+		kString,
+		kCharConst,
+
+		kFloat,
+		kDecimalInt,
+		kHexInt,
+
+		kComment,
+		kDocComment,
+		kPPDirective,
+
+		kError			// place holder for CBCSharpStyler
+	};
+
+private:
+
+	bool	itsIsDocCommentFlag;
+}
 
 %x C_COMMENT_STATE STRING_STATE SIMPLE_STRING_STATE PP_ARG_STATE
 
@@ -38,24 +75,27 @@ UESCCODE     (\\[uU]{HEXQUAD}{HEXQUAD}?)
 
 
 
-IDCAR        ([_[:alpha:]]|{UESCCODE})
-IDCDR        ([_[:alnum:]]|{UESCCODE})
+IDCAR        (_|\p{L}|{UESCCODE})
+IDCDR        (_|\p{L}|\d|{UESCCODE})
 
 ID           @?({IDCAR}{IDCDR}*)
 
 
-
+%{
 	/* Agrees with Harbison & Steele's BNF */
+%}
 INTSUFFIX    (([lL][uU]?)|([uU][lL]?))
 
 DECIMAL      ([0-9]+{INTSUFFIX}?)
 HEX          (0[xX][[:xdigit:]]+{INTSUFFIX}?)
+%{
 	/* We can't define BADHEX because 0xAAU is legal while 0xAUA isn't */
 	/* and regex subexpressions are greedy. */
 
 
 
 	/* Following Harbison & Steele's BNF, except of course I'm using regexes */
+%}
 FLOATSUFFIX  ([fFdDmM])
 SIGNPART     ([+-])
 DIGITSEQ     ([0-9]+)
@@ -65,10 +105,11 @@ DOTDIGITS    ({DIGITSEQ}\.|{DIGITSEQ}\.{DIGITSEQ}|\.{DIGITSEQ})
 FLOAT        ({DIGITSEQ}{EXPONENT}{FLOATSUFFIX}?|{DOTDIGITS}{EXPONENT}?{FLOATSUFFIX}?)
 
 
-
+%{
 	/* Considerably modified from Harbison & Steele to distinguish ANSI multi-byte  */
 	/* numeric escape sequences, since they are non-portable and hazardous.  We can */
 	/* warn about ANSI brain-damage with a different color/font. */
+%}
 CESCCODE     ([abfnrtv\\'"])
 HESCCODE     ([xX]0*[[:xdigit:]]{1,4})
 
@@ -80,25 +121,15 @@ BADHESCCODE  ([xX]0*[[:xdigit:]]{5,})
 BADESCCHAR   (\\({BADCESCCODE}|{BADHESCCODE}))
 
 
-
+%{
 	/* Again, I'm treating ANSI multi-byte character constants separately */
+%}
 CCHAR        ([^\n'\\]|{ESCCHAR}|{UESCCODE})
 
 CCONST       (\'{CCHAR}\')
 BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 
 %%
-
-%{
-/************************************************************************/
-
-	if (itsResetFlag)
-		{
-		BEGIN(INITIAL);
-		itsResetFlag = false;
-		}
-
-%}
 
 
 
@@ -238,17 +269,18 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 
 
 
-^{WS}("#"|"%:"|"??="){WS}{PPKEYWORD} {
+^{WS}"#"{WS}{PPKEYWORD} {
 	StartToken();
-	SavePPNameRange();
-	BEGIN(PP_ARG_STATE);
+	std::function<bool(const char)> skip = [](const char c) { return c != '#'; };
+	SavePPNameRange(skip);
+	start(PP_ARG_STATE);
 	}
 
 <PP_ARG_STATE>{
 
 .*\n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kPPDirective);
 	}
 
@@ -257,7 +289,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kPPDirective);
 	}
 
@@ -273,13 +305,13 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 "/*" {
 	StartToken();
 	itsIsDocCommentFlag = false;
-	BEGIN(C_COMMENT_STATE);
+	start(C_COMMENT_STATE);
 	}
 
 "/**"/[^/] {
 	StartToken();
 	itsIsDocCommentFlag = true;
-	BEGIN(C_COMMENT_STATE);
+	start(C_COMMENT_STATE);
 	}
 
 <C_COMMENT_STATE>{
@@ -291,12 +323,12 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 
 "*"+"/" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(itsIsDocCommentFlag ? kDocComment : kComment);
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedCComment);
 	}
 
@@ -310,20 +342,20 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 
 \" {
 	StartToken();
-	BEGIN(STRING_STATE);
+	start(STRING_STATE);
 	}
 
 <STRING_STATE>{
 
 \" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -333,7 +365,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -347,7 +379,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 
 "@"\" {
 	StartToken();
-	BEGIN(SIMPLE_STRING_STATE);
+	start(SIMPLE_STRING_STATE);
 	}
 
 <SIMPLE_STRING_STATE>{
@@ -358,18 +390,18 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 
 \" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kString);
 	}
 
 .|\n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -389,7 +421,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 
 . {
 	StartToken();
-	JUtf8Character c(yytext);
+	JUtf8Character c(text());
 	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);

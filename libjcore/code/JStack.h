@@ -25,12 +25,12 @@ public:
 
 	const JStack<T,S>& operator=(const JStack<T,S>& source);
 
-	void		Push(const T& newElement);
-	T			Pop();
+	void	Push(const T& newElement);
+	T		Pop();
 	bool	Pop(T* element);
-	T			Peek() const;
+	T		Peek() const;
 	bool	Peek(T* element) const;
-	T			Peek(const JIndex index) const;
+	T		Peek(const JIndex index) const;
 	bool	Peek(const JIndex index, T* element) const;
 
 	void	Clear();

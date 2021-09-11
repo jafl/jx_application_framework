@@ -1,45 +1,51 @@
 -suffix .cpp
 
 @test_BourneShellStyler
+.ll ${JCCCODEDIR}/CBBourneShellScannerL
 ${CODEDIR}/test_BourneShellStyler
 ${JCCCODEDIR}/CBBourneShellStyler
-${JCCCODEDIR}/CBBourneShellScanner
-.l ${JCCCODEDIR}/CBBourneShellScannerL
+${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_CStyler
+.ll ${JCCCODEDIR}/CBCScannerL
 ${CODEDIR}/test_CStyler
 ${JCCCODEDIR}/CBCStyler
-${JCCCODEDIR}/CBCScanner
-.l ${JCCCODEDIR}/CBCScannerL
+${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_CSharpStyler
+.ll ${JCCCODEDIR}/CBCSharpScannerL
 ${CODEDIR}/test_CSharpStyler
 ${JCCCODEDIR}/CBCSharpStyler
-${JCCCODEDIR}/CBCSharpScanner
-.l ${JCCCODEDIR}/CBCSharpScannerL
+${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_CShellStyler
+.ll ${JCCCODEDIR}/CBCShellScannerL
 ${CODEDIR}/test_CShellStyler
 ${JCCCODEDIR}/CBCShellStyler
-${JCCCODEDIR}/CBCShellScanner
-.l ${JCCCODEDIR}/CBCShellScannerL
+${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_HTMLStyler
+.ll ${JCCCODEDIR}/CBHTMLScannerL
 ${CODEDIR}/test_HTMLStyler
 ${JCCCODEDIR}/CBHTMLStyler
-${JCCCODEDIR}/CBHTMLScanner
-.l ${JCCCODEDIR}/CBHTMLScannerL
+${JCCCODEDIR}/CBStylingScannerBase
+${JCCCODEDIR}/CBStylerBase
+
+@test_JavaStyler
+.ll ${JCCCODEDIR}/CBJavaScannerL
+${CODEDIR}/test_JavaStyler
+${JCCCODEDIR}/CBJavaStyler
+${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 
 @test_CTreeScanner
-${CODEDIR}/test_CTreeScanner
-${JCCCODEDIR}/CBCTreeScanner
 .l ${JCCCODEDIR}/CBCTreeScannerL
+${CODEDIR}/test_CTreeScanner
 ${JCCCODEDIR}/CBCTree
 ${JCCCODEDIR}/CBTree
 ${JCCCODEDIR}/CBCClass
@@ -48,36 +54,32 @@ ${JCCCODEDIR}/CBCPreprocessor
 ${JCCCODEDIR}/CBCtagsUser
 
 @test_DTreeScanner
-${CODEDIR}/test_DTreeScanner
-${JCCCODEDIR}/CBDTreeScanner
 .l ${JCCCODEDIR}/CBDTreeScannerL
+${CODEDIR}/test_DTreeScanner
 ${JCCCODEDIR}/CBDTree
 ${JCCCODEDIR}/CBTree
 ${JCCCODEDIR}/CBDClass
 ${JCCCODEDIR}/CBClass
 
 @test_GoTreeScanner
-${CODEDIR}/test_GoTreeScanner
-${JCCCODEDIR}/CBGoTreeScanner
 .l ${JCCCODEDIR}/CBGoTreeScannerL
+${CODEDIR}/test_GoTreeScanner
 ${JCCCODEDIR}/CBGoTree
 ${JCCCODEDIR}/CBTree
 ${JCCCODEDIR}/CBGoClass
 ${JCCCODEDIR}/CBClass
 
 @test_JavaTreeScanner
-${CODEDIR}/test_JavaTreeScanner
-${JCCCODEDIR}/CBJavaTreeScanner
 .l ${JCCCODEDIR}/CBJavaTreeScannerL
+${CODEDIR}/test_JavaTreeScanner
 ${JCCCODEDIR}/CBJavaTree
 ${JCCCODEDIR}/CBTree
 ${JCCCODEDIR}/CBJavaClass
 ${JCCCODEDIR}/CBClass
 
 @test_PHPTreeScanner
-${CODEDIR}/test_PHPTreeScanner
-${JCCCODEDIR}/CBPHPTreeScanner
 .l ${JCCCODEDIR}/CBPHPTreeScannerL
+${CODEDIR}/test_PHPTreeScanner
 ${JCCCODEDIR}/CBPHPTree
 ${JCCCODEDIR}/CBTree
 ${JCCCODEDIR}/CBPHPClass

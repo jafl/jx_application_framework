@@ -1,4 +1,4 @@
-%{
+%top {
 /*
 Copyright © 1998 by Dustin Laurence.
 Copyright © 2021 by John Lindal.
@@ -6,31 +6,65 @@ Copyright © 2021 by John Lindal.
 This scanner reads a C/C++ file and creates CBClass instances.
 */
 
-#define _H_CBCTreeScannerL
-
-#include "CBCTreeScanner.h"
 #include "CBCClass.h"
 #include <JStringIterator.h>
 #include <JStack.h>
-#include <fstream>
+#include <JFAID.h>
 #include <jAssert.h>
+}
 
-#undef YY_DECL
-#define YY_DECL \
-	bool CBCTreeScanner::CreateClasses( \
-		const JString& fileName, const JFAID_t fileID, \
-		CBTree* tree, JPtrArray<CBClass>* classList)
-%}
+%option lexer="CBCTreeScanner"
+%option lex="CreateClasses" token-type="bool"
+%option params="const JFAID_t fileID, CBTree* tree, JPtrArray<CBClass>* classList"
+%option unicode nodefault full freespace
 
-%option c++ yyclass="CBCTreeScanner" prefix="CBCTree"
-%option 8bit nodefault stack noyywrap
+%class {
+
+public:
+
+	virtual	~CBCTreeScanner();
+
+private:
+
+	JInteger				itsCurlyBraceDepth;
+	bool					itsTemplateFlag;
+	JInteger				itsTemplateBracketDepth;
+	CBClass::InheritType	itsInheritType;
+	CBClass*				itsCurrentClass;
+
+	JPtrArray<JString>*					itsUsingList;
+	JStack<JInteger, JArray<JInteger>>	itsCurlyBraceStack;
+
+	JString				itsNamespaceStr;
+	JPtrArray<JString>*	itsNamespaceStack;
+
+private:
+
+	void ResetState()
+	{
+		itsTemplateFlag = false;
+		itsCurrentClass = nullptr;
+	}
+
+	// not allowed
+
+	CBCTreeScanner(const CBCTreeScanner& source);
+	CBCTreeScanner& operator=(const CBCTreeScanner& source);
+}
+
+%init {
+	itsUsingList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsUsingList != nullptr );
+
+	itsNamespaceStack = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsNamespaceStack != nullptr );
+}
 
 %x NAMESPACE_STATE CLASS_NAME_STATE INHERIT_STATE
 %x TEMPLATE_PARAM_STATE C_COMMENT_STATE CPP_COMMENT_STATE STRING_STATE
 
 WS     [[:space:]]+
 MS     [[:space:]]*
-BDRY   ({WS}|[^_[:alnum:]])
 
 CKEYWORD     (auto|break|case|const|continue|default|do|else|enum|extern|for|goto|if|inline|register|restrict|return|sizeof|static|struct|switch|typedef|union|volatile|while)
 CPPKEYWORD   (alignas|aslignof|and|and_eq|asm|atomic_cancel|atomic_commit|atomic_noexcept|bitand|bitor|catch|compl|concept|constexpr|const_cast|decltype|delete|dynamic_cast|explicit|export|false|final|friend|module|mutable|new|noexcept|not|not_eq|operator|or|or_eq|overload|override|private|protected|public|reinterpret_cast|requires|static_assert|static_cast|this|thread_local|throw|true|try|typeid|typename|virtual|xor|xor_eq)
@@ -39,87 +73,86 @@ CDATATYPE    (bool|char|char16_t|char32_t|double|float|int|long|nullptr|short|si
 
 HEXQUAD      ([[:xdigit:]]{4})
 UESCCODE     (\\[uU]{HEXQUAD}{HEXQUAD}?)
-IDCAR        ([_[:alpha:]]|{UESCCODE})
-IDCDR        ([_[:alnum:]]|{UESCCODE})
+IDCAR        (_|\p{L}|{UESCCODE})
+IDCDR        (_|\p{L}|\d|{UESCCODE})
 ID           ({IDCAR}{IDCDR}*)
 NSID         ({ID}(::{ID})*)
 
 %%
 
 %{
-	BEGIN(INITIAL);
 	ResetState();
 
-	JString namespaceStr;
-	JInteger curlyBraceDepth = 0, templateBracketDepth = 0;
-	CBClass::InheritType inheritType = CBClass::kInheritPrivate;
-	JPtrArray<JString> usingList(JPtrArrayT::kDeleteAll);
-	JStack<JInteger, JArray<JInteger>> curlyBraceStack;
-	JPtrArray<JString> nsStack(JPtrArrayT::kDeleteAll);
+	itsCurlyBraceDepth      = 0;
+	itsTemplateBracketDepth = 0;
+	itsInheritType          = CBClass::kInheritPrivate;
 
-	std::ifstream input(fileName.GetBytes());
-	switch_streams(&input, nullptr);
+	itsUsingList->CleanOut();
+	itsCurlyBraceStack.Clear();
+
+	itsNamespaceStr.Clear();
+	itsNamespaceStack->CleanOut();
 %}
 
-template/{BDRY} {
+template\b {
 	itsTemplateFlag      = true;
-	templateBracketDepth = 0;
-	yy_push_state(TEMPLATE_PARAM_STATE);
+	itsTemplateBracketDepth = 0;
+	push_state(TEMPLATE_PARAM_STATE);
 	}
 
-namespace/{BDRY} {
-	namespaceStr.Clear();
-	BEGIN(NAMESPACE_STATE);
+namespace\b {
+	itsNamespaceStr.Clear();
+	start(NAMESPACE_STATE);
 	}
 
 friend{WS}class{WS}{NSID}	/* ignore */
 
 class{WS}{NSID}{MS};		/* ignore */
 
-class/{BDRY} {
-	BEGIN(CLASS_NAME_STATE);
+class\b {
+	start(CLASS_NAME_STATE);
 	}
 
 using{WS}{NSID}{MS}; {
-	JString* s = jnew JString(yytext+5, yyleng-6);
+	JString* s = jnew JString(text()+5, size()-6);
 	assert( s != nullptr );
 	s->TrimWhitespace();
-	usingList.Append(s);
+	itsUsingList->Append(s);
 	}
 
 "{" {
-	curlyBraceDepth++;
+	itsCurlyBraceDepth++;
 	}
 
 "}" {
-	curlyBraceDepth--;
-	if (curlyBraceDepth < 0)
+	itsCurlyBraceDepth--;
+	if (itsCurlyBraceDepth < 0)
 		{
 		return false;
 		}
-	else if (curlyBraceDepth == 0 && !curlyBraceStack.IsEmpty())
+	else if (itsCurlyBraceDepth == 0 && !itsCurlyBraceStack.IsEmpty())
 		{
-		curlyBraceDepth = curlyBraceStack.Pop();
-		nsStack.DeleteElement(1);
+		itsCurlyBraceDepth = itsCurlyBraceStack.Pop();
+		itsNamespaceStack->DeleteElement(1);
 		}
 	}
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 (L|u8?|U)?\" {
-	BEGIN(STRING_STATE);
+	start(STRING_STATE);
 	}
 
-{CKEYWORD}/{BDRY}   |
-{CPPKEYWORD}/{BDRY} |
-{PPKEYWORD}/{BDRY}  |
-{CDATATYPE}/{BDRY}  {
+{CKEYWORD}\b   |
+{CPPKEYWORD}\b |
+{PPKEYWORD}\b  |
+{CDATATYPE}\b  {
 	ResetState();
 	}
 
@@ -136,38 +169,38 @@ using{WS}{NSID}{MS}; {
 <NAMESPACE_STATE>{
 
 {NSID} {
-	namespaceStr.Set(yytext, yyleng);
+	itsNamespaceStr.Set(text(), size());
 	}
 
 "{" {
-	if (!namespaceStr.IsEmpty())
+	if (!itsNamespaceStr.IsEmpty())
 		{
-		curlyBraceStack.Push(curlyBraceDepth);
-		curlyBraceDepth = 1;
+		itsCurlyBraceStack.Push(itsCurlyBraceDepth);
+		itsCurlyBraceDepth = 1;
 
-		nsStack.Prepend(namespaceStr);
+		itsNamespaceStack->Prepend(itsNamespaceStr);
 		}
 	else
 		{
-		curlyBraceDepth++;
+		itsCurlyBraceDepth++;
 		}
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 }
@@ -179,8 +212,8 @@ using{WS}{NSID}{MS}; {
 <CLASS_NAME_STATE>{
 
 {ID} {
-	JString fullName(yytext, yyleng);
-	for (auto* s : nsStack)
+	JString fullName(text(), size());
+	for (auto* s : *itsNamespaceStack)
 		{
 		fullName.Prepend("::");
 		fullName.Prepend(*s);
@@ -199,44 +232,44 @@ using{WS}{NSID}{MS}; {
 : {
 	if (itsCurrentClass != nullptr)
 		{
-		inheritType = CBClass::kInheritPrivate;
-		BEGIN(INHERIT_STATE);
+		itsInheritType = CBClass::kInheritPrivate;
+		start(INHERIT_STATE);
 		}
 	else
 		{
 		ResetState();
-		BEGIN(INITIAL);
+		start(INITIAL);
 		}
 	}
 
 "{" {
 	if (itsCurrentClass != nullptr)
 		{
-		curlyBraceStack.Push(curlyBraceDepth);
-		curlyBraceDepth = 1;
-		nsStack.Prepend(itsCurrentClass->GetName());
+		itsCurlyBraceStack.Push(itsCurlyBraceDepth);
+		itsCurlyBraceDepth = 1;
+		itsNamespaceStack->Prepend(itsCurrentClass->GetName());
 		}
 	else
 		{
-		curlyBraceDepth++;
+		itsCurlyBraceDepth++;
 		}
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 }
@@ -250,25 +283,25 @@ using{WS}{NSID}{MS}; {
 virtual		/* ignore */
 
 public {
-	inheritType = CBClass::kInheritPublic;
+	itsInheritType = CBClass::kInheritPublic;
 	}
 
 protected {
-	inheritType = CBClass::kInheritProtected;
+	itsInheritType = CBClass::kInheritProtected;
 	}
 
 private {
-	inheritType = CBClass::kInheritPrivate;
+	itsInheritType = CBClass::kInheritPrivate;
 	}
 
 {NSID}"<"? {
-	JString parentName(yytext, yyleng);
+	JString parentName(text(), size());
 	if (parentName.GetLastCharacter() == '<')
 		{
-		templateBracketDepth = 1;
-		yy_push_state(TEMPLATE_PARAM_STATE);
+		itsTemplateBracketDepth = 1;
+		push_state(TEMPLATE_PARAM_STATE);
 
-		parentName.Set(yytext, yyleng-1);
+		parentName.Set(text(), size()-1);
 		}
 
 	JString s = parentName;
@@ -277,7 +310,7 @@ private {
 	bool found = false;
 	while (true)
 		{
-		for (const auto* c : usingList)
+		for (const auto* c : *itsUsingList)
 			{
 			if (!c->EndsWith(s))
 				{
@@ -308,34 +341,34 @@ private {
 			}
 		}
 
-	itsCurrentClass->AddParent(inheritType, parentName);
+	itsCurrentClass->AddParent(itsInheritType, parentName);
 	}
 
 "{" {
-	curlyBraceStack.Push(curlyBraceDepth);
-	curlyBraceDepth = 1;
-	nsStack.Prepend(itsCurrentClass->GetName());
+	itsCurlyBraceStack.Push(itsCurlyBraceDepth);
+	itsCurlyBraceDepth = 1;
+	itsNamespaceStack->Prepend(itsCurrentClass->GetName());
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 "," {
-	inheritType = CBClass::kInheritPrivate;
+	itsInheritType = CBClass::kInheritPrivate;
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 . {
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 }
@@ -347,14 +380,14 @@ private {
 <TEMPLATE_PARAM_STATE>{
 
 "<" {
-	templateBracketDepth++;
+	itsTemplateBracketDepth++;
 	}
 
 ">" {
-	templateBracketDepth--;
-	if (templateBracketDepth <= 0)
+	itsTemplateBracketDepth--;
+	if (itsTemplateBracketDepth <= 0)
 		{
-		yy_pop_state();
+		pop_state();
 		}
 	}
 
@@ -375,7 +408,7 @@ private {
 "*"+[^*/\n]*\n		/* ignore everything inside comment */
 
 "*"+"/" {
-	yy_pop_state();
+	pop_state();
 	}
 
 }
@@ -386,10 +419,10 @@ private {
 
 <CPP_COMMENT_STATE>{
 
-[^\n]+				/* ignore everything inside comment */
+[^\n]+			/* ignore everything inside comment */
 
 \n {
-	yy_pop_state();
+	pop_state();
 	}
 
 }
@@ -403,7 +436,7 @@ private {
 
 \" |
 \n {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 \\(.|\n)? |
@@ -412,3 +445,9 @@ private {
 }
 
 %%
+
+CBCTreeScanner::~CBCTreeScanner()
+{
+	jdelete itsUsingList;
+	jdelete itsNamespaceStack;
+}

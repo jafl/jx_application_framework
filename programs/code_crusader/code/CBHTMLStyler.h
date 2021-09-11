@@ -9,7 +9,7 @@
 #define _H_CBHTMLStyler
 
 #include "CBStylerBase.h"
-#include "CBHTMLScanner.h"
+#include "CBHTMLScannerL.h"
 
 class CBHTMLStyler : public CBStylerBase, public CBHTMLScanner
 {
@@ -26,7 +26,6 @@ protected:
 
 	virtual void		Scan(const JStyledText::TextIndex& startIndex,
 							 std::istream& input, const TokenExtra& initData) override;
-	virtual TokenExtra	GetFirstTokenExtraData() const override;
 	virtual void		UpgradeTypeList(const JFileVersion vers,
 										JArray<JFontStyle>* typeStyles) override;
 
@@ -47,7 +46,7 @@ private:
 	void		ExtendCheckRangeForString(const JCharacterRange& tokenRange);
 	void		ExtendCheckRangeForLanguageStartEnd(const TokenType tokenType, const JCharacterRange& tokenRange);
 	JFontStyle	GetTagStyle(const JUtf8ByteRange& tokenRange, const JIndex typeIndex);
-	bool	GetXMLStyle(const JString& tagName, JFontStyle* style);
+	bool		GetXMLStyle(const JString& tagName, JFontStyle* style);
 	void		StyleEmbeddedPHPVariables(const Token& token);
 	void		StyleEmbeddedJSVariables(const Token& token);
 

@@ -12,11 +12,12 @@
 #include "CBJavaTree.h"
 #include "CBJavaClass.h"
 #include "CBJavaTreeDirector.h"
-#include "CBJavaTreeScanner.h"
+#include "CBJavaTreeScannerL.h"
 #include "CBProjectDocument.h"
 #include "cbGlobals.h"
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
+#include <fstream>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -101,7 +102,7 @@ CBJavaTree::StreamOut
 CBClass*
 CBJavaTree::StreamInJavaClass
 	(
-	std::istream&			input,
+	std::istream&		input,
 	const JFileVersion	vers,
 	CBTree*				tree
 	)
@@ -155,6 +156,10 @@ CBJavaTree::ParseFile
 
 	// extract info about classes
 
+	std::ifstream input(fileName.GetBytes());
+	itsClassNameLexer->in(&input);
+	itsClassNameLexer->start(CBJavaTreeScanner::INITIAL);
+
 	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
-	itsClassNameLexer->CreateClasses(fileName, id, this, &classList);
+	itsClassNameLexer->CreateClasses(id, this, &classList);
 }

@@ -159,7 +159,7 @@ PREDEFWORD   (after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|
 <VAR_STATE>{
 
 "{"[^}]+"}"   |
-[[:alnum:]_]+ {
+(_|\p{L}|\d)+ {
 	ContinueToken();
 	BEGIN(INITIAL);
 	return ThisToken(kVariable);
@@ -171,7 +171,7 @@ PREDEFWORD   (after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|
 	return ThisToken(kEmptyVariable);
 	}
 
-[^[:alnum:]_] {
+. {
 	yyless(0);
 	BEGIN(INITIAL);
 	return ThisToken(kOtherWord);

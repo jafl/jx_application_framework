@@ -12,11 +12,12 @@
 #include "CBPHPTree.h"
 #include "CBPHPClass.h"
 #include "CBPHPTreeDirector.h"
-#include "CBPHPTreeScanner.h"
+#include "CBPHPTreeScannerL.h"
 #include "CBProjectDocument.h"
 #include "cbGlobals.h"
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
+#include <fstream>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -152,6 +153,10 @@ CBPHPTree::ParseFile
 
 	// extract info about class
 
+	std::ifstream input(fileName.GetBytes());
+	itsClassNameLexer->in(&input);
+	itsClassNameLexer->start(CBPHPTreeScanner::INITIAL);
+
 	CBClass* newClass;
-	itsClassNameLexer->CreateClass(fileName, id, this, &newClass);
+	itsClassNameLexer->CreateClass(id, this, &newClass);
 }

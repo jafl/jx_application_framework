@@ -41,9 +41,9 @@ KEYWORD      (continue|do|else|elsif|for|foreach|goto|if|last|next|redo|unless|u
 
 PPKEYWORD    (line)
 
-ID           ([_[:alnum:]]+)
+ID           ((_|\p{L}|\d)+)
 
-BAREWORD     ([_[:alpha:]][_[:alnum:]]*)
+BAREWORD     ((_|\p{L})(_|\p{L}|\d)*)
 
 
 
@@ -680,7 +680,7 @@ __DATA__ {
 
 
 
-\<\<[ \t]*['"`]?[^ \t\n'"`]+['"`]?;\n {
+"<<"[ \t]*['"`]?[^ \t\n'"`]+['"`]?;\n {
 	StartToken();
 	itsHereDocTag.Set(yytext+2, yyleng-4);
 	itsHereDocTag.TrimWhitespace();

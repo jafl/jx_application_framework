@@ -30,6 +30,8 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
 LOADLIBES := 
 LDFLAGS   := 
 
+LFLAGS := ${LFLAGS} --bison --noyywrap
+
 #####
 
 LIB_NAME_ROOT := libjexpr-${JEXPR_LIB_VERSION}

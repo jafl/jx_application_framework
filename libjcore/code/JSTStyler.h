@@ -15,16 +15,12 @@ class JSTStyler
 {
 public:
 
-	// Feel free to request other items in this union.  It is only here
-	// because certain exceptional languages like TCL and PHP require
-	// additional state.  We don't provide a void* because then we would
-	// have to keep track of whether or not it needs to be deleted.
+	// Feel free to request items in this union.  We can't provide a void*
+	// because then we would have to keep track of whether or not it needs
+	// to be deleted.
 
 	union TokenExtra
 	{
-//		JIndex			indexValue;
-//		JSize			sizeValue;
-		yy_state_type	lexerState;
 	};
 
 	struct TokenData
@@ -58,7 +54,7 @@ public:
 						 const bool deletion, JArray<TokenData>* tokenStartList);
 
 	bool	IsActive() const;
-	void		SetActive(const bool active);
+	void	SetActive(const bool active);
 
 protected:
 
@@ -81,7 +77,7 @@ protected:
 	JUtf8Character	GetCharacter(const JStyledText::TextIndex& index) const;
 
 	bool	SetStyle(const JCharacterRange& range, const JFontStyle& style);
-	void		SaveTokenStart(const JStyledText::TextIndex& index, const TokenExtra data = TokenExtra());
+	void	SaveTokenStart(const JStyledText::TextIndex& index, const TokenExtra data = TokenExtra());
 
 	void	AdjustStyle(const JCharacterRange& range, const JFontStyle& style);
 
@@ -99,7 +95,7 @@ private:
 	JRunArray<JFont>*	itsStyles;		// not owned; nullptr unless lexing
 
 	bool	itsRedoAllFlag;						// true => itsStyles is *not* full
-	JFont*		itsDefFont;							// nullptr unless processing
+	JFont*	itsDefFont;							// nullptr unless processing
 
 	JStyledText::TextRange*	itsRecalcRange;		// not owned; nullptr unless lexing
 	JStyledText::TextRange*	itsRedrawRange;		// not owned; nullptr unless lexing

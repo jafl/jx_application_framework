@@ -12,11 +12,12 @@
 #include "CBGoTree.h"
 #include "CBGoClass.h"
 #include "CBGoTreeDirector.h"
-#include "CBGoTreeScanner.h"
+#include "CBGoTreeScannerL.h"
 #include "CBProjectDocument.h"
 #include "cbGlobals.h"
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
+#include <fstream>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -148,6 +149,10 @@ CBGoTree::ParseFile
 
 	// extract info about classes
 
+	std::ifstream input(fileName.GetBytes());
+	itsClassNameLexer->in(&input);
+	itsClassNameLexer->start(CBGoTreeScanner::INITIAL);
+
 	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
-	itsClassNameLexer->CreateClasses(fileName, id, this, &classList);
+	itsClassNameLexer->CreateClasses(id, this, &classList);
 }

@@ -61,10 +61,8 @@ ljx    := -ljx-${JX_LIB_VERSION}
 #
 # flex
 #
-# C++17 does not allow register keyword.
-#
 
-LEX    := flex
+LEX    := reflex
 LFLAGS := 
 
 # Change rule from .c to .cpp
@@ -72,10 +70,7 @@ LFLAGS :=
 %.c : %.l
 
 %.cpp : %.l
-	${LEX} ${LFLAGS} -o$@ $<
-	@perl -n -e 's/\bregister\b//g;' \
-           -e 'print;' < $@ > $@.new
-	@mv $@.new $@
+	${LEX} ${LFLAGS} --outfile=$@ --header-file=$(subst .l,.h,$<) $<
 
 #
 # bison

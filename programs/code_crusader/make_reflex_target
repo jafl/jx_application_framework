@@ -1,0 +1,10 @@
+# post-process output of reflex
+
+ %.cpp : %.ll
+	${LEX} ${LFLAGS} --outfile=$@ --header-file=$(subst .ll,.h,$<) $<
+	@perl -n -e 's/reflex::AbstractLexer<reflex::Matcher>/CBStylingScannerBase/;' \
+           -e 'print;' < $@ > $@.new
+	@mv $@.new $@
+	@perl -n -e 's/reflex::AbstractLexer<reflex::Matcher>/CBStylingScannerBase/;' \
+           -e 'print;' < $*.h > $*.h.new
+	@mv $*.h.new $*.h

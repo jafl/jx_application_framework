@@ -28,7 +28,7 @@ CBDClass::CBDClass
 	const DeclareType	declType,
 	const JFAID_t		fileID,
 	CBTree*				tree,
-	const bool		isFinal
+	const bool			isFinal
 	)
 	:
 	CBClass(name, declType, fileID, tree, kNamespaceOperator),

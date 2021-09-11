@@ -302,7 +302,7 @@ CBHTMLStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input, initData.lexerState);
+	BeginScan(startIndex, input);
 	itsLatestTagName.Clear();
 
 	const JString& text = GetText();
@@ -320,16 +320,14 @@ CBHTMLStyler::Scan
 
 		// save token starts
 
-		if (yy_start_stack_ptr == 0 &&
+		if (states_empty() &&
 			(token.type == kHTMLText    ||
 			 token.type == kHTMLComment ||
 			 token.type == kJSPComment  ||
 			 (token.type == kHTMLTag &&
 			  GetCharacter(token.range.GetFirst()) == '<')))
 			{
-			TokenExtra data;
-			data.lexerState = GetCurrentLexerState();
-			SaveTokenStart(token.range.GetFirst(), data);
+			SaveTokenStart(token.range.GetFirst());
 
 //			const JString s = text.GetSubstring(token.range);
 //			std::cout << yy_top_state() << ' ' << yy_start_stack_ptr << ": " << s << std::endl;
@@ -360,7 +358,7 @@ CBHTMLStyler::Scan
 			}
 		else if ((token.type == kHTMLNamedCharacter ||
 				  token.type == kHTMLInvalidNamedCharacter) &&
-				 GetCurrentLexerState() != 0)
+				 top_state() != INITIAL)
 			{
 			style = GetStyle(kHTMLTag - kWhitespace, itsLatestTagName);
 			if (token.type == kHTMLInvalidNamedCharacter)
@@ -401,7 +399,7 @@ CBHTMLStyler::Scan
 			}
 		else if (token.type == kHTMLScript)
 			{
-			style = GetStyle(typeIndex, *token.language);
+			style = GetStyle(typeIndex, *token.scriptLanguage);
 			}
 		else if (token.type == kHTMLNamedCharacter)
 			{
@@ -442,20 +440,6 @@ CBHTMLStyler::Scan
 			}
 		}
 		while (keepGoing);
-}
-
-/******************************************************************************
- GetFirstTokenExtraData (virtual protected)
-
- ******************************************************************************/
-
-JSTStyler::TokenExtra
-CBHTMLStyler::GetFirstTokenExtraData()
-	const
-{
-	TokenExtra data;
-	data.lexerState = 0;	// INITIAL
-	return data;
 }
 
 /******************************************************************************
@@ -611,8 +595,8 @@ CBHTMLStyler::GetXMLStyle
 
  ******************************************************************************/
 
-#define CBPHPStringID    "[[:alpha:]_][[:alnum:]_]*"
-#define CBPHPStringNotID "[^[:alpha:]_]"
+#define CBPHPStringID    "(_|\\p{L})(_|\\p{L}|\\d)*"
+#define CBPHPStringNotID "\\p{^L}"
 
 static JRegex emptyPHPVariablePattern =
 	"^\\$+(\\{\\}|" CBPHPStringID "(->(?=" CBPHPStringNotID ")|\\[\\]))";	// update special conditions in code below
@@ -656,15 +640,8 @@ CBHTMLStyler::StyleEmbeddedPHPVariables
 		else if (c == '$')
 			{
 			iter.SkipPrev();
-			JCharacterRange r = MatchAt(token, iter, emptyPHPVariablePattern);
-			if (!r.IsEmpty())
-				{
-				AdjustStyle(r, errStyle);
-				iter.SkipNext(r.GetCount());
-				continue;
-				}
 
-			r = MatchAt(token, iter, phpVariablePattern);
+			JCharacterRange r = MatchAt(token, iter, phpVariablePattern);
 			if (!r.IsEmpty())
 				{
 				if (iter.Prev(&c, kJIteratorStay) && c == '{')
@@ -682,6 +659,14 @@ CBHTMLStyler::StyleEmbeddedPHPVariables
 					iter.SkipNext(r.GetCount());
 					}
 				AdjustStyle(r, varStyle);
+				continue;
+				}
+
+			r = MatchAt(token, iter, emptyPHPVariablePattern);
+			if (!r.IsEmpty())
+				{
+				AdjustStyle(r, errStyle);
+				iter.SkipNext(r.GetCount());
 				}
 			}
 		else if (c == '{' && iter.Next(&c) && c == '$')

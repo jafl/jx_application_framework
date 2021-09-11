@@ -29,8 +29,8 @@ KEYWORD      (and|access|break|class|continue|def|del|elif|else|except|exec|fina
 
 
 
-IDCAR        [_[:alpha:]]
-IDCDR        [_[:alnum:]]
+IDCAR        (_|\p{L})
+IDCDR        (_|\p{L}|\d)
 
 ID           ({IDCAR}{IDCDR}*)
 

@@ -9,7 +9,7 @@
 #define _H_CBBourneShellStyler
 
 #include "CBStylerBase.h"
-#include "CBBourneShellScanner.h"
+#include "CBBourneShellScannerL.h"
 
 class CBBourneShellStyler : public CBStylerBase, public CBBourneShellScanner
 {

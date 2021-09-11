@@ -59,8 +59,10 @@ JExprParser::Parse
 	JFunction**		f
 	)
 {
-	JExprScanner scanner(expr);
+	JExprScanner scanner;
 	itsScanner = &scanner;
+
+	scanner.in(expr.GetBytes());
 
 	const int result = yyparse();
 	if (result == 0)

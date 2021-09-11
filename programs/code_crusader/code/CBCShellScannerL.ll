@@ -1,45 +1,64 @@
-%{
+%top {
 /*
 Copyright © 2001 by John Lindal.
 
 This scanner reads a bash file and returns CBCShellScanner::Tokens.
 */
 
-#define _H_CBCShellScannerL
-
-#include "CBCShellScanner.h"
+#include "CBStylingScannerBase.h"
 #include <jAssert.h>
+}
 
-#undef YY_DECL
-#define YY_DECL CBCShellScanner::Token CBCShellScanner::NextToken()
-%}
+%option lexer="CBCShellScanner"
+%option lex="NextToken" token-type="CBStylingScannerBase::Token"
+%option unicode nodefault full freespace
 
-%option c++ yyclass = "CBCShellScanner" prefix = "CBCShell"
-%option 8bit nodefault noyywrap
-%option full ecs align
+%class {
+
+public:
+
+	// these types are ordered to correspond to the type table in CBCShellStyler
+
+	enum TokenType
+	{
+		kEmptyVariable = kEOF+1,
+		kUnterminatedString,
+
+		kWhitespace,	// must be the one before the first item in type table
+
+		kID,
+		kVariable,
+		kReservedWord,
+		kBuiltInCommand,
+
+		kControlOperator,
+		kRedirectionOperator,
+		kHistoryOperator,
+		kMathOperator,
+
+		kSingleQuoteString,
+		kDoubleQuoteString,
+		kExecString,
+
+		kComment,
+		kError,			// place holder for CBCShellStyler
+
+		kOtherOperator
+	};
+}
 
 %x ID_STATE VAR_STATE
 %x SINGLE_STRING_STATE DOUBLE_STRING_STATE EXEC_STRING_STATE
 
-WSCHAR         ([ \v\t\f\r\n]|\\\n)
+WSCHAR         ([[:space:]]|\\\n)
 WS             ({WSCHAR}+)
 
 VARNAME        ([?#%]?[[:alpha:]_][[:alnum:]_]{0,19}|%?[0-9]+)
 
 RESERVEDWORD   (break|breaksw|case|continue|default|else|end|endif|endsw|foreach|if|then|repeat|switch|while)
 BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete|dirs|echo|echotc|eval|exec|exit|fg|filetest|getspath|getxvers|glob|goto|hashstat|history|hup|inlib|jobs|kill|limit|log|login|logout|migrate|newgrp|nice|nohup|notify|onintr|popd|printenv|pushd|rehash|rootnode|sched|set|setenv|setpath|setspath|settc|setty|setxvers|shift|source|stop|suspend|telltc|time|umask|unalias|uncomplete|unhash|universe|unlimit|unset|unsetenv|ver|wait|warp|watchlog|where|which)
+
 %%
-
-%{
-/************************************************************************/
-
-	if (itsResetFlag)
-		{
-		BEGIN(INITIAL);
-		itsResetFlag = false;
-		}
-
-%}
 
 "#".*\n? {
 	StartToken();
@@ -48,22 +67,22 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 
 \' {
 	StartToken();
-	BEGIN(SINGLE_STRING_STATE);
+	start(SINGLE_STRING_STATE);
 	}
 
 \" {
 	StartToken();
-	BEGIN(DOUBLE_STRING_STATE);
+	start(DOUBLE_STRING_STATE);
 	}
 
 \` {
 	StartToken();
-	BEGIN(EXEC_STRING_STATE);
+	start(EXEC_STRING_STATE);
 	}
 
 "$" {
 	StartToken();
-	BEGIN(VAR_STATE);
+	start(VAR_STATE);
 	}
 
 {RESERVEDWORD} {
@@ -79,7 +98,7 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 [^-&|;<>()!^=+*/%~#'"`$\\ \v\t\f\r\n]+ |
 \\.?                           {
 	StartToken();
-	BEGIN(ID_STATE);
+	start(ID_STATE);
 	}
 
 "&"  |
@@ -117,9 +136,11 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 
 !({WSCHAR}|\() {
 	StartToken();
-	itsCurrentRange.charRange.last = itsCurrentRange.charRange.first;
-	itsCurrentRange.byteRange.last = itsCurrentRange.byteRange.first;	// single byte character
-	yyless(yyleng-1);
+	JStyledText::TextRange r = GetCurrentRange();
+	r.charRange.last         = r.charRange.first;
+	r.byteRange.last         = r.byteRange.first;	// single byte character
+	SetCurrentRange(r);
+	matcher().less(size()-1);
 	return ThisToken(kControlOperator);
 	}
 
@@ -160,13 +181,13 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 	}
 
 .|{WS} {
-	yyless(0);
-	BEGIN(INITIAL);
+	matcher().less(0);
+	start(INITIAL);
 	return ThisToken(kID);
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kID);
 	}
 
@@ -184,25 +205,25 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 "{"{VARNAME}[}[] |
 [*#?$!_<]        {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kVariable);
 	}
 
 "{"  |
 "{}" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kEmptyVariable);
 	}
 
 .|\n {
-	yyless(0);
-	BEGIN(INITIAL);
+	matcher().less(0);
+	start(INITIAL);
 	return ThisToken(kID);
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kID);
 	}
 
@@ -218,13 +239,13 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 
 \' {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kSingleQuoteString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -234,7 +255,7 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -244,13 +265,13 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 
 \" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kDoubleQuoteString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -260,7 +281,7 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -270,13 +291,13 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 
 \` {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kExecString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -286,7 +307,7 @@ BUILTINCMD     (true|false|alias|alloc|bg|bindkey|builtins|bye|cd|chdir|complete
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 

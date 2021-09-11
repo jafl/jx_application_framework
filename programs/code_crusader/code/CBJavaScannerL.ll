@@ -1,4 +1,4 @@
-%{
+%top {
 /*
 Copyright © 2001 by John Lindal.
 
@@ -7,18 +7,57 @@ This scanner reads a Java file and returns CBJavaScanner::Tokens.
 Remember to upgrade CBHTMLScanner, too!
 */
 
-#define _H_CBJavaScannerL
-
-#include "CBJavaScanner.h"
+#include "CBStylingScannerBase.h"
 #include <jAssert.h>
+}
 
-#undef YY_DECL
-#define YY_DECL CBJavaScanner::Token CBJavaScanner::NextToken()
-%}
+%option lexer="CBJavaScanner"
+%option lex="NextToken" token-type="CBStylingScannerBase::Token"
+%option unicode nodefault full freespace
 
-%option c++ yyclass = "CBJavaScanner" prefix = "CBJava"
-%option 8bit nodefault noyywrap
-%option full ecs align
+%class {
+
+public:
+
+	// these types are ordered to correspond to the type table in CBJavaStyler
+
+	enum TokenType
+	{
+		kBadHexInt = kEOF+1,
+		kBadCharConst,
+		kUnterminatedString,
+		kUnterminatedComment,
+		kIllegalChar,
+		kNonPrintChar,
+
+		kWhitespace,	// must be the one before the first item in type table
+
+		kID,
+		kReservedKeyword,
+		kBuiltInDataType,
+		kAnnotation,
+
+		kOperator,
+		kDelimiter,
+
+		kString,
+		kCharConst,
+
+		kFloat,
+		kDecimalInt,
+		kHexInt,
+
+		kComment,
+		kDocCommentHTMLTag,
+		kDocCommentSpecialTag,
+
+		kError			// place holder for CBJavaStyler
+		};
+
+private:
+
+	Token	DocToken(const TokenType type);
+}
 
 %x DOC_COMMENT_STATE C_COMMENT_STATE STRING_STATE
 
@@ -38,8 +77,8 @@ UESCCODE     (\\[uU][[:xdigit:]]{4})
 
 
 
-IDCAR        ([_[:alpha:]]|{UESCCODE})
-IDCDR        ([_[:alnum:]]|{UESCCODE})
+IDCAR        (_|\p{L}|{UESCCODE})
+IDCDR        (_|\p{L}|\d|{UESCCODE})
 
 ID           ({IDCAR}{IDCDR}*)
 ANNOTATION   (@{ID}(\.{ID})*)
@@ -76,18 +115,8 @@ CHAR         ([^\n'\\]|{ESCCHAR}|{UESCCODE})
 
 CCONST       (\'{CHAR}\')
 BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
+
 %%
-
-%{
-/************************************************************************/
-
-	if (itsResetFlag)
-		{
-		BEGIN(INITIAL);
-		itsResetFlag = false;
-		}
-
-%}
 
 
 
@@ -243,7 +272,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 
 "/**"/[^/] {
 	StartToken();
-	BEGIN(DOC_COMMENT_STATE);
+	start(DOC_COMMENT_STATE);
 	}
 
 <DOC_COMMENT_STATE>{
@@ -256,11 +285,11 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 
 "*"+"/" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kComment);
 	}
 
-\<[^*>]+> {		/* comment ends with <star><slash> even if in the middle of <...> */
+"<"[^*>]+> {		/* comment ends with <star><slash> even if in the middle of <...> */
 	return DocToken(kDocCommentHTMLTag);
 	}
 
@@ -269,7 +298,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedComment);
 	}
 
@@ -284,7 +313,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 
 "/*" {
 	StartToken();
-	BEGIN(C_COMMENT_STATE);
+	start(C_COMMENT_STATE);
 	}
 
 <C_COMMENT_STATE>{
@@ -296,12 +325,12 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 
 "*"+"/" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kComment);
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedComment);
 	}
 
@@ -316,20 +345,20 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 
 \" {
 	StartToken();
-	BEGIN(STRING_STATE);
+	start(STRING_STATE);
 	}
 
 <STRING_STATE>{
 
 \" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -339,7 +368,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -358,7 +387,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 
 . {
 	StartToken();
-	JUtf8Character c(yytext);
+	JUtf8Character c(text());
 	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);
@@ -380,3 +409,27 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 	}
 
 %%
+
+/******************************************************************************
+ DocToken (private)
+
+ *****************************************************************************/
+
+CBJavaScanner::Token
+CBJavaScanner::DocToken
+	(
+	const TokenType type
+	)
+{
+	Token t;
+	t.docCommentRange = GetCurrentRange();	// save preceding comment range
+
+	StartToken();							// tag is separate token
+	t.type  = type;
+	t.range = GetCurrentRange();
+
+	// prepare for continuation of comment (StartToken() with yyleng==0)
+	InitToken();
+
+	return t;
+}

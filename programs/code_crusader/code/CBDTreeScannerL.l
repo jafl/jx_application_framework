@@ -1,82 +1,83 @@
-%{
+%top {
 /*
 Copyright © 1998 by Dustin Laurence.
 Copyright © 2021 by John Lindal.
 
-This scanner reads a C/C++ file and creates CBClass instances.
+This scanner reads a D file and creates CBClass instances.
 */
 
-#define _H_CBDTreeScannerL
-
-#include "CBDTreeScanner.h"
 #include "CBDClass.h"
+#include <JString.h>
 #include <JStringIterator.h>
 #include <JRegex.h>
 #include <JStringPtrMap.h>
 #include <JStack.h>
 #include <jFileUtil.h>
-#include <fstream>
+#include <JFAID.h>
 #include <jAssert.h>
-
-#undef YY_DECL
-#define YY_DECL \
-	bool CBDTreeScanner::CreateClasses( \
-		const JString& fileName, const JFAID_t fileID, \
-		CBTree* tree, JPtrArray<CBClass>* classList)
-
-static const JRegex templateParameterPattern("!\\([^)]+\\)");
-
-void
-StoreAlias
-	(
-	const JString&				s,
-	const JPtrArray<JString>&	nsStack,
-	JPtrArray<JString>*			aliasKeys,
-	JStringPtrMap<JString>*		aliasMap
-	)
-{
-	JPtrArray<JString> partList(JPtrArrayT::kForgetAll);
-	s.Split("=", &partList);
-
-	JString* key   = partList.GetElement(1);
-	JString* value = partList.GetElement(2);
-	key->TrimWhitespace();
-	value->TrimWhitespace();
-
-	if (value->Contains("!"))
-		{
-		JStringIterator iter(value);
-		while (iter.Next(templateParameterPattern))
-			{
-			iter.RemoveLastMatch();
-			}
-		}
-
-	aliasKeys->Append(key);
-	aliasMap->SetNewElement(*key, value);
-
-	if (!nsStack.IsEmpty())
-		{
-		key = jnew JString(*key);
-		assert( key != nullptr );
-
-		value = jnew JString(*value);
-		assert( value != nullptr );
-
-		for (auto* s : nsStack)
-			{
-			key->Prepend(".");
-			key->Prepend(*s);
-			}
-
-		aliasKeys->Append(key);
-		aliasMap->SetNewElement(*key, value);
-		}
 }
-%}
 
-%option c++ yyclass="CBDTreeScanner" prefix="CBDTree"
-%option 8bit nodefault stack noyywrap
+%option lexer="CBDTreeScanner"
+%option lex="CreateClasses" token-type="bool"
+%option params="const JString& fileName, const JFAID_t fileID, CBTree* tree, JPtrArray<CBClass>* classList"
+%option unicode nodefault full freespace
+
+%class {
+
+public:
+
+	virtual ~CBDTreeScanner();
+
+private:
+
+	JString		itsPackage;
+	JInteger	itsCurlyBraceDepth;
+	JInteger	itsDepth;
+	bool		itsAbstractFlag;
+	bool		itsFinalFlag;
+	bool		itsTemplateFlag;
+	CBClass*	itsCurrentClass;
+
+	JStack<JInteger, JArray<JInteger>>	itsCurlyBraceStack;
+	JPtrArray<JString>*					itsNamespaceStack;
+	JPtrArray<JString>*					itsAliasKeys;
+	JStringPtrMap<JString>*				itsAliasMap;
+
+	JPtrArray<JString>*	itsImportPackages;
+	JString				itsImportPackage;
+	JString				itsImportAlias;
+
+private:
+
+	void ResetState()
+	{
+		itsAbstractFlag = false;
+		itsFinalFlag    = false;
+		itsTemplateFlag = false;
+		itsCurrentClass = nullptr;
+	}
+
+	void	StoreAlias(const JString& s);
+
+	// not allowed
+
+	CBDTreeScanner(const CBDTreeScanner& source);
+	CBDTreeScanner& operator=(const CBDTreeScanner& source);
+}
+
+%init {
+	itsNamespaceStack = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsNamespaceStack != nullptr );
+
+	itsAliasKeys = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsAliasKeys != nullptr );
+
+	itsAliasMap = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsAliasMap != nullptr );
+
+	itsImportPackages = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsImportPackages != nullptr );
+}
 
 %x IMPORT_STATE IMPORT_ALIAS_STATE
 %x CLASS_NAME_STATE INHERIT_STATE
@@ -86,13 +87,12 @@ StoreAlias
 
 WS     [[:space:]]+
 MS     [[:space:]]*
-BDRY   ({WS}|[^_[:alnum:]])
 
 KEYWORD   (alias|align|asm|assert|auto|body|break|case|cast|catch|const|continue|debug|default|delegate|delete|deprecated|do|else|enum|export|extern|false|finally|for|foreach|foreach_reverse|function|goto|if|immutable|import|in|inout|invariant|is|lazy|long|macro|mixin|module|new|nothrow|null|out|override|pragma|private|protected|public|pure|ref|return|scope|shared|static|struct|super|switch|synchronized|this|throw|true|try|typeid|typeof|union|unittest|version|void|while|with|__DATE__|__EOF__|__FILE__|__FILE_FULL_PATH__|__FUNCTION__|__LINE__|__MODULE__|__PRETTY_FUNCTION__|__TIME__|__TIMESTAMP__|__VENDOR__|__VERSION__|__gshared|__traits|__vector|__parameters)
 DATATYPE  (bool|byte|cdouble|cent|cfloat|char|creal|dchar|double|float|idouble|ifloat|int|ireal|real|short|ubyte|ucent|uint|ulong|ushort|wchar)
 
-IDCAR     ([_[:alpha:]])
-IDCDR     ([_[:alnum:]])
+IDCAR     (_|\p{L})
+IDCDR     (_|\p{L}|\d)
 ID        ({IDCAR}{IDCDR}*)
 NSID      ({ID}(\.{ID})*)
 
@@ -102,119 +102,116 @@ NSIDT     ({IDT}(\.{IDT})*)
 %%
 
 %{
-	BEGIN(INITIAL);
 	ResetState();
 
-	JString package;
-	{
 	JString path, name, suffix;
 	JSplitPathAndName(fileName, &path, &name);
-	JSplitRootAndSuffix(name, &package, &suffix);
-	}
-	JInteger curlyBraceDepth = 0, depth = 0;
-	JStack<JInteger, JArray<JInteger>> curlyBraceStack;
-	JPtrArray<JString> nsStack(JPtrArrayT::kDeleteAll);
-	JPtrArray<JString> aliasKeys(JPtrArrayT::kDeleteAll);
-	JStringPtrMap<JString> aliasMap(JPtrArrayT::kDeleteAll);
-	JString importPackage, importAlias;
-	JPtrArray<JString> importPackages(JPtrArrayT::kDeleteAll);
+	JSplitRootAndSuffix(name, &itsPackage, &suffix);
 
-	std::ifstream input(fileName.GetBytes());
-	switch_streams(&input, nullptr);
+	itsCurlyBraceDepth = itsDepth = 0;
+
+	itsImportPackage.Clear();
+	itsImportAlias.Clear();
+
+	itsCurlyBraceStack.Clear();
+	itsNamespaceStack->CleanOut();
+	itsAliasKeys->CleanOut();
+	itsAliasMap->CleanOut();
+	itsImportPackages->CleanOut();
 %}
 
 package{WS}{NSID}{MS}; {
-	package.Set(yytext+7, yyleng-8);
-	package.TrimWhitespace();
+	itsPackage.Set(text()+7, size()-8);
+	itsPackage.TrimWhitespace();
 	}
 
-import/{BDRY}  {
-	importPackage.Clear();
-	importAlias.Clear();
-	BEGIN(IMPORT_STATE);
+import\b  {
+	itsImportPackage.Clear();
+	itsImportAlias.Clear();
+	start(IMPORT_STATE);
 	}
 
 alias{WS}{ID}{MS}={MS}{NSIDT}{MS}; {
-	JString s(yytext+5, yyleng-6);
-	StoreAlias(s, nsStack, &aliasKeys, &aliasMap);
+	JString s(text()+5, size()-6);
+	StoreAlias(s);
 	}
 
-final/{BDRY} {
+final\b {
 	itsFinalFlag = true;
 	}
 
-abstract/{BDRY} {
+abstract\b {
 	itsAbstractFlag = true;
 	}
 
-template/{BDRY} {
+template\b {
 	itsTemplateFlag = true;
-	BEGIN(CLASS_NAME_STATE);
+	start(CLASS_NAME_STATE);
 	}
 
-class/{BDRY} {
+class\b {
 	itsAbstractFlag = false;
-	BEGIN(CLASS_NAME_STATE);
+	start(CLASS_NAME_STATE);
 	}
 
-interface/{BDRY} {
+interface\b {
 	itsAbstractFlag = true;
-	BEGIN(CLASS_NAME_STATE);
+	start(CLASS_NAME_STATE);
 	}
 
 "{" {
-	curlyBraceDepth++;
+	itsCurlyBraceDepth++;
 	}
 
 "}" {
-	curlyBraceDepth--;
-	if (curlyBraceDepth < 0)
+	itsCurlyBraceDepth--;
+	if (itsCurlyBraceDepth < 0)
 		{
 		return false;
 		}
-	else if (curlyBraceDepth == 0 && !curlyBraceStack.IsEmpty())
+	else if (itsCurlyBraceDepth == 0 && !itsCurlyBraceStack.IsEmpty())
 		{
-		curlyBraceDepth = curlyBraceStack.Pop();
-		nsStack.DeleteElement(1);
+		itsCurlyBraceDepth = itsCurlyBraceStack.Pop();
+		itsNamespaceStack->DeleteElement(1);
 		}
 	}
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 "/+" {
-	depth = 1;
-	yy_push_state(D_COMMENT_STATE);
+	itsDepth = 1;
+	push_state(D_COMMENT_STATE);
 	}
 
 \" {
-	BEGIN(STRING_STATE);
+	start(STRING_STATE);
 	}
 
 [rq]\" {
-	BEGIN(WYSIWYG_STRING_STATE);
+	start(WYSIWYG_STRING_STATE);
 	}
 
 \` {
-	BEGIN(ALT_WYSIWYG_STRING_STATE);
+	start(ALT_WYSIWYG_STRING_STATE);
 	}
 
 x\" {
-	BEGIN(HEX_STRING_STATE);
+	start(HEX_STRING_STATE);
 	}
 
 "q{" {
-	depth = 1;
-	BEGIN(TOKEN_STRING_STATE);
+	itsDepth = 1;
+	start(TOKEN_STRING_STATE);
 	}
 
-{KEYWORD}/{BDRY}   |
-{DATATYPE}/{BDRY}  {
+{KEYWORD}\b   |
+{DATATYPE}\b  {
 	ResetState();
 	}
 
@@ -225,59 +222,59 @@ x\" {
 	}
 
 
-	/* Extract imported package */
+	/* Extract imported itsPackage */
 
 
 <IMPORT_STATE>{
 
 {NSID} {
-	importPackage.Set(yytext, yyleng);
+	itsImportPackage.Set(text(), size());
 	}
 
 "=" {
-	if (!importPackage.IsEmpty())
+	if (!itsImportPackage.IsEmpty())
 		{
-		importAlias = importPackage;
-		importPackage.Clear();
+		itsImportAlias = itsImportPackage;
+		itsImportPackage.Clear();
 		}
 	else
 		{
 		ResetState();
-		BEGIN(INITIAL);
+		start(INITIAL);
 		}
 	}
 
 [:;] {
-	if (!importPackage.IsEmpty())
+	if (!itsImportPackage.IsEmpty())
 		{
-		if (!importAlias.IsEmpty())
+		if (!itsImportAlias.IsEmpty())
 			{
-			aliasKeys.Append(importAlias);
-			aliasMap.SetNewElement(importAlias, importPackage);
+			itsAliasKeys->Append(itsImportAlias);
+			itsAliasMap->SetNewElement(itsImportAlias, itsImportPackage);
 			}
-		importPackages.Append(importPackage);
-		BEGIN(yytext[0] == ':' ? IMPORT_ALIAS_STATE : INITIAL);
+		itsImportPackages->Append(itsImportPackage);
+		start(text()[0] == ':' ? IMPORT_ALIAS_STATE : INITIAL);
 		}
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 "/+" {
-	depth = 1;
-	yy_push_state(D_COMMENT_STATE);
+	itsDepth = 1;
+	push_state(D_COMMENT_STATE);
 	}
 
 . {
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 }
@@ -289,8 +286,8 @@ x\" {
 <IMPORT_ALIAS_STATE>{
 
 {ID}{MS}={MS}{NSID} {
-	JString s(yytext, yyleng);
-	StoreAlias(s, nsStack, &aliasKeys, &aliasMap);
+	JString s(text(), size());
+	StoreAlias(s);
 	}
 
 {ID}	/* ignore */
@@ -300,21 +297,21 @@ x\" {
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 "/+" {
-	depth = 1;
-	yy_push_state(D_COMMENT_STATE);
+	itsDepth = 1;
+	push_state(D_COMMENT_STATE);
 	}
 
 . {
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 }
@@ -326,14 +323,14 @@ x\" {
 <CLASS_NAME_STATE>{
 
 {ID} {
-	JString fullName(yytext, yyleng);
-	for (auto* s : nsStack)
+	JString fullName(text(), size());
+	for (auto* s : *itsNamespaceStack)
 		{
 		fullName.Prepend(".");
 		fullName.Prepend(*s);
 		}
 	fullName.Prepend(".");
-	fullName.Prepend(package);
+	fullName.Prepend(itsPackage);
 
 	CBDClass* c = jnew CBDClass(fullName, CBClass::kClassType, fileID, tree, itsFinalFlag);
 	assert( c != nullptr );
@@ -351,48 +348,48 @@ x\" {
 : {
 	if (itsCurrentClass != nullptr)
 		{
-		BEGIN(INHERIT_STATE);
+		start(INHERIT_STATE);
 		}
 	else
 		{
 		ResetState();
-		BEGIN(INITIAL);
+		start(INITIAL);
 		}
 	}
 
 "{" {
 	if (itsCurrentClass != nullptr)
 		{
-		curlyBraceStack.Push(curlyBraceDepth);
-		curlyBraceDepth = 1;
-		nsStack.Prepend(itsCurrentClass->GetName());
+		itsCurlyBraceStack.Push(itsCurlyBraceDepth);
+		itsCurlyBraceDepth = 1;
+		itsNamespaceStack->Prepend(itsCurrentClass->GetName());
 		}
 	else
 		{
-		curlyBraceDepth++;
+		itsCurlyBraceDepth++;
 		}
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 "/+" {
-	depth = 1;
-	yy_push_state(D_COMMENT_STATE);
+	itsDepth = 1;
+	push_state(D_COMMENT_STATE);
 	}
 
 . {
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 }
@@ -404,17 +401,17 @@ x\" {
 <INHERIT_STATE>{
 
 {NSID} {
-	JString parentName(yytext, yyleng);
+	JString parentName(text(), size());
 	JString s;
 
 	JSize count = 0;
 	while (true)
 		{
 		bool changed = false;
-		for (const auto* c : aliasKeys)
+		for (const auto* c : *itsAliasKeys)
 			{
 			JString* s1;
-			aliasMap.GetElement(*c, &s1);
+			itsAliasMap->GetElement(*c, &s1);
 
 			if (*c == parentName)
 				{
@@ -449,11 +446,11 @@ x\" {
 "!"?\([^)]+\)	/* ignore template parameters */
 
 "{" {
-	curlyBraceStack.Push(curlyBraceDepth);
-	curlyBraceDepth = 1;
-	nsStack.Prepend(itsCurrentClass->GetName());
+	itsCurlyBraceStack.Push(itsCurlyBraceDepth);
+	itsCurlyBraceDepth = 1;
+	itsNamespaceStack->Prepend(itsCurrentClass->GetName());
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 "," 	/* ignore */
@@ -461,21 +458,21 @@ x\" {
 {WS}	/* ignore */
 
 "/*" {
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "//" {
-	yy_push_state(CPP_COMMENT_STATE);
+	push_state(CPP_COMMENT_STATE);
 	}
 
 "/+" {
-	depth = 1;
-	yy_push_state(D_COMMENT_STATE);
+	itsDepth = 1;
+	push_state(D_COMMENT_STATE);
 	}
 
 . {
 	ResetState();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 }
@@ -493,7 +490,7 @@ x\" {
 "*"+[^*/\n]*\n		/* ignore everything inside comment */
 
 "*"+"/" {
-	yy_pop_state();
+	pop_state();
 	}
 
 }
@@ -507,7 +504,7 @@ x\" {
 [^\n]+				/* ignore everything inside comment */
 
 \n {
-	yy_pop_state();
+	pop_state();
 	}
 
 }
@@ -523,14 +520,14 @@ x\" {
 "/"					/* ignore everything inside comment */
 
 "/+" {
-	depth++;
+	itsDepth++;
 	}
 
 "+"+"/" {
-	depth--;
-	if (depth == 0)
+	itsDepth--;
+	if (itsDepth == 0)
 		{
-		yy_pop_state();
+		pop_state();
 		}
 	}
 
@@ -543,11 +540,11 @@ x\" {
 <STRING_STATE>{
 
 \"[cwd]? {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 \n {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 \\(.|\n)?  |
@@ -559,7 +556,7 @@ x\" {
 <WYSIWYG_STRING_STATE>{
 
 \"[cwd]? {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 [^\"]+	/* ignore everything inside quotes */
@@ -570,7 +567,7 @@ x\" {
 <ALT_WYSIWYG_STRING_STATE>{
 
 \`[cwd]? {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 [^\`]+	/* ignore everything inside quotes */
@@ -581,13 +578,13 @@ x\" {
 <HEX_STRING_STATE>{
 
 \"[cwd]? {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 
 [[:xdigit:][:space:]]+	/* ignore everything inside quotes */
 
 [^"] {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	}
 }
 
@@ -595,15 +592,15 @@ x\" {
 <TOKEN_STRING_STATE>{
 
 "}" {
-	depth--;
-	if (depth == 0)
+	itsDepth--;
+	if (itsDepth == 0)
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		}
 	}
 
 "{" {
-	depth++;
+	itsDepth++;
 	}
 
 [^{}]+	/* ignore everything inside quotes */
@@ -611,3 +608,58 @@ x\" {
 }
 
 %%
+
+CBDTreeScanner::~CBDTreeScanner()
+{
+	jdelete itsNamespaceStack;
+	jdelete itsAliasKeys;
+	jdelete itsAliasMap;
+	jdelete itsImportPackages;
+}
+
+static const JRegex templateParameterPattern("!\\([^)]+\\)");
+
+void
+CBDTreeScanner::StoreAlias
+	(
+	const JString& s
+	)
+{
+	JPtrArray<JString> partList(JPtrArrayT::kForgetAll);
+	s.Split("=", &partList);
+
+	JString* key   = partList.GetElement(1);
+	JString* value = partList.GetElement(2);
+	key->TrimWhitespace();
+	value->TrimWhitespace();
+
+	if (value->Contains("!"))
+		{
+		JStringIterator iter(value);
+		while (iter.Next(templateParameterPattern))
+			{
+			iter.RemoveLastMatch();
+			}
+		}
+
+	itsAliasKeys->Append(key);
+	itsAliasMap->SetNewElement(*key, value);
+
+	if (!itsNamespaceStack->IsEmpty())
+		{
+		key = jnew JString(*key);
+		assert( key != nullptr );
+
+		value = jnew JString(*value);
+		assert( value != nullptr );
+
+		for (auto* s : *itsNamespaceStack)
+			{
+			key->Prepend(".");
+			key->Prepend(*s);
+			}
+
+		itsAliasKeys->Append(key);
+		itsAliasMap->SetNewElement(*key, value);
+		}
+}

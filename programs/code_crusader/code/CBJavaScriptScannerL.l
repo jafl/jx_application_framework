@@ -34,8 +34,8 @@ DOCTAG       (async|attribute|author|beta|broadcast|bubbles|category|class|chain
 
 
 
-IDCAR        ([_[:alpha:]])
-IDCDR        ([_[:alnum:]])
+IDCAR        (_|\p{L})
+IDCDR        (_|\p{L}|\d)
 
 ID           ({IDCAR}{IDCDR}*)
 
@@ -242,7 +242,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	return ThisToken(kComment);
 	}
 
-\<[^*>]+> {		/* comment ends with <star><slash> even if in the middle of <...> */
+"<"[^*>]+> {		/* comment ends with <star><slash> even if in the middle of <...> */
 	return DocToken(kDocCommentHTMLTag);
 	}
 

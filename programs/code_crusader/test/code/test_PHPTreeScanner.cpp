@@ -50,7 +50,7 @@ JTEST(Basic)
 	tree.ParseFile(JString("./data/tree/php/InvalidArgumentException.php", false), 3);
 	tree.UpdateFinished(deadFileList);
 
-	const TestPHPTree& constTree  = tree;
+	const TestPHPTree& constTree   = tree;
 	const JPtrArray<CBClass>& list = constTree.GetClasses();
 	JAssertEqual(5, list.GetElementCount());
 

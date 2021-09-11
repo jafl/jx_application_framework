@@ -34,8 +34,8 @@ DATATYPE    (bool|byte|cdouble|cent|cfloat|char|creal|dchar|double|float|idouble
 
 
 
-IDCAR        ([_[:alpha:]])
-IDCDR        ([_[:alnum:]])
+IDCAR        (_|\p{L})
+IDCDR        (_|\p{L}|\d)
 
 ID           ({IDCAR}{IDCDR}*)
 

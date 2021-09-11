@@ -31,8 +31,8 @@ DATATYPE    (BIT|BOOLEAN|CHARACTER|DOUBLE|INTEGER|NONE|POINTER|REAL|STRING)
 
 
 
-IDCAR        [[:alpha:]]
-IDCDR        [_[:alnum:]]
+IDCAR        (_|\p{L})
+IDCDR        (_|\p{L}|\d)
 
 ID           ({IDCAR}{IDCDR}*)
 

@@ -1,33 +1,138 @@
-%{
+%top{
 /*
 Copyright © 2001 by John Lindal.
 
 This scanner reads an HTML/XML/PHP/JSP file and returns CBHTMLScanner::Tokens.
 */
 
-#define _H_CBHTMLScannerL
-
-#include "CBHTMLScanner.h"
-#include <JString.h>
-#include <stdlib.h>
-#include <limits.h>
+#include "CBStylingScannerBase.h"
+#include <JRegex.h>
 #include <jAssert.h>
-
-#undef YY_DECL
-#define YY_DECL CBHTMLScanner::Token CBHTMLScanner::NextToken()
-
-yy_state_type
-CBHTMLScanner::GetCurrentLexerState()
-	const
-{
-	return YY_START;
-}
-
 %}
 
-%option c++ yyclass="CBHTMLScanner" prefix="CBHTML"
-%option 8bit nodefault stack noyywrap
-%option full ecs align
+%option lexer="CBHTMLScanner"
+%option lex="NextToken" token-type="CBStylingScannerBase::Token"
+%option unicode nodefault full freespace
+
+%class {
+
+public:
+
+	// these types are ordered to correspond to the type table in CBHTMLStyler
+
+	enum TokenType
+	{
+		kHTMLEmptyTag = kEOF+1,
+		kHTMLUnterminatedTag,
+		kHTMLInvalidNamedCharacter,
+		kUnterminatedString,
+		kUnterminatedComment,
+		kUnterminatedPHPVariable,
+		kUnterminatedJSRegex,
+		kJavaBadCharConst,
+		kPHPBadInt,
+		kBadHex,
+		kIllegalChar,
+
+		kWhitespace,		// must be the one before the first item in type table
+
+		// HTML
+
+		kHTMLText,
+		kHTMLTag,
+		kHTMLScript,
+		kHTMLNamedCharacter,
+		kHTMLComment,
+		kCDATABlock,
+
+		// Mustache
+
+		kMustacheCommand,
+
+		// PHP
+
+		kPHPStartEnd,
+		kPHPID,
+		kPHPVariable,
+		kPHPReservedKeyword,
+		kPHPBuiltInDataType,
+
+		kPHPOperator,
+		kPHPDelimiter,
+
+		kPHPSingleQuoteString,
+		kPHPDoubleQuoteString,
+		kPHPHereDocString,
+		kPHPNowDocString,
+		kPHPExecString,
+
+		// JSP/Java
+
+		kJSPStartEnd,
+		kJSPComment,
+
+		kJavaID,
+		kJavaReservedKeyword,
+		kJavaBuiltInDataType,
+
+		kJavaOperator,
+		kJavaDelimiter,
+
+		kJavaString,
+		kJavaCharConst,
+
+		// JavaScript
+
+		kJSID,
+		kJSReservedKeyword,
+
+		kJSOperator,
+		kJSDelimiter,
+
+		kJSString,
+		kJSTemplateString,
+		kJSRegexSearch,
+
+		// shared
+
+		kFloat,
+		kDecimalInt,
+		kHexInt,
+		kPHPOctalInt,
+
+		kComment,
+		kDocCommentHTMLTag,
+		kDocCommentSpecialTag,
+
+		kError			// place holder for CBHTMLStyler
+	};
+
+public:
+
+	virtual void	BeginScan(const JStyledText::TextIndex& startIndex, std::istream& input);
+
+protected:
+
+	bool	InTagState() const;
+
+	virtual const JString&	GetScannedText() const = 0;
+
+private:
+
+	JString	itsScriptLanguage;
+	JString	itsPHPHereDocTag;
+	JString	itsPHPNowDocTag;
+	bool	itsProbableJSOperatorFlag;	// kTrue if / is most likely operator instead of regex
+	JSize	itsBraceCount;
+
+private:
+
+	Token	ScriptToken();
+	Token	DocToken(const TokenType type);
+
+	bool	IsScript(JString* language) const;
+	bool	InTagState(const int state) const;
+}
 
 %x TAG_STATE SCRIPT_STATE CHAR_ESC_STATE
 %x QUOTED_ATTR_VALUE_STATE
@@ -63,14 +168,17 @@ PHPKEYWORD    (__CLASS__|__DIR__|__FILE__|__FUNCTION__|__LINE__|__METHOD__|__NAM
 
 PHPDATATYPE   (array|bool|boolean|double|float|int|integer|object|real|string|null|nullptr|true|TRUE|false|FALSE)
 
-IDCAR         ([[:alpha:]_\x7f-\xff])
-IDCDR         ([[:alnum:]_\x7f-\xff])
+ESCCODE       ([\x7f-\xff])
+IDCAR         (_|\p{L}|{ESCCODE})
+IDCDR         (_|\p{L}|\d|{ESCCODE})
 ID            ({IDCAR}{IDCDR}*)
 
 DECIMAL       (0|[1-9][0-9]*)
 HEX           (0[xX][[:xdigit:]]+)
 OCTAL         (0[0-7]+)
+%{
 	/* The programmer probably meant a number, but it is invalid (match after other ints) */
+%}
 BADINT        ([0-9]+)
 BADHEX        (0[xX][0-9A-Za-z]+)
 
@@ -88,8 +196,8 @@ JAVA_DATATYPE (BitSet|[bB]oolean|byte|char|Character|Class|Date|Dictionary|[dD]o
 
 JAVA_UESCCODE (\\[uU][[:xdigit:]]{4})
 
-JAVA_IDCAR    ([_[:alpha:]]|{JAVA_UESCCODE})
-JAVA_IDCDR    ([_[:alnum:]]|{JAVA_UESCCODE})
+JAVA_IDCAR    (_|\p{L}|{JAVA_UESCCODE})
+JAVA_IDCDR    (_|\p{L}|\d|{JAVA_UESCCODE})
 
 JAVA_ID       ({JAVA_IDCAR}{JAVA_IDCDR}*)
 
@@ -114,8 +222,8 @@ JAVA_BADCCONST   (\'(\\|{JAVA_BADESCCHAR}|({JAVA_BADESCCHAR}|{JAVA_CHAR}){2,})\'
 
 JS_KEYWORD    (abstract|arguments|async|await|boolean|break|byte|case|catch|char|class|const|constructor|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|of|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|undefined|var|void|volatile|while|with|yield)
 
-JS_IDCAR      ([_[:alpha:]])
-JS_IDCDR      ([_[:alnum:]])
+JS_IDCAR      (_|\p{L})
+JS_IDCDR      (_|\p{L}|\d)
 
 JS_ID         ({JS_IDCAR}{JS_IDCDR}*)
 
@@ -123,29 +231,12 @@ JS_ID         ({JS_IDCAR}{JS_IDCDR}*)
 JS_DECIMAL    ([0-9]+)
 JS_HEX        (0[xX]0*[[:xdigit:]]{1,8})
 JS_BADHEX     (0[xX][[:xdigit:]]{9,})
+
 %%
-
-%{
-/************************************************************************/
-
-	JSize braceCount = 0;
-
-	if (itsResetFlag)
-		{
-		BEGIN(INITIAL);
-		yy_start_stack_ptr = 0;		/* toss anything that was left on stack */
-		if (itsStartState != INITIAL)
-			{
-			yy_push_state(itsStartState);
-			}
-		itsResetFlag = false;
-		}
-
-%}
 
 "<" {
 	StartToken();
-	BEGIN(TAG_STATE);
+	start(TAG_STATE);
 	}
 
 "<>" {
@@ -155,37 +246,37 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 
 "<![CDATA[" {
 	StartToken();
-	BEGIN(CDATA_STATE);
+	start(CDATA_STATE);
 	}
 
 "{{"\{? {
 	StartToken();
-	BEGIN(MUSTACHE_STATE);
+	start(MUSTACHE_STATE);
 	}
 
 {PHPSTART} {
-	yyless(0);
-	yy_push_state(PHP_STATE);
+	matcher().less(0);
+	push_state(PHP_STATE);
 	}
 
 {JSPSTART} {
-	yyless(0);
-	yy_push_state(JSP_STATE);
+	matcher().less(0);
+	push_state(JSP_STATE);
 	}
 
 {JSP_COMMENT} {
-	yyless(0);
-	yy_push_state(JSP_HTML_COMMENT_STATE);
+	matcher().less(0);
+	push_state(JSP_HTML_COMMENT_STATE);
 	}
 
 "<!--" {
 	StartToken();
-	BEGIN(HTML_COMMENT_STATE);
+	start(HTML_COMMENT_STATE);
 	}
 
 "&" {
 	StartToken();
-	yy_push_state(CHAR_ESC_STATE);
+	push_state(CHAR_ESC_STATE);
 	}
 
 [^<&{]+ |
@@ -207,29 +298,29 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 	const bool isScript = IsScript(&itsScriptLanguage);
 	if (isScript && JString::Compare(itsScriptLanguage, "javascript", JString::kIgnoreCase) == 0)
 		{
-		BEGIN(JAVA_SCRIPT_STATE);
+		start(JAVA_SCRIPT_STATE);
 		return ScriptToken();
 		}
 	else if (isScript)
 		{
-		BEGIN(SCRIPT_STATE);
+		start(SCRIPT_STATE);
 		}
 	else
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		return ThisToken(kHTMLTag);
 		}
 	}
 
 "="[[:space:]]*\" {
 	ContinueToken();
-	BEGIN(QUOTED_ATTR_VALUE_STATE);
+	start(QUOTED_ATTR_VALUE_STATE);
 	}
 
 "&" {
 	const Token t = ThisToken(kHTMLTag);
 	StartToken();
-	yy_push_state(CHAR_ESC_STATE);
+	push_state(CHAR_ESC_STATE);
 	if (!(t.range).IsEmpty())		/* may come directly from ESC/PHP */
 		{
 		return t;
@@ -237,27 +328,27 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 	}
 
 {PHPSTART} {
-	yyless(0);
-	yy_push_state(PHP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/PHP */
+	matcher().less(0);
+	push_state(PHP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from ESC/PHP */
 		{
 		return ThisToken(kHTMLTag);
 		}
 	}
 
 {JSPSTART} {
-	yyless(0);
-	yy_push_state(JSP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/JSP */
+	matcher().less(0);
+	push_state(JSP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from ESC/JSP */
 		{
 		return ThisToken(kHTMLTag);
 		}
 	}
 
 {JSP_COMMENT} {
-	yyless(0);
-	yy_push_state(JSP_HTML_COMMENT_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/JSP */
+	matcher().less(0);
+	push_state(JSP_HTML_COMMENT_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from ESC/JSP */
 		{
 		return ThisToken(kHTMLTag);
 		}
@@ -270,7 +361,7 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kHTMLUnterminatedTag);
 	}
 
@@ -286,13 +377,13 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 
 \"  {
 	ContinueToken();
-	BEGIN(TAG_STATE);
+	start(TAG_STATE);
 	}
 
 "&" {
 	const Token t = ThisToken(kHTMLTag);
 	StartToken();
-	yy_push_state(CHAR_ESC_STATE);
+	push_state(CHAR_ESC_STATE);
 	if (!(t.range).IsEmpty())		/* may come directly from ESC/PHP */
 		{
 		return t;
@@ -300,27 +391,27 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 	}
 
 {PHPSTART} {
-	yyless(0);
-	yy_push_state(PHP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/PHP */
+	matcher().less(0);
+	push_state(PHP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from ESC/PHP */
 		{
 		return ThisToken(kHTMLTag);
 		}
 	}
 
 {JSPSTART} {
-	yyless(0);
-	yy_push_state(JSP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/JSP */
+	matcher().less(0);
+	push_state(JSP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from ESC/JSP */
 		{
 		return ThisToken(kHTMLTag);
 		}
 	}
 
 {JSP_COMMENT} {
-	yyless(0);
-	yy_push_state(JSP_HTML_COMMENT_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/JSP */
+	matcher().less(0);
+	push_state(JSP_HTML_COMMENT_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from ESC/JSP */
 		{
 		return ThisToken(kHTMLTag);
 		}
@@ -332,7 +423,7 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kHTMLUnterminatedTag);
 	}
 
@@ -348,32 +439,32 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 
 {SCRIPT_END} {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ScriptToken();
 	}
 
 {PHPSTART} {
-	yyless(0);
-	yy_push_state(PHP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/PHP */
+	matcher().less(0);
+	push_state(PHP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from ESC/PHP */
 		{
 		return ScriptToken();
 		}
 	}
 
 {JSPSTART} {
-	yyless(0);
-	yy_push_state(JSP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/JSP */
+	matcher().less(0);
+	push_state(JSP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from ESC/JSP */
 		{
 		return ScriptToken();
 		}
 	}
 
 {JSP_COMMENT} {
-	yyless(0);
-	yy_push_state(JSP_HTML_COMMENT_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/JSP */
+	matcher().less(0);
+	push_state(JSP_HTML_COMMENT_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from ESC/JSP */
 		{
 		return ScriptToken();
 		}
@@ -385,7 +476,7 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ScriptToken();
 	}
 
@@ -401,32 +492,32 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 
 "]]>" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kCDATABlock);
 	}
 
 {PHPSTART} {
-	yyless(0);
-	yy_push_state(PHP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/PHP */
+	matcher().less(0);
+	push_state(PHP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from ESC/PHP */
 		{
 		return ThisToken(kCDATABlock);
 		}
 	}
 
 {JSPSTART} {
-	yyless(0);
-	yy_push_state(JSP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/JSP */
+	matcher().less(0);
+	push_state(JSP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from ESC/JSP */
 		{
 		return ThisToken(kCDATABlock);
 		}
 	}
 
 {JSP_COMMENT} {
-	yyless(0);
-	yy_push_state(JSP_HTML_COMMENT_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/JSP */
+	matcher().less(0);
+	push_state(JSP_HTML_COMMENT_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from ESC/JSP */
 		{
 		return ThisToken(kCDATABlock);
 		}
@@ -439,7 +530,7 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kCDATABlock);
 	}
 
@@ -455,7 +546,7 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 
 "-->" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kHTMLComment);
 	}
 
@@ -465,7 +556,7 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kHTMLComment);
 	}
 
@@ -485,7 +576,7 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 
 "--%>" {
 	ContinueToken();
-	yy_pop_state();
+	pop_state();
 	const Token t = ThisToken(kJSPComment);
 	InitToken();	/* req'd when reentering tag */
 	return t;
@@ -497,7 +588,7 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kJSPComment);
 	}
 
@@ -513,25 +604,25 @@ JS_BADHEX     (0[xX][[:xdigit:]]{9,})
 <CHAR_ESC_STATE>{
 
 .|\n {
-	yyless(0);
-	const bool isText = yy_top_state() == INITIAL;
-	yy_pop_state();
+	matcher().less(0);
+	const bool isText = top_state() == INITIAL;
+	pop_state();
 	const Token t = ThisToken(isText ? kHTMLText : kHTMLTag);
 	InitToken();	/* req'd when reentering tag */
 	return t;
 	}
 
 <<EOF>> {
-	const bool isText = yy_top_state() == INITIAL;
-	BEGIN(INITIAL);
+	const bool isText = top_state() == INITIAL;
+	start(INITIAL);
 	return ThisToken(isText ? kHTMLText : kHTMLTag);
 	}
 
 #[0-9]+;?           |
 #[xX][[:xdigit:]]+;? {
 	ContinueToken();
-	yy_pop_state();
-	JString s(yytext+1, yyleng - (yytext[yyleng-1] == ';' ? 2 : 1));
+	pop_state();
+	JString s(text()+1, size() - (text()[size()-1] == ';' ? 2 : 1));
 	if (s.GetFirstCharacter() == 'x' || s.GetFirstCharacter() == 'X')
 		{
 		s.Prepend("0");
@@ -796,7 +887,7 @@ lsaquo;?   |
 rsaquo;?   |
 euro;?     {
 	ContinueToken();
-	yy_pop_state();
+	pop_state();
 	const Token t = ThisToken(kHTMLNamedCharacter);
 	InitToken();	/* req'd when reentering tag */
 	return t;
@@ -814,7 +905,7 @@ euro;?     {
 
 "}}"\}? {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kMustacheCommand);
 	}
 
@@ -824,7 +915,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kMustacheCommand);
 	}
 
@@ -845,7 +936,7 @@ euro;?     {
 
 "?>" {
 	StartToken();
-	yy_pop_state();
+	pop_state();
 	const Token t = ThisToken(kPHPStartEnd);
 	InitToken();	/* req'd when reentering tag */
 	return t;
@@ -934,8 +1025,8 @@ euro;?     {
 
 "$"+"{" {
 	StartToken();
-	braceCount = 1;
-	BEGIN(PHP_QUOTED_VARIABLE_STATE);
+	itsBraceCount = 1;
+	start(PHP_QUOTED_VARIABLE_STATE);
 	}
 
 {DECIMAL} {
@@ -976,32 +1067,32 @@ euro;?     {
 
 \' {
 	StartToken();
-	BEGIN(PHP_SINGLE_STRING_STATE);
+	start(PHP_SINGLE_STRING_STATE);
 	}
 
 \" {
 	StartToken();
-	BEGIN(PHP_DOUBLE_STRING_STATE);
+	start(PHP_DOUBLE_STRING_STATE);
 	}
 
-\<\<\<{ID}[ \t]*\n {
+"<<<"{ID}[ \t]*\n {
 	StartToken();
-	itsPHPHereDocTag.Set(yytext+3, yyleng-4);
+	itsPHPHereDocTag.Set(text()+3, size()-4);
 	itsPHPHereDocTag.TrimWhitespace();
-	BEGIN(PHP_HEREDOC_STRING_STATE);
+	start(PHP_HEREDOC_STRING_STATE);
 	}
 
-\<\<\<'{ID}'[ \t]*\n {
+"<<<"'{ID}'[ \t]*\n {
 	StartToken();
-	JString s(yytext+4, yyleng-5);
+	JString s(text()+4, size()-5);
 	s.TrimWhitespace();
 	itsPHPNowDocTag.Set(s.GetBytes(), s.GetByteCount()-1);
-	BEGIN(PHP_NOWDOC_STRING_STATE);
+	start(PHP_NOWDOC_STRING_STATE);
 	}
 
 \` {
 	StartToken();
-	BEGIN(PHP_EXEC_STRING_STATE);
+	start(PHP_EXEC_STRING_STATE);
 	}
 
 
@@ -1012,18 +1103,18 @@ euro;?     {
 
 "/*" {
 	StartToken();
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "/**"/[^/] {
 	StartToken();
-	yy_push_state(DOC_COMMENT_STATE);
+	push_state(DOC_COMMENT_STATE);
 	}
 
 "//" |
 "#"  {
 	StartToken();
-	BEGIN(PHP_CPP_COMMENT_STATE);
+	start(PHP_CPP_COMMENT_STATE);
 	}
 
 
@@ -1043,7 +1134,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kEOF);
 	}
 
@@ -1059,17 +1150,17 @@ euro;?     {
 
 "}" {
 	ContinueToken();
-	braceCount--;
-	if (braceCount == 0)
+	itsBraceCount--;
+	if (itsBraceCount == 0)
 		{
-		BEGIN(PHP_STATE);
+		start(PHP_STATE);
 		return ThisToken(kPHPVariable);
 		}
 	}
 
 "{" {
 	ContinueToken();
-	braceCount++;
+	itsBraceCount++;
 	}
 
 [^{}]+ {
@@ -1077,7 +1168,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedPHPVariable);
 	}
 
@@ -1093,7 +1184,7 @@ euro;?     {
 
 \' {
 	ContinueToken();
-	BEGIN(PHP_STATE);
+	start(PHP_STATE);
 	return ThisToken(kPHPSingleQuoteString);
 	}
 
@@ -1103,7 +1194,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -1113,14 +1204,14 @@ euro;?     {
 
 \" {
 	ContinueToken();
-	BEGIN(PHP_STATE);
+	start(PHP_STATE);
 	return ThisToken(kPHPDoubleQuoteString);
 	}
 
 "{$" {
 	ContinueToken();
-	braceCount = 1;
-	yy_push_state(PHP_COMPLEX_VARIABLE_STATE);
+	itsBraceCount = 1;
+	push_state(PHP_COMPLEX_VARIABLE_STATE);
 	}
 
 \\(.|\n)? |
@@ -1130,7 +1221,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -1140,10 +1231,10 @@ euro;?     {
 
 ^.+\n {
 	ContinueToken();
-	if (JString::Compare(yytext, yyleng - (yytext[yyleng-2] == ';' ? 2 : 1),
+	if (JString::Compare(text(), size() - (text()[size()-2] == ';' ? 2 : 1),
 					   itsPHPHereDocTag.GetBytes(), itsPHPHereDocTag.GetByteCount()) == 0)
 		{
-		BEGIN(PHP_STATE);
+		start(PHP_STATE);
 		return ThisToken(kPHPHereDocString);
 		}
 	}
@@ -1153,7 +1244,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -1164,10 +1255,10 @@ euro;?     {
 ^.+\n {
 	ContinueToken();
 	if (JString::Compare(
-			yytext, yyleng - (yytext[yyleng-2] == ';' ? 2 : 1),
+			text(), size() - (text()[size()-2] == ';' ? 2 : 1),
 			itsPHPNowDocTag.GetBytes(), itsPHPNowDocTag.GetByteCount()) == 0)
 		{
-		BEGIN(PHP_STATE);
+		start(PHP_STATE);
 		return ThisToken(kPHPNowDocString);
 		}
 	}
@@ -1177,7 +1268,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -1187,14 +1278,14 @@ euro;?     {
 
 \` {
 	ContinueToken();
-	BEGIN(PHP_STATE);
+	start(PHP_STATE);
 	return ThisToken(kPHPExecString);
 	}
 
 "{$" {
 	ContinueToken();
-	braceCount = 1;
-	yy_push_state(PHP_COMPLEX_VARIABLE_STATE);
+	itsBraceCount = 1;
+	push_state(PHP_COMPLEX_VARIABLE_STATE);
 	}
 
 \\(.|\n)? |
@@ -1204,7 +1295,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -1214,16 +1305,16 @@ euro;?     {
 
 "}" {
 	ContinueToken();
-	braceCount--;
-	if (braceCount == 0)
+	itsBraceCount--;
+	if (itsBraceCount == 0)
 		{
-		yy_pop_state();
+		pop_state();
 		}
 	}
 
 "{" {
 	ContinueToken();
-	braceCount++;
+	itsBraceCount++;
 	}
 
 [^{}]+ {
@@ -1231,7 +1322,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -1252,7 +1343,7 @@ euro;?     {
 
 "%>" {
 	StartToken();
-	yy_pop_state();
+	pop_state();
 	const Token t = ThisToken(kJSPStartEnd);
 	InitToken();	/* req'd when reentering tag */
 	return t;
@@ -1365,7 +1456,7 @@ euro;?     {
 
 \" {
 	StartToken();
-	BEGIN(JAVA_STRING_STATE);
+	start(JAVA_STRING_STATE);
 	}
 
 
@@ -1376,17 +1467,17 @@ euro;?     {
 
 "/*" {
 	StartToken();
-	yy_push_state(C_COMMENT_STATE);
+	push_state(C_COMMENT_STATE);
 	}
 
 "/**"/[^/] {
 	StartToken();
-	yy_push_state(DOC_COMMENT_STATE);
+	push_state(DOC_COMMENT_STATE);
 	}
 
 "//" {
 	StartToken();
-	BEGIN(JSP_CPP_COMMENT_STATE);
+	start(JSP_CPP_COMMENT_STATE);
 	}
 
 
@@ -1406,7 +1497,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kEOF);
 	}
 
@@ -1423,13 +1514,13 @@ euro;?     {
 
 \" {
 	ContinueToken();
-	BEGIN(JSP_STATE);
+	start(JSP_STATE);
 	return ThisToken(kJavaString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(JSP_STATE);
+	start(JSP_STATE);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -1439,7 +1530,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -1455,7 +1546,7 @@ euro;?     {
 
 "*"+"/" {
 	ContinueToken();
-	yy_pop_state();
+	pop_state();
 	return ThisToken(kComment);
 	}
 
@@ -1465,7 +1556,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedComment);
 	}
 
@@ -1475,7 +1566,7 @@ euro;?     {
 
 "*"+"/" {
 	ContinueToken();
-	BEGIN(JAVA_SCRIPT_STATE);
+	start(JAVA_SCRIPT_STATE);
 	return ThisToken(kComment);
 	}
 
@@ -1486,13 +1577,13 @@ euro;?     {
 	}
 
 {SCRIPT_END} {
-	yyless(0);
-	BEGIN(JAVA_SCRIPT_STATE);
+	matcher().less(0);
+	start(JAVA_SCRIPT_STATE);
 	return ThisToken(kUnterminatedComment);
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedComment);
 	}
 
@@ -1516,11 +1607,11 @@ euro;?     {
 
 "*"+"/" {
 	ContinueToken();
-	yy_pop_state();
+	pop_state();
 	return ThisToken(kComment);
 	}
 
-\<[^*>]+> {		/* comment ends with <star><slash> even if in the middle of <...> */
+"<"[^*>]+> {		/* comment ends with <star><slash> even if in the middle of <...> */
 	return DocToken(kDocCommentHTMLTag);
 	}
 
@@ -1529,7 +1620,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedComment);
 	}
 
@@ -1545,17 +1636,17 @@ euro;?     {
 
 "*"+"/" {
 	ContinueToken();
-	BEGIN(JAVA_SCRIPT_STATE);
+	start(JAVA_SCRIPT_STATE);
 	return ThisToken(kComment);
 	}
 
 {SCRIPT_END} {
-	yyless(0);
-	BEGIN(JAVA_SCRIPT_STATE);
+	matcher().less(0);
+	start(JAVA_SCRIPT_STATE);
 	return ThisToken(kUnterminatedComment);
 	}
 
-\<[^*>]+> {		/* comment ends with <star><slash> even if in the middle of <...> */
+"<"[^*>]+> {		/* comment ends with <star><slash> even if in the middle of <...> */
 	return DocToken(kDocCommentHTMLTag);
 	}
 
@@ -1564,7 +1655,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedComment);
 	}
 
@@ -1580,13 +1671,13 @@ euro;?     {
 
 \n {
 	ContinueToken();
-	BEGIN(PHP_STATE);
+	start(PHP_STATE);
 	return ThisToken(kComment);
 	}
 
 "?>" {
-	yyless(0);
-	BEGIN(PHP_STATE);
+	matcher().less(0);
+	start(PHP_STATE);
 	return ThisToken(kComment);
 	}
 
@@ -1596,7 +1687,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kComment);
 	}
 
@@ -1606,13 +1697,13 @@ euro;?     {
 
 \n {
 	ContinueToken();
-	BEGIN(JSP_STATE);
+	start(JSP_STATE);
 	return ThisToken(kComment);
 	}
 
 "%>" {
-	yyless(0);
-	BEGIN(JSP_STATE);
+	matcher().less(0);
+	start(JSP_STATE);
 	return ThisToken(kComment);
 	}
 
@@ -1622,7 +1713,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kComment);
 	}
 
@@ -1632,13 +1723,13 @@ euro;?     {
 
 \n {
 	ContinueToken();
-	BEGIN(JAVA_SCRIPT_STATE);
+	start(JAVA_SCRIPT_STATE);
 	return ThisToken(kComment);
 	}
 
 {SCRIPT_END} {
-	yyless(0);
-	BEGIN(JAVA_SCRIPT_STATE);
+	matcher().less(0);
+	start(JAVA_SCRIPT_STATE);
 	return ThisToken(kComment);
 	}
 
@@ -1648,7 +1739,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kComment);
 	}
 
@@ -1666,23 +1757,23 @@ euro;?     {
 
 {SCRIPT_END} {
 	StartToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ScriptToken();
 	}
 
 {PHPSTART} {
-	yyless(0);
-	yy_push_state(PHP_STATE);
+	matcher().less(0);
+	push_state(PHP_STATE);
 	}
 
 {JSPSTART} {
-	yyless(0);
-	yy_push_state(JSP_STATE);
+	matcher().less(0);
+	push_state(JSP_STATE);
 	}
 
 {JSP_COMMENT} {
-	yyless(0);
-	yy_push_state(JSP_HTML_COMMENT_STATE);
+	matcher().less(0);
+	push_state(JSP_HTML_COMMENT_STATE);
 	}
 
 
@@ -1827,19 +1918,19 @@ euro;?     {
 \' {
 	StartToken();
 	itsProbableJSOperatorFlag = true;
-	BEGIN(JS_SINGLE_STRING_STATE);
+	start(JS_SINGLE_STRING_STATE);
 	}
 
 \" {
 	StartToken();
 	itsProbableJSOperatorFlag = true;
-	BEGIN(JS_DOUBLE_STRING_STATE);
+	start(JS_DOUBLE_STRING_STATE);
 	}
 
 \` {
 	StartToken();
 	itsProbableJSOperatorFlag = true;
-	BEGIN(JS_TEMPLATE_STRING_STATE);
+	start(JS_TEMPLATE_STRING_STATE);
 	}
 
 
@@ -1859,7 +1950,7 @@ euro;?     {
 		{
 		StartToken();
 		itsProbableJSOperatorFlag = true;
-		BEGIN(JS_REGEX_SEARCH_STATE);
+		start(JS_REGEX_SEARCH_STATE);
 		}
 	}
 
@@ -1871,17 +1962,17 @@ euro;?     {
 
 "/*" {
 	StartToken();
-	BEGIN(JS_C_COMMENT_STATE);
+	start(JS_C_COMMENT_STATE);
 	}
 
 "/**"/[^/] {
 	StartToken();
-	BEGIN(JS_DOC_COMMENT_STATE);
+	start(JS_DOC_COMMENT_STATE);
 	}
 
 "//" {
 	StartToken();
-	BEGIN(JS_CPP_COMMENT_STATE);
+	start(JS_CPP_COMMENT_STATE);
 	}
 
 
@@ -1901,7 +1992,7 @@ euro;?     {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kEOF);
 	}
 
@@ -1922,13 +2013,13 @@ euro;?     {
 
 \' {
 	ContinueToken();
-	BEGIN(JAVA_SCRIPT_STATE);
+	start(JAVA_SCRIPT_STATE);
 	return ThisToken(kJSString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(JAVA_SCRIPT_STATE);
+	start(JAVA_SCRIPT_STATE);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -1939,34 +2030,34 @@ euro;?     {
 	}
 
 {PHPSTART} {
-	yyless(0);
-	yy_push_state(PHP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from PHP */
+	matcher().less(0);
+	push_state(PHP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from PHP */
 		{
 		return ThisToken(kJSString);
 		}
 	}
 
 {JSPSTART} {
-	yyless(0);
-	yy_push_state(JSP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
+	matcher().less(0);
+	push_state(JSP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from JSP */
 		{
 		return ThisToken(kJSString);
 		}
 	}
 
 {JSP_COMMENT} {
-	yyless(0);
-	yy_push_state(JSP_HTML_COMMENT_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
+	matcher().less(0);
+	push_state(JSP_HTML_COMMENT_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from JSP */
 		{
 		return ThisToken(kJSString);
 		}
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -1976,13 +2067,13 @@ euro;?     {
 
 \" {
 	ContinueToken();
-	BEGIN(JAVA_SCRIPT_STATE);
+	start(JAVA_SCRIPT_STATE);
 	return ThisToken(kJSString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(JAVA_SCRIPT_STATE);
+	start(JAVA_SCRIPT_STATE);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -1993,34 +2084,34 @@ euro;?     {
 	}
 
 {PHPSTART} {
-	yyless(0);
-	yy_push_state(PHP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from PHP */
+	matcher().less(0);
+	push_state(PHP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from PHP */
 		{
 		return ThisToken(kJSString);
 		}
 	}
 
 {JSPSTART} {
-	yyless(0);
-	yy_push_state(JSP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
+	matcher().less(0);
+	push_state(JSP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from JSP */
 		{
 		return ThisToken(kJSString);
 		}
 	}
 
 {JSP_COMMENT} {
-	yyless(0);
-	yy_push_state(JSP_HTML_COMMENT_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
+	matcher().less(0);
+	push_state(JSP_HTML_COMMENT_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from JSP */
 		{
 		return ThisToken(kJSString);
 		}
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -2030,7 +2121,7 @@ euro;?     {
 
 \` {
 	ContinueToken();
-	BEGIN(JAVA_SCRIPT_STATE);
+	start(JAVA_SCRIPT_STATE);
 	return ThisToken(kJSTemplateString);
 	}
 
@@ -2041,34 +2132,34 @@ euro;?     {
 	}
 
 {PHPSTART} {
-	yyless(0);
-	yy_push_state(PHP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from PHP */
+	matcher().less(0);
+	push_state(PHP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from PHP */
 		{
 		return ThisToken(kJSTemplateString);
 		}
 	}
 
 {JSPSTART} {
-	yyless(0);
-	yy_push_state(JSP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
+	matcher().less(0);
+	push_state(JSP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from JSP */
 		{
 		return ThisToken(kJSTemplateString);
 		}
 	}
 
 {JSP_COMMENT} {
-	yyless(0);
-	yy_push_state(JSP_HTML_COMMENT_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
+	matcher().less(0);
+	push_state(JSP_HTML_COMMENT_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from JSP */
 		{
 		return ThisToken(kJSTemplateString);
 		}
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -2084,13 +2175,13 @@ euro;?     {
 
 "/"[gim]* {
 	ContinueToken();
-	BEGIN(JAVA_SCRIPT_STATE);
+	start(JAVA_SCRIPT_STATE);
 	return ThisToken(kJSRegexSearch);
 	}
 
 \[(^-?\])? {
 	ContinueToken();
-	BEGIN(JS_REGEX_CHAR_CLASS_STATE);
+	start(JS_REGEX_CHAR_CLASS_STATE);
 	}
 
 \\.?      |
@@ -2100,34 +2191,34 @@ euro;?     {
 	}
 
 {PHPSTART} {
-	yyless(0);
-	yy_push_state(PHP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from PHP */
+	matcher().less(0);
+	push_state(PHP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from PHP */
 		{
 		return ThisToken(kJSRegexSearch);
 		}
 	}
 
 {JSPSTART} {
-	yyless(0);
-	yy_push_state(JSP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
+	matcher().less(0);
+	push_state(JSP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from JSP */
 		{
 		return ThisToken(kJSRegexSearch);
 		}
 	}
 
 {JSP_COMMENT} {
-	yyless(0);
-	yy_push_state(JSP_HTML_COMMENT_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
+	matcher().less(0);
+	push_state(JSP_HTML_COMMENT_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from JSP */
 		{
 		return ThisToken(kJSRegexSearch);
 		}
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedJSRegex);
 	}
 
@@ -2137,7 +2228,7 @@ euro;?     {
 
 "]" {
 	ContinueToken();
-	BEGIN(JS_REGEX_SEARCH_STATE);
+	start(JS_REGEX_SEARCH_STATE);
 	}
 
 \\.?     |
@@ -2147,34 +2238,34 @@ euro;?     {
 	}
 
 {PHPSTART} {
-	yyless(0);
-	yy_push_state(PHP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from PHP */
+	matcher().less(0);
+	push_state(PHP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from PHP */
 		{
 		return ThisToken(kJSRegexSearch);
 		}
 	}
 
 {JSPSTART} {
-	yyless(0);
-	yy_push_state(JSP_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
+	matcher().less(0);
+	push_state(JSP_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from JSP */
 		{
 		return ThisToken(kJSRegexSearch);
 		}
 	}
 
 {JSP_COMMENT} {
-	yyless(0);
-	yy_push_state(JSP_HTML_COMMENT_STATE);
-	if (!itsCurrentRange.IsEmpty())	/* may come directly from JSP */
+	matcher().less(0);
+	push_state(JSP_HTML_COMMENT_STATE);
+	if (!GetCurrentRange().IsEmpty())	/* may come directly from JSP */
 		{
 		return ThisToken(kJSRegexSearch);
 		}
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedJSRegex);
 	}
 
@@ -2192,12 +2283,131 @@ euro;?     {
 
 %%
 
+/******************************************************************************
+ BeginScan (virtual)
+
+ *****************************************************************************/
+
+void
+CBHTMLScanner::BeginScan
+	(
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input
+	)
+{
+	CBStylingScannerBase::BeginScan(startIndex, input);
+
+	itsBraceCount = 0;
+	itsScriptLanguage.Clear();
+	itsPHPHereDocTag.Clear();
+	itsPHPNowDocTag.Clear();
+	itsProbableJSOperatorFlag = false;
+}
+
+/******************************************************************************
+ ScriptToken (private)
+
+ *****************************************************************************/
+
+CBHTMLScanner::Token
+CBHTMLScanner::ScriptToken()
+{
+	return Token(kHTMLScript, GetCurrentRange(), &itsScriptLanguage);
+}
+
+/******************************************************************************
+ DocToken (private)
+
+ *****************************************************************************/
+
+CBHTMLScanner::Token
+CBHTMLScanner::DocToken
+	(
+	const TokenType type
+	)
+{
+	Token t;
+	t.docCommentRange = GetCurrentRange();	// save preceding comment range
+
+	StartToken();							// tag is separate token
+	t.type  = type;
+	t.range = GetCurrentRange();
+
+	// prepare for continuation of comment (StartToken() with yyleng==0)
+	InitToken();
+
+	return t;
+}
+
+/******************************************************************************
+ IsScript (private)
+
+	Extracts the language and the start of the script range and returns
+	true if the last tag was the start of a script.
+
+ ******************************************************************************/
+
+static JRegex scriptTagPattern1 =
+	"^<[[:space:]]*script[[:space:]]+[^>]*language[[:space:]]*=[[:space:]]*\"?([^>\"[:space:]]+)";
+static JRegex scriptTagPattern2 =
+	"^<[[:space:]]*script[[:space:]]+[^>]*type[[:space:]]*=[[:space:]]*\"?[^/]+/([^>\"[:space:]]+)";
+static JRegex scriptTagPattern3 =
+	"^<[[:space:]]*script(>|[[:space:]])";
+
+bool
+CBHTMLScanner::IsScript
+	(
+	JString* language
+	)
+	const
+{
+	scriptTagPattern1.SetCaseSensitive(false);
+	scriptTagPattern2.SetCaseSensitive(false);
+	scriptTagPattern3.SetCaseSensitive(false);
+
+	language->Clear();
+
+	const JString s(GetScannedText().GetRawBytes(), GetCurrentRange().byteRange, JString::kNoCopy);
+
+	const JStringMatch m1 = scriptTagPattern1.Match(s, JRegex::kIncludeSubmatches);
+	if (!m1.IsEmpty())
+		{
+		*language = m1.GetSubstring(1);
+		return true;
+		}
+
+	const JStringMatch m2 = scriptTagPattern2.Match(s, JRegex::kIncludeSubmatches);
+	if (!m2.IsEmpty())
+		{
+		*language = m2.GetSubstring(1);
+		return true;
+		}
+
+	const JStringMatch m3 = scriptTagPattern3.Match(s, JRegex::kIgnoreSubmatches);
+	if (!m3.IsEmpty())
+		{
+		*language = "JavaScript";
+		return true;
+		}
+	else
+		{
+		return false;
+		}
+}
+
+/******************************************************************************
+ InTagState (protected)
+
+ ******************************************************************************/
+
 bool
 CBHTMLScanner::InTagState()
 	const
 {
-	return InTagState(YY_START);
+	return InTagState(INITIAL);
 }
+
+// private
 
 bool
 CBHTMLScanner::InTagState
@@ -2206,8 +2416,7 @@ CBHTMLScanner::InTagState
 	)
 	const
 {
-	return state == TAG_STATE               ||
-				 state == QUOTED_ATTR_VALUE_STATE ||
-				 (state == CHAR_ESC_STATE &&
-				  InTagState(const_cast<CBHTMLScanner*>(this)->yy_top_state()));
+	return (state == TAG_STATE               ||
+			state == QUOTED_ATTR_VALUE_STATE ||
+			(state == CHAR_ESC_STATE && InTagState(top_state())));
 }

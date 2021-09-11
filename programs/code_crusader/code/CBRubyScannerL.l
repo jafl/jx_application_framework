@@ -38,7 +38,7 @@ WS      ([ \v\t\f\r]*)
 
 KEYWORD      (__FILE__|__LINE__|BEGIN|END|alias|and|begin|break|case|class|def|defined|do|else|elsif|end|ensure|false|for|if|in|module|next|nil|not|or|redo|rescue|retry|return|self|super|then|true|undef|unless|until|when|while|yield)
 
-ID           ([_[:alpha:]][_[:alnum:]]*[?!]?)
+ID           ((_|\p{L})(_|\p{L}|\d)*[?!]?)
 
 
 
@@ -413,7 +413,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 
 
-\<\<[ \t]*['"`]?[^ \t\n'"`]+['"`]?;\n {
+"<<"[ \t]*['"`]?[^ \t\n'"`]+['"`]?;\n {
 	StartToken();
 	itsHereDocTag.Set(yytext+2, yyleng-4);
 	itsHereDocTag.TrimWhitespace();

@@ -38,8 +38,8 @@ public:
 	const JUtf8Character& operator=(const JUtf8Byte asciiCharacter);
 	const JUtf8Character& operator=(const JUtf8Byte* utf8Character);
 
-	bool			IsBlank() const;
-	bool			IsAscii() const;
+	bool				IsBlank() const;
+	bool				IsAscii() const;
 	JSize				GetByteCount() const;
 	const JUtf8Byte*	GetBytes() const;
 	JUtf8Byte*			AllocateBytes() const;	// client must call delete [] when finished with it
@@ -72,7 +72,7 @@ public:
 	static JUInt32			Utf8ToUtf32(const JUtf8Byte* c, JSize* returnByteCount = nullptr);
 
 	static bool	IgnoreBadUtf8();
-	static void		SetIgnoreBadUtf8(const bool ignore);
+	static void	SetIgnoreBadUtf8(const bool ignore);
 
 private:
 
