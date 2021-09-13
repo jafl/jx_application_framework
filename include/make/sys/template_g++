@@ -22,6 +22,10 @@ J_SHARED_LIB_LINK_OPTION := -shared
 
 J_SHARED_LIB_SUFFIX := so
 
+# Optimization level for debugging
+
+J_DEBUG_OPTIMIZATION_LEVEL := g
+
 # Uncomment this if your system requires separate .o files for
 # static and shared libraries.  The actual value is not used.
 
