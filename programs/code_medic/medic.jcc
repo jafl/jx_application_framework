@@ -932,7 +932,7 @@ T "./test/java" "&make_default ; ../../$program" "" FFFFTFF "Build & Run test-ja
 F
 # build settings
 1
-T
+F
 "medic"
 "${LIB_DEPS}"
 "make -k all"

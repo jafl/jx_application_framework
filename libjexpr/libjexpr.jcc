@@ -4,13 +4,13 @@ jx_browser_data 88
 T
 1 "parser"
 T
-2 "JExprParserY.y"
-F
-"./code/JExprParserY.y"
-T
 2 "JExprScannerL.l"
 F
 "./code/JExprScannerL.l"
+T
+2 "JExprParserY.y"
+F
+"./code/JExprParserY.y"
 T
 2 "JExprParser.cpp"
 F
