@@ -5,8 +5,8 @@
 @libjexpr-${JEXPR_LIB_VERSION}.a
 @libjexpr-${JEXPR_LIB_VERSION}.so
 
-.y ./code/JExprParserY
 .l ./code/JExprScannerL
+.y ./code/JExprParserY
 .cpp ./code/JExprParser
 .cpp ./code/JVariableList
 .cpp ./code/JXExprEditor
