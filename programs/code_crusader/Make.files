@@ -87,9 +87,6 @@
 .l ./code/CBPHPTreeScannerL
 .cpp ./code/CBPHPTree
 .cpp ./code/CBPHPClass
-.cpp ./code/CBTextFileType
-.cpp ./code/CBEditFileTypesDialog
-.cpp ./code/CBFileTypeTable
 .cpp ./code/CBTextDocument
 .cpp ./code/CBTextEditor
 .cpp ./code/CBTECaretInputBase
@@ -200,6 +197,9 @@
 .cpp ./code/CBKeyScriptInput
 .cpp ./code/CBEmulator
 .cpp ./code/CBVIKeyHandler
+.cpp ./code/CBTextFileType
+.cpp ./code/CBEditFileTypesDialog
+.cpp ./code/CBFileTypeTable
 .cpp ./code/CBDiffFileDialog
 .cpp ./code/CBDiffStyleMenu
 .cpp ./code/CBSVNFileInput

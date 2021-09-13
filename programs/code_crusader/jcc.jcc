@@ -355,21 +355,6 @@ F
 "./code/CBPHPClass.cpp"
 F
 T
-1 "file types"
-T
-2 "CBTextFileType.cpp"
-F
-"./code/CBTextFileType.cpp"
-T
-2 "CBEditFileTypesDialog.cpp"
-F
-"./code/CBEditFileTypesDialog.cpp"
-T
-2 "CBFileTypeTable.cpp"
-F
-"./code/CBFileTypeTable.cpp"
-F
-T
 1 "editor"
 T
 2 "CBTextDocument.cpp"
@@ -826,6 +811,21 @@ T
 2 "CBVIKeyHandler.cpp"
 F
 "./code/CBVIKeyHandler.cpp"
+F
+T
+1 "file types"
+T
+2 "CBTextFileType.cpp"
+F
+"./code/CBTextFileType.cpp"
+T
+2 "CBEditFileTypesDialog.cpp"
+F
+"./code/CBEditFileTypesDialog.cpp"
+T
+2 "CBFileTypeTable.cpp"
+F
+"./code/CBFileTypeTable.cpp"
 F
 T
 1 "diff"
