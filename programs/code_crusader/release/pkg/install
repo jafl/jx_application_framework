@@ -12,7 +12,6 @@ APP=$PRE/usr/share/applications
 ICON=$PRE/usr/share/pixmaps
 
 MM_DOC=$PRE/usr/share/doc/makemake
-CTAGS_DOC=$PRE/usr/share/doc/ctags
 
 if [[ ! -z $PRE ]]; then
 	mkdir -p $BIN $APP $ICON;
@@ -51,19 +50,6 @@ mkdir -p $MM_DOC
 cp makemake/README             $MM_DOC
 cp makemake/Make.header_sample $MM_DOC
 cp makemake/Make.files_sample  $MM_DOC
-
-# ctags
-
-install -m755 ctags/ctags $BIN
-
-mkdir -p $PRE/usr/share/man/man1
-cp ctags/ctags.1 $PRE/usr/share/man/man1
-
-mkdir -p $CTAGS_DOC
-cp ctags/COPYING $CTAGS_DOC
-cp ctags/FAQ     $CTAGS_DOC
-cp ctags/NEWS    $CTAGS_DOC
-cp ctags/README  $CTAGS_DOC
 
 # post
 

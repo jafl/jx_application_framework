@@ -42,6 +42,11 @@ CBStylingScannerBase::BeginScan
 	itsCurrentRange.charRange.SetToEmptyAt(startIndex.charIndex);
 	itsCurrentRange.byteRange.SetToEmptyAt(startIndex.byteIndex);
 
+	while (!states_empty())
+		{
+		pop_state();
+		}
+
 	in(&input);
 	start(0);
 }

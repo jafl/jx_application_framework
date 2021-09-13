@@ -3,7 +3,7 @@ Installing
 
 The easiest way to install from the binary package is to run `sudo ./install`.
 
-Otherwise, the programs (jcc, makemake, ctags, dirdiff) need to be placed in a directory that is on your execution path.  `/usr/bin` or `~/bin` are usually good choices.  Copy the libraries in `lib/` to a directory on your `LD_LIBRARY_PATH`.
+Otherwise, the programs (jcc, makemake, dirdiff) need to be placed in a directory that is on your execution path.  `/usr/bin` or `~/bin` are usually good choices.  Copy the libraries in `lib/` to a directory on your `LD_LIBRARY_PATH`.
 
 The project_templates and text_templates directories should be copied to `~/.jxcb/`
 
@@ -89,7 +89,7 @@ It's too much trouble for too little gain.  Currently, they are styled as part o
 
 ### Why doesn't the Functions menu appear in my source files?
 
-Check that the file suffix that you use is listed in the File Types dialog window and is set to the appropriate type.  You also need to use the version of ctags included with Code Crusader, and it needs to be first on your execution path.  If neither of these is the problem, please [contact me](http://johnlindal.wix.com/aboutme).
+Check that the file suffix that you use is listed in the File Types dialog window and is set to the appropriate type.  You also need to use universal ctags.  If neither of these is the problem, please [contact me](http://johnlindal.wix.com/aboutme).
 
 
 ### How do I print a file so the pages come out in reverse order?

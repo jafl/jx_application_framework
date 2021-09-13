@@ -18,10 +18,6 @@ J_SHARED_LIB_LINK_OPTION := -shared
 
 J_SHARED_LIB_SUFFIX := dylib
 
-# Uncomment this if you want debugging versions of the libraries.
-
-J_COMPILE_DEBUG := -g
-
 # This command is used to strip debugging info but not the symbol table.
 
 J_STRIP_DEBUG := strip -S
@@ -54,7 +50,7 @@ LINKER := clang++
 
 CC       := clang
 CXX      := clang++
-CPPFLAGS  = ${DEPENDFLAGS} \
+CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL} \
             ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
               pkg-config --cflags icu-i18n libpcre}
 CFLAGS    =

@@ -28,6 +28,20 @@ ${JCCCODEDIR}/CBCShellStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
+@test_DStyler
+.ll ${JCCCODEDIR}/CBDScannerL
+${CODEDIR}/test_DStyler
+${JCCCODEDIR}/CBDStyler
+${JCCCODEDIR}/CBStylingScannerBase
+${JCCCODEDIR}/CBStylerBase
+
+@test_GoStyler
+.ll ${JCCCODEDIR}/CBGoScannerL
+${CODEDIR}/test_GoStyler
+${JCCCODEDIR}/CBGoStyler
+${JCCCODEDIR}/CBStylingScannerBase
+${JCCCODEDIR}/CBStylerBase
+
 @test_HTMLStyler
 .ll ${JCCCODEDIR}/CBHTMLScannerL
 ${CODEDIR}/test_HTMLStyler

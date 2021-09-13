@@ -47,8 +47,7 @@ include ${JX_ROOT}/include/make/jexpr_constants
 include ${JX_ROOT}/include/make/j2dplot_constants
 include ${JX_ROOT}/include/make/jx_config
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
-               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 
 TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${J2DPLOTLIBDIR} ${JEXPRLIBDIR}
 

@@ -12,8 +12,9 @@
 
 #include "CBHTMLStyler.h"
 #include "cbmUtil.h"
-#include <JRegex.h>
+#include <JXDialogDirector.h>
 #include <JStringIterator.h>
+#include <JRegex.h>
 #include <JColorManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -824,6 +825,38 @@ CBHTMLStyler::UpgradeTypeList
 		InitMustacheTypeStyles();
 		}
 }
+/******************************************************************************
+ Receive (virtual protected)
+
+	Update shared prefs after dialog closes.
+
+ ******************************************************************************/
+
+void
+CBHTMLStyler::Receive
+	(
+	JBroadcaster*	sender,
+	const Message&	message
+	)
+{
+	CBStylerBase::Receive(sender, message);
+
+#if defined CODE_CRUSADER && ! defined CODE_CRUSADER_UNIT_TEST
+
+	if (message.Is(JXDialogDirector::kDeactivated))
+		{
+		const auto* info =
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		assert( info != nullptr );
+		if (info->Successful())
+			{
+			CBMWriteSharedPrefs(true);
+			}
+		}
+
+#endif
+}
+
 
 /******************************************************************************
  GetScannedText (virtual protected)

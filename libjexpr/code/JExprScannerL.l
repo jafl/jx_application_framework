@@ -16,6 +16,7 @@ Copyright (C) 2018 by John Lindal.
 %option lexer="JExprScanner"
 %option lex="NextToken" params="YYSTYPE* lvalp"
 %option unicode nodefault full freespace
+%option bison noyywrap
 
 EXP	([eE][0-9]+)
 

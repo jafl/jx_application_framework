@@ -27,10 +27,6 @@ J_SHARED_LIB_SUFFIX := so
 
 # J_NEED_SEPARATE_O_FILES := yes
 
-# Uncomment this if you want debugging versions of the libraries.
-
-J_COMPILE_DEBUG := -g
-
 # This command is used to strip debugging info but not the symbol table.
 
 J_STRIP_DEBUG := strip -g
@@ -47,10 +43,6 @@ J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
 
 # J_USE_READDIR_R := -DJ_USE_READDIR_R
 # J_USE_READDIR_R := -DJ_USE_POSIX_READDIR_R
-
-# Uncomment this if ctags fails on your system
-
-# J_HAS_CTAGS_BUG = -D_J_CTAGS_BUG
 
 # Comment this out if you don't have Xinerama
 
@@ -81,7 +73,7 @@ LINKER := g++
 
 CC       := gcc
 CXX      := g++
-CPPFLAGS  = ${DEPENDFLAGS}
+CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL}
 CFLAGS    = 
 CXXFLAGS  = -std=c++17
 

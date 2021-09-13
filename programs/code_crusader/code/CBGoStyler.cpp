@@ -229,7 +229,7 @@ CBGoStyler::Receive
 {
 	CBStylerBase::Receive(sender, message);
 
-#ifdef CODE_CRUSADER
+#if defined CODE_CRUSADER && !defined CODE_CRUSADER_UNIT_TEST
 
 	if (message.Is(JXDialogDirector::kDeactivated))
 		{

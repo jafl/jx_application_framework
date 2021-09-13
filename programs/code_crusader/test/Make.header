@@ -40,7 +40,7 @@ LDFLAGS   :=
 
 TESTS := \
       test_BourneShellStyler test_CStyler test_CSharpStyler test_CShellStyler \
-      test_HTMLStyler test_JavaStyler \
+      test_DStyler test_GoStyler test_HTMLStyler test_JavaStyler \
       test_CTreeScanner test_DTreeScanner test_GoTreeScanner \
       test_JavaTreeScanner test_PHPTreeScanner
 

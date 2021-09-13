@@ -6,8 +6,7 @@ Section: contrib/devel
 Priority: optional
 Architecture: i386
 Essential: no
-Depends: libeditorconfig, libx11, libxinerama, libxpm, libxft, libxml2, libgd, libjpeg, libpng, libace, libicu, libpcre3
+Depends: libeditorconfig, libx11, libxinerama, libxpm, libxft, libxml2, libgd, libjpeg, libpng, libace, libicu, libpcre3, universal-ctags
 Suggests: code-medic, code-mill, nps-svn-client
-Replaces: code-medic, exuberant-ctags
 Description: Code Crusader is a graphical development environment for UNIX.
  Code Crusader is a graphical development environment for UNIX.

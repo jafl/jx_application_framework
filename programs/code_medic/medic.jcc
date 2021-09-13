@@ -8,17 +8,108 @@ T
 F
 "./code/GDBVarTreeParserY.y"
 T
-2 "GDBVarTreeParser.cpp"
-F
-"./code/GDBVarTreeParser.cpp"
-T
-2 "GDBVarTreeScanner.cpp"
-F
-"./code/GDBVarTreeScanner.cpp"
-T
 2 "GDBVarTreeScannerL.l"
 F
 "./code/GDBVarTreeScannerL.l"
+T
+2 "GDBVarTreeParser.cpp"
+F
+"./code/GDBVarTreeParser.cpp"
+F
+T
+1 "jcc"
+T
+2 "jcc_shared.txt"
+F
+"./jcc_shared.txt"
+T
+2 "CMStylerStubs.cpp"
+F
+"./code/CMStylerStubs.cpp"
+T
+2 "CBCScannerL.ll"
+F
+"./JCC/CBCScannerL.ll"
+T
+2 "CBCStyler.cpp"
+F
+"./JCC/CBCStyler.cpp"
+T
+2 "CBDScannerL.ll"
+F
+"./JCC/CBDScannerL.ll"
+T
+2 "CBDStyler.cpp"
+F
+"./JCC/CBDStyler.cpp"
+T
+2 "CBGoScannerL.ll"
+F
+"./JCC/CBGoScannerL.ll"
+T
+2 "CBGoStyler.cpp"
+F
+"./JCC/CBGoStyler.cpp"
+T
+2 "CBJavaScannerL.ll"
+F
+"./JCC/CBJavaScannerL.ll"
+T
+2 "CBJavaStyler.cpp"
+F
+"./JCC/CBJavaStyler.cpp"
+T
+2 "CBHTMLScannerL.ll"
+F
+"./JCC/CBHTMLScannerL.ll"
+T
+2 "CBHTMLStyler.cpp"
+F
+"./JCC/CBHTMLStyler.cpp"
+T
+2 "CBStylerBase.cpp"
+F
+"./JCC/CBStylerBase.cpp"
+T
+2 "CBStylingScannerBase.cpp"
+F
+"./JCC/CBStylingScannerBase.cpp"
+T
+2 "CBEditStylerDialog.cpp"
+F
+"./JCC/CBEditStylerDialog.cpp"
+T
+2 "CBStylerTable.cpp"
+F
+"./JCC/CBStylerTable.cpp"
+T
+2 "CBStylerTableInput.cpp"
+F
+"./JCC/CBStylerTableInput.cpp"
+T
+2 "CBStylerTableMenu.cpp"
+F
+"./JCC/CBStylerTableMenu.cpp"
+T
+2 "CBFnMenuUpdater.cpp"
+F
+"./JCC/CBFnMenuUpdater.cpp"
+T
+2 "CBFunctionMenu.cpp"
+F
+"./JCC/CBFunctionMenu.cpp"
+T
+2 "CBTextFileType.cpp"
+F
+"./JCC/CBTextFileType.cpp"
+T
+2 "cbmUtil.cpp"
+F
+"./JCC/cbmUtil.cpp"
+T
+2 "CBCtagsUser.cpp"
+F
+"./JCC/CBCtagsUser.cpp"
 F
 T
 1 "main"
@@ -804,117 +895,6 @@ T
 2 "XDVarNode.cpp"
 F
 "./code/XDVarNode.cpp"
-F
-T
-1 "jcc"
-T
-2 "jcc_shared.txt"
-F
-"./jcc_shared.txt"
-T
-2 "CMStylerStubs.cpp"
-F
-"./code/CMStylerStubs.cpp"
-T
-2 "CBCScanner.cpp"
-F
-"./JCC/CBCScanner.cpp"
-T
-2 "CBCScannerL.l"
-F
-"./JCC/CBCScannerL.l"
-T
-2 "CBCStyler.cpp"
-F
-"./JCC/CBCStyler.cpp"
-T
-2 "CBDStyler.cpp"
-F
-"./JCC/CBDStyler.cpp"
-T
-2 "CBDScanner.cpp"
-F
-"./JCC/CBDScanner.cpp"
-T
-2 "CBDScannerL.l"
-F
-"./JCC/CBDScannerL.l"
-T
-2 "CBGoStyler.cpp"
-F
-"./JCC/CBGoStyler.cpp"
-T
-2 "CBGoScanner.cpp"
-F
-"./JCC/CBGoScanner.cpp"
-T
-2 "CBGoScannerL.l"
-F
-"./JCC/CBGoScannerL.l"
-T
-2 "CBJavaScanner.cpp"
-F
-"./JCC/CBJavaScanner.cpp"
-T
-2 "CBJavaScannerL.l"
-F
-"./JCC/CBJavaScannerL.l"
-T
-2 "CBJavaStyler.cpp"
-F
-"./JCC/CBJavaStyler.cpp"
-T
-2 "CBHTMLStyler.cpp"
-F
-"./JCC/CBHTMLStyler.cpp"
-T
-2 "CBHTMLScanner.cpp"
-F
-"./JCC/CBHTMLScanner.cpp"
-T
-2 "CBHTMLScannerL.l"
-F
-"./JCC/CBHTMLScannerL.l"
-T
-2 "CBStylerBase.cpp"
-F
-"./JCC/CBStylerBase.cpp"
-T
-2 "CBEditStylerDialog.cpp"
-F
-"./JCC/CBEditStylerDialog.cpp"
-T
-2 "CBStylerTable.cpp"
-F
-"./JCC/CBStylerTable.cpp"
-T
-2 "CBStylerTableInput.cpp"
-F
-"./JCC/CBStylerTableInput.cpp"
-T
-2 "CBStylerTableMenu.cpp"
-F
-"./JCC/CBStylerTableMenu.cpp"
-T
-2 "CBFnMenuUpdater.cpp"
-F
-"./JCC/CBFnMenuUpdater.cpp"
-T
-2 "CBFunctionMenu.cpp"
-F
-"./JCC/CBFunctionMenu.cpp"
-T
-2 "CBTextFileType.cpp"
-F
-"./JCC/CBTextFileType.cpp"
-T
-2 "cbmUtil.cpp"
-F
-"./JCC/cbmUtil.cpp"
-T
-2 "CBCtagsUser.cpp"
-F
-"./JCC/CBCtagsUser.cpp"
 F
 T
 1 "layouts"

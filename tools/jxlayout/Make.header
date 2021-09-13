@@ -34,7 +34,7 @@ include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                -DCONFIG_FILE_DIR=\"${ROOT_DATA_FILE_DIR}/\" \
-               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+               ${SEARCHDIRS}
 
 TOUCHPATHS := ${JCORELIBDIR}
 

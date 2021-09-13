@@ -15,15 +15,12 @@
 
  *****************************************************************************/
 
-GDBVarTreeParser::GDBVarTreeParser
-	(
-	const JString& text
-	)
+GDBVarTreeParser::GDBVarTreeParser()
 	:
 	itsCurrentNode(nullptr),
 	itsIsPointerFlag(false)
 {
-	itsScanner = jnew GDBVarTreeScanner(text);
+	itsScanner = jnew GDBVarTreeScanner;
 	assert(itsScanner != nullptr);
 }
 
@@ -39,6 +36,21 @@ GDBVarTreeParser::~GDBVarTreeParser()
 }
 
 /******************************************************************************
+ Destructor
+
+ *****************************************************************************/
+
+int
+GDBVarTreeParser::Parse
+	(
+	const JString& text
+	)
+{
+	itsScanner->in(text.GetBytes());
+	return yyparse();
+}
+
+/******************************************************************************
  yylex (private)
 
 	Compensate for gdb stopping on error.
@@ -51,7 +63,7 @@ GDBVarTreeParser::yylex
 	YYSTYPE* lvalp
 	)
 {
-	int token = itsScanner->yylex(lvalp);
+	int token = itsScanner->NextToken(lvalp);
 	if (token == P_GROUP_OPEN)
 	{
 		itsGroupDepth++;

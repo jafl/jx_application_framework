@@ -9,7 +9,7 @@ This scanner reads a C/C++ file and returns CBCScanner::Tokens.
 #include <jAssert.h>
 }
 
-%option lexer="CBCScanner"
+%option lexer="CBCScanner" prefix="allow_multiple_includes"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 
@@ -21,9 +21,7 @@ public:
 
 	enum TokenType
 	{
-		kEOF = 258,
-
-		kBadInt,
+		kBadInt = kEOF+1,
 		kBadCharConst,
 		kUnterminatedString,
 		kUnterminatedCComment,

@@ -1,24 +1,60 @@
-%{
+%top {
 /*
 Copyright © 2021 by John Lindal.
 
 This scanner reads a Go file and returns CBGoScanner::Tokens.
-
-Remember to upgrade CBHTMLScanner, too!
 */
 
-#define _H_CBGoScannerL
-
-#include "CBGoScanner.h"
+#include "CBStylingScannerBase.h"
 #include <jAssert.h>
-
-#undef YY_DECL
-#define YY_DECL CBGoScanner::Token CBGoScanner::NextToken()
 %}
 
-%option c++ yyclass = "CBGoScanner" prefix = "CBGo"
-%option 8bit nodefault noyywrap
-%option full ecs align
+%option lexer="CBGoScanner" prefix="allow_multiple_includes"
+%option lex="NextToken" token-type="CBStylingScannerBase::Token"
+%option unicode nodefault full freespace
+
+%class {
+
+public:
+
+	// these types are ordered to correspond to the type table in CBGoStyler
+
+	enum TokenType
+	{
+		kBadRune = kEOF+1,
+		kUnterminatedString,
+		kUnterminatedRawString,
+		kUnterminatedComment,
+		kIllegalChar,
+		kNonPrintChar,
+
+		kWhitespace,	// must be the one before the first item in type table
+
+		kID,
+		kReservedKeyword,
+		kBuiltInDataType,
+		kBuiltInFunction,
+
+		kOperator,
+		kDelimiter,
+
+		kString,
+		kRawString,
+		kRune,
+
+		kFloat,
+		kHexFloat,
+		kDecimalInt,
+		kBinaryInt,
+		kOctalInt,
+		kHexInt,
+		kImaginary,
+
+		kComment,
+
+		kError			// place holder for CBGoStyler
+		};
+}
 
 %x C_COMMENT_STATE STRING_STATE
 
@@ -77,17 +113,6 @@ ESCCHAR      (\\({CESCCODE}|{OESCCODE}|{HESCCODE}))
 RUNE         (\'([^\n'\\]|{ESCCHAR}|{UESCCODE})\')
 BADRUNE      (\'[^']*\'?)
 %%
-
-%{
-/************************************************************************/
-
-	if (itsResetFlag)
-		{
-		BEGIN(INITIAL);
-		itsResetFlag = false;
-		}
-
-%}
 
 
 
@@ -262,7 +287,7 @@ BADRUNE      (\'[^']*\'?)
 
 "/*" {
 	StartToken();
-	BEGIN(C_COMMENT_STATE);
+	start(C_COMMENT_STATE);
 	}
 
 <C_COMMENT_STATE>{
@@ -274,12 +299,12 @@ BADRUNE      (\'[^']*\'?)
 
 "*"+"/" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kComment);
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedComment);
 	}
 
@@ -294,20 +319,20 @@ BADRUNE      (\'[^']*\'?)
 
 \" {
 	StartToken();
-	BEGIN(STRING_STATE);
+	start(STRING_STATE);
 	}
 
 <STRING_STATE>{
 
 \" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -317,7 +342,7 @@ BADRUNE      (\'[^']*\'?)
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -336,7 +361,7 @@ BADRUNE      (\'[^']*\'?)
 
 . {
 	StartToken();
-	JUtf8Character c(yytext);
+	JUtf8Character c(text());
 	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);

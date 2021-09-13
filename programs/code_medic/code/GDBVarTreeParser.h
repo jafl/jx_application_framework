@@ -8,7 +8,7 @@
 
  *****************************************************************************/
 
-#include "GDBVarTreeScanner.h"
+#include "GDBVarTreeScannerL.h"
 
 class CMVarNode;
 
@@ -16,11 +16,11 @@ class GDBVarTreeParser
 {
 public:
 
-	GDBVarTreeParser(const JString& text);
+	GDBVarTreeParser();
 
 	virtual	~GDBVarTreeParser();
 
-	int		yyparse();
+	int		Parse(const JString& text);
 	void	ReportRecoverableError();
 
 	CMVarNode*	GetRootNode() const;
@@ -29,14 +29,16 @@ private:
 
 	GDBVarTreeScanner*	itsScanner;
 	CMVarNode*			itsCurrentNode;
-	bool			itsIsPointerFlag;
+	bool				itsIsPointerFlag;
 
 	// compensate for gdb stopping on error
 
-	JSize				itsGroupDepth;
-	bool			itsGDBErrorFlag;
+	JSize	itsGroupDepth;
+	bool	itsGDBErrorFlag;
 
 private:
+
+	int		yyparse();
 
 	void	AppendAsArrayElement(CMVarNode* node, JPtrArray<CMVarNode>* list) const;
 	void	AppendAsArrayElement(const JString& groupLabel,

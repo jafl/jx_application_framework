@@ -1,27 +1,38 @@
-%{
+%top {
 /*
 Copyright (C) 2001 by John Lindal.
 
 This scanner reads output from gdb's print command.
 */
 
-#define _H_GDBVarTreeScannerL
-
-#include "GDBVarTreeScanner.h"
+#include "CMVarNode.h"
+#include "GDBVarGroupInfo.h"
+#include <JString.h>
 #include <JStringIterator.h>
+#include "GDBVarTreeParserY.hpp"
 #include <jAssert.h>
-
-#undef YY_DECL
-#define YY_DECL int GDBVarTreeScanner::yylex(YYSTYPE* lvalp)
 
 #define NEW_TOKEN(s) \
 	lvalp->pString = jnew JString(s); \
 	assert( lvalp->pString != nullptr );
 %}
 
-%option c++ yyclass = "GDBVarTreeScanner" prefix="GDBVar"
-%option 8bit nodefault stack
-%option noyywrap
+%option lexer="GDBVarTreeScanner"
+%option lex="NextToken" params="YYSTYPE* lvalp"
+%option unicode nodefault full freespace
+%option bison noyywrap
+
+%class {
+
+private:
+
+	JString	itsString;
+	JSize	itsBracketCount;
+}
+
+%init {
+	itsBracketCount = 0;
+}
 
 %x DOUBLE_QUOTE_STATE SINGLE_QUOTE_STATE BRACKET_STATE PAREN_STATE
 %x TEMPLATE_NAME_STATE TEMPLATE_NAME_BRACKET_STATE
@@ -50,12 +61,12 @@ STDWRAP		({STDCLASS}" wrapping: ")
 %}
 
 [+-]?{INT} {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN(text());
 	return P_INTEGER;
 	}
 
 [+-]?{INT}/\.\.\. {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN(text());
 	return P_INTEGER;
 	}
 
@@ -63,12 +74,12 @@ STDWRAP		({STDCLASS}" wrapping: ")
 [+-]?{EXP}   |
 [+-]?{INF}   |
 [+-]?{NAN}   {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN(text());
 	return P_FLOAT;
 	}
 
 {HEX} {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN(text());
 	return P_HEX;
 	}
 
@@ -83,31 +94,31 @@ STDWRAP		({STDCLASS}" wrapping: ")
 	/* "static" must come before identifier to be separate rule */
 
 static {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN(text());
 	return P_STATIC;
 	}
 
 {NAME} {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN(text());
 	return P_NAME;
 	}
 
 {NAME}/"<" {
-	itsString = yytext;
-	BEGIN(TEMPLATE_NAME_STATE);
+	itsString = text();
+	start(TEMPLATE_NAME_STATE);
 	}
 
 {STDWRAP}*{STDCLASS}" of length 0, capacity "[+-]?{INT} |
 {STDWRAP}*{STDCLASS}" with 0 elements"                  |
 {STDWRAP}*"empty "{STDCLASS}                            {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN(text());
 	return P_EMPTY_SUMMARY;
 	}
 
 {STDWRAP}*{STDCLASS}" of length "[+-]?{INT}", capacity "[+-]?{INT}{WS}= |
 {STDWRAP}*{STDCLASS}" with "[+-]?{INT}" elements"{WS}=                  |
 {STDWRAP}*{STDCLASS}{WS}=                                               {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN(text());
 	JStringIterator iter(lvalp->pString, kJIteratorStartAtEnd);
 	iter.RemovePrev();
 	return P_SUMMARY;
@@ -115,25 +126,25 @@ static {
 
 {NAME}{WS}=    |
 \[{INT}\]{WS}= {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN(text());
 	return P_NAME_EQ;
 	}
 
 <TEMPLATE_NAME_STATE>{
 
-\< {
+"<" {
 	itsString      += "<";
 	itsBracketCount = 1;
-	yy_push_state(TEMPLATE_NAME_BRACKET_STATE);
+	push_state(TEMPLATE_NAME_BRACKET_STATE);
 	}
 
 ::{ID} {
-	itsString += yytext;
+	itsString += text();
 	}
 
 [^<] {
-	yyless(0);
-	BEGIN(INITIAL);
+	matcher().less(0);
+	start(INITIAL);
 	NEW_TOKEN(itsString);
 	return P_NAME;
 }
@@ -142,21 +153,21 @@ static {
 
 <TEMPLATE_NAME_BRACKET_STATE>{
 
-\< {
+"<" {
 	itsBracketCount++;
 	itsString += "<";
 	}
 
 [^<>]+ {
-	itsString += yytext;
+	itsString += text();
 	}
 
-\> {
+">" {
 	itsBracketCount--;
 	itsString += ">";
 	if (itsBracketCount == 0)
 		{
-		yy_pop_state();
+		pop_state();
 		}
 	}
 
@@ -166,19 +177,19 @@ static {
 
 \" {
 	itsString = "\"";
-	yy_push_state(DOUBLE_QUOTE_STATE);
+	push_state(DOUBLE_QUOTE_STATE);
 	}
 
 <DOUBLE_QUOTE_STATE>{
 
 \\.?     |
 [^\\\"]+ {
-	itsString += yytext;
+	itsString += text();
 	}
 
 \"(\.\.\.)?(", <incomplete sequence "[^>]+">")? {
-	itsString += yytext;
-	yy_pop_state();
+	itsString += text();
+	pop_state();
 	if (itsBracketCount == 0)
 		{
 		NEW_TOKEN(itsString);
@@ -191,20 +202,20 @@ static {
 
 \' {
 	itsString = "\'";
-	BEGIN(SINGLE_QUOTE_STATE);
+	start(SINGLE_QUOTE_STATE);
 	}
 
 <SINGLE_QUOTE_STATE>{
 
 \\.?     |
 [^\\\']+ {
-	itsString += yytext;
+	itsString += text();
 	}
 
 \' {
 	itsString += "\'";
 	NEW_TOKEN(itsString);
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return P_CHAR;
 	}
 }
@@ -212,61 +223,61 @@ static {
 
 
 "<>" {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN(text());
 	return P_EMPTY_BRACKET;
 	}
 
 "<>"{WS}= {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN(text());
 	return P_EMPTY_BRACKET_EQ;
 	}
 
 "<No data fields>" {
-	NEW_TOKEN(yytext);
+	NEW_TOKEN(text());
 	return P_NO_DATA_FIELDS;
 	}
 
-\< {
+"<" {
 	itsString       = "<";
 	itsBracketCount = 1;
-	BEGIN(BRACKET_STATE);
+	start(BRACKET_STATE);
 	}
 
 <BRACKET_STATE>{
 
-\< {
+"<" {
 	itsBracketCount++;
 	itsString += "<";
 	}
 
 \\.?       |
 [^<>\"\\]+ {
-	itsString += yytext;
+	itsString += text();
 	}
 
 \" {
 	itsString += "\"";
-	yy_push_state(DOUBLE_QUOTE_STATE);
+	push_state(DOUBLE_QUOTE_STATE);
 	}
 
-\> {
+">" {
 	itsBracketCount--;
 	itsString += ">";
 	if (itsBracketCount == 0)
 		{
 		NEW_TOKEN(itsString);
-		BEGIN(INITIAL);
+		start(INITIAL);
 		return P_BRACKET;
 		}
 	}
 
-\>{WS}= {
+">"{WS}= {
 	itsBracketCount--;
 	itsString += ">";
 	if (itsBracketCount == 0)
 		{
 		NEW_TOKEN(itsString);
-		BEGIN(INITIAL);
+		start(INITIAL);
 		return P_BRACKET_EQ;
 		}
 	}
@@ -277,7 +288,7 @@ static {
 \( {
 	itsString       = "(";
 	itsBracketCount = 1;
-	BEGIN(PAREN_STATE);
+	start(PAREN_STATE);
 	}
 
 <PAREN_STATE>{
@@ -289,12 +300,12 @@ static {
 
 \\.?       |
 [^()\"\\]+ {
-	itsString += yytext;
+	itsString += text();
 	}
 
 \" {
 	itsString += "\"";
-	yy_push_state(DOUBLE_QUOTE_STATE);
+	push_state(DOUBLE_QUOTE_STATE);
 	}
 
 \) {
@@ -303,7 +314,7 @@ static {
 	if (itsBracketCount == 0)
 		{
 		NEW_TOKEN(itsString);
-		BEGIN(INITIAL);
+		start(INITIAL);
 		return P_PAREN_EXPR;
 		}
 	}
@@ -315,7 +326,9 @@ static {
 
 	/* bison allows us to return single characters */
 
-. return yytext[0];
+. {
+	return text()[0];
+}
 
 <<EOF>> {
 	itsBracketCount = 0;

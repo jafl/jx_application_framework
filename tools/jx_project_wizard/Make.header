@@ -34,7 +34,7 @@ include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                -DJX_PATH=\"${shell cd ../..; pwd}/\" \
-               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+               ${SEARCHDIRS}
 
 TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
 

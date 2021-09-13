@@ -14,7 +14,3 @@ rm -f  /usr/bin/makemake;
 rm -f  /usr/bin/makecheck;
 rm -f  /usr/bin/maketouch;
 rm -rf /usr/share/doc/makemake;
-
-rm -f  /usr/bin/ctags;
-rm -rf /usr/share/doc/ctags;
-rm -f  /usr/share/man/man1/ctags.1;

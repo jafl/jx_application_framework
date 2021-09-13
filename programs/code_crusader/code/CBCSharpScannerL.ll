@@ -9,7 +9,7 @@ This scanner reads a C# file and returns CBCSharpScanner::Tokens.
 #include <jAssert.h>
 }
 
-%option lexer="CBCSharpScanner"
+%option lexer="CBCSharpScanner" prefix="allow_multiple_includes"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

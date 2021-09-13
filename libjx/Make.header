@@ -18,8 +18,7 @@ SEARCHDIRS := -I${JXDIR} \
 include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
-               ${J_COMPILE_DEBUG} ${J_BUILD_SHARED_LIB} \
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${J_BUILD_SHARED_LIB} \
                ${SEARCHDIRS}
 
 # make variables

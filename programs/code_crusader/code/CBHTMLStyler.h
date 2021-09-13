@@ -29,6 +29,8 @@ protected:
 	virtual void		UpgradeTypeList(const JFileVersion vers,
 										JArray<JFontStyle>* typeStyles) override;
 
+	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+
 	virtual const JString&	GetScannedText() const override;
 
 private:

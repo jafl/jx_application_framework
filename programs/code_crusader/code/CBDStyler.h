@@ -9,7 +9,7 @@
 #define _H_CBDStyler
 
 #include "CBStylerBase.h"
-#include "CBDScanner.h"
+#include "CBDScannerL.h"
 
 class CBDStyler : public CBStylerBase, public CBDScanner
 {

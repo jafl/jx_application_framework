@@ -22,10 +22,6 @@ J_SHARED_LIB_LINK_OPTION := -shared
 
 J_SHARED_LIB_SUFFIX := so
 
-# Uncomment this if you want debugging versions of the libraries.
-
-J_COMPILE_DEBUG := -g
-
 # This command is used to strip debugging info but not the symbol table.
 
 J_STRIP_DEBUG := strip -g
@@ -61,14 +57,14 @@ LINKER := g++
 # make variables - allow overriding for Travis CI
 
 ifndef CC
-	CC := gcc
+  CC := gcc
 endif
 
 ifndef CXX
-	CXX := g++
+  CXX := g++
 endif
 
-CPPFLAGS  = ${DEPENDFLAGS}
+CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL}
 CFLAGS    = 
 CXXFLAGS  = -std=c++17
 

@@ -105,9 +105,7 @@ CBBourneShellStyler::CBBourneShellStyler()
 	SetTypeStyle(kComment           - kWhitespace, JFontStyle(JColorManager::GetGrayColor(50)));
 	SetTypeStyle(kError             - kWhitespace, JFontStyle(JColorManager::GetRedColor()));
 
-#ifndef CODE_CRUSADER_UNIT_TEST
 	JPrefObject::ReadPrefs();
-#endif
 }
 
 /******************************************************************************
@@ -117,9 +115,7 @@ CBBourneShellStyler::CBBourneShellStyler()
 
 CBBourneShellStyler::~CBBourneShellStyler()
 {
-#ifndef CODE_CRUSADER_UNIT_TEST
 	JPrefObject::WritePrefs();
-#endif
 	itsSelf = nullptr;
 }
 

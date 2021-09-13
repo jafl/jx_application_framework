@@ -28,6 +28,7 @@
 #include <JColorManager.h>
 #include <JStringIterator.h>
 #include <JRegex.h>
+#include <JStack.h>
 #include <jFileUtil.h>
 #include <jDirUtil.h>
 #include <jASCIIConstants.h>

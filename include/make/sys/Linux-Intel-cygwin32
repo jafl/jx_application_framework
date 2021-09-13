@@ -22,10 +22,6 @@ J_SHARED_LIB_LINK_OPTION := -shared
 
 J_SHARED_LIB_SUFFIX := so
 
-# Uncomment this if you want debugging versions of the libraries.
-
-J_COMPILE_DEBUG := -g
-
 # This command is used to strip debugging info but not the symbol table.
 
 J_STRIP_DEBUG := strip -g
@@ -59,7 +55,7 @@ LINKER := g++
 
 CC       := gcc
 CXX      := g++
-CPPFLAGS  = ${DEPENDFLAGS} -Wno-deprecated
+CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL} -Wno-deprecated
 CFLAGS    = 
 CXXFLAGS  = -std=c++17
 

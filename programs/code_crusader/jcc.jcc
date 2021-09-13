@@ -486,49 +486,45 @@ T
 F
 "./code/CBStylingScannerBase.cpp"
 T
-2 "CBBourneShellScannerL.l"
+2 "CBBourneShellScannerL.ll"
 F
-"./code/CBBourneShellScannerL.l"
+"./code/CBBourneShellScannerL.ll"
 T
 2 "CBBourneShellStyler.cpp"
 F
 "./code/CBBourneShellStyler.cpp"
 T
-2 "CBCScannerL.l"
+2 "CBCScannerL.ll"
 F
-"./code/CBCScannerL.l"
+"./code/CBCScannerL.ll"
 T
 2 "CBCStyler.cpp"
 F
 "./code/CBCStyler.cpp"
 T
-2 "CBCSharpScannerL.l"
+2 "CBCSharpScannerL.ll"
 F
-"./code/CBCSharpScannerL.l"
+"./code/CBCSharpScannerL.ll"
 T
 2 "CBCSharpStyler.cpp"
 F
 "./code/CBCSharpStyler.cpp"
 T
-2 "CBCShellScannerL.l"
+2 "CBCShellScannerL.ll"
 F
-"./code/CBCShellScannerL.l"
+"./code/CBCShellScannerL.ll"
 T
 2 "CBCShellStyler.cpp"
 F
 "./code/CBCShellStyler.cpp"
 T
+2 "CBDScannerL.ll"
+F
+"./code/CBDScannerL.ll"
+T
 2 "CBDStyler.cpp"
 F
 "./code/CBDStyler.cpp"
-T
-2 "CBDScanner.cpp"
-F
-"./code/CBDScanner.cpp"
-T
-2 "CBDScannerL.l"
-F
-"./code/CBDScannerL.l"
 T
 2 "CBEiffelStyler.cpp"
 F
@@ -542,21 +538,17 @@ T
 F
 "./code/CBEiffelScannerL.l"
 T
+2 "CBGoScannerL.ll"
+F
+"./code/CBGoScannerL.ll"
+T
 2 "CBGoStyler.cpp"
 F
 "./code/CBGoStyler.cpp"
 T
-2 "CBGoScanner.cpp"
+2 "CBHTMLScannerL.ll"
 F
-"./code/CBGoScanner.cpp"
-T
-2 "CBGoScannerL.l"
-F
-"./code/CBGoScannerL.l"
-T
-2 "CBHTMLScannerL.l"
-F
-"./code/CBHTMLScannerL.l"
+"./code/CBHTMLScannerL.ll"
 T
 2 "CBHTMLStyler.cpp"
 F
@@ -574,9 +566,9 @@ T
 F
 "./code/CBINIScannerL.l"
 T
-2 "CBJavaScannerL.l"
+2 "CBJavaScannerL.ll"
 F
-"./code/CBJavaScannerL.l"
+"./code/CBJavaScannerL.ll"
 T
 2 "CBJavaStyler.cpp"
 F

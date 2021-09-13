@@ -1,0 +1,15 @@
+1 195 import a;
+
+class B1 :/**comment**/A1 { }
+
+interface B2: A2 { }	// comment
+
+class B3/+ comment /+ comment +/+/: B2 { }
+
+x = "abcd";
+x = r"abcd";
+x = q"abcd";
+x = `abcd`;
+x = x"abcd";
+x = q{abcd};
+ 1 "Helvetica" 5 0 0 0 0 26214 0 32768 32768 32768 39321 0 0 65535 0 39321 26 6 1 10 FFF 0 2 5 1 10 FFF 0 1 5 1 10 FFF 0 2 5 1 10 FFF 0 1 13 1 10 FFF 0 3 8 1 10 FFF 0 1 9 1 10 FFF 0 2 12 1 10 FFF 0 1 11 1 10 FFF 0 3 1 1 10 FFF 0 1 5 1 10 FFF 0 2 3 1 10 FFF 0 1 26 1 10 FFF 0 3 14 1 10 FFF 0 1 6 1 10 FFF 0 4 6 1 10 FFF 0 1 7 1 10 FFF 0 5 6 1 10 FFF 0 1 7 1 10 FFF 0 5 6 1 10 FFF 0 1 6 1 10 FFF 0 5 6 1 10 FFF 0 1 7 1 10 FFF 0 5 6 1 10 FFF 0 1 7 1 10 FFF 0 5 2 1 10 FFF 0 1

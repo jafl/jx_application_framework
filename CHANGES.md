@@ -14,6 +14,8 @@ Changes to the build system
 * Removed source for all embedded libraries.  Switched to (now reliably
   available) pre-compiled libraries, installed by the native package
   manager.  The new `./configure` script handles this for known systems.
+* Removed J_COMPILE_DEBUG flag.  To build without debugging, create
+  the file 0-RELEASE with content: 1
 
 2.6.0
 -----

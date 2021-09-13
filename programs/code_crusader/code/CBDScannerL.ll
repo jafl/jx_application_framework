@@ -1,4 +1,4 @@
-%{
+%top {
 /*
 Copyright © 2021 by John Lindal.
 Copyright © 1998 by Dustin Laurence.
@@ -6,18 +6,63 @@ Copyright © 1998 by Dustin Laurence.
 This scanner reads a D file and returns CBDScanner::Tokens.
 */
 
-#define _H_CBDScannerL
-
-#include "CBDScanner.h"
+#include "CBStylingScannerBase.h"
 #include <jAssert.h>
-
-#undef YY_DECL
-#define YY_DECL CBDScanner::Token CBDScanner::NextToken()
 %}
 
-%option c++ yyclass = "CBDScanner" prefix = "CBD"
-%option 8bit nodefault noyywrap
-%option full ecs align
+%option lexer="CBDScanner" prefix="allow_multiple_includes"
+%option lex="NextToken" token-type="CBStylingScannerBase::Token"
+%option unicode nodefault full freespace
+
+%class {
+
+public:
+
+	// these types are ordered to correspond to the type table in CBDStyler
+
+	enum TokenType
+	{
+		kBadInt = kEOF+1,
+		kBadCharConst,
+		kUnterminatedString,
+		kUnterminatedComment,
+		kIllegalChar,
+		kNonPrintChar,
+
+		kWhitespace,	// must be the one before the first item in type table
+
+		kID,
+		kReservedKeyword,
+		kBuiltInDataType,
+
+		kOperator,
+		kDelimiter,
+
+		kString,
+		kWysiwygString,
+		kHexString,
+		kTokenString,
+		kCharConst,
+
+		kFloat,
+		kHexFloat,
+		kDecimalInt,
+		kBinaryInt,
+		kHexInt,
+
+		kComment,
+
+		kError,			// place holder for CBDStyler
+
+		// special cases
+
+		kContinuation
+	};
+
+private:
+
+	JSize	itsDepth;
+}
 
 %x C_COMMENT_STATE D_COMMENT_STATE
 %x STRING_STATE WYSIWYG_STRING_STATE ALT_WYSIWYG_STRING_STATE
@@ -46,12 +91,15 @@ INTSUFFIX    ((L[uU]?)|([uU]L?))
 DECIMAL      ((0|[1-9]+(_?[0-9]+)*){INTSUFFIX}?)
 BINARY       (0[bB][0-1]+(_?[0-1]+)*{INTSUFFIX}?)
 HEX          (0[xX][[:xdigit:]]+(_?[[:xdigit:]]+)*{INTSUFFIX}?)
+%{
 	/* The programmer probably meant a number, but it is invalid (match after other ints) */
+%}
 BADDECIMAL   ([0-9]+{INTSUFFIX}?)
 BADBINARY    (0[bB][0-9]+{INTSUFFIX}?)
+%{
 	/* We can't define BADHEX because 0xAAU is legal while 0xAUA isn't */
 	/* and regex subexpressions are greedy. */
-
+%}
 
 
 FLOATSUFFIX  ([fFL]i?)
@@ -90,19 +138,6 @@ CCONST       (\'{CCHAR}\')
 BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 
 %%
-
-%{
-/************************************************************************/
-
-	if (itsResetFlag)
-		{
-		BEGIN(INITIAL);
-		itsResetFlag = false;
-		}
-
-	JSize depth;
-
-%}
 
 
 
@@ -278,7 +313,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 
 "/*" {
 	StartToken();
-	BEGIN(C_COMMENT_STATE);
+	start(C_COMMENT_STATE);
 	}
 
 <C_COMMENT_STATE>{
@@ -290,12 +325,12 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 
 "*"+"/" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kComment);
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedComment);
 	}
 
@@ -309,8 +344,8 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 
 "/+" {
 	StartToken();
-	depth = 1;
-	BEGIN(D_COMMENT_STATE);
+	itsDepth = 1;
+	start(D_COMMENT_STATE);
 	}
 
 <D_COMMENT_STATE>{
@@ -323,21 +358,21 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 
 "/+" {
 	ContinueToken();
-	depth++;
+	itsDepth++;
 	}
 
 "+"+"/" {
 	ContinueToken();
-	depth--;
-	if (depth == 0)
+	itsDepth--;
+	if (itsDepth == 0)
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		return ThisToken(kComment);
 		}
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedComment);
 	}
 
@@ -351,20 +386,20 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 
 \" {
 	StartToken();
-	BEGIN(STRING_STATE);
+	start(STRING_STATE);
 	}
 
 <STRING_STATE>{
 
 \"[cwd]? {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -374,7 +409,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -384,14 +419,14 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 
 [rq]\" {
 	StartToken();
-	BEGIN(WYSIWYG_STRING_STATE);
+	start(WYSIWYG_STRING_STATE);
 	}
 
 <WYSIWYG_STRING_STATE>{
 
 \"[cwd]? {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kWysiwygString);
 	}
 
@@ -400,7 +435,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -410,14 +445,14 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 
 \` {
 	StartToken();
-	BEGIN(ALT_WYSIWYG_STRING_STATE);
+	start(ALT_WYSIWYG_STRING_STATE);
 	}
 
 <ALT_WYSIWYG_STRING_STATE>{
 
 \`[cwd]? {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kWysiwygString);
 	}
 
@@ -426,7 +461,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -436,14 +471,14 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|\'(\\?{CCHAR}?))
 
 x\" {
 	StartToken();
-	BEGIN(HEX_STRING_STATE);
+	start(HEX_STRING_STATE);
 	}
 
 <HEX_STRING_STATE>{
 
 \"[cwd]? {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kHexString);
 	}
 
@@ -452,12 +487,12 @@ x\" {
 	}
 
 [^"] {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -467,18 +502,18 @@ x\" {
 
 "q{" {
 	StartToken();
-	depth = 1;
-	BEGIN(TOKEN_STRING_STATE);
+	itsDepth = 1;
+	start(TOKEN_STRING_STATE);
 	}
 
 <TOKEN_STRING_STATE>{
 
 "}" {
 	ContinueToken();
-	depth--;
-	if (depth == 0)
+	itsDepth--;
+	if (itsDepth == 0)
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		return ThisToken(kTokenString);
 		}
 	}
@@ -488,7 +523,7 @@ x\" {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -508,7 +543,7 @@ x\" {
 
 . {
 	StartToken();
-	JUtf8Character c(yytext);
+	JUtf8Character c(text());
 	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);

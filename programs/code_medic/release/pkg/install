@@ -11,8 +11,6 @@ LIB=$PRE/usr/lib/medic
 APP=$PRE/usr/share/applications
 ICON=$PRE/usr/share/pixmaps
 
-CTAGS_DOC=$PRE/usr/share/doc/ctags
-
 if [[ ! -z $PRE ]]; then
 	mkdir -p $BIN $APP $ICON;
 fi
@@ -29,19 +27,6 @@ cp README.md COPYING menu_strings $DOC
 
 cp desktop/code_medic.desktop $APP/
 cp desktop/code_medic.xpm     $ICON/
-
-# ctags
-
-install -m755 ctags/ctags $BIN
-
-mkdir -p $PRE/usr/man/man1
-cp ctags/ctags.1 $PRE/usr/man/man1
-
-mkdir -p $CTAGS_DOC
-cp ctags/COPYING $CTAGS_DOC
-cp ctags/FAQ     $CTAGS_DOC
-cp ctags/NEWS    $CTAGS_DOC
-cp ctags/README  $CTAGS_DOC
 
 # post
 

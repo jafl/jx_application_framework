@@ -24,12 +24,7 @@
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
-CBCtagsUser::CtagsStatus CBCtagsUser::itsHasExuberantCtagsFlag =
-	#ifdef _J_CTAGS_BUG
-	CBCtagsUser::kFailure;
-	#else
-	CBCtagsUser::kUntested;
-	#endif
+CBCtagsUser::CtagsStatus CBCtagsUser::itsHasExuberantCtagsFlag = CBCtagsUser::kUntested;
 
 static const JString kCheckVersionCmd("ctags --version");
 static const JRegex versionPattern =

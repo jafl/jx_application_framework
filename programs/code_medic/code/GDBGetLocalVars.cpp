@@ -179,8 +179,8 @@ GDBGetLocalVars::HandleSuccess
 			}
 		else
 			{
-			GDBVarTreeParser parser(*value);
-			if (parser.yyparse() == 0)
+			GDBVarTreeParser parser;
+			if (parser.Parse(*value) == 0)
 				{
 				parser.ReportRecoverableError();
 				node->UpdateValue(parser.GetRootNode());

@@ -5,10 +5,10 @@ include ${JX_ROOT}/include/make/jx_config
 
 ACE_MAKE_FLAGS := exceptions=0
 
-ifdef J_COMPILE_DEBUG
-  ACE_DEBUG := debug=1
-else
+ifeq (${J_OPTIMIZE_LEVEL},-O2)
   ACE_DEBUG := debug=0
+else
+  ACE_DEBUG := debug=1
 endif
 
 #

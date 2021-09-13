@@ -47,9 +47,8 @@ include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                -DJ_MAKE_BINARY_NAME=\"${firstword ${MAKE}}\" \
-               ${J_MAN_SECTION_VIA_DASH_S} ${J_HAS_CTAGS_BUG} \
-               -DCODE_CRUSADER ${DEPENDFLAGS_EXTRA} \
-               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+               ${J_MAN_SECTION_VIA_DASH_S} \
+               -DCODE_CRUSADER ${SEARCHDIRS}
 
 TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${JFSLIBDIR}
 
@@ -70,10 +69,11 @@ endif
 
 DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${J_BEGIN_LINK_STATIC} \
-                   ${ljfs} ${ljx} ${ljcore} ${J_STATIC_LINK_ACE_LIBS} \
+                   ${ljfs} ${ljx} ${ljcore} \
+                   -lreflex ${J_STATIC_LINK_ACE_LIBS} \
                    ${J_END_LINK_STATIC} \
                    ${J_DYNAMIC_LINK_ACE_LIBS} \
-                   ${shell pkg-config --libs editorconfig} -lreflex \
+                   ${shell pkg-config --libs editorconfig} \
                    ${J_X11_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
 
 include make_reflex_target
@@ -132,10 +132,7 @@ ctags:
 jxinstall: jcc ctags
 	@strip ${call EXE, jcc}
   ifneq (${J_WANT_INSTALL},0)
-	@cp jcc ${JX_ROOT}/misc/ctags/ctags ${JX_INSTALL_ROOT}/
-   ifeq (${shell whoami},root)
-	@cp ${JX_ROOT}/misc/ctags/ctags.1 /usr/man/man1/
-   endif
+	@cp jcc ${JX_INSTALL_ROOT}/
   endif
 
 .PHONY : jxuninstall

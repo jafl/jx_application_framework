@@ -41,7 +41,7 @@ include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} <MDI_DEF> \
-               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+               ${SEARCHDIRS}
 
 TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
 
