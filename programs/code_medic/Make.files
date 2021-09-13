@@ -4,8 +4,8 @@
 
 @medic
 
-.y ./code/GDBVarTreeParserY
 .l ./code/GDBVarTreeScannerL
+.y ./code/GDBVarTreeParserY
 .cpp ./code/GDBVarTreeParser
 .cpp ./code/CMStylerStubs
 .ll ./JCC/CBCScannerL
