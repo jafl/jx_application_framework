@@ -3545,7 +3545,7 @@ JTextEditor::GetLineTop
 }
 
 /******************************************************************************
- GetCharLeft (private)
+ GetCharLeft
 
 	Returns the starting x coordinate of the specified character, excluding
 	the left margin width.
@@ -3570,14 +3570,14 @@ JTextEditor::GetCharLeft
 }
 
 /******************************************************************************
- GetCharRight (private)
+ GetCharRight
 
 	Returns the ending x coordinate of the specified character, excluding
 	the left margin width.
 
  ******************************************************************************/
 
-inline JCoordinate
+JCoordinate
 JTextEditor::GetCharRight
 	(
 	const CaretLocation& charLoc
@@ -4476,7 +4476,7 @@ JTextEditor::CalcCaretLocation
 
  ******************************************************************************/
 
-inline JTextEditor::CaretLocation
+JTextEditor::CaretLocation
 JTextEditor::CalcCaretLocation
 	(
 	const TextIndex& index

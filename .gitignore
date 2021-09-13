@@ -18,6 +18,8 @@ misc/aspell*
 doc/api
 sonar_output
 .scannerwork
+0-RELEASE
+Brewfile.lock.json
 
 programs/*/code/*StringData.h
 programs/*/Makefile
