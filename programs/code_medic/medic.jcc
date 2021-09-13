@@ -4,13 +4,13 @@ jx_browser_data 88
 T
 1 "var parsing"
 T
-2 "GDBVarTreeParserY.y"
-F
-"./code/GDBVarTreeParserY.y"
-T
 2 "GDBVarTreeScannerL.l"
 F
 "./code/GDBVarTreeScannerL.l"
+T
+2 "GDBVarTreeParserY.y"
+F
+"./code/GDBVarTreeParserY.y"
 T
 2 "GDBVarTreeParser.cpp"
 F
@@ -932,7 +932,7 @@ T "./test/java" "&make_default ; ../../$program" "" FFFFTFF "Build & Run test-ja
 F
 # build settings
 1
-F
+T
 "medic"
 "${LIB_DEPS}"
 "make -k all"

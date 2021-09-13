@@ -22,6 +22,10 @@ J_SHARED_LIB_LINK_OPTION := -shared
 
 J_SHARED_LIB_SUFFIX := so
 
+# Optimization level for debugging
+
+J_DEBUG_OPTIMIZATION_LEVEL := g
+
 # This command is used to strip debugging info but not the symbol table.
 
 J_STRIP_DEBUG := strip -g
