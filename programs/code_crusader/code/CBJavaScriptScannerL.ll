@@ -1,24 +1,67 @@
-%{
+%top {
 /*
 Copyright © 2006 by John Lindal.
 
-This scanner reads a JavaScript file and returns CBJavaScriptScanner::Tokens.
+This scanner reads a JavaScript file and returns CB::JavaScript::Scanner::Tokens.
 
 Remember to upgrade CBHTMLScanner, too!
 */
 
-#define _H_CBJavaScriptScannerL
-
-#include "CBJavaScriptScanner.h"
+#include "CBStylingScannerBase.h"
 #include <jAssert.h>
-
-#undef YY_DECL
-#define YY_DECL CBJavaScriptScanner::Token CBJavaScriptScanner::NextToken()
 %}
 
-%option c++ yyclass = "CBJavaScriptScanner" prefix = "CBJavaScript"
-%option 8bit nodefault noyywrap
-%option full ecs align
+%option namespace="CB::JavaScript" lexer="Scanner" prefix="allow_multiple_includes"
+%option lex="NextToken" token-type="CBStylingScannerBase::Token"
+%option unicode nodefault full freespace
+
+%class {
+
+public:
+
+	// these types are ordered to correspond to the type table in CBJavaScriptStyler
+
+	enum TokenType
+	{
+		kBadHexInt = kEOF+1,
+		kUnterminatedString,
+		kUnterminatedRegex,
+		kUnterminatedComment,
+		kIllegalChar,
+		kNonPrintChar,
+
+		kWhitespace,	// must be the one before the first item in type table
+
+		kID,
+		kReservedKeyword,
+
+		kOperator,
+		kDelimiter,
+
+		kString,
+		kTemplateString,
+
+		kFloat,
+		kDecimalInt,
+		kHexInt,
+
+		kRegexSearch,
+
+		kComment,
+		kDocCommentHTMLTag,
+		kDocCommentSpecialTag,
+
+		kError			// place holder for CBJavaScriptStyler
+		};
+
+public:
+
+	virtual void	BeginScan(const JStyledText::TextIndex& startIndex, std::istream& input);
+
+private:
+
+	bool	itsProbableOperatorFlag;	// kTrue if / is most likely operator instead of regex
+}
 
 %x DOC_COMMENT_STATE C_COMMENT_STATE
 %x SINGLE_STRING_STATE DOUBLE_STRING_STATE TEMPLATE_STRING_STATE
@@ -54,17 +97,6 @@ DOTDIGITS    ({DIGITSEQ}\.|{DIGITSEQ}\.{DIGITSEQ}|\.{DIGITSEQ})
 
 FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 %%
-
-%{
-/************************************************************************/
-
-	if (itsResetFlag)
-		{
-		BEGIN(INITIAL);
-		itsResetFlag = false;
-		}
-
-%}
 
 
 
@@ -225,7 +257,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 "/**"/[^/] {
 	StartToken();
-	BEGIN(DOC_COMMENT_STATE);
+	start(DOC_COMMENT_STATE);
 	}
 
 <DOC_COMMENT_STATE>{
@@ -238,7 +270,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 "*"+"/" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kComment);
 	}
 
@@ -251,7 +283,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedComment);
 	}
 
@@ -266,7 +298,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 "/*" {
 	StartToken();
-	BEGIN(C_COMMENT_STATE);
+	start(C_COMMENT_STATE);
 	}
 
 <C_COMMENT_STATE>{
@@ -278,12 +310,12 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 "*"+"/" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kComment);
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedComment);
 	}
 
@@ -298,20 +330,20 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 \' {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	BEGIN(SINGLE_STRING_STATE);
+	start(SINGLE_STRING_STATE);
 	}
 
 <SINGLE_STRING_STATE>{
 
 \' {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -321,7 +353,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -330,20 +362,20 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 \" {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	BEGIN(DOUBLE_STRING_STATE);
+	start(DOUBLE_STRING_STATE);
 	}
 
 <DOUBLE_STRING_STATE>{
 
 \" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -353,7 +385,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -362,14 +394,14 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 \` {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	BEGIN(TEMPLATE_STRING_STATE);
+	start(TEMPLATE_STRING_STATE);
 	}
 
 <TEMPLATE_STRING_STATE>{
 
 \` {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kTemplateString);
 	}
 
@@ -379,7 +411,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -402,7 +434,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 		{
 		StartToken();
 		itsProbableOperatorFlag = true;
-		BEGIN(REGEX_SEARCH_STATE);
+		start(REGEX_SEARCH_STATE);
 		}
 	}
 
@@ -410,13 +442,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 "/"[gim]* {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kRegexSearch);
 	}
 
 \[(^-?\])? {
 	ContinueToken();
-	BEGIN(REGEX_CHAR_CLASS_STATE);
+	start(REGEX_CHAR_CLASS_STATE);
 	}
 
 \\.?     |
@@ -425,7 +457,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedRegex);
 	}
 
@@ -435,7 +467,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 "]" {
 	ContinueToken();
-	BEGIN(REGEX_SEARCH_STATE);
+	start(REGEX_SEARCH_STATE);
 	}
 
 \\.?    |
@@ -444,7 +476,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedRegex);
 	}
 
@@ -463,7 +495,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 . {
 	StartToken();
-	JUtf8Character c(yytext);
+	JUtf8Character c(text());
 	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);
@@ -485,3 +517,20 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	}
 
 %%
+
+/******************************************************************************
+ BeginScan (virtual)
+
+ *****************************************************************************/
+
+void
+CB::JavaScript::Scanner::BeginScan
+	(
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input
+	)
+{
+	CBStylingScannerBase::BeginScan(startIndex, input);
+
+	itsProbableOperatorFlag = false;
+}

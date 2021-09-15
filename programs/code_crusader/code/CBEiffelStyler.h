@@ -9,9 +9,9 @@
 #define _H_CBEiffelStyler
 
 #include "CBStylerBase.h"
-#include "CBEiffelScanner.h"
+#include "CBEiffelScannerL.h"
 
-class CBEiffelStyler : public CBStylerBase, public CBEiffelScanner
+class CBEiffelStyler : public CBStylerBase, public CB::Eiffel::Scanner
 {
 public:
 

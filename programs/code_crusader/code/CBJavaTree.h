@@ -10,10 +10,11 @@
 
 #include "CBTree.h"
 
-class CBJavaTreeScanner;
 class CBJavaTreeDirector;
 class CBJavaClass;
 class CBClass;
+
+namespace CB::JavaTree { class Scanner; }
 
 class CBJavaTree : public CBTree
 {
@@ -39,7 +40,7 @@ protected:
 
 private:
 
-	CBJavaTreeScanner*	itsClassNameLexer;	// nullptr unless parsing
+	CB::JavaTree::Scanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
 

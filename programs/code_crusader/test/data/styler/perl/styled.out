@@ -1,0 +1,112 @@
+1 1115 #!/usr/bin/perl
+
+use strict;
+
+require('../shared/general.pl');
+
+sub abc($\@$*\%\$;%)
+{
+	my ($abc, %xyz) = @_;
+	print 2.0 / 0x3 + 534 + 0 - 0b101 + 0b2 - 0xG + 063 - 081 + &$abc;
+	$vers = v0.2 + v33 + v1.2.3.4.5;
+	$v2   = 0.3.5;
+}
+
+if (/$a${bc}k/)
+	{
+	s/5$a3_8/$x/giw;
+	}
+
+# single line comment
+
+=comment
+
+This is POD!
+
+=head1
+
+Heading
+
+=cut
+
+print
+if
+continue
+socketpair
+die
+goto
+
+00
+$test
+@test
+%test
+\$test
+abc
+x = 3 ? 5 : 7;
+
+${abc->{$x[5]}}
+${a}
+@{abc}
+%{xyz}
+&{foo}
+%$${xyz}
+${ }
+${}
+\%abc
+\%$xyz
+\@x
+\&foo
+
+$data = <<EOD;
+this is a string
+EOD
+
+$data = <<"EOD";
+this is a string
+EOD
+
+$data = <<'EOD';
+this is a string
+EOD
+
+$data = <<`EOD`;
+this is a string
+EOD
+
+$[ $] $\ $; $@ $! $"" $* $` $' $? $. $$ $@ $^E $^Z $} $-
+
+$3
+$$xyz
+@$abc # comment
+%$abc
+
+#line 1 "abc"
+# line 18
+#line
+
+q|a$bc|;
+'$a';
+qq[a${b}$c[3]*&];
+"a${b}$c+";
+qr+123+mz;
+qx(echo $b ${x->{z}} hel[(\))lo);
+`ls $dir`;
+qw\abc\;
+$x ? 3 : 5.0;
+if (?abc?)
+m%xy%isl;
+5/3;
+die if /s/xz;
+5 s/$a/$b/gw;
+s<a<>b$c><x\<\>$$yz$${xy}e2>;
+s(\(\))((3))gt;
+tr/a/b/cj;
+y\ab\c\;
+
+split(/=/);
+
+__DATA__
+This is module data that can be read via main::DATA
+123
+456
+ 1 "Helvetica" 9 0 0 0 0 26214 0 0 39321 65535 32768 32768 32768 39321 0 0 39321 26214 0 65535 0 0 65535 0 39321 65535 39321 0 103 16 1 10 FFF 0 4 1 1 10 FFF 0 1 3 1 10 FFF 0 2 10 1 10 FFF 0 1 7 1 10 FFF 0 2 1 1 10 FFF 0 1 22 1 10 FFF 0 6 4 1 10 FFF 0 1 3 1 10 FFF 0 2 4 1 10 FFF 0 1 13 1 10 TFF 0 1 4 1 10 FFF 0 1 2 1 10 FFF 0 2 21 1 10 FFF 0 1 5 1 10 FFF 0 2 31 1 10 FFF 0 1 3 1 10 FFF 0 7 3 1 10 FFF 0 1 3 1 10 FFF 0 7 9 1 10 FFF 0 1 3 1 10 FFF 0 7 63 1 10 FFF 0 1 2 1 10 FFF 0 2 2 1 10 FFF 0 1 10 1 10 FFF 0 2 6 1 10 FFF 0 1 14 1 10 FFF 0 2 7 1 10 FFF 0 1 22 1 10 FFF 0 4 1 1 10 FFF 0 1 46 1 10 TFF 0 4 1 1 10 FFF 0 1 5 1 10 FFF 0 2 1 1 10 FFF 0 1 2 1 10 FFF 0 2 1 1 10 FFF 0 1 8 1 10 FFF 0 2 1 1 10 FFF 0 1 10 1 10 FFF 0 2 1 1 10 FFF 0 1 3 1 10 FFF 0 2 1 1 10 FFF 0 1 4 1 10 FFF 0 2 101 1 10 FFF 0 1 4 1 10 FFF 0 7 1 1 10 FFF 0 1 3 1 10 FFF 0 7 33 1 10 FFF 0 1 28 1 10 FFF 0 5 9 1 10 FFF 0 1 30 1 10 FFF 0 5 9 1 10 FFF 0 1 30 1 10 FFF 0 6 9 1 10 FFF 0 1 30 1 10 FFF 0 8 52 1 10 FFF 0 1 1 1 10 FFF 0 7 21 1 10 FFF 0 1 10 1 10 FFF 0 4 7 1 10 FFF 0 1 24 1 10 TFF 0 9 6 1 10 FFF 0 4 1 1 10 FFF 0 1 7 1 10 FFF 0 6 2 1 10 FFF 0 1 4 1 10 FFF 0 6 2 1 10 FFF 0 1 16 1 10 FFF 0 5 2 1 10 FFF 0 1 10 1 10 FFF 0 5 2 1 10 FFF 0 1 8 1 10 FFF 0 8 3 1 10 FFF 0 1 32 1 10 FFF 0 8 2 1 10 FFF 0 1 9 1 10 FFF 0 8 25 1 10 FFF 0 1 2 1 10 FFF 0 2 2 1 10 FFF 0 1 5 1 10 FFF 0 2 2 1 10 FFF 0 1 7 1 10 FFF 0 2 8 1 10 FFF 0 1 3 1 10 FFF 0 2 1 1 10 FFF 0 1 2 1 10 FFF 0 2 1 1 10 FFF 0 1 4 1 10 FFF 0 2 5 1 10 FFF 0 1 9 1 10 FFF 0 2 3 1 10 FFF 0 1 28 1 10 FFF 0 2 2 1 10 FFF 0 1 13 1 10 FFF 0 2 3 1 10 FFF 0 1 8 1 10 FFF 0 3 3 1 10 FFF 0 1 7 1 10 FFF 0 3 3 1 10 FFF 0 1 5 1 10 FFF 0 2 1 1 10 FFF 0 1 3 1 10 FFF 0 2 73 1 10 FFF 0 1

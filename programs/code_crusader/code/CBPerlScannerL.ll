@@ -1,18 +1,13 @@
-%{
+%top {
 /*
 Copyright © 2003 by John Lindal.
 
-This scanner reads a Perl file and returns CBPerlScanner::Tokens.
+This scanner reads a Perl file and returns CB::Perl::Scanner::Tokens.
 */
 
-#define _H_CBPerlScannerL
-
-#include "CBPerlScanner.h"
+#include "CBStylingScannerBase.h"
 #include <JStringIterator.h>
 #include <jAssert.h>
-
-#undef YY_DECL
-#define YY_DECL CBPerlScanner::Token CBPerlScanner::NextToken()
 
 inline bool
 isquote
@@ -24,9 +19,97 @@ isquote
 }
 %}
 
-%option c++ yyclass = "CBPerlScanner" prefix = "CBPerl"
-%option 8bit nodefault noyywrap
-%option full ecs align
+%option namespace="CB::Perl" lexer="Scanner" prefix="allow_multiple_includes"
+%option lex="NextToken" token-type="CBStylingScannerBase::Token"
+%option unicode nodefault full freespace
+
+%class {
+
+public:
+
+	// these types are ordered to correspond to the type table in CBPerlStyler
+
+	enum TokenType
+	{
+		kBadInt = kEOF+1,
+		kBadBinary,
+		kBadHex,
+		kEmptyVariable,
+		kUnterminatedVariable,
+		kUnterminatedString,
+		kUnterminatedRegex,
+		kUnterminatedWordList,
+		kUnterminatedTransliteration,
+		kUnterminatedFileGlob,
+		kUnterminatedPOD,
+		kIllegalChar,
+		kNonPrintChar,
+
+		kWhitespace,	// must be the one before the first item in type table
+
+		kScalar,
+		kList,
+		kHash,
+		kSubroutine,
+		kPrototypeArgList,
+		kReference,
+		kReservedKeyword,
+		kBareword,
+
+		kOperator,
+		kDelimiter,
+
+		kSingleQuoteString,
+		kDoubleQuoteString,
+		kHereDocString,
+		kExecString,
+		kWordList,
+
+		kFloat,
+		kDecimalInt,
+		kBinaryInt,
+		kOctalInt,
+		kHexInt,
+		kVersion,
+
+		kRegexSearch,
+		kRegexReplace,
+		kOneShotRegexSearch,
+		kCompiledRegex,
+		kTransliteration,
+
+		kFileGlob,
+
+		kComment,
+		kPOD,
+		kPPDirective,
+		kModuleData,
+
+		kError			// place holder for CBPerlStyler
+	};
+
+public:
+
+	void	BeginScan(const JStyledText* text,
+					  const JStyledText::TextIndex& startIndex, std::istream& input);
+
+private:
+
+	const JStyledText*	itsCurrentText;
+
+	bool		itsProbableOperatorFlag;	// kTrue if /,? are most likely operators instead of regex
+	TokenType	itsComplexVariableType;
+	JString		itsHereDocTag;
+	TokenType	itsHereDocType;
+	JSize		itsBraceCount;
+
+private:
+
+	bool	SlurpQuoted(const JSize count, const JUtf8Byte* suffixList);
+	bool	ReadCharacter(JStyledText::TextIndex* index, JUtf8Character* ch);
+
+	using CBStylingScannerBase::BeginScan;
+}
 
 %x SINGLE_STRING_STATE DOUBLE_STRING_STATE EXEC_STRING_STATE HEREDOC_STRING_STATE
 %x ONE_SHOT_REGEX_SEARCH_STATE REGEX_SEARCH_STATE
@@ -52,7 +135,9 @@ HEX          (0x[_[:xdigit:]]*)
 BINARY       (0b[01_]*)
 OCTAL        (0[0-7_]+)
 VERSION      (v[0-9]+(\.[0-9]+)*|([0-9]+\.){2,}[0-9]+)
+%{
 	/* The programmer probably meant a number, but it is invalid (match after other ints) */
+%}
 BADINT       ([0-9_]+)
 BADHEX       (0[xX][0-9A-Za-z_]+)
 BADBINARY    (0[bB][0-9A-Za-z_]+)
@@ -68,19 +153,6 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 %%
 
-%{
-/************************************************************************/
-
-	JSize braceCount = 0;
-
-	if (itsResetFlag)
-		{
-		BEGIN(INITIAL);
-		itsResetFlag = false;
-		}
-
-%}
-
 
 
 	/* Match operators */
@@ -93,7 +165,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "**"  |
 "!"   |
 "~"   |
-"\\"  |
+\\    |
 "+"   |
 "-"   |
 "=~"  |
@@ -207,59 +279,59 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 \\?\$+{ID}                              {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	return ThisToken(yytext[0] == '\\' ? kReference : kScalar);
+	return ThisToken(text()[0] == '\\' ? kReference : kScalar);
 	}
 
 \\?\$+\{ {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	itsComplexVariableType  = yytext[0] == '\\' ? kReference : kScalar;
-	braceCount              = 1;
-	BEGIN(QUOTED_VARIABLE_STATE);
+	itsComplexVariableType  = text()[0] == '\\' ? kReference : kScalar;
+	itsBraceCount           = 1;
+	start(QUOTED_VARIABLE_STATE);
 	}
 
 \\?\@[+-] |
 \\?\@\$*{ID} {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	return ThisToken(yytext[0] == '\\' ? kReference : kList);
+	return ThisToken(text()[0] == '\\' ? kReference : kList);
 	}
 
 \\?\@\$*\{ {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	itsComplexVariableType  = yytext[0] == '\\' ? kReference : kList;
-	braceCount              = 1;
-	BEGIN(QUOTED_VARIABLE_STATE);
+	itsComplexVariableType  = text()[0] == '\\' ? kReference : kList;
+	itsBraceCount           = 1;
+	start(QUOTED_VARIABLE_STATE);
 	}
 
 \\?\%\^H  |
 \\?\%\$*{ID} {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	return ThisToken(yytext[0] == '\\' ? kReference : kHash);
+	return ThisToken(text()[0] == '\\' ? kReference : kHash);
 	}
 
 \\?\%\$*\{ {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	itsComplexVariableType  = yytext[0] == '\\' ? kReference : kHash;
-	braceCount              = 1;
-	BEGIN(QUOTED_VARIABLE_STATE);
+	itsComplexVariableType  = text()[0] == '\\' ? kReference : kHash;
+	itsBraceCount           = 1;
+	start(QUOTED_VARIABLE_STATE);
 	}
 
 \\?\&\$*{BAREWORD} {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	return ThisToken(yytext[0] == '\\' ? kReference : kSubroutine);
+	return ThisToken(text()[0] == '\\' ? kReference : kSubroutine);
 	}
 
 \\?\&\$*\{ {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	itsComplexVariableType  = yytext[0] == '\\' ? kReference : kSubroutine;
-	braceCount              = 1;
-	BEGIN(QUOTED_VARIABLE_STATE);
+	itsComplexVariableType  = text()[0] == '\\' ? kReference : kSubroutine;
+	itsBraceCount           = 1;
+	start(QUOTED_VARIABLE_STATE);
 	}
 
 [$@%&]\$*\{{WS}\} {
@@ -271,7 +343,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 __END__  |
 __DATA__ {
 	StartToken();
-	BEGIN(DATA_STATE);
+	start(DATA_STATE);
 	return ThisToken(kBareword);
 	}
 
@@ -345,17 +417,17 @@ __DATA__ {
 
 "}" {
 	ContinueToken();
-	braceCount--;
-	if (braceCount == 0)
+	itsBraceCount--;
+	if (itsBraceCount == 0)
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		return ThisToken(itsComplexVariableType);
 		}
 	}
 
 "{" {
 	ContinueToken();
-	braceCount++;
+	itsBraceCount++;
 	}
 
 [^{}]+ {
@@ -363,7 +435,7 @@ __DATA__ {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedVariable);
 	}
 
@@ -384,7 +456,7 @@ __DATA__ {
 
 <<EOF>> {
 	StartToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kEOF);
 	}
 
@@ -421,14 +493,14 @@ __DATA__ {
 
 ^"="[^ \v\t\f\r\n] {
 	StartToken();
-	BEGIN(POD_STATE);
+	start(POD_STATE);
 	}
 
 <POD_STATE>{
 
 ^"=cut"({WSCHAR}+.*)?\n? {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kPOD);
 	}
 
@@ -437,7 +509,7 @@ __DATA__ {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedPOD);
 	}
 
@@ -460,7 +532,7 @@ __DATA__ {
 		{
 		StartToken();
 		itsProbableOperatorFlag = true;
-		BEGIN(FILE_GLOB_STATE);
+		start(FILE_GLOB_STATE);
 		}
 	}
 
@@ -468,12 +540,12 @@ __DATA__ {
 
 ">" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kFileGlob);
 	}
 
 \n {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedFileGlob);
 	}
 
@@ -483,7 +555,7 @@ __DATA__ {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedFileGlob);
 	}
 
@@ -506,7 +578,7 @@ __DATA__ {
 		{
 		StartToken();
 		itsProbableOperatorFlag = true;
-		BEGIN(ONE_SHOT_REGEX_SEARCH_STATE);
+		start(ONE_SHOT_REGEX_SEARCH_STATE);
 		}
 	}
 
@@ -514,7 +586,7 @@ __DATA__ {
 
 "?" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kOneShotRegexSearch);
 	}
 
@@ -524,7 +596,7 @@ __DATA__ {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedRegex);
 	}
 
@@ -547,7 +619,7 @@ __DATA__ {
 		{
 		StartToken();
 		itsProbableOperatorFlag = true;
-		BEGIN(REGEX_SEARCH_STATE);
+		start(REGEX_SEARCH_STATE);
 		}
 	}
 
@@ -568,7 +640,7 @@ __DATA__ {
 
 "/"[cgimosx]* {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kRegexSearch);
 	}
 
@@ -578,7 +650,7 @@ __DATA__ {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedRegex);
 	}
 
@@ -593,7 +665,7 @@ __DATA__ {
 \' {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	BEGIN(SINGLE_STRING_STATE);
+	start(SINGLE_STRING_STATE);
 	}
 
 "q"[ \v\t\f\r\n]* {
@@ -613,7 +685,7 @@ __DATA__ {
 
 \' {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kSingleQuoteString);
 	}
 
@@ -623,7 +695,7 @@ __DATA__ {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -638,7 +710,7 @@ __DATA__ {
 \" {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	BEGIN(DOUBLE_STRING_STATE);
+	start(DOUBLE_STRING_STATE);
 	}
 
 "qq"[ \v\t\f\r\n]* {
@@ -658,7 +730,7 @@ __DATA__ {
 
 \" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kDoubleQuoteString);
 	}
 
@@ -668,7 +740,7 @@ __DATA__ {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -682,7 +754,7 @@ __DATA__ {
 
 "<<"[ \t]*['"`]?[^ \t\n'"`]+['"`]?;\n {
 	StartToken();
-	itsHereDocTag.Set(yytext+2, yyleng-4);
+	itsHereDocTag.Set(text()+2, size()-4);
 	itsHereDocTag.TrimWhitespace();
 	itsHereDocType = kDoubleQuoteString;
 
@@ -708,17 +780,17 @@ __DATA__ {
 		iter.RemovePrev();
 		}
 
-	BEGIN(HEREDOC_STRING_STATE);
+	start(HEREDOC_STRING_STATE);
 	}
 
 <HEREDOC_STRING_STATE>{
 
 ^.+\n {
 	ContinueToken();
-	if (JString::Compare(yytext, yyleng - 1,
+	if (JString::Compare(text(), size() - 1,
 						 itsHereDocTag.GetBytes(), itsHereDocTag.GetByteCount()) == 0)
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		return ThisToken(itsHereDocType);
 		}
 	}
@@ -728,7 +800,7 @@ __DATA__ {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -762,7 +834,7 @@ __DATA__ {
 ` {
 	StartToken();
 	itsProbableOperatorFlag = true;
-	BEGIN(EXEC_STRING_STATE);
+	start(EXEC_STRING_STATE);
 	}
 
 "qx"[ \v\t\f\r\n]* {
@@ -782,7 +854,7 @@ __DATA__ {
 
 ` {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kExecString);
 	}
 
@@ -792,7 +864,7 @@ __DATA__ {
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -877,7 +949,7 @@ __DATA__ {
 . {
 	StartToken();
 	itsProbableOperatorFlag = false;
-	JUtf8Character c(yytext);
+	JUtf8Character c(text());
 	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);
@@ -899,3 +971,38 @@ __DATA__ {
 	}
 
 %%
+
+/******************************************************************************
+ BeginScan
+
+ *****************************************************************************/
+
+void
+CB::Perl::Scanner::BeginScan
+	(
+	const JStyledText*				text,
+	const JStyledText::TextIndex&	startIndex,
+	std::istream&					input
+	)
+{
+	CBStylingScannerBase::BeginScan(startIndex, input);
+
+	itsCurrentText          = text;
+	itsProbableOperatorFlag = false;
+	itsHereDocTag.Clear();
+	itsHereDocType = kDoubleQuoteString;
+}
+
+/******************************************************************************
+ SlurpQuoted (private)
+
+	count is the number of times to slurp up to and including endChar.
+	suffixList is the characters that can be appended, e.g., s/a/b/g
+
+	Returns false if EOF was encountered.
+
+ *****************************************************************************/
+
+#define ClassName CB::Perl::Scanner
+#include "CBSTSlurpQuoted.th"
+#undef ClassName

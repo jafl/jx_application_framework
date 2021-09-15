@@ -13,11 +13,12 @@
 #include "CBTree.h"
 #include "CBCtagsUser.h"
 
-class CBCTreeScanner;
 class CBCTreeDirector;
 class CBCPreprocessor;
 class CBCClass;
 class CBClass;
+
+namespace CB::CTree { class Scanner; }
 
 class CBCTree : public CBTree, public CBCtagsUser
 {
@@ -47,7 +48,7 @@ protected:
 private:
 
 	CBCPreprocessor*	itsCPP;
-	CBCTreeScanner*		itsClassNameLexer;	// nullptr unless parsing
+	CB::CTree::Scanner*		itsClassNameLexer;	// nullptr unless parsing
 
 private:
 

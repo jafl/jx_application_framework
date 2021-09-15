@@ -1,22 +1,52 @@
-%{
+%top {
 /*
 Copyright © 2004 by John Lindal.
 
 This scanner reads an Eiffle file and returns CBEiffelScanner::Tokens.
 */
 
-#define _H_CBEiffelScannerL
-
-#include "CBEiffelScanner.h"
+#include "CBStylingScannerBase.h"
 #include <jAssert.h>
-
-#undef YY_DECL
-#define YY_DECL CBEiffelScanner::Token CBEiffelScanner::NextToken()
 %}
 
-%option c++ yyclass = "CBEiffelScanner" prefix = "CBEiffel"
-%option 8bit nodefault caseless noyywrap
-%option full ecs align
+%option namespace="CB::Eiffel" lexer="Scanner" prefix="allow_multiple_includes"
+%option lex="NextToken" token-type="CBStylingScannerBase::Token"
+%option unicode nodefault full freespace
+
+%class {
+
+public:
+
+	// these types are ordered to correspond to the type table in CBEiffelStyler
+
+	enum TokenType
+	{
+		kBadDecimalInt = kEOF+1,
+		kUnterminatedString,
+		kIllegalChar,
+		kNonPrintChar,
+
+		kWhitespace,	// must be the one before the first item in type table
+
+		kID,
+		kReservedKeyword,
+		kBuiltInDataType,
+
+		kOperator,
+		kFreeOperator,
+		kDelimiter,
+
+		kString,
+
+		kFloat,
+		kDecimalInt,
+		kBinary,
+
+		kComment,
+
+		kError			// place holder for CBEiffelStyler
+	};
+}
 
 %x STRING_STATE
 
@@ -37,15 +67,17 @@ IDCDR        (_|\p{L}|\d)
 ID           ({IDCAR}{IDCDR}*)
 
 
-
+%{
 	/* Agrees with Harbison & Steele's BNF */
+%}
 DECIMAL      ([0-9]+|[0-9]{1,3}(_[0-9]{3})*)
 BADDECIMAL   ([0-9_]+)
 BINARY       ([01]+[bB])
 
 
-
+%{
 	/* Following Harbison & Steele's BNF, except of course I'm using regexes */
+%}
 SIGNPART     ([+-])
 DIGITSEQ     {DECIMAL}
 EXPONENT     ([eE]{SIGNPART}?{DIGITSEQ})
@@ -54,17 +86,6 @@ DOTDIGITS    ({DIGITSEQ}\.|{DIGITSEQ}\.{DIGITSEQ}|\.{DIGITSEQ})
 FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 %%
-
-%{
-/************************************************************************/
-
-	if (itsResetFlag)
-		{
-		BEGIN(INITIAL);
-		itsResetFlag = false;
-		}
-
-%}
 
 
 
@@ -194,20 +215,20 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 "%"?\" {
 	StartToken();
-	BEGIN(STRING_STATE);
+	start(STRING_STATE);
 	}
 
 <STRING_STATE>{
 
 \" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kString);
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -217,7 +238,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -237,7 +258,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 . {
 	StartToken();
-	JUtf8Character c(yytext);
+	JUtf8Character c(text());
 	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);

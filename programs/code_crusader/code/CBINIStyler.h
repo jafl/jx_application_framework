@@ -9,9 +9,9 @@
 #define _H_CBINIStyler
 
 #include "CBStylerBase.h"
-#include "CBINIScanner.h"
+#include "CBINIScannerL.h"
 
-class CBINIStyler : public CBStylerBase, public CBINIScanner
+class CBINIStyler : public CBStylerBase, public CB::INI::Scanner
 {
 public:
 

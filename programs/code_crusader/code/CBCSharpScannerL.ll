@@ -2,14 +2,14 @@
 /*
 Copyright © 2004 by John Lindal.
 
-This scanner reads a C# file and returns CBCSharpScanner::Tokens.
+This scanner reads a C# file and returns CB::CSharp::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
 #include <jAssert.h>
 }
 
-%option lexer="CBCSharpScanner" prefix="allow_multiple_includes"
+%option namespace="CB::CSharp" lexer="Scanner" prefix="allow_multiple_includes"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 
@@ -271,8 +271,7 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\')
 
 ^{WS}"#"{WS}{PPKEYWORD} {
 	StartToken();
-	std::function<bool(const char)> skip = [](const char c) { return c != '#'; };
-	SavePPNameRange(skip);
+	SavePPNameRange();
 	start(PP_ARG_STATE);
 	}
 

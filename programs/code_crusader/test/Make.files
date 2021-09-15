@@ -42,6 +42,13 @@ ${JCCCODEDIR}/CBGoStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
+@test_EiffelStyler
+.ll ${JCCCODEDIR}/CBEiffelScannerL
+${CODEDIR}/test_EiffelStyler
+${JCCCODEDIR}/CBEiffelStyler
+${JCCCODEDIR}/CBStylingScannerBase
+${JCCCODEDIR}/CBStylerBase
+
 @test_HTMLStyler
 .ll ${JCCCODEDIR}/CBHTMLScannerL
 ${CODEDIR}/test_HTMLStyler
@@ -49,10 +56,38 @@ ${JCCCODEDIR}/CBHTMLStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
+@test_INIStyler
+.ll ${JCCCODEDIR}/CBINIScannerL
+${CODEDIR}/test_INIStyler
+${JCCCODEDIR}/CBINIStyler
+${JCCCODEDIR}/CBStylingScannerBase
+${JCCCODEDIR}/CBStylerBase
+
 @test_JavaStyler
 .ll ${JCCCODEDIR}/CBJavaScannerL
 ${CODEDIR}/test_JavaStyler
 ${JCCCODEDIR}/CBJavaStyler
+${JCCCODEDIR}/CBStylingScannerBase
+${JCCCODEDIR}/CBStylerBase
+
+@test_JavaScriptStyler
+.ll ${JCCCODEDIR}/CBJavaScriptScannerL
+${CODEDIR}/test_JavaScriptStyler
+${JCCCODEDIR}/CBJavaScriptStyler
+${JCCCODEDIR}/CBStylingScannerBase
+${JCCCODEDIR}/CBStylerBase
+
+@test_PerlStyler
+.ll ${JCCCODEDIR}/CBPerlScannerL
+${CODEDIR}/test_PerlStyler
+${JCCCODEDIR}/CBPerlStyler
+${JCCCODEDIR}/CBStylingScannerBase
+${JCCCODEDIR}/CBStylerBase
+
+@test_PropertiesStyler
+.ll ${JCCCODEDIR}/CBPropertiesScannerL
+${CODEDIR}/test_PropertiesStyler
+${JCCCODEDIR}/CBPropertiesStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 

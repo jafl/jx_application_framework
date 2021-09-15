@@ -1,0 +1,3 @@
+1 45 # console appender
+EnableConsoleLogging=true
+ 1 "Helvetica" 2 0 0 0 32768 32768 32768 2 19 1 10 FFF 0 2 26 1 10 FFF 0 1

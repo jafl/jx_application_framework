@@ -106,9 +106,8 @@
 .cpp ./code/CMLink
 .cpp ./code/CMCommand
 .cpp ./code/CMPipeT
+.l ./code/GDBOutputScannerL
 .cpp ./code/GDBLink
-.cpp ./code/GDBScanner
-.l ./code/GDBScannerL
 .cpp ./code/GDBPingTask
 .cpp ./code/GDBBreakpointManager
 .cpp ./code/GDBAnalyzeCore

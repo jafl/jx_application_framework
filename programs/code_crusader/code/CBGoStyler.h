@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBGoScannerL.h"
 
-class CBGoStyler : public CBStylerBase, public CBGoScanner
+class CBGoStyler : public CBStylerBase, public CB::Go::Scanner
 {
 public:
 

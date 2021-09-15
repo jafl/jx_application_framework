@@ -2,14 +2,14 @@
 /*
 Copyright © 1998 by Dustin Laurence.
 
-This scanner reads a C/C++ file and returns CBCScanner::Tokens.
+This scanner reads a C/C++ file and returns CB::C::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
 #include <jAssert.h>
 }
 
-%option lexer="CBCScanner" prefix="allow_multiple_includes"
+%option namespace="CB::C" lexer="Scanner" prefix="allow_multiple_includes"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 
@@ -333,14 +333,13 @@ BADCCONST    (L?\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CCHAR}){2,})\'|L?\'(\\?{CCHAR}
 
 
 
-	/* Match preprocessor directives */
+	/* Match preprocessor directives - digraphs removed from C++17 */
 
 
 
-^{WS}("#"|"%:"|"??="){WS}{PPKEYWORD} {
+^{WS}"#"{WS}{PPKEYWORD} {
 	StartToken();
-	std::function<bool(const char)> skip = [](const char c) { return c != '#' && c != ':' && c != '='; };
-	SavePPNameRange(skip);
+	SavePPNameRange();
 	start(PP_ARG_STATE);
 	}
 

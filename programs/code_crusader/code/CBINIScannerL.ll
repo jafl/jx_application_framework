@@ -1,22 +1,45 @@
-%{
+%top {
 /*
 Copyright © 2013 by John Lindal.
 
-This scanner reads a PHP .ini file and returns CBINIScanner::Tokens.
+This scanner reads a PHP .ini file and returns CB::INI::Scanner::Tokens.
 */
 
-#define _H_CBINIScannerL
-
-#include "CBINIScanner.h"
+#include "CBStylingScannerBase.h"
 #include <jAssert.h>
-
-#undef YY_DECL
-#define YY_DECL CBINIScanner::Token CBINIScanner::NextToken()
 %}
 
-%option c++ yyclass = "CBINIScanner" prefix = "CBINI"
-%option 8bit nodefault noyywrap
-%option full ecs align
+%option namespace="CB::INI" lexer="Scanner" prefix="allow_multiple_includes"
+%option lex="NextToken" token-type="CBStylingScannerBase::Token"
+%option unicode nodefault full freespace
+
+%class {
+
+public:
+
+	// these types are ordered to correspond to the type table in CBINIStyler
+
+	enum TokenType
+	{
+		kUnterminatedString = kEOF+1,
+		kNonPrintChar,
+
+		kWhitespace,	// must be the one before the first item in type table
+
+		kSectionName,
+
+		kKeyOrValue,
+		kAssignment,
+		kArrayIndex,
+
+		kSingleQuoteString,
+		kDoubleQuoteString,
+
+		kComment,
+
+		kError			// place holder for CBINIStyler
+	};
+}
 
 %x SINGLE_STRING_STATE DOUBLE_STRING_STATE
 
@@ -24,17 +47,6 @@ WSCHAR  ([ \v\t\f\r])
 WS      ([ \v\t\f\r]*)
 
 %%
-
-%{
-/************************************************************************/
-
-	if (itsResetFlag)
-		{
-		BEGIN(INITIAL);
-		itsResetFlag = false;
-		}
-
-%}
 
 
 
@@ -81,14 +93,14 @@ WS      ([ \v\t\f\r]*)
 
 \' {
 	StartToken();
-	BEGIN(SINGLE_STRING_STATE);
+	start(SINGLE_STRING_STATE);
 	}
 
 <SINGLE_STRING_STATE>{
 
 \' {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kSingleQuoteString);
 	}
 
@@ -98,7 +110,7 @@ WS      ([ \v\t\f\r]*)
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -112,14 +124,14 @@ WS      ([ \v\t\f\r]*)
 
 \" {
 	StartToken();
-	BEGIN(DOUBLE_STRING_STATE);
+	start(DOUBLE_STRING_STATE);
 	}
 
 <DOUBLE_STRING_STATE>{
 
 \" {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kDoubleQuoteString);
 	}
 
@@ -129,7 +141,7 @@ WS      ([ \v\t\f\r]*)
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 

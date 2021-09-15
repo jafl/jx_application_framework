@@ -13,7 +13,7 @@
  *****************************************************************************/
 
 #include "GDBLink.h"
-#include "GDBScanner.h"
+#include "GDBOutputScannerL.h"
 #include "GDBPingTask.h"
 #include "GDBBreakpointManager.h"
 #include "CMChooseProcessDialog.h"
@@ -86,7 +86,7 @@ GDBLink::GDBLink()
 {
 	InitFlags();
 
-	itsScanner = jnew GDBScanner;
+	itsScanner = jnew GDBOutput::Scanner;
 	assert( itsScanner != nullptr );
 
 	itsBPMgr = jnew GDBBreakpointManager(this);
@@ -386,8 +386,8 @@ GDBLink::ReadFromDebugger()
 	itsScanner->AppendInput(data);
 	while (true)
 		{
-		const GDBScanner::Token token = itsScanner->NextToken();
-		if (token.type == GDBScanner::kEOF)
+		const GDBOutput::Scanner::Token token = itsScanner->NextToken();
+		if (token.type == GDBOutput::Scanner::kEOF)
 			{
 			break;
 			}
@@ -404,7 +404,7 @@ GDBLink::ReadFromDebugger()
 		//  correct status.)
 
 		const bool wasStopped = itsProgramIsStoppedFlag;
-		if (token.type == GDBScanner::kMaybeReadyForInput)
+		if (token.type == GDBOutput::Scanner::kMaybeReadyForInput)
 			{
 			if (!itsIgnoreNextMaybeReadyFlag)
 				{
@@ -418,7 +418,7 @@ GDBLink::ReadFromDebugger()
 				}
 			continue;
 			}
-		else if (token.type == GDBScanner::kReadyForInput)
+		else if (token.type == GDBOutput::Scanner::kReadyForInput)
 			{
 			itsPingTask->Stop();
 
@@ -470,7 +470,7 @@ GDBLink::ReadFromDebugger()
 
 		// process token
 
-		if (token.type == GDBScanner::kProgramOutput)
+		if (token.type == GDBOutput::Scanner::kProgramOutput)
 			{
 			if (itsPrintingOutputFlag)
 				{
@@ -478,7 +478,7 @@ GDBLink::ReadFromDebugger()
 				Broadcast(UserOutput(*(token.data.pString), false, false));
 				}
 			}
-		else if (token.type == GDBScanner::kErrorOutput)
+		else if (token.type == GDBOutput::Scanner::kErrorOutput)
 			{
 			if (itsPrintingOutputFlag)
 				{
@@ -486,13 +486,13 @@ GDBLink::ReadFromDebugger()
 				}
 			}
 
-		else if (token.type == GDBScanner::kBeginMedicCmd ||
-				 token.type == GDBScanner::kBeginMedicIgnoreCmd)
+		else if (token.type == GDBOutput::Scanner::kBeginMedicCmd ||
+				 token.type == GDBOutput::Scanner::kBeginMedicIgnoreCmd)
 			{
 			HandleCommandRunning(token.data.number);
 			itsPrintingOutputFlag = false;
 			}
-		else if (token.type == GDBScanner::kCommandOutput)
+		else if (token.type == GDBOutput::Scanner::kCommandOutput)
 			{
 			CMCommand* cmd;
 			if (GetRunningCommand(&cmd))
@@ -500,7 +500,7 @@ GDBLink::ReadFromDebugger()
 				cmd->Accumulate(*(token.data.pString));
 				}
 			}
-		else if (token.type == GDBScanner::kCommandResult)
+		else if (token.type == GDBOutput::Scanner::kCommandResult)
 			{
 			CMCommand* cmd;
 			if (GetRunningCommand(&cmd))
@@ -508,8 +508,8 @@ GDBLink::ReadFromDebugger()
 				cmd->SaveResult(*(token.data.pString));
 				}
 			}
-		else if (token.type == GDBScanner::kEndMedicCmd ||
-				 token.type == GDBScanner::kEndMedicIgnoreCmd)
+		else if (token.type == GDBOutput::Scanner::kEndMedicCmd ||
+				 token.type == GDBOutput::Scanner::kEndMedicIgnoreCmd)
 			{
 			CMCommand* cmd;
 			if (GetRunningCommand(&cmd))
@@ -526,27 +526,27 @@ GDBLink::ReadFromDebugger()
 			itsPrintingOutputFlag = true;
 			}
 
-		else if (token.type == GDBScanner::kBreakpointsChanged)
+		else if (token.type == GDBOutput::Scanner::kBreakpointsChanged)
 			{
 			if (!itsFirstBreakFlag)		// ignore tbreak in hook-run
 				{
 				Broadcast(BreakpointsChanged());
 				}
 			}
-		else if (token.type == GDBScanner::kFrameChanged)
+		else if (token.type == GDBOutput::Scanner::kFrameChanged)
 			{
 			Broadcast(FrameChanged());	// sync with kFrameChangedAndProgramStoppedAtLocation
 			}
-		else if (token.type == GDBScanner::kThreadChanged)
+		else if (token.type == GDBOutput::Scanner::kThreadChanged)
 			{
 			Broadcast(ThreadChanged());
 			}
-		else if (token.type == GDBScanner::kValueChanged)
+		else if (token.type == GDBOutput::Scanner::kValueChanged)
 			{
 			Broadcast(ValueChanged());
 			}
 
-		else if (token.type == GDBScanner::kPrepareToLoadSymbols)
+		else if (token.type == GDBOutput::Scanner::kPrepareToLoadSymbols)
 			{
 			itsIsDebuggingFlag   = false;
 			itsSymbolsLoadedFlag = false;
@@ -554,7 +554,7 @@ GDBLink::ReadFromDebugger()
 			ClearFileNameMap();
 			Broadcast(PrepareToLoadSymbols());
 			}
-		else if (token.type == GDBScanner::kFinishedLoadingSymbolsFromProgram)
+		else if (token.type == GDBOutput::Scanner::kFinishedLoadingSymbolsFromProgram)
 			{
 			itsSymbolsLoadedFlag = true;
 
@@ -570,7 +570,7 @@ GDBLink::ReadFromDebugger()
 				Broadcast(UserOutput(*(token.data.pString), false));
 				}
 			}
-		else if (token.type == GDBScanner::kNoSymbolsInProgram)
+		else if (token.type == GDBOutput::Scanner::kNoSymbolsInProgram)
 			{
 			if (!itsIsAttachedFlag)
 				{
@@ -583,13 +583,13 @@ GDBLink::ReadFromDebugger()
 				Broadcast(SymbolsLoaded(false, name));
 				}
 			}
-		else if (token.type == GDBScanner::kSymbolsReloaded)
+		else if (token.type == GDBOutput::Scanner::kSymbolsReloaded)
 			{
 			Broadcast(PrepareToLoadSymbols());
 			Broadcast(SymbolsReloaded());
 			}
 
-		else if (token.type == GDBScanner::kCoreChanged)
+		else if (token.type == GDBOutput::Scanner::kCoreChanged)
 			{
 			// We have to check whether a core was loaded or cleared.
 
@@ -597,34 +597,34 @@ GDBLink::ReadFromDebugger()
 			assert( cmd != nullptr );
 			}
 
-		else if (token.type == GDBScanner::kAttachedToProcess)
+		else if (token.type == GDBOutput::Scanner::kAttachedToProcess)
 			{
 			itsIsAttachedFlag  = true;
 			itsIsDebuggingFlag = true;
 			ProgramStarted(token.data.number);
 			Broadcast(AttachedToProcess());
 			}
-		else if (token.type == GDBScanner::kDetachingFromProcess)
+		else if (token.type == GDBOutput::Scanner::kDetachingFromProcess)
 			{
 			ProgramFinished1();
 			}
 
-		else if (token.type == GDBScanner::kProgramStarting)
+		else if (token.type == GDBOutput::Scanner::kProgramStarting)
 			{
 			itsIsDebuggingFlag      = true;
 			itsProgramIsStoppedFlag = false;
 			itsFirstBreakFlag       = true;
 			itsPrintingOutputFlag   = false;	// ignore tbreak output
 			}
-		else if (token.type == GDBScanner::kBeginGetPID)
+		else if (token.type == GDBOutput::Scanner::kBeginGetPID)
 			{
 			itsPrintingOutputFlag = false;	// ignore "info prog"
 			}
-		else if (token.type == GDBScanner::kProgramPID)
+		else if (token.type == GDBOutput::Scanner::kProgramPID)
 			{
 			ProgramStarted(token.data.number);
 			}
-		else if (token.type == GDBScanner::kEndGetPID)
+		else if (token.type == GDBOutput::Scanner::kEndGetPID)
 			{
 			if (itsChildProcess == nullptr)	// ask user for PID
 				{
@@ -635,7 +635,7 @@ GDBLink::ReadFromDebugger()
 				}
 			}
 
-		else if (token.type == GDBScanner::kProgramStoppedAtLocation)
+		else if (token.type == GDBOutput::Scanner::kProgramStoppedAtLocation)
 			{
 			itsProgramIsStoppedFlag = true;
 			if (token.data.pLocation != nullptr)
@@ -653,7 +653,7 @@ GDBLink::ReadFromDebugger()
 				Broadcast(UserOutput(*(token.data.pString), false));
 				}
 			}
-		else if (token.type == GDBScanner::kFrameChangedAndProgramStoppedAtLocation)
+		else if (token.type == GDBOutput::Scanner::kFrameChangedAndProgramStoppedAtLocation)
 			{
 			Broadcast(FrameChanged());	// sync with kFrameChanged
 
@@ -661,24 +661,24 @@ GDBLink::ReadFromDebugger()
 			itsGetStopLocation->Send();
 			}
 
-		else if (token.type == GDBScanner::kBeginScriptDefinition)
+		else if (token.type == GDBOutput::Scanner::kBeginScriptDefinition)
 			{
 			itsDefiningScriptFlag = true;
 			Broadcast(DebuggerDefiningScript());
 			}
 
-		else if (token.type == GDBScanner::kPlugInMessage)
+		else if (token.type == GDBOutput::Scanner::kPlugInMessage)
 			{
 			Broadcast(PlugInMessage(*(token.data.pString)));
 			}
 
-		else if (token.type == GDBScanner::kProgramRunning)
+		else if (token.type == GDBOutput::Scanner::kProgramRunning)
 			{
 			itsProgramIsStoppedFlag = false;
 			CancelBackgroundCommands();
 			Broadcast(ProgramRunning());
 			}
-		else if (token.type == GDBScanner::kProgramFinished)
+		else if (token.type == GDBOutput::Scanner::kProgramFinished)
 			{
 			ProgramFinished1();
 
@@ -687,12 +687,12 @@ GDBLink::ReadFromDebugger()
 				Broadcast(UserOutput(*(token.data.pString), false));
 				}
 			}
-		else if (token.type == GDBScanner::kProgramKilled)
+		else if (token.type == GDBOutput::Scanner::kProgramKilled)
 			{
 			ProgramFinished1();
 			}
 
-		else if (token.type == GDBScanner::kDebuggerFinished)
+		else if (token.type == GDBOutput::Scanner::kDebuggerFinished)
 			{
 			JXGetApplication()->Quit();
 			itsWaitingToQuitFlag = true;

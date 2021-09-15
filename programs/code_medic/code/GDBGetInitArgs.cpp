@@ -12,7 +12,7 @@
  ******************************************************************************/
 
 #include "GDBGetInitArgs.h"
-#include "GDBScanner.h"
+#include "GDBOutputScannerL.h"
 #include "cmGlobals.h"
 #include <JXInputField.h>
 #include <JStringIterator.h>
@@ -63,7 +63,7 @@ GDBGetInitArgs::HandleSuccess
 	if (!m.IsEmpty())
 		{
 		JString args = m.GetSubstring(1);
-		GDBScanner::TranslateMIOutput(&args);
+		GDBOutput::Scanner::TranslateMIOutput(&args);
 		itsArgInput->GetText()->SetText(args);
 		return;
 		}

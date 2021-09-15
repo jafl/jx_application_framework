@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays csh with styles to hilight
 	keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CBCShellScanner
+	BASE CLASS = CBStylerBase, CB::CShell::Scanner
 
 	Copyright © 2001 by John Lindal.
 
@@ -88,8 +88,7 @@ CBCShellStyler::CBCShellStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBCShellStyler"),
-				 kCBCShellStyleID, kCBCShellFT),
-	CBCShellScanner()
+				 kCBCShellStyleID, kCBCShellFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)

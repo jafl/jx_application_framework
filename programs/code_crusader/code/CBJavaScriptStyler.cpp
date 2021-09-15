@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays JavaScript with styles to
 	hilight keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CBJavaScriptScanner
+	BASE CLASS = CBStylerBase, CB::JavaScript::Scanner
 
 	Copyright © 2006 by John Lindal.
 
@@ -101,8 +101,7 @@ CBJavaScriptStyler::CBJavaScriptStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBJavaScriptStyler"),
-				 kCBJavaScriptStyleID, kCBJavaScriptFT),
-	CBJavaScriptScanner()
+				 kCBJavaScriptStyleID, kCBJavaScriptFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)

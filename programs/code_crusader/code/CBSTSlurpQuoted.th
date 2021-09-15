@@ -22,7 +22,7 @@ ClassName::SlurpQuoted
 {
 	assert( count > 0 );
 
-	JStyledText::TextIndex beyond = itsCurrentRange.GetAfter();
+	JStyledText::TextIndex beyond = GetCurrentRange().GetAfter();
 
 	JUtf8Character startChar;
 	if (!ReadCharacter(&beyond, &startChar))
@@ -82,7 +82,7 @@ ClassName::SlurpQuoted
 						const JSize count = c.GetByteCount();
 						for (JUnsignedOffset i=1; i<=count; i++)
 							{
-							yyunput(c.GetBytes()[ count-i ], yytext);
+							matcher().unput(c.GetBytes()[ count-i ]);
 							}
 						beyond = itsCurrentText->AdjustTextIndex(beyond, -1);
 						ok     = true;
@@ -109,7 +109,7 @@ ClassName::SlurpQuoted
 			}
 		}
 
-	itsCurrentRange = JStyledText::TextRange(itsCurrentRange.GetFirst(), beyond);
+	SetCurrentRange(JStyledText::TextRange(GetCurrentRange().GetFirst(), beyond));
 	return ok;
 }
 
@@ -120,7 +120,7 @@ ClassName::ReadCharacter
 	JUtf8Character*			ch
 	)
 {
-	int c = yyinput();
+	int c = matcher().input();
 	if (c == EOF || c == 0)
 		{
 		return false;
@@ -134,7 +134,7 @@ ClassName::ReadCharacter
 	*index   = itsCurrentText->AdjustTextIndex(*index, +1);
 	while (j < index->byteIndex)
 		{
-		bytes[i++] = yyinput();
+		bytes[i++] = matcher().input();
 		j++;
 		}
 

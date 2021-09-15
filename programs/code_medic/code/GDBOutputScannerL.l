@@ -1,19 +1,15 @@
-%{
+%top {
 /*
 Copyright (C) 2007 by John Lindal.
 
 This scanner reads output from gdb --interpreter=mi2.
 */
 
-#define _H_GDBScannerL
-
-#include "GDBScanner.h"
+#include "CMLocation.h"
 #include "CMBreakpoint.h"
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jAssert.h>
-
-#undef YY_DECL
-#define YY_DECL GDBScanner::Token GDBScanner::NextToken()
 
 #define RETURN(x)	return Token(x, itsData)
 
@@ -25,9 +21,111 @@ static const JRegex attachRegex1("(?:process|Pid|PID) ([""[:digit:]""]+)");
 static const JRegex pingRegex(":Medic debugger ready:([""[:digit:]""]+)");
 %}
 
-%option c++ yyclass = "GDBScanner" prefix = "GDBOutput"
-%option 8bit nodefault interactive
-%option ecs align noyywrap
+%option namespace="GDBOutput" lexer="Scanner"
+%option lex="NextToken" token-type="GDBOutput::Scanner::Token"
+%option unicode nodefault full freespace
+
+%class {
+
+public:
+
+	enum TokenType
+	{
+		kEOF = 258,
+		kProgramOutput,
+		kErrorOutput,
+		kCommandOutput,
+		kCommandResult,
+		kDebugOutput,
+
+		kMaybeReadyForInput,	// OSX
+		kReadyForInput,
+		kDebuggerFinished,
+
+		kPrepareToLoadSymbols,
+		kFinishedLoadingSymbolsFromProgram,
+		kNoSymbolsInProgram,
+		kSymbolsReloaded,
+
+		kCoreChanged,
+
+		kAttachedToProcess,
+		kDetachingFromProcess,
+
+		kProgramStarting,
+		kBeginGetPID,
+		kProgramPID,
+		kEndGetPID,
+
+		kProgramStoppedAtLocation,
+		kProgramRunning,
+		kProgramFinished,
+		kProgramKilled,
+
+		kBeginMedicCmd,
+		kEndMedicCmd,
+
+		kBeginMedicIgnoreCmd,
+		kEndMedicIgnoreCmd,
+
+		kBreakpointsChanged,
+		kFrameChanged,
+		kThreadChanged,
+		kValueChanged,
+
+		kFrameChangedAndProgramStoppedAtLocation,
+
+		kBeginScriptDefinition,
+		kPlugInMessage
+	};
+
+	struct Data
+	{
+		JUInt		number;
+		CMLocation*	pLocation;
+		JString*	pString;
+	};
+
+	struct Token
+	{
+		TokenType	type;
+		Data		data;
+
+		Token()
+			:
+			type(kProgramOutput)
+			{ };
+
+		Token(const TokenType t, const Data& d)
+			:
+			type(t), data(d)
+			{ };
+	};
+
+public:
+
+	void	Reset();
+	void	AppendInput(const JString& string);
+
+	virtual int	wrap();
+
+	static void	TranslateMIOutput(JString* data);
+
+private:
+
+	JString	itsPartialBuffer;
+	JString	itsInputBuffer;
+
+	// "Registers" -- temporary buffers for use in Token
+
+	Data			itsData;
+	CMLocation		itsLocation;
+	JString			itsString;
+
+private:
+
+	void	ExtractCommandId(const JUtf8Byte* str, const JSize len);
+}
 
 %x ACQUIRE_PID ATTACHING_TO_PROCESS MEDIC_COMMAND READING_SYMBOLS
 
@@ -41,24 +139,17 @@ PROMPT "(gdb) "\n?
 %{
 /************************************************************************/
 
-	if (itsResetFlag)
-		{
-		BEGIN(INITIAL);
-		itsResetFlag = false;
-		}
-
 	bzero(&itsData, sizeof(itsData));
 
 %}
 
 {PROMPT} {
-	Flush();
 	RETURN(kReadyForInput);
 	}
 
 (&\""echo "\\\\032\\\\032:"Medic debugger ready":{INT}:\\n\"\n)?~\"\\032\\032:"Medic debugger ready":{INT}:\"\n(\^done\n)? {
 
-	const JString s(yytext, yyleng, JString::kNoCopy);
+	const JString s(text(), size(), JString::kNoCopy);
 	const JStringMatch m = pingRegex.Match(s, JRegex::kIncludeSubmatches);
 	assert( !m.IsEmpty() );
 	const bool ok = m.GetSubstring(1).ConvertToUInt(&itsData.number);
@@ -75,7 +166,7 @@ PROMPT "(gdb) "\n?
 <INITIAL,MEDIC_COMMAND>\*stopped,reason=\"exited[^"]*\".*\n |
 <INITIAL,MEDIC_COMMAND>\*stopped\n                          {
 
-	itsString.Set(yytext + 1, yyleng - 1);
+	itsString.Set(text() + 1, size() - 1);
 	TranslateMIOutput(&itsString);
 	itsData.pString = &itsString;
 	RETURN(kProgramFinished);
@@ -83,14 +174,14 @@ PROMPT "(gdb) "\n?
 
 ~\"\\n"Program "(exited|terminated).*\"\n  {
 
-	itsString.Set(yytext + 4, yyleng - 6);
+	itsString.Set(text() + 4, size() - 6);
 	TranslateMIOutput(&itsString);
 	itsData.pString = &itsString;
 	RETURN(kProgramFinished);
 	}
 
 ~\"\\032\\032:"Medic loading file":\"\n {
-	BEGIN(READING_SYMBOLS);
+	start(READING_SYMBOLS);
 	RETURN(kPrepareToLoadSymbols);
 	}
 
@@ -99,7 +190,7 @@ PROMPT "(gdb) "\n?
 	}
 
 ~\"\\032\\032:"Medic attaching":\"\n {
-	BEGIN(ATTACHING_TO_PROCESS);
+	start(ATTACHING_TO_PROCESS);
 	RETURN(kDebugOutput);
 	}
 
@@ -112,7 +203,7 @@ PROMPT "(gdb) "\n?
 	}
 
 ~\"\\032\\032:"Medic acquire pid":\"\n {
-	BEGIN(ACQUIRE_PID);
+	start(ACQUIRE_PID);
 	RETURN(kBeginGetPID);
 	}
 
@@ -120,7 +211,7 @@ PROMPT "(gdb) "\n?
 
 ~\""[Switching to process "{INT}.*\]\\n\"\n {
 
-	const JString s(yytext, yyleng, JString::kNoCopy);
+	const JString s(text(), size(), JString::kNoCopy);
 	const JStringMatch m = pidRegex3.Match(s, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
 		{
@@ -148,22 +239,22 @@ PROMPT "(gdb) "\n?
 ~\"\\032\\032[^:\0]+:{INT}:{INT}:[^:]+:{HEX}\\n\"\n {
 
 	JIndexRange r(11,11);
-	while (yytext[r.last-1] != ':')
+	while (text()[r.last-1] != ':')
 		{
 		r.last++;
 		}
-	const_cast<JUtf8Byte*>(yytext)[r.last-1] = '\0';
-	itsLocation.SetFileName(JString(yytext+r.first-1, JString::kNoCopy));
+	const_cast<JUtf8Byte*>(text())[r.last-1] = '\0';
+	itsLocation.SetFileName(JString(text()+r.first-1, JString::kNoCopy));
 
 	r.last++;
 	r.first = r.last;
-	while (yytext[r.last-1] != ':')
+	while (text()[r.last-1] != ':')
 		{
 		r.last++;
 		}
-	const_cast<JUtf8Byte*>(yytext)[r.last-1] = '\0';
+	const_cast<JUtf8Byte*>(text())[r.last-1] = '\0';
 	JIndex lineNumber;
-	const bool ok = JString::ConvertToUInt(yytext+r.first-1, &lineNumber);
+	const bool ok = JString::ConvertToUInt(text()+r.first-1, &lineNumber);
 	assert( ok );
 	itsLocation.SetLineNumber(lineNumber);
 
@@ -175,7 +266,7 @@ PROMPT "(gdb) "\n?
 
 <INITIAL,MEDIC_COMMAND>\^done,reason=.+\n {
 
-	itsString.Set(yytext + 1, yyleng - 1);
+	itsString.Set(text() + 1, size() - 1);
 	TranslateMIOutput(&itsString);
 	itsData.pString = &itsString;
 	RETURN(kProgramStoppedAtLocation);
@@ -208,18 +299,18 @@ PROMPT "(gdb) "\n?
 	}
 
 ~\"\\032\\032:"Medic command":{INT}:\"\n {
-	ExtractCommandId(yytext, yyleng);
-	BEGIN(MEDIC_COMMAND);
+	ExtractCommandId(text(), size());
+	start(MEDIC_COMMAND);
 	RETURN(kBeginMedicCmd);
 	}
 
 ~\"\\032\\032:"Medic ignore command":{INT}:\"\n {
-	ExtractCommandId(yytext, yyleng);
+	ExtractCommandId(text(), size());
 	RETURN(kBeginMedicIgnoreCmd);
 	}
 
 ~\"\\032\\032:"Medic ignore command done":{INT}:\"\n {
-	ExtractCommandId(yytext, yyleng);
+	ExtractCommandId(text(), size());
 	RETURN(kEndMedicIgnoreCmd);
 	}
 
@@ -227,7 +318,7 @@ PROMPT "(gdb) "\n?
 
 ~\"\\032\\034:.+:\"\n {
 
-	itsString.Set(yytext + 11, yyleng - 14);
+	itsString.Set(text() + 11, size() - 14);
 	TranslateMIOutput(&itsString);
 	itsData.pString = &itsString;
 	RETURN(kPlugInMessage);
@@ -237,7 +328,7 @@ PROMPT "(gdb) "\n?
 
 [~@]\".*\"\n {
 
-	itsString.Set(yytext + 2, yyleng - 4);
+	itsString.Set(text() + 2, size() - 4);
 	TranslateMIOutput(&itsString);
 	itsData.pString = &itsString;
 	RETURN(kProgramOutput);
@@ -252,7 +343,7 @@ PROMPT "(gdb) "\n?
 
 \^error,msg=\".*\"\n {
 
-	itsString.Set(yytext + 12, yyleng - 14);
+	itsString.Set(text() + 12, size() - 14);
 	TranslateMIOutput(&itsString);
 	itsData.pString = &itsString;
 	RETURN(kErrorOutput);
@@ -275,7 +366,7 @@ PROMPT "(gdb) "\n?
 [^(^~@&*+=\n]+  |
 [(^~@&*+=\n]    {
 
-	itsString.Set(yytext, yyleng);
+	itsString.Set(text(), size());
 	itsData.pString = &itsString;
 	RETURN(kProgramOutput);
 	}
@@ -296,12 +387,12 @@ PROMPT "(gdb) "\n?
 
 	itsString       = "done.\n";
 	itsData.pString = &itsString;
-	BEGIN(INITIAL);
+	start(INITIAL);
 	RETURN(kFinishedLoadingSymbolsFromProgram);
 	}
 
 ([~@]\".*\")?\^done\n {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	RETURN(kFinishedLoadingSymbolsFromProgram);
 	}
 
@@ -309,22 +400,22 @@ PROMPT "(gdb) "\n?
 ~\""(No debugging symbols found in".*\"\n {
 
 	itsData.pString = nullptr;
-	BEGIN(INITIAL);
+	start(INITIAL);
 	RETURN(kNoSymbolsInProgram);
 	}
 
 \^error,msg=\".*\"\n {
 
-	itsString.Set(yytext + 12, yyleng - 14);
+	itsString.Set(text() + 12, size() - 14);
 	TranslateMIOutput(&itsString);
 	itsData.pString = &itsString;
-	BEGIN(INITIAL);
+	start(INITIAL);
 	RETURN(kNoSymbolsInProgram);
 	}
 
 [~@]\".*\"\n {
 
-	itsString.Set(yytext + 2, yyleng - 4);
+	itsString.Set(text() + 2, size() - 4);
 	TranslateMIOutput(&itsString);
 	itsData.pString = &itsString;
 	RETURN(kProgramOutput);
@@ -344,10 +435,10 @@ PROMPT "(gdb) "\n?
 
 <ACQUIRE_PID>{
 
-~\".*(child|attached)\ (process|Pid|PID|thread)\ {INT}.*\\n\"\n |
+~\".*(child|attached)" "(process|Pid|PID|thread)" "{INT}.*\\n\"\n |
 ~\".*"(LWP "{INT}.*\\n\"\n                            {
 
-	const JString s(yytext, yyleng, JString::kNoCopy);
+	const JString s(text(), size(), JString::kNoCopy);
 	const JStringMatch m1 = pidRegex1.Match(s, JRegex::kIncludeSubmatches),
 					   m2 = pidRegex2.Match(s, JRegex::kIncludeSubmatches);
 	if (!m1.IsEmpty())
@@ -364,7 +455,7 @@ PROMPT "(gdb) "\n?
 	}
 
 ~\"\\032\\032:"Medic acquire pid end":\"\n {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	RETURN(kEndGetPID);
 	}
 
@@ -382,16 +473,16 @@ PROMPT "(gdb) "\n?
 
 <ATTACHING_TO_PROCESS>{
 
-~\".*(process|Pid|PID)\ {INT}.*\\n\"\n {
+~\".*(process|Pid|PID)" "{INT}.*\\n\"\n {
 
-	const JString s(yytext, yyleng, JString::kNoCopy);
+	const JString s(text(), size(), JString::kNoCopy);
 	const JStringMatch m = attachRegex1.Match(s, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
 		{
 		const bool ok = m.GetSubstring(1).ConvertToUInt(&itsData.number);
 		assert( ok );
 		}
-	BEGIN(READING_SYMBOLS);
+	start(READING_SYMBOLS);
 	RETURN(kAttachedToProcess);
 	}
 
@@ -410,14 +501,14 @@ PROMPT "(gdb) "\n?
 <MEDIC_COMMAND>{
 
 ~\"\\032\\032:"Medic command done":{INT}:\"\n {
-	ExtractCommandId(yytext, yyleng);
-	BEGIN(INITIAL);
+	ExtractCommandId(text(), size());
+	start(INITIAL);
 	RETURN(kEndMedicCmd);
 	}
 
 ~\".*\"\n {
 
-	itsString.Set(yytext + 2, yyleng - 4);
+	itsString.Set(text() + 2, size() - 4);
 	TranslateMIOutput(&itsString);
 	itsData.pString = &itsString;
 	RETURN(kCommandOutput);
@@ -425,14 +516,14 @@ PROMPT "(gdb) "\n?
 
 \^.*\n {
 
-	itsString.Set(yytext + 1, yyleng - 2);
+	itsString.Set(text() + 1, size() - 2);
 	itsData.pString = &itsString;
 	RETURN(kCommandResult);
 	}
 
 @\".*\"\n {
 
-	itsString.Set(yytext + 2, yyleng - 4);
+	itsString.Set(text() + 2, size() - 4);
 	TranslateMIOutput(&itsString);
 	itsData.pString = &itsString;
 	RETURN(kProgramOutput);
@@ -445,3 +536,134 @@ PROMPT "(gdb) "\n?
 }
 
 %%
+
+/******************************************************************************
+ Reset
+
+ *****************************************************************************/
+
+void
+GDBOutput::Scanner::Reset()
+{
+	start(INITIAL);
+}
+
+/******************************************************************************
+ AppendInput
+
+ *****************************************************************************/
+
+void
+GDBOutput::Scanner::AppendInput
+	(
+	const JString& string
+	)
+{
+	JPtrArray<JString> split(JPtrArrayT::kDeleteAll);
+	string.Split("\n", &split);
+
+	JString* last = split.GetLastElement();
+	split.RemoveElement(split.GetElementCount());
+
+	for (auto* s : split)
+	{
+		if (!itsPartialBuffer.IsEmpty())
+			{
+			itsInputBuffer += itsPartialBuffer;
+			itsPartialBuffer.Clear();
+			}
+		itsInputBuffer.Append(*s);
+		itsInputBuffer.Append("\n");
+	}
+
+	// Accumulate partial line for later parsing if:
+	// 1: the first character is a meta character
+	// 2: we have already accumulated something else
+
+	if (strchr("(^~@&*+=", last->GetBytes()[0]) != nullptr || !itsPartialBuffer.IsEmpty())
+		{
+		itsPartialBuffer += *last;
+		}
+	else
+		{
+		itsInputBuffer += *last;
+		}
+
+	jdelete last;
+}
+
+/******************************************************************************
+ wrap (virtual)
+
+ *****************************************************************************/
+
+int
+GDBOutput::Scanner::wrap()
+{
+	if (itsInputBuffer.IsEmpty())
+	{
+		return 1;
+	}
+
+	in(itsInputBuffer.GetBytes());
+	itsInputBuffer.Clear();
+	return 0;
+}
+
+/******************************************************************************
+ ExtractCommandId (private)
+
+ *****************************************************************************/
+
+void
+GDBOutput::Scanner::ExtractCommandId
+	(
+	const JUtf8Byte*	str,
+	const JSize			len
+	)
+{
+	const JUtf8Byte* s = str + len-4;
+	while (isdigit(s[-1]))
+		{
+		s--;
+		}
+	const_cast<JUtf8Byte*>(str)[size()-3] = '\0';
+	const bool ok = JString::ConvertToUInt(s, &itsData.number);
+	assert( ok );
+}
+
+/******************************************************************************
+ TranslateMIOutput (static)
+
+ *****************************************************************************/
+
+void
+GDBOutput::Scanner::TranslateMIOutput
+	(
+	JString* data
+	)
+{
+	JStringIterator iter(data);
+	JUtf8Character c;
+	while (iter.Next(&c))
+		{
+		if (c == '\\')
+			{
+			iter.RemovePrev();
+
+			if (!iter.Next(&c))
+				{
+				break;
+				}
+
+			if (c == 'n')
+				{
+				iter.SetPrev(JUtf8Character('\n'));
+				}
+			else if (c == 't')
+				{
+				iter.SetPrev(JUtf8Character('\t'));
+				}
+			}
+		}
+}

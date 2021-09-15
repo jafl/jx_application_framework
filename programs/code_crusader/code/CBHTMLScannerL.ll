@@ -2,7 +2,7 @@
 /*
 Copyright © 2001 by John Lindal.
 
-This scanner reads an HTML/XML/PHP/JSP file and returns CBHTMLScanner::Tokens.
+This scanner reads an HTML/XML/PHP/JSP file and returns CB::HTML::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
@@ -10,7 +10,7 @@ This scanner reads an HTML/XML/PHP/JSP file and returns CBHTMLScanner::Tokens.
 #include <jAssert.h>
 %}
 
-%option lexer="CBHTMLScanner" prefix="allow_multiple_includes"
+%option namespace="CB::HTML" lexer="Scanner" prefix="allow_multiple_includes"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 
@@ -128,8 +128,6 @@ private:
 private:
 
 	Token	ScriptToken();
-	Token	DocToken(const TokenType type);
-
 	bool	IsScript(JString* language) const;
 	bool	InTagState(const int state) const;
 }
@@ -2289,7 +2287,7 @@ euro;?     {
  *****************************************************************************/
 
 void
-CBHTMLScanner::BeginScan
+CB::HTML::Scanner::BeginScan
 	(
 	const JStyledText::TextIndex&	startIndex,
 	std::istream&					input
@@ -2309,34 +2307,10 @@ CBHTMLScanner::BeginScan
 
  *****************************************************************************/
 
-CBHTMLScanner::Token
-CBHTMLScanner::ScriptToken()
+CB::HTML::Scanner::Token
+CB::HTML::Scanner::ScriptToken()
 {
 	return Token(kHTMLScript, GetCurrentRange(), &itsScriptLanguage);
-}
-
-/******************************************************************************
- DocToken (private)
-
- *****************************************************************************/
-
-CBHTMLScanner::Token
-CBHTMLScanner::DocToken
-	(
-	const TokenType type
-	)
-{
-	Token t;
-	t.docCommentRange = GetCurrentRange();	// save preceding comment range
-
-	StartToken();							// tag is separate token
-	t.type  = type;
-	t.range = GetCurrentRange();
-
-	// prepare for continuation of comment (StartToken() with yyleng==0)
-	InitToken();
-
-	return t;
 }
 
 /******************************************************************************
@@ -2355,7 +2329,7 @@ static JRegex scriptTagPattern3 =
 	"^<[[:space:]]*script(>|[[:space:]])";
 
 bool
-CBHTMLScanner::IsScript
+CB::HTML::Scanner::IsScript
 	(
 	JString* language
 	)
@@ -2401,7 +2375,7 @@ CBHTMLScanner::IsScript
  ******************************************************************************/
 
 bool
-CBHTMLScanner::InTagState()
+CB::HTML::Scanner::InTagState()
 	const
 {
 	return InTagState(INITIAL);
@@ -2410,7 +2384,7 @@ CBHTMLScanner::InTagState()
 // private
 
 bool
-CBHTMLScanner::InTagState
+CB::HTML::Scanner::InTagState
 	(
 	const int state
 	)

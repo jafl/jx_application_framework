@@ -137,7 +137,7 @@ CBDTree::ParseFile
 {
 	if (itsClassNameLexer == nullptr)
 		{
-		itsClassNameLexer = jnew CBDTreeScanner;
+		itsClassNameLexer = jnew CB::DTree::Scanner;
 		assert( itsClassNameLexer != nullptr );
 		}
 
@@ -145,7 +145,7 @@ CBDTree::ParseFile
 
 	std::ifstream input(fileName.GetBytes());
 	itsClassNameLexer->in(&input);
-	itsClassNameLexer->start(CBDTreeScanner::INITIAL);
+	itsClassNameLexer->start(CB::DTree::Scanner::INITIAL);
 
 	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
 	itsClassNameLexer->CreateClasses(fileName, id, this, &classList);

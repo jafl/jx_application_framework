@@ -53,19 +53,21 @@ public:
 	const JStyledText::TextRange&	GetCurrentRange() const;
 	const JStyledText::TextRange&	GetPPNameRange() const;
 
-	void	SetCurrentRange(const JStyledText::TextRange& r);
-
 protected:
 
 	void	Undo(const JStyledText::TextRange& range,
 				 const JSize prevCharByteCount, const JString& text);
 
-	virtual void	SavePPNameRange(std::function<bool(const char)>& skip);
+	void	SetCurrentRange(const JStyledText::TextRange& r);
+
+	void	SavePPNameRange();
+	JString	GetPPCommand(const JString& text) const;
 
 	void	InitToken();
 	void	StartToken();
 	void	ContinueToken();
 	Token	ThisToken(const int type);
+	Token	DocToken(const int type);
 
 private:
 
@@ -144,7 +146,7 @@ CBStylingScannerBase::GetCurrentRange()
 }
 
 /******************************************************************************
- SetCurrentRange
+ SetCurrentRange (protected)
 
  *****************************************************************************/
 

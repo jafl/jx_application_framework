@@ -52,6 +52,30 @@ CBStylingScannerBase::BeginScan
 }
 
 /******************************************************************************
+ DocToken (private)
+
+ *****************************************************************************/
+
+CBStylingScannerBase::Token
+CBStylingScannerBase::DocToken
+	(
+	const int type
+	)
+{
+	Token t;
+	t.docCommentRange = GetCurrentRange();	// save preceding comment range
+
+	StartToken();							// tag is separate token
+	t.type  = type;
+	t.range = GetCurrentRange();
+
+	// prepare for continuation of comment (StartToken() with yyleng==0)
+	InitToken();
+
+	return t;
+}
+
+/******************************************************************************
  Undo (protected)
 
 	*** Only use this to back up to where StartToken() will be called!
@@ -79,7 +103,7 @@ CBStylingScannerBase::Undo
 }
 
 /******************************************************************************
- SavePPNameRange (virtual protected)
+ SavePPNameRange (protected)
 
 	Saves the range containing the name of the preprocessor directive.
 
@@ -92,15 +116,12 @@ CBStylingScannerBase::Undo
  *****************************************************************************/
 
 void
-CBStylingScannerBase::SavePPNameRange
-	(
-	std::function<bool(const char)>& skip
-	)
+CBStylingScannerBase::SavePPNameRange()
 {
 	itsPPNameRange = itsCurrentRange;
 
 	JIndex i=0;
-	while (skip(text()[i]))
+	while (text()[i] != '#')
 		{
 		i++;
 		}
@@ -108,4 +129,45 @@ CBStylingScannerBase::SavePPNameRange
 
 	itsPPNameRange.charRange.first += JString::CountCharacters(text(), i);
 	itsPPNameRange.byteRange.first += i;
+
+	JIndex j = i;
+	j++;	// move past #
+	while (isspace(text()[j]))
+		{
+		j++;
+		}
+	assert( j < (JSize) size() );
+
+	while (text()[j] != 0 && !isspace(text()[j]))
+		{
+		j++;
+		}
+	assert( j <= (JSize) size() );
+
+	itsPPNameRange.charRange.last = itsPPNameRange.charRange.first + JString::CountCharacters(text()+i, j-i-1);
+	itsPPNameRange.byteRange.last = itsPPNameRange.byteRange.first + j-i-1;
+}
+
+/******************************************************************************
+ GetPPCommand (protected)
+
+	Returns "include" from "# include".
+
+ *****************************************************************************/
+
+JString
+CBStylingScannerBase::GetPPCommand
+	(
+	const JString& text
+	)
+	const
+{
+	JUtf8ByteRange r = itsPPNameRange.byteRange;
+	r.first++;		// skip past #
+
+	JString s(text.GetRawBytes(), r);
+	s.TrimWhitespace();
+	s.Prepend("#");
+
+	return s;
 }

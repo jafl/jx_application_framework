@@ -2,7 +2,7 @@
 /*
 Copyright © 2001 by John Lindal.
 
-This scanner reads a Java file and returns CBJavaScanner::Tokens.
+This scanner reads a Java file and returns CB::Java::Scanner::Tokens.
 
 Remember to upgrade CBHTMLScanner, too!
 */
@@ -11,7 +11,7 @@ Remember to upgrade CBHTMLScanner, too!
 #include <jAssert.h>
 }
 
-%option lexer="CBJavaScanner" prefix="allow_multiple_includes"
+%option namespace="CB::Java" lexer="Scanner" prefix="allow_multiple_includes"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 
@@ -53,10 +53,6 @@ public:
 
 		kError			// place holder for CBJavaStyler
 		};
-
-private:
-
-	Token	DocToken(const TokenType type);
 }
 
 %x DOC_COMMENT_STATE C_COMMENT_STATE STRING_STATE
@@ -261,8 +257,6 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 	/* Match DOC comments -- this is based on the fast comment scanner from the flex man */
 	/* page, since Vern Paxon presumably can optimize such things far better than I can. */
 
-	/* remember to update CBJavaScanner */
-
 
 
 "/**/" {
@@ -409,27 +403,3 @@ BADCCONST    (\'(\\|{BADESCCHAR}|({BADESCCHAR}|{CHAR}){2,})\'|\'(\\?{CHAR}?))
 	}
 
 %%
-
-/******************************************************************************
- DocToken (private)
-
- *****************************************************************************/
-
-CBJavaScanner::Token
-CBJavaScanner::DocToken
-	(
-	const TokenType type
-	)
-{
-	Token t;
-	t.docCommentRange = GetCurrentRange();	// save preceding comment range
-
-	StartToken();							// tag is separate token
-	t.type  = type;
-	t.range = GetCurrentRange();
-
-	// prepare for continuation of comment (StartToken() with yyleng==0)
-	InitToken();
-
-	return t;
-}

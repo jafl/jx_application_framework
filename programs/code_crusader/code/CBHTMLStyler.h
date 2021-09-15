@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBHTMLScannerL.h"
 
-class CBHTMLStyler : public CBStylerBase, public CBHTMLScanner
+class CBHTMLStyler : public CBStylerBase, public CB::HTML::Scanner
 {
 public:
 

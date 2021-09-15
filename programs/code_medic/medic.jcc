@@ -468,17 +468,13 @@ F
 T
 1 "gbd"
 T
+2 "GDBOutputScannerL.l"
+F
+"./code/GDBOutputScannerL.l"
+T
 2 "GDBLink.cpp"
 F
 "./code/GDBLink.cpp"
-T
-2 "GDBScanner.cpp"
-F
-"./code/GDBScanner.cpp"
-T
-2 "GDBScannerL.l"
-F
-"./code/GDBScannerL.l"
 T
 2 "GDBPingTask.cpp"
 F

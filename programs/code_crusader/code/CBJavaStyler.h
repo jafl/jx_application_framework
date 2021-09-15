@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBJavaScannerL.h"
 
-class CBJavaStyler : public CBStylerBase, public CBJavaScanner
+class CBJavaStyler : public CBStylerBase, public CB::Java::Scanner
 {
 public:
 

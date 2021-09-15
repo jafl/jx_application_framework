@@ -511,17 +511,13 @@ T
 F
 "./code/CBDStyler.cpp"
 T
+2 "CBEiffelScannerL.ll"
+F
+"./code/CBEiffelScannerL.ll"
+T
 2 "CBEiffelStyler.cpp"
 F
 "./code/CBEiffelStyler.cpp"
-T
-2 "CBEiffelScanner.cpp"
-F
-"./code/CBEiffelScanner.cpp"
-T
-2 "CBEiffelScannerL.l"
-F
-"./code/CBEiffelScannerL.l"
 T
 2 "CBGoScannerL.ll"
 F
@@ -539,17 +535,13 @@ T
 F
 "./code/CBHTMLStyler.cpp"
 T
+2 "CBINIScannerL.ll"
+F
+"./code/CBINIScannerL.ll"
+T
 2 "CBINIStyler.cpp"
 F
 "./code/CBINIStyler.cpp"
-T
-2 "CBINIScanner.cpp"
-F
-"./code/CBINIScanner.cpp"
-T
-2 "CBINIScannerL.l"
-F
-"./code/CBINIScannerL.l"
 T
 2 "CBJavaScannerL.ll"
 F
@@ -559,29 +551,21 @@ T
 F
 "./code/CBJavaStyler.cpp"
 T
+2 "CBJavaScriptScannerL.ll"
+F
+"./code/CBJavaScriptScannerL.ll"
+T
 2 "CBJavaScriptStyler.cpp"
 F
 "./code/CBJavaScriptStyler.cpp"
 T
-2 "CBJavaScriptScanner.cpp"
+2 "CBPerlScannerL.ll"
 F
-"./code/CBJavaScriptScanner.cpp"
-T
-2 "CBJavaScriptScannerL.l"
-F
-"./code/CBJavaScriptScannerL.l"
+"./code/CBPerlScannerL.ll"
 T
 2 "CBPerlStyler.cpp"
 F
 "./code/CBPerlStyler.cpp"
-T
-2 "CBPerlScanner.cpp"
-F
-"./code/CBPerlScanner.cpp"
-T
-2 "CBPerlScannerL.l"
-F
-"./code/CBPerlScannerL.l"
 T
 2 "CBPropertiesStyler.cpp"
 F

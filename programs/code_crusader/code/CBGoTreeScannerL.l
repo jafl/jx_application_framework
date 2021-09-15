@@ -5,8 +5,6 @@ Copyright © 2021 by John Lindal.
 This scanner reads a GoLang file and creates CBGoClass instances.
 */
 
-#define _H_CBGoTreeScannerL
-
 #include "CBGoClass.h"
 #include <JStringIterator.h>
 #include <JRegex.h>
@@ -18,7 +16,7 @@ This scanner reads a GoLang file and creates CBGoClass instances.
 static const JRegex modulePattern("(?:.+?/)*(.+?)(?:/[vV][.0-9]+)?");
 }
 
-%option lexer="CBGoTreeScanner"
+%option namespace="CB::GoTree" lexer="Scanner"
 %option lex="CreateClasses" token-type="bool"
 %option params="const JFAID_t fileID, CBTree* tree, JPtrArray<CBClass>* classList"
 %option unicode nodefault full freespace
@@ -27,7 +25,7 @@ static const JRegex modulePattern("(?:.+?/)*(.+?)(?:/[vV][.0-9]+)?");
 
 public:
 
-	virtual ~CBGoTreeScanner();
+	virtual ~Scanner();
 
 private:
 
@@ -42,11 +40,6 @@ private:
 private:
 
 	void	ParseTypeContent(CBClass* goClass);
-
-	// not allowed
-
-	CBGoTreeScanner(const CBGoTreeScanner& source);
-	CBGoTreeScanner& operator=(const CBGoTreeScanner& source);
 }
 
 %init {
@@ -334,7 +327,7 @@ interface\b {
 
 %%
 
-CBGoTreeScanner::~CBGoTreeScanner()
+CB::GoTree::Scanner::~Scanner()
 {
 	jdelete itsImportMap;
 }
@@ -343,7 +336,7 @@ static const JRegex separator(";|\n");
 static const JRegex nsid("^\\*?(((_|\\p{L})(_|\\p{L}|\\d)*\\.)?(_|\\p{L})(_|\\p{L}|\\d)*)$");
 
 void
-CBGoTreeScanner::ParseTypeContent
+CB::GoTree::Scanner::ParseTypeContent
 	(
 	CBClass* goClass
 	)

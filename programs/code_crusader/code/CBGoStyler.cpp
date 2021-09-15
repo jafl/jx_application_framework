@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays Go with styles to
 	hilight keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CBGoScanner
+	BASE CLASS = CBStylerBase, CB::Go::Scanner
 
 	Copyright © 2021 by John Lindal.
 
@@ -95,8 +95,7 @@ CBGoStyler::CBGoStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBGoStyler"),
-				 kCBGoStyleID, kCBGoFT),
-	CBGoScanner()
+				 kCBGoStyleID, kCBGoFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)

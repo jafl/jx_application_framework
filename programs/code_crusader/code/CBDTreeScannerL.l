@@ -17,7 +17,7 @@ This scanner reads a D file and creates CBClass instances.
 #include <jAssert.h>
 }
 
-%option lexer="CBDTreeScanner"
+%option namespace="CB::DTree" lexer="Scanner"
 %option lex="CreateClasses" token-type="bool"
 %option params="const JString& fileName, const JFAID_t fileID, CBTree* tree, JPtrArray<CBClass>* classList"
 %option unicode nodefault full freespace
@@ -26,7 +26,7 @@ This scanner reads a D file and creates CBClass instances.
 
 public:
 
-	virtual ~CBDTreeScanner();
+	virtual ~Scanner();
 
 private:
 
@@ -58,11 +58,6 @@ private:
 	}
 
 	void	StoreAlias(const JString& s);
-
-	// not allowed
-
-	CBDTreeScanner(const CBDTreeScanner& source);
-	CBDTreeScanner& operator=(const CBDTreeScanner& source);
 }
 
 %init {
@@ -609,7 +604,7 @@ x\" {
 
 %%
 
-CBDTreeScanner::~CBDTreeScanner()
+CB::DTree::Scanner::~Scanner()
 {
 	jdelete itsNamespaceStack;
 	jdelete itsAliasKeys;
@@ -620,7 +615,7 @@ CBDTreeScanner::~CBDTreeScanner()
 static const JRegex templateParameterPattern("!\\([^)]+\\)");
 
 void
-CBDTreeScanner::StoreAlias
+CB::DTree::Scanner::StoreAlias
 	(
 	const JString& s
 	)

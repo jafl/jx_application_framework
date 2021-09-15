@@ -12,7 +12,7 @@ This scanner reads a PHP file and builds a CBPHPClass.
 #include <jAssert.h>
 }
 
-%option lexer="CBPHPTreeScanner"
+%option namespace="CB::PHPTree" lexer="Scanner"
 %option lex="CreateClass" token-type="bool"
 %option params="const JFAID_t fileID, CBTree* tree, CBClass** theClass"
 %option unicode nodefault full freespace
@@ -21,7 +21,7 @@ This scanner reads a PHP file and builds a CBPHPClass.
 
 public:
 
-	virtual ~CBPHPTreeScanner();
+	virtual ~Scanner();
 
 private:
 
@@ -31,13 +31,6 @@ private:
 
 	JString					itsUseName;
 	JStringPtrMap<JString>*	itsUseMap;
-
-private:
-
-	// not allowed
-
-	CBPHPTreeScanner(const CBPHPTreeScanner& source);
-	CBPHPTreeScanner& operator=(const CBPHPTreeScanner& source);
 }
 
 %init {
@@ -337,7 +330,7 @@ implements	/* ignore */
 
 %%
 
-CBPHPTreeScanner::~CBPHPTreeScanner()
+CB::PHPTree::Scanner::~Scanner()
 {
 	jdelete itsUseMap;
 }

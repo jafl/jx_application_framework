@@ -147,7 +147,7 @@ CBPHPTree::ParseFile
 {
 	if (itsClassNameLexer == nullptr)
 		{
-		itsClassNameLexer = jnew CBPHPTreeScanner;
+		itsClassNameLexer = jnew CB::PHPTree::Scanner;
 		assert( itsClassNameLexer != nullptr );
 		}
 
@@ -155,7 +155,7 @@ CBPHPTree::ParseFile
 
 	std::ifstream input(fileName.GetBytes());
 	itsClassNameLexer->in(&input);
-	itsClassNameLexer->start(CBPHPTreeScanner::INITIAL);
+	itsClassNameLexer->start(CB::PHPTree::Scanner::INITIAL);
 
 	CBClass* newClass;
 	itsClassNameLexer->CreateClass(id, this, &newClass);

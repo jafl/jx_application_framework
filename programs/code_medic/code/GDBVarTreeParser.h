@@ -27,9 +27,9 @@ public:
 
 private:
 
-	GDBVarTreeScanner*	itsScanner;
-	CMVarNode*			itsCurrentNode;
-	bool				itsIsPointerFlag;
+	GDBVarTree::Scanner*	itsScanner;
+	CMVarNode*				itsCurrentNode;
+	bool					itsIsPointerFlag;
 
 	// compensate for gdb stopping on error
 

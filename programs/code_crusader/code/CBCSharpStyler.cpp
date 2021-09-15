@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays C/C++ with styles to hilight
 	keywords, preprocessor directives, etc.
 
-	BASE CLASS = CBStylerBase, CBCSharpScanner
+	BASE CLASS = CBStylerBase, CB::CSharp::Scanner
 
 	Copyright © 2004 by John Lindal.
 
@@ -89,8 +89,7 @@ CBCSharpStyler::CBCSharpStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBCSharpStyler"),
-				 kCBCSharpStyleID, kCBCSharpFT),
-	CBCSharpScanner()
+				 kCBCSharpStyleID, kCBCSharpFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -185,7 +184,7 @@ CBCSharpStyler::Scan
 			}
 		else if (token.type == kPPDirective)
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange().byteRange, JString::kNoCopy));
+			style = GetStyle(typeIndex, GetPPCommand(text));
 			}
 		else if (token.type < kWhitespace)
 			{
