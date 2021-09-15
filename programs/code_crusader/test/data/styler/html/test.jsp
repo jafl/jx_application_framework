@@ -36,6 +36,20 @@
 <input type="submit" name="Submit" value="Get Date">
 </form>
 
+<%
+String s1 = new String("abc");
+for (int i=0; i<5; i++)
+	{
+	out.println("hello!");
+	}
+%>
+<a href="<%-- comment --%>x" link="y">
+
+<script type="text/javascript">
+<%-- JSP comment --%>
+for (int i=0; i<5; i++) { }
+</script>
+
 <c:if test="${selectedFlag}" >
     <jsp:setProperty name="locales"
         property="selectedLocaleString"

@@ -1,0 +1,14 @@
+1 92 import io
+
+# comment
+
+τπ="a\"\b'c"
+x='a\'\b"c'
+x="abc
+
+x="""abc"'
+abc"""
+
+x='''abc"'
+abc'''
+ 1 "Helvetica" 5 0 0 0 0 26214 0 32768 32768 32768 39321 0 0 65535 0 0 14 6 1 10 FFF 0 2 5 1 10 FFF 0 1 10 1 10 FFF 0 3 4 1 10 FFF 0 1 9 1 10 FFF 0 4 3 1 10 FFF 0 1 9 1 10 FFF 0 4 3 1 10 FFF 0 1 5 1 10 FFF 0 5 3 1 10 FFF 0 1 15 1 10 FFF 0 4 4 1 10 FFF 0 1 15 1 10 FFF 0 4 1 1 10 FFF 0 1

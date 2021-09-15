@@ -11,7 +11,7 @@ const s = `/${foo}/${bar}/${flag ? 'true': 'false'}/${}`;
 
 // test
 
-let x = /x\/[/]+bc/;
+let π = /x\/[/]+bc/;
 'foo \'bar'
 
 })();

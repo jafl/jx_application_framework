@@ -567,29 +567,21 @@ T
 F
 "./code/CBPerlStyler.cpp"
 T
+2 "CBPropertiesScannerL.ll"
+F
+"./code/CBPropertiesScannerL.ll"
+T
 2 "CBPropertiesStyler.cpp"
 F
 "./code/CBPropertiesStyler.cpp"
 T
-2 "CBPropertiesScanner.cpp"
+2 "CBPythonScannerL.ll"
 F
-"./code/CBPropertiesScanner.cpp"
-T
-2 "CBPropertiesScannerL.l"
-F
-"./code/CBPropertiesScannerL.l"
+"./code/CBPythonScannerL.ll"
 T
 2 "CBPythonStyler.cpp"
 F
 "./code/CBPythonStyler.cpp"
-T
-2 "CBPythonScanner.cpp"
-F
-"./code/CBPythonScanner.cpp"
-T
-2 "CBPythonScannerL.l"
-F
-"./code/CBPythonScannerL.l"
 T
 2 "CBRubyStyler.cpp"
 F

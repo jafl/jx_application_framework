@@ -91,6 +91,13 @@ ${JCCCODEDIR}/CBPropertiesStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
+@test_PythonStyler
+.ll ${JCCCODEDIR}/CBPythonScannerL
+${CODEDIR}/test_PythonStyler
+${JCCCODEDIR}/CBPythonStyler
+${JCCCODEDIR}/CBStylingScannerBase
+${JCCCODEDIR}/CBStylerBase
+
 
 @test_CTreeScanner
 .l ${JCCCODEDIR}/CBCTreeScannerL

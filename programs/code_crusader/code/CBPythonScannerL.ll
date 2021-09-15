@@ -1,22 +1,60 @@
-%{
+%top {
 /*
 Copyright © 2004 by John Lindal.
 
-This scanner reads a Python file and returns CBPythonScanner::Tokens.
+This scanner reads a Python file and returns CB::Python::Scanner::Tokens.
 */
 
-#define _H_CBPythonScannerL
-
-#include "CBPythonScanner.h"
+#include "CBStylingScannerBase.h"
 #include <jAssert.h>
-
-#undef YY_DECL
-#define YY_DECL CBPythonScanner::Token CBPythonScanner::NextToken()
 %}
 
-%option c++ yyclass = "CBPythonScanner" prefix = "CBPython"
-%option 8bit nodefault noyywrap
-%option full ecs align
+%option namespace="CB::Python" lexer="Scanner" prefix="allow_multiple_includes"
+%option lex="NextToken" token-type="CBStylingScannerBase::Token"
+%option unicode nodefault full freespace
+
+%class {
+
+public:
+
+	// these types are ordered to correspond to the type table in CBPythonStyler
+
+	enum TokenType
+	{
+		kBadInt = kEOF+1,
+		kUnterminatedString,
+		kIllegalChar,
+		kNonPrintChar,
+
+		kWhitespace,	// must be the one before the first item in type table
+
+		kID,
+		kReservedKeyword,
+
+		kOperator,
+		kDelimiter,
+
+		kString,
+
+		kFloat,
+		kDecimalInt,
+		kHexInt,
+		kOctalInt,
+		kImaginary,
+
+		kComment,
+
+		kError,			// place holder for CBPythonStyler
+
+		// special cases
+
+		kContinuation
+	};
+
+private:
+
+	bool	itsDoubleQuoteFlag;
+}
 
 %x SHORT_STRING_STATE LONG_STRING_STATE
 
@@ -35,21 +73,26 @@ IDCDR        (_|\p{L}|\d)
 ID           ({IDCAR}{IDCDR}*)
 
 
-
+%{
 	/* Agrees with Harbison & Steele's BNF */
+%}
 INTSUFFIX    ([lL])
 
 DECIMAL      ((0|[1-9][0-9]*){INTSUFFIX}?)
 HEX          (0[xX][[:xdigit:]]*{INTSUFFIX}?)
 OCTAL        (0[0-7]+{INTSUFFIX}?)
+%{
 	/* The programmer probably meant a number, but it is invalid (match after other ints) */
+%}
 BADINT       ([0-9]+{INTSUFFIX}?)
+%{
 	/* We can't define BADHEX because 0xAAU is legal while 0xAUA isn't */
 	/* and regex subexpressions are greedy. */
+%}
 
-
-
+%{
 	/* Following Harbison & Steele's BNF, except of course I'm using regexes */
+%}
 SIGNPART     ([+-])
 DIGITSEQ     ([0-9]+)
 EXPONENT     ([eE]{SIGNPART}?{DIGITSEQ})
@@ -64,17 +107,6 @@ IMAGSUFFIX    ([jJ])
 IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 
 %%
-
-%{
-/************************************************************************/
-
-	if (itsResetFlag)
-		{
-		BEGIN(INITIAL);
-		itsResetFlag = false;
-		}
-
-%}
 
 
 
@@ -222,13 +254,13 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 [uU]?[rR]?\" {
 	StartToken();
 	itsDoubleQuoteFlag = true;
-	BEGIN(SHORT_STRING_STATE);
+	start(SHORT_STRING_STATE);
 	}
 
 [uU]?[rR]?\' {
 	StartToken();
 	itsDoubleQuoteFlag = false;
-	BEGIN(SHORT_STRING_STATE);
+	start(SHORT_STRING_STATE);
 	}
 
 <SHORT_STRING_STATE>{
@@ -237,7 +269,7 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 	ContinueToken();
 	if (itsDoubleQuoteFlag)
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		return ThisToken(kString);
 		}
 	}
@@ -246,14 +278,14 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 	ContinueToken();
 	if (!itsDoubleQuoteFlag)
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		return ThisToken(kString);
 		}
 	}
 
 \n {
 	ContinueToken();
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -263,7 +295,7 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -278,13 +310,13 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 [uU]?[rR]?\"\"\" {
 	StartToken();
 	itsDoubleQuoteFlag = true;
-	BEGIN(LONG_STRING_STATE);
+	start(LONG_STRING_STATE);
 	}
 
 [uU]?[rR]?\'\'\' {
 	StartToken();
 	itsDoubleQuoteFlag = false;
-	BEGIN(LONG_STRING_STATE);
+	start(LONG_STRING_STATE);
 	}
 
 <LONG_STRING_STATE>{
@@ -293,7 +325,7 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 	ContinueToken();
 	if (itsDoubleQuoteFlag)
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		return ThisToken(kString);
 		}
 	}
@@ -302,7 +334,7 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 	ContinueToken();
 	if (!itsDoubleQuoteFlag)
 		{
-		BEGIN(INITIAL);
+		start(INITIAL);
 		return ThisToken(kString);
 		}
 	}
@@ -315,7 +347,7 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 	}
 
 <<EOF>> {
-	BEGIN(INITIAL);
+	start(INITIAL);
 	return ThisToken(kUnterminatedString);
 	}
 
@@ -335,7 +367,7 @@ IMAG          ({DIGITSEQ}|{FLOAT}){IMAGSUFFIX}
 
 . {
 	StartToken();
-	JUtf8Character c(yytext);
+	JUtf8Character c(text());
 	if (c.IsPrint())
 		{
 		return ThisToken(kIllegalChar);

@@ -9,9 +9,9 @@
 #define _H_CBPythonStyler
 
 #include "CBStylerBase.h"
-#include "CBPythonScanner.h"
+#include "CBPythonScannerL.h"
 
-class CBPythonStyler : public CBStylerBase, public CBPythonScanner
+class CBPythonStyler : public CBStylerBase, public CB::Python::Scanner
 {
 public:
 
