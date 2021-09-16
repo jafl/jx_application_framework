@@ -390,7 +390,10 @@ JTextChooseSaveFile::DoSystemCommand
 		if (str.GetCharacterCount() >= 2)
 			{
 			std::cout << std::endl;
-			system(str.GetBytes() + 1);
+			if (system(str.GetBytes() + 1) == -1)
+				{
+				std::cout << "failed";
+				}
 			}
 		std::cout << std::endl;
 		return true;
