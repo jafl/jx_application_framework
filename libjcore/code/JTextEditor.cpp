@@ -4476,7 +4476,7 @@ JTextEditor::CalcCaretLocation
 
  ******************************************************************************/
 
-inline JTextEditor::CaretLocation
+JTextEditor::CaretLocation
 JTextEditor::CalcCaretLocation
 	(
 	const TextIndex& index
