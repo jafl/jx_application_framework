@@ -12,7 +12,7 @@
 #include "CBCTree.h"
 #include "CBCClass.h"
 #include "CBCTreeDirector.h"
-#include "CBCTreeScannerL.h"
+#include "CBCTreeScanner.h"
 #include "CBCPreprocessor.h"
 #include <JStringIterator.h>
 #include <jStreamUtil.h>

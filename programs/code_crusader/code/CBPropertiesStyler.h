@@ -9,7 +9,7 @@
 #define _H_CBPropertiesStyler
 
 #include "CBStylerBase.h"
-#include "CBPropertiesScannerL.h"
+#include "CBPropertiesScanner.h"
 
 class CBPropertiesStyler : public CBStylerBase, public CB::Properties::Scanner
 {

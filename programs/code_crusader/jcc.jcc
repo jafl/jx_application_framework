@@ -266,9 +266,9 @@ T
 F
 "./code/CBCTreeDirector.cpp"
 T
-2 "CBCTreeScannerL.l"
+2 "CBCTreeScanner.l"
 F
-"./code/CBCTreeScannerL.l"
+"./code/CBCTreeScanner.l"
 T
 2 "CBCTree.cpp"
 F
@@ -294,9 +294,9 @@ T
 F
 "./code/CBDTreeDirector.cpp"
 T
-2 "CBDTreeScannerL.l"
+2 "CBDTreeScanner.l"
 F
-"./code/CBDTreeScannerL.l"
+"./code/CBDTreeScanner.l"
 T
 2 "CBDTree.cpp"
 F
@@ -310,9 +310,9 @@ T
 F
 "./code/CBGoTreeDirector.cpp"
 T
-2 "CBGoTreeScannerL.l"
+2 "CBGoTreeScanner.l"
 F
-"./code/CBGoTreeScannerL.l"
+"./code/CBGoTreeScanner.l"
 T
 2 "CBGoTree.cpp"
 F
@@ -326,9 +326,9 @@ T
 F
 "./code/CBJavaTreeDirector.cpp"
 T
-2 "CBJavaTreeScannerL.l"
+2 "CBJavaTreeScanner.l"
 F
-"./code/CBJavaTreeScannerL.l"
+"./code/CBJavaTreeScanner.l"
 T
 2 "CBJavaTree.cpp"
 F
@@ -342,9 +342,9 @@ T
 F
 "./code/CBPHPTreeDirector.cpp"
 T
-2 "CBPHPTreeScannerL.l"
+2 "CBPHPTreeScanner.l"
 F
-"./code/CBPHPTreeScannerL.l"
+"./code/CBPHPTreeScanner.l"
 T
 2 "CBPHPTree.cpp"
 F
@@ -471,153 +471,141 @@ T
 F
 "./code/CBStylingScannerBase.cpp"
 T
-2 "CBBourneShellScannerL.ll"
+2 "CBBourneShellScanner.ll"
 F
-"./code/CBBourneShellScannerL.ll"
+"./code/CBBourneShellScanner.ll"
 T
 2 "CBBourneShellStyler.cpp"
 F
 "./code/CBBourneShellStyler.cpp"
 T
-2 "CBCScannerL.ll"
+2 "CBCScanner.ll"
 F
-"./code/CBCScannerL.ll"
+"./code/CBCScanner.ll"
 T
 2 "CBCStyler.cpp"
 F
 "./code/CBCStyler.cpp"
 T
-2 "CBCSharpScannerL.ll"
+2 "CBCSharpScanner.ll"
 F
-"./code/CBCSharpScannerL.ll"
+"./code/CBCSharpScanner.ll"
 T
 2 "CBCSharpStyler.cpp"
 F
 "./code/CBCSharpStyler.cpp"
 T
-2 "CBCShellScannerL.ll"
+2 "CBCShellScanner.ll"
 F
-"./code/CBCShellScannerL.ll"
+"./code/CBCShellScanner.ll"
 T
 2 "CBCShellStyler.cpp"
 F
 "./code/CBCShellStyler.cpp"
 T
-2 "CBDScannerL.ll"
+2 "CBDScanner.ll"
 F
-"./code/CBDScannerL.ll"
+"./code/CBDScanner.ll"
 T
 2 "CBDStyler.cpp"
 F
 "./code/CBDStyler.cpp"
 T
-2 "CBEiffelScannerL.ll"
+2 "CBEiffelScanner.ll"
 F
-"./code/CBEiffelScannerL.ll"
+"./code/CBEiffelScanner.ll"
 T
 2 "CBEiffelStyler.cpp"
 F
 "./code/CBEiffelStyler.cpp"
 T
-2 "CBGoScannerL.ll"
+2 "CBGoScanner.ll"
 F
-"./code/CBGoScannerL.ll"
+"./code/CBGoScanner.ll"
 T
 2 "CBGoStyler.cpp"
 F
 "./code/CBGoStyler.cpp"
 T
-2 "CBHTMLScannerL.ll"
+2 "CBHTMLScanner.ll"
 F
-"./code/CBHTMLScannerL.ll"
+"./code/CBHTMLScanner.ll"
 T
 2 "CBHTMLStyler.cpp"
 F
 "./code/CBHTMLStyler.cpp"
 T
-2 "CBINIScannerL.ll"
+2 "CBINIScanner.ll"
 F
-"./code/CBINIScannerL.ll"
+"./code/CBINIScanner.ll"
 T
 2 "CBINIStyler.cpp"
 F
 "./code/CBINIStyler.cpp"
 T
-2 "CBJavaScannerL.ll"
+2 "CBJavaScanner.ll"
 F
-"./code/CBJavaScannerL.ll"
+"./code/CBJavaScanner.ll"
 T
 2 "CBJavaStyler.cpp"
 F
 "./code/CBJavaStyler.cpp"
 T
-2 "CBJavaScriptScannerL.ll"
+2 "CBJavaScriptScanner.ll"
 F
-"./code/CBJavaScriptScannerL.ll"
+"./code/CBJavaScriptScanner.ll"
 T
 2 "CBJavaScriptStyler.cpp"
 F
 "./code/CBJavaScriptStyler.cpp"
 T
-2 "CBPerlScannerL.ll"
+2 "CBPerlScanner.ll"
 F
-"./code/CBPerlScannerL.ll"
+"./code/CBPerlScanner.ll"
 T
 2 "CBPerlStyler.cpp"
 F
 "./code/CBPerlStyler.cpp"
 T
-2 "CBPropertiesScannerL.ll"
+2 "CBPropertiesScanner.ll"
 F
-"./code/CBPropertiesScannerL.ll"
+"./code/CBPropertiesScanner.ll"
 T
 2 "CBPropertiesStyler.cpp"
 F
 "./code/CBPropertiesStyler.cpp"
 T
-2 "CBPythonScannerL.ll"
+2 "CBPythonScanner.ll"
 F
-"./code/CBPythonScannerL.ll"
+"./code/CBPythonScanner.ll"
 T
 2 "CBPythonStyler.cpp"
 F
 "./code/CBPythonStyler.cpp"
 T
+2 "CBRubyScanner.ll"
+F
+"./code/CBRubyScanner.ll"
+T
 2 "CBRubyStyler.cpp"
 F
 "./code/CBRubyStyler.cpp"
 T
-2 "CBRubyScanner.cpp"
+2 "CBSQLScanner.ll"
 F
-"./code/CBRubyScanner.cpp"
-T
-2 "CBRubyScannerL.l"
-F
-"./code/CBRubyScannerL.l"
+"./code/CBSQLScanner.ll"
 T
 2 "CBSQLStyler.cpp"
 F
 "./code/CBSQLStyler.cpp"
 T
-2 "CBSQLScanner.cpp"
+2 "CBTCLScanner.ll"
 F
-"./code/CBSQLScanner.cpp"
-T
-2 "CBSQLScannerL.l"
-F
-"./code/CBSQLScannerL.l"
+"./code/CBTCLScanner.ll"
 T
 2 "CBTCLStyler.cpp"
 F
 "./code/CBTCLStyler.cpp"
-T
-2 "CBTCLScanner.cpp"
-F
-"./code/CBTCLScanner.cpp"
-T
-2 "CBTCLScannerL.l"
-F
-"./code/CBTCLScannerL.l"
 T
 2 "CBEditStylerDialog.cpp"
 F

@@ -81,7 +81,7 @@ include make_reflex_target
 #####
 
 .PHONY : default
-default: libs jcc ctags
+default: libs jcc
 
 .PHONY : test
 test:
@@ -116,20 +116,11 @@ menu_strings:
      -m ${CODEDIR}/*.cpp ${JXDIR}/*.cpp ${JFSDIR}/*.cpp
 
 #
-# ctags
-#
-
-.PHONY : ctags
-ctags:
-	@if ! test -f ${JX_ROOT}/misc/ctags/Makefile; then cd ${JX_ROOT}/misc/ctags; ./configure > /dev/null; fi
-	@cd ${JX_ROOT}/misc/ctags; ${MAKE}; strip ${call EXE, ctags}
-
-#
 # install binaries
 #
 
 .PHONY : jxinstall
-jxinstall: jcc ctags
+jxinstall: jcc
 	@strip ${call EXE, jcc}
   ifneq (${J_WANT_INSTALL},0)
 	@cp jcc ${JX_INSTALL_ROOT}/
@@ -137,10 +128,7 @@ jxinstall: jcc ctags
 
 .PHONY : jxuninstall
 jxuninstall:
-	@${RM} ${JX_INSTALL_ROOT}/jcc ${JX_INSTALL_ROOT}/ctags
-  ifeq (${shell whoami},root)
-	@${RM} /usr/man/man1/ctags.1
-  endif
+	@${RM} ${JX_INSTALL_ROOT}/jcc
 
 # makemake's clean invokes tidy, which does everything necessary
 
@@ -163,22 +151,14 @@ DEB_CTRL_FILE := ./release/pkg/code_crusader.debctrl
 DEB_PKG_FILE  := code-crusader_${JCC_VERSION}_i386.deb
 
 .PHONY : release
-release: pre_build_pkgs static ctags menu_strings
+release: pre_build_pkgs static menu_strings
 	@${MAKE} PKG_PATH=${JCC} init_tarball
-	@mkdir -p ${JCC}/ctags
 	@ln -s ../${call EXE,jcc}   ${JCC}/${call EXE,jcc}
 	@ln -s ../scripts           ${JCC}/scripts
 	@ln -s ../macros            ${JCC}/macros
 	@ln -s ../CPM_rules         ${JCC}/CPM_rules
 	@ln -s ../project_templates ${JCC}/project_templates
 	@ln -s ../text_templates    ${JCC}/text_templates
-	@cp ${JX_ROOT}/misc/ctags/${call EXE,ctags} \
-        ${JX_ROOT}/misc/ctags/COPYING \
-        ${JX_ROOT}/misc/ctags/FAQ \
-        ${JX_ROOT}/misc/ctags/NEWS \
-        ${JX_ROOT}/misc/ctags/README \
-        ${JX_ROOT}/misc/ctags/ctags.1 \
-        ${JCC}/ctags/
 	@cp -r ${JX_ROOT}/misc/dirdiff ${JCC}/
 	@cd ${MKMKDIR}; ${MAKE} JCC_TAR_DIR=${JCC_TAR_DIR}/${JCC} jcc
 	@${MAKE} PKG_PATH=${JCC} SOURCE_TAR_NAME=${JCC_RELEASE_TAR_NAME} build_pkgs
@@ -205,10 +185,8 @@ static: debug
 #
 
 .PHONY : personal
-personal: static ctags
-	@cp jcc ${JX_ROOT}/misc/ctags/ctags ${HOME}/bin/
-	@mkdir -p ${HOME}/Man/man1
-	@cp ${JX_ROOT}/misc/ctags/ctags.1 ${HOME}/Man/man1/
+personal: static
+	@cp jcc ${HOME}/bin/
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

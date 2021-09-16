@@ -12,7 +12,7 @@
 #include "CBGoTree.h"
 #include "CBGoClass.h"
 #include "CBGoTreeDirector.h"
-#include "CBGoTreeScannerL.h"
+#include "CBGoTreeScanner.h"
 #include "CBProjectDocument.h"
 #include "cbGlobals.h"
 #include <jStreamUtil.h>

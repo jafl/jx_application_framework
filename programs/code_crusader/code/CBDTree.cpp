@@ -12,7 +12,7 @@
 #include "CBDTree.h"
 #include "CBDClass.h"
 #include "CBDTreeDirector.h"
-#include "CBDTreeScannerL.h"
+#include "CBDTreeScanner.h"
 #include <jAssert.h>
 
 /******************************************************************************

@@ -9,7 +9,7 @@
 #define _H_CBCStyler
 
 #include "CBStylerBase.h"
-#include "CBCScannerL.h"
+#include "CBCScanner.h"
 
 class CBCStyler : public CBStylerBase, public CB::C::Scanner
 {

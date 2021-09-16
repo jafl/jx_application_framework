@@ -302,7 +302,7 @@ CBHTMLStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input);
+	BeginScan(GetStyledText(), startIndex, input);
 	itsLatestTagName.Clear();
 
 	const JString& text = GetText();

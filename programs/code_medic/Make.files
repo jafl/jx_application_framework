@@ -4,19 +4,19 @@
 
 @medic
 
-.l ./code/GDBVarTreeScannerL
+.l ./code/GDBVarTreeScanner
 .y ./code/GDBVarTreeParserY
 .cpp ./code/GDBVarTreeParser
 .cpp ./code/CMStylerStubs
-.ll ./JCC/CBCScannerL
+.ll ./JCC/CBCScanner
 .cpp ./JCC/CBCStyler
-.ll ./JCC/CBDScannerL
+.ll ./JCC/CBDScanner
 .cpp ./JCC/CBDStyler
-.ll ./JCC/CBGoScannerL
+.ll ./JCC/CBGoScanner
 .cpp ./JCC/CBGoStyler
-.ll ./JCC/CBJavaScannerL
+.ll ./JCC/CBJavaScanner
 .cpp ./JCC/CBJavaStyler
-.ll ./JCC/CBHTMLScannerL
+.ll ./JCC/CBHTMLScanner
 .cpp ./JCC/CBHTMLStyler
 .cpp ./JCC/CBStylerBase
 .cpp ./JCC/CBStylingScannerBase
@@ -106,7 +106,7 @@
 .cpp ./code/CMLink
 .cpp ./code/CMCommand
 .cpp ./code/CMPipeT
-.l ./code/GDBOutputScannerL
+.l ./code/GDBOutputScanner
 .cpp ./code/GDBLink
 .cpp ./code/GDBPingTask
 .cpp ./code/GDBBreakpointManager

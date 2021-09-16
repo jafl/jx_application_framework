@@ -1,106 +1,113 @@
 -suffix .cpp
 
 @test_BourneShellStyler
-.ll ${JCCCODEDIR}/CBBourneShellScannerL
+.ll ${JCCCODEDIR}/CBBourneShellScanner
 ${CODEDIR}/test_BourneShellStyler
 ${JCCCODEDIR}/CBBourneShellStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_CStyler
-.ll ${JCCCODEDIR}/CBCScannerL
+.ll ${JCCCODEDIR}/CBCScanner
 ${CODEDIR}/test_CStyler
 ${JCCCODEDIR}/CBCStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_CSharpStyler
-.ll ${JCCCODEDIR}/CBCSharpScannerL
+.ll ${JCCCODEDIR}/CBCSharpScanner
 ${CODEDIR}/test_CSharpStyler
 ${JCCCODEDIR}/CBCSharpStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_CShellStyler
-.ll ${JCCCODEDIR}/CBCShellScannerL
+.ll ${JCCCODEDIR}/CBCShellScanner
 ${CODEDIR}/test_CShellStyler
 ${JCCCODEDIR}/CBCShellStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_DStyler
-.ll ${JCCCODEDIR}/CBDScannerL
+.ll ${JCCCODEDIR}/CBDScanner
 ${CODEDIR}/test_DStyler
 ${JCCCODEDIR}/CBDStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_GoStyler
-.ll ${JCCCODEDIR}/CBGoScannerL
+.ll ${JCCCODEDIR}/CBGoScanner
 ${CODEDIR}/test_GoStyler
 ${JCCCODEDIR}/CBGoStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_EiffelStyler
-.ll ${JCCCODEDIR}/CBEiffelScannerL
+.ll ${JCCCODEDIR}/CBEiffelScanner
 ${CODEDIR}/test_EiffelStyler
 ${JCCCODEDIR}/CBEiffelStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_HTMLStyler
-.ll ${JCCCODEDIR}/CBHTMLScannerL
+.ll ${JCCCODEDIR}/CBHTMLScanner
 ${CODEDIR}/test_HTMLStyler
 ${JCCCODEDIR}/CBHTMLStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_INIStyler
-.ll ${JCCCODEDIR}/CBINIScannerL
+.ll ${JCCCODEDIR}/CBINIScanner
 ${CODEDIR}/test_INIStyler
 ${JCCCODEDIR}/CBINIStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_JavaStyler
-.ll ${JCCCODEDIR}/CBJavaScannerL
+.ll ${JCCCODEDIR}/CBJavaScanner
 ${CODEDIR}/test_JavaStyler
 ${JCCCODEDIR}/CBJavaStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_JavaScriptStyler
-.ll ${JCCCODEDIR}/CBJavaScriptScannerL
+.ll ${JCCCODEDIR}/CBJavaScriptScanner
 ${CODEDIR}/test_JavaScriptStyler
 ${JCCCODEDIR}/CBJavaScriptStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_PerlStyler
-.ll ${JCCCODEDIR}/CBPerlScannerL
+.ll ${JCCCODEDIR}/CBPerlScanner
 ${CODEDIR}/test_PerlStyler
 ${JCCCODEDIR}/CBPerlStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_PropertiesStyler
-.ll ${JCCCODEDIR}/CBPropertiesScannerL
+.ll ${JCCCODEDIR}/CBPropertiesScanner
 ${CODEDIR}/test_PropertiesStyler
 ${JCCCODEDIR}/CBPropertiesStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
 @test_PythonStyler
-.ll ${JCCCODEDIR}/CBPythonScannerL
+.ll ${JCCCODEDIR}/CBPythonScanner
 ${CODEDIR}/test_PythonStyler
 ${JCCCODEDIR}/CBPythonStyler
 ${JCCCODEDIR}/CBStylingScannerBase
 ${JCCCODEDIR}/CBStylerBase
 
+@test_TCLStyler
+.ll ${JCCCODEDIR}/CBTCLScanner
+${CODEDIR}/test_TCLStyler
+${JCCCODEDIR}/CBTCLStyler
+${JCCCODEDIR}/CBStylingScannerBase
+${JCCCODEDIR}/CBStylerBase
+
 
 @test_CTreeScanner
-.l ${JCCCODEDIR}/CBCTreeScannerL
+.l ${JCCCODEDIR}/CBCTreeScanner
 ${CODEDIR}/test_CTreeScanner
 ${JCCCODEDIR}/CBCTree
 ${JCCCODEDIR}/CBTree
@@ -110,7 +117,7 @@ ${JCCCODEDIR}/CBCPreprocessor
 ${JCCCODEDIR}/CBCtagsUser
 
 @test_DTreeScanner
-.l ${JCCCODEDIR}/CBDTreeScannerL
+.l ${JCCCODEDIR}/CBDTreeScanner
 ${CODEDIR}/test_DTreeScanner
 ${JCCCODEDIR}/CBDTree
 ${JCCCODEDIR}/CBTree
@@ -118,7 +125,7 @@ ${JCCCODEDIR}/CBDClass
 ${JCCCODEDIR}/CBClass
 
 @test_GoTreeScanner
-.l ${JCCCODEDIR}/CBGoTreeScannerL
+.l ${JCCCODEDIR}/CBGoTreeScanner
 ${CODEDIR}/test_GoTreeScanner
 ${JCCCODEDIR}/CBGoTree
 ${JCCCODEDIR}/CBTree
@@ -126,7 +133,7 @@ ${JCCCODEDIR}/CBGoClass
 ${JCCCODEDIR}/CBClass
 
 @test_JavaTreeScanner
-.l ${JCCCODEDIR}/CBJavaTreeScannerL
+.l ${JCCCODEDIR}/CBJavaTreeScanner
 ${CODEDIR}/test_JavaTreeScanner
 ${JCCCODEDIR}/CBJavaTree
 ${JCCCODEDIR}/CBTree
@@ -134,7 +141,7 @@ ${JCCCODEDIR}/CBJavaClass
 ${JCCCODEDIR}/CBClass
 
 @test_PHPTreeScanner
-.l ${JCCCODEDIR}/CBPHPTreeScannerL
+.l ${JCCCODEDIR}/CBPHPTreeScanner
 ${CODEDIR}/test_PHPTreeScanner
 ${JCCCODEDIR}/CBPHPTree
 ${JCCCODEDIR}/CBTree

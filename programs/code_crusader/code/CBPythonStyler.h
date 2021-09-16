@@ -9,7 +9,7 @@
 #define _H_CBPythonStyler
 
 #include "CBStylerBase.h"
-#include "CBPythonScannerL.h"
+#include "CBPythonScanner.h"
 
 class CBPythonStyler : public CBStylerBase, public CB::Python::Scanner
 {

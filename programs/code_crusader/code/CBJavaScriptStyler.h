@@ -9,7 +9,7 @@
 #define _H_CBJavaScriptStyler
 
 #include "CBStylerBase.h"
-#include "CBJavaScriptScannerL.h"
+#include "CBJavaScriptScanner.h"
 
 class CBJavaScriptStyler : public CBStylerBase, public CB::JavaScript::Scanner
 {

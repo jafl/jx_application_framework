@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBSQLScanner.h"
 
-class CBSQLStyler : public CBStylerBase, public CBSQLScanner
+class CBSQLStyler : public CBStylerBase, public CB::SQL::Scanner
 {
 public:
 

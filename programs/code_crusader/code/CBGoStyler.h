@@ -9,7 +9,7 @@
 #define _H_CBGoStyler
 
 #include "CBStylerBase.h"
-#include "CBGoScannerL.h"
+#include "CBGoScanner.h"
 
 class CBGoStyler : public CBStylerBase, public CB::Go::Scanner
 {

@@ -12,7 +12,7 @@
 #include "CBPHPTree.h"
 #include "CBPHPClass.h"
 #include "CBPHPTreeDirector.h"
-#include "CBPHPTreeScannerL.h"
+#include "CBPHPTreeScanner.h"
 #include "CBProjectDocument.h"
 #include "cbGlobals.h"
 #include <jStreamUtil.h>

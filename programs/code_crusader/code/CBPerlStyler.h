@@ -9,7 +9,7 @@
 #define _H_CBPerlStyler
 
 #include "CBStylerBase.h"
-#include "CBPerlScannerL.h"
+#include "CBPerlScanner.h"
 
 class CBPerlStyler : public CBStylerBase, public CB::Perl::Scanner
 {

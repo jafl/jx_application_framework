@@ -9,7 +9,7 @@
 #define _H_CBINIStyler
 
 #include "CBStylerBase.h"
-#include "CBINIScannerL.h"
+#include "CBINIScanner.h"
 
 class CBINIStyler : public CBStylerBase, public CB::INI::Scanner
 {

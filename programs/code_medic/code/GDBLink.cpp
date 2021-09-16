@@ -13,7 +13,7 @@
  *****************************************************************************/
 
 #include "GDBLink.h"
-#include "GDBOutputScannerL.h"
+#include "GDBOutputScanner.h"
 #include "GDBPingTask.h"
 #include "GDBBreakpointManager.h"
 #include "CMChooseProcessDialog.h"

@@ -4,9 +4,9 @@ jx_browser_data 88
 T
 1 "parser"
 T
-2 "JExprScannerL.l"
+2 "JExprScanner.l"
 F
-"./code/JExprScannerL.l"
+"./code/JExprScanner.l"
 T
 2 "JExprParserY.y"
 F

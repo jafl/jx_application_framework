@@ -12,7 +12,7 @@
 #include "CBJavaTree.h"
 #include "CBJavaClass.h"
 #include "CBJavaTreeDirector.h"
-#include "CBJavaTreeScannerL.h"
+#include "CBJavaTreeScanner.h"
 #include "CBProjectDocument.h"
 #include "cbGlobals.h"
 #include <jStreamUtil.h>

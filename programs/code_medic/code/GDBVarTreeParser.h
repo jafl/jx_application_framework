@@ -8,7 +8,7 @@
 
  *****************************************************************************/
 
-#include "GDBVarTreeScannerL.h"
+#include "GDBVarTreeScanner.h"
 
 class CMVarNode;
 

@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays bash with styles to hilight
 	keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CBSQLScanner
+	BASE CLASS = CBStylerBase, CB::SQL::Scanner
 
 	Copyright © 2017 by John Lindal.
 
@@ -95,8 +95,7 @@ CBSQLStyler::CBSQLStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBSQLStyler"),
-				 kCBSQLStyleID, kCBSQLFT),
-	CBSQLScanner()
+				 kCBSQLStyleID, kCBSQLFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -147,7 +146,7 @@ CBSQLStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input);
+	BeginScan(GetStyledText(), startIndex, input);
 
 	const JString& text = GetText();
 
