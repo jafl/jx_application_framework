@@ -190,7 +190,10 @@ JEditVCS
 		if (JDirectoryExists(vcsDir))
 			{
 			const JString cmd = "cd " + path + "; cvs edit " + name;
-			system(cmd.GetBytes());
+			if (system(cmd.GetBytes()) == -1)
+				{
+				std::cout << cmd << " failed" << std::endl;
+				}
 			}
 		}
 }
