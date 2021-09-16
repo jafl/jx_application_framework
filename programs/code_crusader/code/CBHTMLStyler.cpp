@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays HTML/PHP/XML with styles
 	to hilight tags, scripts, etc.
 
-	BASE CLASS = CBStylerBase, CBHTMLScanner
+	BASE CLASS = CBStylerBase, CB::HTML::Scanner
 
 	Copyright © 2001 by John Lindal.
 
@@ -177,8 +177,7 @@ CBHTMLStyler::CBHTMLStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBHTMLStyler"),
-				 kCBHTMLStyleID, kCBPHPFT),
-	CBHTMLScanner()
+				 kCBHTMLStyleID, kCBPHPFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -303,7 +302,7 @@ CBHTMLStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input);
+	BeginScan(GetStyledText(), startIndex, input);
 	itsLatestTagName.Clear();
 
 	const JString& text = GetText();

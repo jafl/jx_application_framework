@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays bash with styles to hilight
 	keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CBBourneShellScanner
+	BASE CLASS = CBStylerBase, CB::BourneShell::Scanner
 
 	Copyright © 2001 by John Lindal.
 
@@ -87,8 +87,7 @@ CBBourneShellStyler::CBBourneShellStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBBourneShellStyler"),
-				 kCBBourneShellStyleID, kCBBourneShellFT),
-	CBBourneShellScanner()
+				 kCBBourneShellStyleID, kCBBourneShellFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -132,7 +131,7 @@ CBBourneShellStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input);
+	BeginScan(GetStyledText(), startIndex, input);
 
 	const JString& text = GetText();
 

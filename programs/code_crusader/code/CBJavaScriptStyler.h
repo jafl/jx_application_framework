@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBJavaScriptScanner.h"
 
-class CBJavaScriptStyler : public CBStylerBase, public CBJavaScriptScanner
+class CBJavaScriptStyler : public CBStylerBase, public CB::JavaScript::Scanner
 {
 public:
 

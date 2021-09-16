@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays .ini with styles to hilight
 	sections, comments, etc.
 
-	BASE CLASS = CBStylerBase, CBINIScanner
+	BASE CLASS = CBStylerBase, CB::INI::Scanner
 
 	Copyright © 2013 by John Lindal.
 
@@ -85,8 +85,7 @@ CBINIStyler::CBINIStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBINIStyler"),
-				 kCBINIStyleID, kCBINIFT),
-	CBINIScanner()
+				 kCBINIStyleID, kCBINIFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -130,7 +129,7 @@ CBINIStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input);
+	BeginScan(GetStyledText(), startIndex, input);
 
 	const JString& text = GetText();
 

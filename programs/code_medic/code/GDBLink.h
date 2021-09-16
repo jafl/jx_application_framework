@@ -16,11 +16,12 @@
 #include <JStringPtrMap.h>
 
 class JProcess;
-class GDBScanner;
 class GDBBreakpointManager;
 class GDBGetStopLocationForLink;
 class GDBGetStopLocationForAsm;
 class GDBPingTask;
+
+namespace GDBOutput { class Scanner; }
 
 class GDBLink : public CMLink
 {
@@ -204,7 +205,7 @@ private:
 	JSize			itsContinueCount;			// # of prompts with empty fg Q before "continue"
 	JIndex			itsPingID;
 
-	GDBScanner*					itsScanner;
+	GDBOutput::Scanner*			itsScanner;
 	GDBBreakpointManager*		itsBPMgr;
 	GDBGetStopLocationForLink*	itsGetStopLocation;
 	GDBGetStopLocationForAsm*	itsGetStopLocation2;

@@ -9,9 +9,9 @@
 #define _H_CBCShellStyler
 
 #include "CBStylerBase.h"
-#include "CBCShellScannerL.h"
+#include "CBCShellScanner.h"
 
-class CBCShellStyler : public CBStylerBase, public CBCShellScanner
+class CBCShellStyler : public CBStylerBase, public CB::CShell::Scanner
 {
 public:
 

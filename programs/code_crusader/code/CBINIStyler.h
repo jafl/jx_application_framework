@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBINIScanner.h"
 
-class CBINIStyler : public CBStylerBase, public CBINIScanner
+class CBINIStyler : public CBStylerBase, public CB::INI::Scanner
 {
 public:
 

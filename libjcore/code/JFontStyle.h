@@ -23,9 +23,9 @@ public:
 
 	bool			bold;
 	bool			italic;
-	JSize				underlineCount;		// may change font height
+	JSize			underlineCount;		// may change font height
 	bool			strike;
-	JColorID			color;
+	JColorID		color;
 
 	JFontStyle()
 		:
@@ -40,7 +40,7 @@ public:
 		(
 		const bool		b,
 		const bool		i,
-		const JSize			u,
+		const JSize		u,
 		const bool		s,
 		const JColorID	c = JFontStyle::itsDefaultColorIndex
 		)
@@ -68,8 +68,8 @@ public:
 	IsBlank()
 		const
 	{
-		return !bold && !italic && underlineCount == 0 && !strike &&
-					color == itsDefaultColorIndex;
+		return (!bold && !italic && underlineCount == 0 && !strike &&
+				color == itsDefaultColorIndex);
 	};
 
 	bool
@@ -79,7 +79,7 @@ public:
 		)
 		const
 	{
-		return style.bold == bold && style.italic == italic;
+		return (style.bold == bold && style.italic == italic);
 	};
 };
 

@@ -70,8 +70,8 @@ GDBVarCommand::HandleSuccess
 		iter.Invalidate();
 		SetData(s);
 
-		GDBVarTreeParser parser(s);
-		if (parser.yyparse() == 0)
+		GDBVarTreeParser parser;
+		if (parser.Parse(s) == 0)
 			{
 			parser.ReportRecoverableError();
 			success = true;

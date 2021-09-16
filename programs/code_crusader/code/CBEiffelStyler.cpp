@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays C/C++ with styles to hilight
 	keywords, preprocessor directives, etc.
 
-	BASE CLASS = CBStylerBase, CBEiffelScanner
+	BASE CLASS = CBStylerBase, CB::Eiffel::Scanner
 
 	Copyright © 1998 by John Lindal.
 
@@ -94,8 +94,7 @@ CBEiffelStyler::CBEiffelStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBEiffelStyler"),
-				 kCBEiffelStyleID, kCBEiffelFT),
-	CBEiffelScanner()
+				 kCBEiffelStyleID, kCBEiffelFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -136,7 +135,7 @@ CBEiffelStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input);
+	BeginScan(GetStyledText(), startIndex, input);
 
 	const JString& text = GetText();
 

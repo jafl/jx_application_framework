@@ -6,7 +6,7 @@
 
 	Not to be confused with the drug.
 
-	BASE CLASS = CBStylerBase, CBDScanner
+	BASE CLASS = CBStylerBase, CB::D::Scanner
 
 	Copyright © 2021 by John Lindal.
 
@@ -107,8 +107,7 @@ CBDStyler::CBDStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBDStyler"),
-				 kCBDStyleID, kCBDFT),
-	CBDScanner()
+				 kCBDStyleID, kCBDFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -165,7 +164,7 @@ CBDStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input);
+	BeginScan(GetStyledText(), startIndex, input);
 
 	const JString& text = GetText();
 

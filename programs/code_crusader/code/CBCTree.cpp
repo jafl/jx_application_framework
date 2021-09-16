@@ -12,7 +12,7 @@
 #include "CBCTree.h"
 #include "CBCClass.h"
 #include "CBCTreeDirector.h"
-#include "CBCTreeScannerL.h"
+#include "CBCTreeScanner.h"
 #include "CBCPreprocessor.h"
 #include <JStringIterator.h>
 #include <jStreamUtil.h>
@@ -173,7 +173,7 @@ CBCTree::ParseFile
 {
 	if (itsClassNameLexer == nullptr)
 		{
-		itsClassNameLexer = jnew CBCTreeScanner;
+		itsClassNameLexer = jnew CB::CTree::Scanner;
 		assert( itsClassNameLexer != nullptr );
 		}
 
@@ -205,7 +205,7 @@ CBCTree::ParseFile
 
 	std::ifstream input(fileName.GetBytes());
 	itsClassNameLexer->in(&input);
-	itsClassNameLexer->start(CBCTreeScanner::INITIAL);
+	itsClassNameLexer->start(CB::CTree::Scanner::INITIAL);
 
 	if (itsClassNameLexer->CreateClasses(id, this, &classList) &&
 		ProcessFile(fileName, kCBCHeaderFT, &data, &lang))

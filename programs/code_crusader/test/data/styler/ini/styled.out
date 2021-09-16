@@ -1,0 +1,9 @@
+1 119 debug=true
+
+error_log_file = "/usr/local/var/log/httpd/error_log"
+
+; dev mode
+
+[localhost_develop]
+username = "foobar"
+ 1 "Helvetica" 3 0 0 0 32768 32768 32768 39321 0 0 9 29 1 10 FFF 0 1 36 1 10 FFF 0 3 2 1 10 FFF 0 1 11 1 10 FFF 0 2 1 1 10 FFF 0 1 19 1 10 TFF 0 1 12 1 10 FFF 0 1 8 1 10 FFF 0 3 1 1 10 FFF 0 1

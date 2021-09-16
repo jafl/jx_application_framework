@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays Ruby with styles to hilight
 	keywords, comments, etc.
 
-	BASE CLASS = CBStylerBase, CBRubyScanner
+	BASE CLASS = CBStylerBase, CB::Ruby::Scanner
 
 	Copyright © 2003 by John Lindal.
 
@@ -100,8 +100,7 @@ CBRubyStyler::CBRubyStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBRubyStyler"),
-				 kCBRubyStyleID, kCBRubyFT),
-	CBRubyScanner()
+				 kCBRubyStyleID, kCBRubyFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)

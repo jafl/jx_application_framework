@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBPropertiesScanner.h"
 
-class CBPropertiesStyler : public CBStylerBase, public CBPropertiesScanner
+class CBPropertiesStyler : public CBStylerBase, public CB::Properties::Scanner
 {
 public:
 

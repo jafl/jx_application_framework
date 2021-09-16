@@ -10,10 +10,11 @@
 
 #include "CBTree.h"
 
-class CBPHPTreeScanner;
 class CBPHPTreeDirector;
 class CBPHPClass;
 class CBClass;
+
+namespace CB::PHPTree { class Scanner; }
 
 class CBPHPTree : public CBTree
 {
@@ -39,7 +40,7 @@ protected:
 
 private:
 
-	CBPHPTreeScanner*	itsClassNameLexer;	// nullptr unless parsing
+	CB::PHPTree::Scanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
 

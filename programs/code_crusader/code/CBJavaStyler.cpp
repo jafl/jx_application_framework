@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays Java with styles to
 	hilight keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CBJavaScanner
+	BASE CLASS = CBStylerBase, CB::Java::Scanner
 
 	Copyright © 2001 by John Lindal.
 
@@ -98,8 +98,7 @@ CBJavaStyler::CBJavaStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBJavaStyler"),
-				 kCBJavaStyleID, kCBJavaSourceFT),
-	CBJavaScanner()
+				 kCBJavaStyleID, kCBJavaSourceFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -155,7 +154,7 @@ CBJavaStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input);
+	BeginScan(GetStyledText(), startIndex, input);
 
 	const JString& text = GetText();
 

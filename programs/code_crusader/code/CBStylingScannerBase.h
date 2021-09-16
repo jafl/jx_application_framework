@@ -48,31 +48,41 @@ public:
 
 	CBStylingScannerBase(const reflex::Input& input, std::ostream& os);
 
-	virtual void	BeginScan(const JStyledText::TextIndex& startIndex, std::istream& input);
+	virtual void	BeginScan(const JStyledText* text,
+							  const JStyledText::TextIndex& startIndex,
+							  std::istream& input);
 
 	const JStyledText::TextRange&	GetCurrentRange() const;
 	const JStyledText::TextRange&	GetPPNameRange() const;
 
-	void	SetCurrentRange(const JStyledText::TextRange& r);
-
 protected:
-
-	void	Undo(const JStyledText::TextRange& range,
-				 const JSize prevCharByteCount, const JString& text);
-
-	virtual void	SavePPNameRange(std::function<bool(const char)>& skip);
 
 	void	InitToken();
 	void	StartToken();
 	void	ContinueToken();
 	Token	ThisToken(const int type);
+	Token	DocToken(const int type);
 
+	void	Undo(const JStyledText::TextRange& range,
+				 const JSize prevCharByteCount, const JString& text);
+
+	void	SetCurrentRange(const JStyledText::TextRange& r);
+
+	void	SavePPNameRange();
+	JString	GetPPCommand(const JString& text) const;
+
+	bool	SlurpQuoted(const JSize count, const JUtf8Byte* suffixList);
+
+	bool	IsQuote(const JUtf8Character& c);
 private:
 
+	const JStyledText*		itsCurrentText;
 	JStyledText::TextRange	itsCurrentRange;
 	JStyledText::TextRange	itsPPNameRange;
 
 private:
+
+	bool	ReadCharacter(JStyledText::TextIndex* index, JUtf8Character* ch);
 
 	// not allowed
 
@@ -144,7 +154,7 @@ CBStylingScannerBase::GetCurrentRange()
 }
 
 /******************************************************************************
- SetCurrentRange
+ SetCurrentRange (protected)
 
  *****************************************************************************/
 
@@ -167,6 +177,20 @@ CBStylingScannerBase::GetPPNameRange()
 	const
 {
 	return itsPPNameRange;
+}
+
+/******************************************************************************
+ GetPPNameRange (protected)
+
+ *****************************************************************************/
+
+inline bool
+CBStylingScannerBase::IsQuote
+	(
+	const JUtf8Character& c
+	)
+{
+	return c == '\'' || c == '"' || c == '`';
 }
 
 /******************************************************************************

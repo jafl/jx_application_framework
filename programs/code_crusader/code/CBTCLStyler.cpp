@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays TCL with styles to hilight
 	keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CBTCLScanner
+	BASE CLASS = CBStylerBase, CB::TCL::Scanner
 
 	Copyright © 2001 by John Lindal.
 
@@ -85,8 +85,7 @@ CBTCLStyler::CBTCLStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBTCLStyler"),
-				 kCBTCLStyleID, kCBTCLFT),
-	CBTCLScanner()
+				 kCBTCLStyleID, kCBTCLFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -127,7 +126,7 @@ CBTCLStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input);
+	BeginScan(GetStyledText(), startIndex, input);
 
 	const JString& text = GetText();
 

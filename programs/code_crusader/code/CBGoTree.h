@@ -10,10 +10,11 @@
 
 #include "CBTree.h"
 
-class CBGoTreeScanner;
 class CBGoTreeDirector;
 class CBGoClass;
 class CBClass;
+
+namespace CB::GoTree { class Scanner; }
 
 class CBGoTree : public CBTree
 {
@@ -39,7 +40,7 @@ protected:
 
 private:
 
-	CBGoTreeScanner*	itsClassNameLexer;	// nullptr unless parsing
+	CB::GoTree::Scanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
 

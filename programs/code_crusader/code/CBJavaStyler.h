@@ -9,9 +9,9 @@
 #define _H_CBJavaStyler
 
 #include "CBStylerBase.h"
-#include "CBJavaScannerL.h"
+#include "CBJavaScanner.h"
 
-class CBJavaStyler : public CBStylerBase, public CBJavaScanner
+class CBJavaStyler : public CBStylerBase, public CB::Java::Scanner
 {
 public:
 

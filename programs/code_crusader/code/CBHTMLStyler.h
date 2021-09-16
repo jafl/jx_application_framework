@@ -9,9 +9,9 @@
 #define _H_CBHTMLStyler
 
 #include "CBStylerBase.h"
-#include "CBHTMLScannerL.h"
+#include "CBHTMLScanner.h"
 
-class CBHTMLStyler : public CBStylerBase, public CBHTMLScanner
+class CBHTMLStyler : public CBStylerBase, public CB::HTML::Scanner
 {
 public:
 

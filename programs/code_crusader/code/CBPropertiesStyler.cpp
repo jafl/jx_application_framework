@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays .properties with styles to
 	hilight comments, etc.
 
-	BASE CLASS = CBStylerBase, CBPropertiesScanner
+	BASE CLASS = CBStylerBase, CB::Properties::Scanner
 
 	Copyright © 2015 by John Lindal.
 
@@ -76,8 +76,7 @@ CBPropertiesStyler::CBPropertiesStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBPropertiesStyler"),
-				 kCBPropertiesStyleID, kCBPropertiesFT),
-	CBPropertiesScanner()
+				 kCBPropertiesStyleID, kCBPropertiesFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -116,7 +115,7 @@ CBPropertiesStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input);
+	BeginScan(GetStyledText(), startIndex, input);
 
 	const JString& text = GetText();
 

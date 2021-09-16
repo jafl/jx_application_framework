@@ -1,10 +1,10 @@
 /******************************************************************************
  CBPythonStyler.cpp
 
-	Helper object for CBTextEditor that displays C/C++ with styles to hilight
+	Helper object for CBTextEditor that displays Python with styles to hilight
 	keywords, preprocessor directives, etc.
 
-	BASE CLASS = CBStylerBase, CBPythonScanner
+	BASE CLASS = CBStylerBase, CB::Python::Scanner
 
 	Copyright © 2004 by John Lindal.
 
@@ -86,8 +86,7 @@ CBPythonStyler::CBPythonStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBPythonStyler"),
-				 kCBPythonStyleID, kCBPythonFT),
-	CBPythonScanner()
+				 kCBPythonStyleID, kCBPythonFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -127,7 +126,7 @@ CBPythonStyler::Scan
 	const TokenExtra&				initData
 	)
 {
-	BeginScan(startIndex, input);
+	BeginScan(GetStyledText(), startIndex, input);
 
 	const JString& text = GetText();
 

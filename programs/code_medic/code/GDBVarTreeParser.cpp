@@ -20,7 +20,7 @@ GDBVarTreeParser::GDBVarTreeParser()
 	itsCurrentNode(nullptr),
 	itsIsPointerFlag(false)
 {
-	itsScanner = jnew GDBVarTreeScanner;
+	itsScanner = jnew GDBVarTree::Scanner;
 	assert(itsScanner != nullptr);
 }
 

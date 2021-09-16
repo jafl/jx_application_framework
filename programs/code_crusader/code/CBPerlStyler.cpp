@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays Perl with styles to hilight
 	keywords, comments, etc.
 
-	BASE CLASS = CBStylerBase, CBPerlScanner
+	BASE CLASS = CBStylerBase, CB::Perl::Scanner
 
 	Copyright © 2003 by John Lindal.
 
@@ -114,8 +114,7 @@ CBPerlStyler::CBPerlStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
 				 JGetString("EditDialogTitle::CBPerlStyler"),
-				 kCBPerlStyleID, kCBPerlFT),
-	CBPerlScanner()
+				 kCBPerlStyleID, kCBPerlFT)
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -225,7 +224,7 @@ CBPerlStyler::Scan
 			}
 		else if (token.type == kPPDirective)
 			{
-			style = GetStyle(typeIndex, JString(text.GetRawBytes(), GetPPNameRange().byteRange, JString::kNoCopy));
+			style = GetStyle(typeIndex, GetPPCommand(text));
 			}
 		else if (token.type < kWhitespace)
 			{
