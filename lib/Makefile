@@ -59,6 +59,9 @@ install_pre:
 	@if { ! test -e ./libACE-*.so -o -e ./libACE-*.a; } then \
          cd ../ACE; ${MAKE} jxinstall; \
      fi
+	@if { test ! -e ./libreflex.a -a -d ../misc/reflex; } then \
+         cd ../misc/reflex; ./clean.sh; ./build.sh; \
+     fi
 	@if { ! test -x ../tools/makemake/makemake; } then \
          cd ../tools/makemake; \
          ${MAKE} -f Makefile.port jxinstall; \

@@ -7,16 +7,15 @@
 *.exe
 *Y.hpp
 *.bak
-**/.jcc/*
+**/.jcc
 libj*/Makefile
 **/test/Makefile
 */testui/Makefile
-Mesa
-misc/Mesa.tgz
-misc/aspell*
+misc/reflex
 doc/api
 sonar_output
 .scannerwork
+misc/reflex
 
 programs/*/code/*StringData.h
 programs/*/Makefile
