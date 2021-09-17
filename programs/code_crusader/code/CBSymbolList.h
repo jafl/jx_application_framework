@@ -23,7 +23,7 @@ public:
 
 	enum
 	{
-		kBlockSize = 2000
+		kBlockSize = 2048
 	};
 
 public:

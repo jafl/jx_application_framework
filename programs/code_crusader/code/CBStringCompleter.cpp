@@ -36,7 +36,7 @@ CBStringCompleter::CBStringCompleter
 	itsPrefefKeywordList(keywordList),
 	itsCaseSensitiveFlag(caseSensitive)
 {
-	itsStringList = jnew JPtrArray<JString>(JPtrArrayT::kForgetAll, 1000);
+	itsStringList = jnew JPtrArray<JString>(JPtrArrayT::kForgetAll, 4096);
 	assert( itsStringList != nullptr );
 	itsStringList->SetSortOrder(JListT::kSortAscending);
 

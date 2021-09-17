@@ -64,7 +64,7 @@ CBStylerBase::CBStylerBase
 	itsDialogTitle(editDialogTitle),
 	itsEditDialog(nullptr)
 {
-	itsTypeStyles = jnew JArray<JFontStyle>;
+	itsTypeStyles = jnew JArray<JFontStyle>(64);
 	assert( itsTypeStyles != nullptr );
 
 #ifndef CODE_CRUSADER_UNIT_TEST
@@ -79,7 +79,7 @@ CBStylerBase::CBStylerBase
 		itsTypeStyles->AppendElement(style);
 		}
 
-	itsWordStyles = jnew JStringMap<JFontStyle>;
+	itsWordStyles = jnew JStringMap<JFontStyle>(64);
 	assert( itsWordStyles != nullptr );
 
 #ifndef CODE_CRUSADER_UNIT_TEST
