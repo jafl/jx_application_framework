@@ -10,7 +10,7 @@ This scanner reads a D file and returns CB::D::Scanner::Tokens.
 #include <jAssert.h>
 %}
 
-%option namespace="CB::D" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::D" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

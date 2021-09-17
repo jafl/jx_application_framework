@@ -9,7 +9,7 @@ This scanner reads a Python file and returns CB::Python::Scanner::Tokens.
 #include <jAssert.h>
 %}
 
-%option namespace="CB::Python" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::Python" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

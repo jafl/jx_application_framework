@@ -11,7 +11,7 @@ Remember to upgrade CBHTMLScanner, too!
 #include <jAssert.h>
 }
 
-%option namespace="CB::Java" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::Java" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

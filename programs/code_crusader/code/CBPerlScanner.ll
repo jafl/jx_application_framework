@@ -10,7 +10,7 @@ This scanner reads a Perl file and returns CB::Perl::Scanner::Tokens.
 #include <jAssert.h>
 %}
 
-%option namespace="CB::Perl" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::Perl" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

@@ -9,7 +9,7 @@ This scanner reads a .properties file and returns CB::Properties::Scanner::Token
 #include <jAssert.h>
 %}
 
-%option namespace="CB::Properties" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::Properties" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

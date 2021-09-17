@@ -9,7 +9,7 @@ This scanner reads a Go file and returns CB::Go::Scanner::Tokens.
 #include <jAssert.h>
 %}
 
-%option namespace="CB::Go" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::Go" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

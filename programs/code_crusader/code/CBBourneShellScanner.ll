@@ -9,7 +9,7 @@ This scanner reads a bash file and returns CB::BourneShell::Scanner::Tokens.
 #include <jAssert.h>
 }
 
-%option namespace="CB::BourneShell" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::BourneShell" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

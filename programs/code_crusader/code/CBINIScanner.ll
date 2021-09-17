@@ -9,7 +9,7 @@ This scanner reads a PHP .ini file and returns CB::INI::Scanner::Tokens.
 #include <jAssert.h>
 %}
 
-%option namespace="CB::INI" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::INI" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

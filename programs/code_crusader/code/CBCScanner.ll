@@ -9,7 +9,7 @@ This scanner reads a C/C++ file and returns CB::C::Scanner::Tokens.
 #include <jAssert.h>
 }
 
-%option namespace="CB::C" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::C" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

@@ -66,7 +66,7 @@ function configure_ace
 
 function get_reflex
 {
-	git clone -b v3.0.10 https://github.com/Genivia/RE-flex misc/reflex;
+	git clone -b v3.0.11 https://github.com/Genivia/RE-flex misc/reflex;
 }
 
 function clean_links
@@ -122,6 +122,7 @@ if [[ $SYS == Darwin ]]; then
 	fi
 
 	brew bundle;
+	get_reflex;
 
 	if [[ ! -L ACE/ACE_wrappers ]]; then
 		rm -rf ACE/ACE_wrappers;

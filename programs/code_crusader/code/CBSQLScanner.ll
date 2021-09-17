@@ -9,7 +9,7 @@ This scanner reads a SQL file and returns CB::SQL::Scanner::Tokens.
 #include <jAssert.h>
 %}
 
-%option namespace="CB::SQL" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::SQL" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

@@ -10,7 +10,7 @@ This scanner reads an HTML/XML/PHP/JSP file and returns CB::HTML::Scanner::Token
 #include <jAssert.h>
 %}
 
-%option namespace="CB::HTML" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::HTML" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

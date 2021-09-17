@@ -9,7 +9,7 @@ This scanner reads a TCL file and returns CB::TCL::Scanner::Tokens.
 #include <jAssert.h>
 %}
 
-%option namespace="CB::TCL" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::TCL" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 
