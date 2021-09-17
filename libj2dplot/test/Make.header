@@ -59,7 +59,7 @@ endif
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} ${J_STD_LIBS}
+LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} -lreflex ${J_STD_LIBS}
 LDFLAGS   := 
 
 # tests

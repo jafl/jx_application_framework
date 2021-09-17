@@ -279,8 +279,8 @@ SyGCopyProcess::SyGCopyProcess
 
 	itsVCSType = kJUnknownVCSType;
 	{
-	JVCSType type1, type2, type3;
-	bool anyVCS, allVCS, sameVCS;
+	JVCSType type1 = kJUnknownVCSType, type2 = kJUnknownVCSType, type3 = kJUnknownVCSType;
+	bool anyVCS = false, allVCS = false, sameVCS = false;
 
 	const JSize srcCount = srcNameList->GetElementCount();
 	JString path, name;
