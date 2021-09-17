@@ -61,6 +61,7 @@ install_pre:
      fi
 	@if { test ! -e ./libreflex.a -a -d ../misc/reflex; } then \
          cd ../misc/reflex; ./clean.sh; ./build.sh; \
+         cp bin/reflex ${JX_INSTALL_ROOT}; \
      fi
 	@if { ! test -x ../tools/makemake/makemake; } then \
          cd ../tools/makemake; \

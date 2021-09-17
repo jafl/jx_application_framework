@@ -12,7 +12,7 @@
  ******************************************************************************/
 
 #include "GDBGetInitArgs.h"
-#include "GDBOutputScannerL.h"
+#include "GDBOutputScanner.h"
 #include "cmGlobals.h"
 #include <JXInputField.h>
 #include <JStringIterator.h>

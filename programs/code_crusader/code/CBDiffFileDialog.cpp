@@ -1293,7 +1293,7 @@ CBDiffFileDialog::BuildCVSDiffCmd
 
 	*getCmd  = "cvs -d " + JPrepArgForExec(cvsRoot) + " get ";
 	*diffCmd = "cvs -f diff ";
-	if ((rev1Cmd == kPreviousRevCmd && origRev1 != nullptr) ||
+	if ((rev1Cmd == kPreviousRevCmd && !origRev1.IsEmpty()) ||
 		(!cbIsFixedRevCmd(rev1Cmd) && !origRev1.IsEmpty()))
 		{
 		JIndex cmd1  = rev1Cmd;
@@ -1566,8 +1566,8 @@ CBDiffFileDialog::BuildSVNDiffCmd
 
 	*getCmd  = "svn cat ";
 	*diffCmd = (forDirectory ? "svn diff " : "svn diff --diff-cmd diff -x --normal ");
-	if ((rev1Cmd == kPreviousRevCmd && origRev1 != nullptr) ||		// PREV from dialog
-		(rev1Cmd == kTrunkCmd && origRev1 != nullptr) ||			// TRUNK from dialog
+	if ((rev1Cmd == kPreviousRevCmd && !origRev1.IsEmpty()) ||		// PREV from dialog
+		(rev1Cmd == kTrunkCmd && !origRev1.IsEmpty()) ||			// TRUNK from dialog
 		(!cbIsSVNFixedRevCmd(rev1Cmd) && !origRev1.IsEmpty()))
 		{
 		JIndex cmd1    = rev1Cmd;
@@ -1872,7 +1872,7 @@ CBDiffFileDialog::BuildGitDiffCmd
 
 	get1Cmd->Clear();
 	get2Cmd->Clear();
-	if ((rev1Cmd == kPreviousRevCmd && rev1 != nullptr) ||		// PREV from dialog
+	if ((rev1Cmd == kPreviousRevCmd && !rev1.IsEmpty()) ||		// PREV from dialog
 		(!cbIsFixedRevCmd(rev1Cmd) && !rev1.IsEmpty()))
 		{
 		JString get1Rev;
@@ -2011,7 +2011,7 @@ CBDiffFileDialog::BuildGitDiffDirectoryCmd
 		*diffCmd += "--ignore-space-change ";
 		}
 
-	if ((rev1Cmd == kPreviousRevCmd && rev1 != nullptr) ||		// PREV from dialog
+	if ((rev1Cmd == kPreviousRevCmd && !rev1.IsEmpty()) ||		// PREV from dialog
 		(!cbIsFixedRevCmd(rev1Cmd) && !rev1.IsEmpty()))
 		{
 		JString get1Rev;
@@ -2410,7 +2410,7 @@ CBDiffFileDialog::CheckVCSFileOrPath
 		widget->GetBasePath(&basePath);
 		if (JConvertToAbsolutePath(text, basePath, &s))
 			{
-			if (fullName != nullptr)
+			if (!fullName->IsEmpty())
 				{
 				*fullName = s;
 				}
@@ -2424,7 +2424,7 @@ CBDiffFileDialog::CheckVCSFileOrPath
 		JGetUserNotification()->ReportError(JGetString("VCSDiffTargetInvalid::CBDiffFileDialog"));
 		}
 
-	if (fullName != nullptr)
+	if (!fullName->IsEmpty())
 		{
 		fullName->Clear();
 		}
@@ -2491,7 +2491,7 @@ CBDiffFileDialog::CheckSVNFileOrPath
 		{
 		if (JIsURL(text))
 			{
-			if (fullName != nullptr)
+			if (!fullName->IsEmpty())
 				{
 				*fullName = text;
 				}
@@ -2502,7 +2502,7 @@ CBDiffFileDialog::CheckSVNFileOrPath
 		widget->GetBasePath(&basePath);
 		if (JConvertToAbsolutePath(text, basePath, &s))
 			{
-			if (fullName != nullptr)
+			if (!fullName->IsEmpty())
 				{
 				*fullName = s;
 				}
@@ -2516,7 +2516,7 @@ CBDiffFileDialog::CheckSVNFileOrPath
 		JGetUserNotification()->ReportError(JGetString("SVNDiffTargetInvalid::CBDiffFileDialog"));
 		}
 
-	if (fullName != nullptr)
+	if (!fullName->IsEmpty())
 		{
 		fullName->Clear();
 		}

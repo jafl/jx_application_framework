@@ -3577,7 +3577,7 @@ JTextEditor::GetCharLeft
 
  ******************************************************************************/
 
-inline JCoordinate
+JCoordinate
 JTextEditor::GetCharRight
 	(
 	const CaretLocation& charLoc

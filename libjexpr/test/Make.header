@@ -5,9 +5,10 @@
 
 JX_ROOT := ../..
 
-CODEDIR  := ./code
-JCOREDIR := ${JX_ROOT}/include/jcore
-JEXPRDIR := ${JX_ROOT}/include/jexpr
+CODEDIR   := ./code
+JCOREDIR  := ${JX_ROOT}/include/jcore
+JEXPRDIR  := ${JX_ROOT}/include/jexpr
+REFLEXDIR := ${JX_ROOT}/include/reflex
 
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
@@ -17,7 +18,8 @@ JEXPRLIBDIR := ${JX_ROOT}/libjexpr
 
 SEARCHDIRS := -I${CODEDIR} \
               -I${JCOREDIR} \
-              -I${JEXPRDIR}
+              -I${JEXPRDIR} \
+              -I${REFLEXDIR}
 
 # makemake variables
 
