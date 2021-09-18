@@ -39,27 +39,27 @@ public:
 	virtual bool	ChangeDebugger() override;
 	virtual bool	RestartDebugger() override;
 
-	virtual JString		GetChooseProgramInstructions() const override;
+	virtual JString	GetChooseProgramInstructions() const override;
 	virtual bool	HasProgram() const override;
 	virtual bool	GetProgram(JString* fullName) const override;
-	virtual void		SetProgram(const JString& fullName) override;
-	virtual void		ReloadProgram() override;
+	virtual void	SetProgram(const JString& fullName) override;
+	virtual void	ReloadProgram() override;
 	virtual bool	HasCore() const override;
 	virtual bool	GetCore(JString* fullName) const override;
-	virtual void		SetCore(const JString& fullName) override;
-	virtual void		AttachToProcess(const pid_t pid) override;
+	virtual void	SetCore(const JString& fullName) override;
+	virtual void	AttachToProcess(const pid_t pid) override;
 
-	virtual void		RunProgram(const JString& args) override;
-	virtual void		StopProgram() override;
-	virtual void		KillProgram() override;
+	virtual void	RunProgram(const JString& args) override;
+	virtual void	StopProgram() override;
+	virtual void	KillProgram() override;
 	virtual bool	ProgramIsRunning() const override;
 	virtual bool	ProgramIsStopped() const override;
 	virtual bool	OKToDetachOrKill() const override;
 
 	virtual bool	OKToSendMultipleCommands() const override;
 	virtual bool	OKToSendCommands(const bool background) const override;
-	void				Send(const JString& text);
-	void				SendWhenStopped(const JString& text);
+	void			Send(const JString& text);
+	void			SendWhenStopped(const JString& text);
 
 	virtual CMBreakpointManager*	GetBreakpointManager() override;
 
@@ -181,29 +181,28 @@ private:
 
 private:
 
-	JString			itsDebuggerCmd;
-	JProcess*		itsDebuggerProcess;			// can be nullptr
-	JProcess*		itsChildProcess;			// nullptr until aquired pid
+	JString		itsDebuggerCmd;
+	JProcess*	itsDebuggerProcess;		// can be nullptr
+	JProcess*	itsChildProcess;		// nullptr until aquired pid
 
-	ProcessLink*	itsOutputLink;				// nullptr if debugger not started
-	ProcessLink*	itsInputLink;				// nullptr if debugger not started
+	ProcessLink*	itsOutputLink;		// nullptr if debugger not started
+	ProcessLink*	itsInputLink;		// nullptr if debugger not started
 
-	JString			itsProgramName;				// from "info file"
-	JString			itsCoreName;				// from "info file"
-	bool		itsHasStartedFlag;			// debugger is running
-	bool		itsInitFinishedFlag;		// debugger has been fully initialized
-	bool		itsSymbolsLoadedFlag;		// debugger has loaded symbols
-	bool		itsDebuggerBusyFlag;		// debugger is busy
-	bool		itsIgnoreNextMaybeReadyFlag;// ignore next prompt
-	bool		itsIsDebuggingFlag;			// a process is being debugged
-	bool		itsIsAttachedFlag;			// debugging pre-existing process
-	bool		itsProgramIsStoppedFlag;	// the process is stopped
-	bool		itsFirstBreakFlag;			// next program stop is to get pid
-	bool		itsPrintingOutputFlag;		// output is being printed to GUI
-	bool		itsDefiningScriptFlag;		// debugger is printing prompt ">"
-	bool		itsWaitingToQuitFlag;		// user stopped the debugger
-	JSize			itsContinueCount;			// # of prompts with empty fg Q before "continue"
-	JIndex			itsPingID;
+	JString	itsProgramName;				// from "info file"
+	JString	itsCoreName;				// from "info file"
+	bool	itsHasStartedFlag;			// debugger is running
+	bool	itsInitFinishedFlag;		// debugger has been fully initialized
+	bool	itsSymbolsLoadedFlag;		// debugger has loaded symbols
+	bool	itsDebuggerBusyFlag;		// debugger is busy
+	bool	itsIsDebuggingFlag;			// a process is being debugged
+	bool	itsIsAttachedFlag;			// debugging pre-existing process
+	bool	itsProgramIsStoppedFlag;	// the process is stopped
+	bool	itsFirstBreakFlag;			// next program stop is to get pid
+	bool	itsPrintingOutputFlag;		// output is being printed to GUI
+	bool	itsDefiningScriptFlag;		// debugger is printing prompt ">"
+	bool	itsWaitingToQuitFlag;		// user stopped the debugger
+	JSize	itsContinueCount;			// # of prompts with empty fg Q before "continue"
+	JIndex	itsPingID;
 
 	GDBOutput::Scanner*			itsScanner;
 	GDBBreakpointManager*		itsBPMgr;
@@ -214,10 +213,10 @@ private:
 private:
 
 	bool	StartDebugger();
-	void		InitDebugger();
-	void		InitFlags();
-	void		StopDebugger();
-	void		ReadFromDebugger();
+	void	InitDebugger();
+	void	InitFlags();
+	void	StopDebugger();
+	void	ReadFromDebugger();
 
 	void	DetachOrKill();
 

@@ -38,7 +38,6 @@ public:
 		kCommandResult,
 		kDebugOutput,
 
-		kMaybeReadyForInput,	// OSX
 		kReadyForInput,
 		kDebuggerFinished,
 
@@ -107,8 +106,6 @@ public:
 	void	Reset();
 	void	AppendInput(const JString& string);
 
-	virtual int	wrap();
-
 	static void	TranslateMIOutput(JString* data);
 
 private:
@@ -124,6 +121,7 @@ private:
 
 private:
 
+	void	AppendInputText(const JString& string);
 	void	ExtractCommandId(const JUtf8Byte* str, const JSize len);
 }
 
@@ -559,55 +557,64 @@ GDBOutput::Scanner::AppendInput
 	const JString& string
 	)
 {
-	JPtrArray<JString> split(JPtrArrayT::kDeleteAll);
-	string.Split("\n", &split);
+	itsInputBuffer.Clear();
 
-	JString* last = split.GetLastElement();
-	split.RemoveElement(split.GetElementCount());
-
-	for (auto* s : split)
-	{
-		if (!itsPartialBuffer.IsEmpty())
-			{
-			itsInputBuffer += itsPartialBuffer;
-			itsPartialBuffer.Clear();
-			}
-		itsInputBuffer.Append(*s);
-		itsInputBuffer.Append("\n");
-	}
-
-	// Accumulate partial line for later parsing if:
-	// 1: the first character is a meta character
-	// 2: we have already accumulated something else
-
-	if (strchr("(^~@&*+=", last->GetBytes()[0]) != nullptr || !itsPartialBuffer.IsEmpty())
+	if (string.GetLastCharacter() == '\n')
 		{
-		itsPartialBuffer += *last;
+		AppendInputText(string);
 		}
 	else
 		{
-		itsInputBuffer += *last;
+		JStringIterator iter(string);
+		iter.BeginMatch();
+		if (iter.Next("\n"))
+			{
+			AppendInputText(iter.FinishMatch(true).GetString());
+			iter.BeginMatch();
+			}
+
+		const JString s = iter.FinishMatch().GetString();
+
+		// Accumulate partial line for later parsing if:
+		// 1: the first character is a meta character
+		// 2: we have already accumulated something else
+
+		if (strchr("^~@&*+=", s.GetBytes()[0]) != nullptr ||
+			!itsPartialBuffer.IsEmpty())
+			{
+			itsPartialBuffer += s;
+			}
+		else
+			{
+			itsInputBuffer += s;
+			}
 		}
 
-	jdelete last;
+	// lexer reads directly from itsInputBuffer
+
+	if (!itsInputBuffer.IsEmpty())
+		{
+		in(itsInputBuffer.GetBytes(), itsInputBuffer.GetByteCount());
+		}
 }
 
 /******************************************************************************
- wrap (virtual)
+ AppendInputText (private)
 
  *****************************************************************************/
 
-int
-GDBOutput::Scanner::wrap()
+void
+GDBOutput::Scanner::AppendInputText
+	(
+	const JString& string
+	)
 {
-	if (itsInputBuffer.IsEmpty())
-	{
-		return 1;
-	}
-
-	in(itsInputBuffer.GetBytes());
-	itsInputBuffer.Clear();
-	return 0;
+	if (!itsPartialBuffer.IsEmpty())
+		{
+		itsInputBuffer += itsPartialBuffer;
+		itsPartialBuffer.Clear();
+		}
+	itsInputBuffer += string;
 }
 
 /******************************************************************************

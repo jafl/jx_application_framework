@@ -135,7 +135,6 @@ GDBLink::InitFlags()
 	itsSymbolsLoadedFlag        = false;
 	itsDebuggerBusyFlag         = true;
 	itsIsDebuggingFlag          = false;
-	itsIgnoreNextMaybeReadyFlag = false;
 	itsIsAttachedFlag           = false;
 	itsProgramIsStoppedFlag     = true;
 	itsFirstBreakFlag           = false;
@@ -404,21 +403,7 @@ GDBLink::ReadFromDebugger()
 		//  correct status.)
 
 		const bool wasStopped = itsProgramIsStoppedFlag;
-		if (token.type == GDBOutput::Scanner::kMaybeReadyForInput)
-			{
-			if (!itsIgnoreNextMaybeReadyFlag)
-				{
-				SendPing();
-				itsPingTask->Start();
-				itsIgnoreNextMaybeReadyFlag = true;
-				}
-			else
-				{
-				itsIgnoreNextMaybeReadyFlag = false;
-				}
-			continue;
-			}
-		else if (token.type == GDBOutput::Scanner::kReadyForInput)
+		if (token.type == GDBOutput::Scanner::kReadyForInput)
 			{
 			itsPingTask->Stop();
 
@@ -462,7 +447,7 @@ GDBLink::ReadFromDebugger()
 
 			continue;
 			}
-		else if (!itsDebuggerBusyFlag && !itsIgnoreNextMaybeReadyFlag)
+		else if (!itsDebuggerBusyFlag)
 			{
 			itsDebuggerBusyFlag = true;
 			Broadcast(DebuggerBusy());

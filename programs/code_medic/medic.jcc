@@ -905,6 +905,10 @@ T
 2 "medic_strings"
 F
 "./strings/medic_strings"
+T
+2 "gdb_init_strings"
+F
+"./strings/gdb_init_strings"
 F
 T
 1 "help"

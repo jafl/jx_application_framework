@@ -81,6 +81,7 @@ GDBGetInitArgs::HandleSuccess
 		JString args = iter.FinishMatch().GetString();
 		args.TrimWhitespace();
 		itsArgInput->GetText()->SetText(args);
+		return;
 		}
 
 	CMGetLink()->Log("GDBGetInitArgs failed to match");
