@@ -59,7 +59,7 @@ JExprParser::Parse
 	JFunction**		f
 	)
 {
-	JExprScanner scanner;
+	JExpr::Scanner scanner;
 	itsScanner = &scanner;
 
 	scanner.in(expr.GetBytes());

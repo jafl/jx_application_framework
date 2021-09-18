@@ -13,7 +13,7 @@ Copyright (C) 2018 by John Lindal.
 	assert( lvalp->pString != nullptr );
 }
 
-%option lexer="JExprScanner"
+%option namespace="JExpr" lexer="Scanner"
 %option lex="NextToken" params="YYSTYPE* lvalp"
 %option unicode nodefault full freespace
 %option bison noyywrap
@@ -181,7 +181,7 @@ EXP	([eE][0-9]+)
 	return P_FN_TRUNCATE;
 	}
 
-(\p{Letter}|`)(\p{Letter}|\p{Number}|`|_)* {
+(\p{L}|`)(\p{L}|\d|`|_)* {
 	NEW_TOKEN
 	return P_VARIABLE;
 }

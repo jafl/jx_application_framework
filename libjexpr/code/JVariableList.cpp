@@ -183,7 +183,7 @@ JVariableList::PopOffEvalStack
 
  ******************************************************************************/
 
-static const JRegex namePattern = "^[[:alpha:]`][[:alnum:]`_]*$";
+static const JRegex namePattern = "^(\\p{L}|`)(\\p{L}|\\d|`|_)*$";
 
 bool
 JVariableList::NameValid
@@ -191,8 +191,8 @@ JVariableList::NameValid
 	const JString& name
 	)
 {
-	return namePattern.Match(name) &&
-				 !JNamedConstant::IsNamedConstant(name);
+	return (namePattern.Match(name) &&
+			!JNamedConstant::IsNamedConstant(name));
 }
 
 /******************************************************************************

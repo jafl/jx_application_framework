@@ -30,7 +30,7 @@ private:
 	JExprEditor*			itsEditor;		// if not nullptr, enables JUserInputFunction
 	const JVariableList*	itsVarList;
 
-	JExprScanner*	itsScanner;
+	JExpr::Scanner*	itsScanner;
 	JFunction*		itsParseResult;
 
 private:
