@@ -2398,7 +2398,7 @@ bool
 CBDiffFileDialog::CheckVCSFileOrPath
 	(
 	JXFileInput*	widget,
-	const bool	reportError,
+	const bool		reportError,
 	JString*		fullName		// can be nullptr
 	)
 	const
@@ -2410,7 +2410,7 @@ CBDiffFileDialog::CheckVCSFileOrPath
 		widget->GetBasePath(&basePath);
 		if (JConvertToAbsolutePath(text, basePath, &s))
 			{
-			if (!fullName->IsEmpty())
+			if (fullName != nullptr)
 				{
 				*fullName = s;
 				}
@@ -2424,7 +2424,7 @@ CBDiffFileDialog::CheckVCSFileOrPath
 		JGetUserNotification()->ReportError(JGetString("VCSDiffTargetInvalid::CBDiffFileDialog"));
 		}
 
-	if (!fullName->IsEmpty())
+	if (fullName != nullptr)
 		{
 		fullName->Clear();
 		}
@@ -2481,7 +2481,7 @@ bool
 CBDiffFileDialog::CheckSVNFileOrPath
 	(
 	JXFileInput*	widget,
-	const bool	reportError,
+	const bool		reportError,
 	JString*		fullName		// can be nullptr
 	)
 	const
@@ -2491,7 +2491,7 @@ CBDiffFileDialog::CheckSVNFileOrPath
 		{
 		if (JIsURL(text))
 			{
-			if (!fullName->IsEmpty())
+			if (fullName != nullptr)
 				{
 				*fullName = text;
 				}
@@ -2502,7 +2502,7 @@ CBDiffFileDialog::CheckSVNFileOrPath
 		widget->GetBasePath(&basePath);
 		if (JConvertToAbsolutePath(text, basePath, &s))
 			{
-			if (!fullName->IsEmpty())
+			if (fullName != nullptr)
 				{
 				*fullName = s;
 				}
@@ -2516,7 +2516,7 @@ CBDiffFileDialog::CheckSVNFileOrPath
 		JGetUserNotification()->ReportError(JGetString("SVNDiffTargetInvalid::CBDiffFileDialog"));
 		}
 
-	if (!fullName->IsEmpty())
+	if (fullName != nullptr)
 		{
 		fullName->Clear();
 		}
