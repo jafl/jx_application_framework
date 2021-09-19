@@ -33,7 +33,7 @@ CMCommandDirector*	CMGetCommandDirector();
 const JString&		CMGetVersionNumberStr();
 JString				CMGetVersionStr();
 
-bool			CMIsShuttingDown();
+bool				CMIsShuttingDown();
 
 	// icons
 
@@ -57,9 +57,9 @@ const JXImage*	CMGetRegistersIcon();
 	// called by CMApp
 
 bool	CMCreateGlobals(CMApp* app);
-void		CMCreateCommandDirector();
-void		CMDeleteGlobals();
-void		CMCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
+void	CMCreateCommandDirector();
+void	CMDeleteGlobals();
+void	CMCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
 	// called by Directors
 

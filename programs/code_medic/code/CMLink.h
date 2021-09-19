@@ -92,19 +92,19 @@ public:
 	virtual bool	ChangeDebugger() = 0;
 	virtual bool	RestartDebugger() = 0;
 
-	virtual JString		GetChooseProgramInstructions() const = 0;
+	virtual JString	GetChooseProgramInstructions() const = 0;
 	virtual bool	HasProgram() const = 0;
 	virtual bool	GetProgram(JString* fullName) const = 0;
-	virtual void		SetProgram(const JString& fullName) = 0;
-	virtual void		ReloadProgram() = 0;
+	virtual void	SetProgram(const JString& fullName) = 0;
+	virtual void	ReloadProgram() = 0;
 	virtual bool	HasCore() const = 0;
 	virtual bool	GetCore(JString* fullName) const = 0;
-	virtual void		SetCore(const JString& fullName) = 0;
-	virtual void		AttachToProcess(const pid_t pid) = 0;
+	virtual void	SetCore(const JString& fullName) = 0;
+	virtual void	AttachToProcess(const pid_t pid) = 0;
 
-	virtual void		RunProgram(const JString& args) = 0;
-	virtual void		StopProgram() = 0;
-	virtual void		KillProgram() = 0;
+	virtual void	RunProgram(const JString& args) = 0;
+	virtual void	StopProgram() = 0;
+	virtual void	KillProgram() = 0;
 	virtual bool	ProgramIsRunning() const = 0;
 	virtual bool	ProgramIsStopped() const = 0;
 	virtual bool	OKToDetachOrKill() const = 0;
@@ -165,10 +165,10 @@ public:
 	virtual const JString&	GetPrompt()	const = 0;
 	virtual const JString&	GetScriptPrompt() const = 0;
 
-	void		RememberFile(const JString& fileName, const JString& fullName);
+	void	RememberFile(const JString& fileName, const JString& fullName);
 	bool	FindFile(const JString& fileName,
-						 bool* exists, JString* fullName) const;
-	void		ClearFileNameMap();
+					 bool* exists, JString* fullName) const;
+	void	ClearFileNameMap();
 
 	static void	NotifyUser(const JString& msg, const bool error);
 	static void	Log(const JUtf8Byte* log);
@@ -226,7 +226,7 @@ protected:
 	void	DeleteOneShotCommands();
 
 	bool	GetRunningCommand(CMCommand** cmd);
-	void		SetRunningCommand(CMCommand* cmd);
+	void	SetRunningCommand(CMCommand* cmd);
 
 	virtual void	SendMedicCommand(CMCommand* command) = 0;
 
