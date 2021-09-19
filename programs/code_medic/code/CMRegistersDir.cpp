@@ -92,6 +92,8 @@ CMRegistersDir::CMRegistersDir
 CMRegistersDir::~CMRegistersDir()
 {
 	CMGetPrefsManager()->SaveWindowSize(kRegistersWindowSizeID, GetWindow());
+
+	jdelete itsCmd;
 }
 
 /******************************************************************************

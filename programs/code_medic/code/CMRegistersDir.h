@@ -40,8 +40,8 @@ private:
 	CMCommandDirector*	itsCommandDir;
 	JXStaticText*		itsWidget;
 	CMGetRegisters*		itsCmd;			// can be nullptr
-	bool			itsShouldUpdateFlag;
-	bool			itsNeedsUpdateFlag;
+	bool				itsShouldUpdateFlag;
+	bool				itsNeedsUpdateFlag;
 
 	JXTextMenu*			itsFileMenu;
 	JXTextMenu*			itsHelpMenu;

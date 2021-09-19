@@ -194,7 +194,7 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 
 	static const JSize theStackMax = 50;
 
-	bool  JMemoryManager::theConstructingFlag = false;
+	bool      JMemoryManager::theConstructingFlag = false;
 	JMMRecord JMemoryManager::theAllocStack[theStackMax];
 	JSize     JMemoryManager::theAllocStackSize = 0;
 
@@ -203,7 +203,7 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 	JMemoryManager::DeleteRequest JMemoryManager::theDeallocStack[theStackMax];
 	JSize                         JMemoryManager::theDeallocStackSize = 0;
 
-	bool      JMemoryManager::theAbortUnknownAllocFlag = false;
+	bool JMemoryManager::theAbortUnknownAllocFlag = false;
 
 	const JUtf8Byte* JMemoryManager::kUnknownFile = "<UNKNOWN>";
 
@@ -387,7 +387,7 @@ JMemoryManager::New
 	const size_t     size,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const bool   isArray
+	const bool       isArray
 	)
 {
 	if (theAbortUnknownAllocFlag && line == 0)
@@ -441,7 +441,7 @@ JMemoryManager::New
 void
 JMemoryManager::Delete
 	(
-	void*          block,
+	void*      block,
 	const bool isArray
 	)
 {
