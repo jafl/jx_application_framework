@@ -104,8 +104,8 @@
 #		JMM_PIPE               UNIX pipe on which to receive requests.  Also used
 #		                       to send exit stats.
 
-#		MALLOC_CHECK_          Setting this environment variable turns on checking
-#		                       in libc.  1 => print error  2 => abort  3 => both
+#		MALLOC_PERTURB_        Setting this environment variable turns on
+#		                       initialization and shredding of memory in libc.
 
 	(JMM_NO_PRINT_ERRORS is actually read in the JMMErrorPrinter proxy object.)
 

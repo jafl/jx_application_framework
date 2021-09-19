@@ -37,9 +37,9 @@
 
 static const JUtf8Byte* kVersionStr =
 
-	"makemake 3.4.1\n"
+	"makemake 3.4.2\n"
 	"\n"
-	"Copyright (C) 1994-2017 by John Lindal.";
+	"Copyright (C) 1994-2021 by John Lindal.";
 
 static const JUtf8Byte* kMakeBinary         = J_MAKE_BINARY_NAME;
 static const JUtf8Byte* kDependTargetName   = "jdepend";
@@ -1869,6 +1869,11 @@ GetNextIncludedFile
 			else if ((type == '"' && FindFile(name, pathList1, fileName)) ||
 					 FindFile(name, pathList2, fileName))
 				{
+				if (globalIgnorePattern != nullptr &&
+					globalIgnorePattern->Match(*fileName))
+					{
+					continue;
+					}
 				return true;
 				}
 			else if (type == '"' && assumeAutoGen)	// assume in same dir as including file

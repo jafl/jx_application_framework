@@ -1,5 +1,9 @@
 Changes from previous versions
 
+3.4.2
+
+Fixed so J_MAKEMAKE_IGNORE_PATTERN can also match full path.
+
 3.4.1
 
 Upgraded to UTF-8.
