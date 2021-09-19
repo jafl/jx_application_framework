@@ -567,7 +567,7 @@ GDBOutput::Scanner::AppendInput
 		{
 		JStringIterator iter(string);
 		iter.BeginMatch();
-		if (iter.Next("\n"))
+		while (iter.Next("\n"))
 			{
 			AppendInputText(iter.FinishMatch(true).GetString());
 			iter.BeginMatch();
@@ -594,7 +594,11 @@ GDBOutput::Scanner::AppendInput
 
 	if (!itsInputBuffer.IsEmpty())
 		{
-		in(itsInputBuffer.GetBytes(), itsInputBuffer.GetByteCount());
+		in() = reflex::Input(itsInputBuffer.GetBytes(), itsInputBuffer.GetByteCount());
+		if (has_matcher())
+			{
+			matcher().set_end(false);
+			}
 		}
 }
 
