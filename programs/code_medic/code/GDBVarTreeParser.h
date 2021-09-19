@@ -27,7 +27,7 @@ public:
 
 private:
 
-	GDBVarTree::Scanner*	itsScanner;
+	GDB::VarTree::Scanner*	itsScanner;
 	CMVarNode*				itsCurrentNode;
 	bool					itsIsPointerFlag;
 

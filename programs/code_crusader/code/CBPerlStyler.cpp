@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays Perl with styles to hilight
 	keywords, comments, etc.
 
-	BASE CLASS = CBStylerBase, CB::Perl::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::Perl::Scanner
 
 	Copyright © 2003 by John Lindal.
 

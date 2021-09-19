@@ -237,6 +237,7 @@ CMSourceDirector::~CMSourceDirector()
 		}
 
 	jdelete itsSrcMainCmd;
+	jdelete itsGetAssemblyCmd;
 }
 
 /******************************************************************************

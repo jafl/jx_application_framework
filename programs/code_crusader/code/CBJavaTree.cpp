@@ -150,7 +150,7 @@ CBJavaTree::ParseFile
 {
 	if (itsClassNameLexer == nullptr)
 		{
-		itsClassNameLexer = jnew CB::JavaTree::Scanner;
+		itsClassNameLexer = jnew CB::Tree::Java::Scanner;
 		assert( itsClassNameLexer != nullptr );
 		}
 
@@ -158,7 +158,7 @@ CBJavaTree::ParseFile
 
 	std::ifstream input(fileName.GetBytes());
 	itsClassNameLexer->in(&input);
-	itsClassNameLexer->start(CB::JavaTree::Scanner::INITIAL);
+	itsClassNameLexer->start(CB::Tree::Java::Scanner::INITIAL);
 
 	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
 	itsClassNameLexer->CreateClasses(id, this, &classList);

@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays csh with styles to hilight
 	keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CB::CShell::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::CShell::Scanner
 
 	Copyright © 2001 by John Lindal.
 

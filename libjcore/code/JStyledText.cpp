@@ -949,7 +949,7 @@ JStyledText::PrepareReplaceMatch
 
 	if (preserveCase)
 		{
-		replaceText.MatchCase(match.GetString().GetRawBytes(), match.GetUtf8ByteRange());
+		replaceText.MatchCase(itsText.GetRawBytes(), match.GetUtf8ByteRange());
 		}
 
 	return replaceText;

@@ -12,7 +12,7 @@
  ******************************************************************************/
 
 #include "GDBGetInitArgs.h"
-#include "GDBOutputScannerL.h"
+#include "GDBOutputScanner.h"
 #include "cmGlobals.h"
 #include <JXInputField.h>
 #include <JStringIterator.h>
@@ -63,7 +63,7 @@ GDBGetInitArgs::HandleSuccess
 	if (!m.IsEmpty())
 		{
 		JString args = m.GetSubstring(1);
-		GDBOutput::Scanner::TranslateMIOutput(&args);
+		GDB::Output::Scanner::TranslateMIOutput(&args);
 		itsArgInput->GetText()->SetText(args);
 		return;
 		}
@@ -81,6 +81,7 @@ GDBGetInitArgs::HandleSuccess
 		JString args = iter.FinishMatch().GetString();
 		args.TrimWhitespace();
 		itsArgInput->GetText()->SetText(args);
+		return;
 		}
 
 	CMGetLink()->Log("GDBGetInitArgs failed to match");

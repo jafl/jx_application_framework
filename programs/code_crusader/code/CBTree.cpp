@@ -41,7 +41,7 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-const JSize kBlockSize = 100;
+const JSize kBlockSize = 1024;
 
 // Code Mill info
 

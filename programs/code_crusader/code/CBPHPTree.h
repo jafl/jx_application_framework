@@ -14,7 +14,7 @@ class CBPHPTreeDirector;
 class CBPHPClass;
 class CBClass;
 
-namespace CB::PHPTree { class Scanner; }
+namespace CB::Tree::PHP { class Scanner; }
 
 class CBPHPTree : public CBTree
 {
@@ -40,7 +40,7 @@ protected:
 
 private:
 
-	CB::PHPTree::Scanner*	itsClassNameLexer;	// nullptr unless parsing
+	CB::Tree::PHP::Scanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
 

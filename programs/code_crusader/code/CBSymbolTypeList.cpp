@@ -257,7 +257,7 @@ CBSymbolTypeList::CreateSymTypeList
 					 italic(false, true, 0, false),
 					 bold_gray(true, false, 0, false, JColorManager::GetGrayColor(50));
 
-	itsSymbolTypeList = jnew JArray<SymbolTypeInfo>(50);
+	itsSymbolTypeList = jnew JArray<SymbolTypeInfo>(512);
 	assert( itsSymbolTypeList != nullptr );
 
 	ADD_S (kUnknownST, kCBOtherLang, JFontStyle(JColorManager::GetGrayColor(50)))

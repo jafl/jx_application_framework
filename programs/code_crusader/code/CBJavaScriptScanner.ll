@@ -2,7 +2,7 @@
 /*
 Copyright © 2006 by John Lindal.
 
-This scanner reads a JavaScript file and returns CB::JavaScript::Scanner::Tokens.
+This scanner reads a JavaScript file and returns CB::Text::JavaScript::Scanner::Tokens.
 
 Remember to upgrade CBHTMLScanner, too!
 */
@@ -11,7 +11,7 @@ Remember to upgrade CBHTMLScanner, too!
 #include <jAssert.h>
 %}
 
-%option namespace="CB::JavaScript" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::Text::JavaScript" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 
@@ -526,7 +526,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
  *****************************************************************************/
 
 void
-CB::JavaScript::Scanner::BeginScan
+CB::Text::JavaScript::Scanner::BeginScan
 	(
 	const JStyledText*				text,
 	const JStyledText::TextIndex&	startIndex,

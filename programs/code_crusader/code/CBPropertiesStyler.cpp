@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays .properties with styles to
 	hilight comments, etc.
 
-	BASE CLASS = CBStylerBase, CB::Properties::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::Properties::Scanner
 
 	Copyright © 2015 by John Lindal.
 

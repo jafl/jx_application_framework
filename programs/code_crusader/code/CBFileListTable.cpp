@@ -51,7 +51,7 @@ CBFileListTable::CBFileListTable
 	:
 	JXFileListTable(scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	itsFileInfo = jnew JArray<FileInfo>(100);
+	itsFileInfo = jnew JArray<FileInfo>(1024);
 	assert( itsFileInfo != nullptr );
 
 	itsFileUsage              = nullptr;

@@ -2,14 +2,14 @@
 /*
 Copyright © 2001 by John Lindal.
 
-This scanner reads a TCL file and returns CB::TCL::Scanner::Tokens.
+This scanner reads a TCL file and returns CB::Text::TCL::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
 #include <jAssert.h>
 %}
 
-%option namespace="CB::TCL" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::Text::TCL" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 
@@ -348,7 +348,7 @@ PREDEFWORD   (after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|
  *****************************************************************************/
 
 void
-CB::TCL::Scanner::BeginScan
+CB::Text::TCL::Scanner::BeginScan
 	(
 	const JStyledText*				text,
 	const JStyledText::TextIndex&	startIndex,

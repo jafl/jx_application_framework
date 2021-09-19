@@ -249,7 +249,7 @@ JLatentPG::IncrementProgress
 		result     = itsPG->IncrementProgress(message);
 		itsCounter = 0;
 		}
-	else if (pgRunning && message != nullptr)
+	else if (pgRunning && !message.IsEmpty())
 		{
 		const JSize delta1 = GetCurrentStepCount() - itsPG->GetCurrentStepCount();
 		if (delta1 > 1)

@@ -1293,7 +1293,7 @@ CBDiffFileDialog::BuildCVSDiffCmd
 
 	*getCmd  = "cvs -d " + JPrepArgForExec(cvsRoot) + " get ";
 	*diffCmd = "cvs -f diff ";
-	if ((rev1Cmd == kPreviousRevCmd && origRev1 != nullptr) ||
+	if ((rev1Cmd == kPreviousRevCmd && !origRev1.IsEmpty()) ||
 		(!cbIsFixedRevCmd(rev1Cmd) && !origRev1.IsEmpty()))
 		{
 		JIndex cmd1  = rev1Cmd;
@@ -1566,8 +1566,8 @@ CBDiffFileDialog::BuildSVNDiffCmd
 
 	*getCmd  = "svn cat ";
 	*diffCmd = (forDirectory ? "svn diff " : "svn diff --diff-cmd diff -x --normal ");
-	if ((rev1Cmd == kPreviousRevCmd && origRev1 != nullptr) ||		// PREV from dialog
-		(rev1Cmd == kTrunkCmd && origRev1 != nullptr) ||			// TRUNK from dialog
+	if ((rev1Cmd == kPreviousRevCmd && !origRev1.IsEmpty()) ||		// PREV from dialog
+		(rev1Cmd == kTrunkCmd && !origRev1.IsEmpty()) ||			// TRUNK from dialog
 		(!cbIsSVNFixedRevCmd(rev1Cmd) && !origRev1.IsEmpty()))
 		{
 		JIndex cmd1    = rev1Cmd;
@@ -1872,7 +1872,7 @@ CBDiffFileDialog::BuildGitDiffCmd
 
 	get1Cmd->Clear();
 	get2Cmd->Clear();
-	if ((rev1Cmd == kPreviousRevCmd && rev1 != nullptr) ||		// PREV from dialog
+	if ((rev1Cmd == kPreviousRevCmd && !rev1.IsEmpty()) ||		// PREV from dialog
 		(!cbIsFixedRevCmd(rev1Cmd) && !rev1.IsEmpty()))
 		{
 		JString get1Rev;
@@ -2011,7 +2011,7 @@ CBDiffFileDialog::BuildGitDiffDirectoryCmd
 		*diffCmd += "--ignore-space-change ";
 		}
 
-	if ((rev1Cmd == kPreviousRevCmd && rev1 != nullptr) ||		// PREV from dialog
+	if ((rev1Cmd == kPreviousRevCmd && !rev1.IsEmpty()) ||		// PREV from dialog
 		(!cbIsFixedRevCmd(rev1Cmd) && !rev1.IsEmpty()))
 		{
 		JString get1Rev;
@@ -2398,7 +2398,7 @@ bool
 CBDiffFileDialog::CheckVCSFileOrPath
 	(
 	JXFileInput*	widget,
-	const bool	reportError,
+	const bool		reportError,
 	JString*		fullName		// can be nullptr
 	)
 	const
@@ -2481,7 +2481,7 @@ bool
 CBDiffFileDialog::CheckSVNFileOrPath
 	(
 	JXFileInput*	widget,
-	const bool	reportError,
+	const bool		reportError,
 	JString*		fullName		// can be nullptr
 	)
 	const

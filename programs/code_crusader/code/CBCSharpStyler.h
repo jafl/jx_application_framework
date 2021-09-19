@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBCSharpScanner.h"
 
-class CBCSharpStyler : public CBStylerBase, public CB::CSharp::Scanner
+class CBCSharpStyler : public CBStylerBase, public CB::Text::CSharp::Scanner
 {
 public:
 

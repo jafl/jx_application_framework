@@ -9,13 +9,15 @@ J2DPLOTDIR := ./code
 JCOREDIR   := ${JX_ROOT}/include/jcore
 JEXPRDIR   := ${JX_ROOT}/include/jexpr
 JXDIR      := ${JX_ROOT}/include/jx
+REFLEXDIR  := ${JX_ROOT}/include/reflex
 
 # Directories to search for header files
 
 SEARCHDIRS := -I${J2DPLOTDIR} \
               -I${JCOREDIR} \
               -I${JEXPRDIR} \
-              -I${JXDIR}
+              -I${JXDIR} \
+              -I${REFLEXDIR}
 
 # makemake variables
 

@@ -2275,7 +2275,7 @@ JString::MatchCase
 
 	assert( RangeValid(destRange) );
 
-	bool changed      = false;
+	bool changed          = false;
 	const JSize sourceLen = CountCharacters(source, sourceRange);
 	const JSize destLen   = CountCharacters(itsBytes, destRange);
 

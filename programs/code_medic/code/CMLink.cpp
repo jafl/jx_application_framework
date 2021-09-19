@@ -328,6 +328,11 @@ CMLink::HandleCommandRunning
 void
 CMLink::CancelAllCommands()
 {
+	if (CMIsShuttingDown())		// command owners already deleted
+		{
+		return;
+		}
+
 	for (JIndex i=itsForegroundQ->GetElementCount(); i>=1; i--)
 		{
 		CMCommand* cmd = itsForegroundQ->GetElement(i);
@@ -351,6 +356,11 @@ CMLink::CancelAllCommands()
 void
 CMLink::CancelBackgroundCommands()
 {
+	if (CMIsShuttingDown())		// command owners already deleted
+		{
+		return;
+		}
+
 	for (JIndex i=itsBackgroundQ->GetElementCount(); i>=1; i--)
 		{
 		CMCommand* cmd = itsBackgroundQ->GetElement(i);

@@ -10,6 +10,7 @@ STRINGDIR := ./strings
 JCOREDIR  := ${JX_ROOT}/include/jcore
 JXDIR     := ${JX_ROOT}/include/jx
 JFSDIR    := ${JX_ROOT}/include/jfs
+REFLEXDIR := ${JX_ROOT}/include/reflex
 
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
@@ -22,6 +23,7 @@ SEARCHDIRS := -I${CODEDIR} \
               -I${JCOREDIR} \
               -I${JXDIR} \
               -I${JFSDIR} \
+              -I${REFLEXDIR} \
               ${shell xml2-config --cflags} \
               ${shell pkg-config --cflags editorconfig}
 

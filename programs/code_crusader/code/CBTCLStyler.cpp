@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays TCL with styles to hilight
 	keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CB::TCL::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::TCL::Scanner
 
 	Copyright © 2001 by John Lindal.
 

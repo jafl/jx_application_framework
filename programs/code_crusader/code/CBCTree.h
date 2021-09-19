@@ -18,7 +18,7 @@ class CBCPreprocessor;
 class CBCClass;
 class CBClass;
 
-namespace CB::CTree { class Scanner; }
+namespace CB::Tree::C { class Scanner; }
 
 class CBCTree : public CBTree, public CBCtagsUser
 {
@@ -48,7 +48,7 @@ protected:
 private:
 
 	CBCPreprocessor*	itsCPP;
-	CB::CTree::Scanner*		itsClassNameLexer;	// nullptr unless parsing
+	CB::Tree::C::Scanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
 

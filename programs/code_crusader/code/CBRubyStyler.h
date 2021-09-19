@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBRubyScanner.h"
 
-class CBRubyStyler : public CBStylerBase, public CB::Ruby::Scanner
+class CBRubyStyler : public CBStylerBase, public CB::Text::Ruby::Scanner
 {
 public:
 

@@ -12,7 +12,7 @@ This scanner reads a PHP file and builds a CBPHPClass.
 #include <jAssert.h>
 }
 
-%option namespace="CB::PHPTree" lexer="Scanner"
+%option namespace="CB::Tree::PHP" lexer="Scanner"
 %option lex="CreateClass" token-type="bool"
 %option params="const JFAID_t fileID, CBTree* tree, CBClass** theClass"
 %option unicode nodefault full freespace
@@ -330,7 +330,7 @@ implements	/* ignore */
 
 %%
 
-CB::PHPTree::Scanner::~Scanner()
+CB::Tree::PHP::Scanner::~Scanner()
 {
 	jdelete itsUseMap;
 }

@@ -25,7 +25,7 @@
 #include <jAssert.h>
 
 static CMApp*				theApplication		= nullptr;		// owned by JX
-static bool				theShutdownFlag     = false;
+static bool					theShutdownFlag     = false;
 static CMPrefsManager*		thePrefsManager		= nullptr;
 static JXPTPrinter*			theTextPrinter		= nullptr;
 static JXPSPrinter*			thePSPrinter		= nullptr;
@@ -165,7 +165,7 @@ CMDeleteGlobals()
 {
 	theShutdownFlag = true;
 
-	(JXGetDockManager())->JPrefObject::WritePrefs();
+	JXGetDockManager()->JPrefObject::WritePrefs();
 
 	thePrefsManager->WritePrinterSetup(theTextPrinter);
 	jdelete theTextPrinter;

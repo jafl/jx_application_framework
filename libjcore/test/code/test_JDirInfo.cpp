@@ -23,9 +23,9 @@ JTEST(Exercise)
 	JAssertOK(JCreateDirectory(path));
 	JAssertOK(JChangeDirectory(path));
 
-	system("touch foobar");
-	system("touch foobaz");
-	system("touch fooshug");
+	JAssertEqual(0, system("touch foobar"));
+	JAssertEqual(0, system("touch foobaz"));
+	JAssertEqual(0, system("touch fooshug"));
 
 	JDirInfo* info;
 	JAssertTrue(JDirInfo::Create(path, &info));
@@ -35,8 +35,8 @@ JTEST(Exercise)
 
 	JAssertEqual(3, info->GetEntryCount());
 
-	system("mkdir bar");
-	system("mkdir baz");
+	JAssertEqual(0, system("mkdir bar"));
+	JAssertEqual(0, system("mkdir baz"));
 
 	JAssertTrue(JDirInfo::Empty(JString("bar", JString::kNoCopy)));
 
@@ -66,7 +66,7 @@ JTEST(Exercise)
 	JAssertOK(info->GoUp());
 	JAssertStringsEqual(path, info->GetDirectory());
 
-	system("ln -s foobaz zaboof");
+	JAssertEqual(0, system("ln -s foobaz zaboof"));
 	info->ForceUpdate();
 	JAssertEqual(6, info->GetEntryCount());
 
@@ -113,3 +113,4 @@ JTEST(WildcardFilter)
 	JAssertTrue(JDirInfo::BuildRegexFromWildcardFilter(s1, &s2));
 	JAssertStringsEqual("^.*\\.cc$|^.*\\.h$", s2);
 }
+

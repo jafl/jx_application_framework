@@ -11,6 +11,7 @@ JCOREDIR   := ${JX_ROOT}/include/jcore
 JXDIR      := ${JX_ROOT}/include/jx
 JEXPRDIR   := ${JX_ROOT}/include/jexpr
 J2DPLOTDIR := ${JX_ROOT}/include/j2dplot
+REFLEXDIR  := ${JX_ROOT}/include/reflex
 
 JLIBDIR       := ${JX_ROOT}/lib
 JCORELIBDIR   := ${JX_ROOT}/libjcore
@@ -26,6 +27,7 @@ SEARCHDIRS := -I${CODEDIR} \
               -I${JXDIR} \
               -I${JEXPRDIR} \
               -I${J2DPLOTDIR} \
+              -I${REFLEXDIR} \
               -I./lldb-include \
               ${shell xml2-config --cflags} \
               ${shell pkg-config --cflags editorconfig}

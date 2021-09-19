@@ -90,7 +90,7 @@ CBPrefsManager::~CBPrefsManager()
 	JSize count = itsFileTypeList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsFileTypeList->GetElement(i)).Free();
+		itsFileTypeList->GetElement(i).Free();
 		}
 
 	jdelete itsFileTypeList;
@@ -98,7 +98,7 @@ CBPrefsManager::~CBPrefsManager()
 	count = itsMacroList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsMacroList->GetElement(i)).Free();
+		itsMacroList->GetElement(i).Free();
 		}
 
 	jdelete itsMacroList;
@@ -106,7 +106,7 @@ CBPrefsManager::~CBPrefsManager()
 	count = itsCRMList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		(itsCRMList->GetElement(i)).Free();
+		itsCRMList->GetElement(i).Free();
 		}
 
 	jdelete itsCRMList;
@@ -1706,7 +1706,7 @@ CBPrefsManager::ConvertHTMLSuffixesToFileTypes
 JArray<CBPrefsManager::FileTypeInfo>*
 CBPrefsManager::CreateFileTypeList()
 {
-	JArray<FileTypeInfo>* list = jnew JArray<FileTypeInfo>;
+	JArray<FileTypeInfo>* list = jnew JArray<FileTypeInfo>(256);
 	assert( list != nullptr );
 	list->SetSortOrder(JListT::kSortAscending);
 	list->SetCompareFunction(CompareFileTypeSpecAndLength);
@@ -3173,7 +3173,7 @@ CBPrefsManager::GetFileSuffixes
 
 		if (info.type == type && info.IsPlainSuffix())
 			{
-			list->Append(*(info.suffix));
+			list->Append(*info.suffix);
 			}
 		}
 }
@@ -3199,7 +3199,7 @@ CBPrefsManager::GetAllFileSuffixes
 
 		if (info.IsPlainSuffix())
 			{
-			list->Append(*(info.suffix));
+			list->Append(*info.suffix);
 			}
 		}
 }

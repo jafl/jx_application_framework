@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays JavaScript with styles to
 	hilight keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CB::JavaScript::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::JavaScript::Scanner
 
 	Copyright © 2006 by John Lindal.
 

@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays Go with styles to
 	hilight keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CB::Go::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::Go::Scanner
 
 	Copyright © 2021 by John Lindal.
 

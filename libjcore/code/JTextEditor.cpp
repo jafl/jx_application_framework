@@ -1740,7 +1740,7 @@ teDrawSpaces
 	p.SetLineWidth(1);
 	p.SetPenColor(wsColor);
 
-	JCoordinate l = left, w;
+	JCoordinate l = left, w = 0;
 	JUtf8Character c;
 	JFont f, prevf;
 	while (textIter->Next(&c) && c == ' ')

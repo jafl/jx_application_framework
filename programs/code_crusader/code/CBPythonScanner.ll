@@ -2,14 +2,14 @@
 /*
 Copyright © 2004 by John Lindal.
 
-This scanner reads a Python file and returns CB::Python::Scanner::Tokens.
+This scanner reads a Python file and returns CB::Text::Python::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
 #include <jAssert.h>
 %}
 
-%option namespace="CB::Python" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::Text::Python" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

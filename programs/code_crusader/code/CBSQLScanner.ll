@@ -2,14 +2,14 @@
 /*
 Copyright © 2017 by John Lindal.
 
-This scanner reads a SQL file and returns CB::SQL::Scanner::Tokens.
+This scanner reads a SQL file and returns CB::Text::SQL::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
 #include <jAssert.h>
 %}
 
-%option namespace="CB::SQL" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::Text::SQL" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

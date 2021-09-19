@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays Python with styles to hilight
 	keywords, preprocessor directives, etc.
 
-	BASE CLASS = CBStylerBase, CB::Python::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::Python::Scanner
 
 	Copyright © 2004 by John Lindal.
 

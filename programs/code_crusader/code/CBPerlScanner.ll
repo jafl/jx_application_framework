@@ -2,7 +2,7 @@
 /*
 Copyright © 2003 by John Lindal.
 
-This scanner reads a Perl file and returns CB::Perl::Scanner::Tokens.
+This scanner reads a Perl file and returns CB::Text::Perl::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
@@ -10,7 +10,7 @@ This scanner reads a Perl file and returns CB::Perl::Scanner::Tokens.
 #include <jAssert.h>
 %}
 
-%option namespace="CB::Perl" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::Text::Perl" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 
@@ -961,7 +961,7 @@ __DATA__ {
  *****************************************************************************/
 
 void
-CB::Perl::Scanner::BeginScan
+CB::Text::Perl::Scanner::BeginScan
 	(
 	const JStyledText*				text,
 	const JStyledText::TextIndex&	startIndex,

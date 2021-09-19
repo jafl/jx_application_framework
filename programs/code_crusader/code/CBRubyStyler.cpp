@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays Ruby with styles to hilight
 	keywords, comments, etc.
 
-	BASE CLASS = CBStylerBase, CB::Ruby::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::Ruby::Scanner
 
 	Copyright © 2003 by John Lindal.
 

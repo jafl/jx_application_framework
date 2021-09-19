@@ -173,7 +173,7 @@ CBCTree::ParseFile
 {
 	if (itsClassNameLexer == nullptr)
 		{
-		itsClassNameLexer = jnew CB::CTree::Scanner;
+		itsClassNameLexer = jnew CB::Tree::C::Scanner;
 		assert( itsClassNameLexer != nullptr );
 		}
 
@@ -205,7 +205,7 @@ CBCTree::ParseFile
 
 	std::ifstream input(fileName.GetBytes());
 	itsClassNameLexer->in(&input);
-	itsClassNameLexer->start(CB::CTree::Scanner::INITIAL);
+	itsClassNameLexer->start(CB::Tree::C::Scanner::INITIAL);
 
 	if (itsClassNameLexer->CreateClasses(id, this, &classList) &&
 		ProcessFile(fileName, kCBCHeaderFT, &data, &lang))

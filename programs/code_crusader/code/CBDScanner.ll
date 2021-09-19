@@ -3,14 +3,14 @@
 Copyright © 2021 by John Lindal.
 Copyright © 1998 by Dustin Laurence.
 
-This scanner reads a D file and returns CB::D::Scanner::Tokens.
+This scanner reads a D file and returns CB::Text::D::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
 #include <jAssert.h>
 %}
 
-%option namespace="CB::D" lexer="Scanner" prefix="allow_multiple_includes"
+%option namespace="CB::Text::D" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

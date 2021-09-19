@@ -5,15 +5,17 @@
 
 JX_ROOT := ..
 
-JEXPRDIR := ./code
-JCOREDIR := ${JX_ROOT}/include/jcore
-JXDIR    := ${JX_ROOT}/include/jx
+JEXPRDIR  := ./code
+JCOREDIR  := ${JX_ROOT}/include/jcore
+JXDIR     := ${JX_ROOT}/include/jx
+REFLEXDIR := ${JX_ROOT}/include/reflex
 
 # Directories to search for header files
 
 SEARCHDIRS := -I${JEXPRDIR} \
               -I${JCOREDIR} \
-              -I${JXDIR}
+              -I${JXDIR} \
+              -I${REFLEXDIR}
 
 # makemake variables
 

@@ -103,8 +103,12 @@ JImage::GetFileType
 
 	const JSize bufSize = 10;
 	char buffer [ bufSize ];
-	fread(buffer, sizeof(char), bufSize, input);
+	const size_t readCount = fread(buffer, sizeof(char), bufSize, input);
 	fclose(input);
+	if (readCount != bufSize)
+		{
+		return kUnknownType;
+		}
 
 	if (JString::CompareMaxNBytes(buffer, "GIF", 3) == 0)
 		{
