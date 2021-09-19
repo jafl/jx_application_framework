@@ -2,7 +2,7 @@
 /*
 Copyright © 2003 by John Lindal.
 
-This scanner reads a Ruby file and returns CB::Ruby::Scanner::Tokens.
+This scanner reads a Ruby file and returns CB::Text::Ruby::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
@@ -10,7 +10,7 @@ This scanner reads a Ruby file and returns CB::Ruby::Scanner::Tokens.
 #include <jAssert.h>
 %}
 
-%option namespace="CB::Ruby" lexer="Scanner"
+%option namespace="CB::Text::Ruby" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 
@@ -614,7 +614,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
  *****************************************************************************/
 
 void
-CB::Ruby::Scanner::BeginScan
+CB::Text::Ruby::Scanner::BeginScan
 	(
 	const JStyledText*				text,
 	const JStyledText::TextIndex&	startIndex,

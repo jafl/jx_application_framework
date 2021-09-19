@@ -2,14 +2,14 @@
 /*
 Copyright © 2004 by John Lindal.
 
-This scanner reads a C# file and returns CB::CSharp::Scanner::Tokens.
+This scanner reads a C# file and returns CB::Text::CSharp::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
 #include <jAssert.h>
 }
 
-%option namespace="CB::CSharp" lexer="Scanner"
+%option namespace="CB::Text::CSharp" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

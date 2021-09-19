@@ -16,7 +16,7 @@ class CBDTreeDirector;
 class CBCClass;
 class CBClass;
 
-namespace CB::DTree { class Scanner; }
+namespace CB::Tree::D { class Scanner; }
 
 class CBDTree : public CBTree
 {
@@ -42,7 +42,7 @@ protected:
 
 private:
 
-	CB::DTree::Scanner*	itsClassNameLexer;	// nullptr unless parsing
+	CB::Tree::D::Scanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
 

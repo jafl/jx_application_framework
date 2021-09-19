@@ -63,7 +63,7 @@ GDBGetInitArgs::HandleSuccess
 	if (!m.IsEmpty())
 		{
 		JString args = m.GetSubstring(1);
-		GDBOutput::Scanner::TranslateMIOutput(&args);
+		GDB::Output::Scanner::TranslateMIOutput(&args);
 		itsArgInput->GetText()->SetText(args);
 		return;
 		}

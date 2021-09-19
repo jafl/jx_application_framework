@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBBourneShellScanner.h"
 
-class CBBourneShellStyler : public CBStylerBase, public CB::BourneShell::Scanner
+class CBBourneShellStyler : public CBStylerBase, public CB::Text::BourneShell::Scanner
 {
 public:
 

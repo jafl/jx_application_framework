@@ -16,7 +16,7 @@ This scanner reads a GoLang file and creates CBGoClass instances.
 static const JRegex modulePattern("(?:.+?/)*(.+?)(?:/[vV][.0-9]+)?");
 }
 
-%option namespace="CB::GoTree" lexer="Scanner"
+%option namespace="CB::Tree::Go" lexer="Scanner"
 %option lex="CreateClasses" token-type="bool"
 %option params="const JFAID_t fileID, CBTree* tree, JPtrArray<CBClass>* classList"
 %option unicode nodefault full freespace
@@ -327,7 +327,7 @@ interface\b {
 
 %%
 
-CB::GoTree::Scanner::~Scanner()
+CB::Tree::Go::Scanner::~Scanner()
 {
 	jdelete itsImportMap;
 }
@@ -336,7 +336,7 @@ static const JRegex separator(";|\n");
 static const JRegex nsid("^\\*?(((_|\\p{L})(_|\\p{L}|\\d)*\\.)?(_|\\p{L})(_|\\p{L}|\\d)*)$");
 
 void
-CB::GoTree::Scanner::ParseTypeContent
+CB::Tree::Go::Scanner::ParseTypeContent
 	(
 	CBClass* goClass
 	)

@@ -9,7 +9,7 @@ This scanner reads an Eiffle file and returns CBEiffelScanner::Tokens.
 #include <jAssert.h>
 %}
 
-%option namespace="CB::Eiffel" lexer="Scanner"
+%option namespace="CB::Text::Eiffel" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

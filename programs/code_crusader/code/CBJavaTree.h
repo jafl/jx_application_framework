@@ -14,7 +14,7 @@ class CBJavaTreeDirector;
 class CBJavaClass;
 class CBClass;
 
-namespace CB::JavaTree { class Scanner; }
+namespace CB::Tree::Java { class Scanner; }
 
 class CBJavaTree : public CBTree
 {
@@ -40,7 +40,7 @@ protected:
 
 private:
 
-	CB::JavaTree::Scanner*	itsClassNameLexer;	// nullptr unless parsing
+	CB::Tree::Java::Scanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
 

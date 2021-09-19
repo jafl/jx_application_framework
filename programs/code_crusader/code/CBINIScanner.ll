@@ -2,14 +2,14 @@
 /*
 Copyright © 2013 by John Lindal.
 
-This scanner reads a PHP .ini file and returns CB::INI::Scanner::Tokens.
+This scanner reads a PHP .ini file and returns CB::Text::INI::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
 #include <jAssert.h>
 %}
 
-%option namespace="CB::INI" lexer="Scanner"
+%option namespace="CB::Text::INI" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

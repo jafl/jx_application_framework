@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBPerlScanner.h"
 
-class CBPerlStyler : public CBStylerBase, public CB::Perl::Scanner
+class CBPerlStyler : public CBStylerBase, public CB::Text::Perl::Scanner
 {
 public:
 

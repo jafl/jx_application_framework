@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBPythonScanner.h"
 
-class CBPythonStyler : public CBStylerBase, public CB::Python::Scanner
+class CBPythonStyler : public CBStylerBase, public CB::Text::Python::Scanner
 {
 public:
 

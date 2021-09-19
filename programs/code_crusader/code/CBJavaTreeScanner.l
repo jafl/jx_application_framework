@@ -12,7 +12,7 @@ This scanner reads a Java file and builds a CBJavaClass.
 #include <jAssert.h>
 }
 
-%option namespace="CB::JavaTree" lexer="Scanner"
+%option namespace="CB::Tree::Java" lexer="Scanner"
 %option lex="CreateClasses" token-type="bool"
 %option params="const JFAID_t fileID, CBTree* tree, JPtrArray<CBClass>* classList"
 %option unicode nodefault full freespace
@@ -390,7 +390,7 @@ implements	/* ignore */
 
 %%
 
-CB::JavaTree::Scanner::~Scanner()
+CB::Tree::Java::Scanner::~Scanner()
 {
 	jdelete itsImportList;
 }

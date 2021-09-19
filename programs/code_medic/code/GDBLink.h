@@ -21,7 +21,7 @@ class GDBGetStopLocationForLink;
 class GDBGetStopLocationForAsm;
 class GDBPingTask;
 
-namespace GDBOutput { class Scanner; }
+namespace GDB::Output { class Scanner; }
 
 class GDBLink : public CMLink
 {
@@ -204,7 +204,7 @@ private:
 	JSize	itsContinueCount;			// # of prompts with empty fg Q before "continue"
 	JIndex	itsPingID;
 
-	GDBOutput::Scanner*			itsScanner;
+	GDB::Output::Scanner*			itsScanner;
 	GDBBreakpointManager*		itsBPMgr;
 	GDBGetStopLocationForLink*	itsGetStopLocation;
 	GDBGetStopLocationForAsm*	itsGetStopLocation2;

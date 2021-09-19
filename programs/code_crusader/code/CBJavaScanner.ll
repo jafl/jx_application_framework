@@ -2,7 +2,7 @@
 /*
 Copyright © 2001 by John Lindal.
 
-This scanner reads a Java file and returns CB::Java::Scanner::Tokens.
+This scanner reads a Java file and returns CB::Text::Java::Scanner::Tokens.
 
 Remember to upgrade CBHTMLScanner, too!
 */
@@ -11,7 +11,7 @@ Remember to upgrade CBHTMLScanner, too!
 #include <jAssert.h>
 }
 
-%option namespace="CB::Java" lexer="Scanner"
+%option namespace="CB::Text::Java" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

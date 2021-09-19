@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays HTML/PHP/XML with styles
 	to hilight tags, scripts, etc.
 
-	BASE CLASS = CBStylerBase, CB::HTML::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::HTML::Scanner
 
 	Copyright © 2001 by John Lindal.
 

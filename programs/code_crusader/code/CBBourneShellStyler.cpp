@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays bash with styles to hilight
 	keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CB::BourneShell::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::BourneShell::Scanner
 
 	Copyright © 2001 by John Lindal.
 

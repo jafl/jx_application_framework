@@ -2,14 +2,14 @@
 /*
 Copyright © 2001 by John Lindal.
 
-This scanner reads a bash file and returns CB::CShell::Scanner::Tokens.
+This scanner reads a bash file and returns CB::Text::CShell::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
 #include <jAssert.h>
 }
 
-%option namespace="CB::CShell" lexer="Scanner"
+%option namespace="CB::Text::CShell" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

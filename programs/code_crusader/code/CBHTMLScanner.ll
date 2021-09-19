@@ -2,7 +2,7 @@
 /*
 Copyright © 2001 by John Lindal.
 
-This scanner reads an HTML/XML/PHP/JSP file and returns CB::HTML::Scanner::Tokens.
+This scanner reads an HTML/XML/PHP/JSP file and returns CB::Text::HTML::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
@@ -10,7 +10,7 @@ This scanner reads an HTML/XML/PHP/JSP file and returns CB::HTML::Scanner::Token
 #include <jAssert.h>
 %}
 
-%option namespace="CB::HTML" lexer="Scanner"
+%option namespace="CB::Text::HTML" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 
@@ -2289,7 +2289,7 @@ euro;?     {
  *****************************************************************************/
 
 void
-CB::HTML::Scanner::BeginScan
+CB::Text::HTML::Scanner::BeginScan
 	(
 	const JStyledText*				text,
 	const JStyledText::TextIndex&	startIndex,
@@ -2310,8 +2310,8 @@ CB::HTML::Scanner::BeginScan
 
  *****************************************************************************/
 
-CB::HTML::Scanner::Token
-CB::HTML::Scanner::ScriptToken()
+CB::Text::HTML::Scanner::Token
+CB::Text::HTML::Scanner::ScriptToken()
 {
 	return Token(kHTMLScript, GetCurrentRange(), &itsScriptLanguage);
 }
@@ -2332,7 +2332,7 @@ static JRegex scriptTagPattern3 =
 	"^<[[:space:]]*script(>|[[:space:]])";
 
 bool
-CB::HTML::Scanner::IsScript
+CB::Text::HTML::Scanner::IsScript
 	(
 	JString* language
 	)
@@ -2378,7 +2378,7 @@ CB::HTML::Scanner::IsScript
  ******************************************************************************/
 
 bool
-CB::HTML::Scanner::InTagState()
+CB::Text::HTML::Scanner::InTagState()
 	const
 {
 	return InTagState(INITIAL);
@@ -2387,7 +2387,7 @@ CB::HTML::Scanner::InTagState()
 // private
 
 bool
-CB::HTML::Scanner::InTagState
+CB::Text::HTML::Scanner::InTagState
 	(
 	const int state
 	)

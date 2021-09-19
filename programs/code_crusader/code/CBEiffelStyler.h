@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBEiffelScanner.h"
 
-class CBEiffelStyler : public CBStylerBase, public CB::Eiffel::Scanner
+class CBEiffelStyler : public CBStylerBase, public CB::Text::Eiffel::Scanner
 {
 public:
 

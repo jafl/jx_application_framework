@@ -21,8 +21,8 @@ static const JRegex attachRegex1("(?:process|Pid|PID) ([""[:digit:]""]+)");
 static const JRegex pingRegex(":Medic debugger ready:([""[:digit:]""]+)");
 %}
 
-%option namespace="GDBOutput" lexer="Scanner"
-%option lex="NextToken" token-type="GDBOutput::Scanner::Token"
+%option namespace="GDB::Output" lexer="Scanner"
+%option lex="NextToken" token-type="GDB::Output::Scanner::Token"
 %option unicode nodefault full freespace
 
 %class {
@@ -541,7 +541,7 @@ PROMPT "(gdb) "\n?
  *****************************************************************************/
 
 void
-GDBOutput::Scanner::Reset()
+GDB::Output::Scanner::Reset()
 {
 	start(INITIAL);
 }
@@ -552,7 +552,7 @@ GDBOutput::Scanner::Reset()
  *****************************************************************************/
 
 void
-GDBOutput::Scanner::AppendInput
+GDB::Output::Scanner::AppendInput
 	(
 	const JString& string
 	)
@@ -608,7 +608,7 @@ GDBOutput::Scanner::AppendInput
  *****************************************************************************/
 
 void
-GDBOutput::Scanner::AppendInputText
+GDB::Output::Scanner::AppendInputText
 	(
 	const JString& string
 	)
@@ -627,7 +627,7 @@ GDBOutput::Scanner::AppendInputText
  *****************************************************************************/
 
 void
-GDBOutput::Scanner::ExtractCommandId
+GDB::Output::Scanner::ExtractCommandId
 	(
 	const JUtf8Byte*	str,
 	const JSize			len
@@ -649,7 +649,7 @@ GDBOutput::Scanner::ExtractCommandId
  *****************************************************************************/
 
 void
-GDBOutput::Scanner::TranslateMIOutput
+GDB::Output::Scanner::TranslateMIOutput
 	(
 	JString* data
 	)

@@ -6,7 +6,7 @@
 
 	Not to be confused with the drug.
 
-	BASE CLASS = CBStylerBase, CB::D::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::D::Scanner
 
 	Copyright © 2021 by John Lindal.
 

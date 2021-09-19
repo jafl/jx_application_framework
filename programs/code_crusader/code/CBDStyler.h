@@ -11,7 +11,7 @@
 #include "CBStylerBase.h"
 #include "CBDScanner.h"
 
-class CBDStyler : public CBStylerBase, public CB::D::Scanner
+class CBDStyler : public CBStylerBase, public CB::Text::D::Scanner
 {
 public:
 

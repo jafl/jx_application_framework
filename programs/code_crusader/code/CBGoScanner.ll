@@ -2,14 +2,14 @@
 /*
 Copyright © 2021 by John Lindal.
 
-This scanner reads a Go file and returns CB::Go::Scanner::Tokens.
+This scanner reads a Go file and returns CB::Text::Go::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
 #include <jAssert.h>
 %}
 
-%option namespace="CB::Go" lexer="Scanner"
+%option namespace="CB::Text::Go" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

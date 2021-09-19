@@ -13,7 +13,7 @@ This scanner reads a C/C++ file and creates CBClass instances.
 #include <jAssert.h>
 }
 
-%option namespace="CB::CTree" lexer="Scanner"
+%option namespace="CB::Tree::C" lexer="Scanner"
 %option lex="CreateClasses" token-type="bool"
 %option params="const JFAID_t fileID, CBTree* tree, JPtrArray<CBClass>* classList"
 %option unicode nodefault full freespace
@@ -441,7 +441,7 @@ private {
 
 %%
 
-CB::CTree::Scanner::~Scanner()
+CB::Tree::C::Scanner::~Scanner()
 {
 	jdelete itsUsingList;
 	jdelete itsNamespaceStack;

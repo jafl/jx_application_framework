@@ -2,14 +2,14 @@
 /*
 Copyright © 1998 by Dustin Laurence.
 
-This scanner reads a C/C++ file and returns CB::C::Scanner::Tokens.
+This scanner reads a C/C++ file and returns CB::Text::C::Scanner::Tokens.
 */
 
 #include "CBStylingScannerBase.h"
 #include <jAssert.h>
 }
 
-%option namespace="CB::C" lexer="Scanner"
+%option namespace="CB::Text::C" lexer="Scanner"
 %option lex="NextToken" token-type="CBStylingScannerBase::Token"
 %option unicode nodefault full freespace
 

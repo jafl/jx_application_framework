@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays Java with styles to
 	hilight keywords, strings, etc.
 
-	BASE CLASS = CBStylerBase, CB::Java::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::Java::Scanner
 
 	Copyright © 2001 by John Lindal.
 

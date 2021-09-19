@@ -14,7 +14,7 @@ class CBGoTreeDirector;
 class CBGoClass;
 class CBClass;
 
-namespace CB::GoTree { class Scanner; }
+namespace CB::Tree::Go { class Scanner; }
 
 class CBGoTree : public CBTree
 {
@@ -40,7 +40,7 @@ protected:
 
 private:
 
-	CB::GoTree::Scanner*	itsClassNameLexer;	// nullptr unless parsing
+	CB::Tree::Go::Scanner*	itsClassNameLexer;	// nullptr unless parsing
 
 private:
 

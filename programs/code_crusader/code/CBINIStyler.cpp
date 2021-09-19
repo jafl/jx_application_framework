@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays .ini with styles to hilight
 	sections, comments, etc.
 
-	BASE CLASS = CBStylerBase, CB::INI::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::INI::Scanner
 
 	Copyright © 2013 by John Lindal.
 

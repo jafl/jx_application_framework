@@ -4,7 +4,7 @@
 	Helper object for CBTextEditor that displays C/C++ with styles to hilight
 	keywords, preprocessor directives, etc.
 
-	BASE CLASS = CBStylerBase, CB::CSharp::Scanner
+	BASE CLASS = CBStylerBase, CB::Text::CSharp::Scanner
 
 	Copyright © 2004 by John Lindal.
 
