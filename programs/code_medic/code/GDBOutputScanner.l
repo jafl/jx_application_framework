@@ -565,28 +565,33 @@ GDB::Output::Scanner::AppendInput
 		}
 	else
 		{
-		JStringIterator iter(string);
-		iter.BeginMatch();
-		while (iter.Next("\n"))
+		JStringIterator iter(string, kJIteratorStartAtEnd);
+		JUtf8ByteRange r;
+		if (iter.Prev("\n"))
 			{
-			AppendInputText(iter.FinishMatch(true).GetString());
-			iter.BeginMatch();
+			r.Set(1, iter.GetNextByteIndex());
+			AppendInputText(JString(string.GetRawBytes(), r, JString::kNoCopy));
+			iter.SkipNext();
 			}
 
-		const JString s = iter.FinishMatch().GetString();
-
-		// Accumulate partial line for later parsing if:
-		// 1: the first character is a meta character
-		// 2: we have already accumulated something else
-
-		if (strchr("^~@&*+=", s.GetBytes()[0]) != nullptr ||
-			!itsPartialBuffer.IsEmpty())
+		if (!iter.AtEnd())
 			{
-			itsPartialBuffer += s;
-			}
-		else
-			{
-			itsInputBuffer += s;
+			r.Set(iter.GetNextByteIndex(), string.GetByteCount());
+			const JString s(string.GetRawBytes(), r, JString::kNoCopy);
+
+			// Accumulate partial line for later parsing if:
+			// 1: the first character is a meta character
+			// 2: we have already accumulated something else
+
+			if (strchr("^~@&*+=", s.GetRawBytes()[0]) != nullptr ||
+				!itsPartialBuffer.IsEmpty())
+				{
+				itsPartialBuffer += s;
+				}
+			else
+				{
+				itsInputBuffer += s;
+				}
 			}
 		}
 

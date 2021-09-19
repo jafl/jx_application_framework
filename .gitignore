@@ -6,6 +6,7 @@
 *.dll
 *.exe
 *Y.hpp
+*Y.cpp
 *.bak
 **/.jcc
 libj*/Makefile
