@@ -589,6 +589,12 @@ reference_value :
 
 		jdelete $3;
 		}
+
+	| '@' P_HEX ':'
+		{
+		$$ = $2;
+		$$->Prepend("@");
+		}
 	;
 
 %%

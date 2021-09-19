@@ -46,7 +46,7 @@ EXP			(({INT}|{FLOAT})e[+-]?{INT})
 INF			([iI][nN][fF])
 NAN			([nN][aA][nN]\({HEX}\))
 
-ID			([[:alpha:]$_][[:alnum:]$_.]*)
+ID			((_|\$|\p{L})(_|\$|\.|\p{L}|\d)*)
 NAME		({ID}(::{ID})*)
 
 STDCLASS	(std::[a-z]+)
