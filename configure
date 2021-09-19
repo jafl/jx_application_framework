@@ -151,7 +151,7 @@ elif command -v apt-get; then
 			llvm liblldb-$LLDB_VERS-dev \
 			xutils-dev libx11-xcb-dev libxcb-dri2-0-dev \
 			libxcb-xfixes0-dev x11proto-gl-dev libdrm-dev \
-			aspell libforms-bin;
+			aspell libforms-bin xterm git-gui;
 	fi
 
 	if [[ ! -L ACE/ACE_wrappers ]]; then
