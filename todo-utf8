@@ -2,10 +2,17 @@ JStyledText
 	CleanRightMargin
 
 
-medic - confused when using gdb
-	no stack, threads, locals, etc.
+u-ctags:
+	test:  make, yacc, html
+	fix:  javascript, php
+		aws-lambda-common: Transaction.js
+		aws-heimdall/views/commands.hbs - missing upgrade_app
+		vendomatic/src/main/webapp/public/assets/js/vendomatic-config-edit.js
+		any php file containing javascript
+	fix c++:
+		JRegex
+	update CBCtagsUser::DecodeSymbolType & CBSymbolTypeList
 
-medic: conditional breakpoints in lldb
 
 jcc
 	scroll after undo/redo puts selection at bottom
@@ -29,19 +36,10 @@ jcc
 	slow when typing at end of 30M 5csv file
 
 
+
 testjx crash - itsLineStarts was already broken
 
-
-u-ctags:
-	test:  make, yacc, html
-	fix:  javascript, php
-		aws-lambda-common: Transaction.js
-		aws-heimdall/views/commands.hbs - missing upgrade_app
-		vendomatic/src/main/webapp/public/assets/js/vendomatic-config-edit.js
-		any php file containing javascript
-	fix c++:
-		JRegex
-	update CBCtagsUser::DecodeSymbolType & CBSymbolTypeList
+medic ubuntu - crash on exit
 
 medic for go: delve back-end
 	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
@@ -83,13 +81,6 @@ D tree
 
 test jcc with old project formats in code_crusader/test-manual/*.jcc
 
-unit test all jcc stylers
-	properties
-	Python
-	Ruby
-	SQL
-	TCL
-
 -----
 
 glove
@@ -102,6 +93,8 @@ jx_project_wizard
 	convert logic to use JSubstitute - need way to specify case match?
 	convert app_template to { }
 	convert help to online
+
+clean up tutorial
 
 -----
 

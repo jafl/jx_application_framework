@@ -37,7 +37,7 @@
 
 static const JUtf8Byte* kVersionStr =
 
-	"makemake 3.4.2\n"
+	"makemake 4.0.0\n"
 	"\n"
 	"Copyright (C) 1994-2021 by John Lindal.";
 
@@ -65,21 +65,6 @@ static const JUtf8Byte* kDontInterpretFlag = "literal: ";
 const JSize kDontInterpretFlagLen          = strlen(kDontInterpretFlag);
 
 static const JUtf8Byte* kDefOutputSuffix = ".o";
-
-#define J_LINUX_SHARED_LIB_SUFFIX	".so"
-#define J_OSX_SHARED_LIB_SUFFIX		".dylib"
-
-static const JRegex libSuffixPattern =
-	"("
-		"\\" J_LINUX_SHARED_LIB_SUFFIX "|"
-		"\\" J_OSX_SHARED_LIB_SUFFIX
-	")$";
-
-#ifdef _J_OSX
-#define J_SHARED_LIB_SUFFIX	J_OSX_SHARED_LIB_SUFFIX
-#else
-#define J_SHARED_LIB_SUFFIX	J_LINUX_SHARED_LIB_SUFFIX
-#endif
 
 static JRegex* globalIgnorePattern = nullptr;
 
@@ -235,13 +220,6 @@ main
 			input.putback('@');
 			continue;
 			}
-
-		JStringIterator mtnIter(mainTargetName);
-		if (mtnIter.Next(libSuffixPattern))
-			{
-			mtnIter.ReplaceLastMatch(J_SHARED_LIB_SUFFIX);
-			}
-		mtnIter.Invalidate();
 
 		auto* mainTargetObjs = jnew JString;
 		assert( mainTargetObjs != nullptr );
@@ -551,28 +529,16 @@ main
 				output << "\t@${RM} $@\n";
 
 				#ifdef _J_RANLIB_VIA_AR_S
-					output << "\t${AR} crs $@ ${filter-out %.a %" J_SHARED_LIB_SUFFIX ", $^}\n";
+					output << "\t${AR} crs $@ ${filter-out %.a, $^}\n";
 				#else
-					output << "\t${AR} cr $@ ${filter-out %.a %" J_SHARED_LIB_SUFFIX ", $^}\n";
+					output << "\t${AR} cr $@ ${filter-out %.a, $^}\n";
 					output << "\tranlib $@\n";
 				#endif
 
 			output << "  else\n";
-			output << "  ifeq (${suffix ";
-			mainTargetName->Print(output);
-			output << "}, " J_SHARED_LIB_SUFFIX ")\n";
 
-				output << "\t${LINKER} " J_SHARED_LIB_LINK_OPTION
-						  " ${LDFLAGS} -o $@ ${filter-out %.a %" J_SHARED_LIB_SUFFIX ", $^}"
-						  " ${LOADLIBES}\n";
+				output << "\t${LINKER} ${LDFLAGS} -o $@ $^ ${LOADLIBES}\n";
 
-			output << "  else\n";
-
-				output << "\t${LINKER} ${LDFLAGS} -o $@"
-						  " ${filter-out %" J_SHARED_LIB_SUFFIX ", $^}"
-						  " ${LOADLIBES}\n";
-
-			output << "  endif\n";
 			output << "  endif\n";
 			}
 		}
@@ -660,11 +626,6 @@ main
 
 	output << "\t@list=`grep -l ${TOUCHSTRING} ${MM_ALL_SOURCES}`; \\\n";
 	output << "     for file in $$list; do { echo $$file; touch $$file; } done\n";
-	output << "ifdef TOUCHPATHS\n";
-	output << "\t@for path in ${TOUCHPATHS}; do \\\n";
-	output << "     ( if cd $$path; then ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch; fi ) \\\n";
-	output << "     done\n";
-	output << "endif\n\n\n";
 
 // append footer, if any
 

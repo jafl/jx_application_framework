@@ -1,27 +1,16 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ../..
-
-CODEDIR  := ./code
-JCOREDIR := ${JX_ROOT}/include/jcore
-JXDIR    := ${JX_ROOT}/include/jx
-
-JLIBDIR     := ${JX_ROOT}/lib
-JCORELIBDIR := ${JX_ROOT}/libjcore
-JXLIBDIR    := ${JX_ROOT}/libjx
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR} \
-              -I${JXDIR}
+SEARCHDIRS := -I./code \
+              -I${JX_ROOT}/include/jcore \
+              -I${JX_ROOT}/include/jx
 
 # makemake variables
 
-include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
@@ -30,7 +19,7 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
 # make variables
 
 CPPFLAGS  += -Wno-sign-compare
-LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
+LOADLIBES := ${J_STD_LIBS}
 LDFLAGS   := 
 
 # tests

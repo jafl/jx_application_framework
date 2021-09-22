@@ -122,7 +122,6 @@ if [[ $SYS == Darwin ]]; then
 	fi
 
 	brew bundle;
-	get_reflex;
 
 	if [[ ! -L ACE/ACE_wrappers ]]; then
 		rm -rf ACE/ACE_wrappers;

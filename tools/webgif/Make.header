@@ -1,47 +1,26 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ../..
-
-CODEDIR  := .
-JCOREDIR := ${JX_ROOT}/include/jcore
-
-JLIBDIR     := ${JX_ROOT}/lib
-JCORELIBDIR := ${JX_ROOT}/libjcore
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR}
+SEARCHDIRS := -I${JX_ROOT}/include/jcore
 
 # makemake variables
 
-include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 
 # library dependencies
 
-ifdef J_BUILD_SHARED_LIB
-  LOADLIBES := -L${JLIBDIR} ${ljcore} ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
-  LIB_DEPS  :=
-else
-  LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
-  LIB_DEPS  := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-endif
+LIB_DEPS := ${JX_ROOT}/lib/libjcore.a
 
 # make variables
 
+LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
 LDFLAGS :=
-
-STATIC_LOADLIBES := -L${JLIBDIR} \
-                    ${J_BEGIN_LINK_STATIC} \
-                    ${ljcore} ${J_ACE_LIBS} \
-                    ${J_END_LINK_STATIC} \
-                    ${J_IMG_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -51,7 +30,7 @@ default: libs all
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/app_targets
 
 #
 # required libraries
@@ -59,11 +38,7 @@ include ${JX_ROOT}/include/make/jx_targets
 
 .PHONY : libs
 libs::
-	@cd ${JCORELIBDIR}; ${MAKE}
-
-.PHONY : touch
-touch::
-	@cd ${JCORELIBDIR}; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
+	@cd ${JX_ROOT}/libjcore; ${MAKE}
 
 #
 # install binaries
@@ -79,20 +54,8 @@ jxuninstall:
 	@${RM} ${JX_INSTALL_ROOT}/webgif
 
 #
-# statically linked version
-#
-
-.PHONY : static
-static: staticACE libs
-	@${RM} webgif
-	@${MAKE} "LOADLIBES=${STATIC_LOADLIBES}" webgif
-	@${J_STRIP_DEBUG} ${call EXE, webgif}
-
-#
 # personal install
 #
 
 .PHONY : personal
-personal: static
-	@strip ${call EXE, webgif}
-	@cp webgif ${JX_INSTALL_ROOT}/
+personal: jxinstall

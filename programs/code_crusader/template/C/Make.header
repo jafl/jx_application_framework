@@ -15,7 +15,6 @@ SEARCHDIRS := -I${MYCODEDIR}
 # makemake variables
 
 DEPENDFLAGS  := -g -Wall -Werror ${SEARCHDIRS}
-TOUCHHEADERS := ${MYCODEDIR}/*.h
 
 # C preprocessor (C, C++, FORTRAN)
 

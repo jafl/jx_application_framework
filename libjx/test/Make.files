@@ -1,27 +1,27 @@
 -suffix .cpp
 
 @test_jXUtil
-${CODEDIR}/test_jXUtil
-literal: ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+code/test_jXUtil
+literal: ../libjx.a
+literal: ../../libjcore/libjcore.a
 
 @test_jXEventUtil
-${CODEDIR}/test_jXEventUtil
-literal: ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+code/test_jXEventUtil
+literal: ../libjx.a
+literal: ../../libjcore/libjcore.a
 
 @test_JXTextMenuData
-${CODEDIR}/test_JXTextMenuData
-${CODEDIR}/JXTextMenuTable_mock
-${CODEDIR}/JXTextMenu_mock
-${CODEDIR}/JXMenu_mock
-${CODEDIR}/JXContainer_mock
-${CODEDIR}/JXWindow_mock
-${CODEDIR}/JXDisplay_mock
-${CODEDIR}/TestFontManager
-${JXDIR}/JXTextMenuData
-${JXDIR}/JXMenuData
-${JXDIR}/JXButtonStates
-${JXDIR}/JXKeyModifiers
-${JXDIR}/jXEventUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+code/test_JXTextMenuData
+code/JXTextMenuTable_mock
+code/JXTextMenu_mock
+code/JXMenu_mock
+code/JXContainer_mock
+code/JXWindow_mock
+code/JXDisplay_mock
+code/TestFontManager
+.cpp ../code/JXTextMenuData
+.cpp ../code/JXMenuData
+.cpp ../code/JXButtonStates
+.cpp ../code/JXKeyModifiers
+.cpp ../code/jXEventUtil
+literal: ../../libjcore/libjcore.a

@@ -1,39 +1,30 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ..
-
-JFSDIR   := ./code
-JCOREDIR := ${JX_ROOT}/include/jcore
-JXDIR    := ${JX_ROOT}/include/jx
 
 # Directories to search for header files.
 
-SEARCHDIRS := -I${JFSDIR} \
-              -I${JCOREDIR} \
-              -I${JXDIR} 
+SEARCHDIRS := -I./code \
+              -I${JX_ROOT}/include/jcore \
+              -I${JX_ROOT}/include/jx
 
 # makemake variables
 
-include ${JX_ROOT}/include/make/jx_constants
-include ${JX_ROOT}/include/make/jfs_constants
 include ${JX_ROOT}/include/make/jx_config
+include ${JX_ROOT}/include/make/jfs_constants
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${J_BUILD_SHARED_LIB} \
-               ${SEARCHDIRS}
-TOUCHHEADERS := ${JCOREDIR}/*.h ${JXDIR}/*.h ${JFSDIR}/*.h
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 
 # make variables
 
 LOADLIBES := 
-LDFLAGS   := ${J_SHARED_LIB_LINK_OPTION}
+LDFLAGS   := 
 
 #####
 
-LIB_NAME_ROOT := libjfs-${JFS_LIB_VERSION}
-include ${JX_ROOT}/include/make/default_lib_target
+LIB_NAME_ROOT := libjfs
+include ${JX_ROOT}/include/make/lib_targets
 
 .PHONY : Makefiles
 Makefiles:

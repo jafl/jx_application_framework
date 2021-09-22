@@ -16,7 +16,6 @@
 #include "jMountUtil.h"
 #include "jSysUtil.h"
 #include "jErrno.h"
-#include "jMissingProto.h"
 #include <limits.h>
 #include "jAssert.h"
 

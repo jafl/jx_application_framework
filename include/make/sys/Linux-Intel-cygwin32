@@ -1,5 +1,7 @@
 # configuration for compiling with g++
 
+include ${JX_ROOT}/include/make/jx_constants
+
 J_CYGWIN := 1
 
 #
@@ -9,18 +11,6 @@ J_CYGWIN := 1
 # This tells us where to find the X libraries.
 
 J_X11_LIB_DIR := -L/usr/X11R6/lib
-
-# Comment this out if your system is not ELF.
-
-#J_BUILD_SHARED_LIB := -fPIC
-
-# This flag tells the linker to build a shared library.
-
-J_SHARED_LIB_LINK_OPTION := -shared
-
-# This specifies the suffix for shared libraries
-
-J_SHARED_LIB_SUFFIX := so
 
 # Optimization level for debugging
 

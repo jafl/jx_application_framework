@@ -1,35 +1,20 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ../..
-
-CODEDIR   := ./code
-STRINGDIR := ./strings
-JCOREDIR  := ${JX_ROOT}/include/jcore
-JXDIR     := ${JX_ROOT}/include/jx
-JFSDIR    := ${JX_ROOT}/include/jfs
-
-JLIBDIR     := ${JX_ROOT}/lib
-JCORELIBDIR := ${JX_ROOT}/libjcore
-JXLIBDIR    := ${JX_ROOT}/libjx
-JFSLIBDIR   := ${JX_ROOT}/libjfs
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JFSDIR} \
-              -I${JCOREDIR} \
-              -I${JXDIR}
+SEARCHDIRS := -I./code \
+              -I${JX_ROOT}/include/jcore \
+              -I${JX_ROOT}/include/jx \
+              -I${JX_ROOT}/include/jfs
 
 # other constants
 
 SYSTEMG_VERSION  := ${shell cat release/VERSION}
 SIGNATURE        := systemg
-SYG_STRING_FILES := ${filter-out %/systemg_menu_strings, \
-                      ${shell echo strings/*}} strings/version
-MENU_STRINGS_FILE := ${STRINGDIR}/systemg_menu_strings
+MENU_STRINGS_FILE := ./strings/systemg_menu_strings
 
 # also defined in .spec
 
@@ -37,39 +22,27 @@ RPM_LIB_PATH := /usr/lib/${SIGNATURE}
 
 # makemake variables
 
-J_STRING_FILES := ${SYG_STRING_FILES}
+J_STRING_FILES := ${filter-out %/systemg_menu_strings, \
+                    ${shell echo strings/*}} strings/version
 
-include ${JX_ROOT}/include/make/jx_constants
-include ${JX_ROOT}/include/make/jfs_constants
 include ${JX_ROOT}/include/make/jx_config
+include ${JX_ROOT}/include/make/jfs_constants
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
-               ${J_MAN_SECTION_VIA_DASH_S} \
                -DSYSTEM_G ${SEARCHDIRS}
-
-TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${JFSLIBDIR}
 
 # library dependencies
 
-ifndef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libjfs-${JFS_LIB_VERSION}.a 
-endif
+LIB_DEPS := ${JX_ROOT}/lib/libjcore.a \
+            ${JX_ROOT}/lib/libjx.a \
+            ${JX_ROOT}/lib/libjfs.a 
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${ljfs} ${J_STD_LIBS}
-ifdef J_BUILD_SHARED_LIB
-  LDFLAGS   := -Xlinker -R${RPM_LIB_PATH}
+LOADLIBES := ${J_STD_LIBS}
+ifdef J_SYSTEM_HAS_SHARED_LIBS
+  LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
 endif
-
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${ljfs} ${ljx} ${ljcore} ${J_STATIC_LINK_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_DYNAMIC_LINK_ACE_LIBS} \
-                   ${J_X11_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -79,7 +52,7 @@ default: libs systemg
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/app_targets
 
 #
 # string data
@@ -89,7 +62,7 @@ include ${JX_ROOT}/include/make/jx_targets
 strings: build_version_string
 	@${RM} ${MENU_STRINGS_FILE}
 	compile_jstrings ${J_STRING_FILES} \
-      --code kSyGDefaultStringData ${CODEDIR}/SyGStringData.h
+      --code kSyGDefaultStringData ./code/SyGStringData.h
 
 .PHONY : stringdb
 stringdb:
@@ -100,8 +73,8 @@ systemg:: strings
 .PHONY : menu_strings
 menu_strings:
 	@${JX_ROOT}/bin/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
-     -a ${CODEDIR}/SyGActionDefs.h ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
-     -m ${CODEDIR}/*.cpp ${JXDIR}/*.cpp ${JFSDIR}/*.cpp
+     -a ./code/SyGActionDefs.h ${JX_ROOT}/include/jx/jXActionDefs.h ${JX_ROOT}/include/jx/JXTEBase.cpp \
+     -m ./code/*.cpp ${JX_ROOT}/include/jx/*.cpp ${JX_ROOT}/include/jfs/*.cpp
 
 #
 # install binaries
@@ -133,35 +106,20 @@ DEB_CTRL_FILE := ./release/pkg/systemg.debctrl
 DEB_PKG_FILE  := systemg_${SYSTEMG_VERSION}_i386.deb
 
 .PHONY : release
-release: pre_build_pkgs static menu_strings
+release: pre_build_pkgs default
+	@${J_STRIP_DEBUG} ${call EXE, systemg}
 	@${MAKE} PKG_PATH=${SYG} init_tarball
 	@ln -s ../${call EXE,systemg} ${SYG}/${call EXE,systemg}
 	@${MAKE} PKG_PATH=${SYG} SOURCE_TAR_NAME=${SYG_RELEASE_TAR_NAME} build_pkgs
-
-#
-# debugging version
-#
-
-.PHONY : debug
-debug: staticACE libs
-	@${RM} systemg
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" systemg
-
-#
-# static binary
-#
-
-.PHONY : static
-static: debug
-	@${J_STRIP_DEBUG} ${call EXE, systemg}
 
 #
 # personal install
 #
 
 .PHONY : personal
-personal: static
+personal: default
 	@cp systemg ${HOME}/bin/
+	@${J_STRIP_DEBUG} ${call EXE, ${HOME}/bin/systemg}
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

@@ -1,20 +1,11 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ../..
-
-CODEDIR  := .
-JCOREDIR := ${JX_ROOT}/include/jcore
-
-JLIBDIR     := ${JX_ROOT}/lib
-JCORELIBDIR := ${JX_ROOT}/libjcore
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR}
+SEARCHDIRS := -I${JX_ROOT}/include/jcore
 
 # makemake variables
 
@@ -26,23 +17,12 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
 
 # library dependencies
 
-ifdef J_BUILD_SHARED_LIB
-  LOADLIBES := -L${JLIBDIR} ${ljcore} ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
-  LIB_DEPS  :=
-else
-  LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
-  LIB_DEPS  := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-endif
+LIB_DEPS := ${JX_ROOT}/lib/libjcore.a
 
 # make variables
 
-LDFLAGS :=
-
-STATIC_LOADLIBES := -L${JLIBDIR} \
-                    ${J_BEGIN_LINK_STATIC} \
-                    ${ljcore} ${J_ACE_LIBS} \
-                    ${J_END_LINK_STATIC} \
-                    ${J_IMG_LIBS} ${J_GCC_LIBS}
+LOADLIBES := ${J_ACE_LIBS} ${J_GCC_LIBS}
+LDFLAGS   :=
 
 #####
 
@@ -52,7 +32,7 @@ default: libs compile_jstrings
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/app_targets
 
 #
 # required libraries
@@ -60,12 +40,13 @@ include ${JX_ROOT}/include/make/jx_targets
 
 .PHONY : libs
 libs::
-	@cd ${JCORELIBDIR}; cp -f jStringData_init.h code/jStringData.h
-	@cd ${JCORELIBDIR}; ${MAKE} COMPILE_STRINGS=0
-
-.PHONY : touch
-touch::
-	@cd ${JCORELIBDIR}; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
+	@cd ${JX_ROOT}/libjcore; \
+     if { ! test -e code/jStringData.h; } then \
+       cp -f jStringData_init.h code/jStringData.h; \
+       ${MAKE} COMPILE_STRINGS=0; \
+     else \
+       ${MAKE}; \
+     fi
 
 #
 # install binaries
@@ -81,19 +62,8 @@ jxuninstall:
 	@${RM} ${JX_INSTALL_ROOT}/compile_jstrings
 
 #
-# debugging version
-#
-
-.PHONY : debug
-debug: staticACE libs
-	@${RM} compile_jstrings
-	@${MAKE} "LOADLIBES=${STATIC_LOADLIBES}" compile_jstrings
-
-#
 # personal install
 #
 
 .PHONY : personal
-personal: debug
-	@strip ${call EXE, compile_jstrings}
-	@cp compile_jstrings ${JX_INSTALL_ROOT}/
+personal: jxinstall

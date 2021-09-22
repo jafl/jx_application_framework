@@ -1,14 +1,7 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := <JX_PATH>
-
-CODEDIR   := ./code
-STRINGDIR := ./strings
-JCOREDIR  := ${JX_ROOT}/include/jcore
-JXDIR     := ${JX_ROOT}/include/jx
 
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
@@ -16,18 +9,16 @@ JXLIBDIR    := ${JX_ROOT}/libjx
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR} \
-              -I${JXDIR}
+SEARCHDIRS := -I./code \
+              -I${JX_ROOT}/include/jcore \
+              -I${JX_ROOT}/include/jx
 
 # other constants
 
 PROG_NAME         := <Binary>
 PROG_VERSION      := ${shell cat VERSION}
 SIGNATURE         := <Binary>
-PROG_STRING_FILES := ${filter-out %/${PROG_NAME}_menu_strings, \
-                      ${shell echo strings/*}} strings/version
-MENU_STRINGS_FILE := ${STRINGDIR}/${PROG_NAME}_menu_strings
+MENU_STRINGS_FILE := ./strings/${PROG_NAME}_menu_strings
 
 # also defined in .spec
 
@@ -35,39 +26,25 @@ RPM_LIB_PATH := /usr/lib/${SIGNATURE}
 
 # makemake variables
 
-J_STRING_FILES := ${PROG_STRING_FILES}
+J_STRING_FILES := ${filter-out %/${PROG_NAME}_menu_strings, \
+                    ${shell echo strings/*}} strings/version
 
-include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} <MDI_DEF> \
                ${SEARCHDIRS}
 
-TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
-
 # library dependencies
 
-ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
-else
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
-endif
+LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
+            ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
 
 # make variables
 
 LOADLIBES := ${J_STD_LIBS}
-ifdef J_BUILD_SHARED_LIB
-  LDFLAGS   := -Xlinker -R${RPM_LIB_PATH}
+ifdef J_SYSTEM_HAS_SHARED_LIBS
+  LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
 endif
-
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${ljx} ${ljcore} ${J_STATIC_LINK_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_DYNAMIC_LINK_ACE_LIBS} \
-                   ${J_X11_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -77,7 +54,7 @@ default: libs ${PROG_NAME}
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/app_targets
 
 #
 # string data
@@ -87,7 +64,7 @@ include ${JX_ROOT}/include/make/jx_targets
 strings: build_version_string
 	@${RM} ${MENU_STRINGS_FILE}
 	compile_jstrings ${J_STRING_FILES} \
-      --code k<PRE>DefaultStringData ${CODEDIR}/<pre>StringData.h
+      --code k<PRE>DefaultStringData ./code/<pre>StringData.h
 
 .PHONY : stringdb
 stringdb:
@@ -98,8 +75,8 @@ ${PROG_NAME}:: strings
 .PHONY : menu_strings
 menu_strings:
 	@${JX_ROOT}/bin/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
-     -a ${CODEDIR}/<pre>ActionDefs.h ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
-     -m */*.cpp ${JXDIR}/*.cpp
+     -a ./code/<pre>ActionDefs.h ${JX_ROOT}/include/jx/jXActionDefs.h ${JX_ROOT}/include/jx/JXTEBase.cpp \
+     -m */*.cpp ${JX_ROOT}/include/jx/*.cpp
 
 #
 # install binaries
@@ -159,26 +136,10 @@ distr_sub: menu_strings
 	@${MAKE} PKG_PATH=${PROG} SOURCE_TAR_NAME=${PROG_DISTR_TAR_FILE} build_pkgs
 
 #
-# debugging version
-#
-
-.PHONY : debug
-debug: staticACE libs
-	@${RM} ${PROG_NAME}
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" ${PROG_NAME}
-
-#
-# static binary
-#
-
-.PHONY : static
-static: debug
-	@${J_STRIP_DEBUG} ${call EXE, ${PROG_NAME}}
-
-#
 # personal install
 #
 
 .PHONY : personal
-personal: static
+personal: default
 	@cp ${PROG_NAME} ${HOME}/bin/
+	@strip ${call EXE, ${HOME}/bin/${PROG_NAME}}

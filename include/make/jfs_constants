@@ -8,13 +8,7 @@ JFS_VERSION     := 2.0.0
 JFS_LIB_VERSION := 2_0_0
 
 #
-# library names
-#
-
-ljfs := -ljfs-${JFS_LIB_VERSION}
-
-#
 # String data files -- prepend to allow app to override
 #
 
-J_STRING_FILES := ${JX_ROOT}/libjfs/strings/* ${J_STRING_FILES}
+J_STRING_FILES := ${JX_ROOT}/include/strings/jfs/* ${J_STRING_FILES}

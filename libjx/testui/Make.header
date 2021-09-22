@@ -1,27 +1,15 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ../..
-
-CODEDIR  := ./code
-JCOREDIR := ${JX_ROOT}/include/jcore
-JXDIR    := ${JX_ROOT}/include/jx
-
-JLIBDIR     := ${JX_ROOT}/lib
-JCORELIBDIR := ${JX_ROOT}/libjcore
-JXLIBDIR    := ${JX_ROOT}/libjx
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR} \
-              -I${JXDIR}
+SEARCHDIRS := -I./code \
+              -I${JX_ROOT}/include/jcore \
+              -I${JX_ROOT}/include/jx
 
 # other constants
-
-MY_STRING_FILES := strings/*
 
 XDND_VERSION := v4
 XDND_DIR     := xdnd-${XDND_VERSION}
@@ -31,37 +19,22 @@ XSEARCH_DIR     := xsearch-${XSEARCH_VERSION}
 
 # makemake variables
 
-J_STRING_FILES := ${MY_STRING_FILES}
+J_STRING_FILES := strings/*
 
-include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                -g ${SEARCHDIRS}
 
-TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
-
 # library dependencies
 
-ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
-else
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
-endif
+LIB_DEPS := ${JX_ROOT}/lib/libjcore.a \
+            ${JX_ROOT}/lib/libjx.a
 
 # make variables
 
 LOADLIBES := ${J_STD_LIBS}
 LDFLAGS   := 
-
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${ljx} ${ljcore} ${J_STATIC_LINK_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_DYNAMIC_LINK_ACE_LIBS} \
-                   ${J_IMG_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -71,7 +44,7 @@ default: libs all
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/app_targets
 
 #
 # string data
@@ -80,30 +53,13 @@ include ${JX_ROOT}/include/make/jx_targets
 .PHONY : strings
 strings:
 	compile_jstrings ${J_STRING_FILES} \
-      --code kDefaultStringData ${CODEDIR}/testjxStringData.h
+      --code kDefaultStringData ./code/testjxStringData.h
 
 .PHONY : stringdb
 stringdb:
 	compile_jstrings ${J_STRING_FILES} --db testjx_us
 
 testjx:: strings
-
-#
-# debugging version
-#
-
-.PHONY : debug
-debug: staticACE libs
-	@${RM} testjx
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" testjx
-
-#
-# static binary
-#
-
-.PHONY : static
-static: debug
-	@${J_STRIP_DEBUG} ${call EXE, testjx}
 
 #
 # XDND sample distribution

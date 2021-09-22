@@ -14,7 +14,6 @@
 #include "JError.h"
 #include "JString.h"
 #include <sys/stat.h>
-#include "jMissingProto.h"
 
 #if defined WIN32 && !defined GetUserName
 #define GetUserName	GetUserNameA

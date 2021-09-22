@@ -1,24 +1,24 @@
 -suffix .cpp
 
 @echo
-${CODEDIR}/echo
-${CODEDIR}/util
+code/echo
+code/util
 literal: ${LIB_DEPS}
 
 @client
-${CODEDIR}/client
-${CODEDIR}/util
+code/client
+code/util
 literal: ${LIB_DEPS}
 
 @server
-${CODEDIR}/server
-${CODEDIR}/util
+code/server
+code/util
 literal: ${LIB_DEPS}
 
 
 @evt_client
 
--prefix ${CODEDIR}/
+-prefix code/
 
 evt_client
 util
@@ -26,7 +26,7 @@ literal: ${LIB_DEPS}
 
 @evt_server
 
--prefix ${CODEDIR}/
+-prefix code/
 
 evt_server
 util
@@ -34,8 +34,8 @@ literal: ${LIB_DEPS}
 
 
 @dynamic_loader
-${CODEDIR}/dynamic_loader
+code/dynamic_loader
 literal: ${LIB_DEPS}
 
 @dynamic_loaded.so
-${CODEDIR}/dynamic_loaded
+code/dynamic_loaded

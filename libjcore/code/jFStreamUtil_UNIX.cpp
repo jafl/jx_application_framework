@@ -12,7 +12,6 @@
 #include "JString.h"
 #include <fcntl.h>
 #include <unistd.h>
-#include "jMissingProto.h"
 #include "jAssert.h"
 
 /******************************************************************************

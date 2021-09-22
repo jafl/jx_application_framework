@@ -6,15 +6,12 @@ SHELL=/bin/bash
 
 .PHONY : libs
 libs::
-	@for path in ${TOUCHPATHS}; do \
+	@for dep in ${LIB_DEPS}; do \
+       lib=$${dep##*/}; \
+       dir=$${lib%.a}; \
+       path=${JX_ROOT}/$$dir; \
        if ! ( if cd $$path; then ${MAKE}; fi ); then exit 1; fi \
      done;
-
-.PHONY : staticACE
-staticACE:
-  ifdef J_BUILD_SHARED_LIB
-	@cd ${ACELIBDIR}; ${MAKE} static
-  endif
 
 #
 # Strings (const STRINGDIR)
@@ -22,8 +19,8 @@ staticACE:
 
 .PHONY : build_version_string
 build_version_string:
-	@rm -f ${STRINGDIR}/version
-	@echo -e '0\nVERSION "'`cat release/VERSION`'"' > ${STRINGDIR}/version
+	@rm -f strings/version
+	@echo -e '0\nVERSION "'`cat release/VERSION`'"' > strings/version
 
 #
 # Building packages

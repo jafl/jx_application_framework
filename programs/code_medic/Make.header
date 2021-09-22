@@ -1,33 +1,17 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT  := ../..
-
-CODEDIR    := ./code
-STRINGDIR  := ./strings
-JCOREDIR   := ${JX_ROOT}/include/jcore
-JXDIR      := ${JX_ROOT}/include/jx
-JEXPRDIR   := ${JX_ROOT}/include/jexpr
-J2DPLOTDIR := ${JX_ROOT}/include/j2dplot
-REFLEXDIR  := ${JX_ROOT}/include/reflex
-
-JLIBDIR       := ${JX_ROOT}/lib
-JCORELIBDIR   := ${JX_ROOT}/libjcore
-JXLIBDIR      := ${JX_ROOT}/libjx
-JEXPRLIBDIR   := ${JX_ROOT}/libjexpr
-J2DPLOTLIBDIR := ${JX_ROOT}/libj2dplot
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
+SEARCHDIRS := -I./code \
               -I./JCC \
-              -I${JCOREDIR} \
-              -I${JXDIR} \
-              -I${JEXPRDIR} \
-              -I${J2DPLOTDIR} \
-              -I${REFLEXDIR} \
+              -I${JX_ROOT}/include/jcore \
+              -I${JX_ROOT}/include/jx \
+              -I${JX_ROOT}/include/jexpr \
+              -I${JX_ROOT}/include/j2dplot \
+              -I${JX_ROOT}/include/reflex \
               -I./lldb-include \
               ${shell xml2-config --cflags} \
               ${shell pkg-config --cflags editorconfig}
@@ -36,9 +20,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 MEDIC_VERSION      := ${shell cat release/VERSION}
 SIGNATURE          := medic
-MEDIC_STRING_FILES := ${filter-out %/medic_menu_strings, \
-                        ${shell echo strings/*}} strings/version
-MENU_STRINGS_FILE  := ${STRINGDIR}/medic_menu_strings
+MENU_STRINGS_FILE  := ./strings/medic_menu_strings
 
 # also defined in .spec
 
@@ -46,44 +28,31 @@ RPM_LIB_PATH := /usr/lib/${SIGNATURE}
 
 # makemake variables
 
-J_STRING_FILES := ${MEDIC_STRING_FILES}
+J_STRING_FILES := ${filter-out %/medic_menu_strings, \
+                    ${shell echo strings/*}} strings/version
 
-include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
 include ${JX_ROOT}/include/make/j2dplot_constants
 include ${JX_ROOT}/include/make/jexpr_constants
-include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS  := ${J_COMPILER_DEPEND_FLAGS_FOR_BISON} \
                 -DCODE_MEDIC ${SEARCHDIRS}
 
-TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${JEXPRLIBDIR} ${J2DPLOTLIBDIR}
-
 # library dependencies
 
-ifndef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.a \
-              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.a
-endif
+LIB_DEPS := ${JX_ROOT}/lib/libjcore.a \
+            ${JX_ROOT}/lib/libjx.a \
+            ${JX_ROOT}/lib/libjexpr.a \
+            ${JX_ROOT}/lib/libj2dplot.a
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} ${J_LLDB_LIBS} \
-             ${shell pkg-config --libs editorconfig} -lreflex ${J_STD_LIBS}
+LOADLIBES := ${J_LLDB_LIBS} ${shell pkg-config --libs editorconfig} \
+             -L${JX_ROOT}/lib -lreflex ${J_STD_LIBS}
 LDFLAGS   := -Xlinker -headerpad_max_install_names
-ifdef J_BUILD_SHARED_LIB
+ifdef J_SYSTEM_HAS_SHARED_LIBS
   LDFLAGS += -Xlinker -R${RPM_LIB_PATH}
 endif
-
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${lj2dplot} ${ljexpr} ${ljx} ${ljcore} \
-                   -lreflex ${J_STATIC_LINK_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_DYNAMIC_LINK_ACE_LIBS} \
-                   ${shell pkg-config --libs editorconfig} \
-                   ${J_LLDB_LIBS} ${J_X11_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
 
 include make_reflex_target
 
@@ -99,7 +68,7 @@ medic_all: medic
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/app_targets
 
 #
 # string data
@@ -109,7 +78,7 @@ include ${JX_ROOT}/include/make/jx_targets
 strings: build_version_string
 	@${RM} ${MENU_STRINGS_FILE}
 	compile_jstrings ${J_STRING_FILES} \
-      --code kCMDefaultStringData ${CODEDIR}/cmStringData.h
+      --code kCMDefaultStringData ./code/cmStringData.h
 
 .PHONY : stringdb
 stringdb:
@@ -120,8 +89,8 @@ medic:: update_jcc strings
 .PHONY : menu_strings
 menu_strings:
 	@${JX_ROOT}/bin/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
-     -a ${CODEDIR}/cmActionDefs.h ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
-     -m */*.cpp ${JXDIR}/*.cpp ${JEXPRDIR}/*.cpp ${J2DPLOTDIR}/*.cpp
+     -a ./code/cmActionDefs.h ${JX_ROOT}/include/jx/jXActionDefs.h ${JX_ROOT}/include/jx/JXTEBase.cpp \
+     -m */*.cpp ${JX_ROOT}/include/jx/*.cpp ${JX_ROOT}/include/jexpr/*.cpp ${JX_ROOT}/include/j2dplot/*.cpp
 
 #
 # extra dependencies
@@ -178,35 +147,20 @@ DEB_CTRL_FILE := ./release/pkg/code_medic.debctrl
 DEB_PKG_FILE  := code-medic_${MEDIC_VERSION}_i386.deb
 
 .PHONY : release
-release: pre_build_pkgs static menu_strings
+release: pre_build_pkgs default
+	@${J_STRIP_DEBUG} ${call EXE, medic}
 	@${MAKE} PKG_PATH=${MEDIC} init_tarball
 	@ln -s ../${call EXE,medic} ${MEDIC}/${call EXE,medic}
 	@${MAKE} PKG_PATH=${MEDIC} SOURCE_TAR_NAME=${MEDIC_RELEASE_TAR_NAME} build_pkgs
-
-#
-# debugging version
-#
-
-.PHONY : debug
-debug: staticACE libs
-	@${RM} medic
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" medic_all
-
-#
-# static binary
-#
-
-.PHONY : static
-static: debug
-	@${J_STRIP_DEBUG} ${call EXE, medic}
 
 #
 # personal install
 #
 
 .PHONY : personal
-personal: static
+personal: jxinstall
 	@cp medic ${HOME}/bin/
+	@${J_STRIP_DEBUG} ${call EXE, ${HOME}/bin/medic}
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

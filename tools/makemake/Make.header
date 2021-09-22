@@ -28,18 +28,17 @@ DISTR_FILES  := README makemake ${SCRIPT_FILES}
 include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${J_BUILD_SHARED_LIB} \
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${J_RANLIB_VIA_AR_S} \
                -DJ_MAKE_BINARY_NAME=\"${firstword ${MAKE}}\" \
-               -DJ_SHARED_LIB_LINK_OPTION=\"${J_SHARED_LIB_LINK_OPTION}\" \
-               ${J_RANLIB_VIA_AR_S} \
                ${SEARCHDIRS}
+
+# library dependencies
+
+LIB_DEPS := ${JX_ROOT}/lib/libjcore.a
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${ljcore} ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
-ifdef J_BUILD_SHARED_LIB
-  LDFLAGS := -Xlinker -R/usr/lib/jxcb
-endif
+LOADLIBES := ${J_ACE_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -49,7 +48,7 @@ default: libs makemake
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/app_targets
 
 #
 # required libraries
@@ -89,29 +88,11 @@ jcc: debug
 	@cp Make.files  ${JCC_FILE_DIR}/Make.files_sample
 
 #
-# debugging version
-#
-
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${ljcore} ${J_STATIC_LINK_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_DYNAMIC_LINK_ACE_LIBS} \
-                   ${J_IMG_LIBS} ${J_GCC_LIBS}
-
-.PHONY : debug
-debug: staticACE libs
-	@${RM} makemake
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" makemake
-
-#
 # personal install
 #
 
 .PHONY : personal
-personal: debug
-	@strip ${call EXE, makemake}
-	@cp makemake ${JX_INSTALL_ROOT}/
+personal: jxinstall
 
 ### makemake inserts here ###
 

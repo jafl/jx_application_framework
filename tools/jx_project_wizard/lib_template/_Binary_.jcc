@@ -38,7 +38,7 @@ F
 # build settings
 1
 T
-"lib{Binary}-${{Binary}_LIB_VERSION}.a,lib{Binary}-${{Binary}_LIB_VERSION}.so"
+"lib{Binary}.a"
 ""
 "make -k all"
 # search paths

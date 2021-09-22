@@ -16,6 +16,14 @@ Changes to the build system
   manager.  The new `./configure` script handles this for known systems.
 * Removed J_COMPILE_DEBUG flag.  To build without debugging, create
   the file 0-RELEASE with content: 1
+* Removed support for shared libraries.  RAM is plentiful.  This eliminates
+  the following make variables: J_BUILD_SHARED_LIB, J_SHARED_LIB_SUFFIX,
+  J_SHARED_LIB_LINK_OPTION, J_NEED_SEPARATE_O_FILES, J_BEGIN_LINK_STATIC,
+  J_END_LINK_STATIC, RPM_LIB_PATH.  Removed J_SYS_LIBS.  J_STD_LIBS no
+  longer includes libjcore and libjx, since these should be in LIB_DEPS.
+* Removed obsolete J_MAN_SECTION_VIA_DASH_S.
+* Renamed jx_targets to app_targets.
+* jx_config automatically includes jx_constants.
 
 2.6.0
 -----

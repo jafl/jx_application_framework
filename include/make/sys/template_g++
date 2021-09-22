@@ -1,5 +1,7 @@
 # configuration for compiling with g++
 
+include ${JX_ROOT}/include/make/jx_constants
+
 #
 # Adjustable parameters
 #
@@ -10,26 +12,11 @@ J_X11_LIB_DIR := -L/usr/X11R6/lib
 
 # Comment this out if your system is not ELF.
 
-J_BUILD_SHARED_LIB := -fPIC
-J_BEGIN_LINK_STATIC := -Xlinker -Bstatic
-J_END_LINK_STATIC   := -Xlinker -Bdynamic
-
-# This flag tells the linker to build a shared library.
-
-J_SHARED_LIB_LINK_OPTION := -shared
-
-# This specifies the suffix for shared libraries
-
-J_SHARED_LIB_SUFFIX := so
+J_SYSTEM_HAS_SHARED_LIBS := yes
 
 # Optimization level for debugging
 
 J_DEBUG_OPTIMIZATION_LEVEL := g
-
-# Uncomment this if your system requires separate .o files for
-# static and shared libraries.  The actual value is not used.
-
-# J_NEED_SEPARATE_O_FILES := yes
 
 # This command is used to strip debugging info but not the symbol table.
 
@@ -39,15 +26,6 @@ J_STRIP_DEBUG := strip -g
 
 J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
 
-# Uncomment this if your version of "man" requires -s to specify the section.
-
-# J_MAN_SECTION_VIA_DASH_S := -D_J_MAN_SECTION_VIA_DASH_S
-
-# Uncomment this if you need to use readdir_r() instead of readdir().
-
-# J_USE_READDIR_R := -DJ_USE_READDIR_R
-# J_USE_READDIR_R := -DJ_USE_POSIX_READDIR_R
-
 # Comment this out if you don't have Xinerama
 
 J_HAS_XINERAMA  := -D_J_HAS_XINERAMA
@@ -55,8 +33,7 @@ J_XINERAMA_LIBS := -lXinerama
 
 # Add to this until everything compiles.
 #
-# You must include "-DSIZEOF_LONG=N -DSIZEOF_INT=M"
-# On most systems, N and M are both 4.  Check /usr/include/limits.h
+# Check /usr/include/limits.h for sizes.
 
 J_RAW_SYSTEM_STUFF := \
   -DSIZEOF_INT=* -DSIZEOF_LONG=* -DSIZEOF_LONGLONG=* \

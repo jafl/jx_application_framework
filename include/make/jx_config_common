@@ -8,21 +8,12 @@ ifndef ACE_ROOT
   export ACE_ROOT = ${shell cd ${JX_ROOT}/ACE/ACE_wrappers; pwd}
 endif
 
-ACELIBDIR = ${JX_ROOT}/ACE
-
-ifeq ("$(wildcard ${ACELIBDIR}/ACE_wrappers/ace/libACE.a)","")
-  J_DYNAMIC_LINK_ACE_LIBS := ${J_ACE_LIBS}
-else
-  J_STATIC_LINK_ACE_LIBS := ${J_ACE_LIBS}
-endif
-
 #
 # modify configuration based on OS, compiler, etc.
 #
 
 J_RAW_SYSTEM_STUFF += \
-  -D_J_UNIX ${J_USE_READDIR_R} \
-  ${J_HAS_XINERAMA}
+  -D_J_UNIX ${J_HAS_XINERAMA}
 
 ifeq ($(shell cat ${JX_ROOT}/0-RELEASE 2>/dev/null),1)
   J_OPTIMIZE_LEVEL := -O2
@@ -36,24 +27,15 @@ J_COMPILER_DEPEND_FLAGS_FOR_BISON := ${J_RAW_SYSTEM_STUFF}
 J_COMPILER_DEPEND_FLAGS := \
   ${J_COMPILER_DEPEND_FLAGS_FOR_BISON} -Wall -Werror
 
-SEARCHDIRS += -I${JX_ROOT}/include/jximage
+SEARCHDIRS += -I${JX_ROOT}/include/image/jx
 
 ifdef ACE_ROOT
   SEARCHDIRS += -I${ACE_ROOT}
 endif
 
 J_GCC_LIBS := -lxml2 ${J_GCC_LIBS}
-
-ifdef J_BUILD_SHARED_LIB
-  J_GCC_LIBS += -Xlinker -R${shell cd ${JX_ROOT}/lib; pwd}
-endif
-
-# We add libpng and libjpeg to J_STD_LIBS to satisfy the shared library linker.
-# We don't include them in J_GCC_LIBS because we don't want to bloat static binaries.
-
 J_IMG_LIBS := -lgd -lpng -ljpeg
-J_SYS_LIBS := ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
-J_STD_LIBS := -L${JX_ROOT}/lib ${ljx} ${ljcore} ${J_IMG_LIBS} ${J_SYS_LIBS}
+J_STD_LIBS := ${J_IMG_LIBS} ${J_X11_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
 
 #
 # strip commands -- no spaces allowed

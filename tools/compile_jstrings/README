@@ -42,4 +42,4 @@ constructor) to define the default strings.
 run "compile_jstrings --help"
 
     The format of the string database files is explained in
-libjcore/code/JStringManager.cc.
+libjcore/code/JStringManager.cpp.

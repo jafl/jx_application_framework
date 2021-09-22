@@ -40,7 +40,6 @@
 #include <jDirUtil.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <jMissingProto.h>
 #include <jAssert.h>
 
 static const JUtf8Byte* kDisplayOptionName         = "-display";

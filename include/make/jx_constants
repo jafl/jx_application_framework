@@ -52,13 +52,6 @@ endif
 #endif
 
 #
-# library names
-#
-
-ljcore := -ljcore-${JX_LIB_VERSION}
-ljx    := -ljx-${JX_LIB_VERSION}
-
-#
 # flex
 #
 
@@ -117,6 +110,6 @@ RPM := rpmbuild -bb --quiet --clean --rmsource
 # string data files -- prepend to allow app to override
 #
 
-J_STRING_FILES := ${JX_ROOT}/libjcore/strings/* \
-                  ${JX_ROOT}/libjx/strings/* \
+J_STRING_FILES := ${JX_ROOT}/include/strings/jcore/* \
+                  ${JX_ROOT}/include/strings/jx/* \
                   ${J_STRING_FILES}

@@ -1,4 +1,4 @@
-jx_browser_data 88
+jx_browser_data 89
 # project tree
 0 "root"
 T
@@ -784,7 +784,7 @@ F
 # build settings
 1
 F
-"libjcore-${JX_LIB_VERSION}.a,libjcore-${JX_LIB_VERSION}.so"
+"libjcore.a"
 ""
 "make -k all"
 # search paths

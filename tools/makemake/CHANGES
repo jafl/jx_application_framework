@@ -1,5 +1,9 @@
 Changes from previous versions
 
+4.0.0
+
+Removed support for shared libraries and TOUCHPATHS.
+
 3.4.2
 
 Fixed so J_MAKEMAKE_IGNORE_PATTERN can also match full path.

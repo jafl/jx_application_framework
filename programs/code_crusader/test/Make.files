@@ -1,149 +1,163 @@
 -suffix .cpp
 
 @test_BourneShellStyler
-.ll ${JCCCODEDIR}/CBBourneShellScanner
-${CODEDIR}/test_BourneShellStyler
-${JCCCODEDIR}/CBBourneShellStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBBourneShellScanner
+code/test_BourneShellStyler
+.cpp ../code/CBBourneShellStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_CStyler
-.ll ${JCCCODEDIR}/CBCScanner
-${CODEDIR}/test_CStyler
-${JCCCODEDIR}/CBCStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBCScanner
+code/test_CStyler
+.cpp ../code/CBCStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_CSharpStyler
-.ll ${JCCCODEDIR}/CBCSharpScanner
-${CODEDIR}/test_CSharpStyler
-${JCCCODEDIR}/CBCSharpStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBCSharpScanner
+code/test_CSharpStyler
+.cpp ../code/CBCSharpStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_CShellStyler
-.ll ${JCCCODEDIR}/CBCShellScanner
-${CODEDIR}/test_CShellStyler
-${JCCCODEDIR}/CBCShellStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBCShellScanner
+code/test_CShellStyler
+.cpp ../code/CBCShellStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_DStyler
-.ll ${JCCCODEDIR}/CBDScanner
-${CODEDIR}/test_DStyler
-${JCCCODEDIR}/CBDStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBDScanner
+code/test_DStyler
+.cpp ../code/CBDStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_GoStyler
-.ll ${JCCCODEDIR}/CBGoScanner
-${CODEDIR}/test_GoStyler
-${JCCCODEDIR}/CBGoStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBGoScanner
+code/test_GoStyler
+.cpp ../code/CBGoStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_EiffelStyler
-.ll ${JCCCODEDIR}/CBEiffelScanner
-${CODEDIR}/test_EiffelStyler
-${JCCCODEDIR}/CBEiffelStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBEiffelScanner
+code/test_EiffelStyler
+.cpp ../code/CBEiffelStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_HTMLStyler
-.ll ${JCCCODEDIR}/CBHTMLScanner
-${CODEDIR}/test_HTMLStyler
-${JCCCODEDIR}/CBHTMLStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBHTMLScanner
+code/test_HTMLStyler
+.cpp ../code/CBHTMLStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_INIStyler
-.ll ${JCCCODEDIR}/CBINIScanner
-${CODEDIR}/test_INIStyler
-${JCCCODEDIR}/CBINIStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBINIScanner
+code/test_INIStyler
+.cpp ../code/CBINIStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_JavaStyler
-.ll ${JCCCODEDIR}/CBJavaScanner
-${CODEDIR}/test_JavaStyler
-${JCCCODEDIR}/CBJavaStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBJavaScanner
+code/test_JavaStyler
+.cpp ../code/CBJavaStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_JavaScriptStyler
-.ll ${JCCCODEDIR}/CBJavaScriptScanner
-${CODEDIR}/test_JavaScriptStyler
-${JCCCODEDIR}/CBJavaScriptStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBJavaScriptScanner
+code/test_JavaScriptStyler
+.cpp ../code/CBJavaScriptStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_PerlStyler
-.ll ${JCCCODEDIR}/CBPerlScanner
-${CODEDIR}/test_PerlStyler
-${JCCCODEDIR}/CBPerlStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBPerlScanner
+code/test_PerlStyler
+.cpp ../code/CBPerlStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_PropertiesStyler
-.ll ${JCCCODEDIR}/CBPropertiesScanner
-${CODEDIR}/test_PropertiesStyler
-${JCCCODEDIR}/CBPropertiesStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBPropertiesScanner
+code/test_PropertiesStyler
+.cpp ../code/CBPropertiesStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_PythonStyler
-.ll ${JCCCODEDIR}/CBPythonScanner
-${CODEDIR}/test_PythonStyler
-${JCCCODEDIR}/CBPythonStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBPythonScanner
+code/test_PythonStyler
+.cpp ../code/CBPythonStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
+
+@test_RubyStyler
+.ll ../code/CBRubyScanner
+code/test_RubyStyler
+.cpp ../code/CBRubyStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 @test_TCLStyler
-.ll ${JCCCODEDIR}/CBTCLScanner
-${CODEDIR}/test_TCLStyler
-${JCCCODEDIR}/CBTCLStyler
-${JCCCODEDIR}/CBStylingScannerBase
-${JCCCODEDIR}/CBStylerBase
+.ll ../code/CBTCLScanner
+code/test_TCLStyler
+.cpp ../code/CBTCLStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
+
+@test_SQLStyler
+.ll ../code/CBSQLScanner
+code/test_SQLStyler
+.cpp ../code/CBSQLStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
 
 
 @test_CTreeScanner
-.l ${JCCCODEDIR}/CBCTreeScanner
-${CODEDIR}/test_CTreeScanner
-${JCCCODEDIR}/CBCTree
-${JCCCODEDIR}/CBTree
-${JCCCODEDIR}/CBCClass
-${JCCCODEDIR}/CBClass
-${JCCCODEDIR}/CBCPreprocessor
-${JCCCODEDIR}/CBCtagsUser
+.l ../code/CBCTreeScanner
+code/test_CTreeScanner
+.cpp ../code/CBCTree
+.cpp ../code/CBTree
+.cpp ../code/CBCClass
+.cpp ../code/CBClass
+.cpp ../code/CBCPreprocessor
+.cpp ../code/CBCtagsUser
 
 @test_DTreeScanner
-.l ${JCCCODEDIR}/CBDTreeScanner
-${CODEDIR}/test_DTreeScanner
-${JCCCODEDIR}/CBDTree
-${JCCCODEDIR}/CBTree
-${JCCCODEDIR}/CBDClass
-${JCCCODEDIR}/CBClass
+.l ../code/CBDTreeScanner
+code/test_DTreeScanner
+.cpp ../code/CBDTree
+.cpp ../code/CBTree
+.cpp ../code/CBDClass
+.cpp ../code/CBClass
 
 @test_GoTreeScanner
-.l ${JCCCODEDIR}/CBGoTreeScanner
-${CODEDIR}/test_GoTreeScanner
-${JCCCODEDIR}/CBGoTree
-${JCCCODEDIR}/CBTree
-${JCCCODEDIR}/CBGoClass
-${JCCCODEDIR}/CBClass
+.l ../code/CBGoTreeScanner
+code/test_GoTreeScanner
+.cpp ../code/CBGoTree
+.cpp ../code/CBTree
+.cpp ../code/CBGoClass
+.cpp ../code/CBClass
 
 @test_JavaTreeScanner
-.l ${JCCCODEDIR}/CBJavaTreeScanner
-${CODEDIR}/test_JavaTreeScanner
-${JCCCODEDIR}/CBJavaTree
-${JCCCODEDIR}/CBTree
-${JCCCODEDIR}/CBJavaClass
-${JCCCODEDIR}/CBClass
+.l ../code/CBJavaTreeScanner
+code/test_JavaTreeScanner
+.cpp ../code/CBJavaTree
+.cpp ../code/CBTree
+.cpp ../code/CBJavaClass
+.cpp ../code/CBClass
 
 @test_PHPTreeScanner
-.l ${JCCCODEDIR}/CBPHPTreeScanner
-${CODEDIR}/test_PHPTreeScanner
-${JCCCODEDIR}/CBPHPTree
-${JCCCODEDIR}/CBTree
-${JCCCODEDIR}/CBPHPClass
-${JCCCODEDIR}/CBClass
+.l ../code/CBPHPTreeScanner
+code/test_PHPTreeScanner
+.cpp ../code/CBPHPTree
+.cpp ../code/CBTree
+.cpp ../code/CBPHPClass
+.cpp ../code/CBClass

@@ -1,32 +1,22 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ..
-
-J2DPLOTDIR := ./code
-JCOREDIR   := ${JX_ROOT}/include/jcore
-JEXPRDIR   := ${JX_ROOT}/include/jexpr
-JXDIR      := ${JX_ROOT}/include/jx
-REFLEXDIR  := ${JX_ROOT}/include/reflex
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${J2DPLOTDIR} \
-              -I${JCOREDIR} \
-              -I${JEXPRDIR} \
-              -I${JXDIR} \
-              -I${REFLEXDIR}
+SEARCHDIRS := -I./code \
+              -I${JX_ROOT}/include/jcore \
+              -I${JX_ROOT}/include/jx \
+              -I${JX_ROOT}/include/jexpr \
+              -I${JX_ROOT}/include/reflex
 
 # makemake variables
 
-include ${JX_ROOT}/include/make/jx_constants
-include ${JX_ROOT}/include/make/j2dplot_constants
 include ${JX_ROOT}/include/make/jx_config
+include ${JX_ROOT}/include/make/j2dplot_constants
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${J_BUILD_SHARED_LIB} \
-               ${SEARCHDIRS}
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 
 # make variables
 
@@ -35,8 +25,8 @@ LDFLAGS   :=
 
 #####
 
-LIB_NAME_ROOT := libj2dplot-${J2DPLOT_LIB_VERSION}
-include ${JX_ROOT}/include/make/default_lib_target
+LIB_NAME_ROOT := libj2dplot
+include ${JX_ROOT}/include/make/lib_targets
 
 .PHONY : Makefiles
 Makefiles:

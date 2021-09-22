@@ -1,14 +1,9 @@
 -suffix .cpp
 
 @webgif
-
--prefix ${CODEDIR}/
 webgif
 literal: ${LIB_DEPS}
 
-
 @testgif
-
--prefix ${CODEDIR}/
 testgif
 literal: ${LIB_DEPS}

@@ -1,4 +1,6 @@
-# configuration for compiling with g++
+# configuration for compiling with clang
+
+include ${JX_ROOT}/include/make/jx_constants
 
 #
 # Adjustable parameters
@@ -7,16 +9,8 @@
 # X11 libraries & headers
 
 # XQuartz
-J_X11_LIB_DIR := -L/usr/X11/lib
+J_X11_LIB_DIR     := -L/usr/X11/lib
 J_X11_INCLUDE_DIR := -I/usr/X11/include
-
-# This flag tells the linker to build a shared library.
-
-J_SHARED_LIB_LINK_OPTION := -shared
-
-# This specifies the suffix for shared libraries
-
-J_SHARED_LIB_SUFFIX := dylib
 
 # Optimization level for debugging
 

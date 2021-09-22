@@ -10,7 +10,6 @@
 #include <jSysUtil.h>
 #include <JStdError.h>
 #include <jErrno.h>
-#include <jMissingProto.h>
 
 #define SECURITY_WIN32
 #include <windows.h>

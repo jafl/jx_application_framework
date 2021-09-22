@@ -1,24 +1,18 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ../..
-
-CODEDIR  := ./code
-JCOREDIR := ${JX_ROOT}/include/jcore
 
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR}
+SEARCHDIRS := -I./code \
+              -I${JX_ROOT}/include/jcore
 
 # makemake variables
 
-include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
@@ -26,21 +20,13 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
 
 # library dependencies
 
-ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
-else
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-endif
+LIB_DEPS := ${JLIBDIR}/libjcore.a
 
 # make variables
 
 CPPFLAGS  += -Wno-sign-compare
 LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
 LDFLAGS   := 
-
-ifdef J_BUILD_SHARED_LIB
-  LOADLIBES := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} ${LOADLIBES}
-endif
 
 # tests
 

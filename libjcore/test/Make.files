@@ -1,268 +1,268 @@
 -suffix .cpp
 
 @test_JAliasArray
-${CODEDIR}/test_JAliasArray
+code/test_JAliasArray
 literal: ${LIB_DEPS}
 
 @test_JArray
-${CODEDIR}/test_JArray
+code/test_JArray
 literal: ${LIB_DEPS}
 
 @test_JBroadcaster
-${CODEDIR}/test_JBroadcaster
+code/test_JBroadcaster
 literal: ${LIB_DEPS}
 
 @test_jColor
-${CODEDIR}/test_jColor
+code/test_jColor
 literal: ${LIB_DEPS}
 
 @test_JColorManager
-${CODEDIR}/test_JColorManager
+code/test_JColorManager
 literal: ${LIB_DEPS}
 
 @test_JComplex
-${CODEDIR}/test_JComplex
+code/test_JComplex
 literal: ${LIB_DEPS}
 
 @test_JDirInfo
-${CODEDIR}/test_JDirInfo
+code/test_JDirInfo
 literal: ${LIB_DEPS}
 
 @test_JFileArray
-${CODEDIR}/test_JFileArray
+code/test_JFileArray
 literal: ${LIB_DEPS}
 
 @test_jFileUtil
-${CODEDIR}/test_jFileUtil
+code/test_jFileUtil
 literal: ${LIB_DEPS}
 
 @test_JFontManager
-${CODEDIR}/test_JFontManager
+code/test_JFontManager
 literal: ${LIB_DEPS}
 
 @test_jFStreamUtil
-${CODEDIR}/test_jFStreamUtil
+code/test_jFStreamUtil
 literal: ${LIB_DEPS}
 
 @test_jHashFunctions
-${CODEDIR}/test_jHashFunctions
+code/test_jHashFunctions
 literal: ${LIB_DEPS}
 
 @test_JHashTable
-${CODEDIR}/test_JHashTable
+code/test_JHashTable
 literal: ${LIB_DEPS}
 
 @test_JInterpolate
-${CODEDIR}/test_JInterpolate
+code/test_JInterpolate
 literal: ${LIB_DEPS}
 
 @test_JKLRand
-${CODEDIR}/test_JKLRand
+code/test_JKLRand
 literal: ${LIB_DEPS}
 
 @test_JLinkedList
-${CODEDIR}/test_JLinkedList
+code/test_JLinkedList
 literal: ${LIB_DEPS}
 
 @test_JListUtil
-${CODEDIR}/test_JListUtil
+code/test_JListUtil
 literal: ${LIB_DEPS}
 
 @test_JMatrix
-${CODEDIR}/test_JMatrix
+code/test_JMatrix
 literal: ${LIB_DEPS}
 
 @test_JMDIServer
-${CODEDIR}/test_JMDIServer
-${CODEDIR}/TestMDIServer
+code/test_JMDIServer
+code/TestMDIServer
 literal: ${LIB_DEPS}
 
 @test_JMemoryManager
-${CODEDIR}/test_JMemoryManager
+code/test_JMemoryManager
 literal: ${LIB_DEPS}
 
 @test_JMessageProtocol
-${CODEDIR}/test_JMessageProtocol
+code/test_JMessageProtocol
 literal: ${LIB_DEPS}
 
 @test_JPainter
-${CODEDIR}/test_JPainter
-${CODEDIR}/TestPainter
-${CODEDIR}/TestFontManager
-${CODEDIR}/TestFontManagerMissingGlyphs
+code/test_JPainter
+code/TestPainter
+code/TestFontManager
+code/TestFontManagerMissingGlyphs
 literal: ${LIB_DEPS}
 
 @test_JPipe
-${CODEDIR}/test_JPipe
+code/test_JPipe
 literal: ${LIB_DEPS}
 
 @test_JPoint
-${CODEDIR}/test_JPoint
+code/test_JPoint
 literal: ${LIB_DEPS}
 
 @test_JPTPrinter
-${CODEDIR}/test_JPTPrinter
-${CODEDIR}/TestPTPrinter
+code/test_JPTPrinter
+code/TestPTPrinter
 literal: ${LIB_DEPS}
 
 @test_JPrefsFile
-${CODEDIR}/test_JPrefsFile
+code/test_JPrefsFile
 literal: ${LIB_DEPS}
 
 @test_JPrefsManager
-${CODEDIR}/test_JPrefsManager
-${CODEDIR}/TestPrefsManager
-${CODEDIR}/TestPrefObject
+code/test_JPrefsManager
+code/TestPrefsManager
+code/TestPrefObject
 literal: ${LIB_DEPS}
 
 @test_jProcessUtil
-${CODEDIR}/test_jProcessUtil
+code/test_jProcessUtil
 literal: ${LIB_DEPS}
 
 @test_JPtrArray
-${CODEDIR}/test_JPtrArray
+code/test_JPtrArray
 literal: ${LIB_DEPS}
 
 @test_JPtrArrayJString
-${CODEDIR}/test_JPtrArrayJString
+code/test_JPtrArrayJString
 literal: ${LIB_DEPS}
 
 @test_JQueue
-${CODEDIR}/test_JQueue
+code/test_JQueue
 literal: ${LIB_DEPS}
 
 @test_JRect
-${CODEDIR}/test_JRect
+code/test_JRect
 literal: ${LIB_DEPS}
 
 @test_JRegex
-${CODEDIR}/test_JRegex
+code/test_JRegex
 literal: ${LIB_DEPS}
 
 @test_JRunArray
-${CODEDIR}/test_JRunArray
+code/test_JRunArray
 literal: ${LIB_DEPS}
 
 @test_JSpellChecker
-${CODEDIR}/test_JSpellChecker
+code/test_JSpellChecker
 literal: ${LIB_DEPS}
 
 @test_JStack
-${CODEDIR}/test_JStack
+code/test_JStack
 literal: ${LIB_DEPS}
 
 @test_jStreamUtil
-${CODEDIR}/test_jStreamUtil
+code/test_jStreamUtil
 literal: ${LIB_DEPS}
 
 @test_JString
-${CODEDIR}/test_JString
-${CODEDIR}/TestString
+code/test_JString
+code/TestString
 literal: ${LIB_DEPS}
 
 @test_JStringIterator
-${CODEDIR}/test_JStringIterator
+code/test_JStringIterator
 literal: ${LIB_DEPS}
 
 @test_JStringMap
-${CODEDIR}/test_JStringMap
+code/test_JStringMap
 literal: ${LIB_DEPS}
 
 @test_JStringMatch
-${CODEDIR}/test_JStringMatch
+code/test_JStringMatch
 literal: ${LIB_DEPS}
 
 @test_JStringPtrMap
-${CODEDIR}/test_JStringPtrMap
+code/test_JStringPtrMap
 literal: ${LIB_DEPS}
 
 @test_JStyledText
-${CODEDIR}/test_JStyledText
-${CODEDIR}/StyledText
+code/test_JStyledText
+code/StyledText
 literal: ${LIB_DEPS}
 
 @test_JSTStyler
-${CODEDIR}/test_JSTStyler
-${CODEDIR}/StyledText
-${CODEDIR}/TestStyler
+code/test_JSTStyler
+code/StyledText
+code/TestStyler
 literal: ${LIB_DEPS}
 
 @test_JSubstitute
-${CODEDIR}/test_JSubstitute
+code/test_JSubstitute
 literal: ${LIB_DEPS}
 
 @test_JTextEditor
-${CODEDIR}/test_JTextEditor
-${CODEDIR}/TextEditor
-${CODEDIR}/StyledText
-${CODEDIR}/TestFontManager
-${CODEDIR}/TestPainter
+code/test_JTextEditor
+code/TextEditor
+code/StyledText
+code/TestFontManager
+code/TestPainter
 literal: ${LIB_DEPS}
 
 @test_jTextUtil
-${CODEDIR}/test_jTextUtil
+code/test_jTextUtil
 literal: ${LIB_DEPS}
 
 @test_jTime
-${CODEDIR}/test_jTime
+code/test_jTime
 literal: ${LIB_DEPS}
 
 @test_JUtf8ByteBuffer
-${CODEDIR}/test_JUtf8ByteBuffer
+code/test_JUtf8ByteBuffer
 literal: ${LIB_DEPS}
 
 @test_JUtf8Character
-${CODEDIR}/test_JUtf8Character
+code/test_JUtf8Character
 literal: ${LIB_DEPS}
 
 @test_jVCSUtil
-${CODEDIR}/test_jVCSUtil
+code/test_jVCSUtil
 literal: ${LIB_DEPS}
 
 @test_JVector
-${CODEDIR}/test_JVector
+code/test_JVector
 literal: ${LIB_DEPS}
 
 @test_JWebBrowser
-${CODEDIR}/test_JWebBrowser
+code/test_JWebBrowser
 literal: ${LIB_DEPS}
 
 @test_jWebUtil
-${CODEDIR}/test_jWebUtil
+code/test_jWebUtil
 literal: ${LIB_DEPS}
 
 # must be run manually
 
 @test_new
-${CODEDIR}/_testnew
+code/_testnew
 literal: ${LIB_DEPS}
 
 @test_random
-${CODEDIR}/_testrandom
+code/_testrandom
 literal: ${LIB_DEPS}
 
 @test_randperiod
-${CODEDIR}/_testrandperiod
+code/_testrandperiod
 literal: ${LIB_DEPS}
 
 @test_memcpy
-${CODEDIR}/_testmemcpy
+code/_testmemcpy
 
 @test_hash
-${CODEDIR}/_testhash
+code/_testhash
 literal: ${LIB_DEPS}
 
 @test_mutex
-${CODEDIR}/_testmutex
+code/_testmutex
 
 @test_JTextChooseSaveFile
-${CODEDIR}/_testJTextChooseSaveFile
+code/_testJTextChooseSaveFile
 literal: ${LIB_DEPS}
 
 @test_JTextProgressDisplay
-${CODEDIR}/_testJTextProgressDisplay
+code/_testJTextProgressDisplay
 literal: ${LIB_DEPS}
 
 @test_JTextUserNotification
-${CODEDIR}/_testJTextUserNotification
+code/_testJTextUserNotification
 literal: ${LIB_DEPS}

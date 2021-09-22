@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "jMissingProto.h"
 #include "jAssert.h"
 
 static const JUtf8Byte* kAssertActionEnvName = "J_ASSERT_ACTION";

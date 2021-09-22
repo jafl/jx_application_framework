@@ -10,7 +10,6 @@
 #include "jTime.h"
 #include "jMath.h"
 #include <unistd.h>
-#include "jMissingProto.h"
 #include "jGlobals.h"
 #include "jAssert.h"
 

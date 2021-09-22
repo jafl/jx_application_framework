@@ -229,7 +229,7 @@ GetOptions
 	JString*			dataVarName,
 	JString*			outputFileName,
 	JString*			databaseFileName,
-	bool*			debug
+	bool*				debug
 	)
 {
 	inputFileList->CleanOut();

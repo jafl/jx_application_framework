@@ -285,13 +285,6 @@ SyGViewManPageDialog::ViewManPage
 		}
 	else if (index != ' ')
 		{
-		#ifdef _J_MAN_SECTION_VIA_DASH_S
-		if (itsViewCmd != kDefaultViewCmd)
-			{
-			cmd += "-s ";
-			}
-		#endif
-
 		cmd += index;
 		cmd += " ";
 		}

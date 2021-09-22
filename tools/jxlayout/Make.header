@@ -1,20 +1,11 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ../..
-
-CODEDIR  := .
-JCOREDIR := ${JX_ROOT}/include/jcore
-
-JLIBDIR     := ${JX_ROOT}/lib
-JCORELIBDIR := ${JX_ROOT}/libjcore
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR}
+SEARCHDIRS := -I${JX_ROOT}/include/jcore
 
 # other constants
 
@@ -29,34 +20,20 @@ endif
 
 # makemake variables
 
-include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                -DCONFIG_FILE_DIR=\"${ROOT_DATA_FILE_DIR}/\" \
                ${SEARCHDIRS}
 
-TOUCHPATHS := ${JCORELIBDIR}
-
 # library dependencies
 
-ifdef J_BUILD_SHARED_LIB
-  LOADLIBES := -L${JLIBDIR} ${ljcore} ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
-  LIB_DEPS  :=
-else
-  LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
-  LIB_DEPS  := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-endif
+LIB_DEPS := ${JX_ROOT}/lib/libjcore.a
 
 # make variables
 
+LOADLIBES := ${J_ACE_LIBS} ${J_GCC_LIBS}
 LDFLAGS :=
-
-STATIC_LOADLIBES := -L${JLIBDIR} \
-                    ${J_BEGIN_LINK_STATIC} \
-                    ${ljcore} ${J_ACE_LIBS} \
-                    ${J_END_LINK_STATIC} \
-                    ${J_IMG_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -66,7 +43,15 @@ default: libs jxlayout
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/app_targets
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs::
+	@cd ${JCORELIBDIR}; ${MAKE}
 
 #
 # install binaries
@@ -95,22 +80,9 @@ jxuninstall:
   endif
 
 #
-# debugging version
-#
-
-.PHONY : debug
-debug: staticACE libs
-	@${RM} jxlayout
-	@${MAKE} "LOADLIBES=${STATIC_LOADLIBES}" jxlayout
-
-#
 # personal install
 #
 
 .PHONY : personal
-personal: debug
-	@strip ${call EXE, jxlayout}
-	@cp jxlayout ${JX_INSTALL_ROOT}/
+personal: jxinstall
 	@cp ${DATA_FILES} ${JXLAYOUTDIR}/
-	@chmod a+x ${SCRIPTS}
-	@cp jfdesign ${JX_INSTALL_ROOT}/

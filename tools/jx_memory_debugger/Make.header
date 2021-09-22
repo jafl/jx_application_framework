@@ -1,61 +1,38 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ../..
-
-CODEDIR  := ./code
-JCOREDIR := ${JX_ROOT}/include/jcore
-JXDIR    := ${JX_ROOT}/include/jx
-
-JLIBDIR     := ${JX_ROOT}/lib
-JCORELIBDIR := ${JX_ROOT}/libjcore
-JXLIBDIR    := ${JX_ROOT}/libjx
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR} \
-              -I${JXDIR}
+SEARCHDIRS := -I./code \
+              -I${JX_ROOT}/include/jcore \
+              -I${JX_ROOT}/include/jx
 
 # other constants
 
 PROG_NAME         := jx_memory_debugger
 SIGNATURE         := jx_memory_debugger
-PROG_STRING_FILES := ${filter-out %/${PROG_NAME}_menu_strings, \
-                      ${shell echo strings/*}}
 MENU_STRINGS_FILE := strings/${PROG_NAME}_menu_strings
 
 # makemake variables
 
-J_STRING_FILES := ${PROG_STRING_FILES}
+J_STRING_FILES := ${filter-out %/${PROG_NAME}_menu_strings, \
+                    ${shell echo strings/*}}
 
-include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 
-TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
-
 # library dependencies
 
-ifndef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
-endif
+LIB_DEPS := ${JX_ROOT}/lib/libjcore.a \
+            ${JX_ROOT}/lib/libjx.a
 
 # make variables
 
 LOADLIBES := ${J_STD_LIBS}
 LDFLAGS   := 
-
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${ljx} ${ljcore} ${J_STATIC_LINK_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_DYNAMIC_LINK_ACE_LIBS} \
-                   ${J_X11_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -65,7 +42,7 @@ default: libs ${PROG_NAME}
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/app_targets
 
 #
 # string data
@@ -75,7 +52,7 @@ include ${JX_ROOT}/include/make/jx_targets
 strings:
 	@${RM} ${MENU_STRINGS_FILE}
 	compile_jstrings ${J_STRING_FILES} \
-      --code kMDDefaultStringData ${CODEDIR}/mdStringData.h
+      --code kMDDefaultStringData ./code/mdStringData.h
 
 .PHONY : stringdb
 stringdb:
@@ -86,8 +63,8 @@ ${PROG_NAME}:: strings
 .PHONY : menu_strings
 menu_strings:
 	@${JX_ROOT}/bin/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
-     -a ${CODEDIR}/mdActionDefs.h ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
-     -m */*.cpp ${JXDIR}/*.cpp
+     -a ./code/mdActionDefs.h ${JX_ROOT}/include/jx/jXActionDefs.h ${JX_ROOT}/include/jx/JXTEBase.cpp \
+     -m */*.cpp ${JX_ROOT}/include/jx/*.cpp
 
 #
 # install binaries
@@ -105,29 +82,11 @@ jxuninstall:
 	@${RM} ${JX_INSTALL_ROOT}/${PROG_NAME}
 
 #
-# debugging version
-#
-
-.PHONY : debug
-debug: staticACE libs
-	@${RM} ${PROG_NAME}
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" ${PROG_NAME}
-
-#
-# static binary
-#
-
-.PHONY : static
-static: debug
-	@${J_STRIP_DEBUG} ${call EXE, ${PROG_NAME}}
-
-#
 # personal install
 #
 
 .PHONY : personal
-personal: static
-	@cp ${PROG_NAME} ${HOME}/bin/
+personal: jxinstall
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

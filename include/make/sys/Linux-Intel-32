@@ -1,5 +1,7 @@
 # configuration for compiling with g++
 
+include ${JX_ROOT}/include/make/jx_constants
+
 #
 # Adjustable parameters
 #
@@ -10,17 +12,7 @@ J_X11_LIB_DIR := -L/usr/X11R6/lib
 
 # Comment this out if your system is not ELF.
 
-J_BUILD_SHARED_LIB  := -fPIC
-J_BEGIN_LINK_STATIC := -Xlinker -Bstatic
-J_END_LINK_STATIC   := -Xlinker -Bdynamic
-
-# This flag tells the linker to build a shared library.
-
-J_SHARED_LIB_LINK_OPTION := -shared
-
-# This specifies the suffix for shared libraries
-
-J_SHARED_LIB_SUFFIX := so
+J_SYSTEM_HAS_SHARED_LIBS := yes
 
 # Optimization level for debugging
 

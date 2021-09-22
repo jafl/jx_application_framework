@@ -1,21 +1,21 @@
 -suffix .cpp
 
 @test_JVariableList
-${CODEDIR}/test_JVariableList
+code/test_JVariableList
 literal: ${LIB_DEPS}
 
 @test_JUserInputFunction
-${CODEDIR}/test_JUserInputFunction
+code/test_JUserInputFunction
 literal: ${LIB_DEPS}
 
 @test_JExprParser
-${CODEDIR}/test_JExprParser
-${CODEDIR}/TestVarList
+code/test_JExprParser
+code/TestVarList
 literal: ${LIB_DEPS}
 
 @test_JExprEditor
-${CODEDIR}/test_JExprEditor
-${CODEDIR}/ExprEditor
-${CODEDIR}/TestFontManager
-${CODEDIR}/TestVarList
+code/test_JExprEditor
+code/ExprEditor
+code/TestFontManager
+code/TestVarList
 literal: ${LIB_DEPS}

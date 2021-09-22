@@ -1,14 +1,7 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ../..
-
-CODEDIR   := ./code
-JCOREDIR  := ${JX_ROOT}/include/jcore
-JEXPRDIR  := ${JX_ROOT}/include/jexpr
-REFLEXDIR := ${JX_ROOT}/include/reflex
 
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
@@ -16,42 +9,29 @@ JEXPRLIBDIR := ${JX_ROOT}/libjexpr
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR} \
-              -I${JEXPRDIR} \
-              -I${REFLEXDIR}
+SEARCHDIRS := -I./code \
+              -I${JX_ROOT}/include/jcore \
+              -I${JX_ROOT}/include/jexpr \
+              -I${JX_ROOT}/include/reflex
 
 # makemake variables
 
-include ${JX_ROOT}/include/make/jx_constants
-include ${JX_ROOT}/include/make/jexpr_constants
 include ${JX_ROOT}/include/make/jx_config
+include ${JX_ROOT}/include/make/jexpr_constants
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                -g ${SEARCHDIRS}
 
 # library dependencies
 
-ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
-else
-  LIB_DEPS := ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.a \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-endif
+LIB_DEPS := ${JX_ROOT}/lib/libjexpr.a \
+            ${JX_ROOT}/lib/libjx.a \
+            ${JX_ROOT}/lib/libjcore.a
 
 # make variables
 
-ifdef J_BUILD_SHARED_LIB
-  LOADLIBES := ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-               -L${JLIBDIR} -lreflex ${J_STD_LIBS}
-else
-  LOADLIBES := -L${JLIBDIR} -lreflex ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
-endif
-
-LDFLAGS :=
+LOADLIBES := -L${JX_ROOT}/lib -lreflex ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
+LDFLAGS   :=
 
 # tests
 

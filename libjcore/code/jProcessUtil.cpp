@@ -27,7 +27,6 @@
 #include "jSysUtil.h"
 #include <ace/OS_NS_sys_wait.h>
 #include "jErrno.h"
-#include "jMissingProto.h"
 #include "jAssert.h"
 
 static bool theIncludeCWDOnPathFlag = false;

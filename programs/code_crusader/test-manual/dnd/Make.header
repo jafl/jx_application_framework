@@ -13,7 +13,6 @@ SEARCHDIRS := -I${MYCODEDIR}
 
 LINKER       := gcc
 DEPENDFLAGS  := -g -Wall -Werror ${SEARCHDIRS}
-TOUCHHEADERS := ${MYCODEDIR}/*.h
 
 # make variables
 

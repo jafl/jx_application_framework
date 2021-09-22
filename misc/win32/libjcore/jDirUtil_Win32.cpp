@@ -15,7 +15,6 @@
 #include <shlobj.h>
 #include <jSysUtil.h>
 #include <jErrno.h>
-#include <jMissingProto.h>
 #include <jAssert.h>
 
 /******************************************************************************

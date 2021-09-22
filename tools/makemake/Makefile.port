@@ -19,10 +19,8 @@ SEARCHDIRS := -I${CODEDIR} \
 include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${J_BUILD_SHARED_LIB} \
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${J_RANLIB_VIA_AR_S} \
                -DJ_MAKE_BINARY_NAME=\"${firstword ${MAKE}}\" \
-               -DJ_SHARED_LIB_LINK_OPTION=\"${J_SHARED_LIB_LINK_OPTION}\" \
-               ${J_RANLIB_VIA_AR_S} \
                ${SEARCHDIRS}
 
 # make variables

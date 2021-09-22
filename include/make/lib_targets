@@ -1,29 +1,20 @@
 # for use in every library's Makefile
 #
 # requires the variables:
-#   LIB_NAME_ROOT -- root of library's name (e.g. "libjcore-${JX_LIB_VERSION}")
+#   LIB_NAME_ROOT -- root of library's name (e.g. "libjcore")
 
 #
 # default target
 #
 
 .PHONY : default
-ifdef J_BUILD_SHARED_LIB
- ifdef J_NEED_SEPARATE_O_FILES
-  default: ${LIB_NAME_ROOT}.so
- else
-  default: all
-#	@-${J_STRIP_DEBUG} *.so
- endif
-else
-  default: ${LIB_NAME_ROOT}.a
-endif
+default: ${LIB_NAME_ROOT}.a
   ifneq (${jx.test.skip},true)
 	@if [[ -d test ]]; then cd test; makemake; make FROM_LIB=1 test; fi
   endif
   ifneq (${J_WANT_INSTALL},0)
   ifeq (${shell whoami},root)
-	@cp ${LIB_NAME_ROOT}.* ${JX_LIB_ROOT}/
+	@cp ${LIB_NAME_ROOT}.a ${JX_LIB_ROOT}/
   endif
   endif
 
@@ -34,5 +25,5 @@ endif
 .PHONY : jxuninstall
 jxuninstall:
   ifeq (${shell whoami},root)
-	@${RM} ${JX_LIB_ROOT}/${LIB_NAME_ROOT}.*
+	@${RM} ${JX_LIB_ROOT}/${LIB_NAME_ROOT}.a
   endif

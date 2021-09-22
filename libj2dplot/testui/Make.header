@@ -1,39 +1,20 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ../..
-
-CODEDIR    := ./code
-JCOREDIR   := ${JX_ROOT}/include/jcore
-JEXPRDIR   := ${JX_ROOT}/include/jexpr
-JXDIR      := ${JX_ROOT}/include/jx
-J2DPLOTDIR := ${JX_ROOT}/include/j2dplot
-
-JLIBDIR       := ${JX_ROOT}/lib
-JCORELIBDIR   := ${JX_ROOT}/libjcore
-JEXPRLIBDIR   := ${JX_ROOT}/libjexpr
-JXLIBDIR      := ${JX_ROOT}/libjx
-J2DPLOTLIBDIR := ${JX_ROOT}/libj2dplot
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR} \
-              -I${JEXPRDIR} \
-              -I${JXDIR} \
-              -I${J2DPLOTDIR}
-
-# other constants
-
-MY_STRING_FILES := strings/*
+SEARCHDIRS := -I./code \
+              -I${JX_ROOT}/include/jcore \
+              -I${JX_ROOT}/include/jx \
+              -I${JX_ROOT}/include/jexpr \
+              -I${JX_ROOT}/include/j2dplot
 
 # makemake variables
 
-J_STRING_FILES := ${MY_STRING_FILES}
+J_STRING_FILES := strings/*
 
-include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 include ${JX_ROOT}/include/make/jexpr_constants
 include ${JX_ROOT}/include/make/j2dplot_constants
@@ -41,25 +22,16 @@ include ${JX_ROOT}/include/make/j2dplot_constants
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                -g ${SEARCHDIRS}
 
-TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${JEXPRLIBDIR} ${J2DPLOTLIBDIR}
-
 # library dependencies
 
-ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
-else
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.a \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.a
-endif
+LIB_DEPS := ${JX_ROOT}/lib/libjcore.a \
+            ${JX_ROOT}/lib/libjexpr.a \
+            ${JX_ROOT}/lib/libjx.a \
+            ${JX_ROOT}/lib/libj2dplot.a
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} ${J_STD_LIBS}
+LOADLIBES := ${J_STD_LIBS}
 LDFLAGS   := 
 
 #####
@@ -70,7 +42,7 @@ default: libs all
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/app_targets
 
 #
 # string data
@@ -79,7 +51,7 @@ include ${JX_ROOT}/include/make/jx_targets
 .PHONY : strings
 strings:
 	compile_jstrings ${J_STRING_FILES} \
-      --code kDefaultStringData ${CODEDIR}/testj2dplotStringData.h
+      --code kDefaultStringData ./code/testj2dplotStringData.h
 
 .PHONY : stringdb
 stringdb:

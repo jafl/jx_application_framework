@@ -1,33 +1,20 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ../..
-
-CODEDIR   := ./code
-STRINGDIR := ./strings
-JCOREDIR  := ${JX_ROOT}/include/jcore
-JXDIR     := ${JX_ROOT}/include/jx
-
-JLIBDIR     := ${JX_ROOT}/lib
-JCORELIBDIR := ${JX_ROOT}/libjcore
-JXLIBDIR    := ${JX_ROOT}/libjx
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR} \
-              -I${JXDIR}
+SEARCHDIRS := -I./code \
+              -I${JX_ROOT}/include/jcore \
+              -I${JX_ROOT}/include/jx
 
 # other constants
 
 PROG_NAME         := code_mill
 PROG_VERSION      := ${shell cat release/VERSION}
 SIGNATURE         := code_mill
-PROG_STRING_FILES := ${filter-out %/code_mill_menu_strings, \
-                       ${shell echo strings/*}} strings/version
-MENU_STRINGS_FILE := ${STRINGDIR}/code_mill_menu_strings
+MENU_STRINGS_FILE := ./strings/code_mill_menu_strings
 
 # also defined in .spec
 
@@ -35,35 +22,24 @@ RPM_LIB_PATH := /usr/lib/${SIGNATURE}
 
 # makemake variables
 
-J_STRING_FILES := ${PROG_STRING_FILES}
+J_STRING_FILES := ${filter-out %/code_mill_menu_strings, \
+                    ${shell echo strings/*}} strings/version
 
-include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 
-TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
-
 # library dependencies
 
-ifndef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
-endif
+LIB_DEPS := ${JX_ROOT}/lib/libjcore.a \
+            ${JX_ROOT}/lib/libjx.a
 
 # make variables
 
 LOADLIBES := ${J_STD_LIBS}
-ifdef J_BUILD_SHARED_LIB
+ifdef J_SYSTEM_HAS_SHARED_LIBS
   LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
 endif
-
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${ljx} ${ljcore} ${J_STATIC_LINK_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_DYNAMIC_LINK_ACE_LIBS} \
-                   ${J_X11_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -73,7 +49,7 @@ default: libs ${PROG_NAME}
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/app_targets
 
 #
 # string data
@@ -83,7 +59,7 @@ include ${JX_ROOT}/include/make/jx_targets
 strings: build_version_string
 	@${RM} ${MENU_STRINGS_FILE}
 	compile_jstrings ${J_STRING_FILES} \
-      --code kGFGDefaultStringData ${CODEDIR}/gfgStringData.h
+      --code kGFGDefaultStringData ./code/gfgStringData.h
 
 .PHONY : stringdb
 stringdb:
@@ -94,8 +70,8 @@ ${PROG_NAME}:: strings
 .PHONY : menu_strings
 menu_strings:
 	@${JX_ROOT}/bin/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
-     -a ${CODEDIR}/gfgActionDefs.h ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
-     -m */*.cpp ${JXDIR}/*.cpp
+     -a ./code/gfgActionDefs.h ${JX_ROOT}/include/jx/jXActionDefs.h ${JX_ROOT}/include/jx/JXTEBase.cpp \
+     -m */*.cpp ${JX_ROOT}/include/jx/*.cpp
 
 #
 # install binaries
@@ -127,35 +103,20 @@ DEB_CTRL_FILE := ./release/pkg/code_mill.debctrl
 DEB_PKG_FILE  := code-mill_${PROG_VERSION}_i386.deb
 
 .PHONY : release
-release: pre_build_pkgs static menu_strings
+release: pre_build_pkgs default
+	@${J_STRIP_DEBUG} ${call EXE, ${PROG_NAME}}
 	@${MAKE} PKG_PATH=${CM} init_tarball
 	@ln -s ../${call EXE,${PROG_NAME}} ${CM}/${call EXE,${PROG_NAME}}
 	@${MAKE} PKG_PATH=${CM} SOURCE_TAR_NAME=${CM_RELEASE_TAR_NAME} build_pkgs
-
-#
-# debugging version
-#
-
-.PHONY : debug
-debug: staticACE libs
-	@${RM} ${PROG_NAME}
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" ${PROG_NAME}
-
-#
-# static binary
-#
-
-.PHONY : static
-static: debug
-	@${J_STRIP_DEBUG} ${call EXE, ${PROG_NAME}}
 
 #
 # personal install
 #
 
 .PHONY : personal
-personal: static
+personal: default
 	@cp ${PROG_NAME} ${HOME}/bin/
+	@${J_STRIP_DEBUG} ${call EXE, ${HOME}/bin/${PROG_NAME}}
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

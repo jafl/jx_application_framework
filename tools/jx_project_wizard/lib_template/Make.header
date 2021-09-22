@@ -1,30 +1,20 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ..
-
-<Binary>DIR := ./code
-
-JCOREDIR   := ${JX_ROOT}/include/jcore
-JXDIR      := ${JX_ROOT}/include/jx
-JXIMAGEDIR := ${JX_ROOT}/include/menu_image
 
 # Directories to search for header files
 
-SEARCHDIRS = -I${<Binary>DIR} \
-             -I${JCOREDIR} \
-             -I${JXDIR}
+SEARCHDIRS = -I./code \
+             -I${JX_ROOT}/include/jcore \
+             -I${JX_ROOT}/include/jx
 
 # makemake variables
 
-include ${JX_ROOT}/include/make/jx_constants
-include ${JX_ROOT}/include/make/<Binary>_constants
 include ${JX_ROOT}/include/make/jx_config
+include ${JX_ROOT}/include/make/<Binary>_constants
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${J_BUILD_SHARED_LIB} \
-               ${SEARCHDIRS}
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 
 # make variables
 
@@ -33,8 +23,8 @@ LDFLAGS   :=
 
 #####
 
-LIB_NAME_ROOT := lib<Binary>-${<Binary>_LIB_VERSION}
-include ${JX_ROOT}/include/make/default_lib_target
+LIB_NAME_ROOT := lib<Binary>
+include ${JX_ROOT}/include/make/lib_targets
 
 .PHONY : Makefiles
 Makefiles:
@@ -49,7 +39,7 @@ SRC_FILE_DIR := ${JX}/lib<Binary>
 .PHONY : source
 source: Makefiles
 	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -cf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cc %Y.cc, \
+     ${TAR} -cf ${SRC_TAR_FILE} ${filter-out %.o %~, \
                                   ${shell cd ${J_DISTR_TAR_DIR}; echo \
              ${SRC_FILE_DIR}/README \
              ${SRC_FILE_DIR}/Make.* \
