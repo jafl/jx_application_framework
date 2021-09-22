@@ -69,6 +69,7 @@ public:
 		kJavaPackageST,
 		kJavaEnumValueST,
 		kJavaEnumST,
+		kJavaPrototypeST,
 
 		kAssemblyLabelST = 500,
 		kAssemblyDefineST,
@@ -279,7 +280,8 @@ protected:
 	bool	ProcessFile(const JString& fileName, const CBTextFileType fileType,
 							JString* result, CBLanguage* lang);
 	void		ReadExtensionFlags(std::istream& input, JStringPtrMap<JString>* flags) const;
-	Type		DecodeSymbolType(const CBLanguage lang, const JUtf8Byte c) const;
+	Type		DecodeSymbolType(const CBLanguage lang, const JUtf8Byte c,
+								 const JStringPtrMap<JString>& flags) const;
 
 	virtual void	InitCtags(std::ostream& output);
 	void			DeleteProcess();
@@ -340,21 +342,21 @@ CBCtagsUser::IsClass
 	const Type type
 	)
 {
-	return type == kCClassST           ||
-				type == kCStructST          ||
-				type == kCEnumST            ||
-				type == kCSharpClassST      ||
-				type == kCSharpInterfaceST  ||
-				type == kCSharpStructNameST ||
-				type == kCSharpEnumNameST   ||
-				type == kEiffelClassST      ||
-				type == kErlangModuleST     ||
-				type == kJavaClassST        ||
-				type == kPerlPackageST      ||
-				type == kPythonClassST      ||
-				type == kSMLStructureST     ||
-				type == kTCLClassST         ||
-				type == kVeraClassST;
+	return (type == kCClassST           ||
+			type == kCStructST          ||
+			type == kCEnumST            ||
+			type == kCSharpClassST      ||
+			type == kCSharpInterfaceST  ||
+			type == kCSharpStructNameST ||
+			type == kCSharpEnumNameST   ||
+			type == kEiffelClassST      ||
+			type == kErlangModuleST     ||
+			type == kJavaClassST        ||
+			type == kPerlPackageST      ||
+			type == kPythonClassST      ||
+			type == kSMLStructureST     ||
+			type == kTCLClassST         ||
+			type == kVeraClassST);
 }
 
 inline bool
@@ -363,11 +365,12 @@ CBCtagsUser::IsPrototype
 	const Type type
 	)
 {
-	return type == kBisonNonterminalDeclST ||
-				type == kBisonTerminalDeclST    ||
-				type == kCPrototypeST           ||
-				type == kSQLPrototypeST         ||
-				type == kVeraPrototypeST;
+	return (type == kBisonNonterminalDeclST ||
+			type == kBisonTerminalDeclST    ||
+			type == kCPrototypeST           ||
+			type == kJavaPrototypeST        ||
+			type == kSQLPrototypeST         ||
+			type == kVeraPrototypeST);
 }
 
 inline bool
@@ -376,37 +379,37 @@ CBCtagsUser::IsFunction
 	const Type type
 	)
 {
-	return type == kAWKFunctionST         ||
-				type == kBisonNonterminalDefST ||
-				type == kBourneShellFunctionST ||
-				type == kCFunctionST           ||
-				type == kCSharpMethodST        ||
-				type == kCobolParagraphST      ||
-				type == kEiffelFeatureST       ||
-				type == kErlangFunctionST      ||
-				type == kFortranProgramST      ||
-				type == kFortranSubroutineST   ||
-				type == kFortranFunctionST     ||
-				type == kJavaMethodST          ||
-				type == kJavaScriptFunctionST  ||
-				type == kLispFunctionST        ||
-				type == kLuaFunctionST         ||
-				type == kPerlSubroutineST      ||
-				type == kPHPFunctionST         ||
-				type == kPythonFunctionST      ||
-				type == kRubyMethodST          ||
-				type == kRubySingletonMethodST ||
-				type == kSchemeFunctionST      ||
-				type == kSLangFunctionST       ||
-				type == kSMLFunctionST         ||
-				type == kSMLFunctorST          ||
-				type == kSQLFunctionST         ||
-				type == kSQLProcedureST        ||
-				type == kTCLProcedureST        ||
-				type == kTCLMethodST           ||
-				type == kVeraFunctionST        ||
-				type == kVerilogFunctionST     ||
-				type == kVimFunctionST;
+	return (type == kAWKFunctionST         ||
+			type == kBisonNonterminalDefST ||
+			type == kBourneShellFunctionST ||
+			type == kCFunctionST           ||
+			type == kCSharpMethodST        ||
+			type == kCobolParagraphST      ||
+			type == kEiffelFeatureST       ||
+			type == kErlangFunctionST      ||
+			type == kFortranProgramST      ||
+			type == kFortranSubroutineST   ||
+			type == kFortranFunctionST     ||
+			type == kJavaMethodST          ||
+			type == kJavaScriptFunctionST  ||
+			type == kLispFunctionST        ||
+			type == kLuaFunctionST         ||
+			type == kPerlSubroutineST      ||
+			type == kPHPFunctionST         ||
+			type == kPythonFunctionST      ||
+			type == kRubyMethodST          ||
+			type == kRubySingletonMethodST ||
+			type == kSchemeFunctionST      ||
+			type == kSLangFunctionST       ||
+			type == kSMLFunctionST         ||
+			type == kSMLFunctorST          ||
+			type == kSQLFunctionST         ||
+			type == kSQLProcedureST        ||
+			type == kTCLProcedureST        ||
+			type == kTCLMethodST           ||
+			type == kVeraFunctionST        ||
+			type == kVerilogFunctionST     ||
+			type == kVimFunctionST);
 }
 
 inline bool
@@ -415,30 +418,30 @@ CBCtagsUser::IsFileScope
 	const Type type
 	)
 {
-	return type == kAntTargetST           ||
-				type == kAssemblyLabelST       ||
-				type == kAWKFunctionST         ||
-				type == kBourneShellFunctionST ||
-				type == kCMacroST              ||
-				type == kCSharpMacroST         ||
-				type == kCVariableST           ||
-				type == kErlangMacroST         ||
-				type == kFortranLabelST        ||
-				type == kJavaScriptFunctionST  ||
-				type == kLexStateST            ||
-				type == kMakeVariableST        ||
-				type == kMakeTargetST          ||
-				type == kPerlSubroutineST      ||
-				type == kPerlConstantST        ||
-				type == kPerlLabelST           ||
-				type == kPHPClassST            ||
-				type == kPHPInterfaceST        ||
-				type == kPHPFunctionST         ||
-				type == kPHPDefineST           ||
-				type == kSQLLocalVariableST    ||
-				type == kSQLLabelST            ||
-				type == kTCLProcedureST        ||
-				type == kVimFunctionST;
+	return (type == kAntTargetST           ||
+			type == kAssemblyLabelST       ||
+			type == kAWKFunctionST         ||
+			type == kBourneShellFunctionST ||
+			type == kCMacroST              ||
+			type == kCSharpMacroST         ||
+			type == kCVariableST           ||
+			type == kErlangMacroST         ||
+			type == kFortranLabelST        ||
+			type == kJavaScriptFunctionST  ||
+			type == kLexStateST            ||
+			type == kMakeVariableST        ||
+			type == kMakeTargetST          ||
+			type == kPerlSubroutineST      ||
+			type == kPerlConstantST        ||
+			type == kPerlLabelST           ||
+			type == kPHPClassST            ||
+			type == kPHPInterfaceST        ||
+			type == kPHPFunctionST         ||
+			type == kPHPDefineST           ||
+			type == kSQLLocalVariableST    ||
+			type == kSQLLabelST            ||
+			type == kTCLProcedureST        ||
+			type == kVimFunctionST);
 }
 
 inline bool

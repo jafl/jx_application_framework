@@ -90,7 +90,7 @@ CBSymbolList::GetSymbol
 	const JIndex	symbolIndex,
 	CBLanguage*		lang,
 	Type*			type,
-	bool*		fullyQualifiedFileScope
+	bool*			fullyQualifiedFileScope
 	)
 	const
 {
@@ -915,7 +915,7 @@ CBSymbolList::ReadSymbolList
 			}
 		else
 			{
-			const Type type = DecodeSymbolType(lang, typeChar.GetBytes()[0]);
+			const Type type = DecodeSymbolType(lang, typeChar.GetBytes()[0], flags);
 			if (signature == nullptr &&
 				(IsFunction(type) || IsPrototype(type)))
 				{
@@ -959,19 +959,19 @@ CBSymbolList::ReadSymbolList
 void
 CBSymbolList::ReadSetup
 	(
-	std::istream&			projInput,
+	std::istream&		projInput,
 	const JFileVersion	projVers,
-	std::istream*			symInput,
+	std::istream*		symInput,
 	const JFileVersion	symVers
 	)
 {
-	std::istream* input          = (projVers <= 41 ? &projInput : symInput);
+	std::istream* input     = (projVers <= 41 ? &projInput : symInput);
 	const JFileVersion vers = (projVers <= 41 ? projVers   : symVers);
 	if (input != nullptr)
 		{
 		ReadSetup(*input, vers);
 
-		itsReparseAllFlag = vers < 83 || (itsSymbolList->IsEmpty() && IsActive());
+		itsReparseAllFlag = vers < 89 || (itsSymbolList->IsEmpty() && IsActive());
 		}
 }
 

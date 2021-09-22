@@ -361,6 +361,7 @@ CBSymbolTypeList::CreateSymTypeList
 	ADD_I (kJavaEnumST,      kCBJavaLang, itsCEnumIcon)
 	ADD_SI(kJavaInterfaceST, kCBJavaLang, bold_gray, itsJavaInterfaceIcon)
 	ADD_I (kJavaMethodST,    kCBJavaLang, itsFunctionIcon)
+	ADD_SI(kJavaPrototypeST, kCBJavaLang, italic, itsPrototypeIcon)
 	ADD_I (kJavaPackageST,   kCBJavaLang, itsJavaPackageIcon)
 
 	ADD_I (kJavaScriptFunctionST,       kCBJavaScriptLang, itsFunctionIcon)

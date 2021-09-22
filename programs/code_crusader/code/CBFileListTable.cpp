@@ -109,12 +109,12 @@ JIndex i;
 	CBPHPTree* phpTree       = phpTreeDir->GetPHPTree();
 
 	const bool reparseAll = itsReparseAllFlag             ||
-									 symbolList->NeedsReparseAll() ||
-									 cTree->NeedsReparseAll()      ||
-									 dTree->NeedsReparseAll()      ||
-									 goTree->NeedsReparseAll()     ||
-									 javaTree->NeedsReparseAll()   ||
-									 phpTree->NeedsReparseAll();
+							symbolList->NeedsReparseAll() ||
+							cTree->NeedsReparseAll()      ||
+							dTree->NeedsReparseAll()      ||
+							goTree->NeedsReparseAll()     ||
+							javaTree->NeedsReparseAll()   ||
+							phpTree->NeedsReparseAll();
 
 	if (reparseAll)
 		{

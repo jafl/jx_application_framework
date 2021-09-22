@@ -439,7 +439,7 @@ CBSymbolDirector::FindSymbol
 	JPtrArray<JString> phpContextNamespaceList(JPtrArrayT::kDeleteAll);
 	if (!fileName.IsEmpty())
 		{
-		(itsProjDoc->GetAllFileList())->GetFileID(fileName, &contextFileID);
+		itsProjDoc->GetAllFileList()->GetFileID(fileName, &contextFileID);
 
 		JString path, name1, className, suffix;
 		JSplitPathAndName(fileName, &path, &name1);

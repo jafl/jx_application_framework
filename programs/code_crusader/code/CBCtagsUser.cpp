@@ -629,8 +629,9 @@ CBCtagsUser::ReadExtensionFlags
 CBCtagsUser::Type
 CBCtagsUser::DecodeSymbolType
 	(
-	const CBLanguage	lang,
-	const JUtf8Byte		c
+	const CBLanguage				lang,
+	const JUtf8Byte					c,
+	const JStringPtrMap<JString>&	flags
 	)
 	const
 {
@@ -814,6 +815,12 @@ CBCtagsUser::DecodeSymbolType
 
 	else if (lang == kCBJavaLang || lang == kCBJSPLang)
 		{
+		const JString* value;
+		if (c == 'm' && flags.GetElement("interface", &value))
+			{
+			return kJavaPrototypeST;
+			}
+
 		switch (c)
 			{
 			case 'c':  return kJavaClassST;

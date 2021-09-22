@@ -172,8 +172,10 @@ const JFileVersion kCurrentPrefsFileVersion = 68;
 // version 1:
 //	Stores "local text editing" flag in kViewFileCmdID
 
-const JFileVersion kCurrentProjectFileVersion = 88;
+const JFileVersion kCurrentProjectFileVersion = 89;
 
+// version 89:
+//	Added Java method prototype (from interface).
 // version 88:
 //	Added support for D & Go.
 //	Removed CBFnListDirector.
