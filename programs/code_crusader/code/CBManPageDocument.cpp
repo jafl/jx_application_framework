@@ -311,10 +311,6 @@ CBManPageDocument::GetCmd1
 	JString cmd("man ");
 	if (!pageIndex.IsEmpty())
 		{
-		#ifdef _J_MAN_SECTION_VIA_DASH_S
-		cmd += "-s ";
-		#endif
-
 		cmd += JPrepArgForExec(pageIndex);
 		cmd += " ";
 		}

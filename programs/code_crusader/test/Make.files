@@ -105,17 +105,17 @@ code/test_RubyStyler
 .cpp ../code/CBStylingScannerBase
 .cpp ../code/CBStylerBase
 
-@test_TCLStyler
-.ll ../code/CBTCLScanner
-code/test_TCLStyler
-.cpp ../code/CBTCLStyler
-.cpp ../code/CBStylingScannerBase
-.cpp ../code/CBStylerBase
-
 @test_SQLStyler
 .ll ../code/CBSQLScanner
 code/test_SQLStyler
 .cpp ../code/CBSQLStyler
+.cpp ../code/CBStylingScannerBase
+.cpp ../code/CBStylerBase
+
+@test_TCLStyler
+.ll ../code/CBTCLScanner
+code/test_TCLStyler
+.cpp ../code/CBTCLStyler
 .cpp ../code/CBStylingScannerBase
 .cpp ../code/CBStylerBase
 

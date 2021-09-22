@@ -114,6 +114,7 @@ CBRubyStyler::CBRubyStyler()
 	SetTypeStyle(kDoubleQuoteString  - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
 	SetTypeStyle(kHereDocString      - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
 	SetTypeStyle(kExecString         - kWhitespace, JFontStyle(JColorManager::GetPinkColor()));
+	SetTypeStyle(kWordList           - kWhitespace, JFontStyle(JColorManager::GetDarkRedColor()));
 
 	SetTypeStyle(kRegex              - kWhitespace, JFontStyle(JColorManager::GetDarkGreenColor()));
 

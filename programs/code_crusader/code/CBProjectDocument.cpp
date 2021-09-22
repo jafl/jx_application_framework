@@ -2824,13 +2824,6 @@ CBProjectDocument::UpdateSymbolDatabase()
 
 		JOutPipeStream output(fd[0][1], true);
 
-			output << kDoItYourself << std::endl;
-			output.write(JMessageProtocolT::kStdDisconnectStr, JMessageProtocolT::kStdDisconnectByteCount);
-			output.close();
-
-			JWait(15);	// give last message a chance to be received
-			exit(0);
-
 		// update symbol table, trees, etc.
 		// (exit immediately if no changes)
 

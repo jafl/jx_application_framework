@@ -2101,6 +2101,8 @@ CBTree::ViewSelectedFunctionLists()
 
  ******************************************************************************/
 
+#ifndef CODE_CRUSADER_UNIT_TEST
+
 void
 CBTree::CopySelectedClassNames()
 	const
@@ -2127,6 +2129,8 @@ CBTree::CopySelectedClassNames()
 		((itsDirector->GetDisplay())->GetSelectionManager())->SetData(kJXClipboardName, data);
 		}
 }
+
+#endif
 
 /******************************************************************************
  DeriveFromSelected
@@ -2521,6 +2525,8 @@ CBTree::GetProjectDoc()
 
  ******************************************************************************/
 
+#ifndef CODE_CRUSADER_UNIT_TEST
+
 JFontManager*
 CBTree::GetFontManager()
 	const
@@ -2528,10 +2534,14 @@ CBTree::GetFontManager()
 	return itsDirector->GetDisplay()->GetFontManager();
 }
 
+#endif
+
 /******************************************************************************
  SetFontSize
 
  ******************************************************************************/
+
+#ifndef CODE_CRUSADER_UNIT_TEST
 
 void
 CBTree::SetFontSize
@@ -2556,6 +2566,8 @@ CBTree::SetFontSize
 		PlaceAll();
 		}
 }
+
+#endif
 
 /******************************************************************************
  GetLineHeight

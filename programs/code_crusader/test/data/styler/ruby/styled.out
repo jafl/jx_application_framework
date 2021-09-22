@@ -1,0 +1,20 @@
+1 137 059
+$Λ
+
+=begin
+doc
+=end
+
+$a = /abcd/i
+%r(abcd)i
+
+'a\'"#{c}b'
+"a\"'#{c}b"
+$f=<<ABC;
+foobar #{c}
+ABC
+
+`ab$b#{c}`
+%x{ab#{c}c} foo
+%w{a b c}
+ 1 "Helvetica" 7 0 0 0 0 26214 0 32768 32768 32768 39321 0 0 39321 26214 0 65535 0 0 65535 0 39321 28 3 1 10 FFF 0 6 5 1 10 FFF 0 1 16 1 10 TFF 0 3 6 1 10 FFF 0 1 7 1 10 FFF 0 2 1 1 10 FFF 0 1 9 1 10 FFF 0 2 2 1 10 FFF 0 1 11 1 10 FFF 0 5 1 1 10 FFF 0 1 5 1 10 FFF 0 4 4 1 10 FFF 1 4 2 1 10 FFF 0 4 4 1 10 FFF 0 1 14 1 10 FFF 0 4 4 1 10 FFF 1 4 5 1 10 FFF 0 4 1 1 10 FFF 0 1 5 1 10 FFF 0 7 4 1 10 FFF 1 7 1 1 10 FFF 0 7 1 1 10 FFF 0 1 5 1 10 FFF 0 7 4 1 10 FFF 1 7 2 1 10 FFF 0 7 5 1 10 FFF 0 1 9 1 10 FFF 0 4 1 1 10 FFF 0 1
