@@ -5,19 +5,7 @@
 
 libjcore: [![Coverage](https://codecov.io/gh/jafl/jx_application_framework/branch/utf8/graph/badge.svg)](https://codecov.io/gh/jafl/jx_application_framework)
 
-This repository contains all the New Planet Software tools and applications:
-
-* JX Application Framework
-* Code Crusader - IDE
-* Code Medic - Debugging UI on top of gdb / Xdebug
-* Code Mill - Class generator plugin for Code Crusader
-* System G - File manager with git support
-* Leibnitz - Graphing calculator
-* Glove - Data acquisition, manipulation, and analysis tool
-* Drakon - Process manager
-
-JX Application Framework
-========================
+# JX Application Framework
 
 JX is a full-featured C++ application framework and widget library (SDK)
 for use with the X Window System. The power of JX stems from its rich
@@ -37,9 +25,10 @@ code, both for top level application design and for individual widget
 classes. It also shows how to extend the functionality of the library by,
 for example, creating custom tables or menus.
 
-To build the libraries and programs, simply run GNU make ("make" or "gmake"
-on most systems) in a command line window inside the JX directory and
-follow the instructions that are printed.
+To build the libraries and programs, simply run:
+
+    ./configure
+    make
 
 If you are new to the JX Application Framework, then it is important to
 understand that it is not a program that you can run.  Rather, it is a set
@@ -54,7 +43,7 @@ Code Crusader/Code Medic  | Visual Studio   |  CodeWarrior
 `jx_project_wizard`       | Project Wizards |  Project Wizards
 JX Application Framework  | MFC             |  PowerPlant
 `JX/tutorials/`           | MSDN            |  Sample code
-`JX/libjx/test/`          | MSDN            |  Sample code
+`JX/libjx/testui/`        | MSDN            |  Sample code
 
 In this directory, you will find:
 
@@ -63,6 +52,7 @@ README.md            This file
 INSTALL.md           Instructions for compiling and installing this package
 LICENSE              License information
 CHANGES.md           Describes changes from previous versions
+APPS.md              General FAQ for programs built using JX
 
 tutorial             Tutorial source code demonstrating JX library
 doc                  Documentation for JX library
@@ -82,22 +72,13 @@ libjx
   test               Unit tests
   testui             Sample application demonstrating JX library
 
-programs
-  code_crusader      IDE
-  code_medic         Debugger
-  code_mill          C++ class generator
+tools
   compile_jstrings   Compiles string database files for use with JX
-  drakon             UNIX process manager
-  glove              Data analysis
   jx_memory_debugger Graphical display and inspection of memory usage
   jx_project_wizard  Wizard to create skeleton JX application
                      and project file for use in Code Crusader 
   jxlayout           Graphical window layout editor
-  leibnitz           Electronic paper for calculations and graphing
   makemake           Builds Makefile from Make.files and Make.header
-  mondrian           (Unfinished) Graphical layout builder
-  ssh_askpass        Replacement for x11-ssh-askpass
-  systemg            Graphical file manager
   webgif             Utility program for working with gifs
 
 ACE
@@ -127,20 +108,18 @@ with this than we are.  The ACE web page is:
 
     http://www.cs.wustl.edu/~schmidt/ACE.html
 
-FAQ
-===
+## FAQ
 
-General problems
-----------------
+### General problems
 
-### Can I get a pre-compiled version of JX?
+#### Can I get a pre-compiled version of JX?
 
-Sorry, no.  We gave up trying to distribute binaries a long time ago.
-Everybody has a different version of the compiler and/or the required
-system libraries, so it causes more problems than it solves.
+Only via homebrew.  We gave up trying to distribute other binaries a
+long time ago.  Everybody has a different version of the compiler and/or
+the required system libraries, so it causes more problems than it solves.
 
 
-### How do I set environment variables?
+#### How do I set environment variables?
 
 At the command line type:
 
@@ -163,7 +142,7 @@ If you append this to the file `~/.bashrc`, the variable will be set
 automatically every time you log in.
 
 
-### `makemake` hangs.  How do I fix this?
+#### `makemake` hangs.  How do I fix this?
 
 Run it from the shell, not from another program (e.g. Midnight Commander).
 
@@ -172,19 +151,19 @@ Or you can patch it by appending the following arguments to the call to
 kJAttachToFromFD, NULL`
 
 
-### It gives me the error:  "'touch' has both : and :: entries."  How do I
+#### It gives me the error:  "'touch' has both : and :: entries."  How do I
 fix this?
 
 Remove all old copies of `makemake` from your system.
 
 
-### Why does it complain that it can't find the **ACE** header files?
+#### Why does it complain that it can't find the **ACE** header files?
 
 You need to set the environment variable `ACE_ROOT`, as explained in the
 instructions printed when you run `make` in the top level directory.
 
 
-### Why does it complain that it can't find `Xlib.h`?
+#### Why does it complain that it can't find `Xlib.h`?
 
 You need to create a symbolic link `/usr/include/X1`1 that points to the
 directory containing the X11 header files on your system.  This is often
@@ -195,13 +174,13 @@ to create the link, then uncomment `J_X11_INCLUDE_DIR` and set it to point
 to the directory containing the X11 header files.
 
 
-### When I compile, I get warnings about implicit declarations of functions
+#### When I compile, I get warnings about implicit declarations of functions
 in **ACE** header files.  How do I fix this?
 
 Comment out `J_DIE_ON_WARNING` in `include/make/jx_config`.
 
 
-### When I compile, I get an error "undefined reference to 'CMSG_DATA'".
+#### When I compile, I get an error "undefined reference to 'CMSG_DATA'".
 How do I get around this?
 
 Uncomment `J_FORCE_ACE_STATIC` in `include/make/jx_config`.  Then delete
@@ -209,28 +188,28 @@ Uncomment `J_FORCE_ACE_STATIC` in `include/make/jx_config`.  Then delete
 we can update the configuration for your system.
 
 
-### When I link, it complains that it can't find `libXpm`.  How do I fix this?
+#### When I link, it complains that it can't find `libXpm`.  How do I fix this?
 
 Uncomment `JX_INCLUDE_LIBXPM` in `include/make/jx_config`.
 
 
-### How do I avoid stripping the shared libraries?
+#### How do I avoid stripping the shared libraries?
 
 Change `J_STRIP_DEBUG` to `echo` in `include/make/jx_config`.
 
 
-### How do I avoid installing the binaries when I build?
+#### How do I avoid installing the binaries when I build?
 
 Run `make J_WANT_INSTALL=0 *target*`
 
 
-### Do I have to use the version of **ACE** included with **JX**?
+#### Do I have to use the version of **ACE** included with **JX**?
 
 No.  **JX** uses only the elementary functionality provided by **ACE**, and
 since this is very unlikely to change, you can safely use newer versions.
 
 
-### How do I debug window layouts that adjust to translated text?
+#### How do I debug window layouts that adjust to translated text?
 
 Hold down the Control, Meta, and Hyper keys while the window is being
 created.  Debugging horizontal expansion is the default.  Hold down shift
