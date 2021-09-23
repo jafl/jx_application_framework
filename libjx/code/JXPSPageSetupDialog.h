@@ -61,11 +61,6 @@ private:
 
 	void	UpdatePaperTypeMenu();
 	void	HandlePaperTypeMenu(const JIndex item);
-
-	// not allowed
-
-	JXPSPageSetupDialog(const JXPSPageSetupDialog& source);
-	const JXPSPageSetupDialog& operator=(const JXPSPageSetupDialog& source);
 };
 
 #endif

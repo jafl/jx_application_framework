@@ -38,13 +38,6 @@ private:
 
 	JXMenu*			itsMenu;
 	JXTextMenuData*	itsMenuData;
-
-private:
-
-	// not allowed
-
-	JXTextMenuDirector(const JXTextMenuDirector& source);
-	const JXTextMenuDirector& operator=(const JXTextMenuDirector& source);
 };
 
 

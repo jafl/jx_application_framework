@@ -27,11 +27,6 @@ public:
 private:
 
 	void	BuildWindow(const JRect& frameR, const JString& text);
-
-	// not allowed
-
-	JXHintDirector(const JXHintDirector& source);
-	const JXHintDirector& operator=(const JXHintDirector& source);
 };
 
 #endif

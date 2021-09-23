@@ -29,13 +29,6 @@ protected:
 
 	void	Init(JXWindow* window, JXStaticText* text, const JString& message,
 				 JXImageWidget* icon, const JXPM& xpm);
-
-private:
-
-	// not allowed
-
-	JXUNDialogBase(const JXUNDialogBase& source);
-	const JXUNDialogBase& operator=(const JXUNDialogBase& source);
 };
 
 #endif

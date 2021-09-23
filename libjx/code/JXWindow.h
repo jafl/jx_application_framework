@@ -493,11 +493,6 @@ private:
 
 	static void	WaitForWM(JXDisplay* d, JXWindow* w);
 
-	// not allowed
-
-	JXWindow(const JXWindow& source);
-	const JXWindow& operator=(const JXWindow& source);
-
 public:
 
 	// JBroadcaster messages

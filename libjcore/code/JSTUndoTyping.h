@@ -34,13 +34,6 @@ private:
 
 	JStyledText::TextIndex	itsOrigStartIndex;
 	JStyledText::TextCount	itsCount;
-
-private:
-
-	// not allowed
-
-	JSTUndoTyping(const JSTUndoTyping& source);
-	const JSTUndoTyping& operator=(const JSTUndoTyping& source);
 };
 
 #endif

@@ -35,11 +35,6 @@ private:
 
 	void	BuildWindow(JXProgressDisplay* pg, const JString& message,
 						const bool allowCancel);
-
-	// not allowed
-
-	JXVarLenPGDirector(const JXVarLenPGDirector& source);
-	const JXVarLenPGDirector& operator=(const JXVarLenPGDirector& source);
 };
 
 #endif

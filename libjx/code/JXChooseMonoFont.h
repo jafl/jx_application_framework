@@ -46,11 +46,6 @@ private:
 	static JListT::CompareResult
 		CompareFontNames(JString * const &, JString * const &);
 
-	// not allowed
-
-	JXChooseMonoFont(const JXChooseMonoFont& source);
-	const JXChooseMonoFont& operator=(const JXChooseMonoFont& source);
-
 public:
 
 	// JBroadcaster messages

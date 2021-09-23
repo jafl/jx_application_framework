@@ -104,13 +104,6 @@ private:
 	const bool			itsShowFilesForCompletionFlag;
 
 	const JUtf8Byte*	itsDefaultHintID;
-
-private:
-
-	// not allowed
-
-	JXFSInputBase(const JXFSInputBase& source);
-	const JXFSInputBase& operator=(const JXFSInputBase& source);
 };
 
 

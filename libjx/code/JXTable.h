@@ -53,13 +53,6 @@ protected:
 										const JXKeyModifiers& modifiers);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-
-private:
-
-	// not allowed
-
-	JXTable(const JXTable& source);
-	const JXTable& operator=(const JXTable& source);
 };
 
 #endif

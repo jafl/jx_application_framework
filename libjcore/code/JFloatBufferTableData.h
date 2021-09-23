@@ -41,8 +41,7 @@ private:
 
 	// not allowed
 
-	JFloatBufferTableData(const JFloatBufferTableData& source);
-	const JFloatBufferTableData& operator=(const JFloatBufferTableData& source);
+	JFloatBufferTableData(const JFloatBufferTableData&) = delete;
 };
 
 #endif

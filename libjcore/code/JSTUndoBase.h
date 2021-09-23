@@ -34,13 +34,6 @@ protected:
 private:
 
 	JStyledText*	itsText;		// we don't own this
-
-private:
-
-	// not allowed
-
-	JSTUndoBase(const JSTUndoBase& source);
-	const JSTUndoBase& operator=(const JSTUndoBase& source);
 };
 
 

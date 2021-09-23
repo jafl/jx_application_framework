@@ -31,11 +31,6 @@ private:
 private:
 
 	void	BuildWindow(const JString& title, const JString& message);
-
-	// not allowed
-
-	JXWarningDialog(const JXWarningDialog& source);
-	const JXWarningDialog& operator=(const JXWarningDialog& source);
 };
 
 #endif

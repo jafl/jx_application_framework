@@ -40,11 +40,6 @@ private:
 private:
 
 	void	UpdateBorderWidth();
-
-	// not allowed
-
-	JXEmbossedRect(const JXEmbossedRect& source);
-	const JXEmbossedRect& operator=(const JXEmbossedRect& source);
 };
 
 

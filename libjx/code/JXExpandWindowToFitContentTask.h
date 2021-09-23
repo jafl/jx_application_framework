@@ -33,13 +33,6 @@ private:
 	JXWindow*	itsWindow;	// not owned
 	bool	itShowWindowAfterFTCFlag;
 	JXWidget*	itsFocusWidget;
-
-private:
-
-	// not allowed
-
-	JXExpandWindowToFitContentTask(const JXExpandWindowToFitContentTask& source);
-	const JXExpandWindowToFitContentTask& operator=(const JXExpandWindowToFitContentTask& source);
 };
 
 

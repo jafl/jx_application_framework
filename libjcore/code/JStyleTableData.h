@@ -39,11 +39,6 @@ private:
 
 	void	AdjustToFont();
 
-	// not allowed
-
-	JStyleTableData(const JStyleTableData& source);
-	const JStyleTableData& operator=(const JStyleTableData& source);
-
 public:
 
 	// JBroadcaster messages

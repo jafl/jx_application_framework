@@ -46,7 +46,7 @@ protected:
 
 	void	RemoveData(const JPrefID& id);
 
-	bool		UpgradeData(const bool reportError = true);
+	bool			UpgradeData(const bool reportError = true);
 	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion) = 0;
 
 private:
@@ -71,7 +71,7 @@ private:
 
 	JString*			itsFileName;
 	const JFileVersion	itsCurrentFileVersion;
-	const bool		itsEraseFileIfOpenFlag;		// true => delete file if somebody left it open
+	const bool			itsEraseFileIfOpenFlag;		// true => delete file if somebody left it open
 	JFileVersion		itsPrevFileVersion;
 
 	JArray<PrefItem>*	itsData;
@@ -87,8 +87,8 @@ private:
 
 	// not allowed
 
-	JPrefsManager(const JPrefsManager& source);
-	JPrefsManager& operator=(const JPrefsManager& source);
+	JPrefsManager(const JPrefsManager&) = delete;
+	JPrefsManager& operator=(const JPrefsManager&) = delete;
 
 protected:
 

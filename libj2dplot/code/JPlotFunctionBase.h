@@ -26,14 +26,14 @@ public:
 	virtual ~JPlotFunctionBase();
 
 	virtual bool	IsFunction() const override;
-	virtual void		GetElement(const JIndex index, J2DDataPoint* data) const override;
+	virtual void	GetElement(const JIndex index, J2DDataPoint* data) const override;
 
-	virtual void		GetXRange(JFloat* min, JFloat* max) const override;
+	virtual void	GetXRange(JFloat* min, JFloat* max) const override;
 	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const bool xLinear,
-								  JFloat* yMin, JFloat* yMax) const override;
+							  const bool xLinear,
+							  JFloat* yMin, JFloat* yMax) const override;
 
-	virtual JString		GetFunctionString() const = 0;
+	virtual JString	GetFunctionString() const = 0;
 	virtual bool	GetYValue(const JFloat x, JFloat* y) const = 0;
 
 	void	SetXRange(const JFloat xMin, const JFloat xMax);

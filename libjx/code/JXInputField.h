@@ -39,7 +39,7 @@ public:
 	void	SetFont(const JFont& font);
 
 	bool	IsRequired() const;
-	void		SetIsRequired(const bool isRequired = true);
+	void	SetIsRequired(const bool isRequired = true);
 
 	void	SetLengthLimits(const JSize minLength, const JSize maxLength);
 
@@ -55,7 +55,7 @@ public:
 
 	bool	IsTableInput() const;
 	bool	GetTable(JXEditTable** table) const;
-	void		SetTable(JXEditTable* table);
+	void	SetTable(JXEditTable* table);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
@@ -91,8 +91,8 @@ protected:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual void		HandleFocusEvent() override;
-	virtual void		HandleUnfocusEvent() override;
+	virtual void	HandleFocusEvent() override;
+	virtual void	HandleUnfocusEvent() override;
 	virtual bool	OKToUnfocus() override;
 
 	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
@@ -121,16 +121,11 @@ private:
 
 	void	JXInputFieldX();
 
-	void		CreateContextMenu();
-	void		UpdateContextMenu();
-	void		HandleContextMenu(const JIndex index);
+	void	CreateContextMenu();
+	void	UpdateContextMenu();
+	void	HandleContextMenu(const JIndex index);
 	bool	ContextMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
 	bool	ContextMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
-
-	// not allowed
-
-	JXInputField(const JXInputField& source);
-	const JXInputField& operator=(const JXInputField& source);
 };
 
 

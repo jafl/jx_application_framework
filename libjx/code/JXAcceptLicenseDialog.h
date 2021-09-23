@@ -28,11 +28,6 @@ private:
 private:
 
 	void	BuildWindow();
-
-	// not allowed
-
-	JXAcceptLicenseDialog(const JXAcceptLicenseDialog& source);
-	const JXAcceptLicenseDialog& operator=(const JXAcceptLicenseDialog& source);
 };
 
 #endif

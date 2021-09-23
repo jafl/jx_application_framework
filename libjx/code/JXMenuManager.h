@@ -43,8 +43,8 @@ private:
 
 	// not allowed
 
-	JXMenuManager(const JXMenuManager& source);
-	const JXMenuManager& operator=(const JXMenuManager& source);
+	JXMenuManager(const JXMenuManager&) = delete;
+	JXMenuManager& operator=(const JXMenuManager&) = delete;
 };
 
 #endif

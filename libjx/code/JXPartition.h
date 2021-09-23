@@ -20,25 +20,25 @@ public:
 	virtual ~JXPartition();
 
 	JXContainer*	GetCompartment(const JIndex index) const;
-	bool		GetCompartmentIndex(JXContainer* compartment,
+	bool			GetCompartmentIndex(JXContainer* compartment,
 										JIndex* index) const;
 
 	bool	InsertCompartment(const JIndex index, const JCoordinate size,
-								  const JCoordinate minSize,
-								  JXContainer** newCompartment);
+							  const JCoordinate minSize,
+							  JXContainer** newCompartment);
 	bool	PrependCompartment(const JCoordinate size,
-								   const JCoordinate minSize,
-								   JXContainer** newCompartment);
+							   const JCoordinate minSize,
+							   JXContainer** newCompartment);
 	bool	AppendCompartment(const JCoordinate size,
-								  const JCoordinate minSize,
-								  JXContainer** newCompartment);
+							  const JCoordinate minSize,
+							  JXContainer** newCompartment);
 
-	bool	GetMinCompartmentSize(JXContainer* compartment, JCoordinate* minSize) const;
+	bool		GetMinCompartmentSize(JXContainer* compartment, JCoordinate* minSize) const;
 	JCoordinate	GetMinCompartmentSize(JXContainer* compartment) const;
 	void		SetMinCompartmentSize(JXContainer* compartment, const JCoordinate minSize);
 
 	bool	GetElasticCompartment(JXContainer** compartment) const;
-	void		SetElasticCompartment(JXContainer* compartment);
+	void	SetElasticCompartment(JXContainer* compartment);
 
 	void	DeleteCompartment(JXContainer* compartment);
 
@@ -69,13 +69,6 @@ protected:
 private:
 
 	JPtrArray<JXContainer>*	itsCompartments;
-
-private:
-
-	// not allowed
-
-	JXPartition(const JXPartition& source);
-	const JXPartition& operator=(const JXPartition& source);
 };
 
 

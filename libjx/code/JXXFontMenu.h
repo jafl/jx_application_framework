@@ -44,11 +44,6 @@ private:
 				JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
 	void	BuildMenu(const JPtrArray<JString>& fontNames);
-
-	// not allowed
-
-	JXXFontMenu(const JXXFontMenu& source);
-	const JXXFontMenu& operator=(const JXXFontMenu& source);
 };
 
 #endif

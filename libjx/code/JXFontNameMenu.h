@@ -56,11 +56,6 @@ private:
 	void	UpdateMenu();
 	void	UpdateHistory(const JString& name);
 
-	// not allowed
-
-	JXFontNameMenu(const JXFontNameMenu& source);
-	const JXFontNameMenu& operator=(const JXFontNameMenu& source);
-
 public:
 
 	// JBroadcaster messages

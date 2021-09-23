@@ -83,11 +83,6 @@ private:
 	void	PrintAllPages(const bool all);
 
 	void	ChooseDestinationFile();
-
-	// not allowed
-
-	JXPTPrintSetupDialog(const JXPTPrintSetupDialog& source);
-	const JXPTPrintSetupDialog& operator=(const JXPTPrintSetupDialog& source);
 };
 
 #endif

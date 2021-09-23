@@ -66,11 +66,6 @@ private:
 	void	BuildWindow();
 	void	Change();
 	void	ChangeAll();
-
-	// not allowed
-
-	JXSpellCheckerDialog(const JXSpellCheckerDialog& source);
-	const JXSpellCheckerDialog& operator=(const JXSpellCheckerDialog& source);
 };
 
 #endif

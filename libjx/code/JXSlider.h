@@ -26,13 +26,6 @@ public:
 protected:
 
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
-
-private:
-
-	// not allowed
-
-	JXSlider(const JXSlider& source);
-	const JXSlider& operator=(const JXSlider& source);
 };
 
 #endif

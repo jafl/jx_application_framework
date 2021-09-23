@@ -131,11 +131,6 @@ private:
 
 	JCoordinate		IsMonospace(const XFont& xfont);
 	static bool	ShouldIgnore(const JString& name);
-
-	// not allowed
-
-	JXFontManager(const JXFontManager& source);
-	const JXFontManager& operator=(const JXFontManager& source);
 };
 
 

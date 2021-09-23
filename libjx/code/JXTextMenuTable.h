@@ -66,13 +66,6 @@ private:
 
 	const JXTextMenuData*	itsTextMenuData;
 	JIndex					itsHilightRow;
-
-private:
-
-	// not allowed
-
-	JXTextMenuTable(const JXTextMenuTable& source);
-	const JXTextMenuTable& operator=(const JXTextMenuTable& source);
 };
 
 #endif

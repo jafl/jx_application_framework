@@ -34,14 +34,7 @@ protected:
 private:
 
 	JXEditWWWPrefsDialog*	itsPrefsDialog;
-	bool				itsSaveChangesFlag;		// optimization
-
-private:
-
-	// not allowed
-
-	JXWebBrowser(const JXWebBrowser& source);
-	const JXWebBrowser& operator=(const JXWebBrowser& source);
+	bool					itsSaveChangesFlag;		// optimization
 };
 
 #endif

@@ -46,9 +46,9 @@ public:
 
 // Get...
 	JHashRecordT::State GetState() const;
-	bool   IsEmpty() const;
-	bool   IsDeleted() const;
-	bool   IsFull() const;
+	bool       IsEmpty() const;
+	bool       IsDeleted() const;
+	bool       IsFull() const;
 	JHashValue GetHashValue() const;
 	const V&   GetValue() const;
 

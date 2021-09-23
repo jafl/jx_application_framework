@@ -39,11 +39,6 @@ private:
 	void	BuildWindow(const JString& windowTitle, const JString& prompt,
 						const JPtrArray<JString>& choiceList,
 						const JPtrArray<JString>* shortcutList);
-
-	// not allowed
-
-	JXCheckboxListDialog(const JXCheckboxListDialog& source);
-	const JXCheckboxListDialog& operator=(const JXCheckboxListDialog& source);
 };
 
 #endif

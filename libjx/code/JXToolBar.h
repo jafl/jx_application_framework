@@ -114,11 +114,6 @@ private:
 
 	void		UpdateButtons();
 
-	// not allowed
-
-	JXToolBar(const JXToolBar& source);
-	const JXToolBar& operator=(const JXToolBar& source);
-
 private:
 
 	// base class for JBroadcaster messages

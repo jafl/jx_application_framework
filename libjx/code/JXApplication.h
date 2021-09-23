@@ -174,11 +174,6 @@ private:
 	friend class JXStandAlonePG;
 	friend class JXDNDManager;
 	friend class JXWindow;
-
-	// not allowed
-
-	JXApplication(const JXApplication& source);
-	const JXApplication& operator=(const JXApplication& source);
 };
 
 

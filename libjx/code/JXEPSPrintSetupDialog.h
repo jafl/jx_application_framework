@@ -63,11 +63,6 @@ private:
 	void	BuildWindow(const JString& fileName,
 						const bool printPreview, const bool bw);
 	void	UpdateDisplay();
-
-	// not allowed
-
-	JXEPSPrintSetupDialog(const JXEPSPrintSetupDialog& source);
-	const JXEPSPrintSetupDialog& operator=(const JXEPSPrintSetupDialog& source);
 };
 
 #endif

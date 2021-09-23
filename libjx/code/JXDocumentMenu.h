@@ -38,11 +38,6 @@ private:
 private:
 
 	void	JXDocumentMenuX();
-
-	// not allowed
-
-	JXDocumentMenu(const JXDocumentMenu& source);
-	const JXDocumentMenu& operator=(const JXDocumentMenu& source);
 };
 
 #endif

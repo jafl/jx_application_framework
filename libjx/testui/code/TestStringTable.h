@@ -100,11 +100,6 @@ private:
 
 	void	UpdateColBorderMenu();
 	void	HandleColBorderMenu(const JIndex item);
-
-	// not allowed
-
-	TestStringTable(const TestStringTable& source);
-	const TestStringTable& operator=(const TestStringTable& source);
 };
 
 #endif

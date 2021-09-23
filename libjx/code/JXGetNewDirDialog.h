@@ -30,13 +30,6 @@ protected:
 private:
 
 	JString	itsBasePath;
-
-private:
-
-	// not allowed
-
-	JXGetNewDirDialog(const JXGetNewDirDialog& source);
-	const JXGetNewDirDialog& operator=(const JXGetNewDirDialog& source);
 };
 
 #endif

@@ -29,13 +29,6 @@ public:
 private:
 
 	JXTEBase*	itsJXTE;
-
-private:
-
-	// not allowed
-
-	JXVIKeyHandler(const JXVIKeyHandler& source);
-	const JXVIKeyHandler& operator=(const JXVIKeyHandler& source);
 };
 
 #endif

@@ -49,8 +49,8 @@ private:
 
 	// not allowed
 
-	JChooseSaveFile(const JChooseSaveFile& source);
-	const JChooseSaveFile& operator=(const JChooseSaveFile& source);
+	JChooseSaveFile(const JChooseSaveFile&) = delete;
+	JChooseSaveFile& operator=(const JChooseSaveFile&) = delete;
 };
 
 #endif

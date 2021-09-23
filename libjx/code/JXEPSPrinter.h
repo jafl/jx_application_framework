@@ -60,13 +60,6 @@ private:
 	JXImagePainter*	itsPreviewPainter;
 
 	JXEPSPrintSetupDialog*	itsPrintSetupDialog;
-
-private:
-
-	// not allowed
-
-	JXEPSPrinter(const JXEPSPrinter& source);
-	const JXEPSPrinter& operator=(const JXEPSPrinter& source);
 };
 
 #endif

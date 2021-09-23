@@ -39,13 +39,6 @@ private:
 
 	bool	itsExpectsCloseFlag;
 	JXButton*	itsCancelButton;
-
-private:
-
-	// not allowed
-
-	JXPGDirectorBase(const JXPGDirectorBase& source);
-	const JXPGDirectorBase& operator=(const JXPGDirectorBase& source);
 };
 
 #endif

@@ -39,15 +39,8 @@ public:
 
 private:
 
-	bool		itsReportNoErrorsFlag;
-	JPoint			itsDefaultWindowSize;
-
-private:
-
-	// not allowed
-
-	JXSpellChecker(const JXSpellChecker& source);
-	const JXSpellChecker& operator=(const JXSpellChecker& source);
+	bool	itsReportNoErrorsFlag;
+	JPoint	itsDefaultWindowSize;
 };
 
 

@@ -132,11 +132,6 @@ private:
 
 	const JString&	GetDialogState() const;
 	JString*		GetDialogState();
-
-	// not allowed
-
-	JXChooseSaveFile(const JXChooseSaveFile& source);
-	const JXChooseSaveFile& operator=(const JXChooseSaveFile& source);
 };
 
 #endif

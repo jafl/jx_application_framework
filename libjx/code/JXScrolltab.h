@@ -63,11 +63,6 @@ private:
 	void	OpenActionMenu(const JPoint& pt, const JXButtonStates& buttonStates,
 						   const JXKeyModifiers& modifiers);
 	void	HandleActionMenu(const JIndex index);
-
-	// not allowed
-
-	JXScrolltab(const JXScrolltab& source);
-	const JXScrolltab& operator=(const JXScrolltab& source);
 };
 
 /******************************************************************************

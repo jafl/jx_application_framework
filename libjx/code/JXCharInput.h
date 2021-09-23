@@ -38,13 +38,6 @@ protected:
 	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
-
-private:
-
-	// not allowed
-
-	JXCharInput(const JXCharInput& source);
-	const JXCharInput& operator=(const JXCharInput& source);
 };
 
 #endif

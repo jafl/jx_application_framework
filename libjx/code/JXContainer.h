@@ -49,22 +49,22 @@ public:
 	virtual void	Hide();					// must call inherited
 	virtual void	Refresh() const = 0;
 	virtual void	Redraw() const = 0;
-	bool		IsVisible() const;
+	bool			IsVisible() const;
 	void			SetVisible(const bool vis);
-	bool		WouldBeVisible() const;
+	bool			WouldBeVisible() const;
 
 	virtual void	Activate();				// must call inherited
 	virtual void	Deactivate();			// must call inherited
-	bool		IsActive() const;
+	bool			IsActive() const;
 	void			SetActive(const bool active);
-	bool		WouldBeActive() const;
+	bool			WouldBeActive() const;
 
 	virtual void	Suspend();
 	virtual void	Resume();
-	bool		IsSuspended() const;
+	bool			IsSuspended() const;
 
-	bool		IsDNDSource() const;
-	bool		IsDNDTarget() const;
+	bool			IsDNDSource() const;
+	bool			IsDNDTarget() const;
 
 	virtual JPoint	GlobalToLocal(const JCoordinate x, const JCoordinate y) const = 0;
 	JPoint			GlobalToLocal(const JPoint& pt) const;
@@ -98,7 +98,7 @@ public:
 	JXWindow*		GetWindow() const;
 
 	JXContainer*	GetEnclosure() const;
-//	bool		SetEnclosure(JXContainer* obj);
+//	bool			SetEnclosure(JXContainer* obj);
 
 	JFontManager*		GetFontManager() const;
 	JXFontManager*		GetXFontManager() const;
@@ -109,11 +109,11 @@ public:
 	JCursorIndex	GetDefaultCursor() const;
 
 	bool	GetHint(JString* text) const;
-	void		SetHint(const JString& text);
-	void		ClearHint();
+	void	SetHint(const JString& text);
+	void	ClearHint();
 
 	bool	GetVisibleRectGlobal(const JRect& origRectG,
-									 JRect* visRectG) const;
+								 JRect* visRectG) const;
 
 	// primarily invoked (automagically) after BuildWindow() finishes
 
@@ -124,13 +124,13 @@ public:
 
 	// public only because it has to be called in special cases
 	virtual bool	RunInternalFTC(const bool horizontal, JCoordinate* newSize);
-	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
-	JRect				ComputePaddingForInternalFTC() const;
+	virtual void	FTCAdjustSize(const JCoordinate dw, const JCoordinate dh);
+	JRect			ComputePaddingForInternalFTC() const;
 
 	// called by JXDisplay
 
 	bool	FindContainer(const JPoint& ptG,
-							  JXContainer** container) const;
+						  JXContainer** container) const;
 
 	// called by Menu objects
 
@@ -153,27 +153,27 @@ protected:
 	virtual void	HandleMouseLeave();
 
 	virtual bool	AcceptDrag(const JPoint& pt, const JXMouseButton button,
-								   const JXKeyModifiers& modifiers);	// must call inherited
-	virtual void		HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-										const JSize clickCount,
-										const JXButtonStates& buttonStates,
-										const JXKeyModifiers& modifiers);
-	virtual void		HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-										const JXKeyModifiers& modifiers);
-	virtual void		HandleMouseUp(const JPoint& pt, const JXMouseButton button,
-									  const JXButtonStates& buttonStates,
-									  const JXKeyModifiers& modifiers);
+							   const JXKeyModifiers& modifiers);	// must call inherited
+	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+									const JSize clickCount,
+									const JXButtonStates& buttonStates,
+									const JXKeyModifiers& modifiers);
+	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
+									const JXKeyModifiers& modifiers);
+	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+								  const JXButtonStates& buttonStates,
+								  const JXKeyModifiers& modifiers);
 	virtual bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const;
 
 	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const JPoint& pt, const Time time,
-									   const JXWidget* source);
-	virtual void		HandleDNDEnter();
-	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source);
-	virtual void		HandleDNDLeave();
-	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
-									  const Atom action, const Time time,
-									  const JXWidget* source);
+								   const JPoint& pt, const Time time,
+								   const JXWidget* source);
+	virtual void	HandleDNDEnter();
+	virtual void	HandleDNDHere(const JPoint& pt, const JXWidget* source);
+	virtual void	HandleDNDLeave();
+	virtual void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+								  const Atom action, const Time time,
+								  const JXWidget* source);
 
 	// mostly for use by JXScrollableWidget
 	virtual void	HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
@@ -191,13 +191,13 @@ protected:
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) = 0;
 
-	virtual bool	IncludeInFTC() const;
-	virtual bool	NeedsInternalFTC() const;
+	virtual bool		IncludeInFTC() const;
+	virtual bool		NeedsInternalFTC() const;
 	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const;
 	virtual JRect		GetFrameForFTC() const;
 
 	bool	GetEnclosedObjects(JPtrArrayIterator<JXContainer>** iter) const;
-	void		DeleteEnclosedObjects();
+	void	DeleteEnclosedObjects();
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -231,13 +231,13 @@ private:
 	JXWindow*				itsWindow;
 	JXContainer*			itsEnclosure;
 	JPtrArray<JXContainer>*	itsEnclosedObjs;	// nullptr if empty
-	bool				itsGoingAwayFlag;
+	bool					itsGoingAwayFlag;
 
 	bool	itsActiveFlag;
 	bool	itsWasActiveFlag;	// true => activate when enclosure is activated
 	bool	itsVisibleFlag;
 	bool	itsWasVisibleFlag;	// true => show when enclosure is made visible
-	JSize		itsSuspendCount;
+	JSize	itsSuspendCount;
 
 	bool	itsIsDNDSourceFlag;
 	bool	itsIsDNDTargetFlag;
@@ -253,7 +253,7 @@ private:
 
 	JCursorIndex			itsDefCursor;
 	JCursorIndex			itsInvisibleCursor;
-	bool				itsCursorVisibleFlag;
+	bool					itsCursorVisibleFlag;
 	JCursorIndex			itsCurrCursor;
 	JXCursorAnimator*		itsCursorAnim;
 	JXCursorAnimationTask*	itsCursorAnimTask;
@@ -264,11 +264,11 @@ private:
 
 	// FTC
 
-	static bool			theDebugFTCFlag;
-	static bool			theDebugHorizFTCFlag;
-	static bool			theDebugVertFTCFlag;
-	static bool			theDebugFTCNoopExaminations;
-	static bool			theDebugFTCWillOverlapNonincludedWidget;
+	static bool				theDebugFTCFlag;
+	static bool				theDebugHorizFTCFlag;
+	static bool				theDebugVertFTCFlag;
+	static bool				theDebugFTCNoopExaminations;
+	static bool				theDebugFTCWillOverlapNonincludedWidget;
 	static std::ostream*	theDebugFTCLogBuffer;
 
 private:
@@ -279,14 +279,14 @@ private:
 	void	AddEnclosedObject(JXContainer* theObject);
 	void	RemoveEnclosedObject(JXContainer* theObject);
 
-	bool	FTCBuildLayout(const bool expandHorizontally, JXFTCCell** root) const;
+	bool		FTCBuildLayout(const bool expandHorizontally, JXFTCCell** root) const;
 	JXFTCCell*	FTCGroupAlignedObjects(JXContainer* target,
 									   JPtrArray<JXContainer>* objList,
 									   JPtrArray<JXContainer>* fullObjList,
 									   const bool horizontal,
 									   const bool exact,
 									   const bool first) const;
-	bool	FTCWillOverlapNonincludedWidget(const JXContainer* obj1,
+	bool		FTCWillOverlapNonincludedWidget(const JXContainer* obj1,
 												const JXContainer* obj2,
 												const JPtrArray<JXContainer>& fullObjList,
 												const JPtrArray<JXContainer>& matchedList) const;
@@ -336,8 +336,8 @@ private:
 
 	// not allowed
 
-	JXContainer(const JXContainer& source);
-	const JXContainer& operator=(const JXContainer& source);
+	JXContainer(const JXContainer&) = delete;
+	JXContainer& operator=(const JXContainer&) = delete;
 };
 
 

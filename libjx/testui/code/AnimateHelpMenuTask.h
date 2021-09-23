@@ -34,13 +34,6 @@ private:
 	const JIndex		itsMenuItem;
 	JPtrArray<JXImage>*	itsImageList;
 	JIndex				itsCurrentImage;
-
-private:
-
-	// not allowed
-
-	AnimateHelpMenuTask(const AnimateHelpMenuTask& source);
-	const AnimateHelpMenuTask& operator=(const AnimateHelpMenuTask& source);
 };
 
 #endif

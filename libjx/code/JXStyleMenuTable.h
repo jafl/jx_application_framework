@@ -32,13 +32,6 @@ protected:
 private:
 
 	JXStyleMenu*	itsMenu;	// it owns us
-
-private:
-
-	// not allowed
-
-	JXStyleMenuTable(const JXStyleMenuTable& source);
-	const JXStyleMenuTable& operator=(const JXStyleMenuTable& source);
 };
 
 #endif

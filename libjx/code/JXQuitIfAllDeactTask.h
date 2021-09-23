@@ -19,13 +19,6 @@ public:
 	virtual ~JXQuitIfAllDeactTask();
 
 	virtual void	Perform(const Time delta, Time* maxSleepTime);
-
-private:
-
-	// not allowed
-
-	JXQuitIfAllDeactTask(const JXQuitIfAllDeactTask& source);
-	const JXQuitIfAllDeactTask& operator=(const JXQuitIfAllDeactTask& source);
 };
 
 #endif

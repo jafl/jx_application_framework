@@ -85,13 +85,6 @@ private:
 
 	JXPTPageSetupDialog*	itsPageSetupDialog;
 	JXPTPrintSetupDialog*	itsPrintSetupDialog;
-
-private:
-
-	// not allowed
-
-	JXPTPrinter(const JXPTPrinter& source);
-	const JXPTPrinter& operator=(const JXPTPrinter& source);
 };
 
 std::istream& operator>>(std::istream& input, JXPTPrinter::Destination& dest);

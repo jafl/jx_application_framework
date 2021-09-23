@@ -38,11 +38,6 @@ private:
 private:
 
 	void	BuildWindow();
-
-	// not allowed
-
-	TestInputFieldsDialog(const TestInputFieldsDialog& source);
-	const TestInputFieldsDialog& operator=(const TestInputFieldsDialog& source);
 };
 
 #endif

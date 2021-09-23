@@ -41,13 +41,6 @@ protected:
 private:
 
 	JStyleTableData*	itsStyleData;
-
-private:
-
-	// not allowed
-
-	JXStyleTable(const JXStyleTable& source);
-	const JXStyleTable& operator=(const JXStyleTable& source);
 };
 
 

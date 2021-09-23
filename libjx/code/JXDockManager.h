@@ -45,22 +45,22 @@ public:
 	JXDockDirector*	CreateDock(const bool splitHoriz);
 	void			CloseAll();
 
-	bool					HasDocks() const;
+	bool						HasDocks() const;
 	JPtrArray<JXDockDirector>*	GetDockList() const;
-	bool					FindDock(const JIndex id, JXDockWidget** dock);
-	bool					IsLastDock(JXDockDirector* dock) const;
+	bool						FindDock(const JIndex id, JXDockWidget** dock);
+	bool						IsLastDock(JXDockDirector* dock) const;
 
 	virtual	bool	CanDockAll() const;
-	virtual void		DockAll();
+	virtual void	DockAll();
 
 	bool	GetDefaultDock(const JUtf8Byte* windowType, JXDockWidget** dock);
-	void		SetDefaultDock(const JUtf8Byte* windowType, const JXDockWidget* dock);
+	void	SetDefaultDock(const JUtf8Byte* windowType, const JXDockWidget* dock);
 
 	bool	IsReadingSetup() const;
-	void		ReadSetup(std::istream& input);
-	void		WriteSetup(std::ostream& output) const;
+	void	ReadSetup(std::istream& input);
+	void	WriteSetup(std::ostream& output) const;
 
-	void		SetIcon(JXImage* icon);
+	void	SetIcon(JXImage* icon);
 	bool	CreateIcon(JXImage** icon) const;
 
 	Atom	GetDNDMinSizeAtom() const;
@@ -100,18 +100,13 @@ private:
 	JXImage*					itsWindowIcon;
 	JIndex						itsNextDockIndex;
 	JIndex						itsNextDockID;
-	bool					itsIsReadingSetupFlag;
+	bool						itsIsReadingSetupFlag;
 	CloseDockMode				itsCloseDockMode;
 	Atom						itsAtoms[ kAtomCount ];
 
 private:
 
 	JString	GetNewDockTitle();
-
-	// not allowed
-
-	JXDockManager(const JXDockManager& source);
-	const JXDockManager& operator=(const JXDockManager& source);
 };
 
 

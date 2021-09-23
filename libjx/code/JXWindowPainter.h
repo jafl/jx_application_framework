@@ -89,7 +89,7 @@ public:
 	XftDraw*	GetFontDrawable() const;
 
 	bool	GetDefaultClipRegion(Region* region) const;
-	void		SetDefaultClipRegion(const Region region);
+	void	SetDefaultClipRegion(const Region region);
 
 protected:
 
@@ -104,7 +104,7 @@ private:
 	Region		itsClipRegion;		// can be nullptr
 	XftDraw*	itsFontDrawable;	// nullptr until first needed
 	Region		itsFontClipRegion;
-	bool	itsResetShouldClearClipRegionFlag;
+	bool		itsResetShouldClearClipRegionFlag;
 
 private:
 
@@ -113,11 +113,6 @@ private:
 						const JCoordinate ascent, const JCoordinate descent);
 
 	void	CalcClipRegion(const Region region);
-
-	// not allowed
-
-	JXWindowPainter(const JXWindowPainter& source);
-	const JXWindowPainter& operator=(const JXWindowPainter& source);
 };
 
 

@@ -62,21 +62,21 @@ public:
 private:
 
 	JPrefsFile*		itsFile;			// nullptr unless working
-	bool		itsChangedFlag;		// used when re-entrant
+	bool			itsChangedFlag;		// used when re-entrant
 	JXTimerTask*	itsUpdateTask;
 	JString			itsSignalFileName;	// can be empty
 	time_t			itsSignalModTime;	// last time signal file was modified
-	bool		itsWasNewFlag;		// true => we created the file
+	bool			itsWasNewFlag;		// true => we created the file
 
 	// this section exists because JCore values cannot update themselves
 
-	bool						itsOrigFocusInDockFlag;
-	bool						itsOrigCopyWhenSelectFlag;
-	bool						itsOrigMiddleClickWillPasteFlag;
+	bool							itsOrigFocusInDockFlag;
+	bool							itsOrigCopyWhenSelectFlag;
+	bool							itsOrigMiddleClickWillPasteFlag;
 	JXTEBase::PartialWordModifier	itsOrigPWMod;
-	bool						itsOrigCaretScrollFlag;
-	bool						itsOrigWindowsHomeEndFlag;
-	bool						itsOrigAllowSpaceFlag;
+	bool							itsOrigCaretScrollFlag;
+	bool							itsOrigWindowsHomeEndFlag;
+	bool							itsOrigAllowSpaceFlag;
 	JXMenu::Style					itsOrigMenuDisplayStyle;
 
 private:
@@ -84,27 +84,27 @@ private:
 	bool	Update();
 	bool	GetAll(bool* isNew);
 
-	void		PrivateSetFocusFollowsCursorInDock();
-	void		PrivateSetCopyWhenSelectFlag();
-	void		PrivateSetMiddleClickWillPasteFlag();
-	void		PrivateSetPartialWordModifier();
-	void		PrivateSetCaretFollowsScroll();
-	void		PrivateSetWindowsHomeEnd();
-	void		PrivateSetAllowSpaceFlag();
-	void		PrivateSetMenuDisplayStyle();
+	void	PrivateSetFocusFollowsCursorInDock();
+	void	PrivateSetCopyWhenSelectFlag();
+	void	PrivateSetMiddleClickWillPasteFlag();
+	void	PrivateSetPartialWordModifier();
+	void	PrivateSetCaretFollowsScroll();
+	void	PrivateSetWindowsHomeEnd();
+	void	PrivateSetAllowSpaceFlag();
+	void	PrivateSetMenuDisplayStyle();
 
 	bool	PrivateReadPrefs(JXSharedPrefObject* obj);
 	bool	PrivateWritePrefs(const JXSharedPrefObject* obj);
 
 	bool	Open();
-	void		Close(const bool changed);
-	void		NotifyChanged();
-	void		SaveSignalModTime();
+	void	Close(const bool changed);
+	void	NotifyChanged();
+	void	SaveSignalModTime();
 
 	// not allowed
 
-	JXSharedPrefsManager(const JXSharedPrefsManager& source);
-	JXSharedPrefsManager& operator=(const JXSharedPrefsManager& source);
+	JXSharedPrefsManager(const JXSharedPrefsManager&) = delete;
+	JXSharedPrefsManager& operator=(const JXSharedPrefsManager&) = delete;
 
 public:
 

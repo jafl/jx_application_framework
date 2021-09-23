@@ -42,11 +42,6 @@ private:
 	void	BuildWindow(const JString& windowTitle,
 						const JString& prompt, const JString& initialValue,
 						const bool password);
-
-	// not allowed
-
-	JXGetStringDialog(const JXGetStringDialog& source);
-	const JXGetStringDialog& operator=(const JXGetStringDialog& source);
 };
 
 

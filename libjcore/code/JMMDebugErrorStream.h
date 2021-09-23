@@ -30,13 +30,6 @@ protected:
 
 	void HandleMultipleAllocation(const JMMRecord& thisRecord,
 								  const JMMRecord& firstRecord) override;
-
-private:
-
-	// not allowed
-
-	JMMDebugErrorStream(const JMMDebugErrorStream& source);
-	const JMMDebugErrorStream& operator=(const JMMDebugErrorStream& source);
 };
 
 #endif

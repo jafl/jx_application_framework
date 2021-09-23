@@ -84,11 +84,6 @@ private:
 	void	ShowFilter(JXWidgetSet* filterSet, JXFLInputBase* filterInput,
 					   const FilterType otherType,
 					   JXWidgetSet* otherSet, JXFLInputBase* otherInput);
-
-	// not allowed
-
-	JXFileListSet(const JXFileListSet& source);
-	const JXFileListSet& operator=(const JXFileListSet& source);
 };
 
 

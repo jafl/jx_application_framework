@@ -62,10 +62,6 @@ private:
 	JXImageMask(const Pixmap bitmap,
 				const JCoordinate width, const JCoordinate height,
 				JXDisplay* display);
-
-	// not allowed
-
-	const JXImageMask& operator=(const JXImageMask& source);
 };
 
 

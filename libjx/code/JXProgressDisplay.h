@@ -68,11 +68,6 @@ private:
 
 	bool	IncrementProgress1(const JString& message);
 
-	// not allowed
-
-	JXProgressDisplay(const JXProgressDisplay& source);
-	const JXProgressDisplay& operator=(const JXProgressDisplay& source);
-
 public:
 
 	// JBroadcaster messages

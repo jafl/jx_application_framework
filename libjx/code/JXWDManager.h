@@ -101,8 +101,8 @@ private:
 
 	// not allowed
 
-	JXWDManager(const JXWDManager& source);
-	const JXWDManager& operator=(const JXWDManager& source);
+	JXWDManager(const JXWDManager&) = delete;
+	JXWDManager& operator=(const JXWDManager&) = delete;
 
 public:
 

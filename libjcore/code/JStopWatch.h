@@ -33,10 +33,10 @@ public:
 private:
 
 	bool	itsOnFlag;		// true if stopwatch is running
-	clock_t		itsStartClock;	// clock when we were started
-	clock_t		itsStopClock;	// clock when we were stopped
-	time_t		itsStartTime;	// time when we were started
-	time_t		itsStopTime;	// time when we were stopped
+	clock_t	itsStartClock;	// clock when we were started
+	clock_t	itsStopClock;	// clock when we were stopped
+	time_t	itsStartTime;	// time when we were started
+	time_t	itsStopTime;	// time when we were stopped
 
 private:
 

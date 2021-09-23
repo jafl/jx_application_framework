@@ -17,13 +17,6 @@ public:
 	JSTUndoTabShift(JStyledText* text, const JStyledText::TextRange& range);
 
 	virtual ~JSTUndoTabShift();
-
-private:
-
-	// not allowed
-
-	JSTUndoTabShift(const JSTUndoTabShift& source);
-	const JSTUndoTabShift& operator=(const JSTUndoTabShift& source);
 };
 
 #endif

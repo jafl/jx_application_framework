@@ -29,13 +29,6 @@ protected:
 private:
 
 	JXDirector*	itsDirector;
-
-private:
-
-	// not allowed
-
-	JXCloseDirectorTask(const JXCloseDirectorTask& source);
-	const JXCloseDirectorTask& operator=(const JXCloseDirectorTask& source);
 };
 
 #endif

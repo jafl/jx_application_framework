@@ -65,11 +65,6 @@ private:
 private:
 
 	void	BuildWindow(const JString& origName, const JString& message);
-
-	// not allowed
-
-	JXChooseFileDialog(const JXChooseFileDialog& source);
-	const JXChooseFileDialog& operator=(const JXChooseFileDialog& source);
 };
 
 #endif

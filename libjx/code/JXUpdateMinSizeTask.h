@@ -26,13 +26,6 @@ public:
 private:
 
 	JXDockWidget*	itsDockWidget;	// not owned
-
-private:
-
-	// not allowed
-
-	JXUpdateMinSizeTask(const JXUpdateMinSizeTask& source);
-	const JXUpdateMinSizeTask& operator=(const JXUpdateMinSizeTask& source);
 };
 
 #endif

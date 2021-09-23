@@ -57,8 +57,8 @@ private:
 
 	// not allowed
 
-	JUserNotification(const JUserNotification& source);
-	const JUserNotification& operator=(const JUserNotification& source);
+	JUserNotification(const JUserNotification&) = delete;
+	JUserNotification& operator=(const JUserNotification&) = delete;
 };
 
 

@@ -76,11 +76,6 @@ private:
 
 	void	ChooseColor();
 	void	SetCustomColor(const JColorID color);
-
-	// not allowed
-
-	JXStyleMenu(const JXStyleMenu& source);
-	const JXStyleMenu& operator=(const JXStyleMenu& source);
 };
 
 

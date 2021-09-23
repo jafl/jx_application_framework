@@ -60,13 +60,6 @@ private:
 
 	JColorID	itsNormalColor;
 	JColorID	itsPushedColor;
-
-private:
-
-	// not allowed
-
-	JXTextRadioButton(const JXTextRadioButton& source);
-	const JXTextRadioButton& operator=(const JXTextRadioButton& source);
 };
 
 

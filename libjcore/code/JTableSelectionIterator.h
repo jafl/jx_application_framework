@@ -72,7 +72,7 @@ private:
 
 	// not allowed
 
-	const JTableSelectionIterator& operator=(const JTableSelectionIterator& source);
+	JTableSelectionIterator& operator=(const JTableSelectionIterator&) = delete;
 };
 
 

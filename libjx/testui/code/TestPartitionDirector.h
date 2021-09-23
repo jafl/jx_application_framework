@@ -77,11 +77,6 @@ private:
 	void	HandleVertMenu(const JIndex item);
 
 	void	CreateTestWidget(JXPartition* partition, const JIndex index);
-
-	// not allowed
-
-	TestPartitionDirector(const TestPartitionDirector& source);
-	const TestPartitionDirector& operator=(const TestPartitionDirector& source);
 };
 
 /******************************************************************************

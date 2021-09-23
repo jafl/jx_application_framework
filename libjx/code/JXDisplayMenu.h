@@ -56,11 +56,6 @@ private:
 	void	BuildMenu();
 	void	ChooseDisplay(const JIndex index);
 
-	// not allowed
-
-	JXDisplayMenu(const JXDisplayMenu& source);
-	const JXDisplayMenu& operator=(const JXDisplayMenu& source);
-
 public:
 
 	// JBroadcaster messages

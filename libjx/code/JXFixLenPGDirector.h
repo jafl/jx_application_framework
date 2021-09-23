@@ -35,11 +35,6 @@ private:
 
 	void	BuildWindow(JXProgressDisplay* pg,
 						const JString& message, const bool allowCancel);
-
-	// not allowed
-
-	JXFixLenPGDirector(const JXFixLenPGDirector& source);
-	const JXFixLenPGDirector& operator=(const JXFixLenPGDirector& source);
 };
 
 #endif

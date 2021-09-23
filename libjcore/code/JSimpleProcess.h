@@ -72,13 +72,6 @@ private:
 
 	ProcessLink*	itsLink;			// keeps pipe from filling up and blocking
 	const time_t	itsStartTime;		// time when process was created
-
-private:
-
-	// not allowed
-
-	JSimpleProcess(const JSimpleProcess& source);
-	const JSimpleProcess& operator=(const JSimpleProcess& source);
 };
 
 #endif

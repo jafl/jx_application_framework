@@ -51,13 +51,6 @@ private:
 	JPtrArray<JXContainer>*	itsCards;			// we don't own the objects
 	JIndex					itsCurrCardIndex;	// zero => none visible
 
-private:
-
-	// not allowed
-
-	JXCardFile(const JXCardFile& source);
-	const JXCardFile& operator=(const JXCardFile& source);
-
 protected:
 
 	class CardIndexBase : public JBroadcaster::Message

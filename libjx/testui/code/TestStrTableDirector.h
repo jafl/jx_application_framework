@@ -57,11 +57,6 @@ private:
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex item);
-
-	// not allowed
-
-	TestStrTableDirector(const TestStrTableDirector& source);
-	const TestStrTableDirector& operator=(const TestStrTableDirector& source);
 };
 
 #endif

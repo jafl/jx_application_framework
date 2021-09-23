@@ -36,11 +36,6 @@ private:
 private:
 
 	void	JXWDMenuX();
-
-	// not allowed
-
-	JXWDMenu(const JXWDMenu& source);
-	const JXWDMenu& operator=(const JXWDMenu& source);
 };
 
 #endif

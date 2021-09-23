@@ -32,11 +32,11 @@ public:
 	JXDisplay*	GetDisplay() const;
 
 	bool	GetClipping(JPoint* offset, Region* region, JXImageMask** pixmap);
-	void		SetClipRect(const JRect& clipRect);
-	void		SetClipRegion(const Region clipRegion);
-	void		SetClipPixmap(const JPoint& offset, Pixmap pixmap);
-	void		SetClipPixmap(const JPoint& offset, const JXImageMask& mask);
-	void		ClearClipping();
+	void	SetClipRect(const JRect& clipRect);
+	void	SetClipRegion(const Region clipRegion);
+	void	SetClipPixmap(const JPoint& offset, Pixmap pixmap);
+	void	SetClipPixmap(const JPoint& offset, const JXImageMask& mask);
+	void	ClearClipping();
 
 	void	SetDrawingColor(const JColorID color);
 	void	SetDrawingFunction(const int function);
@@ -99,11 +99,11 @@ private:
 
 	// buffered values
 
-	bool	itsLastColorInit;
+	bool		itsLastColorInit;
 	JColorID 	itsLastColor;
 	int			itsLastFunction;
 	JSize		itsLastLineWidth;
-	bool	itsDashedLinesFlag;
+	bool		itsDashedLinesFlag;
 	JFontID		itsLastFontID;
 	int			itsLastSubwindowMode;
 
@@ -114,8 +114,8 @@ private:
 
 	// not allowed
 
-	JXGC(const JXGC& source);
-	const JXGC& operator=(const JXGC& source);
+	JXGC(const JXGC&) = delete;
+	JXGC& operator=(const JXGC&) = delete;
 };
 
 

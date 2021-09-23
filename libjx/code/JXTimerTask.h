@@ -25,13 +25,6 @@ private:
 
 	bool itsIsOneShotFlag;
 
-private:
-
-	// not allowed
-
-	JXTimerTask(const JXTimerTask& source);
-	const JXTimerTask& operator=(const JXTimerTask& source);
-
 public:
 
 	static const JUtf8Byte* kTimerWentOff;

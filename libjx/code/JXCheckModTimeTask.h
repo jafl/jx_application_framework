@@ -30,13 +30,6 @@ private:
 	JString	itsFullName;
 	time_t	itsModTime;
 
-private:
-
-	// not allowed
-
-	JXCheckModTimeTask(const JXCheckModTimeTask& source);
-	const JXCheckModTimeTask& operator=(const JXCheckModTimeTask& source);
-
 public:
 
 	static const JUtf8Byte* kFileChanged;

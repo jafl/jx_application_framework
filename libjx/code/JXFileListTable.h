@@ -174,11 +174,6 @@ private:
 		const JPtrArray<JString>&	itsFileList;
 	};
 
-	// not allowed
-
-	JXFileListTable(const JXFileListTable& source);
-	const JXFileListTable& operator=(const JXFileListTable& source);
-
 public:
 
 	// JBroadcaster messages

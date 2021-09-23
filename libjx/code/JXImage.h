@@ -82,8 +82,8 @@ public:
 	bool			HasMask() const;
 	virtual bool	GetMask(JImageMask** mask) const;
 	bool			GetMask(JXImageMask** mask) const;
-	void				SetMask(JXImageMask* mask);
-	void				ClearMask();
+	void			SetMask(JXImageMask* mask);
+	void			ClearMask();
 
 	void	Draw(const Drawable drawable, JXGC* gc,
 				 const JRect& srcRect, const JRect& destRect) const;
@@ -157,10 +157,6 @@ private:
 	static JXImage*	CreateImageAndMaskFromXPMData(JXDisplay* display,
 												  const Pixmap image_pixmap,
 												  const Pixmap mask_pixmap);
-
-	// not allowed
-
-	const JXImage& operator=(const JXImage& source);
 };
 
 

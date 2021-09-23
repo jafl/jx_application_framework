@@ -32,13 +32,6 @@ private:
 
 	JInterpolate*	itsTestInterpolator;
 	bool			itsOwnsInterpolatorFlag;
-
-private:
-
-	// not allowed
-
-	JXRegexReplaceInput(const JXRegexReplaceInput& source);
-	const JXRegexReplaceInput& operator=(const JXRegexReplaceInput& source);
 };
 
 #endif

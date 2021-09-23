@@ -73,11 +73,6 @@ private:
 
 	void	UpdateTableMenu();
 	void	HandleTableMenu(const JIndex item);
-
-	// not allowed
-
-	TestFloatTable(const TestFloatTable& source);
-	const TestFloatTable& operator=(const TestFloatTable& source);
 };
 
 #endif

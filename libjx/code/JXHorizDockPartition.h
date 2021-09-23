@@ -74,11 +74,6 @@ private:
 
 	void	UpdateDockMenu();
 	void	HandleDockMenu(const JIndex index);
-
-	// not allowed
-
-	JXHorizDockPartition(const JXHorizDockPartition& source);
-	const JXHorizDockPartition& operator=(const JXHorizDockPartition& source);
 };
 
 

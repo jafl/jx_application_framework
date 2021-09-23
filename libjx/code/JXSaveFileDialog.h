@@ -74,11 +74,6 @@ private:
 
 	void	BuildWindow(const JString& origName, const JString& prompt,
 						const JString& message);
-
-	// not allowed
-
-	JXSaveFileDialog(const JXSaveFileDialog& source);
-	const JXSaveFileDialog& operator=(const JXSaveFileDialog& source);
 };
 
 #endif

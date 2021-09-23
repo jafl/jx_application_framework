@@ -86,8 +86,8 @@ private:
 
 	// not allowed
 
-	JAsynchDataReceiver(const JAsynchDataReceiver& source);
-	JAsynchDataReceiver& operator=(const JAsynchDataReceiver& source);
+	JAsynchDataReceiver(const JAsynchDataReceiver&) = delete;
+	JAsynchDataReceiver& operator=(const JAsynchDataReceiver&) = delete;
 };
 
 #include "JAsynchDataReceiver.tmpl"

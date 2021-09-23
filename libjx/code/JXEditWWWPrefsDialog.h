@@ -47,11 +47,6 @@ private:
 						const JString& showFileContentCmd,
 						const JString& showFileLocationCmd,
 						const JString& composeMailCmd);
-
-	// not allowed
-
-	JXEditWWWPrefsDialog(const JXEditWWWPrefsDialog& source);
-	const JXEditWWWPrefsDialog& operator=(const JXEditWWWPrefsDialog& source);
 };
 
 #endif

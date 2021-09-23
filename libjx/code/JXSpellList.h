@@ -31,13 +31,6 @@ protected:
 
 private:
 
-	// not allowed
-
-	JXSpellList(const JXSpellList& source);
-	const JXSpellList& operator=(const JXSpellList& source);
-
-private:
-
 	class SpellBase : public JBroadcaster::Message
 		{
 		public:

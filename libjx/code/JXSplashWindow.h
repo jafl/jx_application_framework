@@ -33,11 +33,6 @@ private:
 
 	void	BuildWindow(JXImage* image, const JString& text,
 						const time_t displayInterval);
-
-	// not allowed
-
-	JXSplashWindow(const JXSplashWindow& source);
-	const JXSplashWindow& operator=(const JXSplashWindow& source);
 };
 
 #endif

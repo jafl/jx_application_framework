@@ -46,13 +46,6 @@ private:
 
 	JXSaveFileDialog*	itsDialog;		// owns us
 	JXInputField*		itsNameInput;	// not owned
-
-private:
-
-	// not allowed
-
-	JXDirectSaveSource(const JXDirectSaveSource& source);
-	const JXDirectSaveSource& operator=(const JXDirectSaveSource& source);
 };
 
 #endif

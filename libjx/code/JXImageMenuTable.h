@@ -54,11 +54,6 @@ private:
 private:
 
 	JPoint	ItemIndexToCell(const JIndex itemIndex) const;
-
-	// not allowed
-
-	JXImageMenuTable(const JXImageMenuTable& source);
-	const JXImageMenuTable& operator=(const JXImageMenuTable& source);
 };
 
 #endif

@@ -27,13 +27,6 @@ public:
 private:
 
 	JXTreeListWidget*	itsWidget;		// we don't own this
-
-private:
-
-	// not allowed
-
-	JXTLWAdjustToTreeTask(const JXTLWAdjustToTreeTask& source);
-	const JXTLWAdjustToTreeTask& operator=(const JXTLWAdjustToTreeTask& source);
 };
 
 #endif

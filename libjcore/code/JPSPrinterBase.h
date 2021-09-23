@@ -105,9 +105,9 @@ protected:
 	virtual JCoordinate		PSGetPrintableHeight() const = 0;
 
 	virtual bool	PSShouldPrintCurrentPage() const = 0;
-	virtual void		PSPrintVersionComment(std::ostream& output) = 0;
-	virtual void		PSPrintHeaderComments(std::ostream& output) = 0;
-	virtual void		PSPrintSetupComments(std::ostream& output) = 0;
+	virtual void	PSPrintVersionComment(std::ostream& output) = 0;
+	virtual void	PSPrintHeaderComments(std::ostream& output) = 0;
+	virtual void	PSPrintSetupComments(std::ostream& output) = 0;
 
 	void	PSConvertToRGB(const JColorID color, JSize* red,
 						   JSize* green, JSize* blue) const;
@@ -132,12 +132,12 @@ private:
 
 	JFontManager*	itsFontManager;
 
-	bool	itsFontSetFlag;
+	bool		itsFontSetFlag;
 	JFont		itsLastFont;
 	JColorID	itsLastColor;
-	bool	itsLastLineWidthInit;	// not everybody guarantees default value of 1
+	bool		itsLastLineWidthInit;	// not everybody guarantees default value of 1
 	JSize		itsLastLineWidth;
-	bool	itsLastDrawDashedLinesFlag;
+	bool		itsLastDrawDashedLinesFlag;
 
 private:
 
@@ -160,8 +160,8 @@ private:
 
 	// not allowed
 
-	JPSPrinterBase(const JPSPrinterBase& source);
-	const JPSPrinterBase& operator=(const JPSPrinterBase& source);
+	JPSPrinterBase(const JPSPrinterBase&) = delete;
+	JPSPrinterBase& operator=(const JPSPrinterBase&) = delete;
 };
 
 

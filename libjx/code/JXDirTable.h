@@ -131,11 +131,6 @@ private:
 
 	void	UpdateDisplay();
 
-	// not allowed
-
-	JXDirTable(const JXDirTable& source);
-	const JXDirTable& operator=(const JXDirTable& source);
-
 public:
 
 	// JBroadcaster messages

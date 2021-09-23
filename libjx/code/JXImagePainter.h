@@ -67,11 +67,6 @@ private:
 private:
 
 	bool	PrepareXDraw();
-
-	// not allowed
-
-	JXImagePainter(const JXImagePainter& source);
-	const JXImagePainter& operator=(const JXImagePainter& source);
 };
 
 #endif

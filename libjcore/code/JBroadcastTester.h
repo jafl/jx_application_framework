@@ -42,7 +42,7 @@ public:
 private:
 
 	JQueue<Validation, JArray<Validation> >	itsExpectedMessages;
-	bool								itsExpectGoingAwayFlag;
+	bool									itsExpectGoingAwayFlag;
 
 private:
 

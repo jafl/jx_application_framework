@@ -33,19 +33,14 @@ protected:
 
 private:
 
-	JXTEBase*		itsTE;				// not owned
+	JXTEBase*	itsTE;				// not owned
 	const bool	itsAllowTabChar;
-	JSize			itsRequestCount;
-	JSize			itsPrefixCharCount;
+	JSize		itsRequestCount;
+	JSize		itsPrefixCharCount;
 
 private:
 
 	void	HandleSelection(const JIndex index);
-
-	// not allowed
-
-	JXStringCompletionMenu(const JXStringCompletionMenu& source);
-	const JXStringCompletionMenu& operator=(const JXStringCompletionMenu& source);
 };
 
 

@@ -22,7 +22,7 @@ public:
 	virtual ~JFSFileTreeNodeBase();
 
 	virtual bool	Update(const bool force = false,
-							   JFSFileTreeNodeBase** updateNode = nullptr);
+						   JFSFileTreeNodeBase** updateNode = nullptr);
 
 	virtual bool	GetDirInfo(JDirInfo** info) = 0;
 	virtual bool	GetDirInfo(const JDirInfo** info) const = 0;
@@ -32,15 +32,14 @@ public:
 
 	JFSFileTreeNodeBase*		GetFSParent();
 	const JFSFileTreeNodeBase*	GetFSParent() const;
-	bool					GetFSParent(JFSFileTreeNodeBase** parent);
-	bool					GetFSParent(const JFSFileTreeNodeBase** parent) const;
+	bool						GetFSParent(JFSFileTreeNodeBase** parent);
+	bool						GetFSParent(const JFSFileTreeNodeBase** parent) const;
 
 private:
 
 	// not allowed
 
-	JFSFileTreeNodeBase(const JFSFileTreeNodeBase& source);
-	const JFSFileTreeNodeBase& operator=(const JFSFileTreeNodeBase& source);
+	JFSFileTreeNodeBase(const JFSFileTreeNodeBase&) = delete;
 };
 
 #endif

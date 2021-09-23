@@ -30,13 +30,6 @@ protected:
 private:
 
 	JXWindow*	itsWindow;
-
-private:
-
-	// not allowed
-
-	JXDockDragData(const JXDockDragData& source);
-	const JXDockDragData& operator=(const JXDockDragData& source);
 };
 
 #endif

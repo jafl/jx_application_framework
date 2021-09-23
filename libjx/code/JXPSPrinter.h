@@ -43,7 +43,7 @@ public:
 	// printing control
 
 	virtual bool	OpenDocument() override;
-	virtual void		CloseDocument() override;
+	virtual void	CloseDocument() override;
 
 	// printing parameters
 
@@ -59,7 +59,7 @@ public:
 	void			SetFileName(const JString& name);
 
 	bool	WillCollatePages() const;
-	void		CollatePages(const bool doIt);
+	void	CollatePages(const bool doIt);
 
 	// Page Setup and Print Setup dialogs
 
@@ -87,17 +87,10 @@ private:
 	Destination	itsDestination;
 	JString		itsPrintCmd;
 	JString		itsFileName;
-	bool	itsCollateFlag;
+	bool		itsCollateFlag;
 
 	JXPSPageSetupDialog*	itsPageSetupDialog;
 	JXPSPrintSetupDialog*	itsPrintSetupDialog;
-
-private:
-
-	// not allowed
-
-	JXPSPrinter(const JXPSPrinter& source);
-	const JXPSPrinter& operator=(const JXPSPrinter& source);
 };
 
 std::istream& operator>>(std::istream& input, JXPSPrinter::Destination& dest);

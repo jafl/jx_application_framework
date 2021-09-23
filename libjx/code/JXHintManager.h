@@ -26,8 +26,8 @@ public:
 	~JXHintManager();
 
 	bool	IsActive() const;
-	void		Activate();
-	void		Deactivate();
+	void	Activate();
+	void	Deactivate();
 
 	void	HandleMouseEnter();
 	void	HandleMouseHere(const JPoint& pt);
@@ -48,7 +48,7 @@ private:
 
 	JXContainer*	itsWidget;		// not owned
 	JString			itsText;
-	bool		itsActiveFlag;	// true if should show hint
+	bool			itsActiveFlag;	// true if should show hint
 	Time			itsStartTime;
 	JPoint			itsPrevPt;
 	JXDirector*		itsDirOwner;	// can be nullptr
@@ -58,8 +58,8 @@ private:
 
 	// not allowed
 
-	JXHintManager(const JXHintManager& source);
-	const JXHintManager& operator=(const JXHintManager& source);
+	JXHintManager(const JXHintManager&) = delete;
+	JXHintManager& operator=(const JXHintManager&) = delete;
 };
 
 

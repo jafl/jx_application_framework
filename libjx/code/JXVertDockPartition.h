@@ -29,17 +29,17 @@ public:
 	virtual ~JXVertDockPartition();
 
 	JXDockDirector*	GetDockDirector() const;
-	bool		FindDock(const JIndex id, JXDockWidget** dock);
-	bool		HasWindows() const;
-	bool		CloseAllWindows();
+	bool			FindDock(const JIndex id, JXDockWidget** dock);
+	bool			HasWindows() const;
+	bool			CloseAllWindows();
 	JPoint			UpdateMinSize();
 
 	void	InsertCompartment(const JIndex index, const bool reportError = false);
 	void	DeleteCompartment(const JIndex index);
 
 	bool	SplitHoriz(const JIndex index,
-						   JXHorizDockPartition** returnPartition = nullptr,
-						   const bool reportError = false);
+					   JXHorizDockPartition** returnPartition = nullptr,
+					   const bool reportError = false);
 
 	void	ReadSetup(std::istream& input, const JFileVersion vers);
 	void	WriteSetup(std::ostream& output) const;
@@ -58,7 +58,7 @@ protected:
 	virtual JXWidgetSet*	CreateCompartment(const JIndex index,
 											  const JCoordinate position,
 											  const JCoordinate size) override;
-	virtual bool		SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
+	virtual bool	SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -74,11 +74,6 @@ private:
 
 	void	UpdateDockMenu();
 	void	HandleDockMenu(const JIndex index);
-
-	// not allowed
-
-	JXVertDockPartition(const JXVertDockPartition& source);
-	const JXVertDockPartition& operator=(const JXVertDockPartition& source);
 };
 
 

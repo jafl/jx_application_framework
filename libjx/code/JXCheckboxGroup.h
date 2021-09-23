@@ -22,9 +22,9 @@ public:
 	virtual ~JXCheckboxGroup();
 
 	bool	Includes(JXCheckbox* cb) const;
-	void		Add(JXCheckbox* cb);
-	void		Insert(const JIndex index, JXCheckbox* cb);
-	void		Remove(JXCheckbox* cb);
+	void	Add(JXCheckbox* cb);
+	void	Insert(const JIndex index, JXCheckbox* cb);
+	void	Remove(JXCheckbox* cb);
 
 protected:
 
@@ -37,7 +37,7 @@ protected:
 	bool	AllDisabled() const;
 	bool	CheckboxDisabled(const JIndex index) const;
 
-	bool				FindCheckbox(JBroadcaster* obj, JIndex* index) const;
+	bool					FindCheckbox(JBroadcaster* obj, JIndex* index) const;
 	JXCheckbox*				GetCheckbox(const JIndex index) const;
 	JPtrArray<JXCheckbox>*	GetCheckboxList() const;
 
@@ -54,8 +54,8 @@ private:
 
 	// not allowed
 
-	JXCheckboxGroup(const JXCheckboxGroup& source);
-	const JXCheckboxGroup& operator=(const JXCheckboxGroup& source);
+	JXCheckboxGroup(const JXCheckboxGroup&) = delete;
+	JXCheckboxGroup& operator=(const JXCheckboxGroup&) = delete;
 };
 
 

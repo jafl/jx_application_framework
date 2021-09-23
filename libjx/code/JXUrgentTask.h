@@ -28,8 +28,8 @@ private:
 
 	// not allowed
 
-	JXUrgentTask(const JXUrgentTask& source);
-	const JXUrgentTask& operator=(const JXUrgentTask& source);
+	JXUrgentTask(const JXUrgentTask&) = delete;
+	JXUrgentTask& operator=(const JXUrgentTask&) = delete;
 };
 
 #endif

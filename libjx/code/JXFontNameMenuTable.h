@@ -31,13 +31,6 @@ public:
 private:
 
 	JXFontNameMenu*	itsMenu;	// it owns us
-
-private:
-
-	// not allowed
-
-	JXFontNameMenuTable(const JXFontNameMenuTable& source);
-	const JXFontNameMenuTable& operator=(const JXFontNameMenuTable& source);
 };
 
 #endif

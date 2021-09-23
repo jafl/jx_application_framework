@@ -97,11 +97,11 @@ public:
 	void	PWReadCurveSetup(std::istream& input);
 	void	PWWriteCurveSetup(std::ostream& output) const;
 
-	bool		WillAutoRefresh() const;
-	void			ShouldAutoRefresh(const bool refresh);
+	bool	WillAutoRefresh() const;
+	void	ShouldAutoRefresh(const bool refresh);
 
-	bool		WillIgnoreCurveChanged() const;
-	void			ShouldIgnoreCurveChanged(const bool ignore);
+	bool	WillIgnoreCurveChanged() const;
+	void	ShouldIgnoreCurveChanged(const bool ignore);
 
 	void			SetLabels(const JString& title, const JString& xLabel, const JString& yLabel);
 	const JString&	GetXLabel() const;
@@ -118,27 +118,27 @@ public:
 	JSize			GetFontSize() const;
 	void			SetFontSize(const JSize size);
 
-	bool		LegendIsVisible() const;
-	void			ShowLegend(const bool show = true);
-	bool		FrameIsVisible() const;
-	void			ShowFrame(const bool show = true);
-	bool		GridIsVisible() const;
-	void			ShowGrid(const bool show = true);
+	bool	LegendIsVisible() const;
+	void	ShowLegend(const bool show = true);
+	bool	FrameIsVisible() const;
+	void	ShowFrame(const bool show = true);
+	bool	GridIsVisible() const;
+	void	ShowGrid(const bool show = true);
 
-	bool		CurveIsVisible(const JIndex curveIndex) const;
-	void			ShowCurve(const JIndex curveIndex, const bool show);
-	void			ShowAllCurves();
-	void			HideAllOtherCurves(const JIndex curveIndex);
-	bool		LinesAreVisible(const JIndex curveIndex) const;
-	void			ShowLines(const JIndex curveIndex, const bool show = true);
-	bool		SymbolsAreVisible(const JIndex curveIndex) const;
-	void			ShowSymbols(const JIndex curveIndex, const bool show = true);
-	void			SetCurveStyle(const JIndex curveIndex, const bool lines,
-								  const bool symbols);
-	bool		CurveIsProtected(const JIndex curveIndex) const;
-	void			ProtectCurve(const JIndex curveIndex, const bool protect = true);
+	bool	CurveIsVisible(const JIndex curveIndex) const;
+	void	ShowCurve(const JIndex curveIndex, const bool show);
+	void	ShowAllCurves();
+	void	HideAllOtherCurves(const JIndex curveIndex);
+	bool	LinesAreVisible(const JIndex curveIndex) const;
+	void	ShowLines(const JIndex curveIndex, const bool show = true);
+	bool	SymbolsAreVisible(const JIndex curveIndex) const;
+	void	ShowSymbols(const JIndex curveIndex, const bool show = true);
+	void	SetCurveStyle(const JIndex curveIndex, const bool lines,
+						  const bool symbols);
+	bool	CurveIsProtected(const JIndex curveIndex) const;
+	void	ProtectCurve(const JIndex curveIndex, const bool protect = true);
 
-	JSize			GetCurveCount() const;
+	JSize	GetCurveCount() const;
 
 	const JString&	GetCurveName(const JIndex index) const;
 	void			SetCurveName(const JIndex index, const JString& name);
@@ -150,78 +150,78 @@ public:
 	JPlotDataBase&			GetCurve(const JIndex index);
 	const JPlotDataBase&	GetCurve(const JIndex index) const;
 
-	JIndex			AddCurve(JPlotDataBase* data, const bool ownsData,
-							 const JString& name);
-	JIndex			AddCurve(JPlotDataBase* data, const bool ownsData,
-							 const JString& name,
-							 const bool line, const bool symbol);
-	bool		AddCurve(JArray<JFloat>& x, JArray<JFloat>& y,
-							 const bool listen, const JString& name,
-							 JIndex* index,
-							 const bool line = false, const bool symbol = true);
-	void			RemoveCurve(const JIndex index);
+	JIndex	AddCurve(JPlotDataBase* data, const bool ownsData,
+					 const JString& name);
+	JIndex	AddCurve(JPlotDataBase* data, const bool ownsData,
+					 const JString& name,
+					 const bool line, const bool symbol);
+	bool	AddCurve(JArray<JFloat>& x, JArray<JFloat>& y,
+					 const bool listen, const JString& name,
+					 JIndex* index,
+					 const bool line = false, const bool symbol = true);
+	void	RemoveCurve(const JIndex index);
 
-	void			ResetScale();
+	void	ResetScale();
 
-	bool		IsZoomed() const;
-	void			Zoom(const JRect& rect, const bool clean);
+	bool	IsZoomed() const;
+	void	Zoom(const JRect& rect, const bool clean);
 
-	void			GetXScale(JFloat* min, JFloat* max, JFloat* inc) const;
-	void			SetXScale(const JFloat min, const JFloat max, const JFloat inc, const bool linear);
-	void			GetYScale(JFloat* min, JFloat* max, JFloat* inc) const;
-	void			SetYScale(const JFloat min, const JFloat max, const JFloat inc, const bool linear);
+	void	GetXScale(JFloat* min, JFloat* max, JFloat* inc) const;
+	void	SetXScale(const JFloat min, const JFloat max, const JFloat inc, const bool linear);
+	void	GetYScale(JFloat* min, JFloat* max, JFloat* inc) const;
+	void	SetYScale(const JFloat min, const JFloat max, const JFloat inc, const bool linear);
 
-	bool		XAxisIsLinear() const;
-	bool		YAxisIsLinear() const;
+	bool	XAxisIsLinear() const;
+	bool	YAxisIsLinear() const;
 
-	bool		XErrorsAreVisible(const JIndex index);
-	void			ShowXErrors(const JIndex index, const bool show);
-	bool		YErrorsAreVisible(const JIndex index);
-	void			ShowYErrors(const JIndex index, const bool show);
+	bool	XErrorsAreVisible(const JIndex index);
+	void	ShowXErrors(const JIndex index, const bool show);
+	bool	YErrorsAreVisible(const JIndex index);
+	void	ShowYErrors(const JIndex index, const bool show);
 
-	bool		ArrayIsInCurve(JArray<JFloat>* testArray);
-	void			RemoveCurvesContainingArray(JArray<JFloat>* testArray);
+	bool	ArrayIsInCurve(JArray<JFloat>* testArray);
+	void	RemoveCurvesContainingArray(JArray<JFloat>* testArray);
 
-	JSize			GetSmoothSteps() const;
-	void			GetDefaultXRange(JFloat* min, JFloat* max) const;
-	void			SetDefaultXRange(const JFloat min, const JFloat max);
-	void			GetDefaultYRange(JFloat* min, JFloat* max) const;
-	void			SetDefaultYRange(const JFloat min, const JFloat max);
+	JSize	GetSmoothSteps() const;
+	void	GetDefaultXRange(JFloat* min, JFloat* max) const;
+	void	SetDefaultXRange(const JFloat min, const JFloat max);
+	void	GetDefaultYRange(JFloat* min, JFloat* max) const;
+	void	SetDefaultYRange(const JFloat min, const JFloat max);
 
-	bool		GetRange(JFloat* xmin, JFloat* xmax, JFloat* ymin, JFloat* ymax);
-	void			CopyScaleToRange();
-	void			SetRange(const JFloat xmin, const JFloat xmax,
-							 const JFloat ymin, const JFloat ymax);
-	void			ClearRange();
-	bool		IsUsingRange() const;
+	bool	GetRange(JFloat* xmin, JFloat* xmax, JFloat* ymin, JFloat* ymax);
+	void	CopyScaleToRange();
+	void	SetRange(const JFloat xmin, const JFloat xmax,
+					 const JFloat ymin, const JFloat ymax);
+	void	ClearRange();
+	bool	IsUsingRange() const;
 
-	bool		GetCurveIndex(JPlotDataBase* data, JIndex* index);
+	bool	GetCurveIndex(JPlotDataBase* data, JIndex* index);
 
 	// Cursors
 
-	bool		HasMarks() const;
-	JSize			GetXMarkCount() const;
-	JSize			GetYMarkCount() const;
-	JFloat			GetXMarkValue(const JIndex index) const;
-	JFloat			GetYMarkValue(const JIndex index) const;
-	void			MarkCurrentCursor();
-	void			MarkAllVisibleCursors();
-	void			RemoveAllMarks();
-	void			RemoveXMark(const JIndex index);
-	void			RemoveYMark(const JIndex index);
+	bool	HasMarks() const;
+	JSize	GetXMarkCount() const;
+	JSize	GetYMarkCount() const;
+	JFloat	GetXMarkValue(const JIndex index) const;
+	JFloat	GetYMarkValue(const JIndex index) const;
+	void	MarkCurrentCursor();
+	void	MarkAllVisibleCursors();
+	void	RemoveAllMarks();
+	void	RemoveXMark(const JIndex index);
+	void	RemoveYMark(const JIndex index);
 
-	bool		CursorIsSelected();
-	bool		XCursorVisible();
-	void			ToggleXCursor();
-	bool		YCursorVisible();
-	void			ToggleYCursor();
-	bool		DualCursorsVisible();
-	void			ToggleDualCursors();
+	bool	CursorIsSelected();
+	bool	XCursorVisible();
+	void	ToggleXCursor();
+	bool	YCursorVisible();
+	void	ToggleYCursor();
+	bool	DualCursorsVisible();
+	void	ToggleDualCursors();
 
-	bool		GetXCursorVal1(JFloat* value);
-	bool		GetXCursorVal2(JFloat* value);
-	bool		GetYCursorVal1(JFloat* value);
-	bool		GetYCursorVal2(JFloat* value);
+	bool	GetXCursorVal1(JFloat* value);
+	bool	GetXCursorVal2(JFloat* value);
+	bool	GetYCursorVal1(JFloat* value);
+	bool	GetYCursorVal2(JFloat* value);
 
 	// utility functions
 
@@ -241,14 +241,14 @@ protected:
 	void			PWHandleMouseDrag(const JPoint& pt);
 	void			PWHandleMouseUp(const JPoint& pt, const bool cleanZoom);
 	MouseCursor		GetMouseCursor(const JPoint& pt) const;
-	bool		GetLegendIndex(const JPoint& pt, JIndex* curveIndex) const;
+	bool			GetLegendIndex(const JPoint& pt, JIndex* curveIndex) const;
 
 	// for cursors
 	void	PWHandleKeyPress(const JUtf8Character& key, const bool reverse,
 							 const bool interval, const bool skip);
 
 	virtual JPainter*	PWCreateDragInsidePainter() = 0;
-	virtual bool	PWGetDragPainter(JPainter** p) const = 0;
+	virtual bool		PWGetDragPainter(JPainter** p) const = 0;
 	virtual void		PWDeleteDragPainter() = 0;
 
 	void			PWBoundsChanged();
@@ -271,23 +271,23 @@ protected:
 	virtual void	ChangeScale(const bool xAxis)				= 0;
 
 	virtual JCoordinate	GetMarksHeight() const = 0;
-	virtual bool	PrintMarks(JPagePrinter& p, const bool putOnSamePage,
+	virtual bool		PrintMarks(JPagePrinter& p, const bool putOnSamePage,
 									const JRect& partialPageRect) = 0;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 	void			GetFrameGeometry(JCoordinate* xmin, JCoordinate* xmax,
 									 JCoordinate* ymin, JCoordinate* ymax) const;
-	JRect			GetFrameGeometry() const;
+	JRect	GetFrameGeometry() const;
 
-	JFloat			GetRealX(const JCoordinate frameX);
-	JFloat			GetRealY(const JCoordinate frameY);
+	JFloat	GetRealX(const JCoordinate frameX);
+	JFloat	GetRealY(const JCoordinate frameY);
 	void			GetRealPoint(const JPoint& framePoint, JFloat* x, JFloat* y);
 
-	bool		GetFrameX(const JFloat x, JCoordinate* frameX) const;
-	bool		GetFrameX(const JFloat x, JFloat* frameX) const;
-	bool		GetFrameY(const JFloat y, JCoordinate* frameY) const;
-	bool		GetFrameY(const JFloat y, JFloat* frameY) const;
-	bool		GetFramePoint(const JFloat x, const JFloat y, JPoint* framePoint) const;
+	bool	GetFrameX(const JFloat x, JCoordinate* frameX) const;
+	bool	GetFrameX(const JFloat x, JFloat* frameX) const;
+	bool	GetFrameY(const JFloat y, JCoordinate* frameY) const;
+	bool	GetFrameY(const JFloat y, JFloat* frameY) const;
+	bool	GetFramePoint(const JFloat x, const JFloat y, JPoint* framePoint) const;
 
 	const JArray<J2DCurveInfo>&	GetCurveInfoArray();
 	void						SetCurveInfoArray(const JArray<J2DCurveInfo>& infoArray);
@@ -297,47 +297,47 @@ protected:
 								   const JInteger precision,
 								   const bool forceExponent,
 								   const JInteger exponent);
-	JString			GetLogAxisString(const JFloat value);
+	JString	GetLogAxisString(const JFloat value);
 
 private:
 
-	JString			itsTitle;
-	JString			itsXLabel;
-	JString			itsYLabel;
+	JString	itsTitle;
+	JString	itsXLabel;
+	JString	itsYLabel;
 
-	bool		itsShowLegendFlag;
-	bool		itsShowGridFlag;
-	bool		itsShowFrameFlag;
+	bool	itsShowLegendFlag;
+	bool	itsShowGridFlag;
+	bool	itsShowFrameFlag;
 
-	bool		itsGeometryNeedsAdjustmentFlag;
-	bool		itsAutomaticRefreshFlag;
-	bool		itsIgnoreCurveChangedFlag;	// true => ignore CurveChanged messages
+	bool	itsGeometryNeedsAdjustmentFlag;
+	bool	itsAutomaticRefreshFlag;
+	bool	itsIgnoreCurveChangedFlag;	// true => ignore CurveChanged messages
 
 	JPtrArray<JPlotDataBase>*	itsCurves;
 	JArray<J2DCurveInfo>*		itsCurveInfo;
-	JArray<JColorID>*		itsColors;
+	JArray<JColorID>*			itsColors;
 	JArray<JSize>*				itsColorUsage;
 
-	JFloat			itsXScale[4];
-	JFloat			itsYScale[4];
+	JFloat		itsXScale[4];
+	JFloat		itsYScale[4];
 
-	JSize			itsSymbolUsage [ kSymbolCount ];
+	JSize		itsSymbolUsage [ kSymbolCount ];
 
-	JString			itsFontName;
-	JSize			itsFontSize;
+	JString		itsFontName;
+	JSize		itsFontSize;
 
-	JCoordinate		itsXAxisStart;		// left
-	JCoordinate		itsXAxisEnd;		// right
-	JCoordinate		itsYAxisStart;		// bottom
-	JCoordinate		itsYAxisEnd;		// top
+	JCoordinate	itsXAxisStart;		// left
+	JCoordinate	itsXAxisEnd;		// right
+	JCoordinate	itsYAxisStart;		// bottom
+	JCoordinate	itsYAxisEnd;		// top
 
-	JFloat			itsXTrans;
-	JFloat			itsYTrans;
+	JFloat		itsXTrans;
+	JFloat		itsYTrans;
 
-	JSize			itsXDecimalPoints;
-	JSize			itsYDecimalPoints;
-	JInteger		itsXExp;
-	JInteger		itsYExp;
+	JSize		itsXDecimalPoints;
+	JSize		itsYDecimalPoints;
+	JInteger	itsXExp;
+	JInteger	itsYExp;
 	bool		itsForceXExp;
 	bool		itsForceYExp;
 
@@ -355,125 +355,125 @@ private:
 	const JColorID	itsGrayColor;
 	const JColorID	itsSelectionColor;
 
-	bool		itsUsingRange;
-	JFloat			itsRangeXMax;
-	JFloat			itsRangeXMin;
-	JFloat			itsRangeYMax;
-	JFloat			itsRangeYMin;
+	bool	itsUsingRange;
+	JFloat	itsRangeXMax;
+	JFloat	itsRangeXMin;
+	JFloat	itsRangeYMax;
+	JFloat	itsRangeYMin;
 
-	JSize			itsLineHeight;
-	JSize			itsMaxCurveNameWidth;
-	JSize			itsMaxXLabelWidth;
-	JSize			itsLegendWidth;
-	JRect			itsLegendRect;		// undefined unless itsShowLegendFlag
-	JRect			itsTitleRect;
-	JRect			itsXLabelRect;
-	JRect			itsYLabelRect;
-	JRect			itsXAxisRect;
-	JRect			itsYAxisRect;
+	JSize	itsLineHeight;
+	JSize	itsMaxCurveNameWidth;
+	JSize	itsMaxXLabelWidth;
+	JSize	itsLegendWidth;
+	JRect	itsLegendRect;		// undefined unless itsShowLegendFlag
+	JRect	itsTitleRect;
+	JRect	itsXLabelRect;
+	JRect	itsYLabelRect;
+	JRect	itsXAxisRect;
+	JRect	itsYAxisRect;
 
 	// dragging
 
-	JPoint			itsStartPt;
-	JPoint			itsPrevPt;
+	JPoint	itsStartPt;
+	JPoint	itsPrevPt;
 
 	// Printing
 
 	bool		itsIsPrintingFlag;
-	JCoordinate		itsPrintWidth;
-	JCoordinate		itsPrintHeight;
+	JCoordinate	itsPrintWidth;
+	JCoordinate	itsPrintHeight;
 
 	// Cursors
 
-	bool		itsXCursorVisible;
-	bool		itsYCursorVisible;
-	bool		itsDualCursors;
+	bool			itsXCursorVisible;
+	bool			itsYCursorVisible;
+	bool			itsDualCursors;
 	JCoordinate		itsXCursorPos1;
 	JCoordinate		itsXCursorPos2;
 	JCoordinate		itsYCursorPos1;
 	JCoordinate		itsYCursorPos2;
 	JArray<JFloat>*	itsXMarks;
 	JArray<JFloat>*	itsYMarks;
-	bool		itsIsCursorDragging;
+	bool			itsIsCursorDragging;
 	JFloat			itsXCursorVal1;
 	JFloat			itsXCursorVal2;
 	JFloat			itsYCursorVal1;
 	JFloat			itsYCursorVal2;
 	CursorIndex		itsSelectedCursor;
-	bool		itsXCursor1InitFlag;
-	bool		itsXCursor2InitFlag;
-	bool		itsYCursor1InitFlag;
-	bool		itsYCursor2InitFlag;
+	bool			itsXCursor1InitFlag;
+	bool			itsXCursor2InitFlag;
+	bool			itsYCursor1InitFlag;
+	bool			itsYCursor2InitFlag;
 
 private:
 
-	void			HandleCurveChanged();
-	void			AdjustGeometry(JPainter& p);
-	void			UpdatePlot(const bool geometry = false,
-								const bool scale = false);
-	void			UpdateScale();
-	void			UpdateScale(const bool allowResetToLinear, bool* linear,
-								const JFloat min, const JFloat max,
-								const bool clean, JFloat* scale);
-	void			ResetScale(const bool allowResetToLinear);
-	void			GetXDataRange(JFloat* min, JFloat* max) const;
-	void			GetYDataRange(JFloat* min, JFloat* max) const;
+	void	HandleCurveChanged();
+	void	AdjustGeometry(JPainter& p);
+	void	UpdatePlot(const bool geometry = false,
+						const bool scale = false);
+	void	UpdateScale();
+	void	UpdateScale(const bool allowResetToLinear, bool* linear,
+						const JFloat min, const JFloat max,
+						const bool clean, JFloat* scale);
+	void	ResetScale(const bool allowResetToLinear);
+	void	GetXDataRange(JFloat* min, JFloat* max) const;
+	void	GetYDataRange(JFloat* min, JFloat* max) const;
 
-	void			DrawAxes(JPainter& p);
+	void	DrawAxes(JPainter& p);
 
-	void			DrawTicks(JPainter& p);
-	void			DrawXLogMinorTicks(JPainter& p, const JCoordinate yTick, const JSize tickCount, const JCoordinate yLabel);
-	void			DrawYLogMinorTicks(JPainter& p, const JCoordinate xTick, const JSize tickCount, const JCoordinate xLabel, const bool xLabelEndKnown);
-	void			DrawXTicks(JPainter& p, const JCoordinate yTick, const JCoordinate yLabel, const JSize tickCount);
-	void			DrawXTick(JPainter& p, const JFloat value, const JCoordinate yVal,
-							  const JCoordinate tickLength,
-							  const JCoordinate yLabel,
-							  const bool drawStr,
-							  const bool lightGrid);
-	void			DrawYTicks(JPainter& p, const JCoordinate xTick, const JCoordinate xLabel, const bool xLabelEndKnown, const JSize tickCount);
-	void			DrawYTick(JPainter& p, const JFloat value, const JCoordinate xVal,
-							  const JCoordinate tickLength,
-							  const JCoordinate xLabel,
-							  const JCoordinate xLabelEndKnown,
-							  const bool drawStr,
-							  const bool lightGrid);
-	void			GetLogTicks(const JFloat min, const JFloat max, const JFloat inc,
-								JArray<JFloat>* major,
-								JArray<JFloat>* minor);
+	void	DrawTicks(JPainter& p);
+	void	DrawXLogMinorTicks(JPainter& p, const JCoordinate yTick, const JSize tickCount, const JCoordinate yLabel);
+	void	DrawYLogMinorTicks(JPainter& p, const JCoordinate xTick, const JSize tickCount, const JCoordinate xLabel, const bool xLabelEndKnown);
+	void	DrawXTicks(JPainter& p, const JCoordinate yTick, const JCoordinate yLabel, const JSize tickCount);
+	void	DrawXTick(JPainter& p, const JFloat value, const JCoordinate yVal,
+						  const JCoordinate tickLength,
+						  const JCoordinate yLabel,
+						  const bool drawStr,
+						  const bool lightGrid);
+	void	DrawYTicks(JPainter& p, const JCoordinate xTick, const JCoordinate xLabel, const bool xLabelEndKnown, const JSize tickCount);
+	void	DrawYTick(JPainter& p, const JFloat value, const JCoordinate xVal,
+						  const JCoordinate tickLength,
+						  const JCoordinate xLabel,
+						  const JCoordinate xLabelEndKnown,
+						  const bool drawStr,
+						  const bool lightGrid);
+	void	GetLogTicks(const JFloat min, const JFloat max, const JFloat inc,
+						JArray<JFloat>* major,
+						JArray<JFloat>* minor);
 
-	void			DrawLabels(JPainter& p);
-	void			DrawData(JPainter& p) const;
-	void			DrawLegend(JPainter& p);
+	void	DrawLabels(JPainter& p);
+	void	DrawData(JPainter& p) const;
+	void	DrawLegend(JPainter& p);
 
-	void			DrawCurve(JPainter& p, const JPlotDataBase& curve,
-							  const J2DCurveInfo& info, const J2DDataRect& visRect) const;
-	void			DrawError(JPainter& p, const JPoint& pt,
-							  const JPlotDataBase& curve, const J2DCurveInfo& info,
-							  const JIndex index, const bool xLinear, const bool yLinear,
-							  const J2DDataRect& visRect) const;
+	void	DrawCurve(JPainter& p, const JPlotDataBase& curve,
+					  const J2DCurveInfo& info, const J2DDataRect& visRect) const;
+	void	DrawError(JPainter& p, const JPoint& pt,
+						  const JPlotDataBase& curve, const J2DCurveInfo& info,
+						  const JIndex index, const bool xLinear, const bool yLinear,
+						  const J2DDataRect& visRect) const;
 
-	void			DrawVector(JPainter& p, const JPlotDataBase& curve,
-							   const J2DCurveInfo& info, const J2DDataRect& visRect) const;
-	void			DrawVectorHead(JPainter& p,
-								   const JPoint& headPt, const JPoint& tailPt,
-								   const J2DVectorPoint& vector) const;
+	void	DrawVector(JPainter& p, const JPlotDataBase& curve,
+					   const J2DCurveInfo& info, const J2DDataRect& visRect) const;
+	void	DrawVectorHead(JPainter& p,
+						   const JPoint& headPt, const JPoint& tailPt,
+						   const J2DVectorPoint& vector) const;
 
-	void			DrawSymbol(JPainter& p, const JPoint& pt, const J2DSymbolType type) const;
-	void			CalcVisibleRange(const JFloat scaleMin, const JFloat scaleMax,
-									 const JFloat rangeMin, const JFloat rangeMax,
-									 JFloat* min, JFloat* max) const;
-	void			Interpolate(const JIndex index, const JPlotDataBase& data,
-								const J2DDataRect& visRect,
-								J2DDataPoint* data1, J2DDataPoint* data2,
-								bool* move, bool* draw, bool* mark) const;
-	void			Interpolate(const J2DDataRect& visRect,
-								J2DDataPoint* data1, J2DDataPoint* data2,
-								bool* move, bool* draw, bool* mark) const;
-	bool		Interpolate1(J2DDataPoint* data, const J2DDataRect& visRect,
-								 const JFloat slope,
-								 const bool horiz, const bool vert) const;
-	bool		ConvertLog10(J2DDataPoint* data) const;
-	JFloat			GetGraphValue(const JFloat value, const bool linear) const;
+	void	DrawSymbol(JPainter& p, const JPoint& pt, const J2DSymbolType type) const;
+	void	CalcVisibleRange(const JFloat scaleMin, const JFloat scaleMax,
+							 const JFloat rangeMin, const JFloat rangeMax,
+							 JFloat* min, JFloat* max) const;
+	void	Interpolate(const JIndex index, const JPlotDataBase& data,
+						const J2DDataRect& visRect,
+						J2DDataPoint* data1, J2DDataPoint* data2,
+						bool* move, bool* draw, bool* mark) const;
+	void	Interpolate(const J2DDataRect& visRect,
+						J2DDataPoint* data1, J2DDataPoint* data2,
+						bool* move, bool* draw, bool* mark) const;
+	bool	Interpolate1(J2DDataPoint* data, const J2DDataRect& visRect,
+						 const JFloat slope,
+						 const bool horiz, const bool vert) const;
+	bool	ConvertLog10(J2DDataPoint* data) const;
+	JFloat	GetGraphValue(const JFloat value, const bool linear) const;
 
 	void			SetClipping(JPainter& p) const;
 
@@ -507,13 +507,13 @@ private:
 	void			DrawMarks(JPainter& p);
 	JSize			GetCursorLabelHeight(JPainter& p) const;
 	CursorIndex		GetCursorIndex(const JPoint& pt) const;
-	bool		MoveCursor(const JCoordinate min, const JCoordinate max,
+	bool			MoveCursor(const JCoordinate min, const JCoordinate max,
 								const JCoordinate delta, JCoordinate* cursorPos) const;
 
 	// not allowed
 
-	J2DPlotWidget(const J2DPlotWidget& source);
-	const J2DPlotWidget& operator=(const J2DPlotWidget& source);
+	J2DPlotWidget(const J2DPlotWidget&) = delete;
+	J2DPlotWidget& operator=(const J2DPlotWidget&) = delete;
 
 public:
 

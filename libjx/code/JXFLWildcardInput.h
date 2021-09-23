@@ -25,13 +25,6 @@ public:
 	virtual ~JXFLWildcardInput();
 
 	virtual JString	GetRegexString() const;
-
-private:
-
-	// not allowed
-
-	JXFLWildcardInput(const JXFLWildcardInput& source);
-	const JXFLWildcardInput& operator=(const JXFLWildcardInput& source);
 };
 
 #endif

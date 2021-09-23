@@ -45,14 +45,7 @@ protected:
 private:
 
 	JXImage*	itsImage;
-	bool	itsOwnsImageFlag;
-
-private:
-
-	// not allowed
-
-	JXImageButton(const JXImageButton& source);
-	const JXImageButton& operator=(const JXImageButton& source);
+	bool		itsOwnsImageFlag;
 };
 
 #endif

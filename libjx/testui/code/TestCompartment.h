@@ -43,11 +43,6 @@ private:
 private:
 
 	bool	IsElastic() const;
-
-	// not allowed
-
-	TestCompartment(const TestCompartment& source);
-	const TestCompartment& operator=(const TestCompartment& source);
 };
 
 #endif

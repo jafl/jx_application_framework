@@ -26,13 +26,6 @@ protected:
 
 	virtual void	HandleMDIRequest(const JString& dir,
 									 const JPtrArray<JString>& argList) override;
-
-private:
-
-	// not allowed
-
-	TestMDIServer(const TestMDIServer& source);
-	const TestMDIServer& operator=(const TestMDIServer& source);
 };
 
 #endif

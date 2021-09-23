@@ -27,13 +27,6 @@ public:
 private:
 
 	JXToolBar*	itsToolBar;
-
-private:
-
-	// not allowed
-
-	JXAdjustToolBarGeometryTask(const JXAdjustToolBarGeometryTask& source);
-	const JXAdjustToolBarGeometryTask& operator=(const JXAdjustToolBarGeometryTask& source);
 };
 
 #endif

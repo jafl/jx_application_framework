@@ -47,11 +47,6 @@ private:
 
 	void	BuildWindow();
 	void	SaveMessages();
-
-	// not allowed
-
-	JXPGMessageDirector(const JXPGMessageDirector& source);
-	const JXPGMessageDirector& operator=(const JXPGMessageDirector& source);
 };
 
 #endif

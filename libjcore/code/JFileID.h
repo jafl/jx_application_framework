@@ -28,7 +28,7 @@ public:
 	JFileID(const JString& fullName);
 
 	bool	IsValid() const;
-	void		SetFileName(const JString& fullName);
+	void	SetFileName(const JString& fullName);
 
 	static JListT::CompareResult
 		Compare(const JFileID& id1, const JFileID& id2);

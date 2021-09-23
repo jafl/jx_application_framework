@@ -31,13 +31,6 @@ private:
 	JXWidget*	itsPrintCmd;			// not owned
 	JXWidget*	itsChooseFileButton;	// not owned
 	JXWidget*	itsFileInput;			// not owned
-
-private:
-
-	// not allowed
-
-	JXAdjustPrintSetupLayoutTask(const JXAdjustPrintSetupLayoutTask& source);
-	const JXAdjustPrintSetupLayoutTask& operator=(const JXAdjustPrintSetupLayoutTask& source);
 };
 
 #endif

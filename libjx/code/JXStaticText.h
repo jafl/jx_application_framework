@@ -58,11 +58,6 @@ private:
 						  const JCoordinate w, const JCoordinate h);
 
 	void	Center();
-
-	// not allowed
-
-	JXStaticText(const JXStaticText& source);
-	const JXStaticText& operator=(const JXStaticText& source);
 };
 
 

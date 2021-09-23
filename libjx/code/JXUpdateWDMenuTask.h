@@ -25,13 +25,6 @@ public:
 private:
 
 	JXWDManager*	itsWDMgr;
-
-private:
-
-	// not allowed
-
-	JXUpdateWDMenuTask(const JXUpdateWDMenuTask& source);
-	const JXUpdateWDMenuTask& operator=(const JXUpdateWDMenuTask& source);
 };
 
 #endif

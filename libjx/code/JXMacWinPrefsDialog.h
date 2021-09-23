@@ -44,11 +44,6 @@ private:
 
 	void	BuildWindow();
 	void	UpdateSettings();
-
-	// not allowed
-
-	JXMacWinPrefsDialog(const JXMacWinPrefsDialog& source);
-	const JXMacWinPrefsDialog& operator=(const JXMacWinPrefsDialog& source);
 };
 
 #endif

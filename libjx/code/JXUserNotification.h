@@ -49,11 +49,6 @@ private:
 private:
 
 	void	WaitForResponse();
-
-	// not allowed
-
-	JXUserNotification(const JXUserNotification& source);
-	const JXUserNotification& operator=(const JXUserNotification& source);
 };
 
 #endif

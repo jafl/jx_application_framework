@@ -26,7 +26,7 @@ public:
 	virtual ~JX2DPlotRangeDialog();
 
 	bool GetRangeValues(JFloat* xMax, JFloat* xMin,
-							JFloat* yMax, JFloat* yMin);
+						JFloat* yMax, JFloat* yMin);
 
 protected:
 
@@ -49,11 +49,6 @@ private:
 private:
 
 	void	BuildWindow();
-
-	// not allowed
-
-	JX2DPlotRangeDialog(const JX2DPlotRangeDialog& source);
-	const JX2DPlotRangeDialog& operator=(const JX2DPlotRangeDialog& source);
 };
 
 #endif

@@ -51,11 +51,6 @@ private:
 	void	AddTip(JString tip);
 	void	DisplayTip();
 
-	// not allowed
-
-	JXTipOfTheDayDialog(const JXTipOfTheDayDialog& source);
-	const JXTipOfTheDayDialog& operator=(const JXTipOfTheDayDialog& source);
-
 public:
 
 	// JBroadcaster messages

@@ -50,11 +50,6 @@ private:
 
 	void	JXFileSelectionX();
 	void	CreateBuffer() const;
-
-	// not allowed
-
-	JXFileSelection(const JXFileSelection& source);
-	const JXFileSelection& operator=(const JXFileSelection& source);
 };
 
 

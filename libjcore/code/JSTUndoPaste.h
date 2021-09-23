@@ -27,13 +27,6 @@ public:
 private:
 
 	JStyledText::TextRange itsRange;
-
-private:
-
-	// not allowed
-
-	JSTUndoPaste(const JSTUndoPaste& source);
-	const JSTUndoPaste& operator=(const JSTUndoPaste& source);
 };
 
 #endif

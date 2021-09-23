@@ -63,11 +63,6 @@ private:
 private:
 
 	void	CalcULIndex();
-
-	// not allowed
-
-	JXTextButton(const JXTextButton& source);
-	const JXTextButton& operator=(const JXTextButton& source);
 };
 
 

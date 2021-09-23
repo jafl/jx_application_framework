@@ -42,7 +42,7 @@ public:
 private:
 
 	JXWindow*				itsWindow;
-	bool				itsActiveFlag;
+	bool					itsActiveFlag;
 	JArray<JCursorIndex>*	itsFrames;
 	JIndex					itsFrameCounter;
 	Time					itsLastUpdateTime;
@@ -53,8 +53,8 @@ private:
 
 	// not allowed
 
-	JXCursorAnimator(const JXCursorAnimator& source);
-	const JXCursorAnimator& operator=(const JXCursorAnimator& source);
+	JXCursorAnimator(const JXCursorAnimator&) = delete;
+	JXCursorAnimator& operator=(const JXCursorAnimator&) = delete;
 };
 
 

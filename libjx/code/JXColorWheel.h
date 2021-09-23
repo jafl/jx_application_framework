@@ -59,11 +59,6 @@ private:
 
 	void	SetColor(const JPoint& pt);
 
-	// not allowed
-
-	JXColorWheel(const JXColorWheel& source);
-	const JXColorWheel& operator=(const JXColorWheel& source);
-
 public:
 
 	// JBroadcaster messages

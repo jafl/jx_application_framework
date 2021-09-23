@@ -42,13 +42,6 @@ private:
 	JXWidgetSet*	itsScrollEnclosure;
 	JXScrollbar*	itsHScrollbar;
 	JXScrollbar*	itsVScrollbar;
-
-private:
-
-	// not allowed
-
-	JXScrollbarSet(const JXScrollbarSet& source);
-	const JXScrollbarSet& operator=(const JXScrollbarSet& source);
 };
 
 /******************************************************************************

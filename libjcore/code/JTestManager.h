@@ -98,8 +98,8 @@ private:
 
 	// not allowed
 
-	JTestManager(const JTestManager& source);
-	const JTestManager& operator=(const JTestManager& source);
+	JTestManager(const JTestManager&) = delete;
+	JTestManager& operator=(const JTestManager&) = delete;
 };
 
 template <class A, class B>

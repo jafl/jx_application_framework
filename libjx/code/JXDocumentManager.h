@@ -149,8 +149,8 @@ private:
 
 	// not allowed
 
-	JXDocumentManager(const JXDocumentManager& source);
-	const JXDocumentManager& operator=(const JXDocumentManager& source);
+	JXDocumentManager(const JXDocumentManager&) = delete;
+	JXDocumentManager& operator=(const JXDocumentManager&) = delete;
 
 public:
 

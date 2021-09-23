@@ -59,13 +59,6 @@ private:
 
 	JColorID	itsNormalColor;
 	JColorID	itsPushedColor;
-
-private:
-
-	// not allowed
-
-	JXTextCheckbox(const JXTextCheckbox& source);
-	const JXTextCheckbox& operator=(const JXTextCheckbox& source);
 };
 
 

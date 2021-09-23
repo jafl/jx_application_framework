@@ -69,11 +69,6 @@ private:
 	void	HandleUnitMenu(const JIndex index);
 	void	UpdateSize(const Unit origUnit, const Unit newUnit,
 					   JXFloatInput* input);
-
-	// not allowed
-
-	JX2DPlotPrintEPSDialog(const JX2DPlotPrintEPSDialog& source);
-	const JX2DPlotPrintEPSDialog& operator=(const JX2DPlotPrintEPSDialog& source);
 };
 
 std::istream& operator>>(std::istream& input, JX2DPlotPrintEPSDialog::Unit& u);

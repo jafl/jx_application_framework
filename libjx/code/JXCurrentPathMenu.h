@@ -39,11 +39,6 @@ private:
 
 	void		JXCurrentPathMenuX(const JString& path);
 	JXImage*	GetIcon(const JString& path) const;
-
-	// not allowed
-
-	JXCurrentPathMenu(const JXCurrentPathMenu& source);
-	const JXCurrentPathMenu& operator=(const JXCurrentPathMenu& source);
 };
 
 #endif

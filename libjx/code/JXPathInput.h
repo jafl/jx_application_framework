@@ -73,11 +73,6 @@ private:
 private:
 
 	void JXPathInputX();
-
-	// not allowed
-
-	JXPathInput(const JXPathInput& source);
-	const JXPathInput& operator=(const JXPathInput& source);
 };
 
 

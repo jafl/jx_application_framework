@@ -30,13 +30,6 @@ private:
 
 	JStyledText::TextRange	itsRange;
 	JRunArray<JFont>*		itsOrigStyles;
-
-private:
-
-	// not allowed
-
-	JSTUndoStyle(const JSTUndoStyle& source);
-	const JSTUndoStyle& operator=(const JSTUndoStyle& source);
 };
 
 #endif

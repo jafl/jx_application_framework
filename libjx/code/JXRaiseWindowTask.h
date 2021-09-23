@@ -26,13 +26,6 @@ public:
 private:
 
 	JXWindow*	itsWindow;	// not owned
-
-private:
-
-	// not allowed
-
-	JXRaiseWindowTask(const JXRaiseWindowTask& source);
-	const JXRaiseWindowTask& operator=(const JXRaiseWindowTask& source);
 };
 
 #endif

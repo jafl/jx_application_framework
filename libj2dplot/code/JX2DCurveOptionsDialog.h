@@ -80,11 +80,6 @@ private:
 	void	AdjustWidgets();
 	JIndex	EncodeCurveStyle(const J2DCurveInfo& info);
 	void	DecodeCurveStyle(J2DCurveInfo* info);
-
-	// not allowed
-
-	JX2DCurveOptionsDialog(const JX2DCurveOptionsDialog& source);
-	const JX2DCurveOptionsDialog& operator=(const JX2DCurveOptionsDialog& source);
 };
 
 

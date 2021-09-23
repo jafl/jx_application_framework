@@ -30,13 +30,6 @@ protected:
 private:
 
 	JXTimerTask*	itsSafetySaveTask;
-
-private:
-
-	// not allowed
-
-	JXPrefsManager(const JXPrefsManager& source);
-	JXPrefsManager& operator=(const JXPrefsManager& source);
 };
 
 #endif

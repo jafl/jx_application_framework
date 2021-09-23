@@ -36,11 +36,6 @@ private:
 private:
 
 	void	BuildWindow(const JIndex index, const JIndex maxIndex);
-
-	// not allowed
-
-	SetElasticDialog(const SetElasticDialog& source);
-	const SetElasticDialog& operator=(const SetElasticDialog& source);
 };
 
 #endif

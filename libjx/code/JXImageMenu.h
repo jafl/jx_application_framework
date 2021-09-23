@@ -65,11 +65,6 @@ private:
 private:
 
 	void	JXImageMenuX(const JSize columnCount);
-
-	// not allowed
-
-	JXImageMenu(const JXImageMenu& source);
-	const JXImageMenu& operator=(const JXImageMenu& source);
 };
 
 

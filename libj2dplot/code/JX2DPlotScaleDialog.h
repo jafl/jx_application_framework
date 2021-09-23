@@ -69,11 +69,6 @@ private:
 	void	BuildWindow();
 	void	AdjustXScaleActivation();
 	void	AdjustYScaleActivation();
-
-	// not allowed
-
-	JX2DPlotScaleDialog(const JX2DPlotScaleDialog& source);
-	const JX2DPlotScaleDialog& operator=(const JX2DPlotScaleDialog& source);
 };
 
 #endif

@@ -24,7 +24,7 @@ public:
 	virtual ~JXFloatInput();
 
 	bool	GetValue(JFloat* value) const;
-	void		SetValue(const JFloat value);
+	void	SetValue(const JFloat value);
 	bool	ValueValid(const JFloat value) const;
 
 	void	SetLimits(const JFloat minValue, const JFloat maxValue);
@@ -42,17 +42,10 @@ public:
 private:
 
 	bool	itsHasLowerLimitFlag;
-	JFloat		itsLowerLimit;
+	JFloat	itsLowerLimit;
 
 	bool	itsHasUpperLimitFlag;
-	JFloat		itsUpperLimit;
-
-private:
-
-	// not allowed
-
-	JXFloatInput(const JXFloatInput& source);
-	const JXFloatInput& operator=(const JXFloatInput& source);
+	JFloat	itsUpperLimit;
 };
 
 /******************************************************************************

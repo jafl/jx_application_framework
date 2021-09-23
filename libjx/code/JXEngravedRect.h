@@ -40,11 +40,6 @@ private:
 private:
 
 	void	UpdateBorderWidth();
-
-	// not allowed
-
-	JXEngravedRect(const JXEngravedRect& source);
-	const JXEngravedRect& operator=(const JXEngravedRect& source);
 };
 
 

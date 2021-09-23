@@ -332,8 +332,8 @@ private:
 
 	// not allowed
 
-	JXDisplay(const JXDisplay& source);
-	const JXDisplay& operator=(const JXDisplay& source);
+	JXDisplay(const JXDisplay&) = delete;
+	JXDisplay& operator=(const JXDisplay&) = delete;
 
 public:
 

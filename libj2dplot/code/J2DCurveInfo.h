@@ -30,13 +30,13 @@ enum J2DSymbolType
 
 struct J2DCurveInfo
 {
-	bool		show;
-	bool		lines;
-	bool		symbols;
-	bool		own;
-	bool		xerrors;
-	bool		yerrors;
-	bool		protect;
+	bool			show;
+	bool			lines;
+	bool			symbols;
+	bool			own;
+	bool			xerrors;
+	bool			yerrors;
+	bool			protect;
 	JIndex			color;
 	J2DSymbolType	symbol;
 	JString*		name;

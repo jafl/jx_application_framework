@@ -29,9 +29,9 @@ public:
 	bool	HasCheckboxes() const;
 	bool	HasSubmenus() const;
 
-	bool			IsEnabled(const JIndex index) const;
+	bool				IsEnabled(const JIndex index) const;
 	JXMenu::ItemType	GetType(const JIndex index) const;
-	bool			IsChecked(const JIndex index) const;
+	bool				IsChecked(const JIndex index) const;
 
 	bool	HasSubmenu(const JIndex index) const;
 	bool	GetSubmenu(const JIndex index, JXMenu** menu) const;
@@ -53,12 +53,12 @@ protected:
 	virtual void	DeleteItem(const JIndex index);		// must call inherited
 	virtual void	DeleteAll();						// must call inherited
 
-	bool		GetItemShortcuts(const JIndex index, const JString** shortcuts) const;
+	bool			GetItemShortcuts(const JIndex index, const JString** shortcuts) const;
 	void			SetItemShortcuts(const JIndex index, const JString& shortcuts);
 	virtual void	ItemShortcutsChanged(const JIndex index, const JString* shortcuts);
 
 	bool	GetItemID(const JIndex index, const JString** id) const;
-	void		SetItemID(const JIndex index, const JString& id);
+	void	SetItemID(const JIndex index, const JString& id);
 
 	void	EnableItem(const JIndex index);
 	void	EnableAll();
@@ -74,14 +74,14 @@ private:
 
 	struct BaseItemData
 	{
-		bool			enabled;
+		bool				enabled;
 		JString*			shortcuts;	// can be nullptr
 		JString*			id;			// can be nullptr
 
 		JXMenu*				submenu;	// this overrides isCheckbox; we own it; can be nullptr
 
 		JXMenu::ItemType	type;
-		bool			isChecked;	// only used when menu is visible
+		bool				isChecked;	// only used when menu is visible
 
 		BaseItemData()
 			:
@@ -102,18 +102,18 @@ private:
 
 	void	CheckItem(const JIndex index);
 
-	void		AttachSubmenu(const JIndex index, JXMenu* submenu);
+	void	AttachSubmenu(const JIndex index, JXMenu* submenu);
 	bool	RemoveSubmenu(const JIndex index, JXMenu** theMenu);
-	void		RemoveSubmenu(JXMenu* theMenu);
-	void		DeleteSubmenu(const JIndex index);
+	void	RemoveSubmenu(JXMenu* theMenu);
+	void	DeleteSubmenu(const JIndex index);
 	bool	FindSubmenu(JXMenu* theMenu, JIndex* index) const;
 
 	void	CleanOutBaseItem(BaseItemData* itemData);
 
 	// not allowed
 
-	JXMenuData(const JXMenuData& source);
-	const JXMenuData& operator=(const JXMenuData& source);
+	JXMenuData(const JXMenuData&) = delete;
+	JXMenuData& operator=(const JXMenuData&) = delete;
 };
 
 

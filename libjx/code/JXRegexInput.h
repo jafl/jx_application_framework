@@ -32,13 +32,6 @@ private:
 
 	JRegex*	itsTestRegex;
 	bool	itsOwnsRegexFlag;
-
-private:
-
-	// not allowed
-
-	JXRegexInput(const JXRegexInput& source);
-	const JXRegexInput& operator=(const JXRegexInput& source);
 };
 
 #endif

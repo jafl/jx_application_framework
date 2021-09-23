@@ -29,13 +29,6 @@ protected:
 private:
 
 	JPtrArray<JXImage>*	itsImageList;
-
-private:
-
-	// not allowed
-
-	JXBusyIconTask(const JXBusyIconTask& source);
-	const JXBusyIconTask& operator=(const JXBusyIconTask& source);
 };
 
 #endif

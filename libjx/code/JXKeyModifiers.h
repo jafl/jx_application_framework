@@ -47,15 +47,15 @@ public:
 	JXKeyModifiers(const JXDisplay* display);
 	JXKeyModifiers(const JXDisplay* display, const unsigned int state);
 
-	bool		Available(const JIndex i) const;
-	bool		GetState(const JIndex i) const;
-	void			SetState(const JIndex i, const bool pushed);
-	bool		AllOff() const;
+	bool	Available(const JIndex i) const;
+	bool	GetState(const JIndex i) const;
+	void	SetState(const JIndex i, const bool pushed);
+	bool	AllOff() const;
 
 	unsigned int	GetState() const;
 	void			SetState(const JXDisplay* display, const unsigned int state);
 
-	void			Clear();
+	void	Clear();
 
 	bool
 	key(const JIndex i)
@@ -152,7 +152,7 @@ public:
 
 private:
 
-	bool	itsState[ 1+kXModifierCount ];	// [0] is always false
+	bool		itsState[ 1+kXModifierCount ];	// [0] is always false
 	const int*	itsMap;							// 1+kJXKeyModifierMapCount; element is zero if unmapped
 
 private:

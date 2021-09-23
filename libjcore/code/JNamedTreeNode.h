@@ -21,21 +21,22 @@ public:
 
 	JNamedTreeNode(JTree* tree, const JString& name,
 				   const bool isOpenable = true);
+	JNamedTreeNode(const JNamedTreeNode& source);
 
 	virtual	~JNamedTreeNode();
 
 	const JString&	GetName() const;
 	void			SetName(const JString& name);
 
-	bool		FindNamedChild(const JString& name,
-								   JNamedTreeNode** node);
-	bool		FindNamedChild(const JString& name,
-								   const JNamedTreeNode** node) const;
+	bool	FindNamedChild(const JString& name,
+						   JNamedTreeNode** node);
+	bool	FindNamedChild(const JString& name,
+						   const JNamedTreeNode** node) const;
 
 	JNamedTreeNode*			GetNamedParent();
 	const JNamedTreeNode*	GetNamedParent() const;
-	bool				GetNamedParent(JNamedTreeNode** parent);
-	bool				GetNamedParent(const JNamedTreeNode** parent) const;
+	bool					GetNamedParent(JNamedTreeNode** parent);
+	bool					GetNamedParent(const JNamedTreeNode** parent) const;
 
 	JNamedTreeNode*			GetNamedChild(const JIndex index);
 	const JNamedTreeNode*	GetNamedChild(const JIndex index) const;
@@ -57,13 +58,6 @@ protected:
 private:
 
 	JString	itsName;
-
-private:
-
-	// not allowed
-
-	JNamedTreeNode(const JNamedTreeNode& source);
-	const JNamedTreeNode& operator=(const JNamedTreeNode& source);
 };
 
 

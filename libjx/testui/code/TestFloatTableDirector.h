@@ -58,11 +58,6 @@ private:
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex item);
-
-	// not allowed
-
-	TestFloatTableDirector(const TestFloatTableDirector& source);
-	const TestFloatTableDirector& operator=(const TestFloatTableDirector& source);
 };
 
 #endif

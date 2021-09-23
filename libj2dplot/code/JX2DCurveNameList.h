@@ -26,8 +26,8 @@ public:
 
 	virtual ~JX2DCurveNameList();
 
-	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
-									   const JXKeyModifiers& modifiers) override;
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+								   const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -40,8 +40,8 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual void			PrepareDeleteXInputField() override;
-	virtual bool		ExtractInputData(const JPoint& cell) override;
+	virtual void	PrepareDeleteXInputField() override;
+	virtual bool	ExtractInputData(const JPoint& cell) override;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
@@ -54,11 +54,6 @@ private:
 private:
 
 	void	AdjustColWidth();
-
-	// not allowed
-
-	JX2DCurveNameList(const JX2DCurveNameList& source);
-	const JX2DCurveNameList& operator=(const JX2DCurveNameList& source);
 
 public:
 

@@ -43,8 +43,8 @@ private:
 
 	// not allowed
 
-	JAssertBase(const JAssertBase& source);
-	const JAssertBase& operator=(const JAssertBase& source);
+	JAssertBase(const JAssertBase&) = delete;
+	JAssertBase& operator=(const JAssertBase&) = delete;
 };
 
 #endif

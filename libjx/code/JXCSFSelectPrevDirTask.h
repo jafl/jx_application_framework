@@ -33,13 +33,6 @@ private:
 	JDirInfo*	itsDirInfo;		// not owned
 	JXDirTable*	itsDirTable;	// not owned
 	JString		itsDirName;
-
-private:
-
-	// not allowed
-
-	JXCSFSelectPrevDirTask(const JXCSFSelectPrevDirTask& source);
-	const JXCSFSelectPrevDirTask& operator=(const JXCSFSelectPrevDirTask& source);
 };
 
 #endif

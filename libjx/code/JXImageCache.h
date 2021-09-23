@@ -36,8 +36,8 @@ private:
 
 	// not allowed
 
-	JXImageCache(const JXImageCache& source);
-	const JXImageCache& operator=(const JXImageCache& source);
+	JXImageCache(const JXImageCache&) = delete;
+	JXImageCache& operator=(const JXImageCache&) = delete;
 };
 
 #endif

@@ -114,11 +114,6 @@ private:
 private:
 
 	void	JXTextMenuX();
-
-	// not allowed
-
-	JXTextMenu(const JXTextMenu& source);
-	const JXTextMenu& operator=(const JXTextMenu& source);
 };
 
 

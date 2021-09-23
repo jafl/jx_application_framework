@@ -37,11 +37,6 @@ private:
 private:
 
 	void	BuildWindow(const JXWidget* widget);
-
-	// not allowed
-
-	ResizeWidgetDialog(const ResizeWidgetDialog& source);
-	const ResizeWidgetDialog& operator=(const ResizeWidgetDialog& source);
 };
 
 #endif

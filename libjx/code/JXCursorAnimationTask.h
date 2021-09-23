@@ -27,13 +27,6 @@ public:
 private:
 
 	JXCursorAnimator*	itsCursorAnim;		// we don't own this
-
-private:
-
-	// not allowed
-
-	JXCursorAnimationTask(const JXCursorAnimationTask& source);
-	const JXCursorAnimationTask& operator=(const JXCursorAnimationTask& source);
 };
 
 #endif

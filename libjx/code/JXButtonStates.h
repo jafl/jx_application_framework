@@ -37,14 +37,14 @@ public:
 	JXButtonStates();
 	JXButtonStates(const unsigned int state);
 
-	bool		GetState(const JIndex i) const;
-	void			SetState(const JIndex i, const bool pushed);
-	bool		AllOff() const;
+	bool	GetState(const JIndex i) const;
+	void	SetState(const JIndex i, const bool pushed);
+	bool	AllOff() const;
 
 	unsigned int	GetState() const;
 	void			SetState(const unsigned int state);
 
-	void			Clear();
+	void	Clear();
 
 	bool
 	button(const JIndex i)

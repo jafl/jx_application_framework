@@ -39,11 +39,6 @@ private:
 
 	void	BuildWindow(const JString& message);
 
-	// not allowed
-
-	JXOKToCloseDialog(const JXOKToCloseDialog& source);
-	const JXOKToCloseDialog& operator=(const JXOKToCloseDialog& source);
-
 public:
 
 	// JBroadcaster messages

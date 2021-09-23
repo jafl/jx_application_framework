@@ -137,8 +137,8 @@ private:
 
 	// not allowed - cannot have 2 iterators for a string
 
-	JStringIterator(const JStringIterator& source);
-	const JStringIterator& operator=(const JStringIterator& source);
+	JStringIterator(const JStringIterator&) = delete;
+	JStringIterator& operator=(const JStringIterator&) = delete;
 };
 
 

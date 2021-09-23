@@ -81,8 +81,8 @@ private:
 
 	// not allowed
 
-	JFSBinding(const JFSBinding& source);
-	const JFSBinding& operator=(const JFSBinding& source);
+	JFSBinding(const JFSBinding&) = delete;
+	JFSBinding& operator=(const JFSBinding&) = delete;
 };
 
 

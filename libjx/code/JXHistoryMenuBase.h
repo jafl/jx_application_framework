@@ -74,7 +74,7 @@ private:
 	JSize				itsHistoryLength;
 	HistoryDirection	itsHistoryDirection;
 	JXImage*			itsDefaultIcon;
-	bool			itsOwnsDefIconFlag;
+	bool				itsOwnsDefIconFlag;
 
 private:
 
@@ -83,11 +83,6 @@ private:
 	static void	ReadSetup(std::istream& input, JXHistoryMenuBase* menu,
 						  JPtrArray<JString>* itemList,
 						  JPtrArray<JString>* nmShortcutList);
-
-	// not allowed
-
-	JXHistoryMenuBase(const JXHistoryMenuBase& source);
-	const JXHistoryMenuBase& operator=(const JXHistoryMenuBase& source);
 };
 
 

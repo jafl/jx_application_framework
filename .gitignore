@@ -5,26 +5,17 @@
 *.la
 *.dll
 *.exe
-*Y.hpp
-*Y.cpp
 *.bak
 **/.jcc
 libj*/Makefile
 **/test/Makefile
 */testui/Makefile
-misc/reflex
 doc/api
 sonar_output
 .scannerwork
 0-RELEASE
 Brewfile.lock.json
 misc/reflex
-
-programs/*/code/*StringData.h
-programs/*/Makefile
-programs/*/strings/*_menu_strings
-programs/*/ChangeLog.html
-programs/*/strings/version
 
 tools/*/code/*StringData.h
 tools/*/Makefile

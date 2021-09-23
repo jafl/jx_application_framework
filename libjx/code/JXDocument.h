@@ -39,13 +39,6 @@ protected:
 	virtual bool	CanRevert()      = 0;
 	virtual void	DiscardChanges() = 0;
 	virtual bool	OKToDeactivate();
-
-private:
-
-	// not allowed
-
-	JXDocument(const JXDocument& source);
-	const JXDocument& operator=(const JXDocument& source);
 };
 
 #endif

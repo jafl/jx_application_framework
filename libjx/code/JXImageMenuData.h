@@ -78,11 +78,6 @@ private:
 
 	void	CleanOutIconItem(IconData* itemData);
 
-	// not allowed
-
-	JXImageMenuData(const JXImageMenuData& source);
-	const JXImageMenuData& operator=(const JXImageMenuData& source);
-
 public:
 
 	// JBroadcaster messages

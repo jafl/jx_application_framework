@@ -56,14 +56,14 @@ public:
 	bool			Unfocus();
 	bool			HasFocus() const;
 	bool			WillAcceptFocus() const;
-	void				SetSingleFocusWidget();
+	void			SetSingleFocusWidget();
 	virtual bool	OKToUnfocus();
 	bool			WantsTab() const;
 	bool			WantsModifiedTab() const;
-	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,	// must call inherited
-									   const JXKeyModifiers& modifiers);
+	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,	// must call inherited
+								   const JXKeyModifiers& modifiers);
 
-	bool		WillAcceptShortcut() const;
+	bool			WillAcceptShortcut() const;
 	virtual void	HandleShortcut(const int key,					// must call inherited
 								   const JXKeyModifiers& modifiers);
 
@@ -124,16 +124,16 @@ protected:
 	void	SetBounds(const JCoordinate w, const JCoordinate h);
 	void	AdjustBounds(const JCoordinate dw, const JCoordinate dh);
 
-	virtual void		DrawBackground(JXWindowPainter& p, const JRect& frame) override;
+	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame) override;
 	virtual bool	AcceptDrag(const JPoint& pt, const JXMouseButton button,
-								   const JXKeyModifiers& modifiers) override;
+							   const JXKeyModifiers& modifiers) override;
 
 	// drawing during a mouse drag
 
 	JXDragPainter*	CreateDragInsidePainter();
 	JXDragPainter*	CreateDragOutsidePainter();
-	bool		GetDragPainter(JXDragPainter** p) const;
-	bool		GetDragPainter(JPainter** p) const;
+	bool			GetDragPainter(JXDragPainter** p) const;
+	bool			GetDragPainter(JPainter** p) const;
 	void			DeleteDragPainter();
 
 	// position and size adjustments -- must call inherited
@@ -149,7 +149,7 @@ protected:
 
 	// Drag-And-Drop routines
 
-	bool		BeginDND(const JPoint& pt, const JXButtonStates& buttonStates,
+	bool			BeginDND(const JPoint& pt, const JXButtonStates& buttonStates,
 							 const JXKeyModifiers& modifiers,
 							 JXSelectionData* data,
 							 JXDNDManager::TargetFinder* targetFinder = nullptr);
@@ -171,14 +171,14 @@ protected:
 	// use with extreme caution
 
 	bool	WillAllowUnboundedScrolling() const;
-	void		ShouldAllowUnboundedScrolling(const bool allow);
+	void	ShouldAllowUnboundedScrolling(const bool allow);
 
 private:
 
-	JRect		itsFrameG;				// global coords
-	JRect		itsBoundsG;				// global coords
+	JRect	itsFrameG;				// global coords
+	JRect	itsBoundsG;				// global coords
 	bool	itsApertureBoundedFlag;	// true if we are bounded by aperture
-	JSize		itsBorderWidth;
+	JSize	itsBorderWidth;
 	bool	itsAllowUnboundedScrollingFlag;	// true if scroll offset is not restricted
 	// aperture is calculated when needed
 
@@ -206,17 +206,12 @@ private:
 private:
 
 	JXDragPainter*	CreateDragPainter(const JXContainer* widget);
-	bool		KeepApertureInsideBounds(JCoordinate* dx, JCoordinate* dy) const;
+	bool			KeepApertureInsideBounds(JCoordinate* dx, JCoordinate* dy) const;
 
 	// called by JXWindow
 
 	void	Focus(const int x);
 	void	NotifyFocusLost();
-
-	// not allowed
-
-	JXWidget(const JXWidget& source);
-	const JXWidget& operator=(const JXWidget& source);
 
 public:
 

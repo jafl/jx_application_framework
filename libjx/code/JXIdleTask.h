@@ -42,8 +42,8 @@ private:
 
 	// not allowed
 
-	JXIdleTask(const JXIdleTask& source);
-	const JXIdleTask& operator=(const JXIdleTask& source);
+	JXIdleTask(const JXIdleTask&) = delete;
+	JXIdleTask& operator=(const JXIdleTask&) = delete;
 };
 
 

@@ -87,11 +87,6 @@ private:
 	void	PrintAllPages(const bool all);
 
 	void	ChooseDestinationFile();
-
-	// not allowed
-
-	JXPSPrintSetupDialog(const JXPSPrintSetupDialog& source);
-	const JXPSPrintSetupDialog& operator=(const JXPSPrintSetupDialog& source);
 };
 
 #endif

@@ -43,13 +43,6 @@ private:
 
 	JCursorIndex	itsLinkCursor;
 	JIndex			itsMouseDownIndex;		// used while dragging
-
-private:
-
-	// not allowed
-
-	JXLinkText(const JXLinkText& source);
-	const JXLinkText& operator=(const JXLinkText& source);
 };
 
 #endif

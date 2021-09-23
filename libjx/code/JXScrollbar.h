@@ -169,11 +169,6 @@ private:
 	static JListT::CompareResult
 		CompareScrolltabValues(JXScrolltab* const & t1, JXScrolltab* const & t2);
 
-	// not allowed
-
-	JXScrollbar(const JXScrollbar& source);
-	const JXScrollbar& operator=(const JXScrollbar& source);
-
 public:
 
 	// JBroadcaster messages

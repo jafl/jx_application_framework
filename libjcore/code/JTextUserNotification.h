@@ -29,13 +29,6 @@ public:
 	virtual CloseAction	OKToClose(const JString& message);
 
 	virtual bool	AcceptLicense();
-
-private:
-
-	// not allowed
-
-	JTextUserNotification(const JTextUserNotification& source);
-	const JTextUserNotification& operator=(const JTextUserNotification& source);
 };
 
 #endif

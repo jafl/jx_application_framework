@@ -36,7 +36,7 @@ private:
 
 	// not allowed
 
-	const JImageMask& operator=(const JImageMask& source);
+	JImageMask& operator=(const JImageMask&) = delete;
 };
 
 #endif

@@ -38,13 +38,6 @@ private:
 	JXImageWidget*	itsWidget;			// we don't own this
 	JIndex			itsCurrentImage;
 	JKLRand			itsRNG;
-
-private:
-
-	// not allowed
-
-	JXAnimationTask(const JXAnimationTask& source);
-	const JXAnimationTask& operator=(const JXAnimationTask& source);
 };
 
 #endif

@@ -64,7 +64,7 @@ private:
 
 	// not allowed
 
-	const JObjTableData<T>& operator=(const JObjTableData<T>& source);
+	JObjTableData<T>& operator=(const JObjTableData<T>&) = delete;
 };
 
 #include "JObjTableData.tmpl"

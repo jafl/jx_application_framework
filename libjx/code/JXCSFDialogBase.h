@@ -110,11 +110,6 @@ private:
 	void	CreateNewDirectory();
 
 	void	SelectPrevDirectory();
-
-	// not allowed
-
-	JXCSFDialogBase(const JXCSFDialogBase& source);
-	const JXCSFDialogBase& operator=(const JXCSFDialogBase& source);
 };
 
 

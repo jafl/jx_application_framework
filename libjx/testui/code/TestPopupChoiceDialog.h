@@ -30,11 +30,6 @@ private:
 private:
 
 	void	BuildWindow();
-
-	// not allowed
-
-	TestPopupChoiceDialog(const TestPopupChoiceDialog& source);
-	const TestPopupChoiceDialog& operator=(const TestPopupChoiceDialog& source);
 };
 
 #endif

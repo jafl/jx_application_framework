@@ -27,13 +27,6 @@ protected:
 
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;	
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-
-private:
-
-	// not allowed
-
-	JXLevelControl(const JXLevelControl& source);
-	const JXLevelControl& operator=(const JXLevelControl& source);
 };
 
 #endif

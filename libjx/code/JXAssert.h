@@ -34,7 +34,7 @@ public:
 
 private:
 
-	bool				itsIsOperatingFlag;		// true if assert() is being processed
+	bool					itsIsOperatingFlag;		// true if assert() is being processed
 	JPtrArray<JXDisplay>*	itsDisplayList;
 
 private:
@@ -43,11 +43,6 @@ private:
 
 	void	DisplayOpened(JXDisplay* display);
 	void	DisplayClosed(JXDisplay* display);
-
-	// not allowed
-
-	JXAssert(const JXAssert& source);
-	const JXAssert& operator=(const JXAssert& source);
 };
 
 /******************************************************************************

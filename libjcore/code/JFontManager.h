@@ -95,8 +95,8 @@ private:
 
 	// not allowed
 
-	JFontManager(const JFontManager& source);
-	const JFontManager& operator=(const JFontManager& source);
+	JFontManager(const JFontManager&) = delete;
+	JFontManager& operator=(const JFontManager&) = delete;
 };
 
 

@@ -93,11 +93,6 @@ private:
 private:
 
 	void	AdjustToTable();
-
-	// not allowed
-
-	JXColHeaderWidget(const JXColHeaderWidget& source);
-	const JXColHeaderWidget& operator=(const JXColHeaderWidget& source);
 };
 
 

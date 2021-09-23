@@ -41,11 +41,6 @@ private:
 private:
 
 	void	BuildWindow();
-
-	// not allowed
-
-	TestSliderDirector(const TestSliderDirector& source);
-	const TestSliderDirector& operator=(const TestSliderDirector& source);
 };
 
 #endif

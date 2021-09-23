@@ -128,11 +128,6 @@ private:
 	void	HandlePrepareForNodeMove();
 	void	HandleNodeMoveFinished();
 
-	// not allowed
-
-	JXTreeListWidget(const JXTreeListWidget& source);
-	const JXTreeListWidget& operator=(const JXTreeListWidget& source);
-
 public:
 
 	// JBroadcaster messages

@@ -127,8 +127,8 @@ private:
 
 	// not allowed
 
-	JProcess(const JProcess& source);
-	const JProcess& operator=(const JProcess& source);
+	JProcess(const JProcess&) = delete;
+	JProcess& operator=(const JProcess&) = delete;
 
 public:
 

@@ -49,13 +49,6 @@ private:
 	JX2DPlotPrintEPSDialog::Unit	itsUnit;
 
 	JX2DPlotPrintEPSDialog*	itsPlotSetupDialog;
-
-private:
-
-	// not allowed
-
-	JX2DPlotEPSPrinter(const JX2DPlotEPSPrinter& source);
-	const JX2DPlotEPSPrinter& operator=(const JX2DPlotEPSPrinter& source);
 };
 
 

@@ -26,13 +26,6 @@ public:
 private:
 
 	JXEPSPrintSetupDialog*	itsDirector;	// not owned
-
-private:
-
-	// not allowed
-
-	JXChooseEPSDestFileTask(const JXChooseEPSDestFileTask& source);
-	const JXChooseEPSDestFileTask& operator=(const JXChooseEPSDestFileTask& source);
 };
 
 #endif

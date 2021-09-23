@@ -118,11 +118,6 @@ private:
 	void	NeedAdjustScrollbars();
 	void	AdjustScrollbars();
 	JFloat	GetSingleStepFraction() const;
-
-	// not allowed
-
-	JXScrollableWidget(const JXScrollableWidget& source);
-	const JXScrollableWidget& operator=(const JXScrollableWidget& source);
 };
 
 

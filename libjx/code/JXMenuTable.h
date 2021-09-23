@@ -64,11 +64,11 @@ protected:
 								  const JXKeyModifiers& modifiers) override;
 
 	virtual bool	CellToItemIndex(const JPoint& pt, const JPoint& cell,
-										JIndex* itemIndex) const = 0;
-	virtual void		MenuHilightItem(const JIndex itemIndex) = 0;
-	virtual void		MenuUnhilightItem(const JIndex itemIndex) = 0;
-	virtual void		GetSubmenuPoints(const JIndex itemIndex,
-										 JPoint* leftPt, JPoint* rightPt) = 0;
+									JIndex* itemIndex) const = 0;
+	virtual void	MenuHilightItem(const JIndex itemIndex) = 0;
+	virtual void	MenuUnhilightItem(const JIndex itemIndex) = 0;
+	virtual void	GetSubmenuPoints(const JIndex itemIndex,
+									 JPoint* leftPt, JPoint* rightPt) = 0;
 
 	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
@@ -81,35 +81,35 @@ private:
 
 	// used for dragging
 
-	JIndex		itsPrevItemIndex;
-	JXMenu*		itsOpenSubmenu;				// we don't own this
+	JIndex	itsPrevItemIndex;
+	JXMenu*	itsOpenSubmenu;				// we don't own this
 	bool	itsSwitchingDragFlag;
-	JPoint		itsMouseDownPt;
-	JPoint		itsPrevPt;
-	JPoint		itsCurrPt;
+	JPoint	itsMouseDownPt;
+	JPoint	itsPrevPt;
+	JPoint	itsCurrPt;
 	bool	itsIsFirstDragFlag;
 
 	bool	itsHasScrollUpFlag;
 	bool	itsMouseInScrollUpFlag;
-	JRect		itsScrollUpRect;
-	JRect		itsScrollUpArrowRect;
+	JRect	itsScrollUpRect;
+	JRect	itsScrollUpArrowRect;
 
 	bool	itsHasScrollDownFlag;
 	bool	itsMouseInScrollDownFlag;
-	JRect		itsScrollDownRect;
-	JRect		itsScrollDownArrowRect;
+	JRect	itsScrollDownRect;
+	JRect	itsScrollDownArrowRect;
 
 private:
 
-	void		MenuHandleMouseAction(const JPoint& pt,
-									  const JXButtonStates& buttonStates,
-									  const JXKeyModifiers& modifiers,
-									  const bool closeIfOutside);
-	void		MouseOutsideTable(const JPoint& pt,
+	void	MenuHandleMouseAction(const JPoint& pt,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers,
-								  JXContainer* trueMouseContainer,
-								  const bool shouldClose);
+								  const bool closeIfOutside);
+	void	MouseOutsideTable(const JPoint& pt,
+							  const JXButtonStates& buttonStates,
+							  const JXKeyModifiers& modifiers,
+							  JXContainer* trueMouseContainer,
+							  const bool shouldClose);
 	bool	GetMenuWidgetToActivate(const JPoint& pt, JXContainer** widget);
 	bool	CloseMenuOnMouseUp(const JPoint& pt) const;
 
@@ -120,11 +120,6 @@ private:
 	void	UpdateScrollRegions();
 	void	ScrollUp(const JCoordinate y);
 	void	ScrollDown(const JCoordinate y);
-
-	// not allowed
-
-	JXMenuTable(const JXMenuTable& source);
-	const JXMenuTable& operator=(const JXMenuTable& source);
 };
 
 #endif

@@ -29,13 +29,6 @@ protected:
 
 	virtual void		Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual bool	NeedsInternalFTC() const override;
-
-private:
-
-	// not allowed
-
-	JXDecorRect(const JXDecorRect& source);
-	const JXDecorRect& operator=(const JXDecorRect& source);
 };
 
 /******************************************************************************

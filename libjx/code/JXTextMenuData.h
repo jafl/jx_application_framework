@@ -70,25 +70,25 @@ public:
 	void	SetDefaultFont(const JFont& font, const bool updateExisting);
 
 	bool	GetImage(const JIndex index, const JXImage** image) const;
-	void		SetImage(const JIndex index, JXImage* image,
-						 const bool menuOwnsImage);
-	void		ClearImage(const JIndex index);
+	void	SetImage(const JIndex index, JXImage* image,
+					 const bool menuOwnsImage);
+	void	ClearImage(const JIndex index);
 
 	bool	GetNMShortcut(const JIndex index, const JString** str) const;
-	void		SetNMShortcut(const JIndex index, const JString& str);
+	void	SetNMShortcut(const JIndex index, const JString& str);
 
 	bool	HasSeparator(const JIndex index) const;
-	void		ShowSeparatorAfter(const JIndex index, const bool show = true);
+	void	ShowSeparatorAfter(const JIndex index, const bool show = true);
 
 	bool	HeightCompressed() const;
-	void		CompressHeight(const bool compress = true);
+	void	CompressHeight(const bool compress = true);
 
 	// called by JXTextMenuTable
 
 	void	ConfigureTable(JXTextMenuTable* table);
 
 	const JString&	GetText(const JIndex index, JIndex* ulIndex, JFont* font) const;
-	bool		GetNMShortcut(const JIndex index, const JString** str,
+	bool			GetNMShortcut(const JIndex index, const JString** str,
 								  JFont* font) const;
 
 protected:
@@ -104,8 +104,8 @@ private:
 		JString*	nmShortcut;			// can be nullptr
 		JFont		font;
 		JXImage*	image;				// can be nullptr
-		bool	ownsImage;			// true if we should delete image
-		bool	separator;			// true if item is followed by separator
+		bool		ownsImage;			// true if we should delete image
+		bool		separator;			// true if item is followed by separator
 
 		TextItemData()
 			:
@@ -127,12 +127,12 @@ private:
 
 	JFont	itsDefaultFont;
 
-	bool				itsNeedGeomRecalcFlag;
+	bool					itsNeedGeomRecalcFlag;
 	JCoordinate				itsMaxImageWidth;
 	JCoordinate				itsMaxTextWidth;
 	JCoordinate				itsMaxShortcutWidth;
-	bool				itsHasNMShortcutsFlag;
-	bool				itsCompressHeightFlag;
+	bool					itsHasNMShortcutsFlag;
+	bool					itsCompressHeightFlag;
 	JRunArray<JCoordinate>*	itsItemHeights;
 
 private:
@@ -145,15 +145,10 @@ private:
 
 	bool	ParseNMShortcut(JString* str, int* key,
 								JXKeyModifiers* modifiers);
-	void		AdjustNMShortcutString(JString* str, const JUtf8Byte* origStr,
-									   const JXModifierKey newKey);
+	void	AdjustNMShortcutString(JString* str, const JUtf8Byte* origStr,
+								   const JXModifierKey newKey);
 
 	void	UpdateItemFonts(const JFont& oldFont, const JFont& newFont);
-
-	// not allowed
-
-	JXTextMenuData(const JXTextMenuData& source);
-	const JXTextMenuData& operator=(const JXTextMenuData& source);
 
 public:
 

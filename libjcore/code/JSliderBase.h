@@ -79,8 +79,8 @@ private:
 
 	// not allowed
 
-	JSliderBase(const JSliderBase& source);
-	const JSliderBase& operator=(const JSliderBase& source);
+	JSliderBase(const JSliderBase&) = delete;
+	JSliderBase& operator=(const JSliderBase&) = delete;
 
 public:
 

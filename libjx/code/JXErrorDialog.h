@@ -30,11 +30,6 @@ private:
 private:
 
 	void	BuildWindow(const JString& message);
-
-	// not allowed
-
-	JXErrorDialog(const JXErrorDialog& source);
-	const JXErrorDialog& operator=(const JXErrorDialog& source);
 };
 
 #endif

@@ -44,11 +44,6 @@ private:
 
 	void	JXPathHistoryMenuX();
 	void	RemoveInvalidPaths();
-
-	// not allowed
-
-	JXPathHistoryMenu(const JXPathHistoryMenu& source);
-	const JXPathHistoryMenu& operator=(const JXPathHistoryMenu& source);
 };
 
 

@@ -31,7 +31,7 @@ public:
 	JXContainer*	GetWidget();
 	JSize			GetDepth() const;
 	Direction		GetDirection() const;
-	bool		IsExact() const;
+	bool			IsExact() const;
 
 	JCoordinate		Expand(const bool horizontal);
 
@@ -79,10 +79,10 @@ private:
 	JXContainer*			itsWidget;			// can be nullptr
 	JRect					itsFrameG;			// global coords
 	const Direction			itsDirection;		// direction of contained cell stack
-	const bool			itsIsExactFlag;
+	const bool				itsIsExactFlag;
 	Elastic					itsElasticFlag;
-	bool				itsSyncChildrenFlag;
-	bool				itsSyncHorizontalFlag;
+	bool					itsSyncChildrenFlag;
+	bool					itsSyncHorizontalFlag;
 	JPtrArray<JXFTCCell>*	itsChildren;
 	JArray<JCoordinate>*	itsChildSpacing;
 	JArray<JFloat>*			itsChildPositions;	// -1: left, +1:right, 0:both, else:center-line:0<v<1
@@ -97,7 +97,7 @@ private:
 	JCoordinate	ExpandWidget();
 	void		SyncWidgetPosition();
 	void		SyncSize(const JCoordinate dw, const JCoordinate dh);
-	bool	IsElastic();
+	bool		IsElastic();
 
 	JString				Indent(const JSize extra = 0) const;
 	const JUtf8Byte*	GetDirectionName() const;
@@ -106,11 +106,6 @@ private:
 		CompareHorizontally(JXFTCCell* const & c1, JXFTCCell* const & c2);
 	static JListT::CompareResult
 		CompareVertically(JXFTCCell* const & c1, JXFTCCell* const & c2);
-
-	// not allowed
-
-	JXFTCCell(const JXFTCCell& source);
-	const JXFTCCell& operator=(const JXFTCCell& source);
 };
 
 

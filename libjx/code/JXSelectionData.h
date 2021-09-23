@@ -81,8 +81,8 @@ private:
 
 	// not allowed
 
-	JXSelectionData(const JXSelectionData& source);
-	const JXSelectionData& operator=(const JXSelectionData& source);
+	JXSelectionData(const JXSelectionData&) = delete;
+	JXSelectionData& operator=(const JXSelectionData&) = delete;
 };
 
 

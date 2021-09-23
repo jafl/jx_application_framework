@@ -44,11 +44,6 @@ private:
 private:
 
 	JIndex	GetNextActiveIndex(const JIndex cbIndex);
-
-	// not allowed
-
-	JXAtLeastOneCBGroup(const JXAtLeastOneCBGroup& source);
-	const JXAtLeastOneCBGroup& operator=(const JXAtLeastOneCBGroup& source);
 };
 
 #endif

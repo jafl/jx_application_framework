@@ -42,13 +42,6 @@ protected:
 private:
 
 	TestDirector*	itsMainDirector;	// deleted by JXDirector
-
-private:
-
-	// not allowed
-
-	TestApp(const TestApp& source);
-	const TestApp& operator=(const TestApp& source);
 };
 
 

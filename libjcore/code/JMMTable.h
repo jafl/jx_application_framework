@@ -77,8 +77,8 @@ private:
 
 	// not allowed
 
-	JMMTable(const JMMTable& source);
-	const JMMTable& operator=(const JMMTable& source);
+	JMMTable(const JMMTable&) = delete;
+	JMMTable& operator=(const JMMTable&) = delete;
 };
 
 #endif

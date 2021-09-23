@@ -43,13 +43,6 @@ protected:
 private:
 
 	JXMenuTable*	itsMenuTable;
-
-private:
-
-	// not allowed
-
-	JXMenuDirector(const JXMenuDirector& source);
-	const JXMenuDirector& operator=(const JXMenuDirector& source);
 };
 
 

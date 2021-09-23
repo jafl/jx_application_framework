@@ -43,13 +43,6 @@ protected:
 	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
-
-private:
-
-	// not allowed
-
-	JXPasswordInput(const JXPasswordInput& source);
-	const JXPasswordInput& operator=(const JXPasswordInput& source);
 };
 
 /******************************************************************************

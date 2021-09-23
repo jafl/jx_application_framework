@@ -39,12 +39,6 @@ private:
 
 	JXTextEditor*	itsTE;		// we don't own this
 
-private:
-
-	// not allowed
-
-	JXTEStyleMenu(const JXTEStyleMenu& source);
-	const JXTEStyleMenu& operator=(const JXTEStyleMenu& source);
 };
 
 

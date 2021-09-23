@@ -66,9 +66,9 @@ protected:
 	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
-	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
-									  const Atom action, const Time time,
-									  const JXWidget* source) override;
+	virtual void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+								  const Atom action, const Time time,
+								  const JXWidget* source) override;
 
 	virtual bool	HandleClientMessage(const XClientMessageEvent& clientMessage) override;
 
@@ -135,17 +135,12 @@ private:
 	void	GetNewSize();
 	void	ChangeSize();
 
-	void		BuildXlsfontsMenu(JXMenu* owner, JXContainer* enclosure);
-	void		PrintSelectionTargets(const Time time);
+	void	BuildXlsfontsMenu(JXMenu* owner, JXContainer* enclosure);
+	void	PrintSelectionTargets(const Time time);
 	bool	PrintSelectionText(const Atom selectionName, const Time time,
-								   const Atom type) const;
-	void		PrintFileNames(const Atom selectionName, const Time time,
 							   const Atom type) const;
-
-	// not allowed
-
-	TestWidget(const TestWidget& source);
-	const TestWidget& operator=(const TestWidget& source);
+	void	PrintFileNames(const Atom selectionName, const Time time,
+						   const Atom type) const;
 };
 
 #endif

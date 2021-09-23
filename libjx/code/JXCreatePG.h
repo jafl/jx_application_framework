@@ -21,13 +21,6 @@ public:
 	virtual ~JXCreatePG();
 
 	virtual JProgressDisplay* New();
-
-private:
-
-	// not allowed
-
-	JXCreatePG(const JXCreatePG& source);
-	const JXCreatePG& operator=(const JXCreatePG& source);
 };
 
 #endif

@@ -79,11 +79,6 @@ private:
 
 	static void	CleanUpProcesses();
 
-	// not allowed
-
-	JThisProcess(const JThisProcess& source);
-	const JThisProcess& operator=(const JThisProcess& source);
-
 public:
 
 	// JBroadcaster messages -- remember to update kSignalValue, BroadcastSignal()

@@ -36,7 +36,7 @@ public:
 	virtual void	GetElement(const JIndex index, J2DDataPoint* data) const;
 	virtual void	GetElement(const JIndex index, J2DVectorPoint* data) const;
 
-	virtual void		GetXRange(JFloat* xMin, JFloat* xMax) const = 0;
+	virtual void	GetXRange(JFloat* xMin, JFloat* xMax) const = 0;
 	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
 								  const bool xLinear,
 								  JFloat* yMin, JFloat* yMax) const = 0;
@@ -61,7 +61,7 @@ public:
 	virtual bool	IsFunction() const;
 
 	bool	WillBroadcastChanged() const;
-	void		ShouldBroadcastChanged(const bool bcast = true);
+	void	ShouldBroadcastChanged(const bool bcast = true);
 
 protected:
 
@@ -70,7 +70,12 @@ protected:
 private:
 
 	const Type	itsType;
-	bool	itsBroadcastFlag;	// true => broadcast when changed
+	bool		itsBroadcastFlag;	// true => broadcast when changed
+
+	// not allowed
+
+	JPlotDataBase(const JPlotDataBase&) = delete;
+	JPlotDataBase& operator=(const JPlotDataBase&) = delete;
 
 public:
 

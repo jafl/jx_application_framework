@@ -24,23 +24,22 @@ public:
 
 	JXTextMenu*	GetMenu() const;
 	JIndex		GetIndex() const;
-	bool	HasSeparator() const;
-	bool	IsChecked() const;
+	bool		HasSeparator() const;
+	bool		IsChecked() const;
 	void		ToggleChecked();
 
 private:
 
 	JXTextMenu*	itsMenu;
 	JIndex		itsIndex;
-	bool	itsHasSeparator;
-	bool	itsIsChecked;
+	bool		itsHasSeparator;
+	bool		itsIsChecked;
 
 private:
 
 	// not allowed
 
-	JXToolBarNode(const JXToolBarNode& source);
-	const JXToolBarNode& operator=(const JXToolBarNode& source);
+	JXToolBarNode(const JXToolBarNode&) = delete;
 };
 
 

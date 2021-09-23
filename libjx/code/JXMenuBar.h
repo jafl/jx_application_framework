@@ -81,11 +81,6 @@ private:
 	// called by JXMenu
 
 	void	MenuWidthChanged(JXMenu* theMenu, const JCoordinate dw);
-
-	// not allowed
-
-	JXMenuBar(const JXMenuBar& source);
-	const JXMenuBar& operator=(const JXMenuBar& source);
 };
 
 

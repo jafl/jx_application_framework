@@ -25,18 +25,40 @@
 
 JTreeNode::JTreeNode
 	(
-	JTree*			tree,
+	JTree*		tree,
 	const bool	isOpenable
 	)
 	:
+	itsTree(tree),
+	itsParent(nullptr),
+	itsChildren(nullptr),
 	itsIsOpenableFlag(isOpenable),
-	itsIsDestructingFlag(false)
+	itsIsDestructingFlag(false),
+	itsCompareFn(nullptr),
+	itsSortOrder(JListT::kSortAscending)
 {
-	itsTree      = tree;
-	itsParent    = nullptr;
-	itsChildren  = nullptr;
-	itsCompareFn = nullptr;
-	itsSortOrder = JListT::kSortAscending;
+}
+
+/******************************************************************************
+ Copy constructor
+
+	Does not duplicate the child nodes from source.
+
+ ******************************************************************************/
+
+JTreeNode::JTreeNode
+	(
+	const JTreeNode& source
+	)
+	:
+	itsTree(source.itsTree),
+	itsParent(source.itsParent),
+	itsChildren(nullptr),
+	itsIsOpenableFlag(source.itsIsOpenableFlag),
+	itsIsDestructingFlag(false),
+	itsCompareFn(source.itsCompareFn),
+	itsSortOrder(source.itsSortOrder)
+{
 }
 
 /******************************************************************************
@@ -66,8 +88,8 @@ bool
 JTreeNode::IsRoot()
 	const
 {
-	return (itsTree != nullptr && itsTree->GetRoot() == this) ||
-				 (itsTree == nullptr && itsParent == nullptr);
+	return ((itsTree != nullptr && itsTree->GetRoot() == this) ||
+			(itsTree == nullptr && itsParent == nullptr));
 }
 
 /******************************************************************************

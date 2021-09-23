@@ -51,11 +51,6 @@ private:
 	void	CreateDockContextMenu();
 	void	UpdateDockContextMenu();
 	void	HandleDockContextMenu(const JIndex index);
-
-	// not allowed
-
-	JXDockTabGroup(const JXDockTabGroup& source);
-	const JXDockTabGroup& operator=(const JXDockTabGroup& source);
 };
 
 

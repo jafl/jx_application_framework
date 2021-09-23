@@ -22,13 +22,6 @@ public:
 				  const JRect& defaultClipRect);
 
 	virtual ~JXDragPainter();
-
-private:
-
-	// not allowed
-
-	JXDragPainter(const JXDragPainter& source);
-	const JXDragPainter& operator=(const JXDragPainter& source);
 };
 
 #endif

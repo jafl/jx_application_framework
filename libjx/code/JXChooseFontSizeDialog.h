@@ -35,11 +35,6 @@ private:
 private:
 
 	void	BuildWindow(const JSize fontSize);
-
-	// not allowed
-
-	JXChooseFontSizeDialog(const JXChooseFontSizeDialog& source);
-	const JXChooseFontSizeDialog& operator=(const JXChooseFontSizeDialog& source);
 };
 
 #endif

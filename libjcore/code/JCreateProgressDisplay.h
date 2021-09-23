@@ -26,8 +26,8 @@ private:
 
 	// not allowed
 
-	JCreateProgressDisplay(const JCreateProgressDisplay& source);
-	const JCreateProgressDisplay& operator=(const JCreateProgressDisplay& source);
+	JCreateProgressDisplay(const JCreateProgressDisplay&) = delete;
+	JCreateProgressDisplay& operator=(const JCreateProgressDisplay&) = delete;
 };
 
 #endif

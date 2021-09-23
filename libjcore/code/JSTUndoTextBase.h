@@ -33,13 +33,6 @@ private:
 
 	JString				itsOrigText;
 	JRunArray<JFont>*	itsOrigStyles;
-
-private:
-
-	// not allowed
-
-	JSTUndoTextBase(const JSTUndoTextBase& source);
-	const JSTUndoTextBase& operator=(const JSTUndoTextBase& source);
 };
 
 #endif

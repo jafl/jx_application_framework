@@ -68,11 +68,6 @@ private:
 private:
 
 	bool	ClosestMatch(const JString& prefixStr, JIndex* index) const;
-
-	// not allowed
-
-	JXStringList(const JXStringList& source);
-	const JXStringList& operator=(const JXStringList& source);
 };
 
 

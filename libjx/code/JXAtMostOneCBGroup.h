@@ -31,13 +31,6 @@ protected:
 private:
 
 	bool	itsIgnoreChangeFlag;
-
-private:
-
-	// not allowed
-
-	JXAtMostOneCBGroup(const JXAtMostOneCBGroup& source);
-	const JXAtMostOneCBGroup& operator=(const JXAtMostOneCBGroup& source);
 };
 
 #endif

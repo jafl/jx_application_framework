@@ -64,8 +64,8 @@ private:
 
 	// not allowed
 
-	JXSharedPrefObject(const JXSharedPrefObject& source);
-	const JXSharedPrefObject& operator=(const JXSharedPrefObject& source);
+	JXSharedPrefObject(const JXSharedPrefObject&) = delete;
+	JXSharedPrefObject& operator=(const JXSharedPrefObject&) = delete;
 };
 
 

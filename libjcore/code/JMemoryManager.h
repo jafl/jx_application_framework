@@ -220,8 +220,8 @@ private:
 
 	// not allowed
 
-	JMemoryManager(const JMemoryManager& source);
-	const JMemoryManager& operator=(const JMemoryManager& source);
+	JMemoryManager(const JMemoryManager&) = delete;
+	JMemoryManager& operator=(const JMemoryManager&) = delete;
 
 public:
 

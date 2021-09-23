@@ -139,11 +139,6 @@ private:
 private:
 
 	void	ClosePage();
-
-	// not allowed
-
-	JPSPrinter(const JPSPrinter& source);
-	const JPSPrinter& operator=(const JPSPrinter& source);
 };
 
 

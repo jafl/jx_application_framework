@@ -27,13 +27,6 @@ public:
 private:
 
 	JXImageWidget*	itsImageWidget;		// we don't own this
-
-private:
-
-	// not allowed
-
-	JXAdjustIWBoundsTask(const JXAdjustIWBoundsTask& source);
-	const JXAdjustIWBoundsTask& operator=(const JXAdjustIWBoundsTask& source);
 };
 
 #endif

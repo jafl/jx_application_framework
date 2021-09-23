@@ -19,14 +19,7 @@ public:
 	virtual ~TestDockManager();
 
 	virtual	bool	CanDockAll() const;
-	virtual void		DockAll();
-
-private:
-
-	// not allowed
-
-	TestDockManager(const TestDockManager& source);
-	const TestDockManager& operator=(const TestDockManager& source);
+	virtual void	DockAll();
 };
 
 #endif

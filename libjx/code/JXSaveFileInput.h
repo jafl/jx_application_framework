@@ -54,11 +54,6 @@ private:
 private:
 
 	static bool	IsCharacterInWord(const JUtf8Character& c);
-
-	// not allowed
-
-	JXSaveFileInput(const JXSaveFileInput& source);
-	const JXSaveFileInput& operator=(const JXSaveFileInput& source);
 };
 
 /******************************************************************************

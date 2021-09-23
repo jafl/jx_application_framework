@@ -30,13 +30,6 @@ private:
 	JXWindow*		itsWindow;			// not owned
 	JXTextCheckbox*	itsStayOpenCB;		// not owned
 	JXTextCheckbox*	itsRetainFocusCB;	// not owned
-
-private:
-
-	// not allowed
-
-	JXSearchTextDecorTask(const JXSearchTextDecorTask& source);
-	const JXSearchTextDecorTask& operator=(const JXSearchTextDecorTask& source);
 };
 
 #endif

@@ -27,13 +27,6 @@ protected:
 private:
 
 	JIndex	itsDisplayIndex;
-
-private:
-
-	// not allowed
-
-	JXOpenDisplayDialog(const JXOpenDisplayDialog& source);
-	const JXOpenDisplayDialog& operator=(const JXOpenDisplayDialog& source);
 };
 
 

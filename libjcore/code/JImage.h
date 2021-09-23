@@ -103,7 +103,7 @@ private:
 
 	// not allowed
 
-	const JImage& operator=(const JImage& source);
+	JImage& operator=(const JImage&) = delete;
 
 public:
 

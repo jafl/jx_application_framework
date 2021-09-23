@@ -26,13 +26,6 @@ public:
 private:
 
 	JXDirector*	itsDirector;	// not owned
-
-private:
-
-	// not allowed
-
-	JXAskInitDockAll(const JXAskInitDockAll& source);
-	const JXAskInitDockAll& operator=(const JXAskInitDockAll& source);
 };
 
 #endif

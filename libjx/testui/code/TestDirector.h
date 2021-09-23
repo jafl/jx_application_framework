@@ -108,11 +108,6 @@ private:
 
 	void	UpdateIconMenu();
 	void	HandleIconMenu(const JIndex item);
-
-	// not allowed
-
-	TestDirector(const TestDirector& source);
-	const TestDirector& operator=(const TestDirector& source);
 };
 
 #endif

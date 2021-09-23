@@ -29,13 +29,13 @@ public:
 
 	virtual ~J2DVectorData();
 
-	virtual void		GetElement(const JIndex index, J2DDataPoint* data) const override;
-	virtual void		GetElement(const JIndex index, J2DVectorPoint* data) const override;
+	virtual void	GetElement(const JIndex index, J2DDataPoint* data) const override;
+	virtual void	GetElement(const JIndex index, J2DVectorPoint* data) const override;
 
-	virtual void		GetXRange(JFloat* min, JFloat* max) const override;
+	virtual void	GetXRange(JFloat* min, JFloat* max) const override;
 	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const bool xLinear,
-								  JFloat* yMin, JFloat* yMax) const override;
+							  const bool xLinear,
+							  JFloat* yMin, JFloat* yMax) const override;
 
 	void	AddElement(const JFloat x,  const JFloat y,
 					   const JFloat vx, const JFloat vy);
@@ -50,7 +50,7 @@ public:
 	const JArray<JFloat>&	GetVYData() const;
 
 	bool	IsListening() const;
-	void		IgnoreDataChanges();
+	void	IgnoreDataChanges();
 
 	bool	ArrayInData(const JArray<JFloat>* array) const;
 

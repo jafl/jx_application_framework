@@ -34,8 +34,8 @@ public:
 
 	JXToolBarButton::Type	GetType();
 
-	void		ReadSetup(std::istream& is);
-	void		WriteSetup(std::ostream& os);
+	void	ReadSetup(std::istream& is);
+	void	WriteSetup(std::ostream& os);
 
 protected:
 
@@ -45,7 +45,7 @@ private:
 
 	JTree*					itsTree;		// we don't own this
 	JXToolBarEditWidget*	itsWidget;
-	bool				itsTreeChanged;
+	bool					itsTreeChanged;
 
 // begin JXLayout
 
@@ -59,12 +59,6 @@ private:
 private:
 
 	void BuildWindow();
-
-	// not allowed
-
-	JXToolBarEditDir(const JXToolBarEditDir& source);
-	const JXToolBarEditDir& operator=(const JXToolBarEditDir& source);
 };
-
 
 #endif

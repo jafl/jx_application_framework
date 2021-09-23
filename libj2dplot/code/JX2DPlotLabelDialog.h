@@ -50,11 +50,6 @@ private:
 private:
 
 	void	BuildWindow();
-
-	// not allowed
-
-	JX2DPlotLabelDialog(const JX2DPlotLabelDialog& source);
-	const JX2DPlotLabelDialog& operator=(const JX2DPlotLabelDialog& source);
 };
 
 #endif

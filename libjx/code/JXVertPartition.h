@@ -51,11 +51,11 @@ protected:
 	virtual JXWidgetSet*	CreateCompartment(const JIndex index,
 											  const JCoordinate position,
 											  const JCoordinate size) override;
-	virtual void			UpdateCompartmentSizes() override;
-	virtual bool		SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
+	virtual void	UpdateCompartmentSizes() override;
+	virtual bool	SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
 
 	virtual bool	RunInternalFTC(const bool horizontal, JCoordinate* newSize) override;
-	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh) override;
+	virtual void	FTCAdjustSize(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 
@@ -85,11 +85,6 @@ private:
 private:
 
 	void	JXVertPartitionX();
-
-	// not allowed
-
-	JXVertPartition(const JXVertPartition& source);
-	const JXVertPartition& operator=(const JXVertPartition& source);
 };
 
 #endif

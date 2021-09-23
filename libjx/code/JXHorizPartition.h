@@ -85,11 +85,6 @@ private:
 private:
 
 	void	JXHorizPartitionX();
-
-	// not allowed
-
-	JXHorizPartition(const JXHorizPartition& source);
-	const JXHorizPartition& operator=(const JXHorizPartition& source);
 };
 
 #endif

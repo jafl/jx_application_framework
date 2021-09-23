@@ -28,10 +28,10 @@ public:
 	virtual ~JX2DCursorMarkTable();
 
 	bool	Print(JPagePrinter&	p, const bool putOnSamePage,
-					  const JRect& partialPageRect);
-	void		TableDrawCells(JPainter& p, const JRect& cellRect,
-								const JRect& regionRect);
-	void		AdjustTable();
+				  const JRect& partialPageRect);
+	void	TableDrawCells(JPainter& p, const JRect& cellRect,
+							const JRect& regionRect);
+	void	AdjustTable();
 
 protected:
 
@@ -41,18 +41,13 @@ protected:
 private:
 
 	J2DPlotWidget*	itsPlot;
-	bool		itsPrintingFlag;
+	bool			itsPrintingFlag;
 
 private:
 
 	bool	DrawRegions(JPainter& p, const JRect& pageRect,
-							const JCoordinate regionWidth,
-							JIndex* currentRow);
-
-	// not allowed
-
-	JX2DCursorMarkTable(const JX2DCursorMarkTable& source);
-	const JX2DCursorMarkTable& operator=(const JX2DCursorMarkTable& source);
+						const JCoordinate regionWidth,
+						JIndex* currentRow);
 };
 
 

@@ -24,8 +24,8 @@ private:
 
 	// not allowed
 
-	JXDirectSaveAction(const JXDirectSaveAction& source);
-	const JXDirectSaveAction& operator=(const JXDirectSaveAction& source);
+	JXDirectSaveAction(const JXDirectSaveAction&) = delete;
+	JXDirectSaveAction& operator=(const JXDirectSaveAction&) = delete;
 };
 
 #endif

@@ -44,13 +44,6 @@ protected:
 private:
 
 	bool itsPrintErrorsFlag;
-
-private:
-
-	// not allowed
-
-	JMMErrorPrinter(const JMMErrorPrinter& source);
-	const JMMErrorPrinter& operator=(const JMMErrorPrinter& source);
 };
 
 /******************************************************************************

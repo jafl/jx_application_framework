@@ -27,14 +27,7 @@ public:
 private:
 
 	JXTEBase*	itsTE;			// owns us
-	bool	itsActiveFlag;
-
-private:
-
-	// not allowed
-
-	JXTEBlinkCaretTask(const JXTEBlinkCaretTask& source);
-	const JXTEBlinkCaretTask& operator=(const JXTEBlinkCaretTask& source);
+	bool		itsActiveFlag;
 };
 
 

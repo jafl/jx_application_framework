@@ -41,8 +41,8 @@ private:
 
 	// not allowed
 
-	JSpellChecker(const JSpellChecker& source);
-	const JSpellChecker& operator=(const JSpellChecker& source);
+	JSpellChecker(const JSpellChecker&) = delete;
+	JSpellChecker& operator=(const JSpellChecker&) = delete;
 };
 
 

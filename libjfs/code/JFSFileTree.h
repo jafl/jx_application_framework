@@ -26,13 +26,6 @@ public:
 	JFSFileTreeNodeBase*		GetFSRoot();
 	const JFSFileTreeNodeBase*	GetFSRoot() const;
 
-private:
-
-	// not allowed
-
-	JFSFileTree(const JFSFileTree& source);
-	const JFSFileTree& operator=(const JFSFileTree& source);
-
 public:
 
 	// JBroadcaster messages

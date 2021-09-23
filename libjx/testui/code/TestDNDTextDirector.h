@@ -25,11 +25,6 @@ public:
 private:
 
 	void	BuildWindow();
-
-	// not allowed
-
-	TestDNDTextDirector(const TestDNDTextDirector& source);
-	const TestDNDTextDirector& operator=(const TestDNDTextDirector& source);
 };
 
 #endif

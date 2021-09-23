@@ -26,13 +26,6 @@ public:
 private:
 
 	JXPartition*	itsPartition;	// not owned
-
-private:
-
-	// not allowed
-
-	JXRestorePartitionGeometry(const JXRestorePartitionGeometry& source);
-	const JXRestorePartitionGeometry& operator=(const JXRestorePartitionGeometry& source);
 };
 
 #endif

@@ -39,13 +39,6 @@ protected:
 private:
 
 	JPtrArray<JString>*	itsFontNames;
-
-private:
-
-	// not allowed
-
-	TestFontManager(const TestFontManager& source);
-	const TestFontManager& operator=(const TestFontManager& source);
 };
 
 #endif

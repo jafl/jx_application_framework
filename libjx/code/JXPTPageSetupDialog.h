@@ -68,11 +68,6 @@ private:
 						const bool printReverseOrder);
 
 	void	PrintTestPage();
-
-	// not allowed
-
-	JXPTPageSetupDialog(const JXPTPageSetupDialog& source);
-	const JXPTPageSetupDialog& operator=(const JXPTPageSetupDialog& source);
 };
 
 

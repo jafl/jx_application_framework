@@ -41,11 +41,6 @@ private:
 private:
 
 	void	BuildWindow(const JIndex lineIndex, const bool physicalLineIndexFlag);
-
-	// not allowed
-
-	JXGoToLineDialog(const JXGoToLineDialog& source);
-	const JXGoToLineDialog& operator=(const JXGoToLineDialog& source);
 };
 
 #endif

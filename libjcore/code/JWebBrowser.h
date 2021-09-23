@@ -63,8 +63,8 @@ private:
 
 	// not allowed
 
-	JWebBrowser(const JWebBrowser& source);
-	const JWebBrowser& operator=(const JWebBrowser& source);
+	JWebBrowser(const JWebBrowser&) = delete;
+	JWebBrowser& operator=(const JWebBrowser&) = delete;
 };
 
 

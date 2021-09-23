@@ -43,18 +43,11 @@ public:
 
 private:
 
-	bool	itsHasLowerLimitFlag;
+	bool		itsHasLowerLimitFlag;
 	JInteger	itsLowerLimit;
 
-	bool	itsHasUpperLimitFlag;
+	bool		itsHasUpperLimitFlag;
 	JInteger	itsUpperLimit;
-
-private:
-
-	// not allowed
-
-	JXIntegerInput(const JXIntegerInput& source);
-	const JXIntegerInput& operator=(const JXIntegerInput& source);
 };
 
 /******************************************************************************

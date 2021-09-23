@@ -41,9 +41,9 @@ public:
 
 	JXTextMenu*		GetMenu() const;
 	const JString&	GetMenuItemID() const;
-	bool		GetMenuItemIndex(JIndex* itemIndex) const;
+	bool			GetMenuItemIndex(JIndex* itemIndex) const;
 
-	bool		NeedsGeometryAdjustment(bool* invalid);
+	bool			NeedsGeometryAdjustment(bool* invalid);
 
 protected:
 
@@ -51,18 +51,18 @@ protected:
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
 	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const JPoint& pt, const Time time,
-									   const JXWidget* source) override;
-	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
-									  const Atom action, const Time time,
-									  const JXWidget* source) override;
+								   const JPoint& pt, const Time time,
+								   const JXWidget* source) override;
+	virtual void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+								  const Atom action, const Time time,
+								  const JXWidget* source) override;
 
 private:
 
 	JXToolBar*	itsToolBar;			// owns us
 	JXTextMenu*	itsMenu;			// not owned
 	JString		itsMenuItemID;
-	bool	itsIsCheckedFlag;	// last known state of menu item
+	bool		itsIsCheckedFlag;	// last known state of menu item
 
 	Type		itsType;
 
@@ -75,11 +75,6 @@ private:
 
 	JFont	GetLabelFont() const;
 	void	CloseHints();
-
-	// not allowed
-
-	JXToolBarButton(const JXToolBarButton& source);
-	const JXToolBarButton& operator=(const JXToolBarButton& source);
 };
 
 

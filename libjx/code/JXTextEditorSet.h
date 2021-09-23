@@ -33,13 +33,6 @@ public:
 					const JCoordinate w, const JCoordinate h);
 
 	virtual ~JXTextEditorSet();
-
-private:
-
-	// not allowed
-
-	JXTextEditorSet(const JXTextEditorSet& source);
-	const JXTextEditorSet& operator=(const JXTextEditorSet& source);
 };
 
 #endif

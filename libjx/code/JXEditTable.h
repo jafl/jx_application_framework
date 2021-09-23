@@ -57,13 +57,6 @@ private:
 
 	JXInputField*	itsInputField;		// used for edit-in-place; can be nullptr; not owned
 	JXInputField*	itsEditMenuHandler;	// maintains Edit menu; can be nullptr
-
-private:
-
-	// not allowed
-
-	JXEditTable(const JXEditTable& source);
-	const JXEditTable& operator=(const JXEditTable& source);
 };
 
 

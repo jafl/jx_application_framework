@@ -28,12 +28,6 @@ public:
 
 	void	SetString(const JIndex row, const JIndex col, const JString& s);
 	void	SetString(const JPoint& cell, const JString& s);
-
-private:
-
-	// not allowed
-
-	const JStringTableData& operator=(const JStringTableData& source);
 };
 
 /******************************************************************************

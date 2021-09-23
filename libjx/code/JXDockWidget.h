@@ -101,11 +101,6 @@ private:
 	bool	FindWindow(JBroadcaster* sender, JXWindow** window, JIndex* index) const;
 	bool	RemoveWindow(JBroadcaster* sender);
 	JIndex		GetTabInsertionIndex(JXWindow* w, const JIndex ignoreIndex = 0) const;
-
-	// not allowed
-
-	JXDockWidget(const JXDockWidget& source);
-	const JXDockWidget& operator=(const JXDockWidget& source);
 };
 
 

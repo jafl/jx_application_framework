@@ -57,11 +57,6 @@ private:
 private:
 
 	void	SetWindow(JXWindow* window);
-
-	// not allowed
-
-	JXWindowDirector(const JXWindowDirector& source);
-	const JXWindowDirector& operator=(const JXWindowDirector& source);
 };
 
 /******************************************************************************

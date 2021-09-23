@@ -98,11 +98,6 @@ private:
 
 	void	AdjustToTable();
 
-	// not allowed
-
-	JXRowHeaderWidget(const JXRowHeaderWidget& source);
-	const JXRowHeaderWidget& operator=(const JXRowHeaderWidget& source);
-
 public:
 
 	// JBroadcaster messages

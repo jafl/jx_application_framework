@@ -28,13 +28,6 @@ protected:
 private:
 
 	const bool itsFwdFlag;
-
-private:
-
-	// not allowed
-
-	JXSearchTextButton(const JXSearchTextButton& source);
-	const JXSearchTextButton& operator=(const JXSearchTextButton& source);
 };
 
 #endif

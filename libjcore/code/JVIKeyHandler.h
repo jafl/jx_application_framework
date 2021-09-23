@@ -36,10 +36,10 @@ public:
 
 	virtual ~JVIKeyHandler();
 
-	virtual void		Initialize(JTextEditor* te) override;
+	virtual void	Initialize(JTextEditor* te) override;
 	virtual bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,
-									   const JTextEditor::CaretMotion motion,
-									   const bool deleteToTabStop) override;
+								   const JTextEditor::CaretMotion motion,
+								   const bool deleteToTabStop) override;
 
 public:
 
@@ -66,14 +66,14 @@ protected:
 	Mode	GetMode() const;
 	void	SetMode(const Mode mode);
 
-	JSize		GetOperationCount() const;
+	JSize	GetOperationCount() const;
 	bool	GetPrevCharacter(JUtf8Character* c) const;
 
 	const JString&	GetCommandLine() const;
 	void			AppendToCommandLine(const JUtf8Character& key);
 	void			ClearKeyBuffers();
 
-	bool	PrehandleKeyPress(const JUtf8Character& key, bool* result);
+	bool		PrehandleKeyPress(const JUtf8Character& key, bool* result);
 	void		YankLines(const JStringMatch& match, const bool del);
 	void		YankToEndOfLine(const bool del, const bool ins);
 
@@ -90,13 +90,6 @@ private:
 
 	static CutBuffer theCutBuffer;
 	static CutBuffer theNamedCutBuffer[ kNamedCutBufferCount ];
-
-private:
-
-	// not allowed
-
-	JVIKeyHandler(const JVIKeyHandler& source);
-	const JVIKeyHandler& operator=(const JVIKeyHandler& source);
 };
 
 

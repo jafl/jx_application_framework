@@ -27,13 +27,6 @@ public:
 private:
 
 	JXDocumentManager*	itsDocMgr;
-
-private:
-
-	// not allowed
-
-	JXUpdateDocMenuTask(const JXUpdateDocMenuTask& source);
-	const JXUpdateDocMenuTask& operator=(const JXUpdateDocMenuTask& source);
 };
 
 #endif

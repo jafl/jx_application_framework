@@ -41,8 +41,7 @@ private:
 
 	// not allowed
 
-	JAuxTableData(const JAuxTableData<T>& source);
-	const JAuxTableData<T>& operator=(const JAuxTableData<T>& source);
+	JAuxTableData(const JAuxTableData<T>&) = delete;
 };
 
 #include "JAuxTableData.tmpl"

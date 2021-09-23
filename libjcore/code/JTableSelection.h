@@ -32,14 +32,14 @@ public:
 	bool	HasSelection() const;
 	bool	IsSelected(const JPoint& cell) const;
 	bool	IsSelected(const JIndex row, const JIndex col) const;
-	JSize		GetSelectedCellCount() const;
+	JSize	GetSelectedCellCount() const;
 	bool	GetSingleSelectedCell(JPoint* cell) const;
 	bool	GetFirstSelectedCell(JPoint* cell,
-					const JTableSelectionIterator::Direction d =
-						JTableSelectionIterator::kIterateByCol) const;
+				const JTableSelectionIterator::Direction d =
+					JTableSelectionIterator::kIterateByCol) const;
 	bool	GetLastSelectedCell(JPoint* cell,
-					const JTableSelectionIterator::Direction d =
-						JTableSelectionIterator::kIterateByCol) const;
+				const JTableSelectionIterator::Direction d =
+					JTableSelectionIterator::kIterateByCol) const;
 
 	void	SelectRow(const JIndex rowIndex, const bool on = true);
 	void	InvertRow(const JIndex rowIndex);
@@ -64,15 +64,15 @@ public:
 
 	// for selecting a rectangle of cells
 
-	bool		HasBoat() const;
+	bool			HasBoat() const;
 	const JPoint&	GetBoat() const;
-	bool		GetBoat(JPoint* cell) const;
+	bool			GetBoat(JPoint* cell) const;
 	void			SetBoat(const JPoint& cell);
 	void			ClearBoat();
 
-	bool		HasAnchor() const;
+	bool			HasAnchor() const;
 	const JPoint&	GetAnchor() const;
-	bool		GetAnchor(JPoint* cell) const;
+	bool			GetAnchor(JPoint* cell) const;
 	void			SetAnchor(const JPoint& cell);
 	void			ClearAnchor();
 
@@ -87,8 +87,8 @@ private:
 
 	// stored mainly for convenience, but also updated when the table changes
 
-	JPoint		itsBoat;
-	JPoint		itsAnchor;
+	JPoint	itsBoat;
+	JPoint	itsAnchor;
 	bool	itsReselectAfterChangeFlag;
 
 private:
@@ -100,11 +100,6 @@ private:
 								   JCoordinate* boat, JCoordinate* anchor) const;
 
 	static bool	InvertSelection(const bool&);
-
-	// not allowed
-
-	JTableSelection(const JTableSelection& source);
-	const JTableSelection& operator=(const JTableSelection& source);
 };
 
 

@@ -31,8 +31,8 @@ public:
 	// for use by main()
 
 	static bool	WillBeMDIServer(const JUtf8Byte* signature,
-									const int argc, char* argv[]);
-	void			HandleCmdLineOptions(const int argc, char* argv[]);
+								const int argc, char* argv[]);
+	void		HandleCmdLineOptions(const int argc, char* argv[]);
 
 	// called by event loop
 
@@ -43,13 +43,13 @@ protected:
 	bool	IsFirstTime() const;
 
 	virtual bool	CanAcceptMDIRequest() = 0;
-	virtual void		PreprocessArgList(JPtrArray<JString>* argList);
-	virtual void		HandleMDIRequest(const JString& dir,
-										 const JPtrArray<JString>& argList) = 0;
+	virtual void	PreprocessArgList(JPtrArray<JString>* argList);
+	virtual void	HandleMDIRequest(const JString& dir,
+									 const JPtrArray<JString>& argList) = 0;
 
 private:
 
-	bool			itsFirstTimeFlag;
+	bool				itsFirstTimeFlag;
 	ACE_LSOCK_Acceptor*	itsAcceptor;
 	ACE_LSOCK_Stream*	itsSocket;		// always closed before returning
 
@@ -58,16 +58,16 @@ private:
 	void			ProcessMDIMessage();
 	static JString	GetMDISocketName(const JUtf8Byte* signature);
 
-	static void		SendLine(ACE_LSOCK_Stream& socket, const JString& line);
+	static void	SendLine(ACE_LSOCK_Stream& socket, const JString& line);
 	static bool	ReceiveLine(ACE_LSOCK_Stream& socket, const bool block,
-								JString* line, bool* receivedFinishedFlag);
-	static void		WaitForFinished(ACE_LSOCK_Stream& socket,
-									const bool receivedFinishedFlag);
+							JString* line, bool* receivedFinishedFlag);
+	static void	WaitForFinished(ACE_LSOCK_Stream& socket,
+								const bool receivedFinishedFlag);
 
 	// not allowed
 
-	JMDIServer(const JMDIServer& source);
-	const JMDIServer& operator=(const JMDIServer& source);
+	JMDIServer(const JMDIServer&) = delete;
+	JMDIServer& operator=(const JMDIServer&) = delete;
 };
 
 

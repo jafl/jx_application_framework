@@ -28,10 +28,10 @@ public:
 	void	SetData(JXImage* image);
 
 	static bool	GetImage(const Atom selectionName, const Time time,
-							 JXDisplay* display, JXImage** image);
+						 JXDisplay* display, JXImage** image);
 	static bool	GetImage(JXSelectionManager* selMgr,
-							 const Atom selectionName, const Time time,
-							 JXImage** image);
+						 const Atom selectionName, const Time time,
+						 JXImage** image);
 
 	static const JUtf8Byte*	GetXPMXAtomName();
 	static const JUtf8Byte*	GetGIFXAtomName();
@@ -40,10 +40,10 @@ public:
 
 protected:
 
-	virtual void		AddTypes(const Atom selectionName) override;
+	virtual void	AddTypes(const Atom selectionName) override;
 	virtual bool	ConvertData(const Atom requestType, Atom* returnType,
-									unsigned char** data, JSize* dataLength,
-									JSize* bitsPerBlock) const override;
+								unsigned char** data, JSize* dataLength,
+								JSize* bitsPerBlock) const override;
 
 public:		// kAtomCount required at global scope
 
@@ -65,13 +65,6 @@ private:
 	Atom		itsGIFAtom;
 	Atom		itsPNGAtom;
 	Atom		itsJPEGAtom;
-
-private:
-
-	// not allowed
-
-	JXImageSelection(const JXImageSelection& source);
-	const JXImageSelection& operator=(const JXImageSelection& source);
 };
 
 

@@ -81,11 +81,6 @@ private:
 private:
 
 	void	InvertPageOrder(const JString& text, std::ostream& output) const;
-
-	// not allowed
-
-	JPTPrinter(const JPTPrinter& source);
-	const JPTPrinter& operator=(const JPTPrinter& source);
 };
 
 

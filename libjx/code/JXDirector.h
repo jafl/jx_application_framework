@@ -62,8 +62,8 @@ private:
 
 	// not allowed
 
-	JXDirector(const JXDirector& source);
-	const JXDirector& operator=(const JXDirector& source);
+	JXDirector(const JXDirector&) = delete;
+	JXDirector& operator=(const JXDirector&) = delete;
 };
 
 /******************************************************************************

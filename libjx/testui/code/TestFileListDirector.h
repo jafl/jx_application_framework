@@ -42,11 +42,6 @@ private:
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);
-
-	// not allowed
-
-	TestFileListDirector(const TestFileListDirector& source);
-	const TestFileListDirector& operator=(const TestFileListDirector& source);
 };
 
 #endif

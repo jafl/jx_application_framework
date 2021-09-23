@@ -28,13 +28,6 @@ private:
 
 	JXSaveFileDialog*	itsDialog;		// not owned
 	JString				itsDirName;
-
-private:
-
-	// not allowed
-
-	JXDSSFinishSaveTask(const JXDSSFinishSaveTask& source);
-	const JXDSSFinishSaveTask& operator=(const JXDSSFinishSaveTask& source);
 };
 
 #endif

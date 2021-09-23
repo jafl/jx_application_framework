@@ -60,8 +60,8 @@ private:
 
 	// not allowed
 
-	JColorManager(const JColorManager& source);
-	const JColorManager& operator=(const JColorManager& source);
+	JColorManager(const JColorManager&) = delete;
+	JColorManager& operator=(const JColorManager&) = delete;
 };
 
 #endif

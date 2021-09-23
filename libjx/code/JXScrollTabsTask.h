@@ -26,13 +26,6 @@ public:
 private:
 
 	JXTabGroup*	itsTabGroup;	// not owned
-
-private:
-
-	// not allowed
-
-	JXScrollTabsTask(const JXScrollTabsTask& source);
-	const JXScrollTabsTask& operator=(const JXScrollTabsTask& source);
 };
 
 #endif

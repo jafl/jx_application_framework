@@ -62,11 +62,6 @@ private:
 
 	void	PrintPS() const;
 	void	PrintEPS() const;
-
-	// not allowed
-
-	TestImageDirector(const TestImageDirector& source);
-	const TestImageDirector& operator=(const TestImageDirector& source);
 };
 
 #endif

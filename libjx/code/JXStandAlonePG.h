@@ -24,7 +24,7 @@ public:
 	virtual ~JXStandAlonePG();
 
 	virtual bool	ProcessContinuing();
-	virtual void		ProcessFinished();
+	virtual void	ProcessFinished();
 
 	void	RaiseWhenUpdate(const bool raise = true);
 
@@ -40,15 +40,8 @@ private:
 
 	JIndex				itsWindowIndex;
 	JXPGDirectorBase*	itsProgressDirector;
-	bool			itsRaiseWindowFlag;
+	bool				itsRaiseWindowFlag;
 	JSize				itsStepCount;
-
-private:
-
-	// not allowed
-
-	JXStandAlonePG(const JXStandAlonePG& source);
-	const JXStandAlonePG& operator=(const JXStandAlonePG& source);
 };
 
 

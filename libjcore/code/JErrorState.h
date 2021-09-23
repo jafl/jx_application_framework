@@ -21,9 +21,9 @@ public:
 	JErrorState();
 	virtual ~JErrorState();
 
-	virtual bool OK() const;
-	virtual JError   Error() const;
-	virtual void     ClearError();
+	virtual bool   OK() const;
+	virtual JError Error() const;
+	virtual void   ClearError();
 
 protected:
 

@@ -50,13 +50,6 @@ private:
 	JXButton*	itsOKButton;
 	JXButton*	itsCancelButton;
 
-private:
-
-	// not allowed
-
-	JXDialogDirector(const JXDialogDirector& source);
-	const JXDialogDirector& operator=(const JXDialogDirector& source);
-
 public:
 
 	// JBroadcaster messages

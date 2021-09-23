@@ -33,8 +33,8 @@ public:
 	int			GetVisualClass();
 
 	virtual bool	GetColorID(const JString& name, JColorID* id);
-	JColorID			GetColorID(const unsigned long systemColor);
-	unsigned long		GetXColor(const JColorID id);
+	JColorID		GetColorID(const unsigned long systemColor);
+	unsigned long	GetXColor(const JColorID id);
 
 private:
 
@@ -60,11 +60,6 @@ private:
 	// called by JXDisplay
 
 	static JXColorManager*	Create(JXDisplay* display);
-
-	// not allowed
-
-	JXColorManager(const JXColorManager& source);
-	const JXColorManager& operator=(const JXColorManager& source);
 };
 
 

@@ -41,8 +41,8 @@ private:
 
 	// not allowed
 
-	JPrefObject(const JPrefObject& source);
-	const JPrefObject& operator=(const JPrefObject& source);
+	JPrefObject(const JPrefObject&) = delete;
+	JPrefObject& operator=(const JPrefObject&) = delete;
 };
 
 

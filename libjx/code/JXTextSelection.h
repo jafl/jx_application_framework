@@ -55,11 +55,6 @@ private:
 private:
 
 	void	JXTextSelectionX();
-
-	// not allowed
-
-	JXTextSelection(const JXTextSelection& source);
-	const JXTextSelection& operator=(const JXTextSelection& source);
 };
 
 

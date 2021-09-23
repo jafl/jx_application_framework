@@ -25,13 +25,6 @@ public:
 private:
 
 	TestTextEditDocument*	itsDoc;
-
-private:
-
-	// not allowed
-
-	TestLinkedDocument(const TestLinkedDocument& source);
-	const TestLinkedDocument& operator=(const TestLinkedDocument& source);
 };
 
 #endif

@@ -32,13 +32,6 @@ private:
 	JStyledText::TextIndex	itsSrcIndex;
 	JStyledText::TextIndex	itsDestIndex;
 	JStyledText::TextCount	itsCount;
-
-private:
-
-	// not allowed
-
-	JSTUndoMove(const JSTUndoMove& source);
-	const JSTUndoMove& operator=(const JSTUndoMove& source);
 };
 
 #endif

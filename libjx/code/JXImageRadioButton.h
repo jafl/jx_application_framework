@@ -45,13 +45,6 @@ private:
 
 	JXImage*	itsImage;
 	bool	itsOwnsImageFlag;
-
-private:
-
-	// not allowed
-
-	JXImageRadioButton(const JXImageRadioButton& source);
-	const JXImageRadioButton& operator=(const JXImageRadioButton& source);
 };
 
 #endif

@@ -42,11 +42,6 @@ private:
 
 	void	BuildSortedNodeList();
 	void	BuildSortedNodeList1(JTreeNode* node);
-
-	// not allowed
-
-	JNamedTreeList(const JNamedTreeList& source);
-	const JNamedTreeList& operator=(const JNamedTreeList& source);
 };
 
 #endif

@@ -39,7 +39,7 @@ protected:
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h);
 	virtual bool		ExtractInputData(const JPoint& cell);
-	virtual void			PrepareDeleteXInputField();
+	virtual void		PrepareDeleteXInputField();
 
 	virtual JXInputField*
 		CreateStringTableInput(const JPoint& cell, JXContainer* enclosure,
@@ -53,13 +53,6 @@ private:
 
 	JStringTableData*	itsStringData;			// we don't own this
 	JXInputField*		itsStringInputField;	// nullptr if not editing
-
-private:
-
-	// not allowed
-
-	JXStringTable(const JXStringTable& source);
-	const JXStringTable& operator=(const JXStringTable& source);
 };
 
 

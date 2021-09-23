@@ -51,13 +51,6 @@ private:
 	bool	itsIsReturnButtonFlag;
 	bool	itsIsPushedFlag;
 
-private:
-
-	// not allowed
-
-	JXButton(const JXButton& source);
-	const JXButton& operator=(const JXButton& source);
-
 public:
 
 	// JBroadcaster messages

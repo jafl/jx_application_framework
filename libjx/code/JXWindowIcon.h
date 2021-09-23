@@ -49,13 +49,6 @@ private:
 	JXImage*	itsNormalImage;
 	JXImage*	itsDropImage;
 
-private:
-
-	// not allowed
-
-	JXWindowIcon(const JXWindowIcon& source);
-	const JXWindowIcon& operator=(const JXWindowIcon& source);
-
 protected:
 
 	class DropBase : public JBroadcaster::Message

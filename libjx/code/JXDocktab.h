@@ -76,11 +76,6 @@ private:
 						   const JXKeyModifiers& modifiers);
 	void	UpdateActionMenu();
 	void	HandleActionMenu(const JIndex index);
-
-	// not allowed
-
-	JXDocktab(const JXDocktab& source);
-	const JXDocktab& operator=(const JXDocktab& source);
 };
 
 #endif

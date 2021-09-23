@@ -44,14 +44,7 @@ protected:
 private:
 
 	JXImage*	itsImage;
-	bool	itsOwnsImageFlag;
-
-private:
-
-	// not allowed
-
-	JXImageCheckbox(const JXImageCheckbox& source);
-	const JXImageCheckbox& operator=(const JXImageCheckbox& source);
+	bool		itsOwnsImageFlag;
 };
 
 #endif

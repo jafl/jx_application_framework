@@ -30,11 +30,11 @@ public:
 protected:
 
 	virtual bool	GetImage(const JIndex index, const JXImage** image) const override;
-	virtual void		HandleMouseDown(const JPoint& pt,
-										const JXMouseButton button,
-										const JSize clickCount,
-										const JXButtonStates& buttonStates,
-										const JXKeyModifiers& modifiers) override;
+	virtual void	HandleMouseDown(const JPoint& pt,
+									const JXMouseButton button,
+									const JSize clickCount,
+									const JXButtonStates& buttonStates,
+									const JXKeyModifiers& modifiers) override;
 
 private:
 
@@ -43,13 +43,6 @@ private:
 	JXImage*	itsMenuImage;
 	JXImage*	itsCheckedItemImage;
 	JXImage*	itsUncheckedItemImage;
-
-private:
-
-	// not allowed
-
-	JXToolBarEditWidget(const JXToolBarEditWidget& source);
-	const JXToolBarEditWidget& operator=(const JXToolBarEditWidget& source);
 };
 
 #endif

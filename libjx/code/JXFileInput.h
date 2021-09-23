@@ -79,11 +79,6 @@ private:
 private:
 
 	void JXFileInputX();
-
-	// not allowed
-
-	JXFileInput(const JXFileInput& source);
-	const JXFileInput& operator=(const JXFileInput& source);
 };
 
 

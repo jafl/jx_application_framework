@@ -66,11 +66,11 @@ public:
 	const JString&	GetPath() const;
 	const JString&	GetName() const;
 	const JString&	GetFullName() const;
-	bool		GetLinkName(const JString** linkName) const;
+	bool			GetLinkName(const JString** linkName) const;
 	const JString&	GetUserName() const;
 	const JString&	GetGroupName() const;
 
-	Type		GetType() const;
+	Type	GetType() const;
 	bool	IsFile() const;
 	bool	IsDirectory() const;
 	bool	IsLink() const;
@@ -100,10 +100,10 @@ public:
 
 	bool	NeedsUpdate() const;
 	bool	Update(const bool force = false);		// updates if necessary
-	void		ForceUpdate();								// updates regardless
+	void	ForceUpdate();								// updates regardless
 
 	bool	MatchesContentFilter(const JRegex& regex,
-									 const JSize kBlockSize = 1024) const;
+								 const JSize kBlockSize = 1024) const;
 
 	static JListT::CompareResult
 		CompareNames(JDirEntry * const & e1, JDirEntry * const & e2);

@@ -34,11 +34,6 @@ private:
 
 	void	JXProgressTaskX(const JString& message, const bool allowCancel);
 
-	// not allowed
-
-	JXProgressTask(const JXProgressTask& source);
-	const JXProgressTask& operator=(const JXProgressTask& source);
-
 public:
 
 	// JBroadcaster messages

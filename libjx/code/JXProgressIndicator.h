@@ -41,13 +41,6 @@ private:
 	JSize		itsMaxValue;
 	JColorID	itsForeColor;
 	JColorID	itsBackColor;
-
-private:
-
-	// not allowed
-
-	JXProgressIndicator(const JXProgressIndicator& source);
-	const JXProgressIndicator& operator=(const JXProgressIndicator& source);
 };
 
 

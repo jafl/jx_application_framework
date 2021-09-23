@@ -210,8 +210,8 @@ private:
 
 	// not allowed
 
-	JPainter(const JPainter& source);
-	const JPainter& operator=(const JPainter& source);
+	JPainter(const JPainter&) = delete;
+	JPainter& operator=(const JPainter&) = delete;
 };
 
 

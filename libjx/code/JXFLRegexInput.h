@@ -25,13 +25,6 @@ public:
 	virtual ~JXFLRegexInput();
 
 	virtual JString	GetRegexString() const;
-
-private:
-
-	// not allowed
-
-	JXFLRegexInput(const JXFLRegexInput& source);
-	const JXFLRegexInput& operator=(const JXFLRegexInput& source);
 };
 
 #endif

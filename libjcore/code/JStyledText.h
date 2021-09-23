@@ -542,7 +542,7 @@ private:
 
 	// not allowed
 
-	const JStyledText& operator=(const JStyledText& source);
+	JStyledText& operator=(const JStyledText&) = delete;
 
 public:
 

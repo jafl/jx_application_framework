@@ -38,8 +38,8 @@ private:
 
 	// not allowed
 
-	JUndo(const JUndo& source);
-	const JUndo& operator=(const JUndo& source);
+	JUndo(const JUndo&) = delete;
+	JUndo& operator=(const JUndo&) = delete;
 };
 
 

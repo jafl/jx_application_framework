@@ -82,8 +82,8 @@ private:
 
 	// not allowed
 
-	JXFSBindingManager(const JXFSBindingManager& source);
-	const JXFSBindingManager& operator=(const JXFSBindingManager& source);
+	JXFSBindingManager(const JXFSBindingManager&) = delete;
+	JXFSBindingManager& operator=(const JXFSBindingManager&) = delete;
 };
 
 

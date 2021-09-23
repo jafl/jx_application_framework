@@ -43,7 +43,7 @@ public:
 	{
 		JXScrollableWidget::DisplayState	scroll;
 
-		bool		hadSelection;
+		bool			hadSelection;
 		JCharacterRange	range;
 	};
 
@@ -83,10 +83,10 @@ public:
 								  const bool allowAdjustMargins,
 								  const bool allowCleanWhitespace,
 								  const bool allowToggleReadOnly);
-	bool		HasEditMenu() const;
-	bool		GetEditMenu(JXTextMenu** menu) const;
-	bool		EditMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
-	bool		EditMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
+	bool	HasEditMenu() const;
+	bool	GetEditMenu(JXTextMenu** menu) const;
+	bool	EditMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
+	bool	EditMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
 
 	static JXTextMenu*	StaticAppendEditMenu(JXMenuBar* menuBar,
 											 const bool showCheckSpellingCmds,
@@ -98,11 +98,11 @@ public:
 											 const bool showToggleReadOnly,
 											 const bool allowToggleReadOnly);
 
-	JXTextMenu*		AppendSearchMenu(JXMenuBar* menuBar);
-	JXTextMenu*		AppendSearchReplaceMenu(JXMenuBar* menuBar);
-	JXTextMenu*		ShareSearchMenu(JXTEBase* te);		// uses whichever one is available
-	void			ShareSearchMenu(JXTextMenu* menu);
-	void			ShareSearchReplaceMenu(JXTextMenu* menu);
+	JXTextMenu*	AppendSearchMenu(JXMenuBar* menuBar);
+	JXTextMenu*	AppendSearchReplaceMenu(JXMenuBar* menuBar);
+	JXTextMenu*	ShareSearchMenu(JXTEBase* te);		// uses whichever one is available
+	void		ShareSearchMenu(JXTextMenu* menu);
+	void		ShareSearchReplaceMenu(JXTextMenu* menu);
 	bool		HasSearchMenu() const;
 	bool		GetSearchMenu(JXTextMenu** menu) const;
 	bool		SearchMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
@@ -143,13 +143,13 @@ public:
 	static void					SetPartialWordModifier(const PartialWordModifier mod);
 
 	static bool	CaretWillFollowScroll();
-	static void		CaretShouldFollowScroll(const bool follow);
+	static void	CaretShouldFollowScroll(const bool follow);
 
 	static bool	WillUseWindowsHomeEnd();
-	static void		ShouldUseWindowsHomeEnd(const bool use);
+	static void	ShouldUseWindowsHomeEnd(const bool use);
 
 	static bool	MiddleButtonWillPaste();
-	static void		MiddleButtonShouldPaste(const bool paste);
+	static void	MiddleButtonShouldPaste(const bool paste);
 
 	void	AskForLine();
 	void	MoveCaretToEdge(const JUtf8Character& c);
@@ -188,27 +188,27 @@ protected:
 	virtual bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	virtual bool	TEBeginDND() override;
-	virtual void		DNDFinish(const bool isDrop, const JXContainer* target) override;
-	virtual Atom		GetDNDAction(const JXContainer* target,
-									 const JXButtonStates& buttonStates,
-									 const JXKeyModifiers& modifiers) override;
-	virtual void		GetDNDAskActions(const JXButtonStates& buttonStates,
-										 const JXKeyModifiers& modifiers,
-										 JArray<Atom>* askActionList,
-										 JPtrArray<JString>* askDescriptionList) override;
-	virtual void		GetSelectionData(JXSelectionData* data,
-										 const JString& id) override;
+	virtual void	DNDFinish(const bool isDrop, const JXContainer* target) override;
+	virtual Atom	GetDNDAction(const JXContainer* target,
+								 const JXButtonStates& buttonStates,
+								 const JXKeyModifiers& modifiers) override;
+	virtual void	GetDNDAskActions(const JXButtonStates& buttonStates,
+									 const JXKeyModifiers& modifiers,
+									 JArray<Atom>* askActionList,
+									 JPtrArray<JString>* askDescriptionList) override;
+	virtual void	GetSelectionData(JXSelectionData* data,
+									 const JString& id) override;
 
 	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const JPoint& pt, const Time time,
-									   const JXWidget* source) override;
-	virtual void		HandleDNDEnter() override;
-	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
-	virtual void		HandleDNDLeave() override;
-	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
-									  const Atom action, const Time time,
-									  const JXWidget* source) override;
-	virtual void		TEPasteDropData() override;
+								   const JPoint& pt, const Time time,
+								   const JXWidget* source) override;
+	virtual void	HandleDNDEnter() override;
+	virtual void	HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
+	virtual void	HandleDNDLeave() override;
+	virtual void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+								  const Atom action, const Time time,
+								  const JXWidget* source) override;
+	virtual void	TEPasteDropData() override;
 
 	virtual bool	TEXWillAcceptDrop(const JArray<Atom>& typeList,
 										  const Atom action, const Time time,
@@ -227,21 +227,21 @@ protected:
 	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual void		TERefresh() override;
-	virtual void		TERefreshRect(const JRect& rect) override;
-	virtual void		TERedraw() override;
-	virtual void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
-									   const JCoordinate changeY) override;
+	virtual void	TERefresh() override;
+	virtual void	TERefreshRect(const JRect& rect) override;
+	virtual void	TERedraw() override;
+	virtual void	TESetGUIBounds(const JCoordinate w, const JCoordinate h,
+								   const JCoordinate changeY) override;
 	virtual bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
 	virtual bool	TEScrollToRect(const JRect& rect,
-									   const bool centerInDisplay) override;
+								   const bool centerInDisplay) override;
 	virtual bool	TEScrollForDrag(const JPoint& pt) override;
 	virtual bool	TEScrollForDND(const JPoint& pt) override;
-	virtual void		TESetVertScrollStep(const JCoordinate vStep) override;
+	virtual void	TESetVertScrollStep(const JCoordinate vStep) override;
 
-	virtual void		TECaretShouldBlink(const bool blink) override;
+	virtual void	TECaretShouldBlink(const bool blink) override;
 
-	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
+	virtual void	TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
 	virtual bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
 
 	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const override;
@@ -288,7 +288,7 @@ private:
 	JString*		itsPTPrintName;				// file name when printing to a file; can be nullptr
 
 	Atom			itsStyledText0XAtom;
-	bool		itsWillPasteCustomFlag;		// true => call TEXConvertDropData() in TEPasteDropData()
+	bool			itsWillPasteCustomFlag;		// true => call TEXConvertDropData() in TEPasteDropData()
 
 	static PartialWordModifier	thePWMod;		// which modifier to use for partial word movement
 
@@ -301,7 +301,7 @@ private:
 
 	// edit menu
 
-	JXTextMenu*		itsEditMenu;				// can be nullptr
+	JXTextMenu*	itsEditMenu;				// can be nullptr
 	bool		itsCanCheckSpellingFlag;	// true => menu items usable
 	bool		itsCanAdjustMarginsFlag;	// true => menu items usable
 	bool		itsCanCleanWhitespaceFlag;	// true => menu items usable
@@ -334,23 +334,18 @@ private:
 	void	HandleSearchReplaceCmd(const CmdIndex cmd);
 
 	bool	GetAvailDataTypes(const JArray<Atom>& typeList,
-								  bool* canGetStyledText,
-								  bool* canGetText, Atom* textType) const;
-	JError		GetSelectionData(const Atom selectionName, const Time time,
-								 JString* text, JRunArray<JFont>* style) const;
-	JError		GetSelectionData(const Atom selectionName,
-								 const JArray<Atom>& typeList, const Time time,
-								 JString* text, JRunArray<JFont>* style) const;
+							  bool* canGetStyledText,
+							  bool* canGetText, Atom* textType) const;
+	JError	GetSelectionData(const Atom selectionName, const Time time,
+							 JString* text, JRunArray<JFont>* style) const;
+	JError	GetSelectionData(const Atom selectionName,
+							 const JArray<Atom>& typeList, const Time time,
+							 JString* text, JRunArray<JFont>* style) const;
 
 	void	RemapWindowsHomeEnd(int* key, JXKeyModifiers* modifiers) const;
 
 	void	PrivateActivate();
 	void	PrivateDeactivate();
-
-	// not allowed
-
-	JXTEBase(const JXTEBase& source);
-	const JXTEBase& operator=(const JXTEBase& source);
 
 public:
 

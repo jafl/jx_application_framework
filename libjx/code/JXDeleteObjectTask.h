@@ -31,13 +31,6 @@ protected:
 private:
 
 	T*	itsObject;
-
-private:
-
-	// not allowed
-
-	JXDeleteObjectTask(const JXDeleteObjectTask& source);
-	const JXDeleteObjectTask& operator=(const JXDeleteObjectTask& source);
 };
 
 #include "JXDeleteObjectTask.tmpl"

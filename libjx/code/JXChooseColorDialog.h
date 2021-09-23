@@ -57,11 +57,6 @@ private:
 	void	UpdateColorWheel(const JRGB& color);
 	void	UpdateSliders(const JRGB& color);
 	void	UpdateInputFields(const JRGB& color);
-
-	// not allowed
-
-	JXChooseColorDialog(const JXChooseColorDialog& source);
-	const JXChooseColorDialog& operator=(const JXChooseColorDialog& source);
 };
 
 #endif

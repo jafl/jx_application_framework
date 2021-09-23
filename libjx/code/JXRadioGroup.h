@@ -51,11 +51,6 @@ private:
 	void	NewButton(JXRadioButton* button);
 	void	NewSelection(JXRadioButton* button);
 
-	// not allowed
-
-	JXRadioGroup(const JXRadioGroup& source);
-	const JXRadioGroup& operator=(const JXRadioGroup& source);
-
 public:
 
 	// JBroadcaster messages

@@ -46,11 +46,6 @@ private:
 private:
 
 	void	BuildWindow();
-
-	// not allowed
-
-	TestButtonsDialog(const TestButtonsDialog& source);
-	const TestButtonsDialog& operator=(const TestButtonsDialog& source);
 };
 
 #endif

@@ -79,30 +79,25 @@ public:
 protected:
 
 	virtual bool	GetPreviewImage(const JImage** image) const = 0;
-	virtual void		DeletePreviewData() = 0;
+	virtual void	DeletePreviewData() = 0;
 
 	virtual const JPoint&	PSGetOrigin() const;
 	virtual void			PSResetCoordinates();
 	virtual JCoordinate		PSGetPrintableHeight() const;
 
 	virtual bool	PSShouldPrintCurrentPage() const;
-	virtual void		PSPrintVersionComment(std::ostream& output);
-	virtual void		PSPrintHeaderComments(std::ostream& output);
-	virtual void		PSPrintSetupComments(std::ostream& output);
+	virtual void	PSPrintVersionComment(std::ostream& output);
+	virtual void	PSPrintHeaderComments(std::ostream& output);
+	virtual void	PSPrintSetupComments(std::ostream& output);
 
 private:
 
-	JRect		itsBounds;
+	JRect	itsBounds;
 	bool	itsIncludePreviewFlag;
 
 private:
 
 	void	PrintPreview();
-
-	// not allowed
-
-	JEPSPrinter(const JEPSPrinter& source);
-	const JEPSPrinter& operator=(const JEPSPrinter& source);
 };
 
 

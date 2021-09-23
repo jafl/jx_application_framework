@@ -48,11 +48,6 @@ private:
 
 	JXImage*	CreateIcon(const JConstBitmap& bitmap, const JConstBitmap& mask,
 						   const bool drop);
-
-	// not allowed
-
-	AnimateWindowIconTask(const AnimateWindowIconTask& source);
-	const AnimateWindowIconTask& operator=(const AnimateWindowIconTask& source);
 };
 
 #endif

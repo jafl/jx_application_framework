@@ -169,11 +169,6 @@ private:
 
 	void ChangeCurveOptions();
 	void GetNewCurveOptions();
-
-	// not allowed
-
-	JX2DPlotWidget(const JX2DPlotWidget& source);
-	const JX2DPlotWidget& operator=(const JX2DPlotWidget& source);
 };
 
 

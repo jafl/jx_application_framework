@@ -21,37 +21,38 @@ class JTreeNode : public JBroadcaster
 public:
 
 	JTreeNode(JTree* tree, const bool isOpenable = true);
+	JTreeNode(const JTreeNode& source);
 
 	virtual ~JTreeNode();
 
 	bool	IsRoot() const;
-	JSize		GetDepth() const;
+	JSize	GetDepth() const;
 
 	JTree*			GetTree();
 	const JTree*	GetTree() const;
-	bool		HasTree() const;
-	bool		GetTree(JTree** tree);
-	bool		GetTree(const JTree** tree) const;
+	bool			HasTree() const;
+	bool			GetTree(JTree** tree);
+	bool			GetTree(const JTree** tree) const;
 
 	JTreeNode*			GetParent();
 	const JTreeNode*	GetParent() const;
-	bool			HasParent() const;
-	bool			GetParent(JTreeNode** parent);
-	bool			GetParent(const JTreeNode** parent) const;
+	bool				HasParent() const;
+	bool				GetParent(JTreeNode** parent);
+	bool				GetParent(const JTreeNode** parent) const;
 	JIndex				GetIndexInParent() const;
-	bool			GetIndexInParent(JIndex* index) const;
+	bool				GetIndexInParent(JIndex* index) const;
 	void				DisconnectFromParent();
 
-	bool			IsOpenable() const;
-	virtual bool	OKToOpen() const;
-	bool			HasChildren() const;
+	bool				IsOpenable() const;
+	virtual bool		OKToOpen() const;
+	bool				HasChildren() const;
 	JSize				GetChildCount() const;
 	JTreeNode*			GetChild(const JIndex index);
 	const JTreeNode*	GetChild(const JIndex index) const;
 	JSize				GetDescendantCount() const;
 	void				CollectDescendants(JPtrArray<JTreeNode>* list);
-	bool			FindChild(const JTreeNode* child, JIndex* index) const;
-	bool			ChildIndexValid(const JIndex index) const;
+	bool				FindChild(const JTreeNode* child, JIndex* index) const;
+	bool				ChildIndexValid(const JIndex index) const;
 
 	void	InsertAtIndex(const JIndex index, JTreeNode* child);
 	void	Prepend(JTreeNode* child);
@@ -61,17 +62,17 @@ public:
 	void	Remove(JTreeNode* child);
 	void	DeleteAllChildren();
 
-	void		InsertSorted(JTreeNode* child);
+	void	InsertSorted(JTreeNode* child);
 	bool	GetChildCompareFunction(
-					JListT::CompareResult (**compareFn)(JTreeNode * const &,
-															  JTreeNode * const &),
-					JListT::SortOrder* order);
-	void		SetChildCompareFunction(
-					JListT::CompareResult (*compareFn)(JTreeNode * const &,
-															 JTreeNode * const &),
-					const JListT::SortOrder order,
-					const bool propagate);
-	void		SortChildren(const bool propagate = false);
+				JListT::CompareResult (**compareFn)(JTreeNode * const &,
+													JTreeNode * const &),
+				JListT::SortOrder* order);
+	void	SetChildCompareFunction(
+				JListT::CompareResult (*compareFn)(JTreeNode * const &,
+												   JTreeNode * const &),
+				const JListT::SortOrder order,
+				const bool propagate);
+	void	SortChildren(const bool propagate = false);
 
 	void	MoveToIndex(JTreeNode* child, const JIndex index);
 	void	MoveBefore(const JTreeNode* before, JTreeNode* child);
@@ -88,16 +89,16 @@ private:
 	JTree*					itsTree;			// not owned; can be nullptr
 	JTreeNode*				itsParent;			// owns us; can be nullptr
 	JPtrArray<JTreeNode>*	itsChildren;		// can be nullptr
-	bool				itsIsOpenableFlag;
-	bool				itsIsDestructingFlag;
+	bool					itsIsOpenableFlag;
+	bool					itsIsDestructingFlag;
 
 	JListT::CompareResult (*itsCompareFn)(JTreeNode * const &,
-												JTreeNode * const &);
+										  JTreeNode * const &);
 	JListT::SortOrder	itsSortOrder;
 
 private:
 
-	void		SetTree(JTree* tree);
+	void	SetTree(JTree* tree);
 	bool	SetParent(JTreeNode* parent);
 
 	void	CreateChildList();
@@ -105,8 +106,7 @@ private:
 
 	// not allowed
 
-	JTreeNode(const JTreeNode& source);
-	const JTreeNode& operator=(const JTreeNode& source);
+	JTreeNode& operator=(const JTreeNode&) = delete;
 };
 
 

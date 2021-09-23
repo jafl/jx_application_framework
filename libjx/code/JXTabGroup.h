@@ -38,7 +38,7 @@ public:
 
 	virtual void	Activate() override;		// must call inherited
 
-	JSize		GetTabCount() const;
+	JSize	GetTabCount() const;
 	bool	GetCurrentTabIndex(JIndex* index) const;
 
 	JXContainer*	InsertTab(const JIndex index, const JString& title,
@@ -61,23 +61,23 @@ public:
 	void			SetTabTitle(const JIndex index, const JString& title);
 
 	bool	TabCanClose(const JIndex index) const;
-	void		SetTabCanClose(const JIndex index, const bool closable);
+	void	SetTabCanClose(const JIndex index, const bool closable);
 
-	bool		ShowTab(const JIndex index);
-	bool		ShowTab(JXContainer* card);
-	void			ShowPreviousTab();
-	void			ShowNextTab();
-	void			ScrollTabsIntoView();
+	bool	ShowTab(const JIndex index);
+	bool	ShowTab(JXContainer* card);
+	void	ShowPreviousTab();
+	void	ShowNextTab();
+	void	ScrollTabsIntoView();
 
 	Edge	GetTabEdge() const;
 	void	SetTabEdge(const Edge edge);
 
 	const JFont&	GetFont() const;
 
-	void				SetFontName(const JString& name);
-	void				SetFontSize(const JSize size);
-	void				SetFontStyle(const JFontStyle& style);
-	void				SetFont(const JFont& font);
+	void	SetFontName(const JString& name);
+	void	SetFontSize(const JSize size);
+	void	SetFontStyle(const JFontStyle& style);
+	void	SetFont(const JFont& font);
 
 	JCoordinate	GetTabTitlePreMargin(const JIndex index) const;
 	void		SetTabTitlePreMargin(const JIndex index, const JCoordinate margin);
@@ -96,7 +96,7 @@ protected:
 	bool			GetMouseTabIndex(JIndex* index) const;
 	virtual bool	OKToDeleteTab(const JIndex index);
 	bool			ScrollForWheel(const JXMouseButton button,
-									   const JXKeyModifiers& modifiers);
+								   const JXKeyModifiers& modifiers);
 
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
@@ -119,11 +119,11 @@ protected:
 								  const JXKeyModifiers& modifiers) override;
 
 	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const JPoint& pt, const Time time,
-									   const JXWidget* source) override;
-	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
-	virtual void		HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
-										const JXKeyModifiers& modifiers) override;
+								   const JPoint& pt, const Time time,
+								   const JXWidget* source) override;
+	virtual void	HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
+	virtual void	HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
+									const JXKeyModifiers& modifiers) override;
 
 	virtual bool	NeedsInternalFTC() const override;
 
@@ -160,9 +160,9 @@ private:
 	JFont				itsFont;
 	JPtrArray<JString>*	itsTitles;
 	JArray<TabInfo>*	itsTabInfoList;
-	bool			itsCanScrollUpFlag;
+	bool				itsCanScrollUpFlag;
 	JRect				itsScrollUpRect;
-	bool			itsCanScrollDownFlag;
+	bool				itsCanScrollDownFlag;
 	JRect				itsScrollDownRect;
 	JIndex				itsFirstDrawIndex;
 	JIndex				itsLastDrawIndex;
@@ -176,11 +176,11 @@ private:
 	// used during dragging
 
 	DragAction	itsDragAction;
-	bool	itsScrollUpPushedFlag;
-	bool	itsScrollDownPushedFlag;
+	bool		itsScrollUpPushedFlag;
+	bool		itsScrollDownPushedFlag;
 
-	JIndex		itsMouseIndex;
-	JRect		itsCloseRect;
+	JIndex	itsMouseIndex;
+	JRect	itsCloseRect;
 	bool	itsClosePushedFlag;
 
 private:
@@ -199,11 +199,6 @@ private:
 	void	HandleContextMenu(const JIndex index);
 
 	void	ScrollUpToTab(const JIndex index);
-
-	// not allowed
-
-	JXTabGroup(const JXTabGroup& source);
-	const JXTabGroup& operator=(const JXTabGroup& source);
 
 public:
 

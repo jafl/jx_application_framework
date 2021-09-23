@@ -149,11 +149,6 @@ private:
 	bool	SaveInCurrentFile1();
 	void	RemoveSafetySaveFile();
 
-	// not allowed
-
-	JXFileDocument(const JXFileDocument& source);
-	const JXFileDocument& operator=(const JXFileDocument& source);
-
 public:
 
 	// JBroadcaster messages

@@ -25,30 +25,30 @@ public:
 	JTree*			GetTree();
 	const JTree*	GetTree() const;
 
-	bool			IndexValid(const JIndex index) const;
+	bool				IndexValid(const JIndex index) const;
 	JTreeNode*			GetNode(const JIndex index);
 	const JTreeNode*	GetNode(const JIndex index) const;
-	bool			FindNode(const JTreeNode* node, JIndex* index) const;
+	bool				FindNode(const JTreeNode* node, JIndex* index) const;
 
 	bool	IsVisible(const JTreeNode* node) const;
-	void		MakeVisible(const JTreeNode* node);
+	void	MakeVisible(const JTreeNode* node);
 	bool	IsOpen(const JIndex index) const;
 	bool	IsOpen(const JTreeNode* node) const;
 	bool	Open(const JIndex index);
 	bool	Open(const JTreeNode* node);
-	void		Close(const JIndex index);
-	void		Close(const JTreeNode* node);
-	void		Toggle(const JIndex index);
-	void		Toggle(const JTreeNode* node);
+	void	Close(const JIndex index);
+	void	Close(const JTreeNode* node);
+	void	Toggle(const JIndex index);
+	void	Toggle(const JTreeNode* node);
 
-	void		OpenSiblings(const JIndex index);
-	void		OpenSiblings(const JTreeNode* node);
-	void		CloseSiblings(const JIndex index);
-	void		CloseSiblings(const JTreeNode* node);
+	void	OpenSiblings(const JIndex index);
+	void	OpenSiblings(const JTreeNode* node);
+	void	CloseSiblings(const JIndex index);
+	void	CloseSiblings(const JTreeNode* node);
 	bool	OpenDescendants(const JIndex index, const JSize maxDepth);
 	bool	OpenDescendants(const JTreeNode* node, const JSize maxDepth);
-	void		CloseDescendants(const JIndex index);
-	void		CloseDescendants(const JTreeNode* node);
+	void	CloseDescendants(const JIndex index);
+	void	CloseDescendants(const JTreeNode* node);
 
 protected:
 
@@ -62,7 +62,7 @@ private:
 	JTree*					itsTree;
 	JPtrArray<JTreeNode>*	itsVisibleNodeList;		// contents owned by itsTree
 	JPtrArray<JTreeNode>*	itsOpenNodeList;		// contents owned by itsTree
-	bool				itsWasOpenBeforeMoveFlag;
+	bool					itsWasOpenBeforeMoveFlag;
 
 private:
 
@@ -79,8 +79,8 @@ private:
 
 	// not allowed
 
-	JTreeList(const JTreeList& source);
-	const JTreeList& operator=(const JTreeList& source);
+	JTreeList(const JTreeList&) = delete;
+	JTreeList& operator=(const JTreeList&) = delete;
 
 public:		// should be private
 

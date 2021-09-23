@@ -169,11 +169,6 @@ private:
 	void	SetStateForXSearch(JXTextCheckbox* cb,
 							   const JUtf8Byte state, const bool negate);
 	void	WriteXSearchV1(std::ostream& output) const;
-
-	// not allowed
-
-	JXSearchTextDialog(const JXSearchTextDialog& source);
-	const JXSearchTextDialog& operator=(const JXSearchTextDialog& source);
 };
 
 

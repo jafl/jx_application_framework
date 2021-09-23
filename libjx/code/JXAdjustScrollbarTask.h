@@ -27,13 +27,6 @@ public:
 private:
 
 	JXScrollableWidget*	itsScrollableWidget;		// we don't own this
-
-private:
-
-	// not allowed
-
-	JXAdjustScrollbarTask(const JXAdjustScrollbarTask& source);
-	const JXAdjustScrollbarTask& operator=(const JXAdjustScrollbarTask& source);
 };
 
 #endif

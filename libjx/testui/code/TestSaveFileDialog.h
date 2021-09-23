@@ -52,11 +52,6 @@ private:
 						const JString& message);
 
 	void	HandleFormatChange(const JIndex id);
-
-	// not allowed
-
-	TestSaveFileDialog(const TestSaveFileDialog& source);
-	const TestSaveFileDialog& operator=(const TestSaveFileDialog& source);
 };
 
 #endif

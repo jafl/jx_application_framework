@@ -470,21 +470,21 @@ private:
 
 private:
 
-	void		Recalc(const JStyledText::TextRange& recalcRange,
-					   const JStyledText::TextRange& redrawRange);
-	void		RecalcRange(const JStyledText::TextRange& recalcRange,
-							JCoordinate* maxLineWidth,
-							JIndex* firstLineIndex, JIndex* lastLineIndex);
-	void		RecalcLine(JStringIterator* textIter,
-						   JRunArrayIterator<JFont>* styleIter,
-						   JRunArrayIterator<LineGeometry>* geomIter,
-						   const JIndex lineIndex, JCoordinate* lineWidth);
-	void		GetSubwordForLine(JStringIterator* textIter,
-								  JRunArrayIterator<JFont>* styleIter,
-								  const JIndex lineIndex, JCoordinate* lineWidth) const;
-	void		IncludeWhitespaceOnLine(JStringIterator* textIter,
-										JRunArrayIterator<JFont>* styleIter,
-										JCoordinate* lineWidth, bool* endOfLine) const;
+	void	Recalc(const JStyledText::TextRange& recalcRange,
+				   const JStyledText::TextRange& redrawRange);
+	void	RecalcRange(const JStyledText::TextRange& recalcRange,
+						JCoordinate* maxLineWidth,
+						JIndex* firstLineIndex, JIndex* lastLineIndex);
+	void	RecalcLine(JStringIterator* textIter,
+					   JRunArrayIterator<JFont>* styleIter,
+					   JRunArrayIterator<LineGeometry>* geomIter,
+					   const JIndex lineIndex, JCoordinate* lineWidth);
+	void	GetSubwordForLine(JStringIterator* textIter,
+							  JRunArrayIterator<JFont>* styleIter,
+							  const JIndex lineIndex, JCoordinate* lineWidth) const;
+	void	IncludeWhitespaceOnLine(JStringIterator* textIter,
+									JRunArrayIterator<JFont>* styleIter,
+									JCoordinate* lineWidth, bool* endOfLine) const;
 	bool	NoPrevWhitespaceOnLine(const JStyledText::TextIndex& index) const;
 
 	void	TEDrawText(JPainter& p, const JRect& rect);
@@ -495,10 +495,10 @@ private:
 							const JCoordinate startVisLineTop);
 	void	TEDrawCaret(JPainter& p, const CaretLocation& caretLoc);
 
-	JIndex			CalcLineIndex(const JCoordinate y, JCoordinate* lineTop) const;
-	bool		TEScrollTo(const CaretLocation& caretLoc);
-	JRect			CalcCaretRect(const CaretLocation& caretLoc) const;
-	void			TERefreshCaret(const CaretLocation& caretLoc);
+	JIndex	CalcLineIndex(const JCoordinate y, JCoordinate* lineTop) const;
+	bool	TEScrollTo(const CaretLocation& caretLoc);
+	JRect	CalcCaretRect(const CaretLocation& caretLoc) const;
+	void	TERefreshCaret(const CaretLocation& caretLoc);
 
 	JCoordinate	GetCharLeft(const CaretLocation& charLoc) const;
 	JCoordinate	GetCharRight(const CaretLocation& charLoc) const;
@@ -523,22 +523,22 @@ private:
 						  const JIndex endCharIndex,
 						  JIndex* tabCharIndex, JIndex* pretabByteIndex) const;
 
-	void		ReplaceRange(JStringIterator* iter, JRunArray<JFont>* styles,
-							 const JStringMatch& match,
-							 const JString& replaceStr,
-							 const bool replaceIsRegex,
-							 const bool preserveCase);
+	void	ReplaceRange(JStringIterator* iter, JRunArray<JFont>* styles,
+						 const JStringMatch& match,
+						 const JString& replaceStr,
+						 const bool replaceIsRegex,
+						 const bool preserveCase);
 
-	void		BroadcastCaretMessages(const CaretLocation& caretLoc);
+	void	BroadcastCaretMessages(const CaretLocation& caretLoc);
 
 	static JInteger	GetLineHeight(const LineGeometry& data);
 
-	bool		IsTrailingNewline(const JStyledText::TextIndex& index) const;
+	bool			IsTrailingNewline(const JStyledText::TextIndex& index) const;
 	JUtf8Character	GetCharacter(const JStyledText::TextIndex& index) const;
 
 	// not allowed
 
-	const JTextEditor& operator=(const JTextEditor& source);
+	JTextEditor& operator=(const JTextEditor&) = delete;
 
 public:
 

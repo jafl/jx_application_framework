@@ -269,8 +269,8 @@ private:
 
 	// not allowed
 
-	JXDNDManager(const JXDNDManager& source);
-	const JXDNDManager& operator=(const JXDNDManager& source);
+	JXDNDManager(const JXDNDManager&) = delete;
+	JXDNDManager& operator=(const JXDNDManager&) = delete;
 
 public:
 

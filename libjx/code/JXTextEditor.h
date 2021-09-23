@@ -49,11 +49,6 @@ private:
 private:
 
 	void	AdjustMenuBar();
-
-	// not allowed
-
-	JXTextEditor(const JXTextEditor& source);
-	const JXTextEditor& operator=(const JXTextEditor& source);
 };
 
 #endif

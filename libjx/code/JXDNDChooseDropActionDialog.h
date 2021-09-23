@@ -28,13 +28,6 @@ public:
 private:
 
 	const JArray<Atom>&	itsActionList;
-
-private:
-
-	// not allowed
-
-	JXDNDChooseDropActionDialog(const JXDNDChooseDropActionDialog& source);
-	const JXDNDChooseDropActionDialog& operator=(const JXDNDChooseDropActionDialog& source);
 };
 
 #endif

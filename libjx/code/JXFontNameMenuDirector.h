@@ -30,13 +30,6 @@ protected:
 private:
 
 	JXFontNameMenu*	itsMenu;	// it owns us
-
-private:
-
-	// not allowed
-
-	JXFontNameMenuDirector(const JXFontNameMenuDirector& source);
-	const JXFontNameMenuDirector& operator=(const JXFontNameMenuDirector& source);
 };
 
 #endif

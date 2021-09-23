@@ -95,7 +95,7 @@ private:
 
 	// not allowed
 
-	const JPackedTableData<T>& operator=(const JPackedTableData<T>& source);
+	JPackedTableData<T>& operator=(const JPackedTableData<T>&) = delete;
 };
 
 #include "JPackedTableData.tmpl"

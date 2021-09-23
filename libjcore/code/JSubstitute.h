@@ -37,7 +37,7 @@ public:
 	bool	SetEscape(const unsigned char character, const JUtf8Byte* value);
 
 	bool	ClearEscape(const unsigned char character);
-	void		ClearAllEscapes();
+	void	ClearAllEscapes();
 
 	// useful shortcuts
 
@@ -52,11 +52,11 @@ public:
 
 	// control of variable substitution
 
-	void		DefineVariable(const JUtf8Byte* name, const JString& value);
+	void	DefineVariable(const JUtf8Byte* name, const JString& value);
 	bool	SetVariableValue(const JUtf8Byte* name, const JString& value);
-	void		DefineVariables(const JUtf8Byte* regexPattern);
-	void		UndefineVariable(const JUtf8Byte* name);
-	void		UndefineAllVariables();
+	void	DefineVariables(const JUtf8Byte* regexPattern);
+	void	UndefineVariable(const JUtf8Byte* name);
+	void	UndefineAllVariables();
 
 	// options
 
@@ -65,17 +65,17 @@ public:
 	// set to true to convert \cX to control-X
 
 	bool	IsUsingControlEscapes() const;
-	void		UseControlEscapes(const bool use = true);
+	void	UseControlEscapes(const bool use = true);
 
 	// Set to true to skip over ignored escapes
 
 	bool	WillIgnoreUnrecognized() const;
-	void		IgnoreUnrecognized(const bool ignore = true);
+	void	IgnoreUnrecognized(const bool ignore = true);
 
 	// set to true to turn off variable substitution
 
 	bool	IsPureEscapeEngine() const;
-	void		SetPureEscapeEngine(const bool is = true);
+	void	SetPureEscapeEngine(const bool is = true);
 
 protected:
 

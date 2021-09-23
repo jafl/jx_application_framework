@@ -22,8 +22,8 @@ private:
 
 	// not allowed
 
-	JPrinter(const JPrinter& source);
-	const JPrinter& operator=(const JPrinter& source);
+	JPrinter(const JPrinter&) = delete;
+	JPrinter& operator=(const JPrinter&) = delete;
 
 public:
 

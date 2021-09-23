@@ -28,13 +28,6 @@ private:
 
 	JProgressDisplay*	itsPG;
 	JIndex				itsCounter;
-
-private:
-
-	// not allowed
-
-	TestPGTask(const TestPGTask& source);
-	const TestPGTask& operator=(const TestPGTask& source);
 };
 
 #endif

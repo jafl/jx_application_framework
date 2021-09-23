@@ -30,11 +30,6 @@ private:
 private:
 
 	void	BuildWindow();
-
-	// not allowed
-
-	AboutDialog(const AboutDialog& source);
-	const AboutDialog& operator=(const AboutDialog& source);
 };
 
 #endif

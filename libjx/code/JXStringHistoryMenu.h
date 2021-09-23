@@ -28,13 +28,6 @@ public:
 	virtual ~JXStringHistoryMenu();
 
 	void	AddString(const JString& str);
-
-private:
-
-	// not allowed
-
-	JXStringHistoryMenu(const JXStringHistoryMenu& source);
-	const JXStringHistoryMenu& operator=(const JXStringHistoryMenu& source);
 };
 
 #endif

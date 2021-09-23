@@ -27,8 +27,8 @@ private:
 
 	// not allowed
 
-	JXHelpManager(const JXHelpManager& source);
-	const JXHelpManager& operator=(const JXHelpManager& source);
+	JXHelpManager(const JXHelpManager&) = delete;
+	JXHelpManager& operator=(const JXHelpManager&) = delete;
 };
 
 #endif

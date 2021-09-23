@@ -42,11 +42,6 @@ private:
 
 	void	UpdateCustomEditMenuItems();
 	bool	HandleCustomEditMenuItems(const JIndex index);
-
-	// not allowed
-
-	TestTextEditor(const TestTextEditor& source);
-	const TestTextEditor& operator=(const TestTextEditor& source);
 };
 
 #endif

@@ -26,9 +26,9 @@ public:
 	~JStringMatch();
 
 	bool	IsEmpty() const;
-	JSize		GetCharacterCount() const;
-	JSize		GetByteCount() const;
-	JSize		GetSubstringCount() const;
+	JSize	GetCharacterCount() const;
+	JSize	GetByteCount() const;
+	JSize	GetSubstringCount() const;
 
 	JString	GetString() const;
 	JString	GetSubstring(const JIndex submatchIndex) const;

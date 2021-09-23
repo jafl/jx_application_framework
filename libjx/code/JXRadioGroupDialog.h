@@ -42,11 +42,6 @@ private:
 	void	BuildWindow(const JString& windowTitle, const JString& prompt,
 						const JPtrArray<JString>& choiceList,
 						const JPtrArray<JString>* shortcutList);
-
-	// not allowed
-
-	JXRadioGroupDialog(const JXRadioGroupDialog& source);
-	const JXRadioGroupDialog& operator=(const JXRadioGroupDialog& source);
 };
 
 

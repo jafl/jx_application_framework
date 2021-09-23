@@ -31,7 +31,7 @@ public:
 private:
 
 	JTreeNode*	itsRoot;
-	bool	itsIsDestructingFlag;
+	bool		itsIsDestructingFlag;
 
 private:
 
@@ -45,8 +45,8 @@ private:
 
 	// not allowed
 
-	JTree(const JTree& source);
-	const JTree& operator=(const JTree& source);
+	JTree(const JTree&) = delete;
+	JTree& operator=(const JTree&) = delete;
 
 public:
 

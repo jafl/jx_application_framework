@@ -39,13 +39,6 @@ private:
 	Window		itsParent;
 	JPoint		itsPoint;
 	JIndex		itsState;
-
-private:
-
-	// not allowed
-
-	JXDockWindowTask(const JXDockWindowTask& source);
-	const JXDockWindowTask& operator=(const JXDockWindowTask& source);
 };
 
 #endif

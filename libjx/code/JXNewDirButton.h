@@ -31,13 +31,6 @@ private:
 
 	JXImage*	itsFolderIcon;	// not owned
 	JSize		itsLabelWidth;
-
-private:
-
-	// not allowed
-
-	JXNewDirButton(const JXNewDirButton& source);
-	const JXNewDirButton& operator=(const JXNewDirButton& source);
 };
 
 #endif

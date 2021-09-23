@@ -38,13 +38,13 @@ public:
 
 	bool	HasImage() const;
 	bool	GetImage(JXImage** image) const;
-	void		SetImage(JXImage* image, const bool widgetOwnsImage,
-						 const JColorID backColor = kJXTransparentColor);  // placeholder for GetDefaultBackColor()
-	void		SetBitmap(const JConstBitmap& bitmap,
-						  const JColorID foreColor = kJXTransparentColor,  // placeholder for GetBlackColor()
-						  const JColorID backColor = kJXTransparentColor); // placeholder for GetDefaultBackColor()
-	void		SetXPM(const JXPM& data,
-					   const JColorID backColor = kJXTransparentColor);    // placeholder for GetDefaultBackColor()
+	void	SetImage(JXImage* image, const bool widgetOwnsImage,
+					 const JColorID backColor = kJXTransparentColor);  // placeholder for GetDefaultBackColor()
+	void	SetBitmap(const JConstBitmap& bitmap,
+					  const JColorID foreColor = kJXTransparentColor,  // placeholder for GetBlackColor()
+					  const JColorID backColor = kJXTransparentColor); // placeholder for GetDefaultBackColor()
+	void	SetXPM(const JXPM& data,
+				   const JColorID backColor = kJXTransparentColor);    // placeholder for GetDefaultBackColor()
 
 protected:
 
@@ -55,7 +55,7 @@ protected:
 private:
 
 	JXImage*	itsImage;			// can be nullptr
-	bool	itsOwnsImageFlag;
+	bool		itsOwnsImageFlag;
 
 	JXAdjustIWBoundsTask*	itsAdjustBoundsTask;
 
@@ -63,11 +63,6 @@ private:
 
 	void	NeedAdjustBounds();
 	void	AdjustBounds();
-
-	// not allowed
-
-	JXImageWidget(const JXImageWidget& source);
-	const JXImageWidget& operator=(const JXImageWidget& source);
 };
 
 

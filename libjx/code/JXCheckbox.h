@@ -49,13 +49,6 @@ private:
 	bool	itsIsCheckedFlag;
 	bool	itsIsPushedFlag;
 
-private:
-
-	// not allowed
-
-	JXCheckbox(const JXCheckbox& source);
-	const JXCheckbox& operator=(const JXCheckbox& source);
-
 public:
 
 	// JBroadcaster messages

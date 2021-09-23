@@ -31,13 +31,6 @@ private:
 
 	JXWindow*			itsWindow;		// not owned
 	JXDirectSaveAction*	itsAction;		// nullptr after first transaction
-
-private:
-
-	// not allowed
-
-	JXDSSSelection(const JXDSSSelection& source);
-	const JXDSSSelection& operator=(const JXDSSSelection& source);
 };
 
 #endif

@@ -41,11 +41,6 @@ private:
 
 	void	JXFileHistoryMenuX();
 	void	RemoveNonexistentFiles();
-
-	// not allowed
-
-	JXFileHistoryMenu(const JXFileHistoryMenu& source);
-	const JXFileHistoryMenu& operator=(const JXFileHistoryMenu& source);
 };
 
 #endif

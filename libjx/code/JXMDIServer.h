@@ -24,13 +24,6 @@ protected:
 
 	virtual bool	CanAcceptMDIRequest();
 	virtual void		PreprocessArgList(JPtrArray<JString>* argList);
-
-private:
-
-	// not allowed
-
-	JXMDIServer(const JXMDIServer& source);
-	const JXMDIServer& operator=(const JXMDIServer& source);
 };
 
 #endif

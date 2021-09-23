@@ -19,8 +19,8 @@ public:
 	virtual ~JTEKeyHandler();
 
 	virtual bool	HandleKeyPress(const JUtf8Character& c, const bool selectText,
-									   const JTextEditor::CaretMotion motion,
-									   const bool deleteToTabStop) = 0;
+								   const JTextEditor::CaretMotion motion,
+								   const bool deleteToTabStop) = 0;
 
 	// called by JTextEditor
 
@@ -42,8 +42,8 @@ private:
 
 	// not allowed
 
-	JTEKeyHandler(const JTEKeyHandler& source);
-	const JTEKeyHandler& operator=(const JTEKeyHandler& source);
+	JTEKeyHandler(const JTEKeyHandler&) = delete;
+	JTEKeyHandler& operator=(const JTEKeyHandler&) = delete;
 };
 
 

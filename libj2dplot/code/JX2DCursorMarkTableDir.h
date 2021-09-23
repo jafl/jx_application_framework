@@ -39,11 +39,6 @@ private:
 private:
 
 	void	BuildWindow(J2DPlotWidget* plot);
-
-	// not allowed
-
-	JX2DCursorMarkTableDir(const JX2DCursorMarkTableDir& source);
-	const JX2DCursorMarkTableDir& operator=(const JX2DCursorMarkTableDir& source);
 };
 
 /******************************************************************************

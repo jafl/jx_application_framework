@@ -68,11 +68,6 @@ private:
 
 	void	UpdateEmulatorMenu();
 	void	HandleEmulatorMenu(const JIndex item);
-
-	// not allowed
-
-	TestTextEditDocument(const TestTextEditDocument& source);
-	const TestTextEditDocument& operator=(const TestTextEditDocument& source);
 };
 
 #endif

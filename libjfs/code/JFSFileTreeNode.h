@@ -81,11 +81,6 @@ private:
 
 	static JListT::CompareResult
 		CompareTypeAndName(JTreeNode * const & e1, JTreeNode * const & e2);
-
-	// not allowed
-
-	JFSFileTreeNode(const JFSFileTreeNode& source);
-	const JFSFileTreeNode& operator=(const JFSFileTreeNode& source);
 };
 
 /******************************************************************************

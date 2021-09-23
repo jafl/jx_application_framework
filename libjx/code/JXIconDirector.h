@@ -29,13 +29,6 @@ public:
 private:
 
 	JXWindowIcon*	itsIconWidget;
-
-private:
-
-	// not allowed
-
-	JXIconDirector(const JXIconDirector& source);
-	const JXIconDirector& operator=(const JXIconDirector& source);
 };
 
 

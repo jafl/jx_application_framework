@@ -54,11 +54,6 @@ private:
 private:
 
 	void	BuildWindow(const JString& title, const bool splitHoriz);
-
-	// not allowed
-
-	JXDockDirector(const JXDockDirector& source);
-	const JXDockDirector& operator=(const JXDockDirector& source);
 };
 
 #endif

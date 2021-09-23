@@ -62,11 +62,6 @@ private:
 private:
 
 	void	BuildWindow(const JString& message);
-
-	// not allowed
-
-	JXChoosePathDialog(const JXChoosePathDialog& source);
-	const JXChoosePathDialog& operator=(const JXChoosePathDialog& source);
 };
 
 #endif

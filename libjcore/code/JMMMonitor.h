@@ -51,8 +51,8 @@ private:
 
 	// not allowed
 
-	JMMMonitor(const JMMMonitor& source);
-	const JMMMonitor& operator=(const JMMMonitor& source);
+	JMMMonitor(const JMMMonitor&) = delete;
+	JMMMonitor& operator=(const JMMMonitor&) = delete;
 };
 
 #endif

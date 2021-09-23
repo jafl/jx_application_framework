@@ -119,8 +119,8 @@ private:
 
 	// not allowed
 
-	JSTStyler(const JSTStyler& source);
-	const JSTStyler& operator=(const JSTStyler& source);
+	JSTStyler(const JSTStyler&) = delete;
+	JSTStyler& operator=(const JSTStyler&) = delete;
 };
 
 

@@ -77,8 +77,8 @@ private:
 
 	// not allowed
 
-	JAliasArray(const JAliasArray<T>& source);
-	const JAliasArray<T>& operator=(const JAliasArray<T>& source);
+	JAliasArray(const JAliasArray<T>&) = delete;
+	JAliasArray<T>& operator=(const JAliasArray<T>&) = delete;
 };
 
 #include "JAliasArray.tmpl"

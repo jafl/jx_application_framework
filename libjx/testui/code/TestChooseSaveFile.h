@@ -48,13 +48,6 @@ private:
 
 	TestSaveFileDialog*	itsTestSaveDialog;
 	SaveFormat			itsSaveFormat;
-
-private:
-
-	// not allowed
-
-	TestChooseSaveFile(const TestChooseSaveFile& source);
-	const TestChooseSaveFile& operator=(const TestChooseSaveFile& source);
 };
 
 #endif

@@ -45,11 +45,6 @@ private:
 
 	void	BuildWindow();
 	void	UpdateFontSample();
-
-	// not allowed
-
-	TestTabDirector(const TestTabDirector& source);
-	const TestTabDirector& operator=(const TestTabDirector& source);
 };
 
 #endif

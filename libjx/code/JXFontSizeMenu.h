@@ -74,11 +74,6 @@ private:
 	void	AdjustVarSizeItem(const JSize fontSize);
 	void	ChooseFontSize(const JIndex sizeIndex);
 
-	// not allowed
-
-	JXFontSizeMenu(const JXFontSizeMenu& source);
-	const JXFontSizeMenu& operator=(const JXFontSizeMenu& source);
-
 public:
 
 	// JBroadcaster messages

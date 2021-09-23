@@ -18,8 +18,8 @@ class J2DPlotData : public JPlotDataBase
 public:
 
 	static bool Create(J2DPlotData** plotData,
-							const JArray<JFloat>& x, const JArray<JFloat>& y,
-							const bool listen);
+						const JArray<JFloat>& x, const JArray<JFloat>& y,
+						const bool listen);
 
 	static bool OKToCreate(const JArray<JFloat>& x, const JArray<JFloat>& y);
 
@@ -33,10 +33,10 @@ public:
 	bool SetYErrors(const JArray<JFloat>& yErr);
 	bool SetYErrors(const JArray<JFloat>& yPErr, const JArray<JFloat>& yMErr);
 
-	virtual void		GetXRange(JFloat* min, JFloat* max) const override;
+	virtual void	GetXRange(JFloat* min, JFloat* max) const override;
 	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const bool xLinear,
-								  JFloat* yMin, JFloat* yMax) const override;
+							  const bool xLinear,
+							  JFloat* yMin, JFloat* yMax) const override;
 
 	virtual bool HasXErrors() const override;
 	virtual bool HasYErrors() const override;
@@ -47,13 +47,13 @@ public:
 
 	const JArray<JFloat>&	GetXData() const;
 	const JArray<JFloat>&	GetYData() const;
-	bool				GetXPErrorData(const JArray<JFloat>** array) const;
-	bool				GetXMErrorData(const JArray<JFloat>** array) const;
-	bool				GetYPErrorData(const JArray<JFloat>** array) const;
-	bool				GetYMErrorData(const JArray<JFloat>** array) const;
+	bool					GetXPErrorData(const JArray<JFloat>** array) const;
+	bool					GetXMErrorData(const JArray<JFloat>** array) const;
+	bool					GetYPErrorData(const JArray<JFloat>** array) const;
+	bool					GetYMErrorData(const JArray<JFloat>** array) const;
 
 	bool	IsListening() const;
-	void		IgnoreDataChanges();
+	void	IgnoreDataChanges();
 
 	bool	ArrayInData(const JArray<JFloat>* array) const;
 

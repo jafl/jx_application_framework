@@ -55,13 +55,6 @@ private:
 	JFloatTableData*		itsFloatData;			// we don't own this
 	JFloatBufferTableData*	itsFloatBufferData;
 	JXFloatInput*			itsFloatInputField;		// nullptr if not editing
-
-private:
-
-	// not allowed
-
-	JXFloatTable(const JXFloatTable& source);
-	const JXFloatTable& operator=(const JXFloatTable& source);
 };
 
 

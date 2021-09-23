@@ -26,13 +26,6 @@ public:
 protected:
 
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-
-private:
-
-	// not allowed
-
-	JXDownRect(const JXDownRect& source);
-	const JXDownRect& operator=(const JXDownRect& source);
 };
 
 #endif

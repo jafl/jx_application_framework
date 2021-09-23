@@ -62,11 +62,6 @@ private:
 	// called by JXRadioGroup
 
 	void	Deselect();
-
-	// not allowed
-
-	JXRadioButton(const JXRadioButton& source);
-	const JXRadioButton& operator=(const JXRadioButton& source);
 };
 
 /******************************************************************************
