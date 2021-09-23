@@ -1,7 +1,0 @@
-0
-itsCloseButton::CMArrayDir::shortcuts::JXLayout "#W"
-obj2_JXLayout::CMArrayDir::JXLayout "Ending index:"
-itsStopButton::CMArrayDir::JXLayout "Stop"
-obj1_JXLayout::CMArrayDir::JXLayout "Starting index:"
-itsCloseButton::CMArrayDir::JXLayout "Close"
-obj3_JXLayout::CMArrayDir::JXLayout "Expression:"

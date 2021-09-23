@@ -1,5 +1,0 @@
-0
-itsCVSRev2Menu::CBDiffFileDialog::cvsLayout "2"
-itsCVSChooseButton::CBDiffFileDialog::cvsLayout "Choose"
-itsCVSSummaryCB::CBDiffFileDialog::cvsLayout "Summary"
-itsCVSRev1Menu::CBDiffFileDialog::cvsLayout "1"

@@ -1,9 +1,0 @@
-[Desktop Entry]
-Categories=Development;Building;X-Red-Hat-Base;
-Name=Code Mill
-Comment=Class wizard (Code Crusader plug-in)
-Icon=code_mill.xpm
-Exec=code_mill
-Type=Application
-Terminal=0
-MapNotify=true

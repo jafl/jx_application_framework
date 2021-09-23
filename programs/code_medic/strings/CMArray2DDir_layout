@@ -1,8 +1,0 @@
-0
-rowIndexLabel::CMArray2DDir::JXLayout "Row index ($i):"
-exprLabel::CMArray2DDir::JXLayout "Expression:"
-rowEndLabel::CMArray2DDir::JXLayout "End:"
-colIndexLabel::CMArray2DDir::JXLayout "Column index ($j):"
-rowStartLabel::CMArray2DDir::JXLayout "Start:"
-colEndLabel::CMArray2DDir::JXLayout "End:"
-colStartLabel::CMArray2DDir::JXLayout "Start:"

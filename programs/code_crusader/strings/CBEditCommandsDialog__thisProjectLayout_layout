@@ -1,8 +1,0 @@
-0
-updateMakefileLabel::CBEditCommandsDialog::thisProjectLayout "Command to update this project's Makefile:"
-thisExportButton::CBEditCommandsDialog::thisProjectLayout "Export"
-thisDuplicateButton::CBEditCommandsDialog::thisProjectLayout "Duplicate"
-thisImportButton::CBEditCommandsDialog::thisProjectLayout "Import"
-thisRemoveButton::CBEditCommandsDialog::thisProjectLayout "Remove"
-thisCaption::CBEditCommandsDialog::thisProjectLayout "Tasks that are specific to the currently active project:"
-thisNewButton::CBEditCommandsDialog::thisProjectLayout "New"

@@ -1,5 +1,0 @@
-0
-file1Label::CBDiffFileDialog::plainLayout "1:"
-itsPlainChoose2Button::CBDiffFileDialog::plainLayout "Choose"
-file2Label::CBDiffFileDialog::plainLayout "2:"
-itsPlainChoose1Button::CBDiffFileDialog::plainLayout "Choose"

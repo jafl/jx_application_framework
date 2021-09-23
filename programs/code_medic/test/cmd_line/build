@@ -1,1 +1,0 @@
-g++ -g cmd_line.cc -o cmd_line

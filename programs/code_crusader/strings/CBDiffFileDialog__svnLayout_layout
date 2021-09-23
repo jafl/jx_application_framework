@@ -1,5 +1,0 @@
-0
-itsSVNRev2Menu::CBDiffFileDialog::svnLayout "2"
-itsSVNChooseButton::CBDiffFileDialog::svnLayout "Choose"
-itsSVNSummaryCB::CBDiffFileDialog::svnLayout "Summary"
-itsSVNRev1Menu::CBDiffFileDialog::svnLayout "1"

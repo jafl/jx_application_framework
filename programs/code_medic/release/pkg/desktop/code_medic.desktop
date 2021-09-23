@@ -1,9 +1,0 @@
-[Desktop Entry]
-Categories=Development;Debugger;X-Red-Hat-Base;
-Name=Code Medic
-Comment=Graphical debugger (integrates with Code Crusader; requires gdb or lldb)
-Icon=code_medic.xpm
-Exec=medic
-Type=Application
-Terminal=0
-MapNotify=true

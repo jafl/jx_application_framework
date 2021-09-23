@@ -1,1 +1,0 @@
-gcc -g scanftest.c -o scanftest

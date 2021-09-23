@@ -1,8 +1,0 @@
-#!/usr/bin/perl
-
-while (<STDIN>)
-	{
-	$s = uc;
-	print $s;
-	}
-print "\n";

@@ -1,5 +1,0 @@
-0
-itsHelpButton::CBEditMacroDialog::JXLayout "Help"
-cancelButton::CBEditMacroDialog::JXLayout "Cancel"
-okButton::CBEditMacroDialog::JXLayout "OK"
-itsHelpButton::CBEditMacroDialog::shortcuts::JXLayout "F1"

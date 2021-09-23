@@ -1,5 +1,0 @@
-0
-removeMacroButton::CBEditMacroDialog::macroLayout "Remove"
-saveMacroFileButton::CBEditMacroDialog::macroLayout "Save"
-loadMacroFileButton::CBEditMacroDialog::macroLayout "Load"
-newMacroButton::CBEditMacroDialog::macroLayout "New"

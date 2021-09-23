@@ -1,4 +1,0 @@
-#!/bin/sh
-
-g++ -o testlldb test.cpp -L ../../../../lib -losxlldb -I /Users/jolindal/tools/lldb/include -std=c++11 -Xlinker -headerpad_max_install_names;
-install_name_tool -add_rpath /Library/Developer/CommandLineTools/Library/PrivateFrameworks testlldb;

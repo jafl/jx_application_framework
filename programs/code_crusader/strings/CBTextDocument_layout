@@ -1,5 +1,0 @@
-0
-itsActionButton::CBTextDocument::JXLayout ""
-lineLabel::CBTextDocument::JXLayout "Line"
-itsSettingsMenu::CBTextDocument::JXLayout "Settings"
-colLabel::CBTextDocument::JXLayout "Col"

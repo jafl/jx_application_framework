@@ -1,8 +1,0 @@
-0
-cancelButton::CMGetBPIgnoreCountDialog::JXLayout "Cancel"
-obj3_JXLayout::CMGetBPIgnoreCountDialog::JXLayout "times it is hit."
-obj2_JXLayout::CMGetBPIgnoreCountDialog::JXLayout "the next"
-bpIndex::CMGetBPIgnoreCountDialog::JXLayout "1234"
-okButton::CMGetBPIgnoreCountDialog::shortcuts::JXLayout "^M"
-okButton::CMGetBPIgnoreCountDialog::JXLayout "OK"
-obj1_JXLayout::CMGetBPIgnoreCountDialog::JXLayout "Ignore breakpoint #"

@@ -1,5 +1,0 @@
-0
-saveRuleFileButton::CBEditCRMDialog::ruleLayout "Save"
-newRuleButton::CBEditCRMDialog::ruleLayout "New"
-loadRuleFileButton::CBEditCRMDialog::ruleLayout "Load"
-removeRuleButton::CBEditCRMDialog::ruleLayout "Remove"

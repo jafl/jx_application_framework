@@ -1,4 +1,0 @@
-code-medic: java
-main-class: test.HelloWorld
-java-exec:  -jar HelloWorld.jar
-source-path: .

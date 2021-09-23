@@ -1,5 +1,0 @@
-0
-itsHelpButton::CBEditCRMDialog::shortcuts::JXLayout "F1"
-itsHelpButton::CBEditCRMDialog::JXLayout "Help"
-cancelButton::CBEditCRMDialog::JXLayout "Cancel"
-okButton::CBEditCRMDialog::JXLayout "OK"

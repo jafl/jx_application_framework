@@ -1,7 +1,0 @@
-0
-itsHelpButton::GFGAboutDialog::JXLayout "Help"
-okButton::GFGAboutDialog::shortcuts::JXLayout "^M"
-itsCreditsButton::GFGAboutDialog::JXLayout "Credits"
-okButton::GFGAboutDialog::JXLayout "OK"
-itsHelpButton::GFGAboutDialog::shortcuts::JXLayout "F1"
-textWidget::GFGAboutDialog::JXLayout ""

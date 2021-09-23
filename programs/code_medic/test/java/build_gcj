@@ -1,1 +1,0 @@
-gcj -g --main=test.HelloWorld -o HelloWorld test/HelloWorld.java

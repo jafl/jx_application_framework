@@ -1,7 +1,0 @@
-0
-okButton::CMAboutDialog::shortcuts::JXLayout "^M"
-textWidget::CMAboutDialog::JXLayout ""
-itsHelpButton::CMAboutDialog::shortcuts::JXLayout "F1"
-okButton::CMAboutDialog::JXLayout "OK"
-itsCreditsButton::CMAboutDialog::JXLayout "Credits"
-itsHelpButton::CMAboutDialog::JXLayout "Help"
