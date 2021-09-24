@@ -34,24 +34,24 @@ public:
 	void	Deactivate();
 
 	bool	IsEmpty() const;
-	void		Clear();
+	void	Clear();
 
 	bool	IsGreek() const;
-	void		SetGreek(const bool greek);
+	void	SetGreek(const bool greek);
 
 	bool	HandleMouseDown(const JPoint& pt, const bool extendSelection,
-								const JExprRectList& rectList,
-								const JExprRenderer& renderer);
+							const JExprRectList& rectList,
+							const JExprRenderer& renderer);
 	bool	HandleMouseDrag(const JPoint& pt, const JExprRectList& rectList,
-								const JExprRenderer& renderer);
+							const JExprRenderer& renderer);
 	bool	HandleMouseUp();
 	bool	HandleKeyPress(const JUtf8Character& key, bool* needParse,
-							   bool* needRender);
+						   bool* needRender);
 	bool	Parse(const JUtf8Character& c, JFunction** f,
-					  JUserInputFunction** newUIF, bool* needRender);
+				  JUserInputFunction** newUIF, bool* needRender);
 
-	virtual bool	Evaluate(JFloat* result) const override;
-	virtual bool	Evaluate(JComplex* result) const override;
+	virtual bool		Evaluate(JFloat* result) const override;
+	virtual bool		Evaluate(JComplex* result) const override;
 	virtual void		Print(std::ostream& output) const override;
 	virtual JFunction*	Copy() const override;
 	virtual JIndex		Layout(const JExprRenderer& renderer,
@@ -75,38 +75,32 @@ public:
 
 protected:
 
-	virtual void		TERefresh() override;
-	virtual void		TERefreshRect(const JRect& rect) override;
-	virtual void		TERedraw() override;
-	virtual void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
-									   const JCoordinate changeY) override;
+	virtual void	TERefresh() override;
+	virtual void	TERefreshRect(const JRect& rect) override;
+	virtual void	TERedraw() override;
+	virtual void	TESetGUIBounds(const JCoordinate w, const JCoordinate h,
+								   const JCoordinate changeY) override;
 	virtual bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
 	virtual bool	TEScrollToRect(const JRect& rect,
-									   const bool centerInDisplay) override;
+								   const bool centerInDisplay) override;
 	virtual bool	TEScrollForDrag(const JPoint& pt) override;
 	virtual bool	TEScrollForDND(const JPoint& pt) override;
-	virtual void		TESetVertScrollStep(const JCoordinate vStep) override;
-	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
+	virtual void	TESetVertScrollStep(const JCoordinate vStep) override;
+	virtual void	TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
 	virtual bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
 	virtual bool	TEBeginDND() override;
-	virtual void		TEPasteDropData() override;
-	virtual void		TECaretShouldBlink(const bool blink) override;
+	virtual void	TEPasteDropData() override;
+	virtual void	TECaretShouldBlink(const bool blink) override;
 
 private:
 
 	JExprEditor*	itsEditor;
 	JCoordinate		itsWidth;
 	JCoordinate		itsHeight;
-	bool		itsGreekFlag;
+	bool			itsGreekFlag;
 
 	mutable bool	itsNeedRedrawFlag;
 	mutable bool	itsNeedRenderFlag;
-
-private:
-
-	// not allowed
-
-	const JUserInputFunction& operator=(const JUserInputFunction& source);
 };
 
 

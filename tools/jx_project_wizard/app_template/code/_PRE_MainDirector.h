@@ -53,11 +53,6 @@ private:
 
 	void	UpdateHelpMenu();
 	void	HandleHelpMenu(const JIndex index);
-
-	// not allowed
-
-	<PRE>MainDirector(const <PRE>MainDirector& source);
-	const <PRE>MainDirector& operator=(const <PRE>MainDirector& source);
 };
 
 #endif

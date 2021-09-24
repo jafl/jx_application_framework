@@ -1,7 +1,0 @@
-0
-okButton::SyGAboutDialog::shortcuts::JXLayout "^M"
-itsCreditsButton::SyGAboutDialog::JXLayout "Credits"
-okButton::SyGAboutDialog::JXLayout "OK"
-textWidget::SyGAboutDialog::JXLayout ""
-itsHelpButton::SyGAboutDialog::JXLayout "Help"
-itsHelpButton::SyGAboutDialog::shortcuts::JXLayout "F1"

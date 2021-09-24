@@ -141,11 +141,6 @@ private:
 	void	GetDrawingOffset(JPoint* delta) const;
 	JPoint	BoundsToRenderer(const JPoint& pt) const;
 	JPoint	RendererToBounds(const JPoint& pt) const;
-
-	// not allowed
-
-	JXExprEditor(const JXExprEditor& source);
-	const JXExprEditor& operator=(const JXExprEditor& source);
 };
 
 

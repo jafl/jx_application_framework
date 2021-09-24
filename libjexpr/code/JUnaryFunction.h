@@ -34,12 +34,6 @@ public:
 private:
 
 	JFunction*	itsArg;
-
-private:
-
-	// not allowed
-
-	const JUnaryFunction& operator=(const JUnaryFunction& source);
 };
 
 /******************************************************************************

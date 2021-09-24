@@ -44,10 +44,6 @@ private:
 private:
 
 	void	PrintArgs(std::ostream& output) const;
-
-	// not allowed
-
-	const JFunctionWithArgs& operator=(const JFunctionWithArgs& source);
 };
 
 

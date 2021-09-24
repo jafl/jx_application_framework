@@ -39,13 +39,6 @@ public:
 					const JCoordinate w, const JCoordinate h);
 
 	virtual ~JXExprEditorSet();
-
-private:
-
-	// not allowed
-
-	JXExprEditorSet(const JXExprEditorSet& source);
-	const JXExprEditorSet& operator=(const JXExprEditorSet& source);
 };
 
 #endif

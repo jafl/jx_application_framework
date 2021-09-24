@@ -1,7 +1,0 @@
-0
-itsHelpButton::SVNAboutDialog::shortcuts::JXLayout "F1"
-okButton::SVNAboutDialog::shortcuts::JXLayout "^M"
-itsCreditsButton::SVNAboutDialog::JXLayout "Credits"
-okButton::SVNAboutDialog::JXLayout "OK"
-textWidget::SVNAboutDialog::JXLayout ""
-itsHelpButton::SVNAboutDialog::JXLayout "Help"

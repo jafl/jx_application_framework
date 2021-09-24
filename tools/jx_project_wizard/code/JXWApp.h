@@ -24,14 +24,6 @@ public:
 protected:
 
 	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
-
-private:
-
-	// not allowed
-
-	JXWApp(const JXWApp& source);
-	const JXWApp& operator=(const JXWApp& source);
-
 };
 
 #endif

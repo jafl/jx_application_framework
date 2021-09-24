@@ -1,9 +1,0 @@
-0
-itsDestMenu::GLColByRangeDialog::JXLayout "Destination"
-okButton::GLColByRangeDialog::JXLayout "OK"
-minLabel::GLColByRangeDialog::JXLayout "Minimum:"
-cancelButton::GLColByRangeDialog::JXLayout "Cancel"
-countLabel::GLColByRangeDialog::JXLayout "Count:"
-cancelButton::GLColByRangeDialog::shortcuts::JXLayout "^["
-okButton::GLColByRangeDialog::shortcuts::JXLayout "^M"
-maxLabel::GLColByRangeDialog::JXLayout "Maximum:"

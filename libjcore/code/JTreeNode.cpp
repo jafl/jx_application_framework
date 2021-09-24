@@ -40,28 +40,6 @@ JTreeNode::JTreeNode
 }
 
 /******************************************************************************
- Copy constructor
-
-	Does not duplicate the child nodes from source.
-
- ******************************************************************************/
-
-JTreeNode::JTreeNode
-	(
-	const JTreeNode& source
-	)
-	:
-	itsTree(source.itsTree),
-	itsParent(source.itsParent),
-	itsChildren(nullptr),
-	itsIsOpenableFlag(source.itsIsOpenableFlag),
-	itsIsDestructingFlag(false),
-	itsCompareFn(source.itsCompareFn),
-	itsSortOrder(source.itsSortOrder)
-{
-}
-
-/******************************************************************************
  Destructor
 
  ******************************************************************************/

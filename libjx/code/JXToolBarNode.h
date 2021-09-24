@@ -34,12 +34,6 @@ private:
 	JIndex		itsIndex;
 	bool		itsHasSeparator;
 	bool		itsIsChecked;
-
-private:
-
-	// not allowed
-
-	JXToolBarNode(const JXToolBarNode&) = delete;
 };
 
 

@@ -20,13 +20,6 @@ public:
 					  const JCoordinate w, const JCoordinate h);
 
 	virtual ~MDRecordDataField();
-
-private:
-
-	// not allowed
-
-	MDRecordDataField(const MDRecordDataField& source);
-	const MDRecordDataField& operator=(const MDRecordDataField& source);
 };
 
 #endif

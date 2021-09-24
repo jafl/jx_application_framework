@@ -33,11 +33,6 @@ private:
 private:
 
 	void	BuildWindow(const JString& openCmd);
-
-	// not allowed
-
-	MDPrefsDialog(const MDPrefsDialog& source);
-	const MDPrefsDialog& operator=(const MDPrefsDialog& source);
 };
 
 #endif

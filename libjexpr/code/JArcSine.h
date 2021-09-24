@@ -21,15 +21,9 @@ public:
 
 	virtual ~JArcSine();
 
-	virtual bool	Evaluate(JFloat* result) const override;
-	virtual bool	Evaluate(JComplex* result) const override;
+	virtual bool		Evaluate(JFloat* result) const override;
+	virtual bool		Evaluate(JComplex* result) const override;
 	virtual JFunction*	Copy() const override;
-
-private:
-
-	// not allowed
-
-	const JArcSine& operator=(const JArcSine& source);
 };
 
 #endif

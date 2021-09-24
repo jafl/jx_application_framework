@@ -47,11 +47,6 @@ private:
 
 	void	UpdateFontMenu();
 	void	HandleFontMenu(const JIndex item);
-
-	// not allowed
-
-	JXExprInput(const JXExprInput& source);
-	const JXExprInput& operator=(const JXExprInput& source);
 };
 
 

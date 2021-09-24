@@ -45,7 +45,6 @@ protected:
 
 private:
 
-	JXWindow*	itsMainWindow;
 	JXImage*	itsNormalImage;
 	JXImage*	itsDropImage;
 

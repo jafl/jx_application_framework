@@ -79,11 +79,6 @@ private:
 	void	UpdateButtons();
 	void	UpdateColWidths();
 
-	// not allowed
-
-	JXFSBindingTable(const JXFSBindingTable& source);
-	const JXFSBindingTable& operator=(const JXFSBindingTable& source);
-
 public:
 
 	// JBroadcaster messages

@@ -21,7 +21,6 @@ public:
 
 	JNamedTreeNode(JTree* tree, const JString& name,
 				   const bool isOpenable = true);
-	JNamedTreeNode(const JNamedTreeNode& source);
 
 	virtual	~JNamedTreeNode();
 

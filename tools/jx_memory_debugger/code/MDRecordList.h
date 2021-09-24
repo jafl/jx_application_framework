@@ -39,8 +39,8 @@ public:
 
 	void			AddRecord(MDRecord* record);
 	const MDRecord*	GetRecord(const JIndex index) const;
-	bool		GetRecordIndex(const MDRecord* record, JIndex *index) const;
-	bool		ClosestMatch(const JString& prefix, MDRecord** record) const;
+	bool			GetRecordIndex(const MDRecord* record, JIndex *index) const;
+	bool			ClosestMatch(const JString& prefix, MDRecord** record) const;
 
 	ColumnType	GetSortColumn() const;
 	void		SetSortColumn(const JIndex index);
@@ -55,8 +55,8 @@ private:
 
 	// not allowed
 
-	MDRecordList(const MDRecordList& source);
-	const MDRecordList& operator=(const MDRecordList& source);
+	MDRecordList(const MDRecordList&) = delete;
+	MDRecordList& operator=(const MDRecordList&) = delete;
 
 public:
 

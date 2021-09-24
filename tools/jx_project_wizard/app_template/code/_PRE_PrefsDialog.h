@@ -30,11 +30,6 @@ private:
 private:
 
 	void	BuildWindow(const JString& data);
-
-	// not allowed
-
-	<PRE>PrefsDialog(const <PRE>PrefsDialog& source);
-	const <PRE>PrefsDialog& operator=(const <PRE>PrefsDialog& source);
 };
 
 #endif

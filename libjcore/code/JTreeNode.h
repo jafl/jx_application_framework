@@ -21,7 +21,6 @@ class JTreeNode : public JBroadcaster
 public:
 
 	JTreeNode(JTree* tree, const bool isOpenable = true);
-	JTreeNode(const JTreeNode& source);
 
 	virtual ~JTreeNode();
 
@@ -106,6 +105,7 @@ private:
 
 	// not allowed
 
+	JTreeNode(const JTreeNode&) = delete;
 	JTreeNode& operator=(const JTreeNode&) = delete;
 };
 

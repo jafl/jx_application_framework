@@ -79,21 +79,21 @@ public:
 	void					ClearFunction();
 	const JVariableList*	GetVariableList() const;
 	const JFunction*		GetFunction() const;
-	bool				ContainsUIF() const;
-	bool				UIFIsActive() const;
+	bool					ContainsUIF() const;
+	bool					UIFIsActive() const;
 	void					ActivateNextUIF();
 
 	bool	HasSelection() const;
 	bool	GetConstSelectedFunction(const JFunction** f) const;	
-	void		ClearSelection();
-	void		SelectFunction(const JFunction* f);
+	void	ClearSelection();
+	void	SelectFunction(const JFunction* f);
 
 	bool	EndEditing();
-	void		CancelEditing();
+	void	CancelEditing();
 
-	void		Undo();
-	void		DeleteSelection();
-	void		SelectAll();
+	void	Undo();
+	void	DeleteSelection();
+	void	SelectAll();
 
 	// our clipboard
 
@@ -103,22 +103,22 @@ public:
 
 	// other source
 
-	bool	Cut(JFunction** f);
-	bool	Copy(JFunction** f) const;
+	bool		Cut(JFunction** f);
+	bool		Copy(JFunction** f) const;
 	PasteResult	Paste(const JString& expr);
 	PasteResult	Paste(const JFunction& f);
 
-	void		Print(JEPSPrinter& p);
-	JRect		GetPrintBounds() const;
-	void		DrawForPrint(JPainter& p, const JPoint& topLeft);
+	void	Print(JEPSPrinter& p);
+	JRect	GetPrintBounds() const;
+	void	DrawForPrint(JPainter& p, const JPoint& topLeft);
 
 	bool	EvaluateSelection(JFloat* value) const;
-	void		NegateSelection();
-	void		ApplyFunctionToSelection(const JString& fnName);
-	void		AddArgument();
-	void		MoveArgument(const JInteger delta);
-	void		GroupArguments(const JInteger delta);
-	void		UngroupArguments();
+	void	NegateSelection();
+	void	ApplyFunctionToSelection(const JString& fnName);
+	void	AddArgument();
+	void	MoveArgument(const JInteger delta);
+	void	GroupArguments(const JInteger delta);
+	void	UngroupArguments();
 
 	void	SetNormalFont();
 	void	SetGreekFont();
@@ -161,8 +161,8 @@ public:
 	JPainter*		GetPainter() const;
 
 	bool	ApplyFunction(const JString& fnName, const JFunction& origF,
-							  JFunction** newF, JFunction** newArg,
-							  JUserInputFunction** newUIF);
+						  JFunction** newF, JFunction** newArg,
+						  JUserInputFunction** newUIF);
 
 	virtual JStyledText*	BuildStyledText();
 
@@ -177,31 +177,31 @@ protected:
 	bool	GetSelection(JIndex* selection) const;
 	bool	GetSelectionRect(JRect* selRect) const;
 	bool	GetSelectedFunction(JFunction** f);
-	void		SetSelection(const JIndex index);
+	void	SetSelection(const JIndex index);
 
-	void		EIPDraw(JPainter& p);
-	void		EIPHandleMouseDown(const JPoint& currPt,
-								   const bool extend);
-	void		EIPHandleMouseDrag(const JPoint& currPt);
-	void		EIPHandleMouseUp();
+	void	EIPDraw(JPainter& p);
+	void	EIPHandleMouseDown(const JPoint& currPt,
+							   const bool extend);
+	void	EIPHandleMouseDrag(const JPoint& currPt);
+	void	EIPHandleMouseUp();
 	bool	MouseOnActiveUIF(const JPoint& pt) const;
-	void		EIPHandleKeyPress(const JUtf8Character& key);
+	void	EIPHandleKeyPress(const JUtf8Character& key);
 
-	virtual void		EIPRefresh() = 0;
-	virtual void		EIPRedraw() = 0;
-	virtual void		EIPBoundsChanged() = 0;
+	virtual void	EIPRefresh() = 0;
+	virtual void	EIPRedraw() = 0;
+	virtual void	EIPBoundsChanged() = 0;
 	virtual bool	EIPScrollToRect(const JRect& r) = 0;
 	virtual bool	EIPScrollForDrag(const JPoint& pt) = 0;
-	virtual void		EIPAdjustNeedTab(const bool needTab) = 0;
-	virtual void		EIPExprChanged();				// must call inherited
-	virtual void		EIPClipboardChanged() = 0;
+	virtual void	EIPAdjustNeedTab(const bool needTab) = 0;
+	virtual void	EIPExprChanged();				// must call inherited
+	virtual void	EIPClipboardChanged() = 0;
 	virtual bool	EIPOwnsClipboard() = 0;
 	virtual bool	EIPGetExternalClipboard(JString* text) = 0;
 
 	bool	GetClipboard(const JFunction** f) const;
 
 	virtual bool	CanDisplaySelectionValue() const;
-	virtual void		DisplaySelectionValue() const;
+	virtual void	DisplaySelectionValue() const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -220,7 +220,7 @@ private:
 	JFunction*				itsFunction;
 	JExprRectList*			itsRectList;
 	JIndex					itsSelection;
-	bool				itsActiveFlag;
+	bool					itsActiveFlag;
 	JUserInputFunction*		itsActiveUIF;	// can be nullptr; owned by itsFunction
 
 	JFunction*	itsFunctionClip;
@@ -235,8 +235,8 @@ private:
 	// used while drawing
 
 	JPainter*			itsPainter;
-	const JColorID	itsTextColor;
-	const JColorID	itsSelectionColor;
+	const JColorID		itsTextColor;
+	const JColorID		itsSelectionColor;
 	const JFontStyle	itsDefaultStyle;
 
 	// used during drag
@@ -249,10 +249,10 @@ private:
 
 	void	SaveStateForUndo();
 
-	void		ApplyOperatorKey(const JUtf8Character& key, JFunction* targetF);
+	void	ApplyOperatorKey(const JUtf8Character& key, JFunction* targetF);
 	bool	CanApplyCommaOperator();
 	bool	GetCommaTarget(JFunction* startF, JNaryFunction** targetF,
-							   JIndex* newArgIndex);
+						   JIndex* newArgIndex);
 
 	void	ActivateUIF(JUserInputFunction* uif);
 
@@ -263,13 +263,8 @@ private:
 	JUserInputFunction*	PrivateClearFunction();
 	JUserInputFunction*	FindNextUIF(JUserInputFunction* currUIF) const;
 
-	bool	GetNegAdjSelFunction(JFunction** selF, JFunction** parentF) const;
+	bool		GetNegAdjSelFunction(JFunction** selF, JFunction** parentF) const;
 	JFunction*	Negate(const JFunction& f) const;
-
-	// not allowed
-
-	JExprEditor(const JExprEditor& source);
-	const JExprEditor& operator=(const JExprEditor& source);
 
 public:
 

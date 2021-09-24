@@ -44,8 +44,8 @@ private:
 
 	// not allowed
 
-	JExprParser(const JExprParser& source);
-	const JExprParser& operator=(const JExprParser& source);
+	JExprParser(const JExprParser&) = delete;
+	JExprParser& operator=(const JExprParser&) = delete;
 };
 
 #endif

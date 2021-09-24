@@ -50,13 +50,6 @@ protected:
 private:
 
 	<PRE>PrefsDialog*	itsPrefsDialog;
-
-private:
-
-	// not allowed
-
-	<PRE>PrefsManager(const <PRE>PrefsManager& source);
-	const <PRE>PrefsManager& operator=(const <PRE>PrefsManager& source);
 };
 
 #endif

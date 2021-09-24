@@ -84,7 +84,8 @@ YFLAGS := -d
 	@if test -e $*.tab.h; then mv $*.tab.h $*.hpp; \
      elif test -e $*.cpp.h; then mv $*.cpp.h $*.hpp; fi
 	@if test -e $*.hpp_old -a -z "`diff $*.hpp $*.hpp_old 2> /dev/null`"; \
-     then mv $*.hpp_old $*.hpp; fi
+     then mv $*.hpp_old $*.hpp; \
+     else rm -f $*.hpp_old; fi
 	@${JX_ROOT}/bin/fix_bison_output.pl $*.cpp
 
 #

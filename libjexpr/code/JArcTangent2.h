@@ -21,15 +21,9 @@ public:
 
 	virtual ~JArcTangent2();
 
-	virtual bool	Evaluate(JFloat* result) const override;
-	virtual bool	Evaluate(JComplex* result) const override;
+	virtual bool		Evaluate(JFloat* result) const override;
+	virtual bool		Evaluate(JComplex* result) const override;
 	virtual JFunction*	Copy() const override;
-
-private:
-
-	// not allowed
-
-	const JArcTangent2& operator=(const JArcTangent2& source);
 };
 
 #endif

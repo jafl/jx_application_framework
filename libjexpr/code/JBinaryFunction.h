@@ -38,12 +38,6 @@ private:
 
 	JFunction*	itsArg1;
 	JFunction*	itsArg2;
-
-private:
-
-	// not allowed
-
-	const JBinaryFunction& operator=(const JBinaryFunction& source);
 };
 
 /******************************************************************************

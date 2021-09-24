@@ -46,7 +46,7 @@ protected:
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual bool		ExtractInputData(const JPoint& cell) override;
+	virtual bool			ExtractInputData(const JPoint& cell) override;
 	virtual void			PrepareDeleteXInputField() override;
 
 	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
@@ -71,11 +71,6 @@ private:
 							  const JColorID color);
 	void	DrawRecordState(const MDRecord& record,
 							JPainter& p, const JRect& rect);
-
-	// not allowed
-
-	MDRecordTable(const MDRecordTable& source);
-	const MDRecordTable& operator=(const MDRecordTable& source);
 };
 
 #endif

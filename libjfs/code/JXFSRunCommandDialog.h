@@ -68,11 +68,6 @@ private:
 	void	ReadSetup(std::istream& input);
 	void	UpdateSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;
-
-	// not allowed
-
-	JXFSRunCommandDialog(const JXFSRunCommandDialog& source);
-	const JXFSRunCommandDialog& operator=(const JXFSRunCommandDialog& source);
 };
 
 #endif

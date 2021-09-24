@@ -39,11 +39,6 @@ public:
 private:
 
 	void	JFSCommandHistoryMenuX();
-
-	// not allowed
-
-	JXFSCommandHistoryMenu(const JXFSCommandHistoryMenu& source);
-	const JXFSCommandHistoryMenu& operator=(const JXFSCommandHistoryMenu& source);
 };
 
 #endif

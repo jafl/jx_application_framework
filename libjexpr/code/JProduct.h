@@ -21,8 +21,8 @@ public:
 
 	virtual ~JProduct();
 
-	virtual bool	Evaluate(JFloat* result) const override;
-	virtual bool	Evaluate(JComplex* result) const override;
+	virtual bool		Evaluate(JFloat* result) const override;
+	virtual bool		Evaluate(JComplex* result) const override;
 	virtual JFunction*	Copy() const override;
 	virtual void		Print(std::ostream& output) const override;
 	virtual JIndex		Layout(const JExprRenderer& renderer,
@@ -30,12 +30,6 @@ public:
 							   JExprRectList* rectList) override;
 	virtual void		Render(const JExprRenderer& renderer,
 							   const JExprRectList& rectList) const override;
-
-private:
-
-	// not allowed
-
-	const JProduct& operator=(const JProduct& source);
 };
 
 #endif

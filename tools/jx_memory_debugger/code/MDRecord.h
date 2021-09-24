@@ -21,8 +21,8 @@ public:
 
 	~MDRecord();
 
-	bool		IsValid() const;
-	bool		IsArrayNew() const;
+	bool			IsValid() const;
+	bool			IsArrayNew() const;
 	const JString&	GetNewFile() const;
 	JIndex			GetNewLine() const;
 	JSize			GetSize() const;
@@ -41,17 +41,17 @@ private:
 
 	bool	itsIsValidFlag;
 	bool	itsIsArrayNewFlag;
-	JString		itsNewFile;
-	JIndex		itsNewLine;
-	JSize		itsSize;
-	JString		itsData;
+	JString	itsNewFile;
+	JIndex	itsNewLine;
+	JSize	itsSize;
+	JString	itsData;
 
 private:
 
 	// not allowed
 
-	MDRecord(const MDRecord& source);
-	const MDRecord& operator=(const MDRecord& source);
+	MDRecord(const MDRecord&) = delete;
+	MDRecord& operator=(const MDRecord&) = delete;
 };
 
 

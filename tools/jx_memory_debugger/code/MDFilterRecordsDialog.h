@@ -43,11 +43,6 @@ private:
 private:
 
 	void	BuildWindow();
-
-	// not allowed
-
-	MDFilterRecordsDialog(const MDFilterRecordsDialog& source);
-	const MDFilterRecordsDialog& operator=(const MDFilterRecordsDialog& source);
 };
 
 #endif

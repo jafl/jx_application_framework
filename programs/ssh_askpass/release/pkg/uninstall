@@ -1,5 +1,0 @@
-#!/bin/bash
-
-rm -f  /usr/bin/nps-ssh-askpass;
-rm -rf /usr/lib/nps-ssh-askpass;
-rm -rf /usr/share/doc/nps-ssh-askpass;

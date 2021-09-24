@@ -40,11 +40,6 @@ private:
 private:
 
 	void	BuildWindow(const JString& cmd);
-
-	// not allowed
-
-	JXFSRunScriptDialog(const JXFSRunScriptDialog& source);
-	const JXFSRunScriptDialog& operator=(const JXFSRunScriptDialog& source);
 };
 
 #endif

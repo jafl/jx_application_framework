@@ -21,20 +21,14 @@ public:
 
 	virtual ~JLogB();
 
-	virtual bool	Evaluate(JFloat* result) const override;
-	virtual bool	Evaluate(JComplex* result) const override;
+	virtual bool		Evaluate(JFloat* result) const override;
+	virtual bool		Evaluate(JComplex* result) const override;
 	virtual JFunction*	Copy() const override;
 	virtual JIndex		Layout(const JExprRenderer& renderer,
-										const JPoint& upperLeft, const JSize fontSize,
-										JExprRectList* rectList) override;
+								const JPoint& upperLeft, const JSize fontSize,
+								JExprRectList* rectList) override;
 	virtual void		Render(const JExprRenderer& renderer,
 							   const JExprRectList& rectList) const override;
-
-private:
-
-	// not allowed
-
-	const JLogB& operator=(const JLogB& source);
 };
 
 #endif

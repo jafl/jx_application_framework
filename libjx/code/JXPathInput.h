@@ -68,7 +68,6 @@ private:
 
 	bool	itsAllowInvalidPathFlag;
 	bool	itsRequireWriteFlag;
-	bool	itsExpectURLDropFlag;
 
 private:
 

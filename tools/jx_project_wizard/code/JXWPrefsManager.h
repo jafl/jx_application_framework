@@ -35,13 +35,6 @@ protected:
 
 	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion);
 	virtual void	SaveAllBeforeDestruct();
-
-private:
-
-	// not allowed
-
-	JXWPrefsManager(const JXWPrefsManager& source);
-	const JXWPrefsManager& operator=(const JXWPrefsManager& source);
 };
 
 #endif

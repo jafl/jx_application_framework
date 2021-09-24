@@ -34,12 +34,6 @@ public:
 	const JFSFileTreeNodeBase*	GetFSParent() const;
 	bool						GetFSParent(JFSFileTreeNodeBase** parent);
 	bool						GetFSParent(const JFSFileTreeNodeBase** parent) const;
-
-private:
-
-	// not allowed
-
-	JFSFileTreeNodeBase(const JFSFileTreeNodeBase&) = delete;
 };
 
 #endif

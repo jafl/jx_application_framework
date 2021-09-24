@@ -90,7 +90,6 @@ private:
 
 	JNamedTreeList*	itsNamedTreeList;	// owned by base class
 	JString			itsKeyBuffer;
-	JSize			itsMaxNodeWidth;
 	bool			itsHilightTextOnlyFlag;
 	JXInputField*	itsNameInputField;
 };

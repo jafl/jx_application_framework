@@ -26,12 +26,6 @@ public:
 protected:
 
 	void	PrintArg(std::ostream& output, const JFunction* arg) const;
-
-private:
-
-	// not allowed
-
-	const JBinaryOperator& operator=(const JBinaryOperator& source);
 };
 
 #endif

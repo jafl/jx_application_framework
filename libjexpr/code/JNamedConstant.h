@@ -22,8 +22,8 @@ public:
 
 	virtual ~JNamedConstant();
 
-	virtual bool	Evaluate(JFloat* result) const override;
-	virtual bool	Evaluate(JComplex* result) const override;
+	virtual bool		Evaluate(JFloat* result) const override;
+	virtual bool		Evaluate(JComplex* result) const override;
 	virtual void		Print(std::ostream& output) const override;
 	virtual JFunction*	Copy() const override;
 
@@ -32,12 +32,6 @@ public:
 private:
 
 	JNamedConstIndex	itsNameIndex;
-
-private:
-
-	// not allowed
-
-	const JNamedConstant& operator=(const JNamedConstant& source);
 };
 
 #endif

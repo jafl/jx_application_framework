@@ -35,23 +35,6 @@ JNamedTreeNode::JNamedTreeNode
 }
 
 /******************************************************************************
- Copy constructor
-
-	Does not duplicate the child nodes from source.
-
- ******************************************************************************/
-
-JNamedTreeNode::JNamedTreeNode
-	(
-	const JNamedTreeNode& source
-	)
-	:
-	JTreeNode(source),
-	itsName(source.itsName)
-{
-}
-
-/******************************************************************************
  Destructor
 
  ******************************************************************************/

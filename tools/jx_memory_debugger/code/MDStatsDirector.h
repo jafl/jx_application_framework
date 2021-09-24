@@ -108,11 +108,6 @@ private:
 
 	void	UpdateHelpMenu();
 	void	HandleHelpMenu(const JIndex index);
-
-	// not allowed
-
-	MDStatsDirector(const MDStatsDirector& source);
-	const MDStatsDirector& operator=(const MDStatsDirector& source);
 };
 
 #endif

@@ -43,8 +43,7 @@ JXWindowIcon::JXWindowIcon
 	const JCoordinate	h
 	)
 	:
-	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
-	itsMainWindow(mainWindow)
+	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsNormalImage = itsDropImage = nullptr;	// makes SetIcons() safe
 	SetIcons(normalImage, dropImage);

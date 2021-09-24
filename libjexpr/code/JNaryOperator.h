@@ -20,12 +20,6 @@ public:
 	JNaryOperator(const JNaryOperator& source);
 
 	virtual ~JNaryOperator();
-
-private:
-
-	// not allowed
-
-	const JNaryOperator& operator=(const JNaryOperator& source);
 };
 
 #endif

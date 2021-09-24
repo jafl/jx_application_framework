@@ -31,10 +31,10 @@ public:
 
 	bool	GetParent(JFunction** parent);
 	bool	GetParent(const JFunction** parent) const;
-	void		SetParent(JFunction* parent);
+	void	SetParent(JFunction* parent);
 
-	virtual bool	Evaluate(JFloat* result) const = 0;
-	virtual bool	Evaluate(JComplex* result) const = 0;
+	virtual bool		Evaluate(JFloat* result) const = 0;
+	virtual bool		Evaluate(JComplex* result) const = 0;
 	JString				Print() const;
 	virtual void		Print(std::ostream& output) const = 0;
 	virtual JIndex		Layout(const JExprRenderer& renderer,
@@ -47,10 +47,10 @@ public:
 	// called by JVariableList -- must call inherited
 
 	virtual bool	UsesVariable(const JIndex variableIndex) const;
-	virtual void		VariablesInserted(const JIndex firstIndex, const JSize count);
-	virtual void		VariablesRemoved(const JIndex firstIndex, const JSize count);
-	virtual void		VariableMoved(const JIndex origIndex, const JIndex newIndex);
-	virtual void		VariablesSwapped(const JIndex index1, const JIndex index2);
+	virtual void	VariablesInserted(const JIndex firstIndex, const JSize count);
+	virtual void	VariablesRemoved(const JIndex firstIndex, const JSize count);
+	virtual void	VariableMoved(const JIndex origIndex, const JIndex newIndex);
+	virtual void	VariablesSwapped(const JIndex index1, const JIndex index2);
 
 private:
 
@@ -60,7 +60,7 @@ private:
 
 	// not allowed
 
-	const JFunction& operator=(const JFunction& source);
+	JFunction& operator=(const JFunction&) = delete;
 };
 
 

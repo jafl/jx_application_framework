@@ -38,11 +38,6 @@ private:
 private:
 
 	void	BuildWindow(const JString& prevVersStr);
-
-	// not allowed
-
-	MDAboutDialog(const MDAboutDialog& source);
-	const MDAboutDialog& operator=(const MDAboutDialog& source);
 };
 
 #endif

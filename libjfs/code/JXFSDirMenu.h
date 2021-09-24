@@ -91,11 +91,6 @@ private:
 	void	UpdateSelf();
 	void	AppendEntry(const JDirEntry& entry);
 
-	// not allowed
-
-	JXFSDirMenu(const JXFSDirMenu& source);
-	const JXFSDirMenu& operator=(const JXFSDirMenu& source);
-
 public:
 
 	static const JUtf8Byte* kFileSelected;

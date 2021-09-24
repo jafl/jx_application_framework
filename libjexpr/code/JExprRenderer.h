@@ -57,8 +57,8 @@ private:
 
 	// not allowed
 
-	JExprRenderer(const JExprRenderer& source);
-	const JExprRenderer& operator=(const JExprRenderer& source);
+	JExprRenderer(const JExprRenderer&) = delete;
+	JExprRenderer& operator=(const JExprRenderer&) = delete;
 };
 
 #endif

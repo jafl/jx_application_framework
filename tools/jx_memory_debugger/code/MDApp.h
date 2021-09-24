@@ -29,13 +29,6 @@ public:
 protected:
 
 	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
-
-private:
-
-	// not allowed
-
-	MDApp(const MDApp& source);
-	const MDApp& operator=(const MDApp& source);
 };
 
 #endif

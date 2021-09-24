@@ -23,11 +23,11 @@ public:
 
 	virtual ~JFunctionWithVar();
 
-	virtual JIndex		Layout(const JExprRenderer& renderer,
-							   const JPoint& upperLeft, const JSize fontSize,
-							   JExprRectList* rectList) override;
-	virtual void		Render(const JExprRenderer& renderer,
-							   const JExprRectList& rectList) const override;
+	virtual JIndex	Layout(const JExprRenderer& renderer,
+						   const JPoint& upperLeft, const JSize fontSize,
+						   JExprRectList* rectList) override;
+	virtual void	Render(const JExprRenderer& renderer,
+						   const JExprRectList& rectList) const override;
 
 	void	PrintVariable(std::ostream& output) const;
 
@@ -38,27 +38,21 @@ public:
 
 	const JFunction*	GetArrayIndex() const;
 	void				SetArrayIndex(JFunction* theArrayIndex);
-	bool			EvaluateArrayIndex(JIndex* index) const;
+	bool				EvaluateArrayIndex(JIndex* index) const;
 
 	// called by JVariableList
 
 	virtual bool	UsesVariable(const JIndex variableIndex) const override;
-	virtual void		VariablesInserted(const JIndex firstIndex, const JSize count) override;
-	virtual void		VariablesRemoved(const JIndex firstIndex, const JSize count) override;
-	virtual void		VariableMoved(const JIndex origIndex, const JIndex newIndex) override;
-	virtual void		VariablesSwapped(const JIndex index1, const JIndex index2) override;
+	virtual void	VariablesInserted(const JIndex firstIndex, const JSize count) override;
+	virtual void	VariablesRemoved(const JIndex firstIndex, const JSize count) override;
+	virtual void	VariableMoved(const JIndex origIndex, const JIndex newIndex) override;
+	virtual void	VariablesSwapped(const JIndex index1, const JIndex index2) override;
 
 private:
 
 	const JVariableList*	itsVariableList;
 	JIndex					itsVariableIndex;
 	JFunction*				itsArrayIndex;		// can be nullptr
-
-private:
-
-	// not allowed
-
-	const JFunctionWithVar& operator=(const JFunctionWithVar& source);
 };
 
 /******************************************************************************

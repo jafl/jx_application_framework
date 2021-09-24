@@ -76,11 +76,6 @@ private:
 
 	void		ReadSetup(std::istream& input);
 	void		WriteSetup(std::ostream& output);
-
-	// not allowed
-
-	JXFSEditBindingsDialog(const JXFSEditBindingsDialog& source);
-	const JXFSEditBindingsDialog& operator=(const JXFSEditBindingsDialog& source);
 };
 
 #pragma GCC diagnostic pop

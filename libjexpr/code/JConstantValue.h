@@ -21,8 +21,8 @@ public:
 
 	virtual ~JConstantValue();
 
-	virtual bool	Evaluate(JFloat* result) const override;
-	virtual bool	Evaluate(JComplex* result) const override;
+	virtual bool		Evaluate(JFloat* result) const override;
+	virtual bool		Evaluate(JComplex* result) const override;
 	virtual void		Print(std::ostream& output) const override;
 	virtual JFunction*	Copy() const override;
 
@@ -32,12 +32,6 @@ public:
 private:
 
 	JFloat	itsValue;
-
-private:
-
-	// not allowed
-
-	const JConstantValue& operator=(const JConstantValue& source);
 };
 
 /******************************************************************************

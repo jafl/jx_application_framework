@@ -1,7 +1,0 @@
-#!/bin/bash
-
-rm -f  /usr/bin/systemg;
-rm -rf /usr/lib/systemg;
-rm -rf /usr/share/doc/systemg;
-rm -f  `find /usr/share/applications -name 'systemg*.desktop'`;
-rm -f  `find /usr/share/pixmaps -name 'systemg*.xpm'`;

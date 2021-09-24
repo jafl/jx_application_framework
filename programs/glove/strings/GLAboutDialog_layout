@@ -1,6 +1,0 @@
-0
-okButton::GLAboutDialog::shortcuts::JXLayout "^M"
-itsHelpButton::GLAboutDialog::JXLayout "Help"
-textWidget::GLAboutDialog::JXLayout ""
-okButton::GLAboutDialog::JXLayout "OK"
-itsCreditsButton::GLAboutDialog::JXLayout "Credits"

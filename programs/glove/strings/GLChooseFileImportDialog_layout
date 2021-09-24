@@ -1,8 +1,0 @@
-0
-cancelButton::GLChooseFileImportDialog::shortcuts::JXLayout "^["
-itsFilterMenu::GLChooseFileImportDialog::JXLayout "Filter:"
-okButton::GLChooseFileImportDialog::shortcuts::JXLayout "^M"
-errorMessage::GLChooseFileImportDialog::JXLayout "This is not a Glove data file.  Please select the appropriate filter."
-okButton::GLChooseFileImportDialog::JXLayout "OK"
-itsReloadButton::GLChooseFileImportDialog::JXLayout "Reload"
-cancelButton::GLChooseFileImportDialog::JXLayout "Cancel"

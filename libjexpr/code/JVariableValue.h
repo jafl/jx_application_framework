@@ -22,18 +22,12 @@ public:
 
 	virtual ~JVariableValue();
 
-	virtual bool	Evaluate(JFloat* result) const override;
-	virtual bool	Evaluate(JComplex* result) const override;
+	virtual bool		Evaluate(JFloat* result) const override;
+	virtual bool		Evaluate(JComplex* result) const override;
 	virtual void		Print(std::ostream& output) const override;
 	virtual JFunction*	Copy() const override;
 
 	virtual void	SetVariableIndex(const JIndex variableIndex) override;
-
-private:
-
-	// not allowed
-
-	const JVariableValue& operator=(const JVariableValue& source);
 };
 
 #endif

@@ -43,11 +43,11 @@ public:
 	void	EditPrefs();
 
 	bool	GetWindowSize(const JPrefID& id, JPoint* desktopLoc,
-							  JCoordinate* width, JCoordinate* height) const;
-	void		SaveWindowSize(const JPrefID& id, JXWindow* window);
+						  JCoordinate* width, JCoordinate* height) const;
+	void	SaveWindowSize(const JPrefID& id, JXWindow* window);
 
 	bool	LoadPrintSetup(JXPSPrinter* p) const;
-	void		SavePrintSetup(const JXPSPrinter& p);
+	void	SavePrintSetup(const JXPSPrinter& p);
 
 	JString	GetOpenFileCommand() const;
 	void	SetOpenFileCommand(const JString& cmd);
@@ -61,13 +61,6 @@ protected:
 private:
 
 	MDPrefsDialog*	itsPrefsDialog;
-
-private:
-
-	// not allowed
-
-	MDPrefsManager(const MDPrefsManager& source);
-	const MDPrefsManager& operator=(const MDPrefsManager& source);
 };
 
 #endif

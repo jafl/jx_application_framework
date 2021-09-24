@@ -90,7 +90,7 @@ private:
 
 	// not allowed
 
-	const JVariableList& operator=(const JVariableList& source);
+	JVariableList& operator=(const JVariableList&) = delete;
 
 public:
 

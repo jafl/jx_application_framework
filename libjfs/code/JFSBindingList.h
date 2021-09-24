@@ -95,8 +95,8 @@ private:
 
 	// not allowed
 
-	JFSBindingList(const JFSBindingList& source);
-	const JFSBindingList& operator=(const JFSBindingList& source);
+	JFSBindingList(const JFSBindingList&) = delete;
+	JFSBindingList& operator=(const JFSBindingList&) = delete;
 };
 
 

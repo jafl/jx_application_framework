@@ -38,11 +38,6 @@ private:
 private:
 
 	void	BuildWindow(const JString& prevVersStr);
-
-	// not allowed
-
-	<PRE>AboutDialog(const <PRE>AboutDialog& source);
-	const <PRE>AboutDialog& operator=(const <PRE>AboutDialog& source);
 };
 
 #endif

@@ -18,10 +18,10 @@ public:
 
 	virtual ~TestFontManager();
 
-	virtual void		GetFontNames(JPtrArray<JString>* fontNames);
-	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames);
+	virtual void	GetFontNames(JPtrArray<JString>* fontNames);
+	virtual void	GetMonospaceFontNames(JPtrArray<JString>* fontNames);
 	virtual bool	GetFontSizes(const JString& name, JSize* minSize,
-									 JSize* maxSize, JArray<JSize>* sizeList);
+								 JSize* maxSize, JArray<JSize>* sizeList);
 
 protected:
 
@@ -39,13 +39,6 @@ protected:
 private:
 
 	JPtrArray<JString>*	itsFontNames;
-
-private:
-
-	// not allowed
-
-	TestFontManager(const TestFontManager& source);
-	const TestFontManager& operator=(const TestFontManager& source);
 };
 
 #endif

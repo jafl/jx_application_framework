@@ -116,13 +116,12 @@ public:		// kAtomCount required at global scope
 
 private:
 
-	JXTEBase*			itsTE;					// can be nullptr; not owned
-	JRegex*				itsRegex;
-	JInterpolate*		itsInterpolator;
-	JXTimerTask*		itsUpdateTask;
+	JXTEBase*		itsTE;					// can be nullptr; not owned
+	JRegex*			itsRegex;
+	JInterpolate*	itsInterpolator;
+	JXTimerTask*	itsUpdateTask;
 
-	const JUtf8Byte*	itsSearchTextHelpName;
-	Atom				itsAtoms[ kAtomCount ];
+	Atom	itsAtoms[ kAtomCount ];
 
 	Window	itsVersionWindow;		// None if init failed
 	Window	itsDataWindow;			// None if init failed

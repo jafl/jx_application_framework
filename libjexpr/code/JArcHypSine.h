@@ -21,15 +21,9 @@ public:
 
 	virtual ~JArcHypSine();
 
-	virtual bool	Evaluate(JFloat* result) const override;
-	virtual bool	Evaluate(JComplex* result) const override;
+	virtual bool		Evaluate(JFloat* result) const override;
+	virtual bool		Evaluate(JComplex* result) const override;
 	virtual JFunction*	Copy() const override;
-
-private:
-
-	// not allowed
-
-	const JArcHypSine& operator=(const JArcHypSine& source);
 };
 
 #endif

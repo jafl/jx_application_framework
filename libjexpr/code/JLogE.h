@@ -21,15 +21,9 @@ public:
 
 	virtual ~JLogE();
 
-	virtual bool	Evaluate(JFloat* result) const override;
-	virtual bool	Evaluate(JComplex* result) const override;
+	virtual bool		Evaluate(JFloat* result) const override;
+	virtual bool		Evaluate(JComplex* result) const override;
 	virtual JFunction*	Copy() const override;
-
-private:
-
-	// not allowed
-
-	const JLogE& operator=(const JLogE& source);
 };
 
 #endif

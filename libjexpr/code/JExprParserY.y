@@ -61,7 +61,7 @@ Copyright (C) 2018 by John Lindal.
 #define yyparse JExprParser::yyparse
 %}
 
-%pure-parser
+%define api.pure
 
 %token<pString>	P_NUMBER P_HEX P_VARIABLE
 %token			P_PI P_E P_I

@@ -1,9 +1,0 @@
-0
-itsEditButton::GLTransformFunctionDialog::JXLayout "Edit"
-itsColNumber::GLTransformFunctionDialog::JXLayout ""
-itsClearButton::GLTransformFunctionDialog::JXLayout "Clear"
-itsVarMenu::GLTransformFunctionDialog::JXLayout "Constants"
-itsTransformButton::GLTransformFunctionDialog::JXLayout "Transform"
-itsCloseButton::GLTransformFunctionDialog::JXLayout "Close"
-itsEditButton::GLTransformFunctionDialog::shortcuts::JXLayout "#E"
-itsDestMenu::GLTransformFunctionDialog::JXLayout "Destination:"

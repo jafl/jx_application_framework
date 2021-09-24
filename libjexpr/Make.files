@@ -4,8 +4,8 @@
 
 @libjexpr.a
 
-.l ./code/JExprScanner
 .y ./code/JExprParserY
+.l ./code/JExprScanner
 .cpp ./code/JExprParser
 .cpp ./code/JVariableList
 .cpp ./code/JXExprEditor

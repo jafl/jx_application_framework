@@ -36,9 +36,9 @@ public:
 
 	JFunction*			GetFunction(const JIndex index);
 	const JFunction*	GetFunction(const JIndex index) const;
-	bool			FindFunction(const JFunction* f, JIndex* index) const;
+	bool				FindFunction(const JFunction* f, JIndex* index) const;
 
-	JIndex		GetSelection(const JPoint& startPt, const JPoint& currPt) const;
+	JIndex	GetSelection(const JPoint& startPt, const JPoint& currPt) const;
 	bool	SelectionValid(const JIndex index) const;
 
 	JIndex	GetParent(const JIndex index) const;
@@ -61,8 +61,8 @@ private:
 
 	// not allowed
 
-	JExprRectList(const JExprRectList& source);
-	const JExprRectList& operator=(const JExprRectList& source);
+	JExprRectList(const JExprRectList&) = delete;
+	JExprRectList& operator=(const JExprRectList&) = delete;
 };
 
 /******************************************************************************

@@ -1,6 +1,0 @@
-0
-cancelButton::GLNonLinearFitDialog::shortcuts::JXLayout "^["
-okButton::GLNonLinearFitDialog::JXLayout "OK"
-okButton::GLNonLinearFitDialog::shortcuts::JXLayout "^M"
-cancelButton::GLNonLinearFitDialog::JXLayout "Cancel"
-itsHelpButton::GLNonLinearFitDialog::JXLayout "Help"

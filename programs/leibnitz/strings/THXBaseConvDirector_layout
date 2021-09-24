@@ -1,9 +1,0 @@
-0
-base8Label::THXBaseConvDirector::JXLayout "Base 8:"
-base16Label::THXBaseConvDirector::JXLayout "Base 16:"
-itsCloseButton::THXBaseConvDirector::shortcuts::JXLayout "#W^["
-itsCloseButton::THXBaseConvDirector::JXLayout "Close"
-base2Label::THXBaseConvDirector::JXLayout "Base 2:"
-base10Label::THXBaseConvDirector::JXLayout "Base 10:"
-itsHelpButton::THXBaseConvDirector::JXLayout "Help"
-itsHelpButton::THXBaseConvDirector::shortcuts::JXLayout "F1"

@@ -78,8 +78,6 @@ function clean_links
 		rm -f ACE/ACE_wrappers/ace/config.h;
 		rm -f ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU;
 	fi
-
-	rm -f programs/code_medic/lldb-include;
 }
 
 function configure_linux
@@ -131,7 +129,6 @@ if [[ $SYS == Darwin ]]; then
 	clean_links;
 	ln -sf sys/OSX_g++ include/make/jx_config;
 	ln -sf ../../include/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
-	ln -sf ../../misc/lldb-include programs/code_medic;
 
 elif command -v apt-get; then
 
@@ -146,11 +143,10 @@ elif command -v apt-get; then
 			libx11-dev libxinerama-dev libxpm-dev libxft-dev \
 				libxmu-dev libxi-dev \
 			libxml2-dev libgd-dev libjpeg-dev libpng-dev \
-			libace-dev libicu-dev libpcre3-dev libeditorconfig-dev \
-			llvm liblldb-$LLDB_VERS-dev \
+			libace-dev libicu-dev libpcre3-dev \
 			xutils-dev libx11-xcb-dev libxcb-dri2-0-dev \
 			libxcb-xfixes0-dev x11proto-gl-dev libdrm-dev \
-			aspell libforms-bin xterm git-gui;
+			libforms-bin xterm git-gui;
 	fi
 
 	if [[ ! -L ACE/ACE_wrappers ]]; then
@@ -160,10 +156,7 @@ elif command -v apt-get; then
 
 	configure_linux;
 
-	ln -sf /usr/lib/llvm-$LLDB_VERS/include programs/code_medic/lldb-include;
 	ln -sf /usr/lib/llvm-$LLDB_VERS/lib/liblldb.so.1 lib/liblldb.so;
-
-	$SUDO ln -sf $(pwd)/misc/ubuntu/editorconfig.pc /usr/lib/pkgconfig/editorconfig.pc
 
 elif command -v dnf; then
 
@@ -174,11 +167,10 @@ elif command -v dnf; then
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
-		libicu-devel pcre-devel editorconfig-devel \
-		lldb-devel llvm-devel \
+		libicu-devel pcre-devel \
 		imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
-		aspell aspell-en xforms-devel;
+		xforms-devel;
 
 	configure_linux;
 
@@ -191,11 +183,10 @@ elif command -v yum; then
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
-		libicu-devel pcre-devel editorconfig-devel \
-		lldb-devel llvm-devel \
+		libicu-devel pcre-devel \
 		imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
-		aspell aspell-en xforms-devel;
+		xforms-devel;
 
 	configure_linux;
 
@@ -208,15 +199,12 @@ elif command -v zypper; then
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
-		libicu-devel pcre-devel editorconfig-devel \
-		llvm-devel imake libtool xorg-x11-proto-devel libdrm-devel \
+		libicu-devel pcre-devel \
+		imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
-		aspell aspell-en xforms-devel;
+		xforms-devel;
 
 	configure_linux;
-
-	# lldb-devel is missing
-	ln -sf ../../misc/lldb-include programs/code_medic;
 
 elif [[ $SYS == Cygwin ]]; then
 
@@ -240,7 +228,6 @@ elif [[ $SYS == Cygwin ]]; then
 	$SETUP -q -P libX11-devel,libXinerama-devel,libXpm-devel,libXft-devel,libXmu-devel,libXi-devel;
 	$SETUP -q -P libxml2-devel,libgd-devel,libjpeg-devel,libpng-devel,libicu-devel,libpcre-devel;
 	$SETUP -q -P imake,libtool,xorg-server-devel,libXdamage-devel,libexpat-devel;
-	$SETUP -q -P aspell,aspell-en;
 
 	get_ace;
 	get_reflex;

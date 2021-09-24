@@ -34,13 +34,6 @@ private:
 
 	JSize itsTotal;
 	JSize itsHisto[ JMemoryManager::kHistogramSlotCount ];
-
-private:
-
-	// not allowed
-
-	MDSizeHistogram(const MDSizeHistogram& source);
-	const MDSizeHistogram& operator=(const MDSizeHistogram& source);
 };
 
 #endif

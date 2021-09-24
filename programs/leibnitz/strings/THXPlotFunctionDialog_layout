@@ -1,8 +1,0 @@
-0
-okButton::THXPlotFunctionDialog::JXLayout "OK"
-obj4_JXLayout::THXPlotFunctionDialog::JXLayout "to"
-obj2_JXLayout::THXPlotFunctionDialog::JXLayout "Curve name:"
-itsPlotMenu::THXPlotFunctionDialog::JXLayout "Window to use:"
-okButton::THXPlotFunctionDialog::shortcuts::JXLayout "^M"
-obj3_JXLayout::THXPlotFunctionDialog::JXLayout "Initial range:"
-cancelButton::THXPlotFunctionDialog::JXLayout "Cancel"

@@ -36,14 +36,6 @@ protected:
 private:
 
 	MDRecordList*	itsList;
-
-private:
-
-	// not allowed
-
-	MDHeaderWidget(const MDHeaderWidget& source);
-	const MDHeaderWidget& operator=(const MDHeaderWidget& source);
-
 };
 
 #endif

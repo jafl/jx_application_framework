@@ -55,11 +55,6 @@ private:
 private:
 
 	void	TestVarListX();
-
-	// not allowed
-
-	TestVarList(const TestVarList&);
-	const TestVarList& operator=(const TestVarList& source);
 };
 
 #endif

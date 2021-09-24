@@ -26,13 +26,6 @@ public:
 protected:
 
 	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
-
-private:
-
-	// not allowed
-
-	<PRE>App(const <PRE>App& source);
-	const <PRE>App& operator=(const <PRE>App& source);
 };
 
 #endif
