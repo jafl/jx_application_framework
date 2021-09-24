@@ -51,7 +51,7 @@ JStringMap<V>::JStringMapX()
 template <class V>
 JStringMap<V>::~JStringMap()
 {
-	RemoveAll();
+	RemoveAll();	// lgtm[cpp/virtual-call-in-destructor]
 }
 
 /******************************************************************************
