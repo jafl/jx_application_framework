@@ -59,9 +59,9 @@ JXAtMostOneCBGroup::JXAtMostOneCBGroup
 	va_start(argList, cb2);
 
 	for (JIndex i=3; i<=count; i++)
-		{
+	{
 		Add(va_arg(argList, JXCheckbox*));
-		}
+	}
 
 	va_end(argList);
 }
@@ -89,18 +89,18 @@ JXAtMostOneCBGroup::EnforceConstraints
 	// we only need to do something if all the checkboxes are off
 
 	if (itsIgnoreChangeFlag || AllDisabled())
-		{
+	{
 		return;
-		}
+	}
 	else if ((GetCheckbox(cbIndex))->IsChecked())
-		{
+	{
 		const JSize count = GetElementCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			if (i != cbIndex)
-				{
+			{
 				(GetCheckbox(i))->SetState(false);
-				}
 			}
 		}
+	}
 }

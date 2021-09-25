@@ -21,10 +21,10 @@
  Constructor
 
 	file format:
-		{
+	{
 		N <name> <value>
 		N <name>[array size] <values>
-		}
+	}
 		*
 
  ******************************************************************************/
@@ -48,23 +48,23 @@ TestVarList::TestVarList
 	input >> std::ws;
 	JString name, sizeStr;
 	while (input.peek() != '*')
-		{
+	{
 		JUtf8Character type;
 		input >> type >> std::ws;
 		if (type == 'N')
-			{
+		{
 			name = JUserInputFunction::ConvertToGreek(JReadUntilws(input));
 			if (name.GetLastCharacter() != ']')
-				{
+			{
 				JFloat value;
 				input >> value;
 
 				itsNumericNames->Append(name);
 				itsNumericValues->AppendElement(value);
 				itsNumericArrays->AppendElement(static_cast<TVLNArray*>(nullptr));
-				}
+			}
 			else
-				{
+			{
 				JStringIterator iter(&name);
 				bool found = iter.Next("[");
 				assert( found && !iter.AtEnd() );
@@ -85,24 +85,24 @@ TestVarList::TestVarList
 
 				TVLNArray values(arraySize);
 				for (JIndex i=1; i<=arraySize; i++)
-					{
+				{
 					JFloat value;
 					input >> value;
 					values.AppendElement(value);
-					}
+				}
 
 				itsNumericNames->Append(name);
 				itsNumericValues->AppendElement(0.0);
 				itsNumericArrays->Append(values);
-				}
 			}
+		}
 		else
-			{
+		{
 			std::cerr << "Unsupported variable type '" << type << '\'' << std::endl;
 			JIgnoreLine(input);
-			}
-		input >> std::ws;
 		}
+		input >> std::ws;
+	}
 	JIgnoreLine(input);
 }
 
@@ -173,16 +173,16 @@ TestVarList::GetVariableName
 
 	name->Clear();
 	if (s.GetElementCount() == 2)
-		{
+	{
 		*name      = *s.GetElement(1);
 		*subscript = *s.GetElement(2);
-		}
+	}
 
 	if (name->IsEmpty() || subscript->IsEmpty())
-		{
+	{
 		*name = *fullName;
 		subscript->Clear();
-		}
+	}
 }
 
 /******************************************************************************
@@ -234,19 +234,19 @@ TestVarList::GetNumericValue
 {
 	TVLNArray* values = itsNumericArrays->GetElement(variableIndex);
 	if (values == nullptr && elementIndex == 1)
-		{
+	{
 		*value = itsNumericValues->GetElement(variableIndex);
 		return true;
-		}
+	}
 	else if (values != nullptr && values->IndexValid(elementIndex))
-		{
+	{
 		*value = values->GetElement(elementIndex);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -260,14 +260,14 @@ TestVarList::GetNumericValue
 {
 	JFloat x;
 	if (GetNumericValue(variableIndex, elementIndex, &x))
-		{
+	{
 		*value = x;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

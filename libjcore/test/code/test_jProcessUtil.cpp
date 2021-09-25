@@ -42,12 +42,12 @@ Test
 	va_start(ap, argc);
 
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const JUtf8Byte* expected = va_arg(ap, const JUtf8Byte*);
 		const JString* arg        = argList.GetElement(i);
 		JAssertStringsEqualWithMessage(expected, *arg,
 			(JString(origCmd, JString::kNoCopy) + ", " + JString((JUInt64) i)).GetBytes());
-		}
+	}
 
 	va_end(ap);
 }

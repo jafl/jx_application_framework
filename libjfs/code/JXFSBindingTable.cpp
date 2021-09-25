@@ -134,9 +134,9 @@ JXFSBindingTable::JXFSBindingTable
 	// data
 
 	for (auto w1 : kInitColWidth)
-		{
+	{
 		AppendCols(1, w1);
-		}
+	}
 	UpdateColWidths();
 
 	const JSize rowCount = itsBindingList->GetElementCount();
@@ -171,9 +171,9 @@ JXFSBindingTable::TableDrawCell
 {
 	JPoint editCell;
 	if (GetEditedCell(&editCell) && cell == editCell)
-		{
+	{
 		return;
-		}
+	}
 
 	HilightIfSelected(p, cell, rect);
 
@@ -183,7 +183,7 @@ JXFSBindingTable::TableDrawCell
 	const JString& cmd = b->GetCommand(&type, &singleFile);
 
 	if (cell.x == kPatternColumn)
-		{
+	{
 		p.SetFont(JFontManager::GetDefaultMonospaceFont());
 
 		JRect r = rect;
@@ -191,9 +191,9 @@ JXFSBindingTable::TableDrawCell
 		p.String(r, b->GetPattern(), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
 		p.SetFont(JFontManager::GetDefaultFont());
-		}
+	}
 	else if (cell.x == kCommandColumn)
-		{
+	{
 		p.SetFont(JFontManager::GetDefaultMonospaceFont());
 
 		JRect r = rect;
@@ -201,14 +201,14 @@ JXFSBindingTable::TableDrawCell
 		p.String(r, cmd, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
 		p.SetFont(JFontManager::GetDefaultFont());
-		}
+	}
 	else if (cell.x == kTypeColumn)
-		{
+	{
 		const JString& str = itsTypeMenu->GetItemText(kCmdTypeToMenuIndex[type]);
 		p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
-		}
+	}
 	else if (cell.x == kSingleFileColumn && singleFile)
-		{
+	{
 		JRect r;
 		r.top    = rect.ycenter();
 		r.left   = rect.xcenter();
@@ -219,7 +219,7 @@ JXFSBindingTable::TableDrawCell
 		p.SetFilling(true);
 		p.Ellipse(r);
 		p.SetFilling(false);
-		}
+	}
 }
 
 /******************************************************************************
@@ -242,29 +242,29 @@ JXFSBindingTable::HandleMouseDown
 
 	JPoint cell;
 	if (button == kJXLeftButton && GetCell(pt, &cell))
-		{
+	{
 		s.SelectCell(cell);
 		TableScrollToCell(cell);
 
 		if (cell.x == kPatternColumn || cell.x == kCommandColumn)
-			{
+		{
 			BeginEditing(cell);
-			}
+		}
 		else if (cell.x == kTypeColumn)
-			{
+		{
 			itsTypeMenu->PopUp(this, pt, buttonStates, modifiers);
-			}
+		}
 		else if (cell.x == kSingleFileColumn)
-			{
+		{
 			itsBindingList->ToggleSingleFile(cell.y);
 			TableRefreshRow(cell.y);
 			Broadcast(DataChanged());
-			}
 		}
+	}
 	else
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -284,18 +284,18 @@ JXFSBindingTable::HandleKeyPress
 	if (GetEditedCell(&cell) && cell.x == kPatternColumn &&
 		(c == kJTabKey ||
 		 (modifiers.meta() && (c == kJRightArrow || c == '6'))))
-		{
+	{
 		if (EndEditing() &&
 			(GetTableSelection()).GetSingleSelectedCell(&cell))
-			{
+		{
 			BeginEditing(JPoint(kCommandColumn, cell.y));
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXEditTable::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -339,16 +339,16 @@ JXFSBindingTable::CreateXInputField
 
 	const JFSBinding* b = itsBindingList->GetBinding(cell.y);
 	if (cell.x == kPatternColumn)
-		{
+	{
 		itsTextInput->GetText()->SetText(b->GetPattern());
-		}
+	}
 	else if (cell.x == kCommandColumn)
-		{
+	{
 		JFSBinding::CommandType type;
 		bool singleFile;
 		const JString& cmd = b->GetCommand(&type, &singleFile);
 		itsTextInput->GetText()->SetText(cmd);
-		}
+	}
 
 	itsTextInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 	itsTextInput->SetIsRequired();
@@ -373,43 +373,43 @@ JXFSBindingTable::ExtractInputData
 	bool ok      = itsTextInput->InputValid();
 
 	if (ok && cell.x == kPatternColumn)
-		{
+	{
 		const JFSBinding* b    = itsBindingList->GetBinding(cell.y);
 		const bool changed = b->GetPattern() != s;
 
 		if (JFSBinding::WillBeRegex(s))
-			{
+		{
 			const JError err = itsTestRegex->SetPattern(s);
 			err.ReportIfError();
 			ok = err.OK();
-			}
+		}
 
 		JIndex newIndex;
 		if (ok && changed && itsBindingList->SetPattern(cell.y, s, &newIndex))
-			{
+		{
 			JTableSelection& sel = GetTableSelection();
 			sel.ClearSelection();
 			sel.SelectCell(newIndex, kPatternColumn);
 			Broadcast(DataChanged());
-			}
+		}
 		else if (ok && changed)
-			{
+		{
 			ok = false;
 
 			const JUtf8Byte* map[] =
-				{
+			{
 				"pattern", s.GetBytes()
-				};
+			};
 			const JString msg = JGetString("PatternUsed::JXFSBindingTable", map, sizeof(map));
 			JGetUserNotification()->ReportError(msg);
-			}
 		}
+	}
 
 	else if (ok && cell.x == kCommandColumn &&
 			 itsBindingList->SetCommand(cell.y, s))
-		{
+	{
 		Broadcast(DataChanged());
-		}
+	}
 
 	return ok;
 }
@@ -426,16 +426,16 @@ JXFSBindingTable::PrepareDeleteXInputField()
 
 	JPoint cell;
 	if ((GetTableSelection()).GetSingleSelectedCell(&cell))
-		{
+	{
 		const JFSBinding* b = itsBindingList->GetBinding(cell.y);
 		JFSBinding::CommandType type;
 		bool singleFile;
 		if ((b->GetPattern()).IsEmpty() ||
 			(b->GetCommand(&type, &singleFile)).IsEmpty())
-			{
+		{
 			RemovePattern();
-			}
 		}
+	}
 
 	UpdateButtons();
 }
@@ -453,42 +453,42 @@ JXFSBindingTable::Receive
 	)
 {
 	if (sender == itsAddButton && message.Is(JXButton::kPushed))
-		{
+	{
 		AddPattern();
-		}
+	}
 	else if (sender == itsRemoveButton && message.Is(JXButton::kPushed))
-		{
+	{
 		RemovePattern();
-		}
+	}
 	else if (sender == itsDuplicateButton && message.Is(JXButton::kPushed))
-		{
+	{
 		DuplicatePattern();
-		}
+	}
 
 	else if (sender == itsTypeMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateTypeMenu();
-		}
+	}
 	else if (sender == itsTypeMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleTypeMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		if (sender == &(GetTableSelection()))
-			{
+		{
 			UpdateButtons();
-			}
+		}
 		else if (message.Is(JStyledText::kTextChanged))
-			{
+		{
 			Broadcast(DataChanged());
-			}
+		}
 
 		JXEditTable::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -500,7 +500,7 @@ void
 JXFSBindingTable::AddPattern()
 {
 	if (EndEditing())
-		{
+	{
 		const JFSBinding* b = itsBindingList->GetDefaultCommand();
 		JFSBinding::CommandType type;
 		bool singleFile;
@@ -511,7 +511,7 @@ JXFSBindingTable::AddPattern()
 		InsertRows(rowIndex, 1);
 		BeginEditing(JPoint(kPatternColumn, rowIndex));
 		Broadcast(DataChanged());
-		}
+	}
 }
 
 /******************************************************************************
@@ -524,28 +524,28 @@ JXFSBindingTable::RemovePattern()
 {
 	JPoint cell;
 	if (GetTableSelection().GetFirstSelectedCell(&cell))
-		{
+	{
 		if (itsBindingList->GetBinding(cell.y)->IsSystemBinding())
-			{
+		{
 			JGetUserNotification()->ReportError(JGetString("CantRemoveSystemBinding::JXFSBindingTable"));
-			}
+		}
 		else
-			{
+		{
 			CancelEditing();
 			if (itsBindingList->DeleteBinding(cell.y))
-				{
+			{
 				RemoveRow(cell.y);
-				}
+			}
 			else
-				{
+			{
 				TableRefreshRow(cell.y);
 				GetWindow()->Update();
 				JGetUserNotification()->DisplayMessage(JGetString("ReplacedBySystem::JXFSBindingTable"));
-				}
+			}
 			UpdateButtons();
 			Broadcast(DataChanged());
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -558,7 +558,7 @@ JXFSBindingTable::DuplicatePattern()
 {
 	JPoint cell;
 	if ((GetTableSelection()).GetFirstSelectedCell(&cell) && EndEditing())
-		{
+	{
 		const JFSBinding* b = itsBindingList->GetBinding(cell.y);
 
 		JFSBinding::CommandType type;
@@ -570,7 +570,7 @@ JXFSBindingTable::DuplicatePattern()
 		InsertRows(rowIndex, 1);
 		BeginEditing(JPoint(kPatternColumn, rowIndex));
 		Broadcast(DataChanged());
-		}
+	}
 }
 
 /******************************************************************************
@@ -606,10 +606,10 @@ JXFSBindingTable::HandleTypeMenu
 
 	const JFSBinding::CommandType newType = kMenuIndexToCmdType [ index-1 ];
 	if (itsBindingList->SetCommandType(cell.y, newType))
-		{
+	{
 		TableRefreshRow(cell.y);
 		Broadcast(DataChanged());
-		}
+	}
 }
 
 /******************************************************************************
@@ -622,16 +622,16 @@ JXFSBindingTable::UpdateButtons()
 {
 	JPoint cell;
 	if ((GetTableSelection()).GetFirstSelectedCell(&cell))
-		{
+	{
 		itsRemoveButton->SetActive(
 			!(itsBindingList->GetBinding(cell.y))->IsSystemBinding());
 		itsDuplicateButton->Activate();
-		}
+	}
 	else
-		{
+	{
 		itsRemoveButton->Deactivate();
 		itsDuplicateButton->Deactivate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -646,13 +646,13 @@ JXFSBindingTable::SyncWithBindingList()
 
 	const JSize dataRowCount = itsBindingList->GetElementCount();
 	if (GetRowCount() < dataRowCount)
-		{
+	{
 		AppendRows(dataRowCount - GetRowCount());
-		}
+	}
 	else if (GetRowCount() > dataRowCount)
-		{
+	{
 		RemoveNextRows(dataRowCount+1, GetRowCount() - dataRowCount);
-		}
+	}
 
 	UpdateButtons();
 	Refresh();
@@ -688,12 +688,12 @@ JXFSBindingTable::UpdateColWidths()
 
 	JCoordinate w = GetApertureWidth();
 	for (JIndex i=1; i<=kColCount; i++)
-		{
+	{
 		if (i != kCommandColumn)
-			{
+		{
 			w -= GetColWidth(i) + borderWidth;
-			}
 		}
+	}
 
 	w = JMax(w, kInitColWidth[ kCommandColumn-1 ]);
 	SetColWidth(kCommandColumn, w);

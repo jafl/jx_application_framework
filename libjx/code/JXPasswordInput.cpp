@@ -109,17 +109,17 @@ JXPasswordInput::Draw
 	r.Shrink(1,1);
 	r.right -= kMinLeftMarginWidth;
 	if (active && hasSel && TESelectionIsActive())
-		{
+	{
 		p.SetPenColor(GetSelectionColor());
 		p.SetFilling(true);
 		p.JPainter::Rect(r);
 		p.SetFilling(false);
-		}
+	}
 	else if (active && hasSel)
-		{
+	{
 		p.SetPenColor(GetSelectionOutlineColor());
 		p.JPainter::Rect(r);
-		}
+	}
 
 	// fake text
 
@@ -135,20 +135,20 @@ JXPasswordInput::Draw
 
 	const JSize textLength = GetText()->GetText().GetCharacterCount();
 	for (JIndex i=1; i<=textLength; i++)
-		{
+	{
 		p.JPainter::Ellipse(r);
 		r.Shift(kDotDiameter + kDotMargin, 0);
-		}
+	}
 
 	p.SetFilling(false);
 
 	// fake caret at end of text
 
 	if (active && !hasSel && TECaretIsVisible())
-		{
+	{
 		p.SetPenColor(GetCaretColor());
 		p.Line(r.left, 1, r.left, p.GetLineHeight());
-		}
+	}
 
 	// clean up
 
@@ -157,12 +157,12 @@ JXPasswordInput::Draw
 	// warn if Caps Lock is on
 
 	if ((GetDisplay()->GetLatestKeyModifiers()).shiftLock())
-		{
+	{
 		JXImage* img = (GetDisplay()->GetImageCache())->GetImage(jx_caps_lock_on);
 		p.JPainter::Image(*img, img->GetBounds(),
 						  b.right - img->GetWidth() - 1,
 						  b.ycenter() - img->GetHeight()/2);
-		}
+	}
 }
 
 /******************************************************************************
@@ -232,18 +232,18 @@ JXPasswordInput::HandleKeyPress
 {
 	if (c == kJLeftArrow || c == kJRightArrow ||
 		c == kJUpArrow   || c == kJDownArrow)
-		{
+	{
 		if (modifiers.shift())
-			{
-			SelectAll();
-			}
-		else
-			{
-			GoToEndOfLine();
-			}
-		}
-	else
 		{
-		JXInputField::HandleKeyPress(c, keySym, modifiers);
+			SelectAll();
 		}
+		else
+		{
+			GoToEndOfLine();
+		}
+	}
+	else
+	{
+		JXInputField::HandleKeyPress(c, keySym, modifiers);
+	}
 }

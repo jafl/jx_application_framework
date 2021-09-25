@@ -87,29 +87,29 @@ JX2DCursorMarkTable::TableDrawCell
 	r.right -= kHMarginWidth;
 
 	if (cell.y == 1 && cell.x == 1)
-		{
+	{
 		p.String(r, JGetString("XColumnTitle::JX2DCursorMarkTable"),
 			itsPrintingFlag ? JPainter::kHAlignLeft : JPainter::kHAlignCenter,
 			JPainter::kVAlignCenter);
-		}
+	}
 	else if (cell.y == 1 && cell.x == 2)
-		{
+	{
 		p.String(r, JGetString("YColumnTitle::JX2DCursorMarkTable"),
 			itsPrintingFlag ? JPainter::kHAlignLeft : JPainter::kHAlignCenter,
 			JPainter::kVAlignCenter);
-		}
+	}
 	else if (cell.x == 1 && itsPlot->GetXMarkCount() >= JSize(cell.y - 1))
-		{
+	{
 		const JFloat value = itsPlot->GetXMarkValue(cell.y - 1);
 		const JString str  = J2DPlotWidget::FloatToString(value);
 		p.String(r, str, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
-		}
+	}
 	else if (cell.x == 2 && itsPlot->GetYMarkCount() >= JSize(cell.y - 1))
-		{
+	{
 		const JFloat value = itsPlot->GetYMarkValue(cell.y - 1);
 		const JString str  = J2DPlotWidget::FloatToString(value);
 		p.String(r, str, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
-		}
+	}
 }
 
 /*******************************************************************************
@@ -125,27 +125,27 @@ JX2DCursorMarkTable::Receive
 	)
 {
 	if (sender == itsPlot && message.Is(J2DPlotWidget::kCursorMarked))
-		{
+	{
 		JXWindowDirector* dir = GetWindow()->GetDirector();
 		if (!dir->IsActive())
-			{
+		{
 			dir->Activate();
-			}
-		AdjustTable();
 		}
+		AdjustTable();
+	}
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kMarkRemoved))
-		{
+	{
 		JXWindowDirector* dir = GetWindow()->GetDirector();
 		if (!dir->IsActive())
-			{
-			dir->Activate();
-			}
-		AdjustTable();
-		}
-	else
 		{
-		JXTable::Receive(sender, message);
+			dir->Activate();
 		}
+		AdjustTable();
+	}
+	else
+	{
+		JXTable::Receive(sender, message);
+	}
 }
 
 /*******************************************************************************
@@ -159,21 +159,21 @@ JX2DCursorMarkTable::AdjustTable()
 	const JSize xCount = itsPlot->GetXMarkCount();
 	const JSize yCount = itsPlot->GetYMarkCount();
 	if (yCount > 0 || xCount > 0)
-		{
+	{
 		const JSize count = JMax(xCount, yCount) + 1;
 		if (GetRowCount() < count)
-			{
-			AppendRows(count - GetRowCount());
-			}
-		else if (GetRowCount() > count)
-			{
-			RemoveNextRows(count+1, GetRowCount() - count);
-			}
-		}
-	else if (GetRowCount() > 1)
 		{
-		RemoveNextRows(2, GetRowCount()-1);
+			AppendRows(count - GetRowCount());
 		}
+		else if (GetRowCount() > count)
+		{
+			RemoveNextRows(count+1, GetRowCount() - count);
+		}
+	}
+	else if (GetRowCount() > 1)
+	{
+		RemoveNextRows(2, GetRowCount()-1);
+	}
 
 	// in case nothing had to be added or removed
 
@@ -196,9 +196,9 @@ JX2DCursorMarkTable::Print
 	const bool hasXMarks = itsPlot->GetXMarkCount() > 0;
 	const bool hasYMarks = itsPlot->GetYMarkCount() > 0;
 	if (!hasXMarks && !hasYMarks)
-		{
+	{
 		return true;
-		}
+	}
 
 	JCoordinate lineWidth;
 	JColorID color;
@@ -210,15 +210,15 @@ JX2DCursorMarkTable::Print
 	JSize cols        = 0;
 	JCoordinate width = 0;
 	if (hasXMarks)
-		{
+	{
 		cols  = 1;
 		width = GetColWidth(1);
-		}
+	}
 	if (hasYMarks)
-		{
+	{
 		cols  += 1;
 		width += GetColWidth(1);
-		}
+	}
 
 	// This fills the end of the first page
 
@@ -226,22 +226,22 @@ JX2DCursorMarkTable::Print
 
 	bool keepGoing = true, result = true;
 	if (putOnSamePage)
-		{
+	{
 		assert( !partialPageRect.IsEmpty() );
 		keepGoing = DrawRegions(p, partialPageRect, width, &currentRow);
-		}
+	}
 
 	// Now we start filling other pages
 
 	while (keepGoing)
-		{
+	{
 		if (!p.NewPage())
-			{
+		{
 			result = false;
 			break;
-			}
-		keepGoing = DrawRegions(p, p.GetPageRect(), width, &currentRow);
 		}
+		keepGoing = DrawRegions(p, p.GetPageRect(), width, &currentRow);
+	}
 
 	itsPrintingFlag = false;
 
@@ -269,7 +269,7 @@ JX2DCursorMarkTable::DrawRegions
 	const JCoordinate pageWidth = pageRect.width();
 	const JSize regionsPerPage  = pageWidth/regionWidth;
 	for (JIndex i=1; i<=regionsPerPage; i++)
-		{
+	{
 		JRect regionRect = pageRect;
 		regionRect.left  = regionRect.left + (i - 1) * regionWidth;
 		regionRect.right = regionRect.left + regionWidth;
@@ -282,10 +282,10 @@ JX2DCursorMarkTable::DrawRegions
 		TableDrawCells(p, cellRect, regionRect);
 
 		if (*currentRow > GetRowCount())
-			{
+		{
 			return false;
-			}
 		}
+	}
 	return true;
 }
 

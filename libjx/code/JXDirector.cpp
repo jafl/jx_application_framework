@@ -32,10 +32,10 @@ JXDirector::JXDirector
 	itsClosingFlag  = false;
 
 	if (itsSupervisor != nullptr)
-		{
+	{
 		itsSupervisor->AddDirector(this);
 		itsSuspendCount = itsSupervisor->itsSuspendCount;
-		}
+	}
 }
 
 /******************************************************************************
@@ -51,9 +51,9 @@ JXDirector::~JXDirector()
 	assert( itsSubdirectors == nullptr );
 
 	if (itsSupervisor != nullptr)
-		{
+	{
 		itsSupervisor->RemoveDirector(this);
-		}
+	}
 }
 
 /******************************************************************************
@@ -82,15 +82,15 @@ JXDirector::Close()
 	itsClosingFlag = true;
 
 	if (CloseAllSubdirectors())
-		{
+	{
 		jdelete this;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		itsClosingFlag = false;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -104,22 +104,22 @@ bool
 JXDirector::CloseAllSubdirectors()
 {
 	while (itsSubdirectors != nullptr && !itsSubdirectors->IsEmpty())
-		{
+	{
 		JXDirector* theDirector = itsSubdirectors->GetFirstElement();
 		if (!theDirector->Close())
-			{
+		{
 			return false;
-			}
+		}
 		else if (itsSubdirectors != nullptr && !itsSubdirectors->IsEmpty() &&
 				 theDirector == itsSubdirectors->GetFirstElement())
-			{
+		{
 			// Since one JXDocument can keep another one open,
 			// if the owned document is in front, we have to shove it to
 			// the end so we close the owner first.
 
 			itsSubdirectors->MoveElementToIndex(1, itsSubdirectors->GetElementCount());
-			}
 		}
+	}
 
 	// falling through means everybody is closed
 
@@ -149,15 +149,15 @@ bool
 JXDirector::Deactivate()
 {
 	if (itsActiveFlag && itsSubdirectors != nullptr)
-		{
+	{
 		for (auto* dir : *itsSubdirectors)
-			{
+		{
 			if (!dir->Deactivate())
-				{
+			{
 				return false;
-				}
 			}
 		}
+	}
 	itsActiveFlag = false;
 	return true;
 }
@@ -171,12 +171,12 @@ void
 JXDirector::Suspend()
 {
 	if (itsSubdirectors != nullptr)
-		{
+	{
 		for (auto* dir : *itsSubdirectors)
-			{
+		{
 			dir->Suspend();
-			}
 		}
+	}
 	itsSuspendCount++;
 }
 
@@ -189,17 +189,17 @@ void
 JXDirector::Resume()
 {
 	if (itsSuspendCount > 0)
-		{
+	{
 		itsSuspendCount--;
-		}
+	}
 
 	if (itsSubdirectors != nullptr)
-		{
+	{
 		for (auto* dir : *itsSubdirectors)
-			{
+		{
 			dir->Resume();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -214,15 +214,15 @@ JXDirector::AddDirector
 	)
 {
 	if (itsSubdirectors == nullptr)
-		{
+	{
 		itsSubdirectors = jnew JPtrArray<JXDirector>(JPtrArrayT::kForgetAll);
 		assert( itsSubdirectors != nullptr );
-		}
+	}
 
 	if (!itsSubdirectors->Includes(theDirector))
-		{
+	{
 		itsSubdirectors->Append(theDirector);
-		}
+	}
 }
 
 /*****************************************************************************
@@ -237,15 +237,15 @@ JXDirector::RemoveDirector
 	)
 {
 	if (itsSubdirectors != nullptr)
-		{
+	{
 		itsSubdirectors->Remove(theDirector);
 		if (itsSubdirectors->IsEmpty())
-			{
+		{
 			jdelete itsSubdirectors;
 			itsSubdirectors = nullptr;
-			}
-		DirectorClosed(theDirector);
 		}
+		DirectorClosed(theDirector);
+	}
 }
 
 /*****************************************************************************

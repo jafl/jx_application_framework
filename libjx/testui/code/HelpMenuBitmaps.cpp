@@ -97,15 +97,15 @@ static unsigned char frame11_bits[] = {
 
 JConstBitmap kHelpIcon[ kHelpIconCount ] =
 {
-	{ 20,20, frame1_bits },
-	{ 20,20, frame2_bits },
-	{ 20,20, frame3_bits },
-	{ 20,20, frame4_bits },
-	{ 20,20, frame5_bits },
-	{ 20,20, frame6_bits },
-	{ 20,20, frame7_bits },
-	{ 20,20, frame8_bits },
-	{ 20,20, frame9_bits },
-	{ 20,20, frame10_bits },
-	{ 20,20, frame11_bits }
+{ 20,20, frame1_bits },
+{ 20,20, frame2_bits },
+{ 20,20, frame3_bits },
+{ 20,20, frame4_bits },
+{ 20,20, frame5_bits },
+{ 20,20, frame6_bits },
+{ 20,20, frame7_bits },
+{ 20,20, frame8_bits },
+{ 20,20, frame9_bits },
+{ 20,20, frame10_bits },
+{ 20,20, frame11_bits }
 };

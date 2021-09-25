@@ -55,7 +55,7 @@ JXImageCache::GetImage
 
 	JXImage* image;
 	if (!itsMap->GetElement(s, &image))
-		{
+	{
 		const JError err = JXImage::CreateFromXPM(itsDisplay, data, &image);
 		assert_ok( err );
 
@@ -63,7 +63,7 @@ JXImageCache::GetImage
 
 		const bool ok = itsMap->SetNewElement(s, image);
 		assert( ok );
-		}
+	}
 
 	return image;
 }
@@ -90,9 +90,9 @@ JXImageCache::GetImageData
 
 	const JSize count = colorCount + h;
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		s += data.xpm[i];
-		}
+	}
 
 	return s;
 }

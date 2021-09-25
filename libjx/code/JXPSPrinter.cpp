@@ -77,14 +77,14 @@ JXPSPrinter::SetDestination
 	itsDestination = dest;
 
 	if (!printCmd.IsEmpty())
-		{
+	{
 		itsPrintCmd = printCmd;
-		}
+	}
 
 	if (!fileName.IsEmpty())
-		{
+	{
 		itsFileName = fileName;
-		}
+	}
 }
 
 /******************************************************************************
@@ -114,9 +114,9 @@ JXPSPrinter::SetFileName
 {
 	itsFileName = name;
 	if (itsFileName.IsEmpty())
-		{
+	{
 		itsDestination = kPrintToPrinter;
-		}
+	}
 }
 
 /******************************************************************************
@@ -136,7 +136,7 @@ JXPSPrinter::ReadXPSSetup
 	input >> vers;
 
 	if (vers == 0)
-		{
+	{
 		PaperType type;
 		ImageOrientation orient;
 		bool printBW;
@@ -146,27 +146,27 @@ JXPSPrinter::ReadXPSSetup
 		PSPrintBlackWhite(printBW);
 		itsCollateFlag = false;
 		PSResetCoordinates();
-		}
+	}
 	else if (vers == 1)
-		{
+	{
 		input >> itsPrintCmd;
 		itsCollateFlag = false;
 		ReadPSSetup(input);
-		}
+	}
 	else
-		{
+	{
 		if (vers <= kCurrentSetupVersion)
-			{
+		{
 			if (vers >= 3)
-				{
+			{
 				input >> itsDestination >> itsFileName;
-				}
-			input >> itsPrintCmd >> JBoolFromString(itsCollateFlag);
 			}
+			input >> itsPrintCmd >> JBoolFromString(itsCollateFlag);
+		}
 		JIgnoreUntil(input, kSetupDataEndDelimiter);
 
 		ReadPSSetup(input);
-		}
+	}
 }
 
 /******************************************************************************
@@ -205,45 +205,45 @@ JXPSPrinter::OpenDocument()
 {
 	const JSize savedCopyCount = GetCopyCount();
 	if (itsDestination == kPrintToPrinter)
-		{
+	{
 		JString outputFile;
 		if (!(JCreateTempFile(&outputFile)).OK())
-			{
+		{
 			return false;
-			}
+		}
 
 		SetOutputFileName(outputFile);
 
 		if (itsCollateFlag)
-			{
-			SetCopyCount(1);
-			}
-		}
-	else
 		{
+			SetCopyCount(1);
+		}
+	}
+	else
+	{
 		assert( itsDestination == kPrintToFile );
 		SetOutputFileName(itsFileName);
-		}
+	}
 
 	const bool success = JPSPrinter::OpenDocument();
 
 	if (itsDestination == kPrintToPrinter && itsCollateFlag)
-		{
+	{
 		SetCopyCount(savedCopyCount);
-		}
+	}
 
 	if (!success)
-		{
+	{
 		if (itsDestination == kPrintToPrinter)
-			{
+		{
 			JGetUserNotification()->ReportError(JGetString("UnableToCreateTempFile::JXPSPrinter"));
-			}
+		}
 		else
-			{
+		{
 			assert( itsDestination == kPrintToFile );
 			JGetUserNotification()->ReportError(JGetString("UnableToSave::JXPSPrinter"));
-			}
 		}
+	}
 
 	return success;
 }
@@ -259,29 +259,29 @@ JXPSPrinter::CloseDocument()
 	JPSPrinter::CloseDocument();
 
 	if (itsDestination == kPrintToPrinter)
-		{
+	{
 		const JString& fileName = GetOutputFileName();
 		const JString sysCmd    = itsPrintCmd + " " + JPrepArgForExec(fileName);
 
 		const JSize copyCount = (itsCollateFlag ? GetCopyCount() : 1);
 
 		for (JIndex i=1; i<=copyCount; i++)
-			{
+		{
 			const JError err = JExecute(sysCmd, nullptr);
 			if (!err.OK())
-				{
+			{
 				err.ReportIfError();
 				break;
-				}
-
-			if (i < copyCount)
-				{
-				JWait(2);
-				}
 			}
 
-		JRemoveFile(fileName);
+			if (i < copyCount)
+			{
+				JWait(2);
+			}
 		}
+
+		JRemoveFile(fileName);
+	}
 }
 
 /******************************************************************************
@@ -344,9 +344,9 @@ JXPSPrinter::EndUserPageSetup
 
 	bool changed = false;
 	if (info->Successful())
-		{
+	{
 		changed = itsPageSetupDialog->SetParameters(this);
-		}
+	}
 
 	itsPageSetupDialog = nullptr;
 	return changed;
@@ -417,9 +417,9 @@ JXPSPrinter::EndUserPrintSetup
 	assert( info != nullptr );
 
 	if (info->Successful())
-		{
+	{
 		*changed = itsPrintSetupDialog->SetParameters(this);
-		}
+	}
 
 	itsPrintSetupDialog = nullptr;
 	return info->Successful();
@@ -439,21 +439,21 @@ JXPSPrinter::Receive
 {
 	if (sender == itsPageSetupDialog &&
 		message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		Broadcast(PageSetupFinished(EndUserPageSetup(message)));
-		}
+	}
 	else if (sender == itsPrintSetupDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		bool changed = false;
 		const bool success = EndUserPrintSetup(message, &changed);
 		Broadcast(PrintSetupFinished(success, changed));
-		}
+	}
 
 	else
-		{
+	{
 		JPSPrinter::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************

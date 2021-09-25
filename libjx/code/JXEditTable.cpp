@@ -104,19 +104,19 @@ JXEditTable::CreateInputField
 	itsInputField->SetFocusColor(GetFocusColor());
 
 	if (itsEditMenuHandler != nullptr && itsEditMenuHandler->HasEditMenu())
-		{
+	{
 		itsInputField->ShareEditMenu(itsEditMenuHandler);
-		}
+	}
 
 	if (itsInputField->Focus())
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		DeleteInputField();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -135,12 +135,12 @@ void
 JXEditTable::DeleteInputField()
 {
 	if (itsInputField != nullptr)
-		{
+	{
 		PrepareDeleteXInputField();
 		itsInputField->Hide();
 		JXDeleteObjectTask<JBroadcaster>::Delete(itsInputField);
 		itsInputField = nullptr;
-		}
+	}
 }
 
 /******************************************************************************
@@ -215,53 +215,53 @@ JXEditTable::HandleKeyPress
 	const bool metaOn  = modifiers.meta();
 
 	if (c == kJReturnKey && metaOn)
-		{
+	{
 		EndEditing();
-		}
+	}
 	else if (c == kJReturnKey && shiftOn)
-		{
+	{
 		ShiftEditing(0,-1);
-		}
+	}
 	else if (c == kJReturnKey)
-		{
+	{
 		ShiftEditing(0,1);
-		}
+	}
 
 	else if (c == kJTabKey && shiftOn)
-		{
+	{
 		ShiftEditing(-1,0);
-		}
+	}
 	else if (c == kJTabKey)
-		{
+	{
 		ShiftEditing(1,0);
-		}
+	}
 
 	else if (metaOn && (c == kJUpArrow || c == '8'))
-		{
+	{
 		ShiftEditing(0,-1);
-		}
+	}
 	else if (metaOn && (c == kJDownArrow || c == '2'))
-		{
+	{
 		ShiftEditing(0,1);
-		}
+	}
 	else if (metaOn && (c == kJLeftArrow || c == '4'))
-		{
+	{
 		ShiftEditing(-1,0);
-		}
+	}
 	else if (metaOn && (c == kJRightArrow || c == '6'))
-		{
+	{
 		ShiftEditing(1,0);
-		}
+	}
 
 	else if (c == kJEscapeKey)
-		{
+	{
 		CancelEditing();
-		}
+	}
 
 	else
-		{
+	{
 		JXTable::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -309,14 +309,14 @@ JXEditTable::GetEditMenuHandler()
 	const
 {
 	if (itsEditMenuHandler == nullptr)
-		{
+	{
 		auto* me = const_cast<JXEditTable*>(this);
 		me->itsEditMenuHandler =
 			jnew JXInputField(me, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							 0,0, 10,10);
 		assert( itsEditMenuHandler != nullptr );
 		itsEditMenuHandler->Hide();
-		}
+	}
 
 	return itsEditMenuHandler;
 }
@@ -337,20 +337,20 @@ JXEditTable::GetMin1DVisibleWidth
 {
 	JPoint editCell;
 	if (GetEditedCell(&editCell) && editCell == cell)
-		{
+	{
 		assert( itsInputField != nullptr );
 
 		JIndex i;
 		if (itsInputField->GetCaretLocation(&i))
-			{
+		{
 			return itsInputField->GetCharLeft(i);
-			}
+		}
 		else
-			{
+		{
 			return kMin1DVisCharCount *
 				itsInputField->GetText()->GetDefaultFont().GetCharWidth(GetFontManager(), JUtf8Character('W'));
-			}
 		}
+	}
 
 	return kDefault1DVisWidth;
 }

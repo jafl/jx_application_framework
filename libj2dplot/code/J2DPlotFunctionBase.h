@@ -1,7 +1,7 @@
 /*********************************************************************************
- JPlotFunctionBase.h
+ J2DPlotFunctionBase.h
 
-	Interface for the JPlotFunctionBase class.
+	Interface for the J2DPlotFunctionBase class.
 
 	Copyright @ 1997 by Glenn W. Bach.
 
@@ -10,20 +10,20 @@
 #ifndef _H_JPlotFunctionBase
 #define _H_JPlotFunctionBase
 
-#include "JPlotDataBase.h"
+#include "J2DPlotDataBase.h"
 #include <JArray.h>
 
 class JString;
 class J2DPlotWidget;
 
-class JPlotFunctionBase : public JPlotDataBase
+class J2DPlotFunctionBase : public J2DPlotDataBase
 {
 public:
 
-	JPlotFunctionBase(const Type type, J2DPlotWidget* plot,
+	J2DPlotFunctionBase(const Type type, J2DPlotWidget* plot,
 					  const JFloat xMin, const JFloat xMax);
 
-	virtual ~JPlotFunctionBase();
+	virtual ~J2DPlotFunctionBase();
 
 	virtual bool	IsFunction() const override;
 	virtual void	GetElement(const JIndex index, J2DDataPoint* data) const override;
@@ -79,7 +79,7 @@ private:
  ********************************************************************************/
 
 inline void
-JPlotFunctionBase::SetXRange
+J2DPlotFunctionBase::SetXRange
 	(
 	const JFloat min,
 	const JFloat max

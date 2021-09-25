@@ -44,7 +44,7 @@ JRunProgram
 						 kJIgnoreConnection, nullptr,
 						 kJCreatePipe, &errFD);
 	if (err.OK())
-		{
+	{
 		// we let JReadAll() block because otherwise the pipe might get full
 
 		JReadAll(errFD, errOutput);
@@ -55,19 +55,19 @@ JRunProgram
 
 		errOutput->TrimWhitespace();
 		if (success)
-			{
-			return JNoError();
-			}
-		else
-			{
-			return JRunProgramError(*errOutput);
-			}
-		}
-	else
 		{
+			return JNoError();
+		}
+		else
+		{
+			return JRunProgramError(*errOutput);
+		}
+	}
+	else
+	{
 		errOutput->Clear();
 		return err;
-		}
+	}
 }
 
 /******************************************************************************
@@ -84,23 +84,23 @@ JSetProcessPriority
 {
 	jclear_errno();
 	if (setpriority(PRIO_PROCESS, pid, priority) == 0)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == ESRCH)
-		{
+	{
 		return JInvalidProcess();
-		}
+	}
 	else if (err == EPERM || err == EACCES)
-		{
+	{
 		return JProcessAccessDenied();
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -117,27 +117,27 @@ JSendSignalToGroup
 {
 	jclear_errno();
 	if (killpg(pgid, signal) == 0)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == EINVAL)
-		{
+	{
 		return JInvalidSignal();
-		}
+	}
 	else if (err == ESRCH)
-		{
+	{
 		return JInvalidProcess();
-		}
+	}
 	else if (err == EPERM)
-		{
+	{
 		return JCanNotSignalProcess();
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -178,15 +178,15 @@ JGetPGID
 	FILE* statusFile = nullptr;
 	const JError err = JFOpen(fileName, "r", &statusFile);
 	if (!err.OK())
-		{
+	{
 		return err;
-		}
+	}
 
 	const int n = fscanf(statusFile, "%*s %*u %*u %u", pgid);
 	if (n != 1)
-		{
+	{
 		return JUnexpectedError(jerrno());
-		}
+	}
 
 	fclose(statusFile);
 	return JNoError();
@@ -204,23 +204,23 @@ JGetPGID
 	jclear_errno();
 	*pgid = getpgid(pid);
 	if (*pgid != -1)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == EINVAL || err == ESRCH)
-		{
+	{
 		return JInvalidProcess();
-		}
+	}
 	else if (err == EPERM)
-		{
+	{
 		return JProcessAccessDenied();
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 #endif

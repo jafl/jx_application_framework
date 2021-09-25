@@ -103,9 +103,9 @@ JStringMatch::operator=
 	)
 {
 	if (&source == this)
-		{
+	{
 		return *this;
-		}
+	}
 
 	assert( &itsTarget == &(source.itsTarget) );
 
@@ -114,19 +114,19 @@ JStringMatch::operator=
 	itsRegex = source.itsRegex;
 
 	if (source.itsSubmatchList == nullptr)
-		{
+	{
 		jdelete itsSubmatchList;
 		itsSubmatchList = nullptr;
-		}
+	}
 	else if (itsSubmatchList == nullptr)
-		{
+	{
 		itsSubmatchList = jnew JArray<JUtf8ByteRange>(*(source.itsSubmatchList));
 		assert( itsSubmatchList != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*itsSubmatchList = *(source.itsSubmatchList);
-		}
+	}
 
 	return *this;
 }
@@ -211,15 +211,15 @@ JStringMatch::GetCharacterRange
 	const
 {
 	if (submatchIndex == 0)
-		{
+	{
 		ComputeCharacterRange();
 		return itsCharacterRange;
-		}
+	}
 	else if (itsSubmatchList != nullptr && itsSubmatchList->IndexValid(submatchIndex))
-		{
+	{
 		const JUtf8ByteRange ur = itsSubmatchList->GetElement(submatchIndex);
 		if (!ur.IsEmpty())
-			{
+		{
 			ComputeCharacterRange();
 
 			JCharacterRange cr;
@@ -230,8 +230,8 @@ JStringMatch::GetCharacterRange
 				JString::CountCharacters(itsTarget.GetRawBytes() + ur.first - 1, ur.GetCount()));
 
 			return cr;
-			}
 		}
+	}
 
 	return JCharacterRange();
 }
@@ -249,13 +249,13 @@ JStringMatch::GetSubstring
 	const
 {
 	if (itsSubmatchList != nullptr && itsSubmatchList->IndexValid(index))
-		{
+	{
 		const JUtf8ByteRange r = itsSubmatchList->GetElement(index);
 		if (!r.IsEmpty())
-			{
+		{
 			return JString(itsTarget.GetRawBytes(), r, JString::kNoCopy);
-			}
 		}
+	}
 
 	return JString();
 }
@@ -274,13 +274,13 @@ JStringMatch::GetSubstring
 {
 	JIndex i;
 	if (itsRegex != nullptr && itsRegex->GetSubexpressionIndex(name, &i))
-		{
+	{
 		return GetSubstring(i);
-		}
+	}
 	else
-		{
+	{
 		return JString();
-		}
+	}
 }
 
 /******************************************************************************
@@ -296,20 +296,20 @@ JStringMatch::ComputeCharacterRange()
 	const
 {
 	if (itsByteRange.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	if (itsCharacterRange.IsNothing())	// compute start index
-		{
+	{
 		const_cast<JCharacterRange*>(&itsCharacterRange)->first =
 			JString::CountCharacters(itsTarget.GetRawBytes(), itsByteRange.first-1) + 1;
-		}
+	}
 
 	if (itsCharacterRange.IsEmpty())	// compute end index
-		{
+	{
 		const_cast<JCharacterRange*>(&itsCharacterRange)->last =
 			itsCharacterRange.first +
 			JString::CountCharacters(itsTarget.GetRawBytes(), itsByteRange) - 1;
-		}
+	}
 }

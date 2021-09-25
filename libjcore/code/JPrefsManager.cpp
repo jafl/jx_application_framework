@@ -82,9 +82,9 @@ JPrefsManager::~JPrefsManager()
 	jdelete itsFileName;
 
 	for (const auto& item : *itsData)
-		{
+	{
 		jdelete item.data;
-		}
+	}
 	jdelete itsData;
 }
 
@@ -104,15 +104,15 @@ JPrefsManager::GetData
 	PrefItem item(id.GetID(), nullptr);
 	JIndex index;
 	if (itsData->SearchSorted(item, JListT::kAnyMatch, &index))
-		{
+	{
 		item = itsData->GetElement(index);
 		data->assign(item.data->GetBytes(), item.data->GetByteCount());
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -144,16 +144,16 @@ JPrefsManager::SetData
 	const JIndex index =
 		itsData->SearchSorted1(item, JListT::kAnyMatch, &found);
 	if (found)
-		{
+	{
 		item         = itsData->GetElement(index);
 		*(item.data) = data;
-		}
+	}
 	else
-		{
+	{
 		item.data = jnew JString(data);
 		assert( item.data != nullptr );
 		itsData->InsertElementAtIndex(index, item);
-		}
+	}
 
 	Broadcast(DataChanged(id));
 }
@@ -173,14 +173,14 @@ JPrefsManager::RemoveData
 
 	JIndex index;
 	if (itsData->SearchSorted(item, JListT::kAnyMatch, &index))
-		{
+	{
 		item = itsData->GetElement(index);
 		jdelete item.data;
 
 		itsData->RemoveElement(index);
 
 		Broadcast(DataRemoved(id));
-		}
+	}
 }
 
 /******************************************************************************
@@ -197,14 +197,14 @@ JPrefsManager::SaveToDisk()
 	JPrefsFile* file = nullptr;
 	JError err = Open(&file, true);
 	if (err.OK())
-		{
+	{
 		jdelete file;
 		file = nullptr;
-		}
+	}
 	else
-		{
+	{
 		return err;
-		}
+	}
 
 	// save owner
 
@@ -213,55 +213,55 @@ JPrefsManager::SaveToDisk()
 	uid_t ownerID;
 	gid_t groupID;
 	if (preserveOwner)
-		{
+	{
 		JError err = JPrefsFile::GetFullName(*itsFileName, &fullName);
 		if (err.OK())
-			{
+		{
 			err = JGetOwnerID(fullName, &ownerID);
-			}
+		}
 		if (err.OK())
-			{
+		{
 			err = JGetOwnerGroup(fullName, &groupID);
-			}
+		}
 		if (!err.OK())
-			{
+		{
 			return err;
-			}
+		}
 
 		preserveOwner = !JUserIsAdmin(ownerID);
-		}
+	}
 
 	// toss everything
 
 	err = DeletePrefsFile(*itsFileName);
 	if (!err.OK())
-		{
+	{
 		return err;
-		}
+	}
 
 	// write current data
 
 	err = Open(&file, true);		// version is zero since file was deleted
 	if (!err.OK())
-		{
+	{
 		return err;
-		}
+	}
 
 	file->SetVersion(itsCurrentFileVersion);
 
 	for (const auto& item : *itsData)
-		{
+	{
 		file->SetData(item.id, *item.data);
-		}
+	}
 
 	jdelete file;
 
 	// restore owner -- too late to do anything if it fails
 
 	if (preserveOwner)
-		{
+	{
 		JSetOwner(fullName, ownerID, groupID);
-		}
+	}
 
 	return JNoError();
 }
@@ -284,32 +284,32 @@ JPrefsManager::UpgradeData
 	JPrefsFile* file = nullptr;
 	const JError err = Open(&file, true);
 	if (err.OK())
-		{
+	{
 		isNew              = file->IsEmpty();
 		itsPrevFileVersion = file->GetVersion();
 		LoadData(file);
 		UpgradeData(isNew, itsPrevFileVersion);
 		jdelete file;
-		}
+	}
 	else
-		{
+	{
 		itsPrevFileVersion = 0;
 		UpgradeData(true, itsPrevFileVersion);
 
 		if (reportError && err == kWrongVersion)
-			{
+		{
 			JGetUserNotification()->ReportError(JGetString("NewerVersion::JPrefsManager"));
-			}
+		}
 		else if (reportError)
-			{
+		{
 			const JUtf8Byte* map[] =
-				{
+			{
 				"msg", err.GetMessage().GetBytes()
-				};
+			};
 			const JString msg = JGetString("OtherError::JPrefsManager", map, sizeof(map));
 			JGetUserNotification()->ReportError(msg);
-			}
 		}
+	}
 
 	return isNew;
 }
@@ -327,7 +327,7 @@ JPrefsManager::LoadData
 {
 	const JSize count = file->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		JFAID id;
 		const bool ok = file->IndexToID(i, &id);
 		assert( ok );
@@ -342,7 +342,7 @@ JPrefsManager::LoadData
 		const JIndex j = itsData->GetInsertionSortIndex(item, &isDuplicate);
 		assert( !isDuplicate );
 		itsData->InsertElementAtIndex(j, item);
-		}
+	}
 }
 
 /******************************************************************************
@@ -361,26 +361,26 @@ JPrefsManager::Open
 	*file = nullptr;
 	const JError err = JPrefsFile::Create(*itsFileName, file);
 	if (err.OK())
-		{
+	{
 		const JFileVersion vers = (**file).GetVersion();
 		if (vers == itsCurrentFileVersion ||
 			(allowPrevVers && vers < itsCurrentFileVersion))
-			{
+		{
 			return JNoError();
-			}
+		}
 		else
-			{
+		{
 			jdelete *file;
 			*file = nullptr;
 			return WrongVersion();
-			}
 		}
+	}
 
 	else if (err == JPrefsFile::kFileAlreadyOpen && itsEraseFileIfOpenFlag &&
 			 DeletePrefsFile(*itsFileName) == kJNoError)
-		{
+	{
 		return Open(file, allowPrevVers);		// now it will work
-		}
+	}
 
 	jdelete *file;
 	*file = nullptr;
@@ -404,9 +404,9 @@ JPrefsManager::DeletePrefsFile
 	JString fullName;
 	JError err = JPrefsFile::GetFullName(fileName, &fullName);
 	if (err.OK())
-		{
+	{
 		err = JRemoveFile(fullName);
-		}
+	}
 	return err;
 }
 
@@ -423,15 +423,15 @@ JPrefsManager::ComparePrefIDs
 	)
 {
 	if (p1.id < p2.id)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (p1.id == p2.id)
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 }

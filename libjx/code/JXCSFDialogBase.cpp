@@ -160,17 +160,17 @@ bool
 JXCSFDialogBase::Deactivate()
 {
 	if (!IsActive())
-		{
+	{
 		return true;
-		}
+	}
 
 	itsDeactCancelFlag     = Cancelled();
 	const bool success = JXDialogDirector::Deactivate();
 	if (!success)
-		{
+	{
 		// We haven't been deleted.
 		itsDeactCancelFlag = false;
-		}
+	}
 	return success;
 }
 
@@ -196,27 +196,27 @@ JXCSFDialogBase::ReadBaseSetup
 	input >> vers;
 
 	if (vers <= kCurrentSetupVersion)
-		{
+	{
 		itsPathHistory->ReadSetup(input);
 		itsFilterHistory->ReadSetup(input);
 
 		if (vers >= 1)
-			{
+		{
 			window->ReadGeometry(input);
 
 			JCoordinate y;
 			input >> y;
 
 			if (!ignoreScroll)
-				{
+			{
 				JXScrollbar *hScrollbar, *vScrollbar;
 				itsFileBrowser->UpdateScrollbars();
 				itsFileBrowser->GetScrollbars(&hScrollbar, &vScrollbar);
 				assert( vScrollbar != nullptr );
 				vScrollbar->SetValue(y);
-				}
 			}
 		}
+	}
 
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
 
@@ -323,9 +323,9 @@ JXCSFDialogBase::SetObjects
 	itsHomeButton->SetShortcuts(JGetString("HomeShortcut::JXCSFDialogBase"));
 	itsDesktopButton->SetShortcuts(JGetString("DesktopShortcut::JXCSFDialogBase"));
 	if (itsNewDirButton != nullptr)
-		{
+	{
 		itsNewDirButton->SetShortcuts(JGetString("NewDirShortcut::JXCSFDialogBase"));
-		}
+	}
 	itsShowHiddenCB->SetShortcuts(JGetString("ShowHiddenShortcut::JXCSFDialogBase"));
 
 	ListenTo(itsPathInput);
@@ -338,9 +338,9 @@ JXCSFDialogBase::SetObjects
 	ListenTo(itsHomeButton);
 	ListenTo(itsDesktopButton);
 	if (itsNewDirButton != nullptr)
-		{
+	{
 		ListenTo(itsNewDirButton);
-		}
+	}
 
 	// show the message at the top of the window
 
@@ -368,7 +368,7 @@ JXCSFDialogBase::DisplayMessage
 	assert( window != nullptr );
 
 	if (!message.IsEmpty())
-		{
+	{
 		auto* messageObj =
 			jnew JXStaticText(message, window,
 					JXWidget::kHElastic, JXWidget::kFixedTop,
@@ -381,21 +381,21 @@ JXCSFDialogBase::DisplayMessage
 		const JSize prefw = messageObj->TEGetMinPreferredGUIWidth();
 		const JSize apw   = apG.width();
 		if (prefw > apw)
-			{
+		{
 			dw = prefw - apw;
-			}
+		}
 
 		JSize dh        = 0;
 		const JSize bdh = messageObj->GetBoundsHeight();
 		const JSize aph = apG.height();
 		if (bdh > aph)
-			{
+		{
 			dh = bdh - aph;
-			}
+		}
 
 		window->AdjustSize(dw, bdh + kMessageMargin);
 		messageObj->AdjustSize(0, dh);
-		}
+	}
 
 	window->LockCurrentMinSize();
 	AdjustSizings();
@@ -428,9 +428,9 @@ JXCSFDialogBase::AdjustSizings()
 	itsDesktopButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
 
 	if (itsNewDirButton != nullptr)
-		{
+	{
 		itsNewDirButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
-		}
+	}
 }
 
 /******************************************************************************
@@ -446,7 +446,7 @@ JXCSFDialogBase::Receive
 	)
 {
 	if (sender == itsDirInfo && message.Is(JDirInfo::kPathChanged))
-		{
+	{
 		SelectPrevDirectory();
 		const JString& newDir = itsDirInfo->GetDirectory();
 		itsPathInput->GetText()->SetText(newDir);
@@ -454,123 +454,123 @@ JXCSFDialogBase::Receive
 		itsPathHistory->AddString(newDir);
 		itsCurrPathMenu->SetPath(newDir);
 		UpdateDisplay();
-		}
+	}
 	else if (sender == itsDirInfo && message.Is(JDirInfo::kPermissionsChanged))
-		{
+	{
 		UpdateDisplay();
-		}
+	}
 
 	else if (sender == itsPathInput && message.Is(JXWidget::kGotFocus))
-		{
+	{
 		itsEnterButton->SetLabel(JGetString("GoToLabel::JXCSFDialogBase"));
-		}
+	}
 	else if (sender == itsPathInput && message.Is(JXWidget::kLostFocus) &&
 			 !itsDeactCancelFlag)
-		{
+	{
 		itsEnterButton->SetLabel(JGetString("OpenLabel::JXCSFDialogBase"));
 		GoToItsPath();
-		}
+	}
 
 	else if (sender == itsFilterInput && message.Is(JXWidget::kGotFocus))
-		{
+	{
 		itsEnterButton->SetLabel(JGetString("ApplyLabel::JXCSFDialogBase"));
-		}
+	}
 	else if (sender == itsFilterInput && message.Is(JXWidget::kLostFocus) &&
 			 !itsDeactCancelFlag)
-		{
+	{
 		itsEnterButton->SetLabel(JGetString("OpenLabel::JXCSFDialogBase"));
 		AdjustFilter();
-		}
+	}
 
 	else if (sender == itsPathHistory && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		itsPathHistory->UpdateInputField(message, itsPathInput);
 		GoToItsPath();
-		}
+	}
 	else if (sender == itsFilterHistory && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		itsFilterHistory->UpdateInputField(message, itsFilterInput);
 		AdjustFilter();
-		}
+	}
 
 	else if (sender == itsShowHiddenCB && message.Is(JXCheckbox::kPushed))
-		{
+	{
 		const auto* state =
 			dynamic_cast<const JXCheckbox::Pushed*>(&message);
 		assert( state != nullptr );
 		itsFileBrowser->ShowHidden(state->IsChecked());
-		}
+	}
 
 	else if (sender == itsCurrPathMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JString newPath = itsCurrPathMenu->GetPath(message);
 		itsDirInfo->GoTo(newPath);
-		}
+	}
 
 	else if (sender == itsUpButton && message.Is(JXButton::kPushed))
-		{
+	{
 		const JError err = itsDirInfo->GoUp();
 		if (err.OK())
-			{
+		{
 			itsFileBrowser->Focus();
-			}
-		else
-			{
-			JGetUserNotification()->ReportError(JGetString("NoAccessUp::JXCSFDialogBase"));
-			}
 		}
+		else
+		{
+			JGetUserNotification()->ReportError(JGetString("NoAccessUp::JXCSFDialogBase"));
+		}
+	}
 
 	else if (sender == itsHomeButton && message.Is(JXButton::kPushed))
-		{
+	{
 		JString homeDir;
 		const bool found = JGetHomeDirectory(&homeDir);
 		if (found)
-			{
+		{
 			itsDirInfo->GoTo(homeDir);
 			itsFileBrowser->Focus();
-			}
-		else if (!found)
-			{
-			JGetUserNotification()->ReportError(JGetString("NoHomeDir::JXCSFDialogBase"));
-			}
 		}
+		else if (!found)
+		{
+			JGetUserNotification()->ReportError(JGetString("NoHomeDir::JXCSFDialogBase"));
+		}
+	}
 
 	else if (sender == itsDesktopButton && message.Is(JXButton::kPushed))
-		{
+	{
 		JString desktopDir;
 		const bool found = JGetHomeDirectory(&desktopDir);
 		if (found)
-			{
+		{
 			desktopDir = JCombinePathAndName(desktopDir, JGetString("DesktopName::JXCSFDialogBase"));
 			itsDirInfo->GoTo(desktopDir);
 			itsFileBrowser->Focus();
-			}
-		else if (!found)
-			{
-			JGetUserNotification()->ReportError(JGetString("NoHomeDir::JXCSFDialogBase"));
-			}
 		}
+		else if (!found)
+		{
+			JGetUserNotification()->ReportError(JGetString("NoHomeDir::JXCSFDialogBase"));
+		}
+	}
 
 	else if (sender == itsNewDirButton && message.Is(JXButton::kPushed))
-		{
+	{
 		GetNewDirectory();
-		}
+	}
 	else if (sender == itsNewDirDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			CreateNewDirectory();
-			}
-		itsNewDirDialog = nullptr;
 		}
+		itsNewDirDialog = nullptr;
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -582,7 +582,7 @@ bool
 JXCSFDialogBase::GoToItsPath()
 {
 	if (itsPathInput->InputValid())
-		{
+	{
 		JString path;
 		const bool ok = itsPathInput->GetPath(&path);
 		assert( ok );
@@ -590,11 +590,11 @@ JXCSFDialogBase::GoToItsPath()
 		const JError err = itsDirInfo->GoTo(path);
 		assert_ok( err );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -608,22 +608,22 @@ void
 JXCSFDialogBase::UpdateDisplay()
 {
 	if (JIsRootDirectory(itsDirInfo->GetDirectory()))
-		{
+	{
 		itsUpButton->Deactivate();
-		}
+	}
 	else
-		{
+	{
 		itsUpButton->Activate();
-		}
+	}
 
 	if (itsNewDirButton != nullptr && itsDirInfo->IsWritable())
-		{
+	{
 		itsNewDirButton->Activate();
-		}
+	}
 	else if (itsNewDirButton != nullptr)
-		{
+	{
 		itsNewDirButton->Deactivate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -636,11 +636,11 @@ JXCSFDialogBase::AdjustFilter()
 {
 	const JString& newFilter = itsFilterInput->GetText()->GetText();
 	if (newFilter != itsPrevFilterString)
-		{
+	{
 		itsDirInfo->SetWildcardFilter(newFilter);
 		itsPrevFilterString = newFilter;
 		itsFilterHistory->AddString(newFilter);
-		}
+	}
 }
 
 /******************************************************************************
@@ -674,9 +674,9 @@ JXCSFDialogBase::GetNewDirectory()
 	// block with event loop running until we get a response
 
 	while (itsNewDirDialog != nullptr)
-		{
+	{
 		app->HandleOneEventForWindow(window);
-		}
+	}
 
 	app->BlockingWindowFinished();
 }
@@ -698,21 +698,21 @@ JXCSFDialogBase::CreateNewDirectory()
 
 	const JError err = JCreateDirectory(newDirName);
 	if (err == kJNoError)
-		{
+	{
 		itsDirInfo->GoTo(newDirName);
-		}
+	}
 	else if (err == kJDirEntryAlreadyExists)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("DirectoryExists::JXGlobal"));
-		}
+	}
 	else if (err == kJAccessDenied)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXGlobal"));
-		}
+	}
 	else
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("CannotCreateDir::JXCSFDialogBase"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -729,7 +729,7 @@ JXCSFDialogBase::SelectPrevDirectory()
 	const JString& newPath = itsDirInfo->GetDirectory();
 
 	if (itsPrevPath.BeginsWith(newPath))
-		{
+	{
 		// remove common base path
 
 		JString dirName = itsPrevPath;
@@ -741,30 +741,30 @@ JXCSFDialogBase::SelectPrevDirectory()
 
 		JUtf8Character c;
 		while (iter.Next(&c) && c == ACE_DIRECTORY_SEPARATOR_CHAR)
-			{
+		{
 			iter.RemovePrev();
-			}
+		}
 
 		// keep only first dir name past common base path
 
 		if (iter.Next(ACE_DIRECTORY_SEPARATOR_STR))
-			{
+		{
 			iter.RemovePrev();
 			iter.RemoveAllNext();
-			}
+		}
 
 		iter.Invalidate();
 
 		// create UrgentTask to select this item
 
 		if (!dirName.IsEmpty())
-			{
+		{
 			auto* task =
 				jnew JXCSFSelectPrevDirTask(itsDirInfo, itsFileBrowser, dirName);
 			assert( task != nullptr );
 			task->Go();
-			}
 		}
+	}
 
 	itsPrevPath = newPath;
 }

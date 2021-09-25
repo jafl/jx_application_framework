@@ -114,14 +114,14 @@ JInterpolate::GetValue
 	const
 {
 	if (itsMatch == nullptr)
-		{
+	{
 		return true;	// assume ContainsError() was called
-		}
+	}
 
 	assert( !name.IsEmpty() );
 
 	if (name.GetFirstCharacter() == '{')
-		{
+	{
 		assert( name.GetLastCharacter() == '}' );
 
 		JString s = name;
@@ -132,25 +132,25 @@ JInterpolate::GetValue
 
 		*value = itsMatch->GetSubstring(s);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		JInteger n;
 		const bool isNumber = name.ConvertToInteger(&n);
 		assert( isNumber );
 
 		if (n < 0)	// Wrap so negatives count from the end
-			{
+		{
 			n += itsMatch->GetSubstringCount() + 1;
-			}
+		}
 
 		if (n == 0)
-			{
+		{
 			*value = itsMatch->GetString();
 			return true;
-			}
+		}
 
 		*value = itsMatch->GetSubstring(n);
 		return true;
-		}
+	}
 }

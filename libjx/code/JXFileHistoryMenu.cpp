@@ -143,9 +143,9 @@ JXFileHistoryMenu::AddFile
 	)
 {
 	if (origPath.IsEmpty() || name.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	JString path(" ");
 	path.Append(origPath);
@@ -178,11 +178,11 @@ JXFileHistoryMenu::RemoveNonexistentFiles()
 	const JSize count       = GetItemCount();
 	const JIndex firstIndex = GetFirstIndex();
 	for (JIndex i=count; i>=firstIndex; i--)
-		{
+	{
 		fullName = GetFile(i);
 		if (!JFileExists(fullName))
-			{
+		{
 			RemoveItem(i);
-			}
 		}
+	}
 }

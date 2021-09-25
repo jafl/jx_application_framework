@@ -29,9 +29,9 @@ JWait
 
 	double remaining = delta;
 	while (remaining > 0.5)
-		{
+	{
 		usleep(500000UL);					// 0.5 seconds
 		remaining -= 0.5;
-		}
+	}
 	usleep((unsigned long) JRound(remaining * 1000000));	// remainder
 }

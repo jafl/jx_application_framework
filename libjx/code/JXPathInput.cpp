@@ -117,78 +117,78 @@ bool
 JXPathInput::InputValid()
 {
 	if (itsAllowInvalidPathFlag)
-		{
+	{
 		return true;
-		}
+	}
 	else if (!JXFSInputBase::InputValid())
-		{
+	{
 		return false;
-		}
+	}
 
 	const JString& text = GetText()->GetText();
 	if (text.IsEmpty())		// paranoia -- JXFSInputBase should have reported
-		{
+	{
 		return !IsRequired();
-		}
+	}
 
 	JString basePath;
 	const bool hasBasePath = GetBasePath(&basePath);
 
 	JString path;
 	if (JIsRelativePath(text) && !hasBasePath)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("NoRelPath::JXPathInput"));
 		GetText()->RestyleAll();
 		return false;
-		}
+	}
 	if (!JConvertToAbsolutePath(text, basePath, &path))
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("InvalidDir::JXPathInput"));
 		GetText()->RestyleAll();
 		return false;
-		}
+	}
 
 	const JString currDir = JGetCurrentDirectory();
 	const JError err      = JChangeDirectory(path);
 	JChangeDirectory(currDir);
 
 	if (err.OK())
-		{
+	{
 		if (!JDirectoryReadable(path))
-			{
+		{
 			JGetUserNotification()->ReportError(JGetString("Unreadable::JXPathInput"));
 			GetText()->RestyleAll();
 			return false;
-			}
+		}
 		else if (itsRequireWriteFlag && !JDirectoryWritable(path))
-			{
+		{
 			JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXGlobal"));
 			GetText()->RestyleAll();
 			return false;
-			}
-		else
-			{
-			return true;
-			}
 		}
+		else
+		{
+			return true;
+		}
+	}
 
 	const JUtf8Byte* errID;
 	if (err == kJAccessDenied)
-		{
+	{
 		errID = "AccessDenied::JXPathInput";
-		}
+	}
 	else if (err == kJBadPath)
-		{
+	{
 		errID = "DirectoryDoesNotExist::JXGlobal";
-		}
+	}
 	else if (err == kJComponentNotDirectory)
-		{
+	{
 		errID = "CompNotDir::JXPathInput";
-		}
+	}
 	else
-		{
+	{
 		errID = "InvalidDir::JXPathInput";
-		}
+	}
 
 	JGetUserNotification()->ReportError(JGetString(errID));
 	GetText()->RestyleAll();
@@ -215,9 +215,9 @@ JXPathInput::GetTextColor
 	)
 {
 	if (path.IsEmpty())
-		{
+	{
 		return JColorManager::GetBlackColor();
-		}
+	}
 
 	JString fullPath;
 	if ((JIsAbsolutePath(path) || !base.IsEmpty()) &&
@@ -225,13 +225,13 @@ JXPathInput::GetTextColor
 		JDirectoryReadable(fullPath) &&
 		JCanEnterDirectory(fullPath) &&
 		(!requireWrite || JDirectoryWritable(fullPath)))
-		{
+	{
 		return JColorManager::GetBlackColor();
-		}
+	}
 	else
-		{
+	{
 		return JColorManager::GetRedColor();
-		}
+	}
 }
 
 /******************************************************************************
@@ -251,13 +251,13 @@ JXPathInput::GetTextForChoosePath()
 	const bool hasBasePath = GetBasePath(&basePath);
 
 	if (text.IsEmpty() && hasBasePath)
-		{
+	{
 		text = basePath;
-		}
+	}
 	else if (!text.IsEmpty() && JIsRelativePath(text) && hasBasePath)
-		{
+	{
 		text = JCombinePathAndName(basePath, text);
-		}
+	}
 	return text;
 }
 
@@ -284,14 +284,14 @@ JXPathInput::ChoosePath
 		 JGetChooseSaveFile()->ChooseRWPath(prompt, instr, origPath, &newPath)) ||
 		(!itsRequireWriteFlag &&
 		 JGetChooseSaveFile()->ChooseRPath(prompt, instr, origPath, &newPath)))
-		{
+	{
 		GetText()->SetText(newPath);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -311,19 +311,19 @@ JXPathInput::StyledText::ComputeErrorLength
 	const
 {
 	if (fullPath.IsEmpty())
-		{
+	{
 		return totalLength;
-		}
+	}
 
 	auto* f = dynamic_cast<JXPathInput*>(field);
 
 	const JString closestDir = JGetClosestDirectory(fullPath, f->itsRequireWriteFlag);
 	if (fullPath.BeginsWith(closestDir))
-		{
+	{
 		return fullPath.GetCharacterCount() - closestDir.GetCharacterCount();
-		}
+	}
 	else
-		{
+	{
 		return totalLength;
-		}
+	}
 }

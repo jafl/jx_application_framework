@@ -91,13 +91,13 @@ JXButtonStates::GetState()
 {
 	unsigned int state = 0, i = 0;
 	for (const auto b : itsState)
-		{
+	{
 		if (b)
-			{
+		{
 			state |= (1L << (i+8));		// use the same bits as X
-			}
-		i++;
 		}
+		i++;
+	}
 	return state;
 }
 
@@ -115,9 +115,9 @@ JXButtonStates::SetState
 	)
 {
 	for (JUnsignedOffset i=0; i<kXButtonCount; i++)
-		{
+	{
 		itsState[i] = (state & (1L << (i+8))) != 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -165,11 +165,11 @@ JXButtonStates::SetState
 	)
 {
 	if (pushed)
-		{
+	{
 		return (state | (1L << (i+7)));
-		}
+	}
 	else
-		{
+	{
 		return (state & ~(1L << (i+7)));
-		}
+	}
 }

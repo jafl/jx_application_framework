@@ -57,7 +57,7 @@ JXTextEditor::JXTextEditor
 	itsMenuBar = menuBar;
 
 	if (itsMenuBar != nullptr)
-		{
+	{
 		AppendEditMenu(menuBar, true, true, true, true, true, true, true, true);
 		AppendSearchReplaceMenu(menuBar);
 
@@ -77,7 +77,7 @@ JXTextEditor::JXTextEditor
 										  kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsStyleMenu != nullptr );
 		menuBar->AppendMenu(itsStyleMenu);
-		}
+	}
 
 	// listen for TypeChanged
 
@@ -127,10 +127,10 @@ void
 JXTextEditor::HandleFocusEvent()
 {
 	if (itsStyleMenu != nullptr)
-		{
+	{
 		AdjustMenuBar();
 		itsStyleMenu->SetTE(this);
-		}
+	}
 
 	JXTEBase::HandleFocusEvent();
 }
@@ -150,45 +150,45 @@ JXTextEditor::Receive
 	)
 {
 	if (sender == itsFontMenu && message.Is(JXFontNameMenu::kNameNeedsUpdate))
-		{
+	{
 		if (HasFocus())
-			{
+		{
 			itsFontMenu->SetFontName(GetCurrentFont().GetName());
-			}
 		}
+	}
 	else if (sender == itsFontMenu && message.Is(JXFontNameMenu::kNameChanged))
-		{
+	{
 		if (HasFocus())
-			{
+		{
 			const JString fontName = itsFontMenu->GetFontName();
 			SetCurrentFontName(fontName);
-			}
 		}
+	}
 
 	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeNeedsUpdate))
-		{
+	{
 		if (HasFocus())
-			{
+		{
 			itsSizeMenu->SetFontSize(GetCurrentFont().GetSize());
-			}
 		}
+	}
 	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged))
-		{
+	{
 		if (HasFocus())
-			{
+		{
 			SetCurrentFontSize(itsSizeMenu->GetFontSize());
-			}
 		}
+	}
 
 	else
-		{
+	{
 		if (sender == this && HasFocus() && message.Is(JTextEditor::kTypeChanged))
-			{
+		{
 			AdjustMenuBar();
-			}
+		}
 
 		JXTEBase::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -200,9 +200,9 @@ void
 JXTextEditor::AdjustMenuBar()
 {
 	if (itsMenuBar == nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	const bool active = GetType() == kFullEditor;
 

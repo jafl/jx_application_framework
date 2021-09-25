@@ -59,14 +59,14 @@ JPrefsFile::Create
 	JString fullName;
 	const JError err = OKToCreate(fileNameStem, &fullName, action);
 	if (err.OK())
-		{
+	{
 		*obj = jnew JPrefsFile(fullName, action);
 		assert( *obj != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*obj = nullptr;
-		}
+	}
 	return err;
 }
 
@@ -80,9 +80,9 @@ JPrefsFile::OKToCreate
 {
 	JError err = GetFullName(fileNameStem, fullName);
 	if (err.OK())
-		{
+	{
 		err = OKToCreateBase(*fullName, "", action);
-		}
+	}
 	return err;
 }
 
@@ -99,17 +99,17 @@ JPrefsFile::GetFullName
 	)
 {
 	if (JGetPrefsDirectory(fullName))
-		{
+	{
 		*fullName += ".";
 		*fullName += fileNameStem;
 		*fullName += ".pref";
 		return JNoError();
-		}
+	}
 	else
-		{
+	{
 		fullName->Clear();
 		return NoHomeDirectory();
-		}
+	}
 }
 
 /******************************************************************************
@@ -152,14 +152,14 @@ JPrefsFile::SetData
 	)
 {
 	if (IDValid(id))
-		{
+	{
 		SetElement(id, data);
-		}
+	}
 	else
-		{
+	{
 		AppendElement(data);
 		GetFileArrayIndex()->SetElementID(GetElementCount(), id);
-		}
+	}
 }
 
 void
@@ -171,14 +171,14 @@ JPrefsFile::SetData
 {
 	JString d(data.c_str(), data.length(), JString::kNoCopy);
 	if (IDValid(id))
-		{
+	{
 		SetElement(id, d);
-		}
+	}
 	else
-		{
+	{
 		AppendElement(d);
 		GetFileArrayIndex()->SetElementID(GetElementCount(), id);
-		}
+	}
 }
 
 void
@@ -189,12 +189,12 @@ JPrefsFile::SetData
 	)
 {
 	if (IDValid(id))
-		{
+	{
 		SetElement(id, data);
-		}
+	}
 	else
-		{
+	{
 		AppendElement(data);
 		GetFileArrayIndex()->SetElementID(GetElementCount(), id);
-		}
+	}
 }

@@ -64,16 +64,16 @@ JXSaveFileInput::HandleFocusEvent()
 
 	JString root, suffix;
 	if (JSplitRootAndSuffix(GetText()->GetText(), &root, &suffix))
-		{
+	{
 		if (root.IsEmpty())
-			{
+		{
 			GoToBeginningOfLine();
-			}
-		else
-			{
-			SetSelection(JCharacterRange(1, root.GetCharacterCount()));
-			}
 		}
+		else
+		{
+			SetSelection(JCharacterRange(1, root.GetCharacterCount()));
+		}
+	}
 }
 
 /******************************************************************************
@@ -129,25 +129,25 @@ JXSaveFileInput::StyledText::FilterText
 	)
 {
 	if (!JXInputField::StyledText::FilterText(text, style))
-		{
+	{
 		return false;
-		}
+	}
 
 	// convert slash to dash, and possibly space to underscore
 
 	JStringIterator iter(text);
 	JUtf8Character c;
 	while (iter.Next(&c))
-		{
+	{
 		if (c == ACE_DIRECTORY_SEPARATOR_CHAR)
-			{
+		{
 			iter.SetPrev(JUtf8Character('-'), kJIteratorStay);
-			}
-		else if (!theAllowSpaceFlag && c.IsSpace())
-			{
-			iter.SetPrev(JUtf8Character('_'), kJIteratorStay);
-			}
 		}
+		else if (!theAllowSpaceFlag && c.IsSpace())
+		{
+			iter.SetPrev(JUtf8Character('_'), kJIteratorStay);
+		}
+	}
 
 	return true;
 }

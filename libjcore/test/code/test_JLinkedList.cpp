@@ -54,20 +54,20 @@ JTEST(Prepend)
 	JBroadcastTester snoop(&a);
 
 	for (long j : { 5,4,3,2,1 })
-		{
+	{
 		snoop.Expect(JListT::kElementsInserted,
 			[] (const JBroadcaster::Message& m)
-			{
+		{
 				const auto* ei =
 					dynamic_cast<const JListT::ElementsInserted*>(&m);
 				JAssertNotNull(ei);
 				JAssertEqual(1, ei->GetFirstIndex());
 				JAssertEqual(1, ei->GetLastIndex());
 				JAssertEqual(1, ei->GetCount());
-			});
+		});
 
 		a.PrependElement(j);
-		}
+	}
 
 	verify("1 2 3 4 5", a);
 
@@ -81,10 +81,10 @@ JTEST(Append)
 	JBroadcastTester snoop(&a);
 
 	for (long j : { 1,2,3,4,5 })
-		{
+	{
 		snoop.Expect(JListT::kElementsInserted,
 			[j] (const JBroadcaster::Message& m)
-			{
+		{
 				const auto* ei =
 					dynamic_cast<const JListT::ElementsInserted*>(&m);
 				JAssertNotNull(ei);
@@ -106,10 +106,10 @@ JTEST(Append)
 				k = j+1;
 				ei->AdjustIndex(&k);
 				JAssertEqual(j+2, k);
-			});
+		});
 
 		a.AppendElement(j);
-		}
+	}
 
 	verify("1 2 3 4 5", a);
 
@@ -127,9 +127,9 @@ JTEST(RangeBasedForLoop)
 	long b[3];
 	int j = 0;
 	for (long i : a)
-		{
+	{
 		b[j++] = i;
-		}
+	}
 
 	JAssertEqual(3, b[0]);
 	JAssertEqual(2, b[1]);
@@ -272,11 +272,11 @@ JTEST(IteratorModification)
 	iter->SkipPrev();
 	verify("-2 -1 5 4 3 2 1 -3", a);
 
-	{
+{
 	JListIterator<long>* i2 = a.NewIterator(kJIteratorStartBefore, 2);
 	i2->Insert(-4);
 	jdelete i2;
-	}
+}
 
 	JAssertEqual(6, iter->GetNextElementIndex());
 	JAssertTrue(iter->Next(&j));
@@ -395,11 +395,11 @@ JTEST(TwoIterators)
 	i2->SkipNext();
 	verify("-3 5 4 2 1 -2", a);
 
-	{
+{
 	JListIterator<long>* i3 = a.NewIterator(kJIteratorStartBefore, 4);
 	i3->Insert(-4);
 	jdelete i3;
-	}
+}
 
 	JAssertEqual(4, i1->GetNextElementIndex());
 	JAssertTrue(i1->Next(&j));

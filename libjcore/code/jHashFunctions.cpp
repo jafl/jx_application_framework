@@ -84,10 +84,10 @@ JHash7Bit
 
 	JHashValue hash=0;
 	while (*thisChar != '\0')
-		{
+	{
 		hash = (127*hash + *thisChar); // mod (wordsize) is automatic for word-sized keys
 		++thisChar;
-		}
+	}
 
 	return JRandWord(hash); // Extra "randomness" as discussed above
 }
@@ -115,10 +115,10 @@ JHash8Bit
 
 	JHashValue hash=0;
 	while (*thisChar != '\0')
-		{
+	{
 		hash = (251*hash + *thisChar); // mod (wordsize) is automatic for word-sized keys
 		++thisChar;
-		}
+	}
 
 	return JRandWord(hash); // Extra "randomness" as discussed above
 }

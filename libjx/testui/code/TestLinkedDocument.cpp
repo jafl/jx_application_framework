@@ -39,15 +39,15 @@ TestLinkedDocument::TestLinkedDocument
 	itsDoc = nullptr;
 
 	if (JFileExists(kOurFile))
-		{
+	{
 		FileChanged(kOurFile, true);
 		ReadFile(kOurFile);
-		}
+	}
 	else
-		{
+	{
 		JGetUserNotification()->ReportError(
 			JGetString("FileNotFound::TestLinkedDocument"));
-		}
+	}
 
 	// Normally, currDir would be relative to the directory containing our data file,
 	// and fileName would come from our data file.
@@ -59,43 +59,43 @@ TestLinkedDocument::TestLinkedDocument
 
 	JString newName;
 	if (docMgr->FindFile(fileName, currDir, &newName))
-		{
+	{
 		JXFileDocument* doc = nullptr;
 		if (docMgr->FileDocumentIsOpen(newName, &doc))
-			{
+		{
 			itsDoc = dynamic_cast<TestTextEditDocument*>(doc);
 			if (itsDoc == nullptr)
-				{
+			{
 				JGetUserNotification()->ReportError(
 					JGetString("FileAlreadyOpen::TestLinkedDocument"));
-				}
 			}
+		}
 		else
-			{
+		{
 			itsDoc = jnew TestTextEditDocument(supervisor, newName, false);
 			assert( itsDoc != nullptr );
-			}
+		}
 
 		// This would be the place to update the path + name so the file can be
 		// easily located next time.
-		}
+	}
 	else
-		{
+	{
 		const JUtf8Byte* map[] =
-			{
+		{
 			"name", kRequiredFile.GetBytes()
-			};
+		};
 		JGetUserNotification()->ReportError(
 			JGetString("OwnedFileNotFound::TestLinkedDocument", map, sizeof(map)));
-		}
+	}
 
 	// Normally, one would only care that the document is open.  In this case,
 	// we make it visible so the user can read the tutorial text.
 
 	if (itsDoc != nullptr)
-		{
+	{
 		itsDoc->Activate();
-		}
+	}
 }
 
 /******************************************************************************

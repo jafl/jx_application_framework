@@ -72,13 +72,13 @@ JXFloatInput::SetValue
 	)
 {
 	if (ValueValid(value))
-		{
+	{
 		const JString text(value);
 		if (text != GetText()->GetText())
-			{
+		{
 			GetText()->SetText(text);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -111,9 +111,9 @@ JXFloatInput::SetLowerLimit
 
 	JFloat x;
 	if (!GetValue(&x))
-		{
+	{
 		SetValue(itsLowerLimit);
-		}
+	}
 }
 
 void
@@ -129,9 +129,9 @@ JXFloatInput::SetUpperLimit
 
 	JFloat x;
 	if (!GetValue(&x))
-		{
+	{
 		SetValue(itsUpperLimit);
-		}
+	}
 }
 
 /******************************************************************************
@@ -143,62 +143,62 @@ bool
 JXFloatInput::InputValid()
 {
 	if (!JXInputField::InputValid())
-		{
+	{
 		return false;
-		}
+	}
 	else
-		{
+	{
 		const JString& text = GetText()->GetText();
 
 		if (!IsRequired() && text.IsEmpty())
-			{
+		{
 			return true;
-			}
+		}
 
 		JFloat value;
 		if (!text.ConvertToFloat(&value))
-			{
+		{
 			JGetUserNotification()->ReportError(JGetString("NotANumber::JXFloatInput"));
 			return false;
-			}
+		}
 
 		const bool valid = ValueValid(value);
 		JString errorStr;
 		if (!valid && itsHasLowerLimitFlag && itsHasUpperLimitFlag)
-			{
+		{
 			const JString n(itsLowerLimit), m(itsUpperLimit);
 			const JUtf8Byte* map[] =
-				{
+			{
 				"min", n.GetBytes(),
 				"max", m.GetBytes()
-				};
+			};
 			errorStr = JGetString("OutsideRange::JXFloatInput", map, sizeof(map));
-			}
+		}
 		else if (!valid && itsHasLowerLimitFlag)
-			{
+		{
 			const JString n(itsLowerLimit);
 			const JUtf8Byte* map[] =
-				{
-				"min", n.GetBytes()
-				};
-			errorStr = JGetString("BelowMin::JXFloatInput", map, sizeof(map));
-			}
-		else if (!valid)
 			{
+				"min", n.GetBytes()
+			};
+			errorStr = JGetString("BelowMin::JXFloatInput", map, sizeof(map));
+		}
+		else if (!valid)
+		{
 			assert( itsHasUpperLimitFlag );
 
 			const JString n(itsUpperLimit);
 			const JUtf8Byte* map[] =
-				{
+			{
 				"max", n.GetBytes()
-				};
+			};
 			errorStr = JGetString("AboveMax::JXFloatInput", map, sizeof(map));
-			}
+		}
 
 		if (!valid)
-			{
+		{
 			JGetUserNotification()->ReportError(errorStr);
-			}
-		return valid;
 		}
+		return valid;
+	}
 }

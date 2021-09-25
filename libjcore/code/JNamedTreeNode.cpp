@@ -55,17 +55,17 @@ JNamedTreeNode::SetName
 	)
 {
 	if (name != itsName)
-		{
+	{
 		itsName = name;
 
 		NameChanged();
 
 		JTree* tree;
 		if (GetTree(&tree))
-			{
+		{
 			tree->BroadcastChange(this);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -96,9 +96,9 @@ JNamedTreeNode::FindNamedChild
 	const JNamedTreeNode* n;
 	const bool found = FindNamedChild(name, &n);
 	if (found)
-		{
+	{
 		*node = const_cast<JNamedTreeNode*>(n);
-		}
+	}
 	return found;
 }
 
@@ -112,13 +112,13 @@ JNamedTreeNode::FindNamedChild
 {
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		*node = GetNamedChild(i);
 		if ((**node).GetName() == name)
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	*node = nullptr;
 	return false;
@@ -154,16 +154,16 @@ JNamedTreeNode::GetNamedParent
 {
 	JTreeNode* p;
 	if (GetParent(&p))
-		{
+	{
 		*parent = dynamic_cast<JNamedTreeNode*>(p);
 		assert( *parent != nullptr );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*parent = nullptr;
 		return false;
-		}
+	}
 }
 
 bool
@@ -175,16 +175,16 @@ JNamedTreeNode::GetNamedParent
 {
 	const JTreeNode* p;
 	if (GetParent(&p))
-		{
+	{
 		*parent = dynamic_cast<const JNamedTreeNode*>(p);
 		assert( *parent != nullptr );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*parent = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -246,9 +246,9 @@ JNamedTreeNode::CompareNames
 	JListT::CompareResult result =
 		JCompareStringsCaseInsensitive(&(e1->itsName), &(e2->itsName));
 	if (result == JListT::kFirstEqualSecond)
-		{
+	{
 		result = JCompareStringsCaseSensitive(&(e1->itsName), &(e2->itsName));
-		}
+	}
 	return result;
 }
 

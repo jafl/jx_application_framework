@@ -113,13 +113,13 @@ JStringManager::Get
 {
 	const JString* s;
 	if (GetElement(JString(id, JString::kNoCopy), &s))
-		{
+	{
 		assert( s != nullptr );
-		}
+	}
 	else
-		{
+	{
 		s = &theMissingString;
-		}
+	}
 	return *s;
 }
 
@@ -142,9 +142,9 @@ JStringManager::ReportError
 	const
 {
 	if (!err.OK())
-		{
+	{
 		ReportError(id, err.GetMessage());
-		}
+	}
 }
 
 void
@@ -156,9 +156,9 @@ JStringManager::ReportError
 	const
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"err", message.GetBytes()
-		};
+	};
 	const JString s = Get(id, map, sizeof(map));
 	JGetUserNotification()->ReportError(s);
 }
@@ -224,9 +224,9 @@ JStringManager::Replace
 
 	const JSize count = size/(2*sizeof(JUtf8Byte*));
 	for (JUnsignedOffset i=0; i<count; i++)
-		{
+	{
 		r->DefineVariable(map[2*i], JString(map[2*i+1], JString::kNoCopy));
-		}
+	}
 
 	r->Substitute(str);
 }
@@ -251,39 +251,39 @@ JStringManager::Register
 	JString tempFileName;
 	const JError err = JCreateTempFile(&tempFileName);
 	if (!err.OK())
-		{
-		return;
-		}
-
 	{
+		return;
+	}
+
+{
 	std::ofstream tempFile(tempFileName.GetBytes());
 
 	JIndex i = 0;
 	while (defaultData[i] != nullptr)
-		{
+	{
 		tempFile.write(defaultData[i], strlen(defaultData[i]));
 		i++;
-		}
 	}
+}
 	MergeFile(tempFileName);
 	JRemoveFile(tempFileName);
 
 	if (!JString::IsEmpty(signature))
-		{
+	{
 		JString locale(getenv("LANG"));
 		if (locale.IsEmpty())
-			{
+		{
 			locale = "en_US";
-			}
+		}
 
 		// remove character set
 
 		JStringIterator iter(&locale);
 		if (iter.Next("."))
-			{
+		{
 			iter.SkipPrev();
 			iter.RemoveAllNext();
-			}
+		}
 		iter.Invalidate();
 
 		// split locale into language & country
@@ -304,29 +304,29 @@ JStringManager::Register
 
 		JString name;
 		for (const auto& p : path)
-			{
+		{
 			if (!p.IsEmpty() && JDirectoryReadable(p))
-				{
+			{
 				name = JCombinePathAndName(p, locale);
 				if (MergeFile(name))
-					{
+				{
 					continue;
-					}
+				}
 
 				name = JCombinePathAndName(p, language);
 				if (MergeFile(name))
-					{
+				{
 					continue;
-					}
+				}
 
 				name = JCombinePathAndName(p, kDefaultFileName);
 				if (MergeFile(name))
-					{
+				{
 					continue;
-					}
 				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -345,15 +345,15 @@ JStringManager::MergeFile
 {
 	std::ifstream input(fileName.GetBytes());
 	if (!input.good())
-		{
+	{
 		return false;
-		}
+	}
 
 	if (!MergeFile(input, debug))
-		{
+	{
 		std::cerr << "Unable to load " << fileName << std::endl;
 		return false;
-		}
+	}
 
 	return true;
 }
@@ -368,58 +368,58 @@ JStringManager::MergeFile
 	JUInt format;
 	input >> format;
 	if (format != kASCIIFormat && format != kUTF8Format)
-		{
+	{
 		std::cerr << "Invalid string file format: " << format << std::endl;
 		return false;
-		}
+	}
 
 	JString id;
 	while (true)
-		{
+	{
 		input >> std::ws;
 		while (!input.eof() && input.peek() == '#')		// peek() at eof sets fail()
-			{
+		{
 			JIgnoreLine(input);
 			input >> std::ws;
-			}
+		}
 		if (input.eof() || input.fail())
-			{
+		{
 			break;
-			}
+		}
 
 		id = JReadUntilws(input);
 		if (debug)
-			{
+		{
 			std::cout << id << std::endl;
-			}
+		}
 		if (input.eof() || input.fail())
-			{
+		{
 			break;
-			}
+		}
 
 		auto* s = jnew JString;
 		assert( s != nullptr );
 
 		input >> *s;
 		if (input.eof() || input.fail())
-			{
+		{
 			jdelete s;
 			break;
-			}
+		}
 
 		if (CanOverride(id))
-			{
+		{
 			if (thePseudotranslationFlag)
-				{
-				Pseudotranslate(s);
-				}
-			SetElement(id, s, JPtrArrayT::kDelete);
-			}
-		else if (!SetNewElement(id, s))
 			{
-			jdelete s;
+				Pseudotranslate(s);
 			}
+			SetElement(id, s, JPtrArrayT::kDelete);
 		}
+		else if (!SetNewElement(id, s))
+		{
+			jdelete s;
+		}
+	}
 
 	return true;
 }
@@ -436,12 +436,12 @@ JStringManager::CanOverride
 	)
 {
 	for (JUnsignedOffset i=0; i<kNoOverrideIDCount; i++)
-		{
+	{
 		if (id == kNoOverrideID[i])
-			{
+		{
 			return false;
-			}
 		}
+	}
 
 	return true;
 }
@@ -462,22 +462,22 @@ JStringManager::WriteFile
 
 	bool ascii = true;
 	while (cursor.Next())
-		{
+	{
 		if (!cursor.GetValue()->IsAscii())
-			{
+		{
 			ascii = false;
 			break;
-			}
 		}
+	}
 
 	output << (long) (ascii ? kASCIIFormat: kUTF8Format) << std::endl;
 
 	cursor.Reset();
 	while (cursor.Next())
-		{
+	{
 		cursor.GetKey().Print(output);
 		output << ' ' << *(cursor.GetValue()) << std::endl;
-		}
+	}
 }
 
 /******************************************************************************
@@ -496,35 +496,35 @@ struct Pseudotranslation
 
 static const Pseudotranslation kPseudotranslateList[] =
 {
-	{ 'A', "\xC3\x85" },
-	{ 'a', "\xC3\xA5" },
-	{ 'E', "\xC3\x89" },
-	{ 'e', "\xC3\xA9" },
-	{ 'I', "\xC3\x8E" },
-	{ 'i', "\xC3\xAE" },
-	{ 'O', "\xC3\x98" },
-	{ 'o', "\xC3\xB8" },
-	{ 'U', "\xC3\x9C" },
-	{ 'u', "\xC3\xBC" },
-	{ 'C', "\xC3\x87" },
-	{ 'c', "\xC3\xA7" },
-	{ 'G', "\xC4\x9C" },
-	{ 'g', "\xC4\x9D" },
-	{ 'K', "\xC6\x98" },
-	{ 'k', "\xC6\x99" },
-	{ 'N', "\xC3\x91" },
-	{ 'n', "\xC3\xB1" },
-	{ 'R', "\xD0\xAF" },
-	{ 'r', "\xD1\x8F" },
-	{ 'S', "\xC5\xA0" },
-	{ 's', "\xC5\xA1" },
-	{ 'U', "\xC3\x9C" },
-	{ 'u', "\xC3\xBC" },
-	{ 'W', "\xE1\xBA\x80" },
-	{ 'w', "\xE1\xBA\x81" },
-	{ '$', "\xC2\xA4" },
-	{ '.', "\xEF\xBD\xA1" },
-	{ '?', "\xC2\xBF" }
+{ 'A', "\xC3\x85" },
+{ 'a', "\xC3\xA5" },
+{ 'E', "\xC3\x89" },
+{ 'e', "\xC3\xA9" },
+{ 'I', "\xC3\x8E" },
+{ 'i', "\xC3\xAE" },
+{ 'O', "\xC3\x98" },
+{ 'o', "\xC3\xB8" },
+{ 'U', "\xC3\x9C" },
+{ 'u', "\xC3\xBC" },
+{ 'C', "\xC3\x87" },
+{ 'c', "\xC3\xA7" },
+{ 'G', "\xC4\x9C" },
+{ 'g', "\xC4\x9D" },
+{ 'K', "\xC6\x98" },
+{ 'k', "\xC6\x99" },
+{ 'N', "\xC3\x91" },
+{ 'n', "\xC3\xB1" },
+{ 'R', "\xD0\xAF" },
+{ 'r', "\xD1\x8F" },
+{ 'S', "\xC5\xA0" },
+{ 's', "\xC5\xA1" },
+{ 'U', "\xC3\x9C" },
+{ 'u', "\xC3\xBC" },
+{ 'W', "\xE1\xBA\x80" },
+{ 'w', "\xE1\xBA\x81" },
+{ '$', "\xC2\xA4" },
+{ '.', "\xEF\xBD\xA1" },
+{ '?', "\xC2\xBF" }
 };
 
 void
@@ -536,16 +536,16 @@ JStringManager::Pseudotranslate
 	JStringIterator iter(s);
 	JUtf8Character c;
 	while (iter.Next(&c))
-		{
+	{
 		for (const auto& t : kPseudotranslateList)
-			{
+		{
 			if (c == t.c)
-				{
+			{
 				iter.Insert(t.s);
 				iter.SkipNext();
-				}
 			}
 		}
+	}
 
 	s->Prepend(kPseudotranslatePrefix);
 	s->Append(kPseudotranslateSuffix);

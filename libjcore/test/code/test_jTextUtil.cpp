@@ -301,7 +301,7 @@ struct WhitespaceData
 
 static const WhitespaceData kWhitespaceTestData[] =
 {
-	{ "./data/test_whitespace.1.txt", 4, false, 2, true, false }
+{ "./data/test_whitespace.1.txt", 4, false, 2, true, false }
 };
 
 const int kWhitespaceTestDataCount = sizeof(kWhitespaceTestData) / sizeof(WhitespaceData);
@@ -310,7 +310,7 @@ JTEST(AnalyzeWhitespace)
 {
 	JString text;
 	for (int i=0; i<kWhitespaceTestDataCount; i++)
-		{
+	{
 		JReadFile(JString(kWhitespaceTestData[i].fileName, JString::kNoCopy), &text);
 
 		bool useSpaces, isMixed;
@@ -323,7 +323,7 @@ JTEST(AnalyzeWhitespace)
 		JAssertEqual(kWhitespaceTestData[i].outputTabWidth, tabWidth);
 		JAssertEqual(kWhitespaceTestData[i].outputUseSpaces, (bool) useSpaces);
 		JAssertEqual(kWhitespaceTestData[i].outputIsMixed, (bool) isMixed);
-		}
+	}
 }
 
 JTEST(Markdown)

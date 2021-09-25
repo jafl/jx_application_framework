@@ -79,15 +79,15 @@ JBroadcastTester::Receive
 	JAssertFalseWithMessage(empty, message.GetType());
 
 	if (!empty)
-		{
+	{
 		const Validation v = itsExpectedMessages.GetNext();
 		JAssertStringsEqual(v.type, message.GetType());
 
 		if (v.validator != nullptr)
-			{
+		{
 			(*v.validator)(message);
-			}
 		}
+	}
 }
 
 /******************************************************************************

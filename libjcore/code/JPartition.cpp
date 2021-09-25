@@ -119,26 +119,26 @@ JPartition::SetCompartmentSize
 		CreateSpace(*itsSizes, *itsMinSizes, itsElasticIndex,
 					reqSize - origSize, reqSize - origSize,
 					&newSizes, &trueSize))
-		{
+	{
 		assert( trueSize == reqSize - origSize );
 		newSizes.SetElement(index, reqSize);
 
 		*itsSizes = newSizes;
 		UpdateCompartmentSizes();
 		return true;
-		}
+	}
 	else if (reqSize < origSize)
-		{
+	{
 		itsSizes->SetElement(index, reqSize);
 		FillSpace(*itsSizes, itsElasticIndex, origSize - reqSize, &newSizes);
 		*itsSizes = newSizes;
 		UpdateCompartmentSizes();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return reqSize == origSize;
-		}
+	}
 }
 
 /******************************************************************************
@@ -193,14 +193,14 @@ JPartition::FindCompartment
 
 	const JSize compartmentCount = GetCompartmentCount();
 	for (JIndex i=1; i<compartmentCount; i++)
-		{
+	{
 		position += GetCompartmentSize(i) + kDragRegionSize;
 		if (coord <= position)
-			{
+		{
 			*index = i;
 			return true;
-			}
 		}
+	}
 
 	*index = 0;
 	return false;
@@ -228,32 +228,32 @@ JPartition::InsertCompartment
 	if (CreateSpace(*itsSizes, *itsMinSizes, itsElasticIndex,
 					reqSize + kDragRegionSize, minSize + kDragRegionSize,
 					&newSizes, &trueSize))
-		{
+	{
 		trueSize -= kDragRegionSize;
 
 		JCoordinate position = 0;
 		for (JIndex i=1; i<index; i++)
-			{
+		{
 			position += newSizes.GetElement(i) + kDragRegionSize;
-			}
+		}
 
 		CreateCompartmentObject(index, position, trueSize);
 		newSizes.InsertElementAtIndex(index, trueSize);
 		itsMinSizes->InsertElementAtIndex(index, minSize);
 
 		if (index <= itsElasticIndex)
-			{
+		{
 			itsElasticIndex++;
-			}
+		}
 
 		*itsSizes = newSizes;
 		UpdateCompartmentSizes();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -278,17 +278,17 @@ JPartition::DeleteCompartment
 	DeleteCompartmentObject(index);
 
 	if (index < itsElasticIndex)
-		{
+	{
 		itsElasticIndex--;
-		}
+	}
 	else if (index == itsElasticIndex && index < compartmentCount)
-		{
+	{
 		itsElasticIndex = index;
-		}
+	}
 	else if (index == itsElasticIndex)
-		{
+	{
 		itsElasticIndex = compartmentCount-1;
-		}
+	}
 
 	JArray<JCoordinate> newSizes;
 	FillSpace(*itsSizes, itsElasticIndex, fillSize, &newSizes);
@@ -323,27 +323,27 @@ JPartition::CreateSpace
 
 	*newSpace = 0;
 	if (reqSize == 0)
-		{
+	{
 		*newSizes = origSizes;
 		return true;
-		}
+	}
 
 	// try shrinking the elastic compartment first
 
 	if (elasticIndex > 0)
-		{
+	{
 		const JCoordinate size    = origSizes.GetElement(elasticIndex);
 		const JCoordinate minSize = minSizes.GetElement(elasticIndex);
 
 		const JCoordinate availSpace = size - minSize;
 		if (availSpace >= reqSize)
-			{
+		{
 			*newSizes = origSizes;
 			newSizes->SetElement(elasticIndex, size - reqSize);
 			*newSpace = reqSize;
 			return true;
-			}
 		}
+	}
 
 	// distribute the load among all the other compartments
 	// (shrink each to min, then expand to fill whatever space is left)
@@ -353,25 +353,25 @@ JPartition::CreateSpace
 	JCoordinate currSize = 0;
 	JCoordinate minSize  = 0;
 	for (JIndex i=1; i<=compartmentCount; i++)
-		{
+	{
 		currSize += origSizes.GetElement(i);
 		minSize  += minSizes.GetElement(i);
-		}
+	}
 
 	if (currSize < minSize + minReqSize)
-		{
+	{
 		return false;
-		}
+	}
 	else if (currSize < minSize + reqSize)
-		{
+	{
 		*newSizes = minSizes;
 		*newSpace = currSize - minSize;
-		}
+	}
 	else
-		{
+	{
 		FillSpace(minSizes, 0, currSize - minSize - reqSize, newSizes);
 		*newSpace = reqSize;
-		}
+	}
 
 	return true;
 }
@@ -398,42 +398,42 @@ JPartition::FillSpace
 
 	*newSizes = origSizes;
 	if (fillSize == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	if (elasticIndex > 0)
-		{
+	{
 		// expand the elastic compartment
 
 		const JCoordinate size = newSizes->GetElement(elasticIndex);
 		newSizes->SetElement(elasticIndex, size + fillSize);
-		}
+	}
 	else
-		{
+	{
 		// distribute the space among all the compartments
 
 		const JSize compartmentCount = origSizes.GetElementCount();
 
 		JCoordinate dsizeMax = fillSize/compartmentCount;
 		if (fillSize % compartmentCount > 0)
-			{
+		{
 			dsizeMax++;
-			}
+		}
 
 		JCoordinate usedSize = 0;
 		for (JIndex i=1; i<=compartmentCount; i++)
-			{
+		{
 			const JCoordinate size = newSizes->GetElement(i);
 			JCoordinate newSize    = size + dsizeMax;
 			if (usedSize + newSize - size > fillSize)
-				{
+			{
 				newSize = size + fillSize - usedSize;
-				}
+			}
 			usedSize += newSize - size;
 			newSizes->SetElement(i, newSize);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -445,18 +445,18 @@ void
 JPartition::SetElasticSize()
 {
 	if (itsElasticIndex > 0)
-		{
+	{
 		const JSize compartmentCount = GetCompartmentCount();
 		JCoordinate elasticSize      = GetTotalSize();
 		for (JIndex i=1; i<=compartmentCount; i++)
-			{
+		{
 			if (i != itsElasticIndex)
-				{
+			{
 				elasticSize -= GetCompartmentSize(i) + kDragRegionSize;
-				}
 			}
-		itsSizes->SetElement(itsElasticIndex, elasticSize);
 		}
+		itsSizes->SetElement(itsElasticIndex, elasticSize);
+	}
 }
 
 /******************************************************************************
@@ -480,19 +480,19 @@ JPartition::PrepareToDrag
 
 	const JSize compartmentCount = GetCompartmentCount();
 	for (JIndex i=1; i<compartmentCount; i++)
-		{
+	{
 		itsDragMin     = position;
 		*minDragCoord  = itsDragMin + GetMinCompartmentSize(i) + kDragRegionHalfSize;
 		position      += GetCompartmentSize(i) + kDragRegionSize;
 		if (coord <= position)
-			{
+		{
 			itsDragIndex  = i;
 			itsDragMax    = position + GetCompartmentSize(i+1);
 			*maxDragCoord = itsDragMax -
 							(GetMinCompartmentSize(i+1) + kDragRegionHalfSize + 1);
 			break;
-			}
 		}
+	}
 
 	assert( itsDragIndex > 0 );
 	assert( *maxDragCoord >= *minDragCoord );
@@ -543,25 +543,25 @@ JIndex i;
 
 	const JSize compartmentCount = GetCompartmentCount();
 	for (i=1; i<compartmentCount; i++)
-		{
+	{
 		itsDragMin += GetMinCompartmentSize(i) + kDragRegionSize;
 		position   += GetCompartmentSize(i) + kDragRegionSize;
 		if (coord <= position)
-			{
+		{
 			itsDragIndex   = i;
 			itsStartCoord  = position - kDragRegionHalfSize - 1;
 			itsDragMin    -= kDragRegionHalfSize - 1;
 			break;
-			}
 		}
+	}
 
 	assert( itsDragIndex > 0 );
 
 	itsDragMax = GetTotalSize();
 	for (i=compartmentCount; i>itsDragIndex; i--)
-		{
+	{
 		itsDragMax -= GetMinCompartmentSize(i) + kDragRegionSize;
-		}
+	}
 	itsDragMax += kDragRegionHalfSize;
 
 	assert( itsDragMax >= itsDragMin );
@@ -588,15 +588,15 @@ JIndex i;
 	// compress compartments in front of itsDragIndex+1
 
 	if (coord < itsStartCoord)
-		{
+	{
 		JArray<JCoordinate> origSizes = *itsSizes;
 		JArray<JCoordinate> minSizes  = *itsMinSizes;
 		JSize count = origSizes.GetElementCount();
 		for (i=count; i>itsDragIndex; i--)
-			{
+		{
 			origSizes.RemoveElement(i);
 			minSizes.RemoveElement(i);
-			}
+		}
 
 		JArray<JCoordinate> newSizes;
 		const JCoordinate reqSize = itsStartCoord - coord;
@@ -606,28 +606,28 @@ JIndex i;
 		assert( ok );
 
 		for (i=1; i<=itsDragIndex; i++)
-			{
+		{
 			itsSizes->SetElement(i, newSizes.GetElement(i));
-			}
+		}
 		itsSizes->SetElement(itsDragIndex+1,
 							 itsSizes->GetElement(itsDragIndex+1) + reqSize);
 
 		UpdateCompartmentSizes();
-		}
+	}
 
 	// compress compartments after itsDragIndex
 
 	else if (coord > itsStartCoord)
-		{
+	{
 		const JSize compartmentCount = GetCompartmentCount();
 
 		JArray<JCoordinate> origSizes = *itsSizes;
 		JArray<JCoordinate> minSizes  = *itsMinSizes;
 		for (i=1; i<=itsDragIndex; i++)
-			{
+		{
 			origSizes.RemoveElement(1);
 			minSizes.RemoveElement(1);
-			}
+		}
 
 		JArray<JCoordinate> newSizes;
 		const JCoordinate reqSize = coord - itsStartCoord;
@@ -639,12 +639,12 @@ JIndex i;
 		itsSizes->SetElement(itsDragIndex,
 							 itsSizes->GetElement(itsDragIndex) + reqSize);
 		for (i=itsDragIndex+1; i<=compartmentCount; i++)
-			{
+		{
 			itsSizes->SetElement(i, newSizes.GetElement(i-itsDragIndex));
-			}
+		}
 
 		UpdateCompartmentSizes();
-		}
+	}
 }
 
 /******************************************************************************
@@ -663,22 +663,22 @@ JPartition::PTBoundsChanged()
 		std::accumulate(begin(*itsSizes), end(*itsSizes), 0);
 
 	if (delta != 0)
-		{
+	{
 		JArray<JCoordinate> newSizes;
 		if (delta > 0)
-			{
+		{
 			FillSpace(*itsSizes, itsElasticIndex, delta, &newSizes);
-			}
+		}
 		else if (delta < 0)
-			{
+		{
 			JCoordinate trueDelta;
 			const bool ok = CreateSpace(*itsSizes, *itsMinSizes, itsElasticIndex,
 											-delta, -delta, &newSizes, &trueDelta);
 			assert( ok );
-			}
+		}
 		*itsSizes = newSizes;
 		UpdateCompartmentSizes();
-		}
+	}
 }
 
 /******************************************************************************
@@ -702,45 +702,45 @@ JIndex i;
 	JFileVersion vers;
 	input >> vers;
 	if (vers > kCurrentGeometryDataVersion)
-		{
+	{
 		JIgnoreUntil(input, kGeometryDataEndDelimiter);
 		return;
-		}
+	}
 
 	JSize count;
 	JCoordinate totalSize;
 	input >> count >> totalSize;
 	if (count != GetCompartmentCount())
-		{
+	{
 		JIgnoreUntil(input, kGeometryDataEndDelimiter);
 		return;
-		}
+	}
 
 	if (vers == 0)
-		{
+	{
 		JIndex elasticIndex;
 		input >> elasticIndex;
 
 		for (i=1; i<=count; i++)
-			{
+		{
 			JCoordinate minSize;
 			input >> minSize;
-			}
 		}
+	}
 
 	JArray<JCoordinate> sizes(count);
 	for (i=1; i<=count; i++)
-		{
+	{
 		JCoordinate size;
 		input >> size;
 		sizes.AppendElement(size);
-		}
+	}
 
 	if (!SaveGeometryForLater(sizes) &&
 		!(itsElasticIndex == 0 && totalSize != GetTotalSize()))
-		{
+	{
 		SetCompartmentSizes(sizes);
-		}
+	}
 
 	JIgnoreUntil(input, kGeometryDataEndDelimiter);
 }
@@ -768,9 +768,9 @@ JPartition::WriteGeometry
 	output << ' ' << GetTotalSize();
 
 	for (auto v : *itsSizes)
-		{
+	{
 		output << ' ' << v;
-		}
+	}
 
 	output << kGeometryDataEndDelimiter;
 }

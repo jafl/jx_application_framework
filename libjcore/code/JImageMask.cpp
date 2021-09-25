@@ -70,13 +70,13 @@ JImageMask::CalcMask
 	const JCoordinate w = image.GetWidth();
 	const JCoordinate h = image.GetHeight();
 	for (JCoordinate y=0; y<h; y++)
-		{
+	{
 		for (JCoordinate x=0; x<w; x++)
-			{
+		{
 			if (image.GetSystemColor(x,y) == sysColor)
-				{
+			{
 				RemovePixel(x,y);
-				}
 			}
 		}
+	}
 }

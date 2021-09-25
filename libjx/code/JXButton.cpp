@@ -84,30 +84,30 @@ JXButton::DrawBorder
 {
 	JSize borderWidth = GetBorderWidth();
 	if (borderWidth > 0 && IsActive())
-		{
+	{
 		JRect frame = origFrame;
 		if (itsIsReturnButtonFlag)
-			{
+		{
 			p.JPainter::Rect(frame);
 			frame.Shrink(1,1);
 			borderWidth--;
-			}
+		}
 
 		if (itsIsPushedFlag)
-			{
-			JXDrawDownFrame(p, frame, borderWidth);
-			}
-		else
-			{
-			JXDrawUpFrame(p, frame, borderWidth);
-			}
-		}
-	else if (borderWidth > 0)
 		{
+			JXDrawDownFrame(p, frame, borderWidth);
+		}
+		else
+		{
+			JXDrawUpFrame(p, frame, borderWidth);
+		}
+	}
+	else if (borderWidth > 0)
+	{
 		p.SetLineWidth(borderWidth);
 		p.SetPenColor(JColorManager::GetInactiveLabelColor());
 		p.RectInside(origFrame);
-		}
+	}
 }
 
 /******************************************************************************
@@ -126,10 +126,10 @@ JXButton::HandleMouseDown
 	)
 {
 	if (button == kJXLeftButton)
-		{
+	{
 		itsIsPushedFlag = true;
 		Redraw();
-		}
+	}
 }
 
 /******************************************************************************
@@ -146,20 +146,20 @@ JXButton::HandleMouseDrag
 	)
 {
 	if (buttonStates.left())
-		{
+	{
 		const JRect frame     = JXContainer::GlobalToLocal(GetFrameGlobal());
 		const bool inside = frame.Contains(pt);
 		if (inside && !itsIsPushedFlag)
-			{
+		{
 			itsIsPushedFlag = true;
 			Redraw();
-			}
+		}
 		else if (!inside && itsIsPushedFlag)
-			{
+		{
 			itsIsPushedFlag = false;
 			Redraw();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -177,11 +177,11 @@ JXButton::HandleMouseUp
 	)
 {
 	if (button == kJXLeftButton && itsIsPushedFlag)
-		{
+	{
 		itsIsPushedFlag = false;
 		Refresh();
 		Broadcast(Pushed());	// must be last since it could delete us
-		}
+	}
 }
 
 /******************************************************************************
@@ -222,23 +222,23 @@ JXButton::SetShortcuts
 	itsIsReturnButtonFlag = false;
 	if (!shortcuts.IsEmpty() &&
 		(shortcuts.Contains("^M") || shortcuts.Contains("^m")))
-		{
+	{
 		itsIsReturnButtonFlag = true;
-		}
+	}
 
 	const JSize borderWidth = GetBorderWidth();
 	if (!wasReturnButton && itsIsReturnButtonFlag)
-		{
+	{
 		SetBorderWidth(borderWidth+1);
 		Move(-1, -1);
 		AdjustSize(+2, +2);
-		}
+	}
 	else if (wasReturnButton && !itsIsReturnButtonFlag && borderWidth > 0)
-		{
+	{
 		SetBorderWidth(borderWidth-1);
 		Move(+1, +1);
 		AdjustSize(-2, -2);
-		}
+	}
 
 	Refresh();
 }
@@ -258,8 +258,8 @@ JXButton::GetFrameForFTC()
 {
 	JRect r = JXWidget::GetFrameForFTC();
 	if (itsIsReturnButtonFlag)
-		{
+	{
 		r.Shrink(1, 1);
-		}
+	}
 	return r;
 }

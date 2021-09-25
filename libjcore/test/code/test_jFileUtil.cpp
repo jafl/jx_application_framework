@@ -66,9 +66,9 @@ JTEST(Symlink)
 
 	JAssertTrue(JFileExists(f1));
 	if (JFileExists(f2))
-		{
+	{
 		JAssertOK(JRemoveFile(f2));
-		}
+	}
 	JAssertOK(JCreateSymbolicLink(f1, f2));
 	JAssertTrue(JSameDirEntry(f1, f2));
 
@@ -119,13 +119,13 @@ JTEST(Files)
 
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
 	for (JIndex i=1; i<=10; i++)
-		{
+	{
 		auto* fileName = jnew JString();
 		assert( fileName != nullptr );
 
 		JAssertOK(JCreateTempFile(&path, nullptr, fileName));
 		fileList.Append(fileName);
-		}
+	}
 
 	JAssertOK(JRenameFile(*(fileList.GetFirstElement()), *(fileList.GetLastElement()), true));
 	JAssertTrue(JKillDirectory(JString("/tmp/junk", JString::kNoCopy)));

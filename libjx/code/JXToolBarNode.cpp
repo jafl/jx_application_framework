@@ -58,7 +58,7 @@ JXToolBarNode::ToggleChecked()
 
 	JTree* tree;
 	if (GetTree(&tree))
-		{
+	{
 		tree->JTree::BroadcastChange(this);
-		}
+	}
 }

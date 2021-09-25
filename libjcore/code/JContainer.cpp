@@ -71,9 +71,9 @@ JContainer::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	// Usually, the pointer to the JList won't change, so we maintain the
 	// element count.  If the pointer does change, the derived class must call
@@ -98,9 +98,9 @@ JContainer::InstallCollection
 	)
 {
 	if (itsList != nullptr)
-		{
+	{
 		StopListening(itsList);
-		}
+	}
 
 	itsList = list;
 	SetElementCount(itsList->GetElementCount());
@@ -122,21 +122,21 @@ JContainer::Receive
 	)
 {
 	if (sender == itsList && message.Is(JListT::kElementsInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != nullptr );
 		SetElementCount(GetElementCount() + info->GetCount());
-		}
+	}
 	else if (sender == itsList && message.Is(JListT::kElementsRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != nullptr );
 		SetElementCount(GetElementCount() - info->GetCount());
-		}
+	}
 	else
-		{
+	{
 		JCollection::Receive(sender, message);
-		}
+	}
 }

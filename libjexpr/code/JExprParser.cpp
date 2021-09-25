@@ -66,14 +66,14 @@ JExprParser::Parse
 
 	const int result = yyparse();
 	if (result == 0)
-		{
+	{
 		*f = itsParseResult;
-		}
+	}
 	else
-		{
+	{
 		*f = nullptr;
 		jdelete itsParseResult;
-		}
+	}
 
 	itsScanner     = nullptr;
 	itsParseResult = nullptr;
@@ -124,16 +124,16 @@ JExprParser::UpdateSum
 {
 	auto* s = dynamic_cast<JSummation*>(f);
 	if (s != nullptr)
-		{
+	{
 		s->AppendArg(arg);
-		}
+	}
 	else
-		{
+	{
 		s = jnew JSummation;
 		assert( s != nullptr );
 		s->AppendArg(f);
 		s->AppendArg(arg);
-		}
+	}
 
 	return s;
 }
@@ -152,16 +152,16 @@ JExprParser::UpdateProduct
 {
 	auto* s = dynamic_cast<JProduct*>(f);
 	if (s != nullptr)
-		{
+	{
 		s->AppendArg(arg);
-		}
+	}
 	else
-		{
+	{
 		s = jnew JProduct;
 		assert( s != nullptr );
 		s->AppendArg(f);
 		s->AppendArg(arg);
-		}
+	}
 
 	return s;
 }

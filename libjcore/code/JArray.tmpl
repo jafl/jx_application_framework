@@ -111,9 +111,9 @@ JArray<T>::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	JCollection::operator=(source);		// JList::operator= is private
 
@@ -271,20 +271,20 @@ JArray<T>::CreateElement
 
 	const JSize elementCount = this->GetElementCount();
 	if (elementCount >= itsSlotCount)
-		{
+	{
 		AddSlots();
-		}
+	}
 
 	JIndex trueIndex = index;
 	if (trueIndex <= elementCount)
-		{
+	{
 		memmove(GetElementPtr(trueIndex + 1), GetElementPtr(trueIndex),
 				(elementCount - trueIndex + 1) * sizeof(T));
-		}
+	}
 	else
-		{
+	{
 		trueIndex = elementCount + 1;
-		}
+	}
 
 	this->ElementAdded();
 
@@ -320,10 +320,10 @@ JArray<T>::RemoveNextElements
 	)
 {
 	if (firstIndex == 1 && origCount >= this->GetElementCount())
-		{
+	{
 		RemoveAll();
 		return;
-		}
+	}
 
 	assert( this->IndexValid(firstIndex) );
 
@@ -334,15 +334,15 @@ JArray<T>::RemoveNextElements
 	this->SetElementCount(elementCount - count);
 
 	if (lastIndex < elementCount)
-		{
+	{
 		memmove(GetElementPtr(firstIndex), GetElementPtr(lastIndex + 1),
 				(elementCount - lastIndex) * sizeof(T));
-		}
+	}
 
 	while (itsSlotCount > this->GetElementCount() + itsBlockSize)
-		{
+	{
 		RemoveSlots();
-		}
+	}
 
 	JListT::ElementsRemoved message(firstIndex, count);
 	JBroadcaster::Broadcast(message);
@@ -408,7 +408,7 @@ void
 JArray<T>::RemoveAll()
 {
 	if (!this->IsEmpty())
-		{
+	{
 		JListT::ElementsRemoved message(1, this->GetElementCount());
 
 		this->SetElementCount(0);
@@ -416,7 +416,7 @@ JArray<T>::RemoveAll()
 
 		JBroadcaster::Broadcast(message);
 		JList<T>::NotifyIterators(message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -548,22 +548,22 @@ JArray<T>::MoveElementToIndex
 	assert( this->IndexValid(newIndex) );
 
 	if (currentIndex == newIndex)
-		{
+	{
 		return;
-		}
+	}
 
 	const T savedElement = ProtectedGetElement(currentIndex);
 
 	if (currentIndex < newIndex)
-		{
+	{
 		memmove(GetElementPtr(currentIndex), GetElementPtr(currentIndex + 1),
 				(newIndex - currentIndex) * sizeof(T));
-		}
+	}
 	else if (currentIndex > newIndex)
-		{
+	{
 		memmove(GetElementPtr(newIndex + 1), GetElementPtr(newIndex),
 				(currentIndex - newIndex) * sizeof(T));
-		}
+	}
 
 	StoreElement(newIndex, savedElement);
 	JBroadcaster::Broadcast(JListT::ElementMoved(currentIndex, newIndex));
@@ -601,9 +601,9 @@ JArray<T>::SwapElements
 	assert( this->IndexValid(index2) );
 
 	if (index1 == index2)
-		{
+	{
 		return;
-		}
+	}
 
 	const T savedElement = ProtectedGetElement(index1);
 	StoreElement(index1, ProtectedGetElement(index2));
@@ -646,13 +646,13 @@ JArray<T>::Sort()
 {
 	const JSize count = this->GetElementCount();
 	if (count < 2)
-		{
+	{
 		return;
-		}
+	}
 
 	bool isDuplicate;
 	for (JIndex i=2; i<=count; i++)
-		{
+	{
 		const T& data = ProtectedGetElement(i);
 
 		this->SetElementCount(i-1);		// safe because search doesn't modify data
@@ -660,10 +660,10 @@ JArray<T>::Sort()
 		this->SetElementCount(count);
 
 		if (j != i)
-			{
+		{
 			MoveElementToIndex(i, j);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -688,22 +688,22 @@ JArray<T>::InsertSorted
 	bool isDuplicate;
 	const JIndex i = GetInsertionSortIndex(data, &isDuplicate);
 	if (!isDuplicate || insertIfDuplicate)
-		{
+	{
 		InsertElementAtIndex(i, data);
 		if (index != nullptr)
-			{
-			*index = i;
-			}
-		return true;
-		}
-	else
 		{
-		if (index != nullptr)
-			{
-			*index = 0;
-			}
-		return false;
+			*index = i;
 		}
+		return true;
+	}
+	else
+	{
+		if (index != nullptr)
+		{
+			*index = 0;
+		}
+		return false;
+	}
 }
 
 /******************************************************************************
@@ -727,14 +727,14 @@ JArray<T>::GetInsertionSortIndex
 	bool found;
 	JIndex index = SearchSorted1(data, JListT::kLastMatch, &found);
 	if (found)
-		{
+	{
 		index++;
-		}
+	}
 
 	if (isDuplicate != nullptr)
-		{
+	{
 		*isDuplicate = found;
-		}
+	}
 	return index;
 }
 
@@ -761,9 +761,9 @@ JArray<T>::SearchSorted
 	bool found;
 	*index = SearchSorted1(target, which, &found);
 	if (!found)
-		{
+	{
 		*index = 0;
-		}
+	}
 	return found;
 }
 
@@ -798,59 +798,59 @@ JArray<T>::SearchSorted1
 
 	const JSize count = this->GetElementCount();
 	if (count == 0)
-		{
+	{
 		return 1;
-		}
+	}
 
 	// check first element
 
 	JListT::CompareResult r1;
 
 	JIndex firstIndex = 1;
-	{
+{
 	const T& element = ProtectedGetElement(firstIndex);
 	r1 = compareObj->Compare(target, element);
 	if (r1 == JListT::kFirstEqualSecond &&
 		(count == 1 || which != JListT::kLastMatch))
-		{
+	{
 		*found = true;
 		return 1;
-		}
+	}
 	else if ((sortOrder == JListT::kSortAscending &&
 			  r1 == JListT::kFirstLessSecond) ||
 			 (sortOrder == JListT::kSortDescending &&
 			  r1 == JListT::kFirstGreaterSecond))
-		{
+	{
 		return 1;
-		}
-	else if (count == 1)
-		{
-		return 2;
-		}
 	}
+	else if (count == 1)
+	{
+		return 2;
+	}
+}
 
 	// check last element
 
 	JListT::CompareResult r2;
 
 	JIndex lastIndex = count;
-	{
+{
 	const T& element = ProtectedGetElement(lastIndex);
 	r2 = compareObj->Compare(target, element);
 	if (r2 == JListT::kFirstEqualSecond &&
 		(count == 2 || which != JListT::kFirstMatch))
-		{
+	{
 		*found = true;
 		return count;
-		}
+	}
 	else if ((sortOrder == JListT::kSortAscending &&
 			  r2 == JListT::kFirstGreaterSecond) ||
 			 (sortOrder == JListT::kSortDescending &&
 			  r2 == JListT::kFirstLessSecond))
-		{
+	{
 		return count+1;
-		}
 	}
+}
 
 	// assert for ascending:  first element <= data <= last element
 	// assert for descending: first element >= data >= last element
@@ -858,7 +858,7 @@ JArray<T>::SearchSorted1
 	// squeeze out the appropriate position for data via binary search
 
 	while (true)
-		{
+	{
 		// Thanks to Joshua Bloch at Google for pointing out that
 		// (x+y)/2 doesn't work if x and y are larger than ULONG_MAX/2
 
@@ -868,67 +868,67 @@ JArray<T>::SearchSorted1
 
 		const JListT::CompareResult r = compareObj->Compare(target, element);
 		if (r == JListT::kFirstEqualSecond)
-			{
+		{
 			if (which == JListT::kAnyMatch)
-				{
+			{
 				*found = true;
 				return i;
-				}
+			}
 			else if (which == JListT::kFirstMatch)
-				{
+			{
 				lastIndex = i;
 				r2        = r;
-				}
+			}
 			else	// which == JListT::kLastMatch
-				{
+			{
 				firstIndex = i;
 				r1         = r;
-				}
 			}
+		}
 		else if ((sortOrder == JListT::kSortAscending &&
 				  r == JListT::kFirstLessSecond) ||
 				 (sortOrder == JListT::kSortDescending &&
 				  r == JListT::kFirstGreaterSecond))
-			{
+		{
 			lastIndex = i;
 			r2        = r;
-			}
+		}
 		else	// the only other case
-			{
+		{
 			firstIndex = i;
 			r1         = r;
-			}
+		}
 
 		assert( lastIndex >= firstIndex+1 );
 		if (lastIndex == firstIndex+1)
-			{
+		{
 			if (which == JListT::kAnyMatch ||
 				(r1 != JListT::kFirstEqualSecond &&
 				 r2 != JListT::kFirstEqualSecond))
-				{
+			{
 				// Since we know that target is not equal to either of the
 				// bounding elements, we can give up when there are no elements
 				// between the bounds.
 
 				return lastIndex;
-				}
+			}
 
 			// At this point, we know that we found a match.
 
 			*found = true;
 			if (which == JListT::kFirstMatch)
-				{
+			{
 				assert( r2 == JListT::kFirstEqualSecond );
 				return lastIndex;
-				}
+			}
 			else	// which == JListT::kLastMatch
-				{
+			{
 				assert( which == JListT::kLastMatch &&
 						r1 == JListT::kFirstEqualSecond );
 				return firstIndex;
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1049,9 +1049,9 @@ void
 JArray<T>::RemoveSlots()
 {
 	if (itsSlotCount > itsBlockSize)
-		{
+	{
 		ResizeMemoryAllocation(itsSlotCount - itsBlockSize);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1071,7 +1071,7 @@ JArray<T>::ResizeMemoryAllocation
 	assert( newSlotCount >= this->GetElementCount() );
 
 	if (newSlotCount != itsSlotCount)
-		{
+	{
 		T* newElements = jnew T [newSlotCount];
 		assert( newElements != nullptr );
 
@@ -1080,7 +1080,7 @@ JArray<T>::ResizeMemoryAllocation
 		jdelete [] itsElements;
 		itsElements  = newElements;
 		itsSlotCount = newSlotCount;
-		}
+	}
 }
 
 /******************************************************************************

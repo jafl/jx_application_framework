@@ -229,13 +229,13 @@ JMMTable::PrintAllocatedRecord
 	std::cout << "\n         New'ed at: " << record.GetNewFile() << ":" << record.GetNewLine();
 	std::cout << "\n      Verification: ";
 	if (record.GetDeleteFile() != nullptr || record.GetDeleteLine() != 0)
-		{
+	{
 		std::cout << "*** manager error: allocated status inconsistent, possibly not really allocated";
-		}
+	}
 	else
-		{
+	{
 		std::cout << "allocated status consistent, probably correct";
-		}
+	}
 	std::cout << std::endl;
 }
 
@@ -260,22 +260,22 @@ JMMTable::AddToHistogram
 	JIndex slot    = 0;
 	bool found = false;
 	while (slot < JMemoryManager::kHistogramSlotCount - 1)
-		{
+	{
 		if (size <= max)
-			{
+		{
 			histo[ slot ]++;
 			found = true;
 			break;
-			}
+		}
 		max <<= 1;
 		max  &= 0x1FFFFFFFFULL;
 		slot++;
-		}
+	}
 
 	if (!found)
-		{
+	{
 		histo[ JMemoryManager::kHistogramSlotCount-1 ]++;
-		}
+	}
 }
 
 /******************************************************************************
@@ -296,7 +296,7 @@ JMMTable::StreamHistogram
 	output << JMemoryManager::kHistogramSlotCount;
 
 	for (JUnsignedOffset i=0; i<JMemoryManager::kHistogramSlotCount; i++)
-		{
+	{
 		output << ' ' << histo[i];
-		}
+	}
 }

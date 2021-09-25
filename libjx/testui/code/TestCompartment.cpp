@@ -69,7 +69,7 @@ TestCompartment::IsElastic()
 	JXVertPartition* vertPartition   = itsDirector->GetVertPartition();
 
 	if (partition == horizPartition)
-		{
+	{
 		JIndex ourIndex;
 		const bool ok = horizPartition->GetCompartmentIndex(enclosure, &ourIndex);
 		assert( ok );
@@ -78,9 +78,9 @@ TestCompartment::IsElastic()
 		horizPartition->GetElasticIndex(&elasticIndex);
 
 		isElastic = ourIndex == elasticIndex || elasticIndex == 0;
-		}
+	}
 	else if (partition == vertPartition)
-		{
+	{
 		JIndex ourIndex;
 		const bool ok = vertPartition->GetCompartmentIndex(enclosure, &ourIndex);
 		assert( ok );
@@ -89,7 +89,7 @@ TestCompartment::IsElastic()
 		vertPartition->GetElasticIndex(&elasticIndex);
 
 		isElastic = ourIndex == elasticIndex || elasticIndex == 0;
-		}
+	}
 
 	return isElastic;
 }
@@ -129,18 +129,18 @@ TestCompartment::Draw
 	const JSize lineHeight = p.GetLineHeight();
 	JCoordinate top        = ap.ycenter() - lineHeight;
 	if (isElastic)
-		{
+	{
 		top -= lineHeight;
-		}
+	}
 	else
-		{
+	{
 		top -= lineHeight/2;
-		}
+	}
 
 	if (!IsActive())
-		{
+	{
 		p.SetFontStyle(JColorManager::GetInactiveLabelColor());
-		}
+	}
 
 	p.String(ap.left, top, JGetString("LeftClickInstr::TestCompartment"),
 			 ap.width(), JPainter::kHAlignCenter);
@@ -152,11 +152,11 @@ TestCompartment::Draw
 			 ap.width(), JPainter::kHAlignCenter);
 
 	if (isElastic)
-		{
+	{
 		top += lineHeight;
 		p.String(ap.left, top, JGetString("ElasticLabel::TestCompartment"),
 				 ap.width(), JPainter::kHAlignCenter);
-		}
+	}
 }
 
 /******************************************************************************
@@ -182,44 +182,44 @@ TestCompartment::HandleMouseUp
 	JXVertPartition* vertPartition   = itsDirector->GetVertPartition();
 
 	if (partition == horizPartition)
-		{
+	{
 		JIndex ourIndex;
 		const bool ok = horizPartition->GetCompartmentIndex(enclosure, &ourIndex);
 		assert( ok );
 
 		if (button == kJXLeftButton)
-			{
+		{
 			itsDirector->InsertHorizCompartment(ourIndex);
-			}
-		else if (button == kJXMiddleButton)
-			{
-			itsDirector->DeleteHorizCompartment(ourIndex);	// commit suicide
-			}
-		else if (button == kJXRightButton)
-			{
-			itsDirector->InsertHorizCompartment(ourIndex+1);
-			}
 		}
+		else if (button == kJXMiddleButton)
+		{
+			itsDirector->DeleteHorizCompartment(ourIndex);	// commit suicide
+		}
+		else if (button == kJXRightButton)
+		{
+			itsDirector->InsertHorizCompartment(ourIndex+1);
+		}
+	}
 
 	else if (partition == vertPartition)
-		{
+	{
 		JIndex ourIndex;
 		const bool ok = vertPartition->GetCompartmentIndex(enclosure, &ourIndex);
 		assert( ok );
 
 		if (button == kJXLeftButton)
-			{
+		{
 			itsDirector->InsertVertCompartment(ourIndex);
-			}
-		else if (button == kJXMiddleButton)
-			{
-			itsDirector->DeleteVertCompartment(ourIndex);	// commit suicide
-			}
-		else if (button == kJXRightButton)
-			{
-			itsDirector->InsertVertCompartment(ourIndex+1);
-			}
 		}
+		else if (button == kJXMiddleButton)
+		{
+			itsDirector->DeleteVertCompartment(ourIndex);	// commit suicide
+		}
+		else if (button == kJXRightButton)
+		{
+			itsDirector->InsertVertCompartment(ourIndex+1);
+		}
+	}
 }
 
 /******************************************************************************

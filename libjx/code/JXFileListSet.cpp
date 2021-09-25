@@ -193,9 +193,9 @@ JXFileListSet::SetTable
 	itsTable->SetSizing(kHElastic, kVElastic);
 	itsTable->FitToEnclosure();
 	if (hadEditMenu)
-		{
+	{
 		itsTable->SetEditMenuProvider(te);
-		}
+	}
 }
 
 /******************************************************************************
@@ -226,28 +226,28 @@ JXFileListSet::SetFilterType
 	)
 {
 	if (itsFilterType == type)
-		{
+	{
 		return;
-		}
+	}
 
 	else if (type == kWildcardFilter)
-		{
+	{
 		ShowFilter(itsWildcardSet, itsWildcardInput,
 				   kRegexFilter, itsRegexSet, itsRegexInput);
-		}
+	}
 	else if (type == kRegexFilter)
-		{
+	{
 		ShowFilter(itsRegexSet, itsRegexInput,
 				   kWildcardFilter, itsWildcardSet, itsWildcardInput);
-		}
+	}
 
 	else
-		{
+	{
 		if (itsWildcardInput->HasFocus() || itsRegexInput->HasFocus())
-			{
+		{
 			GetWindow()->KillFocus();
 			itsTable->Focus();
-			}
+		}
 		itsTable->ClearFilterRegex();
 
 		const JCoordinate h = itsWildcardInput->GetFrameHeight();	// FTC
@@ -256,7 +256,7 @@ JXFileListSet::SetFilterType
 		itsRegexSet->Hide();
 		itsTableScroll->Move(0,-h);
 		itsTableScroll->AdjustSize(0,h);
-		}
+	}
 
 	itsFilterType = type;
 }
@@ -277,29 +277,29 @@ JXFileListSet::ShowFilter
 	)
 {
 	if (itsFilterType == otherType)
-		{
+	{
 		if (otherInput->HasFocus())
-			{
-			GetWindow()->KillFocus();
-			}
-		otherSet->Hide();
-		}
-	else
 		{
+			GetWindow()->KillFocus();
+		}
+		otherSet->Hide();
+	}
+	else
+	{
 		const JCoordinate h = itsWildcardInput->GetFrameHeight();	// FTC
 
 		itsTableScroll->AdjustSize(0,-h);
 		itsTableScroll->Move(0,h);
-		}
+	}
 
 	filterSet->Show();
 	filterInput->Focus();
 	const JError err = filterInput->Apply();
 	if (!err.OK())
-		{
+	{
 		itsTable->ClearFilterRegex();
 		err.ReportIfError();
-		}
+	}
 }
 
 /******************************************************************************
@@ -311,13 +311,13 @@ void
 JXFileListSet::ToggleWildcardFilter()
 {
 	if (itsFilterType != kWildcardFilter)
-		{
+	{
 		SetFilterType(kWildcardFilter);
-		}
+	}
 	else
-		{
+	{
 		SetFilterType(kNoFilter);
-		}
+	}
 }
 
 /******************************************************************************
@@ -329,13 +329,13 @@ void
 JXFileListSet::ToggleRegexFilter()
 {
 	if (itsFilterType != kRegexFilter)
-		{
+	{
 		SetFilterType(kRegexFilter);
-		}
+	}
 	else
-		{
+	{
 		SetFilterType(kNoFilter);
-		}
+	}
 }
 
 /******************************************************************************
@@ -360,16 +360,16 @@ JXFileListSet::ReadSetup
 	bool hadFilter;
 	input >> JBoolFromString(hadFilter);
 	if (hadFilter)
-		{
+	{
 		JString regexStr;
 		input >> regexStr;
 		const JError err = itsTable->SetFilterRegex(regexStr);
 		assert_ok( err );
-		}
+	}
 	else
-		{
+	{
 		itsTable->ClearFilterRegex();
-		}
+	}
 
 	long type;
 	input >> type;
@@ -390,22 +390,22 @@ JXFileListSet::ReadSetup
 	// only need to adjust geometry since table's regex is read separately
 
 	if (itsFilterType != kNoFilter)
-		{
+	{
 		const JCoordinate h = itsWildcardInput->GetFrameHeight();	// FTC
 
 		itsTableScroll->AdjustSize(0,-h);
 		itsTableScroll->Move(0,h);
 
 		if (itsFilterType == kWildcardFilter)
-			{
+		{
 			itsWildcardSet->Show();
-			}
+		}
 		else
-			{
+		{
 			assert( itsFilterType == kRegexFilter );
 			itsRegexSet->Show();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -425,13 +425,13 @@ JXFileListSet::WriteSetup
 	output << ' ';
 	JString regexStr;
 	if (itsTable->GetFilterRegex(&regexStr))
-		{
+	{
 		output << JBoolToString(true) << ' ' << regexStr;
-		}
+	}
 	else
-		{
+	{
 		output << JBoolToString(false);
-		}
+	}
 
 	output << ' ' << (long) itsFilterType;
 

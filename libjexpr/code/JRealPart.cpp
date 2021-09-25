@@ -80,14 +80,14 @@ JRealPart::Evaluate
 {
 	JComplex value;
 	if (GetArg()->Evaluate(&value))
-		{
+	{
 		*result = real(value);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -99,12 +99,12 @@ JRealPart::Evaluate
 {
 	JComplex value;
 	if (GetArg()->Evaluate(&value))
-		{
+	{
 		*result = real(value);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }

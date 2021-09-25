@@ -150,19 +150,19 @@ TestStrTableDirector::Receive
 	)
 {
 	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFileMenu();
-		}
+	}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsRowHeader && message.Is(JXRowHeaderWidget::kNeedsToBeWidened))
-		{
+	{
 		const JXRowHeaderWidget::NeedsToBeWidened* info =
 			dynamic_cast<const JXRowHeaderWidget::NeedsToBeWidened*>(&message);
 		assert( info != nullptr );
@@ -173,24 +173,24 @@ TestStrTableDirector::Receive
 		itsColHeader->AdjustSize(-dw,0);
 		itsTable->Move(dw,0);
 		itsTable->AdjustSize(-dw,0);
-		}
+	}
 
 	else if (sender == itsPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			itsTable->Print(*itsPrinter);
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -205,9 +205,9 @@ TestStrTableDirector::UpdateFileMenu()
 	itsFileMenu->EnableItem(kCloseCmd);
 
 	if (!itsData->IsEmpty())
-		{
+	{
 		itsFileMenu->EnableItem(kPrintCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -222,15 +222,15 @@ TestStrTableDirector::HandleFileMenu
 	)
 {
 	if (index == kPageSetupCmd)
-		{
+	{
 		itsPrinter->BeginUserPageSetup();
-		}
+	}
 	else if (index == kPrintCmd && itsTable->EndEditing())
-		{
+	{
 		itsPrinter->BeginUserPrintSetup();
-		}
+	}
 	else if (index == kCloseCmd)
-		{
+	{
 		Close();
-		}
+	}
 }

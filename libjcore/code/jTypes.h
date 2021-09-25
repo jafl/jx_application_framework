@@ -71,13 +71,6 @@ typedef unsigned long						JFileVersion;
 const JFileVersion kJFileVersionMin			= 0;
 const JFileVersion kJFileVersionMax			= ULONG_MAX;
 
-	// used mainly by JHistogram.tmpl
-
-typedef JIndex								JBinIndex;
-
-const JBinIndex kJBinIndexMin				= kJIndexMin;
-const JBinIndex kJBinIndexMax				= kJIndexMax;
-
 	// utf-8 characters
 
 typedef char								JUtf8Byte;

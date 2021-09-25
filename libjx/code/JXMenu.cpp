@@ -197,22 +197,22 @@ JXMenu::~JXMenu()
 	assert( itsMenuDirector == nullptr );
 
 	if (itsMenuBar != nullptr)
-		{
+	{
 		assert( itsOwner == nullptr );
 		itsMenuBar->RemoveMenu(this);
-		}
+	}
 	else if (itsOwner != nullptr)
-		{
+	{
 		assert( itsMenuBar == nullptr );
 		itsOwner->RemoveSubmenu(this);
-		}
+	}
 
 	jdelete itsShortcuts;
 
 	if (itsOwnsTitleImageFlag)
-		{
+	{
 		jdelete itsTitleImage;
-		}
+	}
 }
 
 /******************************************************************************
@@ -274,17 +274,17 @@ JXMenu::SetTitle
 	)
 {
 	if (title.IsEmpty())
-		{
+	{
 		itsTitle.Clear();
 		itsULIndex = 0;
-		}
+	}
 	else
-		{
+	{
 		itsTitle = title;
 
 		JStringIterator iter(&itsTitle);
 		if (iter.Next("%h"))
-			{
+		{
 			iter.RemoveLastMatch();
 			iter.BeginMatch();
 			iter.MoveTo(kJIteratorStartAtEnd, 0);
@@ -295,18 +295,18 @@ JXMenu::SetTitle
 
 			iter.RemoveLastMatch();
 			itsTitle.TrimWhitespace();	// invalidates iterator
-			}
+		}
 		else
-			{
+		{
 			iter.Invalidate();
 			itsULIndex = JXWindow::GetULShortcutIndex(itsTitle, itsShortcuts);
-			}
 		}
+	}
 
 	if (itsOwnsTitleImageFlag)
-		{
+	{
 		jdelete itsTitleImage;
-		}
+	}
 	itsTitleImage         = image;
 	itsOwnsTitleImageFlag = menuOwnsImage;
 
@@ -352,21 +352,21 @@ JXMenu::UpdateTitleGeometry()
 {
 	JCoordinate w = 0;
 	if (!itsTitle.IsEmpty())
-		{
+	{
 		w += itsTitleFont.GetStringWidth(GetFontManager(), itsTitle);
-		}
+	}
 	if (itsTitleImage != nullptr)
-		{
+	{
 		if (w > 0)
-			{
-			w += kImageTextBufferWidth;
-			}
-		w += itsTitleImage->GetWidth();
-		}
-	if (w > 0)
 		{
-		w += 2*itsTitlePadding.x;
+			w += kImageTextBufferWidth;
 		}
+		w += itsTitleImage->GetWidth();
+	}
+	if (w > 0)
+	{
+		w += 2*itsTitlePadding.x;
+	}
 	AdjustAppearance(w);
 	Refresh();
 }
@@ -383,9 +383,9 @@ JXMenu::SetShortcuts
 	)
 {
 	if (theDisplayStyle == kMacintoshStyle)
-		{
+	{
 		return;
-		}
+	}
 
 	JXWindow* w = GetWindow();
 	w->ClearShortcuts(this);
@@ -412,9 +412,9 @@ JXMenu::SetTitleFontName
 	itsTitleFont.SetName(fontName);
 
 	if (!itsTitle.IsEmpty())
-		{
+	{
 		UpdateTitleGeometry();
-		}
+	}
 }
 
 /******************************************************************************
@@ -431,9 +431,9 @@ JXMenu::SetTitleFontSize
 	itsTitleFont.SetSize(size);
 
 	if (!itsTitle.IsEmpty())
-		{
+	{
 		UpdateTitleGeometry();
-		}
+	}
 }
 
 /******************************************************************************
@@ -450,9 +450,9 @@ JXMenu::SetTitleFontStyle
 	itsTitleFont.SetStyle(style);
 
 	if (!itsTitle.IsEmpty())
-		{
+	{
 		UpdateTitleGeometry();
-		}
+	}
 }
 
 /******************************************************************************
@@ -469,9 +469,9 @@ JXMenu::SetToPopupChoice
 {
 	itsIsPopupChoiceFlag = isPopup;
 	if (itsIsPopupChoiceFlag)
-		{
+	{
 		AdjustPopupChoiceTitle(initialChoice);
-		}
+	}
 }
 
 /******************************************************************************
@@ -538,15 +538,15 @@ JXMenu::GetItemShortcuts
 {
 	const JString* s;
 	if (itsBaseItemData->GetItemShortcuts(index, &s))
-		{
+	{
 		*shortcuts = *s;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		shortcuts->Clear();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -612,14 +612,14 @@ JXMenu::ItemIDToIndex
 {
 	const JSize count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const JString* id;
 		if (GetItemID(i, &id) && *id == targetID)
-			{
+		{
 			*index = i;
 			return true;
-			}
 		}
+	}
 
 	*index = 0;
 	return false;
@@ -844,9 +844,9 @@ JXMenu::GetTopLevelMenu()
 {
 	auto* topMenu = const_cast<JXMenu*>(this);
 	while (topMenu->itsOwner != nullptr)
-		{
+	{
 		topMenu = topMenu->itsOwner;
-		}
+	}
 	return topMenu;
 }
 
@@ -862,19 +862,19 @@ JXMenu::SetMenuBar
 	)
 {
 	if (itsMenuBar == bar)
-		{
+	{
 		return;
-		}
+	}
 	else if (itsMenuBar != nullptr)
-		{
+	{
 		assert( itsOwner == nullptr );
 		itsMenuBar->RemoveMenu(this);
-		}
+	}
 	else if (itsOwner != nullptr)
-		{
+	{
 		assert( itsMenuBar == nullptr );
 		itsOwner->RemoveSubmenu(this);
-		}
+	}
 
 	itsMenuBar = bar;
 	itsOwner   = nullptr;
@@ -894,19 +894,19 @@ JXMenu::SetOwner
 	)
 {
 	if (itsOwner == owner)
-		{
+	{
 		return;
-		}
+	}
 	else if (itsOwner != nullptr)
-		{
+	{
 		assert( itsMenuBar == nullptr );
 		itsOwner->RemoveSubmenu(this);
-		}
+	}
 	else if (itsMenuBar != nullptr)
-		{
+	{
 		assert( itsOwner == nullptr );
 		itsMenuBar->RemoveMenu(this);
-		}
+	}
 
 	itsMenuBar = nullptr;
 	itsOwner   = owner;
@@ -934,13 +934,13 @@ JXMenu::AdjustAppearance
 	// use the same cursor for consistency
 
 	if (itsOwner != nullptr)
-		{
+	{
 		SetDefaultCursor(itsOwner->GetDefaultCursor());
-		}
+	}
 	else if (itsMenuBar != nullptr)
-		{
+	{
 		SetDefaultCursor(itsMenuBar->GetDefaultCursor());
-		}
+	}
 
 	// adjust width
 
@@ -948,34 +948,34 @@ JXMenu::AdjustAppearance
 
 	JCoordinate w = minWidth;
 	if (itsOwner == nullptr && itsMenuBar == nullptr)
-		{
+	{
 		SetBorderWidth(kJXDefaultBorderWidth);
 		if (itsWaitingForFTCFlag)
-			{
+		{
 			return;
-			}
+		}
 
 		w += kTotalArrowWidth + 2*kJXDefaultBorderWidth;
-		}
+	}
 	else
-		{
+	{
 		SetBorderWidth(0);
-		}
+	}
 
 	if (w <= 0)
-		{
+	{
 		w = 2*itsTitlePadding.x;
-		}
+	}
 
 	const JCoordinate dw = w - GetFrameWidth();
 	if (dw != 0)
-		{
+	{
 		AdjustSize(dw, 0);
 		if (itsMenuBar != nullptr)
-			{
+		{
 			itsMenuBar->MenuWidthChanged(this, dw);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -992,18 +992,18 @@ JXMenu::PrepareToOpenMenu
 	)
 {
 	if (itsOwner != nullptr && !itsOwner->IsOpen())	// parent may have effect on child
-		{
+	{
 		itsOwner->PrepareToOpenMenu(shortcut);
-		}
+	}
 
 	if ((itsOwner == nullptr &&			// active status of sub-menus depends on menu item active status
 		 !IsActive()) ||
 		(itsOwner == nullptr &&			// visibility is irrelevant for sub-menus
 		 !itsIsHiddenPopupMenuFlag &&	// and hidden popups
 		 !IsVisible()))
-		{
+	{
 		return false;
-		}
+	}
 
 	// disable the requested items, uncheck all items
 
@@ -1034,15 +1034,15 @@ JXMenu::Open
 {
 	JXMenuManager* menuManager = GetMenuManager();
 	if (itsOwner == nullptr)
-		{
+	{
 		menuManager->CloseCurrentMenus();
-		}
+	}
 	assert( itsMenuDirector == nullptr );
 
 	if (!PrepareToOpenMenu(false))
-		{
+	{
 		return false;
-		}
+	}
 	assert( !IsEmpty() );
 
 	// create window to display menu
@@ -1050,7 +1050,7 @@ JXMenu::Open
 	JPoint leftPtR, rightPtR;
 	JCoordinate frameHeight = 0;
 	if (itsOwner == nullptr)
-		{
+	{
 		// place below widget frame
 
 		JXWindow* w  = GetWindow();
@@ -1059,30 +1059,30 @@ JXMenu::Open
 		rightPtR     = w->GlobalToRoot(frameG.bottomLeft());
 
 		if (itsIsHiddenPopupMenuFlag)
-			{
+		{
 			leftPtR = rightPtR;
 			leftPtR.x++;	// make sure mouse ends up inside menu window, so menu stays open
-			}
-		else
-			{
-			frameHeight = frameG.height();
-			}
 		}
-	else
+		else
 		{
+			frameHeight = frameG.height();
+		}
+	}
+	else
+	{
 		// use suggested points
 
 		leftPtR  = userLeftPtR;
 		rightPtR = userRightPtR;
-		}
+	}
 
 	itsMenuDirector = CreateMenuWindow(GetWindow()->GetDirector());
 	itsMenuDirector->BuildWindow(leftPtR, rightPtR, frameHeight);
 
 	if (itsIsHiddenPopupMenuFlag)
-		{
+	{
 		(itsMenuDirector->GetWindow())->SetWMWindowType(JXWindow::kWMPopupMenuType);
-		}
+	}
 
 	itsMenuDirector->Activate();
 	itsMenuDirector->GrabKeyboard();
@@ -1110,9 +1110,9 @@ JXMenu::Close()
 	Redraw();
 
 	if (itsOwner == nullptr)
-		{
+	{
 		GetWindow()->RequestFocus();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1134,9 +1134,9 @@ JXMenu::BroadcastSelection
 	// update the menu title to show the new selection
 
 	if (itsIsPopupChoiceFlag)
-		{
+	{
 		AdjustPopupChoiceTitle(itemIndex);
-		}
+	}
 
 	// broadcast the message
 
@@ -1159,75 +1159,75 @@ JXMenu::Draw
 
 	const JCoordinate borderWidth = GetBorderWidth();
 	if (itsMenuDirector != nullptr && borderWidth == 0)
-		{
+	{
 		JXDrawUpFrame(p, bounds, kJXDefaultBorderWidth);
-		}
+	}
 
 	JRect r = bounds;
 	if (borderWidth > 0)
-		{
+	{
 		JRect ra  = bounds;
 		ra.top    = bounds.ycenter() - kArrowHalfHeight;
 		ra.bottom = ra.top + 2*kArrowHalfHeight;
 
 		if (itsArrowPosition == kArrowAtRight)
-			{
+		{
 			ra.left  = bounds.right - (kTotalArrowWidth + kArrowWidth)/2;
 			ra.right = ra.left + kArrowWidth;
 			r.right -= kTotalArrowWidth;
 			ra.left++;
-			}
+		}
 		else
-			{
+		{
 			assert( itsArrowPosition == kArrowAtLeft );
 			ra.right = bounds.left + (kTotalArrowWidth + kArrowWidth)/2;
 			ra.left  = ra.right - kArrowWidth;
 			r.left  += kTotalArrowWidth;
 			ra.right--;
-			}
+		}
 
 		const JColorID colorIndex =
 			IsActive() ? JColorManager::GetGrayColor(40) :
 						 JColorManager::GetInactiveLabelColor();
 		if (itsArrowDirection == kArrowPointsDown)
-			{
+		{
 			JXFillArrowDown(p, ra, colorIndex);
-			}
+		}
 		else
-			{
+		{
 			ra.top--;
 			JXFillArrowUp(p, ra, colorIndex);
-			}
 		}
+	}
 
 	p.SetClipRect(r);
 
 	r.left += itsTitlePadding.x;
 	if (itsTitleImage != nullptr)
-		{
+	{
 		JRect ir = r;
 		ir.right = ir.left + itsTitleImage->GetWidth();
 		p.Image(*itsTitleImage, itsTitleImage->GetBounds(), ir);
 		r.left = ir.right + kImageTextBufferWidth;
-		}
+	}
 
 	if (!itsTitle.IsEmpty())
-		{
+	{
 		if (IsActive())
-			{
+		{
 			p.SetFont(itsTitleFont);
-			}
+		}
 		else
-			{
+		{
 			JFont f = itsTitleFont;
 			f.SetColor(JColorManager::GetInactiveLabelColor());
 			p.SetFont(f);
-			}
+		}
 
 		p.String(r.left, r.top, itsTitle, itsULIndex,
 				 r.width(), JPainter::kHAlignLeft,
 				 r.height(), JPainter::kVAlignCenter);
-		}
+	}
 
 	p.ResetClipRect();
 }
@@ -1246,15 +1246,15 @@ JXMenu::DrawBorder
 {
 	const JCoordinate borderWidth = GetBorderWidth();
 	if (borderWidth > 0 && IsActive())
-		{
+	{
 		JXDrawUpFrame(p, frame, borderWidth);
-		}
+	}
 	else if (borderWidth > 0)
-		{
+	{
 		p.SetLineWidth(borderWidth);
 		p.SetPenColor(JColorManager::GetInactiveLabelColor());
 		p.RectInside(frame);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1289,14 +1289,14 @@ JXMenu::PopUp
 	if (itsMenuBar == nullptr && itsOwner == nullptr &&
 		!IsVisible() && !buttonStates.AllOff() &&
 		itsMenuDirector == nullptr)
-		{
+	{
 		Place(pt.x, pt.y - GetFrameHeight());
 		if (Open())
-			{
+		{
 			return GetDisplay()->SwitchDrag(mouseOwner, pt, buttonStates, modifiers,
 											  itsMenuDirector->GetMenuTable());
-			}
 		}
+	}
 
 	return false;
 }
@@ -1317,15 +1317,15 @@ JXMenu::HandleMouseDown
 	)
 {
 	if (button == kJXLeftButton && itsMenuDirector == nullptr && Open())
-		{
+	{
 		const bool ok =
 			GetDisplay()->SwitchDrag(this, pt, buttonStates, modifiers,
 									   itsMenuDirector->GetMenuTable());
 		if (!ok && IsOpen())	// SwitchDrag() can trigger Close()
-			{
+		{
 			Close();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1343,9 +1343,9 @@ JXMenu::HandleShortcut
 	)
 {
 	if (itsMenuDirector == nullptr && Open())
-		{
+	{
 		itsMenuDirector->GrabPointer();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1358,16 +1358,16 @@ JXMenu::Activate()
 {
 	itsShouldBeActiveFlag = true;
 	if ((itsBaseItemData->GetList())->IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const bool wasActive = IsActive();
 	JXWidget::Activate();
 	if (!wasActive && IsActive())
-		{
+	{
 		PrivateActivate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1379,16 +1379,16 @@ void
 JXMenu::Deactivate()
 {
 	if (itsUpdateSBAFlag)
-		{
+	{
 		itsShouldBeActiveFlag = false;
-		}
+	}
 
 	const bool wasActive = IsActive();
 	JXWidget::Deactivate();
 	if (wasActive && !IsActive())
-		{
+	{
 		PrivateDeactivate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1406,9 +1406,9 @@ JXMenu::Suspend()
 	const bool wasActive = IsActive();
 	JXWidget::Suspend();
 	if (itsOwner == nullptr && wasActive && !IsActive())
-		{
+	{
 		PrivateDeactivate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1425,9 +1425,9 @@ JXMenu::Resume()
 	const bool wasActive = IsActive();
 	JXWidget::Resume();
 	if (!wasActive && IsActive())
-		{
+	{
 		PrivateActivate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1442,9 +1442,9 @@ JXMenu::PrivateActivate()
 	if (itsOwner != nullptr &&
 		!(itsBaseItemData->GetList())->IsEmpty() &&
 		itsOwner->itsBaseItemData->FindSubmenu(this, &ownerItemIndex))
-		{
+	{
 		itsOwner->EnableItem(ownerItemIndex);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1458,9 +1458,9 @@ JXMenu::PrivateDeactivate()
 	JIndex ownerItemIndex;
 	if (itsOwner != nullptr &&
 		itsOwner->itsBaseItemData->FindSubmenu(this, &ownerItemIndex))
-		{
+	{
 		itsOwner->DisableItem(ownerItemIndex);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1478,22 +1478,22 @@ JXMenu::Receive
 	const JCollection* array = itsBaseItemData->GetList();
 
 	if (sender == const_cast<JCollection*>(array))
-		{
+	{
 		if (array->IsEmpty() && IsActive())
-			{
+		{
 			itsUpdateSBAFlag = false;
 			Deactivate();
 			itsUpdateSBAFlag = true;
-			}
+		}
 		else if (itsShouldBeActiveFlag && !IsActive())
-			{
-			Activate();
-			}
-		}
-	else
 		{
-		JXWidget::Receive(sender, message);
+			Activate();
 		}
+	}
+	else
+	{
+		JXWidget::Receive(sender, message);
+	}
 }
 
 /******************************************************************************
@@ -1509,16 +1509,16 @@ JXMenu::AdjustNMShortcutModifier
 {
 	if ((theDisplayStyle == kMacintoshStyle && theDefaultStyle == kWindowsStyle) ||
 		(theDisplayStyle == kWindowsStyle   && theDefaultStyle == kMacintoshStyle))
-		{
+	{
 		if (key == kJXControlKeyIndex)
-			{
+		{
 			return kJXMetaKeyIndex;
-			}
-		else if (key == kJXMetaKeyIndex)
-			{
-			return kJXControlKeyIndex;
-			}
 		}
+		else if (key == kJXMetaKeyIndex)
+		{
+			return kJXControlKeyIndex;
+		}
+	}
 
 	return key;
 }
@@ -1563,29 +1563,29 @@ JXMenu::GetFTCMinContentSize
 	const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = false;
 
 	if (horizontal && IsHiddenPopupMenu())
-		{
+	{
 		return GetApertureWidth();
-		}
+	}
 
 	JCoordinate widgetBorderWidth = GetBorderWidth(),
 				borderWidth = 0,
 				arrowWidth  = 0;
 	if (widgetBorderWidth == 0)
-		{
+	{
 		borderWidth = kJXDefaultBorderWidth;
-		}
+	}
 	else if (widgetBorderWidth > 0)
-		{
+	{
 		arrowWidth = kTotalArrowWidth;
-		}
+	}
 
 	if (itsTitle.IsEmpty())
-		{
+	{
 		const JRect apG = GetApertureGlobal();
 		return horizontal ? apG.width() : apG.height();
-		}
+	}
 	else if (horizontal)
-		{
+	{
 		const_cast<JXMenu*>(this)->itsWaitingForFTCFlag = true;
 		const JSize tw = IsPopupChoice() ?
 			GetMaxPopupChoiceTitleWidth() :
@@ -1598,14 +1598,14 @@ JXMenu::GetFTCMinContentSize
 				tw +
 				arrowWidth +
 				2*borderWidth);
-		}
+	}
 	else
-		{
+	{
 		return (JMax(itsTitleImage != nullptr ? itsTitleImage->GetHeight() : 0,
 					 (JCoordinate) itsTitleFont.GetLineHeight(GetFontManager())) +
 				2*borderWidth +
 				2*itsTitlePadding.y);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1628,10 +1628,10 @@ JXMenu::GetMaxPopupChoiceTitleWidth()
 	JSize max         = 0;
 	const JSize count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		self->AdjustPopupChoiceTitle(i);
 		max = JMax(max, itsTitleFont.GetStringWidth(GetFontManager(), itsTitle));
-		}
+	}
 
 	self->SetTitle(origTitle, origTitleImage, origOwnsImage);
 	return max;

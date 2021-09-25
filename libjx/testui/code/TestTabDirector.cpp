@@ -166,7 +166,7 @@ TestTabDirector::Receive
 	)
 {
 	if (sender == itsAddTabButton && message.Is(JXButton::kPushed))
-		{
+	{
 		JString s(itsNextTabIndex, 0);
 		s.Prepend(JGetString("TabLabelPrefix::TestTabDirector"));
 		JXContainer* card = itsTabGroup->AppendTab(s, true);
@@ -180,42 +180,42 @@ TestTabDirector::Receive
 		ListenTo(removeButton);
 
 		card->ExpandToFitContent();
-		}
+	}
 	else if (message.Is(JXButton::kPushed))
-		{
+	{
 		JIndex i;
 		if (itsTabGroup->GetCurrentTabIndex(&i))
-			{
+		{
 			itsTabGroup->ShowTab(2);
 			itsTabGroup->DeleteTab(i);
-			}
 		}
+	}
 
 	else if (sender == itsFontMenu && message.Is(JXFontNameMenu::kNameChanged))
-		{
+	{
 		const JString name = itsFontMenu->GetFontName();
 		itsTabGroup->SetFontName(name);
 		itsSizeMenu->SetFontName(name);
-		}
+	}
 	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged))
-		{
+	{
 		itsTabGroup->SetFontSize(itsSizeMenu->GetFontSize());
-		}
+	}
 
 	else if (sender == itsEdgeRG && message.Is(JXRadioGroup::kSelectionChanged))
-		{
+	{
 		itsTabGroup->SetTabEdge((JXTabGroup::Edge) itsEdgeRG->GetSelectedItem());
-		}
+	}
 
 	else if (sender == itsMonoFont && message.Is(JXChooseMonoFont::kFontChanged))
-		{
+	{
 		UpdateFontSample();
-		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************

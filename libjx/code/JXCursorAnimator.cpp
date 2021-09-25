@@ -80,16 +80,16 @@ JXCursorAnimator::NextFrame()
 {
 	const Time currentTime = JXGetApplication()->GetCurrentTime();
 	if (itsActiveFlag && currentTime - itsLastUpdateTime >= kmsecPerFrame)
-		{
+	{
 		itsFrameCounter++;
 		if (itsFrameCounter > itsFrames->GetElementCount())
-			{
+		{
 			ResetFrameCounter();
-			}
+		}
 
 		itsWindow->DisplayXCursor(itsFrames->GetElement(itsFrameCounter));
 		itsLastUpdateTime = currentTime;
-		}
+	}
 }
 
 /******************************************************************************
@@ -118,10 +118,10 @@ static const JUtf8Byte* kBeachballFrameName[] =
 
 static const JXCursor kBeachBallFrames[] =
 {
-	{ jx_beachball_cursor_mask_width, jx_beachball_cursor_mask_height, 8,8, jx_beachball_1_cursor_bits, jx_beachball_cursor_mask_bits },
-	{ jx_beachball_cursor_mask_width, jx_beachball_cursor_mask_height, 8,8, jx_beachball_2_cursor_bits, jx_beachball_cursor_mask_bits },
-	{ jx_beachball_cursor_mask_width, jx_beachball_cursor_mask_height, 8,8, jx_beachball_3_cursor_bits, jx_beachball_cursor_mask_bits },
-	{ jx_beachball_cursor_mask_width, jx_beachball_cursor_mask_height, 8,8, jx_beachball_4_cursor_bits, jx_beachball_cursor_mask_bits }
+{ jx_beachball_cursor_mask_width, jx_beachball_cursor_mask_height, 8,8, jx_beachball_1_cursor_bits, jx_beachball_cursor_mask_bits },
+{ jx_beachball_cursor_mask_width, jx_beachball_cursor_mask_height, 8,8, jx_beachball_2_cursor_bits, jx_beachball_cursor_mask_bits },
+{ jx_beachball_cursor_mask_width, jx_beachball_cursor_mask_height, 8,8, jx_beachball_3_cursor_bits, jx_beachball_cursor_mask_bits },
+{ jx_beachball_cursor_mask_width, jx_beachball_cursor_mask_height, 8,8, jx_beachball_4_cursor_bits, jx_beachball_cursor_mask_bits }
 };	
 
 const JSize kBeachBallFrameCount = sizeof(kBeachBallFrames) / sizeof(JXCursor);
@@ -136,10 +136,10 @@ JXCursorAnimator::InitFrames
 	assert( itsFrames != nullptr );
 
 	for (JUnsignedOffset i=0; i<kBeachBallFrameCount; i++)
-		{
+	{
 		const JCursorIndex cursIndex =
 			display->CreateCustomCursor(kBeachballFrameName[i],
 										kBeachBallFrames[i]);
 		itsFrames->AppendElement(cursIndex);
-		}
+	}
 }

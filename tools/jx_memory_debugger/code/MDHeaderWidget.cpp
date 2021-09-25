@@ -77,9 +77,9 @@ MDHeaderWidget::TableDrawCell
 
 	JSize underLines = 0;
 	if (itsList->GetSortColumn() == cell.x)
-		{
+	{
 		underLines = 1;
-		}
+	}
 
 	const JFont font = JFontManager::GetFont(
 		JFontManager::GetDefaultFontName(), JFontManager::GetDefaultRowColHeaderFontSize(),
@@ -107,8 +107,8 @@ MDHeaderWidget::HandleMouseDown
 
 	JPoint cell;
 	if (GetDragType() == kInvalidDrag && GetCell(pt, &cell))
-		{
+	{
 		itsList->SetSortColumn(cell.x);
 		TableRefresh();
-		}
+	}
 }

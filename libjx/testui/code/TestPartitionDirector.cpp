@@ -86,10 +86,10 @@ TestPartitionDirector::BuildWindow()
 	JArray<JCoordinate> minSizes;
 
 	for (JIndex i=1; i<=kInitCompartmentCount; i++)
-		{
+	{
 		sizes.AppendElement(kInitSize);
 		minSizes.AppendElement(kMinSize);
-		}
+	}
 
 // begin JXLayout
 
@@ -133,13 +133,13 @@ TestPartitionDirector::BuildWindow()
 	ListenTo(itsVertMenu);
 
 	for (JIndex i=1; i<=kInitCompartmentCount; i++)
-		{
+	{
 		if (i != kInitElasticIndex)
-			{
+		{
 			CreateTestWidget(itsHorizPartition, i);
-			}
-		CreateTestWidget(itsVertPartition, i);
 		}
+		CreateTestWidget(itsVertPartition, i);
+	}
 }
 
 /******************************************************************************
@@ -156,14 +156,14 @@ TestPartitionDirector::InsertHorizCompartment
 	JXContainer* newCompartment;
 	if (itsHorizPartition->InsertCompartment(index, kInitSize, kMinSize,
 											 &newCompartment))
-		{
+	{
 		AdjustMinWindowSize();
 		CreateTestWidget(itsHorizPartition, index);
-		}
+	}
 	else
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("OutOfSpace::TestPartitionDirector"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -194,14 +194,14 @@ TestPartitionDirector::InsertVertCompartment
 	JXContainer* newCompartment;
 	if (itsVertPartition->InsertCompartment(index, kInitSize, kMinSize,
 											&newCompartment))
-		{
+	{
 		AdjustMinWindowSize();
 		CreateTestWidget(itsVertPartition, index);
-		}
+	}
 	else
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("OutOfSpace::TestPartitionDirector"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -216,13 +216,13 @@ TestPartitionDirector::DeleteVertCompartment
 	)
 {
 	if (itsVertPartition->GetCompartmentCount() > 1)
-		{
+	{
 		itsVertPartition->JPartition::DeleteCompartment(index);
-		}
+	}
 	else
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("CannotRemoveLast::TestPartitionDirector"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -270,52 +270,52 @@ TestPartitionDirector::Receive
 	)
 {
 	if (sender == itsHorizMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateHorizMenu();
-		}
+	}
 	else if (sender == itsHorizMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHorizMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsVertMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateVertMenu();
-		}
+	}
 	else if (sender == itsVertMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleVertMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsSetElasticDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		const bool ok = info->Successful();
 		const JIndex newElasticIndex = itsSetElasticDialog->GetElasticIndex();
 		if (ok && itsSetElasticType == kHorizElastic)
-			{
+		{
 			itsHorizPartition->SetElasticIndex(newElasticIndex);
-			}
-		else if (ok && itsSetElasticType == kVertElastic)
-			{
-			itsVertPartition->SetElasticIndex(newElasticIndex);
-			}
-		itsSetElasticDialog = nullptr;
 		}
+		else if (ok && itsSetElasticType == kVertElastic)
+		{
+			itsVertPartition->SetElasticIndex(newElasticIndex);
+		}
+		itsSetElasticDialog = nullptr;
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -340,15 +340,15 @@ TestPartitionDirector::HandleHorizMenu
 	)
 {
 	if (index == kPrependHorizCmd)
-		{
+	{
 		InsertHorizCompartment(1);
-		}
+	}
 	else if (index == kAppendHorizCmd)
-		{
+	{
 		InsertHorizCompartment(itsHorizPartition->GetCompartmentCount()+1);
-		}
+	}
 	else if (index == kSetHorizElasticIndexCmd)
-		{
+	{
 		assert( itsSetElasticDialog == nullptr );
 
 		JIndex elasticIndex;
@@ -361,7 +361,7 @@ TestPartitionDirector::HandleHorizMenu
 		itsSetElasticDialog->BeginDialog();
 
 		itsSetElasticType = kHorizElastic;
-		}
+	}
 }
 
 /******************************************************************************
@@ -386,7 +386,7 @@ TestPartitionDirector::HandleVertMenu
 	)
 {
 	if (index == kSetVertElasticIndexCmd)
-		{
+	{
 		assert( itsSetElasticDialog == nullptr );
 
 		JIndex elasticIndex;
@@ -399,5 +399,5 @@ TestPartitionDirector::HandleVertMenu
 		itsSetElasticDialog->BeginDialog();
 
 		itsSetElasticType = kVertElastic;
-		}
+	}
 }

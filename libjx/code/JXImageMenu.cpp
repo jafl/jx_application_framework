@@ -205,8 +205,8 @@ JXImageMenu::AdjustPopupChoiceTitle
 {
 	const JXImage* titleImage = nullptr;
 	if (GetTitleImage(&titleImage))
-		{
+	{
 		auto* image = const_cast<JXImage*>(GetItemImage(index));
 		SetTitle(JString::empty, image, false);
-		}
+	}
 }

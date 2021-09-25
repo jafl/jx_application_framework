@@ -50,10 +50,10 @@ void
 JXMenuManager::CloseCurrentMenus()
 {
 	if (!itsOpenMenuList->IsEmpty())
-		{
+	{
 		(itsOpenMenuList->GetFirstElement())->Close();
 		assert( itsOpenMenuList->IsEmpty() && itsOpenWindowList->IsEmpty() );
-		}
+	}
 }
 
 /******************************************************************************
@@ -73,14 +73,14 @@ JXMenuManager::IsMenuForWindow
 {
 	JIndex index;
 	if (itsOpenWindowList->Find(menuWindow, &index))
-		{
+	{
 		JXMenu* menu = itsOpenMenuList->GetElement(index);
 		return mainWindow == menu->GetWindow();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -96,10 +96,10 @@ JXMenuManager::MenuOpened
 	)
 {
 	if (!itsOpenMenuList->Includes(menu))
-		{
+	{
 		itsOpenMenuList->Append(menu);
 		itsOpenWindowList->Append(window);
-		}
+	}
 }
 
 /******************************************************************************
@@ -115,8 +115,8 @@ JXMenuManager::MenuClosed
 {
 	JIndex index;
 	if (itsOpenMenuList->Find(menu, &index))
-		{
+	{
 		itsOpenMenuList->RemoveElement(index);
 		itsOpenWindowList->RemoveElement(index);
-		}
+	}
 }

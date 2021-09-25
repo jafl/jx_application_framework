@@ -115,22 +115,22 @@ JPTPrinter::Print
 	std::ofstream* tempOutput = nullptr;
 	JString tempName;
 	if (itsPrintReverseOrderFlag)
-		{
+	{
 		if (!(JCreateTempFile(&tempName)).OK())
-			{
+		{
 			return false;
-			}
+		}
 
 		tempOutput = jnew std::ofstream(tempName.GetBytes());
 		assert( tempOutput != nullptr );
 		if (tempOutput->bad())
-			{
+		{
 			jdelete tempOutput;
 			JRemoveFile(tempName);
 			return false;
-			}
-		dataOutput = tempOutput;
 		}
+		dataOutput = tempOutput;
+	}
 
 	const JSize headerLineCount = GetHeaderLineCount();
 	const JSize footerLineCount = GetFooterLineCount();
@@ -150,7 +150,7 @@ JPTPrinter::Print
 	JStringIterator iter(text);
 	JUtf8Character c;
 	while (keepGoing && iter.Next(&c))
-		{
+	{
 		iter.Prev(&c);	// back up for lineCount loop
 
 		pageIndex++;
@@ -162,114 +162,114 @@ JPTPrinter::Print
 		std::ostream* output = shouldPrintPage ? dataOutput : (&bitBucket);
 
 		if (shouldPrintPage)
-			{
+		{
 			printCount++;
 			if (printCount > 1)
-				{
+			{
 				*output << kPageSeparatorStr;
-				}
 			}
+		}
 
 		if (headerLineCount > 0)
-			{
+		{
 			PrintHeader(*output, pageIndex);
-			}
+		}
 
 		JSize lineNumberWidth = 0;
 		if (itsPrintLineNumberFlag)
-			{
+		{
 			const JString lastLineIndexStr(pageIndex * lineCountPerPage, 0);
 			lineNumberWidth = lastLineIndexStr.GetCharacterCount();
-			}
+		}
 
 		JSize lineCount = 0;
 		while (lineCount < lineCountPerPage && iter.Next(&c))
-			{
+		{
 			iter.Prev(&c);	// back up for pageWidth loop
 
 			JSize col = 0;
 
 			if (itsPrintLineNumberFlag)
-				{
+			{
 				const JString lineNumberStr(textLineCount+1, 0);
 				const JSize spaceCount = lineNumberWidth - lineNumberStr.GetCharacterCount();
 				for (JIndex j=1; j<=spaceCount; j++)
-					{
+				{
 					*output << ' ';
-					}
+				}
 				lineNumberStr.Print(*output);
 				*output << kLineNumberMarginStr;
 
 				col += lineNumberWidth + kLineNumberMarginWidth;
-				}
+			}
 
 			if (col >= itsPageWidth)	// ensures progress, even in ludicrous boundary case
-				{
+			{
 				col = itsPageWidth - 1;
-				}
+			}
 
 			while (col < itsPageWidth && iter.Next(&c) && c != '\n')
-				{
+			{
 				if (c == '\t')
-					{
+				{
 					const JSize spaceCount = itsTabWidth - (col % itsTabWidth);
 					for (JIndex j=1; j<=spaceCount; j++)
-						{
-						*output << ' ';
-						}
-					col += spaceCount;
-					}
-				else if (c == kJFormFeedKey)
 					{
+						*output << ' ';
+					}
+					col += spaceCount;
+				}
+				else if (c == kJFormFeedKey)
+				{
 					*output << ' ';
 					col++;
-					}
+				}
 				else
-					{
+				{
 					output->write(c.GetBytes(), c.GetByteCount());
 					col++;
-					}
-				i++;
 				}
+				i++;
+			}
 
 			*output << '\n';
 			if (c == '\n')
-				{
+			{
 				i++;
-				}
+			}
 
 			lineCount++;
 			textLineCount++;
-			}
+		}
 
 		if (footerLineCount > 0)
-			{
+		{
 			while (lineCount < lineCountPerPage)
-				{
+			{
 				*output << '\n';
 				lineCount++;
-				}
-
-			PrintFooter(*output, pageIndex);
 			}
 
-		keepGoing = pg.IncrementProgress();
+			PrintFooter(*output, pageIndex);
 		}
+
+		keepGoing = pg.IncrementProgress();
+	}
 
 	pg.ProcessFinished();
 	iter.Invalidate();
 
 	if (itsPrintReverseOrderFlag)
-		{
+	{
 		jdelete tempOutput;
 		if (keepGoing)
-			{
+		{
 			JString s;
 			JReadFile(tempName, &s);
 			InvertPageOrder(s, trueOutput);
-			}
-		JRemoveFile(tempName);
 		}
+		JRemoveFile(tempName);
+	}
 
 	return keepGoing;
 }
@@ -334,18 +334,18 @@ JPTPrinter::InvertPageOrder
 	JStringIterator iter(text, kJIteratorStartAtEnd);
 	iter.BeginMatch();
 	while (iter.Prev(kPageSeparatorStr, kPageSeparatorStrLength))
-		{
+	{
 		const JStringMatch& m = iter.FinishMatch();
 		m.GetString().Print(output);
 		output << kPageSeparatorStr;
 		iter.BeginMatch();
-		}
+	}
 
 	const JStringMatch& m = iter.FinishMatch();
 	if (!m.IsEmpty())
-		{
+	{
 		m.GetString().Print(output);
-		}
+	}
 }
 
 /******************************************************************************
@@ -363,18 +363,18 @@ JPTPrinter::ReadPTSetup
 	input >> vers;
 
 	if (vers <= kCurrentSetupVersion)
-		{
+	{
 		input >> itsPageWidth >> itsPageHeight;
 
 		if (vers >= 2)
-			{
+		{
 			input >> JBoolFromString(itsPrintReverseOrderFlag);
-			}
-		if (vers >= 1)
-			{
-			input >> JBoolFromString(itsPrintLineNumberFlag);
-			}
 		}
+		if (vers >= 1)
+		{
+			input >> JBoolFromString(itsPrintLineNumberFlag);
+		}
+	}
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
 }
 

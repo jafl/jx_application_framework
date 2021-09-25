@@ -68,11 +68,11 @@ JCheckForValues
 
 	const JSize remaining = argc - (*index+1);
 	if (valueCount > remaining)
-		{
+	{
 		std::cerr << argv[0] << ": missing " << valueCount - remaining;
 		std::cerr << " argument(s) for " << argv[*index] << std::endl;
 		exit(1);
-		}
+	}
 
 	(*index)++;
 }

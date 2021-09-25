@@ -108,9 +108,9 @@ void
 JXImageMenuData::DeleteAll()
 {
 	for (auto itemData : *itsIconData)
-		{
+	{
 		CleanOutIconItem(&itemData);
-		}
+	}
 	itsIconData->RemoveAll();
 
 	JXMenuData::DeleteAll();
@@ -130,9 +130,9 @@ JXImageMenuData::CleanOutIconItem
 	)
 {
 	if (itemData->ownsImage)
-		{
+	{
 		jdelete (itemData->image);
-		}
+	}
 	itemData->image = nullptr;
 }
 
@@ -155,14 +155,14 @@ JXImageMenuData::SetImage
 
 	if (itemData.image == nullptr ||
 		(itemData.image->GetBounds()) != image->GetBounds())
-		{
+	{
 		itsNeedGeomRecalcFlag = true;
-		}
+	}
 
 	if (itemData.ownsImage)
-		{
+	{
 		jdelete itemData.image;
-		}
+	}
 
 	itemData.image     = image;
 	itemData.ownsImage = menuOwnsImage;
@@ -191,7 +191,7 @@ JXImageMenuData::ConfigureTable
 	*hasSubmenus   = HasSubmenus();
 
 	if (itsNeedGeomRecalcFlag)
-		{
+	{
 		itsNeedGeomRecalcFlag = false;
 		itsRowHeight          = kMinCellSize;
 		itsColWidth           = kMinCellSize;
@@ -199,20 +199,20 @@ JXImageMenuData::ConfigureTable
 		const JCoordinate bw = 2*(JXImageMenuTable::kHilightBorderWidth + 1);
 
 		for (const auto& itemData : *itsIconData)
-			{
+		{
 			itsRowHeight = JMax(itsRowHeight, (itemData.image)->GetHeight() + bw);
 			itsColWidth  = JMax(itsColWidth, (itemData.image)->GetWidth() + bw);
-			}
+		}
 
 		if (*hasCheckboxes)
-			{
+		{
 			itsColWidth += JXMenuTable::kCheckboxColWidth;
-			}
-		if (*hasSubmenus)
-			{
-			itsColWidth += JXMenuTable::kSubmenuColWidth;
-			}
 		}
+		if (*hasSubmenus)
+		{
+			itsColWidth += JXMenuTable::kSubmenuColWidth;
+		}
+	}
 
 	table->SetAllRowHeights(itsRowHeight);
 	table->SetAllColWidths(itsColWidth);

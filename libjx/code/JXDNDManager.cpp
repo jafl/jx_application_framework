@@ -225,16 +225,16 @@ JXDNDManager::BeginDND
 	)
 {
 	if (itsDragger != nullptr)
-		{
+	{
 		return false;
-		}
+	}
 
 	assert( (widget->GetWindow())->IsDragging() );
 
 	if (itsMouseContainer != nullptr)
-		{
+	{
 		StopListening(itsMouseContainer);
-		}
+	}
 
 	itsMouseWindow               = None;
 	itsMouseWindowIsAware        = false;
@@ -245,7 +245,7 @@ JXDNDManager::BeginDND
 	itsPrevHandleDNDModifiers.Clear();
 
 	if ((itsDisplay->GetSelectionManager())->SetData(itsAtoms[ kDNDSelectionAtomIndex ], data))
-		{
+	{
 		itsIsDraggingFlag   = true;
 		itsDragger          = widget;
 		itsDraggerWindow    = (itsDragger->GetWindow())->GetXWindow();
@@ -261,11 +261,11 @@ JXDNDManager::BeginDND
 
 		HandleDND(pt, buttonStates, modifiers, (JXMouseButton) 0);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -295,10 +295,10 @@ JXDNDManager::HandleDND
 	// check if we have entered a different drop target
 
 	if (xWindow != itsMouseWindow || dropWidget != itsMouseContainer)
-		{
+	{
 		SendDNDLeave();
 		SendDNDEnter(xWindow, msgWindow, dropWidget, isDNDAware, dndVers);
-		}
+	}
 
 	// get the user's preferred action
 
@@ -306,9 +306,9 @@ JXDNDManager::HandleDND
 		itsDragger->GetDNDAction(itsMouseContainer, buttonStates, modifiers);
 	if (dropAction == itsAtoms[ kDNDActionAskAtomIndex ] &&
 		itsPrevHandleDNDAction != itsAtoms[ kDNDActionAskAtomIndex ])
-		{
+	{
 		AnnounceAskActions(buttonStates, modifiers);
-		}
+	}
 
 	// contact the target
 
@@ -357,10 +357,10 @@ JXDNDManager::FindTarget
 	*vers            = 0;
 
 	if (itsTargetFinder != nullptr)
-		{
+	{
 		return itsTargetFinder->FindTarget(coordOwner, pt, xWindow, msgWindow,
 										   target, vers);
-		}
+	}
 
 	JPoint ptG              = coordOwner->LocalToGlobal(pt);
 	const Window rootWindow = itsDisplay->GetRootWindow();
@@ -371,65 +371,65 @@ JXDNDManager::FindTarget
 	int x1 = ptG.x, y1 = ptG.y, x2,y2;
 	while (XTranslateCoordinates(*itsDisplay, xWindow1, xWindow2,
 								 x1, y1, &x2, &y2, &childWindow))
-		{
+	{
 		if (xWindow2 != rootWindow &&
 			IsDNDAware(xWindow2, msgWindow, vers))
-			{
+		{
 			bool isDock = false;		// not required for reference impl
 
 			XClassHint hint;
 			if (XGetClassHint(*itsDisplay, xWindow2, &hint))
-				{
+			{
 				if (hint.res_name != nullptr &&
 					strcmp(hint.res_name, JXGetDockWindowClass()) == 0)
-					{
+				{
 					isDock = true;
-					}
+				}
 
 				XFree(hint.res_name);
 				XFree(hint.res_class);
-				}
+			}
 
 			// We need to drill through the dock to look for child windows,
 			// but if there are none, then let the target be the dock, so
 			// we can switch tabs.
 
 			if (!isDock || childWindow == None)
-				{
+			{
 				*xWindow = xWindow2;
 				isAware  = true;
 				ptG.Set(x2, y2);
 				break;
-				}
 			}
+		}
 
 		if (childWindow == None)
-			{
+		{
 			*xWindow   = xWindow2;
 			*msgWindow = xWindow2;
 			isAware    = false;
 			*vers      = 0;
 			ptG.Set(x2, y2);
 			break;
-			}
+		}
 
 		xWindow1 = xWindow2;
 		xWindow2 = childWindow;
 		x1       = x2;
 		y1       = y2;
-		}
+	}
 
 	assert( *xWindow != None && *msgWindow != None );
 
 	JXWindow* window;
 	if (isAware && itsDisplay->FindXWindow(*xWindow, &window))
-		{
+	{
 		// If a local window is deactivated, FindContainer() returns false.
 		// To avoid sending ourselves client messages, we have to treat
 		// this as a non-XdndAware window.
 
 		isAware = window->FindContainer(ptG, target);
-		}
+	}
 
 	return isAware;
 }
@@ -443,20 +443,20 @@ void
 JXDNDManager::FinishDND()
 {
 	if (itsDragger != nullptr)
-		{
+	{
 		itsIsDraggingFlag = false;		// don't grab ESC any longer
 
 		if (WaitForLastStatusMsg())
-			{
+		{
 			SendDNDDrop();
-			}
+		}
 		else
-			{
+		{
 			SendDNDLeave(true);
-			}
+		}
 
 		FinishDND1();
-		}
+	}
 }
 
 /******************************************************************************
@@ -470,15 +470,15 @@ bool
 JXDNDManager::CancelDND()
 {
 	if (itsIsDraggingFlag)	// can't use IsDragging() because called if dragger deleted
-		{
+	{
 		if (itsDragger != nullptr)
-			{
+		{
 			itsDragger->DNDFinish(false, nullptr);
-			}
+		}
 		SendDNDLeave();
 		FinishDND1();
 		return true;
-		}
+	}
 
 	return false;
 }
@@ -495,18 +495,18 @@ JXDNDManager::FinishDND1()
 	// the data has not yet been transferred
 
 	if (itsDragger != nullptr && itsMouseContainer != nullptr)
-		{
+	{
 		itsDragger->DNDCompletelyFinished();
-		}
+	}
 	if (itsDragger != nullptr)
-		{
+	{
 		itsDragger->FinishDNDSource();
 		StopListening(itsDragger);
-		}
+	}
 	if (itsMouseContainer != nullptr)
-		{
+	{
 		StopListening(itsMouseContainer);
-		}
+	}
 
 	itsIsDraggingFlag     = false;
 	itsDragger            = nullptr;
@@ -576,7 +576,7 @@ JXDNDManager::IsDNDAware
 					   &itemCount, &remainingBytes, &rawData);
 
 	if (actualType == XA_WINDOW && actualFormat == 32 && itemCount > 0)
-		{
+	{
 		*proxy = *(reinterpret_cast<Window*>(rawData));
 
 		XFree(rawData);
@@ -591,10 +591,10 @@ JXDNDManager::IsDNDAware
 
 		if (actualType != XA_WINDOW || actualFormat != 32 || itemCount == 0 ||
 			*(reinterpret_cast<Window*>(rawData)) != *proxy)
-			{
+		{
 			*proxy = xWindow;
-			}
 		}
+	}
 
 	XFree(rawData);
 	rawData = nullptr;
@@ -607,18 +607,18 @@ JXDNDManager::IsDNDAware
 					   &itemCount, &remainingBytes, &rawData);
 
 	if (actualType == XA_ATOM && actualFormat == 32 && itemCount > 0)
-		{
+	{
 		Atom* data = reinterpret_cast<Atom*>(rawData);
 		if (data[0] >= kMinDNDVersion)
-			{
+		{
 			result = true;
 			*vers  = JMin(kCurrentDNDVersion, data[0]);
 
 			#if JXDND_DEBUG_MSGS
 			std::cout << "Using XDND version " << *vers << std::endl;
 			#endif
-			}
 		}
+	}
 
 	XFree(rawData);
 	return result;
@@ -642,12 +642,12 @@ JXDNDManager::AnnounceTypeList
 {
 	const JSize typeCount = list.GetElementCount();
 	if (typeCount > kDNDEnterTypeCount)
-		{
+	{
 		XChangeProperty(*itsDisplay, xWindow,
 						itsAtoms[ kDNDTypeListAtomIndex ], XA_ATOM, 32,
 						PropModeReplace,
 						(unsigned char*) list.GetCArray(), typeCount);
-		}
+	}
 }
 
 /******************************************************************************
@@ -662,21 +662,21 @@ JXDNDManager::DraggerCanProvideText()
 	const
 {
 	if (itsDragger == nullptr)
-		{
+	{
 		return false;
-		}
+	}
 
 	JXSelectionManager* selMgr = itsDisplay->GetSelectionManager();
 
 	const Atom textAtom1 = selMgr->GetMimePlainTextXAtom(),
 			   textAtom2 = selMgr->GetMimePlainTextUTF8XAtom();
 	for (const auto type : *itsDraggerTypeList)
-		{
+	{
 		if (type == textAtom1 || type == textAtom2)
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -742,13 +742,13 @@ JXDNDManager::GetAskActions
 	const
 {
 	if (itsDragger != nullptr)
-		{
+	{
 		*actionList = *itsDraggerAskActionList;
 		descriptionList->CopyObjects(*itsDraggerAskDescripList,
 									 descriptionList->GetCleanUpAction(), false);
-		}
+	}
 	else
-		{
+	{
 		actionList->RemoveAll();
 		descriptionList->CleanOut();
 
@@ -765,13 +765,13 @@ JXDNDManager::GetAskActions
 						   &itemCount, &remainingBytes, &rawData);
 
 		if (actualType == XA_ATOM && actualFormat == 32 && itemCount > 0)
-			{
+		{
 			Atom* data = reinterpret_cast<Atom*>(rawData);
 			for (JUnsignedOffset i=0; i<itemCount; i++)
-				{
+			{
 				actionList->AppendElement(data[i]);
-				}
 			}
+		}
 
 		XFree(rawData);
 
@@ -783,26 +783,26 @@ JXDNDManager::GetAskActions
 						   &itemCount, &remainingBytes, &rawData);
 
 		if (actualType == XA_STRING && actualFormat == 8 && itemCount > 0)
-			{
+		{
 			JXUnpackStrings(reinterpret_cast<JUtf8Byte*>(rawData), itemCount,
 							descriptionList);
-			}
+		}
 
 		XFree(rawData);
-		}
+	}
 
 	// return status
 
 	if (actionList->GetElementCount() != descriptionList->GetElementCount())
-		{
+	{
 		actionList->RemoveAll();
 		descriptionList->CleanOut();
 		return false;
-		}
+	}
 	else
-		{
+	{
 		return !actionList->IsEmpty();
-		}
+	}
 }
 
 /******************************************************************************
@@ -845,9 +845,9 @@ JXDNDManager::ChooseDropAction
 
 	JXWindow* window = itsChooseDropActionDialog->GetWindow();
 	while (itsChooseDropActionDialog != nullptr)
-		{
+	{
 		app->HandleOneEventForWindow(window);
-		}
+	}
 
 	app->BlockingWindowFinished();
 
@@ -869,25 +869,25 @@ JXDNDManager::Receive
 {
 	if (sender == itsChooseDropActionDialog &&
 		message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			*itsUserDropAction = itsChooseDropActionDialog->GetAction();
-			}
-		else
-			{
-			*itsUserDropAction = None;
-			}
-		itsChooseDropActionDialog = nullptr;
 		}
+		else
+		{
+			*itsUserDropAction = None;
+		}
+		itsChooseDropActionDialog = nullptr;
+	}
 
 	else
-		{
+	{
 		JBroadcaster::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -914,9 +914,9 @@ JXDNDManager::SendDNDEnter
 	itsMsgWindow          = msgWindow;
 
 	if (itsMouseContainer != nullptr)
-		{
+	{
 		ListenTo(itsMouseContainer);
-		}
+	}
 
 	itsWillAcceptDropFlag = false;
 	itsWaitForStatusFlag  = false;
@@ -929,11 +929,11 @@ JXDNDManager::SendDNDEnter
 	itsDragger->HandleDNDResponse(nullptr, false, None);		// reset cursor
 
 	if (itsMouseContainer != nullptr)
-		{
+	{
 		itsPrevHereAction = None;
-		}
+	}
 	else if (itsMouseWindowIsAware)
-		{
+	{
 		#if JXDND_DEBUG_MSGS
 		std::cout << "Sent XdndEnter" << std::endl;
 		#endif
@@ -958,9 +958,9 @@ JXDNDManager::SendDNDEnter
 		message.data.l[ kDNDEnterFlags ]  = 0;
 		message.data.l[ kDNDEnterFlags ] |= (itsDNDVersion << kDNDEnterVersionRShift);
 		if (typeCount > kDNDEnterTypeCount)
-			{
+		{
 			message.data.l[ kDNDEnterFlags ] |= kDNDEnterMoreTypesFlag;
-			}
+		}
 
 		message.data.l[ kDNDEnterType1 ] = None;
 		message.data.l[ kDNDEnterType2 ] = None;
@@ -968,12 +968,12 @@ JXDNDManager::SendDNDEnter
 
 		const JSize msgTypeCount = JMin(typeCount, (JSize) kDNDEnterTypeCount);
 		for (JIndex i=1; i<=msgTypeCount; i++)
-			{
+		{
 			message.data.l[ kDNDEnterType1 + i-1 ] = itsDraggerTypeList->GetElement(i);
-			}
+		}
 
 		itsDisplay->SendXEvent(itsMsgWindow, &xEvent);
-		}
+	}
 }
 
 /******************************************************************************
@@ -998,7 +998,7 @@ JXDNDManager::SendDNDHere
 						 scrollButton != 0);
 
 	if (itsMouseContainer != nullptr)
-		{
+	{
 		// Scroll first, because it affects drop location.
 		// Always call it, in case mouse is inside a scroll zone.
 
@@ -1012,35 +1012,35 @@ JXDNDManager::SendDNDHere
 			itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &acceptedAction,
 											  pt2, CurrentTime, itsDragger);
 		if (itsWillAcceptDropFlag)
-			{
+		{
 			itsMouseContainer->DNDEnter();
-			}
+		}
 		else
-			{
+		{
 			itsMouseContainer->DNDLeave();
 			acceptedAction = None;
-			}
+		}
 
 		if (itsWillAcceptDropFlag != savedAccept ||
 			itsPrevStatusAction != acceptedAction)
-			{
+		{
 			itsDragger->HandleDNDResponse(itsMouseContainer, itsWillAcceptDropFlag,
 										  acceptedAction);
-			}
+		}
 
 		itsReceivedStatusFlag = true;
 		itsPrevHereAction     = action;
 		itsPrevStatusAction   = acceptedAction;
 
 		if (itsWillAcceptDropFlag)
-			{
+		{
 			itsPrevMousePt = pt2;
 			itsMouseContainer->DNDHere(itsPrevMousePt, itsDragger);
-			}
 		}
+	}
 
 	else if (!itsWaitForStatusFlag && shouldSendMessage)
-		{
+	{
 		#if JXDND_DEBUG_MSGS
 		std::cout << "Sent XdndPosition: " << ptR.x << ' ' << ptR.y << std::endl;
 		#endif
@@ -1065,22 +1065,22 @@ JXDNDManager::SendDNDHere
 		message.data.l[ kDNDHereAction    ] = action;
 
 		if (scrollButton != 0)
-			{
+		{
 			message.data.l[ kDNDHereFlags ] |= kDNDScrollTargetMask;
 			message.data.l[ kDNDHereFlags ] |= ((scrollButton - 4) << kDNDScrollButtonShift) & kDNDScrollButtonMask;
 			message.data.l[ kDNDHereFlags ] |= (modifiers.GetState() & kDNDScrollModsMask);
-			}
+		}
 
 		itsDisplay->SendXEvent(itsMsgWindow, &xEvent);
 
 		itsWaitForStatusFlag = true;
 		itsSendHereMsgFlag   = false;
-		}
+	}
 
 	else if (itsWaitForStatusFlag && shouldSendMessage)
-		{
+	{
 		itsSendHereMsgFlag = true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1095,14 +1095,14 @@ JXDNDManager::SendDNDLeave
 	)
 {
 	if (itsMouseContainer != nullptr)
-		{
+	{
 		if (itsWillAcceptDropFlag)
-			{
-			itsMouseContainer->DNDLeave();
-			}
-		}
-	else if (itsMouseWindowIsAware)
 		{
+			itsMouseContainer->DNDLeave();
+		}
+	}
+	else if (itsMouseWindowIsAware)
+	{
 		#if JXDND_DEBUG_MSGS
 		std::cout << "Sent XdndLeave" << std::endl;
 		#endif
@@ -1124,9 +1124,9 @@ JXDNDManager::SendDNDLeave
 		message.data.l[ kDNDLeaveFlags  ] = 0;
 
 		itsDisplay->SendXEvent(itsMsgWindow, &xEvent);
-		}
+	}
 	else if (sendPasteClick && DraggerCanProvideText())
-		{
+	{
 		JXContainer* dropWidget;
 		Window xWindow;
 		JPoint ptG, ptR;
@@ -1135,7 +1135,7 @@ JXDNDManager::SendDNDLeave
 
 		const Window rootWindow = itsDisplay->GetRootWindow();
 		if (dropWidget == nullptr && xWindow != None && xWindow != rootWindow)
-			{
+		{
 			// this isn't necessary -- our clipboard continues to work as usual
 			// (itsDisplay->GetSelectionManager())->ClearData(kJXClipboardName);
 
@@ -1143,7 +1143,7 @@ JXDNDManager::SendDNDLeave
 			const Time lastEventTime = itsDisplay->GetLastEventTime();
 			XSetSelectionOwner(*itsDisplay, kJXClipboardName, xferWindow, CurrentTime);
 			if (XGetSelectionOwner(*itsDisplay, kJXClipboardName) == xferWindow)
-				{
+			{
 				PrepareForDrop(nullptr);
 
 				itsSentFakePasteFlag     = true;
@@ -1176,9 +1176,9 @@ JXDNDManager::SendDNDLeave
 				#if JXDND_DEBUG_MSGS
 				std::cout << "Sent fake middle click, time=" << xEvent.xbutton.time << std::endl;
 				#endif
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1194,12 +1194,12 @@ JXDNDManager::SendDNDDrop()
 	PrepareForDrop(itsMouseContainer);
 
 	if (itsMouseContainer != nullptr)
-		{
+	{
 		itsMouseContainer->DNDDrop(itsPrevMousePt, *itsDraggerTypeList,
 								   itsPrevStatusAction, CurrentTime, itsDragger);
-		}
+	}
 	else if (itsMouseWindowIsAware)
-		{
+	{
 		#if JXDND_DEBUG_MSGS
 		std::cout << "Sent XdndDrop" << std::endl;
 		#endif
@@ -1222,7 +1222,7 @@ JXDNDManager::SendDNDDrop()
 		message.data.l[ kDNDDropTimeStamp ] = itsDisplay->GetLastEventTime();
 
 		itsDisplay->SendXEvent(itsMsgWindow, &xEvent);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1239,9 +1239,9 @@ JXDNDManager::PrepareForDrop
 	const JXSelectionData* data = nullptr;
 	if ((itsDisplay->GetSelectionManager())->
 			GetData(itsAtoms[ kDNDSelectionAtomIndex ], CurrentTime, &data))
-		{
+	{
 		data->Resolve();
-		}
+	}
 
 	itsDragger->DNDFinish(true, target);
 }
@@ -1262,7 +1262,7 @@ JXDNDManager::SendDNDStatus
 	)
 {
 	if (itsDraggerWindow != None)
-		{
+	{
 		#if JXDND_DEBUG_MSGS
 		std::cout << "Sent XdndStatus: " << willAcceptDrop << std::endl;
 		#endif
@@ -1287,12 +1287,12 @@ JXDNDManager::SendDNDStatus
 		message.data.l[ kDNDStatusAction ] = action;
 
 		if (willAcceptDrop)
-			{
+		{
 			message.data.l[ kDNDStatusFlags ] |= kDNDStatusAcceptDropFlag;
-			}
+		}
 
 		itsDisplay->SendXEvent(itsDraggerWindow, &xEvent);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1306,7 +1306,7 @@ void
 JXDNDManager::SendDNDFinished()
 {
 	if (itsDraggerWindow != None)
-		{
+	{
 		#if JXDND_DEBUG_MSGS
 		std::cout << "Sent XdndFinished" << std::endl;
 		#endif
@@ -1328,7 +1328,7 @@ JXDNDManager::SendDNDFinished()
 		message.data.l[ kDNDFinishedFlags ]  = 0;
 
 		itsDisplay->SendXEvent(itsDraggerWindow, &xEvent);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1345,55 +1345,55 @@ JXDNDManager::HandleClientMessage
 	// target:  receive and process window-level enter and leave
 
 	if (clientMessage.message_type == itsAtoms[ kDNDEnterAtomIndex ])
-		{
+	{
 		HandleDNDEnter(clientMessage);
 		return true;
-		}
+	}
 
 	else if (clientMessage.message_type == itsAtoms[ kDNDHereAtomIndex ])
-		{
+	{
 		HandleDNDHere(clientMessage);
 		return true;
-		}
+	}
 
 	else if (clientMessage.message_type == itsAtoms[ kDNDLeaveAtomIndex ])
-		{
+	{
 		HandleDNDLeave(clientMessage);
 		return true;
-		}
+	}
 
 	else if (clientMessage.message_type == itsAtoms[ kDNDDropAtomIndex ])
-		{
+	{
 		HandleDNDDrop(clientMessage);
 		return true;
-		}
+	}
 
 	// source:  clear our flag when we receive status message
 
 	else if (clientMessage.message_type == itsAtoms[ kDNDStatusAtomIndex ])
-		{
+	{
 		HandleDNDStatus(clientMessage);
 		return true;
-		}
+	}
 
 	// source:  ignore finished message
 	//			because JXSelectionManager rejects outdated requests
 
 	else if (clientMessage.message_type == itsAtoms[ kDNDFinishedAtomIndex ])
-		{
+	{
 		#if JXDND_DEBUG_MSGS
 		std::cout << "Received XdndFinished" << std::endl;
 		#endif
 
 		return true;
-		}
+	}
 
 	// not for us
 
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1416,7 +1416,7 @@ JXDNDManager::HandleDNDEnter
 	if (itsDraggerWindow == None &&
 		kMinDNDVersion <= itsDNDVersion && itsDNDVersion <= kCurrentDNDVersion &&
 		clientMessage.data.l[ kDNDEnterType1 ] != None)
-		{
+	{
 		#if JXDND_TARGET_DELAY > 0
 			#if JXDND_DEBUG_MSGS
 			std::cout << "XdndEnter will arrive" << std::endl;
@@ -1429,13 +1429,13 @@ JXDNDManager::HandleDNDEnter
 		#endif
 
 		if (itsDragger != nullptr)
-			{
+		{
 			StopListening(itsDragger);
-			}
+		}
 		if (itsMouseContainer != nullptr)
-			{
+		{
 			StopListening(itsMouseContainer);
-			}
+		}
 
 		itsIsDraggingFlag = false;
 		itsDragger        = nullptr;
@@ -1449,7 +1449,7 @@ JXDNDManager::HandleDNDEnter
 
 		itsDraggerTypeList->RemoveAll();
 		if ((clientMessage.data.l[ kDNDEnterFlags ] & kDNDEnterMoreTypesFlag) != 0)
-			{
+		{
 			Atom actualType;
 			int actualFormat;
 			unsigned long itemCount, remainingBytes;
@@ -1460,31 +1460,31 @@ JXDNDManager::HandleDNDEnter
 							   &itemCount, &remainingBytes, &rawData);
 
 			if (actualType == XA_ATOM && actualFormat == 32 && itemCount > 0)
-				{
+			{
 				Atom* data = reinterpret_cast<Atom*>(rawData);
 				for (JUnsignedOffset i=0; i<itemCount; i++)
-					{
+				{
 					itsDraggerTypeList->AppendElement(data[i]);
-					}
 				}
+			}
 
 			XFree(rawData);
-			}
+		}
 
 		if (itsDraggerTypeList->IsEmpty())		// in case window property was empty
-			{
+		{
 			for (JIndex i=1; i<=kDNDEnterTypeCount; i++)
-				{
+			{
 				const Atom type = clientMessage.data.l[ kDNDEnterType1 + i-1 ];
 				if (type == None)
-					{
+				{
 					assert( i > 1 );
 					break;
-					}
-				itsDraggerTypeList->AppendElement(type);
 				}
+				itsDraggerTypeList->AppendElement(type);
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1501,9 +1501,9 @@ JXDNDManager::HandleDNDHere
 	assert( clientMessage.message_type == itsAtoms[ kDNDHereAtomIndex ] );
 
 	if (itsDraggerWindow != (Window) clientMessage.data.l[ kDNDHereWindow ])
-		{
+	{
 		return;
-		}
+	}
 
 	#if JXDND_TARGET_DELAY > 0
 		#if JXDND_DEBUG_MSGS
@@ -1525,17 +1525,17 @@ JXDNDManager::HandleDNDHere
 
 	JXWindow* window;
 	if (itsMouseContainer != nullptr)
-		{
+	{
 		window = itsMouseContainer->GetWindow();
 		ptG    = window->RootToGlobal(ptR);
 		JXContainer* newMouseContainer;
 		const bool found = itsDisplay->FindMouseContainer(window, ptG, &newMouseContainer);
 		if (found && newMouseContainer != itsMouseContainer)
-			{
+		{
 			if (itsWillAcceptDropFlag)
-				{
+			{
 				itsMouseContainer->DNDLeave();
-				}
+			}
 			StopListening(itsMouseContainer);
 			itsMouseContainer = newMouseContainer;
 			ListenTo(itsMouseContainer);
@@ -1544,56 +1544,56 @@ JXDNDManager::HandleDNDHere
 			itsWillAcceptDropFlag =
 				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, pt, time, nullptr);
 			if (itsWillAcceptDropFlag)
-				{
-				itsMouseContainer->DNDEnter();
-				}
-			}
-		else if (found)
 			{
+				itsMouseContainer->DNDEnter();
+			}
+		}
+		else if (found)
+		{
 			const bool savedAccept = itsWillAcceptDropFlag;
 			pt = itsMouseContainer->GlobalToLocal(ptG);
 			InvokeDNDScroll(clientMessage, pt);
 			itsWillAcceptDropFlag =
 				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, pt, time, nullptr);
 			if ((action != itsPrevHereAction || !savedAccept) && itsWillAcceptDropFlag)
-				{
+			{
 				itsMouseContainer->DNDEnter();
-				}
+			}
 			else if ((action != itsPrevHereAction || savedAccept) && !itsWillAcceptDropFlag)
-				{
+			{
 				itsMouseContainer->DNDLeave();
-				}
 			}
 		}
+	}
 	else if (itsDisplay->FindXWindow(itsMouseWindow, &window))
-		{
+	{
 		ptG = window->RootToGlobal(ptR);
 		if (itsDisplay->FindMouseContainer(window, ptG, &itsMouseContainer))
-			{
+		{
 			ListenTo(itsMouseContainer);
 			pt = itsMouseContainer->GlobalToLocal(ptG);
 			itsWillAcceptDropFlag =
 				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, pt, time, nullptr);
 			if (itsWillAcceptDropFlag)
-				{
+			{
 				itsMouseContainer->DNDEnter();
-				}
 			}
 		}
+	}
 
 	itsPrevHereAction = origAction;
 
 	if (itsMouseContainer != nullptr && itsWillAcceptDropFlag)
-		{
+	{
 		itsPrevMousePt      = pt;
 		itsPrevStatusAction = action;
 		itsMouseContainer->DNDHere(itsPrevMousePt, nullptr);
 		SendDNDStatus(true, action);
-		}
+	}
 	else
-		{
+	{
 		SendDNDStatus(false, None);
-		}
+	}
 }
 
 void
@@ -1627,7 +1627,7 @@ JXDNDManager::HandleDNDLeave
 	assert( clientMessage.message_type == itsAtoms[ kDNDLeaveAtomIndex ] );
 
 	if (itsDraggerWindow == (Window) clientMessage.data.l[ kDNDLeaveWindow ])
-		{
+	{
 		#if JXDND_TARGET_DELAY > 0
 			#if JXDND_DEBUG_MSGS
 			std::cout << "XdndLeave will arrive" << std::endl;
@@ -1640,7 +1640,7 @@ JXDNDManager::HandleDNDLeave
 		#endif
 
 		HandleDNDLeave1();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1652,9 +1652,9 @@ void
 JXDNDManager::HandleDNDLeave1()
 {
 	if (itsMouseContainer != nullptr && itsWillAcceptDropFlag)
-		{
+	{
 		itsMouseContainer->DNDLeave();
-		}
+	}
 
 	HandleDNDFinished();
 }
@@ -1673,7 +1673,7 @@ JXDNDManager::HandleDNDDrop
 	assert( clientMessage.message_type == itsAtoms[ kDNDDropAtomIndex ] );
 
 	if (itsDraggerWindow == (Window) clientMessage.data.l[ kDNDDropWindow ])
-		{
+	{
 		#if JXDND_TARGET_DELAY > 0
 			#if JXDND_DEBUG_MSGS
 			std::cout << "XdndDrop will arrive" << std::endl;
@@ -1688,14 +1688,14 @@ JXDNDManager::HandleDNDDrop
 		const Time time = clientMessage.data.l[ kDNDDropTimeStamp ];
 
 		if (itsMouseContainer != nullptr && itsWillAcceptDropFlag)
-			{
+		{
 			itsMouseContainer->DNDDrop(itsPrevMousePt, *itsDraggerTypeList,
 									   itsPrevStatusAction, time, nullptr);
-			}
+		}
 
 		SendDNDFinished();		// do it here because not when HandleDNDLeave()
 		HandleDNDFinished();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1707,19 +1707,19 @@ void
 JXDNDManager::HandleDNDFinished()
 {
 	if (itsDraggerWindow != None)
-		{
+	{
 		XSelectInput(*itsDisplay, itsDraggerWindow, NoEventMask);
-		}
+	}
 	StopListening(itsDisplay);
 
 	if (itsDragger != nullptr)
-		{
+	{
 		StopListening(itsDragger);
-		}
+	}
 	if (itsMouseContainer != nullptr)
-		{
+	{
 		StopListening(itsMouseContainer);
-		}
+	}
 
 	itsIsDraggingFlag = false;
 	itsDragger        = nullptr;
@@ -1743,7 +1743,7 @@ JXDNDManager::HandleDNDStatus
 
 	if (itsDragger != nullptr &&
 		itsMouseWindow == (Window) clientMessage.data.l[ kDNDStatusWindow ])
-		{
+	{
 		#if JXDND_SOURCE_DELAY > 0
 			#if JXDND_DEBUG_MSGS
 			std::cout << "XdndStatus will arrive" << std::endl;
@@ -1773,23 +1773,23 @@ JXDNDManager::HandleDNDStatus
 
 		Atom action = clientMessage.data.l[ kDNDStatusAction ];
 		if (!itsWillAcceptDropFlag)
-			{
+		{
 			action = None;
-			}
+		}
 
 		if (itsWillAcceptDropFlag != savedAccept ||
 			itsPrevStatusAction != action)
-			{
+		{
 			itsDragger->HandleDNDResponse(nullptr, itsWillAcceptDropFlag, action);
 			itsPrevStatusAction = action;
-			}
+		}
 
 		if (itsSendHereMsgFlag)
-			{
+		{
 			SendDNDHere(itsPrevHandleDNDPt, itsPrevHandleDNDAction,
 						itsPrevHandleDNDScrollButton, itsPrevHandleDNDModifiers);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1803,13 +1803,13 @@ bool
 JXDNDManager::WaitForLastStatusMsg()
 {
 	if (!itsReceivedStatusFlag)
-		{
+	{
 		return false;
-		}
+	}
 	else if (!itsWaitForStatusFlag)
-		{
+	{
 		return itsWillAcceptDropFlag;
-		}
+	}
 
 	itsSendHereMsgFlag = false;	// don't send any more messages
 
@@ -1820,29 +1820,29 @@ JXDNDManager::WaitForLastStatusMsg()
 	XEvent xEvent;
 	clock_t endTime = clock() + kWaitForLastStatusTime;
 	while (clock() < endTime)
-		{
+	{
 		if (XCheckIfEvent(*itsDisplay, &xEvent, GetNextStatusEvent,
 						  reinterpret_cast<char*>(messageList)))
-			{
+		{
 			if (xEvent.type == ClientMessage)
-				{
+			{
 				const bool ok = HandleClientMessage(xEvent.xclient);
 				assert( ok );
 				if (xEvent.xclient.message_type == itsAtoms[ kDNDStatusAtomIndex ])
-					{
-					return itsWillAcceptDropFlag;
-					}
-				}
-			else if (xEvent.type == SelectionRequest)
 				{
-				selMgr->HandleSelectionRequest(xEvent.xselectionrequest);
+					return itsWillAcceptDropFlag;
 				}
+			}
+			else if (xEvent.type == SelectionRequest)
+			{
+				selMgr->HandleSelectionRequest(xEvent.xselectionrequest);
+			}
 
 			// reset timeout
 
 			endTime = clock() + kWaitForLastStatusTime;
-			}
 		}
+	}
 
 	return false;
 }
@@ -1861,19 +1861,19 @@ JXDNDManager::GetNextStatusEvent
 	const JSize atomCount = messageList[0];
 
 	if (event->type == ClientMessage)
-		{
+	{
 		for (JIndex i=1; i<=atomCount; i++)
-			{
+		{
 			if ((event->xclient).message_type == messageList[i])
-				{
+			{
 				return True;
-				}
 			}
 		}
+	}
 	else if (event->type == SelectionRequest)
-		{
+	{
 		return True;
-		}
+	}
 
 	return False;
 }
@@ -1895,7 +1895,7 @@ JXDNDManager::ReceiveWithFeedback
 	)
 {
 	if (sender == itsDisplay && message->Is(JXDisplay::kXError))
-		{
+	{
 		auto* err = dynamic_cast<JXDisplay::XError*>(message);
 		assert( err != nullptr );
 
@@ -1906,7 +1906,7 @@ JXDNDManager::ReceiveWithFeedback
 		if (itsDragger == nullptr && itsDraggerWindow != None &&
 			err->GetType() == BadWindow &&
 			err->GetXID()  == itsDraggerWindow)
-			{
+		{
 			#if JXDND_DEBUG_MSGS
 			std::cout << "JXDND: Source crashed via XError" << std::endl;
 			#endif
@@ -1914,15 +1914,15 @@ JXDNDManager::ReceiveWithFeedback
 			itsDraggerWindow = None;
 			HandleDNDLeave1();
 			err->SetCaught();
-			}
+		}
 
 		// target: residual from source crash -- nothing to do
-		}
+	}
 
 	else
-		{
+	{
 		JBroadcaster::ReceiveWithFeedback(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1940,7 +1940,7 @@ JXDNDManager::HandleDestroyNotify
 {
 	if (itsDragger == nullptr && itsDraggerWindow != None &&
 		xEvent.window == itsDraggerWindow)
-		{
+	{
 		#if JXDND_DEBUG_MSGS
 		std::cout << "JXDND: Source crashed via DestroyNotify" << std::endl;
 		#endif
@@ -1948,11 +1948,11 @@ JXDNDManager::HandleDestroyNotify
 		itsDraggerWindow = None;
 		HandleDNDLeave1();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1971,18 +1971,18 @@ JXDNDManager::ReceiveGoingAway
 	)
 {
 	if (sender == itsDragger)
-		{
+	{
 		itsDragger = nullptr;
 		CancelDND();
-		}
+	}
 	else if (sender == itsMouseContainer)
-		{
+	{
 		itsMouseContainer = nullptr;
-		}
+	}
 	else
-		{
+	{
 		JBroadcaster::ReceiveGoingAway(sender);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2095,40 +2095,40 @@ static const JUtf8Byte* kDefaultDNDCursorName[] =
 
 static const JXCursor kDefaultDNDCursor[] =
 {
-	{ jx_drag_copy_object_cursor_width, jx_drag_copy_object_cursor_height, 10,10,
+{ jx_drag_copy_object_cursor_width, jx_drag_copy_object_cursor_height, 10,10,
 	  jx_drag_copy_object_cursor_bits, jx_drag_mod_object_cursor_mask_bits },
-	{ jx_drag_object_cursor_width, jx_drag_object_cursor_height, 10,10,
+{ jx_drag_object_cursor_width, jx_drag_object_cursor_height, 10,10,
 	  jx_drag_object_cursor_bits, jx_drag_object_cursor_mask_bits },
-	{ jx_drag_link_object_cursor_width, jx_drag_link_object_cursor_height, 10,10,
+{ jx_drag_link_object_cursor_width, jx_drag_link_object_cursor_height, 10,10,
 	  jx_drag_link_object_cursor_bits, jx_drag_mod_object_cursor_mask_bits },
-	{ jx_drag_ask_object_cursor_width, jx_drag_ask_object_cursor_height, 10,10,
+{ jx_drag_ask_object_cursor_width, jx_drag_ask_object_cursor_height, 10,10,
 	  jx_drag_ask_object_cursor_bits, jx_drag_mod_object_cursor_mask_bits },
 
-	{ jx_drag_copy_file_cursor_width, jx_drag_copy_file_cursor_height, 6,7,
+{ jx_drag_copy_file_cursor_width, jx_drag_copy_file_cursor_height, 6,7,
 	  jx_drag_copy_file_cursor_bits, jx_drag_mod_file_cursor_mask_bits },
-	{ jx_drag_file_cursor_width, jx_drag_file_cursor_height, 6,7,
+{ jx_drag_file_cursor_width, jx_drag_file_cursor_height, 6,7,
 	  jx_drag_file_cursor_bits, jx_drag_file_cursor_mask_bits },
-	{ jx_drag_link_file_cursor_width, jx_drag_link_file_cursor_height, 6,7,
+{ jx_drag_link_file_cursor_width, jx_drag_link_file_cursor_height, 6,7,
 	  jx_drag_link_file_cursor_bits, jx_drag_mod_file_cursor_mask_bits },
-	{ jx_drag_ask_file_cursor_width, jx_drag_ask_file_cursor_height, 6,7,
+{ jx_drag_ask_file_cursor_width, jx_drag_ask_file_cursor_height, 6,7,
 	  jx_drag_ask_file_cursor_bits, jx_drag_mod_file_cursor_mask_bits },
 
-	{ jx_drag_copy_directory_cursor_width, jx_drag_copy_directory_cursor_height, 6,7,
+{ jx_drag_copy_directory_cursor_width, jx_drag_copy_directory_cursor_height, 6,7,
 	  jx_drag_copy_directory_cursor_bits, jx_drag_mod_directory_cursor_mask_bits },
-	{ jx_drag_directory_cursor_width, jx_drag_directory_cursor_height, 6,7,
+{ jx_drag_directory_cursor_width, jx_drag_directory_cursor_height, 6,7,
 	  jx_drag_directory_cursor_bits, jx_drag_directory_cursor_mask_bits },
-	{ jx_drag_link_directory_cursor_width, jx_drag_link_directory_cursor_height, 6,7,
+{ jx_drag_link_directory_cursor_width, jx_drag_link_directory_cursor_height, 6,7,
 	  jx_drag_link_directory_cursor_bits, jx_drag_mod_directory_cursor_mask_bits },
-	{ jx_drag_ask_directory_cursor_width, jx_drag_ask_directory_cursor_height, 6,7,
+{ jx_drag_ask_directory_cursor_width, jx_drag_ask_directory_cursor_height, 6,7,
 	  jx_drag_ask_directory_cursor_bits, jx_drag_mod_directory_cursor_mask_bits },
 
-	{ jx_drag_copy_file_and_directory_cursor_width, jx_drag_copy_file_and_directory_cursor_height, 8,12,
+{ jx_drag_copy_file_and_directory_cursor_width, jx_drag_copy_file_and_directory_cursor_height, 8,12,
 	  jx_drag_copy_file_and_directory_cursor_bits, jx_drag_mod_file_and_directory_cursor_mask_bits },
-	{ jx_drag_file_and_directory_cursor_width, jx_drag_file_and_directory_cursor_height, 8,12,
+{ jx_drag_file_and_directory_cursor_width, jx_drag_file_and_directory_cursor_height, 8,12,
 	  jx_drag_file_and_directory_cursor_bits, jx_drag_file_and_directory_cursor_mask_bits },
-	{ jx_drag_link_file_and_directory_cursor_width, jx_drag_link_file_and_directory_cursor_height, 8,12,
+{ jx_drag_link_file_and_directory_cursor_width, jx_drag_link_file_and_directory_cursor_height, 8,12,
 	  jx_drag_link_file_and_directory_cursor_bits, jx_drag_mod_file_and_directory_cursor_mask_bits },
-	{ jx_drag_ask_file_and_directory_cursor_width, jx_drag_ask_file_and_directory_cursor_height, 8,12,
+{ jx_drag_ask_file_and_directory_cursor_width, jx_drag_ask_file_and_directory_cursor_height, 8,12,
 	  jx_drag_ask_file_and_directory_cursor_bits,  jx_drag_mod_file_and_directory_cursor_mask_bits }
 };	
 
@@ -2143,10 +2143,10 @@ JXDNDManager::InitCursors()
 	assert( sizeof(kDefaultDNDCursorName)/sizeof(JUtf8Byte*) == kDefDNDCursorCount );
 
 	for (JUnsignedOffset i=0; i<kDefDNDCursorCount; i++)
-		{
+	{
 		itsDefDNDCursor[i] =
 			itsDisplay->CreateCustomCursor(kDefaultDNDCursorName[i], kDefaultDNDCursor[i]);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2168,25 +2168,25 @@ JXDNDManager::GetDNDCursor
 	const
 {
 	if (!dropAccepted || action == GetDNDActionMoveXAtom())
-		{
+	{
 		return cursor [ kMoveCursorIndex ];
-		}
+	}
 	else if (action == GetDNDActionCopyXAtom())
-		{
+	{
 		return cursor [ kCopyCursorIndex ];
-		}
+	}
 	else if (action == GetDNDActionLinkXAtom())
-		{
+	{
 		return cursor [ kLinkCursorIndex ];
-		}
+	}
 	else if (action == GetDNDActionAskXAtom())
-		{
+	{
 		return cursor [ kAskCursorIndex ];
-		}
+	}
 	else
-		{
+	{
 		return cursor [ kMoveCursorIndex ];
-		}
+	}
 }
 
 /******************************************************************************

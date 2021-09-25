@@ -27,24 +27,24 @@ operator>>
 	JSize count;
 	input >> count;
 	if (input.eof() || input.fail())
-		{
+	{
 		return input;
-		}
+	}
 
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		auto* s = jnew JString;
 		assert( s != nullptr );
 
 		input >> *s;
 		if (input.fail())
-			{
+		{
 			jdelete s;
 			return input;
-			}
+		}
 
 		list.Append(s);
-		}
+	}
 
 	return input;
 }
@@ -59,9 +59,9 @@ operator<<
 	output << ' ' << list.GetElementCount();
 
 	for (const auto* s : list)
-		{
+	{
 		output << ' ' << *s;
-		}
+	}
 
 	output << ' ';
 	return output;
@@ -84,21 +84,21 @@ operator>>
 	JSize count;
 	input >> count;
 	if (input.eof() || input.fail())
-		{
+	{
 		return input;
-		}
+	}
 
 	JString key, value;
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		input >> key >> value;
 		if (input.fail())
-			{
+		{
 			return input;
-			}
+		}
 
 		map.SetElement(key, value, JPtrArrayT::kDelete);
-		}
+	}
 
 	return input;
 }
@@ -114,20 +114,20 @@ operator<<
 
 	JStringPtrMapCursor<JString> cursor(&map);
 	while (cursor.Next())
-		{
+	{
 		count++;
-		}
+	}
 
 	output << ' ' << count;
 
 	cursor.Reset();
 	JString s;
 	while (cursor.Next())
-		{
+	{
 		s = cursor.GetKey();
 		output << ' ' << s;
 		output << ' ' << *(cursor.GetValue());
-		}
+	}
 
 	output << ' ';
 	return output;
@@ -153,41 +153,41 @@ JIndex i;
 
 	const JSize count = list1.GetElementCount();
 	if (list2.GetElementCount() != count)
-		{
+	{
 		return false;
-		}
+	}
 	else if (count == 0)
-		{
+	{
 		return true;
-		}
+	}
 
 	JArray<bool> matched(count);
 	for (i=1; i<=count; i++)
-		{
+	{
 		matched.AppendElement(false);
-		}
+	}
 
 	for (i=1; i<=count; i++)
-		{
+	{
 		const JString* s1 = list1.GetElement(i);
 		bool found    = false;
 
 		for (JIndex j=1; j<=count; j++)
-			{
+		{
 			if (!matched.GetElement(j) &&
 				JString::Compare(*s1, *(list2.GetElement(j)), caseSensitive) == 0)
-				{
+			{
 				found = true;
 				matched.SetElement(j, true);
 				break;
-				}
-			}
-
-		if (!found)
-			{
-			return false;
 			}
 		}
+
+		if (!found)
+		{
+			return false;
+		}
+	}
 
 	return true;
 }
@@ -207,17 +207,17 @@ JCompareStringsCaseSensitive
 	const int r = JString::Compare(*s1, *s2, JString::kCompareCase);
 
 	if (r > 0)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (r < 0)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 }
 
 /******************************************************************************
@@ -235,17 +235,17 @@ JCompareStringsCaseInsensitive
 	const int r = JString::Compare(*s1, *s2, JString::kIgnoreCase);
 
 	if (r > 0)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (r < 0)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 }
 
 /******************************************************************************
@@ -277,15 +277,15 @@ JStringJoin
 
 	bool first = true;
 	for (const auto* s1 : list)
-		{
+	{
 		if (!first)
-			{
+		{
 			s += separator;
-			}
+		}
 
 		s    += *s1;
 		first = false;
-		}
+	}
 
 	return s;
 }

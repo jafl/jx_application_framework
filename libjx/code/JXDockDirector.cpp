@@ -54,13 +54,13 @@ JXDockDirector::JXDockDirector
 	GetWindow()->ReadGeometry(input);
 
 	if (itsHorizPartition != nullptr)
-		{
+	{
 		itsHorizPartition->ReadSetup(input, vers);
-		}
+	}
 	else
-		{
+	{
 		itsVertPartition->ReadSetup(input, vers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -89,13 +89,13 @@ JXDockDirector::StreamOut
 	GetWindow()->WriteGeometry(output);
 
 	if (itsHorizPartition != nullptr)
-		{
+	{
 		itsHorizPartition->WriteSetup(output);
-		}
+	}
 	else
-		{
+	{
 		itsVertPartition->WriteSetup(output);
-		}
+	}
 }
 
 /******************************************************************************
@@ -112,18 +112,18 @@ JXDockDirector::Close()
 	JXApplication* app = JXGetApplication();
 	JXDockManager* mgr = JXGetDockManager();
 	if (mgr->IsLastDock(this) && !app->IsQuitting() && HasWindows())
-		{
+	{
 		app->Quit();
 		return false;
-		}
+	}
 	else
-		{
+	{
 		// We must close all windows before closing ourselves because
 		// otherwise, we will get a Draw event after partially destructing
 		// if a document needs to ask the user whether or not to close.
 
 		return CloseAllWindows() && JXWindowDirector::Close();
-		}
+	}
 }
 
 /******************************************************************************
@@ -156,26 +156,26 @@ JXDockDirector::BuildWindow
 
 	JXImage* icon;
 	if ((JXGetDockManager())->CreateIcon(&icon))
-		{
+	{
 		window->SetIcon(icon);
-		}
+	}
 
 	if (splitHoriz)
-		{
+	{
 		itsHorizPartition =
 			jnew JXHorizDockPartition(this, nullptr, sizes, 0, minSizes,
 									 window, JXWidget::kHElastic, JXWidget::kVElastic,
 									 0,0, w,h);
 		assert( itsHorizPartition != nullptr );
-		}
+	}
 	else
-		{
+	{
 		itsVertPartition =
 			jnew JXVertDockPartition(this, nullptr, sizes, 0, minSizes,
 									window, JXWidget::kHElastic, JXWidget::kVElastic,
 									0,0, w,h);
 		assert( itsVertPartition != nullptr );
-		}
+	}
 
 	window->SetMinSize(100,100);
 	window->SetWMClass("Dock", JXGetDockWindowClass());
@@ -194,13 +194,13 @@ JXDockDirector::FindDock
 	)
 {
 	if (itsHorizPartition != nullptr)
-		{
+	{
 		return itsHorizPartition->FindDock(id, dock);
-		}
+	}
 	else
-		{
+	{
 		return itsVertPartition->FindDock(id, dock);
-		}
+	}
 }
 
 /******************************************************************************
@@ -213,13 +213,13 @@ JXDockDirector::HasWindows()
 	const
 {
 	if (itsHorizPartition != nullptr)
-		{
+	{
 		return itsHorizPartition->HasWindows();
-		}
+	}
 	else
-		{
+	{
 		return itsVertPartition->HasWindows();
-		}
+	}
 }
 
 /******************************************************************************
@@ -231,13 +231,13 @@ bool
 JXDockDirector::CloseAllWindows()
 {
 	if (itsHorizPartition != nullptr)
-		{
+	{
 		return itsHorizPartition->CloseAllWindows();
-		}
+	}
 	else
-		{
+	{
 		return itsVertPartition->CloseAllWindows();
-		}
+	}
 }
 
 /******************************************************************************
@@ -250,13 +250,13 @@ JXDockDirector::UpdateMinSize()
 {
 	JPoint minSize;
 	if (itsHorizPartition != nullptr)
-		{
+	{
 		minSize = itsHorizPartition->UpdateMinSize();
-		}
+	}
 	else
-		{
+	{
 		minSize = itsVertPartition->UpdateMinSize();
-		}
+	}
 	GetWindow()->SetMinSize(minSize.x, minSize.y);
 }
 
@@ -273,16 +273,16 @@ JXDockDirector::GetHorizPartition
 	const
 {
 	if (itsHorizPartition != nullptr)
-		{
+	{
 		*p = itsHorizPartition;
 		assert( *p != nullptr );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*p = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -298,16 +298,16 @@ JXDockDirector::GetVertPartition
 	const
 {
 	if (itsVertPartition != nullptr)
-		{
+	{
 		*p = itsVertPartition;
 		assert( *p != nullptr );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*p = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -332,19 +332,19 @@ JXDockDirector::SetFocusWindow
 	)
 {
 	if (window != itsFocusWindow)
-		{
+	{
 		if (itsFocusWindow != nullptr)
-			{
+		{
 			itsFocusWindow->Refresh();
-			}
+		}
 
 		itsFocusWindow = window;
 
 		if (itsFocusWindow != nullptr)
-			{
+		{
 			itsFocusWindow->Refresh();
-			}
 		}
+	}
 }
 
 void
@@ -354,12 +354,12 @@ JXDockDirector::ClearFocusWindow
 	)
 {
 	if (itsFocusWindow == window)
-		{
+	{
 		if (itsFocusWindow != nullptr)
-			{
+		{
 			itsFocusWindow->Refresh();
-			}
+		}
 
 		itsFocusWindow = nullptr;
-		}
+	}
 }

@@ -55,10 +55,10 @@ JUnaryFunction::JUnaryFunction
 	itsArg(nullptr)
 {
 	if (source.itsArg != nullptr)
-		{
+	{
 		itsArg = (source.itsArg)->Copy();
 		itsArg->SetParent(this);
-		}
+	}
 }
 
 /******************************************************************************

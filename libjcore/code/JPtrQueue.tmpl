@@ -41,13 +41,13 @@ template <class T, class S>
 JPtrQueue<T,S>::~JPtrQueue()
 {
 	if (itsCleanUpAction == JPtrArrayT::kDeleteAll)
-		{
+	{
 		FlushDelete();
-		}
+	}
 	else if (itsCleanUpAction == JPtrArrayT::kDeleteAllAsArrays)
-		{
+	{
 		FlushDeleteAsArrays();
-		}
+	}
 }
 
 /******************************************************************************
@@ -62,9 +62,9 @@ void
 JPtrQueue<T,S>::FlushDelete()
 {
 	for (auto* elementPtr : *JQueue<T*,S>::GetElements())
-		{
+	{
 		jdelete elementPtr;
-		}
+	}
 
 	JQueue<T*,S>::Flush();
 }
@@ -81,9 +81,9 @@ void
 JPtrQueue<T,S>::FlushDeleteAsArrays()
 {
 	for (auto* elementPtr : *JQueue<T*,S>::GetElements())
-		{
+	{
 		jdelete [] elementPtr;
-		}
+	}
 
 	JQueue<T*,S>::Flush();
 }
@@ -105,10 +105,10 @@ JPtrQueue<T,S>::DiscardDelete
 	S* list           = JQueue<T*,S>::GetElements();
 	const JSize count = list->GetElementCount();
 	for (JIndex i=1; i<=numToDiscard && i<=count; i++)
-		{
+	{
 		T* elementPtr = list->GetElement(i);
 		jdelete elementPtr;
-		}
+	}
 
 	JQueue<T*,S>::Discard(numToDiscard);
 }
@@ -130,10 +130,10 @@ JPtrQueue<T,S>::DiscardDeleteAsArrays
 	S* list           = JQueue<T*,S>::GetElements();
 	const JSize count = list->GetElementCount();
 	for (JIndex i=1; i<=numToDiscard && i<=count; i++)
-		{
+	{
 		T* elementPtr = list->GetElement(i);
 		jdelete [] elementPtr;
-		}
+	}
 
 	JQueue<T*,S>::Discard(numToDiscard);
 }

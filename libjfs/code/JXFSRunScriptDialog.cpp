@@ -69,9 +69,9 @@ JXFSRunScriptDialog::Activate()
 	JXDialogDirector::Activate();
 
 	if (IsActive())
-		{
+	{
 		itsCmdInput->GoToEndOfLine();
-		}
+	}
 }
 
 /******************************************************************************

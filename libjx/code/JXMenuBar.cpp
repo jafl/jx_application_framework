@@ -59,7 +59,7 @@ JXMenuBar::JXMenuBar
 
 	JXDockManager* dockMgr;
 	if (JXGetDockManager(&dockMgr))
-		{
+	{
 		Move(JXDocktab::kWidth, 0);
 		AdjustSize(-JXDocktab::kWidth, 0);
 
@@ -68,7 +68,7 @@ JXMenuBar::JXMenuBar
 						  hSizing == kFixedRight ? kFixedRight : kFixedLeft,
 						  vSizing, x, y, JXDocktab::kWidth, h);
 		assert( tab != nullptr );
-		}
+	}
 }
 
 /******************************************************************************
@@ -79,16 +79,16 @@ JXMenuBar::JXMenuBar
 JXMenuBar::~JXMenuBar()
 {
 	for (auto* theMenu : *itsMenus)
-		{
+	{
 		if (theMenu == itsOverflowMenu)
-			{
+		{
 			itsOverflowMenu = nullptr;
-			}
+		}
 
 		assert( theMenu->itsOwner == nullptr );
 		theMenu->itsMenuBar = nullptr;		// so they won't talk to us
 		jdelete theMenu;
-		}
+	}
 
 	jdelete itsOverflowMenu;
 	jdelete itsMenus;
@@ -124,16 +124,16 @@ JXMenuBar::GetMenu
 {
 	const JSize count = itsMenus->GetElementCount();
 	if (itsOverflowMenu != nullptr && index >= count)
-		{
+	{
 		const JXMenu* menu;
 		const bool found = itsOverflowMenu->GetSubmenu(index - (count-1), &menu);
 		assert( found );
 		return const_cast<JXMenu*>(menu);
-		}
+	}
 	else
-		{
+	{
 		return itsMenus->GetElement(index);
-		}
+	}
 }
 
 const JXMenu*
@@ -145,16 +145,16 @@ JXMenuBar::GetMenu
 {
 	const JSize count = itsMenus->GetElementCount();
 	if (itsOverflowMenu != nullptr && index >= count)
-		{
+	{
 		const JXMenu* menu;
 		const bool found = itsOverflowMenu->GetSubmenu(index - (count-1), &menu);
 		assert( found );
 		return menu;
-		}
+	}
 	else
-		{
+	{
 		return itsMenus->GetElement(index);
-		}
+	}
 }
 
 /******************************************************************************
@@ -172,22 +172,22 @@ JXMenuBar::FindMenu
 {
 	bool found = itsMenus->Find(menu, index);
 	if (!found && itsOverflowMenu != nullptr)
-		{
+	{
 		const JSize count = itsOverflowMenu->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			const JXMenu* m;
 			const bool ok = itsOverflowMenu->GetSubmenu(i, &m);
 			assert( ok );
 
 			if (m == menu)
-				{
+			{
 				*index = itsMenus->GetElementCount() - 1 + i;
 				found  = true;
 				break;
-				}
 			}
 		}
+	}
 
 	return found;
 }
@@ -244,24 +244,24 @@ JXMenuBar::InsertMenu
 
 	JIndex origIndex;
 	if (itsMenus->Find(theMenu, &origIndex))
-		{
+	{
 		if (origIndex == index)
-			{
+		{
 			WidthChanged();
 			return;
-			}
-		RemoveMenu(origIndex);
 		}
+		RemoveMenu(origIndex);
+	}
 
 	theMenu->SetSizing(kFixedLeft, kVElastic);
 
 	const JRect bounds = GetBounds();
 	JCoordinate left   = bounds.left;
 	for (JIndex i=1; i<index; i++)
-		{
+	{
 		JXMenu* aMenu = itsMenus->GetElement(i);
 		left += aMenu->GetFrameWidth();
-		}
+	}
 
 	itsMenus->InsertAtIndex(index, theMenu);
 
@@ -287,13 +287,13 @@ JXMenuBar::InsertMenuBefore
 	JIndex menuIndex;
 	const bool found = itsMenus->Find(existingMenu, &menuIndex);
 	if (found)
-		{
+	{
 		InsertMenu(menuIndex, newMenu);
-		}
+	}
 	else
-		{
+	{
 		WidthChanged();
-		}
+	}
 	return found;
 }
 
@@ -309,13 +309,13 @@ JXMenuBar::InsertMenuAfter
 	JIndex menuIndex;
 	const bool found = itsMenus->Find(existingMenu, &menuIndex);
 	if (found)
-		{
+	{
 		InsertMenu(menuIndex+1, newMenu);
-		}
+	}
 	else
-		{
+	{
 		WidthChanged();
-		}
+	}
 	return found;
 }
 
@@ -337,13 +337,13 @@ JXMenuBar::RemoveMenu
 	JIndex menuIndex;
 	const bool found = itsMenus->Find(theMenu, &menuIndex);
 	if (found)
-		{
+	{
 		RemoveMenu(menuIndex);
-		}
+	}
 	else
-		{
+	{
 		WidthChanged();
-		}
+	}
 	return found;
 }
 
@@ -383,13 +383,13 @@ JXMenuBar::DeleteMenu
 	JIndex menuIndex;
 	const bool found = itsMenus->Find(theMenu, &menuIndex);
 	if (found)
-		{
+	{
 		DeleteMenu(menuIndex);
-		}
+	}
 	else
-		{
+	{
 		WidthChanged();
-		}
+	}
 	return found;
 }
 
@@ -418,15 +418,15 @@ JXMenuBar::MenuWidthChanged
 	)
 {
 	if (dw != 0)
-		{
+	{
 		JIndex menuIndex;
 		const bool found = itsMenus->Find(theMenu, &menuIndex);
 		if (found)
-			{
+		{
 			MenuWidthChanged(menuIndex, dw);
 			WidthChanged();
-			}
 		}
+	}
 }
 
 void
@@ -437,14 +437,14 @@ JXMenuBar::MenuWidthChanged
 	)
 {
 	if (dw != 0)
-		{
+	{
 		const JSize menuCount = itsMenus->GetElementCount();
 		for (JIndex i=menuCount; i>index; i--)
-			{
+		{
 			JXMenu* aMenu = itsMenus->GetElement(i);
 			aMenu->Move(dw,0);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -503,7 +503,7 @@ void
 JXMenuBar::ClearOverflowMenu()
 {
 	if (itsOverflowMenu != nullptr)
-		{
+	{
 		itsMenus->Remove(itsOverflowMenu);
 		assert( itsOverflowMenu->itsMenuBar == this );
 		itsOverflowMenu->itsMenuBar = nullptr;		// SetMenuBar() would cause infinite loop
@@ -515,18 +515,18 @@ JXMenuBar::ClearOverflowMenu()
 
 		const JSize count = overflowMenu->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			const JXMenu* m;
 			const bool found = overflowMenu->GetSubmenu(i, &m);
 			assert( found );
 			AppendMenu(const_cast<JXMenu*>(m));
-			}
+		}
 
 		jdelete overflowMenu;
 
 		assert( itsIgnoreWidthChangedCount > 0 );
 		itsIgnoreWidthChangedCount--;
-		}
+	}
 }
 
 /******************************************************************************
@@ -538,9 +538,9 @@ void
 JXMenuBar::WidthChanged()
 {
 	if (itsMenus->IsEmpty() || itsIgnoreWidthChangedCount > 0)
-		{
+	{
 		return;
-		}
+	}
 
 	itsIgnoreWidthChangedCount++;
 
@@ -555,11 +555,11 @@ JXMenuBar::WidthChanged()
 	JXMenu* m   = itsMenus->GetLastElement();
 	JRect frame = m->GetFrame();
 	if (frame.xcenter() < ap.right)
-		{
+	{
 		assert( itsIgnoreWidthChangedCount > 0 );
 		itsIgnoreWidthChangedCount--;
 		return;
-		}
+	}
 
 	// create menu to hold overflow
 
@@ -577,34 +577,34 @@ JXMenuBar::WidthChanged()
 	// move menus to overflow menu
 
 	while (frame.right > ap.right - extraWidth)
-		{
+	{
 		const JString& title = m->GetTitleText();
 		if (title.IsEmpty())
-			{
+		{
 			break;
-			}
+		}
 
 		overflowMenu->PrependItem(title);
 		overflowMenu->AttachSubmenu(1, m);
 		if (itsMenus->IsEmpty())
-			{
+		{
 			break;
-			}
+		}
 
 		m     = itsMenus->GetLastElement();
 		frame = m->GetFrame();
-		}
+	}
 
 	if (overflowMenu->IsEmpty())
-		{
+	{
 		jdelete overflowMenu;
 		overflowMenu = nullptr;
-		}
+	}
 	else
-		{
+	{
 		AppendMenu(overflowMenu);
 		itsOverflowMenu = overflowMenu;
-		}
+	}
 
 	assert( itsIgnoreWidthChangedCount > 0 );
 	itsIgnoreWidthChangedCount--;
@@ -625,20 +625,20 @@ JXMenuBar::GetFTCMinContentSize
 	const JRect r = GetBoundsGlobal();
 
 	if (horizontal)
-		{
+	{
 		return r.width();
-		}
+	}
 	else
-		{
+	{
 		JCoordinate h = r.height();
 
 		JPtrArrayIterator<JXMenu> iter(itsMenus);
 		JXMenu* menu;
 		while (iter.Next(&menu))
-			{
+		{
 			h = JMax(h, menu->GetFTCMinContentSize(false));
-			}
+		}
 
 		return h;
-		}
+	}
 }

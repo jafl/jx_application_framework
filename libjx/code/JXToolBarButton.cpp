@@ -87,9 +87,9 @@ JXToolBarButton::GetLabelFont()
 {
 	JFont font = itsFont;
 	if (!IsActive())
-		{
+	{
 		font.SetColor(JColorManager::GetInactiveLabelColor());
-		}
+	}
 	return font;
 }
 
@@ -108,17 +108,17 @@ JXToolBarButton::Draw
 	const JRect bounds = GetBounds();
 
 	if (itsType == kImage && itsImage != nullptr)
-		{
+	{
 		p.Image(*itsImage, itsImage->GetBounds(), bounds);
-		}
+	}
 	else if (itsType == kText || itsImage == nullptr)
-		{
+	{
 		p.SetFont(GetLabelFont());
 		p.JPainter::String(bounds, itsLabel,
 						   JPainter::kHAlignCenter, JPainter::kVAlignCenter);
-		}
+	}
 	else
-		{
+	{
 		assert(itsImage != nullptr);
 
 		JRect ri = bounds;
@@ -131,7 +131,7 @@ JXToolBarButton::Draw
 		p.SetFont(GetLabelFont());
 		p.JPainter::String(rt, itsLabel,
 						   JPainter::kHAlignCenter, JPainter::kVAlignCenter);
-		}
+	}
 }
 
 /******************************************************************************
@@ -148,30 +148,30 @@ JXToolBarButton::DrawBorder
 {
 	const JSize borderWidth = GetBorderWidth();
 	if (borderWidth > 0 && IsActive())
-		{
+	{
 		if (( IsPushed() && !itsIsCheckedFlag) ||
 			(!IsPushed() &&  itsIsCheckedFlag))
-			{
-			JXDrawDownFrame(p, frame, borderWidth);
-			}
-		else
-			{
-			JXDrawUpFrame(p, frame, borderWidth);
-			}
-		}
-	else if (borderWidth > 0)
 		{
+			JXDrawDownFrame(p, frame, borderWidth);
+		}
+		else
+		{
+			JXDrawUpFrame(p, frame, borderWidth);
+		}
+	}
+	else if (borderWidth > 0)
+	{
 		p.SetLineWidth(borderWidth);
 		if (itsIsCheckedFlag)
-			{
+		{
 			p.SetPenColor(JColorManager::GetWhiteColor());
-			}
-		else
-			{
-			p.SetPenColor(JColorManager::GetInactiveLabelColor());
-			}
-		p.RectInside(frame);
 		}
+		else
+		{
+			p.SetPenColor(JColorManager::GetInactiveLabelColor());
+		}
+		p.RectInside(frame);
+	}
 }
 
 /******************************************************************************
@@ -187,10 +187,10 @@ JXToolBarButton::NeedsGeometryAdjustment
 {
 	JIndex itemIndex;
 	if (!GetMenuItemIndex(&itemIndex))
-		{
+	{
 		*invalid = true;
 		return true;
-		}
+	}
 
 	*invalid = false;
 
@@ -198,40 +198,40 @@ JXToolBarButton::NeedsGeometryAdjustment
 
 	const bool checked = itsMenu->IsChecked(itemIndex);
 	if (checked != itsIsCheckedFlag)
-		{
+	{
 		itsIsCheckedFlag = checked;
 		Refresh();
-		}
+	}
 
 	// label still needed for hint even if only image is displayed
 
 	const JString& label = itsMenu->GetItemText(itemIndex);
 	if (itsLabel != label)
-		{
+	{
 		itsLabel = label;
 		if (itsType != kImage)
-			{
+		{
 			Refresh();
-			}
 		}
+	}
 
 	// assume image doesn't change
 
 	itsMenu->GetItemImage(itemIndex, &itsImage);
 
 	if (itsType == kImage && itsImage != nullptr)
-		{
+	{
 		JString hint = itsLabel;
 		JString shortCut;
 		if (itsMenu->GetItemNMShortcut(itemIndex, &shortCut))
-			{
+		{
 			hint += "   " + shortCut;
-			}
+		}
 		SetHint(hint);
 		return false;
-		}
+	}
 	else
-		{
+	{
 		ClearHint();
 
 		itsFont                 = itsMenu->GetItemFont(itemIndex);
@@ -243,15 +243,15 @@ JXToolBarButton::NeedsGeometryAdjustment
 
 		const JCoordinate delta = newWidth - GetFrameWidth();
 		if (delta != 0)
-			{
+		{
 			AdjustSize(delta,0);
 			return true;
-			}
-		else
-			{
-			return false;
-			}
 		}
+		else
+		{
+			return false;
+		}
+	}
 }
 
 /******************************************************************************
@@ -271,7 +271,7 @@ JXToolBarButton::WillAcceptDrop
 {
 	JIndex itemIndex;
 	if (GetMenuItemIndex(&itemIndex))
-		{
+	{
 		const JString* id;
 		const bool hasID = itsMenu->GetItemID(itemIndex, &id);
 		assert( hasID );
@@ -279,11 +279,11 @@ JXToolBarButton::WillAcceptDrop
 		JXToolBar::WantsToDrop msg(*id, typeList, *action, time, source);
 		itsToolBar->BroadcastWithFeedback(&msg);
 		return msg.WasAccepted();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -306,12 +306,12 @@ JXToolBarButton::HandleDNDDrop
 {
 	JIndex itemIndex;
 	if (GetMenuItemIndex(&itemIndex))
-		{
+	{
 		const JString* id;
 		const bool hasID = itsMenu->GetItemID(itemIndex, &id);
 		assert( hasID );
 
 		JXToolBar::HandleDrop msg(*id, typeList, action, time, source);
 		itsToolBar->BroadcastWithFeedback(&msg);
-		}
+	}
 }

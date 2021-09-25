@@ -218,13 +218,13 @@ JXTabGroup::ShowTab
 {
 	JIndex index;
 	if (itsCardFile->GetCardIndex(card, &index))
-		{
+	{
 		return ShowTab(index);
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -236,34 +236,34 @@ JXTabGroup::ShowTab
 	JIndex selIndex;
 	const bool hasSelection = itsCardFile->GetCurrentCardIndex(&selIndex);
 	if (hasSelection && selIndex == index)
-		{
+	{
 		return true;
-		}
+	}
 	else if (hasSelection)
-		{
+	{
 		itsPrevTabIndex = selIndex;
-		}
+	}
 
 	if (itsCardFile->ShowCard(index))
-		{
+	{
 		JIndex i;
 		const bool hasIndex = GetCurrentTabIndex(&i);
 		if (hasIndex && i < itsFirstDrawIndex)
-			{
+		{
 			itsFirstDrawIndex = i;
-			}
+		}
 		else if (hasIndex && i > itsFirstDrawIndex)
-			{
+		{
 			ScrollUpToTab(i);
-			}
+		}
 
 		Refresh();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -276,15 +276,15 @@ JXTabGroup::ShowPreviousTab()
 {
 	JIndex index;
 	if (!GetCurrentTabIndex(&index))
-		{
+	{
 		index = 2;
-		}
+	}
 
 	index--;
 	if (index == 0)
-		{
+	{
 		index = GetTabCount();
-		}
+	}
 
 	ShowTab(index);
 }
@@ -299,15 +299,15 @@ JXTabGroup::ShowNextTab()
 {
 	JIndex index;
 	if (!GetCurrentTabIndex(&index))
-		{
+	{
 		index = 0;
-		}
+	}
 
 	index++;
 	if (index > GetTabCount())
-		{
+	{
 		index = 1;
-		}
+	}
 
 	ShowTab(index);
 }
@@ -322,19 +322,19 @@ JXTabGroup::ScrollTabsIntoView()
 {
 	Redraw();
 	if (itsCanScrollUpFlag && !itsCanScrollDownFlag)
-		{
+	{
 		while (!itsCanScrollDownFlag && itsFirstDrawIndex > 1)
-			{
+		{
 			itsFirstDrawIndex--;
 			Redraw();
-			}
+		}
 
 		if (itsCanScrollDownFlag)
-			{
+		{
 			itsFirstDrawIndex++;
 			Refresh();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -396,26 +396,26 @@ JXTabGroup::RemoveTab
 	const bool hasSelection = itsCardFile->GetCurrentCardIndex(&selIndex);
 	if (hasSelection && index == selIndex &&
 		itsPrevTabIndex > 0 && itsPrevTabIndex != index)
-		{
+	{
 		ShowTab(itsPrevTabIndex);
-		}
+	}
 	else if (hasSelection && index == selIndex && index > 1)
-		{
+	{
 		ShowTab(index-1);
-		}
+	}
 	else if (hasSelection && index == selIndex && index < GetTabCount())
-		{
+	{
 		ShowTab(index+1);
-		}
+	}
 
 	itsPrevTabIndex = 0;
 
 	if (itsCanScrollUpFlag && !itsCanScrollDownFlag)
-		{
+	{
 		auto* task = jnew JXScrollTabsTask(this);
 		assert( task != nullptr );
 		task->Go();
-		}
+	}
 
 	Refresh();
 	itsTitles->DeleteElement(index);
@@ -436,25 +436,25 @@ JXTabGroup::PlaceCardFile()
 
 	JRect r = GetAperture();
 	if (itsEdge == kTop)
-		{
+	{
 		r.top += h;
-		}
+	}
 	else if (itsEdge == kLeft)
-		{
+	{
 		r.left += h;
-		}
+	}
 	else if (itsEdge == kBottom)
-		{
+	{
 		r.bottom -= h;
-		}
+	}
 	else if (itsEdge == kRight)
-		{
+	{
 		r.right -= h;
-		}
+	}
 	else
-		{
+	{
 		assert( 0 );
-		}
+	}
 
 	r.Shrink(kBorderWidth, kBorderWidth);
 	itsCardFile->Place(r.left, r.top);
@@ -487,37 +487,37 @@ JXTabGroup::ScrollUpToTab
 	const JSize count  = itsTitles->GetElementCount();
 	bool offScreen = false;
 	for (JIndex i=itsFirstDrawIndex; i<=index; i++)
-		{
+	{
 		const TabInfo info = itsTabInfoList->GetElement(index);
 
 		right += 2*kBorderWidth + info.preMargin + info.postMargin +
 				 itsFont.GetStringWidth(GetFontManager(), *(itsTitles->GetElement(i)));
 		if (info.closable)
-			{
+		{
 			right += kCloseMarginWidth + itsCloseImage->GetWidth();
-			}
+		}
 		widthList.AppendElement(right - left);
 
 		if (!offScreen &&
 			right >= max - scrollArrowWidth &&
 			!(itsFirstDrawIndex == 1 && i == count && right <= max))
-			{
+		{
 			offScreen = true;
-			}
-
-		left = right;
 		}
 
+		left = right;
+	}
+
 	if (offScreen)
-		{
+	{
 		JIndex i = 1;
 		while (right > max - scrollArrowWidth && itsFirstDrawIndex < index)
-			{
+		{
 			right -= widthList.GetElement(i);
 			itsFirstDrawIndex++;
 			i++;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -552,51 +552,51 @@ JXTabGroup::Draw
 	itsLastDrawIndex  = JMax(count, itsFirstDrawIndex);
 
 	if (itsEdge == kTop)
-		{
+	{
 		JRect r(ap.top + kSelMargin,             ap.left + kSelMargin,
 				ap.top + kSelMargin + tabHeight, ap.left + kSelMargin);
 
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
-			{
+		{
 			const JString* title = itsTitles->GetElement(i);
 			const bool isSel = hasSelection && i == selIndex;
 			const TabInfo info   = itsTabInfoList->GetElement(i);
 
 			r.right += 2*kBorderWidth + info.preMargin +info.postMargin + p.GetStringWidth(*title);
 			if (info.closable)
-				{
+			{
 				r.right += kCloseMarginWidth + itsCloseImage->GetWidth();
-				}
+			}
 			JPoint titlePt(r.left + kBorderWidth + info.preMargin,
 						   r.top  + kBorderWidth + kTextMargin);
 			if (isSel)
-				{
+			{
 //				titlePt.y -= kSelMargin;
 				r.top     -= kSelMargin;
 				r.Expand(kSelMargin, 0);
 
 				selRect = r;
-				}
+			}
 
 			if (isSel)
-				{
+			{
 				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(true);
 				p.JPainter::Rect(r);
 				p.SetFilling(false);
-				}
+			}
 			else
-				{
+			{
 				DrawTabBorder(p, r, false);
-				}
+			}
 			p.JPainter::String(titlePt, *title);
 
 			itsTabRects->AppendElement(r);
 			if (isSel)
-				{
+			{
 				r.top += kSelMargin;
 				r.Shrink(kSelMargin, 0);
-				}
+			}
 
 			r.Shrink(kBorderWidth, kBorderWidth);
 			DrawTab(i, p, r, itsEdge);
@@ -604,70 +604,70 @@ JXTabGroup::Draw
 			r.Expand(kBorderWidth, kBorderWidth);
 
 			if (r.right >= ap.right - scrollArrowWidth)
-				{
+			{
 				if (itsFirstDrawIndex == 1 && i == count && r.right <= ap.right)
-					{
+				{
 					break;
-					}
+				}
 				itsCanScrollDownFlag = itsFirstDrawIndex < count;
 				itsLastDrawIndex     = i;
 				if (r.right > ap.right - scrollArrowWidth && i > itsFirstDrawIndex)
-					{
+				{
 					itsLastDrawIndex--;
-					}
-				break;
 				}
+				break;
+			}
 
 			r.left = r.right;
-			}
 		}
+	}
 
 	else if (itsEdge == kLeft)
-		{
+	{
 		JRect r(ap.bottom - kSelMargin, ap.left + kSelMargin,
 				ap.bottom - kSelMargin, ap.left + kSelMargin + tabHeight);
 
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
-			{
+		{
 			const JString* title = itsTitles->GetElement(i);
 			const bool isSel = hasSelection && i == selIndex;
 			const TabInfo info   = itsTabInfoList->GetElement(i);
 
 			r.top -= 2*kBorderWidth + info.preMargin + info.postMargin + p.GetStringWidth(*title);
 			if (info.closable)
-				{
+			{
 				r.top -= kCloseMarginWidth + itsCloseImage->GetWidth();
-				}
+			}
 			JPoint titlePt(r.left   + kBorderWidth + kTextMargin,
 						   r.bottom - kBorderWidth - info.preMargin);
 			if (isSel)
-				{
+			{
 //				titlePt.x -= kSelMargin;
 				r.left    -= kSelMargin;
 				r.Expand(0, kSelMargin);
 
 				selRect = r;
-				}
+			}
 
 			if (isSel)
-				{
+			{
 				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(true);
 				p.JPainter::Rect(r);
 				p.SetFilling(false);
-				}
+			}
 			else
-				{
+			{
 				DrawTabBorder(p, r, false);
-				}
+			}
 			p.JPainter::String(90, titlePt, *title);
 
 			itsTabRects->AppendElement(r);
 			if (isSel)
-				{
+			{
 				r.left += kSelMargin;
 				r.Shrink(0, kSelMargin);
-				}
+			}
 
 			r.Shrink(kBorderWidth, kBorderWidth);
 			DrawTab(i, p, r, itsEdge);
@@ -675,70 +675,70 @@ JXTabGroup::Draw
 			r.Expand(kBorderWidth, kBorderWidth);
 
 			if (r.top <= ap.top + scrollArrowWidth)
-				{
+			{
 				if (itsFirstDrawIndex == 1 && i == count && r.top >= ap.top)
-					{
+				{
 					break;
-					}
+				}
 				itsCanScrollDownFlag = itsFirstDrawIndex < count;
 				itsLastDrawIndex     = i;
 				if (r.top < ap.top + scrollArrowWidth && i > itsFirstDrawIndex)
-					{
+				{
 					itsLastDrawIndex--;
-					}
-				break;
 				}
+				break;
+			}
 
 			r.bottom = r.top;
-			}
 		}
+	}
 
 	else if (itsEdge == kBottom)
-		{
+	{
 		JRect r(ap.bottom - kSelMargin - tabHeight, ap.left + kSelMargin,
 				ap.bottom - kSelMargin,             ap.left + kSelMargin);
 
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
-			{
+		{
 			const JString* title = itsTitles->GetElement(i);
 			const bool isSel = hasSelection && i == selIndex;
 			const TabInfo info   = itsTabInfoList->GetElement(i);
 
 			r.right += 2*kBorderWidth + info.preMargin + info.postMargin + p.GetStringWidth(*title);
 			if (info.closable)
-				{
+			{
 				r.right += kCloseMarginWidth + itsCloseImage->GetWidth();
-				}
+			}
 			JPoint titlePt(r.left + kBorderWidth + info.preMargin,
 						   r.top  + kBorderWidth + kTextMargin);
 			if (isSel)
-				{
+			{
 //				titlePt.y += kSelMargin;
 				r.bottom  += kSelMargin;
 				r.Expand(kSelMargin, 0);
 
 				selRect = r;
-				}
+			}
 
 			if (isSel)
-				{
+			{
 				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(true);
 				p.JPainter::Rect(r);
 				p.SetFilling(false);
-				}
+			}
 			else
-				{
+			{
 				DrawTabBorder(p, r, false);
-				}
+			}
 			p.JPainter::String(titlePt, *title);
 
 			itsTabRects->AppendElement(r);
 			if (isSel)
-				{
+			{
 				r.bottom -= kSelMargin;
 				r.Shrink(kSelMargin, 0);
-				}
+			}
 
 			r.Shrink(kBorderWidth, kBorderWidth);
 			DrawTab(i, p, r, itsEdge);
@@ -746,70 +746,70 @@ JXTabGroup::Draw
 			r.Expand(kBorderWidth, kBorderWidth);
 
 			if (r.right >= ap.right - scrollArrowWidth)
-				{
+			{
 				if (itsFirstDrawIndex == 1 && i == count && r.right <= ap.right)
-					{
+				{
 					break;
-					}
+				}
 				itsCanScrollDownFlag = itsFirstDrawIndex < count;
 				itsLastDrawIndex     = i;
 				if (r.right > ap.right - scrollArrowWidth && i > itsFirstDrawIndex)
-					{
+				{
 					itsLastDrawIndex--;
-					}
-				break;
 				}
+				break;
+			}
 
 			r.left = r.right;
-			}
 		}
+	}
 
 	else if (itsEdge == kRight)
-		{
+	{
 		JRect r(ap.top + kSelMargin, ap.right - kSelMargin - tabHeight,
 				ap.top + kSelMargin, ap.right - kSelMargin);
 
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
-			{
+		{
 			const JString* title = itsTitles->GetElement(i);
 			const bool isSel = hasSelection && i == selIndex;
 			const TabInfo info   = itsTabInfoList->GetElement(i);
 
 			r.bottom += 2*kBorderWidth + info.preMargin + info.postMargin + p.GetStringWidth(*title);
 			if (info.closable)
-				{
+			{
 				r.bottom += kCloseMarginWidth + itsCloseImage->GetWidth();
-				}
+			}
 			JPoint titlePt(r.right - kBorderWidth - kTextMargin,
 						   r.top   + kBorderWidth + info.preMargin);
 			if (isSel)
-				{
+			{
 //				titlePt.x += kSelMargin;
 				r.right   += kSelMargin;
 				r.Expand(0, kSelMargin);
 
 				selRect = r;
-				}
+			}
 
 			if (isSel)
-				{
+			{
 				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(true);
 				p.JPainter::Rect(r);
 				p.SetFilling(false);
-				}
+			}
 			else
-				{
+			{
 				DrawTabBorder(p, r, false);
-				}
+			}
 			p.JPainter::String(-90, titlePt, *title);
 
 			itsTabRects->AppendElement(r);
 			if (isSel)
-				{
+			{
 				r.right -= kSelMargin;
 				r.Shrink(0, kSelMargin);
-				}
+			}
 
 			r.Shrink(kBorderWidth, kBorderWidth);
 			DrawTab(i, p, r, itsEdge);
@@ -817,32 +817,32 @@ JXTabGroup::Draw
 			r.Expand(kBorderWidth, kBorderWidth);
 
 			if (r.bottom >= ap.bottom - scrollArrowWidth)
-				{
+			{
 				if (itsFirstDrawIndex == 1 && i == count && r.bottom <= ap.bottom)
-					{
+				{
 					break;
-					}
+				}
 				itsCanScrollDownFlag = itsFirstDrawIndex < count;
 				itsLastDrawIndex     = i;
 				if (r.bottom > ap.bottom - scrollArrowWidth && i > itsFirstDrawIndex)
-					{
+				{
 					itsLastDrawIndex--;
-					}
-				break;
 				}
+				break;
+			}
 
 			r.top = r.bottom;
-			}
 		}
+	}
 
 	JRect r = itsCardFile->GetFrame();
 	r.Expand(kBorderWidth, kBorderWidth);
 	JXDrawUpFrame(p, r, kBorderWidth);
 
 	if (!selRect.IsEmpty())
-		{
+	{
 		DrawTabBorder(p, selRect, true);
-		}
+	}
 
 	DrawScrollButtons(p, lineHeight);
 }
@@ -861,45 +861,45 @@ JXTabGroup::DrawCloseButton
 	)
 {
 	if (index != itsMouseIndex)
-		{
+	{
 		return;
-		}
+	}
 	else if (!TabCanClose(index))
-		{
+	{
 		itsCloseRect.Set(0,0,0,0);
 		return;
-		}
+	}
 
 	if (itsEdge == kTop || itsEdge == kBottom)
-		{
+	{
 		itsCloseRect.top    = rect.ycenter() - itsCloseImage->GetHeight()/2;
 		itsCloseRect.bottom = itsCloseRect.top + itsCloseImage->GetHeight();
 		itsCloseRect.right  = rect.right - kCloseMarginWidth;
 		itsCloseRect.left   = itsCloseRect.right - itsCloseImage->GetWidth();
-		}
+	}
 	else if (itsEdge == kLeft)
-		{
+	{
 		itsCloseRect.top    = rect.top + kCloseMarginWidth;
 		itsCloseRect.bottom = itsCloseRect.top + itsCloseImage->GetHeight();
 		itsCloseRect.left   = rect.xcenter() - itsCloseImage->GetWidth()/2;
 		itsCloseRect.right  = itsCloseRect.left + itsCloseImage->GetWidth();
-		}
+	}
 	else	// itsEdge == kRight
-		{
+	{
 		itsCloseRect.bottom = rect.bottom - kCloseMarginWidth;
 		itsCloseRect.top    = itsCloseRect.bottom - itsCloseImage->GetHeight();
 		itsCloseRect.left   = rect.xcenter() - itsCloseImage->GetWidth()/2;
 		itsCloseRect.right  = itsCloseRect.left + itsCloseImage->GetWidth();
-		}
+	}
 
 	if (itsClosePushedFlag)
-		{
+	{
 		p.Image(*itsClosePushedImage, itsClosePushedImage->GetBounds(), itsCloseRect);
-		}
+	}
 	else
-		{
+	{
 		p.Image(*itsCloseImage, itsCloseImage->GetBounds(), itsCloseRect);
-		}
+	}
 }
 
 /******************************************************************************
@@ -934,7 +934,7 @@ JXTabGroup::DrawTabBorder
 	JXDrawUpFrame(p, rect, kBorderWidth);
 
 	if (itsEdge == kTop)
-		{
+	{
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.JPainter::Point(rect.topLeft());
 		p.JPainter::Point(rect.topRight() + JPoint(-1,0));
@@ -947,7 +947,7 @@ JXTabGroup::DrawTabBorder
 		p.JPainter::Point(rect.topRight() + JPoint(-kBorderWidth-1, kBorderWidth));
 
 		if (isSelected)
-			{
+		{
 			JRect r(rect.bottom - kBorderWidth, rect.left  + kBorderWidth,
 					rect.bottom,                rect.right - kBorderWidth);
 			p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
@@ -958,11 +958,11 @@ JXTabGroup::DrawTabBorder
 			p.JPainter::Point(rect.bottomRight() + JPoint(-2,-1));
 			p.JPainter::Point(rect.bottomRight() + JPoint(-1,-2));
 			p.JPainter::Point(rect.bottomRight() + JPoint(-1,-1));
-			}
 		}
+	}
 
 	else if (itsEdge == kLeft)
-		{
+	{
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.JPainter::Point(rect.topLeft());
 		p.JPainter::Point(rect.bottomLeft() + JPoint(0,-1));
@@ -975,7 +975,7 @@ JXTabGroup::DrawTabBorder
 		p.JPainter::Point(rect.bottomLeft() + JPoint(kBorderWidth, -kBorderWidth-1));
 
 		if (isSelected)
-			{
+		{
 			JRect r(rect.top    + kBorderWidth, rect.right - kBorderWidth,
 					rect.bottom - kBorderWidth, rect.right);
 			p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
@@ -984,16 +984,16 @@ JXTabGroup::DrawTabBorder
 			p.SetPenColor(JColorManager::Get3DLightColor());
 			p.JPainter::Point(rect.topRight() + JPoint(-1,1));
 			if (rect.bottom < (GetAperture()).bottom)
-				{
+			{
 				p.JPainter::Point(rect.bottomRight() + JPoint(-1,-1));
 				p.JPainter::Point(rect.bottomRight() + JPoint(-2,-1));
 				p.JPainter::Point(rect.bottomRight() + JPoint(-1,-2));
-				}
 			}
 		}
+	}
 
 	else if (itsEdge == kBottom)
-		{
+	{
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.JPainter::Point(rect.bottomLeft()  + JPoint(0,-1));
 		p.JPainter::Point(rect.bottomLeft()  + JPoint(0,-2));
@@ -1006,24 +1006,24 @@ JXTabGroup::DrawTabBorder
 		p.JPainter::Point(rect.bottomRight() + JPoint(-kBorderWidth-1, -kBorderWidth-1));
 
 		if (isSelected)
-			{
+		{
 			JRect r(rect.top,                rect.left  + kBorderWidth,
 					rect.top + kBorderWidth, rect.right - kBorderWidth);
 			p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 			p.JPainter::Rect(r);
 			p.SetPenColor(JColorManager::Get3DShadeColor());
 			if (rect.left > (GetAperture()).left)
-				{
+			{
 				p.JPainter::Point(rect.topLeft());
-				}
+			}
 			p.JPainter::Point(rect.topRight() + JPoint(-1,0));
 			p.JPainter::Point(rect.topRight() + JPoint(-2,0));
 			p.JPainter::Point(rect.topRight() + JPoint(-2,1));
-			}
 		}
+	}
 
 	else if (itsEdge == kRight)
-		{
+	{
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.JPainter::Point(rect.topRight() + JPoint(-1,0));
 		p.JPainter::Point(rect.topRight() + JPoint(-2,0));
@@ -1036,21 +1036,21 @@ JXTabGroup::DrawTabBorder
 		p.JPainter::Point(rect.bottomRight() + JPoint(-kBorderWidth-1, -kBorderWidth-1));
 
 		if (isSelected)
-			{
+		{
 			JRect r(rect.top    + kBorderWidth, rect.left,
 					rect.bottom - kBorderWidth, rect.left + kBorderWidth);
 			p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 			p.JPainter::Rect(r);
 			p.SetPenColor(JColorManager::Get3DShadeColor());
 			if (rect.top > (GetAperture()).top)
-				{
+			{
 				p.JPainter::Point(rect.topLeft());
-				}
+			}
 			p.JPainter::Point(rect.bottomLeft() + JPoint(0,-1));
 			p.JPainter::Point(rect.bottomLeft() + JPoint(0,-2));
 			p.JPainter::Point(rect.bottomLeft() + JPoint(1,-2));
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1067,16 +1067,16 @@ JXTabGroup::DrawScrollButtons
 {
 	itsScrollUpRect = itsScrollDownRect = JRect(0,0,0,0);
 	if (!itsCanScrollUpFlag && !itsCanScrollDownFlag)
-		{
+	{
 		return;
-		}
+	}
 
 	const JCoordinate w = 2*(kArrowWidth + kBorderWidth);
 	const JCoordinate h = kSelMargin + kBorderWidth + 2*kTextMargin + lineHeight;
 
 	const JRect ap = GetAperture();
 	if (itsEdge == kTop)
-		{
+	{
 		JRect r(ap.top,     ap.right - w,
 				ap.top + h, ap.right);
 
@@ -1092,38 +1092,38 @@ JXTabGroup::DrawScrollButtons
 
 		r.right = r.left + kArrowWidth;
 		if (itsCanScrollUpFlag && itsScrollUpPushedFlag)
-			{
+		{
 			JXDrawDownArrowLeft(p, r, kBorderWidth);
-			}
+		}
 		else if (itsCanScrollUpFlag)
-			{
+		{
 			JXDrawUpArrowLeft(p, r, kBorderWidth);
-			}
+		}
 		else
-			{
+		{
 			JXFillArrowLeft(p, r, JColorManager::GetInactiveLabelColor());
-			}
+		}
 		itsScrollUpRect = r;
 
 		r.left  += kArrowWidth;
 		r.right += kArrowWidth;
 		if (itsCanScrollDownFlag && itsScrollDownPushedFlag)
-			{
+		{
 			JXDrawDownArrowRight(p, r, kBorderWidth);
-			}
-		else if (itsCanScrollDownFlag)
-			{
-			JXDrawUpArrowRight(p, r, kBorderWidth);
-			}
-		else
-			{
-			JXFillArrowRight(p, r, JColorManager::GetInactiveLabelColor());
-			}
-		itsScrollDownRect = r;
 		}
+		else if (itsCanScrollDownFlag)
+		{
+			JXDrawUpArrowRight(p, r, kBorderWidth);
+		}
+		else
+		{
+			JXFillArrowRight(p, r, JColorManager::GetInactiveLabelColor());
+		}
+		itsScrollDownRect = r;
+	}
 
 	else if (itsEdge == kLeft)
-		{
+	{
 		JRect r(ap.top,     ap.left,
 				ap.top + w, ap.left + h);
 
@@ -1139,38 +1139,38 @@ JXTabGroup::DrawScrollButtons
 
 		r.bottom = r.top + kArrowWidth;
 		if (itsCanScrollDownFlag && itsScrollDownPushedFlag)
-			{
+		{
 			JXDrawDownArrowUp(p, r, kBorderWidth);
-			}
+		}
 		else if (itsCanScrollDownFlag)
-			{
+		{
 			JXDrawUpArrowUp(p, r, kBorderWidth);
-			}
+		}
 		else
-			{
+		{
 			JXFillArrowUp(p, r, JColorManager::GetInactiveLabelColor());
-			}
+		}
 		itsScrollDownRect = r;
 
 		r.top    += kArrowWidth;
 		r.bottom += kArrowWidth;
 		if (itsCanScrollUpFlag && itsScrollUpPushedFlag)
-			{
+		{
 			JXDrawDownArrowDown(p, r, kBorderWidth);
-			}
-		else if (itsCanScrollUpFlag)
-			{
-			JXDrawUpArrowDown(p, r, kBorderWidth);
-			}
-		else
-			{
-			JXFillArrowDown(p, r, JColorManager::GetInactiveLabelColor());
-			}
-		itsScrollUpRect = r;
 		}
+		else if (itsCanScrollUpFlag)
+		{
+			JXDrawUpArrowDown(p, r, kBorderWidth);
+		}
+		else
+		{
+			JXFillArrowDown(p, r, JColorManager::GetInactiveLabelColor());
+		}
+		itsScrollUpRect = r;
+	}
 
 	else if (itsEdge == kBottom)
-		{
+	{
 		JRect r(ap.bottom - h, ap.right - w,
 				ap.bottom,     ap.right);
 
@@ -1186,38 +1186,38 @@ JXTabGroup::DrawScrollButtons
 
 		r.right = r.left + kArrowWidth;
 		if (itsCanScrollUpFlag && itsScrollUpPushedFlag)
-			{
+		{
 			JXDrawDownArrowLeft(p, r, kBorderWidth);
-			}
+		}
 		else if (itsCanScrollUpFlag)
-			{
+		{
 			JXDrawUpArrowLeft(p, r, kBorderWidth);
-			}
+		}
 		else
-			{
+		{
 			JXFillArrowLeft(p, r, JColorManager::GetInactiveLabelColor());
-			}
+		}
 		itsScrollUpRect = r;
 
 		r.left  += kArrowWidth;
 		r.right += kArrowWidth;
 		if (itsCanScrollDownFlag && itsScrollDownPushedFlag)
-			{
+		{
 			JXDrawDownArrowRight(p, r, kBorderWidth);
-			}
-		else if (itsCanScrollDownFlag)
-			{
-			JXDrawUpArrowRight(p, r, kBorderWidth);
-			}
-		else
-			{
-			JXFillArrowRight(p, r, JColorManager::GetInactiveLabelColor());
-			}
-		itsScrollDownRect = r;
 		}
+		else if (itsCanScrollDownFlag)
+		{
+			JXDrawUpArrowRight(p, r, kBorderWidth);
+		}
+		else
+		{
+			JXFillArrowRight(p, r, JColorManager::GetInactiveLabelColor());
+		}
+		itsScrollDownRect = r;
+	}
 
 	else if (itsEdge == kRight)
-		{
+	{
 		JRect r(ap.bottom - w, ap.right - h,
 				ap.bottom,     ap.right);
 
@@ -1233,35 +1233,35 @@ JXTabGroup::DrawScrollButtons
 
 		r.bottom = r.top + kArrowWidth;
 		if (itsCanScrollUpFlag && itsScrollUpPushedFlag)
-			{
+		{
 			JXDrawDownArrowUp(p, r, kBorderWidth);
-			}
+		}
 		else if (itsCanScrollUpFlag)
-			{
+		{
 			JXDrawUpArrowUp(p, r, kBorderWidth);
-			}
+		}
 		else
-			{
+		{
 			JXFillArrowUp(p, r, JColorManager::GetInactiveLabelColor());
-			}
+		}
 		itsScrollUpRect = r;
 
 		r.top    += kArrowWidth;
 		r.bottom += kArrowWidth;
 		if (itsCanScrollDownFlag && itsScrollDownPushedFlag)
-			{
+		{
 			JXDrawDownArrowDown(p, r, kBorderWidth);
-			}
-		else if (itsCanScrollDownFlag)
-			{
-			JXDrawUpArrowDown(p, r, kBorderWidth);
-			}
-		else
-			{
-			JXFillArrowDown(p, r, JColorManager::GetInactiveLabelColor());
-			}
-		itsScrollDownRect = r;
 		}
+		else if (itsCanScrollDownFlag)
+		{
+			JXDrawUpArrowDown(p, r, kBorderWidth);
+		}
+		else
+		{
+			JXFillArrowDown(p, r, JColorManager::GetInactiveLabelColor());
+		}
+		itsScrollDownRect = r;
+	}
 }
 
 /******************************************************************************
@@ -1294,11 +1294,11 @@ JXTabGroup::BoundsResized
 
 	if (((itsEdge == kTop || itsEdge == kBottom) && dw > 0) ||
 		((itsEdge == kLeft || itsEdge == kRight) && dh > 0))
-		{
+	{
 		auto* task = jnew JXScrollTabsTask(this);
 		assert( task != nullptr );
 		task->Go();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1318,14 +1318,14 @@ JXTabGroup::HandleMouseHere
 	bool found = FindTab(pt, &i, &r);
 
 	if (found && i != itsMouseIndex)
-		{
+	{
 		itsMouseIndex = i;
 		Refresh();
-		}
+	}
 	else if (!found && itsMouseIndex > 0)
-		{
+	{
 		HandleMouseLeave();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1337,11 +1337,11 @@ void
 JXTabGroup::HandleMouseLeave()
 {
 	if (itsMouseIndex > 0)
-		{
+	{
 		itsMouseIndex = 0;
 		itsCloseRect.Set(0,0,0,0);
 		Refresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1362,54 +1362,54 @@ JXTabGroup::HandleMouseDown
 	itsDragAction = kInvalidClick;
 
 	if (button == kJXLeftButton && itsScrollUpRect.Contains(pt))
-		{
+	{
 		if (itsCanScrollUpFlag && itsFirstDrawIndex > 1)	// avoid left click when arrow disabled
-			{
+		{
 			itsDragAction         = kScrollUp;
 			itsScrollUpPushedFlag = true;
 			itsFirstDrawIndex--;
 			Refresh();
 			ScrollWait(kInitialScrollDelay);
 			itsScrollUpPushedFlag = false;		// ignore first HandleMouseDrag()
-			}
 		}
+	}
 	else if (button == kJXLeftButton && itsScrollDownRect.Contains(pt))
-		{
+	{
 		if (itsCanScrollDownFlag && itsFirstDrawIndex < GetTabCount())	// avoid left click when arrow disabled
-			{
+		{
 			itsDragAction           = kScrollDown;
 			itsScrollDownPushedFlag = true;
 			itsFirstDrawIndex++;
 			Refresh();
 			ScrollWait(kInitialScrollDelay);
 			itsScrollDownPushedFlag = false;		// ignore first HandleMouseDrag()
-			}
 		}
+	}
 	else if (button == kJXLeftButton &&
 			 itsMouseIndex > 0 && itsCloseRect.Contains(pt))
-		{
+	{
 		itsDragAction      = kClose;
 		itsClosePushedFlag = true;
 		Refresh();
-		}
+	}
 	else if (button == kJXLeftButton)
-		{
+	{
 		JIndex i;
 		JRect r;
 		if (FindTab(pt, &i, &r))
-			{
-			ShowTab(i);
-			}
-		}
-	else if (button == kJXRightButton)
 		{
+			ShowTab(i);
+		}
+	}
+	else if (button == kJXRightButton)
+	{
 		CreateContextMenu();
 		itsContextMenu->PopUp(this, pt, buttonStates, modifiers);
-		}
+	}
 	else
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1426,47 +1426,47 @@ JXTabGroup::HandleMouseDrag
 	)
 {
 	if (itsDragAction == kScrollUp)
-		{
+	{
 		const bool newScrollUpPushedFlag = itsScrollUpRect.Contains(pt);
 		if (itsScrollUpPushedFlag != newScrollUpPushedFlag)
-			{
+		{
 			itsScrollUpPushedFlag = newScrollUpPushedFlag;
 			Redraw();
-			}
+		}
 		else if (itsScrollUpPushedFlag &&
 				 itsCanScrollUpFlag && itsFirstDrawIndex > 1)
-			{
+		{
 			itsFirstDrawIndex--;
 			Refresh();
 			ScrollWait(kContinuousScrollDelay);
-			}
 		}
+	}
 	else if (itsDragAction == kScrollDown)
-		{
+	{
 		const bool newScrollDownPushedFlag = itsScrollDownRect.Contains(pt);
 		if (itsScrollDownPushedFlag != newScrollDownPushedFlag)
-			{
+		{
 			itsScrollDownPushedFlag = newScrollDownPushedFlag;
 			Redraw();
-			}
+		}
 		else if (itsScrollDownPushedFlag &&
 				 itsCanScrollDownFlag && itsFirstDrawIndex < GetTabCount())
-			{
+		{
 			itsFirstDrawIndex++;
 			Refresh();
 			ScrollWait(kContinuousScrollDelay);
-			}
 		}
+	}
 	else if (itsDragAction == kClose)
-		{
+	{
 		const bool old = itsClosePushedFlag;
 		itsClosePushedFlag = itsMouseIndex > 0 && itsCloseRect.Contains(pt);
 		if ((!old &&  itsClosePushedFlag) ||
 			( old && !itsClosePushedFlag))
-			{
+		{
 			Redraw();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1484,13 +1484,13 @@ JXTabGroup::HandleMouseUp
 	)
 {
 	if (itsDragAction == kClose)
-		{
+	{
 		if (button == kJXLeftButton && itsClosePushedFlag &&
 			OKToDeleteTab(itsMouseIndex))
-			{
+		{
 			DeleteTab(itsMouseIndex);
-			}
 		}
+	}
 
 	itsScrollUpPushedFlag = itsScrollDownPushedFlag = itsClosePushedFlag = false;
 	Refresh();
@@ -1528,14 +1528,14 @@ JXTabGroup::FindTab
 {
 	const JSize count = itsTabRects->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		*rect = itsTabRects->GetElement(i);
 		if (rect->Contains(pt))
-			{
+		{
 			*index = itsFirstDrawIndex + i-1;
 			return true;
-			}
 		}
+	}
 
 	*index = 0;
 	rect->Set(0,0,0,0);
@@ -1596,9 +1596,9 @@ JXTabGroup::HandleDNDHere
 	JIndex i;
 	JRect r;
 	if (FindTab(pt, &i, &r))
-		{
+	{
 		ShowTab(i);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1619,9 +1619,9 @@ JXTabGroup::HandleDNDScroll
 	)
 {
 	if (scrollButton != 0)
-		{
+	{
 		ScrollForWheel(scrollButton, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1638,22 +1638,22 @@ JXTabGroup::ScrollForWheel
 {
 	if ((button == kJXButton4 || button == kJXButton6) &&
 		itsCanScrollUpFlag && itsFirstDrawIndex > 1)
-		{
+	{
 		itsFirstDrawIndex--;
 		Refresh();
 		return true;
-		}
+	}
 	else if ((button == kJXButton5 || button == kJXButton7) &&
 			 itsCanScrollDownFlag && itsFirstDrawIndex < GetTabCount())
-		{
+	{
 		itsFirstDrawIndex++;
 		Refresh();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1668,9 +1668,9 @@ JXTabGroup::Activate()
 
 	JIndex i;
 	if (WouldBeActive() && GetTabCount() > 0 && !GetCurrentTabIndex(&i))
-		{
+	{
 		ShowTab(1);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1686,21 +1686,21 @@ JXTabGroup::Receive
 	)
 {
 	if (sender == itsContextMenu && message.Is(JXTextMenu::kNeedsUpdate))
-		{
+	{
 		UpdateContextMenu();
-		}
+	}
 	else if (sender == itsContextMenu && message.Is(JXTextMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXWidget::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1712,14 +1712,14 @@ void
 JXTabGroup::CreateContextMenu()
 {
 	if (itsContextMenu == nullptr)
-		{
+	{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "JXTabGroup");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();
 		ListenTo(itsContextMenu);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1744,21 +1744,21 @@ JXTabGroup::HandleContextMenu
 	)
 {
 	if (index == kContextTopCmd)
-		{
+	{
 		SetTabEdge(kTop);
-		}
+	}
 	else if (index == kContextBottomCmd)
-		{
+	{
 		SetTabEdge(kBottom);
-		}
+	}
 	else if (index == kContextLeftCmd)
-		{
+	{
 		SetTabEdge(kLeft);
-		}
+	}
 	else if (index == kContextRightCmd)
-		{
+	{
 		SetTabEdge(kRight);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1775,11 +1775,11 @@ JXTabGroup::ReadSetup
 	JFileVersion vers;
 	input >> vers;
 	if (vers <= kCurrentSetupVersion)
-		{
+	{
 		long edge;
 		input >> edge;
 		SetTabEdge((Edge) edge);
-		}
+	}
 
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
 }

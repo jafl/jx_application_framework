@@ -68,15 +68,15 @@ JXSpellList::HandleMouseDown
 
 	JPoint cell;
 	if (button > kJXRightButton)
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 	else if (!GetCell(pt, &cell))
-		{
+	{
 		s.ClearSelection();
-		}
+	}
 	else if (button == kJXLeftButton)
-		{
+	{
 		s.ClearSelection();
 		s.SelectCell(cell);
 
@@ -84,22 +84,22 @@ JXSpellList::HandleMouseDown
 
 		JBroadcaster::Message* msg = nullptr;
 		if (clickCount == 1)
-			{
+		{
 			msg = jnew WordSelected(word);
-			}
+		}
 		else if (clickCount == 2 && modifiers.meta())
-			{
+		{
 			msg = jnew ReplaceWordAll(word);
-			}
+		}
 		else if (clickCount == 2)
-			{
+		{
 			msg = jnew ReplaceWord(word);
-			}
+		}
 
 		if (msg != nullptr)
-			{
+		{
 			Broadcast(*msg);
 			jdelete msg;
-			}
 		}
+	}
 }

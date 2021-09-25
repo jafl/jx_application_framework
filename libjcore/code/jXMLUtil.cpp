@@ -24,13 +24,13 @@ JGetXMLChildNode
 {
 	xmlNode* child = node->children;
 	while (child != nullptr)
-	{
+{
 		if (strcmp((char*) child->name, childName) == 0)
-		{
+	{
 			break;
-		}
-		child = child->next;
 	}
+		child = child->next;
+}
 
 	return child;
 }
@@ -51,14 +51,14 @@ JGetXMLNodeAttr
 
 	xmlAttr* attr = node->properties;
 	while (attr != nullptr)
-	{
+{
 		if (strcmp((char*) attr->name, attrName) == 0)
-		{
+	{
 			value = (char*) attr->children->content;
 			break;
-		}
-		attr = attr->next;
 	}
+		attr = attr->next;
+}
 
 	return value;
 }

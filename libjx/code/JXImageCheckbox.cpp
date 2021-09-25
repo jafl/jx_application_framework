@@ -48,9 +48,9 @@ JXImageCheckbox::JXImageCheckbox
 JXImageCheckbox::~JXImageCheckbox()
 {
 	if (itsOwnsImageFlag)
-		{
+	{
 		jdelete itsImage;
-		}
+	}
 }
 
 /******************************************************************************
@@ -75,9 +75,9 @@ JXImageCheckbox::SetBitmap
 		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (itsOwnsImageFlag)
-		{
+	{
 		jdelete itsImage;
-		}
+	}
 
 	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	assert( itsImage != nullptr );
@@ -121,15 +121,15 @@ JXImageCheckbox::SetImage
 		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (image != itsImage)
-		{
+	{
 		if (itsOwnsImageFlag)
-			{
+		{
 			jdelete itsImage;
-			}
+		}
 
 		itsImage = image;
 		Refresh();
-		}
+	}
 
 	SetBackColor(backColor);
 	itsOwnsImageFlag = widgetOwnsImage;
@@ -148,9 +148,9 @@ JXImageCheckbox::Draw
 	)
 {
 	if (itsImage != nullptr)
-		{
+	{
 		p.Image(*itsImage, itsImage->GetBounds(), GetBounds());
-		}
+	}
 }
 
 /******************************************************************************
@@ -170,24 +170,24 @@ JXImageCheckbox::DrawBorder
 	const JSize borderWidth    = GetBorderWidth();
 
 	if (drawChecked && isActive)
-		{
+	{
 		JXDrawDownFrame(p, frame, borderWidth);
-		}
+	}
 	else if (isActive)
-		{
+	{
 		JXDrawUpFrame(p, frame, borderWidth);
-		}
+	}
 	else if (borderWidth > 0)
-		{
+	{
 		p.SetLineWidth(borderWidth);
 		if (drawChecked)
-			{
+		{
 			p.SetPenColor(JColorManager::GetWhiteColor());
-			}
-		else
-			{
-			p.SetPenColor(JColorManager::GetInactiveLabelColor());
-			}
-		p.RectInside(frame);
 		}
+		else
+		{
+			p.SetPenColor(JColorManager::GetInactiveLabelColor());
+		}
+		p.RectInside(frame);
+	}
 }

@@ -143,45 +143,45 @@ TestImageDirector::Receive
 	)
 {
 	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFileMenu();
-		}
+	}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsPSPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			PrintPS();
-			}
 		}
+	}
 
 	else if (sender == itsEPSPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			PrintEPS();
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -199,7 +199,7 @@ TestImageDirector::UpdateFileMenu()
 
 	JXImage* image;
 	if (itsImageWidget->GetImage(&image))
-		{
+	{
 		itsFileMenu->EnableItem(kSaveGIFCmd);
 		itsFileMenu->EnableItem(kSavePNGCmd);
 		itsFileMenu->EnableItem(kSaveJPEGCmd);
@@ -209,10 +209,10 @@ TestImageDirector::UpdateFileMenu()
 		itsFileMenu->EnableItem(kPrintEPSCmd);
 
 		if (image->HasMask())
-			{
+		{
 			itsFileMenu->EnableItem(kSaveMaskXBMCmd);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -227,57 +227,57 @@ TestImageDirector::HandleFileMenu
 	)
 {
 	if (index == kOpenImageCmd)
-		{
+	{
 		LoadImage();
-		}
+	}
 	else if (index == kSaveGIFCmd)
-		{
+	{
 		SaveImage(JImage::kGIFType);
-		}
+	}
 	else if (index == kSavePNGCmd)
-		{
+	{
 		SaveImage(JImage::kPNGType);
-		}
+	}
 	else if (index == kSaveJPEGCmd)
-		{
+	{
 		SaveImage(JImage::kJPEGType);
-		}
+	}
 	else if (index == kSaveXPMCmd)
-		{
+	{
 		SaveImage(JImage::kXPMType);
-		}
+	}
 	else if (index == kSaveMaskXBMCmd)
-		{
+	{
 		SaveMask();
-		}
+	}
 
 	else if (index == kCopyImageCmd)
-		{
+	{
 		CopyImage();
-		}
+	}
 	else if (index == kPasteImageCmd)
-		{
+	{
 		PasteImage();
-		}
+	}
 
 	else if (index == kPageSetupCmd)
-		{
+	{
 		itsPSPrinter->BeginUserPageSetup();
-		}
+	}
 	else if (index == kPrintPSCmd)
-		{
+	{
 		itsPSPrinter->BeginUserPrintSetup();
-		}
+	}
 
 	else if (index == kPrintEPSCmd)
-		{
+	{
 		itsEPSPrinter->BeginUserPrintSetup();
-		}
+	}
 
 	else if (index == kCloseCmd)
-		{
+	{
 		Close();
-		}
+	}
 }
 
 /******************************************************************************
@@ -293,7 +293,7 @@ TestImageDirector::LoadImage()
 {
 	JString fullName;
 	if (JGetChooseSaveFile()->ChooseFile(JGetString("ChooseImagePrompt::TestImageDirector"), JString::empty, &fullName))
-		{
+	{
 		itsImageWidget->SetImage(nullptr, true);	// free current colors
 
 		itsFileName = fullName;
@@ -303,33 +303,33 @@ TestImageDirector::LoadImage()
 		JXImage* image;
 		JError err = JNoError();
 		if (JImage::GetFileType(itsFileName) == JImage::kXBMType)
-			{
+		{
 			JXImageMask* mask;
 			err = JXImageMask::CreateFromXBM(display, itsFileName, &mask);
 
 			if (err.OK())
-				{
+			{
 				image = jnew JXImage(display, mask->GetWidth(), mask->GetHeight(),
 									JColorManager::GetRedColor());
 				assert( image != nullptr );
 				image->SetMask(mask);
-				}
-			}
-		else
-			{
-			err = JXImage::CreateFromFile(display, itsFileName, &image);
-			}
-
-		if (err.OK())
-			{
-			itsImageWidget->SetImage(image, true);
-			}
-		else
-			{
-			itsFileName.Clear();
-			JGetStringManager()->ReportError("UnableToLoadImage::TestImageDirector", err);
 			}
 		}
+		else
+		{
+			err = JXImage::CreateFromFile(display, itsFileName, &image);
+		}
+
+		if (err.OK())
+		{
+			itsImageWidget->SetImage(image, true);
+		}
+		else
+		{
+			itsFileName.Clear();
+			JGetStringManager()->ReportError("UnableToLoadImage::TestImageDirector", err);
+		}
+	}
 }
 
 /******************************************************************************
@@ -354,27 +354,27 @@ TestImageDirector::SaveImage
 		JGetChooseSaveFile()->SaveFile(
 			JGetString("SaveImagePrompt::TestImageDirector"),
 			JString::empty, itsFileName, &fullName))
-		{
+	{
 		JError err = JNoError();
 		if (type == JImage::kGIFType)
-			{
+		{
 			err = image->WriteGIF(fullName, false);
-			}
+		}
 		else if (type == JImage::kPNGType)
-			{
+		{
 			err = image->WritePNG(fullName);
-			}
+		}
 		else if (type == JImage::kJPEGType)
-			{
+		{
 			err = image->WriteJPEG(fullName);
-			}
+		}
 		else if (type == JImage::kXPMType)
-			{
+		{
 			err = image->WriteXPM(fullName);
-			}
+		}
 
 		JGetStringManager()->ReportError("UnableToSaveImage::TestImageDirector", err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -399,10 +399,10 @@ TestImageDirector::SaveMask()
 		JGetChooseSaveFile()->SaveFile(
 			JGetString("SaveMaskPrompt::TestImageDirector"),
 			JString::empty, fileName, &fullName))
-		{
+	{
 		const JError err = mask->WriteXBM(fullName);
 		JGetStringManager()->ReportError("UnableToSaveMask::TestImageDirector", err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -416,11 +416,11 @@ TestImageDirector::CopyImage()
 {
 	JXImage* image;
 	if (itsImageWidget->GetImage(&image))
-		{
+	{
 		JXImageSelection* data = jnew JXImageSelection(*image);
 		assert( data != nullptr );
 		(GetDisplay()->GetSelectionManager())->SetData(kJXClipboardName, data);
-		}
+	}
 }
 
 /******************************************************************************
@@ -438,13 +438,13 @@ TestImageDirector::PasteImage()
 
 	JXImage* image = nullptr;
 	if (JXImageSelection::GetImage(kJXClipboardName, CurrentTime, GetDisplay(), &image))
-		{
+	{
 		itsImageWidget->SetImage(image, true);
-		}
+	}
 	else
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("UnrecognizedFormat::TestImageDirector"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -462,10 +462,10 @@ TestImageDirector::PrintPS()
 	if (itsImageWidget->GetImage(&image) &&
 		itsPSPrinter->OpenDocument() &&
 		itsPSPrinter->NewPage())
-		{
+	{
 		itsPSPrinter->JPainter::Image(*image, image->GetBounds(), 0,0);
 		itsPSPrinter->CloseDocument();
-		}
+	}
 }
 
 /*****************************************************************************
@@ -479,19 +479,19 @@ TestImageDirector::PrintEPS()
 {
 	JXImage* image;
 	if (itsImageWidget->GetImage(&image))
-		{
+	{
 		const JRect bounds = image->GetBounds();
 
 		if (itsEPSPrinter->WantsPreview())
-			{
+		{
 			JPainter& p = itsEPSPrinter->GetPreviewPainter(bounds);
 			p.Image(*image, bounds, bounds);
-			}
+		}
 
 		if (itsEPSPrinter->OpenDocument(bounds))
-			{
+		{
 			itsEPSPrinter->Image(*image, bounds, bounds);
 			itsEPSPrinter->CloseDocument();
-			}
 		}
+	}
 }

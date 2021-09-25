@@ -71,9 +71,9 @@ JXImageWidget::JXImageWidget
 JXImageWidget::~JXImageWidget()
 {
 	if (itsOwnsImageFlag)
-		{
+	{
 		jdelete itsImage;
-		}
+	}
 
 	jdelete itsAdjustBoundsTask;
 }
@@ -100,9 +100,9 @@ JXImageWidget::SetBitmap
 		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (itsOwnsImageFlag)
-		{
+	{
 		jdelete itsImage;
-		}
+	}
 
 	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	assert( itsImage != nullptr );
@@ -132,9 +132,9 @@ JXImageWidget::SetXPM
 		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (itsOwnsImageFlag)
-		{
+	{
 		jdelete itsImage;
-		}
+	}
 
 	itsImage         = GetDisplay()->GetImageCache()->GetImage(data);
 	itsOwnsImageFlag = false;
@@ -163,16 +163,16 @@ JXImageWidget::SetImage
 		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (image != itsImage)
-		{
+	{
 		if (itsOwnsImageFlag)
-			{
+		{
 			jdelete itsImage;
-			}
+		}
 
 		itsImage = image;
 		AdjustBounds();
 		Refresh();
-		}
+	}
 
 	SetBackColor(backColor);
 	itsOwnsImageFlag = widgetOwnsImage;
@@ -191,9 +191,9 @@ JXImageWidget::Draw
 	)
 {
 	if (itsImage != nullptr)
-		{
+	{
 		p.Image(*itsImage, itsImage->GetBounds(), GetBounds());
-		}
+	}
 }
 
 /******************************************************************************
@@ -224,11 +224,11 @@ void
 JXImageWidget::NeedAdjustBounds()
 {
 	if (itsAdjustBoundsTask == nullptr)
-		{
+	{
 		itsAdjustBoundsTask = jnew JXAdjustIWBoundsTask(this);
 		assert( itsAdjustBoundsTask != nullptr );
 		itsAdjustBoundsTask->Go();
-		}
+	}
 }
 
 /******************************************************************************
@@ -242,15 +242,15 @@ void
 JXImageWidget::AdjustBounds()
 {
 	if (itsAdjustBoundsTask != nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	JRect newBounds = GetAperture();
 	if (itsImage != nullptr)
-		{
+	{
 		newBounds = JCovering(newBounds, itsImage->GetBounds());
-		}
+	}
 
 	SetBounds(newBounds.width(), newBounds.height());
 }

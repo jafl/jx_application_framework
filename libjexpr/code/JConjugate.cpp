@@ -94,15 +94,15 @@ JConjugate::Evaluate
 {
 	JComplex value;
 	if (GetArg()->Evaluate(&value))
-		{
+	{
 		jclear_errno();
 		*result = conj(value);
 		return jerrno_is_clear();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

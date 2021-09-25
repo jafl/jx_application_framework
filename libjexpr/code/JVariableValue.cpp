@@ -89,14 +89,14 @@ JVariableValue::Evaluate
 {
 	JIndex arrayIndex;
 	if (EvaluateArrayIndex(&arrayIndex))
-		{
+	{
 		return GetVariableList()->
 			GetNumericValue(GetVariableIndex(), arrayIndex, result);
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -108,14 +108,14 @@ JVariableValue::Evaluate
 {
 	JIndex arrayIndex;
 	if (EvaluateArrayIndex(&arrayIndex))
-		{
+	{
 		return GetVariableList()->
 			GetNumericValue(GetVariableIndex(), arrayIndex, result);
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

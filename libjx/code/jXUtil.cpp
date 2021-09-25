@@ -55,12 +55,12 @@ JXRectangleRegion
 	)
 {
 	XPoint xpt[4] =
-	{
-		{r->x,            r->y},
-		{r->x + r->width, r->y},
-		{r->x + r->width, r->y + r->height},
-		{r->x,            r->y + r->height}
-	};
+{
+	{r->x,            r->y},
+	{r->x + r->width, r->y},
+	{r->x + r->width, r->y + r->height},
+	{r->x,            r->y + r->height}
+};
 	return XPolygonRegion(xpt, 4, EvenOddRule);
 }
 
@@ -71,12 +71,12 @@ JXRectangleRegion
 	)
 {
 	XPoint xpt[4] =
-	{
-		{r.left,  r.top},
-		{r.right, r.top},
-		{r.right, r.bottom},
-		{r.left,  r.bottom}
-	};
+{
+	{r.left,  r.top},
+	{r.right, r.top},
+	{r.right, r.bottom},
+	{r.left,  r.bottom}
+};
 	return XPolygonRegion(xpt, 4, EvenOddRule);
 }
 
@@ -118,21 +118,21 @@ JXRegionIsRectangle
 	XClipBox(region, &xRect);
 	if (XRectInRegion(region, xRect.x, xRect.y, xRect.width, xRect.height) ==
 		RectangleIn)
-		{
+	{
 		if (rect != nullptr)
-			{
+		{
 			*rect = JXXToJRect(xRect);
-			}
+		}
 		return true;
-		}
+	}
 	else
-		{
+	{
 		if (rect != nullptr)
-			{
+		{
 			*rect = JRect(0,0,0,0);
-			}
-		return false;
 		}
+		return false;
+	}
 }
 
 /******************************************************************************
@@ -219,20 +219,20 @@ JXIntersection
 	bool pixmapInsideRegion = false;
 	JRect regionRect;
 	if (JXRegionIsRectangle(region, &regionRect))
-		{
+	{
 		regionRect.Shift(regionOffset);
 		JRect pixmapRect = p.GetBounds();
 		pixmapRect.Shift(pixmapOffset);
 		pixmapInsideRegion = regionRect.Contains(pixmapRect);
-		}
+	}
 
 	if (pixmapInsideRegion && pixmapOffset.x == 0 && pixmapOffset.y == 0)
-		{
+	{
 		// When the pixmap is already in the right position, we can save
 		// a lot of time.
 
 		return p.CreatePixmap();
-		}
+	}
 
 	const JCoordinate resultW = resultRect.width();
 	const JCoordinate resultH = resultRect.height();
@@ -247,12 +247,12 @@ JXIntersection
 	XFillRectangle(*display, result, tempGC, 0,0, resultW, resultH);
 
 	if (!pixmapInsideRegion)
-		{
+	{
 		// This is only necessary if the pixmap is not entirely inside the region.
 
 		XSetRegion(*display, tempGC, region);
 		XSetClipOrigin(*display, tempGC, regionOffset.x, regionOffset.y);
-		}
+	}
 
 	XCopyArea(*display, pixmap, result, tempGC,
 			  0,0, p.GetWidth(), p.GetHeight(), pixmapOffset.x, pixmapOffset.y);
@@ -366,14 +366,14 @@ JXPackFileNames
 
 	bool first = true;
 	for (auto* name : fileNameList)
-		{
+	{
 		if (!first)
-			{
+		{
 			data.Append(kURISeparator, kURISeparatorLength);
-			}
+		}
 		data.Append(JFileNameToURL(*name));
 		first = false;
-		}
+	}
 
 	return data;
 }
@@ -393,22 +393,22 @@ JXUnpackFileNames
 
 	JString fileName;
 	for (JIndex i=newCount; i>origCount; i--)
-		{
+	{
 		const JString* url = fileNameList->GetElement(i);
 		if (url->IsEmpty() || url->GetFirstCharacter() == kURICommentMarker)
-			{
+		{
 			fileNameList->DeleteElement(i);
-			}
+		}
 		else if (JURLToFileName(*url, &fileName))
-			{
+		{
 			*(fileNameList->GetElement(i)) = fileName;
-			}
+		}
 		else
-			{
+		{
 			urlList->Append(fileNameList->GetElement(i));
 			fileNameList->RemoveElement(i);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -425,45 +425,45 @@ JXReportUnreachableHosts
 	)
 {
 	if (urlList.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	JPtrArray<JString> hostList(JPtrArrayT::kDeleteAll);
 	hostList.SetSortOrder(JListT::kSortAscending);
 	hostList.SetCompareFunction(JCompareStringsCaseInsensitive);
 
 	for (auto* url : urlList)
-		{
+	{
 		JStringIterator iter(*url);
 		if (iter.Next(urlPattern))
-			{
+		{
 			auto* host = jnew JString(iter.GetLastMatch().GetSubstring(1));
 			assert( host != nullptr );
 			if (!hostList.InsertSorted(host, false))
-				{
+			{
 				jdelete host;
-				}
 			}
 		}
+	}
 
 	if (!hostList.IsEmpty())
-		{
+	{
 		JString hosts;
 
 		bool first = true;
 		for (auto* host : hostList)
-			{
+		{
 			if (!first)
-				{
+			{
 				hosts.Append("\n");
-				}
+			}
 			hosts += *host;
 			first  = false;
-			}
+		}
 
 		JGetStringManager()->ReportError(kUnreachableHostsID, hosts);
-		}
+	}
 }
 
 /******************************************************************************
@@ -492,9 +492,9 @@ jXGetClientMachineName
 					   &actualType, &actualFormat,
 					   &itemCount, &remainingBytes, &xdata);
 	if (actualType == XA_STRING && actualFormat == 8 && itemCount > 0)
-		{
+	{
 		machineName.Set((JUtf8Byte*) xdata, itemCount);
-		}
+	}
 
 	XFree(xdata);
 	return machineName;
@@ -517,19 +517,19 @@ JXFixBrokenURLs
 
 	JString srcHost, tmp;
 	for (auto* url : urlList)
-		{
+	{
 		JStringIterator iter(url);
 		if (!url->IsEmpty() && url->GetFirstCharacter() != kURICommentMarker &&
 			iter.Next(kInvalidURLHostMarker))
-			{
+		{
 			if (srcHost.IsEmpty())
-				{
+			{
 				srcHost = jXGetClientMachineName(display, srcWindow);
 				if (srcHost.IsEmpty())
-					{
+				{
 					return false;
-					}
 				}
+			}
 
 			tmp = kURLHostPattern;
 
@@ -539,17 +539,17 @@ JXFixBrokenURLs
 
 			iter.ReplaceLastMatch(tmp);
 			changed = true;
-			}
 		}
+	}
 
 	if (changed)
-		{
+	{
 		*newData = JXPackStrings(urlList, kURISeparator, kURISeparatorLength);
-		}
+	}
 	else
-		{
+	{
 		newData->Clear();
-		}
+	}
 
 	return changed;
 }

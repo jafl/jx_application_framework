@@ -29,9 +29,9 @@ int main()
 
 	JString dir;
 	if (JGetHomeDirectory(&dir))
-		{
+	{
 		std::cout << "Your home directory is: " << dir << std::endl;
-		}
+	}
 
 	return JTestManager::Execute();
 }
@@ -96,19 +96,19 @@ JTEST(ChildInput)
 	// child
 
 	if (pid == 0)
-		{
+	{
 		close(fd[0]);
 
 		JOutPipeStream output(fd[1], true);
 		output << kMessage;
 		output.flush();
 		exit(0);
-		}
+	}
 
 	// parent
 
 	else
-		{
+	{
 		close(fd[1]);
 
 		JWait(1);	// required to receive data on OS X
@@ -117,5 +117,5 @@ JTEST(ChildInput)
 		JReadAll(fd[0], &data);
 
 		JAssertStringsEqual(kMessage, data);
-		}
+	}
 }

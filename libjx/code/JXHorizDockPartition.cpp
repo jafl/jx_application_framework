@@ -137,21 +137,21 @@ JXHorizDockPartition::FindDock
 	)
 {
 	for (auto* d : *itsDockList)
-		{
+	{
 		assert( d != nullptr );
 
 		if (d->GetID() == id)
-			{
+		{
 			*dock = d;
 			return true;
-			}
+		}
 
 		JXVertDockPartition* p;
 		if (d->GetVertChildPartition(&p) && p->FindDock(id, dock))
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	*dock = nullptr;
 	return false;
@@ -179,14 +179,14 @@ bool
 JXHorizDockPartition::CloseAllWindows()
 {
 	for (auto* d : *itsDockList)
-		{
+	{
 		assert( d != nullptr );
 
 		if (!d->CloseAllWindows())
-			{
+		{
 			return false;
-			}
 		}
+	}
 
 	return true;
 }
@@ -207,29 +207,29 @@ JXHorizDockPartition::ReadSetup
 	input >> compartmentCount;
 
 	while (GetCompartmentCount() < compartmentCount)
-		{
+	{
 		InsertCompartment(1);
-		}
+	}
 	while (GetCompartmentCount() > compartmentCount)
-		{
+	{
 		DeleteCompartment(1);
-		}
+	}
 
 	ReadGeometry(input);
 
 	if (vers >= 3)
-		{
+	{
 		bool hasElasticIndex;
 		JIndex elasticIndex;
 		input >> JBoolFromString(hasElasticIndex) >> elasticIndex;
 		if (hasElasticIndex)
-			{
+		{
 			SetElasticIndex(elasticIndex);
-			}
 		}
+	}
 
 	for (JIndex i=1; i<=compartmentCount; i++)
-		{
+	{
 		JXDockWidget* dock = itsDockList->GetElement(i);
 		assert( dock != nullptr );
 
@@ -238,22 +238,22 @@ JXHorizDockPartition::ReadSetup
 		dock->SetID(id);
 
 		if (vers >= 2)
-			{
+		{
 			(dock->GetTabGroup())->ReadSetup(input);
-			}
+		}
 
 		bool hasPartition;
 		input >> JBoolFromString(hasPartition);
 		if (hasPartition)
-			{
+		{
 			SplitVert(i);
 
 			JXVertDockPartition* p;
 			const bool isSplit = dock->GetVertChildPartition(&p);
 			assert( isSplit );
 			p->ReadSetup(input, vers);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -277,7 +277,7 @@ JXHorizDockPartition::WriteSetup
 	output << ' ' << elasticIndex;
 
 	for (auto* dock : *itsDockList)
-		{
+	{
 		assert( dock != nullptr );
 
 		output << ' ' << dock->GetID();
@@ -286,15 +286,15 @@ JXHorizDockPartition::WriteSetup
 
 		JXVertDockPartition* v;
 		if (dock->GetVertChildPartition(&v))
-			{
+		{
 			output << ' ' << JBoolToString(true);
 			v->WriteSetup(output);
-			}
-		else
-			{
-			output << ' ' << JBoolToString(false);
-			}
 		}
+		else
+		{
+			output << ' ' << JBoolToString(false);
+		}
+	}
 }
 
 /******************************************************************************
@@ -313,29 +313,29 @@ JXHorizDockPartition::HandleMouseDown
 	)
 {
 	if (button == kJXRightButton)
-		{
+	{
 		if (!FindCompartment(pt.x, &itsCompartmentIndex) ||
 			itsCompartmentIndex >= GetCompartmentCount())
-			{
+		{
 			return;
-			}
+		}
 
 		if (itsDockMenu == nullptr)
-			{
+		{
 			itsDockMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 			assert( itsDockMenu != nullptr );
 			itsDockMenu->SetToHiddenPopupMenu();
 			itsDockMenu->SetMenuItems(kDockMenuStr);
 			itsDockMenu->SetUpdateAction(JXMenu::kDisableNone);
 			ListenTo(itsDockMenu);
-			}
+		}
 
 		itsDockMenu->PopUp(this, pt, buttonStates, modifiers);
-		}
+	}
 	else
-		{
+	{
 		JXHorizPartition::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -351,21 +351,21 @@ JXHorizDockPartition::Receive
 	)
 {
 	if (sender == itsDockMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateDockMenu();
-		}
+	}
 	else if (sender == itsDockMenu && message.Is(JXTextMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleDockMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXHorizPartition::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -384,17 +384,17 @@ JXHorizDockPartition::UpdateDockMenu()
 
 	JIndex i;
 	if (GetElasticIndex(&i))
-		{
+	{
 		itsDockMenu->SetItemEnable(kSetLeftElasticCmd,  i != itsCompartmentIndex );
 		itsDockMenu->SetItemEnable(kSetRightElasticCmd, i != itsCompartmentIndex+1 );
 		itsDockMenu->EnableItem(kSetAllElasticCmd);
-		}
+	}
 	else
-		{
+	{
 		itsDockMenu->EnableItem(kSetLeftElasticCmd);
 		itsDockMenu->EnableItem(kSetRightElasticCmd);
 		itsDockMenu->DisableItem(kSetAllElasticCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -409,48 +409,48 @@ JXHorizDockPartition::HandleDockMenu
 	)
 {
 	if (itsCompartmentIndex == 0 || itsCompartmentIndex >= GetCompartmentCount())
-		{
+	{
 		return;
-		}
+	}
 
 	if (index == kSplitLeftHorizCmd)
-		{
+	{
 		InsertCompartment(itsCompartmentIndex+1, true);
-		}
+	}
 	else if (index == kSplitLeftVertCmd)
-		{
+	{
 		SplitVert(itsCompartmentIndex, nullptr, true);
-		}
+	}
 	else if (index == kRemoveLeftCmd)
-		{
+	{
 		DeleteCompartment(itsCompartmentIndex);		// may delete us
-		}
+	}
 
 	else if (index == kSplitRightHorizCmd)
-		{
+	{
 		InsertCompartment(itsCompartmentIndex+1, true);
-		}
+	}
 	else if (index == kSplitRightVertCmd)
-		{
+	{
 		SplitVert(itsCompartmentIndex+1, nullptr, true);
-		}
+	}
 	else if (index == kRemoveRightCmd)
-		{
+	{
 		DeleteCompartment(itsCompartmentIndex+1);	// may delete us
-		}
+	}
 
 	else if (index == kSetLeftElasticCmd)
-		{
+	{
 		SetElasticIndex(itsCompartmentIndex);
-		}
+	}
 	else if (index == kSetRightElasticCmd)
-		{
+	{
 		SetElasticIndex(itsCompartmentIndex+1);
-		}
+	}
 	else if (index == kSetAllElasticCmd)
-		{
+	{
 		SetElasticIndex(0);
-		}
+	}
 }
 
 /******************************************************************************
@@ -466,13 +466,13 @@ JXHorizDockPartition::InsertCompartment
 	)
 {
 	if (JPartition::InsertCompartment(index, 10, 10))
-		{
+	{
 		itsDirector->UpdateMinSize();
-		}
+	}
 	else if (reportError)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("NoSpaceHoriz::JXHorizDockPartition"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -491,28 +491,28 @@ JXHorizDockPartition::SplitVert
 	)
 {
 	if (returnPartition != nullptr)
-		{
+	{
 		*returnPartition = nullptr;
-		}
+	}
 
 	JXDockWidget* parent = itsDockList->GetElement(index);
 	assert( parent != nullptr );
 
 	JXVertDockPartition* p = nullptr;
 	if (parent->GetVertChildPartition(&p))
-		{
+	{
 		p->InsertCompartment(p->GetCompartmentCount()+1, reportError);
-		}
+	}
 	else
-		{
+	{
 		JXContainer* encl = GetCompartment(index);
 		assert( encl != nullptr );
 
 		const JCoordinate h = encl->GetApertureHeight() - kDragRegionSize;
 		if (h < 2*JXDockWidget::kDefaultMinSize)
-			{
+		{
 			return false;
-			}
+		}
 
 		JArray<JCoordinate> heights;
 		heights.AppendElement(h/2);
@@ -531,26 +531,26 @@ JXHorizDockPartition::SplitVert
 		assert( d1 != nullptr );
 
 		if (parent->TransferAll(d1))
-			{
+		{
 			parent->SetChildPartition(p);
-			}
+		}
 		else
-			{
+		{
 			d1->TransferAll(parent);
 			jdelete p;
 			p = nullptr;
 
 			if (reportError)
-				{
+			{
 				JGetUserNotification()->ReportError(JGetString("NoSpaceVert::JXHorizDockPartition"));
-				}
 			}
 		}
+	}
 
 	if (returnPartition != nullptr)
-		{
+	{
 		*returnPartition = p;
-		}
+	}
 	return p != nullptr;
 }
 
@@ -568,15 +568,15 @@ JXHorizDockPartition::DeleteCompartment
 	)
 {
 	if (GetEnclosure() == GetWindow() && GetCompartmentCount() <= 2)
-		{
+	{
 		return;
-		}
+	}
 
 	itsDockList->RemoveElement(index);
 	JPartition::DeleteCompartment(index);
 
 	if (GetCompartmentCount() == 1)
-		{
+	{
 		assert( itsParentDock != nullptr );
 
 		JXDockWidget* child = itsDockList->GetFirstElement();
@@ -585,7 +585,7 @@ JXHorizDockPartition::DeleteCompartment
 		itsParentDock->SetChildPartition(nullptr);		// so docking will be allowed
 		child->TransferAll(itsParentDock);
 		jdelete this;
-		}
+	}
 }
 
 /******************************************************************************
@@ -601,13 +601,13 @@ JXHorizDockPartition::UpdateMinSize()
 
 	const JSize count = itsDockList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const JPoint minSize = (itsDockList->GetElement(i))->GetMinSize();
 		minWidth            += minSize.x;
 		minHeight            = JMax(minSize.y, minHeight);
 
 		JPartition::SetMinCompartmentSize(i, minSize.x);
-		}
+	}
 
 	return JPoint(minWidth, minHeight);
 }

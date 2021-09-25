@@ -105,13 +105,13 @@ struct FontSizeConversion
 
 static const FontSizeConversion kFontSizeTable[] =
 {
-	{"FL_DEFAULT_SIZE", "JFontManager::GetDefaultFontSize()-2"},
-	{"FL_TINY_SIZE",    "JFontManager::GetDefaultFontSize()-4"},
-	{"FL_SMALL_SIZE",   "JFontManager::GetDefaultFontSize()-2"},
-	{"FL_NORMAL_SIZE",  "JFontManager::GetDefaultFontSize()"},
-	{"FL_MEDIUM_SIZE",  "JFontManager::GetDefaultFontSize()+2"},
-	{"FL_LARGE_SIZE",   "JFontManager::GetDefaultFontSize()+4"},
-	{"FL_HUGE_SIZE",    "JFontManager::GetDefaultFontSize()+8"}
+{"FL_DEFAULT_SIZE", "JFontManager::GetDefaultFontSize()-2"},
+{"FL_TINY_SIZE",    "JFontManager::GetDefaultFontSize()-4"},
+{"FL_SMALL_SIZE",   "JFontManager::GetDefaultFontSize()-2"},
+{"FL_NORMAL_SIZE",  "JFontManager::GetDefaultFontSize()"},
+{"FL_MEDIUM_SIZE",  "JFontManager::GetDefaultFontSize()+2"},
+{"FL_LARGE_SIZE",   "JFontManager::GetDefaultFontSize()+4"},
+{"FL_HUGE_SIZE",    "JFontManager::GetDefaultFontSize()+8"}
 };
 
 const JSize kFontSizeTableSize = sizeof(kFontSizeTable)/sizeof(FontSizeConversion);
@@ -126,23 +126,23 @@ struct ColorConversion
 
 static const ColorConversion kColorTable[] =
 {
-	{"FL_BLACK",        "JColorManager::GetBlackColor()"},
-	{"FL_RED",          "JColorManager::GetRedColor()"},
-	{"FL_GREEN",        "JColorManager::GetGreenColor()"},
-	{"FL_YELLOW",       "JColorManager::GetYellowColor()"},
-	{"FL_BLUE",         "JColorManager::GetBlueColor()"},
-	{"FL_MAGENTA",      "JColorManager::GetMagentaColor()"},
-	{"FL_CYAN",         "JColorManager::GetCyanColor()"},
-	{"FL_WHITE",        "JColorManager::GetWhiteColor()"},
-	{"FL_LCOL",         "JColorManager::GetBlackColor()"},
-	{"FL_COL1",         "JColorManager::GetDefaultBackColor()"},
-	{"FL_MCOL",         "JColorManager::GetDefaultFocusColor()"},
-	{"FL_RIGHT_BCOL",   "JColorManager::Get3DShadeColor()"},
-	{"FL_BOTTOM_BCOL",  "JColorManager::Get3DShadeColor()"},
-	{"FL_TOP_BCOL",     "JColorManager::Get3DLightColor()"},
-	{"FL_LEFT_BCOL",    "JColorManager::Get3DLightColor()"},
-	{"FL_INACTIVE",     "JColorManager::GetInactiveLabelColor()"},
-	{"FL_INACTIVE_COL", "JColorManager::GetInactiveLabelColor()"}
+{"FL_BLACK",        "JColorManager::GetBlackColor()"},
+{"FL_RED",          "JColorManager::GetRedColor()"},
+{"FL_GREEN",        "JColorManager::GetGreenColor()"},
+{"FL_YELLOW",       "JColorManager::GetYellowColor()"},
+{"FL_BLUE",         "JColorManager::GetBlueColor()"},
+{"FL_MAGENTA",      "JColorManager::GetMagentaColor()"},
+{"FL_CYAN",         "JColorManager::GetCyanColor()"},
+{"FL_WHITE",        "JColorManager::GetWhiteColor()"},
+{"FL_LCOL",         "JColorManager::GetBlackColor()"},
+{"FL_COL1",         "JColorManager::GetDefaultBackColor()"},
+{"FL_MCOL",         "JColorManager::GetDefaultFocusColor()"},
+{"FL_RIGHT_BCOL",   "JColorManager::Get3DShadeColor()"},
+{"FL_BOTTOM_BCOL",  "JColorManager::Get3DShadeColor()"},
+{"FL_TOP_BCOL",     "JColorManager::Get3DLightColor()"},
+{"FL_LEFT_BCOL",    "JColorManager::Get3DLightColor()"},
+{"FL_INACTIVE",     "JColorManager::GetInactiveLabelColor()"},
+{"FL_INACTIVE_COL", "JColorManager::GetInactiveLabelColor()"}
 };
 
 const JSize kColorTableSize = sizeof(kColorTable)/sizeof(ColorConversion);
@@ -217,9 +217,9 @@ main
 		!FindConfigFile(&needFontListFile) ||
 		!FindConfigFile(&needStringListFile) ||
 		!FindConfigFile(&needCreateListFile))
-		{
+	{
 		return 1;
-		}
+	}
 
 	// parse the command line options
 
@@ -235,12 +235,12 @@ main
 
 	std::ifstream input(inputName.GetBytes());
 	while (!input.eof() && !input.fail())
-		{
+	{
 		const JString line = JReadLine(input);
 		if (line != kBeginFormLine)
-			{
+		{
 			continue;
-			}
+		}
 
 		// get form name
 
@@ -253,7 +253,7 @@ main
 		JString enclName;
 		JStringIterator fnIter(&formName);
 		if (fnIter.Next(kCustomTagMarker) && !fnIter.AtEnd())
-			{
+		{
 			fnIter.RemoveLastMatch();
 
 			fnIter.BeginMatch();
@@ -266,7 +266,7 @@ main
 
 			JStringIterator tnIter(&tagName);
 			if (tnIter.Next(kCustomTagMarker) && !tnIter.AtEnd())
-				{
+			{
 				tnIter.RemoveLastMatch();
 
 				tnIter.BeginMatch();
@@ -274,39 +274,39 @@ main
 				enclName = tnIter.FinishMatch().GetString();
 
 				tnIter.RemoveLastMatch();
-				}
+			}
 			tnIter.Invalidate();
 
 			// report errors
 
 			if (tagName != kDefaultDelimTag && enclName.IsEmpty())
-				{
+			{
 				std::cerr << formName << ", " << tagName;
 				std::cerr << ": no enclosure specified" << std::endl;
-				}
+			}
 			else if (tagName == kDefaultDelimTag &&
 					 !enclName.IsEmpty() && enclName != kDefTopEnclVarName)
-				{
+			{
 				std::cerr << formName << ", " << tagName;
 				std::cerr << ": not allowed to specify enclosure other than ";
 				std::cerr << kDefTopEnclVarName << std::endl;
-				}
 			}
+		}
 		fnIter.Invalidate();
 
 		if (GenerateForm(input, formName, tagName, enclName,
 						 codePath, stringPath, codeSuffix, headerSuffix,
 						 requireObjectNames, &backupList))
-			{
+		{
 			changed = true;
-			}
 		}
+	}
 
 	if (changed && !postCmd.IsEmpty())
-		{
+	{
 		const JError err = JExecute(postCmd, nullptr);
 		err.ReportIfError();
-		}
+	}
 
 	return 0;
 }
@@ -338,15 +338,15 @@ GenerateForm
 	const JString headerFileBakName = headerFileName + kBackupSuffix;
 
 	if (!JFileExists(codeFileName))
-		{
+	{
 		std::cerr << codeFileName << " not found" << std::endl;
 		return false;
-		}
+	}
 	if (!JFileExists(headerFileName))
-		{
+	{
 		std::cerr << headerFileName << " not found" << std::endl;
 		return false;
-		}
+	}
 
 	std::cout << "Generating: " << formName << ", " << tagName << std::endl;
 
@@ -357,29 +357,29 @@ GenerateForm
 	JString tempCodeFileName;
 	JError err = JCreateTempFile(&codePath, nullptr, &tempCodeFileName);
 	if (!err.OK())
-		{
+	{
 		std::cerr << "Unable to create temporary file in " << codePath << std::endl;
 		std::cerr << "  (" << err.GetMessage() << ')' << std::endl;
 		return false;
-		}
+	}
 
 	JString indent;
 
 	std::ifstream origCode(codeFileName.GetBytes());
 	std::ofstream outputCode(tempCodeFileName.GetBytes());
 	if (!outputCode.good())
-		{
+	{
 		std::cerr << "Unable to open temporary file in " << codePath << std::endl;
 		JRemoveFile(tempCodeFileName);
 		return false;
-		}
+	}
 	if (!CopyBeforeCodeDelimiter(tagName, origCode, outputCode, &indent))
-		{
+	{
 		std::cerr << "No starting delimiter in " << codeFileName << std::endl;
 		outputCode.close();
 		JRemoveFile(tempCodeFileName);
 		return false;
-		}
+	}
 
 	// generate code for each object in the form
 
@@ -387,11 +387,11 @@ GenerateForm
 					   objNames(JPtrArrayT::kDeleteAll);
 	if (!GenerateCode(input, outputCode, stringPath, formName, tagName, enclName,
 					  indent.GetBytes(), requireObjectNames, &objTypes, &objNames))
-		{
+	{
 		outputCode.close();
 		JRemoveFile(tempCodeFileName);
 		return false;
-		}
+	}
 
 	// copy source file contents after end delimiter
 
@@ -400,11 +400,11 @@ GenerateForm
 	outputCode.close();
 
 	if (!done)
-		{
+	{
 		std::cerr << "No ending delimiter in " << codeFileName << std::endl;
 		JRemoveFile(tempCodeFileName);
 		return false;
-		}
+	}
 
 	// check if source file actually changed
 
@@ -412,42 +412,42 @@ GenerateForm
 	JReadFile(codeFileName, &origCodeText);
 	JReadFile(tempCodeFileName, &newCodeText);
 	if (newCodeText != origCodeText)
-		{
+	{
 		JEditVCS(codeFileName);
 		JRenameFile(tempCodeFileName, codeFileName, true);
 		changed = true;
-		}
+	}
 	else
-		{
+	{
 		JRemoveFile(tempCodeFileName);
-		}
+	}
 
 	// copy header file contents before start delimiter
 
 	JString tempHeaderFileName;
 	err = JCreateTempFile(&codePath, nullptr, &tempHeaderFileName);
 	if (!err.OK())
-		{
+	{
 		std::cerr << "Unable to create temporary file in " << codePath << std::endl;
 		std::cerr << "  (" << err.GetMessage() << ')' << std::endl;
 		return false;
-		}
+	}
 
 	std::ifstream origHeader(headerFileName.GetBytes());
 	std::ofstream outputHeader(tempHeaderFileName.GetBytes());
 	if (!outputHeader.good())
-		{
+	{
 		std::cerr << "Unable to open temporary file in " << codePath << std::endl;
 		JRemoveFile(tempHeaderFileName);
 		return false;
-		}
+	}
 	if (!CopyBeforeCodeDelimiter(tagName, origHeader, outputHeader, &indent))
-		{
+	{
 		std::cerr << "No starting delimiter in " << headerFileName << std::endl;
 		outputHeader.close();
 		JRemoveFile(tempHeaderFileName);
 		return false;
-		}
+	}
 
 	// generate instance variable for each object in the form
 
@@ -460,11 +460,11 @@ GenerateForm
 	outputHeader.close();
 
 	if (!done)
-		{
+	{
 		std::cerr << "No ending delimiter in " << headerFileName << std::endl;
 		JRemoveFile(tempHeaderFileName);
 		return false;
-		}
+	}
 
 	// check if header file actually changed
 
@@ -472,15 +472,15 @@ GenerateForm
 	JReadFile(headerFileName, &origHeaderText);
 	JReadFile(tempHeaderFileName, &newHeaderText);
 	if (newHeaderText != origHeaderText)
-		{
+	{
 		JEditVCS(headerFileName);
 		JRenameFile(tempHeaderFileName, headerFileName, true);
 		changed = true;
-		}
+	}
 	else
-		{
+	{
 		JRemoveFile(tempHeaderFileName);
-		}
+	}
 
 	return changed;
 }
@@ -538,7 +538,7 @@ JIndex i;
 
 	JString topEnclVarName;
 	if (tagName == kDefaultDelimTag)
-		{
+	{
 		topEnclVarName = kDefTopEnclVarName;
 
 		output << indent << "auto* window = jnew JXWindow(this, ";
@@ -546,9 +546,9 @@ JIndex i;
 		output << ", JString::empty);" << std::endl;
 		output << indent << "assert( window != nullptr );" << std::endl;
 		output << std::endl;
-		}
+	}
 	else
-		{
+	{
 		assert( !userTopEnclVarName.IsEmpty() );
 		topEnclVarName = userTopEnclVarName;
 
@@ -573,7 +573,7 @@ JIndex i;
 		output << ".height());" << std::endl;
 
 		output << std::endl;
-		}
+	}
 
 	// We need to calculate the enclosure for each object.  Since objects
 	// are drawn in the order added, an object must come after its enclosure
@@ -587,9 +587,9 @@ JIndex i;
 
 	JPtrArray<JString> optionValues(JPtrArrayT::kForgetAll, kOptionCount);
 	for (i=1; i<=kOptionCount; i++)
-		{
+	{
 		optionValues.Append(nullptr);
-		}
+	}
 
 	// generate code for each object
 
@@ -597,7 +597,7 @@ JIndex i;
 
 	JIndex objCount = 1;
 	for (i=1; i<=itemCount; i++)
-		{
+	{
 		// check for start-of-object
 
 		input >> std::ws;
@@ -632,9 +632,9 @@ JIndex i;
 		// for actual boxes, use boxType instead of type
 
 		if (flClass == "FL_BOX")
-			{
+		{
 			flType = boxType;
-			}
+		}
 
 		// colors
 
@@ -695,39 +695,39 @@ JIndex i;
 
 		JString cbArgExtra;
 		do
-			{
+		{
 			cbArgExtra = JReadLine(input);
 			cbArgExtra.TrimWhitespace();
-			}
+		}
 			while (!cbArgExtra.IsEmpty());
 
 		// don't bother to generate code for initial box
 		// if it is FL_BOX, FL_FLAT_BOX, FL_COL1
 
 		if (i==1 && flClass == "FL_BOX" && flType == "FL_FLAT_BOX" && col1 == "FL_COL1")
-			{
+		{
 			rectList.RemoveElement(objCount);
 			continue;
-			}
+		}
 
 		// variable name
 
 		if (varName->IsEmpty() && requireObjectNames)
-			{
+		{
 			std::cerr << "FAILED - Names are required for all objects" << std::endl;
 			return false;
-			}
+		}
 		else if (varName->IsEmpty())
-			{
+		{
 			isInstanceVar.AppendElement(false);
 			GetTempVarName(tagName, varName, *objNames);
 			isLocal = true;
-			}
+		}
 		else if ((varName->GetFirstCharacter() == '(' &&
 				  varName->GetLastCharacter()  == ')') ||
 				 (varName->GetFirstCharacter() == '<' &&
 				  varName->GetLastCharacter()  == '>'))
-			{
+		{
 			isInstanceVar.AppendElement(false);
 			isLocal  = varName->GetFirstCharacter() == '(';
 
@@ -737,18 +737,18 @@ JIndex i;
 			iter.MoveTo(kJIteratorStartAtEnd, 0);
 			iter.SkipPrev();
 			iter.RemoveAllNext();
-			}
+		}
 		else
-			{
+		{
 			isInstanceVar.AppendElement(true);
-			}
+		}
 		objNames->Append(varName);
 
 		// check for errors -- safe since we have read in entire object
 
 		JString hSizing, vSizing;
 		if (!ParseGravity(nwGravity, &hSizing, &vSizing))
-			{
+		{
 			std::cerr << "Illegal sizing specification ";
 			std::cerr << nwGravity << ',' << seGravity;
 			std::cerr << " for '" << *varName << '\'' << std::endl;
@@ -756,16 +756,16 @@ JIndex i;
 			isInstanceVar.RemoveElement(objCount);
 			objNames->DeleteElement(objCount);
 			continue;
-			}
+		}
 
 		if (*varName == topEnclVarName)
-			{
+		{
 			std::cerr << "Cannot use reserved name '" << topEnclVarName << '\'' << std::endl;
 			rectList.RemoveElement(objCount);
 			isInstanceVar.RemoveElement(objCount);
 			objNames->DeleteElement(objCount);
 			continue;
-			}
+		}
 
 		// get the object's enclosure
 
@@ -773,15 +773,15 @@ JIndex i;
 		JString enclName;
 		JRect localFrame = frame;
 		if (GetEnclosure(rectList, objCount, &enclIndex))
-			{
+		{
 			enclName = *(objNames->GetElement(enclIndex));
 			const JRect enclFrame = rectList.GetElement(enclIndex);
 			localFrame.Shift(-enclFrame.topLeft());
-			}
+		}
 		else
-			{
+		{
 			enclName = topEnclVarName;
-			}
+		}
 
 		// get the class name and additional arguments
 
@@ -791,14 +791,14 @@ JIndex i;
 
 		JString argList;
 		if (!GetConstructor(flClass, flType, &label, className, &argList))
-			{
+		{
 			std::cerr << "Unsupported class: " << flClass << ", " << flType << std::endl;
 			rectList.RemoveElement(objCount);
 			isInstanceVar.RemoveElement(objCount);
 			objNames->DeleteElement(objCount);
 			objTypes->DeleteElement(objCount);
 			continue;
-			}
+		}
 
 		// generate the actual code
 
@@ -806,45 +806,45 @@ JIndex i;
 
 		output << indent;
 		if (isLocal)
-			{
+		{
 			output << "auto* ";
-			}
+		}
 		varName->Print(output);
 		output << " =" << std::endl;
 		output << indent << indent;
 		if (!needCreate)
-			{
+		{
 			output << "jnew ";
-			}
+		}
 		className->Print(output);
 		if (needCreate)
-			{
+		{
 			output << "::Create";
-			}
+		}
 		output << '(';
 		if (!argList.IsEmpty())
-			{
+		{
 			argList.Print(output);
 			if (argList.GetLastCharacter() != ',')
-				{
+			{
 				output << ',';
-				}
-			output << ' ';
 			}
+			output << ' ';
+		}
 
 		if (!cbArg.IsEmpty())
-			{
+		{
 			cbArg.Print(output);
 			if (cbArg.GetLastCharacter() != ',')
-				{
+			{
 				output << ',';
-				}
-			output << ' ';
 			}
+			output << ' ';
+		}
 
 		if ((*className == "JXStaticText" && cbArg.IsEmpty()) ||
 			NeedsStringArg(*className))
-			{
+		{
 			JString id = *varName;
 			id += "::";
 			id += formName;
@@ -856,7 +856,7 @@ JIndex i;
 			output << "\"), ";
 
 			stringMgr.SetElement(id, label, JPtrArrayT::kDelete);
-			}
+		}
 
 		enclName.Print(output);
 		output << ',' << std::endl;
@@ -879,50 +879,50 @@ JIndex i;
 			localFrame.height() <= 20;
 
 		if (isLabel && lAlign.Contains("FL_ALIGN_CENTER"))
-			{
+		{
 			output << indent;
 			varName->Print(output);
 			output << "->SetToLabel(true);" << std::endl;
-			}
+		}
 		else if (isLabel && !lAlign.Contains("FL_ALIGN_TOP"))
-			{
+		{
 			output << indent;
 			varName->Print(output);
 			output << "->SetToLabel();" << std::endl;
-			}
+		}
 
 		output << std::endl;
 
 		// now we know the object is valid
 
 		objCount++;
-		}
+	}
 
 	// write string database
 
 	JString dbFileName = stringPath + formName;
 	if (tagName != kDefaultDelimTag)
-		{
+	{
 		dbFileName += kCustomTagMarker + tagName;
-		}
+	}
 	dbFileName += "_layout";
 
 	if (stringMgr.GetElementCount() > 0)
-		{
+	{
 		JEditVCS(dbFileName);
 		std::ofstream dbOutput(dbFileName.GetBytes());
 		stringMgr.WriteFile(dbOutput);
-		}
+	}
 	else
-		{
+	{
 		JRemoveVCS(dbFileName);
 		JRemoveFile(dbFileName);
-		}
+	}
 
 	// reset enclosure size
 
 	if (tagName != kDefaultDelimTag)
-		{
+	{
 		output << indent;
 		topEnclVarName.Print(output);
 		output << "->SetSize(";
@@ -931,7 +931,7 @@ JIndex i;
 		topEnclFrameName.Print(output);
 		output << ".height());" << std::endl;
 		output << std::endl;
-		}
+	}
 
 	// throw away temporary variables
 
@@ -940,13 +940,13 @@ JIndex i;
 	assert( objCount == objTypes->GetElementCount() );
 	assert( objCount == objNames->GetElementCount() );
 	for (i=objCount; i>=1; i--)
-		{
+	{
 		if (!isInstanceVar.GetElement(i))
-			{
+		{
 			objTypes->DeleteElement(i);
 			objNames->DeleteElement(i);
-			}
 		}
+	}
 
 	return true;
 }
@@ -973,31 +973,31 @@ GenerateHeader
 
 	JSize maxLen = 0;
 	for (i=1; i<=count; i++)
-		{
+	{
 		const JString* type = objTypes.GetElement(i);
 		const JSize len     = type->GetCharacterCount();
 		if (len > maxLen)
-			{
+		{
 			maxLen = len;
-			}
 		}
+	}
 
 	// declare each object
 
 	for (i=1; i<=count; i++)
-		{
+	{
 		output << indent;
 		const JString* type = objTypes.GetElement(i);
 		type->Print(output);
 		output << '*';
 		const JSize len = type->GetCharacterCount();
 		for (JIndex j=len+1; j<=maxLen+1; j++)
-			{
+		{
 			output << ' ';
-			}
+		}
 		(objNames.GetElement(i))->Print(output);
 		output << ';' << std::endl;
-		}
+	}
 
 	// need blank line to conform to expectations of CopyAfterCodeDelimiter
 
@@ -1036,15 +1036,15 @@ ParseGravity
 	)
 {
 	for (JUnsignedOffset i=0; i<kGravityCount; i++)
-		{
+	{
 		const JIndex j = 3*i;
 		if (gravity == kGravityMap[j])
-			{
+		{
 			*hSizing = kGravityMap[j+1];
 			*vSizing = kGravityMap[j+2];
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -1073,9 +1073,9 @@ GetTempVarName
 	JString suffix = tagName;
 	JStringIterator iter(&suffix);
 	while (iter.Next(illegalCChar))
-		{
+	{
 		iter.RemoveLastMatch();
-		}
+	}
 	iter.Invalidate();
 
 	suffix.Prepend("_");
@@ -1083,23 +1083,23 @@ GetTempVarName
 	const JString prefix("obj", JString::kNoCopy);
 	const JSize count = objNames.GetElementCount();
 	for (JIndex i=1; i<=INT_MAX; i++)
-		{
+	{
 		*varName = prefix + JString(i, 0) + suffix;
 		bool unique = true;
 		for (JIndex j=1; j<=count; j++)
-			{
+		{
 			const JString* usedName = objNames.GetElement(j);
 			if (*varName == *usedName)
-				{
+			{
 				unique = false;
 				break;
-				}
-			}
-		if (unique)
-			{
-			break;
 			}
 		}
+		if (unique)
+		{
+			break;
+		}
+	}
 }
 
 /******************************************************************************
@@ -1128,19 +1128,19 @@ GetEnclosure
 	JSize minArea = 0;
 	const JSize count = rectList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if (i != rectIndex)
-			{
+		{
 			const JRect r = rectList.GetElement(i);
 			const JSize a = r.area();
 			if (r.Contains(theRect) && (a < minArea || minArea == 0))
-				{
+			{
 				minArea    = a;
 				found      = true;
 				*enclIndex = i;
-				}
 			}
 		}
+	}
 	return found;
 }
 
@@ -1163,41 +1163,41 @@ GetConstructor
 	)
 {
 	if (flClass == "FL_BOX" && flType == "FL_NO_BOX" && !label->IsEmpty())
-		{
+	{
 		const bool ok = SplitClassNameAndArgs(*label, className, argList);
 		label->Clear();
 		return ok;
-		}
+	}
 
 	std::ifstream classMap(classMapFile.GetBytes());
 	classMap >> std::ws;
 	while (true)
-		{
+	{
 		if (classMap.peek() == '#')
-			{
+		{
 			JIgnoreLine(classMap);
-			}
+		}
 		else
-			{
+		{
 			const JString aClass = JReadUntilws(classMap);
 			if (classMap.eof() || classMap.fail())
-				{
+			{
 				break;
-				}
+			}
 
 			const JString aType = JReadUntilws(classMap);
 			if (aClass == flClass && (aType == "*" || aType == flType))
-				{
+			{
 				const JString s = JReadUntilws(classMap);
 				return SplitClassNameAndArgs(s, className, argList);
-				}
-			else
-				{
-				JIgnoreLine(classMap);
-				}
 			}
-		classMap >> std::ws;
+			else
+			{
+				JIgnoreLine(classMap);
+			}
 		}
+		classMap >> std::ws;
+	}
 
 	// falling through means that nothing matched
 
@@ -1226,35 +1226,35 @@ SplitClassNameAndArgs
 	if (hasArgs &&
 		!list.GetFirstElement()->IsEmpty() &&
 		!list.GetLastElement()->IsEmpty())
-		{
+	{
 		*name = *(list.GetFirstElement());
 		*args = *(list.GetLastElement());
 
 		name->TrimWhitespace();
 		args->TrimWhitespace();
 		return true;
-		}
+	}
 	else if (hasArgs && list.GetFirstElement()->IsEmpty())
-		{
+	{
 		std::cerr << "No class name in " << str << std::endl;
 		name->Clear();
 		args->Clear();
 		return false;
-		}
+	}
 	else
-		{
+	{
 		if (hasArgs)
-			{
+		{
 			*name = *(list.GetFirstElement());
-			}
+		}
 		else
-			{
+		{
 			*name = str;
-			}
+		}
 		name->TrimWhitespace();
 		args->Clear();
 		return true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1284,27 +1284,27 @@ ApplyOptions
 	std::ifstream optionMap(optionMapFile.GetBytes());
 	optionMap >> std::ws;
 	while (true)
-		{
+	{
 		if (optionMap.peek() == '#')
-			{
+		{
 			JIgnoreLine(optionMap);
-			}
+		}
 		else
-			{
+		{
 			const JString aClassName = JReadUntilws(optionMap);
 			if (optionMap.eof() || optionMap.fail())
-				{
+			{
 				break;
-				}
+			}
 			else if (aClassName != className)
-				{
+			{
 				for (JIndex i=1; i<=kOptionCount; i++)
-					{
-					JIgnoreLine(optionMap);
-					}
-				}
-			else
 				{
+					JIgnoreLine(optionMap);
+				}
+			}
+			else
+			{
 				JIndex i;
 				bool supported;
 
@@ -1312,12 +1312,12 @@ ApplyOptions
 
 				optionMap >> std::ws >> JBoolFromString(supported);
 				if (supported)
-					{
+				{
 					optionMap >> std::ws;
 					const JString function = JReadUntilws(optionMap);
 					const JString* value   = values.GetElement(kShortcutsIndex);
 					if (!value->IsEmpty())
-						{
+					{
 						JString id = varName;
 						id += "::";
 						id += formName;
@@ -1335,29 +1335,29 @@ ApplyOptions
 						auto* s = jnew JString(*value);
 						assert( s != nullptr );
 						stringMgr->SetElement(id, s, JPtrArrayT::kDelete);
-						}
 					}
+				}
 				else
-					{
+				{
 					JIgnoreLine(optionMap);
-					}
+				}
 
 				// colors
 
 				for (i=2; i<=kOptionCount; i++)
-					{
+				{
 					optionMap >> std::ws >> JBoolFromString(supported);
 					if (supported)
-						{
+					{
 						optionMap >> std::ws;
 						const JString defValue = JReadUntilws(optionMap);
 						const JString function = JReadUntilws(optionMap);
 						const JString* value   = values.GetElement(i);
 						if (*value != defValue)
-							{
+						{
 							JString jxColor;
 							if (ConvertXFormsColor(*value, &jxColor))
-								{
+							{
 								output << indent;
 								varName.Print(output);
 								output << "->";
@@ -1365,36 +1365,36 @@ ApplyOptions
 								output << '(';
 								jxColor.Print(output);
 								output << ");" << std::endl;
-								}
+							}
 							else
-								{
+							{
 								std::cerr << "Unknown color: " << *value << std::endl;
-								}
 							}
 						}
+					}
 					else
-						{
+					{
 						JIgnoreLine(optionMap);
-						}
 					}
 				}
 			}
-		optionMap >> std::ws;
 		}
+		optionMap >> std::ws;
+	}
 
 	// For some objects, we have to decode the XForms font spec.
 
 	if (AcceptsFontSpec(className))
-		{
+	{
 		JString fontName = JFontManager::GetDefaultFontName();
 		if (flStyle.Contains("FIXED"))
-			{
+		{
 			output << indent;
 			varName.Print(output);
 			output << "->SetFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize(), JFontStyle());" << std::endl;
-			}
+		}
 		else if (flStyle.Contains("TIMES"))
-			{
+		{
 			JString id;
 			id += "TimesFontName::";
 			id += formName;
@@ -1408,60 +1408,60 @@ ApplyOptions
 			output << "\"));" << std::endl;
 
 			stringMgr->SetElement(id, JString("Times", JString::kNoCopy), JPtrArrayT::kDelete);
-			}
+		}
 
 		if (flSize != "FL_NORMAL_SIZE")
-			{
+		{
 			JString jxSize;
 			if (ConvertXFormsFontSize(flSize, &jxSize))
-				{
+			{
 				output << indent;
 				varName.Print(output);
 				output << "->SetFontSize(";
 				jxSize.Print(output);
 				output << ");" << std::endl;
-				}
-			else
-				{
-				std::cerr << "Unknown font size: " << flSize << std::endl;
-				}
 			}
+			else
+			{
+				std::cerr << "Unknown font size: " << flSize << std::endl;
+			}
+		}
 
 		JFontStyle style;
 		if (flStyle.Contains("BOLD"))
-			{
+		{
 			style.bold = true;
-			}
+		}
 		if (flStyle.Contains("ITALIC"))
-			{
+		{
 			style.italic = true;
-			}
+		}
 		if (style.bold || style.italic || flColor != "FL_BLACK")
-			{
+		{
 			JString jxColor;
 			if (ConvertXFormsColor(flColor, &jxColor))
-				{
+			{
 				output << indent << "const JFontStyle ";
 				varName.Print(output);
 				output << "_style(";
 
 				if (style.bold)
-					{
+				{
 					output << "true, ";
-					}
+				}
 				else
-					{
+				{
 					output << "false, ";
-					}
+				}
 
 				if (style.italic)
-					{
+				{
 					output << "true, ";
-					}
+				}
 				else
-					{
+				{
 					output << "false, ";
-					}
+				}
 
 				output << "0, false, ";
 				jxColor.Print(output);
@@ -1472,13 +1472,13 @@ ApplyOptions
 				output << "->SetFontStyle(";
 				varName.Print(output);
 				output << "_style);" << std::endl;
-				}
+			}
 			else
-				{
+			{
 				std::cerr << "Unknown color: " << flColor << std::endl;
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1547,21 +1547,21 @@ FindClassName
 	std::ifstream list(fileName.GetBytes());
 	list >> std::ws;
 	while (!list.eof() && !list.fail())
-		{
+	{
 		if (list.peek() == '#')
-			{
+		{
 			JIgnoreLine(list);
-			}
+		}
 		else
-			{
+		{
 			const JString name = JReadLine(list);
 			if (name == className)
-				{
+			{
 				return true;
-				}
 			}
-		list >> std::ws;
 		}
+		list >> std::ws;
+	}
 
 	// falling through means that nothing matched
 
@@ -1581,13 +1581,13 @@ ConvertXFormsFontSize
 	)
 {
 	for (JUnsignedOffset i=0; i<kFontSizeTableSize; i++)
-		{
+	{
 		if (kFontSizeTable[i].flSize == flSize)
-			{
+		{
 			*jxSize = kFontSizeTable[i].jxSize;
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -1605,13 +1605,13 @@ ConvertXFormsColor
 	)
 {
 	for (JUnsignedOffset i=0; i<kColorTableSize; i++)
-		{
+	{
 		if (kColorTable[i].flColor == flColor)
-			{
+		{
 			*jxColor = kColorTable[i].jxColor;
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -1634,19 +1634,19 @@ CopyBeforeCodeDelimiter
 
 	const JString delim = kBeginCodeDelimiterPrefix + tag;
 	while (!input.eof() && !input.fail())
-		{
+	{
 		const JString line = JReadLine(input);
 		line.Print(output);
 		output << '\n';
 		if (line == delim)
-			{
+		{
 			output << '\n';
 			break;
-			}
+		}
 
 		buffer += line;
 		buffer += "\n";
-		}
+	}
 
 	bool useSpaces, isMixed;
 	JAnalyzeWhitespace(buffer, 4, false, &useSpaces, &isMixed);
@@ -1675,18 +1675,18 @@ CopyAfterCodeDelimiter
 	// skip lines before end delimiter
 
 	while (!input.eof() && !input.fail())
-		{
+	{
 		const JString line = JReadLine(input);
 		if (line == delim)
-			{
+		{
 			break;
-			}
 		}
+	}
 
 	if (input.eof() || input.fail())
-		{
+	{
 		return false;
-		}
+	}
 
 	// include end delimiter
 
@@ -1696,15 +1696,15 @@ CopyAfterCodeDelimiter
 	// copy lines after end delimiter
 
 	while (true)
-		{
+	{
 		const JString line = JReadLine(input);
 		if ((input.eof() || input.fail()) && line.IsEmpty())
-			{
+		{
 			break;	// avoid creating extra empty lines
-			}
+		}
 		line.Print(output);
 		output << std::endl;
-		}
+	}
 
 	return true;
 }
@@ -1763,106 +1763,106 @@ GetOptions
 
 	JIndex index = 1;
 	while (index < argc)
-		{
+	{
 		if (JIsVersionRequest(argv[index]))
-			{
+		{
 			PrintVersion();
 			exit(0);
-			}
+		}
 		else if (JIsHelpRequest(argv[index]))
-			{
+		{
 			PrintHelp(*codePath, *codeSuffix, *headerSuffix, *stringPath);
 			exit(0);
-			}
+		}
 
 		else if (strcmp(argv[index], "-cp") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			*codePath = argv[index];
 			JAppendDirSeparator(codePath);
 			if (!JDirectoryExists(*codePath))
-				{
+			{
 				std::cerr << argv[0] << ": specified code path does not exist" << std::endl;
 				exit(1);
-				}
 			}
+		}
 		else if (strcmp(argv[index], "-cs") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			*codeSuffix = argv[index];
-			}
+		}
 		else if (strcmp(argv[index], "-hs") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			*headerSuffix = argv[index];
-			}
+		}
 
 		else if (strcmp(argv[index], "-sp") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			*stringPath = argv[index];
 			JAppendDirSeparator(stringPath);
 			if (!JDirectoryExists(*stringPath))
-				{
+			{
 				std::cerr << argv[0] << ": specified string database path does not exist" << std::endl;
 				exit(1);
-				}
 			}
+		}
 
 		else if (strcmp(argv[index], "--require-obj-names") == 0)
-			{
+		{
 			*requireObjectNames = true;
-			}
+		}
 
 		else if (strcmp(argv[index], "--post-cmd") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			*postCmd = argv[index];
-			}
+		}
 
 		else if (argv[index][0] == '-')
-			{
+		{
 			std::cerr << argv[0] << ": unknown command line option: " << argv[index] << std::endl;
-			}
+		}
 
 		else if (inputName->IsEmpty())
-			{
+		{
 			*inputName = argv[index];
 			if (!inputName->EndsWith(".fd"))
-				{
+			{
 				std::cerr << argv[0] << ": not an fdesign (.fd) file: " << argv[index] << std::endl;
 				exit(1);
-				}
 			}
+		}
 
 		else
-			{
+		{
 			std::cerr << argv[0] << ": unknown command line argument: " << argv[index] << std::endl;
-			}
+		}
 
 		index++;
-		}
+	}
 
 	if (inputName->IsEmpty())
-		{
+	{
 		std::cerr << argv[0] << ": fdesign input file not specified" << std::endl;
 		exit(1);
-		}
+	}
 	if (!JFileExists(*inputName))
-		{
+	{
 		std::cerr << argv[0] << ": fdesign input file not found" << std::endl;
 		exit(1);
-		}
+	}
 	if (!JDirectoryExists(*codePath))
-		{
+	{
 		std::cerr << argv[0] << ": source code directory does not exist" << std::endl;
 		exit(1);
-		}
+	}
 	if (!JDirectoryExists(*stringPath))
-		{
+	{
 		std::cerr << argv[0] << ": directory for string data files does not exist" << std::endl;
 		exit(1);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1879,27 +1879,27 @@ FindConfigFile
 	)
 {
 	if (JFileExists(*configFileName))
-		{
+	{
 		return true;
-		}
+	}
 
 	const JString mainFileName = JCombinePathAndName(kMainConfigFileDir, *configFileName);
 	if (JFileExists(mainFileName))
-		{
+	{
 		*configFileName = mainFileName;
 		return true;
-		}
+	}
 
 	char* envStr = getenv(kEnvUserConfigFileDir.GetBytes());
 	if (envStr != nullptr && envStr[0] != '\0')
-		{
+	{
 		JString otherFileName = JCombinePathAndName(JString(envStr, JString::kNoCopy), *configFileName);
 		if (JFileExists(otherFileName))
-			{
+		{
 			*configFileName = otherFileName;
 			return true;
-			}
 		}
+	}
 
 	std::cerr << "Unable to find " << *configFileName << std::endl;
 	std::cerr << "  please install it in " << kMainConfigFileDir << std::endl;

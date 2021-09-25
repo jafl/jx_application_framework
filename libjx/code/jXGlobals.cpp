@@ -102,21 +102,21 @@ void
 JXCloseDirectors()
 {
 	if (theDockManager != nullptr)
-		{
+	{
 		const bool ok = theDockManager->Close();
 		assert( ok );
 
 		theDockManager = nullptr;
-		}
+	}
 
 	if (thePersistentWindowOwner != nullptr)
-		{
+	{
 		const bool ok = thePersistentWindowOwner->Close();
 		assert( ok );
 
 		thePersistentWindowOwner = nullptr;
 		theSearchTextDialog      = nullptr;
-		}
+	}
 }
 
 /******************************************************************************
@@ -448,10 +448,10 @@ JXDirector*
 JXGetPersistentWindowOwner()
 {
 	if (thePersistentWindowOwner == nullptr)
-		{
+	{
 		thePersistentWindowOwner = jnew JXDirector(nullptr);
 		assert( thePersistentWindowOwner != nullptr );
-		}
+	}
 
 	return thePersistentWindowOwner;
 }
@@ -465,9 +465,9 @@ void
 JXSuspendPersistentWindows()
 {
 	if (thePersistentWindowOwner != nullptr)
-		{
+	{
 		thePersistentWindowOwner->Suspend();
-		}
+	}
 }
 
 /******************************************************************************
@@ -479,9 +479,9 @@ void
 JXResumePersistentWindows()
 {
 	if (thePersistentWindowOwner != nullptr)
-		{
+	{
 		thePersistentWindowOwner->Resume();
-		}
+	}
 }
 
 /******************************************************************************
@@ -493,9 +493,9 @@ JXSearchTextDialog*
 JXGetSearchTextDialog()
 {
 	if (theSearchTextDialog == nullptr)
-		{
+	{
 		JXSearchTextDialog::Create();
-		}
+	}
 
 	// The dialog must register itself.
 
@@ -542,9 +542,9 @@ JXSpellChecker*
 JXGetSpellChecker()
 {
 	if (theSpellChecker == nullptr)
-		{
+	{
 		theSpellChecker = jnew JXSpellChecker();
-		}
+	}
 
 	assert( theSpellChecker != nullptr );
 	return theSpellChecker;

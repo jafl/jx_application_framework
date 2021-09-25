@@ -82,9 +82,9 @@ JTangent::Evaluate
 {
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = tan(argValue);
 	return jerrno_is_clear();
@@ -99,15 +99,15 @@ JTangent::Evaluate
 {
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = cos(argValue);
 	if (real(*result) == 0.0 && imag(*result) == 0.0)
-		{
+	{
 		return false;
-		}
+	}
 	*result = sin(argValue)/(*result);
 	return jerrno_is_clear();
 }

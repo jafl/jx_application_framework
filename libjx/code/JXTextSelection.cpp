@@ -112,13 +112,13 @@ JXTextSelection::AddTypes
 	itsStyledText0XAtom = AddType(kStyledText0XAtomName);
 
 	if (selectionName != GetDNDSelectionName())
-		{
+	{
 		AddType(selMgr->GetUtf8StringXAtom());
 		if (itsText == nullptr || itsText->IsAscii())
-			{
+		{
 			AddType(XA_STRING);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -139,29 +139,29 @@ JXTextSelection::SetData
 	)
 {
 	if (itsText != nullptr)
-		{
+	{
 		*itsText = text;
-		}
+	}
 	else
-		{
+	{
 		itsText = jnew JString(text);
 		assert( itsText != nullptr );
-		}
+	}
 
 	if (style != nullptr && itsStyle != nullptr)
-		{
+	{
 		*itsStyle = *style;
-		}
+	}
 	else if (style != nullptr && itsStyle == nullptr)
-		{
+	{
 		itsStyle = jnew JRunArray<JFont>(*style);
 		assert( itsStyle != nullptr );
-		}
+	}
 	else
-		{
+	{
 		jdelete itsStyle;
 		itsStyle = nullptr;
-		}
+	}
 
 	SetTextEditor(nullptr, JCharacterRange());
 }
@@ -207,14 +207,14 @@ JXTextSelection::SetData
 	)
 {
 	if (itsText == nullptr)
-		{
+	{
 		itsText = jnew JString;
 		assert( itsText != nullptr );
-		}
+	}
 	else
-		{
+	{
 		itsText->Clear();
-		}
+	}
 
 	jdelete itsStyle;
 	itsStyle = nullptr;
@@ -223,9 +223,9 @@ JXTextSelection::SetData
 
 	*itsText = JStringJoin("\n", list);
 	if (list.GetElementCount() > 1)
-		{
+	{
 		itsText->Append("\n");
-		}
+	}
 }
 
 /******************************************************************************
@@ -243,14 +243,14 @@ JXTextSelection::SetTextEditor
 	)
 {
 	if (itsTE != nullptr)
-		{
+	{
 		StopListening(itsTE);
-		}
+	}
 	itsTE = te;
 	if (itsTE != nullptr)
-		{
+	{
 		ClearWhenGoingAway(itsTE, &itsTE);
-		}
+	}
 
 	itsSelection = selection;
 }
@@ -281,20 +281,20 @@ JXTextSelection::ConvertData
 		 requestType == selMgr->GetMimePlainTextXAtom() ||
 		 requestType == selMgr->GetMimePlainTextUTF8XAtom()) &&
 		itsText != nullptr)
-		{
+	{
 		*returnType = requestType;
 		*dataLength = itsText->GetByteCount();
 		*data       = jnew unsigned char[ *dataLength ];
 		if (*data != nullptr)
-			{
+		{
 			memcpy(*data, itsText->GetRawBytes(), *dataLength);
 			return true;
-			}
 		}
+	}
 
 	else if (requestType == itsStyledText0XAtom &&
 			 itsText != nullptr && itsStyle != nullptr)
-		{
+	{
 		const JFileVersion vers = 1;
 		std::ostringstream dataStream;
 		JStyledText::WritePrivateFormat(dataStream, vers, *itsText, *itsStyle,
@@ -305,23 +305,23 @@ JXTextSelection::ConvertData
 		*dataLength         = s.length();
 		*data               = jnew unsigned char[ *dataLength ];
 		if (*data != nullptr)
-			{
+		{
 			memcpy(*data, s.data(), *dataLength);
 			return true;
-			}
 		}
+	}
 
 	else if (requestType == selMgr->GetDeleteSelectionXAtom() &&
 			 itsTE != nullptr && IsCurrent() &&
 			 itsTE->GetSelection(&selection) && selection == itsSelection)
-		{
+	{
 		itsTE->DeleteSelection();
 
 		*data       = jnew unsigned char[1];
 		*dataLength = 0;
 		*returnType = selMgr->GetNULLXAtom();
 		return true;
-		}
+	}
 
 	*data       = nullptr;
 	*dataLength = 0;

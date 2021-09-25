@@ -1,23 +1,23 @@
 /*********************************************************************************
- JPlotDataBase.cpp
+ J2DPlotDataBase.cpp
 
-	JPlotDataBase class.
+	J2DPlotDataBase class.
 
 	Copyright @ 1997 by Glenn W. Bach.
 
  ********************************************************************************/
 
-#include "JPlotDataBase.h"
+#include "J2DPlotDataBase.h"
 #include <jAssert.h>
 
-const JUtf8Byte* JPlotDataBase::kCurveChanged = "CurveChanged::JPlotDataBase";
+const JUtf8Byte* J2DPlotDataBase::kCurveChanged = "CurveChanged::J2DPlotDataBase";
 
 /*********************************************************************************
  Constructor
 
  ********************************************************************************/
 
-JPlotDataBase::JPlotDataBase
+J2DPlotDataBase::J2DPlotDataBase
 	(
 	const Type type
 	)
@@ -33,7 +33,7 @@ JPlotDataBase::JPlotDataBase
 
  ********************************************************************************/
 
-JPlotDataBase::~JPlotDataBase()
+J2DPlotDataBase::~J2DPlotDataBase()
 {
 }
 
@@ -43,14 +43,14 @@ JPlotDataBase::~JPlotDataBase()
  ********************************************************************************/
 
 void
-JPlotDataBase::GetElement
+J2DPlotDataBase::GetElement
 	(
 	const JIndex	index,
 	J2DDataPoint*	data
 	)
 	const
 {
-	assert_msg( 0, "The programmer forgot to override JPlotDataBase::GetElement(J2DDataPoint)" );
+	assert_msg( 0, "The programmer forgot to override J2DPlotDataBase::GetElement(J2DDataPoint)" );
 }
 
 /*********************************************************************************
@@ -59,61 +59,14 @@ JPlotDataBase::GetElement
  ********************************************************************************/
 
 void
-JPlotDataBase::GetElement
+J2DPlotDataBase::GetElement
 	(
 	const JIndex	index,
 	J2DVectorPoint*	data
 	)
 	const
 {
-	assert_msg( 0, "The programmer forgot to override JPlotDataBase::GetElement(J2DVectorPoint)" );
-}
-
-/*********************************************************************************
- GetZRange (virtual)
-
- ********************************************************************************/
-
-bool
-JPlotDataBase::GetZRange
-	(
-	const JFloat	xMin,
-	const JFloat	xMax,
-	const bool	xLinear,
-	const JFloat	yMin,
-	const JFloat	yMax,
-	const bool	yLinear,
-	JFloat*			zMin,
-	JFloat*			zMax
-	)
-	const
-{
-	return false;
-}
-
-/*********************************************************************************
- Get4thRange (virtual)
-
- ********************************************************************************/
-
-bool
-JPlotDataBase::Get4thRange
-	(
-	const JFloat	xMin,
-	const JFloat	xMax,
-	const bool	xLinear,
-	const JFloat	yMin,
-	const JFloat	yMax,
-	const bool	yLinear,
-	const JFloat	zMin,
-	const JFloat	zMax,
-	const bool	zLinear,
-	JFloat*			min,
-	JFloat*			max
-	)
-	const
-{
-	return false;
+	assert_msg( 0, "The programmer forgot to override J2DPlotDataBase::GetElement(J2DVectorPoint)" );
 }
 
 /*********************************************************************************
@@ -122,7 +75,7 @@ JPlotDataBase::Get4thRange
  ********************************************************************************/
 
 bool
-JPlotDataBase::HasXErrors()
+J2DPlotDataBase::HasXErrors()
 	const
 {
 	return false;
@@ -134,7 +87,7 @@ JPlotDataBase::HasXErrors()
  ********************************************************************************/
 
 bool
-JPlotDataBase::HasYErrors()
+J2DPlotDataBase::HasYErrors()
 	const
 {
 	return false;
@@ -146,7 +99,7 @@ JPlotDataBase::HasYErrors()
  ********************************************************************************/
 
 bool
-JPlotDataBase::HasSymmetricXErrors()
+J2DPlotDataBase::HasSymmetricXErrors()
 	const
 {
 	return false;
@@ -158,7 +111,7 @@ JPlotDataBase::HasSymmetricXErrors()
  ********************************************************************************/
 
 bool
-JPlotDataBase::HasSymmetricYErrors()
+J2DPlotDataBase::HasSymmetricYErrors()
 	const
 {
 	return false;
@@ -170,7 +123,7 @@ JPlotDataBase::HasSymmetricYErrors()
  ********************************************************************************/
 
 bool
-JPlotDataBase::IsFunction()
+J2DPlotDataBase::IsFunction()
 	const
 {
 	return false;

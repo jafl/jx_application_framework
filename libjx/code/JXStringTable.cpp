@@ -71,7 +71,7 @@ JXStringTable::TableDrawCell
 {
 	JPoint editCell;
 	if (!GetEditedCell(&editCell) || cell != editCell)
-		{
+	{
 		HilightIfSelected(p, cell, rect);
 
 		JFont font = GetFont();
@@ -83,7 +83,7 @@ JXStringTable::TableDrawCell
 		JRect r = rect;
 		r.left += kHMarginWidth;
 		p.String(r, str, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
-		}
+	}
 }
 
 /******************************************************************************
@@ -160,14 +160,14 @@ JXStringTable::ExtractInputData
 	assert( itsStringInputField != nullptr );
 
 	if (itsStringInputField->InputValid())
-		{
+	{
 		itsStringData->SetString(cell, itsStringInputField->GetText()->GetText());
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

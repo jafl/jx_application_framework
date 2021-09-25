@@ -81,9 +81,9 @@ JTruncateToInt::Evaluate
 {
 	JFloat value;
 	if (!GetArg()->Evaluate(&value))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = JTruncate(value);
 	return jerrno_is_clear();
@@ -98,9 +98,9 @@ JTruncateToInt::Evaluate
 {
 	JComplex value;
 	if (!GetArg()->Evaluate(&value))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = JComplex(JTruncate(real(value)), JTruncate(imag(value)));
 	return jerrno_is_clear();

@@ -67,16 +67,16 @@ bool
 JXFSRunFileDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		WriteSetup();	// here because we are invoked again before dtor
 		return true;
-		}
+	}
 	else
-		{
+	{
 		itsCmdHistoryMenu->AddCommand(itsCmdInput->GetText()->GetText(),
 									  itsUseShellCB->IsChecked(),
 									  itsUseWindowCB->IsChecked(),
@@ -84,7 +84,7 @@ JXFSRunFileDialog::OKToDeactivate()
 
 		WriteSetup();	// here because we are invoked again before dtor
 		return true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -228,33 +228,33 @@ JXFSRunFileDialog::BuildWindow
 
 	JString root, suffix;
 	if (!allowSaveCmd || !JSplitRootAndSuffix(name, &root, &suffix))
-		{
+	{
 		itsSaveBindingCB->Hide();
-		}
+	}
 
 	// set prompt
 
 	JString promptStr;
 	if (allowSaveCmd)
-		{
+	{
 		const JUtf8Byte* map[] =
-			{
-			"name", name.GetBytes()
-			};
-		promptStr = JGetString("RunWithFile::JXFSRunFileDialog", map, sizeof(map));
-		}
-	else
 		{
+			"name", name.GetBytes()
+		};
+		promptStr = JGetString("RunWithFile::JXFSRunFileDialog", map, sizeof(map));
+	}
+	else
+	{
 		promptStr = JGetString("RunWithFiles::JXFSRunFileDialog");
-		}
+	}
 	prompt->GetText()->SetText(promptStr);
 
 	// read previous window geometry
 
 	if (!ReadSetup())
-		{
+	{
 		window->PlaceAsDialogWindow();
-		}
+	}
 
 	// adjust window width to fit prompt
 
@@ -262,9 +262,9 @@ JXFSRunFileDialog::BuildWindow
 	const JSize prefw = prompt->TEGetMinPreferredGUIWidth() + 10;
 	const JSize apw   = prompt->GetApertureWidth();
 	if (prefw > apw)
-		{
+	{
 		GetWindow()->AdjustSize(prefw - apw, 0);
-		}
+	}
 }
 
 /******************************************************************************
@@ -276,13 +276,13 @@ void
 JXFSRunFileDialog::UpdateDisplay()
 {
 	if (itsCmdInput->GetText()->IsEmpty())
-		{
+	{
 		itsOKButton->Deactivate();
-		}
+	}
 	else
-		{
+	{
 		itsOKButton->Activate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -298,31 +298,31 @@ JXFSRunFileDialog::Receive
 	)
 {
 	if (sender == itsCmdHistoryMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		HandleHistoryMenu(message, itsCmdHistoryMenu, itsCmdInput,
 						  itsUseShellCB, itsUseWindowCB, itsSingleFileCB);
-		}
+	}
 	else if (sender == itsChooseCmdButton && message.Is(JXButton::kPushed))
-		{
+	{
 		HandleChooseCmdButton(itsCmdInput);
-		}
+	}
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
-		{
+	{
 		(JXGetHelpManager())->ShowSection(JGetString("HelpLink::JXFSRunFileDialog").GetBytes());
-		}
+	}
 
 	else if (sender == itsCmdInput &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
-		{
+	{
 		UpdateDisplay();
-		}
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -354,18 +354,18 @@ JXFSRunFileDialog::HandleHistoryMenu
 	shellCB->SetState(false);
 	windowCB->SetState(false);
 	if (type == JFSBinding::kRunInShell)
-		{
+	{
 		shellCB->SetState(true);
-		}
+	}
 	else if (type == JFSBinding::kRunInWindow)
-		{
+	{
 		windowCB->SetState(true);
-		}
+	}
 
 	if (singleFileCB != nullptr)
-		{
+	{
 		singleFileCB->SetState(singleFile);
-		}
+	}
 }
 
 /******************************************************************************
@@ -383,13 +383,13 @@ JXFSRunFileDialog::HandleChooseCmdButton
 	if (JGetChooseSaveFile()->ChooseFile(
 			JGetString("ChooseCmdPrompt::JXFSRunFileDialog"),
 			JString::empty, &fullName))
-		{
+	{
 		JString path, name;
 		JSplitPathAndName(fullName, &path, &name);
 		name.Append(" ");
 		cmdInput->GetText()->SetText(name);
 		cmdInput->GoToEndOfLine();
-		}
+	}
 }
 
 /******************************************************************************
@@ -405,27 +405,27 @@ JXFSRunFileDialog::ReadSetup()
 	JPrefsFile* file = nullptr;
 	if ((JPrefsFile::Create(kPrefsFileRoot, &file,
 							JFileArray::kDeleteIfWaitTimeout)).OK())
-		{
+	{
 		for (JFileVersion vers = kCurrentPrefsVersion; true; vers--)
-			{
+		{
 			if (file->IDValid(vers))
-				{
+			{
 				std::string data;
 				file->GetData(vers, &data);
 				std::istringstream input(data);
 				ReadSetup(input);
 				found = true;
 				break;
-				}
-
-			if (vers == 0)
-				{
-				break;	// check *before* decrement since unsigned
-				}
 			}
 
-		jdelete file;
+			if (vers == 0)
+			{
+				break;	// check *before* decrement since unsigned
+			}
 		}
+
+		jdelete file;
+	}
 
 	return found;
 }
@@ -441,12 +441,12 @@ JXFSRunFileDialog::WriteSetup()
 	JPrefsFile* file = nullptr;
 	if ((JPrefsFile::Create(kPrefsFileRoot, &file,
 							JFileArray::kDeleteIfWaitTimeout)).OK())
-		{
+	{
 		std::ostringstream data;
 		WriteSetup(data);
 		file->SetData(kCurrentPrefsVersion, data);
 		jdelete file;
-		}
+	}
 }
 
 /******************************************************************************

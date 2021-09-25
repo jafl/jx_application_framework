@@ -100,25 +100,25 @@ JXTextButton::SetShortcuts
 	JXButton::SetShortcuts(list);
 
 	if (list.IsEmpty())
-		{
+	{
 		jdelete itsShortcuts;
 		itsShortcuts = nullptr;
 		itsULIndex   = 0;
-		}
+	}
 	else
-		{
+	{
 		if (itsShortcuts == nullptr)
-			{
+		{
 			itsShortcuts = jnew JString(list);
 			assert( itsShortcuts != nullptr );
-			}
+		}
 		else
-			{
+		{
 			*itsShortcuts = list;
-			}
+		}
 
 		CalcULIndex();
-		}
+	}
 }
 
 /******************************************************************************
@@ -130,22 +130,22 @@ void
 JXTextButton::CalcULIndex()
 {
 	if (itsShortcuts != nullptr)
-		{
+	{
 		JString s = *itsShortcuts;
 
 		JStringIterator iter(&s);
 		if (iter.Next("^M") || iter.Prev("^m"))	// indicated with black border
-			{
+		{
 			iter.RemoveLastMatch();
-			}
+		}
 		iter.Invalidate();
 
 		itsULIndex = JXWindow::GetULShortcutIndex(itsLabel, &s);
-		}
+	}
 	else
-		{
+	{
 		itsULIndex = 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -163,15 +163,15 @@ JXTextButton::Draw
 	const JRect bounds = GetBounds();
 
 	if (IsActive())
-		{
+	{
 		p.SetFont(itsFont);
-		}
+	}
 	else
-		{
+	{
 		JFont f = itsFont;
 		f.SetColor(JColorManager::GetInactiveLabelColor());
 		p.SetFont(f);
-		}
+	}
 
 	p.String(bounds.left, bounds.top, itsLabel, itsULIndex,
 			 bounds.width(), JPainter::kHAlignCenter,
@@ -191,17 +191,17 @@ JXTextButton::DrawBackground
 	)
 {
 	if (IsPushed())
-		{
+	{
 		p.SetPenColor(itsPushedColor);
 		p.SetFilling(true);
 		p.JPainter::Rect(frame);
 		p.SetPenColor(JColorManager::GetBlackColor());
 		p.SetFilling(false);
-		}
+	}
 	else
-		{
+	{
 		JXButton::DrawBackground(p, frame);
-		}
+	}
 }
 
 /******************************************************************************

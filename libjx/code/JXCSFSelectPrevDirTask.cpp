@@ -51,8 +51,8 @@ JXCSFSelectPrevDirTask::Perform()
 {
 	JIndex index;
 	if (itsDirTable != nullptr && itsDirInfo->FindEntry(itsDirName, &index))
-		{
+	{
 		itsDirTable->UpdateScrollbars();
 		itsDirTable->SelectSingleEntry(index);
-		}
+	}
 }

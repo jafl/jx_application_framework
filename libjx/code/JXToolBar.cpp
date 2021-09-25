@@ -181,7 +181,7 @@ JXToolBar::AppendButton
 {
 	const JString* itemID = nullptr;
 	if (menu->GetItemID(index, &itemID))
-		{
+	{
 		itsGroupStarts->AppendElement(itsInNewGroupMode);
 
 		itsInNewGroupMode = false;
@@ -198,10 +198,10 @@ JXToolBar::AppendButton
 
 		JIndex findex;
 		if (!itsMenus->Find(menu, &findex))
-			{
+		{
 			itsMenus->Append(menu);
-			}
 		}
+	}
 }
 
 void
@@ -213,9 +213,9 @@ JXToolBar::AppendButton
 {
 	JIndex index;
 	if (menu->ItemIDToIndex(id, &index))
-		{
+	{
 		AppendButton(menu, index);
-		}
+	}
 }
 
 /******************************************************************************
@@ -227,9 +227,9 @@ void
 JXToolBar::NewGroup()
 {
 	if (itsInNewGroupMode)
-		{
+	{
 		return;
-		}
+	}
 	itsNextButtonPosition  += kButConBuffer;
 	itsInNewGroupMode		= true;
 }
@@ -253,18 +253,18 @@ JXToolBar::Receive
 	const bool hasPrefs = GetPrefInfo(&prefsMgr, &prefID);
 
 	if (message.Is(JXButton::kPushed))
-		{
+	{
 		auto* button = dynamic_cast<JXToolBarButton*>(sender);
 		if (itsButtons->Includes(button))
-			{
+		{
 			JXTextMenu* menu = button->GetMenu();
 			if (menu->IsActive())
-				{
+			{
 				menu->PrepareToOpenMenu(true);
 				JIndex itemIndex;
 				if (button->GetMenuItemIndex(&itemIndex) &&
 					menu->IsEnabled(itemIndex))
-					{
+				{
 					JXDisplay* display = GetDisplay();	// need local copy, since we might be deleted
 					Display* xDisplay  = *display;
 					Window xWindow     = GetWindow()->GetXWindow();
@@ -272,67 +272,67 @@ JXToolBar::Receive
 					menu->BroadcastSelection(itemIndex, false);
 
 					if (!JXDisplay::WindowExists(display, xDisplay, xWindow))
-						{
+					{
 						// we have been deleted
 						return;
-						}
+					}
 
 					UpdateButtons();
-					}
 				}
-			propagate = false;
 			}
+			propagate = false;
 		}
+	}
 
 	else if (sender == itsTimerTask && message.Is(JXTimerTask::kTimerWentOff))
-		{
+	{
 		UpdateButtons();
 		propagate = false;
-		}
+	}
 
 	else if (sender == itsEditDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert(info != nullptr);
 		if (info->Successful())
-			{
+		{
 			ExtractChanges();
-			}
+		}
 		jdelete itsMenuTree;
 		itsMenuTree = nullptr;
 		itsEditDialog = nullptr;
 		propagate = false;
-		}
+	}
 	else if (hasPrefs &&
 			 sender == prefsMgr && message.Is(JPrefsManager::kDataChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JPrefsManager::DataChanged*>(&message);
 		assert(info != nullptr);
 		if (info->GetID() == prefID)
-			{
+		{
 			JPrefObject::ReadPrefs();
 			propagate = false;
-			}
 		}
+	}
 
 	else if (sender == GetWindow() && message.Is(JXWindow::kIconified))
-		{
+	{
 		itsTimerTask->Stop();
-		}
+	}
 	else if (itsIsShowingButtons &&
 			 sender == GetWindow() && message.Is(JXWindow::kDeiconified))
-		{
+	{
 		itsTimerTask->Start();
-		}
+	}
 
 	// If nobody else handled it, pass it to the base class.
 
 	if (propagate)
-		{
+	{
 		JXWidgetSet::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -356,11 +356,11 @@ JXToolBar::Edit()
 	assert(itsEditDialog != nullptr);
 
 	if (!itsDialogPrefs.IsEmpty())
-		{
+	{
 		const std::string s(itsDialogPrefs.GetBytes(), itsDialogPrefs.GetByteCount());
 		std::istringstream is(s);
 		itsEditDialog->ReadSetup(is);
-		}
+	}
 	itsEditDialog->BeginDialog();
 	ListenTo(itsEditDialog);
 }
@@ -384,10 +384,10 @@ JXToolBar::ExtractChanges()
 	JTreeNode* base = itsMenuTree->GetRoot();
 	JSize menuCount = base->GetChildCount();
 	for (JIndex i=1; i<=menuCount; i++)
-		{
+	{
 		JTreeNode* node = base->GetChild(i);
 		ExtractItemNodes(node);
-		}
+	}
 
 	AdjustToolBarGeometry();
 	ShowToolBar(itsEditDialog->ShowToolBar());
@@ -414,27 +414,27 @@ JXToolBar::ExtractItemNodes
 
 	const JSize itemCount = menuNode->GetChildCount();
 	for (JIndex i=1; i<=itemCount; i++)
-		{
+	{
 		JTreeNode* child = menuNode->GetChild(i);
 		if (child->IsOpenable())
-			{
+		{
 			ExtractItemNodes(child);
 			NewGroup();
-			}
+		}
 		else
-			{
+		{
 			auto* item	= dynamic_cast<JXToolBarNode*>(child);
 			assert(item != nullptr);
 			if (item->IsChecked())
-				{
+			{
 				AppendButton(item->GetMenu(), item->GetIndex());
-				}
+			}
 			if (item->HasSeparator())
-				{
+			{
 				NewGroup();
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -453,12 +453,12 @@ JXToolBar::BuildTree()
 
 	const JSize count = itsMenuBar->GetMenuCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		JXMenu* menu		= itsMenuBar->GetMenu(i);
 		auto* tmenu	= dynamic_cast<JXTextMenu*>(menu);
 		assert(tmenu != nullptr);
 		AddMenuToTree(tmenu, base, tmenu->GetTitleText());
-		}
+	}
 }
 
 /******************************************************************************
@@ -479,35 +479,35 @@ JXToolBar::AddMenuToTree
 	parent->Append(mnode);
 	JSize itemCount = menu->GetItemCount();
 	for (JIndex i=1; i<=itemCount; i++)
-		{
+	{
 		const JString& name1 = menu->GetItemText(i);
 		const JXMenu* sub;
 		if (menu->GetSubmenu(i, &sub))
-			{
+		{
 			const auto* temp	= dynamic_cast<const JXTextMenu*>(sub);
 			auto* tsub = const_cast<JXTextMenu*>(temp);
 			AddMenuToTree(tsub, mnode, name1);
-			}
+		}
 		else
-			{
+		{
 			const bool separator = menu->HasSeparatorAfter(i);
 			const bool checked   = ItemIsUsed(menu, i);
 
 			const JString* id;
 			if (menu->GetItemID(i, &id))
-				{
+			{
 				auto* tbnode =
 					jnew JXToolBarNode(menu, i, separator, checked,
 									  itsMenuTree, mnode, name1);
 				assert(tbnode != nullptr);
-				}
 			}
 		}
+	}
 
 	if (mnode->GetChildCount() == 0)
-		{
+	{
 		jdelete mnode;
-		}
+	}
 }
 
 /******************************************************************************
@@ -524,11 +524,11 @@ JXToolBar::ItemIsUsed
 {
 	return std::any_of(begin(*itsButtons), end(*itsButtons),
 			[menu,index] (JXToolBarButton* button)
-			{
+		{
 				JIndex j;
 				return (button->GetMenu() == menu &&
 						button->GetMenuItemIndex(&j) && j == index);
-			});
+		});
 }
 
 /******************************************************************************
@@ -545,9 +545,9 @@ JXToolBar::ReadPrefs
 	JFileVersion vers;
 	input >> vers;
 	if (vers > kCurrentPrefsVersion)
-		{
+	{
 		return;
-		}
+	}
 
 	itsLoadedPrefs = true;
 	itsButtons->DeleteAll();
@@ -560,39 +560,39 @@ JXToolBar::ReadPrefs
 	input >> JBoolFromString(useSmall);
 	UseSmallButtons(useSmall);
 	if (vers == 1)
-		{
+	{
 		bool textOnly;
 		input >> JBoolFromString(textOnly);
 		if (textOnly)
-			{
-			SetButtonType(JXToolBarButton::kText);
-			}
-		}
-	else
 		{
+			SetButtonType(JXToolBarButton::kText);
+		}
+	}
+	else
+	{
 		JIndex type;
 		input >> type;
 		SetButtonType((JXToolBarButton::Type)type);
-		}
+	}
 
 	JSize count;
 	input >> count;
 
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		JString id;
 		input >> id;
 		bool group;
 		input >> JBoolFromString(group);
 		if (!id.IsEmpty())
-			{
+		{
 			if (group)
-				{
+			{
 				NewGroup();
-				}
-			FindItemAndAdd(id);
 			}
+			FindItemAndAdd(id);
 		}
+	}
 
 	input >> itsDialogPrefs;
 
@@ -620,10 +620,10 @@ JXToolBar::WritePrefs
 	output << ' ' << count;
 
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		output << ' ' << (itsButtons->GetElement(i))->GetMenuItemID();
 		output << ' ' << JBoolToString(itsGroupStarts->GetElement(i));
-		}
+	}
 
 	output << ' ' << itsDialogPrefs;
 }
@@ -641,12 +641,12 @@ JXToolBar::FindItemAndAdd
 {
 	JSize count = itsMenuBar->GetMenuCount();
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		JXMenu* menu		= itsMenuBar->GetMenu(i);
 		auto* tmenu	= dynamic_cast<JXTextMenu*>(menu);
 		assert(tmenu != nullptr);
 		FindItemAndAdd(tmenu, id);
-		}
+	}
 }
 
 void
@@ -658,27 +658,27 @@ JXToolBar::FindItemAndAdd
 {
 	JSize count = menu->GetItemCount();
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		const JXMenu* sub;
 		if (menu->GetSubmenu(i, &sub))
-			{
+		{
 			const auto* temp	= dynamic_cast<const JXTextMenu*>(sub);
 			auto* tsub = const_cast<JXTextMenu*>(temp);
 			FindItemAndAdd(tsub, id);
-			}
+		}
 		else
-			{
+		{
 			const JString* testID;
 			if (menu->GetItemID(i, &testID))
-				{
+			{
 				if (*testID == id)
-					{
+				{
 					AppendButton(menu, i);
 					return;
-					}
 				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -704,9 +704,9 @@ void
 JXToolBar::AdjustGeometryIfNeeded()
 {
 	if (!itsLoadedPrefs)
-		{
+	{
 		AdjustToolBarGeometry();
-		}
+	}
 }
 
 /******************************************************************************
@@ -718,7 +718,7 @@ void
 JXToolBar::AdjustToolBarGeometry()
 {
 	if (itsIsShowingButtons)
-		{
+	{
 		RevertBar();
 
 		itsNextButtonPosition	= kButConBuffer;
@@ -727,15 +727,15 @@ JXToolBar::AdjustToolBarGeometry()
 		JArray<JIndexRange> groups;
 		GetGroups(&groups);
 		for (const auto& r : groups)
-			{
+		{
 			PlaceGroup(r);
-			}
+		}
 
 		AdjustWindowMinSize();
 
 		itsToolBarEnclosure->Place(0,itsToolBarSet->GetBoundsHeight());
 		itsToolBarEnclosure->SetSize(GetBoundsWidth(), GetBoundsHeight() - itsToolBarSet->GetBoundsHeight());
-		}
+	}
 }
 
 /******************************************************************************
@@ -750,21 +750,21 @@ JXToolBar::GetGroups
 	)
 {
 	if (IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 	JIndexRange range;
 	range.first = 1;
 	JSize count = itsButtons->GetElementCount();
 	for (JSize i = 2; i <= count; i++)
-		{
+	{
 		if (itsGroupStarts->GetElement(i))
-			{
+		{
 			range.last = i - 1;
 			groups->AppendElement(range);
 			range.first = i;
-			}
 		}
+	}
 	range.last = count;
 	groups->AppendElement(range);
 }
@@ -782,43 +782,43 @@ JXToolBar::PlaceGroup
 {
 	JCoordinate groupWidth = GetGroupWidth(range);
 	if (groupWidth <= GetBoundsWidth())
-		{
+	{
 		JCoordinate groupEnd = itsNextButtonPosition + groupWidth;
 		if (groupEnd > GetBoundsWidth())
-			{
-			NewLine();
-			}
-		for (JSize i = range.first; i <= range.last; i++)
-			{
-			PlaceButton(i);
-			}
-		}
-	else
 		{
+			NewLine();
+		}
 		for (JSize i = range.first; i <= range.last; i++)
-			{
+		{
+			PlaceButton(i);
+		}
+	}
+	else
+	{
+		for (JSize i = range.first; i <= range.last; i++)
+		{
 			JXToolBarButton* button = itsButtons->GetElement(i);
 			JCoordinate butWidth	= button->GetFrameWidth();
 			JCoordinate totalWidth	= GetBoundsWidth();
 			if (itsNextButtonPosition + butWidth <= totalWidth)
-				{
+			{
 				PlaceButton(i);
-				}
+			}
 			else if (butWidth > totalWidth)
-				{
+			{
 				if (itsNextButtonPosition != kButConBuffer)
-					{
-					NewLine();
-					}
-				PlaceButton(i);
-				}
-			else
 				{
+					NewLine();
+				}
+				PlaceButton(i);
+			}
+			else
+			{
 				NewLine();
 				PlaceButton(i);
-				}
 			}
 		}
+	}
 	itsNextButtonPosition += kButConBuffer;
 }
 
@@ -851,10 +851,10 @@ JXToolBar::GetGroupWidth
 {
 	JSize w = 0;
 	for (JSize index = range.first; index <= range.last; index++)
-		{
+	{
 		JXToolBarButton* button = itsButtons->GetElement(index);
 		w += button->GetFrameWidth();
-		}
+	}
 	return w;
 }
 
@@ -905,13 +905,13 @@ JXToolBar::UseSmallButtons
 	)
 {
 	if (useSmall)
-		{
+	{
 		itsCurrentButtonHeight = kSmallButtonHeight;
-		}
+	}
 	else
-		{
+	{
 		itsCurrentButtonHeight = kMedButtonHeight;
-		}
+	}
 }
 
 bool
@@ -933,7 +933,7 @@ JXToolBar::ShowToolBar
 	)
 {
 	if (show && !itsIsShowingButtons)
-		{
+	{
 		itsToolBarSet->Show();
 		itsIsShowingButtons = true;
 		AdjustWindowMinSize();
@@ -942,12 +942,12 @@ JXToolBar::ShowToolBar
 		itsToolBarEnclosure->SetSize(GetBoundsWidth(), GetBoundsHeight() - itsToolBarSet->GetBoundsHeight());
 
 		if (!GetWindow()->IsIconified())
-			{
-			itsTimerTask->Start();
-			}
-		}
-	else if (!show && itsIsShowingButtons)
 		{
+			itsTimerTask->Start();
+		}
+	}
+	else if (!show && itsIsShowingButtons)
+	{
 		itsToolBarSet->Hide();
 		itsIsShowingButtons = false;
 		AdjustWindowMinSize();
@@ -956,7 +956,7 @@ JXToolBar::ShowToolBar
 		itsToolBarEnclosure->SetSize(GetBoundsWidth(), GetBoundsHeight());
 
 		itsTimerTask->Stop();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1007,47 +1007,47 @@ void
 JXToolBar::UpdateButtons()
 {
 	for (auto* menu : *itsMenus)
-		{
+	{
 		if (menu->IsActive())
-			{
+		{
 			menu->PrepareToOpenMenu(true);
-			}
 		}
+	}
 
 	bool needsAdjustment = false;
 	const JSize count = itsButtons->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
-		{
+	{
 		JXToolBarButton* button = itsButtons->GetElement(i);
 		JIndex itemIndex;
 		if (button->GetMenuItemIndex(&itemIndex) &&
 			button->GetMenu()->IsActive()        &&
 			button->GetMenu()->IsEnabled(itemIndex))
-			{
+		{
 			button->Activate();
-			}
+		}
 		else
-			{
+		{
 			button->Deactivate();
-			}
+		}
 
 		bool invalid;
 		if (button->NeedsGeometryAdjustment(&invalid))
-			{
+		{
 			needsAdjustment = true;
-			}
+		}
 
 		if (invalid)
-			{
+		{
 			itsButtons->DeleteElement(i);
 			needsAdjustment = true;
-			}
 		}
+	}
 
 	if (needsAdjustment)
-		{
+	{
 		AdjustToolBarGeometry();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1063,19 +1063,19 @@ JXToolBar::AdjustWindowMinSize()
 
 	bool changed = false;
 	if (itsIsShowingButtons && !itsWasShowingButtons)
-		{
+	{
 		p.y    += itsToolBarSet->GetFrameHeight();
 		changed = true;
-		}
+	}
 	else if (!itsIsShowingButtons && itsWasShowingButtons)
-		{
+	{
 		p.y    -= itsToolBarSet->GetFrameHeight();
 		changed = true;
-		}
+	}
 
 	itsWasShowingButtons = itsIsShowingButtons;
 	if (changed)
-		{
+	{
 		w->SetMinSize(p.x, p.y);	// causes recursion
-		}
+	}
 }

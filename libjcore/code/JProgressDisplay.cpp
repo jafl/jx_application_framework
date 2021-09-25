@@ -129,13 +129,13 @@ JProgressDisplay::ProcessContinuing()
 	assert( itsCurrentProcess != kNoRunningProcess );
 
 	if (itsAllowCancelFlag)
-		{
+	{
 		return !CheckForCancel();
-		}
+	}
 	else
-		{
+	{
 		return true;
-		}
+	}
 }
 
 /******************************************************************************

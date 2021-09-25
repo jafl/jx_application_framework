@@ -45,12 +45,12 @@ JX2DCurveOptionsDialog::JX2DCurveOptionsDialog
 
 	const JSize count = array.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		J2DCurveInfo info = array.GetElement(i);
 		info.name = jnew JString(*info.name);
 		assert(info.name != nullptr);
 		itsCurveInfo->AppendElement(info);
-		}
+	}
 
 	itsHasXErrors = jnew JArray<bool>(hasXErrors);
 	assert( itsHasXErrors != nullptr );
@@ -76,10 +76,10 @@ JX2DCurveOptionsDialog::~JX2DCurveOptionsDialog()
 {
 	const JSize count = itsCurveInfo->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		J2DCurveInfo info = itsCurveInfo->GetElement(i);
 		jdelete info.name;
-		}
+	}
 	jdelete itsCurveInfo;
 	jdelete itsHasXErrors;
 	jdelete itsHasYErrors;
@@ -195,31 +195,31 @@ JX2DCurveOptionsDialog::Receive
 	)
 {
 	if (sender == itsNameList && message.Is(JX2DCurveNameList::kNameSelected))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JX2DCurveNameList::NameSelected*>(&message);
 		assert(info != nullptr);
 		SaveSettings();
 		itsCurrentIndex = info->GetIndex();
 		AdjustWidgets();
-		}
+	}
 
 	else if (sender == itsCancelButton && message.Is(JXButton::kPushed))
-		{
+	{
 		if (itsNameList->IsEditing())
-			{
+		{
 			itsNameList->CancelEditing();
-			}
-		else
-			{
-			EndDialog(false);
-			}
 		}
+		else
+		{
+			EndDialog(false);
+		}
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -252,29 +252,29 @@ JX2DCurveOptionsDialog::AdjustWidgets()
 
 	JIndex style;
 	if (!itsIsScatter->GetElement(itsCurrentIndex))
-		{
+	{
 		style = EncodeCurveStyle(info);
 		itsShowPointsRB->Activate();
 		itsShowLinesRB->Deactivate();
 		itsShowSymbolsRB->Activate();
 		itsShowBothRB->Deactivate();
-		}
+	}
 	else if (itsIsFunction->GetElement(itsCurrentIndex))
-		{
+	{
 		style = kShowLines;
 		itsShowPointsRB->Deactivate();
 		itsShowLinesRB->Activate();
 		itsShowSymbolsRB->Deactivate();
 		itsShowBothRB->Deactivate();
-		}
+	}
 	else
-		{
+	{
 		style = EncodeCurveStyle(info);
 		itsShowPointsRB->Activate();
 		itsShowLinesRB->Activate();
 		itsShowSymbolsRB->Activate();
 		itsShowBothRB->Activate();
-		}
+	}
 	itsCurveStyleRG->SelectItem(style);
 
 	itsShowXErrorsCB->SetState(info.xerrors);
@@ -296,21 +296,21 @@ JX2DCurveOptionsDialog::EncodeCurveStyle
 	)
 {
 	if (info.lines && info.symbols)
-		{
+	{
 		return kShowBoth;
-		}
+	}
 	else if (info.lines)
-		{
+	{
 		return kShowLines;
-		}
+	}
 	else if (info.symbols)
-		{
+	{
 		return kShowSymbols;
-		}
+	}
 	else
-		{
+	{
 		return kShowPoints;
-		}
+	}
 }
 
 /******************************************************************************
@@ -326,25 +326,25 @@ JX2DCurveOptionsDialog::DecodeCurveStyle
 {
 	const JIndex style = itsCurveStyleRG->GetSelectedItem();
 	if (style == kShowPoints)
-		{
+	{
 		info->symbols = false;
 		info->lines   = false;
-		}
+	}
 	else if (style == kShowSymbols)
-		{
+	{
 		info->symbols = true;
 		info->lines   = false;
-		}
+	}
 	else if (style == kShowLines)
-		{
+	{
 		info->symbols = false;
 		info->lines   = true;
-		}
+	}
 	else if (style == kShowBoth)
-		{
+	{
 		info->symbols = true;
 		info->lines   = true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -356,16 +356,16 @@ bool
 JX2DCurveOptionsDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		SaveSettings();
 		return true;
-		}
+	}
 }

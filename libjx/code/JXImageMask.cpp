@@ -63,14 +63,14 @@ JXImageMask::JXImageMask
 	JImageMask()
 {
 #ifndef NDEBUG
-	{
+{
 	Window rootWindow;
 	int x,y;
 	unsigned int w,h, bw, depth;
 	const Status ok =
 		XGetGeometry(*display, source, &rootWindow, &x, &y, &w, &h, &bw, &depth);
 	assert( ok && depth == 1 );
-	}
+}
 #endif
 
 	SetDefaultState(kRemoteStorage);
@@ -87,14 +87,14 @@ JXImageMask::JXImageMask
 	JImageMask()
 {
 #ifndef NDEBUG
-	{
+{
 	Window rootWindow;
 	int x,y;
 	unsigned int w,h, bw, depth;
 	const Status ok =
 		XGetGeometry(*display, source, &rootWindow, &x, &y, &w, &h, &bw, &depth);
 	assert( ok && depth == 1 );
-	}
+}
 #endif
 
 	SetDefaultState(kRemoteStorage);
@@ -202,21 +202,21 @@ JXImageMask::CreateFromXBM
 						const_cast<JUtf8Byte*>(fileName.GetBytes()),
 						&w, &h, &bitmap, &x_hot, &y_hot);
 	if (xbmErr == BitmapOpenFailed && JFileExists(fileName))
-		{
+	{
 		return JAccessDenied(fileName);
-		}
+	}
 	else if (xbmErr == BitmapOpenFailed)
-		{
+	{
 		return JDirEntryDoesNotExist(fileName);
-		}
+	}
 	else if (xbmErr == BitmapFileInvalid)
-		{
+	{
 		return FileIsNotXBM(fileName);
-		}
+	}
 	else if (xbmErr == BitmapNoMemory)
-		{
+	{
 		return JNoProcessMemory();
-		}
+	}
 
 	*mask = jnew JXImageMask(bitmap, w,h, display);
 	assert( *mask != nullptr );
@@ -247,17 +247,17 @@ JXImageMask::WriteXBM
 						 GetPixmap(), GetWidth(), GetHeight(),
 						 hotSpot.x, hotSpot.y);
 	if (xbmErr == BitmapOpenFailed)
-		{
+	{
 		return JAccessDenied(fileName);
-		}
+	}
 	else if (xbmErr == BitmapNoMemory)
-		{
+	{
 		return JNoProcessMemory();
-		}
+	}
 	else
-		{
+	{
 		return JNoError();
-		}
+	}
 }
 
 /******************************************************************************

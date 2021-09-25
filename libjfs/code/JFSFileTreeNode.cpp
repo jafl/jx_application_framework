@@ -74,9 +74,9 @@ JFSFileTreeNode::GoUp()
 
 	const JError err = itsDirInfo->GoUp();
 	if (err.OK())
-		{
+	{
 		UpdateAfterGo();
-		}
+	}
 	return err;
 }
 
@@ -95,9 +95,9 @@ JFSFileTreeNode::GoTo
 
 	const JError err = itsDirInfo->GoTo(path);
 	if (err.OK())
-		{
+	{
 		UpdateAfterGo();
-		}
+	}
 	return err;
 }
 
@@ -140,21 +140,21 @@ JFSFileTreeNode::Rename
 	)
 {
 	if (newName == GetName())
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const JString path  = itsDirEntry->GetPath();
 	JString newFullName = JCombinePathAndName(path, newName);
 	if (JNameUsed(newFullName))
-		{
+	{
 		return JDirEntryAlreadyExists(newName);
-		}
+	}
 
 	JString oldFullName = itsDirEntry->GetFullName();
 	const JError err    = JRenameVCS(oldFullName, newFullName);
 	if (err.OK())
-		{
+	{
 		SetName(newName);
 
 // newName may be invalid beyond this point if text is from input field
@@ -167,15 +167,15 @@ JFSFileTreeNode::Rename
 		// because can invoke Update()
 
 		if (sort)
-			{
+		{
 			GetParent()->SortChildren();		// this method maintains the selection
-			}
+		}
 
 		if (itsDirEntry->IsDirectory())
-			{
+		{
 			GetFSFileTree()->BroadcastDirectoryRenamed(oldFullName, newFullName);
-			}
 		}
+	}
 
 	return err;
 }
@@ -213,7 +213,7 @@ JFSFileTreeNode::UpdatePath
 	JString fullName = itsDirEntry->GetFullName();
 	JAppendDirSeparator(&fullName);		// need exact match for directories
 	if (fullName.BeginsWith(oldPath))
-		{
+	{
 		const bool setName = fullName == oldPath;
 
 		JStringIterator iter(&fullName);
@@ -226,19 +226,19 @@ JFSFileTreeNode::UpdatePath
 		UpdatePath(fullName, oldPath, newPath);
 
 		if (setName)
-			{
+		{
 			const JString name = itsDirEntry->GetName();
 			SetName(name);
-			}
 		}
+	}
 	else if (oldPath.BeginsWith(fullName))
-		{
+	{
 		const JSize childCount = GetChildCount();
 		for (JIndex i=1; i<=childCount; i++)
-			{
+		{
 			GetFSChild(i)->UpdatePath(oldPath, newPath);
-			}
 		}
+	}
 }
 
 // private
@@ -256,16 +256,16 @@ JFSFileTreeNode::UpdatePath
 	assert( itsDirEntry != nullptr );
 
 	if (itsDirInfo != nullptr)
-		{
+	{
 		const JError err = itsDirInfo->GoTo(fullName);
 		assert_ok( err );
 
 		const JSize childCount = GetChildCount();
 		for (JIndex i=1; i<=childCount; i++)
-			{
+		{
 			(GetFSChild(i))->UpdatePath(oldPath, newPath);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -311,19 +311,19 @@ JFSFileTreeNode::OKToOpen()
 	const
 {
 	if (!JFSFileTreeNodeBase::OKToOpen())
-		{
+	{
 		return false;
-		}
+	}
 
 	auto* me = const_cast<JFSFileTreeNode*>(this);
 	if (itsDirInfo == nullptr)
-		{
+	{
 		me->BuildChildList();
-		}
+	}
 	else
-		{
+	{
 		me->Update();
-		}
+	}
 
 	return itsDirInfo != nullptr;
 }
@@ -337,16 +337,16 @@ void
 JFSFileTreeNode::BuildChildList()
 {
 	if (CreateDirInfo())
-		{
+	{
 		DeleteAllChildren();
 
 		for (const auto* e : *itsDirInfo)
-			{
+		{
 			auto* entry = jnew JDirEntry(*e);
 			assert( entry != nullptr );
 			InsertSorted(CreateChild(entry));
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -358,9 +358,9 @@ bool
 JFSFileTreeNode::CreateDirInfo()
 {
 	if (itsDirInfo != nullptr)
-		{
+	{
 		return true;
-		}
+	}
 
 	assert( !HasChildren() );
 
@@ -369,7 +369,7 @@ JFSFileTreeNode::CreateDirInfo()
 	bool ok = false;
 	JTreeNode* parent;
 	if (GetParent(&parent))
-		{
+	{
 		auto* fsParent = dynamic_cast<JFSFileTreeNodeBase*>(parent);
 		assert( fsParent != nullptr );
 
@@ -377,16 +377,16 @@ JFSFileTreeNode::CreateDirInfo()
 		ok = fsParent->GetDirInfo(&parentInfo);
 		assert( ok );
 		ok = JDirInfo::Create(*parentInfo, fullName, &itsDirInfo);
-		}
+	}
 	else
-		{
+	{
 		ok = JDirInfo::Create(fullName, &itsDirInfo);
-		}
+	}
 
 	if (ok && IsRoot())
-		{
+	{
 		ListenTo(itsDirInfo);
-		}
+	}
 
 	return ok;
 }
@@ -404,14 +404,14 @@ JFSFileTreeNode::Receive
 	)
 {
 	if (sender == itsDirInfo && message.Is(JDirInfo::kSettingsChanged))
-		{
+	{
 		UpdateDirInfoSettings(*itsDirInfo);
 		Update(true);		// force call to UpdateChildren()
-		}
+	}
 	else
-		{
+	{
 		JFSFileTreeNodeBase::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -431,15 +431,15 @@ JFSFileTreeNode::UpdateDirInfoSettings
 
 	const JSize childCount = GetChildCount();
 	for (JIndex i=1; i<=childCount; i++)
-		{
+	{
 		JFSFileTreeNode* child = GetFSChild(i);
 
 		if (child->itsDirInfo != nullptr)
-			{
+		{
 			(child->itsDirInfo)->CopySettings(info);
 			child->UpdateDirInfoSettings(info);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -480,82 +480,82 @@ JFSFileTreeNode::Update
 {
 	bool changed = itsDirEntry->Update(force);
 	if (changed)
-		{
+	{
 		GetTree()->BroadcastChange(this);
-		}
+	}
 
 	const bool canHaveChildren = CanHaveChildren();
 	ShouldBeOpenable(canHaveChildren);
 
 	if (canHaveChildren && itsDirInfo != nullptr)
-		{
+	{
 		if (itsDirInfo->Update(force))
-			{
+		{
 			UpdateChildren();
 			changed = true;
-			}
+		}
 
 		// check if subdirectories need updating
 
 		if ((force || updateNode == nullptr || *updateNode == nullptr) &&
 			JFSFileTreeNodeBase::Update(force, updateNode))
-			{
-			changed = true;
-			}
-		}
-	else if (!canHaveChildren)
 		{
-		if (itsDirInfo != nullptr)
-			{
 			changed = true;
-			}
+		}
+	}
+	else if (!canHaveChildren)
+	{
+		if (itsDirInfo != nullptr)
+		{
+			changed = true;
+		}
 
 		jdelete itsDirInfo;
 		itsDirInfo = nullptr;
-		}
+	}
 
 	// find next updateNode
 
 	if (force || updateNode == nullptr || *updateNode == nullptr)
-		{
+	{
 		return changed;
-		}
+	}
 
 	JTreeNode* parent = nullptr;
 	if (HasChildren())
-		{
+	{
 		*updateNode = GetFSChild(1);
-		}
+	}
 	else if (GetParent(&parent))
-		{
+	{
 		JTreeNode* child = this;
 		do
-			{
+		{
 			const JIndex parentIndex = child->GetIndexInParent();
 			if (parentIndex < parent->GetChildCount())
-				{
+			{
 				*updateNode =
 					dynamic_cast<JFSFileTreeNodeBase*>(parent->GetChild(parentIndex+1));
 				break;
-				}
+			}
 			else
-				{
+			{
 				child = parent;
 				parent->GetParent(&parent);
-				}
 			}
+		}
 			while (parent != nullptr);
 
 		if (parent == nullptr)
-			{
+		{
 			*updateNode =
 				dynamic_cast<JFSFileTreeNodeBase*>(GetTree()->GetRoot());
-			}
 		}
+	}
 	else
-		{
+	{
 		*updateNode = this;
-		}
+	}
 
 	return changed;
 }
@@ -578,35 +578,35 @@ JFSFileTreeNode::UpdateChildren()
 	newChildren.SetCompareFunction(CompareTypeAndName);
 
 	for (const auto* e : *itsDirInfo)
-		{
+	{
 		auto* entry = jnew JDirEntry(*e);
 		assert( entry != nullptr );
 		newChildren.InsertSorted(CreateChild(entry));
-		}
+	}
 
 	// toss new entries that already exist
 	// remove old entries that no longer exist
 
 	for (JIndex i=GetChildCount(); i>=1; i--)
-		{
+	{
 		JTreeNode* node = GetChild(i);
 		JIndex j;
 		if (newChildren.SearchSorted(node, JListT::kAnyMatch, &j))
-			{
+		{
 			newChildren.DeleteElement(j);
-			}
-		else
-			{
-			jdelete node;
-			}
 		}
+		else
+		{
+			jdelete node;
+		}
+	}
 
 	// save remaining new entries
 
 	for (auto* n : newChildren)
-		{
+	{
 		InsertSorted(n);
-		}
+	}
 
 	// re-sort since mod time, size, etc. of *pre-existing* children may have changed
 
@@ -630,17 +630,17 @@ JFSFileTreeNode::CompareTypeAndName
 
 	const long t = n1->itsDirEntry->GetType() - n2->itsDirEntry->GetType();
 	if (t < 0)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (t > 0)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else
-		{
+	{
 		return JNamedTreeNode::DynamicCastCompareNames(e1, e2);
-		}
+	}
 }
 
 /******************************************************************************
@@ -664,9 +664,9 @@ JFSFileTreeNode::CompareUserName
 		JCompareStringsCaseInsensitive(&(u1), &(u2));
 
 	if (result == JListT::kFirstEqualSecond)
-		{
+	{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
-		}
+	}
 	return result;
 }
 
@@ -691,9 +691,9 @@ JFSFileTreeNode::CompareGroupName
 		JCompareStringsCaseInsensitive(&(u1), &(u2));
 
 	if (result == JListT::kFirstEqualSecond)
-		{
+	{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
-		}
+	}
 	return result;
 }
 
@@ -715,26 +715,26 @@ JFSFileTreeNode::CompareSize
 	JListT::CompareResult result;
 
 	if (n1->IsOpenable() && n2->IsOpenable())
-		{
+	{
 		result = JListT::kFirstEqualSecond;
-		}
+	}
 	else if (n1->IsOpenable())
-		{
+	{
 		result = JListT::kFirstLessSecond;
-		}
+	}
 	else if (n2->IsOpenable())
-		{
+	{
 		result = JListT::kFirstGreaterSecond;
-		}
+	}
 	else
-		{
+	{
 		result = JDirEntry::CompareSizes(n1->itsDirEntry, n2->itsDirEntry);
-		}
+	}
 
 	if (result == JListT::kFirstEqualSecond)
-		{
+	{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
-		}
+	}
 	return result;
 }
 
@@ -757,9 +757,9 @@ JFSFileTreeNode::CompareDate
 		JDirEntry::CompareModTimes(n1->itsDirEntry, n2->itsDirEntry);
 
 	if (result == JListT::kFirstEqualSecond)
-		{
+	{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
-		}
+	}
 	return result;
 }
 

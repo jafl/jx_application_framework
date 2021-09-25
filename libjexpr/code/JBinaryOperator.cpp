@@ -86,13 +86,13 @@ JBinaryOperator::PrintArg
 	const
 {
 	if (JParenthesizeArgForPrint(*this, *arg))
-		{
+	{
 		output << '(';
 		arg->Print(output);
 		output << ')';
-		}
+	}
 	else
-		{
+	{
 		arg->Print(output);
-		}
+	}
 }

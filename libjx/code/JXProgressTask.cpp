@@ -75,10 +75,10 @@ JXProgressTask::JXProgressTaskX
 JXProgressTask::~JXProgressTask()
 {
 	if (itsOwnsPGFlag)
-		{
+	{
 		itsPG->ProcessFinished();
 		jdelete itsPG;
-		}
+	}
 }
 
 /******************************************************************************
@@ -96,8 +96,8 @@ JXProgressTask::Perform
 	if (TimeToPerform(delta, maxSleepTime) &&
 		(( itsOwnsPGFlag && !itsPG->IncrementProgress()) ||
 		 (!itsOwnsPGFlag && !itsPG->ProcessContinuing())))
-		{
+	{
 		Broadcast(Cancelled());
 		jdelete this;	// safe to commit suicide as last action
-		}
+	}
 }

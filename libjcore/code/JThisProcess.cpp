@@ -142,14 +142,14 @@ JThisProcess*
 JThisProcess::Instance()
 {
 	if (itsSelf == nullptr && !recursiveInstance)
-		{
+	{
 		recursiveInstance = true;
 
 		itsSelf = jnew JThisProcess;
 		assert( itsSelf != nullptr );
 
 		recursiveInstance = false;
-		}
+	}
 
 	return itsSelf;
 }
@@ -172,9 +172,9 @@ JThisProcess::JThisProcess()
 	// install handlers
 
 	for (auto s : kSignalValue)
-		{
+	{
 		itsSignalSet.sig_add(s);
-		}
+	}
 
 	(ACE_Reactor::instance())->register_handler(itsSignalSet, this);
 
@@ -206,73 +206,73 @@ JThisProcess::BroadcastSignal
 {
 	const JUtf8Byte* signalType = nullptr;
 	if (sig == SIGILL)
-		{
+	{
 		signalType = kIllegalInstruction;
-		}
+	}
 	else if (sig == SIGFPE)
-		{
+	{
 		signalType = kFPE;
-		}
+	}
 	else if (sig == SIGSEGV)
-		{
+	{
 		signalType = kSegFault;
-		}
+	}
 	else if (sig == SIGPIPE)
-		{
+	{
 		signalType = kBrokenPipe;
-		}
+	}
 	else if (sig == SIGABRT)
-		{
+	{
 		signalType = kAbort;
-		}
+	}
 	else if (sig == SIGINT)
-		{
+	{
 		signalType = kKeyboardInterrupt;
-		}
+	}
 
 	else if (sig == SIGTERM)
-		{
+	{
 		signalType = kTerminate;
-		}
+	}
 	else if (sig == SIGQUIT)
-		{
+	{
 		signalType = kKeyboardQuit;
-		}
+	}
 
 	else if (sig == SIGHUP)
-		{
+	{
 		signalType = kParentProcessFinished;
-		}
+	}
 	else if (sig == SIGCHLD)
-		{
+	{
 		signalType = kChildProcessFinished;
-		}
+	}
 	else if (sig == SIGTTIN)
-		{
+	{
 		signalType = kTTYInput;
-		}
+	}
 	else if (sig == SIGTTOU)
-		{
+	{
 		signalType = kTTYOutput;
-		}
+	}
 
 	else if (sig == SIGALRM)
-		{
+	{
 		signalType = kTimerFinished;
-		}
+	}
 	else if (sig == SIGUSR1)
-		{
+	{
 		signalType = kUserSignal1;
-		}
+	}
 	else if (sig == SIGUSR2)
-		{
+	{
 		signalType = kUserSignal2;
-		}
+	}
 
 	else
-		{
+	{
 		signalType = kUnrecognized;
-		}
+	}
 
 	Signal s(signalType, sig);
 	BroadcastWithFeedback(&s);
@@ -304,15 +304,15 @@ JThisProcess::ShouldCatchSignal
 	JThisProcess* p = JThisProcess::Instance();
 
 	if (catchIt)
-		{
+	{
 		(p->itsSignalSet).sig_add(sig);
 		(ACE_Reactor::instance())->register_handler(sig, p);
-		}
+	}
 	else
-		{
+	{
 		(p->itsSignalSet).sig_del(sig);
 		(ACE_Reactor::instance())->remove_handler(sig, (ACE_Sig_Action*) nullptr);
-		}
+	}
 }
 
 /******************************************************************************
@@ -330,43 +330,43 @@ JThisProcess::CheckForSignals()
 	bool requestQuit = false;
 
 	if (pendingSignalCount > 0 && itsSelf != nullptr)
-		{
+	{
 		for (JUnsignedOffset i=0; i < (JSize) pendingSignalCount; i++)
-			{
+		{
 			// this is safe since extra signals are simply appended to the list
 
 			const bool sigCaught = itsSelf->BroadcastSignal(signalList[i]);
 			if (!sigCaught)
-				{
+			{
 				if (signalList[i] == SIGTERM ||
 					signalList[i] == SIGQUIT)
-					{
+				{
 					requestQuit = true;
-					}
+				}
 				else if (signalList[i] == SIGILL  ||
 						 signalList[i] == SIGFPE  ||
 						 signalList[i] == SIGSEGV ||
 						 signalList[i] == SIGABRT)
-					{
+				{
 					const JString sigName = JGetSignalName(signalList[i]);
 					std::cerr << "An unexpected signal (" << sigName << ") was received!" << std::endl;
 					assert_msg( 0, "unexpected signal" );
-					}
+				}
 				else if (signalList[i] == SIGPIPE)
-					{
+				{
 					const JString sigName = JGetSignalName(signalList[i]);
 					std::cerr << "Non-fatal error:  signal (" << sigName << ") was received" << std::endl;
-					}
+				}
 //				else
 //					{
 //					const JString sigName = JGetSignalName(signalList[i]);
 //					std::cerr << "Received signal " << sigName << std::endl;
 //					}
-				}
 			}
+		}
 
 		pendingSignalCount = 0;
-		}
+	}
 
 	return requestQuit;
 }
@@ -388,19 +388,19 @@ JThisProcess::handle_signal
 	)
 {
 	if (signum == SIGINT && itsSigintJumpBufferInitFlag)
-		{
+	{
 		longjmp(itsSigintJumpBuffer, 1);
 		// not reached
-		}
+	}
 	else if (signum == SIGINT)
-		{
+	{
 		JThisProcess::Exit(1);
-		}
+	}
 	else if (((JSize) pendingSignalCount) < kSignalListSize)
-		{
+	{
 		signalList[ pendingSignalCount ] = signum;
 		pendingSignalCount++;
-		}
+	}
 
 	return 0;
 }
@@ -440,13 +440,13 @@ JThisProcess::QuitAtExit
 	theKillList.Remove(p);
 
 	if (quit && p != Instance() && !theQuitList.Includes(p))
-		{
+	{
 		theQuitList.Append(p);
-		}
+	}
 	else if (!quit)
-		{
+	{
 		theQuitList.Remove(p);
-		}
+	}
 }
 
 /******************************************************************************
@@ -484,13 +484,13 @@ JThisProcess::KillAtExit
 	theQuitList.Remove(p);
 
 	if (kill && p != Instance() && !theKillList.Includes(p))
-		{
+	{
 		theKillList.Append(p);
-		}
+	}
 	else if (!kill)
-		{
+	{
 		theKillList.Remove(p);
-		}
+	}
 }
 
 /******************************************************************************
@@ -529,27 +529,27 @@ JThisProcess::Fork
 {
 	const int result = ACE_OS::fork();
 	if (result == -1)
-		{
+	{
 		*pid = 0;
 
 		const int err = jerrno();
 		if (err == EAGAIN)
-			{
+		{
 			return JNoProcessMemory();
-			}
-		else if (err == ENOMEM)
-			{
-			return JNoKernelMemory();
-			}
-		else
-			{
-			return JUnexpectedError(err);
-			}
 		}
+		else if (err == ENOMEM)
+		{
+			return JNoKernelMemory();
+		}
+		else
+		{
+			return JUnexpectedError(err);
+		}
+	}
 
 	*pid = result;
 	if (*pid == 0)		// child
-		{
+	{
 		itsSelf = nullptr;
 		Initialize();
 
@@ -557,7 +557,7 @@ JThisProcess::Fork
 
 		theQuitList.RemoveAll();
 		theKillList.RemoveAll();
-		}
+	}
 
 	return JNoError();
 }
@@ -602,15 +602,15 @@ void
 JThisProcess::CleanUpProcesses()
 {
 	for (auto* p : theQuitList)
-		{
+	{
 		p->Quit();
-		}
+	}
 	theQuitList.RemoveAll();
 
 	for (auto* p : theKillList)
-		{
+	{
 		p->Kill();
-		}
+	}
 	theKillList.RemoveAll();
 }
 

@@ -1,11 +1,11 @@
 /*********************************************************************************
- J2DPlotJFunction.cpp
+ J2DPlotFunction.cpp
 
 	Copyright @ 1997 by Glenn W. Bach.
 
  ********************************************************************************/
 
-#include "J2DPlotJFunction.h"
+#include "J2DPlotFunction.h"
 #include <JExprParser.h>
 #include <JVariableList.h>
 #include <JFunction.h>
@@ -18,9 +18,9 @@
  ********************************************************************************/
 
 bool
-J2DPlotJFunction::Create
+J2DPlotFunction::Create
 	(
-	J2DPlotJFunction**	plotfunction,
+	J2DPlotFunction**	plotfunction,
 	J2DPlotWidget*		plot,
 	JVariableList*		varList,
 	JFontManager*		fontManager,
@@ -34,15 +34,15 @@ J2DPlotJFunction::Create
 
 	JFunction* f;
 	if (p.Parse(function, &f))
-		{
-		*plotfunction = jnew J2DPlotJFunction(plot, varList, f, true, xIndex, xMin, xMax);
+	{
+		*plotfunction = jnew J2DPlotFunction(plot, varList, f, true, xIndex, xMin, xMax);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*plotfunction = nullptr;
 		return false;
-		}
+	}
 }
 
 /*********************************************************************************
@@ -50,18 +50,18 @@ J2DPlotJFunction::Create
 
  ********************************************************************************/
 
-J2DPlotJFunction::J2DPlotJFunction
+J2DPlotFunction::J2DPlotFunction
 	(
 	J2DPlotWidget*	plot,
 	JVariableList*	varList,
 	JFunction*		f,
-	const bool	ownsFn,
+	const bool		ownsFn,
 	const JIndex	xIndex,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
 	:
-	JPlotFunctionBase(kScatterPlot, plot, xMin, xMax)
+	J2DPlotFunctionBase(kScatterPlot, plot, xMin, xMax)
 {
 	itsVarList    = varList;
 	itsFunction   = f;
@@ -76,12 +76,12 @@ J2DPlotJFunction::J2DPlotJFunction
 
  ********************************************************************************/
 
-J2DPlotJFunction::~J2DPlotJFunction()
+J2DPlotFunction::~J2DPlotFunction()
 {
 	if (itsOwnsFnFlag)
-		{
+	{
 		jdelete itsFunction;
-		}
+	}
 }
 
 /*********************************************************************************
@@ -90,7 +90,7 @@ J2DPlotJFunction::~J2DPlotJFunction()
  ********************************************************************************/
 
 bool
-J2DPlotJFunction::GetYValue
+J2DPlotFunction::GetYValue
 	(
 	const JFloat	x,
 	JFloat*			y
@@ -107,7 +107,7 @@ J2DPlotJFunction::GetYValue
  ********************************************************************************/
 
 JString
-J2DPlotJFunction::GetFunctionString()
+J2DPlotFunction::GetFunctionString()
 	const
 {
 	return itsFunction->Print();
@@ -119,7 +119,7 @@ J2DPlotJFunction::GetFunctionString()
  ********************************************************************************/
 
 void
-J2DPlotJFunction::SetFunction
+J2DPlotFunction::SetFunction
 	(
 	JVariableList*	varList,
 	JFunction*		f,
@@ -130,16 +130,16 @@ J2DPlotJFunction::SetFunction
 	)
 {
 	if (varList != itsVarList)
-		{
+	{
 		StopListening(itsVarList);
 		itsVarList = varList;
 		ListenTo(itsVarList);
-		}
+	}
 
 	if (itsOwnsFnFlag)
-		{
+	{
 		jdelete itsFunction;
-		}
+	}
 
 	itsFunction   = f;
 	itsOwnsFnFlag = ownsFn;
@@ -157,51 +157,51 @@ J2DPlotJFunction::SetFunction
  ******************************************************************************/
 
 void
-J2DPlotJFunction::Receive
+J2DPlotFunction::Receive
 	(
 	JBroadcaster*	sender,
 	const Message&	message
 	)
 {
 	if (sender == itsVarList && message.Is(JVariableList::kVarInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JVariableList::VarInserted*>(&message);
 		assert( info != nullptr );
 		info->AdjustIndex(&itsXIndex);
-		}
+	}
 
 	else if (sender == itsVarList && message.Is(JVariableList::kVarRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JVariableList::VarRemoved*>(&message);
 		assert( info != nullptr );
 		const bool ok = info->AdjustIndex(&itsXIndex);
 		assert( ok );	// client must ensure this
-		}
+	}
 
 	else if (sender == itsVarList && message.Is(JVariableList::kVarMoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JVariableList::VarMoved*>(&message);
 		assert( info != nullptr );
 		info->AdjustIndex(&itsXIndex);
-		}
+	}
 
 	else if (sender == itsVarList && message.Is(JVariableList::kVarValueChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JVariableList::VarValueChanged*>(&message);
 		assert( info != nullptr );
 		if (info->GetVarIndex() != itsXIndex)
-			{
+		{
 			UpdateFunction();
 			BroadcastCurveChanged();
-			}
 		}
+	}
 
 	else
-		{
-		JPlotFunctionBase::Receive(sender, message);
-		}
+	{
+		J2DPlotFunctionBase::Receive(sender, message);
+	}
 }

@@ -90,14 +90,14 @@ JXPathHistoryMenu::SetBasePath
 	)
 {
 	if (path.IsEmpty())
-		{
+	{
 		ClearBasePath();
-		}
+	}
 	else
-		{
+	{
 		assert( JIsAbsolutePath(path) );
 		itsBasePath = path;
-		}
+	}
 }
 
 /******************************************************************************
@@ -109,37 +109,37 @@ void
 JXPathHistoryMenu::UpdateMenu()
 {
 	if (GetFirstIndex() == 1)
-		{
+	{
 		JMountPointList list(JPtrArrayT::kDeleteAll);
 		if (JGetUserMountPointList(&list, nullptr))
-			{
+		{
 			const JSize count = list.GetElementCount();
 			SetFirstIndex(count+1);
 
 			for (JIndex i=count; i>=1; i--)
-				{
+			{
 				const JMountPoint mp = list.GetElement(i);
 				PrependItem(*(mp.path));
 				if (i == count)
-					{
+				{
 					ShowSeparatorAfter(1);
-					}
+				}
 
 				if (mp.type == kJHardDisk)
-					{
+				{
 					SetItemImage(1, jx_hard_disk_small);
-					}
+				}
 				else if (mp.type == kJFloppyDisk)
-					{
+				{
 					SetItemImage(1, jx_floppy_disk_small);
-					}
+				}
 				else if (mp.type == kJCDROM)
-					{
+				{
 					SetItemImage(1, jx_cdrom_disk_small);
-					}
 				}
 			}
 		}
+	}
 
 	RemoveInvalidPaths();
 	JXStringHistoryMenu::UpdateMenu();
@@ -158,11 +158,11 @@ JXPathHistoryMenu::RemoveInvalidPaths()
 	const JSize count       = GetItemCount();
 	const JIndex firstIndex = GetFirstIndex();
 	for (JIndex i=count; i>=firstIndex; i--)
-		{
+	{
 		const JString& dirName = JXTextMenu::GetItemText(i);
 		if (!JConvertToAbsolutePath(dirName, itsBasePath, &fullName))
-			{
+		{
 			RemoveItem(i);
-			}
 		}
+	}
 }

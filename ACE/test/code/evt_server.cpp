@@ -36,10 +36,10 @@ class UNIXAcceptor :
 public:
 
 	virtual ~UNIXAcceptor()
-	{
+{
 		close();
 		(acceptor()).remove();
-	};
+};
 };
 
 // Prototypes
@@ -90,30 +90,30 @@ CreateServer
 	)
 {
 	if (argc == 3 && strcmp(argv[1], "-i") == 0)
-		{
+	{
 		JUInt portNumber;
 		if (JString::ConvertToUInt(argv[2], &portNumber))
-			{
+		{
 			return CreateINETServer(portNumber);
-			}
+		}
 		else
-			{
+		{
 			std::cerr << "invalid port number" << std::endl;
 			exit(1);
-			}
 		}
+	}
 
 	else if (argc == 3 && strcmp(argv[1], "-u") == 0)
-		{
+	{
 		return CreateUNIXServer(argv[2]);
-		}
+	}
 
 	else
-		{
+	{
 		std::cerr << "usage: " << argv[0];
 		std::cerr << " (-i port_number)|(-u socket_name)" << std::endl;
 		exit(1);
-		}
+	}
 
 	// keep the compiler happy
 	return nullptr;
@@ -142,10 +142,10 @@ CreateINETServer
 	// Begin waiting for a connection.
 
 	if (acceptor->open(addr) == -1)
-		{
+	{
 		std::cerr << "error trying to open port: " << jerrno() << std::endl;
 		exit(1);
-		}
+	}
 
 	return acceptor;
 }
@@ -178,10 +178,10 @@ CreateUNIXServer
 	// Begin waiting for a connection.
 
 	if (acceptor->open(addr) == -1)
-		{
+	{
 		std::cerr << "error trying to create socket: " << jerrno() << std::endl;
 		exit(1);
-		}
+	}
 
 	return acceptor;
 }

@@ -76,23 +76,23 @@ JXLinkText::AdjustCursor
 {
 	const JSize linkCount = GetLinkCount();
 	if (linkCount > 0)
-		{
+	{
 		const CaretLocation caretLoc = CalcCaretLocation(pt);
 
 		JCharacterRange selRange;
 		if (!GetSelection(&selRange) || !selRange.Contains(caretLoc.location.charIndex))
-			{
+		{
 			for (JIndex i=1; i<=linkCount; i++)
-				{
+			{
 				const JIndexRange linkRange = GetLinkRange(i);
 				if (linkRange.Contains(caretLoc.location.charIndex))
-					{
+				{
 					DisplayCursor(itsLinkCursor);
 					return;
-					}
 				}
 			}
 		}
+	}
 
 	JXTEBase::AdjustCursor(pt, modifiers);
 }
@@ -118,9 +118,9 @@ JXLinkText::HandleMouseDown
 	if (button == kJXLeftButton && clickCount == 1 &&
 		!modifiers.shift() && !modifiers.meta() && !modifiers.control() &&
 		!GetCaretLocation(&itsMouseDownIndex))
-		{
+	{
 		itsMouseDownIndex = 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -141,18 +141,18 @@ JXLinkText::HandleMouseUp
 
 	JIndex charIndex;
 	if (GetCaretLocation(&charIndex) && charIndex == itsMouseDownIndex)
-		{
+	{
 		const JSize linkCount = GetLinkCount();
 		for (JIndex i=1; i<=linkCount; i++)
-			{
+		{
 			const JIndexRange linkRange = GetLinkRange(i);
 			if (linkRange.Contains(itsMouseDownIndex))
-				{
+			{
 				LinkClicked(i);
 				break;
-				}
 			}
 		}
+	}
 
 	itsMouseDownIndex = 0;
 }

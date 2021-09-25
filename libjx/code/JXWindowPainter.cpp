@@ -49,15 +49,15 @@ JXWindowPainter::JXWindowPainter
 	itsFontClipRegion = nullptr;
 
 	if (defaultClipRegion != nullptr)
-		{
+	{
 		itsDefClipRegion = JXCopyRegion(defaultClipRegion);
 		itsClipRegion    = JXCopyRegion(defaultClipRegion);
-		}
+	}
 	else
-		{
+	{
 		itsDefClipRegion = nullptr;
 		itsClipRegion    = nullptr;
-		}
+	}
 
 	itsResetShouldClearClipRegionFlag = true;
 
@@ -72,21 +72,21 @@ JXWindowPainter::JXWindowPainter
 JXWindowPainter::~JXWindowPainter()
 {
 	if (itsClipRegion != nullptr)
-		{
+	{
 		XDestroyRegion(itsClipRegion);
-		}
+	}
 	if (itsDefClipRegion != nullptr)
-		{
+	{
 		XDestroyRegion(itsDefClipRegion);
-		}
+	}
 	if (itsFontDrawable != nullptr)
-		{
+	{
 		XftDrawDestroy(itsFontDrawable);
-		}
+	}
 	if (itsFontClipRegion != nullptr)
-		{
+	{
 		XDestroyRegion(itsFontClipRegion);
-		}
+	}
 }
 
 /******************************************************************************
@@ -111,13 +111,13 @@ JXWindowPainter::GetFontDrawable()
 	const
 {
 	if (itsFontDrawable == nullptr)
-		{
+	{
 		const_cast<JXWindowPainter*>(this)->itsFontDrawable =
 			XftDrawCreate(*itsDisplay, itsDrawable,
 						  itsDisplay->GetDefaultVisual(),
 						  *GetXColorManager());
 		XftDrawSetClip(itsFontDrawable, itsFontClipRegion);
-		}
+	}
 
 	return itsFontDrawable;
 }
@@ -137,18 +137,18 @@ void
 JXWindowPainter::Reset()
 {
 	if (itsResetShouldClearClipRegionFlag)
-		{
+	{
 		if (itsClipRegion != nullptr)
-			{
+		{
 			XDestroyRegion(itsClipRegion);
 			itsClipRegion = nullptr;
-			}
+		}
 
 		if (itsDefClipRegion != nullptr)
-			{
+		{
 			itsClipRegion = JXCopyRegion(itsDefClipRegion);
-			}
 		}
+	}
 
 	// call this last so new clip region is used when ResetClipRect() is called
 
@@ -204,15 +204,15 @@ JXWindowPainter::SetDefaultClipRegion
 	)
 {
 	if (itsDefClipRegion != nullptr)
-		{
+	{
 		XDestroyRegion(itsDefClipRegion);
 		itsDefClipRegion = nullptr;
-		}
+	}
 
 	if (region != nullptr)
-		{
+	{
 		itsDefClipRegion = JXCopyRegion(region);
-		}
+	}
 }
 
 /******************************************************************************
@@ -231,22 +231,22 @@ JXWindowPainter::CalcClipRegion
 	)
 {
 	if (itsClipRegion != nullptr)
-		{
+	{
 		XDestroyRegion(itsClipRegion);
-		}
+	}
 
 	const JPoint& o = GetOrigin();
 	XOffsetRegion(region, o.x, o.y);		// to global coords
 
 	if (itsDefClipRegion != nullptr)
-		{
+	{
 		itsClipRegion = XCreateRegion();
 		XIntersectRegion(region, itsDefClipRegion, itsClipRegion);
-		}
+	}
 	else
-		{
+	{
 		itsClipRegion = JXCopyRegion(region);
-		}
+	}
 
 	XOffsetRegion(region, -o.x, -o.y);		// back to local coords
 }
@@ -260,18 +260,18 @@ void
 JXWindowPainter::ResetClipRegion()
 {
 	if (itsClipRegion != nullptr)
-		{
+	{
 		XDestroyRegion(itsClipRegion);
-		}
+	}
 
 	if (itsDefClipRegion != nullptr)
-		{
+	{
 		itsClipRegion = JXCopyRegion(itsDefClipRegion);
-		}
+	}
 	else
-		{
+	{
 		itsClipRegion = nullptr;
-		}
+	}
 
 	// update the clipping of GC
 	// (must make copy of clipRect since everything is by reference)
@@ -292,43 +292,43 @@ JXWindowPainter::SetClipRect
 	)
 {
 	if (itsFontClipRegion != nullptr)
-		{
+	{
 		XDestroyRegion(itsFontClipRegion);
 		itsFontClipRegion = nullptr;
-		}
+	}
 
 	const JRect r        = JPainter::SetClipRect(userRect);
 	const bool empty = r.IsEmpty();
 	if (!empty)
-		{
+	{
 		JRect rG = r;
 		rG.Shift(GetOrigin());		// to global
 
 		if (itsClipRegion != nullptr)
-			{
+		{
 			XRectangle xrect  = JXJToXRect(rG);
 			Region clipRegion = XCreateRegion();
 			JXIntersectRectWithRegion(&xrect, itsClipRegion, clipRegion);
 			itsGC->SetClipRegion(clipRegion);
 			itsFontClipRegion = JXCopyRegion(clipRegion);
 			XDestroyRegion(clipRegion);
-			}
+		}
 		else
-			{
+		{
 			itsGC->SetClipRect(rG);
 			itsFontClipRegion = JXRectangleRegion(rG);
-			}
 		}
+	}
 	else
-		{
+	{
 		itsGC->SetClipRect(r);
 		itsFontClipRegion = JXRectangleRegion(r);
-		}
+	}
 
 	if (itsFontDrawable != nullptr)
-		{
+	{
 		XftDrawSetClip(itsFontDrawable, itsFontClipRegion);
-		}
+	}
 
 	return r;
 }
@@ -363,9 +363,9 @@ JXWindowPainter::StringNoSubstitutions
 	)
 {
 	if (str.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JFont& font = GetFont();
 	itsGC->SetFont(font.GetID());
@@ -394,9 +394,9 @@ JXWindowPainter::String
 	)
 {
 	if (str.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	JCoordinate x = left;
 	JCoordinate y = top;
@@ -405,7 +405,7 @@ JXWindowPainter::String
 	JPainter::String(x, y, str);
 
 	if (uIndex > 0)
-		{
+	{
 		const JPoint& o = GetOrigin();
 
 		JCoordinate ascent, descent;
@@ -419,9 +419,9 @@ JXWindowPainter::String
 		iter.MoveTo(kJIteratorStartBefore, uIndex);
 
 		if (uIndex > 1)
-			{
+		{
 			x += GetStringWidth(iter.FinishMatch().GetString());
-			}
+		}
 
 		JUtf8Character c;
 		iter.Next(&c);
@@ -437,7 +437,7 @@ JXWindowPainter::String
 		itsGC->SetLineWidth(lineWidth);
 		itsGC->DrawDashedLines(false);
 		itsGC->DrawLine(itsDrawable, x, y, x+w-1, y);
-		}
+	}
 }
 
 void
@@ -454,29 +454,29 @@ JXWindowPainter::String
 	)
 {
 	if (str.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	// adjust the angle to lie between -45 and 315
 
 	JFloat angle = userAngle;
 	while (angle <= -45.0)
-		{
+	{
 		angle += 360.0;
-		}
+	}
 	while (angle > 315.0)
-		{
+	{
 		angle -= 360.0;
-		}
+	}
 
 	// if the angle is zero, we can do it easily
 
 	if (-45.0 < angle && angle <= 45.0)
-		{
+	{
 		JPainter::String(left, top, str, width, hAlign, height, vAlign);
 		return;
-		}
+	}
 
 	// we have to do it pixel by pixel
 
@@ -493,38 +493,38 @@ JXWindowPainter::String
 	JIndex quadrant;
 	JCoordinate dx=0, dy=0;
 	if (45.0 < angle && angle <= 135.0)
-		{
+	{
 		quadrant    = 2;
 		stringWidth = AlignString(&dx,&dy, str, height, hAlign, width, vAlign);
 		if (stringWidth == 0)
-			{
+		{
 			stringWidth = GetStringWidth(str);
-			}
+		}
 		srcImage = jnew JXImage(itsDisplay, itsDrawable,
 							   JRect(y0-dx - stringWidth, x0+dy, y0-dx + 1, x0+dy + lineHeight + 1));
-		}
+	}
 	else if (135.0 < angle && angle <= 225.0)
-		{
+	{
 		quadrant    = 3;
 		stringWidth = AlignString(&dx,&dy, str, width, hAlign, height, vAlign);
 		if (stringWidth == 0)
-			{
+		{
 			stringWidth = GetStringWidth(str);
-			}
+		}
 		srcImage = jnew JXImage(itsDisplay, itsDrawable,
 							   JRect(y0-dy - lineHeight, x0-dx - stringWidth, y0-dy + 1, x0-dx + 1));
-		}
+	}
 	else	// 225.0 < angle && angle <= 315.0
-		{
+	{
 		quadrant    = 4;
 		stringWidth = AlignString(&dx,&dy, str, height, hAlign, width, vAlign);
 		if (stringWidth == 0)
-			{
+		{
 			stringWidth = GetStringWidth(str);
-			}
+		}
 		srcImage = jnew JXImage(itsDisplay, itsDrawable,
 							   JRect(y0+dx, x0-dy - lineHeight, y0+dx + stringWidth + 1, x0-dy + 1));
-		}
+	}
 	assert( srcImage != nullptr );
 
 	auto* tempImage = jnew JXImage(itsDisplay, stringWidth, lineHeight, 0, 0,
@@ -534,63 +534,63 @@ JXWindowPainter::String
 	// transfer the source
 
 	for (JCoordinate x=0; x < (JCoordinate) stringWidth; x++)
-		{
+	{
 		for (JCoordinate y=0; y < (JCoordinate) lineHeight; y++)
-			{
+		{
 			unsigned long srcPixel;
 			if (quadrant == 2)
-				{
+			{
 				srcPixel = srcImage->GetColor(y, stringWidth - x);
-				}
+			}
 			else if (quadrant == 3)
-				{
+			{
 				srcPixel = srcImage->GetColor(stringWidth - x, lineHeight - y);
-				}
+			}
 			else	// quadrant == 4
-				{
+			{
 				srcPixel = srcImage->GetColor(lineHeight - y, x);
-				}
+			}
 
 			tempImage->SetColor(x,y, srcPixel);
-			}
 		}
+	}
 
 	// draw the string
-	{
+{
 	JXImagePainter* p = tempImage->CreatePainter();
 	p->SetFont(GetFont());
 	p->JPainter::String(0,0, str);
 	jdelete p;
-	}
+}
 
 	// transfer the result
 
 	for (JCoordinate x=0; x < (JCoordinate) stringWidth; x++)
-		{
+	{
 		for (JCoordinate y=0; y < (JCoordinate) lineHeight; y++)
-			{
+		{
 			const unsigned long pixelValue = tempImage->GetColor(x,y);
 			JCoordinate xp,yp;
 			if (quadrant == 2)
-				{
+			{
 				xp = +dy+y;
 				yp = -dx-x;
-				}
+			}
 			else if (quadrant == 3)
-				{
+			{
 				xp = -dx-x;
 				yp = -dy-y;
-				}
+			}
 			else	// quadrant == 4
-				{
+			{
 				xp = -dy-y;
 				yp = +dx+x;
-				}
+			}
 
 			itsGC->SetDrawingColor(pixelValue);
 			itsGC->DrawPoint(itsDrawable, x0+xp, y0+yp);
-			}
 		}
+	}
 
 	// clean up
 
@@ -621,7 +621,7 @@ JXWindowPainter::StyleString
 	const JFontStyle& fontStyle = GetFont().GetStyle();
 
 	if (fontStyle.underlineCount > 0 || fontStyle.strike)
-		{
+	{
 		const JPoint origPenLoc     = GetPenLocation();
 		const JColorID origPenColor = GetPenColor();
 		const JSize origLW          = GetLineWidth();
@@ -633,31 +633,31 @@ JXWindowPainter::StyleString
 		const JSize strWidth = GetFont().GetStringWidth(GetFontManager(), str);
 
 		if (fontStyle.underlineCount > 0)
-			{
+		{
 			const JSize ulWidth = GetFont().GetUnderlineThickness();
 			SetLineWidth(ulWidth);
 
 			JCoordinate yu = JLFloor(y + 1.5 * ulWidth);	// thick line is centered on path
 			for (JIndex i=1; i<=fontStyle.underlineCount; i++)
-				{
+			{
 				Line(x,yu, x+strWidth,yu);
 				yu += 2 * ulWidth;
-				}
 			}
+		}
 
 		if (fontStyle.strike)
-			{
+		{
 			const JSize strikeWidth = GetFont().GetStrikeThickness();
 			const JCoordinate ys    = y - ascent/2;		// thick line is centered on path
 			SetLineWidth(strikeWidth);
 			Line(x,ys, x+strWidth,ys);
-			}
+		}
 
 		SetPenLocation(origPenLoc);
 		SetPenColor(origPenColor);
 		SetLineWidth(origLW);
 		DrawDashedLines(wasDashed);
-		}
+	}
 }
 
 /******************************************************************************
@@ -720,13 +720,13 @@ JXWindowPainter::Rect
 	itsGC->DrawDashedLines(LinesAreDashed());
 	const bool fill = IsFilling();
 	if (!fill && w>0 && h>0)
-		{
+	{
 		itsGC->DrawRect(itsDrawable, o.x+x,o.y+y, w,h);
-		}
+	}
 	else if (fill && w>0 && h>0)
-		{
+	{
 		itsGC->FillRect(itsDrawable, o.x+x,o.y+y, w,h);
-		}
+	}
 }
 
 /******************************************************************************
@@ -765,7 +765,7 @@ JXWindowPainter::Arc
 	)
 {
 	if (w>0 && h>0)
-		{
+	{
 		const JPoint& o = GetOrigin();
 		itsGC->SetDrawingColor(GetPenColor());
 		itsGC->SetLineWidth(GetLineWidth());
@@ -773,10 +773,10 @@ JXWindowPainter::Arc
 		itsGC->DrawArc(itsDrawable, o.x+x,o.y+y, w,h, startAngle, deltaAngle);
 
 		if (IsFilling())
-			{
+		{
 			itsGC->FillArc(itsDrawable, o.x+x,o.y+y, w,h, startAngle, deltaAngle);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -800,11 +800,11 @@ JXWindowPainter::Polygon
 
 	auto* xpt = jnew XPoint[ count+1 ];
 	for (JSize i=0; i<count; i++)
-		{
+	{
 		const JPoint pt = poly.GetElement(i+1);
 		xpt[i].x = o.x + left + pt.x;
 		xpt[i].y = o.y + top  + pt.y;
-		}
+	}
 	const JPoint start = poly.GetElement(1);
 	xpt[count].x = o.x + left + start.x;
 	xpt[count].y = o.y + top  + start.y;
@@ -815,9 +815,9 @@ JXWindowPainter::Polygon
 	itsGC->DrawLines(itsDrawable, count+1, xpt);
 
 	if (IsFilling())
-		{
+	{
 		itsGC->FillPolygon(itsDrawable, count+1, xpt);
-		}
+	}
 
 	jdelete [] xpt;
 }

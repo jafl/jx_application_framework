@@ -285,14 +285,14 @@ TestReadPrivateFormat
 	)
 {
 	StyledText text;
-	{
+{
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kWillBeBusy);
 	bcastTest.Expect(JStyledText::kTextSet);
 
 	std::ifstream input(fileName.GetBytes());
 	text.ReadPrivateFormat(input);
-	}
+}
 
 	JAssertStringsEqual("\xC3\x86" "bcd", text.GetText());
 	JAssertEqual(4, text.GetStyles().GetRunCount());
@@ -338,17 +338,17 @@ JTEST(ReadWritePrivateFormat)
 	JString fileName;
 	JAssertOK(JCreateTempFile(&fileName));
 
-	{
+{
 	std::ofstream output(fileName.GetBytes());
 	text1.WritePrivateFormat(output);
-	}
+}
 	TestReadPrivateFormat(fileName);
 
-	{
+{
 	std::ofstream output(fileName.GetBytes());
 	text1.WritePrivateFormat(output, 1, text1.GetText(), text1.GetStyles(),
 							 JCharacterRange(1,4));
-	}
+}
 	TestReadPrivateFormat(fileName);
 
 	StyledText text2;
@@ -358,11 +358,11 @@ JTEST(ReadWritePrivateFormat)
 	text2.SetFontBold(TextRange(JCharacterRange(8,9), JUtf8ByteRange(11,13)), true, true);
 	JAssertEqual(5, text2.GetStyles().GetRunCount());
 
-	{
+{
 	std::ofstream output(fileName.GetBytes());
 	text2.WritePrivateFormat(output, 1, text2.GetText(), text2.GetStyles(),
 							 JCharacterRange(8,11));
-	}
+}
 	TestReadPrivateFormat(fileName);
 
 	JRemoveFile(fileName);
@@ -487,7 +487,7 @@ JTEST(ReplaceMatch)
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -499,7 +499,7 @@ JTEST(ReplaceMatch)
 			JAssertTrue(tc->GetRedrawRange().byteRange.IsNothing());
 			JAssertEqual(0, tc->GetCharDelta());
 			JAssertEqual(0, tc->GetByteDelta());
-		});
+	});
 
 	const TextIndex first(1,1);
 
@@ -527,7 +527,7 @@ JTEST(ReplaceAllInRange)
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[&text] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -537,7 +537,7 @@ JTEST(ReplaceAllInRange)
 			JAssertEqual(text.GetText().GetByteCount(), tc->GetRange().byteRange.last);
 			JAssertEqual(0, tc->GetCharDelta());
 			JAssertEqual(4, tc->GetByteDelta());
-		});
+	});
 
 	JInterpolate interp;
 
@@ -548,7 +548,7 @@ JTEST(ReplaceAllInRange)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[&text] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -558,7 +558,7 @@ JTEST(ReplaceAllInRange)
 			JAssertEqual(text.GetText().GetByteCount(), tc->GetRange().byteRange.last);
 			JAssertEqual(0, tc->GetCharDelta());
 			JAssertEqual(-4, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -573,7 +573,7 @@ JTEST(ReplaceAllInRange)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -583,7 +583,7 @@ JTEST(ReplaceAllInRange)
 			JAssertEqual(24, tc->GetRange().byteRange.last);
 			JAssertEqual(0, tc->GetCharDelta());
 			JAssertEqual(2, tc->GetByteDelta());
-		});
+	});
 
 	text.ReplaceAllInRange(TextRange(
 		JCharacterRange(11, 21),
@@ -594,7 +594,7 @@ JTEST(ReplaceAllInRange)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[&text] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -604,7 +604,7 @@ JTEST(ReplaceAllInRange)
 			JAssertEqual(text.GetText().GetByteCount(), tc->GetRange().byteRange.last);
 			JAssertEqual(12, tc->GetCharDelta());
 			JAssertEqual(12, tc->GetByteDelta());
-		});
+	});
 
 	text.ReplaceAllInRange(text.SelectAll(),
 		JRegex(" "), false, JString("abcd", JString::kNoCopy), nullptr, false);
@@ -663,9 +663,9 @@ JTEST(SearchStyle)
 
 	bool wrapped;
 	bool found = text.SearchForward([] (const JFont& f)
-		{
+	{
 		return f.GetStyle().italic;
-		},
+	},
 		first, false, &wrapped, &r);
 
 	JAssertFalse(found);
@@ -678,9 +678,9 @@ JTEST(SearchStyle)
 	JAssertFalse(wrapped);
 
 	found = text.SearchForward([] (const JFont& f)
-		{
+	{
 		return f.GetStyle().underlineCount > 0;
-		},
+	},
 		first, true, &wrapped, &r);
 
 	JAssertTrue(found);
@@ -745,7 +745,7 @@ JTEST(SetAllFontNameAndSize)
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[&text] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -755,7 +755,7 @@ JTEST(SetAllFontNameAndSize)
 			JAssertEqual(text.GetText().GetByteCount(), tc->GetRange().byteRange.last);
 			JAssertEqual(0, tc->GetCharDelta());
 			JAssertEqual(0, tc->GetByteDelta());
-		});
+	});
 
 	text.SetAllFontNameAndSize(JString("foo", JString::kNoCopy), 24, false);
 
@@ -791,7 +791,7 @@ JTEST(InsertCharacter)
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -801,7 +801,7 @@ JTEST(InsertCharacter)
 			JAssertEqual(4, tc->GetRange().byteRange.last);
 			JAssertEqual(1, tc->GetCharDelta());
 			JAssertEqual(1, tc->GetByteDelta());
-		});
+	});
 
 	TextCount count;
 	text.InsertCharacter(TextRange(JCharacterRange(3,0), JUtf8ByteRange(4,0)), JUtf8Character('x'), JFontManager::GetDefaultFont(), &count);
@@ -810,7 +810,7 @@ JTEST(InsertCharacter)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -820,7 +820,7 @@ JTEST(InsertCharacter)
 			JAssertEqual(5, tc->GetRange().byteRange.last);
 			JAssertEqual(1, tc->GetCharDelta());
 			JAssertEqual(1, tc->GetByteDelta());
-		});
+	});
 
 	text.InsertCharacter(TextRange(JCharacterRange(4,0), JUtf8ByteRange(5,0)), JUtf8Character('y'), JFontManager::GetDefaultFont(), &count);
 	JAssertEqual(1, count.charCount);
@@ -828,7 +828,7 @@ JTEST(InsertCharacter)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -838,7 +838,7 @@ JTEST(InsertCharacter)
 			JAssertEqual(6, tc->GetRange().byteRange.last);
 			JAssertEqual(1, tc->GetCharDelta());
 			JAssertEqual(1, tc->GetByteDelta());
-		});
+	});
 
 	text.InsertCharacter(TextRange(JCharacterRange(5,0), JUtf8ByteRange(6,0)), JUtf8Character('z'), JFontManager::GetDefaultFont(), &count);
 	JAssertEqual(1, count.charCount);
@@ -861,7 +861,7 @@ JTEST(InsertCharacter)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -871,7 +871,7 @@ JTEST(InsertCharacter)
 			JAssertEqual(9, tc->GetRange().byteRange.last);
 			JAssertEqual(1, tc->GetCharDelta());
 			JAssertEqual(1, tc->GetByteDelta());
-		});
+	});
 
 	text.InsertCharacter(TextRange(JCharacterRange(8,0), JUtf8ByteRange(9,0)), JUtf8Character('1'), JFontManager::GetDefaultFont(), &count);
 	JAssertEqual(1, count.charCount);
@@ -880,7 +880,7 @@ JTEST(InsertCharacter)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -890,7 +890,7 @@ JTEST(InsertCharacter)
 			JAssertEqual(16, tc->GetRange().byteRange.last);
 			JAssertEqual(-2, tc->GetCharDelta());
 			JAssertEqual(-1, tc->GetByteDelta());
-		});
+	});
 
 	text.InsertCharacter(TextRange(JCharacterRange(13,15), JUtf8ByteRange(15,17)), JUtf8Character("\xC3\xA9"), JFontManager::GetDefaultFont(), &count);
 	JAssertEqual(1, count.charCount);
@@ -899,7 +899,7 @@ JTEST(InsertCharacter)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -909,7 +909,7 @@ JTEST(InsertCharacter)
 			JAssertEqual(17, tc->GetRange().byteRange.last);
 			JAssertEqual(2, tc->GetCharDelta());
 			JAssertEqual(1, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -917,7 +917,7 @@ JTEST(InsertCharacter)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -927,7 +927,7 @@ JTEST(InsertCharacter)
 			JAssertEqual(8, tc->GetRange().byteRange.last);
 			JAssertEqual(-1, tc->GetCharDelta());
 			JAssertEqual(-1, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -935,7 +935,7 @@ JTEST(InsertCharacter)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -945,7 +945,7 @@ JTEST(InsertCharacter)
 			JAssertEqual(3, tc->GetRange().byteRange.last);
 			JAssertEqual(-3, tc->GetCharDelta());
 			JAssertEqual(-3, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -965,7 +965,7 @@ JTEST(CopyPaste)
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -975,7 +975,7 @@ JTEST(CopyPaste)
 			JAssertEqual(18, tc->GetRange().byteRange.last);
 			JAssertEqual(3, tc->GetCharDelta());
 			JAssertEqual(5, tc->GetByteDelta());
-		});
+	});
 
 	JString s;
 	JRunArray<JFont> style;
@@ -1006,7 +1006,7 @@ JTEST(DeleteText)
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1016,14 +1016,14 @@ JTEST(DeleteText)
 			JAssertEqual(1, tc->GetRange().byteRange.last);
 			JAssertEqual(-5, tc->GetCharDelta());
 			JAssertEqual(-7, tc->GetByteDelta());
-		});
+	});
 
 	text.DeleteText(TextRange(JCharacterRange(2,6), JUtf8ByteRange(2,8)));
 	JAssertStringsEqual("b" "ld\n" "\t   normal\n" "double underline", text.GetText());
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1033,7 +1033,7 @@ JTEST(DeleteText)
 			JAssertEqual(9, tc->GetRange().byteRange.last);
 			JAssertEqual(-9, tc->GetCharDelta());
 			JAssertEqual(-9, tc->GetByteDelta());
-		});
+	});
 
 	text.DeleteText(TextRange(JCharacterRange(10,18), JUtf8ByteRange(10,18)));
 	JAssertStringsEqual("b" "ld\n" "\t   nble underline", text.GetText());
@@ -1052,7 +1052,7 @@ JTEST(DeleteText)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1062,7 +1062,7 @@ JTEST(DeleteText)
 			JAssertEqual(18, tc->GetRange().byteRange.last);
 			JAssertEqual(9, tc->GetCharDelta());
 			JAssertEqual(9, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -1074,7 +1074,7 @@ JTEST(DeleteText)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1084,7 +1084,7 @@ JTEST(DeleteText)
 			JAssertEqual(8, tc->GetRange().byteRange.last);
 			JAssertEqual(5, tc->GetCharDelta());
 			JAssertEqual(7, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -1118,7 +1118,7 @@ JTEST(BackwardDelete)
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1128,7 +1128,7 @@ JTEST(BackwardDelete)
 			JAssertEqual(8, tc->GetRange().byteRange.last);
 			JAssertEqual(-1, tc->GetCharDelta());
 			JAssertEqual(-1, tc->GetByteDelta());
-		});
+	});
 
 	TextIndex caretIndex = text.BackwardDelete(TextIndex(5,6), TextIndex(8,10), false);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "\xC3\xB8" "d\n" "\t   normal\n" "double underline", text.GetText());
@@ -1137,7 +1137,7 @@ JTEST(BackwardDelete)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1147,7 +1147,7 @@ JTEST(BackwardDelete)
 			JAssertEqual(6, tc->GetRange().byteRange.last);
 			JAssertEqual(-1, tc->GetCharDelta());
 			JAssertEqual(-2, tc->GetByteDelta());
-		});
+	});
 
 	JString returnText;
 	JRunArray<JFont> returnStyle;
@@ -1159,7 +1159,7 @@ JTEST(BackwardDelete)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1169,14 +1169,14 @@ JTEST(BackwardDelete)
 			JAssertEqual(10, tc->GetRange().byteRange.last);
 			JAssertEqual(-1, tc->GetCharDelta());
 			JAssertEqual(-1, tc->GetByteDelta());
-		});
+	});
 
 	text.BackwardDelete(TextIndex(8,9), TextIndex(11,12), false);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\t  normal\n" "double underline", text.GetText());
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1186,7 +1186,7 @@ JTEST(BackwardDelete)
 			JAssertEqual(11, tc->GetRange().byteRange.last);
 			JAssertEqual(1, tc->GetCharDelta());
 			JAssertEqual(1, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -1194,7 +1194,7 @@ JTEST(BackwardDelete)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1204,14 +1204,14 @@ JTEST(BackwardDelete)
 			JAssertEqual(10, tc->GetRange().byteRange.last);
 			JAssertEqual(-1, tc->GetCharDelta());
 			JAssertEqual(-1, tc->GetByteDelta());
-		});
+	});
 
 	text.BackwardDelete(TextIndex(8,9), TextIndex(11,12), true);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\t  normal\n" "double underline", text.GetText());
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1221,7 +1221,7 @@ JTEST(BackwardDelete)
 			JAssertEqual(15, tc->GetRange().byteRange.last);
 			JAssertEqual(6, tc->GetCharDelta());
 			JAssertEqual(6, tc->GetByteDelta());
-		});
+	});
 
 	text.Paste(TextRange(
 		JCharacterRange(9,8), JUtf8ByteRange(10,9)),
@@ -1230,7 +1230,7 @@ JTEST(BackwardDelete)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1240,14 +1240,14 @@ JTEST(BackwardDelete)
 			JAssertEqual(9, tc->GetRange().byteRange.last);
 			JAssertEqual(-8, tc->GetCharDelta());
 			JAssertEqual(-8, tc->GetByteDelta());
-		});
+	});
 
 	text.BackwardDelete(TextIndex(8,9), TextIndex(17,18), true);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\tnormal\n" "double underline", text.GetText());
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1257,7 +1257,7 @@ JTEST(BackwardDelete)
 			JAssertEqual(31, tc->GetRange().byteRange.last);
 			JAssertEqual(-1, tc->GetCharDelta());
 			JAssertEqual(-1, tc->GetByteDelta());
-		});
+	});
 
 	text.BackwardDelete(TextIndex(16,17), TextIndex(32,33), true);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\tnormal\n" "double underlin", text.GetText());
@@ -1284,7 +1284,7 @@ JTEST(ForwardDelete)
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1294,14 +1294,14 @@ JTEST(ForwardDelete)
 			JAssertEqual(5, tc->GetRange().byteRange.last);
 			JAssertEqual(-1, tc->GetCharDelta());
 			JAssertEqual(-1, tc->GetByteDelta());
-		});
+	});
 
 	text.ForwardDelete(TextIndex(5,6), TextIndex(5,6), false);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "\xC3\xB8" "ld\n" "\t   normal\n" "double underline", text.GetText());
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1311,7 +1311,7 @@ JTEST(ForwardDelete)
 			JAssertEqual(5, tc->GetRange().byteRange.last);
 			JAssertEqual(-1, tc->GetCharDelta());
 			JAssertEqual(-2, tc->GetByteDelta());
-		});
+	});
 
 	JString returnText;
 	JRunArray<JFont> returnStyle;
@@ -1323,7 +1323,7 @@ JTEST(ForwardDelete)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1333,14 +1333,14 @@ JTEST(ForwardDelete)
 			JAssertEqual(9, tc->GetRange().byteRange.last);
 			JAssertEqual(-1, tc->GetCharDelta());
 			JAssertEqual(-1, tc->GetByteDelta());
-		});
+	});
 
 	text.ForwardDelete(TextIndex(8,9), TextIndex(9,10), false);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\t  normal\n" "double underline", text.GetText());
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1350,7 +1350,7 @@ JTEST(ForwardDelete)
 			JAssertEqual(10, tc->GetRange().byteRange.last);
 			JAssertEqual(1, tc->GetCharDelta());
 			JAssertEqual(1, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -1358,7 +1358,7 @@ JTEST(ForwardDelete)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1368,14 +1368,14 @@ JTEST(ForwardDelete)
 			JAssertEqual(9, tc->GetRange().byteRange.last);
 			JAssertEqual(-1, tc->GetCharDelta());
 			JAssertEqual(-1, tc->GetByteDelta());
-		});
+	});
 
 	text.ForwardDelete(TextIndex(8,9), TextIndex(9,10), true);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\t  normal\n" "double underline", text.GetText());
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1385,7 +1385,7 @@ JTEST(ForwardDelete)
 			JAssertEqual(15, tc->GetRange().byteRange.last);
 			JAssertEqual(6, tc->GetCharDelta());
 			JAssertEqual(6, tc->GetByteDelta());
-		});
+	});
 
 	text.Paste(TextRange(
 		JCharacterRange(9,8), JUtf8ByteRange(10,9)),
@@ -1394,7 +1394,7 @@ JTEST(ForwardDelete)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1404,7 +1404,7 @@ JTEST(ForwardDelete)
 			JAssertEqual(9, tc->GetRange().byteRange.last);
 			JAssertEqual(-8, tc->GetCharDelta());
 			JAssertEqual(-8, tc->GetByteDelta());
-		});
+	});
 
 	text.ForwardDelete(TextIndex(8,9), TextIndex(9,10), true);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\tnormal\n" "double underline", text.GetText());
@@ -1421,7 +1421,7 @@ JTEST(Move)
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1431,11 +1431,11 @@ JTEST(Move)
 			JAssertEqual(5, tc->GetRange().byteRange.last);
 			JAssertEqual(-3, tc->GetCharDelta());
 			JAssertEqual(-4, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1445,7 +1445,7 @@ JTEST(Move)
 			JAssertEqual(12, tc->GetRange().byteRange.last);
 			JAssertEqual(3, tc->GetCharDelta());
 			JAssertEqual(4, tc->GetByteDelta());
-		});
+	});
 
 	TextRange r;
 	bool ok = text.MoveText(
@@ -1464,7 +1464,7 @@ JTEST(Move)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1474,7 +1474,7 @@ JTEST(Move)
 			JAssertEqual(6, tc->GetRange().byteRange.last);
 			JAssertEqual(6, tc->GetCharDelta());
 			JAssertEqual(6, tc->GetByteDelta());
-		});
+	});
 
 	ok = text.MoveText(
 		TextRange(
@@ -1490,7 +1490,7 @@ JTEST(Move)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1500,13 +1500,13 @@ JTEST(Move)
 			JAssertEqual(0, tc->GetRange().byteRange.last);
 			JAssertEqual(-6, tc->GetCharDelta());
 			JAssertEqual(-6, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1516,11 +1516,11 @@ JTEST(Move)
 			JAssertEqual(8, tc->GetRange().byteRange.last);
 			JAssertEqual(-3, tc->GetCharDelta());
 			JAssertEqual(-4, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1530,7 +1530,7 @@ JTEST(Move)
 			JAssertEqual(9, tc->GetRange().byteRange.last);
 			JAssertEqual(3, tc->GetCharDelta());
 			JAssertEqual(4, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -1552,7 +1552,7 @@ JTEST(TabSelection)
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1562,7 +1562,7 @@ JTEST(TabSelection)
 			JAssertEqual(8, tc->GetRange().byteRange.last);
 			JAssertEqual(2, tc->GetCharDelta());
 			JAssertEqual(2, tc->GetByteDelta());
-		});
+	});
 
 	text.Indent(TextRange(JCharacterRange(1,1), JUtf8ByteRange(1,2)), 2);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
@@ -1572,7 +1572,7 @@ JTEST(TabSelection)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1582,14 +1582,14 @@ JTEST(TabSelection)
 			JAssertEqual(23, tc->GetRange().byteRange.last);
 			JAssertEqual(6, tc->GetCharDelta());
 			JAssertEqual(6, tc->GetByteDelta());
-		});
+	});
 
 	text.Indent(TextRange(JCharacterRange(8,13), JUtf8ByteRange(9,14)), 3);
 	JAssertStringsEqual("\t\t" "\xC3\xA1" "bcd\n\t\t\t1234\n\t\t\twxzy", text.GetText());
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1599,13 +1599,13 @@ JTEST(TabSelection)
 			JAssertEqual(17, tc->GetRange().byteRange.last);
 			JAssertEqual(-6, tc->GetCharDelta());
 			JAssertEqual(-6, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1615,7 +1615,7 @@ JTEST(TabSelection)
 			JAssertEqual(6, tc->GetRange().byteRange.last);
 			JAssertEqual(-2, tc->GetCharDelta());
 			JAssertEqual(-2, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -1625,7 +1625,7 @@ JTEST(TabSelection)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1635,13 +1635,13 @@ JTEST(TabSelection)
 			JAssertEqual(8, tc->GetRange().byteRange.last);
 			JAssertEqual(2, tc->GetCharDelta());
 			JAssertEqual(2, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1651,7 +1651,7 @@ JTEST(TabSelection)
 			JAssertEqual(23, tc->GetRange().byteRange.last);
 			JAssertEqual(6, tc->GetCharDelta());
 			JAssertEqual(6, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -1660,7 +1660,7 @@ JTEST(TabSelection)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1670,14 +1670,14 @@ JTEST(TabSelection)
 			JAssertEqual(20, tc->GetRange().byteRange.last);
 			JAssertEqual(-3, tc->GetCharDelta());
 			JAssertEqual(-3, tc->GetByteDelta());
-		});
+	});
 
 	text.Outdent(TextRange(JCharacterRange(1,22), JUtf8ByteRange(1,23)), 1);
 	JAssertStringsEqual("\t" "\xC3\xA1" "bcd\n\t\t1234\n\t\twxzy", text.GetText());
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1687,7 +1687,7 @@ JTEST(TabSelection)
 			JAssertEqual(23, tc->GetRange().byteRange.last);
 			JAssertEqual(3, tc->GetCharDelta());
 			JAssertEqual(3, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -1696,7 +1696,7 @@ JTEST(TabSelection)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1706,7 +1706,7 @@ JTEST(TabSelection)
 			JAssertEqual(20, tc->GetRange().byteRange.last);
 			JAssertEqual(-3, tc->GetCharDelta());
 			JAssertEqual(-3, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -1717,7 +1717,7 @@ JTEST(TabSelection)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1727,7 +1727,7 @@ JTEST(TabSelection)
 			JAssertEqual(15, tc->GetRange().byteRange.last);
 			JAssertEqual(-5, tc->GetCharDelta());
 			JAssertEqual(-5, tc->GetByteDelta());
-		});
+	});
 
 	text.Outdent(TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 2, true);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
@@ -1755,7 +1755,7 @@ JTEST(TabSelectionMixed)
 	JBroadcastTester bcastTest(&text);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1765,14 +1765,14 @@ JTEST(TabSelectionMixed)
 			JAssertEqual(15, tc->GetRange().byteRange.last);
 			JAssertEqual(-5, tc->GetCharDelta());
 			JAssertEqual(-5, tc->GetByteDelta());
-		});
+	});
 
 	text.Outdent(TextRange(JCharacterRange(1,19), JUtf8ByteRange(1,20)), 1);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n1234\nwxzy", text.GetText());
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1782,7 +1782,7 @@ JTEST(TabSelectionMixed)
 			JAssertEqual(20, tc->GetRange().byteRange.last);
 			JAssertEqual(5, tc->GetCharDelta());
 			JAssertEqual(5, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -1791,7 +1791,7 @@ JTEST(TabSelectionMixed)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1801,7 +1801,7 @@ JTEST(TabSelectionMixed)
 			JAssertEqual(15, tc->GetRange().byteRange.last);
 			JAssertEqual(-5, tc->GetCharDelta());
 			JAssertEqual(-5, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -1815,7 +1815,7 @@ JTEST(TabSelectionMixed)
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1825,7 +1825,7 @@ JTEST(TabSelectionMixed)
 			JAssertEqual(18, tc->GetRange().byteRange.last);
 			JAssertEqual(-6, tc->GetCharDelta());
 			JAssertEqual(-6, tc->GetByteDelta());
-		});
+	});
 
 	text.Outdent(TextRange(JCharacterRange(1,23), JUtf8ByteRange(1,24)), 1);
 	JAssertStringsEqual("\xC3\xA1" "bcd\n 1234\n  wxzy", text.GetText());
@@ -1841,7 +1841,7 @@ JTEST(CleanWhitespaceTabs)
 	bcastTest.Expect(JStyledText::kTextSet);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1851,7 +1851,7 @@ JTEST(CleanWhitespaceTabs)
 			JAssertEqual(19, tc->GetRange().byteRange.last);
 			JAssertEqual(-2, tc->GetCharDelta());
 			JAssertEqual(-2, tc->GetByteDelta());
-		});
+	});
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", JString::kNoCopy));
 	TextRange r =
@@ -1864,7 +1864,7 @@ JTEST(CleanWhitespaceTabs)
 	bcastTest.Expect(JStyledText::kTextSet);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1874,7 +1874,7 @@ JTEST(CleanWhitespaceTabs)
 			JAssertEqual(18, tc->GetRange().byteRange.last);
 			JAssertEqual(-3, tc->GetCharDelta());
 			JAssertEqual(-3, tc->GetByteDelta());
-		});
+	});
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", JString::kNoCopy));
 	r = text.CleanWhitespace(TextRange(
@@ -1886,7 +1886,7 @@ JTEST(CleanWhitespaceTabs)
 	bcastTest.Expect(JStyledText::kTextSet);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1896,11 +1896,11 @@ JTEST(CleanWhitespaceTabs)
 			JAssertEqual(14, tc->GetRange().byteRange.last);
 			JAssertEqual(-2, tc->GetCharDelta());
 			JAssertEqual(-2, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1910,13 +1910,13 @@ JTEST(CleanWhitespaceTabs)
 			JAssertEqual(16, tc->GetRange().byteRange.last);
 			JAssertEqual(2, tc->GetCharDelta());
 			JAssertEqual(2, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1926,7 +1926,7 @@ JTEST(CleanWhitespaceTabs)
 			JAssertEqual(14, tc->GetRange().byteRange.last);
 			JAssertEqual(-2, tc->GetCharDelta());
 			JAssertEqual(-2, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
@@ -1942,7 +1942,7 @@ JTEST(CleanWhitespaceTabs)
 	bcastTest.Expect(JStyledText::kTextSet);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -1952,7 +1952,7 @@ JTEST(CleanWhitespaceTabs)
 			JAssertEqual(18, tc->GetRange().byteRange.last);
 			JAssertEqual(-3, tc->GetCharDelta());
 			JAssertEqual(-3, tc->GetByteDelta());
-		});
+	});
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n   1234\n\twxzy", JString::kNoCopy));
 	r = text.CleanWhitespace(TextRange(
@@ -1993,7 +1993,7 @@ JTEST(CleanWhitespaceSpaces)
 	bcastTest.Expect(JStyledText::kTextSet);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -2003,7 +2003,7 @@ JTEST(CleanWhitespaceSpaces)
 			JAssertEqual(28, tc->GetRange().byteRange.last);
 			JAssertEqual(7, tc->GetCharDelta());
 			JAssertEqual(7, tc->GetByteDelta());
-		});
+	});
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", JString::kNoCopy));
 	TextRange r =
@@ -2016,7 +2016,7 @@ JTEST(CleanWhitespaceSpaces)
 	bcastTest.Expect(JStyledText::kTextSet);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -2026,7 +2026,7 @@ JTEST(CleanWhitespaceSpaces)
 			JAssertEqual(27, tc->GetRange().byteRange.last);
 			JAssertEqual(6, tc->GetCharDelta());
 			JAssertEqual(6, tc->GetByteDelta());
-		});
+	});
 
 	text.SetText(JString("\t " "\xC3\xA1" "bcd\n  \t1234\n\twxzy", JString::kNoCopy));
 	r = text.CleanWhitespace(TextRange(
@@ -2038,7 +2038,7 @@ JTEST(CleanWhitespaceSpaces)
 	bcastTest.Expect(JStyledText::kTextSet);
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -2048,11 +2048,11 @@ JTEST(CleanWhitespaceSpaces)
 			JAssertEqual(17, tc->GetRange().byteRange.last);
 			JAssertEqual(1, tc->GetCharDelta());
 			JAssertEqual(1, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -2062,13 +2062,13 @@ JTEST(CleanWhitespaceSpaces)
 			JAssertEqual(16, tc->GetRange().byteRange.last);
 			JAssertEqual(-1, tc->GetCharDelta());
 			JAssertEqual(-1, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* tc =
 				dynamic_cast<const JStyledText::TextChanged*>(&m);
 			JAssertNotNull(tc);
@@ -2078,7 +2078,7 @@ JTEST(CleanWhitespaceSpaces)
 			JAssertEqual(17, tc->GetRange().byteRange.last);
 			JAssertEqual(1, tc->GetCharDelta());
 			JAssertEqual(1, tc->GetByteDelta());
-		});
+	});
 
 	bcastTest.Expect(JStyledText::kUndoFinished);
 

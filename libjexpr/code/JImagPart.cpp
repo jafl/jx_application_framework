@@ -80,14 +80,14 @@ JImagPart::Evaluate
 {
 	JComplex value;
 	if (GetArg()->Evaluate(&value))
-		{
+	{
 		*result = imag(value);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -99,12 +99,12 @@ JImagPart::Evaluate
 {
 	JComplex value;
 	if (GetArg()->Evaluate(&value))
-		{
+	{
 		*result = imag(value);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }

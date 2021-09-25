@@ -84,11 +84,11 @@ DragWidget::Draw
 	
 	// Loop through the points by twos
 	for (JSize i = 1; i <= count; i += 2)
-		{
+	{
 		// We need to specify that this is a JPainter function because
 		// JXWindowPainter has this function in a different form
 		p.JPainter::Line(itsPoints->GetElement(i), itsPoints->GetElement(i+1));
-		}
+	}
 }
 
 /******************************************************************************
@@ -123,19 +123,19 @@ DragWidget::HandleMouseDown
 {
 	// Check to see if the left button was pressed
 	if (button == kJXLeftButton)
-		{
+	{
 		// Create the drag painter to draw the rubber-band like lines
 		JPainter* p = CreateDragInsidePainter();
 		
 		// Start the first line
 		p->Line(pt, pt);
-		}
+	}
 
 	// Let the base class handle the wheel mouse.
 	else
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 
 	// Initialize the current points
 	itsStartPt = itsPrevPt = pt;
@@ -171,23 +171,23 @@ DragWidget::HandleMouseDrag
 	// Get the drag painter that we created in mouse down
 	JPainter* p = nullptr;
 	if (!GetDragPainter(&p))
-		{
+	{
 		return;
-		}
+	}
 	
 	// Make sure that the left button is pressed, 
 	// that we have moved,
 	// and that a drag painter exists
 	if (buttonStates.left() && pt != itsPrevPt && p != nullptr)	// p is nullptr for multiple click
-		{
+	{
 		
 		// Draw line depending on whether or not we scrolled
 		if (!scrolled)
-			{
+		{
 			p->Line(itsStartPt, itsPrevPt);
-			}
-		p->Line(itsStartPt, pt);
 		}
+		p->Line(itsStartPt, pt);
+	}
 
 	// Remember the current point
 	itsPrevPt = pt;
@@ -224,7 +224,7 @@ DragWidget::HandleMouseUp
 	// Make sure that the left button is pressed, 
 	// and that a drag painter exists
 	if (button == kJXLeftButton && GetDragPainter(&p))
-		{
+	{
 		// Erase the last line that was drawn
 		p->Line(itsStartPt, itsPrevPt);
 		
@@ -237,7 +237,7 @@ DragWidget::HandleMouseUp
 		
 		// Tell the widget to redraw itself
 		Refresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -264,24 +264,24 @@ DragWidget::HandleKeyPress
 	// Check if the 'c' key was pressed
 	// If so, we want to clear the window
 	if (key == 'c')
-		{
+	{
 		// remove all of the points from the JArray
 		itsPoints->RemoveAll();
 		
 		// Redraw 
 		Refresh();
-		}
+	}
 		
 	// Check if the 'q' key was pressed
 	else if (key == 'q')
-		{
+	{
 		// Quit the application if 'q' was pressed
 		JXGetApplication()->Quit();
-		}
+	}
 		
 	// If anything else was pressed, pass it up the inheritance tree
 	else
-		{
+	{
 		JXScrollableWidget::HandleKeyPress(key,modifiers);
-		}
+	}
 }

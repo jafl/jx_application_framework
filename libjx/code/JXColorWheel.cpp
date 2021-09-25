@@ -75,7 +75,7 @@ JXColorWheel::SetColor
 	)
 {
 	if (itsColor != hsb)
-		{
+	{
 		itsColor = hsb;
 
 		StopListening(itsBrightnessSlider);
@@ -84,7 +84,7 @@ JXColorWheel::SetColor
 
 		Broadcast(ColorChanged());
 		Refresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -120,7 +120,7 @@ JXColorWheel::Draw
 	const JCoordinate size   = max - 2*kWheelMargin - 1;
 	const JCoordinate center = size/2 + kWheelMargin;
 	if (itsImage == nullptr || itsImage->GetWidth() != max || itsColor.brightness != itsLastDrawBrightness)
-		{
+	{
 		p.SetFilling(true);
 		p.SetPenColor(black);
 		p.Ellipse(kWheelMargin, kWheelMargin, size, size);
@@ -136,25 +136,25 @@ JXColorWheel::Draw
 
 		itsLastDrawBrightness = itsColor.brightness;
 		for (JCoordinate x=0; x<max; x++)
-			{
+		{
 			const JCoordinate dx = - x + center;
 
 			for (JCoordinate y=0; y<max; y++)
-				{
+			{
 				if (itsImage->GetColor(x,y) == black)
-					{
+				{
 					const JCoordinate dy = y - center;
 					const JFloat r = sqrt(dx*dx + dy*dy) / center;
 					const JFloat a = 0.5 + atan2(dy, dx) / (2.0 * kJPi);
 
 					JHSB color(JRound(a * kJMaxHSBValue), JRound(r * kJMaxHSBValue), itsLastDrawBrightness);
 					itsImage->SetColor(x,y, JColorManager::GetColorID(color));
-					}
 				}
 			}
+		}
 
 		itsImage->ConvertToRemoteStorage();
-		}
+	}
 
 	p.JPainter::Image(*itsImage, itsImage->GetBounds(), 0,0);
 
@@ -186,9 +186,9 @@ JXColorWheel::SetColor
 	)
 {
 	if (itsImage == nullptr)
-		{
+	{
 		Redraw();
-		}
+	}
 
 	const JRect bounds       = GetBoundsGlobal();
 	const JCoordinate max    = JMin(bounds.height(), bounds.width() - kSliderWidth - kSliderMargin);
@@ -252,13 +252,13 @@ JXColorWheel::Receive
 	)
 {
 	if (sender == itsBrightnessSlider && message.Is(JSliderBase::kMoved))
-		{
+	{
 		itsColor.brightness = JRound(itsBrightnessSlider->GetValue());
 		Broadcast(ColorChanged());
 		Refresh();
-		}
+	}
 	else
-		{
+	{
 		JXWidget::Receive(sender, message);
-		}
+	}
 }

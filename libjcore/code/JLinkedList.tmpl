@@ -77,9 +77,9 @@ JLinkedList<T>::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	DeleteAll();
 
@@ -115,7 +115,7 @@ JLinkedList<T>::CopyList
 	JLinkedListElement<T>* newElement;
 
 	while (sourceElement != nullptr)
-		{
+	{
 		newElement = jnew JLinkedListElement<T>(sourceElement->data);
 		assert( newElement != nullptr );
 
@@ -123,17 +123,17 @@ JLinkedList<T>::CopyList
 		newElement->next = nullptr;			// no initial link
 
 		if (prev != nullptr)
-			{
+		{
 			prev->next = newElement;		// set up link from previous element
-			}
+		}
 		else
-			{
+		{
 			itsFirstElement = newElement;	// save link to first element
-			}
+		}
 
 		sourceElement = sourceElement->next;
 		prev          = newElement;
-		}
+	}
 
 	itsLastElement = prev;					// save link to last element
 }
@@ -185,13 +185,13 @@ JLinkedList<T>::PrependElement
 	newElement->next = itsFirstElement;
 
 	if (itsFirstElement != nullptr)
-		{
+	{
 		itsFirstElement->prev = newElement;
-		}
+	}
 	else
-		{
+	{
 		itsLastElement = newElement;
-		}
+	}
 	itsFirstElement = newElement;
 
 	this->ElementAdded();
@@ -220,13 +220,13 @@ JLinkedList<T>::AppendElement
 	newElement->next = nullptr;
 
 	if (itsLastElement != nullptr)
-		{
+	{
 		itsLastElement->next = newElement;
-		}
+	}
 	else
-		{
+	{
 		itsFirstElement = newElement;
-		}
+	}
 	itsLastElement = newElement;
 
 	this->ElementAdded();
@@ -246,14 +246,14 @@ void
 JLinkedList<T>::RemoveAll()
 {
 	if (!this->IsEmpty())
-		{
+	{
 		JListT::ElementsRemoved message(1, this->GetElementCount());
 
 		DeleteAll();
 
 		JBroadcaster::Broadcast(message);
 		JList<T>::NotifyIterators(message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -289,11 +289,11 @@ JLinkedList<T>::DeleteChain
 	)
 {
 	while (firstElement != nullptr)
-		{
+	{
 		JLinkedListElement<T>* next = firstElement->next;
 		jdelete firstElement;
 		firstElement = next;
-		}
+	}
 }
 
 /******************************************************************************
@@ -320,13 +320,13 @@ JLinkedList<T>::IteratorInsertElementAfter
 
 	prev->next = newElement;
 	if (next != nullptr)
-		{
+	{
 		next->prev = newElement;
-		}
+	}
 	else
-		{
+	{
 		itsLastElement = newElement;
-		}
+	}
 
 	this->ElementAdded();
 
@@ -351,26 +351,26 @@ JLinkedList<T>::IteratorRemovePrevElements
 {
 	const JSize totalCount = this->GetElementCount();
 	if (lastIndex == totalCount && origCount >= totalCount)
-		{
+	{
 		RemoveAll();
-		}
+	}
 	else if (origCount > 0)
-		{
+	{
 		JIndex firstIndex = lastIndex;
 		JSize count       = 1;
 		while (origElement->prev != nullptr && count < origCount)
-			{
+		{
 			origElement = origElement->prev;
 			firstIndex--;
 			count++;
-			}
+		}
 
 		DeleteChain(UnlinkNextElements(firstIndex, count, origElement));
 
 		JListT::ElementsRemoved message(firstIndex, count);
 		JBroadcaster::Broadcast(message);
 		JList<T>::NotifyIterators(message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -388,17 +388,17 @@ JLinkedList<T>::IteratorRemoveNextElements
 	)
 {
 	if (firstIndex == 1 && count >= this->GetElementCount())
-		{
+	{
 		RemoveAll();
-		}
+	}
 	else if (count > 0)
-		{
+	{
 		DeleteChain(UnlinkNextElements(firstIndex, count, origElement));
 
 		JListT::ElementsRemoved message(firstIndex, count);
 		JBroadcaster::Broadcast(message);
 		JList<T>::NotifyIterators(message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -446,33 +446,33 @@ JLinkedList<T>::UnlinkNextElements
 	JLinkedListElement<T>* result = nullptr;
 
 	if (count == elementCount)
-		{
+	{
 		result          = itsFirstElement;
 		itsFirstElement = nullptr;
 		itsLastElement  = nullptr;
-		}
+	}
 	else if (firstIndex == 1)
-		{
+	{
 		result = itsFirstElement;
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			itsFirstElement = itsFirstElement->next;
-			}
+		}
 		itsFirstElement->prev->next = nullptr;
 		itsFirstElement->prev       = nullptr;
-		}
+	}
 	else if (lastIndex == elementCount)
-		{
+	{
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			itsLastElement = itsLastElement->prev;
-			}
+		}
 		result               = itsLastElement->next;
 		result->prev         = nullptr;
 		itsLastElement->next = nullptr;
-		}
+	}
 	else
-		{
+	{
 		JLinkedListElement<T>* prev       = origElement->prev;
 		JLinkedListElement<T>* theElement = prev->next;
 
@@ -480,14 +480,14 @@ JLinkedList<T>::UnlinkNextElements
 		result->prev = nullptr;
 
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			theElement = theElement->next;
-			}
+		}
 		(theElement->prev)->next = nullptr;
 
 		prev->next       = theElement;
 		theElement->prev = prev;
-		}
+	}
 
 	this->SetElementCount(elementCount - count);
 
@@ -511,33 +511,33 @@ JLinkedList<T>::IteratorFindElement
 
 	const JSize elementCount = this->GetElementCount();
 	if (index < elementCount/2)
-		{
+	{
 		JLinkedListElement<T>* listElement = itsFirstElement;
 
 		// traverse the list forward
 		// when i == index, we have found the element
 
 		for (JIndex i=1; i<index; i++)
-			{
+		{
 			listElement = listElement->next;
-			}
+		}
 
 		return listElement;
-		}
+	}
 	else
-		{
+	{
 		JLinkedListElement<T>* listElement = itsLastElement;
 
 		// traverse the list backward
 		// when i == index, we have found the element
 
 		for (JIndex i=elementCount; i>index; i--)
-			{
+		{
 			listElement = listElement->prev;
-			}
+		}
 
 		return listElement;
-		}
+	}
 }
 
 /******************************************************************************

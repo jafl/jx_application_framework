@@ -84,9 +84,9 @@ JXPGDirectorBase::Activate()
 	// We need to be active, regardless of our supervisor's state!
 
 	while (IsSuspended())
-		{
+	{
 		Resume();
-		}
+	}
 
 	JXWindowDirector::Activate();
 }
@@ -102,19 +102,19 @@ bool
 JXPGDirectorBase::Close()
 {
 	if (itsExpectsCloseFlag)
-		{
+	{
 		return JXWindowDirector::Close();
-		}
+	}
 	else if (itsCancelButton != nullptr)
-		{
+	{
 		itsCancelButton->Push();
 		return false;
-		}
+	}
 	else
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("CannotQuitWhileRunning::JXPGDirectorBase"));
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -150,17 +150,17 @@ JXPGDirectorBase::Init
 	const JSize prefw = text->TEGetMinPreferredGUIWidth();
 	const JSize apw   = apG.width();
 	if (prefw > apw)
-		{
+	{
 		dw = prefw - apw;
-		}
+	}
 
 	JSize dh        = 0;
 	const JSize bdh = text->GetBoundsHeight();
 	const JSize aph = apG.height();
 	if (bdh > aph)
-		{
+	{
 		dh = bdh - aph;
-		}
+	}
 
 	window->AdjustSize(dw, dh);
 	window->LockCurrentSize();
@@ -169,11 +169,11 @@ JXPGDirectorBase::Init
 	// show cancel button, if allowed
 
 	if (allowCancel)
-		{
+	{
 		itsCancelButton = cancelButton;
-		}
+	}
 	else
-		{
+	{
 		cancelButton->Hide();
-		}
+	}
 }

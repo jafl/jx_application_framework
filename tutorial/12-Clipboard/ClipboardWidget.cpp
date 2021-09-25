@@ -111,7 +111,7 @@ ClipboardWidget::Receive
 {
 	// Check to see if the a menu item was selected.
 	if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		// Cast the sender so we can access its functions.
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
@@ -119,7 +119,7 @@ ClipboardWidget::Receive
 
 		// Handle the menu selection
 		HandleEditMenu(selection->GetIndex());
-		}
+	}
 }
 
 /******************************************************************************
@@ -222,7 +222,7 @@ ClipboardWidget::HandleEditMenu
 	)
 {
 	if (index == kCopyCmd)
-		{
+	{
 		// We instantiate a selection object that is appropriate for
 		// our data.
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), itsText);
@@ -230,15 +230,15 @@ ClipboardWidget::HandleEditMenu
 
 		// The selection data is then given to the selection manager.
 		if (!GetSelectionManager()->SetData(kJXClipboardName, data))
-			{
-			JGetUserNotification()->ReportError("Unable to copy to the X Clipboard.");
-			}
-		}
-	else if (index == kPasteCmd)
 		{
+			JGetUserNotification()->ReportError("Unable to copy to the X Clipboard.");
+		}
+	}
+	else if (index == kPasteCmd)
+	{
 		// Paste if the clipboard has the type we need.
 		Paste();
-		}
+	}
 }
 
 /******************************************************************************
@@ -259,18 +259,18 @@ ClipboardWidget::Paste()
 	// If the clipboard is not empty, retrieve the available types.
 	JArray<Atom> typeList;
 	if (selMgr->GetAvailableTypes(kJXClipboardName, CurrentTime, &typeList))
-		{
+	{
 
 		// Loop through the available types to see if the clipboard has
 		// one that we want.
 		const JSize typeCount = typeList.GetElementCount();
 		for (JIndex i=1; i<=typeCount; i++)
-			{
+		{
 			const Atom atom = typeList.GetElement(i);
 
 			// Check if the i-th type is one we can use.
 			if (atom == XA_STRING || atom == selMgr->GetUtf8StringXAtom())
-				{
+			{
 				// Get the data of the appropriate type.
 				unsigned char* data = nullptr;
 				JSize dataLength;
@@ -279,42 +279,42 @@ ClipboardWidget::Paste()
 				if (selMgr->GetData(kJXClipboardName, CurrentTime,
 						atom, &returnType, &data, &dataLength,
 						&dMethod))
-					{
+				{
 					// We can only handle the simplest format.
 					if (returnType == XA_STRING)
-						{
+					{
 						// Copy the data into our text.
 						itsText.Set(reinterpret_cast<JCharacter*>(data), dataLength);
 
 						// Our text changed, so we need to refresh.
 						Refresh();
-						}
+					}
 
 					// This is required to delete the allocated data.
 					// Forgetting to do this will cause a memory leak!
 					selMgr->DeleteData(&data, dMethod);
 
 					if (returnType == XA_STRING)
-						{
+					{
 						// We succeeded, so we return.
 						return;
-						}
-					}
-				else
-					{
-					JGetUserNotification()->ReportError(
-						"Unable to retrieve text from the clipboard.");
 					}
 				}
+				else
+				{
+					JGetUserNotification()->ReportError(
+						"Unable to retrieve text from the clipboard.");
+				}
 			}
+		}
 
 		// If we got this far, the data type that we want wasn't on the
 		// clipboard.
 		JGetUserNotification()->ReportError("Unable to paste from clipboard.");
-		}
+	}
 	else
-		{
+	{
 		// There isn't anything on the clipboard.
 		JGetUserNotification()->ReportError("Clipboard is empty.");
-		}
+	}
 }

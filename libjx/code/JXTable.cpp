@@ -169,16 +169,16 @@ JXTable::TableHeightChanged
 {
 	JXScrollbar *hScrollbar, *vScrollbar;
 	if (GetScrollbars(&hScrollbar, &vScrollbar))
-		{
+	{
 		if (delta > 0)
-			{
+		{
 			vScrollbar->PrepareForHigherMaxValue(y, delta);
-			}
-		else if (delta < 0)
-			{
-			vScrollbar->PrepareForLowerMaxValue(y, -delta);
-			}
 		}
+		else if (delta < 0)
+		{
+			vScrollbar->PrepareForLowerMaxValue(y, -delta);
+		}
+	}
 }
 
 void
@@ -189,9 +189,9 @@ JXTable::TableHeightScaled
 {
 	JXScrollbar *hScrollbar, *vScrollbar;
 	if (GetScrollbars(&hScrollbar, &vScrollbar))
-		{
+	{
 		vScrollbar->PrepareForScaledMaxValue(scaleFactor);
-		}
+	}
 }
 
 void
@@ -204,9 +204,9 @@ JXTable::TableRowMoved
 {
 	JXScrollbar *hScrollbar, *vScrollbar;
 	if (GetScrollbars(&hScrollbar, &vScrollbar))
-		{
+	{
 		vScrollbar->StripMoved(origY, height, newY);
-		}
+	}
 }
 
 void
@@ -218,16 +218,16 @@ JXTable::TableWidthChanged
 {
 	JXScrollbar *hScrollbar, *vScrollbar;
 	if (GetScrollbars(&hScrollbar, &vScrollbar))
-		{
+	{
 		if (delta > 0)
-			{
+		{
 			hScrollbar->PrepareForHigherMaxValue(x, delta);
-			}
-		else if (delta < 0)
-			{
-			hScrollbar->PrepareForLowerMaxValue(x, -delta);
-			}
 		}
+		else if (delta < 0)
+		{
+			hScrollbar->PrepareForLowerMaxValue(x, -delta);
+		}
+	}
 }
 
 void
@@ -238,9 +238,9 @@ JXTable::TableWidthScaled
 {
 	JXScrollbar *hScrollbar, *vScrollbar;
 	if (GetScrollbars(&hScrollbar, &vScrollbar))
-		{
+	{
 		hScrollbar->PrepareForScaledMaxValue(scaleFactor);
-		}
+	}
 }
 
 void
@@ -253,9 +253,9 @@ JXTable::TableColMoved
 {
 	JXScrollbar *hScrollbar, *vScrollbar;
 	if (GetScrollbars(&hScrollbar, &vScrollbar))
-		{
+	{
 		hScrollbar->StripMoved(origX, width, newX);
-		}
+	}
 }
 
 /******************************************************************************
@@ -271,13 +271,13 @@ JXTable::TableScrollToCellRect
 	)
 {
 	if (centerInDisplay)
-		{
+	{
 		return ScrollToRectCentered(cellRect, false);
-		}
+	}
 	else
-		{
+	{
 		return ScrollToRect(cellRect);
-		}
+	}
 }
 
 /******************************************************************************
@@ -309,7 +309,7 @@ JXTable::BeginSelectionDrag
 	)
 {
 	if (button != kJXMiddleButton)
-		{
+	{
 		const bool extendSelection =
 			(button == kJXLeftButton && modifiers.shift()) ||
 				 button == kJXRightButton;
@@ -319,7 +319,7 @@ JXTable::BeginSelectionDrag
 			modifiers.control();
 
 		JTable::BeginSelectionDrag(cell, extendSelection, selectDiscont);
-		}
+	}
 }
 
 /******************************************************************************
@@ -337,7 +337,7 @@ JXTable::ContinueSelectionDrag
 	)
 {
 	if (IsDraggingSelection())
-		{
+	{
 		ScrollForDrag(pt);
 
 		JPoint cell;
@@ -345,7 +345,7 @@ JXTable::ContinueSelectionDrag
 		assert( ok );
 
 		JTable::ContinueSelectionDrag(cell);
-		}
+	}
 }
 
 /******************************************************************************

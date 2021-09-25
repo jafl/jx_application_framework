@@ -73,10 +73,10 @@ JXCheckboxGroup::Add
 	)
 {
 	if (!itsCBList->Includes(cb))
-		{
+	{
 		itsCBList->Append(cb);
 		ListenTo(cb);
-		}
+	}
 }
 
 /******************************************************************************
@@ -93,14 +93,14 @@ JXCheckboxGroup::Insert
 {
 	JIndex i;
 	if (itsCBList->Find(cb, &i))
-		{
+	{
 		itsCBList->MoveElementToIndex(i, index);
-		}
+	}
 	else
-		{
+	{
 		itsCBList->InsertAtIndex(index, cb);
 		ListenTo(cb);
-		}
+	}
 }
 
 /******************************************************************************
@@ -157,12 +157,12 @@ JXCheckboxGroup::AllDisabled()
 {
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if (!CheckboxDisabled(i))
-			{
+		{
 			return false;
-			}
 		}
+	}
 
 	return true;
 }
@@ -198,18 +198,18 @@ JXCheckboxGroup::Receive
 	)
 {
 	if (message.Is(JXCheckbox::kPushed))
-		{
+	{
 		JIndex i;
 		if (FindCheckbox(sender, &i))
-			{
+		{
 			EnforceConstraints(i);
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JContainer::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -227,18 +227,18 @@ JXCheckboxGroup::ReceiveGoingAway
 {
 	const JSize cbCount = itsCBList->GetElementCount();
 	for (JIndex i=1; i<=cbCount; i++)
-		{
+	{
 		if (itsCBList->GetElement(i) == sender)
-			{
+		{
 			itsCBList->RemoveElement(i);
 			break;
-			}
 		}
+	}
 
 	if (itsCBList->IsEmpty())
-		{
+	{
 		JXDeleteObjectTask<JXCheckboxGroup>::Delete(this);
-		}
+	}
 
 	JContainer::ReceiveGoingAway(sender);
 }
@@ -262,13 +262,13 @@ JXCheckboxGroup::FindCheckbox
 {
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if (itsCBList->GetElement(i) == obj)
-			{
+		{
 			*index = i;
 			return true;
-			}
 		}
+	}
 
 	*index = 0;
 	return false;

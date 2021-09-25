@@ -38,14 +38,14 @@ JIntersection
 	result->right  = JMin(r1.right,  r2.right);
 
 	if (result->top < result->bottom && result->left < result->right)
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		result->Set(0,0,0,0);
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

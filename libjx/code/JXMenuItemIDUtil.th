@@ -39,16 +39,16 @@ ClassName::IndexToCmdFn
 {
 	const JString* id;
 	if (MenuVar->GetItemID(index, &id))
-		{
+	{
 		for (const auto& info : CmdIDList)
-			{
+		{
 			if (info.id == *id)
-				{
+			{
 				*cmd = info.cmd;
 				return true;
-				}
 			}
 		}
+	}
 
 	*cmd = kSeparatorCmd;
 	return false;
@@ -71,20 +71,20 @@ ClassName::CmdToIndexFn
 
 	const JUtf8Byte* cmdID = nullptr;
 	for (const auto& info : CmdIDList)
-		{
+	{
 		if (info.cmd == cmd)
-			{
+		{
 			cmdID = info.id;
 			break;
-			}
 		}
+	}
 
 	if (cmdID == nullptr)
-		{
+	{
 		return false;
-		}
+	}
 	else
-		{
+	{
 		return MenuVar->ItemIDToIndex(JString(cmdID, JString::kNoCopy), index);
-		}
+	}
 }

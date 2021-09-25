@@ -116,33 +116,33 @@ MDFilterRecordsDialog::Receive
 	)
 {
 	if (sender == itsSizeCB && message.Is(JXCheckbox::kPushed))
-		{
+	{
 		if (itsSizeCB->IsChecked())
-			{
-			itsSizeInput->Focus();
-			}
-		}
-	else if (sender == itsSizeInput && message.Is(JStyledText::kTextChanged))
 		{
-		itsSizeCB->SetState(true);
+			itsSizeInput->Focus();
 		}
+	}
+	else if (sender == itsSizeInput && message.Is(JStyledText::kTextChanged))
+	{
+		itsSizeCB->SetState(true);
+	}
 
 	else if (sender == itsFileCB && message.Is(JXCheckbox::kPushed))
-		{
+	{
 		if (itsFileCB->IsChecked())
-			{
-			itsFileInput->Focus();
-			}
-		}
-	else if (sender == itsFileInput && message.Is(JStyledText::kTextChanged))
 		{
-		itsFileCB->SetState(true);
+			itsFileInput->Focus();
 		}
+	}
+	else if (sender == itsFileInput && message.Is(JStyledText::kTextChanged))
+	{
+		itsFileCB->SetState(true);
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -158,17 +158,17 @@ MDFilterRecordsDialog::BuildFilter
 	const
 {
 	if (itsSizeCB->IsChecked())
-		{
+	{
 		JInteger minSize;
 		const bool ok = itsSizeInput->GetValue(&minSize);
 		assert( ok );
 		filter->minSize = minSize;
-		}
+	}
 
 	if (itsFileCB->IsChecked())
-		{
+	{
 		jdelete filter->fileName;
 		filter->fileName = jnew JString(itsFileInput->GetText()->GetText());
 		assert( filter->fileName != nullptr );
-		}
+	}
 }

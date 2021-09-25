@@ -141,36 +141,36 @@ JXTextRadioButton::Draw
 	const bool drawChecked = DrawChecked();
 	const bool isActive    = IsActive();
 	if (drawChecked && isActive)
-		{
+	{
 		JXDrawDownDiamond(p, boxRect, kJXDefaultBorderWidth, true, itsPushedColor);
-		}
+	}
 	else if (isActive)
-		{
+	{
 		JXDrawUpDiamond(p, boxRect, kJXDefaultBorderWidth, true, itsNormalColor);
-		}
+	}
 	else if (drawChecked)
-		{
+	{
 		JXDrawFlatDiamond(p, boxRect, kJXDefaultBorderWidth,
 						  JColorManager::GetInactiveLabelColor(), true, itsPushedColor);
-		}
+	}
 	else
-		{
+	{
 		JXDrawFlatDiamond(p, boxRect, kJXDefaultBorderWidth,
 						  JColorManager::GetInactiveLabelColor(), true, itsNormalColor);
-		}
+	}
 
 	// draw text
 
 	if (IsActive())
-		{
+	{
 		p.SetFont(itsFont);
-		}
+	}
 	else
-		{
+	{
 		JFont f = itsFont;
 		f.SetColor(JColorManager::GetInactiveLabelColor());
 		p.SetFont(f);
-		}
+	}
 
 	JRect textRect  = bounds;
 	textRect.left  += 2*kMarginWidth + kBoxHeight;

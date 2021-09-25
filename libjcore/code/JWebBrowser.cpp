@@ -87,20 +87,20 @@ JWebBrowser::ShowURL
 	)
 {
 	if (url.BeginsWith(kMailURLPrefix))
-		{
+	{
 		ComposeMail(JString(url,
 			JCharacterRange(strlen(kMailURLPrefix)+1, url.GetCharacterCount()),
 			JString::kNoCopy));
 		return;
-		}
+	}
 
 	if (url.BeginsWith(kFileURLPrefix))
-		{
+	{
 		ShowFileContent(JString(url,
 			JCharacterRange(strlen(kFileURLPrefix)+1, url.GetCharacterCount()),
 			JString::kNoCopy));
 		return;
-		}
+	}
 
 	Exec(itsShowURLCmd, kURLVarName, url);
 }
@@ -131,28 +131,28 @@ JWebBrowser::ShowFileLocations
 	)
 {
 	if (fileList.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	if (itsShowFileLocationCmd.Contains("$"))
-		{
+	{
 		for (const auto* f : fileList)
-			{
-			ShowFileLocation(*f);
-			}
-		}
-	else
 		{
+			ShowFileLocation(*f);
+		}
+	}
+	else
+	{
 		JString s = itsShowFileLocationCmd;
 		for (const auto* f : fileList)
-			{
+		{
 			s += " ";
 			s += JPrepArgForExec(*f);
-			}
+		}
 
 		JSimpleProcess::Create(s, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -167,7 +167,7 @@ JWebBrowser::ShowFileLocation
 	)
 {
 	if (!itsShowFileLocationCmd.IsEmpty())
-		{
+	{
 		JString fullName = fileName;
 		JStripTrailingDirSeparator(&fullName);
 
@@ -175,21 +175,21 @@ JWebBrowser::ShowFileLocation
 		JSplitPathAndName(fullName, &path, &name);
 
 		const JUtf8Byte* map[] =
-			{
+		{
 			kFileVarName, fullName.GetBytes(),
 			kPathVarName, path.GetBytes()
-			};
+		};
 
 		JString s = itsShowFileLocationCmd;
 		if (!s.Contains("$"))
-			{
+		{
 			s += " '$";
 			s += kFileVarName;
 			s += "'";
-			}
+		}
 		JGetStringManager()->Replace(&s, map, sizeof(map));
 		JSimpleProcess::Create(s, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -221,16 +221,16 @@ JWebBrowser::Exec
 	const
 {
 	if (!cmd.IsEmpty())
-		{
+	{
 		const JUtf8Byte* map[] =
-			{
+		{
 			varName, value.GetBytes()
-			};
+		};
 
 		JString s = cmd;
 		JGetStringManager()->Replace(&s, map, sizeof(map));
 		JSimpleProcess::Create(s, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -277,9 +277,9 @@ JWebBrowser::ReadConfig
 	input >> itsShowURLCmd >> itsShowFileContentCmd >> itsComposeMailCmd;
 
 	if (vers >= 1)
-		{
+	{
 		input >> itsShowFileLocationCmd;
-		}
+	}
 }
 
 /******************************************************************************
@@ -299,20 +299,20 @@ JWebBrowser::WriteConfig
 	const
 {
 	if (vers == 0)
-		{
+	{
 		output << ' ' << 0;		// version
 		output << ' ' << itsShowURLCmd;
 		output << ' ' << itsShowFileContentCmd;
 		output << ' ' << itsComposeMailCmd;
-		}
+	}
 	else
-		{
+	{
 		output << ' ' << 1;		// version
 		output << ' ' << itsShowURLCmd;
 		output << ' ' << itsShowFileContentCmd;
 		output << ' ' << itsComposeMailCmd;
 		output << ' ' << itsShowFileLocationCmd;
-		}
+	}
 
 	output << ' ';
 }
@@ -336,27 +336,27 @@ JWebBrowser::ConvertVarNames
 
 	JStringIterator iter(s);
 	while (iter.Next("\\"))
-		{
+	{
 		iter.ReplaceLastMatch("\\\\");
-		}
+	}
 
 	// escape existing dollars
 
 	iter.MoveTo(kJIteratorStartAtBeginning, 0);
 	while (iter.Next("$"))
-		{
+	{
 		iter.ReplaceLastMatch("\\$");
-		}
+	}
 
 	// convert % to $ if followed by a variable name
 
 	iter.MoveTo(kJIteratorStartAtBeginning, 0);
 	JUtf8Character c;
 	while (iter.Next("%") && iter.Next(&c))
-		{
+	{
 		if (strstr(varNameList, c.GetBytes()) != nullptr)
-			{
+		{
 			iter.ReplaceLastMatch("$");
-			}
 		}
+	}
 }

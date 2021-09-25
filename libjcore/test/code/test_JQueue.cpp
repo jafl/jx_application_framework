@@ -23,9 +23,9 @@ JTEST(Long)
 	JAssertEqual(0, a1.GetElementCount());
 
 	for (long i : { 1,2,3,4,5 })
-		{
+	{
 		a1.Append(i);
-		}
+	}
 	JAssertEqual(5, a1.GetElementCount());
 
 	JQueue<long, JArray<long> > a2 = a1;
@@ -34,10 +34,10 @@ JTEST(Long)
 	long v1[] = { 1, 2, 3, 4, 5 };
 	long i    = 0;
 	while (!a1.IsEmpty())
-		{
+	{
 		JAssertEqual(v1[i], a1.GetNext());
 		i++;
-		}
+	}
 
 	JAssertEqual(0, a1.GetElementCount());
 	JAssertEqual(5, a2.GetElementCount());
@@ -46,11 +46,11 @@ JTEST(Long)
 	i         = 0;
 	long j;
 	do
-		{
+	{
 		j = a2.GetNext();
 		JAssertEqual(v2[i], j);
 		i++;
-		}
+	}
 		while (j < 2);
 
 	JAssertEqual(3, a2.GetElementCount());

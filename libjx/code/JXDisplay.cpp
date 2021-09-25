@@ -122,21 +122,21 @@ JXDisplay::Create
 {
 	const JUtf8Byte* name = displayName.GetBytes();
 	if (JString::IsEmpty(name))
-		{
+	{
 		name = nullptr;
-		}
+	}
 
 	Display* xDisplay = XOpenDisplay(name);
 	if (xDisplay != nullptr)
-		{
+	{
 		*display = jnew JXDisplay(JString(XDisplayName(name), JString::kNoCopy), xDisplay);
 		return *display != nullptr;
-		}
+	}
 	else
-		{
+	{
 		*display = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -179,10 +179,10 @@ JXDisplay::JXDisplay
 	XSetLocaleModifiers("");				// loads the XMODIFIERS environment variable
 	itsXIM = XOpenIM(itsXDisplay, nullptr, nullptr, nullptr);
 	if (!itsXIM)
-	{
+{
 		XSetLocaleModifiers("@im=none");	// fallback to internal input method
 		itsXIM = XOpenIM(itsXDisplay, nullptr, nullptr, nullptr);
-	}
+}
 	assert( itsXIM != nullptr );
 
 	itsNeedsUpdateFlag = false;
@@ -223,15 +223,15 @@ JXDisplay::JXDisplay
 	JXGetApplication()->DisplayOpened(this);
 
 	if (_Xdebug)
-		{
+	{
 		XSetAfterFunction(itsXDisplay, JXDebugAfterFunction);
-		}
+	}
 
 	if (!itsWMBehavior.Load(this))
-		{
+	{
 		JXWindow::AnalyzeWindowManager(this);
 		itsWMBehavior.Save(this);
-		}
+	}
 }
 
 /******************************************************************************
@@ -260,10 +260,10 @@ JXDisplay::~JXDisplay()
 	jdelete itsBounds;
 
 	for (const auto& info : *itsCursorList)
-		{
+	{
 		jdelete (info.name);
 		XFreeCursor(itsXDisplay, info.xid);
-		}
+	}
 	jdelete itsCursorList;
 
 	XFreeModifiermap(itsModifierKeymap);
@@ -283,13 +283,13 @@ bool
 JXDisplay::Close()
 {
 	while (!itsWindowList->IsEmpty())
-		{
+	{
 		WindowInfo info = itsWindowList->GetLastElement();
 		if (!((info.window)->GetDirector())->Close())
-			{
+		{
 			return false;
-			}
 		}
+	}
 
 	jdelete this;
 	return true;
@@ -313,47 +313,47 @@ JIndex i;
 	unsigned int childCount;
 	if (!XQueryTree(itsXDisplay, GetRootWindow(),
 				   &root, &parent, &childList, &childCount))
-		{
+	{
 		return;
-		}
+	}
 
 	// initialize the mapping of X windows to JXWindows
 
 	JPtrArray<JXWindow> childMapping(JPtrArrayT::kForgetAll, childCount);
 	for (i=1; i<=childCount; i++)
-		{
+	{
 		childMapping.Append(nullptr);
-		}
+	}
 
 	// fill in the mapping of X windows to JXWindows
 
 	for (const auto& info : *itsWindowList)
-		{
+	{
 		Window rootChild;
 		if ((info.window)->GetRootChild(&rootChild))
-			{
+		{
 			// find the ancestor in the list of top level windows
 
 			for (JUnsignedOffset j=0; j<childCount; j++)
-				{
+			{
 				if (childList[j] == rootChild)
-					{
+				{
 					childMapping.SetElement(j+1, info.window, JPtrArrayT::kForget);
 					break;
-					}
 				}
 			}
 		}
+	}
 
 	// raise the windows (first one is on the bottom)
 
 	for (auto* w : childMapping)
-		{
+	{
 		if (w != nullptr && w->IsVisible() && !w->IsIconified())
-			{
+		{
 			w->Raise();
-			}
 		}
+	}
 
 	XFree(childList);
 }
@@ -369,9 +369,9 @@ void
 JXDisplay::HideAllWindows()
 {
 	for (const auto& info : *itsWindowList)
-		{
+	{
 		info.window->Hide();
-		}
+	}
 }
 
 /******************************************************************************
@@ -383,9 +383,9 @@ void
 JXDisplay::UndockAllWindows()
 {
 	for (const auto& info : *itsWindowList)
-		{
+	{
 		info.window->Undock();
-		}
+	}
 }
 
 /******************************************************************************
@@ -405,12 +405,12 @@ JXDisplay::CloseAllOtherWindows
 
 	WindowInfo info;
 	while (iter.Next(&info))
-		{
+	{
 		if (info.window != window)
-			{
+		{
 			(info.window)->Close();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -515,11 +515,11 @@ JXDisplay::GetBounds()
 	#ifdef _J_HAS_XINERAMA
 
 	if (itsBounds == nullptr && itsShrinkDisplayToScreenRefCount > 0)
-		{
+	{
 		int event_base, error_base;
 		if (XineramaQueryExtension(itsXDisplay, &event_base, &error_base) &&
 			XineramaIsActive(itsXDisplay))
-			{
+		{
 			int count;
 			XineramaScreenInfo* info = XineramaQueryScreens(itsXDisplay, &count);
 
@@ -527,30 +527,30 @@ JXDisplay::GetBounds()
 			assert( itsBounds != nullptr );
 
 			for (int i=0; i<count; i++)
-				{
+			{
 				JRect r(info[i].y_org,
 						info[i].x_org,
 						info[i].y_org + info[i].height,
 						info[i].x_org + info[i].width);
 
 				if (info[i].x_org == 0 && info[i].y_org == 0)
-					{
+				{
 					itsBounds->PrependElement(r);
-					}
-				else
-					{
-					itsBounds->AppendElement(r);
-					}
 				}
+				else
+				{
+					itsBounds->AppendElement(r);
+				}
+			}
 
 			XFree(info);
-			}
 		}
+	}
 
 	#endif
 
 	if (itsBounds == nullptr)
-		{
+	{
 		int x,y;
 		unsigned int width, height, borderWidth, depth;
 		Window rootWindow;
@@ -562,19 +562,19 @@ JXDisplay::GetBounds()
 		itsBounds = jnew JArray<JRect>(1);
 		assert( itsBounds != nullptr );
 		itsBounds->AppendElement(JRect(y, x, y+height, x+width));
-		}
+	}
 
 	// The location of the mouse is a good guess as to the location of the
 	// user's attention.  Treat the screen that contains this location as
 	// the root "window"
 
 	for (const auto& r : *itsBounds)
-		{
+	{
 		if (r.Contains(itsLatestMouseLocation))
-			{
+		{
 			return r;
-			}
 		}
+	}
 
 	return itsBounds->GetFirstElement();
 }
@@ -599,10 +599,10 @@ JXDisplay::RestoreDisplayBounds()
 
 	itsShrinkDisplayToScreenRefCount--;
 	if (itsShrinkDisplayToScreenRefCount == 0)
-		{
+	{
 		jdelete itsBounds;
 		itsBounds = nullptr;
-		}
+	}
 }
 
 /******************************************************************************
@@ -631,14 +631,14 @@ JXDisplay::GetCurrentButtonKeyState
 				  &win_x, &win_y, &state);
 
 	if (buttonStates != nullptr)
-		{
+	{
 		buttonStates->SetState(state);
-		}
+	}
 
 	if (modifiers != nullptr)
-		{
+	{
 		modifiers->SetState(this, state);
-		}
+	}
 }
 
 /******************************************************************************
@@ -666,42 +666,42 @@ JXDisplay::UpdateModifierMapping()
 JIndex i;
 
 	if (itsModifierKeymap != nullptr)
-		{
+	{
 		XFreeModifiermap(itsModifierKeymap);
-		}
+	}
 	itsModifierKeymap = XGetModifierMapping(itsXDisplay);
 
 	itsJXKeyModifierMapping[0] = 0;		// might as well initialize
 
 	for (i=1; i<=kXModifierCount; i++)
-		{
+	{
 		itsJXKeyModifierMapping[i] = i;
-		}
+	}
 
 	assert( kModifierKeySymCount == kJXKeyModifierMapCount-kXModifierCount );
 
 	for (i=1; i<=kModifierKeySymCount; i++)
-		{
+	{
 		JIndex j;
 		if (!KeysymToModifier(kModifierKeySymList[2*i-2], &j) &&
 			(kModifierKeySymList[2*i-1] == 0 ||
 			 !KeysymToModifier(kModifierKeySymList[2*i-1], &j)))
-			{
+		{
 			j = 0;
-			}
+		}
 		itsJXKeyModifierMapping [ kXModifierCount+i ] = j;
 
 //		std::cout << "modifier " << kXModifierCount+i << " mapped to " << j << std::endl;
-		}
+	}
 //	std::cout << std::endl;
 
 	// some Linux distributions (Mandrake) map only Alt modifier, not Meta
 
 	if (itsJXKeyModifierMapping[kJXMetaKeyIndex] == 0)
-		{
+	{
 		itsJXKeyModifierMapping [ kJXMetaKeyIndex ] =
 			itsJXKeyModifierMapping [ kJXAltKeyIndex ];
-		}
+	}
 }
 
 /******************************************************************************
@@ -739,25 +739,25 @@ JXDisplay::KeycodeToModifier
 {
 	*modifierIndex = 0;
 	if (keycode == 0)
-		{
+	{
 		return false;
-		}
+	}
 
 	const JSize maxKeyPerMod = itsModifierKeymap->max_keypermod;
 	for (JUnsignedOffset i=0; i<kXModifierCount; i++)
-		{
+	{
 		const KeyCode* modifier =
 			itsModifierKeymap->modifiermap + i * maxKeyPerMod;
 
 		for (JUnsignedOffset j=0; j<maxKeyPerMod; j++)
-			{
+		{
 			if (modifier[j] == keycode)
-				{
+			{
 				*modifierIndex = i+1;
 				return true;
-				}
 			}
 		}
+	}
 
 	return false;
 }
@@ -776,9 +776,9 @@ JXDisplay::CreateBuiltInCursor
 {
 	JCursorIndex index;
 	if (GetCursor(name, &index))
-		{
+	{
 		return index;
-		}
+	}
 
 	CursorInfo info;
 
@@ -805,9 +805,9 @@ JXDisplay::CreateCustomCursor
 {
 	JCursorIndex index;
 	if (GetCursor(name, &index))
-		{
+	{
 		return index;
-		}
+	}
 
 	CursorInfo info;
 
@@ -879,14 +879,14 @@ JXDisplay::GetCursor
 {
 	const JSize count = itsCursorList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const CursorInfo info = itsCursorList->GetElement(i);
 		if (*(info.name) == name)
-			{
+		{
 			*index = i;
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -906,9 +906,9 @@ JXDisplay::DisplayCursorInAllWindows
 	)
 {
 	for (const auto& info : *itsWindowList)
-		{
+	{
 		info.window->DisplayXCursor(index);
-		}
+	}
 
 	// Since this is usually called before a blocking process,
 	// we need to make sure that the X server gets the messages.
@@ -935,14 +935,14 @@ JXDisplay::HandleEvent
 
 	Time time;
 	if (JXGetEventTime(xEvent, &time))
-		{
+	{
 		itsLastEventTime = time;
-		}
+	}
 
 	if (xEvent.type == MotionNotify)
-		{
+	{
 		itsLastMotionNotifyTime = currentTime;
-		}
+	}
 //	else if (xEvent.type == Expose)
 //		{
 //		itsLastIdleTime = 0;
@@ -952,101 +952,101 @@ JXDisplay::HandleEvent
 
 	unsigned int state;
 	if (JXGetButtonAndModifierStates(xEvent, this, &state))
-		{
+	{
 		itsLatestButtonStates.SetState(state);
 		itsLatestKeyModifiers.SetState(this, state);
-		}
+	}
 
 	JPoint mousePt;
 	if (JXGetMouseLocation(xEvent, this, &mousePt))
-		{
+	{
 		itsLatestMouseLocation = mousePt;
-		}
+	}
 
 	// handle event
 
 	if (xEvent.type == MappingNotify)
-		{
+	{
 		if (xEvent.xmapping.request == MappingModifier)
-			{
+		{
 			UpdateModifierMapping();
-			}
-		else if (xEvent.xmapping.request == MappingKeyboard)
-			{
-			XRefreshKeyboardMapping(const_cast<XMappingEvent*>(&(xEvent.xmapping)));
-			}
 		}
+		else if (xEvent.xmapping.request == MappingKeyboard)
+		{
+			XRefreshKeyboardMapping(const_cast<XMappingEvent*>(&(xEvent.xmapping)));
+		}
+	}
 
 	else if (xEvent.type == SelectionRequest)
-		{
+	{
 		itsSelectionManager->HandleSelectionRequest(xEvent.xselectionrequest);
-		}
+	}
 	else if (xEvent.type == SelectionClear)
-		{
+	{
 		itsSelectionManager->ClearData(xEvent.xselectionclear.selection,
 									   xEvent.xselectionclear.time);
-		}
+	}
 	else if (xEvent.type == SelectionNotify)
-		{
+	{
 		// JXSelectionManager catches these events
-		}
+	}
 
 	else if (xEvent.type == ClientMessage &&
 			 itsDNDManager->HandleClientMessage(xEvent.xclient))
-		{
+	{
 		// JXDNDManager handled it if it returns true
-		}
+	}
 	else if (xEvent.type == DestroyNotify &&
 			 itsDNDManager->HandleDestroyNotify(xEvent.xdestroywindow))
-		{
+	{
 		// JXDNDManager handled it if it returns true
-		}
+	}
 
 	else if ((xEvent.type == ButtonPress || xEvent.type == ButtonRelease) &&
 			 itsMouseGrabber != nullptr)
-		{
+	{
 		XEvent fixedEvent         = xEvent;
 		XButtonEvent& buttonEvent = fixedEvent.xbutton;
 		if (buttonEvent.window != itsMouseGrabber->GetXWindow())
-			{
+		{
 			const JPoint ptG =
 				itsMouseGrabber->RootToGlobal(buttonEvent.x_root, buttonEvent.y_root);
 			buttonEvent.window    = itsMouseGrabber->GetXWindow();
 			buttonEvent.subwindow = None;
 			buttonEvent.x         = ptG.x;
 			buttonEvent.y         = ptG.y;
-			}
-		itsMouseGrabber->HandleEvent(fixedEvent);
 		}
+		itsMouseGrabber->HandleEvent(fixedEvent);
+	}
 	else if (xEvent.type == MotionNotify && itsMouseGrabber != nullptr)
-		{
+	{
 		// calls XQueryPointer() for itsXWindow so we don't care which window
 		// it is reported relative to
 
 		itsMouseGrabber->HandleEvent(xEvent);
-		}
+	}
 	else if ((xEvent.type == KeyPress || xEvent.type == KeyRelease) &&
 			 itsKeyboardGrabber != nullptr)
-		{
+	{
 		// ignores mouse coordinates so we don't care which window
 		// it is reported relative to
 
 		itsKeyboardGrabber->HandleEvent(xEvent);
-		}
+	}
 
 	else
-		{
+	{
 		JXWindow* window;
 		if (FindXWindow(xEvent.xany.window, &window))
-			{
+		{
 			window->HandleEvent(xEvent);
-			}
+		}
 		else
-			{
+		{
 			XEventMessage msg(xEvent);
 			BroadcastWithFeedback(&msg);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1070,16 +1070,16 @@ JXDisplay::Idle
 {
 	if (currentTime - itsLastIdleTime > kMaxSleepTime ||
 		!itsLatestButtonStates.AllOff())
-		{
+	{
 		Update();
 		itsLastIdleTime = currentTime;
 
 		if (currentTime - itsLastMotionNotifyTime > kMaxSleepTime)
-			{
+		{
 			DispatchMouse();
 			itsLastMotionNotifyTime = currentTime;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1095,14 +1095,14 @@ void
 JXDisplay::Update()
 {
 	if (itsNeedsUpdateFlag)
-		{
+	{
 		itsNeedsUpdateFlag = false;	// clear first, in case redraw triggers update
 
 		for (const auto& info : *itsWindowList)
-			{
+		{
 			info.window->Update();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1114,9 +1114,9 @@ void
 JXDisplay::DispatchMouse()
 {
 	if (itsMouseContainer != nullptr)
-		{
+	{
 		itsMouseContainer->DispatchMouse();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1128,9 +1128,9 @@ void
 JXDisplay::DispatchCursor()
 {
 	if (itsMouseContainer != nullptr)
-		{
+	{
 		itsMouseContainer->DispatchCursor();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1161,29 +1161,29 @@ JXDisplay::FindMouseContainer
 	if (XQueryPointer(itsXDisplay, GetRootWindow(), &rootWindow, &childWindow,
 					  &root_x, &root_y, &x, &y, &state) &&
 		childWindow != None)
-		{
+	{
 		return FindMouseContainer(rootWindow, root_x, root_y,
 								  childWindow, obj, xWindow, ptG, ptR);
-		}
+	}
 	else
-		{
+	{
 		if (xWindow != nullptr)
-			{
+		{
 			*xWindow = rootWindow;
-			}
+		}
 		if (ptG != nullptr)
-			{
+		{
 			ptG->x = x;
 			ptG->y = y;
-			}
+		}
 		if (ptR != nullptr)
-			{
+		{
 			ptR->x = root_x;
 			ptR->y = root_y;
-			}
+		}
 		*obj = nullptr;
 		return false;
-		}
+	}
 }
 
 bool
@@ -1207,29 +1207,29 @@ JXDisplay::FindMouseContainer
 	if (XTranslateCoordinates(itsXDisplay, startWindow, rootWindow,
 							  ptG.x, ptG.y, &x, &y, &childWindow) &&
 		childWindow != None)
-		{
+	{
 		return FindMouseContainer(rootWindow, x,y, childWindow,
 								  obj, xWindow, resultPtG, resultPtR);
-		}
+	}
 	else
-		{
+	{
 		if (xWindow != nullptr)
-			{
+		{
 			*xWindow = rootWindow;
-			}
+		}
 		if (resultPtG != nullptr)
-			{
+		{
 			resultPtG->x = x;
 			resultPtG->y = y;
-			}
+		}
 		if (resultPtR != nullptr)
-			{
+		{
 			resultPtR->x = x;
 			resultPtR->y = y;
-			}
+		}
 		*obj = nullptr;
 		return false;
-		}
+	}
 }
 
 // private
@@ -1255,38 +1255,38 @@ JXDisplay::FindMouseContainer
 	while (XTranslateCoordinates(itsXDisplay, window1, window2,
 								 x1, y1, &x2, &y2, &childWindow) &&
 		   childWindow != None)
-		{
+	{
 		window1 = window2;
 		window2 = childWindow;
 		x1      = x2;
 		y1      = y2;
-		}
+	}
 
 	if (xWindow != nullptr)
-		{
+	{
 		*xWindow = window2;
-		}
+	}
 	if (ptG != nullptr)
-		{
+	{
 		ptG->x = x2;
 		ptG->y = y2;
-		}
+	}
 	if (ptR != nullptr)
-		{
+	{
 		ptR->x = xRoot;
 		ptR->y = yRoot;
-		}
+	}
 
 	JXWindow* window;
 	if (FindXWindow(window2, &window))
-		{
+	{
 		return window->FindContainer(JPoint(x2,y2), obj);
-		}
+	}
 	else
-		{
+	{
 		*obj = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1314,14 +1314,14 @@ JXDisplay::SwitchDrag
 	JXWindow* toWindow = toObj->GetWindow();
 	JPoint toPtG;
 	if (toWindow != fromWindow)
-		{
+	{
 		const JPoint ptR = fromWindow->GlobalToRoot(fromPtG);
 		toPtG = toWindow->RootToGlobal(ptR);
-		}
+	}
 	else
-		{
+	{
 		toPtG = fromPtG;
-		}
+	}
 
 	return toWindow->BeginDrag(toObj, toPtG, buttonStates, modifiers);
 }
@@ -1343,13 +1343,13 @@ JXDisplay::WindowCreated
 	const WindowInfo newInfo(window, xWindow);
 	JIndex i;
 	if (itsWindowList->InsertSorted(newInfo, false, &i) && i == 1)
-		{
+	{
 		window->AcceptSaveYourself(true);
 		if (itsWindowList->GetElementCount() > 1)
-			{
+		{
 			((itsWindowList->GetElement(2)).window)->AcceptSaveYourself(false);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1364,32 +1364,32 @@ JXDisplay::WindowDeleted
 	)
 {
 	if (itsMouseContainer == window)
-		{
+	{
 		itsMouseContainer = nullptr;
-		}
+	}
 	if (itsMouseGrabber == window)
-		{
+	{
 		itsMouseGrabber = nullptr;
-		}
+	}
 	if (itsKeyboardGrabber == window)
-		{
+	{
 		itsKeyboardGrabber = nullptr;
-		}
+	}
 
 	const JSize count = itsWindowList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const WindowInfo info = itsWindowList->GetElement(i);
 		if (info.window == window)
-			{
+		{
 			itsWindowList->RemoveElement(i);
 			if (i == 1 && count > 1)
-				{
+			{
 				((itsWindowList->GetElement(1)).window)->AcceptSaveYourself(true);
-				}
-			break;
 			}
+			break;
 		}
+	}
 }
 
 /******************************************************************************
@@ -1414,16 +1414,16 @@ JXDisplay::FindXWindow
 	WindowInfo target(nullptr, xWindow);
 	JIndex i;
 	if (itsWindowList->SearchSorted(target, JListT::kAnyMatch, &i))
-		{
+	{
 		target  = itsWindowList->GetElement(i);
 		*window = target.window;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*window = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1439,17 +1439,17 @@ JXDisplay::CompareXWindows
 	)
 {
 	if (info1.xWindow < info2.xWindow)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (info1.xWindow == info2.xWindow)
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1489,14 +1489,14 @@ void
 JXDisplay::CheckForXErrors()
 {
 	if (theXErrorList.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	// we need to get count every time since extra XErrors could be generated
 
 	for (const auto& error : theXErrorList)
-		{
+	{
 		JXDisplay* display;
 		const bool found = JXGetApplication()->FindDisplay(error.display, &display);
 		assert( found );
@@ -1504,22 +1504,22 @@ JXDisplay::CheckForXErrors()
 		XError msg(error);
 		display->BroadcastWithFeedback(&msg);
 		if (!msg.WasCaught())
-			{
+		{
 			JXWindow* w = nullptr;
 			if (msg.GetType() == BadWindow && msg.GetXID() != None &&
 				!display->FindXWindow(msg.GetXID(), &w))
-				{
+			{
 				// not our window -- probably residual from selection or DND
 				continue;
-				}
+			}
 			else if (msg.GetType() == BadMatch &&
 					 error.request_code == X_SetInputFocus)
-				{
+			{
 				// Never die on anything as silly as an XSetInputFocus() error,
 				// but still useful to know if it happens.
 //				std::cerr << "Illegal call to XSetInputFocus()" << std::endl;
 				continue;
-				}
+			}
 
 			std::cerr << "An unexpected XError occurred!" << std::endl;
 
@@ -1532,8 +1532,8 @@ JXDisplay::CheckForXErrors()
 			std::cerr << "Offending request: " << str << std::endl;
 
 			assert_msg( 0, "unexpected XError" );
-			}
 		}
+	}
 
 	theXErrorList.RemoveAll();
 }
@@ -1582,11 +1582,11 @@ JXDisplay::WMBehavior::Load
 					   &itemCount, &remainingBytes, &data);
 
 	if (actualType == atom && actualFormat == 8 && itemCount > 0)
-		{
+	{
 		const std::string s(reinterpret_cast<char*>(data), itemCount);
 		std::istringstream input(s);
 		success = Read(input, 0);
-		}
+	}
 
 	XFree(data);
 	return success;
@@ -1629,9 +1629,9 @@ JXDisplay::WMBehavior::Read
 	)
 {
 	if (vers > 0)
-		{
+	{
 		return false;
-		}
+	}
 
 	input >> JBoolFromString(desktopMapsWindowsFlag)
 		  >> JBoolFromString(frameCompensateFlag);

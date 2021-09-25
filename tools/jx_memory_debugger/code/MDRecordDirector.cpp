@@ -105,11 +105,11 @@ MDRecordDirector::MDRecordDirector
 	JCoordinate w,h;
 	if ((MDGetPrefsManager())->GetWindowSize(kMDRecordDirectorWindSizeID,
 											&desktopLoc, &w, &h))
-		{
+	{
 		JXWindow* window = GetWindow();
 		window->Place(desktopLoc.x, desktopLoc.y);
 		window->SetSize(w,h);
-		}
+	}
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != nullptr );
@@ -225,13 +225,13 @@ MDRecordDirector::BuildWindow
 
 	itsToolBar->LoadPrefs();
 	if (itsToolBar->IsEmpty())
-		{
+	{
 		itsToolBar->AppendButton(itsFileMenu, kPrintCmd);
 		itsToolBar->AppendButton(itsFileMenu, kCloseCmd);
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
-		}
+	}
 
 	(GetDisplay()->GetWDManager())->DirectorCreated(this);
 }
@@ -249,69 +249,69 @@ MDRecordDirector::Receive
 	)
 {
 	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFileMenu();
-		}
+	}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdatePrefsMenu();
-		}
+	}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateHelpMenu();
-		}
+	}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsPrinter &&
 			 message.Is(JPrinter::kPageSetupFinished))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			(MDGetPrefsManager())->SavePrintSetup(*itsPrinter);
-			}
 		}
+	}
 	else if (sender == itsPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			(MDGetPrefsManager())->SavePrintSetup(*itsPrinter);
 			itsRecordTable->Print(*itsPrinter);
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -337,29 +337,29 @@ MDRecordDirector::HandleFileMenu
 	)
 {
 	if (index == kOpenSelCmd)
-		{
+	{
 		itsRecordTable->OpenSelectedFiles();
-		}
+	}
 
 	else if (index == kPageSetupCmd)
-		{
+	{
 		(MDGetPrefsManager())->LoadPrintSetup(itsPrinter);
 		itsPrinter->BeginUserPageSetup();
-		}
+	}
 	else if (index == kPrintCmd)
-		{
+	{
 		(MDGetPrefsManager())->LoadPrintSetup(itsPrinter);
 		itsPrinter->BeginUserPrintSetup();
-		}
+	}
 
 	else if (index == kCloseCmd)
-		{
+	{
 		Close();
-		}
+	}
 	else if (index == kQuitCmd)
-		{
+	{
 		MDGetApplication()->Quit();
-		}
+	}
 }
 
 /******************************************************************************
@@ -384,22 +384,22 @@ MDRecordDirector::HandlePrefsMenu
 	)
 {
 	if (index == kPrefsCmd)
-		{
+	{
 		(MDGetPrefsManager())->EditPrefs();
-		}
+	}
 	else if (index == kEditToolBarCmd)
-		{
+	{
 		itsToolBar->Edit();
-		}
+	}
 	else if (index == kEditMacWinPrefsCmd)
-		{
+	{
 		JXMacWinPrefsDialog::EditPrefs();
-		}
+	}
 
 	else if (index == kSaveWindSizeCmd)
-		{
+	{
 		(MDGetPrefsManager())->SaveWindowSize(kMDRecordDirectorWindSizeID, GetWindow());
-		}
+	}
 }
 
 /******************************************************************************
@@ -424,29 +424,29 @@ MDRecordDirector::HandleHelpMenu
 	)
 {
 	if (index == kAboutCmd)
-		{
+	{
 		MDGetApplication()->DisplayAbout();
-		}
+	}
 
 	else if (index == kTOCCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowTOC();
-		}
+	}
 	else if (index == kOverviewCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowSection("MDOverviewHelp");
-		}
+	}
 	else if (index == kThisWindowCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowSection("MDRecordHelp");
-		}
+	}
 
 	else if (index == kChangesCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowChangeLog();
-		}
+	}
 	else if (index == kCreditsCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowCredits();
-		}
+	}
 }

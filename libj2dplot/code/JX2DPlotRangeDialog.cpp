@@ -174,12 +174,12 @@ JX2DPlotRangeDialog::Receive
 	)
 {
 	if (sender == itsClearButton && message.Is(JXButton::kPushed))
-		{
+	{
 		itsClearRangeFlag = true;
 		EndDialog(true);
-		}
+	}
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }

@@ -123,12 +123,12 @@ DataTable::Receive
 
 	// We first check if the sender is our data array
 	if (sender == itsData)
-		{
+	{
 		// Our data array sent us a message
 
 		// Was data inserted?
 		if (message.Is(JListT::kElementsInserted))
-			{
+		{
 			// cast the message to an ElementsInserted object
 			const JListT::ElementsInserted* info = 
 				dynamic_cast<const JListT::ElementsInserted*>(&message);
@@ -136,11 +136,11 @@ DataTable::Receive
 
 			// For each element inserted, we insert a row
 			InsertRows(info->GetFirstIndex(), info->GetCount(), kDefRowHeight);
-			}
+		}
 
 		// Was data removed?
 		else if (message.Is(JListT::kElementsRemoved))
-			{
+		{
 			// cast the message to an ElementsRemoved object
 			const JListT::ElementsRemoved* info = 
 				dynamic_cast<const JListT::ElementsRemoved*>(&message);
@@ -148,11 +148,11 @@ DataTable::Receive
 
 			// Remove the corresponding table rows. 
 			RemoveNextRows(info->GetFirstIndex(), info->GetCount());
-			}
+		}
 
 		// Was an element changed?
 		else if (message.Is(JListT::kElementsChanged))
-			{
+		{
 			// cast the message to an ElementsRemoved object
 			const JListT::ElementsChanged* info =
 				dynamic_cast<const JListT::ElementsChanged*>(&message);
@@ -162,15 +162,15 @@ DataTable::Receive
 			// (This would not be necessary if we were using a
 			//  class derived from JTableData.)
 			for (JIndex i=info->GetFirstIndex(); i<=info->GetLastIndex(); i++)
-				{
+			{
 				TableRefreshCell(i, 1);
-				}
 			}
 		}
+	}
 
 	// pass the message to our base class
 	else
-		{
+	{
 		JXTable::Receive(sender, message);
-		}
+	}
 }

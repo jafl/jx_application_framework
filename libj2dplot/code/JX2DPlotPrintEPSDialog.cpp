@@ -105,11 +105,11 @@ JX2DPlotPrintEPSDialog::JX2DPlotPrintEPSDialog()
 	JXEPSPrintSetupDialog()
 {
 	if (!kPredefInit)
-		{
+	{
 		assert( kPredefSizeCount == 4 );
 
 		for (JUnsignedOffset i=0; i<kPaperTypeCount; i++)
-			{
+		{
 			const JCoordinate w = JPSPrinter::GetPaperWidth(kPaperType[i]);
 			const JCoordinate h = JPSPrinter::GetPaperHeight(kPaperType[i]);
 
@@ -126,10 +126,10 @@ JX2DPlotPrintEPSDialog::JX2DPlotPrintEPSDialog()
 
 			J2DPlotWidget::GetPSLandscapePrintSize(h,w, &kPredefWidth [ offset + 3 ],
 														&kPredefHeight[ offset + 3 ]);
-			}
+		}
 
 		kPredefInit = true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -296,36 +296,36 @@ bool
 JX2DPlotPrintEPSDialog::OKToDeactivate()
 {
 	if (!JXEPSPrintSetupDialog::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 	else if (!itsWidthInput->InputValid())
-		{
+	{
 		itsWidthInput->Focus();
 		return false;
-		}
+	}
 	else if (!itsHeightInput->InputValid())
-		{
+	{
 		itsHeightInput->Focus();
 		return false;
-		}
+	}
 
 	JCoordinate w,h;
 	Unit u;
 	GetPlotSize(&w, &h, &u);
 	if (w < 50 || h < 50)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("TooSmall::JX2DPlotPrintEPSDialog"));
 		return false;
-		}
+	}
 	else
-		{
+	{
 		return true;
-		}
+	}
 }
 
 /*******************************************************************************
@@ -341,29 +341,29 @@ JX2DPlotPrintEPSDialog::Receive
 	)
 {
 	if (sender == itsUnitMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateUnitMenu();
-		}
+	}
 	else if (sender == itsUnitMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleUnitMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsPredefSizeMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePredefSizeMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXEPSPrintSetupDialog::Receive(sender,message);
-		}
+	}
 }
 
 /*******************************************************************************
@@ -430,11 +430,11 @@ JX2DPlotPrintEPSDialog::UpdateSize
 {
 	JFloat v;
 	if (input->GetValue(&v))
-		{
+	{
 		v *= kUnitToPixel [ origUnit ];
 		v /= kUnitToPixel [ newUnit ];
 		input->SetValue(v);
-		}
+	}
 }
 
 /******************************************************************************

@@ -66,21 +66,21 @@ JXSlider::Draw
 
 	const JCoordinate thumbPosition = GetThumbPosition();
 	if (GetOrientation() == kHorizontal)
-		{
+	{
 		rTrack.top    = bounds.ycenter() - kTrackHalfWidth;
 		rTrack.bottom = bounds.ycenter() + kTrackHalfWidth;
 
 		rThumb.left   = thumbPosition - kThumbHalfSize;
 		rThumb.right  = thumbPosition + kThumbHalfSize;
-		}
+	}
 	else
-		{
+	{
 		rTrack.left   = bounds.xcenter() - kTrackHalfWidth;
 		rTrack.right  = bounds.xcenter() + kTrackHalfWidth;
 
 		rThumb.top    = thumbPosition - kThumbHalfSize;
 		rThumb.bottom = thumbPosition + kThumbHalfSize;
-		}
+	}
 
 	JXDrawDownFrame(p, rTrack, kJXDefaultBorderWidth, true,
 					JColorManager::GetDefaultSliderBackColor());

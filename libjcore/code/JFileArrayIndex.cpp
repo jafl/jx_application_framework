@@ -19,14 +19,14 @@
 // size of data stored in index section of file
 
 enum
-	{
+{
 	kElementOffsetLength = JFileArray::kUnsignedLongLength,
 	kElementIDLength     = JFileArray::kUnsignedLongLength,
 	kElementTypeLength   = JFileArray::kUnsignedLongLength,
 
 	kIndexElementLength  = kElementOffsetLength + kElementIDLength +
 						   kElementTypeLength
-	};
+};
 
 /******************************************************************************
  Constructor
@@ -128,18 +128,18 @@ JFileArrayIndex::ElementSizeChanged
 	)
 {
 	if (changeInElementSize == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	const JUnsignedOffset elementOffset = GetElementOffset(index);
 	const JSize elementCount            = GetElementCount();
 
 	for (JIndex i=1; i<=elementCount; i++)
-		{
+	{
 		ElementInfo elementInfo = itsArray->GetElement(i);
 		if (elementInfo.offset > elementOffset)
-			{
+		{
 			// make sure that elementOffset won't try to go negative
 
 			assert( changeInElementSize > 0 ||
@@ -147,8 +147,8 @@ JFileArrayIndex::ElementSizeChanged
 
 			elementInfo.offset += changeInElementSize;
 			itsArray->SetElement(i, elementInfo);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -184,7 +184,7 @@ JFileArrayIndex::SetElementID
 	ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
 
 	if ((elementInfo.id).GetID() != newID.GetID())
-		{
+	{
 		// we scream if newID has already been used
 
 		JFAIndex origIndex;
@@ -195,7 +195,7 @@ JFileArrayIndex::SetElementID
 
 		elementInfo.id = newID;
 		itsArray->SetElement(index.GetIndex(), elementInfo);
-		}
+	}
 }
 
 /******************************************************************************
@@ -216,14 +216,14 @@ JFileArrayIndex::GetElementIndexFromID
 {
 	const JSize elementCount = GetElementCount();
 	for (JIndex i=1; i<=elementCount; i++)
-		{
+	{
 		const ElementInfo elementInfo = itsArray->GetElement(i);
 		if ((elementInfo.id).GetID() == id.GetID())
-			{
+		{
 			index->SetIndex(i);
 			return true;
-			}
 		}
+	}
 
 	index->SetIndex(JFAIndex::kInvalidIndex);
 	return false;
@@ -241,68 +241,68 @@ JFileArrayIndex::GetUniqueID()
 	const
 {
 	if (IsEmpty())
-		{
+	{
 		return JFAID(JFAID::kMinID);
-		}
+	}
 
 	const JSize elementCount = GetElementCount();
 
 	// this is relevant to the outmost do-while loop
 
 	enum Range
-	{
+{
 		kAboveElementCount,
 		kBelowElementCount,
 		kEmpty
-	};
+};
 	Range idRange = kAboveElementCount;
 
 	do
-		{
+	{
 		// try the larger Id's first
 
 		JFAID_t firstId, lastId;
 
 		if (idRange == kAboveElementCount && elementCount < JFAID::kMaxID)
-			{
+		{
 			firstId = elementCount + 1;
 			lastId  = JFAID::kMaxID;
-			}
+		}
 		else if (idRange == kAboveElementCount)
-			{
+		{
 			idRange = kBelowElementCount;
 			firstId = JFAID::kMinID;
 			lastId  = JFAID::kMaxID;
-			}
+		}
 		else
-			{
+		{
 			assert( idRange == kBelowElementCount );
 			firstId = JFAID::kMinID;
 			lastId  = elementCount;
-			}
+		}
 
 		// try all possible id's in the given range
 
 		JFAID id;
 		JFAIndex index;
 		for (JFAID_t anID=firstId; anID<=lastId; anID++)
-			{
+		{
 			id.SetID(anID);
 			if (!GetElementIndexFromID(id, &index))
-				{
+			{
 				return id;
-				}
-			}
-
-		if (idRange == kAboveElementCount)
-			{
-			idRange = kBelowElementCount;
-			}
-		else if (idRange == kBelowElementCount)
-			{
-			idRange = kEmpty;
 			}
 		}
+
+		if (idRange == kAboveElementCount)
+		{
+			idRange = kBelowElementCount;
+		}
+		else if (idRange == kBelowElementCount)
+		{
+			idRange = kEmpty;
+		}
+	}
 		while (idRange != kEmpty);
 
 	// We've tried everything.  It's time to give up.
@@ -328,10 +328,10 @@ JFileArrayIndex::SetToEmbeddedFile
 	ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
 
 	if (elementInfo.type != kEmbeddedFile)
-		{
+	{
 		elementInfo.type = kEmbeddedFile;
 		itsArray->SetElement(index.GetIndex(), elementInfo);
-		}
+	}
 }
 
 /******************************************************************************
@@ -455,12 +455,12 @@ JFileArrayIndex::ReplaceEmbeddedFileStreams
 	)
 {
 	for (const auto& e : *itsArray)
-		{
+	{
 		if (e.theEmbeddedFile != nullptr)
-			{
+		{
 			e.theEmbeddedFile->ReplaceStream(newStream);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -487,7 +487,7 @@ JFileArrayIndex::ReadIndex
 
 	ElementInfo elementInfo;
 	for (JIndex i=1; i<=elementCount; i++)
-		{
+	{
 		elementInfo.offset = JFileArray::ReadUnsignedLong(input);
 
 		JFAID_t id;
@@ -497,20 +497,20 @@ JFileArrayIndex::ReadIndex
 		unsigned long type;
 		type = JFileArray::ReadUnsignedLong(input);
 		if (type == kData)
-			{
+		{
 			elementInfo.type = kData;
-			}
+		}
 		else if (type == kEmbeddedFile)
-			{
+		{
 			elementInfo.type = kEmbeddedFile;
-			}
+		}
 		else
-			{
+		{
 			assert( 0 );
-			}
+		}
 
 		itsArray->InsertElementAtIndex(i, elementInfo);
-		}
+	}
 }
 
 /******************************************************************************
@@ -529,7 +529,7 @@ JFileArrayIndex::WriteIndex
 	)
 {
 	for (const auto& e : *itsArray)
-		{
+	{
 		JFileArray::WriteUnsignedLong(output, e.offset);
 
 		const JFAID_t id = e.id.GetID();
@@ -537,7 +537,7 @@ JFileArrayIndex::WriteIndex
 
 		const unsigned long type = e.type;
 		JFileArray::WriteUnsignedLong(output, type);
-		}
+	}
 }
 
 /******************************************************************************

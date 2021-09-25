@@ -97,44 +97,44 @@ JImage::GetFileType
 
 	FILE* input = fopen(fileName.GetBytes(), "rb");
 	if (input == nullptr)
-		{
+	{
 		return kUnknownType;
-		}
+	}
 
 	const JSize bufSize = 10;
 	char buffer [ bufSize ];
 	const size_t readCount = fread(buffer, sizeof(char), bufSize, input);
 	fclose(input);
 	if (readCount != bufSize)
-		{
+	{
 		return kUnknownType;
-		}
+	}
 
 	if (JString::CompareMaxNBytes(buffer, "GIF", 3) == 0)
-		{
+	{
 		return kGIFType;
-		}
+	}
 	else if (JString::CompareMaxNBytes(buffer, "\x89PNG", 4) == 0)
-		{
+	{
 		return kPNGType;
-		}
+	}
 	else if (JString::CompareMaxNBytes(buffer, "\xFF\xD8\xFF", 3) == 0)
-		{
+	{
 		return kJPEGType;
-		}
+	}
 	else if (JString::CompareMaxNBytes(buffer, "/* XPM */", 9) == 0)
-		{
+	{
 		return kXPMType;
-		}
+	}
 	else if (JString::CompareMaxNBytes(buffer, "#define", 7) == 0 ||
 			 JString::CompareMaxNBytes(buffer, "/*"     , 2) == 0)
-		{
+	{
 		return kXBMType;
-		}
+	}
 	else
-		{
+	{
 		return kUnknownType;
-		}
+	}
 }
 
 /******************************************************************************
@@ -150,13 +150,13 @@ JImage::ReadGIF
 {
 	const JError err = ReadGD(fileName, gdImageCreateFromGif);
 	if (err.Is(kUnknownFileType))
-		{
+	{
 		return FileIsNotGIF(fileName);
-		}
+	}
 	else
-		{
+	{
 		return err;
-		}
+	}
 }
 
 /******************************************************************************
@@ -189,13 +189,13 @@ JImage::ReadPNG
 {
 	const JError err = ReadGD(fileName, gdImageCreateFromPng);
 	if (err.Is(kUnknownFileType))
-		{
+	{
 		return FileIsNotPNG(fileName);
-		}
+	}
 	else
-		{
+	{
 		return err;
-		}
+	}
 }
 
 /******************************************************************************
@@ -229,13 +229,13 @@ JImage::ReadJPEG
 {
 	const JError err = ReadGD(fileName, gdImageCreateFromJpeg);
 	if (err.Is(kUnknownFileType))
-		{
+	{
 		return FileIsNotJPEG(fileName);
-		}
+	}
 	else
-		{
+	{
 		return err;
-		}
+	}
 }
 
 /******************************************************************************
@@ -298,15 +298,15 @@ JImage::ReadGD
 	FILE* input;
 	const JError fopenErr = JFOpen(fileName, "rb", &input);
 	if (!fopenErr.OK())
-		{
+	{
 		return fopenErr;
-		}
+	}
 	gdImagePtr image = imageCreateFromFile(input);
 	fclose(input);
 	if (image == nullptr)
-		{
+	{
 		return UnknownFileType(fileName);
-		}
+	}
 
 	itsWidth  = gdImageSX(image);
 	itsHeight = gdImageSY(image);
@@ -315,13 +315,13 @@ JImage::ReadGD
 	const bool hasMask  = maskColor != kGDNoTransparentColor;
 
 	if (gdImageTrueColor(image))
-		{
+	{
 		PrepareForImageData();
 
 		for (JCoordinate x=0; x<itsWidth; x++)
-			{
+		{
 			for (JCoordinate y=0; y<itsHeight; y++)
-				{
+			{
 				const int c = gdImageGetPixel(image, x,y);
 				JColorID color =
 					JColorManager::GetColorID(JRGB(
@@ -329,8 +329,8 @@ JImage::ReadGD
 						gdImageGreen(image, c) * kGDColorScale,
 						gdImageBlue (image, c) * kGDColorScale));
 				SetColor(x,y, color);
-				}
 			}
+		}
 
 		ImageDataFinished();
 
@@ -338,19 +338,19 @@ JImage::ReadGD
 		image = nullptr;
 
 		return JNoError();
-		}
+	}
 	else
-		{
+	{
 		// allocate space for image data
 
 		unsigned short* data;
 		unsigned short** cols;
 		const JError allocErr = AllocateImageData(itsWidth, itsHeight, &data, &cols);
 		if (!allocErr.OK())
-			{
+		{
 			gdImageDestroy(image);
 			return allocErr;
-			}
+		}
 
 		// build color table
 
@@ -360,26 +360,26 @@ JImage::ReadGD
 		assert( colorTable != nullptr );
 
 		for (JUnsignedOffset i=0; i<colorCount; i++)
-			{
+		{
 			if (!hasMask || i != (JIndex) maskColor)
-				{
+			{
 				colorTable[i] =
 					JColorManager::GetColorID(JRGB(
 						gdImageRed  (image, i) * kGDColorScale,
 						gdImageGreen(image, i) * kGDColorScale,
 						gdImageBlue (image, i) * kGDColorScale));
-				}
 			}
+		}
 
 		// convert image data
 
 		for (JCoordinate x=0; x<itsWidth; x++)
-			{
+		{
 			for (JCoordinate y=0; y<itsHeight; y++)
-				{
+			{
 				cols[x][y] = gdImageGetPixel(image, x,y);
-				}
 			}
+		}
 
 		gdImageDestroy(image);	// free up memory as soon as possible
 		image = nullptr;
@@ -393,7 +393,7 @@ JImage::ReadGD
 		jdelete [] cols;
 
 		return JNoError();
-		}
+	}
 }
 
 /******************************************************************************
@@ -427,17 +427,17 @@ JImage::WriteGD
 {
 	gdImagePtr image = nullptr;
 	if (useTrueColor)
-		{
+	{
 		image = gdImageCreateTrueColor(itsWidth, itsHeight);
-		}
+	}
 	else
-		{
+	{
 		image = gdImageCreate(itsWidth, itsHeight);
-		}
+	}
 	if (image == nullptr)
-		{
+	{
 		return JNoProcessMemory();
-		}
+	}
 
 	gdImageInterlace(image, interlace);
 
@@ -448,51 +448,51 @@ JImage::WriteGD
 	JImageMask* mask       = nullptr;
 	const bool hasMask = GetMask(&mask);
 	if (hasMask)
-		{
+	{
 		maxColorCount--;	// need space for transparent color
-		}
+	}
 
 	// convert image data
 
 	JRGB color;
 	for (JCoordinate x=0; x<itsWidth; x++)
-		{
+	{
 		for (JCoordinate y=0; y<itsHeight; y++)
-			{
+		{
 			if (!hasMask || mask->ContainsPixel(x,y))
-				{
+			{
 				color          = JColorManager::GetRGB(GetColor(x,y)) / kGDColorScale;
 				int colorIndex = gdImageColorExact(image, color.red, color.green, color.blue);
 				if (colorIndex == -1 &&
 					(useTrueColor || gdImageColorsTotal(image) < maxColorCount))
-					{
+				{
 					colorIndex = gdImageColorAllocate(image, color.red, color.green, color.blue);
 					if (colorIndex == -1 && !compressColorsToFit)
-						{
+					{
 						gdImageDestroy(image);
 						return TooManyColors();
-						}
 					}
+				}
 				if (colorIndex == -1)
-					{
+				{
 					colorIndex = 0;
-					}
+				}
 
 				gdImageSetPixel(image, x,y, colorIndex);
-				}
 			}
 		}
+	}
 
 	// The mask color has to be a color that is not used elsewhere
 	// in the image.
 
 	if (useTrueColor)
-		{
+	{
 		// The user would need to give us a color because searching the
 		// entire color space would take too long.
-		}
+	}
 	else if (hasMask)
-		{
+	{
 		int maskColor;
 
 		// The only way to find such a color is to scan the color table
@@ -500,50 +500,50 @@ JImage::WriteGD
 
 		color.Set(1,1,1);	// unlikely color, since so close to black
 		while (true)
-			{
+		{
 			if (gdImageColorExact(image, color.red, color.green, color.blue) == -1)
-				{
+			{
 				maskColor = gdImageColorAllocate(image, color.red, color.green, color.blue);
 				assert( maskColor != -1 );
 				break;
-				}
+			}
 			(color.red)++;
 			if (color.red > 255)
-				{
+			{
 				color.red = 0;
 				(color.green)++;
-				}
+			}
 			if (color.green > 255)
-				{
+			{
 				color.green = 0;
 				(color.blue)++;
-				}
 			}
+		}
 
 		gdImageSaveAlpha(image, 0);		// allow transparent color
 		gdImageColorTransparent(image, maskColor);
 
 		for (JCoordinate x=0; x<itsWidth; x++)
-			{
+		{
 			for (JCoordinate y=0; y<itsHeight; y++)
-				{
+			{
 				if (!mask->ContainsPixel(x,y))
-					{
+				{
 					gdImageSetPixel(image, x,y, maskColor);
-					}
 				}
 			}
 		}
+	}
 
 	// write file
 
 	FILE* output;
 	const JError fopenErr = JFOpen(fileName, "wb", &output);
 	if (!fopenErr.OK())
-		{
+	{
 		gdImageDestroy(image);
 		return fopenErr;
-		}
+	}
 	imageWriteToFile(image, output);
 	const int fileErr = ferror(output);
 	fclose(output);
@@ -553,13 +553,13 @@ JImage::WriteGD
 	gdImageDestroy(image);
 
 	if (fileErr == 0)
-		{
+	{
 		return JNoError();
-		}
+	}
 	else
-		{
+	{
 		return JUnknownError(fileErr);
-		}
+	}
 }
 
 /******************************************************************************
@@ -590,9 +590,9 @@ JImage::ReadFromJXPM
 
 	unsigned char charToCTIndex[256];	// maps XPM chars to color table indices
 	for (JUnsignedOffset i=0; i<256; i++)
-		{
+	{
 		charToCTIndex[i] = 0;
-		}
+	}
 
 	auto* colorTable = jnew JColorID [ colorCount ];
 	assert( colorTable != nullptr );
@@ -605,30 +605,30 @@ JImage::ReadFromJXPM
 	unsigned long maskColor = 0;
 
 	for (JIndex i=1; i<=colorCount; i++)
-		{
+	{
 		charToCTIndex[ (unsigned char) pixmap.xpm[i][0] ] = (unsigned char) i-1;
 
 		JIndex j = 0;
 		JUtf8Byte c;
 		do
-			{
+		{
 			c = pixmap.xpm[i][j+4];
 			j++;
-			}
+		}
 			while (c != '\0' && c != '\t');
 
 		const JString colorName(pixmap.xpm[i] + 4, j-1);
 		if (JString::Compare(colorName, "none", JString::kIgnoreCase) == 0)
-			{
+		{
 			hasMask         = true;
 			maskColor       = i-1;
 			colorTable[i-1] = blackColor;
-			}
-		else if (!itsColorManager->GetColorID(colorName, &colorTable[i-1]))
-			{
-			colorTable[i-1] = blackColor;
-			}
 		}
+		else if (!itsColorManager->GetColorID(colorName, &colorTable[i-1]))
+		{
+			colorTable[i-1] = blackColor;
+		}
+	}
 
 	// allocate space for image data
 
@@ -641,15 +641,15 @@ JImage::ReadFromJXPM
 
 	JIndex lineIndex = colorCount+1;
 	for (JCoordinate y=0; y<itsHeight; y++)
-		{
+	{
 		JIndex charIndex = 0;
 		for (JCoordinate x=0; x<itsWidth; x++)
-			{
+		{
 			cols[x][y] = charToCTIndex[ (unsigned char) pixmap.xpm[lineIndex][charIndex] ];
 			charIndex += imageCharSize;
-			}
-		lineIndex++;
 		}
+		lineIndex++;
+	}
 
 	SetImageData(colorCount, colorTable, cols, hasMask, maskColor);
 
@@ -683,20 +683,20 @@ JImage::AllocateImageData
 {
 	*data = jnew unsigned short [ w * h ];
 	if (*data == nullptr)
-		{
+	{
 		return JNoProcessMemory();
-		}
+	}
 
 	*cols = jnew unsigned short* [ w ];
 	if (*cols == nullptr)
-		{
+	{
 		return JNoProcessMemory();
-		}
+	}
 
 	for (JCoordinate i=0; i<w; i++)
-		{
+	{
 		(*cols)[i] = *data + i*h;
-		}
+	}
 
 	return JNoError();
 }

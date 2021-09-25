@@ -80,9 +80,9 @@ JXProgressDisplay::SetItems
 	)
 {
 	if (itsCancelButton != nullptr)
-		{
+	{
 		StopListening(itsCancelButton);
-		}
+	}
 
 	itsCancelButton = cancelButton;
 	itsCounter      = counter;
@@ -90,9 +90,9 @@ JXProgressDisplay::SetItems
 	itsLabel        = label;
 
 	if (itsCancelButton != nullptr)
-		{
+	{
 		ListenTo(itsCancelButton);
-		}
+	}
 }
 
 /******************************************************************************
@@ -115,44 +115,44 @@ JXProgressDisplay::ProcessBeginning
 									   allowCancel, allowBackground);
 
 	if (!allowBackground)
-		{
+	{
 		DisplayBusyCursor();
-		}
+	}
 
 	if (itsLabel != nullptr)
-		{
+	{
 		itsLabel->GetText()->SetText(message);
-		}
+	}
 
 	assert( (processType == kFixedLengthProcess && itsIndicator != nullptr) ||
 			(processType == kVariableLengthProcess && itsCounter != nullptr) );
 
 	if (processType == kFixedLengthProcess)
-		{
+	{
 		itsIndicator->SetValue(0);
 		itsIndicator->SetMaxValue(stepCount);
 		itsIndicator->Show();
 		if (itsCounter != nullptr)
-			{
-			itsCounter->Hide();
-			}
-		}
-	else if (processType == kVariableLengthProcess)
 		{
+			itsCounter->Hide();
+		}
+	}
+	else if (processType == kVariableLengthProcess)
+	{
 		itsCounter->GetText()->SetText(JString::empty);
 		itsCounter->Show();
 		if (itsIndicator != nullptr)
-			{
+		{
 			itsIndicator->Hide();
-			}
 		}
+	}
 
 	assert( !allowCancel || itsCancelButton != nullptr );
 
 	if (itsCancelButton != nullptr)
-		{
+	{
 		itsCancelButton->SetVisible(allowCancel);
-		}
+	}
 }
 
 /******************************************************************************
@@ -244,23 +244,23 @@ JXProgressDisplay::IncrementProgress1
 	const ProcessType process = GetCurrentProcessType();
 	const JSize stepCount     = GetCurrentStepCount();
 	if (process == kFixedLengthProcess)
-		{
+	{
 		itsIndicator->SetValue(stepCount);
-		}
+	}
 	else if (process == kVariableLengthProcess)
-		{
+	{
 		if (!message.IsEmpty())
-			{
+		{
 			AppendToMessageWindow(message);
-			}
+		}
 		const JString stepCountStr((JUInt64) stepCount);
 		itsCounter->GetText()->SetText(stepCountStr);
 		itsCounter->Redraw();
-		}
+	}
 	else
-		{
+	{
 		std::cerr << "Unknown process type in JXProgressDisplay::IncrementProgress1()" << std::endl;
-		}
+	}
 
 	return ProcessContinuing();
 }
@@ -277,11 +277,11 @@ bool
 JXProgressDisplay::ProcessContinuing()
 {
 	if (itsMessageDirector != nullptr)
-		{
+	{
 		messageWindowLocInit = true;
 		messageWindowLoc =
 			(itsMessageDirector->GetWindow())->GetDesktopLocation();
-		}
+	}
 
 	return JProgressDisplay::ProcessContinuing();
 }
@@ -308,14 +308,14 @@ JXProgressDisplay::ProcessFinished()
 	JProgressDisplay::ProcessFinished();
 
 	if (itsMessageDirector != nullptr)
-		{
+	{
 		messageWindowLocInit = true;
 		messageWindowLoc =
 			(itsMessageDirector->GetWindow())->GetDesktopLocation();
 
 		itsMessageDirector->ProcessFinished();
 		itsMessageDirector = nullptr;
-		}
+	}
 }
 
 /******************************************************************************
@@ -341,18 +341,18 @@ JXProgressDisplay::AppendToMessageWindow
 	)
 {
 	if (itsMessageDirector == nullptr)
-		{
+	{
 		itsMessageDirector = jnew JXPGMessageDirector(JXGetApplication());
 		assert(itsMessageDirector != nullptr);
 
 		if (messageWindowLocInit)
-			{
+		{
 			(itsMessageDirector->GetWindow())->
 				Place(messageWindowLoc.x, messageWindowLoc.y);
-			}
+		}
 
 		itsMessageDirector->Activate();
-		}
+	}
 
 	itsMessageDirector->AddMessageLine(message);
 }
@@ -370,7 +370,7 @@ JXProgressDisplay::Receive
 	)
 {
 	if (sender == itsCancelButton && message.Is(JXButton::kPushed))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXButton::Pushed*>(&message);
 		assert( info != nullptr );
@@ -379,12 +379,12 @@ JXProgressDisplay::Receive
 		// must be last since it could delete us
 
 		if (AllowBackground())
-			{
-			Broadcast(CancelRequested());
-			}
-		}
-	else
 		{
-		JBroadcaster::Receive(sender, message);
+			Broadcast(CancelRequested());
 		}
+	}
+	else
+	{
+		JBroadcaster::Receive(sender, message);
+	}
 }

@@ -39,35 +39,35 @@ JDirInfo::BuildInfo1
 
 	struct dirent* direntry;
 	while ((direntry = readdir(dir)) != nullptr)
-		{
+	{
 		if (strcmp(direntry->d_name, "." ) == 0 ||
 			strcmp(direntry->d_name, "..") == 0)
-			{
+		{
 			continue;
-			}
+		}
 
 		auto* newEntry = jnew JDirEntry(itsCWD, JString(direntry->d_name, JString::kNoCopy));
 		assert( newEntry != nullptr );
 		if (MatchesContentFilter(*newEntry))
-			{
+		{
 			itsDirEntries->InsertSorted(newEntry, true);
 
 /*			if (ignoreExecPermFlag)
-				{
+			{
 				newEntry->itsIsExecutableFlag  = false;
 				newEntry->itsMode             &= ~(S_IXUSR | S_IXGRP | S_IXOTH);
-				}
+			}
 */			}
 		else
-			{
+		{
 			jdelete newEntry;
-			}
+		}
 
 		if (!pg.IncrementProgress())
-			{
+		{
 			break;
-			}
 		}
+	}
 
 	closedir(dir);
 }

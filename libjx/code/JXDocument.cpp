@@ -80,9 +80,9 @@ JXDocument::JXDocument
 
 	JXWDManager* mgr;
 	if ((JXGetApplication()->GetCurrentDisplay())->GetWDManager(&mgr))
-		{
+	{
 		mgr->DirectorCreated(this);
-		}
+	}
 }
 
 /******************************************************************************
@@ -106,23 +106,23 @@ bool
 JXDocument::Close()
 {
 	if (!OKToClose())
-		{
+	{
 		return false;
-		}
+	}
 
 	if (JXGetDocumentManager()->OKToCloseDocument(this))
-		{
+	{
 		return JXWindowDirector::Close();
-		}
+	}
 	else
-		{
+	{
 		if (NeedsSave())
-			{
+		{
 			DiscardChanges();
-			}
+		}
 		Deactivate();
 		return !IsActive();
-		}
+	}
 }
 
 /******************************************************************************
@@ -136,17 +136,17 @@ bool
 JXDocument::Deactivate()
 {
 	if (JXWindowDirector::Deactivate())
-		{
+	{
 		if (NeedsSave())
-			{
-			DiscardChanges();	// OKToDeactivate() returned true
-			}
-		return true;
-		}
-	else
 		{
-		return false;
+			DiscardChanges();	// OKToDeactivate() returned true
 		}
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 /******************************************************************************
@@ -203,9 +203,9 @@ void
 JXDocument::RevertToSaved()
 {
 	if (CanRevert() && OKToRevert())
-		{
+	{
 		DiscardChanges();
-		}
+	}
 }
 
 /******************************************************************************

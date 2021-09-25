@@ -103,14 +103,14 @@ JXFileSelection::SetData
 	)
 {
 	if (itsList == nullptr)
-		{
+	{
 		itsList = jnew JDCCPtrArray<JString>(list, JPtrArrayT::kDeleteAll);
 		assert( itsList != nullptr );
-		}
+	}
 	else
-		{
+	{
 		itsList->CopyObjects(list, JPtrArrayT::kDeleteAll, false);
-		}
+	}
 
 	jdelete itsBuffer;
 	itsBuffer = nullptr;
@@ -158,14 +158,14 @@ JXFileSelection::ConvertData
 
 	if (requestType == GetSelectionManager()->GetURLXAtom() &&
 		itsList != nullptr && !itsList->IsEmpty())
-		{
+	{
 		CreateBuffer();
 
 		*returnType = requestType;
 		*dataLength = itsBuffer->GetByteCount();
 		*data       = (unsigned char*) itsBuffer->AllocateBytes();
 		return true;
-		}
+	}
 
 	*data       = nullptr;
 	*dataLength = 0;
@@ -183,11 +183,11 @@ JXFileSelection::CreateBuffer()
 	const
 {
 	if (itsBuffer == nullptr)
-		{
+	{
 		(const_cast<JXFileSelection*>(this))->itsBuffer =
 			jnew JString(JXPackFileNames(*itsList));
 		assert( itsBuffer != nullptr );
-		}
+	}
 }
 
 /******************************************************************************
@@ -225,13 +225,13 @@ JXFileSelection::GetFileList
 
 	JArray<Atom> typeList;
 	if (selMgr->GetAvailableTypes(selectionName, CurrentTime, &typeList))
-		{
+	{
 		for (const auto type : typeList)
-			{
+		{
 			if (type != urlXAtom)
-				{
+			{
 				continue;
-				}
+			}
 
 			Atom returnType;
 			unsigned char* data;
@@ -239,19 +239,19 @@ JXFileSelection::GetFileList
 			JXSelectionManager::DeleteMethod delMethod;
 			if (selMgr->GetData(selectionName, time, type,
 								&returnType, &data, &dataLength, &delMethod))
-				{
+			{
 				if (returnType == type)
-					{
+				{
 					JXUnpackFileNames((char*) data, dataLength, fileNameList, urlList);
 					ok = true;
-					}
-
-				selMgr->DeleteData(&data, delMethod);
 				}
 
-			break;		// found type we were looking for
+				selMgr->DeleteData(&data, delMethod);
 			}
+
+			break;		// found type we were looking for
 		}
+	}
 
 	return ok;
 }

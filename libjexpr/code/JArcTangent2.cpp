@@ -83,13 +83,13 @@ JArcTangent2::Evaluate
 {
 	JFloat y,x;
 	if (!(GetArg1())->Evaluate(&y))
-		{
+	{
 		return false;
-		}
+	}
 	if (!(GetArg2())->Evaluate(&x))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = atan2(y,x);
 	return jerrno_is_clear();
@@ -104,20 +104,20 @@ JArcTangent2::Evaluate
 {
 	JFloat r;
 	if (Evaluate(&r))	// provide full range in case of real numbers
-		{
+	{
 		*result = r;
 		return true;
-		}
+	}
 
 	JComplex y,x;
 	if (!(GetArg2())->Evaluate(&x) || (real(x) == 0.0 && imag(x) == 0.0))
-		{
+	{
 		return false;
-		}
+	}
 	if (!(GetArg1())->Evaluate(&y))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = atan(y/x);
 	return jerrno_is_clear();

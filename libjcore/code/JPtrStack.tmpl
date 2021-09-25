@@ -41,13 +41,13 @@ template <class T, class S>
 JPtrStack<T,S>::~JPtrStack()
 {
 	if (itsCleanUpAction == JPtrArrayT::kDeleteAll)
-		{
+	{
 		ClearDelete();
-		}
+	}
 	else if (itsCleanUpAction == JPtrArrayT::kDeleteAllAsArrays)
-		{
+	{
 		ClearDeleteAsArrays();
-		}
+	}
 }
 
 /******************************************************************************
@@ -62,9 +62,9 @@ void
 JPtrStack<T,S>::ClearDelete()
 {
 	for (auto* elementPtr : *JStack<T*,S>::GetElements())
-		{
+	{
 		jdelete elementPtr;
-		}
+	}
 
 	JStack<T*,S>::Clear();
 }
@@ -81,9 +81,9 @@ void
 JPtrStack<T,S>::ClearDeleteAsArrays()
 {
 	for (auto* elementPtr : *JStack<T*,S>::GetElements())
-		{
+	{
 		jdelete [] elementPtr;
-		}
+	}
 
 	JStack<T*,S>::Clear();
 }
@@ -105,10 +105,10 @@ JPtrStack<T,S>::UnwindDelete
 	S* list           = JStack<T*,S>::GetElements();
 	const JSize count = list->GetElementCount();
 	for (JIndex i=1; i<=numToUnwind && i<=count; i++)
-		{
+	{
 		T* elementPtr = list->GetElement(count -i+1);
 		jdelete elementPtr;
-		}
+	}
 
 	JStack<T*,S>::Unwind(numToUnwind);
 }
@@ -130,10 +130,10 @@ JPtrStack<T,S>::UnwindDeleteAsArrays
 	S* list           = JStack<T*,S>::GetElements();
 	const JSize count = list->GetElementCount();
 	for (JIndex i=1; i<=numToUnwind && i<=count; i++)
-		{
+	{
 		T* elementPtr = list->GetElement(count -i+1);
 		jdelete [] elementPtr;
-		}
+	}
 
 	JStack<T*,S>::Unwind(numToUnwind);
 }

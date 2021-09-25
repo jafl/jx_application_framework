@@ -181,14 +181,14 @@ JXFSDirMenu::~JXFSDirMenu()
 	jdelete itsEntries;
 
 	if (itsOwnsFileIcon)
-		{
+	{
 		jdelete itsFileIcon;
-		}
+	}
 
 	if (itsOwnsExecIcon)
-		{
+	{
 		jdelete itsExecIcon;
-		}
+	}
 }
 
 /******************************************************************************
@@ -206,14 +206,14 @@ JXFSDirMenu::GetDirInfo
 	)
 {
 	if (itsDirInfo == nullptr)
-		{
+	{
 		if (itsPath.IsEmpty())
-			{
+		{
 			itsPath = JGetRootDirectory();	// when top level menu uses list of files
-			}
+		}
 
 		JDirInfo::Create(itsPath, &itsDirInfo);
-		}
+	}
 
 	*info = itsDirInfo;
 	return *info != nullptr;
@@ -231,30 +231,30 @@ JXFSDirMenu::SetFileList
 	)
 {
 	if (fileNameList.IsEmpty())		// preserve "No files" if empty
-		{
+	{
 		return;
-		}
+	}
 
 	if (itsEntries == nullptr)
-		{
+	{
 		itsEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kDeleteAll);
 		assert( itsEntries != nullptr );
-		}
+	}
 	else
-		{
+	{
 		itsEntries->CleanOut();
-		}
+	}
 
 	RemoveAllItems();
 
 	JString fullName;
 	for (const auto* f : fileNameList)
-		{
+	{
 		auto* entry = jnew JDirEntry(*f);
 		assert( entry != nullptr );
 		itsEntries->Append(entry);
 		AppendEntry(*entry);
-		}
+	}
 }
 
 /******************************************************************************
@@ -269,9 +269,9 @@ JXFSDirMenu::SetFileIcon
 	)
 {
 	if (itsOwnsFileIcon)
-		{
+	{
 		jdelete itsFileIcon;
-		}
+	}
 
 	itsFileIcon = jnew JXImage(image);
 	assert( itsFileIcon != nullptr );
@@ -286,9 +286,9 @@ JXFSDirMenu::SetFileIcon
 	)
 {
 	if (itsOwnsFileIcon)
-		{
+	{
 		jdelete itsFileIcon;
-		}
+	}
 
 	itsFileIcon     = GetDisplay()->GetImageCache()->GetImage(data);
 	itsOwnsFileIcon = false;
@@ -306,9 +306,9 @@ JXFSDirMenu::SetExecIcon
 	)
 {
 	if (itsOwnsExecIcon)
-		{
+	{
 		jdelete itsExecIcon;
-		}
+	}
 
 	itsExecIcon = jnew JXImage(image);
 	assert( itsExecIcon != nullptr );
@@ -323,9 +323,9 @@ JXFSDirMenu::SetExecIcon
 	)
 {
 	if (itsOwnsExecIcon)
-		{
+	{
 		jdelete itsExecIcon;
-		}
+	}
 
 	itsExecIcon     = GetDisplay()->GetImageCache()->GetImage(data);
 	itsOwnsExecIcon = false;
@@ -359,26 +359,26 @@ JXFSDirMenu::Receive
 	)
 {
 	if (sender == this && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateSelf();
-		}
+	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* info = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert(info != nullptr);
 		if (itsEntries != nullptr)
-			{
-			BroadcastIfTopLevel(itsEntries->GetElement(info->GetIndex())->GetFullName());
-			}
-		else if (itsDirInfo != nullptr)
-			{
-			BroadcastIfTopLevel(itsDirInfo->GetEntry(info->GetIndex()).GetFullName());
-			}
-		}
-	else
 		{
-		JXTextMenu::Receive(sender, message);
+			BroadcastIfTopLevel(itsEntries->GetElement(info->GetIndex())->GetFullName());
 		}
+		else if (itsDirInfo != nullptr)
+		{
+			BroadcastIfTopLevel(itsDirInfo->GetEntry(info->GetIndex()).GetFullName());
+		}
+	}
+	else
+	{
+		JXTextMenu::Receive(sender, message);
+	}
 }
 
 /******************************************************************************
@@ -390,61 +390,61 @@ void
 JXFSDirMenu::UpdateSelf()
 {
 	if (itsEntries != nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	if (itsDirInfo == nullptr)
-		{
+	{
 		bool ok;
 		if (itsParent != nullptr && itsParent->itsDirInfo != nullptr)
-			{
+		{
 			// copy options
 
 			ok = JDirInfo::Create(*(itsParent->itsDirInfo), itsPath, &itsDirInfo);
-			}
+		}
 		else
-			{
+		{
 			ok = JDirInfo::Create(itsPath, &itsDirInfo);
-			}
+		}
 
 		if (!ok)
-			{
+		{
 			GetMenuManager()->CloseCurrentMenus();
 			return;
-			}
 		}
+	}
 	else
-		{
+	{
 		if (itsParent != nullptr && itsParent->itsDirInfo != nullptr)
-			{
+		{
 			itsDirInfo->CopySettings(*(itsParent->itsDirInfo));
-			}
-		itsDirInfo->Update();
 		}
+		itsDirInfo->Update();
+	}
 
 	if (itsDirInfo->IsEmpty())		// show "No files"
-		{
+	{
 		ClearMenu();
-		}
+	}
 	else
-		{
+	{
 		RemoveAllItems();
 
 		for (const auto* entry : *itsDirInfo)
-			{
+		{
 			if (itsDeleteBrokenLinksFlag && entry->IsBrokenLink())
-				{
+			{
 				JRemoveFile(entry->GetFullName());
-				}
-			else
-				{
-				AppendEntry(*entry);
-				}
 			}
+			else
+			{
+				AppendEntry(*entry);
+			}
+		}
 
 		GetDisplay()->DispatchCursor();	// manual because we are dragging
-		}
+	}
 }
 
 /******************************************************************************
@@ -459,54 +459,54 @@ JXFSDirMenu::AppendEntry
 	)
 {
 	if (entry.IsFile() && itsShowPathFlag)
-		{
+	{
 		JString path = entry.GetPath();
 		JString name = entry.GetName();
 
 		const JString* link;
 		if (itsDereferenceLinksFlag && entry.IsLink() &&
 			entry.GetLinkName(&link))
-			{
+		{
 			JSplitPathAndName(*link, &path, &name);
-			}
+		}
 
 		AppendItem(name, kPlainType, JString::empty, path);
-		}
+	}
 	else
-		{
+	{
 		AppendItem(entry.GetName());
-		}
+	}
 
 	const JIndex i = GetItemCount();
 
 	if (entry.IsDirectory())
-		{
+	{
 		if (entry.IsReadable())
-			{
+		{
 			auto* menu = jnew JXFSDirMenu(entry.GetFullName(), this, i);
 			assert( menu != nullptr );
-			}
+		}
 		else
-			{
+		{
 			DisableItem(i);
-			}
+		}
 		SetItemImage(i, itsFolderIcon, false);
-		}
+	}
 	else if (entry.IsFile())
-		{
+	{
 		if (entry.IsExecutable())
-			{
-			SetItemImage(i, itsExecIcon, false);
-			}
-		else
-			{
-			SetItemImage(i, itsFileIcon, false);
-			}
-		}
-	else
 		{
-		SetItemImage(i, itsUnknownIcon, false);
+			SetItemImage(i, itsExecIcon, false);
 		}
+		else
+		{
+			SetItemImage(i, itsFileIcon, false);
+		}
+	}
+	else
+	{
+		SetItemImage(i, itsUnknownIcon, false);
+	}
 }
 
 /******************************************************************************
@@ -534,11 +534,11 @@ JXFSDirMenu::BroadcastIfTopLevel
 	)
 {
 	if (itsParent == nullptr)
-		{
+	{
 		Broadcast(FileSelected(filename));
-		}
+	}
 	else
-		{
+	{
 		itsParent->BroadcastIfTopLevel(filename);
-		}
+	}
 }

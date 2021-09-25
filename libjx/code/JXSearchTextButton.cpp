@@ -74,13 +74,13 @@ JXSearchTextButton::Draw
 		IsActive() ? JColorManager::GetGrayColor(40) :
 					 JColorManager::GetInactiveLabelColor();
 	if (itsFwdFlag)
-		{
+	{
 		r.right++;
 		JXFillArrowRight(p, r, colorIndex);
-		}
+	}
 	else
-		{
+	{
 		r.left--;
 		JXFillArrowLeft(p, r, colorIndex);
-		}
+	}
 }

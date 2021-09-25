@@ -95,11 +95,11 @@ UndoWidget::Draw
 
 	// Loop through the points by twos
 	for (JSize i = 1; i <= count; i += 2)
-		{
+	{
 		// We need to specify that this is a JPainter function because
 		// JXWindowPainter has this function in a different form
 		p.JPainter::Line(itsPoints->GetElement(i), itsPoints->GetElement(i+1));
-		}
+	}
 }
 
 /******************************************************************************
@@ -134,19 +134,19 @@ UndoWidget::HandleMouseDown
 {
 	// Check to see if the left button was pressed
 	if (button == kJXLeftButton)
-		{
+	{
 		// Create the drag painter to draw the rubber-band like lines
 		JPainter* p = CreateDragInsidePainter();
 
 		// Start the first line
 		p->Line(pt, pt);
-		}
+	}
 
 	// Let the base class handle the wheel mouse.
 	else
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 
 	// Initialize the current points
 	itsStartPt = itsPrevPt = pt;
@@ -182,23 +182,23 @@ UndoWidget::HandleMouseDrag
 	// Get the drag painter that we created in mouse down
 	JPainter* p = nullptr;
 	if (!GetDragPainter(&p))
-		{
+	{
 		return;
-		}
+	}
 
 	// Make sure that the left button is pressed,
 	// that we have moved,
 	// and that a drag painter exists
 	if (buttonStates.left() && pt != itsPrevPt && p != nullptr)	// p is nullptr for multiple click
-		{
+	{
 
 		// Draw line depending on whether or not we scrolled
 		if (!scrolled)
-			{
+		{
 			p->Line(itsStartPt, itsPrevPt);
-			}
-		p->Line(itsStartPt, pt);
 		}
+		p->Line(itsStartPt, pt);
+	}
 
 	// Remember the current point
 	itsPrevPt = pt;
@@ -235,7 +235,7 @@ UndoWidget::HandleMouseUp
 	// Make sure that the left button is pressed,
 	// and that a drag painter exists
 	if (button == kJXLeftButton && GetDragPainter(&p))
-		{
+	{
 		// Erase the last line that was drawn
 		p->Line(itsStartPt, itsPrevPt);
 
@@ -254,7 +254,7 @@ UndoWidget::HandleMouseUp
 
 		// Tell the widget to redraw itself
 		Refresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -276,12 +276,12 @@ UndoWidget::Undo()
 
 	// Perform the undo.
 	if (hasUndo)
-		{
+	{
 		itsUndoState = kUndo;
 		undo->Deactivate();
 		undo->Undo();
 		itsUndoState = kIdle;
-		}
+	}
 }
 
 /******************************************************************************
@@ -303,12 +303,12 @@ UndoWidget::Redo()
 
 	// Perform the redo.
 	if (hasUndo)
-		{
+	{
 		itsUndoState = kRedo;
 		undo->Deactivate();
 		undo->Undo();
 		itsUndoState = kIdle;
-		}
+	}
 }
 
 /******************************************************************************
@@ -324,14 +324,14 @@ UndoWidget::GetCurrentUndo
 	const
 {
 	if (HasUndo())
-		{
+	{
 		*undo = itsUndoList->GetElement(itsFirstRedoIndex - 1);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -347,14 +347,14 @@ UndoWidget::GetCurrentRedo
 	const
 {
 	if (HasRedo())
-		{
+	{
 		*redo = itsUndoList->GetElement(itsFirstRedoIndex);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -393,14 +393,14 @@ UndoWidget::NewUndo
 	)
 {
 	if (itsUndoList != nullptr && itsUndoState == kIdle)
-		{
+	{
 		// clear redo objects
 
 		const JSize undoCount = itsUndoList->GetElementCount();
 		for (JIndex i=undoCount; i>=itsFirstRedoIndex; i--)
-			{
+		{
 			itsUndoList->DeleteElement(i);
-			}
+		}
 
 		// save the new object
 
@@ -408,10 +408,10 @@ UndoWidget::NewUndo
 		itsFirstRedoIndex++;
 
 		assert( !itsUndoList->IsEmpty() );
-		}
+	}
 
 	else if (itsUndoList != nullptr && itsUndoState == kUndo)
-		{
+	{
 		assert( itsFirstRedoIndex > 1 );
 
 		itsFirstRedoIndex--;
@@ -419,10 +419,10 @@ UndoWidget::NewUndo
 
 		undo->SetRedo(true);
 		undo->Deactivate();
-		}
+	}
 
 	else if (itsUndoList != nullptr && itsUndoState == kRedo)
-		{
+	{
 		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() );
 
 		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
@@ -430,7 +430,7 @@ UndoWidget::NewUndo
 
 		undo->SetRedo(false);
 		undo->Deactivate();
-		}
+	}
 
 }
 

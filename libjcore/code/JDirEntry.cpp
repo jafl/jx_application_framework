@@ -57,19 +57,19 @@ JDirEntry::JDirEntryX
 
 	JString fullName;
 	if (!JConvertToAbsolutePath(origFullName, JString::empty, &fullName))
-		{
+	{
 		fullName = origFullName;	// fail gracefully with type kDoesNotExist
-		}
+	}
 	JStripTrailingDirSeparator(&fullName);
 
 	if (JIsRootDirectory(fullName))
-		{
+	{
 		itsPath = itsName = fullName;
-		}
+	}
 	else
-		{
+	{
 		JSplitPathAndName(fullName, &itsPath, &itsName);
-		}
+	}
 
 	// set rest of instance variables
 
@@ -131,10 +131,10 @@ JDirEntry::JDirEntry
 	itsIsExecutableFlag = source.itsIsExecutableFlag;
 
 	if (source.itsLinkName != nullptr)
-		{
+	{
 		itsLinkName = jnew JString(*(source.itsLinkName));
 		assert( itsLinkName != nullptr );
-		}
+	}
 }
 
 /*****************************************************************************
@@ -161,28 +161,28 @@ JDirEntry::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	itsPath     = source.itsPath;
 	itsName     = source.itsName;
 	itsFullName = source.itsFullName;
 
 	if (source.itsLinkName != nullptr && itsLinkName != nullptr)
-		{
+	{
 		*itsLinkName = *(source.itsLinkName);
-		}
+	}
 	else if (source.itsLinkName != nullptr)
-		{
+	{
 		itsLinkName = jnew JString(*(source.itsLinkName));
 		assert( itsLinkName != nullptr );
-		}
+	}
 	else
-		{
+	{
 		jdelete itsLinkName;
 		itsLinkName = nullptr;
-		}
+	}
 
 	itsType        = source.itsType;
 	itsSize        = source.itsSize;
@@ -196,24 +196,24 @@ JDirEntry::operator=
 	itsGroupID     = source.itsGroupID;
 
 	if (itsUserName != nullptr && source.itsUserName != nullptr)
-		{
+	{
 		*itsUserName = *(source.itsUserName);
-		}
+	}
 	else if (itsUserName != nullptr)
-		{
+	{
 		jdelete itsUserName;
 		itsUserName = nullptr;
-		}
+	}
 
 	if (itsGroupName != nullptr && source.itsGroupName != nullptr)
-		{
+	{
 		*itsGroupName = *(source.itsGroupName);
-		}
+	}
 	else if (itsGroupName != nullptr)
-		{
+	{
 		jdelete itsGroupName;
 		itsGroupName = nullptr;
-		}
+	}
 
 	itsIsReadableFlag   = source.itsIsReadableFlag;
 	itsIsWritableFlag   = source.itsIsWritableFlag;
@@ -235,13 +235,13 @@ JDirEntry::FollowLink()
 	const
 {
 	if (itsLinkName != nullptr && !itsLinkName->IsEmpty())
-		{
+	{
 		return JDirEntry(itsPath, *itsLinkName);
-		}
+	}
 	else
-		{
+	{
 		return *this;
-		}
+	}
 }
 
 /******************************************************************************
@@ -254,10 +254,10 @@ JDirEntry::GetUserName()
 	const
 {
 	if (itsUserName == nullptr)
-		{
+	{
 		const_cast<JDirEntry*>(this)->itsUserName = jnew JString(JGetUserName(itsUserID));
 		assert( itsUserName != nullptr );
-		}
+	}
 
 	return *itsUserName;
 }
@@ -272,10 +272,10 @@ JDirEntry::GetGroupName()
 	const
 {
 	if (itsGroupName == nullptr)
-		{
+	{
 		const_cast<JDirEntry*>(this)->itsGroupName = jnew JString(JGetGroupName(itsGroupID));
 		assert( itsGroupName != nullptr );
-		}
+	}
 
 	return *itsGroupName;
 }
@@ -304,18 +304,18 @@ JDirEntry::SetMode
 	mode_t mode;
 	JError err = JGetPermissions(itsFullName, &mode);
 	if (!err.OK())
-		{
+	{
 		return err;
-		}
+	}
 
 	if (allow)
-		{
+	{
 		mode |= (1 << bit);
-		}
+	}
 	else
-		{
+	{
 		mode &= ~(1 << bit);
-		}
+	}
 
 	return JSetPermissions(itsFullName, mode);
 }
@@ -347,22 +347,22 @@ JDirEntry::NeedsUpdate()
 	const int lstatErr = ACE_OS::lstat(itsFullName.GetBytes(), &linfo);
 	const int statErr  = ACE_OS::stat(itsFullName.GetBytes(), &info);
 	if (lstatErr == 0 && statErr == 0)
-		{
+	{
 		const_cast<JDirEntry*>(this)->itsAccessTime = linfo.st_atime;
 
 		return itsModTime     != (time_t) linfo.st_mtime ||
 					itsStatusTime  != (time_t) linfo.st_ctime ||
 					itsSModTime    != (time_t)  info.st_mtime ||
 					itsSStatusTime != (time_t)  info.st_ctime;
-		}
+	}
 	else if (lstatErr == 0 && statErr == -1)
-		{
+	{
 		return itsType != kBrokenLink;
-		}
+	}
 	else
-		{
+	{
 		return itsType != kDoesNotExist;
-		}
+	}
 }
 
 /******************************************************************************
@@ -380,14 +380,14 @@ JDirEntry::Update
 	)
 {
 	if (force || NeedsUpdate())
-		{
+	{
 		ForceUpdate();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -431,9 +431,9 @@ JDirEntry::ForceUpdate()
 
 	ACE_stat lstbuf;
 	if (ACE_OS::lstat(itsFullName.GetBytes(), &lstbuf) != 0)
-		{
+	{
 		return;
-		}
+	}
 
 	ACE_stat stbuf;
 	const int statErr = ACE_OS::stat(itsFullName.GetBytes(), &stbuf);
@@ -456,59 +456,59 @@ JDirEntry::ForceUpdate()
 	const mode_t ftype = stbuf.st_mode;
 
 	if (S_ISLNK(ltype))
-		{			
+	{			
 		if (statErr == -1)
-			{
+		{
 			itsType = kBrokenLink;
-			}
+		}
 		else if (S_ISREG(ftype))
-			{
+		{
 			itsType = kFileLink;
-			}
+		}
 		else if (S_ISDIR(ftype))
-			{
+		{
 			itsType = kDirLink;
-			}
+		}
 		else
-			{
+		{
 			itsType = kUnknownLink;
-			}
+		}
 
 		itsLinkName = jnew JString;
 		assert( itsLinkName != nullptr );
 		if (!(JGetSymbolicLinkTarget(itsFullName, itsLinkName)).OK())
-			{
+		{
 			jdelete itsLinkName;
 			itsLinkName = nullptr;
-			}
 		}
+	}
 	else if (S_ISREG(ftype))
-		{
+	{
 		itsType = kFile;
-		}
+	}
 	else if (S_ISDIR(ftype))
-		{
+	{
 		itsType = kDir;
-		}
+	}
 	else
-		{
+	{
 		itsType = kUnknown;
-		}
+	}
 
 	// permissions
 
 	if (JUserIsAdmin())
-		{
+	{
 		itsIsReadableFlag   = true;
 		itsIsWritableFlag   = true;
 		itsIsExecutableFlag = (stbuf.st_mode & S_IXUSR) != 0;
-		}
+	}
 	else
-		{
+	{
 		itsIsReadableFlag   = access(itsFullName.GetBytes(), R_OK) == 0;
 		itsIsWritableFlag   = access(itsFullName.GetBytes(), W_OK) == 0;
 		itsIsExecutableFlag = access(itsFullName.GetBytes(), X_OK) == 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -527,26 +527,26 @@ JDirEntry::MatchesContentFilter
 	const
 {
 	if (IsFile())
-		{
+	{
 		ACE_stat lstbuf;
 		if (ACE_OS::lstat(itsFullName.GetBytes(), &lstbuf) != 0)
-			{
+		{
 			return false;
-			}
+		}
 
 		const int fd = open(itsFullName.GetBytes(), O_RDONLY);
 		if (fd == -1)
-			{
+		{
 			return false;
-			}
+		}
 
 		auto* data = jnew JUtf8Byte [ kBlockSize+1 ];
 		const ssize_t count = read(fd, data, kBlockSize);
 		close(fd);
 		if (count < 0)
-			{
+		{
 			return false;
-			}
+		}
 		data[ count ] = '\0';
 
 		utimbuf ubuf;
@@ -558,11 +558,11 @@ JDirEntry::MatchesContentFilter
 
 		jdelete [] data;
 		return match;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -589,13 +589,13 @@ JDirEntry::CompareSizes
 {
 	const JListT::CompareResult result = JCompareSizes(e1->itsSize, e2->itsSize);
 	if (result != JListT::kFirstEqualSecond)
-		{
+	{
 		return result;
-		}
+	}
 	else
-		{
+	{
 		return CompareNames(e1, e2);
-		}
+	}
 }
 
 JListT::CompareResult
@@ -607,11 +607,11 @@ JDirEntry::CompareModTimes
 {
 	const JListT::CompareResult result = JCompareSizes(e1->itsModTime, e2->itsModTime);
 	if (result != JListT::kFirstEqualSecond)
-		{
+	{
 		return result;
-		}
+	}
 	else
-		{
+	{
 		return CompareNames(e1, e2);
-		}
+	}
 }

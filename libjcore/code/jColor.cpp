@@ -58,36 +58,36 @@ JCompareRGBValues
 	)
 {
 	if (c1.red < c2.red)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (c1.red > c2.red)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 
 	else if (c1.green < c2.green)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (c1.green > c2.green)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 
 	else if (c1.blue < c2.blue)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (c1.blue > c2.blue)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 
 	else
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 }
 
 /******************************************************************************
@@ -130,36 +130,36 @@ JCompareHSBValues
 	)
 {
 	if (c1.hue < c2.hue)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (c1.hue > c2.hue)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 
 	else if (c1.saturation < c2.saturation)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (c1.saturation > c2.saturation)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 
 	else if (c1.brightness < c2.brightness)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (c1.brightness > c2.brightness)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 
 	else
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 }
 
 /******************************************************************************
@@ -176,12 +176,12 @@ JRGB::JRGB
 	)
 {
 	if (color.saturation == 0)
-		{
+	{
 		red = green = blue =
 			JRound(kJMaxRGBValueF * color.brightness / kJMaxHSBValueF);
-		}
+	}
 	else
-		{
+	{
 		const JFloat h = 6.0 * color.hue  / (kJMaxHSBValueF + 1.0);
 		const JFloat s = color.saturation / kJMaxHSBValueF;
 		const JFloat v = color.brightness / kJMaxHSBValueF;
@@ -193,18 +193,18 @@ JRGB::JRGB
 		const JFloat t = v * (1.0-(s*(1.0-f)));
 		JFloat r=0, g=0, b=0;
 		switch (i)
-			{
+		{
 			case 0: r=v; g=t; b=p; break;
 			case 1: r=q; g=v; b=p; break;
 			case 2: r=p; g=v; b=t; break;
 			case 3: r=p; g=q; b=v; break;
 			case 4: r=t; g=p; b=v; break;
 			case 5: r=v; g=p; b=q; break;
-			}
+		}
 		red   = JRound(kJMaxRGBValueF * r);
 		green = JRound(kJMaxRGBValueF * g);
 		blue  = JRound(kJMaxRGBValueF * b);
-		}
+	}
 }
 
 JHSB::JHSB
@@ -217,11 +217,11 @@ JHSB::JHSB
 
 	brightness = JRound(kJMaxHSBValueF * max / kJMaxRGBValueF);
 	if (max == 0 || max == min)
-		{
+	{
 		hue = saturation = 0;
-		}
+	}
 	else
-		{
+	{
 		const JFloat delta = max - min;
 		saturation         = JRound(kJMaxHSBValueF * delta / max);
 
@@ -230,21 +230,21 @@ JHSB::JHSB
 		const long g = color.green;
 		const long b = color.blue;
 		if (color.red == max)
-			{
+		{
 			h = (g - b) / delta;
-			}
-		else if (color.green == max)
-			{
-			h = 2.0 + (b - r) / delta;
-			}
-		else	// color.blue == max
-			{
-			h = 4.0 + (r - g) / delta;
-			}
-		if (h < 0.0)
-			{
-			h += 6.0;
-			}
-		hue = JRound(kJMaxHSBValueF * h / 6.0);
 		}
+		else if (color.green == max)
+		{
+			h = 2.0 + (b - r) / delta;
+		}
+		else	// color.blue == max
+		{
+			h = 4.0 + (r - g) / delta;
+		}
+		if (h < 0.0)
+		{
+			h += 6.0;
+		}
+		hue = JRound(kJMaxHSBValueF * h / 6.0);
+	}
 }

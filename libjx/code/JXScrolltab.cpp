@@ -117,13 +117,13 @@ JXScrolltab::PlaceHoriz
 {
 	JCoordinate x = xmin + JRound(scale * (itsValue - JXScrollbar::kMinValue));
 	if (x > xmax)
-		{
+	{
 		x = xmax;
-		}
+	}
 	if (x < xmin)
-		{
+	{
 		x = xmin;
-		}
+	}
 
 	Place(x, itsScrollbar->GetBoundsHeight() - kAcrossSize);
 	SetSize(kAlongSize, kAcrossSize);
@@ -139,13 +139,13 @@ JXScrolltab::PlaceVert
 {
 	JCoordinate y = ymin + JRound(scale * (itsValue - JXScrollbar::kMinValue));
 	if (y > ymax)
-		{
+	{
 		y = ymax;
-		}
+	}
 	if (y < ymin)
-		{
+	{
 		y = ymin;
-		}
+	}
 
 	Place(itsScrollbar->GetBoundsWidth() - kAcrossSize, y);
 	SetSize(kAcrossSize, kAlongSize);
@@ -170,21 +170,21 @@ JXScrolltab::HandleMouseDown
 	const bool metaOn  = modifiers.meta();
 
 	if (button == kJXLeftButton && metaOn && shiftOn)
-		{
+	{
 		itsScrollbar->RemoveAllScrolltabs();
-		}
+	}
 	else if (button == kJXLeftButton && metaOn)
-		{
+	{
 		jdelete this;
-		}
+	}
 	else if (button == kJXLeftButton)
-		{
+	{
 		ScrollToTab();
-		}
+	}
 	else if (button == kJXRightButton)
-		{
+	{
 		OpenActionMenu(pt, buttonStates, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -201,14 +201,14 @@ JXScrolltab::OpenActionMenu
 	)
 {
 	if (itsActionMenu == nullptr)
-		{
+	{
 		itsActionMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsActionMenu != nullptr );
 		itsActionMenu->SetToHiddenPopupMenu();
 		itsActionMenu->SetMenuItems(kActionMenuStr);
 		itsActionMenu->SetUpdateAction(JXMenu::kDisableNone);
 		ListenTo(itsActionMenu);
-		}
+	}
 
 	itsActionMenu->PopUp(this, pt, buttonStates, modifiers);
 }
@@ -226,17 +226,17 @@ JXScrolltab::Receive
 	)
 {
 	if (sender == itsActionMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());	// can destroy us
-		}
+	}
 
 	else
-		{
+	{
 		JXWidget::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -251,17 +251,17 @@ JXScrolltab::HandleActionMenu
 	)
 {
 	if (index == kScrollToCmd)
-		{
+	{
 		ScrollToTab();
-		}
+	}
 	else if (index == kRemoveCmd)
-		{
+	{
 		jdelete this;							// destroys us
-		}
+	}
 	else if (index == kRemoveAllTabsCmd)
-		{
+	{
 		itsScrollbar->RemoveAllScrolltabs();	// destroys us
-		}
+	}
 }
 
 /******************************************************************************

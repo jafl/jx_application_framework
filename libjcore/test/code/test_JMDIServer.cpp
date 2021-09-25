@@ -25,14 +25,14 @@ JTEST(Exercise)
 	const JError err = JThisProcess::Fork(&pid);
 
 	if (pid == 0)	// child
-		{
+	{
 		TestMDIServer svr(kSignature);
 		while (!svr.ShouldQuit())
-			{
+		{
 			svr.CheckForConnections();
-			}
-		exit(0);
 		}
+		exit(0);
+	}
 
 	sleep(2);
 

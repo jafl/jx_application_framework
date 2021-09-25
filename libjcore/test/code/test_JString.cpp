@@ -232,7 +232,7 @@ JTEST(Allocation)
 
 	srand(time(NULL));
 	if (rand() < RAND_MAX/2)	// try to force processor to pre-execute 2 branches
-		{
+	{
 		auto* s1 = jnew JString(TestNameReturnValueOptimization());
 		assert( s1 != nullptr );
 
@@ -248,9 +248,9 @@ JTEST(Allocation)
 		p2 = s2->GetBytes();
 		JAssertEqual((void*) p1, (void*) p2);
 		JAssertEqual(4, s2->GetCharacterCount());
-		}
+	}
 	else
-		{
+	{
 		auto* s3 = jnew JString(TestNameReturnValueOptimization());
 		assert( s3 != nullptr );
 
@@ -266,7 +266,7 @@ JTEST(Allocation)
 		p2 = s4->GetBytes();
 		JAssertEqual((void*) p1, (void*) p2);
 		JAssertEqual(4, s4->GetCharacterCount());
-		}
+	}
 }
 
 JTEST(Set)
@@ -1008,7 +1008,7 @@ JTEST(CopyNormalizedBytes)
 									 "1234567890", "123456789abcdef0"};
 
 	for (const JUtf8Byte* test : stringList)
-		{
+	{
 		const JSize srcLength = strlen(test);
 		const bool allCopied =
 			JString::CopyNormalizedBytes(test, srcLength, string, kStringLength) == srcLength;
@@ -1016,7 +1016,7 @@ JTEST(CopyNormalizedBytes)
 		JAssertEqualWithMessage(!strcmp(string, test), allCopied, test);
 		JAssertEqualWithMessage(0, JString::CompareMaxNBytes(string, test, kStringLength-1), test);
 		JAssertEqualWithMessage(JMin(kStringLength-1, srcLength), strlen(string), string);
-		}
+	}
 }
 
 JTEST(Normalization)

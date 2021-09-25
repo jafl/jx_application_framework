@@ -107,17 +107,17 @@ TestSliderDirector::Receive
 	)
 {
 	if (sender == itsMaxSlider && message.Is(JSliderBase::kMoved))
-		{
+	{
 		itsSlider->SetMaxValue(itsMaxSlider->GetValue());
-		}
+	}
 
 	else if (sender == itsMaxLevel && message.Is(JSliderBase::kMoved))
-		{
+	{
 		itsLevel->SetMaxValue(itsMaxLevel->GetValue());
-		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }

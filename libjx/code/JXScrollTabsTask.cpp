@@ -43,7 +43,7 @@ void
 JXScrollTabsTask::Perform()
 {
 	if (itsTabGroup != nullptr)
-		{
+	{
 		itsTabGroup->ScrollTabsIntoView();
-		}
+	}
 }

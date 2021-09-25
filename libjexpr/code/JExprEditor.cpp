@@ -177,11 +177,11 @@ JExprEditor::SetFunction
 	itsUndoSelection = 0;
 
 	if (itsVarList != varList)
-		{
+	{
 		StopListening(itsVarList);
 		itsVarList = varList;
 		ListenTo(itsVarList);
-		}
+	}
 
 	jdelete itsFunction;
 	itsFunction  = f;
@@ -249,13 +249,13 @@ JExprEditor::ContainsUIF()
 {
 	const JSize rectCount = itsRectList->GetElementCount();
 	for (JIndex i=1; i<=rectCount; i++)
-		{
+	{
 		const JFunction* f = itsRectList->GetFunction(i);
 		if (dynamic_cast<const JUserInputFunction*>(f) != nullptr)
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	// falling through means there aren't any
 
@@ -275,15 +275,15 @@ void
 JExprEditor::EIPDeactivate()
 {
 	if (itsActiveUIF != nullptr)
-		{
+	{
 		itsActiveUIF->Clear();
 		itsActiveUIF = nullptr;
 		Render();
-		}
+	}
 	else
-		{
+	{
 		ClearSelection();
-		}
+	}
 
 	itsActiveFlag = false;
 }
@@ -300,39 +300,39 @@ bool
 JExprEditor::EndEditing()
 {
 	if (itsActiveUIF == nullptr)
-		{
+	{
 		return true;
-		}
+	}
 	else if (itsActiveUIF->IsEmpty())
-		{
+	{
 		itsActiveUIF->Deactivate();
 		itsActiveUIF = nullptr;
 		EIPRefresh();
 		return true;
-		}
+	}
 
 	JFunction* newF = nullptr;
 	JUserInputFunction* newUIF = nullptr;
 	bool needRender;
 	if (itsActiveUIF->Parse(JUtf8Character(' '), &newF, &newUIF, &needRender))
-		{
+	{
 		ReplaceFunction(itsActiveUIF, newF);
 		itsActiveUIF = nullptr;
 		Render();
 		return true;
-		}
+	}
 	else if (needRender)
-		{
+	{
 		JUserInputFunction* savedUIF = itsActiveUIF;
 		itsActiveUIF = nullptr;
 		Render();
 		itsActiveUIF = savedUIF;
 		return false;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -346,12 +346,12 @@ void
 JExprEditor::CancelEditing()
 {
 	if (itsActiveUIF != nullptr)
-		{
+	{
 		itsActiveUIF->Clear();
 		itsActiveUIF->Deactivate();
 		itsActiveUIF = nullptr;
 		Render();	// text of UIF may have changed
-		}
+	}
 }
 
 /******************************************************************************
@@ -363,16 +363,16 @@ void
 JExprEditor::Undo()
 {
 	if (itsUndoFunction == nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	JGetUserNotification()->SetSilent(true);
 	const bool currFnOK = EndEditing();
 	JGetUserNotification()->SetSilent(false);
 
 	if (currFnOK)
-		{
+	{
 		JFunction* savedF = itsFunction;
 		itsFunction       = itsUndoFunction;
 		itsUndoFunction   = savedF;
@@ -387,9 +387,9 @@ JExprEditor::Undo()
 		savedSel = itsSelection;
 		Render();
 		SetSelection(savedSel);
-		}
+	}
 	else
-		{
+	{
 		itsActiveUIF = nullptr;	// kill editing
 
 		itsFunction     = itsUndoFunction;
@@ -401,7 +401,7 @@ JExprEditor::Undo()
 		JIndex savedSel = itsSelection;
 		Render();
 		SetSelection(savedSel);
-		}
+	}
 }
 
 /******************************************************************************
@@ -443,11 +443,11 @@ JExprEditor::Cut()
 {
 	JFunction* f;
 	if (Cut(&f))
-		{
+	{
 		jdelete itsFunctionClip;
 		itsFunctionClip = f;
 		EIPClipboardChanged();
-		}
+	}
 }
 
 /******************************************************************************
@@ -465,14 +465,14 @@ JExprEditor::Cut
 	)
 {
 	if (Copy(f))
-		{
+	{
 		DeleteSelection();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -485,11 +485,11 @@ JExprEditor::Copy()
 {
 	JFunction* f;
 	if (Copy(&f))
-		{
+	{
 		jdelete itsFunctionClip;
 		itsFunctionClip = f;
 		EIPClipboardChanged();
-		}
+	}
 }
 
 /******************************************************************************
@@ -509,14 +509,14 @@ JExprEditor::Copy
 {
 	const JFunction* selF;
 	if (GetConstSelectedFunction(&selF))
-		{
+	{
 		*f = selF->Copy();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -532,30 +532,30 @@ JExprEditor::Paste()
 	JString text;
 	PasteResult result = kPasteOK;
 	if (itsFunctionClip != nullptr && EIPOwnsClipboard())
-		{
+	{
 		result = Paste(*itsFunctionClip);
-		}
+	}
 	else if (EIPGetExternalClipboard(&text))
-		{
+	{
 		un->SetSilent(true);
 		result = Paste(text);
 		un->SetSilent(false);
 
 		if (result == kParseError)
-			{
+		{
 			const JUtf8Byte* map[] =
-			{
+		{
 				"name", text.GetBytes()
-			};
+		};
 			const JString msg = JGetString("ParseError::JExprEditor", map, sizeof(map));
 			un->ReportError(msg);
-			}
 		}
+	}
 
 	if (result == kNowhereToPaste)
-		{
+	{
 		un->ReportError(JGetString("NowhereToPaste::JExprEditor"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -576,44 +576,44 @@ JExprEditor::Paste
 {
 	JFunction* selF;
 	if (GetSelectedFunction(&selF))
-		{
+	{
 		JExprParser p(this);
 		JFunction* newF;
 		if (p.Parse(expr, &newF))
-			{
+		{
 			SaveStateForUndo();
 			ReplaceFunction(selF, newF);
 			Render();
 			SelectFunction(newF);
 			return kPasteOK;
-			}
-		else
-			{
-			return kParseError;
-			}
 		}
-	else if (itsActiveUIF != nullptr && itsActiveUIF->IsEmpty())
+		else
 		{
+			return kParseError;
+		}
+	}
+	else if (itsActiveUIF != nullptr && itsActiveUIF->IsEmpty())
+	{
 		JExprParser p(this);
 		JFunction* newF;
 		if (p.Parse(expr, &newF))
-			{
+		{
 			SaveStateForUndo();
 			ReplaceFunction(itsActiveUIF, newF);
 			itsActiveUIF = nullptr;
 			Render();
 			SelectFunction(newF);
 			return kPasteOK;
-			}
+		}
 		else
-			{
-			return kParseError;
-			}
-		}
-	else
 		{
-		return kNowhereToPaste;
+			return kParseError;
 		}
+	}
+	else
+	{
+		return kNowhereToPaste;
+	}
 }
 
 /******************************************************************************
@@ -629,16 +629,16 @@ JExprEditor::Paste
 {
 	JFunction* selF;
 	if (GetSelectedFunction(&selF))
-		{
+	{
 		JFunction* newF = f.Copy();
 		SaveStateForUndo();
 		ReplaceFunction(selF, newF);
 		Render();
 		SelectFunction(newF);
 		return kPasteOK;
-		}
+	}
 	else if (itsActiveUIF != nullptr && itsActiveUIF->IsEmpty())
-		{
+	{
 		JFunction* newF = f.Copy();
 		SaveStateForUndo();
 		ReplaceFunction(itsActiveUIF, newF);
@@ -646,11 +646,11 @@ JExprEditor::Paste
 		Render();
 		SelectFunction(newF);
 		return kPasteOK;
-		}
+	}
 	else
-		{
+	{
 		return kNowhereToPaste;
-		}
+	}
 }
 
 /******************************************************************************
@@ -662,11 +662,11 @@ void
 JExprEditor::DeleteSelection()
 {
 	if (HasSelection())
-		{
+	{
 		SaveStateForUndo();
 		DeleteFunction( itsRectList->GetFunction(itsSelection) );
 		Render();
-		}
+	}
 }
 
 /******************************************************************************
@@ -694,13 +694,13 @@ JExprEditor::EvaluateSelection
 {
 	const JFunction* f;
 	if (GetConstSelectedFunction(&f))
-		{
+	{
 		return f->Evaluate(value);
-		}
+	}
 	else
-		{
+	{
 		return itsFunction->Evaluate(value);
-		}
+	}
 }
 
 /******************************************************************************
@@ -713,7 +713,7 @@ JExprEditor::NegateSelection()
 {
 	JFunction* f = itsActiveUIF;
 	if (f != nullptr || GetSelectedFunction(&f))
-		{
+	{
 		SaveStateForUndo();
 		JFunction* arg = f->Copy();
 		auto* neg = jnew JNegation(arg);
@@ -722,7 +722,7 @@ JExprEditor::NegateSelection()
 		ReplaceFunction(f, neg);
 		Render();
 		SelectFunction(arg);
-		}
+	}
 }
 
 /******************************************************************************
@@ -738,26 +738,26 @@ JExprEditor::ApplyFunctionToSelection
 {
 	JFunction* f = itsActiveUIF;
 	if (f != nullptr || GetSelectedFunction(&f))
-		{
+	{
 		JFunction* newF;
 		JFunction* newArg;
 		JUserInputFunction* newUIF;
 		if (ApplyFunction(fnName, *f, &newF, &newArg, &newUIF))
-			{
+		{
 			SaveStateForUndo();
 			itsActiveUIF = nullptr;
 			ReplaceFunction(f, newF);
 			Render();
 			if (newUIF != nullptr)
-				{
+			{
 				ActivateUIF(newUIF);
-				}
+			}
 			else
-				{
+			{
 				SelectFunction(newArg);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -785,22 +785,22 @@ JExprEditor::ApplyFunction
 
 	JSize argCount = 0;
 	if (!JGetArgCount(fnName, &argCount))
-		{
+	{
 		const JUtf8Byte* map[] =
-		{
+	{
 			"name", fnName.GetBytes()
-		};
+	};
 		const JString msg = JGetString("UnknownFunction::JExprEditor", map, sizeof(map));
 		JGetUserNotification()->ReportError(msg);
 		return false;
-		}
+	}
 
 	JString buffer(fnName);
 	buffer += "(";
 	for (JIndex i=1; i<argCount; i++)
-		{
+	{
 		buffer += "1,";
-		}
+	}
 	buffer += "1)";
 
 	const JSize origArgCount = argCount;
@@ -808,7 +808,7 @@ JExprEditor::ApplyFunction
 	JExprParser p(this);
 	const bool ok = p.Parse(buffer, newF);
 	if (ok)
-		{
+	{
 		*newArg = origF.Copy();
 
 		const bool isLogB = dynamic_cast<JLogB*>(*newF) != nullptr;
@@ -817,27 +817,27 @@ JExprEditor::ApplyFunction
 		assert( fwa != nullptr );
 		argCount = fwa->GetArgCount();
 		for (JIndex i=1; i<=argCount; i++)
-			{
+		{
 			if (i == 2 && isLogB)
-				{
+			{
 				fwa->SetArg(2, *newArg);
-				}
+			}
 			else if (i == 1 && !isLogB)
-				{
+			{
 				fwa->SetArg(1, *newArg);
-				}
+			}
 			else if (!isLogB || origArgCount > 1)
-				{
+			{
 				auto* uif = jnew JUserInputFunction(this);
 				assert( uif != nullptr );
 				fwa->SetArg(i, uif);
 				if (*newUIF == nullptr)
-					{
+				{
 					*newUIF = uif;
-					}
 				}
 			}
 		}
+	}
 	return ok;
 }
 
@@ -851,18 +851,18 @@ JExprEditor::AddArgument()
 {
 	JFunction* f;
 	if (GetSelectedFunction(&f))
-		{
+	{
 		auto* naryF = dynamic_cast<JNaryFunction*>(f);
 		if (naryF != nullptr)
-			{
+		{
 			SaveStateForUndo();
 			auto* uif = jnew JUserInputFunction(this);
 			assert( uif != nullptr );
 			naryF->AppendArg(uif);
 			Render();
 			ActivateUIF(uif);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -884,24 +884,24 @@ JExprEditor::MoveArgument
 	JFunction* f;
 	JFunction* parentF;
 	if (delta != 0 && GetNegAdjSelFunction(&f, &parentF))
-		{
+	{
 		auto* naryParentF = dynamic_cast<JNaryFunction*>(parentF);
 		if (naryParentF != nullptr)
-			{
+		{
 			JIndex argIndex;
 			const bool found = naryParentF->FindArg(f, &argIndex);
 			assert( found );
 			JIndex newIndex = argIndex + delta;
 			if (naryParentF->ArgIndexValid(newIndex))
-				{
+			{
 				SaveStateForUndo();
 				naryParentF->MoveArgToIndex(argIndex, newIndex);
 				itsActiveUIF = nullptr;
 				Render();
 				SelectFunction(f);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -923,15 +923,15 @@ JExprEditor::GroupArguments
 	JFunction* f;
 	JFunction* parentF;
 	if (delta == 0 || !GetNegAdjSelFunction(&f, &parentF))
-		{
+	{
 		return;
-		}
+	}
 
 	auto* naryParentF = dynamic_cast<JNaryOperator*>(parentF);
 	if (naryParentF == nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	JIndex argIndex;
 	const bool found = naryParentF->FindArg(f, &argIndex);
@@ -959,40 +959,40 @@ JExprEditor::GroupArguments
 	// (if gobbles last argument, remove parentF entirely)
 
 	if (extendNegation && argsInRange)
-		{
+	{
 		SaveStateForUndo();
 		auto* naryF = dynamic_cast<JNaryOperator*>(neg->GetArg());
 		assert( naryF != nullptr );
 		if (delta > 0)
-			{
+		{
 			for (JIndex i=1; i <= (JSize) delta; i++)
-				{
+			{
 				naryF->AppendArg(Negate(*(naryParentF->GetArg(argIndex+1))));
 				naryParentF->DeleteArg(argIndex+1);
-				}
 			}
+		}
 		else	// from above, know that delta != 0
-			{
+		{
 			for (JIndex i=1; i <= (JSize) -delta; i++)
-				{
+			{
 				naryF->PrependArg(Negate(*(naryParentF->GetArg(argIndex-i))));
 				naryParentF->DeleteArg(argIndex-i);
-				}
 			}
+		}
 		itsActiveUIF = nullptr;
 		if (groupAll)
-			{
+		{
 			f = f->Copy();
 			ReplaceFunction(parentF, f);
-			}
+		}
 		Render();
 		SelectFunction(f);
-		}
+	}
 
 	// create a new JNaryOperator to contain the group
 
 	else if (!sameType && argsInRange && !groupAll)
-		{
+	{
 		JIndex i;
 		SaveStateForUndo();
 
@@ -1003,21 +1003,21 @@ JExprEditor::GroupArguments
 		auto* group = dynamic_cast<JNaryOperator*>(newF);
 		assert( group != nullptr );
 		while (group->GetArgCount() > lastArg)
-			{
+		{
 			group->DeleteArg(lastArg+1);
-			}
+		}
 		for (i=1; i<firstArg; i++)
-			{
+		{
 			group->DeleteArg(1);
-			}
+		}
 
 		// Replace the original args from the parent function
 		// with the new group.
 
 		for (i=1; i<=lastArg-firstArg+1; i++)
-			{
+		{
 			naryParentF->DeleteArg(firstArg);
-			}
+		}
 		naryParentF->InsertArg(firstArg, group);
 
 		// show the result
@@ -1025,42 +1025,42 @@ JExprEditor::GroupArguments
 		itsActiveUIF = nullptr;
 		Render();
 		SelectFunction(group);
-		}
+	}
 
 	// add the arguments to the existing group
 
 	else if (sameType && argsInRange && !groupAll)
-		{
+	{
 		SaveStateForUndo();
 		auto* naryF = dynamic_cast<JNaryOperator*>(f);
 		assert( naryF != nullptr );
 		if (delta > 0)
-			{
+		{
 			for (JIndex i=1; i <= (JSize) delta; i++)
-				{
+			{
 				naryF->AppendArg((naryParentF->GetArg(argIndex+1))->Copy());
 				naryParentF->DeleteArg(argIndex+1);
-				}
 			}
+		}
 		else	// from above, know that delta != 0
-			{
+		{
 			for (JIndex i=1; i <= (JSize) -delta; i++)
-				{
+			{
 				naryF->PrependArg((naryParentF->GetArg(argIndex-i))->Copy());
 				naryParentF->DeleteArg(argIndex-i);
-				}
 			}
+		}
 		itsActiveUIF = nullptr;
 		Render();
 		SelectFunction(f);
-		}
+	}
 
 	// group all arguments => just remove existing group
 
 	else if (sameType && argsInRange && groupAll)
-		{
+	{
 		UngroupArguments();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1076,12 +1076,12 @@ JExprEditor::UngroupArguments()
 	JFunction* f;
 	JFunction* parentF;
 	if (GetNegAdjSelFunction(&f, &parentF))
-		{
+	{
 		auto* naryF       = dynamic_cast<JNaryOperator*>(f);
 		auto* naryParentF = dynamic_cast<JNaryOperator*>(parentF);
 		if (naryF != nullptr && naryParentF != nullptr &&
 			typeid(*naryF) == typeid(*naryParentF))
-			{
+		{
 			SaveStateForUndo();
 
 			JIndex argIndex;
@@ -1090,27 +1090,27 @@ JExprEditor::UngroupArguments()
 
 			const JSize fArgCount = naryF->GetArgCount();
 			for (JIndex i=1; i<=fArgCount; i++)
-				{
+			{
 				naryParentF->InsertArg(argIndex+i, (naryF->GetArg(i))->Copy());
-				}
+			}
 			naryParentF->DeleteArg(argIndex);
 
 			itsActiveUIF = nullptr;
 			Render();
 			SelectFunction(naryParentF);
-			}
+		}
 
 		// handle special case w+x-(y+z)
 
 		else if (naryParentF != nullptr &&
 				 typeid(*naryParentF) == typeid(JSummation) &&
 				 typeid(*f)           == typeid(JNegation))
-			{
+		{
 			const auto* neg = dynamic_cast<const JUnaryFunction*>(f);
 			assert( neg != nullptr );
 			const auto* naryF = dynamic_cast<const JNaryOperator*>(neg->GetArg());
 			if (naryF != nullptr && typeid(*naryF) == typeid(JSummation))
-				{
+			{
 				SaveStateForUndo();
 
 				JIndex argIndex;
@@ -1119,17 +1119,17 @@ JExprEditor::UngroupArguments()
 
 				const JSize fArgCount = naryF->GetArgCount();
 				for (JIndex i=1; i<=fArgCount; i++)
-					{
+				{
 					naryParentF->InsertArg(argIndex+i, Negate(*(naryF->GetArg(i))));
-					}
+				}
 				naryParentF->DeleteArg(argIndex);
 
 				itsActiveUIF = nullptr;
 				Render();
 				SelectFunction(naryParentF);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1149,15 +1149,15 @@ JExprEditor::Negate
 {
 	const auto* neg = dynamic_cast<const JUnaryFunction*>(&f);
 	if (neg != nullptr)
-		{
+	{
 		return (neg->GetArg())->Copy();
-		}
+	}
 	else
-		{
+	{
 		JFunction* neg = jnew JNegation(f.Copy());
 		assert( neg != nullptr );
 		return neg;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1201,14 +1201,14 @@ JExprEditor::GetSelectionRect
 	const
 {
 	if (HasSelection())
-		{
+	{
 		*selRect = itsRectList->GetRect(itsSelection);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1225,14 +1225,14 @@ JExprEditor::GetSelectedFunction
 	)
 {
 	if (HasSelection())
-		{
+	{
 		*f = itsRectList->GetFunction(itsSelection);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 // public
@@ -1245,14 +1245,14 @@ JExprEditor::GetConstSelectedFunction	// to avoid "ambiguous reference" errors
 	const
 {
 	if (HasSelection())
-		{
+	{
 		*f = itsRectList->GetFunction(itsSelection);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1281,30 +1281,30 @@ JExprEditor::GetNegAdjSelFunction
 	if ((*selF != nullptr ||
 		 GetConstSelectedFunction(const_cast<const JFunction**>(selF))) &&
 		*selF != itsFunction)
-		{
+	{
 		bool hasParent = (**selF).GetParent(parentF);
 		assert( hasParent );
 
 		JFunction* grandparentF = nullptr;
 		if (*parentF != itsFunction)
-			{
+		{
 			hasParent = (**parentF).GetParent(&grandparentF);
 			assert( hasParent );
-			}
+		}
 
 		if (typeid(**parentF) == typeid(JNegation) &&
 			grandparentF != nullptr && typeid(*grandparentF) == typeid(JSummation))
-			{
+		{
 			*selF    = *parentF;
 			*parentF = grandparentF;
-			}
+		}
 
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1320,19 +1320,19 @@ JExprEditor::SetSelection
 {
 	if (itsRectList != nullptr &&
 		index != itsSelection && itsRectList->SelectionValid(index))
-		{
+	{
 		itsSelection = index;
 		if (!EIPScrollToRect(itsRectList->GetRect(itsSelection)))
-			{
+		{
 			EIPRedraw();
-			}
 		}
+	}
 	else if (itsRectList != nullptr &&
 			 index == 0 && itsSelection != 0)
-		{
+	{
 		itsSelection = 0;
 		EIPRedraw();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1345,10 +1345,10 @@ JExprEditor::ClearSelection()
 {
 	if (itsRectList != nullptr &&
 		itsRectList->SelectionValid(itsSelection))
-		{
+	{
 		itsSelection = 0;
 		EIPRedraw();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1371,32 +1371,32 @@ JExprEditor::SelectFunction
 {
 	const bool wasItsFunction = f == itsFunction;
 	if (itsRectList != nullptr && EndEditing())
-		{
+	{
 		if (wasItsFunction)		// in case itsFunction was single, active UIF
-			{
+		{
 			f = itsFunction;
-			}
+		}
 
 		JIndex fIndex;
 		bool found = itsRectList->FindFunction(f, &fIndex);
 		while (!found)
-			{
+		{
 			const auto* fwa = dynamic_cast<const JFunctionWithArgs*>(f);
 			assert( fwa != nullptr && fwa->GetArgCount() > 0 );
 			f     = fwa->GetArg(1);
 			found = itsRectList->FindFunction(f, &fIndex);
-			}
+		}
 
 		const auto* uif = dynamic_cast<const JUserInputFunction*>(f);
 		if (uif != nullptr)
-			{
+		{
 			ActivateUIF(const_cast<JUserInputFunction*>(uif));
-			}
-		else
-			{
-			SetSelection(fIndex);
-			}
 		}
+		else
+		{
+			SetSelection(fIndex);
+		}
+	}
 }
 
 /******************************************************************************
@@ -1410,18 +1410,18 @@ void
 JExprEditor::SetNormalFont()
 {
 	if (itsActiveUIF != nullptr)
-		{
+	{
 		itsActiveUIF->SetGreek(false);
-		}
+	}
 }
 
 void
 JExprEditor::SetGreekFont()
 {
 	if (itsActiveUIF != nullptr)
-		{
+	{
 		itsActiveUIF->SetGreek(true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1443,14 +1443,14 @@ JExprEditor::GetCmdStatus
 {
 	JArray<bool> flags(kCmdCount);
 	for (JIndex i=1; i<=kCmdCount; i++)
-		{
+	{
 		flags.AppendElement(false);
-		}
+	}
 
 	if (itsFunction == nullptr || itsRectList == nullptr || !itsActiveFlag)
-		{
+	{
 		return flags;
-		}
+	}
 
 	flags.SetElement(kEvaluateSelCmd, CanDisplaySelectionValue());
 	flags.SetElement(kSelectAllCmd, true);
@@ -1459,21 +1459,21 @@ JExprEditor::GetCmdStatus
 	const bool hasSelection = itsRectList->SelectionValid(itsSelection);
 
 	if (itsUndoFunction != nullptr)
-		{
+	{
 		flags.SetElement(kUndoCmd, true);
-		}
+	}
 	if (hasSelection || (itsActiveUIF != nullptr && itsActiveUIF->IsEmpty()))
-		{
+	{
 		flags.SetElement(kPasteCmd, true);
-		}
+	}
 
 	if (evalStr != nullptr)
-		{
+	{
 		*evalStr = JGetString(hasSelection ? "EvalSelectionCmd::JExprEditor" : "EvalFnCmd::JExprEditor");
-		}
+	}
 
 	if (hasSelection)
-		{
+	{
 		flags.SetElement(kCutCmd, true);
 		flags.SetElement(kCopyCmd, true);
 		flags.SetElement(kDeleteSelCmd, true);
@@ -1483,73 +1483,73 @@ JExprEditor::GetCmdStatus
 
 		JFunction* selF = itsRectList->GetFunction(itsSelection);
 		if (dynamic_cast<JNaryFunction*>(selF) != nullptr)
-			{
+		{
 			flags.SetElement(kAddArgCmd, true);
-			}
 		}
+	}
 
 	if (itsActiveUIF != nullptr)
-		{
+	{
 		flags.SetElement(kNegateSelCmd, true);
 		flags.SetElement(kApplyFnToSelCmd, true);
 
 		if (itsActiveUIF->IsGreek())
-			{
+		{
 			flags.SetElement(kSetGreekFontCmd, true);
-			}
-		else
-			{
-			flags.SetElement(kSetNormalFontCmd, true);
-			}
 		}
+		else
+		{
+			flags.SetElement(kSetNormalFontCmd, true);
+		}
+	}
 
 	JFunction *selF, *parentF;
 	if (GetNegAdjSelFunction(&selF, &parentF))
-		{
+	{
 		auto* naryParentF = dynamic_cast<JNaryFunction*>(parentF);
 		if (naryParentF != nullptr)
-			{
+		{
 			const JSize parentArgCount = naryParentF->GetArgCount();
 			JIndex argIndex;
 			const bool found = naryParentF->FindArg(selF, &argIndex);
 			assert( found );
 			if (argIndex > 1)
-				{
+			{
 				flags.SetElement(kMoveArgLeftCmd, true);
-				}
+			}
 			if (argIndex < parentArgCount)
-				{
+			{
 				flags.SetElement(kMoveArgRightCmd, true);
-				}
+			}
 
 			if (dynamic_cast<JNaryOperator*>(naryParentF) != nullptr)
-				{
+			{
 				if (argIndex > 1)
-					{
+				{
 					flags.SetElement(kGroupLeftCmd, true);
-					}
+				}
 				if (argIndex < parentArgCount)
-					{
+				{
 					flags.SetElement(kGroupRightCmd, true);
-					}
+				}
 				if (typeid(*selF) == typeid(*naryParentF))
-					{
+				{
 					flags.SetElement(kUngroupCmd, true);
-					}
+				}
 				else if (typeid(*naryParentF) == typeid(JSummation) &&
 						 typeid(*selF)        == typeid(JNegation))
-					{
+				{
 					const auto* neg = dynamic_cast<const JUnaryFunction*>(selF);
 					assert( neg != nullptr );
 					const JFunction* negArg = neg->GetArg();
 					if (typeid(*negArg) == typeid(JSummation))
-						{
+					{
 						flags.SetElement(kUngroupCmd, true);
-						}
 					}
 				}
 			}
 		}
+	}
 
 	return flags;
 }
@@ -1593,16 +1593,16 @@ JExprEditor::Print
 	const JRect bounds = GetPrintBounds();
 
 	if (p.WantsPreview())
-		{
+	{
 		JPainter& p1 = p.GetPreviewPainter(bounds);
 		EIPDraw(p1);
-		}
+	}
 
 	if (p.OpenDocument(bounds))
-		{
+	{
 		EIPDraw(p);
 		p.CloseDocument();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1656,13 +1656,13 @@ JExprEditor::EIPDraw
 
 	JRect selRect;
 	if (GetSelectionRect(&selRect))
-		{
+	{
 		p.SetPenColor(itsSelectionColor);
 		p.SetFilling(true);
 		p.Rect(selRect);
 		p.SetFilling(false);
 		p.SetPenColor(itsTextColor);
-		}
+	}
 
 	// draw the function
 
@@ -1687,55 +1687,55 @@ JExprEditor::EIPHandleMouseDown
 {
 	itsDragType = kInvalidDrag;
 	if (!itsActiveFlag)
-		{
+	{
 		return;
-		}
+	}
 
 	// If the user clicked on the active UIF, let it handle the click.
 
 	if (itsRectList != nullptr && MouseOnActiveUIF(currPt))
-		{
+	{
 		itsDragType = kSendToUIF;
 		const bool redraw =
 			itsActiveUIF->HandleMouseDown(currPt, extend, *itsRectList, *this);
 		if (redraw)
-			{
+		{
 			EIPRedraw();
-			}
 		}
+	}
 
 	// The click is for us.  We let the user select something.
 
 	else if (itsRectList != nullptr)
-		{
+	{
 		itsDragType = kSelectExpr;
 		if (itsActiveUIF != nullptr && !EndEditing())
-			{
+		{
 			itsDragType = kInvalidDrag;
 			return;
-			}
+		}
 
 		itsPrevSelectedFunction = nullptr;
 		const bool hasSelection = itsRectList->SelectionValid(itsSelection);
 		if (hasSelection)
-			{
+		{
 			itsPrevSelectedFunction = itsRectList->GetFunction(itsSelection);
-			}
+		}
 
 		if (extend && hasSelection)
-			{
+		{
 			const JRect origSelRect = itsRectList->GetRect(itsSelection);
 			itsStartPt.x = origSelRect.xcenter();
 			itsStartPt.y = origSelRect.ycenter();
-			}
+		}
 		else
-			{
+		{
 			itsStartPt = currPt;
-			}
+		}
 
 		const JIndex newSelection = itsRectList->GetSelection(itsStartPt, currPt);
 		SetSelection(newSelection);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1750,25 +1750,25 @@ JExprEditor::EIPHandleMouseDrag
 	)
 {
 	if (itsRectList != nullptr && itsDragType == kSelectExpr)
-		{
+	{
 		EIPScrollForDrag(currPt);
 
 		const JIndex newSelection = itsRectList->GetSelection(itsStartPt, currPt);
 		if (newSelection != itsSelection)
-			{
+		{
 			itsSelection = newSelection;
 			EIPRedraw();
-			}
 		}
+	}
 	else if (itsRectList != nullptr && itsDragType == kSendToUIF)
-		{
+	{
 		const bool redraw =
 			itsActiveUIF->HandleMouseDrag(currPt, *itsRectList, *this);
 		if (redraw)
-			{
+		{
 			EIPRedraw();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1784,13 +1784,13 @@ JExprEditor::EIPHandleMouseUp()
 {
 	if (itsRectList != nullptr && itsDragType == kSelectExpr &&
 		itsRectList->SelectionValid(itsSelection))
-		{
+	{
 		assert( itsActiveUIF == nullptr );
 
 		JFunction* selectedF = itsRectList->GetFunction(itsSelection);
 		const std::type_info& selectedFType = typeid(*selectedF);
 		if (selectedFType == typeid(JUserInputFunction))
-			{
+		{
 			auto* uif = dynamic_cast<JUserInputFunction*>(selectedF);
 			assert( uif != nullptr );
 			ActivateUIF(uif);
@@ -1798,26 +1798,26 @@ JExprEditor::EIPHandleMouseUp()
 			itsActiveUIF->HandleMouseDown(itsStartPt, false, *itsRectList, *this);
 			itsActiveUIF->HandleMouseUp();
 			EIPRefresh();
-			}
+		}
 		else if ((selectedFType == typeid(JConstantValue) ||
 				  selectedFType == typeid(JVariableValue)) &&
 				 selectedF == itsPrevSelectedFunction)
-			{
+		{
 			SaveStateForUndo();
 			JString s;
 			if (selectedFType == typeid(JConstantValue))
-				{
+			{
 				auto* constVal = dynamic_cast<JConstantValue*>(selectedF);
 				assert( constVal != nullptr );
 				s = JString(constVal->GetValue());
-				}
+			}
 			else
-				{
+			{
 				assert( selectedFType == typeid(JVariableValue) );
 				auto* varVal = dynamic_cast<JFunctionWithVar*>(selectedF);
 				assert( varVal != nullptr );
 				s = itsVarList->GetVariableName(varVal->GetVariableIndex());
-				}
+			}
 			auto* newUIF = jnew JUserInputFunction(this, s);
 			assert( newUIF != nullptr );
 			ReplaceFunction(selectedF, newUIF);
@@ -1827,16 +1827,16 @@ JExprEditor::EIPHandleMouseUp()
 			itsActiveUIF->HandleMouseDown(itsStartPt, false, *itsRectList, *this);
 			itsActiveUIF->HandleMouseUp();
 			EIPRefresh();
-			}
 		}
+	}
 	else if (itsDragType == kSendToUIF)
-		{
+	{
 		const bool redraw = itsActiveUIF->HandleMouseUp();
 		if (redraw)
-			{
+		{
 			EIPRefresh();
-			}
 		}
+	}
 
 	itsDragType = kInvalidDrag;
 }
@@ -1871,20 +1871,20 @@ JExprEditor::EIPHandleKeyPress
 	)
 {
 	if (itsFunction == nullptr || itsRectList == nullptr || !itsActiveFlag)
-		{
+	{
 		return;
-		}
+	}
 	else if (key == '\t')
-		{
+	{
 		ActivateNextUIF();
 		return;
-		}
+	}
 
 	const bool selectionValid = itsRectList->SelectionValid(itsSelection);
 	if (!selectionValid && itsActiveUIF == nullptr)
-		{
+	{
 		return;
-		}
+	}
 	assert( ( selectionValid && itsActiveUIF == nullptr) ||
 			(!selectionValid && itsActiveUIF != nullptr) );
 
@@ -1894,12 +1894,12 @@ JExprEditor::EIPHandleKeyPress
 			(key == ',' && CanApplyCommaOperator());
 
 	if (selectionValid && (key == ' ' || key == ')'))
-		{
+	{
 		SetSelection(itsRectList->GetParent(itsSelection));
-		}
+	}
 
 	else if (selectionValid && key == kJDeleteKey)
-		{
+	{
 		SaveStateForUndo();
 
 		// replace selection with JUserInputFunction
@@ -1910,19 +1910,19 @@ JExprEditor::EIPHandleKeyPress
 		ReplaceFunction(selectedF, newUIF);
 		Render();
 		ActivateUIF(newUIF);
-		}
+	}
 
 	else if (selectionValid && key.IsPrint())
-		{
+	{
 		SaveStateForUndo();
 
 		JFunction* selectedF = itsRectList->GetFunction(itsSelection);
 		if (isOperatorKey)
-			{
+		{
 			ApplyOperatorKey(key, selectedF);
-			}
+		}
 		else
-			{
+		{
 			// replace selection with JUserInputFunction
 
 			auto* newUIF = jnew JUserInputFunction(this);
@@ -1936,74 +1936,74 @@ JExprEditor::EIPHandleKeyPress
 			ReplaceFunction(selectedF, newUIF);
 			Render();
 			ActivateUIF(newUIF);
-			}
 		}
+	}
 
 	else if (itsActiveUIF != nullptr && key == kJEscapeKey)
-		{
+	{
 		if (!itsActiveUIF->IsEmpty())
-			{
+		{
 			itsActiveUIF->Clear();
 			JUserInputFunction* savedUIF = itsActiveUIF;
 			itsActiveUIF = nullptr;
 			Render();
 			itsActiveUIF = savedUIF;
-			}
 		}
+	}
 
 	else if (itsActiveUIF != nullptr &&
 			 (isOperatorKey ||
 			  key == '\n' || key == '\r' || key == ' ' || key == ')'))
-		{
+	{
 		JFunction* arg1 = nullptr;
 		JUserInputFunction* newUIF = nullptr;
 		bool needRender;
 		if (itsActiveUIF->Parse(key, &arg1, &newUIF, &needRender))
-			{
+		{
 			assert( newUIF == nullptr );
 			ReplaceFunction(itsActiveUIF, arg1);
 			itsActiveUIF = nullptr;
 			if (isOperatorKey)
-				{
+			{
 				SaveStateForUndo();
 				ApplyOperatorKey(key, arg1);
-				}
+			}
 			else
-				{
+			{
 				assert( key == '\n' || key == '\r' || key == ' ' || key == ')' );
 
 				// select the new function
 
 				Render();
 				SelectFunction(arg1);
-				}
 			}
+		}
 		else if (needRender)
-			{
+		{
 			JUserInputFunction* savedUIF = itsActiveUIF;
 			itsActiveUIF = nullptr;
 			Render();
 			itsActiveUIF = savedUIF;
-			}
 		}
+	}
 
 	else if (itsActiveUIF != nullptr && itsActiveUIF != itsFunction &&
 			 itsActiveUIF->IsEmpty() && key == kJDeleteKey)
-		{
+	{
 		SaveStateForUndo();
 
 		JFunction* fToSelect = DeleteFunction(itsActiveUIF);
 		itsActiveUIF = nullptr;
 		Render();
 		SelectFunction(fToSelect);
-		}
+	}
 
 	else if (itsActiveUIF != nullptr)
-		{
+	{
 		if (itsUndoFunction == nullptr)
-			{
+		{
 			SaveStateForUndo();
-			}
+		}
 
 		bool needParse, needRender;
 		const bool changed = itsActiveUIF->HandleKeyPress(key, &needParse, &needRender);
@@ -2011,24 +2011,24 @@ JExprEditor::EIPHandleKeyPress
 		JFunction* newF = nullptr;
 		JUserInputFunction* newUIF = nullptr;
 		if (needParse && itsActiveUIF->Parse(key, &newF, &newUIF, &needRender))
-			{
+		{
 			ReplaceFunction(itsActiveUIF, newF);
 			itsActiveUIF = nullptr;
 			Render();
 			ActivateUIF(newUIF);
-			}
+		}
 		else if (needRender)
-			{
+		{
 			JUserInputFunction* savedUIF = itsActiveUIF;
 			itsActiveUIF = nullptr;
 			Render();
 			itsActiveUIF = savedUIF;
-			}
-		else if (changed)
-			{
-			EIPRefresh();
-			}
 		}
+		else if (changed)
+		{
+			EIPRefresh();
+		}
+	}
 }
 
 /******************************************************************************
@@ -2050,97 +2050,97 @@ JExprEditor::ApplyOperatorKey
 	JFunction* parentF = nullptr;
 	const std::type_info* parentType = & typeid(JVariableValue);
 	if (targetF != itsFunction)
-		{
+	{
 		const bool hasParent = targetF->GetParent(&parentF);
 		assert( hasParent );
 
 		parentType = & typeid(*parentF);
-		}
+	}
 
 	auto* newUIF = jnew JUserInputFunction(this);
 	assert( newUIF != nullptr );
 
 	JFunction* newArg = newUIF;
 	if (key == '-')
-		{
+	{
 		newArg = jnew JNegation(newUIF);
 		assert( newArg != nullptr );
-		}
+	}
 
 	JFunction* newF = nullptr;
 
 	if (((key == '+' || key == '-') && targetType == typeid(JSummation)) ||
 		(key == '*' && targetType == typeid(JProduct)) ||
 		(key == '|' && targetType == typeid(JParallel)))
-		{
+	{
 		auto* naryOp = dynamic_cast<JNaryOperator*>(targetF);
 		assert( naryOp != nullptr );
 		naryOp->SetArg(naryOp->GetArgCount()+1, newArg);
-		}
+	}
 	else if (parentF != nullptr &&
 			(((key == '+' || key == '-') && *parentType == typeid(JSummation)) ||
 			 (key == '*' && *parentType == typeid(JProduct)) ||
 			 (key == '|' && *parentType == typeid(JParallel))))
-		{
+	{
 		auto* naryOp = dynamic_cast<JNaryOperator*>(parentF);
 		assert( naryOp != nullptr );
 		JIndex selFIndex;
 		const bool found = naryOp->FindArg(targetF, &selFIndex);
 		assert( found );
 		naryOp->InsertArg(selFIndex+1, newArg);
-		}
+	}
 	else if (key == '+' || key == '-' || key == '*' || key == '|')
-		{
+	{
 		JNaryOperator* newOp = nullptr;
 		if (key == '+' || key == '-')
-			{
+		{
 			newOp = jnew JSummation;
-			}
+		}
 		else if (key == '*')
-			{
+		{
 			newOp = jnew JProduct;
-			}
+		}
 		else
-			{
+		{
 			assert( key == '|' );
 			newOp = jnew JParallel;
-			}
+		}
 		assert( newOp != nullptr );
 		newOp->SetArg(1, targetF->Copy());
 		newOp->SetArg(2, newArg);
 		newF = newOp;
-		}
+	}
 
 	else if (key == '/')
-		{
+	{
 		newF = jnew JDivision(targetF->Copy(), newArg);
 		assert( newF != nullptr );
-		}
+	}
 
 	else if (key == '^')
-		{
+	{
 		newF = jnew JExponent(targetF->Copy(), newArg);
 		assert( newF != nullptr );
-		}
+	}
 
 	else if (key == ',')
-		{
+	{
 		JNaryFunction* commaTargetF;
 		JIndex newArgIndex;
 		const bool found = GetCommaTarget(targetF, &commaTargetF, &newArgIndex);
 		assert( found );
 		commaTargetF->InsertArg(newArgIndex, newArg);
-		}
+	}
 
 	else
-		{
+	{
 		assert( 0 );	// this is an error and should never happen
-		}
+	}
 
 	if (newF != nullptr)
-		{
+	{
 		ReplaceFunction(targetF, newF);
-		}
+	}
 	Render();
 	ActivateUIF(newUIF);
 }
@@ -2158,9 +2158,9 @@ JExprEditor::CanApplyCommaOperator()
 {
 	JFunction* startF;
 	if (!GetSelectedFunction(&startF))
-		{
+	{
 		startF = itsActiveUIF;
-		}
+	}
 
 	JNaryFunction* targetF;
 	JIndex newArgIndex;
@@ -2184,28 +2184,28 @@ JExprEditor::GetCommaTarget
 	)
 {
 	if (startF == itsFunction)
-		{
+	{
 		return false;
-		}
+	}
 
 	JFunction* currF = startF;
 	JFunction* parentF = nullptr;
 	while (currF != itsFunction)
-		{
+	{
 		const bool hasParent = currF->GetParent(&parentF);
 		assert( hasParent );
 
 		auto* naryParentF = dynamic_cast<JNaryFunction*>(parentF);
 		if (naryParentF != nullptr && dynamic_cast<JNaryOperator*>(parentF) == nullptr)
-			{
+		{
 			*targetF             = naryParentF;
 			const bool found = naryParentF->FindArg(currF, newArgIndex);
 			assert( found );
 			(*newArgIndex)++;	// insert after current arg
 			return true;
-			}
-		currF = parentF;
 		}
+		currF = parentF;
+	}
 
 	// falling through means that we can't find an nary function
 
@@ -2224,7 +2224,7 @@ JExprEditor::ActivateUIF
 	)
 {
 	if (itsActiveFlag && uif != nullptr && uif != itsActiveUIF && EndEditing())
-		{
+	{
 		itsActiveUIF = uif;
 		uif->Activate();
 		itsSelection = 0;
@@ -2233,10 +2233,10 @@ JExprEditor::ActivateUIF
 		const bool found = itsRectList->FindFunction(uif, &uifIndex);
 		assert( found );
 		if (!EIPScrollToRect(itsRectList->GetRect(uifIndex)))
-			{
+		{
 			EIPRefresh();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -2249,13 +2249,13 @@ JExprEditor::ActivateNextUIF()
 {
 	JUserInputFunction* nextUIF = FindNextUIF(itsActiveUIF);
 	if (nextUIF != itsActiveUIF)
-		{
+	{
 		ActivateUIF(nextUIF);
-		}
+	}
 	else if (itsActiveUIF != nullptr && !itsActiveUIF->IsEmpty())
-		{
+	{
 		EndEditing();
-		}
+	}
 	// if itsActiveUIF is empty, leave it active
 }
 
@@ -2273,10 +2273,10 @@ JExprEditor::DeleteFunction
 	)
 {
 	if (targetF == itsFunction)
-		{
+	{
 		PrivateClearFunction();
 		return itsFunction;
-		}
+	}
 
 	JFunction* parentF;
 	bool hasParent = targetF->GetParent(&parentF);
@@ -2284,61 +2284,61 @@ JExprEditor::DeleteFunction
 
 	auto* parentfwa = dynamic_cast<JFunctionWithArgs*>(parentF);
 	if (parentfwa == nullptr || parentfwa->GetArgCount() == 1)
-		{
+	{
 		JFunction* currentF = parentF;
 		while (true)
-			{
+		{
 			if (currentF == itsFunction)
-				{
+			{
 				PrivateClearFunction();
 				return itsFunction;
-				}
+			}
 			JFunction* ancestorF;
 			hasParent = currentF->GetParent(&ancestorF);
 			assert( hasParent );
 
 			parentfwa = dynamic_cast<JFunctionWithArgs*>(ancestorF);
 			if (parentfwa != nullptr && parentfwa->GetArgCount() > 1)
-				{
+			{
 				targetF = currentF;
 				parentF = ancestorF;
 				break;
-				}
+			}
 			else
-				{
+			{
 				currentF = ancestorF;
-				}
 			}
 		}
+	}
 
 	JFunction* fToSelect = nullptr;
 
 	const JSize parentArgCount = parentfwa->GetArgCount();
 	if (parentArgCount == 2)
-		{
+	{
 		JFunction* arg1 = parentfwa->GetArg(1);
 		JFunction* arg2 = parentfwa->GetArg(2);
 		JFunction* savedF = nullptr;
 		if (arg1 == targetF)
-			{
+		{
 			savedF = arg2->Copy();
-			}
+		}
 		else
-			{
+		{
 			assert( arg2 == targetF );
 			savedF = arg1->Copy();
-			}
+		}
 		ReplaceFunction(parentF, savedF);
 		fToSelect = savedF;
-		}
+	}
 	else if (parentArgCount > 2)
-		{
+	{
 		auto* naryF = dynamic_cast<JNaryFunction*>(parentF);
 		assert( naryF != nullptr );
 		const bool ok = naryF->DeleteArg(targetF);
 		assert( ok );
 		fToSelect = naryF;
-		}
+	}
 
 	return fToSelect;
 }
@@ -2356,12 +2356,12 @@ JExprEditor::ReplaceFunction
 	)
 {
 	if (origF == itsFunction)
-		{
+	{
 		jdelete itsFunction;
 		itsFunction = newF;
-		}
+	}
 	else
-		{
+	{
 		JFunction* parentF;
 		const bool hasParent = origF->GetParent(&parentF);
 		assert( hasParent );
@@ -2369,17 +2369,17 @@ JExprEditor::ReplaceFunction
 		auto* fwa = dynamic_cast<JFunctionWithArgs*>(parentF);
 		auto* fwv  = dynamic_cast<JFunctionWithVar*>(parentF);
 		if (fwa != nullptr)
-			{
+		{
 			const bool ok = fwa->ReplaceArg(origF, newF);
 			assert( ok );
-			}
+		}
 		else
-			{
+		{
 			assert( fwv != nullptr );
 			assert( fwv->GetArrayIndex() == origF );
 			fwv->SetArrayIndex(newF);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -2396,32 +2396,32 @@ JExprEditor::FindNextUIF
 {
 	JIndex currentIndex = 0;
 	if (currUIF != nullptr)
-		{
+	{
 		const bool found = itsRectList->FindFunction(currUIF, &currentIndex);
 		assert( found );
-		}
+	}
 
 	const JSize rectCount = itsRectList->GetElementCount();
 
 	for (JIndex i=currentIndex+1; i<=rectCount; i++)
-		{
+	{
 		const JFunction* f = itsRectList->GetFunction(i);
 		const auto* uif = dynamic_cast<const JUserInputFunction*>(f);
 		if (uif != nullptr)
-			{
+		{
 			return const_cast<JUserInputFunction*>(uif);
-			}
 		}
+	}
 
 	for (JIndex i=1; i<=currentIndex; i++)
-		{
+	{
 		const JFunction* f = itsRectList->GetFunction(i);
 		const auto* uif = dynamic_cast<const JUserInputFunction*>(f);
 		if (uif != nullptr)
-			{
+		{
 			return const_cast<JUserInputFunction*>(uif);
-			}
 		}
+	}
 
 	return nullptr;
 }
@@ -2475,18 +2475,18 @@ JExprEditor::Receive
 {
 	if (sender == const_cast<JVariableList*>(itsVarList) &&
 		message.Is(JVariableList::kVarNameChanged))
-		{
+	{
 		JIndex savedSel = itsSelection;
 		JUserInputFunction* savedUIF = itsActiveUIF;
 		itsActiveUIF = nullptr;
 		Render();
 		itsActiveUIF = savedUIF;
 		SetSelection(savedSel);
-		}
+	}
 	else
-		{
+	{
 		JBroadcaster::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2520,13 +2520,13 @@ JExprEditor::GetSuperSubFontSize
 {
 	const JSize size = JFontManager::GetDefaultFontSize();
 	if (baseFontSize == size)
-		{
+	{
 		return size-2;
-		}
+	}
 	else
-		{
+	{
 		return size-4;
-		}
+	}
 }
 
 /******************************************************************************

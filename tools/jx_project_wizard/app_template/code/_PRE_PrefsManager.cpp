@@ -72,9 +72,9 @@ void
 	)
 {
 	if (isNew)
-		{
+	{
 		SetData(k<PRE>ProgramVersionID, <PRE>GetVersionNumberStr());
-		}
+	}
 }
 
 /******************************************************************************
@@ -128,15 +128,15 @@ bool
 {
 	std::string data;
 	if (GetData(id, &data))
-		{
+	{
 		std::istringstream dataStream(data);
 		dataStream >> *desktopLoc >> *width >> *height;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -172,24 +172,24 @@ void
 	)
 {
 	if (sender == itsPrefsDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			// replace with whatever is appropriate
 			JString data;
 
 			itsPrefsDialog->GetValues(&data);
 
 			// store data somehow
-			}
-		itsPrefsDialog = nullptr;
 		}
+		itsPrefsDialog = nullptr;
+	}
 
 	else
-		{
+	{
 		JXPrefsManager::Receive(sender, message);
-		}
+	}
 }

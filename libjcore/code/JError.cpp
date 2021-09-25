@@ -9,9 +9,9 @@
 		Consider the following code:
 
 		JError foo()
-		{
+	{
 			return JUnknownError();
-		}
+	}
 
 		If this looks scary to you, you understand C++.  If you understand
 		why this compiles, you grok C++.  What happens is that an object of
@@ -62,13 +62,13 @@ JError::JError
 	JBroadcaster::Message(type)
 {
 	if (JString::IsEmpty(msg))
-		{
+	{
 		itsMessage = JGetString(type);
-		}
+	}
 	else
-		{
+	{
 		itsMessage.Set(msg);
-		}
+	}
 }
 
 /******************************************************************************
@@ -107,9 +107,9 @@ JError::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	JBroadcaster::Message::operator=(source);
 
@@ -155,9 +155,9 @@ JError::ReportIfError()
 	const
 {
 	if (!OK())
-		{
+	{
 		JGetUserNotification()->ReportError(GetMessage());
-		}
+	}
 }
 
 /******************************************************************************
@@ -184,9 +184,9 @@ JUnknownError::JUnknownError
 	const JString errStr(err, 0);
 
 	const JUtf8Byte* map[] =
-		{
+	{
 		"err", errStr.GetBytes()
-		};
+	};
 	SetMessage(map, sizeof(map));
 }
 
@@ -200,8 +200,8 @@ JUnexpectedError::JUnexpectedError
 	const JString errStr(err, 0);
 
 	const JUtf8Byte* map[] =
-		{
+	{
 		"err", errStr.GetBytes()
-		};
+	};
 	SetMessage(map, sizeof(map));
 }

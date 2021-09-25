@@ -62,13 +62,13 @@ JXToolBarEditDir::JXToolBarEditDir
 	itsShowToolBarCB->SetState(show);
 	itsUseSmallButtonsCB->SetState(useSmall);
 	if ((type == JXToolBarButton::kImage) || (type == JXToolBarButton::kBoth))
-		{
+	{
 		itsShowImagesCB->SetState(true);
-		}
+	}
 	if ((type == JXToolBarButton::kText) || (type == JXToolBarButton::kBoth))
-		{
+	{
 		itsShowTextCB->SetState(true);
-		}
+	}
 
 }
 
@@ -215,13 +215,13 @@ JXToolBarEditDir::Receive
 	)
 {
 	if (sender == itsTree && message.Is(JTree::kNodeChanged))
-		{
+	{
 		itsTreeChanged = true;
-		}
+	}
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -258,12 +258,12 @@ JXToolBarEditDir::GetType()
 	bool text	= itsShowTextCB->IsChecked();
 
 	if (images && !text)
-		{
+	{
 		return JXToolBarButton::kImage;
-		}
+	}
 	else if (text && !images)
-		{
+	{
 		return JXToolBarButton::kText;
-		}
+	}
 	return JXToolBarButton::kBoth;
 }

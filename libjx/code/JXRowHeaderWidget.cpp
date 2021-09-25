@@ -112,14 +112,14 @@ JXRowHeaderWidget::GetRowTitle
 	const
 {
 	if (itsTitles != nullptr)
-		{
+	{
 		const JString* str = itsTitles->GetElement(index);
 		if (str != nullptr)
-			{
+		{
 			*title = *str;
 			return true;
-			}
 		}
+	}
 
 	title->Clear();
 	return false;
@@ -138,16 +138,16 @@ JXRowHeaderWidget::SetRowTitle
 	)
 {
 	if (itsTitles == nullptr)
-		{
+	{
 		itsTitles = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( itsTitles != nullptr );
 
 		const JSize rowCount = GetRowCount();
 		for (JIndex i=1; i<=rowCount; i++)
-			{
+		{
 			itsTitles->Append(nullptr);
-			}
 		}
+	}
 
 	itsTitles->SetElement(index, title, JPtrArrayT::kDelete);
 }
@@ -164,9 +164,9 @@ JXRowHeaderWidget::ClearRowTitle
 	)
 {
 	if (itsTitles != nullptr)
-		{
+	{
 		itsTitles->SetToNull(index, JPtrArrayT::kDelete);
-		}
+	}
 }
 
 /******************************************************************************
@@ -205,18 +205,18 @@ JXRowHeaderWidget::TableDrawCell
 	JString str;
 	bool hasTitle = false;
 	if (itsTitles != nullptr)
-		{
+	{
 		const JString* title = itsTitles->GetElement(cell.y);
 		if (title != nullptr)
-			{
+		{
 			str      = *title;
 			hasTitle = true;
-			}
 		}
+	}
 	if (!hasTitle)
-		{
+	{
 		str = JString((JUInt64) cell.y);
-		}
+	}
 
 	const JFont font = JFontManager::GetFont(
 			JFontManager::GetDefaultFontName(),
@@ -227,10 +227,10 @@ JXRowHeaderWidget::TableDrawCell
 
 	const JCoordinate wmin = p.GetStringWidth(str) + 2*itsHMarginWidth;
 	if (rect.width() < wmin && itsMaxBcastWidth < wmin)
-		{
+	{
 		Broadcast(NeedsToBeWidened(wmin - itsMaxBcastWidth));
 		itsMaxBcastWidth = wmin;
-		}
+	}
 }
 
 /******************************************************************************
@@ -269,23 +269,23 @@ JXRowHeaderWidget::HandleMouseDown
 {
 	itsDragType = kInvalidDrag;
 	if (!itsAllowRowResizingFlag)
-		{
+	{
 		return;
-		}
+	}
 
 	const bool inDragRegion = InDragRegion(pt, &itsDragCell);
 
 	if (inDragRegion && button == kJXLeftButton)
-		{
+	{
 		itsDragCellRect = GetCellRect(itsDragCell);
 		if (modifiers.meta())
-			{
+		{
 			itsDragType = kDragAllRows;
-			}
+		}
 		else
-			{
+		{
 			itsDragType = kDragOneRow;
-			}
+		}
 
 		JPainter* p = CreateDragOutsidePainter();
 		JRect defClipRect = p->GetDefaultClipRect();
@@ -297,7 +297,7 @@ JXRowHeaderWidget::HandleMouseDown
 		const JRect enclAp = JXContainer::GlobalToLocal(GetEnclosure()->GetApertureGlobal());
 		p->Line(enclAp.left, pt.y, enclAp.right, pt.y);
 		itsPrevPt = pt;
-		}
+	}
 }
 
 /******************************************************************************
@@ -314,20 +314,20 @@ JXRowHeaderWidget::HandleMouseDrag
 	)
 {
 	if (itsDragType != kInvalidDrag)
-		{
+	{
 		JPoint pt = origPt;
 
 		// keep col width larger than minimum
 
 		if (pt.y < itsDragCellRect.top + itsMinRowHeight)
-			{
+		{
 			pt.y = itsDragCellRect.top + itsMinRowHeight;
-			}
+		}
 
 		// check if we have moved
 
 		if (pt.y != itsPrevPt.y)
-			{
+		{
 			JPainter* p = nullptr;
 			const bool ok = GetDragPainter(&p);
 			assert( ok );
@@ -344,16 +344,16 @@ JXRowHeaderWidget::HandleMouseDrag
 			const JCoordinate x = tableAp.xcenter();
 			const JRect tableRect(ptT.y-1, x-1, ptT.y+1, x+1);
 			if (itsTable->ScrollToRect(tableRect))
-				{
+			{
 				GetWindow()->Update();
 				enclAp = JXContainer::GlobalToLocal(enclApG);	// local coords changed
-				}
+			}
 			else
-				{
+			{
 				// erase the old line
 
 				p->Line(enclAp.left, itsPrevPt.y, enclAp.right, itsPrevPt.y);
-				}
+			}
 
 			// draw the new line
 
@@ -362,8 +362,8 @@ JXRowHeaderWidget::HandleMouseDrag
 			// ready for next call
 
 			itsPrevPt = pt;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -383,7 +383,7 @@ JXRowHeaderWidget::HandleMouseUp
 	)
 {
 	if (itsDragType != kInvalidDrag)
-		{
+	{
 		// erase the line
 
 		JPainter* p = nullptr;
@@ -399,16 +399,16 @@ JXRowHeaderWidget::HandleMouseUp
 
 		const JCoordinate rowHeight = itsPrevPt.y - itsDragCellRect.top;
 		if (itsDragType == kDragOneRow)
-			{
+		{
 			itsTable->SetRowHeight(itsDragCell.y, rowHeight);
-			}
+		}
 		else
-			{
+		{
 			assert( itsDragType == kDragAllRows );
 			itsTable->SetDefaultRowHeight(rowHeight);
 			itsTable->SetAllRowHeights(rowHeight);
-			}
 		}
+	}
 
 	itsDragType = kInvalidDrag;
 }
@@ -430,17 +430,17 @@ JXRowHeaderWidget::AdjustCursor
 	JPoint cell;
 	const bool inDragRegion = InDragRegion(pt, &cell);
 	if (itsAllowRowResizingFlag && inDragRegion && modifiers.meta())
-		{
+	{
 		DisplayCursor(itsDragAllLineCursor);
-		}
+	}
 	else if (itsAllowRowResizingFlag && inDragRegion)
-		{
+	{
 		DisplayCursor(itsDragLineCursor);
-		}
+	}
 	else
-		{
+	{
 		JXEditTable::AdjustCursor(pt, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -463,14 +463,14 @@ JXRowHeaderWidget::InDragRegion
 
 	JPoint virtualPt(pt.x, pt.y - halfWidth);
 	if (GetCell(virtualPt, cell))
-		{
+	{
 		JRect cellRect = GetCellRect(*cell);
 		if (cellRect.bottom - halfWidth <= pt.y &&
 			pt.y <= cellRect.bottom + halfWidth)
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -509,84 +509,84 @@ JXRowHeaderWidget::Receive
 
 	if (sender == const_cast<JXScrollbar*>(itsVScrollbar) &&
 		message.Is(JXScrollbar::kScrolled))
-		{
+	{
 		ScrollTo(0, itsVScrollbar->GetValue());
-		}
+	}
 
 	// rows changed
 
 	else if (sender == itsTable && message.Is(JTable::kRowHeightChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTable::RowHeightChanged*>(&message);
 		assert( info != nullptr );
 		SetRowHeight(info->GetIndex(), info->GetNewRowHeight());
-		}
+	}
 
 	else if (sender == itsTable && message.Is(JTable::kAllRowHeightsChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTable::AllRowHeightsChanged*>(& message);
 		assert( info != nullptr );
 		SetAllRowHeights(info->GetNewRowHeight());
-		}
+	}
 
 	else if (sender == itsTable && message.Is(JTable::kRowsInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTable::RowsInserted*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
-			{
+		{
 			for (JIndex i=1; i<=info->GetCount(); i++)
-				{
+			{
 				itsTitles->InsertAtIndex(info->GetFirstIndex(), (JString*) nullptr);
-				}
 			}
-		InsertRows(info->GetFirstIndex(), info->GetCount(), info->GetRowHeight());
 		}
+		InsertRows(info->GetFirstIndex(), info->GetCount(), info->GetRowHeight());
+	}
 
 	else if (sender == itsTable && message.Is(JTable::kRowsRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTable::RowsRemoved*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
-			{
+		{
 			for (JIndex i=1; i<=info->GetCount(); i++)
-				{
+			{
 				itsTitles->DeleteElement(info->GetFirstIndex());
-				}
 			}
-		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
 		}
+		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
+	}
 
 	else if (sender == itsTable && message.Is(JTable::kRowMoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTable::RowMoved*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
-			{
+		{
 			itsTitles->MoveElementToIndex(info->GetOrigIndex(), info->GetNewIndex());
-			}
-		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
 		}
+		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
+	}
 
 	else if (sender == itsTable && message.Is(JTable::kRowBorderWidthChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTable::RowBorderWidthChanged*>(&message);
 		assert( info != nullptr );
 		SetRowBorderInfo(info->GetNewBorderWidth(), JColorManager::GetDefaultBackColor());
-		}
+	}
 
 	// something else
 
 	else
-		{
+	{
 		JXEditTable::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -608,9 +608,9 @@ JXRowHeaderWidget::AdjustToTable()
 
 	const JSize rowCount = itsTable->GetRowCount();
 	for (JIndex i=1; i<=rowCount; i++)
-		{
+	{
 		InsertRows(i, 1, itsTable->GetRowHeight(i));
-		}
+	}
 }
 
 /******************************************************************************

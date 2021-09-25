@@ -92,14 +92,14 @@ JXChooseFileDialog::GetFullName
 {
 	const JDirEntry* entry;
 	if (GetFileBrowser()->GetFirstSelection(&entry))
-		{
+	{
 		*fullName = entry->GetFullName();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -118,19 +118,19 @@ JXChooseFileDialog::GetFullNames
 
 	JPtrArray<JDirEntry> entryList(JPtrArrayT::kDeleteAll);
 	if (GetFileBrowser()->GetSelection(&entryList))
-		{
+	{
 		for (const auto* entry : entryList)
-			{
+		{
 			auto* s = jnew JString(entry->GetFullName());
 			assert( s != nullptr );
 			fullNameList->Append(s);
-			}
+		}
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -265,13 +265,13 @@ JXChooseFileDialog::SetObjects
 	)
 {
 	if (itsSelectMultipleFlag)
-		{
+	{
 		(scrollbarSet->GetWindow())->SetTitle(JGetString("ChooseFilesTitle::JXChooseFileDialog"));
-		}
+	}
 	else
-		{
+	{
 		(scrollbarSet->GetWindow())->SetTitle(JGetString("ChooseFileTitle::JXChooseFileDialog"));
-		}
+	}
 
 	itsOpenButton      = openButton;
 	itsSelectAllButton = selectAllButton;
@@ -289,13 +289,13 @@ JXChooseFileDialog::SetObjects
 	ListenTo(&(fileBrowser->GetTableSelection()));
 
 	if (itsSelectMultipleFlag)
-		{
+	{
 		ListenTo(itsSelectAllButton);
-		}
+	}
 	else
-		{
+	{
 		itsSelectAllButton->Hide();
-		}
+	}
 
 	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXGlobal"));
 
@@ -304,14 +304,14 @@ JXChooseFileDialog::SetObjects
 	JIndex index;
 	if (!origName.IsEmpty() &&
 		fileBrowser->ClosestMatch(origName, &index))
-		{
+	{
 		const JDirEntry& entry = GetDirInfo()->GetEntry(index);
 		if (entry.GetName() == origName)
-			{
+		{
 			fileBrowser->UpdateScrollbars();
 			fileBrowser->SelectSingleEntry(index);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -344,37 +344,37 @@ JXChooseFileDialog::Receive
 	JXDirTable* fileBrowser = GetFileBrowser();
 
 	if (sender == fileBrowser && message.Is(JXDirTable::kFileDblClicked))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDirTable::FileDblClicked*>(&message);
 		assert( info != nullptr );
 		if (info->IsActive())
-			{
+		{
 			EndDialog(true);
-			}
 		}
+	}
 
 	else if (sender == itsSelectAllButton && message.Is(JXButton::kPushed))
-		{
+	{
 		fileBrowser->SelectAll();
-		}
+	}
 
 	else if (sender == fileBrowser &&
 			 (message.Is(JXWidget::kGotFocus) ||
 			  message.Is(JXWidget::kLostFocus)))
-		{
+	{
 		UpdateDisplay();
-		}
+	}
 
 	else
-		{
+	{
 		if (sender == &(fileBrowser->GetTableSelection()))
-			{
+		{
 			UpdateDisplay();
-			}
+		}
 
 		JXCSFDialogBase::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -391,13 +391,13 @@ JXChooseFileDialog::UpdateDisplay()
 
 	JXDirTable* dirTable = GetFileBrowser();
 	if (dirTable->HasFocus() && !dirTable->HasSelection())
-		{
+	{
 		itsOpenButton->Deactivate();
-		}
+	}
 	else
-		{
+	{
 		itsOpenButton->Activate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -409,50 +409,50 @@ bool
 JXChooseFileDialog::OKToDeactivate()
 {
 	if (!JXCSFDialogBase::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 
 	JXPathInput* pathInput = GetPathInput();
 	if (pathInput->HasFocus())
-		{
+	{
 		GoToItsPath();
 		return false;
-		}
+	}
 
 	JXInputField* filterInput = GetFilterInput();
 	if (filterInput->HasFocus())
-		{
+	{
 		AdjustFilter();
 		return false;
-		}
+	}
 
 	JXDirTable* fileBrowser = GetFileBrowser();
 	if (fileBrowser->GoToSelectedDirectory())
-		{
+	{
 		return false;
-		}
+	}
 
 	JPtrArray<JDirEntry> entryList(JPtrArrayT::kDeleteAll);
 	if (fileBrowser->GetSelection(&entryList))
-		{
+	{
 		for (auto* entry : entryList)
-			{
+		{
 			entry->ForceUpdate();	// check that link hasn't been broken behind our back
 			if (!entry->IsFile())
-				{
+			{
 				GetDirInfo()->ForceUpdate();
 				return false;
-				}
 			}
+		}
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }

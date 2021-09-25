@@ -93,15 +93,15 @@ JRotateComplex::Evaluate
 {
 	JComplex x;
 	if (!(GetArg1())->Evaluate(&x))
-		{
+	{
 		return false;
-		}
+	}
 
 	JFloat a;
 	if (!(GetArg2())->Evaluate(&a))
-		{
+	{
 		return false;
-		}
+	}
 
 	jclear_errno();
 	*result = x * exp(JComplex(0.0, a));

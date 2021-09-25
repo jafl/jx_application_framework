@@ -56,9 +56,9 @@ JXUNDialogBase::Init
 	)
 {
 	if (JUserNotification::GetBreakMessageCROnly())
-		{
+	{
 		text->SetBreakCROnly(true);
-		}
+	}
 	text->GetText()->SetText(message);
 
 	// adjust window size to fit text - more sophisticated than ftc
@@ -70,26 +70,26 @@ JXUNDialogBase::Init
 	const JSize prefw = text->TEGetMinPreferredGUIWidth();
 	const JSize apw   = apG.width();
 	if (prefw > apw)
-		{
+	{
 		dw = prefw - apw;
 		text->AdjustSize(dw, 0);
-		}
+	}
 
 	JSize dh              = 0;
 	const JSize aph       = apG.height();
 	const JCoordinate dw1 = text->GetFrameWidth();
 	while (true)
-		{
+	{
 		const JSize bdh = text->GetBoundsHeight();
 		if (bdh > aph)
-			{
+		{
 			dh = bdh - aph;
-			}
+		}
 
 		if (window->GetBoundsHeight() + dh <= (JSize) dB.height())
-			{
+		{
 			break;
-			}
+		}
 
 		// We don't check for excessive width because excessive height is worse.
 		// Excessive height means that the title bar won't be visible.
@@ -100,12 +100,12 @@ JXUNDialogBase::Init
 		// catch the case when the height doesn't decrease
 
 		if (text->GetBoundsHeight() == (JCoordinate) bdh)
-			{
+		{
 			dw -= dw1;
 			text->AdjustSize(-dw1, 0);
 			break;
-			}
 		}
+	}
 
 	text->SetSizing(JXWidget::kFixedLeft, JXWidget::kVElastic);		// maintain width
 

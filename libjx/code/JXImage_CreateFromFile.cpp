@@ -28,24 +28,24 @@ JXImage::CreateFromFile
 {
 	const FileType type = GetFileType(fileName);
 	if (type == kGIFType)
-		{
+	{
 		return CreateFromGIF(display, fileName, image);
-		}
+	}
 	else if (type == kPNGType)
-		{
+	{
 		return CreateFromPNG(display, fileName, image);
-		}
+	}
 	else if (type == kJPEGType)
-		{
+	{
 		return CreateFromJPEG(display, fileName, image);
-		}
+	}
 	else if (type == kXPMType)
-		{
+	{
 		return CreateFromXPM(display, fileName, image);
-		}
+	}
 	else
-		{
+	{
 		*image = nullptr;
 		return UnknownFileType(fileName);
-		}
+	}
 }

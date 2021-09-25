@@ -68,20 +68,20 @@ JXVIKeyHandler::HandleKeyPress
 {
 	bool result;
 	if (PrehandleKeyPress(key, &result))
-		{
+	{
 		return result;
-		}
+	}
 
 	if (key == JXCtrl('U') || key == JXCtrl('D'))
-		{
+	{
 		JXScrollbar *h, *v;
 		if (itsJXTE->GetScrollbars(&h, &v))
-			{
+		{
 			JInteger lineCount = JRound(v->GetPageStepSize() / (JFloat) v->GetStepSize()) / 2;
 			if (key == JXCtrl('U'))
-				{
+			{
 				lineCount = -lineCount;
-				}
+			}
 
 			const bool save = JXTEBase::CaretWillFollowScroll();
 			JXTEBase::CaretShouldFollowScroll(false);
@@ -89,41 +89,41 @@ JXVIKeyHandler::HandleKeyPress
 			JXTEBase::CaretShouldFollowScroll(save);
 
 			MoveCaretVert(lineCount);
-			}
+		}
 		ClearKeyBuffers();
 		return true;
-		}
+	}
 	else if (key == JXCtrl('B') || key == JXCtrl('F'))
-		{
+	{
 		JXScrollbar *h, *v;
 		if (itsJXTE->GetScrollbars(&h, &v))
-			{
+		{
 			const bool save = JXTEBase::CaretWillFollowScroll();
 			JXTEBase::CaretShouldFollowScroll(true);
 			v->StepPage(key == JXCtrl('B') ? -1 : +1);
 			JXTEBase::CaretShouldFollowScroll(save);
-			}
+		}
 		ClearKeyBuffers();
 		return true;
-		}
+	}
 
 	else if (key == '/' || key == '?')
-		{
+	{
 		JXSearchTextDialog* dlog = JXGetSearchTextDialog();
 		dlog->SetRegexSearch();
 		dlog->Activate();
 		ClearKeyBuffers();
 		return true;
-		}
+	}
 	else if (key == 'n')
-		{
+	{
 		itsJXTE->SearchForward();
 		ClearKeyBuffers();
 		return true;
-		}
+	}
 
 	else
-		{
+	{
 		return JVIKeyHandler::HandleKeyPress(key, selectText, motion, deleteToTabStop);
-		}
+	}
 }

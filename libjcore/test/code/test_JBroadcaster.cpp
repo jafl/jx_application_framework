@@ -22,9 +22,9 @@ public:
 
 	void
 	Bcast(Message& msg)
-	{
+{
 		Broadcast(msg);
-	};
+};
 };
 
 JTEST(Broadcaster)

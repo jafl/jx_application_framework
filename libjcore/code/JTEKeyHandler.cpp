@@ -72,17 +72,17 @@ JTEKeyHandler::BackwardDelete
 	)
 {
 	if (itsTE->HasSelection())
-		{
+	{
 		if (text != nullptr)
-			{
-			itsTE->GetSelection(text);
-			}
-		itsTE->DeleteSelection();
-		}
-	else
 		{
-		itsTE->BackwardDelete(deleteToTabStop, text);
+			itsTE->GetSelection(text);
 		}
+		itsTE->DeleteSelection();
+	}
+	else
+	{
+		itsTE->BackwardDelete(deleteToTabStop, text);
+	}
 }
 
 /******************************************************************************
@@ -98,17 +98,17 @@ JTEKeyHandler::ForwardDelete
 	)
 {
 	if (itsTE->HasSelection())
-		{
+	{
 		if (text != nullptr)
-			{
-			itsTE->GetSelection(text);
-			}
-		itsTE->DeleteSelection();
-		}
-	else
 		{
-		itsTE->ForwardDelete(deleteToTabStop, text);
+			itsTE->GetSelection(text);
 		}
+		itsTE->DeleteSelection();
+	}
+	else
+	{
+		itsTE->ForwardDelete(deleteToTabStop, text);
+	}
 }
 
 /******************************************************************************

@@ -49,11 +49,11 @@ TestPrefsManager::UpgradeData
 	)
 {
 	if (isNew)
-		{
+	{
 		JAssertTrue(IsEmpty());
-		}
+	}
 	else
-		{
+	{
 		JAssertEqual(0, currentVersion);
-		}
+	}
 }

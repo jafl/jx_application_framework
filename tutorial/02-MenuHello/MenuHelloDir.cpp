@@ -130,7 +130,7 @@ MenuHelloDir::Receive
 	// Check to see if our menu is broadcasting a message. It simply
 	// broadcasts to everyone who is listening (via "ListenTo(...)")
 	if (sender == itsTextMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 
 		// We need to cast the sender in order to get access to its
 		// member function - GetIndex() in this case.
@@ -140,13 +140,13 @@ MenuHelloDir::Receive
 
 		// Pass the index to a menu handler function
 		HandleTextMenu(selection->GetIndex());
-		}
+	}
 
 	// If we don't handle the message, we need to pass it to the base class
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender,message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -164,12 +164,12 @@ MenuHelloDir::HandleTextMenu
 {
 	// Check to see which menu item was selected, and set the text accordingly
 	if (index == kHello)
-		{
+	{
 		itsText->SetText("Hello world!");
-		}
+	}
 
 	else if (index == kGoodbye)
-		{
+	{
 		itsText->SetText("Goodbye cruel world!");
-		}
+	}
 }

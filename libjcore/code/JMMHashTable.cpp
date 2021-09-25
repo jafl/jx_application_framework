@@ -40,10 +40,10 @@ JMMHashTable::JMMHashTable
 	assert(itsAllocatedTable != nullptr);
 
 	if (recordDelete)
-		{
+	{
 		itsDeletedTable = jnew JHashTable<JMMRecord>(kInitialSize);
 		assert(itsDeletedTable != nullptr);
-		}
+	}
 }
 
 /******************************************************************************
@@ -93,13 +93,13 @@ JSize
 JMMHashTable::GetDeletedCount() const
 {
 	if (itsDeletedTable != nullptr)
-		{
+	{
 		return itsDeletedTable->GetElementCount();
-		}
+	}
 	else
-		{
+	{
 		return itsDeletedCount;
-		}
+	}
 }
 
 /******************************************************************************
@@ -132,33 +132,33 @@ JMMHashTable::PrintAllocated
 	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
 	JSize totalSize = 0;
 	while ( cursor.NextFull() )
-		{
+	{
 		const JMMRecord thisRecord = cursor.GetValue();
 		if ( !thisRecord.IsManagerMemory() )
-			{
+		{
 			PrintAllocatedRecord(thisRecord);
 			totalSize += thisRecord.GetSize();
-			}
 		}
+	}
 
 	std::cout << "\nTotal allocated memory:  " << totalSize << " bytes" << std::endl;
 
 	if (printInternal)
-		{
+	{
 		std::cout << "\nThe following blocks are probably owned by the memory manager"
 				  << "\nand *should* still be allocated--please report all cases of user"
 				  << "\nallocated memory showing up on this list!" << std::endl;
 
 		cursor.Reset();
 		while ( cursor.NextFull() )
-			{
+		{
 			const JMMRecord thisRecord = cursor.GetValue();
 			if ( thisRecord.IsManagerMemory() )
-				{
+			{
 				PrintAllocatedRecord(thisRecord);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -176,15 +176,15 @@ JMMHashTable::StreamAllocatedForDebug
 {
 	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
 	while ( cursor.NextFull() )
-		{
+	{
 		const JMMRecord thisRecord = cursor.GetValue();
 		if (filter.Match(thisRecord))
-			{
+		{
 			output << ' ' << JBoolToString(true);
 			output << ' ';
 			thisRecord.StreamForDebug(output);
-			}
 		}
+	}
 
 	output << ' ' << JBoolToString(false);
 }
@@ -206,9 +206,9 @@ JMMHashTable::StreamAllocationSizeHistogram
 
 	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
 	while ( cursor.NextFull() )
-		{
+	{
 		AddToHistogram(cursor.GetValue(), histo);
-		}
+	}
 
 	StreamHistogram(output, histo);
 }
@@ -227,21 +227,21 @@ JMMHashTable::_AddNewRecord
 {
 	JHashCursor<JMMRecord> cursor(itsAllocatedTable, reinterpret_cast<JHashValue>( record.GetAddress() ) );
 	if (checkDoubleAllocation)
-		{
+	{
 		cursor.ForceNextMapInsertHash();
 		if ( cursor.IsFull() )
-			{
+		{
 			JMMRecord thisRecord = cursor.GetValue();
 			itsAllocatedBytes   -= thisRecord.GetSize();
 			NotifyMultipleAllocation(record, thisRecord);
-			}
+		}
 		// Might as well trust malloc--the table should never have duplicate
 		// entries!
-		}
+	}
 	else
-		{
+	{
 		cursor.ForceNextOpen();
-		}
+	}
 	cursor.Set(reinterpret_cast<JHashValue>( record.GetAddress() ), record);
 	itsAllocatedBytes += record.GetSize();
 }
@@ -263,63 +263,63 @@ JMMHashTable::_SetRecordDeleted
 {
 	JHashCursor<JMMRecord> allocCursor(itsAllocatedTable, reinterpret_cast<JHashValue>(block) );
 	if ( allocCursor.NextHash() )
-		{
+	{
 		JMMRecord thisRecord = allocCursor.GetValue();
 		thisRecord.SetDeleteLocation(file, line, isArray);
 		itsAllocatedBytes -= thisRecord.GetSize();
 
 		if (!thisRecord.ArrayNew() && isArray)
-			{
+		{
 			NotifyObjectDeletedAsArray(thisRecord);
-			}
+		}
 		else if (thisRecord.ArrayNew() && !isArray)
-			{
+		{
 			NotifyArrayDeletedAsObject(thisRecord);
-			}
+		}
 
 		allocCursor.Remove();
 		if (itsDeletedTable != nullptr)
-			{
+		{
 			JHashCursor<JMMRecord> deallocCursor(itsDeletedTable, reinterpret_cast<JHashValue>(block) );
 			deallocCursor.ForceNextOpen();
 			deallocCursor.Set(reinterpret_cast<JHashValue>(block), thisRecord);
-			}
+		}
 		else
-			{
+		{
 			itsDeletedCount++;
-			}
+		}
 
 		*record = thisRecord;
 		return true;
-		}
+	}
 	else if (itsDeletedTable == nullptr)
-		{
+	{
 		NotifyUnallocatedDeletion(file, line, isArray);
 		return false;
-		}
+	}
 	else
-		{
+	{
 		JHashCursor<JMMRecord> deallocCursor(itsDeletedTable, reinterpret_cast<JHashValue>(block) );
 		if ( deallocCursor.NextHash() )
-			{
+		{
 			// Seek most recent deallocation at that address
 			JMMRecord previousRecord = deallocCursor.GetValue();
 			while ( deallocCursor.NextHash() )
-				{
+			{
 				JMMRecord thisRecord = deallocCursor.GetValue();
 				if ( thisRecord.GetID() > previousRecord.GetID() )
-					{
+				{
 					previousRecord = thisRecord;
-					}
 				}
+			}
 
 			NotifyMultipleDeletion(previousRecord, file, line, isArray);
-			}
+		}
 		else
-			{
+		{
 			NotifyUnallocatedDeletion(file, line, isArray);
-			}
+		}
 
 		return false;
-		}
+	}
 }

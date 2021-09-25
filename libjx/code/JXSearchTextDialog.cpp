@@ -138,12 +138,12 @@ JXSearchTextDialog::Activate()
 	JXWindowDirector::Activate();
 
 	if (IsActive())
-		{
+	{
 		itsSearchInput->Focus();
 		itsSearchInput->SelectAll();
 
 		itsUpdateTask->Start();
-		}
+	}
 }
 
 /******************************************************************************
@@ -155,19 +155,19 @@ bool
 JXSearchTextDialog::Deactivate()
 {
 	if (JXWindowDirector::Deactivate())
-		{
+	{
 		if (itsNeedXSearchBcastFlag)
-			{
+		{
 			SetXSearch();
-			}
+		}
 
 		itsUpdateTask->Stop();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -194,9 +194,9 @@ JXSearchTextDialog::SetSearchText
 	)
 {
 	if (str != itsSearchInput->GetText()->GetText())
-		{
+	{
 		itsSearchInput->GetText()->SetText(str);
-		}
+	}
 	itsSearchInput->Focus();
 	itsSearchInput->SelectAll();
 //	itsPrevSearchMenu->AddString(str);
@@ -229,9 +229,9 @@ JXSearchTextDialog::SetReplaceText
 	)
 {
 	if (str != itsReplaceInput->GetText()->GetText())
-		{
+	{
 		itsReplaceInput->GetText()->SetText(str);
-		}
+	}
 	itsReplaceInput->Focus();
 	itsReplaceInput->SelectAll();
 //	itsPrevReplaceMenu->AddString(str);
@@ -521,7 +521,7 @@ JXSearchTextDialog::SetObjects
 	itsPreserveCaseCB->SetShortcuts(JGetString("PreserveCaseShortcut::JXSearchTextDialog"));
 
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
+	{
 		itsFindFwdButton->SetShortcuts(JGetString("FindForwardMacShortcut::JXSearchTextDialog"));
 		itsFindFwdButton->SetHint(JGetString("FindForwardMacHint::JXSearchTextDialog"));
 
@@ -534,9 +534,9 @@ JXSearchTextDialog::SetObjects
 		itsReplaceFindFwdButton->SetHint(JGetString("ReplaceFindForwardMacHint::JXSearchTextDialog"));
 
 		itsReplaceFindBackButton->SetHint(JGetString("ReplaceFindBackMacHint::JXSearchTextDialog"));
-		}
+	}
 	else
-		{
+	{
 		itsFindFwdButton->SetShortcuts(JGetString("FindForwardWinShortcut::JXSearchTextDialog"));
 		itsFindFwdButton->SetHint(JGetString("FindForwardWinHint::JXSearchTextDialog"));
 
@@ -549,7 +549,7 @@ JXSearchTextDialog::SetObjects
 		itsReplaceFindFwdButton->SetHint(JGetString("ReplaceFindForwardWinHint::JXSearchTextDialog"));
 
 		itsReplaceFindBackButton->SetHint(JGetString("ReplaceFindBackWinHint::JXSearchTextDialog"));
-		}
+	}
 
 	JXKeyModifiers modifiers(GetDisplay());
 	window->InstallShortcut(itsFindFwdButton, JXCtrl('M'), modifiers);
@@ -564,10 +564,10 @@ JXSearchTextDialog::SetObjects
 	window->InstallShortcut(itsReplaceIsRegexCB, 'X', modifiers);
 
 	if (JXMenu::GetDefaultStyle() != JXMenu::kMacintoshStyle)
-		{
+	{
 		modifiers.SetState(kJXMetaKeyIndex, false);
 		modifiers.SetState(kJXControlKeyIndex, true);
-		}
+	}
 
 	window->InstallShortcut(itsFindBackButton, 'g', modifiers);
 	window->InstallShortcut(itsFindBackButton, 'G', modifiers);
@@ -633,128 +633,128 @@ JXSearchTextDialog::Receive
 
 	JXWindowDirector* director = nullptr;
 	if (itsTE != nullptr)
-		{
+	{
 		director = (itsTE->GetWindow())->GetDirector();
-		}
+	}
 
 	if (sender == itsFindFwdButton && message.Is(JXButton::kPushed))
-		{
+	{
 		if (itsTE != nullptr && itsTE->SearchForward())
-			{
-			found = true;
-			director->Activate();
-			}
-		}
-	else if (sender == itsFindBackButton && message.Is(JXButton::kPushed))
 		{
-		if (itsTE != nullptr && itsTE->SearchBackward())
-			{
 			found = true;
 			director->Activate();
-			}
 		}
+	}
+	else if (sender == itsFindBackButton && message.Is(JXButton::kPushed))
+	{
+		if (itsTE != nullptr && itsTE->SearchBackward())
+		{
+			found = true;
+			director->Activate();
+		}
+	}
 
 	else if (sender == itsReplaceButton && message.Is(JXButton::kPushed))
-		{
+	{
 		if (itsTE != nullptr && itsTE->ReplaceSelection())
-			{
+		{
 			found = true;
 			director->Activate();
-			}
 		}
+	}
 
 	else if (sender == itsReplaceFindFwdButton && message.Is(JXButton::kPushed))
-		{
+	{
 		if (itsTE != nullptr && itsTE->ReplaceAndSearchForward())
-			{
-			found = true;
-			director->Activate();
-			}
-		}
-	else if (sender == itsReplaceFindBackButton && message.Is(JXButton::kPushed))
 		{
-		if (itsTE != nullptr && itsTE->ReplaceAndSearchBackward())
-			{
 			found = true;
 			director->Activate();
-			}
 		}
+	}
+	else if (sender == itsReplaceFindBackButton && message.Is(JXButton::kPushed))
+	{
+		if (itsTE != nullptr && itsTE->ReplaceAndSearchBackward())
+		{
+			found = true;
+			director->Activate();
+		}
+	}
 
 	else if ((sender == itsReplaceAllButton || sender == itsReplaceAllInSelButton) &&
 			 message.Is(JXButton::kPushed))
-		{
+	{
 		if (itsTE != nullptr && itsTE->ReplaceAll(sender == itsReplaceAllInSelButton))
-			{
+		{
 			found = true;
 			director->Activate();
-			}
 		}
+	}
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
-		{
+	{
 		JGetWebBrowser()->ShowURL(JGetString("HelpURL::JXSearchTextDialog"));
-		}
+	}
 	else if (sender == itsQRefButton && message.Is(JXButton::kPushed))
-		{
+	{
 		JGetWebBrowser()->ShowURL(JGetString("QuickRefURL::JXSearchTextDialog"));
-		}
+	}
 
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
-		{
+	{
 		Deactivate();
-		}
+	}
 
 	else if (sender == itsPrevSearchMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		// need local copy since menu is changed
 		const JString str       = itsPrevSearchMenu->GetItemText(message);
 		const bool wasRegex = itsSearchIsRegexCB->IsChecked();
 		SetSearchText(str);
 		itsSearchIsRegexCB->SetState(wasRegex);
-		}
+	}
 	else if (sender == itsPrevReplaceMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		// need local copy since menu is changed
 		const JString str       = itsPrevReplaceMenu->GetItemText(message);
 		const bool wasRegex = itsReplaceIsRegexCB->IsChecked();
 		SetReplaceText(str);
 		itsReplaceIsRegexCB->SetState(wasRegex);
-		}
+	}
 
 	else if (sender == GetWindow() && message.Is(JXWindow::kIconified))
-		{
+	{
 		if (GetWindow()->IsVisible())
-			{
+		{
 			itsUpdateTask->Stop();
-			}
 		}
+	}
 	else if (sender == GetWindow() && message.Is(JXWindow::kDeiconified))
-		{
+	{
 		if (GetWindow()->IsVisible())
-			{
-			itsUpdateTask->Start();
-			}
-		}
-	else if (sender == itsUpdateTask && message.Is(JXTimerTask::kTimerWentOff))
 		{
-		UpdateDisplay();
+			itsUpdateTask->Start();
 		}
+	}
+	else if (sender == itsUpdateTask && message.Is(JXTimerTask::kTimerWentOff))
+	{
+		UpdateDisplay();
+	}
 
 	else if (sender == itsSearchInput || sender == itsReplaceInput)
-		{
+	{
 		UpdateDisplay();
 
 		if (!itsIgnoreXSearchChangeFlag &&
 			(message.Is(JStyledText::kTextSet) ||
 			 (message.Is(JXWidget::kLostFocus) && itsNeedXSearchBcastFlag)))
-			{
+		{
 			SetXSearch();
-			}
-		else if (!itsIgnoreXSearchChangeFlag && message.Is(JStyledText::kTextChanged))
-			{
-			itsNeedXSearchBcastFlag = true;	// wait for them to use it
-			}
 		}
+		else if (!itsIgnoreXSearchChangeFlag && message.Is(JStyledText::kTextChanged))
+		{
+			itsNeedXSearchBcastFlag = true;	// wait for them to use it
+		}
+	}
 
 	else if (sender == itsWrapSearchCB ||
 			 sender == itsEntireWordCB ||
@@ -763,32 +763,32 @@ JXSearchTextDialog::Receive
 			 sender == itsSingleLineCB ||
 			 sender == itsReplaceIsRegexCB ||
 			 sender == itsPreserveCaseCB)
-		{
+	{
 		UpdateDisplay();
 		if (!itsIgnoreXSearchChangeFlag)
-			{
+		{
 			SetXSearch();
-			}
 		}
+	}
 
 	else if (sender == itsStayOpenCB)
-		{
+	{
 		UpdateDisplay();
-		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 
 	if (found && !itsStayOpenCB->IsChecked())
-		{
+	{
 		Deactivate();
-		}
+	}
 	else if (found && itsRetainFocusCB->IsChecked())
-		{
+	{
 		Activate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -839,11 +839,11 @@ JXSearchTextDialog::GetSearchParameters
 	const
 {
 	if (!HasSearchText())
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("EmptySearchText::JXSearchTextDialog"));
 		itsSearchInput->Focus();
 		return false;
-		}
+	}
 
 	*searchRegex = itsRegex;
 	*wrapSearch  = itsWrapSearchCB->IsChecked();
@@ -855,42 +855,42 @@ JXSearchTextDialog::GetSearchParameters
 	itsRegex->SetCaseSensitive(!itsIgnoreCaseCB->IsChecked());
 
 	if (itsSearchIsRegexCB->IsChecked())
-		{
+	{
 		itsRegex->SetSingleLine(itsSingleLineCB->IsChecked());
 		const JError err = itsRegex->SetPattern(itsSearchInput->GetText()->GetText());
 		if (!err.OK())
-			{
+		{
 			itsSearchInput->Focus();
 			err.ReportIfError();
 			return false;
-			}
 		}
+	}
 	else
-		{
+	{
 		itsRegex->SetSingleLine(true);
 		const JError err = itsRegex->SetPattern(
 			JRegex::BackslashForLiteral(itsSearchInput->GetText()->GetText()));
 		assert_ok( err );
-		}
+	}
 
 	*replaceStr   = itsReplaceInput->GetText()->GetText();
 	*interpolator = nullptr;
 	*preserveCase = itsPreserveCaseCB->IsChecked();
 
 	if (itsReplaceIsRegexCB->IsChecked())
-		{
+	{
 		JCharacterRange errRange;
 		const JError err = itsInterpolator->ContainsError(*replaceStr, &errRange);
 		if (!err.OK())
-			{
+		{
 			itsReplaceInput->Focus();
 			itsReplaceInput->SetSelection(errRange);
 			err.ReportIfError();
 			return false;
-			}
+		}
 
 		*interpolator = itsInterpolator;
-		}
+	}
 
 	// use the original strings, not the substituted ones
 
@@ -900,9 +900,9 @@ JXSearchTextDialog::GetSearchParameters
 	// broadcast to other programs who support Xsearch protocol
 
 	if (itsNeedXSearchBcastFlag)
-		{
+	{
 		SetXSearch();
-		}
+	}
 
 	return true;
 }
@@ -973,22 +973,22 @@ JXSearchTextDialog::ReadSetup
 
 	JXWindow* window = GetWindow();
 	if (vers == 0)
-		{
+	{
 		JPoint pt;
 		input >> pt;
 		window->Place(pt.x, pt.y);
-		}
+	}
 	else
-		{
+	{
 		window->ReadGeometry(input);
-		}
+	}
 	window->Deiconify();
 
 	if (vers < 6)
-		{
+	{
 		JIndex searchDirection;
 		input >> searchDirection;
-		}
+	}
 
 	bool wrapSearch, ignoreCase, entireWord, searchIsRegex;
 	input >> JBoolFromString(wrapSearch)
@@ -1001,29 +1001,29 @@ JXSearchTextDialog::ReadSetup
 	itsSearchIsRegexCB->SetState(searchIsRegex);
 
 	if (vers >= 2)
-		{
+	{
 		bool replaceIsRegex;
 		input >> JBoolFromString(replaceIsRegex);
 		itsReplaceIsRegexCB->SetState(replaceIsRegex);
-		}
+	}
 
 	if (vers >= 3)
-		{
+	{
 		bool singleLine, matchCase;
 		input >> JBoolFromString(singleLine)
 			  >> JBoolFromString(matchCase);
 		itsSingleLineCB->SetState(singleLine);
 		itsPreserveCaseCB->SetState(matchCase);
-		}
+	}
 
 	if (vers >= 7)
-		{
+	{
 		bool stayOpen, retainFocus;
 		input >> JBoolFromString(stayOpen)
 			  >> JBoolFromString(retainFocus);
 		itsStayOpenCB->SetState(stayOpen);
 		itsRetainFocusCB->SetState(retainFocus);
-		}
+	}
 
 	itsPrevSearchMenu->ReadSetup(input);
 	itsPrevReplaceMenu->ReadSetup(input);
@@ -1115,9 +1115,9 @@ JXSearchTextDialog::InitXSearch()
 
 	Display* d2 = XOpenDisplay(DisplayString(display->GetXDisplay()));
 	if (d2 == nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	XSetWindowAttributes attr;
 	attr.override_redirect = true;
@@ -1145,16 +1145,16 @@ JXSearchTextDialog::InitXSearch()
 					   &itemCount, &remainingBytes, &data);
 
 	if (actualType == XA_WINDOW && actualFormat == 32 && itemCount == 2)
-		{
+	{
 		// destroy all resources so X server doesn't run out of client slots
 		XKillClient(*display, itsVersionWindow);
 
 		itsVersionWindow = *(reinterpret_cast<Window*>(data));
 		itsDataWindow    = *(reinterpret_cast<Window*>(data) + 1);
 		GetXSearch();
-		}
+	}
 	else
-		{
+	{
 		const Window newData[2] = { itsVersionWindow, itsDataWindow };
 		XChangeProperty(*display, rootWindow,
 						itsAtoms[ kXSearchWindowsAtomIndex ], XA_WINDOW, 32,
@@ -1162,7 +1162,7 @@ JXSearchTextDialog::InitXSearch()
 						(unsigned char*) newData, 2);
 
 		SetXSearch(false);
-		}
+	}
 
 	XFree(data);
 
@@ -1182,9 +1182,9 @@ void
 JXSearchTextDialog::GetXSearch()
 {
 	if (itsVersionWindow == None || itsDataWindow == None)
-		{
+	{
 		return;
-		}
+	}
 
 	JXDisplay* display       = GetDisplay();
 	const Atom plainTextAtom = display->GetSelectionManager()->GetMimePlainTextXAtom();
@@ -1200,7 +1200,7 @@ JXSearchTextDialog::GetXSearch()
 					   &itemCount, &remainingBytes, &data);
 
 	if (actualType == XA_ATOM && actualFormat == 32 && itemCount == 1)
-		{
+	{
 		const Atom maxSourceVers = *(reinterpret_cast<Atom*>(data));
 		const Atom vers          = JMin(maxSourceVers, (Atom) kCurrentXSearchVersion);
 		XFree(data);
@@ -1212,26 +1212,26 @@ JXSearchTextDialog::GetXSearch()
 						   &itemCount, &remainingBytes, &data);
 
 		if (actualType == plainTextAtom && actualFormat == 8 && itemCount > 0)
-			{
+		{
 			const std::string s(reinterpret_cast<char*>(data), itemCount);
 			std::istringstream input(s);
 			ReadXSearch(input, vers);
-			}
+		}
 		else if (actualType == utf8Atom)
-			{
+		{
 			XGetWindowProperty(*display, itsDataWindow, requestType,
 							   0, LONG_MAX, False, utf8Atom,
 							   &actualType, &actualFormat,
 							   &itemCount, &remainingBytes, &data);
 
 			if (actualType == utf8Atom && actualFormat == 8 && itemCount > 0)
-				{
+			{
 				const std::string s(reinterpret_cast<char*>(data), itemCount);
 				std::istringstream input(s);
 				ReadXSearch(input, vers);
-				}
 			}
 		}
+	}
 
 	XFree(data);
 }
@@ -1249,18 +1249,18 @@ JXSearchTextDialog::SetXSearch
 	const
 {
 	if (itsVersionWindow == None || itsDataWindow == None)
-		{
+	{
 		return;
-		}
+	}
 
 	JXDisplay* display         = GetDisplay();
 	JXSelectionManager* selMgr = display->GetSelectionManager();
 	const Atom plainTextAtom   = selMgr->GetMimePlainTextXAtom();
 
 	if (grabServer)
-		{
+	{
 		XGrabServer(*display);
-		}
+	}
 
 	// grab ownership of the selection
 	// (We have to create a new object every time in case there is a
@@ -1269,13 +1269,13 @@ JXSearchTextDialog::SetXSearch
 	auto* selData = jnew JXSearchSelection(GetDisplay());
 	assert( selData != nullptr );
 	if (!selMgr->SetData(itsAtoms[ kXSearchSelectionAtomIndex ], selData))
-		{
+	{
 		if (grabServer)
-			{
+		{
 			XUngrabServer(*display);
-			}
-		return;
 		}
+		return;
+	}
 
 	// version 1
 
@@ -1297,9 +1297,9 @@ JXSearchTextDialog::SetXSearch
 					(unsigned char*) &vers, 1);
 
 	if (grabServer)
-		{
+	{
 		XUngrabServer(*display);
-		}
+	}
 
 	itsNeedXSearchBcastFlag = false;
 }
@@ -1328,26 +1328,26 @@ JXSearchTextDialog::ReadXSearch
 	JUtf8Byte searchIsRegex, singleLine;
 	JUtf8Byte replaceIsRegex, preserveCase;
 	if (!input.eof() && input.peek() == '\0')
-		{
+	{
 		input.ignore();
 
 		const JString extraDataTag = JReadUntil(input, '\0');
 		if (extraDataTag == kXSearchExtraTag)
-			{
+		{
 			JFileVersion vers1;
 			input >> vers1;
 			if (!input.fail() && vers1 == 1)
-				{
+			{
 				foundJX = true;
 
 				input >> searchIsRegex >> singleLine;
 				input >> replaceIsRegex >> preserveCase;
-				}
 			}
 		}
+	}
 
 	if (!input.fail())
-		{
+	{
 		JXWidget* fw;
 		const bool hadFocus = GetWindow()->GetFocusWidget(&fw);
 
@@ -1358,18 +1358,18 @@ JXSearchTextDialog::ReadXSearch
 		SetStateForXSearch(itsIgnoreCaseCB, caseSensitive, true);
 
 		if (foundJX)
-			{
+		{
 			SetStateForXSearch(itsSearchIsRegexCB,  searchIsRegex,  false);
 			SetStateForXSearch(itsSingleLineCB,     singleLine,     false);
 			SetStateForXSearch(itsReplaceIsRegexCB, replaceIsRegex, false);
 			SetStateForXSearch(itsPreserveCaseCB,   preserveCase,   false);
-			}
+		}
 
 		if (hadFocus)
-			{
+		{
 			fw->Focus();
-			}
 		}
+	}
 
 	itsIgnoreXSearchChangeFlag = false;
 }
@@ -1389,14 +1389,14 @@ JXSearchTextDialog::SetStateForXSearch
 {
 	if ((!negate && state == 'T') ||
 		( negate && state == 'F'))
-		{
+	{
 		cb->SetState(true);
-		}
+	}
 	else if ((!negate && state == 'F') ||
 			 ( negate && state == 'T'))
-		{
+	{
 		cb->SetState(false);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1442,7 +1442,7 @@ JXSearchTextDialog::ReceiveWithFeedback
 	)
 {
 	if (sender == GetDisplay() && message->Is(JXDisplay::kXEventMessage))
-		{
+	{
 		auto* info =
 			dynamic_cast<JXDisplay::XEventMessage*>(message);
 		assert( info != nullptr );
@@ -1451,16 +1451,16 @@ JXSearchTextDialog::ReceiveWithFeedback
 			event.xproperty.window == itsVersionWindow &&
 			event.xproperty.atom   == itsAtoms[ kXSearchVersionAtomIndex ] &&
 			event.xproperty.state  == PropertyNewValue)
-			{
+		{
 			if (!(GetDisplay()->GetSelectionManager())->
 					OwnsSelection(itsAtoms[ kXSearchSelectionAtomIndex ]))
-				{
+			{
 				GetXSearch();
-				}
+			}
 			info->SetProcessed();
 			return;
-			}
 		}
+	}
 
 	JXWindowDirector::ReceiveWithFeedback(sender, message);
 }

@@ -43,9 +43,9 @@ JXImageMenuTable::JXImageMenuTable
 
 	JSize colCount = itsIconMenuData->GetColumnCount();
 	if (lastCell.y == 1)
-		{
+	{
 		colCount = lastCell.x;
-		}
+	}
 	AppendCols(colCount);
 
 	data->ConfigureTable(this, &itsHasCheckboxesFlag, &itsHasSubmenusFlag);
@@ -76,34 +76,34 @@ JXImageMenuTable::TableDrawCell
 {
 	JIndex itemIndex;
 	if (!CellToItemIndex(JPoint(0,0), cell, &itemIndex))
-		{
+	{
 		return;
-		}
+	}
 
 	const bool hilight = cell == itsHilightCell;
 	if (hilight)
-		{
+	{
 		JXDrawUpFrame(p, origRect, kHilightBorderWidth);
-		}
+	}
 
 	JRect rect = origRect;
 	rect.Shrink(kHilightBorderWidth, kHilightBorderWidth);
 
 	if (itsHasCheckboxesFlag)
-		{
+	{
 		JRect boxRect = rect;
 		boxRect.right = boxRect.left + JXMenuTable::kCheckboxColWidth;
 		DrawCheckbox(p, itemIndex, boxRect);
 		rect.left = boxRect.right;
-		}
+	}
 
 	if (itsHasSubmenusFlag)
-		{
+	{
 		JRect arrowRect = rect;
 		arrowRect.left  = arrowRect.right - JXMenuTable::kSubmenuColWidth;
 		DrawSubmenuIndicator(p, itemIndex, arrowRect, hilight);
 		rect.right = arrowRect.left;
-		}
+	}
 
 	const JXImage* image = itsIconMenuData->GetImage(itemIndex);
 	p.Image(*image, image->GetBounds(), rect);
@@ -144,13 +144,13 @@ JXImageMenuTable::ItemIndexToCell
 	JCoordinate x = itemIndex % colCount;
 	JCoordinate y = itemIndex / colCount;
 	if (x != 0)
-		{
+	{
 		y++;
-		}
+	}
 	if (x == 0)
-		{
+	{
 		x = colCount;
-		}
+	}
 
 	return JPoint(x,y);
 }
@@ -218,15 +218,15 @@ JXImageMenuTable::Receive
 {
 	if (sender == const_cast<JXImageMenuData*>(itsIconMenuData) &&
 		message.Is(JXImageMenuData::kImageChanged))
-		{
+	{
 		const auto* item =
 			dynamic_cast<const JXImageMenuData::ImageChanged*>(&message);
 		assert( item != nullptr );
 		TableRefreshCell(ItemIndexToCell(item->GetIndex()));
-		}
+	}
 
 	else
-		{
+	{
 		JXMenuTable::Receive(sender, message);
-		}
+	}
 }

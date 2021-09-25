@@ -109,9 +109,9 @@ JXCharInput::HandleKeyPress
 	SelectAll();
 	JXInputField::HandleKeyPress(c, keySym, modifiers);
 	if (!willDie)
-		{
+	{
 		SelectAll();
-		}
+	}
 }
 
 /******************************************************************************

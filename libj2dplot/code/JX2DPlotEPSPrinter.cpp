@@ -67,9 +67,9 @@ JX2DPlotEPSPrinter::ReadX2DEPSSetup
 	input >> vers;
 
 	if (vers <= kCurrentSetupVersion)
-		{
+	{
 		input >> itsPlotWidth >> itsPlotHeight >> itsUnit;
-		}
+	}
 
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
 
@@ -117,16 +117,16 @@ JX2DPlotEPSPrinter::CreatePrintSetupDialog
 	assert( itsPlotSetupDialog == nullptr );
 
 	if (itsUsePlotSetupFlag)
-		{
+	{
 		itsPlotSetupDialog =
 			JX2DPlotPrintEPSDialog::Create(fileName, preview, bw,
 										   itsPlotWidth, itsPlotHeight, itsUnit);
 		return itsPlotSetupDialog;
-		}
+	}
 	else
-		{
+	{
 		return JXEPSPrinter::CreatePrintSetupDialog(fileName, preview, bw);
-		}
+	}
 }
 
 /******************************************************************************
@@ -146,7 +146,7 @@ JX2DPlotEPSPrinter::EndUserPrintSetup
 {
 	const bool ok = JXEPSPrinter::EndUserPrintSetup(message, changed);
 	if (itsPlotSetupDialog != nullptr)
-		{
+	{
 		JCoordinate w,h;
 		JX2DPlotPrintEPSDialog::Unit u;
 		itsPlotSetupDialog->GetPlotSize(&w, &h, &u);
@@ -159,7 +159,7 @@ JX2DPlotEPSPrinter::EndUserPrintSetup
 		itsPlotWidth  = w;
 		itsPlotHeight = h;
 		itsUnit       = u;
-		}
+	}
 
 	itsPlotSetupDialog = nullptr;
 	return ok;

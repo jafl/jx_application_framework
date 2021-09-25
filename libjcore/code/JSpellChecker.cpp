@@ -31,9 +31,9 @@ JSpellChecker::JSpellChecker()
 	const JString cwd = JGetCurrentDirectory();
 	JString home;
 	if (JGetHomeDirectory(&home))
-		{
+	{
 		JChangeDirectory(home);
-		}
+	}
 
 	int toFD, fromFD;
 	JError err = JProcess::Create(&itsProcess, JString("aspell -a", JString::kNoCopy),
@@ -41,15 +41,15 @@ JSpellChecker::JSpellChecker()
 								  kJCreatePipe, &fromFD,
 								  kJTossOutput, nullptr);
 	if (!err.OK())
-		{
+	{
 		err = JProcess::Create(&itsProcess, JString("ispell -a", JString::kNoCopy),
 							   kJCreatePipe, &toFD,
 							   kJCreatePipe, &fromFD,
 							   kJTossOutput, nullptr);
-		}
+	}
 
 	if (err.OK())
-		{
+	{
 		itsInFD = fromFD;
 		assert(itsInFD != ACE_INVALID_HANDLE);
 
@@ -57,7 +57,7 @@ JSpellChecker::JSpellChecker()
 		assert(itsOutPipe != nullptr);
 
 		JIgnoreUntil(itsInFD, '\n');
-		}
+	}
 
 	JChangeDirectory(cwd);
 }
@@ -92,19 +92,19 @@ JSpellChecker::CheckWord
 	suggestionList->DeleteAll();
 
 	if (!word.IsAscii())	// ispell *may* split on non-english characters
-		{
+	{
 		return true;
-		}
+	}
 
 	JStringIterator iter1(word);
 	JUtf8Character c;
 	while (iter1.Next(&c))
-		{
+	{
 		if (!c.IsAlpha())	// ispell splits on non-alpha characters
-			{
+		{
 			return true;
-			}
 		}
+	}
 	iter1.Invalidate();
 
 	word.Print(*itsOutPipe);
@@ -112,25 +112,25 @@ JSpellChecker::CheckWord
 
 	JString test = JReadUntil(itsInFD, '\n');
 	if (test.IsEmpty())
-		{
+	{
 		return true;
-		}
+	}
 
 	JReadUntil(itsInFD, '\n');	// flush extra newline
 
 	c = test.GetFirstCharacter();
 	if (c == '*' || c == '+' || c == '-')
-		{
+	{
 		return true;
-		}
+	}
 
 	JStringIterator iter2(&test);
 	if (iter2.Next(":"))
-		{
+	{
 		iter2.RemoveAllPrev();
 		test.TrimWhitespace();	// invalidates iter2
 		test.Split(resultSplitPattern, suggestionList);
-		}
+	}
 
 	*goodFirstSuggestion = c == '&';
 	return false;

@@ -63,9 +63,9 @@ JXAtLeastOneCBGroup::JXAtLeastOneCBGroup
 	va_start(argList, cb2);
 
 	for (JIndex i=3; i<=count; i++)
-		{
+	{
 		Add(va_arg(argList, JXCheckbox*));
-		}
+	}
 
 	va_end(argList);
 }
@@ -93,22 +93,22 @@ JXAtLeastOneCBGroup::EnforceConstraints
 	// we only need to do something if all the checkboxes are off
 
 	if (itsIgnoreChangeFlag || AllDisabled())
-		{
+	{
 		return;
-		}
+	}
 	else if ((GetCheckbox(cbIndex))->IsChecked() || !AllUnchecked())
-		{
+	{
 		itsDirection = kSlideUp;
 		return;
-		}
+	}
 
 	// slide to the adjacent checkbox, skipping over disabled ones
 
 	JIndex newIndex = GetNextActiveIndex(cbIndex);
 	if (newIndex == cbIndex)						// may have hit the end and bounced back
-		{
+	{
 		newIndex = GetNextActiveIndex(cbIndex);		// if newID == id, then there is only one enabled
-		}
+	}
 
 	// turn the new checkbox on
 
@@ -130,31 +130,31 @@ JXAtLeastOneCBGroup::GetNextActiveIndex
 {
 	const JSize count = GetElementCount();
 	if (count < 2)
-		{
+	{
 		return cbIndex;
-		}
+	}
 
 	JIndex newIndex = cbIndex;
 	do
-		{
+	{
 		if (newIndex == 1)
-			{
+		{
 			itsDirection = kSlideDown;
-			}
+		}
 		else if (newIndex == count)
-			{
+		{
 			itsDirection = kSlideUp;
-			}
+		}
 
 		if (itsDirection == kSlideUp)
-			{
+		{
 			newIndex = JMax((JIndex) 1, newIndex-1);
-			}
-		else
-			{
-			newIndex = JMin(count, newIndex+1);
-			}
 		}
+		else
+		{
+			newIndex = JMin(count, newIndex+1);
+		}
+	}
 		while (CheckboxDisabled(newIndex));
 
 	return newIndex;

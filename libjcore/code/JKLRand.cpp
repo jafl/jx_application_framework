@@ -98,15 +98,15 @@ JKLRand::UniformLong
 	long max,min;
 
 	if (lim1 <= lim2)
-		{
+	{
 		min = lim1;
 		max = lim2;
-		}
+	}
 	else
-		{
+	{
 		min = lim2;
 		max = lim1;
-		}
+	}
 
 	return JLFloor(UniformSemiOpenProb()*(max-min + 1) + min);
 }
@@ -130,15 +130,15 @@ JKLRand::UniformULong
 	unsigned long max,min;
 
 	if (lim1 <= lim2)
-		{
+	{
 		min = lim1;
 		max = lim2;
-		}
+	}
 	else
-		{
+	{
 		min = lim2;
 		max = lim1;
-		}
+	}
 
 	// truncation is automatic
 
@@ -164,29 +164,29 @@ JKLRand::UniformDouble
 	double	max,min;
 
 	if (lim1 <= lim2)
-		{
+	{
 		min = lim1;
 		max = lim2;
-		}
+	}
 	else
-		{
+	{
 		min = lim2;
 		max = lim1;
-		}
+	}
 
 	double val = UniformClosedProb()*(max-min) + min;
 
 	// Must ensure we don't round to outside the range
 	if (val < min)
-		{
+	{
 		return min;
-		}
+	}
 	else if (val > max)
-		{
+	{
 		return max;
-		}
+	}
 	else
-		{
+	{
 		return val;
-		}
+	}
 }

@@ -110,18 +110,18 @@ public:
 	MDLinkAcceptor(MDStatsDirector* dir)
 		:
 		itsDirector(dir)
-		{ };
+	{ };
 
 	virtual ~MDLinkAcceptor()
-	{
+{
 		close();
 		(acceptor()).remove();
-	};
+};
 
 	MDStatsDirector* GetDirector()
-	{
+{
 		return itsDirector;
-	};
+};
 
 private:
 
@@ -159,11 +159,11 @@ MDStatsDirector::MDStatsDirector
 	JCoordinate w,h;
 	if ((MDGetPrefsManager())->GetWindowSize(kMDStatsDirectorWindSizeID,
 											&desktopLoc, &w, &h))
-		{
+	{
 		JXWindow* window = GetWindow();
 		window->Place(desktopLoc.x, desktopLoc.y);
 		window->SetSize(w,h);
-		}
+	}
 }
 
 /******************************************************************************
@@ -218,10 +218,10 @@ MDStatsDirector::CloseLink
 	itsLink = nullptr;
 
 	if (deleteProcess)
-		{
+	{
 		jdelete itsProcess;
 		itsProcess = nullptr;
-		}
+	}
 
 	jdelete itsPingTask;
 	itsPingTask = nullptr;
@@ -243,10 +243,10 @@ MDStatsDirector::OpenDebugAcceptor()
 	JRemoveFile(itsSocketName);
 	ACE_UNIX_Addr addr(itsSocketName.GetBytes());
 	if (itsAcceptor->open(addr) == -1)
-		{
+	{
 		std::cerr << "error trying to create socket: " << jerrno() << std::endl;
 		exit(1);
-		}
+	}
 }
 
 /******************************************************************************
@@ -258,10 +258,10 @@ void
 MDStatsDirector::DeleteDebugAcceptor()
 {
 	if (itsAcceptor != nullptr)
-		{
+	{
 		jdelete itsAcceptor;
 		itsAcceptor = nullptr;
-		}
+	}
 }
 
 /******************************************************************************
@@ -443,12 +443,12 @@ MDStatsDirector::BuildWindow()
 
 	itsToolBar->LoadPrefs();
 	if (itsToolBar->IsEmpty())
-		{
+	{
 		itsToolBar->AppendButton(itsFileMenu, kQuitCmd);
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
-		}
+	}
 
 	(GetDisplay()->GetWDManager())->DirectorCreated(this);
 	UpdateDisplay();
@@ -478,95 +478,95 @@ MDStatsDirector::Receive
 	)
 {
 	if (sender == itsPingTask && message.Is(JXTimerTask::kTimerWentOff))
-		{
+	{
 		RequestRunningStats();
-		}
+	}
 
 	else if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
-		{
+	{
 		HandleResponse();
-		}
+	}
 	else if (sender == itsLink && message.Is(JMessageProtocolT::kReceivedDisconnect))
-		{
+	{
 		CloseLink(false);
-		}
+	}
 	else if (sender == itsProcess && message.Is(JProcess::kFinished))
-		{
+	{
 		CloseLink(true);
 		ReadExitStats();
 		FinishProgram();
-		}
+	}
 
 	else if (sender == itsChooseProgramButton && message.Is(JXButton::kPushed))
-		{
+	{
 		ChooseProgram();
-		}
+	}
 	else if (sender == itsRunProgramButton && message.Is(JXButton::kPushed))
-		{
+	{
 		RunProgram();
-		}
+	}
 
 	else if (sender == itsProgramInput &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
-		{
+	{
 		UpdateDisplay();
-		}
+	}
 
 	else if (sender == itsRequestRecordsDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			JMemoryManager::RecordFilter filter;
 			itsRequestRecordsDialog->BuildFilter(&filter);
 			RequestRecords(filter);
-			}
-		itsRequestRecordsDialog = nullptr;
 		}
+		itsRequestRecordsDialog = nullptr;
+	}
 
 	else if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFileMenu();
-		}
+	}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdatePrefsMenu();
-		}
+	}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateHelpMenu();
-		}
+	}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -579,9 +579,9 @@ MDStatsDirector::ChooseProgram()
 {
 	JString fullName;
 	if ((JXGetChooseSaveFile())->ChooseFile(JString::empty, JString::empty, itsProgramInput->GetText()->GetText(), &fullName))
-		{
+	{
 		itsProgramInput->GetText()->SetText(fullName);
-		}
+	}
 }
 
 /******************************************************************************
@@ -593,9 +593,9 @@ void
 MDStatsDirector::RunProgram()
 {
 	if (itsProgramInput->GetText()->IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	OpenDebugAcceptor();
 
@@ -607,15 +607,15 @@ MDStatsDirector::RunProgram()
 
 	JUtf8Byte* v = getenv("JMM_INITIALIZE");
 	if (v == nullptr || JString::Compare(v, "no", JString::kIgnoreCase) == 0)
-		{
+	{
 		setenv("JMM_INITIALIZE", "default", 1);
-		}
+	}
 
 	v = getenv("JMM_SHRED");
 	if (v == nullptr || JString::Compare(v, "no", JString::kIgnoreCase) == 0)
-		{
+	{
 		setenv("JMM_SHRED", "default", 1);
-		}
+	}
 
 	JString cmd = itsProgramInput->GetText()->GetText();
 	cmd        += " ";
@@ -623,7 +623,7 @@ MDStatsDirector::RunProgram()
 
 	const JError err = JProcess::Create(&itsProcess, cmd);
 	if (err.OK())
-		{
+	{
 		// remember to update FinishProgram()
 
 		itsChooseProgramButton->Hide();
@@ -637,11 +637,11 @@ MDStatsDirector::RunProgram()
 		itsDeallocatedBlocksDisplay->SetBackColor(itsDeallocatedBlocksDisplay->GetFocusColor());
 		itsDeallocatedBlocksDisplay->GetText()->SetText(JString::empty);
 		ListenTo(itsProcess);
-		}
+	}
 	else
-		{
+	{
 		err.ReportIfError();
-		}
+	}
 
 	unsetenv("JMM_PIPE");
 	unsetenv("JMM_RECORD_ALLOCATED");
@@ -704,31 +704,31 @@ MDStatsDirector::HandleResponse()
 	JFileVersion vers;
 	input >> vers;
 	if (vers != kJMemoryManagerDebugVersion)
-		{
+	{
 		std::cerr << "MDStatsDirector::HandleResponse received version (" << vers;
 		std::cerr << ") different than expected (" << kJMemoryManagerDebugVersion << ")" << std::endl;
 		return;
-		}
+	}
 
 	long type;
 	input >> type;
 
 	if (type == JMemoryManager::kRunningStatsMessage)
-		{
+	{
 		ReceiveRunningStats(input);
-		}
+	}
 	else if (type == JMemoryManager::kExitStatsMessage)
-		{
+	{
 		ReceiveExitStats(input);
-		}
+	}
 	else if (type == JMemoryManager::kRecordsMessage)
-		{
+	{
 		ReceiveRecords(input, JGetString("QueryRecordsWindowTitle::MDStatsDirector"));
-		}
+	}
 	else if (type == JMemoryManager::kErrorMessage)
-		{
+	{
 		ReceiveErrorMessage(input);
-		}
+	}
 }
 
 /******************************************************************************
@@ -762,18 +762,18 @@ mdSetValue
 	const bool hadSelection = field->HasSelection();
 	JString s;
 	if (raw)
-		{
+	{
 		s = JString((JUInt64) value);
-		}
+	}
 	else
-		{
+	{
 		s = JPrintFileSize(value);
-		}
+	}
 	field->GetText()->SetText(s);
 	if (hadSelection)
-		{
+	{
 		field->SelectAll();
-		}
+	}
 }
 
 void
@@ -799,9 +799,9 @@ MDStatsDirector::ReceiveRunningStats
 
 	JSize histo[ JMemoryManager::kHistogramSlotCount ];
 	for (JUnsignedOffset i=0; i<count; i++)
-		{
+	{
 		input >> histo[i];
-		}
+	}
 
 	itsAllocatedHisto->SetValues(total, histo);
 }
@@ -832,47 +832,47 @@ void
 MDStatsDirector::ReadExitStats()
 {
 	if (itsExitStatsFile.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	std::ifstream input(itsExitStatsFile.GetBytes());
 
 	while (true)
-		{
+	{
 		long type;
 		input >> type;
 		if (input.eof() || !input.good())
-			{
+		{
 			break;
-			}
+		}
 		else if (type == JMemoryManager::kErrorMessage)
-			{
+		{
 			ReceiveErrorMessage(input);
-			}
+		}
 		else if (type == JMemoryManager::kRunningStatsMessage)
-			{
+		{
 			ReceiveRunningStats(input);
-			}
+		}
 		else if (type == JMemoryManager::kRecordsMessage)
-			{
+		{
 			ReceiveRecords(input, JGetString("ExitRecordsWindowTitle::MDStatsDirector"));
 			GetWindow()->SetTitle(JGetString("ExitWindowTitle::MDStatsDirector"));
-			}
-		else
-			{
-			break;
-			}
 		}
+		else
+		{
+			break;
+		}
+	}
 
 	input.close();
 	JRemoveFile(itsExitStatsFile);
 	itsExitStatsFile.Clear();
 
 	if (itsMessageDir != nullptr)
-		{
+	{
 		itsMessageDir->ProcessFinished();
-		}
+	}
 }
 
 /******************************************************************************
@@ -911,18 +911,18 @@ MDStatsDirector::ReceiveRecords
 	assert( list != nullptr );
 
 	while (true)
-		{
+	{
 		bool keepGoing;
 		input >> JBoolFromString(keepGoing);
 		if (!keepGoing)
-			{
+		{
 			break;
-			}
+		}
 
 		auto* record = jnew MDRecord(input);
 		assert( record != nullptr );
 		list->AddRecord(record);
-		}
+	}
 
 	auto* dir = jnew MDRecordDirector(this, list, windowTitle);
 	assert( dir != nullptr );
@@ -944,11 +944,11 @@ MDStatsDirector::ReceiveErrorMessage
 	input >> msg;
 
 	if (itsMessageDir == nullptr)
-		{
+	{
 		itsMessageDir = jnew JXPGMessageDirector(this);
 		assert( itsMessageDir != nullptr );
 		itsMessageDir->Activate();
-		}
+	}
 
 	itsMessageDir->AddMessageLine(msg);
 }
@@ -976,18 +976,18 @@ MDStatsDirector::HandleFileMenu
 	)
 {
 	if (index == kGetRecordsCmd)
-		{
+	{
 		assert( itsRequestRecordsDialog == nullptr );
 		itsRequestRecordsDialog = jnew MDFilterRecordsDialog(this);
 		assert( itsRequestRecordsDialog != nullptr );
 		itsRequestRecordsDialog->BeginDialog();
 		ListenTo(itsRequestRecordsDialog);
-		}
+	}
 
 	else if (index == kQuitCmd)
-		{
+	{
 		MDGetApplication()->Quit();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1012,22 +1012,22 @@ MDStatsDirector::HandlePrefsMenu
 	)
 {
 	if (index == kPrefsCmd)
-		{
+	{
 		(MDGetPrefsManager())->EditPrefs();
-		}
+	}
 	else if (index == kEditToolBarCmd)
-		{
+	{
 		itsToolBar->Edit();
-		}
+	}
 	else if (index == kEditMacWinPrefsCmd)
-		{
+	{
 		JXMacWinPrefsDialog::EditPrefs();
-		}
+	}
 
 	else if (index == kSaveWindSizeCmd)
-		{
+	{
 		(MDGetPrefsManager())->SaveWindowSize(kMDStatsDirectorWindSizeID, GetWindow());
-		}
+	}
 }
 
 /******************************************************************************
@@ -1052,31 +1052,31 @@ MDStatsDirector::HandleHelpMenu
 	)
 {
 	if (index == kAboutCmd)
-		{
+	{
 		MDGetApplication()->DisplayAbout();
-		}
+	}
 
 	else if (index == kTOCCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowTOC();
-		}
+	}
 	else if (index == kOverviewCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowSection("MDOverviewHelp");
-		}
+	}
 	else if (index == kThisWindowCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowSection("MDMainHelp");
-		}
+	}
 
 	else if (index == kChangesCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowChangeLog();
-		}
+	}
 	else if (index == kCreditsCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowCredits();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1093,9 +1093,9 @@ MDStatsDirector::ReadPrefs
 	JFileVersion vers;
 	input >> vers;
 	if (vers > kCurrentPrefsVersion)
-		{
+	{
 		return;
-		}
+	}
 
 	GetWindow()->ReadGeometry(input);
 

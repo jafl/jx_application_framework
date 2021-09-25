@@ -92,13 +92,13 @@ void
 JOutPipeStreambuf<_CharT, _Traits>::close()
 {
 	if (itsCloseFlag)
-		{
+	{
 		if (::close(itsDescriptor) != 0)
-			{
+		{
 			std::cerr << "JOutPipeStreambuf failed to close pipe: " << jerrno() << std::endl;
-			}
-		itsCloseFlag = false;
 		}
+		itsCloseFlag = false;
+	}
 }
 
 /******************************************************************************
@@ -115,22 +115,22 @@ JOutPipeStreambuf<_CharT, _Traits>::xsputn
 	)
 {
 	while (true)
-		{
+	{
 		ssize_t result = ::write(itsDescriptor, s, n);
 		if (result == n)
-			{
+		{
 //			std::cerr << "xsputn: ";
 //			std::cerr.write(s, n);
 //			std::cerr << std::endl;
 			return n;
-			}
+		}
 
 		int err = jerrno();
 		if (err != EINTR)
-			{
+		{
 			return _Traits::eof();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -146,19 +146,19 @@ JOutPipeStreambuf<_CharT, _Traits>::overflow
 	)
 {
 	while (true)
-		{
+	{
 		_CharT ch = (_CharT) c;
 		ssize_t result = ::write(itsDescriptor, (void*) &ch, sizeof(ch));
 		if (result == sizeof(ch))
-			{
+		{
 //			std::cerr << "overflow: " << ch << std::endl;
 			return 1;
-			}
+		}
 
 		int err = jerrno();
 		if (err != EINTR)
-			{
+		{
 			return 0;
-			}
 		}
+	}
 }

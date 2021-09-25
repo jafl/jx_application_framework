@@ -82,27 +82,27 @@ JSliderBase::SetValue
 
 	JFloat trueValue = value;
 	if (trueValue < itsMinValue) 
-		{
+	{
 		trueValue = itsMinValue;
-		}
+	}
 	else if (trueValue > itsMaxValue) 
-		{
+	{
 		trueValue = itsMaxValue;
-		}
+	}
 	trueValue = Quantize(trueValue);
 
 	itsValue = trueValue;
 	const JCoordinate newThumbPosition = GetThumbPosition();
 	if (newThumbPosition != itsPrevThumbPosition)
-		{
+	{
 		itsPrevThumbPosition = newThumbPosition;
 		SliderRedraw();		// this first because Broadcast() could take a while
-		}
+	}
 
 	if (itsValue != origValue)
-		{
+	{
 		Broadcast(Moved(itsValue));
-		}
+	}
 }
 
 /******************************************************************************
@@ -117,10 +117,10 @@ JSliderBase::SetMinValue
 	)
 {
 	if (minValue != itsMinValue && minValue <= itsMaxValue)
-		{
+	{
 		itsMinValue = minValue;
 		SetValue(itsValue);
-		}
+	}
 }
 
 /******************************************************************************
@@ -135,10 +135,10 @@ JSliderBase::SetMaxValue
 	)
 {
 	if (maxValue != itsMaxValue && maxValue >= itsMinValue)
-		{
+	{
 		itsMaxValue = maxValue;
 		SetValue(itsValue);
-		}
+	}
 }
 
 /******************************************************************************
@@ -154,15 +154,15 @@ JSliderBase::SetRange
 	)
 {
 	if (minValue <= maxValue)
-		{
+	{
 		itsMinValue = minValue;
 		itsMaxValue = maxValue;
-		}
+	}
 	else
-		{
+	{
 		itsMinValue = maxValue;
 		itsMaxValue = minValue;
-		}
+	}
 
 	SetValue(itsValue);
 }
@@ -199,14 +199,14 @@ JSliderBase::ClickToValue
 {
 	JFloat value;
 	if (itsOrientation == kHorizontal)
-		{
+	{
 		value = ClickToValueHoriz(pt);
-		}
+	}
 	else
-		{
+	{
 		assert( itsOrientation == kVertical );
 		value = ClickToValueVert(pt);
-		}
+	}
 
 	return Quantize(value);
 }
@@ -222,19 +222,19 @@ JSliderBase::ClickToValueHoriz
 {
 	const JFloat totalWidth = SliderGetWidth() - 2*itsThumbHalfSize;
 	if (totalWidth > 0)
-		{
+	{
 		JFloat dx = totalWidth / ((itsMaxValue - itsMinValue)/itsStepSize);
 		JFloat x  = pt.x - itsThumbHalfSize + dx/2;
 		if (x > totalWidth)
-			{
-			x = totalWidth;
-			}
-		return itsMinValue + (itsMaxValue - itsMinValue) * (x / totalWidth);
-		}
-	else
 		{
-		return itsMinValue;
+			x = totalWidth;
 		}
+		return itsMinValue + (itsMaxValue - itsMinValue) * (x / totalWidth);
+	}
+	else
+	{
+		return itsMinValue;
+	}
 }
 
 // private
@@ -249,19 +249,19 @@ JSliderBase::ClickToValueVert
 	const JFloat boundsHeight = SliderGetHeight();
 	const JFloat totalHeight  = boundsHeight - 2*itsThumbHalfSize;
 	if (totalHeight > 0)
-		{
+	{
 		JFloat dy = totalHeight / ((itsMaxValue - itsMinValue)/itsStepSize);
 		JFloat y  = boundsHeight - pt.y - itsThumbHalfSize + dy/2;
 		if (y > totalHeight)
-			{
-			y = totalHeight;
-			}
-		return itsMinValue + (itsMaxValue - itsMinValue) * (y / totalHeight);
-		}
-	else
 		{
-		return itsMinValue;
+			y = totalHeight;
 		}
+		return itsMinValue + (itsMaxValue - itsMinValue) * (y / totalHeight);
+	}
+	else
+	{
+		return itsMinValue;
+	}
 }
 
 /******************************************************************************
@@ -281,14 +281,14 @@ JSliderBase::ValueToPixel
 	assert( itsMinValue <= value && value <= itsMaxValue );
 
 	if (itsOrientation == kHorizontal)
-		{
+	{
 		return ValueToPixelHoriz(value);
-		}
+	}
 	else
-		{
+	{
 		assert( itsOrientation == kVertical );
 		return ValueToPixelVert(value);
-		}
+	}
 }
 
 // private
@@ -302,14 +302,14 @@ JSliderBase::ValueToPixelHoriz
 {
 	const JCoordinate totalWidth = SliderGetWidth() - 2*itsThumbHalfSize;
 	if (itsMaxValue > itsMinValue)
-		{
+	{
 		return itsThumbHalfSize +
 			JRound(totalWidth * (value - itsMinValue)/(itsMaxValue - itsMinValue));
-		}
+	}
 	else
-		{
+	{
 		return itsThumbHalfSize;
-		}
+	}
 }
 
 // private
@@ -326,14 +326,14 @@ JSliderBase::ValueToPixelVert
 
 	JCoordinate y;
 	if (itsMaxValue > itsMinValue)
-		{
+	{
 		y = itsThumbHalfSize +
 			JRound(totalHeight * (value - itsMinValue)/(itsMaxValue - itsMinValue));
-		}
+	}
 	else
-		{
+	{
 		y = itsThumbHalfSize;
-		}
+	}
 
 	return boundsHeight - y;
 }

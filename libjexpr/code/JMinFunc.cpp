@@ -82,25 +82,25 @@ JMinFunc::Evaluate
 	// start with the value of the first argument
 
 	if (GetArgCount() == 0 || !(GetArg(1))->Evaluate(result))
-		{
+	{
 		return false;
-		}
+	}
 
 	// find the minimum of all the arguments
 
 	const JSize argCount = GetArgCount();
 	for (JIndex i=2; i<=argCount; i++)
-		{
+	{
 		JFloat argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
-			{
+		{
 			return false;
-			}
-		if (argValue < *result)
-			{
-			*result = argValue;
-			}
 		}
+		if (argValue < *result)
+		{
+			*result = argValue;
+		}
+	}
 	return true;
 }
 
@@ -114,25 +114,25 @@ JMinFunc::Evaluate
 	// start with the value of the first argument
 
 	if (GetArgCount() == 0 || !(GetArg(1))->Evaluate(result))
-		{
+	{
 		return false;
-		}
+	}
 
 	// find the minimum real part of all the arguments
 
 	const JSize argCount = GetArgCount();
 	for (JIndex i=2; i<=argCount; i++)
-		{
+	{
 		JComplex argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
-			{
+		{
 			return false;
-			}
-		if (real(argValue) < real(*result))
-			{
-			*result = argValue;
-			}
 		}
+		if (real(argValue) < real(*result))
+		{
+			*result = argValue;
+		}
+	}
 
 	*result = real(*result);
 	return true;

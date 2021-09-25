@@ -160,16 +160,16 @@ JXChooseSaveFile::ChooseFile
 
 	JString origName;
 	if (originalName.Contains(ACE_DIRECTORY_SEPARATOR_STR))
-		{
+	{
 		JString path;
 		JSplitPathAndName(originalName, &path, &origName);
 		dirInfo->GoToClosest(path);
 		restorePath = true;
 		if (!JSameDirEntry(path, dirInfo->GetDirectory()))
-			{
+		{
 			origName.Clear();
-			}
 		}
+	}
 
 	assert( itsChooseFileDialog == nullptr );
 
@@ -185,9 +185,9 @@ JXChooseSaveFile::ChooseFile
 	WaitForResponse(itsChooseFileDialog);
 
 	if (restorePath)
-		{
+	{
 		dirInfo->GoTo(savedPath);
-		}
+	}
 
 	itsChooseFileDialog = nullptr;
 	return itsResponse;
@@ -292,10 +292,10 @@ JXChooseSaveFile::ChoosePath
 	const JString savedPath = dirInfo->GetDirectory();
 
 	if (!origPath.IsEmpty())
-		{
+	{
 		dirInfo->GoToClosest(origPath);
 		restorePath = true;
-		}
+	}
 
 	assert( itsChoosePathDialog == nullptr );
 
@@ -310,9 +310,9 @@ JXChooseSaveFile::ChoosePath
 	WaitForResponse(itsChoosePathDialog);
 
 	if (restorePath)
-		{
+	{
 		dirInfo->GoTo(savedPath);
-		}
+	}
 
 	itsChoosePathDialog = nullptr;
 	return itsResponse;
@@ -360,12 +360,12 @@ JXChooseSaveFile::SaveFile
 
 	JString origName = originalName;
 	if (origName.Contains(ACE_DIRECTORY_SEPARATOR_STR))
-		{
+	{
 		JString path;
 		JSplitPathAndName(originalName, &path, &origName);
 		dirInfo->GoToClosest(path);
 		restorePath = true;
-		}
+	}
 
 	assert( itsSaveFileDialog == nullptr );
 
@@ -380,9 +380,9 @@ JXChooseSaveFile::SaveFile
 	WaitForResponse(itsSaveFileDialog);
 
 	if (restorePath)
-		{
+	{
 		dirInfo->GoTo(savedPath);
-		}
+	}
 
 	itsSaveFileDialog = nullptr;
 	return itsResponse;
@@ -420,7 +420,7 @@ JXChooseSaveFile::Receive
 	)
 {
 	if (sender == itsCurrentDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
@@ -429,46 +429,46 @@ JXChooseSaveFile::Receive
 		SaveState(itsCurrentDialog);
 
 		if (itsResponse && sender == itsChooseFileDialog && itsResultList != nullptr)
-			{
+		{
 			const bool ok = itsChooseFileDialog->GetFullNames(itsResultList);
 			assert( ok );
-			}
+		}
 		else if (itsResponse && sender == itsChooseFileDialog)
-			{
+		{
 			assert( itsResultStr != nullptr );
 			const bool ok = itsChooseFileDialog->GetFullName(itsResultStr);
 			assert( ok );
-			}
+		}
 		else if (itsResponse && sender == itsChoosePathDialog)
-			{
+		{
 			assert( itsResultStr != nullptr );
 			*itsResultStr = itsChoosePathDialog->GetPath();
-			}
+		}
 		else if (itsResponse && sender == itsSaveFileDialog)
-			{
+		{
 			assert( itsResultStr != nullptr );
 			JString name;
 			const bool ok = itsSaveFileDialog->GetFileName(&name);
 			assert( ok );
 			*itsResultStr = JCombinePathAndName(itsSaveFileDialog->GetPath(), name);
-			}
+		}
 		else if (itsResultStr != nullptr)
-			{
+		{
 			itsResultStr->Clear();
-			}
+		}
 		else if (itsResultList != nullptr)
-			{
+		{
 			itsResultList->CleanOut();
-			}
+		}
 		itsCurrentDialog = nullptr;
 		itsResultStr     = nullptr;
 		itsResultList    = nullptr;
-		}
+	}
 
 	else
-		{
+	{
 		JBroadcaster::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -499,9 +499,9 @@ JXChooseSaveFile::WaitForResponse
 
 	JXWindow* window = itsCurrentDialog->GetWindow();
 	while (itsCurrentDialog != nullptr)
-		{
+	{
 		app->HandleOneEventForWindow(window);
-		}
+	}
 
 	app->BlockingWindowFinished();
 }
@@ -524,11 +524,11 @@ JXChooseSaveFile::RestoreState
 
 	JString* dialogState = GetDialogState();
 	if (!dialogState->IsEmpty())
-		{
+	{
 		const std::string s(dialogState->GetBytes(), dialogState->GetByteCount());
 		std::istringstream input(s);
 		dlog->ReadBaseSetup(input, ignoreScroll);
-		}
+	}
 }
 
 /******************************************************************************
@@ -570,13 +570,13 @@ JXChooseSaveFile::ReadSetup
 
 	JFileVersion vers;
 	if (input.peek() == '"')
-		{
+	{
 		vers = 0;
-		}
+	}
 	else
-		{
+	{
 		input >> vers;
-		}
+	}
 	assert( vers <= kCurrentSetupVersion );
 
 	input >> *(GetDialogState());
@@ -647,29 +647,29 @@ JDirInfo*
 JXChooseSaveFile::GetDirInfo()
 {
 	if (itsDirInfo == nullptr && this == JXGetChooseSaveFile())
-		{
+	{
 		JString dirName = JGetCurrentDirectory();
 		if (!JDirInfo::Create(dirName, &itsDirInfo))
-			{
+		{
 			bool ok = JGetHomeDirectory(&dirName);
 			if (!ok || !JDirInfo::Create(dirName, &itsDirInfo))
-				{
+			{
 				dirName = JGetRootDirectory();
 				ok = JDirInfo::Create(dirName, &itsDirInfo);
 				assert( ok );
-				}
 			}
+		}
 		itsDirInfo->ShowHidden(false);
 		return itsDirInfo;
-		}
+	}
 	else if (itsDirInfo == nullptr)
-		{
+	{
 		return (JXGetChooseSaveFile())->GetDirInfo();
-		}
+	}
 	else
-		{
+	{
 		return itsDirInfo;
-		}
+	}
 }
 
 /******************************************************************************
@@ -689,26 +689,26 @@ JXChooseSaveFile::GetDialogState()
 	const
 {
 	if (this == JXGetChooseSaveFile())
-		{
+	{
 		return itsDialogState;
-		}
+	}
 	else
-		{
+	{
 		return ((const JXChooseSaveFile*) JXGetChooseSaveFile())->GetDialogState();
-		}
+	}
 }
 
 JString*
 JXChooseSaveFile::GetDialogState()
 {
 	if (this == JXGetChooseSaveFile())
-		{
+	{
 		return &itsDialogState;
-		}
+	}
 	else
-		{
+	{
 		return (JXGetChooseSaveFile())->GetDialogState();
-		}
+	}
 }
 
 /******************************************************************************

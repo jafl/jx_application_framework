@@ -61,26 +61,26 @@ JParseURL
 
 	const JStringMatch m = urlPattern.Match(url, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
-		{
+	{
 		protocol->Set(m.GetSubstring(1));
 		host->Set(m.GetSubstring(2));
 
 		if (!m.GetSubstring(3).ConvertToUInt(port))
-			{
+		{
 			*port = 0;
-			}
+		}
 
 		if (!m.GetCharacterRange(4).IsEmpty())
-			{
+		{
 			path->Set(m.GetSubstring(4));
-			}
+		}
 		else
-			{
+		{
 			*path = "/";
-			}
+		}
 
 		return true;
-		}
+	}
 
 	return false;
 }
@@ -100,35 +100,35 @@ JGetDefaultPort
 	)
 {
 	if (JString::Compare(protocol, "http", JString::kIgnoreCase) == 0)
-		{
+	{
 		*port = kJDefaultHTTPPort;
 		return true;
-		}
+	}
 	else if (JString::Compare(protocol, "https", JString::kIgnoreCase) == 0)
-		{
+	{
 		*port = kJDefaultHTTPSPort;
 		return true;
-		}
+	}
 	else if (JString::Compare(protocol, "ftp", JString::kIgnoreCase) == 0)
-		{
+	{
 		*port = kJDefaultFTPPort;
 		return true;
-		}
+	}
 	else if (JString::Compare(protocol, "sftp", JString::kIgnoreCase) == 0)
-		{
+	{
 		*port = kJDefaultSFTPPort;
 		return true;
-		}
+	}
 	else if (JString::Compare(protocol, "ssh", JString::kIgnoreCase) == 0)
-		{
+	{
 		*port = kJDefaultSSHPort;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*port = 0;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -162,37 +162,37 @@ JCheckForNewerVersion
 	JString protocol, host, path;
 	JIndex port;
 	if (!JParseURL(versionURL, &protocol, &host, &port, &path))
-		{
+	{
 		std::cerr << "unable to parse url: " << versionURL << std::endl;
 		return;
-		}
+	}
 
 	if (port == 0 && !JGetDefaultPort(protocol, &port))
-		{
+	{
 		std::cerr << "unknown protocol in versionURL: " << versionURL << std::endl;
 		return;
-		}
+	}
 
 	auto* socket = new VersionSocket(host, path, prefsMgr, prefID);
 	assert( socket != nullptr );
 
 	const JString vers = socket->GetLatestVersion();
 	if (socket->TimeToRemind())
-		{
+	{
 		const JUtf8Byte* map[] =
-			{
+		{
 			"vers", vers.GetBytes(),
 			"site", host.GetBytes()
-			};
+		};
 		const JString msg = JGetString("JRemindNewVersion", map, sizeof(map));
 		if (JGetUserNotification()->AskUserYes(msg))
-			{
+		{
 			(JGetWebBrowser())->ShowURL(JGetString("DOWNLOAD_URL"));
-			}
 		}
+	}
 
 	if (socket->TimeToCheck())
-		{
+	{
 		ACE_INET_Addr addr(port, host.GetBytes());
 
 		auto* connector = new VersionConnector;
@@ -200,13 +200,13 @@ JCheckForNewerVersion
 
 		if (connector->connect(socket, addr, ACE_Synch_Options::asynch) == -1 &&
 			jerrno() != EAGAIN)
-			{
+		{
 //			std::cerr << "unable to open socket: " << versionURL << std::endl;
 			delete connector;
-			}
 		}
+	}
 	else
-		{
+	{
 		delete socket;
-		}
+	}
 }

@@ -89,10 +89,10 @@ JFont::SetSize
 	)
 {
 	if (size != itsSize)
-		{
+	{
 		itsSize = size;
 		UpdateID();
-		}
+	}
 }
 
 /******************************************************************************
@@ -107,10 +107,10 @@ JFont::SetStyle
 	)
 {
 	if (style != itsStyle)
-		{
+	{
 		itsStyle = style;
 		UpdateID();
-		}
+	}
 }
 
 void
@@ -120,10 +120,10 @@ JFont::SetBold
 	)
 {
 	if (bold != itsStyle.bold)
-		{
+	{
 		itsStyle.bold = bold;
 		UpdateID();
-		}
+	}
 }
 
 void
@@ -133,10 +133,10 @@ JFont::SetItalic
 	)
 {
 	if (italic != itsStyle.italic)
-		{
+	{
 		itsStyle.italic = italic;
 		UpdateID();
-		}
+	}
 }
 
 void
@@ -263,12 +263,12 @@ JFont::HasGlyphsForString
 	JStringIterator iter(s);
 	JUtf8Character c;
 	while (iter.Next(&c))
-		{
+	{
 		if (!fontManager->HasGlyphForCharacter(itsID, c))
-			{
+		{
 			return false;
-			}
 		}
+	}
 
 	return true;
 }
@@ -304,14 +304,14 @@ JFont::SubstituteToDisplayGlyph
 	)
 {
 	if (!fontManager->HasGlyphForCharacter(itsID, c))
-		{
+	{
 		JString name;
 		if (fontManager->GetSubstituteFontName(*this, c, &name))
-			{
+		{
 			SetName(name);
 			return true;
-			}
 		}
+	}
 
 	return false;
 }

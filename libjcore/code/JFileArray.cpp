@@ -138,7 +138,7 @@ const JFloat kBlockDelay     = 0.25;	// seconds
 // size of various data items stored in the file
 
 enum
-	{
+{
 	// stored at front of file
 
 	kVersionLength       = JFileArray::kUnsignedLongLength,
@@ -156,7 +156,7 @@ enum
 	// at the front of each element
 
 	kElementSizeLength   = JFileArray::kUnsignedLongLength
-	};
+};
 
 /******************************************************************************
  Constructor function (base file) (static)
@@ -193,14 +193,14 @@ JFileArray::Create
 {
 	const JError err = OKToCreateBase(fileName, fileSignature, action);
 	if (err.OK())
-		{
+	{
 		*obj = jnew JFileArray(fileName, fileSignature, action);
 		assert( *obj != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*obj = nullptr;
-		}
+	}
 	return err;
 }
 
@@ -213,11 +213,11 @@ JFileArray::OKToCreateBase
 	)
 {
 	if (JFileExists(fileName))
-		{
+	{
 		if (!JFileWritable(fileName))
-			{
+		{
 			return FileNotWritable(fileName);
-			}
+		}
 
 		std::ifstream input(fileName.GetBytes());
 
@@ -226,56 +226,56 @@ JFileArray::OKToCreateBase
 		const JSize sigLength   = strlen(fileSignature);
 		const JString signature = JRead(input, sigLength);
 		if (signature != fileSignature)
-			{
+		{
 			return WrongSignature(fileName);
-			}
+		}
 
 		// check open flag
 
 		if (action == kIgnoreIfOpen || !FileIsOpen(input, sigLength))
-			{
+		{
 			return JNoError();
-			}
+		}
 		else if (action == kFailIfOpen)
-			{
+		{
 			return FileAlreadyOpen(fileName);
-			}
+		}
 		else if (action == kDeleteIfOpen)
-			{
+		{
 			return JRemoveFile(fileName);
-			}
+		}
 		else
-			{
+		{
 			for (JIndex i=1; i<=kMaxAttemptCount; i++)
-				{
+			{
 				input.close();
 				JWait(kBlockDelay);
 				input.open(fileName.GetBytes());	// avoid buffering problems
 				if (!FileIsOpen(input, sigLength))
-					{
+				{
 					return JNoError();
-					}
-				}
-
-			if (action == kDeleteIfWaitTimeout)
-				{
-				return JRemoveFile(fileName);
-				}
-			else
-				{
-				return FileAlreadyOpen(fileName);
 				}
 			}
+
+			if (action == kDeleteIfWaitTimeout)
+			{
+				return JRemoveFile(fileName);
+			}
+			else
+			{
+				return FileAlreadyOpen(fileName);
+			}
 		}
+	}
 	else
-		{
+	{
 		JString path, name;
 		JSplitPathAndName(fileName, &path, &name);
 		if (!JDirectoryWritable(path))
-			{
+		{
 			return JAccessDenied(path);
-			}
 		}
+	}
 
 	return JNoError();
 }
@@ -312,9 +312,9 @@ JFileArray::JFileArray
 	// open the file for use
 
 	if (isNew)		// hack: gcc 3.2.x doesn't allow std::ios::in if file doesn't exist!
-		{
+	{
 		std::ofstream temp(fileName.GetBytes());
-		}
+	}
 
 	itsStream = jnew std::fstream;
 	assert( itsStream != nullptr );
@@ -354,14 +354,14 @@ JFileArray::Create
 	const JError err =
 		OKToCreateEmbedded(theEnclosingFile, enclosureElementID);
 	if (err.OK())
-		{
+	{
 		*obj = jnew JFileArray(theEnclosingFile, enclosureElementID);
 		assert( *obj != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*obj = nullptr;
-		}
+	}
 	return err;
 }
 
@@ -374,17 +374,17 @@ JFileArray::OKToCreateEmbedded
 {
 	JFAIndex index;
 	if (theEnclosingFile->IDToIndex(enclosureElementID, &index))
-		{
+	{
 		JFileArrayIndex* fileIndex = theEnclosingFile->GetFileArrayIndex();
 		if (!fileIndex->IsEmbeddedFile(index))
-			{
+		{
 			return NotEmbeddedFile(index.GetIndex());
-			}
-		else if (!fileIndex->EmbeddedFileIsClosed(index))
-			{
-			return FileAlreadyOpen(JString("embedded file", JString::kNoCopy));
-			}
 		}
+		else if (!fileIndex->EmbeddedFileIsClosed(index))
+		{
+			return FileAlreadyOpen(JString("embedded file", JString::kNoCopy));
+		}
+	}
 
 	return JNoError();
 }
@@ -441,7 +441,7 @@ JFileArray::FileArrayX
 	itsFlushChangesFlag = false;
 
 	if (isNew)
-		{
+	{
 		itsVersion = kInitialVersion;
 		SetElementCount(0);
 		itsIndexOffset = itsFileSignatureByteCount + kFileHeaderLength;
@@ -449,23 +449,23 @@ JFileArray::FileArrayX
 		SetFileLength(itsIndexOffset);
 
 		if (itsFileSignatureByteCount > 0)
-			{
+		{
 			SetReadWriteMark(0, kFromFileStart);
 			itsStream->write(fileSignature, itsFileSignatureByteCount);
-			}
+		}
 
 		WriteVersion();
 		WriteElementCount();
 		WriteIndexOffset();
 		// no index to write out
-		}
+	}
 	else
-		{
+	{
 		ReadVersion();
 		ReadElementCount();
 		ReadIndexOffset();
 		ReadIndex(GetElementCount());
-		}
+	}
 
 	// set high bit to lock file
 
@@ -504,16 +504,16 @@ JFileArray::~JFileArray()
 	// embedded file notifies enclosing file
 
 	if (itsEnclosingFile != nullptr)
-		{
+	{
 		itsEnclosingFile->EmbeddedFileClosed(itsEnclosureElementID);
 		itsEnclosingFile = nullptr;
-		}
+	}
 	else
-		{
+	{
 		itsStream->close();
 		jdelete itsStream;
 		jdelete itsFileName;
-		}
+	}
 
 	itsStream   = nullptr;
 	itsFileName = nullptr;
@@ -541,7 +541,7 @@ JFileArray::OpenEmbeddedFile
 
 	JFAIndex index;
 	if (!IDToIndex(id, &index))
-		{
+	{
 		*isNew = true;
 
 		std::ostringstream emptyStream;
@@ -551,7 +551,7 @@ JFileArray::OpenEmbeddedFile
 
 		itsFileIndex->SetElementID(index, id);
 		itsFileIndex->SetToEmbeddedFile(index);
-		}
+	}
 
 	itsFileIndex->EmbeddedFileOpened(index, theEmbeddedFile);
 
@@ -589,14 +589,14 @@ JFileArray::GetFileName()
 	const
 {
 	if (itsEnclosingFile != nullptr)
-		{
+	{
 		return itsEnclosingFile->GetFileName();
-		}
+	}
 	else
-		{
+	{
 		assert( itsFileName != nullptr );
 		return *itsFileName;
-		}
+	}
 }
 
 /******************************************************************************
@@ -775,9 +775,9 @@ JFileArray::InsertElementAtIndex
 
 	JFAIndex trueIndex = index;
 	if (trueIndex.GetIndex() > elementCount)
-		{
+	{
 		trueIndex.SetIndex(elementCount + 1);
-		}
+	}
 
 	// get information about the new element
 
@@ -903,9 +903,9 @@ JFileArray::MoveElementToIndex
 	assert( IndexValid(newIndex) );
 
 	if (currentIndex.GetIndex() == newIndex.GetIndex())
-		{
+	{
 		return;
-		}
+	}
 
 	// we only have to rearrange the information in the index
 
@@ -938,9 +938,9 @@ JFileArray::SwapElements
 	assert( IndexValid(index2) );
 
 	if (index1.GetIndex() == index2.GetIndex())
-		{
+	{
 		return;
-		}
+	}
 
 	// we only have to rearrange the information in the index
 
@@ -973,15 +973,15 @@ JFileArray::IndexToID
 	const
 {
 	if (IndexValid(index))
-		{
+	{
 		*id = itsFileIndex->GetElementID(index);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		id->SetID(JFAID::kInvalidID);
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1046,19 +1046,19 @@ JFileArray::SetElementSize
 	// expand or shrink the file as necessary
 
 	if (changeInSize > 0)
-		{
+	{
 		SetFileLength(GetFileLength() + changeInSize);
 		ExpandData(elementOffset + kElementSizeLength + oldSize, changeInSize);
-		}
+	}
 	else if (changeInSize < 0)
-		{
+	{
 		CompactData(elementOffset + kElementSizeLength + newSize, -changeInSize);
 		SetFileLength(GetFileLength() + changeInSize);
-		}
+	}
 	else
-		{
+	{
 		return;
-		}
+	}
 
 	// write new element size
 
@@ -1094,9 +1094,9 @@ JFileArray::ExpandData
 	)
 {
 	if (spaceNeeded == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	const JSize totalLength = itsIndexOffset;
 	assert( offset <= totalLength );
@@ -1108,9 +1108,9 @@ JFileArray::ExpandData
 	// if the space is needed at the end of the data allocation, we are already done
 
 	if (offset == totalLength)
-		{
+	{
 		return;
-		}
+	}
 
 	// allocate temporary memory for transfer of data
 
@@ -1125,7 +1125,7 @@ JFileArray::ExpandData
 	// transfer data in blocks
 
 	while (true)
-		{
+	{
 		SetReadWriteMark(mark, kFromFileStart);
 		itsStream->read(data, dataSize);
 
@@ -1133,25 +1133,25 @@ JFileArray::ExpandData
 		itsStream->write(data, dataSize);
 
 		if (mark <= offset)				// we're done
-			{
+		{
 			break;
-			}
+		}
 
 		if (mark >= dataSize)
-			{
+		{
 			mark -= dataSize;
 			if (mark < offset)				// catch leftovers
-				{
+			{
 				dataSize -= (offset - mark);
 				mark = offset;
-				}
-			}
-		else	// mark < dataSize
-			{
-			dataSize = mark - offset;
-			mark     = offset;
 			}
 		}
+		else	// mark < dataSize
+		{
+			dataSize = mark - offset;
+			mark     = offset;
+		}
+	}
 
 	// throw out temporary allocation
 
@@ -1184,9 +1184,9 @@ JFileArray::CompactData
 	)
 {
 	if (blankSize == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	const JSize totalLength = itsIndexOffset;
 	assert( offset < totalLength );
@@ -1199,9 +1199,9 @@ JFileArray::CompactData
 	// if the unneeded space is at the end of the data allocation, we are already done
 
 	if (offset + blankSize == totalLength)
-		{
+	{
 		return;
-		}
+	}
 
 	// allocate temporary memory for transfer of data
 
@@ -1216,7 +1216,7 @@ JFileArray::CompactData
 	// transfer data in blocks
 
 	while (true)
-		{
+	{
 		SetReadWriteMark(mark, kFromFileStart);
 		itsStream->read(data, dataSize);
 
@@ -1225,15 +1225,15 @@ JFileArray::CompactData
 
 		mark += dataSize;
 		if (mark >= totalLength)
-			{
+		{
 			break;
-			}
+		}
 
 		if (mark + dataSize > totalLength)		// catch leftovers
-			{
+		{
 			dataSize = totalLength - mark;
-			}
 		}
+	}
 
 	// throw out temporary allocation
 
@@ -1272,13 +1272,13 @@ void
 JFileArray::FlushChanges()
 {
 	if (itsFlushChangesFlag)
-		{
+	{
 		WriteVersion();
 		WriteElementCount();
 		WriteIndexOffset();
 		WriteIndex();
 		itsStream->flush();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1330,9 +1330,9 @@ JFileArray::WriteElementCount()
 
 	JSize count = GetElementCount();
 	if (itsIsOpenFlag)
-		{
+	{
 		count |= kFileLockedMask;
-		}
+	}
 
 	WriteUnsignedLong(*itsStream, count);
 }
@@ -1429,12 +1429,12 @@ JFileArray::ReadUnsignedLong
 
 	unsigned long result = 0;
 	for (JUnsignedOffset i=0; i<kUnsignedLongLength; i++)
-		{
+	{
 		char c;
 		input.read(&c,1);
 		unsigned long x = (unsigned char) c;
 		result += (x << (8*i));
-		}
+	}
 
 	return result;
 }
@@ -1456,10 +1456,10 @@ JFileArray::WriteUnsignedLong
 	assert( sizeof(unsigned long) >= kUnsignedLongLength );
 
 	for (JUnsignedOffset i=0; i<kUnsignedLongLength; i++)
-		{
+	{
 		const char c = (char) ((value >> (8*i)) & 0x000000FF);
 		output.write(&c,1);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1523,7 +1523,7 @@ JFileArray::GetStartOfFile()
 	const
 {
 	if (itsEnclosingFile != nullptr)
-		{
+	{
 		JFAIndex enclosureElementIndex;
 		const bool ok =
 			itsEnclosingFile->IDToIndex(itsEnclosureElementID, &enclosureElementIndex);
@@ -1532,11 +1532,11 @@ JFileArray::GetStartOfFile()
 		const JUnsignedOffset enclosureOffset =
 			(itsEnclosingFile->itsFileIndex)->GetElementOffset(enclosureElementIndex);
 		return enclosureOffset + kElementSizeLength;
-		}
+	}
 	else
-		{
+	{
 		return 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1551,18 +1551,18 @@ JFileArray::GetFileLength()
 	const
 {
 	if (itsEnclosingFile != nullptr)
-		{
+	{
 		JFAIndex enclosureElementIndex;
 		const bool ok =
 			itsEnclosingFile->IDToIndex(itsEnclosureElementID, &enclosureElementIndex);
 		assert( ok );
 
 		return itsEnclosingFile->GetElementSize(enclosureElementIndex);
-		}
+	}
 	else
-		{
+	{
 		return JGetFStreamLength(*itsStream);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1578,16 +1578,16 @@ JFileArray::SetFileLength
 	)
 {
 	if (itsEnclosingFile != nullptr)
-		{
+	{
 		JFAIndex enclosureElementIndex;
 		const bool ok =
 			itsEnclosingFile->IDToIndex(itsEnclosureElementID, &enclosureElementIndex);
 		assert( ok );
 
 		itsEnclosingFile->SetElementSize(enclosureElementIndex, newLength);
-		}
+	}
 	else
-		{
+	{
 		// closes old std::fstream, changes file length, returns new std::fstream
 
 		std::fstream* newStream =
@@ -1597,7 +1597,7 @@ JFileArray::SetFileLength
 		// deletes the old std::fstream and notifies embedded files of new one
 
 		ReplaceStream(newStream);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1620,9 +1620,9 @@ JFileArray::ReplaceStream
 	// replace our stream with the new stream
 
 	if (itsEnclosingFile == nullptr)
-		{
+	{
 		jdelete itsStream;
-		}
+	}
 	itsStream = newStream;
 
 	// notify all embedded files -- this makes us recursive
@@ -1666,19 +1666,19 @@ JFileArray::SetReadWriteMark
 	const JSize           fileLength  = GetFileLength();
 
 	if (fromWhere == kFromFileStart)
-		{
+	{
 		assert( howFar >= 0 && ((JSize) howFar) <= fileLength );
 
 		itsStream->seekg(startOfFile + howFar);
 		itsStream->seekp(startOfFile + howFar);
-		}
+	}
 	else if (fromWhere == kFromFileEnd)
-		{
+	{
 		assert( -howFar >= 0 && ((JSize) -howFar) <= fileLength );
 
 		itsStream->seekg((startOfFile + fileLength) + howFar);
 		itsStream->seekp((startOfFile + fileLength) + howFar);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1782,8 +1782,8 @@ JFileArray::NotEmbeddedFile::NotEmbeddedFile
 {
 	const JString s((JUInt64) index);
 	static const JUtf8Byte* map[] =
-	{
+{
 		"index", s.GetBytes()
-	};
+};
 	SetMessage(map, sizeof(map));
 }

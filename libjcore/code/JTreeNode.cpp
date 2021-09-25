@@ -52,9 +52,9 @@ JTreeNode::~JTreeNode()
 	DisconnectFromParent();
 
 	if (itsTree != nullptr)
-		{
+	{
 		itsTree->BroadcastDelete(this);
-		}
+	}
 }
 
 /******************************************************************************
@@ -102,16 +102,16 @@ JTreeNode::SetTree
 	)
 {
 	if (!itsIsDestructingFlag && tree != itsTree)
-		{
+	{
 		itsTree = tree;
 		if (itsChildren != nullptr)
-			{
+		{
 			for (auto* n : *itsChildren)
-				{
+			{
 				n->SetTree(tree);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -160,17 +160,17 @@ JTreeNode::ShouldBeOpenable
 	)
 {
 	if (itsIsOpenableFlag != openable)
-		{
+	{
 		if (!openable)
-			{
+		{
 			DeleteAllChildren();
-			}
+		}
 		itsIsOpenableFlag = openable;
 		if (itsTree != nullptr)
-			{
+		{
 			itsTree->BroadcastChange(this);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -199,16 +199,16 @@ JTreeNode::GetIndexInParent
 	const
 {
 	if (itsParent != nullptr)
-		{
+	{
 		const bool found = itsParent->FindChild(this, index);
 		assert( found );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*index = 0;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -222,9 +222,9 @@ void
 JTreeNode::DisconnectFromParent()
 {
 	if (itsParent != nullptr)
-		{
+	{
 		itsParent->Remove(this);
-		}
+	}
 }
 
 /******************************************************************************
@@ -240,12 +240,12 @@ JTreeNode::GetDescendantCount()
 {
 	JSize count = 0;
 	if (itsChildren != nullptr)
-		{
+	{
 		for (const auto* n : *itsChildren)
-			{
+		{
 			count += 1 + n->GetDescendantCount();
-			}
 		}
+	}
 
 	return count;
 }
@@ -265,15 +265,15 @@ JTreeNode::CollectDescendants
 	)
 {
 	if (itsChildren != nullptr)
-		{
+	{
 		list->SetCleanUpAction(JPtrArrayT::kForgetAll);
 
 		for (auto* child : *itsChildren)
-			{
+		{
 			list->Append(child);
 			child->CollectDescendants(list);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -378,10 +378,10 @@ JTreeNode::InsertSorted
 
 	CreateChildList();
 	if (!itsChildren->Includes(child))
-		{
+	{
 		itsChildren->InsertSorted(child);
 		BroadcastInsertChild(child, isMove);
-		}
+	}
 }
 
 /******************************************************************************
@@ -401,25 +401,25 @@ JTreeNode::SetChildCompareFunction
 	)
 {
 	if (compareFn != itsCompareFn || order != itsSortOrder)
-		{
+	{
 		itsCompareFn = compareFn;
 		itsSortOrder = order;
 
 		if (itsChildren != nullptr)
-			{
+		{
 			itsChildren->SetCompareFunction(compareFn);
 			itsChildren->SetSortOrder(order);
 			SortChildren();
-			}
 		}
+	}
 
 	if (propagate && itsChildren != nullptr)
-		{
+	{
 		for (auto* n : *itsChildren)
-			{
+		{
 			n->SetChildCompareFunction(compareFn, order, true);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -436,25 +436,25 @@ JTreeNode::SortChildren
 	)
 {
 	if (itsChildren != nullptr && itsCompareFn != nullptr)
-		{
+	{
 		if (itsTree != nullptr)
-			{
+		{
 			ListenTo(itsChildren);
-			}
+		}
 		itsChildren->Sort();
 		if (itsTree != nullptr)
-			{
+		{
 			StopListening(itsChildren);
-			}
 		}
+	}
 
 	if (propagate && itsChildren != nullptr)
-		{
+	{
 		for (auto* n : *itsChildren)
-			{
+		{
 			n->SortChildren(propagate);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -473,7 +473,7 @@ JTreeNode::Receive
 	)
 {
 	if (sender == itsChildren && message.Is(JListT::kElementMoved))
-		{
+	{
 		assert( itsTree != nullptr );
 
 		const auto* info =
@@ -495,12 +495,12 @@ JTreeNode::Receive
 		itsChildren->InsertAtIndex(newIndex, child);
 		itsTree->BroadcastInsert(this, child, newIndex);
 		itsTree->BroadcastMoveFinished(child);
-		}
+	}
 
 	else
-		{
+	{
 		JBroadcaster::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -523,10 +523,10 @@ JTreeNode::SetParent
 
 	bool isMove = false;
 	if (itsTree != nullptr && itsParent != nullptr && parent->itsTree == itsTree)
-		{
+	{
 		isMove = true;
 		itsTree->BroadcastPrepareForMove(this);
-		}
+	}
 
 	DisconnectFromParent();
 	itsParent = parent;
@@ -544,14 +544,14 @@ void
 JTreeNode::CreateChildList()
 {
 	if (itsChildren == nullptr)
-		{
+	{
 		itsChildren = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
 		assert( itsChildren != nullptr );
 		itsChildren->SetCompareFunction(itsCompareFn);
 		itsChildren->SetSortOrder(itsSortOrder);
 
 		ShouldBeOpenable(true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -567,17 +567,17 @@ JTreeNode::BroadcastInsertChild
 	)
 {
 	if (itsTree != nullptr && itsChildren != nullptr)
-		{
+	{
 		JIndex index;
 		const bool found = itsChildren->Find(child, &index);
 		assert( found );
 		itsTree->BroadcastInsert(this, child, index);
 
 		if (isMove)
-			{
+		{
 			itsTree->BroadcastMoveFinished(child);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -594,22 +594,22 @@ JTreeNode::Remove
 	JIndex index;
 	if (!itsIsDestructingFlag && itsChildren != nullptr &&
 		itsChildren->Find(child, &index))
-		{
+	{
 		child->itsParent = nullptr;
 		child->SetTree(nullptr);
 
 		itsChildren->RemoveElement(index);
 		if (itsTree != nullptr)
-			{
+		{
 			itsTree->BroadcastRemove(child);
-			}
+		}
 
 		if (itsChildren->IsEmpty())
-			{
+		{
 			jdelete itsChildren;
 			itsChildren = nullptr;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -621,14 +621,14 @@ void
 JTreeNode::DeleteAllChildren()
 {
 	if (itsChildren != nullptr)
-		{
+	{
 		const JSize count = itsChildren->GetElementCount();
 		for (JIndex i=count; i>=1; i--)
-			{
+		{
 			jdelete itsChildren->GetElement(i);
-			}
+		}
 
 		jdelete itsChildren;
 		itsChildren = nullptr;
-		}
+	}
 }

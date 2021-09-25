@@ -88,9 +88,9 @@ JAliasArray<T>::JAliasArrayX2()
 {
 	const JSize count = itsData->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		itsIndexArray->InsertSorted(i);		// faster than calling Sort() afterwards
-		}
+	}
 
 	SetElementCount(count);
 	ListenTo(itsData);
@@ -299,17 +299,17 @@ public:
 	Compare(const JIndex& i1, const JIndex& i2) const
 	{
 		if (itsSearchData == nullptr || (i1 > 0 && i2 > 0))
-			{
+		{
 			return itsCompareObj.Compare(itsData.GetElement(i1), itsData.GetElement(i2));
-			}
+		}
 		else if (i1 == 0)
-			{
+		{
 			return itsCompareObj.Compare(*itsSearchData, itsData.GetElement(i2));
-			}
+		}
 		else	// i2 == 0
-			{
+		{
 			return itsCompareObj.Compare(itsData.GetElement(i1), *itsSearchData);
-			}
+		}
 	}
 
 	virtual JElementComparison<JIndex>*
@@ -442,9 +442,9 @@ JAliasArray<T>::SearchSorted
 	bool found;
 	*index = SearchSorted1(target, which, &found);
 	if (!found)
-		{
+	{
 		*index = 0;
-		}
+	}
 	return found;
 }
 
@@ -489,9 +489,9 @@ JAliasArray<T>::SearchSorted1
 	const JSize count = itsIndexArray->GetElementCount(); \
 	JIndex* data      = const_cast<JIndex*>(itsIndexArray->GetCArray()); \
 	for (JIndex _i=0; _i<count; _i++) \
-		{ \
+	{ \
 		m->AdjustIndex(data + _i); \
-		}
+	}
 
 template <class T>
 void
@@ -502,57 +502,57 @@ JAliasArray<T>::Receive
 	)
 {
 	if (sender == itsData && message.Is(JListT::kElementsInserted))
-		{
+	{
 		const JListT::ElementsInserted* m =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
 
 		for (JIndex i = m->GetFirstIndex(); i <= m->GetLastIndex(); i++)
-			{
+		{
 			itsIndexArray->InsertSorted(i);
-			}
+		}
 
 		SetElementCount(GetElementCount() + m->GetCount());
-		}
+	}
 	else if (sender == itsData && message.Is(JListT::kElementsRemoved))
-		{
+	{
 		const JListT::ElementsRemoved* m =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( m != nullptr );
 
 		const JSize count = itsIndexArray->GetElementCount();
 		for (JIndex i=count; i>=1; i--)
-			{
+		{
 			JIndex index = itsIndexArray->GetElement(i);
 			if (m->AdjustIndex(&index))
-				{
+			{
 				itsIndexArray->SetElement(i, index);
-				}
-			else
-				{
-				itsIndexArray->RemoveElement(i);
-				}
 			}
+			else
+			{
+				itsIndexArray->RemoveElement(i);
+			}
+		}
 
 		SetElementCount(GetElementCount() - m->GetCount());
-		}
+	}
 	else if (sender == itsData && message.Is(JListT::kElementMoved))
-		{
+	{
 		const JListT::ElementMoved* m =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
-		}
+	}
 	else if (sender == itsData && message.Is(JListT::kElementsSwapped))
-		{
+	{
 		const JListT::ElementsSwapped* m =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
-		}
+	}
 	else if (sender == itsData && message.Is(JListT::kElementsChanged))
-		{
+	{
 		// Sort() would be O(N log N).  This method is O(N) + O(log N) = O(N).
 
 		const JListT::ElementsChanged* m =
@@ -560,29 +560,29 @@ JAliasArray<T>::Receive
 		assert( m != nullptr );
 
 		for (JIndex j=m->GetFirstIndex(); j<=m->GetLastIndex(); j++)
-			{
+		{
 			const JSize count = itsIndexArray->GetElementCount();
 			for (JIndex i=1; i<=count; i++)
-				{
+			{
 				if (itsIndexArray->GetElement(i) == j)
-					{
+				{
 					itsIndexArray->RemoveElement(i);
 					break;
-					}
 				}
+			}
 
 			itsIndexArray->InsertSorted(j);
-			}
 		}
+	}
 	else if (sender == itsData && message.Is(JListT::kSorted))
-		{
+	{
 		itsIndexArray->Sort();
-		}
+	}
 
 	else
-		{
+	{
 		JCollection::Receive(sender, message);
-		}
+	}
 }
 
 #undef ADJUST_INDEX
@@ -600,13 +600,13 @@ JAliasArray<T>::ReceiveGoingAway
 	)
 {
 	if (sender == itsData)
-		{
+	{
 		itsData = nullptr;
-		}
+	}
 	else
-		{
+	{
 		JCollection::ReceiveGoingAway(sender);
-		}
+	}
 }
 
 #endif

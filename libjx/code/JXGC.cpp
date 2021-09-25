@@ -101,23 +101,23 @@ JXGC::GetClipping
 	*offset = itsClipOffset;
 
 	if (itsClipRegion != nullptr)
-		{
+	{
 		*region = JXCopyRegion(itsClipRegion);
-		}
+	}
 	else
-		{
+	{
 		*region = nullptr;
-		}
+	}
 
 	if (itsClipPixmap != None)
-		{
+	{
 		*pixmap = jnew JXImageMask(itsDisplay, itsClipPixmap);
 		assert( *pixmap != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*pixmap = nullptr;
-		}
+	}
 
 	return itsClipRegion != nullptr || itsClipPixmap != None;
 }
@@ -218,10 +218,10 @@ void
 JXGC::ClearClipping()
 {
 	if (itsClipRegion != nullptr || itsClipPixmap != None)
-		{
+	{
 		ClearPrivateClipping();
 		XSetClipMask(*itsDisplay, itsXGC, None);
-		}
+	}
 }
 
 /******************************************************************************
@@ -235,16 +235,16 @@ JXGC::ClearPrivateClipping()
 	itsClipOffset = JPoint(0,0);
 
 	if (itsClipRegion != nullptr)
-		{
+	{
 		XDestroyRegion(itsClipRegion);
 		itsClipRegion = nullptr;
-		}
+	}
 
 	if (itsClipPixmap != None)
-		{
+	{
 		XFreePixmap(*itsDisplay, itsClipPixmap);
 		itsClipPixmap = None;
-		}
+	}
 }
 
 /******************************************************************************
@@ -259,22 +259,22 @@ JXGC::SetDrawingColor
 	)
 {
 	if (color != itsLastColor || !itsLastColorInit)
-		{
+	{
 		itsLastColorInit = true;
 		itsLastColor     = color;
 
 		unsigned long xPixel;
 		if (itsDepth == 1)
-			{
+		{
 			xPixel = JXImageMask::ColorToBit(color);
-			}
+		}
 		else
-			{
+		{
 			xPixel = itsDisplay->GetColorManager()->GetXColor(color);
-			}
+		}
 
 		XSetForeground(*itsDisplay, itsXGC, xPixel);
-		}
+	}
 }
 
 /******************************************************************************
@@ -289,10 +289,10 @@ JXGC::SetDrawingFunction
 	)
 {
 	if (function != itsLastFunction)
-		{
+	{
 		itsLastFunction = function;
 		XSetFunction(*itsDisplay, itsXGC, function);
-		}
+	}
 }
 
 /******************************************************************************
@@ -307,13 +307,13 @@ JXGC::SetLineWidth
 	)
 {
 	if (width != itsLastLineWidth)
-		{
+	{
 		itsLastLineWidth = width;
 
 		XSetLineAttributes(*itsDisplay, itsXGC,
 						   itsLastLineWidth, GetXLineStyle(itsDashedLinesFlag),
 						   kDefaultCapStyle, kDefaultJoinStyle);
-		}
+	}
 }
 
 /******************************************************************************
@@ -328,13 +328,13 @@ JXGC::DrawDashedLines
 	)
 {
 	if (on != itsDashedLinesFlag)
-		{
+	{
 		itsDashedLinesFlag = on;
 
 		XSetLineAttributes(*itsDisplay, itsXGC,
 						   itsLastLineWidth, GetXLineStyle(itsDashedLinesFlag),
 						   kDefaultCapStyle, kDefaultJoinStyle);
-		}
+	}
 }
 
 /******************************************************************************
@@ -355,9 +355,9 @@ JXGC::SetDashList
 	assert( xDashList != nullptr );
 
 	for (JIndex i=1; i<=dashCount; i++)
-		{
+	{
 		xDashList[i-1] = dashList.GetElement(i);
-		}
+	}
 
 	XSetDashes(*itsDisplay, itsXGC, offset, xDashList, dashCount);
 
@@ -393,10 +393,10 @@ JXGC::SetSubwindowMode
 	)
 {
 	if (mode != itsLastSubwindowMode)
-		{
+	{
 		itsLastSubwindowMode = mode;
 		XSetSubwindowMode(*itsDisplay, itsXGC, mode);
-		}
+	}
 }
 
 /******************************************************************************
@@ -435,14 +435,14 @@ JXGC::DrawLine
 	XDrawLine(*itsDisplay, drawable, itsXGC, x1,y1, x2,y2);
 
 	if (itsLastLineWidth == 1)		// X sometimes doesn't draw either end point
-		{
+	{
 		XPoint pt[2];	// initialization with { ... } causes core dump
 		pt[0].x = x1;
 		pt[0].y = y1;
 		pt[1].x = x2;
 		pt[1].y = y2;
 		XDrawPoints(*itsDisplay, drawable, itsXGC, pt, 2, CoordModeOrigin);
-		}
+	}
 }
 
 /******************************************************************************
@@ -465,11 +465,11 @@ JXGC::DrawLines
 
 	JSize offset = 0;
 	while (offset < ptCount-1)
-		{
+	{
 		const JSize count = JMin(ptCount - offset, kMaxPointCount);
 		XDrawLines(*itsDisplay, drawable, itsXGC, &(xpt[offset]), count, CoordModeOrigin);
 		offset += count - 1;
-		}
+	}
 }
 
 /******************************************************************************
@@ -597,7 +597,7 @@ JXGC::DrawString
 
 	XftColor color;
 	if (xfont.type == JXFontManager::kTrueType)
-		{
+	{
 		const JRGB rgb = JColorManager::GetRGB(itsLastColor);
 
 		XRenderColor renderColor;
@@ -609,7 +609,7 @@ JXGC::DrawString
 		XftColorAllocValue(*itsDisplay, itsDisplay->GetDefaultVisual(),
 						   itsDisplay->GetColorManager()->GetXColormap(),
 						   &renderColor, &color);
-		}
+	}
 
 	const JSize byteCount      = str.GetByteCount();
 	const JSize chunkByteCount = itsDisplay->GetMaxStringByteCount();
@@ -617,37 +617,37 @@ JXGC::DrawString
 	JCoordinate x = origX;
 	JSize offset  = 0;
 	while (offset < byteCount)
-		{
+	{
 		const JUtf8Byte* s = str.GetRawBytes() + offset;	// GetRawBytes() because str may be a shadow
 
 		JSize count = byteCount - offset;
 		if (count > chunkByteCount)
-			{
+		{
 			count = chunkByteCount;
 			JSize byteCount;
 			while (!JUtf8Character::GetCharacterByteCount(s + count, &byteCount))
-				{
+			{
 				count--;
-				}
 			}
+		}
 
 		if (xfont.type == JXFontManager::kStdType)
-			{
+		{
 			// Xutf8DrawString() would be more accurate, but it's not standard, and XmbDrawString() supposedly does a better job.
 			XmbDrawString(*itsDisplay, drawable, xfont.xfset, itsXGC, x,y, s, count);
-			}
+		}
 		else
-			{
+		{
 			assert( xfont.type == JXFontManager::kTrueType );
 			XftDrawStringUtf8(fdrawable, &color, xfont.xftt, x,y, (FcChar8*) s, count);
-			}
+		}
 
 		if (offset + count < byteCount)
-			{
+		{
 			x += itsDisplay->GetXFontManager()->GetStringWidth(itsLastFontID, JString(s, count, JString::kNoCopy));
-			}
-		offset += count;
 		}
+		offset += count;
+	}
 }
 
 /******************************************************************************

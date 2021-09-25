@@ -133,9 +133,9 @@ JXImageSelection::SetData
 	)
 {
 	if (itsImage != nullptr)
-		{
+	{
 		jdelete itsImage;
-		}
+	}
 
 	itsImage = image;
 }
@@ -162,36 +162,36 @@ JXImageSelection::ConvertData
 	*bitsPerBlock = 8;
 
 	if (itsImage == nullptr)
-		{
+	{
 		return false;
-		}
+	}
 
 	JString fileName;
 	if (!(JCreateTempFile(&fileName)).OK())
-		{
+	{
 		return false;
-		}
+	}
 
 	JError err = JUnknownError(1);
 	if (requestType == itsXPMAtom)
-		{
+	{
 		err = itsImage->WriteXPM(fileName);
-		}
+	}
 	else if (requestType == itsGIFAtom)
-		{
+	{
 		err = itsImage->WriteGIF(fileName, false);	// if too many colors, use PNG
-		}
+	}
 	else if (requestType == itsPNGAtom)
-		{
+	{
 		err = itsImage->WritePNG(fileName);
-		}
+	}
 	else if (requestType == itsJPEGAtom)
-		{
+	{
 		err = itsImage->WriteJPEG(fileName);
-		}
+	}
 
 	if (err.OK())
-		{
+	{
 		JString imageData;
 		JReadFile(fileName, &imageData);
 		JRemoveFile(fileName);
@@ -200,7 +200,7 @@ JXImageSelection::ConvertData
 		*dataLength = imageData.GetByteCount();
 		*data       = (unsigned char*) imageData.AllocateBytes();
 		return true;
-		}
+	}
 
 	JRemoveFile(fileName);
 	return false;
@@ -267,40 +267,40 @@ JXImageSelection::GetImage
 
 	JArray<Atom> typeList;
 	if (selMgr->GetAvailableTypes(selectionName, time, &typeList))
-		{
+	{
 		bool xpm=false, gif=false, png=false, jpeg=false;
 
 		for (const auto type : typeList)
-			{
+		{
 			xpm  = xpm  || type == atoms[ kXPMAtomIndex ];
 			gif  = gif  || type == atoms[ kGIFAtomIndex ];
 			png  = png  || type == atoms[ kPNGAtomIndex ];
 			jpeg = jpeg || type == atoms[ kJPEGAtomIndex ];
-			}
+		}
 
 		while (xpm || gif || png || jpeg)
-			{
+		{
 			Atom type = None;
 			if (png)
-				{
+			{
 				png  = false;
 				type = atoms[ kPNGAtomIndex ];
-				}
+			}
 			else if (gif)
-				{
+			{
 				gif  = false;
 				type = atoms[ kGIFAtomIndex ];
-				}
+			}
 			else if (xpm)
-				{
+			{
 				xpm  = false;
 				type = atoms[ kXPMAtomIndex ];
-				}
+			}
 			else if (jpeg)		// JPEG is lossy
-				{
+			{
 				jpeg = false;
 				type = atoms[ kJPEGAtomIndex ];
-				}
+			}
 
 			Atom returnType;
 			unsigned char* data;
@@ -310,7 +310,7 @@ JXImageSelection::GetImage
 			if (selMgr->GetData(selectionName, time, type,
 								&returnType, &data, &dataLength, &delMethod) &&
 				(JCreateTempFile(&fileName)).OK())
-				{
+			{
 				std::ofstream output(fileName.GetBytes());
 				output.write((char*) data, dataLength);
 				output.close();
@@ -322,12 +322,12 @@ JXImageSelection::GetImage
 				JRemoveFile(fileName);
 
 				if (err.OK())
-					{
+				{
 					return true;
-					}
 				}
 			}
 		}
+	}
 
 	*image = nullptr;
 	return false;

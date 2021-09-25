@@ -100,9 +100,9 @@ JXTextMenuData::InsertItem
 	itsNeedGeomRecalcFlag = true;
 
 	if (!nmShortcut.IsEmpty())
-		{
+	{
 		SetNMShortcut(index, nmShortcut);	// parse it and register it
-		}
+	}
 }
 
 /******************************************************************************
@@ -135,9 +135,9 @@ void
 JXTextMenuData::DeleteAll()
 {
 	for (auto itemData : *itsTextItemData)
-		{
+	{
 		CleanOutTextItem(&itemData);
-		}
+	}
 	itsTextItemData->RemoveAll();
 
 	JXMenuData::DeleteAll();
@@ -164,9 +164,9 @@ JXTextMenuData::CleanOutTextItem
 	itemData->nmShortcut = nullptr;
 
 	if (itemData->ownsImage)
-		{
+	{
 		jdelete (itemData->image);
-		}
+	}
 	itemData->image = nullptr;
 }
 
@@ -263,7 +263,7 @@ JXTextMenuData::InsertMenuItems
 	const JSize itemCount = itemList.GetElementCount();
 	JString itemText, shortcuts, nmShortcut, id, strID, id1;
 	for (JIndex i=1; i<=itemCount; i++)
-		{
+	{
 		itemText = *(itemList.GetElement(i));
 
 		bool isActive, hasSeparator;
@@ -272,32 +272,32 @@ JXTextMenuData::InsertMenuItems
 						 &type, &shortcuts, &nmShortcut, &id);
 
 		if (!JString::IsEmpty(idNamespace) && !id.IsEmpty())
-			{
+		{
 			strID  = id;
 			strID += "::";
 			strID += idNamespace;
 			JString* itemText1;
 			if (strMgr->GetElement(strID, &itemText1) && itemText1 != nullptr)
-				{
+			{
 				itemText = *itemText1;
 				bool isActive1, hasSeparator1;
 				JXMenu::ItemType type1;
 				ParseMenuItemStr(&itemText, &isActive1, &hasSeparator1,
 								 &type1, &shortcuts, &nmShortcut, &id1);
-				}
 			}
+		}
 
 		const JIndex j = startIndex + i-1;
 		InsertItem(j, itemText, type, shortcuts, nmShortcut, id);
 		if (!isActive)
-			{
+		{
 			DisableItem(j);
-			}
-		if (hasSeparator)
-			{
-			ShowSeparatorAfter(j);
-			}
 		}
+		if (hasSeparator)
+		{
+			ShowSeparatorAfter(j);
+		}
+	}
 }
 
 /******************************************************************************
@@ -355,64 +355,64 @@ JXTextMenuData::ParseMenuItemStr
 
 	const JSize count = list.GetElementCount();
 	for (JIndex i=2; i<=count; i++)
-		{
+	{
 		const JString* op        = list.GetElement(i);
 		const JUtf8Character opc = op->GetFirstCharacter().ToLower();
 		if (opc == 'd')
-			{
+		{
 			*isActive = false;
-			}
+		}
 		else if (opc == 'l')
-			{
+		{
 			*hasSeparator = true;
-			}
+		}
 		else if (opc == 'b')
-			{
+		{
 			*type = JXMenu::kCheckboxType;
-			}
+		}
 		else if (opc == 'r')
-			{
+		{
 			*type = JXMenu::kRadioType;
-			}
+		}
 
 		else if (opc == 'h' && shortcuts->IsEmpty())
-			{
+		{
 			if (!isOSX)
-				{
+			{
 				*shortcuts = jGetOpValue(*op);
 				shortcuts->TrimWhitespace();
-				}
-			}
-		else if (opc == 'h')
-			{
-			std::cerr << "Tried to use %h more than once in '" << *op << '\'' << std::endl;
-			}
-
-		else if (opc == 'k' && nmShortcut->IsEmpty())
-			{
-			*nmShortcut = jGetOpValue(*op);
-			nmShortcut->TrimWhitespace();
-			}
-		else if (opc == 'k')
-			{
-			std::cerr << "Tried to use %k more than once in '" << *op << '\'' << std::endl;
-			}
-
-		else if (opc == 'i' && id->IsEmpty())
-			{
-			*id = jGetOpValue(*op);
-			id->TrimWhitespace();
-			}
-		else if (opc == 'i')
-			{
-			std::cerr << "Tried to use %i more than once in '" << *op << '\'' << std::endl;
-			}
-
-		else
-			{
-			std::cerr << "Unsupported option %" << opc << " in '" << *op << '\'' << std::endl;
 			}
 		}
+		else if (opc == 'h')
+		{
+			std::cerr << "Tried to use %h more than once in '" << *op << '\'' << std::endl;
+		}
+
+		else if (opc == 'k' && nmShortcut->IsEmpty())
+		{
+			*nmShortcut = jGetOpValue(*op);
+			nmShortcut->TrimWhitespace();
+		}
+		else if (opc == 'k')
+		{
+			std::cerr << "Tried to use %k more than once in '" << *op << '\'' << std::endl;
+		}
+
+		else if (opc == 'i' && id->IsEmpty())
+		{
+			*id = jGetOpValue(*op);
+			id->TrimWhitespace();
+		}
+		else if (opc == 'i')
+		{
+			std::cerr << "Tried to use %i more than once in '" << *op << '\'' << std::endl;
+		}
+
+		else
+		{
+			std::cerr << "Unsupported option %" << opc << " in '" << *op << '\'' << std::endl;
+		}
+	}
 }
 
 /******************************************************************************
@@ -443,12 +443,12 @@ JXTextMenuData::SetFontSize
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
 	if (size != itemData.font.GetSize())
-		{
+	{
 		itemData.font.SetSize(size);
 		itsTextItemData->SetElement(index, itemData);
 
 		itsNeedGeomRecalcFlag = true;
-		}
+	}
 }
 
 void
@@ -460,12 +460,12 @@ JXTextMenuData::SetFontStyle
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
 	if (style != itemData.font.GetStyle())
-		{
+	{
 		itemData.font.SetStyle(style);
 		itsTextItemData->SetElement(index, itemData);
 
 		itsNeedGeomRecalcFlag = true;
-		}
+	}
 }
 
 void
@@ -495,11 +495,11 @@ JXTextMenuData::SetDefaultFontName
 	)
 {
 	if (updateExisting)
-		{
+	{
 		JFont f = itsDefaultFont;
 		f.SetName(name);
 		UpdateItemFonts(itsDefaultFont, f);
-		}
+	}
 
 	itsDefaultFont.SetName(name);
 }
@@ -512,11 +512,11 @@ JXTextMenuData::SetDefaultFontSize
 	)
 {
 	if (updateExisting)
-		{
+	{
 		JFont f = itsDefaultFont;
 		f.SetSize(size);
 		UpdateItemFonts(itsDefaultFont, f);
-		}
+	}
 
 	itsDefaultFont.SetSize(size);
 }
@@ -529,11 +529,11 @@ JXTextMenuData::SetDefaultFontStyle
 	)
 {
 	if (updateExisting)
-		{
+	{
 		JFont f = itsDefaultFont;
 		f.SetStyle(style);
 		UpdateItemFonts(itsDefaultFont, f);
-		}
+	}
 
 	itsDefaultFont.SetStyle(style);
 }
@@ -546,9 +546,9 @@ JXTextMenuData::SetDefaultFont
 	)
 {
 	if (updateExisting)
-		{
+	{
 		UpdateItemFonts(itsDefaultFont, font);
-		}
+	}
 
 	itsDefaultFont = font;
 }
@@ -567,16 +567,16 @@ JXTextMenuData::UpdateItemFonts
 {
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		TextItemData itemData = itsTextItemData->GetElement(i);
 		if (itemData.font == oldFont)
-			{
+		{
 			itemData.font = newFont;
 			itsTextItemData->SetElement(i, itemData);
 
 			itsNeedGeomRecalcFlag = true;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -594,15 +594,15 @@ JXTextMenuData::GetImage
 {
 	const TextItemData itemData = itsTextItemData->GetElement(index);
 	if (itemData.image != nullptr)
-		{
+	{
 		*image = itemData.image;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*image = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -619,23 +619,23 @@ JXTextMenuData::SetImage
 	)
 {
 	if (image == nullptr)
-		{
+	{
 		ClearImage(index);
 		return;
-		}
+	}
 
 	TextItemData itemData = itsTextItemData->GetElement(index);
 
 	if (itemData.image == nullptr ||
 		(itemData.image->GetBounds()) != image->GetBounds())
-		{
+	{
 		itsNeedGeomRecalcFlag = true;
-		}
+	}
 
 	if (itemData.ownsImage && image != itemData.image)
-		{
+	{
 		jdelete itemData.image;
-		}
+	}
 
 	itemData.image     = image;
 	itemData.ownsImage = menuOwnsImage;
@@ -657,16 +657,16 @@ JXTextMenuData::ClearImage
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
 	if (itemData.image != nullptr)
-		{
+	{
 		if (itemData.ownsImage)
-			{
+		{
 			jdelete itemData.image;
-			}
+		}
 		itemData.image = nullptr;
 		itsTextItemData->SetElement(index, itemData);
 
 		itsNeedGeomRecalcFlag = true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -684,15 +684,15 @@ JXTextMenuData::GetNMShortcut
 {
 	const TextItemData itemData = itsTextItemData->GetElement(index);
 	if (itemData.nmShortcut != nullptr)
-		{
+	{
 		*str = itemData.nmShortcut;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*str = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -712,17 +712,17 @@ JXTextMenuData::GetNMShortcut
 	const TextItemData itemData = itsTextItemData->GetElement(index);
 
 	if (itemData.nmShortcut != nullptr)
-		{
+	{
 		*str  = itemData.nmShortcut;
 		*font = itemData.font;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*str = nullptr;
 		*font = JFontManager::GetDefaultFont();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -743,27 +743,27 @@ JXTextMenuData::SetNMShortcut
 
 	bool changed = false;
 	if (!strEmpty && itemData.nmShortcut == nullptr)
-		{
+	{
 		itemData.nmShortcut = jnew JString(str);
 		assert( itemData.nmShortcut != nullptr );
 		itsTextItemData->SetElement(index, itemData);
 		changed = true;
-		}
+	}
 	else if (!strEmpty)
-		{
+	{
 		*(itemData.nmShortcut) = str;
 		changed = true;
-		}
+	}
 	else if (itemData.nmShortcut != nullptr)
-		{
+	{
 		jdelete itemData.nmShortcut;
 		itemData.nmShortcut = nullptr;
 		itsTextItemData->SetElement(index, itemData);
 		changed = true;
-		}
+	}
 
 	if (changed)
-		{
+	{
 		itsNeedGeomRecalcFlag = true;
 
 		JXWindow* window = itsMenu->GetWindow();
@@ -774,10 +774,10 @@ JXTextMenuData::SetNMShortcut
 		if (itemData.nmShortcut != nullptr &&
 			ParseNMShortcut(itemData.nmShortcut, &key, &modifiers) &&
 			!window->InstallMenuShortcut(itsMenu, index, key, modifiers))
-			{
+		{
 			SetNMShortcut(index, JString::empty);	// don't display if not registered
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -812,17 +812,17 @@ struct JXTMModifierConversion
 
 static const JXTMModifierConversion kNMModConv[] =
 {
-	{ "Shift-", 6, kJXShiftKeyIndex   },
-	{ "Ctrl-",  5, kJXControlKeyIndex },
-	{ "Meta-",  5, kJXMetaKeyIndex    },	// index = kOSXModifierCount
-	{ "Mod1-",  5, kJXMod1KeyIndex    },
-	{ "Mod2-",  5, kJXMod2KeyIndex    },
-	{ "Mod3-",  5, kJXMod3KeyIndex    },
-	{ "Mod4-",  5, kJXMod4KeyIndex    },
-	{ "Mod5-",  5, kJXMod5KeyIndex    },
-	{ "Alt-",   4, kJXAltKeyIndex     },
-	{ "Super-", 6, kJXSuperKeyIndex   },
-	{ "Hyper-", 6, kJXHyperKeyIndex   }
+{ "Shift-", 6, kJXShiftKeyIndex   },
+{ "Ctrl-",  5, kJXControlKeyIndex },
+{ "Meta-",  5, kJXMetaKeyIndex    },	// index = kOSXModifierCount
+{ "Mod1-",  5, kJXMod1KeyIndex    },
+{ "Mod2-",  5, kJXMod2KeyIndex    },
+{ "Mod3-",  5, kJXMod3KeyIndex    },
+{ "Mod4-",  5, kJXMod4KeyIndex    },
+{ "Mod5-",  5, kJXMod5KeyIndex    },
+{ "Alt-",   4, kJXAltKeyIndex     },
+{ "Super-", 6, kJXSuperKeyIndex   },
+{ "Hyper-", 6, kJXHyperKeyIndex   }
 };
 
 const JSize kNMModConvCount = sizeof(kNMModConv)/sizeof(JXTMModifierConversion);
@@ -837,20 +837,20 @@ struct JXTMKeySymConversion
 
 static const JXTMKeySymConversion kNMKeyConv[] =
 {
-	{"dash",      '-'},
-	{"minus",     '-'},
-	{"plus",      '+'},
-	{"period",    '.'},
-	{"comma",     ','},
-	{"return",    '\r'},
-	{"tab",       '\t'},
-	{"backspace", '\b'},
-	{"delete",    kJForwardDeleteKey},
-	{"insert",    XK_Insert},
-	{"home",      XK_Home},
-	{"end",       XK_End},
-	{"page up",   XK_Page_Up},
-	{"page down", XK_Page_Down}
+{"dash",      '-'},
+{"minus",     '-'},
+{"plus",      '+'},
+{"period",    '.'},
+{"comma",     ','},
+{"return",    '\r'},
+{"tab",       '\t'},
+{"backspace", '\b'},
+{"delete",    kJForwardDeleteKey},
+{"insert",    XK_Insert},
+{"home",      XK_Home},
+{"end",       XK_End},
+{"page up",   XK_Page_Up},
+{"page down", XK_Page_Down}
 };
 
 struct JXTMNameConversion
@@ -861,11 +861,11 @@ struct JXTMNameConversion
 
 static const JXTMNameConversion kNMNameConv[] =
 {
-	{"dash",   "\xE2\x80\x93"},
-	{"minus",  "\xE2\x80\x93"},
-	{"plus",   "+"},
-	{"period", "."},
-	{"comma",  ","}
+{"dash",   "\xE2\x80\x93"},
+{"minus",  "\xE2\x80\x93"},
+{"plus",   "+"},
+{"period", "."},
+{"comma",  ","}
 };
 
 bool
@@ -883,36 +883,36 @@ JXTextMenuData::ParseNMShortcut
 
 	JStringIterator iter(&keyStr);
 	while (true)
-		{
+	{
 		bool found = false;
 		for (const auto& conv : kNMModConv)
-			{
+		{
 			if (keyStr.BeginsWith(conv.str) &&
 				keyStr.GetByteCount() > conv.strLength)
-				{
+			{
 				const JXModifierKey mkey = JXMenu::AdjustNMShortcutModifier(conv.key);
 				if (!modifiers->Available(mkey))
-					{
+				{
 					return false;
-					}
+				}
 
 				if (mkey != conv.key)
-					{
+				{
 					AdjustNMShortcutString(str, conv.str, mkey);
-					}
+				}
 
 				iter.SkipNext(conv.strLength);
 				iter.RemoveAllPrev();
 				modifiers->SetState(mkey, true);
 				found = true;
 				break;
-				}
-			}
-		if (!found)
-			{
-			break;
 			}
 		}
+		if (!found)
+		{
+			break;
+		}
+	}
 
 	iter.Invalidate();
 
@@ -920,17 +920,17 @@ JXTextMenuData::ParseNMShortcut
 
 	if (itsMenu->GetDisplay()->IsOSX() &&
 		(modifiers->shift() || modifiers->control() || modifiers->meta()))
-		{
+	{
 		JStringIterator iter(str);
 
 		for (JUnsignedOffset i=0; i<kOSXModifierCount; i++)
-			{
+		{
 			iter.MoveTo(kJIteratorStartAtBeginning, 0);
 			while (iter.Next(kNMModConv[i].str))
-				{
+			{
 				iter.RemoveLastMatch();
-				}
 			}
+		}
 
 		iter.MoveTo(kJIteratorStartAtBeginning, 0);
 		const bool ok = iter.Next(keyStr);
@@ -939,72 +939,72 @@ JXTextMenuData::ParseNMShortcut
 		iter.Invalidate();
 
 		if (modifiers->shift())
-			{
+		{
 			str->Append("\xE2\x87\xA7");
-			}
+		}
 
 		if (modifiers->control())
-			{
+		{
 			str->Append("^");	// \xE2\x8C\x83
-			}
+		}
 
 		if (modifiers->meta())
-			{
+		{
 			str->Append("\xE2\x8C\x98");
-			}
+		}
 
 		bool found = false;
 		for (const auto& conv : kNMNameConv)
-			{
+		{
 			if (keyStr == conv.name)
-				{
+			{
 				str->Append(conv.str);
 				found = true;
 				break;
-				}
-			}
-
-		if (!found)
-			{
-			str->Append(keyStr);
 			}
 		}
+
+		if (!found)
+		{
+			str->Append(keyStr);
+		}
+	}
 
 	// translate known name to single character
 
 	for (const auto& conv : kNMKeyConv)
-		{
+	{
 		if (JString::Compare(keyStr, conv.str, JString::kIgnoreCase) == 0)
-			{
+		{
 			const int k = conv.key;
 			if (0 < k && k <= (int) UCHAR_MAX)
-				{
+			{
 				const JUtf8Byte s[2] = { (char) k, '\0' };
 				keyStr = s;
 				break;	// extra processing below
-				}
+			}
 			else
-				{
+			{
 				*key = k;
 				return true;
-				}
 			}
 		}
+	}
 
 	// check for single character
 
 	const JUtf8Character& c1 = keyStr.GetFirstCharacter();
 	if (keyStr.GetCharacterCount() == 1)
-		{
+	{
 		if (!c1.IsAlpha() && !c1.IsControl())
-			{
+		{
 			// can't complain because of menu_strings file
 			modifiers->SetState(kJXShiftKeyIndex, false);
-			}
+		}
 
 		*key = c1.ToLower().GetBytes()[0];
 		return true;
-		}
+	}
 
 	// check for function key
 
@@ -1012,10 +1012,10 @@ JXTextMenuData::ParseNMShortcut
 	if (c1 == 'F' &&
 		JString::ConvertToUInt(keyStr.GetBytes()+1, &fnIndex) &&
 		1 <= fnIndex && fnIndex <= 35)
-		{
+	{
 		*key = XK_F1 + fnIndex-1;
 		return true;
-		}
+	}
 
 	// give up
 
@@ -1039,25 +1039,25 @@ JXTextMenuData::AdjustNMShortcutString
 	JIndex newKeyIndex = 0;
 
 	for (JUnsignedOffset i=0; i<kNMModConvCount; i++)
-		{
+	{
 		if (newKey == kNMModConv[i].key)
-			{
+		{
 			newKeyIndex = i;
 			found       = true;
 			break;
-			}
 		}
+	}
 
 	if (!found)
-		{
+	{
 		return;
-		}
+	}
 
 	JStringIterator iter(str);
 	while (iter.Next(origStr))
-		{
+	{
 		iter.ReplaceLastMatch(kNMModConv[newKeyIndex].str);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1074,12 +1074,12 @@ JXTextMenuData::ShowSeparatorAfter
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
 	if (itemData.separator != show)
-		{
+	{
 		itemData.separator = show;
 		itsTextItemData->SetElement(index, itemData);
 
 		itsNeedGeomRecalcFlag = true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1123,7 +1123,7 @@ JXTextMenuData::ConfigureTable
 	const bool hasSubmenus   = HasSubmenus();
 
 	if (itsNeedGeomRecalcFlag)
-		{
+	{
 		itsNeedGeomRecalcFlag = false;
 		itsMaxImageWidth      = 1;
 		itsMaxTextWidth       = 1;
@@ -1133,14 +1133,14 @@ JXTextMenuData::ConfigureTable
 
 		const JSize itemCount = itsTextItemData->GetElementCount();
 		for (JIndex i=1; i<=itemCount; i++)
-			{
+		{
 			const TextItemData itemData = itsTextItemData->GetElement(i);
 			JCoordinate h =
 				(itsCompressHeightFlag && !hasCheckboxes && !hasSubmenus) ?
 				0 : JXMenuTable::kMinRowHeight;
 
 			if (itemData.text != nullptr)
-				{
+			{
 				JFont f = itemData.font;
 				JXTextMenuTable::AdjustFont(itsMenu->GetDisplay(),
 											JXTextMenuTable::kTextColumnIndex,
@@ -1152,16 +1152,16 @@ JXTextMenuData::ConfigureTable
 					JXTextMenuTable::GetTextWidth(fontMgr, f,
 												  JXTextMenuTable::kTextColumnIndex,
 												  *(itemData.text)));
-				}
+			}
 
 			if (itemData.image != nullptr)
-				{
+			{
 				h = JMax(h, (itemData.image)->GetHeight());
 				itsMaxImageWidth = JMax(itsMaxImageWidth, (itemData.image)->GetWidth());
-				}
+			}
 
 			if (itemData.nmShortcut != nullptr)
-				{
+			{
 				itsHasNMShortcutsFlag = true;
 
 				JFont f = itemData.font;
@@ -1175,54 +1175,54 @@ JXTextMenuData::ConfigureTable
 					JXTextMenuTable::GetTextWidth(fontMgr, f,
 												  JXTextMenuTable::kSubmenuColumnIndex,
 												  *(itemData.nmShortcut)));
-				}
+			}
 
 			h += 2*(JXTextMenuTable::kHilightBorderWidth + 1);
 			if (i < itemCount && itemData.separator)
-				{
+			{
 				h += JXTextMenuTable::kSeparatorHeight;
-				}
+			}
 
 			table->SetRowHeight(i,h);
 			itsItemHeights->AppendElement(h);
-			}
 		}
+	}
 	else
-		{
+	{
 		JRunArrayIterator<JCoordinate> iter(itsItemHeights);
 		JCoordinate h;
 		JIndex i=0;
 		while(iter.Next(&h))
-			{
+		{
 			i++;
 			table->SetRowHeight(i,h);
-			}
 		}
+	}
 
 	// set the column widths
 
 	if (hasCheckboxes)
-		{
+	{
 		table->SetColWidth(1, JXMenuTable::kCheckboxColWidth +
 							  JXTextMenuTable::kHilightBorderWidth);
-		}
+	}
 	else
-		{
+	{
 		table->SetColWidth(1, JXTextMenuTable::kHilightBorderWidth);
-		}
+	}
 
 	table->SetColWidth(2, itsMaxImageWidth);
 	table->SetColWidth(3, itsMaxTextWidth);
 
 	if (itsHasNMShortcutsFlag || hasSubmenus)
-		{
+	{
 		table->SetColWidth(4, itsMaxShortcutWidth +
 							  JXTextMenuTable::kHilightBorderWidth);
-		}
+	}
 	else
-		{
+	{
 		table->SetColWidth(4, JXTextMenuTable::kHilightBorderWidth);
-		}
+	}
 
 	// set a sensible scroll step
 

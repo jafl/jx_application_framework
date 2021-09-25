@@ -71,12 +71,12 @@ struct EditMenuItemInfo
 
 static const EditMenuItemInfo kEditMenuItemInfo[] =
 {
-	{ JExprEditor::kUndoCmd,      kJXUndoAction      },
-	{ JExprEditor::kCutCmd,       kJXCutAction       },
-	{ JExprEditor::kCopyCmd,      kJXCopyAction      },
-	{ JExprEditor::kPasteCmd,     kJXPasteAction     },
-	{ JExprEditor::kDeleteSelCmd, kJXClearAction     },
-	{ JExprEditor::kSelectAllCmd, kJXSelectAllAction }
+{ JExprEditor::kUndoCmd,      kJXUndoAction      },
+{ JExprEditor::kCutCmd,       kJXCutAction       },
+{ JExprEditor::kCopyCmd,      kJXCopyAction      },
+{ JExprEditor::kPasteCmd,     kJXPasteAction     },
+{ JExprEditor::kDeleteSelCmd, kJXClearAction     },
+{ JExprEditor::kSelectAllCmd, kJXSelectAllAction }
 };
 
 // used when setting images
@@ -299,40 +299,40 @@ JXExprEditor::CreateMenus
 	)
 {
 	if (editMenu != nullptr)
-		{
+	{
 		itsEditMenu = editMenu;
-		}
+	}
 	else
-		{
+	{
 		itsEditMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-			{
+		{
 			itsEditMenu->SetMenuItems(kMacEditMenuStr);
-			}
+		}
 		else
-			{
+		{
 			itsEditMenu->SetShortcuts(JGetString("EditMenuShortcut::JXGlobal"));
 			itsEditMenu->SetMenuItems(kWinEditMenuStr);
-			}
+		}
 
 		itsEditMenu->SetItemImage(kUndoIndex,  jx_edit_undo);
 		itsEditMenu->SetItemImage(kCutIndex,   jx_edit_cut);
 		itsEditMenu->SetItemImage(kCopyIndex,  jx_edit_copy);
 		itsEditMenu->SetItemImage(kPasteIndex, jx_edit_paste);
 		itsEditMenu->SetItemImage(kClearIndex, jx_edit_clear);
-		}
+	}
 	ListenTo(itsEditMenu);
 
 	itsMathMenu = menuBar->AppendTextMenu(JGetString("MathMenuTitle::JXExprEditor"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
+	{
 		itsMathMenu->SetMenuItems(kMacMathMenuStr);
-		}
+	}
 	else
-		{
+	{
 		itsMathMenu->SetShortcuts(JGetString("MathMenuShortcut::JXExprEditor"));
 		itsMathMenu->SetMenuItems(kWinMathMenuStr);
-		}
+	}
 	itsMathMenu->SetUpdateAction(JXMenu::kDisableAll);
 	ListenTo(itsMathMenu);
 
@@ -344,14 +344,14 @@ JXExprEditor::CreateMenus
 
 	itsFontMenu = menuBar->AppendTextMenu(JGetString("FontMenuTitle::JXExprEditor"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
+	{
 		itsFontMenu->SetMenuItems(kMacFontMenuStr);
-		}
+	}
 	else
-		{
+	{
 		itsFontMenu->SetShortcuts(JGetString("FontMenuShortcut::JXExprEditor"));
 		itsFontMenu->SetMenuItems(kWinFontMenuStr);
-		}
+	}
 	ListenTo(itsFontMenu);
 }
 
@@ -550,18 +550,18 @@ JXExprEditor::HandleMouseDown
 	)
 {
 	if (button == kJXMiddleButton)
-		{
+	{
 		Paste();
-		}
+	}
 	else if (button == kJXLeftButton || button == kJXRightButton)
-		{
+	{
 		EIPHandleMouseDown(BoundsToRenderer(pt),
 						   button == kJXRightButton);
-		}
+	}
 	else
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -649,13 +649,13 @@ JXExprEditor::HandleKeyPress
 	// we need the delete key, which isn't printable
 
 	if ((c.IsAscii() || c.IsPrint()) && !modifiers.meta() && !modifiers.control())
-		{
+	{
 		EIPHandleKeyPress(c);
-		}
+	}
 	else
-		{
+	{
 		JXScrollableWidget::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -673,13 +673,13 @@ JXExprEditor::AdjustCursor
 	)
 {
 	if (MouseOnActiveUIF(BoundsToRenderer(pt)))
-		{
+	{
 		DisplayCursor(kJXTextEditCursor);
-		}
+	}
 	else
-		{
+	{
 		JXScrollableWidget::AdjustCursor(pt, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -694,13 +694,13 @@ JXExprEditor::UpdateEditMenu()
 
 	const JSize count = itsEditMenu->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		CmdIndex cmd;
 		if (EditMenuIndexToCmd(i, &cmd) && enableFlags.GetElement(cmd))
-			{
+		{
 			itsEditMenu->EnableItem(i);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -716,34 +716,34 @@ JXExprEditor::HandleEditMenu
 {
 	CmdIndex cmd;
 	if (!EditMenuIndexToCmd(item, &cmd))
-		{
+	{
 		return;
-		}
+	}
 
 	if (cmd == kUndoCmd)
-		{
+	{
 		Undo();
-		}
+	}
 	else if (cmd == kCutCmd)
-		{
+	{
 		Cut();
-		}
+	}
 	else if (cmd == kCopyCmd)
-		{
+	{
 		Copy();
-		}
+	}
 	else if (cmd == kPasteCmd)
-		{
+	{
 		Paste();
-		}
+	}
 	else if (cmd == kDeleteSelCmd)
-		{
+	{
 		DeleteSelection();
-		}
+	}
 	else if (cmd == kSelectAllCmd)
-		{
+	{
 		SelectAll();
-		}
+	}
 }
 
 /******************************************************************************
@@ -777,12 +777,12 @@ JXExprEditor::UpdateMathMenu()
 
 	const JArray<bool> enableFlags = GetCmdStatus(&evalStr);
 	for (JIndex i=1; i<=kMathMenuItemCount; i++)
-		{
+	{
 		if (enableFlags.GetElement(kMathMenuItemToCmd[i-1]))
-			{
+		{
 			itsMathMenu->EnableItem(i);
-			}
 		}
+	}
 
 	itsMathMenu->SetItemText(kEvaluateItemIndex, evalStr);
 }
@@ -799,50 +799,50 @@ JXExprEditor::HandleMathMenu
 	)
 {
 	if (item > kMathMenuItemCount)
-		{
+	{
 		return;
-		}
+	}
 
 	const JExprEditor::CmdIndex cmd = kMathMenuItemToCmd[ item-1 ];
 	if (cmd == kEvaluateSelCmd)
-		{
+	{
 		if (EndEditing())
-			{
+		{
 			DisplaySelectionValue();
-			}
 		}
+	}
 	else if (cmd == kPrintEPSCmd)
-		{
+	{
 		itsEPSPrinter->BeginUserPrintSetup();
-		}
+	}
 	else if (cmd == kNegateSelCmd)
-		{
+	{
 		NegateSelection();
-		}
+	}
 	else if (cmd == kAddArgCmd)
-		{
+	{
 		AddArgument();
-		}
+	}
 	else if (cmd == kMoveArgLeftCmd)
-		{
+	{
 		MoveArgument(-1);
-		}
+	}
 	else if (cmd == kMoveArgRightCmd)
-		{
+	{
 		MoveArgument(+1);
-		}
+	}
 	else if (cmd == kGroupLeftCmd)
-		{
+	{
 		GroupArguments(-1);
-		}
+	}
 	else if (cmd == kGroupRightCmd)
-		{
+	{
 		GroupArguments(+1);
-		}
+	}
 	else if (cmd == kUngroupCmd)
-		{
+	{
 		UngroupArguments();
-		}
+	}
 }
 
 /******************************************************************************
@@ -868,9 +868,9 @@ JXExprEditor::HandleFunctionMenu
 {
 	JString fnName;
 	if (itsFunctionMenu->GetItemNMShortcut(item, &fnName))
-		{
+	{
 		ApplyFunctionToSelection(fnName);
-		}
+	}
 }
 
 /******************************************************************************
@@ -890,20 +890,20 @@ JXExprEditor::UpdateFontMenu()
 	const JArray<bool> enableFlags = GetCmdStatus(nullptr);
 	JIndex activeIndex = 0;
 	for (JIndex i=1; i<=kFontMenuItemCount; i++)
-		{
+	{
 		const bool enableFlag =
 			enableFlags.GetElement(kFontMenuItemToCmd[i-1]);
 		if (enableFlag && activeIndex == 0)
-			{
+		{
 			activeIndex = i;
-			}
 		}
+	}
 
 	if (activeIndex != 0)
-		{
+	{
 		itsFontMenu->CheckItem(activeIndex);
 		itsFontMenu->EnableAll();
-		}
+	}
 }
 
 /******************************************************************************
@@ -918,19 +918,19 @@ JXExprEditor::HandleFontMenu
 	)
 {
 	if (item > kFontMenuItemCount)
-		{
+	{
 		return;
-		}
+	}
 
 	const long i = item-1;
 	if (kFontMenuItemToCmd[i] == kSetNormalFontCmd)
-		{
+	{
 		SetNormalFont();
-		}
+	}
 	else if (kFontMenuItemToCmd[i] == kSetGreekFontCmd)
-		{
+	{
 		SetGreekFont();
-		}
+	}
 }
 
 /******************************************************************************
@@ -949,77 +949,77 @@ JXExprEditor::Receive
 {
 	if (sender == itsEditMenu && HasFocus() &&
 		message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateEditMenu();
-		}
+	}
 	else if (sender == itsEditMenu && HasFocus() &&
 			 message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleEditMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsMathMenu && HasFocus() &&
 			 message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateMathMenu();
-		}
+	}
 	else if (sender == itsMathMenu && HasFocus() &&
 			 message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleMathMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsFunctionMenu && HasFocus() &&
 			 message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFunctionMenu();
-		}
+	}
 	else if (sender == itsFunctionMenu && HasFocus() &&
 			 message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFunctionMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsFontMenu && HasFocus() &&
 		message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFontMenu();
-		}
+	}
 	else if (sender == itsFontMenu && HasFocus() &&
 			 message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFontMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsEPSPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			Print(*itsEPSPrinter);
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXScrollableWidget::Receive(sender, message);
 		JExprEditor::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1032,14 +1032,14 @@ JXExprEditor::EIPClipboardChanged()
 {
 	const JFunction* f;
 	if (GetClipboard(&f))
-		{
+	{
 		const JString text = f->Print();
 
 		auto* data = jnew JXTextSelection(GetDisplay(), text);
 		assert( data != nullptr );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1075,22 +1075,22 @@ JXExprEditor::EIPGetExternalClipboard
 
 	JArray<Atom> typeList;
 	if (selManager->GetAvailableTypes(kJXClipboardName, CurrentTime, &typeList))
-		{
+	{
 		bool canGetText = false;
 		Atom textType       = None;
 
 		const JSize typeCount = typeList.GetElementCount();
 		for (JIndex i=1; i<=typeCount; i++)
-			{
+		{
 			Atom type = typeList.GetElement(i);
 			if (type == XA_STRING ||
 				(!canGetText && type == selManager->GetUtf8StringXAtom()))
-				{
+			{
 				canGetText = true;
 				textType   = type;
 				break;
-				}
 			}
+		}
 
 		Atom returnType;
 		unsigned char* data = nullptr;
@@ -1099,24 +1099,24 @@ JXExprEditor::EIPGetExternalClipboard
 		if (canGetText &&
 			selManager->GetData(kJXClipboardName, CurrentTime, textType,
 								&returnType, &data, &dataLength, &delMethod))
-			{
+		{
 			if (returnType == XA_STRING ||
 				returnType == selManager->GetUtf8StringXAtom())
-				{
+			{
 				text->Set(reinterpret_cast<JUtf8Byte*>(data), dataLength);
 				gotData = true;
-				}
+			}
 			selManager->DeleteData(&data, delMethod);
-			}
+		}
 		else
-			{
-			JGetUserNotification()->ReportError(JGetString("UnableToPaste::JXExprEditor"));
-			}
-		}
-	else
 		{
-		JGetUserNotification()->ReportError(JGetString("EmptyClipboard::JXExprEditor"));
+			JGetUserNotification()->ReportError(JGetString("UnableToPaste::JXExprEditor"));
 		}
+	}
+	else
+	{
+		JGetUserNotification()->ReportError(JGetString("EmptyClipboard::JXExprEditor"));
+	}
 
 	return gotData;
 }

@@ -83,16 +83,16 @@ JSTUndoBase::SetFont
 	)
 {
 	if (styles->IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	JRunArrayIterator<JFont> iter(styles);
 
 	while (!iter.AtEnd())
-		{
+	{
 		JFont f = iter.GetRunData();
 		f.Set(name, size, f.GetStyle());
 		iter.SetNext(f, iter.GetRunLength());
-		}
+	}
 }

@@ -115,29 +115,29 @@ JVariableList::ParseVariableName
 	const JString* n   = &name;
 	bool allocated = false;
 	if (n->Contains(JUserInputFunction::kSwitchFontCharacter))
-		{
+	{
 		n = jnew JString(JUserInputFunction::ConvertToGreek(name));
 		assert( n != nullptr );
 		allocated = true;
-		}
+	}
 
 	bool found = false;
 
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if (*n == GetVariableName(i))
-			{
+		{
 			*index = i;
 			found  = true;
 			break;
-			}
 		}
+	}
 
 	if (allocated)
-		{
+	{
 		jdelete n;
-		}
+	}
 
 	return found;
 }
@@ -211,12 +211,12 @@ JVariableList::OKToRemoveVariable
 {
 	const JSize count = itsVarUserList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if ((itsVarUserList->GetElement(i))->UsesVariable(variableIndex))
-			{
+		{
 			return false;
-			}
 		}
+	}
 
 	return true;
 }
@@ -262,16 +262,16 @@ JVariableList::VariablesInserted
 	const
 {
 	for (JIndex i=1; i<=info.GetCount(); i++)
-		{
+	{
 		itsEvalStack->InsertElementAtIndex(info.GetFirstIndex(), false);
-		}
+	}
 
 	const JSize count = itsVarUserList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		(itsVarUserList->GetElement(i))->
 			VariablesInserted(info.GetFirstIndex(), info.GetCount());
-		}
+	}
 }
 
 /******************************************************************************
@@ -287,22 +287,22 @@ JVariableList::VariablesRemoved
 	const
 {
 	#ifndef NDEBUG
-	{
+{
 	for (JIndex i=info.GetFirstIndex(); i<=info.GetLastIndex(); i++)
-		{
+	{
 		assert( OKToRemoveVariable(i) );
-		}
 	}
+}
 	#endif
 
 	itsEvalStack->RemoveNextElements(info.GetFirstIndex(), info.GetCount());
 
 	const JSize count = itsVarUserList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		(itsVarUserList->GetElement(i))->
 			VariablesRemoved(info.GetFirstIndex(), info.GetCount());
-		}
+	}
 }
 
 /******************************************************************************
@@ -321,10 +321,10 @@ JVariableList::VariableMoved
 
 	const JSize count = itsVarUserList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		(itsVarUserList->GetElement(i))->
 			VariableMoved(info.GetOrigIndex(), info.GetNewIndex());
-		}
+	}
 }
 
 /******************************************************************************
@@ -343,10 +343,10 @@ JVariableList::VariablesSwapped
 
 	const JSize count = itsVarUserList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		(itsVarUserList->GetElement(i))->
 			VariablesSwapped(info.GetIndex1(), info.GetIndex2());
-		}
+	}
 }
 
 /******************************************************************************
@@ -365,17 +365,17 @@ JVariableList::Receive
 
 	if (sender == const_cast<JCollection*>(mainList) &&
 		message.Is(JListT::kElementsInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != nullptr );
 		VariablesInserted(*info);
-		}
+	}
 	else if (sender == const_cast<JCollection*>(mainList) &&
 			 message.Is(JListT::kElementsRemoved))
-		{
+	{
 		if (!mainList->IsEmpty())
-			{
+		{
 			// AllElementsRemoved should be illegal, but it normally only
 			// happens when the object is destructed.  During destruction,
 			// we obviously should not complain.
@@ -384,29 +384,29 @@ JVariableList::Receive
 				dynamic_cast<const JListT::ElementsRemoved*>(&message);
 			assert( info != nullptr );
 			VariablesRemoved(*info);
-			}
 		}
+	}
 	else if (sender == const_cast<JCollection*>(mainList) &&
 			 message.Is(JListT::kElementMoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != nullptr );
 		VariableMoved(*info);
-		}
+	}
 	else if (sender == const_cast<JCollection*>(mainList) &&
 			 message.Is(JListT::kElementsSwapped))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != nullptr );
 		VariablesSwapped(*info);
-		}
+	}
 	else if (sender == const_cast<JCollection*>(mainList) &&
 			 message.Is(JListT::kSorted))
-		{
+	{
 		assert_msg( 0, "JVariableList doesn't allow elements to be sorted" );
-		}
+	}
 
 	JContainer::Receive(sender, message);
 }

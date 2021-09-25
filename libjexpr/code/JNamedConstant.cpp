@@ -94,15 +94,15 @@ JNamedConstant::Evaluate
 	const
 {
 	if (itsNameIndex == kIJNamedConstIndex)		// i is not a real number
-		{
+	{
 		*result = 0.0;
 		return false;
-		}
+	}
 	else
-		{
+	{
 		*result = kNamedConstValues[ itsNameIndex-1 ];
 		return true;
-		}
+	}
 }
 
 bool
@@ -113,13 +113,13 @@ JNamedConstant::Evaluate
 	const
 {
 	if (itsNameIndex == kIJNamedConstIndex)		// i is not a real number
-		{
+	{
 		*result = JComplex(0.0, 1.0);
-		}
+	}
 	else
-		{
+	{
 		*result = kNamedConstValues[ itsNameIndex-1 ];
-		}
+	}
 
 	return true;
 }
@@ -137,18 +137,18 @@ JNamedConstant::Print
 	const
 {
 	if (itsNameIndex == kIJNamedConstIndex)
-		{
+	{
 		output << JGetCurrentImagString();
-		}
+	}
 	else if (itsNameIndex == kPiJNamedConstIndex)
-		{
+	{
 		output << "\xCF\x80";
-		}
+	}
 	else
-		{
+	{
 		assert( itsNameIndex == kEJNamedConstIndex );
 		output << 'e';
-		}
+	}
 }
 
 /******************************************************************************

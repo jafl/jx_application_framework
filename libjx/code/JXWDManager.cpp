@@ -152,30 +152,30 @@ JXWDManager::DirectorCreated
 	WindowInfo info(dir);
 
 	if (!shortcut.IsEmpty())
-		{
+	{
 		info.shortcutStr = jnew JString(shortcut);
 		assert( info.shortcutStr != nullptr );
-		}
+	}
 	else
-		{
+	{
 		// find the first unused shortcut, if any
 
 		for (JInteger i=kFirstShortcut; i<=kLastShortcut; i++)
-			{
+		{
 			if (!ShortcutUsed(*itsPermWindowList, i) &&
 				!ShortcutUsed(*itsWindowList, i))
-				{
+			{
 				info.shortcutIndex = i;
 				break;
-				}
 			}
 		}
+	}
 
 	if (!JString::IsEmpty(id))
-		{
+	{
 		info.itemID = jnew JString(id);
 		assert( info.itemID != nullptr );
-		}
+	}
 
 	// insert the new window -- can't sort until later
 
@@ -200,7 +200,7 @@ JXWDManager::ShortcutUsed
 {
 	return std::any_of(begin(windowList), end(windowList),
 			[shortcutIndex] (const WindowInfo& info)
-				{ return (info.shortcutStr   == nullptr &&
+			{ return (info.shortcutStr   == nullptr &&
 						  info.shortcutIndex == shortcutIndex); });
 }
 
@@ -218,9 +218,9 @@ JXWDManager::DirectorDeleted
 	)
 {
 	if (!DirectorDeleted1(itsWindowList, dir))	// much more frequent
-		{
+	{
 		DirectorDeleted1(itsPermWindowList, dir);
-		}
+	}
 }
 
 // private -- returns true if found dir in windowList
@@ -234,10 +234,10 @@ JXWDManager::DirectorDeleted1
 {
 	const JSize count = windowList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		WindowInfo info = windowList->GetElement(i);
 		if (info.dir == dir)
-			{
+		{
 			jdelete info.shortcutStr;
 			jdelete info.itemID;
 			windowList->RemoveElement(i);
@@ -246,31 +246,31 @@ JXWDManager::DirectorDeleted1
 			// (only need to check itsWindowList, since itsPermWindowList shouldn't change)
 
 			if (info.shortcutIndex != kNoShortcutForDir)
-				{
+			{
 				const JSize count = itsWindowList->GetElementCount();
 				for (JIndex j=1; j<=count; j++)
-					{
+				{
 					WindowInfo info1 = itsWindowList->GetElement(j);
 					if (info1.shortcutStr   == nullptr &&
 						info1.shortcutIndex == kNoShortcutForDir)
-						{
+					{
 						info1.shortcutIndex = info.shortcutIndex;
 						itsWindowList->SetElement(j, info1);
 						break;
-						}
 					}
 				}
+			}
 
 			// update the menu shortcuts
 
 			if (itsWantShortcutFlag)
-				{
+			{
 				WDMenusNeedUpdate();
-				}
+			}
 
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -292,9 +292,9 @@ JXWDManager::GetDirectors
 	directorList->SetCleanUpAction(JPtrArrayT::kForgetAll);
 
 	for (const auto& info : *windowList)
-		{
+	{
 		directorList->Append(info.dir);
-		}
+	}
 }
 
 /******************************************************************************
@@ -306,11 +306,11 @@ void
 JXWDManager::WDMenusNeedUpdate()
 {
 	if (itsUpdateWDMenuTask == nullptr)
-		{
+	{
 		itsUpdateWDMenuTask = jnew JXUpdateWDMenuTask(this);
 		assert( itsUpdateWDMenuTask != nullptr );
 		itsUpdateWDMenuTask->Go();
-		}
+	}
 }
 
 /******************************************************************************
@@ -339,30 +339,30 @@ JXWDManager::UpdateWDMenu
 	)
 {
 	if (menu->IsOpen())
-		{
+	{
 		WDMenusNeedUpdate();
 		return;
-		}
+	}
 
 	const JXMenu::Style style = JXMenu::GetDefaultStyle();
 	if (style == JXMenu::kWindowsStyle)
-		{
+	{
 		menu->SetMenuItems(kWinWDMenuStr, "JXWDManager");
-		}
+	}
 	else
-		{
+	{
 		assert( style == JXMenu::kMacintoshStyle );
 		menu->SetMenuItems(kMacWDMenuStr, "JXWDManager");
-		}
+	}
 
 	// It almost always is sorted, so we only pay O(N) instead of O(N^2).
 	// (but we can't sort when document is created!)
 	// (don't sort itsPermWindowList, because we assume there is a logical ordering)
 
 	if (!itsWindowList->IsSorted())
-		{
+	{
 		itsWindowList->Sort();
-		}
+	}
 
 	// build menu
 
@@ -386,51 +386,51 @@ JXWDManager::UpdateWDMenu1
 	const JXMenu::Style style = JXMenu::GetDefaultStyle();
 
 	for (const auto& info : windowList)
-		{
+	{
 		const JString& name = (info.dir)->GetName();
 
 		menu->AppendItem(name);
 		const JIndex menuIndex = menu->GetItemCount();
 
 		if (info.itemID != nullptr)
-			{
+		{
 			menu->SetItemID(menuIndex, *(info.itemID));
-			}
+		}
 
 		if ((info.dir)->NeedsSave())
-			{
+		{
 			menu->SetItemFontStyle(menuIndex, JColorManager::GetDarkRedColor());
-			}
+		}
 
 		const JXImage* icon;
 		if ((info.dir)->GetMenuIcon(&icon) &&
 			icon->GetDisplay() == menu->GetDisplay())
-			{
+		{
 			menu->SetItemImage(menuIndex, const_cast<JXImage*>(icon), false);
-			}
+		}
 
 		if (info.shortcutStr != nullptr)
-			{
+		{
 			menu->SetItemNMShortcut(menuIndex, *(info.shortcutStr));
-			}
+		}
 		else if (itsWantShortcutFlag &&
 				 kFirstShortcut <= info.shortcutIndex && info.shortcutIndex <= kLastShortcut)
-			{
+		{
 			JString nmShortcut;
 			if (style == JXMenu::kWindowsStyle)
-				{
+			{
 				nmShortcut = "Ctrl-";
-				}
+			}
 			else
-				{
+			{
 				assert( style == JXMenu::kMacintoshStyle );
 				nmShortcut = "Meta-";
-				}
+			}
 
 			nmShortcut.Append(JUtf8Character(kShortcutChar[ info.shortcutIndex ]));
 			menu->SetItemNMShortcut(menuIndex, nmShortcut);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -446,17 +446,17 @@ JXWDManager::HandleWDMenu
 	)
 {
 	if (index == kRaiseAllCmd)
-		{
+	{
 		(menu->GetDisplay())->RaiseAllWindows();
-		}
+	}
 	else if (index == kCloseAllCmd)
-		{
+	{
 		(menu->GetDisplay())->CloseAllOtherWindows(menu->GetWindow());
-		}
+	}
 	else
-		{
+	{
 		ActivateDirector(index - kFirstDirectorOffset);
-		}
+	}
 }
 
 /******************************************************************************
@@ -474,15 +474,15 @@ JXWDManager::ActivateDirector
 {
 	const JSize permCount = itsPermWindowList->GetElementCount();
 	if (itsPermWindowList->IndexValid(index))
-		{
+	{
 		const WindowInfo info = itsPermWindowList->GetElement(index);
 		(info.dir)->Activate();
-		}
+	}
 	else if (itsWindowList->IndexValid(index - permCount))
-		{
+	{
 		const WindowInfo info = itsWindowList->GetElement(index - permCount);
 		(info.dir)->Activate();
-		}
+	}
 }
 
 /******************************************************************************

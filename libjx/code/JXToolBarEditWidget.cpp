@@ -79,10 +79,10 @@ JXToolBarEditWidget::GetImage
 {
 	const JTreeNode* node = GetTreeList()->GetNode(index);
 	if (node->IsOpenable())
-		{
+	{
 		*image = itsMenuImage;
 		return true;
-		}
+	}
 
 	const auto* tbnode = dynamic_cast<const JXToolBarNode*>(node);
 	assert( tbnode != nullptr );
@@ -108,17 +108,17 @@ JXToolBarEditWidget::HandleMouseDown
 {
 	JPoint cell;
 	if (GetCell(pt, &cell))
-		{
+	{
 		JTreeNode* node = GetTreeList()->GetNode(cell.y);
 		if (cell.x == 2 && button == kJXLeftButton && !node->IsOpenable())
-			{
+		{
 			auto* tbnode = dynamic_cast<JXToolBarNode*>(node);
 			assert(tbnode != nullptr);
 			tbnode->ToggleChecked();
-			}
-		else
-			{
-			JXNamedTreeListWidget::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
-			}
 		}
+		else
+		{
+			JXNamedTreeListWidget::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
+		}
+	}
 }

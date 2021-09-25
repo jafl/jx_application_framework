@@ -157,11 +157,11 @@ JXEPSPrintSetupDialog::SetObjects
 	itsFileInput->ShouldAllowInvalidFile();
 	itsFileInput->GetText()->SetText(fileName);
 	if (itsFileInput->GetText()->IsEmpty())
-		{
+	{
 		auto* task = jnew JXChooseEPSDestFileTask(this);
 		assert( task != nullptr );
 		task->Go();
-		}
+	}
 
 	UpdateDisplay();
 	ListenTo(itsFileInput);
@@ -187,13 +187,13 @@ bool
 JXEPSPrintSetupDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 
 	return JXPSPrintSetupDialog::OKToDeactivate(itsFileInput->GetText()->GetText());
 }
@@ -211,19 +211,19 @@ JXEPSPrintSetupDialog::Receive
 	)
 {
 	if (sender == itsChooseFileButton && message.Is(JXButton::kPushed))
-		{
+	{
 		ChooseDestinationFile();
-		}
+	}
 	else if (sender == itsFileInput &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
-		{
+	{
 		UpdateDisplay();
-		}
+	}
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************

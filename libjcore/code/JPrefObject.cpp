@@ -65,10 +65,10 @@ JPrefObject::ReadPrefs()
 {
 	std::string data;
 	if (PrefInfoValid() && itsPrefsMgr->GetData(itsID, &data))
-		{
+	{
 		std::istringstream dataStream(data);
 		ReadPrefs(dataStream);
-		}
+	}
 }
 
 /******************************************************************************
@@ -81,9 +81,9 @@ JPrefObject::WritePrefs()
 	const
 {
 	if (PrefInfoValid())
-		{
+	{
 		std::ostringstream data;
 		WritePrefs(data);
 		itsPrefsMgr->SetData(itsID, data);
-		}
+	}
 }

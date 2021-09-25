@@ -87,7 +87,7 @@ JEPSPrinter::ReadEPSSetup
 	input >> vers;
 
 	if (vers <= kCurrentSetupVersion)
-		{
+	{
 		JString fileName;
 		input >> fileName;
 		SetOutputFileName(fileName);
@@ -97,7 +97,7 @@ JEPSPrinter::ReadEPSSetup
 		bool bwFlag;
 		input >> JBoolFromString(bwFlag);
 		PSPrintBlackWhite(bwFlag);
-		}
+	}
 
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
 }
@@ -138,7 +138,7 @@ JEPSPrinter::OpenDocument
 	PSResetCoordinates();
 
 	if (PSOpenDocument())
-		{
+	{
 		PrintPreview();
 
 		PSSaveGraphicsState();
@@ -146,14 +146,14 @@ JEPSPrinter::OpenDocument
 		SetDefaultClipRect(itsBounds);
 		SetClipRect(itsBounds);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("Error::JEPSPrinter"));
 
 		DeletePreviewData();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -208,9 +208,9 @@ JEPSPrinter::PrintPreview()
 {
 	const JImage* image;
 	if (!GetPreviewImage(&image))
-		{
+	{
 		return;
-		}
+	}
 
 	assert( image->GetBounds() == itsBounds );
 
@@ -223,9 +223,9 @@ JEPSPrinter::PrintPreview()
 	const JCoordinate area    = w*h;
 	JSize lineCount = area/kBytesPerLine;
 	if (area % kBytesPerLine != 0)
-		{
+	{
 		lineCount++;
-		}
+	}
 
 	output << "%%BeginPreview: " << w << ' ' << h << " 8 " << lineCount << '\n';
 
@@ -234,13 +234,13 @@ JEPSPrinter::PrintPreview()
 	JSize c[3];	// r,g,b
 	JIndex lineLength = 0;
 	for (JCoordinate y=itsBounds.bottom-1; y>=itsBounds.top; y--)
-		{
+	{
 		for (JCoordinate x=itsBounds.left; x<itsBounds.right; x++)
-			{
+		{
 			if (lineLength == 0)
-				{
+			{
 				output << '%';
-				}
+			}
 
 			// Intensity formula from X11, Vol 1, p 211
 
@@ -248,23 +248,23 @@ JEPSPrinter::PrintPreview()
 			PSConvertToRGB(color, &(c[0]), &(c[1]), &(c[2]));
 			const JSize intensity = JRound(0.30 * c[0] + 0.59 * c[1] + 0.11 * c[2]);
 			if (intensity <= 0x0F)
-				{
+			{
 				output << '0';	// must print two characters
-				}
+			}
 			output << intensity;
 
 			lineLength++;
 			if (lineLength >= kBytesPerLine)
-				{
+			{
 				output << '\n';
 				lineLength = 0;
-				}
 			}
 		}
+	}
 	if (lineLength > 0)
-		{
+	{
 		output << '\n';
-		}
+	}
 
 	output.setf(std::ios::dec, std::ios::basefield);
 

@@ -38,16 +38,16 @@ AnimateHelpMenuTask::AnimateHelpMenuTask
 
 	JXDisplay* display = itsMenu->GetDisplay();
 	for (JIndex i=1; i<=kHelpIconCount; i++)
-		{
+	{
 		JColorID fgColor = JColorManager::GetBlackColor();
 		if (i == kGreyOutIcon1Index)
-			{
+		{
 			fgColor = JColorManager::GetGrayColor(50);
-			}
+		}
 		else if (i == kGreyOutIcon2Index)
-			{
+		{
 			fgColor = JColorManager::GetGrayColor(75);
-			}
+		}
 		JXImage* icon =
 			jnew JXImage(display, kHelpIcon[i-1], fgColor, JColorManager::GetWhiteColor());
 		assert( icon != nullptr );
@@ -55,7 +55,7 @@ AnimateHelpMenuTask::AnimateHelpMenuTask
 		icon->ConvertToDefaultState();
 
 		itsImageList->Append(icon);
-		}
+	}
 
 	Reset();
 }
@@ -83,21 +83,21 @@ AnimateHelpMenuTask::Perform
 	)
 {
 	if (TimeToPerform(delta, maxSleepTime))
-		{
+	{
 		itsCurrentImage++;
 		if (itsCurrentImage > kHelpIconCount)
-			{
+		{
 			itsCurrentImage = 1;
-			}
+		}
 
 		itsMenu->SetItemImage(itsMenuItem, itsImageList->GetElement(itsCurrentImage),
 							  false);
-		}
+	}
 
 	if (!itsMenu->IsOpen())
-		{
+	{
 		Stop();
-		}
+	}
 }
 
 /******************************************************************************

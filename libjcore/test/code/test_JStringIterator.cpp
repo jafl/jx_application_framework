@@ -799,15 +799,15 @@ JTEST(Insert)
 
 void TestSwitchIterators(const JString& s)
 {
-	{
+{
 	JStringIterator i(s);
 	JAssertTrue(i.AtBeginning());
-	}
+}
 
-	{
+{
 	JStringIterator i(s, kJIteratorStartAtEnd);
 	JAssertTrue(i.AtEnd());
-	}
+}
 }
 
 JTEST(SwitchIterators)

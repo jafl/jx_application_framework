@@ -65,9 +65,9 @@ JXPrefsManager::CleanUpBeforeSuddenDeath
 	)
 {
 	if (reason != JXDocumentManager::kAssertFired)
-		{
+	{
 		SaveAllBeforeDestruct();
-		}
+	}
 }
 
 /******************************************************************************
@@ -97,11 +97,11 @@ JXPrefsManager::Receive
 	)
 {
 	if (sender == itsSafetySaveTask && message.Is(JXTimerTask::kTimerWentOff))
-		{
+	{
 		SaveAllBeforeDestruct();
-		}
+	}
 	else
-		{
+	{
 		JPrefsManager::Receive(sender, message);
-		}
+	}
 }

@@ -61,7 +61,7 @@ TestMDIServer::HandleMDIRequest
 {
 	const JSize argCount = argList.GetElementCount();
 	if (argCount == 2 && *argList.GetElement(2) == "--quit")
-		{
+	{
 		itsQuitFlag = true;
-		}
+	}
 }

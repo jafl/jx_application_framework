@@ -215,14 +215,14 @@ JPainter::SetDashList
 	)
 {
 	if (itsDashList == nullptr)
-		{
+	{
 		itsDashList = jnew JArray<JSize>(dashList);
 		assert( itsDashList != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*itsDashList = dashList;
-		}
+	}
 
 	itsDashOffset = dashOffset;
 }
@@ -263,9 +263,9 @@ JPainter::GetStringWidth
 	const
 {
 	if (str.IsEmpty())
-		{
+	{
 		return 0;
-		}
+	}
 
 	JSize width = 0;
 
@@ -275,28 +275,28 @@ JPainter::GetStringWidth
 
 	iter.BeginMatch();
 	while (iter.Next(&c))
-		{
+	{
 		if (f.SubstituteToDisplayGlyph(itsFontManager, c))
-			{
+		{
 			iter.SkipPrev();
 			const JStringMatch& m = iter.FinishMatch();
 			if (!m.IsEmpty())
-				{
+			{
 				width += itsFont.GetStringWidth(itsFontManager, m.GetString());
-				}
+			}
 
 			width += f.GetCharWidth(itsFontManager, c);
 			iter.SkipNext();
 			iter.BeginMatch();
 			f = itsFont;
-			}
 		}
+	}
 
 	const JStringMatch& m = iter.FinishMatch();
 	if (!m.IsEmpty())
-		{
+	{
 		width += itsFont.GetStringWidth(itsFontManager, m.GetString());
-		}
+	}
 
 	return width;
 }
@@ -319,9 +319,9 @@ JPainter::String
 	)
 {
 	if (str.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JFont origFont = itsFont;
 
@@ -335,17 +335,17 @@ JPainter::String
 
 	iter.BeginMatch();
 	while (iter.Next(&c))
-		{
+	{
 		if (f.SubstituteToDisplayGlyph(itsFontManager, c))
-			{
+		{
 			iter.SkipPrev();
 			const JStringMatch& m = iter.FinishMatch();
 			if (!m.IsEmpty())
-				{
+			{
 				const JString& s = m.GetString();
 				StringNoSubstitutions(x, y, s);
 				x += itsFont.GetStringWidth(itsFontManager, s);
-				}
+			}
 
 			SetFont(f);
 			JString s(c);
@@ -356,14 +356,14 @@ JPainter::String
 			iter.BeginMatch();
 			f = origFont;
 			SetFont(origFont);
-			}
 		}
+	}
 
 	const JStringMatch& m = iter.FinishMatch();
 	if (!m.IsEmpty())
-		{
+	{
 		StringNoSubstitutions(x, y, m.GetString());
-		}
+	}
 }
 
 /******************************************************************************
@@ -389,26 +389,26 @@ JPainter::AlignString
 {
 	JSize strWidth = 0;
 	if (hAlign == kHAlignCenter)
-		{
+	{
 		strWidth = GetStringWidth(str);
 		*left += (width-strWidth)/2;
-		}
+	}
 	else if (hAlign == kHAlignRight)
-		{
+	{
 		strWidth = GetStringWidth(str);
 		*left += width-strWidth;
-		}
+	}
 
 	if (vAlign == kVAlignCenter)
-		{
+	{
 		const JCoordinate lineHeight = GetLineHeight();
 		*top += (height-lineHeight)/2;
-		}
+	}
 	else if (vAlign == kVAlignBottom)
-		{
+	{
 		const JCoordinate lineHeight = GetLineHeight();
 		*top += height-lineHeight;
-		}
+	}
 
 	return strWidth;
 }
@@ -454,33 +454,33 @@ JPainter::String
 
 	JFloat angle = userAngle;
 	while (angle <= -45.0)
-		{
+	{
 		angle += 360.0;
-		}
+	}
 	while (angle > 315.0)
-		{
+	{
 		angle -= 360.0;
-		}
+	}
 
 	// pick the correct origin
 
 	JPoint topLeft;
 	if (-45.0 < angle && angle <= 45.0)
-		{
+	{
 		topLeft = rect.topLeft();
-		}
+	}
 	else if (45.0 < angle && angle <= 135.0)
-		{
+	{
 		topLeft = rect.bottomLeft();
-		}
+	}
 	else if (135.0 < angle && angle <= 225.0)
-		{
+	{
 		topLeft = rect.bottomRight();
-		}
+	}
 	else	// 225.0 < angle && angle <= 315.0
-		{
+	{
 		topLeft = rect.topRight();
-		}
+	}
 
 	String(angle, topLeft, str, rect.width(), hAlign, rect.height(), vAlign);
 }

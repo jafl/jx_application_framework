@@ -58,11 +58,11 @@ JXCheckbox::SetState
 	)
 {
 	if (itsIsCheckedFlag != on)
-		{
+	{
 		itsIsCheckedFlag = on;
 		Redraw();
 		Broadcast(Pushed(itsIsCheckedFlag));
-		}
+	}
 }
 
 /******************************************************************************
@@ -81,10 +81,10 @@ JXCheckbox::HandleMouseDown
 	)
 {
 	if (button == kJXLeftButton)
-		{
+	{
 		itsIsPushedFlag = true;
 		Redraw();
-		}
+	}
 }
 
 /******************************************************************************
@@ -101,20 +101,20 @@ JXCheckbox::HandleMouseDrag
 	)
 {
 	if (buttonStates.left())
-		{
+	{
 		const JRect frame     = JXContainer::GlobalToLocal(GetFrameGlobal());
 		const bool inside = frame.Contains(pt);
 		if (inside && !itsIsPushedFlag)
-			{
+		{
 			itsIsPushedFlag = true;
 			Redraw();
-			}
+		}
 		else if (!inside && itsIsPushedFlag)
-			{
+		{
 			itsIsPushedFlag = false;
 			Redraw();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -132,10 +132,10 @@ JXCheckbox::HandleMouseUp
 	)
 {
 	if (button == kJXLeftButton && itsIsPushedFlag)
-		{
+	{
 		itsIsPushedFlag = false;
 		ToggleState();
-		}
+	}
 }
 
 /******************************************************************************

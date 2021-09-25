@@ -143,10 +143,10 @@ JAccessDenied::JAccessDenied
 	JError(kJAccessDenied)
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"name1", fileName1.GetBytes(),
 		"name2", fileName2.GetBytes()
-		};
+	};
 	const JString msg = JGetString("JAccessDenied2", map, sizeof(map));
 	SetMessage(msg);
 }
@@ -172,10 +172,10 @@ JComponentNotDirectory::JComponentNotDirectory
 	JError(kJComponentNotDirectory)
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"name1", path1.GetBytes(),
 		"name2", path2.GetBytes()
-		};
+	};
 	const JString msg = JGetString("JComponentNotDirectory2", map, sizeof(map));
 	SetMessage(msg);
 }
@@ -211,10 +211,10 @@ JPathContainsLoop::JPathContainsLoop
 	JError(kJPathContainsLoop)
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"name1", path1.GetBytes(),
 		"name2", path2.GetBytes()
-		};
+	};
 	const JString msg = JGetString("JPathContainsLoop2", map, sizeof(map));
 	SetMessage(msg);
 }
@@ -239,10 +239,10 @@ JBadPath::JBadPath
 	JError(kJBadPath)
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"name1", path1.GetBytes(),
 		"name2", path2.GetBytes()
-		};
+	};
 	const JString msg = JGetString("JBadPath2", map, sizeof(map));
 	SetMessage(msg);
 }
@@ -279,10 +279,10 @@ JCantRenameFileToDirectory::JCantRenameFileToDirectory
 	JError(kJCantRenameFileToDirectory)
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"old_name", oldName.GetBytes(),
 		"new_name", newName.GetBytes()
-		};
+	};
 	SetMessage(map, sizeof(map));
 }
 

@@ -37,9 +37,9 @@ main
 
 	if (displayLicense &&
 		!JGetUserNotification()->AcceptLicense())
-		{
+	{
 		return 0;
-		}
+	}
 
 	auto* dlog = jnew JXWMainDialog(app, argc, argv);
 	assert( dlog != nullptr );
@@ -68,21 +68,21 @@ ParseTextOptions
 {
 	long index = 1;
 	while (index < argc)
-		{
+	{
 		if (JIsVersionRequest(argv[index]))
-			{
+		{
 			JXWApp::InitStrings();
 			PrintVersion();
 			exit(0);
-			}
+		}
 		else if (JIsHelpRequest(argv[index]))
-			{
+		{
 			JXWApp::InitStrings();
 			PrintCommandLineHelp();
 			exit(0);
-			}
-		index++;
 		}
+		index++;
+	}
 }
 
 /******************************************************************************
@@ -94,9 +94,9 @@ void
 PrintCommandLineHelp()
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"vers", JXWGetVersionNumberStr()
-		};
+	};
 	const JString s = JGetString("CommandLineHelp::main", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }

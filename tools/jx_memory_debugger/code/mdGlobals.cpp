@@ -79,8 +79,8 @@ MDCleanUpBeforeSuddenDeath
 {
 /*
 	if (reason != JXDocumentManager::kAssertFired)
-		{
-		}
+	{
+	}
 */
 	// must be last to save everything
 
@@ -131,10 +131,10 @@ JString
 MDGetVersionStr()
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"version",   MDGetVersionNumberStr(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
-		};
+	};
 	return JGetString("Description::mdGlobals", map, sizeof(map));
 }
 

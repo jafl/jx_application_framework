@@ -71,15 +71,15 @@ JXExprInput::HandleKeyPress
 	)
 {
 	if (c == JUserInputFunction::kSwitchFontCharacter)
-		{
+	{
 		itsGreekFlag = ! itsGreekFlag;
-		}
+	}
 	else
-		{
+	{
 		JXInputField::HandleKeyPress(
 			itsGreekFlag ? JUserInputFunction::ConvertToGreek(c) : c,
 			keySym, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -104,14 +104,14 @@ JXExprInput::CreateFontMenu
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
+	{
 		menu->SetMenuItems(kMacFontMenuStr);
-		}
+	}
 	else
-		{
+	{
 		menu->SetShortcuts(JGetString("FontMenuShortcut::JXExprInput"));
 		menu->SetMenuItems(kWinFontMenuStr);
-		}
+	}
 
 	return menu;
 }
@@ -147,22 +147,22 @@ JXExprInput::Receive
 {
 	if (sender == itsFontMenu && HasFocus() &&
 		message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFontMenu();
-		}
+	}
 	else if (sender == itsFontMenu && HasFocus() &&
 			 message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFontMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXInputField::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -188,11 +188,11 @@ JXExprInput::HandleFontMenu
 	)
 {
 	if (item == kNormalFontCmd)
-		{
+	{
 		itsGreekFlag = false;
-		}
+	}
 	else if (item == kGreekFontCmd)
-		{
+	{
 		itsGreekFlag = true;
-		}
+	}
 }

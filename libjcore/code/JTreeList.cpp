@@ -74,10 +74,10 @@ JTreeList::MakeVisible
 {
 	const JTreeNode* parent;
 	while (node->GetParent(&parent))
-		{
+	{
 		Open(parent);
 		node = parent;
-		}
+	}
 }
 
 /******************************************************************************
@@ -92,25 +92,25 @@ JTreeList::Open
 	)
 {
 	if (node == itsTree->GetRoot() || IsOpen(node))
-		{
+	{
 		return true;
-		}
+	}
 	else if (node->OKToOpen())
-		{
+	{
 		itsOpenNodeList->Append(const_cast<JTreeNode*>(node));
 
 		JIndex index;
 		if (FindNode(node, &index))
-			{
+		{
 			ShowChildren(index, node);
 			Broadcast(NodeOpened(node, index));
-			}
+		}
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -134,23 +134,23 @@ JIndex i;
 	// loop through children and insert them
 
 	for (i=1; i<=childCount; i++)
-		{
+	{
 		const JTreeNode* node = parent->GetChild(i);
 		InsertElement(index + i, node);
-		}
+	}
 
 	// loop backwards through children and recursively insert their children
 	// (This avoids recalculating the index passed to ShowChildren()
 	//  every time through the loop.)
 
 	for (i=childCount; i>=1; i--)
-		{
+	{
 		const JTreeNode* node = parent->GetChild(i);
 		if (IsOpen(node))
-			{
+		{
 			ShowChildren(index + i, node);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -166,27 +166,27 @@ JTreeList::Close
 {
 	JIndex openIndex;
 	if (itsOpenNodeList->Find(node, &openIndex))
-		{
+	{
 		itsOpenNodeList->RemoveElement(openIndex);
 
 		JIndex index;
 		if (FindNode(node, &index))
-			{
+		{
 			JPtrArray<JTreeNode> nodeList(JPtrArrayT::kDeleteAll, 100);
 			const_cast<JTreeNode*>(node)->CollectDescendants(&nodeList);
 
 			JIndex j;
 			for (const auto* n : nodeList)
-				{
+			{
 				if (FindNode(n, &j))
-					{
+				{
 					RemoveElement(j);
-					}
 				}
+			}
 
 			Broadcast(NodeClosed(node, index));
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -201,13 +201,13 @@ JTreeList::Toggle
 	)
 {
 	if (IsOpen(index))
-		{
+	{
 		Close(index);
-		}
+	}
 	else
-		{
+	{
 		Open(index);
-		}
+	}
 }
 
 void
@@ -217,13 +217,13 @@ JTreeList::Toggle
 	)
 {
 	if (IsOpen(node))
-		{
+	{
 		Close(node);
-		}
+	}
 	else
-		{
+	{
 		Open(node);
-		}
+	}
 }
 
 /******************************************************************************
@@ -242,13 +242,13 @@ JTreeList::OpenSiblings
 	const JTreeNode* parent = node->GetParent();
 	const JSize childCount  = parent->GetChildCount();
 	for (JIndex i=1; i<=childCount; i++)
-		{
+	{
 		const JTreeNode* child = parent->GetChild(i);
 		if (ShouldOpenSibling(child))
-			{
+		{
 			Open(child);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -267,9 +267,9 @@ JTreeList::CloseSiblings
 	const JTreeNode* parent = node->GetParent();
 	const JSize childCount  = parent->GetChildCount();
 	for (JIndex i=1; i<=childCount; i++)
-		{
+	{
 		Close(parent->GetChild(i));
-		}
+	}
 }
 
 /******************************************************************************
@@ -318,23 +318,23 @@ JTreeList::OpenDescendants1
 	)
 {
 	if (!Open(node))
-		{
+	{
 		return false;
-		}
+	}
 
 	(*depth)++;
 	if (*depth < maxDepth)
-		{
+	{
 		const JSize childCount = node->GetChildCount();
 		for (JIndex i=1; i<=childCount; i++)
-			{
+		{
 			const JTreeNode* child = node->GetChild(i);
 			if (ShouldOpenDescendant(child))
-				{
+			{
 				OpenDescendants1(child, depth, maxDepth);
-				}
 			}
 		}
+	}
 	(*depth)--;
 
 	return true;
@@ -359,9 +359,9 @@ JTreeList::CloseDescendants
 	const_cast<JTreeNode*>(node)->CollectDescendants(&nodeList);
 
 	for (const auto* n : nodeList)
-		{
+	{
 		itsOpenNodeList->Remove(n);
-		}
+	}
 }
 
 /******************************************************************************
@@ -393,18 +393,18 @@ JTreeList::Receive
 	)
 {
 	if (sender == itsTree && message.Is(JTree::kNewRoot))
-		{
+	{
 		while (!itsVisibleNodeList->IsEmpty())
-			{
+		{
 			RemoveElement(1);
-			}
+		}
 
 		const JTreeNode* root = itsTree->GetRoot();
 		assert( root->IsOpenable() );
 		ShowChildren(0, root);
-		}
+	}
 	else if (sender == itsTree && message.Is(JTree::kNodeInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTree::NodeInserted*>(&message);
 		assert( info != nullptr );
@@ -417,45 +417,45 @@ JTreeList::Receive
 
 		JIndex parentIndex;
 		if (parent == itsTree->GetRoot())
-			{
+		{
 			if (index == parent->GetChildCount())
-				{
+			{
 				InsertElement(GetElementCount()+1, node);
-				}
-			else
-				{
-				InsertBefore(parent, index, node);
-				}
 			}
-		else if (FindNode(parent, &parentIndex) && IsOpen(parentIndex))
-			{
-			if (index == parent->GetChildCount())
-				{
-				InsertElement(FindLastDescendant(parentIndex)+1, node);
-				}
 			else
-				{
+			{
 				InsertBefore(parent, index, node);
-				}
 			}
 		}
+		else if (FindNode(parent, &parentIndex) && IsOpen(parentIndex))
+		{
+			if (index == parent->GetChildCount())
+			{
+				InsertElement(FindLastDescendant(parentIndex)+1, node);
+			}
+			else
+			{
+				InsertBefore(parent, index, node);
+			}
+		}
+	}
 
 	else if (sender == itsTree && message.Is(JTree::kNodeRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTree::NodeRemoved*>(&message);
 		assert( info != nullptr );
 		JTreeNode* node = info->GetNode();
 		JIndex index;
 		if (FindNode(node, &index))
-			{
+		{
 			Close(index);
 			RemoveElement(index);
-			}
 		}
+	}
 
 	else if (sender == itsTree && message.Is(JTree::kNodeDeleted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTree::NodeDeleted*>(&message);
 		assert( info != nullptr );
@@ -463,13 +463,13 @@ JTreeList::Receive
 		itsOpenNodeList->Remove(node);
 		JIndex index;
 		if (FindNode(node, &index))
-			{
+		{
 			RemoveElement(index);
-			}
 		}
+	}
 
 	else if (sender == itsTree && message.Is(JTree::kNodeChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTree::NodeChanged*>(&message);
 		assert( info != nullptr );
@@ -477,28 +477,28 @@ JTreeList::Receive
 
 		JIndex index;
 		if (FindNode(node, &index))
-			{
+		{
 			Broadcast(NodeChanged(node, index));
-			}
-
-		if (!node->IsOpenable())
-			{
-			itsOpenNodeList->Remove(node);
-			}
 		}
 
-	else if (sender == itsTree && message.Is(JTree::kPrepareForNodeMove))
+		if (!node->IsOpenable())
 		{
+			itsOpenNodeList->Remove(node);
+		}
+	}
+
+	else if (sender == itsTree && message.Is(JTree::kPrepareForNodeMove))
+	{
 		const auto* info =
 			dynamic_cast<const JTree::PrepareForNodeMove*>(&message);
 		assert( info != nullptr );
 		itsWasOpenBeforeMoveFlag = IsOpen(info->GetNode());
-		}
+	}
 
 	else
-		{
+	{
 		JContainer::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -542,9 +542,9 @@ JTreeList::FindLastDescendant
 
 	JIndex i = index+1;
 	while (IndexValid(i) && (GetNode(i))->GetDepth() > startDepth)
-		{
+	{
 		i++;
-		}
+	}
 
 	return i-1;
 }
@@ -565,10 +565,10 @@ JTreeList::InsertElement
 	Broadcast(NodeInserted(node, index));
 
 	if (itsWasOpenBeforeMoveFlag)
-		{
+	{
 		itsWasOpenBeforeMoveFlag = false;
 		Open(node);
-		}
+	}
 }
 
 /******************************************************************************

@@ -88,15 +88,15 @@ JXStaticText::JXStaticTextX
 	JCoordinate w = origW;
 	JCoordinate h = origH;
 	if (w == 0)
-		{
+	{
 		w = GetMinBoundsWidth() + 2*GetBorderWidth();
 		SetSize(w, GetFrameHeight());
-		}
+	}
 	if (h == 0)
-		{
+	{
 		h = GetMinBoundsHeight() + 2*GetBorderWidth();
 		SetSize(w, h);
-		}
+	}
 }
 
 /******************************************************************************
@@ -135,13 +135,13 @@ JXStaticText::SetToLabel
 	)
 {
 	if (!itsCenterVertFlag)
-		{
+	{
 		itsCenterHorizFlag = centerHorizontally;
 		itsCenterVertFlag  = true;
 		SetBreakCROnly(true);
 		ShouldAllowUnboundedScrolling(true);
 		Center();
-		}
+	}
 }
 
 /******************************************************************************
@@ -159,9 +159,9 @@ JXStaticText::BoundsMoved
 	JXTEBase::BoundsMoved(dx,dy);
 
 	if (itsCenterHorizFlag || itsCenterVertFlag)
-		{
+	{
 		Center();
-		}
+	}
 }
 
 /******************************************************************************
@@ -179,9 +179,9 @@ JXStaticText::BoundsResized
 	JXTEBase::BoundsResized(dw,dh);
 
 	if (itsCenterHorizFlag || itsCenterVertFlag)
-		{
+	{
 		Center();
-		}
+	}
 }
 
 /******************************************************************************
@@ -195,24 +195,24 @@ JXStaticText::Center()
 	JCoordinate x = 0, y = 0;
 
 	if (itsCenterHorizFlag)
-		{
+	{
 		const JCoordinate f = GetFrameWidth();
 		const JCoordinate b = GetMinBoundsWidth();
 		if (f > b)
-			{
+		{
 			x = - (f - b)/2;
-			}
 		}
+	}
 
 	if (itsCenterVertFlag)
-		{
+	{
 		const JCoordinate f = GetFrameHeight();
 		const JCoordinate b = GetMinBoundsHeight();
 		if (f > b)
-			{
+		{
 			y = - (f - b)/2;
-			}
 		}
+	}
 
 	ScrollTo(x, y);
 }

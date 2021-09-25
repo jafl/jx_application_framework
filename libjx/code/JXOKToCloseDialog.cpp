@@ -116,28 +116,28 @@ JXOKToCloseDialog::Receive
 	)
 {
 	if (sender == this && message.Is(kDeactivated))
-		{
+	{
 		const auto* info = dynamic_cast<const Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			Broadcast(GotResponse(JUserNotification::kSaveData));
-			}
-		else
-			{
-			Broadcast(GotResponse(JUserNotification::kDontClose));
-			}
 		}
+		else
+		{
+			Broadcast(GotResponse(JUserNotification::kDontClose));
+		}
+	}
 
 	else if (sender == itsDiscardButton && message.Is(JXButton::kPushed))
-		{
+	{
 		Broadcast(GotResponse(JUserNotification::kDiscardData));
 		const bool ok = Close();
 		assert( ok );
-		}
+	}
 
 	else
-		{
+	{
 		JXUNDialogBase::Receive(sender, message);
-		}
+	}
 }

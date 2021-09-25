@@ -75,10 +75,10 @@ JXProgressIndicator::SetValue
 	assert( value <= itsMaxValue );
 
 	if (value != itsValue)
-		{
+	{
 		itsValue = value;
 		Redraw();
-		}
+	}
 }
 
 /******************************************************************************
@@ -95,14 +95,14 @@ JXProgressIndicator::SetMaxValue
 	assert( maxValue > 0 );
 
 	if (maxValue != itsMaxValue)
-		{
+	{
 		itsMaxValue = maxValue;
 		if (itsValue > itsMaxValue)
-			{
+		{
 			itsValue = itsMaxValue;
-			}
-		Redraw();
 		}
+		Redraw();
+	}
 }
 
 /******************************************************************************
@@ -139,19 +139,19 @@ JXProgressIndicator::Draw
 	const JCoordinate h = bounds.height();
 	const JFloat f      = itsValue / (JFloat)itsMaxValue;
 	if (w > h)
-		{
+	{
 		fillRect.top    = 0;
 		fillRect.left   = 0;
 		fillRect.bottom = h;
 		fillRect.right  = JRound(w * f);
-		}
+	}
 	else
-		{
+	{
 		fillRect.top    = JRound(h * (1.0 - f));
 		fillRect.left   = 0;
 		fillRect.bottom = h;
 		fillRect.right  = w;
-		}
+	}
 
 	p.SetFilling(true);
 	p.SetPenColor(itsForeColor);

@@ -218,9 +218,9 @@ JXWindow::JXWindow
 	// tell window manager what kind of window we are
 
 	if (isOverlay)
-		{
+	{
 		SetWMWindowType(kWMPulldownMenuType);
-		}
+	}
 
 	// create GC to use when drawing
 
@@ -238,9 +238,9 @@ JXWindow::JXWindow
 	long icEventMask;
 	XGetICValues(itsXIC, XNFilterEvents, &icEventMask, nullptr);
 	if ((kEventMask | icEventMask) != kEventMask)
-		{
+	{
 		XSelectInput(*itsDisplay, itsXWindow, kEventMask | icEventMask);
-		}
+	}
 
 	// notify the display that we exist
 
@@ -250,17 +250,17 @@ JXWindow::JXWindow
 	// expand window after creator's BuildWindow() finishes
 
 	if (!isOverlay)
-		{
+	{
 		itsExpandTask = jnew JXExpandWindowToFitContentTask(this);
 		assert( itsExpandTask != nullptr );
 		itsExpandTask->Go();
 
 		const JXKeyModifiers& mod = itsDisplay->GetLatestKeyModifiers();
 		if (mod.meta() && mod.control() && mod.hyper())
-			{
+		{
 			JXContainer::DebugExpandToFitContent(!mod.shift());
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -277,9 +277,9 @@ JXWindow::~JXWindow()
 	itsDisplay->WindowDeleted(this);
 
 	if (itsIsDockedFlag && itsDockWidget != nullptr)
-		{
+	{
 		(itsDockWidget->GetDockDirector())->ClearFocusWindow(this);
-		}
+	}
 	jdelete itsDockingTask;
 
 	jdelete itsIcon;
@@ -289,18 +289,18 @@ JXWindow::~JXWindow()
 	jdelete itsChildWindowList;
 
 	if (itsBufferPixmap != None)
-		{
+	{
 		XFreePixmap(*itsDisplay, itsBufferPixmap);
-		}
+	}
 
 	XDestroyIC(itsXIC);
 
 	jdelete itsGC;
 	XDestroyRegion(itsUpdateRegion);
 	if (itsXWindow != None)				// plug-in: might be destroyed by Netscape
-		{
+	{
 		XDestroyWindow(*itsDisplay, itsXWindow);
-		}
+	}
 	itsDisplay->Flush();
 }
 
@@ -343,9 +343,9 @@ JXWindow::AdjustTitle()
 	// avoid loony feature of fvwm
 
 	if (itsTitle.EndsWith("lock"))
-		{
+	{
 		itsTitle.Append(" ");
-		}
+	}
 }
 
 /******************************************************************************
@@ -393,9 +393,9 @@ JXWindow::SetWMClass
 	JXDockWidget* dock;
 	if (theAutoDockNewWindowFlag &&
 		JXGetDockManager(&mgr) && mgr->GetDefaultDock(instance, &dock))
-		{
+	{
 		dock->Dock(this);
-		}
+	}
 }
 
 /******************************************************************************
@@ -430,7 +430,7 @@ JXWindow::DispatchMouse()
 					  &root_x, &root_y, &x, &y, &state) &&
 		itsDisplay->GetMouseContainer(&window) &&
 		window == this)
-		{
+	{
 		XMotionEvent xEvent;
 		xEvent.type      = MotionNotify;
 		xEvent.display   = *itsDisplay;
@@ -444,7 +444,7 @@ JXWindow::DispatchMouse()
 		xEvent.state     = state;
 
 		HandleMotionNotify(xEvent);
-		}
+	}
 }
 
 /******************************************************************************
@@ -464,10 +464,10 @@ JXWindow::DispatchCursor()
 					  &root_x, &root_y, &x, &y, &state) &&
 		itsDisplay->GetMouseContainer(&window) &&
 		window == this)
-		{
+	{
 		itsButtonPressReceiver->
 			DispatchCursor(JPoint(x,y), JXKeyModifiers(itsDisplay, state));
-		}
+	}
 }
 
 /******************************************************************************
@@ -482,10 +482,10 @@ JXWindow::DisplayXCursor
 	)
 {
 	if (itsCursorIndex != index)
-		{
+	{
 		itsCursorIndex = index;
 		XDefineCursor(*itsDisplay, itsXWindow, itsDisplay->GetXCursorID(index));
-		}
+	}
 }
 
 /******************************************************************************
@@ -497,23 +497,23 @@ bool
 JXWindow::Close()
 {
 	if (itsCloseAction == kDeactivateDirector)
-		{
+	{
 		return (itsIsDockedFlag ? true : itsDirector->Deactivate());
-		}
+	}
 	else if (itsCloseAction == kCloseDirector)
-		{
+	{
 		return itsDirector->Close();
-		}
+	}
 	else if (itsCloseAction == kCloseDisplay)
-		{
+	{
 		return itsDisplay->Close();
-		}
+	}
 	else
-		{
+	{
 		assert( itsCloseAction == kQuitApp );
 		JXGetApplication()->Quit();
 		return true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -525,17 +525,17 @@ void
 JXWindow::Activate()
 {
 	if (!WouldBeActive())
-		{
+	{
 		JXContainer::Activate();
 		if (itsIsDockedFlag)
-			{
+		{
 			Raise();
-			}
-		if (itsFocusWidget == nullptr)
-			{
-			SwitchFocus(false);
-			}
 		}
+		if (itsFocusWidget == nullptr)
+		{
+			SwitchFocus(false);
+		}
+	}
 }
 
 /******************************************************************************
@@ -548,9 +548,9 @@ JXWindow::Resume()
 {
 	JXContainer::Resume();
 	if (IsActive() && itsFocusWidget == nullptr)
-		{
+	{
 		SwitchFocus(false);
-		}
+	}
 }
 
 /******************************************************************************
@@ -562,30 +562,30 @@ void
 JXWindow::Show()
 {
 	if (itsExpandTask != nullptr)
-		{
+	{
 		itsExpandTask->ShowAfterFTC();
 		return;
-		}
+	}
 
 	if (!IsVisible() && (itsDockingTask == nullptr || itsDockingTask->IsDone()))
-		{
+	{
 		JXContainer::Show();
 		if (itsFocusWidget == nullptr)
-			{
+		{
 			SwitchFocus(false);
-			}
+		}
 		if (itsUseBkgdPixmapFlag)
-			{
+		{
 			Redraw();
-			}
+		}
 
 		const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
 		if (!theAnalyzeWMFlag && itsHasBeenVisibleFlag &&
 			!itsIsIconifiedFlag && !itsIsDockedFlag &&
 			(b.reshowOffset.x != 0 || b.reshowOffset.y != 0))
-			{
+		{
 			Move(- b.reshowOffset.x, - b.reshowOffset.y);
-			}
+		}
 		itsHasBeenVisibleFlag = true;
 
 		XMapWindow(*itsDisplay, itsXWindow);
@@ -593,10 +593,10 @@ JXWindow::Show()
 
 		JXWindow* parent;
 		if (GetDockWindow(&parent))
-			{
+		{
 			parent->Show();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -610,12 +610,12 @@ void
 JXWindow::Hide()
 {
 	if (IsVisible() && !itsIsDockedFlag)
-		{
+	{
 		// We have to deiconify the window first because otherwise,
 		// the icon won't disappear, at least under fvwm and fvwm2.
 
 		if (itsIsIconifiedFlag)
-			{
+		{
 			Deiconify();
 
 			// toss the MapNotify event -- avoids error from XSetInputFocus()
@@ -624,10 +624,10 @@ JXWindow::Hide()
 			XIfEvent(*itsDisplay, &xEvent, GetNextMapNotifyEvent, nullptr);
 			itsIsIconifiedFlag = false;
 			Broadcast(Deiconified());
-			}
+		}
 
 		PrivateHide();
-		}
+	}
 }
 
 // private
@@ -636,11 +636,11 @@ void
 JXWindow::PrivateHide()
 {
 	if (IsVisible())
-		{
+	{
 		XUnmapWindow(*itsDisplay, itsXWindow);
 		itsIsMappedFlag = false;
 		JXContainer::Hide();
-		}
+	}
 }
 
 // static private
@@ -676,17 +676,17 @@ JXWindow::Raise
 	Activate();		// in case it wasn't already
 
 	if (itsIsIconifiedFlag)
-		{
+	{
 		Deiconify();
-		}
+	}
 	else if (grabKeyboardFocus)
-		{
+	{
 		RequestFocus();
-		}
+	}
 
 	if (!itsIsDockedFlag &&
 		(!(wasVisible && !itsIsMappedFlag) || wasIcon))
-		{
+	{
 		// Don't call Place() if window director is being activated
 		// a second time before XMapWindow event arrives.
 
@@ -694,7 +694,7 @@ JXWindow::Raise
 		// the current virtual desktop.
 
 		Move(0,0);
-		}
+	}
 
 	// move window to current desktop
 	// http://standards.freedesktop.org/wm-spec/latest/ar01s05.html
@@ -703,7 +703,7 @@ JXWindow::Raise
 
 	const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
 	if (b.desktopMapsWindowsFlag || itsIsMappedFlag)
-		{
+	{
 		Atom actualType;
 		int actualFormat;
 		unsigned long itemCount, remainingBytes;
@@ -713,7 +713,7 @@ JXWindow::Raise
 						   &actualType, &actualFormat,
 						   &itemCount, &remainingBytes, &xdata);
 		if (actualType == XA_CARDINAL && actualFormat == 32 && itemCount > 0)
-			{
+		{
 			const JUInt32 desktop = *reinterpret_cast<JUInt32*>(xdata);
 
 			XEvent e;
@@ -726,10 +726,10 @@ JXWindow::Raise
 			e.xclient.data.l[0]    = desktop;
 			e.xclient.data.l[1]    = 1;	// normal app
 			itsDisplay->SendXEvent(root, &e, SubstructureNotifyMask|SubstructureRedirectMask);
-			}
+		}
 
 		XFree(xdata);
-		}
+	}
 
 	// force window to be raised
 	// http://standards.freedesktop.org/wm-spec/wm-spec-latest.html
@@ -739,7 +739,7 @@ JXWindow::Raise
 					XA_CARDINAL, 32, PropModeReplace, (unsigned char*) &t, 1);
 
 	if (grabKeyboardFocus)
-		{
+	{
 		XEvent e;
 		bzero(&e, sizeof(e));
 		e.type                 = ClientMessage;
@@ -750,7 +750,7 @@ JXWindow::Raise
 		e.xclient.data.l[0]    = 1;	// normal app
 		e.xclient.data.l[1]    = t;
 		itsDisplay->SendXEvent(root, &e, SubstructureNotifyMask|SubstructureRedirectMask);
-		}
+	}
 
 	XRaiseWindow(*itsDisplay, itsXWindow);
 
@@ -782,9 +782,9 @@ void
 JXWindow::RequestFocus()
 {
 	if (itsIsMappedFlag)
-		{
+	{
 		XSetInputFocus(*itsDisplay, itsXWindow, RevertToPointerRoot, CurrentTime);
-		}
+	}
 }
 
 /******************************************************************************
@@ -796,9 +796,9 @@ void
 JXWindow::Iconify()
 {
 	if (itsIsDockedFlag)
-		{
+	{
 		return;
-		}
+	}
 
 	// change the initial_state hint
 
@@ -807,17 +807,17 @@ JXWindow::Iconify()
 	// take other necessary actions
 
 	if (IsVisible())
-		{
+	{
 		// We don't modify itsIsIconifiedFlag here because the procedure might
 		// fail.  We wait for an UnmapNotify event.
 
 		XIconifyWindow(*itsDisplay, itsXWindow, itsDisplay->GetScreen());
-		}
+	}
 	else if (!itsIsIconifiedFlag)
-		{
+	{
 		itsIsIconifiedFlag = true;
 		Broadcast(Iconified());
-		}
+	}
 }
 
 /******************************************************************************
@@ -835,17 +835,17 @@ JXWindow::Deiconify()
 	// take other necessary actions
 
 	if (IsVisible())
-		{
+	{
 		// We don't modify itsIsIconifiedFlag here because we already deal
 		// with it in HandleMapNotify().
 
 		XMapWindow(*itsDisplay, itsXWindow);
-		}
+	}
 	else if (itsIsIconifiedFlag)
-		{
+	{
 		itsIsIconifiedFlag = false;
 		Broadcast(Deiconified());
-		}
+	}
 }
 
 /******************************************************************************
@@ -865,14 +865,14 @@ JXWindow::SetWindowStateHint
 
 	XWMHints* origHints = XGetWMHints(*itsDisplay, itsXWindow);
 	if (origHints != nullptr)
-		{
+	{
 		wmHints = *origHints;
 		XFree(origHints);
-		}
+	}
 	else
-		{
+	{
 		wmHints.flags = 0;
-		}
+	}
 
 	wmHints.flags        |= StateHint;
 	wmHints.initial_state = initial_state;
@@ -950,10 +950,10 @@ JXWindow::BufferDrawing
 {
 	itsBufferDrawingFlag = bufferDrawing || itsUseBkgdPixmapFlag;
 	if (!itsBufferDrawingFlag && itsBufferPixmap != None)
-		{
+	{
 		XFreePixmap(*itsDisplay, itsBufferPixmap);
 		itsBufferPixmap = None;
-		}
+	}
 }
 
 /******************************************************************************
@@ -975,15 +975,15 @@ void
 JXWindow::Update()
 {
 	if (XEmptyRegion(itsUpdateRegion))
-		{
+	{
 		return;
-		}
+	}
 	else if ((!itsIsMappedFlag || itsIsIconifiedFlag) && !itsUseBkgdPixmapFlag)
-		{
+	{
 		XDestroyRegion(itsUpdateRegion);
 		itsUpdateRegion = XCreateRegion();
 		return;
-		}
+	}
 
 	assert( !itsUseBkgdPixmapFlag || itsBufferDrawingFlag );
 
@@ -1028,9 +1028,9 @@ JXWindow::UpdateForScroll
 	assert( ap.Contains(src) && ap.Contains(dest) );
 
 	if ((!itsIsMappedFlag || itsIsIconifiedFlag) && !itsUseBkgdPixmapFlag)
-		{
+	{
 		return;
-		}
+	}
 	Update();	// scrollbars, etc.
 
 	assert( !itsUseBkgdPixmapFlag || itsBufferDrawingFlag );
@@ -1050,43 +1050,43 @@ JXWindow::UpdateForScroll
 
 	JRect r = ap;
 	if (dest.top > ap.top)
-		{
+	{
 		r.bottom = dest.top;
 		JXWindowPainter p(itsGC, drawable, r, nullptr);
 		DrawAll(p, r);
-		}
+	}
 	else if (dest.bottom < ap.bottom)
-		{
+	{
 		r.top = dest.bottom;
 		JXWindowPainter p(itsGC, drawable, r, nullptr);
 		DrawAll(p, r);
-		}
+	}
 	if (r.height() != ap.height())
-		{
+	{
 		XRectangle xrect = JXJToXRect(r);
 		XUnionRectWithRegion(&xrect, updateRegion, updateRegion);
-		}
+	}
 
 	r        = ap;
 	r.top    = dest.top;
 	r.bottom = dest.bottom;
 	if (dest.left > ap.left)
-		{
+	{
 		r.right = dest.left;
 		JXWindowPainter p(itsGC, drawable, r, nullptr);
 		DrawAll(p, r);
-		}
+	}
 	else if (dest.right < ap.right)
-		{
+	{
 		r.left = dest.right;
 		JXWindowPainter p(itsGC, drawable, r, nullptr);
 		DrawAll(p, r);
-		}
+	}
 	if (r.width() != ap.width())
-		{
+	{
 		XRectangle xrect = JXJToXRect(r);
 		XUnionRectWithRegion(&xrect, updateRegion, updateRegion);
-		}
+	}
 
 	FinishUpdate(JXGetRegionBounds(updateRegion), updateRegion);
 }
@@ -1104,18 +1104,18 @@ JXWindow::PrepareForUpdate()
 	const JCoordinate h = itsBounds.height();
 
 	if (itsBufferDrawingFlag && itsBufferPixmap == None)
-		{
+	{
 		itsBufferPixmap = XCreatePixmap(*itsDisplay, itsXWindow, w,h,
 										itsDisplay->GetDepth());
 		if (itsBufferPixmap != None)
-			{
-			drawable = itsBufferPixmap;
-			}
-		}
-	else if (itsBufferDrawingFlag)
 		{
-		drawable = itsBufferPixmap;
+			drawable = itsBufferPixmap;
 		}
+	}
+	else if (itsBufferDrawingFlag)
+	{
+		drawable = itsBufferPixmap;
+	}
 
 	return drawable;
 }
@@ -1135,31 +1135,31 @@ JXWindow::FinishUpdate
 	)
 {
 	if (itsUseBkgdPixmapFlag && itsBufferPixmap != None)
-		{
+	{
 		XSetWindowBackgroundPixmap(*itsDisplay, itsXWindow, itsBufferPixmap);
 		XClearWindow(*itsDisplay, itsXWindow);
-		}
+	}
 	else if (itsUseBkgdPixmapFlag)
-		{
+	{
 		XSetWindowBackground(*itsDisplay, itsXWindow, itsBackColor);
-		}
+	}
 	else if (itsBufferPixmap != None)
-		{
+	{
 		itsGC->SetClipRegion(region);
 		itsGC->CopyPixels(itsBufferPixmap,
 						  rect.left, rect.top, rect.width(), rect.height(),
 						  itsXWindow, rect.left, rect.top);
-		}
+	}
 
 	// Under normal conditions, we have to toss the pixmap because
 	// it uses an enormous amount of server memory.
 
 	if (!itsKeepBufferPixmapFlag && itsBufferPixmap != None &&
 		!(itsIsDraggingFlag && itsProcessDragFlag))
-		{
+	{
 		XFreePixmap(*itsDisplay, itsBufferPixmap);
 		itsBufferPixmap = None;
-		}
+	}
 
 	XDestroyRegion(region);
 
@@ -1300,13 +1300,13 @@ JXWindow::WaitForWM
 {
 	const time_t start = time(nullptr);
 	while (XPending(*d) > 0)
-		{
+	{
 		JXGetApplication()->HandleOneEventForWindow(w);
 		if (time(nullptr) - start > 2)	// sometimes we get events for other windows
-			{
+		{
 			break;
-			}
 		}
+	}
 }
 
 inline void
@@ -1333,7 +1333,7 @@ JXWindow::AnalyzeWindowManager
 	// init wm virtual desktop style
 	// Modern window managers map/unmap windows when switching desktops.
 	// This completely destroys the usefulness of itsFocusWhenShowFlag.
-	{
+{
 	Atom actualType;
 	int actualFormat;
 	unsigned long itemCount, remainingBytes;
@@ -1347,7 +1347,7 @@ JXWindow::AnalyzeWindowManager
 		actualType == XA_CARDINAL && actualFormat == 32 && itemCount > 0;
 
 	XFree(xdata);
-	}
+}
 	d->SetWMBehavior(behavior);
 
 	// block off everything until we get some answers about window placement
@@ -1373,7 +1373,7 @@ JXWindow::AnalyzeWindowManager
 	w->Place(p, p);
 
 	for (JIndex i=1; i<=2; i++)
-		{
+	{
 		Sync(d);
 
 		WaitForWM(d, w);
@@ -1381,16 +1381,16 @@ JXWindow::AnalyzeWindowManager
 
 		if (JLAbs(w->itsWMFrameLoc.x - p) > kWMFrameSlop ||
 			JLAbs(w->itsWMFrameLoc.y - p) > kWMFrameSlop)
-			{
+		{
 			behavior.frameCompensateFlag = !behavior.frameCompensateFlag;
 			d->SetWMBehavior(behavior);
 			w->Place(p, p);
-			}
-		else
-			{
-			break;
-			}
 		}
+		else
+		{
+			break;
+		}
+	}
 
 	// test hiding and then showing (XQuartz)
 
@@ -1407,10 +1407,10 @@ JXWindow::AnalyzeWindowManager
 	const JPoint pt2 = w->GetDesktopLocation();
 
 	if (pt2 != pt1)
-		{
+	{
 		behavior.reshowOffset = pt2 - pt1;
 		d->SetWMBehavior(behavior);
-		}
+	}
 
 	// done
 
@@ -1456,9 +1456,9 @@ JXWindow::CalcDesktopLocation
 
 	Window rootChild;
 	if (!GetRootChild(&rootChild))
-		{
+	{
 		return JPoint(origX, origY);
-		}
+	}
 
 	JCoordinate desktopX = origX;
 	JCoordinate desktopY = origY;
@@ -1467,11 +1467,11 @@ JXWindow::CalcDesktopLocation
 	Window childWindow;
 	if (XTranslateCoordinates(*itsDisplay, itsXWindow, rootChild,
 							  0,0, &x,&y, &childWindow))
-		{
+	{
 		const JCoordinate direction = JSign(origDirection);
 		desktopX += x * direction;
 		desktopY += y * direction;
-		}
+	}
 
 	return JPoint(desktopX, desktopY);
 }
@@ -1492,36 +1492,36 @@ JXWindow::GetRootChild
 	const
 {
 	if (itsRootChild != None)
-		{
+	{
 		*rootChild = itsRootChild;
 		return itsRootChild != itsXWindow;
-		}
+	}
 
 	*rootChild = itsRootChild = None;
 
 	Window currWindow = itsXWindow;
 	while (true)
-		{
+	{
 		Window rootWindow, parentWindow;
 		Window* childList;
 		unsigned int childCount;
 		if (!XQueryTree(*itsDisplay, currWindow, &rootWindow,
 						&parentWindow, &childList, &childCount))
-			{
+		{
 			return false;
-			}
+		}
 		XFree(childList);
 
 		if (parentWindow == rootWindow)
-			{
+		{
 			*rootChild = itsRootChild = currWindow;
 			return currWindow != itsXWindow;
-			}
-		else
-			{
-			currWindow = parentWindow;
-			}
 		}
+		else
+		{
+			currWindow = parentWindow;
+		}
+	}
 }
 
 /******************************************************************************
@@ -1540,13 +1540,13 @@ JXWindow::Place
 	)
 {
 	if (itsIsDockedFlag)
-		{
+	{
 		itsUndockedWMFrameLoc.Set(enclX, enclY);
-		}
+	}
 	else
-		{
+	{
 		UndockedPlace(enclX, enclY);
-		}
+	}
 }
 
 void
@@ -1564,59 +1564,59 @@ JXWindow::UndockedPlace
 
 	JPoint pt(enclX, enclY);
 	if (!itsIsDockedFlag)
-		{
+	{
 		// adjust position so at least part of window is visible
 		// (important for virtual desktops)
 
 		while (enclX + itsBounds.width() <= desktopBounds.left)
-			{
+		{
 			enclX += desktopBounds.width();
-			}
+		}
 		while (enclX >= desktopBounds.right)
-			{
+		{
 			enclX -= desktopBounds.width();
-			}
+		}
 
 		while (enclY + itsBounds.height() <= desktopBounds.top)
-			{
+		{
 			enclY += desktopBounds.height();
-			}
+		}
 		while (enclY >= desktopBounds.bottom)
-			{
+		{
 			enclY -= desktopBounds.height();
-			}
+		}
 
 		// compensate for width of window manager frame
 
 		if (b.frameCompensateFlag)
-			{
+		{
 			pt = CalcDesktopLocation(enclX, enclY, +1);
-			}
-		else
-			{
-			pt = JPoint(enclX, enclY);
-			}
 		}
+		else
+		{
+			pt = JPoint(enclX, enclY);
+		}
+	}
 
 	// tell the window manager to move us
 
 	XMoveWindow(*itsDisplay, itsXWindow, pt.x, pt.y);
 
 	if (!itsIsDockedFlag)
-		{
+	{
 		long supplied;
 		XSizeHints sizeHints;
 		if (!XGetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints, &supplied))
-			{
+		{
 			sizeHints.flags = 0;
-			}
+		}
 
 		sizeHints.flags |= PPosition;
 		sizeHints.x      = pt.x;
 		sizeHints.y      = pt.y;
 
 		XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
-		}
+	}
 
 	// OverrideRedirect means the Window Manager doesn't interfere.  For
 	// all others, Window Manager moves the window, and we don't know how
@@ -1625,23 +1625,23 @@ JXWindow::UndockedPlace
 	// the Window Manager frame.
 
 	if (itsIsOverlayFlag || itsIsDockedFlag)
-		{
+	{
 		UpdateFrame();
-		}
+	}
 	else if (b.frameCompensateFlag)
-		{
+	{
 		// same as UpdateFrame()
 
 		itsDesktopLoc = pt;
 		itsWMFrameLoc = CalcDesktopLocation(pt.x, pt.y, -1);
-		}
+	}
 	else
-		{
+	{
 		// same as UpdateFrame()
 
 		itsDesktopLoc = CalcDesktopLocation(pt.x, pt.y, +1);
 		itsWMFrameLoc = pt;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1685,13 +1685,13 @@ JXWindow::SetSize
 	)
 {
 	if (itsIsDockedFlag)
-		{
+	{
 		itsUndockedGeom.SetSize(w, h);
-		}
+	}
 	else
-		{
+	{
 		UndockedSetSize(w, h);
-		}
+	}
 }
 
 void
@@ -1705,32 +1705,32 @@ JXWindow::UndockedSetSize
 	JCoordinate w = origW;
 	JCoordinate h = origH;
 	if (itsHasMinSizeFlag)
-		{
+	{
 		w = JMax(w, itsMinSize.x);
 		h = JMax(h, itsMinSize.y);
-		}
+	}
 	if (itsHasMaxSizeFlag)
-		{
+	{
 		w = JMin(w, itsMaxSize.x);
 		h = JMin(h, itsMaxSize.y);
-		}
+	}
 
 	XResizeWindow(*itsDisplay, itsXWindow, w, h);
 
 	if (!itsIsDockedFlag)
-		{
+	{
 		long supplied;
 		XSizeHints sizeHints;
 		if (!XGetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints, &supplied))
-			{
+		{
 			sizeHints.flags = 0;
-			}
+		}
 
 		sizeHints.flags  |= PSize;
 		sizeHints.width   = w;
 		sizeHints.height  = h;
 		XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
-		}
+	}
 
 	UpdateBounds(w, h, ftc);
 }
@@ -1767,35 +1767,35 @@ JXWindow::FTCAdjustSize
 	)
 {
 	if (itsHasMinSizeFlag || itsHasMaxSizeFlag)
-		{
+	{
 		long supplied;
 		XSizeHints sizeHints;
 		if (!XGetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints, &supplied))
-			{
+		{
 			sizeHints.flags = 0;
-			}
+		}
 
 		if (itsHasMinSizeFlag)
-			{
+		{
 			itsMinSize.x += dw;
 			itsMinSize.y += dh;
 
 			sizeHints.min_width  = itsMinSize.x;
 			sizeHints.min_height = itsMinSize.y;
-			}
+		}
 
 		if (itsHasMaxSizeFlag)
-			{
+		{
 			itsMaxSize.x += dw;
 			itsMaxSize.y += dh;
 
 			sizeHints.max_width  = itsMaxSize.x;
 			sizeHints.max_height = itsMaxSize.y;
-			}
+		}
 
 		XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
 		itsDisplay->Flush();
-		}
+	}
 
 	// adjust layout to fit original size
 
@@ -1806,35 +1806,35 @@ JXWindow::FTCAdjustSize
 				h = origH;
 
 	if (itsHasMinSizeFlag)
-		{
+	{
 		w = JMax(w, itsMinSize.x);
 		h = JMax(h, itsMinSize.y);
-		}
+	}
 
 	if (itsHasMaxSizeFlag)
-		{
+	{
 		w = JMin(w, itsMaxSize.x);
 		h = JMin(h, itsMaxSize.y);
-		}
+	}
 
 	if (theDebugFTCFlag)
-		{
+	{
 		GetFTCLog() << "Resizing window contents by dw=" << w - (origW + dw)
 					<< " dh=" << h - (origH + dh) << std::endl;
-		}
+	}
 	NotifyBoundsResized(w - (origW + dw), h - (origH + dh));
 
 	itsFTCDelta.x += w - origW;		// save difference created by min/max
 	itsFTCDelta.y += h - origH;
 
 	if (itsIsDockedFlag)
-		{
+	{
 		itsUndockedGeom.SetSize(w, h);
-		}
+	}
 	else
-		{
+	{
 		UndockedSetSize(w, h, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1867,9 +1867,9 @@ JXWindow::UpdateFrame()
 		itsIsDockedFlag ? JPoint(origX, origY) : CalcDesktopLocation(x,y, -1);
 	if (itsIsMappedFlag &&
 		!(itsHasMinSizeFlag && (w < itsMinSize.x || h < itsMinSize.y)))
-		{
+	{
 		UpdateBounds(w, h, false);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1893,18 +1893,18 @@ JXWindow::UpdateBounds
 	itsBounds.right  = w;
 
 	if (dw != 0 || dh != 0)
-		{
+	{
 		if (!ftc)
-			{
+		{
 			NotifyBoundsResized(dw,dh);
-			}
+		}
 
 		if (itsBufferPixmap != None)
-			{
+		{
 			XFreePixmap(*itsDisplay, itsBufferPixmap);
 			itsBufferPixmap = None;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1916,7 +1916,7 @@ void
 JXWindow::CenterOnScreen()
 {
 	if (!itsIsDockedFlag)
-		{
+	{
 		itsDisplay->ShrinkDisplayBoundsToActiveScreen();
 
 		const JRect r = itsDisplay->GetBounds();
@@ -1924,7 +1924,7 @@ JXWindow::CenterOnScreen()
 			  (r.top + r.bottom - itsBounds.height())/2);
 
 		itsDisplay->RestoreDisplayBounds();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1939,7 +1939,7 @@ void
 JXWindow::PlaceAsDialogWindow()
 {
 	if (!itsIsDockedFlag)
-		{
+	{
 		itsDisplay->ShrinkDisplayBoundsToActiveScreen();
 
 		const JRect r = itsDisplay->GetBounds();
@@ -1947,7 +1947,7 @@ JXWindow::PlaceAsDialogWindow()
 			  (r.top + r.bottom - itsBounds.height())/3);
 
 		itsDisplay->RestoreDisplayBounds();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1965,17 +1965,17 @@ JXWindow::SetMinSize
 	long supplied;
 	XSizeHints sizeHints;
 	if (!XGetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints, &supplied))
-		{
+	{
 		sizeHints.flags = 0;
-		}
+	}
 
 	JCoordinate w = origW;
 	JCoordinate h = origH;
 	if ((sizeHints.flags & PMaxSize) != 0)
-		{
+	{
 		w = JMin(w, (JCoordinate) sizeHints.max_width);
 		h = JMin(h, (JCoordinate) sizeHints.max_height);
-		}
+	}
 
 	sizeHints.flags     |= PMinSize;
 	sizeHints.min_width  = w;
@@ -1988,9 +1988,9 @@ JXWindow::SetMinSize
 	itsMinSize.y      = h;
 
 	if (itsBounds.width() < w || itsBounds.height() < h)
-		{
+	{
 		SetSize(JMax(w,itsBounds.width()), JMax(h,itsBounds.height()));
-		}
+	}
 
 	Broadcast(MinSizeChanged());
 }
@@ -2007,13 +2007,13 @@ JXWindow::ClearMinSize()
 	XSizeHints sizeHints;
 	if (XGetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints, &supplied) &&
 		(sizeHints.flags & PMinSize) != 0)
-		{
+	{
 		sizeHints.flags     -= PMinSize;
 		sizeHints.min_width  = 0;
 		sizeHints.min_height = 0;
 		XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
 		itsDisplay->Flush();
-		}
+	}
 
 	itsHasMinSizeFlag = false;
 }
@@ -2033,17 +2033,17 @@ JXWindow::SetMaxSize
 	long supplied;
 	XSizeHints sizeHints;
 	if (!XGetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints, &supplied))
-		{
+	{
 		sizeHints.flags = 0;
-		}
+	}
 
 	JCoordinate w = origW;
 	JCoordinate h = origH;
 	if ((sizeHints.flags & PMinSize) != 0)
-		{
+	{
 		w = JMax(w, (JCoordinate) sizeHints.min_width);
 		h = JMax(h, (JCoordinate) sizeHints.min_height);
-		}
+	}
 
 	sizeHints.flags     |= PMaxSize;
 	sizeHints.max_width  = w;
@@ -2056,9 +2056,9 @@ JXWindow::SetMaxSize
 	itsMaxSize.y      = h;
 
 	if (itsBounds.width() > w || itsBounds.height() > h)
-		{
+	{
 		SetSize(JMin(w,itsBounds.width()), JMin(h,itsBounds.height()));
-		}
+	}
 }
 
 /******************************************************************************
@@ -2073,13 +2073,13 @@ JXWindow::ClearMaxSize()
 	XSizeHints sizeHints;
 	if (XGetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints, &supplied) &&
 		(sizeHints.flags & PMaxSize) != 0)
-		{
+	{
 		sizeHints.flags     -= PMaxSize;
 		sizeHints.max_width  = INT_MAX;
 		sizeHints.max_height = INT_MAX;
 		XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
 		itsDisplay->Flush();
-		}
+	}
 
 	itsHasMaxSizeFlag = false;
 }
@@ -2099,9 +2099,9 @@ JXWindow::SetStepSize
 	long supplied;
 	XSizeHints sizeHints;
 	if (!XGetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints, &supplied))
-		{
+	{
 		sizeHints.flags = 0;
-		}
+	}
 
 	sizeHints.flags     |= PResizeInc;
 	sizeHints.width_inc  = dw;
@@ -2122,13 +2122,13 @@ JXWindow::ClearStepSize()
 	XSizeHints sizeHints;
 	if (XGetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints, &supplied) &&
 		(sizeHints.flags & PResizeInc) != 0)
-		{
+	{
 		sizeHints.flags     -= PResizeInc;
 		sizeHints.width_inc  = 1;
 		sizeHints.height_inc = 1;
 		XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
 		itsDisplay->Flush();
-		}
+	}
 }
 
 /******************************************************************************
@@ -2144,9 +2144,9 @@ JXWindow::SetBackColor
 {
 	itsBackColor = color;
 	if (!itsUseBkgdPixmapFlag)
-		{
+	{
 		XSetWindowBackground(*itsDisplay, itsXWindow, color);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2176,19 +2176,19 @@ JXWindow::SetIcon
 
 	XWMHints* origHints = XGetWMHints(*itsDisplay, itsXWindow);
 	if (origHints != nullptr)
-		{
+	{
 		wmHints = *origHints;
 		XFree(origHints);
-		}
+	}
 
 	// set new icon
 
 	if (itsIconDir != nullptr)
-		{
+	{
 		const bool ok = itsIconDir->Close();
 		assert( ok );
 		itsIconDir = nullptr;
-		}
+	}
 
 	jdelete itsIcon;
 	itsIcon = icon;
@@ -2200,12 +2200,12 @@ JXWindow::SetIcon
 
 	JXImageMask* mask;
 	if (icon->GetMask(&mask))
-		{
+	{
 		mask->ConvertToPixmap();
 
 		wmHints.flags    |= IconMaskHint;
 		wmHints.icon_mask = mask->GetPixmap();
-		}
+	}
 
 	XSetWMHints(*itsDisplay, itsXWindow, &wmHints);
 }
@@ -2240,10 +2240,10 @@ JXWindow::SetIcon
 
 	XWMHints* origHints = XGetWMHints(*itsDisplay, itsXWindow);
 	if (origHints != nullptr)
-		{
+	{
 		wmHints = *origHints;
 		XFree(origHints);
-		}
+	}
 
 	// set new icon
 
@@ -2251,15 +2251,15 @@ JXWindow::SetIcon
 	itsIcon = nullptr;
 
 	if (itsIconDir == nullptr)
-		{
+	{
 		itsIconDir = jnew JXIconDirector(itsDirector, normalIcon, dropIcon);
 		assert( itsIconDir != nullptr );
 		(itsIconDir->GetWindow())->itsMainWindow = this;
-		}
+	}
 	else
-		{
+	{
 		(itsIconDir->GetIconWidget())->SetIcons(normalIcon, dropIcon);
-		}
+	}
 
 	wmHints.flags       |= IconWindowHint;
 	wmHints.icon_window  = (itsIconDir->GetWindow())->GetXWindow();
@@ -2282,15 +2282,15 @@ JXWindow::GetIconWidget
 	const
 {
 	if (itsIconDir != nullptr)
-		{
+	{
 		*widget = itsIconDir->GetIconWidget();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*widget = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2416,11 +2416,11 @@ JXWindow::ReadGeometry
 	)
 {
 	if (!data.IsEmpty())
-		{
+	{
 		const std::string s(data.GetBytes(), data.GetByteCount());
 		std::istringstream input(s);
 		ReadGeometry(input, skipDocking);
-		}
+	}
 }
 
 void
@@ -2433,10 +2433,10 @@ JXWindow::ReadGeometry
 	JFileVersion vers;
 	input >> vers;
 	if (vers > kCurrentGeometryDataVersion)
-		{
+	{
 		JIgnoreUntil(input, kGeometryDataEndDelimiter);
 		return;
-		}
+	}
 
 	JPoint desktopLoc;
 	JCoordinate w,h;
@@ -2446,60 +2446,60 @@ JXWindow::ReadGeometry
 	int dockIt         = -1;
 	JXDockWidget* dock = nullptr;
 	if (!skipDocking && vers >= 1)
-		{
+	{
 		JIndex id;
 		input >> id;
 
 		bool hadDocks = true;
 		if (vers >= 2)
-			{
+		{
 			input >> JBoolFromString(hadDocks);
-			}
+		}
 
 		JXDockManager* mgr;
 		if (id != JXDockManager::kInvalidDockID &&
 			JXGetDockManager(&mgr) &&
 			mgr->FindDock(id, &dock))
-			{
+		{
 			dockIt = (itsIsDockedFlag && dock == itsDockWidget ? -1 : +1);
-			}
-		else if (id == JXDockManager::kInvalidDockID && hadDocks)
-			{
-			dockIt = 0;
-			}
 		}
+		else if (id == JXDockManager::kInvalidDockID && hadDocks)
+		{
+			dockIt = 0;
+		}
+	}
 
 	JIgnoreUntil(input, kGeometryDataEndDelimiter);
 
 	if (dockIt == 0 || (dockIt == -1 && !itsIsDockedFlag))
-		{
+	{
 		Undock();
 		Place(desktopLoc.x, desktopLoc.y);
 		SetSize(w,h);
 
 		if (iconified)
-			{
-			Iconify();
-			}
-		else
-			{
-			Deiconify();
-			}
-		}
-	else if (dockIt == 1 && dock != nullptr && dock->WindowWillFit(this))
 		{
+			Iconify();
+		}
+		else
+		{
+			Deiconify();
+		}
+	}
+	else if (dockIt == 1 && dock != nullptr && dock->WindowWillFit(this))
+	{
 		jdelete itsDockingTask;	// automatically cleared
 		if (dock->Dock(this))
-			{
+		{
 			itsUndockedWMFrameLoc = desktopLoc;
 			itsUndockedGeom.Set(0, 0, h, w);
-			}
 		}
+	}
 	else if (dockIt == -1 && itsIsDockedFlag)
-		{
+	{
 		itsUndockedWMFrameLoc = desktopLoc;
 		itsUndockedGeom.Set(0, 0, h, w);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2548,26 +2548,26 @@ JXWindow::WriteGeometry
 {
 	output << ' ' << kCurrentGeometryDataVersion;
 	if (itsIsDockedFlag)
-		{
+	{
 		output << ' ' << itsUndockedWMFrameLoc;
 		output << ' ' << itsUndockedGeom.width() - itsFTCDelta.x;
 		output << ' ' << itsUndockedGeom.height() - itsFTCDelta.y;
 		output << ' ' << JBoolToString(false);
-		}
+	}
 	else
-		{
+	{
 		JPoint loc = GetDesktopLocation();
 		if (itsHasBeenVisibleFlag && !IsVisible())
-			{
+		{
 			const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
 			loc -= b.reshowOffset;
-			}
+		}
 
 		output << ' ' << loc;
 		output << ' ' << GetFrameWidth() - itsFTCDelta.x;
 		output << ' ' << GetFrameHeight() - itsFTCDelta.y;
 		output << ' ' << JBoolToString(itsIsIconifiedFlag);
-		}
+	}
 
 	output << ' ' << (itsDockWidget != nullptr ? itsDockWidget->GetID() :
 											  JXDockManager::kInvalidDockID);
@@ -2590,127 +2590,127 @@ JXWindow::HandleEvent
 	)
 {
 	if (xEvent.type == EnterNotify)
-		{
+	{
 		HandleEnterNotify(xEvent.xcrossing);
-		}
+	}
 	else if (xEvent.type == LeaveNotify)
-		{
+	{
 		HandleLeaveNotify(xEvent.xcrossing);
-		}
+	}
 	else if (xEvent.type == MotionNotify)
-		{
+	{
 		HandleMotionNotify(xEvent.xmotion);
-		}
+	}
 	else if (xEvent.type == ButtonPress)
-		{
+	{
 		HandleButtonPress(xEvent.xbutton);
-		}
+	}
 	else if (xEvent.type == ButtonRelease)
-		{
+	{
 		HandleButtonRelease(xEvent.xbutton);
-		}
+	}
 
 	else if (xEvent.type == FocusIn)
-		{
+	{
 		HandleFocusIn(xEvent.xfocus);
-		}
+	}
 	else if (xEvent.type == FocusOut)
-		{
+	{
 		HandleFocusOut(xEvent.xfocus);
-		}
+	}
 	else if (xEvent.type == KeyPress)
-		{
+	{
 		HandleKeyPress(xEvent);
-		}
+	}
 
 	else if (xEvent.type == Expose)
-		{
+	{
 		HandleExpose(xEvent.xexpose);
-		}
+	}
 
 	else if (xEvent.type == ConfigureNotify && xEvent.xconfigure.window == itsXWindow)
-		{
+	{
 		UpdateFrame();
 		UpdateChildWindowGeometry();	// update itsDesktopLoc
-		}
+	}
 	else if (xEvent.type == ConfigureNotify)
-		{
+	{
 		SetChildWindowGeometry(xEvent.xconfigure.window,
 			JRect(xEvent.xconfigure.y, xEvent.xconfigure.x,
 				  xEvent.xconfigure.y + xEvent.xconfigure.height,
 				  xEvent.xconfigure.x + xEvent.xconfigure.width));
-		}
+	}
 
 	else if (xEvent.type == MapNotify && xEvent.xmap.window == itsXWindow)
-		{
+	{
 		HandleMapNotify(xEvent.xmap);
-		}
+	}
 	else if (xEvent.type == UnmapNotify && xEvent.xunmap.window == itsXWindow)
-		{
+	{
 		HandleUnmapNotify(xEvent.xunmap);
-		}
+	}
 	else if (xEvent.type == MapNotify || xEvent.type == UnmapNotify)
-		{
+	{
 		SetChildWindowVisible(xEvent.xmap.window,
 							  xEvent.type == MapNotify);
-		}
+	}
 	else if (xEvent.type             == PropertyNotify &&
 			 xEvent.xproperty.window == itsXWindow &&
 			 xEvent.xproperty.atom   == itsDisplay->GetWMStateXAtom() &&
 			 xEvent.xproperty.state  == PropertyNewValue)
-		{
+	{
 		HandleWMStateChange();
-		}
+	}
 
 	else if (xEvent.type == ReparentNotify && xEvent.xreparent.window == itsXWindow)
-		{
+	{
 		itsRootChild = None;
 
 		// When window is dragged to different compartment in same window
 		// with exactly the same size, we don't receive ConfigureNotify!
 		UpdateFrame();
-		}
+	}
 	else if (xEvent.type == ReparentNotify)
-		{
+	{
 		UpdateChildWindowList(xEvent.xreparent.window,
 							  xEvent.xreparent.parent == itsXWindow);
-		}
+	}
 
 	else if (xEvent.type == DestroyNotify && xEvent.xdestroywindow.window == itsXWindow)
-		{
+	{
 		// we have been deleted -- primarily for Netscape plug-in
 
 		itsXWindow     = None;
 		itsFocusWidget = nullptr;	// too late to validate
 		itsDirector->Close();		// deletes us
-		}
+	}
 	else if (xEvent.type == DestroyNotify)
-		{
+	{
 		UpdateChildWindowList(xEvent.xdestroywindow.window, false);
-		}
+	}
 
 	else if (IsDeleteWindowMessage(itsDisplay, xEvent))		// trap WM_DELETE_WINDOW first
-		{
+	{
 		Close();											// can delete us
-		}
+	}
 	else if (IsWMPingMessage(itsDisplay, xEvent))
-		{
+	{
 		XEvent e;
 		memcpy(&e, &xEvent, sizeof(e));
 		e.xclient.window = itsDisplay->GetRootWindow();
 		XSendEvent(*itsDisplay, e.xclient.window, False,
 				   (SubstructureNotifyMask|SubstructureRedirectMask), &e);
-		}
+	}
 	else if (IsSaveYourselfMessage(itsDisplay, xEvent))
-		{
+	{
 		const JString& cmd = JXGetApplication()->GetRestartCommand();
 		char* s            = const_cast<JUtf8Byte*>(cmd.GetBytes());
 		XSetCommand(*itsDisplay, itsXWindow, &s, 1);
-		}
+	}
 	else if (xEvent.type == ClientMessage)					// otherwise, send to all widgets
-		{
+	{
 		DispatchClientMessage(xEvent.xclient);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2779,11 +2779,11 @@ JXWindow::AcceptSaveYourself
 	)
 {
 	Atom protocolList[3] =
-		{
+	{
 		itsDisplay->GetDeleteWindowXAtom(),		// always accept this one
 		itsDisplay->GetWMPingXAtom(),			// always accept this one
 		itsDisplay->GetSaveYourselfXAtom()
-		};
+	};
 	XSetWMProtocols(*itsDisplay, itsXWindow, protocolList, (accept ? 3 : 2));
 }
 
@@ -2818,21 +2818,21 @@ JXWindow::HandleEnterNotify
 	)
 {
 	if (JXButtonStates::AllOff(xEvent.state))
-		{
+	{
 		if (itsIsDockedFlag && theFocusFollowsCursorInDockFlag)
-			{
+		{
 			RequestFocus();
-			}
+		}
 
 		itsDisplay->SetMouseContainer(this);
 		itsButtonPressReceiver->
 			DispatchNewMouseEvent(EnterNotify, JPoint(xEvent.x, xEvent.y),
 								  kJXNoButton, xEvent.state);
-		}
+	}
 	else	// cursor grabbed
-		{
+	{
 		itsCursorLeftFlag = false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2850,14 +2850,14 @@ JXWindow::HandleLeaveNotify
 	)
 {
 	if (JXButtonStates::AllOff(xEvent.state))
-		{
+	{
 		SetMouseContainer(nullptr, JPoint(xEvent.x, xEvent.y), xEvent.state);
 		itsDisplay->SetMouseContainer(nullptr);
-		}
+	}
 	else	// cursor grabbed
-		{
+	{
 		itsCursorLeftFlag = true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2873,7 +2873,7 @@ JXWindow::HandleMotionNotify
 {
 	XEvent discardEvent;
 	while (XCheckMaskEvent(*itsDisplay, PointerMotionMask, &discardEvent))
-		{ };
+	{ };
 
 	// XQueryPointer returns the current mouse state, not the state
 	// when the XMotionEvent was generated.  This can cause HandleMouseDrag()
@@ -2884,11 +2884,11 @@ JXWindow::HandleMotionNotify
 	unsigned int state;
 	if (XQueryPointer(*itsDisplay, itsXWindow, &rootWindow, &childWindow,
 					  &x_root, &y_root, &x, &y, &state))
-		{
+	{
 		const bool isDrag = !JXButtonStates::AllOff(xEvent.state);
 		if (itsIsDraggingFlag && isDrag &&			// otherwise wait for ButtonPress
 			itsProcessDragFlag && itsMouseContainer != nullptr)
-			{
+		{
 			JXDisplay* display = itsDisplay;	// need local copy, since we might be deleted
 			Display* xDisplay  = *display;
 			Window xWindow     = itsXWindow;
@@ -2898,18 +2898,18 @@ JXWindow::HandleMotionNotify
 												 JXKeyModifiers(itsDisplay, xEvent.state));
 
 			if (JXDisplay::WindowExists(display, xDisplay, xWindow))
-				{
-				Update();
-				}
-			}
-		else if (!itsIsDraggingFlag && !isDrag && itsButtonPressReceiver->IsVisible())
 			{
+				Update();
+			}
+		}
+		else if (!itsIsDraggingFlag && !isDrag && itsButtonPressReceiver->IsVisible())
+		{
 			itsButtonPressReceiver->
 				DispatchNewMouseEvent(MotionNotify, JPoint(x,y),
 									  kJXNoButton, xEvent.state);
-			}
-		// otherwise wait for ButtonRelease
 		}
+		// otherwise wait for ButtonRelease
+	}
 }
 
 /******************************************************************************
@@ -2928,19 +2928,19 @@ JXWindow::HandleButtonPress
 	RequestFocus();
 
 	if (itsIsMappedFlag && itsIsIconifiedFlag)
-		{
+	{
 		// hack around window managers that don't notify us correctly
 
 		itsIsIconifiedFlag = false;
 		Broadcast(Deiconified());
 		Refresh();
-		}
+	}
 
 	const auto currButton = (JXMouseButton) xEvent.button;
 	const unsigned int state = JXButtonStates::SetState(xEvent.state, currButton, true);
 
 	if (!itsIsDraggingFlag)
-		{
+	{
 		itsIsDraggingFlag  = true;
 		itsProcessDragFlag = false;		// JXContainer tells us if it wants it
 
@@ -2959,36 +2959,36 @@ JXWindow::HandleButtonPress
 			DispatchNewMouseEvent(ButtonPress, ptG, currButton, state);
 
 		if (!JXDisplay::WindowExists(display, xDisplay, xWindow))
-			{
+		{
 			return false;
-			}
+		}
 
 		itsCursorLeftFlag = false;
 		Update();
-		}
+	}
 
 	else if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != nullptr)
-		{
+	{
 		const JPoint pt = itsMouseContainer->GlobalToLocal(xEvent.x, xEvent.y);
 		itsMouseContainer->MouseDown(pt, currButton, 1,
 									 JXButtonStates(state),
 									 JXKeyModifiers(itsDisplay, state));
-		}
+	}
 
 	// If a blocking dialog window was popped up, then we will never get
 	// the ButtonRelease event because HandleOneEventForWindow() tossed it.
 
 	if (JXGetApplication()->HadBlockingWindow())
-		{
+	{
 		itsCleanAfterBlockFlag = true;
 		if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != nullptr)
-			{
+		{
 			EndDrag(itsMouseContainer, JPoint(xEvent.x, xEvent.y),
 					JXButtonStates(state), JXKeyModifiers(itsDisplay, state));
-			}
+		}
 		itsIsDraggingFlag      = false;
 		itsCleanAfterBlockFlag = false;
-		}
+	}
 
 	return true;
 }
@@ -3015,13 +3015,13 @@ JXWindow::CountClicks
 		itsFirstClick.button == itsSecondClick.button &&
 		itsSecondClick.time - itsFirstClick.time <= kJXDoubleClickTime &&
 		itsMouseContainer->HitSamePart(itsFirstClick.pt, itsSecondClick.pt))
-		{
+	{
 		itsClickCount++;
-		}
+	}
 	else
-		{
+	{
 		itsClickCount = 1;
-		}
+	}
 
 	// set it here so it stays nullptr until after we check it the first time
 
@@ -3044,19 +3044,19 @@ JXWindow::HandleButtonRelease
 	)
 {
 	if (!itsIsDraggingFlag)
-		{
+	{
 		// We can't use assert() because JXMenuTable gets blasted after
 		// the left button is released, while an other button might still
 		// be down.  (pretty unlikely, but still possible)
 
 		return true;
-		}
+	}
 
 	const auto currButton = (JXMouseButton) xEvent.button;
 	const unsigned int state = JXButtonStates::SetState(xEvent.state, currButton, false);
 
 	if (itsProcessDragFlag && itsMouseContainer != nullptr)
-		{
+	{
 		JXDisplay* display = itsDisplay;	// need local copy, since we might be deleted
 		Display* xDisplay  = *display;
 		Window xWindow     = itsXWindow;
@@ -3069,42 +3069,42 @@ JXWindow::HandleButtonRelease
 										   JXKeyModifiers(itsDisplay, state));
 
 		if (!JXDisplay::WindowExists(display, xDisplay, xWindow))
-			{
+		{
 			return false;
-			}
 		}
+	}
 
 	// If drag is finished, release the pointer and process buffered LeaveNotify.
 
 	if (JXButtonStates::AllOff(state))
-		{
+	{
 		itsIsDraggingFlag = false;
 		if (!itsPointerGrabbedFlag)
-			{
+		{
 			// balance XGrabPointer() in BeginDrag()
 			XUngrabPointer(*itsDisplay, xEvent.time);
 			itsDisplay->SetMouseGrabber(nullptr);
-			}
-		if (itsCursorLeftFlag)
-			{
-			SetMouseContainer(nullptr, JPoint(xEvent.x, xEvent.y), state);
-			}
 		}
+		if (itsCursorLeftFlag)
+		{
+			SetMouseContainer(nullptr, JPoint(xEvent.x, xEvent.y), state);
+		}
+	}
 
 	// If a blocking dialog window was popped up, then we will never get
 	// other ButtonRelease events because HandleOneEventForWindow() tossed them.
 
 	else if (JXGetApplication()->HadBlockingWindow() && !itsCleanAfterBlockFlag)
-		{
+	{
 		itsCleanAfterBlockFlag = true;
 		if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != nullptr)
-			{
+		{
 			EndDrag(itsMouseContainer, JPoint(xEvent.x, xEvent.y),
 					JXButtonStates(state), JXKeyModifiers(itsDisplay, state));
-			}
+		}
 		itsIsDraggingFlag      = false;
 		itsCleanAfterBlockFlag = false;
-		}
+	}
 
 	return true;
 }
@@ -3123,25 +3123,25 @@ JXWindow::SetMouseContainer
 	)
 {
 	if (obj != nullptr)
-		{
+	{
 		itsDisplay->SetMouseContainer(this);	// may not get EnterNotify
-		}
+	}
 
 	if (itsMouseContainer != obj)
-		{
+	{
 		if (itsMouseContainer != nullptr)
-			{
+		{
 			itsMouseContainer->MouseLeave();
 			itsMouseContainer->DeactivateCursor();
-			}
+		}
 
 		itsMouseContainer = obj;
 		if (itsMouseContainer != nullptr)
-			{
+		{
 			itsMouseContainer->ActivateCursor(ptG, JXKeyModifiers(itsDisplay, state));
 			itsMouseContainer->MouseEnter();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -3167,9 +3167,9 @@ JXWindow::BeginDrag
 		XGrabPointer(*itsDisplay, itsXWindow, False, kPointerGrabMask,
 					 GrabModeAsync, GrabModeAsync, None, None, CurrentTime);
 	if (grabResult != GrabSuccess)
-		{
+	{
 		return false;
-		}
+	}
 	itsDisplay->SetMouseContainer(this);
 	itsDisplay->SetMouseGrabber(this);
 
@@ -3185,23 +3185,23 @@ JXWindow::BeginDrag
 
 	JXButtonStates newButtonStates;
 	for (JIndex i=1; i<=kXButtonCount; i++)
-		{
+	{
 		if (buttonStates.button(i))
-			{
+		{
 			xEvent.state  = newButtonStates.GetState() | modifiers.GetState();
 			xEvent.button = i;
 			if (!HandleButtonPress(xEvent))
-				{
+			{
 				return false;		// window was deleted
-				}
-			newButtonStates.SetState(i, true);
 			}
+			newButtonStates.SetState(i, true);
 		}
+	}
 
 	if (!itsBPRChangedFlag)
-		{
+	{
 		itsButtonPressReceiver = savedReceiver;
-		}
+	}
 	return itsProcessDragFlag;
 }
 
@@ -3227,9 +3227,9 @@ JXWindow::EndDrag
 
 	if (itsMouseContainer != obj || !itsIsDraggingFlag || !itsProcessDragFlag ||
 		buttonStates.AllOff())
-		{
+	{
 		return;
-		}
+	}
 
 	XButtonReleasedEvent xEvent;
 	xEvent.type = ButtonRelease;
@@ -3239,18 +3239,18 @@ JXWindow::EndDrag
 
 	JXButtonStates newButtonStates(buttonStates);
 	for (JIndex i=1; i<=kXButtonCount; i++)
-		{
+	{
 		if (buttonStates.button(i))
-			{
+		{
 			xEvent.state  = newButtonStates.GetState() | modifiers.GetState();
 			xEvent.button = i;
 			if (!HandleButtonRelease(xEvent))
-				{
+			{
 				return;		// window was deleted
-				}
-			newButtonStates.SetState(i, false);
 			}
+			newButtonStates.SetState(i, false);
 		}
+	}
 
 	XUngrabPointer(*itsDisplay, CurrentTime);
 	itsDisplay->SetMouseGrabber(nullptr);
@@ -3274,18 +3274,18 @@ JXWindow::GrabPointer
 					 GrabModeAsync, GrabModeAsync, None, None, CurrentTime);
 
 	if (success == GrabSuccess)
-		{
+	{
 		itsPointerGrabbedFlag  = true;
 		itsButtonPressReceiver = obj;
 		itsBPRChangedFlag      = true;		// notify BeginDrag()
 		itsDisplay->SetMouseContainer(this);
 		itsDisplay->SetMouseGrabber(this);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -3300,13 +3300,13 @@ JXWindow::UngrabPointer
 	)
 {
 	if (obj == itsButtonPressReceiver)
-		{
+	{
 		XUngrabPointer(*itsDisplay, CurrentTime);
 		itsPointerGrabbedFlag  = false;
 		itsButtonPressReceiver = this;
 		itsBPRChangedFlag      = true;		// notify BeginDrag()
 		itsDisplay->SetMouseGrabber(nullptr);
-		}
+	}
 }
 
 /******************************************************************************
@@ -3324,14 +3324,14 @@ JXWindow::HandleFocusIn
 	XSetICFocus(itsXIC);
 
 	if (itsFocusWidget != nullptr)
-		{
+	{
 		itsFocusWidget->HandleWindowFocusEvent();
-		}
+	}
 
 	if (itsIsDockedFlag && itsDockWidget != nullptr)
-		{
+	{
 		(itsDockWidget->GetDockDirector())->SetFocusWindow(this);
-		}
+	}
 
 //	std::cout << "in : " << xEvent.window << ' ' << xEvent.detail << std::endl;
 }
@@ -3351,14 +3351,14 @@ JXWindow::HandleFocusOut
 	XUnsetICFocus(itsXIC);
 
 	if (itsFocusWidget != nullptr)
-		{
+	{
 		itsFocusWidget->HandleWindowUnfocusEvent();
-		}
+	}
 
 	if (itsIsDockedFlag && itsDockWidget != nullptr)
-		{
+	{
 		(itsDockWidget->GetDockDirector())->ClearFocusWindow(this);
-		}
+	}
 
 //	std::cout << "out: " << xEvent.window << ' ' << xEvent.detail << std::endl;
 }
@@ -3395,14 +3395,14 @@ JXWindow::HandleKeyPress
 	)
 {
 	if (!IsActive())
-		{
+	{
 		return;
-		}
+	}
 	if (itsMainWindow != nullptr)	// send keypresses to main window, not icon
-		{
+	{
 		itsMainWindow->HandleKeyPress(xEvent);
 		return;
-		}
+	}
 
 	JUtf8Byte buffer[256];
 	KeySym keySym = 0;
@@ -3414,66 +3414,66 @@ JXWindow::HandleKeyPress
 	assert( status != XBufferOverflow );
 
 	if (status == XLookupNone)
-		{
+	{
 		return;
-		}
+	}
 	else if (status == XLookupChars)
-		{
+	{
 		keySym = 0;
-		}
+	}
 
 	if (byteCount == 0)
-		{
+	{
 		buffer[0] = '\0';
-		}
+	}
 
 	TossKeyRepeatEvents(xEvent.xkey.keycode, xEvent.xkey.state, keySym);
 
 	// translate some useful keys
 
 	if (keySym == XK_KP_Tab || keySym == XK_ISO_Left_Tab)
-		{
+	{
 		keySym = XK_Tab;
-		}
+	}
 	else if (keySym == XK_Left || keySym == XK_KP_Left)
-		{
+	{
 		byteCount = 1;
 		buffer[0] = kJLeftArrow;
 		buffer[1] = '\0';
-		}
+	}
 	else if (keySym == XK_Up || keySym == XK_KP_Up)
-		{
+	{
 		byteCount = 1;
 		buffer[0] = kJUpArrow;
 		buffer[1] = '\0';
-		}
+	}
 	else if (keySym == XK_Right || keySym == XK_KP_Right)
-		{
+	{
 		byteCount = 1;
 		buffer[0] = kJRightArrow;
 		buffer[1] = '\0';
-		}
+	}
 	else if (keySym == XK_Down || keySym == XK_KP_Down)
-		{
+	{
 		byteCount = 1;
 		buffer[0] = kJDownArrow;
 		buffer[1] = '\0';
-		}
+	}
 
 	// the control modifier causes these to be mis-interpreted
 
 	else if (XK_space <= keySym && keySym <= XK_question)
-		{
+	{
 		byteCount = 1;
 		buffer[0] = keySym;
 		buffer[1] = '\0';
-		}
+	}
 	else if (XK_KP_0 <= keySym && keySym <= XK_KP_9)
-		{
+	{
 		byteCount = 1;
 		buffer[0] = '0' + (keySym - XK_KP_0);
 		buffer[1] = '\0';
-		}
+	}
 
 	// dispatch key
 
@@ -3498,18 +3498,18 @@ JXWindow::HandleKeyPress
 
 	if (byteCount == 1 && buffer[0] == kJEscapeKey &&
 		GetDNDManager()->IsDragging())
-		{
+	{
 		if (GetDNDManager()->CancelDND())
-			{
+		{
 			EndDrag(itsMouseContainer, JPoint(0,0), JXButtonStates(state), modifiers);
-			}
+		}
 
 		// We won't dispatch any motion events until the user releases
 		// the mouse, but the user needs some reassurance that the drop
 		// really has been cancelled.
 
 		DisplayXCursor(kJXDefaultCursor);
-		}
+	}
 
 	// We check WillAcceptFocus() because we don't want to send keypresses
 	// to invisible or inactive widgets.
@@ -3518,60 +3518,60 @@ JXWindow::HandleKeyPress
 			 itsFocusWidget->WillAcceptFocus() &&
 			 (( modsOff && itsFocusWidget->WantsTab()) ||
 			  (!modsOff && itsFocusWidget->WantsModifiedTab())))
-		{
+	{
 		// We send tab directly to the focus widget so it
 		// doesn't get lost as a shortcut.
 
 		DeactivateHint();
 		itsFocusWidget->HandleKeyPress(JUtf8Character(kJTabKey), 0, modifiers);
-		}
+	}
 	else if (keySym == XK_Tab)
-		{
+	{
 		SwitchFocus(modifiers.shift());
-		}
+	}
 	else if (IsShortcut(keySym, state))
-		{
+	{
 		// IsShortcut() dispatches event
-		}
+	}
 	else if (itsIsDockedFlag && modifiers.control() &&
 			 (keySym == XK_Page_Down || keySym == XK_KP_Page_Down))
-		{
+	{
 		itsDockWidget->ShowPreviousWindow();
-		}
+	}
 	else if (itsIsDockedFlag && modifiers.control() &&
 			 (keySym == XK_Page_Up || keySym == XK_KP_Page_Up))
-		{
+	{
 		itsDockWidget->ShowNextWindow();
-		}
+	}
 	else if (itsFocusWidget != nullptr && itsFocusWidget->WillAcceptFocus())
-		{
+	{
 		DeactivateHint();
 
 		if (byteCount > 0)
-			{
+		{
 			const JString s(buffer, byteCount, JString::kNoCopy);
 			JStringIterator iter(s);
 			JUtf8Character c;
 			while (iter.Next(&c))
-				{
+			{
 				itsFocusWidget->HandleKeyPress(c, 0, modifiers);
 				if (iter.GetPrevCharacterIndex() > 1 && !iter.AtEnd() &&
 					!JXDisplay::WindowExists(display, xDisplay, xWindow))
-					{
+				{
 					break;
-					}
 				}
 			}
-		else
-			{
-			itsFocusWidget->HandleKeyPress(JUtf8Character(), keySym, modifiers);
-			}
 		}
+		else
+		{
+			itsFocusWidget->HandleKeyPress(JUtf8Character(), keySym, modifiers);
+		}
+	}
 
 	if (JXDisplay::WindowExists(display, xDisplay, xWindow))
-		{
+	{
 		Update();
-		}
+	}
 }
 
 /******************************************************************************
@@ -3599,25 +3599,25 @@ JXWindow::TossKeyRepeatEvents
 		keySym != XK_Page_Down && keySym != XK_KP_Page_Down &&
 
 		keySym != XK_BackSpace && keySym != XK_Delete)
-		{
+	{
 		return;
-		}
+	}
 
 	XEvent xEvent;
 	while (XPending(*itsDisplay) > 0)
-		{
+	{
 		XPeekEvent(*itsDisplay, &xEvent);
 		if ((xEvent.type == KeyPress || xEvent.type == KeyRelease) &&
 			xEvent.xkey.keycode == keycode &&
 			xEvent.xkey.state   == state)
-			{
+		{
 			XNextEvent(*itsDisplay, &xEvent);
-			}
-		else
-			{
-			break;
-			}
 		}
+		else
+		{
+			break;
+		}
+	}
 }
 
 /******************************************************************************
@@ -3629,10 +3629,10 @@ void
 JXWindow::DeactivateHint()
 {
 	if (itsCurrHintMgr != nullptr)
-		{
+	{
 		itsCurrHintMgr->Deactivate();
 		itsCurrHintMgr = nullptr;
-		}
+	}
 }
 
 /******************************************************************************
@@ -3647,14 +3647,14 @@ JXWindow::RegisterFocusWidget
 	)
 {
 	if (!itsFocusList->Includes(widget))
-		{
+	{
 		itsFocusList->Append(widget);
 		if (itsFocusList->GetElementCount() == 1)
-			{
+		{
 			assert( itsFocusWidget == nullptr );
 			SwitchFocus(false);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -3669,14 +3669,14 @@ JXWindow::UnregisterFocusWidget
 	)
 {
 	if (!itsIsDestructingFlag)
-		{
+	{
 		itsFocusList->Remove(widget);
 		if (widget == itsFocusWidget)
-			{
+		{
 			itsFocusWidget = nullptr;
 			SwitchFocus(false);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -3689,24 +3689,24 @@ JXWindow::SwitchFocusToFirstWidget()
 {
 	JXWidget* firstWidget;
 	if (!FindNextFocusWidget(0, &firstWidget))
-		{
+	{
 		return true;
-		}
+	}
 
 	if (itsFocusWidget == firstWidget)
-		{
+	{
 		return true;
-		}
+	}
 	else if (UnfocusCurrentWidget())
-		{
+	{
 		itsFocusWidget = firstWidget;
 		itsFocusWidget->Focus(0);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -3723,25 +3723,25 @@ JXWindow::SwitchFocusToFirstWidgetWithAncestor
 	JXWidget** firstWidget =
 		std::find_if(begin(*itsFocusList), end(*itsFocusList),
 			[ancestor] (JXWidget* widget)
-			{
+		{
 				return (widget->WillAcceptFocus() &&
 						ancestor->IsAncestor(widget));
-			});
+		});
 
 	if (firstWidget == end(*itsFocusList) || itsFocusWidget == *firstWidget)
-		{
+	{
 		return true;
-		}
+	}
 	else if (UnfocusCurrentWidget())
-		{
+	{
 		itsFocusWidget = *firstWidget;
 		itsFocusWidget->Focus(0);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -3755,13 +3755,13 @@ JXWindow::OKToUnfocusCurrentWidget()
 {
 	if (itsFocusWidget == nullptr ||
 		itsFocusWidget->OKToUnfocus())
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -3773,18 +3773,18 @@ bool
 JXWindow::UnfocusCurrentWidget()
 {
 	if (itsFocusWidget == nullptr)
-		{
+	{
 		return true;
-		}
+	}
 	else if (itsFocusWidget->OKToUnfocus())
-		{
+	{
 		KillFocus();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -3798,11 +3798,11 @@ void
 JXWindow::KillFocus()
 {
 	if (itsFocusWidget != nullptr)
-		{
+	{
 		JXWidget* origWidget = itsFocusWidget;
 		itsFocusWidget = nullptr;		// clear this first
 		origWidget->NotifyFocusLost();
-		}
+	}
 }
 
 /******************************************************************************
@@ -3817,22 +3817,22 @@ JXWindow::SwitchFocusToWidget
 	)
 {
 	if (itsExpandTask != nullptr)
-		{
+	{
 		itsExpandTask->FocusAfterFTC(widget);
 		return true;
-		}
+	}
 	else if (itsFocusWidget == widget)
-		{
+	{
 		return true;
-		}
+	}
 	else if (itsFocusList->Includes(widget) &&
 			 widget->WillAcceptFocus() &&
 			 UnfocusCurrentWidget())
-		{
+	{
 		itsFocusWidget = widget;
 		itsFocusWidget->Focus(0);
 		return true;
-		}
+	}
 
 	return false;
 }
@@ -3849,26 +3849,26 @@ JXWindow::SwitchFocus
 	)
 {
 	if (itsFocusList->IsEmpty())
-		{
+	{
 		// nothing to do
 		assert( itsFocusWidget == nullptr );
-		}
+	}
 	else if (itsFocusWidget == nullptr && backward)
-		{
+	{
 		if (FindPrevFocusWidget(0, &itsFocusWidget))
-			{
+		{
 			itsFocusWidget->Focus(0);
-			}
 		}
+	}
 	else if (itsFocusWidget == nullptr)
-		{
+	{
 		if (FindNextFocusWidget(0, &itsFocusWidget))
-			{
-			itsFocusWidget->Focus(0);
-			}
-		}
-	else if (itsFocusWidget->OKToUnfocus())
 		{
+			itsFocusWidget->Focus(0);
+		}
+	}
+	else if (itsFocusWidget->OKToUnfocus())
+	{
 		JXWidget* widget = itsFocusWidget;
 		KillFocus();
 
@@ -3880,35 +3880,35 @@ JXWindow::SwitchFocus
 
 		JIndex currIndex;
 		if (!empty && itsFocusList->Find(widget, &currIndex))
-			{
+		{
 			if (backward)
-				{
+			{
 				FindPrevFocusWidget(currIndex, &widget);
-				}
+			}
 			else
-				{
+			{
 				FindNextFocusWidget(currIndex, &widget);
-				}
-			}
-		else if (!empty && backward)
-			{
-			FindPrevFocusWidget(0, &widget);
-			}
-		else if (!empty)
-			{
-			FindNextFocusWidget(0, &widget);
-			}
-		else
-			{
-			widget = nullptr;
-			}
-
-		if (widget != nullptr)
-			{
-			itsFocusWidget = widget;
-			itsFocusWidget->Focus(0);
 			}
 		}
+		else if (!empty && backward)
+		{
+			FindPrevFocusWidget(0, &widget);
+		}
+		else if (!empty)
+		{
+			FindNextFocusWidget(0, &widget);
+		}
+		else
+		{
+			widget = nullptr;
+		}
+
+		if (widget != nullptr)
+		{
+			itsFocusWidget = widget;
+			itsFocusWidget->Focus(0);
+		}
+	}
 }
 
 /******************************************************************************
@@ -3933,41 +3933,41 @@ JXWindow::FindNextFocusWidget
 
 	const JSize count = itsFocusList->GetElementCount();
 	if (count == 0)
-		{
+	{
 		return false;
-		}
+	}
 
 	JIndex startIndex = origStartIndex;
 	if (startIndex == 0 || startIndex > count)
-		{
+	{
 		startIndex = count;
-		}
+	}
 
 	JIndex i = startIndex+1;
 	if (i > count)
-		{
+	{
 		i = 1;
-		}
+	}
 
 	while (true)
-		{
+	{
 		JXWidget* widget = itsFocusList->GetElement(i);
 		if (widget->WillAcceptFocus())
-			{
+		{
 			*focusWidget = widget;
 			return true;
-			}
+		}
 		else if (i == startIndex)
-			{
+		{
 			return false;
-			}
+		}
 
 		i++;
 		if (i > count)
-			{
+		{
 			i = 1;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -3992,41 +3992,41 @@ JXWindow::FindPrevFocusWidget
 
 	const JSize count = itsFocusList->GetElementCount();
 	if (count == 0)
-		{
+	{
 		return false;
-		}
+	}
 
 	JIndex startIndex = origStartIndex;
 	if (startIndex == 0 || startIndex > count)
-		{
+	{
 		startIndex = 1;
-		}
+	}
 
 	JIndex i = startIndex-1;
 	if (i == 0)
-		{
+	{
 		i = count;
-		}
+	}
 
 	while (true)
-		{
+	{
 		JXWidget* widget = itsFocusList->GetElement(i);
 		if (widget->WillAcceptFocus())
-			{
+		{
 			*focusWidget = widget;
 			return true;
-			}
+		}
 		else if (i == startIndex)
-			{
+		{
 			return false;
-			}
+		}
 
 		i--;
 		if (i == 0)
-			{
+		{
 			i = count;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -4094,10 +4094,10 @@ JXWindow::InstallShortcut
 	if (inserted &&
 		0 < origShortcut.key && origShortcut.key <= 255 &&
 		!isalpha(origShortcut.key) && !iscntrl(origShortcut.key))
-		{
+	{
 		s.state = JXKeyModifiers::ToggleState(itsDisplay, s.state, kJXShiftKeyIndex);
 		itsShortcuts->InsertSorted(s, false);
-		}
+	}
 
 	return inserted;
 }
@@ -4118,14 +4118,14 @@ JXWindow::MenuItemInserted
 {
 	const JSize count = itsShortcuts->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		Shortcut s = itsShortcuts->GetElement(i);
 		if (s.menu == menu && s.menuItem >= newItem)
-			{
+		{
 			(s.menuItem)++;
 			itsShortcuts->SetElement(i, s);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -4145,18 +4145,18 @@ JXWindow::MenuItemRemoved
 {
 	const JSize count = itsShortcuts->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
-		{
+	{
 		Shortcut s = itsShortcuts->GetElement(i);
 		if (s.menu == menu && s.menuItem > oldItem)
-			{
+		{
 			(s.menuItem)--;
 			itsShortcuts->SetElement(i, s);
-			}
-		else if (s.menu == menu && s.menuItem == oldItem)
-			{
-			itsShortcuts->RemoveElement(i);
-			}
 		}
+		else if (s.menu == menu && s.menuItem == oldItem)
+		{
+			itsShortcuts->RemoveElement(i);
+		}
+	}
 }
 
 /******************************************************************************
@@ -4177,64 +4177,64 @@ JXWindow::InstallShortcuts
 	)
 {
 	if (list.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	JXKeyModifiers modifiers(itsDisplay);
 
 	JStringIterator iter(list);
 	JUtf8Character c;
 	while (iter.Next(&c))
-		{
+	{
 		JSize fnIndex;
 		if (c == '^')
-			{
+		{
 			if (!iter.Next(&c) || c.GetByteCount() > 1)
-				{
+			{
 				continue;
-				}
+			}
 
 			const JUtf8Character c1 = c.ToUpper();
 			const JUtf8Character c2 = c.ToLower();
 			modifiers.SetState(kJXControlKeyIndex, true);		// e.g. Ctrl-M
 			InstallShortcut(widget, (unsigned char) c1.GetBytes()[0], modifiers);
 			if (c2 != c1)
-				{
+			{
 				InstallShortcut(widget, (unsigned char) c2.GetBytes()[0], modifiers);
-				}
+			}
 			modifiers.SetState(kJXControlKeyIndex, false);	// e.g. return key
 			InstallShortcut(widget, (unsigned char) JXCtrl(c1), modifiers);
-			}
+		}
 		else if (c == '#')
-			{
+		{
 			if (!iter.Next(&c) || c.GetByteCount() > 1)
-				{
+			{
 				continue;
-				}
+			}
 
 			const JUtf8Character c1 = c.ToUpper();
 			const JUtf8Character c2 = c.ToLower();
 			modifiers.SetState(kJXMetaKeyIndex, true);
 			InstallShortcut(widget, (unsigned char) c1.GetBytes()[0], modifiers);
 			if (c2 != c1)
-				{
+			{
 				InstallShortcut(widget, (unsigned char) c2.GetBytes()[0], modifiers);
-				}
-			modifiers.SetState(kJXMetaKeyIndex, false);
 			}
+			modifiers.SetState(kJXMetaKeyIndex, false);
+		}
 		else if (c == 'F' &&
 				 (fnIndex = strtoul(list.GetBytes() + iter.GetPrevByteIndex(), nullptr, 10)) > 0 &&
 				 fnIndex <= 35)
-			{
+		{
 			InstallShortcut(widget, XK_F1 + fnIndex-1, modifiers);
 			iter.SkipNext(fnIndex >= 10 ? 2 : 1);
-			}
-		else if (c.GetByteCount() == 1)
-			{
-			InstallShortcut(widget, (unsigned char) c.GetBytes()[0], modifiers);
-			}
 		}
+		else if (c.GetByteCount() == 1)
+		{
+			InstallShortcut(widget, (unsigned char) c.GetBytes()[0], modifiers);
+		}
+	}
 }
 
 /******************************************************************************
@@ -4260,22 +4260,22 @@ JXWindow::GetULShortcutIndex
 	)
 {
 	if (label.IsEmpty() || list == nullptr || list->IsEmpty())
-		{
+	{
 		return 0;
-		}
+	}
 
 	JStringIterator listIter(*list);
 	JUtf8Character c;
 
 	listIter.Next(&c);		// list is not empty
 	if (c == '^' || c == '#')
-		{
+	{
 		if (listIter.AtEnd())
-			{
+		{
 			return 0;
-			}
-		listIter.Next(&c);
 		}
+		listIter.Next(&c);
+	}
 	listIter.Invalidate();
 
 	c = c.ToLower();
@@ -4285,33 +4285,33 @@ JXWindow::GetULShortcutIndex
 
 	JUtf8Character prev = s.GetFirstCharacter();
 	if (c == prev)
-		{
+	{
 		return 1;
-		}
+	}
 
 	JIndex bdryIndex = 0, anyIndex = 0;
 
 	JStringIterator labelIter(s, kJIteratorStartAfter, 1);
 	JUtf8Character c1;
 	while (labelIter.Next(&c1))
-		{
+	{
 		if (c == c1)
-			{
+		{
 			const JIndex i = labelIter.GetPrevCharacterIndex();
 			if (prev.IsSpace())
-				{
+			{
 				return i;
-				}
+			}
 			else if (bdryIndex == 0 && !c1.IsAlpha())
-				{
+			{
 				bdryIndex = i;
-				}
+			}
 			else if (anyIndex == 0)
-				{
+			{
 				anyIndex = i;
-				}
 			}
 		}
+	}
 
 	return (bdryIndex > 0 ? bdryIndex :
 			(anyIndex > 0 ? anyIndex : 0));
@@ -4330,13 +4330,13 @@ JXWindow::ClearShortcuts
 {
 	const JSize count = itsShortcuts->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
-		{
+	{
 		const Shortcut s = itsShortcuts->GetElement(i);
 		if (s.widget == widget)
-			{
+		{
 			itsShortcuts->RemoveElement(i);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -4353,13 +4353,13 @@ JXWindow::ClearMenuShortcut
 {
 	const JSize count = itsShortcuts->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
-		{
+	{
 		const Shortcut s = itsShortcuts->GetElement(i);
 		if (s.menu == menu && s.menuItem == menuItem)
-			{
+		{
 			itsShortcuts->RemoveElement(i);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -4375,13 +4375,13 @@ JXWindow::ClearAllMenuShortcuts
 {
 	const JSize count = itsShortcuts->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
-		{
+	{
 		const Shortcut s = itsShortcuts->GetElement(i);
 		if (s.menu == menu)
-			{
+		{
 			itsShortcuts->RemoveElement(i);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -4410,37 +4410,37 @@ JXWindow::IsShortcut
 	state = modifiers.GetState();
 
 	if (0 < key && key <= 255)
-		{
+	{
 		key = tolower(key);
-		}
+	}
 	else if (key == XK_Return || key == XK_KP_Enter)
-		{
+	{
 		key = '\r';
-		}
+	}
 	else if (key == XK_Escape)
-		{
+	{
 		key = kJEscapeKey;
-		}
+	}
 	else if (keySym == XK_KP_Tab || keySym == XK_ISO_Left_Tab)
-		{
+	{
 		key = kJTabKey;
-		}
+	}
 	else if (keySym == XK_Left || keySym == XK_KP_Left)
-		{
+	{
 		key = kJLeftArrow;
-		}
+	}
 	else if (keySym == XK_Up || keySym == XK_KP_Up)
-		{
+	{
 		key = kJUpArrow;
-		}
+	}
 	else if (keySym == XK_Right || keySym == XK_KP_Right)
-		{
+	{
 		key = kJRightArrow;
-		}
+	}
 	else if (keySym == XK_Down || keySym == XK_KP_Down)
-		{
+	{
 		key = kJDownArrow;
-		}
+	}
 
 //	printf("IsShortcut: newState: %X\n\n", state);
 
@@ -4449,17 +4449,17 @@ JXWindow::IsShortcut
 	const bool found = itsShortcuts->SearchSorted(target, JListT::kAnyMatch, &i);
 
 	if (found)
-		{
+	{
 		const Shortcut s = itsShortcuts->GetElement(i);
 		if (s.widget != nullptr && (s.widget)->WillAcceptShortcut())
-			{
+		{
 			(s.widget)->HandleShortcut(s.key, modifiers);
-			}
-		else if (s.menu != nullptr)
-			{
-			(s.menu)->HandleNMShortcut(s.menuItem, modifiers);
-			}
 		}
+		else if (s.menu != nullptr)
+		{
+			(s.menu)->HandleNMShortcut(s.menuItem, modifiers);
+		}
+	}
 
 	// We always return true if it is a shortcut, even if the Widget didn't
 	// want to accept it.  This guarantees that keys will always behave
@@ -4484,25 +4484,25 @@ JXWindow::CompareShortcuts
 	)
 {
 	if (s1.key < s2.key)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (s1.key > s2.key)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (s1.state < s2.state)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (s1.state > s2.state)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 }
 
 /******************************************************************************
@@ -4519,10 +4519,10 @@ JXWindow::HandleMapNotify
 	itsIsMappedFlag = true;
 
 	if (itsIsOverlayFlag)
-		{
+	{
 		// Menu windows are not touched by the window manager.
 		return;
-		}
+	}
 
 	Broadcast(Mapped());
 
@@ -4530,16 +4530,16 @@ JXWindow::HandleMapNotify
 
 	const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
 	if (!b.desktopMapsWindowsFlag && itsFocusWhenShowFlag)
-		{
+	{
 		(itsDisplay->GetMenuManager())->CloseCurrentMenus();	// avoid deadlock
 		RequestFocus();
-		}
+	}
 
 	if (itsIsDockedFlag)
-		{
+	{
 		itsIsIconifiedFlag = false;
 		return;
-		}
+	}
 
 	// broadcast whether window is iconified or deiconified
 
@@ -4564,14 +4564,14 @@ JXWindow::HandleUnmapNotify
 	itsIsMappedFlag = false;
 
 	if (IsVisible() && !itsIsIconifiedFlag)
-		{
+	{
 		itsIsIconifiedFlag = true;
 		Broadcast(Iconified());
-		}
+	}
 	else
-		{
+	{
 		Broadcast(Unmapped());
-		}
+	}
 
 //	std::cout << "JXWindow::HandleUnmapNotify: " << itsIsMappedFlag << ' ' << itsIsIconifiedFlag << std::endl;
 }
@@ -4585,10 +4585,10 @@ void
 JXWindow::HandleWMStateChange()
 {
 	if (itsIsOverlayFlag || itsIsDockedFlag || !itsIsMappedFlag)
-		{
+	{
 		// Menu windows are not touched by the window manager.
 		return;
-		}
+	}
 
 	// broadcast whether window is iconified or deiconified
 
@@ -4601,7 +4601,7 @@ JXWindow::HandleWMStateChange()
 					   &actualType, &actualFormat,
 					   &itemCount, &remainingBytes, &xdata);
 	if (actualType != itsDisplay->GetWMStateXAtom() || actualFormat != 32)
-		{
+	{
 #if ! defined _J_OSX && ! defined _J_CYGWIN
 		std::cerr << std::endl;
 		std::cerr << "Error detected in JXWindow::HandleMapNotify():" << std::endl;
@@ -4611,28 +4611,28 @@ JXWindow::HandleWMStateChange()
 #endif
 
 		if (itsIsIconifiedFlag)
-			{
+		{
 			itsIsIconifiedFlag = false;
 			Broadcast(Deiconified());
 			Refresh();
-			}
 		}
+	}
 	else
-		{
+	{
 		assert( remainingBytes == 0 );
 
 		if (*reinterpret_cast<JUInt32*>(xdata) == NormalState && itsIsIconifiedFlag)
-			{
+		{
 			itsIsIconifiedFlag = false;
 			Broadcast(Deiconified());
 			Refresh();
-			}
+		}
 		else if (*reinterpret_cast<JUInt32*>(xdata) == IconicState && !itsIsIconifiedFlag)
-			{
+		{
 			itsIsIconifiedFlag = true;
 			Broadcast(Iconified());
-			}
 		}
+	}
 
 //	std::cout << "JXWindow::HandleWMStateChange: " << itsIsMappedFlag << ' ' << itsIsIconifiedFlag << std::endl;
 
@@ -4654,9 +4654,9 @@ JXWindow::CheckForMapOrExpose()
 	XEvent xEvent;
 	while (XCheckIfEvent(*itsDisplay, &xEvent, GetNextMapOrExposeEvent,
 						 reinterpret_cast<char*>(&itsXWindow)))
-		{
+	{
 		HandleEvent(xEvent);
-		}
+	}
 }
 
 // static private
@@ -4674,13 +4674,13 @@ JXWindow::GetNextMapOrExposeEvent
 	if (window == itsWindow &&
 		(event->type == MapNotify || event->type == UnmapNotify ||
 		 event->type == Expose))
-		{
+	{
 		return True;
-		}
+	}
 	else
-		{
+	{
 		return False;
-		}
+	}
 }
 
 /******************************************************************************
@@ -4698,18 +4698,18 @@ JXWindow::HandleExpose
 	)
 {
 	if (itsUseBkgdPixmapFlag)
-		{
+	{
 		return;
-		}
+	}
 
 	HandleExpose1(exposeEvent);
 
 	XEvent xEvent;
 	while (XCheckIfEvent(*itsDisplay, &xEvent, GetNextExposeEvent,
 						 reinterpret_cast<char*>(&itsXWindow)))
-		{
+	{
 		HandleExpose1(xEvent.xexpose);
-		}
+	}
 }
 
 void
@@ -4740,13 +4740,13 @@ JXWindow::GetNextExposeEvent
 	const Window window    = (event->xany).window;
 	const Window itsWindow = *(reinterpret_cast<Window*>(arg));
 	if (window == itsWindow && event->type == Expose)
-		{
+	{
 		return True;
-		}
+	}
 	else
-		{
+	{
 		return False;
-		}
+	}
 }
 
 /******************************************************************************
@@ -4762,15 +4762,15 @@ JXWindow::GetDockWindow
 	const
 {
 	if (itsDockWidget != nullptr)
-		{
+	{
 		*window = itsDockWidget->JXContainer::GetWindow();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*window = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -4796,19 +4796,19 @@ JXWindow::Dock
 	if (itsIsOverlayFlag || itsMainWindow != nullptr ||
 		geom.width() < itsMinSize.x || geom.height() < itsMinSize.y ||
 		itsDockingTask != nullptr)
-		{
+	{
 		return false;
-		}
+	}
 
 	if (itsIsDockedFlag)
-		{
+	{
 		Broadcast(Undocked());
-		}
+	}
 	else
-		{
+	{
 		itsUndockedGeom       = itsBounds;
 		itsUndockedWMFrameLoc = itsWMFrameLoc;
-		}
+	}
 
 	itsDockingTask = jnew JXDockWindowTask(this, parent, JPoint(geom.left, geom.top), dock);
 	assert( itsDockingTask != nullptr );
@@ -4834,16 +4834,16 @@ void
 JXWindow::Undock()
 {
 	if (!itsIsDockedFlag)
-		{
+	{
 		return;
-		}
+	}
 
 	const bool wasVisible = IsVisible();
 
 	if (itsDockWidget != nullptr)
-		{
+	{
 		(itsDockWidget->GetDockDirector())->ClearFocusWindow(this);
-		}
+	}
 
 	Hide();
 	itsIsMappedFlag = false;
@@ -4862,11 +4862,11 @@ JXWindow::Undock()
 	SetSize(itsUndockedGeom.width(), itsUndockedGeom.height());
 
 	if (wasVisible)
-		{
+	{
 		auto* task = jnew JXRaiseWindowTask(this);
 		assert( task != nullptr );
 		task->Go();
-		}
+	}
 
 	Broadcast(Undocked());
 }
@@ -4880,16 +4880,16 @@ void
 JXWindow::UndockAllChildWindows()
 {
 	if (itsChildWindowList != nullptr)
-		{
+	{
 		for (const auto& info : *itsChildWindowList)
-			{
+		{
 			JXWindow* w;
 			if (itsDisplay->FindXWindow(info.xWindow, &w))
-				{
+			{
 				w->Undock();
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -4905,52 +4905,52 @@ JXWindow::UpdateChildWindowList
 	)
 {
 	if (add && itsChildWindowList == nullptr)
-		{
+	{
 		itsChildWindowList = jnew JArray<ChildWindowInfo>;
 		assert( itsChildWindowList != nullptr );
-		}
+	}
 
 	if (itsChildWindowList != nullptr)
-		{
+	{
 		// check if xWindow is already in the list
 
 		JIndex index = 0;
 
 		const JSize count = itsChildWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			const ChildWindowInfo info = itsChildWindowList->GetElement(i);
 			if (info.xWindow == xWindow)
-				{
+			{
 				index = i;
 				break;
-				}
 			}
+		}
 
 		// add/remove xWindow
 
 		XWindowAttributes attr;
 		if (add && index == 0 &&
 			XGetWindowAttributes(*itsDisplay, xWindow, &attr))
-			{
+		{
 			ChildWindowInfo info(xWindow, attr.map_state != IsUnmapped,
 								 JRect(attr.y, attr.x,
 									   attr.y+attr.height, attr.x+attr.width));
 			itsChildWindowList->AppendElement(info);
-			}
+		}
 		else if (!add && index > 0)
-			{
+		{
 			itsChildWindowList->RemoveElement(index);
-			}
+		}
 
 		// toss list if it is empty
 
 		if (itsChildWindowList->IsEmpty())
-			{
+		{
 			jdelete itsChildWindowList;
 			itsChildWindowList = nullptr;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -4966,22 +4966,22 @@ JXWindow::SetChildWindowGeometry
 	)
 {
 	if (itsChildWindowList != nullptr)
-		{
+	{
 		const JSize count = itsChildWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			ChildWindowInfo info = itsChildWindowList->GetElement(i);
 			if (info.xWindow == xWindow)
-				{
+			{
 				if (info.geom != geom)
-					{
+				{
 					info.geom = geom;
 					itsChildWindowList->SetElement(i, info);
-					}
-				break;
 				}
+				break;
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -4993,16 +4993,16 @@ void
 JXWindow::UpdateChildWindowGeometry()
 {
 	if (itsChildWindowList != nullptr)
-		{
+	{
 		for (const auto& info : *itsChildWindowList)
-			{
+		{
 			JXWindow* w;
 			if (itsDisplay->FindXWindow(info.xWindow, &w))
-				{
+			{
 				w->UpdateFrame();
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -5018,22 +5018,22 @@ JXWindow::SetChildWindowVisible
 	)
 {
 	if (itsChildWindowList != nullptr)
-		{
+	{
 		const JSize count = itsChildWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			ChildWindowInfo info = itsChildWindowList->GetElement(i);
 			if (info.xWindow == xWindow)
-				{
+			{
 				if (info.visible != visible)
-					{
+				{
 					info.visible = visible;
 					itsChildWindowList->SetElement(i, info);
-					}
-				break;
 				}
+				break;
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -5054,10 +5054,10 @@ JXWindow::PrintWindowConfig()
 	std::cout << "itsDesktopLoc:            " << itsDesktopLoc << std::endl;
 
 	if (itsIsDockedFlag)
-		{
+	{
 		std::cout << "itsUndockedWMFrameLoc:    " << itsUndockedWMFrameLoc << std::endl;
 		std::cout << "itsUndockedGeom:          " << itsUndockedGeom << std::endl;
-		}
+	}
 
 	std::cout << std::endl;
 }

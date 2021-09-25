@@ -52,11 +52,11 @@ void
 JXAdjustPrintSetupLayoutTask::Perform()
 {
 	if (itsDirector != nullptr)
-		{
+	{
 		const JCoordinate delta =
 			itsPrintCmd->GetFrameGlobal().top - itsFileInput->GetFrameGlobal().top;
 
 		itsChooseFileButton->Move(0, delta);
 		itsFileInput->Move(0, delta);
-		}
+	}
 }

@@ -82,9 +82,9 @@ JArcTangent::Evaluate
 {
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = atan(argValue);
 	return jerrno_is_clear();
@@ -99,9 +99,9 @@ JArcTangent::Evaluate
 {
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = atan(argValue);
 	return jerrno_is_clear();

@@ -55,9 +55,9 @@ TestFileListDirector::TestFileListDirector
 	JString s1, s2;
 	if (JConvertToAbsolutePath(JString("../Make.header", JString::kNoCopy), JString::empty, &s1) &&
 		JGetTrueName(s1, &s2))
-		{
+	{
 		itsFLSet->GetTable()->AddFile(s2);
-		}
+	}
 }
 
 /******************************************************************************
@@ -128,12 +128,12 @@ TestFileListDirector::AddDirectory
 
 	JXFileListTable* table = itsFLSet->GetTable();
 	for (const auto* e : *info)
-		{
+	{
 		if (e->IsFile())
-			{
+		{
 			table->AddFile(e->GetFullName());
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -149,21 +149,21 @@ TestFileListDirector::Receive
 	)
 {
 	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFileMenu();
-		}
+	}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -179,13 +179,13 @@ TestFileListDirector::UpdateFileMenu()
 
 	const JXFileListSet::FilterType type = itsFLSet->GetFilterType();
 	if (type == JXFileListSet::kWildcardFilter)
-		{
+	{
 		itsFileMenu->CheckItem(kUseWildcardCmd);
-		}
+	}
 	else if (type == JXFileListSet::kRegexFilter)
-		{
+	{
 		itsFileMenu->CheckItem(kUseRegexCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -200,21 +200,21 @@ TestFileListDirector::HandleFileMenu
 	)
 {
 	if (index == kShowLocationCmd)
-		{
+	{
 		itsFLSet->GetTable()->ShowSelectedFileLocations();
-		}
+	}
 
 	else if (index == kUseWildcardCmd)
-		{
+	{
 		itsFLSet->ToggleWildcardFilter();
-		}
+	}
 	else if (index == kUseRegexCmd)
-		{
+	{
 		itsFLSet->ToggleRegexFilter();
-		}
+	}
 
 	else if (index == kCloseCmd)
-		{
+	{
 		GetWindow()->Close();
-		}
+	}
 }

@@ -19,10 +19,10 @@ class Foo
 public:
 
 	Foo()
-	{
+{
 		std::lock_guard mg(m);
 		std::cout << "static init" << std::endl;
-	}
+}
 };
 
 static Foo foo;
@@ -55,15 +55,15 @@ main()
 	std::thread* t[kThreadCount];
 
 	for (int i=0; i<kThreadCount; i++)
-		{
+	{
 		t[i] = new std::thread(run);
-		}
+	}
 
 	for (int i=0; i<kThreadCount; i++)
-		{
+	{
 		t[i]->join();
 		delete t[i];
-		}
+	}
 
 	return 0;
 }

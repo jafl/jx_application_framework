@@ -31,17 +31,17 @@ JNaryFunction::JNaryFunction
 	itsArgList(argList)
 {
 	if (argList == nullptr)
-		{
+	{
 		itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
 		assert( itsArgList != nullptr );
-		}
+	}
 	else
-		{
+	{
 		for (auto* arg : *argList)
-			{
+		{
 			arg->SetParent(this);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -72,12 +72,12 @@ JNaryFunction::JNaryFunction
 	const JSize argCount = (source.itsArgList)->GetElementCount();
 
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		JFunction* sourceArg = (source.itsArgList)->GetElement(i);
 		JFunction* arg       = sourceArg->Copy();
 		itsArgList->Append(arg);
 		arg->SetParent(this);
-		}
+	}
 }
 
 /******************************************************************************
@@ -134,14 +134,14 @@ JNaryFunction::SetArg
 {
 	assert( arg != nullptr );
 	if (itsArgList->IndexValid(index))
-		{
+	{
 		itsArgList->SetElement(index, arg, JPtrArrayT::kDelete);
-		}
+	}
 	else
-		{
+	{
 		assert( index == itsArgList->GetElementCount()+1 );
 		itsArgList->Append(arg);
-		}
+	}
 
 	arg->SetParent(this);
 }
@@ -223,8 +223,8 @@ JNaryFunction::DeleteArg
 	JIndex argIndex;
 	const bool found = itsArgList->Find(arg, &argIndex);
 	if (found)
-		{
+	{
 		itsArgList->DeleteElement(argIndex);
-		}
+	}
 	return found;
 }

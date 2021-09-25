@@ -87,20 +87,20 @@ JProduct::Evaluate
 {
 	const JSize argCount = GetArgCount();
 	if (argCount == 0)
-		{
+	{
 		return false;
-		}
+	}
 
 	*result = 1.0;
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		JFloat argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
-			{
+		{
 			return false;
-			}
-		*result *= argValue;
 		}
+		*result *= argValue;
+	}
 
 	return true;
 }
@@ -114,20 +114,20 @@ JProduct::Evaluate
 {
 	const JSize argCount = GetArgCount();
 	if (argCount == 0)
-		{
+	{
 		return false;
-		}
+	}
 
 	*result = 1.0;
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		JComplex argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
-			{
+		{
 			return false;
-			}
-		*result *= argValue;
 		}
+		*result *= argValue;
+	}
 
 	return true;
 }
@@ -146,24 +146,24 @@ JProduct::Print
 {
 	const JSize argCount = GetArgCount();
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		if (i > 1)
-			{
+		{
 			output << '*';
-			}
+		}
 
 		const JFunction* arg = GetArg(i);
 		if (JParenthesizeArgForPrint(*this, *arg))
-			{
+		{
 			output << '(';
 			arg->Print(output);
 			output << ')';
-			}
-		else
-			{
-			arg->Print(output);
-			}
 		}
+		else
+		{
+			arg->Print(output);
+		}
+	}
 }
 
 /******************************************************************************
@@ -194,9 +194,9 @@ JProduct::Layout
 	const JSize spaceWidth = renderer.GetSpaceWidth(fontSize);
 	const JSize timesWidth = renderer.GetStringWidth(fontSize, kMultiplicationSymbol);
 	const JSize argCount   = GetArgCount();
-	{
+{
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		JFunction* arg = GetArg(i);
 		const JIndex argIndex =
 			arg->Layout(renderer, argUpperLeft, fontSize, rectList);
@@ -204,38 +204,38 @@ JProduct::Layout
 		argUpperLeft.x = argRect.right + spaceWidth + timesWidth;
 
 		if (JParenthesizeArgForRender(*this, *arg))
-			{
+		{
 			const JSize parenWidth = renderer.GetParenthesisWidth(argRect.height());
 			rectList->ShiftRect(argIndex, parenWidth, 0);
 			argRect = rectList->GetRect(argIndex);
 			argUpperLeft.x += 2*parenWidth;
 			ourRect.right   = argRect.right + parenWidth;
-			}
+		}
 
 		ourRect = JCovering(ourRect, argRect);
 		const JCoordinate argMidline = rectList->GetMidline(argIndex);
 		if (argMidline > ourMidline)
-			{
+		{
 			ourMidline = argMidline;
-			}
 		}
 	}
+}
 
 	// adjust the argument rectangles so all the midlines are the same
 	// (ourMidline is guaranteed to stay constant)
 
 	if (argCount > 1 && ourMidline > origMidline)
-		{
+	{
 		for (JIndex i=1; i<=argCount; i++)
-			{
+		{
 			const JFunction* arg = GetArg(i);
 			JIndex argIndex;
 			const bool found = rectList->FindFunction(arg, &argIndex);
 			assert( found );
 			rectList->SetMidline(argIndex, ourMidline);
 			ourRect = JCovering(ourRect, rectList->GetRect(argIndex));
-			}
 		}
+	}
 
 	// save our rectangle
 
@@ -270,7 +270,7 @@ JProduct::Render
 
 	const JSize argCount = GetArgCount();
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		const JFunction* arg = GetArg(i);
 		arg->Render(renderer, rectList);
 
@@ -281,14 +281,14 @@ JProduct::Render
 		JCoordinate h       = argRect.right + spaceWidth;
 
 		if (JParenthesizeArgForRender(*this, *arg))
-			{
+		{
 			renderer.DrawParentheses(argRect);
 			h += renderer.GetParenthesisWidth(argRect.height());
-			}
+		}
 
 		if (i < argCount)
-			{
+		{
 			renderer.DrawString(h, ourMidline, fontSize, kMultiplicationSymbol);
-			}
 		}
+	}
 }

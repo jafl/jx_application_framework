@@ -44,18 +44,18 @@ TestjxCreateGlobals
 	assert( theDockManager != nullptr );
 
 	if (JFileExists(JString(kDockSetupFileName, JString::kNoCopy)))
-		{
+	{
 		std::ifstream input(kDockSetupFileName);
 		theDockManager->ReadSetup(input);
-		}
+	}
 
 	app->OpenDocuments();
 
 	if (wantMDI)
-		{
+	{
 		theMDIServer = jnew TestMDIServer;
 		assert( theMDIServer != nullptr );
-		}
+	}
 
 	JXInitHelp();
 }

@@ -40,10 +40,10 @@ JXImagePainter::JXImagePainter
 	assert( image != nullptr );
 
 #ifndef NDEBUG
-	{
+{
 	JXGC* gc = GetGC();
 	assert( gc != nullptr );
-	}
+}
 #endif
 
 	itsImage = image;
@@ -64,9 +64,9 @@ JXImagePainter::~JXImagePainter()
 	jdelete gc;
 
 	if (itsImage != nullptr)
-		{
+	{
 		itsImage->ConvertToDefaultState();
-		}
+	}
 }
 
 /******************************************************************************
@@ -83,9 +83,9 @@ JXImagePainter::StringNoSubstitutions
 	)
 {
 	if (PrepareXDraw())
-		{
+	{
 		JXWindowPainter::StringNoSubstitutions(left, top, str);
-		}
+	}
 }
 
 void
@@ -102,9 +102,9 @@ JXImagePainter::String
 	)
 {
 	if (PrepareXDraw())
-		{
+	{
 		JXWindowPainter::String(left, top, str, uIndex, width, hAlign, height, vAlign);
-		}
+	}
 }
 
 void
@@ -121,9 +121,9 @@ JXImagePainter::String
 	)
 {
 	if (PrepareXDraw())
-		{
+	{
 		JXWindowPainter::String(angle, left, top, str, width, hAlign, height, vAlign);
-		}
+	}
 }
 
 /******************************************************************************
@@ -139,9 +139,9 @@ JXImagePainter::Point
 	)
 {
 	if (PrepareXDraw())
-		{
+	{
 		JXWindowPainter::Point(x,y);
-		}
+	}
 }
 
 /******************************************************************************
@@ -159,9 +159,9 @@ JXImagePainter::Line
 	)
 {
 	if (PrepareXDraw())
-		{
+	{
 		JXWindowPainter::Line(x1,y1, x2,y2);
-		}
+	}
 }
 
 /******************************************************************************
@@ -179,9 +179,9 @@ JXImagePainter::Rect
 	)
 {
 	if (PrepareXDraw())
-		{
+	{
 		JXWindowPainter::Rect(x,y,w,h);
-		}
+	}
 }
 
 /******************************************************************************
@@ -201,9 +201,9 @@ JXImagePainter::Ellipse
 	)
 {
 	if (PrepareXDraw())
-		{
+	{
 		JXWindowPainter::Ellipse(x,y,w,h);
-		}
+	}
 }
 
 /******************************************************************************
@@ -223,9 +223,9 @@ JXImagePainter::Arc
 	)
 {
 	if (PrepareXDraw())
-		{
+	{
 		JXWindowPainter::Arc(x,y,w,h, startAngle, deltaAngle);
-		}
+	}
 }
 
 /******************************************************************************
@@ -242,9 +242,9 @@ JXImagePainter::Polygon
 	)
 {
 	if (PrepareXDraw())
-		{
+	{
 		JXWindowPainter::Polygon(left, top, poly);
-		}
+	}
 }
 
 /******************************************************************************
@@ -264,9 +264,9 @@ JXImagePainter::Image
 	assert( ximage != nullptr );
 
 	if (PrepareXDraw())
-		{
+	{
 		JXWindowPainter::Image(image, srcRect, destRect);
-		}
+	}
 }
 
 /******************************************************************************
@@ -278,13 +278,13 @@ bool
 JXImagePainter::PrepareXDraw()
 {
 	if (itsImage != nullptr)
-		{
+	{
 		itsImage->ConvertToPixmap();
 		SetDrawable(itsImage->itsPixmap);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }

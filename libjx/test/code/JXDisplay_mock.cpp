@@ -27,9 +27,9 @@ JXDisplay::JXDisplay
 	itsModifierKeymap(nullptr)
 {
 	for (JUnsignedOffset i=0; i<=kXModifierCount; i++)
-		{
+	{
 		itsJXKeyModifierMapping[i] = i;
-		}
+	}
 
 	itsJXKeyModifierMapping[ kJXNumLockKeyIndex    ] = kJXMod5KeyIndex;
 	itsJXKeyModifierMapping[ kJXScrollLockKeyIndex ] = kJXMod5KeyIndex;

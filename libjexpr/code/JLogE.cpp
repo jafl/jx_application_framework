@@ -83,9 +83,9 @@ JLogE::Evaluate
 {
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = log(argValue);
 	return jerrno_is_clear();
@@ -100,9 +100,9 @@ JLogE::Evaluate
 {
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = log(argValue);
 	return jerrno_is_clear();

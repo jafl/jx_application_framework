@@ -44,23 +44,23 @@ bool
 JXOpenDisplayDialog::OKToDeactivate()
 {
 	if (!JXGetStringDialog::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 
 	const JString& displayName = GetString();
 	JIndex displayIndex;
 	if (JXGetApplication()->OpenDisplay(displayName, &displayIndex))
-		{
+	{
 		itsDisplayIndex = displayIndex;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }

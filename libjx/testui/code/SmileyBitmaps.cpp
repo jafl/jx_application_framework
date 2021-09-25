@@ -42,8 +42,8 @@ unsigned char kSadSmileyData[] =
 
 JConstBitmap kSmileyBitmap[ kSmileyBitmapCount ] =
 {
-	{ 18,18, kHappySmileyData },
-	{ 18,18, kAmusedSmileyData },
-	{ 18,18, kNeutralSmileyData },
-	{ 18,18, kSadSmileyData },
+{ 18,18, kHappySmileyData },
+{ 18,18, kAmusedSmileyData },
+{ 18,18, kNeutralSmileyData },
+{ 18,18, kSadSmileyData },
 };

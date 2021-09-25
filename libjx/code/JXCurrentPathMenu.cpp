@@ -114,9 +114,9 @@ JXCurrentPathMenu::GetPath
 {
 	JString path = GetItemText(1);
 	for (JIndex i=2; i<=itemIndex; i++)
-		{
+	{
 		path = JCombinePathAndName(path, GetItemText(i));
-		}
+	}
 	JAppendDirSeparator(&path);
 	return path;
 }
@@ -139,13 +139,13 @@ JXCurrentPathMenu::SetPath
 
 	JString p1, n;
 	while (!JIsRootDirectory(p))
-		{
+	{
 		JStripTrailingDirSeparator(&p);
 		JSplitPathAndName(p, &p1, &n);
 		PrependItem(n);
 		SetItemImage(1, GetIcon(p), false);
 		p = p1;
-		}
+	}
 
 	PrependItem(p);
 	SetItemImage(1, GetIcon(p), false);

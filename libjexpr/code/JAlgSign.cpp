@@ -81,9 +81,9 @@ JAlgSign::Evaluate
 {
 	JFloat value;
 	if (!GetArg()->Evaluate(&value))
-		{
+	{
 		return false;
-		}
+	}
 
 	jclear_errno();
 	*result = JSign(value);
@@ -99,9 +99,9 @@ JAlgSign::Evaluate
 {
 	JComplex value;
 	if (!GetArg()->Evaluate(&value))
-		{
+	{
 		return false;
-		}
+	}
 
 	jclear_errno();
 	*result = JSign(real(value));

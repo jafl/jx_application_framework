@@ -115,14 +115,14 @@ JConvertToStream
 {
 	JString data;
 	if (!JReadAll(input, &data, closeInput))
-		{
+	{
 		return false;
-		}
+	}
 
 	if (!(JCreateTempFile(tempFullName)).OK())
-		{
+	{
 		return false;
-		}
+	}
 
 	std::ofstream output(tempFullName->GetBytes());
 	data.Print(output);

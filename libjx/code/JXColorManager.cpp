@@ -107,24 +107,24 @@ JXColorManager::InitMasks
 	itsMask[2] = blueMask;
 
 	for (const JIndex i : { 0,1,2 })
-		{
+	{
 		itsStartIndex[i] = 0;
 		while (itsStartIndex[i] < bitCount &&
 			   (itsMask[i] & (1 << itsStartIndex[i])) == 0)
-			{
+		{
 			itsStartIndex[i]++;
-			}
+		}
 		assert( itsStartIndex[i] < bitCount );
 
 		itsEndIndex[i] = itsStartIndex[i];
 		while (itsEndIndex[i] < bitCount &&
 			   (itsMask[i] & (1 << itsEndIndex[i])) != 0)
-			{
+		{
 			itsEndIndex[i]++;
-			}
+		}
 		itsEndIndex[i]--;		// point to last 1 bit
 		assert( itsEndIndex[i] < bitCount && itsEndIndex[i] >= itsStartIndex[i] );
-		}
+	}
 }
 
 /******************************************************************************
@@ -145,14 +145,14 @@ JXColorManager::GetColorID
 {
 	XColor xColor;
 	if (XParseColor(*itsDisplay, itsXColormap, name.GetBytes(), &xColor))
-		{
+	{
 		*id = JColorManager::GetColorID(JRGB(xColor.red, xColor.green, xColor.blue));
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -170,15 +170,15 @@ JXColorManager::GetColorID
 {
 	unsigned long rgb[3];
 	for (const JIndex i : { 0,1,2 })
-		{
+	{
 		rgb[i] = (systemColor & itsMask[i]) >> itsStartIndex[i];
 		if (itsStartIndex[i] > 0)
-			{
+		{
 			rgb[i] &= ~(~(0L) << (8*sizeof(unsigned long) - itsStartIndex[i]));
-			}
+		}
 		const short maxValue = (1 << (itsEndIndex[i]-itsStartIndex[i]+1)) - 1;
 		rgb[i] = JRound(rgb[i] * kJMaxRGBValueF / maxValue);
-		}
+	}
 
 	return JColorManager::GetColorID(JRGB(rgb[0], rgb[1], rgb[2]));
 }
@@ -206,17 +206,17 @@ JXColorManager::GetXColor
 
 	unsigned long xPixel = 0;
 	for (const JIndex i : { 0,1,2 })
-		{
+	{
 		const short shift = itsEndIndex[i] + 1 - kBitsPerColorComp;
 		if (shift >= 0)
-			{
+		{
 			xPixel |= (rgb[i] << shift) & itsMask[i];
-			}
-		else
-			{
-			xPixel |= (rgb[i] >> -shift) & itsMask[i];
-			}
 		}
+		else
+		{
+			xPixel |= (rgb[i] >> -shift) & itsMask[i];
+		}
+	}
 
 	return xPixel;
 }

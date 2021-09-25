@@ -308,25 +308,25 @@ TestInputFieldsDialog::OKToDeactivate()
 JInteger v1,v2;
 
 	if (!JXDialogDirector::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 
 	else if (itsLowerValue->GetValue(&v1) &&
 			 itsUpperValue->GetValue(&v2) &&
 			 v1 >= v2)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("MinMaxError::TestInputFieldsDialog"));
 		itsLowerValue->Focus();
 		return false;
-		}
+	}
 
 	else
-		{
+	{
 		return true;
-		}
+	}
 }

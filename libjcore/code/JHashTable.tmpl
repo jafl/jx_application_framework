@@ -222,13 +222,13 @@ JHashTable<V>::SetMaxLoadFactor
 {
 	itsMaxLoadFactor = newMax;
 	if (itsMaxLoadFactor > 1.0)
-		{
+	{
 		itsMaxLoadFactor = 1.0;
-		}
+	}
 	else if (itsMaxLoadFactor < 0.1) // These numbers can be parameterized, I guess
-		{
+	{
 		itsMaxLoadFactor = 0.1;
-		}
+	}
 	FitToLimits();
 }
 
@@ -249,13 +249,13 @@ JHashTable<V>::SetMinFillFactor
 {
 	itsMinFillFactor = newMin;
 	if (itsMinFillFactor > 1.0)
-		{
+	{
 		itsMinFillFactor = 1.0;
-		}
+	}
 	else if (itsMinFillFactor < 0.0)
-		{
+	{
 		itsMinFillFactor = 0.0;
-		}
+	}
 	FitToLimits();
 }
 
@@ -279,9 +279,9 @@ JHashTable<V>::SetMinTableSize
 	// Find new min size
 	// Cast to ul instead of JSize so it works even if JSize is not a long
 	while ( static_cast<unsigned long>(1L << itsLgMinTableSize) < newMin)
-		{
+	{
 		itsLgMinTableSize++;
-		}
+	}
 	FitToLimits();
 }
 
@@ -306,25 +306,25 @@ JHashTable<V>::IsOK() const
 	// Someday could use JMemoryManager services to test that itsMaxIndex is correct.
 
 	for (JUnsignedOffset i=0;i<=itsMaxIndex;i++)
-		{
+	{
 		const JHashRecord<V>& thisRecord = itsArray[i];
 		if ( !thisRecord.IsEmpty() )
-			{
+		{
 			++loadCount;
 			if ( thisRecord.IsFull() )
-				{
+			{
 				++elementCount;
 
 				// Test to see that all full elements can be reached.
-				}
 			}
 		}
+	}
 
 	if (elementCount != itsElementCount || loadCount != itsLoadCount
 		|| itsElementCount > itsLoadCount)
-		{
+	{
 		ok = false;
-		}
+	}
 
 	return ok;
 }
@@ -476,14 +476,14 @@ JHashTable<V>::Set
 	JHashRecord<V>& thisRecord = itsArray[index];
 
 	if ( thisRecord.IsDeleted() )
-		{
+	{
 		++itsElementCount;
-		}
+	}
 	else if ( thisRecord.IsEmpty() )
-		{
+	{
 		++itsElementCount;
 		++itsLoadCount;
-		}
+	}
 
 	thisRecord = record;
 
@@ -503,14 +503,14 @@ JHashTable<V>::Set
 	JHashRecord<V>& thisRecord = itsArray[index];
 
 	if ( thisRecord.IsDeleted() )
-		{
+	{
 		++itsElementCount;
-		}
+	}
 	else if ( thisRecord.IsEmpty() )
-		{
+	{
 		++itsElementCount;
 		++itsLoadCount;
-		}
+	}
 
 	thisRecord.Set(hash, value);
 
@@ -547,14 +547,14 @@ JHashTable<V>::SetHash
 	JHashRecord<V>& thisRecord = itsArray[index];
 
 	if ( thisRecord.IsDeleted() )
-		{
+	{
 		++itsElementCount;
-		}
+	}
 	else if ( thisRecord.IsEmpty() )
-		{
+	{
 		++itsElementCount;
 		++itsLoadCount;
-		}
+	}
 
 	thisRecord.Set(itsHashFunction(value), value);
 
@@ -576,18 +576,18 @@ JHashTable<V>::Remove
 	JHashRecord<V>& thisRecord = itsArray[index];
 
 	if ( thisRecord.IsFull() )
-		{
+	{
 		itsArray[index].Remove();
 		--itsElementCount;
 		if (itsElementCount == 0)
-			{
+		{
 			FitToLimits(0, true); // Force a resize to clear deleted records
-			}
-		else
-			{
-			FitToLimits();
-			}
 		}
+		else
+		{
+			FitToLimits();
+		}
+	}
 }
 
 /******************************************************************************
@@ -609,16 +609,16 @@ JHashTable<V>::MarkEmpty
 
 	JHashRecordT::State oldState = thisRecord.GetState();
 	if (oldState != JHashRecordT::kEmpty)
-		{
+	{
 		itsArray[index].MarkEmpty();
 
 		--itsLoadCount;
 		if (oldState == JHashRecordT::kFull)
-			{
+		{
 			--itsElementCount;
-			}
-		FitToLimits();
 		}
+		FitToLimits();
+	}
 }
 
 /******************************************************************************
@@ -657,14 +657,14 @@ JHashTable<V>::TryResizeTable
 {
 	// Can we do it the easy way?
 	if (itsElementCount == 0) // Can simply mark all empty
-		{
+	{
 		if (itsLgSize == lgSize)
-			{
+		{
 //std::cout << "Shortcut: marking all empty" << std::endl;
 			MarkAllEmpty();
-			}
+		}
 		else
-			{
+		{
 //std::cout << "Shortcut: just realloc'ing list" << std::endl;
 			// This must be replaced with a true realloc as soon as JMM can do it
 			jdelete[] itsArray;
@@ -677,9 +677,9 @@ JHashTable<V>::TryResizeTable
 			assert(itsArray != nullptr);
 
 			itsLoadCount = 0;
-			}
-		return true;
 		}
+		return true;
+	}
 
 	// Guess not, do it the hard way.
 
@@ -702,9 +702,9 @@ JHashTable<V>::TryResizeTable
 	// Try to resize
 	// Unt now ve exchange der subject's brains, Igor!
 	if ( !newTable.TryInsertAll(this) )
-		{
+	{
 		return false;
-		}
+	}
 
 	// Steal the temporary table's data and give it our old
 
@@ -754,11 +754,11 @@ JHashTable<V>::ResizeTable
 	JSize lgSize = lgTrialSize;
 
 	while ( !TryResizeTable(lgSize) )
-		{
+	{
 		// FitToLimits should really ensure that this never happens!
 //std::cout << "*** Resize failed, retrying" << std::endl;
 		++lgSize;
-		}
+	}
 }
 
 /******************************************************************************
@@ -831,7 +831,7 @@ JHashTable<V>::FitToLimits
 				)
 			)
 		)
-		{
+	{
 //std::cout << "      Resizing from lg(size) = " << itsLgSize << " (load " << GetLoadFactor()
 //     << "%, " << GetLoadCount()-GetElementCount() << " deleted)\n";
 		JSize newLgSize = itsLgSize;
@@ -844,32 +844,32 @@ JHashTable<V>::FitToLimits
 					< itsMinFillFactor
 //					< (itsMaxLoadFactor+itsMinFillFactor)/2
 				)
-			{
+		{
 			--newLgSize;
-			}
+		}
 
 		// Grow if the load is too high
 		// The average of maxload and minfill avoids many useless resizes
 		while ((1.0*GetElementCount()+required)/(1L << newLgSize)
 			> (itsMaxLoadFactor+itsMinFillFactor)/2 )
-			{
+		{
 			++newLgSize;
-			}
+		}
 
 		ResizeTable(newLgSize);
 		resized = true;
 
 //std::cout << "                            to " << itsLgSize << " (load " << GetLoadFactor()
 //     << "%, " << GetLoadCount()-GetElementCount() << " deleted)" << std::endl;
-		}
+	}
 
 #if 0
 	if (itsResizeFlag)
-		{
+	{
 		assert(GetLoadFactor() <= itsMaxLoadFactor);
 		assert(itsLgSize >= itsLgMinTableSize);
 		assert(GetFillFactor() >= itsMinFillFactor || itsLgSize == itsLgMinTableSize);
-		}
+	}
 #endif
 
 	return resized;
@@ -885,9 +885,9 @@ void
 JHashTable<V>::_MarkAllEmpty()
 {
 	for (JUnsignedOffset i=0;i<=itsMaxIndex;i++)
-		{
+	{
 		itsArray[i].MarkEmpty();
-		}
+	}
 
 	itsElementCount = itsLoadCount = 0;
 }
@@ -911,14 +911,14 @@ JHashTable<V>::TryInsert
 	itsCursor->ResetHash( record.GetHashValue() );
 
 	if ( itsCursor->NextOpen() )
-		{
+	{
 		itsCursor->Set(record);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -941,12 +941,12 @@ JHashTable<V>::TryInsertAll
 	sourceCursor->Reset(true);
 
 	while ( sourceCursor->NextFull() )
-		{
+	{
 		if ( !TryInsert( sourceCursor->GetRecord() ) )
-			{
+		{
 			return false;
-			}
 		}
+	}
 
 	return true;
 }

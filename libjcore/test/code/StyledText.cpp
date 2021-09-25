@@ -55,7 +55,7 @@ StyledText::AdjustStylesBeforeBroadcast
 	)
 {
 	if (itsStyler != nullptr)
-		{
+	{
 		itsStyler->UpdateStyles(this, text, styles, recalcRange, redrawRange, deletion, itsTokenStartList);
-		}
+	}
 }

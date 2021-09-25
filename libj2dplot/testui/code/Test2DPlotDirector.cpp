@@ -119,25 +119,25 @@ Test2DPlotDirector::Receive
 	)
 {
 	if (sender == itsPlotWidget && message.Is(J2DPlotWidget::kTitleChanged))
-		{
+	{
 		GetWindow()->SetTitle(itsPlotWidget->GetTitle());
-		}
+	}
 
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateActionsMenu();
-		}
+	}
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -163,25 +163,25 @@ Test2DPlotDirector::HandleActionsMenu
 	)
 {
 	if (index == kPSPageSetupCmd)
-		{
+	{
 		itsPlotWidget->HandlePSPageSetup();
-		}
+	}
 	else if (index == kPrintPSCmd)
-		{
+	{
 		itsPlotWidget->PrintPS();
-		}
+	}
 
 	else if (index == kPrintPlotEPSCmd)
-		{
+	{
 		itsPlotWidget->PrintPlotEPS();
-		}
+	}
 	else if (index == kPrintMarksEPSCmd)
-		{
+	{
 		itsPlotWidget->PrintMarksEPS();
-		}
+	}
 
 	else if (index == kQuitCmd)
-		{
+	{
 		JXGetApplication()->Quit();
-		}
+	}
 }

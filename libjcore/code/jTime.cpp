@@ -59,33 +59,33 @@ JPrintTimeInterval
 	)
 {
 	if (delta < 60)
-		{
+	{
 		return JString((JUInt64) delta) + " sec";
-		}
+	}
 	else if (delta < 60*60)
-		{
+	{
 		return JString(delta/60.0, 0) + " min";
-		}
+	}
 	else if (delta < 60*60*24)
-		{
+	{
 		return JString(delta/3600.0, 1) + " hours";
-		}
+	}
 	else if (delta < 60*60*24*7)
-		{
+	{
 		return JString(delta/86400.0, 1) + " days";
-		}
+	}
 	else if (delta < 60*60*24*30)
-		{
+	{
 		return JString(delta/604800.0, 1) + " weeks";
-		}
+	}
 	else if (delta < 60*60*24*365)
-		{
+	{
 		return JString(delta/2592000.0, 1) + " months";
-		}
+	}
 	else
-		{
+	{
 		return JString(delta/31536000.0, 1) + " years";
-		}
+	}
 }
 
 /******************************************************************************
@@ -112,21 +112,21 @@ JCheckExpirationDate
 {
 	const time_t t = time(nullptr);
 	if (t > expireTime)
-		{
+	{
 		map[1] = "";
 		const JString msg = JGetString("Expired::jTime", map, size);
 		JGetUserNotification()->DisplayMessage(msg);
 		exit(0);
-		}
+	}
 	else if (t > expireTime - 14*24*3600)
-		{
+	{
 		tm tmp;
 		JUtf8Byte date[100];
 		strftime(date, 100, "%B %e, %Y", localtime_r(&expireTime, &tmp));
 		map[1] = date;
 		const JString msg = JGetString("WarnExpire::jTime", map, size);
 		JGetUserNotification()->DisplayMessage(msg);
-		}
+	}
 }
 
 /******************************************************************************
@@ -141,13 +141,13 @@ JGetTimezoneOffset()
 {
 	static long delta = 0;
 	if (delta == 0)
-		{
+	{
 		tm tmp;
 		time_t t  = time(nullptr);
 		time_t t1 = mktime(gmtime_r(&t, &tmp));
 		time_t t2 = mktime(localtime_r(&t, &tmp));
 		delta     = t2 - t1;
-		}
+	}
 
 	return delta;
 }

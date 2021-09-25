@@ -49,11 +49,11 @@ void
 JOutPipeStream::close()
 {
 	if (!bad())
-		{
+	{
 		flush();
 		itsBuffer.close();
 		JSetState(*this, badbit);
-		}
+	}
 }
 
 //template class JOutPipeStreambuf<char, std::char_traits<char> >;

@@ -69,10 +69,10 @@ void
 JXStyleTableMenu::UpdateMenu()
 {
 	if (itsTable->IsEditing())
-		{
+	{
 		EnableAll();
 		JXStyleMenu::UpdateMenu();
-		}
+	}
 }
 
 /******************************************************************************
@@ -103,9 +103,9 @@ JXStyleTableMenu::HandleMenuItem
 {
 	JPoint cell;
 	if (itsTable->GetEditedCell(&cell))
-		{
+	{
 		JFontStyle style = itsTable->GetCellStyle(cell);
 		UpdateStyle(index, &style);
 		itsTable->SetCellStyle(cell, style);
-		}
+	}
 }

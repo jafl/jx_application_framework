@@ -35,9 +35,9 @@ JMMErrorPrinter::JMMErrorPrinter
 {
 	const JUtf8Byte* printErrors = getenv("JMM_NO_PRINT_ERRORS");
 	if (printErrors != nullptr && JString::Compare(printErrors, "yes", JString::kIgnoreCase) == 0)
-		{
+	{
 		itsPrintErrorsFlag = false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -61,13 +61,13 @@ JMMErrorPrinter::HandleObjectDeletedAsArray
 	)
 {
 	if (itsPrintErrorsFlag)
-		{
+	{
 		std::cerr << "*** memory error: Block allocated as object at\n                     "
 				  << record.GetNewFile() << ":" << record.GetNewLine()
 				  << "\n                  was deleted as array at"
 				  << "\n                     " << record.GetDeleteFile()
 				  << ":" << record.GetDeleteLine() << std::endl;
-		}
+	}
 }
 
 /******************************************************************************
@@ -82,13 +82,13 @@ JMMErrorPrinter::HandleArrayDeletedAsObject
 	)
 {
 	if (itsPrintErrorsFlag)
-		{
+	{
 		std::cerr << "*** memory error: Block allocated as array at\n                     "
 				  << record.GetNewFile() << ":" << record.GetNewLine()
 				  << "\n                  was deleted as object at"
 				  << "\n                     " << record.GetDeleteFile()
 				  << ":" << record.GetDeleteLine() << std::endl;
-		}
+	}
 }
 
 /******************************************************************************
@@ -105,12 +105,12 @@ JMMErrorPrinter::HandleUnallocatedDeletion
 	)
 {
 	if (itsPrintErrorsFlag)
-		{
+	{
 		std::cerr << "*** memory error: Block deleted as "
 				  << JMMRecord::TypeName(isArray) << " at"
 				  << "\n                     " << file << ":" << line
 				  << "\n                  was never allocated." << std::endl;
-		}
+	}
 }
 
 /******************************************************************************
@@ -128,7 +128,7 @@ JMMErrorPrinter::HandleMultipleDeletion
 	)
 {
 	if (itsPrintErrorsFlag)
-		{
+	{
 		std::cerr << "*** memory error: Block deleted as "
 				  << JMMRecord::TypeName(isArray) << " at"
 				  << "\n                     " << file << ":" << line
@@ -136,7 +136,7 @@ JMMErrorPrinter::HandleMultipleDeletion
 				  << originalRecord.DeleteTypeName() << " at\n                     "
 				  << originalRecord.GetDeleteFile() << ":" << originalRecord.GetDeleteLine()
 				  << std::endl;
-		}
+	}
 }
 
 /******************************************************************************
@@ -152,7 +152,7 @@ JMMErrorPrinter::HandleMultipleAllocation
 	)
 {
 	if (itsPrintErrorsFlag)
-		{
+	{
 		std::cerr << "*** memory error: Item allocated as "
 				  << thisRecord.DeleteTypeName() << " at\n                     "
 				  << thisRecord.GetNewFile() << ":" << thisRecord.GetNewLine()
@@ -161,5 +161,5 @@ JMMErrorPrinter::HandleMultipleAllocation
 				  << "\n                     "
 				  << firstRecord.GetNewFile() << ":" << firstRecord.GetNewLine()
 				  << std::endl;
-		}
+	}
 }

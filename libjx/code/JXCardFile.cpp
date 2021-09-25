@@ -101,10 +101,10 @@ JXCardFile::InsertCard
 
 	itsCards->InsertAtIndex(index, card);
 	if (index <= itsCurrCardIndex)
-		{
+	{
 		itsCurrCardIndex++;
 		Broadcast(CardIndexUpdated(itsCurrCardIndex));
-		}
+	}
 }
 
 /******************************************************************************
@@ -128,15 +128,15 @@ JXCardFile::RemoveCard
 	Broadcast(CardRemoved(index));
 
 	if (index < itsCurrCardIndex)
-		{
+	{
 		itsCurrCardIndex--;
 		Broadcast(CardIndexUpdated(itsCurrCardIndex));
-		}
+	}
 	else if (index == itsCurrCardIndex)
-		{
+	{
 		itsCurrCardIndex = 0;
 		Broadcast(CardIndexUpdated(itsCurrCardIndex));
-		}
+	}
 
 	return card;
 }
@@ -154,17 +154,17 @@ void
 JXCardFile::KillFocusOnCurrentCard()
 {
 	if (itsCurrCardIndex > 0)
-		{
+	{
 		JXWindow* window      = GetWindow();
 		JXContainer* currCard = itsCards->GetElement(itsCurrCardIndex);
 
 		JXWidget* widget;
 		if (window->GetFocusWidget(&widget) &&
 			currCard->IsAncestor(widget))
-			{
+		{
 			window->KillFocus();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -183,13 +183,13 @@ JXCardFile::ShowCard
 {
 	JIndex index;
 	if (itsCards->Find(card, &index))
-		{
+	{
 		return ShowCard(index);
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -199,9 +199,9 @@ JXCardFile::ShowCard
 	)
 {
 	if (itsCurrCardIndex == index)
-		{
+	{
 		return true;
-		}
+	}
 
 	JXWindow* window = GetWindow();
 
@@ -210,25 +210,25 @@ JXCardFile::ShowCard
 
 	bool hadFocus = false;
 	if (itsCurrCardIndex > 0)
-		{
+	{
 		JXContainer* currCard = itsCards->GetElement(itsCurrCardIndex);
 
 		JXWidget* widget;
 		if (window->GetFocusWidget(&widget) &&
 			currCard->IsAncestor(widget))
-			{
+		{
 			if (widget->OKToUnfocus())
-				{
+			{
 				hadFocus = true;
-				}
-			else
-				{
-				return false;
-				}
 			}
+			else
+			{
+				return false;
+			}
+		}
 
 		currCard->Hide();
-		}
+	}
 
 	// Show the requested card and focus to the first widget on it.
 
@@ -237,9 +237,9 @@ JXCardFile::ShowCard
 
 	currCard->Show();
 	if (hadFocus)
-		{
+	{
 		window->SwitchFocusToFirstWidgetWithAncestor(currCard);
-		}
+	}
 
 	Broadcast(CardIndexChanged(itsCurrCardIndex));
 	return true;
@@ -258,11 +258,11 @@ JXCardFile::Receive
 	)
 {
 	if (sender == itsCards)
-	{
+{
 		Broadcast(message);
-	}
+}
 	else
-	{
+{
 		JXWidgetSet::Receive(sender, message);
-	}
+}
 }

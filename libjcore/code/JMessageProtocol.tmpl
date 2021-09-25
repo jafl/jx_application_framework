@@ -273,10 +273,10 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SendDisconnect()
 	assert( !itsDisconnectStr.IsEmpty() );
 
 	if (!itsSentDisconnectFlag)
-		{
+	{
 		JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send(itsDisconnectStr);
 		itsSentDisconnectFlag = true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -321,16 +321,16 @@ JMessageProtocol<ACE_PEER_STREAM_2>::GetNextMessage
 	)
 {
 	if (!itsMessageList.IsEmpty())
-		{
+	{
 		*message = *itsMessageList.GetFirstElement();
 		itsMessageList.DeleteElement(1);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		message->Clear();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -349,15 +349,15 @@ JMessageProtocol<ACE_PEER_STREAM_2>::PeekNextMessage
 	)
 {
 	if (!itsMessageList.IsEmpty())
-		{
+	{
 		*message = *itsMessageList.GetFirstElement();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		message->Clear();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -394,7 +394,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SendMessage
 	)
 {
 	if (!itsSentDisconnectFlag)
-		{
+	{
 		iovec buffer[2];
 		buffer[0].iov_base = const_cast<char*>(message.GetBytes());
 		buffer[0].iov_len  = message.GetByteCount();
@@ -402,7 +402,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SendMessage
 		buffer[1].iov_len  = itsSeparatorStr.GetByteCount();
 
 		JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send(buffer, 2);
-		}
+	}
 }
 
 /******************************************************************************
@@ -420,9 +420,9 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SendData
 	)
 {
 	if (!itsSentDisconnectFlag)
-		{
+	{
 		JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send(data.GetBytes(), data.GetByteCount());
-		}
+	}
 }
 
 /******************************************************************************
@@ -443,9 +443,9 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	// protect against recursive calls
 
 	if (itsInHandleInputFlag)
-		{
+	{
 		return 0;
-		}
+	}
 	itsInHandleInputFlag = true;
 
 	// We flush the system buffer even if we have received a disconnect.
@@ -453,10 +453,10 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	const ssize_t count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).recv(itsRecvBuffer, itsRecvBufferSize);
 
 	if (itsReceivedDisconnectFlag || count <= 0)
-		{
+	{
 		itsInHandleInputFlag = false;
 		return 0;
-		}
+	}
 
 	itsByteBuffer.Append(itsRecvBuffer, count);
 	itsRecvData.Append(itsByteBuffer.ExtractCharacters());
@@ -465,35 +465,35 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	itsRecvData.Split(itsTokenPattern, &list, 0, true);
 
 	if (itsTokenPattern.Match(*list.GetLastElement()))
-		{
+	{
 		itsRecvData.Clear();
-		}
+	}
 	else
-		{
+	{
 		itsRecvData = *list.GetLastElement();
 		list.DeleteElement(list.GetElementCount());
-		}
+	}
 
 	const JSize blockCount = list.GetElementCount();
 	for (JIndex i=1; i<=blockCount; i++)
-		{
+	{
 		const JString* s = list.GetElement(i);
 		if (BytesEqual(*s, itsDisconnectStr))
-			{
+		{
 			itsReceivedDisconnectFlag = true;
 			itsRecvData.Clear();
 			Broadcast(JMessageProtocolT::ReceivedDisconnect());
 			return 0;	// we might be deleted and itsInHandleInputFlag is now irrelevant
-			}
+		}
 		else if (!BytesEqual(*s, itsSeparatorStr) &&
 				 (!s->IsEmpty() || itsWantsBlankMessagesFlag))
-			{
+		{
 			JString* msg = jnew JString(*s);
 			assert( msg != nullptr );
 			itsMessageList.Append(msg);
 			Broadcast(JMessageProtocolT::MessageReady(*msg));
-			}
 		}
+	}
 
 	itsInHandleInputFlag = false;
 	return 0;

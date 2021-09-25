@@ -69,9 +69,9 @@ JXWPrefsManager::UpgradeData
 	)
 {
 	if (isNew)
-		{
+	{
 		SetData(kJXWProgramVersionID, JXWGetVersionNumberStr());
-		}
+	}
 }
 
 /******************************************************************************

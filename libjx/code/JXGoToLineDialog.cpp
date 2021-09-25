@@ -119,11 +119,11 @@ JXGoToLineDialog::GetLineIndex
 	assert( ok );
 
 	if (((JSize) lineIndex) <= itsMaxLineCount)
-		{
+	{
 		return lineIndex;
-		}
+	}
 	else
-		{
+	{
 		return itsMaxLineCount;
-		}
+	}
 }

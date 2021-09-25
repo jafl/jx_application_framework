@@ -124,9 +124,9 @@ JList<T>::NotifyIterators
 	)
 {
 	if (itsFirstIterator != nullptr)
-		{
+	{
 		itsFirstIterator->ListChanged(message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -159,10 +159,10 @@ JList<T>::SetCompareFunction
 	itsCompareObj = nullptr;
 
 	if (itsCompareFn != nullptr)
-		{
+	{
 		itsCompareObj = jnew JCompareFnWrapper<T>(itsCompareFn);
 		assert( itsCompareObj != nullptr );
-		}
+	}
 }
 
 /******************************************************************************
@@ -245,9 +245,9 @@ JList<T>::IsSorted()
 
 	const JSize count = GetElementCount();
 	if (count < 2)
-		{
+	{
 		return true;		// avoid constructing iterator
-		}
+	}
 
 	// check if the elements are sorted
 
@@ -260,18 +260,18 @@ JList<T>::IsSorted()
 	assert( ok );
 
 	while (iter->Next(&obj2))
-		{
+	{
 		const JListT::CompareResult r = itsCompareObj->Compare(obj1, obj2);
 		if ((itsSortOrder == JListT::kSortAscending &&
 			 r == JListT::kFirstGreaterSecond) ||
 			(itsSortOrder == JListT::kSortDescending &&
 			 r == JListT::kFirstLessSecond))
-			{
+		{
 			sorted = false;
 			break;
-			}
-		obj1 = obj2;
 		}
+		obj1 = obj2;
+	}
 
 	jdelete iter;
 	return sorted;

@@ -10,10 +10,10 @@
 #ifndef _H_J2DVectorData
 #define _H_J2DVectorData
 
-#include "JPlotDataBase.h"
+#include "J2DPlotDataBase.h"
 #include <JArray.h>
 
-class J2DVectorData : public JPlotDataBase
+class J2DVectorData : public J2DPlotDataBase
 {
 public:
 

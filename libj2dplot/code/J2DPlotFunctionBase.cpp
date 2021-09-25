@@ -1,13 +1,13 @@
 /*********************************************************************************
- JPlotFunctionBase.cpp
+ J2DPlotFunctionBase.cpp
 
-	JPlotFunctionBase class.
+	J2DPlotFunctionBase class.
 
 	Copyright @ 1997 by Glenn W. Bach.
 
  ********************************************************************************/
 
-#include "JPlotFunctionBase.h"
+#include "J2DPlotFunctionBase.h"
 #include "J2DPlotWidget.h"
 #include <JMinMax.h>
 #include <jAssert.h>
@@ -19,7 +19,7 @@ const JSize kDefSampleCount = 100;	// # of points for approximating y range
 
  ********************************************************************************/
 
-JPlotFunctionBase::JPlotFunctionBase
+J2DPlotFunctionBase::J2DPlotFunctionBase
 	(
 	const Type		type,
 	J2DPlotWidget*	plot,
@@ -27,7 +27,7 @@ JPlotFunctionBase::JPlotFunctionBase
 	const JFloat	xMax
 	)
 	:
-	JPlotDataBase(type)
+	J2DPlotDataBase(type)
 {
 	itsPlot = plot;
 	itsXMin = JMin(xMin, xMax);
@@ -44,7 +44,7 @@ JPlotFunctionBase::JPlotFunctionBase
 
  ********************************************************************************/
 
-JPlotFunctionBase::~JPlotFunctionBase()
+J2DPlotFunctionBase::~J2DPlotFunctionBase()
 {
 	jdelete itsValues;
 }
@@ -55,7 +55,7 @@ JPlotFunctionBase::~JPlotFunctionBase()
  ********************************************************************************/
 
 bool
-JPlotFunctionBase::IsFunction()
+J2DPlotFunctionBase::IsFunction()
 	const
 {
 	return true;
@@ -67,7 +67,7 @@ JPlotFunctionBase::IsFunction()
  ********************************************************************************/
 
 void
-JPlotFunctionBase::GetElement
+J2DPlotFunctionBase::GetElement
 	(
 	const JIndex	index,
 	J2DDataPoint*	data
@@ -85,7 +85,7 @@ JPlotFunctionBase::GetElement
  ********************************************************************************/
 
 void
-JPlotFunctionBase::GetXRange
+J2DPlotFunctionBase::GetXRange
 	(
 	JFloat* min,
 	JFloat* max
@@ -102,11 +102,11 @@ JPlotFunctionBase::GetXRange
  ********************************************************************************/
 
 bool
-JPlotFunctionBase::GetYRange
+J2DPlotFunctionBase::GetYRange
 	(
 	const JFloat	xMin,
 	const JFloat	xMax,
-	const bool	xLinear,
+	const bool		xLinear,
 	JFloat*			yMin,
 	JFloat*			yMax
 	)
@@ -120,17 +120,17 @@ JPlotFunctionBase::GetYRange
 
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const Point pt = list.GetElement(i);
 		if (pt.y < *yMin || i == 1)
-			{
+		{
 			*yMin = pt.y;
-			}
-		if (pt.y > *yMax || i == 1)
-			{
-			*yMax = pt.y;
-			}
 		}
+		if (pt.y > *yMax || i == 1)
+		{
+			*yMax = pt.y;
+		}
+	}
 
 	return !list.IsEmpty();
 }
@@ -141,20 +141,20 @@ JPlotFunctionBase::GetYRange
  ********************************************************************************/
 
 void
-JPlotFunctionBase::Receive
+J2DPlotFunctionBase::Receive
 	(
 	JBroadcaster*	sender,
 	const Message&	message
 	)
 {
 	if (sender == itsPlot && message.Is(J2DPlotWidget::kScaleChanged))
-		{
+	{
 		UpdateFunction();
-		}
+	}
 	else
-		{
-		JPlotDataBase::Receive(sender, message);
-		}
+	{
+		J2DPlotDataBase::Receive(sender, message);
+	}
 }
 
 /*********************************************************************************
@@ -163,7 +163,7 @@ JPlotFunctionBase::Receive
  ********************************************************************************/
 
 void
-JPlotFunctionBase::UpdateFunction()
+J2DPlotFunctionBase::UpdateFunction()
 {
 	JFloat min, max, inc;
 	itsPlot->GetXScale(&min, &max, &inc);
@@ -171,7 +171,7 @@ JPlotFunctionBase::UpdateFunction()
 }
 
 void
-JPlotFunctionBase::UpdateFunction
+J2DPlotFunctionBase::UpdateFunction
 	(
 	const JFloat	min,
 	const JFloat	max,
@@ -188,7 +188,7 @@ JPlotFunctionBase::UpdateFunction
  ********************************************************************************/
 
 void
-JPlotFunctionBase::EvaluateFunction
+J2DPlotFunctionBase::EvaluateFunction
 	(
 	const JFloat	min,
 	const JFloat	max,
@@ -202,30 +202,30 @@ JPlotFunctionBase::EvaluateFunction
 
 	JFloat stepSize = 0.0, logMin = 0.0;
 	if (linear)
-		{
+	{
 		stepSize = (max - min)/((JFloat) stepCount);
-		}
+	}
 	else
-		{
+	{
 		assert( min > 0.0 && max > 0.0 );
 		stepSize = (log10(max) - log10(min))/((JFloat) stepCount);
 		logMin   = log10(min);
-		}
+	}
 
 	Point pt;
 	for (JIndex i = 0; i <= stepCount; i++)
-		{
+	{
 		if (linear)
-			{
+		{
 			pt.x = min + i*stepSize;
-			}
-		else
-			{
-			pt.x = pow(10, logMin + i*stepSize);
-			}
-		if (GetYValue(pt.x, &(pt.y)))
-			{
-			list->AppendElement(pt);
-			}
 		}
+		else
+		{
+			pt.x = pow(10, logMin + i*stepSize);
+		}
+		if (GetYValue(pt.x, &(pt.y)))
+		{
+			list->AppendElement(pt);
+		}
+	}
 }

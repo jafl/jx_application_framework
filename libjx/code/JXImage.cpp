@@ -65,7 +65,7 @@ JXImage::JXImage
 		 JColorManager::GetDefaultBackColor() : origInitColor);
 
 	if (initState == kRemoteStorage)
-		{
+	{
 		itsPixmap =
 			XCreatePixmap(*itsDisplay, itsDisplay->GetRootWindow(),
 						  width, height, itsDepth);
@@ -81,24 +81,24 @@ JXImage::JXImage
 
 		// We don't convert to an image because the user probably wants
 		// to draw to us.
-		}
+	}
 	else
-		{
+	{
 		assert( initState == kLocalStorage );
 
 		PrepareForImageData();
 
 		if (origInitColor != 0)
-			{
+		{
 			for (JCoordinate x=0; x<width; x++)
-				{
+			{
 				for (JCoordinate y=0; y<height; y++)
-					{
+				{
 					SetColor(x,y, initColor);
-					}
 				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -153,7 +153,7 @@ JXImage::JXImageFromDrawable
 	JXImageX(display);
 
 	JRect rect = origRect;
-	{
+{
 	Window rootWindow;
 	int x,y;
 	unsigned int w,h, bw, depth;
@@ -161,21 +161,21 @@ JXImage::JXImageFromDrawable
 
 	itsDepth = depth;
 	if (rect.IsEmpty())
-		{
+	{
 		SetDimensions(w,h);
 		rect = GetBounds();
-		}
 	}
+}
 
 	itsPixmap = XCreatePixmap(*itsDisplay, itsDisplay->GetRootWindow(),
 							  GetWidth(), GetHeight(), itsDepth);
 	assert( itsPixmap != None );
 
 	if (itsDepth != itsDisplay->GetDepth())
-		{
+	{
 		itsGC = jnew JXGC(itsDisplay, itsPixmap);
 		assert( itsGC != nullptr );
-		}
+	}
 
 	GetGC()->CopyPixels(source, rect.left, rect.top,
 						  rect.width(), rect.height(), itsPixmap, 0,0);
@@ -209,15 +209,15 @@ JXImage::JXImage
 
 	unsigned long forePixel, backPixel;
 	if (itsDepth == 1)
-		{
+	{
 		forePixel = JXImageMask::ColorToBit(foreColor);
 		backPixel = JXImageMask::ColorToBit(backColor);
-		}
+	}
 	else
-		{
+	{
 		forePixel = itsDisplay->GetColorManager()->GetXColor(foreColor);
 		backPixel = itsDisplay->GetColorManager()->GetXColor(backColor);
-		}
+	}
 
 	itsPixmap =
 		XCreatePixmapFromBitmapData(*itsDisplay, itsDisplay->GetRootWindow(),
@@ -226,10 +226,10 @@ JXImage::JXImage
 	assert( itsPixmap != None );
 
 	if (itsDepth != itsDisplay->GetDepth())
-		{
+	{
 		itsGC = jnew JXGC(itsDisplay, itsPixmap);
 		assert( itsGC != nullptr );
-		}
+	}
 }
 
 /******************************************************************************
@@ -269,14 +269,14 @@ JXImage::JXImage
 	JImage(width, height, display->GetColorManager())
 {
 #ifndef NDEBUG
-	{
+{
 	Window rootWindow;
 	int x,y;
 	unsigned int w,h, bw, depth;
 	const Status ok =
 		XGetGeometry(*display, bitmap, &rootWindow, &x, &y, &w, &h, &bw, &depth);
 	assert( ok && depth == 1 );
-	}
+}
 #endif
 
 	JXImageX(display, 1);
@@ -320,17 +320,17 @@ JXImage::JXImage
 	itsDefState = source.itsDefState;
 
 	if (source.itsGC != nullptr)
-		{
+	{
 		ForcePrivateGC();
-		}
+	}
 
 	if (source.itsPixmap != None)
-		{
+	{
 		itsPixmap = source.CreatePixmap();
-		}
+	}
 
 	if (source.itsImage != nullptr)
-		{
+	{
 		Pixmap tempPixmap = source.CreatePixmap();
 
 		itsImage = XGetImage(*itsDisplay, tempPixmap,
@@ -338,13 +338,13 @@ JXImage::JXImage
 		assert( itsImage != nullptr );
 
 		XFreePixmap(*itsDisplay, tempPixmap);
-		}
+	}
 
 	if (source.itsMask != nullptr)
-		{
+	{
 		itsMask = jnew JXImageMask(*(source.itsMask));
 		assert( itsMask != nullptr );
-		}
+	}
 }
 
 /******************************************************************************
@@ -364,19 +364,19 @@ JXImage::JXImage
 	itsDefState = source.itsDefState;
 
 	if (source.itsGC != nullptr)
-		{
+	{
 		ForcePrivateGC();
-		}
+	}
 
 	Pixmap sourcePixmap;
 	if (source.itsPixmap != None)
-		{
+	{
 		sourcePixmap = source.itsPixmap;
-		}
+	}
 	else
-		{
+	{
 		sourcePixmap = source.CreatePixmap();
-		}
+	}
 
 	itsPixmap = XCreatePixmap(*itsDisplay, itsDisplay->GetRootWindow(),
 							  GetWidth(), GetHeight(), itsDepth);
@@ -386,15 +386,15 @@ JXImage::JXImage
 						  GetWidth(), GetHeight(), itsPixmap, 0,0);
 
 	if (source.itsPixmap == None)
-		{
+	{
 		XFreePixmap(*itsDisplay, sourcePixmap);
-		}
+	}
 
 	if (source.itsMask != nullptr)
-		{
+	{
 		itsMask = jnew JXImageMask(*(source.itsMask), rect);
 		assert( itsMask != nullptr );
-		}
+	}
 }
 
 /******************************************************************************
@@ -429,14 +429,14 @@ JXImage::JXImageX
 JXImage::~JXImage()
 {
 	if (itsPixmap != None)
-		{
+	{
 		XFreePixmap(*itsDisplay, itsPixmap);
-		}
+	}
 
 	if (itsImage != nullptr)
-		{
+	{
 		XDestroyImage(itsImage);
-		}
+	}
 
 	jdelete itsMask;
 	jdelete itsGC;
@@ -463,10 +463,10 @@ JXImage::CreateFromGIF
 	const JError err = (**image).ReadGIF(fileName);
 
 	if (!err.OK())
-		{
+	{
 		jdelete *image;
 		*image = nullptr;
-		}
+	}
 	return err;
 }
 
@@ -493,13 +493,13 @@ JXImage::CreateFromXPM
 		XpmCreatePixmapFromData(*display, display->GetRootWindow(),
 								(char**) data.xpm, &image_pixmap, &mask_pixmap, &attr);
 	if (xpmErr == XpmNoMemory)
-		{
+	{
 		return JNoProcessMemory();
-		}
+	}
 	else if (xpmErr != XpmSuccess)
-		{
+	{
 		return JXPMError(xpmErr);
-		}
+	}
 
 	*image = CreateImageAndMaskFromXPMData(display, image_pixmap, mask_pixmap);
 
@@ -535,25 +535,25 @@ JXImage::CreateFromXPM
 							const_cast<JUtf8Byte*>(fileName.GetBytes()),
 							&image_pixmap, &mask_pixmap, &attr);
 	if (xpmErr == XpmOpenFailed && JFileExists(fileName))
-		{
+	{
 		return JAccessDenied(fileName);
-		}
+	}
 	else if (xpmErr == XpmOpenFailed)
-		{
+	{
 		return JDirEntryDoesNotExist(fileName);
-		}
+	}
 	else if (xpmErr == XpmFileInvalid)
-		{
+	{
 		return FileIsNotXPM(fileName);
-		}
+	}
 	else if (xpmErr == XpmNoMemory)
-		{
+	{
 		return JNoProcessMemory();
-		}
+	}
 	else if (xpmErr != XpmSuccess)
-		{
+	{
 		return JXPMError(xpmErr);
-		}
+	}
 
 	*image = CreateImageAndMaskFromXPMData(display, image_pixmap, mask_pixmap);
 
@@ -606,13 +606,13 @@ JXImage::CreateImageAndMaskFromXPMData
 	XFreePixmap(*display, image_pixmap);
 
 	if (mask_pixmap != None)
-		{
+	{
 		auto* mask = jnew JXImageMask(display, mask_pixmap);
 		assert( mask != nullptr );
 		image->SetMask(mask);
 
 		XFreePixmap(*display, mask_pixmap);
-		}
+	}
 
 	return image;
 }
@@ -637,50 +637,50 @@ JXImage::WriteXPM
 
 	int xpmErr;
 	if (itsImage != nullptr)
-		{
+	{
 		XImage* mask_image = nullptr;
 		if (itsMask != nullptr)
-			{
+		{
 			itsMask->ConvertToImage();
 			mask_image = ((JXImage*) itsMask)->itsImage;
-			}
+		}
 
 		xpmErr = XpmWriteFileFromImage(*itsDisplay,
 									   const_cast<JUtf8Byte*>(fileName.GetBytes()),
 									   itsImage, mask_image, &attr);
-		}
+	}
 	else
-		{
+	{
 		assert( itsPixmap != None );
 
 		Pixmap mask_pixmap = None;
 		if (itsMask != nullptr)
-			{
+		{
 			itsMask->ConvertToPixmap();
 			mask_pixmap = ((JXImage*) itsMask)->itsPixmap;
-			}
+		}
 
 		xpmErr = XpmWriteFileFromPixmap(*itsDisplay,
 										const_cast<JUtf8Byte*>(fileName.GetBytes()),
 										itsPixmap, mask_pixmap, &attr);
-		}
+	}
 
 	if (xpmErr == XpmOpenFailed)
-		{
+	{
 		return JAccessDenied(fileName);
-		}
+	}
 	else if (xpmErr == XpmNoMemory)
-		{
+	{
 		return JNoProcessMemory();
-		}
+	}
 	else if (xpmErr == XpmSuccess)
-		{
+	{
 		return JNoError();
-		}
+	}
 	else
-		{
+	{
 		return JXPMError(xpmErr);
-		}
+	}
 }
 
 /******************************************************************************
@@ -765,7 +765,7 @@ JXImage::Draw
 	Region origClipRegion = nullptr;
 	JXImageMask* origClipPixmap = nullptr;
 	if (itsMask != nullptr)
-		{
+	{
 		itsMask->ConvertToPixmap();
 
 		gc->GetClipping(&origClipOffset, &origClipRegion, &origClipPixmap);
@@ -775,70 +775,70 @@ JXImage::Draw
 		const JRect imageBounds     = GetBounds();
 
 		if (origClipRegion != nullptr)
-			{
+		{
 			JRect r = JXGetRegionBounds(origClipRegion);
 			r.Shift(tempClipOffset);
 			if (!JIntersection(r, imageBounds, &r))
-				{
+			{
 				XDestroyRegion(origClipRegion);
 				return;
-				}
+			}
 
 			Pixmap mask = JXIntersection(itsDisplay, origClipRegion, tempClipOffset,
 										 *itsMask, JPoint(0,0), imageBounds);
 			gc->SetClipPixmap(maskOffset, mask);
-			}
+		}
 		else if (origClipPixmap != nullptr)
-			{
+		{
 			JRect r = origClipPixmap->GetBounds();
 			r.Shift(tempClipOffset);
 			if (!JIntersection(r, imageBounds, &r))
-				{
+			{
 				jdelete origClipPixmap;
 				return;
-				}
+			}
 
 			Pixmap mask = JXIntersection(itsDisplay, *origClipPixmap, tempClipOffset,
 										 *itsMask, JPoint(0,0), imageBounds);
 			gc->SetClipPixmap(maskOffset, mask);
-			}
-		else
-			{
-			gc->SetClipPixmap(maskOffset, *itsMask);
-			}
 		}
+		else
+		{
+			gc->SetClipPixmap(maskOffset, *itsMask);
+		}
+	}
 
 	// draw the image
 
 	if (itsImage != nullptr)
-		{
+	{
 		gc->CopyImage(itsImage, srcRect.left, srcRect.top,
 					  srcRect.width(), srcRect.height(),
 					  drawable, destX, destY);
-		}
+	}
 	else if (itsPixmap != None)
-		{
+	{
 		gc->CopyPixels(itsPixmap, srcRect.left, srcRect.top,
 					   srcRect.width(), srcRect.height(),
 					   drawable, destX, destY);
-		}
+	}
 
 	// restore the clipping
 
 	if (itsMask != nullptr && origClipRegion != nullptr)
-		{
+	{
 		gc->SetClipRegion(origClipRegion);
 		XDestroyRegion(origClipRegion);
-		}
+	}
 	else if (itsMask != nullptr && origClipPixmap != nullptr)
-		{
+	{
 		gc->SetClipPixmap(origClipOffset, *origClipPixmap);
 		jdelete origClipPixmap;
-		}
+	}
 	else if (itsMask != nullptr)
-		{
+	{
 		gc->ClearClipping();
-		}
+	}
 }
 
 /******************************************************************************
@@ -869,13 +869,13 @@ JXImage::GetColor
 	const
 {
 	if (itsDepth == 1)
-		{
+	{
 		return JXImageMask::BitToColor(GetSystemColor(x,y));
-		}
+	}
 	else
-		{
+	{
 		return itsDisplay->GetColorManager()->GetColorID(GetSystemColor(x,y));
-		}
+	}
 }
 
 /******************************************************************************
@@ -899,13 +899,13 @@ JXImage::SetColor
 
 	unsigned long xPixel;
 	if (itsDepth == 1)
-		{
+	{
 		xPixel = JXImageMask::ColorToBit(color);
-		}
+	}
 	else
-		{
+	{
 		xPixel = itsDisplay->GetColorManager()->GetXColor(color);
-		}
+	}
 
 	XPutPixel(itsImage, x,y, xPixel);
 }
@@ -923,13 +923,13 @@ JXImage::GetSystemColor
 	const
 {
 	if (itsDepth == 1)
-		{
+	{
 		return JXImageMask::ColorToBit(color);
-		}
+	}
 	else
-		{
+	{
 		return itsDisplay->GetColorManager()->GetXColor(color);
-		}
+	}
 }
 
 unsigned long
@@ -941,9 +941,9 @@ JXImage::GetSystemColor
 	const
 {
 	if (itsImage == nullptr)
-		{
+	{
 		ConvertToImage();
-		}
+	}
 
 	return XGetPixel(itsImage, x,y);
 }
@@ -965,15 +965,15 @@ JXImage::CreatePixmap()
 	assert( newPixmap != None );
 
 	if (itsPixmap != None)
-		{
+	{
 		GetGC()->CopyPixels(itsPixmap, 0,0, GetWidth(), GetHeight(),
 							  newPixmap, 0,0);
-		}
+	}
 	else if (itsImage != nullptr)
-		{
+	{
 		GetGC()->CopyImage(itsImage, 0,0, GetWidth(), GetHeight(),
 							 newPixmap, 0,0);
-		}
+	}
 
 	return newPixmap;
 }
@@ -990,9 +990,9 @@ JXImage::CreateXImage()
 	const
 {
 	if (itsPixmap == None)
-		{
+	{
 		ConvertToPixmap();
-		}
+	}
 
 	XImage* image = XGetImage(*itsDisplay, itsPixmap,
 							  0,0, GetWidth(), GetHeight(), AllPlanes, ZPixmap);
@@ -1011,13 +1011,13 @@ JXImage::GetGC()
 	const
 {
 	if (itsGC == nullptr)
-		{
+	{
 		return itsDisplay->GetDefaultGC();
-		}
+	}
 	else
-		{
+	{
 		return itsGC;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1029,7 +1029,7 @@ void
 JXImage::ForcePrivateGC()
 {
 	if (itsGC == nullptr && itsDepth != itsDisplay->GetDepth())
-		{
+	{
 		// We need a drawable of the appropriate depth in order to
 		// create a usable GC.
 
@@ -1042,12 +1042,12 @@ JXImage::ForcePrivateGC()
 		assert( itsGC != nullptr );
 
 		XFreePixmap(*itsDisplay, tempPixmap);
-		}
+	}
 	else if (itsGC == nullptr)
-		{
+	{
 		itsGC = jnew JXGC(itsDisplay, itsDisplay->GetRootWindow());
 		assert( itsGC != nullptr );
-		}
+	}
 }
 
 /******************************************************************************
@@ -1060,14 +1060,14 @@ JXImage::GetCurrentState()
 	const
 {
 	if (itsImage != nullptr)
-		{
+	{
 		return kLocalStorage;
-		}
+	}
 	else
-		{
+	{
 		assert( itsPixmap != None );
 		return kRemoteStorage;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1079,14 +1079,14 @@ void
 JXImage::ConvertToDefaultState()
 {
 	if (itsDefState == kLocalStorage)
-		{
+	{
 		ConvertToLocalStorage();
-		}
+	}
 	else
-		{
+	{
 		assert( itsDefState == kRemoteStorage );
 		ConvertToRemoteStorage();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1099,7 +1099,7 @@ JXImage::ConvertToPixmap()
 	const
 {
 	if (itsPixmap == None)
-		{
+	{
 		assert( itsImage != nullptr );
 
 		auto* me = const_cast<JXImage*>(this);
@@ -1107,7 +1107,7 @@ JXImage::ConvertToPixmap()
 
 		XDestroyImage(itsImage);
 		me->itsImage = nullptr;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1120,7 +1120,7 @@ JXImage::ConvertToImage()
 	const
 {
 	if (itsImage == nullptr)
-		{
+	{
 		assert( itsPixmap != None );
 
 		auto* me = const_cast<JXImage*>(this);
@@ -1128,7 +1128,7 @@ JXImage::ConvertToImage()
 
 		XFreePixmap(*itsDisplay, itsPixmap);
 		me->itsPixmap = None;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1161,37 +1161,37 @@ JXImage::SetImageData
 	assert( xColorTable != nullptr );
 
 	for (JUnsignedOffset i=0; i<colorCount; i++)
-		{
+	{
 		if (!hasMask || i != maskColor)
-			{
+		{
 			xColorTable[i] = itsDisplay->GetColorManager()->GetXColor(colorTable[i]);
-			}
 		}
+	}
 
 	// put data into image
 
 	for (JCoordinate x=0; x<w; x++)
-		{
+	{
 		for (JCoordinate y=0; y<h; y++)
-			{
+		{
 			const unsigned short color = imageData[x][y];
 
 			if (hasMask && color == maskColor)
-				{
+			{
 				if (itsMask == nullptr)
-					{
+				{
 					itsMask = jnew JXImageMask(itsDisplay, w,h, true);
 					assert( itsMask != nullptr );
-					}
+				}
 				itsMask->RemovePixel(x,y);
 				XPutPixel(itsImage, x,y, 0);
-				}
+			}
 			else
-				{
+			{
 				XPutPixel(itsImage, x,y, xColorTable[color]);
-				}
 			}
 		}
+	}
 
 	// clean up
 
@@ -1232,9 +1232,9 @@ JXImage::ImageDataFinished()
 	ConvertToDefaultState();
 
 	if (itsMask != nullptr)
-		{
+	{
 		itsMask->ConvertToDefaultState();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1252,9 +1252,9 @@ JXPMError::JXPMError
 	const JString codeStr(code, 0);
 
 	const JUtf8Byte* map[] =
-		{
+	{
 		"msg",  XpmGetErrorString(code),
 		"code", codeStr.GetBytes()
-		};
+	};
 	SetMessage(map, sizeof(map));
 }

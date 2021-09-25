@@ -229,18 +229,18 @@ TextEditor::TEUpdateClipboard
 	const
 {
 	if (itsClipText == nullptr)
-		{
+	{
 		itsClipText = jnew JString(text);
 		assert( itsClipText != nullptr );
 
 		itsClipStyle = jnew JRunArray<JFont>(style);
 		assert( itsClipStyle != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*itsClipText  = text;
 		*itsClipStyle = style;
-		}
+	}
 }
 
 /******************************************************************************
@@ -257,9 +257,9 @@ TextEditor::TEGetClipboard
 	const
 {
 	if (itsClipText == nullptr)
-		{
+	{
 		return false;
-		}
+	}
 
 	text->Set(*itsClipText);
 	*style = *itsClipStyle;
@@ -357,10 +357,10 @@ TextEditor::CheckCmdStatus
 	JAssertEqual(expected.GetElementCount(), count);
 
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		JString s((JUInt64) i);
 		JAssertEqualWithMessage(expected.GetElement(i), (bool) status.GetElement(i), s.GetBytes());
-		}
+	}
 }
 
 /******************************************************************************
@@ -414,7 +414,7 @@ TextEditor::Receive
 	)
 {
 	if (sender == this && message.Is(JTextEditor::kCaretLocationChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTextEditor::CaretLocationChanged*>(&message);
 		assert( info != nullptr );
@@ -423,7 +423,7 @@ TextEditor::Receive
 
 		JAssertTrue(0 < i && i <= GetText()->GetText().GetCharacterCount()+1);
 		JAssertTrue(info->GetLineIndex() <= GetLineCount()+1);
-		}
+	}
 
 	JTextEditor::Receive(sender, message);
 }

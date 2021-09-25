@@ -75,17 +75,17 @@ JXSliderBase::HandleMouseDown
 	)
 {
 	if (button == kJXLeftButton)
-		{
+	{
 		SetValue(ClickToValue(pt));
-		}
+	}
 	else if (button == kJXButton4)
-		{
+	{
 		SetValue(GetValue() + GetStepSize());
-		}
+	}
 	else if (button == kJXButton5)
-		{
+	{
 		SetValue(GetValue() - GetStepSize());
-		}
+	}
 }
 
 /******************************************************************************
@@ -102,9 +102,9 @@ JXSliderBase::HandleMouseDrag
 	)
 {
 	if (buttonStates.left())
-		{
+	{
 		SetValue(ClickToValue(pt));
-		}
+	}
 }
 
 /******************************************************************************

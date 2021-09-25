@@ -46,9 +46,9 @@ JSubstitute::JSubstitute()
 	AllocateInternals();
 
 	for (JUnsignedOffset i=0; i<kEscapeCount; i++)
-		{
+	{
 		itsEscapeTable[i] = nullptr;
-		}
+	}
 }
 
 /******************************************************************************
@@ -91,9 +91,9 @@ JSubstitute::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	ClearAllEscapes();
 	UndefineAllVariables();
@@ -130,38 +130,38 @@ JSubstitute::CopyInternals
 	assert( itsEscapeTable != nullptr && itsVarList != nullptr && itsVarList->IsEmpty() );
 
 	for (JUnsignedOffset i=0; i<kEscapeCount; i++)
-		{
+	{
 		if (source.itsEscapeTable[i] != nullptr)
-			{
+		{
 			itsEscapeTable[i] = jnew JString(*(source.itsEscapeTable[i]));
 			assert( itsEscapeTable[i] != nullptr );
-			}
-		else
-			{
-			itsEscapeTable[i] = nullptr;
-			}
 		}
+		else
+		{
+			itsEscapeTable[i] = nullptr;
+		}
+	}
 
 	VarInfo newInfo;
 	for (const auto& origInfo : *source.itsVarList)
-		{
+	{
 		newInfo.name = jnew JString(*(origInfo.name));
 		assert( newInfo.name != nullptr );
 
 		if (origInfo.regex != nullptr)
-			{
+		{
 			newInfo.regex = jnew JRegex(*(origInfo.regex));
 			assert( newInfo.regex != nullptr );
-			}
+		}
 
 		if (origInfo.value != nullptr)
-			{
+		{
 			newInfo.value = jnew JString(*(origInfo.value));
 			assert( newInfo.value != nullptr );
-			}
+		}
 
 		itsVarList->AppendElement(newInfo);
-		}
+	}
 
 	itsControlEscapesFlag     = source.itsControlEscapesFlag;
 	itsIgnoreUnrecognizedFlag = source.itsIgnoreUnrecognizedFlag;
@@ -184,16 +184,16 @@ JSubstitute::SetEscape
 	)
 {
 	if (itsEscapeTable[c] != nullptr)
-		{
+	{
 		itsEscapeTable[c]->Set(value);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		itsEscapeTable[c] = jnew JString(value);
 		assert( itsEscapeTable[c] != nullptr );
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -211,15 +211,15 @@ JSubstitute::ClearEscape
 	)
 {
 	if (itsEscapeTable[c] != nullptr)
-		{
+	{
 		jdelete itsEscapeTable[c];
 		itsEscapeTable[c] = nullptr;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -233,10 +233,10 @@ void
 JSubstitute::ClearAllEscapes()
 {
 	for (JUnsignedOffset i=0; i<kEscapeCount; i++)
-		{
+	{
 		jdelete itsEscapeTable[i];
 		itsEscapeTable[i] = nullptr;
-		}
+	}
 }
 
 /******************************************************************************
@@ -427,7 +427,7 @@ JSubstitute::DefineVariable
 	)
 {
 	if (!SetVariableValue(name, value))
-		{
+	{
 		auto* n = jnew JString(name);
 		assert( n != nullptr );
 
@@ -435,7 +435,7 @@ JSubstitute::DefineVariable
 		assert( v != nullptr );
 
 		itsVarList->AppendElement(VarInfo(n, v));
-		}
+	}
 }
 
 /******************************************************************************
@@ -453,13 +453,13 @@ JSubstitute::SetVariableValue
 	)
 {
 	for (const auto& info : *itsVarList)
-		{
+	{
 		if (info.regex == nullptr && *(info.name) == name)
-			{
+		{
 			*(info.value) = value;
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -502,16 +502,16 @@ JSubstitute::UndefineVariable
 {
 	const JSize count = itsVarList->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
-		{
+	{
 		VarInfo info = itsVarList->GetElement(i);
 		if (*(info.name) == name)
-			{
+		{
 			jdelete info.name;
 			jdelete info.regex;
 			jdelete info.value;
 			itsVarList->RemoveElement(i);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -523,11 +523,11 @@ void
 JSubstitute::UndefineAllVariables()
 {
 	for (const auto& info : *itsVarList)
-		{
+	{
 		jdelete info.name;
 		jdelete info.regex;
 		jdelete info.value;
-		}
+	}
 
 	itsVarList->RemoveAll();
 }
@@ -557,56 +557,56 @@ JSubstitute::ContainsError
 	JStringIterator iter(s);
 	JUtf8Character opChar, c;
 	while (FindNextOperator(iter, &opChar))
-		{
+	{
 		// trailing operators will be tossed
 
 		if (iter.AtEnd() && opChar == '\\')
-			{
+		{
 			errRange->SetFirstAndCount(iter.GetPrevCharacterIndex(), 1);
 			return TrailingBackslash();
-			}
+		}
 		else if (iter.AtEnd() && opChar == '$')
-			{
+		{
 			errRange->SetFirstAndCount(iter.GetPrevCharacterIndex(), 1);
 			return LoneDollar();
-			}
+		}
 
 		// check escaped character
 
 		else if (opChar == '\\')	// guaranteed not to be last character
-			{
+		{
 			iter.Next(&c);
 
 			// check control character
 
 			if (c == 'c' && itsControlEscapesFlag)
-				{
+			{
 				if (iter.AtEnd())
-					{
+				{
 					errRange->SetFirstAndCount(iter.GetPrevCharacterIndex() - 1, 2);
 					return IllegalControlChar();
-					}
+				}
 
 				iter.Next(&c);
 				const JUtf8Byte ascii = c.GetBytes()[0];
 				if (!('A' <= ascii && ascii <= '_'))	// written this way to avoid worrying about signed char
-					{
+				{
 					errRange->SetFirstAndCount(iter.GetPrevCharacterIndex() - 2, 3);
 					return IllegalControlChar();
-					}
 				}
+			}
 
 			// normal escapes never cause problems
-			}
+		}
 
 		// check for variable name
 
 		else if (opChar == '$' && !Evaluate(iter, &varValue))
-			{
+		{
 			errRange->SetFirstAndCount(iter.GetPrevCharacterIndex(), 1);
 			return LoneDollar();
-			}
 		}
+	}
 
 	// falling through means that no errors were found
 
@@ -655,93 +655,93 @@ JSubstitute::Substitute
 	JStringIterator iter(s);
 	JUtf8Character opChar, c;
 	while (FindNextOperator(iter, &opChar))
-		{
+	{
 		iter.SkipPrev();
 		iter.BeginMatch();
 		iter.SkipNext();
 
 		if (iter.AtEnd())
-			{
+		{
 			iter.FinishMatch();
 			iter.RemoveLastMatch();
 			break;
-			}
+		}
 
 		// handle escaped character
 
 		if (opChar == '\\')
-			{
+		{
 			bool ok = iter.Next(&c);
 			assert( ok );
 
 			// toss trailing operator
 
 			if (c == 'c' && itsControlEscapesFlag && iter.AtEnd())
-				{
+			{
 				iter.FinishMatch();
 				iter.RemoveLastMatch();
-				}
+			}
 
 			// handle control character escapes
 
 			else if (c == 'c' && itsControlEscapesFlag)
-				{
+			{
 				ok = iter.Next(&c);
 				assert( ok );
 
 				const JUtf8Byte ascii = c.GetBytes()[0];
 				if ('A' <= ascii && ascii <= '_')
-					{
+				{
 					iter.FinishMatch();
 					iter.ReplaceLastMatch(JUtf8Character(ascii - '@'));
-					}
+				}
 				else if (!itsIgnoreUnrecognizedFlag)
-					{
+				{
 					iter.FinishMatch();
 					iter.ReplaceLastMatch(c);
-					}
 				}
+			}
 
 			// handle normal escapes
 
 			else
-				{
+			{
 				const JString* value;
 				const JUtf8Byte ascii = c.GetBytes()[0];
 				if (0 < ascii && ascii <= '\x7F' && GetEscape(ascii, &value))
-					{
+				{
 					iter.FinishMatch();
 					iter.ReplaceLastMatch(*value);
-					}
+				}
 				else if (!itsIgnoreUnrecognizedFlag)
-					{
+				{
 					iter.FinishMatch();
 					iter.ReplaceLastMatch(c);
-					}
 				}
 			}
+		}
 
 		// handle variable name
 
 		else if (opChar == '$')
-			{
+		{
 			bool ok = iter.Next(&c, kJIteratorStay);
 			assert( ok );
 
 			if (c == '$')	// Special treatment for $$ (\$ cannot be used in input files for compile_jstrings)
-				{
+			{
 				iter.FinishMatch();
 				iter.ReplaceLastMatch(c);
-				}
+			}
 			else
-				{
+			{
 				const JIndex startCharIndex = iter.GetPrevCharacterIndex(),
 							 startByteIndex = iter.GetPrevByteIndex();	// $ is single byte
 
 				if (!Evaluate(iter, &varValue))
-					{
+				{
 					varValue.Clear();
-					}
+				}
 
 				const JIndex endCharIndex = iter.GetPrevCharacterIndex(),
 							 endByteIndex = iter.GetPrevByteIndex();
@@ -751,9 +751,9 @@ JSubstitute::Substitute
 				iter.UnsafeMoveTo(kJIteratorStartAfter, endCharIndex, endByteIndex);
 				iter.FinishMatch();
 				iter.ReplaceLastMatch(varValue);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -773,12 +773,12 @@ JSubstitute::FindNextOperator
 	const
 {
 	while (iter.Next(opChar))
-		{
+	{
 		if (*opChar == '\\' || (*opChar == '$' && !itsPureEscapeEngineFlag))
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -816,54 +816,54 @@ JSubstitute::Evaluate
 
 	const JSize count = itsVarList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const VarInfo info    = itsVarList->GetElement(i);
 		const JSize charCount = info.name->GetCharacterCount();
 		if (info.regex == nullptr && s.BeginsWith(*(info.name)) &&
 			charCount > matchCharCount)
-			{
+		{
 			varIndex       = i;
 			matchCharCount = charCount;
 			matchByteCount = info.name->GetByteCount();
-			}
+		}
 		else if (info.regex != nullptr)
-			{
+		{
 			const JStringMatch m = info.regex->MatchForward(s, 1);
 			if (!m.IsEmpty() && m.GetCharacterRange().first == 1 &&
 				m.GetCharacterCount() > matchCharCount)
-				{
+			{
 				varIndex       = 0;
 				matchCharCount = m.GetCharacterCount();
 				matchByteCount = m.GetByteCount();
-				}
 			}
 		}
+	}
 
 	if (matchCharCount == 0)
-		{
+	{
 		value->Clear();
 		return false;
-		}
+	}
 	else if (varIndex == 0)
-		{
+	{
 		JUtf8ByteRange r;
 		r.SetFirstAndCount(iter.GetNextByteIndex(), matchByteCount);
 
 		JString name(iter.GetString().GetRawBytes(), r, JString::kNoCopy);
 		const bool ok = GetValue(name, value);
 		if (ok)
-			{
-			iter.SkipNext(matchCharCount);
-			}
-		return ok;
-		}
-	else
 		{
+			iter.SkipNext(matchCharCount);
+		}
+		return ok;
+	}
+	else
+	{
 		const VarInfo info = itsVarList->GetElement(varIndex);
 		*value             = *(info.value);
 		iter.SkipNext(matchCharCount);
 		return true;
-		}
+	}
 }
 
 /******************************************************************************

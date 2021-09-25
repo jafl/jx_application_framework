@@ -33,13 +33,13 @@ JTEST(Exercise)
 
 // Insert keys
 	for (JSize i=0;i<gNumStrings;i++)
-		{
+	{
 		keyBytes[0] = 'A' + i;
 		key         = keyBytes;
 		auto* newValue = jnew JUtf8Byte[key.GetByteCount()+1];
 		strcpy(newValue, keyBytes);
 		JAssertTrue(ptrMap.SetNewElement(key, newValue));
-		}
+	}
 	JAssertEqual(gNumStrings, ptrMap.GetElementCount());
 	JAssertEqualWithMessage(gNumStrings, ptrMap.GetLoadCount(), "Map contains extra deleted elements!");
 
@@ -47,7 +47,7 @@ JTEST(Exercise)
 	JSize count = 0;
 	JStringPtrMapCursor<JUtf8Byte> cursor(&ptrMap);
 	while (cursor.Next())
-		{
+	{
 		const JString& thisKey = cursor.GetKey();
 		JUtf8Byte* cursorValue = cursor.GetValue();
 		JAssertStringsEqual(cursorValue, thisKey);
@@ -56,6 +56,6 @@ JTEST(Exercise)
 		JAssertTrue(ptrMap.GetElement(thisKey, &mapValue));
 		JAssertStringsEqual(mapValue, cursorValue);
 		++count;
-		}
+	}
 	JAssertEqual(gNumStrings, count);
 }

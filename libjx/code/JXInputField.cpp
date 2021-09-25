@@ -52,12 +52,12 @@ static const JUtf8Byte* kWinContextMenuStr =
 
 static const MenuItemInfo kContextMenuItemInfo[] =
 {
-	{ JTextEditor::kUndoCmd,      kContextUndoAction      },
-	{ JTextEditor::kCutCmd,       kContextCutAction       },
-	{ JTextEditor::kCopyCmd,      kContextCopyAction      },
-	{ JTextEditor::kPasteCmd,     kContextPasteAction     },
-	{ JTextEditor::kDeleteSelCmd, kContextClearAction     },
-	{ JTextEditor::kSelectAllCmd, kContextSelectAllAction }
+{ JTextEditor::kUndoCmd,      kContextUndoAction      },
+{ JTextEditor::kCutCmd,       kContextCutAction       },
+{ JTextEditor::kCopyCmd,      kContextCopyAction      },
+{ JTextEditor::kPasteCmd,     kContextPasteAction     },
+{ JTextEditor::kDeleteSelCmd, kContextClearAction     },
+{ JTextEditor::kSelectAllCmd, kContextSelectAllAction }
 };
 
 /******************************************************************************
@@ -190,9 +190,9 @@ JXInputField::SetFontName
 	)
 {
 	if (!GetText()->IsEmpty())
-		{
+	{
 		GetText()->SetFontName(GetText()->SelectAll(), name, true);
-		}
+	}
 
 	GetText()->SetDefaultFontName(name);
 }
@@ -204,9 +204,9 @@ JXInputField::SetFontSize
 	)
 {
 	if (!GetText()->IsEmpty())
-		{
+	{
 		GetText()->SetFontSize(GetText()->SelectAll(), size, true);
-		}
+	}
 
 	GetText()->SetDefaultFontSize(size);
 }
@@ -218,9 +218,9 @@ JXInputField::SetFontStyle
 	)
 {
 	if (!GetText()->IsEmpty())
-		{
+	{
 		GetText()->SetFontStyle(GetText()->SelectAll(), style, true);
-		}
+	}
 
 	GetText()->SetDefaultFontStyle(style);
 }
@@ -232,9 +232,9 @@ JXInputField::SetFont
 	)
 {
 	if (!GetText()->IsEmpty())
-		{
+	{
 		GetText()->SetFont(GetText()->SelectAll(), font, true);
-		}
+	}
 
 	GetText()->SetDefaultFont(font);
 }
@@ -320,17 +320,17 @@ bool
 JXInputField::OKToUnfocus()
 {
 	if (!JXTEBase::OKToUnfocus())
-		{
+	{
 		return false;
-		}
+	}
 	else if (itsTable != nullptr)
-		{
+	{
 		return itsTable->EndEditing();
-		}
+	}
 	else
-		{
+	{
 		return InputValid();
-		}
+	}
 }
 
 /******************************************************************************
@@ -346,21 +346,21 @@ JXInputField::DrawBorder
 	)
 {
 	if (itsTable != nullptr)
-		{
+	{
 		if (IsDNDTarget())
-			{
-			p.SetPenColor(JColorManager::GetDefaultDNDBorderColor());
-			}
-		else
-			{
-			p.SetPenColor(JColorManager::GetBlackColor());
-			}
-		p.JPainter::Rect(frame);
-		}
-	else
 		{
-		JXTEBase::DrawBorder(p, frame);
+			p.SetPenColor(JColorManager::GetDefaultDNDBorderColor());
 		}
+		else
+		{
+			p.SetPenColor(JColorManager::GetBlackColor());
+		}
+		p.JPainter::Rect(frame);
+	}
+	else
+	{
+		JXTEBase::DrawBorder(p, frame);
+	}
 }
 
 /******************************************************************************
@@ -379,19 +379,19 @@ JXInputField::HandleMouseDown
 	)
 {
 	if (button == kJXRightButton)
-		{
+	{
 //		if (!PointInSelection(pt))
 //			{
 //			JXTEBase::HandleMouseDown(pt, kJXLeftButton, 1, buttonStates, modifiers);
 //			}
 		CreateContextMenu();
 		itsContextMenu->PopUp(this, pt, buttonStates, modifiers);
-		}
+	}
 	else
-		{
+	{
 		ShouldAllowDragAndDrop(modifiers.meta());
 		JXTEBase::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -414,9 +414,9 @@ JXInputField::HandleDNDDrop
 	)
 {
 	if (Focus())
-		{
+	{
 		JXTEBase::HandleDNDDrop(pt, typeList, action, time, source);
-		}
+	}
 }
 
 /******************************************************************************
@@ -431,72 +431,72 @@ JXInputField::InputValid()
 
 	JString errorStr;
 	if (itsMinLength == 1 && length == 0)
-		{
+	{
 		errorStr = JGetString("EmptyError::JXInputField");
-		}
+	}
 	else if (itsMinLength > 0 && itsMinLength == itsMaxLength &&
 			 length != itsMinLength)
-		{
+	{
 		if (itsMaxLength == 1)
-			{
+		{
 			errorStr = JGetString("Require1Char::JXInputField");
-			}
+		}
 		else
-			{
+		{
 			const JString s(itsMinLength, 0);
 			const JUtf8Byte* map[] =
-				{
+			{
 				"count", s.GetBytes()
-				};
+			};
 			errorStr = JGetString("RequireNChar::JXInputField", map, sizeof(map));
-			}
 		}
+	}
 	else if (itsMinLength > 0 && itsMaxLength > 0 &&
 			 (length < itsMinLength || itsMaxLength < length))
-		{
+	{
 		const JString n(itsMinLength, 0), m(itsMaxLength, 0);
 		const JUtf8Byte* map[] =
-			{
+		{
 			"min", n.GetBytes(),
 			"max", m.GetBytes()
-			};
+		};
 		errorStr = JGetString("RangeNMChar::JXInputField", map, sizeof(map));
-		}
+	}
 	else if (itsMinLength > 0 && length < itsMinLength)
-		{
+	{
 		const JString n(itsMinLength, 0);
 		const JUtf8Byte* map[] =
-			{
-			"min", n.GetBytes()	// itsMinLength > 1, see above
-			};
-		errorStr = JGetString("MinNChar::JXInputField", map, sizeof(map));
-		}
-	else if (itsMaxLength > 0 && length > itsMaxLength)
 		{
+			"min", n.GetBytes()	// itsMinLength > 1, see above
+		};
+		errorStr = JGetString("MinNChar::JXInputField", map, sizeof(map));
+	}
+	else if (itsMaxLength > 0 && length > itsMaxLength)
+	{
 		if (itsMaxLength == 1)
-			{
+		{
 			errorStr = JGetString("Max1Char::JXInputField");
-			}
+		}
 		else
-			{
+		{
 			const JString n(itsMaxLength, 0);
 			const JUtf8Byte* map[] =
-				{
+			{
 				"max", n.GetBytes()
-				};
+			};
 			errorStr = JGetString("MaxNChar::JXInputField", map, sizeof(map));
-			}
 		}
+	}
 
 	if (errorStr.IsEmpty())
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		JGetUserNotification()->ReportError(errorStr);
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -513,35 +513,35 @@ JXInputField::HandleKeyPress
 	)
 {
 	if (itsTable != nullptr && itsTable->WantsInputFieldKey(c, keySym, modifiers))
-		{
+	{
 		itsTable->HandleKeyPress(c, keySym, modifiers);
 		return;
-		}
+	}
 	else if (itsTable != nullptr)
-		{
+	{
 		JPoint cell;
 		const bool ok = itsTable->GetEditedCell(&cell);
 		assert( ok );
 		itsTable->TableScrollToCell(cell);
-		}
+	}
 
 	if (c == JXCtrl('K') && modifiers.control() && HasSelection())
-		{
+	{
 		Cut();
-		}
+	}
 	else if (c == JXCtrl('K') && modifiers.control())
-		{
+	{
 		JIndex i;
 		const bool ok = GetCaretLocation(&i);
 		assert( ok );
 		SetSelection(JCharacterRange(i, GetText()->GetText().GetCharacterCount()));
 		Cut();
-		}
+	}
 
 	else
-		{
+	{
 		JXTEBase::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -557,21 +557,21 @@ JXInputField::Receive
 	)
 {
 	if (sender == itsContextMenu && message.Is(JXTextMenu::kNeedsUpdate))
-		{
+	{
 		UpdateContextMenu();
-		}
+	}
 	else if (sender == itsContextMenu && message.Is(JXTextMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXTEBase::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -583,21 +583,21 @@ void
 JXInputField::CreateContextMenu()
 {
 	if (itsContextMenu == nullptr)
-		{
+	{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != nullptr );
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-			{
+		{
 			itsContextMenu->SetMenuItems(kMacContextMenuStr, "JXInputField");
-			}
+		}
 		else
-			{
+		{
 			itsContextMenu->SetMenuItems(kWinContextMenuStr, "JXInputField");
-			}
+		}
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableAll);
 		itsContextMenu->SetToHiddenPopupMenu();
 		ListenTo(itsContextMenu);
-		}
+	}
 }
 
 /******************************************************************************
@@ -615,22 +615,22 @@ JXInputField::UpdateContextMenu()
 
 	const JSize count = itsContextMenu->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		CmdIndex cmd;
 		if (ContextMenuIndexToCmd(i, &cmd))
-			{
+		{
 			bool enable;
 			if (cmd == JTextEditor::kDeleteSelCmd)
-				{
+			{
 				enable = true;
-				}
-			else
-				{
-				enable = enableFlags.GetElement(cmd);
-				}
-			itsContextMenu->SetItemEnable(i, enable);
 			}
+			else
+			{
+				enable = enableFlags.GetElement(cmd);
+			}
+			itsContextMenu->SetItemEnable(i, enable);
 		}
+	}
 }
 
 /******************************************************************************
@@ -646,40 +646,40 @@ JXInputField::HandleContextMenu
 {
 	CmdIndex cmd;
 	if (!ContextMenuIndexToCmd(index, &cmd))
-		{
+	{
 		return;
-		}
+	}
 
 	if (cmd == kUndoCmd)
-		{
+	{
 		GetText()->Undo();
-		}
+	}
 
 	else if (cmd == kCutCmd)
-		{
+	{
 		Cut();
-		}
+	}
 	else if (cmd == kCopyCmd)
-		{
+	{
 		Copy();
-		}
+	}
 	else if (cmd == kPasteCmd)
-		{
+	{
 		Paste();
-		}
+	}
 	else if (cmd == kDeleteSelCmd)
-		{
+	{
 		if (!HasSelection())
-			{
+		{
 			SelectAll();
-			}
-		DeleteSelection();
 		}
+		DeleteSelection();
+	}
 
 	else if (cmd == kSelectAllCmd)
-		{
+	{
 		SelectAll();
-		}
+	}
 }
 
 /******************************************************************************
@@ -714,13 +714,13 @@ JXInputField::GetFTCMinContentSize
 	const
 {
 	if (!horizontal)
-		{
+	{
 		const JCoordinate lineHeight = GetLineHeight(1);
 		if (GetApertureHeight() < lineHeight)
-			{
+		{
 			return lineHeight;
-			}
 		}
+	}
 
 	return JXTEBase::GetFTCMinContentSize(horizontal);
 }
@@ -762,20 +762,20 @@ JXInputField::StyledText::FilterText
 	)
 {
 	if (!JXStyledText::FilterText(text, style))
-		{
+	{
 		return false;
-		}
+	}
 
 	// convert newline to space
 
 	if (!itsAcceptNewlineFlag)
-		{
+	{
 		JStringIterator iter(text);
 		while (iter.Next("\n"))
-			{
+		{
 			iter.ReplaceLastMatch(" ");
-			}
 		}
+	}
 
 	return true;
 }

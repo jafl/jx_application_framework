@@ -95,9 +95,9 @@ JTEST(GetCmdStatus)
 {
 	JArray<bool> status;
 	for (JIndex i=1; i<=JExprEditor::kCmdCount; i++)
-		{
+	{
 		status.AppendElement(false);
-		}
+	}
 
 	TestFontManager fontMgr;
 	TestVarList varList;

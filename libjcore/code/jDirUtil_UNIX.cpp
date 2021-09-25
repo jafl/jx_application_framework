@@ -77,22 +77,22 @@ JGetModificationTime
 {
 	ACE_stat info;
 	if (ACE_OS::stat(name.GetBytes(), &info) == 0)
-		{
+	{
 		*modTime = info.st_mtime;
 		return JNoError();
-		}
+	}
 
 	*modTime = 0;
 
 	const int err = jerrno();
 	if (err == ENOENT)
-		{
+	{
 		return JDirEntryDoesNotExist(name);
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -112,22 +112,22 @@ JGetPermissions
 {
 	ACE_stat info;
 	if (ACE_OS::stat(name.GetBytes(), &info) == 0)
-		{
+	{
 		*perms = info.st_mode;
 		return JNoError();
-		}
+	}
 
 	*perms = 0;
 
 	const int err = jerrno();
 	if (err == ENOENT)
-		{
+	{
 		return JDirEntryDoesNotExist(name);
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -150,47 +150,47 @@ JSetPermissions
 {
 	jclear_errno();
 	if (chmod(name.GetBytes(), perms) == 0)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == EPERM || err == EACCES)
-		{
+	{
 		return JAccessDenied(name);
-		}
+	}
 	else if (err == EROFS)
-		{
+	{
 		return JFileSystemReadOnly();
-		}
+	}
 	else if (err == EFAULT)
-		{
+	{
 		return JSegFault();
-		}
+	}
 	else if (err == ENAMETOOLONG)
-		{
+	{
 		return JNameTooLong();
-		}
+	}
 	else if (err == ENOENT)
-		{
+	{
 		return JDirEntryDoesNotExist(name);
-		}
+	}
 	else if (err == ENOMEM)
-		{
+	{
 		return JNoKernelMemory();
-		}
+	}
 	else if (err == ENOTDIR)
-		{
+	{
 		return JComponentNotDirectory(name);
-		}
+	}
 	else if (err == ELOOP)
-		{
+	{
 		return JPathContainsLoop(name);
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -209,22 +209,22 @@ JGetOwnerID
 {
 	ACE_stat info;
 	if (ACE_OS::stat(name.GetBytes(), &info) == 0)
-		{
+	{
 		*uid = info.st_uid;
 		return JNoError();
-		}
+	}
 
 	*uid = 0;
 
 	const int err = jerrno();
 	if (err == ENOENT)
-		{
+	{
 		return JDirEntryDoesNotExist(name);
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -243,22 +243,22 @@ JGetOwnerGroup
 {
 	ACE_stat info;
 	if (ACE_OS::stat(name.GetBytes(), &info) == 0)
-		{
+	{
 		*gid = info.st_gid;
 		return JNoError();
-		}
+	}
 
 	*gid = 0;
 
 	const int err = jerrno();
 	if (err == ENOENT)
-		{
+	{
 		return JDirEntryDoesNotExist(name);
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -277,47 +277,47 @@ JSetOwner
 	)
 {
 	if (chown(name.GetBytes(), uid, gid) == 0)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == EPERM || err == EACCES)
-		{
+	{
 		return JAccessDenied(name);
-		}
+	}
 	else if (err == EFAULT)
-		{
+	{
 		return JSegFault();
-		}
+	}
 	else if (err == ENAMETOOLONG)
-		{
+	{
 		return JNameTooLong();
-		}
+	}
 	else if (err == ENOENT)
-		{
+	{
 		return JDirEntryDoesNotExist(name);
-		}
+	}
 	else if (err == ENOTDIR)
-		{
+	{
 		return JComponentNotDirectory(name);
-		}
+	}
 	else if (err == ENOMEM)
-		{
+	{
 		return JNoKernelMemory();
-		}
+	}
 	else if (err == EROFS)
-		{
+	{
 		return JFileSystemReadOnly();
-		}
+	}
 	else if (err == ELOOP)
-		{
+	{
 		return JPathContainsLoop(name);
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -336,59 +336,59 @@ JCreateSymbolicLink
 {
 	jclear_errno();
 	if (symlink(src.GetBytes(), dest.GetBytes()) == 0)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == EPERM || err == EACCES)
-		{
+	{
 		return JAccessDenied(dest);
-		}
+	}
 	else if (err == EFAULT)
-		{
+	{
 		return JSegFault();
-		}
+	}
 	else if (err == ENAMETOOLONG)
-		{
+	{
 		return JNameTooLong();
-		}
+	}
 	else if (err == ENOENT)
-		{
+	{
 		return JBadPath(dest);
-		}
+	}
 	else if (err == ENOTDIR)
-		{
+	{
 		return JComponentNotDirectory(dest);
-		}
+	}
 	else if (err == ENOMEM)
-		{
+	{
 		return JNoKernelMemory();
-		}
+	}
 	else if (err == EROFS)
-		{
+	{
 		return JFileSystemReadOnly();
-		}
+	}
 	else if (err == EEXIST)
-		{
+	{
 		return JDirEntryAlreadyExists(dest);
-		}
+	}
 	else if (err == ELOOP)
-		{
+	{
 		return JPathContainsLoop(dest);
-		}
+	}
 	else if (err == ENOSPC)
-		{
+	{
 		return JFileSystemFull();
-		}
+	}
 	else if (err == EIO)
-		{
+	{
 		return JGeneralIO();
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -495,9 +495,9 @@ JCreateDirectory
 	)
 {
 	if (JDirectoryExists(dirName))
-		{
+	{
 		return JSetPermissions(dirName, mode);
-		}
+	}
 
 	JString path = dirName;
 	JCleanPath(&path);
@@ -506,23 +506,23 @@ JCreateDirectory
 	JStringIterator iter(path, kJIteratorStartAfter, 1);
 	JString dir;
 	while (iter.Next("/"))
-		{
+	{
 		JIndex i;
 		if (!iter.GetPrevCharacterIndex(&i))
-			{
+		{
 			continue;
-			}
+		}
 
 		dir.Set(path, JCharacterRange(1, i));
 		if (!JDirectoryExists(dir))
-			{
+		{
 			const JError err = JMkDir(dir, mode);
 			if (!err.OK())
-				{
+			{
 				return err;
-				}
 			}
 		}
+	}
 
 	return JNoError();
 }
@@ -538,55 +538,55 @@ JMkDir
 {
 	jclear_errno();
 	if (mkdir(dirName.GetBytes(), mode) == 0)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == EEXIST)
-		{
+	{
 		return JDirEntryAlreadyExists(dirName);
-		}
+	}
 	else if (err == EFAULT)
-		{
+	{
 		return JSegFault();
-		}
+	}
 	else if (err == EACCES)
-		{
+	{
 		return JAccessDenied(dirName);
-		}
+	}
 	else if (err == ENAMETOOLONG)
-		{
+	{
 		return JNameTooLong();
-		}
+	}
 	else if (err == ENOENT)
-		{
+	{
 		return JBadPath(dirName);
-		}
+	}
 	else if (err == ENOTDIR)
-		{
+	{
 		return JComponentNotDirectory(dirName);
-		}
+	}
 	else if (err == ENOMEM)
-		{
+	{
 		return JNoKernelMemory();
-		}
+	}
 	else if (err == EROFS)
-		{
+	{
 		return JFileSystemReadOnly();
-		}
+	}
 	else if (err == ELOOP)
-		{
+	{
 		return JPathContainsLoop(dirName);
-		}
+	}
 	else if (err == ENOSPC)
-		{
+	{
 		return JFileSystemFull();
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -610,89 +610,89 @@ JRenameDirEntry
 	)
 {
 	if (JNameUsed(newName))
-		{
+	{
 		return JDirEntryAlreadyExists(newName);
-		}
+	}
 	else if (JSameDirEntry(oldName, newName))
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	jclear_errno();
 	if (rename(oldName.GetBytes(), newName.GetBytes()) == 0)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == EISDIR)
-		{
+	{
 		return JCantRenameFileToDirectory(oldName, newName);
-		}
+	}
 	else if (err == EXDEV)
-		{
+	{
 		return JCantRenameAcrossFilesystems();
-		}
+	}
 	else if (err == ENOTEMPTY)
-		{
+	{
 		return JCantRenameToNonemptyDirectory();
-		}
+	}
 	else if (err == EEXIST)
-		{
+	{
 		return JDirEntryAlreadyExists(newName);
-		}
+	}
 	else if (err == EBUSY)
-		{
+	{
 		return JFileBusy(newName);
-		}
+	}
 	else if (err == EINVAL)
-		{
+	{
 		return JDirectoryCantBeOwnChild();
-		}
+	}
 	else if (err == EMLINK)
-		{
+	{
 		return JTooManyLinks(oldName);
-		}
+	}
 	else if (err == ENOTDIR)
-		{
+	{
 		return JComponentNotDirectory(oldName, newName);
-		}
+	}
 	else if (err == EFAULT)
-		{
+	{
 		return JSegFault();
-		}
+	}
 	else if (err == EACCES || err == EPERM)
-		{
+	{
 		return JAccessDenied(oldName, newName);
-		}
+	}
 	else if (err == ENAMETOOLONG)
-		{
+	{
 		return JNameTooLong();
-		}
+	}
 	else if (err == ENOENT)
-		{
+	{
 		return JBadPath(oldName, newName);
-		}
+	}
 	else if (err == ENOMEM)
-		{
+	{
 		return JNoKernelMemory();
-		}
+	}
 	else if (err == EROFS)
-		{
+	{
 		return JFileSystemReadOnly();
-		}
+	}
 	else if (err == ELOOP)
-		{
+	{
 		return JPathContainsLoop(oldName, newName);
-		}
+	}
 	else if (err == ENOSPC)
-		{
+	{
 		return JFileSystemFull();
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -713,43 +713,43 @@ JChangeDirectory
 {
 	jclear_errno();
 	if (chdir(dirName.GetBytes()) == 0)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == EPERM || err == EACCES)
-		{
+	{
 		return JAccessDenied(dirName);
-		}
+	}
 	else if (err == EFAULT)
-		{
+	{
 		return JSegFault();
-		}
+	}
 	else if (err == ENAMETOOLONG)
-		{
+	{
 		return JNameTooLong();
-		}
+	}
 	else if (err == ENOENT)
-		{
+	{
 		return JBadPath(dirName);
-		}
+	}
 	else if (err == ENOMEM)
-		{
+	{
 		return JNoKernelMemory();
-		}
+	}
 	else if (err == ENOTDIR)
-		{
+	{
 		return JComponentNotDirectory(dirName);
-		}
+	}
 	else if (err == ELOOP)
-		{
+	{
 		return JPathContainsLoop(dirName);
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -771,55 +771,55 @@ JRemoveDirectory
 {
 	jclear_errno();
 	if (rmdir(dirName.GetBytes()) == 0)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == EPERM || err == EACCES)
-		{
+	{
 		return JAccessDenied(dirName);
-		}
+	}
 	else if (err == EFAULT)
-		{
+	{
 		return JSegFault();
-		}
+	}
 	else if (err == ENAMETOOLONG)
-		{
+	{
 		return JNameTooLong();
-		}
+	}
 	else if (err == ENOENT)
-		{
+	{
 		return JBadPath(dirName);
-		}
+	}
 	else if (err == ENOTDIR)
-		{
+	{
 		return JComponentNotDirectory(dirName);
-		}
+	}
 	else if (err == ENOTEMPTY)
-		{
+	{
 		return JDirectoryNotEmpty(dirName);
-		}
+	}
 	else if (err == EBUSY)
-		{
+	{
 		return JDirectoryBusy(dirName);
-		}
+	}
 	else if (err == ENOMEM)
-		{
+	{
 		return JNoKernelMemory();
-		}
+	}
 	else if (err == EROFS)
-		{
+	{
 		return JFileSystemReadOnly();
-		}
+	}
 	else if (err == ELOOP)
-		{
+	{
 		return JPathContainsLoop(dirName);
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -841,42 +841,42 @@ JKillDirectory
 	)
 {
 	if (p != nullptr)
-		{
+	{
 		*p = nullptr;
-		}
+	}
 
 	const JUtf8Byte* argv[] = {"rm", "-rf", dirName.GetBytes(), nullptr};
 	if (sync)
-		{
+	{
 		const JError err = JExecute(argv, sizeof(argv), nullptr);
 		if (err.OK())
-			{
-			return !JNameUsed(dirName);
-			}
-		else
-			{
-			return false;
-			}
-		}
-	else
 		{
+			return !JNameUsed(dirName);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
 		JSimpleProcess* sp;
 		const JError err = JSimpleProcess::Create(&sp, argv, sizeof(argv), true);
 		if (err.OK())
-			{
+		{
 			JThisProcess::Ignore(sp);
 			if (p != nullptr)
-				{
-				*p = sp;
-				}
-			return true;
-			}
-		else
 			{
+				*p = sp;
+			}
+			return true;
+		}
+		else
+		{
 			err.ReportIfError();
 			return false;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -894,14 +894,14 @@ JGetCurrentDirectory()
 
 	JString dirName;
 	if (result == buf)
-		{
+	{
 		dirName = buf;
-		}
+	}
 	else if (!JGetHomeDirectory(&dirName) || !(JChangeDirectory(dirName)).OK())
-		{
+	{
 		dirName = JGetRootDirectory();
 		JChangeDirectory(dirName);
-		}
+	}
 
 	JAppendDirSeparator(&dirName);
 	return dirName;
@@ -924,15 +924,15 @@ JGetHomeDirectory
 
 	JUtf8Byte* envHomeDir = getenv("HOME");
 	if (!JString::IsEmpty(envHomeDir))
-		{
+	{
 		const JString dir = JString(envHomeDir, JString::kNoCopy);
 		if (JDirectoryExists(dir))
-			{
+		{
 			*homeDir = dir;
 			JAppendDirSeparator(homeDir);
 			return true;
-			}
 		}
+	}
 
 	// try password information
 
@@ -940,24 +940,24 @@ JGetHomeDirectory
 
 	struct passwd* pw;
 	if (envUserName != nullptr)
-		{
+	{
 		pw = getpwnam(envUserName);
-		}
+	}
 	else
-		{
+	{
 		pw = getpwuid( getuid() );
-		}
+	}
 
 	if (pw != nullptr)
-		{
+	{
 		const JString dir = JString(pw->pw_dir, JString::kNoCopy);
 		if (JDirectoryExists(dir))
-			{
+		{
 			*homeDir = dir;
 			JAppendDirSeparator(homeDir);
 			return true;
-			}
 		}
+	}
 
 	// give up
 
@@ -981,15 +981,15 @@ JGetHomeDirectory
 {
 	struct passwd* pw = getpwnam(user.GetBytes());
 	if (pw != nullptr)
-		{
+	{
 		const JString dir = JString(pw->pw_dir, JString::kNoCopy);
 		if (JDirectoryExists(dir))
-			{
+		{
 			*homeDir = dir;
 			JAppendDirSeparator(homeDir);
 			return true;
-			}
 		}
+	}
 
 	homeDir->Clear();
 	return false;
@@ -1046,24 +1046,24 @@ JGetTempDirectory
 	static JString theTempPath;
 
 	if (!theTempPathInitFlag)
-		{
+	{
 		JUtf8Byte* path = getenv("TMPDIR");
 		if (!JString::IsEmpty(path) && JDirectoryWritable(JString(path, JString::kNoCopy)))
-			{
+		{
 			theTempPath.Set(path);
-			}
+		}
 		else if (P_tmpdir != nullptr && JDirectoryWritable(JString(P_tmpdir, JString::kNoCopy)))
-			{
+		{
 			theTempPath.Set(P_tmpdir);
-			}
+		}
 		else
-			{
+		{
 			theTempPath.Set("/tmp/");
-			}
+		}
 
 		JAppendDirSeparator(&theTempPath);
 		theTempPathInitFlag = true;
-		}
+	}
 
 	*tempDir = theTempPath;
 	return true;
@@ -1093,22 +1093,22 @@ JCreateTempDirectory
 
 	JString p;
 	if (!JString::IsEmpty(path))
-		{
+	{
 		p = *path;
-		}
+	}
 	else if (!JGetTempDirectory(&p))
-		{
+	{
 		return JDirEntryDoesNotExist(theTmpDirForError);
-		}
+	}
 
 	if (!JString::IsEmpty(prefix))
-		{
+	{
 		p = JCombinePathAndName(p, *prefix);
-		}
+	}
 	else
-		{
+	{
 		p = JCombinePathAndName(p, theTmpDirPrefix);
-		}
+	}
 
 	p           += theTmpDirTemplate;
 	JUtf8Byte* s = p.AllocateBytes();
@@ -1116,12 +1116,12 @@ JCreateTempDirectory
 	jclear_errno();
 	JUtf8Byte* d = mkdtemp(s);
 	if (d != nullptr)
-		{
+	{
 		*fullName = s;
 		JAppendDirSeparator(fullName);
 		jdelete [] s;
 		return JNoError();
-		}
+	}
 
 	fullName->Clear();
 	jdelete [] s;
@@ -1130,49 +1130,49 @@ JCreateTempDirectory
 
 	const int err = jerrno();
 	if (err == EEXIST)
-		{
+	{
 		return JDirEntryAlreadyExists(p);
-		}
+	}
 	else if (err == EFAULT)
-		{
+	{
 		return JSegFault();
-		}
+	}
 	else if (err == EACCES)
-		{
+	{
 		return JAccessDenied(p);
-		}
+	}
 	else if (err == ENAMETOOLONG)
-		{
+	{
 		return JNameTooLong();
-		}
+	}
 	else if (err == ENOENT)
-		{
+	{
 		return JBadPath(p);
-		}
+	}
 	else if (err == ENOTDIR)
-		{
+	{
 		return JComponentNotDirectory(p);
-		}
+	}
 	else if (err == ENOMEM)
-		{
+	{
 		return JNoKernelMemory();
-		}
+	}
 	else if (err == EROFS)
-		{
+	{
 		return JFileSystemReadOnly();
-		}
+	}
 	else if (err == ELOOP)
-		{
+	{
 		return JPathContainsLoop(p);
-		}
+	}
 	else if (err == ENOSPC)
-		{
+	{
 		return JFileSystemFull();
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1193,21 +1193,21 @@ JGetTrueName
 	trueName->Clear();
 
 	if (!JNameUsed(name))
-		{
+	{
 		return false;
-		}
+	}
 
 	// check if it is a directory
 
 	else if (JDirectoryExists(name))
-		{
+	{
 		const JString currPath = JGetCurrentDirectory();
 
 		JError err = JChangeDirectory(name);
 		if (!err.OK())
-			{
+		{
 			return false;
-			}
+		}
 
 		*trueName = JGetCurrentDirectory();
 
@@ -1215,12 +1215,12 @@ JGetTrueName
 		assert_ok( err );
 
 		return true;
-		}
+	}
 
 	// it is a file, socket, fifo, etc.
 
 	else
-		{
+	{
 		JString origPath, fileName;
 		JSplitPathAndName(name, &origPath, &fileName);
 
@@ -1228,27 +1228,27 @@ JGetTrueName
 
 		JString truePath;
 		if (!JGetTrueName(origPath, &truePath))
-			{
+		{
 			return false;
-			}
+		}
 
 		// resolve symbolic link
 
 		JString target;
 		if ((JGetSymbolicLinkTarget(name, &target)).OK())
-			{
+		{
 			if (JIsRelativePath(target))
-				{
-				target.Prepend(truePath);
-				}
-			return JGetTrueName(target, trueName);
-			}
-		else
 			{
+				target.Prepend(truePath);
+			}
+			return JGetTrueName(target, trueName);
+		}
+		else
+		{
 			*trueName = JCombinePathAndName(truePath, fileName);
 			return true;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1279,25 +1279,25 @@ JCleanPath
 
 	JStringIterator iter(path);
 	if (path->BeginsWith("file://"))
-		{
+	{
 		iter.SkipNext(7);
-		}
+	}
 	while (iter.Next(multiSlashPattern))
-		{
+	{
 		iter.ReplaceLastMatch("/");
-		}
+	}
 
 	iter.MoveTo(kJIteratorStartAtBeginning, 0);
 	while (iter.Next("/./"))
-		{
+	{
 		iter.ReplaceLastMatch("/");
-		}
+	}
 
 	iter.MoveTo(kJIteratorStartAtBeginning, 0);
 	if (iter.Next(trailingDotPattern))		// max 1 match
-		{
+	{
 		iter.RemoveLastMatch();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1373,32 +1373,32 @@ JConvertToAbsolutePath
 	bool ok = true;
 	const JUtf8Character c = path.GetFirstCharacter();
 	if (c == '/')
-		{
+	{
 		*result = path;
-		}
+	}
 	else if (c == '~')
-		{
+	{
 		ok = JExpandHomeDirShortcut(path, result);
-		}
+	}
 	else if (!base.IsEmpty())
-		{
+	{
 		*result = JCombinePathAndName(base, path);
-		}
+	}
 	else
-		{
+	{
 		const JString currDir = JGetCurrentDirectory();
 		*result = JCombinePathAndName(currDir, path);
-		}
+	}
 
 	if (ok)
-		{
+	{
 		return JNameUsed(*result);
-		}
+	}
 	else
-		{
+	{
 		result->Clear();
 		return false;
-		}
+	}
 }
 
 /*****************************************************************************
@@ -1436,27 +1436,27 @@ JConvertToRelativePath
 
 	bool hadTDS = true;
 	if (path.GetLastCharacter() != '/')
-		{
+	{
 		path.Append("/");
 		hadTDS = false;
-		}
+	}
 
 	JSize matchLength = JString::CalcCharacterMatchLength(path, base);
 
 	JStringIterator pathIter(&path);
 	if (!hadTDS)
-		{
+	{
 		pathIter.MoveTo(kJIteratorStartAtEnd, 0);
 		pathIter.RemovePrev();
-		}
+	}
 
 	JStringIterator baseIter(&base, kJIteratorStartAfter, matchLength);
 	const bool found = baseIter.Prev("/");
 	assert( found );
 	if (baseIter.AtBeginning())
-		{
+	{
 		return path;
-		}
+	}
 	matchLength = baseIter.GetNextCharacterIndex();
 
 	baseIter.RemoveAllPrev();
@@ -1468,19 +1468,19 @@ JConvertToRelativePath
 	pathIter.Invalidate();
 
 	if (base.IsEmpty())
-		{
+	{
 		path.Prepend("./");
 		return path;
-		}
+	}
 
 	// The number of remaining directory separators in base
 	// is the number of levels to go up.
 
 	baseIter.MoveTo(kJIteratorStartAtBeginning, 0);
 	while (baseIter.Next("/"))
-		{
+	{
 		path.Prepend("../");
-		}
+	}
 
 	return path;
 }
@@ -1517,40 +1517,40 @@ JExpandHomeDirShortcut
 
 	bool ok = true;
 	if (path == "~")
-		{
+	{
 		ok = JGetHomeDirectory(result);
 		if (ok && homeDir != nullptr)
-			{
+		{
 			*homeDir = *result;
-			}
-		if (ok && homeLength != nullptr)
-			{
-			*homeLength = 1;
-			}
 		}
-	else if (path.BeginsWith("~/"))
+		if (ok && homeLength != nullptr)
 		{
+			*homeLength = 1;
+		}
+	}
+	else if (path.BeginsWith("~/"))
+	{
 		ok = JGetHomeDirectory(result);
 		if (ok && homeDir != nullptr)
-			{
+		{
 			*homeDir = *result;
-			}
+		}
 		if (ok && homeLength != nullptr)
-			{
+		{
 			*homeLength = 2;
-			}
+		}
 		if (ok && path.GetCharacterCount() > 2)
-			{
+		{
 			JStringIterator iter(path);
 			iter.SkipNext(2);
 			iter.BeginMatch();
 			iter.MoveTo(kJIteratorStartAtEnd, 0);
 			const JStringMatch& m = iter.FinishMatch();
 			*result = JCombinePathAndName(*result, m.GetString());
-			}
 		}
+	}
 	else if (path.BeginsWith("~"))
-		{
+	{
 		JStringIterator iter(path, kJIteratorStartAfter, 1);
 		iter.BeginMatch();
 		iter.Next("/");
@@ -1558,50 +1558,50 @@ JExpandHomeDirShortcut
 
 		ok = JGetHomeDirectory(userName, result);
 		if (ok && homeDir != nullptr)
-			{
+		{
 			*homeDir = *result;
-			}
+		}
 		if (ok && homeLength != nullptr)
-			{
+		{
 			*homeLength = iter.GetPrevCharacterIndex();
-			}
+		}
 		if (ok && !iter.AtEnd())
-			{
+		{
 			iter.BeginMatch();
 			iter.MoveTo(kJIteratorStartAtEnd, 0);
 			*result = JCombinePathAndName(*result, iter.FinishMatch().GetString());
-			}
 		}
+	}
 	else
-		{
+	{
 		*result = path;
 		if (homeDir != nullptr)
-			{
+		{
 			homeDir->Clear();
-			}
-		if (homeLength != nullptr)
-			{
-			*homeLength = 0;
-			}
 		}
+		if (homeLength != nullptr)
+		{
+			*homeLength = 0;
+		}
+	}
 
 	if (ok)
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		result->Clear();
 		if (homeDir != nullptr)
-			{
+		{
 			homeDir->Clear();
-			}
-		if (homeLength != nullptr)
-			{
-			*homeLength = 0;
-			}
-		return false;
 		}
+		if (homeLength != nullptr)
+		{
+			*homeLength = 0;
+		}
+		return false;
+	}
 }
 
 /*******************************************************************************
@@ -1620,51 +1620,51 @@ JGetSymbolicLinkTarget
 	char buf[ kBufferSize ];
 	const long linkNameSize = readlink(linkFullName.GetBytes(), buf, kBufferSize-1);
 	if (linkNameSize != -1)
-		{
+	{
 		targetFullName->Set(buf, linkNameSize);
 		return JNoError();
-		}
+	}
 
 	targetFullName->Clear();
 	const int err = jerrno();
 	if (err == ENOTDIR)
-		{
+	{
 		return JComponentNotDirectory(linkFullName);
-		}
+	}
 	else if (err == ENAMETOOLONG)
-		{
+	{
 		return JNameTooLong();
-		}
+	}
 	else if (err == ENOENT)
-		{
+	{
 		return JDirEntryDoesNotExist(linkFullName);
-		}
+	}
 	else if (err == EPERM || err == EACCES)
-		{
+	{
 		return JAccessDenied(linkFullName);
-		}
+	}
 	else if (err == ELOOP)
-		{
+	{
 		return JTooManyLinks(linkFullName);
-		}
+	}
 	else if (err == EINVAL)
-		{
+	{
 		return JNotSymbolicLink(linkFullName);
-		}
+	}
 	else if (err == EIO)
-		{
+	{
 		return JGeneralIO();
-		}
+	}
 	else if (err == EFAULT)
-		{
+	{
 		return JSegFault();
-		}
+	}
 	else if (err == ENOMEM)
-		{
+	{
 		return JNoKernelMemory();
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }

@@ -83,38 +83,38 @@ JGetUniqueDirEntryName
 
 	JString fullPath;
 	if (path.IsEmpty())
-		{
+	{
 		if (!JGetTempDirectory(&fullPath))
-			{
-			fullPath = JGetCurrentDirectory();
-			}
-		}
-	else
 		{
+			fullPath = JGetCurrentDirectory();
+		}
+	}
+	else
+	{
 		const bool ok = JConvertToAbsolutePath(path, JString::empty, &fullPath);
 		assert( ok );
-		}
+	}
 	assert( JDirectoryExists(fullPath) );
 
 	const JString prefix = JCombinePathAndName(fullPath, namePrefix);
 
 	JString name;
 	for (JIndex i=startIndex; i<=kJIndexMax; i++)
-		{
+	{
 		name = prefix;
 		if (i > 1)
-			{
+		{
 			name += JString((JUInt64) i);
-			}
-		if (!JString::IsEmpty(nameSuffix))
-			{
-			name += nameSuffix;
-			}
-		if (!JNameUsed(name))
-			{
-			break;
-			}
 		}
+		if (!JString::IsEmpty(nameSuffix))
+		{
+			name += nameSuffix;
+		}
+		if (!JNameUsed(name))
+		{
+			break;
+		}
+	}
 	return name;
 }
 
@@ -139,41 +139,41 @@ JGetPermissionsString
 	strcpy(modeString, modeTemplate);
 
 	if (mode & S_IRUSR)
-		{
+	{
 		modeString[0] = 'r';
-		}
+	}
 	if (mode & S_IWUSR)
-		{
+	{
 		modeString[1] = 'w';
-		}
+	}
 	if (mode & S_IXUSR)
-		{
+	{
 		modeString[2] = 'x';
-		}
+	}
 	if (mode & S_IRGRP)
-		{
+	{
 		modeString[3] = 'r';
-		}
+	}
 	if (mode & S_IWGRP)
-		{
+	{
 		modeString[4] = 'w';
-		}
+	}
 	if (mode & S_IXGRP)
-		{
+	{
 		modeString[5] = 'x';
-		}
+	}
 	if (mode & S_IROTH)
-		{
+	{
 		modeString[6] = 'r';
-		}
+	}
 	if (mode & S_IWOTH)
-		{
+	{
 		modeString[7] = 'w';
-		}
+	}
 	if (mode & S_IXOTH)
-		{
+	{
 		modeString[8] = 'x';
-		}
+	}
 
 	return JString(modeString);
 }
@@ -209,27 +209,27 @@ JGetClosestDirectory
 
 	JString workingDir;
 	if (!JString::IsEmpty(basePath))
-		{
+	{
 		workingDir = *basePath;
 		JAppendDirSeparator(&workingDir);
-		}
+	}
 	else
-		{
+	{
 		workingDir = JGetCurrentDirectory();
-		}
+	}
 
 	JString dirName = origDirName;
 	JString homeDir;
 	JSize homeLength;
 	if (origDirName.GetFirstCharacter() == '~' &&
 		!JExpandHomeDirShortcut(origDirName, &dirName, &homeDir, &homeLength))
-		{
+	{
 		return JGetRootDirectory();
-		}
+	}
 	else if (JIsRelativePath(origDirName))
-		{
+	{
 		dirName.Prepend(workingDir);
-		}
+	}
 
 	assert( JIsAbsolutePath(dirName) );
 
@@ -238,35 +238,35 @@ JGetClosestDirectory
 		   !JCanEnterDirectory(dirName) ||
 		   !JDirectoryReadable(dirName) ||
 		   (requireWrite && !JDirectoryWritable(dirName)))
-		{
+	{
 		JStripTrailingDirSeparator(&dirName);
 		if (JIsRootDirectory(dirName))
-			{
+		{
 			break;
-			}
+		}
 		JSplitPathAndName(dirName, &newDir, &junkName);
 		dirName = newDir;
-		}
+	}
 
 	// convert back to partial path, if possible
 
 	if (origDirName.GetFirstCharacter() == '~' &&
 		dirName.BeginsWith(homeDir))
-		{
+	{
 		JStringIterator iter(&dirName);
 		const bool found = iter.Next(homeDir);
 		assert( found );
 		iter.ReplaceLastMatch(origDirName, JCharacterRange(1, homeLength));
-		}
+	}
 	else if (JIsRelativePath(origDirName) &&
 			 dirName.GetCharacterCount() > workingDir.GetCharacterCount() &&
 			 dirName.BeginsWith(workingDir))
-		{
+	{
 		JStringIterator iter(&dirName);
 		const bool found = iter.Next(workingDir);
 		assert( found );
 		iter.RemoveLastMatch();
-		}
+	}
 
 	return dirName;
 }
@@ -317,13 +317,13 @@ JSearchSubdirs
 
 	JLatentPG pg(100);
 	if (userPG != nullptr)
-		{
+	{
 		pg.SetPG(userPG, false);
-		}
+	}
 	const JUtf8Byte* map[] =
-		{
+	{
 		"name", name.GetBytes()
-		};
+	};
 	const JString msg = JGetString("Searching::jDirUtil", map, sizeof(map));
 	pg.VariableLengthProcessBeginning(msg, true, false);
 
@@ -332,20 +332,20 @@ JSearchSubdirs
 		JSearchSubdirs_private(startPath, name, isFile, caseSensitive,
 							   path, newName, pg, &cancelled);
 	if (!found)
-		{
+	{
 		path->Clear();
 		if (newName != nullptr)
-			{
+		{
 			newName->Clear();
-			}
 		}
+	}
 
 	pg.ProcessFinished();
 
 	if (userCancelled != nullptr)
-		{
+	{
 		*userCancelled = cancelled;
-		}
+	}
 	return found;
 }
 
@@ -367,77 +367,77 @@ JSearchSubdirs_private
 	const JString fullName = JCombinePathAndName(startPath, name);
 	if (( isFile && JFileExists(fullName)) ||
 		(!isFile && JDirectoryExists(fullName)))
-		{
+	{
 		const bool ok = JGetTrueName(startPath, path);
 		assert( ok );
 		if (newName != nullptr)
-			{
+		{
 			*newName = name;
-			}
-		return true;
 		}
+		return true;
+	}
 
 	JDirInfo* info;
 	if (!JDirInfo::Create(startPath, &info))
-		{
+	{
 		return false;
-		}
+	}
 
 	bool found = false;
 
 	// check each entry (if case sensitive, the initial check is enough)
 
 	if (!caseSensitive)
-		{
+	{
 		for (const auto* entry : *info)
-			{
+		{
 			if ((( isFile && entry->IsFile()) ||
 				 (!isFile && entry->IsDirectory())) &&
 				JString::Compare(name, entry->GetName(), caseSensitive) == 0)
-				{
+			{
 				const bool ok = JGetTrueName(startPath, path);
 				assert( ok );
 				if (newName != nullptr)
-					{
+				{
 					*newName = entry->GetName();
-					}
+				}
 				found = true;
 				break;
-				}
+			}
 
 			if (!pg.IncrementProgress())
-				{
+			{
 				*cancelled = true;
 				break;
-				}
 			}
 		}
+	}
 
 	// recurse on each directory
 
 	if (!found && !(*cancelled))
-		{
+	{
 		for (const auto* entry : *info)
-			{
+		{
 			if (entry->IsDirectory() && !entry->IsLink())
-				{
+			{
 				const JString& newPath = entry->GetFullName();
 				if (JSearchSubdirs_private(newPath, name, isFile,
 										   caseSensitive, path, newName,
 										   pg, cancelled))
-					{
+				{
 					found = true;
 					break;
-					}
-				}
-
-			if (*cancelled || (caseSensitive && !pg.IncrementProgress()))
-				{
-				*cancelled = true;
-				break;
 				}
 			}
+
+			if (*cancelled || (caseSensitive && !pg.IncrementProgress()))
+			{
+				*cancelled = true;
+				break;
+			}
 		}
+	}
 
 	jdelete info;
 	return found;
@@ -464,12 +464,12 @@ JConvertToHomeDirShortcut
 	JString homeDir, trueDir;
 	if (JGetHomeDirectory(&homeDir) && JGetTrueName(homeDir, &trueDir) &&
 		s.BeginsWith(trueDir))
-		{
+	{
 		JStringIterator iter(&s);
 		const bool found = iter.Next(trueDir);
 		assert( found );
 		iter.ReplaceLastMatch("~" ACE_DIRECTORY_SEPARATOR_STR);
-		}
+	}
 
 	JStripTrailingDirSeparator(&s);
 	return s;

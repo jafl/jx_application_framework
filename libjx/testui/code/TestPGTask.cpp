@@ -37,14 +37,14 @@ TestPGTask::TestPGTask
 	itsCounter = 0;
 
 	if (fixedLength)
-		{
+	{
 		itsPG->FixedLengthProcessBeginning(kStepCount, JGetString("ProcessText::TestPGTask"),
 										   true, true);
-		}
+	}
 	else
-		{
+	{
 		itsPG->VariableLengthProcessBeginning(JGetString("ProcessText::TestPGTask"), true, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -55,9 +55,9 @@ TestPGTask::TestPGTask
 TestPGTask::~TestPGTask()
 {
 	if (itsPG->ProcessRunning())
-		{
+	{
 		itsPG->ProcessFinished();
-		}
+	}
 	jdelete itsPG;
 }
 
@@ -75,19 +75,19 @@ TestPGTask::Perform
 {
 	bool keepGoing = true;
 	if (TimeToPerform(delta, maxSleepTime))
-		{
+	{
 		JWait(0.5);		// simulate massive, greedy number crunching
 		itsCounter++;
 		keepGoing = itsPG->IncrementProgress();
-		}
+	}
 	else
-		{
+	{
 		keepGoing = itsPG->ProcessContinuing();
-		}
+	}
 
 	if (!keepGoing || itsCounter >= kStepCount)
-		{
+	{
 		itsPG->ProcessFinished();
 		jdelete this;				// safe to commit suicide as last action
-		}
+	}
 }

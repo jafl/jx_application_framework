@@ -68,9 +68,9 @@ JXDockWidget::JXDockWidget
 	assert( itsTabGroup != nullptr );
 
 	if (!(JXGetDockManager())->IsReadingSetup())
-		{
+	{
 		(JXGetDockManager())->IDUsed(itsID);
-		}
+	}
 
 	ListenTo(itsTabGroup);
 	ListenTo(itsTabGroup->GetCardEnclosure());
@@ -89,29 +89,29 @@ JXDockWidget::~JXDockWidget()
 {
 	const JXDockManager::CloseDockMode mode = (JXGetDockManager())->GetCloseDockMode();
 	if (itsWindowList != nullptr && mode == JXDockManager::kUndockWindows)
-		{
+	{
 		// can't call UndockAll() because that calls UpdateMinSize()
 
 		for (auto* w : *itsWindowList)
-			{
+		{
 			StopListening(w);
 			w->Undock();
-			}
+		}
 
 		jdelete itsWindowList;
-		}
+	}
 	else if (itsWindowList != nullptr)
-		{
+	{
 		assert( mode == JXDockManager::kCloseWindows );
 
 		for (auto* w : *itsWindowList)
-			{
+		{
 			StopListening(w);
 			w->Close();
-			}
+		}
 
 		jdelete itsWindowList;
-		}
+	}
 
 	jdelete itsDeleteHintTask;
 }
@@ -171,18 +171,18 @@ JXDockWidget::Dock
 	)
 {
 	if (itsChildPartition != nullptr)
-		{
+	{
 		return false;
-		}
+	}
 
 	const JRect geom = GetApertureGlobal();
 	if (w->Dock(this, (JXWidgetSet::GetWindow())->GetXWindow(), geom))
-		{
+	{
 		if (itsWindowList == nullptr)
-			{
+		{
 			itsWindowList = jnew JPtrArray<JXWindow>(JPtrArrayT::kForgetAll);
 			assert( itsWindowList != nullptr );
-			}
+		}
 
 		const JIndex index = GetTabInsertionIndex(w);
 
@@ -194,15 +194,15 @@ JXDockWidget::Dock
 		// tab will be selected when window shows itself
 
 		return true;
-		}
+	}
 	else
-		{
+	{
 		if (reportError)
-			{
+		{
 			JGetUserNotification()->ReportError(JGetString("WindowWillNotFit::JXDockWidget"));
-			}
-		return false;
 		}
+		return false;
+	}
 }
 
 /******************************************************************************
@@ -229,20 +229,20 @@ JXDockWidget::GetTabInsertionIndex
 
 	JIndex index = count+1;
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if (i == ignoreIndex)
-			{
+		{
 			continue;
-			}
+		}
 
 		const JUtf8Byte* t =
 			JXFileDocument::SkipNeedsSavePrefix((itsWindowList->GetElement(i))->GetTitle().GetBytes());
 		if (JString::Compare(title, t, JString::kIgnoreCase) < 0)
-			{
+		{
 			index = i;
 			break;
-			}
 		}
+	}
 
 	return index;
 }
@@ -264,17 +264,17 @@ JXDockWidget::TransferAll
 	bool success = true;
 
 	if (itsWindowList != nullptr)
-		{
+	{
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=count; i>=1; i--)
-			{
+		{
 			JXWindow* w = itsWindowList->GetElement(i);
 			if (!target->Dock(w))
-				{
+			{
 				success = false;
-				}
 			}
 		}
+	}
 
 	return success;
 }
@@ -288,21 +288,21 @@ void
 JXDockWidget::UndockAll()
 {
 	if (itsWindowList != nullptr)
-		{
+	{
 		for (auto* w : *itsWindowList)
-			{
+		{
 			itsTabGroup->DeleteTab(1);
 
 			StopListening(w);
 			w->Undock();
-			}
+		}
 
 		itsWindowList->RemoveAll();
 		jdelete itsWindowList;
 		itsWindowList = nullptr;
 
 		UpdateMinSize();
-		}
+	}
 }
 
 /******************************************************************************
@@ -314,45 +314,45 @@ bool
 JXDockWidget::CloseAll()
 {
 	if (itsWindowList != nullptr)
-		{
+	{
 		JXDisplay* display = GetDisplay();
 		Display* xDisplay  = display->GetXDisplay();
 
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=count; i>=1; i--)
-			{
+		{
 			JXWindow* w = itsWindowList->GetElement(i);
 			StopListening(w);
 
 			Window xWindow = w->GetXWindow();
 			if (w->Close())
-				{
+			{
 				if (JXDisplay::WindowExists(display, xDisplay, xWindow))
-					{
+				{
 					w->Undock();
-					}
+				}
 				else if (JXGetApplication()->DisplayExists(xDisplay))
-					{
+				{
 					itsTabGroup->DeleteTab(i);
 					itsWindowList->RemoveElement(i);
-					}
-				else
-					{
-					return false;
-					}
 				}
-			else
+				else
 				{
-				UpdateMinSize();
-				return false;
+					return false;
 				}
 			}
+			else
+			{
+				UpdateMinSize();
+				return false;
+			}
+		}
 
 		jdelete itsWindowList;
 		itsWindowList = nullptr;
 
 		UpdateMinSize();
-		}
+	}
 
 	return true;
 }
@@ -392,16 +392,16 @@ JXDockWidget::GetHorizChildPartition
 	const
 {
 	if (!itsIsHorizFlag && itsChildPartition != nullptr)
-		{
+	{
 		*p = dynamic_cast<JXHorizDockPartition*>(itsChildPartition);
 		assert( *p != nullptr );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*p = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -417,16 +417,16 @@ JXDockWidget::GetVertChildPartition
 	const
 {
 	if (itsIsHorizFlag && itsChildPartition != nullptr)
-		{
+	{
 		*p = dynamic_cast<JXVertDockPartition*>(itsChildPartition);
 		assert( *p != nullptr );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*p = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -443,16 +443,16 @@ JXDockWidget::SetChildPartition
 	assert( itsWindowList == nullptr );
 
 	if (itsChildPartition != nullptr)
-		{
+	{
 		StopListening(itsChildPartition);
-		}
+	}
 
 	itsChildPartition = p;
 
 	if (itsChildPartition != nullptr)
-		{
+	{
 		ClearWhenGoingAway(itsChildPartition, &itsChildPartition);
-		}
+	}
 
 	UpdateMinSize();
 }
@@ -477,9 +477,9 @@ JXDockWidget::WillAcceptDrop
 	// we only accept local drops
 
 	if (source == nullptr)
-		{
+	{
 		return false;
-		}
+	}
 
 	// we accept drops of type JXDockDragData
 
@@ -487,11 +487,11 @@ JXDockWidget::WillAcceptDrop
 
 	bool acceptDrop = false;
 	for (const auto type : typeList)
-		{
+	{
 		if (type != minSizeAtom)
-			{
+		{
 			continue;
-			}
+		}
 
 		JXSelectionManager* selMgr = GetSelectionManager();
 		JXDNDManager* dndMgr       = GetDNDManager();
@@ -507,24 +507,24 @@ JXDockWidget::WillAcceptDrop
 		JXSelectionManager::DeleteMethod delMethod;
 		if (selMgr->GetData(selectionName, time, minSizeAtom,
 							&returnType, &data, &dataLength, &delMethod))
-			{
+		{
 			if (returnType == XA_POINT)
-				{
+			{
 				auto* minSize = (XPoint*) data;
 				if (GetApertureWidth()  >= minSize->x &&
 					GetApertureHeight() >= minSize->y)
-					{
+				{
 					acceptDrop = true;
-					}
 				}
-			selMgr->DeleteData(&data, delMethod);
 			}
-
-		break;
+			selMgr->DeleteData(&data, delMethod);
 		}
 
+		break;
+	}
+
 	if (!acceptDrop && itsHintDirector == nullptr)
-		{
+	{
 		JRect r = GetBounds();
 		r.Shrink(r.width()/2 - 5, r.height()/2 - 5);
 
@@ -538,7 +538,7 @@ JXDockWidget::WillAcceptDrop
 		assert( itsDeleteHintTask != nullptr );
 		itsDeleteHintTask->Start();
 		ListenTo(itsDeleteHintTask);
-		}
+	}
 
 	return acceptDrop;
 }
@@ -572,16 +572,16 @@ JXDockWidget::HandleDNDDrop
 	if (selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
 						time, (JXGetDockManager())->GetDNDWindowAtom(),
 						&returnType, &data, &dataLength, &delMethod))
-		{
+	{
 		JXWindow* window;
 		if (returnType == XA_WINDOW &&
 			GetDisplay()->FindXWindow(* (Window*) data, &window))
-			{
+		{
 			Dock(window, true);
-			}
+		}
 
 		selMgr->DeleteData(&data, delMethod);
-		}
+	}
 }
 
 /******************************************************************************
@@ -595,12 +595,12 @@ void
 JXDockWidget::HandleDNDLeave()
 {
 	if (itsWindowList != nullptr)
-		{
+	{
 		for (auto* w : *itsWindowList)
-			{
+		{
 			w->Refresh();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -617,15 +617,15 @@ JXDockWidget::Draw
 {
 	const JRect ap = GetAperture();
 	if (IsDNDTarget())
-		{
+	{
 		(p.GetGC())->SetSubwindowMode(IncludeInferiors);
 		JXDrawDNDBorder(p, ap, 2);
 		(p.GetGC())->SetSubwindowMode(ClipByChildren);
-		}
+	}
 	else
-		{
+	{
 		JXDrawDownFrame(p, ap, 2);
-		}
+	}
 }
 
 /******************************************************************************
@@ -643,12 +643,12 @@ JXDockWidget::BoundsMoved
 	JXWidgetSet::BoundsMoved(dx, dy);
 
 	if (itsWindowList != nullptr)
-		{
+	{
 		for (auto* w : *itsWindowList)
-			{
+		{
 			w->UndockedMove(dx, dy);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -666,17 +666,17 @@ JXDockWidget::BoundsResized
 	JXWidgetSet::BoundsResized(dw, dh);
 
 	if (itsWindowList != nullptr)
-		{
+	{
 		// Use SetSize() instead of AdjustSize() because JXWindow might
 		// have max size, in which case deltas will be wrong.
 
 		const JRect boundsG = GetBoundsGlobal();
 
 		for (auto* w : *itsWindowList)
-			{
+		{
 			w->UndockedSetSize(boundsG.width(), boundsG.height());
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -694,31 +694,31 @@ JXDockWidget::Receive
 	JXWindow* w;
 	JIndex i;
 	if (sender != JXWidgetSet::GetWindow() && message.Is(JXWindow::kUndocked))
-		{
+	{
 		RemoveWindow(sender);
 		StopListening(sender);
-		}
+	}
 	else if (FindWindow(sender, &w, &i))
-		{
+	{
 		if (message.Is(JXWindow::kMinSizeChanged))
-			{
+		{
 			const JPoint minSize = w->GetMinSize();
 			const JRect boundsG  = GetBoundsGlobal();
 			if (boundsG.width()  < minSize.x ||
 				boundsG.height() < minSize.y)
-				{
-				w->Undock();
-				}
-			}
-		else if (message.Is(JXWindow::kTitleChanged))
 			{
+				w->Undock();
+			}
+		}
+		else if (message.Is(JXWindow::kTitleChanged))
+		{
 			JIndex index = GetTabInsertionIndex(w, i);
 			if (index != i+1)
-				{
+			{
 				if (index > i)
-					{
+				{
 					index--;
-					}
+				}
 
 				JIndex currIndex;
 				const bool hadSelection = itsTabGroup->GetCurrentTabIndex(&currIndex);
@@ -729,49 +729,49 @@ JXDockWidget::Receive
 				itsWindowList->MoveElementToIndex(i, index);
 
 				if (hadSelection && i == currIndex)
-					{
-					itsTabGroup->ShowTab(index);
-					}
-				}
-			else
 				{
-				itsTabGroup->SetTabTitle(i, w->GetTitle());
+					itsTabGroup->ShowTab(index);
 				}
 			}
-		else if (message.Is(JXWindow::kRaised))
+			else
 			{
+				itsTabGroup->SetTabTitle(i, w->GetTitle());
+			}
+		}
+		else if (message.Is(JXWindow::kRaised))
+		{
 			itsTabGroup->ShowTab(i);
 			(JXWidgetSet::GetWindow())->Raise();
-			}
 		}
+	}
 	else if (sender == itsTabGroup && message.Is(JXTabGroup::kAppearanceChanged))
-		{
+	{
 		UpdateMinSize();
-		}
+	}
 	else if (sender == itsTabGroup->GetCardEnclosure() &&
 			 message.Is(JXCardFile::kCardIndexChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXCardFile::CardIndexChanged*>(&message);
 		assert( info != nullptr );
 
 		JIndex index;
 		if (info->GetCardIndex(&index))
-			{
+		{
 			JXWindow* w = itsWindowList->GetElement(index);
 			(w->GetDirector())->Activate();
-			}
 		}
+	}
 	else if (sender == itsDeleteHintTask && message.Is(JXTimerTask::kTimerWentOff))
-		{
+	{
 		itsDeleteHintTask = nullptr;
 		itsHintDirector->Close();
 		itsHintDirector = nullptr;
-		}
+	}
 	else
-		{
+	{
 		JXWidgetSet::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -788,9 +788,9 @@ JXDockWidget::ReceiveGoingAway
 	)
 {
 	if (!RemoveWindow(sender))
-		{
+	{
 		JXWidgetSet::ReceiveGoingAway(sender);
-		}
+	}
 }
 
 /******************************************************************************
@@ -808,19 +808,19 @@ JXDockWidget::FindWindow
 	const
 {
 	if (itsWindowList != nullptr)
-		{
+	{
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			JXWindow* w = itsWindowList->GetElement(i);
 			if (w == sender)
-				{
+			{
 				*window = w;
 				*index  = i;
 				return true;
-				}
 			}
 		}
+	}
 
 	*window = nullptr;
 	*index  = 0;
@@ -839,26 +839,26 @@ JXDockWidget::RemoveWindow
 	)
 {
 	if (itsWindowList != nullptr)
-		{
+	{
 		const JSize count = itsWindowList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			if (itsWindowList->GetElement(i) == sender)
-				{
+			{
 				itsTabGroup->DeleteTab(i);
 
 				itsWindowList->RemoveElement(i);
 				if (itsWindowList->IsEmpty())
-					{
+				{
 					jdelete itsWindowList;
 					itsWindowList = nullptr;
-					}
+				}
 
 				UpdateMinSize();
 				return true;
-				}
 			}
 		}
+	}
 
 	return false;
 }
@@ -873,30 +873,30 @@ JXDockWidget::HasWindows()
 	const
 {
 	if (itsChildPartition != nullptr && itsIsHorizFlag)
-		{
+	{
 		return dynamic_cast<JXVertDockPartition*>(itsChildPartition)->HasWindows();
-		}
+	}
 	else if (itsChildPartition != nullptr)
-		{
+	{
 		return dynamic_cast<JXHorizDockPartition*>(itsChildPartition)->HasWindows();
-		}
+	}
 	else
-		{
+	{
 		if (itsWindowList == nullptr || itsWindowList->IsEmpty())
-			{
+		{
 			return false;
-			}
+		}
 
 		for (auto* w : *itsWindowList)
-			{
+		{
 			if (w->IsVisible())
-				{
+			{
 				return true;
-				}
 			}
+		}
 
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -908,17 +908,17 @@ bool
 JXDockWidget::CloseAllWindows()
 {
 	if (itsChildPartition != nullptr && itsIsHorizFlag)
-		{
+	{
 		return dynamic_cast<JXVertDockPartition*>(itsChildPartition)->CloseAllWindows();
-		}
+	}
 	else if (itsChildPartition != nullptr)
-		{
+	{
 		return dynamic_cast<JXHorizDockPartition*>(itsChildPartition)->CloseAllWindows();
-		}
+	}
 	else
-		{
+	{
 		return CloseAll();
-		}
+	}
 }
 
 /******************************************************************************
@@ -932,13 +932,13 @@ JXDockWidget::GetMinSize()
 {
 	JPoint minSize;
 	if (itsChildPartition != nullptr && itsIsHorizFlag)
-		{
+	{
 		minSize = dynamic_cast<JXVertDockPartition*>(itsChildPartition)->UpdateMinSize();
-		}
+	}
 	else if (itsChildPartition != nullptr)
-		{
+	{
 		minSize = dynamic_cast<JXHorizDockPartition*>(itsChildPartition)->UpdateMinSize();
-		}
+	}
 
 	minSize.x = JMax(minSize.x, itsMinSize.x);
 	minSize.y = JMax(minSize.y, itsMinSize.y);
@@ -959,14 +959,14 @@ JXDockWidget::UpdateMinSize()
 	itsMinSize.y = kDefaultMinSize;
 
 	if (itsWindowList != nullptr)
-		{
+	{
 		for (auto* w : *itsWindowList)
-			{
+		{
 			const JPoint pt = w->GetMinSize();
 			itsMinSize.x    = JMax(pt.x, itsMinSize.x);
 			itsMinSize.y    = JMax(pt.y, itsMinSize.y);
-			}
 		}
+	}
 
 	const JRect r1 = itsTabGroup->GetApertureGlobal();
 	const JRect r2 = this->GetApertureGlobal();
@@ -974,13 +974,13 @@ JXDockWidget::UpdateMinSize()
 	itsMinSize.y  += (r2.top - r1.top)   + (r1.bottom - r2.bottom);
 
 	if (itsIsHorizFlag)
-		{
+	{
 		itsPartition->SetMinCompartmentSize(itsTabGroup->GetEnclosure(), itsMinSize.x);
-		}
+	}
 	else
-		{
+	{
 		itsPartition->SetMinCompartmentSize(itsTabGroup->GetEnclosure(), itsMinSize.y);
-		}
+	}
 
 	itsDirector->UpdateMinSize();
 }

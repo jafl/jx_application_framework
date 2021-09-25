@@ -118,24 +118,24 @@ JSTStyler::UpdateStyles
 	)
 {
 	if (!itsActiveFlag)
-		{
+	{
 		tokenStartList->RemoveAll();
 		return;
-		}
+	}
 
 	const JSize textLength = text.GetCharacterCount();
 	if (textLength == 0)
-		{
+	{
 		tokenStartList->RemoveAll();
 		return;
-		}
+	}
 
 	itsIterator = jnew JRunArrayIterator<JFont>(styles);
 	assert( itsIterator != nullptr );
 
 	TokenData tokenData;
 	if (recalcRange->charRange.first == 1 && recalcRange->charRange.last >= textLength)
-		{
+	{
 		itsRedoAllFlag = true;
 		itsCheckRange.charRange.Set(1, textLength);
 		itsCheckRange.byteRange.Set(1, text.GetByteCount());
@@ -145,9 +145,9 @@ JSTStyler::UpdateStyles
 		tokenStartList->AppendElement(tokenData);
 
 		styles->RemoveAll();
-		}
+	}
 	else
-		{
+	{
 		itsRedoAllFlag = false;
 
 		// calculate the range that needs to be checked
@@ -155,7 +155,7 @@ JSTStyler::UpdateStyles
 		JIndex firstIndex = recalcRange->charRange.first;
 		JIndex lastIndex  = recalcRange->charRange.last;
 		if ((deletion && firstIndex > 1) || firstIndex > textLength)
-			{
+		{
 			// This fixes the case when the last character of the token is deleted.
 
 			firstIndex--;
@@ -164,28 +164,28 @@ JSTStyler::UpdateStyles
 			// end at the inserted text.  (e.g. "x [ y ]" <- "x // y ]")
 
 			lastIndex++;
-			}
+		}
 		if (lastIndex > textLength)
-			{
+		{
 			// We can't decrease recalcRange's end index, and we can't find
 			// textLength+1 in *styles.
 
 			lastIndex = textLength;
-			}
+		}
 
 		itsIterator->MoveTo(kJIteratorStartBefore, JMax(lastIndex, (JIndex) 1));		// range can be (1,0)
 		const JIndex endIndex = itsIterator->GetRunEnd();
 
 		itsIterator->MoveTo(kJIteratorStartBefore, firstIndex);		// see below; faster to start here
 		itsCheckRange.charRange.Set(itsIterator->GetRunStart(), endIndex);
-		{
+	{
 		JStringIterator iter(text);
 		iter.UnsafeMoveTo(kJIteratorStartBefore, recalcRange->charRange.first, recalcRange->byteRange.first);
 		iter.MoveTo(kJIteratorStartBefore, itsIterator->GetRunStart());
 		itsCheckRange.byteRange.first = iter.GetNextByteIndex();
 		iter.MoveTo(kJIteratorStartAfter, endIndex);
 		itsCheckRange.byteRange.last = iter.GetPrevByteIndex();
-		}
+	}
 
 		// let derived class expand the range
 
@@ -198,31 +198,31 @@ JSTStyler::UpdateStyles
 		// find nearest token in front of itsCheckRange
 
 		if (tokenStartList->IsEmpty())
-			{
+		{
 			tokenData = TokenData(TextIndex(1,1), GetFirstTokenExtraData());
 			tokenStartList->AppendElement(tokenData);
-			}
+		}
 		else
-			{
+		{
 			bool foundTokenStart;
 			TokenData target(itsCheckRange.GetFirst(), TokenExtra());
 			JIndex tokenStartIndex =
 				tokenStartList->SearchSorted1(target, JListT::kAnyMatch, &foundTokenStart);
 			if (!foundTokenStart)
-				{
+			{
 				tokenStartIndex--;	// wants to insert -after- the value
-				}
+			}
 			tokenData = tokenStartList->GetElement(tokenStartIndex);
 
 			// the rest of the token starts are invalid
 
 			const JSize tokenStartCount = tokenStartList->GetElementCount();
 			if (tokenStartIndex < tokenStartCount)
-				{
+			{
 				tokenStartList->RemoveNextElements(tokenStartIndex+1, tokenStartCount - tokenStartIndex);
-				}
 			}
 		}
+	}
 
 	// prepare to accumulate new token starts
 
@@ -306,13 +306,13 @@ JSTStyler::ExtendCheckRange
 	)
 {
 	if (itsCheckRange.charRange.last < newEndCharIndex)
-		{
+	{
 		JStringIterator iter(*itsText);
 		iter.UnsafeMoveTo(kJIteratorStartAfter, itsCheckRange.charRange.last, itsCheckRange.byteRange.last);
 		iter.MoveTo(kJIteratorStartAfter, JMin(newEndCharIndex, itsText->GetCharacterCount()));
 		itsCheckRange.charRange.last = iter.GetPrevCharacterIndex();
 		itsCheckRange.byteRange.last = iter.GetPrevByteIndex();
-		}
+	}
 }
 
 /******************************************************************************
@@ -332,22 +332,22 @@ JSTStyler::SetStyle
 	assert( !range.IsEmpty() );
 
 	if (itsCheckRange.charRange.last < range.first)
-		{
+	{
 		// we are beyond the range where anything could have changed
 		return false;
-		}
+	}
 
 	assert( itsIterator->AtEnd() ||
 			(range.first == itsIterator->GetNextElementIndex()) );
 
 	if (itsRedoAllFlag)
-		{
+	{
 		JFont f = *itsDefFont;
 		f.SetStyle(style);
 		itsStyles->AppendElements(f, range.GetCount());
-		}
+	}
 	else if (range.last >= itsCheckRange.charRange.first)
-		{
+	{
 		const JCharacterRange fontRange(itsIterator->GetRunStart(), itsIterator->GetRunEnd());
 		const bool beyondCurrentRun = !fontRange.Contains(range);
 
@@ -358,7 +358,7 @@ JSTStyler::SetStyle
 			!origStyle.IsBlank() && range.last < fontRange.last;
 
 		if (beyondCurrentRun || styleExtendsBeyondToken || style != origStyle)
-			{
+		{
 			// extend the check range if we slop over into another style run
 			// (HTML: type '<' after 'x' in "x<!--<br><h3>text</h3>-->")
 
@@ -366,39 +366,39 @@ JSTStyler::SetStyle
 			// find a correctly styled token
 
 			if (beyondCurrentRun || styleExtendsBeyondToken)
-				{
+			{
 				JRunArrayIterator<JFont> iter(*itsIterator);
 				iter.MoveTo(kJIteratorStartBefore, range.last);
 				ExtendCheckRange(iter.GetRunEnd()+1);
-				}
+			}
 
 			// extend check range to next token since this token was not
 			// correctly styled -- should only stop when find correctly
 			// styled tokens
 
 			else	// style != f.style
-				{
+			{
 				ExtendCheckRange(range.last+1);
-				}
+			}
 
 			// update the styles
 
 			if (!beyondCurrentRun && OnlyColorChanged(style, origStyle))
-				{
+			{
 				ExpandTextRange(itsRedrawRange, range);
-				}
+			}
 			else
-				{
+			{
 				ExpandTextRange(itsRecalcRange, range);
-				}
+			}
 
 			f = *itsDefFont;
 			f.SetStyle(style);
 
 			itsIterator->RemoveNext(range.GetCount());
 			itsIterator->Insert(f, range.GetCount());
-			}
 		}
+	}
 
 	itsIterator->MoveTo(kJIteratorStartAfter, range.last);
 	return range.last < itsCheckRange.charRange.last;
@@ -437,10 +437,10 @@ JSTStyler::SaveTokenStart
 {
 	itsTokenStartCounter++;
 	if (itsTokenStartCounter >= itsDecimationFactor)
-		{
+	{
 		itsTokenStartCounter = 0;
 		itsTokenStartList->AppendElement(TokenData(index, data));
-		}
+	}
 }
 
 /******************************************************************************
@@ -538,9 +538,9 @@ JSTStyler::ExpandTextRange
 	const
 {
 	if (r1->charRange.Contains(r2))
-		{
+	{
 		return;
-		}
+	}
 
 	const JIndexRange cr = r1->charRange + r2;
 

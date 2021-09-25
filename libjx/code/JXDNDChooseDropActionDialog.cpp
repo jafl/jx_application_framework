@@ -33,13 +33,13 @@ JXDNDChooseDropActionDialog::JXDNDChooseDropActionDialog
 {
 	const JSize count = itsActionList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if (itsActionList.GetElement(i) == defaultAction)
-			{
+		{
 			SelectItem(i);
 			break;
-			}
 		}
+	}
 }
 
 /******************************************************************************

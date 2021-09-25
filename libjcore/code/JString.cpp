@@ -93,16 +93,16 @@ JString::JString
 	itsIterator(nullptr)
 {
 	if (copy || this == theCurrentlyConstructingObject)
-		{
+	{
 		CopyToPrivateBuffer(source.itsBytes, source.itsByteCount);
-		}
+	}
 	else
-		{
+	{
 		itsOwnerFlag      = false;
 		itsBytes          = const_cast<JUtf8Byte*>(source.GetRawBytes());	// we promise not to modify it
 		itsByteCount      = source.itsByteCount;
 		itsCharacterCount = source.itsCharacterCount;
-		}
+	}
 
 	theCurrentlyConstructingObject = nullptr;
 }
@@ -126,16 +126,16 @@ JString::JString
 {
 	const JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
 	if (copy || this == theCurrentlyConstructingObject)
-		{
+	{
 		CopyToPrivateBuffer(str.itsBytes + byteRange.first-1, byteRange.GetCount());
-		}
+	}
 	else
-		{
+	{
 		itsOwnerFlag      = false;
 		itsBytes          = const_cast<JUtf8Byte*>(str.GetRawBytes() + byteRange.first-1);	// we promise not to modify it
 		itsByteCount      = byteRange.GetCount();
 		itsCharacterCount = charRange.GetCount();
-		}
+	}
 
 	theCurrentlyConstructingObject = nullptr;
 }
@@ -172,16 +172,16 @@ JString::JString
 	itsIterator(nullptr)
 {
 	if (copy || this == theCurrentlyConstructingObject)
-		{
+	{
 		CopyToPrivateBuffer(str + range.first-1, range.GetCount());
-		}
+	}
 	else
-		{
+	{
 		itsOwnerFlag      = false;
 		itsBytes          = const_cast<JUtf8Byte*>(str) + range.first-1;	// we promise not to modify it
 		itsByteCount      = range.GetCount();
 		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
-		}
+	}
 
 	theCurrentlyConstructingObject = nullptr;
 }
@@ -203,13 +203,13 @@ JString::JString
 	itsIterator(nullptr)
 {
 	if (range.IsNothing())
-		{
+	{
 		CopyToPrivateBuffer(s.data(), s.length());
-		}
+	}
 	else
-		{
+	{
 		CopyToPrivateBuffer(s.data() + range.first-1, range.GetCount());
-		}
+	}
 
 	theCurrentlyConstructingObject = nullptr;
 }
@@ -232,51 +232,51 @@ JString::JString
 	itsIterator(nullptr)
 {
 	if (number == 0)
-		{
+	{
 		CopyToPrivateBuffer("0", 1);
-		}
+	}
 	else if (base == 2)
-		{
+	{
 		CopyToPrivateBuffer("", 0);
 
 		JUInt64 v = number;
 		do
-			{
+		{
 			if (v & 0x01)
-				{
+			{
 				Prepend("1");
-				}
-			else
-				{
-				Prepend("0");
-				}
-			v >>= 1;
 			}
+			else
+			{
+				Prepend("0");
+			}
+			v >>= 1;
+		}
 			while (v != 0);
 
 		while (pad && itsByteCount % 8 > 0)
-			{
-			Prepend("0");
-			}
-		}
-	else
 		{
+			Prepend("0");
+		}
+	}
+	else
+	{
 		std::ostringstream s;
 		s << std::setbase(base) << number;
 		const std::string s1 = s.str();
 		CopyToPrivateBuffer(s1.data(), s1.length());
-		}
+	}
 
 	if (base == 16)
-		{
+	{
 		if (pad && itsByteCount % 2 == 1)
-			{
+		{
 			Prepend("0");
-			}
+		}
 
 		ToUpper();
 		Prepend("0x");
-		}
+	}
 
 	theCurrentlyConstructingObject = nullptr;
 }
@@ -321,16 +321,16 @@ JString::JString
 JString::~JString()
 {
 	if (itsOwnerFlag)
-		{
+	{
 		jdelete [] itsBytes;
-		}
+	}
 
 	ucasemap_close(itsUCaseMap);
 
 	if (itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -394,11 +394,11 @@ JString::Set
 	)
 {
 	if (str.itsBytes < itsBytes || itsBytes + itsByteCount <= str.itsBytes)
-		{
+	{
 		CopyToPrivateBuffer(str.itsBytes, str.itsByteCount);
-		}
+	}
 	else if (itsBytes != str.itsBytes || itsByteCount != str.itsByteCount)
-		{
+	{
 		JUtf8Byte* s  = itsBytes;
 		itsBytes      = nullptr;
 		itsByteCount  = 0;
@@ -406,10 +406,10 @@ JString::Set
 		CopyToPrivateBuffer(str.itsBytes, str.itsByteCount);
 
 		if (itsOwnerFlag)
-			{
+		{
 			jdelete [] s;
-			}
 		}
+	}
 }
 
 void
@@ -421,11 +421,11 @@ JString::Set
 {
 	const JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
 	if (str.itsBytes < itsBytes || itsBytes + itsByteCount <= str.itsBytes)
-		{
+	{
 		CopyToPrivateBuffer(str.itsBytes + byteRange.first-1, byteRange.GetCount());
-		}
+	}
 	else if (itsBytes != str.itsBytes || itsByteCount != byteRange.GetCount())
-		{
+	{
 		JUtf8Byte* s  = itsBytes;
 		itsBytes      = nullptr;
 		itsByteCount  = 0;
@@ -433,10 +433,10 @@ JString::Set
 		CopyToPrivateBuffer(str.itsBytes + byteRange.first-1, byteRange.GetCount());
 
 		if (itsOwnerFlag)
-			{
+		{
 			jdelete [] s;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -461,47 +461,47 @@ JString::CopyToPrivateBuffer
 	// ensure sufficient space
 
 	if (!itsOwnerFlag || itsAllocCount <= byteCount || itsAllocCount == 0)
-		{
+	{
 		itsAllocCount = byteCount + itsBlockSize;
 
 		auto* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
 		assert( newString != nullptr );
 
 		if (itsOwnerFlag)
-			{
+		{
 			jdelete [] itsBytes;
-			}
+		}
 		itsBytes     = newString;
 		itsOwnerFlag = true;
-		}
+	}
 
 	// copy normalized characters to the new string
 
 	if (str != nullptr && byteCount > 0)
-		{
+	{
 		if (itsNormalizeFlag)
-			{
+		{
 			itsByteCount = CopyNormalizedBytes(str, byteCount, itsBytes, itsAllocCount+1);
-			}
+		}
 		else
-			{
+		{
 			memcpy(itsBytes, str, byteCount);
 			itsBytes[ byteCount ] = 0;
 			itsByteCount          = byteCount;
-			}
-		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 		}
+		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
+	}
 	else
-		{
+	{
 		itsBytes[0]       = 0;
 		itsByteCount      = 0;
 		itsCharacterCount = 0;
-		}
+	}
 
 	if (invalidateIterator && itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -517,9 +517,9 @@ JString::SetIterator
 	const
 {
 	if (iter != nullptr)
-		{
+	{
 		assert( itsIterator == nullptr );
-		}
+	}
 
 	const_cast<JString*>(this)->itsIterator = iter;
 }
@@ -534,13 +534,13 @@ JString::GetBytes()
 	const
 {
 	if (!itsOwnerFlag && itsBytes[ itsByteCount ] != 0)
-		{
+	{
 		auto* self = const_cast<JString*>(this);		// does not violate conceptual constness
 
 		const JUtf8Byte* bytes = itsBytes;
 		self->itsBytes = nullptr;	// don't confuse CopyToPrivateBuffer()
 		self->CopyToPrivateBuffer(bytes, itsByteCount, false);
-		}
+	}
 	return itsBytes;
 }
 
@@ -612,9 +612,9 @@ JString::Prepend
 	ReplaceBytes(r, str, byteCount);
 
 	if (itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -634,9 +634,9 @@ JString::Append
 	ReplaceBytes(r, str, byteCount);
 
 	if (itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -661,22 +661,22 @@ JString::ReplaceBytes
 
 	const JSize replaceCount = replaceRange.GetCount();
 	if (replaceCount == 0 && insertByteCount == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	JUtf8Byte* normalizedInsertBytes = nullptr;
 	JSize normalizedInsertByteCount  = insertByteCount;
 	if (insertByteCount > 0 && itsNormalizeFlag)
-		{
+	{
 		normalizedInsertByteCount =
 			Normalize(stringToInsert, insertByteCount, &normalizedInsertBytes);
-		}
+	}
 	else if (insertByteCount > 0)
-		{
+	{
 		normalizedInsertBytes     = const_cast<JUtf8Byte*>(stringToInsert);
 		normalizedInsertByteCount = insertByteCount;
-		}
+	}
 
 	const JSize newCount = itsByteCount - replaceCount + normalizedInsertByteCount;
 
@@ -685,14 +685,14 @@ JString::ReplaceBytes
 	const JSize count3 = itsByteCount - replaceRange.last;
 
 	if (replaceCount > 0)
-		{
+	{
 		itsCharacterCount -= CountCharacters(itsBytes + count1, replaceCount);
-		}
+	}
 
 	// If we don't have space, or would use too much space, reallocate.
 
 	if (!itsOwnerFlag || itsAllocCount <= newCount || itsAllocCount > newCount + itsBlockSize)
-		{
+	{
 		itsAllocCount = newCount + itsBlockSize;
 
 		// allocate space for the result
@@ -708,26 +708,26 @@ JString::ReplaceBytes
 		// throw out the original string and save the new one
 
 		if (itsOwnerFlag)
-			{
+		{
 			jdelete [] itsBytes;
-			}
+		}
 		itsBytes     = newString;
 		itsOwnerFlag = true;
-		}
+	}
 
 	// Otherwise, shift characters to make space.
 
 	else if (count3 > 0)
-		{
+	{
 		memmove(itsBytes + count1 + count2, itsBytes + replaceRange.last, count3);
-		}
+	}
 
 	// insert the new characters
 
 	if (count2 > 0)
-		{
+	{
 		memcpy(itsBytes + count1, normalizedInsertBytes, count2);
-		}
+	}
 
 	// terminate
 
@@ -735,14 +735,14 @@ JString::ReplaceBytes
 	itsByteCount         = newCount;
 
 	if (count2 > 0)
-		{
+	{
 		itsCharacterCount += CountCharacters(normalizedInsertBytes, count2);
-		}
+	}
 
 	if (itsNormalizeFlag)
-		{
+	{
 		jdelete [] normalizedInsertBytes;
-		}
+	}
 }
 
 /******************************************************************************
@@ -756,22 +756,22 @@ JString::Clear()
 	// there is nothing to do if we are already empty
 
 	if (itsByteCount == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	// If we are using too much memory, reallocate.
 
 	if (!itsOwnerFlag || itsAllocCount > itsBlockSize)
-		{
+	{
 		itsAllocCount = itsBlockSize;
 
 		// throw out the old data
 
 		if (itsOwnerFlag)
-			{
+		{
 			jdelete [] itsBytes;
-			}
+		}
 
 		// Having just released a block of memory at least as large as the
 		// one we are requesting, the system must really be screwed if this
@@ -780,7 +780,7 @@ JString::Clear()
 		itsBytes = jnew JUtf8Byte [ itsAllocCount + 1 ];
 		assert( itsBytes != nullptr );
 		itsOwnerFlag = true;
-		}
+	}
 
 	// clear the string
 
@@ -789,9 +789,9 @@ JString::Clear()
 	itsCharacterCount = 0;
 
 	if (itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -809,17 +809,17 @@ JString::TrimWhitespace()
 	// there is nothing to do if we are already empty
 
 	if (itsByteCount == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	// if there is no blank space to trim, we can stop now
 
 	if (!isspace(itsBytes[0]) &&
 		!isspace(itsBytes[ itsByteCount-1 ]))
-		{
+	{
 		return;
-		}
+	}
 
 	JSize wsCount = 0;
 
@@ -827,34 +827,34 @@ JString::TrimWhitespace()
 
 	JIndex lastByteIndex = itsByteCount;
 	while (lastByteIndex > 0 && isspace(itsBytes[ lastByteIndex-1 ]))
-		{
+	{
 		lastByteIndex--;
 		wsCount++;
-		}
+	}
 
 	// if we are only blank space, we can just clear ourselves
 
 	if (lastByteIndex == 0)
-		{
+	{
 		Clear();
 		return;
-		}
+	}
 
 	// find first non-blank character (it does exist since lastByteIndex > 0)
 
 	JIndex firstByteIndex = 1;
 	while (isspace(itsBytes[ firstByteIndex-1 ]))
-		{
+	{
 		firstByteIndex++;
 		wsCount++;
-		}
+	}
 
 	// If we are using too much memory, reallocate.
 
 	const JSize newLength = lastByteIndex - firstByteIndex + 1;
 
 	if (!itsOwnerFlag || itsAllocCount > newLength + itsBlockSize)
-		{
+	{
 		itsAllocCount = newLength + itsBlockSize;
 
 		// allocate space for the new string + termination
@@ -869,19 +869,19 @@ JString::TrimWhitespace()
 		// throw out our original string and save the new one
 
 		if (itsOwnerFlag)
-			{
+		{
 			jdelete [] itsBytes;
-			}
+		}
 		itsBytes     = newString;
 		itsOwnerFlag = true;
-		}
+	}
 
 	// Otherwise, just shift the characters.
 
 	else
-		{
+	{
 		memmove(itsBytes, itsBytes + firstByteIndex-1, newLength);
-		}
+	}
 
 	// terminate
 
@@ -890,9 +890,9 @@ JString::TrimWhitespace()
 	itsCharacterCount    -= wsCount;
 
 	if (itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -933,29 +933,29 @@ JString::FoldCase
 	)
 {
 	if (itsByteCount == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	UErrorCode err;
 
 	if (itsUCaseMap == nullptr)
-		{
+	{
 		err         = U_ZERO_ERROR;
 		itsUCaseMap = ucasemap_open(nullptr, U_FOLD_CASE_DEFAULT, &err);
 		assert( err == U_ZERO_ERROR );
-		}
+	}
 
 	JUInt32 newLength;
 	err = U_ZERO_ERROR;
 	if (upper)
-		{
+	{
 		newLength = ucasemap_utf8ToUpper(itsUCaseMap, nullptr, 0, itsBytes, itsByteCount, &err);
-		}
+	}
 	else
-		{
+	{
 		newLength = ucasemap_utf8ToLower(itsUCaseMap, nullptr, 0, itsBytes, itsByteCount, &err);
-		}
+	}
 	assert( err == U_BUFFER_OVERFLOW_ERROR );
 
 	itsAllocCount = newLength + itsBlockSize;
@@ -969,28 +969,28 @@ JString::FoldCase
 
 	err = U_ZERO_ERROR;
 	if (upper)
-		{
+	{
 		ucasemap_utf8ToUpper(itsUCaseMap, newString, itsAllocCount+1, itsBytes, itsByteCount, &err);
-		}
+	}
 	else
-		{
+	{
 		ucasemap_utf8ToLower(itsUCaseMap, newString, itsAllocCount+1, itsBytes, itsByteCount, &err);
-		}
+	}
 	assert( err == U_ZERO_ERROR );
 
 	// throw out the original string and save the new one
 
 	if (itsOwnerFlag)
-		{
+	{
 		jdelete [] itsBytes;
-		}
+	}
 	itsBytes     = newString;
 	itsOwnerFlag = true;
 
 	if (itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1016,14 +1016,14 @@ JString::SearchForward
 	const
 {
 	if (IsEmpty())
-		{
+	{
 		*byteIndex = 1;
 		return false;
-		}
+	}
 	else if (byteCount == 0 || *byteIndex > itsByteCount)
-		{
+	{
 		return false;
-		}
+	}
 
 	assert( *byteIndex != 0 );
 
@@ -1034,25 +1034,25 @@ JString::SearchForward
 
 	UCollator* coll;
 	if (!GetCollator(&coll, caseSensitive))
-		{
+	{
 		return false;
-		}
+	}
 
 	for (JIndex i=*byteIndex; i<=itsByteCount; )
-		{
+	{
 		const JUtf8Byte* s = itsBytes + i-1;
 		if (Compare(coll, s, byteCount, str, byteCount, caseSensitive) == 0)
-			{
+		{
 			*byteIndex = i;
 			return true;
-			}
+		}
 
 		// accept invalid byte sequences as single characters
 
 		JSize count;
 		JUtf8Character::GetCharacterByteCount(s, &count);
 		i += count;
-		}
+	}
 
 	// if we fall through, there was no match
 
@@ -1083,10 +1083,10 @@ JString::SearchBackward
 	const
 {
 	if (IsEmpty() || *byteIndex == 0 || byteCount == 0)
-		{
+	{
 		*byteIndex = 0;
 		return false;
-		}
+	}
 
 	assert( *byteIndex <= itsByteCount );
 
@@ -1097,37 +1097,37 @@ JString::SearchBackward
 
 	UCollator* coll;
 	if (!GetCollator(&coll, caseSensitive))
-		{
+	{
 		return false;
-		}
+	}
 
 	for (JIndex i=*byteIndex; i>=1; )
-		{
+	{
 		const JUtf8Byte* s = itsBytes + i-1;
 		if (Compare(coll, s, byteCount, str, byteCount, caseSensitive) == 0)
-			{
+		{
 			*byteIndex = i;
 			return true;
-			}
+		}
 
 		// accept invalid byte sequences as single characters
 
 		if (i == 1)
-			{
+		{
 			break;
-			}
+		}
 		else if (i > 1)
-			{
+		{
 			JSize count;
 			JUtf8Character::GetPrevCharacterByteCount(s-1, &count);
 			if (count >= i)
-				{
+			{
 				break;
-				}
+			}
 
 			i -= count;
-			}
 		}
+	}
 
 	// if we fall through, there was no match
 
@@ -1150,14 +1150,14 @@ JString::BeginsWith
 	const
 {
 	if (range.IsEmpty())
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		JIndex i = 1;
 		return SearchBackward(str + range.first-1, range.GetCount(), caseSensitive, &i);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1175,14 +1175,14 @@ JString::Contains
 	const
 {
 	if (range.IsEmpty())
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		JIndex i = 1;
 		return SearchForward(str + range.first-1, range.GetCount(), caseSensitive, &i);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1200,13 +1200,13 @@ JString::EndsWith
 	const
 {
 	if (range.IsEmpty())
-		{
+	{
 		return true;
-		}
+	}
 
 	const JSize charCount = CountCharacters(str, range);
 	if (itsCharacterCount > charCount)
-		{
+	{
 		JSize byteCount;
 		const bool ok = CountBytesBackward(itsBytes, itsByteCount, charCount, &byteCount);
 		assert( ok );
@@ -1214,13 +1214,13 @@ JString::EndsWith
 		return Compare(itsBytes + itsByteCount - byteCount, byteCount,
 							str + range.first-1, range.GetCount(),
 							caseSensitive) == 0;
-		}
+	}
 	else
-		{
+	{
 		return Compare(itsBytes, itsByteCount,
 							str + range.first-1, range.GetCount(),
 							caseSensitive) == 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1254,25 +1254,25 @@ JString::ConvertToFloat
 	)
 {
 	if (IsHexValue(str, byteCount))
-		{
+	{
 		JUInt v;
 		const bool ok = ConvertToUInt(str, byteCount, &v);
 		*value = v;
 		return ok;
-		}
+	}
 
 	jclear_errno();
 	char* endPtr;
 	*value = strtod(str, &endPtr);
 	if (jerrno_is_clear() && CompleteConversion(str, byteCount, endPtr))
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*value = 0.0;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1296,22 +1296,22 @@ JString::ConvertToInteger
 {
 	JSize base = origBase;
 	if (IsHexValue(str, byteCount))
-		{
+	{
 		base = 0;	// let strtol notice "0x"
-		}
+	}
 
 	jclear_errno();
 	char* endPtr;
 	*value = strtol(str, &endPtr, base);
 	if (jerrno_is_clear() && CompleteConversion(str, byteCount, endPtr))
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*value = 0;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1335,37 +1335,37 @@ JString::ConvertToUInt
 {
 	JSize base = origBase;
 	if (IsHexValue(str, byteCount))
-		{
+	{
 		base = 0;	// let strtoul notice "0x"
-		}
+	}
 	else
-		{
+	{
 		// We do not let strtoul() wrap negative numbers.
 
 		JIndex i=0;
 		while (i < byteCount && isspace(str[i]))
-			{
+		{
 			i++;
-			}
+		}
 		if (i < byteCount && str[i] == '-')
-			{
+		{
 			*value = 0;
 			return false;
-			}
 		}
+	}
 
 	jclear_errno();
 	char* endPtr;
 	*value = strtoul(str, &endPtr, base);
 	if (jerrno_is_clear() && CompleteConversion(str, byteCount, endPtr))
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*value = 0;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1384,9 +1384,9 @@ JString::IsHexValue
 {
 	JIndex i=0;
 	while (i < byteCount && isspace(str[i]))
-		{
+	{
 		i++;
-		}
+	}
 
 	return i < byteCount-2 && str[i] == '0' &&
 				(str[i+1] == 'x' || str[i+1] == 'X');
@@ -1409,19 +1409,19 @@ JString::CompleteConversion
 	)
 {
 	if (convEndPtr == startPtr)		// avoid behavior guaranteed by strto*()
-		{
+	{
 		return false;
-		}
+	}
 
 	const JUtf8Byte* endPtr = startPtr + byteCount;
 	while (convEndPtr < endPtr)
-		{
+	{
 		if (!isspace(*convEndPtr))
-			{
+		{
 			return false;
-			}
-		convEndPtr++;
 		}
+		convEndPtr++;
+	}
 	return true;
 }
 
@@ -1455,15 +1455,15 @@ JString::DecodeBase64
 	icharbufstream input(itsBytes, itsByteCount);
 	std::ostringstream output;
 	if (JDecodeBase64(input, output))
-		{
+	{
 		str->Set(output.str());
 		return true;
-		}
+	}
 	else
-		{
+	{
 		str->Clear();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1483,7 +1483,7 @@ JString::Read
 {
 	const JSize maxByteCount = JUtf8Character::kMaxByteCount * count;
 	if (!itsOwnerFlag || itsAllocCount <= maxByteCount || itsAllocCount == 0)
-		{
+	{
 		itsAllocCount = maxByteCount + itsBlockSize;
 
 		// We allocate the new memory first.
@@ -1495,27 +1495,27 @@ JString::Read
 		// now it's safe to throw out the old data
 
 		if (itsOwnerFlag)
-			{
+		{
 			jdelete [] itsBytes;
-			}
+		}
 		itsBytes     = newString;
 		itsOwnerFlag = true;
-		}
+	}
 
 	JUtf8Byte* p = itsBytes;
 
 	JUtf8Character c;
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		input >> c;
 		if (input.fail() || input.eof())
-			{
+		{
 			break;
-			}
+		}
 
 		memcpy(p, c.GetBytes(), c.GetByteCount());
 		p += c.GetByteCount();
-		}
+	}
 	*p = 0;
 
 	JUtf8Byte* normalizedBytes;
@@ -1528,9 +1528,9 @@ JString::Read
 	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 
 	if (itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1558,11 +1558,11 @@ JString::ReadDelimited
 	JUtf8Byte b;
 	input.get(b);
 	if (b != '"')
-		{
+	{
 		input.putback(b);
 		JSetState(input, std::ios::failbit);
 		return;
-		}
+	}
 
 	// read until we hit a non-backslashed double quote
 
@@ -1574,45 +1574,45 @@ JString::ReadDelimited
 
 	JUtf8Character c;
 	while (true)
-		{
+	{
 		input >> c;
 		if (input.fail())
-			{
+		{
 			break;
-			}
+		}
 		else if (input.eof())
-			{
+		{
 			JSetState(input, std::ios::failbit);
 			break;
-			}
+		}
 		else if (c == '\\')
-			{
+		{
 			input >> c;
 			if (input.fail())
-				{
-				break;
-				}
-			}
-		else if (c == '"')
 			{
-			break;
+				break;
 			}
+		}
+		else if (c == '"')
+		{
+			break;
+		}
 
 		const JSize byteCount = c.GetByteCount();
 		if (p + byteCount - buf >= (JInt64) bufSize)
-			{
+		{
 			Append(buf, p - buf);
 			p = buf;
-			}
+		}
 
 		memcpy(p, c.GetBytes(), byteCount);
 		p += c.GetByteCount();
-		}
+	}
 
 	if (p > buf)
-		{
+	{
 		Append(buf, p - buf);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1648,9 +1648,9 @@ JString::PrintHex
 	const
 {
 	for (JUnsignedOffset i=0; i<itsByteCount; i++)
-		{
+	{
 		output << std::hex << (int) (unsigned char) itsBytes[i] << std::dec << ' ';
-		}
+	}
 }
 
 /******************************************************************************
@@ -1668,13 +1668,13 @@ JString::IsValid
 	JSize byteCount;
 	JIndex i;
 	for (i = range.first-1; i < range.last; )
-		{
+	{
 		if (!JUtf8Character::GetCharacterByteCount(str + i, &byteCount))
-			{
+		{
 			return false;
-			}
-		i += byteCount;
 		}
+		i += byteCount;
+	}
 
 	return i == range.last;
 }
@@ -1693,12 +1693,12 @@ JString::CountCharacters
 	JSize charCount = 0;
 	JSize byteCount;
 	while (*str != 0)
-		{
+	{
 		// accept invalid byte sequences as single characters
 		JUtf8Character::GetCharacterByteCount(str, &byteCount);
 		charCount++;
 		str += byteCount;
-		}
+	}
 
 	return charCount;
 }
@@ -1713,12 +1713,12 @@ JString::CountCharacters
 	JSize charCount = 0;
 	JSize byteCount;
 	for (JIndex i = range.first-1; i < range.last; )
-		{
+	{
 		// accept invalid byte sequences as single characters
 		JUtf8Character::GetCharacterByteCount(str + i, &byteCount);
 		charCount++;
 		i += byteCount;
-		}
+	}
 
 	return charCount;
 }
@@ -1738,11 +1738,11 @@ JString::CountBytes
 	JIndex j = 0;
 	JSize count;
 	for (JIndex i=1; i<=characterCount; i++)
-		{
+	{
 		// accept invalid byte sequences as single characters
 		JUtf8Character::GetCharacterByteCount(str + j, &count);
 		j += count;
-		}
+	}
 
 	return j;
 }
@@ -1767,18 +1767,18 @@ JString::CountBytesBackward
 	*byteCount = 0;
 	JSize count;
 	for (JIndex i=1; i<=characterCount; i++)
-		{
+	{
 		// check first to catch byteOffset==0 and to allow valid stop at start of string
 
 		if (*byteCount >= byteOffset)
-			{
+		{
 			return false;
-			}
+		}
 
 		// accept invalid byte sequences as single characters
 		JUtf8Character::GetPrevCharacterByteCount(str + byteOffset - *byteCount - 1, &count);
 		*byteCount += count;
-		}
+	}
 
 	return true;
 }
@@ -1796,9 +1796,9 @@ JString::CharacterToUtf8ByteRange
 	)
 {
 	if (range.IsNothing())
-		{
+	{
 		return JUtf8ByteRange();
-		}
+	}
 
 	const JSize first = CountBytes(str, range.first-1);
 	const JSize count = CountBytes(str + first, range.GetCount());
@@ -1829,9 +1829,9 @@ JString::Compare
 {
 	UCollator* coll;
 	if (!GetCollator(&coll, caseSensitive))
-		{
+	{
 		return 0;
-		}
+	}
 
 	return (int) Compare(coll, s1, length1, s2, length2, caseSensitive);
 }
@@ -1849,37 +1849,37 @@ JString::GetCollator
 	)
 {
 	if (caseSensitive && theCaseSensitiveCollator != nullptr)
-		{
+	{
 		*coll = theCaseSensitiveCollator;
 		return true;
-		}
+	}
 	else if (!caseSensitive && theCaseInsensitiveCollator != nullptr)
-		{
+	{
 		*coll = theCaseInsensitiveCollator;
 		return true;
-		}
+	}
 
 	UErrorCode err = U_ZERO_ERROR;
 
 	*coll = ucol_open(nullptr, &err);
 	if (*coll == nullptr)
-		{
+	{
 		return false;
-		}
+	}
 
 	if (caseSensitive)
-		{
+	{
 		theCaseSensitiveCollator = *coll;
 
 		UErrorCode err = U_ZERO_ERROR;
 		ucol_setAttribute(*coll, UCOL_CASE_FIRST, UCOL_UPPER_FIRST, &err);
-		}
+	}
 	else
-		{
+	{
 		theCaseInsensitiveCollator = *coll;
 
 		ucol_setStrength(*coll, UCOL_PRIMARY);
-		}
+	}
 
 	return true;
 }
@@ -1905,40 +1905,40 @@ JString::Compare
 {
 	UErrorCode err  = U_ZERO_ERROR;
 	if (!caseSensitive)
-		{
+	{
 		return ucol_strcollUTF8(coll, s1, length1, s2, length2, &err);
-		}
+	}
 
 	UCollationResult r = UCOL_EQUAL;
 
 	JIndex i1 = 0, i2 = 0;
 	while (i1 < length1 && i2 < length2)
-		{
+	{
 		JSize n1, n2;
 		if (!JUtf8Character::GetCharacterByteCount(s1+i1, &n1) ||
 			!JUtf8Character::GetCharacterByteCount(s2+i2, &n2))
-			{
+		{
 			break;
-			}
+		}
 
 		r = ucol_strcollUTF8(coll, s1+i1, n1, s2+i2, n2, &err);
 		if (r != 0)
-			{
+		{
 			break;
-			}
+		}
 
 		i1 += n1;
 		i2 += n2;
-		}
+	}
 
 	if (r == 0 && i1 < length1 && i2 == length2)
-		{
+	{
 		r = UCOL_GREATER;
-		}
+	}
 	else if (r == 0 && i1 == length1 && i2 < length2)
-		{
+	{
 		r = UCOL_LESS;
-		}
+	}
 
 	return r;
 }
@@ -1961,13 +1961,13 @@ JString::CompareMaxNBytes
 {
 	JSize M = N;
 	for (JUnsignedOffset i=0; i<N; i++)
-		{
+	{
 		if (s1[i] == 0 || s2[i] == 0)
-			{
+		{
 			M = i+1;
 			break;
-			}
 		}
+	}
 
 	return JString::Compare(s1, M, s2, M, caseSensitive);
 }
@@ -1994,34 +1994,34 @@ JString::CalcCharacterMatchLength
 {
 	UCollator* coll;
 	if (!GetCollator(&coll, caseSensitive))
-		{
+	{
 		return 0;
-		}
+	}
 
 	const JUtf8Byte* b1 = s1.GetRawBytes();
 	const JUtf8Byte* b2 = s2.GetRawBytes();
 
 	JIndex i = 0, i1 = 0, i2 = 0;
 	while (i1 < s1.GetByteCount() && i2 < s2.GetByteCount())
-		{
+	{
 		JSize n1, n2;
 		if (!JUtf8Character::GetCharacterByteCount(b1+i1, &n1) ||
 			!JUtf8Character::GetCharacterByteCount(b2+i2, &n2))
-			{
+		{
 			return 0;
-			}
+		}
 
 		UErrorCode err = U_ZERO_ERROR;
 		const UCollationResult r = ucol_strcollUTF8(coll, b1+i1, n1, b2+i2, n2, &err);
 		if (r != 0)
-			{
+		{
 			break;
-			}
+		}
 
 		i++;
 		i1 += n1;
 		i2 += n2;
-		}
+	}
 
 	return i;
 }
@@ -2078,10 +2078,10 @@ JString::CopyNormalizedBytes
 	)
 {
 	if (maxBytes == 0)
-		{
+	{
 		destination[0] = '\0';
 		return 0;
-		}
+	}
 
 	JSize currByteCount;
 	JUInt32 curr = JUtf8Character::Utf8ToUtf32(source, &currByteCount);
@@ -2091,37 +2091,37 @@ JString::CopyNormalizedBytes
 
 	JIndex i = 0, j = 0;
 	while (i < maxBytes && j < capacity)
-		{
+	{
 		JSize nextByteCount = 0;
 		JUInt32 next        = 0;
 		UChar32 composed    = U_SENTINEL;
 		if (i + currByteCount < maxBytes)	// don't consider bytes beyond the end of source
-			{
+		{
 			next     = JUtf8Character::Utf8ToUtf32(source + i + currByteCount, &nextByteCount);
 			composed = unorm2_composePair(norm2, curr, next);
-			}
+		}
 
 		const JUtf8Character currUtf8 = JUtf8Character::Utf32ToUtf8(composed == U_SENTINEL ? curr : composed);
 		const JSize currUtf8Count     = currUtf8.GetByteCount();
 		if (j + currUtf8Count >= capacity)
-			{
+		{
 			break;
-			}
+		}
 		memcpy(destination + j, currUtf8.GetBytes(), currUtf8Count);
 		j += currUtf8Count;
 
 		if (composed == U_SENTINEL)
-			{
+		{
 			i            += currByteCount;
 			curr          = next;
 			currByteCount = nextByteCount;
-			}
+		}
 		else
-			{
+		{
 			i   += currByteCount + nextByteCount;
 			curr = JUtf8Character::Utf8ToUtf32(source + i, &currByteCount);
-			}
 		}
+	}
 
 	destination[j] = '\0';
 	return j;
@@ -2144,9 +2144,9 @@ JString::MatchCase
 				  JUtf8ByteRange(1, itsByteCount));
 
 	if (changed && itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 	return changed;
 }
 
@@ -2163,9 +2163,9 @@ JString::MatchCase
 				  CharacterToUtf8ByteRange(destRange));
 
 	if (changed && itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 	return changed;
 }
 
@@ -2180,9 +2180,9 @@ JString::MatchCase
 		MatchCase(source, sourceRange, JUtf8ByteRange(1, itsByteCount));
 
 	if (changed && itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 	return changed;
 }
 
@@ -2198,9 +2198,9 @@ JString::MatchCase
 		MatchCase(source, sourceRange, CharacterToUtf8ByteRange(destRange));
 
 	if (changed && itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 	return changed;
 }
 
@@ -2215,9 +2215,9 @@ JString::MatchCase
 		MatchCase(source.data(), sourceRange, JUtf8ByteRange(1, itsByteCount));
 
 	if (changed && itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 	return changed;
 }
 
@@ -2233,9 +2233,9 @@ JString::MatchCase
 		MatchCase(source.data(), sourceRange, CharacterToUtf8ByteRange(destRange));
 
 	if (changed && itsIterator != nullptr)
-		{
+	{
 		itsIterator->Invalidate();
-		}
+	}
 	return changed;
 }
 
@@ -2269,9 +2269,9 @@ JString::MatchCase
 {
 	if (JString::IsEmpty(source) || sourceRange.IsEmpty() ||
 		IsEmpty()                || destRange.IsEmpty())
-		{
+	{
 		return false;
-		}
+	}
 
 	assert( RangeValid(destRange) );
 
@@ -2283,55 +2283,55 @@ JString::MatchCase
 
 	JUtf8Character c;
 	if (destLen > 1 && sourceLen != destLen)
-		{
+	{
 		bool hasUpper = false;
 		bool hasLower = false;
 		for (JIndex i = sourceRange.first; i <= sourceRange.last; )
-			{
+		{
 			c.Set(source + i-1);
 			if (c.IsLower())
-				{
+			{
 				hasLower = true;
-				}
+			}
 			else if (c.IsUpper())
-				{
+			{
 				hasUpper = true;
-				}
+			}
 
 			if (hasLower && hasUpper)
-				{
+			{
 				break;
-				}
+			}
 
 			i += c.GetByteCount();
-			}
+		}
 
 		// first character is fixed separately below
 
 		if (hasLower != hasUpper)
-			{
+		{
 			JUtf8Character c1;
 			for (JIndex i = destRange.first; i <= destRange.last; )
-				{
+			{
 				c.Set(itsBytes + i-1);
 				if (hasLower && !hasUpper)
-					{
+				{
 					c1 = c.ToLower();
-					}
+				}
 				else
-					{
+				{
 					c1 = c.ToUpper();
-					}
+				}
 
 				if (c1 != c)
-					{
+				{
 					ReplaceBytes(JUtf8ByteRange(i, i + c.GetByteCount() - 1), c1.GetBytes(), c1.GetByteCount());
-					}
-				i += c1.GetByteCount();
 				}
-			changed = true;
+				i += c1.GetByteCount();
 			}
+			changed = true;
 		}
+	}
 
 	// if not same length, match first character
 	// else, match all characters
@@ -2342,25 +2342,25 @@ JString::MatchCase
 	JIndex k = destRange.first;
 	JUtf8Character c1, c2, c3;
 	for (JIndex i=1; i<=endIndex; i++)
-		{
+	{
 		c1.Set(source + j-1);
 		c2.Set(itsBytes + k-1);
 		if (c1.IsLower() && c2.IsUpper())
-			{
+		{
 			c3 = c2.ToLower();
 			ReplaceBytes(JUtf8ByteRange(k, k + c2.GetByteCount() - 1), c3.GetBytes(), c3.GetByteCount());
 			changed = true;
-			}
+		}
 		else if (c1.IsUpper() && c2.IsLower())
-			{
+		{
 			c3 = c2.ToUpper();
 			ReplaceBytes(JUtf8ByteRange(k, k + c2.GetByteCount() - 1), c3.GetBytes(), c3.GetByteCount());
 			changed = true;
-			}
+		}
 
 		j += c1.GetByteCount();
 		k += c2.GetByteCount();
-		}
+	}
 
 	return changed;
 }
@@ -2402,20 +2402,20 @@ operator>>
 	)
 {
 	if (&input == &std::cin)
-		{
+	{
 		// Read characters until return is pressed.
 		// Following convention, the return must be left in the stream.
 
 		aString = JReadLine(std::cin);
 		std::cin.putback('\n');
 		aString.TrimWhitespace();
-		}
+	}
 	else
-		{
+	{
 		// Read quote delimited string of characters.
 
 		aString.ReadDelimited(input);
-		}
+	}
 
 	// allow chaining
 
@@ -2430,10 +2430,10 @@ operator<<
 	)
 {
 	if (&output == &std::cout || &output == &std::cerr)
-		{
+	{
 		aString.Print(output);
 		return output;
-		}
+	}
 
 	// write the starting delimiter
 
@@ -2442,22 +2442,22 @@ operator<<
 	// write the string data, substituting \" in place of "
 
 	for (JIndex i=1; i<=aString.itsByteCount; i++)
-		{
+	{
 		const JUtf8Byte c = aString.itsBytes[ i-1 ];
 
 		if (c == '"')
-			{
+		{
 			output << "\\\"";
-			}
-		else if (c == '\\')
-			{
-			output << "\\\\";
-			}
-		else
-			{
-			output << c;
-			}
 		}
+		else if (c == '\\')
+		{
+			output << "\\\\";
+		}
+		else
+		{
+			output << c;
+		}
+	}
 
 	// write the ending delimiter
 
@@ -2528,16 +2528,16 @@ double2str
 int i,j;
 
 	if (sigDigitCount <= 0 || sigDigitCount > JString::kDefSigDigitCount)
-		{
+	{
 		sigDigitCount = JString::kDefSigDigitCount;
-		}
+	}
 
 	bool neg=false;
 	if (doubleVal<0.0)					// can't take log of x<0
-		{
+	{
 		neg       = true;
 		doubleVal = -doubleVal;
-		}
+	}
 
 	// get exponent (bump it up slightly if exact multiple of 10)
 
@@ -2550,42 +2550,42 @@ int i,j;
 
 	double chewedVal = doubleVal / pow(10.0, exp-1);
 	for (i=0; i<=sigDigitCount; i++)
-		{
+	{
 		A[i]      = true;
 		D[i]      = JLFloor(chewedVal) - 10*JLFloor(chewedVal/10.0);
 		chewedVal = (chewedVal - D[i]) * 10.0 ;
-		}
+	}
 
 	// adjust digits that are outside [0,9]
 
 	Round(sigDigitCount, sigDigitCount, D, &exp, sigDigitCount);
 	if (D[sigDigitCount] > 4)
-		{
+	{
 		Round(sigDigitCount-1, sigDigitCount, D, &exp, sigDigitCount);
-		}
+	}
 	else
-		{
+	{
 		D[sigDigitCount] = 0;
-		}
+	}
 
 	// round up if lots of 9's on end (egcs 1.1.2:  0.6, 9.995)
 
 	j=0;
 	for (i=sigDigitCount-1; i>=0; i--)
-		{
+	{
 		if (D[i]==9)
-			{
-			j++;
-			}
-		else
-			{
-			break;
-			}
-		}
-	if (j >= 3)
 		{
-		Round(sigDigitCount-j, sigDigitCount, D, &exp, sigDigitCount);
+			j++;
 		}
+		else
+		{
+			break;
+		}
+	}
+	if (j >= 3)
+	{
+		Round(sigDigitCount-j, sigDigitCount, D, &exp, sigDigitCount);
+	}
 
 	// set the exponent
 
@@ -2595,135 +2595,135 @@ int i,j;
 
 	exp--;
 	if (expMin == JString::kStandardExponent)
-		{
+	{
 		expMin = (-expMax<=exp && exp<=expMax) ? 0 : exp;
-		}
+	}
 	else if (expMin == JString::kForceExponent)
-		{
+	{
 		expMin = exp;
-		}
+	}
 	else if (doubleVal == 0.0)
-		{
+	{
 		expMin = 0;
-		}
+	}
 
 	// adjust digits to fit specs
 
 	if (afterDec != -1)
-		{
+	{
 		bool truncate = false;
 		if (afterDec == -2)
-			{
+		{
 			afterDec = 0;
 			truncate = true;
-			}
+		}
 
 		// adjust for spec'd # digits after dp
 
 		int start = 1 + afterDec + (exp-expMin);
 		if (start < 1)
-			{
+		{
 			Shift(&start,D,&exp, sigDigitCount);
-			}
+		}
 		else if (start > sigDigitCount)
-			{
+		{
 			start = sigDigitCount;
-			}
+		}
 
 		// round or truncate
 
 		if (!truncate && D[start]>4)
-			{
+		{
 			Round(start-1,0,D,&exp, sigDigitCount);
-			}
+		}
 		else
-			{
+		{
 			for (i=start; i<=sigDigitCount; i++)
-				{
+			{
 				D[i]=0;
-				}
 			}
 		}
+	}
 
 	// strip trailing zeros
 
 	for (i=sigDigitCount; i>=0; i--)
-		{
+	{
 		if (D[i]==0)
-			{
+		{
 			A[i]=false;
-			}
-		else
-			{
-			break;
-			}
 		}
+		else
+		{
+			break;
+		}
+	}
 
 	// create string of digits
 
 	for (i=0; i<=sigDigitCount; i++)
-		{
+	{
 		if (A[i])
-			{
+		{
 			returnStr[i]='0'+D[i];
-			}
+		}
 		else
-			{
+		{
 			returnStr[i]='\0';
 			break;
-			}
 		}
+	}
 
 	if (returnStr[0] == '\0')			// number has ended up as zero
-		{
+	{
 		exp    = 0;
 		expMin = 0;
-		}
+	}
 	else if (returnStr[0] == '0' &&
 			 returnStr[1] == '\0')		// "-0" is silly
-		{
+	{
 		neg=false;
-		}
+	}
 
 	// prepend leading zero's and decimal point
 
 	if (expMin>exp)
-		{
+	{
 		if (expMin-exp>1)
-			{
+		{
 			for (j=0; j<=expMin-exp-2; j++)
-				{
+			{
 				JInsertSubstring(returnStr,0,"0",0,1);
-				}
-			}
-		if (returnStr[0] == '\0')						// 0. is silly
-			{
-			returnStr[0] = '0';
-			returnStr[1] = '\0';
-			}
-		else
-			{
-			JInsertSubstring(returnStr,0,"0.",0,2);		// prepend decimal point
 			}
 		}
+		if (returnStr[0] == '\0')						// 0. is silly
+		{
+			returnStr[0] = '0';
+			returnStr[1] = '\0';
+		}
+		else
+		{
+			JInsertSubstring(returnStr,0,"0.",0,2);		// prepend decimal point
+		}
+	}
 
 	// append zero's or insert decimal point
 
 	else
-		{
+	{
 		i=strlen(returnStr)-1;
 		if (exp-expMin>i)
-			{
+		{
 			for (j=1; j<=exp-expMin-i; j++)
-				{
-				JAppendChar(returnStr, '0');
-				}
-			}
-		else if (exp-expMin<i)
 			{
-			JInsertSubstring(returnStr,exp-expMin+1,".",0,1);
+				JAppendChar(returnStr, '0');
 			}
 		}
+		else if (exp-expMin<i)
+		{
+			JInsertSubstring(returnStr,exp-expMin+1,".",0,1);
+		}
+	}
 
 	exp=expMin;
 
@@ -2732,41 +2732,41 @@ int i,j;
 	i = JLocateSubstring(returnStr,".") + 1;
 	const int decPt = (i == 0 ? 0 : strlen(returnStr)-i);
 	if (afterDec > decPt)
-		{
+	{
 		if (decPt==0)
-			{
+		{
 			JAppendChar(returnStr, '.');
-			}
-		for (i=decPt+1; i<=afterDec; i++)
-			{
-			JAppendChar(returnStr, '0');
-			}
 		}
+		for (i=decPt+1; i<=afterDec; i++)
+		{
+			JAppendChar(returnStr, '0');
+		}
+	}
 
 	// append exponent
 
 	if (exp != 0)
-		{
+	{
 		JAppendChar(returnStr, 'e');
 		if (exp>0)
-			{
+		{
 			JAppendChar(returnStr, '+');
-			}
+		}
 		else
-			{
+		{
 			JAppendChar(returnStr, '-');
 			exp=-exp;
-			}
+		}
 
 		double2str(exp,0,0,0, returnStr + strlen(returnStr));
-		}
+	}
 
 	// prepend negative sign
 
 	if (neg)
-		{
+	{
 		JInsertSubstring(returnStr,0,"-",0,1);
-		}
+	}
 }
 
 /*-----------------------------------------------------------------------------
@@ -2791,43 +2791,43 @@ int i;
 	// clear digits beyond where we will round
 
 	for (i=start+1; i<=sigDigitCount; i++)
-		{
+	{
 		D[i]=0;
-		}
+	}
 
 	// round up digit # start
 
 	if (start < sigDigitCount)
-		{
+	{
 		D[start]++;
-		}
+	}
 
 	// move 10 up to next digit
 
 	if (start > 0)
-		{
+	{
 		for (i=start; i>=1; i--)
-			{
+		{
 			if (D[i]>9)
-				{
+			{
 				D[i]=0;
 				D[i-1]++;
-				}
 			}
 		}
+	}
 
 	// make space for extra digit in front
 
 	if (D[0] > 9)
-		{
+	{
 		for (i=sigDigitCount; i>=2; i--)
-			{
+		{
 			D[i]=D[i-1];
-			}
+		}
 		D[0]=1;
 		D[1]=0;
 		(*exp)++;
-		}
+	}
 }
 
 /*-----------------------------------------------------------------------------
@@ -2856,29 +2856,29 @@ int i;
 	// shift digits
 
 	if (shift < sigDigitCount+1)
-		{
+	{
 		for (i=sigDigitCount; i>=shift; i--)
-			{
+		{
 			D[i]=D[i-shift];
-			}
+		}
 
 		// set preceding digits to zero
 
 		for (i=0; i<shift; i++)
-			{
+		{
 			D[i]=0;
-			}
 		}
+	}
 
 	// shift too large, just clear all digits
 
 	else
-		{
+	{
 		for (i=0; i<=sigDigitCount; i++)
-			{
+		{
 			D[i]=0;
-			}
 		}
+	}
 
 	(*start)=1;			// shifting digits fixed start
 	(*exp)+=shift;		// exponent has changed
@@ -2944,7 +2944,7 @@ short i,len;
 	if (shift>0) {
 		for (i=pos2;i>=pos1;i--) s[i+shift]=s[i];
 		if (pos2+shift+1>len && pos2<len) s[pos2+shift+1]=0;	/* Terminate string */
-		}
+	}
 }
 
 /*-----------------------------------------------------------------------------

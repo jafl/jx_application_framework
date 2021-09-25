@@ -41,9 +41,9 @@ JVector::JVector
 	JVectorX(dimCount);
 
 	for (JUnsignedOffset i=0; i<itsDimCount; i++)
-		{
+	{
 		itsElements[i] = fillValue;
-		}
+	}
 }
 
 JVector::JVector
@@ -57,9 +57,9 @@ JVector::JVector
 	JVectorX(dimCount);
 
 	for (JUnsignedOffset i=0; i<itsDimCount; i++)
-		{
+	{
 		itsElements[i] = values[i];
-		}
+	}
 }
 
 JVector::JVector
@@ -81,9 +81,9 @@ JVector::JVector
 	va_start(argList, v2);
 
 	for (JIndex i=2; i<itsDimCount; i++)
-		{
+	{
 		itsElements[i] = va_arg(argList, JFloat);
-		}
+	}
 
 	va_end(argList);
 }
@@ -139,9 +139,9 @@ JVector::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	assert( JDimensionsEqual(*this, source) );
 
@@ -217,9 +217,9 @@ JVector::operator-()
 	JVector resultVector(itsDimCount);
 
 	for (JUnsignedOffset i=0; i<itsDimCount; i++)
-		{
+	{
 		resultVector.itsElements[i] = - itsElements[i];
-		}
+	}
 
 	return resultVector;
 }
@@ -238,9 +238,9 @@ JVector::operator+=
 	assert( JDimensionsEqual(*this, v) );
 
 	for (JUnsignedOffset i=0; i<itsDimCount; i++)
-		{
+	{
 		itsElements[i] += v.itsElements[i];
-		}
+	}
 
 	// allow chaining
 
@@ -261,9 +261,9 @@ JVector::operator-=
 	assert( JDimensionsEqual(*this, v) );
 
 	for (JUnsignedOffset i=0; i<itsDimCount; i++)
-		{
+	{
 		itsElements[i] -= v.itsElements[i];
-		}
+	}
 
 	// allow chaining
 
@@ -282,9 +282,9 @@ JVector::operator*=
 	)
 {
 	for (JUnsignedOffset i=0; i<itsDimCount; i++)
-		{
+	{
 		itsElements[i] *= s;
-		}
+	}
 
 	// allow chaining
 
@@ -305,9 +305,9 @@ JVector::operator/=
 	assert( s != 0.0 );
 
 	for (JUnsignedOffset i=0; i<itsDimCount; i++)
-		{
+	{
 		itsElements[i] /= s;
-		}
+	}
 
 	// allow chaining
 
@@ -326,9 +326,9 @@ JVector::SetAllElements
 	)
 {
 	for (JUnsignedOffset i=0; i<itsDimCount; i++)
-		{
+	{
 		itsElements[i] = value;
-		}
+	}
 }
 
 /******************************************************************************
@@ -361,9 +361,9 @@ JVector::Set
 	va_start(argList, v1);
 
 	for (JIndex i=1; i<itsDimCount; i++)
-		{
+	{
 		itsElements[i] = va_arg(argList, JFloat);
-		}
+	}
 
 	va_end(argList);
 }
@@ -385,16 +385,16 @@ JVector::GetMinElement
 {
 	JFloat min = 0.0;
 	for (JUnsignedOffset i=0; i<itsDimCount; i++)
-		{
+	{
 		if (itsElements[i] < min || i == 0)
-			{
+		{
 			min = itsElements[i];
 			if (index != nullptr)
-				{
+			{
 				*index = i+1;
-				}
 			}
 		}
+	}
 
 	return min;
 }
@@ -416,16 +416,16 @@ JVector::GetMaxElement
 {
 	JFloat max = 0.0;
 	for (JUnsignedOffset i=0; i<itsDimCount; i++)
-		{
+	{
 		if (itsElements[i] > max || i == 0)
-			{
+		{
 			max = itsElements[i];
 			if (index != nullptr)
-				{
+			{
 				*index = i+1;
-				}
 			}
 		}
+	}
 
 	return max;
 }
@@ -444,9 +444,9 @@ JVector::GetLength()
 	JFloat normSq = 0.0;
 
 	for (JUnsignedOffset i=0; i<itsDimCount; i++)
-		{
+	{
 		normSq += itsElements[i] * itsElements[i];
-		}
+	}
 
 	return sqrt(normSq);
 }
@@ -463,9 +463,9 @@ JVector::Transpose()
 	JMatrix vt(1, itsDimCount);
 
 	for (JUnsignedOffset i=0; i<itsDimCount; i++)
-		{
+	{
 		vt.SetElement(1,i+1, itsElements[i]);
-		}
+	}
 
 	return vt;
 }
@@ -575,9 +575,9 @@ JDotProduct
 	JFloat result = 0.0;
 	const JSize dimCount = v1.GetDimensionCount();
 	for (JIndex i=1; i<=dimCount; i++)
-		{
+	{
 		result += v1.GetElement(i) * v2.GetElement(i);
-		}
+	}
 
 	return result;
 }
@@ -627,14 +627,14 @@ JOuterProduct
 	JMatrix resultMx(rowCount, colCount);
 
 	for (JIndex i=1; i<=rowCount; i++)
-		{
+	{
 		const JFloat value1 = v1.GetElement(i);
 
 		for (JIndex j=1; j<=colCount; j++)
-			{
+		{
 			resultMx.SetElement(i,j, value1 * v2.GetElement(j));
-			}
 		}
+	}
 
 	return resultMx;
 }
@@ -655,12 +655,12 @@ operator==
 
 	const JSize dimCount = v1.GetDimensionCount();
 	for (JIndex i=1; i<=dimCount; i++)
-		{
+	{
 		if (v1.GetElement(i) != v2.GetElement(i))
-			{
+		{
 			return false;
-			}
 		}
+	}
 
 	return true;
 }
@@ -679,11 +679,11 @@ operator>>
 {
 	const JSize dimCount = aVector.GetDimensionCount();
 	for (JIndex i=1; i<=dimCount; i++)
-		{
+	{
 		JFloat value;
 		input >> value;
 		aVector.SetElement(i, value);
-		}
+	}
 
 	// allow chaining
 
@@ -699,15 +699,15 @@ operator<<
 {
 	const JSize dimCount = aVector.GetDimensionCount();
 	for (JIndex i=1; i<=dimCount; i++)
-		{
+	{
 		const JFloat value = aVector.GetElement(i);
 
 		if (i > 1)
-			{
+		{
 			output << ' ';
-			}
-		output << value;
 		}
+		output << value;
+	}
 
 	// allow chaining
 

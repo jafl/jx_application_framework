@@ -41,24 +41,24 @@ void NewFileTest
 
 
 	snoop.Expect(JFileArray::kElementInserted);
-	{
+{
 	std::ostringstream dataStream;
 	JString elementData("This was the first element that was added to the file.", JString::kNoCopy);
 
 	dataStream << elementData;
 	a.AppendElement(dataStream);
-	}
+}
 	JAssertEqual(1+embeddedFileCount, a.GetElementCount());
 
 
 	snoop.Expect(JFileArray::kElementInserted);
-	{
+{
 	std::ostringstream dataStream;
 	JString elementData("This was the second element that was added to the file.", JString::kNoCopy);
 
 	dataStream << elementData;
 	a.PrependElement(dataStream);
-	}
+}
 	JAssertEqual(2+embeddedFileCount, a.GetElementCount());
 
 
@@ -68,17 +68,17 @@ void NewFileTest
 
 
 	snoop.Expect(JFileArray::kElementInserted);
-	{
+{
 	std::ostringstream dataStream;
 	JString elementData("This was the third element that was added to the file", JString::kNoCopy);
 
 	dataStream << elementData;
 	a.PrependElement(dataStream);
-	}
+}
 	JAssertEqual(2+embeddedFileCount, a.GetElementCount());
 
 
-	{
+{
 	JFAID id = 3;
 	std::string data;
 	a.GetElement(id, &data);
@@ -91,7 +91,7 @@ void NewFileTest
 			"This was the second element that was added to the file." :
 			"This was the third element that was added to the file",
 		elementData);
-	}
+}
 
 
 	snoop.Expect(JFileArray::kElementMoved);
@@ -99,7 +99,7 @@ void NewFileTest
 
 
 	snoop.Expect(JFileArray::kElementChanged);
-	{
+{
 	JFAIndex index = 1;
 
 	std::ostringstream dataStream;
@@ -107,11 +107,11 @@ void NewFileTest
 
 	dataStream << elementData;
 	a.SetElement(index,dataStream);
-	}
+}
 
 
 	snoop.Expect(JFileArray::kElementChanged);
-	{
+{
 	JFAIndex index = 2;
 
 	std::ostringstream dataStream;
@@ -119,11 +119,11 @@ void NewFileTest
 
 	dataStream << elementData;
 	a.SetElement(index,dataStream);
-	}
+}
 
 
 	snoop.Expect(JFileArray::kElementChanged);
-	{
+{
 	JFAIndex index = 1;
 
 	std::ostringstream dataStream;
@@ -131,11 +131,11 @@ void NewFileTest
 
 	dataStream << elementData;
 	a.SetElement(index,dataStream);
-	}
+}
 
 
 	snoop.Expect(JFileArray::kElementChanged);
-	{
+{
 	JFAIndex index = 2;
 
 	std::ostringstream dataStream;
@@ -143,7 +143,7 @@ void NewFileTest
 
 	dataStream << elementData;
 	a.SetElement(index,dataStream);
-	}
+}
 
 
 	snoop.Expect(JFileArray::kElementsSwapped);
@@ -162,7 +162,7 @@ void OldFileTest
 	JString elementData;
 
 	for (JIndex i : { 1,2 })
-		{
+	{
 		JFAIndex index = i;
 		JFAID    id;
 		JAssertTrue(a.IndexToID(index, &id));
@@ -179,7 +179,7 @@ void OldFileTest
 				"Now the second element is also very much longer!!!" :
 				"Now the first element is really, really long!!!",
 			elementData);
-		}
+	}
 }
 
 JTEST(Exercise)

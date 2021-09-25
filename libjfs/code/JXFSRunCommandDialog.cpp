@@ -53,12 +53,12 @@ JXFSRunCommandDialog::JXFSRunCommandDialog()
 
 	JString signalFileName;
 	if (JExpandHomeDirShortcut(kSignalFileName, &signalFileName))
-		{
+	{
 		itsSignalTask = jnew JXCheckModTimeTask(kUpdateInterval, signalFileName);
 		assert( itsSignalTask != nullptr );
 		itsSignalTask->Start();
 		ListenTo(itsSignalTask);
-		}
+	}
 
 	BuildWindow();
 }
@@ -100,10 +100,10 @@ JXFSRunCommandDialog::Activate()
 	JXWindowDirector::Activate();
 
 	if (IsActive())
-		{
+	{
 		itsCmdInput->Focus();
 		itsCmdInput->SelectAll();
-		}
+	}
 }
 
 /******************************************************************************
@@ -232,9 +232,9 @@ JXFSRunCommandDialog::BuildWindow()
 	itsStayOpenCB->SetState(true);
 
 	if (!ReadSetup(false))
-		{
+	{
 		window->PlaceAsDialogWindow();
-		}
+	}
 
 	UpdateDisplay();
 }
@@ -249,13 +249,13 @@ JXFSRunCommandDialog::UpdateDisplay()
 {
 	JString p;
 	if (!itsCmdInput->GetText()->IsEmpty() && itsPathInput->GetPath(&p))
-		{
+	{
 		itsRunButton->Activate();
-		}
+	}
 	else
-		{
+	{
 		itsRunButton->Deactivate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -271,57 +271,57 @@ JXFSRunCommandDialog::Receive
 	)
 {
 	if (sender == itsRunButton && message.Is(JXButton::kPushed))
-		{
+	{
 		Exec();
 		if (!itsStayOpenCB->IsChecked())
-			{
+		{
 			Deactivate();
-			}
 		}
+	}
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
-		{
+	{
 		Deactivate();
-		}
+	}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
-		{
+	{
 		(JXGetHelpManager())->ShowSection(JGetString("HelpLink::JXFSRunCommandDialog").GetBytes());
-		}
+	}
 
 	else if (sender == itsPathHistoryMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		itsPathHistoryMenu->UpdateInputField(message, itsPathInput);
-		}
+	}
 	else if (sender == itsChoosePathButton && message.Is(JXButton::kPushed))
-		{
+	{
 		itsPathInput->ChoosePath(JString::empty);
-		}
+	}
 
 	else if (sender == itsCmdHistoryMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		JXFSRunFileDialog::HandleHistoryMenu(message, itsCmdHistoryMenu, itsCmdInput,
 											 itsUseShellCB, itsUseWindowCB, nullptr);
-		}
+	}
 	else if (sender == itsChooseCmdButton && message.Is(JXButton::kPushed))
-		{
+	{
 		JXFSRunFileDialog::HandleChooseCmdButton(itsCmdInput);
-		}
+	}
 
 	else if ((sender == itsCmdInput || sender == itsPathInput) &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
-		{
+	{
 		UpdateDisplay();
-		}
+	}
 
 	else if (sender == itsSignalTask && message.Is(JXCheckModTimeTask::kFileChanged))
-		{
+	{
 		ReadSetup(true);
-		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -334,9 +334,9 @@ JXFSRunCommandDialog::Exec()
 {
 	JString path;
 	if (!itsPathInput->GetPath(&path))
-		{
+	{
 		return;
-		}
+	}
 
 	JXGetApplication()->DisplayBusyCursor();	// indicate to user that something happened
 
@@ -348,14 +348,14 @@ JXFSRunCommandDialog::Exec()
 		JXFSBindingManager::Exec(path, itsCmdInput->GetText()->GetText(), type);
 
 	if (err.OK())
-		{
+	{
 		itsPathHistoryMenu->AddString(itsPathInput->GetText()->GetText());
 		itsCmdHistoryMenu->AddCommand(itsCmdInput->GetText()->GetText(),
 									  itsUseShellCB->IsChecked(),
 									  itsUseWindowCB->IsChecked(),
 									  false);
 		WriteSetup();
-		}
+	}
 }
 
 /******************************************************************************
@@ -374,34 +374,34 @@ JXFSRunCommandDialog::ReadSetup
 	JPrefsFile* file = nullptr;
 	if ((JPrefsFile::Create(kPrefsFileRoot, &file,
 							JFileArray::kDeleteIfWaitTimeout)).OK())
-		{
+	{
 		for (JFileVersion vers = kCurrentPrefsVersion; true; vers--)
-			{
+		{
 			if (file->IDValid(vers))
-				{
+			{
 				std::string data;
 				file->GetData(vers, &data);
 				std::istringstream input(data);
 				if (update)
-					{
+				{
 					UpdateSetup(input);
-					}
+				}
 				else
-					{
+				{
 					ReadSetup(input);
-					}
+				}
 				found = true;
 				break;
-				}
-
-			if (vers == 0)
-				{
-				break;	// check *before* decrement since unsigned
-				}
 			}
 
-		jdelete file;
+			if (vers == 0)
+			{
+				break;	// check *before* decrement since unsigned
+			}
 		}
+
+		jdelete file;
+	}
 
 	return found;
 }
@@ -417,7 +417,7 @@ JXFSRunCommandDialog::WriteSetup()
 	JPrefsFile* file = nullptr;
 	if ((JPrefsFile::Create(kPrefsFileRoot, &file,
 							JFileArray::kDeleteIfWaitTimeout)).OK())
-		{
+	{
 		std::ostringstream data;
 		WriteSetup(data);
 		file->SetData(kCurrentPrefsVersion, data);
@@ -426,7 +426,7 @@ JXFSRunCommandDialog::WriteSetup()
 		std::ofstream touch(itsSignalTask->GetFileName().GetBytes());
 		touch.close();
 		itsSignalTask->UpdateModTime();
-		}
+	}
 }
 
 /******************************************************************************

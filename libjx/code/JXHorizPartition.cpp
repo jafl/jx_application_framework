@@ -145,7 +145,7 @@ JXHorizPartition::UpdateCompartmentSizes()
 	const JSize compartmentCount = GetCompartmentCount();
 	JCoordinate x = 0;
 	for (JIndex i=1; i<=compartmentCount; i++)
-		{
+	{
 		const JCoordinate w = GetCompartmentSize(i);
 		assert( w >= JPartition::GetMinCompartmentSize(i) );
 
@@ -153,7 +153,7 @@ JXHorizPartition::UpdateCompartmentSizes()
 		compartment->Place(x,0);
 		compartment->SetSize(w,h);
 		x += w + kDragRegionSize;
-		}
+	}
 }
 
 /******************************************************************************
@@ -179,12 +179,12 @@ JXHorizPartition::Draw
 	const JSize compartmentCount = GetCompartmentCount();
 	JCoordinate x = 0;
 	for (JIndex i=1; i<compartmentCount; i++)
-		{
+	{
 		x += GetCompartmentSize(i);
 		p.Line(x+1, y1, x+1, y2);
 		p.Line(x+3, y1, x+3, y2);
 		x += kDragRegionSize;
-		}
+	}
 }
 
 /******************************************************************************
@@ -206,20 +206,20 @@ JXHorizPartition::HandleMouseDown
 {
 	itsDragType = kInvalidDrag;
 	if (button != kJXLeftButton)
-		{
+	{
 		return;
-		}
+	}
 
 	if (modifiers.meta())
-		{
+	{
 		itsDragType = kDragAll;
 		PrepareToDragAll(pt.x, &itsMinDragX, &itsMaxDragX);
-		}
+	}
 	else
-		{
+	{
 		itsDragType = kDragOne;
 		PrepareToDrag(pt.x, &itsMinDragX, &itsMaxDragX);
-		}
+	}
 
 	JPainter* p = CreateDragInsidePainter();
 
@@ -242,24 +242,24 @@ JXHorizPartition::HandleMouseDrag
 	)
 {
 	if (itsDragType != kInvalidDrag)
-		{
+	{
 		JPoint pt = origPt;
 
 		// keep compartment width larger than minimum
 
 		if (pt.x < itsMinDragX)
-			{
+		{
 			pt.x = itsMinDragX;
-			}
+		}
 		else if (pt.x > itsMaxDragX)
-			{
+		{
 			pt.x = itsMaxDragX;
-			}
+		}
 
 		// check if we have moved
 
 		if (pt.x != itsPrevPt.x)
-			{
+		{
 			JPainter* p = nullptr;
 			const bool ok = GetDragPainter(&p);
 			assert( ok );
@@ -269,8 +269,8 @@ JXHorizPartition::HandleMouseDrag
 			p->Line(pt.x, ap.top, pt.x, ap.bottom);
 
 			itsPrevPt = pt;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -290,7 +290,7 @@ JXHorizPartition::HandleMouseUp
 	)
 {
 	if (itsDragType != kInvalidDrag)
-		{
+	{
 		// erase the line
 
 		JPainter* p = nullptr;
@@ -305,15 +305,15 @@ JXHorizPartition::HandleMouseUp
 		// set the compartment widths
 
 		if (itsDragType == kDragAll)
-			{
+		{
 			AdjustCompartmentsAfterDragAll(itsPrevPt.x);
-			}
+		}
 		else
-			{
+		{
 			assert( itsDragType == kDragOne );
 			AdjustCompartmentsAfterDrag(itsPrevPt.x);
-			}
 		}
+	}
 
 	itsDragType = kInvalidDrag;
 }
@@ -331,13 +331,13 @@ JXHorizPartition::AdjustCursor
 	)
 {
 	if (modifiers.meta())
-		{
+	{
 		DisplayCursor(itsDragAllLineCursor);
-		}
+	}
 	else
-		{
+	{
 		JXPartition::AdjustCursor(pt, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -358,7 +358,7 @@ JXHorizPartition::RunInternalFTC
 	JXContainer* obj;
 
 	if (horizontal)
-		{
+	{
 		itsFTCSizes = jnew JArray<JCoordinate>;
 		assert( itsFTCSizes != nullptr );
 
@@ -368,55 +368,55 @@ JXHorizPartition::RunInternalFTC
 		JCoordinate sum = 0;
 		JIndex i        = 1;
 		while (iter.Next(&obj))
-			{
+		{
 			JCoordinate w, delta;
 			const JRect padding = obj->ComputePaddingForInternalFTC();
 			if (obj->RunInternalFTC(true, &w))
-				{
+			{
 				w    += padding.left + padding.right;
 				delta = w - obj->GetApertureWidth();
 				obj->FTCAdjustSize(delta, 0);
-				}
+			}
 			else
-				{
+			{
 				w     = GetCompartmentSize(i);
 				delta = 0;
-				}
+			}
 
 			itsFTCSizes->AppendElement(w);
 			itsFTCMinSizes->AppendElement(JPartition::GetMinCompartmentSize(i) + delta);
 			sum += w;
 			i++;
-			}
+		}
 
 		*newSize = sum + (itsFTCSizes->GetElementCount() - 1) * kDragRegionSize;
-		}
+	}
 	else	// vertical
-		{
+	{
 		JCoordinate h = 0;
 		while (iter.Next(&obj))
-			{
+		{
 			JCoordinate h1;
 			if (obj->RunInternalFTC(false, &h1))
-				{
+			{
 				obj->FTCAdjustSize(0, h1 - obj->GetApertureHeight());
-				}
+			}
 			else
-				{
+			{
 				h1 = obj->GetApertureHeight();
-				}
+			}
 
 			h = JMax(h, h1);
-			}
+		}
 
 		iter.MoveTo(kJIteratorStartAtBeginning, 0);
 		while (iter.Next(&obj))
-			{
+		{
 			obj->AdjustSize(0, h - obj->GetApertureHeight());
-			}
+		}
 
 		*newSize = h + 2 * GetBorderWidth();
-		}
+	}
 
 	return true;
 }
@@ -436,7 +436,7 @@ JXHorizPartition::FTCAdjustSize
 	JXPartition::FTCAdjustSize(dw, dh);
 
 	if (itsFTCSizes != nullptr)
-		{
+	{
 		SetCompartmentSizes(*itsFTCSizes);
 		jdelete itsFTCSizes;
 		itsFTCSizes = nullptr;
@@ -446,12 +446,12 @@ JXHorizPartition::FTCAdjustSize
 		itsFTCMinSizes = nullptr;
 
 		if (itsSavedGeom != nullptr)
-			{
+		{
 			RestoreGeometry(*itsSavedGeom);
 			jdelete itsSavedGeom;
 			itsSavedGeom = nullptr;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -466,18 +466,18 @@ JXHorizPartition::SaveGeometryForLater
 	)
 {
 	if (itsSavedGeom == nullptr)
-		{
+	{
 		itsSavedGeom = jnew JArray<JCoordinate>(sizes);
 		assert( itsSavedGeom != nullptr );
 
 		JXUrgentTask* geomTask = jnew JXRestorePartitionGeometry(this);
 		assert( geomTask != nullptr );
 		geomTask->Go();
-		}
+	}
 	else
-		{
+	{
 		*itsSavedGeom = sizes;
-		}
+	}
 
 	return true;
 }

@@ -98,9 +98,9 @@ JXFontManager::JXFontManager
 JXFontManager::~JXFontManager()
 {
 	for (auto info : *itsFontList)
-		{
+	{
 		info.xfont.Free(itsDisplay);
-		}
+	}
 	jdelete itsFontList;
 
 	jdelete itsAllFontNames;
@@ -124,9 +124,9 @@ jInsertFontName
 	bool isDuplicate;
 	const JIndex index = fontNames->GetInsertionSortIndex(name, &isDuplicate);
 	if (!isDuplicate)
-		{
+	{
 		fontNames->InsertAtIndex(index, *name);
-		}
+	}
 }
 
 void
@@ -136,10 +136,10 @@ JXFontManager::GetFontNames
 	)
 {
 	if (itsAllFontNames != nullptr)
-		{
+	{
 		fontNames->CopyObjects(*itsAllFontNames, fontNames->GetCleanUpAction(), false);
 		return;
-		}
+	}
 
 	fontNames->CleanOut();
 	fontNames->SetCompareFunction(JCompareStringsCaseInsensitive);
@@ -155,7 +155,7 @@ JXFontManager::GetFontNames
 					 FC_FAMILY, nullptr);
 
 	for (int i=0; i < set->nfont; i++)
-		{
+	{
 		FcChar8* s = FcNameUnparse(set->fonts[i]);
 		name.Set((JUtf8Byte*) s);
 		FcStrFree(s);
@@ -163,21 +163,21 @@ JXFontManager::GetFontNames
 
 		TrimTrueTypeFontName(&name);
 		if (ShouldIgnore(name))
-			{
+		{
 			continue;
-			}
+		}
 //		std::cout << "tt  font: " << name << std::endl;
 //		FcPatternPrint(set->fonts[i]);
 
 		jInsertFontName(fontNames, &name);
-		}
+	}
 	FcFontSetDestroy(set);
 
 	for (const auto* n : kFallbackFontNames)
-		{
+	{
 		name.Set(n);
 		jInsertFontName(fontNames, &name);
-		}
+	}
 
 #if INCLUDE_X11_FONTS
 
@@ -185,12 +185,12 @@ JXFontManager::GetFontNames
 	char** nameList = XListFonts(*itsDisplay, "-*-*-medium-r-normal-*-0-0-75-75-*-*-iso10646-1",
 								 INT_MAX, &nameCount);
 	if (nameList == nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	for (int i=0; i<nameCount; i++)
-		{
+	{
 		const std::string s(nameList[i], strlen(nameList[i]));
 		std::istringstream input(s);
 		input.ignore();						// initial dash
@@ -198,20 +198,20 @@ JXFontManager::GetFontNames
 		name = JReadUntil(input, '-');		// font name
 
 		if (name.IsEmpty() || name == "nil")
-			{
+		{
 			continue;
-			}
+		}
 
 		ConvertToPSFontName(&name);
 
 		if (ShouldIgnore(name))
-			{
+		{
 			continue;
-			}
+		}
 //		std::cout << "std font: " << name << std::endl;
 
 		jInsertFontName(fontNames, &name);
-		}
+	}
 	XFreeFontNames(nameList);
 
 	// save names for next time
@@ -234,10 +234,10 @@ JXFontManager::GetMonospaceFontNames
 	)
 {
 	if (itsMonoFontNames != nullptr)
-		{
+	{
 		fontNames->CopyObjects(*itsMonoFontNames, fontNames->GetCleanUpAction(), false);
 		return;
-		}
+	}
 
 	JXGetApplication()->DisplayBusyCursor();
 
@@ -256,7 +256,7 @@ JXFontManager::GetMonospaceFontNames
 					 FC_FAMILY, nullptr);
 
 	for (int i=0; i < set->nfont; i++)
-		{
+	{
 		FcChar8* s = FcNameUnparse(set->fonts[i]);
 		name.Set((JUtf8Byte*) s);
 		FcStrFree(s);
@@ -265,12 +265,12 @@ JXFontManager::GetMonospaceFontNames
 
 		TrimTrueTypeFontName(&name);
 		if (ShouldIgnore(name))
-			{
+		{
 			continue;
-			}
+		}
 
 		jInsertFontName(fontNames, &name);
-		}
+	}
 	FcFontSetDestroy(set);
 
 	// save names for next time
@@ -305,26 +305,26 @@ JXFontManager::GetXFontNames
 	int nameCount;
 	char** nameList = XListFonts(*itsDisplay, "*", INT_MAX, &nameCount);
 	if (nameList == nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	for (int i=0; i<nameCount; i++)
-		{
+	{
 		if (strcmp(nameList[i], "nil") != 0 &&
 			regex.Match(JString(nameList[i], JString::kNoCopy)))
-			{
+		{
 			JString name(nameList[i], JString::kNoCopy);
 			bool isDuplicate;
 			const JIndex index = fontNames->GetInsertionSortIndex(&name, &isDuplicate);
 			if (!isDuplicate)
-				{
+			{
 				auto* n = jnew JString(name);
 				assert( n != nullptr );
 				fontNames->InsertAtIndex(index, n);
-				}
 			}
 		}
+	}
 
 	XFreeFontNames(nameList);
 }
@@ -375,43 +375,43 @@ JXFontManager::GetXFont
 
 	const JFontID id = GetFontID(xFontStr, 0, JFontStyle());
 	while (!itsFontList->IndexValid(id))
-		{
+	{
 		itsFontList->AppendElement(FontInfo());
-		}
+	}
 
 	FontInfo info = itsFontList->GetElement(id);
 	if (info.filled)
-		{
+	{
 		*font = jnew JFont(GetFont(id));
 		assert( font != nullptr );
 		return true;
-		}
+	}
 
 	// falling through means we need to create a new entry
 
 	XftFont* xft = XftFontOpenXlfd(*itsDisplay, itsDisplay->GetScreen(), xFontStr.GetBytes());
 	if (xft != nullptr)
-		{
+	{
 		info.xfont.type = kTrueType;
 		info.xfont.xftt = xft;
-		}
+	}
 	else
-		{
+	{
 		char** missingCharsetList;
 		int missingCharsetCount;
 		char* defString;
 		XFontSet set = XCreateFontSet(*itsDisplay, xFontStr.GetBytes(), &missingCharsetList, &missingCharsetCount, &defString);
 		if (set != nullptr)
-			{
+		{
 			XFreeStringList(missingCharsetList);
 			info.xfont.type  = kStdType;
 			info.xfont.xfset = set;
-			}
-		else
-			{
-			return false;
-			}
 		}
+		else
+		{
+			return false;
+		}
+	}
 
 	info.filled    = true;
 	info.exact     = true;
@@ -452,13 +452,13 @@ JXFontManager::HasGlyphForCharacter
 {
 	XFont info = GetXFontInfo(id);
 	if (info.type == kTrueType)
-		{
+	{
 		return FcCharSetHasChar(info.xftt->charset, c.GetUtf32());
-		}
+	}
 	else
-		{
+	{
 		return true;	// no way to tell?
-		}
+	}
 }
 
 /******************************************************************************
@@ -476,14 +476,14 @@ JXFontManager::GetSubstituteFontName
 {
 	JFont f1 = f;
 	for (const auto* n : kFallbackFontNames)
-		{
+	{
 		f1.SetName(JString(n, JString::kNoCopy));
 		if (HasGlyphForCharacter(f1.GetID(), c))
-			{
+		{
 			name->Set(n);
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -506,19 +506,19 @@ JXFontManager::GetLineHeight
 {
 	FontInfo info = ResolveFontID(id);
 	if (info.xfont.type == kStdType && info.ascent == 0)
-		{
+	{
 		XFontStruct** fsList;
 		char** nameList;
 		const int count = XFontsOfFontSet(info.xfont.xfset, &fsList, &nameList);
 		for (int i=0; i<count; i++)
-			{
+		{
 			info.ascent  = JMax(info.ascent,  (JCoordinate) fsList[i]->ascent);
 			info.descent = JMax(info.descent, (JCoordinate) fsList[i]->descent);
-			}
-		itsFontList->SetElement(id, info);
 		}
+		itsFontList->SetElement(id, info);
+	}
 	else if (info.ascent == 0)
-		{
+	{
 		assert( info.xfont.type == kTrueType );
 
 		XGlyphInfo g;
@@ -526,16 +526,16 @@ JXFontManager::GetLineHeight
 		info.ascent  = g.y + 1 + size/10;
 		info.descent = g.height - g.y;
 		itsFontList->SetElement(id, info);
-		}
+	}
 
 	*ascent  = info.ascent;
 	*descent = info.descent;
 
 	const JCoordinate underlineHeight = 2 * GetUnderlineThickness(size) * style.underlineCount;
 	if (*descent < underlineHeight)
-		{
+	{
 		*descent = underlineHeight;
-		}
+	}
 
 	return (*ascent + *descent);
 }
@@ -554,22 +554,22 @@ JXFontManager::GetCharWidth
 {
 	const FontInfo info = ResolveFontID(id);
 	if (info.monoWidth > 0)
-		{
+	{
 		return info.monoWidth;
-		}
+	}
 	else if (info.xfont.type == kStdType)
-		{
+	{
 		// Xutf8TextEscapement() would be more accurate, but it's not standard.
 		return XmbTextEscapement(info.xfont.xfset, c.GetBytes(), c.GetByteCount());
-		}
+	}
 	else
-		{
+	{
 		assert( info.xfont.type == kTrueType );
 
 		XGlyphInfo g;
 		XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) c.GetBytes(), c.GetByteCount(), &g);
 		return g.xOff;
-		}
+	}
 }
 
 /******************************************************************************
@@ -586,11 +586,11 @@ JXFontManager::GetStringWidth
 {
 	const FontInfo info = ResolveFontID(id);
 	if (info.monoWidth > 0)
-		{
+	{
 		return str.GetCharacterCount() * info.monoWidth;
-		}
+	}
 	else
-		{
+	{
 		const JSize byteCount      = str.GetByteCount();
 		const JSize chunkByteCount = itsDisplay->GetMaxStringByteCount();
 
@@ -598,37 +598,37 @@ JXFontManager::GetStringWidth
 		JSize offset = 0;
 		XGlyphInfo g;
 		while (offset < byteCount)
-			{
+		{
 			const JUtf8Byte* s = str.GetRawBytes() + offset;	// GetRawBytes() because str may be a shadow
 
 			JSize count = byteCount - offset;
 			if (count > chunkByteCount)
-				{
+			{
 				count = chunkByteCount;
 				JSize byteCount;
 				while (!JUtf8Character::GetCharacterByteCount(s + count, &byteCount))
-					{
+				{
 					count--;
-					}
 				}
+			}
 
 			if (info.xfont.type == kStdType)
-				{
+			{
 				// Xutf8TextEscapement() would be more accurate, but it's not standard.
 				width += XmbTextEscapement(info.xfont.xfset, s, count);
-				}
+			}
 			else
-				{
+			{
 				assert( info.xfont.type == kTrueType );
 				XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) s, count, &g);
 				width += g.xOff;
-				}
-
-			offset += count;
 			}
 
-		return width;
+			offset += count;
 		}
+
+		return width;
+	}
 }
 
 /******************************************************************************
@@ -645,29 +645,29 @@ JXFontManager::ResolveFontID
 	assert( id > 0 );
 
 	while (!itsFontList->IndexValid(id))
-		{
+	{
 		itsFontList->AppendElement(FontInfo());
-		}
+	}
 
 	FontInfo info = itsFontList->GetElement(id);
 	if (info.filled)
-		{
+	{
 		return info;
-		}
+	}
 
 	// falling through means we need to create a new entry
 
 	const JFont f = GetFont(id);
 
 	if (GetNewFont(f.GetName(), f.GetSize(), f.GetStyle(), &(info.xfont)))
-		{
+	{
 		info.exact = true;
-		}
+	}
 	else
-		{
+	{
 		info.exact = false;
 		ApproximateFont(f.GetName(), f.GetSize(), f.GetStyle(), &(info.xfont));
-		}
+	}
 
 	info.filled    = true;
 	info.monoWidth = IsMonospace(info.xfont);
@@ -693,15 +693,15 @@ JXFontManager::GetNewFont
 	JString xFontStr;
 
 	if (BuildTrueTypeFontName(origName, origSize, style, &xFontStr))
-		{
+	{
 		XftFont* xft = XftFontOpenName(*itsDisplay, itsDisplay->GetScreen(), xFontStr.GetBytes());
 		if (xft != nullptr)
-			{
+		{
 			xfont->type = kTrueType;
 			xfont->xftt = xft;
 			return true;
-			}
 		}
+	}
 
 	JString name     = origName;
 	JSize pointSize  = origSize;
@@ -712,7 +712,7 @@ JXFontManager::GetNewFont
 
 	const JStringMatch m = nxmRegex.Match(name, JRegex::kIncludeSubmatches);
 	if (!m.IsEmpty())
-		{
+	{
 		bool ok = m.GetSubstring(1).ConvertToUInt(&pixelWidth);
 		assert(ok);
 
@@ -723,10 +723,10 @@ JXFontManager::GetNewFont
 		pointSize = 0;
 
 		if (pixelWidth == 6 && (pixelSize == 12 || pixelSize == 13))
-			{
+		{
 			spacing = "semicondensed";
-			}
 		}
+	}
 
 	const JUtf8Byte* italicStr = kObliqueStr;	// try oblique before italic
 
@@ -735,26 +735,26 @@ JXFontManager::GetNewFont
 	int missingCharsetCount;
 	char* defString;
 	while (true)
-		{
+	{
 		xFontStr = BuildStdFontName(name, pointSize, pixelSize, pixelWidth, spacing, style, italicStr);
 		set      = XCreateFontSet(*itsDisplay, xFontStr.GetBytes(), &missingCharsetList, &missingCharsetCount, &defString);
 		if (set != nullptr)
-			{
+		{
 			XFreeStringList(missingCharsetList);
 			xfont->type  = kStdType;
 			xfont->xfset = set;
 			return true;
-			}
+		}
 
 		if (strcmp(italicStr, kObliqueStr) == 0 && style.italic)
-			{
+		{
 			italicStr = kItalicStr;
-			}
-		else
-			{
-			return false;	// give up
-			}
 		}
+		else
+		{
+			return false;	// give up
+		}
+	}
 }
 
 /******************************************************************************
@@ -785,24 +785,24 @@ JXFontManager::BuildStdFontName
 	// regular or boldface
 
 	if (style.bold)
-		{
+	{
 		xFontStr.Append("-bold");
-		}
+	}
 	else
-		{
+	{
 		xFontStr.Append("-medium");
-		}
+	}
 
 	// regular or italic
 
 	if (style.italic)
-		{
+	{
 		xFontStr.Append(italicStr);
-		}
+	}
 	else
-		{
+	{
 		xFontStr.Append("-r");
-		}
+	}
 
 	// character spacing
 
@@ -816,26 +816,26 @@ JXFontManager::BuildStdFontName
 	// pixel size
 
 	if (pixelSize > 0)
-		{
+	{
 		xFontStr.Append("-");
 		xFontStr.Append( JString((JUInt64) pixelSize) );
-		}
+	}
 	else
-		{
+	{
 		xFontStr.Append("-*");
-		}
+	}
 
 	// font size
 
 	if (pointSize > 0)
-		{
+	{
 		xFontStr.Append("-");
 		xFontStr.Append( JString((JUInt64) 10*(pointSize+2)) );
-		}
+	}
 	else
-		{
+	{
 		xFontStr.Append("-*");
-		}
+	}
 
 	// screen resolution (apparently, we should always just use 75 dpi fonts),
 	// any spacing
@@ -845,14 +845,14 @@ JXFontManager::BuildStdFontName
 	// avg width
 
 	if (pixelWidth > 0)
-		{
+	{
 		xFontStr.Append("-");
 		xFontStr.Append( JString((JUInt64) 10*pixelWidth) );
-		}
+	}
 	else
-		{
+	{
 		xFontStr.Append("-*");
-		}
+	}
 
 	// unicode charset
 
@@ -882,9 +882,9 @@ JXFontManager::BuildTrueTypeFontName
 	// NxM is not TrueType.
 
 	if (nxmRegex.Match(xName))
-		{
+	{
 		return false;
-		}
+	}
 
 	// name
 
@@ -898,24 +898,24 @@ JXFontManager::BuildTrueTypeFontName
 	// regular or boldface
 
 	if (style.bold)
-		{
+	{
 		xFontStr->Append(":weight=bold");
-		}
+	}
 	else
-		{
+	{
 		xFontStr->Append(":weight=light");
-		}
+	}
 
 	// regular or italic
 
 	if (style.italic)
-		{
+	{
 		xFontStr->Append(":slant=oblique,italic");
-		}
+	}
 	else
-		{
+	{
 		xFontStr->Append(":slant=roman");
-		}
+	}
 
 	// language
 
@@ -942,10 +942,10 @@ JXFontManager::TrimTrueTypeFontName
 {
 	JStringIterator iter(s);
 	if (iter.Next(nameEndMarkerPattern))
-		{
+	{
 		iter.SkipPrev();
 		iter.RemoveAllNext();
-		}
+	}
 }
 
 /******************************************************************************
@@ -972,50 +972,50 @@ JXFontManager::ApproximateFont
 	JFontStyle style = origStyle;
 
 	while (true)
-		{
+	{
 		if (size % 2 == 1)
-			{
+		{
 			size--;		// even sizes are more common
-			}
+		}
 		else if (size < 12)
-			{
+		{
 			size += 2;
-			}
+		}
 		else if (size > 12)
-			{
+		{
 			size -= 2;
-			}
+		}
 		else if (style.bold)
-			{
+		{
 			style.bold = false;
 			size       = origSize;
-			}
+		}
 		else if (style.italic)
-			{
+		{
 			style.italic = false;
 			size         = origSize;
-			}
+		}
 		else if (name != JFontManager::GetDefaultFontName())
-			{
+		{
 			name  = JFontManager::GetDefaultFontName();
 			size  = origSize;
 			style = origStyle;
-			}
+		}
 		else
-			{
+		{
 			// this should never happen, but it does with some Win95 X servers
 
 			std::cerr << "The X server does not have any 75 dpi PostScript fonts, not even ";
 			std::cerr << JFontManager::GetDefaultFontName() << std::endl;
 			std::cerr << "Please install the xorg-x11-fonts-75dpi package" << std::endl;
 			JXApplication::Abort(JXDocumentManager::kServerDead, false);
-			}
+		}
 
 		if (GetNewFont(name, size, style, xfont))
-			{
+		{
 			break;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1034,13 +1034,13 @@ JXFontManager::ConvertToPSFontName
 	JStringIterator iter(name);
 	JUtf8Character c, prev;
 	while (iter.Next(&c))
-		{
+	{
 		if (prev.GetByteCount() == 0 || prev.IsSpace())
-			{
+		{
 			iter.SetPrev(c.ToUpper(), kJIteratorStay);
-			}
-		prev = c;
 		}
+		prev = c;
+	}
 }
 
 /******************************************************************************
@@ -1057,31 +1057,31 @@ JXFontManager::IsMonospace
 	)
 {
 	if (xfont.type == kStdType)
-	{
+{
 		XFontStruct** fsList;
 		char** nameList;
 		const int count = XFontsOfFontSet(xfont.xfset, &fsList, &nameList);
 		JCoordinate w   = fsList[0]->min_bounds.width;
 		for (int i=0; i<count; i++)
-			{
+		{
 			if (fsList[i]->min_bounds.width != w ||
 				fsList[i]->max_bounds.width != w)
-				{
+			{
 				return 0;
-				}
 			}
+		}
 
 		return w;
-	}
+}
 	else
-	{
+{
 		assert( xfont.type == kTrueType );
 
 		XGlyphInfo g1, g2;
 		XftTextExtentsUtf8(*itsDisplay, xfont.xftt, (FcChar8*) "M", 1, &g1);
 		XftTextExtentsUtf8(*itsDisplay, xfont.xftt, (FcChar8*) "|", 1, &g2);
 		return (g1.xOff == g2.xOff ? g1.xOff : 0);
-	}
+}
 }
 
 /******************************************************************************
@@ -1112,14 +1112,14 @@ JXFontManager::XFont::Free
 	)
 {
 	if (xfset != nullptr)
-	{
+{
 		assert( type == kStdType );
 		XFreeFontSet(*display, xfset);
-	}
+}
 
 	if (xftt != nullptr)
-	{
+{
 		assert( type == kTrueType );
 		XftFontClose(*display, xftt);
-	}
+}
 }

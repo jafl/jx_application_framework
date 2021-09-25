@@ -1,0 +1,31 @@
+#!/usr/bin/perl
+
+# Outdent brances in all source files (.cpp, .th, .tmpl, .y)
+
+sub ReadFile($)
+{
+	local $/ = undef;
+	open(F, "< $_[0]");
+	$data = <F>;
+	close(F);
+	return $data;
+}
+
+open(L, "find -E . -regex '.+\.(cpp|th|tmpl|y)' |");
+
+while ($file = <L>)
+	{
+	chomp($file);
+	$orig_data = $data = ReadFile($file);
+
+	$data =~ s/^\t(\t*[{}])/$1/gm;
+	$data =~ s/^    ( *[{}])/$1/g;
+
+	if ($data ne $orig_data)
+		{
+		print $file,"\n";
+		open(F, "> $file");
+		print F $data;
+		close(F);
+		}
+	}

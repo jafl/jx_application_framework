@@ -140,7 +140,7 @@ UndoWidgetDir::Receive
 	// Check to see if our menu is broadcasting a message. It simply
 	// broadcasts to everyone who is listening (via "ListenTo(...)")
 	if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 
 		// We need to cast the sender in order to get access to its
 		// member function - GetIndex() in this case.
@@ -150,19 +150,19 @@ UndoWidgetDir::Receive
 
 		// Pass the index to a menu handler function
 		HandleActionsMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		// The menu is about to open, so we need to update its
 		UpdateActionsMenu();
-		}
+	}
 
 	// If we don't handle the message, we need to pass it to the base class
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender,message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -174,21 +174,21 @@ void
 UndoWidgetDir::UpdateActionsMenu()
 {
 	if (itsWidget->HasUndo())
-		{
+	{
 		itsActionsMenu->EnableItem(kUndo);
-		}
+	}
 	else
-		{
+	{
 		itsActionsMenu->DisableItem(kUndo);
-		}
+	}
 	if (itsWidget->HasRedo())
-		{
+	{
 		itsActionsMenu->EnableItem(kRedo);
-		}
+	}
 	else
-		{
+	{
 		itsActionsMenu->DisableItem(kRedo);
-		}
+	}
 }
 
 /******************************************************************************
@@ -204,15 +204,15 @@ UndoWidgetDir::HandleActionsMenu
 {
 	// Check to see which menu item was selected, and respond accordingly
 	if (index == kUndo)
-		{
+	{
 		itsWidget->Undo();
-		}
+	}
 	else if (index == kRedo)
-		{
+	{
 		itsWidget->Redo();
-		}
+	}
 	else if (index == kQuit)
-		{
+	{
 		JXGetApplication()->Quit();
-		}
+	}
 }

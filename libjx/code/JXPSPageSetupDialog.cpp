@@ -205,27 +205,27 @@ JIndex i;
 
 	bool foundType = false;
 	for (i=1; i<=kPaperTypeCount; i++)
-		{
+	{
 		if (kIndexToPaperType[i-1] == paper)
-			{
+		{
 			itsPaperType = i;
 			itsPaperTypeMenu->SetToPopupChoice(true, itsPaperType);
 			foundType = true;
 			break;
-			}
 		}
+	}
 	assert( foundType );
 
 	bool foundOrient = false;
 	for (i=1; i<=kOrientCount; i++)
-		{
+	{
 		if (kIndexToOrient[i-1] == orient)
-			{
+		{
 			itsOrientation->SelectItem(i);
 			foundOrient = true;
 			break;
-			}
 		}
+	}
 	assert( foundOrient );
 
 	portraitRB->SetBitmap(kPortraitBitmap);
@@ -275,19 +275,19 @@ JXPSPageSetupDialog::Receive
 	)
 {
 	if (sender == itsPaperTypeMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		itsPaperTypeMenu->CheckItem(itsPaperType);
-		}
+	}
 	else if (sender == itsPaperTypeMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsPaperType = selection->GetIndex();
-		}
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }

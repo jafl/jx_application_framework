@@ -86,20 +86,20 @@ JSummation::Evaluate
 {
 	const JSize argCount = GetArgCount();
 	if (argCount == 0)
-		{
+	{
 		return false;
-		}
+	}
 
 	*result = 0.0;
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		JFloat argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
-			{
+		{
 			return false;
-			}
-		*result += argValue;
 		}
+		*result += argValue;
+	}
 
 	return true;
 }
@@ -113,20 +113,20 @@ JSummation::Evaluate
 {
 	const JSize argCount = GetArgCount();
 	if (argCount == 0)
-		{
+	{
 		return false;
-		}
+	}
 
 	*result = 0.0;
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		JComplex argValue;
 		if (!(GetArg(i))->Evaluate(&argValue))
-			{
+		{
 			return false;
-			}
-		*result += argValue;
 		}
+		*result += argValue;
+	}
 
 	return true;
 }
@@ -145,32 +145,32 @@ JSummation::Print
 {
 	const JSize argCount = GetArgCount();
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		const JFunction* f   = this;
 		const JFunction* arg = GetArg(i);
 		const auto* neg = dynamic_cast<const JNegation*>(arg);
 		if (neg != nullptr)
-			{
+		{
 			output << '-';
 			f   = arg;
 			arg = neg->GetArg();
-			}
+		}
 		else if (i > 1)
-			{
+		{
 			output << '+';
-			}
+		}
 
 		if (JParenthesizeArgForPrint(*f, *arg))
-			{
+		{
 			output << '(';
 			arg->Print(output);
 			output << ')';
-			}
-		else
-			{
-			arg->Print(output);
-			}
 		}
+		else
+		{
+			arg->Print(output);
+		}
+	}
 }
 
 /******************************************************************************
@@ -203,26 +203,26 @@ JSummation::Layout
 	const JSize minusWidth = renderer.GetStringWidth(fontSize, JString("-", JString::kNoCopy));
 
 	const JSize argCount = GetArgCount();
-	{
+{
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		JFunction* f   = this;
 		JFunction* arg = GetArg(i);
 		auto* neg = dynamic_cast<JNegation*>(arg);
 		if (neg != nullptr)
-			{
+		{
 			argUpperLeft.x += minusWidth + spaceWidth;
 			if (i > 1)
-				{
+			{
 				argUpperLeft.x += spaceWidth;
-				}
+			}
 			f   = arg;
 			arg = neg->GetArg();
-			}
+		}
 		else if (i > 1)
-			{
+		{
 			argUpperLeft.x += plusWidth + 2*spaceWidth;
-			}
+		}
 
 		const JIndex argIndex =
 			arg->Layout(renderer, argUpperLeft, fontSize, rectList);
@@ -230,44 +230,44 @@ JSummation::Layout
 		argUpperLeft.x = argRect.right;
 
 		if (JParenthesizeArgForRender(*f, *arg))
-			{
+		{
 			const JSize parenWidth = renderer.GetParenthesisWidth(argRect.height());
 			rectList->ShiftRect(argIndex, parenWidth, 0);
 			argRect = rectList->GetRect(argIndex);
 			argUpperLeft.x += 2*parenWidth;
 			ourRect.right   = argRect.right + parenWidth;
-			}
+		}
 
 		ourRect = JCovering(ourRect, argRect);
 		const JCoordinate argMidline = rectList->GetMidline(argIndex);
 		if (argMidline > ourMidline)
-			{
+		{
 			ourMidline = argMidline;
-			}
 		}
 	}
+}
 
 	// adjust the argument rectangles so all the midlines are the same
 	// (ourMidline is guaranteed to stay constant)
 
 	if (argCount > 1 && ourMidline > origMidline)
-		{
+	{
 		for (JIndex i=1; i<=argCount; i++)
-			{
+		{
 			const JFunction* arg = GetArg(i);
 			const auto* neg = dynamic_cast<const JNegation*>(arg);
 			if (neg != nullptr)
-				{
+			{
 				arg = neg->GetArg();
-				}
+			}
 
 			JIndex argIndex;
 			const bool found = rectList->FindFunction(arg, &argIndex);
 			assert( found );
 			rectList->SetMidline(argIndex, ourMidline);
 			ourRect = JCovering(ourRect, rectList->GetRect(argIndex));
-			}
 		}
+	}
 
 	// save our rectangle
 
@@ -304,20 +304,20 @@ JSummation::Render
 
 	const JSize argCount = GetArgCount();
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		const JFunction* f   = this;
 		const JFunction* arg = GetArg(i);
 		const auto* neg = dynamic_cast<const JNegation*>(arg);
 		if (neg != nullptr)
-			{
+		{
 			renderer.DrawString(h, ourMidline, fontSize, JString("-", JString::kNoCopy));
 			f   = arg;
 			arg = neg->GetArg();
-			}
+		}
 		else if (i > 1)
-			{
+		{
 			renderer.DrawString(h, ourMidline, fontSize, JString("+", JString::kNoCopy));
-			}
+		}
 
 		arg->Render(renderer, rectList);
 
@@ -328,11 +328,11 @@ JSummation::Render
 		h = argRect.right;
 
 		if (JParenthesizeArgForRender(*f, *arg))
-			{
+		{
 			renderer.DrawParentheses(argRect);
 			h += renderer.GetParenthesisWidth(argRect.height());
-			}
+		}
 
 		h += spaceWidth;
-		}
+	}
 }

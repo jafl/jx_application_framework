@@ -90,34 +90,34 @@ main
 	gdImagePtr image = ReadGIF(fileName);
 
 	if (printInfo)
-		{
+	{
 		PrintGIFInfo(image);
-		}
+	}
 
 	if (SetTransparentColor(image, transparentColor))
-		{
+	{
 		changed = true;
-		}
+	}
 
 	if (SetInterlace(image, interlace))
-		{
+	{
 		changed = true;
-		}
+	}
 
 	if (padColormap && PadColormap(image))
-		{
+	{
 		changed = true;
-		}
+	}
 
 	if (blend)
-		{
+	{
 		Blend(image, alpha, alphaColor, blendOutput);
-		}
+	}
 
 	if (changed)
-		{
+	{
 		WriteGIF(image, fileName);
-		}
+	}
 
 	gdImageDestroy(image);
 	return 0;
@@ -145,10 +145,10 @@ ParseOptions
 	)
 {
 	if (argc == 1)
-		{
+	{
 		PrintHelp();
 		exit(0);
-		}
+	}
 
 	fileName->Clear();
 	*printInfo        = false;
@@ -159,68 +159,68 @@ ParseOptions
 
 	JIndex index = 1;
 	while (index < argc)
-		{
+	{
 		if (strcmp(argv[index], "-h") == 0 ||
 			strcmp(argv[index], "--help") == 0)
-			{
+		{
 			PrintHelp();
 			exit(0);
-			}
+		}
 		else if (strcmp(argv[index], "-v") == 0 ||
 				 strcmp(argv[index], "--version") == 0)
-			{
+		{
 			PrintVersion();
 			exit(0);
-			}
+		}
 
 		else if (strcmp(argv[index], "-i") == 0)
-			{
+		{
 			*printInfo = true;
-			}
+		}
 
 		else if (strcmp(argv[index], "-t") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			if (strcmp(argv[index], "none") == 0)
-				{
+			{
 				*transparentColor = kNoTransparentColor;
-				}
+			}
 			else if ('0' <= argv[index][0] && argv[index][0] <= '9')
-				{
+			{
 				*transparentColor = atoi(argv[index]);
-				}
+			}
 			else
-				{
+			{
 				std::cerr << argv[0] << ": -t requires a number or none" << std::endl;
 				exit(1);
-				}
 			}
+		}
 
 		else if (strcmp(argv[index], "-l") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			if (strcmp(argv[index], "on") == 0)
-				{
+			{
 				*interlace = kTurnInterlaceOn;
-				}
+			}
 			else if (strcmp(argv[index], "off") == 0)
-				{
+			{
 				*interlace = kTurnInterlaceOff;
-				}
+			}
 			else
-				{
+			{
 				std::cerr << argv[0] << ": -l requires either on or off" << std::endl;
 				exit(1);
-				}
 			}
+		}
 
 		else if (strcmp(argv[index], "-p") == 0)
-			{
+		{
 			*padColormap = true;
-			}
+		}
 
 		else if (strcmp(argv[index], "-b") == 0)
-			{
+		{
 			JCheckForValues(5, &index, argc, argv);
 			*blend            = true;
 			*alpha            = atof(argv[index]);
@@ -229,47 +229,47 @@ ParseOptions
 			alphaColor->blue  = atoi(argv[index+3]);
 			*blendOutput      = argv[index+4];
 			index += 4;
-			}
+		}
 
 		else if (argv[index][0] == '-')
-			{
+		{
 			std::cerr << argv[0] << ": unknown option " << argv[index] << std::endl;
 			exit(1);
-			}
+		}
 
 		else if (fileName->IsEmpty())
-			{
+		{
 			*fileName = argv[index];
 			if (!JFileReadable(*fileName))
-				{
+			{
 				std::cerr << argv[0] << ": file is unreadable" << std::endl;
 				exit(1);
-				}
+			}
 			if (!JFileWritable(*fileName))
-				{
+			{
 				std::cerr << argv[0] << ": file is unwriteable" << std::endl;
 				exit(1);
-				}
 			}
+		}
 
 		else
-			{
+		{
 			std::cerr << argv[0] << ": too many parameters" << std::endl;
 			exit(1);
-			}
-		index++;
 		}
+		index++;
+	}
 
 	if (fileName->IsEmpty())
-		{
+	{
 		std::cerr << argv[0] << ": no input file specified" << std::endl;
 		exit(1);
-		}
+	}
 
 	if (argc == 2)
-		{
+	{
 		*printInfo = true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -328,10 +328,10 @@ ReadGIF
 	assert( input != nullptr );
 	gdImagePtr image = gdImageCreateFromGif(input);
 	if (image == nullptr)
-		{
+	{
 		std::cerr << fileName << " is not a GIF" << std::endl;
 		exit(1);
-		}
+	}
 	fclose(input);
 	return image;
 }
@@ -377,13 +377,13 @@ PrintGIFInfo
 
 	const JSize colorCount = gdImageColorsTotal(image);
 	for (JUnsignedOffset i=0; i<colorCount; i++)
-		{
+	{
 		std::cout << i;
 		std::cout << '\t' << gdImageRed  (image, i);
 		std::cout << '\t' << gdImageGreen(image, i);
 		std::cout << '\t' << gdImageBlue (image, i);
 		std::cout << std::endl;
-		}
+	}
 
 	std::cout << std::endl;
 
@@ -392,13 +392,13 @@ PrintGIFInfo
 	const int transparentColor = gdImageGetTransparent(image);
 	std::cout << "Transparent color index: ";
 	if (transparentColor == kNoTransparentColor)
-		{
+	{
 		std::cout << "none";
-		}
+	}
 	else
-		{
+	{
 		std::cout << transparentColor;
-		}
+	}
 	std::cout << std::endl;
 
 	std::cout << std::endl;
@@ -407,13 +407,13 @@ PrintGIFInfo
 	std::cout << "Height:     " << gdImageSY(image) << std::endl;
 	std::cout << "Interlaced: ";
 	if (gdImageGetInterlaced(image))
-		{
+	{
 		std::cout << "yes";
-		}
+	}
 	else
-		{
+	{
 		std::cout << "no";
-		}
+	}
 	std::cout << std::endl;
 
 	std::cout << std::endl;
@@ -432,14 +432,14 @@ SetTransparentColor
 	)
 {
 	if (color != kTransparentColorNotSet)
-		{
+	{
 		gdImageColorTransparent(image, color);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -455,14 +455,14 @@ SetInterlace
 	)
 {
 	if (interlace != kIgnoreInterlace)
-		{
+	{
 		gdImageInterlace(image, interlace);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -480,18 +480,18 @@ PadColormap
 {
 	JSize colorCount = gdImageColorsTotal(image);
 	if (colorCount >= kMinColorCount)
-		{
+	{
 		return false;
-		}
+	}
 
 	const JSize extraColorCount = kMinColorCount - colorCount;
 
 	int x = gdImageSX(image) - extraColorCount;
 	if (x < 0)
-		{
+	{
 		std::cerr << "image is too small to fit extra colors on single raster line" << std::endl;
 		exit(1);
-		}
+	}
 
 	int y = gdImageSY(image) - 1;
 
@@ -502,27 +502,27 @@ PadColormap
 
 	int delta = -1;
 	if (r < 127 || g < 127 || b < 127)
-		{
+	{
 		delta = +1;
-		}
+	}
 
 	for (JIndex i=1; i<=extraColorCount; i++)
-		{
+	{
 		assert( x < gdImageSX(image) );
 
 		while ((c = gdImageColorExact(image, r,g,b)) != -1)
-			{
+		{
 			r = JMax(0, JMin(r + delta, 255));
 			g = JMax(0, JMin(g + delta, 255));
 			b = JMax(0, JMin(b + delta, 255));
-			}
+		}
 
 		c = gdImageColorAllocate(image, r,g,b);
 		assert( c != -1 );
 		gdImageSetPixel(image, x,y, c);
 
 		x++;
-		}
+	}
 
 	return true;
 }
@@ -560,9 +560,9 @@ Blend
 	gdImagePtr i2 = gdImageCreate(w,h);
 
 	for (JIndex x=0; x<w; x++)
-		{
+	{
 		for (JIndex y=0; y<h; y++)
-			{
+		{
 			const int c = gdImageGetPixel(image, x,y);
 			const int r = BlendComponent(gdImageRed(image, c),   alphaColor.red,   alpha);
 			const int g = BlendComponent(gdImageGreen(image, c), alphaColor.green, alpha);
@@ -570,17 +570,17 @@ Blend
 
 			int c2 = gdImageColorExact(i2, r,g,b);
 			if (c2 == -1)
-				{
+			{
 				c2 = gdImageColorAllocate(i2, r,g,b);
 				if (c2 == -1)
-					{
+				{
 					c2 = gdImageColorClosest(i2, r,g,b);
-					}
 				}
+			}
 
 			gdImageSetPixel(i2, x,y, c2);
-			}
 		}
+	}
 
 	WriteGIF(i2, outputFileName);
 	gdImageDestroy(i2);

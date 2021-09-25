@@ -37,13 +37,13 @@ JTEST(RealFunction)
 
 	JString expr, msg;
 	while (true)
-		{
+	{
 		bool expectedParseOK;
 		input >> JBoolFromString(expectedParseOK);
 		if (!input.good())
-			{
+		{
 			break;
-			}
+		}
 
 		bool expectedEvalOK;
 		input >> JBoolFromString(expectedEvalOK);
@@ -61,7 +61,7 @@ JTEST(RealFunction)
 		JAssertEqualWithMessage((bool) expectedParseOK, ok, msg.GetBytes());
 
 		if (ok)
-			{
+		{
 			JFloat result;
 			ok = f->Evaluate(&result);
 
@@ -69,14 +69,14 @@ JTEST(RealFunction)
 			JAssertEqualWithMessage((bool) expectedEvalOK, ok, msg.GetBytes());
 
 			if (ok)
-				{
+			{
 				msg = "Eval incorrect: " + expr;
 				JAssertWithinWithMessage(1e-5, expectedResult, result, msg.GetBytes());
-				}
 			}
+		}
 
 		jdelete f;
-		}
+	}
 }
 
 JTEST(ComplexFunction)
@@ -88,13 +88,13 @@ JTEST(ComplexFunction)
 
 	JString expr, msg;
 	while (true)
-		{
+	{
 		bool expectedParseOK;
 		input >> JBoolFromString(expectedParseOK);
 		if (!input.good())
-			{
+		{
 			break;
-			}
+		}
 
 		bool expectedEvalOK;
 		input >> JBoolFromString(expectedEvalOK);
@@ -112,7 +112,7 @@ JTEST(ComplexFunction)
 		JAssertEqualWithMessage((bool) expectedParseOK, ok, msg.GetBytes());
 
 		if (ok)
-			{
+		{
 			JComplex result;
 			ok = f->Evaluate(&result);
 
@@ -120,17 +120,17 @@ JTEST(ComplexFunction)
 			JAssertEqualWithMessage((bool) expectedEvalOK, ok, msg.GetBytes());
 
 			if (ok)
-				{
+			{
 				msg = "Eval real incorrect: " + expr;
 				JAssertWithinWithMessage(1e-5, expectedResult.real(), result.real(), msg.GetBytes());
 
 				msg = "Eval imag incorrect: " + expr;
 				JAssertWithinWithMessage(1e-5, expectedResult.imag(), result.imag(), msg.GetBytes());
-				}
 			}
+		}
 
 		jdelete f;
-		}
+	}
 }
 
 JTEST(Printing)
@@ -142,25 +142,25 @@ JTEST(Printing)
 
 	JString expr, expected, result, msg;
 	while (true)
-		{
+	{
 		input >> expr >> expected;
 		if (!input.good())
-			{
+		{
 			break;
-			}
+		}
 
 		JFunction* f;
 		bool ok = p.Parse(expr, &f);
 		JAssertTrue(ok);
 
 		if (ok)
-			{
+		{
 			result = f->Print();
 
 			msg = "Print incorrect: " + expr;
 			JAssertEqualWithMessage(expected, result, msg.GetBytes());
-			}
+		}
 
 		jdelete f;
-		}
+	}
 }

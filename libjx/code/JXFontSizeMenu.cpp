@@ -116,9 +116,9 @@ JXFontSizeMenu::JXFontSizeMenuX
 {
 	itsFontNameMenu = fontMenu;
 	if (itsFontNameMenu != nullptr)
-		{
+	{
 		ListenTo(itsFontNameMenu);
-		}
+	}
 
 	itsBroadcastChangeFlag = true;
 	itsChooseSizeDialog    = nullptr;
@@ -151,32 +151,32 @@ JXFontSizeMenu::SetFontSize
 	JIndex newIndex = 0;
 	const JIndex count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if (GetItemText(i) == itemText)
-			{
+		{
 			newIndex = i;
 			break;
-			}
 		}
+	}
 
 	if (newIndex > 0)
-		{
+	{
 		itsCurrIndex = newIndex;
 		itsFontSize  = size;
 		AdjustVarSizeItem(0);
-		}
+	}
 	else if (itsVarSizeIndex > 0)
-		{
+	{
 		itsCurrIndex = itsVarSizeIndex;
 		itsFontSize  = size;
 		AdjustVarSizeItem(itsFontSize);
-		}
+	}
 
 	SetPopupChoice(itsCurrIndex);
 	if (itsBroadcastChangeFlag)
-		{
+	{
 		Broadcast(SizeChanged(itsFontSize));
-		}
+	}
 }
 
 /******************************************************************************
@@ -200,39 +200,39 @@ JXFontSizeMenu::BuildMenu
 
 	JString id;
 	if (!sizeList.IsEmpty())
-		{
+	{
 		for (const auto size : sizeList)
-			{
+		{
 			const JString itemText((JUInt64) size);
 			id = itemText + "::JX";
 			AppendItem(itemText, kRadioType, JString::empty, JString::empty, id);
-			}
-		itsVarSizeIndex = 0;
 		}
+		itsVarSizeIndex = 0;
+	}
 	else
-		{
+	{
 		if (minSize < 10)
-			{
+		{
 			for (JSize size=minSize; size<10; size++)
-				{
+			{
 				const JString itemText((JUInt64) size);
 				id = itemText + "::JX";
 				AppendItem(itemText, kRadioType, JString::empty, JString::empty, id);
-				}
 			}
+		}
 
 		for (JSize size=JMax((JSize) 10, minSize); size<=maxSize; size+=2)
-			{
+		{
 			const JString itemText((JUInt64) size);
 			id = itemText + "::JX";
 			AppendItem(itemText, kRadioType, JString::empty, JString::empty, id);
-			}
+		}
 		ShowSeparatorAfter(GetItemCount());
 		AppendItem(JGetString("VariableSizeLabel::JXFontSizeMenu"),
 				   kRadioType, JString::empty, JString::empty,
 				   JString(kJXOtherFontSizeAction, JString::kNoCopy));
 		itsVarSizeIndex = GetItemCount();
-		}
+	}
 	SetUpdateAction(kDisableNone);
 
 	itsCurrIndex = 1;
@@ -253,17 +253,17 @@ JXFontSizeMenu::AdjustVarSizeItem
 	)
 {
 	if (itsVarSizeIndex > 0 && fontSize > 0)
-		{
+	{
 		JString str = JGetString("VariableSizeLabel::JXFontSizeMenu");
 		str += " (";
 		str += JString(fontSize, 0, JString::kForceNoExponent);
 		str += ")";
 		SetItemText(itsVarSizeIndex, str);
-		}
+	}
 	else if (itsVarSizeIndex > 0)
-		{
+	{
 		SetItemText(itsVarSizeIndex, JGetString("VariableSizeLabel::JXFontSizeMenu"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -279,51 +279,51 @@ JXFontSizeMenu::Receive
 	)
 {
 	if (sender == itsFontNameMenu && message.Is(JXFontNameMenu::kNameChanged))
-		{
+	{
 		itsBroadcastChangeFlag = false;
 		const JSize currSize   = GetFontSize();
 		const JString fontName = itsFontNameMenu->GetFontName();
 		BuildMenu(fontName);
 		SetFontSize(currSize);
 		itsBroadcastChangeFlag = true;
-		}
+	}
 
 	else if (sender == this && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		itsBroadcastChangeFlag = false;
 		Broadcast(SizeNeedsUpdate());
 		CheckItem(itsCurrIndex);
 		itsBroadcastChangeFlag = true;
-		}
+	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		ChooseFontSize(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsChooseSizeDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			SetFontSize(itsChooseSizeDialog->GetFontSize());
-			}
-		else
-			{
-			SetPopupChoice(itsCurrIndex);	// revert displayed string
-			}
-		itsChooseSizeDialog = nullptr;
 		}
+		else
+		{
+			SetPopupChoice(itsCurrIndex);	// revert displayed string
+		}
+		itsChooseSizeDialog = nullptr;
+	}
 
 	else
-		{
+	{
 		JXTextMenu::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -338,22 +338,22 @@ JXFontSizeMenu::ChooseFontSize
 	)
 {
 	if (sizeIndex != itsVarSizeIndex)
-		{
+	{
 		itsCurrIndex = sizeIndex;
 		const bool ok = (GetItemText(sizeIndex)).ConvertToUInt(&itsFontSize);
 		assert( ok );
 		AdjustVarSizeItem(0);
 		Broadcast(SizeChanged(itsFontSize));
-		}
+	}
 	else
-		{
+	{
 		assert( itsChooseSizeDialog == nullptr );
 		JXWindowDirector* supervisor = GetWindow()->GetDirector();
 		itsChooseSizeDialog = jnew JXChooseFontSizeDialog(supervisor, itsFontSize);
 		assert( itsChooseSizeDialog != nullptr );
 		ListenTo(itsChooseSizeDialog);
 		itsChooseSizeDialog->BeginDialog();
-		}
+	}
 }
 
 /******************************************************************************

@@ -81,9 +81,9 @@ JHypCosine::Evaluate
 {
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = cosh(argValue);
 	return jerrno_is_clear();
@@ -98,9 +98,9 @@ JHypCosine::Evaluate
 {
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = cosh(argValue);
 	return jerrno_is_clear();

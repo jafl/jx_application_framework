@@ -57,22 +57,22 @@ JXFontNameMenuTable::HandleKeyPress
 	)
 {
 	if (!c.IsAlnum())
-		{
+	{
 		JXTextMenuTable::HandleKeyPress(c, keySym, modifiers);
 		return;
-		}
+	}
 
 	const JString s1(c);
 	JString s2;
 
 	const JSize count = itsMenu->GetItemCount();
 	for (JIndex i=itsMenu->GetHistoryCount()+1; i<=count; i++)
-		{
+	{
 		s2.Set(itsMenu->GetItemText(i).GetFirstCharacter());
 		if (JString::Compare(s1, s2, JString::kIgnoreCase) == 0)
-			{
+		{
 			ScrollTo(GetCellRect(JPoint(1,i-1)).topLeft());
 			break;
-			}
 		}
+	}
 }

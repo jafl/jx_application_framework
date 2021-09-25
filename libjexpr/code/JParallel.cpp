@@ -91,30 +91,30 @@ JParallel::Evaluate
 {
 	const JSize argCount = GetArgCount();
 	if (argCount == 0)
-		{
+	{
 		return false;
-		}
+	}
 
 	*result = 0.0;
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		JFloat argValue;
 		if (!(GetArg(i))->Evaluate(&argValue) || argValue == 0.0)
-			{
+		{
 			return false;
-			}
-		*result += 1.0/argValue;
 		}
+		*result += 1.0/argValue;
+	}
 
 	if (*result != 0.0)
-		{
+	{
 		*result = 1.0/(*result);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -126,30 +126,30 @@ JParallel::Evaluate
 {
 	const JSize argCount = GetArgCount();
 	if (argCount == 0)
-		{
+	{
 		return false;
-		}
+	}
 
 	*result = 0.0;
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		JComplex argValue;
 		if (!(GetArg(i))->Evaluate(&argValue) || argValue == 0.0)
-			{
+		{
 			return false;
-			}
-		*result += 1.0/argValue;
 		}
+		*result += 1.0/argValue;
+	}
 
 	if (real(*result) != 0.0 || imag(*result) != 0.0)
-		{
+	{
 		*result = 1.0/(*result);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -180,9 +180,9 @@ JParallel::Layout
 	const JSize opWidth =
 		2*(renderer.GetSpaceWidth(fontSize) + renderer.GetVertBarWidth());
 	const JSize argCount = GetArgCount();
-	{
+{
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		JFunction* arg = GetArg(i);
 		const JIndex argIndex =
 			arg->Layout(renderer, argUpperLeft, fontSize, rectList);
@@ -190,38 +190,38 @@ JParallel::Layout
 		argUpperLeft.x = argRect.right + opWidth;
 
 		if (JParenthesizeArgForRender(*this, *arg))
-			{
+		{
 			const JSize parenWidth = renderer.GetParenthesisWidth(argRect.height());
 			rectList->ShiftRect(argIndex, parenWidth, 0);
 			argRect = rectList->GetRect(argIndex);
 			argUpperLeft.x += 2*parenWidth;
 			ourRect.right   = argRect.right + parenWidth;
-			}
+		}
 
 		ourRect = JCovering(ourRect, argRect);
 		const JCoordinate argMidline = rectList->GetMidline(argIndex);
 		if (argMidline > ourMidline)
-			{
+		{
 			ourMidline = argMidline;
-			}
 		}
 	}
+}
 
 	// adjust the argument rectangles so all the midlines are the same
 	// (ourMidline is guaranteed to stay constant)
 
 	if (argCount > 1 && ourMidline > origMidline)
-		{
+	{
 		for (JIndex i=1; i<=argCount; i++)
-			{
+		{
 			const JFunction* arg = GetArg(i);
 			JIndex argIndex;
 			const bool found = rectList->FindFunction(arg, &argIndex);
 			assert( found );
 			rectList->SetMidline(argIndex, ourMidline);
 			ourRect = JCovering(ourRect, rectList->GetRect(argIndex));
-			}
 		}
+	}
 
 	// save our rectangle
 
@@ -259,31 +259,31 @@ JParallel::Render
 
 	JSize maxBarLength;
 	if (((JSize) ourRect.height()) > lineHeight)
-		{
+	{
 		maxBarLength = JLFloor(ourRect.height()/2.0);
-		}
+	}
 	else
-		{
+	{
 		maxBarLength = ourRect.height();
-		}
+	}
 	JSize barLength;
 	if (ourMidline > ourRect.ycenter())
-		{
+	{
 		barLength = 2*(ourRect.bottom - ourMidline);
-		}
+	}
 	else
-		{
+	{
 		barLength = 2*(ourMidline - ourRect.top);
-		}
+	}
 	if (barLength > maxBarLength)
-		{
+	{
 		barLength = maxBarLength;
-		}
+	}
 	const JCoordinate barTop = ourMidline - barLength/2;
 
 	const JSize argCount = GetArgCount();
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		const JFunction* arg = GetArg(i);
 		arg->Render(renderer, rectList);
 
@@ -294,15 +294,15 @@ JParallel::Render
 		JCoordinate h = argRect.right + spaceWidth;
 
 		if (JParenthesizeArgForRender(*this, *arg))
-			{
+		{
 			renderer.DrawParentheses(argRect);
 			h += renderer.GetParenthesisWidth(argRect.height());
-			}
+		}
 
 		if (i < argCount)
-			{
+		{
 			renderer.DrawVertBar(h, barTop, barLength);
 			renderer.DrawVertBar(h + barWidth, barTop, barLength);
-			}
 		}
+	}
 }

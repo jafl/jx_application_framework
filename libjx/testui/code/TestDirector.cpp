@@ -212,25 +212,25 @@ TestDirector::TestDirector
 
 	JXWindow* window = GetWindow();
 	if (snoopWindow)
-		{
+	{
 		itsWindowSnooper = jnew JBroadcastSnooper(window);
 		assert( itsWindowSnooper != nullptr );
-		}
+	}
 	else
-		{
+	{
 		itsWindowSnooper = nullptr;
-		}
+	}
 
 	if (isMaster && JFileExists(JString(kWindowGeomFileName, JString::kNoCopy)))
-		{
+	{
 		std::ifstream input(kWindowGeomFileName);
 		window->ReadGeometry(input);
-		}
+	}
 
 	if (startIconic)
-		{
+	{
 		window->Iconify();
-		}
+	}
 
 	// GetDisplay() only works after SetWindow()
 
@@ -274,20 +274,20 @@ TestDirector::OpenTextFile
 	)
 {
 	if (JFileReadable(fileName))
-		{
+	{
 		TestTextEditDocument* doc = jnew TestTextEditDocument(this, fileName, false);
 		assert( doc != nullptr );
 		doc->Activate();
-		}
+	}
 	else
-		{
+	{
 		const JUtf8Byte* map[] =
-			{
+		{
 			"name", fileName.GetBytes()
-			};
+		};
 		JGetUserNotification()->ReportError(
 			JGetString("FileNotReadable::TestDirector", map, sizeof(map)));
-		}
+	}
 }
 
 /******************************************************************************
@@ -327,13 +327,13 @@ TestDirector::BuildWindow
 
 	window->SetMinSize(150,150);
 	if (isMaster)
-		{
+	{
 		window->SetCloseAction(JXWindow::kQuitApp);
-		}
+	}
 	else
-		{
+	{
 		window->SetCloseAction(JXWindow::kCloseDisplay);
-		}
+	}
 
 	itsAnimIconTask = jnew AnimateWindowIconTask(GetWindow());
 	assert( itsAnimIconTask != nullptr );
@@ -383,18 +383,18 @@ TestDirector::BuildWindow
 	ListenTo(itsPGMenu);
 
 	if (isMaster)
-		{
+	{
 		itsDisplayMenu =
 			jnew JXDisplayMenu(JGetString("DisplayMenuTitle::TestDirector"), menuBar,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  0,0, 10,10);
 		assert( itsDisplayMenu != nullptr );
 		menuBar->AppendMenu(itsDisplayMenu);
-		}
+	}
 	else
-		{
+	{
 		itsDisplayMenu = nullptr;
-		}
+	}
 
 	itsWidget =
 		jnew TestWidget(isMaster, testWidgetIsImage,
@@ -435,19 +435,19 @@ TestDirector::BuildIconMenus
 	JXDisplay* display = window->GetDisplay();
 
 	const JColorID kSmileyColor[] =
-	{
+{
 		JColorManager::GetWhiteColor(),
 		JColorManager::GetRedColor(),
 		JColorManager::GetBlueColor(),
 		JColorManager::GetBlackColor()
-	};
+};
 
 	JXImage* image[kSmileyBitmapCount];
 	for (JUnsignedOffset i=0; i<kSmileyBitmapCount; i++)
-		{
+	{
 		image[i] = jnew JXImage(display, kSmileyBitmap[i], kSmileyColor[i]);
 		assert( image[i] != nullptr );
-		}
+	}
 
 	// create 1x6 menu in menu bar -- this owns the icons
 
@@ -459,9 +459,9 @@ TestDirector::BuildIconMenus
 	menuBar->AppendMenu(itsSmileyMenu);
 
 	for (auto* i : image)
-		{
+	{
 		itsSmileyMenu->AppendItem(i, true);
-		}
+	}
 
 	// create 2x2 submenu of radio buttons
 
@@ -470,9 +470,9 @@ TestDirector::BuildIconMenus
 	itsIconMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	for (auto* i : image)
-		{
+	{
 		itsIconMenu->AppendItem(i, false, JXMenu::kRadioType);
-		}
+	}
 
 	itsIconMenuItem = 1;
 	ListenTo(itsIconMenu);
@@ -484,12 +484,12 @@ TestDirector::BuildIconMenus
 	submenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	for (JIndex j=1; j<=3; j++)
-		{
+	{
 		for (auto* i : image)
-			{
+		{
 			submenu->AppendItem(i, false);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -507,134 +507,134 @@ TestDirector::Receive
 	JXWindow* window = GetWindow();		// ensure that it isn't const
 
 	if (sender == itsAboutMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateAboutMenu();
-		}
+	}
 	else if (sender == itsAboutMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleAboutMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsPrintPSMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdatePrintPSMenu();
-		}
+	}
 	else if (sender == itsPrintPSMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrintPSMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsTestMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateTestMenu();
-		}
+	}
 	else if (sender == itsTestMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleTestMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsUNMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateUNMenu();
-		}
+	}
 	else if (sender == itsUNMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleUNMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsCSFMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateCSFMenu();
-		}
+	}
 	else if (sender == itsCSFMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleCSFMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsPGMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdatePGMenu();
-		}
+	}
 	else if (sender == itsPGMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePGMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsIconMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateIconMenu();
-		}
+	}
 	else if (sender == itsIconMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleIconMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == window && message.Is(JXWindow::kIconified))
-		{
+	{
 		itsAnimIconTask->Start();
-		}
+	}
 	else if (sender == window && message.Is(JXWindow::kDeiconified))
-		{
+	{
 		itsAnimIconTask->Stop();
-		}
+	}
 
 	else if (sender == itsPSPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			itsWidget->Print(*itsPSPrinter);
-			}
 		}
+	}
 
 	else if (sender == itsEPSPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			itsWidget->Print(*itsEPSPrinter);
-			}
 		}
+	}
 
 	else if (message.Is(JXTipOfTheDayDialog::kShowAtStartup))
-		{
+	{
 		const JXTipOfTheDayDialog::ShowAtStartup* info =
 			dynamic_cast<const JXTipOfTheDayDialog::ShowAtStartup*>(&message);
 		assert( info != nullptr );
 		std::cout << "Should show at startup: " << JBoolToString(info->ShouldShowAtStartup()) << std::endl;
-		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -661,34 +661,34 @@ TestDirector::HandleAboutMenu
 	)
 {
 	if (index == kAboutCmd)
-		{
+	{
 		(TestjxGetApplication())->DisplayAbout(GetDisplay());
-		}
+	}
 	else if (index == kHelpCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowCredits();
-		}
+	}
 	else if (index == kTipCmd)
-		{
+	{
 		JXTipOfTheDayDialog* dlog = jnew JXTipOfTheDayDialog(true, false);
 		assert( dlog != nullptr );
 		dlog->BeginDialog();
 		ListenTo(dlog);
-		}
+	}
 
 	else if (index == kPrintEPSCmd)
-		{
+	{
 		itsEPSPrinter->BeginUserPrintSetup();
-		}
+	}
 
 	else if (index == kQuitCmd && itsIsMasterFlag)
-		{
+	{
 		JXGetApplication()->Quit();
-		}
+	}
 	else if (index == kQuitCmd)
-		{
+	{
 		GetDisplay()->Close();
-		}
+	}
 }
 
 /******************************************************************************
@@ -713,13 +713,13 @@ TestDirector::HandlePrintPSMenu
 	)
 {
 	if (index == kPSPageSetupCmd)
-		{
+	{
 		itsPSPrinter->BeginUserPageSetup();
-		}
+	}
 	else if (index == kPrintPSCmd)
-		{
+	{
 		itsPSPrinter->BeginUserPrintSetup();
-		}
+	}
 }
 
 /******************************************************************************
@@ -731,9 +731,9 @@ void
 TestDirector::UpdateTestMenu()
 {
 	if (itsSmileyMenu->IsActive())
-		{
+	{
 		itsTestMenu->CheckItem(kTestDisabledMenuCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -748,241 +748,241 @@ TestDirector::HandleTestMenu
 	)
 {
 	if (index == kNewTestDirectorCmd)	// mainly for placing on other X displays
-		{
+	{
 		if (itsDisplayMenu != nullptr)
-			{
+		{
 			itsDisplayMenu->SelectCurrentDisplay();
-			}
+		}
 		TestDirector* dir = jnew TestDirector(TestjxGetApplication(), false);
 		assert( dir != nullptr );
 		dir->Activate();
-		}
+	}
 
 	else if (index == kTestInputCmd)
-		{
+	{
 		TestInputFieldsDialog* dir = jnew TestInputFieldsDialog(this);
 		assert( dir != nullptr );
 		dir->BeginDialog();
-		}
+	}
 	else if (index == kTestButtonsCmd)
-		{
+	{
 		TestButtonsDialog* dir = jnew TestButtonsDialog(this);
 		assert( dir != nullptr );
 		dir->BeginDialog();
-		}
+	}
 	else if (index == kTestPopupChoiceCmd)
-		{
+	{
 		TestPopupChoiceDialog* dir = jnew TestPopupChoiceDialog(this);
 		assert( dir != nullptr );
 		dir->BeginDialog();
-		}
+	}
 	else if (index == kTestSliderCmd)
-		{
+	{
 		TestSliderDirector* dir = jnew TestSliderDirector(this);
 		assert( dir != nullptr );
 		dir->Activate();
-		}
+	}
 
 	else if (index == kTestPartitionsCmd)
-		{
+	{
 		if (itsDisplayMenu != nullptr)
-			{
+		{
 			itsDisplayMenu->SelectCurrentDisplay();
-			}
+		}
 		TestPartitionDirector* dir = jnew TestPartitionDirector(this);
 		assert( dir != nullptr );
 		dir->Activate();
-		}
+	}
 	else if (index == kTestTabGroupCmd)
-		{
+	{
 		if (itsDisplayMenu != nullptr)
-			{
+		{
 			itsDisplayMenu->SelectCurrentDisplay();
-			}
+		}
 		TestTabDirector* dir = jnew TestTabDirector(this);
 		assert( dir != nullptr );
 		dir->Activate();
-		}
+	}
 
 	else if (index == kTestStrTableCmd)
-		{
+	{
 		if (itsDisplayMenu != nullptr)
-			{
+		{
 			itsDisplayMenu->SelectCurrentDisplay();
-			}
+		}
 		TestStrTableDirector* dir = jnew TestStrTableDirector(this);
 		assert( dir != nullptr );
 		dir->Activate();
-		}
+	}
 	else if (index == kTestNumTableCmd)
-		{
+	{
 		if (itsDisplayMenu != nullptr)
-			{
+		{
 			itsDisplayMenu->SelectCurrentDisplay();
-			}
+		}
 		TestFloatTableDirector* dir = jnew TestFloatTableDirector(this);
 		assert( dir != nullptr );
 		dir->Activate();
-		}
+	}
 
 	else if (index == kTestTextEditorCmd)
-		{
+	{
 		if (itsDisplayMenu != nullptr)
-			{
+		{
 			itsDisplayMenu->SelectCurrentDisplay();
-			}
+		}
 		TestTextEditDocument* doc = jnew TestTextEditDocument(this);
 		assert( doc != nullptr );
 		doc->Activate();
-		}
+	}
 
 	else if (index == kTestLinkedDocCmd)
-		{
+	{
 		if (itsDisplayMenu != nullptr)
-			{
+		{
 			itsDisplayMenu->SelectCurrentDisplay();
-			}
+		}
 		TestLinkedDocument* doc = jnew TestLinkedDocument(this);
 		assert( doc != nullptr );
 		doc->Activate();
-		}
+	}
 
 	else if (index == kTestDNDTextCmd)
-		{
+	{
 		if (itsDisplayMenu != nullptr)
-			{
+		{
 			itsDisplayMenu->SelectCurrentDisplay();
-			}
+		}
 		TestDNDTextDirector* dir = jnew TestDNDTextDirector(this);
 		assert( dir != nullptr );
 		dir->Activate();
-		}
+	}
 
 	else if (index == kTestImageViewCmd)
-		{
+	{
 		TestImageDirector* dir = jnew TestImageDirector(this);
 		assert( dir != nullptr );
 		dir->Activate();
-		}
+	}
 
 	else if (index == kTestFileListCmd)
-		{
+	{
 		TestFileListDirector* dir = jnew TestFileListDirector(this);
 		assert( dir != nullptr );
 		dir->Activate();
-		}
+	}
 
 	else if (index == kSendEmailCmd)
-		{
+	{
 		JXGetWebBrowser()->ShowURL(JString("mailto:me@example.com", JString::kNoCopy));
-		}
+	}
 	else if (index == kShowFileContentCmd)
-		{
+	{
 		JXGetWebBrowser()->ShowURL(JString("file:/etc/hosts", JString::kNoCopy));
-		}
+	}
 	else if (index == kShowWebPageCmd)
-		{
+	{
 		JXGetWebBrowser()->ShowURL(JString("http://example.com", JString::kNoCopy));
-		}
+	}
 
 	else if (index == kTestDisabledMenuCmd)
-		{
+	{
 		itsSmileyMenu->SetActive(!itsSmileyMenu->IsActive());
-		}
+	}
 
 	else if (index == kTestZombieProcessCmd)
-		{
+	{
 		pid_t pid;
 		std::cout << std::endl;
 		const JError err = JExecute(JString("ls", JString::kNoCopy), &pid);
 		std::cout << std::endl;
 		if (err.OK())
-			{
+		{
 			JGetUserNotification()->DisplayMessage(
 				JGetString("ZombieProcessNotification::TestDirector"));
-			}
-		else
-			{
-			err.ReportIfError();
-			}
 		}
+		else
+		{
+			err.ReportIfError();
+		}
+	}
 
 	else if (index == kTestPlaceWindow0Cmd)
-		{
+	{
 		JXWindow* window = GetWindow();
 		window->Place(0,0);
 
 		std::cout << std::endl;
 		std::cout << "Window is now at " << window->GetDesktopLocation() << std::endl;
-		}
+	}
 	else if (index == kTestPlaceWindow30Cmd)
-		{
+	{
 		JXWindow* window = GetWindow();
 		window->Place(30,30);
 
 		std::cout << std::endl;
 		std::cout << "Window is now at " << window->GetDesktopLocation() << std::endl;
-		}
+	}
 	else if (index == kTestPlaceWindow100Cmd)
-		{
+	{
 		JXWindow* window = GetWindow();
 		window->Place(100,100);
 
 		std::cout << std::endl;
 		std::cout << "Window is now at " << window->GetDesktopLocation() << std::endl;
-		}
+	}
 	else if (index == kTestMoveWindowCmd)
-		{
+	{
 		JXWindow* window = GetWindow();
 		window->Move(10,10);
 
 		std::cout << std::endl;
 		std::cout << "Window is now at " << window->GetDesktopLocation() << std::endl;
-		}
+	}
 	else if (index == kRaiseAllWindowsCmd)
-		{
+	{
 		GetDisplay()->RaiseAllWindows();
-		}
+	}
 	else if (index == kPrintWMConfigCmd)
-		{
+	{
 		GetWindow()->PrintWindowConfig();
-		}
+	}
 
 	else if (index == kTestBrokenPipeCmd)
-		{
+	{
 		// This is clearly a ludicrous action, but it does test the
 		// JCore signal handling system.
 
 		int fd[2];
 		const JError err = JCreatePipe(fd);
 		if (err.OK())
-			{
+		{
 			close(fd[0]);
 			write(fd[1], "arf", 3);		// write to pipe with no readers => SIGPIPE
-			}
-		else
-			{
-			err.ReportIfError();
-			}
 		}
+		else
+		{
+			err.ReportIfError();
+		}
+	}
 
 	else if (index == kTestUncaughtXErrorCmd)
-		{
+	{
 		// This is clearly a ludicrous action, but it does test the
 		// JX error handling system.
 
 		XDestroyWindow(*(GetDisplay()), None);
-		}
+	}
 
 	else if (index == kLockUpToTestMDICmd)
-		{
+	{
 		JWait(10.0);
-		}
+	}
 
 	else if (index == kTimeFontSubCmd)
-		{
+	{
 		TestFontSubstitutionTiming();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1001,9 +1001,9 @@ TestDirector::TestFontSubstitutionTiming()
 	JString s;
 	s.SetBlockSize(size);
 	for (JIndex i=1; i<=size; i++)
-		{
+	{
 		s.Append(JUtf8Character(r.UniformLong(32, 126)));
-		}
+	}
 
 	const JFont f = JFontManager::GetDefaultFont();
 
@@ -1014,27 +1014,27 @@ TestDirector::TestFontSubstitutionTiming()
 
 	w.StopTimer();
 	std::cout << "check ascii glyphs: " << JBoolToString(hasGlyphs) << ' ' << w.PrintTimeInterval() << std::endl;
-	{
+{
 	JStringIterator iter(s);
 	JUtf8Character c;
 
 	w.StartTimer();
 
 	while (iter.Next(&c))
-		{
+	{
 		JFont f1 = f;
 		f1.SubstituteToDisplayGlyph(fontMgr, c);
-		}
 	}
+}
 	w.StopTimer();
 	std::cout << "substitute ascii glyphs: " << w.PrintTimeInterval() << std::endl;
 
 	s.SetBlockSize(4*size);
 	s.Clear();
 	for (JIndex i=1; i<=size; i++)
-		{
+	{
 		s.Append(JUtf8Character::Utf32ToUtf8(r.UniformLong(46000, 55000)));
-		}
+	}
 
 	w.StartTimer();
 
@@ -1042,18 +1042,18 @@ TestDirector::TestFontSubstitutionTiming()
 
 	w.StopTimer();
 	std::cout << "check korean glyphs: " << JBoolToString(hasGlyphs) << ' ' << w.PrintTimeInterval() << std::endl;
-	{
+{
 	JStringIterator iter(s);
 	JUtf8Character c;
 
 	w.StartTimer();
 
 	while (iter.Next(&c))
-		{
+	{
 		JFont f1 = f;
 		f1.SubstituteToDisplayGlyph(fontMgr, c);
-		}
 	}
+}
 	w.StopTimer();
 	std::cout << "substitute korean glyphs: " << w.PrintTimeInterval() << std::endl;
 }
@@ -1080,17 +1080,17 @@ TestDirector::HandleUNMenu
 	)
 {
 	if (index == kTestMessageCmd)
-		{
+	{
 		JGetUserNotification()->DisplayMessage(JGetString("TestMessage::TestDirector"));
-		}
+	}
 	else if (index == kTestWarningCmd)
-		{
+	{
 		JGetUserNotification()->AskUserYes(JGetString("WarningMessage::TestDirector"));
-		}
+	}
 	else if (index == kTestErrorCmd)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("ErrorMessage::TestDirector"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -1119,33 +1119,33 @@ TestDirector::HandleCSFMenu
 	bool ok = false;
 	JString resultStr;
 	if (index == kChooseFileCmd)
-		{
+	{
 		ok = csf->ChooseFile(JGetString("ChooseFilePrompt::TestDirector"),
 			JGetString("ChooseFileInstructions::TestDirector"),
 			&resultStr);
-		}
+	}
 	else if (index == kChooseFileCustomCmd)
-		{
+	{
 		csf = itsCSF;
 		ok  = csf->ChooseFile(JGetString("ChooseFilePrompt::TestDirector"),
 			JGetString("CustomChooseFileInstructions::TestDirector"),
 			&resultStr);
-		}
+	}
 	else if (index == kSaveFileCmd)
-		{
+	{
 		ok = csf->SaveFile(JGetString("SaveFilePrompt::TestDirector"),
 			JGetString("SaveFileInstructions::TestDirector"),
 			JGetString("DefaultFileName::TestDirector"), &resultStr);
-		}
+	}
 	else if (index == kSaveFileCustomCmd)
-		{
+	{
 		csf = itsCSF;
 		ok  = csf->SaveFile(JGetString("SaveFilePrompt::TestDirector"),
 			JGetString("CustomSaveFileInstructions::TestDirector"),
 			JGetString("DefaultFileName::TestDirector"), &resultStr);
 
 		if (ok)
-			{
+		{
 			TestChooseSaveFile::SaveFormat format = itsCSF->GetSaveFormat();
 			const JUtf8Byte* formatStr =
 				(format == TestChooseSaveFile::kGIFFormat  ? "GIF"  :
@@ -1153,33 +1153,33 @@ TestDirector::HandleCSFMenu
 				(format == TestChooseSaveFile::kJPEGFormat ? "JPEG" : "unknown")));
 
 			const JUtf8Byte* map[] =
-				{
+			{
 				"format", formatStr
-				};
+			};
 			resultStr += JGetString("CustomSaveFileResult::TestDirector", map, sizeof(map));
-			}
 		}
+	}
 	else if (index == kChooseRPathCmd)
-		{
+	{
 		ok = csf->ChooseRPath(JString::empty,
 			JGetString("ChooseReadableDirectory::TestDirector"),
 			JString::empty, &resultStr);
-		}
+	}
 	else if (index == kChooseRWPathCmd)
-		{
+	{
 		ok = csf->ChooseRWPath(JString::empty,
 			JGetString("ChooseWritableDirectory::TestDirector"),
 			JString::empty, &resultStr);
-		}
+	}
 
 	if (ok)
-		{
+	{
 		const JUtf8Byte* map[] =
-			{
+		{
 			"result", resultStr.GetBytes()
-			};
+		};
 		JGetUserNotification()->DisplayMessage(JGetString("CSFResult::TestDirector", map, sizeof(map)));
-		}
+	}
 }
 
 /******************************************************************************
@@ -1204,21 +1204,21 @@ TestDirector::HandlePGMenu
 	)
 {
 	if (index == kFixLenFGCmd)
-		{
+	{
 		FGProcess(true);
-		}
+	}
 	else if (index == kVarLenFGCmd)
-		{
+	{
 		FGProcess(false);
-		}
+	}
 	else if (index == kFixLenBGCmd)
-		{
+	{
 		BeginBGProcess(true);
-		}
+	}
 	else if (index == kVarLenBGCmd)
-		{
+	{
 		BeginBGProcess(false);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1237,18 +1237,18 @@ TestDirector::FGProcess
 
 	const JSize stepCount = 100;
 	if (fixedLength)
-		{
+	{
 		pg->FixedLengthProcessBeginning(
 			stepCount, JGetString("ProgressMessage::TestDirector"), true, false);
-		}
+	}
 	else
-		{
+	{
 		pg->VariableLengthProcessBeginning(
 			JGetString("ProgressMessage::TestDirector"), true, false);
-		}
+	}
 
 	for (JIndex i=1; i<=stepCount; i++)
-		{
+	{
 		JWait(0.5);		// simulate massive, greedy number crunching
 
 		// update the display
@@ -1256,10 +1256,10 @@ TestDirector::FGProcess
 		JString progressStr(i, 0);
 		progressStr.Prepend("iteration ");
 		if (!pg->IncrementProgress(progressStr))
-			{
+		{
 			break;
-			}
 		}
+	}
 
 	pg->ProcessFinished();
 }

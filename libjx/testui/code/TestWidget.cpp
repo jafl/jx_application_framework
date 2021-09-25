@@ -214,21 +214,21 @@ JIndex i;
 	JXMenu* prevMenu     = itsActionsMenu;
 	JIndex prevMenuIndex = kAdviceMenuCmd;
 	for (i=1; i<=kAdviceMenuCount; i++)
-		{
+	{
 		JXTextMenu* adviceMenu = jnew JXTextMenu(prevMenu, prevMenuIndex, menuBar);
 		assert( adviceMenu != nullptr );
 		adviceMenu->SetMenuItems(kAdviceMenuStr[i-1]);
 		adviceMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 		if (i == kAdviceBoldMenuIndex)
-			{
+		{
 			adviceMenu->SetItemFontStyle(2,
 				JFontStyle(true, false, 0, false, JColorManager::GetBlackColor()));
-			}
+		}
 
 		prevMenu      = adviceMenu;
 		prevMenuIndex = 2;
-		}
+	}
 
 	BuildXlsfontsMenu(itsActionsMenu, menuBar);
 
@@ -270,9 +270,9 @@ JIndex i;
 
 	itsImageBuffer = nullptr;
 	if (isImage)
-		{
+	{
 		CreateImageBuffer();
-		}
+	}
 
 	// initial size
 
@@ -289,7 +289,7 @@ JIndex i;
 	ListenTo(itsAnimButton);
 
 	if (isMaster)
-		{
+	{
 		itsQuitButton = 
 			jnew JXTextButton(JGetString("QuitButtonLabel::TestWidget"),
 							  this, JXWidget::kFixedRight, JXWidget::kFixedBottom,
@@ -302,11 +302,11 @@ JIndex i;
 		itsQuitButton->SetPushedColor(JColorManager::GetBlueColor());
 
 		ListenTo(itsQuitButton);
-		}
+	}
 	else
-		{
+	{
 		itsQuitButton = nullptr;
-		}
+	}
 
 	ExpandToFitContent();
 
@@ -343,9 +343,9 @@ TestWidget::Print
 	)
 {
 	if (!p.OpenDocument())
-		{
+	{
 		return;
-		}
+	}
 
 	const JCoordinate headerHeight = p.JPainter::GetLineHeight();
 	const JCoordinate footerHeight = JRound(1.5 * headerHeight);
@@ -354,12 +354,12 @@ TestWidget::Print
 
 	bool cancelled = false;
 	for (const JIndex i : { 1,2,3 })
-		{
+	{
 		if (!p.NewPage())
-			{
+		{
 			cancelled = true;
 			break;
-			}
+		}
 
 		// draw the header
 
@@ -375,9 +375,9 @@ TestWidget::Print
 		const JString pageNumberStr(i, 0);
 
 		const JUtf8Byte* map[] =
-			{
+		{
 			"page", pageNumberStr.GetBytes()
-			};
+		};
 		p.String(pageRect.left, pageRect.bottom - footerHeight,
 				 JGetString("PageFooter::TestWidget", map, sizeof(map)),
 				 pageRect.width(), JPainter::kHAlignCenter,
@@ -387,12 +387,12 @@ TestWidget::Print
 		// draw the page
 
 		DrawStuff(p);
-		}
+	}
 
 	if (!cancelled)
-		{
+	{
 		p.CloseDocument();
-		}
+	}
 }
 
 /*****************************************************************************
@@ -409,16 +409,16 @@ TestWidget::Print
 	const JRect bounds = GetBounds();
 
 	if (p.WantsPreview())
-		{
+	{
 		JPainter& p1 = p.GetPreviewPainter(bounds);
 		DrawStuff(p1);
-		}
+	}
 
 	if (p.OpenDocument(bounds))
-		{
+	{
 		DrawStuff(p);
 		p.CloseDocument();
-		}
+	}
 }
 
 /******************************************************************************
@@ -434,13 +434,13 @@ TestWidget::Draw
 	)
 {
 	if (itsImageBuffer != nullptr)
-		{
+	{
 		p.JPainter::Image(*itsImageBuffer, itsImageBuffer->GetBounds(), 0,0);
-		}
+	}
 	else
-		{
+	{
 		DrawStuff(p);
-		}
+	}
 }
 
 void
@@ -458,9 +458,9 @@ JIndex i;
 	p.SetPenColor(JColorManager::GetBlackColor());
 
 	if (itsFillFlag)
-		{
+	{
 		p.SetFilling(true);
-		}
+	}
 
 	JRect ap = GetAperture();
 	p.Line(ap.topLeft(), ap.bottomRight());
@@ -497,9 +497,9 @@ JIndex i;
 
 	p.Point(0,0);
 	for (i=1; i<=itsRandPointCount; i++)
-		{
+	{
 		p.Point(itsRNG.UniformLong(0,200), itsRNG.UniformLong(0,200));
-		}
+	}
 
 	p.SetPenColor(JColorManager::GetRedColor());
 	p.Line(10,0, 0,10);
@@ -525,31 +525,31 @@ JIndex i;
 	p.Rect(r);
 /*
 	for (JCoordinate y=70; y<150; y++)
-		{
+	{
 		p.SetPenColor(JColorManager::GetGrayColor(y-50));
 		p.Line(290,y, 390,y);
-		}
+	}
 
 	for (JCoordinate x=290; x<390; x++)
-		{
+	{
 		p.SetPenColor(JColorManager::GetGrayColor(x-290));
 		p.Line(x,70, x,150);
-		}
+	}
 
 	p.SetLineWidth(2);
 	for (JCoordinate y=70; y<150; y+=2)
-		{
+	{
 		p.SetPenColor(JColorManager::GetGrayColor(y%4 ? 40 : 60));
 		p.Line(290,y, 390,y);
-		}
+	}
 	p.SetLineWidth(1);
 
 	p.SetLineWidth(2);
 	for (JCoordinate x=290; x<390; x+=2)
-		{
+	{
 		p.SetPenColor(JColorManager::GetGrayColor(x%4 ? 40 : 60));
 		p.Line(x,70, x,150);
-		}
+	}
 	p.SetLineWidth(1);
 */
 	p.String(  0.0, r, helloStr, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
@@ -574,31 +574,31 @@ JIndex i;
 	p.SetFilling(false);
 /*
 	for (JCoordinate y=160; y<240; y++)
-		{
+	{
 		p.SetPenColor(JColorManager::GetGrayColor(y-140));
 		p.Line(290,y, 390,y);
-		}
+	}
 
 	for (JCoordinate x=290; x<390; x++)
-		{
+	{
 		p.SetPenColor(JColorManager::GetGrayColor(x-290));
 		p.Line(x,160, x,240);
-		}
+	}
 
 	p.SetLineWidth(2);
 	for (JCoordinate y=160; y<240; y+=2)
-		{
+	{
 		p.SetPenColor(JColorManager::GetGrayColor(y%4 ? 40 : 60));
 		p.Line(290,y, 390,y);
-		}
+	}
 	p.SetLineWidth(1);
 
 	p.SetLineWidth(2);
 	for (JCoordinate x=290; x<390; x+=2)
-		{
+	{
 		p.SetPenColor(JColorManager::GetGrayColor(x%4 ? 40 : 60));
 		p.Line(x,160, x,240);
-		}
+	}
 	p.SetLineWidth(1);
 */
 	textPt.Set(340, 200);
@@ -720,9 +720,9 @@ TestWidget::BoundsResized
 	JXScrollableWidget::BoundsResized(dw,dh);
 
 	if (itsImageBuffer != nullptr && (dw != 0 || dh != 0))
-		{
+	{
 		CreateImageBuffer();
-		}
+	}
 }
 
 /******************************************************************************
@@ -780,25 +780,25 @@ TestWidget::AdjustCursor
 	)
 {
 	if (itsHomeRect.Contains(pt))
-		{
+	{
 		DisplayCursor(kJXDefaultCursor);
-		}
+	}
 	else if (its2Rect.Contains(pt))
-		{
+	{
 		DisplayCursor(itsGumbyCursor);
-		}
+	}
 	else if (its3Rect.Contains(pt))
-		{
+	{
 		DisplayCursor(itsBogosityCursor);
-		}
+	}
 	else if (modifiers.meta())
-		{
+	{
 		DisplayCursor(itsFleurCursor);
-		}
+	}
 	else
-		{
+	{
 		JXScrollableWidget::AdjustCursor(pt, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -817,10 +817,10 @@ TestWidget::HandleMouseDown
 	)
 {
 	if (button == kJXLeftButton && clickCount == 1 && itsHomeRect.Contains(pt))
-		{
+	{
 		JString dir;
 		if (JGetHomeDirectory(&dir))
-			{
+		{
 			JPtrArray<JString> list(JPtrArrayT::kForgetAll);
 			list.Append(&dir);
 
@@ -831,45 +831,45 @@ TestWidget::HandleMouseDown
 			assert( data != nullptr );
 
 			BeginDND(pt, buttonStates, modifiers, data);
-			}
 		}
+	}
 	else if (button == kJXLeftButton && clickCount == 1)
-		{
+	{
 		JPainter* p = CreateDragInsidePainter();
 		p->Rect(JRect(pt, pt));
-		}
+	}
 	else if (button == kJXMiddleButton && clickCount == 1)
-		{
+	{
 		itsAnimButton->Place(pt.x, pt.y);
-		}
+	}
 	else if (button == kJXRightButton && clickCount == 1 && !modifiers.meta())
-		{
+	{
 		JRect r = itsAnimButton->GetFrame();
 		if (pt.x > r.left && pt.y > r.top)
-			{
+		{
 			itsAnimButton->SetSize(pt.x-r.left, pt.y-r.top);
-			}
 		}
+	}
 	else if (button == kJXRightButton && clickCount == 1 && modifiers.meta())
-		{
+	{
 		if (itsSecretMenu->PopUp(this, pt, buttonStates, modifiers))
-			{
-			return;
-			}
-		else
-			{
-			JGetUserNotification()->ReportError(JGetString("SecretMenuError::TestWidget"));
-			}
-		}
-	else if (ScrollForWheel(button, modifiers))
 		{
-		// work has been done
+			return;
 		}
+		else
+		{
+			JGetUserNotification()->ReportError(JGetString("SecretMenuError::TestWidget"));
+		}
+	}
+	else if (ScrollForWheel(button, modifiers))
+	{
+		// work has been done
+	}
 	else if ((clickCount == 2 && its2Rect.Contains(pt)) ||
 			 (clickCount == 3 && its3Rect.Contains(pt)))
-		{
+	{
 		GetNewSize();
-		}
+	}
 
 	itsStartPt = itsPrevPt = pt;
 }
@@ -891,26 +891,26 @@ TestWidget::HandleMouseDrag
 
 	JPainter* p = nullptr;
 	if (buttonStates.left() && pt != itsPrevPt && GetDragPainter(&p))	// no painter for multiple click
-		{
+	{
 		if (!scrolled)
-			{
+		{
 			p->Rect(JRect(itsStartPt, itsPrevPt));
-			}
-		p->Rect(JRect(itsStartPt, pt));
 		}
+		p->Rect(JRect(itsStartPt, pt));
+	}
 
 	if (buttonStates.middle() && pt != itsPrevPt)
-		{
+	{
 		itsAnimButton->Place(pt.x, pt.y);
-		}
+	}
 	else if (buttonStates.right() && pt != itsPrevPt)
-		{
+	{
 		JRect r = itsAnimButton->GetFrame();
 		if (pt.x > r.left && pt.y > r.top)
-			{
+		{
 			itsAnimButton->SetSize(pt.x-r.left, pt.y-r.top);
-			}
 		}
+	}
 
 	itsPrevPt = pt;
 }
@@ -931,10 +931,10 @@ TestWidget::HandleMouseUp
 {
 	JPainter* p = nullptr;
 	if (button == kJXLeftButton && GetDragPainter(&p))	// no painter for multiple click
-		{
+	{
 		p->Rect(JRect(itsStartPt, itsPrevPt));
 		DeleteDragPainter();
-		}
+	}
 }
 
 /******************************************************************************
@@ -997,47 +997,47 @@ TestWidget::WillAcceptDrop
 	std::cout << std::endl;
 
 	for (const auto type : typeList)
-		{
+	{
 		std::cout << XGetAtomName(*display, type) << std::endl;
 
 		if (type == GetSelectionManager()->GetURLXAtom())
-			{
+		{
 			hasURIList = true;
-			}
 		}
+	}
 
 	if (hasURIList)
-		{
+	{
 		if (its2Rect.Contains(pt) || its3Rect.Contains(pt))
-			{
+		{
 			std::cout << std::endl;
 			std::cout << "Accepting the drop of type text/uri-list" << std::endl;
 			std::cout << std::endl;
 
 			*action = dndMgr->GetDNDActionPrivateXAtom();
 			return true;
-			}
-		else
-			{
-			return false;
-			}
 		}
-	else if (*action == dndMgr->GetDNDActionCopyXAtom())
+		else
 		{
+			return false;
+		}
+	}
+	else if (*action == dndMgr->GetDNDActionCopyXAtom())
+	{
 		std::cout << std::endl;
 		std::cout << "Accepting the drop" << std::endl;
 		std::cout << std::endl;
 
 		if (!PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
 								GetSelectionManager()->GetMimePlainTextXAtom()))
-			{
+		{
 			PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
 							   GetSelectionManager()->GetMimePlainTextUTF8XAtom());
-			}
-		return true;
 		}
+		return true;
+	}
 	else
-		{
+	{
 		std::cout << std::endl;
 		std::cout << "Not accepting the drop because the action isn't copy" << std::endl;
 		std::cout << "Action: " << XGetAtomName(*display, *action) << std::endl;
@@ -1045,13 +1045,13 @@ TestWidget::WillAcceptDrop
 
 		if (!PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
 								GetSelectionManager()->GetMimePlainTextXAtom()))
-			{
+		{
 			PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
 							   GetSelectionManager()->GetMimePlainTextUTF8XAtom());
-			}
+		}
 
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1083,29 +1083,29 @@ TestWidget::HandleDNDDrop
 
 	Atom textType = None, urlType = None;
 	for (const auto type : typeList)
-		{
+	{
 		std::cout << XGetAtomName(*display, type) << std::endl;
 		if (type == selMgr->GetMimePlainTextXAtom() ||
 			type == selMgr->GetMimePlainTextUTF8XAtom())
-			{
+		{
 			textType = type;
-			}
-		else if (type == selMgr->GetURLXAtom())
-			{
-			urlType = type;
-			}
 		}
+		else if (type == selMgr->GetURLXAtom())
+		{
+			urlType = type;
+		}
+	}
 	std::cout << std::endl;
 
 	if (textType != None)
-		{
+	{
 		PrintSelectionText(GetDNDManager()->GetDNDSelectionName(), time, textType);
-		}
+	}
 
 	if (urlType != None)
-		{
+	{
 		PrintFileNames(GetDNDManager()->GetDNDSelectionName(), time, urlType);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1124,34 +1124,34 @@ TestWidget::PrintSelectionTargets
 
 	JArray<Atom> typeList;
 	if (selMgr->GetAvailableTypes(kJXClipboardName, time, &typeList))
-		{
+	{
 		std::cout << std::endl;
 		std::cout << "Data types available from the clipboard:" << std::endl;
 		std::cout << std::endl;
 
 		for (const auto type : typeList)
-			{
+		{
 			std::cout << XGetAtomName(*display, type) << std::endl;
-			}
+		}
 
 		for (const auto type : typeList)
-			{
+		{
 			if (type == XA_STRING ||
 				type == selMgr->GetUtf8StringXAtom() ||
 				type == selMgr->GetMimePlainTextXAtom() ||
 				type == selMgr->GetMimePlainTextUTF8XAtom())
-				{
+			{
 				std::cout << std::endl;
 				PrintSelectionText(kJXClipboardName, time, type);
-				}
 			}
 		}
+	}
 	else
-		{
+	{
 		std::cout << std::endl;
 		std::cout << "Unable to access the clipboard." << std::endl;
 		std::cout << std::endl;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1177,35 +1177,35 @@ TestWidget::PrintSelectionText
 	JXSelectionManager::DeleteMethod delMethod;
 	if (selMgr->GetData(selectionName, time, type,
 						&returnType, &data, &dataLength, &delMethod))
-		{
+	{
 		if (returnType == XA_STRING ||
 			returnType == selMgr->GetUtf8StringXAtom() ||
 			returnType == selMgr->GetMimePlainTextXAtom() ||
 			returnType == selMgr->GetMimePlainTextUTF8XAtom())
-			{
+		{
 			std::cout << "Data is available as " << XGetAtomName(*display, type) << ":" << std::endl << std::endl;
 			std::cout << "====================" << std::endl;
 			std::cout.write((char*) data, dataLength);
 			std::cout << std::endl << "====================" << std::endl << std::endl;
-			}
+		}
 		else
-			{
+		{
 			std::cout << "Data has unrecognized return type:  ";
 			std::cout << XGetAtomName(*(GetDisplay()), returnType) << std::endl;
 			std::cout << "Trying to print it anyway:" << std::endl << std::endl;
 			std::cout << "=========================" << std::endl;
 			std::cout.write((char*) data, dataLength);
 			std::cout << std::endl << "=========================" << std::endl << std::endl;
-			}
+		}
 
 		selMgr->DeleteData(&data, delMethod);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		std::cout << "Data could not be retrieved as " << XGetAtomName(*display, type) << "." << std::endl << std::endl;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1230,38 +1230,38 @@ TestWidget::PrintFileNames
 	JXSelectionManager::DeleteMethod delMethod;
 	if (selMgr->GetData(selectionName, time, type,
 						&returnType, &data, &dataLength, &delMethod))
-		{
+	{
 		if (returnType == type)
-			{
+		{
 			JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
 							   urlList(JPtrArrayT::kDeleteAll);
 			JXUnpackFileNames((char*) data, dataLength, &fileNameList, &urlList);
 
 			if (!fileNameList.IsEmpty())
-				{
+			{
 				std::cout << "File/directory names:" << std::endl << std::endl;
 				for (const auto* f : fileNameList)
-					{
-					std::cout << *f << std::endl;
-					}
-				std::cout << std::endl << std::endl;
-				}
-
-			if (!urlList.IsEmpty())
 				{
-				std::cout << "Unconvertable URLs:" << std::endl << std::endl;
-				for (const auto* u : urlList)
-					{
-					std::cout << *u << std::endl;
-					}
-				std::cout << std::endl << std::endl;
+					std::cout << *f << std::endl;
 				}
-
-			JXReportUnreachableHosts(urlList);
+				std::cout << std::endl << std::endl;
 			}
 
-		selMgr->DeleteData(&data, delMethod);
+			if (!urlList.IsEmpty())
+			{
+				std::cout << "Unconvertable URLs:" << std::endl << std::endl;
+				for (const auto* u : urlList)
+				{
+					std::cout << *u << std::endl;
+				}
+				std::cout << std::endl << std::endl;
+			}
+
+			JXReportUnreachableHosts(urlList);
 		}
+
+		selMgr->DeleteData(&data, delMethod);
+	}
 }
 
 /******************************************************************************
@@ -1309,26 +1309,26 @@ TestWidget::HandleClientMessage
 
 	std::cout << "Data:" << std::endl;
 	if (clientMessage.format == 8)
-		{
+	{
 		for (char c : clientMessage.data.b)
-			{
+		{
 			std::cout << c << ' ';
-			}
 		}
+	}
 	else if (clientMessage.format == 16)
-		{
+	{
 		for (short v : clientMessage.data.s)
-			{
-			std::cout << v << ' ';
-			}
-		}
-	else
 		{
-		for (long v : clientMessage.data.l)
-			{
 			std::cout << v << ' ';
-			}
 		}
+	}
+	else
+	{
+		for (long v : clientMessage.data.l)
+		{
+			std::cout << v << ' ';
+		}
+	}
 	std::cout << std::endl << std::endl;
 
 	return JXScrollableWidget::HandleClientMessage(clientMessage);
@@ -1343,9 +1343,9 @@ void
 TestWidget::UpdateActionsMenu()
 {
 	if (itsFillFlag)
-		{
+	{
 		itsActionsMenu->CheckItem(kToggleFillCmd);
-		}
+	}
 
 	itsActionsMenu->SetItemEnable(kShowHideQuitCmd,
 								  itsQuitButton != nullptr);
@@ -1365,69 +1365,69 @@ TestWidget::HandleActionsMenu
 	)
 {
 	if (index == kChangeSizeCmd)
-		{
+	{
 		GetNewSize();
-		}
+	}
 	else if (index == kToggleFillCmd)
-		{
+	{
 		itsFillFlag = !itsFillFlag;
 		Refresh();
-		}
+	}
 
 	else if (index == kShowHideCmd && IsVisible())
-		{
+	{
 		Hide();
 		itsActionsMenu->SetItemText(kShowHideCmd, JGetString("ShowMenuItem::TestWidget"));
-		}
+	}
 	else if (index == kShowHideCmd)
-		{
+	{
 		Show();
 		itsActionsMenu->SetItemText(kShowHideCmd, JGetString("HideMenuItem::TestWidget"));
-		}
+	}
 
 	else if (index == kActDeactCmd && IsActive())
-		{
+	{
 		Deactivate();
 		itsActionsMenu->SetItemText(kActDeactCmd, JGetString("ActivateMenuItem::TestWidget"));
-		}
+	}
 	else if (index == kActDeactCmd)
-		{
+	{
 		Activate();
 		itsActionsMenu->SetItemText(kActDeactCmd, JGetString("DeactivateMenuItem::TestWidget"));
-		}
+	}
 
 	else if (index == kShowHideQuitCmd && itsQuitButton != nullptr &&
 			 itsQuitButton->WouldBeVisible())
-		{
+	{
 		itsQuitButton->Hide();
 		itsActionsMenu->SetItemText(kShowHideQuitCmd, JGetString("ShowQuitMenuItem::TestWidget"));
-		}
+	}
 	else if (index == kShowHideQuitCmd && itsQuitButton != nullptr)
-		{
+	{
 		itsQuitButton->Show();
 		itsActionsMenu->SetItemText(kShowHideQuitCmd, JGetString("HideQuitMenuItem::TestWidget"));
-		}
+	}
 
 	else if (index == kActDeactQuitCmd && itsQuitButton != nullptr &&
 			 itsQuitButton->WouldBeActive())
-		{
+	{
 		itsQuitButton->Deactivate();
 		itsActionsMenu->SetItemText(kActDeactQuitCmd, JGetString("ActivateQuitMenuItem::TestWidget"));
-		}
+	}
 	else if (index == kActDeactQuitCmd && itsQuitButton != nullptr)
-		{
+	{
 		itsQuitButton->Activate();
 		itsActionsMenu->SetItemText(kActDeactQuitCmd, JGetString("DeactivateQuitMenuItem::TestWidget"));
-		}
+	}
 
 	else if (index == kPrintSelectionTargetsCmd)
-		{
+	{
 		PrintSelectionTargets(CurrentTime);
-		}
+	}
 	else if (index == kPrintOldSelectionTargetsCmd)
-		{
+	{
 		PrintSelectionTargets(GetDisplay()->GetLastEventTime() - 10000);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1505,87 +1505,87 @@ TestWidget::Receive
 	JXWindowIcon* windowIcon = nullptr;
 
 	if (sender == itsAnimButton && message.Is(JXButton::kPushed))
-		{
+	{
 		if (GetCursorAnimator() == nullptr)
-			{
+		{
 			CreateCursorAnimator();
 			itsAnimButton->SetShortcuts(JGetString("AnimationButtonStopShorcut::TestWidget"));
 			itsAnimButton->SetLabel(JGetString("AnimationButtonStopLabel::TestWidget"));
-			}
+		}
 		else
-			{
+		{
 			RemoveCursorAnimator();
 			itsAnimButton->SetLabel(JGetString("AnimationButtonStartLabel::TestWidget"));
 			itsAnimButton->SetShortcuts(JGetString("AnimationButtonStartShortcut::TestWidget"));
-			}
 		}
+	}
 	else if (sender == itsQuitButton && message.Is(JXButton::kPushed))
-		{
+	{
 		JXGetApplication()->Quit();
-		}
+	}
 
 	else if (window->GetIconWidget(&windowIcon) &&
 			 sender == windowIcon && message.Is(JXWindowIcon::kHandleDrop))
-		{
+	{
 		const JXWindowIcon::HandleDrop* data =
 			dynamic_cast<const JXWindowIcon::HandleDrop*>(&message);
 		assert( data != nullptr );
 		HandleDNDDrop(JPoint(0,0), data->GetTypeList(), data->GetAction(),
 					  data->GetTime(), data->GetSource());
-		}
+	}
 
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateActionsMenu();
-		}
+	}
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionsMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsPointMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdatePointMenu();
-		}
+	}
 	else if (sender == itsPointMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePointMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsSecretMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		if (selection->GetIndex() == kSecretMenuDialogCmd)
-			{
+		{
 			JGetUserNotification()->DisplayMessage(
 				JGetString("SecretMenuMessage::TestWidget"));
-			}
 		}
+	}
 
 	else if (sender == itsResizeDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			ChangeSize();
-			}
-		itsResizeDialog = nullptr;
 		}
+		itsResizeDialog = nullptr;
+	}
 
 	else
-		{
+	{
 		JXScrollableWidget::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1604,22 +1604,22 @@ TestWidget::ReceiveWithFeedback
 
 	if (GetWindow()->GetIconWidget(&windowIcon) &&
 		sender == windowIcon && message->Is(JXWindowIcon::kAcceptDrop))
-		{
+	{
 		JXWindowIcon::AcceptDrop* data =
 			dynamic_cast<JXWindowIcon::AcceptDrop*>(message);
 		assert( data != nullptr );
 		if (!data->WillAcceptDrop())
-			{
+		{
 			data->ShouldAcceptDrop(
 				WillAcceptDrop(data->GetTypeList(), data->GetActionPtr(),
 							   data->GetPoint(), data->GetTime(), data->GetSource()));
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXScrollableWidget::ReceiveWithFeedback(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1642,16 +1642,16 @@ TestWidget::BuildXlsfontsMenu
 	GetXFontManager()->GetXFontNames(JRegex("^-.*-(courier|helvetica)-.*$"),
 									   &fontList);
 	for (const auto* fontName : fontList)
-		{
+	{
 		menu->AppendItem(*fontName);
-		}
+	}
 
 	menu->AppendItem(JGetString("XFontMenuLastItem::TestWidget"));
 	const JSize count = menu->GetItemCount();
 	menu->SetItemFontStyle(count, JFontStyle(true, false, 0, false,
 											 JColorManager::GetBlackColor()));
 	if (count > 1)
-		{
+	{
 		menu->ShowSeparatorAfter(count-1);
-		}
+	}
 }

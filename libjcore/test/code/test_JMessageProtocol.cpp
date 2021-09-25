@@ -72,9 +72,9 @@ public:
 	Base(TestLink* link)
 		:
 		itsLink(link), itsState(0)
-	{
+{
 		ListenTo(itsLink);
-	};
+};
 
 protected:
 
@@ -84,20 +84,20 @@ protected:
 		JBroadcaster*	sender,
 		const Message&	message
 		)
-	{
+{
 		if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
-			{
+		{
 			HandleMessage();
-			}
+		}
 		else if (sender == itsLink && message.Is(JMessageProtocolT::kReceivedDisconnect))
-			{
+		{
 			HandleDisconnect();
-			}
+		}
 		else
-			{
+		{
 			JBroadcaster::Receive(sender, message);
-			}
-	};
+		}
+};
 
 protected:
 
@@ -110,7 +110,7 @@ private:
 
 	virtual void
 	HandleDisconnect()
-	{ };
+{ };
 
 	// not allowed
 
@@ -126,9 +126,9 @@ public:
 		:
 		Base(link),
 		itsSendOffset(0)
-	{
+{
 		link->ShouldSendSynch();
-	};
+};
 
 private:
 
@@ -138,7 +138,7 @@ private:
 
 	virtual void
 	HandleMessage()
-	{
+{
 		JAssertTrue(itsLink->HasMessages());
 		JAssertEqual(1, itsLink->GetMessageCount());
 		JAssertFalse(itsLink->ReceivedDisconnect());
@@ -153,30 +153,30 @@ private:
 		itsState++;
 
 		if (serverSend[ itsSendOffset ] == nullptr)
-			{
+		{
 			return;
-			}
+		}
 
 		while (serverSend[ itsSendOffset ] != nullptr)
-			{
+		{
 			itsLink->SendBytes(serverSend[ itsSendOffset ]);
 			std::cout << "server sent: " << serverSend[ itsSendOffset ] << std::endl;
 			itsSendOffset++;
 			JWait(0.5);
-			}
+		}
 
 		if (serverSend[ itsSendOffset+1 ] != nullptr)	// prepare to send next batch
-			{
+		{
 			itsSendOffset++;
-			}
-	};
+		}
+};
 
 	virtual void
 	HandleDisconnect()
-	{
+{
 		std::cout << "server disconnect" << std::endl;
 		ACE_Reactor::instance()->end_reactor_event_loop();
-	};
+};
 
 	// not allowed
 
@@ -188,10 +188,10 @@ TestLink::TestLink()
 {
 	std::cout << server << ": create TestLink" << std::endl;
 	if (server)
-	{
+{
 		auto* svr = jnew Server(this);
 		assert( svr != nullptr );
-	}
+}
 };
 
 void
@@ -219,15 +219,15 @@ public:
 	Client(TestLink* link)
 		:
 		Base(link)
-	{
+{
 		link->SendMessage(JString(message[0], JString::kNoCopy));
-	};
+};
 
 private:
 
 	void
 	HandleMessage()
-	{
+{
 		JAssertTrue(itsLink->HasMessages());
 		JAssertFalse(itsLink->ReceivedDisconnect());
 
@@ -240,17 +240,17 @@ private:
 		itsState++;
 
 		if (message[ itsState ] == nullptr)
-			{
+		{
 			itsLink->ShouldSendSynch();
 			itsLink->SendDisconnect();
 			ACE_Reactor::instance()->end_reactor_event_loop();
 			JWait(5);	// wait for server to finish
 			return;
-			}
+		}
 
 		itsLink->SendMessage(JString(message[ itsState ], JString::kNoCopy));
 		std::cout << "client sent: " << message[ itsState ] << std::endl;
-	};
+};
 
 	// not allowed
 
@@ -278,15 +278,15 @@ JTEST(SendRecv)
 
 	int result = ACE_OS::fork();
 	if (result == 0)
-		{
+	{
 		server = 1;
 		Listen();
-		}
+	}
 	else
-		{
+	{
 		JWait(1);	// wait for child to initialize
 		SendAndRecv();
-		}
+	}
 
 	ACE_Reactor::instance()->run_reactor_event_loop();
 	unlink(socketName);

@@ -68,10 +68,10 @@ TestDNDTextDirector::BuildWindow()
 	JArray<JCoordinate> sizes;
 	JArray<JCoordinate> minSizes;
 	for (JIndex i=1; i<=2; i++)
-		{
+	{
 		sizes.AppendElement(kInitWidth);
 		minSizes.AppendElement(kMinWidth);
-		}
+	}
 
 	JXHorizPartition* partition =
 		jnew JXHorizPartition(sizes, 0, minSizes, window,
@@ -84,7 +84,7 @@ TestDNDTextDirector::BuildWindow()
 
 	JXTextEditor* te;
 	for (const JIndex i : { 1,2})
-		{
+	{
 		JXStyledText* text = jnew JXStyledText(true, true, GetDisplay()->GetFontManager());
 		assert( text != nullptr );
 
@@ -106,7 +106,7 @@ TestDNDTextDirector::BuildWindow()
 		text->SetFontStyle(TEXT_RANGE(46, 53), JFontStyle(false, false, 0, true), true);
 		text->SetFontStyle(TEXT_RANGE(54, 62),
 			JFontStyle(true, false, 0, false, JColorManager::GetRedColor()), true);
-		}
+	}
 }
 
 #undef TEXT_RANGE

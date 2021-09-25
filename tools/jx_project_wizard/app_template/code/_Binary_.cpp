@@ -36,9 +36,9 @@ main
 #ifdef USE_MDI
 
 	if (!<PRE>MDIServer::WillBeMDIServer(<PRE>App::GetAppSignature(), argc, argv))
-		{
+	{
 		return 0;
-		}
+	}
 
 #endif
 
@@ -49,9 +49,9 @@ main
 
 	if (displayAbout &&
 		!JGetUserNotification()->AcceptLicense())
-		{
+	{
 		return 0;
-		}
+	}
 
 	JCheckForNewerVersion(<PRE>GetPrefsManager(), k<PRE>VersionCheckID);
 
@@ -64,9 +64,9 @@ main
 	dir->Activate();
 
 	if (displayAbout)
-		{
+	{
 		app->DisplayAbout(prevVersStr);
-		}
+	}
 
 	app->Run();
 	return 0;
@@ -91,21 +91,21 @@ ParseTextOptions
 {
 	long index = 1;
 	while (index < argc)
-		{
+	{
 		if (JIsVersionRequest(argv[index]))
-			{
+		{
 			<PRE>App::InitStrings();
 			PrintVersion();
 			exit(0);
-			}
+		}
 		else if (JIsHelpRequest(argv[index]))
-			{
+		{
 			<PRE>App::InitStrings();
 			PrintCommandLineHelp();
 			exit(0);
-			}
-		index++;
 		}
+		index++;
+	}
 }
 
 /******************************************************************************
@@ -130,9 +130,9 @@ void
 PrintCommandLineHelp()
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"vers", <PRE>GetVersionNumberStr().GetBytes()
-		};
+	};
 	const JString s = JGetString("CommandLineHelp", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }

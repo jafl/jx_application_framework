@@ -47,7 +47,7 @@ JXCursorAnimationTask::Perform
 	)
 {
 	if (TimeToPerform(delta, maxSleepTime))
-		{
+	{
 		itsCursorAnim->NextFrame();
-		}
+	}
 }

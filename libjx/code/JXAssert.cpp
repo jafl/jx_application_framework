@@ -67,13 +67,13 @@ JXAssert::Assert
 	itsIsOperatingFlag = true;
 
 	if (wasOperating || itsDisplayList == nullptr)		// prevents infinite recursion
-		{
+	{
 		fprintf(stderr, "\nError inside fatal error handler!\n\n");
-		}
+	}
 	else
-		{
+	{
 		UnlockDisplays();
-		}
+	}
 
 	const int result = JAssertBase::DefaultAssert(expr, file, line, message);
 
@@ -103,11 +103,11 @@ void
 JXAssert::UnlockDisplays()
 {
 	for (auto* display : *itsDisplayList)
-		{
+	{
 		Display* xDisplay = display->GetXDisplay();
 		XUngrabServer(xDisplay);
 		XUngrabPointer(xDisplay, CurrentTime);
 		XUngrabKeyboard(xDisplay, CurrentTime);
 		display->Flush();
-		}
+	}
 }

@@ -80,10 +80,10 @@ JPSPrinter::JPSPrinter
 JPSPrinter::~JPSPrinter()
 {
 	if (itsPG != nullptr)
-		{
+	{
 		itsPG->ProcessFinished();
 		jdelete itsPG;
-		}
+	}
 }
 
 /******************************************************************************
@@ -129,24 +129,24 @@ JPSPrinter::ReadPSSetup
 
 	bool bwFlag = false;
 	if (vers <= 3)
-		{
+	{
 		ImageOrientation orient;
 		input >> itsPaperType >> orient >> JBoolFromString(bwFlag);
 		SetOrientation(orient);
-		}
+	}
 	else if (vers <= kCurrentSetupVersion)
-		{
+	{
 		JString fileName;
 		ImageOrientation orient;
 		input >> fileName >> itsPaperType >> orient >> JBoolFromString(bwFlag);
 		SetOutputFileName(fileName);
 		SetOrientation(orient);
-		}
+	}
 
 	if (vers >= 3)
-		{
+	{
 		JIgnoreUntil(input, kSetupDataEndDelimiter);
-		}
+	}
 
 	PSPrintBlackWhite(bwFlag);
 	PSResetCoordinates();
@@ -184,9 +184,9 @@ JPSPrinter::OpenDocument()
 	itsPageCount = 0;
 
 	if (!PSOpenDocument())
-		{
+	{
 		return false;
-		}
+	}
 
 	assert( itsPG == nullptr );
 	itsPG = jnew JLatentPG;
@@ -225,10 +225,10 @@ JPSPrinter::PSPrintHeaderComments
 	output << "%%Orientation: " << kOrientationStr[ GetOrientation() ] << '\n';
 
 	if (itsCopyCount > 1)
-		{
+	{
 		output << "%%Requirements: numcopies(" << itsCopyCount;
 		output << ") collate\n";
-		}
+	}
 }
 
 /******************************************************************************
@@ -243,9 +243,9 @@ JPSPrinter::PSPrintSetupComments
 	)
 {
 	if (itsCopyCount > 1)
-		{
+	{
 		output << "/#copies " << itsCopyCount << " def\n";
-		}
+	}
 }
 
 /******************************************************************************
@@ -262,39 +262,39 @@ JPSPrinter::NewPage()
 
 	std::ostream& output = GetOutputStream();
 	if (!itsPG->IncrementProgress())
-		{
+	{
 		CancelDocument();
 		return false;
-		}
+	}
 	else if (output.fail())
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("Error::JPSPrinter"));
 
 		CancelDocument();
 		return false;
-		}
+	}
 
 	JIndex pageIndex = GetPageIndex();
 	if (pageIndex > 0)
-		{
+	{
 		ClosePage();
-		}
+	}
 
 	pageIndex++;
 	SetPageIndex(pageIndex);
 
 	if (PSShouldPrintCurrentPage())
-		{
+	{
 		output << "%%Page: " << pageIndex << ' ' << itsPageCount+1 << '\n';
 		PSSaveGraphicsState();
 
 		if (GetOrientation() == kLandscape)
-			{
+		{
 			output << "90 rotate\n";
 			output << "0 " << -GetPaperHeight() << " translate\n";
 			PSSaveGraphicsState();		// save again so SetClipRect() doesn't change it
-			}
 		}
+	}
 
 	PSResetCoordinates();
 	Reset();
@@ -316,18 +316,18 @@ void
 JPSPrinter::ClosePage()
 {
 	if (PSShouldPrintCurrentPage())
-		{
+	{
 		PSRestoreGraphicsState();
 		if (GetOrientation() == kLandscape)
-			{
+		{
 			PSRestoreGraphicsState();	// state had to be saved twice -- see NewPage()
-			}
+		}
 
 		std::ostream& output = GetOutputStream();
 		output << "showpage\n";
 
 		itsPageCount++;
-		}
+	}
 }
 
 /******************************************************************************
@@ -403,14 +403,14 @@ JPSPrinter::GetPaperWidth()
 	const
 {
 	if (GetOrientation() == kPortrait)
-		{
+	{
 		return JRound(kPaperWidth[ itsPaperType ] * kPixelsPerInch);
-		}
+	}
 	else
-		{
+	{
 		assert( GetOrientation() == kLandscape );
 		return JRound(kPaperHeight[ itsPaperType ] * kPixelsPerInch);
-		}
+	}
 }
 
 JCoordinate
@@ -418,14 +418,14 @@ JPSPrinter::GetPaperHeight()
 	const
 {
 	if (GetOrientation() == kPortrait)
-		{
+	{
 		return JRound(kPaperHeight[ itsPaperType ] * kPixelsPerInch);
-		}
+	}
 	else
-		{
+	{
 		assert( GetOrientation() == kLandscape );
 		return JRound(kPaperWidth[ itsPaperType ] * kPixelsPerInch);
-		}
+	}
 }
 
 JRect

@@ -1,7 +1,7 @@
 /*********************************************************************************
- JPlotDataBase.h
+ J2DPlotDataBase.h
 
-	Interface for the JPlotDataBase class.
+	Interface for the J2DPlotDataBase class.
 
 	Copyright @ 1997 by Glenn W. Bach.
 
@@ -14,7 +14,7 @@
 #include "J2DDataPoint.h"
 #include "J2DVectorPoint.h"
 
-class JPlotDataBase : public JCollection
+class J2DPlotDataBase : public JCollection
 {
 public:
 
@@ -28,9 +28,9 @@ public:
 
 public:
 
-	JPlotDataBase(const Type type);
+	J2DPlotDataBase(const Type type);
 
-	virtual ~JPlotDataBase();
+	virtual ~J2DPlotDataBase();
 
 	Type			GetType() const;
 	virtual void	GetElement(const JIndex index, J2DDataPoint* data) const;
@@ -40,18 +40,6 @@ public:
 	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
 								  const bool xLinear,
 								  JFloat* yMin, JFloat* yMax) const = 0;
-	virtual bool	GetZRange(const JFloat xMin, const JFloat xMax,
-								  const bool xLinear,
-								  const JFloat yMin, const JFloat yMax,
-								  const bool yLinear,
-								  JFloat* zMin, JFloat* zMax) const;
-	virtual bool	Get4thRange(const JFloat xMin, const JFloat xMax,
-									const bool xLinear,
-									const JFloat yMin, const JFloat yMax,
-									const bool yLinear,
-									const JFloat zMin, const JFloat zMax,
-									const bool zLinear,
-									JFloat* min, JFloat* max) const;
 
 	virtual bool	HasXErrors() const;
 	virtual bool	HasYErrors() const;
@@ -74,8 +62,8 @@ private:
 
 	// not allowed
 
-	JPlotDataBase(const JPlotDataBase&) = delete;
-	JPlotDataBase& operator=(const JPlotDataBase&) = delete;
+	J2DPlotDataBase(const J2DPlotDataBase&) = delete;
+	J2DPlotDataBase& operator=(const J2DPlotDataBase&) = delete;
 
 public:
 
@@ -98,8 +86,8 @@ public:
 
  ********************************************************************************/
 
-inline JPlotDataBase::Type
-JPlotDataBase::GetType()
+inline J2DPlotDataBase::Type
+J2DPlotDataBase::GetType()
 	const
 {
 	return itsType;
@@ -111,7 +99,7 @@ JPlotDataBase::GetType()
  ********************************************************************************/
 
 inline void
-JPlotDataBase::BroadcastCurveChanged()
+J2DPlotDataBase::BroadcastCurveChanged()
 {
 	if (itsBroadcastFlag)
 		{
@@ -125,14 +113,14 @@ JPlotDataBase::BroadcastCurveChanged()
  ********************************************************************************/
 
 inline bool
-JPlotDataBase::WillBroadcastChanged()
+J2DPlotDataBase::WillBroadcastChanged()
 	const
 {
 	return itsBroadcastFlag;
 }
 
 inline void
-JPlotDataBase::ShouldBroadcastChanged
+J2DPlotDataBase::ShouldBroadcastChanged
 	(
 	const bool bcast
 	)

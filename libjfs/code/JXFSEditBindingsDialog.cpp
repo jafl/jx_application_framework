@@ -71,31 +71,31 @@ bool
 JXFSEditBindingsDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 	else if (!CheckData())
-		{
+	{
 		return false;
-		}
+	}
 
 	if (itsNeedsSaveFlag)
-		{
+	{
 		const JUserNotification::CloseAction action =
 			JGetUserNotification()->OKToClose(JGetString("OKToClose::JXFSEditBindingsDialog"));
 		if (action == JUserNotification::kDontClose)
-			{
+		{
 			return false;
-			}
-		else if (action == JUserNotification::kSaveData)
-			{
-			return Save(true);
-			}
 		}
+		else if (action == JUserNotification::kSaveData)
+		{
+			return Save(true);
+		}
+	}
 
 	return true;
 }
@@ -110,24 +110,24 @@ JXFSEditBindingsDialog::CheckData()
 {
 	if (!JXWindowDirector::OKToDeactivate() ||
 		!itsTable->EndEditing())
-		{
+	{
 		return false;
-		}
+	}
 
 	if (!(itsShellCmd->GetText()->GetText()).Contains("$q") &&
 		!(itsShellCmd->GetText()->GetText()).Contains("$u"))
-		{
+	{
 		itsShellCmd->Focus();
 		JGetUserNotification()->ReportError(JGetString("MissingUorQ::JXFSEditBindingsDialog"));
 		return false;
-		}
+	}
 	else if (!(itsWindowCmd->GetText()->GetText()).Contains("$q") &&
 			 !(itsWindowCmd->GetText()->GetText()).Contains("$u"))
-		{
+	{
 		itsWindowCmd->Focus();
 		JGetUserNotification()->ReportError(JGetString("MissingUorQ::JXFSEditBindingsDialog"));
 		return false;
-		}
+	}
 
 	return true;
 }
@@ -315,9 +315,9 @@ JXFSEditBindingsDialog::BuildWindow()
 	ListenTo(itsAutoShellCB);
 
 	if (!ReadSetup())
-		{
+	{
 		window->PlaceAsDialogWindow();
-		}
+	}
 }
 
 /******************************************************************************
@@ -333,37 +333,37 @@ JXFSEditBindingsDialog::Receive
 	)
 {
 	if (sender == itsSaveButton && message.Is(JXButton::kPushed))
-		{
+	{
 		Save(true);
-		}
+	}
 	else if (sender == itsRevertButton && message.Is(JXButton::kPushed))
-		{
+	{
 		Revert(true);
-		}
+	}
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
-		{
+	{
 		EndDialog(true);
-		}
+	}
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
-		{
+	{
 		JXGetHelpManager()->ShowSection(JGetString("HelpLink::JXFSEditBindingsDialog").GetBytes());
-		}
+	}
 
 	else if (sender == itsTable && message.Is(JXFSBindingTable::kDataChanged))
-		{
+	{
 		NeedsSave();
-		}
+	}
 	else if (message.Is(JStyledText::kTextChanged) ||
 			 message.Is(JXCheckbox::kPushed))
-		{
+	{
 		NeedsSave();
-		}
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -406,9 +406,9 @@ JXFSEditBindingsDialog::Save
 	if (!CheckData() ||
 		(askReplace && itsBindingList->NeedsRevert() &&
 		 !JGetUserNotification()->AskUserYes(JGetString("WarnOverwrite::JXFSEditBindingsDialog"))))
-		{
+	{
 		return false;
-		}
+	}
 
 	itsBindingList->ShouldUseDefaultCommand(itsUseDefaultCB->IsChecked());
 
@@ -423,16 +423,16 @@ JXFSEditBindingsDialog::Save
 
 	const JError err = itsBindingList->Save();
 	if (err.OK())
-		{
+	{
 		itsOrigBindingList->Revert();
 		DataReverted();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		err.ReportIfError();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -450,14 +450,14 @@ JXFSEditBindingsDialog::AddBinding
 	)
 {
 	if (itsNeedsSaveFlag)
-		{
+	{
 		itsBindingList->SetCommand(suffix, cmd, type, singleFile);
 		itsTable->SyncWithBindingList();
-		}
+	}
 	else
-		{
+	{
 		Revert(true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -469,9 +469,9 @@ void
 JXFSEditBindingsDialog::CheckIfNeedRevert()
 {
 	if (itsBindingList->NeedsRevert() && !itsNeedsSaveFlag)
-		{
+	{
 		Revert(true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -486,10 +486,10 @@ JXFSEditBindingsDialog::Revert
 	)
 {
 	if (updateList)
-		{
+	{
 		itsBindingList->Revert();
 		itsTable->SyncWithBindingList();
-		}
+	}
 
 	itsUseDefaultCB->SetState(itsBindingList->WillUseDefaultCommand());
 
@@ -523,27 +523,27 @@ JXFSEditBindingsDialog::ReadSetup()
 	JPrefsFile* file = nullptr;
 	if ((JPrefsFile::Create(kPrefsFileRoot, &file,
 							JFileArray::kDeleteIfWaitTimeout)).OK())
-		{
+	{
 		for (JFileVersion vers = kCurrentPrefsVersion; true; vers--)
-			{
+		{
 			if (file->IDValid(vers))
-				{
+			{
 				std::string data;
 				file->GetData(vers, &data);
 				std::istringstream input(data);
 				ReadSetup(input);
 				found = true;
 				break;
-				}
-
-			if (vers == 0)
-				{
-				break;	// check *before* decrement since unsigned
-				}
 			}
 
-		jdelete file;
+			if (vers == 0)
+			{
+				break;	// check *before* decrement since unsigned
+			}
 		}
+
+		jdelete file;
+	}
 
 	return found;
 }
@@ -559,12 +559,12 @@ JXFSEditBindingsDialog::WriteSetup()
 	JPrefsFile* file = nullptr;
 	if ((JPrefsFile::Create(kPrefsFileRoot, &file,
 							JFileArray::kDeleteIfWaitTimeout)).OK())
-		{
+	{
 		std::ostringstream data;
 		WriteSetup(data);
 		file->SetData(kCurrentPrefsVersion, data);
 		jdelete file;
-		}
+	}
 }
 
 /******************************************************************************

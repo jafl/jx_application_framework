@@ -69,9 +69,9 @@ void
 TestApp::OpenDocuments()
 {
 	if (!JFileExists(JString(kOpenFilesFileName, JString::kNoCopy)))
-		{
+	{
 		return;
-		}
+	}
 
 	std::ifstream input(kOpenFilesFileName);
 
@@ -80,14 +80,14 @@ TestApp::OpenDocuments()
 
 	JString fullName;
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		input >> fullName;
 
 		TestTextEditDocument* doc = jnew TestTextEditDocument(this, fullName, false);
 		assert( doc != nullptr );
 		doc->GetWindow()->ReadGeometry(input);
 		doc->Activate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -106,14 +106,14 @@ TestApp::Close()
 	JIndex i = 1;
 	JSize count = 0;
 	while (mgr->GetDocument(i, &doc))
-		{
+	{
 		TestTextEditDocument* teDoc = dynamic_cast<TestTextEditDocument*>(doc);
 		if (teDoc != nullptr && teDoc->ExistsOnDisk())
-			{
+		{
 			count++;
-			}
-		i++;
 		}
+		i++;
+	}
 
 	std::ofstream output(kOpenFilesFileName);
 
@@ -121,21 +121,21 @@ TestApp::Close()
 
 	i = 1;
 	while (mgr->GetDocument(i, &doc))
-		{
+	{
 		TestTextEditDocument* teDoc = dynamic_cast<TestTextEditDocument*>(doc);
 		if (teDoc != nullptr)
-			{
+		{
 			bool onDisk;
 			const JString fullName = teDoc->GetFullName(&onDisk);
 			if (onDisk)
-				{
+			{
 				output << ' ' << fullName;
 				output << ' ';
 				teDoc->GetWindow()->WriteGeometry(output);
-				}
 			}
-		i++;
 		}
+		i++;
+	}
 
 	return JXApplication::Close();
 }
@@ -170,7 +170,7 @@ TestApp::CleanUpBeforeSuddenDeath
 	)
 {
 	if (reason == JXDocumentManager::kServerDead)
-		{
+	{
 		const JString userName = JGetUserName();
 
 		const JUtf8Byte* argv[] = { "sendmail", userName.GetBytes(), nullptr };
@@ -179,14 +179,14 @@ TestApp::CleanUpBeforeSuddenDeath
 		int toFD;
 		JError err = JProcess::Create(&p, argv, sizeof(argv), kJCreatePipe, &toFD);
 		if (err.OK())
-			{
+		{
 			JOutPipeStream output(toFD, true);
 			output << "Subject: server crash" << std::endl << std::endl;
 			output << "We're sorry, but the X Windows server crashed while" << std::endl;
 			output << "you were running testjx.  (Or had you already noticed?)" << std::endl;
 			output << "." << std::endl;
-			}
 		}
+	}
 
 	TestjxDeleteGlobals();
 }
@@ -206,9 +206,9 @@ TestApp::ReceiveWithFeedback
 	)
 {
 	if (sender == JThisProcess::Instance())
-		{
+	{
 		std::cout << "Received signal: " << message->GetType() << std::endl;
-		}
+	}
 
 	JXApplication::ReceiveWithFeedback(sender, message);
 }

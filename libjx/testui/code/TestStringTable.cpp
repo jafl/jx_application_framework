@@ -126,13 +126,13 @@ JIndex i,j;
 	data->AppendCols(kInitColCount);
 
 	for (j=1; j<=kInitColCount; j++)
-		{
+	{
 		for (i=1; i<=kInitRowCount; i++)
-			{
+		{
 			const JString str = "(" + JString(i, 0) + "," + JString(j, 0) + ")";
 			data->SetString(i,j, str);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -160,9 +160,9 @@ TestStringTable::TurnOnRowResizing
 {
 	itsRowHeader = rowHeader;
 	if (itsRowHeader != nullptr)
-		{
+	{
 		itsRowHeader->TurnOnRowResizing(GetDefaultRowHeight());
-		}
+	}
 }
 
 /******************************************************************************
@@ -185,134 +185,134 @@ TestStringTable::HandleMouseDown
 {
 	itsIsDraggingFlag = false;
 	if (button > kJXRightButton)
-		{
+	{
 		ScrollForWheel(button, modifiers);
 		return;
-		}
+	}
 
 	JPoint cell;
 	if (!GetCell(pt, &cell))
-		{
+	{
 		return;
-		}
+	}
 
 	JStringTableData* data = GetStringData();
 	JTableSelection& s     = GetTableSelection();
 
 	if (button == kJXRightButton)	// middle button not easy on OSX
-		{
+	{
 		BeginEditing(cell);
-		}
+	}
 
 	else if (itsMouseAction == kSelectCells)
-		{
+	{
 		if (button == kJXLeftButton && !modifiers.shift())
-			{
+		{
 			s.ClearSelection();
 			s.SetBoat(cell);
 			s.SetAnchor(cell);
 			s.SelectCell(cell);
 			itsIsDraggingFlag = true;
-			}
-		else
-			{
-			itsIsDraggingFlag = s.ExtendSelection(cell);
-			}
 		}
+		else
+		{
+			itsIsDraggingFlag = s.ExtendSelection(cell);
+		}
+	}
 
 	else if (itsMouseAction == kSelectRows)
-		{
+	{
 		if (button == kJXLeftButton && !modifiers.shift())
-			{
+		{
 			s.ClearSelection();
-			}
+		}
 		s.SetBoat(JPoint(1, cell.y));
 		s.SetAnchor(JPoint(GetColCount(), cell.y));
 		s.SelectRow(cell.y);
-		}
+	}
 
 	else if (itsMouseAction == kSelectCols)
-		{
+	{
 		if (button == kJXLeftButton && !modifiers.shift())
-			{
+		{
 			s.ClearSelection();
-			}
+		}
 		s.SetBoat(JPoint(cell.x, 1));
 		s.SetAnchor(JPoint(cell.x, GetRowCount()));
 		s.SelectCol(cell.x);
-		}
+	}
 
 	// row manipulations
 
 	else if (button == kJXLeftButton && itsMouseAction == kInsertRow)
-		{
+	{
 		data->InsertRows(cell.y, 1);
-		}
+	}
 	else if (button == kJXRightButton && itsMouseAction == kInsertRow)
-		{
+	{
 		data->InsertRows(cell.y+1, 1);
-		}
+	}
 
 	else if (button == kJXLeftButton && itsMouseAction == kDuplicateRow)
-		{
+	{
 		data->DuplicateRow(cell.y, cell.y);
-		}
+	}
 	else if (button == kJXRightButton && itsMouseAction == kDuplicateRow)
-		{
+	{
 		data->DuplicateRow(cell.y, cell.y+1);
-		}
+	}
 
 	else if (button == kJXLeftButton && itsMouseAction == kMoveRow &&
 			 cell.y > 1)
-		{
+	{
 		data->MoveRow(cell.y, cell.y-1);
-		}
+	}
 	else if (button == kJXRightButton && itsMouseAction == kMoveRow &&
 			 ((JIndex) cell.y) < GetRowCount())
-		{
+	{
 		data->MoveRow(cell.y, cell.y+1);
-		}
+	}
 
 	else if (itsMouseAction == kRemoveRow)
-		{
+	{
 		data->RemoveRow(cell.y);
-		}
+	}
 
 	// column manipulations
 
 	else if (button == kJXLeftButton && itsMouseAction == kInsertCol)
-		{
+	{
 		data->InsertCols(cell.x, 1);
-		}
+	}
 	else if (button == kJXRightButton && itsMouseAction == kInsertCol)
-		{
+	{
 		data->InsertCols(cell.x+1, 1);
-		}
+	}
 
 	else if (button == kJXLeftButton && itsMouseAction == kDuplicateCol)
-		{
+	{
 		data->DuplicateCol(cell.x, cell.x);
-		}
+	}
 	else if (button == kJXRightButton && itsMouseAction == kDuplicateCol)
-		{
+	{
 		data->DuplicateCol(cell.x, cell.x+1);
-		}
+	}
 
 	else if (button == kJXLeftButton && itsMouseAction == kMoveCol &&
 			 cell.x > 1)
-		{
+	{
 		data->MoveCol(cell.x, cell.x-1);
-		}
+	}
 	else if (button == kJXRightButton && itsMouseAction == kMoveCol &&
 			 ((JIndex) cell.x) < GetColCount())
-		{
+	{
 		data->MoveCol(cell.x, cell.x+1);
-		}
+	}
 
 	else if (itsMouseAction == kRemoveCol)
-		{
+	{
 		data->RemoveCol(cell.x);
-		}
+	}
 }
 
 /******************************************************************************
@@ -329,14 +329,14 @@ TestStringTable::HandleMouseDrag
 	)
 {
 	if (itsIsDraggingFlag)
-		{
+	{
 		ScrollForDrag(pt);
 
 		JPoint cell;
 		const bool ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
 		assert( ok );
 		(GetTableSelection()).ExtendSelection(cell);
-		}
+	}
 }
 
 /******************************************************************************
@@ -352,64 +352,64 @@ TestStringTable::Receive
 	)
 {
 	if (sender == itsTableMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateTableMenu();
-		}
+	}
 	else if (sender == itsTableMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleTableMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsRowBorderMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateRowBorderMenu();
-		}
+	}
 	else if (sender == itsRowBorderMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleRowBorderMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsColBorderMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateColBorderMenu();
-		}
+	}
 	else if (sender == itsColBorderMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleColBorderMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsFontMenu && message.Is(JXFontNameMenu::kNameChanged))
-		{
+	{
 		const JString fontName = itsFontMenu->GetFontName();
 		SetFont(fontName, itsSizeMenu->GetFontSize());
 		if (itsRowHeader != nullptr)
-			{
+		{
 			itsRowHeader->TurnOnRowResizing(GetDefaultRowHeight());
-			}
 		}
+	}
 	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged))
-		{
+	{
 		const JString fontName = itsFontMenu->GetFontName();
 		SetFont(fontName, itsSizeMenu->GetFontSize());
 		if (itsRowHeader != nullptr)
-			{
+		{
 			itsRowHeader->TurnOnRowResizing(GetDefaultRowHeight());
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXStringTable::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -435,18 +435,18 @@ TestStringTable::HandleTableMenu
 	)
 {
 	if (index < kTestSelectionIteratorByRow)
-		{
+	{
 		itsMouseAction = static_cast<MouseAction>(index);
-		}
+	}
 
 	else if (index == kTestSelectionIteratorByRow ||
 			 index == kTestSelectionIteratorByCol)
-		{
+	{
 		JTableSelectionIterator::Direction d = JTableSelectionIterator::kIterateByRow;
 		if (index == kTestSelectionIteratorByCol)
-			{
+		{
 			d = JTableSelectionIterator::kIterateByCol;
-			}
+		}
 
 		JTableSelection& s = GetTableSelection();
 		JTableSelectionIterator iter(&s, d);
@@ -455,21 +455,21 @@ TestStringTable::HandleTableMenu
 
 		std::cout << "Forward:" << std::endl;
 		while (iter.Next(&cell))
-			{
+		{
 			std::cout << '(' << cell.y << ", " << cell.x << ')' << std::endl;
-			}
+		}
 
 		std::cout << std::endl;
 
 		std::cout << "Backward:" << std::endl;
 		while (iter.Prev(&cell))
-			{
+		{
 			std::cout << '(' << cell.y << ", " << cell.x << ')' << std::endl;
-			}
 		}
+	}
 
 	else if (index == kAdd4000Rows)
-		{
+	{
 		// This is the most inefficient way to add a large amount of data to
 		// a table because it calls Broadcast() for every single cell.
 		// SetCol() would be the fastest in this case.  But it's a good stress test.
@@ -484,22 +484,22 @@ TestStringTable::HandleTableMenu
 		data->AppendRows(4000);
 
 		for (JIndex i=1; i<=4000; i++)
-			{
+		{
 			for (JIndex j=1; j<=colCount; j++)
-				{
+			{
 				const JString str = "(" + JString(i, 0) + "," + JString(j, 0) + ")";
 				data->SetString(origRowCount+i, j, str);
-				}
+			}
 
 			if (i%100 == 0 && !pg->IncrementProgress())
-				{
+			{
 				break;
-				}
 			}
+		}
 
 		pg->ProcessFinished();
 		jdelete pg;
-		}
+	}
 }
 
 /******************************************************************************
@@ -614,9 +614,9 @@ TestStringTable::DrawPrintFooter
 	const JString pageNumberStr(p.GetPageIndex(), 0);
 
 	const JUtf8Byte* map[] =
-		{
+	{
 		"page", pageNumberStr.GetBytes()
-		};
+	};
 	p.String(pageRect.left, pageRect.bottom - footerHeight,
 			 JGetString("PageFooter::TestStringTable", map, sizeof(map)),
 			 pageRect.width(), JPainter::kHAlignCenter,

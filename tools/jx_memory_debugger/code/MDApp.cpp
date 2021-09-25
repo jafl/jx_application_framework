@@ -36,21 +36,21 @@ MDApp::MDApp
 	*displayAbout = MDCreateGlobals(this);
 
 	if (!*displayAbout)
-		{
+	{
 		*prevVersStr = (MDGetPrefsManager())->GetPrevVersionStr();
 		if (*prevVersStr == MDGetVersionNumberStr())
-			{
-			prevVersStr->Clear();
-			}
-		else
-			{
-			*displayAbout = true;
-			}
-		}
-	else
 		{
-		prevVersStr->Clear();
+			prevVersStr->Clear();
 		}
+		else
+		{
+			*displayAbout = true;
+		}
+	}
+	else
+	{
+		prevVersStr->Clear();
+	}
 }
 
 /******************************************************************************
@@ -94,9 +94,9 @@ MDApp::OpenFile
 	)
 {
 	if (fileName == JMemoryManager::kUnknownFile)
-		{
+	{
 		return;
-		}
+	}
 
 	JString cmd = (MDGetPrefsManager())->GetOpenFileCommand();
 
@@ -126,9 +126,9 @@ MDApp::CleanUpBeforeSuddenDeath
 	JXApplication::CleanUpBeforeSuddenDeath(reason);
 
 	if (reason != JXDocumentManager::kAssertFired)
-		{
+	{
 //		JPrefObject::WritePrefs();
-		}
+	}
 
 	MDCleanUpBeforeSuddenDeath(reason);		// must be last call
 }

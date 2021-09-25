@@ -75,9 +75,9 @@ MDPrefsManager::UpgradeData
 	)
 {
 	if (isNew)
-		{
+	{
 		SetData(kMDProgramVersionID, MDGetVersionNumberStr());
-		}
+	}
 }
 
 /******************************************************************************
@@ -130,15 +130,15 @@ MDPrefsManager::GetWindowSize
 {
 	std::string data;
 	if (GetData(id, &data))
-		{
+	{
 		std::istringstream dataStream(data);
 		dataStream >> *desktopLoc >> *width >> *height;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -175,15 +175,15 @@ MDPrefsManager::LoadPrintSetup
 {
 	std::string data;
 	if (GetData(kMDPrintSetupID, &data))
-		{
+	{
 		std::istringstream dataStream(data);
 		p->ReadXPSSetup(dataStream);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -216,14 +216,14 @@ MDPrefsManager::GetOpenFileCommand()
 
 	std::string data;
 	if (GetData(kMDOpenCmdID, &data))
-		{
+	{
 		std::istringstream dataStream(data);
 		dataStream >> cmd;
-		}
+	}
 	else
-		{
+	{
 		cmd = kDefaultOpenFileCmd;
-		}
+	}
 
 	return cmd;
 }
@@ -258,22 +258,22 @@ MDPrefsManager::Receive
 	)
 {
 	if (sender == itsPrefsDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			JString openCmd;
 			itsPrefsDialog->GetValues(&openCmd);
 
 			SetOpenFileCommand(openCmd);
-			}
-		itsPrefsDialog = nullptr;
 		}
+		itsPrefsDialog = nullptr;
+	}
 
 	else
-		{
+	{
 		JXPrefsManager::Receive(sender, message);
-		}
+	}
 }

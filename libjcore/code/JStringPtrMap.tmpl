@@ -44,13 +44,13 @@ template <class V>
 JStringPtrMap<V>::~JStringPtrMap()
 {
 	if (itsCleanUpAction == JPtrArrayT::kDeleteAll)
-		{
+	{
 		DeleteAll();
-		}
+	}
 	else if (itsCleanUpAction == JPtrArrayT::kDeleteAllAsArrays)
-		{
+	{
 		DeleteAllAsArrays();
-		}
+	}
 }
 
 /******************************************************************************
@@ -63,18 +63,18 @@ void
 JStringPtrMap<V>::CleanOut()
 {
 	if (itsCleanUpAction == JPtrArrayT::kDeleteAll)
-		{
+	{
 		DeleteAll();
-		}
+	}
 	else if (itsCleanUpAction == JPtrArrayT::kDeleteAllAsArrays)
-		{
+	{
 		DeleteAllAsArrays();
-		}
+	}
 	else
-		{
+	{
 		assert( itsCleanUpAction == JPtrArrayT::kForgetAll );
 		JStringMap<V*>::RemoveAll();
-		}
+	}
 }
 
 /******************************************************************************
@@ -92,17 +92,17 @@ JStringPtrMap<V>::PrepareForSet
 	)
 {
 	if (action == JPtrArrayT::kDelete)
-		{
+	{
 		jdelete JHashTable< JStrValue<V*> >::GetCursor()->GetValue().value;
-		}
+	}
 	else if (action == JPtrArrayT::kDeleteAsArray)
-		{
+	{
 		jdelete [] JHashTable< JStrValue<V*> >::GetCursor()->GetValue().value;
-		}
+	}
 	else
-		{
+	{
 		assert( action == JPtrArrayT::kForget );
-		}
+	}
 }
 
 /******************************************************************************

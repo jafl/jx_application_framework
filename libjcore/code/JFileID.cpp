@@ -82,31 +82,31 @@ JFileID::Compare
 	)
 {
 	if (id1.itsValidFlag && !id2.itsValidFlag)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (!id1.itsValidFlag && id2.itsValidFlag)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (id1.itsDevice < id2.itsDevice)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (id1.itsDevice > id2.itsDevice)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (id1.itsINode < id2.itsINode)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (id1.itsINode > id2.itsINode)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 }

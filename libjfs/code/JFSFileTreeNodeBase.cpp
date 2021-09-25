@@ -54,14 +54,14 @@ JFSFileTreeNodeBase::Update
 
 	const JSize count = GetChildCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		auto* node = dynamic_cast<JFSFileTreeNodeBase*>(GetChild(i));
 		assert (node != nullptr);
 		if (node->Update(force, updateNode))
-			{
+		{
 			changed = true;
-			}
 		}
+	}
 
 	return changed;
 }
@@ -120,16 +120,16 @@ JFSFileTreeNodeBase::GetFSParent
 {
 	JTreeNode* p;
 	if (GetParent(&p))
-		{
+	{
 		*parent = dynamic_cast<JFSFileTreeNodeBase*>(p);
 		assert( *parent != nullptr );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*parent = nullptr;
 		return false;
-		}
+	}
 }
 
 bool
@@ -141,14 +141,14 @@ JFSFileTreeNodeBase::GetFSParent
 {
 	const JTreeNode* p;
 	if (GetParent(&p))
-		{
+	{
 		*parent = dynamic_cast<const JFSFileTreeNodeBase*>(p);
 		assert( *parent != nullptr );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*parent = nullptr;
 		return false;
-		}
+	}
 }

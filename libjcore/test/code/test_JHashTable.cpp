@@ -19,7 +19,7 @@
 		JHashValue*     hashList;
 		JStrValue<int>* valueList;
 		int*            countList;
-	};
+};
 
 	// Check consistency with IsOK plus looping through entire table
 	// Num elements match?
@@ -96,14 +96,14 @@ SearchElement
 	JConstHashCursor< JStrValue<int> > cursor(table, hashList[el]);
 	int count = 0;
 	while ( cursor.NextHash() )
-		{
+	{
 		++count;
 		JAssertTrue(cursor.IsFull());
 
 		const JStrValue<int> value = cursor.GetValue();
 		JAssertStringsEqual(*(valueList[el].key), *(value.key));
 		JAssertEqual(valueList[el].value, value.value);
-		}
+	}
 
 	JAssertEqual(countList[el], count);
 }
@@ -146,24 +146,24 @@ RemoveElement
 	JHashCursor< JStrValue<int> > cursor(table, hashList[el]);
 	JSize count = 0;
 	while ( cursor.NextHash() )
-		{
+	{
 		++count;
 		JAssertTrue(cursor.IsFull());
 		JAssertEqual(hashList[el], cursor.GetHashValue());
-		}
+	}
 
 	if (count == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	const JSize deleteNum = gRand.UniformLong(1, count);
 
 	cursor.Reset();
 	for (JIndex i=1;i<=deleteNum;i++)
-		{
+	{
 		JAssertTrue(cursor.NextHash());
-		}
+	}
 
 	cursor.Remove();
 	--countList[el];
@@ -187,14 +187,14 @@ RemoveRand
 	const JIndex firstEl = gRand.UniformLong(0, listLength-1);
 	JIndex el = firstEl;
 	while (countList[el] == 0)
-		{
+	{
 		++el;
 		if (el == firstEl)
-			{
+		{
 			JAssertEqual(0, table->GetElementCount());
 			return;
-			}
 		}
+	}
 
 	RemoveElement(el, table, kElementNum, hashList, valueList, countList);
 }
@@ -209,63 +209,63 @@ JTEST(Exercise)
 	JHashValue hashList[kElementNum];
 	JIndex i;
 	for (i=0;i<kElementNum;i++)
-		{
+	{
 		hashList[i] = gRand.UniformInt32();
-		}
+	}
 
 	// Generate value list
 	JStrValue<int> valueList[kElementNum];
 	for (i=0;i<kElementNum;i++)
-		{
+	{
 		auto* s = jnew JString("Lazy key", 0);
 		assert( s != nullptr );
 		valueList[i].key = s;
 		valueList[i].value = gRand.UniformInt32();
-		}
+	}
 
 	// Generate storage count list
 	int countList[kElementNum];
 	for (i=0;i<kElementNum;i++)
-		{
+	{
 		countList[i] = 0;
-		}
+	}
 
 //	JSize goal = 100;
 	for (i=0;i<10000;i++)
-		{
+	{
 		JFloat prob = gRand.UniformClosedProb();
 		if (prob < 0.1)
-			{
+		{
 			StoreRand(&table, kElementNum, hashList, valueList, countList);
-			}
-		else if (prob < 0.2)
-			{
-			RemoveRand(&table, kElementNum, hashList, valueList, countList);
-			}
-		else
-			{
-			SearchRand(&table, kElementNum, hashList, valueList, countList);
-			}
 		}
+		else if (prob < 0.2)
+		{
+			RemoveRand(&table, kElementNum, hashList, valueList, countList);
+		}
+		else
+		{
+			SearchRand(&table, kElementNum, hashList, valueList, countList);
+		}
+	}
 
 //cout << "\nSecond half\n" << endl;
 
 	for (i=0;i<10000;i++)
-		{
+	{
 		JFloat prob = gRand.UniformClosedProb();
 		if (prob < 0.05)
-			{
+		{
 			StoreRand(&table, kElementNum, hashList, valueList, countList);
-			}
-		else if (prob < 0.15)
-			{
-			RemoveRand(&table, kElementNum, hashList, valueList, countList);
-			}
-		else
-			{
-			SearchRand(&table, kElementNum, hashList, valueList, countList);
-			}
 		}
+		else if (prob < 0.15)
+		{
+			RemoveRand(&table, kElementNum, hashList, valueList, countList);
+		}
+		else
+		{
+			SearchRand(&table, kElementNum, hashList, valueList, countList);
+		}
+	}
 
 	std::cout << "         Size: " << table.GetTableSize() << std::endl;
 

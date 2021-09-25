@@ -100,13 +100,13 @@ Pipe<ACE_PEER_STREAM_2>::handle_input
 	const ssize_t count =
 		(ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::peer()).recv(itsBuffer, itsBufferSize);
 	if (count > 0)
-		{
+	{
 		itsData.Append(itsBuffer, count);
 		std::cout << itsData.GetLength() << std::endl;
 //		std::cout.write(itsBuffer, count);
 //		std::cerr << '.';
 //		JWait(0.01);
-		}
+	}
 
 	return 0;
 }

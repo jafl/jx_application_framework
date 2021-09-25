@@ -103,10 +103,10 @@ JXStringList::TableDrawCell
 	const JCoordinate w  = p.GetStringWidth(*str) + 2*kHMarginWidth;
 	const JCoordinate dw = rect.left - GetColLeft(1);
 	if (w > GetColWidth(1) - dw)
-		{
+	{
 		itsMinColWidth = w + dw;
 		AdjustColWidth();
-		}
+	}
 
 	// draw string
 
@@ -127,40 +127,40 @@ JXStringList::SetStringList
 	)
 {
 	if (itsList != nullptr)
-		{
+	{
 		StopListening(itsList);
 
 		jdelete itsSortedList;
 		itsSortedList = nullptr;
-		}
+	}
 
 	itsList = list;
 
 	itsMinColWidth = 1;
 	if (itsList != nullptr)
-		{
+	{
 		ListenTo(itsList);
 
 		const JSize strCount = itsList->GetElementCount();
 		if (strCount > GetRowCount())
-			{
+		{
 			AppendRows(strCount - GetRowCount());
-			}
+		}
 		else if (strCount < GetRowCount())
-			{
+		{
 			RemoveNextRows(1, GetRowCount() - strCount);
-			}
+		}
 
 		itsSortedList =
 			jnew JAliasArray<JString*>(const_cast<JPtrArray<JString>*>(itsList),
 									  JCompareStringsCaseInsensitive,
 									  JListT::kSortAscending);
 		assert( itsSortedList != nullptr );
-		}
+	}
 	else
-		{
+	{
 		RemoveAllRows();
-		}
+	}
 }
 
 /******************************************************************************
@@ -242,10 +242,10 @@ JXStringList::SetStyles
 	JFontStyle style;
 	JIndex i = 1;
 	while (iter.Next(&style))
-		{
+	{
 		itsStyles->SetCellStyle(JPoint(1,i), style);
 		i++;
-		}
+	}
 }
 
 /******************************************************************************
@@ -288,38 +288,38 @@ JXStringList::HandleKeyPress
 	)
 {
 	if (c == ' ' || (c == kJEscapeKey && !IsEditing()))
-		{
+	{
 		ClearIncrementalSearchBuffer();
 		(GetTableSelection()).ClearSelection();
-		}
+	}
 
 	// incremental search
 
 	else if (c.IsPrint() && !modifiers.control() && !modifiers.meta())
-		{
+	{
 		itsKeyBuffer.Append(c);
 
 		JIndex index;
 		if (ClosestMatch(itsKeyBuffer, &index))
-			{
+		{
 			const JString saveBuffer = itsKeyBuffer;
 			SelectSingleCell(JPoint(1, index));
 			itsKeyBuffer = saveBuffer;
-			}
-		else
-			{
-			(GetTableSelection()).ClearSelection();
-			}
 		}
+		else
+		{
+			(GetTableSelection()).ClearSelection();
+		}
+	}
 
 	else
-		{
+	{
 		if (!c.IsBlank())
-			{
+		{
 			ClearIncrementalSearchBuffer();
-			}
-		JXTable::HandleKeyPress(c, keySym, modifiers);
 		}
+		JXTable::HandleKeyPress(c, keySym, modifiers);
+	}
 }
 
 /******************************************************************************
@@ -349,18 +349,18 @@ JXStringList::ClosestMatch
 	const
 {
 	if (itsSortedList == nullptr)
-		{
+	{
 		*index = 0;
 		return false;
-		}
+	}
 
 	bool found;
 	*index = itsSortedList->SearchSorted1(const_cast<JString*>(&prefixStr),
 										  JListT::kFirstMatch, &found);
 	if (*index > GetRowCount())		// insert beyond end of list
-		{
+	{
 		*index = GetRowCount();
-		}
+	}
 	return *index > 0;
 }
 
@@ -381,68 +381,68 @@ JXStringList::Receive
 	// clear search buffer if list changed in any way
 
 	if (sender == const_cast<JPtrArray<JString>*>(itsList))
-		{
+	{
 		ClearIncrementalSearchBuffer();
-		}
+	}
 
 	// then check how the list changed
 
 	if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 		message.Is(JListT::kElementsInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != nullptr );
 		InsertRows(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kElementsRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != nullptr );
 		itsMinColWidth = 1;
 		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kElementMoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( info != nullptr );
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
-		}
+	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kElementsSwapped))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( info != nullptr );
 		const JFontStyle s1 = itsStyles->GetElement(info->GetIndex1(), 1);
 		itsStyles->SetElement(info->GetIndex1(), 1, itsStyles->GetElement(info->GetIndex2(), 1));
 		itsStyles->SetElement(info->GetIndex2(), 1, s1);
-		}
+	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kSorted))
-		{
+	{
 		assert( 0 );	// we don't allow this
-		}
+	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kElementsChanged))
-		{
+	{
 		itsMinColWidth = 1;
 		Refresh();
-		}
+	}
 
 	else
-		{
+	{
 		JXTable::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -459,13 +459,13 @@ JXStringList::ReceiveGoingAway
 	)
 {
 	if (sender == const_cast<JPtrArray<JString>*>(itsList))
-		{
+	{
 		SetStringList(nullptr);
-		}
+	}
 	else
-		{
+	{
 		JXTable::ReceiveGoingAway(sender);
-		}
+	}
 }
 
 /******************************************************************************
@@ -494,8 +494,8 @@ JXStringList::AdjustColWidth()
 {
 	JCoordinate w = GetApertureWidth();
 	if (w < itsMinColWidth)
-		{
+	{
 		w = itsMinColWidth;
-		}
+	}
 	SetColWidth(1,w);
 }

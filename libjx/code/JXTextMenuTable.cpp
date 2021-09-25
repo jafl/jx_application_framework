@@ -76,9 +76,9 @@ JXTextMenuTable::Draw
 	const JCoordinate w  = GetApertureWidth();
 	const JSize rowCount = GetRowCount();
 	for (JIndex i=1; i<rowCount; i++)	// ignore separator after last item
-		{
+	{
 		if (itsTextMenuData->HasSeparator(i))
-			{
+		{
 			JRect r = GetCellRect(JPoint(1,i));
 			r.top   = r.bottom - kSeparatorHeight;
 			r.right = r.left + w;
@@ -87,16 +87,16 @@ JXTextMenuTable::Draw
 			r.top = r.ycenter() - 1;
 			r.bottom = r.top + 2;
 			JXDrawDownFrame(p, r, 1);
-			}
 		}
+	}
 
 	if (itsHilightRow != 0)
-		{
+	{
 		const JRect r = GetCellRect(JPoint(1, itsHilightRow));
 		JRect r1      = AdjustRectForSeparator(itsHilightRow, r);
 		r1.right = r1.left + w;
 		JXDrawUpFrame(p, r1, kHilightBorderWidth);
-		}
+	}
 }
 
 /******************************************************************************
@@ -115,31 +115,31 @@ JXTextMenuTable::TableDrawCell
 	JRect rect = AdjustRectForSeparator(cell.y, origRect);
 
 	if (cell.x == kCheckboxColumnIndex)
-		{
+	{
 		rect.left += kHilightBorderWidth;
 		DrawCheckbox(p, cell.y, rect);
-		}
+	}
 
 	else if (cell.x == kImageColumnIndex)
-		{
+	{
 		const JXImage* image;
 		if (itsTextMenuData->GetImage(cell.y, &image))
-			{
+		{
 			p.Image(*image, image->GetBounds(), rect);
-			}
 		}
+	}
 
 	else if (cell.x == kTextColumnIndex)
-		{
+	{
 		JIndex ulIndex;
 		JFont font;
 		const JString& text = itsTextMenuData->GetText(cell.y, &ulIndex, &font);
 
 		AdjustFont(GetDisplay(), kTextColumnIndex, text, &font);
 		if (!itsTextMenuData->IsEnabled(cell.y))
-			{
+		{
 			font.SetColor(JColorManager::GetInactiveLabelColor());
-			}
+		}
 		p.SetFont(font);
 
 		rect.left += kHilightBorderWidth;
@@ -149,22 +149,22 @@ JXTextMenuTable::TableDrawCell
 		xp->String(rect.left, rect.top, text, ulIndex,
 				   rect.width(), JPainter::kHAlignLeft,
 				   rect.height(), JPainter::kVAlignCenter);
-		}
+	}
 
 	else if (cell.x == kSubmenuColumnIndex && itsTextMenuData->HasSubmenu(cell.y))
-		{
+	{
 		rect.right -= kHilightBorderWidth;
 		rect.left   = rect.right - JXMenuTable::kSubmenuColWidth;
 		DrawSubmenuIndicator(p, cell.y, rect,
 							 ((JIndex) cell.y) == itsHilightRow);
-		}
+	}
 
 	else if (cell.x == kSubmenuColumnIndex)
-		{
+	{
 		const JString* nmShortcut;
 		JFont font;
 		if (itsTextMenuData->GetNMShortcut(cell.y, &nmShortcut, &font))
-			{
+		{
 			AdjustFont(GetDisplay(), kSubmenuColumnIndex, *nmShortcut, &font);
 
 			rect.left  += kHNMSMarginWidth;
@@ -172,22 +172,22 @@ JXTextMenuTable::TableDrawCell
 
 			JPainter::HAlignment hAlign = JPainter::kHAlignLeft;
 			if (GetDisplay()->IsOSX())
-				{
+			{
 				hAlign = JPainter::kHAlignRight;
 
 				rect.right -= font.GetCharWidth(GetFontManager(), JUtf8Character('W'));
 				rect.right += font.GetCharWidth(GetFontManager(), nmShortcut->GetLastCharacter());
-				}
+			}
 
 			if (!itsTextMenuData->IsEnabled(cell.y))
-				{
+			{
 				font.SetColor(JColorManager::GetInactiveLabelColor());
-				}
+			}
 
 			p.SetFont(font);
 			p.String(rect, *nmShortcut, hAlign, JPainter::kVAlignCenter);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -205,7 +205,7 @@ JXTextMenuTable::AdjustFont
 	)
 {
 	if (colIndex == kTextColumnIndex)
-		{
+	{
 		// We don't perform the full character-by-character font
 		// substitution because menu items are translated, so they should
 		// all be in the same language, and thus display correctly in the
@@ -214,11 +214,11 @@ JXTextMenuTable::AdjustFont
 		// a single font.
 
 		font->SubstituteToDisplayGlyph(display->GetFontManager(), text.GetFirstCharacter());
-		}
+	}
 	else if (colIndex == kSubmenuColumnIndex)
-		{
+	{
 		font->ClearStyle();
-		}
+	}
 }
 
 /******************************************************************************
@@ -236,21 +236,21 @@ JXTextMenuTable::GetTextWidth
 	)
 {
 	if (colIndex == kTextColumnIndex)
-		{
+	{
 		return 2*kHilightBorderWidth + font.GetStringWidth(fontMgr, text);
-		}
+	}
 	else if (colIndex == kSubmenuColumnIndex)
-		{
+	{
 		return kHNMSMarginWidth +
 				font.GetStringWidth(fontMgr, text) -
 				font.GetCharWidth(fontMgr, text.GetLastCharacter()) +
 				font.GetCharWidth(fontMgr, JUtf8Character('W')) +
 				kHilightBorderWidth;
-		}
+	}
 	else
-		{
+	{
 		return 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -268,14 +268,14 @@ JXTextMenuTable::CellToItemIndex
 	const
 {
 	if (JIndex(cell.y) < GetRowCount() && itsTextMenuData->HasSeparator(cell.y))
-		{
+	{
 		const JRect r = GetCellRect(cell);
 		if (r.bottom - kSeparatorHeight <= pt.y && pt.y <= r.bottom)
-			{
+		{
 			*itemIndex = 0;
 			return false;
-			}
 		}
+	}
 
 	*itemIndex = cell.y;
 	return true;
@@ -344,15 +344,15 @@ JXTextMenuTable::AdjustRectForSeparator
 	)
 {
 	if (rowIndex < GetRowCount() && itsTextMenuData->HasSeparator(rowIndex))
-		{
+	{
 		JRect r   = rect;
 		r.bottom -= kSeparatorHeight;
 		return r;
-		}
+	}
 	else
-		{
+	{
 		return rect;
-		}
+	}
 }
 
 /******************************************************************************
@@ -369,15 +369,15 @@ JXTextMenuTable::Receive
 {
 	if (sender == const_cast<JXTextMenuData*>(itsTextMenuData) &&
 		message.Is(JXTextMenuData::kImageChanged))
-		{
+	{
 		const auto* item =
 			dynamic_cast<const JXTextMenuData::ImageChanged*>(&message);
 		assert( item != nullptr );
 		TableRefreshCell(JPoint(kImageColumnIndex, item->GetIndex()));
-		}
+	}
 
 	else
-		{
+	{
 		JXMenuTable::Receive(sender, message);
-		}
+	}
 }

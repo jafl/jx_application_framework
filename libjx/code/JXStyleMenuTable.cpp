@@ -58,7 +58,7 @@ JXStyleMenuTable::TableDrawCell
 	)
 {
 	if (cell.x == kTextColumnIndex && cell.y >= JXStyleMenu::kFirstColorCmd)
-		{
+	{
 		JRect rect = AdjustRectForSeparator(cell.y, origRect);
 
 		JRect colorRect = rect;
@@ -74,9 +74,9 @@ JXStyleMenuTable::TableDrawCell
 		rect = origRect;
 		rect.left += colorRect.width() + kHilightBorderWidth;
 		JXTextMenuTable::TableDrawCell(p, cell, rect);
-		}
+	}
 	else
-		{
+	{
 		JXTextMenuTable::TableDrawCell(p, cell, origRect);
-		}
+	}
 }

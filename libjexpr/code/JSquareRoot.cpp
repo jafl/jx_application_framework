@@ -86,15 +86,15 @@ JSquareRoot::Evaluate
 {
 	JFloat argValue;
 	if (GetArg()->Evaluate(&argValue) && argValue >= 0.0)
-		{
+	{
 		jclear_errno();
 		*result = sqrt(argValue);
 		return jerrno_is_clear();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -106,15 +106,15 @@ JSquareRoot::Evaluate
 {
 	JComplex argValue;
 	if (GetArg()->Evaluate(&argValue))
-		{
+	{
 		jclear_errno();
 		*result = sqrt(argValue);
 		return jerrno_is_clear();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

@@ -56,23 +56,23 @@ JPrepArgForExec
 	JStringIterator iter(&str, kJIteratorStartAtEnd);
 	JUtf8Character c;
 	while (iter.Prev(&c))
-		{
+	{
 		if (c == '"' || c == '\'' || c == '\\' || c == ';')
-			{
+		{
 			iter.Insert("\\");
-			}
-		else if (c.IsSpace())
-			{
-			quote = true;
-			}
 		}
+		else if (c.IsSpace())
+		{
+			quote = true;
+		}
+	}
 	iter.Invalidate();
 
 	if (quote)
-		{
+	{
 		str.Prepend("\"");
 		str.Append("\"");
-		}
+	}
 	return str;
 }
 
@@ -99,64 +99,64 @@ JParseArgsForExec
 	JUtf8Character c;
 	iter.BeginMatch();
 	while (iter.Next(&c))
-		{
+	{
 		if (c.IsSpace() || c == ';')
-			{
+		{
 			iter.SkipPrev();
 			const JStringMatch& m = iter.FinishMatch();
 			iter.SkipNext();
 			if (!m.IsEmpty())
-				{
+			{
 				auto* s = jnew JString(m.GetString());
 				assert( s != nullptr );
 				if (!s->IsEmpty())
-					{
+				{
 					JCleanArg(s);	// clean out backslashes and quotes
 					argList->Append(s);
-					}
+				}
 				else
-					{
-					jdelete s;
-					}
-				}
-			if (c == ';')
 				{
-				argList->Append(JString(";", JString::kNoCopy));
+					jdelete s;
 				}
+			}
+			if (c == ';')
+			{
+				argList->Append(JString(";", JString::kNoCopy));
+			}
 			iter.BeginMatch();
-			}
+		}
 		else if (c == '\\')
-			{
+		{
 			iter.SkipNext();
-			}
+		}
 		else if (c == '"' || c == '\'')
-			{
+		{
 			const JUtf8Character open = c;
 			while (iter.Next(&c))
-				{
+			{
 				if (c == '\\')
-					{
+				{
 					iter.SkipNext();
-					}
+				}
 				else if (c == open)
-					{
+				{
 					break;
-					}
 				}
 			}
 		}
+	}
 
 	// catch last argument
 
 	iter.MoveTo(kJIteratorStartAtEnd, 0);
 	const JStringMatch& m = iter.FinishMatch();
 	if (!m.IsEmpty())
-		{
+	{
 		auto* s = jnew JString(m.GetString());
 		assert( s != nullptr );
 		JCleanArg(s);	// clean out backslashes and quotes
 		argList->Append(s);
-		}
+	}
 }
 
 /******************************************************************************
@@ -177,24 +177,24 @@ JCleanArg
 	JStringIterator iter(arg);
 	JUtf8Character c;
 	while (iter.Next(&c))
-		{
+	{
 		if (c == '\\')
-			{
+		{
 			iter.RemovePrev();
 			iter.SkipNext();
-			}
+		}
 		else if (quote == 0 && (c == '"' || c == '\''))
-			{
+		{
 			iter.RemovePrev();
 			quote = (c == '"' ? 2 : 1);
-			}
+		}
 		else if ((quote == 1 && c == '\'') ||
 				 (quote == 2 && c == '"'))
-			{
+		{
 			iter.RemovePrev();
 			quote = 0;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -221,10 +221,10 @@ JExecute
 	const JString origPath = JGetCurrentDirectory();
 	JError err             = JChangeDirectory(workingDirectory);
 	if (err.OK())
-		{
+	{
 		err = JExecute(cmd, childPID, toAction, toFD, fromAction, fromFD, errAction, errFD);
 		JChangeDirectory(origPath);
-		}
+	}
 
 	return err;
 }
@@ -253,10 +253,10 @@ JExecute
 	const JString origPath = JGetCurrentDirectory();
 	JError err             = JChangeDirectory(workingDirectory);
 	if (err.OK())
-		{
+	{
 		err = JExecute(argList, childPID, toAction, toFD, fromAction, fromFD, errAction, errFD);
 		JChangeDirectory(origPath);
-		}
+	}
 
 	return err;
 }
@@ -286,10 +286,10 @@ JExecute
 	const JString origPath = JGetCurrentDirectory();
 	JError err             = JChangeDirectory(workingDirectory);
 	if (err.OK())
-		{
+	{
 		err = JExecute(argv, size, childPID, toAction, toFD, fromAction, fromFD, errAction, errFD);
 		JChangeDirectory(origPath);
-		}
+	}
 
 	return err;
 }
@@ -353,9 +353,9 @@ JExecute
 	assert( argv != nullptr );
 
 	for (JIndex i=1; i<=argc; i++)
-		{
+	{
 		argv[i-1] = argList.GetElement(i)->GetBytes();
-		}
+	}
 	argv[argc] = nullptr;
 
 	const JError err = JExecute(argv, (argc+1) * sizeof(JUtf8Byte*), childPID,
@@ -451,137 +451,137 @@ JExecute
 	const JString origProgName(argv[0], JString::kNoCopy);
 	JString progName;
 	if (!JProgramAvailable(origProgName, &progName))
-		{
+	{
 		return JProgramNotAvailable(origProgName);
-		}
+	}
 	argv[0] = progName.GetBytes();
 
 	int fd[3][2];
 
 	if (toAction == kJCreatePipe)
-		{
+	{
 		const JError err = JCreatePipe(fd[0]);
 		if (!err.OK())
-			{
+		{
 			return err;
-			}
 		}
+	}
 
 	if (fromAction == kJCreatePipe)
-		{
+	{
 		const JError err = JCreatePipe(fd[1]);
 		if (!err.OK())
-			{
+		{
 			if (toAction == kJCreatePipe)
-				{
+			{
 				close(fd[0][0]);
 				close(fd[0][1]);
-				}
-			return err;
 			}
+			return err;
 		}
+	}
 
 	if (errAction == kJCreatePipe)
-		{
+	{
 		const JError err = JCreatePipe(fd[2]);
 		if (!err.OK())
-			{
+		{
 			if (toAction == kJCreatePipe)
-				{
+			{
 				close(fd[0][0]);
 				close(fd[0][1]);
-				}
+			}
 			if (fromAction == kJCreatePipe)
-				{
+			{
 				close(fd[1][0]);
 				close(fd[1][1]);
-				}
-			return err;
 			}
+			return err;
 		}
+	}
 
 	pid_t pid;
 	const JError err = JThisProcess::Fork(&pid);
 	if (!err.OK())
-		{
+	{
 		if (toAction == kJCreatePipe)
-			{
+		{
 			close(fd[0][0]);
 			close(fd[0][1]);
-			}
+		}
 		if (fromAction == kJCreatePipe)
-			{
+		{
 			close(fd[1][0]);
 			close(fd[1][1]);
-			}
+		}
 		if (errAction == kJCreatePipe)
-			{
+		{
 			close(fd[2][0]);
 			close(fd[2][1]);
-			}
-		return err;
 		}
+		return err;
+	}
 
 	// child
 
 	else if (pid == 0)
-		{
+	{
 		const int stdinFD = fileno(stdin);
 		if (toAction == kJCreatePipe)
-			{
+		{
 			dup2(fd[0][0], stdinFD);
 			close(fd[0][0]);
 			close(fd[0][1]);
-			}
+		}
 		else if (toAction == kJAttachToFD)
-			{
+		{
 			dup2(*toFD, stdinFD);
 			close(*toFD);
-			}
+		}
 
 		const int stdoutFD = fileno(stdout);
 		if (fromAction == kJCreatePipe)
-			{
+		{
 			dup2(fd[1][1], stdoutFD);
 			close(fd[1][0]);
 			close(fd[1][1]);
-			}
+		}
 		else if (fromAction == kJAttachToFD)
-			{
+		{
 			dup2(*fromFD, stdoutFD);
 			close(*fromFD);
-			}
+		}
 		else if (fromAction == kJTossOutput)
-			{
+		{
 			FILE* nullFile = fopen("/dev/null", "a");
 			int nullfd     = fileno(nullFile);
 			dup2(nullfd, stdoutFD);
 			fclose(nullFile);
-			}
+		}
 
 		const int stderrFD = fileno(stderr);
 		if (errAction == kJCreatePipe)
-			{
+		{
 			dup2(fd[2][1], stderrFD);
 			close(fd[2][0]);
 			close(fd[2][1]);
-			}
+		}
 		else if (errAction == kJAttachToFD)
-			{
+		{
 			dup2(*errFD, stderrFD);
 			close(*errFD);
-			}
+		}
 		else if (errAction == kJTossOutput)
-			{
+		{
 			FILE* nullFile = fopen("/dev/null", "a");
 			int nullfd     = fileno(nullFile);
 			dup2(nullfd, stderrFD);
 			fclose(nullFile);
-			}
+		}
 		else if (errAction == kJAttachToFromFD && fromAction != kJIgnoreConnection)
-			{
+		{
 			dup2(stdoutFD, stderrFD);
-			}
+		}
 
 		ACE_OS::execvp(argv[0], const_cast<char* const*>(argv));
 
@@ -592,64 +592,64 @@ JExecute
 
 		JThisProcess::Exit(1);
 		return JNoError();
-		}
+	}
 
 	// parent
 
 	else
-		{
+	{
 		if (origFromAction == kJForceNonblockingPipe)
-			{
+		{
 			pid_t pid2;
 			const JError err2 = JThisProcess::Fork(&pid2);
 			if (err2.OK() && pid2 == 0)
-				{
+			{
 				for (int i=0; i<150; i++)
-					{
+				{
 					JWait(0.1);
 
 					int value = fcntl(fd[1][1], F_GETFL, 0);
 					if (value & O_NONBLOCK)
-						{
+					{
 						std::cerr << "turning off nonblocking for std::cout: " << value << std::endl;
 						fcntl(fd[1][1], F_SETFL, value & (~ O_NONBLOCK));
-						}
 					}
+				}
 
 				JThisProcess::Exit(0);
 				return JNoError();
-				}
+			}
 
 			auto* p = jnew JProcess(pid2);
 			p->KillAtExit(true);
-			}
+		}
 
 		if (toAction == kJCreatePipe)
-			{
+		{
 			close(fd[0][0]);
 			*toFD = fd[0][1];
-			}
+		}
 		if (fromAction == kJCreatePipe)
-			{
+		{
 			close(fd[1][1]);
 			*fromFD = fd[1][0];
-			}
+		}
 		if (errAction == kJCreatePipe)
-			{
+		{
 			close(fd[2][1]);
 			*errFD = fd[2][0];
-			}
+		}
 
 		if (childPID == nullptr)
-			{
+		{
 			return JWaitForChild(pid);
-			}
+		}
 		else
-			{
+		{
 			*childPID = pid;
 			return JNoError();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -672,11 +672,11 @@ JWaitForChild
 {
 	int err;
 	do
-		{
+	{
 		jclear_errno();
 		*pid = ACE_OS::waitpid(-1, status, (block ? 0 : WNOHANG));
 		err = jerrno();
-		}
+	}
 		while (err == EINTR);
 
 	return JNoError();
@@ -691,11 +691,11 @@ JWaitForChild
 {
 	int err;
 	do
-		{
+	{
 		jclear_errno();
 		ACE_OS::waitpid(pid, status, 0);
 		err = jerrno();
-		}
+	}
 		while (err == EINTR);
 
 	return JNoError();
@@ -720,20 +720,20 @@ JDecodeChildExitReason
 	)
 {
 	if (WIFEXITED(status))
-		{
+	{
 		*result = WEXITSTATUS(status);
 		return kJChildFinished;
-		}
+	}
 	else if (WIFSIGNALED(status))
-		{
+	{
 		*result = WTERMSIG(status);
 		return kJChildSignalled;
-		}
+	}
 	else if (WIFSTOPPED(status))
-		{
+	{
 		*result = WSTOPSIG(status);
 		return kJChildStopped;
-		}
+	}
 
 	*result = 0;
 	return kJChildFinished;
@@ -752,44 +752,44 @@ JPrintChildExitReason
 	)
 {
 	if (reason == kJChildFinished && result == 0)
-		{
+	{
 		return JGetString("StatusSuccess::jProcessUtil");
-		}
+	}
 	else if (reason == kJChildSignalled && result == SIGKILL)
-		{
+	{
 		return JGetString("StatusKill::jProcessUtil");
-		}
+	}
 	else if (reason == kJChildFinished)
-		{
+	{
 		const JString errValue((JUInt64) result);
 		const JUtf8Byte* map[] =
-			{
+		{
 			"code", errValue.GetBytes()
-			};
+		};
 		return JGetString("StatusErrorCode::jProcessUtil", map, sizeof(map));
-		}
+	}
 	else if (reason == kJChildSignalled)
-		{
+	{
 		const JString sigName = JGetSignalName(result);
 		const JUtf8Byte* map[] =
-			{
+		{
 			"signal", sigName.GetBytes()
-			};
+		};
 		return JGetString("StatusTerminated::jProcessUtil", map, sizeof(map));
-		}
+	}
 	else if (reason == kJChildStopped)
-		{
+	{
 		const JString sigName = JGetSignalName(result);
 		const JUtf8Byte* map[] =
-			{
-			"signal", sigName.GetBytes()
-			};
-		return JGetString("StatusStopped::jProcessUtil", map, sizeof(map));
-		}
-	else
 		{
+			"signal", sigName.GetBytes()
+		};
+		return JGetString("StatusStopped::jProcessUtil", map, sizeof(map));
+	}
+	else
+	{
 		return JGetString("StatusUnknown::jProcessUtil");
-		}
+	}
 }
 
 /******************************************************************************
@@ -806,27 +806,27 @@ JSendSignalToProcess
 {
 	jclear_errno();
 	if (ACE_OS::kill(pid, signal) == 0)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == EINVAL)
-		{
+	{
 		return JInvalidSignal();
-		}
+	}
 	else if (err == ESRCH)
-		{
+	{
 		return JInvalidProcess();
-		}
+	}
 	else if (err == EPERM)
-		{
+	{
 		return JCanNotSignalProcess();
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }
 
 /******************************************************************************
@@ -855,22 +855,22 @@ JProgramAvailable
 {
 	if (programName.IsEmpty() ||
 		!JExpandHomeDirShortcut(programName, fixedName))
-		{
+	{
 		return false;
-		}
+	}
 
 	if (fixedName->GetFirstCharacter() == '/')
-		{
+	{
 		return JFileExecutable(*fixedName);
-		}
+	}
 
 	JString fullName = programName;
 	if (fullName.Contains("/"))
-		{
+	{
 		const JString dir = JGetCurrentDirectory();
 		fullName          = JCombinePathAndName(dir, fullName);
 		return JFileExecutable(fullName);
-		}
+	}
 
 	// check each directory in the exec path list
 
@@ -878,31 +878,31 @@ JProgramAvailable
 
 	JString path(cpath == nullptr ? "" : cpath);
 	if (theIncludeCWDOnPathFlag)
-		{
+	{
 		path.Prepend(".:");
-		}
+	}
 
 	if (path.IsEmpty())
-		{
+	{
 		return false;
-		}
+	}
 
 	JRegex r(":+");
 	JPtrArray<JString> pathList(JPtrArrayT::kDeleteAll);
 	path.Split(r, &pathList);
 
 	for (const auto* dir : pathList)
-		{
+	{
 		fullName = JCombinePathAndName(*dir, programName);
 		if (JFileExists(fullName) && JFileExecutable(fullName))
-			{
+		{
 			if (*dir == ".")
-				{
+			{
 				fixedName->Prepend("./");	// in case we added this to PATH
-				}
-			return true;
 			}
+			return true;
 		}
+	}
 
 	return false;
 }

@@ -103,9 +103,9 @@ JStyleTableData::SetCellStyle
 {
 	const JFontStyle origStyle = GetCellStyle(cell);
 	if (style != origStyle)
-		{
+	{
 		SetElement(cell, style);
-		}
+	}
 }
 
 /******************************************************************************

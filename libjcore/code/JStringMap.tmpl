@@ -96,14 +96,14 @@ JStringMap<V>::GetElement
 	const
 {
 	if (Contains(key))
-		{
+	{
 		*value = JHashTable< JStrValue<V> >::GetCursor()->GetValue().value;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -135,12 +135,12 @@ JStringMap<V>::SetElement
 	cursor->ForceNextMapInsertKey();
 
 	if ( cursor->IsFull() )
-		{
+	{
 		*existed = true;
 		if (type == JStringMapT::kIfNew)
-			{
+		{
 			return false;
-			}
+		}
 
 		PrepareForSet(action);
 
@@ -148,21 +148,21 @@ JStringMap<V>::SetElement
 		hashEntry.key = cursor->GetValue().key;
 		cursor->Set(hashEntry);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*existed = false;
 		if (type == JStringMapT::kIfOld)
-			{
+		{
 			return false;
-			}
+		}
 
 		hashEntry.key = jnew JString(key);
 		assert( hashEntry.key != nullptr );
 		cursor->Set(cursor->GetCursorHashValue(), hashEntry);
 
 		return true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -196,7 +196,7 @@ JStringMap<V>::RemoveElement
 	)
 {
 	if (Contains(key))
-		{
+	{
 		PrepareForSet(action);
 
 		JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
@@ -204,11 +204,11 @@ JStringMap<V>::RemoveElement
 
 		cursor->Remove();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -224,17 +224,17 @@ JStringMap<V>::RemoveAll
 	)
 {
 	if (!JHashTable< JStrValue<V> >::IsEmpty())
-		{
+	{
 		JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
 		cursor->Reset();
 		while ( cursor->NextFull() )
-			{
+		{
 			PrepareForSet(action);
 
 			// delete, but don't mark empty to avoid multiple resizing
 			jdelete const_cast<JString*>(cursor->GetValue().key);
-			}
 		}
+	}
 
 	// Mark all at once and possibly resize; we want to call even if the
 	// hash table is already empty to zero out the load count

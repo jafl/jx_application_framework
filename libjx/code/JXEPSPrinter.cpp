@@ -133,15 +133,15 @@ JXEPSPrinter::GetPreviewImage
 	const
 {
 	if (itsPreviewImage != nullptr)
-		{
+	{
 		*image = itsPreviewImage;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*image = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -221,9 +221,9 @@ JXEPSPrinter::EndUserPrintSetup
 	assert( info != nullptr );
 
 	if (info->Successful())
-		{
+	{
 		*changed = itsPrintSetupDialog->SetParameters(this);
-		}
+	}
 
 	itsPrintSetupDialog = nullptr;
 	return info->Successful();
@@ -243,14 +243,14 @@ JXEPSPrinter::Receive
 {
 	if (sender == itsPrintSetupDialog &&
 		message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		bool changed = false;
 		const bool success = EndUserPrintSetup(message, &changed);
 		Broadcast(PrintSetupFinished(success, changed));
-		}
+	}
 
 	else
-		{
+	{
 		JEPSPrinter::Receive(sender, message);
-		}
+	}
 }

@@ -85,24 +85,24 @@ JXScrollableWidget::JXScrollableWidget
 	TurnOnBufferedDrawing();
 
 	if (itsScrollbarSet != nullptr)
-		{
+	{
 		WantInput(true);		// get home, end, page up, page down
 
 		ListenTo(itsScrollbarSet->GetHScrollbar());
 		ListenTo(itsScrollbarSet->GetVScrollbar());
 
 		NeedAdjustScrollbars();
-		}
+	}
 
 	SetBorderWidth(kJXDefaultBorderWidth);
 
 	// changing border width doesn't move bounds
 
 	if (itsScrollbarSet != nullptr)
-		{
+	{
 		ScrollTo(0,0);
 		SetBackColor(GetFocusColor());
-		}
+	}
 }
 
 /******************************************************************************
@@ -129,17 +129,17 @@ JXScrollableWidget::GetScrollbars
 	const
 {
 	if (itsScrollbarSet != nullptr)
-		{
+	{
 		*hScrollbar = itsScrollbarSet->GetHScrollbar();
 		*vScrollbar = itsScrollbarSet->GetVScrollbar();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*hScrollbar = nullptr;
 		*vScrollbar = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -156,13 +156,13 @@ JXScrollableWidget::DrawBorder
 {
 	const JSize w = GetBorderWidth();
 	if (IsDNDTarget())
-		{
+	{
 		JXDrawDNDBorder(p, frame, w);
-		}
+	}
 	else if (w > 0)
-		{
+	{
 		JXDrawDownFrame(p, frame, w);
-		}
+	}
 }
 
 /******************************************************************************
@@ -182,14 +182,14 @@ JXScrollableWidget::ScrollForDrag
 	const JPoint truePt = JPinInRect(pt, GetBounds());
 	const JRect rect(truePt.y-1, truePt.x-1, truePt.y+1, truePt.x+1);
 	if (ScrollToRect(rect))
-		{
+	{
 		Redraw();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -210,44 +210,44 @@ JXScrollableWidget::HandleDNDScroll
 	)
 {
 	if (scrollButton != 0)
-		{
+	{
 		ScrollForWheel(scrollButton, modifiers);
 		return;
-		}
+	}
 
 	const JRect bounds = GetBounds();
 	const JRect frame  = GetFrameLocal();
 	JRect rect;
 	if (bounds.left < frame.left && pt.x < frame.left + kScrollZoneWidth)
-		{
+	{
 		const JCoordinate x = JMax(pt.x - kScrollZoneWidth, bounds.left);
 		rect.Set(pt.y-1, x-1, pt.y+1, x+1);
 		ScrollToRect(rect);
-		}
+	}
 	else if (frame.right < bounds.right && frame.right - kScrollZoneWidth < pt.x)
-		{
+	{
 		const JCoordinate x = JMin(pt.x + kScrollZoneWidth, bounds.right);
 		rect.Set(pt.y-1, x-1, pt.y+1, x+1);
 		ScrollToRect(rect);
-		}
+	}
 
 	if (bounds.top < frame.top && pt.y < frame.top + kScrollZoneWidth)
-		{
+	{
 		const JCoordinate y = JMax(pt.y - kScrollZoneWidth, bounds.top);
 		rect.Set(y-1, pt.x-1, y+1, pt.x+1);
 		ScrollToRect(rect);
-		}
+	}
 	else if (frame.bottom < bounds.bottom && frame.bottom - kScrollZoneWidth < pt.y)
-		{
+	{
 		const JCoordinate y = JMin(pt.y + kScrollZoneWidth, bounds.bottom);
 		rect.Set(y-1, pt.x-1, y+1, pt.x+1);
 		ScrollToRect(rect);
-		}
+	}
 
 	if (!rect.IsEmpty())
-		{
+	{
 		Redraw();
-		}
+	}
 }
 
 /******************************************************************************
@@ -331,24 +331,24 @@ JXScrollableWidget::Receive
 	JXScrollbar* hScrollbar = nullptr;
 	JXScrollbar* vScrollbar = nullptr;
 	if (itsScrollbarSet != nullptr)
-		{
+	{
 		hScrollbar = itsScrollbarSet->GetHScrollbar();
 		vScrollbar = itsScrollbarSet->GetVScrollbar();
-		}
+	}
 
 	if ((sender == hScrollbar || sender == vScrollbar) &&
 		message.Is(JXScrollbar::kScrolled) && !itsAdjustingFlag)
-		{
+	{
 		ScrollTo(hScrollbar->GetValue(), vScrollbar->GetValue());
 		if (itsShouldRedrawFlag)
-			{
-			Redraw();	// keep us up to date with scrollbar appearance
-			}
-		}
-	else
 		{
-		JXWidget::Receive(sender, message);
+			Redraw();	// keep us up to date with scrollbar appearance
 		}
+	}
+	else
+	{
+		JXWidget::Receive(sender, message);
+	}
 }
 
 /******************************************************************************
@@ -368,11 +368,11 @@ void
 JXScrollableWidget::NeedAdjustScrollbars()
 {
 	if (itsScrollbarSet != nullptr && itsAdjustScrollbarTask == nullptr)
-		{
+	{
 		itsAdjustScrollbarTask = jnew JXAdjustScrollbarTask(this);
 		assert( itsAdjustScrollbarTask != nullptr );
 		itsAdjustScrollbarTask->Go();
-		}
+	}
 }
 
 /******************************************************************************
@@ -397,11 +397,11 @@ void
 JXScrollableWidget::UpdateScrollbars()
 {
 	while (itsAdjustScrollbarTask != nullptr)
-		{
+	{
 		jdelete itsAdjustScrollbarTask;
 		itsAdjustScrollbarTask = nullptr;
 		AdjustScrollbars();
-		}
+	}
 }
 
 /******************************************************************************
@@ -415,9 +415,9 @@ void
 JXScrollableWidget::AdjustScrollbars()
 {
 	if (itsScrollbarSet == nullptr || itsAdjustScrollbarTask != nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	JXScrollbar* hScrollbar = itsScrollbarSet->GetHScrollbar();
 	JXScrollbar* vScrollbar = itsScrollbarSet->GetVScrollbar();
@@ -431,25 +431,25 @@ JXScrollableWidget::AdjustScrollbars()
 
 	if (!itsAlwaysShowScrollFlag &&
 		(hScrollbar->WouldBeVisible() || vScrollbar->WouldBeVisible()))
-		{
+	{
 		JCoordinate maxApWidth = ap.width();
 		if (GetHSizing() == kHElastic && vScrollbar->WouldBeVisible())
-			{
+		{
 			maxApWidth += vScrollbar->GetFrameWidth();
-			}
+		}
 
 		JCoordinate maxApHeight = ap.height();
 		if (GetVSizing() == kVElastic && hScrollbar->WouldBeVisible())
-			{
+		{
 			maxApHeight += hScrollbar->GetFrameHeight();
-			}
+		}
 
 		if (boundsG.width() <= maxApWidth && boundsG.height() <= maxApHeight)
-			{
+		{
 			itsScrollbarSet->ShowScrollbars(false, false);
 			return;
-			}
 		}
+	}
 
 	// adjust all the scrollbar settings
 
@@ -460,36 +460,36 @@ JXScrollableWidget::AdjustScrollbars()
 	hScrollbar->SetValue(ap.left);
 	JCoordinate hStep = itsHStepSize;
 	if (hStep <= 0)
-		{
+	{
 		hStep = JRound(apW * GetSingleStepFraction());
-		}
+	}
 	hScrollbar->SetStepSize(hStep);
 	if (itsHPageStepContext >= 0 && apW - itsHPageStepContext >= hStep)
-		{
+	{
 		hScrollbar->SetPageStepSize(apW - itsHPageStepContext);
-		}
+	}
 	else
-		{
+	{
 		hScrollbar->SetPageStepSize(JRound(apW * kPageStepFraction));
-		}
+	}
 
 	const JCoordinate ymax = JMax(boundsG.height() - apH, (JCoordinate) 0);
 	vScrollbar->SetMaxValue(ymax);
 	vScrollbar->SetValue(ap.top);
 	JCoordinate vStep = itsVStepSize;
 	if (vStep <= 0)
-		{
+	{
 		vStep = JRound(apH * GetSingleStepFraction());
-		}
+	}
 	vScrollbar->SetStepSize(vStep);
 	if (itsVPageStepContext >= 0 && apH - itsVPageStepContext >= vStep)
-		{
+	{
 		vScrollbar->SetPageStepSize(apH - itsVPageStepContext);
-		}
+	}
 	else
-		{
+	{
 		vScrollbar->SetPageStepSize(JRound(apH * kPageStepFraction));
-		}
+	}
 
 	itsAdjustingFlag = false;
 
@@ -550,15 +550,15 @@ JXScrollableWidget::ScrollForWheel
 	)
 {
 	if (itsScrollbarSet != nullptr)
-		{
+	{
 		return ScrollForWheel(button, modifiers,
 							  itsScrollbarSet->GetHScrollbar(),
 							  itsScrollbarSet->GetVScrollbar());
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -574,57 +574,57 @@ JXScrollableWidget::ScrollForWheel
 
 	JCoordinate delta;
 	if (button == kJXButton4)
-		{
+	{
 		delta = -1;
-		}
+	}
 	else if (button == kJXButton5)
-		{
+	{
 		delta = +1;
-		}
+	}
 	else if (button == kJXButton6)
-		{
+	{
 		delta     = -1;
 		scrollbar = hScrollbar;
-		}
+	}
 	else if (button == kJXButton7)
-		{
+	{
 		delta     = +1;
 		scrollbar = hScrollbar;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 
 	// even if no scrollbar, we need to treat it as captured
 
 	if (scrollbar == nullptr)
-		{
+	{
 		return true;
-		}
+	}
 
 	const bool osx = GetDisplay()->IsOSX();
 
 	if (osx && modifiers.control())
-		{
+	{
 		scrollbar->StepLine(kWheelLineCount * delta);
-		}
+	}
 	else if (osx)
-		{
+	{
 		scrollbar->StepLine(delta);
-		}
+	}
 	else if (modifiers.shift())
-		{
+	{
 		scrollbar->StepLine(delta);
-		}
+	}
 	else if (modifiers.control())
-		{
+	{
 		scrollbar->StepPage(delta);
-		}
+	}
 	else
-		{
+	{
 		scrollbar->StepLine(kWheelLineCount * delta);
-		}
+	}
 
 	return true;
 }
@@ -647,10 +647,10 @@ JXScrollableWidget::HandleKeyPress
 	JXScrollbar* hScrollbar = nullptr;
 	JXScrollbar* vScrollbar = nullptr;
 	if (itsScrollbarSet != nullptr)
-		{
+	{
 		hScrollbar = itsScrollbarSet->GetHScrollbar();
 		vScrollbar = itsScrollbarSet->GetVScrollbar();
-		}
+	}
 
 	const JXMenu::Style style = JXMenu::GetDisplayStyle();
 	const bool ctrl =
@@ -662,41 +662,41 @@ JXScrollableWidget::HandleKeyPress
 
 	if (itsScrollbarSet != nullptr &&
 		(keySym == XK_Home || keySym == XK_KP_Home))
-		{
+	{
 		ScrollTo(0,0);
-		}
+	}
 	else if (itsScrollbarSet != nullptr &&
 			 (keySym == XK_End || keySym == XK_KP_End))
-		{
+	{
 		scrollbar->ScrollToMax();
-		}
+	}
 	else if (itsScrollbarSet != nullptr &&
 			 (keySym == XK_Page_Up || keySym == XK_KP_Page_Up))
-		{
+	{
 		scrollbar->StepPage(modifiers.shift() ? -0.5 : -1.0);
-		}
+	}
 	else if (itsScrollbarSet != nullptr &&
 			 (keySym == XK_Page_Down || keySym == XK_KP_Page_Down))
-		{
+	{
 		scrollbar->StepPage(modifiers.shift() ? +0.5 : +1.0);
-		}
+	}
 
 	else if (itsScrollbarSet != nullptr && c == kJLeftArrow)
-		{
+	{
 		hScrollbar->StepLine(-1);
-		}
+	}
 	else if (itsScrollbarSet != nullptr && c == kJRightArrow)
-		{
+	{
 		hScrollbar->StepLine(+1);
-		}
+	}
 	else if (itsScrollbarSet != nullptr && c == kJUpArrow)
-		{
+	{
 		vScrollbar->StepLine(-1);
-		}
+	}
 	else if (itsScrollbarSet != nullptr && c == kJDownArrow)
-		{
+	{
 		vScrollbar->StepLine(+1);
-		}
+	}
 
 	// scroll to tab
 
@@ -704,21 +704,21 @@ JXScrollableWidget::HandleKeyPress
 			 '1' <= c.GetBytes()[0] && c.GetBytes()[0] <= '9' &&
 			 ctrl == itsVCtrl &&
 			 meta == itsVMeta)
-		{
+	{
 		vScrollbar->ScrollToTab(c.GetBytes()[0] - '0');
-		}
+	}
 	else if (itsScrollbarSet != nullptr && c.IsAscii() &&
 			 '1' <= c.GetBytes()[0] && c.GetBytes()[0] <= '9' &&
 			 ctrl == itsHCtrl &&
 			 meta == itsHMeta)
-		{
+	{
 		hScrollbar->ScrollToTab(c.GetBytes()[0] - '0');
-		}
+	}
 
 	else
-		{
+	{
 		JXWidget::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -737,7 +737,7 @@ JXScrollableWidget::ReadScrollSetup
 	JFileVersion vers;
 	input >> vers;
 	if (vers <= kCurrentSetupVersion)
-		{
+	{
 		bool hadScrollbars;
 		input >> JBoolFromString(hadScrollbars);
 
@@ -746,7 +746,7 @@ JXScrollableWidget::ReadScrollSetup
 		assert( hasScrollbars == hadScrollbars );
 
 		if (hasScrollbars)
-			{
+		{
 			// Redraw() is unnecessary in this case, and it causes problems
 			// for JXTreeListWidget when the nodes are sorted while the
 			// widget is scrolled to the very bottom.
@@ -755,8 +755,8 @@ JXScrollableWidget::ReadScrollSetup
 			hScrollbar->ReadSetup(input);
 			vScrollbar->ReadSetup(input);
 			itsShouldRedrawFlag = true;
-			}
 		}
+	}
 
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
 }
@@ -794,12 +794,12 @@ JXScrollableWidget::WriteScrollSetup
 	output << ' ' << JBoolToString(hasScrollbars);
 
 	if (hasScrollbars)
-		{
+	{
 		output << ' ';
 		hScrollbar->WriteSetup(output);
 		output << ' ';
 		vScrollbar->WriteSetup(output);
-		}
+	}
 
 	output << kSetupDataEndDelimiter;
 }
@@ -822,12 +822,12 @@ JXScrollableWidget::SaveDisplayState()
 	JXScrollbar* hScroll;
 	JXScrollbar* vScroll;
 	if (GetScrollbars(&hScroll, &vScroll))
-		{
+	{
 		state.h    = hScroll->GetValue();
 		state.hMax = hScroll->GetMaxValue();
 		state.v    = vScroll->GetValue();
 		state.vMax = vScroll->GetMaxValue();
-		}
+	}
 
 	return state;
 }
@@ -851,30 +851,30 @@ JXScrollableWidget::RestoreDisplayState
 	JXScrollbar* hScroll;
 	JXScrollbar* vScroll;
 	if (GetScrollbars(&hScroll, &vScroll))
-		{
+	{
 		UpdateScrollbars();
 
 		// if the user scrolled over, keep it there
 
 		if (state.hMax > 0)
-			{
+		{
 			hScroll->SetValue(state.h);
-			}
+		}
 
 		// if the user scrolled up, keep it there
 
 		if (state.vMax > 0 && state.v < state.vMax)
-			{
+		{
 			vScroll->SetValue(state.v);
-			}
+		}
 
 		// otherwise, display the latest output
 		// (If the appearance of the vertical scrollbar causes a Recalc(),
 		//  then the scroll position will end up less than maximum.)
 
 		else if (GetBoundsHeight() > GetApertureHeight())
-			{
+		{
 			vScroll->ScrollToMax();
-			}
 		}
+	}
 }

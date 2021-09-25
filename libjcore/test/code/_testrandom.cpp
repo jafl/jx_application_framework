@@ -22,13 +22,13 @@ main()
 	JInputFinished();
 
 	if (testType == 0)
-		{
+	{
 		TestRndInt();
-		}
+	}
 	else if (testType == 1)
-		{
+	{
 		TestRndFloat();
-		}
+	}
 
 	return 0;
 }
@@ -58,18 +58,18 @@ TestRndInt()
 
 	long i;
 	for (i=1;i<=binCount;i++)
-		{
+	{
 		histogram.AppendElement(0);
-		}
+	}
 
 	// generate samples and build histogram
 
 	for (i=1;i<=sampleCount;i++)
-		{
+	{
 		const long bin   = jRand.UniformLong(min,max) - min + 1;
 		const long count = histogram.GetElement(bin) + 1;
 		histogram.SetElement(bin, count);
-		}
+	}
 
 	// get name of histogram data file
 
@@ -83,9 +83,9 @@ TestRndInt()
 	std::ofstream histogramFile(histogramFileName);
 
 	for (i=1;i<=binCount;i++)
-		{
+	{
 		histogramFile << i << ' ' << histogram.GetElement(i) << std::endl;
-		}
+	}
 }
 
 void
@@ -119,7 +119,7 @@ TestRndFloat()
 	std::ofstream dataFile(dataFileName);
 
 	for (long i=1;i<=sampleCount;i++)
-		{
+	{
 		dataFile << jRand.UniformDouble(min,max) << ' ' << 1 << std::endl;
-		}
+	}
 }

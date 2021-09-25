@@ -33,21 +33,21 @@ static const JUtf8Byte* kAppSignature = "<Binary>";
 	*displayAbout = <PRE>CreateGlobals(this);
 
 	if (!*displayAbout)
-		{
+	{
 		*prevVersStr = (<PRE>GetPrefsManager())->GetPrevVersionStr();
 		if (*prevVersStr == <PRE>GetVersionNumberStr())
-			{
-			prevVersStr->Clear();
-			}
-		else
-			{
-			*displayAbout = true;
-			}
-		}
-	else
 		{
-		prevVersStr->Clear();
+			prevVersStr->Clear();
 		}
+		else
+		{
+			*displayAbout = true;
+		}
+	}
+	else
+	{
+		prevVersStr->Clear();
+	}
 }
 
 /******************************************************************************
@@ -94,9 +94,9 @@ void
 	JXApplication::CleanUpBeforeSuddenDeath(reason);
 
 	if (reason != JXDocumentManager::kAssertFired)
-		{
+	{
 //		JPrefObject::WritePrefs();
-		}
+	}
 
 	<PRE>CleanUpBeforeSuddenDeath(reason);		// must be last call
 }

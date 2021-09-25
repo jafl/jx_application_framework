@@ -101,7 +101,7 @@ JSTUndoTyping::HandleDelete
 
 	JUtf8Character c;
 	while (!iter.AtBeginning())
-		{
+	{
 		const JIndex startByte = iter.GetPrevByteIndex();
 
 		const bool ok = iter.Prev(&c);
@@ -109,22 +109,22 @@ JSTUndoTyping::HandleDelete
 
 		JIndex byteCount = startByte;
 		if (!iter.AtBeginning())
-			{
+		{
 			byteCount -= iter.GetPrevByteIndex();
-			}
+		}
 
 		if (itsCount.charCount > 0)
-			{
+		{
 			itsCount.charCount--;
 			itsCount.byteCount -= byteCount;
-			}
+		}
 		else
-			{
+		{
 			PrependToSave(c, iter.GetNextCharacterIndex() + firstCharIndex - 1);
 			itsOrigStartIndex.charIndex--;
 			itsOrigStartIndex.byteIndex -= byteCount;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -151,12 +151,12 @@ JSTUndoTyping::HandleFwdDelete
 
 	JUtf8Character c;
 	while (!iter.AtEnd())
-		{
+	{
 		const bool ok = iter.Next(&c);
 		assert( ok );
 
 		AppendToSave(c, iter.GetPrevCharacterIndex() + firstCharIndex - 1);
-		}
+	}
 }
 
 /******************************************************************************

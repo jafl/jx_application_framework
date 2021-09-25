@@ -62,31 +62,31 @@ PrintWidgetDir::Receive
 {
 	// Check if the print button was pressed
 	if (sender == itsPrintButton && message.Is(JXButton::kPushed))
-		{
+	{
 		// Start the printing process by opening the dialog
 		itsPrinter->BeginUserPrintSetup();
-		}
+	}
 
 	// This is the dialog's closing message
 	else if (sender == itsPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		// See if the user cancelled the print job
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			// If the user didn't cancel, print
 			itsWidget->Print(*itsPrinter);
-			}
 		}
+	}
 
 	else
-		{
+	{
 		// Pass the message up the inheritance tree
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************

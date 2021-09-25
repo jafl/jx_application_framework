@@ -245,55 +245,55 @@ JMemoryManager::JMemoryManager()
 
 	const JUtf8Byte* abortUnknownAlloc = getenv("JMM_ABORT_UNKNOWN_ALLOC");
 	if (abortUnknownAlloc != nullptr && JString::Compare(abortUnknownAlloc, "yes", JString::kIgnoreCase) == 0)
-		{
+	{
 		theAbortUnknownAllocFlag = true;
-		}
+	}
 
 	const JUtf8Byte* broadcastErrors = getenv("JMM_BROADCAST_ERRORS");
 	if (broadcastErrors != nullptr && JString::Compare(broadcastErrors, "yes", JString::kIgnoreCase) == 0)
-		{
+	{
 		itsBroadcastErrorsFlag = true;
-		}
+	}
 
 	const JUtf8Byte* printExitStats = getenv("JMM_PRINT_EXIT_STATS");
 	if (printExitStats != nullptr && JString::Compare(printExitStats, "yes", JString::kIgnoreCase) == 0)
-		{
+	{
 		itsPrintExitStatsFlag = true;
-		}
+	}
 
 	const JUtf8Byte* printInternalStats = getenv("JMM_PRINT_INTERNAL_STATS");
 	if (printInternalStats != nullptr && JString::Compare(printInternalStats, "yes", JString::kIgnoreCase) == 0)
-		{
+	{
 		itsPrintInternalStatsFlag = true;
-		}
+	}
 
 	const JUtf8Byte* checkDoubleAllocation = getenv("JMM_CHECK_DOUBLE_ALLOCATION");
 	if (checkDoubleAllocation != nullptr && JString::Compare(checkDoubleAllocation, "yes", JString::kIgnoreCase) == 0)
-		{
+	{
 		itsCheckDoubleAllocationFlag = true;
-		}
+	}
 
 	const JUtf8Byte* recordAllocated = getenv("JMM_RECORD_ALLOCATED");
 	if (recordAllocated != nullptr && JString::Compare(recordAllocated, "yes", JString::kIgnoreCase) == 0)
-		{
+	{
 		const JUtf8Byte* tableType = getenv("JMM_TABLE_TYPE");
 		JUtf8Byte* recordDeallocated = getenv("JMM_RECORD_DEALLOCATED");
 		bool recordDeallocatedFlag = false;
 		if (recordDeallocated != nullptr && JString::Compare(recordDeallocated, "yes", JString::kIgnoreCase) == 0)
-			{
+		{
 			recordDeallocatedFlag = true;
-			}
+		}
 
 		if (tableType != nullptr && JString::Compare(tableType, "array", JString::kIgnoreCase) == 0)
-			{
+		{
 			itsMemoryTable = new JMMArrayTable(this, recordDeallocatedFlag);
-			}
-		else
-			{
-			itsMemoryTable = new JMMHashTable(this, recordDeallocatedFlag);
-			}
-		assert(itsMemoryTable != nullptr);
 		}
+		else
+		{
+			itsMemoryTable = new JMMHashTable(this, recordDeallocatedFlag);
+		}
+		assert(itsMemoryTable != nullptr);
+	}
 
 	// JMM_PIPE done in Instance()
 
@@ -322,7 +322,7 @@ JMemoryManager::Instance()
 	static JMemoryManager* manager = nullptr;
 
 	if (manager == nullptr)
-		{
+	{
 		theConstructingFlag = true;
 		manager = new JMemoryManager;
 		assert(manager != nullptr);
@@ -336,10 +336,10 @@ JMemoryManager::Instance()
 
 		const JUtf8Byte* pipeName = getenv("JMM_PIPE");
 		if (!JString::IsEmpty(pipeName))
-			{
+		{
 			manager->itsErrorStream = new JMMDebugErrorStream;
 			assert(manager->itsErrorStream != nullptr);
-			}
+		}
 
 		theConstructingFlag = false;
 		manager->EmptyStacks();
@@ -347,7 +347,7 @@ JMemoryManager::Instance()
 		// do it here since it calls delete as well as new
 
 		if (!JString::IsEmpty(pipeName))
-			{
+		{
 			theInternalFlag = true;
 
 			manager->ConnectToDebugger(pipeName);
@@ -359,19 +359,19 @@ JMemoryManager::Instance()
 			JString fileName;
 			const JError err = JCreateTempFile(&fileName);
 			if (err.OK())
-				{
+			{
 				manager->itsExitStatsFileName = new JString(fileName);
 				assert( manager->itsExitStatsFileName != nullptr );
-				}
+			}
 			else
-				{
+			{
 				std::cerr << "Failed to create exit stats file:" << std::endl;
 				std::cerr << err.GetMessage() << std::endl;
-				}
+			}
 
 			theInternalFlag = false;
-			}
 		}
+	}
 
 	return manager;
 }
@@ -391,44 +391,44 @@ JMemoryManager::New
 	)
 {
 	if (theAbortUnknownAllocFlag && line == 0)
-		{
+	{
 		std::cerr << "Memory allocated by unknown code, aborting..." << std::endl;
 		abort();
-		}
+	}
 
 	const size_t trueSize = size ? size : 1;
 	void* newBlock = malloc(trueSize);
 
 	if (newBlock == nullptr)
-		{
+	{
 		std::cerr << "Failed to allocate block of size " << trueSize << std::endl;
 		return nullptr;
-		}
+	}
 
 	if (!theConstructingFlag)
-		{
+	{
 		Instance()->itsMutex->lock();
-		}
+	}
 
 	const bool useStack  = theConstructingFlag || theRecursionDepth > 0;
 	const bool isManager = useStack || theInternalFlag;
 	JMMRecord newRecord(GetNewID(), newBlock, trueSize, file, line, isArray, isManager);
 
 	if (useStack)
-		{
+	{
 		assert(theAllocStackSize < theStackMax);
 		theAllocStack[theAllocStackSize] = newRecord;
 		theAllocStackSize++;
-		}
+	}
 	else
-		{
+	{
 		Instance()->AddNewRecord(newRecord);
-		}
+	}
 
 	if (!theConstructingFlag)
-		{
+	{
 		Instance()->itsMutex->unlock();
-		}
+	}
 
 	return newBlock;
 }
@@ -448,7 +448,7 @@ JMemoryManager::Delete
 	std::lock_guard lock(*itsMutex);
 
 	if (theConstructingFlag || theRecursionDepth > 0)
-		{
+	{
 		DeleteRequest thisRequest;
 		thisRequest.address = block;
 		thisRequest.file    = theLastDeleteFile;
@@ -461,11 +461,11 @@ JMemoryManager::Delete
 
 		// Don't delete while on the request stack so that the MemoryTable entry
 		// doesn't lie; is there a better way?
-		}
+	}
 	else
-		{
+	{
 		DeleteRecord(block, theLastDeleteFile, theLastDeleteLine, isArray);
-		}
+	}
 
 	theLastDeleteFile = kUnknownFile;
 	theLastDeleteLine = 0;
@@ -480,7 +480,7 @@ void
 JMemoryManager::PrintMemoryStats()
 {
 	if (itsMemoryTable != nullptr)
-		{
+	{
 		std::lock_guard lock(*itsMutex);
 
 		std::cout << "\n";
@@ -492,7 +492,7 @@ JMemoryManager::PrintMemoryStats()
 		std::cout << "\n";
 
 		std::cout << std::endl;
-		}
+	}
 }
 
 /******************************************************************************
@@ -504,10 +504,10 @@ void
 JMemoryManager::PrintAllocated() const
 {
 	if (itsMemoryTable != nullptr)
-		{
+	{
 		std::lock_guard lock(*itsMutex);
 		itsMemoryTable->PrintAllocated(itsPrintInternalStatsFlag);
-		}
+	}
 }
 
 /******************************************************************************
@@ -550,10 +550,10 @@ JMemoryManager::AddNewRecord
 	)
 {
 	if (itsMemoryTable != nullptr)
-		{
+	{
 		std::lock_guard lock(*itsMutex);
 		itsMemoryTable->AddNewRecord(record, itsCheckDoubleAllocationFlag);
-		}
+	}
 }
 
 /******************************************************************************
@@ -571,10 +571,10 @@ JMemoryManager::DeleteRecord
 	)
 {
 	if (block == nullptr)
-		{
+	{
 		// should never happen, since C++14 specifies it that way
 		return;
-		}
+	}
 
 	JMMRecord record;
 	const bool wasAllocated = itsMemoryTable == nullptr ||	// Have to trust the client
@@ -582,9 +582,9 @@ JMemoryManager::DeleteRecord
 
 	// Try to avoid a seg fault so the program can continue
 	if (wasAllocated)
-		{
+	{
 		free(block);
-		}
+	}
 }
 
 /******************************************************************************
@@ -597,10 +597,10 @@ JMemoryManager::BeginRecursiveBlock()
 {
 	theRecursionDepth++;
 	if (theRecursionDepth > 1)
-	{
+{
 		std::cout << "Unusual (but probably safe) memory manager behavior: JMM recursing at depth "
 			 << theRecursionDepth << ".  Please notify the author." << std::endl;
-	}
+}
 }
 
 /******************************************************************************
@@ -627,26 +627,26 @@ void
 JMemoryManager::EmptyStacks()
 {
 	if (itsMemoryTable != nullptr && theRecursionDepth == 0)
-		{
+	{
 		// Do alloc stack first so dealloc's never have to search through the
 		// Alloc stack
 		while (theAllocStackSize > 0)
-			{
+		{
 			theAllocStackSize--;
 			JMMRecord thisRecord = theAllocStack[theAllocStackSize];
 
 			AddNewRecord(thisRecord);
-			}
+		}
 
 		while (theDeallocStackSize > 0)
-			{
+		{
 			theDeallocStackSize--;
 			DeleteRequest thisRequest = theDeallocStack[theDeallocStackSize];
 
 			DeleteRecord(thisRequest.address, thisRequest.file,
 						 thisRequest.line, thisRequest.array);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -699,7 +699,7 @@ void
 JMemoryManager::HandleACEExit()
 {
 	if (itsLink != nullptr)
-		{
+	{
 		theInternalFlag = true;
 
 		SendExitStats();
@@ -708,7 +708,7 @@ JMemoryManager::HandleACEExit()
 		itsLink = nullptr;
 
 		theInternalFlag = false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -734,13 +734,13 @@ JMemoryManager::HandleExit()
 	WriteExitStats();
 
 	if (itsPrintExitStatsFlag)
-		{
+	{
 		std::cout << "\n*******************************************************************" << std::endl;
 		std::cout << "\n\nJCore Exit Statistics: anything unallocated is probably garbage" << "\n";
 		PrintMemoryStats();
 
 		PrintAllocated();
-		}
+	}
 }
 
 /******************************************************************************
@@ -756,15 +756,15 @@ JMemoryManager::Receive
 	)
 {
 	if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
-		{
+	{
 		theInternalFlag = true;
 		HandleDebugRequest();
 		theInternalFlag = false;
-		}
+	}
 	else
-		{
+	{
 		JBroadcaster::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -789,15 +789,15 @@ JMemoryManager::ConnectToDebugger
 	ACE_UNIX_Addr addr(socketName);
 	if (connector->connect(itsLink, addr, ACE_Synch_Options::asynch) == -1 &&
 		jerrno() != EAGAIN)
-		{
+	{
 		std::cerr << "error trying to connect JMemoryManager::DebugLink: " << jerrno() << std::endl;
-		}
+	}
 	else
-		{
+	{
 		SetProtocol(itsLink);
 		ListenTo(itsLink);
 		ClearWhenGoingAway(itsLink, &itsLink);
-		}
+	}
 }
 
 /******************************************************************************
@@ -821,23 +821,23 @@ JMemoryManager::HandleDebugRequest()
 	JFileVersion vers;
 	input >> vers;
 	if (vers != kJMemoryManagerDebugVersion)
-		{
+	{
 		std::cerr << "JMemoryManager::HandleDebugRequest received version (" << vers;
 		std::cerr << ") different than expected (" << kJMemoryManagerDebugVersion << ")" << std::endl;
 		return;
-		}
+	}
 
 	long type;
 	input >> type;
 
 	if (type == kRunningStatsMessage)
-		{
+	{
 		SendRunningStats();
-		}
+	}
 	else if (type == kRecordsMessage)
-		{
+	{
 		SendRecords(input);
-		}
+	}
 }
 
 /******************************************************************************
@@ -936,9 +936,9 @@ JMemoryManager::SendExitStats()
 	const
 {
 	if (itsExitStatsFileName == nullptr || itsExitStatsFileName->IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	std::ostringstream output;
 	output << kJMemoryManagerDebugVersion;
@@ -964,9 +964,9 @@ JMemoryManager::WriteExitStats()
 	const
 {
 	if (itsExitStatsStream == nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	*itsExitStatsStream << ' ';
 	WriteRunningStats(*itsExitStatsStream);
@@ -994,19 +994,19 @@ JMemoryManager::SendError
 {
 	JMemoryManager* mgr = JMemoryManager::Instance();
 	if (mgr->itsLink != nullptr)
-		{
+	{
 		std::ostringstream output;
 		output << kJMemoryManagerDebugVersion;
 		output << ' ' << kErrorMessage;
 		output << ' ' << msg;
 
 		mgr->SendDebugMessage(output);
-		}
+	}
 	else if (mgr->itsExitStatsStream != nullptr)
-		{
+	{
 		*(mgr->itsExitStatsStream) << ' ' << kErrorMessage;
 		*(mgr->itsExitStatsStream) << ' ' << msg;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1023,17 +1023,17 @@ JMemoryManager::SendDebugMessage
 {
 	std::string s = data.str();
 	while (true)
-		{
+	{
 		// we don't want to allocate a JStringMatch
 		const long i = s.find(kDisconnectStr);
 		if (i < 0)
-			{
+		{
 			break;
-			}
+		}
 
 		// replace with slightly shorter string, so reallocation is not required
 		s.replace(i, kDisconnectStrLength, "<ixnay on the disconnect string!>");
-		}
+	}
 
 	std::lock_guard lock(*itsMutex);
 	itsLink->SendMessage(JString(s.c_str(), s.length(), JString::kNoCopy));
@@ -1070,9 +1070,9 @@ JMemoryManager::HandleObjectDeletedAsArray
 	)
 {
 	if (itsBroadcastErrorsFlag)
-		{
+	{
 		Broadcast( ObjectDeletedAsArray(record) );
-		}
+	}
 }
 
 /******************************************************************************
@@ -1087,9 +1087,9 @@ JMemoryManager::HandleArrayDeletedAsObject
 	)
 {
 	if (itsBroadcastErrorsFlag)
-		{
+	{
 		Broadcast( ArrayDeletedAsObject(record) );
-		}
+	}
 }
 
 /******************************************************************************
@@ -1108,9 +1108,9 @@ JMemoryManager::HandleUnallocatedDeletion
 	)
 {
 	if (itsBroadcastErrorsFlag && line != 0)
-		{
+	{
 		Broadcast( UnallocatedDeletion(file, line, isArray) );
-		}
+	}
 }
 
 /******************************************************************************
@@ -1128,9 +1128,9 @@ JMemoryManager::HandleMultipleDeletion
 	)
 {
 	if (itsBroadcastErrorsFlag)
-		{
+	{
 		Broadcast( MultipleDeletion(thisRecord, file, line, isArray) );
-		}
+	}
 }
 
 /******************************************************************************
@@ -1146,9 +1146,9 @@ JMemoryManager::HandleMultipleAllocation
 	)
 {
 	if (itsBroadcastErrorsFlag)
-		{
+	{
 		Broadcast( MultipleAllocation(thisRecord, firstRecord) );
-		}
+	}
 }
 
 /******************************************************************************
@@ -1167,22 +1167,22 @@ JMemoryManager::ReadValue
 	*hasValue = string != nullptr && JString::Compare(string, "no", JString::kIgnoreCase) != 0;
 
 	if (*hasValue)
-		{
+	{
 		const JUtf8Byte* start = string;
 		while ( isspace(*start) )
-			{
+		{
 			++start;
-			}
+		}
 		if (*start != '\0') // The string has a non-space value, so try to read as a number
-			{
+		{
 			JUtf8Byte* end;
 			auto theValue = (unsigned char) strtol(start, &end, 0);
 			if (*end == '\0') // We read the entire string, so the value must be good
-				{
+			{
 				*value = theValue;
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1200,48 +1200,48 @@ JMemoryManager::RecordFilter::Match
 	bool match = true;
 
 	if (!includeInternal && record.IsManagerMemory())
-		{
+	{
 		match = false;
-		}
+	}
 
 	if (record.GetSize() < minSize)
-		{
+	{
 		match = false;
-		}
+	}
 
 	const JSize newFileLength = strlen(record.GetNewFile());
 	if (match && fileName != nullptr && newFileLength == fileName->GetByteCount())
-		{
+	{
 		if (record.GetNewFile() != *fileName)
-			{
-			match = false;
-			}
-		}
-	else if (match && fileName != nullptr)
 		{
+			match = false;
+		}
+	}
+	else if (match && fileName != nullptr)
+	{
 		const JUtf8Byte *s1, *s2;
 		JSize l1, l2;
 		if (newFileLength > fileName->GetByteCount())
-			{
+		{
 			s1 = record.GetNewFile();
 			l1 = newFileLength;
 			s2 = fileName->GetBytes();
 			l2 = fileName->GetByteCount();
-			}
+		}
 		else
-			{
+		{
 			s1 = fileName->GetBytes();
 			l1 = fileName->GetByteCount();
 			s2 = record.GetNewFile();
 			l2 = newFileLength;
-			}
+		}
 
 		if (*(s1 + l1 - l2 - 1) != ACE_DIRECTORY_SEPARATOR_CHAR ||
 			strcmp(s1 + l1 - l2, s2) != 0)
-			{
+		{
 			match = false;
-			}
 		}
+	}
 
 	return match;
 }
@@ -1259,15 +1259,15 @@ JMemoryManager::RecordFilter::Read
 	input >> JBoolFromString(hasFile);
 
 	if (hasFile)
-		{
+	{
 		if (fileName == nullptr)
-			{
+		{
 			fileName = new JString;
 			assert( fileName != nullptr );
-			}
+		}
 
 		input >> *fileName;
-		}
+	}
 }
 
 void
@@ -1283,7 +1283,7 @@ JMemoryManager::RecordFilter::Write
 	const bool hasFile = fileName != nullptr && !fileName->IsEmpty();
 	output << ' ' << JBoolToString(hasFile);
 	if (hasFile)
-		{
+	{
 		output << ' ' << *fileName;
-		}
+	}
 }

@@ -53,11 +53,11 @@ void
 JStopWatch::StartTimer()
 {
 	if (!itsOnFlag)
-		{
+	{
 		itsOnFlag     = true;
 		itsStartClock = itsStopClock = clock();
 		itsStartTime  = itsStopTime  = time(nullptr);
-		}
+	}
 }
 
 /******************************************************************************
@@ -69,11 +69,11 @@ void
 JStopWatch::StopTimer()
 {
 	if (itsOnFlag)
-		{
+	{
 		itsOnFlag    = false;
 		itsStopClock = clock();
 		itsStopTime  = time(nullptr);
-		}
+	}
 }
 
 /******************************************************************************
@@ -90,13 +90,13 @@ JStopWatch::GetCPUTimeInterval()
 {
 	clock_t stopClock;
 	if (itsOnFlag)
-		{
+	{
 		stopClock = clock();
-		}
+	}
 	else
-		{
+	{
 		stopClock = itsStopClock;
-		}
+	}
 
 	return ((JFloat) (stopClock - itsStartClock) / (JFloat) CLOCKS_PER_SEC);
 }
@@ -115,13 +115,13 @@ JStopWatch::GetUserTimeInterval()
 {
 	time_t stopTime;
 	if (itsOnFlag)
-		{
+	{
 		stopTime  = time(nullptr);
-		}
+	}
 	else
-		{
+	{
 		stopTime  = itsStopTime;
-		}
+	}
 
 	return (JFloat) (stopTime - itsStartTime);
 }
@@ -158,21 +158,21 @@ JStopWatch::FormatTimeInterval
 {
 	JString timeString;
 	if (time < 60.0)									// less than 1 min
-		{
+	{
 		timeString = JString(time) + " seconds";
-		}
+	}
 	else if (time < 3600.0)								// less than 1 hour
-		{
+	{
 		timeString = JString(time/60.0) + " minutes";
-		}
+	}
 	else if (time < 86400.0)							// less than 1 day
-		{
+	{
 		timeString = JString(time/3600.0) + " hours";
-		}
+	}
 	else
-		{
+	{
 		timeString = JString(time/86400.0) + " days";
-		}
+	}
 
 	return timeString;
 }

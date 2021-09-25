@@ -45,7 +45,7 @@ void
 JXChooseEPSDestFileTask::Perform()
 {
 	if (itsDirector != nullptr)
-		{
+	{
 		itsDirector->ChooseDestinationFile();
-		}
+	}
 }

@@ -41,9 +41,9 @@ JSimpleProcess::Create
 	const JError err = Create(&p, cmdStr, true);
 	err.ReportIfError();
 	if (err.OK() && detach)
-		{
+	{
 		JThisProcess::Ignore(p);
-		}
+	}
 	return err;
 }
 
@@ -62,14 +62,14 @@ JSimpleProcess::Create
 								kJTossOutput, nullptr,
 								kJCreatePipe, &errFD);
 	if (err.OK())
-		{
+	{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
 		assert( *process != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*process = nullptr;
-		}
+	}
 
 	return err;
 }
@@ -86,9 +86,9 @@ JSimpleProcess::Create
 	const JError err = Create(&p, workingDirectory, cmdStr, true);
 	err.ReportIfError();
 	if (err.OK() && detach)
-		{
+	{
 		JThisProcess::Ignore(p);
-		}
+	}
 	return err;
 }
 
@@ -108,14 +108,14 @@ JSimpleProcess::Create
 								kJTossOutput, nullptr,
 								kJCreatePipe, &errFD);
 	if (err.OK())
-		{
+	{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
 		assert( *process != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*process = nullptr;
-		}
+	}
 
 	return err;
 }
@@ -131,9 +131,9 @@ JSimpleProcess::Create
 	const JError err = Create(&p, argList, true);
 	err.ReportIfError();
 	if (err.OK() && detach)
-		{
+	{
 		JThisProcess::Ignore(p);
-		}
+	}
 	return err;
 }
 
@@ -152,14 +152,14 @@ JSimpleProcess::Create
 								kJTossOutput, nullptr,
 								kJCreatePipe, &errFD);
 	if (err.OK())
-		{
+	{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
 		assert( *process != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*process = nullptr;
-		}
+	}
 
 	return err;
 }
@@ -176,9 +176,9 @@ JSimpleProcess::Create
 	const JError err = Create(&p, workingDirectory, argList, true);
 	err.ReportIfError();
 	if (err.OK() && detach)
-		{
+	{
 		JThisProcess::Ignore(p);
-		}
+	}
 	return err;
 }
 
@@ -198,14 +198,14 @@ JSimpleProcess::Create
 								kJTossOutput, nullptr,
 								kJCreatePipe, &errFD);
 	if (err.OK())
-		{
+	{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
 		assert( *process != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*process = nullptr;
-		}
+	}
 
 	return err;
 }
@@ -222,9 +222,9 @@ JSimpleProcess::Create
 	const JError err = Create(&p, argv, size, true);
 	err.ReportIfError();
 	if (err.OK() && detach)
-		{
+	{
 		JThisProcess::Ignore(p);
-		}
+	}
 	return err;
 }
 
@@ -244,14 +244,14 @@ JSimpleProcess::Create
 								kJTossOutput, nullptr,
 								kJCreatePipe, &errFD);
 	if (err.OK())
-		{
+	{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
 		assert( *process != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*process = nullptr;
-		}
+	}
 
 	return err;
 }
@@ -269,9 +269,9 @@ JSimpleProcess::Create
 	const JError err = Create(&p, workingDirectory, argv, size, true);
 	err.ReportIfError();
 	if (err.OK() && detach)
-		{
+	{
 		JThisProcess::Ignore(p);
-		}
+	}
 	return err;
 }
 
@@ -292,14 +292,14 @@ JSimpleProcess::Create
 								kJTossOutput, nullptr,
 								kJCreatePipe, &errFD);
 	if (err.OK())
-		{
+	{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
 		assert( *process != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*process = nullptr;
-		}
+	}
 
 	return err;
 }
@@ -351,16 +351,16 @@ JSimpleProcess::Receive
 	)
 {
 	if (sender == this && message.Is(JProcess::kFinished))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JProcess::Finished*>(&message);
 		assert( info != nullptr );
 		ReportError(info->Successful());
-		}
+	}
 	else
-		{
+	{
 		JProcess::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -383,37 +383,37 @@ JSimpleProcess::ReportError
 
 	if ((itsLink->HasMessages() || hasPartialLine) &&
 		time(nullptr) < itsStartTime + kMaxReportInverval)
-		{
+	{
 		JString text, line;
 		while (itsLink->GetNextMessage(&line))
-			{
+		{
 			if (!text.IsEmpty())
-				{
+			{
 				text.Append("\n");
-				}
-			text += line;
 			}
+			text += line;
+		}
 
 		if (hasPartialLine)
-			{
+		{
 			if (!text.IsEmpty())
-				{
+			{
 				text.Append("\n");
-				}
-			text += lastLine;
 			}
+			text += lastLine;
+		}
 
 		JUserNotification::SetBreakMessageCROnly();
 
 		if (success)
-			{
+		{
 			text.Prepend("The program reported the following:\n\n");
 			JGetUserNotification()->DisplayMessage(text);
-			}
+		}
 		else
-			{
+		{
 			text.Prepend("An error occurred:\n\n");
 			JGetUserNotification()->ReportError(text);
-			}
 		}
+	}
 }

@@ -238,23 +238,23 @@ JXChooseColorDialog::Receive
 	)
 {
 	if (sender == itsColorWheel && message.Is(JXColorWheel::kColorChanged))
-		{
+	{
 		UpdateWheelColor();
-		}
+	}
 
 	else if (message.Is(JSliderBase::kMoved))
-		{
+	{
 		UpdateHSBColor();
-		}
+	}
 	else if (message.Is(JXWidget::kLostFocus))
-		{
+	{
 		UpdateRGBColor();
-		}
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************

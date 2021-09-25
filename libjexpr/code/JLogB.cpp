@@ -87,13 +87,13 @@ JLogB::Evaluate
 {
 	JFloat b,x;
 	if (!(GetArg1())->Evaluate(&b) || b <= 1.0)
-		{
+	{
 		return false;
-		}
+	}
 	if (!(GetArg2())->Evaluate(&x))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = log(x)/log(b);
 	return jerrno_is_clear();
@@ -109,13 +109,13 @@ JLogB::Evaluate
 	JFloat b;
 	JComplex x;
 	if (!(GetArg1())->Evaluate(&b) || b <= 1.0)
-		{
+	{
 		return false;
-		}
+	}
 	if (!(GetArg2())->Evaluate(&x))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = log(x)/log(b);
 	return jerrno_is_clear();

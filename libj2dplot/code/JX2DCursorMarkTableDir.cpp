@@ -104,28 +104,28 @@ JX2DCursorMarkTableDir::ReadSetup
 	JFileVersion vers = 0;
 	input >> std::ws;
 	if (input.peek() != '0')	// version 0 => leave it for JXWindow
-		{
+	{
 		input >> vers;
 		assert( vers <= kCurrentSetupVersion );
-		}
+	}
 
 	GetWindow()->ReadGeometry(input);
 
 	itsTable->AdjustTable();
 
 	if (vers == 0)
-		{
+	{
 		JXScrollbar *hScrollbar, *vScrollbar;
 		const bool hasScrollbars = itsTable->GetScrollbars(&hScrollbar, &vScrollbar);
 		assert( hasScrollbars );
 
 		vScrollbar->ReadSetup(input);
 		hScrollbar->ReadSetup(input);
-		}
+	}
 	else
-		{
+	{
 		itsTable->ReadScrollSetup(input);
-		}
+	}
 }
 
 /******************************************************************************

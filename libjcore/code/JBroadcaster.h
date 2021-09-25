@@ -21,7 +21,7 @@ class JBroadcaster
 public:
 
 	class Message : public JRTTIBase
-		{
+	{
 		public:
 
 			virtual	~Message();
@@ -32,7 +32,7 @@ public:
 				:
 				JRTTIBase(type)
 			{ };
-		};
+	};
 
 public:
 
@@ -44,9 +44,9 @@ public:
 	const JBroadcaster& operator=(const JBroadcaster& source);
 
 	bool	HasSenders() const;
-	JSize		GetSenderCount() const;
+	JSize	GetSenderCount() const;
 	bool	HasRecipients() const;
-	JSize		GetRecipientCount() const;
+	JSize	GetRecipientCount() const;
 
 	virtual JString	ToString() const;
 
@@ -127,9 +127,9 @@ JBroadcaster::Broadcast
 	)
 {
 	if (itsRecipients != nullptr)
-		{
+	{
 		BroadcastPrivate(message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -155,9 +155,9 @@ JBroadcaster::BroadcastWithFeedback
 	)
 {
 	if (itsRecipients != nullptr)
-		{
+	{
 		BroadcastWithFeedbackPrivate(message);
-		}
+	}
 }
 
 #endif

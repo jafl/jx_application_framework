@@ -107,32 +107,32 @@ JXScrollbarSet::ShowScrollbars
 {
 	if (itsHScrollbar->WouldBeVisible() == showH &&
 		itsVScrollbar->WouldBeVisible() == showV)
-		{
+	{
 		return;
-		}
+	}
 
 	JCoordinate sEnclW = GetBoundsWidth();
 	JCoordinate sEnclH = GetBoundsHeight();
 
 	if (showH)
-		{
+	{
 		itsHScrollbar->Show();
 		sEnclH -= kScrollBarWidth;
-		}
+	}
 	else
-		{
+	{
 		itsHScrollbar->Hide();
-		}
+	}
 
 	if (showV)
-		{
+	{
 		itsVScrollbar->Show();
 		sEnclW -= kScrollBarWidth;
-		}
+	}
 	else
-		{
+	{
 		itsVScrollbar->Hide();
-		}
+	}
 
 	itsHScrollbar->SetSize(sEnclW, kScrollBarWidth);
 	itsVScrollbar->SetSize(kScrollBarWidth, sEnclH);

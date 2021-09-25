@@ -47,9 +47,9 @@ JXRegexInput::JXRegexInput
 JXRegexInput::~JXRegexInput()
 {
 	if (itsOwnsRegexFlag)
-		{
+	{
 		jdelete itsTestRegex;
-		}
+	}
 }
 
 /******************************************************************************
@@ -61,27 +61,27 @@ bool
 JXRegexInput::InputValid()
 {
 	if (!JXInputField::InputValid())
-		{
+	{
 		return false;
-		}
+	}
 	else
-		{
+	{
 		const JString& text = GetText()->GetText();
 
 		if (!IsRequired() && text.IsEmpty())
-			{
+		{
 			return true;
-			}
+		}
 
 		const JError err = itsTestRegex->SetPattern(text);
 		if (err.OK())
-			{
+		{
 			return true;
-			}
+		}
 		else
-			{
+		{
 			err.ReportIfError();
 			return false;
-			}
 		}
+	}
 }

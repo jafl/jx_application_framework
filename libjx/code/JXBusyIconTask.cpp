@@ -50,9 +50,9 @@ JXBusyIconTask::JXBusyIconTask
 
 	JXImageCache* cache = widget->GetDisplay()->GetImageCache();
 	for (const auto& xpm : kBusyIcon)
-		{
+	{
 		itsImageList->Append(cache->GetImage(xpm));
-		}
+	}
 }
 
 /******************************************************************************

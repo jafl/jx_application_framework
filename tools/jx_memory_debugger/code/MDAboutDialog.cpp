@@ -103,24 +103,24 @@ MDAboutDialog::BuildWindow
 
 	JString text = MDGetVersionStr();
 	if (!prevVersStr.IsEmpty())
-		{
+	{
 		const JUtf8Byte* map[] =
-			{
+		{
 			"vers", prevVersStr.GetBytes()
-			};
+		};
 		text += JGetString("UpgradeNotice::MDAboutDialog");
 		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::MDAboutDialog"));
 		itsIsUpgradeFlag = true;
-		}
+	}
 	textWidget->GetText()->SetText(text);
 
 	const JSize bdh = textWidget->GetBoundsHeight();
 	const JSize aph = textWidget->GetApertureHeight();
 	if (bdh > aph)
-		{
+	{
 		window->AdjustSize(0, bdh - aph);	// safe to calculate once bdh > aph
-		}
+	}
 }
 
 /******************************************************************************
@@ -138,26 +138,26 @@ MDAboutDialog::Receive
 	)
 {
 	if (sender == itsHelpButton && message.Is(JXButton::kPushed))
-		{
+	{
 		if (itsIsUpgradeFlag)
-			{
+		{
 			(JXGetHelpManager())->ShowChangeLog();
-			}
-		else
-			{
-			(JXGetHelpManager())->ShowSection("MDOverviewHelp");
-			}
-		EndDialog(true);
 		}
+		else
+		{
+			(JXGetHelpManager())->ShowSection("MDOverviewHelp");
+		}
+		EndDialog(true);
+	}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
-		{
+	{
 		(JXGetHelpManager())->ShowCredits();
 		EndDialog(true);
-		}
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }

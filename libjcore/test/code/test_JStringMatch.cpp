@@ -24,25 +24,25 @@ public:
 		)
 		:
 		JStringMatch(target, byteRange, nullptr, list)
-	{ }
+{ }
 
 	void
 	TestSetFirstCharacterIndex
 		(
 		const JIndex index
 		)
-	{
+{
 		SetFirstCharacterIndex(index);
-	}
+}
 
 	void
 	TestSetLastCharacterIndex
 		(
 		const JIndex index
 		)
-	{
+{
 		SetLastCharacterIndex(index);
-	}
+}
 };
 
 int main()

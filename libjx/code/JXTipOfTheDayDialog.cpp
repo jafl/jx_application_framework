@@ -177,28 +177,28 @@ JXTipOfTheDayDialog::Receive
 	)
 {
 	if (sender == itsNextTipButton && message.Is(JXButton::kPushed))
-		{
+	{
 		itsTipIndex++;
 		if (!itsTipList->IndexValid(itsTipIndex))
-			{
+		{
 			itsTipIndex = 1;
-			}
-		DisplayTip();
 		}
+		DisplayTip();
+	}
 
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
-		{
+	{
 		if (itsShowAtStartupCB->IsVisible())
-			{
+		{
 			Broadcast(ShowAtStartup(itsShowAtStartupCB->IsChecked()));
-			}
-		Close();
 		}
+		Close();
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -219,13 +219,13 @@ JXTipOfTheDayDialog::ParseTips()
 	data.Split(kDelimiter, &list);
 
 	for (auto* s : list)
-		{
+	{
 		if (!s->IsEmpty())
-			{
+		{
 			s->Prepend("\n");
 			AddTip(*s);
-			}
 		}
+	}
 
 	assert( !itsTipList->IsEmpty() );
 
@@ -246,9 +246,9 @@ JXTipOfTheDayDialog::AddTip
 {
 	tip.TrimWhitespace();
 	if (tip.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	auto* s = jnew JString(tip);
 	assert( s != nullptr );

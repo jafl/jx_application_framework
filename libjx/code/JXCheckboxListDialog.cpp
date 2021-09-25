@@ -80,12 +80,12 @@ JXCheckboxListDialog::GetSelectedItems
 
 	const JSize count = itsCBList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if (itsCBList->GetElement(i)->IsChecked())
-			{
+		{
 			indexList->AppendElement(i);
-			}
 		}
+	}
 
 	return ! indexList->IsEmpty();
 }
@@ -113,9 +113,9 @@ void
 JXCheckboxListDialog::SelectAllItems()
 {
 	for (auto* cb : *itsCBList)
-		{
+	{
 		cb->SetState(true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -153,7 +153,7 @@ JXCheckboxListDialog::BuildWindow
 
 	JCoordinate wmin = 0;
 	for (JIndex i=1; i<=actionCount; i++)
-		{
+	{
 		auto* cb =
 			jnew JXTextCheckbox(*(choiceList.GetElement(i)), window,
 								JXWidget::kFixedLeft, JXWidget::kFixedTop,
@@ -162,20 +162,20 @@ JXCheckboxListDialog::BuildWindow
 		assert( cb != nullptr );
 
 		if (shortcutList != nullptr)
-			{
+		{
 			cb->SetShortcuts(*(shortcutList->GetElement(i)));
-			}
+		}
 
 		itsCBList->Append(cb);
 		wmin = JMax(cb->GetPreferredWidth(), wmin);
-		}
+	}
 
 	// all choices should be the same width
 
 	for (auto* cb : *itsCBList)
-		{
+	{
 		cb->SetSize(wmin, kTextHeight);
-		}
+	}
 
 	wmin += kCBHLMarginWidth + kCBHRMarginWidth;
 	wmin  = JMax(wmin, 2*kHMarginWidth + instrText->GetFrameWidth());

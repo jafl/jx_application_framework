@@ -64,19 +64,19 @@ OpenConnection
 	)
 {
 	if (argc == 3 && strcmp(argv[1], "-i") == 0)
-		{
+	{
 		return INETConnect(argv[2]);
-		}
+	}
 	else if (argc == 3 && strcmp(argv[1], "-u") == 0)
-		{
+	{
 		return UNIXConnect(argv[2]);
-		}
+	}
 	else
-		{
+	{
 		std::cerr << "usage: " << argv[0];
 		std::cerr << " (-i [host_name:]port_number)|(-u socket_name)" << std::endl;
 		exit(1);
-		}
+	}
 }
 
 /******************************************************************************
@@ -111,18 +111,18 @@ INETConnect
 
 	ACE_Time_Value maxWait(kMaxWaitSeconds);
 	if (connector.connect(*socket, addr, &maxWait) == -1)
-		{
+	{
 		ReportConnectError();
-		}
+	}
 
 	// This seems unnecessary in our case?
 /*
 	if (socket->disable(ACE_NONBLOCK) == -1) 
-		{
+	{
 		std::cerr << "error trying to enable blocking mode: " << jerrno() << std::endl;
 		socket->close();
 		exit(1);
-		}
+	}
 */
 	return socket;
 }
@@ -162,9 +162,9 @@ UNIXConnect
 
 	ACE_Time_Value maxWait(kMaxWaitSeconds);
 	if (connector.connect(*socket, addr, &maxWait) == -1)
-		{
+	{
 		ReportConnectError();
-		}
+	}
 
 	return socket;
 }
@@ -179,13 +179,13 @@ ReportConnectError()
 {
 	const int err = jerrno();
 	if (err == ETIME)
-		{
+	{
 		std::cerr << "server not responding after ";
 		std::cerr << kMaxWaitSeconds << " sec" << std::endl;
-		}
+	}
 	else
-		{
+	{
 		std::cerr << "error trying to connect: " << jerrno() << std::endl;
-		}
+	}
 	exit(1);
 }

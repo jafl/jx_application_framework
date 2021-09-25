@@ -48,9 +48,9 @@ JXRegexReplaceInput::JXRegexReplaceInput
 JXRegexReplaceInput::~JXRegexReplaceInput()
 {
 	if (itsOwnsInterpolatorFlag)
-		{
+	{
 		jdelete itsTestInterpolator;
-		}
+	}
 }
 
 /******************************************************************************
@@ -62,29 +62,29 @@ bool
 JXRegexReplaceInput::InputValid()
 {
 	if (!JXInputField::InputValid())
-		{
+	{
 		return false;
-		}
+	}
 	else
-		{
+	{
 		const JString& text = GetText()->GetText();
 
 		if (!IsRequired() && text.IsEmpty())
-			{
+		{
 			return true;
-			}
+		}
 
 		JCharacterRange errRange;
 		const JError err = itsTestInterpolator->ContainsError(text, &errRange);
 		if (err.OK())
-			{
+		{
 			return true;
-			}
+		}
 		else
-			{
+		{
 			SetSelection(errRange);
 			err.ReportIfError();
 			return false;
-			}
 		}
+	}
 }

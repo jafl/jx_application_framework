@@ -178,14 +178,14 @@ JXDirTable::GetFirstSelection
 {
 	JPoint cell;
 	if ((GetTableSelection()).GetFirstSelectedCell(&cell))
-		{
+	{
 		*entry = &(itsDirInfo->GetEntry(cell.y));
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -206,9 +206,9 @@ JXDirTable::GetSelection
 
 	JPoint cell;
 	while (iter.Next(&cell))
-		{
+	{
 		entryList->Append(const_cast<JDirEntry*>(&(itsDirInfo->GetEntry(cell.y))));
-		}
+	}
 
 	entryList->SetCleanUpAction(JPtrArrayT::kForgetAll);
 	return !entryList->IsEmpty();
@@ -227,15 +227,15 @@ JXDirTable::SelectSingleEntry
 	)
 {
 	if (ItemIsActive(index))
-		{
+	{
 		SelectSingleCell(JPoint(1, index), scroll);
 		itsKeyBuffer.Clear();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -251,9 +251,9 @@ JXDirTable::SelectFirstEntry
 {
 	JIndex index;
 	if (GetNextSelectable(0, false, &index))
-		{
+	{
 		SelectSingleEntry(index, scroll);
-		}
+	}
 }
 
 /******************************************************************************
@@ -269,9 +269,9 @@ JXDirTable::SelectLastEntry
 {
 	JIndex index;
 	if (GetPrevSelectable(GetRowCount()+1, false, &index))
-		{
+	{
 		SelectSingleEntry(index, scroll);
-		}
+	}
 }
 
 /******************************************************************************
@@ -296,9 +296,9 @@ void
 JXDirTable::CleanSelection()
 {
 	if (itsIgnoreSelChangesFlag)
-		{
+	{
 		return;
-		}
+	}
 
 	itsIgnoreSelChangesFlag = true;
 
@@ -309,12 +309,12 @@ JXDirTable::CleanSelection()
 
 	JPoint cell;
 	while (iter.Next(&cell))
-		{
+	{
 		if (!ItemIsSelectable(cell.y, forMulti))
-			{
+		{
 			s.SelectCell(cell, false);
-			}
 		}
+	}
 
 	itsKeyBuffer.Clear();
 	itsIgnoreSelChangesFlag = false;
@@ -366,15 +366,15 @@ JXDirTable::AllowSelectFiles
 	SetSelectionBehavior(itsAllowSelectMultipleFlag, true);
 
 	if (allowSelectFiles != itsAllowSelectFilesFlag)
-		{
+	{
 		itsAllowSelectFilesFlag = allowSelectFiles;
 		AdjustTableContents();
-		}
+	}
 
 	if (!itsAllowSelectMultipleFlag && !HasSingleSelection())
-		{
+	{
 		(GetTableSelection()).ClearSelection();
-		}
+	}
 }
 
 /******************************************************************************
@@ -390,28 +390,28 @@ JXDirTable::GoToSelectedDirectory()
 {
 	const JDirEntry* entry;
 	if (HasSingleSelection() && GetFirstSelection(&entry))
-		{
+	{
 		JError err = JNoError();
 
 		if (entry->GetName() == "..")
-			{
+		{
 			err = itsDirInfo->GoUp();
-			}
+		}
 		else if (entry->IsDirectory())
-			{
+		{
 			// need local copy because GoDown() deletes entry
 
 			const JString dir = entry->GetName();
 			err               = itsDirInfo->GoDown(dir);
-			}
+		}
 		else
-			{
+		{
 			return false;
-			}
+		}
 
 		err.ReportIfError();
 		return err.OK();
-		}
+	}
 
 	return false;
 }
@@ -436,42 +436,42 @@ JXDirTable::TableDrawCell
 
 	JXImage* icon = nullptr;
 	if (entry.IsDirectory())
-		{
+	{
 		if (!entry.IsReadable())
-			{
+		{
 			icon = itsLockedFolderIcon;
-			}
+		}
 		else if (!entry.IsWritable())
-			{
+		{
 			icon = itsReadOnlyFolderIcon;
-			}
+		}
 		else
-			{
+		{
 			icon = itsFolderIcon;
-			}
 		}
+	}
 	else if (entry.IsFile())
-		{
+	{
 		if (entry.IsExecutable())
-			{
-			icon = itsExecIcon;
-			}
-		else
-			{
-			icon = itsFileIcon;
-			}
-		}
-	else if (entry.IsUnknown())
 		{
-		icon = itsUnknownIcon;
+			icon = itsExecIcon;
 		}
+		else
+		{
+			icon = itsFileIcon;
+		}
+	}
+	else if (entry.IsUnknown())
+	{
+		icon = itsUnknownIcon;
+	}
 
 	if (icon != nullptr)
-		{
+	{
 		JRect r = rect;
 		r.right = r.left + kIconWidth;
 		p.Image(*icon, icon->GetBounds(), r);
-		}
+	}
 
 	// draw name
 
@@ -479,9 +479,9 @@ JXDirTable::TableDrawCell
 
 	JColorID color = JColorManager::GetBlackColor();
 	if (!ItemIsActive(cell.y))
-		{
+	{
 		color = JColorManager::GetGrayColor(40);
-		}
+	}
 
 	JFont font = JFontManager::GetDefaultFont();
 	font.SetStyle(JFontStyle(false, italic, 0, false, color));
@@ -512,24 +512,24 @@ JXDirTable::HandleMouseDown
 
 	JPoint cell;
 	if (button > kJXRightButton)
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 	else if (!GetCell(pt, &cell))
-		{
+	{
 		s.ClearSelection();
-		}
+	}
 	else if (button == kJXLeftButton && clickCount == 2)
-		{
+	{
 		s.SetBoat(cell);
 		s.SetAnchor(cell);
 		HandleDoubleClick(cell.y);		// can delete us
 		return;
-		}
+	}
 	else
-		{
+	{
 		BeginSelectionDrag(cell, button, modifiers);
-		}
+	}
 
 	// anything here also needs to be done before HandleDoubleClick()
 }
@@ -580,20 +580,20 @@ JXDirTable::HandleDoubleClick
 {
 	const JDirEntry& entry = itsDirInfo->GetEntry(index);
 	if (ItemIsActive(index))
-		{
+	{
 		if (entry.IsDirectory())
-			{
-			GoToSelectedDirectory();
-			}
-		else
-			{
-			Broadcast(FileDblClicked(entry, true));
-			}
-		}
-	else if (itsAllowDblClickInactiveFlag && entry.IsFile())
 		{
-		Broadcast(FileDblClicked(entry, false));
+			GoToSelectedDirectory();
 		}
+		else
+		{
+			Broadcast(FileDblClicked(entry, true));
+		}
+	}
+	else if (itsAllowDblClickInactiveFlag && entry.IsFile())
+	{
+		Broadcast(FileDblClicked(entry, false));
+	}
 }
 
 /******************************************************************************
@@ -626,89 +626,89 @@ JXDirTable::HandleKeyPress
 	const bool hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
 	if (c == ' ')
-		{
+	{
 		itsKeyBuffer.Clear();
 		s.ClearSelection();
-		}
+	}
 
 	else if (c == kJReturnKey)
-		{
+	{
 		if (hadSelection)
-			{
+		{
 			HandleDoubleClick(topSelCell.y);	// can delete us
 			return;
-			}
 		}
+	}
 
 	else if (c == kJUpArrow)
-		{
+	{
 		itsKeyBuffer.Clear();
 		if (modifiers.meta())
-			{
+		{
 			const JError err = itsDirInfo->GoUp();
 			err.ReportIfError();
-			}
-		else if (!hadSelection)
-			{
-			SelectLastEntry();		// last item might be inactive
-			}
-		else
-			{
-			HandleSelectionKeyPress(c, modifiers);
-			}
 		}
+		else if (!hadSelection)
+		{
+			SelectLastEntry();		// last item might be inactive
+		}
+		else
+		{
+			HandleSelectionKeyPress(c, modifiers);
+		}
+	}
 
 	else if (c == kJDownArrow)
-		{
+	{
 		itsKeyBuffer.Clear();
 		if (modifiers.meta())
-			{
+		{
 			GoToSelectedDirectory();
-			}
-		else if (!hadSelection)
-			{
-			SelectFirstEntry();		// first item might be inactive
-			}
-		else
-			{
-			HandleSelectionKeyPress(c, modifiers);
-			}
 		}
+		else if (!hadSelection)
+		{
+			SelectFirstEntry();		// first item might be inactive
+		}
+		else
+		{
+			HandleSelectionKeyPress(c, modifiers);
+		}
+	}
 
 	else if (c == kJLeftArrow)
-		{
+	{
 		const JError err = itsDirInfo->GoUp();
 		err.ReportIfError();
-		}
+	}
 
 	else if (c == kJRightArrow)
-		{
+	{
 		GoToSelectedDirectory();
-		}
+	}
 
 	else if (itsAllowSelectMultipleFlag &&
 			 (c == 'a' || c == 'A') && modifiers.meta() && !modifiers.shift())
-		{
+	{
 		SelectAll();
-		}
+	}
 
 	else if (c.IsPrint()&& !modifiers.control() && !modifiers.meta())
-		{
+	{
 		itsKeyBuffer.Append(c);
 
 		JIndex index;
 		if (ClosestMatch(itsKeyBuffer, &index))
-			{
+		{
 			JString saveBuffer = itsKeyBuffer;
 			SelectSingleEntry(index);
 			itsKeyBuffer = saveBuffer;
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXTable::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 
 	// anything here also needs to be done before HandleDoubleClick()
 }
@@ -744,16 +744,16 @@ JXDirTable::HandleShortcut
 	)
 {
 	if ((key == kJUpArrow || key == kJDownArrow) && modifiers.meta())
-		{
+	{
 		if (Focus())
-			{
-			HandleKeyPress(JUtf8Character(key), 0, modifiers);
-			}
-		}
-	else
 		{
-		JXTable::HandleShortcut(key, modifiers);
+			HandleKeyPress(JUtf8Character(key), 0, modifiers);
 		}
+	}
+	else
+	{
+		JXTable::HandleShortcut(key, modifiers);
+	}
 }
 
 /******************************************************************************
@@ -776,22 +776,22 @@ JXDirTable::WillAcceptDrop
 	// dropping on ourselves makes no sense
 
 	if (this == const_cast<JXWidget*>(source))
-		{
+	{
 		return false;
-		}
+	}
 
 	// we accept drops of type text/uri-list
 
 	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	for (auto type : typeList)
-		{
+	{
 		if (type == urlXAtom)
-			{
+		{
 			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -825,74 +825,74 @@ JXDirTable::HandleDNDDrop
 	if (!selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
 						 time, selMgr->GetURLXAtom(),
 						 &returnType, &data, &dataLength, &delMethod))
-		{
+	{
 		return;
-		}
+	}
 
 	if (returnType != selMgr->GetURLXAtom())
-		{
+	{
 		selMgr->DeleteData(&data, delMethod);
 		return;
-		}
+	}
 
 	JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
 					   urlList(JPtrArrayT::kDeleteAll);
 	JXUnpackFileNames((char*) data, dataLength, &fileNameList, &urlList);
 
 	if (!fileNameList.IsEmpty())
-		{
+	{
 		const JString* entryName = fileNameList.GetFirstElement();
 		JString path, name;
 		if (JDirectoryExists(*entryName))
-			{
+		{
 			path = *entryName;
-			}
+		}
 		else if (JFileExists(*entryName))
-			{
+		{
 			JSplitPathAndName(*entryName, &path, &name);
-			}
+		}
 
 		const JError err = itsDirInfo->GoTo(path);
 		err.ReportIfError();
 		if (err.OK() && !name.IsEmpty())
-			{
+		{
 			JTableSelection& s = GetTableSelection();
 			s.ClearSelection();
 			for (const auto* entryName : fileNameList)
-				{
+			{
 				if (!JFileExists(*entryName))
-					{
+				{
 					continue;
-					}
+				}
 
 				JSplitPathAndName(*entryName, &path, &name);
 				JIndex index;
 				if (!itsDirInfo->FindEntry(name, &index) ||
 					!ItemIsActive(index))
-					{
+				{
 					continue;
-					}
+				}
 
 				GetWindow()->Raise();
 				if (!s.HasSelection())
-					{
+				{
 					const bool ok = SelectSingleEntry(index);
 					assert( ok );
-					}
+				}
 				else
-					{
+				{
 					s.SelectRow(index);
 					s.ClearBoat();
 					s.ClearAnchor();
-					}
+				}
 
 				if (!itsAllowSelectMultipleFlag)
-					{
+				{
 					break;
-					}
 				}
 			}
 		}
+	}
 
 	selMgr->DeleteData(&data, delMethod);
 }
@@ -917,13 +917,13 @@ JXDirTable::AdjustTableContents()
 
 	const JFont& font = JFontManager::GetDefaultFont();
 	for (const auto* entry : *itsDirInfo)
-		{
+	{
 		const JSize w = font.GetStringWidth(GetFontManager(), entry->GetName());
 		if (w > itsMaxStringWidth)
-			{
+		{
 			itsMaxStringWidth = w;
-			}
 		}
+	}
 
 	AdjustColWidths();
 
@@ -931,63 +931,63 @@ JXDirTable::AdjustTableContents()
 
 	itsActiveCells->RemoveAll();
 	if (count > 0)
-		{
+	{
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			const JDirEntry& entry = itsDirInfo->GetEntry(i);
 			if (entry.IsBrokenLink() ||
 				(entry.IsDirectory() && (!entry.IsReadable() || !entry.IsExecutable())) ||
 				(entry.IsFile() && (!entry.IsReadable() || !itsAllowSelectFilesFlag)))
-				{
+			{
 				itsActiveCells->AppendElement(false);
-				}
+			}
 			else
-				{
+			{
 				itsActiveCells->AppendElement(true);
-				}
 			}
 		}
+	}
 
 	// select appropriate items
 
 	bool deselect  = false;
 	JTableSelection& s = GetTableSelection();
 	if (itsReselectFlag && !itsReselectNameList->IsEmpty())
-		{
+	{
 		// select the items that still exist
 
 		for (const auto* n : *itsReselectNameList)
-			{
+		{
 			JIndex j;
 			if (itsDirInfo->FindEntry(*n, &j) &&
 				ItemIsActive(j))	// check for active in case of single, broken link
-				{
+			{
 				s.SelectRow(j);
-				}
 			}
+		}
 
 		if (!HasSelection())
-			{
+		{
 			// select the closest item
 
 			JIndex i;
 			if (ClosestMatch(*(itsReselectNameList->GetFirstElement()), &i))
-				{
+			{
 				s.SelectRow(i);
 
 				// If it is not an exact match, deselect it after scrolling to it.
 
 				if ((itsDirInfo->GetEntry(i)).GetName() !=
 					*(itsReselectNameList->GetFirstElement()))
-					{
+				{
 					deselect = true;
-					}
 				}
 			}
 		}
+	}
 
 	if (HasSelection())
-		{
+	{
 		// keep display from jumping
 
 		JPoint cell;
@@ -996,16 +996,16 @@ JXDirTable::AdjustTableContents()
 		const JRect selRect   = GetCellRect(cell);
 		const JPoint scrollPt = selRect.topLeft() + itsReselectScrollOffset;
 		ScrollTo(scrollPt);
-		}
+	}
 	else if (!itsReselectFlag)
-		{
+	{
 		SelectFirstEntry();
-		}
+	}
 
 	if (deselect)
-		{
+	{
 		s.ClearSelection();
-		}
+	}
 
 	itsReselectFlag = false;
 	itsReselectNameList->CleanOut();
@@ -1029,15 +1029,15 @@ JXDirTable::GetNextSelectable
 {
 	const JSize rowCount = GetRowCount();
 	if (startIndex >= rowCount)
-		{
+	{
 		return false;
-		}
+	}
 
 	JIndex i = startIndex + 1;
 	while (i <= rowCount && !ItemIsSelectable(i, forMulti))
-		{
+	{
 		i++;
-		}
+	}
 
 	*nextIndex = i;
 	return i <= rowCount;
@@ -1060,15 +1060,15 @@ JXDirTable::GetPrevSelectable
 	const
 {
 	if (startIndex <= 1)
-		{
+	{
 		return false;
-		}
+	}
 
 	JIndex i = startIndex - 1;
 	while (i >= 1 && !ItemIsSelectable(i, forMulti))
-		{
+	{
 		i--;
-		}
+	}
 
 	*nextIndex = i;
 	return i >= 1;
@@ -1107,13 +1107,13 @@ JXDirTable::ClosestMatch
 	bool found = itsDirInfo->ClosestMatch(prefixStr, index);
 
 	if (found && !ItemIsActive(*index))
-		{
+	{
 		found = GetNextSelectable(*index, false, index);
 		if (!found)
-			{
+		{
 			found = GetPrevSelectable(GetRowCount()+1, false, index);
-			}
 		}
+	}
 
 	return found;
 }
@@ -1147,45 +1147,45 @@ JXDirTable::Receive
 	)
 {
 	if (sender == itsDirInfo && message.Is(JDirInfo::kContentsWillBeUpdated))
-		{
+	{
 		RememberSelections();
-		}
+	}
 	else if (sender == itsDirInfo && message.Is(JDirInfo::kPathChanged))
-		{
+	{
 		// This comes after ContentsChanged, and cancels the effect of
 		// ContentsWillBeUpdated.
 
 		itsReselectFlag = false;
 		itsReselectNameList->CleanOut();
 		if (itsSelectWhenChangePathFlag)
-			{
+		{
 			SelectFirstEntry();
-			}
-		else
-			{
-			(GetTableSelection()).ClearSelection();
-			}
 		}
+		else
+		{
+			(GetTableSelection()).ClearSelection();
+		}
+	}
 
 	else if (sender == itsDirInfo && message.Is(JDirInfo::kContentsChanged))
-		{
+	{
 		AdjustTableContents();
-		}
+	}
 
 	else if (sender == itsDirUpdateTask && message.Is(JXTimerTask::kTimerWentOff))
-		{
+	{
 		UpdateDisplay();
-		}
+	}
 
 	else
-		{
+	{
 		if (sender == &(GetTableSelection()) && !itsIgnoreSelChangesFlag)
-			{
+		{
 			CleanSelection();
-			}
+		}
 
 		JXTable::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1198,20 +1198,20 @@ JXDirTable::RememberSelections()
 {
 	JPtrArray<JDirEntry> entryList(JPtrArrayT::kDeleteAll);
 	if (!itsReselectFlag && GetSelection(&entryList))
-		{
+	{
 		itsReselectFlag = true;
 
 		for (const auto* e : entryList)
-			{
+		{
 			itsReselectNameList->Append(e->GetName());
-			}
+		}
 
 		JPoint cell;
 		const bool hasSelection = (GetTableSelection()).GetFirstSelectedCell(&cell);
 		assert( hasSelection );
 		const JRect selRect     = GetCellRect(cell);
 		itsReselectScrollOffset = (GetAperture()).topLeft() - selRect.topLeft();
-		}
+	}
 }
 
 /******************************************************************************

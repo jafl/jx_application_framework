@@ -29,35 +29,35 @@ main()
 	std::cout << "memcpy:" << std::endl;
 
 	for (long j=1; j<=4; j++)
-		{
+	{
 		const time_t t1 = time(nullptr);
 
 		for (long i=0; i<cycleCount; i++)
-			{
+		{
 			memcpy(s2, s1, j);
-			}
+		}
 
 		const time_t t2 = time(nullptr);
 		std::cout << j << " byte(s): " << (t2 - t1) / (double) cycleCount << std::endl;
-		}
+	}
 
 	std::cout << "for loop:" << std::endl;
 
 	for (long j=1; j<=4; j++)
-		{
+	{
 		const time_t t1 = time(nullptr);
 
 		for (long i=0; i<cycleCount; i++)
-			{
+		{
 			for (long k=0; k<j; k++)
-				{
+			{
 				s2[k] = s1[k];
-				}
 			}
+		}
 
 		const time_t t2 = time(nullptr);
 		std::cout << j << " byte(s): " << (t2 - t1) / (double) cycleCount << std::endl;
-		}
+	}
 
 	return 0;
 }

@@ -72,13 +72,13 @@ JFunctionWithVar::JFunctionWithVar
 	itsVariableIndex = source.itsVariableIndex;
 
 	if (source.itsArrayIndex != nullptr)
-		{
+	{
 		itsArrayIndex = (source.itsArrayIndex)->Copy();
-		}
+	}
 	else
-		{
+	{
 		itsArrayIndex = nullptr;
-		}
+	}
 
 	itsVariableList->VariableUserCreated(this);
 }
@@ -99,11 +99,11 @@ JFunctionWithVar::PrintVariable
 	name.Print(output);
 
 	if (itsArrayIndex != nullptr)
-		{
+	{
 		output << '[';
 		itsArrayIndex->Print(output);
 		output << ']';
-		}
+	}
 }
 
 /******************************************************************************
@@ -137,18 +137,18 @@ JFunctionWithVar::EvaluateArrayIndex
 {
 	JFloat x = 1.0;
 	if (itsArrayIndex != nullptr && !itsArrayIndex->Evaluate(&x))
-		{
+	{
 		return false;
-		}
+	}
 	*index = JRound(x);
 	if (!itsVariableList->ArrayIndexValid(itsVariableIndex, *index))
-		{
+	{
 		return false;
-		}
+	}
 	else
-		{
+	{
 		return true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -181,20 +181,20 @@ JFunctionWithVar::Layout
 	// add in subscript
 
 	if (!subscript.IsEmpty())
-		{
+	{
 		const JSize subFontSize     = renderer.GetSuperSubFontSize(fontSize);
 		const JCoordinate subHeight = renderer.GetLineHeight(subFontSize);
 		if (ourMidline + subHeight > ourRect.bottom)
-			{
+		{
 			ourRect.bottom = ourMidline + subHeight;
-			}
-		ourRect.right += renderer.GetStringWidth(subFontSize, subscript);
 		}
+		ourRect.right += renderer.GetStringWidth(subFontSize, subscript);
+	}
 
 	// add in array index
 
 	if (itsArrayIndex != nullptr)
-		{
+	{
 		// get rectangle for array index
 
 		JPoint argUpperLeft(ourRect.right, ourRect.top);
@@ -211,7 +211,7 @@ JFunctionWithVar::Layout
 		// we need space for two brackets
 
 		ourRect.right += 2*bracketWidth;
-		}
+	}
 
 	// save our rectangle
 
@@ -250,25 +250,25 @@ JFunctionWithVar::Render
 	// draw subscript
 
 	if (!subscript.IsEmpty())
-		{
+	{
 		const JCoordinate subLeft =
 			ourRect.left + renderer.GetStringWidth(fontSize, baseName);
 		const JSize subFontSize = renderer.GetSuperSubFontSize(fontSize);
 		const JSize subHeight   = renderer.GetLineHeight(subFontSize);
 		renderer.DrawString(subLeft, ourMidline + subHeight/2, subFontSize, subscript);
-		}
+	}
 
 	// draw our array index
 
 	if (itsArrayIndex != nullptr)
-		{
+	{
 		itsArrayIndex->Render(renderer, rectList);
 
 		JIndex argIndex;
 		const bool found = rectList.FindFunction(itsArrayIndex, &argIndex);
 		assert( found );
 		renderer.DrawSquareBrackets(rectList.GetRect(argIndex));
-		}
+	}
 }
 
 /******************************************************************************

@@ -93,9 +93,9 @@ JExprRectList::ShiftRect
 	)
 {
 	if (dx == 0 && dy == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	JRect rect = itsRects->GetElement(index);
 	const JRect origRect = rect;
@@ -108,18 +108,18 @@ JExprRectList::ShiftRect
 
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		rect = itsRects->GetElement(i);
 		if (origRect.Contains(rect))
-			{
+		{
 			rect.Shift(dx, dy);
 			itsRects->SetElement(i, rect);
 
 			info = itsExtraInfo->GetElement(i);
 			info.midline += dy;
 			itsExtraInfo->SetElement(i, info);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -155,9 +155,9 @@ JExprRectList::GetSelection
 
 	const JRect boundsRect = GetBoundsRect();
 	if (!boundsRect.Contains(startPt))
-		{
+	{
 		return 0;
-		}
+	}
 
 	// The bounding rect is the last rect in the list.
 
@@ -165,16 +165,16 @@ JExprRectList::GetSelection
 	JSize minArea         = 0;
 	JIndex result         = rectCount;
 	for (JIndex i=1; i<rectCount; i++)
-		{
+	{
 		const JRect rect = itsRects->GetElement(i);
 		const JSize area = rect.area();
 		if (rect.Contains(startPt) && rect.Contains(currPt) &&
 			(minArea == 0 || area < minArea))
-			{
+		{
 			result = i;
 			minArea = area;
-			}
 		}
+	}
 
 	return result;
 }
@@ -209,13 +209,13 @@ JExprRectList::GetParent
 
 	const JSize rectCount = itsRects->GetElementCount();
 	for (JIndex i=index+1; i<=rectCount; i++)
-		{
+	{
 		const JRect bigRect = itsRects->GetElement(i);
 		if (bigRect.Contains(smallRect))
-			{
+		{
 			return i;
-			}
 		}
+	}
 
 	// The last element is always the largest, and includes all others.
 

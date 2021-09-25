@@ -115,84 +115,84 @@ JAuxTableData<T>::Receive
 	// rows changed
 
 	if (sender == itsTable && message.Is(JTableData::kRowsInserted))
-		{
+	{
 		const JTableData::RowsInserted* info =
 			dynamic_cast<const JTableData::RowsInserted*>(&message);
 		assert( info != nullptr );
 		JPackedTableData<T>::InsertRows(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == itsTable && message.Is(JTableData::kRowDuplicated))
-		{
+	{
 		const JTableData::RowDuplicated* info =
 			dynamic_cast<const JTableData::RowDuplicated*>(&message);
 		assert( info != nullptr );
 		JPackedTableData<T>::DuplicateRow(info->GetOrigIndex(), info->GetNewIndex());
-		}
+	}
 
 	else if (sender == itsTable && message.Is(JTableData::kRowsRemoved))
-		{
+	{
 		const JTableData::RowsRemoved* info =
 			dynamic_cast<const JTableData::RowsRemoved*>(&message);
 		assert( info != nullptr );
 		JPackedTableData<T>::RemoveNextRows(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == itsTable && message.Is(JTableData::kRowMoved))
-		{
+	{
 		const JTableData::RowMoved* info =
 			dynamic_cast<const JTableData::RowMoved*>(&message);
 		assert( info != nullptr );
 		JPackedTableData<T>::MoveRow(info->GetOrigIndex(), info->GetNewIndex());
-		}
+	}
 
 	// columns changed
 
 	else if (sender == itsTable && message.Is(JTableData::kColsInserted))
-		{
+	{
 		const JTableData::ColsInserted* info =
 			dynamic_cast<const JTableData::ColsInserted*>(&message);
 		assert( info != nullptr );
 		JPackedTableData<T>::InsertCols(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == itsTable && message.Is(JTableData::kColDuplicated))
-		{
+	{
 		const JTableData::ColDuplicated* info =
 			dynamic_cast<const JTableData::ColDuplicated*>(&message);
 		assert( info != nullptr );
 		JPackedTableData<T>::DuplicateCol(info->GetOrigIndex(), info->GetNewIndex());
-		}
+	}
 
 	else if (sender == itsTable && message.Is(JTableData::kColsRemoved))
-		{
+	{
 		const JTableData::ColsRemoved* info =
 			dynamic_cast<const JTableData::ColsRemoved*>(&message);
 		assert( info != nullptr );
 		JPackedTableData<T>::RemoveNextCols(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == itsTable && message.Is(JTableData::kColMoved))
-		{
+	{
 		const JTableData::ColMoved* info =
 			dynamic_cast<const JTableData::ColMoved*>(&message);
 		assert( info != nullptr );
 		JPackedTableData<T>::MoveCol(info->GetOrigIndex(), info->GetNewIndex());
-		}
+	}
 
 	// everything changed
 
 	else if (sender == itsTable && message.Is(JTable::kTableDataChanged))
-		{
+	{
 		AdjustToTable();
-		}
+	}
 
 	// something else
 
 	else
-		{
+	{
 		JPackedTableData<T>::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -207,36 +207,36 @@ void
 JAuxTableData<T>::AdjustToTable()
 {
 	if (itsTable != nullptr)
-		{
+	{
 		const JSize tableRowCount = itsTable->GetRowCount();
 		const JSize rowCount      = JPackedTableData<T>::GetRowCount();
 		if (rowCount < tableRowCount)
-			{
+		{
 			JPackedTableData<T>::AppendRows(tableRowCount - rowCount);
-			}
+		}
 		else if (rowCount > tableRowCount)
-			{
+		{
 			JPackedTableData<T>::RemoveNextRows(tableRowCount+1, rowCount - tableRowCount);
-			}
+		}
 
 		const JSize tableColCount = itsTable->GetColCount();
 		const JSize colCount      = JPackedTableData<T>::GetColCount();
 		if (colCount < tableColCount)
-			{
+		{
 			JPackedTableData<T>::AppendCols(tableColCount - colCount);
-			}
+		}
 		else if (colCount > tableColCount)
-			{
+		{
 			JPackedTableData<T>::RemoveNextCols(tableColCount+1, colCount - tableColCount);
-			}
+		}
 
 		JPackedTableData<T>::ClearAllElements();
-		}
+	}
 	else
-		{
+	{
 		JPackedTableData<T>::RemoveAllRows();
 		JPackedTableData<T>::RemoveAllCols();
-		}
+	}
 }
 
 #endif

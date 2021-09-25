@@ -26,13 +26,13 @@ public:
 	TestTextMenuData(JXTextMenu* menu)
 		:
 		JXTextMenuData(menu)
-	{};
+{};
 
 	bool
 	TestItemID(const JIndex index, const JString** id) const
-	{
+{
 		return GetItemID(index, id);
-	}
+}
 };
 
 JTEST(ParseOSX)

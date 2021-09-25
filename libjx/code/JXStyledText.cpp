@@ -73,9 +73,9 @@ JXStyledText::NeedsToAdjustFontToDisplayGlyphs
 	const
 {
 	if (itsFontManager == nullptr)
-		{
+	{
 		return false;
-		}
+	}
 
 	JStringIterator siter(text);
 	JRunArrayIterator<JFont> fiter(style);
@@ -83,17 +83,17 @@ JXStyledText::NeedsToAdjustFontToDisplayGlyphs
 	JUtf8Character c;
 	JFont f;
 	while (siter.Next(&c))
-		{
+	{
 		const bool ok = fiter.Next(&f);
 		assert( ok );
 
 		// on ubuntu, reports false for newline!
 
 		if (!c.IsSpace() && !f.HasGlyphForCharacter(itsFontManager, c))
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -114,14 +114,14 @@ JXStyledText::AdjustFontToDisplayGlyphs
 	)
 {
 	if (itsFontManager == nullptr)
-		{
+	{
 		return false;
-		}
+	}
 
 	if (range.charRange.GetCount() > 1e4)
-		{
+	{
 		Broadcast(WillBeBusy());
-		}
+	}
 
 	bool changed = false;
 
@@ -131,16 +131,16 @@ JXStyledText::AdjustFontToDisplayGlyphs
 	JUtf8Character c;
 	JFont f;
 	while (siter.Next(&c))
-		{
+	{
 		const bool ok = fiter.Next(&f);
 		assert( ok );
 
 		if (f.SubstituteToDisplayGlyph(itsFontManager, c))
-			{
+		{
 			fiter.SetPrev(f, kJIteratorStay);
 			changed = true;
-			}
 		}
+	}
 
 	return changed;
 }

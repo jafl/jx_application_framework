@@ -156,11 +156,11 @@ JRegex::operator=
 	)
 {
 	if (&source != this)
-		{
+	{
 		itsCFlags = source.itsCFlags;
 		itsEFlags = source.itsEFlags;
 		CopyPatternRegex(source);
-		}
+	}
 	return *this;
 }
 
@@ -179,23 +179,23 @@ JRegex::CopyPatternRegex
 	)
 {
 	if (source.itsState == kEmpty)
-		{
+	{
 		CleanUp();
-		}
+	}
 	else if (source.itsState == kCannotCompile)
-		{
+	{
 		CleanUp();
 		itsPattern = source.itsPattern;
 		itsState   = kCannotCompile;
-		}
+	}
 	else if (source.itsState == kReady)
-		{
+	{
 		SetPatternOrDie(source.itsPattern);
-		}
+	}
 	else	// kRecompile - not sure if it will work
-		{
+	{
 		SetPattern(source.itsPattern);
-		}
+	}
 }
 
 /******************************************************************************
@@ -218,17 +218,17 @@ JRegex::BackslashForLiteral
 	JStringIterator iter(&s, kJIteratorStartAtEnd);
 	JUtf8Character c;
 	while (iter.Prev(&c))
-		{
+	{
 		if (NeedsBackslashToBeLiteral(c))
-			{
+		{
 			iter.Insert(backslash);
-			}
+		}
 		else if (c == '\0')
-			{
+		{
 			iter.RemoveNext();
 			iter.Insert("\\x0");
-			}
 		}
+	}
 
 	return s;
 }
@@ -250,18 +250,18 @@ JRegex::SetPattern
 	)
 {
 	if (itsPattern != pattern)	// may contain nullptr, so cannot call other version
-		{
+	{
 		itsPattern.Set(pattern);
 		return Compile();
-		}
+	}
 	else if (itsState != kReady)
-		{
+	{
 		return Compile();
-		}
+	}
 	else
-		{
+	{
 		return JNoError();
-		}
+	}
 }
 
 JError
@@ -271,18 +271,18 @@ JRegex::SetPattern
 	)
 {
 	if (itsPattern != pattern)
-		{
+	{
 		itsPattern.Set(pattern);
 		return Compile();
-		}
+	}
 	else if (itsState != kReady)
-		{
+	{
 		return Compile();
-		}
+	}
 	else
-		{
+	{
 		return JNoError();
-		}
+	}
 }
 
 /******************************************************************************
@@ -328,16 +328,16 @@ JRegex::GetSubexpressionCount()
 	const
 {
 	if (itsRegex == nullptr)
-		{
+	{
 		return 0;
-		}
+	}
 	else
-		{
+	{
 		int count;
 		const int result = pcre_fullinfo(itsRegex, nullptr, PCRE_INFO_CAPTURECOUNT, &count);
 		assert( result == 0 );
 		return count;
-		}
+	}
 }
 
 /******************************************************************************
@@ -372,23 +372,23 @@ JRegex::MatchBackward
 
 	bool done = false;
 	while (!done)
-		{
+	{
 		iter.MoveTo(kJIteratorStartAtEnd, 0);
 		iter.SkipPrev(decrement);
 		done = iter.AtBeginning();
 
 		while (iter.Next(*this))
-			{
+		{
 			m = iter.GetLastMatch();
-			}
+		}
 
 		if (!m.IsEmpty())
-			{
+		{
 			return JStringMatch(str, m);
-			}
+		}
 
 		decrement *= multiplier;	// for next iteration
-		}
+	}
 
 	return JStringMatch(str, JUtf8ByteRange(), this);
 }
@@ -407,14 +407,14 @@ JRegex::GetSubexpressionIndex
 	const
 {
 	if (itsRegex != nullptr)
-		{
+	{
 		const int i = pcre_get_stringnumber(itsRegex, name);
 		if (i > 0)
-			{
+		{
 			*index = i;
 			return true;
-			}
 		}
+	}
 
 	*index = 0;
 	return false;
@@ -433,14 +433,14 @@ JRegex::RestoreDefaults()
 	itsEFlags = defaultEFlags;
 
 	if (itsCFlags != defaultCFlags)
-		{
+	{
 		itsCFlags = defaultCFlags;
 
 		if (itsState == kReady)
-			{
+		{
 			itsState = kRecompile;
-			}
 		}
+	}
 
 	return Compile();
 }
@@ -462,9 +462,9 @@ JRegex::SetCompileOption
 	RawSetOption(&itsCFlags, option, setClear);
 
 	if (itsState == kReady && oldCFlags != itsCFlags)
-		{
+	{
 		itsState = kRecompile;
-		}
+	}
 }
 
 /******************************************************************************
@@ -496,13 +496,13 @@ JRegex::RawSetOption
 	)
 {
 	if (setClear)
-		{
+	{
 		*flags |= option;
-		}
+	}
 	else
-		{
+	{
 		*flags &= ~option;
-		}
+	}
 }
 
 /******************************************************************************
@@ -517,9 +517,9 @@ JRegex::Compile()
 	itsState = kCannotCompile;
 
 	if (itsPattern.IsEmpty())
-		{
+	{
 		return JRegexError(kError, "empty pattern", 0);
-		}
+	}
 
 	assert( itsRegex == nullptr );
 
@@ -530,7 +530,7 @@ JRegex::Compile()
 	const int retVal = (itsRegex == nullptr ? 1 : 0);
 
 	if (retVal == 0)
-		{
+	{
 		#ifdef JRE_ALLOC_CHECK
 		++numRegexAlloc;
 		assert(numRegexAlloc == 1);
@@ -540,9 +540,9 @@ JRegex::Compile()
 		itsState = kReady;
 
 		return JNoError();
-		}
+	}
 	else
-		{
+	{
 		const JRegexError error(kError, errorMessage, errorOffset+1);
 
 		#ifdef JRE_PRINT_COMPILE_ERRORS
@@ -554,7 +554,7 @@ JRegex::Compile()
 		#endif
 
 		return error;
-		}
+	}
 }
 
 /******************************************************************************
@@ -588,10 +588,10 @@ JRegex::Match
 	#endif
 
 	if (itsState == kRecompile)
-		{
+	{
 		const JError error = const_cast<JRegex*>(this)->Compile();
 		assert_ok( error );
-		}
+	}
 
 	const JSize subCount = GetSubexpressionCount();
 	regmatch_t* pmatch   = nullptr;
@@ -603,33 +603,33 @@ JRegex::Match
 	nmatch = pcre_exec(itsRegex, nullptr, str.GetRawBytes(), byteCount, byteOffset,
 					   itsEFlags, (int*) pmatch, nmatch);
 	if (nmatch > 0)
-		{
+	{
 		const JUtf8ByteRange m0 = jMakeRange(pmatch[0]);
 
 		JArray<JUtf8ByteRange>* list = nullptr;
 		if (includeSubmatches)
-			{
+		{
 			list = jnew JArray<JUtf8ByteRange>;
 			assert( list != nullptr );
 
 			for (JIndex i=1; i<JSize(nmatch); i++)
-				{
+			{
 				list->AppendElement(jMakeRange(pmatch[i]));
-				}
 			}
+		}
 
 		jdelete [] pmatch;
 		return JStringMatch(str, m0, this, list);
-		}
+	}
 	else if (JUtf8Character::IgnoreBadUtf8() &&
 			 (nmatch == PCRE_ERROR_BADUTF8 || nmatch == PCRE_ERROR_BADUTF8_OFFSET))
-		{
+	{
 		// ignore because it's expected
-		}
+	}
 	else if (nmatch != PCRE_ERROR_NOMATCH)
-		{
+	{
 		std::cerr << "unexpected error from PCRE: " << nmatch << std::endl;
-		}
+	}
 
 	jdelete [] pmatch;
 	return JStringMatch(str, JUtf8ByteRange(), this);
@@ -644,14 +644,14 @@ void
 JRegex::CleanUp()
 {
 	if (itsRegex != nullptr)
-		{
+	{
 		pcre_free(itsRegex);
 		itsRegex = nullptr;
 
 		#ifdef JRE_ALLOC_CHECK
 		numRegexAlloc--;
 		#endif
-		}
+	}
 
 	#ifdef JRE_ALLOC_CHECK
 	assert(numRegexAlloc == 0);

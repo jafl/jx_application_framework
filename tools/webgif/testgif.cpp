@@ -28,25 +28,25 @@ main
 	char*	argv[]
 	)
 {
-	{
+{
 	const bool incr[3] = { true, false, false };
 	CreateGIF(incr, "red_scale.gif");
-	}
+}
 
-	{
+{
 	const bool incr[3] = { false, true, false };
 	CreateGIF(incr, "green_scale.gif");
-	}
+}
 
-	{
+{
 	const bool incr[3] = { false, false, true };
 	CreateGIF(incr, "blue_scale.gif");
-	}
+}
 
-	{
+{
 	const bool incr[3] = { true, true, true };
 	CreateGIF(incr, "gray_scale.gif");
-	}
+}
 
 	return 0;
 }
@@ -72,20 +72,20 @@ CreateGIF
 
 	unsigned long rgb[3] = {0,0,0};
 	for (JCoordinate x=0; x<256; x++)
-		{
+	{
 		const int colorIndex = gdImageColorAllocate(image, rgb[0], rgb[1], rgb[2]);
 		assert( colorIndex != -1 );
 
 		gdImageLine(image, x,0, x,kImageHeight-1, colorIndex);
 
 		for (JUnsignedOffset i=0; i<3; i++)
-			{
+		{
 			if (incr[i])
-				{
+			{
 				rgb[i]++;
-				}
 			}
 		}
+	}
 
 	FILE* output = fopen(fileName, "wb");
 	assert( output != nullptr );

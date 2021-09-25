@@ -22,14 +22,14 @@ main
 
 	long i;
 	for (i=1;i<=6;i++)
-		{
+	{
 		JWait(2.0);
 
 		if (!pg.IncrementProgress())
-			{
+		{
 			break;
-			}
 		}
+	}
 
 	timer.StopTimer();
 
@@ -41,14 +41,14 @@ main
 	pg.VariableLengthProcessBeginning("Processing examples...", true, false);
 
 	for (i=1;i<=6;i++)
-		{
+	{
 		JWait(2.0);
 
 		if (!pg.IncrementProgress(JString(i)))
-			{
+		{
 			break;
-			}
 		}
+	}
 
 	pg.ProcessFinished();
 

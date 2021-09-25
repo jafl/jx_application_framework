@@ -50,13 +50,13 @@ JXTEBlinkCaretTask::Reset()
 	ResetTimer();
 	if (itsTE->IsActive() && itsTE->HasFocus() &&
 		(itsTE->GetWindow())->HasFocus())
-		{
+	{
 		itsTE->TEShowCaret();	// hide at first timer rollover
-		}
+	}
 	else
-		{
+	{
 		itsTE->TEHideCaret();
-		}
+	}
 }
 
 /******************************************************************************
@@ -72,14 +72,14 @@ JXTEBlinkCaretTask::Perform
 	)
 {
 	if (itsActiveFlag && TimeToPerform(delta, maxSleepTime))
-		{		
+	{		
 		if (itsTE->TECaretIsVisible())
-			{
+		{
 			itsTE->TEHideCaret();
-			}
-		else
-			{
-			itsTE->TEShowCaret();
-			}
 		}
+		else
+		{
+			itsTE->TEShowCaret();
+		}
+	}
 }

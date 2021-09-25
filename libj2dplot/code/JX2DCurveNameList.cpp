@@ -59,17 +59,17 @@ JX2DCurveNameList::JX2DCurveNameList
 
 	AppendRows(count);
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const J2DCurveInfo info = curveInfo.GetElement(i);
 		itsNameList->Append(info.name);
 
 		const JCoordinate width = 2*kHMarginWidth +
 			JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), *(info.name));
 		if (width > itsMinColWidth)
-			{
+		{
 			itsMinColWidth = width;
-			}
 		}
+	}
 
 	AppendCols(1);
 	AdjustColWidth();
@@ -108,13 +108,13 @@ JX2DCurveNameList::HandleMouseDown
 	JPoint cell;
 	if (button == kJXLeftButton && clickCount == 1 &&
 		GetCell(pt, &cell))
-		{
+	{
 		BeginEditing(cell);
-		}
+	}
 	else
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -219,14 +219,14 @@ JX2DCurveNameList::ExtractInputData
 {
 	const JString& name = itsInput->GetText()->GetText();
 	if (!name.IsEmpty())
-		{
+	{
 		*(itsNameList->GetElement(cell.y)) = name;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -248,24 +248,24 @@ JX2DCurveNameList::HandleKeyPress
 	assert( ok );
 
 	if (c == kJUpArrow)
-		{
+	{
 		cell.y--;
 		if (CellValid(cell))
-			{
-			BeginEditing(cell);
-			}
-		}
-	else if (c == kJDownArrow)
 		{
+			BeginEditing(cell);
+		}
+	}
+	else if (c == kJDownArrow)
+	{
 		cell.y++;
 		if (CellValid(cell))
-			{
+		{
 			BeginEditing(cell);
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXEditTable::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 }

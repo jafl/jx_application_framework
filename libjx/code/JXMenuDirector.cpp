@@ -77,63 +77,63 @@ JXMenuDirector::BuildWindow
 	JCoordinate windowX, windowWidth = w;
 	JPoint usedPtR = rightPtR;
 	if (rightPtR.x + w <= rootBounds.right)
-		{
+	{
 		windowX = rightPtR.x;
-		}
+	}
 	else if (leftPtR.x - w >= rootBounds.left)
-		{
+	{
 		windowX = leftPtR.x - w;
 		usedPtR = leftPtR;
-		}
+	}
 	else
-		{
+	{
 		windowX = rootBounds.right - w;
-		}
+	}
 
 	if (windowX + w > rootBounds.right)
-		{
+	{
 		windowX = rootBounds.right - w;
-		}
+	}
 	if (windowX < rootBounds.left)
-		{
+	{
 		windowX = rootBounds.left;
 		if (windowX + w > rootBounds.right)
-			{
+		{
 			windowWidth = rootBounds.width();
-			}
 		}
+	}
 
 	JCoordinate windowY, windowHeight = h;
 	bool scrollBottom = false;
 	if (usedPtR.y + h <= rootBounds.bottom)
-		{
+	{
 		windowY = usedPtR.y;
-		}
+	}
 	else if (sourceHeight > 0 && rootBounds.top <= usedPtR.y - sourceHeight - h)
-		{
+	{
 		windowY = usedPtR.y - sourceHeight - h;
-		}
+	}
 	else if (sourceHeight > 0 &&
 			 rootBounds.bottom - usedPtR.y > usedPtR.y - sourceHeight - rootBounds.top)
-		{
+	{
 		windowY      = usedPtR.y;
 		windowHeight = rootBounds.bottom - usedPtR.y;
-		}
+	}
 	else if (sourceHeight > 0)
-		{
+	{
 		windowY      = rootBounds.top;
 		windowHeight = usedPtR.y - sourceHeight - rootBounds.top;
 		scrollBottom = true;
-		}
+	}
 	else
-		{
+	{
 		windowY = rootBounds.bottom - h;
 		if (windowY < rootBounds.top)
-			{
+		{
 			windowY      = rootBounds.top;
 			windowHeight = rootBounds.height();
-			}
 		}
+	}
 
 	JXWindow* window = GetWindow();
 	window->Place(windowX, windowY);
@@ -142,9 +142,9 @@ JXMenuDirector::BuildWindow
 	// if menu will scroll, might as well start at the bottom
 
 	if (scrollBottom)
-		{
+	{
 		itsMenuTable->TableScrollToCell(JPoint(1, itsMenuTable->GetRowCount()));
-		}
+	}
 
 	GetDisplay()->RestoreDisplayBounds();
 }

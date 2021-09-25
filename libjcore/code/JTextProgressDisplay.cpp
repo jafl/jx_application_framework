@@ -57,9 +57,9 @@ JTextProgressDisplay::JTextProgressDisplay()
 JTextProgressDisplay::~JTextProgressDisplay()
 {
 	if (itsOldSigIntHandler != emptyHandler)
-		{
+	{
 		signal(SIGINT, itsOldSigIntHandler);
-		}
+	}
 }
 
 /******************************************************************************
@@ -84,27 +84,27 @@ JTextProgressDisplay::ProcessBeginning
 
 	std::cout << std::endl << std::endl << message << std::endl;
 	if (allowCancel)
-		{
+	{
 		#if defined _J_UNIX
 			std::cout << "(Press ctrl-C to cancel)";
 		#else
 			figure out what to say!
 		#endif
-		}
+	}
 	std::cout << std::endl << std::endl;
 
 	if (processType == kFixedLengthProcess)
-		{
+	{
 		std::cout << "0%" << std::endl;
-		}
+	}
 
 	// install the cancel handler
 
 	if (allowCancel)
-		{
+	{
 		itsOldSigIntHandler = signal(SIGINT, cancelHandler);
 		cancelFlag = 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -133,27 +133,27 @@ JTextProgressDisplay::IncrementProgress
 	const JSize maxCount  = GetMaxStepCount();
 
 	if (process == kFixedLengthProcess)
-		{
+	{
 		const double progressFraction =
 			100.0 * ((double) stepCount) / ((double) maxCount);
 		std::cout << JRound(progressFraction) << '%' << std::endl;
-		}
+	}
 	else if (process == kVariableLengthProcess)
-		{
+	{
 		if (!message.IsEmpty())
-			{
+		{
 			message.Print(std::cout);
 			std::cout << std::endl;
-			}
+		}
 		else
-			{
-			std::cout << stepCount << std::endl;
-			}
-		}
-	else
 		{
-		std::cerr << "Unknown process type in JTextProgressDisplay::IncrementProgress()" << std::endl;
+			std::cout << stepCount << std::endl;
 		}
+	}
+	else
+	{
+		std::cerr << "Unknown process type in JTextProgressDisplay::IncrementProgress()" << std::endl;
+	}
 
 	return ProcessContinuing();
 }
@@ -212,11 +212,11 @@ JTextProgressDisplay::ProcessFinished()
 	// put back the original cancel handler
 
 	if (itsOldSigIntHandler != emptyHandler)
-		{
+	{
 		j_sig_func* currentSigIntHandler = signal(SIGINT, itsOldSigIntHandler);
 		assert( currentSigIntHandler == cancelHandler );
 		itsOldSigIntHandler = emptyHandler;
-		}
+	}
 }
 
 /******************************************************************************
@@ -228,14 +228,14 @@ bool
 JTextProgressDisplay::CheckForCancel()
 {
 	if (cancelFlag)
-		{
+	{
 		cancelFlag = 0;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

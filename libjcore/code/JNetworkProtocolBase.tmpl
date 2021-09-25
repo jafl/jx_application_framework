@@ -110,18 +110,18 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
 	)
 {
 	if (itsSynchFlag)
-		{
+	{
 		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(data, count);
-		}
+	}
 	else if (count > 0)
-		{
+	{
 		if (itsSendData.IsEmpty())
-			{
+		{
 			(ACE_Event_Handler::reactor())->register_handler(this, ACE_Event_Handler::WRITE_MASK);
-			}
+		}
 
 		itsSendData.AppendElement(Chunk(data, count));
-		}
+	}
 }
 
 template <ACE_PEER_STREAM_1>
@@ -133,16 +133,16 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
 	)
 {
 	if (itsSynchFlag)
-		{
+	{
 		ACE::writev_n(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::get_handle(), data, count);
-		}
+	}
 	else
-		{
+	{
 		for (JUnsignedOffset i=0; i<count; i++)
-			{
+		{
 			Send((char*) data[i].iov_base, data[i].iov_len);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -170,18 +170,18 @@ void
 JNetworkProtocolBase<ACE_PEER_STREAM_2>::Flush()
 {
 	if (itsSynchFlag || itsSendData.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	JListIterator<Chunk>* iter = itsSendData.NewIterator();
 	Chunk c;
 	while (iter->Next(&c))
-		{
+	{
 		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(c.data + c.sendOffset, c.count - c.sendOffset);
 		c.CleanOut();
 		iter->RemovePrev();
-		}
+	}
 
 	jdelete iter;
 }
@@ -201,37 +201,37 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::handle_output
 	)
 {
 	if (!itsSendData.IsEmpty())
-		{
+	{
 		Chunk c = itsSendData.GetFirstElement();
 
 		const int count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send(c.data + c.sendOffset, c.count - c.sendOffset, MSG_DONTWAIT);
 		if (count > 0)
-			{
+		{
 			c.sendOffset += count;
 
 			JLinkedListIterator<Chunk> iter(&itsSendData);
 			if (c.sendOffset >= c.count)
-				{
+			{
 				c.CleanOut();
 				const bool ok = iter.RemoveNext();
 				assert( ok );
-				}
+			}
 			else
-				{
+			{
 				const bool ok = iter.SetNext(c);
 				assert( ok );
-				}
-			}
-		else
-			{
-			assert( jerrno() != EMSGSIZE );
-			}
-
-		if (itsSendData.IsEmpty())
-			{
-			(ACE_Event_Handler::reactor())->remove_handler(this, ACE_Event_Handler::WRITE_MASK | ACE_Event_Handler::DONT_CALL);
 			}
 		}
+		else
+		{
+			assert( jerrno() != EMSGSIZE );
+		}
+
+		if (itsSendData.IsEmpty())
+		{
+			(ACE_Event_Handler::reactor())->remove_handler(this, ACE_Event_Handler::WRITE_MASK | ACE_Event_Handler::DONT_CALL);
+		}
+	}
 
 	return 0;
 }

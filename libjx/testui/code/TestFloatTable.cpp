@@ -94,12 +94,12 @@ JIndex i,j;
 
 	JKLRand r;
 	for (j=1; j<=kInitColCount; j++)
-		{
+	{
 		for (i=1; i<=kInitRowCount; i++)
-			{
+		{
 			data->SetElement(i,j, r.UniformClosedProb());
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -131,93 +131,93 @@ TestFloatTable::HandleMouseDown
 {
 	JPoint cell;
 	if (button > kJXRightButton)
-		{
+	{
 		ScrollForWheel(button, modifiers);
 		return;
-		}
+	}
 	else if (!GetCell(pt, &cell))
-		{
+	{
 		return;
-		}
+	}
 
 	JFloatTableData* data = GetFloatData();
 
 	if (button == kJXRightButton)	// middle button not easy on OSX
-		{
+	{
 		BeginEditing(cell);
-		}
+	}
 
 	// row manipulations
 
 	else if (button == kJXLeftButton && itsMouseAction == kInsertRow)
-		{
+	{
 		data->InsertRows(cell.y, 1);
-		}
+	}
 	else if (button == kJXRightButton && itsMouseAction == kInsertRow)
-		{
+	{
 		data->InsertRows(cell.y+1, 1);
-		}
+	}
 
 	else if (button == kJXLeftButton && itsMouseAction == kDuplicateRow)
-		{
+	{
 		data->DuplicateRow(cell.y, cell.y);
-		}
+	}
 	else if (button == kJXRightButton && itsMouseAction == kDuplicateRow)
-		{
+	{
 		data->DuplicateRow(cell.y, cell.y+1);
-		}
+	}
 
 	else if (button == kJXLeftButton && itsMouseAction == kMoveRow &&
 			 cell.y > 1)
-		{
+	{
 		data->MoveRow(cell.y, cell.y-1);
-		}
+	}
 	else if (button == kJXRightButton && itsMouseAction == kMoveRow &&
 			 ((JIndex) cell.y) < GetRowCount())
-		{
+	{
 		data->MoveRow(cell.y, cell.y+1);
-		}
+	}
 
 	else if (itsMouseAction == kRemoveRow)
-		{
+	{
 		data->RemoveRow(cell.y);
-		}
+	}
 
 	// column manipulations
 
 	else if (button == kJXLeftButton && itsMouseAction == kInsertCol)
-		{
+	{
 		data->InsertCols(cell.x, 1);
-		}
+	}
 	else if (button == kJXRightButton && itsMouseAction == kInsertCol)
-		{
+	{
 		data->InsertCols(cell.x+1, 1);
-		}
+	}
 
 	else if (button == kJXLeftButton && itsMouseAction == kDuplicateCol)
-		{
+	{
 		data->DuplicateCol(cell.x, cell.x);
-		}
+	}
 	else if (button == kJXRightButton && itsMouseAction == kDuplicateCol)
-		{
+	{
 		data->DuplicateCol(cell.x, cell.x+1);
-		}
+	}
 
 	else if (button == kJXLeftButton && itsMouseAction == kMoveCol &&
 			 cell.x > 1)
-		{
+	{
 		data->MoveCol(cell.x, cell.x-1);
-		}
+	}
 	else if (button == kJXRightButton && itsMouseAction == kMoveCol &&
 			 ((JIndex) cell.x) < GetColCount())
-		{
+	{
 		data->MoveCol(cell.x, cell.x+1);
-		}
+	}
 
 	else if (itsMouseAction == kRemoveCol)
-		{
+	{
 		data->RemoveCol(cell.x);
-		}
+	}
 }
 
 /******************************************************************************
@@ -233,26 +233,26 @@ TestFloatTable::Receive
 	)
 {
 	if (sender == itsTableMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateTableMenu();
-		}
+	}
 	else if (sender == itsTableMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleTableMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged))
-		{
+	{
 		SetFont(JFontManager::GetDefaultFontName(), itsSizeMenu->GetFontSize());
-		}
+	}
 
 	else
-		{
+	{
 		JXFloatTable::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -330,9 +330,9 @@ TestFloatTable::DrawPrintFooter
 	const JString pageNumberStr = JString(p.GetPageIndex(), 0);
 
 	const JUtf8Byte* map[] =
-		{
+	{
 		"page", pageNumberStr.GetBytes()
-		};
+	};
 	p.String(pageRect.left, pageRect.bottom - footerHeight,
 			 JGetString("PageFooter::TestFloatTable", map, sizeof(map)),
 			 pageRect.width(), JPainter::kHAlignCenter,

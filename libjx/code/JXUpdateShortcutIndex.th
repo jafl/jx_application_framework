@@ -14,22 +14,22 @@
  ******************************************************************************/
 
 if (list.IsEmpty())
-	{
+{
 	jdelete itsShortcuts;
 	itsShortcuts = nullptr;
 	itsULIndex   = 0;
-	}
+}
 else
-	{
+{
 	if (itsShortcuts == nullptr)
-		{
+	{
 		itsShortcuts = jnew JString(list);
 		assert( itsShortcuts != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*itsShortcuts = list;
-		}
+	}
 
 	itsULIndex = JXWindow::GetULShortcutIndex(LabelVarName, itsShortcuts);
-	}
+}

@@ -127,10 +127,10 @@ JXDocumentManager::~JXDocumentManager()
 	jdelete itsDocList;
 
 	for (const auto& file : *itsFileMap)
-		{
+	{
 		jdelete file.oldName;
 		jdelete file.newName;
-		}
+	}
 	jdelete itsFileMap;
 
 	jdelete itsSafetySaveTask;
@@ -153,31 +153,31 @@ JXDocumentManager::DocumentCreated
 	// find the first unused shortcut, if any
 
 	for (JInteger i=kFirstShortcut; i<=kLastShortcut; i++)
-		{
+	{
 		bool found = false;
 		for (const auto& info : *itsDocList)
-			{
+		{
 			if (info.shortcut == i)
-				{
+			{
 				found = true;
 				break;
-				}
-			}
-
-		if (!found)
-			{
-			info.shortcut = i;
-			break;
 			}
 		}
+
+		if (!found)
+		{
+			info.shortcut = i;
+			break;
+		}
+	}
 
 	// insert the new document -- can't sort until later
 
 	itsDocList->AppendElement(info);
 	if (itsPerformSafetySaveFlag)
-		{
+	{
 		itsSafetySaveTask->Start();
-		}
+	}
 
 	// ensure menu not empty; update the menu shortcuts
 
@@ -199,48 +199,48 @@ JXDocumentManager::DocumentDeleted
 {
 	const JSize count = itsDocList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		DocInfo info = itsDocList->GetElement(i);
 		if (info.doc == doc)
-			{
+		{
 			itsDocList->RemoveElement(i);
 
 			// assign the shortcut to the first item that doesn't have a shortcut
 
 			if (info.shortcut != kNoShortcutForDoc)
-				{
+			{
 				for (JIndex j=1; j<=count-1; j++)
-					{
+				{
 					DocInfo info1 = itsDocList->GetElement(j);
 					if (info1.shortcut == kNoShortcutForDoc)
-						{
+					{
 						info1.shortcut = info.shortcut;
 						itsDocList->SetElement(j, info1);
 						break;
-						}
 					}
 				}
+			}
 
 			// check if other documents want to close -- recursive
 
 			CloseDocuments();
 			break;
-			}
 		}
+	}
 
 	// remove SafetySave() idle task
 
 	if (itsDocList->IsEmpty())
-		{
+	{
 		itsSafetySaveTask->Stop();
-		}
+	}
 
 	// update the menu shortcuts
 
 	if (itsWantShortcutFlag)
-		{
+	{
 		DocumentMenusNeedUpdate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -252,11 +252,11 @@ void
 JXDocumentManager::DocumentMenusNeedUpdate()
 {
 	if (itsUpdateDocMenuTask == nullptr)
-		{
+	{
 		itsUpdateDocMenuTask = jnew JXUpdateDocMenuTask(this);
 		assert( itsUpdateDocMenuTask != nullptr );
 		itsUpdateDocMenuTask->Go();
-		}
+	}
 }
 
 /******************************************************************************
@@ -290,20 +290,20 @@ JXDocumentManager::DocumentMustStayOpen
 {
 	const JSize count = itsDocList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		DocInfo info = itsDocList->GetElement(i);
 		if (info.doc == doc)
-			{
+		{
 			info.keepOpen = stayOpen;
 			itsDocList->SetElement(i, info);
 			break;
-			}
 		}
+	}
 
 	if (stayOpen == false)
-		{
+	{
 		CloseDocuments();
-		}
+	}
 }
 
 /******************************************************************************
@@ -322,7 +322,7 @@ JXDocumentManager::OKToCloseDocument
 {
 	return std::all_of(begin(*itsDocList), end(*itsDocList),
 			[doc] (const DocInfo& info)
-				{ return (info.doc == doc || !(info.doc)->NeedDocument(doc)); });
+			{ return (info.doc == doc || !(info.doc)->NeedDocument(doc)); });
 }
 
 /******************************************************************************
@@ -342,19 +342,19 @@ JXDocumentManager::CloseDocuments()
 
 	JSize closeCount;
 	do
-		{
+	{
 		closeCount = 0;
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			const DocInfo info = itsDocList->GetElement(i);
 			if (!(info.doc)->IsActive() && !(info.keepOpen) &&
 				OKToCloseDocument(info.doc) && (info.doc)->Close())
-				{
+			{
 				closeCount++;
 				count = itsDocList->GetElementCount();	// several documents may have closed
-				}
 			}
 		}
+	}
 		while (closeCount > 0);
 }
 
@@ -382,27 +382,27 @@ JXDocumentManager::FileDocumentIsOpen
 	// check that the file exists
 
 	if (!JFileExists(fileName))
-		{
+	{
 		return false;
-		}
+	}
 
 	// search for an open JXFileDocument that uses this file
 
 	for (const auto& info : *itsDocList)
-		{
+	{
 		const auto* fileDoc = dynamic_cast<const JXFileDocument*>(info.doc);
 		if (fileDoc != nullptr)
-			{
+		{
 			bool onDisk;
 			const JString docName = fileDoc->GetFullName(&onDisk);
 
 			if (onDisk && JSameDirEntry(fileName, docName))
-				{
+			{
 				*doc = const_cast<JXFileDocument*>(fileDoc);
 				return true;
-				}
 			}
 		}
+	}
 
 	return false;
 }
@@ -433,10 +433,10 @@ JXDocumentManager::FindFile
 	// if the file exists, we are done
 
 	if (JFileExists(fileName))
-		{
+	{
 		*newFileName = fileName;
 		return true;
-		}
+	}
 
 	// search the directory tree below currPath
 
@@ -444,45 +444,45 @@ JXDocumentManager::FindFile
 	JSplitPathAndName(fileName, &path, &name);
 
 	if (JSearchSubdirs(currPath, name, true, JString::kCompareCase, &newPath))
-		{
+	{
 		*newFileName = newPath + name;
 		return true;
-		}
+	}
 
 	// check for known case of move/rename
 
 	if (SearchFileMap(fileName, newFileName))
-		{
+	{
 		return true;
-		}
+	}
 
 	// ask the user to find it
 
 	if (askUser)
-		{
+	{
 		const JUtf8Byte* map[] =
-			{
+		{
 			"name", fileName.GetBytes()
-			};
+		};
 		JString instrMsg = JGetString("PleaseFind::JXDocumentManager", map, sizeof(map));
 
 		while (JGetChooseSaveFile()->ChooseFile(JGetString("ChooseFilePrompt::JXDocumentManager"), instrMsg, newFileName))
-			{
+		{
 			JString newPath, newName;
 			JSplitPathAndName(*newFileName, &newPath, &newName);
 			if (newName != name)
-				{
+			{
 				const JUtf8Byte* map2[] =
-					{
+				{
 					"name1", name.GetBytes(),
 					"name2", newName.GetBytes()
-					};
+				};
 				JString warnMsg = JGetString("WarnDifferentName::JXDocumentManager", map2, sizeof(map2));
 				if (!JGetUserNotification()->AskUserNo(warnMsg))
-					{
+				{
 					continue;
-					}
 				}
+			}
 
 			JString trueName;
 			const bool ok = JGetTrueName(*newFileName, &trueName);
@@ -497,8 +497,8 @@ JXDocumentManager::FindFile
 
 			*newFileName = trueName;
 			return true;
-			}
 		}
+	}
 
 	newFileName->Clear();
 	return false;
@@ -519,21 +519,21 @@ JXDocumentManager::SearchFileMap
 {
 	const JSize mapCount = itsFileMap->GetElementCount();
 	for (JIndex i=mapCount; i>=1; i--)
-		{
+	{
 		FileMap map          = itsFileMap->GetElement(i);
 		const bool match = *(map.oldName) == fileName;
 		if (match && JFileExists(*(map.newName)))
-			{
+		{
 			*newFileName = *(map.newName);
 			return true;
-			}
+		}
 		else if (match)		// newName no longer exists (lazy checking)
-			{
+		{
 			jdelete map.oldName;
 			jdelete map.newName;
 			itsFileMap->RemoveElement(i);
-			}
 		}
+	}
 
 	return false;
 }
@@ -551,15 +551,15 @@ JXDocumentManager::GetNewFileName()
 {
 	itsNewDocCount++;
 	if (itsNewDocCount > 99)	// really big numbers look silly
-		{
+	{
 		itsNewDocCount = 1;
-		}
+	}
 
 	const JString indexStr = JString((JUInt64) itsNewDocCount);
 	const JUtf8Byte* map[] =
-		{
+	{
 		"i", indexStr.GetBytes()
-		};
+	};
 	return JGetString("NewDocName::JXDocumentManager", map, sizeof(map));
 }
 
@@ -575,10 +575,10 @@ JXDocumentManager::UpdateDocumentMenu
 	)
 {
 	if (menu->IsOpen())
-		{
+	{
 		DocumentMenusNeedUpdate();
 		return;
-		}
+	}
 
 	menu->RemoveAllItems();
 
@@ -586,48 +586,48 @@ JXDocumentManager::UpdateDocumentMenu
 	// (but we can't sort when document is created!)
 
 	if (!itsDocList->IsSorted())
-		{
+	{
 		itsDocList->Sort();
-		}
+	}
 
 	const JSize count = itsDocList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		DocInfo info        = itsDocList->GetElement(i);
 		const JString& name = (info.doc)->GetName();
 
 		menu->AppendItem(name);
 		if ((info.doc)->NeedsSave())
-			{
+		{
 			menu->SetItemFontStyle(i, JColorManager::GetDarkRedColor());
-			}
+		}
 
 		const JXImage* icon;
 		if ((info.doc)->GetMenuIcon(&icon) &&
 			icon->GetDisplay() == menu->GetDisplay())
-			{
+		{
 			menu->SetItemImage(i, const_cast<JXImage*>(icon), false);
-			}
+		}
 
 		if (itsWantShortcutFlag &&
 			kFirstShortcut <= info.shortcut && info.shortcut <= kLastShortcut)
-			{
+		{
 			const JXMenu::Style style = JXMenu::GetDefaultStyle();
 			JString nmShortcut;
 			if (style == JXMenu::kWindowsStyle)
-				{
+			{
 				nmShortcut = "Ctrl-";
-				}
+			}
 			else
-				{
+			{
 				assert( style == JXMenu::kMacintoshStyle );
 				nmShortcut = "Meta-";
-				}
+			}
 
 			nmShortcut.Append(JUtf8Character(kShortcutChar[ info.shortcut ]));
 			menu->SetItemNMShortcut(i, nmShortcut);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -664,15 +664,15 @@ JXDocumentManager::GetDocument
 	const
 {
 	if (itsDocList->IndexValid(index))
-		{
+	{
 		*doc = (itsDocList->GetElement(index)).doc;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*doc = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -689,13 +689,13 @@ JXDocumentManager::ShouldSafetySave
 	itsPerformSafetySaveFlag = doIt;
 
 	if (itsPerformSafetySaveFlag && !itsDocList->IsEmpty())
-		{
+	{
 		itsSafetySaveTask->Start();
-		}
+	}
 	else if (!itsPerformSafetySaveFlag)
-		{
+	{
 		itsSafetySaveTask->Stop();
-		}
+	}
 }
 
 /******************************************************************************
@@ -738,9 +738,9 @@ JXDocumentManager::SafetySave
 	)
 {
 	for (const auto& info : *itsDocList)
-		{
+	{
 		info.doc->SafetySave(reason);
-		}
+	}
 }
 
 /******************************************************************************
@@ -756,13 +756,13 @@ JXDocumentManager::Receive
 	)
 {
 	if (sender == itsSafetySaveTask && message.Is(JXTimerTask::kTimerWentOff))
-		{
+	{
 		SafetySave(JXDocumentManager::kTimer);
-		}
+	}
 	else
-		{
+	{
 		JBroadcaster::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************

@@ -49,9 +49,9 @@ JXImageRadioButton::JXImageRadioButton
 JXImageRadioButton::~JXImageRadioButton()
 {
 	if (itsOwnsImageFlag)
-		{
+	{
 		jdelete itsImage;
-		}
+	}
 }
 
 /******************************************************************************
@@ -76,9 +76,9 @@ JXImageRadioButton::SetBitmap
 		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (itsOwnsImageFlag)
-		{
+	{
 		jdelete itsImage;
-		}
+	}
 
 	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	assert( itsImage != nullptr );
@@ -122,15 +122,15 @@ JXImageRadioButton::SetImage
 		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (image != itsImage)
-		{
+	{
 		if (itsOwnsImageFlag)
-			{
+		{
 			jdelete itsImage;
-			}
+		}
 
 		itsImage = image;
 		Refresh();
-		}
+	}
 
 	SetBackColor(backColor);
 	itsOwnsImageFlag = widgetOwnsImage;
@@ -149,9 +149,9 @@ JXImageRadioButton::Draw
 	)
 {
 	if (itsImage != nullptr)
-		{
+	{
 		p.Image(*itsImage, itsImage->GetBounds(), GetBounds());
-		}
+	}
 }
 
 /******************************************************************************
@@ -171,24 +171,24 @@ JXImageRadioButton::DrawBorder
 	const JSize borderWidth    = GetBorderWidth();
 
 	if (drawChecked && isActive)
-		{
+	{
 		JXDrawDownFrame(p, frame, borderWidth);
-		}
+	}
 	else if (isActive)
-		{
+	{
 		JXDrawUpFrame(p, frame, borderWidth);
-		}
+	}
 	else if (borderWidth > 0)
-		{
+	{
 		p.SetLineWidth(borderWidth);
 		if (drawChecked)
-			{
+		{
 			p.SetPenColor(JColorManager::GetWhiteColor());
-			}
-		else
-			{
-			p.SetPenColor(JColorManager::GetInactiveLabelColor());
-			}
-		p.RectInside(frame);
 		}
+		else
+		{
+			p.SetPenColor(JColorManager::GetInactiveLabelColor());
+		}
+		p.RectInside(frame);
+	}
 }

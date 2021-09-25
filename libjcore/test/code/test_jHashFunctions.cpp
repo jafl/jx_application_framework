@@ -12,7 +12,7 @@
 #include <jAssert.h>
 
 	JHashValue dualHashArg[] =
-		{
+	{
 		12345678,
 		0x00,
 		0xFFFFFFFF,
@@ -32,10 +32,10 @@
 		0xabcdef0d,
 		0xabcdef0e,
 		0xabcdef0f
-		};
+	};
 
 	const JUtf8Byte* hashStringArg[] =
-		{
+	{
 		"l",
 		"m",
 		"n",
@@ -63,12 +63,12 @@
 		"\xA3\x32\x02\x87\x16",
 
 		nullptr
-		};
+	};
 
 #if SIZEOF_LONG == 8
 
 	JDualHashValue dualHashResult[] =
-		{
+	{
 		-25,
 		-127,
 		-63,
@@ -89,10 +89,10 @@
 		-5,
 		-69,
 		0x00 // Sentinel, zero is never returned
-		};
+	};
 
 	JHashValue hash7BitResult[] =
-		{
+	{
 		0x4293031c4f11a6fd,
 		0x9ae4f7499ba7262a,
 		0xf336eb76e83ca557,
@@ -114,10 +114,10 @@
 
 		0xe8377be3349f50ae,
 		0x6ba095e94b80e2db
-		};
+	};
 
 	JHashValue hash8BitResult[] =
-		{
+	{
 		0x4293031c4f11a6fd,
 		0x9ae4f7499ba7262a,
 		0xf336eb76e83ca557,
@@ -139,12 +139,12 @@
 
 		0x3da1685585e4a4b2,
 		0x9e45c859a8b34e17
-		};
+	};
 
 #elif SIZEOF_LONG == 4
 
 	JDualHashValue dualHashResult[] =
-		{
+	{
 		-3,
 		-7,
 		71,
@@ -165,10 +165,10 @@
 		85,
 		9,
 		0x00 // Sentinel, zero is never returned
-		};
+	};
 
 	JHashValue hash7BitResult[] =
-		{
+	{
 		0x472600db,
 		0x473f66e8,
 		0x4758ccf5,
@@ -190,10 +190,10 @@
 
 		0x6fd5baec,
 		0xb00c53f9
-		};
+	};
 
 	JHashValue hash8BitResult[] =
-		{
+	{
 		0x472600db,
 		0x473f66e8,
 		0x4758ccf5,
@@ -215,7 +215,7 @@
 
 		0x760dc870,
 		0xe0993db5
-		};
+	};
 
 #endif
 
@@ -228,31 +228,31 @@ JTEST(DualHash)
 {
 	JIndex i=0;
 	while (dualHashResult[i] != 0)
-		{
+	{
 		JDualHashValue result = JDualHash(dualHashArg[i]);
 		JAssertEqualWithMessage(dualHashResult[i], result, "JDualHash");
 		i++;
-		}
+	}
 }
 
 JTEST(Hash7Bit)
 {
 	JIndex i=0;
 	while (hashStringArg[i] != nullptr)
-		{
+	{
 		JHashValue result = JHash7Bit(hashStringArg[i]);
 		JAssertEqualWithMessage(hash7BitResult[i], result, "JHash7Bit");
 		i++;
-		}
+	}
 }
 
 JTEST(Hash8Bit)
 {
 	JIndex i=0;
 	while (hashStringArg[i] != nullptr)
-		{
+	{
 		JHashValue result = JHash8Bit(hashStringArg[i]);
 		JAssertEqualWithMessage(hash8BitResult[i], result, "JHash8Bit");
 		i++;
-		}
+	}
 }

@@ -27,9 +27,9 @@ JXDrawUpFrame
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -47,15 +47,15 @@ JXDrawUpFrame
 
 	p.SetFilling(true);
 	if (fill)
-		{
+	{
 		p.SetPenColor(fillColor);
 		p.Rect(rect);
-		}
+	}
 
 	if (width < 3)
-		{
+	{
 		p.SetFilling(false);
-		}
+	}
 
 	// calculate the vertices
 
@@ -115,9 +115,9 @@ JXDrawDownFrame
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -135,15 +135,15 @@ JXDrawDownFrame
 
 	p.SetFilling(true);
 	if (fill)
-		{
+	{
 		p.SetPenColor(fillColor);
 		p.Rect(rect);
-		}
+	}
 
 	if (width < 3)
-		{
+	{
 		p.SetFilling(false);
-		}
+	}
 
 	// calculate the vertices
 
@@ -211,7 +211,7 @@ JXDrawEngravedFrame
 	JXDrawDownFrame(p, rect, downWidth);
 	rect.Shrink(downWidth, downWidth);
 	if (betweenWidth > 0)
-		{
+	{
 		const JColorID origColor = p.GetPenColor();
 		const bool origFill     = p.IsFilling();
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
@@ -221,7 +221,7 @@ JXDrawEngravedFrame
 		p.SetFilling(origFill);
 
 		rect.Shrink(betweenWidth, betweenWidth);
-		}
+	}
 	JXDrawUpFrame(p, rect, upWidth, fill, fillColor);
 }
 
@@ -249,7 +249,7 @@ JXDrawEmbossedFrame
 	JXDrawUpFrame(p, rect, upWidth);
 	rect.Shrink(upWidth, upWidth);
 	if (betweenWidth > 0)
-		{
+	{
 		const JColorID origColor = p.GetPenColor();
 		const bool origFill     = p.IsFilling();
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
@@ -259,7 +259,7 @@ JXDrawEmbossedFrame
 		p.SetFilling(origFill);
 
 		rect.Shrink(betweenWidth, betweenWidth);
-		}
+	}
 	JXDrawDownFrame(p, rect, downWidth, fill, fillColor);
 }
 
@@ -280,9 +280,9 @@ JXDrawFlatDiamond
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -298,9 +298,9 @@ JXDrawFlatDiamond
 	// fill diamond
 
 	if (fill)
-		{
+	{
 		JXFillDiamond(p, rect, fillColor);
-		}
+	}
 
 	// calculate the vertices
 
@@ -317,16 +317,16 @@ JXDrawFlatDiamond
 	p.SetPenColor(borderColor);
 
 	if (width == 1)
-		{
+	{
 		// optimize: draw four lines
 
 		p.Line(left, top);
 		p.LineTo(right);
 		p.LineTo(bottom);
 		p.LineTo(left);
-		}
+	}
 	else
-		{
+	{
 		// use filled polygon
 
 		const JPoint top1    = top    + JPoint(0, width-1);
@@ -353,7 +353,7 @@ JXDrawFlatDiamond
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
-		}
+	}
 
 	// clean up
 
@@ -377,9 +377,9 @@ JXDrawUpDiamond
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -395,9 +395,9 @@ JXDrawUpDiamond
 	// fill diamond
 
 	if (fill)
-		{
+	{
 		JXFillDiamond(p, rect, fillColor);
-		}
+	}
 
 	// calculate the vertices
 
@@ -412,7 +412,7 @@ JXDrawUpDiamond
 	// draw the four sides
 
 	if (width == 1)
-		{
+	{
 		// optimize: draw four lines
 
 		p.SetPenColor(JColorManager::Get3DShadeColor());
@@ -422,9 +422,9 @@ JXDrawUpDiamond
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(left, top);
 		p.LineTo(right + JPoint(1,1));
-		}
+	}
 	else
-		{
+	{
 		// use filled polygons
 
 		const JPoint top1    = top    + JPoint(0, width-1);
@@ -456,7 +456,7 @@ JXDrawUpDiamond
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
-		}
+	}
 
 	// clean up
 
@@ -480,9 +480,9 @@ JXDrawDownDiamond
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -498,9 +498,9 @@ JXDrawDownDiamond
 	// fill diamond
 
 	if (fill)
-		{
+	{
 		JXFillDiamond(p, rect, fillColor);
-		}
+	}
 
 	// calculate the vertices
 
@@ -515,7 +515,7 @@ JXDrawDownDiamond
 	// draw the four sides
 
 	if (width == 1)
-		{
+	{
 		// optimize: draw four lines
 
 		p.SetPenColor(JColorManager::Get3DShadeColor());
@@ -525,9 +525,9 @@ JXDrawDownDiamond
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(left, bottom);
 		p.LineTo(right + JPoint(1,-1));
-		}
+	}
 	else
-		{
+	{
 		// use filled polygons
 
 		const JPoint top1    = top    + JPoint(0, width-1);
@@ -559,7 +559,7 @@ JXDrawDownDiamond
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
-		}
+	}
 
 	// clean up
 
@@ -615,9 +615,9 @@ JXDrawUpArrowLeft
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -633,9 +633,9 @@ JXDrawUpArrowLeft
 	// fill frame
 
 	if (fill)
-		{
+	{
 		JXFillArrowLeft(p, rect, fillColor);
-		}
+	}
 
 	// calculate the vertices
 
@@ -646,7 +646,7 @@ JXDrawUpArrowLeft
 	// draw the three sides
 
 	if (width == 1)
-		{
+	{
 		// optimize: draw three lines
 
 		p.SetPenColor(JColorManager::Get3DShadeColor());
@@ -655,9 +655,9 @@ JXDrawUpArrowLeft
 
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(topRight, left);
-		}
+	}
 	else
-		{
+	{
 		// use filled polygons
 
 		const JPoint left1     = left     + JPoint( width-1, 0);
@@ -686,7 +686,7 @@ JXDrawUpArrowLeft
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
-		}
+	}
 
 	// clean up
 
@@ -710,9 +710,9 @@ JXDrawDownArrowLeft
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -728,9 +728,9 @@ JXDrawDownArrowLeft
 	// fill frame
 
 	if (fill)
-		{
+	{
 		JXFillArrowLeft(p, rect, fillColor);
-		}
+	}
 
 	// calculate the vertices
 
@@ -741,7 +741,7 @@ JXDrawDownArrowLeft
 	// draw the three sides
 
 	if (width == 1)
-		{
+	{
 		// optimize: draw three lines
 
 		p.SetPenColor(JColorManager::Get3DShadeColor());
@@ -750,9 +750,9 @@ JXDrawDownArrowLeft
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(topRight, botRight);
 		p.LineTo(left);
-		}
+	}
 	else
-		{
+	{
 		// use filled polygons
 
 		const JPoint left1     = left     + JPoint( width-1, 0);
@@ -779,7 +779,7 @@ JXDrawDownArrowLeft
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
-		}
+	}
 
 	// clean up
 
@@ -830,9 +830,9 @@ JXDrawUpArrowRight
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -848,9 +848,9 @@ JXDrawUpArrowRight
 	// fill frame
 
 	if (fill)
-		{
+	{
 		JXFillArrowRight(p, rect, fillColor);
-		}
+	}
 
 	// calculate the vertices
 
@@ -861,7 +861,7 @@ JXDrawUpArrowRight
 	// draw the three sides
 
 	if (width == 1)
-		{
+	{
 		// optimize: draw three lines
 
 		p.SetPenColor(JColorManager::Get3DShadeColor());
@@ -870,9 +870,9 @@ JXDrawUpArrowRight
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(botLeft, topLeft);
 		p.LineTo(right);
-		}
+	}
 	else
-		{
+	{
 		// use filled polygons
 
 		const JPoint right1   = right   + JPoint(-width+1, 0);
@@ -899,7 +899,7 @@ JXDrawUpArrowRight
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
-		}
+	}
 
 	// clean up
 
@@ -923,9 +923,9 @@ JXDrawDownArrowRight
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -941,9 +941,9 @@ JXDrawDownArrowRight
 	// fill frame
 
 	if (fill)
-		{
+	{
 		JXFillArrowRight(p, rect, fillColor);
-		}
+	}
 
 	// calculate the vertices
 
@@ -954,7 +954,7 @@ JXDrawDownArrowRight
 	// draw the three sides
 
 	if (width == 1)
-		{
+	{
 		// optimize: draw three lines
 
 		p.SetPenColor(JColorManager::Get3DShadeColor());
@@ -963,9 +963,9 @@ JXDrawDownArrowRight
 
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(botLeft, right);
-		}
+	}
 	else
-		{
+	{
 		// use filled polygons
 
 		const JPoint right1   = right   + JPoint(-width+1, 0);
@@ -994,7 +994,7 @@ JXDrawDownArrowRight
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
-		}
+	}
 
 	// clean up
 
@@ -1045,9 +1045,9 @@ JXDrawUpArrowUp
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -1063,9 +1063,9 @@ JXDrawUpArrowUp
 	// fill frame
 
 	if (fill)
-		{
+	{
 		JXFillArrowUp(p, rect, fillColor);
-		}
+	}
 
 	// calculate the vertices
 
@@ -1076,7 +1076,7 @@ JXDrawUpArrowUp
 	// draw the three sides
 
 	if (width == 1)
-		{
+	{
 		// optimize: draw three lines
 
 		p.SetPenColor(JColorManager::Get3DShadeColor());
@@ -1085,9 +1085,9 @@ JXDrawUpArrowUp
 
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(botLeft, top);
-		}
+	}
 	else
-		{
+	{
 		// use filled polygons
 
 		const JPoint top1      = top      + JPoint(0, width-1);
@@ -1116,7 +1116,7 @@ JXDrawUpArrowUp
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
-		}
+	}
 
 	// clean up
 
@@ -1140,9 +1140,9 @@ JXDrawDownArrowUp
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -1158,9 +1158,9 @@ JXDrawDownArrowUp
 	// fill frame
 
 	if (fill)
-		{
+	{
 		JXFillArrowUp(p, rect, fillColor);
-		}
+	}
 
 	// calculate the vertices
 
@@ -1171,7 +1171,7 @@ JXDrawDownArrowUp
 	// draw the three sides
 
 	if (width == 1)
-		{
+	{
 		// optimize: draw three lines
 
 		p.SetPenColor(JColorManager::Get3DShadeColor());
@@ -1180,9 +1180,9 @@ JXDrawDownArrowUp
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(botLeft, botRight);
 		p.LineTo(top);
-		}
+	}
 	else
-		{
+	{
 		// use filled polygons
 
 		const JPoint top1      = top      + JPoint(0, width-1);
@@ -1209,7 +1209,7 @@ JXDrawDownArrowUp
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
-		}
+	}
 
 	// clean up
 
@@ -1260,9 +1260,9 @@ JXDrawUpArrowDown
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -1278,9 +1278,9 @@ JXDrawUpArrowDown
 	// fill frame
 
 	if (fill)
-		{
+	{
 		JXFillArrowDown(p, rect, fillColor);
-		}
+	}
 
 	// calculate the vertices
 
@@ -1291,7 +1291,7 @@ JXDrawUpArrowDown
 	// draw the three sides
 
 	if (width == 1)
-		{
+	{
 		// optimize: draw three lines
 
 		p.SetPenColor(JColorManager::Get3DShadeColor());
@@ -1300,9 +1300,9 @@ JXDrawUpArrowDown
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(topRight, topLeft);
 		p.LineTo(bottom);
-		}
+	}
 	else
-		{
+	{
 		// use filled polygons
 
 		const JPoint bottom1   = bottom   + JPoint(0, -width+1);
@@ -1329,7 +1329,7 @@ JXDrawUpArrowDown
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
-		}
+	}
 
 	// clean up
 
@@ -1353,9 +1353,9 @@ JXDrawDownArrowDown
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID fillColor =
 		(origFillColor == kJXTransparentColor ?
@@ -1371,9 +1371,9 @@ JXDrawDownArrowDown
 	// fill frame
 
 	if (fill)
-		{
+	{
 		JXFillArrowDown(p, rect, fillColor);
-		}
+	}
 
 	// calculate the vertices
 
@@ -1384,7 +1384,7 @@ JXDrawDownArrowDown
 	// draw the three sides
 
 	if (width == 1)
-		{
+	{
 		// optimize: draw three lines
 
 		p.SetPenColor(JColorManager::Get3DShadeColor());
@@ -1393,9 +1393,9 @@ JXDrawDownArrowDown
 
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Line(topRight, bottom);
-		}
+	}
 	else
-		{
+	{
 		// use filled polygons
 
 		const JPoint bottom1   = bottom   + JPoint(0, -width+1);
@@ -1424,7 +1424,7 @@ JXDrawDownArrowDown
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
-		}
+	}
 
 	// clean up
 
@@ -1476,7 +1476,7 @@ JXDrawDNDBorder
 	)
 {
 	if (width > 0)
-		{
+	{
 		JRect r   = rect;		// adjust for X centering thickness around line
 		r.top    += width/2;
 		r.left   += width/2;
@@ -1487,5 +1487,5 @@ JXDrawDNDBorder
 		p.SetPenColor(JColorManager::GetDefaultDNDBorderColor());
 		p.JPainter::Rect(r);
 		p.SetLineWidth(1);
-		}
+	}
 }

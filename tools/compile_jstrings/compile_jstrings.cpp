@@ -71,56 +71,56 @@ main
 
 	time_t outputTime;
 	if ((JGetModificationTime(outputFileName, &outputTime)).OK())
-		{
+	{
 		bool changed = false;
 
 		for (JIndex i=1; i<=inputCount; i++)
-			{
+		{
 			const JString* inputFileName = inputFileList.GetElement(i);
 			time_t t;
 			if (!(JGetModificationTime(*inputFileName, &t)).OK())
-				{
+			{
 				std::cerr << argv[0] << ":  " << *inputFileName << " does not exist" << std::endl;
 				return 1;
-				}
+			}
 			else if (t >= outputTime)
-				{
+			{
 				changed = true;
 				break;
-				}
-			}
-
-		if (!changed)
-			{
-			return 0;
 			}
 		}
+
+		if (!changed)
+		{
+			return 0;
+		}
+	}
 */
 	// process the input files
 
 	JStringManager mgr;
 
 	for (JIndex i=1; i<=inputCount; i++)
-		{
+	{
 		const JString* inputFileName = inputFileList.GetElement(i);
 		if (JDirectoryExists(*inputFileName))
-			{
+		{
 			continue;
-			}
+		}
 
 		std::ifstream input(inputFileName->GetBytes());
 		if (!input.good())
-			{
+		{
 			std::cerr << argv[0] << ":  unable to open " << *inputFileName << std::endl;
 			return 1;
-			}
+		}
 		mgr.MergeFile(input, debug);
 		if (input.fail())
-			{
+		{
 			std::cerr << argv[0] << ":  error while reading " << *inputFileName << std::endl;
 			return 1;
-			}
 		}
+	}
 
 	// generate the output file
 
@@ -129,27 +129,27 @@ main
 
 	JString data1Str(data1.str(), JUtf8ByteRange());
 	if (!databaseFileName.IsEmpty())
-		{
+	{
 		std::ofstream dbOutput(databaseFileName.GetBytes());
 		data1Str.Print(dbOutput);
-		}
+	}
 
 	if (!outputFileName.IsEmpty())
-		{
+	{
 		JStringIterator iter(&data1Str, kJIteratorStartAtEnd);
 		JUtf8Character c;
 		while (iter.Prev(&c))
-			{
+		{
 			if (c == "\\" || c == "\"")
-				{
+			{
 				iter.Insert("\\");
-				}
+			}
 			else if (c == "\n")
-				{
+			{
 				iter.SetNext(JUtf8Character('n'), kJIteratorStay);
 				iter.Insert("\\");
-				}
 			}
+		}
 
 		std::ostringstream data2;
 		data2 << "#include <jTypes.h>" << std::endl;
@@ -164,12 +164,12 @@ main
 		iter.MoveTo(kJIteratorStartAtBeginning, 0);
 		iter.BeginMatch();
 		while (!iter.AtEnd())
-			{
+		{
 			iter.SkipNext(510);
 			while (iter.Prev(&c) && c == "\\")
-				{
+			{
 				// back up
-				}
+			}
 			iter.SkipNext();	// compensate
 
 			data2 << "\"";
@@ -177,7 +177,7 @@ main
 			data2 << "\"," << std::endl;
 
 			iter.BeginMatch();
-			}
+		}
 		iter.Invalidate();
 
 		data2 << "nullptr };" << std::endl;
@@ -186,15 +186,15 @@ main
 
 		const JString s2(data2.str(), JUtf8ByteRange());
 		if (JFileExists(outputFileName))
-			{
+		{
 			JString origData;
 			JReadFile(outputFileName, &origData);
 			if (origData == s2)
-				{
+			{
 				JUpdateCVSIgnore(outputFileName);
 				return 0;
-				}
 			}
+		}
 
 		// write file
 
@@ -202,13 +202,13 @@ main
 		s2.Print(output);
 
 		if (!output.good())
-			{
+		{
 			std::cerr << argv[0] << ":  unable to write to " << outputFileName << std::endl;
 			return 1;
-			}
+		}
 
 		JUpdateCVSIgnore(outputFileName);
-		}
+	}
 
 	return 0;
 }
@@ -240,66 +240,66 @@ GetOptions
 
 	JIndex index = 1;
 	while (index < argc)
-		{
+	{
 		if (JIsVersionRequest(argv[index]))
-			{
+		{
 			PrintVersion();
 			exit(0);
-			}
+		}
 		else if (JIsHelpRequest(argv[index]))
-			{
+		{
 			PrintHelp();
 			exit(0);
-			}
+		}
 
 		else if (strcmp(argv[index], "--code") == 0)
-			{
+		{
 			JCheckForValues(2, &index, argc, argv);
 			*dataVarName    = argv[index];
 			*outputFileName = argv[index+1];
 			index++;
-			}
+		}
 
 		else if (strcmp(argv[index], "--db") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			*databaseFileName = argv[index];
-			}
+		}
 
 		else if (strcmp(argv[index], "--debug") == 0)
-			{
+		{
 			*debug = true;
-			}
+		}
 
 		else if (argv[index][0] == '-')
-			{
+		{
 			std::cerr << argv[0] << ": unknown command line option: " << argv[index] << std::endl;
-			}
+		}
 
 		else
-			{
+		{
 			auto* inputFileName = jnew JString(argv[index]);
 			assert( inputFileName != nullptr );
 
 			if (inputFileName->EndsWith("~") ||
 				inputFileName->BeginsWith("#"))
-				{
+			{
 				jdelete inputFileName;
-				}
-			else
-				{
-				inputFileList->Append(inputFileName);
-				}
 			}
+			else
+			{
+				inputFileList->Append(inputFileName);
+			}
+		}
 
 		index++;
-		}
+	}
 
 	if (inputFileList->IsEmpty())
-		{
+	{
 		std::cerr << argv[0] << ": no input files" << std::endl;
 		exit(1);
-		}
+	}
 }
 
 /******************************************************************************

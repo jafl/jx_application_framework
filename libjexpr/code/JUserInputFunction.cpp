@@ -74,13 +74,13 @@ JUserInputFunction::JUserInputFunction
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 
 	if (!text.IsEmpty())
-		{
+	{
 		GetText()->SetText(text);
-		}
+	}
 	else
-		{
+	{
 		Clear();
-		}
+	}
 }
 
 /******************************************************************************
@@ -195,7 +195,7 @@ JUserInputFunction::Layout
 	itsNeedRenderFlag = false;
 
 	if (fontSize != GetText()->GetDefaultFont().GetSize())
-		{
+	{
 		JStyledText::TextRange sel;
 		const bool hasSelection = GetSelection(&sel);
 
@@ -207,14 +207,14 @@ JUserInputFunction::Layout
 		GetText()->SetDefaultFontSize(fontSize);
 
 		if (hasSelection)
-			{
+		{
 			SetSelection(sel);
-			}
-		else
-			{
-			SetCaretLocation(caret);
-			}
 		}
+		else
+		{
+			SetCaretLocation(caret);
+		}
+	}
 
 	JRect ourRect;
 	ourRect.top    = upperLeft.y;
@@ -404,36 +404,36 @@ JUserInputFunction::HandleKeyPress
 	*needParse  = false;
 
 	if (c == kSwitchFontCharacter)
-		{
+	{
 		itsGreekFlag = ! itsGreekFlag;
 		return true;
-		}
+	}
 
 	const JString& text = GetText()->GetText();
 
 	const bool isEmpty = IsEmpty();
 	if (isEmpty && (c == '(' || c == '['))
-		{
+	{
 		return false;
-		}
+	}
 	else if (isEmpty)
-		{
+	{
 		SelectAll();
-		}
+	}
 	else if (c == '(' || c == '[' ||
 			 (c.ToLower() == 'e' && !IsEmpty() && !text.IsHexValue() && text.IsFloat()))
-		{
+	{
 		*needParse = true;
 		return false;
-		}
+	}
 
 	TEHandleKeyPress(itsGreekFlag ? ConvertToGreek(c) : c,
 					 false, kMoveByCharacter, false);
 
 	if (GetText()->GetText().IsEmpty())
-		{
+	{
 		GetText()->SetText(kEmptyString);
-		}
+	}
 
 	*needRender = itsNeedRenderFlag;
 	return itsNeedRedrawFlag;
@@ -451,25 +451,25 @@ JUserInputFunction::ConvertToGreek
 	)
 {
 	if (!s.Contains(JUserInputFunction::kSwitchFontCharacter))
-		{
+	{
 		return s;
-		}
+	}
 
 	JString g = s;
 
 	JStringIterator iter(&g);
 	JUtf8Character c;
 	while (iter.Next(&c))
-		{
+	{
 		if (c == JUserInputFunction::kSwitchFontCharacter)
-			{
+		{
 			iter.RemovePrev();
 			if (iter.Next(&c))
-				{
+			{
 				iter.SetPrev(JUserInputFunction::ConvertToGreek(c));
-				}
 			}
 		}
+	}
 
 	return g;
 }
@@ -488,30 +488,30 @@ struct GreekCharacterMapping
 
 static const GreekCharacterMapping kGreekData[] =
 {
-	{ 'A', "\xCE\xB1", "\xCE\x91" },	// alpha
-	{ 'B', "\xCE\xB2", "\xCE\x92" },	// beta
-	{ 'D', "\xCE\xB4", "\xCE\x94" },	// delta
-	{ 'E', "\xCE\xB5", "\xCE\x95" },	// epsilon
-	{ 'F', "\xCF\x86", "\xCE\xA6" },	// phi
-	{ 'G', "\xCE\xB3", "\xCE\x93" },	// gamma
-	{ 'H', "\xCE\xB7", "\xCE\x97" },	// eta
-	{ 'I', "\xCE\xB9", "\xCE\x99" },	// iota
-	{ 'J', "\xCE\xB8", "\xCE\x98" },	// theta
-	{ 'K', "\xCE\xBA", "\xCE\x9A" },	// kappa
-	{ 'L', "\xCE\xBB", "\xCE\x9B" },	// lambda
-	{ 'M', "\xCE\xBC", "\xCE\x9C" },	// mu
-	{ 'N', "\xCE\xBD", "\xCE\x9D" },	// nu
-	{ 'O', "\xCE\xBF", "\xCE\x9F" },	// omicron
-	{ 'P', "\xCF\x80", "\xCE\xA0" },	// pi
-	{ 'Q', "\xCE\xBE", "\xCE\x9E" },	// xi
-	{ 'R', "\xCF\x81", "\xCE\xA1" },	// rho
-	{ 'S', "\xCF\x83", "\xCE\xA3" },	// sigma
-	{ 'T', "\xCF\x84", "\xCE\xA4" },	// tau
-	{ 'U', "\xCF\x85", "\xCE\xA5" },	// upsilon
-	{ 'W', "\xCF\x89", "\xCE\xA9" },	// omega
-	{ 'X', "\xCF\x87", "\xCE\xA7" },	// chi
-	{ 'Y', "\xCF\x88", "\xCE\xA8" },	// psi
-	{ 'Z', "\xCE\xB6", "\xCE\x96" }		// zeta
+{ 'A', "\xCE\xB1", "\xCE\x91" },	// alpha
+{ 'B', "\xCE\xB2", "\xCE\x92" },	// beta
+{ 'D', "\xCE\xB4", "\xCE\x94" },	// delta
+{ 'E', "\xCE\xB5", "\xCE\x95" },	// epsilon
+{ 'F', "\xCF\x86", "\xCE\xA6" },	// phi
+{ 'G', "\xCE\xB3", "\xCE\x93" },	// gamma
+{ 'H', "\xCE\xB7", "\xCE\x97" },	// eta
+{ 'I', "\xCE\xB9", "\xCE\x99" },	// iota
+{ 'J', "\xCE\xB8", "\xCE\x98" },	// theta
+{ 'K', "\xCE\xBA", "\xCE\x9A" },	// kappa
+{ 'L', "\xCE\xBB", "\xCE\x9B" },	// lambda
+{ 'M', "\xCE\xBC", "\xCE\x9C" },	// mu
+{ 'N', "\xCE\xBD", "\xCE\x9D" },	// nu
+{ 'O', "\xCE\xBF", "\xCE\x9F" },	// omicron
+{ 'P', "\xCF\x80", "\xCE\xA0" },	// pi
+{ 'Q', "\xCE\xBE", "\xCE\x9E" },	// xi
+{ 'R', "\xCF\x81", "\xCE\xA1" },	// rho
+{ 'S', "\xCF\x83", "\xCE\xA3" },	// sigma
+{ 'T', "\xCF\x84", "\xCE\xA4" },	// tau
+{ 'U', "\xCF\x85", "\xCE\xA5" },	// upsilon
+{ 'W', "\xCF\x89", "\xCE\xA9" },	// omega
+{ 'X', "\xCF\x87", "\xCE\xA7" },	// chi
+{ 'Y', "\xCF\x88", "\xCE\xA8" },	// psi
+{ 'Z', "\xCE\xB6", "\xCE\x96" }		// zeta
 };
 
 const JSize kGreekCount = sizeof(kGreekData) / sizeof(GreekCharacterMapping);
@@ -526,27 +526,27 @@ JUserInputFunction::ConvertToGreek
 	)
 {
 	if (!theInitGreekMappingFlag)
-		{
+	{
 		bzero(kGreekMapping, sizeof(kGreekMapping));
 
 		for (int i=0; i<int(kGreekCount); i++)
-			{
+		{
 			kGreekMapping[ int(kGreekData[i].ascii) ] = kGreekData[i];
-			}
+		}
 
 		theInitGreekMappingFlag = true;
-		}
+	}
 
 	JUtf8Character g   = c;
 	const JUtf8Byte b1 = g.GetBytes()[0];
 	if (isupper(b1) && kGreekMapping[int(b1)].ascii != 0)
-	{
+{
 		g.Set(kGreekMapping[int(b1)].upper);
-	}
+}
 	else if (islower(b1) && kGreekMapping[toupper(b1)].ascii != 0)
-	{
+{
 		g.Set(kGreekMapping[toupper(b1)].lower);
-	}
+}
 
 	return g;
 }
@@ -576,16 +576,16 @@ JUserInputFunction::Parse
 
 	JString buffer = GetText()->GetText();
 	if (buffer == kEmptyString)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("EmptyFunction::JExprEditor"));
 		return false;
-		}
+	}
 
 	buffer.TrimWhitespace();
 
 	JFloat x;
 	if (c == '(')
-		{
+	{
 		JFunction* newArg;
 		JUserInputFunction* extraUIF;
 		auto* tempUIF = jnew JUserInputFunction(itsEditor);
@@ -593,34 +593,34 @@ JUserInputFunction::Parse
 		const bool ok = itsEditor->ApplyFunction(buffer, *tempUIF, f, &newArg, &extraUIF);
 		jdelete tempUIF;
 		if (ok)
-			{
+		{
 			*newUIF = dynamic_cast<JUserInputFunction*>(newArg);
 			assert( *newUIF != nullptr );
-			}
-		return ok;
 		}
+		return ok;
+	}
 	else if (c == '[')
-		{
+	{
 		buffer += "1]";
 
 		JExprParser p(itsEditor->GetVariableList());
 		if (p.Parse(buffer, f))
-			{
+		{
 			auto* fwv = dynamic_cast<JFunctionWithVar*>(*f);
 			assert( fwv != nullptr );
 			*newUIF = jnew JUserInputFunction(itsEditor);
 			assert( *newUIF != nullptr );
 			fwv->SetArrayIndex(*newUIF);
 			return true;
-			}
-		else
-			{
-			return false;
-			}
 		}
+		else
+		{
+			return false;
+		}
+	}
 	else if (c.ToLower() == 'e' && !IsEmpty() && !buffer.IsHexValue() &&
 			 buffer.ConvertToFloat(&x))
-		{
+	{
 		auto* expBase = jnew JConstantValue(10.0);
 		assert( expBase != nullptr );
 		*newUIF = jnew JUserInputFunction(itsEditor);
@@ -628,11 +628,11 @@ JUserInputFunction::Parse
 		auto* exponent = jnew JExponent(expBase, *newUIF);
 		assert( exponent != nullptr );
 		if (x == 1.0)
-			{
+		{
 			*f = exponent;
-			}
+		}
 		else
-			{
+		{
 			auto* mantissa = jnew JConstantValue(x);
 			assert( mantissa != nullptr );
 			auto* product = jnew JProduct;
@@ -640,14 +640,14 @@ JUserInputFunction::Parse
 			product->SetArg(1, mantissa);
 			product->SetArg(2, exponent);
 			*f = product;
-			}
-		return true;
 		}
+		return true;
+	}
 	else
-		{
+	{
 		JExprParser p(itsEditor->GetVariableList());
 		return p.Parse(buffer, f);
-		}
+	}
 }
 
 /******************************************************************************
@@ -856,13 +856,13 @@ JUserInputFunction::TECaretShouldBlink
 	)
 {
 	if (blink)
-		{
+	{
 		TEShowCaret();
-		}
+	}
 	else
-		{
+	{
 		TEHideCaret();
-		}
+	}
 }
 
 /******************************************************************************

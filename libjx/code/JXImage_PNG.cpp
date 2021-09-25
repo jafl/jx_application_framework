@@ -32,9 +32,9 @@ JXImage::CreateFromPNG
 	const JError err = (**image).ReadPNG(fileName);
 
 	if (!err.OK())
-		{
+	{
 		jdelete *image;
 		*image = nullptr;
-		}
+	}
 	return err;
 }

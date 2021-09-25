@@ -101,9 +101,9 @@ JRunArray<T>::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	JCollection::operator=(source);		// JList::operator= is private
 
@@ -248,7 +248,7 @@ JRunArray<T>::IteratorInsertElementsAtIndex
 	)
 {
 	if (newElementCount > 0)
-		{
+	{
 		const JIndex trueElementIndex =
 			PrivateInsertElementsAtIndex(elementIndex, data, newElementCount,
 										 runIndex, firstIndexInRun);
@@ -256,7 +256,7 @@ JRunArray<T>::IteratorInsertElementsAtIndex
 		JListT::ElementsInserted message(trueElementIndex, newElementCount);
 		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -279,18 +279,18 @@ JRunArray<T>::IteratorInsertSlice
 {
 	JIndex startRun, firstIndexInStartRun;
 	if (!source.FindRun(range.first, &startRun, &firstIndexInStartRun))
-		{
+	{
 		return;
-		}
+	}
 
 	JIndex endRun = startRun, firstIndexInEndRun = firstIndexInStartRun;
 	if (!source.IncrementalFindRun(range.first, range.last, &endRun, &firstIndexInEndRun))
-		{
+	{
 		return;
-		}
+	}
 
 	if (startRun == endRun)
-		{
+	{
 		PrivateInsertElementsAtIndex(elementIndex,
 									 source.GetRunData(startRun), range.GetCount(),
 									 runIndex, firstIndexInRun);
@@ -299,43 +299,43 @@ JRunArray<T>::IteratorInsertSlice
 		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
 		return;
-		}
+	}
 
 	const JRunArrayElement<T>* sourceRuns = (source.itsRuns)->GetCArray();
 
 	JSize count = sourceRuns[startRun-1].length - (range.first - firstIndexInStartRun);
 	JIndex i    = PrivateInsertElementsAtIndex(elementIndex, sourceRuns[startRun-1].data, count,
 											   runIndex, firstIndexInRun);
-	{
+{
 	JListT::ElementsInserted message(i, count);
 	JList<T>::NotifyIterators(message);
 	JBroadcaster::Broadcast(message);
-	}
+}
 
 	i += count;
 	JIndex lastIndexInRun = *firstIndexInRun + GetRunLength(*runIndex) - 1;
 	if (i > lastIndexInRun)
-		{
+	{
 		(*runIndex)++;
 		*firstIndexInRun = lastIndexInRun + 1;
-		}
+	}
 
 	bool needSplit = i != *firstIndexInRun;
 
 	for (JIndex j=startRun+1; j<endRun; j++)
-		{
+	{
 		count = sourceRuns[j-1].length;
 
 		if (needSplit)
-			{
+		{
 			PrivateInsertElementsAtIndex(i, sourceRuns[j-1].data, count,
 										 runIndex, firstIndexInRun);
 			needSplit = false;
-			}
+		}
 		else
-			{
+		{
 			InsertRun(*runIndex, count, sourceRuns[j-1].data);
-			}
+		}
 
 		JListT::ElementsInserted message(i, count);
 		JList<T>::NotifyIterators(message);
@@ -344,16 +344,16 @@ JRunArray<T>::IteratorInsertSlice
 		i += count;
 		(*runIndex)++;
 		*firstIndexInRun = i;
-		}
+	}
 
 	count = range.last - firstIndexInEndRun + 1;
 	PrivateInsertElementsAtIndex(i, sourceRuns[endRun-1].data, count,
 								 runIndex, firstIndexInRun);
-	{
+{
 	JListT::ElementsInserted message(i, count);
 	JList<T>::NotifyIterators(message);
 	JBroadcaster::Broadcast(message);
-	}
+}
 }
 
 /******************************************************************************
@@ -382,13 +382,13 @@ JRunArray<T>::PrivateInsertElementsAtIndex
 	assert( newElementCount > 0 );
 
 	if (JList<T>::IndexValid(elementIndex))
-		{
+	{
 		if (data == GetRunData(*runIndex))
-			{
+		{
 			IncrementRunLength(*runIndex, newElementCount);
-			}
+		}
 		else
-			{
+		{
 			// We save a lot of code by incrementing the run length and
 			// then asking SetValue to handle the details of splitting
 			// the run.
@@ -399,34 +399,34 @@ JRunArray<T>::PrivateInsertElementsAtIndex
 			// now insert the rest, if any, once we know the runs won't change
 
 			if (newElementCount > 1)
-				{
+			{
 				IncrementRunLength(*runIndex, newElementCount-1);
-				}
 			}
+		}
 
 		return elementIndex;
-		}
+	}
 	else
-		{
+	{
 		// We need to append the data to the end of the array.
 
 		const JSize elementCount = this->GetElementCount();
 		const JSize runCount     = GetRunCount();
 
 		if (runCount > 0 && data == GetRunData(runCount))
-			{
+		{
 			IncrementRunLength(runCount, newElementCount);
-			}
+		}
 		else
-			{
+		{
 			InsertRun(runCount+1, newElementCount, data);
-			}
+		}
 
 		*runIndex        = GetRunCount();
 		*firstIndexInRun = this->GetElementCount() - GetRunLength(*runIndex) + 1;
 
 		return elementCount + 1;
-		}
+	}
 }
 
 /******************************************************************************
@@ -473,15 +473,15 @@ JRunArray<T>::IteratorSetElements
 {
 	bool changed = true;
 	if (count == 1)
-		{
+	{
 		changed = PrivateSetElement(elementIndex, data, runIndex, firstIndexInRun);
-		}
+	}
 	else
-		{
+	{
 		PrivateRemoveElements(elementIndex, count, runIndex, firstIndexInRun);
 
 		if (JList<T>::IndexValid(elementIndex))
-			{
+		{
 			// We save a lot of code by incrementing the run length and
 			// then asking SetValue to handle the details of splitting
 			// the run.
@@ -489,19 +489,19 @@ JRunArray<T>::IteratorSetElements
 			IncrementRunLength(*runIndex, 1);
 			PrivateSetElement(elementIndex, data, runIndex, firstIndexInRun);
 			IncrementRunLength(*runIndex, count-1);
-			}
-		else
-			{
-			PrivateInsertElementsAtIndex(elementIndex, data, count, runIndex, firstIndexInRun);
-			}
 		}
+		else
+		{
+			PrivateInsertElementsAtIndex(elementIndex, data, count, runIndex, firstIndexInRun);
+		}
+	}
 
 	if (changed)
-		{
+	{
 		JListT::ElementsChanged message(elementIndex, count);
 		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -526,9 +526,9 @@ JRunArray<T>::PrivateSetElement
 {
 	const T originalElement = GetRunData(*runIndex);
 	if (data == originalElement)
-		{
+	{
 		return false;
-		}
+	}
 
 	const JSize origRunLength   = GetRunLength(*runIndex);
 	const JIndex lastIndexInRun = *firstIndexInRun + origRunLength - 1;
@@ -537,53 +537,53 @@ JRunArray<T>::PrivateSetElement
 
 	if (*runIndex > 1 && elementIndex == *firstIndexInRun &&
 		data == GetRunData(*runIndex-1))
-		{
+	{
 		*firstIndexInRun -= GetRunLength(*runIndex-1);
 
 		if (origRunLength == 1)
-			{
+		{
 			RemoveRun(*runIndex);
-			}
+		}
 		else
-			{
+		{
 			DecrementRunLength(*runIndex, 1);
-			}
+		}
 
 		(*runIndex)--;
 		IncrementRunLength(*runIndex, 1);
-		}
+	}
 
 	// check if the element can go in the next run
 
 	else if (*runIndex < GetRunCount() && elementIndex == lastIndexInRun &&
 			 data == GetRunData(*runIndex+1))
-		{
+	{
 		IncrementRunLength(*runIndex+1, 1);
 
 		if (origRunLength == 1)
-			{
+		{
 			RemoveRun(*runIndex, runIndex, firstIndexInRun);
-			}
+		}
 		else
-			{
+		{
 			DecrementRunLength(*runIndex, 1);
 			*firstIndexInRun += GetRunLength(*runIndex);
 			(*runIndex)++;
-			}
 		}
+	}
 
 	// Since we can't merge it with the previous or the next run,
 	// check if this is the only element in the run.
 
 	else if (origRunLength == 1)
-		{
+	{
 		SetRunData(*runIndex, data);
-		}
+	}
 
 	// We have to break the run into two or more runs.
 
 	else
-		{
+	{
 		// At this point we know the run size is greater than
 		// one and if the item is at the start or end of the
 		// run, we can't merge it with the previous or next run.
@@ -591,14 +591,14 @@ JRunArray<T>::PrivateSetElement
 		// may be a new run preceeding or following the item.
 
 		if (elementIndex > *firstIndexInRun)
-			{
+		{
 			InsertRun(*runIndex, elementIndex - *firstIndexInRun, originalElement);
 			(*runIndex)++;							// everything just moved down
-			}
+		}
 		if (elementIndex < lastIndexInRun)
-			{
+		{
 			InsertRun(*runIndex+1, lastIndexInRun - elementIndex, originalElement);
-			}
+		}
 
 		// The item now has the run all to itself. Update the value and length.
 
@@ -611,7 +611,7 @@ JRunArray<T>::PrivateSetElement
 		itsRuns->SetElement(*runIndex, run);
 
 		*firstIndexInRun = elementIndex;
-		}
+	}
 
 	return true;
 }
@@ -632,17 +632,17 @@ JRunArray<T>::IteratorRemoveElements
 	)
 {
 	if (firstIndex == 1 && count == this->GetElementCount())
-		{
+	{
 		RemoveAll();
-		}
+	}
 	else if (count > 0)
-		{
+	{
 		PrivateRemoveElements(firstIndex, count, runIndex, firstIndexInRun);
 
 		JListT::ElementsRemoved message(firstIndex, count);
 		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -664,35 +664,35 @@ JRunArray<T>::PrivateRemoveElements
 	)
 {
 	if (firstIndex == 1 && count == this->GetElementCount())
-		{
+	{
 		RemoveAll();
 		return;
-		}
+	}
 
 	JSize remainder = count;
 	while (remainder > 0 && firstIndex <= this->GetElementCount())
-		{
+	{
 		const JSize rightCount =
 			GetRunLength(*runIndex) - (firstIndex - *firstIndexInRun);
 
 		if (*firstIndexInRun == firstIndex && rightCount <= remainder)
-			{
+		{
 			RemoveRun(*runIndex, runIndex, firstIndexInRun);
 			remainder -= rightCount;
-			}
+		}
 		else if (*firstIndexInRun < firstIndex && rightCount <= remainder)
-			{
+		{
 			DecrementRunLength(*runIndex, rightCount);
 			remainder       -= rightCount;
 			*firstIndexInRun = firstIndex;
 			(*runIndex)++;
-			}
+		}
 		else	// remainder < rightCount
-			{
+		{
 			DecrementRunLength(*runIndex, remainder);
 			break;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -705,7 +705,7 @@ void
 JRunArray<T>::RemoveAll()
 {
 	if (!this->IsEmpty())
-		{
+	{
 		JListT::ElementsRemoved message(1, this->GetElementCount());
 
 		itsRuns->RemoveAll();
@@ -713,7 +713,7 @@ JRunArray<T>::RemoveAll()
 
 		JList<T>::NotifyIterators(message);
 		JBroadcaster::Broadcast(message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -730,17 +730,17 @@ JRunArray<T>::AllElementsEqual
 	const
 {
 	if (GetRunCount() == 1)
-		{
+	{
 		if (data != nullptr)
-			{
-			*data = GetRunData(1);
-			}
-		return true;
-		}
-	else
 		{
-		return false;
+			*data = GetRunData(1);
 		}
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 /******************************************************************************
@@ -772,23 +772,23 @@ JRunArray<T>::SumElements
 
 	const JSize runCount = GetRunCount();
 	for (JIndex i=runIndex; i<=runCount && index <= endIndex; i++)
-		{
+	{
 		const JSize runLength = GetRunLength(i);
 		const JInteger v      = value(GetRunData(i));
 
 		const JIndex newIndex = (i == runIndex ? firstIndexInRun : index) + runLength;
 		if (newIndex <= endIndex)
-			{
+		{
 			sum += v * (newIndex - index);
-			}
+		}
 		else	// newIndex > endIndex
-			{
+		{
 			sum += v * (endIndex+1 - index);
 			break;
-			}
+		}
 
 		index = newIndex;
-		}
+	}
 
 	return sum;
 }
@@ -834,34 +834,34 @@ JRunArray<T>::FindPositiveSum
 
 	const JSize runCount = GetRunCount();
 	for (JIndex i=runIndex; i<=runCount && *trueSum < requestedSum; i++)
-		{
+	{
 		const JSize runLength = GetRunLength(i);
 		const JInteger v      = value(GetRunData(i));
 
 		const JInteger newSum =
 			*trueSum + v * (runLength - (i == runIndex ? startIndex - firstIndexInRun : 0));
 		if (requestedSum < newSum)
-			{
+		{
 			assert( v > 0 /* this can only happen if v > 0 */ );
 
 			const JSize deltaIndex = (requestedSum - *trueSum) / v;
 			*endIndex             += deltaIndex;
 			*trueSum              += v * deltaIndex;
 			break;
-			}
+		}
 		else	// newSum <= requestedSum
-			{
+		{
 			*endIndex = (i == runIndex ? firstIndexInRun : *endIndex) + runLength;
 			*trueSum  = newSum;
 
 			if (i == runCount)		// return last element
-				{
+			{
 				(*endIndex)--;
 				*trueSum -= v;
 				return false;
-				}
 			}
 		}
+	}
 
 	return true;
 }
@@ -939,17 +939,17 @@ JRunArray<T>::FindRun
 {
 	const JSize count = this->GetElementCount();
 	if (elementIndex <= 1 + count/2)	// automatically catches count==0
-		{
+	{
 		*runIndex        = 1;
 		*firstIndexInRun = 1;
 		return IncrementalFindRun(1, elementIndex, runIndex, firstIndexInRun);
-		}
+	}
 	else
-		{
+	{
 		*runIndex         = GetRunCount();
 		*firstIndexInRun  = count - GetRunLength(*runIndex) + 1;
 		return IncrementalFindRun(count, elementIndex, runIndex, firstIndexInRun);
-		}
+	}
 }
 
 /******************************************************************************
@@ -976,54 +976,54 @@ JRunArray<T>::IncrementalFindRun
 {
 	if (!JList<T>::IndexValid(origIndex) ||
 		!JList<T>::IndexValid(newIndex))
-		{
+	{
 		return false;
-		}
+	}
 	else if (origIndex == newIndex)
-		{
+	{
 		return true;
-		}
+	}
 
 	assert( *firstIndexInRun <= origIndex );
 
 	bool found = false;
 	if (newIndex < origIndex)
-		{
+	{
 		const JRunArrayElement<T>* r = itsRuns->GetCArray() + *runIndex-1;
 
 		for (JIndex i=*runIndex; i>=1; i--)
-			{
+		{
 			if (*firstIndexInRun <= newIndex)
-				{
+			{
 				*runIndex = i;
 				found     = true;
 				break;
-				}
+			}
 			if (i > 1)
-				{
+			{
 				r--;
 				*firstIndexInRun -= r->length;
-				}
 			}
 		}
+	}
 	else if (origIndex < newIndex)
-		{
+	{
 		const JRunArrayElement<T>* r = itsRuns->GetCArray() + *runIndex-1;
 		JIndex lastIndexInRun        = *firstIndexInRun - 1;
 
 		const JSize runCount = itsRuns->GetElementCount();
 		for (JIndex i=*runIndex; i<=runCount; i++, r++)
-			{
+		{
 			lastIndexInRun += r->length;
 			if (newIndex <= lastIndexInRun)
-				{
+			{
 				*runIndex        = i;
 				*firstIndexInRun = lastIndexInRun - r->length + 1;
 				found            = true;
 				break;
-				}
 			}
 		}
+	}
 
 	return found;
 }
@@ -1079,19 +1079,19 @@ JRunArray<T>::RemoveRun
 
 	if (1 < runIndex && runIndex <= GetRunCount() &&
 		GetRunData(runIndex-1) == GetRunData(runIndex))
-		{
+	{
 		if (newRunIndex != nullptr)
-			{
+		{
 			*newFirstInRun -= GetRunLength(runIndex-1);
 			(*newRunIndex)--;
-			}
+		}
 
 		const JSize runLength = GetRunLength(runIndex);
 		IncrementRunLength(runIndex-1, runLength);
 
 		this->SetElementCount(this->GetElementCount() - runLength);
 		itsRuns->RemoveElement(runIndex);
-		}
+	}
 }
 
 /******************************************************************************

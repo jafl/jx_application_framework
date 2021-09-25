@@ -81,9 +81,9 @@ JStack<T,S>::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	JContainer::operator=(source);
 
@@ -134,15 +134,15 @@ JStack<T,S>::Pop
 {
 	const JSize count = GetElementCount();
 	if (count > 0)
-		{
+	{
 		*element = itsElements->GetElement(count);
 		itsElements->RemoveElement(count);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -170,14 +170,14 @@ JStack<T,S>::Peek
 {
 	const JSize count = GetElementCount();
 	if (count > 0)
-		{
+	{
 		*element = itsElements->GetElement(count);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -210,14 +210,14 @@ JStack<T,S>::Peek
 {
 	const JSize count = GetElementCount();
 	if (IndexValid(index))
-		{
+	{
 		*element = itsElements->GetElement(count - index + 1);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -250,10 +250,10 @@ JStack<T,S>::Unwind
 {
 	JSize numUnwound = 0;
 	while (numUnwound < numToUnwind && !itsElements->IsEmpty())
-		{
+	{
 		itsElements->RemoveElement(itsElements->GetElementCount());
 		numUnwound++;
-		}
+	}
 }
 
 /******************************************************************************

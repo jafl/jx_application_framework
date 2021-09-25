@@ -67,19 +67,19 @@ JTableSelection::ExtendSelection
 	)
 {
 	if (newBoat == itsBoat)
-		{
+	{
 		return true;
-		}
+	}
 	else if (UndoSelection())
-		{
+	{
 		itsBoat = newBoat;
 		SelectRect(itsBoat, itsAnchor, true);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -93,14 +93,14 @@ bool
 JTableSelection::UndoSelection()
 {
 	if (OKToExtendSelection())
-		{
+	{
 		SelectRect(itsBoat, itsAnchor, false);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -124,9 +124,9 @@ JTableSelection::Receive
 
 	bool reselect = false;
 	if (sender == table && message.Is(JTable::kPrepareForTableDataMessage))
-		{
+	{
 		itsReselectAfterChangeFlag = UndoSelection();
-		}
+	}
 
 	// let JAuxTableData update the data first
 
@@ -135,27 +135,27 @@ JTableSelection::Receive
 	// rows changed
 
 	if (sender == table && message.Is(JTableData::kRowsInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowsInserted*>(&message);
 		assert( info != nullptr );
 		info->AdjustCell(&itsBoat);
 		info->AdjustCell(&itsAnchor);
 		reselect = true;
-		}
+	}
 
 	else if (sender == table && message.Is(JTableData::kRowDuplicated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowDuplicated*>(&message);
 		assert( info != nullptr );
 		info->AdjustCell(&itsBoat);
 		info->AdjustCell(&itsAnchor);
 		reselect = true;
-		}
+	}
 
 	else if (sender == table && message.Is(JTableData::kRowsRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowsRemoved*>(&message);
 		assert( info != nullptr );
@@ -167,32 +167,32 @@ JTableSelection::Receive
 							   info->GetFirstIndex(), GetRowCount(),
 							   &(itsBoat.y), &(itsAnchor.y));
 		reselect = true;
-		}
+	}
 
 	// columns changed
 
 	else if (sender == table && message.Is(JTableData::kColsInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColsInserted*>(&message);
 		assert( info != nullptr );
 		info->AdjustCell(&itsBoat);
 		info->AdjustCell(&itsAnchor);
 		reselect = true;
-		}
+	}
 
 	else if (sender == table && message.Is(JTableData::kColDuplicated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColDuplicated*>(&message);
 		assert( info != nullptr );
 		info->AdjustCell(&itsBoat);
 		info->AdjustCell(&itsAnchor);
 		reselect = true;
-		}
+	}
 
 	else if (sender == table && message.Is(JTableData::kColsRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColsRemoved*>(&message);
 		assert( info != nullptr );
@@ -204,28 +204,28 @@ JTableSelection::Receive
 							   info->GetFirstIndex(), GetColCount(),
 							   &(itsBoat.x), &(itsAnchor.x));
 		reselect = true;
-		}
+	}
 
 	// elements changed
 
 	else if (sender == table && message.Is(JTableData::kRectChanged))
-		{
+	{
 		reselect = true;
-		}
+	}
 
 	// everything changed
 
 	else if (sender == table && message.Is(JTable::kTableDataChanged))
-		{
+	{
 		ClearSelection();
-		}
+	}
 
 	// select new area
 
 	if (reselect && itsReselectAfterChangeFlag && OKToExtendSelection())
-		{
+	{
 		SelectRect(itsBoat, itsAnchor, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -246,21 +246,21 @@ JTableSelection::AdjustIndexAfterRemove
 	const
 {
 	if (*boat == 0 && *anchor > 0 && origAnchor < origBoat)
-		{
+	{
 		*boat = JMin(firstIndex-1, maxIndex);
-		}
+	}
 	else if (*boat == 0 && *anchor > 0)
-		{
+	{
 		*boat = JMin(firstIndex, maxIndex);
-		}
+	}
 	else if (*anchor == 0 && *boat > 0 && origBoat < origAnchor)
-		{
+	{
 		*anchor = JMin(firstIndex-1, maxIndex);
-		}
+	}
 	else if (*anchor == 0 && *boat > 0)
-		{
+	{
 		*anchor = JMin(firstIndex, maxIndex);
-		}
+	}
 }
 
 /******************************************************************************
@@ -279,15 +279,15 @@ JTableSelection::GetSingleSelectedCell
 	if (GetFirstSelectedCell(&cell1) &&
 		GetLastSelectedCell(&cell2) &&
 		cell1 == cell2)
-		{
+	{
 		*cell = cell1;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		cell->Set(0,0);
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

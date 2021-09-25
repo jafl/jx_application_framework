@@ -28,12 +28,12 @@ JTestManager*
 JTestManager::Instance()
 {
 	if (theManager == nullptr)
-		{
+	{
 		theManager = new JTestManager();
 		assert( theManager != nullptr );
 
 		theFormatOutputFlag = isatty(fileno(stdin));
-		}
+	}
 
 	return theManager;
 }
@@ -102,10 +102,10 @@ void
 JTestManager::ExecuteTests()
 {
 	for (JUnsignedOffset i=0; i<itsTestCount; i++)
-		{
+	{
 		itsCurrentTestName = itsNames[i];
 		itsTests[i]();
-		}
+	}
 }
 
 /******************************************************************************
@@ -124,16 +124,16 @@ JTestManager::ReportFailure
 	Instance()->itsFailureCount++;
 
 	if (theFormatOutputFlag)
-		{
+	{
 		std::cerr << "\033[1m";
-		}
+	}
 
 	std::cerr << file << ':' << line << ": error: ";
 
 	if (theFormatOutputFlag)
-		{
+	{
 		std::cerr << "\033[22m";
-		}
+	}
 
 	std::cerr << Instance()->itsCurrentTestName << ": " << message << std::endl;
 }
@@ -170,21 +170,21 @@ JTestManager::IsNull
 	)
 {
 	if (ptr == nullptr)
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		std::ostringstream s;
 		if (msg != nullptr)
-			{
+		{
 			s << msg << ": ";
-			}
+		}
 		s << "Value is not null";
 
 		ReportFailure(s.str().c_str(), file, line);
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -202,21 +202,21 @@ JTestManager::IsNotNull
 	)
 {
 	if (ptr != nullptr)
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		std::ostringstream s;
 		if (msg != nullptr)
-			{
+		{
 			s << msg << ": ";
-			}
+		}
 		s << "Value is null";
 
 		ReportFailure(s.str().c_str(), file, line);
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -234,21 +234,21 @@ JTestManager::IsTrue
 	)
 {
 	if (value)
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		std::ostringstream s;
 		if (msg != nullptr)
-			{
+		{
 			s << msg << ": ";
-			}
+		}
 		s << "Value is not true";
 
 		ReportFailure(s.str().c_str(), file, line);
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -266,21 +266,21 @@ JTestManager::IsFalse
 	)
 {
 	if (!value)
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		std::ostringstream s;
 		if (msg != nullptr)
-			{
+		{
 			s << msg << ": ";
-			}
+		}
 		s << "Value is not false";
 
 		ReportFailure(s.str().c_str(), file, line);
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -297,17 +297,17 @@ JTestManager::IsOK
 	)
 {
 	if (err.OK())
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		std::ostringstream s;
 		s << "Error: " << err.GetType() << ": " << err.GetMessage();
 
 		ReportFailure(s.str().c_str(), file, line);
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -328,26 +328,26 @@ JTestManager::StringsAreEqual
 	)
 {
 	if (strcmp(expectedValue, actualValue) == 0)
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		std::ostringstream s;
 		if (msg != nullptr)
-			{
+		{
 			s << msg << ": ";
-			}
+		}
 		s << "Strings are not equal:" 
 		  << "  Expected <<" << expectedValue
 		  << ">> but got <<" << actualValue << ">>" << std::endl;
 		if (strlen(actualValue) < 128)
-			{
+		{
 			s << '\t'; JString(expectedValue, JString::kNoCopy).PrintHex(s); s << std::endl;
 			s << '\t'; JString(actualValue, JString::kNoCopy).PrintHex(s); s << std::endl;
-			}
+		}
 
 		ReportFailure(s.str().c_str(), file, line);
 		return false;
-		}
+	}
 }

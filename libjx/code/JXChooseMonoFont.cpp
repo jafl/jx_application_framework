@@ -119,21 +119,21 @@ JXChooseMonoFont::Receive
 	)
 {
 	if (sender == itsFontMenu && message.Is(JXXFontMenu::kNameChanged))
-		{
+	{
 		StopListening(itsSizeMenu);
 		UpdateMenus(true);
 		ListenTo(itsSizeMenu);
 		Broadcast(FontChanged());
-		}
+	}
 	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged))
-		{
+	{
 		UpdateMenus(false);
 		Broadcast(FontChanged());
-		}
+	}
 	else
-		{
+	{
 		JXWidgetSet::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -149,17 +149,17 @@ JXChooseMonoFont::UpdateMenus
 {
 	const JString& fontName = itsFontMenu->GetFontName();
 	if (fontRegex.Match(fontName))
-		{
+	{
 		itsSizeMenu->Deactivate();
-		}
+	}
 	else
-		{
+	{
 		itsSizeMenu->Activate();
 		if (updateSize)
-			{
+		{
 			itsSizeMenu->SetFontName(fontName);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -180,18 +180,18 @@ JXChooseMonoFont::PrependOtherMonospaceFonts
 
 	const JSize count = fontNames.GetElementCount();
 	if (count > 0)
-		{
+	{
 		for (JIndex i=count; i>=1; i--)
-			{
+		{
 			const JString* fontName = fontNames.GetElement(i);
 			menu->PrependItem(*fontName, JXMenu::kRadioType);
 			menu->SetItemFontName(1, *fontName);
 
 			fontManager->Preload(menu->GetItemFont(1).GetID());
-			}
+		}
 
 		menu->ShowSeparatorAfter(count);
-		}
+	}
 }
 
 /******************************************************************************
@@ -215,31 +215,31 @@ JXChooseMonoFont::CompareFontNames
 	JUInt v2 = strtoul(s2->GetBytes(), &endPtr2, 10);
 
 	if (v1 > v2)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (v1 < v2)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		// compare the value after the 'x'
 
 		v1 = strtoul(endPtr1+1, &endPtr1, 10);
 		v2 = strtoul(endPtr2+1, &endPtr2, 10);
 
 		if (v1 > v2)
-			{
+		{
 			return JListT::kFirstGreaterSecond;
-			}
-		else if (v1 < v2)
-			{
-			return JListT::kFirstLessSecond;
-			}
-		else
-			{
-			return JListT::kFirstEqualSecond;
-			}
 		}
+		else if (v1 < v2)
+		{
+			return JListT::kFirstLessSecond;
+		}
+		else
+		{
+			return JListT::kFirstEqualSecond;
+		}
+	}
 }

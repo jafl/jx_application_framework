@@ -55,14 +55,14 @@ TestMDIServer::HandleMDIRequest
 
 	const JString origDir = JGetCurrentDirectory();
 	if (JChangeDirectory(dir) != kJNoError)
-		{
+	{
 		const JUtf8Byte* map[] =
-			{
+		{
 			"dir", dir.GetBytes()
-			};
+		};
 		un->ReportError(JGetString("DirNotReadable::TestMDIServer", map, sizeof(map)));
 		return;
-		}
+	}
 
 	TestDirector* director = nullptr;
 	const bool ok = (TestjxGetApplication())->GetMainDirector(&director);
@@ -70,11 +70,11 @@ TestMDIServer::HandleMDIRequest
 
 	const JSize argCount = argList.GetElementCount();
 	if (argCount == 1)
-		{
+	{
 		un->DisplayMessage(JGetString("NoArgs::TestMDIServer"));
-		}
+	}
 	else
-		{
+	{
 		JXDocumentManager* docMgr = JXGetDocumentManager();
 
 		JXStandAlonePG pg;
@@ -82,45 +82,45 @@ TestMDIServer::HandleMDIRequest
 		pg.FixedLengthProcessBeginning(argCount-1, JGetString("OpeningFiles::TestMDIServer"), true, false);
 
 		for (JIndex i=2; i<=argCount; i++)
-			{
+		{
 			const JString& fileName = *argList.GetElement(i);
 
 			JXFileDocument* doc;
 			if (docMgr->FileDocumentIsOpen(fileName, &doc))
-				{
+			{
 				doc->Activate();
-				}
+			}
 			else
-				{
+			{
 				if (!JFileExists(fileName))
-					{
+				{
 					const JUtf8Byte* map[] =
-						{
+					{
 						"name", fileName.GetBytes()
-						};
+					};
 					if (!un->AskUserYes(JGetString("FileNotFound::TestMDIServer", map, sizeof(map))))
-						{
+					{
 						continue;
-						}
+					}
 					std::ofstream temp(fileName.GetBytes());
 					if (!temp.good())
-						{
+					{
 						un->ReportError(JGetString("CannotCreateFile::TestMDIServer"));
 						continue;
-						}
 					}
+				}
 
 				director->OpenTextFile(fileName);
-				}
-
-			if (!pg.IncrementProgress())
-				{
-				break;
-				}
 			}
 
-		pg.ProcessFinished();
+			if (!pg.IncrementProgress())
+			{
+				break;
+			}
 		}
+
+		pg.ProcessFinished();
+	}
 
 	const JError err = JChangeDirectory(origDir);
 	assert_ok( err );

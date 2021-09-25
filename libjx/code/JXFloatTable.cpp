@@ -77,7 +77,7 @@ JXFloatTable::TableDrawCell
 {
 	JPoint editCell;
 	if (!GetEditedCell(&editCell) || cell != editCell)
-		{
+	{
 		HilightIfSelected(p, cell, rect);
 
 		JFont font = GetFont();
@@ -89,7 +89,7 @@ JXFloatTable::TableDrawCell
 		JRect r = rect;
 		r.left += kHMarginWidth;
 		p.String(r, str, JPainter::kHAlignRight, JPainter::kVAlignCenter);
-		}
+	}
 }
 
 /******************************************************************************
@@ -166,17 +166,17 @@ JXFloatTable::ExtractInputData
 	assert( itsFloatInputField != nullptr );
 
 	if (itsFloatInputField->InputValid())
-		{
+	{
 		JFloat value;
 		const bool valid = itsFloatInputField->GetValue(&value);
 		assert( valid );
 		itsFloatData->SetElement(cell, value);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

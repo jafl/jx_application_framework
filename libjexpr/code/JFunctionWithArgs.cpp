@@ -73,14 +73,14 @@ JFunctionWithArgs::ReplaceArg
 	bool argReplaced = false;
 	const JSize argCount = GetArgCount();
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		if (GetArg(i) == origArg)
-			{
+		{
 			SetArg(i, newArg);
 			argReplaced = true;
 			break;
-			}
 		}
+	}
 	return argReplaced;
 }
 
@@ -113,13 +113,13 @@ JFunctionWithArgs::PrintArgs
 {
 	const JSize argCount = GetArgCount();
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		(GetArg(i))->Print(output);
 		if (i < argCount)
-			{
+		{
 			output << ",";
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -153,9 +153,9 @@ JFunctionWithArgs::Layout
 	const JSize sepWidth = renderer.GetStringWidth(fontSize, JString(", ", JString::kNoCopy));
 
 	const JSize argCount = GetArgCount();
-	{
+{
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		JFunction* arg = GetArg(i);
 		const JIndex argIndex =
 			arg->Layout(renderer, argUpperLeft, fontSize, rectList);
@@ -164,27 +164,27 @@ JFunctionWithArgs::Layout
 		ourRect        = JCovering(ourRect, argRect);
 		const JCoordinate argMidline = rectList->GetMidline(argIndex);
 		if (argMidline > ourMidline)
-			{
+		{
 			ourMidline = argMidline;
-			}
 		}
 	}
+}
 
 	// adjust the argument rectangles so all the midlines are the same
 	// (ourMidline is guaranteed to stay constant)
 
 	if (argCount > 1 && ourMidline > origMidline)
-		{
+	{
 		for (JIndex i=1; i<=argCount; i++)
-			{
+		{
 			const JFunction* arg = GetArg(i);
 			JIndex argIndex;
 			const bool found = rectList->FindFunction(arg, &argIndex);
 			assert( found );
 			rectList->SetMidline(argIndex, ourMidline);
 			ourRect = JCovering(ourRect, rectList->GetRect(argIndex));
-			}
 		}
+	}
 
 	// Now that the midlines are the same, the height of our rectangle is
 	// the height of the parentheses.  We have to shift all the arguments
@@ -192,16 +192,16 @@ JFunctionWithArgs::Layout
 	// the rightmost one first, we avoid overlapping anything.
 
 	const JSize parenWidth = renderer.GetParenthesisWidth(ourRect.height());
-	{
+{
 	for (JIndex i=argCount; i>=1; i--)
-		{
+	{
 		const JFunction* arg = GetArg(i);
 		JIndex argIndex;
 		const bool found = rectList->FindFunction(arg, &argIndex);
 		assert( found );
 		rectList->ShiftRect(argIndex, parenWidth, 0);
-		}
 	}
+}
 
 	// we need space for two parentheses
 
@@ -245,7 +245,7 @@ JFunctionWithArgs::Render
 
 	const JSize argCount = GetArgCount();
 	for (JIndex i=1; i<=argCount; i++)
-		{
+	{
 		const JFunction* arg = GetArg(i);
 		arg->Render(renderer, rectList);
 
@@ -254,17 +254,17 @@ JFunctionWithArgs::Render
 		assert( found );
 		const JRect argRect = rectList.GetRect(argIndex);
 		if (i == 1)
-			{
+		{
 			parenRect.left = argRect.left;
-			}
+		}
 		if (i < argCount)
-			{
+		{
 			renderer.DrawString(argRect.right, ourMidline, fontSize, JString(",", JString::kNoCopy));
-			}
+		}
 		else
-			{
+		{
 			parenRect.right = argRect.right;
 			renderer.DrawParentheses(parenRect);
-			}
 		}
+	}
 }

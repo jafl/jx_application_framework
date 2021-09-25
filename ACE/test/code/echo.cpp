@@ -38,28 +38,28 @@ main
 	)
 {
 	if (argc == 1)
-		{
+	{
 		char buffer[BUFSIZ];
 		while (true)
-			{
+		{
 			ssize_t count = read(0, buffer, sizeof(buffer));
 			if (count < 0 && jerrno() == EINTR)
-				{
+			{
 				// keep going
-				}
+			}
 			else if (count <= 0)
-				{
+			{
 				break;
-				}
+			}
 			else
-				{
+			{
 //				std::cerr << count << std::endl;
 				std::cout.write(buffer, count);
 				JWait(0.01);
-				}
 			}
-		return 0;
 		}
+		return 0;
+	}
 
 	JProcess* p;
 	int fromFD;
@@ -68,26 +68,26 @@ main
 										kJForceNonblockingPipe, &fromFD,
 										kJAttachToFromFD, nullptr);
 	if (err.OK())
-		{
+	{
 		char buffer[BUFSIZ];
 		while (true)
-			{
+		{
 			ssize_t count = read(fromFD, buffer, sizeof(buffer));
 			if (count < 0 && jerrno() == EINTR)
-				{
+			{
 				// keep going
-				}
+			}
 			else if (count <= 0)
-				{
+			{
 				break;
-				}
+			}
 			else
-				{
+			{
 //				std::cerr << count << std::endl;
 				std::cout.write(buffer, count);
 				JWait(0.02);
-				}
 			}
+		}
 /*
 		ProcessLink* link = new ProcessLink(fromFD);
 		assert( link != nullptr );
@@ -99,11 +99,11 @@ main
 		jdelete link;
 */
 		return 0;
-		}
+	}
 	else
-		{
+	{
 		JInitCore();
 		err.ReportIfError();
 		return 1;
-		}
+	}
 }

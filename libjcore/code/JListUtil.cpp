@@ -22,17 +22,17 @@ JCompareIndices
 	)
 {
 	if (i < j)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (i == j)
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 }
 
 /******************************************************************************
@@ -48,17 +48,17 @@ JCompareSizes
 	)
 {
 	if (s1 < s2)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (s1 == s2)
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 }
 
 /******************************************************************************
@@ -74,17 +74,17 @@ JCompareCoordinates
 	)
 {
 	if (x1 < x2)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (x1 == x2)
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 }
 
 /******************************************************************************
@@ -100,17 +100,17 @@ JCompareUInt64
 	)
 {
 	if (i1 < i2)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (i1 == i2)
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 }
 
 /******************************************************************************
@@ -129,9 +129,9 @@ JAdjustIndexAfterInsert
 	)
 {
 	if (*indexToAdjust >= firstInsertedIndex)
-		{
+	{
 		*indexToAdjust += count;
-		}
+	}
 }
 
 /******************************************************************************
@@ -151,21 +151,21 @@ JAdjustIndexAfterRemove
 	)
 {
 	if (*indexToAdjust < firstRemovedIndex)
-		{
+	{
 		// putting this first reduces the number of comparisons
 
 		return true;
-		}
+	}
 	else if (*indexToAdjust > firstRemovedIndex + count-1)
-		{
+	{
 		*indexToAdjust -= count;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*indexToAdjust = 0;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -184,17 +184,17 @@ JAdjustIndexAfterMove
 	)
 {
 	if (*indexToAdjust == origIndex)
-		{
+	{
 		*indexToAdjust = newIndex;
-		}
+	}
 	else if (origIndex < *indexToAdjust && *indexToAdjust <= newIndex)
-		{
+	{
 		(*indexToAdjust)--;
-		}
+	}
 	else if (newIndex <= *indexToAdjust && *indexToAdjust < origIndex)
-		{
+	{
 		(*indexToAdjust)++;
-		}
+	}
 }
 
 /******************************************************************************
@@ -213,11 +213,11 @@ JAdjustIndexAfterSwap
 	)
 {
 	if (*indexToAdjust == swappedIndex1)
-		{
+	{
 		*indexToAdjust = swappedIndex2;
-		}
+	}
 	else if (*indexToAdjust == swappedIndex2)
-		{
+	{
 		*indexToAdjust = swappedIndex1;
-		}
+	}
 }

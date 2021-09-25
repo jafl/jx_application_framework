@@ -91,15 +91,15 @@ JXPartition::GetMinCompartmentSize
 {
 	JIndex i;
 	if (GetCompartmentIndex(compartment, &i))
-		{
+	{
 		*minSize = JPartition::GetMinCompartmentSize(i);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*minSize = -1;
 		return false;
-		}
+	}
 }
 
 void
@@ -111,9 +111,9 @@ JXPartition::SetMinCompartmentSize
 {
 	JIndex i;
 	if (GetCompartmentIndex(compartment, &i))
-		{
+	{
 		JPartition::SetMinCompartmentSize(i, minSize);
-		}
+	}
 }
 
 /******************************************************************************
@@ -130,15 +130,15 @@ JXPartition::GetElasticCompartment
 {
 	JIndex i;
 	if (GetElasticIndex(&i))
-		{
+	{
 		*compartment = GetCompartment(i);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*compartment = nullptr;
 		return false;
-		}
+	}
 }
 
 void
@@ -149,9 +149,9 @@ JXPartition::SetElasticCompartment
 {
 	JIndex i;
 	if (GetCompartmentIndex(compartment, &i))
-		{
+	{
 		SetElasticIndex(i);
-		}
+	}
 }
 
 /******************************************************************************
@@ -167,9 +167,9 @@ JXPartition::DeleteCompartment
 {
 	JIndex i;
 	if (GetCompartmentIndex(compartment, &i))
-		{
+	{
 		JPartition::DeleteCompartment(i);
-		}
+	}
 }
 
 /******************************************************************************
@@ -187,7 +187,7 @@ JXPartition::CreateInitialCompartments()
 	const JSize compartmentCount = GetCompartmentCount();
 	JCoordinate position         = 0;
 	for (JIndex i=1; i<=compartmentCount; i++)
-		{
+	{
 		JCoordinate size = GetCompartmentSize(i);
 		assert( size >= JPartition::GetMinCompartmentSize(i) );
 
@@ -195,7 +195,7 @@ JXPartition::CreateInitialCompartments()
 		itsCompartments->Append(compartment);
 
 		position += size + kDragRegionSize;
-		}
+	}
 }
 
 /******************************************************************************
@@ -217,15 +217,15 @@ JXPartition::InsertCompartment
 	)
 {
 	if (JPartition::InsertCompartment(index, reqSize, minSize))
-		{
+	{
 		*newCompartment = GetCompartment(index);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*newCompartment = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -290,42 +290,42 @@ JXPartition::RestoreGeometry
 {
 	const JSize count = sizes.GetElementCount();
 	if (count != GetCompartmentCount())
-		{
+	{
 		return;
-		}
+	}
 
 	JSize origTotalSize = 0;
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const JSize size = sizes.GetElement(i);
 		if (size < (JSize) JPartition::GetMinCompartmentSize(i))
-			{
+		{
 			return;
-			}
-		origTotalSize += size;
 		}
+		origTotalSize += size;
+	}
 
 	origTotalSize += (count-1) * kDragRegionSize;
 
 	const JSize currTotalSize    = GetTotalSize();
 	const JCoordinate totalDelta = JCoordinate(currTotalSize) - origTotalSize;
 	if (totalDelta != 0)
-		{
+	{
 		JArray<JCoordinate> newSizes(sizes);
 		const JCoordinate delta = totalDelta/JCoordinate(count);
 		JSize sum               = 0;
 		for (JIndex i=1; i<count; i++)
-			{
+		{
 			const JSize size = JMax(newSizes.GetElement(i) + delta, JPartition::GetMinCompartmentSize(i));
 			newSizes.SetElement(i, size);
 			sum += size;
-			}
+		}
 
 		newSizes.SetElement(count, currTotalSize - sum);	// takes care of rounding error
 		SetCompartmentSizes(newSizes);
-		}
+	}
 	else
-		{
+	{
 		SetCompartmentSizes(sizes);
-		}
+	}
 }

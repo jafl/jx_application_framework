@@ -99,22 +99,22 @@ JXDialogDirector::SetButtons
 	assert( window != nullptr );
 
 	if (itsModalFlag)
-		{
+	{
 		window->HideFromTaskbar();
-		}
+	}
 
 	itsOKButton = okButton;
 	if (itsOKButton != nullptr)
-		{
+	{
 		ListenTo(itsOKButton);
-		}
+	}
 
 	itsCancelButton = cancelButton;
 	if (itsCancelButton != nullptr)
-		{
+	{
 		ListenTo(itsCancelButton);
 		window->InstallShortcuts(itsCancelButton, JGetString("CancelShortcut::JXGlobal"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -126,7 +126,7 @@ void
 JXDialogDirector::Activate()
 {
 	if (!IsActive())
-		{
+	{
 		assert( !itsModalFlag || itsOKButton != nullptr );
 
 		JXWindow* window = GetWindow();
@@ -136,43 +136,43 @@ JXDialogDirector::Activate()
 
 		JXDirector* supervisor = GetSupervisor();
 		if (supervisor->IsWindowDirector())
-			{
+		{
 			auto* windowDir =
 				dynamic_cast<JXWindowDirector*>(supervisor);
 			assert( windowDir != nullptr );
 			window->SetTransientFor(windowDir);
-			}
+		}
 
 		if (itsModalFlag)
-			{
+		{
 			window->SetWMWindowType(JXWindow::kWMDialogType);
-			}
+		}
 
 		if (itsAutoGeomFlag)
-			{
+		{
 			window->PlaceAsDialogWindow();
 			window->LockCurrentSize();
-			}
+		}
 
 		JXWindowDirector::Activate();
 		if (IsActive())
-			{
+		{
 			itsCancelFlag = true;		// so WM_DELETE_WINDOW => cancel
 			if (itsModalFlag)
-				{
+			{
 				supervisor->Suspend();
-				}
+			}
 
 			while (IsSuspended())
-				{
+			{
 				Resume();			// we need to be active
-				}
 			}
 		}
+	}
 	else
-		{
+	{
 		JXWindowDirector::Activate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -184,31 +184,31 @@ bool
 JXDialogDirector::Deactivate()
 {
 	if (!IsActive())
-		{
+	{
 		return true;
-		}
+	}
 
 	if (itsCancelFlag)
-		{
+	{
 		GetWindow()->KillFocus();
-		}
+	}
 
 	if (JXWindowDirector::Deactivate())
-		{
+	{
 		const bool success = !itsCancelFlag;
 		Broadcast(JXDialogDirector::Deactivated(success));
 		if (itsModalFlag)
-			{
+		{
 			GetSupervisor()->Resume();
-			}
+		}
 		const bool ok = Close();
 		assert( ok );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -237,15 +237,15 @@ JXDialogDirector::Receive
 	)
 {
 	if (sender == itsOKButton && message.Is(JXButton::kPushed))
-		{
+	{
 		EndDialog(true);
-		}
+	}
 	else if (sender == itsCancelButton && message.Is(JXButton::kPushed))
-		{
+	{
 		EndDialog(false);
-		}
+	}
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }

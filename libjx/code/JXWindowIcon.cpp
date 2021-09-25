@@ -86,17 +86,17 @@ JXWindowIcon::SetIcons
 
 	JXImageMask* mask;
 	if (itsNormalImage->GetMask(&mask))
-		{
+	{
 		JXDisplay* display = GetDisplay();
 		Window xWindow     = GetWindow()->GetXWindow();
 		int major, minor;
 		if (XShapeQueryVersion(*display, &major, &minor))
-			{
+		{
 			mask->ConvertToPixmap();
 			XShapeCombineMask(*display, xWindow, ShapeBounding, 0,0, mask->GetPixmap(), ShapeSet);
 			XShapeCombineMask(*display, xWindow, ShapeClip,     0,0, mask->GetPixmap(), ShapeSet);
-			}
 		}
+	}
 }
 
 /******************************************************************************

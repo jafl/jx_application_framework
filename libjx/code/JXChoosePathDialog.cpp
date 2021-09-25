@@ -260,40 +260,40 @@ JXChoosePathDialog::Receive
 	JXDirTable* fileBrowser = GetFileBrowser();
 
 	if (sender == itsOpenButton && message.Is(JXButton::kPushed))
-		{
+	{
 		JXPathInput* pathInput    = GetPathInput();
 		JXInputField* filterInput = GetFilterInput();
 
 		if (pathInput->HasFocus())
-			{
+		{
 			GoToItsPath();
-			}
-		else if (filterInput->HasFocus())
-			{
-			AdjustFilter();
-			}
-		else if (fileBrowser->HasFocus())
-			{
-			fileBrowser->GoToSelectedDirectory();
-			}
 		}
+		else if (filterInput->HasFocus())
+		{
+			AdjustFilter();
+		}
+		else if (fileBrowser->HasFocus())
+		{
+			fileBrowser->GoToSelectedDirectory();
+		}
+	}
 
 	else if (sender == fileBrowser &&
 			 (message.Is(JXWidget::kGotFocus) ||
 			  message.Is(JXWidget::kLostFocus)))
-		{
+	{
 		UpdateDisplay();
-		}
+	}
 
 	else
-		{
+	{
 		if (sender == &(fileBrowser->GetTableSelection()))
-			{
+		{
 			UpdateDisplay();
-			}
+		}
 
 		JXCSFDialogBase::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -305,28 +305,28 @@ bool
 JXChoosePathDialog::OKToDeactivate()
 {
 	if (!JXCSFDialogBase::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 
 	else if (GetPathInput()->HasFocus() && !GoToItsPath())
-		{
+	{
 		return false;
-		}
+	}
 
 	else if (itsSelectOnlyWritableFlag && !JDirectoryWritable(GetPath()))
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("DirMustBeWritable::JXChoosePathDialog"));
 		return false;
-		}
+	}
 	else
-		{
+	{
 		return true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -340,21 +340,21 @@ JXChoosePathDialog::UpdateDisplay()
 	JXCSFDialogBase::UpdateDisplay();
 
 	if (itsSelectOnlyWritableFlag && !GetDirInfo()->IsWritable())
-		{
+	{
 		itsSelectButton->Deactivate();
-		}
+	}
 	else
-		{
+	{
 		itsSelectButton->Activate();
-		}
+	}
 
 	JXDirTable* dirTable = GetFileBrowser();
 	if (dirTable->HasFocus() && !dirTable->HasSelection())
-		{
+	{
 		itsOpenButton->Deactivate();
-		}
+	}
 	else
-		{
+	{
 		itsOpenButton->Activate();
-		}
+	}
 }

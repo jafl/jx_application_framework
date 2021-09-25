@@ -106,7 +106,7 @@ JXDocktab::Draw
 	if (w->GetDockWidget(&dock) &&
 		(dock->GetDockDirector())->GetFocusWindow(&focusWindow) &&
 		focusWindow == w)
-		{
+	{
 		p.SetPenColor(itsFocusColor);
 		p.SetFilling(true);
 		p.JPainter::Rect(rect);
@@ -114,11 +114,11 @@ JXDocktab::Draw
 		p.SetFilling(false);
 
 		p.SetPenColor(JColorManager::GetWhiteColor());
-		}
+	}
 	else
-		{
+	{
 		p.SetPenColor(JColorManager::GetGrayColor(60));
-		}
+	}
 
 	const JRect ap       = GetAperture();
 	const JCoordinate y1 = ap.top + 1;
@@ -158,22 +158,22 @@ JXDocktab::HandleMouseDown
 	)
 {
 	if (button == kJXLeftButton)
-		{
+	{
 		if (itsDockFinder == nullptr)
-			{
+		{
 			itsDockFinder = jnew DockFinder(GetDisplay());
 			assert( itsDockFinder != nullptr );
-			}
+		}
 
 		auto* data = jnew JXDockDragData(GetWindow());
 		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data, itsDockFinder);
-		}
+	}
 	else if (button == kJXRightButton)
-		{
+	{
 		OpenActionMenu(pt, buttonStates, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -206,14 +206,14 @@ JXDocktab::OpenActionMenu
 	)
 {
 	if (itsActionMenu == nullptr)
-		{
+	{
 		itsActionMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsActionMenu != nullptr );
 		itsActionMenu->SetToHiddenPopupMenu();
 		itsActionMenu->SetMenuItems(kActionMenuStr);
 		itsActionMenu->SetUpdateAction(JXMenu::kDisableNone);
 		ListenTo(itsActionMenu);
-		}
+	}
 
 	itsActionMenu->PopUp(this, pt, buttonStates, modifiers);
 }
@@ -231,21 +231,21 @@ JXDocktab::Receive
 	)
 {
 	if (sender == itsActionMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateActionMenu();
-		}
+	}
 	else if (sender == itsActionMenu && message.Is(JXTextMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXWidget::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -258,24 +258,24 @@ JXDocktab::UpdateActionMenu()
 {
 	JXDockManager* dockMgr;
 	if (!JXGetDockManager(&dockMgr))
-		{
+	{
 		itsActionMenu->RemoveAllItems();
 		return;
-		}
+	}
 
 	while (itsActionMenu->GetItemCount() >= kShowFirstDockCmd)
-		{
+	{
 		itsActionMenu->RemoveItem(itsActionMenu->GetItemCount());
-		}
+	}
 
 	JPtrArray<JXDockDirector>* dockList = dockMgr->GetDockList();
 
 	for (auto* dir : *dockList)
-		{
+	{
 		JString itemText = dir->GetWindow()->GetTitle();
 		itemText.Prepend(JGetString("ShowDockPrefix::JXDocktab"));
 		itsActionMenu->AppendItem(itemText);
-		}
+	}
 
 	const bool isDocked = GetWindow()->IsDocked();
 	itsActionMenu->SetItemEnable(kUndockCmd, isDocked);
@@ -286,13 +286,13 @@ JXDocktab::UpdateActionMenu()
 
 	itsActionMenu->SetItemEnable(kUpdateWindowTypeMapCmd, GetWindow()->HasWindowType());
 	if (isDocked)
-		{
+	{
 		itsActionMenu->SetItemText(kUpdateWindowTypeMapCmd, JGetString("AutoDockNewWindows::JXDocktab"));
-		}
+	}
 	else
-		{
+	{
 		itsActionMenu->SetItemText(kUpdateWindowTypeMapCmd, JGetString("NoAutoDockNewWindows::JXDocktab"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -308,69 +308,69 @@ JXDocktab::HandleActionMenu
 {
 	JXDockManager* dockMgr;
 	if (!JXGetDockManager(&dockMgr))
-		{
+	{
 		return;
-		}
+	}
 
 	if (index == kUndockCmd)
-		{
+	{
 		GetWindow()->Undock();
-		}
+	}
 	else if (index == kUndockAllCompartmentCmd)
-		{
+	{
 		JXDockWidget* dock;
 		if (GetWindow()->GetDockWidget(&dock))
-			{
-			dock->UndockAll();
-			}
-		}
-	else if (index == kUndockAllDockCmd)
 		{
+			dock->UndockAll();
+		}
+	}
+	else if (index == kUndockAllDockCmd)
+	{
 		JXWindow* w;
 		if (GetWindow()->GetDockWindow(&w))
-			{
-			w->UndockAllChildWindows();
-			}
-		}
-	else if (index == kUndockAllCmd)
 		{
-		GetDisplay()->UndockAllWindows();
+			w->UndockAllChildWindows();
 		}
+	}
+	else if (index == kUndockAllCmd)
+	{
+		GetDisplay()->UndockAllWindows();
+	}
 
 	else if (index == kUpdateWindowTypeMapCmd)
-		{
+	{
 		JXWindow* w = GetWindow();
 		JString type;
 		if (w->GetWindowType(&type))
-			{
+		{
 			JXDockWidget* dock;
 			w->GetDockWidget(&dock);
 			(JXGetDockManager())->SetDefaultDock(type.GetBytes(), w->IsDocked() ? dock : nullptr);
-			}
 		}
+	}
 
 	else if (index == kCreateDockHorizCmd)
-		{
+	{
 		dockMgr->CreateDock(true);
-		}
+	}
 	else if (index == kCreateDockVertCmd)
-		{
+	{
 		dockMgr->CreateDock(false);
-		}
+	}
 	else if (index == kDockAllDefConfigCmd)
-		{
+	{
 		dockMgr->DockAll();
-		}
+	}
 
 	else if (index >= kShowFirstDockCmd)
-		{
+	{
 		JPtrArray<JXDockDirector>* dockList = dockMgr->GetDockList();
 		const JIndex i                      = index - kShowFirstDockCmd + 1;
 		if (dockList->IndexValid(i))		// paranoia
-			{
+		{
 			(dockList->GetElement(i))->Activate();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -418,21 +418,21 @@ JXDocktab::DockFinder::FindTarget
 	)
 {
 	if (GetDisplay()->FindMouseContainer(coordOwner, pt, target, xWindow))
-		{
+	{
 		JXDockWidget* dock;
 		if (((**target).GetWindow())->GetDockWidget(&dock))
-			{
+		{
 			*target  = dock;
 			*xWindow = (dock->JXContainer::GetWindow())->GetXWindow();
-			}
+		}
 
 		return GetDNDManager()->IsDNDAware(*xWindow, msgWindow, vers);
-		}
+	}
 	else
-		{
+	{
 		*target    = nullptr;
 		*msgWindow = *xWindow;
 		*vers      = 0;
 		return false;
-		}
+	}
 }

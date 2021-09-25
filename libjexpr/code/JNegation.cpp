@@ -86,14 +86,14 @@ JNegation::Evaluate
 {
 	JFloat value;
 	if (GetArg()->Evaluate(&value))
-		{
+	{
 		*result = -value;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -105,14 +105,14 @@ JNegation::Evaluate
 {
 	JComplex value;
 	if (GetArg()->Evaluate(&value))
-		{
+	{
 		*result = -value;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -131,15 +131,15 @@ JNegation::Print
 
 	const JFunction* arg = GetArg();
 	if (JParenthesizeArgForPrint(*this, *arg))
-		{
+	{
 		output << '(';
 		arg->Print(output);
 		output << ')';
-		}
+	}
 	else
-		{
+	{
 		arg->Print(output);
-		}
+	}
 }
 
 /******************************************************************************
@@ -163,9 +163,9 @@ JNegation::Layout
 
 	JFunction* arg = GetArg();
 	if (dynamic_cast<JDivision*>(arg) != nullptr)
-		{
+	{
 		argUpperLeft.x += renderer.GetSpaceWidth(fontSize);
-		}
+	}
 
 	JRect ourRect(upperLeft, argUpperLeft);
 	ourRect.bottom += renderer.GetLineHeight(fontSize);
@@ -177,12 +177,12 @@ JNegation::Layout
 	JRect argRect = rectList->GetRect(argIndex);
 
 	if (JParenthesizeArgForRender(*this, *arg))
-		{
+	{
 		const JSize parenWidth = renderer.GetParenthesisWidth(argRect.height());
 		rectList->ShiftRect(argIndex, parenWidth, 0);
 		argRect = rectList->GetRect(argIndex);
 		ourRect.right = argRect.right + parenWidth;
-		}
+	}
 
 	ourRect = JCovering(ourRect, argRect);
 	const JCoordinate ourMidline = rectList->GetMidline(argIndex);
@@ -223,10 +223,10 @@ JNegation::Render
 	arg->Render(renderer, rectList);
 
 	if (JParenthesizeArgForRender(*this, *arg))
-		{
+	{
 		JIndex argIndex;
 		const bool found = rectList.FindFunction(arg, &argIndex);
 		assert( found );
 		renderer.DrawParentheses(rectList.GetRect(argIndex));
-		}
+	}
 }

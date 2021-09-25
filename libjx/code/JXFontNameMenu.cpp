@@ -88,31 +88,31 @@ JXFontNameMenu::SetFontName
 
 	const JIndex count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if (HasSeparatorAfter(i))
-			{
+		{
 			foundSeparator = true;
 			continue;
-			}
+		}
 		else if (!foundSeparator)
-			{
+		{
 			continue;
-			}
+		}
 
 		if (GetItemText(i) == name)
-			{
+		{
 			const JIndex origFontIndex = itsFontIndex;
 
 			itsFontIndex = i;
 			SetPopupChoice(itsFontIndex);
 			if (itsBroadcastNameChangeFlag && itsFontIndex != origFontIndex)
-				{
+			{
 				Broadcast(NameChanged());
-				}
+			}
 
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -143,13 +143,13 @@ JXFontNameMenu::BuildMenu()
 	assert( count > 0 );
 	JString name, charSet;
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const JString* fontName = fontNames.GetElement(i);
 		AppendItem(*fontName, kRadioType);
 		SetItemFontName(i+1, *fontName);
 
 		fontManager->Preload(GetItemFont(i+1).GetID());
-		}
+	}
 
 	SetUpdateAction(kDisableNone);
 
@@ -188,13 +188,13 @@ JXFontNameMenu::Receive
 	)
 {
 	if (sender == this && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		itsBroadcastNameChangeFlag = false;
 		UpdateMenu();
 		itsBroadcastNameChangeFlag = true;
-		}
+	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
@@ -202,12 +202,12 @@ JXFontNameMenu::Receive
 		UpdateHistory(name);
 		itsFontIndex = 0;	// force broadcast
 		SetFontName(name);
-		}
+	}
 
 	else
-		{
+	{
 		JXTextMenu::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -221,26 +221,26 @@ JXFontNameMenu::UpdateMenu()
 	Broadcast(NameNeedsUpdate());	// before removing history items
 
 	while (GetItemCount() > 0)
-		{
+	{
 		const bool hadSeparator = HasSeparatorAfter(1);
 		RemoveItem(1);
 		itsFontIndex--;
 		if (hadSeparator)
-			{
+		{
 			break;
-			}
 		}
+	}
 
 	UpdateHistory(GetItemText(itsFontIndex));
 
 	const JSize count = itsNameHistory->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const JString* s = itsNameHistory->GetElement(i);
 		InsertItem(i, *s, kRadioType);
 		SetItemFontName(i, *s);
 		itsFontIndex++;
-		}
+	}
 
 	ShowSeparatorAfter(count);
 
@@ -260,20 +260,20 @@ JXFontNameMenu::UpdateHistory
 	)
 {
 	for (JIndex i=1; i<=itsNameHistory->GetElementCount(); i++)
-		{
+	{
 		if (name == *itsNameHistory->GetElement(i))
-			{
+		{
 			itsNameHistory->MoveElementToIndex(i, 1);
 			return;
-			}
 		}
+	}
 
 	itsNameHistory->InsertAtIndex(1, name);
 
 	while (itsNameHistory->GetElementCount() > kHistoryCount)
-		{
+	{
 		itsNameHistory->DeleteElement(itsNameHistory->GetElementCount());
-		}
+	}
 }
 
 /******************************************************************************

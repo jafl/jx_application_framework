@@ -56,13 +56,13 @@ JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket
 
 	const JString vers = JGetString("VERSION");
 	if (itsVersion.IsEmpty())
-		{
+	{
 		itsVersion = vers;
-		}
+	}
 	else if (itsVersion == vers)
-		{
+	{
 		itsReminderList->RemoveAll();
-		}
+	}
 }
 
 // keep ACE_Connector happy
@@ -114,11 +114,11 @@ JVersionSocket<ACE_PEER_STREAM_2>::open
 	msg += kHeaderTerminator;
 
 	if (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().send_n(msg.GetBytes(), msg.GetByteCount()) != (JInteger) msg.GetByteCount())
-		{
+	{
 		std::cerr << "error sending version request to server" << std::endl;
 		ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::close();
 		return -1;
-		}
+	}
 
 	return ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::open(data);
 }
@@ -142,22 +142,22 @@ JVersionSocket<ACE_PEER_STREAM_2>::handle_input
 
 	const ssize_t count = ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().recv(buffer, kBufferSize, &ACE_Time_Value::zero);
 	if (count == -1)
-		{
+	{
 		ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::destroy();
 		return -1;
-		}
+	}
 	else if (count == 0)
-		{
+	{
 		return 0;
-		}
+	}
 
 	itsRecvBuffer.Append(buffer, count);
 
 	if (itsRecvBuffer.BeginsWith("HTTP/1.1 200"))
-		{
+	{
 		JStringIterator iter(itsRecvBuffer);
 		if (iter.Next(kHeaderTerminator))
-			{
+		{
 			iter.BeginMatch();
 			iter.MoveTo(kJIteratorStartAtEnd, 0);
 			const JStringMatch& m = iter.FinishMatch();
@@ -166,8 +166,8 @@ JVersionSocket<ACE_PEER_STREAM_2>::handle_input
 			vers.TrimWhitespace();
 			CheckVersion(vers);
 			ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::destroy();
-			}
 		}
+	}
 
 	return 0;
 }
@@ -188,11 +188,11 @@ JVersionSocket<ACE_PEER_STREAM_2>::CheckVersion
 	itsNextServerTime = now + kServerCheckInterval;
 
 	if (vers == JGetString("VERSION"))
-		{
+	{
 		itsReminderList->RemoveAll();
-		}
+	}
 	else if (vers != itsVersion)
-		{
+	{
 		const time_t delta = kInitialReminderInterval;
 
 		itsReminderList->RemoveAll();
@@ -200,7 +200,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::CheckVersion
 		itsReminderList->AppendElement(now + delta);
 		itsReminderList->AppendElement(now + 2*delta);
 		itsReminderList->AppendElement(now + 3*delta);
-		}
+	}
 
 	itsVersion = vers;
 	JPrefObject::WritePrefs();
@@ -232,28 +232,28 @@ JVersionSocket<ACE_PEER_STREAM_2>::TimeToRemind()
 
 	const time_t now = time(nullptr);
 	while (!itsReminderList->IsEmpty())
-		{
+	{
 		const time_t t = itsReminderList->GetFirstElement();
 		if (now >= t)
-			{
+		{
 			itsReminderList->RemoveElement(1);
 			remind = true;
-			}
-		else
-			{
-			break;
-			}
 		}
+		else
+		{
+			break;
+		}
+	}
 
 	if (remind)
-		{
+	{
 		if (itsReminderList->IsEmpty())
-			{
+		{
 			itsReminderList->AppendElement(now + kDefaultReminderInterval);
-			}
+		}
 
 		JPrefObject::WritePrefs();
-		}
+	}
 
 	return remind;
 }
@@ -273,26 +273,26 @@ JVersionSocket<ACE_PEER_STREAM_2>::ReadPrefs
 	JFileVersion vers;
 	input >> vers;
 	if (vers > kCurrentStateVersion)
-		{
+	{
 		return;
-		}
+	}
 
 	input >> itsVersion;
 
 	if (vers >= 1)
-		{
+	{
 		input >> itsNextServerTime;
-		}
+	}
 
 	JSize count;
 	input >> count;
 
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		time_t t;
 		input >> t;
 		itsReminderList->AppendElement(t);
-		}
+	}
 }
 
 /******************************************************************************
@@ -315,9 +315,9 @@ JVersionSocket<ACE_PEER_STREAM_2>::WritePrefs
 	output << ' ' << itsReminderList->GetElementCount();
 
 	for (auto t : *itsReminderList)
-		{
+	{
 		output << ' ' << t;
-		}
+	}
 }
 
 #endif

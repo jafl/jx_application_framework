@@ -114,18 +114,18 @@ JXSplashWindow::BuildWindow
 
 	const JCoordinate minHeight = iconWidget->GetBoundsHeight() + 2*marginWidth;
 	if (minHeight > window->GetApertureHeight())
-		{
+	{
 		window->AdjustSize(0, minHeight - window->GetApertureHeight());
-		}
+	}
 
 	// adjust window to fit text
 
 	const JSize bdh = textWidget->GetBoundsHeight();
 	const JSize aph = textWidget->GetApertureHeight();
 	if (bdh > aph)
-		{
+	{
 		window->AdjustSize(0, bdh - aph);	// safe to calculate once bdh > aph
-		}
+	}
 
 	// close after specified time interval
 
@@ -152,11 +152,11 @@ JXSplashWindow::Receive
 	)
 {
 	if (message.Is(JXTimerTask::kTimerWentOff))
-		{
+	{
 		Close();
-		}
+	}
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }

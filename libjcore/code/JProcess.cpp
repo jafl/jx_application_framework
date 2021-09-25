@@ -47,14 +47,14 @@ JProcess::Create
 	const JError err = JExecute(cmdStr, &childPID, toAction, toFD,
 								fromAction, fromFD, errAction, errFD);
 	if (err.OK())
-		{
+	{
 		*process = jnew JProcess(childPID);
 		assert( *process != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*process = nullptr;
-		}
+	}
 
 	return err;
 }
@@ -76,14 +76,14 @@ JProcess::Create
 	const JError err = JExecute(argList, &childPID, toAction, toFD,
 								fromAction, fromFD, errAction, errFD);
 	if (err.OK())
-		{
+	{
 		*process = jnew JProcess(childPID);
 		assert( *process != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*process = nullptr;
-		}
+	}
 
 	return err;
 }
@@ -106,14 +106,14 @@ JProcess::Create
 	const JError err = JExecute(argv, size, &childPID, toAction, toFD,
 								fromAction, fromFD, errAction, errFD);
 	if (err.OK())
-		{
+	{
 		*process = jnew JProcess(childPID);
 		assert( *process != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*process = nullptr;
-		}
+	}
 
 	return err;
 }
@@ -136,14 +136,14 @@ JProcess::Create
 	const JError err = JExecute(workingDirectory, cmdStr, &childPID, toAction, toFD,
 								fromAction, fromFD, errAction, errFD);
 	if (err.OK())
-		{
+	{
 		*process = jnew JProcess(childPID);
 		assert( *process != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*process = nullptr;
-		}
+	}
 
 	return err;
 }
@@ -166,14 +166,14 @@ JProcess::Create
 	const JError err = JExecute(workingDirectory, argList, &childPID, toAction, toFD,
 								fromAction, fromFD, errAction, errFD);
 	if (err.OK())
-		{
+	{
 		*process = jnew JProcess(childPID);
 		assert( *process != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*process = nullptr;
-		}
+	}
 
 	return err;
 }
@@ -197,14 +197,14 @@ JProcess::Create
 	const JError err = JExecute(workingDirectory, argv, size, &childPID, toAction, toFD,
 								fromAction, fromFD, errAction, errFD);
 	if (err.OK())
-		{
+	{
 		*process = jnew JProcess(childPID);
 		assert( *process != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*process = nullptr;
-		}
+	}
 
 	return err;
 }
@@ -306,13 +306,13 @@ JProcess::SendSignalToGroup
 	pid_t pgid;
 	const JError err = GetPGID(&pgid);
 	if (err.OK())
-		{
+	{
 		return JSendSignalToGroup(pgid, signal);
-		}
+	}
 	else
-		{
+	{
 		return err;
-		}
+	}
 }
 
 /******************************************************************************
@@ -328,17 +328,17 @@ JProcess::WaitUntilFinished()
 	ACE_exitcode status;
 	const JError err = JWaitForChild(itsPID, &status);
 	if (err.OK())
-		{
+	{
 		itsIsFinishedFlag = true;
 		itsFinishedStatus = status;
 
 		const bool autoDelete = itsAutoDeleteFlag;	// save since Broadcast() might delete it -- in which case, the flag must be false!
 		Broadcast(Finished(status));
 		if (autoDelete)
-			{
+		{
 			jdelete this;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -359,13 +359,13 @@ JProcess::CheckForFinishedChild
 	ACE_exitcode status;
 	const JError err = JWaitForChild(block, &pid, &status);
 	if (err.OK() && pid > 0)
-		{
+	{
 		theProcessList.SetCompareFunction(ComparePID);
 
 		JProcess target(pid, 0);
 		JIndex i;
 		if (theProcessList.SearchSorted(&target, JListT::kFirstMatch, &i))
-			{
+		{
 			// Broadcast message from each JProcess object with the
 			// given pid.  There could be more than one!
 
@@ -376,30 +376,30 @@ JProcess::CheckForFinishedChild
 			JPtrArray<JProcess> list(JPtrArrayT::kForgetAll);
 			const JSize processCount = theProcessList.GetElementCount();
 			while (i <= processCount)
-				{
+			{
 				JProcess* p = theProcessList.GetElement(i);
 				if (p->GetPID() != pid)
-					{
+				{
 					break;
-					}
+				}
 
 				list.Append(p);
 				i++;
-				}
+			}
 
 			for (auto* p : list)
-				{
+			{
 				const bool autoDelete = p->itsAutoDeleteFlag;	// save since Broadcast() might delete it -- in which case, the flag must be false!
 				p->itsIsFinishedFlag      = true;
 				p->itsFinishedStatus      = status;
 				p->Broadcast(Finished(status));
 				if (autoDelete)
-					{
+				{
 					jdelete p;
-					}
 				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -415,15 +415,15 @@ JProcess::ComparePID
 	)
 {
 	if (p1->GetPID() > p2->GetPID())
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (p1->GetPID() < p2->GetPID())
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 }

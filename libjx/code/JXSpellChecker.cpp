@@ -62,9 +62,9 @@ JXSpellChecker::Check
 	)
 {
 	if (!IsAvailable())
-		{
+	{
 		return;
-		}
+	}
 
 	auto* dlog =
 		jnew JXSpellCheckerDialog(this, editor, editor->GetText()->SelectAll());
@@ -86,9 +86,9 @@ JXSpellChecker::CheckSelection
 	JCharacterRange range;
 	if (!IsAvailable() ||
 		!editor->GetSelection(&range))
-		{
+	{
 		return;
-		}
+	}
 
 	auto* dlog =
 		jnew JXSpellCheckerDialog(this, editor, editor->GetText()->CharToTextRange(nullptr, range));
@@ -141,9 +141,9 @@ JXSpellChecker::ReadPrefs
 	JFileVersion vers;
 	input >> vers;
 	if (vers > kCurrentPrefsVersion)
-		{
+	{
 		return;
-		}
+	}
 
 	input >> JBoolFromString(itsReportNoErrorsFlag);
 	input >> itsDefaultWindowSize;
@@ -163,13 +163,13 @@ JXSpellChecker::WritePrefs
 	const
 {
 	if (vers == 0)
-		{
+	{
 		output << vers;
 		output << ' ' << JBoolToString(itsReportNoErrorsFlag);
 		output << ' ' << itsDefaultWindowSize;
-		}
+	}
 	else
-		{
+	{
 		assert( 0 );
-		}
+	}
 }

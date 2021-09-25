@@ -113,37 +113,37 @@ JXFSCommandHistoryMenu::GetCommand
 {
 	JString typeStr;
 	if (!GetItemNMShortcut(index, &typeStr))
-		{
+	{
 		*type       = JFSBinding::kRunPlain;
 		*singleFile = false;
-		}
+	}
 	else if (typeStr == JGetString("RunInShell::JXFSCommandHistoryMenu"))
-		{
+	{
 		*type       = JFSBinding::kRunInShell;
 		*singleFile = false;
-		}
+	}
 	else if (typeStr == JGetString("RunInShellSingle::JXFSCommandHistoryMenu"))
-		{
+	{
 		*type       = JFSBinding::kRunInShell;
 		*singleFile = true;
-		}
+	}
 	else if (typeStr == JGetString("RunInWindow::JXFSCommandHistoryMenu"))
-		{
+	{
 		*type       = JFSBinding::kRunInWindow;
 		*singleFile = false;
-		}
+	}
 	else if (typeStr == JGetString("RunInWindowSingle::JXFSCommandHistoryMenu"))
-		{
+	{
 		*type       = JFSBinding::kRunInWindow;
 		*singleFile = true;
-		}
+	}
 	else
-		{
+	{
 		assert( typeStr == JGetString("RunSingle::JXFSCommandHistoryMenu") );
 
 		*type       = JFSBinding::kRunPlain;
 		*singleFile = true;
-		}
+	}
 
 	return JXTextMenu::GetItemText(index);
 }
@@ -163,31 +163,31 @@ JXFSCommandHistoryMenu::AddCommand
 	)
 {
 	if (cmd.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JUtf8Byte* type = nullptr;
 	if (inWindow && singleFile)
-		{
+	{
 		type = "RunInWindowSingle::JXFSCommandHistoryMenu";
-		}
+	}
 	else if (inWindow)
-		{
+	{
 		type = "RunInWindow::JXFSCommandHistoryMenu";
-		}
+	}
 	else if (inShell && singleFile)
-		{
+	{
 		type = "RunInShellSingle::JXFSCommandHistoryMenu";
-		}
+	}
 	else if (inShell)
-		{
+	{
 		type = "RunInShell::JXFSCommandHistoryMenu";
-		}
+	}
 	else if (singleFile)
-		{
+	{
 		type = "RunSingle::JXFSCommandHistoryMenu";
-		}
+	}
 
 	AddItem(cmd, type == nullptr ? JString::empty : JGetString(type));
 }

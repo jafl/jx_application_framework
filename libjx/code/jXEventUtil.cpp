@@ -33,34 +33,34 @@ JXGetEventTime
 	*time = 0;
 
 	if (xEvent.type == KeyPress || xEvent.type == KeyRelease)
-		{
+	{
 		*time = xEvent.xkey.time;
 		return true;
-		}
+	}
 	else if (xEvent.type == ButtonPress || xEvent.type == ButtonRelease)
-		{
+	{
 		*time = xEvent.xbutton.time;
 		return true;
-		}
+	}
 	else if (xEvent.type == MotionNotify)
-		{
+	{
 		*time = xEvent.xmotion.time;
 		return true;
-		}
+	}
 	else if (xEvent.type == EnterNotify || xEvent.type == LeaveNotify)
-		{
+	{
 		*time = xEvent.xcrossing.time;
 		return true;
-		}
+	}
 	else if (xEvent.type == PropertyNotify)
-		{
+	{
 		*time = xEvent.xproperty.time;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;		// event doesn't contain the information
-		}
+	}
 }
 
 /******************************************************************************
@@ -82,29 +82,29 @@ JXGetMouseLocation
 	pt->Set(0, 0);
 
 	if (xEvent.type == KeyPress || xEvent.type == KeyRelease)
-		{
+	{
 		pt->Set(xEvent.xkey.x_root, xEvent.xkey.y_root);
 		return true;
-		}
+	}
 	else if (xEvent.type == ButtonPress || xEvent.type == ButtonRelease)
-		{
+	{
 		pt->Set(xEvent.xbutton.x_root, xEvent.xbutton.y_root);
 		return true;
-		}
+	}
 	else if (xEvent.type == MotionNotify)
-		{
+	{
 		pt->Set(xEvent.xmotion.x_root, xEvent.xmotion.y_root);
 		return true;
-		}
+	}
 	else if (xEvent.type == EnterNotify || xEvent.type == LeaveNotify)
-		{
+	{
 		pt->Set(xEvent.xcrossing.x_root, xEvent.xcrossing.y_root);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;		// event doesn't contain the information
-		}
+	}
 }
 
 /******************************************************************************
@@ -126,51 +126,51 @@ JXGetButtonAndModifierStates
 	*state = 0;
 
 	if (xEvent.type == KeyPress)
-		{
+	{
 		*state = xEvent.xkey.state;
 		JIndex modifierIndex;
 		if (display->KeycodeToModifier(xEvent.xkey.keycode, &modifierIndex))
-			{
+		{
 			*state = JXKeyModifiers::SetState(display, *state, modifierIndex, true);
-			}
-		return true;
 		}
+		return true;
+	}
 	else if (xEvent.type == KeyRelease)
-		{
+	{
 		*state = xEvent.xkey.state;
 		JIndex modifierIndex;
 		if (display->KeycodeToModifier(xEvent.xkey.keycode, &modifierIndex))
-			{
-			*state = JXKeyModifiers::SetState(display, *state, modifierIndex, false);
-			}
-		return true;
-		}
-	else if (xEvent.type == ButtonPress)
 		{
+			*state = JXKeyModifiers::SetState(display, *state, modifierIndex, false);
+		}
+		return true;
+	}
+	else if (xEvent.type == ButtonPress)
+	{
 		const auto currButton = (JXMouseButton) xEvent.xbutton.button;
 		*state = JXButtonStates::SetState(xEvent.xbutton.state,
 										  currButton, true);
 		return true;
-		}
+	}
 	else if (xEvent.type == ButtonRelease)
-		{
+	{
 		const auto currButton = (JXMouseButton) xEvent.xbutton.button;
 		*state = JXButtonStates::SetState(xEvent.xbutton.state,
 										  currButton, false);
 		return true;
-		}
+	}
 	else if (xEvent.type == MotionNotify)
-		{
+	{
 		*state = xEvent.xmotion.state;
 		return true;
-		}
+	}
 	else if (xEvent.type == EnterNotify || xEvent.type == LeaveNotify)
-		{
+	{
 		*state = xEvent.xcrossing.state;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;		// event doesn't contain the information
-		}
+	}
 }

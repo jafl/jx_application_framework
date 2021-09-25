@@ -87,7 +87,7 @@ TestData
 
 	JFloat delta = kJPi/50.0;
 	for (JUInt32 i=0; i<=100; i++)
-		{
+	{
 		x.AppendElement(i*delta);
 		y.AppendElement(sin(i*delta));
 
@@ -95,7 +95,7 @@ TestData
 		xMErr.AppendElement(r.UniformDouble(0.0, 0.1));
 		yPErr.AppendElement(r.UniformDouble(0.0, 0.1));
 		yMErr.AppendElement(r.UniformDouble(0.0, 0.1));
-		}
+	}
 
 	J2DPlotData* data;
 	bool ok = J2DPlotData::Create(&data, x, y, false);
@@ -112,10 +112,10 @@ TestData
 
 	delta = kJPi/5000.0;
 	for (JUInt32 i=0; i<=10000; i++)
-		{
+	{
 		x.AppendElement(i*delta);
 		y.AppendElement(cos(i*delta));
-		}
+	}
 
 	JIndex i;
 	plot->AddCurve(x, y, false, JString("cos(x)", JString::kNoCopy), &i, true, false);
@@ -143,10 +143,10 @@ TestLogData
 
 	const JFloat delta = 0.1;
 	for (JUInt32 i=1; i<=100; i++)
-		{
+	{
 		x.AppendElement(i*delta);
 		y.AppendElement(pow(2, i*delta));
-		}
+	}
 
 	JIndex i;
 	plot->AddCurve(x, y, false, JString("log2(x)", JString::kNoCopy), &i, true, false);
@@ -155,10 +155,10 @@ TestLogData
 	y.RemoveAll();
 
 	for (JUInt32 i=0; i<=100; i++)
-		{
+	{
 		x.AppendElement(i*delta);
 		y.AppendElement((i*delta)*(i*delta));
-		}
+	}
 
 	plot->AddCurve(x, y, false, JString("x^2", JString::kNoCopy), &i, true, false);
 
@@ -187,11 +187,11 @@ TestVector
 
 	const JFloat delta = kJPi/4.0;
 	for (JUnsignedOffset i=0; i<8; i++)
-		{
+	{
 		const JFloat x = cos(i*delta);
 		const JFloat y = sin(i*delta);
 		data->AddElement(0.8+x, 5.0+y, x,y);
-		}
+	}
 
 	plot->AddCurve(data, true, JString("vector", JString::kNoCopy));
 
@@ -217,21 +217,21 @@ ParseTextOptions
 {
 	long index = 1;
 	while (index < *argc)
-		{
+	{
 		if (strcmp(argv[index], "-h") == 0 ||
 			strcmp(argv[index], "--help") == 0)
-			{
+		{
 			PrintHelp();
 			exit(0);
-			}
+		}
 		else if (strcmp(argv[index], "-v") == 0 ||
 				 strcmp(argv[index], "--version") == 0)
-			{
+		{
 			PrintVersion();
 			exit(0);
-			}
-		index++;
 		}
+		index++;
+	}
 }
 
 /******************************************************************************

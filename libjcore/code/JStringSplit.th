@@ -30,33 +30,33 @@ JString::Split
 	JStringIterator iter(*this);
 	iter.BeginMatch();
 	while (iter.Next(separator))
-		{
+	{
 		JString* separator = nullptr;
 		if (includeSeparators)
-			{
+		{
 			separator = jnew JString(iter.GetLastMatch().GetString());
 			assert( separator != nullptr );
-			}
+		}
 
 		partList->Append(iter.FinishMatch().GetString());
 		if (separator != nullptr)
-			{
+		{
 			partList->Append(separator);
-			}
+		}
 
 		iter.BeginMatch();
 
 		count++;
 		if (limit > 0 && count >= limit)
-			{
+		{
 			iter.MoveTo(kJIteratorStartAtEnd, 0);
 			break;
-			}
 		}
+	}
 
 	const JStringMatch& m = iter.FinishMatch();
 	if (!m.IsEmpty())
-		{
+	{
 		partList->Append(m.GetString());
-		}
+	}
 }

@@ -94,11 +94,11 @@ const JFileVersion kCurrentPrefsVersion	= 0;
 	JCoordinate w,h;
 	if ((<PRE>GetPrefsManager())->GetWindowSize(k<PRE>MainDirectorWindSizeID,
 											&desktopLoc, &w, &h))
-		{
+	{
 		JXWindow* window = GetWindow();
 		window->Place(desktopLoc.x, desktopLoc.y);
 		window->SetSize(w,h);
-		}
+	}
 }
 
 /******************************************************************************
@@ -191,12 +191,12 @@ void
 
 	itsToolBar->LoadPrefs();
 	if (itsToolBar->IsEmpty())
-		{
+	{
 		itsToolBar->AppendButton(itsFileMenu, kQuitCmd);
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -212,42 +212,42 @@ void
 	)
 {
 	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFileMenu();
-		}
+	}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdatePrefsMenu();
-		}
+	}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		 const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateHelpMenu();
-		}
+	}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -272,9 +272,9 @@ void
 	)
 {
 	if (index == kQuitCmd)
-		{
+	{
 		<PRE>GetApplication()->Quit();
-		}
+	}
 }
 
 /******************************************************************************
@@ -299,26 +299,26 @@ void
 	)
 {
 	if (index == kPrefsCmd)
-		{
+	{
 		<PRE>GetPrefsManager()->EditPrefs();
-		}
+	}
 	else if (index == kEditToolBarCmd)
-		{
+	{
 		itsToolBar->Edit();
-		}
+	}
 	else if (index == kWebBrowserCmd)
-		{
+	{
 		JXGetWebBrowser()->EditPrefs();
-		}
+	}
 	else if (index == kEditMacWinPrefsCmd)
-		{
+	{
 		JXMacWinPrefsDialog::EditPrefs();
-		}
+	}
 
 	else if (index == kSaveWindSizeCmd)
-		{
+	{
 		<PRE>GetPrefsManager()->SaveWindowSize(k<PRE>MainDirectorWindSizeID, GetWindow());
-		}
+	}
 }
 
 /******************************************************************************
@@ -343,31 +343,31 @@ void
 	)
 {
 	if (index == kAboutCmd)
-		{
+	{
 		<PRE>GetApplication()->DisplayAbout();
-		}
+	}
 
 	else if (index == kTOCCmd)
-		{
+	{
 		JXGetHelpManager()->ShowTOC();
-		}
+	}
 	else if (index == kOverviewCmd)
-		{
+	{
 		JXGetHelpManager()->ShowSection("OverviewHelp");
-		}
+	}
 	else if (index == kThisWindowCmd)
-		{
+	{
 		JXGetHelpManager()->ShowSection("MainHelp");
-		}
+	}
 
 	else if (index == kChangesCmd)
-		{
+	{
 		JXGetHelpManager()->ShowChangeLog();
-		}
+	}
 	else if (index == kCreditsCmd)
-		{
+	{
 		JXGetHelpManager()->ShowCredits();
-		}
+	}
 }
 
 /******************************************************************************
@@ -384,9 +384,9 @@ void
 	JFileVersion vers;
 	input >> vers;
 	if (vers > kCurrentPrefsVersion)
-		{
+	{
 		return;
-		}
+	}
 
 	GetWindow()->ReadGeometry(input);
 }

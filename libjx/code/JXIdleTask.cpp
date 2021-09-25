@@ -99,18 +99,18 @@ JXIdleTask::TimeToPerform
 	)
 {
 	if (itsPeriod > 0)
-		{
+	{
 		*maxSleepTime = itsPeriod;
-		}
+	}
 
 	itsElapsedTime += delta;
 	if (itsElapsedTime >= itsPeriod)
-		{
+	{
 		ResetTimer();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }

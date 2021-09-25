@@ -28,17 +28,17 @@ CompareLongs
 	)
 {
 	if (a < b)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (a == b)
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 }
 
 int
@@ -81,20 +81,20 @@ JTEST(Prepend)
 	JBroadcastTester snoop(&a);
 
 	for (long j : { 5,4,3,2,1 })
-		{
+	{
 		snoop.Expect(JListT::kElementsInserted,
 			[] (const JBroadcaster::Message& m)
-			{
+		{
 				const auto* ei =
 					dynamic_cast<const JListT::ElementsInserted*>(&m);
 				JAssertNotNull(ei);
 				JAssertEqual(1, ei->GetFirstIndex());
 				JAssertEqual(1, ei->GetLastIndex());
 				JAssertEqual(1, ei->GetCount());
-			});
+		});
 
 		a.PrependElement(j);
-		}
+	}
 
 	verify("1 2 3 4 5", a);
 
@@ -110,10 +110,10 @@ JTEST(Append)
 	JBroadcastTester snoop(&a);
 
 	for (long j : { 1,2,3,4,5 })
-		{
+	{
 		snoop.Expect(JListT::kElementsInserted,
 			[j] (const JBroadcaster::Message& m)
-			{
+		{
 				const auto* ei =
 					dynamic_cast<const JListT::ElementsInserted*>(&m);
 				JAssertNotNull(ei);
@@ -135,10 +135,10 @@ JTEST(Append)
 				k = j+1;
 				ei->AdjustIndex(&k);
 				JAssertEqual(j+2, k);
-			});
+		});
 
 		a.AppendElement(j);
-		}
+	}
 
 	verify("1 2 3 4 5", a);
 
@@ -179,7 +179,7 @@ JTEST(Remove)
 
 	snoop.Expect(JListT::kElementsRemoved,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* er =
 				dynamic_cast<const JListT::ElementsRemoved*>(&m);
 			JAssertNotNull(er);
@@ -201,7 +201,7 @@ JTEST(Remove)
 			k = 8;
 			er->AdjustIndex(&k);
 			JAssertEqual(7, k);
-		});
+	});
 	a.RemoveElement(7);
 	verify("1 2 3 4 5 6 8 9 10 11 12 13 14 15", a);
 
@@ -215,7 +215,7 @@ JTEST(Remove)
 
 	snoop.Expect(JListT::kElementsRemoved,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* er =
 				dynamic_cast<const JListT::ElementsRemoved*>(&m);
 			JAssertNotNull(er);
@@ -237,7 +237,7 @@ JTEST(Remove)
 			k = 11;
 			er->AdjustIndex(&k);
 			JAssertEqual(8, k);
-		});
+	});
 	a.RemoveNextElements(8, 3);
 	verify("2 3 4 5 6 8 9 13 14", a);
 
@@ -258,7 +258,7 @@ JTEST(Move)
 
 	snoop.Expect(JListT::kElementMoved,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* em =
 				dynamic_cast<const JListT::ElementMoved*>(&m);
 			JAssertNotNull(em);
@@ -276,7 +276,7 @@ JTEST(Move)
 			k = 4;
 			em->AdjustIndex(&k);
 			JAssertEqual(3, k);
-		});
+	});
 	a.MoveElementToIndex(3, a.GetIndexFromEnd(1));
 	verify("1 2 4 5 3", a);
 
@@ -297,7 +297,7 @@ JTEST(Swap)
 
 	snoop.Expect(JListT::kElementsSwapped,
 		[] (const JBroadcaster::Message& m)
-		{
+	{
 			const auto* es =
 				dynamic_cast<const JListT::ElementsSwapped*>(&m);
 			JAssertNotNull(es);
@@ -315,7 +315,7 @@ JTEST(Swap)
 			k = 5;
 			es->AdjustIndex(&k);
 			JAssertEqual(2, k);
-		});
+	});
 
 	a.SwapElements(2,5);
 	verify("1 5 3 4 2", a);
@@ -336,19 +336,19 @@ JTEST(Sort)
 
 // test insertion sort
 
-	{
+{
 	bool expect[] = { true, false, false, false };
 	long element[]    = { 3, -1, 10 };
 	const long eCount = sizeof(element)/sizeof(long);
 
 	bool isDuplicate;
 	for (JIndex i=0; i<eCount; i++)
-		{
+	{
 		const JIndex j = a.GetInsertionSortIndex(element[i], &isDuplicate);
 		a.InsertElementAtIndex(j, element[i]);
 		JAssertEqual(expect[i], (bool) isDuplicate);
-		}
 	}
+}
 	verify("-1 1 1 1 3 3 5 10", a);
 
 	JAssertTrue(a.InsertSorted(4));
@@ -357,7 +357,7 @@ JTEST(Sort)
 
 // test binary search (sorted ascending)
 
-	{
+{
 	long element[]   = {     2,     1,    -1,    10,     -3,     20};
 	bool found[] = {false, true, true, true, false, false};
 	JIndex first[]   = {     0,     2,     1,     9,      0,      0};
@@ -366,7 +366,7 @@ JTEST(Sort)
 	assert( eCount == sizeof(found)/sizeof(bool) );
 
 	for (JIndex i=0; i<eCount; i++)
-		{
+	{
 		JIndex j;
 		JAssertTrue(
 			a.SearchSorted(element[i], JListT::kFirstMatch, &j) == found[i] &&
@@ -375,8 +375,8 @@ JTEST(Sort)
 			j == last[i] &&
 			a.SearchSorted(element[i], JListT::kAnyMatch, &j) == found[i] &&
 			first[i] <= j && j <= last[i]);
-		}
 	}
+}
 
 // test sort descending
 
@@ -386,7 +386,7 @@ JTEST(Sort)
 
 // test binary search (sorted descending)
 
-	{
+{
 	long element[]   = {     2,     1,    -1,    10,     -3,     20};
 	bool found[] = {false, true, true, true, false, false};
 	JIndex first[]   = {     0,     6,     9,     1,      0,      0};
@@ -395,7 +395,7 @@ JTEST(Sort)
 	assert( eCount == sizeof(found)/sizeof(bool) );
 
 	for (JIndex i=0; i<eCount; i++)
-		{
+	{
 		JIndex j;
 		JAssertTrue(
 			a.SearchSorted(element[i], JListT::kFirstMatch, &j) == found[i] &&
@@ -404,8 +404,8 @@ JTEST(Sort)
 			j == last[i] &&
 			a.SearchSorted(element[i], JListT::kAnyMatch, &j) == found[i] &&
 			first[i] <= j && j <= last[i]);
-		}
 	}
+}
 
 // quick sort
 
@@ -416,10 +416,10 @@ JTEST(Sort)
 JTEST(SearchSorted1EdgeCases)
 {
 	const JListT::SortOrder order[] =
-		{ JListT::kSortAscending, JListT::kSortDescending };
+	{ JListT::kSortAscending, JListT::kSortDescending };
 
 	const JListT::SearchReturn search[] =
-		{ JListT::kFirstMatch, JListT::kAnyMatch, JListT::kLastMatch };
+	{ JListT::kFirstMatch, JListT::kAnyMatch, JListT::kLastMatch };
 
 	// one element: 1
 
@@ -450,55 +450,55 @@ JTEST(SearchSorted1EdgeCases)
 	a3.SetCompareFunction(CompareLongs);
 
 	for (const JListT::SortOrder o : order)
-		{
+	{
 		a3.SetSortOrder(o);
 		const bool asc = o == JListT::kSortAscending;
 
 		long j = 0;
 		for (const JListT::SearchReturn s : search)
-			{
+		{
 			int k;
 			bool found;
 
 			a3.RemoveAll();
 			a3.AppendElement(1);
 			for (k=0; k<=2; k++)
-				{
+			{
 				const JIndex index = a3.SearchSorted1(k, s, &found);
 				JAssertTrue(
 					found == found1[asc ? k : 2-k] &&
 					index == index1[asc ? k : 2-k] );
-				}
+			}
 
 			if (asc)
-				{
+			{
 				a3.AppendElement(3);
-				}
+			}
 			else
-				{
+			{
 				a3.PrependElement(3);
-				}
+			}
 			for (k=0; k<=4; k++)
-				{
+			{
 				const JIndex index = a3.SearchSorted1(k, s, &found);
 				JAssertTrue(
 					found == found2[asc ? k : 4-k] &&
 					index == index2[asc ? k : 4-k] );
-				}
+			}
 
 			a3.SetElement(1,1);
 			a3.SetElement(2,1);
 			for (k=0; k<=2; k++)
-				{
+			{
 				const JIndex index = a3.SearchSorted1(k, s, &found);
 				JAssertTrue(
 					found == found2_same[j][asc ? k : 2-k] &&
 					index == index2_same[j][asc ? k : 2-k] );
-				}
+			}
 
 			j++;
-			}
 		}
+	}
 }
 
 JTEST(RangeBasedForLoop)
@@ -511,9 +511,9 @@ JTEST(RangeBasedForLoop)
 	long b[3];
 	int j = 0;
 	for (long i : a)
-		{
+	{
 		b[j++] = i;
-		}
+	}
 
 	JAssertEqual(3, b[0]);
 	JAssertEqual(2, b[1]);
@@ -808,11 +808,11 @@ JTEST(TwoIterators)
 	i2->SkipNext();
 	verify("-2 5 4 2 1 -3", a);
 
-	{
+{
 	JListIterator<long>* i3 = a.NewIterator(kJIteratorStartBefore, 4);
 	i3->Insert(-4);
 	jdelete i3;
-	}
+}
 
 	JAssertEqual(4, i1->GetNextElementIndex());
 	JAssertTrue(i1->Next(&j));

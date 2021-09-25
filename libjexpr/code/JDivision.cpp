@@ -85,23 +85,23 @@ JDivision::Evaluate
 {
 	JFloat numerator, denominator;
 	if (!(GetArg1())->Evaluate(&numerator))
-		{
+	{
 		return false;
-		}
+	}
 	if (!(GetArg2())->Evaluate(&denominator))
-		{
+	{
 		return false;
-		}
+	}
 
 	if (denominator != 0.0)
-		{
+	{
 		*result = numerator / denominator;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -113,23 +113,23 @@ JDivision::Evaluate
 {
 	JComplex numerator, denominator;
 	if (!(GetArg1())->Evaluate(&numerator))
-		{
+	{
 		return false;
-		}
+	}
 	if (!(GetArg2())->Evaluate(&denominator))
-		{
+	{
 		return false;
-		}
+	}
 
 	if (denominator != 0.0)
-		{
+	{
 		*result = numerator / denominator;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -183,13 +183,13 @@ JDivision::Layout
 
 	const JCoordinate deltah = (numRect.right - denRect.right)/2;
 	if (deltah > 0)
-		{
+	{
 		rectList->ShiftRect(denIndex, deltah, 0);
-		}
+	}
 	else if (deltah < 0)
-		{
+	{
 		rectList->ShiftRect(numIndex, -deltah, 0);
-		}
+	}
 
 	// add one extra space at the right so division line is wider than arguments
 

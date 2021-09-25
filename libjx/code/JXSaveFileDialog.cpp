@@ -314,9 +314,9 @@ JXSaveFileDialog::SetObjects
 	const JRect r1 = itsFileNameInput->GetFrameGlobal(),
 				r2 = cancelButton->GetFrameGlobal();
 	if (r1.top == r2.top)
-		{
+	{
 		cancelButton->Move(0, -1);
-		}
+	}
 }
 
 /******************************************************************************
@@ -334,48 +334,48 @@ JXSaveFileDialog::Receive
 	JXDirTable* fileBrowser = GetFileBrowser();
 
 	if (sender == itsFileNameInput && message.Is(JXWidget::kGotFocus))
-		{
+	{
 		itsSaveButton->SetLabel(JGetString("SaveLabel::JXSaveFileDialog"));
 		UpdateDisplay();
-		}
+	}
 	else if (sender == itsFileNameInput && message.Is(JXWidget::kLostFocus))
-		{
+	{
 		itsSaveButton->SetLabel(JGetString("OpenLabel::JXSaveFileDialog"));
 		UpdateDisplay();
-		}
+	}
 
 	else if (sender == itsFileNameInput &&
 			 (message.Is(JStyledText::kTextChanged) ||
 			  message.Is(JStyledText::kTextSet)))
-		{
+	{
 		UpdateDisplay();
-		}
+	}
 
 	else if (sender == fileBrowser && message.Is(JXDirTable::kFileDblClicked))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDirTable::FileDblClicked*>(&message);
 		assert( info != nullptr );
 		const JString fileName = (info->GetDirEntry()).GetName();
 		itsFileNameInput->GetText()->SetText(fileName);
 		itsFileNameInput->Focus();
-		}
+	}
 
 	else
-		{
+	{
 		if (sender == &(fileBrowser->GetTableSelection()))
-			{
+		{
 			UpdateDisplay();
-			}
+		}
 		else if (sender == fileBrowser &&
 				 (message.Is(JXWidget::kGotFocus) ||
 				  message.Is(JXWidget::kLostFocus)))
-			{
+		{
 			UpdateDisplay();
-			}
+		}
 
 		JXCSFDialogBase::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -387,40 +387,40 @@ bool
 JXSaveFileDialog::OKToDeactivate()
 {
 	if (!JXCSFDialogBase::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 
 	JXPathInput* pathInput = GetPathInput();
 	if (pathInput->HasFocus())
-		{
+	{
 		GoToItsPath();
 		return false;
-		}
+	}
 
 	JXInputField* filterInput = GetFilterInput();
 	if (filterInput->HasFocus())
-		{
+	{
 		AdjustFilter();
 		return false;
-		}
+	}
 
 	JXDirTable* fileBrowser = GetFileBrowser();
 	if (fileBrowser->HasFocus() && fileBrowser->GoToSelectedDirectory())
-		{
+	{
 		return false;
-		}
+	}
 
 	const JString& fileName = itsFileNameInput->GetText()->GetText();
 	if (fileName.IsEmpty())
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("MustEnterFileName::JXSaveFileDialog"));
 		return false;
-		}
+	}
 
 	const JString& path     = GetPath();
 	const JString fullName  = path + fileName;
@@ -428,34 +428,34 @@ JXSaveFileDialog::OKToDeactivate()
 	const bool fileExists = JFileExists(fullName);
 
 	if (JDirectoryExists(fullName))
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("DirExists::JXSaveFileDialog"));
 		return false;
-		}
+	}
 	else if (!JDirectoryWritable(path) && !fileExists)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXGlobal"));
 		return false;
-		}
+	}
 	else if (!fileExists)
-		{
+	{
 		itsFileName = fileName;
 		return true;
-		}
+	}
 	else if (!JFileWritable(fullName))
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("FileNotWritable::JXGlobal"));
 		return false;
-		}
+	}
 	else if (JGetUserNotification()->AskUserNo(JGetString("WarnReplaceFile::JXSaveFileDialog")))
-		{
+	{
 		itsFileName = fileName;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -472,37 +472,37 @@ JXSaveFileDialog::UpdateDisplay()
 
 	bool saveWoutFocus = false;
 	if (table->HasFocus())
-		{
+	{
 		if ((table->GetTableSelection()).HasSelection())
-			{
+		{
 			itsSaveButton->SetLabel(JGetString("OpenLabel::JXSaveFileDialog"));
-			}
+		}
 		else
-			{
+		{
 			itsSaveButton->SetLabel(JGetString("SaveLabel::JXSaveFileDialog"));
 			saveWoutFocus = true;
-			}
 		}
+	}
 
 	if ((itsFileNameInput->HasFocus() || saveWoutFocus) &&
 		(itsFileNameInput->GetText()->GetText().IsEmpty() ||
 		 !GetDirInfo()->IsWritable()))
-		{
+	{
 		itsSaveButton->Deactivate();
-		}
+	}
 	else
-		{
+	{
 		itsSaveButton->Activate();
-		}
+	}
 
 	if (itsFileNameInput->GetText()->GetText().IsEmpty())
-		{
+	{
 		itsXDSSource->Deactivate();
-		}
+	}
 	else
-		{
+	{
 		itsXDSSource->Activate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -520,7 +520,7 @@ JXSaveFileDialog::Save
 	const JError err  = dirInfo->GoTo(path);
 	err.ReportIfError();
 	if (err.OK() && itsFileNameInput->Focus())
-		{
+	{
 		EndDialog(true);
-		}
+	}
 }

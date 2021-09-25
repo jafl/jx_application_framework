@@ -82,9 +82,9 @@ JArcSine::Evaluate
 {
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue) || !(-1.0 <= argValue && argValue <= 1.0))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = asin(argValue);
 	return jerrno_is_clear();
@@ -99,9 +99,9 @@ JArcSine::Evaluate
 {
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = asin(argValue);
 	return jerrno_is_clear();

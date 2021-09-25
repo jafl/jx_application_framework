@@ -117,9 +117,9 @@ JXPGMessageDirector::AddMessageLine
 	itsMessageText->GoToEndOfLine();
 
 	if (!itsMessageText->GetText()->IsEmpty())
-		{
+	{
 		itsMessageText->Paste(JString::newline);
-		}
+	}
 
 	itsMessageText->Paste(text);
 	GetWindow()->Update();
@@ -176,27 +176,27 @@ JXPGMessageDirector::Receive
 	)
 {
 	if (sender == itsPrintButton && message.Is(JXButton::kPushed))
-		{
+	{
 		if (itsPrinter == nullptr)
-			{
+		{
 			itsPrinter = jnew JXPTPrinter;
 			assert( itsPrinter != nullptr );
 			itsMessageText->SetPTPrinter(itsPrinter);
-			}
+		}
 		itsMessageText->PrintPT();
-		}
+	}
 	else if (sender == itsSaveButton && message.Is(JXButton::kPushed))
-		{
+	{
 		SaveMessages();
-		}
+	}
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
-		{
+	{
 		Close();
-		}
+	}
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -211,10 +211,10 @@ JXPGMessageDirector::SaveMessages()
 	if (JGetChooseSaveFile()->SaveFile(
 			JGetString("SavePrompt::JXPGMessageDirector"), JString::empty,
 			JGetString("DefaultName::JXPGMessageDirector"), &fileName))
-		{
+	{
 		std::ofstream output(fileName.GetBytes());
 		const JString& text = itsMessageText->GetText()->GetText();
 		text.Print(output);
 		output << std::endl;		// cosmetics
-		}
+	}
 }

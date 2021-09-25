@@ -102,11 +102,11 @@ JPSPrinterBase::PSOpenDocument()
 	assert( itsFile != nullptr );
 
 	if (itsFile->fail())
-		{
+	{
 		jdelete itsFile;
 		itsFile = nullptr;
 		return false;
-		}
+	}
 
 	itsDocOpenFlag = true;
 	ResetBufferedValues();
@@ -116,11 +116,11 @@ JPSPrinterBase::PSOpenDocument()
 	PSPrintVersionComment(*itsFile);
 
 	if (!itsCreator.IsEmpty())
-		{
+	{
 		*itsFile << "%%Creator: ";
 		itsCreator.Print(*itsFile);
 		*itsFile << '\n';
-		}
+	}
 
 	const JString dateStr = JGetTimeStamp();
 	*itsFile << "%%CreationDate: ";
@@ -128,17 +128,17 @@ JPSPrinterBase::PSOpenDocument()
 	*itsFile << '\n';
 
 	if (!itsTitle.IsEmpty())
-		{
+	{
 		*itsFile << "%%Title: ";
 		itsTitle.Print(*itsFile);
 		*itsFile << '\n';
-		}
+	}
 
 	const JUtf8Byte* userName = getenv("USER");
 	if (userName != nullptr)
-		{
+	{
 		*itsFile << "%%For: " << userName << '\n';
-		}
+	}
 
 	PSPrintHeaderComments(*itsFile);
 
@@ -207,7 +207,7 @@ JPSPrinterBase::PSSetClipRect
 		itsDocOpenFlag && PSShouldPrintCurrentPage();
 
 	if (shouldPrint && !r.IsEmpty())
-		{
+	{
 		PSRestoreGraphicsState();
 		PSSaveGraphicsState();
 
@@ -230,11 +230,11 @@ JPSPrinterBase::PSSetClipRect
 		*itsFile << " lineto\n";
 
 		*itsFile << "closepath clip\n";
-		}
+	}
 	else if (shouldPrint)
-		{
+	{
 		*itsFile << "newpath clip\n";
-		}
+	}
 }
 
 /******************************************************************************
@@ -252,35 +252,35 @@ JPSPrinterBase::PSSetDashList
 	)
 {
 	if (itsDashList == nullptr)
-		{
+	{
 		itsDashList = jnew JArray<JSize>(dashList);
 		assert( itsDashList != nullptr );
-		}
+	}
 	else
-		{
+	{
 		*itsDashList = dashList;
-		}
+	}
 
 	// if odd # of dashes, double the list
 
 	const JSize dashCount = itsDashList->GetElementCount();
 	if (dashCount % 2 == 1)
-		{
+	{
 		for (JIndex i=1; i<=dashCount; i++)
-			{
+		{
 			itsDashList->AppendElement(itsDashList->GetElement(i));
-			}
 		}
+	}
 
 	itsDashOffset = dashOffset;
 
 	const bool shouldPrint =
 		itsDocOpenFlag && PSShouldPrintCurrentPage();
 	if (shouldPrint && itsLastDrawDashedLinesFlag)
-		{
+	{
 		itsLastDrawDashedLinesFlag = false;
 		PSSetLineDashes(true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -304,9 +304,9 @@ JPSPrinterBase::PSString
 	)
 {
 	if (!PSShouldPrintCurrentPage())
-		{
+	{
 		return;
-		}
+	}
 
 	PSSetFont(font);
 
@@ -319,26 +319,26 @@ JPSPrinterBase::PSString
 
 	JFloat angle = userAngle;
 	while (angle <= -45.0)
-		{
+	{
 		angle += 360.0;
-		}
+	}
 	while (angle > 315.0)
-		{
+	{
 		angle -= 360.0;
-		}
+	}
 
 	if (45.0 < angle && angle <= 135.0)
-		{
+	{
 		*itsFile << "90 rotate\n";
-		}
+	}
 	else if (135.0 < angle && angle <= 225.0)
-		{
+	{
 		*itsFile << "180 rotate\n";
-		}
+	}
 	else if (225.0 < angle)
-		{
+	{
 		*itsFile << "270 rotate\n";
-		}
+	}
 
 	// decide where to place the string
 
@@ -354,22 +354,22 @@ JPSPrinterBase::PSString
 	JUtf8Character c;
 	JSize lineLength = 1;
 	while (iter.Next(&c))
-		{
+	{
 		if (c == '\\' || c == '(' || c == ')')
-			{
+		{
 			*itsFile << '\\';
 			lineLength++;
-			}
+		}
 		itsFile->write(c.GetBytes(), c.GetByteCount());
 		lineLength += c.GetByteCount();
 
 		if (lineLength >= 200)
-			{
+		{
 			*itsFile << ") show\n";
 			*itsFile << '(';
 			lineLength = 1;
-			}
 		}
+	}
 	*itsFile << ") show\n";
 
 	iter.Invalidate();
@@ -380,12 +380,12 @@ JPSPrinterBase::PSString
 
 	const JSize underlineCount = font.GetStyle().underlineCount;
 	if (underlineCount > 0)
-		{
+	{
 		const JSize ulWidth = font.GetUnderlineThickness();
 
 		JCoordinate yu = JLCeil(y - 1.5 * ulWidth);			// thick line is centered on path
 		for (JIndex i=1; i<=underlineCount; i++)
-			{
+		{
 			*itsFile << "newpath\n";
 			*itsFile << x << ' ' << yu << " moveto\n";
 			*itsFile << x+strWidth << ' ' << yu << " lineto\n";
@@ -394,11 +394,11 @@ JPSPrinterBase::PSString
 			*itsFile << "stroke\n";
 
 			yu += 2 * ulWidth;
-			}
 		}
+	}
 
 	if (font.GetStyle().strike)
-		{
+	{
 		const JSize strikeWidth = font.GetStrikeThickness();
 		const JCoordinate ys    = y + ascent/2;			// thick line is centered on path
 
@@ -408,7 +408,7 @@ JPSPrinterBase::PSString
 		*itsFile << strikeWidth << " setlinewidth\n";	// gsave => can't call usual functions
 		*itsFile << "[ ] 0 setdash\n";
 		*itsFile << "stroke\n";
-		}
+	}
 
 	// clean up
 
@@ -433,9 +433,9 @@ JPSPrinterBase::PSLine
 	)
 {
 	if (!PSShouldPrintCurrentPage())
-		{
+	{
 		return;
-		}
+	}
 
 	PSSetColor(color);
 
@@ -470,9 +470,9 @@ JPSPrinterBase::PSRect
 	)
 {
 	if (!PSShouldPrintCurrentPage())
-		{
+	{
 		return;
-		}
+	}
 
 	PSSetColor(color);
 
@@ -489,15 +489,15 @@ JPSPrinterBase::PSRect
 	*itsFile << "closepath\n";
 
 	if (!fill)
-		{
+	{
 		PSSetLineWidth(lineWidth);
 		PSSetLineDashes(drawDashedLines);
 		*itsFile << "stroke\n";
-		}
+	}
 	else
-		{
+	{
 		*itsFile << "eofill\n";
-		}
+	}
 }
 
 /******************************************************************************
@@ -521,9 +521,9 @@ JPSPrinterBase::PSArc
 	)
 {
 	if (!PSShouldPrintCurrentPage())
-		{
+	{
 		return;
-		}
+	}
 
 	PSSetColor(color);
 
@@ -537,30 +537,30 @@ JPSPrinterBase::PSArc
 	*itsFile << w/2 << ' ' << h/2 << " scale\n";
 
 	if (fill)
-		{
+	{
 		*itsFile << "0 0 moveto\n";
-		}
+	}
 	*itsFile << "0 0 1 ";
 	if (deltaAngle >= 0.0)
-		{
+	{
 		*itsFile << startAngle;
 		*itsFile << ' ' << startAngle + deltaAngle;
-		}
+	}
 	else
-		{
+	{
 		*itsFile << startAngle + deltaAngle;
 		*itsFile << ' ' << startAngle;
-		}
+	}
 	*itsFile << " arc\n";
 	if (fill)
-		{
+	{
 		*itsFile << "closepath\n";
-		}
+	}
 
 	*itsFile << "setmatrix\n";
 
 	if (!fill)
-		{
+	{
 		// since we called gsave, we can't call the functions normally
 
 		*itsFile << lineWidth << " setlinewidth\n";
@@ -570,11 +570,11 @@ JPSPrinterBase::PSArc
 		itsLastDrawDashedLinesFlag = savedDDL;
 
 		*itsFile << "stroke\n";
-		}
+	}
 	else 
-		{
+	{
 		*itsFile << "eofill\n";
-		}
+	}
 
 	*itsFile << "grestore\n";
 }
@@ -597,9 +597,9 @@ JPSPrinterBase::PSPolygon
 	)
 {
 	if (!PSShouldPrintCurrentPage())
-		{
+	{
 		return;
-		}
+	}
 
 	PSSetColor(color);
 
@@ -611,23 +611,23 @@ JPSPrinterBase::PSPolygon
 	*itsFile << "newpath\n";
 	*itsFile << psPt.x << ' ' << psPt.y << " moveto\n";
 	for (JSize i=2; i<=count; i++)
-		{
+	{
 		const JPoint curr = poly.GetElement(i);
 		psPt = ConvertToPS(left+curr.x, top+curr.y);
 		*itsFile << psPt.x << ' ' << psPt.y << " lineto\n";
-		}
+	}
 	*itsFile << "closepath\n";
 
 	if (!fill)
-		{
+	{
 		PSSetLineWidth(lineWidth);
 		PSSetLineDashes(drawDashedLines);
 		*itsFile << "stroke\n";
-		}
+	}
 	else 
-		{
+	{
 		*itsFile << "eofill\n";
-		}
+	}
 }
 
 /******************************************************************************
@@ -646,22 +646,22 @@ JPSPrinterBase::PSColorImage
 	JRect srcRect;
 	if (!PSShouldPrintCurrentPage() ||
 		!JIntersection(userSrcRect, image.GetBounds(), &srcRect))
-		{
+	{
 		return;
-		}
+	}
 
 	const JCoordinate destX = (destRect.left + destRect.right - srcRect.width())/2;
 	const JCoordinate destY = (destRect.top + destRect.bottom - srcRect.height())/2;
 
 	JImageMask* mask;
 	if (image.GetMask(&mask))
-		{
+	{
 		PSColorImageWithMask(image, *mask, srcRect, destX, destY);
-		}
+	}
 	else
-		{
+	{
 		PSColorImageNoMask(image, srcRect, destX, destY);
-		}
+	}
 }
 
 // private
@@ -694,31 +694,31 @@ JPSPrinterBase::PSColorImageNoMask
 	JSize c[3];	// r,g,b
 	JIndex lineLength = 0;
 	for (JCoordinate y=srcRect.top; y<srcRect.bottom; y++)
-		{
+	{
 		for (JCoordinate x=srcRect.left; x<srcRect.right; x++)
-			{
+		{
 			const JColorID color = image.GetColor(x,y);
 			PSConvertToRGB(color, &(c[0]), &(c[1]), &(c[2]));
 			for (auto v : c)
-				{
+			{
 				if (v <= 0x0F)
-					{
+				{
 					*itsFile << '0';	// must print two characters
-					}
-				*itsFile << v;
 				}
+				*itsFile << v;
+			}
 			lineLength += 6;
 			if (lineLength >= 252)
-				{
+			{
 				*itsFile << '\n';
 				lineLength = 0;
-				}
 			}
 		}
+	}
 	if (lineLength > 0)
-		{
+	{
 		*itsFile << '\n';
-		}
+	}
 
 	itsFile->setf(std::ios::dec, std::ios::basefield);
 	*itsFile << "grestore\n";
@@ -737,18 +737,18 @@ JPSPrinterBase::PSColorImageWithMask
 	)
 {
 	for (JCoordinate y=srcRect.top; y<srcRect.bottom; y++)
-		{
+	{
 		const JCoordinate y1 = destY + y - srcRect.top;
 
 		for (JCoordinate x=srcRect.left; x<srcRect.right; x++)
-			{
+		{
 			if (mask.ContainsPixel(x,y))
-				{
+			{
 				const JCoordinate x1 = destX + x - srcRect.left;
 				PSLine(x1,y1, x1+1,y1, image.GetColor(x,y), 1, false);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -820,7 +820,7 @@ JPSPrinterBase::PSSetFont
 		font.GetSize()         != itsLastFont.GetSize() ||
 		font.GetStyle().bold   != itsLastFont.GetStyle().bold ||
 		font.GetStyle().italic != itsLastFont.GetStyle().italic)
-		{
+	{
 		itsFontSetFlag = true;
 		itsLastFont    = font;
 
@@ -838,7 +838,7 @@ JPSPrinterBase::PSSetFont
 		*itsFile << kCurrFontName << " exch definefont\n";
 
 		*itsFile << font.GetSize() << " scalefont setfont\n";
-		}
+	}
 
 	PSSetColor(font.GetStyle().color);
 }
@@ -860,86 +860,86 @@ JPSPrinterBase::AdjustFontName
 	)
 {
 	if (name->Contains(" Mono"))
-		{
+	{
 		*name = "Courier";
 		ApplyStyles(name, style, nullptr, "Oblique");
 		return;
-		}
+	}
 	else if (name->Contains(" Sans"))
-		{
+	{
 		*name = "Helvetica";
 		ApplyStyles(name, style, nullptr, "Oblique");
 		return;
-		}
+	}
 	else if (*name == "Times" || name->Contains(" Serif"))
-		{
+	{
 		*name = "Times";
 		ApplyStyles(name, style, "Roman", "Italic");
 		return;
-		}
+	}
 	else if (name->Contains("Century Schoolbook"))
-		{
+	{
 		*name = "NewCenturySchlbk";
 		ApplyStyles(name, style, "Roman", "Italic");
 		return;
-		}
+	}
 	else if (name->Contains("Bookman"))
-		{
+	{
 		*name = "Bookman";
 
 		if (style.bold && style.italic)
-			{
-			name->Append("-DemiItalic");
-			}
-		else if (style.bold)
-			{
-			name->Append("-Demi");
-			}
-		else if (style.italic)
-			{
-			name->Append("-LightItalic");
-			}
-		else
-			{
-			name->Append("-Light");
-			}
-		return;
-		}
-	else if (name->Contains("Palatino"))
 		{
+			name->Append("-DemiItalic");
+		}
+		else if (style.bold)
+		{
+			name->Append("-Demi");
+		}
+		else if (style.italic)
+		{
+			name->Append("-LightItalic");
+		}
+		else
+		{
+			name->Append("-Light");
+		}
+		return;
+	}
+	else if (name->Contains("Palatino"))
+	{
 		*name = "Bookman";
 		ApplyStyles(name, style, "Roman", "Italic");
 		return;
-		}
+	}
 	else if (name->Contains("Chancery"))
-		{
+	{
 		*name = "ZapfChancery-MediumItalic";
 		return;
-		}
+	}
 	else if (*name == "Symbol")
-		{
+	{
 		return;
-		}
+	}
 
 	// default processing
 /*
 	if (name->EndsWith(" L"))
-		{
+	{
 		name->RemoveSubstring(name->GetLength()-1, name->GetLength());
-		}
+	}
 	else if (name->EndsWith(" Light"))
-		{
+	{
 		name->RemoveSubstring(name->GetLength()-1, name->GetLength());
-		}
+	}
 
 	const JSize length = name->GetLength();
 	for (JIndex i=length; i>=1; i--)
-		{
+	{
 		if (isspace(name->GetCharacter(i)))
-			{
+		{
 			name->RemoveSubstring(i,i);
-			}
 		}
+	}
 */
 	*name = "Helvetica";
 	ApplyStyles(name, style, nullptr, "Oblique");
@@ -960,24 +960,24 @@ JPSPrinterBase::ApplyStyles
 	)
 {
 	if (style.bold && style.italic)
-		{
+	{
 		name->Append("-Bold");
 		name->Append(italicStr);
-		}
+	}
 	else if (style.bold)
-		{
+	{
 		name->Append("-Bold");
-		}
+	}
 	else if (style.italic)
-		{
+	{
 		name->Append("-");
 		name->Append(italicStr);
-		}
+	}
 	else if (!JString::IsEmpty(defaultStr))
-		{
+	{
 		name->Append("-");
 		name->Append(defaultStr);
-		}
+	}
 }
 
 /******************************************************************************
@@ -994,14 +994,14 @@ JPSPrinterBase::PSSetColor
 	)
 {
 	if (color != itsLastColor)
-		{
+	{
 		itsLastColor = color;
 
 		JSize r,g,b;
 		PSConvertToRGB(color, &r, &g, &b);
 		*itsFile << r/255.0 << ' ' << g/255.0 << ' ' << b/255.0;
 		*itsFile << " setrgbcolor\n";
-		}
+	}
 }
 
 /******************************************************************************
@@ -1022,20 +1022,20 @@ JPSPrinterBase::PSConvertToRGB
 	const
 {
 	if (itsBWFlag && color != JColorManager::GetWhiteColor())
-		{
+	{
 		*red = *green = *blue = 0;		// black
-		}
+	}
 	else if (itsBWFlag)
-		{
+	{
 		*red = *green = *blue = 255;	// white
-		}
+	}
 	else
-		{
+	{
 		const JRGB rgb = JColorManager::GetRGB(color);
 		*red   = rgb.red   / 256;
 		*green = rgb.green / 256;
 		*blue  = rgb.blue  / 256;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1050,12 +1050,12 @@ JPSPrinterBase::PSSetLineWidth
 	)
 {
 	if (width != itsLastLineWidth || !itsLastLineWidthInit)
-		{
+	{
 		itsLastLineWidthInit = true;
 		itsLastLineWidth     = width;
 
 		*itsFile << width << " setlinewidth\n";
-		}
+	}
 }
 
 /******************************************************************************
@@ -1070,32 +1070,32 @@ JPSPrinterBase::PSSetLineDashes
 	)
 {
 	if (drawDashedLines != itsLastDrawDashedLinesFlag)
-		{
+	{
 		itsLastDrawDashedLinesFlag = drawDashedLines;
 
 		if (drawDashedLines)
-			{
+		{
 			assert( itsDashList != nullptr );
 
 			*itsFile << '[';
 
 			const JSize dashCount = itsDashList->GetElementCount();
 			for (JIndex i=1; i<=dashCount; i++)
-				{
+			{
 				if (i > 1)
-					{
+				{
 					*itsFile << ' ';
-					}
-				*itsFile << itsDashList->GetElement(i);
 				}
+				*itsFile << itsDashList->GetElement(i);
+			}
 
 			*itsFile << "] " << itsDashOffset << " setdash\n";
-			}
-		else
-			{
-			*itsFile << "[ ] 0 setdash\n";
-			}
 		}
+		else
+		{
+			*itsFile << "[ ] 0 setdash\n";
+		}
+	}
 }
 
 /******************************************************************************

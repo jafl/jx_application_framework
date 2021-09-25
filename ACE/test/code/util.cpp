@@ -38,7 +38,7 @@ TalkToClient
 
 	const bool ok = ReceiveMessage(socket);
 	if (ok)
-		{
+	{
 		// This tests that clients are willing to wait.
 
 		JWait(1.0);
@@ -46,10 +46,10 @@ TalkToClient
 		// Reply to the bothersome twit.
 
 		if (socket.send_n(kMsgToClient, kMsgToClientLength) != kMsgToClientLength)
-			{
+		{
 			std::cerr << "error trying to send: " << jerrno() << std::endl;
-			}
 		}
+	}
 
 	return ok;
 }
@@ -72,11 +72,11 @@ TalkToServer
 	// Say hello to the nice server.
 
 	if (socket.send_n(kMsgToServer, kMsgToServerLength) != kMsgToServerLength)
-		{
+	{
 		std::cerr << "error trying to send: " << jerrno() << std::endl;
 		socket.close();
 		exit(1);
-		}
+	}
 
 	// Wait for the server to reply.
 
@@ -85,9 +85,9 @@ TalkToServer
 	// Close the connection completely.
 
 	if (socket.close() == -1) 
-		{
+	{
 		std::cerr << "error trying to close connection: " << jerrno() << std::endl;
-		}
+	}
 }
 
 /******************************************************************************
@@ -110,23 +110,23 @@ ReceiveMessage
 
 	JString msgFromServer;
 	while (true)
-		{
+	{
 		const ssize_t count = socket.recv(buffer, kBufSize, 0, &timeOut);
 		if (count == -1)
-			{
+		{
 			std::cerr << "error while waiting for message: " << jerrno() << std::endl;
 			return false;
-			}
+		}
 		else if (count > 0)
-			{
+		{
 			std::cout << "received " << count << " bytes" << std::endl;
 			msgFromServer.Append(buffer, count);
 
 			if (msgFromServer.GetLastCharacter() == kEndOfMessage)
-				{
+			{
 				std::cout << "received: " << msgFromServer << std::endl;
 				return true;
-				}
 			}
 		}
+	}
 }

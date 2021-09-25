@@ -79,9 +79,9 @@ JXFileNameDisplay::Receive
 	)
 {
 	if (sender == this && message.Is(JStyledText::kTextSet))
-		{
+	{
 		GoToEndOfLine();
-		}
+	}
 
 	JXStaticText::Receive(sender, message);
 }
@@ -104,13 +104,13 @@ JXFileNameDisplay::BoundsMoved
 
 	const JRect ap = GetAperture();
 	if (ap.left != 0)
-		{
+	{
 		SetHint(GetText()->GetText());
-		}
+	}
 	else
-		{
+	{
 		ClearHint();
-		}
+	}
 }
 
 /******************************************************************************

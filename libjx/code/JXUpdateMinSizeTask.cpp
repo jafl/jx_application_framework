@@ -43,7 +43,7 @@ void
 JXUpdateMinSizeTask::Perform()
 {
 	if (itsDockWidget != nullptr)
-		{
+	{
 		itsDockWidget->UpdateMinSize();
-		}
+	}
 }

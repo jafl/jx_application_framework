@@ -78,20 +78,20 @@ MDRecordList::ClosestMatch
 	bool found;
 	JIndex i = itsAlphaRecords->SearchSorted1(&target, JListT::kFirstMatch, &found);
 	if (i > itsAlphaRecords->GetElementCount())		// insert beyond end of list
-		{
+	{
 		i = itsAlphaRecords->GetElementCount();
-		}
+	}
 
 	if (i > 0)
-		{
+	{
 		*record = itsAlphaRecords->GetElement(i);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*record = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -108,38 +108,38 @@ MDRecordList::SetSortColumn
 	bool changed = false;
 
 	if (index == kRecordState)
-		{
+	{
 		itsRecords->SetCompareFunction(MDRecord::CompareState);
 		itsRecords->SetSortOrder(JListT::kSortAscending);
 		itsSortColumn = kRecordState;
 		changed       = true;
-		}
+	}
 	else if (index == kRecordFile || index == kRecordLine)
-		{
+	{
 		itsRecords->SetCompareFunction(MDRecord::CompareFileName);
 		itsRecords->SetSortOrder(JListT::kSortAscending);
 		itsSortColumn = kRecordFile;
 		changed       = true;
-		}
+	}
 	else if (index == kRecordSize)
-		{
+	{
 		itsRecords->SetCompareFunction(MDRecord::CompareSize);
 		itsRecords->SetSortOrder(JListT::kSortDescending);
 		itsSortColumn = kRecordSize;
 		changed       = true;
-		}
+	}
 	else if (index == kRecordData)
-		{
+	{
 		itsRecords->SetCompareFunction(MDRecord::CompareData);
 		itsRecords->SetSortOrder(JListT::kSortAscending);
 		itsSortColumn = kRecordData;
 		changed       = true;
-		}
+	}
 
 	if (changed)
-		{
+	{
 		Broadcast(PrepareForUpdate());
 		itsRecords->Sort();
 		Broadcast(ListChanged());
-		}
+	}
 }

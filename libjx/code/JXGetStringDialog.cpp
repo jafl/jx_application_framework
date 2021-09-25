@@ -106,7 +106,7 @@ JXGetStringDialog::BuildWindow
 	promptDisplay->GetText()->SetText(prompt);
 
 	if (password)
-		{
+	{
 		const JRect r = itsInputField->GetFrame();
 		jdelete itsInputField;
 		itsInputField =
@@ -114,10 +114,10 @@ JXGetStringDialog::BuildWindow
 				JXWidget::kHElastic, JXWidget::kFixedTop,
 				r.left, r.top, r.width(), r.height());
 		assert( itsInputField != nullptr );
-		}
+	}
 	else if (!initialValue.IsEmpty())
-		{
+	{
 		itsInputField->GetText()->SetText(initialValue);
-		}
+	}
 	itsInputField->SetIsRequired();
 }

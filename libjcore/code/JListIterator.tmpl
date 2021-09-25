@@ -15,9 +15,9 @@
 		MyData                item;
 
 		while(iterator.Next(&item))
-			{
+		{
 			<do something with the item>
-			}
+		}
 
 	An iterator is robust in the face of insertions and deletions to
 	the JList it is working on:
@@ -204,10 +204,10 @@ JListIterator<T>::GetPrevElementIndex
 	const
 {
 	if (this->AtBeginning())
-		{
+	{
 		*i = 0;
 		return false;
-		}
+	}
 
 	*i = itsCursorPosition;
 	return true;
@@ -229,10 +229,10 @@ JListIterator<T>::GetNextElementIndex
 	const
 {
 	if (this->AtEnd())
-		{
+	{
 		*i = 0;
 		return false;
-		}
+	}
 
 	*i = itsCursorPosition + 1;
 	return true;
@@ -252,33 +252,33 @@ JListIterator<T>::MoveTo
 	)
 {
 	if (itsConstList == nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	if (newPosition == kJIteratorStartAtBeginning)
-		{
+	{
 		itsCursorPosition = 0;
-		}
+	}
 	else if (newPosition == kJIteratorStartAtEnd)
-		{
+	{
 		itsCursorPosition = itsConstList->GetElementCount();
-		}
+	}
 	else if (newPosition == kJIteratorStartBefore)
-		{
+	{
 		assert( (itsConstList->IsEmpty() && index == 1) ||
 				index == itsConstList->GetElementCount()+1 ||
 				itsConstList->IndexValid(index));
 
 		itsCursorPosition = index-1;
-		}
+	}
 	else
-		{
+	{
 		assert( newPosition == kJIteratorStartAfter );
 		assert( itsConstList->IndexValid(index) );
 
 		itsCursorPosition = index;
-		}
+	}
 }
 
 /******************************************************************************
@@ -393,12 +393,12 @@ JListIterator<T>::Prev
 	)
 {
 	while (Prev(data))
-		{
+	{
 		if (match(*data))
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -423,12 +423,12 @@ JListIterator<T>::Next
 	)
 {
 	while (Next(data))
-		{
+	{
 		if (match(*data))
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -445,11 +445,11 @@ void
 JListIterator<T>::AddToIteratorList()
 {
 	if (itsConstList != nullptr)
-		{
+	{
 		JList<T>* list         = const_cast<JList<T>*>(itsConstList);
 		itsNextIterator        = list->itsFirstIterator;
 		list->itsFirstIterator = this;
-		}
+	}
 }
 
 /******************************************************************************
@@ -464,33 +464,33 @@ void
 JListIterator<T>::RemoveFromIteratorList()
 {
 	if (itsConstList == nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	JListIterator<T>* firstIterator = itsConstList->itsFirstIterator;
 
 	if (firstIterator == this)
-		{
+	{
 		const_cast<JList<T>*>(itsConstList)->itsFirstIterator = itsNextIterator;
-		}
+	}
 	else
-		{
+	{
 		JListIterator<T>* prevIterator = firstIterator;
 		JListIterator<T>* currIterator = firstIterator->itsNextIterator;
 
 		while (currIterator != nullptr)
-			{
+		{
 			if (currIterator == this)
-				{
+			{
 				prevIterator->itsNextIterator = itsNextIterator;
 				break;
-				}
+			}
 
 			prevIterator = currIterator;
 			currIterator = currIterator->itsNextIterator;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -510,44 +510,44 @@ JListIterator<T>::ListChanged
 	)
 {
 	if (message.Is(JListT::kElementsInserted))
-		{
+	{
 		const JListT::ElementsInserted* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != nullptr );
 		if (itsCursorPosition >= info->GetFirstIndex())
-			{
-			itsCursorPosition += info->GetCount();
-			}
-		}
-	else if (message.Is(JListT::kElementsRemoved))
 		{
+			itsCursorPosition += info->GetCount();
+		}
+	}
+	else if (message.Is(JListT::kElementsRemoved))
+	{
 		const JListT::ElementsRemoved* info =
 			dynamic_cast<const JListT::ElementsRemoved*>(&message);
 		assert( info != nullptr );
 		if (itsCursorPosition > info->GetLastIndex())
-			{
+		{
 			itsCursorPosition -= info->GetCount();
-			}
+		}
 		else if (itsCursorPosition >= info->GetFirstIndex())
-			{
+		{
 			itsCursorPosition = info->GetFirstIndex()-1;
-			}
 		}
+	}
 	else if (message.Is(JListT::kCopied))
-		{
+	{
 		itsCursorPosition = 0;
-		}
+	}
 	else if (message.Is(JListT::kGoingAway))
-		{
+	{
 		itsConstList      = nullptr;
 		itsList           = nullptr;
 		itsCursorPosition = 0;
-		}
+	}
 
 	if (itsNextIterator != nullptr)
-		{
+	{
 		itsNextIterator->ListChanged(message);
-		}
+	}
 }
 
 /******************************************************************************

@@ -83,13 +83,13 @@ JXFLInputBase::HandleKeyPress
 	)
 {
 	if (c == kJReturnKey)
-		{
+	{
 		(itsFLSet->GetTable())->Focus();
-		}
+	}
 	else
-		{
+	{
 		JXInputField::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -101,21 +101,21 @@ bool
 JXFLInputBase::OKToUnfocus()
 {
 	if (!JXInputField::OKToUnfocus())
-		{
+	{
 		return false;
-		}
+	}
 
 	const JError err = Apply();
 	if (err.OK())
-		{
+	{
 		itsHistoryMenu->AddString(GetText()->GetText());
 		return true;
-		}
+	}
 	else
-		{
+	{
 		err.ReportIfError();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -131,25 +131,25 @@ JXFLInputBase::Receive
 	)
 {
 	if (sender == itsHistoryMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JString origStr = GetText()->GetText();
 		const JString newStr  = itsHistoryMenu->GetItemText(message);
 		GetText()->SetText(newStr);
 
 		const JError err = Apply();
 		if (err.OK())
-			{
+		{
 			itsHistoryMenu->AddString(newStr);
-			}
+		}
 		else
-			{
+		{
 			GetText()->SetText(origStr);
 			err.ReportIfError();
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXInputField::Receive(sender, message);
-		}
+	}
 }

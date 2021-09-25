@@ -108,23 +108,23 @@ JMDIServer::WillBeMDIServer
 
 	const JString socketName = GetMDISocketName(signature);
 	if (!JUNIXSocketExists(socketName))
-		{
+	{
 		for (int i=0; i<argc; i++)
-			{
+		{
 			if (strcmp(argv[i], JMDIServer::kQuitOptionName) == 0)
-				{
+			{
 				return false;
-				}
 			}
+		}
 
 		if (JNameUsed(socketName))
-			{
+		{
 			std::cerr << "Unable to initiate MDI because " << socketName << std::endl;
 			std::cerr << "exists as something else." << std::endl;
 			exit(1);
-			}
-		return true;
 		}
+		return true;
+	}
 
 	// open a connection to the existing server
 
@@ -132,10 +132,10 @@ JMDIServer::WillBeMDIServer
 	ACE_LSOCK_Connector connector;
 	ACE_LSOCK_Stream socket;
 	if (connector.connect(socket, addr) == -1)
-		{
+	{
 		ACE_OS::unlink(socketName.GetBytes());
 		return true;
-		}
+	}
 
 	bool receivedFinishedFlag = false;
 
@@ -145,30 +145,30 @@ JMDIServer::WillBeMDIServer
 	const bool serverOK =
 		ReceiveLine(socket, true, &serverStatus, &receivedFinishedFlag);
 	if (!serverOK && !JUNIXSocketExists(socketName))		// user deleted dead socket
-		{
+	{
 		socket.close();
 		return true;
-		}
+	}
 	else if (!serverOK && ACE_OS::unlink(socketName.GetBytes()) == -1)
-		{
+	{
 		std::cerr << "Unable to transmit MDI request." << std::endl;
 		std::cerr << socketName << "appears to be dead," << std::endl;
 		std::cerr << "but an error ocurred while trying to delete it." << std::endl;
 		exit(1);
-		}
+	}
 	else if (!serverOK)
-		{
+	{
 		socket.close();
 		return true;
-		}
+	}
 
 	if (serverStatus == kServerBusyMsg)
-		{
+	{
 		std::cerr << argv[0] << " is busy, probably because of a blocking window." << std::endl;
 		std::cerr << "(e.g. a dialog or an error message)" << std::endl;
 		WaitForFinished(socket, receivedFinishedFlag);
 		return false;
-		}
+	}
 
 	assert( serverStatus == kServerReadyMsg );
 
@@ -178,9 +178,9 @@ JMDIServer::WillBeMDIServer
 	SendLine(socket, dir);
 
 	for (int i=0; i<argc; i++)
-		{
+	{
 		SendLine(socket, JString(argv[i], JString::kNoCopy));
-		}
+	}
 
 	WaitForFinished(socket, receivedFinishedFlag);
 	return false;
@@ -206,9 +206,9 @@ JMDIServer::HandleCmdLineOptions
 
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 	for (JUnsignedOffset i=0; i < (JIndex) argc; i++)
-		{
+	{
 		argList.Append(JString(argv[i], JString::kNoCopy));
-		}
+	}
 
 	HandleMDIRequest(dir, argList);
 }
@@ -225,9 +225,9 @@ JMDIServer::CheckForConnections()
 {
 	ACE_Time_Value dontWait(0,0);
 	if (itsAcceptor->accept(*itsSocket, nullptr, &dontWait) != -1)
-		{
+	{
 		ProcessMDIMessage();
-		}
+	}
 }
 
 /******************************************************************************
@@ -248,31 +248,31 @@ JMDIServer::ProcessMDIMessage()
 	// tell them our status
 
 	if (CanAcceptMDIRequest())
-		{
+	{
 		SendLine(*itsSocket, kServerReadyMsg);
-		}
+	}
 	else
-		{
+	{
 		SendLine(*itsSocket, kServerBusyMsg);
 		WaitForFinished(*itsSocket, receivedFinishedFlag);
 		return;
-		}
+	}
 
 	// receive their message
 
 	JString dir;
 	if (!ReceiveLine(*itsSocket, false, &dir, &receivedFinishedFlag))
-		{
+	{
 		itsSocket->close();
 		return;
-		}
+	}
 
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 	JString tempStr;
 	while (ReceiveLine(*itsSocket, false, &tempStr, &receivedFinishedFlag))
-		{
+	{
 		argList.Append(tempStr);
-		}
+	}
 
 	WaitForFinished(*itsSocket, receivedFinishedFlag);
 
@@ -281,9 +281,9 @@ JMDIServer::ProcessMDIMessage()
 	PreprocessArgList(&argList);
 
 	if (!argList.IsEmpty())
-		{
+	{
 		HandleMDIRequest(dir, argList);
-		}
+	}
 }
 
 /******************************************************************************
@@ -363,33 +363,33 @@ JMDIServer::ReceiveLine
 
 	const ACE_Time_Value timeout(kMDIMaxWaitTime);
 	while (!(*receivedFinishedFlag))
-		{
+	{
 		JUtf8Byte c;
 		int result;
 		if (block)
-			{
+		{
 			result = socket.recv_n(&c, 1);
-			}
+		}
 		else
-			{
+		{
 			result = socket.recv(&c, 1, &timeout);
-			}
+		}
 
 		if (result == 1 && c == kEndOfLine)
-			{
+		{
 			return true;
-			}
+		}
 		else if ((result == 1 && c == kEndOfMessage) ||
 				 jerrno() == ETIME)
-			{
+		{
 			*receivedFinishedFlag = true;
 			return false;
-			}
-		else if (result == 1)
-			{
-			line->Append(JUtf8Character(c));
-			}
 		}
+		else if (result == 1)
+		{
+			line->Append(JUtf8Character(c));
+		}
+	}
 
 	return false;
 }
@@ -418,10 +418,10 @@ JMDIServer::WaitForFinished
 	// (Note that this also returns if recv() returns -1.)
 
 	if (!receivedFinishedFlag)
-		{
+	{
 		while (socket.recv(&c, 1) == 0 || c != kEndOfMessage)
-			{ };
-		}
+		{ };
+	}
 
 	socket.close();
 }

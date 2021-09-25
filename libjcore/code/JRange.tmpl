@@ -88,23 +88,23 @@ JCovering
 	const bool n1 = r1.IsNothing();
 	const bool n2 = r2.IsNothing();
 	if (n1 && n2)
-		{
+	{
 		return JRange<T>();
-		}
+	}
 	else if (n1)
-		{
+	{
 		return r2;
-		}
+	}
 	else if (n2)
-		{
+	{
 		return r1;
-		}
+	}
 	else
-		{
+	{
 		return JRange<T>( JMin(r1.first, r2.first),
 						  JMax(r1.IsEmpty() ? r1.first-1 : r1.last,
 							   r2.IsEmpty() ? r2.first-1 : r2.last) );
-		}
+	}
 }
 
 /******************************************************************************
@@ -126,15 +126,15 @@ JIntersection
 	const T min = JMax(r1.first, r2.first);
 	const T max = JMin(r1.last,  r2.last);
 	if (max >= min)
-		{
+	{
 		result->Set(min, max);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		result->SetToNothing();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

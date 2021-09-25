@@ -88,13 +88,13 @@ JExponent::Evaluate
 {
 	JFloat value, exponent;
 	if (!(GetArg1())->Evaluate(&value))
-		{
+	{
 		return false;
-		}
+	}
 	if (!(GetArg2())->Evaluate(&exponent))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = pow(value, exponent);
 	return jerrno_is_clear();
@@ -109,33 +109,33 @@ JExponent::Evaluate
 {
 	JComplex value, exponent;
 	if (!(GetArg1())->Evaluate(&value))
-		{
+	{
 		return false;
-		}
+	}
 	if (!(GetArg2())->Evaluate(&exponent))
-		{
+	{
 		return false;
-		}
+	}
 
 	// avoid bug in g++ implementation
 	if (real(value) == 0.0 && imag(value) == 0.0)
-		{
+	{
 		if (real(exponent) == 0.0 && imag(exponent) == 0.0)
-			{
-			*result = 1.0;		// 0 ^ 0
-			}
-		else
-			{
-			*result = 0.0;		// 0 ^ x, x != 0.0
-			}
-		return true;
-		}
-	else
 		{
+			*result = 1.0;		// 0 ^ 0
+		}
+		else
+		{
+			*result = 0.0;		// 0 ^ x, x != 0.0
+		}
+		return true;
+	}
+	else
+	{
 		jclear_errno();
 		*result = pow(value, exponent);
 		return jerrno_is_clear();
-		}
+	}
 }
 
 /******************************************************************************
@@ -164,12 +164,12 @@ JExponent::Layout
 	argUpperLeft.x = baseRect.right;
 
 	if (JParenthesizeArgForRender(*this, *base))
-		{
+	{
 		const JSize parenWidth = renderer.GetParenthesisWidth(baseRect.height());
 		rectList->ShiftRect(baseIndex, parenWidth, 0);
 		baseRect = rectList->GetRect(baseIndex);
 		argUpperLeft.x += 2*parenWidth;
-		}
+	}
 
 	// get rectangle for exponent
 
@@ -192,13 +192,13 @@ JExponent::Layout
 	// shift the base down to the correct position inside ourRect
 
 	if (ourRect.bottom > baseRect.bottom)
-		{
+	{
 		rectList->ShiftRect(baseIndex, 0, ourRect.bottom - baseRect.bottom);
-		}
+	}
 	else
-		{
+	{
 		ourRect.bottom = baseRect.bottom;
-		}
+	}
 
 	// save our rectangle
 
@@ -221,12 +221,12 @@ JExponent::Render
 {
 	const JFunction* base = GetArg1();
 	if (JParenthesizeArgForRender(*this, *base))
-		{
+	{
 		JIndex baseIndex;
 		const bool found = rectList.FindFunction(base, &baseIndex);
 		assert( found );
 		renderer.DrawParentheses(rectList.GetRect(baseIndex));
-		}
+	}
 
 	base->Render(renderer, rectList);
 	(GetArg2())->Render(renderer, rectList);

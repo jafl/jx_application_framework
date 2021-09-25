@@ -89,16 +89,16 @@ JTableSelectionIterator::Prev
 {
 	JPoint cell;
 	if (Prev(&cell))
-		{
+	{
 		*row = cell.y;
 		*col = cell.x;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*row = *col = 0;
 		return false;
-		}
+	}
 }
 
 bool
@@ -108,19 +108,19 @@ JTableSelectionIterator::Prev
 	)
 {
 	if (AtBeginning())
-		{
+	{
 		*cell = JPoint(0,0);
 		return false;
-		}
+	}
 
 	while (PrevCell())
-		{
+	{
 		if (itsTableSelection->IsSelected(itsCursor))
-			{
+		{
 			*cell = itsCursor;
 			return true;
-			}
 		}
+	}
 
 	*cell = JPoint(0,0);
 	return false;
@@ -138,49 +138,49 @@ JTableSelectionIterator::PrevCell()
 	const JSize colCount = itsTableSelection->GetColCount();
 
 	if (rowCount == 0 || colCount == 0)
-		{
+	{
 		return false;
-		}
+	}
 
 	else if (itsAtEndFlag)
-		{
+	{
 		// we simply clear the flag
 		assert( (JIndex) itsCursor.x == colCount &&
 				(JIndex) itsCursor.y == rowCount );
-		}
+	}
 
 	// check this after itsAtEndFlag to handle case where table is 1x1
 
 	else if (itsCursor.y <= 1 && itsCursor.x <= 1)
-		{
+	{
 		return false;
-		}
+	}
 
 	else if (itsDirection == kIterateByCol)
-		{
+	{
 		if (itsCursor.y <= 1)
-			{
+		{
 			itsCursor.y = rowCount;
 			itsCursor.x--;
-			}
-		else
-			{
-			itsCursor.y--;
-			}
 		}
+		else
+		{
+			itsCursor.y--;
+		}
+	}
 
 	else	// itsDirection == kIterateByRow
-		{
+	{
 		if (itsCursor.x <= 1)
-			{
+		{
 			itsCursor.x = colCount;
 			itsCursor.y--;
-			}
-		else
-			{
-			itsCursor.x--;
-			}
 		}
+		else
+		{
+			itsCursor.x--;
+		}
+	}
 
 	itsAtEndFlag = false;
 	return true;
@@ -204,16 +204,16 @@ JTableSelectionIterator::Next
 {
 	JPoint cell;
 	if (Next(&cell))
-		{
+	{
 		*row = cell.y;
 		*col = cell.x;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*row = *col = 0;
 		return false;
-		}
+	}
 }
 
 bool
@@ -223,14 +223,14 @@ JTableSelectionIterator::Next
 	)
 {
 	while (!AtEnd())
-		{
+	{
 		*cell = itsCursor;
 		NextCell();
 		if (itsTableSelection->IsSelected(*cell))
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	*cell = JPoint(0,0);
 	return false;
@@ -250,36 +250,36 @@ JTableSelectionIterator::NextCell()
 	if (rowCount == 0 || colCount == 0 ||
 		((JIndex) itsCursor.y >= rowCount &&
 		 (JIndex) itsCursor.x >= colCount))
-		{
+	{
 		itsAtEndFlag = true;
 		return false;
-		}
+	}
 
 	else if (itsDirection == kIterateByCol)
-		{
+	{
 		if ((JIndex) itsCursor.y >= rowCount)
-			{
+		{
 			itsCursor.y = 1;
 			itsCursor.x++;
-			}
-		else
-			{
-			itsCursor.y++;
-			}
 		}
+		else
+		{
+			itsCursor.y++;
+		}
+	}
 
 	else	// itsDirection == kIterateByRow
-		{
+	{
 		if ((JIndex) itsCursor.x >= colCount)
-			{
+		{
 			itsCursor.x = 1;
 			itsCursor.y++;
-			}
-		else
-			{
-			itsCursor.x++;
-			}
 		}
+		else
+		{
+			itsCursor.x++;
+		}
+	}
 
 	return true;
 }
@@ -297,9 +297,9 @@ JTableSelectionIterator::MoveTo
 	)
 {
 	if (itsTableSelection == nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	const JSize rowCount = itsTableSelection->GetRowCount();
 	const JSize colCount = itsTableSelection->GetColCount();
@@ -307,31 +307,31 @@ JTableSelectionIterator::MoveTo
 	itsAtEndFlag = false;
 
 	if (newPosition == kJIteratorStartAtBeginning)
-		{
+	{
 		itsCursor.x = 1;
 		itsCursor.y = 1;
-		}
+	}
 
 	else if (newPosition == kJIteratorStartAtEnd)
-		{
+	{
 		itsCursor.x  = JMax((JSize) 1, colCount);
 		itsCursor.y  = JMax((JSize) 1, rowCount);
 		itsAtEndFlag = true;
-		}
+	}
 
 	else if (newPosition == kJIteratorStartBefore)
-		{
+	{
 		assert( itsTableSelection->CellValid(cell) );
 		itsCursor = cell;
-		}
+	}
 
 	else
-		{
+	{
 		assert( newPosition == kJIteratorStartAfter );
 		assert( itsTableSelection->CellValid(cell) );
 		itsCursor = cell;
 		NextCell();
-		}
+	}
 }
 
 /******************************************************************************
@@ -381,9 +381,9 @@ JTableSelectionIterator::Receive
 	)
 {
 	if (sender != const_cast<JTableSelection*>(itsTableSelection))
-		{
+	{
 		return;
-		}
+	}
 
 	const JSize rowCount = itsTableSelection->GetRowCount();
 	const JSize colCount = itsTableSelection->GetColCount();
@@ -391,92 +391,92 @@ JTableSelectionIterator::Receive
 	// rows changed
 
 	if (message.Is(JTableData::kRowsInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowsInserted*>(&message);
 		assert( info != nullptr );
 		info->AdjustCell(&itsCursor);
-		}
+	}
 
 	else if (message.Is(JTableData::kRowDuplicated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowDuplicated*>(&message);
 		assert( info != nullptr );
 		info->AdjustCell(&itsCursor);
-		}
+	}
 
 	else if (message.Is(JTableData::kRowsRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowsRemoved*>(&message);
 		assert( info != nullptr );
 		JPoint newCursor = itsCursor;
 		if (info->AdjustCell(&newCursor))
-			{
+		{
 			itsCursor = newCursor;
-			}
+		}
 		else if (itsDirection == kIterateByRow &&
 				 (JIndex) itsCursor.y <= rowCount)
-			{
+		{
 			itsCursor.x = 1;
-			}
+		}
 		else if (itsDirection == kIterateByRow)
-			{
+		{
 			MoveTo(kJIteratorStartAtEnd, 0,0);
-			}
+		}
 		else if (itsDirection == kIterateByCol &&
 				 (JIndex) itsCursor.y > rowCount)
-			{
+		{
 			itsCursor.y = JMax((JSize) 1, rowCount);
 			NextCell();
-			}
 		}
+	}
 
 	// columns changed
 
 	else if (message.Is(JTableData::kColsInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColsInserted*>(&message);
 		assert( info != nullptr );
 		info->AdjustCell(&itsCursor);
-		}
+	}
 
 	else if (message.Is( JTableData::kColDuplicated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColDuplicated*>(&message);
 		assert( info != nullptr );
 		info->AdjustCell(&itsCursor);
-		}
+	}
 
 	else if (message.Is(JTableData::kColsRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColsRemoved*>(&message);
 		assert( info != nullptr );
 		JPoint newCursor = itsCursor;
 		if (info->AdjustCell(&newCursor))
-			{
+		{
 			itsCursor = newCursor;
-			}
+		}
 		else if (itsDirection == kIterateByCol &&
 				 (JIndex) itsCursor.x <= colCount)
-			{
+		{
 			itsCursor.y = 1;
-			}
+		}
 		else if (itsDirection == kIterateByCol)
-			{
+		{
 			MoveTo(kJIteratorStartAtEnd, 0,0);
-			}
+		}
 		else if (itsDirection == kIterateByRow &&
 				 (JIndex) itsCursor.x > colCount)
-			{
+		{
 			itsCursor.x = JMax((JSize) 1, colCount);
 			NextCell();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -491,8 +491,8 @@ JTableSelectionIterator::ReceiveGoingAway
 	)
 {
 	if (sender == const_cast<JTableSelection*>(itsTableSelection))
-		{
+	{
 		itsTableSelection = nullptr;
 		itsCursor         = JPoint(1,1);
-		}
+	}
 }

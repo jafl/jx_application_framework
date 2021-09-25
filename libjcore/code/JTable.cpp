@@ -198,19 +198,19 @@ JTable::SetTableData
 	CancelEditing();
 
 	if (data != itsTableData)
-		{
+	{
 		if (itsTableData != nullptr)
-			{
+		{
 			StopListening(itsTableData);
-			}
+		}
 
 		itsTableData = data;
 
 		if (itsTableData != nullptr)
-			{
+		{
 			ListenTo(itsTableData);
-			}
 		}
+	}
 
 	AdjustToTableData();
 }
@@ -226,32 +226,32 @@ JTable::AdjustToTableData()
 	Broadcast(PrepareForTableDataChange());
 
 	if (itsTableData != nullptr)
-		{
+	{
 		const JSize dataRowCount = itsTableData->GetRowCount();
 		if (GetRowCount() < dataRowCount)
-			{
+		{
 			AppendRows(dataRowCount - GetRowCount(), itsDefRowHeight);
-			}
+		}
 		else if (GetRowCount() > dataRowCount)
-			{
+		{
 			RemoveNextRows(dataRowCount+1, GetRowCount() - dataRowCount);
-			}
+		}
 
 		const JSize dataColCount = itsTableData->GetColCount();
 		if (GetColCount() < dataColCount)
-			{
-			AppendCols(dataColCount - GetColCount(), itsDefColWidth);
-			}
-		else if (GetColCount() > dataColCount)
-			{
-			RemoveNextCols(dataColCount+1, GetColCount() - dataColCount);
-			}
-		}
-	else
 		{
+			AppendCols(dataColCount - GetColCount(), itsDefColWidth);
+		}
+		else if (GetColCount() > dataColCount)
+		{
+			RemoveNextCols(dataColCount+1, GetColCount() - dataColCount);
+		}
+	}
+	else
+	{
 		RemoveAllRows();
 		RemoveAllCols();
-		}
+	}
 
 	Broadcast(TableDataChanged());
 }
@@ -271,10 +271,10 @@ JTable::RegisterAuxData
 	)
 {
 	if (!itsAuxDataList->Includes(auxData))
-		{
+	{
 		itsAuxDataList->Append(auxData);
 		ListenTo(auxData);
-		}
+	}
 }
 
 /******************************************************************************
@@ -325,10 +325,10 @@ JTable::TableRefreshCellRect
 	const JPoint firstCell = cellRect.topLeft();
 	const JPoint lastCell  = cellRect.bottomRight() - JPoint(1,1);
 	if (firstCell.x <= lastCell.x && firstCell.y <= lastCell.y)
-		{
+	{
 		JRect pixelRect = JCovering(GetCellRect(firstCell), GetCellRect(lastCell));
 		TableRefreshRect(pixelRect);
-		}
+	}
 }
 
 /******************************************************************************
@@ -358,9 +358,9 @@ JTable::TableDraw
 						 &firstRow, &lastRow) ||
 		!GetVisibleRange(r.left, r.right, *itsColWidths, itsColBorderInfo.width,
 						 &firstCol, &lastCol))
-		{
+	{
 		return;
-		}
+	}
 
 	// draw the cell borders
 
@@ -370,61 +370,61 @@ JTable::TableDraw
 	// draw the cells
 
 	if (itsDrawOrder == kDrawByRow)
-		{
+	{
 		JRunArrayIterator<JCoordinate> iter(itsColWidths);
 
 		for (JIndex i=firstRow; i<=lastRow; i++)
-			{
+		{
 			TablePrepareToDrawRow(i, firstCol, lastCol);
 			iter.MoveTo(kJIteratorStartAfter, firstCol);
 
 			JRect cellRect = GetCellRect(JPoint(firstCol, i));
 			for (JIndex j=firstCol; j<=lastCol; j++)
-				{
+			{
 				p.ResetAllButClipping();
 				p.SetClipRect(cellRect);
 				TableDrawCell(p, JPoint(j,i), cellRect);
 
 				if (j < lastCol)
-					{
+				{
 					JCoordinate colWidth;
 					const bool ok = iter.Next(&colWidth);
 					assert( ok );
 					cellRect.left  = cellRect.right + itsColBorderInfo.width;
 					cellRect.right = cellRect.left  + colWidth;
-					}
 				}
 			}
 		}
+	}
 	else
-		{
+	{
 		assert( itsDrawOrder == kDrawByCol );
 
 		JRunArrayIterator<JCoordinate> iter(itsRowHeights);
 
 		for (JIndex j=firstCol; j<=lastCol; j++)
-			{
+		{
 			TablePrepareToDrawCol(j, firstRow, lastRow);
 			iter.MoveTo(kJIteratorStartAfter, firstRow);
 
 			JRect cellRect = GetCellRect(JPoint(j, firstRow));
 			for (JIndex i=firstRow; i<=lastRow; i++)
-				{
+			{
 				p.ResetAllButClipping();
 				p.SetClipRect(cellRect);
 				TableDrawCell(p, JPoint(j,i), cellRect);
 
 				if (i < lastRow)
-					{
+				{
 					JCoordinate rowHeight;
 					const bool ok = iter.Next(&rowHeight);
 					assert( ok );
 					cellRect.top    = cellRect.bottom + itsRowBorderInfo.width;
 					cellRect.bottom = cellRect.top    + rowHeight;
-					}
 				}
 			}
 		}
+	}
 
 	p.ResetClipRect();
 }
@@ -450,9 +450,9 @@ JTable::TableDrawRowBorders
 	)
 {
 	if (itsRowBorderInfo.width <= 0)
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
@@ -471,7 +471,7 @@ JTable::TableDrawRowBorders
 		 (( drawBottomBorder && i<=rowCount) ||
 		  (!drawBottomBorder && i< rowCount));
 		 i++)
-		{
+	{
 		JCoordinate rowHeight;
 		const bool ok = iter.Next(&rowHeight);
 		assert( ok );
@@ -479,7 +479,7 @@ JTable::TableDrawRowBorders
 		y += rowHeight + itsRowBorderInfo.width;
 
 		p.Line(r.left,y, r.right-1+itsColBorderInfo.width,y);
-		}
+	}
 
 	p.SetLineWidth(origWidth);
 	p.SetPenColor(origColor);
@@ -496,9 +496,9 @@ JTable::TableDrawColBorders
 	)
 {
 	if (itsColBorderInfo.width <= 0)
-		{
+	{
 		return;
-		}
+	}
 
 	const JColorID origColor = p.GetPenColor();
 	const JSize origWidth       = p.GetLineWidth();
@@ -517,7 +517,7 @@ JTable::TableDrawColBorders
 		 (( drawRightBorder && i<=colCount) ||
 		  (!drawRightBorder && i< colCount));
 		 i++)
-		{
+	{
 		JCoordinate colWidth;
 		const bool ok = iter.Next(&colWidth);
 		assert( ok );
@@ -525,7 +525,7 @@ JTable::TableDrawColBorders
 		x += colWidth + itsColBorderInfo.width;
 
 		p.Line(x,r.top, x,r.bottom-1+itsRowBorderInfo.width);
-		}
+	}
 
 	p.SetLineWidth(origWidth);
 	p.SetPenColor(origColor);
@@ -552,9 +552,9 @@ JTable::GetVisibleRange
 	assert( 0 <= min && min <= max );
 
 	if (lengths.IsEmpty() || min == max)
-		{
+	{
 		return false;
-		}
+	}
 
 	JInteger v;
 	sBorderWidth = borderWidth;
@@ -611,7 +611,7 @@ JTable::HilightIfSelected
 	const
 {
 	if (itsTableSelection->IsSelected(cell))
-		{
+	{
 		const JColorID origColor = p.GetPenColor();
 		const bool origFill     = p.IsFilling();
 
@@ -621,7 +621,7 @@ JTable::HilightIfSelected
 
 		p.SetPenColor(origColor);
 		p.SetFilling(origFill);
-		}
+	}
 }
 
 /******************************************************************************
@@ -654,18 +654,18 @@ JTable::Paginate
 	*printRowHeader = false;
 	if (userPrintRowHeader &&
 		itsRowHdrTable != nullptr && itsRowHdrTable->itsWidth < pageWidth)
-		{
+	{
 		pageWidth      -= itsRowHdrTable->itsWidth;
 		*printRowHeader = true;
-		}
+	}
 
 	*printColHeader = false;
 	if (userPrintColHeader &&
 		itsColHdrTable != nullptr && itsColHdrTable->itsHeight < pageHeight)
-		{
+	{
 		pageHeight     -= itsColHdrTable->itsHeight;
 		*printColHeader = true;
-		}
+	}
 
 	return Paginate(pageHeight, *itsRowHeights, itsRowBorderInfo.width, rowBreakpts) &&
 		Paginate(pageWidth,  *itsColWidths,  itsColBorderInfo.width, colBreakpts);
@@ -686,9 +686,9 @@ JTable::Paginate
 	assert( stripLength > 0 );
 
 	if (lengths.IsEmpty())
-		{
+	{
 		return false;
-		}
+	}
 
 	breakpts->RemoveAll();
 	breakpts->AppendElement(0);
@@ -700,29 +700,29 @@ JTable::Paginate
 	JIndex prev = 1, i = 0;
 	JCoordinate totalLength = 0;
 	do
-		{
+	{
 		// This shift to the left allows all but one pixel of
 		// the rightmost border to fall off the edge of the page.
 
 		if (borderWidth > 1)
-			{
+		{
 			totalLength -= borderWidth - 1;
-			}
+		}
 
 		// find the number of strips that will fit on this page
 
 		while (i < count && totalLength <= stripLength)
-			{
+		{
 			i++;
 			JCoordinate length;
 			const bool ok = iter.Next(&length);
 			assert( ok );
 			totalLength += length + borderWidth;
-			}
+		}
 
 		JCoordinate pageLen = totalLength;
 		if (totalLength > stripLength && i > prev+1)
-			{
+		{
 			// The last strip didn't fit on the page,
 			// so leave it for the next page.
 
@@ -732,41 +732,41 @@ JTable::Paginate
 			pageLen -= length + borderWidth;
 			i--;
 			totalLength = 0;
-			}
+		}
 		else if (totalLength > stripLength)
-			{
+		{
 			// The strip won't fit on any page.  Put
 			// as much as possible on this page and leave
 			// the rest for the next page.
 
 			pageLen      = stripLength;
 			totalLength -= stripLength;
-			}
+		}
 		else
-			{
+		{
 			// Everything fits on the page, so there is no residual.
 
 			totalLength = 0;
-			}
+		}
 
 		JCoordinate newBreakpt = breakpts->GetLastElement() + pageLen;
 		if (borderWidth > 1)
-			{
+		{
 			newBreakpt += borderWidth - 1;		// compensate for initial shift
-			}
+		}
 
 		breakpts->AppendElement(newBreakpt);
 		prev = i;
-		}
+	}
 		while (i < count || totalLength > 0);
 
 	// last element isn't followed by border
 
 	if (borderWidth > 1)
-		{
+	{
 		const JCoordinate lastBreakpt = breakpts->GetLastElement();
 		breakpts->SetElement(breakpts->GetElementCount(), lastBreakpt - borderWidth+1);
-		}
+	}
 
 	return true;
 }
@@ -789,9 +789,9 @@ JTable::Print
 	assert( !itsIsEditingFlag );
 
 	if (!p.OpenDocument())
-		{
+	{
 		return;
-		}
+	}
 
 	const JCoordinate headerHeight = GetPrintHeaderHeight(p);
 	const JCoordinate footerHeight = GetPrintFooterHeight(p);
@@ -809,27 +809,27 @@ JTable::Print
 
 	bool cancelled = false;
 	for (JIndex j=1; j<=colCount; j++)
-		{
+	{
 		for (JIndex i=1; i<=rowCount; i++)
-			{
+		{
 			if (!p.NewPage())
-				{
+			{
 				cancelled = true;
 				break;
-				}
+			}
 
 			// draw header and footer
 
 			if (headerHeight > 0)
-				{
+			{
 				DrawPrintHeader(p, headerHeight);
 				p.LockHeader(headerHeight);
-				}
+			}
 			if (footerHeight > 0)
-				{
+			{
 				DrawPrintFooter(p, footerHeight);
 				p.LockFooter(footerHeight);
-				}
+			}
 
 			// calculate visible area of table on this page
 
@@ -837,60 +837,60 @@ JTable::Print
 			JPoint tableBotRight(colBreakpts.GetElement(j+1), rowBreakpts.GetElement(i+1));
 
 			if (i < rowCount)
-				{
+			{
 				tableBotRight.y -= itsRowBorderInfo.width;
-				}
+			}
 			if (j < colCount)
-				{
+			{
 				tableBotRight.x -= itsColBorderInfo.width;
-				}
+			}
 
 			// calculate shift from row and column headers
 
 			JPoint hdrOffset(0,0);
 			if (printRowHeader)
-				{
+			{
 				hdrOffset.x = itsRowHdrTable->itsWidth;
-				}
+			}
 			if (printColHeader)
-				{
+			{
 				hdrOffset.y = itsColHdrTable->itsHeight;
-				}
+			}
 
 			// draw the visible parts of the row and column headers
 
 			if (printRowHeader)
-				{
+			{
 				const JPoint hdrTopLeft(0, tableTopLeft.y);
 				const JPoint hdrBotRight(itsRowHdrTable->itsWidth, tableBotRight.y);
 				const JPoint offset(0, hdrOffset.y);
 				itsRowHdrTable->PrintPage(p, hdrTopLeft, hdrBotRight, offset, false);
-				}
+			}
 
 			if (printColHeader)
-				{
+			{
 				const JPoint hdrTopLeft(tableTopLeft.x, 0);
 				const JPoint hdrBotRight(tableBotRight.x, itsColHdrTable->itsHeight);
 				const JPoint offset(hdrOffset.x, 0);
 				itsColHdrTable->PrintPage(p, hdrTopLeft, hdrBotRight, offset, false);
-				}
+			}
 
 			// draw the visible part of the table last so it overwrites slop
 			// from row and column headers
 
 			PrintPage(p, tableTopLeft, tableBotRight, hdrOffset, true);
-			}
+		}
 
 		if (cancelled)
-			{
+		{
 			break;
-			}
 		}
+	}
 
 	if (!cancelled)
-		{
+	{
 		p.CloseDocument();
-		}
+	}
 }
 
 /******************************************************************************
@@ -924,9 +924,9 @@ JTable::PrintPage
 	// frame it if it has visible border lines
 
 	if (drawFrame && (itsRowBorderInfo.width > 0 || itsColBorderInfo.width > 0))
-		{
+	{
 		p.Rect(clipRect);
-		}
+	}
 }
 
 /******************************************************************************
@@ -998,33 +998,33 @@ JTable::Print
 
 	bool printRowHeader = false;
 	if (userPrintRowHeader && itsRowHdrTable != nullptr)
-		{
+	{
 		r.right       += itsRowHdrTable->itsWidth;
 		printRowHeader = true;
-		}
+	}
 
 	bool printColHeader = false;
 	if (userPrintColHeader && itsColHdrTable != nullptr)
-		{
+	{
 		r.bottom      += itsColHdrTable->itsHeight;
 		printColHeader = true;
-		}
+	}
 
 	// preview
 
 	if (p.WantsPreview())
-		{
+	{
 		JPainter& p1 = p.GetPreviewPainter(r);
 		PrintEPS1(p1, JPoint(0,0), printRowHeader, printColHeader);
-		}
+	}
 
 	// print
 
 	if (p.OpenDocument(r))
-		{
+	{
 		PrintEPS1(p, JPoint(0,0), printRowHeader, printColHeader);
 		p.CloseDocument();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1045,31 +1045,31 @@ JTable::PrintEPS1
 
 	JPoint hdrOffset = topLeft;
 	if (printRowHeader)
-		{
+	{
 		hdrOffset.x += itsRowHdrTable->itsWidth;
-		}
+	}
 	if (printColHeader)
-		{
+	{
 		hdrOffset.y += itsColHdrTable->itsHeight;
-		}
+	}
 
 	// draw the visible parts of the row and column headers
 
 	if (printRowHeader)
-		{
+	{
 		const JPoint hdrTopLeft(0,0);
 		const JPoint hdrBotRight(itsRowHdrTable->itsWidth, itsHeight);
 		const JPoint offset(topLeft.x, hdrOffset.y);
 		itsRowHdrTable->PrintPage(p, hdrTopLeft, hdrBotRight, offset, false);
-		}
+	}
 
 	if (printColHeader)
-		{
+	{
 		const JPoint hdrTopLeft(0,0);
 		const JPoint hdrBotRight(itsWidth, itsColHdrTable->itsHeight);
 		const JPoint offset(hdrOffset.x, topLeft.y);
 		itsColHdrTable->PrintPage(p, hdrTopLeft, hdrBotRight, offset, false);
-		}
+	}
 
 	// draw the table last so it overwrites slop from row and column headers
 
@@ -1120,9 +1120,9 @@ JTable::InsertRows
 	)
 {
 	if (count == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	const JSize rowCount   = GetRowCount();
 	const JIndex trueIndex = JMin(index, rowCount+1);
@@ -1131,22 +1131,22 @@ JTable::InsertRows
 
 	JTableData::RowsInserted auxMessage(trueIndex, count);
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
-		}
+	}
 
 	JRunArrayIterator<JCoordinate> iter(itsRowHeights);
 
 	JCoordinate h = rowHeight;
 	if (rowHeight <= 0 && (trueIndex == 1 || rowCount == 0))
-		{
+	{
 		h = itsDefRowHeight;
-		}
+	}
 	else if (rowHeight <= 0)
-		{
+	{
 		iter.MoveTo(kJIteratorStartBefore, trueIndex-1);
 		iter.Next(&h);
-		}
+	}
 
 	iter.MoveTo(kJIteratorStartBefore, trueIndex);
 	iter.Insert(h, count);
@@ -1155,29 +1155,29 @@ JTable::InsertRows
 
 	h = count * h + (count-1) * itsRowBorderInfo.width;
 	if (rowCount > 0)
-		{
+	{
 		h += itsRowBorderInfo.width;
-		}
+	}
 	TableHeightChanged(GetRowTop(trueIndex), h);
 	TableAdjustBounds(0, h);
 	Broadcast(msg);
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(auxMessage);
-		}
+	}
 
 	// move the input field
 
 	if (itsIsEditingFlag)
-		{
+	{
 		JPoint newEditCell = itsEditCell;
 		auxMessage.AdjustCell(&newEditCell);
 		if (newEditCell != itsEditCell)
-			{
+		{
 			itsEditCell = newEditCell;
 			MoveInputField(0, h);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1229,7 +1229,7 @@ JTable::SetRowHeight
 	iter.Next(&oldHeight, kJIteratorStay);
 
 	if (rowHeight != oldHeight)
-		{
+	{
 		iter.SetNext(rowHeight);
 
 		const JCoordinate deltaH = rowHeight - oldHeight;
@@ -1242,14 +1242,14 @@ JTable::SetRowHeight
 		// adjust the input field
 
 		if (itsIsEditingFlag && ((JIndex) itsEditCell.y) == index)
-			{
+		{
 			ResizeInputField(0, rowHeight - oldHeight);
-			}
-		else if (itsIsEditingFlag && ((JIndex) itsEditCell.y) > index)
-			{
-			MoveInputField(0, rowHeight - oldHeight);
-			}
 		}
+		else if (itsIsEditingFlag && ((JIndex) itsEditCell.y) > index)
+		{
+			MoveInputField(0, rowHeight - oldHeight);
+		}
+	}
 }
 
 /******************************************************************************
@@ -1267,7 +1267,7 @@ JTable::SetAllRowHeights
 
 	const JSize rowCount = itsRowHeights->GetElementCount();
 	if (rowCount > 0)
-		{
+	{
 		itsRowHeights->RemoveAll();
 		itsRowHeights->AppendElements(rowHeight, rowCount);
 
@@ -1280,12 +1280,12 @@ JTable::SetAllRowHeights
 		// adjust the input field
 
 		if (itsIsEditingFlag)
-			{
+		{
 			const JRect& editRect = GetCellRect(itsEditCell);
 			PlaceInputField(editRect.left, editRect.top);
 			SetInputFieldSize(editRect.width(), editRect.height());
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1301,18 +1301,18 @@ JTable::RemoveNextRows
 	)
 {
 	if (firstIndex == 1 && count == GetRowCount())
-		{
+	{
 		RemoveAllRows();
 		return;
-		}
+	}
 
 	// update aux data (e.g. selection) if we don't have table data
 
 	JTableData::RowsRemoved auxMessage(firstIndex, count);
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
-		}
+	}
 
 	sBorderWidth                    = itsRowBorderInfo.width;
 	const JCoordinate removedY      = GetRowTop(firstIndex);
@@ -1325,25 +1325,25 @@ JTable::RemoveNextRows
 	TableAdjustBounds(0, -removedHeight);
 	Broadcast(RowsRemoved(firstIndex, count));
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(auxMessage);
-		}
+	}
 
 	// adjust the input field
 
 	if (itsIsEditingFlag)
-		{
+	{
 		JPoint newEditCell = itsEditCell;
 		if (!auxMessage.AdjustCell(&newEditCell))
-			{
+		{
 			CancelEditing();
-			}
+		}
 		else if (newEditCell != itsEditCell)
-			{
+		{
 			itsEditCell = newEditCell;
 			MoveInputField(0, -removedHeight);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1358,9 +1358,9 @@ JTable::RemoveAllRows()
 
 	JTableData::RowsRemoved auxMessage(1, GetRowCount());
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
-		}
+	}
 
 	CancelEditing();
 
@@ -1369,9 +1369,9 @@ JTable::RemoveAllRows()
 	TableSetBounds(itsWidth, 0);
 	Broadcast(RowsRemoved(1, auxMessage.GetCount()));
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(auxMessage);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1387,17 +1387,17 @@ JTable::MoveRow
 	)
 {
 	if (origIndex == newIndex)
-		{
+	{
 		return;
-		}
+	}
 
 	// update aux data (e.g. selection) if we don't have table data
 
 	JTableData::RowMoved auxMessage(origIndex, newIndex);
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
-		}
+	}
 
 	JRunArrayIterator<JCoordinate> iter(itsRowHeights, kJIteratorStartBefore, origIndex);
 
@@ -1416,30 +1416,30 @@ JTable::MoveRow
 	TableRefreshCellRect(cellRect);
 	Broadcast(RowMoved(origIndex, newIndex));
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(auxMessage);
-		}
+	}
 
 	// adjust the input field
 
 	if (itsIsEditingFlag && ((JIndex) itsEditCell.y) == origIndex)
-		{
+	{
 		itsEditCell.y = newIndex;
 		const JRect& editRect = GetCellRect(itsEditCell);
 		PlaceInputField(editRect.left, editRect.top);
-		}
+	}
 	else if (itsIsEditingFlag && origIndex < ((JIndex) itsEditCell.y) &&
 			 ((JIndex) itsEditCell.y) <= newIndex)
-		{
+	{
 		(itsEditCell.y)--;
 		MoveInputField(0, -GetRowHeight(newIndex) - itsRowBorderInfo.width);
-		}
+	}
 	else if (itsIsEditingFlag && newIndex <= ((JIndex) itsEditCell.y) &&
 			 ((JIndex) itsEditCell.y) < origIndex)
-		{
+	{
 		(itsEditCell.y)++;
 		MoveInputField(0, GetRowHeight(newIndex) + itsRowBorderInfo.width);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1456,9 +1456,9 @@ JTable::InsertCols
 	)
 {
 	if (count == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	const JSize colCount   = GetColCount();
 	const JIndex trueIndex = JMin(index, colCount+1);
@@ -1467,22 +1467,22 @@ JTable::InsertCols
 
 	JTableData::ColsInserted auxMessage(trueIndex, count);
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
-		}
+	}
 
 	JRunArrayIterator<JCoordinate> iter(itsColWidths);
 
 	JCoordinate w = colWidth;
 	if (colWidth <= 0 && (trueIndex == 1 || colCount == 0))
-		{
+	{
 		w = itsDefColWidth;
-		}
+	}
 	else if (colWidth <= 0)
-		{
+	{
 		iter.MoveTo(kJIteratorStartBefore, trueIndex-1);
 		iter.Next(&w);
-		}
+	}
 
 	iter.MoveTo(kJIteratorStartBefore, trueIndex);
 	iter.Insert(w, count);
@@ -1491,29 +1491,29 @@ JTable::InsertCols
 
 	w = count * w + (count-1) * itsColBorderInfo.width;
 	if (colCount > 0)
-		{
+	{
 		w += itsColBorderInfo.width;
-		}
+	}
 	TableWidthChanged(GetColLeft(trueIndex), w);
 	TableAdjustBounds(w, 0);
 	Broadcast(msg);
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(auxMessage);
-		}
+	}
 
 	// move the input field
 
 	if (itsIsEditingFlag)
-		{
+	{
 		JPoint newEditCell = itsEditCell;
 		auxMessage.AdjustCell(&newEditCell);
 		if (newEditCell != itsEditCell)
-			{
+		{
 			itsEditCell = newEditCell;
 			MoveInputField(w, 0);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1536,7 +1536,7 @@ JTable::SetColWidth
 	iter.Next(&oldWidth, kJIteratorStay);
 
 	if (colWidth != oldWidth)
-		{
+	{
 		iter.SetNext(colWidth);
 
 		const JCoordinate deltaW = colWidth - oldWidth;
@@ -1549,14 +1549,14 @@ JTable::SetColWidth
 		// adjust the input field
 
 		if (itsIsEditingFlag && ((JIndex) itsEditCell.x) == index)
-			{
+		{
 			ResizeInputField(colWidth - oldWidth, 0);
-			}
-		else if (itsIsEditingFlag && ((JIndex) itsEditCell.x) > index)
-			{
-			MoveInputField(colWidth - oldWidth, 0);
-			}
 		}
+		else if (itsIsEditingFlag && ((JIndex) itsEditCell.x) > index)
+		{
+			MoveInputField(colWidth - oldWidth, 0);
+		}
+	}
 }
 
 /******************************************************************************
@@ -1574,7 +1574,7 @@ JTable::SetAllColWidths
 
 	const JSize colCount = itsColWidths->GetElementCount();
 	if (colCount > 0)
-		{
+	{
 		itsColWidths->RemoveAll();
 		itsColWidths->AppendElements(colWidth, colCount);
 
@@ -1587,12 +1587,12 @@ JTable::SetAllColWidths
 		// adjust the input field
 
 		if (itsIsEditingFlag)
-			{
+		{
 			const JRect& editRect = GetCellRect(itsEditCell);
 			PlaceInputField(editRect.left, editRect.top);
 			SetInputFieldSize(editRect.width(), editRect.height());
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1608,18 +1608,18 @@ JTable::RemoveNextCols
 	)
 {
 	if (firstIndex == 1 && count == GetColCount())
-		{
+	{
 		RemoveAllCols();
 		return;
-		}
+	}
 
 	// update aux data (e.g. selection) if we don't have table data
 
 	JTableData::ColsRemoved auxMessage(firstIndex, count);
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
-		}
+	}
 
 	sBorderWidth                   = itsColBorderInfo.width;
 	const JCoordinate removedX     = GetColLeft(firstIndex);
@@ -1632,25 +1632,25 @@ JTable::RemoveNextCols
 	TableAdjustBounds(-removedWidth, 0);
 	Broadcast(ColsRemoved(firstIndex, count));
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(auxMessage);
-		}
+	}
 
 	// adjust the input field
 
 	if (itsIsEditingFlag)
-		{
+	{
 		JPoint newEditCell = itsEditCell;
 		if (!auxMessage.AdjustCell(&newEditCell))
-			{
+		{
 			CancelEditing();
-			}
+		}
 		else if (newEditCell != itsEditCell)
-			{
+		{
 			itsEditCell = newEditCell;
 			MoveInputField(-removedWidth, 0);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1665,9 +1665,9 @@ JTable::RemoveAllCols()
 
 	JTableData::ColsRemoved auxMessage(1, GetColCount());
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
-		}
+	}
 
 	CancelEditing();
 
@@ -1676,9 +1676,9 @@ JTable::RemoveAllCols()
 	TableSetBounds(0, itsHeight);
 	Broadcast(ColsRemoved(1, auxMessage.GetCount()));
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(auxMessage);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1694,17 +1694,17 @@ JTable::MoveCol
 	)
 {
 	if (origIndex == newIndex)
-		{
+	{
 		return;
-		}
+	}
 
 	// update aux data (e.g. selection) if we don't have table data
 
 	JTableData::ColMoved auxMessage(origIndex, newIndex);
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(PrepareForTableDataMessage(auxMessage));
-		}
+	}
 
 	JRunArrayIterator<JCoordinate> iter(itsColWidths, kJIteratorStartBefore, origIndex);
 
@@ -1723,30 +1723,30 @@ JTable::MoveCol
 	TableRefreshCellRect(cellRect);
 	Broadcast(ColMoved(origIndex, newIndex));
 	if (itsTableData == nullptr)
-		{
+	{
 		Broadcast(auxMessage);
-		}
+	}
 
 	// adjust the input field
 
 	if (itsIsEditingFlag && ((JIndex) itsEditCell.x) == origIndex)
-		{
+	{
 		itsEditCell.x = newIndex;
 		const JRect& editRect = GetCellRect(itsEditCell);
 		PlaceInputField(editRect.left, editRect.top);
-		}
+	}
 	else if (itsIsEditingFlag && origIndex < ((JIndex) itsEditCell.x) &&
 			 ((JIndex) itsEditCell.x) <= newIndex)
-		{
+	{
 		(itsEditCell.x)--;
 		MoveInputField(-GetColWidth(newIndex) - itsColBorderInfo.width, 0);
-		}
+	}
 	else if (itsIsEditingFlag && newIndex <= ((JIndex) itsEditCell.x) &&
 			 ((JIndex) itsEditCell.x) < origIndex)
-		{
+	{
 		(itsEditCell.x)++;
 		MoveInputField(GetColWidth(newIndex) + itsColBorderInfo.width, 0);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1767,14 +1767,14 @@ JTable::SetRowBorderInfo
 
 	const JCoordinate oldWidth = itsRowBorderInfo.width;
 	if (lineWidth != oldWidth)
-		{
+	{
 		itsRowBorderInfo.width = lineWidth;
 
 		const JSize rowCount = GetRowCount();
 		if (rowCount > 0)
-			{
+		{
 			TableAdjustBounds(0, (lineWidth - oldWidth) * (rowCount-1));
-			}
+		}
 		TableSetScrollSteps(itsDefColWidth  + itsColBorderInfo.width,
 							itsDefRowHeight + itsRowBorderInfo.width);
 		Broadcast(RowBorderWidthChanged(oldWidth, lineWidth));
@@ -1782,10 +1782,10 @@ JTable::SetRowBorderInfo
 		// adjust the input field
 
 		if (itsIsEditingFlag)
-			{
+		{
 			MoveInputField(0, (lineWidth - oldWidth) * (itsEditCell.y-1));
-			}
 		}
+	}
 }
 
 void
@@ -1801,14 +1801,14 @@ JTable::SetColBorderInfo
 
 	const JCoordinate oldWidth = itsColBorderInfo.width;
 	if (lineWidth != oldWidth)
-		{
+	{
 		itsColBorderInfo.width = lineWidth;
 
 		const JSize colCount = GetColCount();
 		if (colCount > 0)
-			{
+		{
 			TableAdjustBounds((lineWidth - oldWidth) * (colCount-1), 0);
-			}
+		}
 		TableSetScrollSteps(itsDefColWidth  + itsColBorderInfo.width,
 							itsDefRowHeight + itsRowBorderInfo.width);
 		Broadcast(ColBorderWidthChanged(oldWidth, lineWidth));
@@ -1816,10 +1816,10 @@ JTable::SetColBorderInfo
 		// adjust the input field
 
 		if (itsIsEditingFlag)
-			{
+		{
 			MoveInputField((lineWidth - oldWidth) * (itsEditCell.x-1), 0);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1839,21 +1839,21 @@ JTable::GetCell
 {
 	if (pt.x < 0 || pt.x >= itsWidth ||
 		pt.y < 0 || pt.y >= itsHeight)
-		{
+	{
 		return false;
-		}
+	}
 
 	JIndex row,col;
 	if (GetCellIndex(pt.x, *itsColWidths,  itsColBorderInfo.width, &col) &&
 		GetCellIndex(pt.y, *itsRowHeights, itsRowBorderInfo.width, &row))
-		{
+	{
 		*cell = JPoint(col,row);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1874,15 +1874,15 @@ JTable::GetCellIndex
 	const
 {
 	if (coord < 0)
-		{
+	{
 		return false;
-		}
+	}
 	else
-		{
+	{
 		JCoordinate cellLeft;
 		sBorderWidth = borderWidth;
 		return lengths.FindPositiveSum(coord, 1, index, &cellLeft, GetCellSize);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1950,9 +1950,9 @@ JTable::TableScrollToCell
 	JRect r = GetCellRect(cell);
 	if (itsIs1DListFlag &&
 		r.left <= TableGetApertureWidth() - GetMin1DVisibleWidth(cell))
-		{
+	{
 		r.left = 0;
-		}
+	}
 	return TableScrollToCellRect(r, centerInDisplay);
 }
 
@@ -1987,14 +1987,14 @@ JTable::GetEditedCell
 	const
 {
 	if (itsIsEditingFlag)
-		{
+	{
 		*editCell = itsEditCell;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2040,29 +2040,29 @@ JTable::BeginEditing
 	)
 {
 	if (itsIsEditingFlag && cell == itsEditCell)
-		{
+	{
 		if (scrollToCell)
-			{
-			TableScrollToCell(cell);
-			}
-		return true;
-		}
-	else if (!IsEditable(cell) || !EndEditing())
 		{
+			TableScrollToCell(cell);
+		}
+		return true;
+	}
+	else if (!IsEditable(cell) || !EndEditing())
+	{
 		// We check IsEditable() first so clicking on a static cell
 		// doesn't turn off editing.
 
 		return false;
-		}
+	}
 	else if (!CreateInputField(cell, GetCellRect(cell)))
-		{
+	{
 		return false;
-		}
+	}
 
 	if (scrollToCell)
-		{
+	{
 		TableScrollToCell(cell);
-		}
+	}
 	itsIsEditingFlag = true;
 	itsEditCell      = cell;
 	return true;
@@ -2085,9 +2085,9 @@ JTable::ShiftEditing
 	)
 {
 	if (!itsIsEditingFlag)
-		{
+	{
 		return false;
-		}
+	}
 
 	JPoint newCell = itsEditCell;
 
@@ -2097,31 +2097,31 @@ JTable::ShiftEditing
 	const JSize rowCount = GetRowCount();
 	const JSize colCount = GetColCount();
 	do
-		{
+	{
 		newCell += JPoint(dx,dy);
 
 		if (newCell.x < 1)
-			{
+		{
 			newCell.x = 1;
 			search    = false;
-			}
+		}
 		else if (((JIndex) newCell.x) > colCount)
-			{
+		{
 			newCell.x = colCount;
 			search    = false;
-			}
+		}
 
 		if (newCell.y < 1)
-			{
+		{
 			newCell.y = 1;
 			search    = false;
-			}
+		}
 		else if (((JIndex) newCell.y) > rowCount)
-			{
+		{
 			newCell.y = rowCount;
 			search    = false;
-			}
 		}
+	}
 		while (search && !IsEditable(newCell));
 
 	return BeginEditing(newCell, scrollToCell);
@@ -2142,23 +2142,23 @@ JTable::EndEditing()
 {
 	const JPoint cell = itsEditCell;	// make local copy before calling ExtractInputData()
 	if (!itsIsEditingFlag)
-		{
+	{
 		return true;
-		}
+	}
 	else if (ExtractInputData(cell))
-		{
+	{
 		itsIsEditingFlag = false;
 		DeleteInputField();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		if (itsIsEditingFlag && CellValid(cell))	// safeguard against row being deleted
-			{
+		{
 			TableScrollToCell(cell);
-			}
-		return false;
 		}
+		return false;
+	}
 }
 
 /******************************************************************************
@@ -2172,10 +2172,10 @@ void
 JTable::CancelEditing()
 {
 	if (itsIsEditingFlag)
-		{
+	{
 		itsIsEditingFlag = false;
 		DeleteInputField();
-		}
+	}
 }
 
 /******************************************************************************
@@ -2303,40 +2303,40 @@ JTable::BeginSelectionDrag
 	itsSelDragType = kInvalidDrag;
 
 	if (extendSelection)
-		{
+	{
 		if (itsAllowSelectMultipleFlag &&
 			itsTableSelection->OKToExtendSelection())
-			{
+		{
 			itsSelDragType = kSelectRangeDrag;
 			itsTableSelection->ExtendSelection(cell);
-			}
 		}
+	}
 	else if (selectDiscont && itsTableSelection->IsSelected(cell))
-		{
+	{
 		if (!itsAllowSelectMultipleFlag || itsAllowSelectDiscontFlag)
-			{
+		{
 			itsSelDragType = kDeselectCellDrag;
 			itsTableSelection->ClearBoat();
 			itsTableSelection->ClearAnchor();
 			itsTableSelection->SelectCell(cell, false);
-			}
 		}
+	}
 	else if (selectDiscont)
-		{
+	{
 		if (itsAllowSelectMultipleFlag && itsAllowSelectDiscontFlag)
-			{
+		{
 			itsSelDragType = kSelectCellDrag;
 			itsTableSelection->SetBoat(cell);
 			itsTableSelection->SetAnchor(cell);
 			itsTableSelection->SelectCell(cell, true);
-			}
 		}
+	}
 	else
-		{
+	{
 		itsSelDragType =
 			itsAllowSelectMultipleFlag ? kSelectRangeDrag : kSelectSingleDrag;
 		SelectSingleCell(cell, false);
-		}
+	}
 
 	itsPrevSelDragCell = cell;
 }
@@ -2356,28 +2356,28 @@ JTable::ContinueSelectionDrag
 	)
 {
 	if (itsSelDragType == kInvalidDrag || cell == itsPrevSelDragCell)
-		{
+	{
 		return;
-		}
+	}
 
 	if (itsSelDragType == kSelectSingleDrag)
-		{
+	{
 		SelectSingleCell(cell, false);
-		}
+	}
 	else if (itsSelDragType == kSelectCellDrag)
-		{
+	{
 		itsTableSelection->SetBoat(cell);
 		itsTableSelection->SetAnchor(cell);
 		itsTableSelection->SelectCell(cell, true);
-		}
+	}
 	else if (itsSelDragType == kDeselectCellDrag)
-		{
+	{
 		itsTableSelection->SelectCell(cell, false);
-		}
+	}
 	else if (itsSelDragType == kSelectRangeDrag)
-		{
+	{
 		itsTableSelection->ExtendSelection(cell);
-		}
+	}
 
 	itsPrevSelDragCell = cell;
 }
@@ -2409,25 +2409,25 @@ JTable::HandleSelectionKeyPress
 {
 	JPoint delta;
 	if (key == kJUpArrow)
-		{
+	{
 		delta.Set(0, -1);
-		}
+	}
 	else if (key == kJDownArrow)
-		{
+	{
 		delta.Set(0, +1);
-		}
+	}
 	else if (key == kJLeftArrow)
-		{
+	{
 		delta.Set(-1, 0);
-		}
+	}
 	else if (key == kJRightArrow)
-		{
+	{
 		delta.Set(+1, 0);
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 
 	JPoint topSelCell;
 	const bool hadSelection =
@@ -2435,33 +2435,33 @@ JTable::HandleSelectionKeyPress
 
 	JPoint cell = topSelCell;
 	if (hadSelection && extendSelection && itsAllowSelectMultipleFlag)
-		{
+	{
 		if (itsTableSelection->OKToExtendSelection())
-			{
+		{
 			cell = itsTableSelection->GetBoat();
 			if (GetNextSelectableCell(&cell, delta, true))
-				{
+			{
 				itsTableSelection->ExtendSelection(cell);
 				TableScrollToCell(cell);
-				}
+			}
 			else
-				{
+			{
 				TableScrollToCell(itsTableSelection->GetBoat());
-				}
 			}
 		}
+	}
 	else if (hadSelection && GetNextSelectableCell(&cell, delta, false))
-		{
+	{
 		SelectSingleCell(cell);
-		}
+	}
 	else if (hadSelection)
-		{
+	{
 		SelectSingleCell(topSelCell);
-		}
+	}
 	else if (GetRowCount() > 0 && GetColCount() > 0)
-		{
+	{
 		SelectSingleCell(JPoint(1,1));
-		}
+	}
 
 	return true;
 }
@@ -2483,15 +2483,15 @@ JTable::GetNextSelectableCell
 	const
 {
 	if (!CellValid(*cell))
-		{
+	{
 		return false;
-		}
+	}
 
 	*cell += delta;
 	while (CellValid(*cell) && !IsSelectable(*cell, forExtend))
-		{
+	{
 		*cell += delta;
-		}
+	}
 
 	return CellValid(*cell);
 }
@@ -2537,9 +2537,9 @@ JTable::SelectSingleCell
 	itsTableSelection->SelectCell(cell);
 
 	if (scroll)
-		{
+	{
 		TableScrollToCell(cell);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2561,116 +2561,116 @@ JTable::Receive
 	// notify all JAuxTableData objects before updating the table
 
 	if (sender == const_cast<JTableData*>(itsTableData))
-		{
+	{
 		Broadcast(PrepareForTableDataMessage(message));
-		}
+	}
 
 	// element or aux data changed
 
 	if ((sender == const_cast<JTableData*>(itsTableData) || isAuxData) &&
 		message.Is(JTableData::kRectChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RectChanged*>(&message);
 		assert( info != nullptr );
 		const JRect& r = info->GetRect();
 		if (sender == const_cast<JTableData*>(itsTableData) &&
 			itsIsEditingFlag && r.Contains(itsEditCell))
-			{
+		{
 			CancelEditing();
-			}
-		TableRefreshCellRect(r);
 		}
+		TableRefreshCellRect(r);
+	}
 
 	// rows changed
 
 	else if (sender == const_cast<JTableData*>(itsTableData) &&
 			 message.Is(JTableData::kRowsInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowsInserted*>(&message);
 		assert( info != nullptr );
 		InsertRows(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == const_cast<JTableData*>(itsTableData) &&
 			 message.Is(JTableData::kRowDuplicated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowDuplicated*>(&message);
 		assert( info != nullptr );
 		InsertRows(info->GetNewIndex(), 1);
-		}
+	}
 
 	else if (sender == const_cast<JTableData*>(itsTableData) &&
 			 message.Is(JTableData::kRowsRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowsRemoved*>(&message);
 		assert( info != nullptr );
 		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == const_cast<JTableData*>(itsTableData) &&
 			 message.Is(JTableData::kRowMoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowMoved*>(&message);
 		assert( info != nullptr );
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
-		}
+	}
 
 	// columns changed
 
 	else if (sender == const_cast<JTableData*>(itsTableData) &&
 			 message.Is(JTableData::kColsInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColsInserted*>(&message);
 		assert( info != nullptr );
 		InsertCols(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == const_cast<JTableData*>(itsTableData) &&
 			 message.Is(JTableData::kColDuplicated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColDuplicated*>(&message);
 		assert( info != nullptr );
 		InsertCols(info->GetNewIndex(), 1);
-		}
+	}
 
 	else if (sender == const_cast<JTableData*>(itsTableData) &&
 			 message.Is(JTableData::kColsRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColsRemoved*>(&message);
 		assert( info != nullptr );
 		RemoveNextCols(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == const_cast<JTableData*>(itsTableData) &&
 			 message.Is(JTableData::kColMoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColMoved*>(&message);
 		assert( info != nullptr );
 		MoveCol(info->GetOrigIndex(), info->GetNewIndex());
-		}
+	}
 
 	// something else
 
 	else
-		{
+	{
 		JBroadcaster::Receive(sender, message);
-		}
+	}
 
 	// update all JAuxTableData objects after updating the table
 
 	if (sender == const_cast<JTableData*>(itsTableData))
-		{
+	{
 		Broadcast(message);
-		}
+	}
 }
 
 /******************************************************************************

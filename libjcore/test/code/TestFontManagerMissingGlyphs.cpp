@@ -50,14 +50,14 @@ TestFontManagerMissingGlyphs::GetSubstituteFontName
 	)
 {
 	if (f.GetID() == 2 && (c == 'w' || c == 'm'))
-	{
+{
 		*name = GetFontName(1);
 		return true;
-	}
+}
 	else
-	{
+{
 		return false;
-	}
+}
 }
 
 /******************************************************************************

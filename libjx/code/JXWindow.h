@@ -153,30 +153,30 @@ public:
 	bool		GetIconWidget(JXWindowIcon** widget) const;
 
 	bool	IsDragging() const;
-	void		PrintWindowConfig();
+	void	PrintWindowConfig();
 
 	static bool	WillAutoDockNewWindows();
-	static void		ShouldAutoDockNewWindows(const bool autoDock);
+	static void	ShouldAutoDockNewWindows(const bool autoDock);
 
 	static bool	WillFocusFollowCursorInDock();
-	static void		ShouldFocusFollowCursorInDock(const bool focusFollowsCursor);
+	static void	ShouldFocusFollowCursorInDock(const bool focusFollowsCursor);
 
 	void	SetWMWindowType(const WMType type);
 
 	// redrawing options
 
-	void		BufferDrawing(const bool bufferDrawing);
+	void	BufferDrawing(const bool bufferDrawing);
 
 	bool	IsKeepingBufferPixmap() const;
-	void		KeepBufferPixmap(const bool keepIt);
+	void	KeepBufferPixmap(const bool keepIt);
 
 	bool	IsUsingPixmapAsBackground() const;
-	void		UsePixmapAsBackground(const bool useIt);
+	void	UsePixmapAsBackground(const bool useIt);
 
 	// mouse restrictions
 
 	bool	GrabPointer(JXContainer* obj);
-	void		UngrabPointer(JXContainer* obj);
+	void	UngrabPointer(JXContainer* obj);
 
 	// utility function for widgets that display text and have shortcuts
 
@@ -199,11 +199,11 @@ public:
 	void	DispatchMouse();
 
 	bool	BeginDrag(JXContainer* obj, const JPoint& ptG,
-						  const JXButtonStates& buttonStates,
-						  const JXKeyModifiers& modifiers);
-	void		EndDrag(JXContainer* obj, const JPoint& ptG,
-						const JXButtonStates& buttonStates,
-						const JXKeyModifiers& modifiers);
+					  const JXButtonStates& buttonStates,
+					  const JXKeyModifiers& modifiers);
+	void	EndDrag(JXContainer* obj, const JPoint& ptG,
+					const JXButtonStates& buttonStates,
+					const JXKeyModifiers& modifiers);
 
 	bool	GetRootChild(Window* rootChild) const;
 
@@ -214,11 +214,11 @@ public:
 	// called by JXContainer
 
 	bool	GetMouseContainer(JXContainer** window) const;
-	void		SetMouseContainer(JXContainer* obj, const JPoint& ptG,
-								  const unsigned int state);
-	void		RecalcMouseContainer();
-	void		SetWantDrag(const bool wantDrag);
-	JSize		CountClicks(JXContainer* container, const JPoint& pt);
+	void	SetMouseContainer(JXContainer* obj, const JPoint& ptG,
+							  const unsigned int state);
+	void	RecalcMouseContainer();
+	void	SetWantDrag(const bool wantDrag);
+	JSize	CountClicks(JXContainer* container, const JPoint& pt);
 
 	void	DispatchCursor();
 	void	DisplayXCursor(const JCursorIndex index);
@@ -227,14 +227,14 @@ public:
 
 	void	UpdateForScroll(const JRect& ap, const JRect& src, const JRect& dest);
 
-	void		RegisterFocusWidget(JXWidget* widget);
-	void		UnregisterFocusWidget(JXWidget* widget);
+	void	RegisterFocusWidget(JXWidget* widget);
+	void	UnregisterFocusWidget(JXWidget* widget);
 	bool	SwitchFocusToWidget(JXWidget* widget);
 
 	bool	InstallShortcut(JXWidget* widget, const int key,
-								const JXKeyModifiers& modifiers);
-	void		InstallShortcuts(JXWidget* widget, const JString& list);
-	void		ClearShortcuts(JXWidget* widget);
+							const JXKeyModifiers& modifiers);
+	void	InstallShortcuts(JXWidget* widget, const JString& list);
+	void	ClearShortcuts(JXWidget* widget);
 
 	// called by JXWidget and JXSelectionManager
 
@@ -243,11 +243,11 @@ public:
 	// called by JXTextMenu
 
 	bool	InstallMenuShortcut(JXTextMenu* menu, const JIndex menuItem,
-									const int key, const JXKeyModifiers& origModifiers);
-	void		ClearMenuShortcut(JXTextMenu* menu, const JIndex menuItem);
-	void		ClearAllMenuShortcuts(JXTextMenu* menu);
-	void		MenuItemInserted(JXTextMenu* menu, const JIndex newItem);
-	void		MenuItemRemoved(JXTextMenu* menu, const JIndex oldItem);
+								const int key, const JXKeyModifiers& origModifiers);
+	void	ClearMenuShortcut(JXTextMenu* menu, const JIndex menuItem);
+	void	ClearAllMenuShortcuts(JXTextMenu* menu);
+	void	MenuItemInserted(JXTextMenu* menu, const JIndex newItem);
+	void	MenuItemRemoved(JXTextMenu* menu, const JIndex oldItem);
 
 	// called by JXTEBase
 
@@ -264,8 +264,8 @@ public:
 	bool	GetDockWindow(JXWindow** window) const;
 	bool	GetDockWidget(JXDockWidget** dock) const;
 	bool	Dock(JXDockWidget* dock, const Window parent, const JRect& geom);
-	void		Undock();
-	void		UndockAllChildWindows();
+	void	Undock();
+	void	UndockAllChildWindows();
 
 	bool	HasWindowType() const;
 	bool	GetWindowType(JString* type) const;
@@ -352,22 +352,22 @@ private:
 	JXWindowDirector*	itsDirector;		// it owns us, we don't own it
 	JXIconDirector*		itsIconDir;			// can be nullptr; owned by itsDirector
 	JXWindow*			itsMainWindow;		// can be nullptr; uses us for icon
-	const bool		itsIsOverlayFlag;
+	const bool			itsIsOverlayFlag;
 
-	JXDisplay*		itsDisplay;					// we don't own this
-	JXGC*			itsGC;
-	Window			itsXWindow;
-	Pixmap			itsBufferPixmap;
-	XIC				itsXIC;
-	JString			itsTitle;
-	JString			itsWindowType;
-	JColorID		itsBackColor;
-	JXImage*		itsIcon;					// can be nullptr
-	JRect			itsBounds;
-	JPoint			itsDesktopLoc;				// convert to root coordinates
-	JPoint			itsWMFrameLoc;				// top left of Window Manager frame
+	JXDisplay*	itsDisplay;					// we don't own this
+	JXGC*		itsGC;
+	Window		itsXWindow;
+	Pixmap		itsBufferPixmap;
+	XIC			itsXIC;
+	JString		itsTitle;
+	JString		itsWindowType;
+	JColorID	itsBackColor;
+	JXImage*	itsIcon;					// can be nullptr
+	JRect		itsBounds;
+	JPoint		itsDesktopLoc;				// convert to root coordinates
+	JPoint		itsWMFrameLoc;				// top left of Window Manager frame
 	bool		itsHasBeenVisibleFlag;		// XQuartz placement
-	Region			itsUpdateRegion;
+	Region		itsUpdateRegion;
 	bool		itsIsMappedFlag;
 	bool		itsIsIconifiedFlag;
 	bool		itsHasFocusFlag;
@@ -377,32 +377,32 @@ private:
 	bool		itsUseBkgdPixmapFlag;		// true => use XSetWindowBackgroundPixmap()
 	bool		itsIsDestructingFlag;		// true => in destructor
 
-	bool		itsHasMinSizeFlag;
-	JPoint			itsMinSize;
-	bool		itsHasMaxSizeFlag;
-	JPoint			itsMaxSize;
-	JPoint			itsFTCDelta;				// prevent size creep
+	bool	itsHasMinSizeFlag;
+	JPoint	itsMinSize;
+	bool	itsHasMaxSizeFlag;
+	JPoint	itsMaxSize;
+	JPoint	itsFTCDelta;					// prevent size creep
 
 	JArray<Shortcut>*	itsShortcuts;
 
-	CloseAction		itsCloseAction;				// what to do with WM_DELETE_WINDOW
-	JCursorIndex	itsCursorIndex;				// currently displayed cursor
+	CloseAction		itsCloseAction;			// what to do with WM_DELETE_WINDOW
+	JCursorIndex	itsCursorIndex;			// currently displayed cursor
 
-	JXContainer*	itsMouseContainer;			// object that contains the mouse -- not owned
+	JXContainer*	itsMouseContainer;		// object that contains the mouse -- not owned
 	bool		itsIsDraggingFlag;			// true while dragging (even if not processed)
 	bool		itsProcessDragFlag;			// true if send drag to itsMouseContainer
 	bool		itsCursorLeftFlag;			// true if mouse left window during drag
 	bool		itsCleanAfterBlockFlag;
 
-	JXContainer*	itsButtonPressReceiver;		// receives DispatchMouseEvent() messages
-	bool		itsPointerGrabbedFlag;		// true if GrabPointer() in effect
-	bool		itsBPRChangedFlag;			// flag for BeginDrag()
+	JXContainer*	itsButtonPressReceiver;	// receives DispatchMouseEvent() messages
+	bool			itsPointerGrabbedFlag;	// true if GrabPointer() in effect
+	bool			itsBPRChangedFlag;		// flag for BeginDrag()
 
-	JPtrArray<JXWidget>*	itsFocusList;		// widgets that want focus
-	JXWidget*				itsFocusWidget;		// receives key events directly; not owned; can be nullptr
-	JXHintManager*			itsCurrHintMgr;		// not owned; can be nullptr; deactivate when key press
+	JPtrArray<JXWidget>*	itsFocusList;	// widgets that want focus
+	JXWidget*				itsFocusWidget;	// receives key events directly; not owned; can be nullptr
+	JXHintManager*			itsCurrHintMgr;	// not owned; can be nullptr; deactivate when key press
 
-	mutable Window	itsRootChild;				// ancestor which is direct child of root window
+	mutable Window	itsRootChild;			// ancestor which is direct child of root window
 
 	// multiple click detection
 
@@ -413,45 +413,45 @@ private:
 
 	// docking
 
-	bool			itsIsDockedFlag;
+	bool				itsIsDockedFlag;
 	Window				itsDockXWindow;			// None if not docked
 	JXDockWidget*		itsDockWidget;			// can be nullptr, even if docked
 	JRect				itsUndockedGeom;
 	JPoint				itsUndockedWMFrameLoc;
 	JXDockWindowTask*	itsDockingTask;
 
-	JArray<ChildWindowInfo>*	itsChildWindowList;		// nullptr unless has children
+	JArray<ChildWindowInfo>*	itsChildWindowList;	// nullptr unless has children
 
 	static bool	theAutoDockNewWindowFlag;			// true => check auto-docking settings
 	static bool	theFocusFollowsCursorInDockFlag;	// true => automatically set input focus to docked window containing cursor
 
 	// FTC
 
-	JXExpandWindowToFitContentTask*	itsExpandTask;		// nullptr unless waiting for it
+	JXExpandWindowToFitContentTask*	itsExpandTask;	// nullptr unless waiting for it
 
 private:
 
 	Drawable	PrepareForUpdate();
 	void		FinishUpdate(const JRect& rect, const Region region);
 
-	void		HandleEnterNotify(const XCrossingEvent& xEvent);
-	void		HandleLeaveNotify(const XCrossingEvent& xEvent);
-	void		HandleMotionNotify(const XMotionEvent& xEvent);
+	void	HandleEnterNotify(const XCrossingEvent& xEvent);
+	void	HandleLeaveNotify(const XCrossingEvent& xEvent);
+	void	HandleMotionNotify(const XMotionEvent& xEvent);
 	bool	HandleButtonPress(const XButtonEvent& xEvent);
 	bool	HandleButtonRelease(const XButtonEvent& xEvent);
 
-	void		HandleFocusIn(const XFocusChangeEvent& xEvent);
-	void		HandleFocusOut(const XFocusChangeEvent& xEvent);
-	void		HandleKeyPress(const XEvent& keyEvent);
-	void		TossKeyRepeatEvents(const unsigned int keycode,
-									const unsigned int state,
-									const KeySym keySym);
+	void	HandleFocusIn(const XFocusChangeEvent& xEvent);
+	void	HandleFocusOut(const XFocusChangeEvent& xEvent);
+	void	HandleKeyPress(const XEvent& keyEvent);
+	void	TossKeyRepeatEvents(const unsigned int keycode,
+								const unsigned int state,
+								const KeySym keySym);
 
-	void		SwitchFocus(const bool backward);
+	void	SwitchFocus(const bool backward);
 	bool	FindNextFocusWidget(const JIndex origStartIndex,
-									JXWidget** focusWidget) const;
+								JXWidget** focusWidget) const;
 	bool	FindPrevFocusWidget(const JIndex origStartIndex,
-									JXWidget** focusWidget) const;
+								JXWidget** focusWidget) const;
 
 	bool	IsShortcut(const KeySym keySym, const unsigned int state);
 	bool	InstallShortcut(const Shortcut& s);

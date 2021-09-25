@@ -65,9 +65,9 @@ JLatentPG::JLatentPG
 JLatentPG::~JLatentPG()
 {
 	if (itsOwnsPGFlag)
-		{
+	{
 		jdelete itsPG;
-		}
+	}
 }
 
 /******************************************************************************
@@ -106,9 +106,9 @@ JLatentPG::SetPG
 	assert( pg != nullptr && !pg->ProcessRunning() );
 
 	if (itsOwnsPGFlag)
-		{
+	{
 		jdelete itsPG;
-		}
+	}
 
 	itsPG         = pg;
 	itsOwnsPGFlag = ownIt;
@@ -137,9 +137,9 @@ JLatentPG::ProcessBeginning
 	itsCounter   = 0;
 
 	if (itsMaxSilentTime == 0)
-		{
+	{
 		StartInternalProcess();
-		}
+	}
 }
 
 /******************************************************************************
@@ -152,17 +152,17 @@ JLatentPG::StartInternalProcess()
 {
 	const ProcessType type = GetCurrentProcessType();
 	if (type == kFixedLengthProcess)
-		{
+	{
 		itsPG->FixedLengthProcessBeginning(
 			GetMaxStepCount(), itsMessage,
 			AllowCancel(), AllowBackground());
-		}
+	}
 	else
-		{
+	{
 		assert( type == kVariableLengthProcess );
 		itsPG->VariableLengthProcessBeginning(
 			itsMessage, AllowCancel(), AllowBackground());
-		}
+	}
 }
 
 /******************************************************************************
@@ -199,18 +199,18 @@ JLatentPG::IncrementProgress
 
 	itsCounter++;
 	if (!pgRunning && TimeToStart())
-		{
+	{
 		StartInternalProcess();
 		result = itsPG->IncrementProgress(GetCurrentStepCount() -
 										  itsPG->GetCurrentStepCount());
 		itsCounter = 0;
-		}
+	}
 	else if (TimeToUpdate() && pgRunning)
-		{
+	{
 		result = itsPG->IncrementProgress(GetCurrentStepCount() -
 										  itsPG->GetCurrentStepCount());
 		itsCounter = 0;
-		}
+	}
 
 	return result;
 }
@@ -236,35 +236,35 @@ JLatentPG::IncrementProgress
 
 	itsCounter++;
 	if (!pgRunning && (TimeToStart() || !message.IsEmpty()))
-		{
+	{
 		StartInternalProcess();
 
 		// delta must be calculated -after- ProcessBeginning()
 
 		const JSize delta1 = GetCurrentStepCount() - itsPG->GetCurrentStepCount();
 		if (delta1 > 1)
-			{
+		{
 			itsPG->IncrementProgress(delta1 - 1);
-			}
+		}
 		result     = itsPG->IncrementProgress(message);
 		itsCounter = 0;
-		}
+	}
 	else if (pgRunning && !message.IsEmpty())
-		{
+	{
 		const JSize delta1 = GetCurrentStepCount() - itsPG->GetCurrentStepCount();
 		if (delta1 > 1)
-			{
+		{
 			itsPG->IncrementProgress(delta1 - 1);
-			}
+		}
 		result     = itsPG->IncrementProgress(message);
 		itsCounter = 0;
-		}
+	}
 	else if (pgRunning && TimeToUpdate())
-		{
+	{
 		result = itsPG->IncrementProgress(GetCurrentStepCount() -
 										  itsPG->GetCurrentStepCount());
 		itsCounter = 0;
-		}
+	}
 
 	return result;
 }
@@ -278,13 +278,13 @@ bool
 JLatentPG::ProcessContinuing()
 {
 	if (itsPG->ProcessRunning())
-		{
+	{
 		return itsPG->ProcessContinuing();
-		}
+	}
 	else
-		{
+	{
 		return true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -309,9 +309,9 @@ JLatentPG::ProcessFinished()
 	JProgressDisplay::ProcessFinished();
 
 	if (itsPG->ProcessRunning())
-		{
+	{
 		itsPG->ProcessFinished();
-		}
+	}
 }
 
 /******************************************************************************

@@ -55,18 +55,18 @@ JXSharedPrefsManager::JXSharedPrefsManager()
 	itsFile = nullptr;
 
 	if (JExpandHomeDirShortcut(kSignalFileName, &itsSignalFileName))
-		{
+	{
 		JString path, name;
 		JSplitPathAndName(itsSignalFileName, &path, &name);
 		if (JCreateDirectory(path, 0700) != kJNoError)
-			{
-			itsSignalFileName.Clear();
-			}
-		}
-	else
 		{
-		itsSignalFileName.Clear();
+			itsSignalFileName.Clear();
 		}
+	}
+	else
+	{
+		itsSignalFileName.Clear();
+	}
 
 	GetAll(&itsWasNewFlag);
 
@@ -100,13 +100,13 @@ JXSharedPrefsManager::Receive
 	)
 {
 	if (sender == itsUpdateTask && message.Is(JXTimerTask::kTimerWentOff))
-		{
+	{
 		Update();
-		}
+	}
 	else
-		{
+	{
 		JBroadcaster::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -123,12 +123,12 @@ JXSharedPrefsManager::Update()
 	if (!itsSignalFileName.IsEmpty() &&
 		JGetModificationTime(itsSignalFileName, &t) == kJNoError &&
 		t != itsSignalModTime)
-		{
+	{
 		bool isNew;
 		return GetAll(&isNew);
-		}
+	}
 	else
-		{
+	{
 		// This exists because JCore values cannot update themsevles,
 		// and it seems easier to toss them all in here.
 
@@ -141,7 +141,7 @@ JXSharedPrefsManager::Update()
 			 itsOrigAllowSpaceFlag     != JXSaveFileInput::WillAllowSpace()       ||
 			 itsOrigMenuDisplayStyle   != JXMenu::GetDisplayStyle()) &&
 			Open())
-			{
+		{
 			PrivateSetFocusFollowsCursorInDock();
 			PrivateSetCopyWhenSelectFlag();
 			PrivateSetMiddleClickWillPasteFlag();
@@ -151,10 +151,10 @@ JXSharedPrefsManager::Update()
 			PrivateSetAllowSpaceFlag();
 			PrivateSetMenuDisplayStyle();
 			Close(true);
-			}
+		}
 
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -171,10 +171,10 @@ JXSharedPrefsManager::GetAll
 	)
 {
 	if (!Open())
-		{
+	{
 		*isNew = true;
 		return false;
-		}
+	}
 
 	*isNew = itsFile->IsEmpty();
 
@@ -182,124 +182,124 @@ JXSharedPrefsManager::GetAll
 	std::string data;
 
 	if (itsFile->IDValid(kFocusFollowsCursorInDockID))
-		{
+	{
 		itsFile->GetData(kFocusFollowsCursorInDockID, &data);
 		std::istringstream input(data);
 		input >> JBoolFromString(itsOrigFocusInDockFlag);
 		JXWindow::ShouldFocusFollowCursorInDock(itsOrigFocusInDockFlag);
-		}
+	}
 	else
-		{
+	{
 		PrivateSetFocusFollowsCursorInDock();
 		changed = true;
-		}
+	}
 
 	if (itsFile->IDValid(kCopyWhenSelectID))
-		{
+	{
 		itsFile->GetData(kCopyWhenSelectID, &data);
 		std::istringstream input(data);
 		input >> JBoolFromString(itsOrigCopyWhenSelectFlag);
 		JTextEditor::ShouldCopyWhenSelect(itsOrigCopyWhenSelectFlag);
-		}
+	}
 	else
-		{
+	{
 		PrivateSetCopyWhenSelectFlag();
 		changed = true;
-		}
+	}
 
 	if (itsFile->IDValid(kMiddleClickWillPasteID))
-		{
+	{
 		itsFile->GetData(kMiddleClickWillPasteID, &data);
 		std::istringstream input(data);
 		input >> JBoolFromString(itsOrigMiddleClickWillPasteFlag);
 		JXTEBase::MiddleButtonShouldPaste(itsOrigMiddleClickWillPasteFlag);
-		}
+	}
 	else
-		{
+	{
 		PrivateSetMiddleClickWillPasteFlag();
 		changed = true;
-		}
+	}
 
 	if (itsFile->IDValid(kPWModifierID))
-		{
+	{
 		itsFile->GetData(kPWModifierID, &data);
 		std::istringstream input(data);
 		input >> itsOrigPWMod;
 		JXTEBase::SetPartialWordModifier(itsOrigPWMod);
-		}
+	}
 	else
-		{
+	{
 		PrivateSetPartialWordModifier();
 		changed = true;
-		}
+	}
 
 	if (itsFile->IDValid(kCaretFollowsScrollID))
-		{
+	{
 		itsFile->GetData(kCaretFollowsScrollID, &data);
 		std::istringstream input(data);
 		input >> JBoolFromString(itsOrigCaretScrollFlag);
 		JXTEBase::CaretShouldFollowScroll(itsOrigCaretScrollFlag);
-		}
+	}
 	else
-		{
+	{
 		PrivateSetCaretFollowsScroll();
 		changed = true;
-		}
+	}
 
 	if (itsFile->IDValid(kWindowsHomeEndID))
-		{
+	{
 		itsFile->GetData(kWindowsHomeEndID, &data);
 		std::istringstream input(data);
 		input >> JBoolFromString(itsOrigWindowsHomeEndFlag);
 		JXTEBase::ShouldUseWindowsHomeEnd(itsOrigWindowsHomeEndFlag);
-		}
+	}
 	else
-		{
+	{
 		if (!(*isNew))
-			{
+		{
 			JXTEBase::ShouldUseWindowsHomeEnd(false);
-			}
+		}
 
 		PrivateSetWindowsHomeEnd();
 		changed = true;
-		}
+	}
 
 	if (itsFile->IDValid(kAllowSpaceID))
-		{
+	{
 		itsFile->GetData(kAllowSpaceID, &data);
 		std::istringstream input(data);
 		input >> JBoolFromString(itsOrigAllowSpaceFlag);
 		JXSaveFileInput::ShouldAllowSpace(itsOrigAllowSpaceFlag);
-		}
+	}
 	else
-		{
+	{
 		PrivateSetAllowSpaceFlag();
 		changed = true;
-		}
+	}
 
 	if (itsFile->IDValid(kMenuDisplayStyleID))
-		{
+	{
 		itsFile->GetData(kMenuDisplayStyleID, &data);
 		std::istringstream input(data);
 		long temp;
 		input >> temp;
 		itsOrigMenuDisplayStyle = (JXMenu::Style) temp;
 		if (itsOrigMenuDisplayStyle > JXMenu::kStyleMax)
-			{
-			itsOrigMenuDisplayStyle = JXMenu::kWindowsStyle;
-			}
-		JXMenu::SetDisplayStyle(itsOrigMenuDisplayStyle);
-		}
-	else
 		{
+			itsOrigMenuDisplayStyle = JXMenu::kWindowsStyle;
+		}
+		JXMenu::SetDisplayStyle(itsOrigMenuDisplayStyle);
+	}
+	else
+	{
 		if (!(*isNew))
-			{
+		{
 			JXMenu::SetDisplayStyle(JXMenu::kMacintoshStyle);
-			}
+		}
 
 		PrivateSetMenuDisplayStyle();
 		changed = true;
-		}
+	}
 
 	Broadcast(Read());
 
@@ -456,17 +456,17 @@ JXSharedPrefsManager::ReadPrefs
 	)
 {
 	if (itsFile != nullptr)
-		{
+	{
 		if (PrivateReadPrefs(obj))
-			{
-			itsChangedFlag = true;
-			}
-		}
-	else if (!Update() && Open())
 		{
+			itsChangedFlag = true;
+		}
+	}
+	else if (!Update() && Open())
+	{
 		const bool changed = PrivateReadPrefs(obj);
 		Close(changed);
-		}
+	}
 }
 
 /******************************************************************************
@@ -486,7 +486,7 @@ JXSharedPrefsManager::PrivateReadPrefs
 
 	const JPrefID& latestVersID = obj->GetLatestVersionID();
 	if (itsFile->IDValid(latestVersID))
-		{
+	{
 		std::string data;
 		itsFile->GetData(latestVersID, &data);
 		std::istringstream versInput(data);
@@ -500,11 +500,11 @@ JXSharedPrefsManager::PrivateReadPrefs
 		obj->ReadPrefs(input);
 
 		return false;
-		}
+	}
 	else
-		{
+	{
 		return PrivateWritePrefs(obj);
-		}
+	}
 }
 
 /******************************************************************************
@@ -519,17 +519,17 @@ JXSharedPrefsManager::WritePrefs
 	)
 {
 	if (itsFile != nullptr)
-		{
+	{
 		if (PrivateWritePrefs(obj))
-			{
-			itsChangedFlag = true;
-			}
-		}
-	else if (Open())
 		{
+			itsChangedFlag = true;
+		}
+	}
+	else if (Open())
+	{
 		const bool changed = PrivateWritePrefs(obj);
 		Close(changed);
-		}
+	}
 }
 
 /******************************************************************************
@@ -551,17 +551,17 @@ JXSharedPrefsManager::PrivateWritePrefs
 	const JPrefID& latestVersID = obj->GetLatestVersionID();
 
 	if (itsFile->IDValid(latestVersID))
-		{
+	{
 		std::string data;
 		itsFile->GetData(latestVersID, &data);
 		std::istringstream input(data);
 		JFileVersion origVers;
 		input >> origVers;
 		if (origVers > currVers)
-			{
+		{
 			return false;
-			}
 		}
+	}
 
 	std::ostringstream versData;
 	versData << currVers;
@@ -570,11 +570,11 @@ JXSharedPrefsManager::PrivateWritePrefs
 	const JArray<JXSharedPrefObject::VersionInfo>& versList = obj->GetVersionList();
 
 	for (const auto& info : versList)
-		{
+	{
 		std::ostringstream data;
 		obj->WritePrefs(data, info.vers);
 		itsFile->SetData(info.id, data);
-		}
+	}
 
 	return true;
 }
@@ -613,9 +613,9 @@ JXSharedPrefsManager::Close
 	itsFile = nullptr;
 
 	if (changed || itsChangedFlag)
-		{
+	{
 		NotifyChanged();
-		}
+	}
 }
 
 /******************************************************************************
@@ -627,13 +627,13 @@ void
 JXSharedPrefsManager::NotifyChanged()
 {
 	if (!itsSignalFileName.IsEmpty())
-		{
+	{
 		std::ofstream temp(itsSignalFileName.GetBytes());
 		temp << 'x';
 		temp.close();
 
 		SaveSignalModTime();
-		}
+	}
 }
 
 /******************************************************************************
@@ -645,7 +645,7 @@ void
 JXSharedPrefsManager::SaveSignalModTime()
 {
 	if (!itsSignalFileName.IsEmpty())
-		{
+	{
 		JGetModificationTime(itsSignalFileName, &itsSignalModTime);
-		}
+	}
 }

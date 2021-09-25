@@ -76,38 +76,38 @@ jGetParenType
 	)
 {
 	if (dynamic_cast<const JExponent*>(&f) != nullptr)
-		{
+	{
 		return kExponentParenType;
-		}
+	}
 	else if (dynamic_cast<const JParallel*>(&f) != nullptr)
-		{
+	{
 		return kParallelParenType;
-		}
+	}
 	else if (dynamic_cast<const JProduct*>(&f) != nullptr)
-		{
+	{
 		return kProductParenType;
-		}
+	}
 	else if (dynamic_cast<const JDivision*>(&f) != nullptr)
-		{
+	{
 		return kDivisionParenType;
-		}
+	}
 	else if (dynamic_cast<const JNegation*>(&f) != nullptr)
-		{
+	{
 		return kNegationParenType;
-		}
+	}
 	else if (dynamic_cast<const JSummation*>(&f) != nullptr)
-		{
+	{
 		return kSummationParenType;
-		}
+	}
 	else if (dynamic_cast<const JConstantValue*>(&f) != nullptr &&
 			 dynamic_cast<const JConstantValue*>(&f)->GetValue() < 0.0)
-		{
+	{
 		return kNegativeConstantType;
-		}
+	}
 	else
-		{
+	{
 		return kValueParenType;
-		}
+	}
 }
 
 /******************************************************************************
@@ -172,9 +172,9 @@ static void
 jInitFunctionData()
 {
 	if (!theFunctionData.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	jAddFunction("abs", 1);
 	jAddFunction("sign", 1);
@@ -222,13 +222,13 @@ JGetArgCount
 
 	FunctionData data;
 	if (theFunctionData.GetElement(fnName, &data))
-		{
+	{
 		*argCount = data.argCount;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*argCount = 0;
 		return false;
-		}
+	}
 }

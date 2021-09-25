@@ -45,20 +45,20 @@ JCopyBinaryData
 
 	JSize readCount = 0;
 	while (!input.eof() && !input.fail() && readCount < byteCount)
-		{
+	{
 		// don't read past byteCount
 
 		if (readCount + chunkSize > byteCount)
-			{
+		{
 			chunkSize = byteCount - readCount;
-			}
+		}
 
 		// transfer the chunk
 
 		input.read(data, chunkSize);
 		output.write(data, chunkSize);
 		readCount += chunkSize;
-		}
+	}
 
 	jdelete [] data;
 
@@ -133,13 +133,13 @@ JReadLine
 	JUtf8Byte c;
 	const bool foundDelimiter = JReadUntil(input, 2, "\r\n", &line, &c);
 	if (foundDelimiter && c == '\r' && !input.eof() && input.peek() == '\n')
-		{
+	{
 		input.ignore();
-		}
+	}
 	if (foundNewLine != nullptr)
-		{
+	{
 		*foundNewLine = foundDelimiter;
-		}
+	}
 	return line;
 }
 
@@ -166,9 +166,9 @@ JReadUntil
 	JUtf8Byte c;
 	const bool found = JReadUntil(input, 1, &delimiter, &str, &c);
 	if (foundDelimiter != nullptr)
-		{
+	{
 		*foundDelimiter = found;
-		}
+	}
 	return str;
 }
 
@@ -207,46 +207,46 @@ JReadUntil
 
 	JUtf8Character c;
 	while (true)
-		{
+	{
 		input >> c;
 		if (input.fail())
-			{
+		{
 			break;
-			}
+		}
 
 		for (JUnsignedOffset j=0; j<delimiterCount; j++)
-			{
+		{
 			if (c == delimiters[j])
-				{
+			{
 				isDelimiter = true;
 				if (delimiter != nullptr)
-					{
+				{
 					*delimiter = delimiters[j];
-					}
-				break;
 				}
+				break;
 			}
+		}
 
 		if (isDelimiter || input.eof())
-			{
+		{
 			break;
-			}
+		}
 
 		const JSize byteCount = c.GetByteCount();
 		if (p + byteCount - buf >= (JInt64) bufSize)
-			{
+		{
 			str->Append(buf, p - buf);
 			p = buf;
-			}
+		}
 
 		memcpy(p, c.GetBytes(), byteCount);
 		p += c.GetByteCount();
-		}
+	}
 
 	if (p > buf)
-		{
+	{
 		str->Append(buf, p - buf);
-		}
+	}
 	return isDelimiter;
 }
 
@@ -275,9 +275,9 @@ JReadUntilws
 	JUtf8Byte c;
 	const bool found = JReadUntil(input, delimiterCount, delimiters, &str, &c);
 	if (foundws != nullptr)
-		{
+	{
 		*foundws = found;
-		}
+	}
 	input >> std::ws;
 	return str;
 }
@@ -303,13 +303,13 @@ JIgnoreLine
 	JUtf8Byte c;
 	const bool foundDelimiter = JIgnoreUntil(input, 2, "\r\n", &c);
 	if (foundDelimiter && c == '\r' && !input.eof() && input.peek() == '\n')
-		{
+	{
 		input.ignore();
-		}
+	}
 	if (foundNewLine != nullptr)
-		{
+	{
 		*foundNewLine = foundDelimiter;
-		}
+	}
 }
 
 /******************************************************************************
@@ -337,9 +337,9 @@ JIgnoreUntil
 	JUtf8Byte c;
 	const bool found = JIgnoreUntil(input, 1, &delimiter, &c);
 	if (foundDelimiter != nullptr)
-		{
+	{
 		*foundDelimiter = found;
-		}
+	}
 }
 
 void 
@@ -354,15 +354,15 @@ JIgnoreUntil
 	assert( delimLength > 0 );
 
 	if (delimLength == 1)
-		{
+	{
 		JIgnoreUntil(input, delimiter[0], foundDelimiter);
 		return;
-		}
+	}
 
 	if (foundDelimiter != nullptr)
-		{
+	{
 		*foundDelimiter = false;
-		}
+	}
 
 	auto* window = jnew JUtf8Byte[ delimLength ];
 	assert( window != nullptr );
@@ -371,16 +371,16 @@ JIgnoreUntil
 
 	while (!input.eof() && !input.fail() &&
 		   JString::Compare(window, delimLength, delimiter, delimLength) != 0)
-		{
+	{
 		memmove(window, window+1, delimLength-1);
 		window[ delimLength-1 ] = input.get();
-		}
+	}
 
 	if (foundDelimiter != nullptr &&
 		JString::Compare(window, delimLength, delimiter, delimLength) == 0)
-		{
+	{
 		*foundDelimiter = true;
-		}
+	}
 
 	jdelete [] window;
 }
@@ -413,32 +413,32 @@ JIgnoreUntil
 	bool isDelimiter = false;
 
 	while (true)
-		{
+	{
 		JUtf8Byte c;
 		input.get(c);
 		if (input.fail())
-			{
+		{
 			break;
-			}
+		}
 
 		for (JUnsignedOffset i=0; i<delimiterCount; i++)
-			{
+		{
 			if (c == delimiters[i])
-				{
+			{
 				isDelimiter = true;
 				if (delimiter != nullptr)
-					{
+				{
 					*delimiter = c;
-					}
-				break;
 				}
-			}
-
-		if (isDelimiter || input.eof())
-			{
-			break;
+				break;
 			}
 		}
+
+		if (isDelimiter || input.eof())
+		{
+			break;
+		}
+	}
 
 	return isDelimiter;
 }
@@ -453,12 +453,12 @@ JIgnoreUntil
  ******************************************************************************/
 
 static const JUtf8Byte kBase64Encoding[] =
-	{
+{
 	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
 	'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
 	'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
 	'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
-	};
+};
 
 static const JIndex kMaxCharOnLine = 72;	// short enough to allow == pad to ignore line length check
 
@@ -474,10 +474,10 @@ jWriteBase64Byte
 
 	*cIndex = *cIndex + 1;
 	if (*cIndex > kMaxCharOnLine)
-		{
+	{
 		output << "\r\n";
 		*cIndex = 1;
-		}
+	}
 }
 
 void
@@ -493,18 +493,18 @@ JEncodeBase64
 
 	unsigned char c = input.get();
 	while (input.good())
-		{
+	{
 		JIndex pieceVal = c;
 		if (chunkIndex == 1)
-			{
+		{
 			chunkData = pieceVal << 16;
-			}
+		}
 		else if (chunkIndex == 2)
-			{
+		{
 			chunkData = chunkData | (pieceVal << 8);
-			}
+		}
 		else if (chunkIndex == 3)
-			{
+		{
 			chunkData = chunkData | pieceVal;
 			JIndex b64Index = (chunkData >> 18) & 0x0000003F;
 			jWriteBase64Byte(output, b64Index, &charIndex);
@@ -519,20 +519,20 @@ JEncodeBase64
 			jWriteBase64Byte(output, b64Index, &charIndex);
 
 			chunkData = 0;
-			}
+		}
 
 		c = input.get();
 		chunkIndex++;
 		if (chunkIndex > 3)
-			{
+		{
 			chunkIndex = 1;
-			}
 		}
+	}
 
 	// write final bytes
 
 	if (chunkIndex == 2)
-		{
+	{
 		JIndex b64Index = chunkData >> 18;
 		jWriteBase64Byte(output, b64Index, &charIndex);
 
@@ -540,9 +540,9 @@ JEncodeBase64
 		jWriteBase64Byte(output, b64Index, &charIndex);
 
 		output << "==";
-		}
+	}
 	else if (chunkIndex == 3)
-		{
+	{
 		JIndex b64Index = chunkData >> 18;
 		jWriteBase64Byte(output, b64Index, &charIndex);
 
@@ -553,7 +553,7 @@ JEncodeBase64
 		jWriteBase64Byte(output, b64Index, &charIndex);
 
 		output << '=';
-		}
+	}
 	output << "\r\n";
 }
 
@@ -577,16 +577,16 @@ JDecodeBase64
 	)
 {
 	if (!kBase64DecodeInit)
-		{
+	{
 		memset(kBase64Decoding, 0xFF, sizeof(kBase64Decoding));
 
 		for (JUnsignedOffset i=0; i<64; i++)
-			{
+		{
 			kBase64Decoding[ (unsigned char) kBase64Encoding[i] ] = i;
-			}
+		}
 
 		kBase64DecodeInit = true;
-		}
+	}
 
 	input >> std::ws;
 
@@ -596,34 +596,34 @@ JDecodeBase64
 
 	unsigned char c = input.get();
 	while (input.good())
-		{
+	{
 		if (c == '\n')
-			{
+		{
 			if (lastReturn)
-				{
+			{
 				return true;
-				}
+			}
 			else
-				{
+			{
 				lastReturn = true;
-				}
 			}
+		}
 		else if (c == '\r')
-			{
+		{
 			// skip it
-			}
+		}
 		else if (c == '=')
-			{
+		{
 			if (chunkIndex == 3)
-				{
+			{
 				unsigned char outVal = chunkData >> 16;
 				output << outVal;
 
 				JReadUntilws(input);
 				return true;
-				}
+			}
 			else if (chunkIndex == 4)
-				{
+			{
 				unsigned char outVal = chunkData >> 16;
 				output << outVal;
 
@@ -632,36 +632,36 @@ JDecodeBase64
 
 				JReadUntilws(input);
 				return true;
-				}
+			}
 
 			chunkIndex++;
-			}
+		}
 		else if (c > 127 || kBase64Decoding[c] == 0xFFFFFFFF)
-			{
+		{
 			return false;
-			}
+		}
 		else
-			{
+		{
 			lastReturn      = false;	// prevent single \n from triggering exit
 			JIndex pieceVal = kBase64Decoding[c];
 
 			if (chunkIndex == 1)
-				{
+			{
 				pieceVal  = pieceVal << 18;
 				chunkData = chunkData | pieceVal;
-				}
+			}
 			else if (chunkIndex == 2)
-				{
+			{
 				pieceVal  = pieceVal << 12;
 				chunkData = chunkData | pieceVal;
-				}
+			}
 			else if (chunkIndex == 3)
-				{
+			{
 				pieceVal  = pieceVal << 6;
 				chunkData = chunkData | pieceVal;
-				}
+			}
 			else if (chunkIndex == 4)
-				{
+			{
 				chunkData = chunkData | pieceVal;
 
 				unsigned char outVal = chunkData >> 16;
@@ -674,17 +674,17 @@ JDecodeBase64
 				output << outVal;
 
 				chunkData = 0;
-				}
+			}
 
 			chunkIndex++;
-			}
+		}
 
 		c = input.get();
 		if (chunkIndex > 4)
-			{
+		{
 			chunkIndex = 1;
-			}
 		}
+	}
 
 	return chunkIndex == 1;
 }
@@ -728,14 +728,14 @@ jReadN
 	for (bytes_transferred = 0;
 		 bytes_transferred < len;
 		 bytes_transferred += n)
-		{
+	{
 		n = jRead(handle, (char *) buf + bytes_transferred, len - bytes_transferred);
 
 		if (n == -1 || n == 0)
-			{
+		{
 			return n;
-			}
 		}
+	}
 
 	return bytes_transferred;
 }
@@ -795,35 +795,35 @@ JReadAll
 	char readBuf[ bufLength ];
 	JUtf8ByteBuffer byteBuf(bufLength);
 	while (true)
-		{
+	{
 		size_t byteCount;
 		const ssize_t result = jReadN(input, readBuf, bufLength, &byteCount);
 
 		if (byteCount > 0)
-			{
+		{
 			byteBuf.Append(readBuf, byteCount);
-			}
+		}
 
 		if (result == -1)
-			{
+		{
 			if (closeInput)
-				{
+			{
 				::close(input);
-				}
+			}
 			str->Set(byteBuf.GetCArray(), byteBuf.GetElementCount());
 			return false;
-			}
+		}
 		else if (result == 0)
-			{
+		{
 			if (closeInput)
-				{
+			{
 				::close(input);
-				}
+			}
 			str->Set(byteBuf.GetCArray(), byteBuf.GetElementCount());
 			return true;
-			}
-		// else, keep reading
 		}
+		// else, keep reading
+	}
 }
 
 /******************************************************************************
@@ -849,9 +849,9 @@ JReadUntil
 	JUtf8Byte c;
 	const bool found = JReadUntil(input, 1, &delimiter, &str, &c);
 	if (foundDelimiter != nullptr)
-		{
+	{
 		*foundDelimiter = found;
-		}
+	}
 	return str;
 }
 
@@ -891,31 +891,31 @@ JReadUntil
 
 	JUtf8ByteBuffer byteBuf(bufLength);
 	while (true)
-		{
+	{
 		JUtf8Byte c;
 		size_t dataLength;
 		const ssize_t result = jReadN(input, &c, 1, &dataLength);
 
 		if (result == -1 || result == 0)
-			{
+		{
 			break;
-			}
+		}
 
 		for (JUnsignedOffset j=0; j<delimiterCount; j++)
-			{
+		{
 			if (c == delimiters[j])
-				{
+			{
 				isDelimiter = true;
 				if (delimiter != nullptr)
-					{
+				{
 					*delimiter = c;
-					}
-				goto done;
 				}
+				goto done;
 			}
+		}
 
 		byteBuf.Append(&c, 1);
-		}
+	}
 done:
 	str->Set(byteBuf.GetCArray(), byteBuf.GetElementCount());
 	return isDelimiter;
@@ -949,9 +949,9 @@ JIgnoreUntil
 	JUtf8Byte c;
 	const bool found = JIgnoreUntil(input, 1, &delimiter, &c);
 	if (foundDelimiter != nullptr)
-		{
+	{
 		*foundDelimiter = found;
-		}
+	}
 }
 
 void 
@@ -966,15 +966,15 @@ JIgnoreUntil
 	assert( delimLength > 0 );
 
 	if (delimLength == 1)
-		{
+	{
 		JIgnoreUntil(input, delimiter[0], foundDelimiter);
 		return;
-		}
+	}
 
 	if (foundDelimiter != nullptr)
-		{
+	{
 		*foundDelimiter = false;
-		}
+	}
 
 	char* window = jnew char[ delimLength ];
 	assert( window != nullptr );
@@ -983,15 +983,15 @@ JIgnoreUntil
 	ssize_t result = jReadN(input, window, delimLength, &dataLength);
 
 	while (result > 0 && dataLength > 0 && strcmp(window, delimiter) != 0)
-		{
+	{
 		memmove(window, window+1, delimLength-1);
 		result = jReadN(input, window + delimLength-1, 1, &dataLength);
-		}
+	}
 
 	if (strcmp(window, delimiter) == 0 && foundDelimiter != nullptr)
-		{
+	{
 		*foundDelimiter = true;
-		}
+	}
 
 	jdelete [] window;
 }
@@ -1027,34 +1027,34 @@ JIgnoreUntil
 	bool isDelimiter = false;
 
 	while (true)
-		{
+	{
 		char c;
 		size_t dataLength;
 		ssize_t result = jReadN(input, &c, 1, &dataLength);
 
 		if (result == -1)
-			{
+		{
 			return false;
-			}
+		}
 
 		for (JUnsignedOffset i=0; i<delimiterCount; i++)
-			{
+		{
 			if (c == delimiters[i])
-				{
+			{
 				isDelimiter = true;
 				if (delimiter != nullptr)
-					{
+				{
 					*delimiter = c;
-					}
-				break;
 				}
-			}
-
-		if (isDelimiter || result == 0)
-			{
-			break;
+				break;
 			}
 		}
+
+		if (isDelimiter || result == 0)
+		{
+			break;
+		}
+	}
 
 	return isDelimiter;
 }
@@ -1076,7 +1076,7 @@ JWaitForInput
 {
 	const time_t startTime = time(nullptr);
 	while (true)
-		{
+	{
 		jclear_errno();
 
 		pollfd in;
@@ -1086,17 +1086,17 @@ JWaitForInput
 
 		const int result = poll(&in, 1, 1000);
 		if (result > 0)								// success
-			{
+		{
 			return true;
-			}
+		}
 		else if (result < 0 && jerrno() != EINTR)	// failure
-			{
+		{
 			return false;
-			}
+		}
 
 		if (time(nullptr) - startTime > timeout)			// give up
-			{
+		{
 			return false;
-			}
 		}
+	}
 }

@@ -80,15 +80,15 @@ JPhaseAngle::Evaluate
 {
 	JComplex value;
 	if (GetArg()->Evaluate(&value))
-		{
+	{
 		jclear_errno();
 		*result = arg(value);
 		return jerrno_is_clear();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -100,13 +100,13 @@ JPhaseAngle::Evaluate
 {
 	JComplex value;
 	if (GetArg()->Evaluate(&value))
-		{
+	{
 		jclear_errno();
 		*result = arg(value);
 		return jerrno_is_clear();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }

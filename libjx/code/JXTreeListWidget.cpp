@@ -132,9 +132,9 @@ JXTreeListWidget::ScrollToNode
 {
 	JIndex index;
 	if (itsTreeList->FindNode(node, &index))
-		{
+	{
 		TableScrollToCell(JPoint(1, index));
-		}
+	}
 }
 
 /******************************************************************************
@@ -154,9 +154,9 @@ JXTreeListWidget::ScrollToShowChildren
 {
 	const JTreeNode* node = itsTreeList->GetNode(index);
 	if (!node->HasChildren())
-		{
+	{
 		return;
-		}
+	}
 
 	// scroll minimum to show last child
 
@@ -167,9 +167,9 @@ JXTreeListWidget::ScrollToShowChildren
 
 	const JCoordinate y = GetRowTop(index);
 	if (y < (GetAperture()).top)
-		{
+	{
 		ScrollTo(0, y);
-		}
+	}
 }
 
 /******************************************************************************
@@ -187,13 +187,13 @@ JXTreeListWidget::GetSelectedNodes
 
 	JPoint cell;
 	while (iter.Next(&cell))
-		{
+	{
 		JTreeNode* node = itsTreeList->GetNode(cell.y);
 		if (!list->Includes(node))
-			{
+		{
 			list->Append(node);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -212,20 +212,20 @@ JXTreeListWidget::SelectNodes
 	JTableSelection& s = GetTableSelection();
 
 	for (const auto* node : list)
-		{
+	{
 		JIndex index;
 		if (itsTreeList->FindNode(node, &index))
-			{
+		{
 			const JPoint cell(itsNodeColIndex, index);
 			s.SelectCell(cell);
 
 			if (!s.HasAnchor())
-				{
+			{
 				s.SetAnchor(cell);
-				}
-			s.SetBoat(cell);
 			}
+			s.SetBoat(cell);
 		}
+	}
 }
 
 /******************************************************************************
@@ -244,27 +244,27 @@ JXTreeListWidget::OpenSelectedNodes
 	iter.MoveTo(kJIteratorStartAtEnd, 0,0);
 	JPoint cell, lastCell;
 	while (iter.Prev(&cell))
-		{
+	{
 		if (openSiblings)
-			{
+		{
 			itsTreeList->OpenSiblings(cell.y);
-			}
+		}
 		if (openDescendants)
-			{
+		{
 			itsTreeList->OpenDescendants(cell.y, itsMaxOpenDepth);
-			}
+		}
 		if (!openSiblings && !openDescendants)
-			{
+		{
 			itsTreeList->Open(cell.y);
-			}
+		}
 
 		lastCell = cell;
-		}
+	}
 
 	if (RowIndexValid(lastCell.y) && !openSiblings)
-		{
+	{
 		ScrollToShowChildren(lastCell.y);
-		}
+	}
 }
 
 /******************************************************************************
@@ -282,20 +282,20 @@ JXTreeListWidget::CloseSelectedNodes
 	JTableSelectionIterator iter(&(GetTableSelection()));
 	JPoint cell;
 	while (iter.Next(&cell))
-		{
+	{
 		if (closeSiblings)
-			{
+		{
 			itsTreeList->CloseSiblings(cell.y);
-			}
-		if (closeDescendants)
-			{
-			itsTreeList->CloseDescendants(cell.y);
-			}
-		if (!closeSiblings && !closeDescendants)
-			{
-			itsTreeList->Close(cell.y);
-			}
 		}
+		if (closeDescendants)
+		{
+			itsTreeList->CloseDescendants(cell.y);
+		}
+		if (!closeSiblings && !closeDescendants)
+		{
+			itsTreeList->Close(cell.y);
+		}
+	}
 }
 
 /******************************************************************************
@@ -378,19 +378,19 @@ JXTreeListWidget::TableDrawCell
 	)
 {
 	if (JIndex(cell.x) == itsNodeColIndex && itsDrawSelectionFlag)
-		{
+	{
 		HilightIfSelected(p, cell, rect);
-		}
+	}
 
 	const JTreeNode* node = itsTreeList->GetNode(cell.y);
 	if (JIndex(cell.x) == itsToggleOpenColIndex && node->IsOpenable())
-		{
+	{
 		p.ShiftOrigin(rect.center());
 
 		const JPolygon* triangle = (itsTreeList->IsOpen(cell.y) ?
 									&kOpenTriangle : &kClosedTriangle);
 		if (kOpenTriangle.IsEmpty())
-			{
+		{
 			kOpenTriangle.AppendElement(JPoint(-5,  -2));
 			kOpenTriangle.AppendElement(JPoint(5, -2));
 			kOpenTriangle.AppendElement(JPoint(0, 3));
@@ -398,17 +398,17 @@ JXTreeListWidget::TableDrawCell
 			kClosedTriangle.AppendElement(JPoint(0, -5));
 			kClosedTriangle.AppendElement(JPoint(5, 0));
 			kClosedTriangle.AppendElement(JPoint(0, 5));
-			}
+		}
 
 		if ((itsToggleDragIndex == cell.y && itsMouseInToggleFlag) ||
 			itsDNDTargetIndex == JIndex(cell.y))
-			{
+		{
 			p.SetFilling(true);
 			p.SetPenColor(JColorManager::GetBlackColor());
 			p.Polygon(*triangle);
-			}
+		}
 		else
-			{
+		{
 			p.SetFilling(true);
 			p.SetPenColor(JColorManager::GetGrayColor(90));
 			p.Polygon(*triangle);
@@ -416,19 +416,19 @@ JXTreeListWidget::TableDrawCell
 			p.SetFilling(false);
 			p.SetPenColor(JColorManager::GetBlackColor());
 			p.Polygon(*triangle);
-			}
-
-		p.ShiftOrigin(-(rect.center()));
 		}
 
+		p.ShiftOrigin(-(rect.center()));
+	}
+
 	else if (JIndex(cell.x) == itsNodeColIndex)
-		{
+	{
 		JRect r = rect;
 		r.left += GetNodeIndent(cell.y);
 		p.SetClipRect(r);
 		TLWDrawNode(p, cell, r);
 		// Table controls clip rect, so we don't have to reset it.
-		}
+	}
 }
 
 /******************************************************************************
@@ -454,20 +454,20 @@ JXTreeListWidget::HandleMouseDown
 	if (button == kJXLeftButton &&
 		inCell && JIndex(cell.x) == itsToggleOpenColIndex &&
 		(itsTreeList->GetNode(cell.y))->IsOpenable())
-		{
+	{
 		itsMouseInToggleFlag = true;
 		itsToggleDragIndex   = cell.y;
 		TableRefreshCell(cell);
-		}
+	}
 	else if (button == kJXLeftButton && clickCount == 2 &&
 			 inCell && JIndex(cell.x) != itsToggleOpenColIndex)
-		{
+	{
 		Broadcast(NodeDblClicked(itsTreeList->GetNode(cell.y), cell));
-		}
+	}
 	else
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -484,27 +484,27 @@ JXTreeListWidget::HandleMouseDrag
 	)
 {
 	if (!itsTreeList->IndexValid(itsToggleDragIndex))
-		{
+	{
 		itsToggleDragIndex = 0;
-		}
+	}
 
 	JPoint cell;
 	if (itsToggleDragIndex > 0 &&
 		GetCell(pt, &cell) &&
 		JIndex(cell.x) == itsToggleOpenColIndex &&
 		cell.y == itsToggleDragIndex)
-		{
+	{
 		if (!itsMouseInToggleFlag)
-			{
+		{
 			itsMouseInToggleFlag = true;
 			TableRefreshCell(itsToggleDragIndex, itsToggleOpenColIndex);
-			}
 		}
+	}
 	else if (itsToggleDragIndex > 0 && itsMouseInToggleFlag)
-		{
+	{
 		itsMouseInToggleFlag = false;
 		TableRefreshCell(itsToggleDragIndex, itsToggleOpenColIndex);
-		}
+	}
 }
 
 /******************************************************************************
@@ -522,15 +522,15 @@ JXTreeListWidget::HandleMouseUp
 	)
 {
 	if (!itsTreeList->IndexValid(itsToggleDragIndex))
-		{
+	{
 		itsToggleDragIndex = 0;
-		}
+	}
 
 	if (itsToggleDragIndex > 0 && itsMouseInToggleFlag)
-		{
+	{
 		ToggleNode(itsToggleDragIndex, modifiers.shift(), modifiers.meta());
 		Refresh();
-		}
+	}
 
 	itsMouseInToggleFlag = false;
 	itsToggleDragIndex   = 0;
@@ -552,36 +552,36 @@ JXTreeListWidget::ToggleNode
 	const bool wasOpen = itsTreeList->IsOpen(index);
 
 	if (siblings && wasOpen)
-		{
+	{
 		JXGetApplication()->DisplayBusyCursor();
 		itsTreeList->CloseSiblings(index);
-		}
+	}
 	else if (siblings)
-		{
+	{
 		JXGetApplication()->DisplayBusyCursor();
 		itsTreeList->OpenSiblings(index);
-		}
+	}
 
 	if (descendants && wasOpen)
-		{
+	{
 		JXGetApplication()->DisplayBusyCursor();
 		itsTreeList->CloseDescendants(index);
-		}
+	}
 	else if (descendants)
-		{
+	{
 		JXGetApplication()->DisplayBusyCursor();
 		itsTreeList->OpenDescendants(index, itsMaxOpenDepth);
-		}
+	}
 
 	if (!siblings && !descendants)
-		{
+	{
 		itsTreeList->Toggle(index);
-		}
+	}
 
 	if (!siblings && !wasOpen)
-		{
+	{
 		ScrollToShowChildren(index);
-		}
+	}
 }
 
 /******************************************************************************
@@ -598,17 +598,17 @@ JXTreeListWidget::HandleKeyPress
 	)
 {
 	if (c == kJLeftArrow && !IsEditing())
-		{
+	{
 		CloseSelectedNodes(modifiers.shift(), modifiers.meta());
-		}
+	}
 	else if (c == kJRightArrow && !IsEditing())
-		{
+	{
 		OpenSelectedNodes(modifiers.shift(), modifiers.meta());
-		}
+	}
 	else
-		{
+	{
 		JXStyleTable::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -624,68 +624,68 @@ JXTreeListWidget::Receive
 	)
 {
 	if (sender == itsTreeList && message.Is(JTreeList::kNodeInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTreeList::NodeInserted*>(&message);
 		assert( info != nullptr );
 		InsertRows(info->GetIndex(), 1);
 		NeedsAdjustToTree();
-		}
+	}
 
 	else if (sender == itsTreeList && message.Is(JTreeList::kNodeRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTreeList::NodeRemoved*>(&message);
 		assert( info != nullptr );
 		RemoveRow(info->GetIndex());
 		NeedsAdjustToTree();
-		}
+	}
 
 	else if (sender == itsTreeList && message.Is(JTreeList::kNodeChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTreeList::NodeChanged*>(&message);
 		assert( info != nullptr );
 		TableRefreshRow(info->GetIndex());
 		NeedsAdjustToTree();
-		}
+	}
 
 	else if (sender == itsTreeList &&
 			 (message.Is(JTreeList::kNodeOpened) ||
 			  message.Is(JTreeList::kNodeClosed)))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTreeList::NodeMessage*>(&message);
 		assert( info != nullptr );
 		TableRefreshRow(info->GetIndex());
-		}
+	}
 
 	else if (sender == itsTreeList->GetTree() &&
 			 message.Is(JTree::kPrepareForNodeMove))
-		{
+	{
 		HandlePrepareForNodeMove();
-		}
+	}
 
 	else if (sender == itsTreeList->GetTree() &&
 			 message.Is(JTree::kNodeMoveFinished))
-		{
+	{
 		HandleNodeMoveFinished();
-		}
+	}
 
 	else
-		{
+	{
 		if (sender == this && message.Is(kColsInserted))
-			{
+		{
 			const auto* info = dynamic_cast<const ColsInserted*>(&message);
 			assert( info != nullptr );
 			info->AdjustIndex(&itsToggleOpenColIndex);
 			info->AdjustIndex(&itsNodeColIndex);
 			info->AdjustIndex(&itsElasticColIndex);
 			NeedsAdjustToTree();
-			}
+		}
 
 		else if (sender == this && message.Is(kColsRemoved))
-			{
+		{
 			const auto* info = dynamic_cast<const ColsRemoved*>(&message);
 			assert( info != nullptr );
 			bool ok = info->AdjustIndex(&itsToggleOpenColIndex);
@@ -694,10 +694,10 @@ JXTreeListWidget::Receive
 			assert( ok );
 			info->AdjustIndex(&itsElasticColIndex);		// ok to let it go to zero
 			NeedsAdjustToTree();
-			}
+		}
 
 		else if (sender == this && message.Is(kColMoved))
-			{
+		{
 			const auto* info =
 				dynamic_cast<const ColMoved*>(&message);
 			assert( info != nullptr );
@@ -705,10 +705,10 @@ JXTreeListWidget::Receive
 			info->AdjustIndex(&itsNodeColIndex);
 			info->AdjustIndex(&itsElasticColIndex);
 			itsMinColWidths->MoveElementToIndex(info->GetOrigIndex(), info->GetNewIndex());
-			}
+		}
 
 		JXStyleTable::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -726,13 +726,13 @@ JXTreeListWidget::HandlePrepareForNodeMove()
 	JTableSelectionIterator iter(&(GetTableSelection()));
 	JPoint cell;
 	while (iter.Next(&cell))
-		{
+	{
 		JTreeNode* node = itsTreeList->GetNode(cell.y);
 		if (!itsReselectNodeList->Includes(node))
-			{
+		{
 			itsReselectNodeList->Append(node);
-			}
 		}
+	}
 
 	// save scroll position
 
@@ -778,11 +778,11 @@ void
 JXTreeListWidget::NeedsAdjustToTree()
 {
 	if (itsAdjustToTreeTask == nullptr)
-		{
+	{
 		itsAdjustToTreeTask = jnew JXTLWAdjustToTreeTask(this);
 		assert( itsAdjustToTreeTask != nullptr );
 		itsAdjustToTreeTask->Go();
-		}
+	}
 }
 
 /******************************************************************************
@@ -800,11 +800,11 @@ void
 JXTreeListWidget::ForceAdjustToTree()
 {
 	while (itsAdjustToTreeTask != nullptr)
-		{
+	{
 		jdelete itsAdjustToTreeTask;
 		itsAdjustToTreeTask = nullptr;
 		AdjustToTree();
-		}
+	}
 }
 
 /******************************************************************************
@@ -821,32 +821,32 @@ JXTreeListWidget::AdjustToTree()
 	const JSize rowCount = GetRowCount();
 	const JSize colCount = GetColCount();
 	for (JIndex j=1; j<=colCount; j++)
-		{
+	{
 		if (j == itsToggleOpenColIndex)
-			{
+		{
 			itsMinColWidths->AppendElement(kToggleColWidth);
-			}
+		}
 		else
-			{
+		{
 			cell.x         = j;
 			JSize maxWidth = 0;
 			for (JIndex i=1; i<=rowCount; i++)
-				{
+			{
 				cell.y            = i;
 				const JSize width = JMax(kMinCellWidth, GetMinCellWidth(cell));
 				if (width > maxWidth)
-					{
+				{
 					maxWidth = width;
-					}
 				}
+			}
 
 			if (maxWidth == 0)
-				{
+			{
 				maxWidth = kDefColWidth;
-				}
-			itsMinColWidths->AppendElement(maxWidth);
 			}
+			itsMinColWidths->AppendElement(maxWidth);
 		}
+	}
 
 	AdjustColWidths();
 }
@@ -876,30 +876,30 @@ void
 JXTreeListWidget::AdjustColWidths()
 {
 	if (itsAdjustToTreeTask != nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	const JSize colCount = GetColCount();
 	if (itsMinColWidths->GetElementCount() != colCount)
-		{
+	{
 		NeedsAdjustToTree();
 		return;
-		}
+	}
 
 	for (JIndex i=1; i<=colCount; i++)
-		{
+	{
 		SetColWidth(i, itsMinColWidths->GetElement(i));
-		}
+	}
 
 	if (ColIndexValid(itsElasticColIndex))
-		{
+	{
 		const JCoordinate minReqWidth = itsMinColWidths->GetElement(itsElasticColIndex);
 		if (minReqWidth > 0)
-			{
+		{
 			const JCoordinate availWidth =
 				GetApertureWidth() - (GetBoundsWidth() - GetColWidth(itsElasticColIndex));
 			SetColWidth(itsElasticColIndex, JMax(minReqWidth, availWidth));
-			}
 		}
+	}
 }

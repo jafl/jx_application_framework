@@ -48,7 +48,7 @@ void
 JXExpandWindowToFitContentTask::Perform()
 {
 	if (itsWindow != nullptr)
-		{
+	{
 		itsWindow->itsExpandTask = nullptr;
 		itsWindow->ExpandToFitContent();
 
@@ -57,18 +57,18 @@ JXExpandWindowToFitContentTask::Perform()
 		JXWindowDirector* dir = itsWindow->GetDirector();
 		auto* dlog = dynamic_cast<JXDialogDirector*>(dir);
 		if (dlog != nullptr && dlog->IsModal())
-			{
+		{
 			itsWindow->PlaceAsDialogWindow();
-			}
+		}
 
 		if (itShowWindowAfterFTCFlag)
-			{
+		{
 			itsWindow->Show();
 
 			if (itsFocusWidget != nullptr)
-				{
+			{
 				itsFocusWidget->Focus();
-				}
 			}
 		}
+	}
 }

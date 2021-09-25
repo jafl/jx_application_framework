@@ -28,13 +28,13 @@ JTEST(Exercise)
 
 	long i;
 	for (i=1;i<=5;i++)
-		{
+	{
 		stringPtr = jnew JString;
 		assert( stringPtr != nullptr );
 		stringPtr->Append(JUtf8Character('0' + i));
 		snoop1.Expect(JListT::kElementsInserted);
 		a1.Append(stringPtr);
-		}
+	}
 	stringPtr = nullptr;
 
 	JAssertFalse(a1.IsEmpty());
@@ -55,24 +55,24 @@ JTEST(Exercise)
 	JPtrArrayIterator<JString> iter(&a1,kJIteratorStartAtBeginning);
 
 	snoop1.Expect(JListT::kElementsRemoved);
-	{
+{
 	const JUtf8Byte* expect[] = { "1", "5", "3", "2", "1" };
 	long j                    = 0;
 	while (iter.Next(&stringPtr))
-		{
+	{
 		JAssertStringsEqual(expect[j], *stringPtr);
 		j++;
 
 		if (*stringPtr == "5")
-			{
+		{
 			stringPtr = a1.GetElement(4);
 			a1.Remove(stringPtr);
 			jdelete stringPtr;
 			stringPtr = nullptr;
-			}
 		}
-	JAssertEqual(5, j);
 	}
+	JAssertEqual(5, j);
+}
 
 	JIndex index;
 	stringPtr = a1.GetElement(4);
@@ -80,22 +80,22 @@ JTEST(Exercise)
 	JAssertEqual(4, index);
 
 	snoop1.Expect(JListT::kElementsRemoved);
-	{
+{
 	const JUtf8Byte* expect[] = { "1", "2", "3", "5", "1" };
 	long j                    = 0;
 	while (iter.Prev(&stringPtr))
-		{
+	{
 		JAssertStringsEqual(expect[j], *stringPtr);
 		j++;
 
 		if (*stringPtr == "5")
-			{
+		{
 			a1.DeleteElement(4);
 			stringPtr = nullptr;
-			}
 		}
-	JAssertEqual(5, j);
 	}
+	JAssertEqual(5, j);
+}
 
 	JAssertFalse(a1.IsEmpty());
 	JAssertEqual(4, a1.GetElementCount());
@@ -108,16 +108,16 @@ JTEST(Exercise)
 	JAssertEqual(4, a2.GetElementCount());
 
 	JPtrArrayIterator<JString> iter2(&a2, kJIteratorStartAtEnd);
-	{
+{
 	const JUtf8Byte* expect[] = { "1", "3", "5", "1" };
 	long j                    = 0;
 	while (iter2.Prev(&stringPtr))
-		{
+	{
 		JAssertStringsEqual(expect[j], *stringPtr);
 		j++;
-		}
-	JAssertEqual(4, j);
 	}
+	JAssertEqual(4, j);
+}
 
 	snoop2.Expect(JListT::kElementsRemoved);
 	a2.RemoveAll();
@@ -134,17 +134,17 @@ JTEST(Exercise)
 
 	JAssertFalse(a2.IsEmpty());
 	JAssertEqual(4, a2.GetElementCount());
-	{
+{
 	const JUtf8Byte* expect[] = { "1", "3", "5", "1" };
 	long j                    = 0;
 	iter2.MoveTo(kJIteratorStartAtEnd, 0);
 	while (iter2.Prev(&stringPtr))
-		{
+	{
 		JAssertStringsEqual(expect[j], *stringPtr);
 		j++;
-		}
-	JAssertEqual(4, j);
 	}
+	JAssertEqual(4, j);
+}
 }
 	JPtrArrayIterator<JString> iter2(&a2);
 
@@ -153,17 +153,17 @@ JTEST(Exercise)
 	a2.SetCompareFunction(JCompareStringsCaseInsensitive);
 	a2.SetSortOrder(JListT::kSortAscending);
 	a2.Sort();
-	{
+{
 	const JUtf8Byte* expect[] = { "1", "1", "3", "5" };
 	long j                    = 0;
 	iter2.MoveTo(kJIteratorStartAtBeginning, 0);
 	while (iter2.Next(&stringPtr))
-		{
+	{
 		JAssertStringsEqual(expect[j], *stringPtr);
 		j++;
-		}
-	JAssertEqual(4, j);
 	}
+	JAssertEqual(4, j);
+}
 
 	JString target("3", JString::kNoCopy);
 	JAssertTrue(a2.SearchSorted(&target, JListT::kAnyMatch, &index));
@@ -210,9 +210,9 @@ JTEST(RangeBasedForLoop)
 	JString* b[3];
 	int j = 0;
 	for (JString* s : a)
-		{
+	{
 		b[j++] = s;
-		}
+	}
 
 	JAssertStringsEqual("foo", *b[0]);
 	JAssertStringsEqual("bar", *b[1]);

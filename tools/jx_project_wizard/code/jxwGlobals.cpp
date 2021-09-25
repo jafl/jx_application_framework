@@ -76,9 +76,9 @@ JXWCleanUpBeforeSuddenDeath
 	)
 {
 	if (reason != JXDocumentManager::kAssertFired)
-		{
+	{
 		theMainDialog->JPrefObject::WritePrefs();
-		}
+	}
 
 	// must be last to save everything
 
@@ -144,9 +144,9 @@ JString
 JXWGetVersionStr()
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"version",   JXWGetVersionNumberStr(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
-		};
+	};
 	return JGetString("Description::jxwGlobals", map, sizeof(map));
 }

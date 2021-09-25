@@ -281,23 +281,23 @@ public:
 	JFont	GetFont(const JIndex charIndex) const;
 
 	bool	SetFontName(const TextRange& range,
-							const JString& name, const bool clearUndo);
+						const JString& name, const bool clearUndo);
 	bool	SetFontSize(const TextRange& range,
-							const JSize size, const bool clearUndo);
+						const JSize size, const bool clearUndo);
 	bool	SetFontBold(const TextRange& range,
-							const bool bold, const bool clearUndo);
+						const bool bold, const bool clearUndo);
 	bool	SetFontItalic(const TextRange& range,
-							  const bool italic, const bool clearUndo);
+						  const bool italic, const bool clearUndo);
 	bool	SetFontUnderline(const TextRange& range,
-								 const JSize count, const bool clearUndo);
+							 const JSize count, const bool clearUndo);
 	bool	SetFontStrike(const TextRange& range,
-							  const bool strike, const bool clearUndo);
+						  const bool strike, const bool clearUndo);
 	bool	SetFontColor(const TextRange& range,
-							 const JColorID color, const bool clearUndo);
+						 const JColorID color, const bool clearUndo);
 	bool	SetFontStyle(const TextRange& range,
-							 const JFontStyle& style, const bool clearUndo);
+						 const JFontStyle& style, const bool clearUndo);
 	void	SetFont(const TextRange& range,
-					const JFont& font, const bool clearUndo);
+				const JFont& font, const bool clearUndo);
 
 	void	SetAllFontNameAndSize(const JString& name, const JSize size,
 								  const bool clearUndo);

@@ -78,9 +78,9 @@ void
 	)
 {
 	if (reason != JXDocumentManager::kAssertFired)
-		{
+	{
 //		theMDIServer->JPrefObject::WritePrefs();
-		}
+	}
 
 	// must be last to save everything
 
@@ -143,10 +143,10 @@ JString
 <PRE>GetVersionStr()
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"version",   JGetString("VERSION").GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
-		};
+	};
 	return JGetString("Description::<pre>Globals", map, sizeof(map));
 }
 

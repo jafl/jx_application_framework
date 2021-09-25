@@ -57,9 +57,9 @@ JXGetNewDirDialog::GetNewDirName()
 {
 	JString dirName = GetString();
 	if (JIsRelativePath(dirName))
-		{
+	{
 		dirName = JCombinePathAndName(itsBasePath, dirName);
-		}
+	}
 	return dirName;
 }
 
@@ -72,27 +72,27 @@ bool
 JXGetNewDirDialog::OKToDeactivate()
 {
 	if (!JXGetStringDialog::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 
 	const JString pathName = GetNewDirName();
 	if (JDirectoryExists(pathName))
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("DirectoryExists::JXGlobal"));
 		return false;
-		}
+	}
 	else if (JNameUsed(pathName))
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("NameUsed::JXGetNewDirDialog"));
 		return false;
-		}
+	}
 	else
-		{
+	{
 		return true;
-		}
+	}
 }

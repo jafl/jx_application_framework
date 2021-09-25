@@ -118,28 +118,28 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::handle_input
 	// protect against recursive calls
 
 	if (itsInHandleInputFlag)
-		{
+	{
 		return 0;
-		}
+	}
 	itsInHandleInputFlag = true;
 
 	// Read the available data.
 
 	const ssize_t count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).recv(itsRecvBuffer, itsRecvBufferSize);
 	if (count > 0)
-		{
+	{
 		itsByteBuffer.Append(itsRecvBuffer, count);
 
 		const JString data = itsByteBuffer.ExtractCharacters();
 		Broadcast(JAsynchDataReceiverT::DataReady(data));
 
 //		std::cerr << "read:\n---\n" << data << "\n---" << std::endl;
-		}
+	}
 	else
-		{
+	{
 //		std::cerr << "read: " << count << std::endl;
 //		std::cerr << "err:  " << jerrno() << std::endl;
-		}
+	}
 
 	itsInHandleInputFlag = false;
 	return 0;

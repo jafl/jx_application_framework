@@ -39,10 +39,10 @@ JMMArrayTable::JMMArrayTable
 	assert(itsAllocatedTable != nullptr);
 
 	if (recordDelete)
-		{
+	{
 		itsDeletedTable = jnew JArray<JMMRecord>(blockSize);
 		assert(itsDeletedTable != nullptr);
-		}
+	}
 }
 
 /******************************************************************************
@@ -92,13 +92,13 @@ JSize
 JMMArrayTable::GetDeletedCount() const
 {
 	if (itsDeletedTable != nullptr)
-		{
+	{
 		return itsDeletedTable->GetElementCount();
-		}
+	}
 	else
-		{
+	{
 		return itsDeletedCount;
-		}
+	}
 }
 
 /******************************************************************************
@@ -129,27 +129,27 @@ JMMArrayTable::PrintAllocated
 	std::cout << "\nAllocated user memory:" << std::endl;
 
 	for (const auto& thisRecord : *itsAllocatedTable)
-		{
+	{
 		if ( !thisRecord.IsManagerMemory() )
-			{
+		{
 			PrintAllocatedRecord(thisRecord);
-			}
 		}
+	}
 
 	if (printInternal)
-		{
+	{
 		std::cout << "\nThe following blocks are probably owned by the memory manager"
 			 << "\nand *should* still be allocated--please report all cases of user"
 			 << "\nallocated memory showing up on this list!" << std::endl;
 
 		for (const auto& thisRecord : *itsAllocatedTable)
-			{
+		{
 			if ( thisRecord.IsManagerMemory() )
-				{
+			{
 				PrintAllocatedRecord(thisRecord);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -167,15 +167,15 @@ JMMArrayTable::StreamAllocatedForDebug
 {
 	const JSize count = itsAllocatedTable->GetElementCount();
 	for (JIndex i=1;i<=count;i++)
-		{
+	{
 		const JMMRecord thisRecord = itsAllocatedTable->GetElement(i);
 		if (filter.Match(thisRecord))
-			{
+		{
 			output << ' ' << JBoolToString(true);
 			output << ' ';
 			thisRecord.StreamForDebug(output);
-			}
 		}
+	}
 
 	output << ' ' << JBoolToString(false);
 }
@@ -197,9 +197,9 @@ JMMArrayTable::StreamAllocationSizeHistogram
 
 	const JSize count = itsAllocatedTable->GetElementCount();
 	for (JIndex i=1;i<=count;i++)
-		{
+	{
 		AddToHistogram(itsAllocatedTable->GetElement(i), histo);
-		}
+	}
 
 	StreamHistogram(output, histo);
 }
@@ -219,17 +219,17 @@ JMMArrayTable::_AddNewRecord
 	JSize index = 0;
 
 	if (checkDoubleAllocation)
-		{
+	{
 		index = FindAllocatedBlock( record.GetAddress() );
-		}
+	}
 
 	if (index == 0)
-		{
+	{
 		// Append because new allocations tend to be free'd the fastest
 		itsAllocatedTable->AppendElement(record);
-		}
+	}
 	else
-		{
+	{
 		JMMRecord thisRecord = itsAllocatedTable->GetElement(index);
 		itsAllocatedBytes   -= thisRecord.GetSize();
 
@@ -238,7 +238,7 @@ JMMArrayTable::_AddNewRecord
 		// Might as well trust malloc--the table should never have duplicate
 		// entries!
 		itsAllocatedTable->SetElement(index, record);
-		}
+	}
 
 	itsAllocatedBytes += record.GetSize();
 }
@@ -261,51 +261,51 @@ JMMArrayTable::_SetRecordDeleted
 	JSize index = FindAllocatedBlock(block);
 
 	if (index != 0)
-		{
+	{
 		JMMRecord thisRecord = itsAllocatedTable->GetElement(index);
 		thisRecord.SetDeleteLocation(file, line, isArray);
 		itsAllocatedBytes -= thisRecord.GetSize();
 
 		if (!thisRecord.ArrayNew() && isArray)
-			{
+		{
 			NotifyObjectDeletedAsArray(thisRecord);
-			}
+		}
 		else if (thisRecord.ArrayNew() && !isArray)
-			{
+		{
 			NotifyArrayDeletedAsObject(thisRecord);
-			}
+		}
 
 		itsAllocatedTable->RemoveElement(index);
 		if (itsDeletedTable != nullptr)
-			{
+		{
 			itsDeletedTable->AppendElement(thisRecord);
-			}
+		}
 		else
-			{
+		{
 			itsDeletedCount++;
-			}
+		}
 
 		*record = thisRecord;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		// Because the array is searched backwards, if it finds a block it
 		// will be the most recent deallocation at that address
 		index = FindDeletedBlock(block);
 		if (index == 0)
-			{
+		{
 			NotifyUnallocatedDeletion(file, line, isArray);
-			}
+		}
 		else
-			{
+		{
 			JMMRecord thisRecord = itsDeletedTable->GetElement(index);
 
 			NotifyMultipleDeletion(thisRecord, file, line, isArray);
-			}
+		}
 
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -324,13 +324,13 @@ JMMArrayTable::FindAllocatedBlock
 {
 	JSize allocatedCount = itsAllocatedTable->GetElementCount();
 	for (JSize i=allocatedCount;i>=1;i--)
-		{
+	{
 		const JMMRecord thisRecord = itsAllocatedTable->GetElement(i);
 		if (thisRecord.GetAddress() == block)
-			{
+		{
 			return i;
-			}
 		}
+	}
 
 	return 0;
 }
@@ -350,17 +350,17 @@ JMMArrayTable::FindDeletedBlock
 	const
 {
 	if (itsDeletedTable != nullptr)
-		{
+	{
 		JSize deletedCount = itsDeletedTable->GetElementCount();
 		for (JSize i=deletedCount;i>=1;i--)
-			{
+		{
 			const JMMRecord thisRecord = itsDeletedTable->GetElement(i);
 			if (thisRecord.GetAddress() == block)
-				{
+			{
 				return i;
-				}
 			}
 		}
+	}
 
 	return 0;
 }

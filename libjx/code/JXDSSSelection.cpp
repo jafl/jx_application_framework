@@ -81,7 +81,7 @@ JXDSSSelection::ConvertData
 	JXDNDManager* dndMgr       = GetDNDManager();
 
 	if (requestType == dndMgr->GetDNDDirectSave0XAtom())
-		{
+	{
 		// get URL
 
 		Atom actualType;
@@ -96,22 +96,22 @@ JXDSSSelection::ConvertData
 
 		if (actualType == selMgr->GetMimePlainTextXAtom() &&
 			actualFormat == 8 && itemCount > 0)
-			{
+		{
 			JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
 							   urlList(JPtrArrayT::kDeleteAll);
 			JXUnpackFileNames((char*) rawData, itemCount, &fileNameList, &urlList);
 
 			if (itsAction != nullptr && !fileNameList.IsEmpty())
-				{
+			{
 				itsAction->Save(*(fileNameList.GetFirstElement()));
-				}
+			}
 			else if (itsAction != nullptr)
-				{
+			{
 				jdelete itsAction;
 				JGetUserNotification()->ReportError(JGetString("MustSaveSameOnComputer::JXDSSSelection"));
-				}
-			const_cast<JXDSSSelection*>(this)->itsAction = nullptr;
 			}
+			const_cast<JXDSSSelection*>(this)->itsAction = nullptr;
+		}
 
 		XFree(rawData);
 
@@ -121,11 +121,11 @@ JXDSSSelection::ConvertData
 		*dataLength = 1;
 		*data = jnew unsigned char[ *dataLength ];
 		if (*data != nullptr)
-			{
+		{
 			**data = 0x45;	// E
 			return true;
-			}
 		}
+	}
 
 	*data       = nullptr;
 	*dataLength = 0;

@@ -47,9 +47,9 @@ JXImageButton::JXImageButton
 JXImageButton::~JXImageButton()
 {
 	if (itsOwnsImageFlag)
-		{
+	{
 		jdelete itsImage;
-		}
+	}
 }
 
 /******************************************************************************
@@ -74,9 +74,9 @@ JXImageButton::SetBitmap
 		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (itsOwnsImageFlag)
-		{
+	{
 		jdelete itsImage;
-		}
+	}
 
 	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	assert( itsImage != nullptr );
@@ -120,15 +120,15 @@ JXImageButton::SetImage
 		 JColorManager::GetDefaultBackColor() : origBackColor);
 
 	if (image != itsImage)
-		{
+	{
 		if (itsOwnsImageFlag)
-			{
+		{
 			jdelete itsImage;
-			}
+		}
 
 		itsImage = image;
 		Refresh();
-		}
+	}
 
 	SetBackColor(backColor);
 	itsOwnsImageFlag = widgetOwnsImage;
@@ -143,11 +143,11 @@ void
 JXImageButton::FitToImage()
 {
 	if (itsImage != nullptr)
-		{
+	{
 		const JSize bw = GetBorderWidth();
 		SetSize(itsImage->GetWidth() + 2*bw,
 				itsImage->GetHeight() + 2*bw);
-		}
+	}
 }
 
 /******************************************************************************
@@ -163,7 +163,7 @@ JXImageButton::Draw
 	)
 {
 	if (itsImage != nullptr)
-		{
+	{
 		p.Image(*itsImage, itsImage->GetBounds(), GetBounds());
-		}
+	}
 }

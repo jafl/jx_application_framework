@@ -256,14 +256,14 @@ JXPTPageSetupDialog::Receive
 	)
 {
 	if (sender == itsPrintTestButton && message.Is(JXButton::kPushed))
-		{
+	{
 		PrintTestPage();
-		}
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -277,25 +277,25 @@ JXPTPageSetupDialog::PrintTestPage()
 	JInteger i,w,h;
 	if (itsPrintCmd->InputValid() &&
 		itsWidth->GetValue(&w) && itsHeight->GetValue(&h))
-		{
+	{
 		JString fileName;
 		JError err = JCreateTempFile(&fileName);
 		if (!err.OK())
-			{
+		{
 			err.ReportIfError();
-			}
+		}
 		else
-			{
+		{
 			std::ofstream output(fileName.GetBytes());
 			for (i=1; i<=w; i++)
-				{
+			{
 				output << JUtf8Byte('0' + i%10);
-				}
+			}
 			output << '\n';
 			for (i=2; i<=h; i++)
-				{
+			{
 				output << i << '\n';
-				}
+			}
 			output.close();
 
 			const JString sysCmd  = itsPrintCmd->GetText()->GetText() + JString(" ", JString::kNoCopy) + JPrepArgForExec(fileName);
@@ -303,6 +303,6 @@ JXPTPageSetupDialog::PrintTestPage()
 			err.ReportIfError();
 
 			JRemoveFile(fileName);
-			}
 		}
+	}
 }

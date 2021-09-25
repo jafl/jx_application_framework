@@ -71,13 +71,13 @@ const JUtf8Byte*
 JGetCurrentImagString()
 {
 	if (theUseEEImagFlag)
-		{
+	{
 		return kEEImagString;
-		}
+	}
 	else
-		{
+	{
 		return kMathImagString;
-		}
+	}
 }
 
 const JUtf8Byte*
@@ -116,97 +116,97 @@ JPrintComplexNumber
 {
 	JString str;
 	if (mode == kDisplayRealAndImag)
-		{
+	{
 		const JFloat r = real(value);
 		const JFloat i = imag(value);
 		if (r == 0.0 && i == 0.0)
-			{
+		{
 			str = "0";
-			}
+		}
 		else if (r == HUGE_VAL || i == HUGE_VAL)
-			{
+		{
 			str = "Infinity";
-			}
+		}
 		else if (r == -HUGE_VAL || i == -HUGE_VAL)
-			{
+		{
 			str = "-Infinity";
-			}
+		}
 		else if (i == 0.0)
-			{
+		{
 			str = JString(r);
-			}
+		}
 		else if (r == 0.0)
-			{
+		{
 			if (i == -1.0)
-				{
+			{
 				str = "-";
-				}
+			}
 			else if (i != 1.0)
-				{
+			{
 				str  = JString(i);
 				str += " ";
-				}
-			str += (useEEImag ? kEEImagString : kMathImagString);
 			}
+			str += (useEEImag ? kEEImagString : kMathImagString);
+		}
 		else
-			{
+		{
 			str = JString(r);
 			if (i == -1.0)
-				{
+			{
 				str += " - ";
-				}
+			}
 			else
-				{
+			{
 				if (i > 0.0)
-					{
+				{
 					str += " + ";
-					}
+				}
 				else
-					{
+				{
 					str += " - ";
-					}
+				}
 
 				if (i != 1.0)
-					{
+				{
 					str += JString(fabs(i));
 					str += " ";
-					}
 				}
-			str += (useEEImag ? kEEImagString : kMathImagString);
 			}
+			str += (useEEImag ? kEEImagString : kMathImagString);
 		}
+	}
 
 	else if (mode == kDisplayMagAndPhase)
-		{
+	{
 		const JFloat mag = abs(value);
 		const JFloat i   = imag(value);
 		if (mag == 0.0)
-			{
+		{
 			str = "0";
-			}
+		}
 		else if (i == 0.0 && real(value) > 0.0)
-			{
+		{
 			str = JString(mag);
-			}
+		}
 		else
-			{
+		{
 			const JFloat ph = arg(value) * kJRadToDeg;
 			const JString phStr(ph);
 
 			if (phStr == "180" || phStr == "-180")
-				{
+			{
 				str  = "-";
 				str += JString(mag);
-				}
+			}
 			else
-				{
+			{
 				str  = JString(mag);
 				str += ", ";
 				str += phStr;
 				str += " deg";
-				}
 			}
 		}
+	}
 
 	return str;
 }

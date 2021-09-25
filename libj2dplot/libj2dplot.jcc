@@ -60,21 +60,21 @@ F
 T
 1 "data"
 T
-2 "JPlotDataBase.cpp"
+2 "J2DPlotDataBase.cpp"
 F
-"./code/JPlotDataBase.cpp"
+"./code/J2DPlotDataBase.cpp"
 T
 2 "J2DPlotData.cpp"
 F
 "./code/J2DPlotData.cpp"
 T
-2 "JPlotFunctionBase.cpp"
+2 "J2DPlotFunctionBase.cpp"
 F
-"./code/JPlotFunctionBase.cpp"
+"./code/J2DPlotFunctionBase.cpp"
 T
-2 "J2DPlotJFunction.cpp"
+2 "J2DPlotFunction.cpp"
 F
-"./code/J2DPlotJFunction.cpp"
+"./code/J2DPlotFunction.cpp"
 T
 2 "J2DDataPoint.cpp"
 F

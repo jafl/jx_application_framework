@@ -233,11 +233,11 @@ JTextEditor::JTextEditor
 	itsInsertionFont = itsText->CalcInsertionFont(TextIndex(1,1));
 
 	if (type == kFullEditor)
-		{
+	{
 		itsText->SetBlockSizes(4096, 128);
 		itsLineStarts->SetBlockSize(128);
 		itsLineGeom->SetBlockSize(128);
-		}
+	}
 
 	SetKeyHandler(nullptr);
 
@@ -276,18 +276,18 @@ JTextEditor::JTextEditor
 	itsIsDragSourceFlag(false)
 {
 	if (itsOwnsTextFlag && text != nullptr)
-		{
+	{
 		itsText = text;
-		}
+	}
 	else if (itsOwnsTextFlag)
-		{
+	{
 		itsText = jnew JStyledText(*source.itsText);
 		assert( itsText != nullptr );
-		}
+	}
 	else
-		{
+	{
 		itsText = source.itsText;
-		}
+	}
 
 	itsActiveFlag              = false;
 	itsSelActiveFlag           = false;
@@ -333,10 +333,10 @@ JTextEditor::JTextEditor
 JTextEditor::~JTextEditor()
 {
 	if (itsOwnsTextFlag)
-		{
+	{
 		StopListening(itsText);
 		jdelete itsText;
-		}
+	}
 
 	jdelete itsLineStarts;
 	jdelete itsLineGeom;
@@ -378,34 +378,34 @@ JTextEditor::Receive
 {
 	if (sender == itsText &&
 		message.Is(JStyledText::kTextSet))
-		{
+	{
 		assert( !TEIsDragging() );
 
 		if (itsText->IsEmpty())
-			{
+		{
 			itsInsertionFont = itsText->GetDefaultFont();
-			}
+		}
 
 		RecalcAll(false);
 		SetCaretLocation(CaretLocation(TextIndex(1,1),1));
 		Broadcast(message);		// safer for others to receive now
-		}
+	}
 
 	else if (sender == itsText &&
 			 message.Is(JStyledText::kTextChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JStyledText::TextChanged*>(&message);
 		assert( info != nullptr );
 		const TextRange& rcr = info->GetRecalcRange();
 		if (rcr.charRange.GetCount() == itsText->GetText().GetCharacterCount())
-			{
+		{
 			RecalcAll(false);
-			}
+		}
 		else
-			{
+		{
 			Recalc(rcr, info->GetRedrawRange());
-			}
+		}
 
 		const TextRange& r = info->GetRange();
 
@@ -414,75 +414,75 @@ JTextEditor::Receive
 
 		if (itsSelection.IsEmpty() &&
 			r.charRange.last - cd < itsCaret.location.charIndex)
-			{
+		{
 			itsCaret.location.charIndex += cd;
 			itsCaret.location.byteIndex += bd;
 			SetCaretLocation(CalcCaretLocation(itsCaret.location));
-			}
+		}
 		else if (itsSelection.IsEmpty() &&
 				 r.charRange.first < itsCaret.location.charIndex)
-			{
+		{
 			itsCaret.location.charIndex = r.charRange.first;
 			itsCaret.location.byteIndex = r.byteRange.first;
 			SetCaretLocation(CalcCaretLocation(itsCaret.location));
-			}
+		}
 		else if (!itsSelection.IsEmpty() &&
 				 r.charRange.last - cd < itsSelection.charRange.first)
-			{
+		{
 			TextRange r  = itsSelection;
 			r.charRange += cd;
 			r.byteRange += bd;
 			SetSelection(r, true, true);
-			}
+		}
 		else if (!itsSelection.IsEmpty() &&
 				 r.charRange.first < itsSelection.charRange.first)
-			{
+		{
 			SetCaretLocation(CalcCaretLocation(r.GetFirst()));
-			}
+		}
 		else if (!itsSelection.IsEmpty() &&
 				 r.charRange.first < itsSelection.charRange.last)
-			{
+		{
 			SetCaretLocation(CalcCaretLocation(itsSelection.GetFirst()));
-			}
+		}
 
 		Broadcast(message);		// safer for others to receive now
-		}
+	}
 
 	else if (sender == itsText &&
 			 message.Is(JStyledText::kDefaultFontChanged))
-		{
+	{
 		if (itsText->IsEmpty())
-			{
+		{
 			itsInsertionFont = itsText->CalcInsertionFont(TextIndex(1,1));
 			RecalcAll();
-			}
 		}
+	}
 
 	else if (sender == itsText &&
 			 message.Is(JStyledText::kUndoFinished))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JStyledText::UndoFinished*>(&message);
 		assert( info != nullptr );
 		const TextRange r = info->GetRange();
 		if (itsActiveFlag && !r.IsEmpty())
-			{
+		{
 			SetSelection(r);
 			TEScrollToSelection(false);
-			}
+		}
 		else if (itsActiveFlag)
-			{
+		{
 			SetCaretLocation(r.GetFirst());
 			TEScrollTo(itsCaret);
-			}
 		}
+	}
 
 	// something else
 
 	else
-		{
+	{
 		JBroadcaster::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -535,9 +535,9 @@ JTextEditor::SearchForward
 	const JStringMatch m =
 		itsText->SearchForward(i, regex, entireWord, wrapSearch, wrapped);
 	if (!m.IsEmpty())
-		{
+	{
 		SetSelection(m);
-		}
+	}
 
 	return m;
 }
@@ -569,9 +569,9 @@ JTextEditor::SearchBackward
 	const JStringMatch m =
 		itsText->SearchBackward(i, regex, entireWord, wrapSearch, wrapped);
 	if (!m.IsEmpty())
-		{
+	{
 		SetSelection(m);
-		}
+	}
 
 	return m;
 }
@@ -593,9 +593,9 @@ JTextEditor::SelectionMatches
 {
 	if (itsSelection.IsEmpty() ||
 		(entireWord && !itsText->IsEntireWord(itsSelection)))
-		{
+	{
 		return JStringMatch(itsText->GetText());
-		}
+	}
 
 	// We cannot match only the selected text, because that will fail if
 	// there are look-behind or look-ahead assertions.
@@ -605,13 +605,13 @@ JTextEditor::SelectionMatches
 	JStringIterator iter(GetText()->GetText());
 	iter.UnsafeMoveTo(kJIteratorStartBefore, itsSelection.charRange.first, itsSelection.byteRange.first);
 	if (iter.Next(regex))
-		{
+	{
 		const JStringMatch& m = iter.GetLastMatch();
 		if (m.GetCharacterRange() == itsSelection.charRange)
-			{
+		{
 			return m;
-			}
 		}
+	}
 
 	return JStringMatch(itsText->GetText());
 }
@@ -644,13 +644,13 @@ JTextEditor::ReplaceSelection
 		itsText->ReplaceMatch(match, replaceStr, interpolator, preserveCase);
 
 	if (count.charCount > 0)
-		{
+	{
 		SetSelection(TextRange(TextIndex(charIndex, byteIndex), count));
-		}
+	}
 	else
-		{
+	{
 		SetCaretLocation(TextIndex(charIndex, byteIndex));
-		}
+	}
 }
 
 /******************************************************************************
@@ -673,9 +673,9 @@ JTextEditor::ReplaceAll
 	)
 {
 	if (restrictToSelection && !HasSelection())
-		{
+	{
 		return false;
-		}
+	}
 
 	TextRange r(
 		restrictToSelection ? itsSelection.charRange :
@@ -688,19 +688,19 @@ JTextEditor::ReplaceAll
 								   replaceStr, interpolator, preserveCase);
 
 	if (restrictToSelection && !r.IsEmpty())
-		{
+	{
 		SetSelection(r);
 		return true;
-		}
+	}
 	else if (!r.IsEmpty())
-		{
+	{
 		SetCaretLocation(itsText->GetBeyondEnd());
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -730,9 +730,9 @@ JTextEditor::SearchForward
 	TextRange range;
 	const bool found = itsText->SearchForward(match, i, wrapSearch, wrapped, &range);
 	if (found)
-		{
+	{
 		SetSelection(range);
-		}
+	}
 
 	return found;
 }
@@ -764,9 +764,9 @@ JTextEditor::SearchBackward
 	TextRange range;
 	const bool found = itsText->SearchBackward(match, i, wrapSearch, wrapped, &range);
 	if (found)
-		{
+	{
 		SetSelection(range);
-		}
+	}
 
 	return found;
 }
@@ -784,9 +784,9 @@ JTextEditor::PrivateSetBreakCROnly
 {
 	itsBreakCROnlyFlag = breakCROnly;
 	if (!itsBreakCROnlyFlag)
-		{
+	{
 		itsWidth = itsGUIWidth;
-		}
+	}
 }
 
 /******************************************************************************
@@ -799,13 +799,13 @@ JTextEditor::TEGetMinPreferredGUIWidth()
 	const
 {
 	if (itsBreakCROnlyFlag)
-		{
+	{
 		return itsLeftMarginWidth + itsWidth + kRightMarginWidth;
-		}
+	}
 	else
-		{
+	{
 		return itsLeftMarginWidth + itsMaxWordWidth + kRightMarginWidth;
-		}
+	}
 }
 
 /******************************************************************************
@@ -843,12 +843,12 @@ JTextEditor::TESetLeftMarginWidth
 	const JCoordinate width = JMax((JCoordinate) kMinLeftMarginWidth, origWidth);
 
 	if (width != itsLeftMarginWidth)
-		{
+	{
 		itsGUIWidth       += itsLeftMarginWidth;
 		itsLeftMarginWidth = width;
 		itsGUIWidth       -= itsLeftMarginWidth;
 		TEGUIWidthChanged();
-		}
+	}
 }
 
 /******************************************************************************
@@ -860,14 +860,14 @@ void
 JTextEditor::TEGUIWidthChanged()
 {
 	if (itsBreakCROnlyFlag)
-		{
+	{
 		TERefresh();
-		}
+	}
 	else if (itsWidth != itsGUIWidth)
-		{
+	{
 		itsWidth = itsGUIWidth;
 		RecalcAll();
-		}
+	}
 }
 
 /******************************************************************************
@@ -913,10 +913,10 @@ void
 JTextEditor::Cut()
 {
 	if (!TEIsDragging())
-		{
+	{
 		Copy();
 		DeleteSelection();
-		}
+	}
 }
 
 /******************************************************************************
@@ -953,14 +953,14 @@ JTextEditor::GetClipboard
 	const
 {
 	if (style != nullptr)
-		{
+	{
 		return TEGetClipboard(text, style);
-		}
+	}
 	else
-		{
+	{
 		JRunArray<JFont> tempStyle;
 		return TEGetClipboard(text, &tempStyle);
-		}
+	}
 }
 
 /******************************************************************************
@@ -974,10 +974,10 @@ JTextEditor::Paste()
 	JString text;
 	JRunArray<JFont> style;
 	if (TEGetClipboard(&text, &style))
-		{
+	{
 		JRunArray<JFont>* s = (style.IsEmpty() ? nullptr : &style);
 		Paste(text, s);
-		}
+	}
 }
 
 /******************************************************************************
@@ -995,39 +995,39 @@ JTextEditor::Paste
 	)
 {
 	if (itsIsDragSourceFlag)
-		{
+	{
 		return;
-		}
+	}
 
 	TextRange range;
 
 	const bool hadSelection = HasSelection();
 	if (hadSelection)
-		{
+	{
 		range = itsSelection;
-		}
+	}
 	else
-		{
+	{
 		range.charRange.SetFirstAndCount(itsCaret.location.charIndex, 0);
 		range.byteRange.SetFirstAndCount(itsCaret.location.byteIndex, 0);
-		}
+	}
 
 	JRunArray<JFont>* style1 = nullptr;
 	if (style == nullptr)
-		{
+	{
 		style1 = jnew JRunArray<JFont>;
 		assert( style1 != nullptr );
 
 		JFont f = itsInsertionFont;
 		if (hadSelection)
-			{
+		{
 			FontIterator iter(
 				itsText->GetStyles(), kJIteratorStartBefore, range.charRange.first);
 			iter.Next(&f);
-			}
+		}
 
 		style1->AppendElements(f, text.GetCharacterCount());
-		}
+	}
 
 	range = itsText->Paste(range, text, style != nullptr ? style : style1);
 	SetCaretLocation(range.GetAfter());
@@ -1049,9 +1049,9 @@ JTextEditor::SetSelection
 	)
 {
 	if (itsIsDragSourceFlag)
-		{
+	{
 		return;
-		}
+	}
 
 	itsText->DeactivateCurrentUndo();
 	itsPrevDragType = kInvalidDrag;		// avoid wordSel and lineSel pivots
@@ -1059,9 +1059,9 @@ JTextEditor::SetSelection
 	if (itsText->IsEmpty() ||
 		(itsSelection.charRange == range.charRange &&
 		 itsSelection.byteRange == range.byteRange))
-		{
+	{
 		return;
-		}
+	}
 
 	assert( !range.IsEmpty() );
 	assert( itsText->GetText().CharacterIndexValid(range.charRange.first) );
@@ -1081,45 +1081,45 @@ JTextEditor::SetSelection
 	const JIndex newEndLine   = GetLineForByte(itsSelection.byteRange.last);
 
 	if (needCaretBcast)
-		{
+	{
 		BroadcastCaretMessages(
 			CaretLocation(itsSelection.GetFirst(), newStartLine));
-		}
+	}
 
 	TECaretShouldBlink(false);
 
 	if (!ignoreCopyWhenSelect && theCopyWhenSelectFlag && itsType != kStaticText)
-		{
+	{
 		Copy();
-		}
+	}
 
 	// We only optimize heavily for the case when one end of the
 	// selection remains fixed because this is the case during mouse drags.
 
 	if (hadSelection && origByteSelection.first == itsSelection.byteRange.first)
-		{
+	{
 		const JIndex origEndLine = GetLineForByte(origByteSelection.last);
 		TERefreshLines(JMin(origEndLine, newEndLine),
 					   JMax(origEndLine, newEndLine));
-		}
+	}
 	else if (hadSelection && origByteSelection.last == itsSelection.byteRange.last)
-		{
+	{
 		const JIndex origStartLine = GetLineForByte(origByteSelection.first);
 		TERefreshLines(JMin(origStartLine, newStartLine),
 					   JMax(origStartLine, newStartLine));
-		}
+	}
 	else if (hadSelection)
-		{
+	{
 		const JIndex origStartLine = GetLineForByte(origByteSelection.first);
 		const JIndex origEndLine   = GetLineForByte(origByteSelection.last);
 		TERefreshLines(origStartLine, origEndLine);
 		TERefreshLines(newStartLine, newEndLine);
-		}
+	}
 	else
-		{
+	{
 		TERefreshCaret(origCaretLoc);
 		TERefreshLines(newStartLine, newEndLine);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1131,11 +1131,11 @@ void
 JTextEditor::DeleteSelection()
 {
 	if (!itsIsDragSourceFlag && !itsSelection.IsEmpty())
-		{
+	{
 		const JStyledText::TextRange r = itsSelection;
 		SetCaretLocation(r.GetFirst());
 		itsText->DeleteText(r);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1154,29 +1154,29 @@ JTextEditor::TabSelectionLeft
 	)
 {
 	if (TEIsDragging() || itsText->IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const TextIndex start = itsText->GetParagraphStart(
 		itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetFirst());
 
 	TextIndex beyondEnd = itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetAfter();
 	if (beyondEnd.charIndex == start.charIndex)
-		{
+	{
 		if (GetCharacter(start) == '\n')
-			{
+		{
 			return;
-			}
-		beyondEnd = itsText->AdjustTextIndex(beyondEnd, +1);
 		}
+		beyondEnd = itsText->AdjustTextIndex(beyondEnd, +1);
+	}
 
 	TextRange r(start, beyondEnd);
 	r = itsText->Outdent(r, tabCount, force);
 	if (!r.IsEmpty())
-		{
+	{
 		SetSelection(r);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1194,22 +1194,22 @@ JTextEditor::TabSelectionRight
 	)
 {
 	if (TEIsDragging() || itsText->IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const TextIndex start = itsText->GetParagraphStart(
 		itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetFirst());
 
 	TextIndex beyondEnd = itsSelection.IsEmpty() ? itsCaret.location : itsSelection.GetAfter();
 	if (beyondEnd.charIndex == start.charIndex)
-		{
+	{
 		if (GetCharacter(start) == '\n')
-			{
+		{
 			return;
-			}
-		beyondEnd = itsText->AdjustTextIndex(beyondEnd, +1);
 		}
+		beyondEnd = itsText->AdjustTextIndex(beyondEnd, +1);
+	}
 
 	TextRange r(start, beyondEnd);
 	r = itsText->Indent(r, tabCount);
@@ -1265,10 +1265,10 @@ JTextEditor::CleanSelectedWhitespace
 {
 	TextRange r;
 	if (GetSelection(&r))
-		{
+	{
 		r = itsText->CleanWhitespace(r, align);
 		SetSelection(r);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1302,20 +1302,20 @@ JTextEditor::Paginate
 	JIndex prev = 1, i = 0;
 	JCoordinate h = 0;
 	do
-		{
+	{
 		// find the number of strips that will fit on this page
 
 		while (i < count && h <= pageHeight)
-			{
+		{
 			i++;
 			const bool ok = iter.Next(&geom);
 			assert( ok );
 			h += geom.height;
-			}
+		}
 
 		JCoordinate pageH = h;
 		if (h > pageHeight && i > prev)
-			{
+		{
 			// The last line didn't fit on the page,
 			// so leave it for the next page.
 
@@ -1324,26 +1324,26 @@ JTextEditor::Paginate
 			const bool ok = iter.Prev(&geom);
 			assert( ok );
 			h = 0;
-			}
+		}
 		else if (h > pageHeight)
-			{
+		{
 			// The line won't fit on any page.  Put
 			// as much as possible on this page and leave
 			// the rest for the next page.
 
 			pageH = pageHeight;
 			h    -= pageHeight;
-			}
+		}
 		else
-			{
+		{
 			// Everything fits on the page, so there is no residual.
 
 			h = 0;
-			}
+		}
 
 		breakpts->AppendElement(breakpts->GetLastElement() + pageH);
 		prev = i;
-		}
+	}
 		while (i < count || h > 0);
 }
 
@@ -1367,10 +1367,10 @@ JTextEditor::Print
 	itsIsPrintingFlag = true;
 
 	if (!p.OpenDocument())
-		{
+	{
 		itsIsPrintingFlag = false;
 		return;
-		}
+	}
 
 	const JCoordinate headerHeight = GetPrintHeaderHeight(p);
 	const JCoordinate footerHeight = GetPrintFooterHeight(p);
@@ -1398,23 +1398,23 @@ JTextEditor::Print
 
 	bool cancelled = false;
 	for (JIndex i=1; i<=pageCount; i++)
-		{
+	{
 		if (!p.NewPage())
-			{
+		{
 			cancelled = true;
 			break;
-			}
+		}
 
 		if (headerHeight > 0)
-			{
+		{
 			DrawPrintHeader(p, headerHeight);
 			p.LockHeader(headerHeight);
-			}
+		}
 		if (footerHeight > 0)
-			{
+		{
 			DrawPrintFooter(p, footerHeight);
 			p.LockFooter(footerHeight);
-			}
+		}
 
 		JPoint topLeft(0, breakpts.GetElement(i));
 		JPoint bottomRight(pageWidth, breakpts.GetElement(i+1));
@@ -1423,21 +1423,21 @@ JTextEditor::Print
 
 		p.ShiftOrigin(-topLeft);
 		TEDraw(p, JRect(topLeft,bottomRight));
-		}
+	}
 
 	if (!cancelled)
-		{
+	{
 		p.CloseDocument();
-		}
+	}
 
 	itsIsPrintingFlag = false;
 
 	// restore the original state and width
 
 	if (savedActive)
-		{
+	{
 		TEActivate();
-		}
+	}
 
 	TESetBoundsWidth(savedWidth);
 }
@@ -1507,48 +1507,48 @@ JTextEditor::GetCmdStatus
 {
 	JArray<bool> flags(kCmdCount);
 	for (JIndex i=1; i<=kCmdCount; i++)
-		{
+	{
 		flags.AppendElement(false);
-		}
+	}
 
 	*isReadOnly = true;
 
 	if (itsType == kStaticText || !itsActiveFlag)
-		{
+	{
 		return flags;
-		}
+	}
 
 	// Edit menu
 
 	if (itsSelection.IsEmpty())
-		{
+	{
 		*crmActionText  = JGetString("CRMCaretAction::JTextEditor");
 		*crm2ActionText = JGetString("CRM2CaretAction::JTextEditor");
-		}
+	}
 	else
-		{
+	{
 		flags.SetElement(kCopyCmd, true);
 		*crmActionText  = JGetString("CRMSelectionAction::JTextEditor");
 		*crm2ActionText = JGetString("CRM2SelectionAction::JTextEditor");
-		}
+	}
 
 	flags.SetElement(kSelectAllCmd,      true);
 	flags.SetElement(kToggleReadOnlyCmd, true);
 	flags.SetElement(kShowWhitespaceCmd, true);
 
 	if (itsType == kFullEditor)
-		{
+	{
 		*isReadOnly = false;
 
 		flags.SetElement(kPasteCmd, true);
 		if (!itsSelection.IsEmpty())
-			{
+		{
 			flags.SetElement(kCutCmd,       true);
 			flags.SetElement(kDeleteSelCmd, true);
-			}
+		}
 
 		if (!itsText->IsEmpty())
-			{
+		{
 			flags.SetElement(kCheckSpellingCmd,      true);
 			flags.SetElement(kCleanRightMarginCmd,   true);
 			flags.SetElement(kCoerceRightMarginCmd,  true);
@@ -1559,62 +1559,62 @@ JTextEditor::GetCmdStatus
 			flags.SetElement(kCleanAllWSAlignCmd,    true);
 
 			if (!itsSelection.IsEmpty())
-				{
+			{
 				flags.SetElement(kCheckSpellingSelCmd,   true);
 				flags.SetElement(kCleanWhitespaceSelCmd, true);
 				flags.SetElement(kCleanWSAlignSelCmd,    true);
-				}
 			}
+		}
 
 		bool canUndo, canRedo;
 		if (itsText->HasMultipleUndo(&canUndo, &canRedo))
-			{
+		{
 			flags.SetElement(kUndoCmd, canUndo);
 			flags.SetElement(kRedoCmd, canRedo);
-			}
+		}
 		else if (itsText->HasSingleUndo())
-			{
+		{
 			flags.SetElement(kUndoCmd, true);
 			flags.SetElement(kRedoCmd, false);
-			}
 		}
+	}
 
 	// Search & Replace menu
 
 	flags.SetElement(kFindDialogCmd, true);
 
 	if (!itsText->IsEmpty())
-		{
+	{
 		flags.SetElement(kFindClipboardBackwardCmd, true);
 		flags.SetElement(kFindClipboardForwardCmd,  true);
 
 		if (TEHasSearchText())
-			{
+		{
 			flags.SetElement(kFindNextCmd,     true);
 			flags.SetElement(kFindPreviousCmd, true);
 
 			if (itsType == kFullEditor)
-				{
+			{
 				flags.SetElement(kReplaceAllCmd,  true);
 
 				if (HasSelection())
-					{
+				{
 					flags.SetElement(kReplaceSelectionCmd,      true);
 					flags.SetElement(kReplaceFindNextCmd,       true);
 					flags.SetElement(kReplaceFindPrevCmd,       true);
 					flags.SetElement(kReplaceAllInSelectionCmd, true);
-					}
 				}
 			}
 		}
+	}
 
 	if (HasSelection())
-		{
+	{
 		flags.SetElement(kEnterSearchTextCmd,       true);
 		flags.SetElement(kEnterReplaceTextCmd,      true);
 		flags.SetElement(kFindSelectionBackwardCmd, true);
 		flags.SetElement(kFindSelectionForwardCmd,  true);
-		}
+	}
 
 	return flags;
 }
@@ -1642,17 +1642,17 @@ JTextEditor::TEDraw
 	// if DND, draw drop location
 
 	if (itsDragType == kDragAndDrop && itsDropLoc.location.charIndex > 0)
-		{
+	{
 		TEDrawCaret(p, itsDropLoc);
-		}
+	}
 
 	// otherwise, draw insertion caret
 
 	else if (itsActiveFlag && itsCaretVisibleFlag && itsSelection.IsEmpty() &&
 			 itsType == kFullEditor)
-		{
+	{
 		TEDrawCaret(p, itsCaret);
-		}
+	}
 
 	// clean up
 
@@ -1674,9 +1674,9 @@ JTextEditor::TEDrawText
 	)
 {
 	if (itsText->IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	const JSize lineCount = GetLineCount();
 
@@ -1687,9 +1687,9 @@ JTextEditor::TEDrawText
 
 	if ((itsActiveFlag || itsAlwaysShowSelectionFlag) &&
 		!itsSelection.IsEmpty() && itsType != kStaticText)
-		{
+	{
 		TEDrawSelection(p, rect, startLine, h);
-		}
+	}
 
 	// draw text, one line at a time
 
@@ -1699,7 +1699,7 @@ JTextEditor::TEDrawText
 	GeometryIterator geomIter(itsLineGeom, kJIteratorStartBefore, startLine);
 	LineGeometry geom;
 	for (JIndex i=startLine; i<=lineCount; i++)
-		{
+	{
 		const bool ok = geomIter.Next(&geom);
 		assert( ok );
 
@@ -1707,10 +1707,10 @@ JTextEditor::TEDrawText
 
 		h += geom.height;
 		if (h >= rect.bottom)
-			{
+		{
 			break;
-			}
 		}
+	}
 
 	itsText->DisposeConstIterator(textIter);
 }
@@ -1744,26 +1744,26 @@ teDrawSpaces
 	JUtf8Character c;
 	JFont f, prevf;
 	while (textIter->Next(&c) && c == ' ')
-		{
+	{
 		const bool ok = direction == +1 ? styleIter->Next(&f) : styleIter->Prev(&f);
 		assert( ok );
 
 		if (f != prevf)
-			{
+		{
 			w     = f.GetCharWidth(p.GetFontManager(), JUtf8Character(' '));
 			prevf = f;
-			}
+		}
 
 		if (direction == -1)
-			{
+		{
 			l -= w;
-			}
+		}
 		p.Point(l + w/2 - 1, ycenter);
 		if (direction == +1)
-			{
+		{
 			l += w;
-			}
 		}
+	}
 
 	textIter->UnsafeMoveTo(kJIteratorStartBefore, charIndex, byteIndex);
 	styleIter->MoveTo(kJIteratorStartBefore, charIndex);
@@ -1786,18 +1786,18 @@ JTextEditor::TEDrawLine
 	JRect wsRect;
 	JCoordinate wsYCenter = 0;
 	if (itsDrawWhitespaceFlag)
-		{
+	{
 		wsRect.Set(top+3, 0, top+geom.height-4, 0);
 		if (wsRect.height() < 3)
-			{
+		{
 			wsRect.top    -= (3 - wsRect.height())/2;
 			wsRect.bottom += 3 - wsRect.height();
-			}
+		}
 		wsRect.bottom -= (wsRect.height() % 2);
 		wsRect.right  += wsRect.height();
 
 		wsYCenter = wsRect.ycenter();
-		}
+	}
 
 	const TextCount lineLength = GetLineLength(lineIndex);
 	assert( lineLength.charCount > 0 );
@@ -1810,17 +1810,17 @@ JTextEditor::TEDrawLine
 	bool lineEndsWithNewline = false;
 
 	while (startChar <= endChar)
-		{
+	{
 		// If the line starts with spaces, we have to draw them.
 
 		if (!wsInit)
-			{
+		{
 			if (itsDrawWhitespaceFlag)
-				{
+			{
 				teDrawSpaces(p, +1,  textIter, styleIter, left, wsYCenter, itsWhitespaceColor);
-				}
-			wsInit = true;
 			}
+			wsInit = true;
+		}
 
 		// If there is a tab in the string, we step up to it and take care of
 		// the rest in the next iteration.
@@ -1832,28 +1832,28 @@ JTextEditor::TEDrawLine
 		bool foundTab = false;
 		JIndex ci;
 		while (textIter->GetNextCharacterIndex(&ci) && ci <= cr.last)
-			{
+		{
 			const bool ok = textIter->Next(&c);
 			assert( ok );
 
 			if (c == '\t')
-				{
+			{
 				textIter->SkipPrev();
 				foundTab = true;
 				break;
-				}
 			}
+		}
 
 		if (c == '\n')	// some fonts draw stuff for \n
-			{
+		{
 			textIter->SkipPrev();
 			endChar--;
 			lineEndsWithNewline = true;
-			}
+		}
 
 		const JStringMatch& m = textIter->FinishMatch();
 		if (!m.IsEmpty())
-			{
+		{
 			styleIter->MoveTo(kJIteratorStartBefore, textIter->GetPrevCharacterIndex());
 			styleIter->Next(&f);
 			p.SetFont(f);
@@ -1868,17 +1868,17 @@ JTextEditor::TEDrawLine
 
 			startChar += m.GetCharacterCount();
 			if (startChar <= endChar || itsDrawWhitespaceFlag)
-				{
+			{
 				left += f.GetStringWidth(itsFontManager, s);	// no substitutions
-				}
 			}
+		}
 
 		if (foundTab)
-			{
+		{
 			const JCoordinate tabWidth = GetTabWidth(startChar, left);
 
 			if (itsDrawWhitespaceFlag)
-				{
+			{
 				p.SetLineWidth(1);
 				p.SetPenColor(itsWhitespaceColor);
 
@@ -1897,13 +1897,13 @@ JTextEditor::TEDrawLine
 				p.Line(left, right);
 				p.Line(topCenter, right);
 				p.LineTo(bottomCenter);
-				}
+			}
 
 			JIndex i;
 			if (itsDrawWhitespaceFlag && textIter->GetPrevCharacterIndex(&i))
-				{
+			{
 				teDrawSpaces(p, -1,  textIter, styleIter, left, wsYCenter, itsWhitespaceColor);
-				}
+			}
 
 			startChar++;
 			left += tabWidth;
@@ -1911,18 +1911,18 @@ JTextEditor::TEDrawLine
 			styleIter->SkipNext();
 
 			if (itsDrawWhitespaceFlag && textIter->GetNextCharacterIndex(&i))
-				{
+			{
 				teDrawSpaces(p, +1,  textIter, styleIter, left, wsYCenter, itsWhitespaceColor);
-				}
 			}
 		}
+	}
 
 	// account for newline
 
 	if (lineEndsWithNewline)
-		{
+	{
 		if (itsDrawWhitespaceFlag)
-			{
+		{
 			p.SetLineWidth(1);
 			p.SetPenColor(itsWhitespaceColor);
 
@@ -1932,9 +1932,9 @@ JTextEditor::TEDrawLine
 
 			JCoordinate delta = rect.height()/4;
 			if (delta < 1)
-				{
+			{
 				delta = 1;
-				}
+			}
 
 			const JPoint pt1(xc, rect.top);
 			const JPoint pt2(xc, rect.bottom);
@@ -1946,14 +1946,14 @@ JTextEditor::TEDrawLine
 			p.LineTo(pt4);
 
 			if (endChar > 1)
-				{
+			{
 				teDrawSpaces(p, -1,  textIter, styleIter, left, wsYCenter, itsWhitespaceColor);
-				}
 			}
+		}
 
 		textIter->SkipNext();	// skip over newline character
 		styleIter->SkipNext();
-		}
+	}
 }
 
 /******************************************************************************
@@ -2006,108 +2006,108 @@ JTextEditor::TEDrawSelection
 	JCoordinate endVisLineTop;
 	const JIndex endVisLine = CalcLineIndex(rect.bottom, &endVisLineTop);
 	if (startVisLine > endLine || endVisLine < startLine)
-		{
+	{
 		return;
-		}
+	}
 	else if (startVisLine > startLine)
-		{
+	{
 		startLine = startVisLine;
 		startChar = GetLineStart(startVisLine);
 		x         = 0;
 		y         = startVisLineTop;
-		}
+	}
 	else
-		{
+	{
 		startChar = itsSelection.GetFirst();
 		x         = GetCharLeft(CaretLocation(itsSelection.GetFirst(), startLine));
 		y         = GetLineTop(startLine);
-		}
+	}
 
 	if (endLine > endVisLine)
-		{
+	{
 		endLine = endVisLine;
-		}
+	}
 
 	// draw the selection region
 
 	const JColorID savedColor = p.GetPenColor();
 	const bool savedFill     = p.IsFilling();
 	if (itsSelActiveFlag)
-		{
+	{
 		p.SetPenColor(itsSelectionColor);
 		p.SetFilling(true);
-		}
+	}
 	else
-		{
+	{
 		p.SetPenColor(itsSelectionOutlineColor);
 		p.SetFilling(false);
-		}
+	}
 
 	const JCoordinate xmax = JMax(itsGUIWidth, itsWidth);
 
 	GeometryIterator iter(itsLineGeom, kJIteratorStartBefore, startLine);
 	LineGeometry geom;
 	for (JIndex i=startLine; i<=endLine; i++)
-		{
+	{
 		const bool ok = iter.Next(&geom);
 		assert( ok );
 
 		JCoordinate w;
 		TextIndex endChar = GetLineEnd(i);
 		if (endChar.charIndex > itsSelection.charRange.last)
-			{
+		{
 			endChar = itsSelection.GetLast(*itsText);
 			w       = GetStringWidth(startChar, endChar, nullptr);
-			}
+		}
 		else
-			{
+		{
 			w = xmax - x;
-			}
+		}
 
 		const JCoordinate bottom = y + geom.height - 1;
 		if (itsSelActiveFlag)
-			{
+		{
 			// solid rectangle
 
 			p.Rect(x, y, w, geom.height);
-			}
+		}
 		else if (origStartLine == origEndLine)
-			{
+		{
 			// empty rectangle
 
 			p.Rect(x, y, w, geom.height);
-			}
+		}
 		else if (i == origStartLine)
-			{
+		{
 			// top of selection region
 
 			p.Line(0,bottom, x,bottom);
 			p.LineTo(x,y);
 			p.LineTo(x+w,y);
 			p.LineTo(x+w,bottom);
-			}
+		}
 		else if (i == origEndLine)
-			{
+		{
 			// bottom of selection region
 
 			p.Line(0,y, 0,bottom);
 			p.LineTo(w,bottom);
 			p.LineTo(w,y);
 			p.LineTo(xmax,y);
-			}
+		}
 		else
-			{
+		{
 			// vertical sides of selection region
 
 			p.Line(0,y, 0,bottom);
 			p.Line(xmax,y, xmax,bottom);
-			}
+		}
 
 		startChar = itsText->AdjustTextIndex(endChar, +1);
 
 		x  = 0;		// all lines after the first start at the far left
 		y += geom.height;
-		}
+	}
 
 	// clean up
 
@@ -2132,50 +2132,50 @@ JTextEditor::TEDrawCaret
 	JCoordinate x, y1, y2;
 
 	if (IsTrailingNewline(caretLoc.location))
-		{
+	{
 		x  = -1;
 		y1 = GetLineBottom(caretLoc.lineIndex) + 1;
 		y2 = y1 + GetEWNHeight()-1;
-		}
+	}
 	else
-		{
+	{
 		x = GetCharLeft(caretLoc) - 1;
 		if (x >= itsWidth)
-			{
+		{
 			x = itsWidth;		// keep inside bounds
-			}
+		}
 
 		y1 = GetLineTop(caretLoc.lineIndex);
 		y2 = y1 + GetLineHeight(caretLoc.lineIndex)-1;
-		}
+	}
 
 	const JColorID savedColor = p.GetPenColor();
 	p.SetPenColor(itsCaretColor);
 
 	if (itsCaretMode == kBlockCaret)
-		{
+	{
 		JCoordinate w = 5;
 		if (itsText->GetText().CharacterIndexValid(caretLoc.location.charIndex))
-			{
+		{
 			const JUtf8Character c = GetCharacter(caretLoc.location);
 			if (c == '\t')
-				{
+			{
 				w = GetTabWidth(caretLoc.location.charIndex, GetCharLeft(caretLoc));
-				}
+			}
 			else if (c != '\n')
-				{
+			{
 				FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, caretLoc.location.charIndex);
 				JFont f;
 				iter.Next(&f);
 				w = f.GetCharWidth(itsFontManager, c);
-				}
 			}
+		}
 		p.Rect(x,y1, w+1,y2-y1);
-		}
+	}
 	else
-		{
+	{
 		p.Line(x,y1, x,y2);
-		}
+	}
 
 	p.SetPenColor(savedColor);
 }
@@ -2196,13 +2196,13 @@ JTextEditor::TEWillDragAndDrop
 {
 	if (itsActiveFlag && itsType != kStaticText && itsPerformDNDFlag &&
 		!itsSelection.IsEmpty() && !extendSelection)
-		{
+	{
 		return PointInSelection(pt);
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2218,17 +2218,17 @@ JTextEditor::PointInSelection
 	const
 {
 	if (HasSelection())
-		{
+	{
 		const JPoint pt(origPt.x - itsLeftMarginWidth, origPt.y);
 		const CaretLocation caretLoc = CalcCaretLocation(pt);
 
 		return itsSelection.charRange.first <= caretLoc.location.charIndex &&
 					caretLoc.location.charIndex <= itsSelection.charRange.last+1;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2250,9 +2250,9 @@ JTextEditor::TEHandleMouseDown
 	itsDragType         = kInvalidDrag;
 	itsIsDragSourceFlag = false;
 	if (itsType == kStaticText)
-		{
+	{
 		return;
-		}
+	}
 
 	itsText->DeactivateCurrentUndo();
 
@@ -2263,66 +2263,66 @@ JTextEditor::TEHandleMouseDown
 
 	if (!itsSelection.IsEmpty() && extendSelection &&
 		caretLoc.location.charIndex <= itsSelection.charRange.first)
-		{
+	{
 		itsDragType =
 			(itsPrevDragType == kInvalidDrag ? kSelectDrag : itsPrevDragType);
 		itsSelectionPivot = itsSelection.GetAfter();
 		itsPrevPt.x--;
 		TEHandleMouseDrag(origPt);
-		}
+	}
 	else if (!itsSelection.IsEmpty() && extendSelection)
-		{
+	{
 		itsDragType =
 			(itsPrevDragType == kInvalidDrag ? kSelectDrag : itsPrevDragType);
 		itsSelectionPivot = itsSelection.GetFirst();
 		itsPrevPt.x--;
 		TEHandleMouseDrag(origPt);
-		}
+	}
 	else if (itsPerformDNDFlag && clickCount == 1 && !itsSelection.IsEmpty() &&
 			 itsSelection.charRange.first <= caretLoc.location.charIndex &&
 			 caretLoc.location.charIndex <= itsSelection.charRange.last+1)
-		{
+	{
 		itsDragType = kDragAndDrop;
 		itsDropLoc  = CaretLocation();
-		}
+	}
 	else if (extendSelection)
-		{
+	{
 		itsDragType       = kSelectDrag;
 		itsSelectionPivot = itsCaret.location;	// save this before SetSelection()
 
 		if (caretLoc.location.charIndex < itsCaret.location.charIndex)
-			{
-			SetSelection(TextRange(caretLoc.location, itsCaret.location));
-			}
-		else if (itsCaret.location.charIndex < caretLoc.location.charIndex)
-			{
-			SetSelection(TextRange(itsCaret.location, caretLoc.location));
-			}
-		}
-	else if (clickCount == 1)
 		{
+			SetSelection(TextRange(caretLoc.location, itsCaret.location));
+		}
+		else if (itsCaret.location.charIndex < caretLoc.location.charIndex)
+		{
+			SetSelection(TextRange(itsCaret.location, caretLoc.location));
+		}
+	}
+	else if (clickCount == 1)
+	{
 		if (caretLoc != itsCaret)
-			{
+		{
 			SetCaretLocation(caretLoc);
-			}
+		}
 		itsDragType       = kSelectDrag;
 		itsSelectionPivot = caretLoc.location;
-		}
+	}
 	else if (clickCount == 2)
-		{
+	{
 		itsDragType = (partialWord ? kSelectPartialWordDrag : kSelectWordDrag);
 		TEGetDoubleClickSelection(caretLoc.location, partialWord, false,
 								  &itsWordSelPivot);
 		SetSelection(itsWordSelPivot);
-		}
+	}
 	else if (clickCount == 3)
-		{
+	{
 		itsDragType     = kSelectLineDrag;
 		itsLineSelPivot = caretLoc.lineIndex;
 		SetSelection(TextRange(
 			GetLineStart(caretLoc.lineIndex),
 			itsText->AdjustTextIndex(GetLineEnd(caretLoc.lineIndex), +1)));
-		}
+	}
 
 	TEUpdateDisplay();
 }
@@ -2340,30 +2340,30 @@ JTextEditor::TEHandleMouseDrag
 {
 	const JPoint pt(origPt.x - itsLeftMarginWidth, origPt.y);
 	if (itsDragType == kInvalidDrag || pt == itsPrevPt)
-		{
+	{
 		return;
-		}
+	}
 
 	TEScrollForDrag(origPt);
 
 	const CaretLocation caretLoc = CalcCaretLocation(pt);
 
 	if (itsDragType == kSelectDrag && caretLoc.location.charIndex < itsSelectionPivot.charIndex)
-		{
+	{
 		SetSelection(TextRange(caretLoc.location, itsSelectionPivot), false);
 		BroadcastCaretMessages(caretLoc);
-		}
+	}
 	else if (itsDragType == kSelectDrag && caretLoc.location.charIndex == itsSelectionPivot.charIndex)
-		{
+	{
 		SetCaretLocation(caretLoc);
-		}
+	}
 	else if (itsDragType == kSelectDrag && caretLoc.location.charIndex > itsSelectionPivot.charIndex)
-		{
+	{
 		SetSelection(TextRange(itsSelectionPivot, caretLoc.location), false);
 		BroadcastCaretMessages(caretLoc);
-		}
+	}
 	else if (itsDragType == kSelectWordDrag || itsDragType == kSelectPartialWordDrag)
-		{
+	{
 		TextRange range;
 		TEGetDoubleClickSelection(caretLoc.location,
 								  itsDragType == kSelectPartialWordDrag,
@@ -2377,24 +2377,24 @@ JTextEditor::TEHandleMouseDrag
 			false);
 
 		BroadcastCaretMessages(caretLoc);
-		}
+	}
 	else if (itsDragType == kSelectLineDrag)
-		{
+	{
 		SetSelection(TextRange(
 			GetLineStart( JMin(itsLineSelPivot, caretLoc.lineIndex) ),
 			itsText->AdjustTextIndex(GetLineEnd( JMax(itsLineSelPivot, caretLoc.lineIndex) ), +1)),
 			false);
 		BroadcastCaretMessages(caretLoc);
-		}
+	}
 	else if (itsDragType == kDragAndDrop && JMouseMoved(itsStartPt, pt))
-		{
+	{
 		itsDragType = kInvalidDrag;		// wait for TEHandleDNDEnter()
 		if (TEBeginDND())
-			{
+		{
 			itsIsDragSourceFlag = true;
 			// switches to TEHandleDND*()
-			}
 		}
+	}
 
 	itsPrevPt = pt;
 
@@ -2416,31 +2416,31 @@ JTextEditor::TEHandleMouseUp()
 		 itsDragType == kSelectPartialWordDrag ||
 		 itsDragType == kSelectWordDrag ||
 		 itsDragType == kSelectLineDrag))
-		{
+	{
 		if ((itsDragType == kSelectWordDrag ||
 			 itsDragType == kSelectPartialWordDrag) &&
 			itsWordSelPivot.charRange.last  == itsSelection.charRange.last &&
 			itsWordSelPivot.charRange.first != itsSelection.charRange.first)
-			{
+		{
 			itsSelectionPivot = itsSelection.GetAfter();
-			}
+		}
 		else if (itsDragType == kSelectLineDrag &&
 				 GetLineEnd(itsLineSelPivot).charIndex   == itsSelection.charRange.last &&
 				 GetLineStart(itsLineSelPivot).charIndex != itsSelection.charRange.first)
-			{
+		{
 			itsSelectionPivot = itsSelection.GetAfter();
-			}
+		}
 
 		if (itsSelectionPivot.charIndex == itsSelection.charRange.last+1)
-			{
+		{
 			itsCaretX = GetCharLeft(CalcCaretLocation(itsSelection.GetFirst()));
-			}
+		}
 		else
-			{
+		{
 			itsSelectionPivot = itsSelection.GetFirst();
 			itsCaretX         = GetCharRight(CalcCaretLocation(itsSelection.GetLast(*itsText)));
-			}
 		}
+	}
 
 	// save drag type for "extend" drag
 
@@ -2448,18 +2448,18 @@ JTextEditor::TEHandleMouseUp()
 		itsDragType == kSelectPartialWordDrag ||
 		itsDragType == kSelectWordDrag ||
 		itsDragType == kSelectLineDrag)
-		{
+	{
 		itsPrevDragType = itsDragType;
-		}
+	}
 	else if (itsDragType == kDragAndDrop)
-		{
+	{
 		SetCaretLocation(CalcCaretLocation(itsPrevPt));
 		itsPrevDragType = kInvalidDrag;
-		}
+	}
 	else
-		{
+	{
 		itsPrevDragType = kInvalidDrag;
-		}
+	}
 
 	itsDragType = kInvalidDrag;
 }
@@ -2491,9 +2491,9 @@ JTextEditor::TEHandleDNDHere
 {
 	const JPoint pt(origPt.x - itsLeftMarginWidth, origPt.y);
 	if (itsDragType != kDragAndDrop || pt == itsPrevPt)
-		{
+	{
 		return;
-		}
+	}
 
 	TEScrollForDND(origPt);
 	TERefreshCaret(itsDropLoc);
@@ -2504,9 +2504,9 @@ JTextEditor::TEHandleDNDHere
 	if (!dropOnSelf ||
 		caretLoc.location.charIndex   < itsSelection.charRange.first ||
 		itsSelection.charRange.last+1 < caretLoc.location.charIndex)
-		{
+	{
 		dropLoc = caretLoc;		// only drop outside selection
-		}
+	}
 	itsDropLoc = dropLoc;
 	TERefreshCaret(itsDropLoc);
 
@@ -2550,25 +2550,25 @@ JTextEditor::TEHandleDNDDrop
 	TEHandleDNDHere(pt, dropOnSelf);
 
 	if (dropOnSelf && itsDropLoc.location.charIndex > 0)
-		{
+	{
 		TextRange r;
 		const bool ok = itsText->MoveText(itsSelection, itsDropLoc.location, dropCopy, &r);
 		assert( ok );
 
 		SetSelection(r);
 		TEScrollToSelection(false);
-		}
+	}
 	else if (!dropOnSelf)
-		{
+	{
 		SetCaretLocation(itsDropLoc);
 		TEPasteDropData();
 
 		const TextIndex index = GetInsertionIndex();
 		if (index.charIndex > itsDropLoc.location.charIndex)
-			{
+		{
 			SetSelection(TextRange(itsDropLoc.location, index));
-			}
 		}
+	}
 
 	itsDragType = kInvalidDrag;
 }
@@ -2593,15 +2593,15 @@ JTextEditor::TEGetDoubleClickSelection
 {
 	TextIndex startIndex, endIndex;
 	if (partialWord)
-		{
+	{
 		startIndex = itsText->GetPartialWordStart(origIndex);
 		endIndex   = itsText->GetPartialWordEnd(startIndex);
-		}
+	}
 	else
-		{
+	{
 		startIndex = itsText->GetWordStart(origIndex);
 		endIndex   = itsText->GetWordEnd(startIndex);
-		}
+	}
 
 	// To select the word, the caret location should be inside the word
 	// or on the character following the word.
@@ -2612,51 +2612,51 @@ JTextEditor::TEGetDoubleClickSelection
 		(!dragging &&
 		 ((origIndex.charIndex == endIndex.charIndex+1 && itsText->GetText().CharacterIndexValid(endIndex.charIndex+1)) ||
 		  (origIndex.charIndex == textLength+1 && endIndex.charIndex == textLength))) )
-		{
+	{
 		*range = TextRange(startIndex, itsText->AdjustTextIndex(endIndex, +1));
-		}
+	}
 
 	// Otherwise, we select the character that was clicked on
 
 	else
-		{
+	{
 		TextIndex i(JMin(origIndex.charIndex, textLength),
 					JMin(origIndex.byteIndex, itsText->GetText().GetByteCount()));
 
 		JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, i);
 
 		if (!iter->AtBeginning())
-			{
+		{
 			JUtf8Character c1, c2;
 			const bool ok1 = iter->Prev(&c1, kJIteratorStay);
 			const bool ok2 = iter->Next(&c2, kJIteratorStay);
 			assert( ok1 && ok2 );
 
 			if (c1 != '\n' && c2 == '\n')
-				{
+			{
 				iter->SkipPrev();
-				}
 			}
+		}
 
 		const JIndex b1 = iter->GetNextByteIndex();
 		iter->SkipNext();
 
 		JIndex b2;
 		if (iter->AtEnd())
-			{
+		{
 			b2 = itsText->GetText().GetByteCount() + 1;
-			}
+		}
 		else
-			{
+		{
 			b2 = iter->GetNextByteIndex();
-			}
+		}
 
 		*range = TextRange(
 			TextIndex(iter->GetPrevCharacterIndex(), b1),
 			TextCount(1, b2-b1));
 
 		itsText->DisposeConstIterator(iter);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2693,10 +2693,10 @@ JTextEditor::SetKeyHandler
 	jdelete itsKeyHandler;
 
 	if (handler == nullptr)
-		{
+	{
 		handler = jnew JTEDefaultKeyHandler;
 		assert( handler != nullptr );
-		}
+	}
 
 	itsKeyHandler = handler;
 	itsKeyHandler->Initialize(this);
@@ -2723,17 +2723,17 @@ JTextEditor::TEHandleKeyPress
 			( itsSelection.IsEmpty() && itsCaret.location.charIndex >  0) );
 
 	if (TEIsDragging())
-		{
+	{
 		return true;
-		}
+	}
 
 	// pre-processing
 
 	JUtf8Character key = origKey;
 	if (key == '\r')
-		{
+	{
 		key = '\n';
-		}
+	}
 
 	// handler
 
@@ -2741,12 +2741,12 @@ JTextEditor::TEHandleKeyPress
 		itsKeyHandler->HandleKeyPress(key, selectText, motion, deleteToTabStop);
 
 	if (processed)
-		{
+	{
 		// We redraw the display immediately because it is very disconcerting
 		// when the display does not instantly show the result.
 
 		TEUpdateDisplay();
-		}
+	}
 	return processed;
 }
 
@@ -2763,12 +2763,12 @@ JTextEditor::InsertCharacter
 {
 	const bool hadSelection = !itsSelection.IsEmpty();
 	if (hadSelection)
-		{
+	{
 		FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, itsSelection.charRange.first);
 		iter.Next(&itsInsertionFont);
 
 		itsCaret = CalcCaretLocation(itsSelection.GetFirst());
-		}
+	}
 
 	TextIndex loc = itsCaret.location;
 	TextCount insertCount;
@@ -2809,22 +2809,22 @@ JTextEditor::BackwardDelete
 	JFont f          = JFontManager::GetDefaultFont();
 	bool setFont = false;
 	if (i.charIndex > 1)
-		{
+	{
 		FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, i.charIndex);
 		iter.Prev(&f);
 		setFont = true;
-		}
+	}
 
 	SetCaretLocation(i);
 	if (itsText->WillPasteStyledText() && setFont)
-		{
+	{
 		itsInsertionFont = f;
-		}
+	}
 
 	if (undo != nullptr)
-		{
+	{
 		undo->Activate();		// cancel SetCaretLocation()
-		}
+	}
 }
 
 /******************************************************************************
@@ -2851,9 +2851,9 @@ JTextEditor::ForwardDelete
 	SetCaretLocation(itsCaret);
 
 	if (undo != nullptr)
-		{
+	{
 		undo->Activate();		// cancel SetCaretLocation()
-		}
+	}
 }
 
 /******************************************************************************
@@ -2884,9 +2884,9 @@ JTextEditor::SetCaretLocation
 	)
 {
 	if (itsIsDragSourceFlag)
-		{
+	{
 		return;
-		}
+	}
 
 	itsText->DeactivateCurrentUndo();
 
@@ -2894,25 +2894,25 @@ JTextEditor::SetCaretLocation
 	const CaretLocation origCaretLoc = itsCaret;
 
 	if (hadSelection)
-		{
+	{
 		TERefreshLines(GetLineForChar(itsSelection.charRange.first),
 					   GetLineForChar(itsSelection.charRange.last));
-		}
+	}
 
 	itsSelection.SetToNothing();
 	itsCaret  = caretLoc;
 	itsCaretX = GetCharLeft(itsCaret);
 
 	if (hadSelection || origCaretLoc != itsCaret || !itsText->WillPasteStyledText())
-		{
+	{
 		itsInsertionFont = itsText->CalcInsertionFont(itsCaret.location);
-		}
+	}
 
 	if (!TEScrollTo(itsCaret))
-		{
+	{
 		TERefreshCaret(origCaretLoc);
 		TERefreshCaret(itsCaret);
-		}
+	}
 
 	BroadcastCaretMessages(itsCaret);
 
@@ -2933,10 +2933,10 @@ JTextEditor::BroadcastCaretMessages
 	JIndex line = caretLoc.lineIndex;
 	JIndex col  = GetColumnForChar(caretLoc);
 	if (IsTrailingNewline(caretLoc.location))
-		{
+	{
 		line++;
 		col = 1;
-		}
+	}
 	Broadcast(CaretLocationChanged(line, col, caretLoc.location.charIndex));
 }
 
@@ -2956,12 +2956,12 @@ JTextEditor::GoToColumn
 
 	CaretLocation caretLoc(TextIndex(), lineIndex);
 	if (lineIndex > lineCount && itsText->EndsWithNewline())
-		{
+	{
 		caretLoc.location  = itsText->GetBeyondEnd();
 		caretLoc.lineIndex = lineCount;
-		}
+	}
 	else
-		{
+	{
 		const TextIndex end = GetLineEnd(lineIndex);
 		JIndex col          = 1;
 
@@ -2970,22 +2970,22 @@ JTextEditor::GoToColumn
 		JIndex charIndex;
 		while (col < columnIndex && iter->GetNextCharacterIndex(&charIndex) &&
 			   charIndex <= end.charIndex && iter->Next(&c))
-			{
+		{
 			col += (c == '\t' ? itsText->CRMGetTabWidth(col) : 1);
-			}
+		}
 
 		if (iter->AtEnd())
-			{
+		{
 			caretLoc.location = itsText->GetBeyondEnd();
-			}
+		}
 		else
-			{
+		{
 			caretLoc.location.charIndex = iter->GetNextCharacterIndex();
 			caretLoc.location.byteIndex = iter->GetNextByteIndex();
-			}
+		}
 
 		itsText->DisposeConstIterator(iter);
-		}
+	}
 
 	SetCaretLocation(caretLoc);
 }
@@ -3006,35 +3006,35 @@ JTextEditor::GoToLine
 
 	CaretLocation caretLoc;
 	if (trueIndex > lineCount && itsText->EndsWithNewline())
-		{
+	{
 		caretLoc.location  = itsText->GetBeyondEnd();
 		caretLoc.lineIndex = lineCount;
-		}
+	}
 	else
-		{
+	{
 		if (trueIndex == 0)
-			{
+		{
 			trueIndex = 1;
-			}
+		}
 		else if (trueIndex > lineCount)
-			{
+		{
 			trueIndex = lineCount;
-			}
+		}
 		caretLoc.location  = GetLineStart(trueIndex);
 		caretLoc.lineIndex = trueIndex;
-		}
+	}
 
 	TEScrollToRect(CalcCaretRect(caretLoc), true);
 	if (IsReadOnly())
-		{
+	{
 		SetSelection(TextRange(
 			GetLineStart(caretLoc.lineIndex),
 			itsText->AdjustTextIndex(GetLineEnd(caretLoc.lineIndex), +1)));
-		}
+	}
 	else
-		{
+	{
 		SetCaretLocation(caretLoc);
-		}
+	}
 }
 
 /******************************************************************************
@@ -3050,14 +3050,14 @@ JTextEditor::SelectLine
 {
 	GoToLine(lineIndex);
 	if (itsSelection.IsEmpty())
-		{
+	{
 		const TextIndex beyondEnd = lineIndex < GetLineCount() ?
 			GetLineStart(lineIndex+1) : itsText->GetBeyondEnd();
 
 		SetSelection(TextRange(
 			GetLineStart(itsCaret.lineIndex),
 			beyondEnd));
-		}
+	}
 }
 
 /******************************************************************************
@@ -3070,26 +3070,26 @@ JTextEditor::GoToBeginningOfLine()
 {
 	CaretLocation caretLoc;
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		caretLoc = CalcCaretLocation(itsSelection.GetFirst());
-		}
+	}
 	else
-		{
+	{
 		caretLoc = itsCaret;
-		}
+	}
 
 	if (IsTrailingNewline(caretLoc.location))
-		{
+	{
 		// set current value so we scroll to it
-		}
+	}
 	else if (itsMoveToFrontOfTextFlag && !itsText->IsEmpty())
-		{
+	{
 		const TextIndex firstChar = GetLineStart(caretLoc.lineIndex);
 		TextIndex lastChar        = GetLineEnd(caretLoc.lineIndex);
 		if (GetCharacter(lastChar) == '\n')
-			{
+		{
 			lastChar = itsText->AdjustTextIndex(lastChar, -1);
-			}
+		}
 
 		TextIndex firstTextChar = firstChar;
 		JString linePrefix;
@@ -3099,17 +3099,17 @@ JTextEditor::GoToBeginningOfLine()
 //			!CRMGetPrefix(&firstTextChar, lastChar,
 //						  &linePrefix, &prefixLength, &ruleIndex) ||
 //			CRMLineMatchesRest(JIndexRange(firstChar, lastChar)))
-			{
+		{
 			firstTextChar = itsText->AdjustTextIndex(lastChar, +1);
-			}
+		}
 
 		caretLoc.location =
 			caretLoc.location.charIndex <= firstTextChar.charIndex ? firstChar : firstTextChar;
-		}
+	}
 	else
-		{
+	{
 		caretLoc.location = GetLineStart(caretLoc.lineIndex);
-		}
+	}
 
 	SetCaretLocation(caretLoc);
 }
@@ -3123,37 +3123,37 @@ void
 JTextEditor::GoToEndOfLine()
 {
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		const JIndex lineIndex = GetLineForChar(itsSelection.charRange.last);
 		const TextIndex index  = GetLineEnd(lineIndex);
 
 		if (GetCharacter(index).IsSpace())
-			{
+		{
 			SetCaretLocation(index);
-			}
+		}
 		else
-			{
+		{
 			SetCaretLocation(itsText->AdjustTextIndex(index, +1));
-			}
 		}
+	}
 	else if (IsTrailingNewline(itsCaret.location))
-		{
+	{
 		SetCaretLocation(itsCaret);	// scroll to it
-		}
+	}
 	else if (!itsText->IsEmpty())
-		{
+	{
 		const TextIndex index  = GetLineEnd(itsCaret.lineIndex);
 		const JUtf8Character c = GetCharacter(index);
 		if (c.IsSpace() &&
 			(index.charIndex < itsText->GetText().GetCharacterCount() || c == '\n'))
-			{
+		{
 			SetCaretLocation(index);
-			}
-		else
-			{
-			SetCaretLocation(itsText->AdjustTextIndex(index, +1));
-			}
 		}
+		else
+		{
+			SetCaretLocation(itsText->AdjustTextIndex(index, +1));
+		}
+	}
 }
 
 /******************************************************************************
@@ -3175,20 +3175,20 @@ JTextEditor::CRLineIndexToVisualLineIndex
 	const
 {
 	if (itsBreakCROnlyFlag)
-		{
+	{
 		return JMin(crLineIndex, GetLineCount());
-		}
+	}
 
 	TextIndex index(1,1);
 	for (JIndex i=1; i<=crLineIndex; i++)
-		{
+	{
 		const TextIndex newIndex = itsText->GetParagraphEnd(itsText->AdjustTextIndex(index, +1));
 		if (newIndex.charIndex == index.charIndex)	// end of text
-			{
+		{
 			break;
-			}
-		index = newIndex;
 		}
+		index = newIndex;
+	}
 
 	return GetLineForChar(itsText->GetParagraphStart(itsText->AdjustTextIndex(index, -1)).charIndex);
 }
@@ -3213,9 +3213,9 @@ JTextEditor::VisualLineIndexToCRLineIndex
 {
 	const JIndex visualLineIndex = JMin(origVisualLineIndex, GetLineCount());
 	if (itsBreakCROnlyFlag)
-		{
+	{
 		return visualLineIndex;
-		}
+	}
 
 	JSize crLineIndex        = 1;
 	const TextIndex endIndex = GetLineStart(visualLineIndex);
@@ -3223,12 +3223,12 @@ JTextEditor::VisualLineIndexToCRLineIndex
 	JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, TextIndex(1,1));
 	JUtf8Character c;
 	while (iter->GetNextCharacterIndex() < endIndex.charIndex && iter->Next(&c))
-		{
+	{
 		if (c == '\n')
-			{
+		{
 			crLineIndex++;
-			}
 		}
+	}
 
 	itsText->DisposeConstIterator(iter);
 	return crLineIndex;
@@ -3271,19 +3271,19 @@ JTextEditor::CalcCaretRect
 	JRect r;
 
 	if (IsTrailingNewline(caretLoc.location))
-		{
+	{
 		r.top    = GetLineBottom(caretLoc.lineIndex) + 1;
 		r.bottom = r.top + GetEWNHeight();
 		r.left   = 0;
 		r.right  = itsLeftMarginWidth + kRightMarginWidth;
-		}
+	}
 	else
-		{
+	{
 		r.top    = GetLineTop(caretLoc.lineIndex);
 		r.bottom = r.top + GetLineHeight(caretLoc.lineIndex);
 		r.left   = GetCharLeft(caretLoc);
 		r.right  = r.left + itsLeftMarginWidth + kRightMarginWidth;
-		}
+	}
 
 	return r;
 }
@@ -3303,7 +3303,7 @@ JTextEditor::TEScrollToSelection
 	)
 {
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		const CaretLocation start = CalcCaretLocation(itsSelection.GetFirst());
 		const CaretLocation end   = CalcCaretLocation(itsSelection.GetLast(*itsText));
 
@@ -3311,22 +3311,22 @@ JTextEditor::TEScrollToSelection
 		r.top    = GetLineTop(start.lineIndex);
 		r.bottom = GetLineBottom(end.lineIndex);
 		if (start.lineIndex == end.lineIndex)
-			{
+		{
 			r.left  = GetCharLeft(start) + itsLeftMarginWidth;
 			r.right = GetCharRight(end) + itsLeftMarginWidth;
-			}
+		}
 		else
-			{
+		{
 			r.left  = 0;
 			r.right = itsLeftMarginWidth + itsWidth + kRightMarginWidth;
-			}
+		}
 
 		return TEScrollToRect(r, centerInDisplay);
-		}
+	}
 	else
-		{
+	{
 		return TEScrollToRect(CalcCaretRect(itsCaret), centerInDisplay);
-		}
+	}
 }
 
 /******************************************************************************
@@ -3359,9 +3359,9 @@ JTextEditor::TERefreshLines
 	JRect r(GetLineTop(firstLine), 0, GetLineBottom(lastLine)+1,
 			itsLeftMarginWidth + JMax(itsGUIWidth, itsWidth) + kRightMarginWidth);
 	if (lastLine == GetLineCount() && itsText->EndsWithNewline())
-		{
+	{
 		r.bottom += GetEWNHeight();
-		}
+	}
 	TERefreshRect(r);
 }
 
@@ -3377,16 +3377,16 @@ JTextEditor::TERefreshCaret
 	)
 {
 	if (IsTrailingNewline(caretLoc.location))
-		{
+	{
 		const JRect r(itsHeight - GetEWNHeight(), 0, itsHeight,
 					  itsLeftMarginWidth + JMax(itsGUIWidth, itsWidth) +
 					  kRightMarginWidth);
 		TERefreshRect(r);
-		}
+	}
 	else if (itsLineStarts->IndexValid(caretLoc.lineIndex))
-		{
+	{
 		TERefreshLines(caretLoc.lineIndex, caretLoc.lineIndex);
-		}
+	}
 }
 
 /******************************************************************************
@@ -3409,31 +3409,31 @@ JTextEditor::MoveCaretVert
 
 	JIndex newLineIndex = 0;
 	if (deltaLines > 0 && lineIndex + deltaLines <= lineCount)
-		{
+	{
 		newLineIndex = lineIndex + deltaLines;
-		}
+	}
 	else if (deltaLines > 0)
-		{
+	{
 		newLineIndex = lineCount;
-		}
+	}
 	else if (deltaLines < 0 && lineIndex > (JSize) -deltaLines)
-		{
+	{
 		newLineIndex = lineIndex + deltaLines;
-		}
+	}
 	else if (deltaLines < 0)
-		{
+	{
 		newLineIndex = 1;
-		}
+	}
 
 	if (newLineIndex > 0)
-		{
+	{
 		const JCoordinate saveX = itsCaretX;
 
 		const JPoint pt(itsCaretX, GetLineTop(newLineIndex)+1);
 		SetCaretLocation(CalcCaretLocation(pt));
 
 		itsCaretX = saveX;
-		}
+	}
 }
 
 /******************************************************************************
@@ -3453,9 +3453,9 @@ JTextEditor::GetLineForChar
 	const
 {
 	if (charIndex == 0)
-		{
+	{
 		return 1;
-		}
+	}
 
 	itsLineStarts->SetCompareFunction(JStyledText::CompareCharacterIndices);
 
@@ -3463,9 +3463,9 @@ JTextEditor::GetLineForChar
 	JIndex lineIndex =
 		itsLineStarts->SearchSorted1(TextIndex(charIndex, 0), JListT::kAnyMatch, &found);
 	if (!found)
-		{
+	{
 		lineIndex--;	// wants to insert -after- the value
-		}
+	}
 	return lineIndex;
 }
 
@@ -3486,9 +3486,9 @@ JTextEditor::GetLineForByte
 	const
 {
 	if (byteIndex == 0)
-		{
+	{
 		return 1;
-		}
+	}
 
 	itsLineStarts->SetCompareFunction(JStyledText::CompareByteIndices);
 
@@ -3496,9 +3496,9 @@ JTextEditor::GetLineForByte
 	JIndex lineIndex =
 		itsLineStarts->SearchSorted1(TextIndex(0, byteIndex), JListT::kAnyMatch, &found);
 	if (!found)
-		{
+	{
 		lineIndex--;	// wants to insert -after- the value
-		}
+	}
 	return lineIndex;
 }
 
@@ -3517,13 +3517,13 @@ JTextEditor::GetLineEnd
 	const
 {
 	if (lineIndex < GetLineCount())
-		{
+	{
 		return itsText->AdjustTextIndex(GetLineStart(lineIndex+1), -1);
-		}
+	}
 	else
-		{
+	{
 		return itsPrevTextLastIndex;	// consistent with rest of output from Recalc()
-		}
+	}
 }
 
 /******************************************************************************
@@ -3563,9 +3563,9 @@ JTextEditor::GetCharLeft
 
 	JCoordinate x = 0;
 	if (charLoc.location.charIndex > firstChar.charIndex)
-		{
+	{
 		x = GetStringWidth(firstChar, itsText->AdjustTextIndex(charLoc.location, -1), nullptr);
-		}
+	}
 	return x;
 }
 
@@ -3588,9 +3588,9 @@ JTextEditor::GetCharRight
 
 	JCoordinate x = 0;
 	if (charLoc.location.charIndex > firstChar.charIndex)
-		{
+	{
 		x = GetStringWidth(firstChar, charLoc.location, nullptr);
-		}
+	}
 	return x;
 }
 
@@ -3617,16 +3617,16 @@ JTextEditor::GetStringWidth
 
 	bool allocatedStyleIter = false;
 	if (styleIter == nullptr)
-		{
+	{
 		allocatedStyleIter = true;
 
 		styleIter = jnew FontIterator(itsText->GetStyles(), kJIteratorStartBefore, origStart.charIndex);
 		assert( styleIter != nullptr );
-		}
+	}
 	else
-		{
+	{
 		styleIter->MoveTo(kJIteratorStartBefore, origStart.charIndex);
-		}
+	}
 
 	// preWidth stores the width of the characters preceding origStartIndex
 	// on the line containing origStartIndex.  We calculate this -once- when
@@ -3637,7 +3637,7 @@ JTextEditor::GetStringWidth
 
 	TextIndex start = origStart;
 	while (start.charIndex <= end.charIndex)
-		{
+	{
 		// If there is a tab in the string, we step up to it and take care of
 		// the rest in the next iteration.
 
@@ -3646,38 +3646,38 @@ JTextEditor::GetStringWidth
 		JIndex tabCharIndex, pretabByteIndex;
 		const bool foundTab = LocateTab(start, endCharIndex, &tabCharIndex, &pretabByteIndex);
 		if (foundTab)
-			{
+		{
 			endCharIndex = tabCharIndex - 1;
-			}
+		}
 
 		if (endCharIndex >= start.charIndex)
-			{
+		{
 			width += styleIter->GetRunData().GetStringWidth(itsFontManager,
 				JString(itsText->GetText().GetBytes(),
 						JUtf8ByteRange(start.byteIndex, pretabByteIndex),
 						JString::kNoCopy));
-			}
+		}
 
 		if (foundTab)
-			{
+		{
 			if (preWidth < 0)
-				{
+			{
 				// recursion: max depth 1
 				preWidth = GetCharLeft(CalcCaretLocation(origStart));
 				assert( preWidth >= 0 );
-				}
+			}
 			endCharIndex++;
 			width += GetTabWidth(endCharIndex, preWidth + width);
-			}
+		}
 
 		start = itsText->AdjustTextIndex(start, endCharIndex - start.charIndex + 1);
 		styleIter->MoveTo(kJIteratorStartAfter, endCharIndex);
-		}
+	}
 
 	if (allocatedStyleIter)
-		{
+	{
 		jdelete styleIter;
-		}
+	}
 
 	return width;
 }
@@ -3705,18 +3705,18 @@ JTextEditor::LocateTab
 	JUtf8Character c;
 	JIndex i = start.charIndex;
 	while (i <= endCharIndex && iter->Next(&c))
-		{
+	{
 		if (c == '\t')
-			{
+		{
 			iter->SkipPrev();
 			*tabCharIndex    = iter->GetNextCharacterIndex();
 			*pretabByteIndex = (iter->AtBeginning() ? 0 : iter->GetPrevByteIndex());
 
 			itsText->DisposeConstIterator(iter);
 			return true;
-			}
-		i++;
 		}
+		i++;
+	}
 
 	*tabCharIndex    = 0;
 	*pretabByteIndex = iter->GetPrevByteIndex();
@@ -3761,9 +3761,9 @@ JTextEditor::RecalcAll
 	)
 {
 	if (itsBreakCROnlyFlag)
-		{
+	{
 		itsWidth = 0;
-		}
+	}
 	itsMaxWordWidth = 0;
 
 	itsLineStarts->RemoveAll();
@@ -3778,13 +3778,13 @@ JTextEditor::RecalcAll
 	Recalc(r, r);
 
 	if (broadcastCaretMessages && HasSelection())
-		{
+	{
 		BroadcastCaretMessages(CalcCaretLocation(itsSelection.GetFirst()));
-		}
+	}
 	else if (broadcastCaretMessages)
-		{
+	{
 		BroadcastCaretMessages(itsCaret);
-		}
+	}
 }
 
 /******************************************************************************
@@ -3804,29 +3804,29 @@ JTextEditor::Recalc
 {
 	JCoordinate maxLineWidth = 0;
 	if (itsBreakCROnlyFlag && GetLineCount() == 1)
-		{
+	{
 		itsWidth = 0;
-		}
+	}
 
 	JCoordinate origY = -1;
 	if (!itsLineGeom->IsEmpty())
-		{
+	{
 		origY = GetLineTop(GetLineForChar(recalcRange.charRange.first));
-		}
+	}
 
 	JIndex firstLineIndex, lastLineIndex;
 	if (!itsText->IsEmpty())
-		{
+	{
 		RecalcRange(recalcRange, &maxLineWidth, &firstLineIndex, &lastLineIndex);
 
 		if (!redrawRange.IsEmpty())
-			{
+		{
 			firstLineIndex = JMin(firstLineIndex, GetLineForChar(redrawRange.charRange.first));
 			lastLineIndex  = JMax(lastLineIndex,  GetLineForChar(redrawRange.charRange.last));
-			}
 		}
+	}
 	else
-		{
+	{
 		itsLineStarts->RemoveAll();
 		itsLineStarts->AppendElement(TextIndex(1,1));
 
@@ -3838,57 +3838,57 @@ JTextEditor::Recalc
 		itsLineGeom->AppendElement(LineGeometry(h, ascent));
 
 		firstLineIndex = lastLineIndex = 1;
-		}
+	}
 
 	// If the caret is visible, recalculate the line index.
 
 	if (itsSelection.IsEmpty())
-		{
+	{
 		itsCaret.lineIndex = GetLineForChar(itsCaret.location.charIndex);
-		}
+	}
 
 	// If we only break at newlines, we control our width.
 
 	if (itsBreakCROnlyFlag && maxLineWidth > itsWidth)
-		{
+	{
 		itsWidth = maxLineWidth;
-		}
+	}
 
 	// If all the lines are the same height, set the scrolling step size to that.
 
 	if (itsLineGeom->AllElementsEqual() && !itsIsPrintingFlag)
-		{
+	{
 		TESetVertScrollStep(GetLineHeight(1));
-		}
+	}
 	else if (!itsIsPrintingFlag)
-		{
+	{
 		TESetVertScrollStep(itsText->GetDefaultFont().GetLineHeight(itsFontManager));
-		}
+	}
 
 	// recalculate the height
 
 	const JSize lineCount = GetLineCount();
 	JCoordinate newHeight = GetLineTop(lineCount) + GetLineHeight(lineCount);
 	if (itsText->EndsWithNewline())
-		{
+	{
 		newHeight += GetEWNHeight();
-		}
+	}
 
 	bool needRefreshLines = true;
 	if (!itsIsPrintingFlag && newHeight != itsHeight)
-		{
+	{
 		TERefresh();	// redraw everything if the line heights changed
 		needRefreshLines = false;
-		}
+	}
 
 	itsHeight = newHeight;
 
 	// notify the derived class of our new size
 
 	if (!itsIsPrintingFlag)
-		{
+	{
 		TESetGUIBounds(itsLeftMarginWidth + itsWidth + kRightMarginWidth, itsHeight, origY);
-		}
+	}
 
 	// save for next time
 
@@ -3898,16 +3898,16 @@ JTextEditor::Recalc
 	// show the changes
 
 	if (!itsIsPrintingFlag && needRefreshLines)
-		{
+	{
 		TERefreshLines(firstLineIndex, lastLineIndex);
-		}
+	}
 
 	// avoid ludicrous width -- recursive
 
 	if (TEWidthIsBeyondDisplayCapacity(itsWidth))
-		{
+	{
 		SetBreakCROnly(false);
-		}
+	}
 }
 
 /******************************************************************************
@@ -3938,9 +3938,9 @@ JTextEditor::RecalcRange
 
 		(!itsBreakCROnlyFlag && range.charRange.first > 1 &&
 		 NoPrevWhitespaceOnLine(range.GetFirst()))))
-		{
+	{
 		lineIndex--;
-		}
+	}
 
 	JStringIterator* textIter = itsText->GetConstIterator(kJIteratorStartBefore, GetLineStart(lineIndex));
 	const TextIndex& end      = range.GetAfter();
@@ -3954,15 +3954,15 @@ JTextEditor::RecalcRange
 
 	*maxLineWidth = itsWidth;
 	while (true)
-		{
+	{
 		JCoordinate lineWidth;
 		RecalcLine(textIter, &styleIter, &geomIter, lineIndex, &lineWidth);
 		// geomIter has been incremented
 
 		if (*maxLineWidth < lineWidth)
-			{
+		{
 			*maxLineWidth = lineWidth;
-			}
+		}
 
 		// remove line starts that are further from the end than the new one
 		// (we use (bufLength - endChar) so subtraction won't produce negative numbers)
@@ -3972,41 +3972,41 @@ JTextEditor::RecalcRange
 		while (lineIndex < GetLineCount() &&
 			   (itsPrevTextEnd.charCount+1) - GetLineStart(lineIndex+1).charIndex >
 					textLength.charCount - endCharIndex)
-			{
+		{
 			itsLineStarts->RemoveElement(lineIndex+1);
 			geomIter.RemoveNext();
-			}
+		}
 
 		// check if we are done
 
 		if (textIter->AtEnd())
-			{
+		{
 			// We reached the end of the text.
 
 			assert( styleIter.AtEnd() );
 			break;
-			}
+		}
 		else if (textIter->GetNextCharacterIndex() >= end.charIndex &&
 				 lineIndex < GetLineCount() &&
 				 (itsPrevTextEnd.charCount+1) - GetLineStart(lineIndex+1).charIndex ==
 					textLength.charCount - endCharIndex)
-			{
+		{
 			// The rest of the line starts merely shift.
 
 			const JSignedOffset charDelta = textLength.charCount - itsPrevTextEnd.charCount,
 								byteDelta = textLength.byteCount - itsPrevTextEnd.byteCount;
 			if (charDelta != 0 || byteDelta != 0)
-				{
+			{
 				auto* lineStart  = const_cast<TextIndex*>(itsLineStarts->GetCArray());
 				const JSize lineCount = GetLineCount();
 				for (JIndex i=lineIndex; i<lineCount; i++)
-					{
+				{
 					lineStart[i].charIndex += charDelta;
 					lineStart[i].byteIndex += byteDelta;
-					}
 				}
-			break;
 			}
+			break;
+		}
 
 		// insert the new line start
 
@@ -4022,14 +4022,14 @@ JTextEditor::RecalcRange
 		if (lineIndex < GetLineCount() &&
 			(itsPrevTextEnd.charCount+1) - GetLineStart(lineIndex+1).charIndex ==
 				textLength.charCount - endCharIndex)
-			{
+		{
 			itsLineStarts->RemoveElement(lineIndex+1);
 
 			geomIter.SkipNext();
 			geomIter.RemoveNext();
 			geomIter.SkipPrev();
-			}
 		}
+	}
 
 	*lastLineIndex = lineIndex;
 
@@ -4063,17 +4063,17 @@ JTextEditor::RecalcLine
 	const TextIndex first(textIter->GetNextCharacterIndex(), textIter->GetNextByteIndex());
 
 	if (itsBreakCROnlyFlag)
-		{
+	{
 		textIter->Next("\n");
 
 		// newline is single byte
 		const TextIndex last(textIter->GetPrevCharacterIndex(), textIter->GetPrevByteIndex());
 
 		*lineWidth = GetStringWidth(first, last, styleIter);
-		}
+	}
 
 	else
-		{
+	{
 		// include leading whitespace
 
 		bool endOfLine;
@@ -4085,7 +4085,7 @@ JTextEditor::RecalcLine
 		const JSize maxCharsPerLine = JLCeil(itsGUIWidth / 3.0);	// at least 3 pixels per character
 
 		while (!textIter->AtEnd() && !endOfLine)
-			{
+		{
 			// get the next word
 
 			textIter->BeginMatch();
@@ -4093,14 +4093,14 @@ JTextEditor::RecalcLine
 
 			JUtf8Character c;
 			while (textIter->Next(&c) && count <= maxCharsPerLine)
-				{
+			{
 				if (c.IsSpace())	// JRegex is too slow for this intensive operation
-					{
+				{
 					textIter->SkipPrev();		// don't ignore whitespace
 					break;
-					}
-				count++;
 				}
+				count++;
+			}
 
 			const JStringMatch& m = textIter->FinishMatch();
 
@@ -4109,21 +4109,21 @@ JTextEditor::RecalcLine
 			const TextRange r(m);
 			const JCoordinate dw = GetStringWidth(r.GetFirst(), r.GetLast(*itsText), styleIter);
 			if (itsMaxWordWidth < dw)
-				{
+			{
 				itsMaxWordWidth = dw;
-				}
+			}
 
 			if (*lineWidth + dw > itsWidth)
-				{
+			{
 				if (r.charRange.first > first.charIndex)
-					{
+				{
 					// this word goes on the next line
 
 					textIter->UnsafeMoveTo(kJIteratorStartBefore, r.charRange.first, r.byteRange.first);
 					styleIter->MoveTo(kJIteratorStartBefore, r.charRange.first);
-					}
+				}
 				else
-					{
+				{
 					// put as much of this word as possible on the line
 
 					textIter->UnsafeMoveTo(kJIteratorStartBefore, first.charIndex, first.byteIndex);
@@ -4131,9 +4131,9 @@ JTextEditor::RecalcLine
 
 					assert( *lineWidth == 0 );
 					GetSubwordForLine(textIter, styleIter, lineIndex, lineWidth);
-					}
-				break;
 				}
+				break;
+			}
 
 			// put the word on this line
 
@@ -4142,8 +4142,8 @@ JTextEditor::RecalcLine
 			// include the whitespace after the word
 
 			IncludeWhitespaceOnLine(textIter, styleIter, lineWidth, &endOfLine);
-			}
 		}
+	}
 
 	// update geometry for this line
 
@@ -4153,7 +4153,7 @@ JTextEditor::RecalcLine
 	JCoordinate maxAscent=0, maxDescent=0;
 	JFont f;
 	while (styleIter->GetRunStart() <= lastChar)
-		{
+	{
 		JCoordinate ascent, descent;
 		styleIter->GetRunData().GetLineHeight(itsFontManager, &ascent, &descent);
 
@@ -4161,20 +4161,20 @@ JTextEditor::RecalcLine
 		maxDescent = JMax(maxDescent, descent);
 
 		styleIter->NextRun();
-		}
+	}
 
 	styleIter->MoveTo(kJIteratorStartAfter, lastChar);
 
 	const LineGeometry geom(maxAscent+maxDescent, maxAscent);
 	if (geomIter->AtEnd())
-		{
+	{
 		geomIter->Insert(geom);
 		geomIter->SkipNext();
-		}
+	}
 	else
-		{
+	{
 		geomIter->SetNext(geom);
-		}
+	}
 }
 
 /******************************************************************************
@@ -4202,10 +4202,10 @@ JTextEditor::IncludeWhitespaceOnLine
 	const
 {
 	if (textIter->AtEnd())
-		{
+	{
 		*endOfLine = false;
 		return;
-		}
+	}
 
 	*endOfLine = false;
 
@@ -4213,58 +4213,58 @@ JTextEditor::IncludeWhitespaceOnLine
 
 	JUtf8Character c;
 	while (textIter->Next(&c))
-		{
+	{
 		if (!c.IsSpace())
-			{
+		{
 			textIter->SkipPrev();
 			break;
-			}
+		}
 
 		if (c == '\t')
-			{
+		{
 			const JIndex i = textIter->GetPrevCharacterIndex();
 			if (i > first.charIndex)
-				{
+			{
 				*lineWidth += GetStringWidth(	// tab is single byte
 					first, TextIndex(i-1, textIter->GetPrevByteIndex()-1),
 					styleIter);
-				}
+			}
 			*lineWidth += GetTabWidth(i, *lineWidth);
 
 			styleIter->SkipNext();
 
 			if (!textIter->AtEnd())
-				{
+			{
 				first = TextIndex(textIter->GetNextCharacterIndex(), textIter->GetNextByteIndex());
 
 				// tab characters can wrap to the next line
 
 				if (!itsBreakCROnlyFlag && *lineWidth > itsWidth)
-					{
+				{
 					*endOfLine = true;
 					break;
-					}
 				}
 			}
+		}
 		else if (c == '\n')
-			{
+		{
 			*endOfLine = true;
 			break;
-			}
 		}
+	}
 
 	JIndex endCharIndex;
 	if (textIter->GetPrevCharacterIndex(&endCharIndex) && endCharIndex >= first.charIndex)
-		{
+	{
 		styleIter->MoveTo(kJIteratorStartBefore, first.charIndex);
 
 		const TextIndex last(endCharIndex, textIter->GetPrevByteIndex());
 		*lineWidth += GetStringWidth(first, last, styleIter);
-		}
+	}
 	else
-		{
+	{
 		styleIter->MoveTo(kJIteratorStartBefore, textIter->GetNextCharacterIndex());
-		}
+	}
 }
 
 /******************************************************************************
@@ -4294,30 +4294,30 @@ JTextEditor::GetSubwordForLine
 	JFont f;
 	bool first = true;
 	while (textIter->Next(&c, kJIteratorStay))
-		{
+	{
 		JCoordinate dw;
 		if (c == '\t')
-			{
+		{
 			dw = GetTabWidth(textIter->GetNextCharacterIndex(), *lineWidth);
-			}
+		}
 		else
-			{
+		{
 			styleIter->Next(&f, kJIteratorStay);
 			dw = f.GetCharWidth(itsFontManager, c);
-			}
+		}
 
 		if (!first && *lineWidth + dw > itsWidth)
-			{
+		{
 			break;
-			}
+		}
 		else
-			{
+		{
 			*lineWidth += dw;
-			}
+		}
 		first = false;
 		textIter->SkipNext();
 		styleIter->SkipNext();
-		}
+	}
 }
 
 /******************************************************************************
@@ -4345,13 +4345,13 @@ JTextEditor::NoPrevWhitespaceOnLine
 	while (!iter->AtBeginning() &&
 		   iter->GetPrevCharacterIndex() >= start.charIndex &&
 		   iter->Prev(&c))
-		{
+	{
 		if (c.IsSpace())
-			{
+		{
 			itsText->DisposeConstIterator(iter);
 			return false;
-			}
 		}
+	}
 
 	itsText->DisposeConstIterator(iter);
 	return true;	// we hit the start of the string
@@ -4373,13 +4373,13 @@ JTextEditor::CalcCaretLocation
 	const
 {
 	if (itsText->IsEmpty())
-		{
+	{
 		return CaretLocation(TextIndex(1,1),1);
-		}
+	}
 	else if (pt.y >= itsHeight)
-		{
+	{
 		return CaretLocation(itsText->GetBeyondEnd(), GetLineCount());
-		}
+	}
 
 	// find the line that was clicked on
 
@@ -4387,35 +4387,35 @@ JTextEditor::CalcCaretLocation
 	const JIndex lineIndex = CalcLineIndex(pt.y, &lineTop);
 	if (itsText->EndsWithNewline() &&
 		itsHeight - GetEWNHeight() < pt.y && pt.y <= itsHeight)
-		{
+	{
 		return CaretLocation(itsText->GetBeyondEnd(), GetLineCount());
-		}
+	}
 
 	// find the closest insertion point
 
 	const TextIndex lineStart = GetLineStart(lineIndex);
 	if (pt.x <= 0)
-		{
+	{
 		return CaretLocation(GetLineStart(lineIndex), lineIndex);
-		}
+	}
 
 	TextIndex lineEnd = GetLineEnd(lineIndex);
 	if (lineEnd.charIndex == lineStart.charIndex &&
 		GetCharacter(lineEnd).IsSpace())
-		{
+	{
 		return CaretLocation(lineStart, lineIndex);
-		}
+	}
 	else if (lineEnd.charIndex == lineStart.charIndex)
-		{
+	{
 		return CaretLocation(itsText->AdjustTextIndex(lineStart, 1), lineIndex);
-		}
+	}
 
 	if ((lineEnd.charIndex < itsText->GetText().GetCharacterCount() ||
 		 itsText->EndsWithNewline()) &&
 		GetCharacter(lineEnd).IsSpace())
-		{
+	{
 		lineEnd = itsText->AdjustTextIndex(lineEnd, -1);
-		}
+	}
 
 	TextIndex index;
 	JCoordinate x     = 0;
@@ -4429,39 +4429,39 @@ JTextEditor::CalcCaretLocation
 	JIndex charIndex;
 	while (iter->GetNextCharacterIndex(&charIndex) && charIndex <= lineEnd.charIndex &&
 		   iter->Next(&c) && fiter.Next(&f))
-		{
+	{
 		if (c != '\t')
-			{
+		{
 			x += f.GetCharWidth(itsFontManager, c);
-			}
+		}
 		else
-			{
+		{
 			x += GetTabWidth(iter->GetPrevCharacterIndex(), x);
-			}
+		}
 
 		const JCoordinate d = pt.x - x;
 		if (d < 0 && prevD <= -d)
-			{
+		{
 			iter->SkipPrev();
 			break;
-			}
+		}
 		else if (d == 0 || (d < 0 && prevD > -d))
-			{
+		{
 			break;
-			}
+		}
 
 		prevD = d;
-		}
+	}
 
 	if (iter->AtEnd())
-		{
+	{
 		index = itsText->GetBeyondEnd();
-		}
+	}
 	else
-		{
+	{
 		index = TextIndex(iter->GetNextCharacterIndex(),
 						  iter->GetNextByteIndex());
-		}
+	}
 	const CaretLocation loc(index, lineIndex);
 
 	itsText->DisposeConstIterator(iter);
@@ -4487,16 +4487,16 @@ JTextEditor::CalcCaretLocation
 
 	JIndex byteIndex = index.byteIndex;
 	if (byteIndex == 0 && index.charIndex == itsText->GetText().GetCharacterCount() + 1)
-		{
+	{
 		byteIndex = itsText->GetText().GetByteCount() + 1;
-		}
+	}
 	else if (byteIndex == 0)
-		{
+	{
 		const TextIndex i = GetLineStart(lineIndex);
 		const TextRange r =
 			itsText->CharToTextRange(&i, JCharacterRange(index.charIndex, index.charIndex));
 		byteIndex = r.byteRange.first;
-		}
+	}
 
 	return CaretLocation(TextIndex(index.charIndex, byteIndex), lineIndex);
 }
@@ -4515,16 +4515,16 @@ JTextEditor::CalcLineIndex
 	const
 {
 	if (y < 0)
-		{
+	{
 		*lineTop = 0;
 		return 1;
-		}
+	}
 	else
-		{
+	{
 		JIndex lineIndex;
 		itsLineGeom->FindPositiveSum(y, 1, &lineIndex, lineTop, GetLineHeight);
 		return lineIndex;
-		}
+	}
 }
 
 /******************************************************************************

@@ -99,9 +99,9 @@ JMatrix::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	assert( JDimensionsEqual(*this, source) );
 
@@ -181,9 +181,9 @@ JMatrix::operator-()
 
 	const JSize count = GetElementCount();
 	for (JUnsignedOffset i=0; i<count; i++)
-		{
+	{
 		mx.itsElements[i] = -itsElements[i];
-		}
+	}
 
 	// allow chaining
 
@@ -205,9 +205,9 @@ JMatrix::operator+=
 
 	const JSize count = GetElementCount();
 	for (JUnsignedOffset i=0; i<count; i++)
-		{
+	{
 		itsElements[i] += mx.itsElements[i];
-		}
+	}
 
 	// allow chaining
 
@@ -229,9 +229,9 @@ JMatrix::operator-=
 
 	const JSize count = GetElementCount();
 	for (JUnsignedOffset i=0; i<count; i++)
-		{
+	{
 		itsElements[i] -= mx.itsElements[i];
-		}
+	}
 
 	// allow chaining
 
@@ -251,9 +251,9 @@ JMatrix::operator*=
 {
 	const JSize count = GetElementCount();
 	for (JUnsignedOffset i=0; i<count; i++)
-		{
+	{
 		itsElements[i] *= s;
-		}
+	}
 
 	// allow chaining
 
@@ -275,9 +275,9 @@ JMatrix::operator/=
 
 	const JSize count = GetElementCount();
 	for (JUnsignedOffset i=0; i<count; i++)
-		{
+	{
 		itsElements[i] /= s;
-		}
+	}
 
 	// allow chaining
 
@@ -297,9 +297,9 @@ JMatrix::SetAllElements
 {
 	const JSize count = GetElementCount();
 	for (JUnsignedOffset i=0; i<count; i++)
-		{
+	{
 		itsElements[i] = value;
-		}
+	}
 }
 
 /******************************************************************************
@@ -319,9 +319,9 @@ JMatrix::GetRowVector
 	JVector rowVector(itsColCount);
 
 	for (JIndex j=1; j<=itsColCount; j++)
-		{
+	{
 		rowVector.SetElement(j, GetElement(rowIndex,j));
-		}
+	}
 
 	return rowVector;
 }
@@ -343,9 +343,9 @@ JMatrix::SetRowVector
 	assert( itsColCount == rowVector.GetDimensionCount() );
 
 	for (JIndex j=1; j<=itsColCount; j++)
-		{
+	{
 		SetElement(rowIndex,j, rowVector.GetElement(j));
-		}
+	}
 }
 
 /******************************************************************************
@@ -382,9 +382,9 @@ JMatrix::SetColVector
 	assert( itsRowCount == colVector.GetDimensionCount() );
 
 	for (JIndex i=1; i<=itsRowCount; i++)
-		{
+	{
 		SetElement(i,colIndex, colVector.GetElement(i));
-		}
+	}
 }
 
 /******************************************************************************
@@ -408,9 +408,9 @@ JMatrix::SetRow
 	va_start(argList, v1);
 
 	for (JIndex i=2; i<=itsColCount; i++)
-		{
+	{
 		SetElement(rowIndex, i, va_arg(argList, JFloat));
-		}
+	}
 
 	va_end(argList);
 }
@@ -436,9 +436,9 @@ JMatrix::SetCol
 	va_start(argList, v1);
 
 	for (JIndex i=2; i<=itsRowCount; i++)
-		{
+	{
 		SetElement(i, colIndex, va_arg(argList, JFloat));
-		}
+	}
 
 	va_end(argList);
 }
@@ -463,15 +463,15 @@ JMatrix::SetElements
 	va_start(argList, v1);
 
 	for (JIndex i=1; i<=itsRowCount; i++)
-		{
+	{
 		for (JIndex j=1; j<=itsColCount; j++)
-			{
+		{
 			if (i > 1 || j > 1)
-				{
+			{
 				SetElement(i, j, va_arg(argList, JFloat));
-				}
 			}
 		}
+	}
 
 	va_end(argList);
 }
@@ -488,12 +488,12 @@ JMatrix::Transpose()
 	JMatrix mx(itsColCount, itsRowCount);
 
 	for (JIndex i=1; i<=itsRowCount;i++)
-		{
+	{
 		for (JIndex j=1; j<=itsColCount;j++)
-			{
+		{
 			mx.SetElement(j,i, GetElement(i,j));
-			}
 		}
+	}
 
 	return mx;
 }
@@ -515,24 +515,24 @@ JMatrix::Invert
 	// we can only be inverted if we are a square matrix
 
 	if (itsRowCount != itsColCount)
-		{
+	{
 		return false;
-		}
+	}
 
 	// deal with the trivial case
 
 	if (itsRowCount == 1)
-		{
+	{
 		if (itsElements[0] != 0.0)
-			{
+		{
 			inverse->itsElements[0] = 1.0/itsElements[0];
 			return true;
-			}
-		else
-			{
-			return false;
-			}
 		}
+		else
+		{
+			return false;
+		}
+	}
 
 	// Perform row reduction on mx.  *inverse then contains the desired result.
 
@@ -553,16 +553,16 @@ JMatrix::Determinant()
 	// we can only calculate the determinant if we are a square matrix
 
 	if (itsRowCount != itsColCount)
-		{
+	{
 		return false;
-		}
+	}
 
 	// deal with the trivial case
 
 	if (itsRowCount == 1)
-		{
+	{
 		return itsElements[0];
-		}
+	}
 
 	// create workspace to hold row reduction results
 
@@ -571,49 +571,49 @@ JMatrix::Determinant()
 	// Perform row reduction on mx to get upper triangular matrix
 
 	long sign = 1;
-	{
+{
 	for (JIndex i=1; i<itsRowCount; i++)
-		{
+	{
 		const JIndex pivotRow   = mx.FindPivotRow(i);
 		const JFloat pivotValue = mx.GetElement(pivotRow,i);
 
 		// if the largest element is zero, the determinant is zero
 
 		if (pivotValue == 0.0)
-			{
+		{
 			return 0.0;
-			}
+		}
 
 		// swap rows and flip sign of determinant
 
 		if (pivotRow != i)
-			{
+		{
 			mx.SwapRows(i, pivotRow);
 			sign = -sign;
-			}
+		}
 
 		// wipe out the part of ith column that is below the diagonal
 
 		for (JIndex k=i+1; k<=itsRowCount; k++)
-			{
+		{
 			const JFloat scaleFactor = -mx.GetElement(k,i) / pivotValue;
 			if (scaleFactor != 0.0)
-				{
+			{
 				mx.AddRowToRow(i, scaleFactor, k);
-				}
 			}
 		}
 	}
+}
 
 	// determinant of upper triangular mx is product of elements on diagonal
 
 	JFloat det = sign;
-	{
+{
 	for (JIndex i=1; i<=itsRowCount; i++)
-		{
+	{
 		det *= mx.GetElement(i,i);
-		}
 	}
+}
 	return det;
 }
 
@@ -630,11 +630,11 @@ JMatrix::SwapRows
 	)
 {
 	for (JIndex j=1; j<=itsColCount; j++)
-		{
+	{
 		const JFloat temp = GetElement(index1,j);
 		SetElement(index1,j, GetElement(index2,j));
 		SetElement(index2,j, temp);
-		}
+	}
 }
 
 /******************************************************************************
@@ -650,9 +650,9 @@ JMatrix::ScaleRow
 	)
 {
 	for (JIndex j=1; j<=itsColCount; j++)
-		{
+	{
 		SetElement(index,j, GetElement(index,j) * scaleFactor);
-		}
+	}
 }
 
 /******************************************************************************
@@ -669,9 +669,9 @@ JMatrix::AddRowToRow
 	)
 {
 	for (JIndex j=1; j<=itsColCount; j++)
-		{
+	{
 		IncrementElement(destIndex,j, GetElement(sourceIndex,j) * scaleFactor);
-		}
+	}
 }
 
 /******************************************************************************
@@ -693,14 +693,14 @@ JMatrix::FindPivotRow
 	JIndex pivotRow   = rowIndex;
 
 	for (JIndex i=rowIndex+1; i<=itsRowCount; i++)
-		{
+	{
 		const JFloat value = GetElement(i,rowIndex);
 		if (fabs(value) > fabs(pivotValue))
-			{
+		{
 			pivotValue = value;
 			pivotRow   = i;
-			}
 		}
+	}
 
 	return pivotRow;
 }
@@ -718,17 +718,17 @@ JMatrix::Print
 	const
 {
 	for (JIndex i=1; i<=itsRowCount; i++)
-		{
+	{
 		for (JIndex j=1; j<=itsColCount; j++)
-			{
+		{
 			output << GetElement(i,j);
 			if (j < itsColCount)
-				{
+			{
 				output << "  ";
-				}
 			}
-		output << std::endl;
 		}
+		output << std::endl;
+	}
 }
 
 /******************************************************************************
@@ -842,18 +842,18 @@ operator*
 
 	const JSize termCount = mx1.GetColCount();
 	for (JIndex i=1; i<=rowCount; i++)
-		{
+	{
 		for (JIndex j=1;j<=colCount;j++)
-			{
+		{
 			JFloat value = 0.0;
 			for (JIndex k=1; k<=termCount; k++)
-				{
+			{
 				value += mx1.GetElement(i,k) * mx2.GetElement(k,j);
-				}
+			}
 
 			resultMx.SetElement(i,j, value);
-			}
 		}
+	}
 
 	return resultMx;
 }
@@ -877,15 +877,15 @@ operator*
 
 	const JSize termCount = mx.GetColCount();
 	for (JIndex i=1; i<=rowCount; i++)
-		{
+	{
 		JFloat value = 0.0;
 		for (JIndex k=1; k<=termCount; k++)
-			{
+		{
 			value += mx.GetElement(i,k) * v.GetElement(k);
-			}
+		}
 
 		resultMx.SetElement(i,1, value);
-		}
+	}
 
 	return resultMx;
 }
@@ -903,9 +903,9 @@ JIdentityMatrix
 {
 	JMatrix identityMx(dimCount, dimCount, 0.0);
 	for (JIndex i=1;i<=dimCount;i++)
-		{
+	{
 		identityMx.SetElement(i,i, 1.0);
-		}
+	}
 
 	return identityMx;
 }
@@ -932,15 +932,15 @@ operator==
 	const JSize colCount = mx1.GetColCount();
 
 	for (JIndex i=1; i<=rowCount; i++)
-		{
+	{
 		for (JIndex j=1; j<=colCount; j++)
-			{
+		{
 			if (mx1.GetElement(i,j) != mx2.GetElement(i,j))
-				{
+			{
 				return 0;
-				}
 			}
 		}
+	}
 
 	return 1;
 }
@@ -961,25 +961,25 @@ operator>>
 	const JSize colCount = aMatrix.GetColCount();
 
 	for (JIndex i=1; i<=rowCount; i++)
-		{
+	{
 		for (JIndex j=1; j<=colCount; j++)
-			{
+		{
 			JFloat value;
 			input >> value;
 			aMatrix.SetElement(i,j, value);
-			}
+		}
 
 		if (i < rowCount)
-			{
+		{
 			char c;
 			input >> std::ws >> c;
 			if (c != ',')
-				{
+			{
 				JSetState(input, std::ios::failbit);
 				return input;
-				}
 			}
 		}
+	}
 
 	// allow chaining
 
@@ -997,23 +997,23 @@ operator<<
 	const JSize colCount = aMatrix.GetColCount();
 
 	for (JIndex i=1; i<=rowCount; i++)
-		{
+	{
 		for (JIndex j=1; j<=colCount; j++)
-			{
+		{
 			const JFloat value = aMatrix.GetElement(i,j);
 
 			if (i != 1 || j != 1)
-				{
+			{
 				output << ' ';
-				}
-			output << value;
 			}
+			output << value;
+		}
 
 		if (i < rowCount)
-			{
+		{
 			output << ',';
-			}
 		}
+	}
 
 	// allow chaining
 
@@ -1042,14 +1042,14 @@ JGaussianElimination
 	JMatrix A1 = A;
 	JMatrix x1 = b;
 	if (JGaussianElimination(&A1, &x1))
-		{
+	{
 		*x = x1.GetColVector(1);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -1089,42 +1089,42 @@ JGaussianElimination
 	// deal with the trivial case
 
 	if (rowCount == 1)
-		{
+	{
 		JFloat scaleFactor = A->GetElement(1,1);
 		if (scaleFactor != 0.0)
-			{
+		{
 			scaleFactor = 1.0/scaleFactor;
 			A->ScaleRow(1, scaleFactor);
 			x->ScaleRow(1, scaleFactor);
 			return true;
-			}
-		else
-			{
-			return false;
-			}
 		}
+		else
+		{
+			return false;
+		}
+	}
 
 	// Perform row reduction on A.  x then contains the desired result.
 
 	for (JIndex i=1; i<=rowCount; i++)
-		{
+	{
 		const JIndex pivotRow   = A->FindPivotRow(i);
 		const JFloat pivotValue = A->GetElement(pivotRow,i);
 
 		// If the largest element is zero, the matrix is not reducible.
 
 		if (pivotValue == 0.0)
-			{
+		{
 			return false;
-			}
+		}
 
 		// swap rows
 
 		if (pivotRow != i)
-			{
+		{
 			A->SwapRows(i, pivotRow);
 			x->SwapRows(i, pivotRow);
-			}
+		}
 
 		// normalize mx(i,i) to 1
 
@@ -1135,19 +1135,19 @@ JGaussianElimination
 		// wipe out the ith column in mx
 
 		for (JIndex k=1; k<=rowCount; k++)
-			{
+		{
 			if (k != i)
-				{
+			{
 				scaleFactor = - A->GetElement(k,i);
 				if (scaleFactor != 0.0)
-					{
+				{
 					A->AddRowToRow(i, scaleFactor, k);
 					A->SetElement(k,i, 0.0);				// just to be sure
 					x->AddRowToRow(i, scaleFactor, k);
-					}
 				}
 			}
 		}
+	}
 
 	return true;
 }

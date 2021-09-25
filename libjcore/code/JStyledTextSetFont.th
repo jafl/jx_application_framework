@@ -21,47 +21,47 @@ bool isNew;
 JSTUndoStyle* undo = nullptr;
 
 if (clearUndo)
-	{
+{
 	ClearUndo();
-	}
+}
 else
-	{
+{
 	undo = GetStyleUndo(range, &isNew);
-	}
+}
 
 JFont f = itsDefaultFont;
 bool changed = false;
 FontIterator iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 JIndex i;
 while (iter.GetNextElementIndex(&i) && i <= range.charRange.last)
-	{
+{
 	const bool ok = iter.Next(&f, kJIteratorStay);
 	assert( ok );
 
 	if (LocalVarName != f.GetElementName)
-		{
+	{
 		f.SetElementName(LocalVarName);
 		const JIndex end = JMin(iter.GetRunEnd(), range.charRange.last);
 		iter.SetNext(f, end-i+1);
 		changed = true;
-		}
-	else
-		{
-		iter.SkipNext();
-		}
 	}
+	else
+	{
+		iter.SkipNext();
+	}
+}
 
 if (changed)
-	{
+{
 	if (undo != nullptr)
-		{
-		NewUndo(undo, isNew);
-		}
-	BroadcastTextChanged(range, 0, 0, false, false);
-	}
-else
 	{
-	jdelete undo;
+		NewUndo(undo, isNew);
 	}
+	BroadcastTextChanged(range, 0, 0, false, false);
+}
+else
+{
+	jdelete undo;
+}
 
 return changed;

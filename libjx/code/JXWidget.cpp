@@ -106,13 +106,13 @@ JXWidget::~JXWidget()
 {
 	JXWindow* window = GetWindow();
 	if (itsWantInputFlag)
-		{
+	{
 		window->UnregisterFocusWidget(this);
-		}
+	}
 	if (IsVisible())
-		{
+	{
 		window->RefreshRect(itsFrameG);
-		}
+	}
 
 	jdelete itsDragPainter;
 }
@@ -147,9 +147,9 @@ JXWidget::Refresh()
 {
 	JRect visRectG;
 	if (IsVisible() && GetEnclosure()->GetVisibleRectGlobal(itsFrameG, &visRectG))
-		{
+	{
 		GetWindow()->RefreshRect(visRectG);
-		}
+	}
 }
 
 /******************************************************************************
@@ -167,9 +167,9 @@ JXWidget::RefreshRect
 	const JRect rectG = JXContainer::LocalToGlobal(rect);
 	JRect visRectG;
 	if (IsVisible() && GetVisibleRectGlobal(rectG, &visRectG))
-		{
+	{
 		GetWindow()->RefreshRect(visRectG);
-		}
+	}
 }
 
 /******************************************************************************
@@ -183,9 +183,9 @@ JXWidget::Redraw()
 {
 	JRect visRectG;
 	if (IsVisible() && GetEnclosure()->GetVisibleRectGlobal(itsFrameG, &visRectG))
-		{
+	{
 		GetWindow()->RedrawRect(visRectG);
-		}
+	}
 }
 
 /******************************************************************************
@@ -203,9 +203,9 @@ JXWidget::RedrawRect
 	const JRect rectG = JXContainer::LocalToGlobal(rect);
 	JRect visRectG;
 	if (IsVisible() && GetVisibleRectGlobal(rectG, &visRectG))
-		{
+	{
 		GetWindow()->RedrawRect(visRectG);
-		}
+	}
 }
 
 /******************************************************************************
@@ -235,9 +235,9 @@ JXWidget::Deactivate()
 {
 	JXContainer::Deactivate();
 	if (!IsActive() && HasFocus())
-		{
+	{
 		GetWindow()->SwitchFocusToFirstWidget();
-		}
+	}
 }
 
 /******************************************************************************
@@ -283,13 +283,13 @@ JXWidget::WantInput
 	itsWantModTabFlag = wantModifiedTab;
 
 	if (itsWantInputFlag)
-		{
+	{
 		GetWindow()->RegisterFocusWidget(this);
-		}
+	}
 	else
-		{
+	{
 		GetWindow()->UnregisterFocusWidget(this);
-		}
+	}
 }
 
 /******************************************************************************
@@ -315,9 +315,9 @@ JXWidget::Focus
 {
 	HandleFocusEvent();
 	if (itsFocusColor != itsBackColor)
-		{
+	{
 		Refresh();
-		}
+	}
 	Broadcast(GotFocus());
 }
 
@@ -332,13 +332,13 @@ bool
 JXWidget::Unfocus()
 {
 	if (HasFocus())
-		{
+	{
 		return GetWindow()->UnfocusCurrentWidget();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -367,9 +367,9 @@ JXWidget::NotifyFocusLost()
 {
 	HandleUnfocusEvent();
 	if (itsFocusColor != itsBackColor)
-		{
+	{
 		Refresh();
-		}
+	}
 	Broadcast(LostFocus());
 }
 
@@ -516,7 +516,7 @@ JXWidget::Move
 	)
 {
 	if (dx != 0 || dy != 0)
-		{
+	{
 		Refresh();		// refresh orig location
 
 		itsBoundsG.Shift(dx,dy);
@@ -524,7 +524,7 @@ JXWidget::Move
 		NotifyBoundsMoved(dx,dy);
 
 		Refresh();		// refresh new location
-		}
+	}
 }
 
 /******************************************************************************
@@ -555,7 +555,7 @@ JXWidget::AdjustSize
 	)
 {
 	if (dw != 0 || dh != 0)
-		{
+	{
 		assert( itsFrameG.width() + dw > 0 && itsFrameG.height() + dh > 0 );
 
 		Refresh();		// refresh orig size
@@ -565,7 +565,7 @@ JXWidget::AdjustSize
 		ApertureResized(dw,dh);
 
 		Refresh();		// refresh new size
-		}
+	}
 }
 
 /******************************************************************************
@@ -581,7 +581,7 @@ JXWidget::FTCAdjustSize
 	)
 {
 	if (dw != 0 || dh != 0)
-		{
+	{
 		assert( itsFrameG.width() + dw > 0 && itsFrameG.height() + dh > 0 );
 
 		Refresh();		// refresh orig size
@@ -590,13 +590,13 @@ JXWidget::FTCAdjustSize
 		itsFrameG.right  += dw;
 
 		if (itsApertureBoundedFlag)
-			{
+		{
 			itsBoundsG.bottom += dh;
 			itsBoundsG.right  += dw;
-			}
+		}
 
 		Refresh();		// refresh new size
-		}
+	}
 }
 
 /******************************************************************************
@@ -617,13 +617,13 @@ JXWidget::CenterWithinEnclosure
 
 	JCoordinate dx=0, dy=0;
 	if (adjustHoriz)
-		{
+	{
 		dx = (enclBounds.xcenter() - frame.width()/2) - oldPt.x;
-		}
+	}
 	if (adjustVert)
-		{
+	{
 		dy = (enclBounds.ycenter() - frame.height()/2) - oldPt.y;
-		}
+	}
 
 	Move(dx,dy);
 }
@@ -646,15 +646,15 @@ JXWidget::FitToEnclosure
 
 	JCoordinate dx=0, dy=0, dw=0, dh=0;
 	if (fitHoriz)
-		{
+	{
 		dx = enclBounds.left - oldPt.x;
 		dw = enclBounds.width() - frame.width();
-		}
+	}
 	if (fitVert)
-		{
+	{
 		dy = enclBounds.top - oldPt.y;
 		dh = enclBounds.height() - frame.height();
-		}
+	}
 
 	Move(dx,dy);
 	AdjustSize(dw,dh);
@@ -675,9 +675,9 @@ JXWidget::BoundsMoved
 	)
 {
 	if (itsDragPainter != nullptr)
-		{
+	{
 		itsDragPainter->ShiftOrigin(dx,dy);
-		}
+	}
 }
 
 /******************************************************************************
@@ -711,14 +711,14 @@ JXWidget::BoundsResized
 	)
 {
 	if (!itsApertureBoundedFlag)
-		{
+	{
 		JCoordinate dx,dy;
 		if (KeepApertureInsideBounds(&dx, &dy))
-			{
+		{
 			itsBoundsG.Shift(dx,dy);
 			NotifyBoundsMoved(dx,dy);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -736,24 +736,24 @@ JXWidget::EnclosingBoundsResized
 	JCoordinate dx = 0;
 	JCoordinate dw = 0;
 	if (itsHSizing == kFixedRight)
-		{
+	{
 		dx = dwb;
-		}
+	}
 	else if (itsHSizing == kHElastic)
-		{
+	{
 		dw = dwb;
-		}
+	}
 
 	JCoordinate dy = 0;
 	JCoordinate dh = 0;
 	if (itsVSizing == kFixedBottom)
-		{
+	{
 		dy = dhb;
-		}
+	}
 	else if (itsVSizing == kVElastic)
-		{
+	{
 		dh = dhb;
-		}
+	}
 
 	Move(dx,dy);
 	AdjustSize(dw,dh);
@@ -772,19 +772,19 @@ JXWidget::ApertureMoved
 	)
 {
 	if (itsApertureBoundedFlag)
-		{
+	{
 		itsBoundsG.Shift(dx,dy);
 		NotifyBoundsMoved(dx,dy);
-		}
+	}
 	else
-		{
+	{
 		JCoordinate dx1,dy1;
 		if (KeepApertureInsideBounds(&dx1, &dy1))
-			{
+		{
 			itsBoundsG.Shift(dx1,dy1);
 			NotifyBoundsMoved(dx1,dy1);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -800,20 +800,20 @@ JXWidget::ApertureResized
 	)
 {
 	if (dw != 0 || dh != 0)
-		{
+	{
 		JCoordinate dx,dy;
 		if (itsApertureBoundedFlag)
-			{
+		{
 			itsBoundsG.right  += dw;
 			itsBoundsG.bottom += dh;
 			NotifyBoundsResized(dw,dh);
-			}
+		}
 		else if (KeepApertureInsideBounds(&dx, &dy))
-			{
+		{
 			itsBoundsG.Shift(dx,dy);
 			NotifyBoundsMoved(dx,dy);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -839,30 +839,30 @@ JXWidget::KeepApertureInsideBounds
 	const JRect ap = GetApertureGlobal();
 
 	if (itsBoundsG.left > ap.left)
-		{
+	{
 		*dx = ap.left - itsBoundsG.left;
-		}
+	}
 	else if (itsBoundsG.right < ap.right)
-		{
+	{
 		*dx = ap.right - itsBoundsG.right;
 		if (itsBoundsG.left + *dx > ap.left)
-			{
+		{
 			*dx = ap.left - itsBoundsG.left;
-			}
 		}
+	}
 
 	if (itsBoundsG.top > ap.top)
-		{
+	{
 		*dy = ap.top - itsBoundsG.top;
-		}
+	}
 	else if (itsBoundsG.bottom < ap.bottom)
-		{
+	{
 		*dy = ap.bottom - itsBoundsG.bottom;
 		if (itsBoundsG.top + *dy > ap.top)
-			{
+		{
 			*dy = ap.top - itsBoundsG.top;
-			}
 		}
+	}
 
 	return *dx != 0 || *dy != 0;
 }
@@ -885,11 +885,11 @@ JXWidget::SetBounds
 	const JCoordinate dw = w - itsBoundsG.width();
 	const JCoordinate dh = h - itsBoundsG.height();
 	if (dw != 0 || dh != 0)
-		{
+	{
 		itsBoundsG = JXContainer::LocalToGlobal(JRect(0,0,h,w));
 		NotifyBoundsResized(dw,dh);
 		Refresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -920,15 +920,15 @@ JXWidget::ShouldAllowUnboundedScrolling
 {
 	itsAllowUnboundedScrollingFlag = allow;
 	if (!allow)
-		{
+	{
 		const JRect apG = GetApertureGlobal();
 		const JRect bG  = GetBoundsGlobal();
 		if (apG.top < bG.top || apG.left < bG.left)
-			{
+		{
 			ScrollTo(JMax(0L, apG.left - bG.left),
 					 JMax(0L, apG.top - bG.top));
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -954,47 +954,47 @@ JXWidget::Scroll
 	assert( !itsApertureBoundedFlag );
 
 	if (userdx != 0 || userdy != 0)
-		{
+	{
 		const JRect apG = GetApertureGlobal();
 
 		JCoordinate dx = userdx;
 		if (itsAllowUnboundedScrollingFlag)
-			{
+		{
 			// allow any value
-			}
+		}
 		else if (itsBoundsG.width() <= apG.width())
-			{
+		{
 			dx = 0;
-			}
+		}
 		else if (dx > 0 && itsBoundsG.left + dx > apG.left)
-			{
+		{
 			dx = apG.left - itsBoundsG.left;
-			}
+		}
 		else if (dx < 0 && itsBoundsG.right + dx < apG.right)
-			{
+		{
 			dx = apG.right - itsBoundsG.right;
-			}
+		}
 
 		JCoordinate dy = userdy;
 		if (itsAllowUnboundedScrollingFlag)
-			{
+		{
 			// allow any value
-			}
+		}
 		else if (itsBoundsG.height() <= apG.height())
-			{
+		{
 			dy = 0;
-			}
+		}
 		else if (dy > 0 && itsBoundsG.top + dy > apG.top)
-			{
+		{
 			dy = apG.top - itsBoundsG.top;
-			}
+		}
 		else if (dy < 0 && itsBoundsG.bottom + dy < apG.bottom)
-			{
+		{
 			dy = apG.bottom - itsBoundsG.bottom;
-			}
+		}
 
 		if (dx != 0 || dy != 0)
-			{
+		{
 //			const JRect origAp = GetAperture();
 
 			itsBoundsG.Shift(dx,dy);
@@ -1015,8 +1015,8 @@ JXWidget::Scroll
 //				}
 
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -1064,39 +1064,39 @@ JXWidget::ScrollToRect
 {
 	JRect rG = JXContainer::LocalToGlobal(r);
 	if (!JIntersection(rG, itsBoundsG, &rG))
-		{
+	{
 		return false;
-		}
+	}
 
 	const JRect ap = GetApertureGlobal();
 
 	JCoordinate dx=0;
 	if (rG.left < ap.left)
-		{
+	{
 		dx = ap.left - rG.left;
-		}
+	}
 	else if (rG.right > ap.right)
-		{
+	{
 		dx = ap.right - rG.right;
 		if (rG.left + dx < ap.left)
-			{
+		{
 			dx = ap.left - rG.left;
-			}
 		}
+	}
 
 	JCoordinate dy=0;
 	if (rG.top < ap.top)
-		{
+	{
 		dy = ap.top - rG.top;
-		}
+	}
 	else if (rG.bottom > ap.bottom)
-		{
+	{
 		dy = ap.bottom - rG.bottom;
 		if (rG.top + dy < ap.top)
-			{
+		{
 			dy = ap.top - rG.top;
-			}
 		}
+	}
 
 	return Scroll(dx,dy);
 }
@@ -1124,22 +1124,22 @@ JXWidget::ScrollToRectCentered
 {
 	const JRect ap = GetAperture();
 	if (!forceScroll && ap.Contains(origRect))
-		{
+	{
 		return false;
-		}
+	}
 
 	JRect r = origRect;
 	const JCoordinate dw = ap.width() - r.width();
 	if (dw > 0)
-		{
+	{
 		r.Shrink(-dw/2, 0);
-		}
+	}
 
 	const JCoordinate dh = ap.height() - r.height();
 	if (dh > 0)
-		{
+	{
 		r.Shrink(0, -dh/2);
-		}
+	}
 
 	return ScrollToRect(r);
 }
@@ -1203,7 +1203,7 @@ JXWidget::SetBorderWidth
 	)
 {
 	if (width != itsBorderWidth)
-		{
+	{
 		const JRect origApG = GetApertureGlobal();
 		itsBorderWidth = width;
 		const JRect newApG = GetApertureGlobal();
@@ -1211,7 +1211,7 @@ JXWidget::SetBorderWidth
 		ApertureMoved(newApG.left - origApG.left, newApG.top - origApG.top);
 		ApertureResized(newApG.width()  - origApG.width(),
 						newApG.height() - origApG.height());
-		}
+	}
 }
 
 /******************************************************************************

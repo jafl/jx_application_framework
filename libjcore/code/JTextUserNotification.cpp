@@ -43,11 +43,11 @@ JTextUserNotification::DisplayMessage
 	)
 {
 	if (!IsSilent())
-		{
+	{
 		std::cout << std::endl;
 		message.Print(std::cout);
 		JWaitForReturn();
-		}
+	}
 }
 
 /******************************************************************************
@@ -62,12 +62,12 @@ JTextUserNotification::ReportError
 	)
 {
 	if (!IsSilent())
-		{
+	{
 		std::cout << std::endl;
 		std::cout << "Error: ";
 		message.Print(std::cout);
 		JWaitForReturn();
-		}
+	}
 }
 
 /******************************************************************************
@@ -140,17 +140,17 @@ JTextUserNotification::OKToClose
 	JInputFinished();
 
 	if (c == 's' || c == 'S')
-		{
+	{
 		return kSaveData;
-		}
+	}
 	else if (c == 'd' || c == 'D')
-		{
+	{
 		return kDiscardData;
-		}
+	}
 	else
-		{
+	{
 		return kDontClose;
-		}
+	}
 }
 
 /******************************************************************************

@@ -38,18 +38,18 @@ main
 
 	if (displayAbout &&
 		!JGetUserNotification()->AcceptLicense())
-		{
+	{
 		return 0;
-		}
+	}
 
 	auto* dir = jnew MDStatsDirector(app);
 	assert( dir != nullptr );
 	dir->Activate();
 
 	if (displayAbout)
-		{
+	{
 		app->DisplayAbout(prevVersStr);
-		}
+	}
 
 	app->Run();
 	return 0;
@@ -74,21 +74,21 @@ ParseTextOptions
 {
 	long index = 1;
 	while (index < argc)
-		{
+	{
 		if (JIsVersionRequest(argv[index]))
-			{
+		{
 			MDApp::InitStrings();
 			PrintVersion();
 			exit(0);
-			}
+		}
 		else if (JIsHelpRequest(argv[index]))
-			{
+		{
 			MDApp::InitStrings();
 			PrintCommandLineHelp();
 			exit(0);
-			}
-		index++;
 		}
+		index++;
+	}
 }
 
 /******************************************************************************
@@ -113,10 +113,10 @@ void
 PrintCommandLineHelp()
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"vers",      MDGetVersionNumberStr(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
-		};
+	};
 	const JString s = JGetString("CommandLineHelp::mdGlobals", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }

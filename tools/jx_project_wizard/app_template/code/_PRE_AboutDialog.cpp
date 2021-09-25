@@ -102,24 +102,24 @@ void
 
 	JString text = <PRE>GetVersionStr();
 	if (!prevVersStr.IsEmpty())
-		{
+	{
 		const JUtf8Byte* map[] =
-			{
+		{
 			"vers", prevVersStr.GetBytes()
-			};
+		};
 		text += JGetString("UpgradeNotice::<PRE>AboutDialog");
 		JGetStringManager()->Replace(&text, map, sizeof(map));
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::<PRE>AboutDialog"));
 		itsIsUpgradeFlag = true;
-		}
+	}
 	textWidget->SetText(text);
 
 	const JSize bdh = textWidget->GetBoundsHeight();
 	const JSize aph = textWidget->GetApertureHeight();
 	if (bdh > aph)
-		{
+	{
 		window->AdjustSize(0, bdh - aph);	// safe to calculate once bdh > aph
-		}
+	}
 }
 
 /******************************************************************************
@@ -137,26 +137,26 @@ void
 	)
 {
 	if (sender == itsHelpButton && message.Is(JXButton::kPushed))
-		{
+	{
 		if (itsIsUpgradeFlag)
-			{
+		{
 			JXGetHelpManager()->ShowChangeLog();
-			}
-		else
-			{
-			JXGetHelpManager()->ShowTOC();
-			}
-		EndDialog(true);
 		}
+		else
+		{
+			JXGetHelpManager()->ShowTOC();
+		}
+		EndDialog(true);
+	}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
-		{
+	{
 		JXGetHelpManager()->ShowCredits();
 		EndDialog(true);
-		}
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }

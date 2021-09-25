@@ -47,10 +47,10 @@ JXXFontMenu::Create
 	JPtrArray<JString> fontNames(JPtrArrayT::kDeleteAll);
 	(enclosure->GetXFontManager())->GetXFontNames(regex, &fontNames, compare);
 	if (!fontNames.IsEmpty())
-		{
+	{
 		*menu = jnew JXXFontMenu(fontNames, title, enclosure, hSizing, vSizing, x,y, w,h);
 		assert( *menu != nullptr );
-		}
+	}
 
 	return *menu != nullptr;
 }
@@ -71,10 +71,10 @@ JXXFontMenu::Create
 	JPtrArray<JString> fontNames(JPtrArrayT::kDeleteAll);
 	(enclosure->GetXFontManager())->GetXFontNames(regex, &fontNames, compare);
 	if (!fontNames.IsEmpty())
-		{
+	{
 		*menu = jnew JXXFontMenu(fontNames, owner, itemIndex, enclosure);
 		assert( *menu != nullptr );
-		}
+	}
 
 	return *menu != nullptr;
 }
@@ -142,13 +142,13 @@ JXXFontMenu::BuildMenu
 	const JSize count = fontNames.GetElementCount();
 	assert( count > 0 );
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const JString* fontName = fontNames.GetElement(i);
 		AppendItem(*fontName, kRadioType);
 		SetItemFontName(i, *fontName);
 
 		fontManager->Preload(GetItemFont(i).GetID());
-		}
+	}
 
 	SetFontName(*(fontNames.GetFirstElement()));
 }

@@ -75,24 +75,24 @@ JXStandAlonePG::ProcessBeginning
 	// create the window
 
 	if (!allowBackground)
-		{
+	{
 		JXGetApplication()->PrepareForBlockingWindow();
-		}
+	}
 
 	assert( itsProgressDirector == nullptr );
 
 	if (processType == kFixedLengthProcess)
-		{
+	{
 		itsProgressDirector = 
 			jnew JXFixLenPGDirector(JXGetApplication(), this, message, allowCancel);
 		itsStepCount = stepCount;
-		}
+	}
 	else if (processType == kVariableLengthProcess)
-		{
+	{
 		itsProgressDirector = 
 			jnew JXVarLenPGDirector(JXGetApplication(), this, message, allowCancel);
 		itsStepCount = 0;
-		}
+	}
 	assert( itsProgressDirector != nullptr );
 
 	// find the first unused window position and use it
@@ -100,24 +100,24 @@ JXStandAlonePG::ProcessBeginning
 	itsWindowIndex       = 0;
 	const JSize winCount = winPos.GetElementCount();
 	for (JIndex i=1; i<=winCount; i++)
-		{
+	{
 		const JXPGWindowPosition winInfo = winPos.GetElement(i);
 		if (winInfo.dir == nullptr)
-			{
+		{
 			itsWindowIndex = i;
 			break;
-			}
 		}
+	}
 
 	if (itsWindowIndex > 0)
-		{
+	{
 		JXPGWindowPosition winInfo = winPos.GetElement(itsWindowIndex);
 		(itsProgressDirector->GetWindow())->Place(winInfo.x, winInfo.y);
 		winInfo.dir = itsProgressDirector;
 		winPos.SetElement(itsWindowIndex, winInfo);
-		}
+	}
 	else if (winCount > 0)
-		{
+	{
 		JXPGWindowPosition winInfo = winPos.GetElement(winCount);
 		JXWindow* window = (winInfo.dir)->GetWindow();
 		winInfo.y = (window->GlobalToRoot((window->GetFrameGlobal()).bottomLeft())).y;
@@ -125,9 +125,9 @@ JXStandAlonePG::ProcessBeginning
 		winInfo.dir = itsProgressDirector;
 		winPos.AppendElement(winInfo);
 		itsWindowIndex = winCount+1;
-		}
+	}
 	else
-		{
+	{
 		const JPoint pt = (itsProgressDirector->GetWindow())->GetDesktopLocation();
 		JXPGWindowPosition winInfo;
 		winInfo.x   = pt.x;
@@ -135,20 +135,20 @@ JXStandAlonePG::ProcessBeginning
 		winInfo.dir = itsProgressDirector;
 		winPos.AppendElement(winInfo);
 		itsWindowIndex = winCount+1;
-		}
+	}
 
 	// display the window
 
 	if (processType == kFixedLengthProcess && stepCount == 1)
-		{
+	{
 		DisplayBusyCursor();
-		}
+	}
 	else
-		{
+	{
 		itsProgressDirector->Activate();
 		(itsProgressDirector->GetDisplay())->Synchronize();
 		(itsProgressDirector->GetWindow())->Update();
-		}
+	}
 	(itsProgressDirector->GetDisplay())->Synchronize();
 
 	JXProgressDisplay::ProcessBeginning(processType, stepCount, message,
@@ -170,27 +170,27 @@ JXStandAlonePG::ProcessContinuing()
 {
 	JXWindow* window = itsProgressDirector->GetWindow();
 	if (itsProgressDirector->IsActive() && itsRaiseWindowFlag)
-		{
+	{
 		window->Raise(false);
-		}
+	}
 
 	if (itsStepCount == 0)
-		{
+	{
 		const JString s((JUInt64) GetCurrentStepCount());
 		itsProgressDirector->ProcessContinuing(s);
-		}
+	}
 	else
-		{
+	{
 		JString s(100.0 * (GetCurrentStepCount() / (JFloat) itsStepCount), 0);
 		s += "%";
 		itsProgressDirector->ProcessContinuing(s);
-		}
+	}
 
 	if (!AllowBackground())
-		{
+	{
 		while (JXGetApplication()->HandleOneEventForWindow(window, false))
-			{ };
-		}
+		{ };
+	}
 
 	(itsProgressDirector->GetDisplay())->Flush();
 
@@ -220,9 +220,9 @@ JXStandAlonePG::ProcessFinished()
 	itsProgressDirector = nullptr;
 
 	if (!AllowBackground())
-		{
+	{
 		JXGetApplication()->BlockingWindowFinished();
-		}
+	}
 
 	JXProgressDisplay::ProcessFinished();
 }

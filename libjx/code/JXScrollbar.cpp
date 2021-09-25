@@ -144,13 +144,13 @@ JXScrollbar::Draw
 	)
 {
 	if (IsHorizontal())
-		{
+	{
 		DrawHoriz(p);
-		}
+	}
 	else
-		{
+	{
 		DrawVert(p);
-		}
+	}
 
 	// draw the thumb
 
@@ -177,18 +177,18 @@ JXScrollbar::DrawHoriz
 								bounds.bottom, bounds.right);
 
 	if (bounds.width() > kMinDoubleArrowFactor * arrowWidth)
-		{
+	{
 		arrowWidth *= 2;
 		itsDecrArrowRect[1] = JRect(bounds.top, bounds.right - arrowWidth,
 									bounds.bottom, itsIncrArrowRect[0].left);
 		itsIncrArrowRect[1] = JRect(bounds.top, itsDecrArrowRect[0].right,
 									bounds.bottom, bounds.left + arrowWidth);
-		}
+	}
 	else
-		{
+	{
 		itsDecrArrowRect[1] = JRect(0,0,0,0);
 		itsIncrArrowRect[1] = JRect(0,0,0,0);
-		}
+	}
 
 	// // available length - thumb length = max value - min value
 	// thumb length = (page size / document size) * available length
@@ -198,27 +198,27 @@ JXScrollbar::DrawHoriz
 //		availLength - (itsMaxValue - kMinValue + kScaleThumbShrink-1)/kScaleThumbShrink;
 		(itsPageStepSize * availLength) / (itsMaxValue + itsPageStepSize - kMinValue);
 	if (thumbLength < kMinThumbLength)
-		{
+	{
 		thumbLength = kMinThumbLength;
-		}
+	}
 	const JCoordinate minThumbLoc = bounds.left + arrowWidth;
 	const JCoordinate maxThumbLoc = bounds.right - arrowWidth - thumbLength;
 	JFloat thumbLocScale          = 0.0;
 	if (itsMaxValue > kMinValue)	// avoid divide by zero
-		{
+	{
 		thumbLocScale =
 			(maxThumbLoc - minThumbLoc)/(JFloat)(itsMaxValue - kMinValue);
-		}
+	}
 	JCoordinate thumbLoc =
 		minThumbLoc + JRound(thumbLocScale * (itsValue - kMinValue));
 	if (thumbLoc > maxThumbLoc)
-		{
+	{
 		thumbLoc = maxThumbLoc;
-		}
+	}
 	if (thumbLoc < minThumbLoc)
-		{
+	{
 		thumbLoc = minThumbLoc;
-		}
+	}
 	itsThumbRect = JRect(bounds.top, thumbLoc,
 						 bounds.bottom, thumbLoc + thumbLength);
 	itsThumbDragRect = JRect(bounds.top, bounds.left + arrowWidth,
@@ -235,36 +235,36 @@ JXScrollbar::DrawHoriz
 	const JColorID backColor = JColorManager::GetDefaultBackColor();
 
 	if (itsDecrPushedFlag)
-		{
+	{
 		JXDrawDownArrowLeft(p, itsDecrArrowRect[0], borderWidth, true, backColor);
 		JXDrawDownArrowLeft(p, itsDecrArrowRect[1], borderWidth, true, backColor);
-		}
+	}
 	else
-		{
+	{
 		JXDrawUpArrowLeft(p, itsDecrArrowRect[0], borderWidth, true, backColor);
 		JXDrawUpArrowLeft(p, itsDecrArrowRect[1], borderWidth, true, backColor);
-		}
+	}
 
 	if (itsIncrPushedFlag)
-		{
+	{
 		JXDrawDownArrowRight(p, itsIncrArrowRect[0], borderWidth, true, backColor);
 		JXDrawDownArrowRight(p, itsIncrArrowRect[1], borderWidth, true, backColor);
-		}
+	}
 	else
-		{
+	{
 		JXDrawUpArrowRight(p, itsIncrArrowRect[0], borderWidth, true, backColor);
 		JXDrawUpArrowRight(p, itsIncrArrowRect[1], borderWidth, true, backColor);
-		}
+	}
 
 	// place the scrolltabs
 
 	if (itsScrolltabList != nullptr)
-		{
+	{
 		for (auto* tab : *itsScrolltabList)
-			{
+		{
 			tab->PlaceHoriz(minThumbLoc, maxThumbLoc, thumbLocScale);
-			}
 		}
+	}
 }
 
 void
@@ -284,18 +284,18 @@ JXScrollbar::DrawVert
 								bounds.bottom, bounds.right);
 
 	if (bounds.height() > kMinDoubleArrowFactor * arrowHeight)
-		{
+	{
 		arrowHeight *= 2;
 		itsDecrArrowRect[1] = JRect(bounds.bottom - arrowHeight, bounds.left,
 									itsIncrArrowRect[0].top, bounds.right);
 		itsIncrArrowRect[1] = JRect(itsDecrArrowRect[0].bottom, bounds.left,
 									bounds.top + arrowHeight, bounds.right);
-		}
+	}
 	else
-		{
+	{
 		itsDecrArrowRect[1] = JRect(0,0,0,0);
 		itsIncrArrowRect[1] = JRect(0,0,0,0);
-		}
+	}
 
 	// // available length - thumb length = max value - min value
 	// thumb length = (page size / document size) * available length
@@ -305,27 +305,27 @@ JXScrollbar::DrawVert
 //		availLength - (itsMaxValue - kMinValue + kScaleThumbShrink-1)/kScaleThumbShrink;
 		(itsPageStepSize * availLength) / (itsMaxValue + itsPageStepSize - kMinValue);
 	if (thumbLength < kMinThumbLength)
-		{
+	{
 		thumbLength = kMinThumbLength;
-		}
+	}
 	const JCoordinate minThumbLoc = bounds.top + arrowHeight;
 	const JCoordinate maxThumbLoc = bounds.bottom - arrowHeight - thumbLength;
 	JFloat thumbLocScale          = 0.0;
 	if (itsMaxValue > kMinValue)	// avoid divide by zero
-		{
+	{
 		thumbLocScale =
 			(maxThumbLoc - minThumbLoc)/(JFloat)(itsMaxValue - kMinValue);
-		}
+	}
 	JCoordinate thumbLoc =
 		minThumbLoc + JRound(thumbLocScale * (itsValue - kMinValue));
 	if (thumbLoc > maxThumbLoc)
-		{
+	{
 		thumbLoc = maxThumbLoc;
-		}
+	}
 	if (thumbLoc < minThumbLoc)
-		{
+	{
 		thumbLoc = minThumbLoc;
-		}
+	}
 	itsThumbRect = JRect(thumbLoc, bounds.left,
 						 thumbLoc + thumbLength, bounds.right);
 	itsThumbDragRect = JRect(bounds.top + arrowHeight, bounds.left,
@@ -342,36 +342,36 @@ JXScrollbar::DrawVert
 	const JColorID backColor = JColorManager::GetDefaultBackColor();
 
 	if (itsDecrPushedFlag)
-		{
+	{
 		JXDrawDownArrowUp(p, itsDecrArrowRect[0], borderWidth, true, backColor);
 		JXDrawDownArrowUp(p, itsDecrArrowRect[1], borderWidth, true, backColor);
-		}
+	}
 	else
-		{
+	{
 		JXDrawUpArrowUp(p, itsDecrArrowRect[0], borderWidth, true, backColor);
 		JXDrawUpArrowUp(p, itsDecrArrowRect[1], borderWidth, true, backColor);
-		}
+	}
 
 	if (itsIncrPushedFlag)
-		{
+	{
 		JXDrawDownArrowDown(p, itsIncrArrowRect[0], borderWidth, true, backColor);
 		JXDrawDownArrowDown(p, itsIncrArrowRect[1], borderWidth, true, backColor);
-		}
+	}
 	else
-		{
+	{
 		JXDrawUpArrowDown(p, itsIncrArrowRect[0], borderWidth, true, backColor);
 		JXDrawUpArrowDown(p, itsIncrArrowRect[1], borderWidth, true, backColor);
-		}
+	}
 
 	// place the scrolltabs
 
 	if (itsScrolltabList != nullptr)
-		{
+	{
 		for (auto* tab : *itsScrolltabList)
-			{
+		{
 			tab->PlaceVert(minThumbLoc, maxThumbLoc, thumbLocScale);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -409,68 +409,68 @@ JXScrollbar::HandleMouseDown
 	Redraw();	// make sure rects are valid
 
 	if (button == kJXRightButton)
-		{
+	{
 		itsDragThumbOffset = itsThumbRect.topLeft() - itsThumbRect.center();
 		itsHereValue       = ClickToValue(pt + itsDragThumbOffset);
 		OpenActionMenu(pt, buttonStates, modifiers);
-		}
+	}
 	else if (button == kJXButton4)
-		{
+	{
 		StepArrow(-1, JXKeyModifiers(GetDisplay()));
-		}
+	}
 	else if (button == kJXButton5)
-		{
+	{
 		StepArrow(+1, JXKeyModifiers(GetDisplay()));
-		}
+	}
 	else if (itsDecrArrowRect[0].Contains(pt) || itsDecrArrowRect[1].Contains(pt))
-		{
+	{
 		itsDragAction     = kDecrementValue;
 		itsDecrPushedFlag = true;		// redraw correctly
 		StepArrow(-1, modifiers);
 		ScrollWait(kInitialScrollDelay);
 		itsDecrPushedFlag = false;		// ignore first HandleMouseDrag()
-		}
+	}
 	else if (itsIncrArrowRect[0].Contains(pt) || itsIncrArrowRect[1].Contains(pt))
-		{
+	{
 		itsDragAction     = kIncrementValue;
 		itsIncrPushedFlag = true;		// redraw correctly
 		StepArrow(+1, modifiers);
 		ScrollWait(kInitialScrollDelay);
 		itsIncrPushedFlag = false;		// ignore first HandleMouseDrag()
-		}
+	}
 	else if (button == kJXMiddleButton && itsThumbDragRect.Contains(pt))
-		{
+	{
 		itsDragAction      = kDragThumb;
 		itsDragThumbOffset = itsThumbRect.topLeft() - itsThumbRect.center();
 		SetValue(ClickToValue(pt + itsDragThumbOffset));
 		Redraw();
-		}
+	}
 	else if (itsThumbRect.Contains(pt))
-		{
+	{
 		if (modifiers.meta())
-			{
+		{
 			PlaceScrolltab();
-			}
+		}
 		else
-			{
+		{
 			itsDragAction      = kDragThumb;
 			itsDragThumbOffset = itsThumbRect.topLeft() - pt;
-			}
 		}
+	}
 	else if (itsDecrementPageRect.Contains(pt))
-		{
+	{
 		itsDragAction         = kDecrementPage;
 		itsDecrPagePushedFlag = false;		// ignore first HandleMouseDrag()
 		StepPage(-1);
 		ScrollWait(kInitialScrollDelay);
-		}
+	}
 	else if (itsIncrementPageRect.Contains(pt))
-		{
+	{
 		itsDragAction         = kIncrementPage;
 		itsIncrPagePushedFlag = false;		// ignore first HandleMouseDrag()
 		StepPage(+1);
 		ScrollWait(kInitialScrollDelay);
-		}
+	}
 }
 
 /******************************************************************************
@@ -487,66 +487,66 @@ JXScrollbar::HandleMouseDrag
 	)
 {
 	if (itsDragAction == kDragThumb)
-		{
+	{
 		SetValue(ClickToValue(pt + itsDragThumbOffset));
 		Redraw();
-		}
+	}
 	else if (itsDragAction == kDecrementValue)
-		{
+	{
 		const bool newDecrPushedFlag =
 			itsDecrArrowRect[0].Contains(pt) || itsDecrArrowRect[1].Contains(pt);
 		if (itsDecrPushedFlag != newDecrPushedFlag)
-			{
+		{
 			itsDecrPushedFlag = newDecrPushedFlag;
 			Redraw();
-			}
+		}
 		else if (itsDecrPushedFlag)
-			{
+		{
 			StepArrow(-1, modifiers);
 			ScrollWait(itsContScrollDelay);
-			}
 		}
+	}
 	else if (itsDragAction == kIncrementValue)
-		{
+	{
 		const bool newIncrPushedFlag =
 			itsIncrArrowRect[0].Contains(pt) || itsIncrArrowRect[1].Contains(pt);
 		if (itsIncrPushedFlag != newIncrPushedFlag)
-			{
+		{
 			itsIncrPushedFlag = newIncrPushedFlag;
 			Redraw();
-			}
+		}
 		else if (itsIncrPushedFlag)
-			{
+		{
 			StepArrow(+1, modifiers);
 			ScrollWait(itsContScrollDelay);
-			}
 		}
+	}
 	else if (itsDragAction == kDecrementPage &&
 			 itsDecrementPageRect.Contains(pt))
-		{
+	{
 		if (itsDecrPagePushedFlag)
-			{
+		{
 			StepPage(-1);
 			ScrollWait(itsContScrollDelay);
-			}
-		else
-			{
-			itsDecrPagePushedFlag = true;
-			}
 		}
+		else
+		{
+			itsDecrPagePushedFlag = true;
+		}
+	}
 	else if (itsDragAction == kIncrementPage &&
 			 itsIncrementPageRect.Contains(pt))
-		{
+	{
 		if (itsIncrPagePushedFlag)
-			{
+		{
 			StepPage(+1);
 			ScrollWait(itsContScrollDelay);
-			}
-		else
-			{
-			itsIncrPagePushedFlag = true;
-			}
 		}
+		else
+		{
+			itsIncrPagePushedFlag = true;
+		}
+	}
 }
 
 /******************************************************************************
@@ -582,15 +582,15 @@ JXScrollbar::StepArrow
 	)
 {
 	if (modifiers.shift())
-		{
+	{
 		DisplayCursor(itsSpeedScrollCursor);
 		AdjustValue(count * itsPageStepSize/2);
-		}
+	}
 	else
-		{
+	{
 		DisplayCursor(kJXDefaultCursor);
 		StepLine(count);
-		}
+	}
 }
 
 /******************************************************************************
@@ -608,13 +608,13 @@ JXScrollbar::AdjustCursor
 	if (modifiers.shift() &&
 		(itsDecrArrowRect[0].Contains(pt) || itsDecrArrowRect[1].Contains(pt) ||
 		 itsIncrArrowRect[0].Contains(pt) || itsIncrArrowRect[1].Contains(pt)))
-		{
+	{
 		DisplayCursor(itsSpeedScrollCursor);
-		}
+	}
 	else
-		{
+	{
 		JXWidget::AdjustCursor(pt, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -632,13 +632,13 @@ JXScrollbar::ClickToValue
 	const
 {
 	if (GetFrameWidth() > GetFrameHeight())
-		{
+	{
 		return ClickToValueHoriz(pt);
-		}
+	}
 	else
-		{
+	{
 		return ClickToValueVert(pt);
-		}
+	}
 }
 
 // private
@@ -653,19 +653,19 @@ JXScrollbar::ClickToValueHoriz
 	const JCoordinate minX = itsThumbDragRect.left;
 	const JCoordinate maxX = itsThumbDragRect.right - itsThumbRect.width();
 	if (pt.x <= minX)
-		{
+	{
 		return kMinValue;
-		}
+	}
 	if (pt.x >= maxX)
-		{
+	{
 		return itsMaxValue;
-		}
+	}
 	else
-		{
+	{
 		const JFloat pixelToValue =
 			(itsMaxValue - kMinValue)/(JFloat)(maxX - minX);
 		return (kMinValue + JRound(pixelToValue*(pt.x - minX)));
-		}
+	}
 }
 
 JCoordinate
@@ -678,19 +678,19 @@ JXScrollbar::ClickToValueVert
 	const JCoordinate minY = itsThumbDragRect.top;
 	const JCoordinate maxY = itsThumbDragRect.bottom - itsThumbRect.height();
 	if (pt.y <= minY)
-		{
+	{
 		return kMinValue;
-		}
+	}
 	if (pt.y >= maxY)
-		{
+	{
 		return itsMaxValue;
-		}
+	}
 	else
-		{
+	{
 		const JFloat pixelToValue =
 			(itsMaxValue - kMinValue)/(JFloat)(maxY - minY);
 		return (kMinValue + JRound(pixelToValue*(pt.y - minY)));
-		}
+	}
 }
 
 /******************************************************************************
@@ -706,20 +706,20 @@ JXScrollbar::SetValue
 {
 	JCoordinate trueValue = value;
 	if (trueValue < kMinValue)
-		{
+	{
 		trueValue = kMinValue;
-		}
+	}
 	if (trueValue > itsMaxValue)
-		{
+	{
 		trueValue = itsMaxValue;
-		}
+	}
 
 	if (trueValue != itsValue)
-		{
+	{
 		itsValue = trueValue;
 		Refresh();
 		Broadcast(Scrolled(itsValue));
-		}
+	}
 }
 
 /******************************************************************************
@@ -734,32 +734,32 @@ JXScrollbar::SetMaxValue
 	)
 {
 	if (maxValue != itsMaxValue && maxValue >= kMinValue)
-		{
+	{
 		// remove scrolltabs that are beyond the new maximum
 
 		if (itsScrolltabList != nullptr && maxValue < itsMaxValue)
-			{
+		{
 			const JSize tabCount = itsScrolltabList->GetElementCount();
 			for (JIndex i=tabCount; i>=1; i--)
-				{
+			{
 				JXScrolltab* tab = itsScrolltabList->GetElement(i);
 				if (tab->GetValue() > maxValue)
-					{
+				{
 					jdelete tab;
-					}
 				}
 			}
+		}
 
 		// set new maximum value
 
 		itsMaxValue = maxValue;
 		if (itsValue > itsMaxValue)
-			{
+		{
 			itsValue = itsMaxValue;
 			Broadcast(Scrolled(itsValue));
-			}
-		Refresh();
 		}
+		Refresh();
+	}
 }
 
 /******************************************************************************
@@ -795,14 +795,14 @@ void
 JXScrollbar::RemoveAllScrolltabs()
 {
 	if (itsScrolltabList != nullptr)
-		{
+	{
 		itsIgnoreScrolltabDeletedFlag = true;
 		itsScrolltabList->DeleteAll();
 		itsIgnoreScrolltabDeletedFlag = false;
 
 		jdelete itsScrolltabList;
 		itsScrolltabList = nullptr;
-		}
+	}
 }
 
 void
@@ -812,12 +812,12 @@ JXScrollbar::ScrolltabCreated
 	)
 {
 	if (itsScrolltabList == nullptr)
-		{
+	{
 		itsScrolltabList = jnew JPtrArray<JXScrolltab>(JPtrArrayT::kForgetAll);
 		assert( itsScrolltabList != nullptr );
 		itsScrolltabList->SetCompareFunction(CompareScrolltabValues);
 		itsScrolltabList->SetSortOrder(JListT::kSortAscending);
-		}
+	}
 
 	itsScrolltabList->InsertSorted(tab);
 }
@@ -829,14 +829,14 @@ JXScrollbar::ScrolltabDeleted
 	)
 {
 	if (itsScrolltabList != nullptr && !itsIgnoreScrolltabDeletedFlag)
-		{
+	{
 		itsScrolltabList->Remove(tab);
 		if (itsScrolltabList->IsEmpty())
-			{
+		{
 			jdelete itsScrolltabList;
 			itsScrolltabList = nullptr;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -853,9 +853,9 @@ JXScrollbar::ScrollToTab
 	)
 {
 	if (itsScrolltabList != nullptr && itsScrolltabList->IndexValid(tabIndex))
-		{
+	{
 		(itsScrolltabList->GetElement(tabIndex))->ScrollToTab();
-		}
+	}
 }
 
 /******************************************************************************
@@ -877,23 +877,23 @@ JXScrollbar::PrepareForLowerMaxValue
 	)
 {
 	if (itsScrolltabList != nullptr && length > 0)
-		{
+	{
 		const JCoordinate delta = - (JCoordinate) length;
 
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		for (JIndex i=tabCount; i>=1; i--)
-			{
+		{
 			JXScrolltab* tab = itsScrolltabList->GetElement(i);
 			if (tab->GetValue() >= start + (JCoordinate) length)
-				{
+			{
 				tab->AdjustValue(delta);
-				}
+			}
 			else if (tab->GetValue() >= start)
-				{
+			{
 				jdelete tab;
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -915,15 +915,15 @@ JXScrollbar::PrepareForHigherMaxValue
 	)
 {
 	if (itsScrolltabList != nullptr && length > 0)
-		{
+	{
 		for (auto* tab : *itsScrolltabList)
-			{
+		{
 			if (tab->GetValue() >= start)
-				{
+			{
 				tab->AdjustValue(length);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -942,12 +942,12 @@ JXScrollbar::PrepareForScaledMaxValue
 	)
 {
 	if (itsScrolltabList != nullptr && scaleFactor != 1.0)
-		{
+	{
 		for (auto* tab : *itsScrolltabList)
-			{
+		{
 			tab->ScaleValue(scaleFactor);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -969,33 +969,33 @@ JXScrollbar::StripMoved
 JIndex i;
 
 	if (itsScrolltabList != nullptr && origStart != newStart)
-		{
+	{
 		JPtrArray<JXScrolltab> savedTabList(JPtrArrayT::kForgetAll);
 
 		const JCoordinate origEnd = origStart + length-1;
 
 		const JSize tabCount = itsScrolltabList->GetElementCount();
 		for (i=tabCount; i>=1; i--)
-			{
+		{
 			JXScrolltab* tab    = itsScrolltabList->GetElement(i);
 			const JCoordinate v = tab->GetValue();
 			if (origStart <= v && v <= origEnd)
-				{
+			{
 				savedTabList.Append(tab);
 				itsScrolltabList->RemoveElement(i);
-				}
 			}
+		}
 
 		PrepareForLowerMaxValue(origStart, length);
 		PrepareForHigherMaxValue(newStart, length);	// consider moving strip to end
 
 		const JCoordinate delta = newStart - origStart;
 		for (auto* tab : savedTabList)
-			{
+		{
 			tab->AdjustValue(delta);
 			itsScrolltabList->InsertSorted(tab);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1017,19 +1017,19 @@ JXScrollbar::StripsSwapped
 {
 	JCoordinate s1, l1, s2, l2;
 	if (start1 < start2)
-		{
+	{
 		s1 = start1;
 		l1 = length1;
 		s2 = start2;
 		l2 = length2;
-		}
+	}
 	else
-		{
+	{
 		s1 = start2;
 		l1 = length2;
 		s2 = start1;
 		l2 = length1;
-		}
+	}
 
 	StripMoved(s2, l2, s1);
 	StripMoved(s1 + l2, l1, s2 + l2);
@@ -1051,17 +1051,17 @@ JXScrollbar::CompareScrolltabValues
 	const JCoordinate v2 = t2->GetValue();
 
 	if (v1 < v2)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (v1 == v2)
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1078,13 +1078,13 @@ JXScrollbar::ReadSetup
 	JFileVersion vers;
 	input >> vers;
 	if (vers <= kCurrentSetupVersion)
-		{
+	{
 		if (vers >= 1)
-			{
+		{
 			JCoordinate value;
 			input >> value;
 			SetValue(value);
-			}
+		}
 
 		RemoveAllScrolltabs();
 
@@ -1092,15 +1092,15 @@ JXScrollbar::ReadSetup
 		input >> tabCount;
 
 		for (JIndex i=1; i<=tabCount; i++)
-			{
+		{
 			JCoordinate value;
 			input >> value;
 
 			auto* tab = jnew JXScrolltab(this, value);
 			assert( tab != nullptr );
 			// tab registers itself
-			}
 		}
+	}
 
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
 }
@@ -1135,18 +1135,18 @@ JXScrollbar::WriteSetup
 	output << ' ' << itsValue;
 
 	if (itsScrolltabList != nullptr)
-		{
+	{
 		output << ' ' << itsScrolltabList->GetElementCount();
 
 		for (auto* tab : *itsScrolltabList)
-			{
-			output << ' ' << tab->GetValue();
-			}
-		}
-	else
 		{
-		output << " 0";
+			output << ' ' << tab->GetValue();
 		}
+	}
+	else
+	{
+		output << " 0";
+	}
 
 	output << kSetupDataEndDelimiter;
 }
@@ -1165,7 +1165,7 @@ JXScrollbar::OpenActionMenu
 	)
 {
 	if (itsActionMenu == nullptr)
-		{
+	{
 		itsActionMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsActionMenu != nullptr );
 		itsActionMenu->Hide();
@@ -1173,7 +1173,7 @@ JXScrollbar::OpenActionMenu
 		itsActionMenu->SetMenuItems(kActionMenuStr);
 		itsActionMenu->SetUpdateAction(JXMenu::kDisableNone);
 		ListenTo(itsActionMenu);
-		}
+	}
 
 	itsActionMenu->PopUp(this, pt, buttonStates, modifiers);
 }
@@ -1191,17 +1191,17 @@ JXScrollbar::Receive
 	)
 {
 	if (sender == itsActionMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleActionMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXWidget::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1216,26 +1216,26 @@ JXScrollbar::HandleActionMenu
 	)
 {
 	if (index == kScrollHereCmd)
-		{
+	{
 		SetValue(itsHereValue);
-		}
+	}
 	else if (index == kScrollTopCmd)
-		{
+	{
 		ScrollToMin();
-		}
+	}
 	else if (index == kScrollBottomCmd)
-		{
+	{
 		ScrollToMax();
-		}
+	}
 
 	else if (index == kNewScrolltabCmd)
-		{
+	{
 		PlaceScrolltab();
-		}
+	}
 	else if (index == kRemoveAllTabsCmd)
-		{
+	{
 		RemoveAllScrolltabs();
-		}
+	}
 }
 
 /******************************************************************************

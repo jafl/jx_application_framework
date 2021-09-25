@@ -80,12 +80,12 @@ JXKeyModifiers::AllOff()
 	const
 {
 	for (JIndex i=1; i<=kXModifierCount; i++)
-		{
+	{
 		if (itsState[i])
-			{
+		{
 			return false;
-			}
 		}
+	}
 	return true;
 }
 
@@ -121,12 +121,12 @@ JXKeyModifiers::GetState()
 {
 	unsigned int state = 0;
 	for (JIndex i=1; i<=kXModifierCount; i++)
-		{
+	{
 		if (itsState[i])
-			{
+		{
 			state |= (1L << (i-1));
-			}
 		}
+	}
 	return state;
 }
 
@@ -149,9 +149,9 @@ JXKeyModifiers::SetState
 	itsState[0] = false;
 
 	for (JIndex i=1; i<=kXModifierCount; i++)
-		{
+	{
 		itsState[i] = (state & (1L << (i-1))) != 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -163,9 +163,9 @@ void
 JXKeyModifiers::Clear()
 {
 	for (JUnsignedOffset i=0; i<=kXModifierCount; i++)
-		{
+	{
 		itsState[i] = false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -187,13 +187,13 @@ JXKeyModifiers::GetState
 	const int* map = display->GetJXKeyModifierMapping();
 	const int j    = map[i];
 	if (j > 0)
-		{
+	{
 		return (state & (1L << (j-1))) != 0;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -216,15 +216,15 @@ JXKeyModifiers::SetState
 	const int* map = display->GetJXKeyModifierMapping();
 	const int j    = map[i];
 	if (j == 0)
-		{
+	{
 		return state;
-		}
+	}
 	else if (pushed)
-		{
+	{
 		return (state | (1L << (j-1)));
-		}
+	}
 	else
-		{
+	{
 		return (state & ~(1L << (j-1)));
-		}
+	}
 }

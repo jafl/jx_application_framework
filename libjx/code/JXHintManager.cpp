@@ -84,19 +84,19 @@ JXHintManager::HandleMouseHere
 	)
 {
 	if (itsActiveFlag)
-		{
+	{
 		const Time t = JXGetApplication()->GetCurrentTime();
 		if (itsDirector == nullptr && pt == itsPrevPt &&
 			t - itsStartTime > kHintWaitDelay)
-			{
+		{
 			CreateHintWindow(rect);
-			}
+		}
 		else if (itsDirector == nullptr && pt != itsPrevPt)
-			{
+		{
 			itsStartTime = t;
 			itsPrevPt    = pt;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -128,17 +128,17 @@ void
 JXHintManager::CreateHintWindow()
 {
 	if (itsDirOwner == nullptr)
-		{
+	{
 		itsDirOwner = jnew JXDirector(nullptr);
 		assert( itsDirOwner != nullptr );
-		}
+	}
 
 	if (itsDirector == nullptr)
-		{
+	{
 		itsDirector = jnew JXHintDirector(itsDirOwner, itsWidget, itsText);
 		assert( itsDirector != nullptr );
 		itsDirector->Activate();
-		}
+	}
 
 	(itsWidget->GetWindow())->SetCurrentHintManager(this);
 }
@@ -150,17 +150,17 @@ JXHintManager::CreateHintWindow
 	)
 {
 	if (itsDirOwner == nullptr)
-		{
+	{
 		itsDirOwner = jnew JXDirector(nullptr);
 		assert( itsDirOwner != nullptr );
-		}
+	}
 
 	if (itsDirector == nullptr)
-		{
+	{
 		itsDirector = jnew JXHintDirector(itsDirOwner, itsWidget, rect, itsText);
 		assert( itsDirector != nullptr );
 		itsDirector->Activate();
-		}
+	}
 
 	(itsWidget->GetWindow())->SetCurrentHintManager(this);
 }
@@ -174,11 +174,11 @@ void
 JXHintManager::DestroyWindow()
 {
 	if (itsDirOwner != nullptr)
-		{
+	{
 		itsDirOwner->Close();
 		itsDirOwner = nullptr;
 		itsDirector = nullptr;
 
 		(itsWidget->GetWindow())->SetCurrentHintManager(nullptr);
-		}
+	}
 }

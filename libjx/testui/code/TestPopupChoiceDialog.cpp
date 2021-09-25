@@ -97,25 +97,25 @@ TestPopupChoiceDialog::BuildWindow()
 	JXDisplay* display = window->GetDisplay();
 
 	static const JColorID kSmileyColor[] =
-	{
+{
 		JColorManager::GetWhiteColor(),
 		JColorManager::GetRedColor(),
 		JColorManager::GetBlueColor(),
 		JColorManager::GetBlackColor()
-	};
+};
 
 	JXImage* titleImage = nullptr;
 	for (JUnsignedOffset i=0; i<kSmileyBitmapCount; i++)
-		{
+	{
 		JXImage* image = jnew JXImage(display, kSmileyBitmap[i], kSmileyColor[i]);
 		assert( image != nullptr );
 		iconMenu->AppendItem(image, true);
 
 		if (i == 0)
-			{
+		{
 			titleImage = image;
-			}
 		}
+	}
 
 	// set title to image so SetToPopupChoice() will change the title
 	iconMenu->SetTitle(JString::empty, titleImage, false);

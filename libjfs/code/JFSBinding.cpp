@@ -60,32 +60,32 @@ JFSBinding::JFSBinding
 	input >> itsPattern >> itsCmd;
 
 	if (vers < 2)
-		{
+	{
 		ConvertCommand(&itsCmd);
 		JIgnoreLine(input);		// alternate cmd
 
 		*isDefault = itsPattern == kOrigDefaultMarker;
 		if (*isDefault)
-			{
+		{
 			itsPattern.Clear();
-			}
+		}
 
 		itsCmdType        = kRunPlain;
 		itsSingleFileFlag = itsCmd.Contains("$");
-		}
+	}
 	else
-		{
+	{
 		*isDefault = itsPattern.IsEmpty();
 
 		input >> itsCmdType >> JBoolFromString(itsSingleFileFlag);
-		}
+	}
 
 	*del = itsCmd.IsEmpty();
 
 	if (!(*del))
-		{
+	{
 		UpdateRegex();
-		}
+	}
 }
 
 /******************************************************************************
@@ -113,23 +113,23 @@ JFSBinding::Match
 	const
 {
 	if (itsCmd.IsEmpty())
-		{
+	{
 		return false;
-		}
+	}
 	else if (itsContentRegex != nullptr)
-		{
+	{
 		return (content.BeginsWith(itsLiteralPrefix) &&
 				itsContentRegex->Match(content));
-		}
+	}
 	else if (itsNameRegex != nullptr)
-		{
+	{
 		return itsNameRegex->Match(fileName);
-		}
+	}
 	else
-		{
+	{
 		return (!itsPattern.IsEmpty() &&
 				fileName.EndsWith(itsPattern, JString::kIgnoreCase));
-		}
+	}
 }
 
 /******************************************************************************
@@ -141,55 +141,55 @@ void
 JFSBinding::UpdateRegex()
 {
 	if (itsPattern.BeginsWith(kContentRegexMarker))
-		{
+	{
 		jdelete itsNameRegex;
 		itsNameRegex = nullptr;
 
 		if (itsContentRegex == nullptr)
-			{
+		{
 			itsContentRegex = jnew JRegex;
 			assert( itsContentRegex != nullptr );
 			itsContentRegex->SetSingleLine(true);
-			}
+		}
 
 		if (itsContentRegex->SetPattern(itsPattern).OK())
-			{
+		{
 			CalcLiteralPrefix();
-			}
+		}
 		else
-			{
+		{
 			jdelete itsContentRegex;
 			itsContentRegex = nullptr;
-			}
 		}
+	}
 	else if (itsPattern.Contains(kNameRegexMarker))
-		{
+	{
 		jdelete itsContentRegex;
 		itsContentRegex = nullptr;
 
 		if (itsNameRegex == nullptr)
-			{
+		{
 			itsNameRegex = jnew JRegex;
 			assert( itsNameRegex != nullptr );
-			}
+		}
 
 		JString s;
 		const bool ok = JDirInfo::BuildRegexFromWildcardFilter(itsPattern, &s);
 		assert( ok );
 		if (!itsNameRegex->SetPattern(s).OK())
-			{
+		{
 			jdelete itsNameRegex;
 			itsNameRegex = nullptr;
-			}
 		}
+	}
 	else
-		{
+	{
 		jdelete itsNameRegex;
 		itsNameRegex = nullptr;
 
 		jdelete itsContentRegex;
 		itsContentRegex = nullptr;
-		}
+	}
 }
 
 /******************************************************************************
@@ -219,14 +219,14 @@ JFSBinding::CalcLiteralPrefix()
 	JIndex i = 1;	// skip leading ^
 	while (s[i] != '\0' && s[i] != '\\' &&
 		   !JRegex::NeedsBackslashToBeLiteral(s[i]))
-		{
+	{
 		i++;
-		}
+	}
 
 	if (s[i] == '?')
-		{
+	{
 		i--;
-		}
+	}
 
 	itsLiteralPrefix.Set(itsPattern, JCharacterRange(2, i));
 }
@@ -244,15 +244,15 @@ JFSBinding::ConvertCommand
 {
 	JStringIterator iter(cmd);
 	while (iter.Next("\"$f\""))
-		{
+	{
 		iter.ReplaceLastMatch("$q");
-		}
+	}
 
 	iter.MoveTo(kJIteratorStartAtBeginning, 0);
 	while (iter.Next("$f"))
-		{
+	{
 		iter.ReplaceLastMatch("$u");
-		}
+	}
 }
 
 /******************************************************************************
@@ -268,17 +268,17 @@ JFSBinding::GetCommandType
 	)
 {
 	if (window)
-		{
+	{
 		return JFSBinding::kRunInWindow;
-		}
+	}
 	else if (shell)
-		{
+	{
 		return JFSBinding::kRunInShell;
-		}
+	}
 	else
-		{
+	{
 		return JFSBinding::kRunPlain;
-		}
+	}
 }
 
 /******************************************************************************
@@ -346,22 +346,22 @@ operator>>
 	input.get(c);
 
 	if (c == kPlainMarker)
-		{
+	{
 		type = JFSBinding::kRunPlain;
-		}
+	}
 	else if (c == kShellMarker)
-		{
+	{
 		type = JFSBinding::kRunInShell;
-		}
+	}
 	else if (c == kWindowMarker)
-		{
+	{
 		type = JFSBinding::kRunInWindow;
-		}
+	}
 	else
-		{
+	{
 		input.putback(c);
 		JSetState(input, std::ios::failbit);
-		}
+	}
 
 	return input;
 }
@@ -374,21 +374,21 @@ operator<<
 	)
 {
 	if (type == JFSBinding::kRunPlain)
-		{
+	{
 		output << kPlainMarker;
-		}
+	}
 	else if (type == JFSBinding::kRunInShell)
-		{
+	{
 		output << kShellMarker;
-		}
+	}
 	else if (type == JFSBinding::kRunInWindow)
-		{
+	{
 		output << kWindowMarker;
-		}
+	}
 	else
-		{
+	{
 		assert( 0 );	// no other possible values for JFSBinding::CommandType
-		}
+	}
 
 	return output;
 }

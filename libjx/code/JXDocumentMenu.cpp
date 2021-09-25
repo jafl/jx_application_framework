@@ -86,28 +86,28 @@ JXDocumentMenu::Receive
 	)
 {
 	if (sender == this && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		itsDocMgr->UpdateDocumentMenu(this);
-		}
+	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		JXDocument* doc;
 		if (itsDocMgr->GetDocument(selection->GetIndex(), &doc))	// doc might close while menu is open
-			{
+		{
 			doc->Activate();
-			}
 		}
+	}
 
 	else if (sender == itsDocMgr && message.Is(JXDocumentManager::kDocMenuNeedsUpdate))
-		{
+	{
 		itsDocMgr->UpdateDocumentMenu(this);
-		}
+	}
 
 	else
-		{
+	{
 		JXTextMenu::Receive(sender, message);
-		}
+	}
 }

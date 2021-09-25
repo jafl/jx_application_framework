@@ -37,30 +37,30 @@ main
 	)
 {
 	if (argc == 3 && strcmp(argv[1], "-i") == 0)
-		{
+	{
 		JUInt portNumber;
 		if (JString::ConvertToUInt(argv[2], &portNumber))
-			{
+		{
 			RunINETServer(portNumber);
-			}
+		}
 		else
-			{
+		{
 			std::cerr << "invalid port number" << std::endl;
 			return 1;
-			}
 		}
+	}
 
 	else if (argc == 3 && strcmp(argv[1], "-u") == 0)
-		{
+	{
 		RunUNIXServer(argv[2]);
-		}
+	}
 
 	else
-		{
+	{
 		std::cerr << "usage: " << argv[0];
 		std::cerr << " (-i port_number)|(-u socket_name)" << std::endl;
 		return 1;
-		}
+	}
 
 	return 0;
 }
@@ -93,40 +93,40 @@ RunINETServer
 	// Create the socket.
 
 	if (acceptor.open(addr) == -1)
-		{
+	{
 		std::cerr << "error trying to open port: " << jerrno() << std::endl;
 		exit(1);
-		}
+	}
 
 	// Process 3 connections.  This lets us test the shutdown code easily.
 
 	for (JSize i=1; i<=3; i++)
-		{
+	{
 		if (acceptor.accept(socket) == -1)
-			{
+		{
 			std::cerr << "error waiting for connection: " << jerrno() << std::endl;
 			break;
-			}
+		}
 
 		// Send and receive messages.
 
 		std::cout << "Connection established, fd=" << socket.get_handle() << std::endl;
 		if (!TalkToClient(socket))
-			{
+		{
 			i--;
-			}
+		}
 
 		// Close the socket.
 
 		if (socket.close() == -1) 
-			{
+		{
 			std::cerr << "error trying to close connection: " << jerrno() << std::endl;
-			}
+		}
 
 		// This tests that queued clients are willing to wait.
 
 		JWait(2.0);
-		}
+	}
 
 	// Close the socket.  This does not happen automatically.
 
@@ -166,40 +166,40 @@ RunUNIXServer
 	// Create the socket.
 
 	if (acceptor.open(addr) == -1)
-		{
+	{
 		std::cerr << "error trying to create socket: " << jerrno() << std::endl;
 		exit(1);
-		}
+	}
 
 	// Process 3 connections.  This lets us test the shutdown code easily.
 
 	for (JIndex i=1; i<=3; i++)
-		{
+	{
 		if (acceptor.accept(socket) == -1)
-			{
+		{
 			std::cerr << "error waiting for connection: " << jerrno() << std::endl;
 			break;
-			}
+		}
 
 		// Send and receive messages.
 
 		std::cout << "Connection established, fd=" << socket.get_handle() << std::endl;
 		if (!TalkToClient(socket))
-			{
+		{
 			i--;
-			}
+		}
 
 		// Close the socket.
 
 		if (socket.close() == -1) 
-			{
+		{
 			std::cerr << "error trying to close connection: " << jerrno() << std::endl;
-			}
+		}
 
 		// This tests that queued clients are willing to wait.
 
 		JWait(2.0);
-		}
+	}
 
 	// Close the socket.  This does not happen automatically.
 

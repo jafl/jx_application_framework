@@ -51,9 +51,9 @@ TestTextEditor::TestTextEditor
 	itsFirstUndoDepthCmdIndex(0)
 {
 	if (!editable)
-		{
+	{
 		SetType(kSelectableText);
-		}
+	}
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != nullptr );
@@ -63,14 +63,14 @@ TestTextEditor::TestTextEditor
 
 	JXTextMenu* editMenu;
 	if (GetEditMenu(&editMenu))
-		{
+	{
 		const JSize editCount = editMenu->GetItemCount();
 		editMenu->ShowSeparatorAfter(editCount);
 
 		itsAutoIndentCmdIndex     = editCount + 1;
 		itsFirstUndoDepthCmdIndex = itsAutoIndentCmdIndex + 1;
 		editMenu->AppendMenuItems(kEditMenuStr);
-		}
+	}
 }
 
 /******************************************************************************
@@ -99,19 +99,19 @@ TestTextEditor::Receive
 	GetEditMenu(&editMenu);
 
 	if (sender == editMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateCustomEditMenuItems();
-		}
+	}
 	else if (sender == editMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		if (HandleCustomEditMenuItems(selection->GetIndex()))
-			{
+		{
 			return;
-			}
 		}
+	}
 
 	JXTextEditor::Receive(sender, message);
 }
@@ -125,9 +125,9 @@ void
 TestTextEditor::UpdateCustomEditMenuItems()
 {
 	if (itsAutoIndentCmdIndex == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	JXTextMenu* editMenu;
 	const bool ok = GetEditMenu(&editMenu);
@@ -135,20 +135,20 @@ TestTextEditor::UpdateCustomEditMenuItems()
 
 	editMenu->EnableItem(itsAutoIndentCmdIndex);
 	if (GetText()->WillAutoIndent())
-		{
+	{
 		editMenu->CheckItem(itsAutoIndentCmdIndex);
-		}
+	}
 
 	const JSize undoDepth = GetText()->GetUndoDepth();
 	for (JUnsignedOffset i=0; i<kUndoDepthCount; i++)
-		{
+	{
 		const JIndex itemIndex = itsFirstUndoDepthCmdIndex + i;
 		editMenu->EnableItem(itemIndex);
 		if (undoDepth == kUndoDepth[i])
-			{
+		{
 			editMenu->CheckItem(itemIndex);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -165,17 +165,17 @@ TestTextEditor::HandleCustomEditMenuItems
 	)
 {
 	if (index == itsAutoIndentCmdIndex)
-		{
+	{
 		GetText()->ShouldAutoIndent(!GetText()->WillAutoIndent());
 		return true;
-		}
+	}
 	else if (itsFirstUndoDepthCmdIndex > 0 && index >= itsFirstUndoDepthCmdIndex)
-		{
+	{
 		GetText()->SetUndoDepth(kUndoDepth[ index - itsFirstUndoDepthCmdIndex ]);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }

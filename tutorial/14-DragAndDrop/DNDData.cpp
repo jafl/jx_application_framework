@@ -62,24 +62,24 @@ DNDData::SetData
 {
 	// create the data array if it doesn't already exist
 	if (itsPoints == nullptr)
-		{
+	{
 		itsPoints = jnew JArray<JPoint>;
 		assert(itsPoints != nullptr);
-		}
+	}
 
 	// if the data had been set previously, we want to remove all of
 	// the old points.
 	else
-		{
+	{
 		itsPoints->RemoveAll();
-		}
+	}
 
 	// we now loop through all of the points and add them to our list.
 	const JSize count	= points.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		itsPoints->AppendElement(points.GetElement(i));
-		}
+	}
 
 	// since the data has changed, the data buffer is no longer valid. It
 	// is safe to delete it if it is still nullptr.
@@ -125,7 +125,7 @@ DNDData::ConvertData
 	*bitsPerBlock = 8;
 
 	if (requestType == itsLinesXAtom && itsPoints != nullptr && !itsPoints->IsEmpty())
-		{
+	{
 		// This initializes and builds our data buffer.
 		CreateBuffer();
 
@@ -134,11 +134,11 @@ DNDData::ConvertData
 		*dataLength = itsBuffer->GetLength();
 		*data = jnew unsigned char[ *dataLength ];
 		if (*data != nullptr)
-			{
+		{
 			memcpy(*data, *itsBuffer, *dataLength);
 			return true;
-			}
 		}
+	}
 
 	// If we reached this point, than it was either not our data type, or
 	// we had no data.
@@ -182,7 +182,7 @@ DNDData::CreateBuffer()
 	assert(th != nullptr);
 	
 	if (itsBuffer == nullptr)
-		{
+	{
 		std::ostringstream os;
 
 		// Write out the point count.
@@ -191,13 +191,13 @@ DNDData::CreateBuffer()
 
 		// Loop through the points and write out their data.
 		for (JIndex i = 1; i <= count; i++)
-			{
+		{
 			JPoint point	= itsPoints->GetElement(i);
 			os << point << ' ';
-			}
+		}
 
 		// Create our buffer with the character pointer.
 		th->itsBuffer  = jnew JString(os.str());
 		assert( th->itsBuffer != nullptr );
-		}
+	}
 }

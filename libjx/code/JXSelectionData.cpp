@@ -140,11 +140,11 @@ JXSelectionData::SetSelectionInfo
 	itsStartTime     = startTime;
 
 	if (selectionName != GetDNDSelectionName())
-		{
+	{
 		JXSelectionManager* selMgr = GetSelectionManager();
 		AddType(selMgr->GetTargetsXAtom());
 		AddType(selMgr->GetTimeStampXAtom());
-		}
+	}
 
 	AddTypes(selectionName);
 }
@@ -182,9 +182,9 @@ JXSelectionData::RemoveType
 {
 	JIndex index;
 	if (itsTypeList->SearchSorted(type, JListT::kAnyMatch, &index))
-		{
+	{
 		itsTypeList->RemoveElement(index);
-		}
+	}
 }
 
 /******************************************************************************
@@ -204,7 +204,7 @@ JXSelectionData::Resolve()
 	const
 {
 	if (itsDataSource != nullptr && itsDataSourceID != nullptr)
-		{
+	{
 		auto* me = const_cast<JXSelectionData*>(this);
 
 		itsDataSource->GetSelectionData(me, *itsDataSourceID);
@@ -212,7 +212,7 @@ JXSelectionData::Resolve()
 		jdelete me->itsDataSourceID;
 		me->itsDataSource   = nullptr;
 		me->itsDataSourceID = nullptr;
-		}
+	}
 }
 
 /******************************************************************************
@@ -241,7 +241,7 @@ JXSelectionData::Convert
 	// TARGETS
 
 	if (requestType == selMgr->GetTargetsXAtom())
-		{
+	{
 		const JSize atomCount = itsTypeList->GetElementCount();
 		assert( atomCount > 0 );
 
@@ -251,46 +251,46 @@ JXSelectionData::Convert
 
 		*data = jnew unsigned char [ *dataLength ];
 		if (*data == nullptr)
-			{
+		{
 			return false;
-			}
+		}
 
 		Atom* atomData = reinterpret_cast<Atom*>(*data);
 		for (JIndex i=1; i<=atomCount; i++)
-			{
+		{
 			atomData[i-1] = itsTypeList->GetElement(i);
-			}
+		}
 
 		return true;
-		}
+	}
 
 	// TIMESTAMP
 
 	else if (requestType == selMgr->GetTimeStampXAtom())
-		{
+	{
 		*returnType   = XA_INTEGER;
 		*bitsPerBlock = 32;	// sizeof(Time)*8; -- fails on 64-bit systems
 		*dataLength   = sizeof(Time);
 
 		*data = jnew unsigned char [ *dataLength ];
 		if (*data == nullptr)
-			{
+		{
 			return false;
-			}
+		}
 
 		*(reinterpret_cast<Time*>(*data)) = itsStartTime;
 
 		return true;
-		}
+	}
 
 	// everything else
 
 	else
-		{
+	{
 		Resolve();
 		return ConvertData(requestType, returnType,
 						   data, dataLength, bitsPerBlock);
-		}
+	}
 }
 
 /******************************************************************************
@@ -335,15 +335,15 @@ JXSelectionData::ReceiveGoingAway
 	)
 {
 	if (sender == itsDataSource)
-		{
+	{
 		jdelete itsDataSourceID;
 		itsDataSource   = nullptr;
 		itsDataSourceID = nullptr;
-		}
+	}
 	else
-		{
+	{
 		JBroadcaster::ReceiveGoingAway(sender);
-		}
+	}
 }
 
 /******************************************************************************
@@ -359,15 +359,15 @@ JXSelectionData::CompareAtoms
 	)
 {
 	if (atom1 < atom2)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (atom1 == atom2)
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 }

@@ -342,9 +342,9 @@ JTEST(GetCmdStatus)
 {
 	JArray<bool> status;
 	for (JIndex i=1; i<=JTextEditor::kCmdCount; i++)
-		{
+	{
 		status.AppendElement(false);
-		}
+	}
 
 	StyledText text(true);
 	text.SetText(JString("Foursc" "\xC3\xB8" "re and seven years ago...", JString::kNoCopy));
@@ -731,9 +731,9 @@ JTEST(SearchStyle)
 
 	bool wrapped;
 	bool found = te.SearchForward([] (const JFont& f)
-		{
+	{
 		return f.GetStyle().italic;
-		},
+	},
 		false, &wrapped);
 
 	JAssertFalse(found);
@@ -752,9 +752,9 @@ JTEST(SearchStyle)
 	JAssertFalse(wrapped);
 
 	found = te.SearchForward([] (const JFont& f)
-		{
+	{
 		return f.GetStyle().underlineCount > 0;
-		},
+	},
 		true, &wrapped);
 
 	JAssertTrue(found);

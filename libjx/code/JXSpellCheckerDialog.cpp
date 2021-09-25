@@ -77,10 +77,10 @@ bool
 JXSpellCheckerDialog::Deactivate()
 {
 	if (IsActive())
-		{
+	{
 		JXWindow* w = GetWindow();
 		itsChecker->SaveWindowSize(w->GetFrameGlobal());
-		}
+	}
 
 	itsEditor->TEDeactivate();
 	return JXDialogDirector::Deactivate();
@@ -100,9 +100,9 @@ JXSpellCheckerDialog::Close()
 	itsEditor->SetCaretLocation(itsCheckRange.charRange.first);
 
 	if (!itsFoundErrorsFlag && itsChecker->WillReportNoErrors())
-		{
+	{
 		JGetUserNotification()->DisplayMessage(JGetString("NoErrors::JXSpellCheckerDialog"));
-		}
+	}
 
 	return JXDialogDirector::Close();		// deletes us if successful
 }
@@ -219,9 +219,9 @@ JXSpellCheckerDialog::BuildWindow()
 
 	const JPoint& pt = itsChecker->GetWindowSize();
 	if (pt.x > 0 && pt.y > 0)
-		{
+	{
 		window->SetSize(pt.x, pt.y);
-		}
+	}
 
 	const JRect wFrame   = window->GetFrameGlobal();
 	const JCoordinate ww = wFrame.width();
@@ -236,38 +236,38 @@ JXSpellCheckerDialog::BuildWindow()
 	JCoordinate y = eFrame.top + (eFrame.height() - wh) / 2;
 
 	if (eFrame.right + ww <= rootBounds.right)
-		{
+	{
 		x = eFrame.right;
-		}
+	}
 	else if (eFrame.left - ww >= rootBounds.left)
-		{
+	{
 		x = eFrame.left - ww;
-		}
+	}
 	else if (eFrame.bottom + wh <= rootBounds.bottom)
-		{
+	{
 		y = eFrame.bottom;
-		}
+	}
 	else if (eFrame.top - wh >= rootBounds.top)
-		{
+	{
 		y = eFrame.top - wh;
-		}
+	}
 	else
-		{
+	{
 		x = eFrame.right;
-		}
+	}
 
 	// try to keep entire window visible
 
 	if (x + ww > rootBounds.right)
-		{
+	{
 		x = rootBounds.right - ww;
-		}
+	}
 	x = JMax(rootBounds.left, x);
 
 	if (y + wh > rootBounds.bottom)
-		{
+	{
 		y = rootBounds.bottom - wh;
-		}
+	}
 	y = JMax(rootBounds.top, y);
 
 	window->Place(x, y);
@@ -283,25 +283,25 @@ JXSpellCheckerDialog::Check()
 {
 	bool keepGoing = true;
 	while (keepGoing)
-		{
+	{
 		const JStyledText::TextIndex end   = itsEditor->GetText()->GetWordEnd(itsCurrentIndex);
 		const JStyledText::TextIndex start = itsEditor->GetText()->GetWordStart(end);
 		if (end.charIndex < start.charIndex ||
 			!itsEditor->GetText()->GetText().CharacterIndexValid(itsCurrentIndex.charIndex) ||
 			itsCheckRange.charRange.last < start.charIndex)
-			{
+		{
 			if (IsActive())
-				{
-				EndDialog(true);
-				}
-			else
-				{
-				Close();
-				}
-			return;
-			}
-		else
 			{
+				EndDialog(true);
+			}
+			else
+			{
+				Close();
+			}
+			return;
+		}
+		else
+		{
 			const JStyledText::TextIndex beyondEnd =
 				itsEditor->GetText()->AdjustTextIndex(end, +1);
 
@@ -316,25 +316,25 @@ JXSpellCheckerDialog::Check()
 			itsCurrentIndex = beyondEnd;
 
 			if (!keepGoing)
-				{
+			{
 				itsFoundErrorsFlag = true;
 				itsCheckText->GetText()->SetText(word);
 
 				if (itsSuggestionList->IsEmpty())
-					{
+				{
 					itsFirstGuess->GetText()->SetText(JString::empty);
-					}
+				}
 				else if (goodFirstSuggestion)
-					{
+				{
 					itsFirstGuess->GetText()->SetText(*(itsSuggestionList->GetElement(1)));
-					}
+				}
 				itsSuggestionWidget->SetStringList(itsSuggestionList);
 
 				itsEditor->TEScrollToSelection(false);
 				BeginDialog();
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -350,7 +350,7 @@ JXSpellCheckerDialog::Receive
 	)
 {
 	if (sender == itsSuggestionWidget && message.Is(JXSpellList::kWordSelected))
-		{
+	{
 		const auto* choice =
 			dynamic_cast<const JXSpellList::WordSelected*>(&message);
 		assert( choice != nullptr );
@@ -359,9 +359,9 @@ JXSpellCheckerDialog::Receive
 		itsFirstGuess->Focus();
 		itsIgnoreButton->SetShortcuts(JString::empty);
 		itsChangeButton->SetShortcuts(JGetString("DefaultButtonShortcut::JXSpellCheckerDialog"));
-		}
+	}
 	else if (sender == itsSuggestionWidget && message.Is(JXSpellList::kReplaceWord))
-		{
+	{
 		const auto* choice =
 			dynamic_cast<const JXSpellList::ReplaceWord*>(&message);
 		assert( choice != nullptr );
@@ -369,9 +369,9 @@ JXSpellCheckerDialog::Receive
 		itsFirstGuess->GetText()->SetText(choice->GetWord());
 		Change();
 		Check();
-		}
+	}
 	else if (sender == itsSuggestionWidget && message.Is(JXSpellList::kReplaceWordAll))
-		{
+	{
 		const auto* choice =
 			dynamic_cast<const JXSpellList::ReplaceWordAll*>(&message);
 		assert( choice != nullptr );
@@ -379,58 +379,58 @@ JXSpellCheckerDialog::Receive
 		itsFirstGuess->GetText()->SetText(choice->GetWord());
 		ChangeAll();
 		Check();
-		}
+	}
 
 	else if (sender == itsFirstGuess &&
 			 (message.Is(JStyledText::kTextChanged) ||
 			  message.Is(JStyledText::kTextSet)))
-		{
+	{
 		if (itsFirstGuess->GetText()->IsEmpty())
-			{
+		{
 			itsIgnoreButton->SetShortcuts(JGetString("DefaultButtonShortcut::JXSpellCheckerDialog"));
 			itsChangeButton->SetShortcuts(JString::empty);
 			itsChangeButton->Deactivate();
 			itsChangeAllButton->Deactivate();
-			}
+		}
 		else
-			{
+		{
 			itsIgnoreButton->SetShortcuts(JString::empty);
 			itsChangeButton->SetShortcuts(JGetString("DefaultButtonShortcut::JXSpellCheckerDialog"));
 			itsChangeButton->Activate();
 			itsChangeAllButton->Activate();
-			}
 		}
+	}
 
 	else if (sender == itsIgnoreButton && message.Is(JXButton::kPushed))
-		{
+	{
 		itsChecker->Ignore(itsCheckText->GetText()->GetText());
 		Check();
-		}
+	}
 	else if (sender == itsChangeButton && message.Is(JXButton::kPushed))
-		{
+	{
 		Change();
 		Check();
-		}
+	}
 	else if (sender == itsChangeAllButton && message.Is(JXButton::kPushed))
-		{
+	{
 		ChangeAll();
 		Check();
-		}
+	}
 	else if (sender == itsLearnButton && message.Is(JXButton::kPushed))
-		{
+	{
 		itsChecker->Learn(itsCheckText->GetText()->GetText());
 		Check();
-		}
+	}
 	else if (sender == itsLearnCapsButton && message.Is(JXButton::kPushed))
-		{
+	{
 		itsChecker->LearnCaps(itsCheckText->GetText()->GetText());
 		Check();
-		}
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -470,7 +470,7 @@ JXSpellCheckerDialog::ChangeAll()
 	JCharacterRange r;
 	while (!itsEditor->JTextEditor::SearchForward(pattern, true, false, &wrapped).IsEmpty() &&
 		   itsEditor->GetSelection(&r) && r.first <= itsCheckRange.charRange.last)
-		{
+	{
 		itsEditor->Paste(newWord);
 
 		itsCheckRange.charRange.last -= oldWord.GetCharacterCount();
@@ -478,5 +478,5 @@ JXSpellCheckerDialog::ChangeAll()
 
 		itsCheckRange.charRange.last += newWord.GetCharacterCount();
 		itsCheckRange.byteRange.last += newWord.GetByteCount();
-		}
+	}
 }

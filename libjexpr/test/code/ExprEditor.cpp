@@ -238,8 +238,8 @@ ExprEditor::CheckCmdStatus
 	JAssertEqual(expected.GetElementCount(), count);
 
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		JString s((JUInt64) i);
 		JAssertEqualWithMessage(expected.GetElement(i), (bool) status.GetElement(i), s.GetBytes());
-		}
+	}
 }

@@ -71,12 +71,12 @@ struct jUIDInfo
 	JString*	shell;
 
 	void Free()
-	{
+{
 		jdelete userName;
 		jdelete realName;
 		jdelete homeDirectory;
 		jdelete shell;
-	};
+};
 };
 
 static JArray<jUIDInfo> theUserInfoMap;
@@ -95,9 +95,9 @@ static void
 jCleanUserInfoMap()
 {
 	for (auto info : theUserInfoMap)
-		{
+	{
 		info.Free();
-		}
+	}
 }
 
 static bool
@@ -108,23 +108,23 @@ jGetUserInfo
 	)
 {
 	if (theUserInfoMap.IsEmpty())
-		{
+	{
 		theUserInfoMap.SetCompareFunction(jCompareUIDs);
 		theUserInfoMap.SetSortOrder(JListT::kSortAscending);
 		atexit(jCleanUserInfoMap);
-		}
+	}
 
 	const jUIDInfo target = { uid, nullptr, nullptr };
 	JIndex i;
 	if (theUserInfoMap.SearchSorted(target, JListT::kAnyMatch, &i))
-		{
+	{
 		*info = theUserInfoMap.GetElement(i);
-		}
+	}
 	else
-		{
+	{
 		passwd* pwbuf = getpwuid(uid);
 		if (pwbuf != nullptr)
-			{
+		{
 			info->userName = jnew JString(pwbuf->pw_name);
 			assert( info->userName != nullptr );
 
@@ -140,12 +140,12 @@ jGetUserInfo
 			info->id = uid;
 			const bool inserted = theUserInfoMap.InsertSorted(*info, false);
 			assert( inserted );
-			}
-		else
-			{
-			info->userName = info->realName = info->homeDirectory = info->shell = nullptr;
-			}
 		}
+		else
+		{
+			info->userName = info->realName = info->homeDirectory = info->shell = nullptr;
+		}
+	}
 
 	return info->userName != nullptr;
 }
@@ -171,13 +171,13 @@ JGetUserName
 {
 	jUIDInfo info;
 	if (jGetUserInfo(uid, &info))
-		{
+	{
 		return *(info.userName);
-		}
+	}
 	else
-		{
+	{
 		return JString(uid, 0, JString::kForceNoExponent);
-		}
+	}
 }
 
 /******************************************************************************
@@ -201,14 +201,14 @@ JGetUserRealWorldName
 {
 	jUIDInfo info;
 	if (jGetUserInfo(uid, &info))
-		{
+	{
 		return *((info.realName)->IsEmpty() ?
 				 info.userName : info.realName);
-		}
+	}
 	else
-		{
+	{
 		return JString(uid, 0, JString::kForceNoExponent);
-		}
+	}
 }
 
 /******************************************************************************
@@ -232,13 +232,13 @@ JGetUserHomeDirectory
 {
 	jUIDInfo info;
 	if (jGetUserInfo(uid, &info))
-		{
+	{
 		return *(info.homeDirectory);
-		}
+	}
 	else
-		{
+	{
 		return JGetRootDirectory();
-		}
+	}
 }
 
 /******************************************************************************
@@ -262,13 +262,13 @@ JGetUserShell
 {
 	jUIDInfo info;
 	if (jGetUserInfo(uid, &info))
-		{
+	{
 		return *(info.shell);
-		}
+	}
 	else
-		{
+	{
 		return JString("/bin/sh");
-		}
+	}
 }
 
 /******************************************************************************
@@ -304,34 +304,34 @@ jGetGroupInfo
 	)
 {
 	if (groupInfoMap.IsEmpty())
-		{
+	{
 		groupInfoMap.SetCompareFunction(jCompareGIDs);
 		groupInfoMap.SetSortOrder(JListT::kSortAscending);
-		}
+	}
 
 	const jGIDInfo target = { gid, nullptr };
 	JIndex i;
 	if (groupInfoMap.SearchSorted(target, JListT::kAnyMatch, &i))
-		{
+	{
 		*info = groupInfoMap.GetElement(i);
-		}
+	}
 	else
-		{
+	{
 		group* grpbuf = getgrgid(gid);
 		if (grpbuf != nullptr)
-			{
+		{
 			info->groupName = jnew JString(grpbuf->gr_name);
 			assert( info->groupName != nullptr );
 
 			info->id = gid;
 			const bool inserted = groupInfoMap.InsertSorted(*info, false);
 			assert( inserted );
-			}
-		else
-			{
-			info->groupName = nullptr;
-			}
 		}
+		else
+		{
+			info->groupName = nullptr;
+		}
+	}
 
 	return info->groupName != nullptr;
 }
@@ -357,13 +357,13 @@ JGetGroupName
 {
 	jGIDInfo info;
 	if (jGetGroupInfo(gid, &info))
-		{
+	{
 		return *(info.groupName);
-		}
+	}
 	else
-		{
+	{
 		return JString(gid, 0, JString::kForceNoExponent);
-		}
+	}
 }
 
 /******************************************************************************
@@ -408,21 +408,21 @@ JCreatePipe
 {
 	jclear_errno();
 	if (pipe(fd) == 0)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == EFAULT)
-		{
+	{
 		return JSegFault();
-		}
+	}
 	else if (err == EMFILE || err == ENFILE)
-		{
+	{
 		return JTooManyDescriptorsOpen();
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }

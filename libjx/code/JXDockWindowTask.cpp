@@ -55,19 +55,19 @@ JXDockWindowTask::JXDockWindowTask
 	itsPoint(topLeft)
 {
 	if (itsWindow->IsIconified())
-		{
+	{
 		itsWindow->Deiconify();
 		itsState = kDeiconifying;
-		}
+	}
 	else if (itsWindow->IsVisible() && !itsWindow->IsDocked())
-		{
+	{
 		itsWindow->PrivateHide();
 		itsState = kUnmapping;
-		}
+	}
 	else
-		{
+	{
 		itsState = kReparent;
-		}
+	}
 
 	ClearWhenGoingAway(itsWindow, &itsWindow);
 
@@ -75,9 +75,9 @@ JXDockWindowTask::JXDockWindowTask
 
 	JXTabGroup* tabGroup = dock->GetTabGroup();
 	if (theUpdateList != nullptr && !theUpdateList->Includes(tabGroup))
-		{
+	{
 		theUpdateList->Append(tabGroup);
-		}
+	}
 }
 
 /******************************************************************************
@@ -89,15 +89,15 @@ JXDockWindowTask::~JXDockWindowTask()
 {
 	theTaskCount--;
 	if (theTaskCount == 0 && theUpdateList != nullptr)
-		{
+	{
 		for (auto* g : *theUpdateList)
-			{
+		{
 			g->ShowTab(1);
-			}
+		}
 
 		jdelete theUpdateList;
 		theUpdateList = nullptr;
-		}
+	}
 }
 
 /******************************************************************************
@@ -109,10 +109,10 @@ void
 JXDockWindowTask::PrepareForDockAll()
 {
 	if (theUpdateList == nullptr)
-		{
+	{
 		theUpdateList = jnew JPtrArray<JXTabGroup>(JPtrArrayT::kForgetAll);
 		assert( theUpdateList != nullptr );
-		}
+	}
 }
 
 /******************************************************************************
@@ -128,57 +128,57 @@ JXDockWindowTask::Perform
 	)
 {
 	if (itsWindow == nullptr)
-		{
+	{
 		jdelete this;
 		return;
-		}
+	}
 
 	if (itsState == kDeiconifying ||
 		itsState == kUnmapping    ||
 		!TimeToPerform(delta, maxSleepTime))
-		{
+	{
 		// wait
-		}
+	}
 	else if (itsState == kReparent)
-		{
+	{
 		XReparentWindow(*(itsWindow->GetDisplay()), itsWindow->GetXWindow(),
 						itsParent, itsPoint.x, itsPoint.y);
 		itsWindow->itsRootChild = None;
 
 		itsState = kCheckParent;
 		SetPeriod(kCheckParentInterval);
-		}
+	}
 	else if (itsState == kCheckParent)
-		{
+	{
 		Window root, parent, *childList;
 		unsigned int childCount;
 		if (!XQueryTree(*itsWindow->GetDisplay(), itsWindow->GetXWindow(),
 						&root, &parent, &childList, &childCount))
-			{
+		{
 			jdelete this;
 			return;
-			}
+		}
 		XFree(childList);
 
 		if (parent == itsParent)
-			{
+		{
 			itsState = kShowWindow;
 			ResetTimer();
 			SetPeriod(kShowDelay);
-			}
+		}
 		else // if (parent == root)
-			{
+		{
 			std::cerr << "XReparentWindow failed during docking:  trying again" << std::endl;
 			XReparentWindow(*(itsWindow->GetDisplay()), itsWindow->GetXWindow(),
 							itsParent, itsPoint.x, itsPoint.y);
 			itsWindow->itsRootChild = None;
-			}
 		}
+	}
 	else	// itsState == kShowWindow
-		{
+	{
 		itsWindow->GetDirector()->Activate();
 		jdelete this;
-		}
+	}
 }
 
 /******************************************************************************
@@ -209,24 +209,24 @@ JXDockWindowTask::Receive
 	)
 {
 	if (sender == itsWindow && message.Is(JXWindow::kMapped))
-		{
+	{
 		if (itsState == kDeiconifying)
-			{
+		{
 			itsWindow->PrivateHide();
 			itsState = kUnmapping;
 			ResetTimer();
-			}
 		}
+	}
 	else if (sender == itsWindow && message.Is(JXWindow::kUnmapped))
-		{
+	{
 		if (itsState == kUnmapping)
-			{
+		{
 			itsState = kReparent;
 			ResetTimer();
-			}
 		}
+	}
 	else
-		{
+	{
 		JBroadcaster::Receive(sender, message);
-		}
+	}
 }

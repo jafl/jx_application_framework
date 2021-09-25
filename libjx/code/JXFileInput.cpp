@@ -118,19 +118,19 @@ bool
 JXFileInput::InputValid()
 {
 	if (itsAllowInvalidFileFlag)
-		{
+	{
 		return true;
-		}
+	}
 	else if (!JXFSInputBase::InputValid())
-		{
+	{
 		return false;
-		}
+	}
 
 	const JString& text = GetText()->GetText();
 	if (text.IsEmpty())
-		{
+	{
 		return !IsRequired();
-		}
+	}
 
 	JString basePath;
 	const bool hasBasePath = GetBasePath(&basePath);
@@ -138,37 +138,37 @@ JXFileInput::InputValid()
 	JString fullName;
 	const JUtf8Byte* errID = nullptr;
 	if (JIsRelativePath(text) && !hasBasePath)
-		{
+	{
 		errID = "NoRelPath::JXFileInput";
 		GetText()->RestyleAll();
-		}
+	}
 	else if (!JConvertToAbsolutePath(text, basePath, &fullName) ||
 			 !JFileExists(fullName))
-		{
+	{
 		errID = "DoesNotExist::JXFileInput";
-		}
+	}
 	else if (itsRequireReadFlag && !JFileReadable(fullName))
-		{
+	{
 		errID = "Unreadable::JXFileInput";
-		}
+	}
 	else if (itsRequireWriteFlag && !JFileWritable(fullName))
-		{
+	{
 		errID = "Unwritable::JXFileInput";
-		}
+	}
 	else if (itsRequireExecFlag && !JFileExecutable(fullName))
-		{
+	{
 		errID = "CannotExec::JXFileInput";
-		}
+	}
 
 	if (JString::IsEmpty(errID))
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString(errID));
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -193,9 +193,9 @@ JXFileInput::GetTextColor
 	)
 {
 	if (fileName.IsEmpty())
-		{
+	{
 		return JColorManager::GetBlackColor();
-		}
+	}
 
 	JString fullName;
 	if ((JIsAbsolutePath(fileName) || !basePath.IsEmpty()) &&
@@ -203,13 +203,13 @@ JXFileInput::GetTextColor
 		(!requireRead  || JFileReadable(fullName)) &&
 		(!requireWrite || JFileWritable(fullName)) &&
 		(!requireExec  || JFileExecutable(fullName)))
-		{
+	{
 		return JColorManager::GetBlackColor();
-		}
+	}
 	else
-		{
+	{
 		return JColorManager::GetRedColor();
-		}
+	}
 }
 
 /******************************************************************************
@@ -229,18 +229,18 @@ JXFileInput::GetTextForChooseFile()
 	const bool hasBasePath = GetBasePath(&basePath);
 
 	if (text.IsEmpty() && hasBasePath)
-		{
+	{
 		text = basePath;
 		JAppendDirSeparator(&text);
-		}
+	}
 	if (text.EndsWith(ACE_DIRECTORY_SEPARATOR_STR))
-		{
+	{
 		text.Append("*");
-		}
+	}
 	if (!text.IsEmpty() && JIsRelativePath(text) && hasBasePath)
-		{
+	{
 		text = JCombinePathAndName(basePath, text);
-		}
+	}
 	return text;
 }
 
@@ -261,14 +261,14 @@ JXFileInput::ChooseFile
 	const JString origName = GetTextForChooseFile();
 	JString newName;
 	if (JGetChooseSaveFile()->ChooseFile(prompt, instr, origName, &newName))
-		{
+	{
 		GetText()->SetText(newName);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -288,14 +288,14 @@ JXFileInput::SaveFile
 	const JString origName = GetTextForChooseFile();
 	JString newName;
 	if (JGetChooseSaveFile()->SaveFile(prompt, instr, origName, &newName))
-		{
+	{
 		GetText()->SetText(newName);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -315,9 +315,9 @@ JXFileInput::StyledText::ComputeErrorLength
 	const
 {
 	if (fullName.IsEmpty())
-		{
+	{
 		return totalLength;
-		}
+	}
 
 	auto* f = dynamic_cast<JXFileInput*>(field);
 
@@ -325,19 +325,19 @@ JXFileInput::StyledText::ComputeErrorLength
 		(f->itsRequireReadFlag  && !JFileReadable(fullName)) ||
 		(f->itsRequireWriteFlag && !JFileWritable(fullName)) ||
 		(f->itsRequireExecFlag  && !JFileExecutable(fullName)))
-		{
+	{
 		const JString closestDir = JGetClosestDirectory(fullName, false);
 		if (fullName.BeginsWith(closestDir))
-			{
-			return fullName.GetCharacterCount() - closestDir.GetCharacterCount();
-			}
-		else
-			{
-			return totalLength;
-			}
-		}
-	else
 		{
-		return 0;
+			return fullName.GetCharacterCount() - closestDir.GetCharacterCount();
 		}
+		else
+		{
+			return totalLength;
+		}
+	}
+	else
+	{
+		return 0;
+	}
 }

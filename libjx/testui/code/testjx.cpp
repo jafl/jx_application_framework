@@ -44,9 +44,9 @@ main
 
 	if (wantMDI &&
 		!TestMDIServer::WillBeMDIServer(TestApp::GetAppSignature(), argc, argv))
-		{
+	{
 		return 0;
-		}
+	}
 
 	TestApp* app = jnew TestApp(&argc, argv, wantMDI);
 	assert( app != nullptr );
@@ -90,29 +90,29 @@ ParseTextOptions
 
 	long index = 1;
 	while (index < *argc)
-		{
+	{
 		if (strcmp(argv[index], "-h") == 0 ||
 			strcmp(argv[index], "--help") == 0)
-			{
+		{
 			TestApp::InitStrings();
 			TestMDIServer::PrintCommandLineHelp();
 			exit(0);
-			}
+		}
 		else if (strcmp(argv[index], "-v") == 0 ||
 				 strcmp(argv[index], "--version") == 0)
-			{
+		{
 			TestApp::InitStrings();
 			PrintVersion();
 			exit(0);
-			}
+		}
 		else if (strcmp(argv[index], "-MDI") == 0)
-			{
+		{
 			*wantMDI = true;
 			JXApplication::RemoveCmdLineOption(argc, argv, index, 1);
 			index--;
-			}
-		index++;
 		}
+		index++;
+	}
 }
 
 /******************************************************************************
@@ -143,29 +143,29 @@ ParseXOptions
 
 	long index = 1;
 	while (index < argc)
-		{
+	{
 		if (strcmp(argv[index], "-iconic") == 0)
-			{
+		{
 			*startIconic = true;
-			}
-		else if (strcmp(argv[index], "-nobuffer") == 0)
-			{
-			*bufferTestWidget = false;
-			}
-		else if (strcmp(argv[index], "-imagebuffer") == 0)
-			{
-			*testWidgetIsImage = true;
-			}
-		else if (strcmp(argv[index], "-snoopwindow") == 0)
-			{
-			*snoopWindow = true;
-			}
-		else
-			{
-			std::cerr << argv[0] << ": unknown option " << argv[index] << std::endl;
-			}
-		index++;
 		}
+		else if (strcmp(argv[index], "-nobuffer") == 0)
+		{
+			*bufferTestWidget = false;
+		}
+		else if (strcmp(argv[index], "-imagebuffer") == 0)
+		{
+			*testWidgetIsImage = true;
+		}
+		else if (strcmp(argv[index], "-snoopwindow") == 0)
+		{
+			*snoopWindow = true;
+		}
+		else
+		{
+			std::cerr << argv[0] << ": unknown option " << argv[index] << std::endl;
+		}
+		index++;
+	}
 }
 
 /******************************************************************************

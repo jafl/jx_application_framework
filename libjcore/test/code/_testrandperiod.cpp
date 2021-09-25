@@ -35,10 +35,10 @@ main()
 	const clock_t startCallibrationClock = clock();
 
 	do
-		{
+	{
 		seed = JKLRandInt32(seed);
 		++period;
-		}
+	}
 		while(period < callibrationCycles);
 
 	const time_t  endCallibrationTime = time(nullptr);
@@ -49,9 +49,9 @@ main()
 	time_t deltaCallibrationTime = endCallibrationTime-startCallibrationTime;
 	// time() rounds off strangely, try to ensure an over- rather than under-estimate
 	while (deltaCallibrationTime < deltaCallibrationClock)
-		{
+	{
 		++deltaCallibrationTime;
-		}
+	}
 	std::cout << "\n   Callibration run time : " << deltaCallibrationClock
 			  << " processor sec in " << deltaCallibrationTime << " real sec." << std::endl;
 
@@ -76,10 +76,10 @@ main()
 	const clock_t startClock = clock();
 
 	do
-		{
+	{
 		seed = JKLRandInt32(seed);
 		++period;
-		}
+	}
 		while(seed != startSeed);
 
 	clock_t endClock = clock();
@@ -94,16 +94,16 @@ main()
 			  << " processor sec in " << deltaTime << " real sec." << std::endl;
 
 	if (period != 0)
-		{
+	{
 		std::cout << "\n   JKLRandInt32 has a period of " << period << std::endl;
 		std::cout << "   Maximum possible period is 2^32 ~ " << maxPeriod
 				  << ",\n   so the period is " << period/maxPeriod << " of ideal." << std::endl;
-		}
+	}
 	else
-		{
+	{
 		std::cout << "\n   JKLRandInt32 has a period of 2^32 ~ " << maxPeriod
 				  << ", the maximum possible." << std::endl;
-		}
+	}
 
 	std::cout << "\nFinished Knuth-Morris test.  Whew, that worked up a sweat.\n" << std::endl;
 

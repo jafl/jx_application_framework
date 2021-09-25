@@ -123,10 +123,10 @@ main
 	// check if we are being invoked to build the dependency graph
 
 	if (argc > 2 && strcmp(argv[1], "--depend") == 0)
-		{
+	{
 		CalcDepend(2, argc, argv);
 		return 0;
-		}
+	}
 
 	// parse the command line options
 
@@ -159,33 +159,33 @@ main
 	std::ifstream input(inputName.GetBytes());
 	input >> std::ws;
 	while (!input.eof() && !input.fail())
-		{
+	{
 		if (input.peek() == '-')
-			{
+		{
 			input.ignore(1);
 			JString cmd   = JReadUntil(input, ' ');
 			JString value = JReadUntil(input, '\n');
 			input >> std::ws;
 			value.TrimWhitespace();
 			if (cmd == "suffix")
-				{
+			{
 				defSuffix = value;
-				}
+			}
 			else
-				{
+			{
 				std::cerr << argv[0] << ": unknown parameter: " << cmd << '\n';
-				}
-			}
-		else if (input.peek() == '#')
-			{
-			JIgnoreLine(input);
-			input >> std::ws;
-			}
-		else
-			{
-			break;
 			}
 		}
+		else if (input.peek() == '#')
+		{
+			JIgnoreLine(input);
+			input >> std::ws;
+		}
+		else
+		{
+			break;
+		}
+	}
 
 	// If a target has no dependencies, we assume that they are the
 	// same as the following target.  This counter keeps track of
@@ -197,7 +197,7 @@ main
 	// process each target
 
 	while (input.get() == '@' && !input.eof() && !input.fail())
-		{
+	{
 		JString prefix;
 		bool usesJava = false;
 
@@ -214,12 +214,12 @@ main
 		const bool shouldMakeTarget =
 			ShouldMakeTarget(*mainTargetName, userTargetList);
 		if (!shouldMakeTarget && prevEmptyTargets == 0)
-			{
+		{
 			jdelete mainTargetName;
 			JIgnoreUntil(input, '@');
 			input.putback('@');
 			continue;
-			}
+		}
 
 		auto* mainTargetObjs = jnew JString;
 		assert( mainTargetObjs != nullptr );
@@ -227,54 +227,54 @@ main
 		// get the names of the files that the main target depends on
 
 		while (!input.eof() && !input.fail() && input.peek() != '@')
-			{
+		{
 			// set option
 
 			if (input.peek() == '-')
-				{
+			{
 				input.ignore(1);
 				JString cmd   = JReadUntil(input, ' ');
 				JString value = JReadUntil(input, '\n');
 				input >> std::ws;
 				value.TrimWhitespace();
 				if (cmd == "prefix")
-					{
+				{
 					prefix = value;
-					}
-				else if (cmd == "suffix")
-					{
-					defSuffix = value;
-					}
-				else
-					{
-					std::cerr << argv[0] << ": unknown parameter: " << cmd << '\n';
-					}
-				continue;
 				}
+				else if (cmd == "suffix")
+				{
+					defSuffix = value;
+				}
+				else
+				{
+					std::cerr << argv[0] << ": unknown parameter: " << cmd << '\n';
+				}
+				continue;
+			}
 
 			// comment
 
 			if (input.peek() == '#')
-				{
+			{
 				JIgnoreLine(input);
 				input >> std::ws;
 				continue;
-				}
+			}
 
 			JString fullName = JReadUntil(input, '\n');
 			input >> std::ws;
 
 			fullName.TrimWhitespace();
 			if (fullName.IsEmpty())
-				{
+			{
 				continue;
-				}
+			}
 
 			// binary object file
 
 			JStringIterator fnIter(&fullName);
 			if (fnIter.Next(objFileSuffix))
-				{
+			{
 				const JStringMatch& m = fnIter.GetLastMatch();
 				JString suffix(m.GetString());
 				suffix.TrimWhitespace();
@@ -289,13 +289,13 @@ main
 
 				usesJava = usesJava || javaObjFileSuffix.Match(suffix);
 				continue;
-				}
+			}
 
 			// raw text
 
 			fnIter.MoveTo(kJIteratorStartAtBeginning, 0);
 			if (fnIter.Next(kDontInterpretFlag))
-				{
+			{
 				fnIter.RemoveAllPrev();
 				fullName.TrimWhitespace();	// invalidates fnIter
 
@@ -303,7 +303,7 @@ main
 				*mainTargetObjs += fullName;
 
 				continue;
-				}
+			}
 
 			// analyze 
 
@@ -313,7 +313,7 @@ main
 			JString* suffixName    = nullptr;
 			JString* outSuffixName = nullptr;
 			if (fnIter.Next(linePattern))
-				{
+			{
 				const JStringMatch& m = fnIter.GetLastMatch();
 
 				targetName = jnew JString(m.GetSubstring("target"));
@@ -326,18 +326,18 @@ main
 				assert( outSuffixName != nullptr );
 
 				if (outSuffixName->IsEmpty())
-					{
-					*outSuffixName = GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut);
-					}
-				}
-			else if (fullName.GetFirstCharacter() == '.')
 				{
+					*outSuffixName = GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut);
+				}
+			}
+			else if (fullName.GetFirstCharacter() == '.')
+			{
 				std::cerr << argv[0] << ": invalid dependency \"";
 				std::cerr << fullName << "\"\n";
 				continue;
-				}
+			}
 			else
-				{
+			{
 				targetName = jnew JString(fullName);
 				assert( targetName != nullptr );
 				suffixName = jnew JString(defSuffix);
@@ -345,7 +345,7 @@ main
 				outSuffixName = jnew JString(
 					GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut));
 				assert( outSuffixName != nullptr );
-				}
+			}
 
 			fnIter.Invalidate();
 
@@ -362,23 +362,23 @@ main
 			JString targetPrefix, targetSuffix;
 			JSplitPathAndName(*targetName, &targetPrefix, &targetSuffix);
 			if (targetSuffix.GetCharacterCount() < targetName->GetCharacterCount())
-				{
+			{
 				*prefixName += targetPrefix;
 				*targetName  = targetSuffix;
-				}
+			}
 
 			auto* outPrefixName = jnew JString;
 			assert( outPrefixName != nullptr );
 
 			*mainTargetObjs += " ";
 			if (!outputDirName.IsEmpty())
-				{
+			{
 				*outPrefixName = "${" + outputDirName + "}/";
-				}
+			}
 			else
-				{
+			{
 				*outPrefixName = *prefixName;
-				}
+			}
 			*mainTargetObjs += *outPrefixName;
 			*mainTargetObjs += *targetName;
 			*mainTargetObjs += *outSuffixName;
@@ -387,63 +387,63 @@ main
 
 			AddSubTarget(targetList, prefixList, suffixList, outPrefixList, outSuffixList,
 						 targetName, prefixName, suffixName, outPrefixName, outSuffixName);
-			}
+		}
 
 		// If the dependency list is empty, remember it for later.
 
 		if (mainTargetObjs->IsEmpty() && shouldMakeTarget)
-			{
+		{
 			prevEmptyTargets++;
-			}
+		}
 
 		// If the dependency list is not empty, fill in the previous
 		// empty ones.
 
 		else if (prevEmptyTargets > 0)
-			{
+		{
 			const JSize mainTargetCount = mainTargetObjsList.GetElementCount();
 			for (JIndex i=1; i<=prevEmptyTargets; i++)
-				{
+			{
 				const JIndex j = mainTargetCount-i+1;
 				*(mainTargetObjsList.GetElement(j)) = *mainTargetObjs;
 				javaTargetList.SetElement(j, usesJava);
-				}
-			prevEmptyTargets = 0;
 			}
+			prevEmptyTargets = 0;
+		}
 
 		// Now that we have filled in any previous targets that
 		// needed our dependencies, we can finish this target.
 
 		if (shouldMakeTarget)
-			{
+		{
 			mainTargetList.Append(mainTargetName);
 			mainTargetObjsList.Append(mainTargetObjs);
 			javaTargetList.AppendElement(usesJava);
-			}
+		}
 		else
-			{
+		{
 			jdelete mainTargetName;
 			jdelete mainTargetObjs;
-			}
 		}
+	}
 
 	// check that no trailing targets were empty
 
 	if (prevEmptyTargets != 0)
-		{
+	{
 		std::cerr << argv[0] << ": empty target found at end of " << inputName << '\n';
 		return 1;
-		}
+	}
 
 // build the output file: we start with defineText + a copy of the header file
 // and then append the make rules to the output file
 
 	std::ofstream output(outputName.GetBytes());
 	if (output.fail())
-		{
+	{
 		std::cerr << argv[0] << ": unable to write to " << outputName << std::endl;
 		return 1;
-		}
+	}
 
 	output << "# This file was automatically generated by makemake.\n";
 	output << "# Do not edit it directly!\n";
@@ -453,7 +453,7 @@ main
 	output << "\n";
 
 	JString footerText;
-	{
+{
 	JString s;
 	JReadFile(headerName, &s);
 
@@ -465,11 +465,11 @@ main
 	headerText->Print(output);
 
 	if (list.GetElementCount() > 1)
-		{
+	{
 		footerText = *(list.GetLastElement());
 		footerText.TrimWhitespace();
-		}
 	}
+}
 
 	output << "\n\n\n# This is what makemake added\n\n";
 
@@ -477,9 +477,9 @@ main
 
 	const JSize mainTargetCount = mainTargetList.GetElementCount();
 	const JSize targetCount     = targetList.GetElementCount();
-	{
+{
 	for (JIndex i=1; i<=mainTargetCount; i++)
-		{
+	{
 		JString* mainTargetName = mainTargetList.GetElement(i);
 		JString* mainTargetObjs = mainTargetObjsList.GetElement(i);
 
@@ -499,7 +499,7 @@ main
 		// append the actual link command
 
 		if (javaTargetList.GetElement(i))
-			{
+		{
 			output << "\t${JAVAC} ${JFLAGS} "
 					  "-classpath ${JPATH}:${filter %.jar %.zip %.class, $^} "
 					  "${filter-out %.jar %.zip %.class, $^}\n";
@@ -519,9 +519,9 @@ main
 
 			output << "  endif\n";
 			output << "  endif\n";
-			}
+		}
 		else
-			{
+		{
 			output << "  ifeq (${suffix ";
 			mainTargetName->Print(output);
 			output << "}, .a)\n";
@@ -540,23 +540,23 @@ main
 				output << "\t${LINKER} ${LDFLAGS} -o $@ $^ ${LOADLIBES}\n";
 
 			output << "  endif\n";
-			}
 		}
 	}
+}
 	output << '\n';
 
 // define a variable to contain all targets
 
 	output << "# list of all targets\n\n";
 	output << "MM_ALL_TARGETS :=";
-	{
+{
 	for (JIndex i=1; i<=mainTargetCount; i++)
-		{
+	{
 		JString* mainTargetName = mainTargetList.GetElement(i);
 		output << ' ';
 		mainTargetName->Print(output);
-		}
 	}
+}
 	output << "\n\n";
 
 // append a target so user can easily make all files
@@ -571,15 +571,15 @@ main
 	output << ".PHONY : tidy\n";
 	output << "tidy::\n";
 	output << "\t@${RM} core";
-	{
+{
 	for (JIndex i=1; i<=targetCount; i++)
-		{
+	{
 		output << ' ';
 		(outPrefixList.GetElement(i))->Print(output);
 		(targetList.GetElement(i))->Print(output);
 		(outSuffixList.GetElement(i))->Print(output);
-		}
 	}
+}
 	output << "\n\n";
 
 // append a target so user can easily remove everything
@@ -593,15 +593,15 @@ main
 
 	output << "# list of all source files\n\n";
 	output << "MM_ALL_SOURCES :=";
-	{
+{
 	for (JIndex i=1; i<=targetCount; i++)
-		{
+	{
 		output << ' ';
 		(prefixList.GetElement(i))->Print(output);
 		(targetList.GetElement(i))->Print(output);
 		(suffixList.GetElement(i))->Print(output);
-		}
 	}
+}
 	output << "\n\n";
 
 // append a target to allow checking of syntax of a particular file
@@ -630,11 +630,11 @@ main
 // append footer, if any
 
 	if (!footerText.IsEmpty())
-		{
+	{
 		output << "# from Make.header\n\n";
 		footerText.Print(output);
 		output << "\n\n\n";
-		}
+	}
 
 // append a target to build the initial dependencies via makedepend
 
@@ -651,15 +651,15 @@ main
 	JString tempFileName;
 	const JError err = JCreateTempFile(&tempFileName);
 	if (!err.OK())
-		{
+	{
 		std::cerr << argv[0] << ": error creating temporary file: " << err.GetMessage() << std::endl;
 		return 1;
-		}
-	{
+	}
+{
 	for (JIndex i=1; i<=targetCount; i++)
-		{
+	{
 		if (!noParseFileSuffix.Match(*(suffixList.GetElement(i))))
-			{
+		{
 			// write the file to parse
 
 			output << "\t@echo ";
@@ -675,26 +675,26 @@ main
 			PrintForMake(output, *(targetList.GetElement(i)));
 			PrintForMake(output, *(outSuffixList.GetElement(i)));
 			output << " >> " << kDependInputFile << '\n';
-			}
 		}
 	}
+}
 #endif
 
 	output << "\t@" << kMakemakeBinary << " --depend ";
 	outputName.Print(output);
 	if (!outputDirName.IsEmpty())
-		{
+	{
 		output << ' ' << kObjDirArg << ' ';
 		outputDirName.Print(output);
-		}
+	}
 	if (!searchSysDir)
-		{
+	{
 		output << ' ' << kNoStdIncArg;
-		}
+	}
 	if (assumeAutoGen)
-		{
+	{
 		output << ' ' << kAutoGenArg;
-		}
+	}
 	output << " -- ${DEPENDFLAGS} -- ";
 
 #if USE_TEMP_FILE_FOR_DEPEND
@@ -702,11 +702,11 @@ main
 	output << kDependInputFile;
 
 #else
-	{
+{
 	for (JIndex i=1; i<=targetCount; i++)
-		{
+	{
 		if (!noParseFileSuffix.Match(*(suffixList.GetElement(i))))
-			{
+		{
 			// write the file to parse
 
 			output << ' ';
@@ -720,9 +720,9 @@ main
 			PrintForMake(output, *(outPrefixList.GetElement(i)));
 			PrintForMake(output, *(targetList.GetElement(i)));
 			PrintForMake(output, *(outSuffixList.GetElement(i)));
-			}
 		}
 	}
+}
 #endif
 
 	output << "\n\n\n";
@@ -731,10 +731,10 @@ main
 
 	output << kMakedependMarkerStr << '\n';
 	if (output.fail())
-		{
+	{
 		std::cerr << argv[0] << ": error while writing to " << outputName << std::endl;
 		return 1;
-		}
+	}
 	output.close();
 
 	// build the dependency graph
@@ -750,13 +750,13 @@ main
 	tempFileDef += tempFileName;
 
 	const JUtf8Byte* depArgv[] =
-		{ kMakeBinary, makemakeBinaryDef.GetBytes(), tempFileDef.GetBytes(),
+	{ kMakeBinary, makemakeBinaryDef.GetBytes(), tempFileDef.GetBytes(),
 		  "-f", outputName.GetBytes(), kDependTargetName, nullptr };
 
 #else
 
 	const JUtf8Byte* depArgv[] =
-		{ kMakeBinary, makemakeBinaryDef.GetBytes(),
+	{ kMakeBinary, makemakeBinaryDef.GetBytes(),
 		  "-f", outputName.GetBytes(), kDependTargetName, nullptr };
 
 #endif
@@ -765,10 +765,10 @@ main
 	const JError depErr =
 		JProcess::Create(&p, depArgv, sizeof(depArgv));
 	if (!depErr.OK())
-		{
+	{
 		std::cerr << argv[0] << ": " << depErr.GetMessage() << std::endl;
 		return 1;
-		}
+	}
 	p->WaitUntilFinished();
 
 #if USE_TEMP_FILE_FOR_DEPEND
@@ -778,16 +778,16 @@ main
 	JUpdateCVSIgnore(outputName);
 
 	if (p->SuccessfulFinish())
-		{
+	{
 		jdelete p;
 		return 0;
-		}
+	}
 	else
-		{
+	{
 		std::cerr << argv[0] << ": error while calculating dependencies" << std::endl;
 		jdelete p;
 		return 1;
-		}
+	}
 }
 
 /******************************************************************************
@@ -806,18 +806,18 @@ ShouldMakeTarget
 	)
 {
 	if (list.IsEmpty())
-		{
+	{
 		return true;
-		}
+	}
 
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if (target == *(list.GetElement(i)))
-			{
+		{
 			return true;
-			}
 		}
+	}
 	return false;
 }
 
@@ -851,23 +851,23 @@ AddSubTarget
 		targetList.SearchSorted1(targetName, JListT::kAnyMatch, &found);
 
 	if (found)
-		{
+	{
 		jdelete targetName;
 		jdelete prefixName;
 		jdelete suffixName;
 		jdelete outPrefixName;
 		jdelete outSuffixName;
 		return false;
-		}
+	}
 	else
-		{
+	{
 		targetList.InsertAtIndex(index, targetName);
 		prefixList.InsertAtIndex(index, prefixName);
 		suffixList.InsertAtIndex(index, suffixName);
 		outPrefixList.InsertAtIndex(index, outPrefixName);
 		outSuffixList.InsertAtIndex(index, outSuffixName);
 		return true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -887,16 +887,16 @@ PrintForMake
 	JStringIterator iter(str);
 	JUtf8Character c;
 	while (iter.Next(&c))
-		{
+	{
 		if (c == '$')
-			{
+		{
 			output << "\\$$";
-			}
-		else
-			{
-			output << c;
-			}
 		}
+		else
+		{
+			output << c;
+		}
+	}
 }
 
 /******************************************************************************
@@ -919,12 +919,12 @@ GetOutputSuffix
 	assert( count == suffixMapOut.GetElementCount() );
 
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		if (inputSuffix == *(suffixMapIn.GetElement(i)))
-			{
+		{
 			return *(suffixMapOut.GetElement(i));
-			}
 		}
+	}
 
 	return JString(kDefOutputSuffix, JString::kNoCopy);
 }
@@ -965,14 +965,14 @@ GetOptions
 	*searchSysDir  = true;
 	*assumeAutoGen = false;
 
-	{
+{
 	auto* s = jnew JString(".java");
 	assert( s != nullptr );
 	suffixMapIn->Append(s);
 	s = jnew JString(".java");
 	assert( s != nullptr );
 	suffixMapOut->Append(s);
-	}
+}
 
 	outputDirName->Clear();
 	defineText->Clear();
@@ -987,63 +987,63 @@ GetOptions
 
 	JIndex index = 1;
 	while (index < argc)
-		{
+	{
 		if (JIsVersionRequest(argv[index]))
-			{
+		{
 			PrintVersion();
 			exit(0);
-			}
+		}
 		else if (JIsHelpRequest(argv[index]))
-			{
+		{
 			PrintHelp(*headerName, *inputName, *outputName);
 			exit(0);
-			}
+		}
 
 		else if (strcmp(argv[index], "--define") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			*defineText += argv[index];
 			defineText->Append("\n");
-			}
+		}
 
 		else if (strcmp(argv[index], "--search-path") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			auto* s = jnew JString(argv[index]);
 			assert( s != nullptr );
 			searchPaths.Append(s);
-			}
+		}
 
 		else if (strcmp(argv[index], "-hf") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			*headerName = argv[index];
-			}
+		}
 		else if (strcmp(argv[index], "-if") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			*inputName = argv[index];
-			}
+		}
 		else if (strcmp(argv[index], "-of") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			*outputName = argv[index];
-			}
+		}
 
 		else if (strcmp(argv[index], kObjDirArg) == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			*outputDirName = argv[index];
-			}
+		}
 
 		else if (strcmp(argv[index], "--suffix-map") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 
 			JString arg(argv[index], JString::kNoCopy);
 			JStringIterator iter(arg);
 			if (iter.Next(suffixMapPattern))
-				{
+			{
 				const JStringMatch& m = iter.GetLastMatch();
 				auto* s = jnew JString(m.GetSubstring(1));
 				assert( s != nullptr );
@@ -1051,16 +1051,16 @@ GetOptions
 				s = jnew JString(m.GetSubstring(2));
 				assert( s != nullptr );
 				suffixMapOut->Append(s);
-				}
+			}
 			else
-				{
+			{
 				std::cerr << argv[0] << ":  invalid argument to --suffix-map" << std::endl;
 				exit(1);
-				}
 			}
+		}
 
 		else if (strcmp(argv[index], "--no-parse") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 
 			JString p = noParseFileSuffix.GetPattern();
@@ -1069,132 +1069,132 @@ GetOptions
 
 			JStringIterator iter2(JString(argv[index], JString::kNoCopy));
 			while (iter2.Next(noParsePattern))
-				{
+			{
 				JString s = iter2.GetLastMatch().GetSubstring(1);
 				s.Prepend("|");
 				iter1.Insert(s);
-				}
+			}
 
 			noParseFileSuffix.SetPatternOrDie(p);
-			}
+		}
 
 		else if (strcmp(argv[index], kNoStdIncArg) == 0)
-			{
+		{
 			*searchSysDir = false;
-			}
+		}
 
 		else if (strcmp(argv[index], kAutoGenArg) == 0)
-			{
+		{
 			*assumeAutoGen = true;
-			}
+		}
 
 		else if (strcmp(argv[index], "--check") == 0)
-			{
+		{
 			checkModTimes = true;
-			}
+		}
 
 		else if (strcmp(argv[index], "--choose") == 0)
-			{
+		{
 			pickTargets = true;
-			}
+		}
 
 		else if (strcmp(argv[index], "--make-name") == 0)
-			{
+		{
 			JCheckForValues(1, &index, argc, argv);
 			kMakeBinary = argv[index];
-			}
+		}
 
 		else if (argv[index][0] == '-')
-			{
+		{
 			std::cerr << argv[0] << ": unknown command line option: " << argv[index] << std::endl;
-			}
+		}
 
 		else
-			{
+		{
 			auto* userTarget = jnew JString(argv[index]);
 			assert( userTarget != nullptr );
 			userTargetList->Append(userTarget);
-			}
+		}
 
 		index++;
-		}
+	}
 
 	JString s = *headerName;
 	if (FindFile(s, searchPaths, headerName))
-		{
+	{
 		s = *headerName;
 		const bool ok = JGetTrueName(s, headerName);
 		assert( ok );
-		}
+	}
 	else
-		{
+	{
 		std::cerr << argv[0] << ": header file not found" << std::endl;
 		exit(1);
-		}
+	}
 
 	s = *inputName;
 	if (FindFile(s, searchPaths, inputName))
-		{
+	{
 		s = *inputName;
 		const bool ok = JGetTrueName(s, inputName);
 		assert( ok );
-		}
+	}
 	else
-		{
+	{
 		std::cerr << argv[0] << ": project file not found" << std::endl;
 		exit(1);
-		}
+	}
 
 	if (outputName->Contains("/"))
-		{
+	{
 		JString path, name;
 		JSplitPathAndName(*outputName, &path, &name);
 		JString fullPath;
 		if (!JGetTrueName(path, &fullPath))
-			{
+		{
 			std::cerr << argv[0] << ": invalid path for output file" << std::endl;
 			exit(1);
-			}
+		}
 		const JError err = JChangeDirectory(fullPath);
 		if (!err.OK())
-			{
+		{
 			std::cerr << argv[0] << ": " << err.GetMessage() << std::endl;
 			exit(1);
-			}
-		*outputName = name;
 		}
+		*outputName = name;
+	}
 
 	// check mod times
 
 	if (checkModTimes)
-		{
+	{
 		time_t headerTime, inputTime, outputTime;
 		if (JGetModificationTime(*headerName, &headerTime) != kJNoError)
-			{
+		{
 			std::cerr << argv[0] << ": unable to get modification time for " << *headerName << std::endl;
 			exit(1);
-			}
+		}
 		if (JGetModificationTime(*inputName, &inputTime) != kJNoError)
-			{
+		{
 			std::cerr << argv[0] << ": unable to get modification time for " << *inputName << std::endl;
 			exit(1);
-			}
+		}
 
 		// don't build it if it exists and is newer
 
 		if (JGetModificationTime(*outputName, &outputTime) == kJNoError &&
 			outputTime > headerTime && outputTime > inputTime)
-			{
+		{
 			exit(0);
-			}
 		}
+	}
 
 	// let the user pick targets to include
 
 	if (pickTargets)
-		{
+	{
 		PickTargets(*inputName, userTargetList);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1220,7 +1220,7 @@ PickTargets
 	std::ifstream input(fileName.GetBytes());
 	JIgnoreUntil(input, '@');
 	while (!input.eof() && !input.fail())
-		{
+	{
 		auto* targetName = jnew JString(JReadUntil(input, '\n'));
 		assert( targetName != nullptr );
 
@@ -1229,38 +1229,38 @@ PickTargets
 		std::cout << count << ") " << *targetName << std::endl;
 
 		JIgnoreUntil(input, '@');
-		}
+	}
 	input.close();
 
 	std::cout << std::endl;
 
 	while (true)
-		{
+	{
 		JIndex choice;
 		std::cout << "Target to include (0 to end): ";
 		std::cin >> choice;
 		JInputFinished();
 
 		if (choice == 0 && list->IsEmpty())
-			{
+		{
 			exit(0);
-			}
+		}
 		else if (choice == 0)
-			{
+		{
 			break;
-			}
+		}
 		else if (choice > count)
-			{
+		{
 			std::cerr << "That is not a valid choice" << std::endl;
-			}
+		}
 		else
-			{
+		{
 			auto* targetName = jnew JString(*(all.GetElement(choice)));
 			assert( targetName != nullptr );
 
 			list->Append(targetName);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1353,12 +1353,12 @@ struct HeaderDep
 	HeaderDep()
 		:
 		fileName(nullptr), depList(nullptr)
-	{ };
+{ };
 
 	HeaderDep(JString* name, JPtrArray<JString>* list)
 		:
 		fileName(name), depList(list)
-	{ };
+{ };
 };
 
 void		WriteDependencies(std::ostream& output, const JString& fileName,
@@ -1412,10 +1412,10 @@ CalcDepend
 
 	const JUtf8Byte* env = getenv("J_MAKEMAKE_IGNORE_PATTERN");
 	if (!JString::IsEmpty(env))
-		{
+	{
 		globalIgnorePattern = jnew JRegex(env);
 		assert( globalIgnorePattern != nullptr );
-		}
+	}
 
 	// parse command line arguments
 
@@ -1429,32 +1429,32 @@ CalcDepend
 	i++;
 
 	while (i < argc-1 && strcmp(argv[i], "--") != 0)
-		{
+	{
 		if (strcmp(argv[i], kObjDirArg) == 0)
-			{
+		{
 			JCheckForValues(1, &i, argc, argv);
 			outputDirName = argv[i];
-			}
-		else if (strcmp(argv[i], kNoStdIncArg) == 0)
-			{
-			searchSysDir = false;
-			}
-		else if (strcmp(argv[i], kAutoGenArg) == 0)
-			{
-			assumeAutoGen = true;
-			}
-		else
-			{
-			std::cerr << "Unknown argument " << argv[i] << " in \"makemake --depend\"" << std::endl;
-			}
-		i++;
 		}
+		else if (strcmp(argv[i], kNoStdIncArg) == 0)
+		{
+			searchSysDir = false;
+		}
+		else if (strcmp(argv[i], kAutoGenArg) == 0)
+		{
+			assumeAutoGen = true;
+		}
+		else
+		{
+			std::cerr << "Unknown argument " << argv[i] << " in \"makemake --depend\"" << std::endl;
+		}
+		i++;
+	}
 
 	if (i >= argc || strcmp(argv[i], "--") != 0)
-		{
+	{
 		std::cerr << "Missing first \"--\" in \"makemake --depend\"" << std::endl;
 		exit(1);
-		}
+	}
 	i++;	// move past "--"
 
 	// find directories to search
@@ -1466,61 +1466,61 @@ CalcDepend
 	bool searchCurrDir = true;
 
 	while (i < argc && strcmp(argv[i], "--") != 0)
-		{
+	{
 		if (strcmp(argv[i], "-nostdinc") == 0)
-			{
+		{
 			searchSysDir = false;
-			}
+		}
 		else if (strcmp(argv[i], "-I-") == 0)
-			{
+		{
 			searchCurrDir = false;
-			}
+		}
 		else if (argv[i][0] == '-' && argv[i][1] == 'I' &&
 				 argv[i][2] != '\0' && argv[i][2] != '-')
-			{
+		{
 			if (JDirectoryReadable(JString(argv[i]+2, JString::kNoCopy)))
-				{
+			{
 				path = jnew JString(argv[i]+2);		// strip off "-I"
 				assert( path != nullptr );
 				if (searchCurrDir)
-					{
-					pathList1.Append(path);
-					}
-				else
-					{
-					pathList2.Append(path);
-					}
-				}
-			else
 				{
-				std::cerr << argv[0] << ": invalid path " << argv[i] << std::endl;
+					pathList1.Append(path);
+				}
+				else
+				{
+					pathList2.Append(path);
 				}
 			}
-		i++;
+			else
+			{
+				std::cerr << argv[0] << ": invalid path " << argv[i] << std::endl;
+			}
 		}
+		i++;
+	}
 	i++;	// skip second "--"
 
 	if (i >= argc)
-		{
+	{
 #if USE_TEMP_FILE_FOR_DEPEND
 //		std::cerr << "Missing transfer file name in \"makemake --depend\"" << std::endl;
 #else
 //		std::cerr << "Missing file list in \"makemake --depend\"" << std::endl;
 #endif
 		return;
-		}
+	}
 
 	if (searchCurrDir)
-		{
+	{
 		// don't include ./ for <...>
 		pathList2.CopyPointers(pathList1, JPtrArrayT::kForgetAll, false);
 		pathList1.Prepend(kCurrentDir);
-		}
+	}
 
 	if (searchSysDir)
-		{
+	{
 		pathList2.Append(kSysIncludeDir);
-		}
+	}
 
 	// append dependencies to input file
 
@@ -1538,24 +1538,24 @@ CalcDepend
 
 	JString fileName, makeName;
 	while (true)
-		{
+	{
 		fileName = JReadLine(input);
 		if (input.eof() || input.fail())
-			{
+		{
 			break;
-			}
+		}
 		makeName = JReadLine(input);
 		WriteDependencies(output, fileName, makeName, pathList1, pathList2,
 						  assumeAutoGen, outputDirName, &headerList);
-		}
+	}
 
 #else
 
 	for ( ; i<argc; i+=2)
-		{
+	{
 		WriteDependencies(output, argv[i], argv[i+1], pathList1, pathList2,
 						  assumeAutoGen, outputDirName, &headerList);
-		}
+	}
 
 #endif
 
@@ -1563,10 +1563,10 @@ CalcDepend
 
 	const JSize headerCount = headerList.GetElementCount();
 	for (i=1; i<=headerCount; i++)
-		{
+	{
 		const HeaderDep info = headerList.GetElement(i);
 		PrintDependencies(output, outputDirName, *(info.fileName), *(info.depList));
-		}
+	}
 
 #endif
 
@@ -1600,10 +1600,10 @@ WriteDependencies
 	)
 {
 	if (!JFileExists(fileName))
-		{
+	{
 		std::cerr << "Source file \"" << fileName << "\" not found" << std::endl;
 		return;
-		}
+	}
 
 	// build dependency list
 
@@ -1613,9 +1613,9 @@ WriteDependencies
 	std::ifstream input(fileName.GetBytes());
 	JString headerName;
 	while (GetNextIncludedFile(fileName, input, pathList1, pathList2, assumeAutoGen, &headerName))
-		{
+	{
 		AddDependency(&depList, headerName, pathList1, pathList2, assumeAutoGen, headerList);
-		}
+	}
 	input.close();
 
 	// write dependencies
@@ -1638,30 +1638,30 @@ PrintDependencies
 	)
 {
 	if (!depList.IsEmpty())
-		{
+	{
 		if (!outputDirName.IsEmpty())
-			{
+		{
 			JString p,f;
 			JSplitPathAndName(makeName, &p, &f);
 			output << "${" << outputDirName << "}/";
 			f.Print(output);
-			}
+		}
 		else
-			{
+		{
 			makeName.Print(output);
-			}
+		}
 
 		output << ':';
 
 		const JSize depCount = depList.GetElementCount();
 		for (JIndex i=1; i<=depCount; i++)
-			{
+		{
 			output << ' ';
 			(depList.GetElement(i))->Print(output);
-			}
+		}
 
 		output << "\n\n";
-		}
+	}
 }
 
 /******************************************************************************
@@ -1689,12 +1689,12 @@ AddDependency
 	const JIndex index =
 		depList->GetInsertionSortIndex(const_cast<JString*>(&headerName), &isDuplicate);
 	if (!isDuplicate)
-		{
+	{
 		if (addToDepList)
-			{
+		{
 			// must use info.fileName so we have a valid JString*
 			depList->InsertAtIndex(index, info.fileName);
-			}
+		}
 
 		#if ALLOW_INCLUDE_LOOPS
 		const bool addSubToDepList = true;
@@ -1704,7 +1704,7 @@ AddDependency
 
 		const JSize count = (info.depList)->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			const JString* includedFileName = (info.depList)->GetElement(i);
 
 			#if ! ALLOW_INCLUDE_LOOPS
@@ -1714,17 +1714,17 @@ AddDependency
 			HeaderDep info(const_cast<JString*>(includedFileName), nullptr);
 			JIndex j;
 			if (headerList->SearchSorted(info, JListT::kAnyMatch, &j))
-				{
+			{
 				continue;
-				}
+			}
 
 			#endif
 
 			AddDependency(depList, *includedFileName,
 						  pathList1, pathList2, assumeAutoGen,
 						  headerList, addSubToDepList);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1751,9 +1751,9 @@ ParseHeaderFile
 	const JIndex index =
 		headerList->SearchSorted1(info, JListT::kAnyMatch, &found);
 	if (found)
-		{
+	{
 		return headerList->GetElement(index);
-		}
+	}
 
 	// add it to headerList
 
@@ -1769,23 +1769,23 @@ ParseHeaderFile
 	// extract dependencies only from non-system header files
 
 	if (fileName.BeginsWith(kSysIncludeDir))
-		{
+	{
 		return info;
-		}
+	}
 
 	// find the files that fileName depends on and add them to depList
 
 	std::ifstream input(fileName.GetBytes());
 	JString headerName;
 	while (GetNextIncludedFile(fileName, input, pathList1, pathList2, assumeAutoGen, &headerName))
-		{
+	{
 		bool isDuplicate;
 		const JIndex i = (info.depList)->GetInsertionSortIndex(&headerName, &isDuplicate);
 		if (!isDuplicate)
-			{
+		{
 			(info.depList)->InsertAtIndex(i, headerName);
-			}
 		}
+	}
 
 	return info;
 }
@@ -1812,43 +1812,43 @@ GetNextIncludedFile
 	)
 {
 	while (!input.eof() && !input.fail())
-		{
+	{
 		JString line = JReadLine(input);
 
 		JStringIterator iter(&line);
 		if (iter.Next(includePattern))
-			{
+		{
 			const JStringMatch& m     = iter.GetLastMatch();
 			const JUtf8Character type = m.GetSubstring(1).GetFirstCharacter();
 			const JString name        = m.GetSubstring(2);
 
 			if (globalIgnorePattern != nullptr &&
 				globalIgnorePattern->Match(name))
-				{
+			{
 				// skip
-				}
+			}
 			else if ((type == '"' && FindFile(name, pathList1, fileName)) ||
 					 FindFile(name, pathList2, fileName))
-				{
+			{
 				if (globalIgnorePattern != nullptr &&
 					globalIgnorePattern->Match(*fileName))
-					{
-					continue;
-					}
-				return true;
-				}
-			else if (type == '"' && assumeAutoGen)	// assume in same dir as including file
 				{
+					continue;
+				}
+				return true;
+			}
+			else if (type == '"' && assumeAutoGen)	// assume in same dir as including file
+			{
 				JString p, n;
 				if (!JSplitPathAndName(inputFileName, &p, &n))
-					{
+				{
 					p = "./";
-					}
+				}
 				*fileName = JCombinePathAndName(p, name);
 				return true;
-				}
 			}
 		}
+	}
 
 	fileName->Clear();
 	return false;
@@ -1874,31 +1874,31 @@ FindFile
 	if (fileName.GetFirstCharacter() == '/' ||
 		fileName.BeginsWith("./") ||
 		fileName.BeginsWith("../"))
-		{
+	{
 		if (JFileExists(fileName))
-			{
+		{
 			*fullName = fileName;
 			return true;
-			}
+		}
 		else
-			{
+		{
 			fullName->Clear();
 			return false;
-			}
 		}
+	}
 
 	// otherwise, check search paths
 
 	const JSize count = pathList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const JString* path = pathList.GetElement(i);
 		*fullName           = JCombinePathAndName(*path, fileName);
 		if (JFileExists(*fullName))
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	fullName->Clear();
 	return false;
@@ -1921,16 +1921,16 @@ TruncateMakefile
 
 	JString line;
 	do
-		{
+	{
 		line = JReadLine(f);
-		}
+	}
 		while (!f.eof() && !f.fail() && line != kMakedependMarkerStr);
 
 	if (!f.eof() && !f.fail())
-		{
+	{
 		std::fstream* newF = JSetFStreamLength(fileName, f, JTellg(f), kJTextFile);
 		jdelete newF;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1950,15 +1950,15 @@ CompareHeaderFiles
 	const int r = JString::Compare(*(h1.fileName), *(h2.fileName));
 
 	if (r > 0)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (r < 0)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 }

@@ -110,10 +110,10 @@ JXDisplayMenu::BuildMenu()
 	JXApplication* app = JXGetApplication();
 	const JSize count = app->GetDisplayCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		JXDisplay* display = app->GetDisplay(i);
 		AppendItem(display->GetName(), kRadioType);
-		}
+	}
 
 	ShowSeparatorAfter(count);
 	AppendItem(JGetString("NewDisplay::JXDisplayMenu"));
@@ -144,44 +144,44 @@ JXDisplayMenu::Receive
 	const JPtrArray<JXDisplay>* displayList = JXGetApplication()->GetDisplayList();
 
 	if (sender == this && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		Broadcast(DisplayNeedsUpdate());
 		CheckItem(itsDisplayIndex);
-		}
+	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		ChooseDisplay(selection->GetIndex());
-		}
+	}
 
 	else if (sender == const_cast<JPtrArray<JXDisplay>*>(displayList))
-		{
+	{
 		// we do this no matter what change occurs
 
 		BuildMenu();
-		}
+	}
 
 	else if (sender == itsNewDisplayDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			itsDisplayIndex = itsNewDisplayDialog->GetDisplayIndex();
 			Broadcast(DisplayChanged(itsDisplayIndex));
-			}
+		}
 		SetPopupChoice(itsDisplayIndex);
 		itsNewDisplayDialog = nullptr;
-		}
+	}
 
 	else
-		{
+	{
 		JXTextMenu::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -196,19 +196,19 @@ JXDisplayMenu::ChooseDisplay
 	)
 {
 	if (index < itsNewDisplayIndex)
-		{
+	{
 		itsDisplayIndex = index;
 		Broadcast(DisplayChanged(itsDisplayIndex));
-		}
+	}
 	else
-		{
+	{
 		assert( itsNewDisplayDialog == nullptr );
 		JXWindowDirector* supervisor = GetWindow()->GetDirector();
 		itsNewDisplayDialog = jnew JXOpenDisplayDialog(supervisor);
 		assert( itsNewDisplayDialog != nullptr );
 		ListenTo(itsNewDisplayDialog);
 		itsNewDisplayDialog->BeginDialog();
-		}
+	}
 }
 
 /******************************************************************************

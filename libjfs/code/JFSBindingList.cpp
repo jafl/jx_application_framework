@@ -62,15 +62,15 @@ JFSBindingList::Create
 {
 	JString signalFileName, path, name;
 	if (JExpandHomeDirShortcut(kSignalFileName, &signalFileName))
-		{
+	{
 		JSplitPathAndName(signalFileName, &path, &name);
 		if ((JCreateDirectory(path, 0700)).OK() && JDirectoryWritable(path))
-			{
+		{
 			auto* list = jnew JFSBindingList(signalFileName, needUserCheck);
 			assert( list != nullptr );
 			return list;
-			}
 		}
+	}
 
 	auto* list = jnew JFSBindingList(JString::empty, needUserCheck);
 	assert( list != nullptr );
@@ -158,26 +158,26 @@ JFSBindingList::AddBinding
 	const JIndex index =
 		itsBindingList->SearchSorted1(b, JListT::kLastMatch, &found);
 	if (found)
-		{
+	{
 		JFSBinding* origB = itsBindingList->GetElement(index);
 		if (b->IsSystemBinding() && !origB->IsSystemBinding())
-			{
+		{
 			if (!itsOverriddenList->InsertSorted(b, false))
-				{
+			{
 				jdelete b;
 				return 0;
-				}
-			}
-		else if (!b->IsSystemBinding() && origB->IsSystemBinding() &&
-				 itsOverriddenList->InsertSorted(origB, false))
-			{
-			itsBindingList->RemoveElement(index);
-			}
-		else
-			{
-			itsBindingList->DeleteElement(index);
 			}
 		}
+		else if (!b->IsSystemBinding() && origB->IsSystemBinding() &&
+				 itsOverriddenList->InsertSorted(origB, false))
+		{
+			itsBindingList->RemoveElement(index);
+		}
+		else
+		{
+			itsBindingList->DeleteElement(index);
+		}
+	}
 
 	JIndex i;
 	const bool inserted = itsBindingList->InsertSorted(b, false, &i);
@@ -200,9 +200,9 @@ JFSBindingList::DeleteBinding
 {
 	JFSBinding* b = itsBindingList->GetElement(index);
 	if (b->IsSystemBinding())
-		{
+	{
 		return true;
-		}
+	}
 
 	JIndex fIndex;
 	const bool found =
@@ -212,7 +212,7 @@ JFSBindingList::DeleteBinding
 	b = nullptr;
 
 	if (found)
-		{
+	{
 		b = itsOverriddenList->GetElement(fIndex);
 		itsOverriddenList->RemoveElement(fIndex);
 
@@ -220,11 +220,11 @@ JFSBindingList::DeleteBinding
 		assert( inserted );
 
 		return false;
-		}
+	}
 	else
-		{
+	{
 		return true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -248,30 +248,30 @@ JFSBindingList::SetPattern
 
 	JFSBinding* b = itsBindingList->GetElement(index);
 	if (b->GetPattern() == pattern)
-		{
+	{
 		return true;
-		}
+	}
 
 	JFSBinding temp(pattern, JString::empty, JFSBinding::kRunPlain, false, false);
 	JIndex fIndex;
 	if (itsBindingList->SearchSorted(&temp, JListT::kAnyMatch, &fIndex))
-		{
+	{
 		return false;
-		}
+	}
 
 	if (b->IsSystemBinding())
-		{
+	{
 		JFSBinding::CommandType type;
 		bool singleFile;
 		const JString cmd = b->GetCommand(&type, &singleFile);	// in case b is deleted
 		AddBinding(pattern, cmd, type, singleFile);				// move b to itsOverriddenList
 		b = &temp;
-		}
+	}
 	else
-		{
+	{
 		b->SetPattern(pattern);
 		itsBindingList->Sort();
-		}
+	}
 
 	const bool found =
 		itsBindingList->SearchSorted(b, JListT::kAnyMatch, newIndex);
@@ -299,19 +299,19 @@ JFSBindingList::SetCommand
 	JFSBinding::CommandType type;
 	bool singleFile;
 	if (b->GetCommand(&type, &singleFile) == cmd)
-		{
+	{
 		return false;
-		}
+	}
 
 	if (b->IsSystemBinding())
-		{
+	{
 		const JString pattern = b->GetPattern();		// in case b is deleted
 		AddBinding(pattern, cmd, type, singleFile);		// move b to itsOverriddenList
-		}
+	}
 	else
-		{
+	{
 		b->SetCommand(cmd, type, singleFile);
-		}
+	}
 
 	return true;
 }
@@ -332,22 +332,22 @@ JFSBindingList::SetCommandType
 {
 	JFSBinding* b = itsBindingList->GetElement(index);
 	if (b->GetCommandType() == type)
-		{
+	{
 		return false;
-		}
+	}
 
 	if (b->IsSystemBinding())
-		{
+	{
 		JFSBinding::CommandType origType;
 		bool singleFile;
 		const JString pattern = b->GetPattern();						// in case b is deleted
 		const JString cmd     = b->GetCommand(&origType, &singleFile);	// in case b is deleted
 		AddBinding(pattern, cmd, type, singleFile);						// move b to itsOverriddenList
-		}
+	}
 	else
-		{
+	{
 		b->SetCommandType(type);
-		}
+	}
 
 	return true;
 }
@@ -368,22 +368,22 @@ JFSBindingList::SetSingleFile
 {
 	JFSBinding* b = itsBindingList->GetElement(index);
 	if (b->IsSingleFileCommand() == singleFile)
-		{
+	{
 		return false;
-		}
+	}
 
 	if (b->IsSystemBinding())
-		{
+	{
 		JFSBinding::CommandType type;
 		bool origSingle;
 		const JString pattern = b->GetPattern();					// in case b is deleted
 		const JString cmd     = b->GetCommand(&type, &origSingle);	// in case b is deleted
 		AddBinding(pattern, cmd, type, singleFile);					// move b to itsOverriddenList
-		}
+	}
 	else
-		{
+	{
 		b->SetSingleFileCommand(singleFile);
-		}
+	}
 
 	return true;
 }
@@ -410,15 +410,15 @@ JFSBindingList::SetCommand
 	JIndex index;
 	if (itsBindingList->SearchSorted(b, JListT::kLastMatch, &index) &&
 		!(itsBindingList->GetElement(index))->IsSystemBinding())
-		{
+	{
 		jdelete b;
 		b = itsBindingList->GetElement(index);
 		b->SetCommand(cmd, type, singleFile);
-		}
+	}
 	else
-		{
+	{
 		AddBinding(b);
-		}
+	}
 }
 
 /******************************************************************************
@@ -431,14 +431,14 @@ JFSBindingList::GetDefaultCommand()
 	const
 {
 	if (itsUserDefault != nullptr)
-		{
+	{
 		return itsUserDefault;
-		}
+	}
 	else
-		{
+	{
 		assert( itsSystemDefault != nullptr );
 		return itsSystemDefault;
-		}
+	}
 }
 
 /******************************************************************************
@@ -455,14 +455,14 @@ JFSBindingList::SetDefaultCommand
 	)
 {
 	if (itsUserDefault == nullptr)
-		{
+	{
 		itsUserDefault = jnew JFSBinding(JString::empty, cmd, type, singleFile, false);
 		assert( itsUserDefault != nullptr );
-		}
+	}
 	else
-		{
+	{
 		itsUserDefault->SetCommand(cmd, type, singleFile);
-		}
+	}
 }
 
 /******************************************************************************
@@ -492,30 +492,30 @@ JFSBindingList::GetBinding
 	// scan bindings for match -- check content types first
 
 	for (const JIndex j : { 0,1 })
-		{
+	{
 		const bool isContent = !j;
 		for (const auto* b : *itsBindingList)
-			{
+		{
 			if (b->IsContentBinding() == isContent &&
 				b->Match(fileName, content))
-				{
+			{
 				*binding = b;
 				return true;
-				}
 			}
 		}
+	}
 
 	if (itsUseDefaultFlag && itsUserDefault != nullptr)
-		{
+	{
 		*binding = itsUserDefault;
 		return true;
-		}
+	}
 
 	if (itsUseDefaultFlag && itsSystemDefault != nullptr)
-		{
+	{
 		*binding = itsSystemDefault;
 		return true;
-		}
+	}
 
 	*binding = nullptr;
 	return false;
@@ -538,9 +538,9 @@ JFSBindingList::CleanFileName
 {
 	JStringIterator iter(s);
 	while (iter.Next(fileNamePattern))
-		{
+	{
 		iter.RemoveLastMatch();
-		}
+	}
 }
 
 /******************************************************************************
@@ -583,9 +583,9 @@ void
 JFSBindingList::RevertIfModified()
 {
 	if (NeedsRevert())
-		{
+	{
 		Revert();
-		}
+	}
 }
 
 /******************************************************************************
@@ -615,9 +615,9 @@ JFSBindingList::Revert()
 
 	std::ifstream sysInput(kGlobalBindingsFile);
 	if (sysInput.good())
-		{
+	{
 		Load(sysInput, true);
-		}
+	}
 	sysInput.close();
 
 	// read user bindings
@@ -626,46 +626,46 @@ JFSBindingList::Revert()
 	if (!itsSignalFileName.IsEmpty() &&
 		(JPrefsFile::Create(kUserExtensionBindingRoot, &file,
 							JFileArray::kDeleteIfWaitTimeout)).OK())
-		{
+	{
 		if (file->IsEmpty())
-			{
+		{
 			JString origUserFile;
 			if (JExpandHomeDirShortcut(kOrigUserExtensionBindingFile, &origUserFile) &&
 				JFileReadable(origUserFile))
-				{
+			{
 				std::ifstream userInput(origUserFile.GetBytes());
 				if (userInput.good())
-					{
+				{
 					Load(userInput, false);
 					userMsg = JGetString("UpgradeFromVersion1::JFSBindingList");
-					}
 				}
 			}
+		}
 		else
-			{
+		{
 			for (JFileVersion vers = kCurrentBindingVersion; true; vers--)
-				{
+			{
 				if (file->IDValid(vers))
-					{
+				{
 					std::string data;
 					file->GetData(vers, &data);
 					std::istringstream input(data);
 					Load(input, false);
 					break;
-					}
+				}
 
 				if (vers == 0)
-					{
+				{
 					break;	// check *before* decrement since unsigned
-					}
 				}
 			}
-
-		jdelete file;
 		}
 
+		jdelete file;
+	}
+
 	if (IsEmpty())		// nothing loaded
-		{
+	{
 #ifdef _J_OSX
 		const JString& data = JGetString("DefaultBindingList-OSX::JFSBindingList");
 #else
@@ -674,19 +674,19 @@ JFSBindingList::Revert()
 		const std::string s(data.GetBytes(), data.GetByteCount());
 		std::istringstream input(s);
 		Load(input, false);
-		}
+	}
 
 	if (!itsSignalFileName.IsEmpty())
-		{
+	{
 		JGetModificationTime(itsSignalFileName, &itsSignalModTime);
-		}
+	}
 
 	// ensure that GetDefaultCommand() will work
 
 	if (itsUserDefault == nullptr && itsSystemDefault == nullptr)
-		{
+	{
 		SetDefaultCommand(kDefaultCmd, kDefaultCmdType, kDefaultSingleFile);
-		}
+	}
 
 	return userMsg;
 }
@@ -706,59 +706,59 @@ JFSBindingList::Load
 	JFileVersion vers;
 	input >> vers;
 	if (input.fail())
-		{
+	{
 		vers = 0;
 		input.clear();
-		}
+	}
 	else if (vers == 1)
-		{
+	{
 		JFileVersion writeVers;
 		input >> writeVers;
-		}
+	}
 
 	if (vers > kCurrentBindingVersion)
-		{
+	{
 		return;
-		}
+	}
 
 	if (vers >= 2)
-		{
+	{
 		bool useDefault, autoShell;
 		input >> JBoolFromString(useDefault) >> JBoolFromString(autoShell);
 		if (!isSystem)
-			{
+		{
 			itsUseDefaultFlag = useDefault;
 			itsAutoShellFlag  = autoShell;
-			}
-
-		input >> itsShellCmd >> itsWindowCmd;
 		}
 
+		input >> itsShellCmd >> itsWindowCmd;
+	}
+
 	while (true)
-		{
+	{
 		bool isDefault, del;
 		auto* b = jnew JFSBinding(input, vers, isSystem, &isDefault, &del);
 		assert( b != nullptr );
 
 		if (input.eof() || input.fail())
-			{
+		{
 			jdelete b;
 			break;
-			}
+		}
 
 		if (del)
-			{
+		{
 			jdelete b;
-			}
-		else if (isDefault)
-			{
-			StoreDefault(b, isSystem ? &itsSystemDefault : &itsUserDefault);
-			}
-		else
-			{
-			AddBinding(b);
-			}
 		}
+		else if (isDefault)
+		{
+			StoreDefault(b, isSystem ? &itsSystemDefault : &itsUserDefault);
+		}
+		else
+		{
+			AddBinding(b);
+		}
+	}
 }
 
 /******************************************************************************
@@ -773,7 +773,7 @@ JFSBindingList::Save()
 	const JError err = JPrefsFile::Create(kUserExtensionBindingRoot, &file,
 										  JFileArray::kDeleteIfWaitTimeout);
 	if (err.OK())
-		{
+	{
 		std::ostringstream data;
 		data << kCurrentBindingVersion;
 		data << ' ' << JBoolToString(itsUseDefaultFlag)
@@ -783,17 +783,17 @@ JFSBindingList::Save()
 		data << '\n';
 
 		if (itsUserDefault != nullptr)
-			{
+		{
 			data << *itsUserDefault << '\n';
-			}
+		}
 
 		for (const auto* b : *itsBindingList)
-			{
+		{
 			if (!b->IsSystemBinding())
-				{
+			{
 				data << *b << '\n';
-				}
 			}
+		}
 
 		file->SetData(kCurrentBindingVersion, data);
 		jdelete file;
@@ -801,7 +801,7 @@ JFSBindingList::Save()
 		std::ofstream touch(itsSignalFileName.GetBytes());
 		touch.close();
 		JGetModificationTime(itsSignalFileName, &itsSignalModTime);
-		}
+	}
 
 	return err;
 }

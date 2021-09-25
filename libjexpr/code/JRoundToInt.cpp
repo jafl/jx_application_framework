@@ -81,15 +81,15 @@ JRoundToInt::Evaluate
 {
 	JFloat value;
 	if (GetArg()->Evaluate(&value))
-		{
+	{
 		jclear_errno();
 		*result = JRound(value);
 		return jerrno_is_clear();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -101,13 +101,13 @@ JRoundToInt::Evaluate
 {
 	JComplex value;
 	if (GetArg()->Evaluate(&value))
-		{
+	{
 		jclear_errno();
 		*result = JComplex(JRound(real(value)), JRound(imag(value)));
 		return jerrno_is_clear();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }

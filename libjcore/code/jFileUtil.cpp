@@ -35,9 +35,9 @@ JRenameFile
 	)
 {
 	if (forceReplace)
-		{
+	{
 		JRemoveFile(newName);	// ignore errors
-		}
+	}
 	return JRenameDirEntry(oldName, newName);
 }
 
@@ -62,9 +62,9 @@ JCombinePathAndName
 	JString file = path;
 	if (file.GetLastCharacter() != ACE_DIRECTORY_SEPARATOR_CHAR &&
 		name.GetFirstCharacter() != ACE_DIRECTORY_SEPARATOR_CHAR)
-		{
+	{
 		file.Append(ACE_DIRECTORY_SEPARATOR_STR);
-		}
+	}
 	file += name;
 	JCleanPath(&file);
 	return file;
@@ -94,16 +94,16 @@ JSplitPathAndName
 	JStripTrailingDirSeparator(&pathAndName);
 
 	if (JIsRootDirectory(pathAndName))
-		{
+	{
 		*path = pathAndName;
 		name->Clear();
 		return false;
-		}
+	}
 
 	JStringIterator iter(pathAndName, kJIteratorStartAtEnd);
 	iter.BeginMatch();
 	if (iter.Prev(ACE_DIRECTORY_SEPARATOR_STR))
-		{
+	{
 		*name = iter.FinishMatch().GetString();
 
 		iter.SkipNext();	// include separator
@@ -113,13 +113,13 @@ JSplitPathAndName
 
 		JCleanPath(path);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*path = JGetCurrentDirectory();
 		*name = pathAndName;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -138,9 +138,9 @@ JAppendDirSeparator
 	assert( !dirName->IsEmpty() );
 
 	if (dirName->GetLastCharacter() != ACE_DIRECTORY_SEPARATOR_CHAR)
-		{
+	{
 		dirName->Append(ACE_DIRECTORY_SEPARATOR_STR);
-		}
+	}
 }
 
 /******************************************************************************
@@ -158,25 +158,25 @@ JPrintFileSize
 	)
 {
 	if (size < 8192)
-		{
+	{
 		return JString((JUInt64) size);
-		}
+	}
 	else if (size < 1048576)
-		{
+	{
 		return JString(size/1024.0, 0) + "K";
-		}
+	}
 	else if (size < 134217728)
-		{
+	{
 		return JString(size/1048576.0, 1) + "M";
-		}
+	}
 	else if (size < 1073741824)
-		{
+	{
 		return JString(size/1048576.0, 0) + "M";
-		}
+	}
 	else
-		{
+	{
 		return JString(size/1073741824.0, 1) + "G";
-		}
+	}
 }
 
 /******************************************************************************
@@ -204,7 +204,7 @@ JExtractFileAndLine
 	JStringIterator iter(fileName);
 	iter.BeginMatch();
 	if (iter.Next(lineIndexRegex))
-		{
+	{
 		const JStringMatch& m = iter.GetLastMatch();
 
 		bool ok = m.GetSubstring(1).ConvertToUInt(startLineIndex);
@@ -212,25 +212,25 @@ JExtractFileAndLine
 
 		const JCharacterRange endRange = m.GetCharacterRange(2);
 		if (endLineIndex != nullptr && !endRange.IsEmpty())
-			{
+		{
 			ok = m.GetSubstring(2).ConvertToUInt(endLineIndex);
 			assert( ok );
-			}
+		}
 		else if (endLineIndex != nullptr)
-			{
+		{
 			*endLineIndex = *startLineIndex;
-			}
+		}
 
 		*fileName = iter.FinishMatch().GetString();
-		}
+	}
 	else
-		{
+	{
 		*startLineIndex = 0;
 		if (endLineIndex != nullptr)
-			{
+		{
 			*endLineIndex = 0;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -249,9 +249,9 @@ JCombineRootAndSuffix
 {
 	JString name = root;
 	if (suffix[0] != '.')
-		{
+	{
 		name.Append(".");
-		}
+	}
 	name.Append(suffix);
 	return name;
 }
@@ -282,12 +282,12 @@ JSplitRootAndSuffix
 
 	JStringIterator iter(root, kJIteratorStartAtEnd);
 	if (iter.Prev(suffixPattern) && !iter.AtBeginning())
-		{
+	{
 		const JStringMatch& m = iter.GetLastMatch();
 
 		*suffix = m.GetSubstring(1);
 		iter.RemoveAllNext();
-		}
+	}
 
 	return !suffix->IsEmpty();
 }
@@ -311,10 +311,10 @@ JFileNameToURL
 
 	JString host, file;
 	if (!JTranslateLocalToRemote(fileName, &host, &file))
-		{
+	{
 		host = JGetHostName();
 		file = fileName;
-		}
+	}
 
 	JString url("file://");
 	url += host;
@@ -333,14 +333,14 @@ JURLToFileName
 
 	JStringIterator iter(&s);
 	if (iter.Next("://"))
-		{
+	{
 		iter.RemoveAllPrev();
 
 		iter.BeginMatch();
 		if (!iter.Next("/") || iter.GetPrevCharacterIndex() == 1)
-			{
+		{
 			return false;
-			}
+		}
 		const JStringMatch& m1    = iter.FinishMatch();
 		const JString urlHostName = m1.GetString();
 
@@ -351,20 +351,20 @@ JURLToFileName
 		const JString urlFileName = m2.GetString();
 
 		if (urlHostName == JGetHostName())
-			{
+		{
 			*fileName = urlFileName;
 			return true;
-			}
-		else
-			{
-			return JTranslateRemoteToLocal(urlHostName, urlFileName, fileName);
-			}
 		}
-	else
+		else
 		{
+			return JTranslateRemoteToLocal(urlHostName, urlFileName, fileName);
+		}
+	}
+	else
+	{
 		fileName->Clear();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -385,65 +385,65 @@ JFOpen
 	jclear_errno();
 	*stream = fopen(fileName.GetBytes(), mode);
 	if (*stream != nullptr)
-		{
+	{
 		return JNoError();
-		}
+	}
 
 	const int err = jerrno();
 	if (err == EINVAL)
-		{
+	{
 		return JInvalidOpenMode(fileName);
-		}
+	}
 	else if (err == EEXIST)
-		{
+	{
 		return JDirEntryAlreadyExists(fileName);
-		}
+	}
 	else if (err == EISDIR)
-		{
+	{
 		return JIsADirectory();
-		}
+	}
 	else if (err == EACCES || err == ETXTBSY)
-		{
+	{
 		return JAccessDenied(fileName);
-		}
+	}
 	else if (err == EFAULT)
-		{
+	{
 		return JSegFault();
-		}
+	}
 	else if (err == ENAMETOOLONG)
-		{
+	{
 		return JNameTooLong();
-		}
+	}
 	else if (err == ENOENT)
-		{
+	{
 		return JBadPath(fileName);
-		}
+	}
 	else if (err == ENOTDIR)
-		{
+	{
 		return JComponentNotDirectory(fileName);
-		}
+	}
 	else if (err == EMFILE || err == ENFILE)
-		{
+	{
 		return JTooManyDescriptorsOpen();
-		}
+	}
 	else if (err == ENOMEM)
-		{
+	{
 		return JNoKernelMemory();
-		}
+	}
 	else if (err == EROFS)
-		{
+	{
 		return JFileSystemReadOnly();
-		}
+	}
 	else if (err == ELOOP)
-		{
+	{
 		return JPathContainsLoop(fileName);
-		}
+	}
 	else if (err == ENOSPC)
-		{
+	{
 		return JFileSystemFull();
-		}
+	}
 	else
-		{
+	{
 		return JUnexpectedError(err);
-		}
+	}
 }

@@ -53,21 +53,21 @@ JXWindowDirector::JXWindowDirector
 JXWindowDirector::~JXWindowDirector()
 {
 	if (itsWindow != nullptr)
-		{
+	{
 		// call GetDisplay() before deleting window!
 
 		JXWDManager* mgr;
 		if (GetDisplay()->GetWDManager(&mgr))
-			{
+		{
 			mgr->DirectorDeleted(this);
-			}
+		}
 
 		if (!itsWindow->IsIconified())
-			{
+		{
 			itsWindow->Hide();
-			}
-		jdelete itsWindow;
 		}
+		jdelete itsWindow;
+	}
 }
 
 /******************************************************************************
@@ -109,9 +109,9 @@ JXWindowDirector::SetWindow
 	itsWindow = window;
 
 	if (IsSuspended())
-		{
+	{
 		itsWindow->Suspend();
-		}
+	}
 }
 
 /******************************************************************************
@@ -123,18 +123,18 @@ void
 JXWindowDirector::Activate()
 {
 	if (!IsActive())
-		{
+	{
 		JXDirector::Activate();
 		if (itsWindow != nullptr)
-			{
+		{
 			itsWindow->Show();
 			itsWindow->Activate();
-			}
 		}
+	}
 	else
-		{
+	{
 		itsWindow->Raise();
-		}
+	}
 }
 
 /******************************************************************************
@@ -146,21 +146,21 @@ bool
 JXWindowDirector::Deactivate()
 {
 	if (!IsActive())
-		{
+	{
 		return true;
-		}
+	}
 	else if (OKToDeactivate() && JXDirector::Deactivate())
-		{
+	{
 		if (itsWindow != nullptr)
-			{
-			itsWindow->Hide();
-			}
-		return true;
-		}
-	else
 		{
-		return false;
+			itsWindow->Hide();
 		}
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 /******************************************************************************
@@ -186,9 +186,9 @@ JXWindowDirector::Suspend()
 {
 	JXDirector::Suspend();
 	if (itsWindow != nullptr)
-		{
+	{
 		itsWindow->Suspend();
-		}
+	}
 }
 
 /******************************************************************************
@@ -201,9 +201,9 @@ JXWindowDirector::Resume()
 {
 	JXDirector::Resume();
 	if (itsWindow != nullptr)
-		{
+	{
 		itsWindow->Resume();
-		}
+	}
 }
 
 /******************************************************************************

@@ -122,9 +122,9 @@ JXDockTabGroup::OKToDeleteTab
 {
 	JXWindow* w;
 	if (itsDockWidget->GetWindow(index, &w))
-		{
+	{
 		w->Close();
-		}
+	}
 
 	return false;
 }
@@ -147,15 +147,15 @@ JXDockTabGroup::HandleMouseDown
 	JIndex mouseIndex;
 	const bool hasMouseTab = GetMouseTabIndex(&mouseIndex);
 	if (button == kJXRightButton && hasMouseTab)
-		{
+	{
 		itsDockContextIndex = mouseIndex;
 		CreateDockContextMenu();
 		itsDockContextMenu->PopUp(this, pt, buttonStates, modifiers);
-		}
+	}
 	else
-		{
+	{
 		JXTabGroup::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -171,21 +171,21 @@ JXDockTabGroup::Receive
 	)
 {
 	if (sender == itsDockContextMenu && message.Is(JXTextMenu::kNeedsUpdate))
-		{
+	{
 		UpdateDockContextMenu();
-		}
+	}
 	else if (sender == itsDockContextMenu && message.Is(JXTextMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleDockContextMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXTabGroup::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -197,14 +197,14 @@ void
 JXDockTabGroup::CreateDockContextMenu()
 {
 	if (itsDockContextMenu == nullptr)
-		{
+	{
 		itsDockContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsDockContextMenu != nullptr );
 		itsDockContextMenu->SetMenuItems(kContextMenuStr, "JXDockTabGroup");
 		itsDockContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsDockContextMenu->SetToHiddenPopupMenu();
 		ListenTo(itsDockContextMenu);
-		}
+	}
 }
 
 /******************************************************************************
@@ -220,18 +220,18 @@ JXDockTabGroup::UpdateDockContextMenu()
 	assert( found );
 
 	while (itsDockContextMenu->GetItemCount() >= kShowFirstDockCmd)
-		{
+	{
 		itsDockContextMenu->RemoveItem(itsDockContextMenu->GetItemCount());
-		}
+	}
 
 	JPtrArray<JXDockDirector>* dockList = dockMgr->GetDockList();
 
 	for (auto* dir : *dockList)
-		{
+	{
 		JString itemText = dir->GetWindow()->GetTitle();
 		itemText.Prepend(JGetString("ShowDockPrefix::JXDocktab"));
 		itsDockContextMenu->AppendItem(itemText);
-		}
+	}
 
 	itsDockContextMenu->SetItemEnable(kUndockAllCmd, !dockList->IsEmpty());
 	itsDockContextMenu->SetItemEnable(kDockAllDefConfigCmd, dockMgr->CanDockAll());
@@ -264,78 +264,78 @@ JXDockTabGroup::HandleDockContextMenu
 	assert( found );
 
 	if (index == kUndockCmd)
-		{
+	{
 		w->Undock();
-		}
+	}
 	else if (index == kUndockAllCompartmentCmd)
-		{
+	{
 		JXDockWidget* dock;
 		if (w->GetDockWidget(&dock))
-			{
-			dock->UndockAll();
-			}
-		}
-	else if (index == kUndockAllDockCmd)
 		{
+			dock->UndockAll();
+		}
+	}
+	else if (index == kUndockAllDockCmd)
+	{
 		JXWindow* w1;
 		if (w->GetDockWindow(&w1))
-			{
-			w1->UndockAllChildWindows();
-			}
-		}
-	else if (index == kUndockAllCmd)
 		{
-		GetDisplay()->UndockAllWindows();
+			w1->UndockAllChildWindows();
 		}
+	}
+	else if (index == kUndockAllCmd)
+	{
+		GetDisplay()->UndockAllWindows();
+	}
 
 	else if (index == kUpdateWindowTypeMapCmd)
-		{
+	{
 		JString type;
 		if (w->GetWindowType(&type))
-			{
+		{
 			JXDockWidget* dock;
 			w->GetDockWidget(&dock);
 			(JXGetDockManager())->SetDefaultDock(type.GetBytes(), w->IsDocked() ? dock : nullptr);
-			}
 		}
+	}
 
 	else if (index == kCreateDockHorizCmd)
-		{
+	{
 		dockMgr->CreateDock(true);
-		}
+	}
 	else if (index == kCreateDockVertCmd)
-		{
+	{
 		dockMgr->CreateDock(false);
-		}
+	}
 	else if (index == kDockAllDefConfigCmd)
-		{
+	{
 		dockMgr->DockAll();
-		}
+	}
 
 	else if (index == kContextTopCmd)
-		{
+	{
 		SetTabEdge(kTop);
-		}
+	}
 	else if (index == kContextBottomCmd)
-		{
+	{
 		SetTabEdge(kBottom);
-		}
+	}
 	else if (index == kContextLeftCmd)
-		{
+	{
 		SetTabEdge(kLeft);
-		}
+	}
 	else if (index == kContextRightCmd)
-		{
+	{
 		SetTabEdge(kRight);
-		}
+	}
 
 	else if (index >= kShowFirstDockCmd)
-		{
+	{
 		JPtrArray<JXDockDirector>* dockList = dockMgr->GetDockList();
 		const JIndex i                      = index - kShowFirstDockCmd + 1;
 		if (dockList->IndexValid(i))		// paranoia
-			{
+		{
 			(dockList->GetElement(i))->Activate();
-			}
 		}
+	}
 }

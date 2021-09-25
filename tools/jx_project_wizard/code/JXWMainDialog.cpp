@@ -284,9 +284,9 @@ JXWMainDialog::BuildWindow
 // end JXLayout
 
 	const JUtf8Byte* map[] =
-		{
+	{
 		"vers", JXWGetVersionNumberStr()
-		};
+	};
 	const JString title = JGetString("WindowTitle::JXWMainDialog", map, sizeof(map));
 	window->SetTitle(title);
 	window->ShouldFocusWhenShow(true);
@@ -318,11 +318,11 @@ JXWMainDialog::BuildWindow
 	// after read prefs to overwrite itsProjectDir
 
 	if (argc == 3)
-		{
+	{
 		itsProjectDir->GetText()->SetText(JString(argv[1], JString::kNoCopy));
 		itsProgramName->GetText()->SetText(JString(argv[2], JString::kNoCopy));
 		itsBinaryName->GetText()->SetText(JString(argv[2], JString::kNoCopy));
-		}
+	}
 }
 
 /******************************************************************************
@@ -338,44 +338,44 @@ JXWMainDialog::Receive
 	)
 {
 	if (sender == itsCreateButton && message.Is(JXButton::kPushed))
-		{
+	{
 		if (WriteTemplate())
-			{
+		{
 			JPrefObject::WritePrefs();
 			JXGetApplication()->Quit();
-			}
 		}
+	}
 	else if (sender == itsQuitButton && message.Is(JXButton::kPushed))
-		{
+	{
 		JXGetApplication()->Quit();
-		}
+	}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
-		{
+	{
 		(JXGetHelpManager())->ShowSection("JXWMainHelp");
-		}
+	}
 
 	else if (sender == itsChooseProjDirButton && message.Is(JXButton::kPushed))
-		{
+	{
 		itsProjectDir->ChoosePath(JString::empty);
-		}
+	}
 	else if (sender == itsChooseTmplDirButton && message.Is(JXButton::kPushed))
-		{
+	{
 		itsTemplateDir->ChoosePath(JString::empty);
-		}
+	}
 
 	else if (sender == itsTmplDirHistory && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsTemplateDir->GetText()->SetText(
 			itsTmplDirHistory->JXTextMenu::GetItemText(selection->GetIndex()));
-		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -389,33 +389,33 @@ JXWMainDialog::WriteTemplate()
 	// validate inputs -- itsOpenCmd can be empty
 
 	JXInputField* input[] =
-		{
+	{
 		itsProgramName, itsProgramVersion,
 		itsDevName, itsDevEmail, itsDevURL,
 		itsBinaryName, itsSrcPrefix
-		};
+	};
 	const JSize inputCount = sizeof(input)/sizeof(JXInputField*);
 
 	for (JUnsignedOffset i=0; i<inputCount; i++)
-		{
+	{
 		input[i]->SetIsRequired(true);
 		const bool ok = input[i]->InputValid();
 		input[i]->SetIsRequired(false);
 		if (!ok)
-			{
+		{
 			input[i]->Focus();
 			return false;
-			}
 		}
+	}
 
 	// can't have whitespace in source prefix
 
 	if ((itsSrcPrefix->GetText()->GetText()).Contains(" "))
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("SrcPrefixError::JXWMainDialog"));
 		itsSrcPrefix->Focus();
 		return false;
-		}
+	}
 
 	// check template directory
 
@@ -423,10 +423,10 @@ JXWMainDialog::WriteTemplate()
 	bool tmplDirOK = itsTemplateDir->InputValid();
 	itsTemplateDir->ShouldAllowInvalidPath(true);
 	if (!tmplDirOK)
-		{
+	{
 		itsTemplateDir->Focus();
 		return false;
-		}
+	}
 
 	JString templateDir;
 	tmplDirOK = itsTemplateDir->GetPath(&templateDir);
@@ -434,31 +434,31 @@ JXWMainDialog::WriteTemplate()
 
 	const JString testFile = JCombinePathAndName(templateDir, JString("_Binary_.fd", JString::kNoCopy));
 	if (!JFileExists(testFile))
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("InvalidTmplDirError::JXWMainDialog"));
 		itsTemplateDir->Focus();
 		return false;
-		}
+	}
 
 	// try to create project directory if it doesn't exist
 
 	JString projectDir;
 	if (JIsRelativePath(itsProjectDir->GetText()->GetText()) ||
 		!JExpandHomeDirShortcut(itsProjectDir->GetText()->GetText(), &projectDir))
-		{
+	{
 		itsProjectDir->ShouldAllowInvalidPath(false);
 		itsProjectDir->InputValid();
 		itsProjectDir->ShouldAllowInvalidPath(true);
 		itsProjectDir->Focus();
 		return false;
-		}
+	}
 
 	const JError err = JCreateDirectory(projectDir);
 	if (!err.OK())
-		{
+	{
 		JGetStringManager()->ReportError("UnableToCreateProjDir::JXWMainDialog", err);
 		return false;
-		}
+	}
 
 	// warnings should be after all errors so user doesn't have to answer yes
 	// after fixing each error
@@ -478,10 +478,10 @@ JXWMainDialog::WriteTemplate()
 
 	JString jxPath(JX_PATH, JString::kNoCopy);
 	if (projectDir.BeginsWith(jxPath))
-		{
+	{
 		jxPath = JConvertToRelativePath(jxPath, projectDir);
 		JStripTrailingDirSeparator(&jxPath);
-		}
+	}
 
 	JPtrArray<JString> value(JPtrArrayT::kDeleteAll);
 	value.Append(itsSrcPrefix->GetText()->GetText());
@@ -502,21 +502,21 @@ JXWMainDialog::WriteTemplate()
 	// open the project
 
 	if (!itsOpenCmd->GetText()->IsEmpty())
-		{
+	{
 		JString projFile = itsBinaryName->GetText()->GetText() + ".jcc";
 		projFile         = JCombinePathAndName(projectDir, projFile);
 		projFile         = JPrepArgForExec(projFile);
 
 		const JUtf8Byte* map[] =
-			{
+		{
 			"f", projFile.GetBytes()
-			};
+		};
 		JString cmd = itsOpenCmd->GetText()->GetText();
 		JGetStringManager()->Replace(&cmd, map, sizeof(map));
 
 		pid_t pid;
 		JExecute(cmd, &pid);
-		}
+	}
 
 	// save template directory
 
@@ -539,9 +539,9 @@ JXWMainDialog::CopyAndAdjustTemplateFiles
 {
 	JDirInfo* info;
 	if (!JDirInfo::Create(sourceDir, &info))
-		{
+	{
 		return;
-		}
+	}
 	info->SetWildcardFilter(JString("*~ #*#", JString::kNoCopy), true);
 
 	const JSize prefixLength = value.GetElement(kPrefix)->GetCharacterCount();
@@ -549,28 +549,28 @@ JXWMainDialog::CopyAndAdjustTemplateFiles
 	const JSize count = info->GetEntryCount();
 	JString prefix;
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const JDirEntry& entry = info->GetEntry(i);
 		if (entry.IsDirectory() && !JIsVCSDirectory(entry.GetName()))
-			{
+		{
 			const JString& name = entry.GetName();
 			const JString d1    = JCombinePathAndName(sourceDir, name);
 			const JString d2    = JCombinePathAndName(targetDir, name);
 			const JError err    = JCreateDirectory(d2);
 			if (err.OK())
-				{
-				CopyAndAdjustTemplateFiles(d1, d2, value);
-				}
-			else
-				{
-				err.ReportIfError();
-				}
-			}
-		else if (entry.IsFile())
 			{
+				CopyAndAdjustTemplateFiles(d1, d2, value);
+			}
+			else
+			{
+				err.ReportIfError();
+			}
+		}
+		else if (entry.IsFile())
+		{
 			JString name = entry.GetName();
 			if (name.BeginsWith(kFilePrefixTag, JString::kIgnoreCase))
-				{
+			{
 				JStringIterator iter(&name);
 				iter.SkipNext();
 				iter.BeginMatch();
@@ -584,46 +584,46 @@ JXWMainDialog::CopyAndAdjustTemplateFiles
 				name.Prepend(*value.GetElement(kPrefix));
 				name.MatchCase(prefix, JCharacterRange(1, prefix.GetCharacterCount()),
 							   JCharacterRange(1, prefixLength));
-				}
+			}
 			else if (name.BeginsWith(kBinaryPrefixTag))
-				{
+			{
 				JStringIterator iter(&name);
 				iter.BeginMatch();
 				iter.SkipNext(kBinaryPrefixTagLength);
 				iter.FinishMatch();
 				iter.ReplaceLastMatch(*value.GetElement(kBinary));
-				}
+			}
 
 			JString data;
 			JReadFile(entry.GetFullName(), &data);
 
 			for (JUnsignedOffset j=0; j<kTagCount; j++)
-				{
+			{
 				const bool isPrefix = j == kPrefix;
 
 				JStringIterator iter(&data);
 				JIndex fIndex = 1;
 				while (iter.Next(kTag[j], !isPrefix))
-					{
+				{
 					if (isPrefix)
-						{
+					{
 						prefix = data.GetSubstring(fIndex+1, fIndex+kPrefixTagLength-2);
-						}
+					}
 					data.ReplaceSubstring(fIndex, fIndex + strlen(kTag[j])-1,
 										  value[j]);
 					if (isPrefix)
-						{
+					{
 						data.MatchCase(prefix, JCharacterRange(1, prefix.GetLength()),
 									   JCharacterRange(fIndex, fIndex+prefixLength-1));
-						}
 					}
 				}
+			}
 
 			const JString target = JCombinePathAndName(targetDir, name);
 			std::ofstream os(target.GetBytes());
 			data.Print(os);
-			}
 		}
+	}
 
 	jdelete info;
 }
@@ -642,7 +642,7 @@ JXWMainDialog::ReadPrefs
 	JFileVersion vers;
 	input >> vers;
 	if (vers <= kCurrentPrefsVersion)
-		{
+	{
 		GetWindow()->ReadGeometry(input);
 
 		JString s;
@@ -667,23 +667,23 @@ JXWMainDialog::ReadPrefs
 
 		input >> s;
 		if (!s.IsEmpty())
-			{
+		{
 			UpdatePath(&s);
 			itsProjectDir->GetText()->SetText(s);
-			}
+		}
 
 		input >> s;
 		if (!s.IsEmpty())
-			{
+		{
 			UpdatePath(&s);
 			itsTemplateDir->GetText()->SetText(s);
-			}
+		}
 
 		itsTmplDirHistory->ReadSetup(input);
 
 		input >> s;
 		itsOpenCmd->GetText()->SetText(s);
-		}
+	}
 }
 
 /******************************************************************************
@@ -702,9 +702,9 @@ JXWMainDialog::UpdatePath
 	JStringIterator iter(s);
 	const JString v = "JX-" + JString(JXWGetVersionNumberStr(), JString::kNoCopy);
 	while (iter.Next(jxVersPattern))
-		{
+	{
 		iter.ReplaceLastMatch(v);
-		}
+	}
 }
 
 /******************************************************************************
@@ -737,13 +737,13 @@ JXWMainDialog::WritePrefs
 	output << ' ';
 	const JStringMatch m1 = hostPattern.Match(itsDevURL->GetText()->GetText(), JRegex::kIgnoreSubmatches);
 	if (!m1.IsEmpty())
-		{
+	{
 		output << m1.GetString();
-		}
+	}
 	else
-		{
+	{
 		output << JString(kDefaultURLText, JString::kNoCopy);
-		}
+	}
 
 	output << ' ' << JBoolToString(itsNeedsMDICB->IsChecked());
 
@@ -752,13 +752,13 @@ JXWMainDialog::WritePrefs
 	output << ' ';
 	const JStringMatch m2 = projPattern.Match(itsProjectDir->GetText()->GetText(), JRegex::kIgnoreSubmatches);
 	if (!m2.IsEmpty())
-		{
+	{
 		output << m2.GetString();
-		}
+	}
 	else
-		{
+	{
 		output << JString();
-		}
+	}
 
 	output << ' ' << itsTemplateDir->GetText()->GetText();
 

@@ -112,7 +112,7 @@ MDSizeHistogram::Draw
 	JIndex exp   = 32 - (JMemoryManager::kHistogramSlotCount - 1);
 	JFloat total = itsTotal;
 	for (JUnsignedOffset i=0; i<JMemoryManager::kHistogramSlotCount; i++)
-		{
+	{
 		r1 = r;
 
 		JRect r2         = r1;
@@ -127,18 +127,18 @@ MDSizeHistogram::Draw
 		p.JPainter::String(r2, s2, JPainter::kHAlignRight);
 
 		if (total > 0 && itsHisto[i] > 0)
-			{
+		{
 			r1.left += numberColWidth;
 
 			r2 = r1;
 			r2.Shrink(0, 2);
 			r2.right = r2.left + JRound(r2.width() * (itsHisto[i] / total)) + 1;
 			p.JPainter::Rect(r2);
-			}
+		}
 
 		r.Shift(0, lineHeight);
 		exp++;
-		}
+	}
 }
 
 /******************************************************************************

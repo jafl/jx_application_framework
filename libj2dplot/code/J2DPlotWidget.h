@@ -18,7 +18,7 @@
 class JPainter;
 class JPagePrinter;
 class JEPSPrinter;
-class JPlotDataBase;
+class J2DPlotDataBase;
 struct J2DDataPoint;
 struct J2DVectorPoint;
 struct J2DDataRect;
@@ -147,12 +147,12 @@ public:
 	JColorID		GetCurveColor(const JIndex index) const;
 	J2DSymbolType	GetSymbolType(const JIndex index) const;
 
-	JPlotDataBase&			GetCurve(const JIndex index);
-	const JPlotDataBase&	GetCurve(const JIndex index) const;
+	J2DPlotDataBase&			GetCurve(const JIndex index);
+	const J2DPlotDataBase&	GetCurve(const JIndex index) const;
 
-	JIndex	AddCurve(JPlotDataBase* data, const bool ownsData,
+	JIndex	AddCurve(J2DPlotDataBase* data, const bool ownsData,
 					 const JString& name);
-	JIndex	AddCurve(JPlotDataBase* data, const bool ownsData,
+	JIndex	AddCurve(J2DPlotDataBase* data, const bool ownsData,
 					 const JString& name,
 					 const bool line, const bool symbol);
 	bool	AddCurve(JArray<JFloat>& x, JArray<JFloat>& y,
@@ -195,7 +195,7 @@ public:
 	void	ClearRange();
 	bool	IsUsingRange() const;
 
-	bool	GetCurveIndex(JPlotDataBase* data, JIndex* index);
+	bool	GetCurveIndex(J2DPlotDataBase* data, JIndex* index);
 
 	// Cursors
 
@@ -313,7 +313,7 @@ private:
 	bool	itsAutomaticRefreshFlag;
 	bool	itsIgnoreCurveChangedFlag;	// true => ignore CurveChanged messages
 
-	JPtrArray<JPlotDataBase>*	itsCurves;
+	JPtrArray<J2DPlotDataBase>*	itsCurves;
 	JArray<J2DCurveInfo>*		itsCurveInfo;
 	JArray<JColorID>*			itsColors;
 	JArray<JSize>*				itsColorUsage;
@@ -445,14 +445,14 @@ private:
 	void	DrawData(JPainter& p) const;
 	void	DrawLegend(JPainter& p);
 
-	void	DrawCurve(JPainter& p, const JPlotDataBase& curve,
+	void	DrawCurve(JPainter& p, const J2DPlotDataBase& curve,
 					  const J2DCurveInfo& info, const J2DDataRect& visRect) const;
 	void	DrawError(JPainter& p, const JPoint& pt,
-						  const JPlotDataBase& curve, const J2DCurveInfo& info,
+						  const J2DPlotDataBase& curve, const J2DCurveInfo& info,
 						  const JIndex index, const bool xLinear, const bool yLinear,
 						  const J2DDataRect& visRect) const;
 
-	void	DrawVector(JPainter& p, const JPlotDataBase& curve,
+	void	DrawVector(JPainter& p, const J2DPlotDataBase& curve,
 					   const J2DCurveInfo& info, const J2DDataRect& visRect) const;
 	void	DrawVectorHead(JPainter& p,
 						   const JPoint& headPt, const JPoint& tailPt,
@@ -462,7 +462,7 @@ private:
 	void	CalcVisibleRange(const JFloat scaleMin, const JFloat scaleMax,
 							 const JFloat rangeMin, const JFloat rangeMax,
 							 JFloat* min, JFloat* max) const;
-	void	Interpolate(const JIndex index, const JPlotDataBase& data,
+	void	Interpolate(const JIndex index, const J2DPlotDataBase& data,
 						const J2DDataRect& visRect,
 						J2DDataPoint* data1, J2DDataPoint* data2,
 						bool* move, bool* draw, bool* mark) const;
@@ -1035,7 +1035,7 @@ J2DPlotWidget::GetCurveCount()
 
  ******************************************************************************/
 
-inline JPlotDataBase&
+inline J2DPlotDataBase&
 J2DPlotWidget::GetCurve
 	(
 	const JIndex index
@@ -1044,7 +1044,7 @@ J2DPlotWidget::GetCurve
 	return *(itsCurves->GetElement(index));
 }
 
-inline const JPlotDataBase&
+inline const J2DPlotDataBase&
 J2DPlotWidget::GetCurve
 	(
 	const JIndex index
@@ -1077,7 +1077,7 @@ J2DPlotWidget::GetCurveName
 inline bool
 J2DPlotWidget::GetCurveIndex
 	(
-	JPlotDataBase*	data,
+	J2DPlotDataBase*	data,
 	JIndex*			index
 	)
 {

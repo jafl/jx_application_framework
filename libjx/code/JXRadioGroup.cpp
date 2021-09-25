@@ -89,14 +89,14 @@ JXRadioGroup::SelectItem
 	assert( itsSelection != nullptr );
 
 	if (id != itsSelection->GetID())
-		{
+	{
 		JXRadioButton** newButton =
 			std::find_if(begin(*itsButtons), end(*itsButtons),
 				[id] (JXRadioButton* b) { return b->GetID() == id; });
 		assert( newButton != end(*itsButtons) );
 
 		NewSelection(*newButton);
-		}
+	}
 }
 
 /******************************************************************************
@@ -113,15 +113,15 @@ JXRadioGroup::NewSelection
 	assert( button != nullptr );
 
 	if (itsSelection != button)
-		{
+	{
 		if (itsSelection != nullptr)
-			{
+		{
 			itsSelection->Deselect();
-			}
+		}
 		itsSelection = button;
 		itsSelection->Select();
 		Broadcast(SelectionChanged(itsSelection->GetID()));
-		}
+	}
 }
 
 /******************************************************************************
@@ -144,15 +144,15 @@ JXRadioGroup::GetRadioButton
 			[id] (JXRadioButton* b) { return b->GetID() == id; });
 
 	if (rb1 == end(*itsButtons))
-		{
+	{
 		*rb = nullptr;
 		return false;
-		}
+	}
 	else
-		{
+	{
 		*rb = *rb1;
 		return true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -170,9 +170,9 @@ JXRadioGroup::NewButton
 {
 	itsButtons->Append(button);
 	if (itsSelection == nullptr)
-		{
+	{
 		NewSelection(button);
-		}
+	}
 }
 
 /******************************************************************************

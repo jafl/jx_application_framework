@@ -44,7 +44,7 @@ public:
 	JBroadcasterList()
 		:
 		JPtrArray<JBroadcaster>(JPtrArrayT::kForgetAll)
-		{ };
+	{ };
 };
 
 typedef JTaskIterator<JBroadcaster>	JBroadcasterIterator;
@@ -98,28 +98,28 @@ JBroadcaster::JBroadcaster
 JBroadcaster::~JBroadcaster()
 {
 	if (itsRecipients != nullptr)
-		{
+	{
 		while (itsRecipients != nullptr && !itsRecipients->IsEmpty())
-			{
+		{
 			JBroadcaster* aRecipient = itsRecipients->GetLastElement();
 			itsRecipients->RemoveElement(itsRecipients->GetElementCount());
 			aRecipient->RemoveSender(this);
 			aRecipient->ClearGone(this);
 			aRecipient->ReceiveGoingAway(this);		// do this last in case they die
-			}
+		}
 
 		jdelete itsRecipients;
-		}
+	}
 
 	if (itsSenders != nullptr)
-		{
+	{
 		for (auto* sender : *itsSenders)
-			{
+		{
 			sender->RemoveRecipient(this);
-			}
+		}
 
 		jdelete itsSenders;
-		}
+	}
 
 	jdelete itsClearPointers;
 }
@@ -138,9 +138,9 @@ JBroadcaster::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	// We don't want to inherit the dependencies, and we don't want to
 	// kill the existing ones, so we do nothing.
@@ -182,10 +182,10 @@ JBroadcaster::ListenTo
 
 	auto* sender = const_cast<JBroadcaster*>(csender);
 	if (itsSenders == nullptr || !itsSenders->Includes(sender))
-		{
+	{
 		AddSender(sender);
 		sender->AddRecipient(this);
-		}
+	}
 }
 
 /******************************************************************************
@@ -204,29 +204,29 @@ JBroadcaster::StopListening
 	)
 {
 	if (csender == nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	auto* sender = const_cast<JBroadcaster*>(csender);
 	if (itsSenders != nullptr && itsSenders->Includes(sender))
-		{
+	{
 		RemoveSender(sender);
 		sender->RemoveRecipient(this);
 
 		if (itsClearPointers != nullptr)
-			{
+		{
 			const JSize count = itsClearPointers->GetElementCount();
 			for (JIndex i=count; i>=1; i--)
-				{
+			{
 				ClearPointer ptr = itsClearPointers->GetElement(i);
 				if (ptr.sender == sender)
-					{
+				{
 					itsClearPointers->RemoveElement(i);
-					}
 				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -246,13 +246,13 @@ JBroadcaster::GetSenderCount()
 	const
 {
 	if (itsSenders != nullptr)
-		{
+	{
 		return itsSenders->GetElementCount();
-		}
+	}
 	else
-		{
+	{
 		return 0;
-		}
+	}
 }
 
 bool
@@ -267,13 +267,13 @@ JBroadcaster::GetRecipientCount()
 	const
 {
 	if (itsRecipients != nullptr)
-		{
+	{
 		return itsRecipients->GetElementCount();
-		}
+	}
 	else
-		{
+	{
 		return 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -290,10 +290,10 @@ JBroadcaster::AddRecipient
 	)
 {
 	if (itsRecipients == nullptr)
-		{
+	{
 		itsRecipients = jnew JBroadcasterList;
 		assert( itsRecipients != nullptr );
-		}
+	}
 
 	itsRecipients->Prepend(recipient);	// so it gets the -next- message
 }
@@ -313,14 +313,14 @@ JBroadcaster::RemoveRecipient
 	)
 {
 	if (itsRecipients != nullptr)
-		{
+	{
 		itsRecipients->Remove(recipient);
 		if (itsRecipients->IsEmpty())
-			{
+		{
 			jdelete itsRecipients;
 			itsRecipients = nullptr;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -337,10 +337,10 @@ JBroadcaster::AddSender
 	)
 {
 	if (itsSenders == nullptr)
-		{
+	{
 		itsSenders = jnew JBroadcasterList;
 		assert( itsSenders != nullptr );
-		}
+	}
 
 	itsSenders->Prepend(sender);
 }
@@ -359,14 +359,14 @@ JBroadcaster::RemoveSender
 	)
 {
 	if (itsSenders != nullptr)
-		{
+	{
 		itsSenders->Remove(sender);
 		if (itsSenders->IsEmpty())
-			{
+		{
 			jdelete itsSenders;
 			itsSenders = nullptr;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -411,9 +411,9 @@ JBroadcaster::BroadcastPrivate
 	JBroadcaster*			recipient;
 
 	while (iterator.Next(&recipient))
-		{
+	{
 		recipient->Receive(this, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -475,9 +475,9 @@ JBroadcaster::BroadcastWithFeedbackPrivate
 	JBroadcaster*			recipient;
 
 	while (iterator.Next(&recipient))
-		{
+	{
 		recipient->ReceiveWithFeedback(this, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -538,10 +538,10 @@ JBroadcaster::ClearWhenGoingAway
 	assert( csender != nullptr );
 
 	if (itsClearPointers == nullptr)
-		{
+	{
 		itsClearPointers = jnew JPointerClearList;
 		assert( itsClearPointers != nullptr );
-		}
+	}
 
 	itsClearPointers->AppendElement(
 		ClearPointer(const_cast<JBroadcaster*>(csender), pointerToMember));
@@ -567,20 +567,20 @@ JBroadcaster::ClearGone
 	)
 {
 	if (itsClearPointers == nullptr)
-		{
+	{
 		return;
-		}
+	}
 
 	const JSize count = itsClearPointers->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
-		{
+	{
 		ClearPointer ptr = itsClearPointers->GetElement(i);
 		if (ptr.sender == sender)
-			{
+		{
 			*((PointerSize**) (ptr.pointer)) = nullptr;
 			itsClearPointers->RemoveElement(i);
-			}
 		}
+	}
 }
 
 /******************************************************************************

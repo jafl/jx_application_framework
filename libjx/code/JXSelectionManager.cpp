@@ -126,10 +126,10 @@ JXSelectionManager::GetAvailableTypes
 
 	JXSelectionData* data = nullptr;
 	if (GetData(selectionName, time, &data))
-		{
+	{
 		*typeList = data->GetTypeList();
 		return true;
-		}
+	}
 
 	// We have to go via the X server.
 
@@ -137,7 +137,7 @@ JXSelectionManager::GetAvailableTypes
 
 	XSelectionEvent selEvent;
 	if (RequestData(selectionName, time, itsAtoms[ kTargetsAtomIndex ], &selEvent))
-		{
+	{
 		Atom actualType;
 		int actualFormat;
 		unsigned long itemCount, remainingBytes;
@@ -151,18 +151,18 @@ JXSelectionManager::GetAvailableTypes
 
 		if (actualType == XA_ATOM &&
 			actualFormat == 32 && remainingBytes == 0)
-			{
+		{
 			Atom* atomData = reinterpret_cast<Atom*>(data);
 			for (JIndex i=1; i<=itemCount; i++)
-				{
+			{
 				typeList->AppendElement(atomData[i-1]);
-				}
+			}
 
 			XFree(data);
 			return true;
-			}
+		}
 		else
-			{
+		{
 //			std::cout << "TARGETS returned " << XGetAtomName(*itsDisplay, actualType) << std::endl;
 //			std::cout << "  format:    " << actualFormat/8 << std::endl;
 //			std::cout << "  count:     " << itemCount << std::endl;
@@ -170,12 +170,12 @@ JXSelectionManager::GetAvailableTypes
 
 			XFree(data);
 			// fall through
-			}
 		}
+	}
 
 	if (selectionName == kJXClipboardName &&
 		XGetSelectionOwner(*itsDisplay, kJXClipboardName) != None)
-		{
+	{
 		// compensate for brain damage in rxvt, etc.
 
 //		std::cout << "XA_PRIMARY owner: " << XGetSelectionOwner(*itsDisplay, XA_PRIMARY) << std::endl;
@@ -184,11 +184,11 @@ JXSelectionManager::GetAvailableTypes
 
 		typeList->AppendElement(XA_STRING);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -219,12 +219,12 @@ JXSelectionManager::GetData
 	// until XQuartz fixes https://bugs.freedesktop.org/show_bug.cgi?id=92650
 #if XQUARTZ_BUG
 	if (itsDisplay->IsOSX() && requestType == GetUtf8StringXAtom())
-		{
+	{
 		JProcess* p;
 		int fd;
 		if (JProcess::Create(&p, JString("pbpaste", false),
 							 kJIgnoreConnection, nullptr, kJCreatePipe, &fd).OK())
-			{
+		{
 			JString clipdata;
 			JReadAll(fd, &clipdata);
 			jdelete p;
@@ -234,29 +234,29 @@ JXSelectionManager::GetData
 			*dataLength = clipdata.GetByteCount();
 			*delMethod  = kArrayDelete;
 			return true;
-			}
 		}
+	}
 #endif
 	// Check if this application owns the selection.
 
 	JXSelectionData* localData = nullptr;
 	JSize bitsPerBlock;
 	if (GetData(selectionName, time, &localData))
-		{
+	{
 		if (localData->Convert(requestType, returnType,
 							   data, dataLength, &bitsPerBlock))
-			{
+		{
 			*delMethod = kArrayDelete;
 			return true;
-			}
+		}
 		else
-			{
+		{
 			*returnType = None;
 			*data       = nullptr;
 			*dataLength = 0;
 			return false;
-			}
 		}
+	}
 
 	// We have to go via the X server.
 
@@ -269,22 +269,22 @@ JXSelectionManager::GetData
 
 	XSelectionEvent selEvent;
 	if (RequestData(selectionName, time, requestType, &selEvent))
-		{
+	{
 		#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
 		std::cout << "Received SelectionNotify" << std::endl;
 		#endif
 
 		// We need to discard all existing PropertyNotify events
 		// before initiating the incremental transfer.
-		{
+	{
 		XEvent xEvent;
 		XID checkIfEventData[] = { itsDataWindow, itsAtoms[ kSelectionWindPropAtomIndex ] };
 		while (XCheckIfEvent(*itsDisplay, &xEvent, GetNextNewPropertyEvent,
 							 reinterpret_cast<char*>(checkIfEventData)))
-			{
+		{
 			// ignore the event
-			}
 		}
+	}
 
 		// Initiate incremental transfer by deleting the property.
 
@@ -296,35 +296,35 @@ JXSelectionManager::GetData
 						   &itemCount, &remainingBytes, data);
 
 		if (*returnType == itsAtoms[ kIncrementalSendAtomIndex ])
-			{
+		{
 			XFree(*data);
 			success = ReceiveDataIncr(selectionName, returnType,
 									  data, dataLength, delMethod);
-			}
+		}
 		else if (*returnType != None && remainingBytes == 0)
-			{
+		{
 			*dataLength = itemCount * actualFormat/8;
 			success     = true;
-			}
+		}
 		else
-			{
+		{
 			XFree(*data);
 			*data = nullptr;
-			}
 		}
+	}
 
 	if (success && *returnType == itsAtoms[ kURLAtomIndex ])
-		{
+	{
 		const Window srcWindow = XGetSelectionOwner(*itsDisplay, selectionName);
 		JString newData;
 		if (JXFixBrokenURLs((char*) *data, *dataLength, itsDisplay, srcWindow, &newData))
-			{
+		{
 			XFree(*data);
 			*data = (unsigned char*) malloc(newData.GetByteCount()+1);	// JString::AllocateBytes uses new[]
 			memcpy(*data, newData.GetRawBytes(), newData.GetByteCount()+1);
 			*dataLength = newData.GetByteCount();
-			}
 		}
+	}
 
 	return success;
 }
@@ -345,18 +345,18 @@ JXSelectionManager::DeleteData
 	)
 {
 	if (delMethod == kXFree)
-		{
+	{
 		XFree(*data);
-		}
+	}
 	else if (delMethod == kCFree)
-		{
+	{
 		free(*data);
-		}
+	}
 	else
-		{
+	{
 		assert( delMethod == kArrayDelete );
 		jdelete [] *data;
-		}
+	}
 
 	*data = nullptr;
 }
@@ -408,9 +408,9 @@ JXSelectionManager::RequestData
 
 	Time time = origTime;
 	if (time == CurrentTime)
-		{
+	{
 		time = itsDisplay->GetLastEventTime();
-		}
+	}
 
 	XConvertSelection(*itsDisplay, selectionName, type,
 					  itsAtoms[ kSelectionWindPropAtomIndex ], itsDataWindow, time);
@@ -421,31 +421,31 @@ JXSelectionManager::RequestData
 	const clock_t endTime   = startTime + kWaitForSelectionTime;
 	bool userBored      = false;
 	while (!receivedEvent && clock() < endTime)
-		{
+	{
 		receivedEvent =
 			XCheckTypedWindowEvent(*itsDisplay, itsDataWindow,
 								   SelectionNotify, &xEvent);
 
 		if (!userBored && clock() > startTime + kUserBoredWaitingTime)
-			{
+		{
 			userBored = true;
 			JXGetApplication()->DisplayBusyCursor();
-			}
 		}
+	}
 
 	if (receivedEvent)
-		{
+	{
 		assert( xEvent.type == SelectionNotify );
 		*selEvent = xEvent.xselection;
 		return selEvent->requestor == itsDataWindow &&
 					selEvent->selection == selectionName &&
 					selEvent->target    == type &&
 					selEvent->property  == itsAtoms[ kSelectionWindPropAtomIndex ];
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -471,35 +471,35 @@ JXSelectionManager::HandleSelectionRequest
 	returnEvent.time      = selReqEvent.time;
 
 	if (returnEvent.property == None)
-		{
+	{
 		returnEvent.property = returnEvent.target;
-		}
+	}
 
 	Atom selectionName   = selReqEvent.selection;
 	JXDNDManager* dndMgr = itsDisplay->GetDNDManager();
 	if (selectionName == kJXClipboardName &&
 		dndMgr->IsLastFakePasteTime(selReqEvent.time))
-		{
+	{
 		selectionName = dndMgr->GetDNDSelectionName();
-		}
+	}
 
 	// allow Gnome apps to paste via menu item
 
 	if (selectionName == itsAtoms[ kGnomeClipboardAtomIndex ])
-		{
+	{
 		selectionName = kJXClipboardName;
-		}
+	}
 
 	JXSelectionData* selData = nullptr;
 	if (GetData(selectionName, selReqEvent.time, &selData))
-		{
+	{
 		Atom returnType;
 		unsigned char* data;
 		JSize dataLength;
 		JSize bitsPerBlock;
 		if (selData->Convert(selReqEvent.target,
 							 &returnType, &data, &dataLength, &bitsPerBlock))
-			{
+		{
 			#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
 			std::cout << "Accepted selection request: ";
 			std::cout << XGetAtomName(*itsDisplay, selReqEvent.target);
@@ -509,9 +509,9 @@ JXSelectionManager::HandleSelectionRequest
 			#if JXSEL_MICRO_TRANSFER
 			const JSize savedMaxSize = itsMaxDataChunkSize;
 			if (selReqEvent.target != itsTargetsXAtom)
-				{
+			{
 				itsMaxDataChunkSize = 1;
-				}
+			}
 			#endif
 
 			SendData(selReqEvent.requestor, returnEvent.property, returnType,
@@ -523,24 +523,24 @@ JXSelectionManager::HandleSelectionRequest
 			#endif
 
 			return;
-			}
+		}
 		else
-			{
+		{
 			#if JXSEL_DEBUG_MSGS
 			std::cout << "Rejected selection request: can't convert to ";
 			std::cout << XGetAtomName(*itsDisplay, selReqEvent.target);
 			std::cout << ", time=" << selReqEvent.time << std::endl;
 			#endif
-			}
 		}
+	}
 	else
-		{
+	{
 		#if JXSEL_DEBUG_MSGS
 		std::cout << "Rejected selection request: don't own ";
 		std::cout << XGetAtomName(*itsDisplay, selReqEvent.selection);
 		std::cout << ", time=" << selReqEvent.time << std::endl;
 		#endif
-		}
+	}
 
 	returnEvent.property = None;
 	itsDisplay->SendXEvent(selReqEvent.requestor, &xEvent);
@@ -572,22 +572,22 @@ JXSelectionManager::SendData
 	#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
 	std::cout << "Selection is " << dataLength << " bytes" << std::endl;
 	if (dataLength <= chunkSize)
-		{
+	{
 		std::cout << "Attempting to send entire selection" << std::endl;
-		}
+	}
 	#endif
 
 	if (dataLength <= chunkSize &&
 		SendData1(requestor, property, type,
 				  data, dataLength, bitsPerBlock))
-		{
+	{
 		#if JXSEL_DEBUG_MSGS
 		std::cout << "Transfer complete" << std::endl;
 		#endif
 
 		itsDisplay->SendXEvent(requestor, returnEvent);
 		return;
-		}
+	}
 
 	// we need to hear when the property or the window is deleted
 
@@ -607,13 +607,13 @@ JXSelectionManager::SendData
 					reinterpret_cast<unsigned char*>(&remainingLength), 1);
 	itsDisplay->SendXEvent(requestor, returnEvent);
 	if (!WaitForPropertyDeleted(requestor, property))
-		{
+	{
 		#if JXSEL_DEBUG_MSGS
 		std::cout << "No response from requestor (data length)" << std::endl;
 		#endif
 
 		return;
-		}
+	}
 
 	// send a chunk and wait for it to be deleted
 
@@ -622,16 +622,16 @@ JXSelectionManager::SendData
 	#endif
 
 	while (remainingLength > 0)
-		{
+	{
 		#if JXSEL_DEBUG_MSGS
 		chunkIndex++;
 		#endif
 
 		unsigned char* dataStart = data + dataLength - remainingLength;
 		if (chunkSize > remainingLength)
-			{
+		{
 			chunkSize = remainingLength;
-			}
+		}
 
 		#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
 		std::cout << "Sending " << chunkSize << " bytes" << std::endl;
@@ -640,34 +640,34 @@ JXSelectionManager::SendData
 		SendData1(requestor, property, type,
 				  dataStart, chunkSize, bitsPerBlock);
 		if (itsTargetWindowDeletedFlag)
-			{
+		{
 			#if JXSEL_DEBUG_MSGS
 			std::cout << "Requestor crashed on iteration ";
 			std::cout << chunkIndex << std::endl;
 			#endif
 			return;
-			}
+		}
 		else if (itsReceivedAllocErrorFlag && itsMaxDataChunkSize > 1)
-			{
+		{
 			itsMaxDataChunkSize /= 2;
 			chunkSize            = 4*itsMaxDataChunkSize;
 
 			#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
 			std::cout << "Reducing chunk size to " << chunkSize << " bytes" << std::endl;
 			#endif
-			}
+		}
 		else if (itsReceivedAllocErrorFlag)
-			{
+		{
 			#if JXSEL_DEBUG_MSGS
 			std::cout << "X server is out of memory!" << std::endl;
 			#endif
 
 			XSelectInput(*itsDisplay, requestor, NoEventMask);
 			return;
-			}
+		}
 
 		if (!WaitForPropertyDeleted(requestor, property))
-			{
+		{
 			#if JXSEL_DEBUG_MSGS
 			std::cout << "No response from requestor on iteration ";
 			std::cout << chunkIndex << ", " << dataLength - remainingLength;
@@ -676,10 +676,10 @@ JXSelectionManager::SendData
 			#endif
 
 			return;
-			}
+		}
 
 		remainingLength -= chunkSize;
-		}
+	}
 
 	// send zero-length property to signal that we are done
 
@@ -688,9 +688,9 @@ JXSelectionManager::SendData
 	// we are done interacting with the requestor
 
 	if (!itsTargetWindowDeletedFlag)
-		{
+	{
 		XSelectInput(*itsDisplay, requestor, NoEventMask);
-		}
+	}
 
 	#if JXSEL_DEBUG_MSGS
 	std::cout << "Transfer complete" << std::endl;
@@ -759,20 +759,20 @@ JXSelectionManager::WaitForPropertyDeleted
 	XID checkIfEventData[] = { xWindow, property };
 	const clock_t endTime = clock() + kWaitForSelectionTime;
 	while (clock() < endTime)
-		{
+	{
 		const Bool receivedEvent =
 			XCheckIfEvent(*itsDisplay, &xEvent, GetNextPropDeletedEvent,
 						  reinterpret_cast<char*>(&checkIfEventData));
 
 		if (receivedEvent && xEvent.type == PropertyNotify)
-			{
+		{
 			return true;
-			}
-		else if (receivedEvent && xEvent.type == DestroyNotify)
-			{
-			return false;
-			}
 		}
+		else if (receivedEvent && xEvent.type == DestroyNotify)
+		{
+			return false;
+		}
+	}
 
 	#if JXSEL_DEBUG_MSGS
 
@@ -786,14 +786,14 @@ JXSelectionManager::WaitForPropertyDeleted
 					   &itemCount, &remainingBytes, &data);
 
 	if (actualType == None && actualFormat == 0 && remainingBytes == 0)
-		{
+	{
 		std::cout << "Window property was deleted, but source was not notified!" << std::endl;
-		}
+	}
 	else
-		{
+	{
 		std::cout << "Window property not deleted, type " << XGetAtomName(*itsDisplay, actualType);
 		std::cout << ", " << itemCount * actualFormat/8 << " bytes" << std::endl;
-		}
+	}
 	XFree(data);
 
 	#endif
@@ -818,18 +818,18 @@ JXSelectionManager::GetNextPropDeletedEvent
 		event->xproperty.window == data[0] &&
 		event->xproperty.atom   == data[1] &&
 		event->xproperty.state  == PropertyDelete)
-		{
+	{
 		return True;
-		}
+	}
 	else if (event->type                  == DestroyNotify &&
 			 event->xdestroywindow.window == data[0])
-		{
+	{
 		return True;
-		}
+	}
 	else
-		{
+	{
 		return False;
-		}
+	}
 }
 
 /******************************************************************************
@@ -864,9 +864,9 @@ JXSelectionManager::ReceiveDataIncr
 
 	const Window sender = XGetSelectionOwner(*itsDisplay, selectionName);
 	if (sender == None)
-		{
+	{
 		return false;
-		}
+	}
 	XSelectInput(*itsDisplay, sender, StructureNotifyMask);
 
 	// The transfer has already been initiated by deleting the
@@ -880,13 +880,13 @@ JXSelectionManager::ReceiveDataIncr
 
 	bool ok = true;
 	while (true)
-		{
+	{
 		#if JXSEL_DEBUG_MSGS
 		chunkIndex++;
 		#endif
 
 		if (!WaitForPropertyCreated(itsDataWindow, itsAtoms[ kSelectionWindPropAtomIndex ], sender))
-			{
+		{
 			#if JXSEL_DEBUG_MSGS
 			std::cout << "No response from selection owner on iteration ";
 			std::cout << chunkIndex << ", " << *dataLength << " bytes received" << std::endl;
@@ -894,7 +894,7 @@ JXSelectionManager::ReceiveDataIncr
 
 			ok = false;
 			break;
-			}
+		}
 
 		Atom actualType;
 		int actualFormat;
@@ -906,7 +906,7 @@ JXSelectionManager::ReceiveDataIncr
 						   &itemCount, &remainingBytes, &chunk);
 
 		if (actualType == None)
-			{
+		{
 			#if JXSEL_DEBUG_MSGS
 			std::cout << "Received data of type None on iteration ";
 			std::cout << chunkIndex << std::endl;
@@ -914,34 +914,34 @@ JXSelectionManager::ReceiveDataIncr
 
 			ok = false;
 			break;
-			}
+		}
 
 		// an empty property means that we are done
 
 		if (itemCount == 0)
-			{
+		{
 			#if JXSEL_DEBUG_MSGS
 			if (*data == nullptr)
-				{
+			{
 				std::cout << "Didn't receive any data on iteration ";
 				std::cout << chunkIndex << std::endl;
-				}
+			}
 			#endif
 
 			XFree(chunk);
 			ok = *data != nullptr;
 			break;
-			}
+		}
 
 		// otherwise, append it to *data
 
 		else
-			{
+		{
 			assert( remainingBytes == 0 );
 
 			const JSize chunkSize = itemCount * actualFormat/8;
 			if (*data == nullptr)
-				{
+			{
 				// the first chunk determines the format
 				*returnType = actualType;
 
@@ -952,12 +952,12 @@ JXSelectionManager::ReceiveDataIncr
 				#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
 				std::cout << "Data format: " << XGetAtomName(*itsDisplay, actualType) << std::endl;
 				#endif
-				}
+			}
 			else
-				{
+			{
 				*data = static_cast<unsigned char*>(realloc(*data, *dataLength + chunkSize));
 				memcpy(*data + *dataLength, chunk, chunkSize);
-				}
+			}
 
 			*dataLength += chunkSize;
 			XFree(chunk);
@@ -965,8 +965,8 @@ JXSelectionManager::ReceiveDataIncr
 			#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
 			std::cout << "Received " << chunkSize << " bytes" << std::endl;
 			#endif
-			}
 		}
+	}
 
 	// we are done interacting with the sender
 
@@ -975,22 +975,22 @@ JXSelectionManager::ReceiveDataIncr
 	// clean up
 
 	if (!ok && *data != nullptr)
-		{
+	{
 		free(*data);
 		*data       = nullptr;
 		*dataLength = 0;
 		*returnType = None;
-		}
+	}
 
 	#if JXSEL_DEBUG_MSGS
 	if (ok)
-		{
+	{
 		std::cout << "Transfer successful" << std::endl;
-		}
+	}
 	else
-		{
+	{
 		std::cout << "Transfer failed" << std::endl;
-		}
+	}
 	#endif
 
 	return ok;
@@ -1018,18 +1018,18 @@ JXSelectionManager::WaitForPropertyCreated
 	XID checkIfEventData[] = { xWindow, property };
 	const clock_t endTime = clock() + kWaitForSelectionTime;
 	while (clock() < endTime)
-		{
+	{
 		if (XCheckTypedWindowEvent(*itsDisplay, sender, DestroyNotify, &xEvent))
-			{
+		{
 			return false;
-			}
+		}
 
 		if (XCheckIfEvent(*itsDisplay, &xEvent, GetNextNewPropertyEvent,
 						  reinterpret_cast<char*>(checkIfEventData)))
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -1050,13 +1050,13 @@ JXSelectionManager::GetNextNewPropertyEvent
 		event->xproperty.window == data[0] &&
 		event->xproperty.atom   == data[1] &&
 		event->xproperty.state  == PropertyNewValue)
-		{
+	{
 		return True;
-		}
+	}
 	else
-		{
+	{
 		return False;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1074,28 +1074,28 @@ JXSelectionManager::ReceiveWithFeedback
 	)
 {
 	if (sender == itsDisplay && message->Is(JXDisplay::kXError))
-		{
+	{
 		auto* err = dynamic_cast<JXDisplay::XError*>(message);
 		assert( err != nullptr );
 
 		if (err->GetType() == BadAlloc)
-			{
+		{
 			itsReceivedAllocErrorFlag = true;
 			err->SetCaught();
-			}
+		}
 
 		else if (err->GetType() == BadWindow &&
 				 err->GetXID()  == itsTargetWindow)
-			{
+		{
 			itsTargetWindowDeletedFlag = true;
 			err->SetCaught();
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JBroadcaster::ReceiveWithFeedback(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1127,19 +1127,19 @@ JXSelectionManager::SetData
 	JXSelectionData* origData = nullptr;
 	const bool found = GetData(selectionName, CurrentTime, &origData);
 	if (found && origData != data)
-		{
+	{
 		origData->SetEndTime(lastEventTime);
-		}
+	}
 	else if (found)
-		{
+	{
 		itsDataList->Remove(data);
-		}
+	}
 
 	// we are required to check XGetSelectionOwner()
 
 	XSetSelectionOwner(*itsDisplay, selectionName, itsDataWindow, lastEventTime);
 	if (XGetSelectionOwner(*itsDisplay, selectionName) == itsDataWindow)
-		{
+	{
 		#if JXSEL_DEBUG_MSGS
 		std::cout << "Got selection ownership: ";
 		std::cout << XGetAtomName(*itsDisplay, selectionName);
@@ -1149,41 +1149,41 @@ JXSelectionManager::SetData
 		// allow Gnome apps to paste via menu item
 
 		if (selectionName == kJXClipboardName)
-			{
+		{
 			XSetSelectionOwner(*itsDisplay, itsAtoms[ kGnomeClipboardAtomIndex ], itsDataWindow, lastEventTime);
-			}
+		}
 #if XQUARTZ_BUG
 		if (itsDisplay->IsOSX())	// until XQuartz fixes https://bugs.freedesktop.org/show_bug.cgi?id=92650
-			{
+		{
 			Atom returnType;
 			unsigned char* clipdata;
 			JSize dataLength, bitsPerBlock;
 			if (data->Convert(GetUtf8StringXAtom(), &returnType, &clipdata, &dataLength, &bitsPerBlock) &&
 				returnType == GetUtf8StringXAtom())
-				{
+			{
 				JProcess* p;
 				int fd;
 				if (JProcess::Create(&p, JString("pbcopy", false),
 									 kJCreatePipe, &fd).OK())
-					{
+				{
 					write(fd, clipdata, dataLength);
 					close(fd);
 					p->WaitUntilFinished();
 					jdelete p;
-					}
-				jdelete [] clipdata;
 				}
+				jdelete [] clipdata;
 			}
+		}
 #endif
 		data->SetSelectionInfo(selectionName, lastEventTime);
 		itsDataList->Append(data);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		jdelete data;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1207,15 +1207,15 @@ JXSelectionManager::ClearData
 {
 	JXSelectionData* data = nullptr;
 	if (GetData(selectionName, endTime, &data))
-		{
+	{
 		const Time t = (endTime == CurrentTime ? itsDisplay->GetLastEventTime() : endTime);
 		data->SetEndTime(t);
 
 		if (XGetSelectionOwner(*itsDisplay, selectionName) == itsDataWindow)
-			{
+		{
 			XSetSelectionOwner(*itsDisplay, selectionName, None, t);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1251,7 +1251,7 @@ JXSelectionManager::GetData
 {
 	const JSize count = itsDataList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		*data         = itsDataList->GetElement(i);
 		const Time t1 = (**data).GetStartTime();
 
@@ -1262,20 +1262,20 @@ JXSelectionManager::GetData
 			((time == CurrentTime && !finished) ||
 			 (time != CurrentTime && t1 != CurrentTime &&
 			  t1 <= time && (!finished || time <= t2))))
-			{
+		{
 			if (index != nullptr)
-				{
+			{
 				*index = i;
-				}
-			return true;
 			}
+			return true;
 		}
+	}
 
 	*data = nullptr;
 	if (index != nullptr)
-		{
+	{
 		*index = 0;
-		}
+	}
 	return false;
 }
 
@@ -1292,7 +1292,7 @@ JXSelectionManager::DeleteOutdatedData()
 
 	const JSize count = itsDataList->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
-		{
+	{
 		JXSelectionData* data = itsDataList->GetElement(i);
 
 		// toss if outdated or clock has wrapped
@@ -1300,8 +1300,8 @@ JXSelectionManager::DeleteOutdatedData()
 		Time endTime;
 		if ((data->GetEndTime(&endTime) && endTime < oldTime) ||
 			data->GetStartTime() > currTime)
-			{
+		{
 			itsDataList->DeleteElement(i);
-			}
 		}
+	}
 }

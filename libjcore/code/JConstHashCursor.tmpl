@@ -29,14 +29,14 @@
 			...
 		JHashCursor<V> cursor(&table, hash);
 		while ( cursor.NextHash() )
-			{
+		{
 			V value = cursor.GetValue();
 			if (value == theRightValue)
-				{
+			{
 				cursor.Delete();
 				break;
-				}
 			}
+		}
 
 	The break is important; after modifying the table the cursor might not
 	be in a valid state and must be reset before using again.  This is true
@@ -215,7 +215,7 @@ bool
 JConstHashCursor<V>::Next()
 {
 	switch (itsInitialCount)
-	{
+{
 	case 0:
 		++itsInitialCount;
 		return true;
@@ -224,10 +224,10 @@ JConstHashCursor<V>::Next()
 	case 1:
 		Step();
 		if (GetIndex() == itsInitialIndex)
-			{
+		{
 			++itsInitialCount;
 			return false;
-			}
+		}
 		return true;
 		break;
 
@@ -239,7 +239,7 @@ JConstHashCursor<V>::Next()
 		assert(0); // Should never happen!
 		return false;
 		break;
-	}
+}
 }
 
 
@@ -253,40 +253,40 @@ JConstHashCursor<V>::Next
 	)
 {
 	switch (itsInitialCount)
-	{
+{
 	case 0:
 		++itsInitialCount;
 		while ( !NextRecordType( GetRecord() ) )
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 		if (stopOnEmpty && IsEmpty() )
-			{
+		{
 			++itsInitialCount;
-			}
+		}
 		return true;
 		break;
 
 	case 1:
 		do
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 			while ( !NextRecordType( GetRecord() ) );
 		if (stopOnEmpty && IsEmpty() )
-			{
+		{
 			++itsInitialCount;
-			}
+		}
 		return true;
 		break;
 
@@ -298,7 +298,7 @@ JConstHashCursor<V>::Next
 		assert(0); // Should never happen!
 		return false;
 		break;
-	}
+}
 }
 
 /******************************************************************************
@@ -314,31 +314,31 @@ bool
 JConstHashCursor<V>::NextFull()
 {
 	switch (itsInitialCount)
-	{
+{
 	case 0:
 		++itsInitialCount;
 		while ( !IsFull() )
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 		return true;
 		break;
 
 	case 1:
 		do
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 			while ( !IsFull() );
 		return true;
 		break;
@@ -351,7 +351,7 @@ JConstHashCursor<V>::NextFull()
 		assert(0); // Should never happen!
 		return false;
 		break;
-	}
+}
 }
 
 /******************************************************************************
@@ -369,40 +369,40 @@ bool
 JConstHashCursor<V>::NextOpen()
 {
 	switch (itsInitialCount)
-	{
+{
 	case 0:
 		++itsInitialCount;
 		while ( IsFull() )
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 		if ( IsEmpty() )
-			{
+		{
 			++itsInitialCount;
-			}
+		}
 		return true;
 		break;
 
 	case 1:
 		do
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 			while ( IsFull() );
 		if ( IsEmpty() )
-			{
+		{
 			++itsInitialCount;
-			}
+		}
 		return true;
 		break;
 
@@ -414,7 +414,7 @@ JConstHashCursor<V>::NextOpen()
 		assert(0); // Should never happen!
 		return false;
 		break;
-	}
+}
 }
 
 /******************************************************************************
@@ -438,49 +438,49 @@ JConstHashCursor<V>::NextHash
 	)
 {
 	switch (itsInitialCount)
-	{
+{
 	case 0:
 		++itsInitialCount;
 		while ( IsDeleted() || (IsFull() && GetHashValue() != itsHashValue) )
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 		if ( IsEmpty() )
-			{
+		{
 			++itsInitialCount;
 			return allowEmpty;
-			}
+		}
 		else
-			{
+		{
 			return true;
-			}
+		}
 		break;
 
 	case 1:
 		do
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 			while ( IsDeleted() || (IsFull() && GetHashValue() != itsHashValue) );
 		if ( IsEmpty() )
-			{
+		{
 			++itsInitialCount;
 			return allowEmpty;
-			}
+		}
 		else
-			{
+		{
 			return true;
-			}
+		}
 		break;
 
 	case 2:
@@ -491,7 +491,7 @@ JConstHashCursor<V>::NextHash
 		assert(0); // Should never happen!
 		return false;
 		break;
-	}
+}
 }
 
 /******************************************************************************
@@ -509,40 +509,40 @@ bool
 JConstHashCursor<V>::NextHashOrOpen()
 {
 	switch (itsInitialCount)
-	{
+{
 	case 0:
 		++itsInitialCount;
 		while (IsFull() && GetHashValue() != itsHashValue)
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 		if ( IsEmpty() )
-			{
+		{
 			++itsInitialCount;
-			}
+		}
 		return true;
 		break;
 
 	case 1:
 		do
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 			while (IsFull() && GetHashValue() != itsHashValue);
 		if ( IsEmpty() )
-			{
+		{
 			++itsInitialCount;
-			}
+		}
 		return true;
 		break;
 
@@ -554,7 +554,7 @@ JConstHashCursor<V>::NextHashOrOpen()
 		assert(0); // Should never happen!
 		return false;
 		break;
-	}
+}
 }
 
 /******************************************************************************
@@ -581,7 +581,7 @@ JConstHashCursor<V>::NextKey
 	assert(itsValue != nullptr);
 
 	switch (itsInitialCount)
-	{
+{
 	case 0:
 		++itsInitialCount;
 		while
@@ -594,35 +594,35 @@ JConstHashCursor<V>::NextKey
 					(GetHashValue() != itsHashValue || !Equal(GetValue(), *itsValue) )
 				)
 			)
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 		if ( IsEmpty() )
-			{
+		{
 			++itsInitialCount;
 			return allowEmpty;
-			}
+		}
 		else
-			{
+		{
 			return true;
-			}
+		}
 		break;
 
 	case 1:
 		do
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 			while
 				(
 					IsDeleted() 
@@ -634,14 +634,14 @@ JConstHashCursor<V>::NextKey
 					)
 				);
 		if ( IsEmpty() )
-			{
+		{
 			++itsInitialCount;
 			return allowEmpty;
-			}
+		}
 		else
-			{
+		{
 			return true;
-			}
+		}
 		break;
 
 	case 2:
@@ -652,7 +652,7 @@ JConstHashCursor<V>::NextKey
 		assert(0); // Should never happen!
 		return false;
 		break;
-	}
+}
 }
 
 /******************************************************************************
@@ -672,40 +672,40 @@ JConstHashCursor<V>::NextKeyOrOpen()
 	assert(itsValue != nullptr);
 
 	switch (itsInitialCount)
-	{
+{
 	case 0:
 		++itsInitialCount;
 		while (IsFull() && GetHashValue() != itsHashValue && Equal(GetValue(), *itsValue) )
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 		if ( IsEmpty() )
-			{
+		{
 			++itsInitialCount;
-			}
+		}
 		return true;
 		break;
 
 	case 1:
 		do
-			{
+		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
-				{
+			{
 				++itsInitialCount;
 				return false;
-				}
 			}
+		}
 			while (IsFull() && GetHashValue() != itsHashValue && Equal(GetValue(), *itsValue) );
 		if ( IsEmpty() )
-			{
+		{
 			++itsInitialCount;
-			}
+		}
 		return true;
 		break;
 
@@ -717,7 +717,7 @@ JConstHashCursor<V>::NextKeyOrOpen()
 		assert(0); // Should never happen!
 		return false;
 		break;
-	}
+}
 }
 
 /******************************************************************************
@@ -753,32 +753,32 @@ bool
 JConstHashCursor<V>::NextMapInsertHash()
 {
 	while ( NextHashOrOpen() )
-		{
+	{
 		if ( IsDeleted() )
-			{
+		{
 			const JSize deleted = itsIndex;
 			const JSize initialCount = itsInitialCount;
 			while ( NextHash(true) )
-				{
+			{
 				if ( IsEmpty() )
-					{
+				{
 					break; // Return deleted
-					}
-				else if (GetHashValue() == itsHashValue)
-					{
-					return true;
-					}
 				}
+				else if (GetHashValue() == itsHashValue)
+				{
+					return true;
+				}
+			}
 			// Back up
 			itsIndex = deleted;
 			itsInitialCount = initialCount;
 			return true;
-			}
-		else if (GetHashValue() == itsHashValue || IsEmpty() )
-			{
-			return true;
-			}
 		}
+		else if (GetHashValue() == itsHashValue || IsEmpty() )
+		{
+			return true;
+		}
+	}
 
 	return false;
 }
@@ -797,32 +797,32 @@ bool
 JConstHashCursor<V>::NextMapInsertKey()
 {
 	while ( NextHashOrOpen() )
-		{
+	{
 		if ( IsDeleted() )
-			{
+		{
 			const JSize deleted = itsIndex;
 			const JSize initialCount = itsInitialCount;
 			while ( NextHash(true) )
-				{
+			{
 				if ( IsEmpty() )
-					{
+				{
 					break; // Return deleted
-					}
-				else if ( GetHashValue() == itsHashValue && Equal(GetValue(), *itsValue) )
-					{
-					return true;
-					}
 				}
+				else if ( GetHashValue() == itsHashValue && Equal(GetValue(), *itsValue) )
+				{
+					return true;
+				}
+			}
 			// Back up
 			itsIndex = deleted;
 			itsInitialCount = initialCount;
 			return true;
-			}
-		else if ( IsEmpty() || ( GetHashValue() == itsHashValue && Equal(GetValue(), *itsValue) ) )
-			{
-			return true;
-			}
 		}
+		else if ( IsEmpty() || ( GetHashValue() == itsHashValue && Equal(GetValue(), *itsValue) ) )
+		{
+			return true;
+		}
+	}
 
 	return false;
 }
@@ -856,11 +856,11 @@ JConstHashCursor<V>::Reset
 	)
 {
 	if (clear)
-		{
+	{
 		itsHashValue = 0;
 		itsIncrement = 1;
 		itsValue = nullptr;
-		}
+	}
 
 	itsInitialIndex = itsIndex = itsTable->HashToIndex(itsHashValue);
 	itsInitialCount = 0;

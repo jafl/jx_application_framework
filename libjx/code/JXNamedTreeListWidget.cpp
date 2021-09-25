@@ -118,15 +118,15 @@ JXNamedTreeListWidget::TLWDrawNode
 	const JXImage* image;
 	const bool hasImage = GetImage(cell.y, &image);
 	if (hasImage)
-		{
+	{
 		JRect r = rect;
 		r.right = r.left + image->GetWidth();
 		p.Image(*image, image->GetBounds(), r);
-		}
+	}
 
 	JPoint editCell;
 	if (!GetEditedCell(&editCell) || cell != editCell)
-		{
+	{
 		JFont font = GetFont();
 		font.SetStyle(GetCellStyle(cell));
 		p.SetFont(font);
@@ -135,19 +135,19 @@ JXNamedTreeListWidget::TLWDrawNode
 
 		JRect textRect = rect;
 		if (hasImage)
-			{
+		{
 			textRect.left += GetIndentWidth() + kImageTextSpacing;
-			}
+		}
 		if (itsHilightTextOnlyFlag)
-			{
+		{
 			textRect.right   = textRect.left + p.GetStringWidth(text);
 			textRect.top    += 1;
 			textRect.bottom -= 1;
 			HilightIfSelected(p, cell, textRect);
-			}
+		}
 
 		p.String(textRect, text, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
-		}
+	}
 }
 
 /******************************************************************************
@@ -181,13 +181,13 @@ JXNamedTreeListWidget::GetImageWidth
 {
 	const JXImage* image;
 	if (GetImage(index, &image))
-		{
+	{
 		return GetIndentWidth() + kImageTextSpacing;
-		}
+	}
 	else
-		{
+	{
 		return 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -207,16 +207,16 @@ JXNamedTreeListWidget::GetImageRect
 {
 	const JXImage* image;
 	if (GetImage(index, &image))
-		{
+	{
 		*rect       = GetCellRect(JPoint(GetNodeColIndex(), index));
 		rect->left += GetNodeIndent(index);
 		rect->right = rect->left + GetIndentWidth();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -285,14 +285,14 @@ JXNamedTreeListWidget::AdjustToTree()
 
 	const JSize count = GetRowCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const JXImage* image;
 		if (GetImage(i, &image))
-			{
+		{
 			h = JMax(h, image->GetHeight());
 			w = JMax(w, image->GetWidth());
-			}
 		}
+	}
 
 	SetAllRowHeights(h);
 	SetIndentWidth(w);
@@ -316,7 +316,7 @@ JXNamedTreeListWidget::GetMinCellWidth
 	const
 {
 	if (JIndex(cell.x) == GetNodeColIndex())
-		{
+	{
 		const JString& text = itsNamedTreeList->GetNodeName(cell.y);
 
 		JSize textWidth = kEmptyTextWidth;
@@ -324,25 +324,25 @@ JXNamedTreeListWidget::GetMinCellWidth
 		JXInputField* input = nullptr;
 		if (GetEditedCell(&editCell) && editCell == cell &&
 			GetXInputField(&input) && !input->GetText()->IsEmpty())
-			{
+		{
 			textWidth = input->GetBoundsWidth() - kRightMarginWidth - 1;
-			}
+		}
 		else if (!text.IsEmpty())
-			{
+		{
 			JFont font = GetFont();
 			font.SetStyle(GetCellStyle(cell));
 			textWidth = font.GetStringWidth(GetFontManager(), text);
-			}
+		}
 
 		return GetNodeIndent(cell.y) +
 			   GetImageWidth(cell.y) +
 			   textWidth +
 			   kRightMarginWidth;	// margin
-		}
+	}
 	else
-		{
+	{
 		return GetColWidth(cell.x);
-		}
+	}
 }
 
 /******************************************************************************
@@ -371,38 +371,38 @@ JXNamedTreeListWidget::HandleKeyPress
 	)
 {
 	if (c == ' ' || (c == kJEscapeKey && !IsEditing()))
-		{
+	{
 		ClearIncrementalSearchBuffer();
 		(GetTableSelection()).ClearSelection();
-		}
+	}
 
 	// incremental search
 
 	else if (c.IsPrint() && !modifiers.control() && !modifiers.meta())
-		{
+	{
 		itsKeyBuffer.Append(c);
 
 		JIndex index;
 		if (itsNamedTreeList->ClosestMatch(itsKeyBuffer, &index))
-			{
+		{
 			const JString saveBuffer = itsKeyBuffer;
 			SelectSingleCell(JPoint(GetNodeColIndex(), index));
 			itsKeyBuffer = saveBuffer;
-			}
-		else
-			{
-			(GetTableSelection()).ClearSelection();
-			}
 		}
+		else
+		{
+			(GetTableSelection()).ClearSelection();
+		}
+	}
 
 	else
-		{
+	{
 		if (!c.IsBlank())
-			{
+		{
 			ClearIncrementalSearchBuffer();
-			}
-		JXTreeListWidget::HandleKeyPress(c, keySym, modifiers);
 		}
+		JXTreeListWidget::HandleKeyPress(c, keySym, modifiers);
+	}
 }
 
 /******************************************************************************
@@ -432,15 +432,15 @@ JXNamedTreeListWidget::Receive
 		(message.Is(JTreeList::kNodeInserted) ||
 		 message.Is(JTreeList::kNodeRemoved) ||
 		 message.Is(JTreeList::kNodeChanged)))
-		{
+	{
 		ClearIncrementalSearchBuffer();
-		}
+	}
 
 	else if (sender == const_cast<JStyleTableData*>(&(GetStyleData())) &&
 			 message.Is(JStyleTableData::kFontChanged))
-		{
+	{
 		NeedsAdjustToTree();
-		}
+	}
 
 	JXTreeListWidget::Receive(sender, message);
 }
@@ -524,15 +524,15 @@ JXNamedTreeListWidget::ExtractInputData
 	assert( itsNameInputField != nullptr );
 
 	if (JIndex(cell.x) == GetNodeColIndex() && itsNameInputField->InputValid())
-		{
+	{
 		itsNamedTreeList->SetNodeName(cell.y, itsNameInputField->GetText()->GetText());
 		NeedsAdjustToTree();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -616,34 +616,34 @@ JXNamedTreeListWidget::GetNode
 	const
 {
 	if (!GetCell(pt, cell))
-		{
+	{
 		return false;
-		}
+	}
 	else if (JIndex(cell->x) == GetToggleOpenColIndex())
-		{
+	{
 		*part = kToggleColumn;
 		return true;
-		}
+	}
 	else if (JIndex(cell->x) != GetNodeColIndex())
-		{
+	{
 		*part = kOtherColumn;
 		return true;
-		}
+	}
 
 	const JRect r = GetCellRect(*cell);
 	JCoordinate x = pt.x - r.left - GetNodeIndent(cell->y);
 	if (x < 0)
-		{
+	{
 		*part = kBeforeImage;
 		return true;
-		}
+	}
 
 	x -= GetImageWidth(cell->y);
 	if (x < 0)
-		{
+	{
 		*part = kInImage;
 		return true;
-		}
+	}
 
 	*part = (x <= (JCoordinate) GetTextWidth(cell->y) ? kInText : kAfterText);
 	return true;

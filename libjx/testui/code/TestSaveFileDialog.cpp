@@ -251,17 +251,17 @@ TestSaveFileDialog::Receive
 	)
 {
 	if (sender == itsFormatRG && message.Is(JXRadioGroup::kSelectionChanged))
-		{
+	{
 		const JXRadioGroup::SelectionChanged* selection =
 			dynamic_cast<const JXRadioGroup::SelectionChanged*>(&message);
 		assert( selection != nullptr );
 		HandleFormatChange(selection->GetID());
-		}
+	}
 
 	else
-		{
+	{
 		JXSaveFileDialog::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -279,32 +279,32 @@ TestSaveFileDialog::HandleFormatChange
 	JString fileName            = fileNameInput->GetText()->GetText();
 
 	if (fileName.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	JStringIterator iter(&fileName, kJIteratorStartAtEnd);
 	if (iter.Prev("."))
-		{
+	{
 		iter.RemoveAllNext();
-		}
+	}
 	iter.Invalidate();
 
 	const JSize nameLength = fileName.GetCharacterCount();
 
 	if (id == TestChooseSaveFile::kGIFFormat)
-		{
+	{
 		fileName += ".gif";
-		}
+	}
 	else if (id == TestChooseSaveFile::kPNGFormat)
-		{
+	{
 		fileName += ".png";
-		}
+	}
 	else
-		{
+	{
 		assert( id == TestChooseSaveFile::kJPEGFormat );
 		fileName += ".jpg";
-		}
+	}
 
 	fileNameInput->GetText()->SetText(fileName);
 	fileNameInput->SetSelection(JCharacterRange(1, nameLength));

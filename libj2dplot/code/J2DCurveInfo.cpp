@@ -35,10 +35,10 @@ operator>>
 		  >> JBoolFromString(info.symbols);
 
 	if (vers == 0)
-		{
+	{
 		bool points;
 		input >> JBoolFromString(points);
-		}
+	}
 
 	input >> JBoolFromString(info.own)
 		  >> JBoolFromString(info.xerrors)

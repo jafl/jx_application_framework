@@ -52,11 +52,11 @@ JXTimerTask::Perform
 	)
 {
 	if (TimeToPerform(delta, maxSleepTime))
-		{
+	{
 		Broadcast(TimerWentOff());
 		if (itsIsOneShotFlag)
-			{
+		{
 			jdelete this;
-			}
 		}
+	}
 }

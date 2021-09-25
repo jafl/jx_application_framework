@@ -86,7 +86,7 @@ function configure_linux
 	get_reflex;
 	clean_links;
 
-	ln -sf ../../include/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
+	ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
 
 	ARCH=`uname -m`;
 	if [[ $ARCH == x86_64 ]]; then
@@ -128,7 +128,7 @@ if [[ $SYS == Darwin ]]; then
 
 	clean_links;
 	ln -sf sys/OSX_g++ include/make/jx_config;
-	ln -sf ../../include/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
+	ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
 
 elif command -v apt-get; then
 
@@ -234,7 +234,7 @@ elif [[ $SYS == Cygwin ]]; then
 	clean_links;
 
 	ln -sf $SYS_CONFIG include/make/jx_config;	
-	ln -sf ../../include/missing_proto/jMissingProto_CygWin.h include/jcore/jMissingProto.h;
+	ln -sf ../../misc/missing_proto/jMissingProto_CygWin.h include/jcore/jMissingProto.h;
 	configure_ace $ACE_CONFIG $ACE_MAKE_CONFIG;
 
 else

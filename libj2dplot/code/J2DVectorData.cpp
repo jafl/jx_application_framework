@@ -1,7 +1,7 @@
 /*********************************************************************************
  J2DVectorData.cpp
 
-	BASE CLASS = JPlotDataBase
+	BASE CLASS = J2DPlotDataBase
 
 	Copyright @ 1998 by Glenn W. Bach.
 
@@ -28,16 +28,16 @@ J2DVectorData::Create
 	)
 {
 	if (OKToCreate(x,y, vx,vy))
-		{
+	{
 		*plotData = jnew J2DVectorData(x,y, vx,vy, listen);
 		assert( *plotData != nullptr );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*plotData = nullptr;
 		return false;
-		}
+	}
 }
 
 /*********************************************************************************
@@ -66,7 +66,7 @@ J2DVectorData::OKToCreate
 
 J2DVectorData::J2DVectorData()
 	:
-	JPlotDataBase(kVectorPlot)
+	J2DPlotDataBase(kVectorPlot)
 {
 	J2DVectorDataX();
 
@@ -93,7 +93,7 @@ J2DVectorData::J2DVectorData
 	const bool			listen
 	)
 	:
-	JPlotDataBase(kVectorPlot)
+	J2DPlotDataBase(kVectorPlot)
 {
 	assert( OKToCreate(x,y, vx,vy) );
 
@@ -104,7 +104,7 @@ J2DVectorData::J2DVectorData
 
 	itsIsListeningFlag = listen;
 	if (listen)
-		{
+	{
 		itsXData = const_cast< JArray<JFloat>* >(&x);
 		assert( itsXData != nullptr );
 		ListenTo(itsXData);
@@ -120,9 +120,9 @@ J2DVectorData::J2DVectorData
 		itsVYData = const_cast< JArray<JFloat>* >(&vy);
 		assert( itsVYData != nullptr );
 		ListenTo(itsVYData);
-		}
+	}
 	else
-		{
+	{
 		itsXData = jnew JArray<JFloat>(x);
 		assert( itsXData != nullptr );
 		itsYData = jnew JArray<JFloat>(y);
@@ -131,7 +131,7 @@ J2DVectorData::J2DVectorData
 		assert( itsVXData != nullptr );
 		itsVYData = jnew JArray<JFloat>(vy);
 		assert( itsVYData != nullptr );
-		}
+	}
 }
 
 // private
@@ -155,12 +155,12 @@ J2DVectorData::J2DVectorDataX()
 J2DVectorData::~J2DVectorData()
 {
 	if (!itsIsListeningFlag)
-		{
+	{
 		jdelete itsXData;
 		jdelete itsYData;
 		jdelete itsVXData;
 		jdelete itsVYData;
-		}
+	}
 }
 
 /*********************************************************************************
@@ -213,49 +213,49 @@ J2DVectorData::GetXRange
 	const
 {
 	if (!itsIsValidFlag)
-		{
+	{
 		*min = itsCurrentXMin;
 		*max = itsCurrentXMax;
-		}
+	}
 	else
-		{
+	{
 		*min = 0;
 		*max = 0;
 
 		const JSize count = itsXData->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			const JFloat x1 = itsXData->GetElement(i);
 			const JFloat x2 = x1 + itsVXData->GetElement(i);
 
 			if (i == 1)
-				{
+			{
 				*min = JMin(x1, x2);
 				*max = JMax(x1, x2);
-				}
+			}
 
 			if (x1 < *min)
-				{
+			{
 				*min = x1;
-				}
+			}
 			if (x2 < *min)
-				{
+			{
 				*min = x2;
-				}
+			}
 
 			if (x1 > *max)
-				{
+			{
 				*max = x1;
-				}
-			if (x2 > *max)
-				{
-				*max = x2;
-				}
 			}
+			if (x2 > *max)
+			{
+				*max = x2;
+			}
+		}
 
 		itsCurrentXMin = *min;
 		itsCurrentXMax = *max;
-		}
+	}
 }
 
 /*********************************************************************************
@@ -275,49 +275,49 @@ J2DVectorData::GetYRange
 	const
 {
 	if (!itsIsValidFlag)
-		{
+	{
 		*yMin = itsCurrentYMin;
 		*yMax = itsCurrentYMax;
-		}
+	}
 	else
-		{
+	{
 		*yMin = 0;
 		*yMax = 0;
 
 		const JSize count = itsYData->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			const JFloat y1 = itsYData->GetElement(i);
 			const JFloat y2 = y1 + itsVYData->GetElement(i);
 
 			if (i == 1)
-				{
+			{
 				*yMin = JMin(y1, y2);
 				*yMax = JMax(y1, y2);
-				}
+			}
 
 			if (y1 < *yMin)
-				{
+			{
 				*yMin = y1;
-				}
+			}
 			if (y2 < *yMin)
-				{
+			{
 				*yMin = y2;
-				}
+			}
 
 			if (y1 > *yMax)
-				{
+			{
 				*yMax = y1;
-				}
-			if (y2 > *yMax)
-				{
-				*yMax = y2;
-				}
 			}
+			if (y2 > *yMax)
+			{
+				*yMax = y2;
+			}
+		}
 
 		itsCurrentYMin = *yMin;
 		itsCurrentYMax = *yMax;
-		}
+	}
 
 	return true;
 }
@@ -375,7 +375,7 @@ J2DVectorData::IgnoreDataChanges()
 {
 	assert( itsIsValidFlag );
 	if (itsIsListeningFlag)
-		{
+	{
 		StopListening(itsXData);
 		itsXData = jnew JArray<JFloat>(*itsXData);
 		assert( itsXData != nullptr );
@@ -393,7 +393,7 @@ J2DVectorData::IgnoreDataChanges()
 		assert( itsVYData != nullptr );
 
 		itsIsListeningFlag = false;
-		}
+	}
 }
 
 /*********************************************************************************
@@ -410,23 +410,23 @@ J2DVectorData::Receive
 {
 	if (sender == itsXData  || sender == itsYData ||
 		sender == itsVXData || sender == itsVYData)
-		{
+	{
 		if (message.Is(JListT::kElementsChanged) ||
 			message.Is(JListT::kElementMoved) )
-			{
+		{
 			BroadcastCurveChanged();
-			}
+		}
 		else if (message.Is(JListT::kElementsInserted) ||
 				 message.Is(JListT::kElementsRemoved) )
-			{
+		{
 			ValidateData();
 			BroadcastCurveChanged();
-			}
 		}
+	}
 	else
-		{
-		JPlotDataBase::Receive(sender, message);
-		}
+	{
+		J2DPlotDataBase::Receive(sender, message);
+	}
 }
 
 /******************************************************************************
@@ -442,17 +442,17 @@ J2DVectorData::ReceiveGoingAway
 {
 	if (sender == itsXData  || sender == itsYData ||
 		sender == itsVXData || sender == itsVYData)
-		{
+	{
 		itsXData  = nullptr;
 		itsYData  = nullptr;
 		itsVXData = nullptr;
 		itsVYData = nullptr;
 		ValidateData();
-		}
+	}
 	else
-		{
-		JPlotDataBase::ReceiveGoingAway(sender);
-		}
+	{
+		J2DPlotDataBase::ReceiveGoingAway(sender);
+	}
 }
 
 /*********************************************************************************

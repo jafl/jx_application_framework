@@ -81,9 +81,9 @@ JTree::BroadcastInsert
 	)
 {
 	if (!itsIsDestructingFlag)
-		{
+	{
 		Broadcast(NodeInserted(parent, node, index));
-		}
+	}
 }
 
 /******************************************************************************
@@ -98,9 +98,9 @@ JTree::BroadcastRemove
 	)
 {
 	if (!itsIsDestructingFlag)
-		{
+	{
 		Broadcast(NodeRemoved(node));
-		}
+	}
 }
 
 /******************************************************************************
@@ -115,9 +115,9 @@ JTree::BroadcastDelete
 	)
 {
 	if (!itsIsDestructingFlag)
-		{
+	{
 		Broadcast(NodeDeleted(node));
-		}
+	}
 }
 
 /******************************************************************************
@@ -132,9 +132,9 @@ JTree::BroadcastChange
 	)
 {
 	if (!itsIsDestructingFlag)
-		{
+	{
 		Broadcast(NodeChanged(node));
-		}
+	}
 }
 
 /******************************************************************************
@@ -149,9 +149,9 @@ JTree::BroadcastPrepareForMove
 	)
 {
 	if (!itsIsDestructingFlag)
-		{
+	{
 		Broadcast(PrepareForNodeMove(node));
-		}
+	}
 }
 
 /******************************************************************************
@@ -166,7 +166,7 @@ JTree::BroadcastMoveFinished
 	)
 {
 	if (!itsIsDestructingFlag)
-		{
+	{
 		Broadcast(NodeMoveFinished(node));
-		}
+	}
 }

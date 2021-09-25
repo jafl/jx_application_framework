@@ -81,9 +81,9 @@ JHypTangent::Evaluate
 {
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = tanh(argValue);
 	return jerrno_is_clear();
@@ -98,9 +98,9 @@ JHypTangent::Evaluate
 {
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = sinh(argValue)/cosh(argValue);
 	return jerrno_is_clear();

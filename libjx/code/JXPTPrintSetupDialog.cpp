@@ -274,14 +274,14 @@ JXPTPrintSetupDialog::SetObjects
 
 	bool foundDest = false;
 	for (JIndex i=1; i<=kDestCount; i++)
-		{
+	{
 		if (kIndexToDest[i-1] == dest)
-			{
+		{
 			SetDestination(i);
 			foundDest = true;
 			break;
-			}
 		}
+	}
 	assert( foundDest );
 
 	itsCopyCount->SetValue(1);
@@ -325,22 +325,22 @@ bool
 JXPTPrintSetupDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	else if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 
 	if (itsDestination->GetSelectedItem() == kPrintToFileID)
-		{
+	{
 		return JXPSPrintSetupDialog::OKToDeactivate(itsFileInput->GetText()->GetText());
-		}
+	}
 	else
-		{
+	{
 		return true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -356,33 +356,33 @@ JXPTPrintSetupDialog::Receive
 	)
 {
 	if (sender == itsDestination && message.Is(JXRadioGroup::kSelectionChanged))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXRadioGroup::SelectionChanged*>(&message);
 		assert( selection != nullptr );
 		SetDestination(selection->GetID());
-		}
+	}
 
 	else if (sender == itsChooseFileButton && message.Is(JXButton::kPushed))
-		{
+	{
 		ChooseDestinationFile();
-		}
+	}
 	else if (sender == itsFileInput &&
 			 (message.Is(JStyledText::kTextSet) ||
 			  message.Is(JStyledText::kTextChanged)))
-		{
+	{
 		UpdateDisplay();
-		}
+	}
 
 	else if (sender == itsPrintAllCB && message.Is(JXCheckbox::kPushed))
-		{
+	{
 		PrintAllPages(itsPrintAllCB->IsChecked());
-		}
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -399,7 +399,7 @@ JXPTPrintSetupDialog::SetDestination
 	itsDestination->SelectItem(id);
 
 	if (id == kPrintToPrinterID)
-		{
+	{
 		itsPrintButton->Activate();
 		itsPrintCmdLabel->Show();
 		itsPrintCmd->Show();
@@ -407,9 +407,9 @@ JXPTPrintSetupDialog::SetDestination
 		itsPrintCmd->Focus();
 		itsChooseFileButton->Hide();
 		itsFileInput->Hide();
-		}
+	}
 	else
-		{
+	{
 		assert( id == kPrintToFileID );
 
 		itsPrintCmdLabel->Hide();
@@ -421,10 +421,10 @@ JXPTPrintSetupDialog::SetDestination
 
 		UpdateDisplay();
 		if (itsFileInput->GetText()->IsEmpty())
-			{
+		{
 			ChooseDestinationFile();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -441,25 +441,25 @@ JXPTPrintSetupDialog::PrintAllPages
 	itsPrintAllCB->SetState(all);
 
 	if (all)
-		{
+	{
 		if (itsFirstPageIndex->HasFocus() || itsLastPageIndex->HasFocus())
-			{
+		{
 			GetWindow()->KillFocus();		// values become irrelevant
 			GetWindow()->SwitchFocusToFirstWidget();
-			}
+		}
 		itsFirstPageIndex->Hide();
 		itsLastPageIndex->Hide();
 		itsFirstPageIndexLabel->Hide();
 		itsLastPageIndexLabel->Hide();
-		}
+	}
 	else
-		{
+	{
 		itsFirstPageIndex->Show();
 		itsFirstPageIndex->Focus();
 		itsLastPageIndex->Show();
 		itsFirstPageIndexLabel->Show();
 		itsLastPageIndexLabel->Show();
-		}
+	}
 }
 
 /******************************************************************************
@@ -471,13 +471,13 @@ void
 JXPTPrintSetupDialog::ChooseDestinationFile()
 {
 	if (itsFileInput->SaveFile(JGetString("SaveFilePrompt::JXPTPrintSetupDialog")))
-		{
+	{
 		itsPrintButton->Activate();
-		}
+	}
 	else if (itsFileInput->GetText()->IsEmpty())
-		{
+	{
 		itsPrintButton->Deactivate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -513,27 +513,27 @@ JXPTPrintSetupDialog::SetParameters
 	p->PrintAllPages();
 
 	if (!printAll)
-		{
+	{
 		JInteger p1, p2;
 		const bool ok1 = itsFirstPageIndex->GetValue(&p1);
 		const bool ok2 = itsLastPageIndex->GetValue(&p2);
 		if (ok1 && ok2)
-			{
+		{
 			p->SetFirstPageToPrint(JMin(p1, p2));
 			p->SetLastPageToPrint(JMax(p1, p2));
-			}
+		}
 		else
-			{
+		{
 			if (ok1)
-				{
+			{
 				p->SetFirstPageToPrint(p1);
-				}
+			}
 			if (ok2)
-				{
+			{
 				p->SetLastPageToPrint(p2);
-				}
 			}
 		}
+	}
 
 	changed = changed ||
 		itsPrintLineNumbersCB->IsChecked() != p->WillPrintLineNumbers();

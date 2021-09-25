@@ -91,23 +91,23 @@ MDRecordTable::Receive
 	)
 {
 	if (sender == itsRecordList && message.Is(MDRecordList::kPrepareForUpdate))
-		{
+	{
 		StopListening(itsSelectedRecord);
 		if (GetSelectedRecord(&itsSelectedRecord))
-			{
+		{
 			ClearWhenGoingAway(itsSelectedRecord, &itsSelectedRecord);
-			}
 		}
+	}
 
 	else if (sender == itsRecordList && message.Is(MDRecordList::kListChanged))
-		{
+	{
 		UpdateTable();
-		}
+	}
 
 	else
-		{
+	{
 		JXEditTable::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -124,25 +124,25 @@ MDRecordTable::UpdateTable()
 	const JSize oldCount = GetRowCount();
 	const JSize newCount = itsRecordList->GetElementCount();
 	if (newCount > oldCount)
-		{
+	{
 		AppendRows(newCount - oldCount);
-		}
+	}
 	else if (oldCount > newCount)
-		{
+	{
 		RemoveNextRows(1, oldCount - newCount);
-		}
+	}
 
 	JIndex index;
 	if (itsSelectedRecord != nullptr)
-		{
+	{
 		if (itsRecordList->GetRecordIndex(itsSelectedRecord, &index))
-			{
+		{
 			s.SelectRow(index);
-			}
+		}
 
 		StopListening(itsSelectedRecord);
 		itsSelectedRecord = nullptr;
-		}
+	}
 
 	Refresh();
 }
@@ -168,42 +168,42 @@ MDRecordTable::TableDrawCell
 	JString str;
 	JPainter::HAlignment halign = JPainter::kHAlignLeft;
 	if (cell.x == MDRecordList::kRecordState)
-		{
+	{
 		DrawRecordState(record, p, rect);
 		return;
-		}
+	}
 	else if (cell.x == MDRecordList::kRecordFile)
-		{
+	{
 		str    = record.GetNewFile();
 		halign = JPainter::kHAlignLeft;
-		}
+	}
 	else if (cell.x == MDRecordList::kRecordLine)
-		{
+	{
 		str	   = JString((JUInt64) record.GetNewLine());
 		halign = JPainter::kHAlignRight;
-		}
+	}
 	else if (cell.x == MDRecordList::kRecordSize)
-		{
+	{
 		str    = JString((JUInt64) record.GetSize());
 		halign = JPainter::kHAlignRight;
-		}
+	}
 	else if (cell.x == MDRecordList::kRecordArray)
-		{
+	{
 		str    = record.IsArrayNew() ? "[]" : "";
 		halign = JPainter::kHAlignCenter;
-		}
+	}
 	else if (cell.x == MDRecordList::kRecordData)
-		{
+	{
 		str    = record.GetData();
 		halign = JPainter::kHAlignLeft;
 
 		const JCoordinate w  = p.GetStringWidth(str) + 2*kHMarginWidth;
 		const JCoordinate dw = rect.left - GetColLeft(MDRecordList::kRecordData);
 		if (w > GetColWidth(MDRecordList::kRecordData) - dw)
-			{
+		{
 			AdjustDataColWidth(w + dw);
-			}
 		}
+	}
 
 	JRect r = rect;
 	r.Shrink(kHMarginWidth, 0);
@@ -225,12 +225,12 @@ MDRecordTable::DrawRowBackground
 	)
 {
 	if (cell.y % 2 == 1)
-		{
+	{
 		p.SetPenColor(color);
 		p.SetFilling(true);
 		p.Rect(rect);
 		p.SetFilling(false);
-		}
+	}
 }
 
 /******************************************************************************
@@ -247,7 +247,7 @@ MDRecordTable::DrawRecordState
 	)
 {
 	if (!record.IsValid())
-		{
+	{
 		JRect r(rect.ycenter()-3, rect.xcenter()-3,
 				rect.ycenter()+4, rect.xcenter()+4);
 		p.SetPenColor(JColorManager::GetRedColor());
@@ -256,7 +256,7 @@ MDRecordTable::DrawRecordState
 		p.SetPenColor(JColorManager::GetBlackColor());
 		p.SetFilling(false);
 		p.Ellipse(r);
-		}
+	}
 }
 
 /******************************************************************************
@@ -275,33 +275,33 @@ MDRecordTable::HandleMouseDown
 	)
 {
 	if (ScrollForWheel(button, modifiers))
-		{
+	{
 		return;
-		}
+	}
 
 	JTableSelection& s = GetTableSelection();
 	itsKeyBuffer.Clear();
 
 	JPoint cell;
 	if (!GetCell(pt, &cell))
-		{
+	{
 		s.ClearSelection();
 		return;
-		}
+	}
 
 	if (clickCount == 1)
-		{
+	{
 		s.ClearSelection();
 		s.SelectRow(cell.y);
-		}
+	}
 	else if (clickCount == 2 && cell.x == MDRecordList::kRecordData)
-		{
+	{
 		BeginEditing(cell);
-		}
+	}
 	else if (clickCount == 2)
-		{
+	{
 		OpenSelectedFiles();
-		}
+	}
 }
 
 /******************************************************************************
@@ -334,62 +334,62 @@ MDRecordTable::HandleKeyPress
 	const bool hadSelection = s.GetFirstSelectedCell(&topSelCell);
 
 	if (c == ' ' || c == kJEscapeKey)
-		{
+	{
 		itsKeyBuffer.Clear();
 		GetTableSelection().ClearSelection();
-		}
+	}
 
 	else if (c == kJReturnKey)
-		{
+	{
 		OpenSelectedFiles();
-		}
+	}
 
 	else if (c == kJUpArrow || c == kJDownArrow)
-		{
+	{
 		itsKeyBuffer.Clear();
 		if (!hadSelection && c == kJUpArrow && GetRowCount() > 0)
-			{
+		{
 			s.SelectRow(GetRowCount());
-			}
+		}
 		else
-			{
+		{
 			HandleSelectionKeyPress(c, modifiers);
 			if (s.GetFirstSelectedCell(&topSelCell))
-				{
+			{
 				s.SelectRow(topSelCell.y);
-				}
 			}
 		}
+	}
 
 	// incremental search
 
 	else if (c.IsPrint() && !modifiers.control() && !modifiers.meta())
-		{
+	{
 		itsKeyBuffer.Append(JUtf8Character(c));
 
 		MDRecord* record;
 		JIndex index;
 		if (itsRecordList->ClosestMatch(itsKeyBuffer, &record) &&
 			itsRecordList->GetRecordIndex(record, &index))
-			{
+		{
 			(GetTableSelection()).ClearSelection();
 			(GetTableSelection()).SelectRow(index);
 			TableScrollToCell(JPoint(1, index));
-			}
-		else
-			{
-			(GetTableSelection()).ClearSelection();
-			}
 		}
+		else
+		{
+			(GetTableSelection()).ClearSelection();
+		}
+	}
 
 	else
-		{
+	{
 		if (c.IsPrint())
-			{
+		{
 			itsKeyBuffer.Clear();
-			}
-		JXEditTable::HandleKeyPress(c, keySym, modifiers);
 		}
+		JXEditTable::HandleKeyPress(c, keySym, modifiers);
+	}
 }
 
 /******************************************************************************
@@ -407,10 +407,10 @@ MDRecordTable::OpenSelectedFiles()
 	JTableSelectionIterator iter(&s);
 	JPoint cell;
 	while (iter.Next(&cell) && cell.x == 1)
-		{
+	{
 		const MDRecord* record = itsRecordList->GetRecord(cell.y);
 		(MDGetApplication())->OpenFile(record->GetNewFile(), record->GetNewLine());
-		}
+	}
 }
 
 /******************************************************************************
@@ -492,15 +492,15 @@ MDRecordTable::GetSelectedRecord
 {
 	JPoint cell;
 	if (GetTableSelection().GetFirstSelectedCell(&cell))
-		{
+	{
 		*entry = itsRecordList->GetRecord(cell.y);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*entry = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

@@ -249,26 +249,26 @@ TestButtonsDialog::BuildWindow()
 	bcb->SetHint(JGetString("ImageCBHint::TestButtonsDialog"));
 
 	static const JColorID kRadioButtonColor[] =
-	{
+{
 		JColorManager::GetWhiteColor(),
 		JColorManager::GetRedColor(),
 		JColorManager::GetBlueColor(),
 		JColorManager::GetBlackColor()
-	};
+};
 
 	static const JUtf8Byte* kRadioButtonHintID[] =
-	{
+{
 		"ImageRB1Hint::TestButtonsDialog",
 		"ImageRB2Hint::TestButtonsDialog",
 		"ImageRB3Hint::TestButtonsDialog",
 		"ImageRB4Hint::TestButtonsDialog"
-	};
+};
 
 	for (JUnsignedOffset i=0; i<kSmileyBitmapCount; i++)
-		{
+	{
 		brb[i]->SetBitmap(kSmileyBitmap[i], kRadioButtonColor[i]);
 		brb[i]->SetHint(JGetString(kRadioButtonHintID[i]));
-		}
+	}
 
 	ListenTo(itsRG1);
 
@@ -296,32 +296,32 @@ TestButtonsDialog::Receive
 	)
 {
 	if (sender == itsRG1 && message.Is(JXRadioGroup::kSelectionChanged))
-		{
+	{
 		const JXRadioGroup::SelectionChanged* selection =
 			dynamic_cast<const JXRadioGroup::SelectionChanged*>(&message);
 		assert( selection != nullptr );
 		if (selection->GetID() == 2)
-			{
+		{
 			JGetUserNotification()->DisplayMessage(
 				JGetString("GoodChoice::TestButtonsDialog"));
-			}
 		}
+	}
 	else if (sender == itsEnable1CB && message.Is(JXCheckbox::kPushed))
-		{
+	{
 		its1CB->SetActive(itsEnable1CB->IsChecked());
-		}
+	}
 	else if (sender == itsEnable2CB && message.Is(JXCheckbox::kPushed))
-		{
+	{
 		its2CB->SetActive(itsEnable2CB->IsChecked());
-		}
+	}
 	else if (sender == itsEnable3CB && message.Is(JXCheckbox::kPushed))
-		{
+	{
 		its3CB->SetActive(itsEnable3CB->IsChecked());
-		}
+	}
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -333,14 +333,14 @@ bool
 TestButtonsDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 
 	if (!Cancelled() && itsRG2->GetSelectedItem() == kSmileyBitmapCount)
-		{
+	{
 		JGetUserNotification()->DisplayMessage(JGetString("Encouragement::TestButtonsDialog"));
-		}
+	}
 
 	return true;
 }

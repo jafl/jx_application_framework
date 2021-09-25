@@ -125,15 +125,15 @@ JNamedTreeList::Find
 {
 	JNamedTreeNode target(nullptr, name);
 	if (itsSortedNodeList->SearchSorted(&target, JListT::kFirstMatch, index))
-		{
+	{
 		const bool found = FindNode(itsSortedNodeList->GetElement(*index), index);
 		assert( found );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -158,22 +158,22 @@ JNamedTreeList::ClosestMatch
 	bool found;
 	*index = itsSortedNodeList->SearchSorted1(&target, JListT::kFirstMatch, &found);
 	if (*index > itsSortedNodeList->GetElementCount())		// insert beyond end of list
-		{
+	{
 		*index = itsSortedNodeList->GetElementCount();
-		}
+	}
 
 	itsSortedNodeList->SetCompareFunction(JNamedTreeNode::DynamicCastCompareNames);
 
 	if (*index > 0)
-		{
+	{
 		const bool found = FindNode(itsSortedNodeList->GetElement(*index), index);
 		assert( found );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -189,23 +189,23 @@ JNamedTreeList::Receive
 	)
 {
 	if (sender == this && message.Is(kNodeInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const NodeInserted*>(&message);
 		assert( info != nullptr );
 		itsSortedNodeList->InsertSorted(const_cast<JTreeNode*>(info->GetNode()));
-		}
+	}
 
 	else if (sender == this && message.Is(kNodeRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const NodeRemoved*>(&message);
 		assert( info != nullptr );
 		itsSortedNodeList->Remove(info->GetNode());
-		}
+	}
 
 	else if (sender == this && message.Is(kNodeChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const NodeChanged*>(&message);
 		assert( info != nullptr );
@@ -214,16 +214,16 @@ JNamedTreeList::Receive
 
 		const JTreeNode* node = info->GetNode();
 		if (node != GetTree()->GetRoot())
-			{
+		{
 			itsSortedNodeList->Remove(node);
 			itsSortedNodeList->InsertSorted(const_cast<JTreeNode*>(node));
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JTreeList::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -243,9 +243,9 @@ JNamedTreeList::BuildSortedNodeList()
 	JTreeNode* root   = GetTree()->GetRoot();
 	const JSize count = root->GetChildCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		BuildSortedNodeList1(root->GetChild(i));
-		}
+	}
 }
 
 void
@@ -255,16 +255,16 @@ JNamedTreeList::BuildSortedNodeList1
 	)
 {
 	if (IsVisible(node))
-		{
+	{
 		itsSortedNodeList->InsertSorted(node);
 
 		if (IsOpen(node))
-			{
+		{
 			const JSize count = node->GetChildCount();
 			for (JIndex i=1; i<=count; i++)
-				{
+			{
 				BuildSortedNodeList1(node->GetChild(i));
-				}
 			}
 		}
+	}
 }

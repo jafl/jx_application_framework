@@ -71,15 +71,15 @@ JTaskIterator<T>::ListChanged
 	// adjust cursor after base class is finished
 
 	if (message.Is(JListT::kElementsInserted))
-		{
+	{
 		const JListT::ElementsInserted* info =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( info != nullptr );
 		if (JListIterator<T*>::GetCursor() == 0 && info->GetFirstIndex() == 1)
-			{
+		{
 			JListIterator<T*>::MoveTo(kJIteratorStartAfter, info->GetCount());
-			}
 		}
+	}
 }
 
 #endif

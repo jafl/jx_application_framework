@@ -42,15 +42,15 @@ JXSharedPrefObject::JXSharedPrefObject
 	assert( itsVersionList != nullptr );
 
 	for (JUnsignedOffset i=0; i<versCount; i++)
-		{
+	{
 		if (!itsVersionList->IsEmpty())	// require pre-sorted
-			{
+		{
 			const VersionInfo info = itsVersionList->GetLastElement();
 			assert( versList[i].vers > info.vers );
-			}
+		}
 
 		itsVersionList->AppendElement(versList[i]);
-		}
+	}
 
 	ListenTo(JXGetSharedPrefsManager());
 }
@@ -80,12 +80,12 @@ JXSharedPrefObject::GetPrefID
 	const
 {
 	for (const auto& info : *itsVersionList)
-		{
+	{
 		if (vers == info.vers)
-			{
+		{
 			return info.id;
-			}
 		}
+	}
 
 	const VersionInfo info = itsVersionList->GetLastElement();
 	return info.id;
@@ -128,11 +128,11 @@ JXSharedPrefObject::Receive
 {
 	if (sender == JXGetSharedPrefsManager() &&
 		message.Is(JXSharedPrefsManager::kRead))
-		{
+	{
 		ReadPrefs();
-		}
+	}
 	else
-		{
+	{
 		JBroadcaster::Receive(sender, message);
-		}
+	}
 }

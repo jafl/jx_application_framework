@@ -97,9 +97,9 @@ JFont
 JFontManager::GetDefaultFont()
 {
 	if (theDefaultFontID == kInvalidFontID)
-		{
+	{
 		theDefaultFontID = GetFontID(theDefaultFontName, theDefaultFontSize, JFontStyle());
-		}
+	}
 
 	const Font f = theFontList.GetElement(theDefaultFontID);
 	return JFont(theDefaultFontID, f.size, f.style);
@@ -114,9 +114,9 @@ JFont
 JFontManager::GetDefaultMonospaceFont()
 {
 	if (theDefaultMonospaceFontID == kInvalidFontID)
-		{
+	{
 		theDefaultMonospaceFontID = GetFontID(theDefaultMonospaceFontName, theDefaultMonospaceFontSize, JFontStyle());
-		}
+	}
 
 	const Font f = theFontList.GetElement(theDefaultMonospaceFontID);
 	return JFont(theDefaultMonospaceFontID, f.size, f.style);
@@ -154,13 +154,13 @@ JFontManager::GetFontID
 {
 	const JSize count = theFontList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const Font f = theFontList.GetElement(i);
 		if (*f.name == name && f.size == size && f.style.SameSystemAttributes(style))
-			{
+		{
 			return i;
-			}
 		}
+	}
 
 	Font f;
 	f.size  = size;
@@ -217,15 +217,15 @@ jParseSize
 	)
 {
 	if (stringMgr->Contains(key))
-		{
+	{
 		const JString& fontSize = JGetString(key);
 
 		JSize size;
 		if (fontSize.ConvertToUInt(&size))
-			{
+		{
 			*value = size;
-			}
 		}
+	}
 }
 
 void
@@ -240,13 +240,13 @@ JFontManager::Init
 	JStringManager* stringMgr = JGetStringManager();
 
 	if (stringMgr->Contains("NAME::FONT"))
-		{
+	{
 		theDefaultFontName = JGetString("NAME::FONT");
-		}
+	}
 	else if (defaultFontName != nullptr)
-		{
+	{
 		theDefaultFontName.Set(defaultFontName);
-		}
+	}
 
 	jParseSize(stringMgr, "SIZE::FONT", &theDefaultFontSize);
 	jParseSize(stringMgr, "SIZE::ROWCOLHDR::FONT", &theDefaultRCHFontSize);
@@ -254,13 +254,13 @@ JFontManager::Init
 	// monospace font
 
 	if (stringMgr->Contains("NAME::MONO::FONT"))
-		{
+	{
 		theDefaultFontName = JGetString("NAME::MONO::FONT");
-		}
+	}
 	else if (defaultMonospaceFontName != nullptr)
-		{
+	{
 		theDefaultMonospaceFontName.Set(defaultMonospaceFontName);
-		}
+	}
 
 	jParseSize(stringMgr, "SIZE::MONO::FONT", &theDefaultMonospaceFontSize);
 
@@ -278,7 +278,7 @@ void
 JFontManager::CleanUp()
 {
 	for (const auto& f : theFontList)
-		{
+	{
 		jdelete f.name;
-		}
+	}
 }

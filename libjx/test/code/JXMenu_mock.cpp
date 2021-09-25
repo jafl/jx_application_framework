@@ -50,16 +50,16 @@ JXMenu::AdjustNMShortcutModifier
 {
 	if ((theDisplayStyle == kMacintoshStyle && theDefaultStyle == kWindowsStyle) ||
 		(theDisplayStyle == kWindowsStyle   && theDefaultStyle == kMacintoshStyle))
-		{
+	{
 		if (key == kJXControlKeyIndex)
-			{
+		{
 			return kJXMetaKeyIndex;
-			}
-		else if (key == kJXMetaKeyIndex)
-			{
-			return kJXControlKeyIndex;
-			}
 		}
+		else if (key == kJXMetaKeyIndex)
+		{
+			return kJXControlKeyIndex;
+		}
+	}
 
 	return key;
 }

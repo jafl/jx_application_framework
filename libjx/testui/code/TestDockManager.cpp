@@ -65,9 +65,9 @@ void
 TestDockManager::DockAll()
 {
 	if (!GetDockList()->IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	JXDockDirector* dir = CreateDock(true);
 

@@ -75,18 +75,18 @@ JArrayIterator<T>::Prev
 	)
 {
 	if (this->AtBeginning())
-		{
+	{
 		return false;
-		}
+	}
 
 	const JCursorPosition cursorPos = this->GetCursor();
 
 	*data = itsArray->GetElement(cursorPos);
 
 	if (move)
-		{
+	{
 		this->SetCursor(cursorPos-1);
-		}
+	}
 	return true;
 }
 
@@ -108,18 +108,18 @@ JArrayIterator<T>::Next
 	)
 {
 	if (this->AtEnd())
-		{
+	{
 		return false;
-		}
+	}
 
 	const JCursorPosition cursorPos = this->GetCursor() + 1;
 
 	*data = itsArray->GetElement(cursorPos);
 
 	if (move)
-		{
+	{
 		this->SetCursor(cursorPos);
-		}
+	}
 	return true;
 }
 
@@ -173,17 +173,17 @@ JArrayIterator<T>::SetPrev
 {
 	JList<T>* obj;
 	if (!this->GetList(&obj) || this->AtBeginning())
-		{
+	{
 		return false;
-		}
+	}
 
 	const JCursorPosition cursorPos = this->GetCursor();
 
 	itsArray->SetElement(cursorPos, data);
 	if (move)
-		{
+	{
 		this->SetCursor(cursorPos-1);
-		}
+	}
 	return true;
 }
 
@@ -205,17 +205,17 @@ JArrayIterator<T>::SetNext
 {
 	JList<T>* obj;
 	if (!this->GetList(&obj) || this->AtEnd())
-		{
+	{
 		return false;
-		}
+	}
 
 	const JCursorPosition cursorPos = this->GetCursor() + 1;
 
 	itsArray->SetElement(cursorPos, data);
 	if (move)
-		{
+	{
 		this->SetCursor(cursorPos);
-		}
+	}
 	return true;
 }
 
@@ -236,9 +236,9 @@ JArrayIterator<T>::RemovePrev
 {
 	JList<T>* obj;
 	if (!this->GetList(&obj) || this->AtBeginning())
-		{
+	{
 		return false;
-		}
+	}
 
 	itsArray->RemovePrevElements(this->GetCursor(), count);
 	return true;
@@ -261,9 +261,9 @@ JArrayIterator<T>::RemoveNext
 {
 	JList<T>* obj;
 	if (!this->GetList(&obj) || this->AtEnd())
-		{
+	{
 		return false;
-		}
+	}
 
 	itsArray->RemoveNextElements(this->GetCursor()+1, count);
 	return true;
@@ -285,9 +285,9 @@ JArrayIterator<T>::Insert
 {
 	JList<T>* obj;
 	if (!this->GetList(&obj))
-		{
+	{
 		return false;
-		}
+	}
 
 	itsArray->InsertElementAtIndex(this->GetCursor()+1, data);
 	return true;
@@ -312,9 +312,9 @@ JArrayIterator<T>::ListChanged
 	JListIterator<T>::ListChanged(message);
 
 	if (message.Is(JListT::kGoingAway))
-		{
+	{
 		itsArray = nullptr;
-		}
+	}
 }
 
 #endif

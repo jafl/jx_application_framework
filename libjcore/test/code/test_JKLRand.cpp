@@ -12,7 +12,7 @@
 #include <jAssert.h>
 
 	JUInt32 jKLUInt32List[] =
-		{
+	{
 		0x12345678,
 		0x75432777,
 		0xcd305e6a,
@@ -26,10 +26,10 @@
 		0x81cf8b52,
 		0x207db289,
 		0x00 // Sentinel
-		};
+	};
 
 	long jKLLongList[] =
-		{
+	{
 		0,
 		2360,
 		2785,
@@ -42,7 +42,7 @@
 		5078,
 		5818,
 		0 // Sentinel
-		};
+	};
 
 int main()
 {
@@ -54,11 +54,11 @@ JTEST(UniformInt32)
 	JKLRand randGen( jKLUInt32List[0] );
 	JIndex i = 1;
 	while (jKLUInt32List[i] != 0)
-		{
+	{
 		const JInt32 thisVal = randGen.UniformUInt32();
 		JAssertEqual(jKLUInt32List[i], thisVal);
 		i++;
-		}
+	}
 }
 
 JTEST(UniformClosedProb)
@@ -66,29 +66,29 @@ JTEST(UniformClosedProb)
 	JKLRand randGen( jKLLongList[0] );
 	JIndex i=1;
 	while (jKLLongList[i] != 0)
-		{
+	{
 		const long thisVal = randGen.UniformLong(0, 10000);
 		JAssertEqual(jKLLongList[i], thisVal);
 		i++;
-		}
+	}
 }
 
 JTEST(UniformClosedProbRange)
 {
 	JKLRand randGen;
 	for (JIndex i=1; i<=1000000; i++)
-		{
+	{
 		const double thisVal = randGen.UniformClosedProb();
 		JAssertTrue(0.0 <= thisVal && thisVal <= 1.0);
-		}
+	}
 }
 
 JTEST(UniformDoubleRange)
 {
 	JKLRand randGen;
 	for (JIndex i=1; i<=1000000; i++)
-		{
+	{
 		const double thisVal = randGen.UniformDouble(-100.0, 100.0);
 		JAssertTrue(-100.0 <= thisVal && thisVal <= 100.0);
-		}
+	}
 }

@@ -49,15 +49,15 @@ JXQuitIfAllDeactTask::Perform
 	)
 {
 	if (TimeToPerform(delta, maxSleepTime))
-		{		
+	{		
 		JXApplication* app = JXGetApplication();
 
 		const JPtrArray<JXDirector>* list;
 		if (!app->GetSubdirectors(&list) ||
 			std::all_of(begin(*list), end(*list),
 				[] (JXDirector* dir) { return !dir->IsActive(); }))
-			{
+		{
 				app->Quit();
-			}
 		}
+	}
 }

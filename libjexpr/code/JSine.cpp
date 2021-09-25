@@ -82,9 +82,9 @@ JSine::Evaluate
 {
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = sin(argValue);
 	return jerrno_is_clear();
@@ -99,9 +99,9 @@ JSine::Evaluate
 {
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = sin(argValue);
 	return jerrno_is_clear();

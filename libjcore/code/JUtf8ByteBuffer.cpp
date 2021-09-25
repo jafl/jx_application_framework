@@ -47,9 +47,9 @@ JUtf8ByteBuffer::Append
 	)
 {
 	for (JUnsignedOffset i=0; i<count; i++)
-		{
+	{
 		AppendElement(data[i]);
-		}
+	}
 }
 
 /******************************************************************************
@@ -83,10 +83,10 @@ JUtf8ByteBuffer::ExtractCharacters()
 		   (isNull(p + validCount, &byteCount) ||
 			JUtf8Character::IsCompleteCharacter(p + validCount, remainingCount, &byteCount) ||
 			remainingCount >= JUtf8Character::kMaxByteCount))
-		{
+	{
 		validCount     += byteCount;
 		remainingCount -= byteCount;
-		}
+	}
 
 	const JString s(p, validCount);
 	RemoveNextElements(1, validCount);

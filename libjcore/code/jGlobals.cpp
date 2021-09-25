@@ -69,16 +69,16 @@ JInitCore
 	)
 {
 	if (theStringManager != nullptr)
-		{
+	{
 		return;		// already initialized
-		}
+	}
 
 	// assert handler
 
 	if (ah != nullptr)
-		{
+	{
 		theAssertHandler = ah;
-		}
+	}
 	// nullptr is valid in this case -- see JGetAssertHandler()
 
 	// use native locale
@@ -97,45 +97,45 @@ JInitCore
 
 	JStringManager* stringMgr = JGetStringManager();	// create it
 	if (defaultStringData != nullptr)
-		{
+	{
 		stringMgr->Register(appSignature, defaultStringData);
-		}
+	}
 
 	// user notification
 
 	if (un != nullptr)
-		{
+	{
 		theUserNotification = un;
-		}
+	}
 	else
-		{
+	{
 		theUserNotification = jnew JTextUserNotification;
 		assert( theUserNotification != nullptr );
-		}
+	}
 
 	// choose/save file
 
 	if (csf != nullptr)
-		{
+	{
 		theChooseSaveFile = csf;
-		}
+	}
 	else
-		{
+	{
 		theChooseSaveFile = jnew JTextChooseSaveFile;
 		assert( theChooseSaveFile != nullptr );
-		}
+	}
 
 	// progress display factory
 
 	if (cpg != nullptr)
-		{
+	{
 		theCreatePG = cpg;
-		}
+	}
 	else
-		{
+	{
 		theCreatePG = jnew JCreateTextPG;
 		assert( theCreatePG != nullptr );
-		}
+	}
 
 	// remember to clean up
 
@@ -203,11 +203,11 @@ JStringManager*
 JGetStringManager()
 {
 	if (theStringManager == nullptr)
-		{
+	{
 		theStringManager = jnew JStringManager;
 		assert( theStringManager != nullptr );
 		theStringManager->Register(nullptr, kJCoreDefaultStringData);
-		}
+	}
 
 	return theStringManager;
 }
@@ -277,12 +277,12 @@ JUserNotification*
 JGetUserNotification()
 {
 	if (theUserNotification == nullptr)
-		{
+	{
 		std::cerr << "Forgot to initialize UserNotification: using text version" << std::endl;
 
 		theUserNotification = jnew JTextUserNotification;
 		assert( theUserNotification != nullptr );
-		}
+	}
 
 	return theUserNotification;
 }
@@ -296,12 +296,12 @@ JChooseSaveFile*
 JGetChooseSaveFile()
 {
 	if (theChooseSaveFile == nullptr)
-		{
+	{
 		std::cerr << "Forgot to initialize ChooseSaveFile: using default version" << std::endl;
 
 		theChooseSaveFile = jnew JTextChooseSaveFile;
 		assert( theChooseSaveFile != nullptr );
-		}
+	}
 
 	return theChooseSaveFile;
 }
@@ -315,12 +315,12 @@ JCreateProgressDisplay*
 JGetCreatePG()
 {
 	if (theCreatePG == nullptr)
-		{
+	{
 		std::cerr << "Forgot to initialize CreateProgressDisplay: using text version" << std::endl;
 
 		theCreatePG = jnew JCreateTextPG;
 		assert( theCreatePG != nullptr );
-		}
+	}
 
 	return theCreatePG;
 }

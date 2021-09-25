@@ -61,37 +61,37 @@ JTextChooseSaveFile::ChooseFile
 	)
 {
 	while (true)
-		{
+	{
 		if (!instructions.IsEmpty())
-			{
+		{
 			std::cout << std::endl;
 			std::cout << instructions << std::endl;
-			}
+		}
 		std::cout << std::endl;
 		std::cout << prompt << std::endl;
 
 		do
-			{
+		{
 			std::cout << "File (or '" << kCancelStr << "'): ";
 			std::cin  >> *fullName;
 			JInputFinished();
 			fullName->TrimWhitespace();
 			if (*fullName == kCancelStr)
-				{
+			{
 				return false;
-				}
 			}
+		}
 			while (fullName->IsEmpty() || DoSystemCommand(*fullName));
 
 		if (JFileExists(*fullName))
-			{
+		{
 			return true;
-			}
-		else if (!JGetUserNotification()->AskUserYes(JGetString("FileDoesNotExist::JTextChooseSaveFile")))
-			{
-			return false;
-			}
 		}
+		else if (!JGetUserNotification()->AskUserYes(JGetString("FileDoesNotExist::JTextChooseSaveFile")))
+		{
+			return false;
+		}
+	}
 }
 
 bool
@@ -126,47 +126,47 @@ JTextChooseSaveFile::ChooseFiles
 	fullNameList->CleanOut();
 
 	if (!instructions.IsEmpty())
-		{
+	{
 		std::cout << std::endl;
 		std::cout << instructions << std::endl;
-		}
+	}
 
 	JString fullName;
 	while (true)
-		{
+	{
 		std::cout << std::endl;
 		std::cout << prompt << std::endl;
 
 		do
-			{
+		{
 			std::cout << "File (or '" << kDoneStr << "' or '" << kCancelStr << "'): ";
 			std::cin  >> fullName;
 			JInputFinished();
 			fullName.TrimWhitespace();
 			if (fullName == kCancelStr)
-				{
+			{
 				fullNameList->CleanOut();
 				return false;
-				}
-			else if (fullName == kDoneStr)
-				{
-				return true;
-				}
 			}
+			else if (fullName == kDoneStr)
+			{
+				return true;
+			}
+		}
 			while (fullName.IsEmpty() || DoSystemCommand(fullName));
 
 		if (JFileExists(fullName))
-			{
+		{
 			auto* s = jnew JString(fullName);
 			assert( s != nullptr );
 			fullNameList->Append(s);
-			}
+		}
 		else if (!JGetUserNotification()->AskUserYes(JGetString("FileDoesNotExist::JTextChooseSaveFile")))
-			{
+		{
 			fullNameList->CleanOut();
 			return false;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -188,21 +188,21 @@ JTextChooseSaveFile::ChooseRPath
 	)
 {
 	while (true)
-		{
+	{
 		if (!GetPath(prompt, instructions, newPath))
-			{
+		{
 			return false;
-			}
+		}
 
 		if (JDirectoryExists(*newPath))
-			{
+		{
 			return true;
-			}
-		else if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
-			{
-			return false;
-			}
 		}
+		else if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
+		{
+			return false;
+		}
+	}
 }
 
 /******************************************************************************
@@ -224,31 +224,31 @@ JTextChooseSaveFile::ChooseRWPath
 	)
 {
 	while (true)
-		{
+	{
 		if (!GetPath(prompt, instructions, newPath))
-			{
+		{
 			return false;
-			}
+		}
 
 		if (JDirectoryWritable(*newPath))
-			{
+		{
 			return true;
-			}
+		}
 		else if (JDirectoryExists(*newPath))
-			{
+		{
 			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryNotWritable::JTextChooseSaveFile")))
-				{
-				return false;
-				}
-			}
-		else	// directory doesn't exist
 			{
-			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
-				{
 				return false;
-				}
 			}
 		}
+		else	// directory doesn't exist
+		{
+			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
+			{
+				return false;
+			}
+		}
+	}
 }
 
 /******************************************************************************
@@ -265,24 +265,24 @@ JTextChooseSaveFile::GetPath
 	)
 {
 	if (!instructions.IsEmpty())
-		{
+	{
 		std::cout << std::endl;
 		std::cout << instructions << std::endl;
-		}
+	}
 	std::cout << std::endl;
 	std::cout << prompt << std::endl;
 
 	do
-		{
+	{
 		std::cout << "Path (or '" << kCancelStr << "'): ";
 		std::cin  >> *newPath;
 		JInputFinished();
 		newPath->TrimWhitespace();
 		if (*newPath == kCancelStr)
-			{
+		{
 			return false;
-			}
 		}
+	}
 		while (newPath->IsEmpty() || DoSystemCommand(*newPath));
 
 	JAppendDirSeparator(newPath);
@@ -308,26 +308,26 @@ JTextChooseSaveFile::SaveFile
 	)
 {
 	while (true)
-		{
+	{
 		if (!instructions.IsEmpty())
-			{
+		{
 			std::cout << std::endl;
 			std::cout << instructions << std::endl;
-			}
+		}
 		std::cout << std::endl;
 		std::cout << prompt << std::endl;
 
 		do
-			{
+		{
 			std::cout << "File (or '" << kCancelStr << "'): ";
 			std::cin  >> *newFullName;
 			JInputFinished();
 			newFullName->TrimWhitespace();
 			if (*newFullName == kCancelStr)
-				{
+			{
 				return false;
-				}
 			}
+		}
 			while (newFullName->IsEmpty() || DoSystemCommand(*newFullName));
 
 		JString path,name;
@@ -337,38 +337,38 @@ JTextChooseSaveFile::SaveFile
 		const bool dirExists    = JDirectoryExists(path);
 		const bool dirWritable  = JDirectoryWritable(path);
 		if (dirWritable && !fileExists)
-			{
+		{
 			return true;
-			}
+		}
 		else if (fileWritable)
-			{
+		{
 			if (JGetUserNotification()->AskUserNo(JGetString("FileExists::JTextChooseSaveFile")))
-				{
+			{
 				return true;
-				}
-			}
-		else if (!dirExists)
-			{
-			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
-				{
-				return false;
-				}
-			}
-		else if (!dirWritable && !fileExists)
-			{
-			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryNotWritable::JTextChooseSaveFile")))
-				{
-				return false;
-				}
-			}
-		else	// file exists and is not writable
-			{
-			if (!JGetUserNotification()->AskUserYes(JGetString("FileNotWritable::JTextChooseSaveFile")))
-				{
-				return false;
-				}
 			}
 		}
+		else if (!dirExists)
+		{
+			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
+			{
+				return false;
+			}
+		}
+		else if (!dirWritable && !fileExists)
+		{
+			if (!JGetUserNotification()->AskUserYes(JGetString("DirectoryNotWritable::JTextChooseSaveFile")))
+			{
+				return false;
+			}
+		}
+		else	// file exists and is not writable
+		{
+			if (!JGetUserNotification()->AskUserYes(JGetString("FileNotWritable::JTextChooseSaveFile")))
+			{
+				return false;
+			}
+		}
+	}
 }
 
 /******************************************************************************
@@ -386,20 +386,20 @@ JTextChooseSaveFile::DoSystemCommand
 	const
 {
 	if (!str.IsEmpty() && str.GetFirstCharacter() == '!')
-		{
+	{
 		if (str.GetCharacterCount() >= 2)
-			{
+		{
 			std::cout << std::endl;
 			if (system(str.GetBytes() + 1) == -1)
-				{
+			{
 				std::cout << "failed";
-				}
 			}
+		}
 		std::cout << std::endl;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }

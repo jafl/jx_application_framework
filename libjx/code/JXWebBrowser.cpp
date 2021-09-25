@@ -59,9 +59,9 @@ void
 JXWebBrowser::SaveCommands()
 {
 	if (itsSaveChangesFlag)
-		{
+	{
 		JXSharedPrefObject::WritePrefs();
-		}
+	}
 }
 
 /******************************************************************************
@@ -96,12 +96,12 @@ JXWebBrowser::Receive
 	)
 {
 	if (sender == itsPrefsDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			JString showURLCmd, showFileContentCmd, showFileLocationCmd, composeMailCmd;
 			itsPrefsDialog->GetPrefs(&showURLCmd, &showFileContentCmd,
 									 &showFileLocationCmd, &composeMailCmd);
@@ -114,14 +114,14 @@ JXWebBrowser::Receive
 			itsSaveChangesFlag = true;
 
 			SaveCommands();
-			}
-		itsPrefsDialog = nullptr;
 		}
+		itsPrefsDialog = nullptr;
+	}
 
 	else
-		{
+	{
 		JXSharedPrefObject::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************

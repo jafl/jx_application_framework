@@ -126,13 +126,13 @@ template <class T>
 JPtrArray<T>::~JPtrArray()
 {
 	if (itsCleanUpAction == JPtrArrayT::kDeleteAll)
-		{
+	{
 		DeleteAll();
-		}
+	}
 	else if (itsCleanUpAction == JPtrArrayT::kDeleteAllAsArrays)
-		{
+	{
 		DeleteAllAsArrays();
-		}
+	}
 }
 
 /******************************************************************************
@@ -145,18 +145,18 @@ void
 JPtrArray<T>::CleanOut()
 {
 	if (itsCleanUpAction == JPtrArrayT::kDeleteAll)
-		{
+	{
 		DeleteAll();
-		}
+	}
 	else if (itsCleanUpAction == JPtrArrayT::kDeleteAllAsArrays)
-		{
+	{
 		DeleteAllAsArrays();
-		}
+	}
 	else
-		{
+	{
 		assert( itsCleanUpAction == JPtrArrayT::kForgetAll );
 		JArray<T*>::RemoveAll();
-		}
+	}
 }
 
 /******************************************************************************
@@ -178,20 +178,20 @@ JPtrArray<T>::CopyPointers
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	if (!append)
-		{
+	{
 		CleanOut();
-		}
+	}
 	itsCleanUpAction = action;
 
 	for (auto* ptr : source)
-		{
+	{
 		Append(ptr);
-		}
+	}
 
 	return *this;
 }
@@ -215,27 +215,27 @@ JPtrArray<T>::CopyObjects
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	if (!append)
-		{
+	{
 		CleanOut();
-		}
+	}
 	itsCleanUpAction = action;
 
 	for (const auto* ptr : source)
-		{
+	{
 		if (ptr == nullptr)
-			{
+		{
 			Append(nullptr);
-			}
-		else
-			{
-			Append(*ptr);
-			}
 		}
+		else
+		{
+			Append(*ptr);
+		}
+	}
 
 	return *this;
 }
@@ -342,13 +342,13 @@ JPtrArray<T>::InsertBefore
 	const bool found = Find(beforePtr, &index);
 
 	if (found)
-		{
+	{
 		InsertAtIndex(index, dataPtr);
-		}
+	}
 	else
-		{
+	{
 		Prepend(dataPtr);
-		}
+	}
 }
 
 template <class T>
@@ -383,13 +383,13 @@ JPtrArray<T>::InsertAfter
 	const bool found = Find(afterPtr, &index);
 
 	if (found)
-		{
+	{
 		InsertAtIndex(index + 1, dataPtr);
-		}
+	}
 	else
-		{
+	{
 		Append(dataPtr);
-		}
+	}
 }
 
 template <class T>
@@ -422,17 +422,17 @@ JPtrArray<T>::SetElement
 	)
 {
 	if (action == JPtrArrayT::kDelete)
-		{
+	{
 		jdelete JArray<T*>::GetElement(index);
-		}
+	}
 	else if (action == JPtrArrayT::kDeleteAsArray)
-		{
+	{
 		jdelete [] JArray<T*>::GetElement(index);
-		}
+	}
 	else
-		{
+	{
 		assert( action == JPtrArrayT::kForget );
-		}
+	}
 
 	JArray<T*>::SetElement(index, dataPtr);
 }
@@ -485,9 +485,9 @@ JPtrArray<T>::Remove
 	const bool found = Find(dataPtr, &index);
 
 	if (found)
-		{
+	{
 		JArray<T*>::RemoveElement(index);
-		}
+	}
 	return found;
 }
 
@@ -517,9 +517,9 @@ void
 JPtrArray<T>::DeleteAll()
 {
 	for (auto* ptr : *this)
-		{
+	{
 		jdelete ptr;
-		}
+	}
 	JArray<T*>::RemoveAll();
 }
 
@@ -549,9 +549,9 @@ void
 JPtrArray<T>::DeleteAllAsArrays()
 {
 	for (auto* ptr : *this)
-		{
+	{
 		jdelete [] ptr;
-		}
+	}
 	JArray<T*>::RemoveAll();
 }
 
@@ -598,13 +598,13 @@ JPtrArray<T>::Find
 
 	const JSize elementCount = this->JCollection::GetElementCount();
 	for (JIndex i=1; i<=elementCount; i++)
-		{
+	{
 		if (dataPtr == JArray<T*>::ProtectedGetElement(i))
-			{
+		{
 			*elementIndex = i;
 			return true;
-			}
 		}
+	}
 
 	// if we fall through, there was no match
 

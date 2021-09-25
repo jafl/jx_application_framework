@@ -133,7 +133,7 @@ JXRadioGroupDialog::BuildWindow
 	JCoordinate wmin = 0;
 	JPtrArray<JXRadioButton> buttonList(JPtrArrayT::kForgetAll, actionCount);
 	for (JIndex i=1; i<=actionCount; i++)
-		{
+	{
 		auto* button =
 			jnew JXTextRadioButton(i, *choiceList.GetElement(i), itsRG,
 								  JXWidget::kFixedLeft, JXWidget::kFixedTop,
@@ -142,31 +142,31 @@ JXRadioGroupDialog::BuildWindow
 		assert( button != nullptr );
 
 		if (shortcutList != nullptr)
-			{
+		{
 			button->SetShortcuts(*(shortcutList->GetElement(i)));
-			}
+		}
 
 		buttonList.Append(button);
 		wmin = JMax(button->GetPreferredWidth(), wmin);
-		}
+	}
 
 	// all choices should be the same width
 
 	for (auto* rb : buttonList)
-		{
+	{
 		rb->SetSize(wmin, kTextHeight);
-		}
+	}
 
 	wmin += kRGHLMarginWidth + kRGHRMarginWidth;
 	itsRG->AdjustSize(wmin - kInitRGWidth, 0);
 
 	const JCoordinate wminInstr = instrText->GetFrameWidth();
 	if (wmin < wminInstr)
-		{
+	{
 		const JCoordinate delta = (wminInstr - wmin)/2;
 		itsRG->Move(delta, 0);
 		wmin = wminInstr;
-		}
+	}
 
 	y = (itsRG->GetFrame()).bottom + kRGButtonVDelta;
 
@@ -175,12 +175,12 @@ JXRadioGroupDialog::BuildWindow
 	wmin += 2*kHMarginWidth;
 	const JCoordinate wminButton = 3*kMinButtonHMargin + 2*kButtonWidth;
 	if (wmin < wminButton)
-		{
+	{
 		const JCoordinate delta = (wminButton - wmin)/2;
 		instrText->Move(delta, 0);
 		itsRG->Move(delta, 0);
 		wmin = wminButton;
-		}
+	}
 
 	const JCoordinate buttonX = (wmin - 2*kButtonWidth)/3;
 

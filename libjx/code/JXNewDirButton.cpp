@@ -43,9 +43,9 @@ JXNewDirButton::JXNewDirButton
 	const JSize spaceCount = JRound(itsFolderIcon->GetWidth() / (JFloat) spaceWidth);
 	JString s = JGetString("Label::JXNewDirButton");
 	for (JIndex i=1; i<=spaceCount; i++)
-		{
+	{
 		s.Append(" ");
-		}
+	}
 	SetLabel(s);
 	itsLabelWidth = GetFont().GetStringWidth(GetFontManager(), s);
 }

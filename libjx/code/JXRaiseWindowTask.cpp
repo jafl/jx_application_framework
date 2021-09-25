@@ -43,7 +43,7 @@ void
 JXRaiseWindowTask::Perform()
 {
 	if (itsWindow != nullptr)
-		{
+	{
 		itsWindow->Raise();
-		}
+	}
 }

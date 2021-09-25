@@ -85,16 +85,16 @@ TestChooseSaveFile::Receive
 	)
 {
 	if (sender == itsTestSaveDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			itsSaveFormat = itsTestSaveDialog->GetSaveFormat();
-			}
-		itsTestSaveDialog = nullptr;
 		}
+		itsTestSaveDialog = nullptr;
+	}
 
 	JXChooseSaveFile::Receive(sender, message);
 }

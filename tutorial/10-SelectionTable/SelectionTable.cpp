@@ -170,12 +170,12 @@ SelectionTable::Receive
 
 	// We first check if the sender is our data array
 	if (sender == itsData)
-		{
+	{
 		// Our data array sent us a message
 
 		// Was data inserted?
 		if (message.Is(JListT::kElementsInserted))
-			{
+		{
 			// cast the message to an ElementsInserted object
 			const JListT::ElementsInserted* info =
 				dynamic_cast<const JListT::ElementsInserted*>(&message);
@@ -183,11 +183,11 @@ SelectionTable::Receive
 
 			// For each element inserted, we insert a row
 			InsertRows(info->GetFirstIndex(), info->GetCount(), kDefRowHeight);
-			}
+		}
 
 		// Was data removed?
 		else if (message.Is(JListT::kElementsRemoved))
-			{
+		{
 			// cast the message to an ElementsRemoved object
 			const JListT::ElementsRemoved* info =
 				dynamic_cast<const JListT::ElementsRemoved*>(&message);
@@ -195,14 +195,14 @@ SelectionTable::Receive
 
 			// Remove corresponding table rows.
 			for (JSize i = info->GetLastIndex(); i >= info->GetFirstIndex() ; i--)
-				{
+			{
 				RemoveNextRows(info->GetFirstIndex(), info->GetCount());
-				}
 			}
+		}
 
 		// Was an element changed?
 		else if (message.Is(JListT::kElementsChanged))
-			{
+		{
 			// cast the message to an ElementsRemoved object
 			const JListT::ElementsChanged* info =
 				dynamic_cast<const JListT::ElementsChanged*>(&message);
@@ -212,24 +212,24 @@ SelectionTable::Receive
 			// (This would not be necessary if we were using a
 			//  class derived from JTableData.)
 			for (JIndex i=info->GetFirstIndex(); i<=info->GetLastIndex(); i++)
-				{
+			{
 				TableRefreshRow(i);
-				}
 			}
 		}
+	}
 
 	// Did the Table menu send a message?
 	else if (sender == itsTableMenu)
-		{
+	{
 		// Does the menu need an update?
 		if (message.Is(JXMenu::kNeedsUpdate))
-			{
+		{
 			UpdateTableMenu();
-			}
+		}
 
 		// Has a menu item been selected?
 		else if (message.Is(JXMenu::kItemSelected))
-			{
+		{
 			// cast the message to an ItemSelecte object.
 			// This will tell us which item was selected.
 			const JXMenu::ItemSelected* info =
@@ -238,14 +238,14 @@ SelectionTable::Receive
 
 			// Pass the selected menu item to our menu handler function.
 			HandleTableMenu(info->GetIndex());
-			}
 		}
+	}
 
 	// pass the message to our base class
 	else
-		{
+	{
 		JXTable::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -266,11 +266,11 @@ SelectionTable::HandleMouseDown
 	)
 {
 	if (button == kJXLeftButton)
-		{
+	{
 		// We first need to find out which cell contains this point.
 		JPoint cell;
 		if (GetCell(pt, &cell))
-			{
+		{
 			// We clicked in the table.
 
 			// Get the selection object that JTable owns.
@@ -278,9 +278,9 @@ SelectionTable::HandleMouseDown
 
 			// Select the cell that the user clicked on.
 			selection.SelectCell(cell);
-			}
+		}
 		else
-			{
+		{
 			// We clicked the mouse outside of the table.
 
 			// Get the selection object that JTable owns.
@@ -288,14 +288,14 @@ SelectionTable::HandleMouseDown
 
 			// Clear the selection.
 			selection.ClearSelection();
-			}
 		}
+	}
 
 	// Let the base class handle the wheel mouse.
 	else
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -313,15 +313,15 @@ SelectionTable::UpdateTableMenu()
 
 	// Check that only one cell is selected.
 	if (selection.GetSelectedCellCount() != 1)
-		{
+	{
 		// Too many cells are selected, or none are, so disallow insertion
 		itsTableMenu->DisableItem(kInsertCmd);
-		}
+	}
 	else
-		{
+	{
 		// Only one cell is selected, so allow insertion
 		itsTableMenu->EnableItem(kInsertCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -341,7 +341,7 @@ SelectionTable::HandleTableMenu
 
 	// Was it the Insert command?
 	if (index == kInsertCmd)
-		{
+	{
 		// Get the selection object that JTable owns.
 		JTableSelection& selection = GetTableSelection();
 
@@ -358,11 +358,11 @@ SelectionTable::HandleTableMenu
 
 		// The default value is inserted before the selected cell.
 		itsData->InsertElementAtIndex(cell.y, kDefInsertValue);
-		}
+	}
 
 	// Was it the Remove command?
 	else if (index == kRemoveCmd)
-		{
+	{
 		// Get the selection object that JTable owns.
 		JTableSelection& selection = GetTableSelection();
 
@@ -372,20 +372,20 @@ SelectionTable::HandleTableMenu
 		// Loop through each selected cell.
 		JPoint cell;
 		while (iter.Next(&cell))
-			{
+		{
 
 			// Remove the element corresponding to the cell selected.
 			// The table will automatically adjust itself in the
 			// Receive function.
 			itsData->RemoveElement(cell.y);
-			}
 		}
+	}
 
 	// Was it the Quit command?
 	else if (index == kQuitCmd)
-		{
+	{
 		// Get the application object (from jXGlobals.h) and call Quit
 		// to exit the program.
 		JXGetApplication()->Quit();
-		}
+	}
 }

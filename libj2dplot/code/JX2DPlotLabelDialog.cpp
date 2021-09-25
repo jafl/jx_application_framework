@@ -184,15 +184,15 @@ JX2DPlotLabelDialog::Activate()
 {
 	JXDialogDirector::Activate();
 	if (itsSelection == J2DPlotWidget::kTitle)
-		{
+	{
 		itsPlotTitle->Focus();
-		}
+	}
 	else if (itsSelection == J2DPlotWidget::kXLabel)
-		{
+	{
 		itsXAxisLabel->Focus();
-		}
+	}
 	else if (itsSelection == J2DPlotWidget::kYLabel)
-		{
+	{
 		itsYAxisLabel->Focus();
-		}
+	}
 }

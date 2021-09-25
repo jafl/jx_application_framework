@@ -80,9 +80,9 @@ JQueue<T,S>::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	JContainer::operator=(source);
 
@@ -131,15 +131,15 @@ JQueue<T,S>::GetNext
 	)
 {
 	if (!IsEmpty())
-		{
+	{
 		*element = itsElements->GetElement(1);
 		itsElements->RemoveElement(1);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -166,14 +166,14 @@ JQueue<T,S>::PeekNext
 	const
 {
 	if (!IsEmpty())
-		{
+	{
 		*element = itsElements->GetElement(1);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -204,14 +204,14 @@ JQueue<T,S>::PeekNext
 	const
 {
 	if (IndexValid(index))
-		{
+	{
 		*element = itsElements->GetElement(index);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -244,10 +244,10 @@ JQueue<T,S>::Discard
 {
 	JSize numDiscarded = 0;
 	while (numDiscarded < numToDiscard && !itsElements->IsEmpty())
-		{
+	{
 		itsElements->RemoveElement(1);
 		numDiscarded++;
-		}
+	}
 }
 
 /******************************************************************************

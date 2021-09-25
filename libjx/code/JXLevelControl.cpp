@@ -76,19 +76,19 @@ JXLevelControl::Draw
 	JRect rThumb;
 
 	if (GetOrientation() == kHorizontal)
-		{
+	{
 		rThumb.top    = 0;
 		rThumb.left   = 0;
 		rThumb.bottom = bounds.height();
 		rThumb.right  = GetThumbPosition();
-		}
+	}
 	else
-		{
+	{
 		rThumb.top    = GetThumbPosition();
 		rThumb.left   = 0;
 		rThumb.bottom = bounds.height();
 		rThumb.right  = bounds.width();
-		}
+	}
 
 	JXDrawUpFrame(p, rThumb, GetBorderWidth(), true, JColorManager::GetDefaultBackColor());
 }

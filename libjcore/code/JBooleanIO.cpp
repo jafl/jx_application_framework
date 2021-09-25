@@ -37,18 +37,18 @@ operator>>
 	input.get(c);
 
 	if (c == kTrueMarker)
-		{
+	{
 		data.v = true;
-		}
+	}
 	else if (c == kFalseMarker)
-		{
+	{
 		data.v = false;
-		}
+	}
 	else
-		{
+	{
 		input.putback(c);
 		JSetState(input, std::ios::failbit);
-		}
+	}
 
 	return input;
 }

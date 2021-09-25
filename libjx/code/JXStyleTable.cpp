@@ -81,10 +81,10 @@ JXStyleTable::SetFont
 
 	JXInputField* input = nullptr;
 	if (GetXInputField(&input))
-		{
+	{
 		input->SetFontName(name);
 		input->SetFontSize(size);
-		}
+	}
 }
 
 /******************************************************************************
@@ -120,9 +120,9 @@ JXStyleTable::SetCellStyle
 	JXInputField* input = nullptr;
 	if (GetEditedCell(&editCell) && editCell == cell &&
 		GetXInputField(&input))
-		{
+	{
 		input->SetFontStyle(style);
-		}
+	}
 }
 
 /******************************************************************************
@@ -140,9 +140,9 @@ JXStyleTable::SetAllCellStyles
 
 	JXInputField* input = nullptr;
 	if (IsEditing() && GetXInputField(&input))
-		{
+	{
 		input->SetFontStyle(style);
-		}
+	}
 }
 
 /******************************************************************************
@@ -160,11 +160,11 @@ JXStyleTable::GetMin1DVisibleWidth
 	const
 {
 	if (IsEditing())
-		{
+	{
 		return JXEditTable::GetMin1DVisibleWidth(cell);
-		}
+	}
 	else
-		{
+	{
 		return kMin1DVisCharCount * (GetFont()).GetCharWidth(GetFontManager(), JUtf8Character('W'));
-		}
+	}
 }

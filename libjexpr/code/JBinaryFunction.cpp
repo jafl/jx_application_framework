@@ -61,16 +61,16 @@ JBinaryFunction::JBinaryFunction
 	itsArg2(nullptr)
 {
 	if (source.itsArg1 != nullptr)
-		{
+	{
 		itsArg1 = (source.itsArg1)->Copy();
 		itsArg1->SetParent(this);
-		}
+	}
 
 	if (source.itsArg2 != nullptr)
-		{
+	{
 		itsArg2 = (source.itsArg2)->Copy();
 		itsArg2->SetParent(this);
-		}
+	}
 }
 
 /******************************************************************************
@@ -103,13 +103,13 @@ JBinaryFunction::GetArg
 {
 	assert( index == 1 || index == 2);
 	if (index == 1)
-		{
+	{
 		return itsArg1;
-		}
+	}
 	else	// index = 2
-		{
+	{
 		return itsArg2;
-		}
+	}
 }
 
 JFunction*
@@ -120,13 +120,13 @@ JBinaryFunction::GetArg
 {
 	assert( index == 1 || index == 2);
 	if (index == 1)
-		{
+	{
 		return itsArg1;
-		}
+	}
 	else	// index = 2
-		{
+	{
 		return itsArg2;
-		}
+	}
 }
 
 /******************************************************************************
@@ -146,11 +146,11 @@ JBinaryFunction::SetArg
 	assert( index == 1 || index == 2);
 
 	if (index == 1)
-		{
+	{
 		SetArg1(arg);
-		}
+	}
 	else	// index = 2
-		{
+	{
 		SetArg2(arg);
-		}
+	}
 }

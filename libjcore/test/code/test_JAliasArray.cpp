@@ -31,9 +31,9 @@ JPrintAliasArray
 
 	const JSize count = a.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		data << a.GetElement(i) << ' ';
-		}
+	}
 
 	JString s(data.str());
 	s.TrimWhitespace();
@@ -48,17 +48,17 @@ CompareLongs
 	)
 {
 	if (a < b)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (a == b)
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 }
 
 int
@@ -94,9 +94,9 @@ JTEST(Prepend)
 	JAliasArray aa(&a, CompareLongs, JListT::kSortDescending);
 
 	for (long j : { 5,4,3,2,1 })
-		{
+	{
 		a.PrependElement(j);
-		}
+	}
 
 	verify("1 2 3 4 5", a);
 	verifyalias("5 4 3 2 1", aa);
@@ -113,9 +113,9 @@ JTEST(Append)
 	JAliasArray aa(&a, CompareLongs, JListT::kSortDescending);
 
 	for (long j : { 1,2,3,4,5 })
-		{
+	{
 		a.AppendElement(j);
-		}
+	}
 
 	verify("1 2 3 4 5", a);
 	verifyalias("5 4 3 2 1", aa);
@@ -235,19 +235,19 @@ JTEST(Sort)
 
 // test insertion sort
 
-	{
+{
 	bool expect[] = { true, false, false, false };
 	long element[]    = { 3, -1, 10 };
 	const long eCount = sizeof(element)/sizeof(long);
 
 	bool isDuplicate;
 	for (JIndex i=0; i<eCount; i++)
-		{
+	{
 		const JIndex j = a.GetInsertionSortIndex(element[i], &isDuplicate);
 		a.InsertElementAtIndex(j, element[i]);
 		JAssertEqual(expect[i], (bool) isDuplicate);
-		}
 	}
+}
 	verify("-1 1 1 1 3 3 5 10", a);
 	verifyalias("10 5 3 3 1 1 1 -1", aa);
 

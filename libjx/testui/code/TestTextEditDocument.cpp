@@ -131,10 +131,10 @@ TestTextEditDocument::BuildWindow
 	JArray<JCoordinate> minSizes;
 
 	for (JIndex i=1; i<=2; i++)
-		{
+	{
 		sizes.AppendElement(140);
 		minSizes.AppendElement(50);
-		}
+	}
 
 // begin JXLayout
 
@@ -225,45 +225,45 @@ TestTextEditDocument::Receive
 	)
 {
 	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFileMenu();
-		}
+	}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsEmulatorMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateEmulatorMenu();
-		}
+	}
 	else if (sender == itsEmulatorMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleEmulatorMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsText && message.Is(JStyledText::kTextChanged))
-		{
+	{
 		if (itsText->IsAtLastSaveLocation())
-			{
+		{
 			DataReverted();
-			}
-		else
-			{
-			DataModified();
-			}
 		}
+		else
+		{
+			DataModified();
+		}
+	}
 
 	else
-		{
+	{
 		JXFileDocument::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -291,58 +291,58 @@ TestTextEditDocument::HandleFileMenu
 	)
 {
 	if (index == kNewFileCmd)
-		{
+	{
 		TestTextEditDocument* doc = jnew TestTextEditDocument(GetSupervisor());
 		assert( doc != nullptr );
 		doc->Activate();
-		}
+	}
 	else if (index == kOpenFileCmd)
-		{
+	{
 		OpenFiles();
-		}
+	}
 	else if (index == kSaveFileCmd)
-		{
+	{
 		SaveInCurrentFile();
-		}
+	}
 	else if (index == kSaveFileAsCmd)
-		{
+	{
 		SaveInNewFile();
-		}
+	}
 	else if (index == kSaveCopyAsCmd)
-		{
+	{
 		SaveCopyInNewFile();
-		}
+	}
 	else if (index == kRevertCmd)
-		{
+	{
 		RevertToSaved();
-		}
+	}
 
 	else if (index == kReadPrivateFmtCmd)
-		{
+	{
 		itsWritePrivateFmtFlag = true;
 		OpenFiles();
 		itsWritePrivateFmtFlag = false;
-		}
+	}
 	else if (index == kWritePrivateFmtCmd)
-		{
+	{
 		itsWritePrivateFmtFlag = true;
 		SaveCopyInNewFile();
 		itsWritePrivateFmtFlag = false;
-		}
+	}
 
 	else if (index == kPageSetupCmd)
-		{
+	{
 		itsTextEditor1->HandlePSPageSetup();
-		}
+	}
 	else if (index == kPrintCmd)
-		{
+	{
 		itsTextEditor1->PrintPS();
-		}
+	}
 
 	else if (index == kCloseCmd)
-		{
+	{
 		Close();
-		}
+	}
 }
 
 /******************************************************************************
@@ -356,30 +356,30 @@ TestTextEditDocument::OpenFiles()
 	JChooseSaveFile* csf = JGetChooseSaveFile();
 	JPtrArray<JString> fullNameList(JPtrArrayT::kDeleteAll);
 	if (csf->ChooseFiles(JGetString("ChooseFilesPrompt::TestTextEditDocument"), JString::empty, &fullNameList))
-		{
+	{
 		const JSize count = fullNameList.GetElementCount();
 		JXStandAlonePG pg;
 		pg.RaiseWhenUpdate();
 		pg.FixedLengthProcessBeginning(count, JGetString("OpenFilesProgress::TestTextEditDocument"), true, false);
 
 		for (auto* fileName : fullNameList)
-			{
+		{
 			JXFileDocument* doc;
 			if (!(JXGetDocumentManager())->FileDocumentIsOpen(*fileName, &doc))
-				{
+			{
 				doc = jnew TestTextEditDocument(GetSupervisor(), *fileName, itsWritePrivateFmtFlag);
-				}
+			}
 			assert( doc != nullptr );
 			doc->Activate();
 
 			if (!pg.IncrementProgress())
-				{
+			{
 				break;
-				}
 			}
+		}
 
 		pg.ProcessFinished();
-		}
+	}
 }
 
 /******************************************************************************
@@ -391,9 +391,9 @@ void
 TestTextEditDocument::RevertToSaved()
 {
 	if (OKToRevert())
-		{
+	{
 		DiscardChanges();
-		}
+	}
 }
 
 /******************************************************************************
@@ -407,13 +407,13 @@ TestTextEditDocument::DiscardChanges()
 	bool onDisk;
 	const JString fullName = GetFullName(&onDisk);
 	if (onDisk)
-		{
+	{
 		ReadFile(fullName);
-		}
+	}
 	else
-		{
+	{
 		itsText->SetText(JString::empty);
-		}
+	}
 
 	DataReverted();
 }
@@ -430,15 +430,15 @@ TestTextEditDocument::ReadFile
 	)
 {
 	if (itsWritePrivateFmtFlag)
-		{
+	{
 		std::ifstream input(fileName.GetBytes());
 		itsText->ReadPrivateFormat(input);
-		}
+	}
 	else
-		{
+	{
 		JStyledText::PlainTextFormat format;
 		itsText->ReadPlainText(fileName, &format);
-		}
+	}
 	itsText->SetLastSaveLocation();
 }
 
@@ -468,24 +468,24 @@ TestTextEditDocument::WriteTextFile
 	const
 {
 	if (itsWritePrivateFmtFlag)
-		{
+	{
 		std::ostringstream data;
 		itsText->WritePrivateFormat(data);
 		output << data.str().c_str();
-		}
+	}
 	else
-		{
+	{
 		itsText->WritePlainText(output, JStyledText::kUNIXText);
-		}
+	}
 
 	if (!safetySave)
-		{
+	{
 		itsText->DeactivateCurrentUndo();
 		if (output.good())
-			{
+		{
 			itsText->SetLastSaveLocation();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -511,13 +511,13 @@ TestTextEditDocument::HandleEmulatorMenu
 	)
 {
 	if (index == kNoEmulatorCmd)
-		{
+	{
 		itsTextEditor2->SetKeyHandler(nullptr);
 		itsEmulatorType = kNoEmulator;
-		}
+	}
 	else if (index == kVIEmulatorCmd)
-		{
+	{
 		itsTextEditor2->SetKeyHandler(jnew JXVIKeyHandler);
 		itsEmulatorType = kVIEmulator;
-		}
+	}
 }

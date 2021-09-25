@@ -54,15 +54,15 @@ JXCheckModTimeTask::Perform
 	)
 {
 	if (TimeToPerform(delta, maxSleepTime))
-		{
+	{
 		time_t t;
 		if (JGetModificationTime(itsFullName, &t) == kJNoError &&
 			t != itsModTime)
-			{
+		{
 			Broadcast(FileChanged());
-			}
-		itsModTime = t;		// set to zero if file doesn't exist, so bcast when created
 		}
+		itsModTime = t;		// set to zero if file doesn't exist, so bcast when created
+	}
 }
 
 /******************************************************************************

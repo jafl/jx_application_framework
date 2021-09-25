@@ -70,14 +70,14 @@ JXPTPrinter::SetDestination
 	itsDestination = dest;
 
 	if (!printCmd.IsEmpty())
-		{
+	{
 		itsPrintCmd = printCmd;
-		}
+	}
 
 	if (!fileName.IsEmpty())
-		{
+	{
 		itsFileName = fileName;
-		}
+	}
 }
 
 /******************************************************************************
@@ -107,9 +107,9 @@ JXPTPrinter::SetFileName
 {
 	itsFileName = name;
 	if (itsFileName.IsEmpty())
-		{
+	{
 		itsDestination = kPrintToPrinter;
-		}
+	}
 }
 
 /******************************************************************************
@@ -129,10 +129,10 @@ JXPTPrinter::ReadXPTSetup
 	input >> vers;
 
 	if (vers <= kCurrentSetupVersion)
-		{
+	{
 		input >> itsDestination >> itsFileName;
 		input >> itsPrintCmd;
-		}
+	}
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
 
 	ReadPTSetup(input);
@@ -176,74 +176,74 @@ JXPTPrinter::Print
 {
 	JString fileName;
 	if (itsDestination == kPrintToPrinter)
-		{
+	{
 		if (!JCreateTempFile(&fileName).OK())
-			{
-			fileName = JGetRootDirectory();		// force failure below
-			}
-		}
-	else
 		{
+			fileName = JGetRootDirectory();		// force failure below
+		}
+	}
+	else
+	{
 		assert( itsDestination == kPrintToFile );
 		fileName = itsFileName;
-		}
+	}
 
 	std::ofstream output(fileName.GetBytes());
 	if (output.fail())
-		{
+	{
 		if (itsDestination == kPrintToPrinter)
-			{
+		{
 			JGetUserNotification()->ReportError(JGetString("CannotCreateTempFile::JXPTPrinter"));
-			}
+		}
 		else
-			{
+		{
 			assert( itsDestination == kPrintToFile );
 			JGetUserNotification()->ReportError(JGetString("CannotCreateFile::JXPTPrinter"));
-			}
-		return;
 		}
+		return;
+	}
 
 	bool success = JPTPrinter::Print(text, output);
 	if (output.fail())
-		{
+	{
 		success = false;
 		JGetUserNotification()->ReportError(JGetString("CannotPrint::JXPTPrinter"));
-		}
+	}
 
 	output.close();
 
 	bool removeFile = false;
 	if (success && itsDestination == kPrintToPrinter)
-		{
+	{
 		const JString sysCmd  = itsPrintCmd + " " + JPrepArgForExec(fileName);
 		const JSize copyCount = GetCopyCount();
 		for (JIndex i=1; i<=copyCount; i++)
-			{
+		{
 			const JError err = JExecute(sysCmd, nullptr);
 			if (!err.OK())
-				{
+			{
 				err.ReportIfError();
 				break;
-				}
-
-			if (i < copyCount)
-				{
-				JWait(2);
-				}
 			}
 
-		removeFile = true;
-		}
-	else if (!success)
-		{
-		removeFile = true;
+			if (i < copyCount)
+			{
+				JWait(2);
+			}
 		}
 
+		removeFile = true;
+	}
+	else if (!success)
+	{
+		removeFile = true;
+	}
+
 	if (removeFile)
-		{
+	{
 		const JError err = JRemoveFile(fileName);
 		assert_ok( err );
-		}
+	}
 }
 
 /******************************************************************************
@@ -312,9 +312,9 @@ JXPTPrinter::EndUserPageSetup
 
 	bool changed = false;
 	if (info->Successful())
-		{
+	{
 		changed = itsPageSetupDialog->SetParameters(this);
-		}
+	}
 
 	itsPageSetupDialog = nullptr;
 	return changed;
@@ -384,9 +384,9 @@ JXPTPrinter::EndUserPrintSetup
 	assert( info != nullptr );
 
 	if (info->Successful())
-		{
+	{
 		*changed = itsPrintSetupDialog->SetParameters(this);
-		}
+	}
 
 	itsPrintSetupDialog = nullptr;
 	return info->Successful();
@@ -406,21 +406,21 @@ JXPTPrinter::Receive
 {
 	if (sender == itsPageSetupDialog &&
 		message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		Broadcast(PageSetupFinished(EndUserPageSetup(message)));
-		}
+	}
 	else if (sender == itsPrintSetupDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		bool changed = false;
 		const bool success = EndUserPrintSetup(message, &changed);
 		Broadcast(PrintSetupFinished(success, changed));
-		}
+	}
 
 	else
-		{
+	{
 		JPTPrinter::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************

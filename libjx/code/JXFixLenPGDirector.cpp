@@ -82,11 +82,11 @@ JXFixLenPGDirector::BuildWindow
 // end JXLayout
 
 	if (!allowCancel)
-		{
+	{
 		// expand text to fill window because Cancel button will be hidden
 
 		text->AdjustSize(indicator->GetFrameWidth() - text->GetFrameWidth(), 0);
-		}
+	}
 
 	Init(window, text, message, allowCancel, cancelButton);
 

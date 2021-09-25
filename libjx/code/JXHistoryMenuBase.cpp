@@ -101,9 +101,9 @@ JXHistoryMenuBase::JXHistoryMenuBaseX
 JXHistoryMenuBase::~JXHistoryMenuBase()
 {
 	if (itsOwnsDefIconFlag)
-		{
+	{
 		jdelete itsDefaultIcon;
-		}
+	}
 }
 
 /******************************************************************************
@@ -135,10 +135,10 @@ JXHistoryMenuBase::AdjustLength()
 {
 	JSize itemCount = GetItemCount();
 	while (itemCount > itsHistoryLength + itsFirstIndex - 1)
-		{
+	{
 		RemoveItem(itsHistoryDirection == kNewestItemAtTop ? itemCount : itsFirstIndex);
 		itemCount--;
-		}
+	}
 }
 
 /******************************************************************************
@@ -158,7 +158,7 @@ JXHistoryMenuBase::AddItem
 	JSize itemCount = GetItemCount();
 	JString itemNMShortcut;
 	for (JIndex i=itsFirstIndex; i<=itemCount; i++)
-		{
+	{
 		GetItemNMShortcut(i, &itemNMShortcut);
 
 		const bool matches = text == JXTextMenu::GetItemText(i) &&
@@ -166,16 +166,16 @@ JXHistoryMenuBase::AddItem
 		if (matches &&
 			((itsHistoryDirection == kNewestItemAtTop    && i == itsFirstIndex) ||
 			 (itsHistoryDirection == kNewestItemAtBottom && i == itemCount)))
-			{
+		{
 			return;		// already at top of list
-			}
+		}
 		else if (matches)
-			{
+		{
 			RemoveItem(i);
 			itemCount--;
 			break;
-			}
 		}
+	}
 
 	InsertItem(itsHistoryDirection == kNewestItemAtTop ? itsFirstIndex : itemCount+1,
 			   text, kPlainType, JString::empty, nmShortcut);
@@ -240,77 +240,77 @@ JXHistoryMenuBase::ReadSetup
 	)
 {
 	if (menu != nullptr)
-		{
+	{
 		menu->ClearHistory();
-		}
+	}
 	if (itemList != nullptr)
-		{
+	{
 		itemList->CleanOut();
-		}
+	}
 	if (nmShortcutList != nullptr)
-		{
+	{
 		nmShortcutList->CleanOut();
-		}
+	}
 
 	JFileVersion vers;
 	input >> vers;
 	if (input.eof() || input.fail())
-		{
+	{
 		return;
-		}
+	}
 	assert( vers <= kCurrentSetupVersion );
 
 	JSize count = vers;
 	if (vers >= 10000)
-		{
+	{
 		input >> count;
 		if (input.eof() || input.fail())
-			{
+		{
 			return;
-			}
 		}
+	}
 
 	const HistoryDirection direction = menu->GetHistoryDirection();
 	const JIndex firstIndex          = menu->GetFirstIndex();
 
 	JString text, nmShortcut;
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		input >> text;
 		if (vers >= 10000)
-			{
+		{
 			input >> nmShortcut;
-			}
+		}
 		if (input.fail())
-			{
+		{
 			break;
-			}
+		}
 
 		if (menu != nullptr && direction == kNewestItemAtTop)
-			{
+		{
 			menu->AppendItem(text, kPlainType, JString::empty, nmShortcut);
-			}
+		}
 		else if (menu != nullptr)
-			{
+		{
 			menu->InsertItem(firstIndex, text, kPlainType, JString::empty, nmShortcut);
-			}
+		}
 
 		if (itemList != nullptr)
-			{
+		{
 			itemList->Append(text);
-			}
-		if (nmShortcutList != nullptr)
-			{
-			nmShortcutList->Append(nmShortcut);
-			}
 		}
+		if (nmShortcutList != nullptr)
+		{
+			nmShortcutList->Append(nmShortcut);
+		}
+	}
 
 	// must always read them all to place file marker
 
 	if (menu != nullptr)
-		{
+	{
 		menu->AdjustLength();
-		}
+	}
 }
 
 /******************************************************************************
@@ -332,21 +332,21 @@ JXHistoryMenuBase::WriteSetup
 
 	JString nmShortcut;
 	if (itsHistoryDirection == kNewestItemAtTop)
-		{
+	{
 		for (JIndex i=itsFirstIndex; i<=count; i++)
-			{
-			GetItemNMShortcut(i, &nmShortcut);
-			output << ' ' << JXTextMenu::GetItemText(i) << ' ' << nmShortcut;
-			}
-		}
-	else
 		{
-		for (JIndex i=count; i>=itsFirstIndex; i--)
-			{
 			GetItemNMShortcut(i, &nmShortcut);
 			output << ' ' << JXTextMenu::GetItemText(i) << ' ' << nmShortcut;
-			}
 		}
+	}
+	else
+	{
+		for (JIndex i=count; i>=itsFirstIndex; i--)
+		{
+			GetItemNMShortcut(i, &nmShortcut);
+			output << ' ' << JXTextMenu::GetItemText(i) << ' ' << nmShortcut;
+		}
+	}
 
 	output << ' ';
 }
@@ -364,9 +364,9 @@ JXHistoryMenuBase::Receive
 	)
 {
 	if (sender == this && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateMenu();
-		}
+	}
 
 	JXTextMenu::Receive(sender, message);
 }
@@ -381,9 +381,9 @@ JXHistoryMenuBase::UpdateMenu()
 {
 	const JSize count = GetItemCount();
 	for (JIndex i=itsFirstIndex; i<=count; i++)
-		{
+	{
 		UpdateItemImage(i);
-		}
+	}
 }
 
 /******************************************************************************
@@ -402,9 +402,9 @@ JXHistoryMenuBase::UpdateItemImage
 {
 	const JXImage* image;
 	if (!GetItemImage(index, &image))
-		{
+	{
 		SetItemImage(index, itsDefaultIcon, false);
-		}
+	}
 }
 
 /******************************************************************************
@@ -420,9 +420,9 @@ JXHistoryMenuBase::SetDefaultIcon
 	)
 {
 	if (itsOwnsDefIconFlag)
-		{
+	{
 		jdelete itsDefaultIcon;
-		}
+	}
 
 	itsDefaultIcon     = icon;
 	itsOwnsDefIconFlag = menuOwnsIcon;
@@ -432,9 +432,9 @@ JXHistoryMenuBase::SetDefaultIcon
 
 	const JSize count = GetItemCount();
 	for (JIndex i=itsFirstIndex; i<=count; i++)
-		{
+	{
 		ClearItemImage(i);
-		}
+	}
 }
 
 /******************************************************************************

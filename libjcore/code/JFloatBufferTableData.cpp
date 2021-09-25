@@ -58,97 +58,97 @@ JFloatBufferTableData::Receive
 
 	if (sender == const_cast<JFloatTableData*>(itsFloatData) &&
 		message.Is(JTableData::kRectChanged))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RectChanged*>(&message);
 		assert( info != nullptr );
 		UpdateRect(info->GetRect());
-		}
+	}
 
 	// rows changed
 
 	else if (sender == const_cast<JFloatTableData*>(itsFloatData) &&
 			 message.Is(JTableData::kRowsInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowsInserted*>(&message);
 		assert( info != nullptr );
 		InsertRows(info->GetFirstIndex(), info->GetCount());
 		UpdateRows(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == const_cast<JFloatTableData*>(itsFloatData) &&
 			 message.Is(JTableData::kRowDuplicated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowDuplicated*>(&message);
 		assert( info != nullptr );
 		DuplicateRow(info->GetOrigIndex(), info->GetNewIndex());
-		}
+	}
 
 	else if (sender == const_cast<JFloatTableData*>(itsFloatData) &&
 			 message.Is(JTableData::kRowsRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowsRemoved*>(&message);
 		assert( info != nullptr );
 		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == const_cast<JFloatTableData*>(itsFloatData) &&
 			 message.Is(JTableData::kRowMoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::RowMoved*>(&message);
 		assert( info != nullptr );
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
-		}
+	}
 
 	// columns changed
 
 	else if (sender == const_cast<JFloatTableData*>(itsFloatData) &&
 			 message.Is(JTableData::kColsInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColsInserted*>(&message);
 		assert( info != nullptr );
 		InsertCols(info->GetFirstIndex(), info->GetCount());
 		UpdateCols(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == const_cast<JFloatTableData*>(itsFloatData) &&
 			 message.Is(JTableData::kColDuplicated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColDuplicated*>(&message);
 		assert( info != nullptr );
 		DuplicateCol(info->GetOrigIndex(), info->GetNewIndex());
-		}
+	}
 
 	else if (sender == const_cast<JFloatTableData*>(itsFloatData) &&
 			 message.Is(JTableData::kColsRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColsRemoved*>(&message);
 		assert( info != nullptr );
 		RemoveNextCols(info->GetFirstIndex(), info->GetCount());
-		}
+	}
 
 	else if (sender == const_cast<JFloatTableData*>(itsFloatData) &&
 			 message.Is(JTableData::kColMoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JTableData::ColMoved*>(&message);
 		assert( info != nullptr );
 		MoveCol(info->GetOrigIndex(), info->GetNewIndex());
-		}
+	}
 
 	// something else
 
 	else
-		{
+	{
 		JStringTableData::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -163,12 +163,12 @@ JFloatBufferTableData::UpdateRect
 	)
 {
 	for (JIndex x=r.left; x < (JIndex) r.right; x++)
-		{
+	{
 		for (JIndex y=r.top; y < (JIndex) r.bottom; y++)
-			{
+		{
 			UpdateCell(JPoint(x,y));
-			}
 		}
+	}
 }
 
 /******************************************************************************

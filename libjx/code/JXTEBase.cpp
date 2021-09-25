@@ -151,27 +151,27 @@ static const JUtf8Byte* kWinReadOnlyMenuStr =
 
 static const MenuItemInfo kEditMenuItemInfo[] =
 {
-	{ JTextEditor::kUndoCmd,      kJXUndoAction      },
-	{ JTextEditor::kRedoCmd,      kJXRedoAction      },
-	{ JTextEditor::kCutCmd,       kJXCutAction       },
-	{ JTextEditor::kCopyCmd,      kJXCopyAction      },
-	{ JTextEditor::kPasteCmd,     kJXPasteAction     },
-	{ JTextEditor::kDeleteSelCmd, kJXClearAction     },
-	{ JTextEditor::kSelectAllCmd, kJXSelectAllAction },
+{ JTextEditor::kUndoCmd,      kJXUndoAction      },
+{ JTextEditor::kRedoCmd,      kJXRedoAction      },
+{ JTextEditor::kCutCmd,       kJXCutAction       },
+{ JTextEditor::kCopyCmd,      kJXCopyAction      },
+{ JTextEditor::kPasteCmd,     kJXPasteAction     },
+{ JTextEditor::kDeleteSelCmd, kJXClearAction     },
+{ JTextEditor::kSelectAllCmd, kJXSelectAllAction },
 
-	{ JTextEditor::kCheckSpellingCmd,      kCheckAllSpellingAction   },
-	{ JTextEditor::kCheckSpellingSelCmd,   kCheckSpellingSelAction   },
-	{ JTextEditor::kCleanRightMarginCmd,   kCleanRightMarginAction   },
-	{ JTextEditor::kCoerceRightMarginCmd,  kCoerceRightMarginAction  },
-	{ JTextEditor::kShiftSelLeftCmd,       kShiftSelLeftAction       },
-	{ JTextEditor::kShiftSelRightCmd,      kShiftSelRightAction      },
-	{ JTextEditor::kForceShiftSelLeftCmd,  kForceShiftSelLeftAction  },
-	{ JTextEditor::kShowWhitespaceCmd,     kShowWhitespaceAction     },
-	{ JTextEditor::kCleanAllWhitespaceCmd, kCleanAllWhitespaceAction },
-	{ JTextEditor::kCleanWhitespaceSelCmd, kCleanWhitespaceSelAction },
-	{ JTextEditor::kCleanAllWSAlignCmd,    kCleanAllWSAlignAction    },
-	{ JTextEditor::kCleanWSAlignSelCmd,    kCleanWSAlignSelAction    },
-	{ JTextEditor::kToggleReadOnlyCmd,     kToggleReadOnlyAction     },
+{ JTextEditor::kCheckSpellingCmd,      kCheckAllSpellingAction   },
+{ JTextEditor::kCheckSpellingSelCmd,   kCheckSpellingSelAction   },
+{ JTextEditor::kCleanRightMarginCmd,   kCleanRightMarginAction   },
+{ JTextEditor::kCoerceRightMarginCmd,  kCoerceRightMarginAction  },
+{ JTextEditor::kShiftSelLeftCmd,       kShiftSelLeftAction       },
+{ JTextEditor::kShiftSelRightCmd,      kShiftSelRightAction      },
+{ JTextEditor::kForceShiftSelLeftCmd,  kForceShiftSelLeftAction  },
+{ JTextEditor::kShowWhitespaceCmd,     kShowWhitespaceAction     },
+{ JTextEditor::kCleanAllWhitespaceCmd, kCleanAllWhitespaceAction },
+{ JTextEditor::kCleanWhitespaceSelCmd, kCleanWhitespaceSelAction },
+{ JTextEditor::kCleanAllWSAlignCmd,    kCleanAllWSAlignAction    },
+{ JTextEditor::kCleanWSAlignSelCmd,    kCleanWSAlignSelAction    },
+{ JTextEditor::kToggleReadOnlyCmd,     kToggleReadOnlyAction     },
 };
 
 // used when setting images
@@ -209,15 +209,15 @@ static const JUtf8Byte* kWinSearchMenuStr =
 
 static const MenuItemInfo kSearchMenuItemInfo[] =
 {
-	{ JTextEditor::kFindDialogCmd,            kJXFindDialogAction             },
-	{ JTextEditor::kFindPreviousCmd,          kJXFindPreviousAction           },
-	{ JTextEditor::kFindNextCmd,              kJXFindNextAction               },
-	{ JTextEditor::kEnterSearchTextCmd,       kJXEnterSearchTextAction        },
-	{ JTextEditor::kEnterReplaceTextCmd,      kJXEnterReplaceTextAction       },
-	{ JTextEditor::kFindSelectionBackwardCmd, kJXFindSelectionBackwardsAction },
-	{ JTextEditor::kFindSelectionForwardCmd,  kJXFindSelectionForwardAction   },
-	{ JTextEditor::kFindClipboardBackwardCmd, kJXFindClipboardBackwardsAction },
-	{ JTextEditor::kFindClipboardForwardCmd,  kJXFindClipboardForwardAction   }
+{ JTextEditor::kFindDialogCmd,            kJXFindDialogAction             },
+{ JTextEditor::kFindPreviousCmd,          kJXFindPreviousAction           },
+{ JTextEditor::kFindNextCmd,              kJXFindNextAction               },
+{ JTextEditor::kEnterSearchTextCmd,       kJXEnterSearchTextAction        },
+{ JTextEditor::kEnterReplaceTextCmd,      kJXEnterReplaceTextAction       },
+{ JTextEditor::kFindSelectionBackwardCmd, kJXFindSelectionBackwardsAction },
+{ JTextEditor::kFindSelectionForwardCmd,  kJXFindSelectionForwardAction   },
+{ JTextEditor::kFindClipboardBackwardCmd, kJXFindClipboardBackwardsAction },
+{ JTextEditor::kFindClipboardForwardCmd,  kJXFindClipboardForwardAction   }
 };
 
 // used when setting images
@@ -267,20 +267,20 @@ static const JUtf8Byte* kWinReplaceMenuStr =
 
 static const MenuItemInfo kReplaceMenuItemInfo[] =
 {
-	{ JTextEditor::kFindDialogCmd,            kJXFindDialogAction             },
-	{ JTextEditor::kFindPreviousCmd,          kJXFindPreviousAction           },
-	{ JTextEditor::kFindNextCmd,              kJXFindNextAction               },
-	{ JTextEditor::kEnterSearchTextCmd,       kJXEnterSearchTextAction        },
-	{ JTextEditor::kEnterReplaceTextCmd,      kJXEnterReplaceTextAction       },
-	{ JTextEditor::kFindSelectionBackwardCmd, kJXFindSelectionBackwardsAction },
-	{ JTextEditor::kFindSelectionForwardCmd,  kJXFindSelectionForwardAction   },
-	{ JTextEditor::kFindClipboardBackwardCmd, kJXFindClipboardBackwardsAction },
-	{ JTextEditor::kFindClipboardForwardCmd,  kJXFindClipboardForwardAction   },
-	{ JTextEditor::kReplaceSelectionCmd,      kJXReplaceSelectionAction       },
-	{ JTextEditor::kReplaceFindPrevCmd,       kJXReplaceFindPrevAction        },
-	{ JTextEditor::kReplaceFindNextCmd,       kJXReplaceFindNextAction        },
-	{ JTextEditor::kReplaceAllCmd,            kJXReplaceAllAction             },
-	{ JTextEditor::kReplaceAllInSelectionCmd, kJXReplaceAllInSelectionAction  }
+{ JTextEditor::kFindDialogCmd,            kJXFindDialogAction             },
+{ JTextEditor::kFindPreviousCmd,          kJXFindPreviousAction           },
+{ JTextEditor::kFindNextCmd,              kJXFindNextAction               },
+{ JTextEditor::kEnterSearchTextCmd,       kJXEnterSearchTextAction        },
+{ JTextEditor::kEnterReplaceTextCmd,      kJXEnterReplaceTextAction       },
+{ JTextEditor::kFindSelectionBackwardCmd, kJXFindSelectionBackwardsAction },
+{ JTextEditor::kFindSelectionForwardCmd,  kJXFindSelectionForwardAction   },
+{ JTextEditor::kFindClipboardBackwardCmd, kJXFindClipboardBackwardsAction },
+{ JTextEditor::kFindClipboardForwardCmd,  kJXFindClipboardForwardAction   },
+{ JTextEditor::kReplaceSelectionCmd,      kJXReplaceSelectionAction       },
+{ JTextEditor::kReplaceFindPrevCmd,       kJXReplaceFindPrevAction        },
+{ JTextEditor::kReplaceFindNextCmd,       kJXReplaceFindNextAction        },
+{ JTextEditor::kReplaceAllCmd,            kJXReplaceAllAction             },
+{ JTextEditor::kReplaceAllInSelectionCmd, kJXReplaceAllInSelectionAction  }
 };
 
 // used when setting images
@@ -358,14 +358,14 @@ JXTEBase::JXTEBase
 		GetDisplay()->RegisterXAtom(JXTextSelection::GetStyledText0XAtomName());
 
 	if (type == kStaticText)
-		{
+	{
 		WantInput(false);
-		}
+	}
 	else
-		{
+	{
 		WantInput(true);
 		SetDefaultCursor(kJXTextEditCursor);
-		}
+	}
 
 	ListenTo(GetText());
 }
@@ -379,9 +379,9 @@ JXTEBase::~JXTEBase()
 {
 	JXSearchTextDialog* dlog;
 	if (JXGetSearchTextDialog(&dlog))
-		{
+	{
 		dlog->TEDeactivated(this);
-		}
+	}
 
 	jdelete itsPSPrintName;
 	jdelete itsPTPrintName;
@@ -430,9 +430,9 @@ JXTEBase::HandleMouseHere
 	)
 {
 	if (pt != itsPrevMousePt)
-		{
+	{
 		ShowCursor();
-		}
+	}
 	itsPrevMousePt = pt;
 
 	JXScrollableWidget::HandleMouseHere(pt, modifiers);
@@ -466,35 +466,35 @@ JXTEBase::HandleMouseDown
 	)
 {
 	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
-		{
+	{
 		JXGetSearchTextDialog()->SetActiveTE(this);
-		}
+	}
 
 	const Type type = GetType();
 	if (button > kJXRightButton)
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 	else if (type != kStaticText)
-		{
+	{
 		ShowCursor();
 
 		if (button == kJXMiddleButton && type == kFullEditor && theMiddleButtonPasteFlag)
-			{
+		{
 			TEHandleMouseDown(pt, 1, false, false);
 			TEHandleMouseUp();
 			Paste();
-			}
+		}
 		else if (button != kJXMiddleButton)
-			{
+		{
 			const bool extendSelection = button == kJXRightButton || modifiers.shift();
 			const bool partialWord = (thePWMod == kCtrlMetaPWMod &&
 				 modifiers.control() && modifiers.meta()) ||
 				(thePWMod != kCtrlMetaPWMod &&
 				 modifiers.GetState(kJXMod2KeyIndex + thePWMod - kMod2PWMod));
 			TEHandleMouseDown(pt, clickCount, extendSelection, partialWord);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -601,19 +601,19 @@ JXTEBase::GetDNDAction
 {
 	const Type type = GetType();
 	if (type == kFullEditor && modifiers.control())
-		{
+	{
 		return GetDNDManager()->GetDNDActionAskXAtom();
-		}
+	}
 	else if (type == kFullEditor &&
 			 ((target == this && !modifiers.meta()) ||
 			  (target != this &&  modifiers.meta())))
-		{
+	{
 		return GetDNDManager()->GetDNDActionMoveXAtom();
-		}
+	}
 	else
-		{
+	{
 		return GetDNDManager()->GetDNDActionCopyXAtom();
-		}
+	}
 }
 
 /******************************************************************************
@@ -674,7 +674,7 @@ JXTEBase::GetSelectionData
 	)
 {
 	if (id == kSelectionDataID)
-		{
+	{
 		auto* textData = dynamic_cast<JXTextSelection*>(data);
 		assert( textData != nullptr );
 
@@ -689,17 +689,17 @@ JXTEBase::GetSelectionData
 		textData->SetData(text, style);
 
 		if (GetType() == kFullEditor)
-			{
+		{
 			JCharacterRange r;
 			const bool ok = GetSelection(&r);
 			assert( ok );
 			textData->SetTextEditor(this, r);
-			}
 		}
+	}
 	else
-		{
+	{
 		JXScrollableWidget::GetSelectionData(data, id);
-		}
+	}
 }
 
 /******************************************************************************
@@ -720,20 +720,20 @@ JXTEBase::WillAcceptDrop
 	itsWillPasteCustomFlag = false;
 
 	if (GetType() != kFullEditor)
-		{
+	{
 		return false;
-		}
+	}
 	else if (source == this)
-		{
+	{
 		return true;
-		}
+	}
 	else if (TEXWillAcceptDrop(typeList, *action, time, source))
-		{
+	{
 		itsWillPasteCustomFlag = true;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		JXDNDManager* dndMgr = GetDNDManager();
 		bool canGetStyledText, canGetText;
 		Atom textType;
@@ -741,7 +741,7 @@ JXTEBase::WillAcceptDrop
 			 *action == dndMgr->GetDNDActionMoveXAtom() ||
 			 *action == dndMgr->GetDNDActionAskXAtom()) &&
 			GetAvailDataTypes(typeList, &canGetStyledText, &canGetText, &textType);
-		}
+	}
 }
 
 /******************************************************************************
@@ -844,20 +844,20 @@ JXTEBase::HandleDNDDrop
 	const Atom copyAction = dndMgr->GetDNDActionCopyXAtom();
 	if (!itsWillPasteCustomFlag &&
 		action == dndMgr->GetDNDActionAskXAtom())
-		{
+	{
 		JArray<Atom> actionList;
 		JPtrArray<JString> descriptionList(JPtrArrayT::kDeleteAll);
 		if (!dndMgr->GetAskActions(&actionList, &descriptionList))
-			{
+		{
 			itsDNDDropInfo->action = copyAction;
-			}
+		}
 		else if (!dndMgr->ChooseDropAction(actionList, descriptionList,
 										   &(itsDNDDropInfo->action)))
-			{
+		{
 			TEHandleDNDLeave();
 			return;
-			}
 		}
+	}
 
 	TEHandleDNDDrop(pt, source == this, itsDNDDropInfo->action == copyAction);
 
@@ -884,23 +884,23 @@ JXTEBase::TEPasteDropData()
 	if (itsWillPasteCustomFlag &&
 		TEXConvertDropData(*(itsDNDDropInfo->typeList), itsDNDDropInfo->action,
 						   itsDNDDropInfo->time, &text, &style))
-		{
+	{
 		JRunArray<JFont>* s = (style.IsEmpty() ? nullptr : &style);
 		Paste(text, s);
-		}
+	}
 	else if (!itsWillPasteCustomFlag &&
 			 GetSelectionData(selectionName, *(itsDNDDropInfo->typeList),
 							  itsDNDDropInfo->time, &text, &style) == kJNoError)
-		{
+	{
 		JRunArray<JFont>* s = (style.IsEmpty() ? nullptr : &style);
 		Paste(text, s);
 
 		if (itsDNDDropInfo->action == dndMgr->GetDNDActionMoveXAtom())
-			{
+		{
 			GetSelectionManager()->
 				SendDeleteRequest(selectionName, itsDNDDropInfo->time);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -985,15 +985,15 @@ void
 JXTEBase::PrivateActivate()
 {
 	if (IsActive() && HasFocus())
-		{
+	{
 		TEActivate();
 		if (GetWindow()->HasFocus())
-			{
+		{
 			itsBlinkTask->Reset();
 			itsBlinkTask->Start();
 			TEActivateSelection();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1005,11 +1005,11 @@ void
 JXTEBase::PrivateDeactivate()
 {
 	if (!IsActive())
-		{
+	{
 		TEDeactivate();
 		itsBlinkTask->Stop();
 		TEDeactivateSelection();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1023,16 +1023,16 @@ JXTEBase::HandleFocusEvent()
 	JXScrollableWidget::HandleFocusEvent();
 	TEActivate();
 	if (IsActive() && GetWindow()->HasFocus())
-		{
+	{
 		itsBlinkTask->Reset();
 		itsBlinkTask->Start();
 		TEActivateSelection();
 
 		if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
-			{
+		{
 			JXGetSearchTextDialog()->SetActiveTE(this);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1049,9 +1049,9 @@ JXTEBase::HandleUnfocusEvent()
 	TEDeactivateSelection();
 
 	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
-		{
+	{
 		JXGetSearchTextDialog()->TEDeactivated(this);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1065,10 +1065,10 @@ JXTEBase::HandleWindowFocusEvent()
 	JXScrollableWidget::HandleWindowFocusEvent();
 	TEActivateSelection();
 	if (IsActive() && HasFocus())
-		{
+	{
 		itsBlinkTask->Reset();
 		itsBlinkTask->Start();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1116,16 +1116,16 @@ JXTEBase::HandleKeyPress
 	)
 {
 	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
-		{
+	{
 		JXGetSearchTextDialog()->SetActiveTE(this);
-		}
+	}
 
 	int keySym               = origKeySym;
 	JXKeyModifiers modifiers = origModifiers;
 	if (theWindowsHomeEndFlag)
-		{
+	{
 		RemapWindowsHomeEnd(&keySym, &modifiers);
-		}
+	}
 
 	const bool controlOn = modifiers.control();
 	const bool metaOn    = modifiers.meta();
@@ -1134,93 +1134,93 @@ JXTEBase::HandleKeyPress
 	const Type type = GetType();
 	if (type == kFullEditor && !controlOn && !metaOn &&
 		(GetDisplay()->GetLatestButtonStates()).AllOff())
-		{
+	{
 		HideCursor();
-		}
+	}
 
 	bool processed = false;
 
 	if (type == kFullEditor &&
 		(((c == 'z' || c == 'Z') && !controlOn &&  metaOn && !shiftOn) ||
 		 (c == JXCtrl('Z')       &&  controlOn && !metaOn && !shiftOn)))
-		{
+	{
 		GetText()->Undo();
 		processed = true;
-		}
+	}
 	else if (type == kFullEditor &&
 			 (((c == 'x' || c == 'X') && !controlOn &&  metaOn && !shiftOn) ||
 			  (c == JXCtrl('X')       &&  controlOn && !metaOn && !shiftOn)))
-		{
+	{
 		Cut();
 		processed = true;
-		}
+	}
 	else if (((c == 'c' || c == 'C') && !controlOn &&  metaOn && !shiftOn) ||
 			 (c == JXCtrl('C')       &&  controlOn && !metaOn && !shiftOn))
-		{
+	{
 		Copy();
 		processed = true;
-		}
+	}
 	else if (type == kFullEditor &&
 			 (((c == 'v' || c == 'V') && !controlOn &&  metaOn && !shiftOn) ||
 			  (c == JXCtrl('V')       &&  controlOn && !metaOn && !shiftOn)))
-		{
+	{
 		Paste();
 		processed = true;
-		}
+	}
 	else if (((c == 'a' || c == 'A') && !controlOn &&  metaOn && !shiftOn) ||
 			 (c == JXCtrl('A')       &&  controlOn && !metaOn && !shiftOn))
-		{
+	{
 		SelectAll();
 		processed = true;
-		}
+	}
 
 	else if (c == kJLeftArrow || c == kJRightArrow ||
 			 c == kJUpArrow   || c == kJDownArrow)
-		{
+	{
 		CaretMotion motion = kMoveByCharacter;
 		if ((thePWMod == kCtrlMetaPWMod && controlOn && metaOn) ||
 			(thePWMod != kCtrlMetaPWMod &&
 			 modifiers.GetState(kJXMod2KeyIndex + thePWMod - kMod2PWMod)))
-			{
+		{
 			motion = kMoveByPartialWord;
-			}
+		}
 		else if (controlOn)
-			{
+		{
 			motion = kMoveByWord;
-			}
+		}
 		else if (metaOn)
-			{
+		{
 			motion = kMoveByLine;
-			}
+		}
 
 		if (type == kFullEditor || shiftOn || motion != kMoveByCharacter)
-			{
+		{
 			processed = TEHandleKeyPress(c, shiftOn, motion, false);
-			}
-		else
-			{
-			processed = false;
-			}
 		}
+		else
+		{
+			processed = false;
+		}
+	}
 
 	else if (type == kFullEditor &&
 			 !((controlOn || metaOn) && c.IsAscii() &&
 			   '1' <= c.GetBytes()[0] && c.GetBytes()[0] <= '9') &&
 			 !c.IsBlank())
-		{
+	{
 		bool deleteToTabStop = GetText()->TabInsertsSpaces();
 		if (shiftOn)
-			{
+		{
 			deleteToTabStop = !deleteToTabStop;
-			}
-
-		processed = TEHandleKeyPress(c, shiftOn, kMoveByCharacter, deleteToTabStop);
 		}
 
+		processed = TEHandleKeyPress(c, shiftOn, kMoveByCharacter, deleteToTabStop);
+	}
+
 	if (!processed)
-		{
+	{
 		if (theScrollCaretFlag)
-			{
+		{
 			// move caret to top/bottom if already scrolled there
 
 			const JRect ap = GetAperture();
@@ -1228,42 +1228,42 @@ JXTEBase::HandleKeyPress
 
 			if ((keySym == XK_Page_Up || keySym == XK_KP_Page_Up) &&
 				 ap.top == b.top)
-				{
+			{
 				SetCaretLocation(1);
-				}
+			}
 			else if ((keySym == XK_Page_Down || keySym == XK_KP_Page_Down) &&
 					  ap.bottom == b.bottom)
-				{
+			{
 				SetCaretLocation(GetText()->GetBeyondEnd());
-				}
 			}
+		}
 
 		int k = keySym;
 		if (type != kFullEditor && c == ' ')
-			{
+		{
 			k = XK_Page_Down;
-			}
+		}
 		else if (type != kFullEditor && c == kJDeleteKey)
-			{
+		{
 			k = XK_Page_Up;
-			}
+		}
 
 		JXScrollableWidget::HandleKeyPress(c, k, modifiers);
 
 		if (theScrollCaretFlag)
-			{
+		{
 			// move caret to top/bottom regardless of where it was
 
 			if (keySym == XK_Home || keySym == XK_KP_Home)
-				{
+			{
 				SetCaretLocation(1);
-				}
+			}
 			else if (keySym == XK_End || keySym == XK_KP_End)
-				{
+			{
 				SetCaretLocation(GetText()->GetBeyondEnd());
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1285,19 +1285,19 @@ JXTEBase::RemapWindowsHomeEnd
 	if ((*key == XK_Home || *key == XK_KP_Home ||
 		 *key == XK_End  || *key == XK_KP_End) &&
 		modifiers->control())
-		{
+	{
 		modifiers->SetState(kJXControlKeyIndex, false);
-		}
+	}
 	else if (*key == XK_Home || *key == XK_KP_Home)
-		{
+	{
 		*key = kJLeftArrow;
 		modifiers->SetState(kJXMetaKeyIndex, true);
-		}
+	}
 	else if (*key == XK_End || *key == XK_KP_End)
-		{
+	{
 		*key = kJRightArrow;
 		modifiers->SetState(kJXMetaKeyIndex, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1317,19 +1317,19 @@ JXTEBase::MoveCaretToEdge
 
 	JPoint pt;
 	if (c == kJUpArrow)
-		{
+	{
 		pt    = GetAperture().topLeft();
 		pt.y += h;
-		}
+	}
 	else if (c == kJDownArrow)
-		{
+	{
 		pt    = GetAperture().bottomLeft();
 		pt.y -= h;
-		}
+	}
 	else
-		{
+	{
 		return;
-		}
+	}
 
 	SetCaretLocation(pt);
 }
@@ -1347,9 +1347,9 @@ JXTEBase::HandleShortcut
 	)
 {
 	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
-		{
+	{
 		JXGetSearchTextDialog()->SetActiveTE(this);
-		}
+	}
 	JXScrollableWidget::HandleShortcut(key, modifiers);
 }
 
@@ -1368,13 +1368,13 @@ JXTEBase::AdjustCursor
 	)
 {
 	if (TEWillDragAndDrop(pt, false, modifiers.meta()))
-		{
+	{
 		DisplayCursor(kJXDefaultCursor);
-		}
+	}
 	else
-		{
+	{
 		JXScrollableWidget::AdjustCursor(pt, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1393,14 +1393,14 @@ JXTEBase::BoundsMoved
 
 	if (theScrollCaretFlag && dy > 0 &&
 		GetLineTop(GetLineForChar(GetInsertionCharIndex())) > GetAperture().bottom)
-		{
+	{
 		MoveCaretToEdge(JUtf8Character(kJDownArrow));
-		}
+	}
 	else if (theScrollCaretFlag && dy < 0 &&
 			 GetLineBottom(GetLineForChar(GetInsertionCharIndex())) < GetAperture().top)
-		{
+	{
 		MoveCaretToEdge(JUtf8Character(kJUpArrow));
-		}
+	}
 }
 
 /******************************************************************************
@@ -1484,29 +1484,29 @@ JXTEBase::TESetGUIBounds
 
 	JCoordinate width = ap.width();
 	if (width < w)
-		{
+	{
 		width = w;
-		}
+	}
 
 	JCoordinate height = ap.height();
 	if (height < h)
-		{
+	{
 		height = h;
-		}
+	}
 
 	JXScrollbar *hScrollbar, *vScrollbar;
 	if (changeY >= 0 && GetScrollbars(&hScrollbar, &vScrollbar))
-		{
+	{
 		const JCoordinate origH = GetBoundsHeight();
 		if (height < origH)
-			{
+		{
 			vScrollbar->PrepareForLowerMaxValue(changeY, origH - height);
-			}
-		else if (height > origH)
-			{
-			vScrollbar->PrepareForHigherMaxValue(changeY, height - origH);
-			}
 		}
+		else if (height > origH)
+		{
+			vScrollbar->PrepareForHigherMaxValue(changeY, height - origH);
+		}
+	}
 
 	SetBounds(width, height);
 }
@@ -1539,19 +1539,19 @@ JXTEBase::TEScrollToRect
 	)
 {
 	if (centerInDisplay && rect.right <= GetApertureWidth())
-		{
+	{
 		JRect r = rect;
 		r.left  = 0;
 		return ScrollToRectCentered(r, false);
-		}
+	}
 	else if (centerInDisplay)
-		{
+	{
 		return ScrollToRectCentered(rect, false);
-		}
+	}
 	else
-		{
+	{
 		return ScrollToRect(rect);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1618,9 +1618,9 @@ JXTEBase::TEUpdateClipboard
 	assert( data != nullptr );
 
 	if (!GetSelectionManager()->SetData(kJXClipboardName, data))
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("UnableToCopy::JXTEBase"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -1640,17 +1640,17 @@ JXTEBase::TEGetClipboard
 {
 	const JError err = GetSelectionData(kJXClipboardName, CurrentTime, text, style);
 	if (err.OK())
-		{
+	{
 		return true;
-		}
+	}
 	else
-		{
+	{
 		if (err != kNoData)
-			{
+		{
 			err.ReportIfError();
-			}
-		return false;
 		}
+		return false;
+	}
 }
 
 /******************************************************************************
@@ -1677,29 +1677,29 @@ JXTEBase::GetAvailDataTypes
 	JXSelectionManager* selMgr = GetSelectionManager();
 
 	for (const auto type : typeList)
-		{
+	{
 		if (type == selMgr->GetUtf8StringXAtom() ||
 			type == selMgr->GetMimePlainTextUTF8XAtom())
-			{
+		{
 			*canGetText = true;
 			*textType   = type;
-			}
+		}
 		else if (!*canGetText &&
 				 (type == XA_STRING ||
 				  type == selMgr->GetMimePlainTextXAtom()))
-			{
+		{
 			*canGetText = true;
 			*textType   = type;
-			}
+		}
 
 		// By checking WillPasteStyledText(), we avoid wasting time
 		// parsing style information.
 
 		else if (type == itsStyledText0XAtom && GetText().WillPasteStyledText())
-			{
+		{
 			*canGetStyledText = true;
-			}
 		}
+	}
 
 	return *canGetStyledText || *canGetText;
 }
@@ -1724,13 +1724,13 @@ JXTEBase::GetSelectionData
 	JArray<Atom> typeList;
 	if (GetSelectionManager()->
 			GetAvailableTypes(selectionName, time, &typeList))
-		{
+	{
 		return GetSelectionData(selectionName, typeList, time, text, style);
-		}
+	}
 	else
-		{
+	{
 		return NoData();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1757,7 +1757,7 @@ JXTEBase::GetSelectionData
 	bool canGetStyledText, canGetText;
 	Atom textType;
 	if (GetAvailDataTypes(typeList, &canGetStyledText, &canGetText, &textType))
-		{
+	{
 		JXSelectionManager* selMgr = GetSelectionManager();
 
 		bool gotData = false;
@@ -1771,46 +1771,46 @@ JXTEBase::GetSelectionData
 		if (!gotData && canGetStyledText &&
 			selMgr->GetData(selectionName, time, itsStyledText0XAtom,
 							&returnType, &data, &dataLength, &delMethod))
-			{
+		{
 			if (returnType == itsStyledText0XAtom)
-				{
+			{
 				gotData = true;
 				const std::string s(reinterpret_cast<char*>(data), dataLength);
 				std::istringstream input(s);
 				if (!JStyledText::ReadPrivateFormat(input, text, style))
-					{
+				{
 					err = DataNotCompatible();
-					}
 				}
-			selMgr->DeleteData(&data, delMethod);
 			}
+			selMgr->DeleteData(&data, delMethod);
+		}
 
 		if (!gotData && canGetText &&
 			selMgr->GetData(selectionName, time, textType,
 							&textReturnType, &data, &dataLength, &delMethod))
-			{
+		{
 			if (textReturnType == XA_STRING ||
 				textReturnType == selMgr->GetUtf8StringXAtom() ||
 				textReturnType == selMgr->GetMimePlainTextXAtom() ||
 				textReturnType == selMgr->GetMimePlainTextUTF8XAtom())
-				{
+			{
 				gotData = true;
 				text->Set(reinterpret_cast<JUtf8Byte*>(data), dataLength);
-				}
-			selMgr->DeleteData(&data, delMethod);
 			}
+			selMgr->DeleteData(&data, delMethod);
+		}
 
 		if (!gotData)
-			{
+		{
 			err = DataNotCompatible(canGetText ? textReturnType : None, GetDisplay());
-			}
+		}
 
 		return err;
-		}
+	}
 	else
-		{
+	{
 		return NoData();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1827,17 +1827,17 @@ JXTEBase::DataNotCompatible::DataNotCompatible
 	JError(kDataNotCompatible)
 {
 	if (type != None)
-		{
+	{
 		assert( display != nullptr );
 
 		const JUtf8Byte* map[] =
-			{
+		{
 			"atom", XGetAtomName(*display, type)
-			};
+		};
 		JString msg = JGetString(kDataNotCompatible);
 		msg += JGetString(kDataNotCompatibleExtra, map, sizeof(map));
 		SetMessage(msg);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1906,14 +1906,14 @@ JXTEBase::StaticAppendEditMenu
 
 	JXTextMenu* editMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
+	{
 		editMenu->SetMenuItems(kMacEditMenuStr, "JXTEBase");
-		}
+	}
 	else
-		{
+	{
 		editMenu->SetShortcuts(JGetString("EditMenuShortcut::JXGlobal"));
 		editMenu->SetMenuItems(kWinEditMenuStr, "JXTEBase");
-		}
+	}
 
 	editMenu->SetItemImage(kUndoIndex,  jx_edit_undo);
 	editMenu->SetItemImage(kRedoIndex,  jx_edit_redo);
@@ -1927,83 +1927,83 @@ JXTEBase::StaticAppendEditMenu
 	// append check spelling commands
 
 	if (showCheckSpellingCmds)
-		{
+	{
 		const JSize itemCount = editMenu->GetItemCount();
 		editMenu->ShowSeparatorAfter(itemCount);
 
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-			{
+		{
 			editMenu->AppendMenuItems(kMacCheckSpellingMenuStr, "JXTEBase");
-			}
+		}
 		else
-			{
+		{
 			editMenu->AppendMenuItems(kWinCheckSpellingMenuStr, "JXTEBase");
-			}
+		}
 
 		editMenu->SetItemImage(itemCount+1, jx_spell_check);
 		editMenu->SetItemImage(itemCount+2, jx_spell_check_selection);
-		}
+	}
 
 	// append margin adjustment commands
 
 	if (showAdjustMarginsCmds)
-		{
+	{
 		const JSize itemCount = editMenu->GetItemCount();
 		editMenu->ShowSeparatorAfter(itemCount);
 
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-			{
+		{
 			editMenu->AppendMenuItems(kMacAdjustMarginsMenuStr, "JXTEBase");
-			}
+		}
 		else
-			{
+		{
 			editMenu->AppendMenuItems(kWinAdjustMarginsMenuStr, "JXTEBase");
-			}
+		}
 
 		editMenu->SetItemImage(itemCount+1, jx_edit_clean_right_margin);
 		editMenu->SetItemImage(itemCount+2, jx_edit_coerce_right_margin);
 		editMenu->SetItemImage(itemCount+3, jx_edit_shift_left);
 		editMenu->SetItemImage(itemCount+4, jx_edit_shift_right);
 		editMenu->SetItemImage(itemCount+5, jx_edit_force_shift_left);
-		}
+	}
 
 	// append clean whitespace commands
 
 	if (showCleanWhitespaceCmds)
-		{
+	{
 		const JSize itemCount = editMenu->GetItemCount();
 		editMenu->ShowSeparatorAfter(itemCount);
 
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-			{
+		{
 			editMenu->AppendMenuItems(kMacCleanWhitespaceMenuStr, "JXTEBase");
-			}
+		}
 		else
-			{
+		{
 			editMenu->AppendMenuItems(kWinCleanWhitespaceMenuStr, "JXTEBase");
-			}
+		}
 
 		editMenu->SetItemImage(itemCount+1, jx_show_whitespace);
-		}
+	}
 
 	// append "read only" checkbox
 
 	if (showToggleReadOnly)
-		{
+	{
 		const JSize itemCount = editMenu->GetItemCount();
 		editMenu->ShowSeparatorAfter(itemCount);
 
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-			{
+		{
 			editMenu->AppendMenuItems(kMacReadOnlyMenuStr, "JXTEBase");
-			}
+		}
 		else
-			{
+		{
 			editMenu->AppendMenuItems(kWinReadOnlyMenuStr, "JXTEBase");
-			}
+		}
 
 		editMenu->SetItemImage(itemCount+1, jx_edit_read_only);
-		}
+	}
 
 	return editMenu;
 }
@@ -2081,14 +2081,14 @@ JXTEBase::AppendSearchMenu
 
 	itsSearchMenu = menuBar->AppendTextMenu(JGetString("SearchMenuTitle::JXTEBase"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
+	{
 		itsSearchMenu->SetMenuItems(kMacSearchMenuStr, "JXTEBase");
-		}
+	}
 	else
-		{
+	{
 		itsSearchMenu->SetShortcuts(JGetString("SearchMenuShortcut::JXTEBase"));
 		itsSearchMenu->SetMenuItems(kWinSearchMenuStr, "JXTEBase");
-		}
+	}
 
 	itsSearchMenu->SetItemImage(kSFindCmd,              jx_find);
 	itsSearchMenu->SetItemImage(kSFindPrevCmd,          jx_find_previous);
@@ -2121,14 +2121,14 @@ JXTEBase::AppendSearchReplaceMenu
 
 	itsReplaceMenu = menuBar->AppendTextMenu(JGetString("SearchMenuTitle::JXTEBase"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
+	{
 		itsReplaceMenu->SetMenuItems(kMacReplaceMenuStr, "JXTEBase");
-		}
+	}
 	else
-		{
+	{
 		itsReplaceMenu->SetShortcuts(JGetString("SearchMenuShortcut::JXTEBase"));
 		itsReplaceMenu->SetMenuItems(kWinReplaceMenuStr, "JXTEBase");
-		}
+	}
 
 	itsReplaceMenu->SetItemImage(kSRFindCmd,              jx_find);
 	itsReplaceMenu->SetItemImage(kSRFindPrevCmd,          jx_find_previous);
@@ -2167,20 +2167,20 @@ JXTEBase::ShareSearchMenu
 	itsReplaceMenu = te->itsReplaceMenu;
 
 	if (itsSearchMenu != nullptr)
-		{
+	{
 		ListenTo(itsSearchMenu);
 		return itsSearchMenu;
-		}
+	}
 	else if (itsReplaceMenu != nullptr)
-		{
+	{
 		ListenTo(itsReplaceMenu);
 		return itsReplaceMenu;
-		}
+	}
 	else
-		{
+	{
 		assert_msg( 0, "should never happen" );
 		return nullptr;
-		}
+	}
 }
 
 void
@@ -2222,109 +2222,109 @@ JXTEBase::Receive
 	)
 {
 	if (sender == itsEditMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		if (HasFocus())
-			{
+		{
 			UpdateEditMenu();
-			}
 		}
+	}
 	else if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		if (HasFocus())
-			{
+		{
 			const auto* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleEditMenu(selection->GetIndex());
-			}
 		}
+	}
 
 	else if (sender == itsSearchMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		if (HasFocus())
-			{
+		{
 			UpdateSearchMenu();
-			}
 		}
+	}
 	else if (sender == itsSearchMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		if (HasFocus())
-			{
+		{
 			const auto* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleSearchMenu(selection->GetIndex());
-			}
 		}
+	}
 
 	else if (sender == itsReplaceMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		if (HasFocus())
-			{
+		{
 			UpdateReplaceMenu();
-			}
 		}
+	}
 	else if (sender == itsReplaceMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		if (HasFocus())
-			{
+		{
 			const auto* selection =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleReplaceMenu(selection->GetIndex());
-			}
 		}
+	}
 
 	else if (sender == itsPSPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			SetPSPrintFileName(itsPSPrinter->GetFileName());
 			Print(*itsPSPrinter);
-			}
-		StopListening(itsPSPrinter);
 		}
+		StopListening(itsPSPrinter);
+	}
 
 	else if (sender == itsPTPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			SetPTPrintFileName(itsPTPrinter->GetFileName());
 			itsPTPrinter->Print(GetText()->GetText());
-			}
-		StopListening(itsPTPrinter);
 		}
+		StopListening(itsPTPrinter);
+	}
 
 	else if (sender == itsGoToLineDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			bool physicalLineIndexFlag;
 			JIndex lineIndex = itsGoToLineDialog->GetLineIndex(&physicalLineIndexFlag);
 			if (physicalLineIndexFlag)
-				{
+			{
 				lineIndex = CRLineIndexToVisualLineIndex(lineIndex);
-				}
-			GoToLine(lineIndex);
 			}
-		itsGoToLineDialog = nullptr;
+			GoToLine(lineIndex);
 		}
+		itsGoToLineDialog = nullptr;
+	}
 
 	else
-		{
+	{
 		if (sender == this && message.Is(JTextEditor::kCaretLocationChanged))
-			{
+		{
 			const auto* info =
 				dynamic_cast<const JTextEditor::CaretLocationChanged*>(&message);
 			assert( info != nullptr );
@@ -2333,15 +2333,15 @@ JXTEBase::Receive
 			pt.x = GetCharLeft(info->GetCharacterIndex());
 			pt.y = GetLineBottom(info->GetLineIndex());
 			GetWindow()->SetXIMPosition(JXContainer::LocalToGlobal(pt));
-			}
+		}
 		else if (sender == GetText() && message.Is(JStyledText::kWillBeBusy))
-			{
+		{
 			JXGetApplication()->DisplayBusyCursor();
-			}
+		}
 
 		JXScrollableWidget::Receive(sender, message);
 		JTextEditor::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2361,59 +2361,59 @@ JXTEBase::UpdateEditMenu()
 
 	const JSize count = itsEditMenu->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		CmdIndex cmd;
 		if (EditMenuIndexToCmd(i, &cmd))
-			{
+		{
 			bool enable = true;
 			if (cmd == kCheckSpellingCmd ||
 				cmd == kCheckSpellingSelCmd)
-				{
+			{
 				enable = itsCanCheckSpellingFlag && (JXGetSpellChecker())->IsAvailable();
-				}
+			}
 			else if (cmd == kCleanRightMarginCmd)
-				{
+			{
 				itsEditMenu->SetItemText(i, crmActionText);
 				enable = itsCanAdjustMarginsFlag;
-				}
+			}
 			else if (cmd == kCoerceRightMarginCmd)
-				{
+			{
 				itsEditMenu->SetItemText(i, crm2ActionText);
 				enable = itsCanAdjustMarginsFlag;
-				}
+			}
 			else if (cmd == kShiftSelLeftCmd  ||
 					 cmd == kShiftSelRightCmd ||
 					 cmd == kForceShiftSelLeftCmd)
-				{
+			{
 				enable = itsCanAdjustMarginsFlag;
-				}
+			}
 			else if (cmd == kShowWhitespaceCmd)
-				{
+			{
 				enable = itsCanCleanWhitespaceFlag;
 				if (enable && WillShowWhitespace())
-					{
+				{
 					itsEditMenu->CheckItem(i);
-					}
 				}
+			}
 			else if (cmd == kCleanAllWhitespaceCmd ||
 					 cmd == kCleanWhitespaceSelCmd ||
 					 cmd == kCleanAllWSAlignCmd    ||
 					 cmd == kCleanWSAlignSelCmd)
-				{
+			{
 				enable = itsCanCleanWhitespaceFlag;
-				}
+			}
 			else if (cmd == kToggleReadOnlyCmd)
-				{
+			{
 				if (isReadOnly)
-					{
+				{
 					itsEditMenu->CheckItem(i);
-					}
-				enable = itsCanToggleReadOnlyFlag;
 				}
+				enable = itsCanToggleReadOnlyFlag;
+			}
 
 			itsEditMenu->SetItemEnable(i, enable && enableFlags.GetElement(cmd));
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -2431,110 +2431,110 @@ JXTEBase::HandleEditMenu
 
 	CmdIndex cmd;
 	if (!EditMenuIndexToCmd(index, &cmd))
-		{
+	{
 		return;
-		}
+	}
 
 	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
-		{
+	{
 		JXGetSearchTextDialog()->SetActiveTE(this);
-		}
+	}
 
 	if (cmd == kUndoCmd)
-		{
+	{
 		GetText()->Undo();
-		}
+	}
 	else if (cmd == kRedoCmd)
-		{
+	{
 		GetText()->Redo();
-		}
+	}
 
 	else if (cmd == kCutCmd)
-		{
+	{
 		Cut();
-		}
+	}
 	else if (cmd == kCopyCmd)
-		{
+	{
 		Copy();
-		}
+	}
 	else if (cmd == kPasteCmd)
-		{
+	{
 		Paste();
-		}
+	}
 	else if (cmd == kDeleteSelCmd)
-		{
+	{
 		DeleteSelection();
-		}
+	}
 
 	else if (cmd == kSelectAllCmd)
-		{
+	{
 		SelectAll();
-		}
+	}
 
 	else if (cmd == kCheckSpellingCmd)
-		{
+	{
 		(JXGetSpellChecker())->Check(this);
-		}
+	}
 	else if (cmd == kCheckSpellingSelCmd)
-		{
+	{
 		(JXGetSpellChecker())->CheckSelection(this);
-		}
+	}
 
 	else if (cmd == kCleanRightMarginCmd)
-		{
+	{
 		GetText()->CleanRightMargin(false);
-		}
+	}
 	else if (cmd == kCoerceRightMarginCmd)
-		{
+	{
 		GetText()->CleanRightMargin(true);
-		}
+	}
 	else if (cmd == kShiftSelLeftCmd)
-		{
+	{
 		TabSelectionLeft();
-		}
+	}
 	else if (cmd == kShiftSelRightCmd)
-		{
+	{
 		TabSelectionRight();
-		}
+	}
 	else if (cmd == kForceShiftSelLeftCmd)
-		{
+	{
 		TabSelectionLeft(1, true);
-		}
+	}
 
 	else if (cmd == kShowWhitespaceCmd)
-		{
+	{
 		ShouldShowWhitespace(!WillShowWhitespace());
-		}
+	}
 	else if (cmd == kCleanAllWhitespaceCmd)
-		{
+	{
 		CleanAllWhitespace(false);
-		}
+	}
 	else if (cmd == kCleanWhitespaceSelCmd)
-		{
+	{
 		CleanSelectedWhitespace(false);
-		}
+	}
 	else if (cmd == kCleanAllWSAlignCmd)
-		{
+	{
 		CleanAllWhitespace(true);
-		}
+	}
 	else if (cmd == kCleanWSAlignSelCmd)
-		{
+	{
 		CleanSelectedWhitespace(true);
-		}
+	}
 
 	else if (cmd == kToggleReadOnlyCmd)
-		{
+	{
 		const Type type = GetType();
 		if (type == kFullEditor)
-			{
+		{
 			SetType(kSelectableText);
-			}
-		else if (type == kSelectableText)
-			{
-			SetType(kFullEditor);
-			}
-		// don't change kStaticText
 		}
+		else if (type == kSelectableText)
+		{
+			SetType(kFullEditor);
+		}
+		// don't change kStaticText
+	}
 }
 
 /******************************************************************************
@@ -2572,20 +2572,20 @@ JXTEBase::UpdateSearchMenu()
 		GetCmdStatus(&crmActionText, &crm2ActionText, &isReadOnly);
 
 	if (!GetText()->IsEmpty())
-		{
+	{
 		enableFlags.SetElement(kFindSelectionBackwardCmd, true);
 		enableFlags.SetElement(kFindSelectionForwardCmd,  true);
-		}
+	}
 
 	const JSize count = itsSearchMenu->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		CmdIndex cmd;
 		if (SearchMenuIndexToCmd(i, &cmd))
-			{
+		{
 			itsSearchMenu->SetItemEnable(i, enableFlags.GetElement(cmd));
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -2603,9 +2603,9 @@ JXTEBase::HandleSearchMenu
 
 	CmdIndex cmd;
 	if (SearchMenuIndexToCmd(index, &cmd))
-		{
+	{
 		HandleSearchReplaceCmd(cmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2643,20 +2643,20 @@ JXTEBase::UpdateReplaceMenu()
 		GetCmdStatus(&crmActionText, &crm2ActionText, &isReadOnly);
 
 	if (!GetText()->IsEmpty())
-		{
+	{
 		enableFlags.SetElement(kFindSelectionBackwardCmd, true);
 		enableFlags.SetElement(kFindSelectionForwardCmd,  true);
-		}
+	}
 
 	const JSize count = itsReplaceMenu->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		CmdIndex cmd;
 		if (SearchReplaceMenuIndexToCmd(i, &cmd))
-			{
+		{
 			itsReplaceMenu->SetItemEnable(i, enableFlags.GetElement(cmd));
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -2674,9 +2674,9 @@ JXTEBase::HandleReplaceMenu
 
 	CmdIndex cmd;
 	if (SearchReplaceMenuIndexToCmd(index, &cmd))
-		{
+	{
 		HandleSearchReplaceCmd(cmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2693,74 +2693,74 @@ JXTEBase::HandleSearchReplaceCmd
 	JXGetSearchTextDialog()->SetActiveTE(this);
 
 	if (cmd == kFindDialogCmd)
-		{
+	{
 		JXGetSearchTextDialog()->Activate();
-		}
+	}
 	else if (cmd == kFindPreviousCmd)
-		{
+	{
 		SearchBackward();
-		}
+	}
 	else if (cmd == kFindNextCmd)
-		{
+	{
 		SearchForward();
-		}
+	}
 	else if (cmd == kEnterSearchTextCmd)
-		{
+	{
 		EnterSearchSelection();
-		}
+	}
 	else if (cmd == kEnterReplaceTextCmd)
-		{
+	{
 		EnterReplaceSelection();
-		}
+	}
 	else if (cmd == kFindSelectionBackwardCmd)
-		{
+	{
 		if (!HasSelection())
-			{
+		{
 			JStyledText::TextRange r;
 			TEGetDoubleClickSelection(GetInsertionIndex(), false, false, &r);
 			SetSelection(r);
-			}
+		}
 		SearchSelectionBackward();
-		}
+	}
 	else if (cmd == kFindSelectionForwardCmd)
-		{
+	{
 		if (!HasSelection())
-			{
+		{
 			JStyledText::TextRange r;
 			TEGetDoubleClickSelection(GetInsertionIndex(), false, false, &r);
 			SetSelection(r);
-			}
+		}
 		SearchSelectionForward();
-		}
+	}
 	else if (cmd == kFindClipboardBackwardCmd)
-		{
+	{
 		SearchClipboardBackward();
-		}
+	}
 	else if (cmd == kFindClipboardForwardCmd)
-		{
+	{
 		SearchClipboardForward();
-		}
+	}
 
 	else if (cmd == kReplaceSelectionCmd)
-		{
+	{
 		ReplaceSelection();
-		}
+	}
 	else if (cmd == kReplaceFindPrevCmd)
-		{
+	{
 		ReplaceAndSearchBackward();
-		}
+	}
 	else if (cmd == kReplaceFindNextCmd)
-		{
+	{
 		ReplaceAndSearchForward();
-		}
+	}
 	else if (cmd == kReplaceAllCmd)
-		{
+	{
 		ReplaceAll(false);
-		}
+	}
 	else if (cmd == kReplaceAllInSelectionCmd)
-		{
+	{
 		ReplaceAll(true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2815,27 +2815,27 @@ JXTEBase::SearchForward
 	if (!JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
-		{
+	{
 		return false;
-		}
+	}
 
 	if (GetType() != kFullEditor && !HasSelection())	// caret not visible
-		{
+	{
 		SetCaretLocation(1);
-		}
+	}
 
 	bool wrapped;
 	const JStringMatch m = JTextEditor::SearchForward(*searchRegex, entireWord, wrapSearch, &wrapped);
 
 	if (!m.IsEmpty())
-		{
+	{
 		TEScrollToSelection(true);
-		}
+	}
 
 	if ((m.IsEmpty() && reportNotFound) || wrapped)
-		{
+	{
 		GetDisplay()->Beep();
-		}
+	}
 
 	return !m.IsEmpty();
 }
@@ -2858,27 +2858,27 @@ JXTEBase::SearchBackward()
 	if (!JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
-		{
+	{
 		return false;
-		}
+	}
 
 	if (GetType() != kFullEditor && !HasSelection())	// caret not visible
-		{
+	{
 		SetCaretLocation(GetText()->GetBeyondEnd());
-		}
+	}
 
 	bool wrapped;
 	const JStringMatch m = JTextEditor::SearchBackward(*searchRegex, entireWord, wrapSearch, &wrapped);
 
 	if (!m.IsEmpty())
-		{
+	{
 		TEScrollToSelection(true);
-		}
+	}
 
 	if (m.IsEmpty() || wrapped)
-		{
+	{
 		GetDisplay()->Beep();
-		}
+	}
 
 	return !m.IsEmpty();
 }
@@ -2894,14 +2894,14 @@ JXTEBase::SearchClipboardForward()
 	JString text;
 	JRunArray<JFont> style;
 	if (TEGetClipboard(&text, &style))
-		{
+	{
 		JXGetSearchTextDialog()->SetSearchText(text);
 		return SearchForward();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -2910,14 +2910,14 @@ JXTEBase::SearchClipboardBackward()
 	JString text;
 	JRunArray<JFont> style;
 	if (TEGetClipboard(&text, &style))
-		{
+	{
 		JXGetSearchTextDialog()->SetSearchText(text);
 		return SearchBackward();
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2933,14 +2933,14 @@ JXTEBase::EnterSearchSelection()
 {
 	JString selText;
 	if (GetSelection(&selText))
-		{
+	{
 		JXGetSearchTextDialog()->SetSearchText(selText);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2956,14 +2956,14 @@ JXTEBase::EnterReplaceSelection()
 {
 	JString selText;
 	if (GetSelection(&selText))
-		{
+	{
 		JXGetSearchTextDialog()->SetReplaceText(selText);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2986,22 +2986,22 @@ JXTEBase::ReplaceSelection()
 		!JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
-		{
+	{
 		return false;
-		}
+	}
 
 	const JStringMatch m = SelectionMatches(*searchRegex, entireWord);
 
 	if (!m.IsEmpty())
-		{
+	{
 		JTextEditor::ReplaceSelection(m, replaceStr, interpolator, preserveCase);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		GetDisplay()->Beep();
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -3026,17 +3026,17 @@ JXTEBase::ReplaceAll
 		JXGetSearchTextDialog()->GetSearchParameters(
 			&searchRegex, &entireWord, &wrapSearch,
 			&replaceStr, &interpolator, &preserveCase))
-		{
+	{
 		JXGetApplication()->DisplayBusyCursor();
 
 		return JTextEditor::ReplaceAll(*searchRegex, entireWord,
 									   replaceStr, interpolator,
 									   preserveCase, restrictToSelection);
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -3054,9 +3054,9 @@ JXTEBase::SetPSPrinter
 	)
 {
 	if (itsPSPrinter != nullptr)
-		{
+	{
 		StopListening(itsPSPrinter);
-		}
+	}
 	itsPSPrinter = p;
 }
 
@@ -3072,11 +3072,11 @@ JXTEBase::GetPSPrintFileName()
 	const
 {
 	if (itsPSPrintName == nullptr)
-		{
+	{
 		auto* me = const_cast<JXTEBase*>(this);
 		me->itsPSPrintName = jnew JString;
 		assert( itsPSPrintName != nullptr );
-		}
+	}
 
 	return *itsPSPrintName;
 }
@@ -3179,9 +3179,9 @@ JXTEBase::SetPTPrinter
 	)
 {
 	if (itsPTPrinter != nullptr)
-		{
+	{
 		StopListening(itsPTPrinter);
-		}
+	}
 	itsPTPrinter = p;
 }
 
@@ -3197,11 +3197,11 @@ JXTEBase::GetPTPrintFileName()
 	const
 {
 	if (itsPTPrintName == nullptr)
-		{
+	{
 		auto* me = const_cast<JXTEBase*>(this);
 		me->itsPTPrintName = jnew JString;
 		assert( itsPTPrintName != nullptr );
-		}
+	}
 
 	return *itsPTPrintName;
 }
@@ -3318,9 +3318,9 @@ JXTEBase::RestoreDisplayState
 	// restore the selection
 
 	if (state.hadSelection && GetText()->GetText().RangeValid(state.range))
-		{
+	{
 		SetSelection(state.range);
-		}
+	}
 }
 
 /******************************************************************************

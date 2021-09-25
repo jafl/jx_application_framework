@@ -22,6 +22,10 @@ static const char* kCurrentJ2DPlotLibVersionStr = "2.0.0";
 
 // version 2.0.0:
 //	Supports utf-8
+//	*** Renamed for consistency:
+//		JPlotDataBase -> J2DPlotDataBase,
+//		JPlotFunctionBase -> J2DPlotFunctionBase
+//		J2DPlotJFunction -> J2DPlotFunction
 
 // version 1.1.1:
 //	JX2DPlotEPSPrinter:

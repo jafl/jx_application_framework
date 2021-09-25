@@ -99,9 +99,9 @@ JXHintDirector::BuildWindow
 
 	JCoordinate ascent = 0, descent = 0;
 	if (!text.IsEmpty())
-		{
+	{
 		textWidget->GetText()->GetFont(1).GetLineHeight(window->GetFontManager(), &ascent, &descent);
-		}
+	}
 
 	const JCoordinate w = 2*kHMargin + textWidget->GetFrameWidth();
 	const JCoordinate h = 2*kVMargin + ascent + descent;
@@ -115,18 +115,18 @@ JXHintDirector::BuildWindow
 	JCoordinate y = frameR.bottom + 1;
 
 	if (x + w > rootBounds.right)
-		{
+	{
 		x = rootBounds.right - w - 1;
-		}
+	}
 	if (x < 0)
-		{
+	{
 		x = rootBounds.left + 1;
-		}
+	}
 
 	if (y + h > rootBounds.bottom)
-		{
+	{
 		y = frameR.top - h - 1;
-		}
+	}
 
 	window->Place(x,y);
 

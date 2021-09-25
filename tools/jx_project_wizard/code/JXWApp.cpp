@@ -31,9 +31,9 @@ JXWApp::JXWApp
 	*displayLicense = JXWCreateGlobals(this);
 
 	if (!*displayLicense)
-		{
+	{
 		*displayLicense = (JXWGetPrefsManager())->GetPrevVersionStr() != JXWGetVersionNumberStr();
-		}
+	}
 }
 
 /******************************************************************************
@@ -62,8 +62,8 @@ JXWApp::CleanUpBeforeSuddenDeath
 	JXApplication::CleanUpBeforeSuddenDeath(reason);
 /*
 	if (reason != JXDocumentManager::kAssertFired)
-		{
-		}
+	{
+	}
 */
 	JXWCleanUpBeforeSuddenDeath(reason);		// must be last call
 }

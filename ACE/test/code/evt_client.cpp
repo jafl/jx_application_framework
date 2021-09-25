@@ -77,19 +77,19 @@ OpenConnection
 	)
 {
 	if (argc == 3 && strcmp(argv[1], "-i") == 0)
-		{
+	{
 		return INETConnect(argv[2]);
-		}
+	}
 	else if (argc == 3 && strcmp(argv[1], "-u") == 0)
-		{
+	{
 		return UNIXConnect(argv[2]);
-		}
+	}
 	else
-		{
+	{
 		std::cerr << "usage: " << argv[0];
 		std::cerr << " (-i [host_name:]port_number)|(-u socket_name)" << std::endl;
 		exit(1);
-		}
+	}
 
 	// keep the compiler happy
 	return nullptr;
@@ -129,10 +129,10 @@ INETConnect
 
 	if (connector->connect(handler, addr, options) == -1 &&
 		jerrno() != EAGAIN)
-		{
+	{
 		std::cerr << "error trying to connect: " << jerrno() << std::endl;
 		exit(1);
-		}
+	}
 
 	return connector;
 }
@@ -171,10 +171,10 @@ UNIXConnect
 
 	if (connector->connect(handler, addr, options) == -1 &&
 		jerrno() != EAGAIN)
-		{
+	{
 		std::cerr << "error trying to connect: " << jerrno() << std::endl;
 		exit(1);
-		}
+	}
 
 	return connector;
 }

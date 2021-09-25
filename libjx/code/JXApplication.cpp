@@ -115,10 +115,10 @@ JXApplication::JXApplication
 
 	if (JIsRelativePath(itsRestartCmd) &&
 		itsRestartCmd.Contains(ACE_DIRECTORY_SEPARATOR_STR))
-		{
+	{
 		const JString pwd = JGetCurrentDirectory();
 		itsRestartCmd     = JCombinePathAndName(pwd, itsRestartCmd);
-		}
+	}
 
 	// initialize global objects
 
@@ -129,24 +129,24 @@ JXApplication::JXApplication
 
 	JXDisplay* display;
 	if (!JXDisplay::Create(displayName, &display))
-		{
+	{
 		std::cerr << argv[0];
 		if (displayName.IsEmpty())
-			{
+		{
 			std::cerr << ": Can't open display '" << XDisplayName(nullptr) << '\'';
-			}
+		}
 		else
-			{
+		{
 			std::cerr << ": Can't open display '" << displayName << '\'';
-			}
+		}
 		std::cerr << std::endl;
 		JThisProcess::Exit(1);
-		}
+	}
 
 	if (JXGetSharedPrefsManager()->WasNew() && display->IsOSX())
-		{
+	{
 		JXMenu::SetDisplayStyle(JXMenu::kMacintoshStyle);
-		}
+	}
 
 	// start the timer
 
@@ -201,9 +201,9 @@ void
 JXApplication::Suspend()
 {
 	for (auto* d : *itsDisplayList)
-		{
+	{
 		d->GetMenuManager()->CloseCurrentMenus();
-		}
+	}
 
 	JXDirector::Suspend();
 	JXSuspendPersistentWindows();
@@ -237,22 +237,22 @@ JXApplication::OpenDisplay
 
 	JXDisplay* display;
 	if (JXDisplay::Create(displayName, &display))
-		{
+	{
 		// DisplayOpened() appends new JXDisplay* to our list
 		*displayIndex = itsDisplayList->GetElementCount();
 		return true;
-		}
+	}
 	else
-		{
+	{
 		const JUtf8Byte* map[] =
-			{
+		{
 			"name", displayName.GetBytes()
-			};
+		};
 		JGetUserNotification()->ReportError(JGetString("DisplayConnectError", map, sizeof(map)));
 
 		*displayIndex = 0;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -284,10 +284,10 @@ JXApplication::DisplayClosed
 	)
 {
 	if (!itsIgnoreDisplayDeletedFlag)
-		{
+	{
 		itsDisplayList->Remove(display);
 		(JXGetAssertHandler())->DisplayClosed(display);
-		}
+	}
 }
 
 /******************************************************************************
@@ -313,9 +313,9 @@ JXApplication::SetCurrentDisplay
 {
 	JIndex index;
 	if (itsDisplayList->Find(display, &index))
-		{
+	{
 		itsCurrDisplayIndex = index;
-		}
+	}
 }
 
 /******************************************************************************
@@ -333,13 +333,13 @@ JXApplication::FindDisplay
 	)
 {
 	for (auto* d : *itsDisplayList)
-		{
+	{
 		if (d->GetXDisplay() == xDisplay)
-			{
+		{
 			*display = d;
 			return true;
-			}
 		}
+	}
 
 	*display = nullptr;
 	return false;
@@ -356,9 +356,9 @@ void
 JXApplication::DisplayBusyCursor()
 {
 	for (auto* d : *itsDisplayList)
-		{
+	{
 		d->DisplayCursorInAllWindows(kJXBusyCursor);
-		}
+	}
 }
 
 /******************************************************************************
@@ -372,9 +372,9 @@ void
 JXApplication::DisplayInactiveCursor()
 {
 	for (auto* d : *itsDisplayList)
-		{
+	{
 		d->DisplayCursorInAllWindows(kJXInactiveCursor);
-		}
+	}
 }
 
 /******************************************************************************
@@ -386,9 +386,9 @@ void
 JXApplication::HideAllWindows()
 {
 	for (auto* d : *itsDisplayList)
-		{
+	{
 		d->HideAllWindows();
-		}
+	}
 }
 
 /******************************************************************************
@@ -403,29 +403,29 @@ void
 JXApplication::Run()
 {
 	if (setjmp(JThisProcess::GetSigintJumpBuffer()) != 0)
-		{
+	{
 		// assert fired is the closest to what we want - we are locked up, so user hit ctrl-c
 		Abort(JXDocumentManager::kAssertFired, false);
 		// does not return
-		}
+	}
 
 	while (true)
-		{
+	{
 		HandleOneEvent();
 
 		if (itsRequestQuitFlag || !HasSubdirectors())
-			{
+		{
 			itsRequestQuitFlag = true;
 			if (Close())
-				{
+			{
 				break;		// we have been deleted
-				}
+			}
 			else
-				{
+			{
 				itsRequestQuitFlag = false;
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -456,9 +456,9 @@ JXApplication::Close()
 	assert( itsRequestQuitFlag );
 
 	for (auto* d : *itsDisplayList)
-		{
+	{
 		d->GetMenuManager()->CloseCurrentMenus();
-		}
+	}
 
 	return JXDirector::Close();		// deletes us if successful
 }
@@ -511,11 +511,11 @@ JXApplication::HandleOneEvent()
 	JXDisplay* display;
 	JIndex displayIndex = 0;
 	while (iter.Next(&display))
-		{
+	{
 		displayIndex++;
 		itsCurrDisplayIndex = displayIndex;		// itsCurrDisplayIndex might change during event
 		if (XPending(*display) != 0)
-			{
+		{
 			hasEvents = true;
 
 			// get the next event
@@ -524,24 +524,24 @@ JXApplication::HandleOneEvent()
 			XNextEvent(*display, &xEvent);
 
 			if (XFilterEvent(&xEvent, None))	// XIM
-				{
+			{
 				continue;
-				}
+			}
 
 			if (xEvent.type != MotionNotify)
-				{
+			{
 				itsLastIdleTime = itsCurrentTime;
-				}
+			}
 
 			// dispatch the event
 
 			display->HandleEvent(xEvent, itsCurrentTime);
-			}
-		else
-			{
-			display->Idle(itsCurrentTime);
-			}
 		}
+		else
+		{
+			display->Idle(itsCurrentTime);
+		}
+	}
 
 	PopAllIdleTaskStack();
 	PerformTasks(hasEvents, allowSleep);
@@ -600,7 +600,7 @@ struct DiscardEventInfo
 	DiscardEventInfo(JXDisplay* d, Window* w)
 		:
 		display(d), eventWindow(w)
-		{ };
+	{ };
 };
 
 bool
@@ -615,13 +615,13 @@ JXApplication::HandleOneEventForWindow
 	itsHasBlockingWindowFlag = true;
 	itsHadBlockingWindowFlag = false;		// req'd by JXWindow
 
-	{
+{
 	std::lock_guard lock(*itsTaskMutex);
 	if (itsIdleTaskStack->IsEmpty())
-		{
+	{
 		PushIdleTaskStack();
-		}
 	}
+}
 	UpdateCurrentTime();
 	const bool allowSleep =
 		origAllowSleep && HandleCustomEventWhileBlocking();
@@ -638,19 +638,19 @@ JXApplication::HandleOneEventForWindow
 	JXDisplay* display;
 	JIndex displayIndex = 0;
 	while (iter.Next(&display))
-		{
+	{
 		JXMenuManager* menuMgr = display->GetMenuManager();
 		if (!origHadBlockingWindowFlag)
-			{
+		{
 			menuMgr->CloseCurrentMenus();
-			}
+		}
 
 		JXWindow* mouseContainer;
 
 		displayIndex++;
 		itsCurrDisplayIndex = displayIndex;		// itsCurrDisplayIndex might change during event
 		if (XPending(*display) != 0)
-			{
+		{
 			// get mouse and keyboard grabbers -- for menus inside blocking window
 
 			eventWindow[1] = eventWindow[2] = None;
@@ -658,14 +658,14 @@ JXApplication::HandleOneEventForWindow
 			JXWindow* grabber;
 			if (display == uiDisplay && display->GetMouseGrabber(&grabber) &&
 				menuMgr->IsMenuForWindow(grabber, window))
-				{
+			{
 				eventWindow[1] = grabber->GetXWindow();
-				}
+			}
 			if (display == uiDisplay && display->GetKeyboardGrabber(&grabber) &&
 				menuMgr->IsMenuForWindow(grabber, window))
-				{
+			{
 				eventWindow[2] = grabber->GetXWindow();
-				}
+			}
 
 			// process one event
 
@@ -673,51 +673,51 @@ JXApplication::HandleOneEventForWindow
 			if (display == uiDisplay &&
 				XCheckIfEvent(*display, &xEvent, GetNextWindowEvent,
 							  reinterpret_cast<char*>(eventWindow)))
-				{
+			{
 				windowHasEvents = true;
 				if (xEvent.type != MotionNotify)
-					{
-					itsLastIdleTime = itsCurrentTime;
-					}
-				display->HandleEvent(xEvent, itsCurrentTime);
-				}
-			else if (XCheckIfEvent(*display, &xEvent, GetNextBkgdEvent, nullptr))
 				{
-				display->HandleEvent(xEvent, itsCurrentTime);
+					itsLastIdleTime = itsCurrentTime;
 				}
+				display->HandleEvent(xEvent, itsCurrentTime);
+			}
+			else if (XCheckIfEvent(*display, &xEvent, GetNextBkgdEvent, nullptr))
+			{
+				display->HandleEvent(xEvent, itsCurrentTime);
+			}
 			else if (display == uiDisplay &&
 					 display->GetMouseContainer(&mouseContainer) &&
 					 mouseContainer == window)
-				{
+			{
 				display->Idle(itsCurrentTime);
-				}
+			}
 			else
-				{
+			{
 				display->Update();
-				}
+			}
 
 			// discard mouse and keyboard events
 
 			DiscardEventInfo discardInfo(display, nullptr);
 			if (display == uiDisplay)
-				{
+			{
 				discardInfo.eventWindow = eventWindow;
-				}
+			}
 			while (XCheckIfEvent(*display, &xEvent, DiscardNextEvent,
 								 reinterpret_cast<char*>(&discardInfo)))
-				{ };
-			}
+			{ };
+		}
 		else if (display == uiDisplay &&
 				 display->GetMouseContainer(&mouseContainer) &&
 				 mouseContainer == window)
-			{
+		{
 			display->Idle(itsCurrentTime);
-			}
-		else
-			{
-			display->Update();
-			}
 		}
+		else
+		{
+			display->Update();
+		}
+	}
 
 	PerformTasks(windowHasEvents, allowSleep);
 
@@ -741,12 +741,12 @@ JXApplication::GetNextWindowEvent
 
 	auto* eventWindow = reinterpret_cast<Window*>(arg);
 	for (JUnsignedOffset i=0; i<kEventWindowCount; i++)
-		{
+	{
 		if (currWindow == eventWindow[i])
-			{
+		{
 			return True;
-			}
 		}
+	}
 
 	return False;
 }
@@ -771,13 +771,13 @@ JXApplication::GetNextBkgdEvent
 		event->type == UnmapNotify      ||
 		event->type == SelectionRequest ||
 		event->type == SelectionClear)
-		{
+	{
 		return True;
-		}
+	}
 	else
-		{
+	{
 		return False;
-		}
+	}
 }
 
 Bool
@@ -792,20 +792,20 @@ JXApplication::DiscardNextEvent
 
 	if (info->eventWindow != nullptr &&
 		GetNextWindowEvent(display, event, reinterpret_cast<char*>(info->eventWindow)))
-		{
+	{
 		return False;
-		}
+	}
 	else if (event->type == KeyPress || event->type == KeyRelease ||
 			 event->type == ButtonPress || event->type == ButtonRelease ||
 			 event->type == MotionNotify ||
 			 JXWindow::IsDeleteWindowMessage(info->display, *event))
-		{
+	{
 		return True;
-		}
+	}
 	else
-		{
+	{
 		return False;
-		}
+	}
 }
 
 /******************************************************************************
@@ -824,26 +824,26 @@ JXApplication::PerformTasks
 	)
 {
 	if (!hadEvents)
-		{
+	{
 		PerformIdleTasks();
 		itsLastIdleTime = itsCurrentTime;
 		PerformUrgentTasks();
 		if (allowSleep)
-			{
+		{
 			JWait(itsMaxSleepTime / 1000.0);
-			}
 		}
+	}
 	else if (hadEvents &&
 			 itsCurrentTime - itsLastIdleTime > itsMaxSleepTime)
-		{
+	{
 		PerformIdleTasks();
 		itsLastIdleTime = itsCurrentTime;
 		PerformUrgentTasks();
-		}
+	}
 	else
-		{
+	{
 		PerformUrgentTasks();
-		}
+	}
 }
 
 /******************************************************************************
@@ -898,17 +898,17 @@ JXApplication::InstallIdleTask
 	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsIdleTasks->Includes(newTask))
-		{
+	{
 		itsIdleTasks->Prepend(newTask);
 
 		// Make sure it isn't stored anywhere else, so PopIdleTaskTask()
 		// doesn't have to worry about duplicates when merging lists.
 
 		for (auto* list : *itsIdleTaskStack)
-			{
+		{
 			list->Remove(newTask);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -923,16 +923,16 @@ JXApplication::RemoveIdleTask
 	)
 {
 	if (!itsIgnoreTaskDeletedFlag)
-		{
+	{
 		std::lock_guard lock(*itsTaskMutex);
 
 		itsIdleTasks->Remove(task);
 
 		for (auto* list : *itsIdleTaskStack)
-			{
+		{
 			list->Remove(task);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -966,7 +966,7 @@ JXApplication::PopIdleTaskStack()
 	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsIdleTaskStack->IsEmpty())
-		{
+	{
 		JPtrArray<JXIdleTask>* list = itsIdleTasks;
 		itsIdleTasks                = itsIdleTaskStack->GetLastElement();
 		itsIdleTaskStack->RemoveElement(itsIdleTaskStack->GetElementCount());
@@ -974,7 +974,7 @@ JXApplication::PopIdleTaskStack()
 		itsIdleTasks->CopyPointers(*list, JPtrArrayT::kDeleteAll, true);
 		list->SetCleanUpAction(JPtrArrayT::kForgetAll);
 		jdelete list;
-		}
+	}
 }
 
 /******************************************************************************
@@ -991,9 +991,9 @@ JXApplication::PopAllIdleTaskStack()
 	std::lock_guard lock(*itsTaskMutex);
 
 	while (!itsIdleTaskStack->IsEmpty())
-		{
+	{
 		PopIdleTaskStack();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1005,28 +1005,28 @@ void
 JXApplication::PerformIdleTasks()
 {
 	itsMaxSleepTime = kMaxSleepTime;
-	{
+{
 	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsIdleTasks->IsEmpty())		// avoid constructing iterator
-		{
+	{
 		JTaskIterator<JXIdleTask> iter(itsIdleTasks);
 		JXIdleTask* task;
 		const Time deltaTime = itsCurrentTime - itsLastIdleTaskTime;
 		while (iter.Next(&task))
-			{
+		{
 			Time maxSleepTime = itsMaxSleepTime;
 			task->Perform(deltaTime, &maxSleepTime);
 			if (maxSleepTime < itsMaxSleepTime)
-				{
+			{
 				itsMaxSleepTime = maxSleepTime;
-				}
 			}
 		}
 	}
+}
 
 	if (!itsHasBlockingWindowFlag)
-		{
+	{
 		// let sockets broadcast
 
 		CheckACEReactor();
@@ -1035,17 +1035,17 @@ JXApplication::PerformIdleTasks()
 
 		itsWaitForChildCounter++;
 		if (itsWaitForChildCounter >= kWaitForChildCount)
-			{
+		{
 			JProcess::CheckForFinishedChild(false);
 			itsWaitForChildCounter = 0;
-			}
 		}
+	}
 
 	JXMDIServer* mdiServer = nullptr;
 	if (JXGetMDIServer(&mdiServer))
-		{
+	{
 		mdiServer->CheckForConnections();
-		}
+	}
 
 	// save time for next call
 
@@ -1087,9 +1087,9 @@ JXApplication::InstallUrgentTask
 	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsUrgentTasks->Includes(newTask))
-		{
+	{
 		itsUrgentTasks->Append(newTask);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1104,16 +1104,16 @@ JXApplication::RemoveUrgentTask
 	)
 {
 	if (!itsIgnoreTaskDeletedFlag)
-		{
+	{
 		std::lock_guard lock(*itsTaskMutex);
 
 		itsUrgentTasks->Remove(task);
 
 		if (itsRunningUrgentTasks != nullptr)
-			{
+		{
 			itsRunningUrgentTasks->Remove(task);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1124,11 +1124,11 @@ JXApplication::RemoveUrgentTask
 void
 JXApplication::PerformUrgentTasks()
 {
-	{
+{
 	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsUrgentTasks->IsEmpty())
-		{
+	{
 		// clear out itsUrgentTasks so new ones can safely be added
 
 		JPtrArray<JXUrgentTask> taskList(*itsUrgentTasks, JPtrArrayT::kDeleteAll);
@@ -1141,14 +1141,14 @@ JXApplication::PerformUrgentTasks()
 		JListIterator<JXUrgentTask*>* iter = taskList.NewIterator();
 		JXUrgentTask* task;
 		while (iter->Next(&task))
-			{
+		{
 			task->Perform();
-			}
+		}
 
 		jdelete iter;
 		itsRunningUrgentTasks = nullptr;
-		}
 	}
+}
 
 	JXDisplay::CheckForXErrors();
 
@@ -1157,9 +1157,9 @@ JXApplication::PerformUrgentTasks()
 
 	if (!itsHasBlockingWindowFlag && JThisProcess::CheckForSignals() &&
 		!IsSuspended())
-		{
+	{
 		Quit();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1183,62 +1183,62 @@ JXApplication::ParseBaseOptions
 	bool ftcNoop = false, ftcOverlap = false;
 
 	for (long i=1; i<*argc; i++)
-		{
+	{
 		if (strcmp(argv[i], kDisplayOptionName) == 0)
-			{
+		{
 			i++;
 			if (i >= *argc || argv[i][0] == '-')
-				{
+			{
 				std::cerr << argv[0] << ": Invalid display option" << std::endl;
 				JThisProcess::Exit(1);
-				}
+			}
 			*displayName = argv[i];
 			RemoveCmdLineOption(argc, argv, i-1, 2);
 			i -= 2;
-			}
+		}
 		else if (strcmp(argv[i], kXDebugOptionName) == 0)
-			{
+		{
 			_Xdebug = True;
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
-			}
+		}
 		else if (strcmp(argv[i], kFTCHorizDebugOptionName) == 0)
-			{
+		{
 			JXContainer::DebugExpandToFitContent(true);
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
-			}
+		}
 		else if (strcmp(argv[i], kFTCVertDebugOptionName) == 0)
-			{
+		{
 			JXContainer::DebugExpandToFitContent(false);
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
-			}
+		}
 		else if (strcmp(argv[i], kFTCDebugNoopOptionName) == 0)
-			{
+		{
 			ftcNoop = true;
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
-			}
+		}
 		else if (strcmp(argv[i], kFTCDebugOverlapOptionName) == 0)
-			{
+		{
 			ftcOverlap = true;
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
-			}
+		}
 		else if (strcmp(argv[i], kDebugUtf8OptionName) == 0)
-			{
+		{
 			JUtf8Character::SetIgnoreBadUtf8(false);
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
-			}
+		}
 		else if (strcmp(argv[i], kPseudotranslateOptionName) == 0)
-			{
+		{
 			JStringManager::EnablePseudotranslation();
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
-			}
 		}
+	}
 
 	JXContainer::DebugExpandToFitContentExtras(ftcNoop, ftcOverlap);
 }
@@ -1256,25 +1256,25 @@ JXApplication::StripBaseOptions
 {
 	JSize count = argList->GetElementCount();
 	for (JIndex i=2; i<=count; i++)
-		{
+	{
 		JString* arg = argList->GetElement(i);
 		if (*arg == kXDebugOptionName        ||
 			*arg == kFTCHorizDebugOptionName ||
 			*arg == kFTCVertDebugOptionName  ||
 			*arg == kPseudotranslateOptionName)
-			{
+		{
 			argList->DeleteElement(i);
 			count--;
 			i--;
-			}
+		}
 		else if (*arg == kDisplayOptionName)
-			{
+		{
 			argList->DeleteElement(i);
 			argList->DeleteElement(i);
 			count -= 2;
 			i--;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1295,9 +1295,9 @@ JXApplication::RemoveCmdLineOption
 	assert( firstKeep <= *argc );
 
 	for (long i=firstKeep; i<*argc; i++)
-		{
+	{
 		argv[i - removeCount] = argv[i];
-		}
+	}
 
 	*argc -= removeCount;
 }
@@ -1317,13 +1317,13 @@ JXApplication::ReceiveWithFeedback
 	)
 {
 	if (sender == JThisProcess::Instance() && message->Is(JThisProcess::kTerminate))
-		{
+	{
 		Abort(JXDocumentManager::kKillSignal, false);
-		}
+	}
 	else
-		{
+	{
 		JXDirector::ReceiveWithFeedback(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1365,34 +1365,34 @@ JXApplication::Abort
 	)
 {
 	if (!abortCalled)
-		{
+	{
 		abortCalled = true;
 
 		JXDocumentManager* docMgr = nullptr;
 		if (JXGetDocumentManager(&docMgr))
-			{
+		{
 			docMgr->SafetySave(reason);
-			}
+		}
 
 		JXApplication* app;
 		if (JXGetApplication(&app))
-			{
-			app->CleanUpBeforeSuddenDeath(reason);
-			}
-		}
-	else
 		{
-		fprintf(stderr, "\nError inside XIO fatal error handler!\n\n");
+			app->CleanUpBeforeSuddenDeath(reason);
 		}
+	}
+	else
+	{
+		fprintf(stderr, "\nError inside XIO fatal error handler!\n\n");
+	}
 
 	if (dumpCore)
-		{
+	{
 		JThisProcess::Abort();
-		}
+	}
 	else
-		{
+	{
 		JThisProcess::Exit(1);
-		}
+	}
 }
 
 /******************************************************************************

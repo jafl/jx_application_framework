@@ -99,11 +99,11 @@ DNDWidget::Draw
 	
 	// Loop through the points by twos
 	for (JSize i = 1; i <= count; i += 2)
-		{
+	{
 		// We need to specify that this is a JPainter function because
 		// JXWindowPainter has this function in a different form
 		p.JPainter::Line(itsPoints->GetElement(i), itsPoints->GetElement(i+1));
-		}
+	}
 }
 
 /******************************************************************************
@@ -138,25 +138,25 @@ DNDWidget::HandleMouseDown
 {
 	// Check to see if the left button was pressed
 	if (button == kJXLeftButton)
-		{
+	{
 		// If the shift key is down, we'll start drag-and-drop
 		if (modifiers.shift())
-			{
+		{
 			return;
-			}
+		}
 			
 		// Create the drag painter to draw the rubber-band like lines
 		JPainter* p = CreateDragInsidePainter();
 		
 		// Start the first line
 		p->Line(pt, pt);
-		}
+	}
 
 	// Let the base class handle the wheel mouse.
 	else
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 
 	// Initialize the current points
 	itsStartPt = itsPrevPt = pt;
@@ -193,7 +193,7 @@ DNDWidget::HandleMouseDrag
 	// to return true), and then DND can only be started in
 	// HandleMouseDrag().
 	if (modifiers.shift())
-		{
+	{
 		// Create the drag data object
 		DNDData* data = jnew DNDData(this, kSelectionID);
 		assert(data != nullptr);
@@ -203,7 +203,7 @@ DNDWidget::HandleMouseDrag
 		// a HandleMouseUp() event.
 		BeginDND(pt, buttonStates, modifiers, data);
 		return;
-		}
+	}
 		
 	// Check to see if the window was scrolled
 	const bool scrolled = ScrollForDrag(pt);
@@ -211,23 +211,23 @@ DNDWidget::HandleMouseDrag
 	// Get the drag painter that we created in mouse down
 	JPainter* p = nullptr;
 	if (!GetDragPainter(&p))
-		{
+	{
 		return;
-		}
+	}
 	
 	// Make sure that the left button is pressed, 
 	// that we have moved,
 	// and that a drag painter exists
 	if (buttonStates.left() && pt != itsPrevPt && p != nullptr)	// p is nullptr for multiple click
-		{
+	{
 		
 		// Draw line depending on whether or not we scrolled
 		if (!scrolled)
-			{
+		{
 			p->Line(itsStartPt, itsPrevPt);
-			}
-		p->Line(itsStartPt, pt);
 		}
+		p->Line(itsStartPt, pt);
+	}
 
 	// Remember the current point
 	itsPrevPt = pt;
@@ -265,7 +265,7 @@ DNDWidget::HandleMouseUp
 	// Make sure that the left button is pressed, 
 	// and that a drag painter exists
 	if (button == kJXLeftButton && GetDragPainter(&p))
-		{
+	{
 		// Erase the last line that was drawn
 		p->Line(itsStartPt, itsPrevPt);
 		
@@ -278,7 +278,7 @@ DNDWidget::HandleMouseUp
 		
 		// Tell the widget to redraw itself
 		Refresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -305,26 +305,26 @@ DNDWidget::HandleKeyPress
 	// Check if the 'c' key was pressed
 	// If so, we want to clear the window
 	if (key == 'c')
-		{
+	{
 		// remove all of the points from the JArray
 		itsPoints->RemoveAll();
 		
 		// Redraw 
 		Refresh();
-		}
+	}
 		
 	// Check if the 'q' key was pressed
 	else if (key == 'q')
-		{
+	{
 		// Quit the application if 'q' was pressed
 		JXGetApplication()->Quit();
-		}
+	}
 		
 	// If anything else was pressed, pass it up the inheritance tree
 	else
-		{
+	{
 		JXScrollableWidget::HandleKeyPress(key,modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -347,14 +347,14 @@ DNDWidget::GetSelectionData
 {
 	// Check to see if this is our id
 	if (strcmp(id, kSelectionID) == 0)
-		{
+	{
 		// Cast the data object to the object that we know it is.
 		DNDData* lineData = dynamic_cast<DNDData*>(data);
 		assert(lineData != nullptr);
 
 		// Pass our points to the line data object.
 		lineData->SetData(*itsPoints);
-		}
+	}
 }
 
 /******************************************************************************
@@ -382,20 +382,20 @@ DNDWidget::WillAcceptDrop
 {
 	// There's no point dropping on ourselves in this case.
 	if (source == this)
-		{
+	{
 		return false;
-		}
+	}
 
 	// Loop through the types and return true if we find our type.
 	const JSize count	= typeList.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		Atom type	= typeList.GetElement(i);
 		if (type == itsLinesXAtom)
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	return false;
 }
@@ -466,7 +466,7 @@ DNDWidget::HandleDNDDrop
 	// Request the appropriate data from the selection manager.
 	if (selManager->GetData(dndName, time, itsLinesXAtom,
 									 &returnType, &data, &dataLength, &delMethod))
-		{
+	{
 		const std::string s(reinterpret_cast<char*>(data), dataLength);
 		std::istringstream is(s);
 
@@ -476,16 +476,16 @@ DNDWidget::HandleDNDDrop
 		is >> count;
 		
 		for (JIndex i = 1; i <= count; i ++)
-			{
+		{
 			JPoint point;
 			is >> point;
 			itsPoints->AppendElement(point);
-			}
+		}
 			
 		// Tell the widget to redraw itself
 		Refresh();
 
 		// Tell the selection manager to delete the data.
 		selManager->DeleteData(&data, delMethod);
-		}
+	}
 }

@@ -82,34 +82,34 @@ JAssertBase::DefaultAssert
 {
 	const Action action = GetAction();
 	if (action != kIgnoreFailure)
-		{
+	{
 		fprintf(stderr, "\a\nAssertion failed: %s\n    %s:%d\n    %s\n",
 				expr, file, line, message);
 
 		if (action == kAskUser)
-			{
+		{
 			fprintf(stderr, "Press 'c' to continue, \"return\" to exit: ");
 
 			fflush(stderr);
 			int ch = getchar();
 
 			if (ch == 'c')
-				{
+			{
 				getchar();	// remove return key
 				return 0;
-				}
 			}
+		}
 
 		JAssertBase* ah;
 		if (JGetAssertHandler(&ah))
-			{
+		{
 			ah->Abort();
-			}
-		else
-			{
-			abort();
-			}
 		}
+		else
+		{
+			abort();
+		}
+	}
 
 	return 0;
 }
@@ -124,21 +124,21 @@ JAssertBase::GetAction()
 {
 	const char* action = getenv(kAssertActionEnvName);
 	if (action == nullptr)
-		{
+	{
 		return kAbort;
-		}
+	}
 	else if (strcmp(action, kIgnoreFailureAction) == 0)
-		{
+	{
 		return kIgnoreFailure;
-		}
+	}
 	else if (strcmp(action, kAskUserAction) == 0)
-		{
+	{
 		return kAskUser;
-		}
+	}
 	else
-		{
+	{
 		return kAbort;
-		}
+	}
 }
 
 /******************************************************************************
@@ -155,16 +155,16 @@ JAssertBase::SetAction
 	)
 {
 	if (action == kIgnoreFailure)
-		{
+	{
 		setenv(kAssertActionEnvName, kIgnoreFailureAction, 1);
-		}
+	}
 	else if (action == kAskUser)
-		{
+	{
 		setenv(kAssertActionEnvName, kAskUserAction, 1);
-		}
+	}
 	else
-		{
+	{
 		assert( action == kAbort );
 		setenv(kAssertActionEnvName, "", 1);
-		}
+	}
 }

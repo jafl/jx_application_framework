@@ -116,7 +116,7 @@ DialogHelloDir::Receive
 {
 	// Check to see if the a menu item was selected.
 	if (sender == itsTextMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		// Cast the sender so we can access its functions.
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
@@ -124,11 +124,11 @@ DialogHelloDir::Receive
 
 		// Handle the menu selection
 		HandleTextMenu(selection->GetIndex());
-		}
+	}
 
 	// Check if the sender is our dialog and that it's been diactivated.
 	else if (sender == itsDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		// Cast the sender so we can access its functions.
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
@@ -136,20 +136,20 @@ DialogHelloDir::Receive
 
 		// If the user pressed the cancel button, this will fail.
 		if (info->Successful())
-			{
+		{
 			// Get the next text from the dialog.
 			GetNewTextFromDialog();
-			}
+		}
 
 		// The dialog is deleted (not by us) after it broadcasts this message.
 		itsDialog = nullptr;
-		}
+	}
 
 	// If we don't handle the message, we need to pass it to the base class
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender,message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -167,19 +167,19 @@ DialogHelloDir::HandleTextMenu
 {
 	// Respond to the different menu items.
 	if (index == kChangeText)
-		{
+	{
 		// Create and activate the input dialog.
 
 		SetupInputDialog();
-		}
+	}
 
 	else if (index == kQuit)
-		{
+	{
 		// Quit the program. The application object is one of the few global
 		// objects that can be accessed from anywhere within the application.
 
 		JXGetApplication()->Quit();
-		}
+	}
 }
 
 /******************************************************************************

@@ -205,9 +205,9 @@ JTEST(Exercise)
 	mx6.SetElement(3,3, 3.0);
 
 	if (JGaussianElimination(mx6, b, &x))
-		{
+	{
 		JAssertTrue(fabs(x.GetElement(1)) > 1e15);
 		JAssertTrue(fabs(x.GetElement(2)) > 1e15);
 		JAssertTrue(fabs(x.GetElement(3)) > 1e15);
-		}
+	}
 }

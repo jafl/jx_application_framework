@@ -72,27 +72,27 @@ JXAnimationTask::Perform
 	)
 {
 	if (TimeToPerform(delta, maxSleepTime))
-		{
+	{
 		itsCurrentImage++;
 		if (itsCurrentImage > GetFrameCount())
-			{
+		{
 			itsCurrentImage = 1;
-			}
+		}
 
 		Time tmin, tmax;
 		GetFrameTime(itsCurrentImage, &tmin, &tmax);
 		if (tmin == tmax)
-			{
+		{
 			SetPeriod(tmin);
-			}
+		}
 		else
-			{
+		{
 			SetPeriod(itsRNG.UniformULong(tmin, tmax));
-			}
+		}
 
 		JXImage* image = GetFrame(itsCurrentImage);
 		image->ConvertToRemoteStorage();
 
 		itsWidget->SetImage(image, false);
-		}
+	}
 }

@@ -151,16 +151,16 @@ JXDockManager::CreateIcon
 	const
 {
 	if (itsWindowIcon != nullptr)
-		{
+	{
 		*icon = jnew JXImage(*itsWindowIcon);
 		assert( *icon != nullptr );
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*icon = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -176,12 +176,12 @@ JXDockManager::FindDock
 	)
 {
 	for (auto* dir : *itsDockList)
-		{
+	{
 		if (dir->FindDock(id, dock))
-			{
+		{
 			return true;
-			}
 		}
+	}
 
 	*dock = nullptr;
 	return false;
@@ -203,9 +203,9 @@ JXDockManager::CloseAll()
 	itsNextDockID    = 1;
 
 	for (auto* dir : list)
-		{
+	{
 		dir->Close();
-		}
+	}
 }
 
 /******************************************************************************
@@ -250,22 +250,22 @@ JXDockManager::GetDefaultDock
 {
 	JIndex id;
 	if (itsWindowTypeMap->GetElement(windowType, &id))
-		{
+	{
 		if (FindDock(id, dock))
-			{
+		{
 			return dock != nullptr;
-			}
+		}
 		else
-			{
+		{
 			SetDefaultDock(windowType, nullptr);
 			return false;
-			}
 		}
+	}
 	else
-		{
+	{
 		*dock = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -283,13 +283,13 @@ JXDockManager::SetDefaultDock
 	)
 {
 	if (dock == nullptr || windowType == JXGetDockWindowClass())
-		{
+	{
 		itsWindowTypeMap->RemoveElement(windowType);
-		}
+	}
 	else
-		{
+	{
 		itsWindowTypeMap->SetElement(windowType, dock->GetID());
-		}
+	}
 }
 
 /*****************************************************************************
@@ -307,14 +307,14 @@ JXDockManager::DirectorClosed
 {
 	const JSize count = itsDockList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		JXDockDirector* dir = itsDockList->GetElement(i);
 		if (theDirector == dir)
-			{
+		{
 			itsDockList->RemoveElement(i);
 			break;
-			}
 		}
+	}
 
 	JXDirector::DirectorClosed(theDirector);
 }
@@ -348,38 +348,38 @@ JXDockManager::ReadSetup
 
 	JString title;
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		title = GetNewDockTitle();
 
 		auto* dir = jnew JXDockDirector(input, vers, title);
 		assert( dir != nullptr );
 		itsDockList->Append(dir);
 		dir->Activate();
-		}
+	}
 
 	itsWindowTypeMap->RemoveAll();
 	if (vers >= 1)
-		{
+	{
 		JString windowType;
 		while (true)
-			{
+		{
 			bool keepGoing;
 			input >> JBoolFromString(keepGoing);
 			if (input.fail() || !keepGoing)
-				{
+			{
 				break;
-				}
+			}
 
 			JIndex id;
 			input >> windowType >> id;
 
 			JXDockWidget* dock;
 			if (FindDock(id, &dock))
-				{
+			{
 				itsWindowTypeMap->SetElement(windowType, id);
-				}
 			}
 		}
+	}
 
 	itsIsReadingSetupFlag = false;
 }
@@ -401,19 +401,19 @@ JXDockManager::WriteSetup
 	output << ' ' << itsDockList->GetElementCount();
 
 	for (auto* dir : *itsDockList)
-		{
+	{
 		dir->StreamOut(output);
-		}
+	}
 
 	JStringMapCursor<JIndex> cursor(itsWindowTypeMap);
 	JString windowType;
 	while (cursor.Next())
-		{
+	{
 		windowType = cursor.GetKey();
 		output << ' ' << JBoolToString(true);
 		output << ' ' << windowType;
 		output << ' ' << cursor.GetValue();
-		}
+	}
 	output << ' ' << JBoolToString(false);
 
 	output << ' ';

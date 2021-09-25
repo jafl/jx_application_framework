@@ -74,13 +74,13 @@ JXUserNotification::DisplayMessage
 	assert( itsCurrentDialog == nullptr );
 
 	if (!IsSilent())
-		{
+	{
 		JXGetApplication()->PrepareForBlockingWindow();
 
 		itsCurrentDialog = jnew JXMessageDialog(JXGetApplication(), message);
 		assert( itsCurrentDialog != nullptr );
 		WaitForResponse();
-		}
+	}
 }
 
 /******************************************************************************
@@ -97,13 +97,13 @@ JXUserNotification::ReportError
 	assert( itsCurrentDialog == nullptr );
 
 	if (!IsSilent())
-		{
+	{
 		JXGetApplication()->PrepareForBlockingWindow();
 
 		itsCurrentDialog = jnew JXErrorDialog(JXGetApplication(), message);
 		assert( itsCurrentDialog != nullptr );
 		WaitForResponse();
-		}
+	}
 }
 
 /******************************************************************************
@@ -216,28 +216,28 @@ JXUserNotification::Receive
 	)
 {
 	if (sender == itsCurrentDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		itsWarningResponse = info->Successful();
 		itsCurrentDialog   = nullptr;
-		}
+	}
 
 	else if (sender == itsOKToCloseDialog && message.Is(JXOKToCloseDialog::kGotResponse))
-		{
+	{
 		const auto* response =
 			dynamic_cast<const JXOKToCloseDialog::GotResponse*>(&message);
 		assert( response != nullptr );
 		itsCloseAction     = response->GetResponse();
 		itsCurrentDialog   = nullptr;
 		itsOKToCloseDialog = nullptr;
-		}
+	}
 
 	else
-		{
+	{
 		JBroadcaster::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -260,9 +260,9 @@ JXUserNotification::WaitForResponse()
 
 	JXWindow* window = itsCurrentDialog->GetWindow();
 	while (itsCurrentDialog != nullptr)
-		{
+	{
 		app->HandleOneEventForWindow(window);
-		}
+	}
 
 	app->BlockingWindowFinished();
 }

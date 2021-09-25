@@ -43,47 +43,47 @@ JCalcWSFont
 
 	if (!ulMatch && !sMatch &&
 		prevStyle.underlineCount == 0 && !prevStyle.strike)
-		{
+	{
 		return prevFont;
-		}
+	}
 	else if (!ulMatch && !sMatch &&
 			 nextStyle.underlineCount == 0 && !nextStyle.strike)
-		{
+	{
 		return nextFont;
-		}
+	}
 	else if (!ulMatch && !sMatch)
-		{
+	{
 		JFont f = nextFont;
 		f.SetUnderlineCount(0);
 		f.SetStrike(false);
 		return f;
-		}
+	}
 	else if (!ulMatch && prevStyle.underlineCount == 0)
-		{
+	{
 		return prevFont;
-		}
+	}
 	else if (!ulMatch && nextStyle.underlineCount == 0)
-		{
+	{
 		return nextFont;
-		}
+	}
 	else if (!ulMatch)
-		{
+	{
 		JFont f = nextFont;
 		f.SetUnderlineCount(0);
 		return f;
-		}
+	}
 	else if (!sMatch && !prevStyle.strike)
-		{
+	{
 		return prevFont;
-		}
+	}
 	else if (!sMatch && !nextStyle.strike)
-		{
+	{
 		return nextFont;
-		}
+	}
 	else
-		{
+	{
 		return nextFont;
-		}
+	}
 }
 
 /******************************************************************************
@@ -113,106 +113,106 @@ JAnalyzeWhitespace
 	JStringIterator iter(buffer);
 	JUtf8Character c;
 	do
-		{
+	{
 		JSize spaceCount = 0, tailSpaceCount = 0;
 		bool tabs = false;
 		while (iter.Next(&c))
-			{
+		{
 			if (c == ' ')
-				{
+			{
 				spaceCount++;
 				tailSpaceCount++;
-				}
+			}
 			else if (c == '\t')
-				{
+			{
 				tabs           = true;
 				tailSpaceCount = 0;
-				}
-			else
-				{
-				break;
-				}
 			}
+			else
+			{
+				break;
+			}
+		}
 
 		if (!tabs && 0 < spaceCount && spaceCount <= maxSpaceCount)
-			{
+		{
 			spaceHisto[ spaceCount-1 ]++;
 			spaceHistoCount++;
-			}
+		}
 
 		if (spaceCount == tailSpaceCount && tailSpaceCount < tabWidth)
-			{
+		{
 			if (tabs)
-				{
-				tabLines++;
-				}
-			else if (spaceCount > 0)
-				{
-				tinySpaceLines++;
-				}
-			}
-		else if (spaceCount > 0 && tabs)
 			{
+				tabLines++;
+			}
+			else if (spaceCount > 0)
+			{
+				tinySpaceLines++;
+			}
+		}
+		else if (spaceCount > 0 && tabs)
+		{
 			*isMixed = true;
 
 			if (defaultUseSpaces)
-				{
-				spaceLines++;
-				}
-			else
-				{
-				tabLines++;
-				}
-			}
-		else if (spaceCount > 0)
 			{
-			spaceLines++;
+				spaceLines++;
+			}
+			else
+			{
+				tabLines++;
 			}
 		}
+		else if (spaceCount > 0)
+		{
+			spaceLines++;
+		}
+	}
 		while ((c == "\n" || iter.Next("\n")) && !iter.AtEnd());
 
 	iter.Invalidate();
 
 	if (tabLines > 0)
-		{
+	{
 		tabLines += tinySpaceLines;
-		}
+	}
 	else
-		{
+	{
 		spaceLines += tinySpaceLines;
-		}
+	}
 
 	if (tabLines > 0 && spaceLines > 0)
-		{
+	{
 		*isMixed = true;
-		}
+	}
 
 	*useSpaces = spaceLines > tabLines || (spaceLines == tabLines && defaultUseSpaces);
 
 	if (!*useSpaces || spaceHistoCount == 0)
-		{
+	{
 		return tabWidth;
-		}
+	}
 
 	// determine tab width - [2,10]
 
 	JSize bestWidth = tabWidth, maxCount = 0;
 	for (JIndex w=10; w>=2; w--)
-		{
+	{
 		JIndex i = w, lineCount = 0;
 		do
-			{
+		{
 			lineCount += spaceHisto[i-1];
 			i         += w;
-			}
+		}
 			while (i <= maxSpaceCount);
 
 		if (lineCount > (JIndex) JRound(1.1 * maxCount))
-			{
+		{
 			maxCount  = lineCount;
 			bestWidth = w;
-			}
 		}
+	}
 
 	return bestWidth;
 }
@@ -256,58 +256,58 @@ JReadUNIXManOutput
 	JStringIterator citer(&buffer);
 	JUtf8Character c, prev;
 	while (citer.Next(&c))
-		{
+	{
 		if (!citer.AtEnd() && prev == '_' && c == '\b')
-			{
+		{
 			citer.RemovePrev(2);	// toss marker
 			citer.Next(&c);			// leave character
 
 			if (c == '_' &&
 				(styles.IsEmpty() ||
 				 styles.GetLastElement() != ulFont))
-				{
-				siter.SetPrev(defFont, kJIteratorStay);
-				}
-			else
-				{
-				siter.SetPrev(ulFont, kJIteratorStay);
-				}
-			prev = '\0';
-			}
-		else if (!citer.AtEnd() && c == '\b' && citer.GetPrevCharacterIndex() > 1)
 			{
+				siter.SetPrev(defFont, kJIteratorStay);
+			}
+			else
+			{
+				siter.SetPrev(ulFont, kJIteratorStay);
+			}
+			prev = '\0';
+		}
+		else if (!citer.AtEnd() && c == '\b' && citer.GetPrevCharacterIndex() > 1)
+		{
 			citer.RemovePrev();		// toss backspace
 			citer.Next(&c);			// leave character
 
 			if (c == prev)
-				{
+			{
 				citer.RemovePrev();	// toss duplicate
 				siter.SetPrev(boldFont, kJIteratorStay);
-				}
-			else
-				{
-				citer.SkipPrev();	// reprocess
-				}
-			prev = '\0';
 			}
-		else
+			else
 			{
+				citer.SkipPrev();	// reprocess
+			}
+			prev = '\0';
+		}
+		else
+		{
 			siter.Insert(defFont);
 			siter.SkipNext();
 			prev = c;
-			}
 		}
+	}
 
 	citer.MoveTo(kJIteratorStartAtBeginning, 0);
 	siter.MoveTo(kJIteratorStartAtBeginning, 0);
 	while (citer.Next(theExtraLinesPattern))
-		{
+	{
 		const JCharacterRange r = citer.GetLastMatch().GetCharacterRange();
 		siter.MoveTo(kJIteratorStartBefore, r.first + 2);
 		siter.RemoveNext(r.GetCount() - 2);
 
 		citer.ReplaceLastMatch("\n\n");
-		}
+	}
 
 	citer.Invalidate();
 	st->SetText(buffer, &styles);
@@ -344,27 +344,27 @@ JPasteUNIXTerminalOutput
 	JPtrArray<JString> cmdList(JPtrArrayT::kDeleteAll);
 
 	for (const auto* chunk : chunkList)
-		{
+	{
 		const JStringMatch m = theUNIXTerminalFormatPattern.Match(*chunk, JRegex::kIncludeSubmatches);
 		if (m.IsEmpty())
-			{
+		{
 			buffer += *chunk;
 			styles.AppendElements(f, chunk->GetCharacterCount());
 			continue;
-			}
+		}
 
 		m.GetSubstring(1).Split(";", &cmdList);
 
 		for (const auto* cmd : cmdList)
-			{
+		{
 			JUInt cmdID;
 			if (!cmd->ConvertToUInt(&cmdID))
-				{
+			{
 				continue;
-				}
+			}
 
 			switch (cmdID)
-				{
+			{
 				case 0:
 					f = f0;
 					break;
@@ -418,9 +418,9 @@ JPasteUNIXTerminalOutput
 				case 36:
 					f.SetColor(JColorManager::GetLightBlueColor());	// cyan-on-white is impossible to read
 					break;
-				}
 			}
 		}
+	}
 
 	return st->Paste(JStyledText::TextRange(pasteIndex, JStyledText::TextCount()), buffer, &styles);
 }
@@ -453,7 +453,7 @@ jReplaceMarkdownPattern
 
 	citer->MoveTo(kJIteratorStartAtBeginning, 0);
 	while (citer->Next(pattern))
-		{
+	{
 		const JStringMatch& m = citer->GetLastMatch();
 		const JString s       = m.GetSubstring(1);
 
@@ -463,7 +463,7 @@ jReplaceMarkdownPattern
 		siter.Insert(f, s.GetCharacterCount());
 
 		citer->ReplaceLastMatch(s);
-		}
+	}
 }
 
 void

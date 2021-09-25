@@ -82,9 +82,9 @@ JCosine::Evaluate
 {
 	JFloat argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = cos(argValue);
 	return jerrno_is_clear();
@@ -99,9 +99,9 @@ JCosine::Evaluate
 {
 	JComplex argValue;
 	if (!GetArg()->Evaluate(&argValue))
-		{
+	{
 		return false;
-		}
+	}
 	jclear_errno();
 	*result = cos(argValue);
 	return jerrno_is_clear();

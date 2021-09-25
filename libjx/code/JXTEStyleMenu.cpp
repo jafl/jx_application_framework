@@ -89,45 +89,45 @@ JXTEStyleMenu::HandleMenuItem
 	const JFontStyle style = GetFontStyleForMenuUpdate();
 
 	if (index == kPlainStyleCmd)
-		{
+	{
 		itsTE->SetCurrentFontStyle(JFontStyle());
-		}
+	}
 
 	else if (index == kBoldStyleCmd)
-		{
+	{
 		itsTE->SetCurrentFontBold(!style.bold);
-		}
+	}
 
 	else if (index == kItalicStyleCmd)
-		{
+	{
 		itsTE->SetCurrentFontItalic(!style.italic);
-		}
+	}
 
 	else if (index == kUnderlineStyleCmd && style.underlineCount != 1)
-		{
+	{
 		itsTE->SetCurrentFontUnderline(1);
-		}
+	}
 	else if (index == kUnderlineStyleCmd)
-		{
+	{
 		itsTE->SetCurrentFontUnderline(0);
-		}
+	}
 
 	else if (index == kDblUnderlineStyleCmd && style.underlineCount != 2)
-		{
+	{
 		itsTE->SetCurrentFontUnderline(2);
-		}
+	}
 	else if (index == kDblUnderlineStyleCmd)
-		{
+	{
 		itsTE->SetCurrentFontUnderline(0);
-		}
+	}
 
 	else if (index == kStrikeStyleCmd)
-		{
+	{
 		itsTE->SetCurrentFontStrike(!style.strike);
-		}
+	}
 
 	else if (index >= kFirstColorCmd)
-		{
+	{
 		itsTE->SetCurrentFontColor(GetSelectedColor());
-		}
+	}
 }

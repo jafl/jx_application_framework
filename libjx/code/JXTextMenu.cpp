@@ -387,15 +387,15 @@ JXTextMenu::GetItemNMShortcut
 {
 	const JString* s;
 	if (itsTextMenuData->GetNMShortcut(index, &s))
-		{
+	{
 		*str = *s;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		str->Clear();
 		return false;
-		}
+	}
 }
 
 void
@@ -471,9 +471,9 @@ JXTextMenu::HandleNMShortcut
 
 	if (PrepareToOpenMenu(true) &&
 		itsTextMenuData->IndexValid(index) && itsTextMenuData->IsEnabled(index))
-		{
+	{
 		BroadcastSelection(index, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -507,11 +507,11 @@ JXTextMenu::SetToPopupChoice
 {
 	const JString& origTitle = GetTitleText();
 	if (isPopup && !origTitle.IsEmpty() && !origTitle.EndsWith(":"))
-		{
+	{
 		JString newTitle = origTitle;
 		newTitle.Append(":");
 		SetTitle(newTitle, nullptr, false);
-		}
+	}
 
 	JXMenu::SetToPopupChoice(isPopup, initialChoice);
 }
@@ -529,24 +529,24 @@ JXTextMenu::AdjustPopupChoiceTitle
 {
 	const JString& origTitle = GetTitleText();
 	if (origTitle.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	JString newTitle = origTitle;
 
 	JStringIterator iter(&newTitle);
 	if (iter.Next(":"))
-		{
+	{
 		iter.SkipPrev();
 		iter.RemoveAllNext();
-		}
+	}
 	iter.Invalidate();
 
 	if (!newTitle.IsEmpty())
-		{
+	{
 		newTitle += ":  ";
-		}
+	}
 	newTitle += GetItemText(index);
 
 	const JXImage* image = nullptr;

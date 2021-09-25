@@ -62,9 +62,9 @@ JTableData::operator=
 	)
 {
 	if (this == &source)
-		{
+	{
 		return *this;
-		}
+	}
 
 	JBroadcaster::operator=(source);
 
