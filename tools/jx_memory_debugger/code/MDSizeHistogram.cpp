@@ -10,12 +10,12 @@
  ******************************************************************************/
 
 #include "MDSizeHistogram.h"
-#include <JXWindowPainter.h>
-#include <JXColorManager.h>
-#include <JFontManager.h>
-#include <jFileUtil.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kMarginWidth = 5;
 

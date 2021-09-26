@@ -9,9 +9,9 @@
 #include "<PRE>MDIServer.h"
 #include "<PRE>MainDirector.h"
 #include "<pre>Globals.h"
-#include <jCommandLine.h>
-#include <jWebUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jCommandLine.h>
+#include <jx-af/jcore/jWebUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Prototypes
 

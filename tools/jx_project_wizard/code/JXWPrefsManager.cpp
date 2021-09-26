@@ -9,8 +9,8 @@
 
 #include "JXWPrefsManager.h"
 #include "jxwGlobals.h"
-#include <JXChooseSaveFile.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JFileVersion kCurrentPrefsFileVersion = 0;
 

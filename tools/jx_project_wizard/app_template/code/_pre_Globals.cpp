@@ -11,7 +11,7 @@
 #include "<PRE>App.h"
 #include "<PRE>PrefsManager.h"
 #include "<PRE>MDIServer.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 static <PRE>App*			theApplication  = nullptr;		// owns itself
 static <PRE>PrefsManager*	thePrefsManager = nullptr;

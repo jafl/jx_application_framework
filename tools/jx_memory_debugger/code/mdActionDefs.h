@@ -12,7 +12,7 @@
 #ifndef _H_mdActionDefs
 #define _H_mdActionDefs
 
-#include <jXActionDefs.h>	// for convenience
+#include <jx-af/jx/jXActionDefs.h>	// for convenience
 
 #define kMDGetRecords		"GetRecords::MDStatsDirector"
 

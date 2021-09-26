@@ -8,7 +8,7 @@
 #ifndef _H_MDRecordTable
 #define _H_MDRecordTable
 
-#include <JXEditTable.h>
+#include <jx-af/jx/JXEditTable.h>
 
 class MDRecordList;
 class MDRecord;

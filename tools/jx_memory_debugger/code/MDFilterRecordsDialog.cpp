@@ -9,13 +9,13 @@
 
 #include "MDFilterRecordsDialog.h"
 #include "mdGlobals.h"
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXTextCheckbox.h>
-#include <JXStaticText.h>
-#include <JXIntegerInput.h>
-#include <JXAtLeastOneCBGroup.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXIntegerInput.h>
+#include <jx-af/jx/JXAtLeastOneCBGroup.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

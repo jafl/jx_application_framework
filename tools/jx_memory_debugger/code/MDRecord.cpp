@@ -8,10 +8,10 @@
  *****************************************************************************/
 
 #include "MDRecord.h"
-#include <JMemoryManager.h>
-#include <JPtrArray-JString.h>
-#include <jFileUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JMemoryManager.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

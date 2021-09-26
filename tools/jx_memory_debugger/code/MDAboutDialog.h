@@ -8,7 +8,7 @@
 #ifndef _H_MDAboutDialog
 #define _H_MDAboutDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXTextButton;
 

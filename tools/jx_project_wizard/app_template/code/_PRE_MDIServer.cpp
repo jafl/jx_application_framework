@@ -9,7 +9,7 @@
 
 #include "<PRE>MDIServer.h"
 #include "<pre>Globals.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

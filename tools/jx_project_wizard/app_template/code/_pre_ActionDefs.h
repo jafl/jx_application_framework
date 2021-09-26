@@ -12,6 +12,6 @@
 #ifndef _H_<pre>ActionDefs
 #define _H_<pre>ActionDefs
 
-#include <jXActionDefs.h>	// for convenience
+#include <jx-af/jx/jXActionDefs.h>	// for convenience
 
 #endif

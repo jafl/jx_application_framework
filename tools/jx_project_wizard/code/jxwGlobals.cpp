@@ -11,8 +11,8 @@
 #include "JXWApp.h"
 #include "JXWPrefsManager.h"
 #include "JXWMainDialog.h"
-#include <JXLibVersion.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXLibVersion.h>
+#include <jx-af/jcore/jAssert.h>
 
 static JXWApp*			theApplication  = nullptr;		// owns itself
 static JXWPrefsManager*	thePrefsManager = nullptr;

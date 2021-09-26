@@ -8,7 +8,7 @@
 #ifndef _H_JXWApp
 #define _H_JXWApp
 
-#include <JXApplication.h>
+#include <jx-af/jx/JXApplication.h>
 
 class JXWApp : public JXApplication
 {

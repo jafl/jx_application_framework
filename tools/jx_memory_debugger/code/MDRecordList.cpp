@@ -9,7 +9,7 @@
 
 #include "MDRecordList.h"
 #include "MDRecord.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 // JBroadcaster messages
 

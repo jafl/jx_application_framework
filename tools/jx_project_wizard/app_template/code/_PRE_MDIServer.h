@@ -8,7 +8,7 @@
 #ifndef _H_<PRE>MDIServer
 #define _H_<PRE>MDIServer
 
-#include <JXMDIServer.h>
+#include <jx-af/jx/JXMDIServer.h>
 
 class <PRE>MDIServer : public JXMDIServer
 {

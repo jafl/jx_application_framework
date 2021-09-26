@@ -8,8 +8,8 @@
 #ifndef _H_MDRecordList
 #define _H_MDRecordList
 
-#include <JContainer.h>
-#include <JPtrArray.h>
+#include <jx-af/jcore/JContainer.h>
+#include <jx-af/jcore/JPtrArray.h>
 
 class MDRecord;
 

@@ -15,30 +15,31 @@
 #include "MDRecord.h"
 #include "mdGlobals.h"
 #include "mdActionDefs.h"
-#include <JXMacWinPrefsDialog.h>
-#include <JXHelpManager.h>
-#include <JXWDManager.h>
-#include <JXWDMenu.h>
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXTextButton.h>
-#include <JXToolBar.h>
-#include <JXScrollbarSet.h>
-#include <JXStaticText.h>
-#include <JXFileInput.h>
-#include <JXColorManager.h>
-#include <JXImage.h>
-#include <JXChooseSaveFile.h>
-#include <JXTimerTask.h>
-#include <JXPGMessageDirector.h>
-#include <JMemoryManager.h>
+#include <jx-af/jx/JXMacWinPrefsDialog.h>
+#include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jx/JXWDManager.h>
+#include <jx-af/jx/JXWDMenu.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXToolBar.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXFileInput.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXTimerTask.h>
+#include <jx-af/jx/JXPGMessageDirector.h>
+#include <jx-af/jcore/JMemoryManager.h>
 #include <ace/Acceptor.h>
 #include <ace/LSOCK_Acceptor.h>
-#include <JProcess.h>
-#include <jFileUtil.h>
-#include <jErrno.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JProcess.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jErrno.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kRefreshInterval = 1;		// seconds
 
@@ -450,7 +451,7 @@ MDStatsDirector::BuildWindow()
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
 	}
 
-	(GetDisplay()->GetWDManager())->DirectorCreated(this);
+	GetDisplay()->GetWDManager()->DirectorCreated(this);
 	UpdateDisplay();
 }
 

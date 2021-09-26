@@ -8,8 +8,8 @@
 #ifndef _H_MDSizeHistogram
 #define _H_MDSizeHistogram
 
-#include <JXScrollableWidget.h>
-#include <JMemoryManager.h>
+#include <jx-af/jx/JXScrollableWidget.h>
+#include <jx-af/jcore/JMemoryManager.h>
 
 class MDSizeHistogram : public JXScrollableWidget
 {

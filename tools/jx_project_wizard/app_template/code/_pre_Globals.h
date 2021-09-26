@@ -8,13 +8,13 @@
 #ifndef _H_<pre>Globals
 #define _H_<pre>Globals
 
-#include <jXGlobals.h>
+#include <jx-af/jx/jXGlobals.h>
 
 // we include these for convenience
 
 #include "<PRE>App.h"
 #include "<PRE>PrefsManager.h"
-#include <JXDocumentManager.h>
+#include <jx-af/jx/JXDocumentManager.h>
 
 class <PRE>MDIServer;
 

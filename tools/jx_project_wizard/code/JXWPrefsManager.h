@@ -8,7 +8,7 @@
 #ifndef _H_JXWPrefsManager
 #define _H_JXWPrefsManager
 
-#include <JXPrefsManager.h>
+#include <jx-af/jx/JXPrefsManager.h>
 
 class JString;
 

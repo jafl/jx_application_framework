@@ -3,41 +3,28 @@
 
 JX_ROOT := <JX_PATH>
 
-JLIBDIR     := ${JX_ROOT}/lib
-JCORELIBDIR := ${JX_ROOT}/libjcore
-JXLIBDIR    := ${JX_ROOT}/libjx
-
-# Directories to search for header files
-
-SEARCHDIRS := -I./code \
-              -I${JX_ROOT}/include/jcore \
-              -I${JX_ROOT}/include/jx
-
-# other constants
-
-APP_NAME         := <Binary>
-APP_VERSION      := ${shell cat VERSION}
-SIGNATURE         := <Binary>
+APP_NAME          := <Binary>
+APP_VERSION       := ${shell cat release/VERSION}
+SIGNATURE         := ${APP_NAME}
 MENU_STRINGS_FILE := ./strings/${APP_NAME}_menu_strings
-
-# also defined in .spec
-
-RPM_LIB_PATH := /usr/lib/${SIGNATURE}
-
-# makemake variables
+RPM_LIB_PATH      := /usr/lib/${SIGNATURE}
 
 J_STRING_FILES := ${filter-out %/${APP_NAME}_menu_strings, \
                     ${shell echo strings/*}} strings/version
 
-include ${JX_INCLUDE_ROOT}/jx-af/make/jx_config
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
+include ${MAKE_INCLUDE}/jx_config
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} <MDI_DEF> \
-               ${SEARCHDIRS}
+SEARCHDIRS := -I./code ${SEARCHDIRS}
+
+# makemake variables
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS} <MDI_DEF>
 
 # library dependencies
 
-LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
-            ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
+LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a \
+            ${JX_LIB_ROOT}/libjx.a
 
 # make variables
 
@@ -48,13 +35,7 @@ endif
 
 #####
 
-.PHONY : default
-default: libs ${APP_NAME}
-
-.PHONY : Makefiles
-Makefiles:
-
-include ${JX_INCLUDE_ROOT}/jx-af/make/app_targets
+include ${MAKE_INCLUDE}/app_targets
 
 #
 # string data
@@ -66,32 +47,13 @@ strings: build_version_string
 	compile_jstrings ${J_STRING_FILES} \
       --code k<PRE>DefaultStringData ./code/<pre>StringData.h
 
-.PHONY : stringdb
-stringdb:
-	compile_jstrings ${J_STRING_FILES} --db ${APP_NAME}_us
-
 ${APP_NAME}:: strings
 
 .PHONY : menu_strings
 menu_strings:
-	@${JX_INCLUDE_ROOT}/jx-af/scripts/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
-     -a ./code/<pre>ActionDefs.h ${JX_INCLUDE_ROOT}/jx-af/jx/jXActionDefs.h ${JX_INCLUDE_ROOT}/jx-af/jx/JXTEBase.cpp \
+	@${MENU_STR_CMD} ${MENU_STRINGS_FILE} ${SIGNATURE} \
+     -a ./code/<pre>ActionDefs.h ${JX_ACTION_DEFS} \
      -m */*.cpp ${JX_INCLUDE_ROOT}/jx-af/jx/*.cpp
-
-#
-# install binaries
-#
-
-.PHONY : jxinstall
-jxinstall: ${APP_NAME}
-	@strip ${call EXE, ${APP_NAME}}
-  ifneq (${J_WANT_INSTALL},0)
-	@cp ${APP_NAME} ${JX_INSTALL_ROOT}/
-  endif
-
-.PHONY : jxuninstall
-jxuninstall:
-	@${RM} ${JX_INSTALL_ROOT}/${APP_NAME}
 
 #
 # binary distributions
@@ -108,22 +70,8 @@ DEB_CTRL_FILE := ./release/pkg/${APP_NAME}.debctrl
 DEB_PKG_FILE  := ${APP_NAME}_${APP_VERSION}_i386.deb
 
 .PHONY : release
-release: pre_build_pkgs static
-	@${MAKE} PROG_DISTR_TAR_FILE=${PROG_RELEASE_TAR_NAME} distr_sub
-
-# distr_sub (PROG_DISTR_TAR_FILE)
-
-.PHONY : distr_sub
-distr_sub: menu_strings
+release: pre_build_pkgs default
+	@${J_STRIP_DEBUG} ${EXE_NAME}
 	@${MAKE} PKG_PATH=${PROG} init_tarball
-	@ln -s ../${call EXE,${APP_NAME}} ${PROG}/${call EXE,${APP_NAME}}
-	@${MAKE} PKG_PATH=${PROG} SOURCE_TAR_NAME=${PROG_DISTR_TAR_FILE} build_pkgs
-
-#
-# personal install
-#
-
-.PHONY : personal
-personal: default
-	@cp ${APP_NAME} ${HOME}/bin/
-	@strip ${call EXE, ${HOME}/bin/${APP_NAME}}
+	@ln -s ../${EXE_NAME} ${PROG}/${EXE_NAME}
+	@${MAKE} PKG_PATH=${PROG} SOURCE_TAR_NAME=${PROG_RELEASE_TAR_NAME} build_pkgs

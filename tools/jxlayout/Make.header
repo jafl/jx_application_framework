@@ -1,8 +1,7 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-JX_ROOT      := ../..
-MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
+JX_ROOT := ../..
 
 APP_NAME   := jxlayout
 SCRIPTS    := jfdesign convert_gravity
@@ -14,6 +13,7 @@ else
   ROOT_DATA_FILE_DIR := ${JXLAYOUTDIR}
 endif
 
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
 # makemake variables
@@ -35,7 +35,7 @@ LDFLAGS :=
 include ${MAKE_INCLUDE}/app_targets
 
 #
-# install binaries
+# install extra
 #
 
 .PHONY : install

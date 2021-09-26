@@ -8,13 +8,13 @@
 #ifndef _H_mdGlobals
 #define _H_mdGlobals
 
-#include <jXGlobals.h>
+#include <jx-af/jx/jXGlobals.h>
 
 // we include these for convenience
 
 #include "MDApp.h"
 #include "MDPrefsManager.h"
-#include <JXDocumentManager.h>
+#include <jx-af/jx/JXDocumentManager.h>
 
 MDApp*			MDGetApplication();
 MDPrefsManager*	MDGetPrefsManager();

@@ -8,8 +8,8 @@
 #include "MDApp.h"
 #include "MDStatsDirector.h"
 #include "mdGlobals.h"
-#include <jCommandLine.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jCommandLine.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Prototypes
 

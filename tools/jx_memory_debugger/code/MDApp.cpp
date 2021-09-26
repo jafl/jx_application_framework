@@ -11,10 +11,10 @@
 #include "MDAboutDialog.h"
 #include "mdStringData.h"
 #include "mdGlobals.h"
-#include <JSimpleProcess.h>
-#include <JSubstitute.h>
-#include <JMemoryManager.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JSimpleProcess.h>
+#include <jx-af/jcore/JSubstitute.h>
+#include <jx-af/jcore/JMemoryManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kAppSignature = "jx_memory_debugger";
 

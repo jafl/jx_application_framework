@@ -10,18 +10,18 @@
 #include "<PRE>MainDirector.h"
 #include "<pre>Globals.h"
 #include "<pre>ActionDefs.h"
-#include <JXWebBrowser.h>
-#include <JXMacWinPrefsDialog.h>
-#include <JXHelpManager.h>
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXToolBar.h>
-#include <JXScrollbarSet.h>
-#include <JXStaticText.h>
-#include <JXColorManager.h>
-#include <JXImage.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWebBrowser.h>
+#include <jx-af/jx/JXMacWinPrefsDialog.h>
+#include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXToolBar.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jcore/jAssert.h>
 
 // File menu
 

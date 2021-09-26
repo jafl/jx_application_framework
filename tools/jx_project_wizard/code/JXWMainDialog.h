@@ -8,8 +8,8 @@
 #ifndef _H_JXWMainDialog
 #define _H_JXWMainDialog
 
-#include <JXWindowDirector.h>
-#include <JPrefObject.h>
+#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jcore/JPrefObject.h>
 
 class JXTextButton;
 class JXInputField;

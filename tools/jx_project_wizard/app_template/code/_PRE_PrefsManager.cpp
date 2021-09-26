@@ -10,9 +10,9 @@
 #include "<PRE>PrefsManager.h"
 #include "<PRE>PrefsDialog.h"
 #include "<pre>Globals.h"
-#include <JXWindow.h>
-#include <JXChooseSaveFile.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JFileVersion kCurrentPrefsFileVersion = 0;
 

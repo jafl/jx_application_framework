@@ -8,8 +8,8 @@
 #ifndef _H_MDFilterRecordsDialog
 #define _H_MDFilterRecordsDialog
 
-#include <JXDialogDirector.h>
-#include <JMemoryManager.h>
+#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jcore/JMemoryManager.h>
 
 class JXTextCheckbox;
 class JXInputField;

@@ -10,9 +10,9 @@
 #include "mdGlobals.h"
 #include "MDApp.h"
 #include "MDPrefsManager.h"
-#include <JXWDManager.h>
-#include <JXLibVersion.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWDManager.h>
+#include <jx-af/jx/JXLibVersion.h>
+#include <jx-af/jcore/jAssert.h>
 
 static MDApp*			theApplication  = nullptr;		// owns itself
 static MDPrefsManager*	thePrefsManager = nullptr;

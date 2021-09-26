@@ -12,17 +12,17 @@
 #include "MDRecord.h"
 #include "MDRecordDataField.h"
 #include "mdGlobals.h"
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXStaticText.h>
-#include <JXDeleteObjectTask.h>
-#include <JPainter.h>
-#include <JPagePrinter.h>
-#include <JTableSelection.h>
-#include <JColorManager.h>
-#include <jASCIIConstants.h>
-#include <jTime.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXDeleteObjectTask.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JPagePrinter.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kDefColWidth	= 100;
 const JCoordinate kDefRowHeight	= 20;

@@ -10,10 +10,10 @@
 #include "MDPrefsManager.h"
 #include "MDPrefsDialog.h"
 #include "mdGlobals.h"
-#include <JXWindow.h>
-#include <JXChooseSaveFile.h>
-#include <JXPSPrinter.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXPSPrinter.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JFileVersion kCurrentPrefsFileVersion = 0;
 

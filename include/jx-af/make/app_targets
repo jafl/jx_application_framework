@@ -27,9 +27,11 @@ libs:
 # Install (const APP_NAME, const JX_INSTALL_ROOT)
 #
 
+EXE_NAME := ${call EXE, ${APP_NAME}}
+
 .PHONY : install
 install:: ${APP_NAME}
-	@${J_STRIP_DEBUG} ${call EXE, ${APP_NAME}}
+	@${J_STRIP_DEBUG} ${EXE_NAME}
 	@cp ${APP_NAME} ${JX_INSTALL_ROOT}/bin
 
 .PHONY : uninstall
@@ -39,6 +41,10 @@ uninstall::
 #
 # Strings (const STRINGDIR, const SIGNATURE)
 #
+
+MENU_STR_CMD   := ${JX_INCLUDE_ROOT}/jx-af/scripts/extract_menu_strings
+JX_ACTION_DEFS := ${JX_INCLUDE_ROOT}/jx-af/jx/jXActionDefs.h \
+                  ${JX_INCLUDE_ROOT}/jx-af/jx/JXTEBase.cpp
 
 .PHONY : build_version_string
 build_version_string:

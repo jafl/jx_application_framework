@@ -9,12 +9,12 @@
 
 #include "MDHeaderWidget.h"
 #include "MDRecordList.h"
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
-#include <JFontManager.h>
-#include <JColorManager.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/jXConstants.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

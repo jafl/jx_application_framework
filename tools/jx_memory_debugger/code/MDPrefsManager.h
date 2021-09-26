@@ -8,7 +8,7 @@
 #ifndef _H_MDPrefsManager
 #define _H_MDPrefsManager
 
-#include <JXPrefsManager.h>
+#include <jx-af/jx/JXPrefsManager.h>
 
 class JPoint;
 class JXWindow;

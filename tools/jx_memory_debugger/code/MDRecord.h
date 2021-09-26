@@ -8,8 +8,8 @@
 #ifndef _H_MDRecord
 #define _H_MDRecord
 
-#include <JList.h>
-#include <JString.h>
+#include <jx-af/jcore/JList.h>
+#include <jx-af/jcore/JString.h>
 
 class MDRecord : public JBroadcaster
 {

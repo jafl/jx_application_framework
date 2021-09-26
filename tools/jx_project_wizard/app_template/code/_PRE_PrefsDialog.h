@@ -8,7 +8,7 @@
 #ifndef _H_<PRE>PrefsDialog
 #define _H_<PRE>PrefsDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class <PRE>PrefsDialog : public JXDialogDirector
 {

@@ -8,7 +8,7 @@
 #ifndef _H_<PRE>App
 #define _H_<PRE>App
 
-#include <JXApplication.h>
+#include <jx-af/jx/JXApplication.h>
 
 class <PRE>App : public JXApplication
 {

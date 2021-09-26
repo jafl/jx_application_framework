@@ -8,7 +8,7 @@
 #ifndef _H_MDRecordDataField
 #define _H_MDRecordDataField
 
-#include <JXInputField.h>
+#include <jx-af/jx/JXInputField.h>
 
 class MDRecordDataField : public JXInputField
 {

@@ -8,8 +8,8 @@
 #ifndef _H_<PRE>MainDirector
 #define _H_<PRE>MainDirector
 
-#include <JXWindowDirector.h>
-#include <JPrefObject.h>
+#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jcore/JPrefObject.h>
 
 class JXTextMenu;
 class JXToolBar;

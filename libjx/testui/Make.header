@@ -1,8 +1,7 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-JX_ROOT      := ../..
-MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
+JX_ROOT := ../..
 
 XDND_VERSION := v4
 XDND_DIR     := xdnd-${XDND_VERSION}
@@ -12,6 +11,7 @@ XSEARCH_DIR     := xsearch-${XSEARCH_VERSION}
 
 J_STRING_FILES := strings/*
 
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
 SEARCHDIRS := -I./code ${SEARCHDIRS}

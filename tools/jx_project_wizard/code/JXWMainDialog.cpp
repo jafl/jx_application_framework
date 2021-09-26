@@ -9,22 +9,22 @@
 
 #include "JXWMainDialog.h"
 #include "jxwGlobals.h"
-#include <JXApplication.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXStaticText.h>
-#include <JXPathInput.h>
-#include <JXTextCheckbox.h>
-#include <JXPathHistoryMenu.h>
-#include <JXHelpManager.h>
-#include <JRegex.h>
-#include <JStringIterator.h>
-#include <JDirInfo.h>
-#include <jProcessUtil.h>
-#include <jFStreamUtil.h>
-#include <jFileUtil.h>
-#include <jVCSUtil.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXApplication.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXPathInput.h>
+#include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXPathHistoryMenu.h>
+#include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jVCSUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kHistoryLength = 20;
 

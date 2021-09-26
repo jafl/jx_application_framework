@@ -8,7 +8,7 @@
 #ifndef _H_MDRecordDirector
 #define _H_MDRecordDirector
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class JXTextMenu;
 class JXToolBar;

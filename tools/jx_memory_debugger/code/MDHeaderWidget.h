@@ -8,7 +8,7 @@
 #ifndef _H_MDHeaderWidget
 #define _H_MDHeaderWidget
 
-#include <JXColHeaderWidget.h>
+#include <jx-af/jx/JXColHeaderWidget.h>
 
 class MDRecordList;
 

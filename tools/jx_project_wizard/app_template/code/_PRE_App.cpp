@@ -11,7 +11,7 @@
 #include "<PRE>AboutDialog.h"
 #include "<pre>StringData.h"
 #include "<pre>Globals.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kAppSignature = "<Binary>";
 

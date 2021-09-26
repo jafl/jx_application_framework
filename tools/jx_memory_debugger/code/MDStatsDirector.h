@@ -8,9 +8,9 @@
 #ifndef _H_MDStatsDirector
 #define _H_MDStatsDirector
 
-#include <JXWindowDirector.h>
-#include <JPrefObject.h>
-#include <JMemoryManager.h>
+#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jcore/JPrefObject.h>
+#include <jx-af/jcore/JMemoryManager.h>
 
 class JProcess;
 class JXTextMenu;

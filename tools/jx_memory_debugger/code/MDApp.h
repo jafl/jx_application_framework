@@ -8,7 +8,7 @@
 #ifndef _H_MDApp
 #define _H_MDApp
 
-#include <JXApplication.h>
+#include <jx-af/jx/JXApplication.h>
 
 class JString;
 

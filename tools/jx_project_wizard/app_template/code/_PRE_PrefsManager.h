@@ -8,7 +8,7 @@
 #ifndef _H_<PRE>PrefsManager
 #define _H_<PRE>PrefsManager
 
-#include <JXPrefsManager.h>
+#include <jx-af/jx/JXPrefsManager.h>
 
 class JPoint;
 class JXWindow;

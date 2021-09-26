@@ -8,7 +8,7 @@
 #ifndef _H_MDPrefsDialog
 #define _H_MDPrefsDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXInputField;
 
